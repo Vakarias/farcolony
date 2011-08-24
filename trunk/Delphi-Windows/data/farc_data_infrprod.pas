@@ -1,0 +1,359 @@
+{======(C) Copyright Aug.2009-2011 Jean-Francois Baconnet All rights reserved==============
+
+        Title:  FAR Colony
+        Author: Jean-Francois Baconnet
+        Project Started: August 16 2009
+        Platform: Delphi
+        License: GPLv3
+        Website: http://farcolony.sourceforge.net/
+
+        Unit: infrastructures and production related data structures
+
+============================================================================================
+********************************************************************************************
+Copyright (c) 2009-2011, Jean-Francois Baconnet
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*******************************************************************************************}
+
+unit farc_data_infrprod;
+
+interface
+
+uses
+   farc_data_research
+   ,farc_data_univ;
+
+const
+   FCCpModeMax=10;
+
+   //=======================================================================================
+   {.infrastructures data}
+   //=======================================================================================
+   {.types of construct}
+   {:DEV NOTES: update infrastrucdb.xml.}
+   type TFCEdipConstruct=(
+      cBuilt
+      ,cPrefab
+      ,cConv
+      );
+   {.custom effects}
+   {:DEV NOTES: update TFCRdipInfraCustomFX + infrastrucdb.xml.}
+   type TFCEdipCustomFX=(
+      cfxEnergyGen
+      ,cfxEnergyStor
+      ,cfxHQbasic
+      ,cfxHQSecondary
+      ,cfxHQPrimary
+      ,cfxProductStorage
+      );
+   {.energy generation modes}
+   {:DEV NOTES: update infrastrucdb.xml + productsdb.xml + TFCRdipInfrastructure + FCMdF_DBInfra_Read + FCMdF_DBProducts_Read.}
+   type TFCEdipEnergyGenModes=(
+      egmNone
+		,egmAntimatter
+      ,egmFission
+      ,egmFusionDT
+		,egmFusionH2
+		,egmFusionHe3
+      ,egmPhoton
+      );
+   {.infrastructure functions}
+   {:DEV NOTES: update infrastrucdb.xml + FCMdF_DBInfra_Read + FCFgInf_InfFunc_GetStr + FCFgC_ColInfra_DReq.}
+   {:DEV NOTES: update TFCRdipInfrastructure.}
+   type TFCEdipFunction=(
+      fEnergy
+      ,fHousing
+      ,fIntelligence
+      ,fMiscellaneous
+      ,fProduction
+      );
+   {.requirement - hydrosphere types}
+   {:DEV NOTES: update infrastrucdb + FCMdF_DBInfra_Read.}
+   type TFCEdipHydrosphereReq=(
+      hrAny
+      ,hrLiquid_LiquidNH3
+      ,hrNone
+      ,hrVapour
+      ,hrLiquid
+      ,hrIceSheet
+      ,hrCrystal
+      ,hrLiquidNH3
+      ,hrCH4
+      );
+   {.product cargos}
+//   type TFCEdipProductCargos=(
+//
+//      );
+   {.product classes}
+   {:DEV NOTES: update productsdb.xml + FCMdF_DBProducts_Read.}
+   type TFCEdipProductClasses=(
+      prclResource
+      ,prcEnergyRelItem
+      ,prcMaterial
+      ,prcBioproduct
+      ,prcEquipment
+      );
+   {.product corrosive classes}
+	{:DEV NOTES: update productsdb.xml + FCMdF_DBProducts_Read}
+	type TFCEdipProductCorrosiveClasses=(
+		prciDpoor
+		,prciCfair
+		,prciBgood
+		,prciAexcellent
+		);
+   {.product functions}
+   {:DEV NOTES: update productsdb.xml + FCMdF_DBProducts_Read + TFCRdipProduct cases.}
+   type TFCEdipProductFunctions=(
+      prfuNone
+      ,prfuBuildingMat
+      ,prfuFood
+      ,prfuInfraKit
+      ,prfuManConstruction
+      ,prfuManufacturingMat
+      ,prfuMechConstruction
+      ,prfuMultipurposeMat
+      ,prfuOxygen
+      ,prfuSpaceMat
+      ,prfuWater
+      );
+   {.production modes}
+   {:DEV NOTES: update infrastrucdb + TFCRdipInfraProdMode.}
+   type TFCEdipProductionModes=(
+      pmNone
+      ,pmCarbonaceousOreRefining
+      ,pmHumidityGathering
+      ,pmMetallicOreRefining
+      ,pmRadioactiveOreRefining
+      ,pmRareMetalsOreRefining
+      ,pmResourceMining
+      ,pmWaterElectrolysis
+      );
+   {.requirement - region soil}
+   {:DEV NOTES: update infrastrucdb + FCMdF_DBInfra_Read.}
+   type TFCEdipRegionSoilReq=(
+      rsrAny
+      ,rsrAnyExceptVolcanic
+      ,rsrAnyCoastal
+      ,rsrAnyCoastalExceptVolcanic
+      ,rsrAnySterile
+      ,rsrFertile
+      ,rsOceanic
+      );
+   {.requirement - resource spot}
+   {:DEV NOTES: update infrastrucdb + FCMdF_DBInfra_Read.}
+   type TFCEdipRsrcSpotReq=(
+      rssrN_A
+      ,rssrany
+      ,rssrMetalIcyRareMetCarbRadOre
+      );
+   {.storage type}
+   {:DEV NOTES: update productsdb.xml + FCMdF_DBProducts_Read + FCFgC_Storage_Update.}
+   type TFCEdipStorageType=(
+      stSolid
+      ,stLiquid
+      ,stGas
+      ,stBiologic
+      );
+   //==END ENUM=============================================================================
+   {.energy generation modes}
+   {:DEV NOTES: update infrastrucdb.xml for energy function AND energy generation custom effect + FCMdF_DBInfra_Read.}
+   {:DEV NOTES: update FCFgEM_OutputFromFunction_GetValue + FCFgEM_OutputFromCustomFx_GetValue.}
+   type TFCRdipEnergyGenerationMode= record
+		case FEPM_productionModes: TFCEdipEnergyGenModes of
+			egmAntimatter: ();
+
+			egmFission:
+            {.fixed production value, in kW, for each infrastructure levels}
+				(FEPM_fissionFPlvl: array [0..7] of double;
+            	FEPM_fissionFPlvlByDL: array [0..7] of double
+               );
+
+			egmFusionDT: ();
+
+			egmFusionH2: ();
+
+			egmFusionHe3: ();
+
+			egmPhoton:
+				(FEPM_photonArea: integer;
+               FEPM_photonEfficiency: integer
+               );
+   end;
+
+   type TFCRdipInfraProdStorage= record
+   	IPS_solid: double;
+      IPS_liquid: double;
+      IPS_gas: double;
+      IPS_biologic: double;
+   end;
+   {.product data structure}
+   {:DEV NOTES: update productsdb.xml + FCMdF_DBProducts_Read.}
+   type TFCRdipProduct= record
+      PROD_token: string[20];
+      PROD_class: TFCEdipProductClasses;
+      PROD_storage: TFCEdipStorageType;
+      PROD_tsSector: TFCEdresResearchSectors;
+      PROD_tsToken: string[20];
+		PROD_tagHazEnv: boolean;
+		PROD_tagHazFire: boolean;
+		PROD_tagHazRad: boolean;
+		PROD_tagHazToxic: boolean;
+      PROD_volByUnit: double;
+      PROD_massByUnit: double;
+      case PROD_function: TFCEdipProductFunctions of
+			prfuBuildingMat:
+				(
+					PROD_fBmatTensileStr: double;
+					PROD_fBmatTSbyLevel: double;
+					PROD_fBmatYoungModulus: double;
+					PROD_fBmatYMbyLevel: double;
+					PROD_fBmatThermalProt: double;
+					PROD_fBmatReflectivity: double;
+					PROD_fBmatCorrosiveClass: TFCEdipProductCorrosiveClasses;
+					);
+			prfuFood:
+				(PROD_fFoodPoint: integer);
+         prfuInfraKit:
+            (PROD_fInfKitToken: string[20];
+             	PROD_fInfKitLevel: integer;
+            	);
+			prfuManConstruction:
+				(PROD_fManConstWCPcoef: double);
+			prfuManufacturingMat:
+				();
+			prfuMechConstruction:
+				(
+					PROD_fMechConstWCP: double;
+					PROD_fMechConstCrew: integer
+					);
+			prfuMultipurposeMat:
+				(
+					PROD_fMmatTensileStr: double;
+					PROD_fMmatTSbyLevel: double;
+					PROD_fMmatYoungModulus: double;
+					PROD_fMmatYMbyLevel: double;
+					PROD_fMmatThermalProt: double;
+					PROD_fMmatReflectivity: double;
+					PROD_fMmatCorrosiveClass: TFCEdipProductCorrosiveClasses
+					);
+			prfuOxygen:
+            (PROD_fOxyPoint: integer);
+			prfuSpaceMat:
+				(
+					PROD_fSmatTensileStr: double;
+					PROD_fSmatTSbyLevel: double;
+					PROD_fSmatYoungModulus: double;
+					PROD_fSmatYMbyLevel: double;
+					PROD_fSmatThermalProt: double;
+					PROD_fSmatReflectivity: double;
+					PROD_fSmatCorrosiveClass: TFCEdipProductCorrosiveClasses
+					);
+			prfuWater:
+				(PROD_fWaterPoint: integer);
+	end;
+		type TFCDBProducts= array of TFCRdipProduct;
+	{.custom effects}
+	{:DEV NOTES: update infrastrucdb.xml + FCMdF_DBInfra_Read + FCMgICFX_Effects_Application + FCFgICFX_EffectHQ_Search.}
+	type TFCRdipInfraCustomFX= record
+      case ICFX_customEffect: TFCEdipCustomFX of
+         cfxEnergyGen: (ICFX_enGenMode: TFCRdipEnergyGenerationMode);
+         cfxEnergyStor: (ICFX_enStorLvl: array [0..7] of double);
+         cfxHQbasic: ();
+         cfxHQSecondary: ();
+         cfxHQPrimary: ();
+         cfxProductStorage: (ICFX_prodStorageLvl: array[0..7] of TFCRdipInfraProdStorage);
+	end;
+   {.production modes}
+   {:DEV NOTES: update infrastrucdb.xml + FCMdF_DBInfra_Read.}
+   type TFCRdipInfraProdMode= record
+      case IPM_productionModes: TFCEdipProductionModes of
+         pmCarbonaceousOreRefining:
+            ();
+         pmHumidityGathering:
+            (IPM_roofArea: integer;
+            IPM_trapArea: integer);
+         pmMetallicOreRefining:
+            ();
+         pmRadioactiveOreRefining:
+            ();
+         pmRareMetalsOreRefining:
+            ();
+         pmResourceMining:
+            ();
+         pmWaterElectrolysis:
+            ();
+   end;
+   {.infrastructure}
+   {:DEV NOTES: update infrastrucdb.xml + FCMdF_DBInfra_Read + FCMgICS_Conversion_Process + FCMgICS_Assembling_Process + FCMgICS_Building_Process.}
+   type TFCRdipInfrastructure= record
+      I_token: string[20];
+      I_environment: TFCEduEnv;
+      {.construct type}
+      I_constr: TFCEdipConstruct;
+      {.level range}
+      I_minLevel: integer;
+      I_maxLevel: integer;
+      {.is surface only}
+      I_isSurfOnly: boolean;
+      {.surface, for each levels in the range}
+      I_surface: array[0..7] of double;
+      {.volume, for each levels in the range}
+      I_volume: array[0..7] of double;
+      {.base power consumption, for each levels in the range}
+      I_basePwr: array[0..7] of double;
+      {.material volume, for each levels in the range}
+      I_matVolume: array[0..7] of double;
+      {.prerequisites}
+      I_reqHydro: TFCEdipHydrosphereReq;
+      I_reqConstrMat: array of record
+         RCM_token: string[20];
+         RCM_percent: integer;
+      end;
+      I_reqRegionSoil: TFCEdipRegionSoilReq;
+      I_reqRsrcSpot: TFCEdipRsrcSpotReq;
+      I_reqTechSci: record
+         RTS_sector: TFCEdresResearchSectors;
+         RTS_token: string[20];
+      end;
+      {.custom effects}
+      I_customFx: array of TFCRdipInfraCustomFX;
+      {.function}
+      case I_function: TFCEdipFunction of
+         fEnergy:
+            (I_fEnergyPmode: TFCRdipEnergyGenerationMode);
+         fHousing:
+            (I_fHousPopulationCap: integer;
+            	I_fHousQualityOfLife: integer);
+         fIntelligence:
+            ();
+         fMiscellaneous:
+            ();
+         fProduction:
+            (I_fProductionMode: array[0..FCCpModeMax] of TFCRdipInfraProdMode);
+   end;
+      {.infrastructures dynamic array}
+      TFCDBinfra= array of TFCRdipInfrastructure;
+   //=======================================================================================
+   {.global variables}
+   //=======================================================================================
+   var
+      FCDBinfra: TFCDBinfra;
+      FCDBProducts: TFCDBProducts;
+
+implementation
+
+//=============================================END OF INIT==================================
+
+end.

@@ -1,0 +1,543 @@
+﻿<!-- Encyclopaedia's Texts -->
+<!-- Implemented sections are, in order:
+		********** CPS **********
+		********** CSM **********
+		********** FACTIONS **********
+      ********** INFRASTRUCTURES **********
+		********** PRODUCTS **********
+		********** SPM **********
+		********** UNIVERSE **********
+		********** TOPICS/DEFINITIONS **********
+-->
+<encytext>
+	<!-- ********** CPS ********** -->
+	<cpsCVS>
+		<EN>The &lt;b&gt;CVS&lt;/b&gt; is a mean to know if the &lt;b&gt;&lt;a href="cpsRoot"&gt;Colonization Phase&lt;/a&gt;&lt;/b&gt; is a success. It's a global score noted from 0 to 100% that represent the mean of all objectives scores.&lt;br&gt;Over time, when the player start to fulfil his/her objectives, the &lt;b&gt;CVS&lt;/b&gt; will raise up. On the contrary if the player is not able to fulfil them, the &lt;b&gt;CVS&lt;/b&gt; will tend to 0.</EN>
+		<FR>Le &lt;b&gt;CVS&lt;/b&gt; est un moyen de savoir si la &lt;b&gt;&lt;a href="cpsRoot"&gt;Phase de Colonisation&lt;/a&gt;&lt;/b&gt; est un succès. C'est un score global noté de 0 à 100% qui représente la moyenne des scores de tout les objectifs.&lt;br&gt;Dans la durée, quand le joueur commence à remplir ses objectifs, le &lt;b&gt;CVS&lt;/b&gt; augmentera. Au contraire si le joueur n'est pas capable de les remplir, le &lt;b&gt;CVS&lt;/b&gt; aura tendance à aller vers 0.</FR>
+	</cpsCVS>
+	<cpsRoot>
+		<EN>The &lt;b&gt;Colonization Phase System or CPS&lt;/b&gt; manage the &lt;b&gt;&lt;a href="cpsCVS"&gt;Colonization Viability Score (or CVS)&lt;/a&gt;&lt;/b&gt; and the viability objectives, for the colonization of the first player's colony. That also depend of other elements like the &lt;b&gt;&lt;a href="csmRoot"&gt;CSM&lt;/a&gt;&lt;/b&gt; and the PGS for example. The player have a standard year (365 standard days) for make his/her colony viable and try to reach the maximum faction's status allowed by the colonization mode. For have a good score the method is simple: the player must try to fulfil each viability objectives.&lt;br&gt;The &lt;b&gt;CPS&lt;/b&gt; itself keep track of all the required data for this first colonization phase. In fact this system is the simpler and one of the most important system of FARC.&lt;br&gt;At the end of this phase the &lt;b&gt;CPS&lt;/b&gt; calculate final score and set the result according to the chosen colonization mode and faction. After that, the player have the choice to continue the game freely (more or less following the result) or to stop it here.</EN>
+		<FR>Le &lt;b&gt;Système de la Phase de Colonisation ou CPS&lt;/b&gt; gère le &lt;b&gt;&lt;a href="cpsCVS"&gt;Score de Viabilité de Colonisation (ou CVS)&lt;/a&gt;&lt;/b&gt; et les objectifs de viabilité, pour la colonisation de la première colonie du joueur. Cela dépend aussi d'autres éléments comme le &lt;b&gt;&lt;a href="csmRoot"&gt;CSM&lt;/a&gt;&lt;/b&gt; et le PGS par exemple. Le joueur a une année standard (365 jours standards) pour rendre viable sa colonie et essayer d'atteindre le status de faction maximum permis par le mode de colonisation. Pour avoir un bon score la méthode est simple: le joueur doit essayer de remplir chaque objectif de viabilité.&lt;br&gt;Le &lt;b&gt;CPS&lt;/b&gt; lui-même garde la trace de toutes les données requises pour cette phase de colonisation. En fait ce système est le plus simple et le plus important système de FARC.&lt;br&gt;A la fin de cette phase le &lt;b&gt;CPS&lt;/b&gt; calcule le score final et configure le résultat en relation avec la faction et le mode de colonisation choisi. Après cela, le joueur a le choix de continuer (plus ou moins) librement le jeu ou de le stopper dans l'état actuel.</FR>
+	</cpsRoot>
+	<cpsStatus>
+		<EN>The player's faction has 3 status, that are used in the &lt;b&gt;&lt;a href="cpsRoot"&gt;Colonization Phase&lt;/a&gt;&lt;/b&gt; of the game, arranged in 3 categories:&lt;ul&gt;&lt;ind x="15"&gt;&lt;li&gt;&lt;a href="cpsStatusEco"&gt;Economic&lt;/a&gt;&lt;br&gt;&lt;ind x="15"&gt;&lt;li&gt;&lt;a href="cpsStatusMil"&gt;Military&lt;/a&gt;&lt;br&gt;&lt;ind x="15"&gt;&lt;li&gt;&lt;a href="cpsStatusSoc"&gt;Social&lt;/a&gt;&lt;/ul&gt;&lt;br&gt;The status indicate the link of allegiance regarding the faction of origin from which belongs the colony and has 4 levels from 0 to 4.&lt;br&gt;&lt;b&gt;Levels Meaning:&lt;br&gt;&lt;ind x="15"&gt;Level&lt;ind x="60"&gt;Description&lt;/b&gt;&lt;br&gt;&lt;ind x="25"&gt;0&lt;ind x="60"&gt;Not Viable: it's a game failure situation because the colony can't&lt;br&gt;&lt;ind x="60"&gt;sustains itself in the specified category&lt;br&gt;&lt;ind x="25"&gt;1&lt;ind x="60"&gt;Stable but Fully Dependent: the worst yet playable level,&lt;br&gt;&lt;ind x="60"&gt;normally the first colony begin at this level&lt;br&gt;&lt;ind x="25"&gt;2&lt;ind x="60"&gt;Semi-Dependent: you can apply some changes within a certain&lt;br&gt;&lt;ind x="60"&gt;range&lt;br&gt;&lt;ind x="25"&gt;3&lt;ind x="60"&gt;Fully Independent: you're free to do whatever you want with&lt;br&gt;&lt;ind x="60"&gt;your faction&lt;br&gt;&lt;br&gt;&lt;b&gt;For specific level description for each category, click on the categories links above&lt;/b&gt;.</EN>
+		<FR>La faction du joueur a 3 statuts, qui sont utilisés dans la &lt;b&gt;&lt;a href="cpsRoot"&gt;Phase de Colonisation&lt;/a&gt;&lt;/b&gt; de la partie, classés en 3 catégories:&lt;ul&gt;&lt;ind x="15"&gt;&lt;li&gt;&lt;a href="cpsStatusEco"&gt;Economique&lt;/a&gt;&lt;br&gt;&lt;ind x="15"&gt;&lt;li&gt;&lt;a href="cpsStatusMil"&gt;Militaire&lt;/a&gt;&lt;br&gt;&lt;ind x="15"&gt;&lt;li&gt;&lt;a href="cpsStatusSoc"&gt;Social&lt;/a&gt;&lt;/ul&gt;&lt;br&gt;Le status indique le lien d'allégance par rapport à la faction d'origine à laquelle la colonie appartient et a 4 niveaux de 0 à 4.&lt;br&gt;&lt;b&gt;Signification des Niveaux:&lt;br&gt;&lt;ind x="15"&gt;Niveau&lt;ind x="60"&gt;Description&lt;/b&gt;&lt;br&gt;&lt;ind x="25"&gt;0&lt;ind x="60"&gt;Non Viable: c'est un échec au niveau du jeu parceque&lt;br&gt;&lt;ind x="60"&gt;la colonie ne peut se soutenir elle-même dans la catégorie&lt;br&gt;&lt;ind x="60"&gt;spécifiée&lt;br&gt;&lt;ind x="25"&gt;1&lt;ind x="60"&gt;Stable mais Complètement Dépendante: le pire niveau jouable,&lt;br&gt;&lt;ind x="60"&gt;normallement la première colonie commence à ce niveau&lt;br&gt;&lt;ind x="25"&gt;2&lt;ind x="60"&gt;Semi-Dépendant: vous pouvez appliquer quelques changements&lt;br&gt;&lt;ind x="60"&gt;compris dans une certaine marge de manoeuvre&lt;br&gt;&lt;ind x="25"&gt;3&lt;ind x="60"&gt;Complètement Indépendant: vous êtes libre de faire ce que vous&lt;br&gt;&lt;ind x="60"&gt;voulez avec votre faction&lt;br&gt;&lt;br&gt;&lt;b&gt;Pour un description spécifique pour chaque catégorie, clickez sur les liens des categories ci-dessus&lt;/b&gt;.</FR>
+	</cpsStatus>
+	<cpsStatusEco>
+		<EN></EN>
+		<FR></FR>
+	</cpsStatusEco>
+	<cpsStatusMil>
+		<EN></EN>
+		<FR></FR>
+	</cpsStatusMil>
+	<cpsStatusSoc>
+		<EN></EN>
+		<FR></FR>
+	</cpsStatusSoc>
+	<!-- ********** CSM ********** -->
+	<csmData>
+		<EN>A colony is defined by 5 basic data : cohesion, tension, security, education, and colony level.&lt;br&gt;With these, there's additional data provided by CSM Modules:&lt;ul&gt;&lt;ind x="15"&gt;&lt;li&gt;Housing Module: population capacity, space level, quality of life&lt;br&gt;&lt;ind x="15"&gt;&lt;li&gt;Food Module: &lt;i&gt;not implemented yet&lt;/i&gt;&lt;br&gt;&lt;ind x="15"&gt;&lt;li&gt;Oxygen Module: &lt;i&gt;not implemented yet&lt;/i&gt;&lt;br&gt;&lt;ind x="15"&gt;&lt;li&gt;Energy Module: &lt;i&gt;not implemented yet&lt;/i&gt;&lt;br&gt;&lt;ind x="15"&gt;&lt;li&gt;Health Module: health&lt;/ul&gt;&lt;br&gt;These 5 basic data and those of the CSM modules are tested at the data management phase of the CSM.&lt;br&gt;The CSM data management phase or simply CSM phase occurs by periods of 7 standard days, from the foundation date of each colony. The CSM Phase do in this order:&lt;ul&gt;&lt;ind x="15"&gt;&lt;li&gt;1- Data Management: each concerned colony have their data tested and the possible CSM events are triggered and-or canceled&lt;br&gt;&lt;ind x="15"&gt;&lt;li&gt;2- Update of the events in Recovering state: each event data in Recovering mode is updated, if the recovering is complete, the event is removed&lt;br&gt;&lt;ind x="15"&gt;&lt;li&gt;3- Over Time Calculations: each currently enabled event is updated following it's Over Time Calculations rules&lt;/ul&gt;</EN>
+		<FR>Une colonie est définie par 5 données de base : cohésion, tension, sécurité, éducation, et niveau de colonie.&lt;br&gt;Avec celles-ci, il y a des données additionnelles fournies par les modules CSM:&lt;ul&gt;&lt;ind x="15"&gt;&lt;li&gt;Module Logement: capacité de population, niveau d'espace, qualité de vie&lt;br&gt;&lt;ind x="15"&gt;&lt;li&gt;Module Nourriture: &lt;i&gt;non implémenté pour l'instant&lt;/i&gt;&lt;br&gt;&lt;ind x="15"&gt;&lt;li&gt;Module Oxygène: &lt;i&gt;non implémenté pour l'instant&lt;/i&gt;&lt;br&gt;&lt;ind x="15"&gt;&lt;li&gt;Module Energie: &lt;i&gt;non implémenté pour l'instant&lt;/i&gt;&lt;br&gt;&lt;ind x="15"&gt;&lt;li&gt;Module Santé: santé&lt;/ul&gt;&lt;br&gt;Ces 5 données de base et celles des modules CSM sont testée à la phase de gestion de données du CSM.&lt;br&gt;La phase de gestion de données CSM ou simplement la phase CSM a lieu par périodes de 7 jours standards, en partant de la date de fondation de chaque colonie. La phase CSM effectue dans cet ordre:&lt;ul&gt;&lt;ind x="15"&gt;&lt;li&gt;1- Gestion de Données: chaque colonie concernée a ses données testées et des possible évènements CSM sont activés et/ou annulés&lt;br&gt;&lt;ind x="15"&gt;&lt;li&gt;2- Mise à jour des évènements dans un état de Récupèration: chaque donnée d'un évènement en mode de Récupèration est mis à jour, si la récupèration est complète, l'évènement est retiré&lt;br&gt;&lt;ind x="15"&gt;&lt;li&gt;3- Calculs sur la Durée: chaque évènement actuellement en service est mis à jour suivant ses règles de Calculs sur la Durée&lt;/ul&gt;</FR>
+	</csmData>
+	<csmevColEst>
+		<EN>This event occurs only when a colony is just settled. It apply the stress and some chaotic moments of a colony establishment on a new world. The applied modifiers are different regarding in which environment the colony is settled, with more penalties in harsh environments.&lt;br&gt;&lt;br&gt;&lt;b&gt;Duration:&lt;/b&gt; the event is resident and the duration is 5 weeks.&lt;br&gt;&lt;br&gt;&lt;b&gt;Resolve:&lt;/b&gt; there's nothing that can be resolved directly by you, because the stress effect decay only with time. It's possible to compensate the modifiers by other mean if possible.&lt;br&gt;&lt;br&gt;&lt;b&gt;Cancellation:&lt;/b&gt; this event cannot be cancelled by any means. At the end of the duration the termination is immediate.</EN>
+		<FR>Cet évènement se passe seulement quand une colonie vient d'être fondée. Il applique le stress et quelques moments chaotiques d'un établissement de colonie sur un nouveau monde. Les modificateurs qui sont appliqués sont différents suivant dans quel environnement la colonie est établie, avec plus de pénalités en environnement difficile.&lt;br&gt;&lt;br&gt;&lt;b&gt;Durée:&lt;/b&gt; l'évènement est persistant et sa durée est de 5 semaines.&lt;br&gt;&lt;br&gt;&lt;b&gt;Résolution:&lt;/b&gt; il n'y a rien qui peut être directement résolu par vous, parceque l'effet du stress disparait avec le temps seulement. Il est possible de compenser les modificateurs par d'autres moyens si possible.&lt;br&gt;&lt;br&gt;&lt;b&gt;Annulation:&lt;/b&gt; cet évènement ne peut être annulé par aucun moyen. A la fin de la durée l'annulation est immédiat.</FR>
+	</csmevColEst>
+	<csmevHealthEduRel>
+		<EN>This event is only used for storing the bonus/penalty modifier for education in relation of the &lt;b&gt;Health&lt;/b&gt; data.&lt;br&gt;&lt;br&gt;&lt;b&gt;Duration:&lt;/b&gt; the event is resident and permanent for all colony lifetime.&lt;br&gt;&lt;br&gt;&lt;b&gt;Resolve:&lt;/b&gt; there's nothing to resolve with this event.&lt;br&gt;&lt;br&gt;&lt;b&gt;Cancellation:&lt;/b&gt; this event cannot be cancelled by any means.</EN>
+		<FR>Cet évènement est utilisée seulement pour enregistrer le modificateur bonus/malus pour l'éducation en relation à la donnée de &lt;b&gt;Santé&lt;/b&gt;.&lt;br&gt;&lt;br&gt;&lt;b&gt;Durée:&lt;/b&gt; l'évènement est résident et permanent pour toute la durée de vie de la colonie.&lt;br&gt;&lt;br&gt;&lt;b&gt;Résolution:&lt;/b&gt; il n'y a rien à résoudre avec cet évènement.&lt;br&gt;&lt;br&gt;&lt;b&gt;Annulation:&lt;/b&gt; cet évènement ne peut être annulé par aucun moyen.</FR>
+	</csmevHealthEduRel>
+	<csmevSocDis>
+		<EN>Social Disorder is a social state worst than Unrest, it indicate there's multiple strikes and wide manifestations from the population. This event applies modifiers following the cohesion test level. If this event is triggered it cancel &lt;b&gt;Unrest&lt;/b&gt; or &lt;b&gt;Uprising&lt;/b&gt; event. In fact between &lt;b&gt;Unrest, Social Disorder and Uprising&lt;/b&gt; there can be only one of them enabled.&lt;br&gt;&lt;br&gt;&lt;b&gt;Duration:&lt;/b&gt; the event is resident without a duration.&lt;br&gt;&lt;br&gt;&lt;b&gt;Resolve:&lt;/b&gt; the event is resolved if an another event of the same kind is set.&lt;br&gt;&lt;br&gt;&lt;b&gt;Cancellation:&lt;/b&gt; this event is cancelled with Unrest or Uprising. The cancellation is always by recovering method.</EN>
+		<FR>le Désordre Social est un état social pire que de simples Troubles, il indique qu'il y a de multiples grèves ainsi que de larges manifestations venant de la population. Cet évènement applique des modificateurs suivant le niveau de test de cohésion. Si cet évènement est enclanché il annule l'évènement &lt;b&gt;Troubles&lt;/b&gt; ou &lt;b&gt;Révolte&lt;/b&gt;. En fait entre &lt;b&gt;Troubles, Désordre Social et Révolte&lt;/b&gt; il ne peut y avoir qu'un seul d'entre eux d'actif.&lt;br&gt;&lt;br&gt;&lt;b&gt;Durée:&lt;/b&gt; l'évènement est résident sans durée spécifique.&lt;br&gt;&lt;br&gt;&lt;b&gt;Résolution:&lt;/b&gt; l'évènement est résolu si un autre évènement du même type est enclanché.&lt;br&gt;&lt;br&gt;&lt;b&gt;Annulation:&lt;/b&gt; cet évènement est annulé par Troubles ou Révolte. L'annulation est toujours par la méthode de récupèration.</FR>
+	</csmevSocDis>
+	<csmevUnrest>
+		<EN>Unrest indicate there's local and limited strikes and also some manifestations from the population. This event applies modifiers following the cohesion test level. If this event is triggered it cancel &lt;b&gt;Social Disorder&lt;/b&gt; or &lt;b&gt;Uprising&lt;/b&gt; event. In fact between &lt;b&gt;Unrest, Social Disorder and Uprising&lt;/b&gt; there can be only one of them enabled.&lt;br&gt;&lt;br&gt;&lt;b&gt;Duration:&lt;/b&gt; the event is resident without a duration.&lt;br&gt;&lt;br&gt;&lt;b&gt;Resolve:&lt;/b&gt; the event is resolved if after an another cohesion test the result cancel this event.&lt;br&gt;&lt;br&gt;&lt;b&gt;Cancellation:&lt;/b&gt; this event is cancelled by Social Disorder or Uprising. The cancellation is always by recovering method.</EN>
+		<FR>Troubles indique qu'il y a des grèves locales et limitées et aussi quelques manifestations venant de la population. Cet évènement applique des modificateurs suivant le niveau de test de cohésion. Si cet évènement est enclanché il annule l'évènement &lt;b&gt;Désordre Social&lt;/b&gt; ou &lt;b&gt;Révolte&lt;/b&gt;. En fait entre &lt;b&gt;Troubles, Désordre Social et Révolte&lt;/b&gt; il ne peut y avoir qu'un seul d'entre eux d'actif.&lt;br&gt;&lt;br&gt;&lt;b&gt;Durée:&lt;/b&gt; l'évènement est résident sans durée spécifique.&lt;br&gt;&lt;br&gt;&lt;b&gt;Résolution:&lt;/b&gt; l'évènement est résolu si le résultat d'un autre test de cohésion annule cet évènement.&lt;br&gt;&lt;br&gt;&lt;b&gt;Annulation:&lt;/b&gt; cet évènement est annulé par Désordre Social ou Révolte. L'annulation est toujours par la méthode de récupèration.</FR>
+	</csmevUnrest>
+   <csmevUprising>
+		<EN>Uprising is the worst possible event from the 3 available (Unrest, Social Disorder and Uprising). It indicate that most of the colony's population triggered massive strikes and manifestations, including many fighting against the security forces. Most of the colony's economy is paralysed, and the tension is nearly critical at best. This event applies modifiers following the cohesion test level. If this event is triggered it cancel &lt;b&gt;Unrest&lt;/b&gt; or &lt;/b&gt;Social Disorder&lt;/b&gt; event. In fact between &lt;b&gt;Unrest, Social Disorder and Uprising&lt;/b&gt; there can be only one of them enabled at a time.&lt;br&gt;&lt;br&gt;&lt;b&gt;Duration:&lt;/b&gt; if the colony has soldiers, the event is resident with a fixed duration calculated in weeks. If it's not he case, the event is resident without duration until the event is cancelled or soldiers are added.&lt;br&gt;&lt;br&gt;&lt;b&gt;Resolve:&lt;/b&gt; the resolving depends of the following cases:&lt;ul&gt;&lt;ind x="15"&gt;&lt;li&gt;When the Uprising duration is passed out, the event is automatically replaced by the Social Disorder event by applying the standard overriding rules&lt;br&gt;&lt;ind x="15"&gt;&lt;li&gt;if there's no more rebel population, the event is automatically replaced by the Social Disorder event by applying the overriding rules;&lt;br&gt;&lt;ind x="15"&gt;&lt;li&gt;if there's no more soldiers, the colony continue to have Uprising and the duration is calculated;&lt;br&gt;&lt;ind x="15"&gt;&lt;li&gt;a cohesion test succeed&lt;/ul&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Cancellation:&lt;/b&gt; this event is cancelled by Unrest or Social Disorder. The cancellation is always by recovering method.</EN>
+		<FR>Révolte est le pire évènement des 3 disponibles (Troubles, Désordre Social et Révolte). Il indique que presque toute la population de la colonie a engagé des grèves et manifestations massives, incluant de nombreux combats contre les forces de sécurité. La Quasi-totalité de l'économie de la colonie est paralysée, et la tension est presque critique au mieux. Cet évènement applique des modificateurs suivant le niveau de test de cohésion. Si cet évènement est enclanché il annule l'évènement &lt;b&gt;Troubles&lt;/b&gt; ou &lt;b&gt;Désordre Social&lt;/b&gt;. En fait entre &lt;b&gt;Troubles, Désordre Social et Révolte&lt;/b&gt; il ne peut y avoir qu'un seul d'entre eux d'actif.&lt;br&gt;&lt;br&gt;&lt;b&gt;Durée:&lt;/b&gt; si la colonie a des soldats, l'évènement est résident avec une durée fixe calculée en semaines. Si cela n'est pas le cas, l'évènement est résident sans durée jusqu'à ce qu'il soit annulé ou que des soldats soient ajoutés.&lt;br&gt;&lt;br&gt;&lt;b&gt;Résolution:&lt;/b&gt; cela dépend des cas suivants:&lt;ul&gt;&lt;ind x="15"&gt;&lt;li&gt;Une fois que la durée de Révolte est finie, l'évènement est automatiquement remplacé par Désordre Social en appliquant les règles d'annulation&lt;br&gt;&lt;ind x="15"&gt;&lt;li&gt;si il n'y a plus de population rebelle, l'évènement est automatiquement remplacé par l'évènement Désordre Social en appliquant les règles d'annulation;&lt;br&gt;&lt;ind x="15"&gt;&lt;li&gt;s'il n'y a plus de soldats, la colonie continue d'avoir Révolte et la durée est calculée;&lt;br&gt;&lt;ind x="15"&gt;&lt;li&gt;un test de cohésion réussi&lt;/ul&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;Annulation:&lt;/b&gt; cet évènement est annulé par Troubles ou Désordre Social. L'annulation est toujours par la méthode de récupèration.</FR>
+	</csmevUprising>
+	<csmRoot>
+		<EN>The role of the &lt;b&gt;CSM&lt;/b&gt; is to manage entirely the colonies. This one is based on 2 axis: &lt;b&gt;&lt;a href="csmData"&gt;colonies' data management&lt;/a&gt;&lt;/b&gt; and the colony events generation and management which can occurs.&lt;br&gt;It's not really an artificial intelligence but it's main function is to bring some life in colonie's population.&lt;br&gt;The data defines the colony a bit like a RPG character. The events brings modifiers to those data, among other effects, and evolves over the time.</EN>
+		<FR>Le rôle du &lt;b&gt;CSM&lt;/b&gt; est de gerer entiérement les colonies. Celui-ci est basé sur 2 axes: &lt;b&gt;&lt;a href="csmData"&gt;la gestion des données des colonies&lt;/a&gt;&lt;/b&gt; et la génération ainsi que la gestion des évènements de colonie qui peuvent arriver.&lt;br&gt;Ce n'est pas vraiment une intelligence artificielle mais sa principale fonction est d'apporter un peu de vie dans la population d'une colonie.&lt;br&gt;Les données définies la colonie un peu comme un caractère de JDR. Les évènements apportent des modificateurs à ces données, en plus d'autres effets, et évoluent dans la durée.</FR>
+	</csmRoot>
+	<!-- ********** FACTIONS ********** -->
+	<!-- Magellan Unity -->
+	<factkMagelUni.Hist>
+		<EN>The MUN, which is also called the Unity, is native from an ancient colony named &#60;b&#62;New-Europe&#60;/b&#62;. This colony was founded by the &#60;b&#62;ESA (European Space Agency)&#60;/b&#62; for sent colonists to Magellan III stellar system.&#60;br&#62;This colonization project was the cause of some political troubles between the &#60;b&#62;European-Union&#60;/b&#62; and the &#60;b&#62;Earthling Space United Nations&#60;/b&#62;.&#60;br&#62;27 years after, &#60;b&#62;New-Europe&#60;/b&#62; decided by referendum to adopt independence with 79% of the votes and &#60;b&#62;Magellan Unity&#60;/b&#62; was selected like name of replacement.</EN>
+    	<FR>L&#39;UdM, qui est aussi appellée l'Unité, est native d'une ancienne colonie nommée la &#60;b&#62;Nouvelle-Europe&#60;/b&#62;. Cette colonie a été mise sur pied par &#60;b&#62;l&#39;ESA (Agence Spatiale Européenne)&#60;/b&#62; pour envoyer des colons vers le système stellaire Magellan III.&#60;br&#62;Ce projet de colonisation fut la cause de quelques problèmes politiques entre &#60;b&#62;l&#39;Union-Européènne&#60;/b&#62; et &#60;b&#62;les Nations Spatiales Unies Terriennes&#60;/b&#62;.</FR>
+	</factkMagelUni.Hist>
+	<factkMagelUni.Soc>
+		<EN>The &#60;b&#62;Magellan&#60;/b&#62; lifestyle takes from various roots of European Societies from which they result originally, by modernizing the concept to the extreme: the artificial intelligences are an integral part of society as well as government, this in order to allow a really objective and upright regulation, as much as it is possible.&#60;br&#62;They are some sort of watchdogs avoiding any uncontrolled excess of an individual member of the government or a citizen.&#60;br&#62;The bioroids are also used a lot in public and private life.&#60;br&#62;The Magellan language is a blend of French, German and English.</EN>
+		<FR>Le style de vie des &#60;b&#62;Magelliens&#60;/b&#62; prend ses racines dans les diverses sociétés européènes dont ils sont originellement issus, en modernisant le concept à l'extrême: les intelligences artificielles font partie intégrante de la société ainsi que du gouvernement, ceci afin de permettre une régulation réellement objective et intègre, autant qu'il est possible.&#60;br&#62;Elles constituent en quelque sorte des chiens de garde evitant tout dérapage incontrolé d'un membre du pouvoir ou d'un citoyen.&#60;br&#62;Les bioroides sont aussi beaucoup utilisés dans la vie privée et plublique.&#60;br&#62;La langue magellienne est un mélange de Français, Allemand et Anglais.</FR>
+	</factkMagelUni.Soc>
+	<factkMagelUni.ColPol>
+		<EN>The colonization politics are based on the &#60;b&#62;Autonomous Remote Colony&#60;/b&#62; concept.&#60;br&#62;This concept lays on the foundation of a full-fledged colony able to be sustainable and autonomous on long-term.&#60;br&#62;Each colony must represent a strong extension of the Unity in the galaxy, and is set with a lot of care and support.</EN>
+		<FR>La politique de colonisation est basée sur le concept de &#60;b&#62;Colonie Autonome Lointaine&#60;/b&#62;.&#60;br&#62;Ce concept repose sur le fondement d'une véritable colonie capable d'être durable et autonome sur le long terme.&#60;br&#62;Chaque colonie doit représenter une extension de l'Unité dans la galaxie, et est mise au point avec beaucoup de soin et soutien.</FR>
+	</factkMagelUni.ColPol>
+	<factkMagelUni.munCmodARC>
+		<EN>the ARC colony mode is the state-of-the-art in colonization science and technology. Even without having a full control capability, the colony has a high range of action.&#60;br&#62;This is not a luxury because Unity colonies are scattered.</EN>
+		<FR>le mode de colonie ARC constitue l'état de l'art en sciences et technologie de colonisation. Même sans avoir une capacité de plein contrôle, la colonie possède une large gamme d'action.&#60;br&#62;Ce n'est pas un luxe parce que les colonies de l'Unité sont dispersées.</FR>
+	</factkMagelUni.munCmodARC>
+   <!-- ********** INFRASTRUCTURES ********** -->
+   <cwpRoot>
+      <EN></EN>
+      <FR></FR>
+   </cwpRoot>
+   <infrColShelt>
+      <EN></EN>
+		<FR></FR>
+   </infrColShelt>
+   <infrHousesPack>
+		<EN></EN>
+		<FR></FR>
+	</infrHousesPack>
+	<infrInflatGreen>
+		<EN></EN>
+		<FR></FR>
+	</infrInflatGreen>
+   <infrNucFissReactor>
+      <EN></EN>
+      <EN></EN>
+   </infrNucFissReactor>
+	<!-- ********** PRODUCTS ********** -->
+	<energNucFisRsm>
+		<EN></EN>
+		<FR></FR>
+	</energNucFisRsm>
+   <energNucFisRmed>
+		<EN></EN>
+		<FR></FR>
+	</energNucFisRmed>
+   <energNucFisRlg>
+		<EN></EN>
+		<FR></FR>
+	</energNucFisRlg>
+   <energNucFisRxl>
+		<EN></EN>
+		<FR></FR>
+	</energNucFisRxl>
+   <equipAdvTools>
+      <EN></EN>
+      <FR></FR>
+   </equipAdvTools>
+   <equipConstrExo>
+      <EN></EN>
+      <FR></FR>
+   </equipConstrExo>
+   <equipHandTools>
+      <EN></EN>
+      <FR></FR>
+   </equipHandTools>
+   <equipPowerTools>
+      <EN></EN>
+      <FR></FR>
+   </equipPowerTools>
+	<matAluminium>
+		<EN></EN>
+		<FR></FR>
+	</matAluminium>
+   <matCarbComposites>
+		<EN></EN>
+		<FR></FR>
+	</matCarbComposites>
+   <matConcrete>
+		<EN></EN>
+		<FR></FR>
+	</matConcrete>
+   <Products_Root>
+		<EN></EN>
+		<FR></FR>
+	</Products_Root>
+	<resNH3>
+		<EN></EN>
+		<FR></FR>
+	</resNH3>
+	<!-- ********** SPM ********** -->
+	<SPMi_Abolition>
+      <EN></EN>
+      <FR></FR>
+   </SPMi_Abolition>
+   <SPMi_AIchitect>
+      <EN>&lt;b&gt;Area:&lt;/b&gt; Administration(ADMIN)&lt;ind x="200"&gt;&lt;b&gt;Type:&lt;/b&gt; Policy&lt;br&gt;&lt;b&gt;Description:&lt;/b&gt; &lt;b&gt;This Policy is a political system.&lt;/b&gt;&lt;br&gt;</EN>
+      <FR></FR>
+   </SPMi_AIchitect>
+   <SPMi_Amortalism>
+      <EN></EN>
+      <FR></FR>
+   </SPMi_Amortalism>
+   <SPMi_AntiHumSpacef>
+      <EN></EN>
+      <FR></FR>
+   </SPMi_AntiHumSpacef>
+   <SPMi_BioroidsAdopt>
+      <EN></EN>
+      <FR></FR>
+   </SPMi_BioroidsAdopt>
+   <SPMi_BirthsCtl>
+      <EN></EN>
+      <FR></FR>
+   </SPMi_BirthsCtl>
+   <SPMi_CentrAuth>
+      <EN>&lt;b&gt;Area:&lt;/b&gt; Administration(ADMIN)/Economy(ECON)/Medical Care(MEDCA)/Society(SOC)/Space Politics(SPOL)/Spirituality(SPI)
+      &lt;ind x="200"&gt;&lt;b&gt;Type:&lt;/b&gt; Policy/Meme
+      &lt;br&gt;&lt;b&gt;Description:&lt;/b&gt; &lt;b&gt;This Policy is a political/economic/healthcare/religious system.&lt;/b&gt;&lt;br&gt;</EN>
+      <FR></FR>
+   </SPMi_CentrAuth>
+   <SPMi_Colonialism>
+      <EN></EN>
+      <FR></FR>
+   </SPMi_Colonialism>
+   <SPMi_CorpOrg>
+      <EN></EN>
+      <FR></FR>
+   </SPMi_CorpOrg>
+   <SPMi_CosmosPreserv>
+      <EN></EN>
+      <FR></FR>
+   </SPMi_CosmosPreserv>
+   <SPMi_Cryptosurv>
+      <EN></EN>
+      <FR></FR>
+   </SPMi_Cryptosurv>
+   <SPMi_CultOfAtheism>
+      <EN></EN>
+      <FR></FR>
+   </SPMi_CultOfAtheism>
+   <SPMi_Cyberdemo>
+      <EN></EN>
+      <FR></FR>
+   </SPMi_Cyberdemo>
+   <SPMi_Cybergnosticism>
+      <EN></EN>
+      <FR></FR>
+   </SPMi_Cybergnosticism>
+   <SPMi_Decel>
+      <EN></EN>
+      <FR></FR>
+   </SPMi_Decel>
+   <SPMi_ElecGov>
+      <EN></EN>
+      <FR></FR>
+   </SPMi_ElecGov>
+   <SPMi_Environmental>
+      <EN></EN>
+      <FR></FR>
+   </SPMi_Environmental>
+   <SPMi_Eugenics>
+      <EN/>
+      <FR/>
+   </SPMi_Eugenics>
+   <SPMi_FreeMark>
+      <EN></EN>
+      <FR></FR>
+   </SPMi_FreeMark>
+   <SPMi_GreenEco>
+      <EN></EN>
+      <FR></FR>
+   </SPMi_GreenEco>
+   <SPMi_HomoSoc>
+      <EN></EN>
+      <FR></FR>
+   </SPMi_HomoSoc>
+   <SPMi_HumRetire>
+      <EN></EN>
+      <FR></FR>
+   </SPMi_HumRetire>
+   <SPMi_Immortalism>
+      <EN></EN>
+      <FR></FR>
+   </SPMi_Immortalism>
+   <SPMi_Infotranscend>
+      <EN></EN>
+      <FR></FR>
+   </SPMi_Infotranscend>
+   <SPMi_MilSoc>
+      <EN></EN>
+      <FR></FR>
+   </SPMi_MilSoc>
+   <SPMi_NatTranpSpFleet>
+      <EN></EN>
+      <FR></FR>
+   </SPMi_NatTranpSpFleet>
+   <SPMi_OneWorldCom>
+      <FR></FR>
+      <EN></EN>
+   </SPMi_OneWorldCom>
+   <SPMi_Pacifism>
+      <EN></EN>
+      <FR></FR>
+   </SPMi_Pacifism>
+   <SPMi_ParticipEcon>
+      <EN></EN>
+      <FR></FR>
+   </SPMi_ParticipEcon>
+   <SPMi_PlanEcon>
+      <EN></EN>
+      <FR></FR>
+   </SPMi_PlanEcon>
+   <SPMi_ProacCitiz>
+      <EN></EN>
+      <FR></FR>
+   </SPMi_ProacCitiz>
+   <SPMi_ProfTechno>
+      <EN></EN>
+      <FR></FR>
+   </SPMi_ProfTechno>
+   <SPMi_ReligiousFree>
+      <EN></EN>
+      <FR></FR>
+   </SPMi_ReligiousFree>
+   <SPMi_RiggElec>
+      <EN></EN>
+      <FR></FR>
+   </SPMi_RiggElec>
+   <SPMi_Slavery>
+      <EN></EN>
+      <FR></FR>
+   </SPMi_Slavery>
+   <SPMi_SocSystem>
+      <EN></EN>
+      <FR></FR>
+   </SPMi_SocSystem>
+   <SPMi_SpDebMClean>
+      <EN></EN>
+      <FR></FR>
+   </SPMi_SpDebMClean>
+   <SPMi_StatePol>
+      <EN></EN>
+      <FR></FR>
+   </SPMi_StatePol>
+   <SPMi_StateRel>
+      <EN></EN>
+      <FR></FR>
+   </SPMi_StateRel>
+   <SPMi_TheFreeUnion>
+      <EN></EN>
+      <FR></FR>
+   </SPMi_TheFreeUnion>
+   <SPMi_Xenophobia>
+      <EN></EN>
+      <FR></FR>
+   </SPMi_Xenophobia>
+   <SPMi_ZeroTol>
+      <EN></EN>
+      <FR></FR>
+   </SPMi_ZeroTol>
+   <SPMiBL>
+      <EN></EN>
+      <FR></FR>
+	</SPMiBL>
+	<SPMiSV>
+		<EN></EN>
+		<FR></FR>
+	</SPMiSV>
+	<spmMemes>
+		<EN></EN>
+		<FR></FR>
+	</spmMemes>
+	<spmPolicies>
+		<EN></EN>
+		<FR></FR>
+	</spmPolicies>
+	<spmRoot>
+		<EN></EN>
+		<FR></FR>
+	</spmRoot>
+	<!-- ********** UNIVERSE ********** -->
+	<univAlbedo>
+		<EN>Albedo is the &#60;b&#62;rate of reflection&#60;/b&#62; of the star's rays by the orbital object.&#60;br&#62; More this one have an &#60;b&#62;high albedo&#60;/b&#62;, more it &#60;b&#62;will reflect the rays &#60;/b&#62; of it's star to the space, and less the soil will have to absorb heat.&#60;br&#62; The &#60;b&#62;nature of the ground&#60;/b&#62; influence directly the albedo, for example &#60;b&#62;a great glacial zone will strongly reflect the rays&#60;/b&#62;.&#60;br&#62;&#60;br&#62;&#60;b&#62;&#60;hi&#62;Example&#60;/b&#62;: &#60;b&#62;Venus&#60;/b&#62; has an &#60;b&#62;albedo of 0.72&#60;/b&#62; that's to say 72%.</EN>
+		<FR>l'Albédo est le &#60;b&#62;taux de réflection&#60;/b&#62; des rayons de l'étoile par l'objet orbital.&#60;br&#62; Plus celui-ci a un &#60;b&#62;albédo élevé&#60;/b&#62;, plus il &#60;b&#62;reflètera les rayons &#60;/b&#62; de son étoile vers l'espace, et moins le sol aura à absorber de la chaleur.&#60;br&#62; La &#60;b&#62;nature du terrain&#60;/b&#62; influence directement l'albédo, par exemple &#60;b&#62;une grande zone glaciale réflèchira fortement les rayons&#60;/b&#62;.&#60;br&#62;&#60;br&#62;&#60;b&#62;&#60;hi&#62;Exemple&#60;/b&#62;: &#60;b&#62;Venus&#60;/b&#62; a un &#60;b&#62;albédo de 0.72&#60;/b&#62; ce qui veut dire 72%.</FR>
+	</univAlbedo>
+	<univAU>
+		<EN>An Astronomical Unit or &#60;b&#62;AU&#60;/b&#62; is equivalent to the &#60;b&#62;Earth-Sun&#60;/b&#62; distance which is equal to 149.6 millions of kilometers.&#60;br&#62;&#60;br&#62;&#60;b&#62;&#60;hi&#62;Example&#60;/b&#62;: the mean distance of &#60;b&#62;Saturn&#60;/b&#62; from &#60;b&#62;The Sun&#60;/b&#62; is 9.54 &#60;b&#62;AU&#60;/b&#62; or 1.429 billion of kilometers.</EN>
+		<FR>Une Unité Atronomique ou &#60;b&#62;UA&#60;/b&#62; est équivalente à la distance &#60;b&#62;Terre-Soleil&#60;/b&#62; laquelle est égale à 149.6 millions de kilomètres.&#60;br&#62;&#60;br&#62;&#60;b&#62;&#60;hi&#62;Exemple&#60;/b&#62;: la distance moyenne de &#60;b&#62;Saturne&#60;/b&#62; du &#60;b&#62;Soleil&#60;/b&#62; est 9.54 &#60;b&#62;UA&#60;/b&#62; ou 1.429 milliards de kilomètres.</FR>
+	</univAU>
+	<univDis>
+		<EN>Average orbit distance of an orbital object from it's star, or of a satellite from it's main orbital object.&#60;br&#62;This distance is expressed in &#60;b&#62;&#60;a href="univAU"&#62;AU (Astronomical Units)&#60;/a&#62;&#60;/b&#62; or in &#60;b&#62;Km (kilometers)&#60;/b&#62;.&#60;br&#62;&#60;br&#62;&#60;b&#62;&#60;hi&#62;Example&#60;/b&#62;: &#60;b&#62;Saturn&#60;/b&#62; is at 9.54&#60;b&#62;&#60;a href="univAU"&#62;AU&#60;/a&#62;&#60;/b&#62; from &#60;b&#62;The Sun&#60;/b&#62;.</EN>
+		<FR>Distance d'orbite moyenne d'un objet orbital de son étoile, ou d'un satellite de son objet orbital principal.&#60;br&#62;Cette distance est exprimée en &#60;b&#62;&#60;a href="univAU"&#62;UA (Unités Astronomiques)&#60;/a&#62;&#60;/b&#62; ou en &#60;b&#62;Km (kilomètres)&#60;/b&#62;.&#60;br&#62;&#60;br&#62;&#60;b&#62;&#60;hi&#62;Exemple&#60;/b&#62;: &#60;b&#62;Saturne&#60;/b&#62; est à 9.54&#60;b&#62;&#60;a href="univAU"&#62;AU&#60;/a&#62;&#60;/b&#62; du &#60;b&#62;Soleil&#60;/b&#62;.</FR>
+	</univDis>
+	<univEccOO>
+		<EN>The orbit &#60;b&#62;eccentricity&#60;/b&#62;, of and orbital object, indicate shape of this one.&#60;br&#62; Higher this value is, more the orbit will be &#60;b&#62;oval&#60;/b&#62;, which can cause significant changes of surface seasonal temperature.&#60;br&#62;&#60;br&#62;&#60;b&#62;&#60;hi&#62;Example&#60;/b&#62;: &#60;b&#62;Pluto&#60;/b&#62; has an &#60;b&#62;eccentricity&#60;/b&#62; of 0.2482.</EN>
+		<FR>l'&#60;b&#62;Eccentricité&#60;/b&#62; d'orbite, d'un objet orbital, indique la forme de celle-ci.&#60;br&#62; Plus cette valeur est élevée, plus l'orbite sera &#60;b&#62;ovale&#60;/b&#62;, ce qui peut causer des changements significatifs de temperature saisonière de surface.&#60;br&#62;&#60;br&#62;&#60;b&#62;&#60;hi&#62;Exemple&#60;/b&#62;: &#60;b&#62;Pluton&#60;/b&#62; a une &#60;b&#62;eccentricité&#60;/b&#62; de 0.2482.</FR>
+	</univEccOO>
+	<univStarTemp>
+		<EN>In astrophysics, the star surface temperature is in &#60;b&#62;Kelvin degrees&#60;/b&#62;.&#60;br&#62;The zero Kelvin degree is the absolute zero which in centigrade degrees is &#60;b&#62;-273.15°C&#60;/b&#62;.&#60;br&#62;&#60;br&#62;&#60;b&#62;&#60;hi&#62;Example&#60;/b&#62;: the temperature of the &#60;b&#62;The Sun&#60;/b&#62; is &#60;b&#62;5570K&#60;/b&#62;.</EN>
+		<FR>En atrophysique, la température de surface de l'étoile est en &#60;b&#62;degrés Kelvin&#60;/b&#62;.&#60;br&#62;Le zéro degré Kelvin le zéro absolu lequel est en degrés centigrade &#60;b&#62;-273.15°C&#60;/b&#62;.&#60;br&#62;&#60;br&#62;&#60;b&#62;&#60;hi&#62;Exemple&#60;/b&#62;: la température du &#60;b&#62;Soleil&#60;/b&#62; est &#60;b&#62;5570K&#60;/b&#62;.</FR>
+	</univStarTemp>
+	<!-- ********** TOPICS/DEFINITIONS ********** -->
+	<!-- put them in order there's no sorting -->
+	<hintlistEN>
+      <hintitem link="cwpRoot" title="Construction: Construction Workforce Points (CWP)"/>
+      <hintitem link="cpsRoot" title="CPS: Colonization Phase System"/>
+      <hintitem link="cpsCVS" title="CPS: Colonization Viability Score (CVS)"/>
+      <hintitem link="cpsStatus" title="CPS: Player's Faction Status"/>
+      <hintitem link="cpsStatusEco" title="CPS: Economic Status"/>
+      <hintitem link="cpsStatusMil" title="CPS: Military Status"/>
+      <hintitem link="cpsStatusSoc" title="CPS: Social Status"/>
+      <hintitem link="csmRoot" title="CSM: Colony Simulation Model"/>
+      <hintitem link="csmData" title="CSM: Data Management"/>
+      <hintitem link="csmevColEst" title="CSM Event: Colony Established"/>
+      <hintitem link="csmevHealthEduRel" title="CSM Event: Health-Education Relation"/>
+      <hintitem link="csmevSocDis" title="CSM Event: Social Disorder"/>
+      <hintitem link="csmevUnrest" title="CSM Event: Unrest"/>
+      <hintitem link="csmevUprising" title="CSM Event: Uprising"/>
+      <hintitem link="infrColShelt" title="Infrastructure: Colonization Shelter"/>
+      <hintitem link="infrHousesPack" title="Infrastructure: Houses Pack"/>
+      <hintitem link="infrInflatGreen" title="Infrastructure: Inflatable Greenhouse"/>
+      <hintitem link="infrNucFissReactor" title="Infrastructure: Nuclear Fission Reactor"/>
+      <hintitem link="spmRoot" title="SPM: Socio-Political Matrix"/>
+      <hintitem link="spmPolicies" title="SPM: Policies"/>
+      <hintitem link="spmMemes" title="SPM: Memes"/>
+      <hintitem link="SPMiBL" title="SPM: Meme, Belief Level (BL)"/>
+      <hintitem link="SPMiSV" title="SPM: Meme, Spread Value (SV)"/>
+      <hintitem link="SPMi_Amortalism" title="Meme: Amortalism"/>
+      <hintitem link="SPMi_BioroidsAdopt" title="Meme: Bioroids Adoption"/>
+      <hintitem link="SPMi_Colonialism" title="Meme: Colonialism"/>
+      <hintitem link="SPMi_CosmosPreserv" title="Meme: Cosmos Preservation"/>
+      <hintitem link="SPMi_Cryptosurv" title="Meme: Cryptosurvivalism"/>
+      <hintitem link="SPMi_CultOfAtheism" title="Meme: Cult of Atheism"/>
+      <hintitem link="SPMi_Cybergnosticism" title="Meme: Cybergnosticism"/>
+      <hintitem link="SPMi_Decel" title="Meme: Decelerationism"/>
+      <hintitem link="SPMi_Environmental" title="Meme: Environmentalism"/>
+      <hintitem link="SPMi_HomoSoc" title="Meme: Homo-Society"/>
+      <hintitem link="SPMi_HumRetire" title="Meme: Human Retirement"/>
+      <hintitem link="SPMi_Immortalism" title="Meme: Immortalism"/>
+      <hintitem link="SPMi_Infotranscend" title="Meme: Infotranscendence"/>
+      <hintitem link="SPMi_RiggElec" title="Meme: Rigged Elections"/>
+      <hintitem link="SPMi_Pacifism" title="Meme: Pacifism"/>
+      <hintitem link="SPMi_TheFreeUnion" title="Meme: The Freedom Union"/>
+      <hintitem link="SPMi_Xenophobia" title="Meme: Xenophobia"/>
+      <hintitem link="SPMi_Abolition" title="Policy: Abolitionism"/>
+      <hintitem link="SPMi_AIchitect" title="Policy: AIchitect"/>
+      <hintitem link="SPMi_AntiHumSpacef" title="Policy: Anti-Human-Spaceflight"/>
+      <hintitem link="SPMi_BirthsCtl" title="Policy: Births Control"/>
+      <hintitem link="SPMi_CentrAuth" title="Policy: Centralized Authority"/>
+      <hintitem link="SPMi_CorpOrg" title="Policy: Corporate Organization"/>
+      <hintitem link="SPMi_Cyberdemo" title="Policy: Cyberdemocracy"/>
+      <hintitem link="SPMi_ElecGov" title="Policy: Elected Government"/>
+      <hintitem link="SPMi_Eugenics" title="Policy: Eugenism"/>
+      <hintitem link="SPMi_FreeMark" title="Policy: Free Market"/>
+      <hintitem link="SPMi_GreenEco" title="Policy: Green Economy"/>
+      <hintitem link="SPMi_MilSoc" title="Policy: Militarized Society"/>
+      <hintitem link="SPMi_NatTranpSpFleet" title="Policy: National Transport Space Fleet"/>
+      <hintitem link="SPMi_OneWorldCom" title="Policy: One-World Community"/>
+      <hintitem link="SPMi_ParticipEcon" title="Policy: Participatory Economy"/>
+      <hintitem link="SPMi_PlanEcon" title="Policy: Planned Economy"/>
+      <hintitem link="SPMi_ProacCitiz" title="Policy: Proactive Citizenship"/>
+      <hintitem link="SPMi_ProfTechno" title="Policy: Profitable Technocracy"/>
+      <hintitem link="SPMi_ReligiousFree" title="Policy: Religious Freedom"/>
+      <hintitem link="SPMi_Slavery" title="Policy: Slavery"/>
+      <hintitem link="SPMi_SocSystem" title="Policy: Social System"/>
+      <hintitem link="SPMi_SpDebMClean" title="Policy: Space Cleanup and Servicing"/>
+      <hintitem link="SPMi_StatePol" title="Policy: State Police"/>
+      <hintitem link="SPMi_StateRel" title="Policy: State Religion"/>
+      <hintitem link="SPMi_ZeroTol" title="Policy: Zero Tolerance"/>
+      <hintitem link="Products_Root" title="Products"/>
+      <hintitem link="equipAdvTools" title="Product: Advanced Tools"/>
+      <hintitem link="matAluminium" title="Product: Aluminium"/>
+      <hintitem link="resNH3" title="Product: Ammonia"/>
+      <hintitem link="matCarbComposites" title="Product: Carbon Composites"/>
+      <hintitem link="matConcrete" title="Product: Concrete"/>
+      <hintitem link="equipConstrExo" title="Product: Construction Exowalkers"/>
+      <hintitem link="equipHandTools" title="Product: Hand Tools"/>
+      <hintitem link="energNucFisRsm" title="Product: Nuclear Fission Reactor (small)"/>
+      <hintitem link="energNucFisRmed" title="Product: Nuclear Fission Reactor (medium)"/>
+      <hintitem link="energNucFisRlg" title="Product: Nuclear Fission Reactor (large)"/>
+      <hintitem link="energNucFisRxl" title="Product: Nuclear Fission Reactor (xlarge)"/>
+      <hintitem link="equipPowerTools" title="Product: Power Tools"/>
+      <hintitem link="univAlbedo" title="Universe: Albedo"/>
+      <hintitem link="univAU" title="Universe: Astronomical Unit (AU)"/>
+      <hintitem link="univDis" title="Universe: Distance"/>
+      <hintitem link="univEccOO" title="Universe: Eccentricity (Orbital Object)"/>
+      <hintitem link="univStarTemp" title="Universe: Star Temperature"/>
+   </hintlistEN>
+   <hintlistFR>
+      <hintitem link="cwpRoot" title="Construction: Points de Force de Construction (CWP)"/>
+      <hintitem link="cpsRoot" title="CPS: Système de la Phase de Colonisation"/>
+      <hintitem link="cpsCVS" title="CPS: Score de Viabilité de Colonisation (CVS)"/>
+      <hintitem link="cpsStatus" title="CPS: Status de la Faction du Joueur"/>
+      <hintitem link="cpsStatusEco" title="CPS: Status Economique"/>
+      <hintitem link="cpsStatusMil" title="CPS: Status Militaire"/>
+      <hintitem link="cpsStatusSoc" title="CPS: Status Social"/>
+      <hintitem link="csmRoot" title="CSM: Modèle de Simulation de Colonie"/>
+      <hintitem link="csmData" title="CSM: Gestion des Données"/>
+      <hintitem link="csmevColEst" title="Evènement CSM: Colonie Etablie"/>
+      <hintitem link="csmevSocDis" title="Evènement CSM: Désordre Social"/>
+      <hintitem link="csmevHealthEduRel" title="Evènement CSM: Relation Santé-Education"/>
+      <hintitem link="csmevUprising" title="Evènement CSM: Révolte"/>
+      <hintitem link="csmevUnrest" title="Evènement CSM: Troubles"/>
+      <hintitem link="infrColShelt" title="Infrastructure: Abris de Colonisation"/>
+      <hintitem link="infrHousesPack" title="Infrastructure: Pack de Maisons"/>
+      <hintitem link="infrNucFissReactor" title="Infrastructure: Réacteur à Fission Nucléaire"/>
+      <hintitem link="infrInflatGreen" title="Infrastructure: Serre Gonflable"/>
+      <hintitem link="spmRoot" title="SPM: Matrice Socio-Politique"/>
+      <hintitem link="spmPolicies" title="SPM: Politiques"/>
+      <hintitem link="spmMemes" title="SPM: Memes"/>
+      <hintitem link="SPMiBL" title="SPM: Meme, Niveau de Croyance (BL)"/>
+      <hintitem link="SPMiSV" title="SPM: Meme, Valeur de Propagation (SV)"/>
+      <hintitem link="SPMi_BioroidsAdopt" title="Meme: Adoption de Bioroïdes"/>
+      <hintitem link="SPMi_Amortalism" title="Meme: Amortalisme"/>
+      <hintitem link="SPMi_Colonialism" title="Meme: Colonialisme"/>
+      <hintitem link="SPMi_Cryptosurv" title="Meme: Cryptosurvivalisme"/>
+      <hintitem link="SPMi_CultOfAtheism" title="Meme: Culte de l'Athéisme"/>
+      <hintitem link="SPMi_Cybergnosticism" title="Meme: Cybergnosticisme"/>
+      <hintitem link="SPMi_Decel" title="Meme: Decelerationisme"/>
+      <hintitem link="SPMi_RiggElec" title="Meme: Elections Truquées"/>
+      <hintitem link="SPMi_Environmental" title="Meme: Environnementalisme"/>
+      <hintitem link="SPMi_HomoSoc" title="Meme: Homo-Société"/>
+      <hintitem link="SPMi_Immortalism" title="Meme: Immortalisme"/>
+      <hintitem link="SPMi_Infotranscend" title="Meme: Infotranscendance"/>
+      <hintitem link="SPMi_TheFreeUnion" title="Meme: l'Union de la Liberté"/>
+      <hintitem link="SPMi_CosmosPreserv" title="Meme: Préservation du Cosmos"/>
+      <hintitem link="SPMi_Pacifism" title="Meme: Pacifisme"/>
+      <hintitem link="SPMi_HumRetire" title="Meme: Retrait Humain"/>
+      <hintitem link="SPMi_Xenophobia" title="Meme: Xenophobie"/>
+      <hintitem link="SPMi_Abolition" title="Politique: Abolitionisme"/>
+      <hintitem link="SPMi_CentrAuth" title="Politique: Autorité Centralisée"/>
+      <hintitem link="SPMi_ProacCitiz" title="Politique: Citoyenneté Proactive"/>
+      <hintitem link="SPMi_OneWorldCom" title="Politique: Communeauté à Monde Unique"/>
+      <hintitem link="SPMi_BirthsCtl" title="Politique: Contrôle des Naissances"/>
+      <hintitem link="SPMi_Cyberdemo" title="Politique: Cyberdémocratie"/>
+      <hintitem link="SPMi_ParticipEcon" title="Politique: Economie Participative"/>
+      <hintitem link="SPMi_GreenEco" title="Politique: Economie Verte"/>
+      <hintitem link="SPMi_PlanEcon" title="Politique: Economie Planifiée"/>
+      <hintitem link="SPMi_Slavery" title="Politique: Esclavage"/>
+      <hintitem link="SPMi_Eugenics" title="Politique: Eugénisme"/>
+      <hintitem link="SPMi_NatTranpSpFleet" title="Politique: Flotte Nationale de Transport Spatial"/>
+      <hintitem link="SPMi_ElecGov" title="Politique: Gouvernement Elu"/>
+      <hintitem link="SPMi_AIchitect" title="Politique: IAchitecte"/>
+      <hintitem link="SPMi_ReligiousFree" title="Politique: Liberté Religieuse"/>
+      <hintitem link="SPMi_FreeMark" title="Politique: Marché Libre"/>
+      <hintitem link="SPMi_SpDebMClean" title="Politique: Nettoyage et Entretient Spatial"/>
+      <hintitem link="SPMi_CorpOrg" title="Politique: Organisation Corporative"/>
+      <hintitem link="SPMi_StatePol" title="Politique: Police d'Etat"/>
+      <hintitem link="SPMi_StateRel" title="Politique: Religion d'Etat"/>
+      <hintitem link="SPMi_MilSoc" title="Politique: Société Militarisée"/>
+      <hintitem link="SPMi_SocSystem" title="Politique: Système Social"/>
+      <hintitem link="SPMi_ProfTechno" title="Politique: (Technocracie Profitable)"/>
+      <hintitem link="SPMi_ZeroTol" title="Politique: Tolérance Zéro"/>
+      <hintitem link="SPMi_AntiHumSpacef" title="Politique: Vol Spatial Anti-Humain"/>
+      <hintitem link="Products_Root" title="Produits"/>
+		<hintitem link="matAluminium" title="Produit: Aluminium"/>
+      <hintitem link="resNH3" title="Produit: Ammoniac"/>
+      <hintitem link="matConcrete" title="Produit: Béton"/>
+      <hintitem link="matCarbComposites" title="Produit: Composites de Carbone"/>
+      <hintitem link="equipConstrExo" title="Product: Exowalkers de Construction"/>
+      <hintitem link="equipAdvTools" title="Produit: Outils Avancés"/>
+      <hintitem link="equipPowerTools" title="Produit: Outils Electriques"/>
+      <hintitem link="equipHandTools" title="Produit: Outils Manuels"/>
+      <hintitem link="energNucFisRsm" title="Produit: Réacteur à Fission Nucléaire (petit)"/>
+      <hintitem link="energNucFisRmed" title="Produit: Réacteur à Fission Nucléaire (moyen)"/>
+      <hintitem link="energNucFisRlg" title="Produit: Réacteur à Fission Nucléaire (large)"/>
+      <hintitem link="energNucFisRxl" title="Produit: Réacteur à Fission Nucléaire (xlarge)"/>
+      <hintitem link="univAlbedo" title="Univers: Albédo"/>
+      <hintitem link="univDis" title="Univers: Distance"/>
+      <hintitem link="univEccOO" title="Univers: Eccentricité (Objet Orbital)"/>
+      <hintitem link="univStarTemp" title="Univers: Température d'Étoile"/>
+      <hintitem link="univAU" title="Univers: Unité Astronomique (UA)"/>
+   </hintlistFR>
+</encytext>

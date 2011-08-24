@@ -1,0 +1,1925 @@
+{======(C) Copyright Aug.2009-2011 Jean-Francois Baconnet All rights reserved==============
+
+        Title:  FAR Colony
+        Author: Jean-Francois Baconnet
+        Project Started: August 16 2009
+        Platform: Delphi
+        License: GPLv3
+        Website: http://farcolony.sourceforge.net/
+
+        Unit: SocioPolitical Matrix (SPM) - core unit
+
+============================================================================================
+********************************************************************************************
+Copyright (c) 2009-2011, Jean-Francois Baconnet
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*******************************************************************************************}
+unit farc_game_spm;
+
+interface
+
+uses
+   SysUtils
+
+   ,farc_data_game;
+
+type TFCEgspmData=(
+   gspmAccProbability
+   ,gspmInfl
+   ,gspmMargMod
+   );
+
+type TFCEgspmPolRslt=(
+   gspmResMassRjct
+   ,gspmResReject
+   ,gspmResFifFifty
+   ,gspmResAccept
+   );
+
+///<summary>
+///   return the private calculated enforcement data
+///</summary>
+///   <param name="CDGdata">type of data to retrieve</param>
+function FCFgSPM_EnforcData_Get(const CDGdata: TFCEgspmData): double;
+
+///<summary>
+///   return the state of the unique data of the current policy to enforce
+///</summary>
+function FCFgSPM_EnforcPol_GetUnique: boolean;
+
+///<summary>
+///   return the SPM area of the current policy to enforce
+///</summary>
+function FCFgSPM_EnforcPol_GetArea: TFCEdgSPMarea;
+
+///<summary>
+///   get the system token following the system chosen
+///</summary>
+///   <param name="GSGent">entity #</param>
+///   <param name="GSGarea">area amongs: ADMIN, ECON, MEDCA and SPI</param>
+function FCFgSPM_GvtSystems_Get(
+   const GSGent: integer;
+   const GSGarea: TFCEdgSPMarea
+   ): string;
+
+///<summary>
+///   get the system index # following the system chosen
+///</summary>
+///   <param name="GSGent">entity #</param>
+///   <param name="GSGarea">area amongs: ADMIN, ECON, MEDCA and SPI</param>
+function FCFgSPM_GvtSystems_GetIdx(
+   const GSGent: integer;
+   const GSGarea: TFCEdgSPMarea
+   ): integer;
+
+///<summary>
+///   retrieve the <token> SPMi data
+///</summary>
+///   <param name="SPMIGtoken">SPMi token</param>
+///   <param name="SPMIGloadIndex">load the index in GSPMitmIdx</param>
+function FCFgSPM_SPMI_Get(
+   const SPMIGtoken: string;
+   const SPMIGloadIndex: boolean=false
+   ): TFCRdgSPMi;
+
+///<summary>
+///   calculate the influence factor for a policy to set or a meme evolution regarding how is set the SPM of a given entity
+///</summary>
+///   <param name="SPMIIGspmi">policy/meme to set/evolve</param>
+///   <param name="SPMIIGent">entity index #</param>
+function FCFgSPM_SPMiInfluence_Get(
+   const SPMIIGspmi: TFCRdgSPMi;
+   const SPMIIGent: integer
+   ): integer;
+
+///<summary>
+///   retrieve the FS modifier, regarding the entity, for policy processing and return the modifier
+///</summary>
+///   <param name="PGFSMent">entity #</param>
+function FCFgSPM_Policy_GetFSMod(const PGFSMent: integer): integer;
+
+///<summary>
+///   preprocess a policy setup, return false if the faction doesn't meet the policy's requirements
+///</summary>
+///   <param name="PPent">entity index #</param>
+///   <param name="PPpolicy">policy token string</param>
+function FCFgSPM_PolicyEnf_Preproc(
+   const PPent: integer;
+   const PPpolicy: string
+   ): boolean;
+
+///<summary>
+///   preprocess a policy setup, return false if the faction doesn't meet the policy's requirements.
+///   doesn't update the UI and don't update the private SPM variables, it's only for requirement purposes
+///</summary>
+///   <param name="PPent">entity index #</param>
+///   <param name="PPpolicy">policy token string</param>
+function FCFgSPM_PolicyEnf_PreprocNoUI(
+   const PPent: integer;
+   const PPpolicy: string
+   ): boolean;
+
+///<summary>
+///   process the policy enforcement test and retrieve the result.
+///</summary>
+///   <param name="PPDTsimulVal">[optional] if >0 : launch a test simulation w/ the PPDTsimulVal</param>
+function FCFgSPM_PolicyProc_DoTest(PPDTsimulVal: integer): TFCEgspmPolRslt;
+
+//===========================END FUNCTIONS SECTION==========================================
+
+///<summary>
+///   SPM phase processing
+///</summary>
+procedure FCMgSPM_Phase_Proc;
+
+///<summary>
+///   end enforcement process: confirm policy
+///</summary>
+procedure FCMgSPM_PolicyEnf_Confirm;
+
+///<summary>
+///   process the enforcement of a policy
+///</summary>
+///   <param name="PEPent">entity index #</param>
+procedure FCMgSPM_PolicyEnf_Process(const PEPent: integer);
+
+///<summary>
+///   end enforcement process: retire policy
+///</summary>
+procedure FCMgSPM_PolicyEnf_Retire;
+
+///<summary>
+///   retire a chosen SPMi, and update the centralized modifiers and/or entity's data
+///</summary>
+///   <param name="SPMIRent">entity #</param>
+///   <param name="SPMIRspmi">SPMi #</param>
+procedure FCMgSPM_SPMI_Retire(
+   const SPMIRent
+         ,SPMIRidx: integer
+   );
+
+///<summary>
+///   set a chosen SPMi, and update the centralized modifiers and/or entity's data
+///</summary>
+///   <param name="SPMISent">entity #</param>
+///   <param name="SPMISspmi">SPMi #</param>
+///   <param name="SPMIScsmUpd">true= update dependent CSM data too</param>
+procedure FCMgSPM_SPMI_Set(
+   const SPMISent
+         , SPMISspmi: integer;
+   const SPMIScsmUpd: boolean
+   );
+
+implementation
+
+uses
+   farc_common_func
+   ,farc_data_init
+   ,farc_data_infrprod
+   ,farc_data_textfiles
+   ,farc_game_colony
+   ,farc_game_csm
+   ,farc_game_csmevents
+   ,farc_game_spmdata
+   ,farc_game_spmmemes
+   ,farc_main
+   ,farc_ui_msges
+   ,farc_ui_umi
+   ,farc_win_debug;
+
+var
+   {.calculated acceptance probability}
+   GSPMap
+   ,GSPMcohPen
+   ,GSPMcohPenRej
+   ,GSPMduration
+   ,GSPMfap_x
+   ,GSPMfsMod
+   ,GSPMinfluence
+   ,GSPMitmIdx
+   ,GSPMmarginMod
+   ,GSPMmodMax: integer;
+
+   GSPMspmi: TFCRdgSPMi;
+
+   GSPMrslt: TFCEgspmPolRslt;
+
+//===================================================END OF INIT============================
+
+function FCFgSPM_EnforcData_Get(const CDGdata: TFCEgspmData): double;
+{:Purpose: return the private calculated enforcement data.
+    Additions:
+      -2010Dec07- *add: influence.
+}
+begin
+   Result:=0;
+   case CDGdata of
+      gspmAccProbability: Result:=GSPMap;
+      gspmInfl: Result:=GSPMinfluence;
+      gspmMargMod: Result:=GSPMmarginMod;
+   end;
+end;
+
+function FCFgSPM_EnforcPol_GetUnique: boolean;
+{:Purpose: return the state of the unique data of the current policy to enforce.
+    Additions:
+}
+begin
+   Result:=GSPMspmi.SPMI_isUnique2set;
+end;
+
+function FCFgSPM_EnforcPol_GetArea: TFCEdgSPMarea; overload;
+{:Purpose: return the SPM area of the current policy to enforce.
+    Additions:
+}
+begin
+   Result:=GSPMspmi.SPMI_area;
+end;
+
+function FCFgSPM_GvtSystems_Get(
+   const GSGent: integer;
+   const GSGarea: TFCEdgSPMarea
+   ): string;
+{:Purpose: get the system token following the system chosen.
+    Additions:
+      -2010Dec21- *mod/add: refactoring + parameter is now one of the four SPM area.
+                  *add: ECON/MEDCA/SPI area.
+}
+var
+   GGspmiCnt
+   ,GGspmiMax: integer;
+
+   GGspmi: TFCRdgSPMi;
+begin
+   Result:='';
+   GGspmiMax:=length(FCentities[GSGent].E_spm)-1;
+   if GGspmiMax>0
+   then
+   begin
+      GGspmiCnt:=1;
+      while GGspmiCnt<=GGspmiMax do
+      begin
+         GGspmi:=FCFgSPM_SPMI_Get(FCentities[GSGent].E_spm[GGspmiCnt].SPMS_token);
+         if (GGspmi.SPMI_area=GSGarea)
+            and (GGspmi.SPMI_isUnique2set)
+            and (FCentities[GSGent].E_spm[GGspmiCnt].SPMS_isSet)
+         then
+         begin
+            Result:=FCentities[GSGent].E_spm[GGspmiCnt].SPMS_token;
+            break;
+         end
+         else if GGspmi.SPMI_area>GSGarea
+         then break;
+         inc(GGspmiCnt);
+      end;
+   end;
+end;
+
+function FCFgSPM_GvtSystems_GetIdx(
+   const GSGent: integer;
+   const GSGarea: TFCEdgSPMarea
+   ): integer;
+{:Purpose: get the system index # following the system chosen.
+    Additions:
+}
+var
+   GGspmiCnt
+   ,GGspmiMax: integer;
+
+   GGspmi: TFCRdgSPMi;
+begin
+   Result:=0;
+   GGspmiMax:=length(FCentities[GSGent].E_spm)-1;
+   if GGspmiMax>0
+   then
+   begin
+      GGspmiCnt:=1;
+      while GGspmiCnt<=GGspmiMax do
+      begin
+         GGspmi:=FCFgSPM_SPMI_Get(FCentities[GSGent].E_spm[GGspmiCnt].SPMS_token);
+         if (GGspmi.SPMI_area=GSGarea)
+            and (GGspmi.SPMI_isUnique2set)
+            and (FCentities[GSGent].E_spm[GGspmiCnt].SPMS_isSet)
+         then
+         begin
+            Result:=GGspmiCnt;
+            break;
+         end
+         else if GGspmi.SPMI_area>GSGarea
+         then break;
+         inc(GGspmiCnt);
+      end;
+   end;
+end;
+
+function FCFgSPM_SPMI_Get(
+   const SPMIGtoken: string;
+   const SPMIGloadIndex: boolean=false
+   ): TFCRdgSPMi;
+{:Purpose: retrieve the <token> SPMi data.
+    Additions:
+}
+var
+   SPMIGcnt
+   ,SPMIGmax: integer;
+begin
+   Result:=FCDBdgSPMi[0];
+   SPMIGmax:=length(FCDBdgSPMi)-1;
+   SPMIGcnt:=1;
+   while SPMIGcnt<=SPMIGmax do
+   begin
+      if FCDBdgSPMi[SPMIGcnt].SPMI_token=SPMIGtoken
+      then
+      begin
+         Result:=FCDBdgSPMi[SPMIGcnt];
+         break;
+      end;
+      inc(SPMIGcnt);
+   end;
+   if SPMIGloadIndex
+   then GSPMitmIdx:=SPMIGcnt;
+end;
+
+function FCFgSPM_SPMiInfluence_Get(
+   const SPMIIGspmi: TFCRdgSPMi;
+   const SPMIIGent: integer
+   ): integer;
+{:Purpose: calculate the influence factor for a policy to set or a meme evolution regarding how is set the SPM of a given entity.
+    Additions:
+      -2010Dec05- *add: memes progressive influence.
+}
+var
+   SPMIIGcnt
+   ,SPMIIGmax
+   ,SPMIIGres: integer;
+
+   SPMIIGsv: GSPMMret;
+begin
+   SPMIIGcnt:=1;
+   SPMIIGmax:=length(FCentities[SPMIIGent].E_spm)-1;
+   SPMIIGres:=0;
+   SPMIIGsv[1]:=SPMIIGsv[0];
+   SPMIIGsv[2]:=SPMIIGsv[0];
+   Result:=0;
+   while SPMIIGcnt<=SPMIIGmax do
+   begin
+      if (FCentities[SPMIIGent].E_spm[SPMIIGcnt].SPMS_isPolicy)
+         and (FCentities[SPMIIGent].E_spm[SPMIIGcnt].SPMS_isSet)
+      then SPMIIGres:=SPMIIGres+SPMIIGspmi.SPMI_infl[SPMIIGcnt].SPMII_influence
+      else if (not FCentities[SPMIIGent].E_spm[SPMIIGcnt].SPMS_isPolicy)
+         and (FCentities[SPMIIGent].E_spm[SPMIIGcnt].SPMS_bLvl>dgUnknown)
+      then
+      begin
+         SPMIIGsv:=FCFgSPMM_SVRange_Get(FCentities[SPMIIGent].E_spm[SPMIIGcnt].SPMS_bLvl);
+         SPMIIGres:=SPMIIGres+round( SPMIIGspmi.SPMI_infl[SPMIIGcnt].SPMII_influence* (SPMIIGsv[2]*0.01) );
+      end;
+      inc(SPMIIGcnt);
+   end;
+   Result:=SPMIIGres;
+end;
+
+function FCFgSPM_Policy_GetFSMod(const PGFSMent: integer): integer;
+{:Purpose: retrieve the FS modifier, regarding the entity, for policy processing and return the modifier.
+    Additions:
+}
+var
+   PGFSMfs: integer;
+begin
+   Result:=-100;
+   PGFSMfs:=FCFgSPMD_GlobalData_Get(gspmdStability, PGFSMent);
+   case PGFSMfs of
+      0..19: Result:=15;
+      20..34: Result:=11;
+      35..49: Result:=7;
+      50..64: Result:=0;
+      65..79: Result:=-7;
+      80..94: Result:=-11;
+      95..100: Result:=-13;
+   end;
+end;
+
+function FCFgSPM_PolicyEnf_Preproc(
+   const PPent: integer;
+   const PPpolicy: string
+   ): boolean;
+{:Purpose: preprocess a policy setup, return false if the faction doesn't meet the policy's requirements.
+    Additions:
+      -2010Dec29- *add: UC cost in case of UC requirement.
+      -2010Dec13- *add: store SPMi data in a private variable.
+      -2010Dec09- *add: infrastructure requirement results display, complete the requirements display.
+      -2010Dec08- *add: faction's data requirement results display.
+      -2010Dec07- *fix: UC margin calculation correction for compute the right penalty.
+                  *mod: implementation of a new and final AP calculation method (verified by simulation).
+                  *add: UC requirement results display (COMPLETE).
+      -2010Dec05- *mod: AP calculation (w/ base AP).
+                  *add: UC requirement results display (WIP).
+      -2010Nov15- *add: AP calculations completion.
+      -2010Nov14- *add: AP calculations - sum of requirement margins modifiers and sum of influence factors.
+      -2010Nov10- *fix: correction of margin calculations.
+                  *add: acceptance probability calculation (WIP).
+      -2010Nov09- *add: UC requirement calculations - population, population_yr, colonies, colonies_yr.
+      -2010Nov08- *add: UC requirement calculations - fixed and fixed_yr.
+      -2010Nov07- *add: faction data requirement calculations completion.
+      -2010Nov05- *add: faction data requirement calculations - faction stability completion.
+      -2010Nov04- *add: building requirement calculations completion.
+                  *add: faction data requirement calculations - faction level completion.
+      -2010Nov03- *add: requirements calculations, begin WIP.
+}
+{:DEV NOTES: WARNING: all updates in this procedure must be applied in FCFgSPM_PolicyEnf_PreprocNoUI.}
+var
+   PPbAP
+   ,PPbcMod
+   ,PPbREQ
+   ,PPcol
+   ,PPeSUM
+   ,PPfAP
+   ,PPinfra
+   ,PPmarginMin
+   ,PPreqCnt
+   ,PPreqMax
+   ,PPreqResult
+   ,PPreqSubVal
+   ,PPsubCnt
+   ,PPsubMax: integer;
+
+   PPcurOutput
+   ,PPreqOutput: string;
+
+   PPisReqPassed: boolean;
+
+begin
+   {.initialize the data}
+   GSPMfsMod:=0;
+   GSPMap:=0;
+   GSPMmarginMod:=0;
+   GSPMduration:=0;
+   GSPMcohPen:=0;
+   GSPMcohPenRej:=0;
+   GSPMfap_x:=0;
+   GSPMitmIdx:=0;
+   PPreqCnt:=0;
+   PPreqMax:=0;
+   PPeSUM:=0;
+   PPisReqPassed:=true;
+   GSPMspmi:=FCFgSPM_SPMI_Get(PPpolicy, true);
+   {.initialize the interface}
+   FCWinMain.FCWM_UMIFSh_RFdisp.HTMLText.Clear;
+   {.requirements calculations}
+   PPreqMax:=length(GSPMspmi.SPMI_req)-1;
+   if PPreqMax>0
+   then
+   begin
+      FCentities[PPent].E_spm[GSPMitmIdx].SPMS_ucCost:=0;
+      PPreqCnt:=1;
+      while PPreqCnt<=PPreqMax do
+      begin
+         if PPisReqPassed
+         then
+         begin
+            case GSPMspmi.SPMI_req[PPreqCnt].SPMIR_type of
+               dgBuilding:
+               begin
+                  PPcol:=0;
+                  PPinfra:=0;
+                  PPmarginMin:=0;
+                  PPreqResult:=0;
+                  PPsubCnt:=0;
+                  PPsubMax:=0;
+                  PPreqOutput:='';
+                  FCWinMain.FCWM_UMIFSh_RFdisp.HTMLText.Add( '<br>'+FCCFidxL+FCFdTFiles_UIStr_Get(uistrUI, 'Infrastructure') +'...' );
+                  {.PPsubMax and PPsubCnt below related to colonies}
+                  PPsubMax:=length(FCentities[PPent].E_col)-1;
+                  if PPsubMax>0
+                  then
+                  begin
+                     PPmarginMin:=round(GSPMspmi.SPMI_req[PPreqCnt].SPMIR_percCol*0.75);
+                     PPsubCnt:=1;
+                     while PPsubCnt<=PPsubMax do
+                     begin
+                        PPinfra:=FCFgC_ColInfra_DReq(gcSpecToken, PPent, PPsubCnt, GSPMspmi.SPMI_req[PPreqCnt].SPMIR_infToken);
+                        if PPinfra>0
+                        then inc(PPcol);
+                        inc(PPsubCnt);
+                     end;
+                     PPreqResult:=round((PPcol*100)/PPsubMax);
+                     if PPreqResult<PPmarginMin
+                     then PPisReqPassed:=false
+                     else if (PPreqResult>=PPmarginMin)
+                        and (PPreqResult<GSPMspmi.SPMI_req[PPreqCnt].SPMIR_percCol)
+                     then GSPMmarginMod:=GSPMmarginMod-round( (GSPMspmi.SPMI_req[PPreqCnt].SPMIR_percCol-PPreqResult)*0.8 );
+                  end
+                  else if PPsubMax=0
+                  then PPisReqPassed:=false;
+                  {.requirement text}
+                  PPreqOutput:='<br>'
+                     +FCCFidxL+'<b>'+FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolenfReq')+' '+FCFdTFiles_UIStr_Get(uistrUI, GSPMspmi.SPMI_req[PPreqCnt].SPMIR_infToken)+'</b><br>'
+                     +FCCFidxL+FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolenfReqInf1')+' <b>'+IntToStr(GSPMspmi.SPMI_req[PPreqCnt].SPMIR_percCol)+'</b> % '
+                     +FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolenfReqInf2')
+                     +'<br>'+FCCFidxL+FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolenfReqCurr')+' <b>'+IntToStr(PPreqResult)+'</b> %<br>--------';
+               end; //==END== case: dgBuilding ==//
+               dgFacData:
+               begin
+                     PPreqOutput:='<br>'+FCCFidxL+'<b>'+FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolenfReq')+' ';
+                     PPcurOutput:='<b>'+FCFdTFiles_UIStr_Get(uistrUI, 'faclvl'+IntToStr(FCentities[0].E_facLvl))+'</b>';
+                     FCWinMain.FCWM_UMIFSh_RFdisp.HTMLText.Add( '<br>'+FCCFidxL+FCFdTFiles_UIStr_Get(uistrUI, 'faclvl') +'...' );
+                  case GSPMspmi.SPMI_req[PPreqCnt].SPMIR_datTp of
+                     rfdFacLv1:
+                     begin
+                        if FCentities[PPent].E_facLvl=0
+                        then PPisReqPassed:=false;
+                        PPreqOutput:=PPreqOutput+' (1)-'+FCFdTFiles_UIStr_Get(uistrUI,'faclvl1')+' +</b>';
+                     end;
+                     rfdFacLv2:
+                     begin
+                        if FCentities[PPent].E_facLvl<=1
+                        then PPisReqPassed:=false;
+                        PPreqOutput:=PPreqOutput+' (2)-'+FCFdTFiles_UIStr_Get(uistrUI,'faclvl2')+' +</b>';
+                     end;
+                     rfdFacLv3:
+                     begin
+                        if FCentities[PPent].E_facLvl<=1
+                        then PPisReqPassed:=false
+                        else if FCentities[PPent].E_facLvl=2
+                        then GSPMmarginMod:=GSPMmarginMod-10;
+                        PPreqOutput:=PPreqOutput+' (3)-'+FCFdTFiles_UIStr_Get(uistrUI,'faclvl3')+' +</b>';
+                     end;
+                     rfdFacLv4:
+                     begin
+                        if FCentities[PPent].E_facLvl<=2
+                        then PPisReqPassed:=false
+                        else if FCentities[PPent].E_facLvl=3
+                        then GSPMmarginMod:=GSPMmarginMod-10;
+                        PPreqOutput:=PPreqOutput+' (4)-'+FCFdTFiles_UIStr_Get(uistrUI,'faclvl4')+' +</b>';
+                     end;
+                     rfdFacLv5:
+                     begin
+                        if FCentities[PPent].E_facLvl<=3
+                        then PPisReqPassed:=false
+                        else if FCentities[PPent].E_facLvl=4
+                        then GSPMmarginMod:=GSPMmarginMod-10;
+                        PPreqOutput:=PPreqOutput+' (5)-'+FCFdTFiles_UIStr_Get(uistrUI,'faclvl5')+' +</b>';
+                     end;
+                     rfdFacLv6:
+                     begin
+                        if FCentities[PPent].E_facLvl<=4
+                        then PPisReqPassed:=false
+                        else if FCentities[PPent].E_facLvl=5
+                        then GSPMmarginMod:=GSPMmarginMod-10;
+                        PPreqOutput:=PPreqOutput+' (6)-'+FCFdTFiles_UIStr_Get(uistrUI,'faclvl6')+' +</b>';
+                     end;
+                     rfdFacLv7:
+                     begin
+                        if FCentities[PPent].E_facLvl<=4
+                        then PPisReqPassed:=false
+                        else if FCentities[PPent].E_facLvl=5
+                        then GSPMmarginMod:=GSPMmarginMod-20
+                        else if FCentities[PPent].E_facLvl=6
+                        then GSPMmarginMod:=GSPMmarginMod-10;
+                        PPreqOutput:=PPreqOutput+' (7)-'+FCFdTFiles_UIStr_Get(uistrUI,'faclvl7')+' +</b>';
+                     end;
+                     rfdFacLv8:
+                     begin
+                        if FCentities[PPent].E_facLvl<=5
+                        then PPisReqPassed:=false
+                        else if FCentities[PPent].E_facLvl=6
+                        then GSPMmarginMod:=GSPMmarginMod-20
+                        else if FCentities[PPent].E_facLvl=7
+                        then GSPMmarginMod:=GSPMmarginMod-10;
+                        PPreqOutput:=PPreqOutput+' (8)-'+FCFdTFiles_UIStr_Get(uistrUI,'faclvl8')+' +</b>';
+                     end;
+                     rfdFacLv9:
+                     begin
+                        if FCentities[PPent].E_facLvl<=6
+                        then PPisReqPassed:=false
+                        else if FCentities[PPent].E_facLvl=7
+                        then GSPMmarginMod:=GSPMmarginMod-20
+                        else if FCentities[PPent].E_facLvl=8
+                        then GSPMmarginMod:=GSPMmarginMod-10;
+                        PPreqOutput:=PPreqOutput+' (9)-'+FCFdTFiles_UIStr_Get(uistrUI,'faclvl9')+' +</b>';
+                     end;
+                     rfdFacStab..rfdEquil:
+                     begin
+                        case GSPMspmi.SPMI_req[PPreqCnt].SPMIR_datTp of
+                           rfdFacStab:
+                           begin
+                              FCWinMain.FCWM_UMIFSh_RFdisp.HTMLText.Insert(
+                                 FCWinMain.FCWM_UMIFSh_RFdisp.HTMLText.Count-1
+                                 , '<br>'+FCCFidxL+FCFdTFiles_UIStr_Get(uistrUI, 'SPMdatEquil') +'...'
+                                 );
+                              PPreqResult:=FCFgSPMD_GlobalData_Get(gspmdStability, PPent);
+                              PPcurOutput:='<b>'+IntToStr(PPreqResult)+'</b> %';
+                           end;
+                           rfdInstrLv:
+                           begin
+                              FCWinMain.FCWM_UMIFSh_RFdisp.HTMLText.Insert(
+                                 FCWinMain.FCWM_UMIFSh_RFdisp.HTMLText.Count-1
+                                 , '<br>'+FCCFidxL+FCFdTFiles_UIStr_Get(uistrUI, 'SPMdatInstLvl') +'...'
+                                 );
+                              PPreqResult:=FCFgSPMD_GlobalData_Get(gspmdInstruction, PPent);
+                              PPcurOutput:='<b>'+IntToStr(PPreqResult)+'</b> %';
+                           end;
+                           rfdLifeQ:
+                           begin
+                              FCWinMain.FCWM_UMIFSh_RFdisp.HTMLText.Insert(
+                                 FCWinMain.FCWM_UMIFSh_RFdisp.HTMLText.Count-1
+                                 , '<br>'+FCCFidxL+FCFdTFiles_UIStr_Get(uistrUI, 'SPMdatLifeQ') +'...'
+                                 );
+                              PPreqResult:=FCFgSPMD_GlobalData_Get(gspmdLifeQual, PPent);
+                              PPcurOutput:='<b>'+IntToStr(PPreqResult)+'</b>';
+                           end;
+                           rfdEquil:
+                           begin
+                              FCWinMain.FCWM_UMIFSh_RFdisp.HTMLText.Insert(
+                                 FCWinMain.FCWM_UMIFSh_RFdisp.HTMLText.Count-1
+                                 , '<br>'+FCCFidxL+FCFdTFiles_UIStr_Get(uistrUI, 'SPMdatEquil') +'...'
+                                 );
+                              PPreqResult:=FCFgSPMD_GlobalData_Get(gspmdEquilibrium, PPent);
+                              PPcurOutput:='<b>'+IntToStr(PPreqResult)+'</b>';
+                           end;
+                        end;
+                        FCWinMain.FCWM_UMIFSh_RFdisp.HTMLText.Delete(FCWinMain.FCWM_UMIFSh_RFdisp.HTMLText.Count-1);
+                        PPmarginMin:=round(GSPMspmi.SPMI_req[PPreqCnt].SPMIR_datValue*0.75);
+                        if PPreqResult<PPmarginMin
+                        then PPisReqPassed:=false
+                        else if (PPreqResult>=PPmarginMin)
+                           and (PPreqResult<GSPMspmi.SPMI_req[PPreqCnt].SPMIR_datValue)
+                        then GSPMmarginMod:=GSPMmarginMod-round( (100- ( ( PPreqResult*100)/GSPMspmi.SPMI_req[PPreqCnt].SPMIR_datValue ) )*0.8 );
+                        PPreqOutput:=PPreqOutput+' '+IntToStr(GSPMspmi.SPMI_req[PPreqCnt].SPMIR_datValue)+'</b>';
+                     end; //==END== case: rfdFacStab..rfdEquil ==//
+                  end; //==END== case GSPMspmi.SPMI_req[PPreqCnt].SPMIR_datTp of ==//
+                  {.requirement text}
+                  PPreqOutput:=PPreqOutput
+                     +'<br>'
+                     +FCCFidxL+FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolenfReqCurr')
+                     +' '+PPcurOutput+'<br>--------';
+               end;
+               dgTechSci:
+               begin
+                  {:DEV NOTES: req to implement technosciences database + research status array for entities before to put the code for this case.}
+                  {.update the requirements list}
+               end;
+               dgUC:
+               begin
+                  {:DEV NOTES: PPreqSubVal= margin max.}
+                  PPreqOutput:='';
+                  FCWinMain.FCWM_UMIFSh_RFdisp.HTMLText.Add( '<br>'+FCCFidxL+FCFdTFiles_UIStr_Get(uistrUI, 'acronUCwDes') +'...' );
+                  PPreqResult:=trunc(FCentities[PPent].E_uc);
+                  if PPreqResult>0
+                  then
+                  begin
+                     case GSPMspmi.SPMI_req[PPreqCnt].SPMIR_ucMethod of
+                        dgFixed, dgFixed_yr:
+                        begin
+                           if GSPMspmi.SPMI_req[PPreqCnt].SPMIR_ucMethod=dgFixed_yr
+                           then PPsubCnt:=12
+                           else PPsubCnt:=1;
+                           PPreqSubVal:=round( GSPMspmi.SPMI_req[PPreqCnt].SPMIR_ucVal*PPsubCnt );
+                        end;
+                        dgCalcPop, dgCalcPop_yr:
+                        begin
+                           if GSPMspmi.SPMI_req[PPreqCnt].SPMIR_ucMethod=dgCalcPop_yr
+                           then PPsubCnt:=12
+                           else PPsubCnt:=1;
+                           PPreqSubVal:=round( GSPMspmi.SPMI_req[PPreqCnt].SPMIR_ucVal*FCFgSPMD_GlobalData_Get(gmspmdPopulation, PPent)*PPsubCnt );
+                        end;
+                        dgCalcCol, dgCalcCol_yr:
+                        begin
+                           if GSPMspmi.SPMI_req[PPreqCnt].SPMIR_ucMethod=dgCalcCol_yr
+                           then PPsubCnt:=12
+                           else PPsubCnt:=1;
+                           PPreqSubVal:=round( GSPMspmi.SPMI_req[PPreqCnt].SPMIR_ucVal*( length(FCentities[PPent].E_col)-1 )*PPsubCnt );
+                        end;
+                     end; //==END== case GSPMspmi.SPMI_req[PPreqCnt].SPMIR_ucMethod of ==//
+                     FCentities[PPent].E_spm[GSPMitmIdx].SPMS_ucCost:=PPreqSubVal;
+                     PPmarginMin:=round(PPreqSubVal*0.75);
+                     if PPreqResult<PPmarginMin
+                     then PPisReqPassed:=false
+                     else if (PPreqResult>=PPmarginMin)
+                        and (PPreqResult<PPreqSubVal)
+                     then GSPMmarginMod:=GSPMmarginMod-round( ( 100- ( (PPreqResult*100)/PPreqSubVal ) )*0.8 );
+                  end
+                  else if PPreqResult=0
+                  then PPisReqPassed:=false;
+                  {.requirement text}
+                  PPreqOutput:='<br>'
+                     +FCCFidxL+'<b>'+FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolenfReq')+' '
+                     +IntToStr(PPreqSubVal)+'</b>'
+                     +' '+FCFdTFiles_UIStr_Get(uistrUI, 'acronUC')
+                     +' '+FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolenfReqUC1')
+                     +' '+IntToStr(PPsubCnt)
+                     +' '+FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolenfReqUC2')
+                     +'<br>'
+                     +FCCFidxL+FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolenfReqCurr')
+                     +' <b>'+IntToStr(PPreqResult)+'</b> '+FCFdTFiles_UIStr_Get(uistrUI, 'acronUC')+'<br>--------';
+               end; //==END== case: dgUC ==//
+            end; //==END== case GSPMspmi.SPMI_req[PPreqCnt].SPMIR_type of ==//
+            if PPisReqPassed
+            then FCWinMain.FCWM_UMIFSh_RFdisp.HTMLText.Add( FCCFcolGreen+'<b>'+FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolenfReqPass')+'</b>'+FCCFcolEND )
+            else if not PPisReqPassed
+            then FCWinMain.FCWM_UMIFSh_RFdisp.HTMLText.Add( FCCFcolRed+'<b>'+FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolenfReqFail')+'</b>'+FCCFcolEND );
+            FCWinMain.FCWM_UMIFSh_RFdisp.HTMLText.Add(PPreqOutput);
+            inc(PPreqCnt);
+         end //==END== if PPisReqPassed ==//
+         else if not PPisReqPassed
+         then break;
+      end; //==END== while PPreqCnt<=PPreqMax do ==//
+   end;
+   {.acceptance probability calculations}
+   if PPisReqPassed
+   then
+   begin
+      if GSPMmodMax=0
+      then GSPMmodMax:=Length(FCDBdgSPMi)-2;
+      PPbAP:=22;
+      PPbREQ:=GSPMmarginMod;
+      PPeSUM:=FCFgSPM_SPMiInfluence_Get(GSPMspmi, PPent);
+      PPbcMod:=round( (FCentities[PPent].E_bureau-FCentities[PPent].E_corrupt)/5 );
+      PPfAP:=PPbAP+PPbREQ+round( ( (24*GSPMmodMax)+(PPeSUM*4) )/ GSPMmodMax )+PPbcMod;
+      GSPMap:=PPfAP;
+      GSPMinfluence:=PPeSUM;
+   end;
+   Result:=PPisReqPassed;
+end;
+
+function FCFgSPM_PolicyEnf_PreprocNoUI(
+   const PPent: integer;
+   const PPpolicy: string
+   ): boolean;
+{:Purpose: preprocess a policy setup, return false if the faction doesn't meet the policy's requirements.
+It doesn't update the UI and don't update the private SPM variables, it's only for requirement purposes.
+    Additions:
+      -2010Dec29- *add: UC cost in case of UC requirement.
+}
+{:DEV NOTES: WARNING: all updates in this procedure must be applied in FCFgSPM_PolicyEnf_Preproc.}
+var
+   PPcol
+   ,PPinfra
+   ,PPmarginMin
+   ,PPreqCnt
+   ,PPreqMax
+   ,PPreqResult
+   ,PPreqSubVal
+   ,PPsubCnt
+   ,PPsubMax: integer;
+
+   PPisReqPassed: boolean;
+
+   PEPNUIspmi: TFCRdgSPMi;
+
+begin
+   {.initialize the data}
+   PPreqCnt:=0;
+   PPreqMax:=0;
+   PPisReqPassed:=true;
+   PEPNUIspmi:=FCFgSPM_SPMI_Get(PPpolicy, true);
+   {.requirements calculations}
+   PPreqMax:=length(PEPNUIspmi.SPMI_req)-1;
+   if PPreqMax>0
+   then
+   begin
+      FCentities[PPent].E_spm[GSPMitmIdx].SPMS_ucCost:=0;
+      PPreqCnt:=1;
+      while PPreqCnt<=PPreqMax do
+      begin
+         if PPisReqPassed
+         then
+         begin
+            case PEPNUIspmi.SPMI_req[PPreqCnt].SPMIR_type of
+               dgBuilding:
+               begin
+                  PPcol:=0;
+                  PPinfra:=0;
+                  PPmarginMin:=0;
+                  PPreqResult:=0;
+                  PPsubCnt:=0;
+                  PPsubMax:=0;
+                  {.PPsubMax and PPsubCnt below related to colonies}
+                  PPsubMax:=length(FCentities[PPent].E_col)-1;
+                  if PPsubMax>0
+                  then
+                  begin
+                     PPmarginMin:=round(PEPNUIspmi.SPMI_req[PPreqCnt].SPMIR_percCol*0.75);
+                     PPsubCnt:=1;
+                     while PPsubCnt<=PPsubMax do
+                     begin
+                        PPinfra:=FCFgC_ColInfra_DReq(gcSpecToken, PPent, PPsubCnt, PEPNUIspmi.SPMI_req[PPreqCnt].SPMIR_infToken);
+                        if PPinfra>0
+                        then inc(PPcol);
+                        inc(PPsubCnt);
+                     end;
+                     PPreqResult:=round((PPcol*100)/PPsubMax);
+                     if PPreqResult<PPmarginMin
+                     then PPisReqPassed:=false;
+                  end
+                  else if PPsubMax=0
+                  then PPisReqPassed:=false;
+               end; //==END== case: dgBuilding ==//
+               dgFacData:
+               begin
+                  case PEPNUIspmi.SPMI_req[PPreqCnt].SPMIR_datTp of
+                     rfdFacLv1:
+                     begin
+                        if FCentities[PPent].E_facLvl=0
+                        then PPisReqPassed:=false;
+                     end;
+                     rfdFacLv2:
+                     begin
+                        if FCentities[PPent].E_facLvl<=1
+                        then PPisReqPassed:=false;
+                     end;
+                     rfdFacLv3:
+                     begin
+                        if FCentities[PPent].E_facLvl<=1
+                        then PPisReqPassed:=false;
+                     end;
+                     rfdFacLv4:
+                     begin
+                        if FCentities[PPent].E_facLvl<=2
+                        then PPisReqPassed:=false;
+                     end;
+                     rfdFacLv5:
+                     begin
+                        if FCentities[PPent].E_facLvl<=3
+                        then PPisReqPassed:=false;
+                     end;
+                     rfdFacLv6:
+                     begin
+                        if FCentities[PPent].E_facLvl<=4
+                        then PPisReqPassed:=false;
+                     end;
+                     rfdFacLv7:
+                     begin
+                        if FCentities[PPent].E_facLvl<=4
+                        then PPisReqPassed:=false;
+                     end;
+                     rfdFacLv8:
+                     begin
+                        if FCentities[PPent].E_facLvl<=5
+                        then PPisReqPassed:=false;
+                     end;
+                     rfdFacLv9:
+                     begin
+                        if FCentities[PPent].E_facLvl<=6
+                        then PPisReqPassed:=false;
+                     end;
+                     rfdFacStab..rfdEquil:
+                     begin
+                        case PEPNUIspmi.SPMI_req[PPreqCnt].SPMIR_datTp of
+                           rfdFacStab: PPreqResult:=FCFgSPMD_GlobalData_Get(gspmdStability, PPent);
+                           rfdInstrLv: PPreqResult:=FCFgSPMD_GlobalData_Get(gspmdInstruction, PPent);
+                           rfdLifeQ: PPreqResult:=FCFgSPMD_GlobalData_Get(gspmdLifeQual, PPent);
+                           rfdEquil: PPreqResult:=FCFgSPMD_GlobalData_Get(gspmdEquilibrium, PPent);
+                        end;
+                        PPmarginMin:=round(PEPNUIspmi.SPMI_req[PPreqCnt].SPMIR_datValue*0.75);
+                        if PPreqResult<PPmarginMin
+                        then PPisReqPassed:=false;
+                     end; //==END== case: rfdFacStab..rfdEquil ==//
+                  end; //==END== case PEPNUIspmi.SPMI_req[PPreqCnt].SPMIR_datTp of ==//
+               end;
+               dgTechSci:
+               begin
+                  {:DEV NOTES: req to implement technosciences database + research status array for entities before to put the code for this case.}
+                  {.update the requirements list}
+               end;
+               dgUC:
+               begin
+                  {:DEV NOTES: PPreqSubVal= margin max.}
+                  PPreqResult:=trunc(FCentities[PPent].E_uc);
+                  if PPreqResult>0
+                  then
+                  begin
+                     PPsubCnt:=1;
+                     case PEPNUIspmi.SPMI_req[PPreqCnt].SPMIR_ucMethod of
+                        dgFixed, dgFixed_yr:
+                        begin
+                           if PEPNUIspmi.SPMI_req[PPreqCnt].SPMIR_ucMethod=dgFixed_yr
+                           then PPsubCnt:=12;
+                           PPreqSubVal:=round( PEPNUIspmi.SPMI_req[PPreqCnt].SPMIR_ucVal*PPsubCnt );
+                        end;
+                        dgCalcPop, dgCalcPop_yr:
+                        begin
+                           if PEPNUIspmi.SPMI_req[PPreqCnt].SPMIR_ucMethod=dgCalcPop_yr
+                           then PPsubCnt:=12;
+                           PPreqSubVal:=round( PEPNUIspmi.SPMI_req[PPreqCnt].SPMIR_ucVal*FCFgSPMD_GlobalData_Get(gmspmdPopulation, PPent)*PPsubCnt );
+                        end;
+                        dgCalcCol, dgCalcCol_yr:
+                        begin
+                           if PEPNUIspmi.SPMI_req[PPreqCnt].SPMIR_ucMethod=dgCalcCol_yr
+                           then PPsubCnt:=12;
+                           PPreqSubVal:=round( PEPNUIspmi.SPMI_req[PPreqCnt].SPMIR_ucVal*( length(FCentities[PPent].E_col)-1 )*PPsubCnt );
+                        end;
+                     end; //==END== case PEPNUIspmi.SPMI_req[PPreqCnt].SPMIR_ucMethod of ==//
+                     FCentities[PPent].E_spm[GSPMitmIdx].SPMS_ucCost:=PPreqSubVal;
+                     PPmarginMin:=round(PPreqSubVal*0.75);
+                     if PPreqResult<PPmarginMin
+                     then PPisReqPassed:=false;
+                  end
+                  else if PPreqResult=0
+                  then PPisReqPassed:=false;
+               end; //==END== case: dgUC ==//
+            end; //==END== case PEPNUIspmi.SPMI_req[PPreqCnt].SPMIR_type of ==//
+            inc(PPreqCnt);
+         end //==END== if PPisReqPassed ==//
+         else if not PPisReqPassed
+         then break;
+      end; //==END== while PPreqCnt<=PPreqMax do ==//
+   end;
+   Result:=PPisReqPassed;
+end;
+
+function FCFgSPM_PolicyProc_DoTest(PPDTsimulVal: integer): TFCEgspmPolRslt;
+{:Purpose: process the policy enforcement test and retrieve the result.
+    Additions:
+}
+var
+   PPDTproba: integer;
+begin
+   GSPMfap_x:=-50;
+   PPDTproba:=0;
+   Result:=gspmResMassRjct;
+   GSPMfsMod:=FCFgSPM_Policy_GetFSMod(0);
+   if PPDTsimulVal=0
+   then
+   begin
+      PPDTproba:=FCFcFunc_Rand_Int(99)+1;
+      GSPMfap_x:=GSPMap-(PPDTproba+GSPMfsMod);
+   end
+   else if PPDTsimulVal>0
+   then
+   begin
+      GSPMfap_x:=GSPMap-(50+GSPMfsMod);
+   end;
+   if GSPMfap_x<-24
+   then Result:=gspmResMassRjct
+   else if (GSPMfap_x>=-24)
+      and (GSPMfap_x<-10)
+   then Result:=gspmResReject
+   else if (GSPMfap_x>=-10)
+      and (GSPMfap_x<=29)
+   then Result:=gspmResFifFifty
+   else if GSPMfap_x>29
+   then Result:=gspmResAccept;
+end;
+
+//===========================END FUNCTIONS SECTION==========================================
+
+procedure FCMgSPM_Phase_Proc;
+{:Purpose: SPM phase processing.
+    Additions:
+      -2011Jan19- *add: trigger Government Destabilization if the political system doesn't meet a requirement.
+      -2011Jan06- *add: complete memes processing.
+      -2011Jan04- *add: meme requirements.
+                  *add: complete policies processing.
+      -2011Jan03- *add: meme SV calculations.
+      -2011Jan02- *add: cohesion penalty calculation for retired policy that doesn't meet the requirements + warn the player.
+                  *fix: forgot to re-enable the policy enforcement UI.
+      -2010Dec29- *add: disable and re-enable the policy enforcement UI during the test of the player's entity.
+}
+var
+   PPbBLP
+   ,PPbREQ
+   ,PPcohPenalty
+   ,PPcolCnt
+   ,PPcolMax
+   ,PPcSV
+   ,PPentCnt
+   ,PPeSUM
+   ,PPfAPtest
+   ,PPfBLP
+   ,PPmaSV
+   ,PPmiSV
+   ,PPnSV
+   ,PPrand
+   ,PPspmCnt
+   ,PPspmMax
+   ,PPsvMod: integer;
+
+   PPblMod
+   ,PPcalc
+   ,PPt2
+   ,PPt4: double;
+
+   PPblRed
+   ,PPpostSVoverride
+   ,PPreResult: boolean;
+
+   PPspmi: TFCRdgSPMi;
+
+   PPsvRng: GSPMMret;
+begin
+   {.disable the policy enforcement tab of the UMI}
+   FCWinMain.FCWM_UMIFac_TabShSPMpol.Enabled:=false;
+   PPentCnt:=0;
+   PPspmMax:=length(FCDBdgSPMi)-1;
+   while PPentCnt<=FCCfacMax do
+   begin
+      if PPentCnt>0
+      then FCWinMain.FCGLScadencer.Enabled:=true;
+      PPspmCnt:=1;
+      while PPspmCnt<=PPspmMax do
+      begin
+         PPblMod:=0;
+         PPcalc:=0;
+         PPcSV:=0;
+         PPmaSV:=0;
+         PPmiSV:=0;
+         PPnSV:=0;
+         PPrand:=0;
+         PPsvRng[1]:=PPsvRng[0];
+         PPsvRng[2]:=PPsvRng[0];
+         PPcohPenalty:=0;
+         PPbBLP:=0;
+         PPbREQ:=0;
+         PPeSUM:=0;
+         PPsvMod:=0;
+         PPfBLP:=0;
+         PPt2:=0;
+         PPt4:=0;
+         PPpostSVoverride:=false;
+         PPspmi:=FCFgSPM_SPMI_Get(FCentities[PPentCnt].E_spm[PPspmCnt].SPMS_token);
+         if FCentities[PPentCnt].E_spm[PPspmCnt].SPMS_isPolicy
+         then
+         begin
+            if (not FCentities[PPentCnt].E_spm[PPspmCnt].SPMS_isSet)
+               and (FCentities[PPentCnt].E_spm[PPspmCnt].SPMS_duration>0)
+            then dec(FCentities[PPentCnt].E_spm[PPspmCnt].SPMS_duration)
+            else if FCentities[PPentCnt].E_spm[PPspmCnt].SPMS_isSet
+            then
+            begin
+               PPreResult:=FCFgSPM_PolicyEnf_PreprocNoUI(PPentCnt, FCentities[PPentCnt].E_spm[PPspmCnt].SPMS_token);
+               if (PPreResult)
+                  and (FCentities[PPentCnt].E_spm[PPspmCnt].SPMS_ucCost>0)
+               then FCentities[PPentCnt].E_uc:=FCentities[PPentCnt].E_uc-FCentities[PPentCnt].E_spm[PPspmCnt].SPMS_ucCost
+               else if (not PPreResult)
+                  and (not PPspmi.SPMI_isUnique2set)
+               then
+               begin
+                  PPcohPenalty:=round(FCentities[PPentCnt].E_spm[PPspmCnt].SPMS_aprob*0.1);
+                  FCMgSPM_SPMI_Retire(PPentCnt, PPspmCnt);
+                  {:DEV NOTES: apply cohesion penalty on the colonies.}
+                  {:DEV NOTES: warning don't forget to NOT display a message but warn the AI in the case of the entity isn't the player.}
+                  FCMuiM_Message_Add(
+                     mtSPMrequirements
+                     ,0
+                     ,PPspmCnt
+                     ,1
+                     ,0
+                     ,0
+                     );
+               end
+               else if (not PPreResult)
+                  and (PPspmi.SPMI_isUnique2set)
+               then
+               begin
+                  PPcolCnt:=1;
+                  PPcolMax:=length(FCentities[PPentCnt].E_col)-1;
+                  if PPcolMax>0
+                  then
+                  begin
+                     PPfAPtest:=FCFcFunc_Rand_Int(99)+1;
+                     if PPfAPtest<=FCentities[PPentCnt].E_spm[PPspmCnt].SPMS_aprob
+                     then FCMgCSME_Event_Trigger(
+                        etGovDestab
+                        ,PPentCnt
+                        ,PPcolCnt
+                        ,1
+                        ,false
+                        );
+                     inc(PPcolCnt);
+                  end;
+               end;
+            end; //==END== else if FCentities[PPentCnt].E_spm[PPspmCnt].SPMS_isSet ==//
+         end //==END== if FCentities[PPentCnt].E_spm[PPspmCnt].SPMS_isPolicy ==//
+         else if not FCentities[PPentCnt].E_spm[PPspmCnt].SPMS_isPolicy
+         then
+         begin
+            PPcSV:=FCentities[PPentCnt].E_spm[PPspmCnt].SPMS_sprdVal;
+            PPsvRng:=FCFgSPMM_SVRange_Get(FCentities[PPentCnt].E_spm[PPspmCnt].SPMS_bLvl);
+            PPmiSV:=PPsvRng[1];
+            PPmaSV:=PPsvRng[2];
+            {.SV evolution before BL calculations}
+            if FCentities[PPentCnt].E_spm[PPspmCnt].SPMS_bLvl>dgUnknown
+            then
+            begin
+               if PPcSV<PPmaSV
+               then
+               begin
+                  PPcolMax:=length(FCentities[PPentCnt].E_col)-1;
+                  PPblMod:=FCFgSPMM_BLMod_Get(FCentities[PPentCnt].E_spm[PPspmCnt].SPMS_bLvl);
+                  PPcalc:=( ( (PPmaSV-PPcSV)-sqrt(PPcolMax) )*PPblMod )*0.1;
+                  if PPcalc<=0
+                  then PPnSV:=0
+                  else if PPcalc>0
+                  then
+                  begin
+                     PPrand:=FCFcFunc_Rand_Int(9)+1;
+                     PPnSV:=PPcSV+round(PPcalc*PPrand);
+                  end;
+               end
+               else if PPcSV>PPmaSV
+               then PPnSV:=round( PPcSV-(PPcSV*0.1) );
+            end;
+            {.meme requirements}
+            PPreResult:=FCFgSPMM_Req_DoTest(PPentCnt, FCentities[PPentCnt].E_spm[PPspmCnt].SPMS_token);
+            if (not PPreResult)
+               and (FCentities[PPentCnt].E_spm[PPspmCnt].SPMS_bLvl>dgUnknown)
+               and (PPcSV<=PPmaSV)
+            then
+            begin
+               dec(FCentities[PPentCnt].E_spm[PPspmCnt].SPMS_bLvl);
+               PPpostSVoverride:=true;
+            end
+            else if (
+               (not PPreResult)
+                  and (FCentities[PPentCnt].E_spm[PPspmCnt].SPMS_bLvl>dgUnknown)
+                  and (PPcSV>PPmaSV)
+               )
+               or (PPreResult)
+            then
+            begin
+               {.BL progression}
+               if not PPreResult
+               then PPpostSVoverride:=true;
+               PPbBLP:=50;
+               PPbREQ:=FCFgSPMM_Margin_Get;
+               PPeSUM:=FCFgSPM_SPMiInfluence_Get(PPspmi, PPentCnt);
+               PPsvMod:=round(PPcSV*0.2);
+               PPfBLP:=PPbBLP+PPbREQ+PPeSUM+PPsvMod;
+               PPrand:=FCFcFunc_Rand_Int(99)+1;
+               PPt2:=PPfBLP*2/3;
+               PPt4:=PPfBLP*4/3;
+               if PPrand<PPt2
+               then inc(FCentities[PPentCnt].E_spm[PPspmCnt].SPMS_bLvl)
+               else if (PPrand>PPt4)
+                  and (FCentities[PPentCnt].E_spm[PPspmCnt].SPMS_bLvl>dgUnknown)
+               then
+               begin
+                  dec(FCentities[PPentCnt].E_spm[PPspmCnt].SPMS_bLvl);
+                  PPblRed:=true;
+               end;
+            end;
+            {.SV evolution after BL calculations}
+             if PPpostSVoverride
+            then
+            begin
+               if PPnSV=0
+               then PPnSV:=PPcSV-round(PPcSV*0.1)
+               else if PPnSV<>0
+               then PPnSV:=PPnSV-round(PPcSV*0.1);
+            end
+            else if not PPpostSVoverride
+            then
+            begin
+               if (FCentities[PPentCnt].E_spm[PPspmCnt].SPMS_bLvl=dgUnknown)
+                  and (PPcSV>0)
+                  and (PPnSV=0)
+               then PPnSV:=PPcSV-round(PPcSV*0.1)
+               else if (FCentities[PPentCnt].E_spm[PPspmCnt].SPMS_bLvl=dgUnknown)
+                  and (PPcSV>0)
+                  and (PPnSV<>0)
+               then PPnSV:=PPnSV-round(PPcSV*0.1)
+               else if (PPcSV=0)
+                  and (FCentities[PPentCnt].E_spm[PPspmCnt].SPMS_bLvl>dgUnknown)
+                  and (PPnSV=0)
+               then PPnSV:=1;
+            end;
+            {.readjust custom effects modifiers and meme's modifiers}
+            FCMgSPMM_ModifCustFx_Upd(PPentCnt, PPspmCnt, PPnSV);
+         end; //==END== else if not FCentities[PPentCnt].E_spm[PPspmCnt].SPMS_isPolicy ==//
+         inc(PPspmCnt);
+      end; //==END== while PPspmCnt<=PPspmMax do ==//
+      inc(PPentCnt);
+   end; //==END== while PPentCnt<=FCCfacMax do ==//
+//   update UMI
+   {:DEV NOTES: temporarly line.}
+   FCWinMain.FCWM_UMIFac_TabShSPMpol.Enabled:=true;
+end;
+
+procedure FCMgSPM_PolicyEnf_Confirm;
+{:Purpose: end enforcement process: confirm policy.
+    Additions:
+      -2010Dec29- *add: applies UC cost if there's any.
+      -2010Dec28- *rem: enforced policies doesn't have a duration anymore.
+      -2010Dec22- *add: processing of unique policy.
+}
+var
+   PECapplyCohMod
+   ,PECcnt
+   ,PECmax
+   ,PECmodCoh
+   ,PECmodTens
+   ,PECmodSec
+   ,PECmodEdu
+   ,PECmodNat
+   ,PECmodHeal
+   ,PECmodBur
+   ,PECmodCor
+   ,PEColdPolIdx: integer;
+
+   PEColdPolTok: string;
+
+   PEColdPol: TFCRdgSPMi;
+begin
+   PECapplyCohMod:=0;
+   PECmodCoh:=0;
+   PECmodTens:=0;
+   PECmodSec:=0;
+   PECmodEdu:=0;
+   PECmodNat:=0;
+   PECmodHeal:=0;
+   PECmodBur:=0;
+   PECmodCor:=0;
+   FCWinMain.FCWM_UMISh_CEFcommit.Enabled:=false;
+   FCWinMain.FCWM_UMISh_CEFretire.Enabled:=false;
+   FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Clear;
+   case GSPMrslt of
+      gspmResMassRjct: PECapplyCohMod:=GSPMcohPen;
+      gspmResReject: PECapplyCohMod:=GSPMcohPen;
+      gspmResFifFifty: PECapplyCohMod:=GSPMcohPen;
+   end; //==END== case GSPMrslt of ==//
+   {.processing of unique policy}
+   if GSPMspmi.SPMI_isUnique2set
+   then
+   begin
+      PEColdPolTok:=FCFgSPM_GvtSystems_Get(0, GSPMspmi.SPMI_area);
+      PEColdPol:=FCFgSPM_SPMI_Get(PEColdPolTok);
+      PEColdPolIdx:=FCFgSPM_GvtSystems_GetIdx(0, GSPMspmi.SPMI_area);
+      {.exchange the previous policy modifiers by the new one}
+      PECmodCoh:=FCentities[0].E_spmMcohes;
+      FCentities[0].E_spmMcohes:=PECmodCoh-PEColdPol.SPMI_modCohes+GSPMspmi.SPMI_modCohes;
+      PECmodCoh:=-(PEColdPol.SPMI_modCohes-GSPMspmi.SPMI_modCohes);
+      PECmodTens:=FCentities[0].E_spmMtens;
+      FCentities[0].E_spmMtens:=PECmodTens-PEColdPol.SPMI_modTens+GSPMspmi.SPMI_modTens;
+      PECmodTens:=-(PEColdPol.SPMI_modTens-GSPMspmi.SPMI_modTens);
+      PECmodSec:=FCentities[0].E_spmMsec;
+      FCentities[0].E_spmMsec:=PECmodSec-PEColdPol.SPMI_modSec+GSPMspmi.SPMI_modSec;
+      PECmodSec:=-(PEColdPol.SPMI_modSec-GSPMspmi.SPMI_modSec);
+      PECmodEdu:=FCentities[0].E_spmMEdu;
+      FCentities[0].E_spmMEdu:=PECmodEdu-PEColdPol.SPMI_modEdu+GSPMspmi.SPMI_modEdu;
+      PECmodEdu:=-(PEColdPol.SPMI_modEdu-GSPMspmi.SPMI_modEdu);
+      PECmodNat:=FCentities[0].E_spmMNat;
+      FCentities[0].E_spmMNat:=PECmodNat-PEColdPol.SPMI_modNat+GSPMspmi.SPMI_modNat;
+      PECmodNat:=-(PEColdPol.SPMI_modNat-GSPMspmi.SPMI_modNat);
+      PECmodHeal:=FCentities[0].E_spmMhealth;
+      FCentities[0].E_spmMhealth:=PECmodHeal-PEColdPol.SPMI_modHeal+GSPMspmi.SPMI_modHeal;
+      PECmodHeal:=-(PEColdPol.SPMI_modHeal-GSPMspmi.SPMI_modHeal);
+      PECmodBur:=FCentities[0].E_spmMBur;
+      FCentities[0].E_spmMBur:=PECmodBur-PEColdPol.SPMI_modBur+GSPMspmi.SPMI_modBur;
+      FCentities[0].E_bureau:=FCentities[0].E_bureau-PEColdPol.SPMI_modBur+GSPMspmi.SPMI_modBur;
+      FCMumi_Faction_Upd(uiwPolStruc_bur, false);
+      PECmodCor:=FCentities[0].E_spmMCorr;
+      FCentities[0].E_spmMCorr:=PECmodCor-PEColdPol.SPMI_modCorr+GSPMspmi.SPMI_modCorr;
+      FCentities[0].E_corrupt:=FCentities[0].E_corrupt-PEColdPol.SPMI_modCorr+GSPMspmi.SPMI_modCorr;
+      FCMumi_Faction_Upd(uiwPolStruc_cor, false);
+      {.update the old policy's data}
+      FCentities[0].E_spm[PEColdPolIdx].SPMS_isSet:=false;
+      FCentities[0].E_spm[PEColdPolIdx].SPMS_aprob:=-1;
+      {.update the new policy's data}
+      FCentities[0].E_spm[GSPMitmIdx].SPMS_isSet:=true;
+      FCentities[0].E_spm[GSPMitmIdx].SPMS_aprob:=GSPMap;
+      {.apply the SPMi modifiers to all existing colonies}
+      PECmax:=length(FCentities[0].E_col)-1;
+      if PECmax>0
+      then
+      begin
+         PECcnt:=1;
+         while PECcnt<=PECmax do
+         begin
+            {.apply the direct cohesion penalty if any}
+            if PECmodCoh<>0
+            then FCMgCSM_ColonyData_Upd(
+               gcsmdCohes
+               ,0
+               ,PECcnt
+               ,PECapplyCohMod
+               ,0
+               ,gcsmptNone
+               ,false
+               );
+            {.apply the SPMi modifiers if needed}
+            if GSPMspmi.SPMI_modCohes<>0
+            then FCMgCSM_ColonyData_Upd(
+               gcsmdCohes
+               ,0
+               ,PECcnt
+               ,PECmodCoh
+               ,0
+               ,gcsmptNone
+               ,false
+               );
+            if GSPMspmi.SPMI_modTens<>0
+            then FCMgCSM_ColonyData_Upd(
+               gcsmdTens
+               ,0
+               ,PECcnt
+               ,PECmodTens
+               ,0
+               ,gcsmptNone
+               ,false
+               );
+            if GSPMspmi.SPMI_modSec<>0
+            then FCMgCSM_ColonyData_Upd(
+               gcsmdSec
+               ,0
+               ,PECcnt
+               ,0
+               ,0
+               ,gcsmptNone
+               ,true
+               );
+            if GSPMspmi.SPMI_modEdu<>0
+            then FCMgCSM_ColonyData_Upd(
+               gcsmdEdu
+               ,0
+               ,PECcnt
+               ,PECmodEdu
+               ,0
+               ,gcsmptNone
+               ,false
+               );
+            if (GSPMspmi.SPMI_modNat<>0)
+               and (GSPMspmi.SPMI_modTens=0)
+            then FCMgCSM_ColonyData_Upd(
+               gcsmdBirthR
+               ,0
+               ,PECcnt
+               ,0
+               ,0
+               ,gcsmptNone
+               ,false
+               );
+            if (GSPMspmi.SPMI_modHeal<>0)
+               and (GSPMspmi.SPMI_modTens=0)
+            then FCMgCSM_ColonyData_Upd(
+               gcsmdHEAL
+               ,0
+               ,PECcnt
+               ,PECmodHeal
+               ,0
+               ,gcsmptNone
+               ,false
+               );
+            inc(PECcnt);
+         end; //==END== while PECcnt<=PECmax do ==//
+      end; //==END== if PERmax>0 ==// }
+   end
+   else if not GSPMspmi.SPMI_isUnique2set
+   then
+   begin
+      PECmax:=length(FCentities[0].E_col)-1;
+      if (PECmax>0)
+         and (PECapplyCohMod<>0)
+      then
+      begin
+         PECcnt:=1;
+         while PECcnt<=PECmax do
+         begin
+            {.apply the direct cohesion penalty if any}
+            FCMgCSM_ColonyData_Upd(
+               gcsmdCohes
+               ,0
+               ,PECcnt
+               ,PECapplyCohMod
+               ,0
+               ,gcsmptNone
+               ,false
+               );
+            inc(PECcnt);
+         end; //==END== while PECcnt<=PECmax do ==//
+      end; //==END== if PERmax>0 ==//
+      FCMgSPM_SPMI_Set(
+         0
+         ,GSPMitmIdx
+         ,true
+         );
+      {.update the policy's data}
+      FCentities[0].E_spm[GSPMitmIdx].SPMS_isSet:=true;
+      FCentities[0].E_spm[GSPMitmIdx].SPMS_aprob:=GSPMap;
+   end; //==END== else if not GSPMspmi.SPMI_isUnique2set ==//
+   if FCentities[0].E_spm[GSPMitmIdx].SPMS_ucCost>0
+   then FCentities[0].E_uc:=FCentities[0].E_uc-FCentities[0].E_spm[GSPMitmIdx].SPMS_ucCost;
+   FCMumi_Faction_Upd(uiwSPMpolEnfList);
+end;
+
+procedure FCMgSPM_PolicyEnf_Process(const PEPent: integer);
+{:Purpose: process the enforcement of a policy.
+    Additions:
+      -2010Dec28- *rem: policies doesn't have duration anymore (excepted for rejected ones).
+      -2010Dec19- *fix: correctly calculate the reject cohesion penalties.
+                  *mod: change massive reject color display to the correct one.
+      -2010Dec16- *fix: correctly calculate the cohesion penalties.
+      -2010Dec15- *add: mitigated acceptance, reject and massive reject.
+      -2010Dec14- *add: complete acceptance completion.
+}
+{:DEV NOTES: the PEPent will be useful mainly for future post beta AI implementation.}
+begin
+   FCWinMain.FCWM_UMIFSh_AFlist.Enabled:=false;
+   FCWinMain.FCWM_UMISh_CEFenforce.Enabled:=false;
+   FCWinMain.FCWM_UMISh_CEFenforce.Visible:=false;
+   FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Clear;
+   GSPMrslt:=FCFgSPM_PolicyProc_DoTest(0);
+   FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI, 'UMIenfEnforced'));
+   GSPMduration:=0;
+   case GSPMrslt of
+      gspmResMassRjct:
+      begin
+         GSPMcohPen:=-round((50-GSPMfap_x)/5);
+         GSPMcohPenRej:=round(GSPMcohPen*0.5);
+         FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add(
+            FCCFcolRed+FCFdTFiles_UIStr_Get(uistrUI, 'UMIenfRsltMReject')+FCCFcolEND+' '+FCFdTFiles_UIStr_Get(uistrUI, 'UMIenfRsltMassRej')
+               +'<b>'+IntToStr(GSPMduration)+'</b> '
+               +FCFdTFiles_UIStr_Get(uistrUI, 'UMIenfEnforcedMReject1')
+               +'<b>'+FCCFcolRed+IntToStr(GSPMcohPen)+FCCFcolEND+'</b> '
+               +FCFdTFiles_UIStr_Get(uistrUI, 'UMIenfEnforcedMReject2')
+               +'<b>'+FCCFcolRed+IntToStr(GSPMcohPenRej)+FCCFcolEND+'</b> '
+               +FCFdTFiles_UIStr_Get(uistrUI, 'UMIenfEnforcedMReject3')
+            );
+      end;
+      gspmResReject:
+      begin
+         GSPMcohPen:=-round((40-GSPMfap_x)/6);
+         GSPMcohPenRej:=round(GSPMcohPen*0.5);
+         FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add(
+            FCCFcolOrge+FCFdTFiles_UIStr_Get(uistrUI, 'UMIenfRsltReject')+FCCFcolEND+' '+FCFdTFiles_UIStr_Get(uistrUI, 'UMIenfEnforcedReject')
+               +'<b>'+IntToStr(GSPMduration)+'</b> '
+               +FCFdTFiles_UIStr_Get(uistrUI, 'UMIenfEnforcedReject1')
+               +'<b>'+FCCFcolRed+IntToStr(GSPMcohPen)+FCCFcolEND+'</b> '
+               +FCFdTFiles_UIStr_Get(uistrUI, 'UMIenfEnforcedReject2')
+               +'<b>'+FCCFcolRed+IntToStr(GSPMcohPenRej)+FCCFcolEND+'</b> '
+               +FCFdTFiles_UIStr_Get(uistrUI, 'UMIenfEnforcedReject3')
+            );
+      end;
+      gspmResFifFifty:
+      begin
+         GSPMcohPen:=-round((30-GSPMfap_x)/7.8);
+         FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add(
+            FCCFcolYel+FCFdTFiles_UIStr_Get(uistrUI, 'UMIenfRsltMitig')+FCCFcolEND+' '+FCFdTFiles_UIStr_Get(uistrUI, 'UMIenfEnforcedFift')
+               +'<b>'+IntToStr(GSPMduration)+'</b> '
+               +FCFdTFiles_UIStr_Get(uistrUI, 'UMIenfEnforcedFift1')
+               +'<b>'+FCCFcolRed+IntToStr(GSPMcohPen)+FCCFcolEND+'</b> '
+               +FCFdTFiles_UIStr_Get(uistrUI, 'UMIenfEnforcedFift2')
+            );
+      end;
+      gspmResAccept: FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add(
+         FCCFcolGreen+FCFdTFiles_UIStr_Get(uistrUI, 'UMIenfRsltComplAcc')+FCCFcolEND+' '+FCFdTFiles_UIStr_Get(uistrUI, 'UMIenfEnforcedCAcc')
+            +' <b>'+IntToStr(GSPMduration)+'</b> '
+            +FCFdTFiles_UIStr_Get(uistrUI, 'UMIenfEnforcedCAcc1')
+         );
+   end; //==END== case GSPMrslt of ==//
+   FCWinMain.FCWM_UMISh_CEFcommit.Enabled:=true;
+   FCWinMain.FCWM_UMISh_CEFretire.Enabled:=true;
+end;
+
+procedure FCMgSPM_PolicyEnf_Retire;
+{:Purpose: end enforcement process: retire policy.
+    Additions:
+      -2010Dec19- *add: complete the routine.
+}
+var
+   PERapplyCohMod
+   ,PERcnt
+   ,PERmax: integer;
+begin
+   PERapplyCohMod:=0;
+   FCWinMain.FCWM_UMISh_CEFcommit.Enabled:=false;
+   FCWinMain.FCWM_UMISh_CEFretire.Enabled:=false;
+   FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Clear;
+   case GSPMrslt of
+      gspmResMassRjct:
+      begin
+         PERapplyCohMod:=GSPMcohPenRej;
+         FCentities[0].E_spm[GSPMitmIdx].SPMS_duration:=12;
+      end;
+      gspmResReject:
+      begin
+         PERapplyCohMod:=GSPMcohPenRej;
+         FCentities[0].E_spm[GSPMitmIdx].SPMS_duration:=6;
+      end;
+      gspmResFifFifty: FCentities[0].E_spm[GSPMitmIdx].SPMS_duration:=3;
+      gspmResAccept:
+      begin
+         FCWinMain.FCWM_UMIFSh_AFlist.Enabled:=true;
+         FCMumi_Faction_Upd(uiwSPMpolEnfRAP, true);
+      end;
+   end; //==END== case GSPMrslt of ==//
+   if PERapplyCohMod<>0
+   then
+   begin
+      PERmax:=length(FCentities[0].E_col)-1;
+      if PERmax>0
+      then
+      begin
+         PERcnt:=1;
+         while PERcnt<=PERmax do
+         begin
+            FCMgCSM_ColonyData_Upd(
+               gcsmdCohes
+               ,0
+               ,PERcnt
+               ,PERapplyCohMod
+               ,0
+               ,gcsmptNone
+               ,false
+               );
+            inc(PERcnt);
+         end;
+      end; //==END== if PERmax>0 ==//
+
+   end; //==END== if PERapplyCohMod>0 ==//
+   if FCentities[0].E_spm[GSPMitmIdx].SPMS_duration>0
+   then FCMumi_Faction_Upd(uiwSPMpolEnfList);
+end;
+
+procedure FCMgSPM_SPMI_Retire(
+   const SPMIRent
+         ,SPMIRidx: integer
+   );
+{:Purpose: retire a chosen SPMi, and update the centralized modifiers and/or entity's data.
+}
+var
+   SPMIRcohes
+   ,SPMIRtens
+   ,SPMIRsec
+   ,SPMIRedu
+   ,SPMIRnat
+   ,SPMIRhealth
+   ,SPMIRbureau
+   ,SPMIRcorrupt
+   ,SPMIRcnt
+   ,SPMIRmax: integer;
+
+   SPMIRcohSet
+   ,SPMIRtensSet
+   ,SPMIRsecSet
+   ,SPMIReduSet
+   ,SPMIRnatSet
+   ,SPMIRhealSet
+   ,SPMIRburSet
+   ,SPMIRcorSet: boolean;
+
+   SPMIRspmDat: TFCRdgSPMi;
+begin
+   SPMIRcohes:=0;
+   SPMIRtens:=0;
+   SPMIRsec:=0;
+   SPMIRedu:=0;
+   SPMIRnat:=0;
+   SPMIRhealth:=0;
+   SPMIRbureau:=0;
+   SPMIRcorrupt:=0;
+   SPMIRcohSet:=true;
+   SPMIRtensSet:=true;
+   SPMIRsecSet:=true;
+   SPMIReduSet:=true;
+   SPMIRnatSet:=true;
+   SPMIRhealSet:=true;
+   SPMIRspmDat:=FCFgSPM_SPMI_Get(FCEntities[SPMIRent].E_spm[SPMIRidx].SPMS_token);
+   if FCEntities[SPMIRent].E_spm[SPMIRidx].SPMS_isPolicy
+   then
+   begin
+      FCEntities[SPMIRent].E_spm[SPMIRidx].SPMS_duration:=0;
+      FCEntities[SPMIRent].E_spm[SPMIRidx].SPMS_isSet:=false;
+      FCEntities[SPMIRent].E_spm[SPMIRidx].SPMS_aprob:=-1;
+   end;
+   {.set reverse modifiers}
+   if SPMIRspmDat.SPMI_modCohes>0
+   then SPMIRcohes:=-SPMIRspmDat.SPMI_modCohes
+   else if SPMIRspmDat.SPMI_modCohes<0
+   then SPMIRcohes:=abs(SPMIRspmDat.SPMI_modCohes)
+   else SPMIRcohSet:=false;
+   if SPMIRspmDat.SPMI_modTens>0
+   then SPMIRtens:=-SPMIRspmDat.SPMI_modTens
+   else if SPMIRspmDat.SPMI_modTens<0
+   then SPMIRtens:=abs(SPMIRspmDat.SPMI_modTens)
+   else SPMIRtensSet:=false;
+   if SPMIRspmDat.SPMI_modSec>0
+   then SPMIRSec:=-SPMIRspmDat.SPMI_modSec
+   else if SPMIRspmDat.SPMI_modSec<0
+   then SPMIRSec:=abs(SPMIRspmDat.SPMI_modSec)
+   else SPMIRSecSet:=false;
+   if SPMIRspmDat.SPMI_modEdu>0
+   then SPMIREdu:=-SPMIRspmDat.SPMI_modEdu
+   else if SPMIRspmDat.SPMI_modEdu<0
+   then SPMIREdu:=abs(SPMIRspmDat.SPMI_modEdu)
+   else SPMIREduSet:=false;
+   if SPMIRspmDat.SPMI_modNat>0
+   then SPMIRNat:=-SPMIRspmDat.SPMI_modNat
+   else if SPMIRspmDat.SPMI_modNat<0
+   then SPMIRNat:=abs(SPMIRspmDat.SPMI_modNat)
+   else SPMIRNatSet:=false;
+   if SPMIRspmDat.SPMI_modHeal>0
+   then SPMIRhealth:=-SPMIRspmDat.SPMI_modHeal
+   else if SPMIRspmDat.SPMI_modHeal<0
+   then SPMIRhealth:=abs(SPMIRspmDat.SPMI_modHeal)
+   else SPMIRHealSet:=false;
+   if SPMIRspmDat.SPMI_modBur>0
+   then SPMIRbureau:=-SPMIRspmDat.SPMI_modBur
+   else if SPMIRspmDat.SPMI_modBur<0
+   then SPMIRbureau:=abs(SPMIRspmDat.SPMI_modBur)
+   else SPMIRBurSet:=false;
+   if SPMIRspmDat.SPMI_modCorr>0
+   then SPMIRcorrupt:=-SPMIRspmDat.SPMI_modCorr
+   else if SPMIRspmDat.SPMI_modCorr<0
+   then SPMIRcorrupt:=abs(SPMIRspmDat.SPMI_modCorr)
+   else SPMIRCorSet:=false;
+   {.set the entity's SPM modifiers}
+   if SPMIRcohSet
+   then FCEntities[SPMIRent].E_spmMcohes:=FCEntities[SPMIRent].E_spmMcohes+SPMIRcohes;
+   if SPMIRtensSet
+   then FCEntities[SPMIRent].E_spmMtens:=FCEntities[SPMIRent].E_spmMtens+SPMIRtens;
+   if SPMIRSecSet
+   then FCEntities[SPMIRent].E_spmMsec:=FCEntities[SPMIRent].E_spmMsec+SPMIRsec;
+   if SPMIREduSet
+   then FCEntities[SPMIRent].E_spmMedu:=FCEntities[SPMIRent].E_spmMedu+SPMIRedu;
+   if SPMIRNatSet
+   then FCEntities[SPMIRent].E_spmMnat:=FCEntities[SPMIRent].E_spmMnat+SPMIRnat;
+   if SPMIRhealSet
+   then FCEntities[SPMIRent].E_spmMhealth:=FCEntities[SPMIRent].E_spmMhealth+SPMIRhealth;
+   if SPMIRburSet
+   then
+   begin
+      FCEntities[SPMIRent].E_spmMBur:=FCEntities[SPMIRent].E_spmMBur+SPMIRbureau;
+      FCEntities[SPMIRent].E_bureau:=FCEntities[SPMIRent].E_bureau+SPMIRbureau;
+   end;
+   if SPMIRcorSet
+   then
+   begin
+      FCEntities[SPMIRent].E_spmMCorr:=FCEntities[SPMIRent].E_spmMCorr+SPMIRcorrupt;
+      FCEntities[SPMIRent].E_corrupt:=FCEntities[SPMIRent].E_corrupt+SPMIRcorrupt;
+   end;
+   {.update the colonies}
+   SPMIRmax:=length(FCentities[SPMIRent].E_col)-1;
+   if SPMIRmax>0
+   then
+   begin
+      SPMIRcnt:=1;
+      while SPMIRcnt<=SPMIRmax do
+      begin
+         if SPMIRcohSet
+         then FCMgCSM_ColonyData_Upd(
+            gcsmdCohes
+            ,SPMIRent
+            ,SPMIRcnt
+            ,SPMIRcohes
+            ,0
+            ,gcsmptNone
+            ,false
+            );
+         if SPMIRtensSet
+         then
+         begin
+            if SPMIRhealSet
+            then
+            begin
+               SPMIRnatSet:=false;
+               SPMIRhealSet:=false;
+            end;
+            FCMgCSM_ColonyData_Upd(
+               gcsmdTens
+               ,SPMIRent
+               ,SPMIRcnt
+               ,SPMIRtens
+               ,0
+               ,gcsmptNone
+               ,false
+               );
+         end;
+         if SPMIRsecSet
+         then FCMgCSM_ColonyData_Upd(
+            gcsmdSec
+            ,SPMIRent
+            ,SPMIRcnt
+            ,0
+            ,0
+            ,gcsmptNone
+            ,true
+            );
+         if SPMIReduSet
+         then FCMgCSM_ColonyData_Upd(
+            gcsmdEdu
+            ,SPMIRent
+            ,SPMIRcnt
+            ,SPMIRedu
+            ,0
+            ,gcsmptNone
+            ,false
+            );
+         if SPMIRnatSet
+         then FCMgCSM_ColonyData_Upd(
+            gcsmdBirthR
+            ,SPMIRent
+            ,SPMIRcnt
+            ,0
+            ,0
+            ,gcsmptNone
+            ,false
+            );
+         if SPMIRhealSet
+         then FCMgCSM_ColonyData_Upd(
+            gcsmdHEAL
+            ,SPMIRent
+            ,SPMIRcnt
+            ,SPMIRnat
+            ,0
+            ,gcsmptNone
+            ,false
+            );
+         inc(SPMIRcnt);
+      end; //==END== while SPMIScnt<=SPMISmax do ==//
+   end; //==END== if (SPMIScsmUpd) and (SPMISmax>0) ==//
+end;
+
+procedure FCMgSPM_SPMI_Set(
+   const SPMISent
+         , SPMISspmi: integer;
+   const SPMIScsmUpd: boolean
+   );
+{:Purpose: set a chosen SPMi, and update the centralized modifiers and/or entity's data + the dependent CSM data if switched on.
+    Additions:
+      -2010Sep29- *add: bureaucray and corruption modifiers.
+      -2010Sep26- *add: CSM data update for all colonies.
+}
+var
+   SPMIScohes
+   ,SPMIStens
+   ,SPMISsec
+   ,SPMISedu
+   ,SPMISnat
+   ,SPMIShealth
+   ,SPMISbureau
+   ,SPMIScorrupt
+   ,SPMIScnt
+   ,SPMISmax: integer;
+
+   SPMIScohSet
+   ,SPMIStensSet
+   ,SPMISsecSet
+   ,SPMISeduSet
+   ,SPMISnatSet
+   ,SPMIShealSet: boolean;
+
+   SPMISspmDat: TFCRdgSPMi;
+begin
+   {.data init}
+   SPMISspmDat:=FCDBdgSPMi[0];
+   SPMISbureau:=FCEntities[SPMISent].E_bureau;
+   SPMIScorrupt:=FCEntities[SPMISent].E_corrupt;
+   SPMIScohes:=FCEntities[SPMISent].E_spmMcohes;
+   SPMIStens:=FCEntities[SPMISent].E_spmMtens;
+   SPMISsec:=FCEntities[SPMISent].E_spmMsec;
+   SPMISedu:=FCEntities[SPMISent].E_spmMedu;
+   SPMISnat:=FCEntities[SPMISent].E_spmMnat;
+   SPMIShealth:=FCEntities[SPMISent].E_spmMhealth;
+   SPMISbureau:=FCEntities[SPMISent].E_spmMBur;
+   SPMIScorrupt:=FCEntities[SPMISent].E_spmMCorr;
+   SPMIScohSet:=false;
+   SPMIStensSet:=false;
+   SPMISsecSet:=false;
+   SPMISeduSet:=false;
+   SPMISnatSet:=false;
+   SPMIShealSet:=false;
+   SPMISspmDat:=FCFgSPM_SPMI_Get(FCEntities[SPMISent].E_spm[SPMISspmi].SPMS_token);
+   {.update the SPM modifiers}
+   if SPMISspmDat.SPMI_modCohes<>0
+   then
+   begin
+      FCEntities[SPMISent].E_spmMcohes:=SPMIScohes+SPMISspmDat.SPMI_modCohes;
+      SPMIScohSet:=true;
+   end;
+   if SPMISspmDat.SPMI_modTens<>0
+   then
+   begin
+      FCEntities[SPMISent].E_spmMtens:=SPMIStens+SPMISspmDat.SPMI_modTens;
+      SPMIStensSet:=true;
+   end;
+   if SPMISspmDat.SPMI_modSec<>0
+   then
+   begin
+      FCEntities[SPMISent].E_spmMsec:=SPMISsec+SPMISspmDat.SPMI_modSec;
+      SPMISsecSet:=true;
+   end;
+   if SPMISspmDat.SPMI_modEdu<>0
+   then
+   begin
+      FCEntities[SPMISent].E_spmMedu:=SPMISedu+SPMISspmDat.SPMI_modEdu;
+      SPMISeduSet:=true;
+   end;
+   if SPMISspmDat.SPMI_modNat<>0
+   then
+   begin
+      FCEntities[SPMISent].E_spmMnat:=SPMISnat+SPMISspmDat.SPMI_modNat;
+      SPMISnatSet:=true;
+   end;
+   if SPMISspmDat.SPMI_modHeal<>0
+   then
+   begin
+      FCEntities[SPMISent].E_spmMhealth:=SPMIShealth+SPMISspmDat.SPMI_modHeal;
+      SPMIShealSet:=true;
+   end;
+   if SPMISspmDat.SPMI_modBur<>0
+   then
+   begin
+      FCEntities[SPMISent].E_spmMBur:=SPMISbureau+SPMISspmDat.SPMI_modBur;
+      FCEntities[SPMISent].E_bureau:=FCEntities[SPMISent].E_bureau+SPMISspmDat.SPMI_modBur;
+   end;
+   if SPMISspmDat.SPMI_modCorr<>0
+   then
+   begin
+      FCEntities[SPMISent].E_spmMCorr:=SPMIScorrupt+SPMISspmDat.SPMI_modCorr;
+      FCEntities[SPMISent].E_corrupt:=FCEntities[SPMISent].E_corrupt+SPMISspmDat.SPMI_modCorr;
+   end;
+   SPMISmax:=length(FCentities[SPMISent].E_col)-1;
+   if (SPMIScsmUpd)
+      and (SPMISmax>0)
+   then
+   begin
+      SPMIScnt:=1;
+      while SPMIScnt<=SPMISmax do
+      begin
+         if SPMIScohSet
+         then FCMgCSM_ColonyData_Upd(
+            gcsmdCohes
+            ,SPMISent
+            ,SPMIScnt
+            ,SPMISspmDat.SPMI_modCohes
+            ,0
+            ,gcsmptNone
+            ,false
+            );
+         if SPMIStensSet
+         then
+         begin
+            if SPMIShealSet
+            then
+            begin
+               SPMIShealSet:=false;
+               SPMISnatSet:=false;
+            end;
+            FCMgCSM_ColonyData_Upd(
+               gcsmdTens
+               ,SPMISent
+               ,SPMIScnt
+               ,SPMISspmDat.SPMI_modTens
+               ,0
+               ,gcsmptNone
+               ,false
+               );
+         end;
+         if SPMISsecSet
+         then FCMgCSM_ColonyData_Upd(
+            gcsmdSec
+            ,SPMISent
+            ,SPMIScnt
+            ,0
+            ,0
+            ,gcsmptNone
+            ,true
+            );
+         if SPMISeduSet
+         then FCMgCSM_ColonyData_Upd(
+            gcsmdEdu
+            ,SPMISent
+            ,SPMIScnt
+            ,SPMISspmDat.SPMI_modEdu
+            ,0
+            ,gcsmptNone
+            ,false
+            );
+         if SPMISnatSet
+         then FCMgCSM_ColonyData_Upd(
+            gcsmdBirthR
+            ,SPMISent
+            ,SPMIScnt
+            ,0
+            ,0
+            ,gcsmptNone
+            ,false
+            );
+         if SPMIShealSet
+         then FCMgCSM_ColonyData_Upd(
+            gcsmdHEAL
+            ,SPMISent
+            ,SPMIScnt
+            ,SPMISspmDat.SPMI_modHeal
+            ,0
+            ,gcsmptNone
+            ,false
+            );
+         inc(SPMIScnt);
+      end; //==END== while SPMIScnt<=SPMISmax do ==//
+   end; //==END== if (SPMIScsmUpd) and (SPMISmax>0) ==//
+end;
+
+end.

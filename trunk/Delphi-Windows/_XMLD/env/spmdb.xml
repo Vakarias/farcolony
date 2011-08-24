@@ -1,0 +1,2158 @@
+﻿<!-- SPM Database -->
+<!-- 
+	
+   {.SPM areas}
+   [area]
+      {.Administration (or ADMIN)}
+      dgADMIN
+      {.Economy (ECON)}
+      dgECON
+      {.Medical Care (MEDCA)}
+      dgMEDCA
+      {.Society (SOC)}
+      dgSOC
+      {.Space Politics (SPOL)}
+      dgSPOL
+      {.Spirituality (SPI)}
+      dgSPI
+
+   {.SPM HQ structures}
+   [hqstruc]
+      {.centralized}
+      dgCentral
+      {.clustered}
+      dgClust
+      {.corporative}
+      dgCorpo
+      {.federative}
+      dgFed
+   
+   {.SPMi requirement types for faction data requirement}
+   [fdatType]
+      rfdFacLv1
+      rfdFacLv2
+      rfdFacLv3
+      rfdFacLv4
+      rfdFacLv5
+      rfdFacLv6
+      rfdFacLv7
+      rfdFacLv8
+      rfdFacLv9
+      rfdFacStab
+      rfdInstrLv
+      rfdLifeQ
+      rfdEquil
+	
+   {.SPMi requirement types for UC requirement}
+   [ucmethod]
+      {.fixed value}
+      dgFixed
+      dgFixed_yr
+      {.calculation - population}
+      dgCalcPop
+      dgCalcPop_yr
+      {.calculation - colonies}
+      dgCalcCol
+      dgCalcCol_yr
+	
+   <spmi token="" area="" isunique="" ispolicy="">
+      <spmmod mcohes="" mtens="" msec="" medu="" mnat="" mhealth="" mbur="" mcorr=""/>
+      <spmreq>
+         {dgBuilding}
+         <requirement token="dgBuilding" buildtoken="" buildperc=""/>
+         {dgFacData}
+         <requirement token="dgFacData" fdatType="" fdatValue=""/>
+         {dgTechSci}
+         <requirement token="dgTechSci" tstoken="" tsmastlvl=""/>
+         {dgUC}
+         <requirement token="dgUC" ucmethod="" ucval=""/>
+      </spmreq>
+      {FOR GVT POLICIES ONLY:
+      <spmHQ hqstruc="" hqrtm=""/>}
+      <spmfx>
+         {economic & industrial output}
+         <ceffect code="EIOUT" modifier="" isburmod=""/> 
+         {revenues & taxes}
+         <ceffect code="REVTX" coef=""/> 
+      </spmfx>
+      <spminfluences>
+         <influence vstoken="SPMi_AIchitect" vsmod="0"/>
+         <influence vstoken="SPMi_CentrAuth" vsmod="0"/>
+         <influence vstoken="SPMi_CorpOrg" vsmod="0"/>
+         <influence vstoken="SPMi_Cyberdemo" vsmod="0"/>
+         <influence vstoken="SPMi_ElecGov" vsmod="0"/>
+         <influence vstoken="SPMi_RiggElec" vsmod="0"/>
+         <influence vstoken="SPMi_StatePol" vsmod="0"/>
+         <influence vstoken="SPMi_ZeroTol" vsmod="0"/>
+         <influence vstoken="SPMi_Decel" vsmod="0"/>
+         <influence vstoken="SPMi_FreeMark" vsmod="0"/>
+         <influence vstoken="SPMi_GreenEco" vsmod="0"/>
+         <influence vstoken="SPMi_ParticipEcon" vsmod="0"/>
+         <influence vstoken="SPMi_PlanEcon" vsmod="0"/>
+         <influence vstoken="SPMi_ProacCitiz" vsmod="0"/>
+         <influence vstoken="SPMi_ProfTechno" vsmod="0"/>
+         <influence vstoken="SPMi_Amortalism" vsmod="0"/>
+         <influence vstoken="SPMi_BioroidsAdopt" vsmod="0"/>
+         <influence vstoken="SPMi_BirthsCtl" vsmod="0"/>
+         <influence vstoken="SPMi_Eugenics" vsmod="0"/>
+         <influence vstoken="SPMi_Immortalism" vsmod="0"/>
+         <influence vstoken="SPMi_SocSystem" vsmod="0"/>
+         <influence vstoken="SPMi_Abolition" vsmod="0"/>
+         <influence vstoken="SPMi_Cryptosurv" vsmod="0"/>
+         <influence vstoken="SPMi_HomoSoc" vsmod="0"/>
+         <influence vstoken="SPMi_HumRetire" vsmod="0"/>
+         <influence vstoken="SPMi_MilSoc" vsmod="0"/>
+         <influence vstoken="SPMi_Slavery" vsmod="0"/>
+         <influence vstoken="SPMi_Xenophobia" vsmod="0"/>
+         <influence vstoken="SPMi_AntiHumSpacef" vsmod="0"/>
+         <influence vstoken="SPMi_Colonialism" vsmod="0"/>
+         <influence vstoken="SPMi_CosmosPreserv" vsmod="0"/>
+         <influence vstoken="SPMi_Environmental" vsmod="0"/>
+         <influence vstoken="SPMi_NatTranpSpFleet" vsmod="0"/>
+         <influence vstoken="SPMi_OneWorldCom" vsmod="0"/>
+         <influence vstoken="SPMi_SpDebMClean" vsmod="0"/>
+         <influence vstoken="SPMi_CultOfAtheism" vsmod="0"/>
+         <influence vstoken="SPMi_Cybergnosticism" vsmod="0"/>
+         <influence vstoken="SPMi_Infotranscend" vsmod="0"/>
+         <influence vstoken="SPMi_Pacifism" vsmod="0"/>
+         <influence vstoken="SPMi_ReligiousFree" vsmod="0"/>
+         <influence vstoken="SPMi_StateRel" vsmod="0"/>
+         <influence vstoken="SPMi_TheFreeUnion" vsmod="0"/>
+      </spminfluences>
+   </spmi>
+   
+   PUT THE ITEMS IN ORDER OF AREA/TOKEN
+   DON'T FORGET TO UPDATE ui.xml/SPM + encyclopaedia.xml/SPM + factionsdb.xml (with same list)
+   
+   for the first and db loading implementation put ispolsys at true if spmHQ is present during loading
+-->
+
+<SPMDB>
+   <!-- ADMIN / AIchitect -->
+   <spmi token="SPMi_AIchitect" area="dgADMIN" isunique="true" ispolicy="true">
+      <spmmod mcohes="10" mtens="-15" msec="0" medu="0" mnat="0" mhealth="0" mbur="30" mcorr="-30"/>
+      <spmHQ hqstruc="dgClust" hqrtm="-15"/>
+      <spminfluences>
+         <influence vstoken="SPMi_AIchitect" vsmod="0"/>
+         <influence vstoken="SPMi_CentrAuth" vsmod="0"/>
+         <influence vstoken="SPMi_CorpOrg" vsmod="0"/>
+         <influence vstoken="SPMi_Cyberdemo" vsmod="0"/>
+         <influence vstoken="SPMi_ElecGov" vsmod="0"/>
+         <influence vstoken="SPMi_RiggElec" vsmod="0"/>
+         <influence vstoken="SPMi_StatePol" vsmod="0"/>
+         <influence vstoken="SPMi_ZeroTol" vsmod="0"/>
+         <influence vstoken="SPMi_Decel" vsmod="0"/>
+         <influence vstoken="SPMi_FreeMark" vsmod="0"/>
+         <influence vstoken="SPMi_GreenEco" vsmod="0"/>
+         <influence vstoken="SPMi_ParticipEcon" vsmod="0"/>
+         <influence vstoken="SPMi_PlanEcon" vsmod="0"/>
+         <influence vstoken="SPMi_ProacCitiz" vsmod="0"/>
+         <influence vstoken="SPMi_ProfTechno" vsmod="0"/>
+         <influence vstoken="SPMi_Amortalism" vsmod="8"/>
+         <influence vstoken="SPMi_BioroidsAdopt" vsmod="64"/>
+         <influence vstoken="SPMi_BirthsCtl" vsmod="-8"/>
+         <influence vstoken="SPMi_Eugenics" vsmod="0"/>
+         <influence vstoken="SPMi_Immortalism" vsmod="0"/>
+         <influence vstoken="SPMi_SocSystem" vsmod="0"/>
+         <influence vstoken="SPMi_Abolition" vsmod="48"/>
+         <influence vstoken="SPMi_Cryptosurv" vsmod="0"/>
+         <influence vstoken="SPMi_HomoSoc" vsmod="0"/>
+         <influence vstoken="SPMi_HumRetire" vsmod="0"/>
+         <influence vstoken="SPMi_MilSoc" vsmod="0"/>
+         <influence vstoken="SPMi_Slavery" vsmod="0"/>
+         <influence vstoken="SPMi_Xenophobia" vsmod="0"/>
+         <influence vstoken="SPMi_AntiHumSpacef" vsmod="16"/>
+         <influence vstoken="SPMi_Colonialism" vsmod="0"/>
+         <influence vstoken="SPMi_CosmosPreserv" vsmod="0"/>
+         <influence vstoken="SPMi_Environmental" vsmod="0"/>
+         <influence vstoken="SPMi_NatTranpSpFleet" vsmod="0"/>
+         <influence vstoken="SPMi_OneWorldCom" vsmod="0"/>
+         <influence vstoken="SPMi_SpDebMClean" vsmod="0"/>
+         <influence vstoken="SPMi_CultOfAtheism" vsmod="0"/>
+         <influence vstoken="SPMi_Cybergnosticism" vsmod="0"/>
+         <influence vstoken="SPMi_Infotranscend" vsmod="0"/>
+         <influence vstoken="SPMi_Pacifism" vsmod="0"/>
+         <influence vstoken="SPMi_ReligiousFree" vsmod="0"/>
+         <influence vstoken="SPMi_StateRel" vsmod="0"/>
+         <influence vstoken="SPMi_TheFreeUnion" vsmod="0"/>
+      </spminfluences>
+   </spmi>
+   <!-- ADMIN / Centralized Authority -->
+   <spmi token="SPMi_CentrAuth" area="dgADMIN" isunique="true" ispolicy="true">
+      <spmmod mcohes="-15" mtens="10" msec="20" medu="-10" mnat="0" mhealth="0" mbur="25" mcorr="25"/>
+      <spmHQ hqstruc="dgCentral" hqrtm="25"/>
+      <spminfluences>
+         <influence vstoken="SPMi_AIchitect" vsmod="-40"/>
+         <influence vstoken="SPMi_CentrAuth" vsmod="0"/>
+         <influence vstoken="SPMi_CorpOrg" vsmod="0"/>
+         <influence vstoken="SPMi_Cyberdemo" vsmod="0"/>
+         <influence vstoken="SPMi_ElecGov" vsmod="0"/>
+         <influence vstoken="SPMi_RiggElec" vsmod="0"/>
+         <influence vstoken="SPMi_StatePol" vsmod="0"/>
+         <influence vstoken="SPMi_ZeroTol" vsmod="0"/>
+         <influence vstoken="SPMi_Decel" vsmod="0"/>
+         <influence vstoken="SPMi_FreeMark" vsmod="0"/>
+         <influence vstoken="SPMi_GreenEco" vsmod="0"/>
+         <influence vstoken="SPMi_ParticipEcon" vsmod="0"/>
+         <influence vstoken="SPMi_PlanEcon" vsmod="0"/>
+         <influence vstoken="SPMi_ProacCitiz" vsmod="0"/>
+         <influence vstoken="SPMi_ProfTechno" vsmod="0"/>
+         <influence vstoken="SPMi_Amortalism" vsmod="-8"/>
+         <influence vstoken="SPMi_BioroidsAdopt" vsmod="-16"/>
+         <influence vstoken="SPMi_BirthsCtl" vsmod="64"/>
+         <influence vstoken="SPMi_Eugenics" vsmod="0"/>
+         <influence vstoken="SPMi_Immortalism" vsmod="0"/>
+         <influence vstoken="SPMi_SocSystem" vsmod="0"/>
+         <influence vstoken="SPMi_Abolition" vsmod="0"/>
+         <influence vstoken="SPMi_Cryptosurv" vsmod="0"/>
+         <influence vstoken="SPMi_HomoSoc" vsmod="0"/>
+         <influence vstoken="SPMi_HumRetire" vsmod="0"/>
+         <influence vstoken="SPMi_MilSoc" vsmod="0"/>
+         <influence vstoken="SPMi_Slavery" vsmod="0"/>
+         <influence vstoken="SPMi_Xenophobia" vsmod="0"/>
+         <influence vstoken="SPMi_AntiHumSpacef" vsmod="0"/>
+         <influence vstoken="SPMi_Colonialism" vsmod="0"/>
+         <influence vstoken="SPMi_CosmosPreserv" vsmod="0"/>
+         <influence vstoken="SPMi_Environmental" vsmod="0"/>
+         <influence vstoken="SPMi_NatTranpSpFleet" vsmod="0"/>
+         <influence vstoken="SPMi_OneWorldCom" vsmod="0"/>
+         <influence vstoken="SPMi_SpDebMClean" vsmod="0"/>
+         <influence vstoken="SPMi_CultOfAtheism" vsmod="0"/>
+         <influence vstoken="SPMi_Cybergnosticism" vsmod="0"/>
+         <influence vstoken="SPMi_Infotranscend" vsmod="0"/>
+         <influence vstoken="SPMi_Pacifism" vsmod="0"/>
+         <influence vstoken="SPMi_ReligiousFree" vsmod="0"/>
+         <influence vstoken="SPMi_StateRel" vsmod="0"/>
+         <influence vstoken="SPMi_TheFreeUnion" vsmod="0"/>
+      </spminfluences>
+   </spmi>
+   <!-- ADMIN / Corporate Organization -->
+   <spmi token="SPMi_CorpOrg" area="dgADMIN" isunique="true" ispolicy="true">
+      <spmmod mcohes="20" mtens="10" msec="0" medu="15" mnat="0" mhealth="0" mbur="10" mcorr="5"/>
+      <spmHQ hqstruc="dgCorpo" hqrtm="5"/>
+      <spminfluences>
+         <influence vstoken="SPMi_AIchitect" vsmod="-8"/>
+         <influence vstoken="SPMi_CentrAuth" vsmod="0"/>
+         <influence vstoken="SPMi_CorpOrg" vsmod="0"/>
+         <influence vstoken="SPMi_Cyberdemo" vsmod="0"/>
+         <influence vstoken="SPMi_ElecGov" vsmod="0"/>
+         <influence vstoken="SPMi_RiggElec" vsmod="0"/>
+         <influence vstoken="SPMi_StatePol" vsmod="0"/>
+         <influence vstoken="SPMi_ZeroTol" vsmod="0"/>
+         <influence vstoken="SPMi_Decel" vsmod="0"/>
+         <influence vstoken="SPMi_FreeMark" vsmod="0"/>
+         <influence vstoken="SPMi_GreenEco" vsmod="0"/>
+         <influence vstoken="SPMi_ParticipEcon" vsmod="0"/>
+         <influence vstoken="SPMi_PlanEcon" vsmod="0"/>
+         <influence vstoken="SPMi_ProacCitiz" vsmod="0"/>
+         <influence vstoken="SPMi_ProfTechno" vsmod="0"/>
+         <influence vstoken="SPMi_Amortalism" vsmod="-24"/>
+         <influence vstoken="SPMi_BioroidsAdopt" vsmod="0"/>
+         <influence vstoken="SPMi_BirthsCtl" vsmod="-24"/>
+         <influence vstoken="SPMi_Eugenics" vsmod="0"/>
+         <influence vstoken="SPMi_Immortalism" vsmod="0"/>
+         <influence vstoken="SPMi_SocSystem" vsmod="0"/>
+         <influence vstoken="SPMi_Abolition" vsmod="0"/>
+         <influence vstoken="SPMi_Cryptosurv" vsmod="0"/>
+         <influence vstoken="SPMi_HomoSoc" vsmod="0"/>
+         <influence vstoken="SPMi_HumRetire" vsmod="0"/>
+         <influence vstoken="SPMi_MilSoc" vsmod="0"/>
+         <influence vstoken="SPMi_Slavery" vsmod="0"/>
+         <influence vstoken="SPMi_Xenophobia" vsmod="0"/>
+         <influence vstoken="SPMi_AntiHumSpacef" vsmod="0"/>
+         <influence vstoken="SPMi_Colonialism" vsmod="0"/>
+         <influence vstoken="SPMi_CosmosPreserv" vsmod="0"/>
+         <influence vstoken="SPMi_Environmental" vsmod="0"/>
+         <influence vstoken="SPMi_NatTranpSpFleet" vsmod="0"/>
+         <influence vstoken="SPMi_OneWorldCom" vsmod="0"/>
+         <influence vstoken="SPMi_SpDebMClean" vsmod="0"/>
+         <influence vstoken="SPMi_CultOfAtheism" vsmod="0"/>
+         <influence vstoken="SPMi_Cybergnosticism" vsmod="0"/>
+         <influence vstoken="SPMi_Infotranscend" vsmod="0"/>
+         <influence vstoken="SPMi_Pacifism" vsmod="0"/>
+         <influence vstoken="SPMi_ReligiousFree" vsmod="0"/>
+         <influence vstoken="SPMi_StateRel" vsmod="0"/>
+         <influence vstoken="SPMi_TheFreeUnion" vsmod="0"/>
+      </spminfluences>
+   </spmi>
+   <!-- ADMIN / Cyberdemocracy -->
+   <spmi token="SPMi_Cyberdemo" area="dgADMIN" isunique="true" ispolicy="true">
+      <spmmod mcohes="25" mtens="0" msec="5" medu="-5" mnat="0" mhealth="0" mbur="25" mcorr="-15"/>
+      <spmHQ hqstruc="dgClust" hqrtm="-5"/>
+      <spminfluences>
+         <influence vstoken="SPMi_AIchitect" vsmod="32"/>
+         <influence vstoken="SPMi_CentrAuth" vsmod="0"/>
+         <influence vstoken="SPMi_CorpOrg" vsmod="0"/>
+         <influence vstoken="SPMi_Cyberdemo" vsmod="0"/>
+         <influence vstoken="SPMi_ElecGov" vsmod="0"/>
+         <influence vstoken="SPMi_RiggElec" vsmod="0"/>
+         <influence vstoken="SPMi_StatePol" vsmod="0"/>
+         <influence vstoken="SPMi_ZeroTol" vsmod="0"/>
+         <influence vstoken="SPMi_Decel" vsmod="0"/>
+         <influence vstoken="SPMi_FreeMark" vsmod="0"/>
+         <influence vstoken="SPMi_GreenEco" vsmod="0"/>
+         <influence vstoken="SPMi_ParticipEcon" vsmod="0"/>
+         <influence vstoken="SPMi_PlanEcon" vsmod="0"/>
+         <influence vstoken="SPMi_ProacCitiz" vsmod="0"/>
+         <influence vstoken="SPMi_ProfTechno" vsmod="0"/>
+         <influence vstoken="SPMi_Amortalism" vsmod="8"/>
+         <influence vstoken="SPMi_BioroidsAdopt" vsmod="0"/>
+         <influence vstoken="SPMi_BirthsCtl" vsmod="-24"/>
+         <influence vstoken="SPMi_Eugenics" vsmod="0"/>
+         <influence vstoken="SPMi_Immortalism" vsmod="0"/>
+         <influence vstoken="SPMi_SocSystem" vsmod="0"/>
+         <influence vstoken="SPMi_Abolition" vsmod="16"/>
+         <influence vstoken="SPMi_Cryptosurv" vsmod="0"/>
+         <influence vstoken="SPMi_HomoSoc" vsmod="0"/>
+         <influence vstoken="SPMi_HumRetire" vsmod="0"/>
+         <influence vstoken="SPMi_MilSoc" vsmod="0"/>
+         <influence vstoken="SPMi_Slavery" vsmod="0"/>
+         <influence vstoken="SPMi_Xenophobia" vsmod="0"/>
+         <influence vstoken="SPMi_AntiHumSpacef" vsmod="0"/>
+         <influence vstoken="SPMi_Colonialism" vsmod="0"/>
+         <influence vstoken="SPMi_CosmosPreserv" vsmod="0"/>
+         <influence vstoken="SPMi_Environmental" vsmod="0"/>
+         <influence vstoken="SPMi_NatTranpSpFleet" vsmod="0"/>
+         <influence vstoken="SPMi_OneWorldCom" vsmod="0"/>
+         <influence vstoken="SPMi_SpDebMClean" vsmod="0"/>
+         <influence vstoken="SPMi_CultOfAtheism" vsmod="0"/>
+         <influence vstoken="SPMi_Cybergnosticism" vsmod="0"/>
+         <influence vstoken="SPMi_Infotranscend" vsmod="0"/>
+         <influence vstoken="SPMi_Pacifism" vsmod="0"/>
+         <influence vstoken="SPMi_ReligiousFree" vsmod="0"/>
+         <influence vstoken="SPMi_StateRel" vsmod="0"/>
+         <influence vstoken="SPMi_TheFreeUnion" vsmod="0"/>
+      </spminfluences>
+   </spmi>
+   <!-- ADMIN / Elected Government -->
+   <spmi token="SPMi_ElecGov" area="dgADMIN" isunique="true" ispolicy="true">
+      <spmmod mcohes="15" mtens="-10" msec="0" medu="0" mnat="0" mhealth="0" mbur="15" mcorr="15"/>
+      <spmHQ hqstruc="dgFed" hqrtm="15"/>
+      <spminfluences>
+         <influence vstoken="SPMi_AIchitect" vsmod="8"/>
+         <influence vstoken="SPMi_CentrAuth" vsmod="0"/>
+         <influence vstoken="SPMi_CorpOrg" vsmod="0"/>
+         <influence vstoken="SPMi_Cyberdemo" vsmod="0"/>
+         <influence vstoken="SPMi_ElecGov" vsmod="0"/>
+         <influence vstoken="SPMi_RiggElec" vsmod="0"/>
+         <influence vstoken="SPMi_StatePol" vsmod="0"/>
+         <influence vstoken="SPMi_ZeroTol" vsmod="0"/>
+         <influence vstoken="SPMi_Decel" vsmod="0"/>
+         <influence vstoken="SPMi_FreeMark" vsmod="0"/>
+         <influence vstoken="SPMi_GreenEco" vsmod="0"/>
+         <influence vstoken="SPMi_ParticipEcon" vsmod="0"/>
+         <influence vstoken="SPMi_PlanEcon" vsmod="0"/>
+         <influence vstoken="SPMi_ProacCitiz" vsmod="0"/>
+         <influence vstoken="SPMi_ProfTechno" vsmod="0"/>
+         <influence vstoken="SPMi_Amortalism" vsmod="-8"/>
+         <influence vstoken="SPMi_BioroidsAdopt" vsmod="0"/>
+         <influence vstoken="SPMi_BirthsCtl" vsmod="-24"/>
+         <influence vstoken="SPMi_Eugenics" vsmod="0"/>
+         <influence vstoken="SPMi_Immortalism" vsmod="0"/>
+         <influence vstoken="SPMi_SocSystem" vsmod="0"/>
+         <influence vstoken="SPMi_Abolition" vsmod="0"/>
+         <influence vstoken="SPMi_Cryptosurv" vsmod="0"/>
+         <influence vstoken="SPMi_HomoSoc" vsmod="0"/>
+         <influence vstoken="SPMi_HumRetire" vsmod="0"/>
+         <influence vstoken="SPMi_MilSoc" vsmod="0"/>
+         <influence vstoken="SPMi_Slavery" vsmod="0"/>
+         <influence vstoken="SPMi_Xenophobia" vsmod="0"/>
+         <influence vstoken="SPMi_AntiHumSpacef" vsmod="0"/>
+         <influence vstoken="SPMi_Colonialism" vsmod="0"/>
+         <influence vstoken="SPMi_CosmosPreserv" vsmod="0"/>
+         <influence vstoken="SPMi_Environmental" vsmod="0"/>
+         <influence vstoken="SPMi_NatTranpSpFleet" vsmod="0"/>
+         <influence vstoken="SPMi_OneWorldCom" vsmod="0"/>
+         <influence vstoken="SPMi_SpDebMClean" vsmod="0"/>
+         <influence vstoken="SPMi_CultOfAtheism" vsmod="0"/>
+         <influence vstoken="SPMi_Cybergnosticism" vsmod="0"/>
+         <influence vstoken="SPMi_Infotranscend" vsmod="0"/>
+         <influence vstoken="SPMi_Pacifism" vsmod="0"/>
+         <influence vstoken="SPMi_ReligiousFree" vsmod="0"/>
+         <influence vstoken="SPMi_StateRel" vsmod="0"/>
+         <influence vstoken="SPMi_TheFreeUnion" vsmod="0"/>
+      </spminfluences>
+   </spmi>
+   <!-- ADMIN / Rigged Elections -->
+   <spmi token="SPMi_RiggElec" area="dgADMIN" isunique="false" ispolicy="false">
+      <spmmod mcohes="-20" mtens="10" msec="0" medu="0" mnat="0" mhealth="0" mbur="0" mcorr="0"/>
+      <spminfluences>
+         <influence vstoken="SPMi_AIchitect" vsmod="-40"/>
+         <influence vstoken="SPMi_CentrAuth" vsmod="0"/>
+         <influence vstoken="SPMi_CorpOrg" vsmod="0"/>
+         <influence vstoken="SPMi_Cyberdemo" vsmod="0"/>
+         <influence vstoken="SPMi_ElecGov" vsmod="0"/>
+         <influence vstoken="SPMi_RiggElec" vsmod="0"/>
+         <influence vstoken="SPMi_StatePol" vsmod="0"/>
+         <influence vstoken="SPMi_ZeroTol" vsmod="0"/>
+         <influence vstoken="SPMi_Decel" vsmod="0"/>
+         <influence vstoken="SPMi_FreeMark" vsmod="0"/>
+         <influence vstoken="SPMi_GreenEco" vsmod="0"/>
+         <influence vstoken="SPMi_ParticipEcon" vsmod="0"/>
+         <influence vstoken="SPMi_PlanEcon" vsmod="0"/>
+         <influence vstoken="SPMi_ProacCitiz" vsmod="0"/>
+         <influence vstoken="SPMi_ProfTechno" vsmod="0"/>
+         <influence vstoken="SPMi_Amortalism" vsmod="0"/>
+         <influence vstoken="SPMi_BioroidsAdopt" vsmod="0"/>
+         <influence vstoken="SPMi_BirthsCtl" vsmod="0"/>
+         <influence vstoken="SPMi_Eugenics" vsmod="0"/>
+         <influence vstoken="SPMi_Immortalism" vsmod="0"/>
+         <influence vstoken="SPMi_SocSystem" vsmod="0"/>
+         <influence vstoken="SPMi_Abolition" vsmod="0"/>
+         <influence vstoken="SPMi_Cryptosurv" vsmod="0"/>
+         <influence vstoken="SPMi_HomoSoc" vsmod="0"/>
+         <influence vstoken="SPMi_HumRetire" vsmod="0"/>
+         <influence vstoken="SPMi_MilSoc" vsmod="0"/>
+         <influence vstoken="SPMi_Slavery" vsmod="0"/>
+         <influence vstoken="SPMi_Xenophobia" vsmod="0"/>
+         <influence vstoken="SPMi_AntiHumSpacef" vsmod="0"/>
+         <influence vstoken="SPMi_Colonialism" vsmod="0"/>
+         <influence vstoken="SPMi_CosmosPreserv" vsmod="0"/>
+         <influence vstoken="SPMi_Environmental" vsmod="0"/>
+         <influence vstoken="SPMi_NatTranpSpFleet" vsmod="0"/>
+         <influence vstoken="SPMi_OneWorldCom" vsmod="0"/>
+         <influence vstoken="SPMi_SpDebMClean" vsmod="0"/>
+         <influence vstoken="SPMi_CultOfAtheism" vsmod="0"/>
+         <influence vstoken="SPMi_Cybergnosticism" vsmod="0"/>
+         <influence vstoken="SPMi_Infotranscend" vsmod="0"/>
+         <influence vstoken="SPMi_Pacifism" vsmod="0"/>
+         <influence vstoken="SPMi_ReligiousFree" vsmod="0"/>
+         <influence vstoken="SPMi_StateRel" vsmod="0"/>
+         <influence vstoken="SPMi_TheFreeUnion" vsmod="0"/>
+      </spminfluences>
+   </spmi>
+   <!-- ADMIN / State Police -->
+   <spmi token="SPMi_StatePol" area="dgADMIN" isunique="false" ispolicy="true">
+      <spmmod mcohes="10" mtens="20" msec="30" medu="0" mnat="0" mhealth="0" mbur="0" mcorr="-10"/>
+      <spminfluences>
+         <influence vstoken="SPMi_AIchitect" vsmod="-8"/>
+         <influence vstoken="SPMi_CentrAuth" vsmod="0"/>
+         <influence vstoken="SPMi_CorpOrg" vsmod="0"/>
+         <influence vstoken="SPMi_Cyberdemo" vsmod="0"/>
+         <influence vstoken="SPMi_ElecGov" vsmod="0"/>
+         <influence vstoken="SPMi_RiggElec" vsmod="0"/>
+         <influence vstoken="SPMi_StatePol" vsmod="0"/>
+         <influence vstoken="SPMi_ZeroTol" vsmod="0"/>
+         <influence vstoken="SPMi_Decel" vsmod="0"/>
+         <influence vstoken="SPMi_FreeMark" vsmod="0"/>
+         <influence vstoken="SPMi_GreenEco" vsmod="0"/>
+         <influence vstoken="SPMi_ParticipEcon" vsmod="0"/>
+         <influence vstoken="SPMi_PlanEcon" vsmod="0"/>
+         <influence vstoken="SPMi_ProacCitiz" vsmod="0"/>
+         <influence vstoken="SPMi_ProfTechno" vsmod="0"/>
+         <influence vstoken="SPMi_Amortalism" vsmod="0"/>
+         <influence vstoken="SPMi_BioroidsAdopt" vsmod="0"/>
+         <influence vstoken="SPMi_BirthsCtl" vsmod="16"/>
+         <influence vstoken="SPMi_Eugenics" vsmod="0"/>
+         <influence vstoken="SPMi_Immortalism" vsmod="0"/>
+         <influence vstoken="SPMi_SocSystem" vsmod="0"/>
+         <influence vstoken="SPMi_Abolition" vsmod="0"/>
+         <influence vstoken="SPMi_Cryptosurv" vsmod="0"/>
+         <influence vstoken="SPMi_HomoSoc" vsmod="0"/>
+         <influence vstoken="SPMi_HumRetire" vsmod="0"/>
+         <influence vstoken="SPMi_MilSoc" vsmod="0"/>
+         <influence vstoken="SPMi_Slavery" vsmod="0"/>
+         <influence vstoken="SPMi_Xenophobia" vsmod="0"/>
+         <influence vstoken="SPMi_AntiHumSpacef" vsmod="0"/>
+         <influence vstoken="SPMi_Colonialism" vsmod="0"/>
+         <influence vstoken="SPMi_CosmosPreserv" vsmod="0"/>
+         <influence vstoken="SPMi_Environmental" vsmod="0"/>
+         <influence vstoken="SPMi_NatTranpSpFleet" vsmod="0"/>
+         <influence vstoken="SPMi_OneWorldCom" vsmod="0"/>
+         <influence vstoken="SPMi_SpDebMClean" vsmod="0"/>
+         <influence vstoken="SPMi_CultOfAtheism" vsmod="0"/>
+         <influence vstoken="SPMi_Cybergnosticism" vsmod="0"/>
+         <influence vstoken="SPMi_Infotranscend" vsmod="0"/>
+         <influence vstoken="SPMi_Pacifism" vsmod="0"/>
+         <influence vstoken="SPMi_ReligiousFree" vsmod="0"/>
+         <influence vstoken="SPMi_StateRel" vsmod="0"/>
+         <influence vstoken="SPMi_TheFreeUnion" vsmod="0"/>
+      </spminfluences>
+   </spmi>
+   <!-- ADMIN / Zero Tolerance -->
+   <spmi token="SPMi_ZeroTol" area="dgADMIN" isunique="false" ispolicy="true">
+      <spmmod mcohes="-5" mtens="10" msec="20" medu="-10" mnat="0" mhealth="0" mbur="10" mcorr="-5"/>
+      <spminfluences>
+         <influence vstoken="SPMi_AIchitect" vsmod="16"/>
+         <influence vstoken="SPMi_CentrAuth" vsmod="0"/>
+         <influence vstoken="SPMi_CorpOrg" vsmod="0"/>
+         <influence vstoken="SPMi_Cyberdemo" vsmod="0"/>
+         <influence vstoken="SPMi_ElecGov" vsmod="0"/>
+         <influence vstoken="SPMi_RiggElec" vsmod="0"/>
+         <influence vstoken="SPMi_StatePol" vsmod="0"/>
+         <influence vstoken="SPMi_ZeroTol" vsmod="0"/>
+         <influence vstoken="SPMi_Decel" vsmod="0"/>
+         <influence vstoken="SPMi_FreeMark" vsmod="0"/>
+         <influence vstoken="SPMi_GreenEco" vsmod="0"/>
+         <influence vstoken="SPMi_ParticipEcon" vsmod="0"/>
+         <influence vstoken="SPMi_PlanEcon" vsmod="0"/>
+         <influence vstoken="SPMi_ProacCitiz" vsmod="0"/>
+         <influence vstoken="SPMi_ProfTechno" vsmod="0"/>
+         <influence vstoken="SPMi_Amortalism" vsmod="-8"/>
+         <influence vstoken="SPMi_BioroidsAdopt" vsmod="0"/>
+         <influence vstoken="SPMi_BirthsCtl" vsmod="8"/>
+         <influence vstoken="SPMi_Eugenics" vsmod="0"/>
+         <influence vstoken="SPMi_Immortalism" vsmod="0"/>
+         <influence vstoken="SPMi_SocSystem" vsmod="0"/>
+         <influence vstoken="SPMi_Abolition" vsmod="0"/>
+         <influence vstoken="SPMi_Cryptosurv" vsmod="0"/>
+         <influence vstoken="SPMi_HomoSoc" vsmod="0"/>
+         <influence vstoken="SPMi_HumRetire" vsmod="0"/>
+         <influence vstoken="SPMi_MilSoc" vsmod="0"/>
+         <influence vstoken="SPMi_Slavery" vsmod="0"/>
+         <influence vstoken="SPMi_Xenophobia" vsmod="0"/>
+         <influence vstoken="SPMi_AntiHumSpacef" vsmod="0"/>
+         <influence vstoken="SPMi_Colonialism" vsmod="0"/>
+         <influence vstoken="SPMi_CosmosPreserv" vsmod="0"/>
+         <influence vstoken="SPMi_Environmental" vsmod="0"/>
+         <influence vstoken="SPMi_NatTranpSpFleet" vsmod="0"/>
+         <influence vstoken="SPMi_OneWorldCom" vsmod="0"/>
+         <influence vstoken="SPMi_SpDebMClean" vsmod="0"/>
+         <influence vstoken="SPMi_CultOfAtheism" vsmod="0"/>
+         <influence vstoken="SPMi_Cybergnosticism" vsmod="0"/>
+         <influence vstoken="SPMi_Infotranscend" vsmod="0"/>
+         <influence vstoken="SPMi_Pacifism" vsmod="0"/>
+         <influence vstoken="SPMi_ReligiousFree" vsmod="0"/>
+         <influence vstoken="SPMi_StateRel" vsmod="0"/>
+         <influence vstoken="SPMi_TheFreeUnion" vsmod="0"/>
+      </spminfluences>
+   </spmi>
+   <!-- ECON / Decelerationism -->
+   <spmi token="SPMi_Decel" area="dgECON" isunique="false" ispolicy="false">
+      <spmmod mcohes="0" mtens="0" msec="0" medu="-10" mnat="0" mhealth="0" mbur="0" mcorr="0"/>
+      <spminfluences>
+         <influence vstoken="SPMi_AIchitect" vsmod="-16"/>
+         <influence vstoken="SPMi_CentrAuth" vsmod="0"/>
+         <influence vstoken="SPMi_CorpOrg" vsmod="0"/>
+         <influence vstoken="SPMi_Cyberdemo" vsmod="0"/>
+         <influence vstoken="SPMi_ElecGov" vsmod="0"/>
+         <influence vstoken="SPMi_RiggElec" vsmod="0"/>
+         <influence vstoken="SPMi_StatePol" vsmod="0"/>
+         <influence vstoken="SPMi_ZeroTol" vsmod="0"/>
+         <influence vstoken="SPMi_Decel" vsmod="0"/>
+         <influence vstoken="SPMi_FreeMark" vsmod="0"/>
+         <influence vstoken="SPMi_GreenEco" vsmod="0"/>
+         <influence vstoken="SPMi_ParticipEcon" vsmod="0"/>
+         <influence vstoken="SPMi_PlanEcon" vsmod="0"/>
+         <influence vstoken="SPMi_ProacCitiz" vsmod="0"/>
+         <influence vstoken="SPMi_ProfTechno" vsmod="0"/>
+         <influence vstoken="SPMi_Amortalism" vsmod="32"/>
+         <influence vstoken="SPMi_BioroidsAdopt" vsmod="-32"/>
+         <influence vstoken="SPMi_BirthsCtl" vsmod="-24"/>
+         <influence vstoken="SPMi_Eugenics" vsmod="0"/>
+         <influence vstoken="SPMi_Immortalism" vsmod="0"/>
+         <influence vstoken="SPMi_SocSystem" vsmod="0"/>
+         <influence vstoken="SPMi_Abolition" vsmod="-40"/>
+         <influence vstoken="SPMi_Cryptosurv" vsmod="0"/>
+         <influence vstoken="SPMi_HomoSoc" vsmod="0"/>
+         <influence vstoken="SPMi_HumRetire" vsmod="0"/>
+         <influence vstoken="SPMi_MilSoc" vsmod="0"/>
+         <influence vstoken="SPMi_Slavery" vsmod="0"/>
+         <influence vstoken="SPMi_Xenophobia" vsmod="0"/>
+         <influence vstoken="SPMi_AntiHumSpacef" vsmod="8"/>
+         <influence vstoken="SPMi_Colonialism" vsmod="0"/>
+         <influence vstoken="SPMi_CosmosPreserv" vsmod="0"/>
+         <influence vstoken="SPMi_Environmental" vsmod="0"/>
+         <influence vstoken="SPMi_NatTranpSpFleet" vsmod="0"/>
+         <influence vstoken="SPMi_OneWorldCom" vsmod="0"/>
+         <influence vstoken="SPMi_SpDebMClean" vsmod="0"/>
+         <influence vstoken="SPMi_CultOfAtheism" vsmod="0"/>
+         <influence vstoken="SPMi_Cybergnosticism" vsmod="0"/>
+         <influence vstoken="SPMi_Infotranscend" vsmod="0"/>
+         <influence vstoken="SPMi_Pacifism" vsmod="0"/>
+         <influence vstoken="SPMi_ReligiousFree" vsmod="0"/>
+         <influence vstoken="SPMi_StateRel" vsmod="0"/>
+         <influence vstoken="SPMi_TheFreeUnion" vsmod="0"/>
+      </spminfluences>
+   </spmi>
+   <!-- ECON / Free Market -->
+   <spmi token="SPMi_FreeMark" area="dgECON" isunique="true" ispolicy="true">
+      <spmmod mcohes="-5" mtens="0" msec="0" medu="0" mnat="0" mhealth="0" mbur="0" mcorr="5"/>
+      <spminfluences>
+         <influence vstoken="SPMi_AIchitect" vsmod="-8"/>
+         <influence vstoken="SPMi_CentrAuth" vsmod="0"/>
+         <influence vstoken="SPMi_CorpOrg" vsmod="0"/>
+         <influence vstoken="SPMi_Cyberdemo" vsmod="0"/>
+         <influence vstoken="SPMi_ElecGov" vsmod="0"/>
+         <influence vstoken="SPMi_RiggElec" vsmod="0"/>
+         <influence vstoken="SPMi_StatePol" vsmod="0"/>
+         <influence vstoken="SPMi_ZeroTol" vsmod="0"/>
+         <influence vstoken="SPMi_Decel" vsmod="0"/>
+         <influence vstoken="SPMi_FreeMark" vsmod="0"/>
+         <influence vstoken="SPMi_GreenEco" vsmod="0"/>
+         <influence vstoken="SPMi_ParticipEcon" vsmod="0"/>
+         <influence vstoken="SPMi_PlanEcon" vsmod="0"/>
+         <influence vstoken="SPMi_ProacCitiz" vsmod="0"/>
+         <influence vstoken="SPMi_ProfTechno" vsmod="0"/>
+         <influence vstoken="SPMi_Amortalism" vsmod="-8"/>
+         <influence vstoken="SPMi_BioroidsAdopt" vsmod="0"/>
+         <influence vstoken="SPMi_BirthsCtl" vsmod="0"/>
+         <influence vstoken="SPMi_Eugenics" vsmod="0"/>
+         <influence vstoken="SPMi_Immortalism" vsmod="0"/>
+         <influence vstoken="SPMi_SocSystem" vsmod="0"/>
+         <influence vstoken="SPMi_Abolition" vsmod="0"/>
+         <influence vstoken="SPMi_Cryptosurv" vsmod="0"/>
+         <influence vstoken="SPMi_HomoSoc" vsmod="0"/>
+         <influence vstoken="SPMi_HumRetire" vsmod="0"/>
+         <influence vstoken="SPMi_MilSoc" vsmod="0"/>
+         <influence vstoken="SPMi_Slavery" vsmod="0"/>
+         <influence vstoken="SPMi_Xenophobia" vsmod="0"/>
+         <influence vstoken="SPMi_AntiHumSpacef" vsmod="0"/>
+         <influence vstoken="SPMi_Colonialism" vsmod="0"/>
+         <influence vstoken="SPMi_CosmosPreserv" vsmod="0"/>
+         <influence vstoken="SPMi_Environmental" vsmod="0"/>
+         <influence vstoken="SPMi_NatTranpSpFleet" vsmod="0"/>
+         <influence vstoken="SPMi_OneWorldCom" vsmod="0"/>
+         <influence vstoken="SPMi_SpDebMClean" vsmod="0"/>
+         <influence vstoken="SPMi_CultOfAtheism" vsmod="0"/>
+         <influence vstoken="SPMi_Cybergnosticism" vsmod="0"/>
+         <influence vstoken="SPMi_Infotranscend" vsmod="0"/>
+         <influence vstoken="SPMi_Pacifism" vsmod="0"/>
+         <influence vstoken="SPMi_ReligiousFree" vsmod="0"/>
+         <influence vstoken="SPMi_StateRel" vsmod="0"/>
+         <influence vstoken="SPMi_TheFreeUnion" vsmod="0"/>
+      </spminfluences>
+   </spmi>
+   <!-- ECON / Green Economy -->
+   <spmi token="SPMi_GreenEco" area="dgECON" isunique="true" ispolicy="true">
+      <spmmod mcohes="0" mtens="0" msec="0" medu="0" mnat="0" mhealth="15" mbur="0" mcorr="0"/>
+      <spminfluences>
+         <influence vstoken="SPMi_AIchitect" vsmod="0"/>
+         <influence vstoken="SPMi_CentrAuth" vsmod="0"/>
+         <influence vstoken="SPMi_CorpOrg" vsmod="0"/>
+         <influence vstoken="SPMi_Cyberdemo" vsmod="0"/>
+         <influence vstoken="SPMi_ElecGov" vsmod="0"/>
+         <influence vstoken="SPMi_RiggElec" vsmod="0"/>
+         <influence vstoken="SPMi_StatePol" vsmod="0"/>
+         <influence vstoken="SPMi_ZeroTol" vsmod="0"/>
+         <influence vstoken="SPMi_Decel" vsmod="0"/>
+         <influence vstoken="SPMi_FreeMark" vsmod="0"/>
+         <influence vstoken="SPMi_GreenEco" vsmod="0"/>
+         <influence vstoken="SPMi_ParticipEcon" vsmod="0"/>
+         <influence vstoken="SPMi_PlanEcon" vsmod="0"/>
+         <influence vstoken="SPMi_ProacCitiz" vsmod="0"/>
+         <influence vstoken="SPMi_ProfTechno" vsmod="0"/>
+         <influence vstoken="SPMi_Amortalism" vsmod="40"/>
+         <influence vstoken="SPMi_BioroidsAdopt" vsmod="-32"/>
+         <influence vstoken="SPMi_BirthsCtl" vsmod="16"/>
+         <influence vstoken="SPMi_Eugenics" vsmod="0"/>
+         <influence vstoken="SPMi_Immortalism" vsmod="0"/>
+         <influence vstoken="SPMi_SocSystem" vsmod="0"/>
+         <influence vstoken="SPMi_Abolition" vsmod="-8"/>
+         <influence vstoken="SPMi_Cryptosurv" vsmod="0"/>
+         <influence vstoken="SPMi_HomoSoc" vsmod="0"/>
+         <influence vstoken="SPMi_HumRetire" vsmod="0"/>
+         <influence vstoken="SPMi_MilSoc" vsmod="0"/>
+         <influence vstoken="SPMi_Slavery" vsmod="0"/>
+         <influence vstoken="SPMi_Xenophobia" vsmod="0"/>
+         <influence vstoken="SPMi_AntiHumSpacef" vsmod="0"/>
+         <influence vstoken="SPMi_Colonialism" vsmod="0"/>
+         <influence vstoken="SPMi_CosmosPreserv" vsmod="0"/>
+         <influence vstoken="SPMi_Environmental" vsmod="0"/>
+         <influence vstoken="SPMi_NatTranpSpFleet" vsmod="0"/>
+         <influence vstoken="SPMi_OneWorldCom" vsmod="0"/>
+         <influence vstoken="SPMi_SpDebMClean" vsmod="0"/>
+         <influence vstoken="SPMi_CultOfAtheism" vsmod="0"/>
+         <influence vstoken="SPMi_Cybergnosticism" vsmod="0"/>
+         <influence vstoken="SPMi_Infotranscend" vsmod="0"/>
+         <influence vstoken="SPMi_Pacifism" vsmod="0"/>
+         <influence vstoken="SPMi_ReligiousFree" vsmod="0"/>
+         <influence vstoken="SPMi_StateRel" vsmod="0"/>
+         <influence vstoken="SPMi_TheFreeUnion" vsmod="0"/>
+      </spminfluences>
+   </spmi>
+   <!-- ECON / Participatory Economy -->
+   <spmi token="SPMi_ParticipEcon" area="dgECON" isunique="True" ispolicy="True">
+      <spmmod mcohes="20" mtens="-10" msec="0" medu="5" mnat="0" mhealth="0" mbur="10" mcorr="-10"/>
+      <spminfluences>
+         <influence vstoken="SPMi_AIchitect" vsmod="32"/>
+         <influence vstoken="SPMi_CentrAuth" vsmod="0"/>
+         <influence vstoken="SPMi_CorpOrg" vsmod="0"/>
+         <influence vstoken="SPMi_Cyberdemo" vsmod="0"/>
+         <influence vstoken="SPMi_ElecGov" vsmod="0"/>
+         <influence vstoken="SPMi_RiggElec" vsmod="0"/>
+         <influence vstoken="SPMi_StatePol" vsmod="0"/>
+         <influence vstoken="SPMi_ZeroTol" vsmod="0"/>
+         <influence vstoken="SPMi_Decel" vsmod="0"/>
+         <influence vstoken="SPMi_FreeMark" vsmod="0"/>
+         <influence vstoken="SPMi_GreenEco" vsmod="0"/>
+         <influence vstoken="SPMi_ParticipEcon" vsmod="0"/>
+         <influence vstoken="SPMi_PlanEcon" vsmod="0"/>
+         <influence vstoken="SPMi_ProacCitiz" vsmod="0"/>
+         <influence vstoken="SPMi_ProfTechno" vsmod="0"/>
+         <influence vstoken="SPMi_Amortalism" vsmod="16"/>
+         <influence vstoken="SPMi_BioroidsAdopt" vsmod="0"/>
+         <influence vstoken="SPMi_BirthsCtl" vsmod="0"/>
+         <influence vstoken="SPMi_Eugenics" vsmod="0"/>
+         <influence vstoken="SPMi_Immortalism" vsmod="0"/>
+         <influence vstoken="SPMi_SocSystem" vsmod="0"/>
+         <influence vstoken="SPMi_Abolition" vsmod="0"/>
+         <influence vstoken="SPMi_Cryptosurv" vsmod="0"/>
+         <influence vstoken="SPMi_HomoSoc" vsmod="0"/>
+         <influence vstoken="SPMi_HumRetire" vsmod="0"/>
+         <influence vstoken="SPMi_MilSoc" vsmod="0"/>
+         <influence vstoken="SPMi_Slavery" vsmod="0"/>
+         <influence vstoken="SPMi_Xenophobia" vsmod="0"/>
+         <influence vstoken="SPMi_AntiHumSpacef" vsmod="0"/>
+         <influence vstoken="SPMi_Colonialism" vsmod="0"/>
+         <influence vstoken="SPMi_CosmosPreserv" vsmod="0"/>
+         <influence vstoken="SPMi_Environmental" vsmod="0"/>
+         <influence vstoken="SPMi_NatTranpSpFleet" vsmod="0"/>
+         <influence vstoken="SPMi_OneWorldCom" vsmod="0"/>
+         <influence vstoken="SPMi_SpDebMClean" vsmod="0"/>
+         <influence vstoken="SPMi_CultOfAtheism" vsmod="0"/>
+         <influence vstoken="SPMi_Cybergnosticism" vsmod="0"/>
+         <influence vstoken="SPMi_Infotranscend" vsmod="0"/>
+         <influence vstoken="SPMi_Pacifism" vsmod="0"/>
+         <influence vstoken="SPMi_ReligiousFree" vsmod="0"/>
+         <influence vstoken="SPMi_StateRel" vsmod="0"/>
+         <influence vstoken="SPMi_TheFreeUnion" vsmod="0"/>
+      </spminfluences>
+   </spmi>
+   <!-- ECON / Planned Economy -->
+   <spmi token="SPMi_PlanEcon" area="dgECON" isunique="true" ispolicy="true">
+      <spmmod mcohes="-10" mtens="0" msec="0" medu="0" mnat="0" mhealth="0" mbur="0" mcorr="10"/>
+      <spminfluences>
+         <influence vstoken="SPMi_AIchitect" vsmod="24"/>
+         <influence vstoken="SPMi_CentrAuth" vsmod="0"/>
+         <influence vstoken="SPMi_CorpOrg" vsmod="0"/>
+         <influence vstoken="SPMi_Cyberdemo" vsmod="0"/>
+         <influence vstoken="SPMi_ElecGov" vsmod="0"/>
+         <influence vstoken="SPMi_RiggElec" vsmod="0"/>
+         <influence vstoken="SPMi_StatePol" vsmod="0"/>
+         <influence vstoken="SPMi_ZeroTol" vsmod="0"/>
+         <influence vstoken="SPMi_Decel" vsmod="0"/>
+         <influence vstoken="SPMi_FreeMark" vsmod="0"/>
+         <influence vstoken="SPMi_GreenEco" vsmod="0"/>
+         <influence vstoken="SPMi_ParticipEcon" vsmod="0"/>
+         <influence vstoken="SPMi_PlanEcon" vsmod="0"/>
+         <influence vstoken="SPMi_ProacCitiz" vsmod="0"/>
+         <influence vstoken="SPMi_ProfTechno" vsmod="0"/>
+         <influence vstoken="SPMi_Amortalism" vsmod="8"/>
+         <influence vstoken="SPMi_BioroidsAdopt" vsmod="0"/>
+         <influence vstoken="SPMi_BirthsCtl" vsmod="8"/>
+         <influence vstoken="SPMi_Eugenics" vsmod="0"/>
+         <influence vstoken="SPMi_Immortalism" vsmod="0"/>
+         <influence vstoken="SPMi_SocSystem" vsmod="0"/>
+         <influence vstoken="SPMi_Abolition" vsmod="0"/>
+         <influence vstoken="SPMi_Cryptosurv" vsmod="0"/>
+         <influence vstoken="SPMi_HomoSoc" vsmod="0"/>
+         <influence vstoken="SPMi_HumRetire" vsmod="0"/>
+         <influence vstoken="SPMi_MilSoc" vsmod="0"/>
+         <influence vstoken="SPMi_Slavery" vsmod="0"/>
+         <influence vstoken="SPMi_Xenophobia" vsmod="0"/>
+         <influence vstoken="SPMi_AntiHumSpacef" vsmod="0"/>
+         <influence vstoken="SPMi_Colonialism" vsmod="0"/>
+         <influence vstoken="SPMi_CosmosPreserv" vsmod="0"/>
+         <influence vstoken="SPMi_Environmental" vsmod="0"/>
+         <influence vstoken="SPMi_NatTranpSpFleet" vsmod="0"/>
+         <influence vstoken="SPMi_OneWorldCom" vsmod="0"/>
+         <influence vstoken="SPMi_SpDebMClean" vsmod="0"/>
+         <influence vstoken="SPMi_CultOfAtheism" vsmod="0"/>
+         <influence vstoken="SPMi_Cybergnosticism" vsmod="0"/>
+         <influence vstoken="SPMi_Infotranscend" vsmod="0"/>
+         <influence vstoken="SPMi_Pacifism" vsmod="0"/>
+         <influence vstoken="SPMi_ReligiousFree" vsmod="0"/>
+         <influence vstoken="SPMi_StateRel" vsmod="0"/>
+         <influence vstoken="SPMi_TheFreeUnion" vsmod="0"/>
+      </spminfluences>
+   </spmi>
+   <!-- ECON / Proactive Citizenship -->
+   <spmi token="SPMi_ProacCitiz" area="dgECON" isunique="false" ispolicy="true">
+      <spmmod mcohes="15" mtens="-10" msec="15" medu="10" mnat="0" mhealth="0" mbur="0" mcorr="-10"/>
+      <spminfluences>
+         <influence vstoken="SPMi_AIchitect" vsmod="8"/>
+         <influence vstoken="SPMi_CentrAuth" vsmod="0"/>
+         <influence vstoken="SPMi_CorpOrg" vsmod="0"/>
+         <influence vstoken="SPMi_Cyberdemo" vsmod="0"/>
+         <influence vstoken="SPMi_ElecGov" vsmod="0"/>
+         <influence vstoken="SPMi_RiggElec" vsmod="0"/>
+         <influence vstoken="SPMi_StatePol" vsmod="0"/>
+         <influence vstoken="SPMi_ZeroTol" vsmod="0"/>
+         <influence vstoken="SPMi_Decel" vsmod="0"/>
+         <influence vstoken="SPMi_FreeMark" vsmod="0"/>
+         <influence vstoken="SPMi_GreenEco" vsmod="0"/>
+         <influence vstoken="SPMi_ParticipEcon" vsmod="0"/>
+         <influence vstoken="SPMi_PlanEcon" vsmod="0"/>
+         <influence vstoken="SPMi_ProacCitiz" vsmod="0"/>
+         <influence vstoken="SPMi_ProfTechno" vsmod="0"/>
+         <influence vstoken="SPMi_Amortalism" vsmod="8"/>
+         <influence vstoken="SPMi_BioroidsAdopt" vsmod="0"/>
+         <influence vstoken="SPMi_BirthsCtl" vsmod="0"/>
+         <influence vstoken="SPMi_Eugenics" vsmod="0"/>
+         <influence vstoken="SPMi_Immortalism" vsmod="0"/>
+         <influence vstoken="SPMi_SocSystem" vsmod="0"/>
+         <influence vstoken="SPMi_Abolition" vsmod="0"/>
+         <influence vstoken="SPMi_Cryptosurv" vsmod="0"/>
+         <influence vstoken="SPMi_HomoSoc" vsmod="0"/>
+         <influence vstoken="SPMi_HumRetire" vsmod="0"/>
+         <influence vstoken="SPMi_MilSoc" vsmod="0"/>
+         <influence vstoken="SPMi_Slavery" vsmod="0"/>
+         <influence vstoken="SPMi_Xenophobia" vsmod="0"/>
+         <influence vstoken="SPMi_AntiHumSpacef" vsmod="0"/>
+         <influence vstoken="SPMi_Colonialism" vsmod="0"/>
+         <influence vstoken="SPMi_CosmosPreserv" vsmod="0"/>
+         <influence vstoken="SPMi_Environmental" vsmod="0"/>
+         <influence vstoken="SPMi_NatTranpSpFleet" vsmod="0"/>
+         <influence vstoken="SPMi_OneWorldCom" vsmod="0"/>
+         <influence vstoken="SPMi_SpDebMClean" vsmod="0"/>
+         <influence vstoken="SPMi_CultOfAtheism" vsmod="0"/>
+         <influence vstoken="SPMi_Cybergnosticism" vsmod="0"/>
+         <influence vstoken="SPMi_Infotranscend" vsmod="0"/>
+         <influence vstoken="SPMi_Pacifism" vsmod="0"/>
+         <influence vstoken="SPMi_ReligiousFree" vsmod="0"/>
+         <influence vstoken="SPMi_StateRel" vsmod="0"/>
+         <influence vstoken="SPMi_TheFreeUnion" vsmod="0"/>
+      </spminfluences>
+   </spmi>
+   <!-- ECON / Profitable Technocracy -->
+   <spmi token="SPMi_ProfTechno" area="dgECON" isunique="true" ispolicy="true">
+      <spmmod mcohes="15" mtens="-5" msec="0" medu="15" mnat="0" mhealth="15" mbur="-10" mcorr="-15"/>
+      <spminfluences>
+         <influence vstoken="SPMi_AIchitect" vsmod="24"/>
+         <influence vstoken="SPMi_CentrAuth" vsmod="0"/>
+         <influence vstoken="SPMi_CorpOrg" vsmod="0"/>
+         <influence vstoken="SPMi_Cyberdemo" vsmod="0"/>
+         <influence vstoken="SPMi_ElecGov" vsmod="0"/>
+         <influence vstoken="SPMi_RiggElec" vsmod="0"/>
+         <influence vstoken="SPMi_StatePol" vsmod="0"/>
+         <influence vstoken="SPMi_ZeroTol" vsmod="0"/>
+         <influence vstoken="SPMi_Decel" vsmod="0"/>
+         <influence vstoken="SPMi_FreeMark" vsmod="0"/>
+         <influence vstoken="SPMi_GreenEco" vsmod="0"/>
+         <influence vstoken="SPMi_ParticipEcon" vsmod="0"/>
+         <influence vstoken="SPMi_PlanEcon" vsmod="0"/>
+         <influence vstoken="SPMi_ProacCitiz" vsmod="0"/>
+         <influence vstoken="SPMi_ProfTechno" vsmod="0"/>
+         <influence vstoken="SPMi_Amortalism" vsmod="16"/>
+         <influence vstoken="SPMi_BioroidsAdopt" vsmod="8"/>
+         <influence vstoken="SPMi_BirthsCtl" vsmod="0"/>
+         <influence vstoken="SPMi_Eugenics" vsmod="0"/>
+         <influence vstoken="SPMi_Immortalism" vsmod="0"/>
+         <influence vstoken="SPMi_SocSystem" vsmod="0"/>
+         <influence vstoken="SPMi_Abolition" vsmod="8"/>
+         <influence vstoken="SPMi_Cryptosurv" vsmod="0"/>
+         <influence vstoken="SPMi_HomoSoc" vsmod="0"/>
+         <influence vstoken="SPMi_HumRetire" vsmod="0"/>
+         <influence vstoken="SPMi_MilSoc" vsmod="0"/>
+         <influence vstoken="SPMi_Slavery" vsmod="0"/>
+         <influence vstoken="SPMi_Xenophobia" vsmod="0"/>
+         <influence vstoken="SPMi_AntiHumSpacef" vsmod="0"/>
+         <influence vstoken="SPMi_Colonialism" vsmod="0"/>
+         <influence vstoken="SPMi_CosmosPreserv" vsmod="0"/>
+         <influence vstoken="SPMi_Environmental" vsmod="0"/>
+         <influence vstoken="SPMi_NatTranpSpFleet" vsmod="0"/>
+         <influence vstoken="SPMi_OneWorldCom" vsmod="0"/>
+         <influence vstoken="SPMi_SpDebMClean" vsmod="0"/>
+         <influence vstoken="SPMi_CultOfAtheism" vsmod="0"/>
+         <influence vstoken="SPMi_Cybergnosticism" vsmod="0"/>
+         <influence vstoken="SPMi_Infotranscend" vsmod="0"/>
+         <influence vstoken="SPMi_Pacifism" vsmod="0"/>
+         <influence vstoken="SPMi_ReligiousFree" vsmod="0"/>
+         <influence vstoken="SPMi_StateRel" vsmod="0"/>
+         <influence vstoken="SPMi_TheFreeUnion" vsmod="0"/>
+      </spminfluences>
+   </spmi>
+   <!-- MEDCA / Amortalism -->
+   <spmi token="SPMi_Amortalism" area="dgMEDCA" isunique="false" ispolicy="false">
+      <spmmod mcohes="0" mtens="0" msec="0" medu="0" mnat="5" mhealth="-10" mbur="0" mcorr="0"/>
+      <spminfluences>
+         <influence vstoken="SPMi_AIchitect" vsmod="16"/>
+         <influence vstoken="SPMi_CentrAuth" vsmod="0"/>
+         <influence vstoken="SPMi_CorpOrg" vsmod="0"/>
+         <influence vstoken="SPMi_Cyberdemo" vsmod="0"/>
+         <influence vstoken="SPMi_ElecGov" vsmod="0"/>
+         <influence vstoken="SPMi_RiggElec" vsmod="0"/>
+         <influence vstoken="SPMi_StatePol" vsmod="0"/>
+         <influence vstoken="SPMi_ZeroTol" vsmod="0"/>
+         <influence vstoken="SPMi_Decel" vsmod="0"/>
+         <influence vstoken="SPMi_FreeMark" vsmod="0"/>
+         <influence vstoken="SPMi_GreenEco" vsmod="0"/>
+         <influence vstoken="SPMi_ParticipEcon" vsmod="0"/>
+         <influence vstoken="SPMi_PlanEcon" vsmod="0"/>
+         <influence vstoken="SPMi_ProacCitiz" vsmod="0"/>
+         <influence vstoken="SPMi_ProfTechno" vsmod="0"/>
+         <influence vstoken="SPMi_Amortalism" vsmod="0"/>
+         <influence vstoken="SPMi_BioroidsAdopt" vsmod="-32"/>
+         <influence vstoken="SPMi_BirthsCtl" vsmod="8"/>
+         <influence vstoken="SPMi_Eugenics" vsmod="0"/>
+         <influence vstoken="SPMi_Immortalism" vsmod="0"/>
+         <influence vstoken="SPMi_SocSystem" vsmod="0"/>
+         <influence vstoken="SPMi_Abolition" vsmod="0"/>
+         <influence vstoken="SPMi_Cryptosurv" vsmod="0"/>
+         <influence vstoken="SPMi_HomoSoc" vsmod="0"/>
+         <influence vstoken="SPMi_HumRetire" vsmod="0"/>
+         <influence vstoken="SPMi_MilSoc" vsmod="0"/>
+         <influence vstoken="SPMi_Slavery" vsmod="0"/>
+         <influence vstoken="SPMi_Xenophobia" vsmod="0"/>
+         <influence vstoken="SPMi_AntiHumSpacef" vsmod="0"/>
+         <influence vstoken="SPMi_Colonialism" vsmod="0"/>
+         <influence vstoken="SPMi_CosmosPreserv" vsmod="0"/>
+         <influence vstoken="SPMi_Environmental" vsmod="0"/>
+         <influence vstoken="SPMi_NatTranpSpFleet" vsmod="0"/>
+         <influence vstoken="SPMi_OneWorldCom" vsmod="0"/>
+         <influence vstoken="SPMi_SpDebMClean" vsmod="0"/>
+         <influence vstoken="SPMi_CultOfAtheism" vsmod="0"/>
+         <influence vstoken="SPMi_Cybergnosticism" vsmod="0"/>
+         <influence vstoken="SPMi_Infotranscend" vsmod="0"/>
+         <influence vstoken="SPMi_Pacifism" vsmod="0"/>
+         <influence vstoken="SPMi_ReligiousFree" vsmod="0"/>
+         <influence vstoken="SPMi_StateRel" vsmod="0"/>
+         <influence vstoken="SPMi_TheFreeUnion" vsmod="0"/>
+      </spminfluences>
+   </spmi>
+   <!-- MEDCA / Bioroid Adoption -->
+   <spmi token="SPMi_BioroidsAdopt" area="dgMEDCA" isunique="false" ispolicy="false">
+      <spmmod mcohes="0" mtens="0" msec="0" medu="10" mnat="-25" mhealth="0" mbur="0" mcorr="0"/>
+      <spminfluences>
+         <influence vstoken="SPMi_AIchitect" vsmod="16"/>
+         <influence vstoken="SPMi_CentrAuth" vsmod="0"/>
+         <influence vstoken="SPMi_CorpOrg" vsmod="0"/>
+         <influence vstoken="SPMi_Cyberdemo" vsmod="0"/>
+         <influence vstoken="SPMi_ElecGov" vsmod="0"/>
+         <influence vstoken="SPMi_RiggElec" vsmod="0"/>
+         <influence vstoken="SPMi_StatePol" vsmod="0"/>
+         <influence vstoken="SPMi_ZeroTol" vsmod="0"/>
+         <influence vstoken="SPMi_Decel" vsmod="0"/>
+         <influence vstoken="SPMi_FreeMark" vsmod="0"/>
+         <influence vstoken="SPMi_GreenEco" vsmod="0"/>
+         <influence vstoken="SPMi_ParticipEcon" vsmod="0"/>
+         <influence vstoken="SPMi_PlanEcon" vsmod="0"/>
+         <influence vstoken="SPMi_ProacCitiz" vsmod="0"/>
+         <influence vstoken="SPMi_ProfTechno" vsmod="0"/>
+         <influence vstoken="SPMi_Amortalism" vsmod="-24"/>
+         <influence vstoken="SPMi_BioroidsAdopt" vsmod="0"/>
+         <influence vstoken="SPMi_BirthsCtl" vsmod="32"/>
+         <influence vstoken="SPMi_Eugenics" vsmod="0"/>
+         <influence vstoken="SPMi_Immortalism" vsmod="0"/>
+         <influence vstoken="SPMi_SocSystem" vsmod="0"/>
+         <influence vstoken="SPMi_Abolition" vsmod="48"/>
+         <influence vstoken="SPMi_Cryptosurv" vsmod="0"/>
+         <influence vstoken="SPMi_HomoSoc" vsmod="0"/>
+         <influence vstoken="SPMi_HumRetire" vsmod="0"/>
+         <influence vstoken="SPMi_MilSoc" vsmod="0"/>
+         <influence vstoken="SPMi_Slavery" vsmod="0"/>
+         <influence vstoken="SPMi_Xenophobia" vsmod="0"/>
+         <influence vstoken="SPMi_AntiHumSpacef" vsmod="8"/>
+         <influence vstoken="SPMi_Colonialism" vsmod="0"/>
+         <influence vstoken="SPMi_CosmosPreserv" vsmod="0"/>
+         <influence vstoken="SPMi_Environmental" vsmod="0"/>
+         <influence vstoken="SPMi_NatTranpSpFleet" vsmod="0"/>
+         <influence vstoken="SPMi_OneWorldCom" vsmod="0"/>
+         <influence vstoken="SPMi_SpDebMClean" vsmod="0"/>
+         <influence vstoken="SPMi_CultOfAtheism" vsmod="0"/>
+         <influence vstoken="SPMi_Cybergnosticism" vsmod="0"/>
+         <influence vstoken="SPMi_Infotranscend" vsmod="0"/>
+         <influence vstoken="SPMi_Pacifism" vsmod="0"/>
+         <influence vstoken="SPMi_ReligiousFree" vsmod="0"/>
+         <influence vstoken="SPMi_StateRel" vsmod="0"/>
+         <influence vstoken="SPMi_TheFreeUnion" vsmod="0"/>
+      </spminfluences>
+   </spmi>
+   <!-- MEDCA / Births Control -->
+   <spmi token="SPMi_BirthsCtl" area="dgMEDCA" isunique="false" ispolicy="true">
+      <spmmod mcohes="0" mtens="15" msec="0" medu="0" mnat="0" mhealth="0" mbur="0" mcorr=""/>
+      <spminfluences>
+         <influence vstoken="SPMi_AIchitect" vsmod="16"/>
+         <influence vstoken="SPMi_CentrAuth" vsmod="0"/>
+         <influence vstoken="SPMi_CorpOrg" vsmod="0"/>
+         <influence vstoken="SPMi_Cyberdemo" vsmod="0"/>
+         <influence vstoken="SPMi_ElecGov" vsmod="0"/>
+         <influence vstoken="SPMi_RiggElec" vsmod="0"/>
+         <influence vstoken="SPMi_StatePol" vsmod="0"/>
+         <influence vstoken="SPMi_ZeroTol" vsmod="0"/>
+         <influence vstoken="SPMi_Decel" vsmod="0"/>
+         <influence vstoken="SPMi_FreeMark" vsmod="0"/>
+         <influence vstoken="SPMi_GreenEco" vsmod="0"/>
+         <influence vstoken="SPMi_ParticipEcon" vsmod="0"/>
+         <influence vstoken="SPMi_PlanEcon" vsmod="0"/>
+         <influence vstoken="SPMi_ProacCitiz" vsmod="0"/>
+         <influence vstoken="SPMi_ProfTechno" vsmod="0"/>
+         <influence vstoken="SPMi_Amortalism" vsmod="-24"/>
+         <influence vstoken="SPMi_BioroidsAdopt" vsmod="24"/>
+         <influence vstoken="SPMi_BirthsCtl" vsmod="0"/>
+         <influence vstoken="SPMi_Eugenics" vsmod="0"/>
+         <influence vstoken="SPMi_Immortalism" vsmod="0"/>
+         <influence vstoken="SPMi_SocSystem" vsmod="0"/>
+         <influence vstoken="SPMi_Abolition" vsmod="8"/>
+         <influence vstoken="SPMi_Cryptosurv" vsmod="0"/>
+         <influence vstoken="SPMi_HomoSoc" vsmod="0"/>
+         <influence vstoken="SPMi_HumRetire" vsmod="0"/>
+         <influence vstoken="SPMi_MilSoc" vsmod="0"/>
+         <influence vstoken="SPMi_Slavery" vsmod="0"/>
+         <influence vstoken="SPMi_Xenophobia" vsmod="0"/>
+         <influence vstoken="SPMi_AntiHumSpacef" vsmod="16"/>
+         <influence vstoken="SPMi_Colonialism" vsmod="0"/>
+         <influence vstoken="SPMi_CosmosPreserv" vsmod="0"/>
+         <influence vstoken="SPMi_Environmental" vsmod="0"/>
+         <influence vstoken="SPMi_NatTranpSpFleet" vsmod="0"/>
+         <influence vstoken="SPMi_OneWorldCom" vsmod="0"/>
+         <influence vstoken="SPMi_SpDebMClean" vsmod="0"/>
+         <influence vstoken="SPMi_CultOfAtheism" vsmod="0"/>
+         <influence vstoken="SPMi_Cybergnosticism" vsmod="0"/>
+         <influence vstoken="SPMi_Infotranscend" vsmod="0"/>
+         <influence vstoken="SPMi_Pacifism" vsmod="0"/>
+         <influence vstoken="SPMi_ReligiousFree" vsmod="0"/>
+         <influence vstoken="SPMi_StateRel" vsmod="0"/>
+         <influence vstoken="SPMi_TheFreeUnion" vsmod="0"/>
+      </spminfluences>
+   </spmi>
+   <!-- MEDCA / Eugenics -->
+   <spmi token="SPMi_Eugenics" area="dgMEDCA" isunique="true" ispolicy="true">
+      <spmmod mcohes="-5" mtens="15" msec="0" medu="20" mnat="-10" mhealth="15" mbur="0" mcorr="-10"/>
+      <spminfluences>
+         <influence vstoken="SPMi_AIchitect" vsmod="-16"/>
+         <influence vstoken="SPMi_CentrAuth" vsmod="0"/>
+         <influence vstoken="SPMi_CorpOrg" vsmod="0"/>
+         <influence vstoken="SPMi_Cyberdemo" vsmod="0"/>
+         <influence vstoken="SPMi_ElecGov" vsmod="0"/>
+         <influence vstoken="SPMi_RiggElec" vsmod="0"/>
+         <influence vstoken="SPMi_StatePol" vsmod="0"/>
+         <influence vstoken="SPMi_ZeroTol" vsmod="0"/>
+         <influence vstoken="SPMi_Decel" vsmod="0"/>
+         <influence vstoken="SPMi_FreeMark" vsmod="0"/>
+         <influence vstoken="SPMi_GreenEco" vsmod="0"/>
+         <influence vstoken="SPMi_ParticipEcon" vsmod="0"/>
+         <influence vstoken="SPMi_PlanEcon" vsmod="0"/>
+         <influence vstoken="SPMi_ProacCitiz" vsmod="0"/>
+         <influence vstoken="SPMi_ProfTechno" vsmod="0"/>
+         <influence vstoken="SPMi_Amortalism" vsmod="-24"/>
+         <influence vstoken="SPMi_BioroidsAdopt" vsmod="0"/>
+         <influence vstoken="SPMi_BirthsCtl" vsmod="48"/>
+         <influence vstoken="SPMi_Eugenics" vsmod="0"/>
+         <influence vstoken="SPMi_Immortalism" vsmod="0"/>
+         <influence vstoken="SPMi_SocSystem" vsmod="0"/>
+         <influence vstoken="SPMi_Abolition" vsmod="0"/>
+         <influence vstoken="SPMi_Cryptosurv" vsmod="0"/>
+         <influence vstoken="SPMi_HomoSoc" vsmod="0"/>
+         <influence vstoken="SPMi_HumRetire" vsmod="0"/>
+         <influence vstoken="SPMi_MilSoc" vsmod="0"/>
+         <influence vstoken="SPMi_Slavery" vsmod="0"/>
+         <influence vstoken="SPMi_Xenophobia" vsmod="0"/>
+         <influence vstoken="SPMi_AntiHumSpacef" vsmod="0"/>
+         <influence vstoken="SPMi_Colonialism" vsmod="0"/>
+         <influence vstoken="SPMi_CosmosPreserv" vsmod="0"/>
+         <influence vstoken="SPMi_Environmental" vsmod="0"/>
+         <influence vstoken="SPMi_NatTranpSpFleet" vsmod="0"/>
+         <influence vstoken="SPMi_OneWorldCom" vsmod="0"/>
+         <influence vstoken="SPMi_SpDebMClean" vsmod="0"/>
+         <influence vstoken="SPMi_CultOfAtheism" vsmod="0"/>
+         <influence vstoken="SPMi_Cybergnosticism" vsmod="0"/>
+         <influence vstoken="SPMi_Infotranscend" vsmod="0"/>
+         <influence vstoken="SPMi_Pacifism" vsmod="0"/>
+         <influence vstoken="SPMi_ReligiousFree" vsmod="0"/>
+         <influence vstoken="SPMi_StateRel" vsmod="0"/>
+         <influence vstoken="SPMi_TheFreeUnion" vsmod="0"/>
+      </spminfluences>
+   </spmi>
+   <!-- MEDCA / Immortalism -->
+   <spmi token="SPMi_Immortalism" area="dgMEDCA" isunique="false" ispolicy="false">
+      <spmmod mcohes="0" mtens="0" msec="0" medu="25" mnat="-30" mhealth="30" mbur="0" mcorr="0"/>
+      <spminfluences>
+         <influence vstoken="SPMi_AIchitect" vsmod="-8"/>
+         <influence vstoken="SPMi_CentrAuth" vsmod="0"/>
+         <influence vstoken="SPMi_CorpOrg" vsmod="0"/>
+         <influence vstoken="SPMi_Cyberdemo" vsmod="0"/>
+         <influence vstoken="SPMi_ElecGov" vsmod="0"/>
+         <influence vstoken="SPMi_RiggElec" vsmod="0"/>
+         <influence vstoken="SPMi_StatePol" vsmod="0"/>
+         <influence vstoken="SPMi_ZeroTol" vsmod="0"/>
+         <influence vstoken="SPMi_Decel" vsmod="0"/>
+         <influence vstoken="SPMi_FreeMark" vsmod="0"/>
+         <influence vstoken="SPMi_GreenEco" vsmod="0"/>
+         <influence vstoken="SPMi_ParticipEcon" vsmod="0"/>
+         <influence vstoken="SPMi_PlanEcon" vsmod="0"/>
+         <influence vstoken="SPMi_ProacCitiz" vsmod="0"/>
+         <influence vstoken="SPMi_ProfTechno" vsmod="0"/>
+         <influence vstoken="SPMi_Amortalism" vsmod="-32"/>
+         <influence vstoken="SPMi_BioroidsAdopt" vsmod="-16"/>
+         <influence vstoken="SPMi_BirthsCtl" vsmod="24"/>
+         <influence vstoken="SPMi_Eugenics" vsmod="0"/>
+         <influence vstoken="SPMi_Immortalism" vsmod="0"/>
+         <influence vstoken="SPMi_SocSystem" vsmod="0"/>
+         <influence vstoken="SPMi_Abolition" vsmod="-40"/>
+         <influence vstoken="SPMi_Cryptosurv" vsmod="0"/>
+         <influence vstoken="SPMi_HomoSoc" vsmod="0"/>
+         <influence vstoken="SPMi_HumRetire" vsmod="0"/>
+         <influence vstoken="SPMi_MilSoc" vsmod="0"/>
+         <influence vstoken="SPMi_Slavery" vsmod="0"/>
+         <influence vstoken="SPMi_Xenophobia" vsmod="0"/>
+         <influence vstoken="SPMi_AntiHumSpacef" vsmod="0"/>
+         <influence vstoken="SPMi_Colonialism" vsmod="0"/>
+         <influence vstoken="SPMi_CosmosPreserv" vsmod="0"/>
+         <influence vstoken="SPMi_Environmental" vsmod="0"/>
+         <influence vstoken="SPMi_NatTranpSpFleet" vsmod="0"/>
+         <influence vstoken="SPMi_OneWorldCom" vsmod="0"/>
+         <influence vstoken="SPMi_SpDebMClean" vsmod="0"/>
+         <influence vstoken="SPMi_CultOfAtheism" vsmod="0"/>
+         <influence vstoken="SPMi_Cybergnosticism" vsmod="0"/>
+         <influence vstoken="SPMi_Infotranscend" vsmod="0"/>
+         <influence vstoken="SPMi_Pacifism" vsmod="0"/>
+         <influence vstoken="SPMi_ReligiousFree" vsmod="0"/>
+         <influence vstoken="SPMi_StateRel" vsmod="0"/>
+         <influence vstoken="SPMi_TheFreeUnion" vsmod="0"/>
+      </spminfluences>
+   </spmi>
+   <!-- MEDCA / Social System -->
+   <spmi token="SPMi_SocSystem" area="dgMEDCA" isunique="true" ispolicy="true">
+      <spmmod mcohes="10" mtens="-10" msec="0" medu="0" mnat="10" mhealth="20" mbur="-5" mcorr="0"/>
+      <spmreq>
+         <requirement token="dgUC" ucmethod="dgCalcPop_yr" ucval="0.21"/>
+      </spmreq>
+      <spminfluences>
+         <influence vstoken="SPMi_AIchitect" vsmod="16"/>
+         <influence vstoken="SPMi_CentrAuth" vsmod="0"/>
+         <influence vstoken="SPMi_CorpOrg" vsmod="0"/>
+         <influence vstoken="SPMi_Cyberdemo" vsmod="0"/>
+         <influence vstoken="SPMi_ElecGov" vsmod="0"/>
+         <influence vstoken="SPMi_RiggElec" vsmod="0"/>
+         <influence vstoken="SPMi_StatePol" vsmod="0"/>
+         <influence vstoken="SPMi_ZeroTol" vsmod="0"/>
+         <influence vstoken="SPMi_Decel" vsmod="0"/>
+         <influence vstoken="SPMi_FreeMark" vsmod="0"/>
+         <influence vstoken="SPMi_GreenEco" vsmod="0"/>
+         <influence vstoken="SPMi_ParticipEcon" vsmod="0"/>
+         <influence vstoken="SPMi_PlanEcon" vsmod="0"/>
+         <influence vstoken="SPMi_ProacCitiz" vsmod="0"/>
+         <influence vstoken="SPMi_ProfTechno" vsmod="0"/>
+         <influence vstoken="SPMi_Amortalism" vsmod="16"/>
+         <influence vstoken="SPMi_BioroidsAdopt" vsmod="0"/>
+         <influence vstoken="SPMi_BirthsCtl" vsmod="8"/>
+         <influence vstoken="SPMi_Eugenics" vsmod="0"/>
+         <influence vstoken="SPMi_Immortalism" vsmod="0"/>
+         <influence vstoken="SPMi_SocSystem" vsmod="0"/>
+         <influence vstoken="SPMi_Abolition" vsmod="0"/>
+         <influence vstoken="SPMi_Cryptosurv" vsmod="0"/>
+         <influence vstoken="SPMi_HomoSoc" vsmod="0"/>
+         <influence vstoken="SPMi_HumRetire" vsmod="0"/>
+         <influence vstoken="SPMi_MilSoc" vsmod="0"/>
+         <influence vstoken="SPMi_Slavery" vsmod="0"/>
+         <influence vstoken="SPMi_Xenophobia" vsmod="0"/>
+         <influence vstoken="SPMi_AntiHumSpacef" vsmod="0"/>
+         <influence vstoken="SPMi_Colonialism" vsmod="0"/>
+         <influence vstoken="SPMi_CosmosPreserv" vsmod="0"/>
+         <influence vstoken="SPMi_Environmental" vsmod="0"/>
+         <influence vstoken="SPMi_NatTranpSpFleet" vsmod="0"/>
+         <influence vstoken="SPMi_OneWorldCom" vsmod="0"/>
+         <influence vstoken="SPMi_SpDebMClean" vsmod="0"/>
+         <influence vstoken="SPMi_CultOfAtheism" vsmod="0"/>
+         <influence vstoken="SPMi_Cybergnosticism" vsmod="0"/>
+         <influence vstoken="SPMi_Infotranscend" vsmod="0"/>
+         <influence vstoken="SPMi_Pacifism" vsmod="0"/>
+         <influence vstoken="SPMi_ReligiousFree" vsmod="0"/>
+         <influence vstoken="SPMi_StateRel" vsmod="0"/>
+         <influence vstoken="SPMi_TheFreeUnion" vsmod="0"/>
+      </spminfluences>
+   </spmi>
+   <!-- SOC / Abolitionism -->
+   <spmi token="SPMi_Abolition" area="dgSOC" isunique="false" ispolicy="true">
+      <spmmod mcohes="0" mtens="0" msec="0" medu="0" mnat="0" mhealth="0" mbur="0" mcorr="0"/>
+      <spminfluences>
+         <influence vstoken="SPMi_AIchitect" vsmod="24"/>
+         <influence vstoken="SPMi_CentrAuth" vsmod="0"/>
+         <influence vstoken="SPMi_CorpOrg" vsmod="0"/>
+         <influence vstoken="SPMi_Cyberdemo" vsmod="0"/>
+         <influence vstoken="SPMi_ElecGov" vsmod="0"/>
+         <influence vstoken="SPMi_RiggElec" vsmod="0"/>
+         <influence vstoken="SPMi_StatePol" vsmod="0"/>
+         <influence vstoken="SPMi_ZeroTol" vsmod="0"/>
+         <influence vstoken="SPMi_Decel" vsmod="0"/>
+         <influence vstoken="SPMi_FreeMark" vsmod="0"/>
+         <influence vstoken="SPMi_GreenEco" vsmod="0"/>
+         <influence vstoken="SPMi_ParticipEcon" vsmod="0"/>
+         <influence vstoken="SPMi_PlanEcon" vsmod="0"/>
+         <influence vstoken="SPMi_ProacCitiz" vsmod="0"/>
+         <influence vstoken="SPMi_ProfTechno" vsmod="0"/>
+         <influence vstoken="SPMi_Amortalism" vsmod="-8"/>
+         <influence vstoken="SPMi_BioroidsAdopt" vsmod="64"/>
+         <influence vstoken="SPMi_BirthsCtl" vsmod="0"/>
+         <influence vstoken="SPMi_Eugenics" vsmod="0"/>
+         <influence vstoken="SPMi_Immortalism" vsmod="0"/>
+         <influence vstoken="SPMi_SocSystem" vsmod="0"/>
+         <influence vstoken="SPMi_Abolition" vsmod="0"/>
+         <influence vstoken="SPMi_Cryptosurv" vsmod="0"/>
+         <influence vstoken="SPMi_HomoSoc" vsmod="0"/>
+         <influence vstoken="SPMi_HumRetire" vsmod="0"/>
+         <influence vstoken="SPMi_MilSoc" vsmod="0"/>
+         <influence vstoken="SPMi_Slavery" vsmod="0"/>
+         <influence vstoken="SPMi_Xenophobia" vsmod="0"/>
+         <influence vstoken="SPMi_AntiHumSpacef" vsmod="16"/>
+         <influence vstoken="SPMi_Colonialism" vsmod="0"/>
+         <influence vstoken="SPMi_CosmosPreserv" vsmod="0"/>
+         <influence vstoken="SPMi_Environmental" vsmod="0"/>
+         <influence vstoken="SPMi_NatTranpSpFleet" vsmod="0"/>
+         <influence vstoken="SPMi_OneWorldCom" vsmod="0"/>
+         <influence vstoken="SPMi_SpDebMClean" vsmod="0"/>
+         <influence vstoken="SPMi_CultOfAtheism" vsmod="0"/>
+         <influence vstoken="SPMi_Cybergnosticism" vsmod="0"/>
+         <influence vstoken="SPMi_Infotranscend" vsmod="0"/>
+         <influence vstoken="SPMi_Pacifism" vsmod="0"/>
+         <influence vstoken="SPMi_ReligiousFree" vsmod="0"/>
+         <influence vstoken="SPMi_StateRel" vsmod="0"/>
+         <influence vstoken="SPMi_TheFreeUnion" vsmod="0"/>
+      </spminfluences>
+   </spmi>
+   <!-- SOC / Cryptosurvivalism -->
+   <spmi token="SPMi_Cryptosurv" area="dgSOC" isunique="false" ispolicy="false">
+      <spmmod mcohes="0" mtens="0" msec="20" medu="0" mnat="-5" mhealth="0" mbur="10" mcorr="0"/>
+      <spminfluences>
+         <influence vstoken="SPMi_AIchitect" vsmod="-8"/>
+         <influence vstoken="SPMi_CentrAuth" vsmod="0"/>
+         <influence vstoken="SPMi_CorpOrg" vsmod="0"/>
+         <influence vstoken="SPMi_Cyberdemo" vsmod="0"/>
+         <influence vstoken="SPMi_ElecGov" vsmod="0"/>
+         <influence vstoken="SPMi_RiggElec" vsmod="0"/>
+         <influence vstoken="SPMi_StatePol" vsmod="0"/>
+         <influence vstoken="SPMi_ZeroTol" vsmod="0"/>
+         <influence vstoken="SPMi_Decel" vsmod="0"/>
+         <influence vstoken="SPMi_FreeMark" vsmod="0"/>
+         <influence vstoken="SPMi_GreenEco" vsmod="0"/>
+         <influence vstoken="SPMi_ParticipEcon" vsmod="0"/>
+         <influence vstoken="SPMi_PlanEcon" vsmod="0"/>
+         <influence vstoken="SPMi_ProacCitiz" vsmod="0"/>
+         <influence vstoken="SPMi_ProfTechno" vsmod="0"/>
+         <influence vstoken="SPMi_Amortalism" vsmod="0"/>
+         <influence vstoken="SPMi_BioroidsAdopt" vsmod="0"/>
+         <influence vstoken="SPMi_BirthsCtl" vsmod="0"/>
+         <influence vstoken="SPMi_Eugenics" vsmod="0"/>
+         <influence vstoken="SPMi_Immortalism" vsmod="0"/>
+         <influence vstoken="SPMi_SocSystem" vsmod="0"/>
+         <influence vstoken="SPMi_Abolition" vsmod="0"/>
+         <influence vstoken="SPMi_Cryptosurv" vsmod="0"/>
+         <influence vstoken="SPMi_HomoSoc" vsmod="0"/>
+         <influence vstoken="SPMi_HumRetire" vsmod="0"/>
+         <influence vstoken="SPMi_MilSoc" vsmod="0"/>
+         <influence vstoken="SPMi_Slavery" vsmod="0"/>
+         <influence vstoken="SPMi_Xenophobia" vsmod="0"/>
+         <influence vstoken="SPMi_AntiHumSpacef" vsmod="0"/>
+         <influence vstoken="SPMi_Colonialism" vsmod="0"/>
+         <influence vstoken="SPMi_CosmosPreserv" vsmod="0"/>
+         <influence vstoken="SPMi_Environmental" vsmod="0"/>
+         <influence vstoken="SPMi_NatTranpSpFleet" vsmod="0"/>
+         <influence vstoken="SPMi_OneWorldCom" vsmod="0"/>
+         <influence vstoken="SPMi_SpDebMClean" vsmod="0"/>
+         <influence vstoken="SPMi_CultOfAtheism" vsmod="0"/>
+         <influence vstoken="SPMi_Cybergnosticism" vsmod="0"/>
+         <influence vstoken="SPMi_Infotranscend" vsmod="0"/>
+         <influence vstoken="SPMi_Pacifism" vsmod="0"/>
+         <influence vstoken="SPMi_ReligiousFree" vsmod="0"/>
+         <influence vstoken="SPMi_StateRel" vsmod="0"/>
+         <influence vstoken="SPMi_TheFreeUnion" vsmod="0"/>
+      </spminfluences>
+   </spmi>
+   <!-- SOC / Homo-Society -->
+   <spmi token="SPMi_HomoSoc" area="dgSOC" isunique="false" ispolicy="false">
+      <spmmod mcohes="0" mtens="-5" msec="10" medu="0" mnat="-30" mhealth="10" mbur="0" mcorr="0"/>
+      <spminfluences>
+         <influence vstoken="SPMi_AIchitect" vsmod="-8"/>
+         <influence vstoken="SPMi_CentrAuth" vsmod="0"/>
+         <influence vstoken="SPMi_CorpOrg" vsmod="0"/>
+         <influence vstoken="SPMi_Cyberdemo" vsmod="0"/>
+         <influence vstoken="SPMi_ElecGov" vsmod="0"/>
+         <influence vstoken="SPMi_RiggElec" vsmod="0"/>
+         <influence vstoken="SPMi_StatePol" vsmod="0"/>
+         <influence vstoken="SPMi_ZeroTol" vsmod="0"/>
+         <influence vstoken="SPMi_Decel" vsmod="0"/>
+         <influence vstoken="SPMi_FreeMark" vsmod="0"/>
+         <influence vstoken="SPMi_GreenEco" vsmod="0"/>
+         <influence vstoken="SPMi_ParticipEcon" vsmod="0"/>
+         <influence vstoken="SPMi_PlanEcon" vsmod="0"/>
+         <influence vstoken="SPMi_ProacCitiz" vsmod="0"/>
+         <influence vstoken="SPMi_ProfTechno" vsmod="0"/>
+         <influence vstoken="SPMi_Amortalism" vsmod="-16"/>
+         <influence vstoken="SPMi_BioroidsAdopt" vsmod="32"/>
+         <influence vstoken="SPMi_BirthsCtl" vsmod="16"/>
+         <influence vstoken="SPMi_Eugenics" vsmod="0"/>
+         <influence vstoken="SPMi_Immortalism" vsmod="0"/>
+         <influence vstoken="SPMi_SocSystem" vsmod="0"/>
+         <influence vstoken="SPMi_Abolition" vsmod="8"/>
+         <influence vstoken="SPMi_Cryptosurv" vsmod="0"/>
+         <influence vstoken="SPMi_HomoSoc" vsmod="0"/>
+         <influence vstoken="SPMi_HumRetire" vsmod="0"/>
+         <influence vstoken="SPMi_MilSoc" vsmod="0"/>
+         <influence vstoken="SPMi_Slavery" vsmod="0"/>
+         <influence vstoken="SPMi_Xenophobia" vsmod="0"/>
+         <influence vstoken="SPMi_AntiHumSpacef" vsmod="0"/>
+         <influence vstoken="SPMi_Colonialism" vsmod="0"/>
+         <influence vstoken="SPMi_CosmosPreserv" vsmod="0"/>
+         <influence vstoken="SPMi_Environmental" vsmod="0"/>
+         <influence vstoken="SPMi_NatTranpSpFleet" vsmod="0"/>
+         <influence vstoken="SPMi_OneWorldCom" vsmod="0"/>
+         <influence vstoken="SPMi_SpDebMClean" vsmod="0"/>
+         <influence vstoken="SPMi_CultOfAtheism" vsmod="0"/>
+         <influence vstoken="SPMi_Cybergnosticism" vsmod="0"/>
+         <influence vstoken="SPMi_Infotranscend" vsmod="0"/>
+         <influence vstoken="SPMi_Pacifism" vsmod="0"/>
+         <influence vstoken="SPMi_ReligiousFree" vsmod="0"/>
+         <influence vstoken="SPMi_StateRel" vsmod="0"/>
+         <influence vstoken="SPMi_TheFreeUnion" vsmod="0"/>
+      </spminfluences>
+   </spmi>
+   <!-- SOC / Human Retirement -->
+   <spmi token="SPMi_HumRetire" area="dgSOC" isunique="false" ispolicy="false">
+      <spmmod mcohes="10" mtens="-15" msec="10" medu="-20" mnat="10" mhealth="10" mbur="15" mcorr="-25"/>
+      <spminfluences>
+         <influence vstoken="SPMi_AIchitect" vsmod="32"/>
+         <influence vstoken="SPMi_CentrAuth" vsmod="0"/>
+         <influence vstoken="SPMi_CorpOrg" vsmod="0"/>
+         <influence vstoken="SPMi_Cyberdemo" vsmod="0"/>
+         <influence vstoken="SPMi_ElecGov" vsmod="0"/>
+         <influence vstoken="SPMi_RiggElec" vsmod="0"/>
+         <influence vstoken="SPMi_StatePol" vsmod="0"/>
+         <influence vstoken="SPMi_ZeroTol" vsmod="0"/>
+         <influence vstoken="SPMi_Decel" vsmod="0"/>
+         <influence vstoken="SPMi_FreeMark" vsmod="0"/>
+         <influence vstoken="SPMi_GreenEco" vsmod="0"/>
+         <influence vstoken="SPMi_ParticipEcon" vsmod="0"/>
+         <influence vstoken="SPMi_PlanEcon" vsmod="0"/>
+         <influence vstoken="SPMi_ProacCitiz" vsmod="0"/>
+         <influence vstoken="SPMi_ProfTechno" vsmod="0"/>
+         <influence vstoken="SPMi_Amortalism" vsmod="0"/>
+         <influence vstoken="SPMi_BioroidsAdopt" vsmod="-48"/>
+         <influence vstoken="SPMi_BirthsCtl" vsmod="0"/>
+         <influence vstoken="SPMi_Eugenics" vsmod="0"/>
+         <influence vstoken="SPMi_Immortalism" vsmod="0"/>
+         <influence vstoken="SPMi_SocSystem" vsmod="0"/>
+         <influence vstoken="SPMi_Abolition" vsmod="-32"/>
+         <influence vstoken="SPMi_Cryptosurv" vsmod="0"/>
+         <influence vstoken="SPMi_HomoSoc" vsmod="0"/>
+         <influence vstoken="SPMi_HumRetire" vsmod="0"/>
+         <influence vstoken="SPMi_MilSoc" vsmod="0"/>
+         <influence vstoken="SPMi_Slavery" vsmod="0"/>
+         <influence vstoken="SPMi_Xenophobia" vsmod="0"/>
+         <influence vstoken="SPMi_AntiHumSpacef" vsmod="32"/>
+         <influence vstoken="SPMi_Colonialism" vsmod="0"/>
+         <influence vstoken="SPMi_CosmosPreserv" vsmod="0"/>
+         <influence vstoken="SPMi_Environmental" vsmod="0"/>
+         <influence vstoken="SPMi_NatTranpSpFleet" vsmod="0"/>
+         <influence vstoken="SPMi_OneWorldCom" vsmod="0"/>
+         <influence vstoken="SPMi_SpDebMClean" vsmod="0"/>
+         <influence vstoken="SPMi_CultOfAtheism" vsmod="0"/>
+         <influence vstoken="SPMi_Cybergnosticism" vsmod="0"/>
+         <influence vstoken="SPMi_Infotranscend" vsmod="0"/>
+         <influence vstoken="SPMi_Pacifism" vsmod="0"/>
+         <influence vstoken="SPMi_ReligiousFree" vsmod="0"/>
+         <influence vstoken="SPMi_StateRel" vsmod="0"/>
+         <influence vstoken="SPMi_TheFreeUnion" vsmod="0"/>
+      </spminfluences>
+   </spmi>
+   <!-- SOC / Militarized Society -->
+   <spmi token="SPMi_MilSoc" area="dgSOC" isunique="false" ispolicy="true">
+      <spmmod mcohes="10" mtens="0" msec="15" medu="-10" mnat="0" mhealth="0" mbur="0" mcorr="0"/>
+      <spminfluences>
+         <influence vstoken="SPMi_AIchitect" vsmod="8"/>
+         <influence vstoken="SPMi_CentrAuth" vsmod="0"/>
+         <influence vstoken="SPMi_CorpOrg" vsmod="0"/>
+         <influence vstoken="SPMi_Cyberdemo" vsmod="0"/>
+         <influence vstoken="SPMi_ElecGov" vsmod="0"/>
+         <influence vstoken="SPMi_RiggElec" vsmod="0"/>
+         <influence vstoken="SPMi_StatePol" vsmod="0"/>
+         <influence vstoken="SPMi_ZeroTol" vsmod="0"/>
+         <influence vstoken="SPMi_Decel" vsmod="0"/>
+         <influence vstoken="SPMi_FreeMark" vsmod="0"/>
+         <influence vstoken="SPMi_GreenEco" vsmod="0"/>
+         <influence vstoken="SPMi_ParticipEcon" vsmod="0"/>
+         <influence vstoken="SPMi_PlanEcon" vsmod="0"/>
+         <influence vstoken="SPMi_ProacCitiz" vsmod="0"/>
+         <influence vstoken="SPMi_ProfTechno" vsmod="0"/>
+         <influence vstoken="SPMi_Amortalism" vsmod="8"/>
+         <influence vstoken="SPMi_BioroidsAdopt" vsmod="0"/>
+         <influence vstoken="SPMi_BirthsCtl" vsmod="0"/>
+         <influence vstoken="SPMi_Eugenics" vsmod="0"/>
+         <influence vstoken="SPMi_Immortalism" vsmod="0"/>
+         <influence vstoken="SPMi_SocSystem" vsmod="0"/>
+         <influence vstoken="SPMi_Abolition" vsmod="0"/>
+         <influence vstoken="SPMi_Cryptosurv" vsmod="0"/>
+         <influence vstoken="SPMi_HomoSoc" vsmod="0"/>
+         <influence vstoken="SPMi_HumRetire" vsmod="0"/>
+         <influence vstoken="SPMi_MilSoc" vsmod="0"/>
+         <influence vstoken="SPMi_Slavery" vsmod="0"/>
+         <influence vstoken="SPMi_Xenophobia" vsmod="0"/>
+         <influence vstoken="SPMi_AntiHumSpacef" vsmod="-8"/>
+         <influence vstoken="SPMi_Colonialism" vsmod="0"/>
+         <influence vstoken="SPMi_CosmosPreserv" vsmod="0"/>
+         <influence vstoken="SPMi_Environmental" vsmod="0"/>
+         <influence vstoken="SPMi_NatTranpSpFleet" vsmod="0"/>
+         <influence vstoken="SPMi_OneWorldCom" vsmod="0"/>
+         <influence vstoken="SPMi_SpDebMClean" vsmod="0"/>
+         <influence vstoken="SPMi_CultOfAtheism" vsmod="0"/>
+         <influence vstoken="SPMi_Cybergnosticism" vsmod="0"/>
+         <influence vstoken="SPMi_Infotranscend" vsmod="0"/>
+         <influence vstoken="SPMi_Pacifism" vsmod="0"/>
+         <influence vstoken="SPMi_ReligiousFree" vsmod="0"/>
+         <influence vstoken="SPMi_StateRel" vsmod="0"/>
+         <influence vstoken="SPMi_TheFreeUnion" vsmod="0"/>
+      </spminfluences>
+   </spmi>
+   <!-- SOC / Slavery -->
+   <spmi token="SPMi_Slavery" area="dgSOC" isunique="false" ispolicy="true">
+      <spmmod mcohes="0" mtens="15" msec="0" medu="0" mnat="0" mhealth="0" mbur="0" mcorr="0"/>
+      <spminfluences>
+         <influence vstoken="SPMi_AIchitect" vsmod="-16"/>
+         <influence vstoken="SPMi_CentrAuth" vsmod="0"/>
+         <influence vstoken="SPMi_CorpOrg" vsmod="0"/>
+         <influence vstoken="SPMi_Cyberdemo" vsmod="0"/>
+         <influence vstoken="SPMi_ElecGov" vsmod="0"/>
+         <influence vstoken="SPMi_RiggElec" vsmod="0"/>
+         <influence vstoken="SPMi_StatePol" vsmod="0"/>
+         <influence vstoken="SPMi_ZeroTol" vsmod="0"/>
+         <influence vstoken="SPMi_Decel" vsmod="0"/>
+         <influence vstoken="SPMi_FreeMark" vsmod="0"/>
+         <influence vstoken="SPMi_GreenEco" vsmod="0"/>
+         <influence vstoken="SPMi_ParticipEcon" vsmod="0"/>
+         <influence vstoken="SPMi_PlanEcon" vsmod="0"/>
+         <influence vstoken="SPMi_ProacCitiz" vsmod="0"/>
+         <influence vstoken="SPMi_ProfTechno" vsmod="0"/>
+         <influence vstoken="SPMi_Amortalism" vsmod="-16"/>
+         <influence vstoken="SPMi_BioroidsAdopt" vsmod="0"/>
+         <influence vstoken="SPMi_BirthsCtl" vsmod="8"/>
+         <influence vstoken="SPMi_Eugenics" vsmod="0"/>
+         <influence vstoken="SPMi_Immortalism" vsmod="0"/>
+         <influence vstoken="SPMi_SocSystem" vsmod="0"/>
+         <influence vstoken="SPMi_Abolition" vsmod="0"/>
+         <influence vstoken="SPMi_Cryptosurv" vsmod="0"/>
+         <influence vstoken="SPMi_HomoSoc" vsmod="0"/>
+         <influence vstoken="SPMi_HumRetire" vsmod="0"/>
+         <influence vstoken="SPMi_MilSoc" vsmod="0"/>
+         <influence vstoken="SPMi_Slavery" vsmod="0"/>
+         <influence vstoken="SPMi_Xenophobia" vsmod="0"/>
+         <influence vstoken="SPMi_AntiHumSpacef" vsmod="0"/>
+         <influence vstoken="SPMi_Colonialism" vsmod="0"/>
+         <influence vstoken="SPMi_CosmosPreserv" vsmod="0"/>
+         <influence vstoken="SPMi_Environmental" vsmod="0"/>
+         <influence vstoken="SPMi_NatTranpSpFleet" vsmod="0"/>
+         <influence vstoken="SPMi_OneWorldCom" vsmod="0"/>
+         <influence vstoken="SPMi_SpDebMClean" vsmod="0"/>
+         <influence vstoken="SPMi_CultOfAtheism" vsmod="0"/>
+         <influence vstoken="SPMi_Cybergnosticism" vsmod="0"/>
+         <influence vstoken="SPMi_Infotranscend" vsmod="0"/>
+         <influence vstoken="SPMi_Pacifism" vsmod="0"/>
+         <influence vstoken="SPMi_ReligiousFree" vsmod="0"/>
+         <influence vstoken="SPMi_StateRel" vsmod="0"/>
+         <influence vstoken="SPMi_TheFreeUnion" vsmod="0"/>
+      </spminfluences>
+   </spmi>
+   <!-- SOC / Xenophobia -->
+   <spmi token="SPMi_Xenophobia" area="dgSOC" isunique="false" ispolicy="false">
+      <spmmod mcohes="20" mtens="0" msec="0" medu="-5" mnat="0" mhealth="0" mbur="0" mcorr="0"/>
+      <spminfluences>
+         <influence vstoken="SPMi_AIchitect" vsmod="0"/>
+         <influence vstoken="SPMi_CentrAuth" vsmod="0"/>
+         <influence vstoken="SPMi_CorpOrg" vsmod="0"/>
+         <influence vstoken="SPMi_Cyberdemo" vsmod="0"/>
+         <influence vstoken="SPMi_ElecGov" vsmod="0"/>
+         <influence vstoken="SPMi_RiggElec" vsmod="0"/>
+         <influence vstoken="SPMi_StatePol" vsmod="0"/>
+         <influence vstoken="SPMi_ZeroTol" vsmod="0"/>
+         <influence vstoken="SPMi_Decel" vsmod="0"/>
+         <influence vstoken="SPMi_FreeMark" vsmod="0"/>
+         <influence vstoken="SPMi_GreenEco" vsmod="0"/>
+         <influence vstoken="SPMi_ParticipEcon" vsmod="0"/>
+         <influence vstoken="SPMi_PlanEcon" vsmod="0"/>
+         <influence vstoken="SPMi_ProacCitiz" vsmod="0"/>
+         <influence vstoken="SPMi_ProfTechno" vsmod="0"/>
+         <influence vstoken="SPMi_Amortalism" vsmod="-16"/>
+         <influence vstoken="SPMi_BioroidsAdopt" vsmod="0"/>
+         <influence vstoken="SPMi_BirthsCtl" vsmod="0"/>
+         <influence vstoken="SPMi_Eugenics" vsmod="0"/>
+         <influence vstoken="SPMi_Immortalism" vsmod="0"/>
+         <influence vstoken="SPMi_SocSystem" vsmod="0"/>
+         <influence vstoken="SPMi_Abolition" vsmod="0"/>
+         <influence vstoken="SPMi_Cryptosurv" vsmod="0"/>
+         <influence vstoken="SPMi_HomoSoc" vsmod="0"/>
+         <influence vstoken="SPMi_HumRetire" vsmod="0"/>
+         <influence vstoken="SPMi_MilSoc" vsmod="0"/>
+         <influence vstoken="SPMi_Slavery" vsmod="0"/>
+         <influence vstoken="SPMi_Xenophobia" vsmod="0"/>
+         <influence vstoken="SPMi_AntiHumSpacef" vsmod="0"/>
+         <influence vstoken="SPMi_Colonialism" vsmod="0"/>
+         <influence vstoken="SPMi_CosmosPreserv" vsmod="0"/>
+         <influence vstoken="SPMi_Environmental" vsmod="0"/>
+         <influence vstoken="SPMi_NatTranpSpFleet" vsmod="0"/>
+         <influence vstoken="SPMi_OneWorldCom" vsmod="0"/>
+         <influence vstoken="SPMi_SpDebMClean" vsmod="0"/>
+         <influence vstoken="SPMi_CultOfAtheism" vsmod="0"/>
+         <influence vstoken="SPMi_Cybergnosticism" vsmod="0"/>
+         <influence vstoken="SPMi_Infotranscend" vsmod="0"/>
+         <influence vstoken="SPMi_Pacifism" vsmod="0"/>
+         <influence vstoken="SPMi_ReligiousFree" vsmod="0"/>
+         <influence vstoken="SPMi_StateRel" vsmod="0"/>
+         <influence vstoken="SPMi_TheFreeUnion" vsmod="0"/>
+      </spminfluences>
+   </spmi>
+   <!-- SPOL / Anti-Human-Spaceflight -->
+   <spmi token="SPMi_AntiHumSpacef" area="dgSPOL" isunique="false" ispolicy="true">
+      <spmmod mcohes="0" mtens="0" msec="0" medu="0" mnat="0" mhealth="0" mbur="0" mcorr="0"/>
+      <spminfluences>
+         <influence vstoken="SPMi_AIchitect" vsmod="0"/>
+         <influence vstoken="SPMi_CentrAuth" vsmod="0"/>
+         <influence vstoken="SPMi_CorpOrg" vsmod="0"/>
+         <influence vstoken="SPMi_Cyberdemo" vsmod="0"/>
+         <influence vstoken="SPMi_ElecGov" vsmod="0"/>
+         <influence vstoken="SPMi_RiggElec" vsmod="0"/>
+         <influence vstoken="SPMi_StatePol" vsmod="0"/>
+         <influence vstoken="SPMi_ZeroTol" vsmod="0"/>
+         <influence vstoken="SPMi_Decel" vsmod="0"/>
+         <influence vstoken="SPMi_FreeMark" vsmod="0"/>
+         <influence vstoken="SPMi_GreenEco" vsmod="0"/>
+         <influence vstoken="SPMi_ParticipEcon" vsmod="0"/>
+         <influence vstoken="SPMi_PlanEcon" vsmod="0"/>
+         <influence vstoken="SPMi_ProacCitiz" vsmod="0"/>
+         <influence vstoken="SPMi_ProfTechno" vsmod="0"/>
+         <influence vstoken="SPMi_Amortalism" vsmod="0"/>
+         <influence vstoken="SPMi_BioroidsAdopt" vsmod="0"/>
+         <influence vstoken="SPMi_BirthsCtl" vsmod="0"/>
+         <influence vstoken="SPMi_Eugenics" vsmod="0"/>
+         <influence vstoken="SPMi_Immortalism" vsmod="0"/>
+         <influence vstoken="SPMi_SocSystem" vsmod="0"/>
+         <influence vstoken="SPMi_Abolition" vsmod="8"/>
+         <influence vstoken="SPMi_Cryptosurv" vsmod="0"/>
+         <influence vstoken="SPMi_HomoSoc" vsmod="0"/>
+         <influence vstoken="SPMi_HumRetire" vsmod="0"/>
+         <influence vstoken="SPMi_MilSoc" vsmod="0"/>
+         <influence vstoken="SPMi_Slavery" vsmod="0"/>
+         <influence vstoken="SPMi_Xenophobia" vsmod="0"/>
+         <influence vstoken="SPMi_AntiHumSpacef" vsmod="0"/>
+         <influence vstoken="SPMi_Colonialism" vsmod="0"/>
+         <influence vstoken="SPMi_CosmosPreserv" vsmod="0"/>
+         <influence vstoken="SPMi_Environmental" vsmod="0"/>
+         <influence vstoken="SPMi_NatTranpSpFleet" vsmod="0"/>
+         <influence vstoken="SPMi_OneWorldCom" vsmod="0"/>
+         <influence vstoken="SPMi_SpDebMClean" vsmod="0"/>
+         <influence vstoken="SPMi_CultOfAtheism" vsmod="0"/>
+         <influence vstoken="SPMi_Cybergnosticism" vsmod="0"/>
+         <influence vstoken="SPMi_Infotranscend" vsmod="0"/>
+         <influence vstoken="SPMi_Pacifism" vsmod="0"/>
+         <influence vstoken="SPMi_ReligiousFree" vsmod="0"/>
+         <influence vstoken="SPMi_StateRel" vsmod="0"/>
+         <influence vstoken="SPMi_TheFreeUnion" vsmod="0"/>
+      </spminfluences>
+   </spmi>
+   <!-- SPOL / Colonialism -->
+   <spmi token="SPMi_Colonialism" area="dgSPOL" isunique="false" ispolicy="false">
+      <spmmod mcohes="15" mtens="0" msec="0" medu="0" mnat="10" mhealth="-5" mbur="0" mcorr="0"/>
+      <spminfluences>
+         <influence vstoken="SPMi_AIchitect" vsmod="8"/>
+         <influence vstoken="SPMi_CentrAuth" vsmod="0"/>
+         <influence vstoken="SPMi_CorpOrg" vsmod="0"/>
+         <influence vstoken="SPMi_Cyberdemo" vsmod="0"/>
+         <influence vstoken="SPMi_ElecGov" vsmod="0"/>
+         <influence vstoken="SPMi_RiggElec" vsmod="0"/>
+         <influence vstoken="SPMi_StatePol" vsmod="0"/>
+         <influence vstoken="SPMi_ZeroTol" vsmod="0"/>
+         <influence vstoken="SPMi_Decel" vsmod="0"/>
+         <influence vstoken="SPMi_FreeMark" vsmod="0"/>
+         <influence vstoken="SPMi_GreenEco" vsmod="0"/>
+         <influence vstoken="SPMi_ParticipEcon" vsmod="0"/>
+         <influence vstoken="SPMi_PlanEcon" vsmod="0"/>
+         <influence vstoken="SPMi_ProacCitiz" vsmod="0"/>
+         <influence vstoken="SPMi_ProfTechno" vsmod="0"/>
+         <influence vstoken="SPMi_Amortalism" vsmod="0"/>
+         <influence vstoken="SPMi_BioroidsAdopt" vsmod="0"/>
+         <influence vstoken="SPMi_BirthsCtl" vsmod="0"/>
+         <influence vstoken="SPMi_Eugenics" vsmod="0"/>
+         <influence vstoken="SPMi_Immortalism" vsmod="0"/>
+         <influence vstoken="SPMi_SocSystem" vsmod="0"/>
+         <influence vstoken="SPMi_Abolition" vsmod="0"/>
+         <influence vstoken="SPMi_Cryptosurv" vsmod="0"/>
+         <influence vstoken="SPMi_HomoSoc" vsmod="0"/>
+         <influence vstoken="SPMi_HumRetire" vsmod="0"/>
+         <influence vstoken="SPMi_MilSoc" vsmod="0"/>
+         <influence vstoken="SPMi_Slavery" vsmod="0"/>
+         <influence vstoken="SPMi_Xenophobia" vsmod="0"/>
+         <influence vstoken="SPMi_AntiHumSpacef" vsmod="-32"/>
+         <influence vstoken="SPMi_Colonialism" vsmod="0"/>
+         <influence vstoken="SPMi_CosmosPreserv" vsmod="0"/>
+         <influence vstoken="SPMi_Environmental" vsmod="0"/>
+         <influence vstoken="SPMi_NatTranpSpFleet" vsmod="0"/>
+         <influence vstoken="SPMi_OneWorldCom" vsmod="0"/>
+         <influence vstoken="SPMi_SpDebMClean" vsmod="0"/>
+         <influence vstoken="SPMi_CultOfAtheism" vsmod="0"/>
+         <influence vstoken="SPMi_Cybergnosticism" vsmod="0"/>
+         <influence vstoken="SPMi_Infotranscend" vsmod="0"/>
+         <influence vstoken="SPMi_Pacifism" vsmod="0"/>
+         <influence vstoken="SPMi_ReligiousFree" vsmod="0"/>
+         <influence vstoken="SPMi_StateRel" vsmod="0"/>
+         <influence vstoken="SPMi_TheFreeUnion" vsmod="0"/>
+      </spminfluences>
+   </spmi>
+   <!-- SPOL / Cosmos Preservation -->
+   <spmi token="SPMi_CosmosPreserv" area="dgSPOL" isunique="false" ispolicy="false">
+      <spmmod mcohes="0" mtens="0" msec="0" medu="0" mnat="0" mhealth="0" mbur="0" mcorr="0"/>
+      <spminfluences>
+         <influence vstoken="SPMi_AIchitect" vsmod="0"/>
+         <influence vstoken="SPMi_CentrAuth" vsmod="0"/>
+         <influence vstoken="SPMi_CorpOrg" vsmod="0"/>
+         <influence vstoken="SPMi_Cyberdemo" vsmod="0"/>
+         <influence vstoken="SPMi_ElecGov" vsmod="0"/>
+         <influence vstoken="SPMi_RiggElec" vsmod="0"/>
+         <influence vstoken="SPMi_StatePol" vsmod="0"/>
+         <influence vstoken="SPMi_ZeroTol" vsmod="0"/>
+         <influence vstoken="SPMi_Decel" vsmod="0"/>
+         <influence vstoken="SPMi_FreeMark" vsmod="0"/>
+         <influence vstoken="SPMi_GreenEco" vsmod="0"/>
+         <influence vstoken="SPMi_ParticipEcon" vsmod="0"/>
+         <influence vstoken="SPMi_PlanEcon" vsmod="0"/>
+         <influence vstoken="SPMi_ProacCitiz" vsmod="0"/>
+         <influence vstoken="SPMi_ProfTechno" vsmod="0"/>
+         <influence vstoken="SPMi_Amortalism" vsmod="16"/>
+         <influence vstoken="SPMi_BioroidsAdopt" vsmod="0"/>
+         <influence vstoken="SPMi_BirthsCtl" vsmod="0"/>
+         <influence vstoken="SPMi_Eugenics" vsmod="0"/>
+         <influence vstoken="SPMi_Immortalism" vsmod="0"/>
+         <influence vstoken="SPMi_SocSystem" vsmod="0"/>
+         <influence vstoken="SPMi_Abolition" vsmod="0"/>
+         <influence vstoken="SPMi_Cryptosurv" vsmod="0"/>
+         <influence vstoken="SPMi_HomoSoc" vsmod="0"/>
+         <influence vstoken="SPMi_HumRetire" vsmod="0"/>
+         <influence vstoken="SPMi_MilSoc" vsmod="0"/>
+         <influence vstoken="SPMi_Slavery" vsmod="0"/>
+         <influence vstoken="SPMi_Xenophobia" vsmod="0"/>
+         <influence vstoken="SPMi_AntiHumSpacef" vsmod="24"/>
+         <influence vstoken="SPMi_Colonialism" vsmod="0"/>
+         <influence vstoken="SPMi_CosmosPreserv" vsmod="0"/>
+         <influence vstoken="SPMi_Environmental" vsmod="0"/>
+         <influence vstoken="SPMi_NatTranpSpFleet" vsmod="0"/>
+         <influence vstoken="SPMi_OneWorldCom" vsmod="0"/>
+         <influence vstoken="SPMi_SpDebMClean" vsmod="0"/>
+         <influence vstoken="SPMi_CultOfAtheism" vsmod="0"/>
+         <influence vstoken="SPMi_Cybergnosticism" vsmod="0"/>
+         <influence vstoken="SPMi_Infotranscend" vsmod="0"/>
+         <influence vstoken="SPMi_Pacifism" vsmod="0"/>
+         <influence vstoken="SPMi_ReligiousFree" vsmod="0"/>
+         <influence vstoken="SPMi_StateRel" vsmod="0"/>
+         <influence vstoken="SPMi_TheFreeUnion" vsmod="0"/>
+      </spminfluences>
+   </spmi>
+   <!-- SPOL / Environmentalism -->
+   <spmi token="SPMi_Environmental" area="dgSPOL" isunique="false" ispolicy="false">
+      <spmmod mcohes="20" mtens="0" msec="0" medu="0" mnat="20" mhealth="0" mbur="0" mcorr="0"/>
+      <spminfluences>
+         <influence vstoken="SPMi_AIchitect" vsmod="0"/>
+         <influence vstoken="SPMi_CentrAuth" vsmod="0"/>
+         <influence vstoken="SPMi_CorpOrg" vsmod="0"/>
+         <influence vstoken="SPMi_Cyberdemo" vsmod="0"/>
+         <influence vstoken="SPMi_ElecGov" vsmod="0"/>
+         <influence vstoken="SPMi_RiggElec" vsmod="0"/>
+         <influence vstoken="SPMi_StatePol" vsmod="0"/>
+         <influence vstoken="SPMi_ZeroTol" vsmod="0"/>
+         <influence vstoken="SPMi_Decel" vsmod="0"/>
+         <influence vstoken="SPMi_FreeMark" vsmod="0"/>
+         <influence vstoken="SPMi_GreenEco" vsmod="0"/>
+         <influence vstoken="SPMi_ParticipEcon" vsmod="0"/>
+         <influence vstoken="SPMi_PlanEcon" vsmod="0"/>
+         <influence vstoken="SPMi_ProacCitiz" vsmod="0"/>
+         <influence vstoken="SPMi_ProfTechno" vsmod="0"/>
+         <influence vstoken="SPMi_Amortalism" vsmod="-32"/>
+         <influence vstoken="SPMi_BioroidsAdopt" vsmod="0"/>
+         <influence vstoken="SPMi_BirthsCtl" vsmod="-24"/>
+         <influence vstoken="SPMi_Eugenics" vsmod="0"/>
+         <influence vstoken="SPMi_Immortalism" vsmod="0"/>
+         <influence vstoken="SPMi_SocSystem" vsmod="0"/>
+         <influence vstoken="SPMi_Abolition" vsmod="0"/>
+         <influence vstoken="SPMi_Cryptosurv" vsmod="0"/>
+         <influence vstoken="SPMi_HomoSoc" vsmod="0"/>
+         <influence vstoken="SPMi_HumRetire" vsmod="0"/>
+         <influence vstoken="SPMi_MilSoc" vsmod="0"/>
+         <influence vstoken="SPMi_Slavery" vsmod="0"/>
+         <influence vstoken="SPMi_Xenophobia" vsmod="0"/>
+         <influence vstoken="SPMi_AntiHumSpacef" vsmod="-32"/>
+         <influence vstoken="SPMi_Colonialism" vsmod="0"/>
+         <influence vstoken="SPMi_CosmosPreserv" vsmod="0"/>
+         <influence vstoken="SPMi_Environmental" vsmod="0"/>
+         <influence vstoken="SPMi_NatTranpSpFleet" vsmod="0"/>
+         <influence vstoken="SPMi_OneWorldCom" vsmod="0"/>
+         <influence vstoken="SPMi_SpDebMClean" vsmod="0"/>
+         <influence vstoken="SPMi_CultOfAtheism" vsmod="0"/>
+         <influence vstoken="SPMi_Cybergnosticism" vsmod="0"/>
+         <influence vstoken="SPMi_Infotranscend" vsmod="0"/>
+         <influence vstoken="SPMi_Pacifism" vsmod="0"/>
+         <influence vstoken="SPMi_ReligiousFree" vsmod="0"/>
+         <influence vstoken="SPMi_StateRel" vsmod="0"/>
+         <influence vstoken="SPMi_TheFreeUnion" vsmod="0"/>
+      </spminfluences>
+   </spmi>
+   <!-- SPOL / National Transport Space Fleet -->
+   <spmi token="SPMi_NatTranpSpFleet" area="dgSPOL" isunique="false" ispolicy="true">
+      <spmmod mcohes="10" mtens="0" msec="0" medu="0" mnat="0" mhealth="0" mbur="-5" mcorr="5"/>
+      <spminfluences>
+         <influence vstoken="SPMi_AIchitect" vsmod="0"/>
+         <influence vstoken="SPMi_CentrAuth" vsmod="0"/>
+         <influence vstoken="SPMi_CorpOrg" vsmod="0"/>
+         <influence vstoken="SPMi_Cyberdemo" vsmod="0"/>
+         <influence vstoken="SPMi_ElecGov" vsmod="0"/>
+         <influence vstoken="SPMi_RiggElec" vsmod="0"/>
+         <influence vstoken="SPMi_StatePol" vsmod="0"/>
+         <influence vstoken="SPMi_ZeroTol" vsmod="0"/>
+         <influence vstoken="SPMi_Decel" vsmod="0"/>
+         <influence vstoken="SPMi_FreeMark" vsmod="0"/>
+         <influence vstoken="SPMi_GreenEco" vsmod="0"/>
+         <influence vstoken="SPMi_ParticipEcon" vsmod="0"/>
+         <influence vstoken="SPMi_PlanEcon" vsmod="0"/>
+         <influence vstoken="SPMi_ProacCitiz" vsmod="0"/>
+         <influence vstoken="SPMi_ProfTechno" vsmod="0"/>
+         <influence vstoken="SPMi_Amortalism" vsmod="0"/>
+         <influence vstoken="SPMi_BioroidsAdopt" vsmod="0"/>
+         <influence vstoken="SPMi_BirthsCtl" vsmod="0"/>
+         <influence vstoken="SPMi_Eugenics" vsmod="0"/>
+         <influence vstoken="SPMi_Immortalism" vsmod="0"/>
+         <influence vstoken="SPMi_SocSystem" vsmod="0"/>
+         <influence vstoken="SPMi_Abolition" vsmod="0"/>
+         <influence vstoken="SPMi_Cryptosurv" vsmod="0"/>
+         <influence vstoken="SPMi_HomoSoc" vsmod="0"/>
+         <influence vstoken="SPMi_HumRetire" vsmod="0"/>
+         <influence vstoken="SPMi_MilSoc" vsmod="0"/>
+         <influence vstoken="SPMi_Slavery" vsmod="0"/>
+         <influence vstoken="SPMi_Xenophobia" vsmod="0"/>
+         <influence vstoken="SPMi_AntiHumSpacef" vsmod="8"/>
+         <influence vstoken="SPMi_Colonialism" vsmod="0"/>
+         <influence vstoken="SPMi_CosmosPreserv" vsmod="0"/>
+         <influence vstoken="SPMi_Environmental" vsmod="0"/>
+         <influence vstoken="SPMi_NatTranpSpFleet" vsmod="0"/>
+         <influence vstoken="SPMi_OneWorldCom" vsmod="0"/>
+         <influence vstoken="SPMi_SpDebMClean" vsmod="0"/>
+         <influence vstoken="SPMi_CultOfAtheism" vsmod="0"/>
+         <influence vstoken="SPMi_Cybergnosticism" vsmod="0"/>
+         <influence vstoken="SPMi_Infotranscend" vsmod="0"/>
+         <influence vstoken="SPMi_Pacifism" vsmod="0"/>
+         <influence vstoken="SPMi_ReligiousFree" vsmod="0"/>
+         <influence vstoken="SPMi_StateRel" vsmod="0"/>
+         <influence vstoken="SPMi_TheFreeUnion" vsmod="0"/>
+      </spminfluences>
+   </spmi>
+   <!-- SPOL / One-World Community -->
+   <spmi token="SPMi_OneWorldCom" area="dgSPOL" isunique="false" ispolicy="true">
+      <spmmod mcohes="15" mtens="0" msec="0" medu="0" mnat="0" mhealth="0" mbur="5" mcorr="0"/>
+      <spminfluences>
+         <influence vstoken="SPMi_AIchitect" vsmod="0"/>
+         <influence vstoken="SPMi_CentrAuth" vsmod="0"/>
+         <influence vstoken="SPMi_CorpOrg" vsmod="0"/>
+         <influence vstoken="SPMi_Cyberdemo" vsmod="0"/>
+         <influence vstoken="SPMi_ElecGov" vsmod="0"/>
+         <influence vstoken="SPMi_RiggElec" vsmod="0"/>
+         <influence vstoken="SPMi_StatePol" vsmod="0"/>
+         <influence vstoken="SPMi_ZeroTol" vsmod="0"/>
+         <influence vstoken="SPMi_Decel" vsmod="0"/>
+         <influence vstoken="SPMi_FreeMark" vsmod="0"/>
+         <influence vstoken="SPMi_GreenEco" vsmod="0"/>
+         <influence vstoken="SPMi_ParticipEcon" vsmod="0"/>
+         <influence vstoken="SPMi_PlanEcon" vsmod="0"/>
+         <influence vstoken="SPMi_ProacCitiz" vsmod="0"/>
+         <influence vstoken="SPMi_ProfTechno" vsmod="0"/>
+         <influence vstoken="SPMi_Amortalism" vsmod="16"/>
+         <influence vstoken="SPMi_BioroidsAdopt" vsmod="0"/>
+         <influence vstoken="SPMi_BirthsCtl" vsmod="0"/>
+         <influence vstoken="SPMi_Eugenics" vsmod="0"/>
+         <influence vstoken="SPMi_Immortalism" vsmod="0"/>
+         <influence vstoken="SPMi_SocSystem" vsmod="0"/>
+         <influence vstoken="SPMi_Abolition" vsmod="0"/>
+         <influence vstoken="SPMi_Cryptosurv" vsmod="0"/>
+         <influence vstoken="SPMi_HomoSoc" vsmod="0"/>
+         <influence vstoken="SPMi_HumRetire" vsmod="0"/>
+         <influence vstoken="SPMi_MilSoc" vsmod="0"/>
+         <influence vstoken="SPMi_Slavery" vsmod="0"/>
+         <influence vstoken="SPMi_Xenophobia" vsmod="0"/>
+         <influence vstoken="SPMi_AntiHumSpacef" vsmod="64"/>
+         <influence vstoken="SPMi_Colonialism" vsmod="0"/>
+         <influence vstoken="SPMi_CosmosPreserv" vsmod="0"/>
+         <influence vstoken="SPMi_Environmental" vsmod="0"/>
+         <influence vstoken="SPMi_NatTranpSpFleet" vsmod="0"/>
+         <influence vstoken="SPMi_OneWorldCom" vsmod="0"/>
+         <influence vstoken="SPMi_SpDebMClean" vsmod="0"/>
+         <influence vstoken="SPMi_CultOfAtheism" vsmod="0"/>
+         <influence vstoken="SPMi_Cybergnosticism" vsmod="0"/>
+         <influence vstoken="SPMi_Infotranscend" vsmod="0"/>
+         <influence vstoken="SPMi_Pacifism" vsmod="0"/>
+         <influence vstoken="SPMi_ReligiousFree" vsmod="0"/>
+         <influence vstoken="SPMi_StateRel" vsmod="0"/>
+         <influence vstoken="SPMi_TheFreeUnion" vsmod="0"/>
+      </spminfluences>
+   </spmi>
+   <!-- SPOL / Space Cleanup and Servicing -->
+   <spmi token="SPMi_SpDebMClean" area="dgSPOL" isunique="false" ispolicy="true">
+      <spmmod mcohes="0" mtens="0" msec="0" medu="0" mnat="0" mhealth="0" mbur="0" mcorr="0"/>
+      <spmreq>
+         <requirement token="dgUC" ucmethod="dgCalcCol" ucval="0.001"/>
+      </spmreq>
+      <spminfluences>
+         <influence vstoken="SPMi_AIchitect" vsmod="0"/>
+         <influence vstoken="SPMi_CentrAuth" vsmod="0"/>
+         <influence vstoken="SPMi_CorpOrg" vsmod="0"/>
+         <influence vstoken="SPMi_Cyberdemo" vsmod="0"/>
+         <influence vstoken="SPMi_ElecGov" vsmod="0"/>
+         <influence vstoken="SPMi_RiggElec" vsmod="0"/>
+         <influence vstoken="SPMi_StatePol" vsmod="0"/>
+         <influence vstoken="SPMi_ZeroTol" vsmod="0"/>
+         <influence vstoken="SPMi_Decel" vsmod="0"/>
+         <influence vstoken="SPMi_FreeMark" vsmod="0"/>
+         <influence vstoken="SPMi_GreenEco" vsmod="0"/>
+         <influence vstoken="SPMi_ParticipEcon" vsmod="0"/>
+         <influence vstoken="SPMi_PlanEcon" vsmod="0"/>
+         <influence vstoken="SPMi_ProacCitiz" vsmod="0"/>
+         <influence vstoken="SPMi_ProfTechno" vsmod="0"/>
+         <influence vstoken="SPMi_Amortalism" vsmod="8"/>
+         <influence vstoken="SPMi_BioroidsAdopt" vsmod="0"/>
+         <influence vstoken="SPMi_BirthsCtl" vsmod="0"/>
+         <influence vstoken="SPMi_Eugenics" vsmod="0"/>
+         <influence vstoken="SPMi_Immortalism" vsmod="0"/>
+         <influence vstoken="SPMi_SocSystem" vsmod="0"/>
+         <influence vstoken="SPMi_Abolition" vsmod="0"/>
+         <influence vstoken="SPMi_Cryptosurv" vsmod="0"/>
+         <influence vstoken="SPMi_HomoSoc" vsmod="0"/>
+         <influence vstoken="SPMi_HumRetire" vsmod="0"/>
+         <influence vstoken="SPMi_MilSoc" vsmod="0"/>
+         <influence vstoken="SPMi_Slavery" vsmod="0"/>
+         <influence vstoken="SPMi_Xenophobia" vsmod="0"/>
+         <influence vstoken="SPMi_AntiHumSpacef" vsmod="8"/>
+         <influence vstoken="SPMi_Colonialism" vsmod="0"/>
+         <influence vstoken="SPMi_CosmosPreserv" vsmod="0"/>
+         <influence vstoken="SPMi_Environmental" vsmod="0"/>
+         <influence vstoken="SPMi_NatTranpSpFleet" vsmod="0"/>
+         <influence vstoken="SPMi_OneWorldCom" vsmod="0"/>
+         <influence vstoken="SPMi_SpDebMClean" vsmod="0"/>
+         <influence vstoken="SPMi_CultOfAtheism" vsmod="0"/>
+         <influence vstoken="SPMi_Cybergnosticism" vsmod="0"/>
+         <influence vstoken="SPMi_Infotranscend" vsmod="0"/>
+         <influence vstoken="SPMi_Pacifism" vsmod="0"/>
+         <influence vstoken="SPMi_ReligiousFree" vsmod="0"/>
+         <influence vstoken="SPMi_StateRel" vsmod="0"/>
+         <influence vstoken="SPMi_TheFreeUnion" vsmod="0"/>
+      </spminfluences>
+   </spmi>
+   <!-- SPI / Cult of Atheism -->
+   <spmi token="SPMi_CultOfAtheism" area="dgSPI" isunique="false" ispolicy="false">
+      <spmmod mcohes="0" mtens="10" msec="0" medu="20" mnat="0" mhealth="10" mbur="0" mcorr="0"/>
+      <spminfluences>
+         <influence vstoken="SPMi_AIchitect" vsmod="8"/>
+         <influence vstoken="SPMi_CentrAuth" vsmod="0"/>
+         <influence vstoken="SPMi_CorpOrg" vsmod="0"/>
+         <influence vstoken="SPMi_Cyberdemo" vsmod="0"/>
+         <influence vstoken="SPMi_ElecGov" vsmod="0"/>
+         <influence vstoken="SPMi_RiggElec" vsmod="0"/>
+         <influence vstoken="SPMi_StatePol" vsmod="0"/>
+         <influence vstoken="SPMi_ZeroTol" vsmod="0"/>
+         <influence vstoken="SPMi_Decel" vsmod="0"/>
+         <influence vstoken="SPMi_FreeMark" vsmod="0"/>
+         <influence vstoken="SPMi_GreenEco" vsmod="0"/>
+         <influence vstoken="SPMi_ParticipEcon" vsmod="0"/>
+         <influence vstoken="SPMi_PlanEcon" vsmod="0"/>
+         <influence vstoken="SPMi_ProacCitiz" vsmod="0"/>
+         <influence vstoken="SPMi_ProfTechno" vsmod="0"/>
+         <influence vstoken="SPMi_Amortalism" vsmod="0"/>
+         <influence vstoken="SPMi_BioroidsAdopt" vsmod="0"/>
+         <influence vstoken="SPMi_BirthsCtl" vsmod="0"/>
+         <influence vstoken="SPMi_Eugenics" vsmod="0"/>
+         <influence vstoken="SPMi_Immortalism" vsmod="0"/>
+         <influence vstoken="SPMi_SocSystem" vsmod="0"/>
+         <influence vstoken="SPMi_Abolition" vsmod="0"/>
+         <influence vstoken="SPMi_Cryptosurv" vsmod="0"/>
+         <influence vstoken="SPMi_HomoSoc" vsmod="0"/>
+         <influence vstoken="SPMi_HumRetire" vsmod="0"/>
+         <influence vstoken="SPMi_MilSoc" vsmod="0"/>
+         <influence vstoken="SPMi_Slavery" vsmod="0"/>
+         <influence vstoken="SPMi_Xenophobia" vsmod="0"/>
+         <influence vstoken="SPMi_AntiHumSpacef" vsmod="0"/>
+         <influence vstoken="SPMi_Colonialism" vsmod="0"/>
+         <influence vstoken="SPMi_CosmosPreserv" vsmod="0"/>
+         <influence vstoken="SPMi_Environmental" vsmod="0"/>
+         <influence vstoken="SPMi_NatTranpSpFleet" vsmod="0"/>
+         <influence vstoken="SPMi_OneWorldCom" vsmod="0"/>
+         <influence vstoken="SPMi_SpDebMClean" vsmod="0"/>
+         <influence vstoken="SPMi_CultOfAtheism" vsmod="0"/>
+         <influence vstoken="SPMi_Cybergnosticism" vsmod="0"/>
+         <influence vstoken="SPMi_Infotranscend" vsmod="0"/>
+         <influence vstoken="SPMi_Pacifism" vsmod="0"/>
+         <influence vstoken="SPMi_ReligiousFree" vsmod="0"/>
+         <influence vstoken="SPMi_StateRel" vsmod="0"/>
+         <influence vstoken="SPMi_TheFreeUnion" vsmod="0"/>
+      </spminfluences>
+   </spmi>
+   <!-- SPI / Cybergnosticism -->
+   <spmi token="SPMi_Cybergnosticism" area="dgSPI" isunique="false" ispolicy="false">
+      <spmmod mcohes="5" mtens="0" msec="15" medu="0" mnat="-25" mhealth="10" mbur="0" mcorr="-30"/>
+      <spminfluences>
+         <influence vstoken="SPMi_AIchitect" vsmod="8"/>
+         <influence vstoken="SPMi_CentrAuth" vsmod="0"/>
+         <influence vstoken="SPMi_CorpOrg" vsmod="0"/>
+         <influence vstoken="SPMi_Cyberdemo" vsmod="0"/>
+         <influence vstoken="SPMi_ElecGov" vsmod="0"/>
+         <influence vstoken="SPMi_RiggElec" vsmod="0"/>
+         <influence vstoken="SPMi_StatePol" vsmod="0"/>
+         <influence vstoken="SPMi_ZeroTol" vsmod="0"/>
+         <influence vstoken="SPMi_Decel" vsmod="0"/>
+         <influence vstoken="SPMi_FreeMark" vsmod="0"/>
+         <influence vstoken="SPMi_GreenEco" vsmod="0"/>
+         <influence vstoken="SPMi_ParticipEcon" vsmod="0"/>
+         <influence vstoken="SPMi_PlanEcon" vsmod="0"/>
+         <influence vstoken="SPMi_ProacCitiz" vsmod="0"/>
+         <influence vstoken="SPMi_ProfTechno" vsmod="0"/>
+         <influence vstoken="SPMi_Amortalism" vsmod="-32"/>
+         <influence vstoken="SPMi_BioroidsAdopt" vsmod="32"/>
+         <influence vstoken="SPMi_BirthsCtl" vsmod="8"/>
+         <influence vstoken="SPMi_Eugenics" vsmod="0"/>
+         <influence vstoken="SPMi_Immortalism" vsmod="0"/>
+         <influence vstoken="SPMi_SocSystem" vsmod="0"/>
+         <influence vstoken="SPMi_Abolition" vsmod="32"/>
+         <influence vstoken="SPMi_Cryptosurv" vsmod="0"/>
+         <influence vstoken="SPMi_HomoSoc" vsmod="0"/>
+         <influence vstoken="SPMi_HumRetire" vsmod="0"/>
+         <influence vstoken="SPMi_MilSoc" vsmod="0"/>
+         <influence vstoken="SPMi_Slavery" vsmod="0"/>
+         <influence vstoken="SPMi_Xenophobia" vsmod="0"/>
+         <influence vstoken="SPMi_AntiHumSpacef" vsmod="32"/>
+         <influence vstoken="SPMi_Colonialism" vsmod="0"/>
+         <influence vstoken="SPMi_CosmosPreserv" vsmod="0"/>
+         <influence vstoken="SPMi_Environmental" vsmod="0"/>
+         <influence vstoken="SPMi_NatTranpSpFleet" vsmod="0"/>
+         <influence vstoken="SPMi_OneWorldCom" vsmod="0"/>
+         <influence vstoken="SPMi_SpDebMClean" vsmod="0"/>
+         <influence vstoken="SPMi_CultOfAtheism" vsmod="0"/>
+         <influence vstoken="SPMi_Cybergnosticism" vsmod="0"/>
+         <influence vstoken="SPMi_Infotranscend" vsmod="0"/>
+         <influence vstoken="SPMi_Pacifism" vsmod="0"/>
+         <influence vstoken="SPMi_ReligiousFree" vsmod="0"/>
+         <influence vstoken="SPMi_StateRel" vsmod="0"/>
+         <influence vstoken="SPMi_TheFreeUnion" vsmod="0"/>
+      </spminfluences>
+   </spmi>
+   <!-- SPI / Infotranscendence -->
+   <spmi token="SPMi_Infotranscend" area="dgSPI" isunique="false" ispolicy="false">
+      <spmmod mcohes="0" mtens="0" msec="0" medu="0" mnat="0" mhealth="0" mbur="0" mcorr="0"/>
+      <spminfluences>
+         <influence vstoken="SPMi_AIchitect" vsmod="0"/>
+         <influence vstoken="SPMi_CentrAuth" vsmod="0"/>
+         <influence vstoken="SPMi_CorpOrg" vsmod="0"/>
+         <influence vstoken="SPMi_Cyberdemo" vsmod="0"/>
+         <influence vstoken="SPMi_ElecGov" vsmod="0"/>
+         <influence vstoken="SPMi_RiggElec" vsmod="0"/>
+         <influence vstoken="SPMi_StatePol" vsmod="0"/>
+         <influence vstoken="SPMi_ZeroTol" vsmod="0"/>
+         <influence vstoken="SPMi_Decel" vsmod="0"/>
+         <influence vstoken="SPMi_FreeMark" vsmod="0"/>
+         <influence vstoken="SPMi_GreenEco" vsmod="0"/>
+         <influence vstoken="SPMi_ParticipEcon" vsmod="0"/>
+         <influence vstoken="SPMi_PlanEcon" vsmod="0"/>
+         <influence vstoken="SPMi_ProacCitiz" vsmod="0"/>
+         <influence vstoken="SPMi_ProfTechno" vsmod="0"/>
+         <influence vstoken="SPMi_Amortalism" vsmod="0"/>
+         <influence vstoken="SPMi_BioroidsAdopt" vsmod="16"/>
+         <influence vstoken="SPMi_BirthsCtl" vsmod="0"/>
+         <influence vstoken="SPMi_Eugenics" vsmod="0"/>
+         <influence vstoken="SPMi_Immortalism" vsmod="0"/>
+         <influence vstoken="SPMi_SocSystem" vsmod="0"/>
+         <influence vstoken="SPMi_Abolition" vsmod="32"/>
+         <influence vstoken="SPMi_Cryptosurv" vsmod="0"/>
+         <influence vstoken="SPMi_HomoSoc" vsmod="0"/>
+         <influence vstoken="SPMi_HumRetire" vsmod="0"/>
+         <influence vstoken="SPMi_MilSoc" vsmod="0"/>
+         <influence vstoken="SPMi_Slavery" vsmod="0"/>
+         <influence vstoken="SPMi_Xenophobia" vsmod="0"/>
+         <influence vstoken="SPMi_AntiHumSpacef" vsmod="16"/>
+         <influence vstoken="SPMi_Colonialism" vsmod="0"/>
+         <influence vstoken="SPMi_CosmosPreserv" vsmod="0"/>
+         <influence vstoken="SPMi_Environmental" vsmod="0"/>
+         <influence vstoken="SPMi_NatTranpSpFleet" vsmod="0"/>
+         <influence vstoken="SPMi_OneWorldCom" vsmod="0"/>
+         <influence vstoken="SPMi_SpDebMClean" vsmod="0"/>
+         <influence vstoken="SPMi_CultOfAtheism" vsmod="0"/>
+         <influence vstoken="SPMi_Cybergnosticism" vsmod="0"/>
+         <influence vstoken="SPMi_Infotranscend" vsmod="0"/>
+         <influence vstoken="SPMi_Pacifism" vsmod="0"/>
+         <influence vstoken="SPMi_ReligiousFree" vsmod="0"/>
+         <influence vstoken="SPMi_StateRel" vsmod="0"/>
+         <influence vstoken="SPMi_TheFreeUnion" vsmod="0"/>
+      </spminfluences>
+   </spmi>
+   <!-- SPI / Pacifism -->
+   <spmi token="SPMi_Pacifism" area="dgSPI" isunique="false" ispolicy="false">
+      <spmmod mcohes="10" mtens="-25" msec="0" medu="0" mnat="15" mhealth="0" mbur="0" mcorr="0"/>
+      <spminfluences>
+         <influence vstoken="SPMi_AIchitect" vsmod="24"/>
+         <influence vstoken="SPMi_CentrAuth" vsmod="0"/>
+         <influence vstoken="SPMi_CorpOrg" vsmod="0"/>
+         <influence vstoken="SPMi_Cyberdemo" vsmod="0"/>
+         <influence vstoken="SPMi_ElecGov" vsmod="0"/>
+         <influence vstoken="SPMi_RiggElec" vsmod="0"/>
+         <influence vstoken="SPMi_StatePol" vsmod="0"/>
+         <influence vstoken="SPMi_ZeroTol" vsmod="0"/>
+         <influence vstoken="SPMi_Decel" vsmod="0"/>
+         <influence vstoken="SPMi_FreeMark" vsmod="0"/>
+         <influence vstoken="SPMi_GreenEco" vsmod="0"/>
+         <influence vstoken="SPMi_ParticipEcon" vsmod="0"/>
+         <influence vstoken="SPMi_PlanEcon" vsmod="0"/>
+         <influence vstoken="SPMi_ProacCitiz" vsmod="0"/>
+         <influence vstoken="SPMi_ProfTechno" vsmod="0"/>
+         <influence vstoken="SPMi_Amortalism" vsmod="48"/>
+         <influence vstoken="SPMi_BioroidsAdopt" vsmod="-16"/>
+         <influence vstoken="SPMi_BirthsCtl" vsmod="-8"/>
+         <influence vstoken="SPMi_Eugenics" vsmod="0"/>
+         <influence vstoken="SPMi_Immortalism" vsmod="0"/>
+         <influence vstoken="SPMi_SocSystem" vsmod="0"/>
+         <influence vstoken="SPMi_Abolition" vsmod="-8"/>
+         <influence vstoken="SPMi_Cryptosurv" vsmod="0"/>
+         <influence vstoken="SPMi_HomoSoc" vsmod="0"/>
+         <influence vstoken="SPMi_HumRetire" vsmod="0"/>
+         <influence vstoken="SPMi_MilSoc" vsmod="0"/>
+         <influence vstoken="SPMi_Slavery" vsmod="0"/>
+         <influence vstoken="SPMi_Xenophobia" vsmod="0"/>
+         <influence vstoken="SPMi_AntiHumSpacef" vsmod="0"/>
+         <influence vstoken="SPMi_Colonialism" vsmod="0"/>
+         <influence vstoken="SPMi_CosmosPreserv" vsmod="0"/>
+         <influence vstoken="SPMi_Environmental" vsmod="0"/>
+         <influence vstoken="SPMi_NatTranpSpFleet" vsmod="0"/>
+         <influence vstoken="SPMi_OneWorldCom" vsmod="0"/>
+         <influence vstoken="SPMi_SpDebMClean" vsmod="0"/>
+         <influence vstoken="SPMi_CultOfAtheism" vsmod="0"/>
+         <influence vstoken="SPMi_Cybergnosticism" vsmod="0"/>
+         <influence vstoken="SPMi_Infotranscend" vsmod="0"/>
+         <influence vstoken="SPMi_Pacifism" vsmod="0"/>
+         <influence vstoken="SPMi_ReligiousFree" vsmod="0"/>
+         <influence vstoken="SPMi_StateRel" vsmod="0"/>
+         <influence vstoken="SPMi_TheFreeUnion" vsmod="0"/>
+      </spminfluences>
+   </spmi>
+   <!-- SPI / Religious Freedom -->
+   <spmi token="SPMi_ReligiousFree" area="dgSPI" isunique="true" ispolicy="true">
+      <spmmod mcohes="10" mtens="-25" msec="0" medu="0" mnat="0" mhealth="5" mbur="0" mcorr="0"/>
+      <spminfluences>
+         <influence vstoken="SPMi_AIchitect" vsmod="16"/>
+         <influence vstoken="SPMi_CentrAuth" vsmod="0"/>
+         <influence vstoken="SPMi_CorpOrg" vsmod="0"/>
+         <influence vstoken="SPMi_Cyberdemo" vsmod="0"/>
+         <influence vstoken="SPMi_ElecGov" vsmod="0"/>
+         <influence vstoken="SPMi_RiggElec" vsmod="0"/>
+         <influence vstoken="SPMi_StatePol" vsmod="0"/>
+         <influence vstoken="SPMi_ZeroTol" vsmod="0"/>
+         <influence vstoken="SPMi_Decel" vsmod="0"/>
+         <influence vstoken="SPMi_FreeMark" vsmod="0"/>
+         <influence vstoken="SPMi_GreenEco" vsmod="0"/>
+         <influence vstoken="SPMi_ParticipEcon" vsmod="0"/>
+         <influence vstoken="SPMi_PlanEcon" vsmod="0"/>
+         <influence vstoken="SPMi_ProacCitiz" vsmod="0"/>
+         <influence vstoken="SPMi_ProfTechno" vsmod="0"/>
+         <influence vstoken="SPMi_Amortalism" vsmod="0"/>
+         <influence vstoken="SPMi_BioroidsAdopt" vsmod="0"/>
+         <influence vstoken="SPMi_BirthsCtl" vsmod="-16"/>
+         <influence vstoken="SPMi_Eugenics" vsmod="0"/>
+         <influence vstoken="SPMi_Immortalism" vsmod="0"/>
+         <influence vstoken="SPMi_SocSystem" vsmod="0"/>
+         <influence vstoken="SPMi_Abolition" vsmod="8"/>
+         <influence vstoken="SPMi_Cryptosurv" vsmod="0"/>
+         <influence vstoken="SPMi_HomoSoc" vsmod="0"/>
+         <influence vstoken="SPMi_HumRetire" vsmod="0"/>
+         <influence vstoken="SPMi_MilSoc" vsmod="0"/>
+         <influence vstoken="SPMi_Slavery" vsmod="0"/>
+         <influence vstoken="SPMi_Xenophobia" vsmod="0"/>
+         <influence vstoken="SPMi_AntiHumSpacef" vsmod="0"/>
+         <influence vstoken="SPMi_Colonialism" vsmod="0"/>
+         <influence vstoken="SPMi_CosmosPreserv" vsmod="0"/>
+         <influence vstoken="SPMi_Environmental" vsmod="0"/>
+         <influence vstoken="SPMi_NatTranpSpFleet" vsmod="0"/>
+         <influence vstoken="SPMi_OneWorldCom" vsmod="0"/>
+         <influence vstoken="SPMi_SpDebMClean" vsmod="0"/>
+         <influence vstoken="SPMi_CultOfAtheism" vsmod="0"/>
+         <influence vstoken="SPMi_Cybergnosticism" vsmod="0"/>
+         <influence vstoken="SPMi_Infotranscend" vsmod="0"/>
+         <influence vstoken="SPMi_Pacifism" vsmod="0"/>
+         <influence vstoken="SPMi_ReligiousFree" vsmod="0"/>
+         <influence vstoken="SPMi_StateRel" vsmod="0"/>
+         <influence vstoken="SPMi_TheFreeUnion" vsmod="0"/>
+      </spminfluences>
+   </spmi>
+   <!-- SPI / State Religion -->
+   <spmi token="SPMi_StateRel" area="dgSPI" isunique="true" ispolicy="true">
+      <spmmod mcohes="5" mtens="15" msec="0" medu="-15" mnat="15" mhealth="0" mbur="5" mcorr="-20"/>
+      <spminfluences>
+         <influence vstoken="SPMi_AIchitect" vsmod="0"/>
+         <influence vstoken="SPMi_CentrAuth" vsmod="0"/>
+         <influence vstoken="SPMi_CorpOrg" vsmod="0"/>
+         <influence vstoken="SPMi_Cyberdemo" vsmod="0"/>
+         <influence vstoken="SPMi_ElecGov" vsmod="0"/>
+         <influence vstoken="SPMi_RiggElec" vsmod="0"/>
+         <influence vstoken="SPMi_StatePol" vsmod="0"/>
+         <influence vstoken="SPMi_ZeroTol" vsmod="0"/>
+         <influence vstoken="SPMi_Decel" vsmod="0"/>
+         <influence vstoken="SPMi_FreeMark" vsmod="0"/>
+         <influence vstoken="SPMi_GreenEco" vsmod="0"/>
+         <influence vstoken="SPMi_ParticipEcon" vsmod="0"/>
+         <influence vstoken="SPMi_PlanEcon" vsmod="0"/>
+         <influence vstoken="SPMi_ProacCitiz" vsmod="0"/>
+         <influence vstoken="SPMi_ProfTechno" vsmod="0"/>
+         <influence vstoken="SPMi_Amortalism" vsmod="0"/>
+         <influence vstoken="SPMi_BioroidsAdopt" vsmod="0"/>
+         <influence vstoken="SPMi_BirthsCtl" vsmod="0"/>
+         <influence vstoken="SPMi_Eugenics" vsmod="0"/>
+         <influence vstoken="SPMi_Immortalism" vsmod="0"/>
+         <influence vstoken="SPMi_SocSystem" vsmod="0"/>
+         <influence vstoken="SPMi_Abolition" vsmod="0"/>
+         <influence vstoken="SPMi_Cryptosurv" vsmod="0"/>
+         <influence vstoken="SPMi_HomoSoc" vsmod="0"/>
+         <influence vstoken="SPMi_HumRetire" vsmod="0"/>
+         <influence vstoken="SPMi_MilSoc" vsmod="0"/>
+         <influence vstoken="SPMi_Slavery" vsmod="0"/>
+         <influence vstoken="SPMi_Xenophobia" vsmod="0"/>
+         <influence vstoken="SPMi_AntiHumSpacef" vsmod="0"/>
+         <influence vstoken="SPMi_Colonialism" vsmod="0"/>
+         <influence vstoken="SPMi_CosmosPreserv" vsmod="0"/>
+         <influence vstoken="SPMi_Environmental" vsmod="0"/>
+         <influence vstoken="SPMi_NatTranpSpFleet" vsmod="0"/>
+         <influence vstoken="SPMi_OneWorldCom" vsmod="0"/>
+         <influence vstoken="SPMi_SpDebMClean" vsmod="0"/>
+         <influence vstoken="SPMi_CultOfAtheism" vsmod="0"/>
+         <influence vstoken="SPMi_Cybergnosticism" vsmod="0"/>
+         <influence vstoken="SPMi_Infotranscend" vsmod="0"/>
+         <influence vstoken="SPMi_Pacifism" vsmod="0"/>
+         <influence vstoken="SPMi_ReligiousFree" vsmod="0"/>
+         <influence vstoken="SPMi_StateRel" vsmod="0"/>
+         <influence vstoken="SPMi_TheFreeUnion" vsmod="0"/>
+      </spminfluences>
+   </spmi>
+   <!-- SPI / The Freedom Union -->
+   <spmi token="SPMi_TheFreeUnion" area="dgSPI" isunique="false" ispolicy="false">
+      <spmmod mcohes="-15" mtens="15" msec="0" medu="0" mnat="0" mhealth="0" mbur="0" mcorr="0"/>
+      <spminfluences>
+         <influence vstoken="SPMi_AIchitect" vsmod="-32"/>
+         <influence vstoken="SPMi_CentrAuth" vsmod="0"/>
+         <influence vstoken="SPMi_CorpOrg" vsmod="0"/>
+         <influence vstoken="SPMi_Cyberdemo" vsmod="0"/>
+         <influence vstoken="SPMi_ElecGov" vsmod="0"/>
+         <influence vstoken="SPMi_RiggElec" vsmod="0"/>
+         <influence vstoken="SPMi_StatePol" vsmod="0"/>
+         <influence vstoken="SPMi_ZeroTol" vsmod="0"/>
+         <influence vstoken="SPMi_Decel" vsmod="0"/>
+         <influence vstoken="SPMi_FreeMark" vsmod="0"/>
+         <influence vstoken="SPMi_GreenEco" vsmod="0"/>
+         <influence vstoken="SPMi_ParticipEcon" vsmod="0"/>
+         <influence vstoken="SPMi_PlanEcon" vsmod="0"/>
+         <influence vstoken="SPMi_ProacCitiz" vsmod="0"/>
+         <influence vstoken="SPMi_ProfTechno" vsmod="0"/>
+         <influence vstoken="SPMi_Amortalism" vsmod="-16"/>
+         <influence vstoken="SPMi_BioroidsAdopt" vsmod="0"/>
+         <influence vstoken="SPMi_BirthsCtl" vsmod="40"/>
+         <influence vstoken="SPMi_Eugenics" vsmod="0"/>
+         <influence vstoken="SPMi_Immortalism" vsmod="0"/>
+         <influence vstoken="SPMi_SocSystem" vsmod="0"/>
+         <influence vstoken="SPMi_Abolition" vsmod="0"/>
+         <influence vstoken="SPMi_Cryptosurv" vsmod="0"/>
+         <influence vstoken="SPMi_HomoSoc" vsmod="0"/>
+         <influence vstoken="SPMi_HumRetire" vsmod="0"/>
+         <influence vstoken="SPMi_MilSoc" vsmod="0"/>
+         <influence vstoken="SPMi_Slavery" vsmod="0"/>
+         <influence vstoken="SPMi_Xenophobia" vsmod="0"/>
+         <influence vstoken="SPMi_AntiHumSpacef" vsmod="0"/>
+         <influence vstoken="SPMi_Colonialism" vsmod="0"/>
+         <influence vstoken="SPMi_CosmosPreserv" vsmod="0"/>
+         <influence vstoken="SPMi_Environmental" vsmod="0"/>
+         <influence vstoken="SPMi_NatTranpSpFleet" vsmod="0"/>
+         <influence vstoken="SPMi_OneWorldCom" vsmod="0"/>
+         <influence vstoken="SPMi_SpDebMClean" vsmod="0"/>
+         <influence vstoken="SPMi_CultOfAtheism" vsmod="0"/>
+         <influence vstoken="SPMi_Cybergnosticism" vsmod="0"/>
+         <influence vstoken="SPMi_Infotranscend" vsmod="0"/>
+         <influence vstoken="SPMi_Pacifism" vsmod="0"/>
+         <influence vstoken="SPMi_ReligiousFree" vsmod="0"/>
+         <influence vstoken="SPMi_StateRel" vsmod="0"/>
+         <influence vstoken="SPMi_TheFreeUnion" vsmod="0"/>
+      </spminfluences>
+   </spmi>
+</SPMDB>

@@ -1,0 +1,139 @@
+﻿<!-- Factions Database -->
+<!-- 
+
+	{.credit and interest range}
+   creditrng / intrng
+	   crirPoor_Insign
+	   crirUndFun_Low
+	   crirBelAvg_Mod
+	   crirAverage
+	   crirAbAvg_Maj
+	   crirRch_High
+	   crirOvrFun_Usu
+	   crirUnl_Ins
+    
+   {.player's faction status}
+   sstateco / sstatsoc / sstatmil / mstateco / mstatsoc / mstatmil
+      fs0NViable
+      fs1StabFDep
+      fs2DepVar
+      fs3Indep
+   
+   {.list of faction equipment item types}
+   [itemTp]
+      {.product equipment item}
+      feitProduct
+      {.spacecraft equipment item}
+      feitSpaceCraft
+   
+	{.space unit equipment status}
+   [spUnitStatus]
+      *scstatInFreeSpace
+      *scstatInOrbit
+      *scstatLanded
+      *scstatDocked
+	      
+	{.viability objectives types}
+  	[facViabObj-objTp]
+	   cpsotEcoEnEff
+	   cpsotEcoLowCr
+	   cpsotEcoSustCol
+	   cpsotSocSecPop
+	 
+	{.meme belief levels} 
+	[belieflev]
+      dgUnknown
+      dgFleeting
+      dgUncommon
+      dgCommon
+      dgStrong
+      dgKbyAll
+      
+   spuDock
+   -1: not docked/mother vessel
+   1: mother vessel
+   0: docked vessel
+   
+   -for aprob, set to -1 for a policy and -2 for a meme. Policies never have a permanent aprob value and have a duration
+   
+   -special case: unique policies: this kind of policy, if accepted with 50/50 and acceptance, doesn't have a duration
+   
+	-rejected policies are noted: aprob=-1 and set= true and have a duration, it's applied for a reject (case 1 only) and massive reject.
+	
+   -in case of a meme, don't forget to update belieflev and spreadval if required and duration=0.
+   
+   <faction token="" level="">
+		<facColMode token="" sstateco="" sstatsoc="" sstatmil="" mstateco="" mstatsoc="" mstatmil="" creditrng="" intrng="">
+			//ALWAY PUT THE SEQUENCE IN THIS ORDER
+         <facViabObj objTp=""/>
+         //for space units
+			<facEqupItm	itemTp="feitSpaceCraft" properName="" designToken="" status="" spuDock="" availEnRM=""/>
+         //for products
+         <facEqupItm itemTp="feitProduct" prodToken="" unit="" carriedBy=""/>
+		</facColMode>
+		<facStartLoc locSSys="" locStar="" locObObj=""/>
+		<facSPM>
+			<facSPMi token="" isSet="" aprob="" belieflev="" spreadval=""/>
+			<facSPMi token="SPMi_AIchitect" duration="" isSet="" aprob="-1" belieflev="0" spreadval="0"/>
+			<facSPMi token="SPMi_CentrAuth" duration="" isSet="" aprob="-1" belieflev="0" spreadval="0"/>
+			<facSPMi token="SPMi_CorpOrg" duration="" isSet="" aprob="-1" belieflev="0" spreadval="0"/>
+			<facSPMi token="SPMi_Cyberdemo" duration="" isSet="" aprob="-1" belieflev="0" spreadval="0"/>
+			<facSPMi token="SPMi_ElecGov" duration="" isSet="" aprob="-1" belieflev="0" spreadval="0"/>
+			<facSPMi token="SPMi_RiggElec" duration="0" isSet="false" aprob="-2" belieflev="" spreadval=""/>
+			<facSPMi token="SPMi_StatePol" duration="" isSet="" aprob="-1" belieflev="0" spreadval="0"/>
+			<facSPMi token="SPMi_ZeroTol" duration="" isSet="" aprob="-1" belieflev="0" spreadval="0"/>
+			<facSPMi token="SPMi_Decel" duration="0" isSet="false" aprob="-2" belieflev="" spreadval=""/>
+			<facSPMi token="SPMi_FreeMark" duration="" isSet="" aprob="-1" belieflev="0" spreadval="0"/>
+			<facSPMi token="SPMi_GreenEco" duration="" isSet="" aprob="-1" belieflev="0" spreadval="0"/>
+			<facSPMi token="SPMi_PlanEcon" duration="" isSet="" aprob="-1" belieflev="0" spreadval="0"/>
+			<facSPMi token="SPMi_ProacCitiz" duration="" isSet="" aprob="-1" belieflev="0" spreadval="0"/>
+			<facSPMi token="SPMi_Eugenics" duration="" isSet="" aprob="-1" belieflev="0" spreadval="0"/>
+			<facSPMi token="SPMi_SocSystem" duration="" isSet="" aprob="-1" belieflev="0" spreadval="0"/>
+			<facSPMi token="SPMi_HumRetire" duration="0" isSet="false" aprob="-2" belieflev="" spreadval=""/>
+			<facSPMi token="SPMi_MilSoc" duration="" isSet="" aprob="-1" belieflev="0" spreadval="0"/>
+			<facSPMi token="SPMi_OneWorldCom" duration="" isSet="" aprob="-1" belieflev="0" spreadval="0"/>
+			<facSPMi token="SPMi_SpDebMClean" duration="" isSet="" aprob="-1" belieflev="0" spreadval="0"/>
+			<facSPMi token="SPMi_StateRel" duration="" isSet="" aprob="-1" belieflev="0" spreadval="0"/>
+		</facSPM>
+	</faction>		
+-->
+<factionsDB>
+	<!-- Magellan Unity -->
+	<faction token="factkMagelUni" level="4">
+		<facColMode token="munCmodARC" sstateco="fs1StabFDep" sstatsoc="fs1StabFDep" sstatmil="fs1StabFDep" mstateco="fs3Indep" mstatsoc="fs2DepVar" mstatmil="fs2DepVar" creditrng="crirRch_High" intrng="crirBelAvg_Mod">
+			<facViabObj objTp="cpsotEcoEnEff"/>
+			<facViabObj objTp="cpsotEcoLowCr"/>
+			<facViabObj objTp="cpsotEcoSustCol"/>
+			<facEqupItm itemTp="feitSpaceCraft" properName="wrdMUNmov" designToken="scdesTaurus" status="scstatInOrbit" spuDock="1" availEnRM="1650"/>
+			<facEqupItm itemTp="feitSpaceCraft" properName="wrdMUNcp1" designToken="scdesFCP80" status="scstatDocked" spuDock="0" availEnRM="800"/>
+			<facEqupItm itemTp="feitSpaceCraft" properName="wrdMUNcp2" designToken="scdesFCP80" status="scstatDocked" spuDock="0" availEnRM="800"/>
+			<facEqupItm itemTp="feitSpaceCraft" properName="wrdMUNcp3" designToken="scdesFCP80" status="scstatDocked" spuDock="0" availEnRM="800"/>
+			<facEqupItm itemTp="feitSpaceCraft" properName="wrdMUNcp4" designToken="scdesFCP80" status="scstatDocked" spuDock="0" availEnRM="800"/>
+			<facEqupItm itemTp="feitSpaceCraft" properName="wrdMUNburt" designToken="scdesAspen2" status="scstatInOrbit" spuDock="-1" availEnRM="4320"/>
+			<facEqupItm itemTp="feitSpaceCraft" properName="wrdMUNkevRey" designToken="scdesAspen2" status="scstatInOrbit" spuDock="-1" availEnRM="4320"/>
+		</facColMode>
+		<facStartLoc locSSys="stelsysACent" locStar="starACentA" locObObj="orbobjAcentA3"/>
+		<facSPM>
+			<facSPMi token="SPMi_AIchitect" duration="0" isSet="True" aprob="95" belieflev="0" spreadval="0"/>
+			<facSPMi token="SPMi_CentrAuth" duration="0" isSet="False" aprob="-1" belieflev="0" spreadval="0"/>
+			<facSPMi token="SPMi_CorpOrg" duration="0" isSet="False" aprob="-1" belieflev="0" spreadval="0"/>
+			<facSPMi token="SPMi_Cyberdemo" duration="0" isSet="False" aprob="-1" belieflev="0" spreadval="0"/>
+			<facSPMi token="SPMi_ElecGov" duration="0" isSet="False" aprob="-1" belieflev="0" spreadval="0"/>
+			<facSPMi token="SPMi_RiggElec" duration="0" isSet="false" aprob="-2" belieflev="dgUnknown" spreadval="0"/>
+			<facSPMi token="SPMi_StatePol" duration="0" isSet="False" aprob="-1" belieflev="0" spreadval="0"/>
+			<facSPMi token="SPMi_ZeroTol" duration="0" isSet="False" aprob="-1" belieflev="0" spreadval="0"/>
+			<facSPMi token="SPMi_Decel" duration="0" isSet="false" aprob="-2" belieflev="dgUnknown" spreadval="0"/>
+			<facSPMi token="SPMi_FreeMark" duration="0" isSet="false" aprob="-1" belieflev="0" spreadval="0"/>
+			<facSPMi token="SPMi_GreenEco" duration="0" isSet="false" aprob="-1" belieflev="0" spreadval="0"/>
+			<facSPMi token="SPMi_PlanEcon" duration="0" isSet="True" aprob="60" belieflev="0" spreadval="0"/>
+			<facSPMi token="SPMi_ProacCitiz" duration="0" isSet="False" aprob="-1" belieflev="0" spreadval="0"/>
+			<facSPMi token="SPMi_Eugenics" duration="0" isSet="false" aprob="-1" belieflev="0" spreadval="0"/>
+			<facSPMi token="SPMi_SocSystem" duration="0" isSet="True" aprob="75" belieflev="0" spreadval="0"/>
+			<facSPMi token="SPMi_HumRetire" duration="0" isSet="false" aprob="-2" belieflev="dgUnknown" spreadval="0"/>
+			<facSPMi token="SPMi_MilSoc" duration="0" isSet="False" aprob="-1" belieflev="0" spreadval="0"/>
+			<facSPMi token="SPMi_OneWorldCom" duration="0" isSet="false" aprob="-1" belieflev="0" spreadval="0"/>
+			<facSPMi token="SPMi_SpDebMClean" duration="0" isSet="False" aprob="-1" belieflev="0" spreadval="0"/>
+			<facSPMi token="SPMi_StateRel" duration="0" isSet="False" aprob="-1" belieflev="0" spreadval="0"/>
+		</facSPM>
+	</faction>		
+</factionsDB>

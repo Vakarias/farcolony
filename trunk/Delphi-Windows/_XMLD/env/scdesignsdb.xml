@@ -1,0 +1,31 @@
+﻿<!-- Spacecraft Designs Database -->
+<!-- 
+		
+	{list of equipment module classes}
+   {compartment}
+   emcCompart
+   {control as bridge or cockpit}
+   emcCtrl
+   {hull modification as a spinning hull w/ it's mechanism}
+   emcHullMod
+   {powergrid (generators and capacitors)}
+   emcPwrGrid
+   {space drive}
+   emcSpDrive
+   {subsystem}
+   emcSubSys
+   {weapon system}
+   emcWeapSys
+   
+  	<scdesign token="" intstrtoken="" usedvol="" usedsurf="" massempty="" spdrvISP="" spdrvRMmax="" capInter="false" capColon="false" capPassgr="false" capCombt="false">
+  		<eqmdl />
+	</scdesign>
+-->
+<scdesignDB>
+	<scdesign token="scdesAspen2" intstrtoken="scis001" usedvol="0" usedsurf="0" massempty="1" spdrvISP="50000" spdrvRMmax="8000" capInter="false" capColon="false" capPassgr="false" capCombt="false">
+	</scdesign>
+	<scdesign token="scdesFCP80" intstrtoken="scis003" usedvol="0" usedsurf="0" massempty="1" spdrvISP="20000" spdrvRMmax="3000" capInter="false" capColon="true" capPassgr="false" capCombt="false">
+	</scdesign>
+	<scdesign token="scdesTaurus" intstrtoken="scis002" usedvol="0" usedsurf="0" massempty="1" spdrvISP="200000" spdrvRMmax="1000" capInter="false" capColon="false" capPassgr="false" capCombt="false">
+	</scdesign>
+</scdesignDB>
