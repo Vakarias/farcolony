@@ -104,6 +104,10 @@
       <EN></EN>
    </infrNucFissReactor>
 	<!-- ********** PRODUCTS ********** -->
+	<bioAnimalFood>
+		<EN></EN>
+		<FR></FR>
+	</bioAnimalFood>
 	<energNucFisRsm>
 		<EN></EN>
 		<FR></FR>
@@ -120,6 +124,10 @@
 		<EN></EN>
 		<FR></FR>
 	</energNucFisRxl>
+	<energNucPellets>
+		<EN></EN>
+		<FR></FR>
+	</energNucPellets>
    <equipAdvTools>
       <EN></EN>
       <FR></FR>
@@ -468,6 +476,7 @@
       <hintitem link="equipAdvTools" title="Product: Advanced Tools"/>
       <hintitem link="matAluminium" title="Product: Aluminium"/>
       <hintitem link="resNH3" title="Product: Ammonia"/>
+      <hintitem link="bioAnimalFood" title="Product: Animal Food"/>
       <hintitem link="matCarbComposites" title="Product: Carbon Composites"/>
       <hintitem link="matConcrete" title="Product: Concrete"/>
       <hintitem link="equipConstrExo" title="Product: Construction Exowalkers"/>
@@ -478,6 +487,7 @@
       <hintitem link="energNucFisRmed" title="Product: Nuclear Fission Reactor (medium)"/>
       <hintitem link="energNucFisRlg" title="Product: Nuclear Fission Reactor (large)"/>
       <hintitem link="energNucFisRxl" title="Product: Nuclear Fission Reactor (xlarge)"/>
+      <hintitem link="energNucPellets" title="Product: Nuclear Pellets"/>
       <hintitem link="matPlastics" title="Product: Plastics"/>
       <hintitem link="equipPowerTools" title="Product: Power Tools"/>
       <hintitem link="matSilicon" title="Product: Silicon (Si)"/>
@@ -563,9 +573,11 @@
       <hintitem link="matConcrete" title="Produit: Béton"/>
       <hintitem link="matCarbComposites" title="Produit: Composites de Carbone"/>
       <hintitem link="equipConstrExo" title="Produit: Exowalkers de Construction"/>
+		<hintitem link="energNucPellets" title="Produit: Granules Nucléaires"/>
 		<hintitem link="matNanocomposites" title="Produit: Nanocomposites"/>
 		<hintitem link="matMWNT" title="Produit: Nanotubes Multi-Couches (MWNT)"/>
 		<hintitem link="matSWNT" title="Produit: Nanotubes Simple-Couche (SWNT)"/>
+		<hintitem link="bioAnimalFood" title="Produit: Nourriture Animale"/>
       <hintitem link="equipAdvTools" title="Produit: Outils Avancés"/>
       <hintitem link="equipPowerTools" title="Produit: Outils Electriques"/>
       <hintitem link="equipHandTools" title="Produit: Outils Manuels"/>

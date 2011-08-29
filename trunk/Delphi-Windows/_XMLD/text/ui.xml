@@ -1718,6 +1718,10 @@
 			<FR>|__Colonisation</FR>
 		</FCWM_PMFO_MissColoniz>
 	<!-- ********** PRODUCTS ******* -->
+	<bioAnimalFood>
+		<EN>Animal Food</EN>
+		<FR>Nourriture Animale</FR>
+	</bioAnimalFood>
 	<energNucFisRsm>
 		<EN>Nuclear Fission Reactor (small)</EN>
 		<FR>Réacteur à Fission Nucléaire (petit)</FR>
@@ -1734,6 +1738,10 @@
 		<EN>Nuclear Fission Reactor (xlarge)</EN>
 		<FR>Réacteur à Fission Nucléaire (xlarge)</FR>
 	</energNucFisRxl>
+	<energNucPellets>
+		<EN>Nuclear Pellets</EN>
+		<FR>Granules Nucléaires</FR>
+	</energNucPellets>
    <equipAdvTools>
       <EN>Avanced Tools</EN>
       <FR>Outils Avancés</FR>

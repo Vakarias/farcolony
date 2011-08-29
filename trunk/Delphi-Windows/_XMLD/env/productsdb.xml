@@ -50,6 +50,7 @@
 	<product token="" class="" storage="" cargo="" volbyunit="" massbyunit="">
 		{case function specific data}
 		<function token="prfuBuildingMat" tensilestr="" tsbylevel="" youngmodulus="" ymbylevel="" thermalprot="" reflectivity="" corrosiveclass=""/>
+		<function token="prfuEnergyGeneration"/>
 		<function token="prfuFood" foodpoint=""/>
 		<function token="prfuInfraKit" infratoken="" infralevel=""/>
 		<function token="prfuManConstruction" wcpcoef=""/>
@@ -175,6 +176,14 @@
 			<hazRad/>
 		</tags>
 	</product>
+	<!-- Nuclear Pellets - Energy -->
+	<product token="energNucPellets" class="prcEnergyRelItem" storage="stSolid" cargo="" volbyunit="1" massbyunit="19.050">
+		<function token="prfuEnergyGeneration"/>
+		<techsci sector="rsPhysics" token="tsciNucFission"/>
+		<tags>
+			<hazRad/>
+		</tags>
+	</product>
 	<!-- Aluminium - Material -->
 	<product token="matAluminium" class="prcMaterial" storage="stSolid" cargo="" volbyunit="1" massbyunit="2.71">
 		<function token="prfuMultipurposeMat" tensilestr="0.195" tsbylevel="0.029" youngmodulus="63" ymbylevel="0.8" thermalprot="53.1" reflectivity="0.75" corrosiveclass="prciCfair"/>
@@ -230,6 +239,11 @@
 	<product token="matTitanium" class="prcMaterial" storage="stSolid" cargo="" volbyunit="1" massbyunit="4.51">
 		<function token="prfuMultipurposeMat" tensilestr="0.9" tsbylevel="0" youngmodulus="105" ymbylevel="1.66" thermalprot="0.9" reflectivity="0.63" corrosiveclass="prciAexcellent"/>
 		<techsci sector="rsIndustrialTech" token="tsciAlloys"/>
+	</product>
+	<!-- Animal Food - Bioproduct -->
+	<product token="bioAnimalFood" class="prcBioproduct" storage="stBiologic" cargo="" volbyunit="1" massbyunit="1.042">
+		<function token="prfuFood" foodpoint="1686"/>
+		<techsci sector="rsNone" token=""/>
 	</product>
 	<!-- Construction Exowalkers - Equipment -->
 	<product token="equipConstrExo" class="prcEquipment" storage="stSolid" cargo="" volbyunit="40" massbyunit="12">
