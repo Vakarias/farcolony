@@ -1774,6 +1774,14 @@
 		<EN>Concrete</EN>
 		<FR>Béton</FR>
 	</matConcrete>
+	<matMWNT>
+		<EN>Multi-Walled Nanotubes (MWNT)</EN>
+		<FR>Nanotubes Multi-Couches (MWNT)</FR>
+	</matMWNT>
+	<matNanocomposites>
+		<EN>Nanocomposites</EN>
+		<FR>Nanocomposites</FR>
+	</matNanocomposites>
 	<matPlastics>
 		<EN>Plastics</EN>
 		<FR>Plastiques</FR>

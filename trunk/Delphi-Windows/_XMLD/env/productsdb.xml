@@ -190,6 +190,19 @@
 		<function token="prfuBuildingMat" tensilestr="0.021" tsbylevel="0.001" youngmodulus="27" ymbylevel="0.333" thermalprot="0.2" reflectivity="0.3" corrosiveclass="prciCfair"/>
 		<techsci sector="rsIndustrialTech" token="tsciChemEng"/>
 	</product>
+	<!-- Multi-Walled Nanotubes (MWNT) - Material -->
+	<product token="matMWNT" class="prcMaterial" storage="stSolid" cargo="" volbyunit="1" massbyunit="2.6">
+		<function token="prfuMultipurposeMat" tensilestr="63" tsbylevel="26.333" youngmodulus="450" ymbylevel="116.66" thermalprot="365.6" reflectivity="0.1" corrosiveclass="prciAexcellent"/>
+		<techsci sector="rsIndustrialTech" token="tsciSuperFabrics"/>
+		<tags>
+			<hazToxic/>
+		</tags>
+	</product>
+	<!-- Nanocomposites - Material -->
+	<product token="matNanocomposites" class="prcMaterial" storage="stSolid" cargo="" volbyunit="1" massbyunit="1.5">
+		<function token="prfuSpaceMat" tensilestr="3.6" tsbylevel="0.335" youngmodulus="162" ymbylevel="57.55" thermalprot="185" reflectivity="0.2" corrosiveclass="prciAexcellent"/>
+		<techsci sector="rsIndustrialTech" token="tsciNanocomposites"/>
+	</product>
 	<!-- Plastics - Material -->
 	<product token="matPlastics" class="prcMaterial" storage="stSolid" cargo="" volbyunit="1" massbyunit="1.05">
 		<function token="prfuManufacturingMat"/>

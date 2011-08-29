@@ -148,6 +148,14 @@
 		<EN></EN>
 		<FR></FR>
 	</matConcrete>
+	<matMWNT>
+		<EN></EN>
+		<FR></FR>
+	</matMWNT>
+	<matNanocomposites>
+		<EN></EN>
+		<FR></FR>
+	</matNanocomposites>
 	<matPlastics>
 		<EN></EN>
 		<FR></FR>
@@ -464,6 +472,8 @@
       <hintitem link="matConcrete" title="Product: Concrete"/>
       <hintitem link="equipConstrExo" title="Product: Construction Exowalkers"/>
       <hintitem link="equipHandTools" title="Product: Hand Tools"/>
+      <hintitem link="matMWNT" title="Product: Multi-Walled Nanotubes (MWNT)"/>
+      <hintitem link="matNanocomposites" title="Product: Nanocomposites"/>
       <hintitem link="energNucFisRsm" title="Product: Nuclear Fission Reactor (small)"/>
       <hintitem link="energNucFisRmed" title="Product: Nuclear Fission Reactor (medium)"/>
       <hintitem link="energNucFisRlg" title="Product: Nuclear Fission Reactor (large)"/>
@@ -553,6 +563,8 @@
       <hintitem link="matConcrete" title="Produit: Béton"/>
       <hintitem link="matCarbComposites" title="Produit: Composites de Carbone"/>
       <hintitem link="equipConstrExo" title="Produit: Exowalkers de Construction"/>
+		<hintitem link="matNanocomposites" title="Produit: Nanocomposites"/>
+		<hintitem link="matMWNT" title="Produit: Nanotubes Multi-Couches (MWNT)"/>
 		<hintitem link="matSWNT" title="Produit: Nanotubes Simple-Couche (SWNT)"/>
       <hintitem link="equipAdvTools" title="Produit: Outils Avancés"/>
       <hintitem link="equipPowerTools" title="Produit: Outils Electriques"/>
