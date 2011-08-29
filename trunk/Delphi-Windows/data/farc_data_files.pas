@@ -1081,6 +1081,7 @@ end;
 procedure FCMdF_DBProducts_Read;
 {:Purpose: Read the products database xml file.
    Additions:
+      -2011Aug28- *add: energy generation function.
       -2011May13-	*add: infrastructure kit function - add level data.
       -2011May11- *rem: environment for infrastructure kits is removed, it's the same kit for all type of environment.
       -2011May05- *add: storage type.
@@ -1171,6 +1172,8 @@ begin
                   else if DBPRdumpStr='prciAexcellent'
                   then FCDBProducts[DBPRcnt].PROD_fBmatCorrosiveClass:=prciAexcellent;
                end
+               else if DBPRdumpStr='prfuEnergyGeneration'
+               then FCDBProducts[DBPRcnt].PROD_function:=prfuEnergyGeneration
                else if DBPRdumpStr='prfuFood'
                then
                begin

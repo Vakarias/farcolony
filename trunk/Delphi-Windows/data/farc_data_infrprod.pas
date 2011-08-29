@@ -118,6 +118,7 @@ const
    type TFCEdipProductFunctions=(
       prfuNone
       ,prfuBuildingMat
+      ,prfuEnergyGeneration
       ,prfuFood
       ,prfuInfraKit
       ,prfuManConstruction
@@ -223,6 +224,9 @@ const
 					PROD_fBmatReflectivity: double;
 					PROD_fBmatCorrosiveClass: TFCEdipProductCorrosiveClasses;
 					);
+
+         prfuEnergyGeneration: ();
+
 			prfuFood:
 				(PROD_fFoodPoint: integer);
          prfuInfraKit:
