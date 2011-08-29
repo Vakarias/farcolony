@@ -1774,6 +1774,26 @@
 		<EN>Concrete</EN>
 		<FR>Béton</FR>
 	</matConcrete>
+	<matPlastics>
+		<EN>Plastics</EN>
+		<FR>Plastiques</FR>
+	</matPlastics>
+	<matSilicon>
+		<EN>Silicon (Si)</EN>
+		<FR>Silicone (Si)</FR>
+	</matSilicon>
+	<matSteel>
+		<EN>Steel</EN>
+		<FR>Acier</FR>
+	</matSteel>
+	<matSWNT>
+		<EN>Single-Walled Nanotubes (SWNT)</EN>
+		<FR>Nanotubes Simple-Couche (SWNT)</FR>
+	</matSWNT>
+	<matTitanium>
+		<EN>Titanium</EN>
+		<FR>Titane</FR>
+	</matTitanium>
    <resNH3>
 		<EN>Ammonia</EN>
 		<FR>Amoniac</FR>

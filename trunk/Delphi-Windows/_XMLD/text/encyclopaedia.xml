@@ -148,6 +148,26 @@
 		<EN></EN>
 		<FR></FR>
 	</matConcrete>
+	<matPlastics>
+		<EN></EN>
+		<FR></FR>
+	</matPlastics>
+	<matSilicon>
+		<EN></EN>
+		<FR></FR>
+	</matSilicon>
+	<matSteel>
+		<EN></EN>
+		<FR></FR>
+	</matSteel>
+	<matSWNT>
+		<EN></EN>
+		<FR></FR>
+	</matSWNT>
+	<matTitanium>
+		<EN></EN>
+		<FR></FR>
+	</matTitanium>
    <Products_Root>
 		<EN></EN>
 		<FR></FR>
@@ -448,7 +468,12 @@
       <hintitem link="energNucFisRmed" title="Product: Nuclear Fission Reactor (medium)"/>
       <hintitem link="energNucFisRlg" title="Product: Nuclear Fission Reactor (large)"/>
       <hintitem link="energNucFisRxl" title="Product: Nuclear Fission Reactor (xlarge)"/>
+      <hintitem link="matPlastics" title="Product: Plastics"/>
       <hintitem link="equipPowerTools" title="Product: Power Tools"/>
+      <hintitem link="matSilicon" title="Product: Silicon (Si)"/>
+      <hintitem link="matSWNT" title="Product: Single-Walled Nanotubes (SWNT)"/>
+      <hintitem link="matSteel" title="Product: Steel"/>
+      <hintitem link="matTitanium" title="Product: Titanium"/>
       <hintitem link="univAlbedo" title="Universe: Albedo"/>
       <hintitem link="univAU" title="Universe: Astronomical Unit (AU)"/>
       <hintitem link="univDis" title="Universe: Distance"/>
@@ -522,18 +547,23 @@
       <hintitem link="SPMi_ZeroTol" title="Politique: Tolérance Zéro"/>
       <hintitem link="SPMi_AntiHumSpacef" title="Politique: Vol Spatial Anti-Humain"/>
       <hintitem link="Products_Root" title="Produits"/>
+		<hintitem link="matSteel" title="Produit: Acier"/>
 		<hintitem link="matAluminium" title="Produit: Aluminium"/>
       <hintitem link="resNH3" title="Produit: Ammoniac"/>
       <hintitem link="matConcrete" title="Produit: Béton"/>
       <hintitem link="matCarbComposites" title="Produit: Composites de Carbone"/>
-      <hintitem link="equipConstrExo" title="Product: Exowalkers de Construction"/>
+      <hintitem link="equipConstrExo" title="Produit: Exowalkers de Construction"/>
+		<hintitem link="matSWNT" title="Produit: Nanotubes Simple-Couche (SWNT)"/>
       <hintitem link="equipAdvTools" title="Produit: Outils Avancés"/>
       <hintitem link="equipPowerTools" title="Produit: Outils Electriques"/>
       <hintitem link="equipHandTools" title="Produit: Outils Manuels"/>
+		<hintitem link="matPlastics" title="Produit: Plastiques"/>
       <hintitem link="energNucFisRsm" title="Produit: Réacteur à Fission Nucléaire (petit)"/>
       <hintitem link="energNucFisRmed" title="Produit: Réacteur à Fission Nucléaire (moyen)"/>
       <hintitem link="energNucFisRlg" title="Produit: Réacteur à Fission Nucléaire (large)"/>
       <hintitem link="energNucFisRxl" title="Produit: Réacteur à Fission Nucléaire (xlarge)"/>
+		<hintitem link="matSilicon" title="Produit: Silicone (Si)"/>
+		<hintitem link="matTitanium" title="Produit: Titane"/>
       <hintitem link="univAlbedo" title="Univers: Albédo"/>
       <hintitem link="univDis" title="Univers: Distance"/>
       <hintitem link="univEccOO" title="Univers: Eccentricité (Objet Orbital)"/>

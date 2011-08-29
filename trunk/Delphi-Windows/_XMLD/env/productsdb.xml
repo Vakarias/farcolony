@@ -186,9 +186,37 @@
 		<techsci sector="rsIndustrialTech" token="matCarbComposites"/>
 	</product>
 	<!-- Concrete - Material -->
-	<product token="matConcrete" class="prcMaterial" storage="" cargo="stSolid" volbyunit="1" massbyunit="2.371">
+	<product token="matConcrete" class="prcMaterial" storage="stSolid" cargo="" volbyunit="1" massbyunit="2.371">
 		<function token="prfuBuildingMat" tensilestr="0.021" tsbylevel="0.001" youngmodulus="27" ymbylevel="0.333" thermalprot="0.2" reflectivity="0.3" corrosiveclass="prciCfair"/>
 		<techsci sector="rsIndustrialTech" token="tsciChemEng"/>
+	</product>
+	<!-- Plastics - Material -->
+	<product token="matPlastics" class="prcMaterial" storage="stSolid" cargo="" volbyunit="1" massbyunit="1.05">
+		<function token="prfuManufacturingMat"/>
+		<techsci sector="rsIndustrialTech" token="tsciChemEng"/>
+	</product>
+	<!-- Silicon (Si) - Material -->
+	<product token="matSilicon" class="prcMaterial" storage="stSolid" cargo="" volbyunit="1" massbyunit="2.33">
+		<function token="prfuManufacturingMat"/>
+		<techsci sector="rsIndustrialTech" token="tsciChemEng"/>
+	</product>
+	<!-- Single-Walled Nanotubes (SWNT) - Material -->
+	<product token="matSWNT" class="prcMaterial" storage="stSolid" cargo="" volbyunit="1" massbyunit="1.3">
+		<function token="prfuSpaceMat" tensilestr="21" tsbylevel="14.333" youngmodulus="900" ymbylevel="17.11" thermalprot="675" reflectivity="0.1" corrosiveclass="prciAexcellent"/>
+		<techsci sector="rsIndustrialTech" token="tsciFullerProcess"/>
+		<tags>
+			<hazToxic/>
+		</tags>
+	</product>
+	<!-- Steel - Material -->
+	<product token="matSteel" class="prcMaterial" storage="stSolid" cargo="" volbyunit="1" massbyunit="7.83">
+		<function token="prfuMultipurposeMat" tensilestr="0.4" tsbylevel="0.031" youngmodulus="190" ymbylevel="2" thermalprot="3.3" reflectivity="0.65" corrosiveclass="prciAexcellent"/>
+		<techsci sector="rsIndustrialTech" token="tsciAlloys"/>
+	</product>
+	<!-- Titanium - Material -->
+	<product token="matTitanium" class="prcMaterial" storage="stSolid" cargo="" volbyunit="1" massbyunit="4.51">
+		<function token="prfuMultipurposeMat" tensilestr="0.9" tsbylevel="0" youngmodulus="105" ymbylevel="1.66" thermalprot="0.9" reflectivity="0.63" corrosiveclass="prciAexcellent"/>
+		<techsci sector="rsIndustrialTech" token="tsciAlloys"/>
 	</product>
 	<!-- Construction Exowalkers - Equipment -->
 	<product token="equipConstrExo" class="prcEquipment" storage="stSolid" cargo="" volbyunit="40" massbyunit="12">
