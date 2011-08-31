@@ -108,6 +108,14 @@
 		<EN></EN>
 		<FR></FR>
 	</bioAnimalFood>
+	<bioFish>
+		<EN></EN>
+		<FR></FR>
+	</bioFish>
+	<bioFruitsVeg>
+		<EN></EN>
+		<FR></FR>
+	</bioFruitsVeg>
 	<energNucFisRsm>
 		<EN></EN>
 		<FR></FR>
@@ -480,6 +488,8 @@
       <hintitem link="matCarbComposites" title="Product: Carbon Composites"/>
       <hintitem link="matConcrete" title="Product: Concrete"/>
       <hintitem link="equipConstrExo" title="Product: Construction Exowalkers"/>
+      <hintitem link="bioFish" title="Product: Fish"/>
+      <hintitem link="bioFruitsVeg" title="Product: Fruits &amp; Vegetables"/>
       <hintitem link="equipHandTools" title="Product: Hand Tools"/>
       <hintitem link="matMWNT" title="Product: Multi-Walled Nanotubes (MWNT)"/>
       <hintitem link="matNanocomposites" title="Product: Nanocomposites"/>
@@ -573,10 +583,12 @@
       <hintitem link="matConcrete" title="Produit: Béton"/>
       <hintitem link="matCarbComposites" title="Produit: Composites de Carbone"/>
       <hintitem link="equipConstrExo" title="Produit: Exowalkers de Construction"/>
+		<hintitem link="bioFruitsVeg" title="Produit: Fruits &amp; Légumes"/>
 		<hintitem link="energNucPellets" title="Produit: Granules Nucléaires"/>
 		<hintitem link="matNanocomposites" title="Produit: Nanocomposites"/>
 		<hintitem link="matMWNT" title="Produit: Nanotubes Multi-Couches (MWNT)"/>
 		<hintitem link="matSWNT" title="Produit: Nanotubes Simple-Couche (SWNT)"/>
+		<hintitem link="bioFish" title="Produit: Poisson"/>
 		<hintitem link="bioAnimalFood" title="Produit: Nourriture Animale"/>
       <hintitem link="equipAdvTools" title="Produit: Outils Avancés"/>
       <hintitem link="equipPowerTools" title="Produit: Outils Electriques"/>

@@ -245,6 +245,16 @@
 		<function token="prfuFood" foodpoint="1686"/>
 		<techsci sector="rsNone" token=""/>
 	</product>
+	<!-- Fish - Bioproduct -->
+	<product token="bioFish" class="prcBioproduct" storage="stBiologic" cargo="" volbyunit="1" massbyunit="0.721">
+		<function token="prfuFood" foodpoint="1166"/>
+		<techsci sector="rsNone" token=""/>
+	</product>
+	<!-- Fruits & Vegetables -->
+	<product token="bioFruitsVeg" class="prcBioproduct" storage="stBiologic" cargo="" volbyunit="1" massbyunit="0.641">
+		<function token="prfuFood" foodpoint="1037"/>
+		<techsci sector="rsNone" token=""/>
+	</product>
 	<!-- Construction Exowalkers - Equipment -->
 	<product token="equipConstrExo" class="prcEquipment" storage="stSolid" cargo="" volbyunit="40" massbyunit="12">
 		<function token="prfuMechConstruction" wcp="15" crew="4"/>

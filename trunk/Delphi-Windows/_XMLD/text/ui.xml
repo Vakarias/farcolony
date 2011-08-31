@@ -1722,6 +1722,14 @@
 		<EN>Animal Food</EN>
 		<FR>Nourriture Animale</FR>
 	</bioAnimalFood>
+	<bioFish>
+		<EN>Fish</EN>
+		<FR>Poisson</FR>
+	</bioFish>
+	<bioFruitsVeg>
+		<EN>Fruits &amp; Vegetables</EN>
+		<FR>Fruits &amp; Légumes</FR>
+	</bioFruitsVeg>
 	<energNucFisRsm>
 		<EN>Nuclear Fission Reactor (small)</EN>
 		<FR>Réacteur à Fission Nucléaire (petit)</FR>
