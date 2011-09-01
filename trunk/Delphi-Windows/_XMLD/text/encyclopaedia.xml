@@ -75,13 +75,13 @@
 		<FR>Le style de vie des &#60;b&#62;Magelliens&#60;/b&#62; prend ses racines dans les diverses sociétés européènes dont ils sont originellement issus, en modernisant le concept à l'extrême: les intelligences artificielles font partie intégrante de la société ainsi que du gouvernement, ceci afin de permettre une régulation réellement objective et intègre, autant qu'il est possible.&#60;br&#62;Elles constituent en quelque sorte des chiens de garde evitant tout dérapage incontrolé d'un membre du pouvoir ou d'un citoyen.&#60;br&#62;Les bioroides sont aussi beaucoup utilisés dans la vie privée et plublique.&#60;br&#62;La langue magellienne est un mélange de Français, Allemand et Anglais.</FR>
 	</factkMagelUni.Soc>
 	<factkMagelUni.ColPol>
-		<EN>The colonization politics are based on the &#60;b&#62;Autonomous Remote Colony&#60;/b&#62; concept.&#60;br&#62;This concept lays on the foundation of a full-fledged colony able to be sustainable and autonomous on long-term.&#60;br&#62;Each colony must represent a strong extension of the Unity in the galaxy, and is set with a lot of care and support.</EN>
-		<FR>La politique de colonisation est basée sur le concept de &#60;b&#62;Colonie Autonome Lointaine&#60;/b&#62;.&#60;br&#62;Ce concept repose sur le fondement d'une véritable colonie capable d'être durable et autonome sur le long terme.&#60;br&#62;Chaque colonie doit représenter une extension de l'Unité dans la galaxie, et est mise au point avec beaucoup de soin et soutien.</FR>
-	</factkMagelUni.ColPol>
-	<factkMagelUni.munCmodARC>
-		<EN>the ARC colony mode is the state-of-the-art in colonization science and technology. Even without having a full control capability, the colony has a high range of action.&#60;br&#62;This is not a luxury because Unity colonies are scattered.</EN>
-		<FR>le mode de colonie ARC constitue l'état de l'art en sciences et technologie de colonisation. Même sans avoir une capacité de plein contrôle, la colonie possède une large gamme d'action.&#60;br&#62;Ce n'est pas un luxe parce que les colonies de l'Unité sont dispersées.</FR>
-	</factkMagelUni.munCmodARC>
+      <EN>The colonization politics are based on the &#60;b&#62;Autonomous Remote Colony&#60;/b&#62; concept.&#60;br&#62;This concept lays on the foundation of a full-fledged colony able to be sustainable and autonomous on long-term.&#60;br&#62;Each colony must represent a strong extension of the Unity in the galaxy, and is set with a lot of care and support.</EN>
+      <FR>La politique de colonisation est basée sur le concept de &#60;b&#62;Colonie Autonome Lointaine&#60;/b&#62;.&#60;br&#62;Ce concept repose sur le fondement d'une véritable colonie capable d'être durable et autonome sur le long terme.&#60;br&#62;Chaque colonie doit représenter une extension de l'Unité dans la galaxie, et est mise au point avec beaucoup de soin et soutien.</FR>
+   </factkMagelUni.ColPol>
+   <factkMagelUni.munCmodARC>
+      <EN>the ARC colony mode is the state-of-the-art in colonization science and technology. Even without having a full control capability, the colony has a high range of action.&#60;br&#62;This is not a luxury because Unity colonies are scattered.</EN>
+      <FR>le mode de colonie ARC constitue l'état de l'art en sciences et technologie de colonisation. Même sans avoir une capacité de plein contrôle, la colonie possède une large gamme d'action.&#60;br&#62;Ce n'est pas un luxe parce que les colonies de l'Unité sont dispersées.</FR>
+   </factkMagelUni.munCmodARC>
    <!-- ********** INFRASTRUCTURES ********** -->
    <cwpRoot>
       <EN></EN>
@@ -89,16 +89,20 @@
    </cwpRoot>
    <infrColShelt>
       <EN></EN>
-		<FR></FR>
+      <FR></FR>
    </infrColShelt>
    <infrHousesPack>
-		<EN></EN>
-		<FR></FR>
-	</infrHousesPack>
-	<infrInflatGreen>
-		<EN></EN>
-		<FR></FR>
-	</infrInflatGreen>
+      <EN></EN>
+      <FR></FR>
+   </infrHousesPack>
+   <infrInflatGreen>
+      <EN></EN>
+      <FR></FR>
+   </infrInflatGreen>
+   <infrInflatHab>
+      <EN></EN>
+      <FR></FR>
+   </infrInflatHab>
    <infrNucFissReactor>
       <EN></EN>
       <EN></EN>
@@ -374,26 +378,26 @@
    <SPMiBL>
       <EN></EN>
       <FR></FR>
-	</SPMiBL>
-	<SPMiSV>
-		<EN></EN>
-		<FR></FR>
-	</SPMiSV>
-	<spmMemes>
-		<EN></EN>
-		<FR></FR>
-	</spmMemes>
-	<spmPolicies>
-		<EN></EN>
-		<FR></FR>
-	</spmPolicies>
-	<spmRoot>
-		<EN></EN>
-		<FR></FR>
-	</spmRoot>
-	<!-- ********** UNIVERSE ********** -->
-	<univAlbedo>
-		<EN>Albedo is the &#60;b&#62;rate of reflection&#60;/b&#62; of the star's rays by the orbital object.&#60;br&#62; More this one have an &#60;b&#62;high albedo&#60;/b&#62;, more it &#60;b&#62;will reflect the rays &#60;/b&#62; of it's star to the space, and less the soil will have to absorb heat.&#60;br&#62; The &#60;b&#62;nature of the ground&#60;/b&#62; influence directly the albedo, for example &#60;b&#62;a great glacial zone will strongly reflect the rays&#60;/b&#62;.&#60;br&#62;&#60;br&#62;&#60;b&#62;&#60;hi&#62;Example&#60;/b&#62;: &#60;b&#62;Venus&#60;/b&#62; has an &#60;b&#62;albedo of 0.72&#60;/b&#62; that's to say 72%.</EN>
+   </SPMiBL>
+   <SPMiSV>
+      <EN></EN>
+      <FR></FR>
+   </SPMiSV>
+   <spmMemes>
+      <EN></EN>
+      <FR></FR>
+   </spmMemes>
+   <spmPolicies>
+      <EN></EN>
+      <FR></FR>
+   </spmPolicies>
+   <spmRoot>
+      <EN></EN>
+      <FR></FR>
+   </spmRoot>
+   <!-- ********** UNIVERSE ********** -->
+   <univAlbedo>
+      <EN>Albedo is the &#60;b&#62;rate of reflection&#60;/b&#62; of the star's rays by the orbital object.&#60;br&#62; More this one have an &#60;b&#62;high albedo&#60;/b&#62;, more it &#60;b&#62;will reflect the rays &#60;/b&#62; of it's star to the space, and less the soil will have to absorb heat.&#60;br&#62; The &#60;b&#62;nature of the ground&#60;/b&#62; influence directly the albedo, for example &#60;b&#62;a great glacial zone will strongly reflect the rays&#60;/b&#62;.&#60;br&#62;&#60;br&#62;&#60;b&#62;&#60;hi&#62;Example&#60;/b&#62;: &#60;b&#62;Venus&#60;/b&#62; has an &#60;b&#62;albedo of 0.72&#60;/b&#62; that's to say 72%.</EN>
 		<FR>l'Albédo est le &#60;b&#62;taux de réflection&#60;/b&#62; des rayons de l'étoile par l'objet orbital.&#60;br&#62; Plus celui-ci a un &#60;b&#62;albédo élevé&#60;/b&#62;, plus il &#60;b&#62;reflètera les rayons &#60;/b&#62; de son étoile vers l'espace, et moins le sol aura à absorber de la chaleur.&#60;br&#62; La &#60;b&#62;nature du terrain&#60;/b&#62; influence directement l'albédo, par exemple &#60;b&#62;une grande zone glaciale réflèchira fortement les rayons&#60;/b&#62;.&#60;br&#62;&#60;br&#62;&#60;b&#62;&#60;hi&#62;Exemple&#60;/b&#62;: &#60;b&#62;Venus&#60;/b&#62; a un &#60;b&#62;albédo de 0.72&#60;/b&#62; ce qui veut dire 72%.</FR>
 	</univAlbedo>
 	<univAU>
@@ -403,18 +407,18 @@
 	<univDis>
 		<EN>Average orbit distance of an orbital object from it's star, or of a satellite from it's main orbital object.&#60;br&#62;This distance is expressed in &#60;b&#62;&#60;a href="univAU"&#62;AU (Astronomical Units)&#60;/a&#62;&#60;/b&#62; or in &#60;b&#62;Km (kilometers)&#60;/b&#62;.&#60;br&#62;&#60;br&#62;&#60;b&#62;&#60;hi&#62;Example&#60;/b&#62;: &#60;b&#62;Saturn&#60;/b&#62; is at 9.54&#60;b&#62;&#60;a href="univAU"&#62;AU&#60;/a&#62;&#60;/b&#62; from &#60;b&#62;The Sun&#60;/b&#62;.</EN>
 		<FR>Distance d'orbite moyenne d'un objet orbital de son étoile, ou d'un satellite de son objet orbital principal.&#60;br&#62;Cette distance est exprimée en &#60;b&#62;&#60;a href="univAU"&#62;UA (Unités Astronomiques)&#60;/a&#62;&#60;/b&#62; ou en &#60;b&#62;Km (kilomètres)&#60;/b&#62;.&#60;br&#62;&#60;br&#62;&#60;b&#62;&#60;hi&#62;Exemple&#60;/b&#62;: &#60;b&#62;Saturne&#60;/b&#62; est à 9.54&#60;b&#62;&#60;a href="univAU"&#62;AU&#60;/a&#62;&#60;/b&#62; du &#60;b&#62;Soleil&#60;/b&#62;.</FR>
-	</univDis>
-	<univEccOO>
-		<EN>The orbit &#60;b&#62;eccentricity&#60;/b&#62;, of and orbital object, indicate shape of this one.&#60;br&#62; Higher this value is, more the orbit will be &#60;b&#62;oval&#60;/b&#62;, which can cause significant changes of surface seasonal temperature.&#60;br&#62;&#60;br&#62;&#60;b&#62;&#60;hi&#62;Example&#60;/b&#62;: &#60;b&#62;Pluto&#60;/b&#62; has an &#60;b&#62;eccentricity&#60;/b&#62; of 0.2482.</EN>
-		<FR>l'&#60;b&#62;Eccentricité&#60;/b&#62; d'orbite, d'un objet orbital, indique la forme de celle-ci.&#60;br&#62; Plus cette valeur est élevée, plus l'orbite sera &#60;b&#62;ovale&#60;/b&#62;, ce qui peut causer des changements significatifs de temperature saisonière de surface.&#60;br&#62;&#60;br&#62;&#60;b&#62;&#60;hi&#62;Exemple&#60;/b&#62;: &#60;b&#62;Pluton&#60;/b&#62; a une &#60;b&#62;eccentricité&#60;/b&#62; de 0.2482.</FR>
-	</univEccOO>
-	<univStarTemp>
-		<EN>In astrophysics, the star surface temperature is in &#60;b&#62;Kelvin degrees&#60;/b&#62;.&#60;br&#62;The zero Kelvin degree is the absolute zero which in centigrade degrees is &#60;b&#62;-273.15°C&#60;/b&#62;.&#60;br&#62;&#60;br&#62;&#60;b&#62;&#60;hi&#62;Example&#60;/b&#62;: the temperature of the &#60;b&#62;The Sun&#60;/b&#62; is &#60;b&#62;5570K&#60;/b&#62;.</EN>
-		<FR>En atrophysique, la température de surface de l'étoile est en &#60;b&#62;degrés Kelvin&#60;/b&#62;.&#60;br&#62;Le zéro degré Kelvin le zéro absolu lequel est en degrés centigrade &#60;b&#62;-273.15°C&#60;/b&#62;.&#60;br&#62;&#60;br&#62;&#60;b&#62;&#60;hi&#62;Exemple&#60;/b&#62;: la température du &#60;b&#62;Soleil&#60;/b&#62; est &#60;b&#62;5570K&#60;/b&#62;.</FR>
-	</univStarTemp>
-	<!-- ********** TOPICS/DEFINITIONS ********** -->
-	<!-- put them in order there's no sorting -->
-	<hintlistEN>
+   </univDis>
+   <univEccOO>
+      <EN>The orbit &#60;b&#62;eccentricity&#60;/b&#62;, of and orbital object, indicate shape of this one.&#60;br&#62; Higher this value is, more the orbit will be &#60;b&#62;oval&#60;/b&#62;, which can cause significant changes of surface seasonal temperature.&#60;br&#62;&#60;br&#62;&#60;b&#62;&#60;hi&#62;Example&#60;/b&#62;: &#60;b&#62;Pluto&#60;/b&#62; has an &#60;b&#62;eccentricity&#60;/b&#62; of 0.2482.</EN>
+      <FR>l'&#60;b&#62;Eccentricité&#60;/b&#62; d'orbite, d'un objet orbital, indique la forme de celle-ci.&#60;br&#62; Plus cette valeur est élevée, plus l'orbite sera &#60;b&#62;ovale&#60;/b&#62;, ce qui peut causer des changements significatifs de temperature saisonière de surface.&#60;br&#62;&#60;br&#62;&#60;b&#62;&#60;hi&#62;Exemple&#60;/b&#62;: &#60;b&#62;Pluton&#60;/b&#62; a une &#60;b&#62;eccentricité&#60;/b&#62; de 0.2482.</FR>
+   </univEccOO>
+   <univStarTemp>
+      <EN>In astrophysics, the star surface temperature is in &#60;b&#62;Kelvin degrees&#60;/b&#62;.&#60;br&#62;The zero Kelvin degree is the absolute zero which in centigrade degrees is &#60;b&#62;-273.15°C&#60;/b&#62;.&#60;br&#62;&#60;br&#62;&#60;b&#62;&#60;hi&#62;Example&#60;/b&#62;: the temperature of the &#60;b&#62;The Sun&#60;/b&#62; is &#60;b&#62;5570K&#60;/b&#62;.</EN>
+      <FR>En atrophysique, la température de surface de l'étoile est en &#60;b&#62;degrés Kelvin&#60;/b&#62;.&#60;br&#62;Le zéro degré Kelvin le zéro absolu lequel est en degrés centigrade &#60;b&#62;-273.15°C&#60;/b&#62;.&#60;br&#62;&#60;br&#62;&#60;b&#62;&#60;hi&#62;Exemple&#60;/b&#62;: la température du &#60;b&#62;Soleil&#60;/b&#62; est &#60;b&#62;5570K&#60;/b&#62;.</FR>
+   </univStarTemp>
+   <!-- ********** TOPICS/DEFINITIONS ********** -->
+   <!-- put them in order there's no sorting -->
+   <hintlistEN>
       <hintitem link="cwpRoot" title="Construction: Construction Workforce Points (CWP)"/>
       <hintitem link="cpsRoot" title="CPS: Colonization Phase System"/>
       <hintitem link="cpsCVS" title="CPS: Colonization Viability Score (CVS)"/>
@@ -432,6 +436,7 @@
       <hintitem link="infrColShelt" title="Infrastructure: Colonization Shelter"/>
       <hintitem link="infrHousesPack" title="Infrastructure: Houses Pack"/>
       <hintitem link="infrInflatGreen" title="Infrastructure: Inflatable Greenhouse"/>
+      <hintitem link="infrInflatHab" title="Infrastructure: Inflatable Habitat"/>
       <hintitem link="infrNucFissReactor" title="Infrastructure: Nuclear Fission Reactor"/>
       <hintitem link="spmRoot" title="SPM: Socio-Political Matrix"/>
       <hintitem link="spmPolicies" title="SPM: Policies"/>
@@ -526,6 +531,7 @@
       <hintitem link="csmevUprising" title="Evènement CSM: Révolte"/>
       <hintitem link="csmevUnrest" title="Evènement CSM: Troubles"/>
       <hintitem link="infrColShelt" title="Infrastructure: Abris de Colonisation"/>
+      <hintitem link="infrInflatHab" title="Infrastructure: Habitat Gonflable"/>
       <hintitem link="infrHousesPack" title="Infrastructure: Pack de Maisons"/>
       <hintitem link="infrNucFissReactor" title="Infrastructure: Réacteur à Fission Nucléaire"/>
       <hintitem link="infrInflatGreen" title="Infrastructure: Serre Gonflable"/>
@@ -577,29 +583,29 @@
       <hintitem link="SPMi_ZeroTol" title="Politique: Tolérance Zéro"/>
       <hintitem link="SPMi_AntiHumSpacef" title="Politique: Vol Spatial Anti-Humain"/>
       <hintitem link="Products_Root" title="Produits"/>
-		<hintitem link="matSteel" title="Produit: Acier"/>
-		<hintitem link="matAluminium" title="Produit: Aluminium"/>
+      <hintitem link="matSteel" title="Produit: Acier"/>
+      <hintitem link="matAluminium" title="Produit: Aluminium"/>
       <hintitem link="resNH3" title="Produit: Ammoniac"/>
       <hintitem link="matConcrete" title="Produit: Béton"/>
       <hintitem link="matCarbComposites" title="Produit: Composites de Carbone"/>
       <hintitem link="equipConstrExo" title="Produit: Exowalkers de Construction"/>
-		<hintitem link="bioFruitsVeg" title="Produit: Fruits &amp; Légumes"/>
-		<hintitem link="energNucPellets" title="Produit: Granules Nucléaires"/>
-		<hintitem link="matNanocomposites" title="Produit: Nanocomposites"/>
-		<hintitem link="matMWNT" title="Produit: Nanotubes Multi-Couches (MWNT)"/>
-		<hintitem link="matSWNT" title="Produit: Nanotubes Simple-Couche (SWNT)"/>
-		<hintitem link="bioFish" title="Produit: Poisson"/>
-		<hintitem link="bioAnimalFood" title="Produit: Nourriture Animale"/>
+      <hintitem link="bioFruitsVeg" title="Produit: Fruits &amp; Légumes"/>
+      <hintitem link="energNucPellets" title="Produit: Granules Nucléaires"/>
+      <hintitem link="matNanocomposites" title="Produit: Nanocomposites"/>
+      <hintitem link="matMWNT" title="Produit: Nanotubes Multi-Couches (MWNT)"/>
+      <hintitem link="matSWNT" title="Produit: Nanotubes Simple-Couche (SWNT)"/>
+      <hintitem link="bioFish" title="Produit: Poisson"/>
+      <hintitem link="bioAnimalFood" title="Produit: Nourriture Animale"/>
       <hintitem link="equipAdvTools" title="Produit: Outils Avancés"/>
       <hintitem link="equipPowerTools" title="Produit: Outils Electriques"/>
       <hintitem link="equipHandTools" title="Produit: Outils Manuels"/>
-		<hintitem link="matPlastics" title="Produit: Plastiques"/>
+      <hintitem link="matPlastics" title="Produit: Plastiques"/>
       <hintitem link="energNucFisRsm" title="Produit: Réacteur à Fission Nucléaire (petit)"/>
       <hintitem link="energNucFisRmed" title="Produit: Réacteur à Fission Nucléaire (moyen)"/>
       <hintitem link="energNucFisRlg" title="Produit: Réacteur à Fission Nucléaire (large)"/>
       <hintitem link="energNucFisRxl" title="Produit: Réacteur à Fission Nucléaire (xlarge)"/>
-		<hintitem link="matSilicon" title="Produit: Silicone (Si)"/>
-		<hintitem link="matTitanium" title="Produit: Titane"/>
+      <hintitem link="matSilicon" title="Produit: Silicone (Si)"/>
+      <hintitem link="matTitanium" title="Produit: Titane"/>
       <hintitem link="univAlbedo" title="Univers: Albédo"/>
       <hintitem link="univDis" title="Univers: Distance"/>
       <hintitem link="univEccOO" title="Univers: Eccentricité (Objet Orbital)"/>

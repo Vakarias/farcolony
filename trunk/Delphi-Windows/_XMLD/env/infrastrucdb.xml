@@ -88,15 +88,17 @@
 			//for cPrefab/cConv do not put this line at all
 		</infBuild>
 		<infReq>
+			//only if >hrAny
 			<irHydro hydrotype=""/>
+			//for cBuild ONLY
 			<irConstrMat>
 				<cmItem token="" percent=""/>
 			</irConstrMat>
+			//only if >rsrAny
 			<irRegionSoil allowtype=""/>
+			//only if >rssrN_A
 			<irRsrcSpot spottype=""/>
-			//for cConv/cPrefab
-			<irTechSci sector="rsNone" token=""/>
-			//for the rest
+			//for cBuild ONLY
 			<irTechSci sector="" token=""/>
 		</infReq>
 		<infCustFX>
@@ -133,8 +135,10 @@
       <infFunc infFunc="ifEnergy" emode="egmFusionHe3"/>
       //Photonic Energy
       <infFunc infFunc="ifEnergy" emode="egmPhoton" area="" efficiency=""/>
-		//ifHousing
-		<infFunc infFunc="fHousing" pcaplv1="" pcaplv2="" pcaplv3="" pcaplv4="" pcaplv5="" pcaplv6="" pcaplv7="" qol=""/> for cConv <infFunc infFunc="fHousing" pcap="0" qol="0"/>
+		//ifHousing EXCEPTED cConv
+		<infFunc infFunc="fHousing" pcaplv1="" pcaplv2="" pcaplv3="" pcaplv4="" pcaplv5="" pcaplv6="" pcaplv7="" qol=""/> 
+		//for cConv ONLY
+		<infFunc infFunc="fHousing" pcap="0" qol="0"/>
 		//ifIntelligence
 		<infFunc infFunc="fIntelligence"/>
 		//ifMiscellaneous
@@ -276,6 +280,42 @@
 		</infCustFX>
 		<infFunc infFunc="fProduction">
 		</infFunc>
+	</infra>
+	<!-- Inflatable Habitat / Free Environment -->
+	<infra token="infrInflatHab" environment="FE">
+		<infBuild construct="cPrefab" isSurfOnly="false" minlevel="1" maxlevel="4">
+			<ibSurf surflv1="24.5" surflv2="81" surflv3="162" surflv4="243"/>
+			<ibVol vollv1="107" vollv2="300" vollv3="600" vollv4="900"/>
+			<ibBasePwr pwrlv1="0.47" pwrlv2="1.55" pwrlv3="3.09" pwrlv4="4.64"/>
+		</infBuild>
+		<infReq>
+			<irRegionSoil allowtype="rsrAnyExceptVolcanic"/>
+		</infReq>
+		<infFunc infFunc="fHousing" pcaplv1="2" pcaplv2="6" pcaplv3="12" pcaplv4="18" qol="1"/>
+	</infra>
+	<!-- Inflatable Habitat / Restricted Environment -->
+	<infra token="infrInflatHab" environment="RE">
+		<infBuild construct="cPrefab" isSurfOnly="false" minlevel="1" maxlevel="4">
+			<ibSurf surflv1="23.5" surflv2="73" surflv3="154" surflv4="235"/>
+			<ibVol vollv1="107" vollv2="300" vollv3="600" vollv4="900"/>
+			<ibBasePwr pwrlv1="0.68" pwrlv2="2.26" pwrlv3="4.3" pwrlv4="6.56"/>
+		</infBuild>
+		<infReq>
+			<irRegionSoil allowtype="rsrAnyExceptVolcanic"/>
+		</infReq>
+		<infFunc infFunc="fHousing" pcaplv1="2" pcaplv2="6" pcaplv3="12" pcaplv4="18" qol="1"/>
+	</infra>
+	<!-- Inflatable Habitat / Space Environment -->
+	<infra token="infrInflatHab" environment="SE">
+		<infBuild construct="cPrefab" isSurfOnly="false" minlevel="1" maxlevel="4">
+			<ibSurf surflv1="23.5" surflv2="73" surflv3="154" surflv4="235"/>
+			<ibVol vollv1="107" vollv2="300" vollv3="600" vollv4="900"/>
+			<ibBasePwr pwrlv1="1" pwrlv2="3.33" pwrlv3="6.66" pwrlv4="9.99"/>
+		</infBuild>
+		<infReq>
+			<irRegionSoil allowtype="rsrAnyExceptVolcanic"/>
+		</infReq>
+		<infFunc infFunc="fHousing" pcaplv1="2" pcaplv2="6" pcaplv3="12" pcaplv4="18" qol="1"/>
 	</infra>
    <!-- Nuclear Fission Reactor / Any Environment -->
    <infra token="infrNucFissReactor" environment="ANY">

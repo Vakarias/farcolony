@@ -1060,6 +1060,10 @@
 		<EN>Inflatable Greenhouse</EN>
 		<FR>Serre Gonflable</FR>
 	</infrInflatGreen>
+	<infrInflatHab>
+		<EN>Inflatable Habitat</EN>
+		<FR>Habitat Gonflable</FR>
+	</infrInflatHab>
    <infrNucFissReactor>
       <EN>Nuclear Fission Reactor</EN>
       <FR>Réacteur à Fission Nucléaire</FR>
