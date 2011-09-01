@@ -335,11 +335,11 @@ const
       I_customFx: array of TFCRdipInfraCustomFX;
       {.function}
       case I_function: TFCEdipFunction of
-         fEnergy:
-            (I_fEnergyPmode: TFCRdipEnergyGenerationMode);
-         fHousing:
-            (I_fHousPopulationCap: integer;
-            	I_fHousQualityOfLife: integer);
+         fEnergy: (I_fEnergyPmode: TFCRdipEnergyGenerationMode);
+         fHousing: (
+            I_fHousPopulationCap: array[0..7] of integer;
+            I_fHousQualityOfLife: integer
+            );
          fIntelligence:
             ();
          fMiscellaneous:

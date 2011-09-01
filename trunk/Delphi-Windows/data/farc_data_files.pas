@@ -679,6 +679,7 @@ end;
 procedure FCMdF_DBInfra_Read;
 {:Purpose: Read the infrastructure database xml file.
     Additions:
+      -2011Aug31- *mod: function Housing: put the population capacity by infrastructure level (because it depends on the size).
       -2011Jul17- *add: 2 custom effects: energy generation and energy storage.
       -2011Jul11- *add: base power.
       -2011May19- *add/mod: complete the custom effect: product storage.
@@ -1020,7 +1021,15 @@ begin
                then
                begin
                   FCDBinfra[DBIRcnt].I_function:=fHousing;
-                  FCDBinfra[DBIRcnt].I_fHousPopulationCap:=DBIRsubN.Attributes['pcap'];
+                  if FCDBinfra[DBIRcnt].I_constr<>cConv then
+                  begin
+                     DBIRsizeCnt:=FCDBinfra[DBIRcnt].I_minLevel;
+                     while DBIRsizeCnt<=FCDBinfra[DBIRcnt].I_maxLevel do
+                     begin
+                        FCDBinfra[DBIRcnt].I_fHousPopulationCap[DBIRsizeCnt]:=DBIRsubN.Attributes['pcaplv'+IntToStr(DBIRsizeCnt)];
+                        inc(DBIRsizeCnt);
+                     end;
+                  end;
                   FCDBinfra[DBIRcnt].I_fHousQualityOfLife:=DBIRsubN.Attributes['qol'];
                end
                else if DBIRstr='fIntelligence'

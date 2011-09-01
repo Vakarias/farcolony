@@ -134,7 +134,7 @@
       //Photonic Energy
       <infFunc infFunc="ifEnergy" emode="egmPhoton" area="" efficiency=""/>
 		//ifHousing
-		<infFunc infFunc="fHousing" pcap="" qol=""/> for cConv <infFunc infFunc="fHousing" pcap="0" qol="0"/>
+		<infFunc infFunc="fHousing" pcaplv1="" pcaplv2="" pcaplv3="" pcaplv4="" pcaplv5="" pcaplv6="" pcaplv7="" qol=""/> for cConv <infFunc infFunc="fHousing" pcap="0" qol="0"/>
 		//ifIntelligence
 		<infFunc infFunc="fIntelligence"/>
 		//ifMiscellaneous
@@ -201,7 +201,7 @@
 			</irConstrMat>
 			<irRegionSoil allowtype="rsrAnyExceptVolcanic"/>
 		</infReq>
-		<infFunc infFunc="fHousing" pcap="12" qol="5"/>
+		<infFunc infFunc="fHousing" pcaplv2="12" qol="5"/>
 	</infra>
    <!-- Houses Pack / Restricted Environment -->
    <infra token="infrHousesPack" environment="RE">
@@ -221,7 +221,7 @@
       <infCustFX>
 			<icfxLSoxygen peopleSupport="12"/>
 		</infCustFX>
-		<infFunc infFunc="fHousing" pcap="12" qol="5"/>
+		<infFunc infFunc="fHousing" pcaplv2="12" qol="5"/>
 	</infra>
    <!-- Inflatable Greenhouse / Free Environment -->
    <infra token="infrInflatGreen" environment="FE">
