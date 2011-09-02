@@ -7,14 +7,14 @@
       fIntelligence
       fMiscellaneous
       fProduction
-	   
-	{.types of construct}
-	[construct]
-	   cBuilt
-	   cPrefab
-	   cConv
-	   
-	{.requirement - hydrosphere types}
+      
+   {.types of construct}
+   [construct]
+      cBuilt
+      cPrefab
+      cConv
+      
+   {.requirement - hydrosphere types}
    [hydrotype]
       hrAny
       hrLiquid_LiquidNH3
@@ -26,23 +26,23 @@
       hrLiquidNH3
       hrCH4
       
- 	{.requirement - region soil}
+   {.requirement - region soil}
    [allowtype]
       rsrAny
-      rsrAnyExceptVolcanic
+      rsrAnyNonVolcanic
       rsrAnyCoastal
-      rsrAnyCoastalExceptVolcanic
+      rsrAnyCoastalNonVolcanic
       rsrAnySterile
-      rsrFertile
+      rsrAnyFertile
       rsOceanic
       
-  	{.requirement - resource spot}
+   {.requirement - resource spot}
    [spottype]
       rssrN_A
       rssrany
       rssrMetalIcyRareMetCarbRadOre
       
- 	{.research sectors}
+   {.research sectors}
    [sector]
       rsNone
       rsAerospaceEng
@@ -53,17 +53,17 @@
       rsNanotech
       rsPhysics
       
- 	{.energy generation modes}
+   {.energy generation modes}
    [emode]
       egmNone
-		egmAntimatter
+      egmAntimatter
       egmFission
       egmFusionDT
-		egmFusionH2
-		egmFusionHe3
+      egmFusionH2
+      egmFusionHe3
       egmPhoton
       
- 	{.production modes}
+   {.production modes}
    [pmode]
       pmNone
       pmCarbonaceousOreRefining
@@ -75,56 +75,56 @@
       pmWaterElectrolysis
 
    <infra token="" environment="">
-		<infBuild construct="" isSurfOnly="" minlevel="" maxlevel="">
-			//for cConv do not use these 3 lines
-			//for the rest use only the infrastructure's level range parameters
-			<ibSurf surflv1="" surflv2="" surflv3="" surflv4="" surflv5="" surflv6="" surflv7=""/>
-			<ibVol vollv1="" vollv2="" vollv3="" vollv4="" vollv5="" vollv6="" vollv7=""/>
-			//if the infrastructure doesn't consume power and/or generate power don't use this line
-			<ibBasePwr pwrlv1="" pwrlv2="" pwrlv3="" pwrlv4="" pwrlv5="" pwrlv6="" pwrlv7=""/>
-			
-			//for cBuilt use only:
-			<ibVolMat volmatlv1="" volmatlv2="" volmatlv3="" volmatlv4="" volmatlv5="" volmatlv6="" volmatlv7=""/>
-			//for cPrefab/cConv do not put this line at all
-		</infBuild>
-		<infReq>
-			//only if >hrAny
-			<irHydro hydrotype=""/>
-			//for cBuild ONLY
-			<irConstrMat>
-				<cmItem token="" percent=""/>
-			</irConstrMat>
-			//only if >rsrAny
-			<irRegionSoil allowtype=""/>
-			//only if >rssrN_A
-			<irRsrcSpot spottype=""/>
-			//for cBuild ONLY
-			<irTechSci sector="" token=""/>
-		</infReq>
-		<infCustFX>
-			(
-				//antimatter
-				<icfxEnergyGen genMode="egmAntimatter"/>
-				//nuclear fission - only use the infrastructure's level range
-				<icfxEnergyGen genMode="egmFission" fixedprodlv1="" fixedprodlv1byDL="" fixedprodlv2="" fixedprodlv2byDL="" fixedprodlv3="" fixedprodlv3byDL="" fixedprodlv4="" fixedprodlv4byDL="" fixedprodlv5="" fixedprodlv5byDL="" fixedprodlv6="" fixedprodlv6byDL="" fixedprodlv7="" fixedprodlv7byDL=""/>
-				//nuclear fusion DT
-				<icfxEnergyGen genMode="egmFusionDT"/>
-				//nuclear fusion H2
-				<icfxEnergyGen genMode="egmFusionH2"/>
-				//nuclear fusion He-3
-				<icfxEnergyGen genMode="egmFusionHe3"/>
-				//Photonic Energy
-				<icfxEnergyGen genMode="egmPhoton" area="" efficiency=""/>
-			)
-			<cfxEnergyStor storlevel="" storCapacity=""/>
-			<icfxHQbasic/>
-			<icfxHQprimary/>
-			<icfxHQsecondary/>
-			<cfxProductStorage storlevel="" storSolid="" storLiquid="" storGas="" storBio=""/>
-		</infCustFX>
-		//ifEnergy
-		//antimatter
-		<infFunc infFunc="ifEnergy" emode="egmAntimatter"/>
+      <infBuild construct="" isSurfOnly="" minlevel="" maxlevel="">
+         //for cConv do not use these 3 lines
+         //for the rest use only the infrastructure's level range parameters
+         <ibSurf surflv1="" surflv2="" surflv3="" surflv4="" surflv5="" surflv6="" surflv7=""/>
+         <ibVol vollv1="" vollv2="" vollv3="" vollv4="" vollv5="" vollv6="" vollv7=""/>
+         //if the infrastructure doesn't consume power and/or generate power don't use this line
+         <ibBasePwr pwrlv1="" pwrlv2="" pwrlv3="" pwrlv4="" pwrlv5="" pwrlv6="" pwrlv7=""/>
+         
+         //for cBuilt use only:
+         <ibVolMat volmatlv1="" volmatlv2="" volmatlv3="" volmatlv4="" volmatlv5="" volmatlv6="" volmatlv7=""/>
+         //for cPrefab/cConv do not put this line at all
+      </infBuild>
+      <infReq>
+         //only if >hrAny
+         <irHydro hydrotype=""/>
+         //for cBuild ONLY
+         <irConstrMat>
+            <cmItem token="" percent=""/>
+         </irConstrMat>
+         //only if >rsrAny
+         <irRegionSoil allowtype=""/>
+         //only if >rssrN_A
+         <irRsrcSpot spottype=""/>
+         //for cBuild ONLY
+         <irTechSci sector="" token=""/>
+      </infReq>
+      <infCustFX>
+         (
+            //antimatter
+            <icfxEnergyGen genMode="egmAntimatter"/>
+            //nuclear fission - only use the infrastructure's level range
+            <icfxEnergyGen genMode="egmFission" fixedprodlv1="" fixedprodlv1byDL="" fixedprodlv2="" fixedprodlv2byDL="" fixedprodlv3="" fixedprodlv3byDL="" fixedprodlv4="" fixedprodlv4byDL="" fixedprodlv5="" fixedprodlv5byDL="" fixedprodlv6="" fixedprodlv6byDL="" fixedprodlv7="" fixedprodlv7byDL=""/>
+            //nuclear fusion DT
+            <icfxEnergyGen genMode="egmFusionDT"/>
+            //nuclear fusion H2
+            <icfxEnergyGen genMode="egmFusionH2"/>
+            //nuclear fusion He-3
+            <icfxEnergyGen genMode="egmFusionHe3"/>
+            //Photonic Energy
+            <icfxEnergyGen genMode="egmPhoton" area="" efficiency=""/>
+         )
+         <cfxEnergyStor storlevel="" storCapacity=""/>
+         <icfxHQbasic/>
+         <icfxHQprimary/>
+         <icfxHQsecondary/>
+         <cfxProductStorage storlevel="" storSolid="" storLiquid="" storGas="" storBio=""/>
+      </infCustFX>
+      //ifEnergy
+      //antimatter
+      <infFunc infFunc="ifEnergy" emode="egmAntimatter"/>
       //nuclear fission - only use the infrastructure's level range
       <infFunc infFunc="ifEnergy" emode="egmFission" fixedprodlv1="" fixedprodlv1byDL="" fixedprodlv2="" fixedprodlv2byDL="" fixedprodlv3="" fixedprodlv3byDL="" fixedprodlv4="" fixedprodlv4byDL="" fixedprodlv5="" fixedprodlv5byDL="" fixedprodlv6="" fixedprodlv6byDL="" fixedprodlv7="" fixedprodlv7byDL=""/>
       //nuclear fusion DT
@@ -135,194 +135,185 @@
       <infFunc infFunc="ifEnergy" emode="egmFusionHe3"/>
       //Photonic Energy
       <infFunc infFunc="ifEnergy" emode="egmPhoton" area="" efficiency=""/>
-		//ifHousing EXCEPTED cConv
-		<infFunc infFunc="fHousing" pcaplv1="" pcaplv2="" pcaplv3="" pcaplv4="" pcaplv5="" pcaplv6="" pcaplv7="" qol=""/> 
-		//for cConv ONLY
-		<infFunc infFunc="fHousing" pcap="0" qol="0"/>
-		//ifIntelligence
-		<infFunc infFunc="fIntelligence"/>
-		//ifMiscellaneous
-		<infFunc infFunc="fMiscellaneous"/>
-		//ifProduction
-		<infFunc infFunc="fProduction">
-			<ifProdMode pmode="pmCarbonaceousOreRefining"/>
-			<ifProdMode pmode="pmHumidityGathering" roofArea="" trapArea=""/>
-			<ifProdMode pmode="pmMetallicOreRefining"/>
-			<ifProdMode pmode="pmRadioactiveOreRefining"/>
-			<ifProdMode pmode="pmRareMetalsOreRefining"/>
-			<ifProdMode pmode="pmResourceMining"/>
-			<ifProdMode pmode="pmWaterElectrolysis"/>
-		</infFunc>
-	</infra>
+      //ifHousing EXCEPTED cConv
+      <infFunc infFunc="fHousing" pcaplv1="" pcaplv2="" pcaplv3="" pcaplv4="" pcaplv5="" pcaplv6="" pcaplv7="" qol=""/> 
+      //for cConv ONLY
+      <infFunc infFunc="fHousing" pcap="0" qol="0"/>
+      //ifIntelligence
+      <infFunc infFunc="fIntelligence"/>
+      //ifMiscellaneous
+      <infFunc infFunc="fMiscellaneous"/>
+      //ifProduction
+      <infFunc infFunc="fProduction">
+         <ifProdMode pmode="pmCarbonaceousOreRefining"/>
+         <ifProdMode pmode="pmHumidityGathering" roofArea="" trapArea=""/>
+         <ifProdMode pmode="pmMetallicOreRefining"/>
+         <ifProdMode pmode="pmRadioactiveOreRefining"/>
+         <ifProdMode pmode="pmRareMetalsOreRefining"/>
+         <ifProdMode pmode="pmResourceMining"/>
+         <ifProdMode pmode="pmWaterElectrolysis"/>
+      </infFunc>
+   </infra>
 -->
 
 <infrastructures>
-	<!-- Colonization Shelter / Free Environment -->
-	<infra token="infrColShelt" environment="FE">
-		<infBuild construct="cConv" isSurfOnly="False" minlevel="1" maxlevel="1">
-		</infBuild>
-		<infCustFX>
-			<icfxHQbasic/>
-		</infCustFX>
-		<infFunc infFunc="fHousing" pcap="0" qol="0"/>
-	</infra>
-	<!-- Colonization Shelter / Restricted Environment -->
-	<infra token="infrColShelt" environment="RE">
-		<infBuild construct="cConv" isSurfOnly="False" minlevel="1" maxlevel="1">
-		</infBuild>
-		<infCustFX>
-			<icfxHQbasic/>
-			<icfxLSfood peopleSupport="0"/>
-			<icfxLSoxygen peopleSupport="0"/>
-			<icfxLSwater peopleSupport="0"/>
-		</infCustFX>
-		<infFunc infFunc="fHousing" pcap="0" qol="0"/>
-	</infra>
-	<!-- Colonization Shelter / Space Environment -->
-	<infra token="infrColShelt" environment="SE">
-		<infBuild construct="cConv" isSurfOnly="False" minlevel="1" maxlevel="1">
-		</infBuild>
-		<infCustFX>
-			<icfxHQbasic/>
-			<icfxLSfood peopleSupport="0"/>
-			<icfxLSoxygen peopleSupport="0"/>
-			<icfxLSwater peopleSupport="0"/>
-		</infCustFX>
-		<infFunc infFunc="fHousing" pcap="0" qol="0"/>
-	</infra>
+   <!-- Colonization Shelter / Free Environment -->
+   <infra token="infrColShelt" environment="FE">
+      <infBuild construct="cConv" isSurfOnly="False" minlevel="1" maxlevel="1">
+      </infBuild>
+      <infCustFX>
+         <icfxHQbasic/>
+      </infCustFX>
+      <infFunc infFunc="fHousing" pcap="0" qol="0"/>
+   </infra>
+   <!-- Colonization Shelter / Restricted Environment -->
+   <infra token="infrColShelt" environment="RE">
+      <infBuild construct="cConv" isSurfOnly="False" minlevel="1" maxlevel="1">
+      </infBuild>
+      <infCustFX>
+         <icfxHQbasic/>
+      </infCustFX>
+      <infFunc infFunc="fHousing" pcap="0" qol="0"/>
+   </infra>
+   <!-- Colonization Shelter / Space Environment -->
+   <infra token="infrColShelt" environment="SE">
+      <infBuild construct="cConv" isSurfOnly="False" minlevel="1" maxlevel="1">
+      </infBuild>
+      <infCustFX>
+         <icfxHQbasic/>
+      </infCustFX>
+      <infFunc infFunc="fHousing" pcap="0" qol="0"/>
+   </infra>
    <!-- Houses Pack / Free Environment -->
    <infra token="infrHousesPack" environment="FE">
-		<infBuild construct="cBuilt" isSurfOnly="True" minlevel="2" maxlevel="2">
-			<ibSurf surflv2="336"/>
-			<ibVol vollv2="1350"/>
-			<ibBasePwr pwrlv2="6.41"/>
-			<ibVolMat volmatlv2="585"/>
-		</infBuild>
-		<infReq>
-			<irConstrMat>
-				<cmItem token="matConcrete" percent="98"/>
-				<cmItem token="matCarbComposites" percent="2"/>
-			</irConstrMat>
-			<irRegionSoil allowtype="rsrAnyExceptVolcanic"/>
-		</infReq>
-		<infFunc infFunc="fHousing" pcaplv2="12" qol="5"/>
-	</infra>
+      <infBuild construct="cBuilt" isSurfOnly="True" minlevel="2" maxlevel="2">
+         <ibSurf surflv2="336"/>
+         <ibVol vollv2="1350"/>
+         <ibBasePwr pwrlv2="6.41"/>
+         <ibVolMat volmatlv2="585"/>
+      </infBuild>
+      <infReq>
+         <irConstrMat>
+            <cmItem token="matConcrete" percent="98"/>
+            <cmItem token="matCarbComposites" percent="2"/>
+         </irConstrMat>
+         <irRegionSoil allowtype="rsrAnyNonVolcanic"/>
+      </infReq>
+      <infFunc infFunc="fHousing" pcaplv2="12" qol="5"/>
+   </infra>
    <!-- Houses Pack / Restricted Environment -->
    <infra token="infrHousesPack" environment="RE">
-		<infBuild construct="cBuilt" isSurfOnly="True" minlevel="2" maxlevel="2">
-			<ibSurf surflv2="324"/>
-			<ibVol vollv2="1350"/>
-			<ibBasePwr pwrlv2="9.03"/>
-			<ibVolMat volmatlv2="603"/>
-		</infBuild>
-		<infReq>
-			<irConstrMat>
-				<cmItem token="matConcrete" percent="97"/>
-				<cmItem token="matCarbComposites" percent="3"/>
-			</irConstrMat>
-			<irRegionSoil allowtype="rsrAnyExceptVolcanic"/>
-		</infReq>
-      <infCustFX>
-			<icfxLSoxygen peopleSupport="12"/>
-		</infCustFX>
-		<infFunc infFunc="fHousing" pcaplv2="12" qol="5"/>
-	</infra>
+      <infBuild construct="cBuilt" isSurfOnly="True" minlevel="2" maxlevel="2">
+         <ibSurf surflv2="324"/>
+         <ibVol vollv2="1350"/>
+         <ibBasePwr pwrlv2="9.03"/>
+         <ibVolMat volmatlv2="603"/>
+      </infBuild>
+      <infReq>
+         <irConstrMat>
+            <cmItem token="matConcrete" percent="97"/>
+            <cmItem token="matCarbComposites" percent="3"/>
+         </irConstrMat>
+         <irRegionSoil allowtype="rsrAnyNonVolcanic"/>
+      </infReq>
+      <infFunc infFunc="fHousing" pcaplv2="12" qol="5"/>
+   </infra>
    <!-- Inflatable Greenhouse / Free Environment -->
    <infra token="infrInflatGreen" environment="FE">
-		<infBuild construct="cPrefab" isSurfOnly="True" minlevel="1" maxlevel="3">
-			<ibSurf surflv1="54" surflv2="95" surflv3="113.1"/>
-			<ibVol vollv1="144" vollv2="348" vollv3="452"/>
-			<ibBasePwr pwrlv1="1.03" pwrlv2="1.81" pwrlv3="2.16"/>
-		</infBuild>
-		<infReq>
-			<irRegionSoil allowtype="rsrAnyExceptVolcanic"/>
-		</infReq>
-		<infCustFX>
-			<cfxProductStorage storlevel="1" storSolid="0" storLiquid="0.55" storGas="1.32" storBio="0.99"/>
-			<cfxProductStorage storlevel="2" storSolid="0" storLiquid="1.33" storGas="3.18" storBio="2.39"/>
-			<cfxProductStorage storlevel="3" storSolid="0" storLiquid="1.72" storGas="4.13" storBio="3.1"/>
-		</infCustFX>
-		<infFunc infFunc="fProduction">
-		</infFunc>
-	</infra>
+      <infBuild construct="cPrefab" isSurfOnly="True" minlevel="1" maxlevel="3">
+         <ibSurf surflv1="54" surflv2="95" surflv3="113.1"/>
+         <ibVol vollv1="144" vollv2="348" vollv3="452"/>
+         <ibBasePwr pwrlv1="1.03" pwrlv2="1.81" pwrlv3="2.16"/>
+      </infBuild>
+      <infReq>
+         <irRegionSoil allowtype="rsrAnyNonVolcanic"/>
+      </infReq>
+      <infCustFX>
+         <cfxProductStorage storlevel="1" storSolid="0" storLiquid="0.55" storGas="1.32" storBio="0.99"/>
+         <cfxProductStorage storlevel="2" storSolid="0" storLiquid="1.33" storGas="3.18" storBio="2.39"/>
+         <cfxProductStorage storlevel="3" storSolid="0" storLiquid="1.72" storGas="4.13" storBio="3.1"/>
+      </infCustFX>
+      <infFunc infFunc="fProduction">
+      </infFunc>
+   </infra>
    <!-- Inflatable Greenhouse / Restricted Environment -->
-	<infra token="infrInflatGreen" environment="RE">
-		<infBuild construct="cPrefab" isSurfOnly="True" minlevel="1" maxlevel="3">
-			<ibSurf surflv1="54" surflv2="95" surflv3="113.1"/>
-			<ibVol vollv1="144" vollv2="348" vollv3="452"/>
-			<ibBasePwr pwrlv1="1.5" pwrlv2="2.64" pwrlv3="3.15"/>
-		</infBuild>
-		<infReq>
-			<irRegionSoil allowtype="rsrAnyExceptVolcanic"/>
-		</infReq>
-		<infCustFX>
-			<cfxProductStorage storlevel="1" storSolid="0" storLiquid="0.5" storGas="1.2" storBio="0.9"/>
-			<cfxProductStorage storlevel="2" storSolid="0" storLiquid="1.2" storGas="2.89" storBio="2.17"/>
-			<cfxProductStorage storlevel="3" storSolid="0" storLiquid="0.9" storGas="3.76" storBio="2.82"/>
-		</infCustFX>
-		<infFunc infFunc="fProduction">
-		</infFunc>
-	</infra>
+   <infra token="infrInflatGreen" environment="RE">
+      <infBuild construct="cPrefab" isSurfOnly="True" minlevel="1" maxlevel="3">
+         <ibSurf surflv1="54" surflv2="95" surflv3="113.1"/>
+         <ibVol vollv1="144" vollv2="348" vollv3="452"/>
+         <ibBasePwr pwrlv1="1.5" pwrlv2="2.64" pwrlv3="3.15"/>
+      </infBuild>
+      <infReq>
+         <irRegionSoil allowtype="rsrAnyNonVolcanic"/>
+      </infReq>
+      <infCustFX>
+         <cfxProductStorage storlevel="1" storSolid="0" storLiquid="0.5" storGas="1.2" storBio="0.9"/>
+         <cfxProductStorage storlevel="2" storSolid="0" storLiquid="1.2" storGas="2.89" storBio="2.17"/>
+         <cfxProductStorage storlevel="3" storSolid="0" storLiquid="0.9" storGas="3.76" storBio="2.82"/>
+      </infCustFX>
+      <infFunc infFunc="fProduction">
+      </infFunc>
+   </infra>
    <!-- Inflatable Greenhouse / Space Environment -->
-	<infra token="infrInflatGreen" environment="SE">
-		<infBuild construct="cPrefab" isSurfOnly="True" minlevel="1" maxlevel="3">
-			<ibSurf surflv1="54" surflv2="95" surflv3="113.1"/>
-			<ibVol vollv1="144" vollv2="348" vollv3="452"/>
-			<ibBasePwr pwrlv1="2.21" pwrlv2="3.89" pwrlv3="4.64"/>
-		</infBuild>
-		<infReq>
-			<irRegionSoil allowtype="rsrAnyExceptVolcanic"/>
-		</infReq>
-		<infCustFX>
-			<cfxProductStorage storlevel="1" storSolid="0" storLiquid="0.46" storGas="1.11" storBio="0.84"/>
-			<cfxProductStorage storlevel="2" storSolid="0" storLiquid="1.12" storGas="2.69" storBio="2.02"/>
-			<cfxProductStorage storlevel="3" storSolid="0" storLiquid="1.46" storGas="3.5" storBio="2.62"/>
-		</infCustFX>
-		<infFunc infFunc="fProduction">
-		</infFunc>
-	</infra>
-	<!-- Inflatable Habitat / Free Environment -->
-	<infra token="infrInflatHab" environment="FE">
-		<infBuild construct="cPrefab" isSurfOnly="false" minlevel="1" maxlevel="4">
-			<ibSurf surflv1="24.5" surflv2="81" surflv3="162" surflv4="243"/>
-			<ibVol vollv1="107" vollv2="300" vollv3="600" vollv4="900"/>
-			<ibBasePwr pwrlv1="0.47" pwrlv2="1.55" pwrlv3="3.09" pwrlv4="4.64"/>
-		</infBuild>
-		<infReq>
-			<irRegionSoil allowtype="rsrAnyExceptVolcanic"/>
-		</infReq>
-		<infFunc infFunc="fHousing" pcaplv1="2" pcaplv2="6" pcaplv3="12" pcaplv4="18" qol="1"/>
-	</infra>
-	<!-- Inflatable Habitat / Restricted Environment -->
-	<infra token="infrInflatHab" environment="RE">
-		<infBuild construct="cPrefab" isSurfOnly="false" minlevel="1" maxlevel="4">
-			<ibSurf surflv1="23.5" surflv2="73" surflv3="154" surflv4="235"/>
-			<ibVol vollv1="107" vollv2="300" vollv3="600" vollv4="900"/>
-			<ibBasePwr pwrlv1="0.68" pwrlv2="2.26" pwrlv3="4.3" pwrlv4="6.56"/>
-		</infBuild>
-		<infReq>
-			<irRegionSoil allowtype="rsrAnyExceptVolcanic"/>
-		</infReq>
-		<infFunc infFunc="fHousing" pcaplv1="2" pcaplv2="6" pcaplv3="12" pcaplv4="18" qol="1"/>
-	</infra>
-	<!-- Inflatable Habitat / Space Environment -->
-	<infra token="infrInflatHab" environment="SE">
-		<infBuild construct="cPrefab" isSurfOnly="false" minlevel="1" maxlevel="4">
-			<ibSurf surflv1="23.5" surflv2="73" surflv3="154" surflv4="235"/>
-			<ibVol vollv1="107" vollv2="300" vollv3="600" vollv4="900"/>
-			<ibBasePwr pwrlv1="1" pwrlv2="3.33" pwrlv3="6.66" pwrlv4="9.99"/>
-		</infBuild>
-		<infReq>
-			<irRegionSoil allowtype="rsrAnyExceptVolcanic"/>
-		</infReq>
-		<infFunc infFunc="fHousing" pcaplv1="2" pcaplv2="6" pcaplv3="12" pcaplv4="18" qol="1"/>
-	</infra>
+   <infra token="infrInflatGreen" environment="SE">
+      <infBuild construct="cPrefab" isSurfOnly="True" minlevel="1" maxlevel="3">
+         <ibSurf surflv1="54" surflv2="95" surflv3="113.1"/>
+         <ibVol vollv1="144" vollv2="348" vollv3="452"/>
+         <ibBasePwr pwrlv1="2.21" pwrlv2="3.89" pwrlv3="4.64"/>
+      </infBuild>
+      <infReq>
+         <irRegionSoil allowtype="rsrAnyNonVolcanic"/>
+      </infReq>
+      <infCustFX>
+         <cfxProductStorage storlevel="1" storSolid="0" storLiquid="0.46" storGas="1.11" storBio="0.84"/>
+         <cfxProductStorage storlevel="2" storSolid="0" storLiquid="1.12" storGas="2.69" storBio="2.02"/>
+         <cfxProductStorage storlevel="3" storSolid="0" storLiquid="1.46" storGas="3.5" storBio="2.62"/>
+      </infCustFX>
+      <infFunc infFunc="fProduction">
+      </infFunc>
+   </infra>
+   <!-- Inflatable Habitat / Free Environment -->
+   <infra token="infrInflatHab" environment="FE">
+      <infBuild construct="cPrefab" isSurfOnly="false" minlevel="1" maxlevel="4">
+         <ibSurf surflv1="24.5" surflv2="81" surflv3="162" surflv4="243"/>
+         <ibVol vollv1="107" vollv2="300" vollv3="600" vollv4="900"/>
+         <ibBasePwr pwrlv1="0.47" pwrlv2="1.55" pwrlv3="3.09" pwrlv4="4.64"/>
+      </infBuild>
+      <infReq>
+         <irRegionSoil allowtype="rsrAnyNonVolcanic"/>
+      </infReq>
+      <infFunc infFunc="fHousing" pcaplv1="2" pcaplv2="6" pcaplv3="12" pcaplv4="18" qol="1"/>
+   </infra>
+   <!-- Inflatable Habitat / Restricted Environment -->
+   <infra token="infrInflatHab" environment="RE">
+      <infBuild construct="cPrefab" isSurfOnly="false" minlevel="1" maxlevel="4">
+         <ibSurf surflv1="23.5" surflv2="73" surflv3="154" surflv4="235"/>
+         <ibVol vollv1="107" vollv2="300" vollv3="600" vollv4="900"/>
+         <ibBasePwr pwrlv1="0.68" pwrlv2="2.26" pwrlv3="4.3" pwrlv4="6.56"/>
+      </infBuild>
+      <infReq>
+         <irRegionSoil allowtype="rsrAnyNonVolcanic"/>
+      </infReq>
+      <infFunc infFunc="fHousing" pcaplv1="2" pcaplv2="6" pcaplv3="12" pcaplv4="18" qol="1"/>
+   </infra>
+   <!-- Inflatable Habitat / Space Environment -->
+   <infra token="infrInflatHab" environment="SE">
+      <infBuild construct="cPrefab" isSurfOnly="false" minlevel="1" maxlevel="4">
+         <ibSurf surflv1="23.5" surflv2="73" surflv3="154" surflv4="235"/>
+         <ibVol vollv1="107" vollv2="300" vollv3="600" vollv4="900"/>
+         <ibBasePwr pwrlv1="1" pwrlv2="3.33" pwrlv3="6.66" pwrlv4="9.99"/>
+      </infBuild>
+      <infReq>
+         <irRegionSoil allowtype="rsrAnyNonVolcanic"/>
+      </infReq>
+      <infFunc infFunc="fHousing" pcaplv1="2" pcaplv2="6" pcaplv3="12" pcaplv4="18" qol="1"/>
+   </infra>
    <!-- Nuclear Fission Reactor / Any Environment -->
    <infra token="infrNucFissReactor" environment="ANY">
-		<infBuild construct="cPrefab" isSurfOnly="False" minlevel="1" maxlevel="4">
-			<ibSurf surflv1="12" surflv2="24" surflv3="48" surflv4="84"/>
-			<ibVol vollv1="23" vollv2="45" vollv3="89" vollv4="156"/>
-		</infBuild>
-		<infFunc infFunc="ifEnergy" emode="egmFission" fixedprodlv1="40" fixedprodlv1byDL="3.52" fixedprodlv2="64" fixedprodlv2byDL="5.63" fixedprodlv3="88" fixedprodlv3byDL="7.74" fixedprodlv4="112" fixedprodlv4byDL="9.86"/>
-	</infra>
+      <infBuild construct="cPrefab" isSurfOnly="False" minlevel="1" maxlevel="4">
+         <ibSurf surflv1="12" surflv2="24" surflv3="48" surflv4="84"/>
+         <ibVol vollv1="23" vollv2="45" vollv3="89" vollv4="156"/>
+      </infBuild>
+      <infFunc infFunc="ifEnergy" emode="egmFission" fixedprodlv1="40" fixedprodlv1byDL="3.52" fixedprodlv2="64" fixedprodlv2byDL="5.63" fixedprodlv3="88" fixedprodlv3byDL="7.74" fixedprodlv4="112" fixedprodlv4byDL="9.86"/>
+   </infra>
  </infrastructures>
