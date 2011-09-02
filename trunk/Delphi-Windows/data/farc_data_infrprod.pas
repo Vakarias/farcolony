@@ -145,11 +145,11 @@ const
    {:DEV NOTES: update infrastrucdb + FCMdF_DBInfra_Read.}
    type TFCEdipRegionSoilReq=(
       rsrAny
-      ,rsrAnyExceptVolcanic
+      ,rsrAnyNonVolcanic
       ,rsrAnyCoastal
-      ,rsrAnyCoastalExceptVolcanic
+      ,rsrAnyCoastalNonVolcanic
       ,rsrAnySterile
-      ,rsrFertile
+      ,rsrAnyFertile
       ,rsOceanic
       );
    {.requirement - resource spot}

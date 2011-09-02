@@ -679,6 +679,7 @@ end;
 procedure FCMdF_DBInfra_Read;
 {:Purpose: Read the infrastructure database xml file.
     Additions:
+      -2011Sep01- *mod: change some region soil requirement items.
       -2011Aug31- *mod: function Housing: put the population capacity by infrastructure level (because it depends on the size).
       -2011Jul17- *add: 2 custom effects: energy generation and energy storage.
       -2011Jul11- *add: base power.
@@ -861,16 +862,16 @@ begin
                      DBIRstr:=DBIRreqsub.Attributes['allowtype'];
                      if DBIRstr='rsrAny'
                      then FCDBinfra[DBIRcnt].I_reqRegionSoil:=rsrAny
-                     else if DBIRstr='rsrAnyExceptVolcanic'
-                     then FCDBinfra[DBIRcnt].I_reqRegionSoil:=rsrAnyExceptVolcanic
+                     else if DBIRstr='rsrAnyNonVolcanic'
+                     then FCDBinfra[DBIRcnt].I_reqRegionSoil:=rsrAnyNonVolcanic
                      else if DBIRstr='rsrAnyCoastal'
                      then FCDBinfra[DBIRcnt].I_reqRegionSoil:=rsrAnyCoastal
-                     else if DBIRstr='rsrAnyCoastalExceptVolcanic'
-                     then FCDBinfra[DBIRcnt].I_reqRegionSoil:=rsrAnyCoastalExceptVolcanic
+                     else if DBIRstr='rsrAnyCoastalNonVolcanic'
+                     then FCDBinfra[DBIRcnt].I_reqRegionSoil:=rsrAnyCoastalNonVolcanic
                      else if DBIRstr='rsrAnySterile'
                      then FCDBinfra[DBIRcnt].I_reqRegionSoil:=rsrAnySterile
-                     else if DBIRstr='rsrFertile'
-                     then FCDBinfra[DBIRcnt].I_reqRegionSoil:=rsrFertile
+                     else if DBIRstr='rsrAnyFertile'
+                     then FCDBinfra[DBIRcnt].I_reqRegionSoil:=rsrAnyFertile
                      else if DBIRstr='rsOceanic'
                      then FCDBinfra[DBIRcnt].I_reqRegionSoil:=rsOceanic;
                   end
