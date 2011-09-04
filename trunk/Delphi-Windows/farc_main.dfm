@@ -11668,4 +11668,11 @@ object FCWinMain: TFCWinMain
     Top = 72
     DOMVendorDesc = 'MSXML'
   end
+  object FCXMLdbTechnosciences: TXMLDocument
+    NodeIndentStr = '   '
+    Options = [doNodeAutoIndent, doAttrNull, doAutoPrefix, doNamespaceDecl]
+    Left = 296
+    Top = 72
+    DOMVendorDesc = 'MSXML'
+  end
 end

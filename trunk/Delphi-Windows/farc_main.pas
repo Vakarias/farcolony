@@ -296,6 +296,7 @@ type
     HTMLCheckBox1: THTMLCheckBox;
     FCWM_IPconfirmButton: TAdvGlowButton;
     FCWM_IPinfraKits: THTMLRadioGroup;
+    FCXMLdbTechnosciences: TXMLDocument;
       procedure FormCreate(Sender: TObject);
       procedure FormResize(Sender: TObject);
       procedure FCWM_MMenu_G_QuitClick(Sender: TObject);
