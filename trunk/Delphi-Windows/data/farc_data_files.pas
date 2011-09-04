@@ -95,6 +95,11 @@ procedure FCMdF_DBstarSys_Process(
    );
 
 ///<summary>
+///   load the technosciences database
+///</summary>
+procedure FCMdF_DBTechnosciences_Load;
+
+///<summary>
 ///   load the current game
 ///</summary>
 procedure FCMdF_Game_Load;
@@ -2677,6 +2682,393 @@ begin
    end; {.if DBSSPaction=sspStarSys}
    {.disable}
 	FCWinMain.FCXMLdbUniv.Active:=false;
+end;
+
+procedure FCMdF_DBTechnosciences_Load;
+{:Purpose: load the technosciences database.
+    Additions:
+}
+begin
+//   FCXMLdbTechnosciences
+//   var
+//   DBIRcnt
+//   ,DBIRcustFXcnt
+//   ,DBIRlevel
+//   ,DBIRpmodeCnt
+//   ,DBIRreqCMatCnt
+//   ,DBIRsizeCnt: integer;
+//
+//   DBIRstr: string;
+//
+//   DBIRnode
+//   ,DBIRconstMat
+//   ,DBIRcustFX
+//   ,DBIRpmode
+//   ,DBIRreqsub
+//   ,DBIRsizeN
+//   ,DBIRsubN: IXMLnode;
+//begin
+//   {.clear the data structure}
+//   FCDBinfra:=nil;
+//   SetLength(FCDBinfra, 1);
+//   DBIRcnt:=1;
+//   {.read the document}
+//	FCWinMain.FCXMLdbInfra.FileName:=FCVpathXML+'\env\infrastrucdb.xml';
+//	FCWinMain.FCXMLdbInfra.Active:=true;
+//	DBIRnode:=FCWinMain.FCXMLdbInfra.DocumentElement.ChildNodes.First;
+//	while DBIRnode<>nil do
+//	begin
+//      if DBIRnode.NodeName<>'#comment'
+//      then
+//      begin
+//         SetLength(FCDBinfra, length(FCDBinfra)+1);
+//         FCDBinfra[DBIRcnt].I_token:=DBIRnode.Attributes['token'];
+//         DBIRstr:=DBIRnode.Attributes['environment'];
+//         if DBIRstr='ANY'
+//         then FCDBinfra[DBIRcnt].I_environment:=envAny
+//         else if DBIRstr='FE'
+//         then FCDBinfra[DBIRcnt].I_environment:=freeLiving
+//         else if DBIRstr='RE'
+//         then FCDBinfra[DBIRcnt].I_environment:=restrict
+//         else if DBIRstr='SE'
+//         then FCDBinfra[DBIRcnt].I_environment:=space;
+//         DBIRsubN:=DBIRnode.ChildNodes.First;
+//         while DBIRsubN<>nil do
+//         begin
+//            if DBIRsubN.NodeName='infBuild'
+//            then
+//            begin
+//               DBIRstr:=DBIRsubN.Attributes['construct'];
+//               if DBIRstr='cBuilt'
+//               then FCDBinfra[DBIRcnt].I_constr:=cBuilt
+//               else if DBIRstr='cPrefab'
+//               then FCDBinfra[DBIRcnt].I_constr:=cPrefab
+//               else if DBIRstr='cConv'
+//               then FCDBinfra[DBIRcnt].I_constr:=cConv;
+//               FCDBinfra[DBIRcnt].I_isSurfOnly:=DBIRsubN.Attributes['isSurfOnly'];
+//               FCDBinfra[DBIRcnt].I_minLevel:=DBIRsubN.Attributes['minlevel'];
+//               FCDBinfra[DBIRcnt].I_maxLevel:=DBIRsubN.Attributes['maxlevel'];
+//               DBIRsizeN:=DBIRsubN.ChildNodes.First;
+//               while DBIRsizeN<>nil do
+//               begin
+//                  if DBIRsizeN.NodeName='ibSurf'
+//                  then
+//                  begin
+//                     DBIRsizeCnt:=FCDBinfra[DBIRcnt].I_minLevel;
+//                     while DBIRsizeCnt<=FCDBinfra[DBIRcnt].I_maxLevel do
+//                     begin
+//                        FCDBinfra[DBIRcnt].I_surface[DBIRsizeCnt]:=DBIRsizeN.Attributes['surflv'+IntToStr(DBIRsizeCnt)];
+//                        inc(DBIRsizeCnt);
+//                     end;
+//                  end
+//                  else if DBIRsizeN.NodeName='ibVol'
+//                  then
+//                  begin
+//                     DBIRsizeCnt:=FCDBinfra[DBIRcnt].I_minLevel;
+//                     while DBIRsizeCnt<=FCDBinfra[DBIRcnt].I_maxLevel do
+//                     begin
+//                        FCDBinfra[DBIRcnt].I_volume[DBIRsizeCnt]:=DBIRsizeN.Attributes['vollv'+IntToStr(DBIRsizeCnt)];
+//                        inc(DBIRsizeCnt);
+//                     end;
+//                  end
+//                  else if DBIRsizeN.NodeName='ibBasePwr'
+//                  then
+//                  begin
+//                     DBIRsizeCnt:=FCDBinfra[DBIRcnt].I_minLevel;
+//                     while DBIRsizeCnt<=FCDBinfra[DBIRcnt].I_maxLevel do
+//                     begin
+//                        FCDBinfra[DBIRcnt].I_basePwr[DBIRsizeCnt]:=DBIRsizeN.Attributes['pwrlv'+IntToStr(DBIRsizeCnt)];
+//                        inc(DBIRsizeCnt);
+//                     end;
+//                  end
+//                  else if DBIRsizeN.NodeName='ibVolMat'
+//                  then
+//                  begin
+//                     DBIRsizeCnt:=FCDBinfra[DBIRcnt].I_minLevel;
+//                     while DBIRsizeCnt<=FCDBinfra[DBIRcnt].I_maxLevel do
+//                     begin
+//                        FCDBinfra[DBIRcnt].I_surface[DBIRsizeCnt]:=DBIRsizeN.Attributes['volmatlv'+IntToStr(DBIRsizeCnt)];
+//                        inc(DBIRsizeCnt);
+//                     end;
+//                  end;
+//                  DBIRsizeN:=DBIRsizeN.NextSibling;
+//               end; //==END== while DBIRsizeN<>nil do ==//
+//            end //==END== if DBIRsubN.NodeName='infBuild' ==//
+//            else if DBIRsubN.NodeName='infReq'
+//            then
+//            begin
+//               DBIRreqsub:=DBIRsubN.ChildNodes.First;
+//               while DBIRreqsub<>nil do
+//               begin
+//                  if DBIRreqsub.NodeName='irHydro'
+//                  then
+//                  begin
+//                     DBIRstr:=DBIRreqsub.Attributes['hydrotype'];
+//                     if DBIRstr='hrAny'
+//                     then FCDBinfra[DBIRcnt].I_reqHydro:=hrAny
+//                     else if DBIRstr='hrLiquid_LiquidNH3'
+//                     then FCDBinfra[DBIRcnt].I_reqHydro:=hrLiquid_LiquidNH3
+//                     else if DBIRstr='hrNone'
+//                     then FCDBinfra[DBIRcnt].I_reqHydro:=hrNone
+//                     else if DBIRstr='hrVapour'
+//                     then FCDBinfra[DBIRcnt].I_reqHydro:=hrVapour
+//                     else if DBIRstr='hrLiquid'
+//                     then FCDBinfra[DBIRcnt].I_reqHydro:=hrLiquid
+//                     else if DBIRstr='hrIceSheet'
+//                     then FCDBinfra[DBIRcnt].I_reqHydro:=hrIceSheet
+//                     else if DBIRstr='hrCrystal'
+//                     then FCDBinfra[DBIRcnt].I_reqHydro:=hrCrystal
+//                     else if DBIRstr='hrLiquidNH3'
+//                     then FCDBinfra[DBIRcnt].I_reqHydro:=hrLiquidNH3
+//                     else if DBIRstr='hrCH4'
+//                     then FCDBinfra[DBIRcnt].I_reqHydro:=hrCH4;
+//                  end
+//                  else if DBIRreqsub.NodeName='irConstrMat'
+//                  then
+//                  begin
+//                     SetLength(FCDBinfra[DBIRcnt].I_reqConstrMat, 1);
+//                     DBIRreqCMatCnt:=0;
+//                     DBIRconstMat:=DBIRreqsub.ChildNodes.First;
+//                     while DBIRconstMat<>nil do
+//                     begin
+//                        inc(DBIRreqCMatCnt);
+//                        SetLength(FCDBinfra[DBIRcnt].I_reqConstrMat, DBIRreqCMatCnt+1);
+//                        FCDBinfra[DBIRcnt].I_reqConstrMat[DBIRreqCMatCnt].RCM_token:=DBIRconstMat.Attributes['token'];
+//                        FCDBinfra[DBIRcnt].I_reqConstrMat[DBIRreqCMatCnt].RCM_percent:=DBIRconstMat.Attributes['percent'];
+//                        DBIRconstMat:=DBIRconstMat.NextSibling;
+//                     end;
+//                  end
+//                  else if DBIRreqsub.NodeName='irRegionSoil'
+//                  then
+//                  begin
+//                     DBIRstr:=DBIRreqsub.Attributes['allowtype'];
+//                     if DBIRstr='rsrAny'
+//                     then FCDBinfra[DBIRcnt].I_reqRegionSoil:=rsrAny
+//                     else if DBIRstr='rsrAnyNonVolcanic'
+//                     then FCDBinfra[DBIRcnt].I_reqRegionSoil:=rsrAnyNonVolcanic
+//                     else if DBIRstr='rsrAnyCoastal'
+//                     then FCDBinfra[DBIRcnt].I_reqRegionSoil:=rsrAnyCoastal
+//                     else if DBIRstr='rsrAnyCoastalNonVolcanic'
+//                     then FCDBinfra[DBIRcnt].I_reqRegionSoil:=rsrAnyCoastalNonVolcanic
+//                     else if DBIRstr='rsrAnySterile'
+//                     then FCDBinfra[DBIRcnt].I_reqRegionSoil:=rsrAnySterile
+//                     else if DBIRstr='rsrAnyFertile'
+//                     then FCDBinfra[DBIRcnt].I_reqRegionSoil:=rsrAnyFertile
+//                     else if DBIRstr='rsOceanic'
+//                     then FCDBinfra[DBIRcnt].I_reqRegionSoil:=rsOceanic;
+//                  end
+//                  else if DBIRreqsub.NodeName='irRsrcSpot'
+//                  then
+//                  begin
+//                     DBIRstr:=DBIRreqsub.Attributes['spottype'];
+//                     if DBIRstr='rssrN_A'
+//                     then FCDBinfra[DBIRcnt].I_reqRsrcSpot:=rssrN_A
+//                     else if DBIRstr='rssrany'
+//                     then FCDBinfra[DBIRcnt].I_reqRsrcSpot:=rssrany
+//                     else if DBIRstr='rssrMetalIcyRareMetCarbRadOre'
+//                     then FCDBinfra[DBIRcnt].I_reqRsrcSpot:=rssrMetalIcyRareMetCarbRadOre;
+//                  end
+//                  else if DBIRreqsub.NodeName='irTechSci'
+//                  then
+//                  begin
+//                     DBIRstr:=DBIRreqsub.Attributes['sector'];
+//                     if DBIRstr='rsNone'
+//                     then FCDBinfra[DBIRcnt].I_reqTechSci.RTS_sector:=rsNone
+//                     else if DBIRstr='rsAerospaceEng'
+//                     then FCDBinfra[DBIRcnt].I_reqTechSci.RTS_sector:=rsAerospaceEng
+//                     else if DBIRstr='rsBiogenetics'
+//                     then FCDBinfra[DBIRcnt].I_reqTechSci.RTS_sector:=rsBiogenetics
+//                     else if DBIRstr='rsEcosciences'
+//                     then FCDBinfra[DBIRcnt].I_reqTechSci.RTS_sector:=rsEcosciences
+//                     else if DBIRstr='rsIndustrialTech'
+//                     then FCDBinfra[DBIRcnt].I_reqTechSci.RTS_sector:=rsIndustrialTech
+//                     else if DBIRstr='rsMedicine'
+//                     then FCDBinfra[DBIRcnt].I_reqTechSci.RTS_sector:=rsMedicine
+//                     else if DBIRstr='rsNanotech'
+//                     then FCDBinfra[DBIRcnt].I_reqTechSci.RTS_sector:=rsNanotech
+//                     else if DBIRstr='rsPhysics'
+//                     then FCDBinfra[DBIRcnt].I_reqTechSci.RTS_sector:=rsPhysics;
+//                     FCDBinfra[DBIRcnt].I_reqTechSci.RTS_token:=DBIRreqsub.Attributes['token'];
+//                  end;
+//                  DBIRreqsub:=DBIRreqsub.NextSibling;
+//               end; //==END== while DBIRreqsub<>nil do ==//
+//            end //==END== else if DBIRsubN.NodeName='infReq' ==//
+//            else if DBIRsubN.NodeName='infCustFX'
+//            then
+//            begin
+//               SetLength(FCDBinfra[DBIRcnt].I_customFx, 1);
+//               DBIRcustFXcnt:=0;
+//               DBIRcustFX:=DBIRsubN.ChildNodes.First;
+//               while DBIRcustFX<>nil do
+//               begin
+//                  inc(DBIRcustFXcnt);
+//                  SetLength(FCDBinfra[DBIRcnt].I_customFx, DBIRcustFXcnt+1);
+//                  if DBIRcustFX.NodeName='icfxEnergyGen'
+//                  then
+//                  begin
+//                     FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_customEffect:=cfxEnergyGen;
+//
+//                     DBIRstr:=DBIRsubN.Attributes['genMode'];
+//                     if DBIRstr='egmAntimatter'
+//                     then FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_enGenMode.FEPM_productionModes:=egmAntimatter
+//                     else if DBIRstr='egmFission'
+//                     then
+//                     begin
+//                        FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_enGenMode.FEPM_productionModes:=egmFission;
+//                        DBIRsizeCnt:=FCDBinfra[DBIRcnt].I_minLevel;
+//                        while DBIRsizeCnt<=FCDBinfra[DBIRcnt].I_maxLevel do
+//                        begin
+//                           FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_enGenMode.FEPM_fissionFPlvl[DBIRsizeCnt]:=DBIRsubN.Attributes['fixedprodlv'+IntToStr(DBIRsizeCnt)];
+//                           FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_enGenMode.FEPM_fissionFPlvlByDL[DBIRsizeCnt]:=DBIRsubN.Attributes['fixedprodlv'+IntToStr(DBIRsizeCnt)+'byDL'];
+//                           inc(DBIRsizeCnt);
+//                        end;
+//                     end
+//                     else if DBIRstr='egmFusionDT'
+//                     then FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_enGenMode.FEPM_productionModes:=egmFusionDT
+//                     else if DBIRstr='egmFusionH2'
+//                     then FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_enGenMode.FEPM_productionModes:=egmFusionH2
+//                     else if DBIRstr='egmFusionHe3'
+//                     then FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_enGenMode.FEPM_productionModes:=egmFusionHe3
+//                     else if DBIRstr='egmPhoton'
+//                     then
+//                     begin
+//                        FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_enGenMode.FEPM_productionModes:=egmPhoton;
+//                        FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_enGenMode.FEPM_photonArea:=DBIRsubN.Attributes['area'];
+//                        FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_enGenMode.FEPM_photonEfficiency:=DBIRsubN.Attributes['efficiency'];
+//                     end;
+//                  end
+//                  else if DBIRcustFX.NodeName='cfxEnergyStor'
+//                  then
+//                  begin
+//                     FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_customEffect:=cfxEnergyStor;
+//                     DBIRlevel:=DBIRcustFX.Attributes['storlevel'];
+//                     FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_enStorLvl[DBIRlevel]:=DBIRcustFX.Attributes['storCapacity'];
+//                  end
+//                  else if DBIRcustFX.NodeName='icfxHQbasic'
+//                  then FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_customEffect:=cfxHQPrimary
+//                  else if DBIRcustFX.NodeName='icfxHQSecondary'
+//                  then FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_customEffect:=cfxHQbasic
+//                  else if DBIRcustFX.NodeName='icfxHQPrimary'
+//                  then FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_customEffect:=cfxHQSecondary
+//                  else if DBIRcustFX.NodeName='cfxProductStorage'
+//                  then
+//                  begin
+//                     FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_customEffect:=cfxProductStorage;
+//                     DBIRlevel:=DBIRcustFX.Attributes['storlevel'];
+//                     FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_prodStorageLvl[DBIRlevel].IPS_solid:=DBIRcustFX.Attributes['storSolid'];
+//                     FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_prodStorageLvl[DBIRlevel].IPS_liquid:=DBIRcustFX.Attributes['storLiquid'];
+//                     FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_prodStorageLvl[DBIRlevel].IPS_gas:=DBIRcustFX.Attributes['storGas'];
+//                     FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_prodStorageLvl[DBIRlevel].IPS_biologic:=DBIRcustFX.Attributes['storBio'];
+//                  end;
+//                  DBIRcustFX:=DBIRcustFX.NextSibling;
+//               end; //==END== while DBIRcustFX<>nil do ==//
+//            end //==END== else if DBIRsubN.NodeName='infCustFX' ==//
+//            else if DBIRsubN.NodeName='infFunc'
+//            then
+//            begin
+//               DBIRstr:=DBIRsubN.Attributes['infFunc'];
+//               if DBIRstr='fEnergy'
+//               then
+//               begin
+//                  FCDBinfra[DBIRcnt].I_function:=fEnergy;
+//                  DBIRstr:=DBIRsubN.Attributes['emode'];
+//                  if DBIRstr='egmAntimatter'
+//                  then FCDBinfra[DBIRcnt].I_fEnergyPmode.FEPM_productionModes:=egmAntimatter
+//						else if DBIRstr='egmFission'
+//                  then
+//                  begin
+//                     FCDBinfra[DBIRcnt].I_fEnergyPmode.FEPM_productionModes:=egmFission;
+//                     DBIRsizeCnt:=FCDBinfra[DBIRcnt].I_minLevel;
+//                     while DBIRsizeCnt<=FCDBinfra[DBIRcnt].I_maxLevel do
+//                     begin
+//                        FCDBinfra[DBIRcnt].I_fEnergyPmode.FEPM_fissionFPlvl[DBIRsizeCnt]:=DBIRsubN.Attributes['fixedprodlv'+IntToStr(DBIRsizeCnt)];
+//                        FCDBinfra[DBIRcnt].I_fEnergyPmode.FEPM_fissionFPlvlByDL[DBIRsizeCnt]:=DBIRsubN.Attributes['fixedprodlv'+IntToStr(DBIRsizeCnt)+'byDL'];
+//                        inc(DBIRsizeCnt);
+//                     end;
+//                  end
+//						else if DBIRstr='egmFusionDT'
+//                  then FCDBinfra[DBIRcnt].I_fEnergyPmode.FEPM_productionModes:=egmFusionDT
+//						else if DBIRstr='egmFusionH2'
+//                  then FCDBinfra[DBIRcnt].I_fEnergyPmode.FEPM_productionModes:=egmFusionH2
+//						else if DBIRstr='egmFusionHe3'
+//                  then FCDBinfra[DBIRcnt].I_fEnergyPmode.FEPM_productionModes:=egmFusionHe3
+//                  else if DBIRstr='egmPhoton'
+//                  then
+//                  begin
+//                     FCDBinfra[DBIRcnt].I_fEnergyPmode.FEPM_productionModes:=egmPhoton;
+//                     FCDBinfra[DBIRcnt].I_fEnergyPmode.FEPM_photonArea:=DBIRsubN.Attributes['area'];
+//                     FCDBinfra[DBIRcnt].I_fEnergyPmode.FEPM_photonEfficiency:=DBIRsubN.Attributes['efficiency'];
+//                  end;
+//               end
+//               else if DBIRstr='fHousing'
+//               then
+//               begin
+//                  FCDBinfra[DBIRcnt].I_function:=fHousing;
+//                  if FCDBinfra[DBIRcnt].I_constr<>cConv then
+//                  begin
+//                     DBIRsizeCnt:=FCDBinfra[DBIRcnt].I_minLevel;
+//                     while DBIRsizeCnt<=FCDBinfra[DBIRcnt].I_maxLevel do
+//                     begin
+//                        FCDBinfra[DBIRcnt].I_fHousPopulationCap[DBIRsizeCnt]:=DBIRsubN.Attributes['pcaplv'+IntToStr(DBIRsizeCnt)];
+//                        inc(DBIRsizeCnt);
+//                     end;
+//                  end;
+//                  FCDBinfra[DBIRcnt].I_fHousQualityOfLife:=DBIRsubN.Attributes['qol'];
+//               end
+//               else if DBIRstr='fIntelligence'
+//               then FCDBinfra[DBIRcnt].I_function:=fIntelligence
+//               else if DBIRstr='fMiscellaneous'
+//               then FCDBinfra[DBIRcnt].I_function:=fMiscellaneous
+//               else if DBIRstr='fProduction'
+//               then
+//               begin
+//                  FCDBinfra[DBIRcnt].I_function:=fProduction;
+//                  DBIRpmode:=DBIRsubN.ChildNodes.First;
+//                  DBIRpmodeCnt:=1;
+//                  while DBIRpmodeCnt<=FCCpModeMax do
+//                  begin
+//                     FCDBinfra[DBIRcnt].I_fProductionMode[DBIRpmodeCnt].IPM_productionModes:=pmNone;
+//                     FCDBinfra[DBIRcnt].I_fProductionMode[DBIRpmodeCnt].IPM_roofArea:=0;
+//                     FCDBinfra[DBIRcnt].I_fProductionMode[DBIRpmodeCnt].IPM_trapArea:=0;
+//                     inc(DBIRpmodeCnt);
+//                  end;
+//                  DBIRpmodeCnt:=0;
+//                  while DBIRpmode<>nil do
+//                  begin
+//                     inc(DBIRpmodeCnt);
+//                     DBIRstr:=DBIRpmode.Attributes['pmode'];
+//                     if DBIRstr='pmCarbonaceousOreRefining'
+//                     then FCDBinfra[DBIRcnt].I_fProductionMode[DBIRpmodeCnt].IPM_productionModes:=pmCarbonaceousOreRefining
+//                     else if DBIRstr='pmHumidityGathering'
+//                     then
+//                     begin
+//                        FCDBinfra[DBIRcnt].I_fProductionMode[DBIRpmodeCnt].IPM_productionModes:=pmHumidityGathering;
+//                        FCDBinfra[DBIRcnt].I_fProductionMode[DBIRpmodeCnt].IPM_roofArea:=DBIRpmode.Attributes['roofArea'];
+//                        FCDBinfra[DBIRcnt].I_fProductionMode[DBIRpmodeCnt].IPM_trapArea:=DBIRpmode.Attributes['trapArea'];
+//                     end
+//                     else if DBIRstr='pmMetallicOreRefining'
+//                     then FCDBinfra[DBIRcnt].I_fProductionMode[DBIRpmodeCnt].IPM_productionModes:=pmMetallicOreRefining
+//                     else if DBIRstr='pmRadioactiveOreRefining'
+//                     then FCDBinfra[DBIRcnt].I_fProductionMode[DBIRpmodeCnt].IPM_productionModes:=pmRadioactiveOreRefining
+//                     else if DBIRstr='pmRareMetalsOreRefining'
+//                     then FCDBinfra[DBIRcnt].I_fProductionMode[DBIRpmodeCnt].IPM_productionModes:=pmRareMetalsOreRefining
+//                     else if DBIRstr='pmResourceMining'
+//                     then FCDBinfra[DBIRcnt].I_fProductionMode[DBIRpmodeCnt].IPM_productionModes:=pmResourceMining
+//                     else if DBIRstr='pmWaterElectrolysis'
+//                     then FCDBinfra[DBIRcnt].I_fProductionMode[DBIRpmodeCnt].IPM_productionModes:=pmWaterElectrolysis;
+//                     DBIRpmode:=DBIRpmode.NextSibling;
+//                  end;
+//               end;
+//            end; //==END== else if DBIRsubN.NodeName='infFunc' ==//
+//            DBIRsubN:=DBIRsubN.NextSibling;
+//         end; //==END== while DBIRsubN<>nil do ==//
+//         inc(DBIRcnt);
+//      end; //==END== if DBIRnode.NodeName<>'#comment' ==//
+//      DBIRnode:=DBIRnode.NextSibling;
+//   end; //==END== while DBIRnode<>nil ==//
+//   {.disable}
+//	FCWinMain.FCXMLdbInfra.Active:=false;
+//end;
 end;
 
 procedure FCMdF_Game_Load;

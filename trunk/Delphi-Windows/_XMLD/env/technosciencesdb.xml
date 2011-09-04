@@ -1,0 +1,42 @@
+<!-- Technosciences Database -->
+<!-- 
+   {.research sectors}
+   [rsector]
+      rsNone
+      rsAerospaceEng
+      rsBiogenetics
+      rsEcosciences
+      rsIndustrialTech
+      rsMedicine
+      rsNanotech
+      rsPhysics
+   
+   {.research types}
+   [type]
+      rtBasicTech
+      rtPureTheory
+      rtExpResearch
+      rtCompleteResearch
+
+   //level / difficulty aren't read
+   <tsci token="" rsector="" level="" type="" difficulty="">
+      <prereq token="" importance=""/>
+   </tsci>
+-->
+<technosciences>
+   <!-- Aerospace Engineering - Inflatable Habitats -->
+   <tsci token="tsciInflatHabitat" rsector="rsAerospaceEng" level="--" type="rtCompleteResearch" difficulty="">
+   </tsci>
+   <!-- Industrial Tech - Alloys -->
+   <tsci token="tsciAlloys" rsector="rsIndustrialTech" level="1" type="rtBasicTech" difficulty="">
+   </tsci>
+   <!-- Industrial Tech - Chemical Engineering -->
+   <tsci token="tsciChemEng" rsector="rsIndustrialTech" level="1" type="rtBasicTech" difficulty="">
+   </tsci>
+   <!-- Industrial Tech - Composite Materials -->
+   <tsci token="tsciComposMat" rsector="rsIndustrialTech" level="2" type="rtExpResearch" difficulty="">
+   </tsci>
+   <!-- Physics - Nuclear Fission -->
+   <tsci token="tsciNucFission" rsector="rsPhysics" level="1" type="rtBasicTech" difficulty="">
+   </tsci>
+</technosciences>
