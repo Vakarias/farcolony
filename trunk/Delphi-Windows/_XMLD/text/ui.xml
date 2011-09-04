@@ -27,6 +27,7 @@
 		********** SPM **********
 		********** STAR CLASSES **********
 		********** SURFACE / ECOSPHERE PANEL **********
+		********** TECHNOSCIENCES **********
 		********** TIME FRAME **********
 		********** UMI **********
 		#********** DESIGN NAMES **********
@@ -1064,6 +1065,10 @@
 		<EN>Inflatable Habitat</EN>
 		<FR>Habitat Gonflable</FR>
 	</infrInflatHab>
+	<infrMultiDepot>
+		<EN>Multipurpose Depot</EN>
+		<FR>Entrepôt Multifonction</FR>
+	</infrMultiDepot>
    <infrNucFissReactor>
       <EN>Nuclear Fission Reactor</EN>
       <FR>Réacteur à Fission Nucléaire</FR>
@@ -2683,6 +2688,27 @@
 		<EN>Permanent Danger</EN>
 		<FR>Danger Permanent</FR>
 	</wspdIdx7>
+	<!-- ********** TECHNOSCIENCES ********** -->
+   <tsciAlloys>
+      <EN>Alloys</EN>
+      <FR>Alliages</FR>
+   </tsciAlloys>
+   <tsciChemEng>
+      <EN>Chemical Engineering</EN>
+      <FR>Ingénieurie Chimique</FR>
+   </tsciChemEng>
+   <tsciComposMat>
+      <EN>Composite Materials</EN>
+      <FR>Matériaux Composites</FR>
+   </tsciComposMat>
+   <tsciInflatHabitat>
+      <EN>Inflatable Habitats<EN>
+      <FR>Habitats Gonflables</FR>
+   </tsciInflatHabitat>
+   <tsciNucFission>
+      <EN>Nuclear Fission</EN>
+      <FR>Fission Nucléaire</FR>
+   </tsciNucFission>
 	<!-- ********** TIME FRAME ********** -->
 	<TimeF1st>
 		<EN>st</EN>

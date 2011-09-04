@@ -6,6 +6,7 @@
       ********** INFRASTRUCTURES **********
 		********** PRODUCTS **********
 		********** SPM **********
+		********** TECHNOSCIENCES **********
 		********** UNIVERSE **********
 		********** TOPICS/DEFINITIONS **********
 -->
@@ -103,6 +104,10 @@
       <EN></EN>
       <FR></FR>
    </infrInflatHab>
+	<infrMultiDepot>
+		<EN></EN>
+		<FR></FR>
+	</infrMultiDepot>
    <infrNucFissReactor>
       <EN></EN>
       <EN></EN>
@@ -395,6 +400,27 @@
       <EN></EN>
       <FR></FR>
    </spmRoot>
+	<!-- ********** TECHNOSCIENCES ********** -->
+   <tsciAlloys>
+      <EN></EN>
+      <FR></FR>
+   </tsciAlloys>
+   <tsciChemEng>
+      <EN></EN>
+      <FR></FR>
+   </tsciChemEng>
+   <tsciComposMat>
+      <EN></EN>
+      <FR></FR>
+   </tsciComposMat>
+   <tsciInflatHabitat>
+      <EN><EN>
+      <FR></FR>
+   </tsciInflatHabitat>
+   <tsciNucFission>
+      <EN></EN>
+      <FR></FR>
+   </tsciNucFission>
    <!-- ********** UNIVERSE ********** -->
    <univAlbedo>
       <EN>Albedo is the &#60;b&#62;rate of reflection&#60;/b&#62; of the star's rays by the orbital object.&#60;br&#62; More this one have an &#60;b&#62;high albedo&#60;/b&#62;, more it &#60;b&#62;will reflect the rays &#60;/b&#62; of it's star to the space, and less the soil will have to absorb heat.&#60;br&#62; The &#60;b&#62;nature of the ground&#60;/b&#62; influence directly the albedo, for example &#60;b&#62;a great glacial zone will strongly reflect the rays&#60;/b&#62;.&#60;br&#62;&#60;br&#62;&#60;b&#62;&#60;hi&#62;Example&#60;/b&#62;: &#60;b&#62;Venus&#60;/b&#62; has an &#60;b&#62;albedo of 0.72&#60;/b&#62; that's to say 72%.</EN>
@@ -437,6 +463,7 @@
       <hintitem link="infrHousesPack" title="Infrastructure: Houses Pack"/>
       <hintitem link="infrInflatGreen" title="Infrastructure: Inflatable Greenhouse"/>
       <hintitem link="infrInflatHab" title="Infrastructure: Inflatable Habitat"/>
+      <hintitem link="infrMultiDepot" title="Infrastructure: Multipurpose Depot"/>
       <hintitem link="infrNucFissReactor" title="Infrastructure: Nuclear Fission Reactor"/>
       <hintitem link="spmRoot" title="SPM: Socio-Political Matrix"/>
       <hintitem link="spmPolicies" title="SPM: Policies"/>
@@ -509,6 +536,11 @@
       <hintitem link="matSWNT" title="Product: Single-Walled Nanotubes (SWNT)"/>
       <hintitem link="matSteel" title="Product: Steel"/>
       <hintitem link="matTitanium" title="Product: Titanium"/>
+		<hintitem link="tsciAlloys" title="Technoscience: Alloys"/>
+      <hintitem link="tsciChemEng" title="Technoscience: Chemical Engineering"/>
+      <hintitem link="tsciComposMat" title="Technoscience: Composite Materials"/>
+      <hintitem link="tsciInflatHabitat" title="Technoscience: Inflatable Habitats"/>
+      <hintitem link="tsciNucFission" title="Technoscience: Nuclear Fission"/>
       <hintitem link="univAlbedo" title="Universe: Albedo"/>
       <hintitem link="univAU" title="Universe: Astronomical Unit (AU)"/>
       <hintitem link="univDis" title="Universe: Distance"/>
@@ -531,6 +563,7 @@
       <hintitem link="csmevUprising" title="Evènement CSM: Révolte"/>
       <hintitem link="csmevUnrest" title="Evènement CSM: Troubles"/>
       <hintitem link="infrColShelt" title="Infrastructure: Abris de Colonisation"/>
+		<hintitem link="infrMultiDepot" title="Infrastructure: Entrepôt Multifonction"/>
       <hintitem link="infrInflatHab" title="Infrastructure: Habitat Gonflable"/>
       <hintitem link="infrHousesPack" title="Infrastructure: Pack de Maisons"/>
       <hintitem link="infrNucFissReactor" title="Infrastructure: Réacteur à Fission Nucléaire"/>
@@ -607,6 +640,11 @@
       <hintitem link="matSilicon" title="Produit: Silicone (Si)"/>
       <hintitem link="matTitanium" title="Produit: Titane"/>
       <hintitem link="univAlbedo" title="Univers: Albédo"/>
+		<hintitem link="tsciAlloys" title="Technoscience: Alliages"/>
+      <hintitem link="tsciNucFission" title="Technoscience: Fission Nucléaire"/>
+      <hintitem link="tsciInflatHabitat" title="Technoscience: Habitats Gonflables"/>
+      <hintitem link="tsciChemEng" title="Technoscience: Ingénieurie Chimique"/>
+      <hintitem link="tsciComposMat" title="Technoscience: Materiaux Composites"/>
       <hintitem link="univDis" title="Univers: Distance"/>
       <hintitem link="univEccOO" title="Univers: Eccentricité (Objet Orbital)"/>
       <hintitem link="univStarTemp" title="Univers: Température d'Étoile"/>
