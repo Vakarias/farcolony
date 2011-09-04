@@ -308,6 +308,144 @@
       </infReq>
       <infFunc infFunc="fHousing" pcaplv1="2" pcaplv2="6" pcaplv3="12" pcaplv4="18" qol="1"/>
    </infra>
+   <!-- Multipurpose Depot / Free Environment -->
+   <infra token="infrMultiDepot" environment="">
+      <infBuild construct="cPrefab" isSurfOnly="" minlevel="" maxlevel="">
+         //for cConv do not use these 3 lines
+         //for the rest use only the infrastructure's level range parameters
+         <ibSurf surflv1="" surflv2="" surflv3="" surflv4="" surflv5="" surflv6="" surflv7=""/>
+         <ibVol vollv1="" vollv2="" vollv3="" vollv4="" vollv5="" vollv6="" vollv7=""/>
+         //if the infrastructure doesn't consume power and/or generate power don't use this line
+         <ibBasePwr pwrlv1="" pwrlv2="" pwrlv3="" pwrlv4="" pwrlv5="" pwrlv6="" pwrlv7=""/>
+         
+         //for cBuilt use only:
+         <ibVolMat volmatlv1="" volmatlv2="" volmatlv3="" volmatlv4="" volmatlv5="" volmatlv6="" volmatlv7=""/>
+         //for cPrefab/cConv do not put this line at all
+      </infBuild>
+      <infReq>
+         //only if >hrAny
+         <irHydro hydrotype=""/>
+         //for cBuild ONLY
+         <irConstrMat>
+            <cmItem token="" percent=""/>
+         </irConstrMat>
+         //only if >rsrAny
+         <irRegionSoil allowtype=""/>
+         //only if >rssrN_A
+         <irRsrcSpot spottype=""/>
+         //for cBuild ONLY
+         <irTechSci sector="" token=""/>
+      </infReq>
+      <infCustFX>
+         (
+            //antimatter
+            <icfxEnergyGen genMode="egmAntimatter"/>
+            //nuclear fission - only use the infrastructure's level range
+            <icfxEnergyGen genMode="egmFission" fixedprodlv1="" fixedprodlv1byDL="" fixedprodlv2="" fixedprodlv2byDL="" fixedprodlv3="" fixedprodlv3byDL="" fixedprodlv4="" fixedprodlv4byDL="" fixedprodlv5="" fixedprodlv5byDL="" fixedprodlv6="" fixedprodlv6byDL="" fixedprodlv7="" fixedprodlv7byDL=""/>
+            //nuclear fusion DT
+            <icfxEnergyGen genMode="egmFusionDT"/>
+            //nuclear fusion H2
+            <icfxEnergyGen genMode="egmFusionH2"/>
+            //nuclear fusion He-3
+            <icfxEnergyGen genMode="egmFusionHe3"/>
+            //Photonic Energy
+            <icfxEnergyGen genMode="egmPhoton" area="" efficiency=""/>
+         )
+         <cfxEnergyStor storlevel="" storCapacity=""/>
+         <icfxHQbasic/>
+         <icfxHQprimary/>
+         <icfxHQsecondary/>
+         <cfxProductStorage storlevel="" storSolid="" storLiquid="" storGas="" storBio=""/>
+      </infCustFX>
+      //ifEnergy
+      //antimatter
+      <infFunc infFunc="ifEnergy" emode="egmAntimatter"/>
+      //nuclear fission - only use the infrastructure's level range
+      <infFunc infFunc="ifEnergy" emode="egmFission" fixedprodlv1="" fixedprodlv1byDL="" fixedprodlv2="" fixedprodlv2byDL="" fixedprodlv3="" fixedprodlv3byDL="" fixedprodlv4="" fixedprodlv4byDL="" fixedprodlv5="" fixedprodlv5byDL="" fixedprodlv6="" fixedprodlv6byDL="" fixedprodlv7="" fixedprodlv7byDL=""/>
+      //nuclear fusion DT
+      <infFunc infFunc="ifEnergy" emode="egmFusionDT"/>
+      //nuclear fusion H2
+      <infFunc infFunc="ifEnergy" emode="egmFusionH2"/>
+      //nuclear fusion He-3
+      <infFunc infFunc="ifEnergy" emode="egmFusionHe3"/>
+      //Photonic Energy
+      <infFunc infFunc="ifEnergy" emode="egmPhoton" area="" efficiency=""/>
+      //ifHousing EXCEPTED cConv
+      <infFunc infFunc="fHousing" pcaplv1="" pcaplv2="" pcaplv3="" pcaplv4="" pcaplv5="" pcaplv6="" pcaplv7="" qol=""/> 
+      //for cConv ONLY
+      <infFunc infFunc="fHousing" pcap="0" qol="0"/>
+      //ifIntelligence
+      <infFunc infFunc="fIntelligence"/>
+      //ifMiscellaneous
+      <infFunc infFunc="fMiscellaneous"/>
+      //ifProduction
+      <infFunc infFunc="fProduction">
+         <ifProdMode pmode="pmCarbonaceousOreRefining"/>
+         <ifProdMode pmode="pmHumidityGathering" roofArea="" trapArea=""/>
+         <ifProdMode pmode="pmMetallicOreRefining"/>
+         <ifProdMode pmode="pmRadioactiveOreRefining"/>
+         <ifProdMode pmode="pmRareMetalsOreRefining"/>
+         <ifProdMode pmode="pmResourceMining"/>
+         <ifProdMode pmode="pmWaterElectrolysis"/>
+      </infFunc>
+   </infra>
+	<!-- Multipurpose Depot - Free Environment -->
+   <infra token="infrMultiDepot" environment="FE">
+      <infBuild construct="cPrefab" isSurfOnly="false" minlevel="1" maxlevel="5">
+         <ibSurf surflv1="77" surflv2="266" surflv3="490" surflv4="893" surflv5="1113"/>
+         <ibVol vollv1="288" vollv2="1800" vollv3="3240" vollv4="5760" vollv5="7128"/>
+         <ibBasePwr pwrlv1="1.47" pwrlv2="5.08" pwrlv3="9.36" pwrlv4="17.06" pwrlv5="21.26"/>
+      </infBuild>
+      <infReq>
+         <irRegionSoil allowtype="rsrAnyNonVolcanic"/>
+      </infReq>
+      <infCustFX>
+         <cfxProductStorage storlevel="1" storSolid="102.67" storLiquid="0" storGas="17.11" storBio="51.33"/>
+         <cfxProductStorage storlevel="2" storSolid="886.66" storLiquid="0" storGas="147.78" storBio="443.33"/>
+         <cfxProductStorage storlevel="3" storSolid="1633.32" storLiquid="0" storGas="272.22" storBio="816.66"/>
+         <cfxProductStorage storlevel="4" storSolid="2976.64" storLiquid="0" storGas="496.11" storBio="1488.32"/>
+         <cfxProductStorage storlevel="5" storSolid="3709.96" storLiquid="0" storGas="618.33" storBio="1854.98"/>
+      </infCustFX>
+      <infFunc infFunc="fMiscellaneous"/>
+   </infra>
+   <!-- Multipurpose Depot - Restricted Environment -->
+   <infra token="infrMultiDepot" environment="RE">
+      <infBuild construct="cPrefab" isSurfOnly="false" minlevel="1" maxlevel="5">
+         <ibSurf surflv1="61" surflv2="250" surflv3="474" surflv4="877" surflv5="1097"/>
+         <ibVol vollv1="288" vollv2="1800" vollv3="3240" vollv4="5760" vollv5="7128"/>
+         <ibBasePwr pwrlv1="2.15" pwrlv2="7.42" pwrlv3="13.67" pwrlv4="24.91" pwrlv5="31.05"/>
+      </infBuild>
+      <infReq>
+         <irRegionSoil allowtype="rsrAnyNonVolcanic"/>
+      </infReq>
+      <infCustFX>
+         <cfxProductStorage storlevel="1" storSolid="81.33" storLiquid="0" storGas="13.56" storBio="40.67"/>
+         <cfxProductStorage storlevel="2" storSolid="833.33" storLiquid="0" storGas="138.89" storBio="416.66"/>
+         <cfxProductStorage storlevel="3" storSolid="1579.98" storLiquid="0" storGas="263.33" storBio="789.99"/>
+         <cfxProductStorage storlevel="4" storSolid="2923.30" storLiquid="0" storGas="487.22" storBio="1461.65"/>
+         <cfxProductStorage storlevel="5" storSolid="3656.63" storLiquid="0" storGas="609.44" storBio="1828.32"/>
+      </infCustFX>
+      <infFunc infFunc="fMiscellaneous"/>
+   </infra>
+   <!-- Multipurpose Depot - Space Environment -->
+   <infra token="infrMultiDepot" environment="SE">
+      <infBuild construct="cPrefab" isSurfOnly="false" minlevel="1" maxlevel="5">
+         <ibSurf surflv1="61" surflv2="250" surflv3="474" surflv4="877" surflv5="1097"/>
+         <ibVol vollv1="288" vollv2="1800" vollv3="3240" vollv4="5760" vollv5="7128"/>
+         <ibBasePwr pwrlv1="3.16" pwrlv2="10.93" pwrlv3="20.14" pwrlv4="36.7" pwrlv5="45.74"/>
+      </infBuild>
+      <infReq>
+         <irRegionSoil allowtype="rsrAnyNonVolcanic"/>
+      </infReq>
+      <infCustFX>
+         <cfxProductStorage storlevel="1" storSolid="81.33" storLiquid="0" storGas="11.48" storBio="34.44"/>
+         <cfxProductStorage storlevel="2" storSolid="833.33" storLiquid="0" storGas="117.64" storBio="352.91"/>
+         <cfxProductStorage storlevel="3" storSolid="1579.98" storLiquid="0" storGas="223.04" storBio="669.12"/>
+         <cfxProductStorage storlevel="4" storSolid="2923.30" storLiquid="0" storGas="412.67" storBio="1238.02"/>
+         <cfxProductStorage storlevel="5" storSolid="3656.63" storLiquid="0" storGas="516.19" storBio="1548.58"/>
+      </infCustFX>
+      <infFunc infFunc="fMiscellaneous"/>
+   </infra>
    <!-- Nuclear Fission Reactor / Any Environment -->
    <infra token="infrNucFissReactor" environment="ANY">
       <infBuild construct="cPrefab" isSurfOnly="False" minlevel="1" maxlevel="4">
