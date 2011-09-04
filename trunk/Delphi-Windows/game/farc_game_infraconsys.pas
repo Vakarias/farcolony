@@ -704,6 +704,7 @@ procedure FCMgICS_FunctionsInit(
    );
 {:Purpose: initialize the infrastructure functions data for assembling/building modes.
     Additions:
+      -2011Sep03- *add: for fHousing, add the level in determination of the population capacity.
       -2011Jul18- *add: complete the fEnergy case.
 }
 begin
@@ -717,7 +718,7 @@ begin
 
       fHousing:
       begin
-         FCentities[FIent].E_col[FIcol].COL_settlements[FIsett].CS_infra[FIinfra].CI_fhousPCAP:=FIinfraData.I_fHousPopulationCap;
+         FCentities[FIent].E_col[FIcol].COL_settlements[FIsett].CS_infra[FIinfra].CI_fhousPCAP:=FIinfraData.I_fHousPopulationCap[FCentities[FIent].E_col[FIcol].COL_settlements[FIsett].CS_infra[FIinfra].CI_level];
          FCentities[FIent].E_col[FIcol].COL_settlements[FIsett].CS_infra[FIinfra].CI_fhousQOL:=FIinfraData.I_fHousQualityOfLife;
          FCentities[FIent].E_col[FIcol].COL_settlements[FIsett].CS_infra[FIinfra].CI_fhousVol:=0;
          FCentities[FIent].E_col[FIcol].COL_settlements[FIsett].CS_infra[FIinfra].CI_fhousSurf:=0;
