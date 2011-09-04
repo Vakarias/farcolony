@@ -44,6 +44,9 @@ procedure FCMgPS2_ProductionSegment_Process(
 
 implementation
 
+uses
+   farc_data_game;
+
 //===================================================END OF INIT============================
 //===========================END FUNCTIONS SECTION==========================================
 
@@ -54,8 +57,20 @@ procedure FCMgPS2_ProductionSegment_Process(
 {:Purpose:  segment 2 (items production) processing.
     Additions:
 }
+   var
+      PSPprodMatrixCnt
+      ,PSPprodMatrixMax: integer;
 begin
+   PSPprodMatrixMax:=length(FCEntities[PSPent].E_col[PSPcol].COL_productionMatrix)-1;
+   if PSPprodMatrixMax>0 then
+   begin
+      PSPprodMatrixCnt:=1;
+      while PSPprodMatrixCnt<=PSPprodMatrixMax do
+      begin
 
+         inc(PSPprodMatrixCnt);
+      end;
+   end;
 end;
 
 end.
