@@ -4,7 +4,7 @@
 		********** CSM **********
 		********** FACTIONS **********
       ********** INFRASTRUCTURES **********
-		********** PRODUCTS **********
+      ********** PRODUCTS **********
 		********** SPM **********
 		********** TECHNOSCIENCES **********
 		********** UNIVERSE **********
@@ -157,6 +157,26 @@
       <EN></EN>
       <FR></FR>
    </equipHandTools>
+   <equipMultiDepot1>
+      <EN></EN>
+      <FR></FR>
+   </equipMultiDepot1>
+   <equipMultiDepot2>
+      <EN></EN>
+      <FR></FR>
+   </equipMultiDepot2>
+   <equipMultiDepot3>
+      <EN></EN>
+      <FR></FR>
+   </equipMultiDepot3>
+   <equipMultiDepot4>
+      <EN></EN>
+      <FR></FR>
+   </equipMultiDepot4>
+   <equipMultiDepot5>
+      <EN></EN>
+      <FR></FR>
+   </equipMultiDepot5>
    <equipPowerTools>
       <EN></EN>
       <FR></FR>
@@ -524,6 +544,11 @@
       <hintitem link="bioFruitsVeg" title="Product: Fruits &amp; Vegetables"/>
       <hintitem link="equipHandTools" title="Product: Hand Tools"/>
       <hintitem link="matMWNT" title="Product: Multi-Walled Nanotubes (MWNT)"/>
+      <hintitem link="equipMultiDepot1" title="Product: Multipurpose Depot Level 1"/>
+      <hintitem link="equipMultiDepot2" title="Product: Multipurpose Depot Level 2"/>
+      <hintitem link="equipMultiDepot3" title="Product: Multipurpose Depot Level 3"/>
+      <hintitem link="equipMultiDepot4" title="Product: Multipurpose Depot Level 4"/>
+      <hintitem link="equipMultiDepot5" title="Product: Multipurpose Depot Level 5"/>
       <hintitem link="matNanocomposites" title="Product: Nanocomposites"/>
       <hintitem link="energNucFisRsm" title="Product: Nuclear Fission Reactor (small)"/>
       <hintitem link="energNucFisRmed" title="Product: Nuclear Fission Reactor (medium)"/>
@@ -536,7 +561,7 @@
       <hintitem link="matSWNT" title="Product: Single-Walled Nanotubes (SWNT)"/>
       <hintitem link="matSteel" title="Product: Steel"/>
       <hintitem link="matTitanium" title="Product: Titanium"/>
-		<hintitem link="tsciAlloys" title="Technoscience: Alloys"/>
+      <hintitem link="tsciAlloys" title="Technoscience: Alloys"/>
       <hintitem link="tsciChemEng" title="Technoscience: Chemical Engineering"/>
       <hintitem link="tsciComposMat" title="Technoscience: Composite Materials"/>
       <hintitem link="tsciInflatHabitat" title="Technoscience: Inflatable Habitats"/>
@@ -621,6 +646,11 @@
       <hintitem link="resNH3" title="Produit: Ammoniac"/>
       <hintitem link="matConcrete" title="Produit: Béton"/>
       <hintitem link="matCarbComposites" title="Produit: Composites de Carbone"/>
+      <hintitem link="equipMultiDepot1" title="Produit: Entrepôt Multifonction Niveau 1"/>
+      <hintitem link="equipMultiDepot2" title="Produit: Entrepôt Multifonction Niveau 2"/>
+      <hintitem link="equipMultiDepot3" title="Produit: Entrepôt Multifonction Niveau 3"/>
+      <hintitem link="equipMultiDepot4" title="Produit: Entrepôt Multifonction Niveau 4"/>
+      <hintitem link="equipMultiDepot5" title="Produit: Entrepôt Multifonction Niveau 5"/>
       <hintitem link="equipConstrExo" title="Produit: Exowalkers de Construction"/>
       <hintitem link="bioFruitsVeg" title="Produit: Fruits &amp; Légumes"/>
       <hintitem link="energNucPellets" title="Produit: Granules Nucléaires"/>

@@ -21,7 +21,7 @@
 		********** NEW GAME SETUP WINDOW **********
 		********** ORBITAL OBJECTS TYPES **********
 		********** POPUP MENU - FOCUSED OBJECT *******
-		********** PRODUCTS *******
+      ********** PRODUCTS *******
 		********** SPACE UNIT ARCHITECTURE **********
 		********** SPACE UNIT OVERALL **********
 		********** SPM **********
@@ -1057,23 +1057,23 @@
 		<EN>Houses Pack</EN>
 		<FR>Pack de Maisons</FR>
 	</infrHousesPack>
-	<infrInflatGreen>
-		<EN>Inflatable Greenhouse</EN>
-		<FR>Serre Gonflable</FR>
-	</infrInflatGreen>
-	<infrInflatHab>
-		<EN>Inflatable Habitat</EN>
-		<FR>Habitat Gonflable</FR>
-	</infrInflatHab>
-	<infrMultiDepot>
-		<EN>Multipurpose Depot</EN>
-		<FR>Entrepôt Multifonction</FR>
-	</infrMultiDepot>
+   <infrInflatGreen>
+      <EN>Inflatable Greenhouse</EN>
+      <FR>Serre Gonflable</FR>
+   </infrInflatGreen>
+   <infrInflatHab>
+      <EN>Inflatable Habitat</EN>
+      <FR>Habitat Gonflable</FR>
+   </infrInflatHab>
+   <infrMultiDepot>
+      <EN>Multipurpose Depot</EN>
+      <FR>Entrepôt Multifonction</FR>
+   </infrMultiDepot>
    <infrNucFissReactor>
       <EN>Nuclear Fission Reactor</EN>
       <FR>Réacteur à Fission Nucléaire</FR>
    </infrNucFissReactor>
-	<!-- ********** MAIN 3D VIEW FRAME ******* -->
+   <!-- ********** MAIN 3D VIEW FRAME ******* -->
 	<FCWM_3dMainGrp.Upd>
 		<EN>Updating...</EN>
 		<FR>Mise à Jour...</FR>
@@ -1779,10 +1779,30 @@
       <EN>Inflatable Greenhouse (large)</EN>
       <FR>Serre Gonflable (large)</FR>
    </equipInflatGreenLg>
-	<equipInflatGreenXL>
+   <equipInflatGreenXL>
       <EN>Inflatable Greenhouse (xlarge)</EN>
       <FR>Serre Gonflable (xlarge)</FR>
    </equipInflatGreenXL>
+   <equipMultiDepot1>
+      <EN>Multipurpose Depot Level 1</EN>
+      <FR>Entrepôt Multifonction Niveau 1</FR>
+   </equipMultiDepot1>
+   <equipMultiDepot2>
+      <EN>Multipurpose Depot Level 2</EN>
+      <FR>Entrepôt Multifonction Niveau 2</FR>
+   </equipMultiDepot2>
+   <equipMultiDepot3>
+      <EN>Multipurpose Depot Level 3</EN>
+      <FR>Entrepôt Multifonction Niveau 3</FR>
+   </equipMultiDepot3>
+   <equipMultiDepot4>
+      <EN>Multipurpose Depot Level 4</EN>
+      <FR>Entrepôt Multifonction Niveau 4</FR>
+   </equipMultiDepot4>
+   <equipMultiDepot5>
+      <EN>Multipurpose Depot Level 5</EN>
+      <FR>Entrepôt Multifonction Niveau 5</FR>
+   </equipMultiDepot5>
    <equipPowerTools>
       <EN>Power Tools</EN>
       <FR>Outils Electriques</FR>
