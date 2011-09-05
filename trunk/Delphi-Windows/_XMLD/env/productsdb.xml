@@ -1,90 +1,90 @@
 ﻿<!-- Products Database -->
 <!--
-	{.product classes}
-	[class]
-		prclResource
-		prcEnergyRelItem
-		prcMaterial
-		prcBioproduct
-		prcEquipment
-		
-	{.storage type}
-	[storage]
-		stSolid
-		stLiquid
-		stGas
-		stBiologic
-		
-	{.product functions}
-	[function]
-		prfuBuildingMat
-		prfuEnergyGeneration
-		prfuFood
-		prfuInfraKit
-		prfuManConstruction
-		prfuManufacturingMat
-		prfuMechConstruction
-		prfuMultipurposeMat
-		prfuOxygen
-		prfuSpaceMat
-		prfuWater
-		
-	{.product corrosive classes}
-	[corrosiveidx]
-		prciDpoor
-		prciCfair
-		prciBgood
-		prciAexcellent
-		
-	{.research sectors}
-	[sector]
-		rsNone
-		rsAerospaceEng
-		rsBiogenetics
-		rsEcosciences
-		rsIndustrialTech
-		rsMedicine
-		rsNanotech
-		rsPhysics
-		
-	<product token="" class="" storage="" cargo="" volbyunit="" massbyunit="">
-		{case function specific data}
-		<function token="prfuBuildingMat" tensilestr="" tsbylevel="" youngmodulus="" ymbylevel="" thermalprot="" reflectivity="" corrosiveclass=""/>
-		<function token="prfuEnergyGeneration"/>
-		<function token="prfuFood" foodpoint=""/>
-		<function token="prfuInfraKit" infratoken="" infralevel=""/>
-		<function token="prfuManConstruction" wcpcoef=""/>
-		<function token="prfuManufacturingMat"/>
-		<function token="prfuMechConstruction" wcp="" crew=""/>
-		<function token="prfuMultipurposeMat" tensilestr="" tsbylevel="" youngmodulus="" ymbylevel="" thermalprot="" reflectivity="" corrosiveclass=""/>
-		<function token="prfuOxygen" oxypoint=""/>
-		<function token="prfuSpaceMat" tensilestr="" tsbylevel="" youngmodulus="" ymbylevel="" thermalprot="" reflectivity="" corrosiveclass=""/>
-		<function token="prfuWater" waterpoint=""/>
-		<techsci sector="" token=""/>
-		<tags>
-			<hazEnv/>
-			<hazFire/>
-			<hazRad/>
-			<hazToxic/>
-		</tags>
-	</product>
+   {.product classes}
+   [class]
+      prclResource
+      prcEnergyRelItem
+      prcMaterial
+      prcBioproduct
+      prcEquipment
+      
+   {.storage type}
+   [storage]
+      stSolid
+      stLiquid
+      stGas
+      stBiologic
+      
+   {.product functions}
+   [function]
+      prfuBuildingMat
+      prfuEnergyGeneration
+      prfuFood
+      prfuInfraKit
+      prfuManConstruction
+      prfuManufacturingMat
+      prfuMechConstruction
+      prfuMultipurposeMat
+      prfuOxygen
+      prfuSpaceMat
+      prfuWater
+      
+   {.product corrosive classes}
+   [corrosiveidx]
+      prciDpoor
+      prciCfair
+      prciBgood
+      prciAexcellent
+      
+   {.research sectors}
+   [sector]
+      rsNone
+      rsAerospaceEng
+      rsBiogenetics
+      rsEcosciences
+      rsIndustrialTech
+      rsMedicine
+      rsNanotech
+      rsPhysics
+      
+   <product token="" class="" storage="" cargo="" volbyunit="" massbyunit="">
+      {case function specific data}
+      <function token="prfuBuildingMat" tensilestr="" tsbylevel="" youngmodulus="" ymbylevel="" thermalprot="" reflectivity="" corrosiveclass=""/>
+      <function token="prfuEnergyGeneration"/>
+      <function token="prfuFood" foodpoint=""/>
+      <function token="prfuInfraKit" infratoken="" infralevel=""/>
+      <function token="prfuManConstruction" wcpcoef=""/>
+      <function token="prfuManufacturingMat"/>
+      <function token="prfuMechConstruction" wcp="" crew=""/>
+      <function token="prfuMultipurposeMat" tensilestr="" tsbylevel="" youngmodulus="" ymbylevel="" thermalprot="" reflectivity="" corrosiveclass=""/>
+      <function token="prfuOxygen" oxypoint=""/>
+      <function token="prfuSpaceMat" tensilestr="" tsbylevel="" youngmodulus="" ymbylevel="" thermalprot="" reflectivity="" corrosiveclass=""/>
+      <function token="prfuWater" waterpoint=""/>
+      <techsci sector="" token=""/>
+      <tags>
+         <hazEnv/>
+         <hazFire/>
+         <hazRad/>
+         <hazToxic/>
+      </tags>
+   </product>
 -->
 <productsDB>
-	<!-- Ammonia (NH3) - Resource -->
-	<product token="resNH3" class="prclResource" storage="stLiquid" cargo="" volbyunit="1" massbyunit="0.676">
-		<tags>
-			<hazToxic/>
-		</tags>
-	</product>
-	<!-- Argon (Ar) - Resource -->
-	<product token="resAr" class="prclResource" storage="stGas" cargo="" volbyunit="1" massbyunit="1.449">
-		<tags>
-			<hazToxic/>
-		</tags>
-	</product>
-	<!-- Carbonaceous Ore - Resource -->
-	<product token="resCarbOre" class="prclResource" storage="stSolid" cargo="" volbyunit="1" massbyunit="3">
-	</product>
+   <!-- Ammonia (NH3) - Resource -->
+   <product token="resNH3" class="prclResource" storage="stLiquid" cargo="" volbyunit="1" massbyunit="0.676">
+      <tags>
+         <hazToxic/>
+      </tags>
+   </product>
+   <!-- Argon (Ar) - Resource -->
+   <product token="resAr" class="prclResource" storage="stGas" cargo="" volbyunit="1" massbyunit="1.449">
+      <tags>
+         <hazToxic/>
+      </tags>
+   </product>
+   <!-- Carbonaceous Ore - Resource -->
+   <product token="resCarbOre" class="prclResource" storage="stSolid" cargo="" volbyunit="1" massbyunit="3">
+   </product>
 	<!-- Hydrogen (H2) - Resource -->
 	<product token="resH2" class="prclResource" storage="stGas" cargo="" volbyunit="1" massbyunit="0.071">
 		<tags>
@@ -255,35 +255,60 @@
 		<function token="prfuFood" foodpoint="1037"/>
 		<techsci sector="rsNone" token=""/>
 	</product>
-	<!-- Construction Exowalkers - Equipment -->
-	<product token="equipConstrExo" class="prcEquipment" storage="stSolid" cargo="" volbyunit="40" massbyunit="12">
-		<function token="prfuMechConstruction" wcp="15" crew="4"/>
-	</product>
-	<!-- Hand Tools -Equipment -->
-	<product token="equipHandTools" class="prcEquipment" storage="stSolid" cargo="" volbyunit="0.002" massbyunit="0.002">
-		<function token="prfuManConstruction" wcpcoef="0.67"/>
-	</product>
-	<!-- Inflatable Greenhouse - Equipment -->
-	<product token="equipInflatGreen" class="prcEquipment" storage="stSolid" cargo="" volbyunit="112" massbyunit="13.664">
-		<function token="prfuInfraKit" infratoken="infrInflatGreen" infralevel="1"/>
-		<techsci sector="rsAerospaceEng" token="tsciInflatHabitat"/>
-	</product>
-	<!-- Inflatable Greenhouse (large) - Equipment -->
-	<product token="equipInflatGreenLg" class="prcEquipment" storage="stSolid" cargo="" volbyunit="137" massbyunit="16.714">
-		<function token="prfuInfraKit" infratoken="infrInflatGreen" infralevel="2"/>
-		<techsci sector="rsAerospaceEng" token="tsciInflatHabitat"/>
-	</product>
-	<!-- Inflatable Greenhouse (xlarge) - Equipment -->
-	<product token="equipInflatGreenXL" class="prcEquipment" storage="stSolid" cargo=""	volbyunit="177" massbyunit="21.594">
-		<function token="prfuInfraKit" infratoken="infrInflatGreen" infralevel="3"/>
-		<techsci sector="rsAerospaceEng" token="tsciInflatHabitat"/>
-	</product>
-	<!-- Power Tools - Equipment -->
-	<product token="equipPowerTools" class="prcEquipment" storage="stSolid" cargo="" volbyunit="0.004" massbyunit="0.004">
-		<function token="prfuManConstruction" wcpcoef="1"/>
-	</product>
-	<!-- Advanced Tools - Equipment -->
-	<product token="equipAdvTools" class="prcEquipment" storage="stSolid" cargo="" volbyunit="0.004" massbyunit="0.004">
-		<function token="prfuManConstruction" wcpcoef="1.25"/>
-	</product>
+   <!-- Construction Exowalkers - Equipment -->
+   <product token="equipConstrExo" class="prcEquipment" storage="stSolid" cargo="" volbyunit="40" massbyunit="12">
+      <function token="prfuMechConstruction" wcp="15" crew="4"/>
+   </product>
+   <!-- Hand Tools -Equipment -->
+   <product token="equipHandTools" class="prcEquipment" storage="stSolid" cargo="" volbyunit="0.002" massbyunit="0.002">
+      <function token="prfuManConstruction" wcpcoef="0.67"/>
+   </product>
+   <!-- Inflatable Greenhouse - Equipment -->
+   <product token="equipInflatGreen" class="prcEquipment" storage="stSolid" cargo="" volbyunit="112" massbyunit="13.664">
+      <function token="prfuInfraKit" infratoken="infrInflatGreen" infralevel="1"/>
+      <techsci sector="rsAerospaceEng" token="tsciInflatHabitat"/>
+   </product>
+   <!-- Inflatable Greenhouse (large) - Equipment -->
+   <product token="equipInflatGreenLg" class="prcEquipment" storage="stSolid" cargo="" volbyunit="137" massbyunit="16.714">
+      <function token="prfuInfraKit" infratoken="infrInflatGreen" infralevel="2"/>
+      <techsci sector="rsAerospaceEng" token="tsciInflatHabitat"/>
+   </product>
+   <!-- Inflatable Greenhouse (xlarge) - Equipment -->
+   <product token="equipInflatGreenXL" class="prcEquipment" storage="stSolid" cargo=""	volbyunit="177" massbyunit="21.594">
+      <function token="prfuInfraKit" infratoken="infrInflatGreen" infralevel="3"/>
+      <techsci sector="rsAerospaceEng" token="tsciInflatHabitat"/>
+   </product>
+   <!-- Multipurpose Depot Level 1 - Equipment -->
+   <product token="equipMultiDepot1" class="prcEquipment" storage="stSolid" cargo="" volbyunit="16.97" massbyunit="38.013">
+      <function token="prfuInfraKit" infratoken="infrMultiDepot" infralevel="1"/>
+      <techsci sector="rsIndustrialTech" token="tsciAlloys"/>
+   </product>
+   <!-- Multipurpose Depot Level 2 - Equipment -->
+   <product token="equipMultiDepot2" class="prcEquipment" storage="stSolid" cargo="" volbyunit="42.426" massbyunit="95.034">
+      <function token="prfuInfraKit" infratoken="infrMultiDepot" infralevel="2"/>
+      <techsci sector="rsIndustrialTech" token="tsciAlloys"/>
+   </product>
+   <!-- Multipurpose Depot Level 3 - Equipment -->
+   <product token="equipMultiDepot3" class="prcEquipment" storage="stSolid" cargo="" volbyunit="56.92" massbyunit="127.501">
+      <function token="prfuInfraKit" infratoken="infrMultiDepot" infralevel="3"/>
+      <techsci sector="rsIndustrialTech" token="tsciAlloys"/>
+   </product>
+   <!-- Multipurpose Depot Level 4 - Equipment -->
+   <product token="equipMultiDepot4" class="prcEquipment" storage="stSolid" cargo="" volbyunit="75.894" massbyunit="170.003">
+      <function token="prfuInfraKit" infratoken="infrMultiDepot" infralevel="4"/>
+      <techsci sector="rsIndustrialTech" token="tsciAlloys"/>
+   </product>
+   <!-- Multipurpose Depot Level 5 - Equipment -->
+   <product token="equipMultiDepot5" class="prcEquipment" storage="stSolid" cargo="" volbyunit="84.427" massbyunit="189.116">
+      <function token="prfuInfraKit" infratoken="infrMultiDepot" infralevel="5"/>
+      <techsci sector="rsIndustrialTech" token="tsciAlloys"/>
+   </product>
+   <!-- Power Tools - Equipment -->
+   <product token="equipPowerTools" class="prcEquipment" storage="stSolid" cargo="" volbyunit="0.004" massbyunit="0.004">
+      <function token="prfuManConstruction" wcpcoef="1"/>
+   </product>
+   <!-- Advanced Tools - Equipment -->
+   <product token="equipAdvTools" class="prcEquipment" storage="stSolid" cargo="" volbyunit="0.004" massbyunit="0.004">
+      <function token="prfuManConstruction" wcpcoef="1.25"/>
+   </product>
 </productsDB>
