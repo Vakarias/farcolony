@@ -41,6 +41,7 @@ interface
    //=======================================================================================
    {.game system datastructures}
    //=======================================================================================
+
    {.meme belief levels}
    {:DEV NOTES: update factionsdb.xml + FCMdF_DBFactions_Read + FCFgSPM_Meme_GetSVRange.}
    type TFCEdgBelLvl=(
@@ -51,6 +52,7 @@ interface
       ,dgStrong
       ,dgKbyAll
       );
+
    {.colony levels}
    type TFCEcolLvl=(
       cl1Outpost
@@ -392,6 +394,7 @@ interface
    {.colony population data structure}
    {:DEV NOTES: UPDATE FCMdFiles_Game_Load / Save + FCMgCSM_ColonyData_Init + FCMgCSM_ColonyData_Upd + FCMgCSM_Pop_Xfert.}
    {:DEV NOTES: for population type, update TFCEgcsmPopTp + FCMgPGS_DR_Calc + FCMgPGS_BR_Calc, excepted for Rebels and Militia.}
+   {:DEV NOTES: for population type, also update TFCEdiPopType.}
    type TFCRdgColonPopulation= record
       POP_total: int64;
       {.mean age}

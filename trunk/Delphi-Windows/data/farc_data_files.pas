@@ -684,6 +684,7 @@ end;
 procedure FCMdF_DBInfra_Read;
 {:Purpose: Read the infrastructure database xml file.
     Additions:
+      -2011Sep05- *add: required staff.
       -2011Sep01- *mod: change some region soil requirement items.
       -2011Aug31- *mod: function Housing: put the population capacity by infrastructure level (because it depends on the size).
       -2011Jul17- *add: 2 custom effects: energy generation and energy storage.
@@ -719,6 +720,7 @@ var
    ,DBIRlevel
    ,DBIRpmodeCnt
    ,DBIRreqCMatCnt
+   ,DBIRreqStaffCnt
    ,DBIRsizeCnt: integer;
 
    DBIRstr: string;
@@ -727,6 +729,7 @@ var
    ,DBIRconstMat
    ,DBIRcustFX
    ,DBIRpmode
+   ,DBIRreqStaff
    ,DBIRreqsub
    ,DBIRsizeN
    ,DBIRsubN: IXMLnode;
@@ -985,6 +988,49 @@ begin
                   end;
                   DBIRcustFX:=DBIRcustFX.NextSibling;
                end; //==END== while DBIRcustFX<>nil do ==//
+            end //==END== else if DBIRsubN.NodeName='infCustFX' ==//
+            else if DBIRsubN.NodeName='infReqStaff'
+            then
+            begin
+               SetLength(FCDBinfra[DBIRcnt].I_reqStaff, 1);
+               DBIRreqStaffCnt:=0;
+               DBIRreqStaff:=DBIRsubN.ChildNodes.First;
+               while DBIRreqStaff<>nil do
+               begin
+                  inc(DBIRreqStaffCnt);
+                  SetLength(FCDBinfra[DBIRcnt].I_reqStaff, DBIRreqStaffCnt+1);
+                  DBIRstr:=DBIRreqStaff.Attributes['type'];
+                  if DBIRstr='ptColonist'
+                  then FCDBinfra[DBIRcnt].I_reqStaff[DBIRreqStaffCnt].RS_type:=ptColonist
+                  else if DBIRstr='ptOfficer'
+                  then FCDBinfra[DBIRcnt].I_reqStaff[DBIRreqStaffCnt].RS_type:=ptOfficer
+                  else if DBIRstr='ptMissSpe'
+                  then FCDBinfra[DBIRcnt].I_reqStaff[DBIRreqStaffCnt].RS_type:=ptMissSpe
+                  else if DBIRstr='ptBiolog'
+                  then FCDBinfra[DBIRcnt].I_reqStaff[DBIRreqStaffCnt].RS_type:=ptBiolog
+                  else if DBIRstr='ptDoctor'
+                  then FCDBinfra[DBIRcnt].I_reqStaff[DBIRreqStaffCnt].RS_type:=ptDoctor
+                  else if DBIRstr='ptTechnic'
+                  then FCDBinfra[DBIRcnt].I_reqStaff[DBIRreqStaffCnt].RS_type:=ptTechnic
+                  else if DBIRstr='ptEngineer'
+                  then FCDBinfra[DBIRcnt].I_reqStaff[DBIRreqStaffCnt].RS_type:=ptEngineer
+                  else if DBIRstr='ptSoldier'
+                  then FCDBinfra[DBIRcnt].I_reqStaff[DBIRreqStaffCnt].RS_type:=ptSoldier
+                  else if DBIRstr='ptCommando'
+                  then FCDBinfra[DBIRcnt].I_reqStaff[DBIRreqStaffCnt].RS_type:=ptCommando
+                  else if DBIRstr='ptPhysic'
+                  then FCDBinfra[DBIRcnt].I_reqStaff[DBIRreqStaffCnt].RS_type:=ptPhysic
+                  else if DBIRstr='ptAstroph'
+                  then FCDBinfra[DBIRcnt].I_reqStaff[DBIRreqStaffCnt].RS_type:=ptAstroph
+                  else if DBIRstr='ptEcolog'
+                  then FCDBinfra[DBIRcnt].I_reqStaff[DBIRreqStaffCnt].RS_type:=ptEcolog
+                  else if DBIRstr='ptEcoform'
+                  then FCDBinfra[DBIRcnt].I_reqStaff[DBIRreqStaffCnt].RS_type:=ptEcoform
+                  else if DBIRstr='ptMedian'
+                  then FCDBinfra[DBIRcnt].I_reqStaff[DBIRreqStaffCnt].RS_type:=ptMedian;
+                  FCDBinfra[DBIRcnt].I_reqStaff[DBIRreqStaffCnt].RS_required:=DBIRreqStaff.Attributes['requiredNum'];
+                  DBIRreqStaff:=DBIRreqStaff.NextSibling;
+               end; //==END== while DBIRreqStaff<>nil do ==//
             end //==END== else if DBIRsubN.NodeName='infCustFX' ==//
             else if DBIRsubN.NodeName='infFunc'
             then

@@ -74,6 +74,23 @@
       pmResourceMining
       pmWaterElectrolysis
 
+   {.staff types}
+   [rstaff type]
+      ptColonist
+      ptOfficer
+      ptMissSpe
+      ptBiolog
+      ptDoctor
+      ptTechnic
+      ptEngineer
+      ptSoldier
+      ptCommando
+      ptPhysic
+      ptAstroph
+      ptEcolog
+      ptEcoform
+      ptMedian
+      
    <infra token="" environment="">
       <infBuild construct="" isSurfOnly="" minlevel="" maxlevel="">
          //for cConv do not use these 3 lines
@@ -122,6 +139,9 @@
          <icfxHQsecondary/>
          <cfxProductStorage storlevel="" storSolid="" storLiquid="" storGas="" storBio=""/>
       </infCustFX>
+      <infReqStaff>
+         <rstaff type="" requiredNum=""/>
+      </infReqStaff>
       //ifEnergy
       //antimatter
       <infFunc infFunc="ifEnergy" emode="egmAntimatter"/>

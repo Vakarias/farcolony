@@ -62,7 +62,30 @@ procedure FCMdInit_Initialize;
    end;
       TFCDBtdef= array of TFCRtopdef;
    //=======================================================================================
+   {.core data structures}
    //=======================================================================================
+
+   {.population types, used for all other data structures than colony's population}
+   {:DEV NOTES: update infrastrucdb.xml + FCMdF_DBInfra_Read.}
+   type TFCEdiPopType=(
+      ptColonist
+      ,ptOfficer
+      ,ptMissSpe
+      ,ptBiolog
+      ,ptDoctor
+      ,ptTechnic
+      ,ptEngineer
+      ,ptSoldier
+      ,ptCommando
+      ,ptPhysic
+      ,ptAstroph
+      ,ptEcolog
+      ,ptEcoform
+      ,ptMedian
+      ,ptRebels
+      ,ptMilitia
+      );
+
    //==END ENUM=============================================================================
    //=======================================================================================
    {.space units data}

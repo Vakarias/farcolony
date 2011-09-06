@@ -32,7 +32,8 @@ unit farc_data_infrprod;
 interface
 
 uses
-   farc_data_research
+   farc_data_init
+   ,farc_data_research
    ,farc_data_univ;
 
 const
@@ -333,19 +334,25 @@ const
       end;
       {.custom effects}
       I_customFx: array of TFCRdipInfraCustomFX;
+      {.required staff}
+      I_reqStaff: array of record
+         RS_type: TFCEdiPopType;
+         RS_required: integer;
+      end;
       {.function}
       case I_function: TFCEdipFunction of
          fEnergy: (I_fEnergyPmode: TFCRdipEnergyGenerationMode);
+
          fHousing: (
             I_fHousPopulationCap: array[0..7] of integer;
             I_fHousQualityOfLife: integer
             );
-         fIntelligence:
-            ();
-         fMiscellaneous:
-            ();
-         fProduction:
-            (I_fProductionMode: array[0..FCCpModeMax] of TFCRdipInfraProdMode);
+
+         fIntelligence: ();
+
+         fMiscellaneous: ();
+
+         fProduction: (I_fProductionMode: array[0..FCCpModeMax] of TFCRdipInfraProdMode);
    end;
       {.infrastructures dynamic array}
       TFCDBinfra= array of TFCRdipInfrastructure;
