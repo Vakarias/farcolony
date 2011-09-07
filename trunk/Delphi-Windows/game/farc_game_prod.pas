@@ -49,7 +49,8 @@ uses
    farc_data_game
    ,farc_data_infrprod
    ,farc_game_prodSeg1
-   ,farc_game_prodSeg2;
+   ,farc_game_prodSeg2
+   ,farc_game_prodSeg5;
 
 var
    GPmaxProducts: integer;
@@ -84,6 +85,7 @@ end;
 procedure FCMgP_PhaseCore_Process;
 {:Purpose: production phase, core routine.
     Additions:
+      -2011Sep06- *add: CAB/Transition segment link.
       -2011Jul25- *add: production segment 2 link.
       -2011Jul14- *fix: apply correction in the second while loop by increasing the correct data.
 }
@@ -109,6 +111,7 @@ begin
             {:DEV NOTES: 3rd segment, reserves testing each 24hours.}
             {:DEV NOTES: post 1st alpha: 4th segment, space unit manufacturing.}
             {:DEV NOTES: 5th segment, CAB queue processing.}
+            FCMgPS5_CABTransitionSegment_Process(PCPfacCount, PCPcolCount);
             inc(PCPcolCount);
          end;
       end;

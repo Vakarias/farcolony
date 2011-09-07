@@ -119,6 +119,7 @@
 			<DCCReference Include="game\farc_game_energymodes.pas"/>
 			<DCCReference Include="game\farc_game_prodSeg2.pas"/>
 			<DCCReference Include="game\farc_game_spmcfx.pas"/>
+			<DCCReference Include="game\farc_game_prodSeg5.pas"/>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>
@@ -151,7 +152,7 @@
 						<VersionInfo Name="MajorVer">0</VersionInfo>
 						<VersionInfo Name="MinorVer">5</VersionInfo>
 						<VersionInfo Name="Release">0</VersionInfo>
-						<VersionInfo Name="Build">822</VersionInfo>
+						<VersionInfo Name="Build">823</VersionInfo>
 						<VersionInfo Name="Debug">False</VersionInfo>
 						<VersionInfo Name="PreRelease">False</VersionInfo>
 						<VersionInfo Name="Special">False</VersionInfo>
@@ -163,7 +164,7 @@
 					<VersionInfoKeys>
 						<VersionInfoKeys Name="CompanyName"/>
 						<VersionInfoKeys Name="FileDescription"/>
-						<VersionInfoKeys Name="FileVersion">0.5.0.822</VersionInfoKeys>
+						<VersionInfoKeys Name="FileVersion">0.5.0.823</VersionInfoKeys>
 						<VersionInfoKeys Name="InternalName"/>
 						<VersionInfoKeys Name="LegalCopyright">2009-2011 - Jean-Francois Baconnet</VersionInfoKeys>
 						<VersionInfoKeys Name="LegalTrademarks"/>
