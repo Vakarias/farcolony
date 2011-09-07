@@ -34,7 +34,7 @@ interface
    {.infrastructures data}
    //=======================================================================================
    {.research sectors}
-   {:DEV NOTES: update infrastrucdb.xml + productsdb.xml + FCMdF_DBInfra_Read + FCMdF_DBProducts_Read.}
+   {:DEV NOTES: update infrastrucdb.xml + productsdb.xml + FCMdF_DBInfra_Read + FCMdF_DBProducts_Read + FCMdF_DBTechnosciences_Load.}
    type TFCEdresResearchSectors=(
       rsNone
       ,rsAerospaceEng
@@ -54,6 +54,7 @@ interface
       ,rstAtApplication
       );
    {.research types}
+   {:DEV NOTES: update FCMdF_DBTechnosciences_Load.}
    type TFCEdresResearchTypes=(
       rtBasicTech
       ,rtPureTheory
@@ -61,10 +62,23 @@ interface
       ,rtCompleteResearch
       );
    //==END ENUM=============================================================================
-
+   
+   {.technoscience data structure}
+   {:DEV NOTES: update technosciencesdb.xml + FCMdF_DBTechnosciences_Load.}
+   type TFCRdresTechnoscience= record
+      T_token: string[20];
+      T_researchSector: TFCEdresResearchSectors;
+      T_level: integer;
+      T_type: TFCEdresResearchTypes;
+      T_difficulty: integer;
+   end;
+   TFCDBtechsci= array of TFCRdresTechnoscience;
    //=======================================================================================
    {.global variables}
    //=======================================================================================
+
+   var
+      FCDBtechsci: TFCDBtechsci;
 
 implementation
 
