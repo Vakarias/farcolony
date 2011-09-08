@@ -45,7 +45,8 @@ procedure FCMgPS5_CABTransitionSegment_Process(
 implementation
 
 uses
-   farc_data_game;
+   farc_data_game
+   ,farc_game_infraconsys;
 
 //===================================================END OF INIT============================
 //===========================END FUNCTIONS SECTION==========================================
@@ -60,6 +61,7 @@ procedure FCMgPS5_CABTransitionSegment_Process(
    var
       CABTSPcntIdx
       ,CABTSPcntSet
+      ,CABTSPinfraIdx
       ,CABTSPmaxIdx
       ,CABTSPmaxSet: integer;
 begin
@@ -73,10 +75,56 @@ begin
          CABTSPcntIdx:=1;
          while CABTSPcntIdx<=CABTSPmaxIdx do
          begin
+            CABTSPinfraIdx:=FCentities[CABTSPent].E_col[CABTSPcol].COL_cabQueue[CABTSPcntSet, CABTSPcntIdx];
+            case FCentities[CABTSPent].E_col[CABTSPcol].COL_settlements[CABTSPcntSet].CS_infra[CABTSPinfraIdx].CI_status of
+               istInConversion:
+               begin
+                  inc(FCentities[CABTSPent].E_col[CABTSPcol].COL_settlements[CABTSPcntSet].CS_infra[CABTSPinfraIdx].CI_cabWorked);
+                  if FCentities[CABTSPent].E_col[CABTSPcol].COL_settlements[CABTSPcntSet].CS_infra[CABTSPinfraIdx].CI_cabWorked
+                     =FCentities[CABTSPent].E_col[CABTSPcol].COL_settlements[CABTSPcntSet].CS_infra[CABTSPinfraIdx].CI_cabDuration
+                  then FCMgICS_Conversion_PostProcess(
+                     CABTSPent
+                     ,CABTSPcol
+                     ,CABTSPcntSet
+                     ,CABTSPinfraIdx
+                     );
+               end;
+               
+               istInAssembling:
+               begin
+                  inc(FCentities[CABTSPent].E_col[CABTSPcol].COL_settlements[CABTSPcntSet].CS_infra[CABTSPinfraIdx].CI_cabWorked);
+                  if FCentities[CABTSPent].E_col[CABTSPcol].COL_settlements[CABTSPcntSet].CS_infra[CABTSPinfraIdx].CI_cabWorked
+                     =FCentities[CABTSPent].E_col[CABTSPcol].COL_settlements[CABTSPcntSet].CS_infra[CABTSPinfraIdx].CI_cabDuration
+                  then FCMgICS_Assembling_PostProcess(
+                     CABTSPent
+                     ,CABTSPcol
+                     ,CABTSPcntSet
+                     ,CABTSPinfraIdx
+                     );
+               end;
+
+               istInBldSite:
+               begin
+                  inc(FCentities[CABTSPent].E_col[CABTSPcol].COL_settlements[CABTSPcntSet].CS_infra[CABTSPinfraIdx].CI_cabWorked);
+                  if FCentities[CABTSPent].E_col[CABTSPcol].COL_settlements[CABTSPcntSet].CS_infra[CABTSPinfraIdx].CI_cabWorked
+                     =FCentities[CABTSPent].E_col[CABTSPcol].COL_settlements[CABTSPcntSet].CS_infra[CABTSPinfraIdx].CI_cabDuration
+                  then FCMgICS_Building_PostProcess(
+                     CABTSPent
+                     ,CABTSPcol
+                     ,CABTSPcntSet
+                     ,CABTSPinfraIdx
+                     );
+               end;
+               
+               istInTransition:
+               begin
+                  
+               end;
+            end;
             inc(CABTSPcntIdx);
-         end;
+         end; //==END== while CABTSPcntIdx<=CABTSPmaxIdx do ==//
          inc(CABTSPcntSet);
-      end;
+      end; //==END== while CABTSPcntSet<=CABTSPmaxSet do ==//
    end; //== END == if CABTSPmax>0 then ==//
 end;
 
