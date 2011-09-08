@@ -212,7 +212,6 @@ begin
       CPPfac
       ,CPPspuIdx
       ,CPPcolIdx
-      ,CPPregion
       ,CPPsettlement
       );
    FCMgSPMD_Level_Upd(CPPfac);

@@ -149,13 +149,11 @@ procedure FCMgICS_CAB_Add(
 ///   <param name="ICPent">entity index #</param>
 ///   <param name="ICPspu">space unit index #</param>
 ///   <param name="ICPcol">colony index #</param>
-///   <param name="ICPreg">region index #</param>
 ///   <param name="ICPsettlement">settlement index #</param>
 procedure FCMgICS_Conversion_Process(
    const ICPent
          ,ICPspu
          ,ICPcol
-         ,ICPreg
          ,ICPsettlement: integer
    );
 
@@ -488,7 +486,6 @@ procedure FCMgICS_Conversion_Process(
    const ICPent
          ,ICPspu
          ,ICPcol
-         ,ICPreg
          ,ICPsettlement: integer
    );
 {:Purpose: convert a space unit to a corresponding infrastructure as requested.
@@ -540,7 +537,7 @@ begin
    ICPenv:=FCFgC_ColEnv_GetTp(ICPent, ICPcol);
    {:DEV NOTES: colonization equipment module will be taken in consideration in the future, for now i use hardcoded data.}
    SetLength(FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra, length(FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra)+1);
-   ICPinfra:=length(FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra)-1;;
+   ICPinfra:=length(FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra)-1;
    ICPclonedInfra:=FCFgInf_DataStructure_Get('infrColShelt', ICPenv.ENV_envType);
    FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra[ICPinfra].CI_dbToken:=ICPclonedInfra.I_token;
 
