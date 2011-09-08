@@ -96,6 +96,20 @@ function FCFgICS_RecursiveCoef_Calculation(const RCCdoneTime, RCCinitTime: integ
 //===========================END FUNCTIONS SECTION==========================================
 
 ///<summary>
+///   asssembling post-process
+///</summary>
+///   <param name="APPent">entity index #</param>
+///   <param name="APPcol">colony index #</param>
+///   <param name="APPsettlement">settlement index #</param>
+///   <param name="APPinfra">infrastructure index #</param>
+procedure FCMgICS_Assembling_PostProcess(
+   const APPent
+         ,APPcol
+         ,APPsettlement
+         ,APPinfra: integer
+   );
+
+///<summary>
 ///   process in the assembling of an infrastructure
 ///</summary>
 ///   <param name="APent">entity index #</param>
@@ -111,6 +125,20 @@ procedure FCMgICS_Assembling_Process(
          ,APduration: integer;
    const APinfraToken: string;
    const APinfraKitInStorage: integer
+   );
+
+///<summary>
+///   building post-process
+///</summary>
+///   <param name="BPPent">entity index #</param>
+///   <param name="BPPcol">colony index #</param>
+///   <param name="BPPsettlement">settlement index #</param>
+///   <param name="BPPinfra">infrastructure index #</param>
+procedure FCMgICS_Building_PostProcess(
+   const BPPent
+         ,BPPcol
+         ,BPPsettlement
+         ,BPPinfra: integer
    );
 
 ///<summary>
@@ -141,6 +169,20 @@ procedure FCMgICS_CAB_Add(
          ,CABAcol
          ,CABAsettlement
          ,CABAinfra: integer
+   );
+
+///<summary>
+///   conversion post-process
+///</summary>
+///   <param name="ICPPent">entity index #</param>
+///   <param name="ICPPcol">colony index #</param>
+///   <param name="ICPPsettlement">settlement index #</param>
+///   <param name="ICPPinfra">infrastructure index #</param>
+procedure FCMgICS_Conversion_PostProcess(
+   const ICPPent
+         ,ICPPcol
+         ,ICPPsettlement
+         ,ICPPinfra: integer
    );
 
 ///<summary>
@@ -324,6 +366,19 @@ end;
 
 //===========================END FUNCTIONS SECTION==========================================
 
+procedure FCMgICS_Assembling_PostProcess(
+   const APPent
+         ,APPcol
+         ,APPsettlement
+         ,APPinfra: integer
+   );
+{:Purpose: asssembling post-process.
+    Additions:
+}
+begin
+
+end;
+
 procedure FCMgICS_Assembling_Process(
    const APent
          ,APcol
@@ -396,6 +451,19 @@ begin
       ,APcol
       ,APsettlement
       );
+end;
+
+procedure FCMgICS_Building_PostProcess(
+   const BPPent
+         ,BPPcol
+         ,BPPsettlement
+         ,BPPinfra: integer
+   );
+{:Purpose: building post-process.
+    Additions:
+}
+begin
+
 end;
 
 procedure FCMgICS_Building_Process(
@@ -480,6 +548,19 @@ begin
    then SetLength(FCentities[CABAent].E_col[CABAcol].COL_cabQueue[CABAsettlement], CABAlen+1);
    CABAcnt:=CABAlen;
    FCentities[CABAent].E_col[CABAcol].COL_cabQueue[CABAsettlement, CABAcnt]:=CABAinfra;
+end;
+
+procedure FCMgICS_Conversion_PostProcess(
+   const ICPPent
+         ,ICPPcol
+         ,ICPPsettlement
+         ,ICPPinfra: integer
+   );
+{:Purpose: conversion post-process.
+    Additions:
+}
+begin
+
 end;
 
 procedure FCMgICS_Conversion_Process(
