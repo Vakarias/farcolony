@@ -527,7 +527,15 @@ interface
       COL_evList: array of TFCRdgColonCSMev;
       {.colony's settlements}
       COL_settlements: array of TFCRdgColonSettlements;
-      {.CAB queue x,y  x= settlements index, y= cab index in settlement, result= infrastructure index in settlement}
+      ///<summary>
+      /// CAB queue [x,y] = infrastructure index in settlement
+         ///<summary>
+         /// x= settlements index
+         ///</summary>
+         ///<summary>
+         /// y= CAB index in settlement
+         ///</summary>
+      ///</summary>
       COL_cabQueue: array of array of integer;
       {.production matrix}
       COL_productionMatrix: array of TFCRdgColonProdMatrixItem;
@@ -554,8 +562,16 @@ interface
    {:DEV NOTES: update FCMdFiles_Game_Load/Save + FCMgTFlow_CSMphase_Proc.}
    type TFCRdgCSMtest= record
       CSMT_tick: integer;
-      {.colonies to test [x,y] x= faction id #, y= test list index<>colony index, int value= colony idx}
-      CSMT_col: array[0..1] of array of integer;
+      ///<summary>
+      /// colonies to test [x,y] = colony index #
+         ///<summary>
+         /// x= faction index #
+         ///</summary>
+         ///<summary>
+         /// y= test list index # (<>colony index #)
+         ///</summary>
+      ///</summary>
+      CSMT_col: array[0..FCCfacMax] of array of integer;
    end;
    TFCcsmPhaseL = array of TFCRdgCSMtest;
    {.SPMi influences sub-data structure}
