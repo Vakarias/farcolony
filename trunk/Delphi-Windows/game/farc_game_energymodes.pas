@@ -76,7 +76,7 @@ function FCFgEM_OutputFromCustomFx_GetValue(
    ): double;
 
 ///<summary>
-///   retrieve the energy output of an infrastructure from it's function (must by EN). It's separated from custom effects since they aren't initialized in the same way
+///   retrieve the energy output of an infrastructure from it's function (must be EN). It's separated from custom effects since they aren't initialized in the same way
 ///</summary>
 ///   <param name="OFFGVent">entity index #</param>
 ///   <param name="OFFGVcol">colony index #</param>
@@ -211,7 +211,7 @@ function FCFgEM_OutputFromFunction_GetValue(
          ,OFFGVcurrentLevel: integer;
    const OFFGVinfraData: TFCRdipInfrastructure
    ): double;
-{:Purpose: retrieve the energy output of an infrastructure from it's function (must by EN). It's separated from custom effects since they aren't initialized in the same way.
+{:Purpose: retrieve the energy output of an infrastructure from it's function (must be EN). It's separated from custom effects since they aren't initialized in the same way.
     Additions:
       -2011Jul18- *add: complete the photon energy case.
 }
