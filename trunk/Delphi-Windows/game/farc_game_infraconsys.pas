@@ -178,11 +178,13 @@ procedure FCMgICS_CAB_Add(
 ///   <param name="ICPPcol">colony index #</param>
 ///   <param name="ICPPsettlement">settlement index #</param>
 ///   <param name="ICPPinfra">infrastructure index #</param>
+///   <param name="ICPPcabQueueIndex">CAB queue index #</param>
 procedure FCMgICS_Conversion_PostProcess(
    const ICPPent
          ,ICPPcol
          ,ICPPsettlement
-         ,ICPPinfra: integer
+         ,ICPPinfra
+         ,ICPPcabQueueIndex: integer
    );
 
 ///<summary>
@@ -554,13 +556,16 @@ procedure FCMgICS_Conversion_PostProcess(
    const ICPPent
          ,ICPPcol
          ,ICPPsettlement
-         ,ICPPinfra: integer
+         ,ICPPinfra
+         ,ICPPcabQueueIndex: integer
    );
 {:Purpose: conversion post-process.
     Additions:
+      -2011Sep09- *add: routine completion.
 }
 begin
-
+   FCentities[ICPPent].E_col[ICPPcol].COL_settlements[ICPPsettlement].CS_infra[ICPPinfra].CI_status:=istOperational;
+   FCentities[ICPPent].E_col[ICPPcol].COL_cabQueue[ICPPsettlement, ICPPcabQueueIndex]:=0;
 end;
 
 procedure FCMgICS_Conversion_Process(
@@ -731,7 +736,7 @@ begin
       ICPent
       ,ICPcol
       ,false
-      ,5
+      ,FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra[ICPinfra].CI_powerCons
       ,0
       ,0
       ,0
