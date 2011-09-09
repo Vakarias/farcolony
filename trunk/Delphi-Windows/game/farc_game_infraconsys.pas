@@ -782,17 +782,32 @@ procedure FCMgICS_FunctionsInit(
    );
 {:Purpose: initialize the infrastructure functions data for assembling/building modes.
     Additions:
+      -2011Sep09- *fix: for energy function: forgot to update the colony's energy production data.
       -2011Sep03- *add: for fHousing, add the level in determination of the population capacity.
       -2011Jul18- *add: complete the fEnergy case.
 }
+   var
+      FIenergyOutput: double;
 begin
    case FCentities[FIent].E_col[FIcol].COL_settlements[FIsett].CS_infra[FIinfra].CI_function of
-      fEnergy: FCFgEM_OutputFromFunction_GetValue(
-         FIent
-         ,FIcol
-         ,FCentities[FIent].E_col[FIcol].COL_settlements[FIsett].CS_infra[FIinfra].CI_level
-         ,FIinfraData
-         );
+      fEnergy:
+      begin
+         FIenergyOutput:=FCFgEM_OutputFromFunction_GetValue(
+            FIent
+            ,FIcol
+            ,FCentities[FIent].E_col[FIcol].COL_settlements[FIsett].CS_infra[FIinfra].CI_level
+            ,FIinfraData
+            );
+         FCMgIP_CSMEnergy_Update(
+            FIent
+            ,FIcol
+            ,false
+            ,0
+            ,FIenergyOutput
+            ,0
+            ,0
+            );
+      end;
 
       fHousing:
       begin
