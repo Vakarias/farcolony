@@ -1,6 +1,6 @@
 ﻿<!-- SPM Database -->
 <!-- 
-	
+   
    {.SPM areas}
    [area]
       {.Administration (or ADMIN)}
@@ -42,7 +42,7 @@
       rfdInstrLv
       rfdLifeQ
       rfdEquil
-	
+
    {.SPMi requirement types for UC requirement}
    [ucmethod]
       {.fixed value}
@@ -54,7 +54,7 @@
       {.calculation - colonies}
       dgCalcCol
       dgCalcCol_yr
-	
+
    <spmi token="" area="" isunique="" ispolicy="">
       <spmmod mcohes="" mtens="" msec="" medu="" mnat="" mhealth="" mbur="" mcorr=""/>
       <spmreq>
@@ -901,7 +901,7 @@
          <influence vstoken="SPMi_TheFreeUnion" vsmod="0"/>
       </spminfluences>
    </spmi>
-   <!-- MEDCA / Bioroid Adoption -->
+   <!-- MEDCA / Bioroids Adoption -->
    <spmi token="SPMi_BioroidsAdopt" area="dgMEDCA" isunique="false" ispolicy="false">
       <spmmod mcohes="0" mtens="0" msec="0" medu="10" mnat="-25" mhealth="0" mbur="0" mcorr="0"/>
       <spminfluences>
