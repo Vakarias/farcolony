@@ -172,6 +172,16 @@ procedure FCMgICS_CAB_Add(
    );
 
 ///<summary>
+///   cleanup the CAB queue of a colony, useless CAB entries are removed
+///</summary>
+///   <param name="CABCent"></param>
+///   <param name="CABCcol"></param>
+procedure FCMgICS_CAB_Cleanup(
+   const CABCent
+         ,CABCcol: integer
+   );
+
+///<summary>
 ///   conversion post-process
 ///</summary>
 ///   <param name="ICPPent">entity index #</param>
@@ -550,6 +560,59 @@ begin
    then SetLength(FCentities[CABAent].E_col[CABAcol].COL_cabQueue[CABAsettlement], CABAlen+1);
    CABAcnt:=CABAlen;
    FCentities[CABAent].E_col[CABAcol].COL_cabQueue[CABAsettlement, CABAcnt]:=CABAinfra;
+end;
+
+procedure FCMgICS_CAB_Cleanup(
+   const CABCent
+         ,CABCcol: integer
+   );
+{:Purpose: cleanup the CAB queue of a colony, useless CAB entries are removed.
+    Additions:
+}
+   var
+      CABCidxCnt
+      ,CABCidxMax
+      ,CABCindexClone
+      ,CABCsettleCnt
+      ,CABCsettleMax: integer;
+
+      CABCcabQueueClone: TFCRdgColony;
+
+begin
+   CABCcabQueueClone.COL_cabQueue:=nil;
+   CABCsettleMax:=length( FCentities[CABCent].E_col[CABCcol].COL_cabQueue )-1;
+   setlength( CABCcabQueueClone.COL_cabQueue, CABCsettleMax+1 );
+   if CABCsettleMax>0 then
+   begin
+      CABCsettleCnt:=1;
+      while CABCsettleCnt<=CABCsettleMax do
+      begin
+         CABCidxMax:=length( FCentities[CABCent].E_col[CABCcol].COL_cabQueue[CABCsettleCnt] )-1;
+         if CABCidxMax>0 then
+         begin
+            setlength( CABCcabQueueClone.COL_cabQueue[CABCsettleCnt], 1 );
+            CABCindexClone:=0;
+            CABCidxCnt:=1;
+            while CABCidxCnt<=CABCidxMax do
+            begin
+               if FCentities[CABCent].E_col[CABCcol].COL_cabQueue[CABCsettleCnt, CABCidxCnt]>0 then
+               begin
+                  inc(CABCindexClone);
+                  setlength( CABCcabQueueClone.COL_cabQueue[CABCsettleCnt], CABCindexClone+1 );
+                  CABCcabQueueClone.COL_cabQueue[CABCsettleCnt, CABCindexClone]:=FCentities[CABCent].E_col[CABCcol].COL_cabQueue[CABCsettleCnt, CABCidxCnt];
+               end;
+               inc( CABCidxCnt );
+            end;
+         end;
+         inc( CABCsettleCnt );
+      end;
+   end;
+   SetLength(FCentities[CABCent].E_col[CABCcol].COL_cabQueue, 0);
+   FCentities[CABCent].E_col[CABCcol].COL_cabQueue:=Copy(
+      CABCcabQueueClone.COL_cabQueue
+      ,0
+      ,CABCsettleMax
+      );
 end;
 
 procedure FCMgICS_Conversion_PostProcess(
