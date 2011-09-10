@@ -951,7 +951,7 @@
    </spmi>
    <!-- MEDCA / Births Control -->
    <spmi token="SPMi_BirthsCtl" area="dgMEDCA" isunique="false" ispolicy="true">
-      <spmmod mcohes="0" mtens="15" msec="0" medu="0" mnat="0" mhealth="0" mbur="0" mcorr=""/>
+      <spmmod mcohes="0" mtens="15" msec="0" medu="0" mnat="0" mhealth="0" mbur="0" mcorr="0"/>
       <spminfluences>
          <influence vstoken="SPMi_AIchitect" vsmod="16"/>
          <influence vstoken="SPMi_CentrAuth" vsmod="0"/>
