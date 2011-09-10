@@ -65,7 +65,7 @@ procedure FCMgPS5_CABTransitionSegment_Process(
       ,CABTSPmaxIdx
       ,CABTSPmaxSet: integer;
 begin
-   CABTSPmaxSet:=length(FCentities[CABTSPent].E_col[CABTSPcol].COL_cabQueue);
+   CABTSPmaxSet:=length( FCentities[CABTSPent].E_col[CABTSPcol].COL_cabQueue );
    if CABTSPmaxSet>0 then
    begin
       CABTSPcntSet:=1;
@@ -87,6 +87,7 @@ begin
                      ,CABTSPcol
                      ,CABTSPcntSet
                      ,CABTSPinfraIdx
+                     ,CABTSPcntIdx
                      );
                end;
                
@@ -121,10 +122,11 @@ begin
                   
                end;
             end;
-            inc(CABTSPcntIdx);
+            inc( CABTSPcntIdx );
          end; //==END== while CABTSPcntIdx<=CABTSPmaxIdx do ==//
          inc(CABTSPcntSet);
       end; //==END== while CABTSPcntSet<=CABTSPmaxSet do ==//
+      FCMgICS_CAB_Cleanup( CABTSPent, CABTSPcol );
    end; //== END == if CABTSPmax>0 then ==//
 end;
 
