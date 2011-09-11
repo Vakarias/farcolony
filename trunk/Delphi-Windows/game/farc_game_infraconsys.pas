@@ -252,6 +252,7 @@ function FCFgICS_AssemblingDuration_Calculation(
    ): integer;
 {:Purpose: calculate the assembling time in hours.
     Additions:
+      -2011Sep10- *add: increment the duration to 1 hour in all cases to prevent a real duration less than 1 hr due to the game flow.
       -2011Jun12- *add: take the case if result=0;
 }
 var
@@ -259,9 +260,9 @@ var
 begin
    Result:=0;
    ADCcoef:= ( ( power(((ADCtotalVolInfra*ADCrecursiveCoef)/0.003), 0.333) ) / power(ADCiCWP,0.333) ) / 2;
-	Result:=round(power(ADCcoef, 2.5)*0.5);
-   if Result<1
-   then Result:=1;
+	Result:=round(power(ADCcoef, 2.5)*0.5)+1;
+   if Result=1
+   then Result:=2;
 end;
 
 function FCFgICS_BuildingDuration_Calculation(
@@ -272,15 +273,16 @@ function FCFgICS_BuildingDuration_Calculation(
    ): integer;
 {:Purpose: calculate the building time in hours.
     Additions:
+      -2011Sep10- *add: increment the duration to 1 hour in all cases to prevent a real duration less than 1 hr due to the game flow.
 }
 var
    BDCcoef: double;
 begin
    Result:=0;
    BDCcoef:= ( power(((BDCtotalVolMaterial*BDCrecursiveCoef)/0.003), 0.333) + BDCemo) / power(BDCiCWP,0.333);
-	Result:=round(power(BDCcoef, 2.5)*0.5);
-   if Result<1
-   then Result:=1;
+	Result:=round(power(BDCcoef, 2.5)*0.5)+1;
+   if Result=1
+   then Result:=2;
 end;
 
 function FCFgICS_iCWP_Calculation(
@@ -568,6 +570,7 @@ procedure FCMgICS_CAB_Cleanup(
    );
 {:Purpose: cleanup the CAB queue of a colony, useless CAB entries are removed.
     Additions:
+      -2011Sep10- *fix: remove the useless copy command between the regular data structure and the clone, fix a bug.
 }
    var
       CABCidxCnt
@@ -608,11 +611,7 @@ begin
       end;
    end;
    SetLength(FCentities[CABCent].E_col[CABCcol].COL_cabQueue, 0);
-   FCentities[CABCent].E_col[CABCcol].COL_cabQueue:=Copy(
-      CABCcabQueueClone.COL_cabQueue
-      ,0
-      ,CABCsettleMax
-      );
+   FCentities[CABCent].E_col[CABCcol].COL_cabQueue:=CABCcabQueueClone.COL_cabQueue;
 end;
 
 procedure FCMgICS_Conversion_PostProcess(
@@ -639,6 +638,7 @@ procedure FCMgICS_Conversion_Process(
    );
 {:Purpose: convert a space unit to a corresponding infrastructure as requested.
     Additions:
+      -2011Sep10- *add: increment the duration to 1 hour in all cases to prevent a real duration less than 1 hr due to the game flow.
       -2011Jul24- *add: update the colony data panel with the infrastructures list if it's needed.
       -2011Jul17- *add: harcoded custom effects: energy generation and storage.
       -2011Jul14- *rem: remove the HQ setting to an outside method, will be set by the custom effects processing.
@@ -753,9 +753,9 @@ begin
       );
    {.conversion calculations, the crew is hardcoded for now}
    ICPx:=sqrt( ICPvol*0.2 ) / (30+5);//x = [ SQRT(TCMV / 5) ] / PC
-   ICPduration:=round(power(ICPx, 2.5)*0.5);//duration (in hrs) = (x^2.5)/2 rounded
-   if ICPduration<1
-   then ICPduration:=1;
+   ICPduration:=round(power(ICPx, 2.5)*0.5)+1;//duration (in hrs) = (x^2.5)/2 rounded
+   if ICPduration=1
+   then ICPduration:=2;
    FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra[ICPinfra].CI_cabDuration:=ICPduration;
    FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra[ICPinfra].CI_cabWorked:=0;
    FCMgICS_CAB_Add(
