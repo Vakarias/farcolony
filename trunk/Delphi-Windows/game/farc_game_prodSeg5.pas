@@ -30,6 +30,9 @@ unit farc_game_prodSeg5;
 
 interface
 
+uses
+   SysUtils;
+
 //===========================END FUNCTIONS SECTION==========================================
 
 ///<summary>
@@ -46,7 +49,8 @@ implementation
 
 uses
    farc_data_game
-   ,farc_game_infraconsys;
+   ,farc_game_infraconsys
+   ,farc_win_debug;
 
 //===================================================END OF INIT============================
 //===========================END FUNCTIONS SECTION==========================================
@@ -57,6 +61,7 @@ procedure FCMgPS5_CABTransitionSegment_Process(
    );
 {:Purpose:  segment 5 (CAB + Transition Status) processing.
     Additions:
+      -2011Sep10- *fix: correct the max index length reading.
 }
    var
       CABTSPcntIdx
@@ -71,14 +76,12 @@ begin
       CABTSPcntSet:=1;
       while CABTSPcntSet<=CABTSPmaxSet do
       begin
-         CABTSPmaxIdx:=length(FCentities[CABTSPent].E_col[CABTSPcol].COL_cabQueue[CABTSPcntSet]);
+         CABTSPmaxIdx:=length(FCentities[CABTSPent].E_col[CABTSPcol].COL_cabQueue[CABTSPcntSet])-1;
          CABTSPcntIdx:=1;
-         {:DEV NOTES: renge check error begin.}
          while CABTSPcntIdx<=CABTSPmaxIdx do
          begin
             CABTSPinfraIdx:=FCentities[CABTSPent].E_col[CABTSPcol].COL_cabQueue[CABTSPcntSet, CABTSPcntIdx];
             case FCentities[CABTSPent].E_col[CABTSPcol].COL_settlements[CABTSPcntSet].CS_infra[CABTSPinfraIdx].CI_status of
-            {:DEV NOTES: renge check error end.}
                istInConversion:
                begin
                   inc(FCentities[CABTSPent].E_col[CABTSPcol].COL_settlements[CABTSPcntSet].CS_infra[CABTSPinfraIdx].CI_cabWorked);
@@ -92,7 +95,7 @@ begin
                      ,CABTSPcntIdx
                      );
                end;
-               
+
                istInAssembling:
                begin
                   inc(FCentities[CABTSPent].E_col[CABTSPcol].COL_settlements[CABTSPcntSet].CS_infra[CABTSPinfraIdx].CI_cabWorked);
@@ -118,12 +121,12 @@ begin
                      ,CABTSPinfraIdx
                      );
                end;
-               
+
                istInTransition:
                begin
-                  
+
                end;
-            end;
+            end; //==END== case FCentities[CABTSPent].E_col[CABTSPcol].COL_settlements[CABTSPcntSet].CS_infra[CABTSPinfraIdx].CI_status of ==//
             inc( CABTSPcntIdx );
          end; //==END== while CABTSPcntIdx<=CABTSPmaxIdx do ==//
          inc(CABTSPcntSet);
