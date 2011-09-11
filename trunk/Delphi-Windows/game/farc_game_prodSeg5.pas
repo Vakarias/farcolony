@@ -65,7 +65,7 @@ procedure FCMgPS5_CABTransitionSegment_Process(
       ,CABTSPmaxIdx
       ,CABTSPmaxSet: integer;
 begin
-   CABTSPmaxSet:=length( FCentities[CABTSPent].E_col[CABTSPcol].COL_cabQueue );
+   CABTSPmaxSet:=length( FCentities[CABTSPent].E_col[CABTSPcol].COL_cabQueue )-1;
    if CABTSPmaxSet>0 then
    begin
       CABTSPcntSet:=1;
@@ -73,10 +73,12 @@ begin
       begin
          CABTSPmaxIdx:=length(FCentities[CABTSPent].E_col[CABTSPcol].COL_cabQueue[CABTSPcntSet]);
          CABTSPcntIdx:=1;
+         {:DEV NOTES: renge check error begin.}
          while CABTSPcntIdx<=CABTSPmaxIdx do
          begin
             CABTSPinfraIdx:=FCentities[CABTSPent].E_col[CABTSPcol].COL_cabQueue[CABTSPcntSet, CABTSPcntIdx];
             case FCentities[CABTSPent].E_col[CABTSPcol].COL_settlements[CABTSPcntSet].CS_infra[CABTSPinfraIdx].CI_status of
+            {:DEV NOTES: renge check error end.}
                istInConversion:
                begin
                   inc(FCentities[CABTSPent].E_col[CABTSPcol].COL_settlements[CABTSPcntSet].CS_infra[CABTSPinfraIdx].CI_cabWorked);

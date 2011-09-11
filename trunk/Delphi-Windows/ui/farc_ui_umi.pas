@@ -397,7 +397,7 @@ begin
          {.idx=0}
          FCWinMain.FCWM_UMIFac_PGDdata.HTMLText.Add(FCCFdHeadC+FCFdTFiles_UIStr_Get(uistrUI, 'UMIgvtPolSys')+FCCFdHeadEnd);
          {.idx=1}
-         FCWinMain.FCWM_UMIFac_PGDdata.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI, FCFgSPM_GvtSystems_Get(0, dgADMIN))+'<br>' );
+         FCWinMain.FCWM_UMIFac_PGDdata.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI, FCFgSPM_GvtEconMedcaSpiSystems_GetToken(0, dgADMIN))+'<br>' );
          {.idx=2}
          FCWinMain.FCWM_UMIFac_PGDdata.HTMLText.Add(FCCFdHeadC+FCFdTFiles_UIStr_Get(uistrUI, 'SPMdatBur')+FCCFdHeadEnd);
          {.idx=3}
@@ -409,20 +409,20 @@ begin
          {.idx=6}
          FCWinMain.FCWM_UMIFac_PGDdata.HTMLText.Add(FCCFdHeadC+FCFdTFiles_UIStr_Get(uistrUI, 'UMIgvtEcoSys')+FCCFdHeadEnd);
          {.idx=7}
-         FCWinMain.FCWM_UMIFac_PGDdata.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI, FCFgSPM_GvtSystems_Get(0, dgECON))+'<br>' );
+         FCWinMain.FCWM_UMIFac_PGDdata.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI, FCFgSPM_GvtEconMedcaSpiSystems_GetToken(0, dgECON))+'<br>' );
          {.idx=8}
          FCWinMain.FCWM_UMIFac_PGDdata.HTMLText.Add(FCCFdHeadC+FCFdTFiles_UIStr_Get(uistrUI, 'UMIgvtHcareSys')+FCCFdHeadEnd);
          {.idx=9}
-         FCWinMain.FCWM_UMIFac_PGDdata.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI, FCFgSPM_GvtSystems_Get(0, dgMEDCA))+'<br>' );
+         FCWinMain.FCWM_UMIFac_PGDdata.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI, FCFgSPM_GvtEconMedcaSpiSystems_GetToken(0, dgMEDCA))+'<br>' );
          {.idx=10}
          FCWinMain.FCWM_UMIFac_PGDdata.HTMLText.Add(FCCFdHeadC+FCFdTFiles_UIStr_Get(uistrUI, 'UMIgvtRelSys')+FCCFdHeadEnd);
          {.idx=11}
-         FCWinMain.FCWM_UMIFac_PGDdata.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI, FCFgSPM_GvtSystems_Get(0, dgSPI))+'<br>' );
+         FCWinMain.FCWM_UMIFac_PGDdata.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI, FCFgSPM_GvtEconMedcaSpiSystems_GetToken(0, dgSPI))+'<br>' );
       end
       else if UMIUFsec=uiwPolStruc_gvt
       then
       begin
-         FCWinMain.FCWM_UMIFac_PGDdata.HTMLText.Insert(1, FCFdTFiles_UIStr_Get(uistrUI, FCFgSPM_GvtSystems_Get(0, dgADMIN))+'<br>' );
+         FCWinMain.FCWM_UMIFac_PGDdata.HTMLText.Insert(1, FCFdTFiles_UIStr_Get(uistrUI, FCFgSPM_GvtEconMedcaSpiSystems_GetToken(0, dgADMIN))+'<br>' );
          FCWinMain.FCWM_UMIFac_PGDdata.HTMLText.Delete(2);
       end
       else if UMIUFsec=uiwPolStruc_bur
@@ -440,19 +440,19 @@ begin
       else if UMIUFsec=uiwPolStruc_eco
       then
       begin
-         FCWinMain.FCWM_UMIFac_PGDdata.HTMLText.Insert(7, FCFdTFiles_UIStr_Get(uistrUI, FCFgSPM_GvtSystems_Get(0, dgECON))+'<br>' );
+         FCWinMain.FCWM_UMIFac_PGDdata.HTMLText.Insert(7, FCFdTFiles_UIStr_Get(uistrUI, FCFgSPM_GvtEconMedcaSpiSystems_GetToken(0, dgECON))+'<br>' );
          FCWinMain.FCWM_UMIFac_PGDdata.HTMLText.Delete(8);
       end
       else if UMIUFsec=uiwPolStruc_hcare
       then
       begin
-         FCWinMain.FCWM_UMIFac_PGDdata.HTMLText.Insert(9, FCFdTFiles_UIStr_Get(uistrUI, FCFgSPM_GvtSystems_Get(0, dgMEDCA))+'<br>' );
+         FCWinMain.FCWM_UMIFac_PGDdata.HTMLText.Insert(9, FCFdTFiles_UIStr_Get(uistrUI, FCFgSPM_GvtEconMedcaSpiSystems_GetToken(0, dgMEDCA))+'<br>' );
          FCWinMain.FCWM_UMIFac_PGDdata.HTMLText.Delete(10);
       end
       else if UMIUFsec=uiwPolStruc_spi
       then
       begin
-         FCWinMain.FCWM_UMIFac_PGDdata.HTMLText.Insert(11, FCFdTFiles_UIStr_Get(uistrUI, FCFgSPM_GvtSystems_Get(0, dgSPI))+'<br>' );
+         FCWinMain.FCWM_UMIFac_PGDdata.HTMLText.Insert(11, FCFdTFiles_UIStr_Get(uistrUI, FCFgSPM_GvtEconMedcaSpiSystems_GetToken(0, dgSPI))+'<br>' );
          FCWinMain.FCWM_UMIFac_PGDdata.HTMLText.Delete(12);
       end;
    end;
@@ -508,7 +508,7 @@ begin
          UMIUFpolSet:='';
          UMIUFspmiDesc:='';
          UMIUFspmiDur:='';
-         UMIUFspmi:=FCFgSPM_SPMI_Get(FCentities[0].E_spm[UMIUFcnt].SPMS_token);
+         UMIUFspmi:=FCFgSPM_SPMIData_Get(FCentities[0].E_spm[UMIUFcnt].SPMS_token);
          if FCentities[0].E_spm[UMIUFcnt].SPMS_isPolicy
          then
          begin
@@ -774,7 +774,7 @@ begin
             gspmResAccept: FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add(FCCFcolGreen+FCFdTFiles_UIStr_Get(uistrUI, 'UMIenfRsltComplAcc')+FCCFcolEND);
          end;
          FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI, 'UMIenfYReq2'));
-         UMIUFpolToken:=FCFgSPM_GvtSystems_Get(0, UMIUFpolArea);
+         UMIUFpolToken:=FCFgSPM_GvtEconMedcaSpiSystems_GetToken(0, UMIUFpolArea);
          if (UMIUFisUnique)
             and (UMIUFpolToken<>'')
          then

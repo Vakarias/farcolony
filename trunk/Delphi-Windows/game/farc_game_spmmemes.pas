@@ -138,7 +138,7 @@ begin
    RDTreqCnt:=0;
    RDTreqMax:=0;
    RDTreqPassed:=true;
-   RDTspmi:=FCFgSPM_SPMI_Get(RDTmeme);
+   RDTspmi:=FCFgSPM_SPMIData_Get(RDTmeme);
    RDTreqMax:=length(RDTspmi.SPMI_req)-1;
    if RDTreqMax>0
    then
@@ -364,7 +364,7 @@ var
 
 begin
    MCFUoldSV:=FCentities[MCFUent].E_spm[MCFUmeme].SPMS_sprdVal;
-   MCFUspmi:=FCFgSPM_SPMI_Get(FCentities[MCFUent].E_spm[MCFUmeme].SPMS_token);
+   MCFUspmi:=FCFgSPM_SPMIData_Get(FCentities[MCFUent].E_spm[MCFUmeme].SPMS_token);
    if MCFUoldSV=0
    then
    begin

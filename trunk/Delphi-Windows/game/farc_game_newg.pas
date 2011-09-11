@@ -490,7 +490,7 @@ begin
             if FCentities[CPent].E_spm[CPspmCnt].SPMS_isSet
             then
             begin
-               CPspmI:=FCFgSPM_SPMI_Get(FCentities[CPent].E_spm[CPspmCnt].SPMS_token);
+               CPspmI:=FCFgSPM_SPMIData_Get(FCentities[CPent].E_spm[CPspmCnt].SPMS_token);
                FCentities[CPent].E_spmMcohes:=FCentities[CPent].E_spmMcohes+CPspmI.SPMI_modCohes;
                FCentities[CPent].E_spmMtens:=FCentities[CPent].E_spmMtens+CPspmI.SPMI_modTens;
                FCentities[CPent].E_spmMsec:=FCentities[CPent].E_spmMsec+CPspmI.SPMI_modSec;
@@ -511,7 +511,7 @@ begin
             then
             begin
                CPsv:=FCentities[CPent].E_spm[CPspmCnt].SPMS_sprdVal*0.01;
-               CPspmI:=FCFgSPM_SPMI_Get(FCentities[CPent].E_spm[CPspmCnt].SPMS_token);
+               CPspmI:=FCFgSPM_SPMIData_Get(FCentities[CPent].E_spm[CPspmCnt].SPMS_token);
                FCentities[CPent].E_spmMcohes:=FCentities[CPent].E_spmMcohes+round(CPspmI.SPMI_modCohes*CPsv);
                FCentities[CPent].E_spmMtens:=FCentities[CPent].E_spmMtens+round(CPspmI.SPMI_modTens*CPsv);
                FCentities[CPent].E_spmMsec:=FCentities[CPent].E_spmMsec+round(CPspmI.SPMI_modSec*CPsv);
@@ -685,7 +685,7 @@ begin
          while FLMcnt<=FLMmax do
          begin
             FLMspmi:=FCDBdgSPMi[0];
-            FLMspmi:=FCFgSPM_SPMI_Get(FCDBfactions[FLMfac].F_spm[FLMcnt].SPMS_token);
+            FLMspmi:=FCFgSPM_SPMIData_Get(FCDBfactions[FLMfac].F_spm[FLMcnt].SPMS_token);
             FLMspmStr:=FCFdTFiles_UIStr_Get(uistrUI, FCDBfactions[FLMfac].F_spm[FLMcnt].SPMS_token);
             if not FLMspmi.SPMI_isPolicy
             then FLMspmStr:=FLMspmStr+' ['+IntToStr(FCDBfactions[FLMfac].F_spm[FLMcnt].SPMS_aprob)+' %]';

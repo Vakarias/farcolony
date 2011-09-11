@@ -65,23 +65,23 @@ function FCFgSPM_EnforcPol_GetUnique: boolean;
 function FCFgSPM_EnforcPol_GetArea: TFCEdgSPMarea;
 
 ///<summary>
-///   get the system token following the system chosen
+///   get the system token according to the gvt/economic/medical care/spiritual system chosen
 ///</summary>
-///   <param name="GSGent">entity #</param>
-///   <param name="GSGarea">area amongs: ADMIN, ECON, MEDCA and SPI</param>
-function FCFgSPM_GvtSystems_Get(
-   const GSGent: integer;
-   const GSGarea: TFCEdgSPMarea
+///   <param name="GEMSSGTent">entity #</param>
+///   <param name="GEMSSGTarea">area amongs: ADMIN, ECON, MEDCA and SPI</param>
+function FCFgSPM_GvtEconMedcaSpiSystems_GetToken(
+   const GEMSSGTent: integer;
+   const GEMSSGTarea: TFCEdgSPMarea
    ): string;
 
 ///<summary>
-///   get the system index # following the system chosen
+///   get the system index # according to the gvt/economic/medical care/spiritual system chosen
 ///</summary>
-///   <param name="GSGent">entity #</param>
-///   <param name="GSGarea">area amongs: ADMIN, ECON, MEDCA and SPI</param>
-function FCFgSPM_GvtSystems_GetIdx(
-   const GSGent: integer;
-   const GSGarea: TFCEdgSPMarea
+///   <param name="GEMSSGIent">entity #</param>
+///   <param name="GEMSSGIarea">area amongs: ADMIN, ECON, MEDCA and SPI</param>
+function FCFgSPM_GvtEconMedcaSpiSystems_GetIdx(
+   const GEMSSGIent: integer;
+   const GEMSSGIarea: TFCEdgSPMarea
    ): integer;
 
 ///<summary>
@@ -89,9 +89,9 @@ function FCFgSPM_GvtSystems_GetIdx(
 ///</summary>
 ///   <param name="SPMIGtoken">SPMi token</param>
 ///   <param name="SPMIGloadIndex">load the index in GSPMitmIdx</param>
-function FCFgSPM_SPMI_Get(
-   const SPMIGtoken: string;
-   const SPMIGloadIndex: boolean=false
+function FCFgSPM_SPMIData_Get(
+   const SPMIDGtoken: string;
+   const SPMIDGloadIndex: boolean=false
    ): TFCRdgSPMi;
 
 ///<summary>
@@ -248,108 +248,119 @@ begin
    Result:=GSPMspmi.SPMI_area;
 end;
 
-function FCFgSPM_GvtSystems_Get(
-   const GSGent: integer;
-   const GSGarea: TFCEdgSPMarea
+function FCFgSPM_GvtEconMedcaSpiSystems_GetToken(
+   const GEMSSGTent: integer;
+   const GEMSSGTarea: TFCEdgSPMarea
    ): string;
-{:Purpose: get the system token following the system chosen.
+{:Purpose: get the system token according to the gvt/economic/medical care/spiritual system chosen.
     Additions:
+      -2011Sep10- *add: test if the SPMi duration = 0, because if set and duration>0 indicate that the SPMi is a reject/cancellation.
+                  *code audit:
+                  (+)var formatting + refactoring     (+)if..then reformatting   (+)function/procedure refactoring   
+                  (+)parameters refactoring           (+) ()reformatting         (N)code optimizations
+                  (N)float local variables=> extended (N)case..of reformatting   (N)local methods
       -2010Dec21- *mod/add: refactoring + parameter is now one of the four SPM area.
                   *add: ECON/MEDCA/SPI area.
 }
-var
-   GGspmiCnt
-   ,GGspmiMax: integer;
+   var
+      GEMSSGTspmiCnt
+      ,GEMSSGTspmiMax: integer;
 
-   GGspmi: TFCRdgSPMi;
+      GEMSSGTspmi: TFCRdgSPMi;
 begin
    Result:='';
-   GGspmiMax:=length(FCentities[GSGent].E_spm)-1;
-   if GGspmiMax>0
-   then
+   GEMSSGTspmiMax:=length( FCentities[GEMSSGTent].E_spm )-1;
+   if GEMSSGTspmiMax>0 then
    begin
-      GGspmiCnt:=1;
-      while GGspmiCnt<=GGspmiMax do
+      GEMSSGTspmiCnt:=1;
+      while GEMSSGTspmiCnt<=GEMSSGTspmiMax do
       begin
-         GGspmi:=FCFgSPM_SPMI_Get(FCentities[GSGent].E_spm[GGspmiCnt].SPMS_token);
-         if (GGspmi.SPMI_area=GSGarea)
-            and (GGspmi.SPMI_isUnique2set)
-            and (FCentities[GSGent].E_spm[GGspmiCnt].SPMS_isSet)
-         then
+         GEMSSGTspmi:=FCFgSPM_SPMIData_Get( FCentities[GEMSSGTent].E_spm[GEMSSGTspmiCnt].SPMS_token );
+         if ( GEMSSGTspmi.SPMI_area=GEMSSGTarea )
+            and ( GEMSSGTspmi.SPMI_isUnique2set )
+            and ( FCentities[GEMSSGTent].E_spm[GEMSSGTspmiCnt].SPMS_isSet )
+            and ( FCentities[GEMSSGTent].E_spm[GEMSSGTspmiCnt].SPMS_duration=0 ) then
          begin
-            Result:=FCentities[GSGent].E_spm[GGspmiCnt].SPMS_token;
+            Result:=FCentities[GEMSSGTent].E_spm[GEMSSGTspmiCnt].SPMS_token;
             break;
          end
-         else if GGspmi.SPMI_area>GSGarea
+         else if GEMSSGTspmi.SPMI_area<>GEMSSGTarea
          then break;
-         inc(GGspmiCnt);
+         inc( GEMSSGTspmiCnt );
       end;
    end;
 end;
 
-function FCFgSPM_GvtSystems_GetIdx(
-   const GSGent: integer;
-   const GSGarea: TFCEdgSPMarea
+function FCFgSPM_GvtEconMedcaSpiSystems_GetIdx(
+   const GEMSSGIent: integer;
+   const GEMSSGIarea: TFCEdgSPMarea
    ): integer;
-{:Purpose: get the system index # following the system chosen.
+{:Purpose: get the system index # according to the gvt/economic/medical care/spiritual system chosen.
     Additions:
+      -2011Sep10- *add: test if the SPMi duration = 0, because if set and duration>0 indicate that the SPMi is a reject/cancellation.
+                  *code audit:
+                  (+)var formatting + refactoring     (+)if..then reformatting   (+)function/procedure refactoring   
+                  (+)parameters refactoring           (+) ()reformatting         (N)code optimizations
+                  (N)float local variables=> extended (N)case..of reformatting   (N)local methods
 }
-var
-   GGspmiCnt
-   ,GGspmiMax: integer;
+   var
+      GEMSSGIspmiCnt
+      ,GEMSSGIspmiMax: integer;
 
-   GGspmi: TFCRdgSPMi;
+      GEMSSGIspmi: TFCRdgSPMi;
 begin
    Result:=0;
-   GGspmiMax:=length(FCentities[GSGent].E_spm)-1;
-   if GGspmiMax>0
-   then
+   GEMSSGIspmiMax:=length( FCentities[GEMSSGIent].E_spm )-1;
+   if GEMSSGIspmiMax>0 then
    begin
-      GGspmiCnt:=1;
-      while GGspmiCnt<=GGspmiMax do
+      GEMSSGIspmiCnt:=1;
+      while GEMSSGIspmiCnt<=GEMSSGIspmiMax do
       begin
-         GGspmi:=FCFgSPM_SPMI_Get(FCentities[GSGent].E_spm[GGspmiCnt].SPMS_token);
-         if (GGspmi.SPMI_area=GSGarea)
-            and (GGspmi.SPMI_isUnique2set)
-            and (FCentities[GSGent].E_spm[GGspmiCnt].SPMS_isSet)
-         then
+         GEMSSGIspmi:=FCFgSPM_SPMIData_Get( FCentities[GEMSSGIent].E_spm[GEMSSGIspmiCnt].SPMS_token );
+         if ( GEMSSGIspmi.SPMI_area=GEMSSGIarea )
+            and ( GEMSSGIspmi.SPMI_isUnique2set )
+            and ( FCentities[GEMSSGIent].E_spm[GEMSSGIspmiCnt].SPMS_isSet )
+            and ( FCentities[GEMSSGIent].E_spm[GEMSSGIspmiCnt].SPMS_duration=0 ) then
          begin
-            Result:=GGspmiCnt;
+            Result:=GEMSSGIspmiCnt;
             break;
          end
-         else if GGspmi.SPMI_area>GSGarea
+         else if GEMSSGIspmi.SPMI_area>GEMSSGIarea
          then break;
-         inc(GGspmiCnt);
+         inc( GEMSSGIspmiCnt );
       end;
    end;
 end;
 
-function FCFgSPM_SPMI_Get(
-   const SPMIGtoken: string;
-   const SPMIGloadIndex: boolean=false
+function FCFgSPM_SPMIData_Get(
+   const SPMIDGtoken: string;
+   const SPMIDGloadIndex: boolean=false
    ): TFCRdgSPMi;
 {:Purpose: retrieve the <token> SPMi data.
     Additions:
+      -2011Sep10- *code audit:
+                  (x)var formatting + refactoring     (+)if..then reformatting   (x)function/procedure refactoring
+                  (x)parameters refactoring           (+) ()reformatting         (N)code optimizations
+                  (N)float local variables=> extended (N)case..of reformatting   (N)local methods
 }
-var
-   SPMIGcnt
-   ,SPMIGmax: integer;
+   var
+      SPMIDGcnt
+      ,SPMIDGmax: integer;
 begin
    Result:=FCDBdgSPMi[0];
-   SPMIGmax:=length(FCDBdgSPMi)-1;
-   SPMIGcnt:=1;
-   while SPMIGcnt<=SPMIGmax do
+   SPMIDGmax:=length( FCDBdgSPMi )-1;
+   SPMIDGcnt:=1;
+   while SPMIDGcnt<=SPMIDGmax do
    begin
-      if FCDBdgSPMi[SPMIGcnt].SPMI_token=SPMIGtoken
-      then
+      if FCDBdgSPMi[SPMIDGcnt].SPMI_token=SPMIDGtoken then
       begin
-         Result:=FCDBdgSPMi[SPMIGcnt];
+         Result:=FCDBdgSPMi[SPMIDGcnt];
          break;
       end;
-      inc(SPMIGcnt);
+      inc( SPMIDGcnt );
    end;
-   if SPMIGloadIndex
-   then GSPMitmIdx:=SPMIGcnt;
+   if SPMIDGloadIndex
+   then GSPMitmIdx:=SPMIDGcnt;
 end;
 
 function FCFgSPM_SPMiInfluence_Get(
@@ -358,34 +369,39 @@ function FCFgSPM_SPMiInfluence_Get(
    ): integer;
 {:Purpose: calculate the influence factor for a policy to set or a meme evolution regarding how is set the SPM of a given entity.
     Additions:
+      -2011Sep10- *add: test if the SPMi duration = 0, because if set and duration>0 indicate that the SPMi is a reject/cancellation.
+                  *code audit:
+                  (x)var formatting + refactoring     (x)if..then reformatting   (N)function/procedure refactoring
+                  (N)parameters refactoring           (x) ()reformatting         (N)code optimizations
+                  (N)float local variables=> extended (N)case..of reformatting   (N)local methods
       -2010Dec05- *add: memes progressive influence.
 }
-var
-   SPMIIGcnt
-   ,SPMIIGmax
-   ,SPMIIGres: integer;
+   var
+      SPMIIGcnt
+      ,SPMIIGmax
+      ,SPMIIGres: integer;
 
-   SPMIIGsv: GSPMMret;
+      SPMIIGsv: GSPMMret;
 begin
    SPMIIGcnt:=1;
-   SPMIIGmax:=length(FCentities[SPMIIGent].E_spm)-1;
+   SPMIIGmax:=length( FCentities[SPMIIGent].E_spm )-1;
    SPMIIGres:=0;
    SPMIIGsv[1]:=SPMIIGsv[0];
    SPMIIGsv[2]:=SPMIIGsv[0];
    Result:=0;
    while SPMIIGcnt<=SPMIIGmax do
    begin
-      if (FCentities[SPMIIGent].E_spm[SPMIIGcnt].SPMS_isPolicy)
-         and (FCentities[SPMIIGent].E_spm[SPMIIGcnt].SPMS_isSet)
+      if ( FCentities[SPMIIGent].E_spm[SPMIIGcnt].SPMS_isPolicy )
+         and ( FCentities[SPMIIGent].E_spm[SPMIIGcnt].SPMS_isSet )
+         and ( FCentities[SPMIIGent].E_spm[SPMIIGcnt].SPMS_duration=0 )
       then SPMIIGres:=SPMIIGres+SPMIIGspmi.SPMI_infl[SPMIIGcnt].SPMII_influence
-      else if (not FCentities[SPMIIGent].E_spm[SPMIIGcnt].SPMS_isPolicy)
-         and (FCentities[SPMIIGent].E_spm[SPMIIGcnt].SPMS_bLvl>dgUnknown)
-      then
+      else if ( not FCentities[SPMIIGent].E_spm[SPMIIGcnt].SPMS_isPolicy )
+         and ( FCentities[SPMIIGent].E_spm[SPMIIGcnt].SPMS_bLvl>dgUnknown ) then
       begin
-         SPMIIGsv:=FCFgSPMM_SVRange_Get(FCentities[SPMIIGent].E_spm[SPMIIGcnt].SPMS_bLvl);
-         SPMIIGres:=SPMIIGres+round( SPMIIGspmi.SPMI_infl[SPMIIGcnt].SPMII_influence* (SPMIIGsv[2]*0.01) );
+         SPMIIGsv:=FCFgSPMM_SVRange_Get( FCentities[SPMIIGent].E_spm[SPMIIGcnt].SPMS_bLvl );
+         SPMIIGres:=SPMIIGres+round( SPMIIGspmi.SPMI_infl[SPMIIGcnt].SPMII_influence* ( SPMIIGsv[2]*0.01 ) );
       end;
-      inc(SPMIIGcnt);
+      inc( SPMIIGcnt );
    end;
    Result:=SPMIIGres;
 end;
@@ -473,7 +489,7 @@ begin
    PPreqMax:=0;
    PPeSUM:=0;
    PPisReqPassed:=true;
-   GSPMspmi:=FCFgSPM_SPMI_Get(PPpolicy, true);
+   GSPMspmi:=FCFgSPM_SPMIData_Get(PPpolicy, true);
    {.initialize the interface}
    FCWinMain.FCWM_UMIFSh_RFdisp.HTMLText.Clear;
    {.requirements calculations}
@@ -783,7 +799,7 @@ begin
    PPreqCnt:=0;
    PPreqMax:=0;
    PPisReqPassed:=true;
-   PEPNUIspmi:=FCFgSPM_SPMI_Get(PPpolicy, true);
+   PEPNUIspmi:=FCFgSPM_SPMIData_Get(PPpolicy, true);
    {.requirements calculations}
    PPreqMax:=length(PEPNUIspmi.SPMI_req)-1;
    if PPreqMax>0
@@ -1048,7 +1064,7 @@ begin
          PPt2:=0;
          PPt4:=0;
          PPpostSVoverride:=false;
-         PPspmi:=FCFgSPM_SPMI_Get(FCentities[PPentCnt].E_spm[PPspmCnt].SPMS_token);
+         PPspmi:=FCFgSPM_SPMIData_Get(FCentities[PPentCnt].E_spm[PPspmCnt].SPMS_token);
          if FCentities[PPentCnt].E_spm[PPspmCnt].SPMS_isPolicy
          then
          begin
@@ -1253,9 +1269,9 @@ begin
    if GSPMspmi.SPMI_isUnique2set
    then
    begin
-      PEColdPolTok:=FCFgSPM_GvtSystems_Get(0, GSPMspmi.SPMI_area);
-      PEColdPol:=FCFgSPM_SPMI_Get(PEColdPolTok);
-      PEColdPolIdx:=FCFgSPM_GvtSystems_GetIdx(0, GSPMspmi.SPMI_area);
+      PEColdPolTok:=FCFgSPM_GvtEconMedcaSpiSystems_GetToken(0, GSPMspmi.SPMI_area);
+      PEColdPol:=FCFgSPM_SPMIData_Get(PEColdPolTok);
+      PEColdPolIdx:=FCFgSPM_GvtEconMedcaSpiSystems_GetIdx(0, GSPMspmi.SPMI_area);
       {.exchange the previous policy modifiers by the new one}
       PECmodCoh:=FCentities[0].E_spmMcohes;
       FCentities[0].E_spmMcohes:=PECmodCoh-PEColdPol.SPMI_modCohes+GSPMspmi.SPMI_modCohes;
@@ -1585,7 +1601,7 @@ begin
    SPMIReduSet:=true;
    SPMIRnatSet:=true;
    SPMIRhealSet:=true;
-   SPMIRspmDat:=FCFgSPM_SPMI_Get(FCEntities[SPMIRent].E_spm[SPMIRidx].SPMS_token);
+   SPMIRspmDat:=FCFgSPM_SPMIData_Get(FCEntities[SPMIRent].E_spm[SPMIRidx].SPMS_token);
    if FCEntities[SPMIRent].E_spm[SPMIRidx].SPMS_isPolicy
    then
    begin
@@ -1790,7 +1806,7 @@ begin
    SPMISeduSet:=false;
    SPMISnatSet:=false;
    SPMIShealSet:=false;
-   SPMISspmDat:=FCFgSPM_SPMI_Get(FCEntities[SPMISent].E_spm[SPMISspmi].SPMS_token);
+   SPMISspmDat:=FCFgSPM_SPMIData_Get(FCEntities[SPMISent].E_spm[SPMISspmi].SPMS_token);
    {.update the SPM modifiers}
    if SPMISspmDat.SPMI_modCohes<>0
    then
