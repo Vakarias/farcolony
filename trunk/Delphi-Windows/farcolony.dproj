@@ -120,6 +120,7 @@
 			<DCCReference Include="game\farc_game_prodSeg2.pas"/>
 			<DCCReference Include="game\farc_game_spmcfx.pas"/>
 			<DCCReference Include="game\farc_game_prodSeg5.pas"/>
+			<DCCReference Include="game\farc_game_infrafunctions.pas"/>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>

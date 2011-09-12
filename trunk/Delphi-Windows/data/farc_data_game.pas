@@ -343,6 +343,7 @@ interface
    end;
    {.owned infrastructure data structure}
    {:DEV NOTES: update FCMdFiles_Game_Save/Load + FCMgICS_Conversion_Process + FCMgICS_Assembling_Process + FCMgICS_Building_Process + FCMuiCDP_Data_Update/dtInfra.}
+   {:DEV NOTES: for functions: update FCMgIF_Functions_Initialize + FCMgIF_Functions_Application.}
    type TFCRdgColonInfra= record
       {.dbinfra token id}
       CI_dbToken: string[20];
