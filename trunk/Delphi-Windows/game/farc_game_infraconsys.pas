@@ -37,11 +37,12 @@ uses
    ,farc_data_infrprod;
 
 ///<summary>
-///   calculate the assembling time in hours
+///   calculate the assembling time
 ///</summary>
 ///   <param name="ADCtotalVolInfra">total volume at desired level</param>
 ///   <param name="ADCrecursiveCoef">recursive coefficient, must be 1 by default</param>
 ///   <param name="ADCiCWP">iCWP value</param>
+///   <returns>the assembling time in hours (int)</returns>
 function FCFgICS_AssemblingDuration_Calculation(
    const ADCtotalVolInfra
          ,ADCrecursiveCoef
@@ -49,12 +50,13 @@ function FCFgICS_AssemblingDuration_Calculation(
    ): integer;
 
 ///<summary>
-///   calculate the building time in hours
+///   calculate the building time
 ///</summary>
 ///   <param name="BDCtotalVolMaterial">total volume of material at desired level</param>
 ///   <param name="BDCrecursiveCoef">recursive coefficient, must be 1 by default</param>
 ///   <param name="BDCiCWP">iCWP value</param>
 ///   <param name="BDCemo">region's environment modifier where the infrastructure is</param>
+///   <returns>the building time in hours (int)</returns>
 function FCFgICS_BuildingDuration_Calculation(
    const BDCtotalVolMaterial
          ,BDCrecursiveCoef
@@ -63,11 +65,12 @@ function FCFgICS_BuildingDuration_Calculation(
    ): integer;
 
 ///<summary>
-///   calculate the iCWP for a given infrastructure level to assemble/build. Return the iCWP formatted x.x
+///   calculate the iCWP for a given infrastructure level to assemble/build
 ///</summary>
 ///   <param name="ICWPCent">entity index #</param>
 ///   <param name="ICWPCcol">colony index #</param>
 ///   <param name="ICWPCinfraLevel">infrastructure level of the infrastructure to build/assemble</param>
+///   <returns>iCWP formatted x.x</returns>
 function FCFgICS_iCWP_Calculation(
 	const ICWPCent
    		,ICWPCcol
@@ -211,22 +214,6 @@ procedure FCMgICS_Conversion_Process(
          ,ICPsettlement: integer
    );
 
-///<summary>
-///   initialize the infrastructure functions data for assembling/building modes
-///</summary>
-///   <param name="FIent">entity index #</param>
-///   <param name="FIcol">colony index #</param>
-///   <param name="FIsett">settlement index #</param>
-///   <param name="FIinfra">infrastructure index number</param>
-///   <param name="FIinfraData">infrastructure data</param>
-procedure FCMgICS_FunctionsInit(
-   const FIent
-         ,FIcol
-         ,FIsett
-         ,FIinfra: integer;
-   const FIinfraData: TFCRdipInfrastructure
-   );
-
 implementation
 
 uses
@@ -238,6 +225,7 @@ uses
    ,farc_game_energymodes
    ,farc_game_infra
    ,farc_game_infracustomfx
+   ,farc_game_infrafunctions
    ,farc_game_infrapower
    ,farc_spu_functions
    ,farc_ui_coldatapanel
@@ -250,17 +238,21 @@ function FCFgICS_AssemblingDuration_Calculation(
          ,ADCrecursiveCoef
          ,ADCiCWP: double
    ): integer;
-{:Purpose: calculate the assembling time in hours.
+{:Purpose: calculate the assembling time. Returns the assembling time in hours (int).
     Additions:
+      -2011Sep11- *code audit:
+                  (x)var formatting + refactoring     (N)if..then reformatting   (x)function/procedure refactoring
+                  (x)parameters refactoring           (x) ()reformatting         (x)code optimizations
+                  (x)float local variables=> extended (N)case..of reformatting   (N)local methods
       -2011Sep10- *add: increment the duration to 1 hour in all cases to prevent a real duration less than 1 hr due to the game flow.
       -2011Jun12- *add: take the case if result=0;
 }
-var
-   ADCcoef: double;
+   var
+      ADCcoef: extended;
 begin
    Result:=0;
-   ADCcoef:= ( ( power(((ADCtotalVolInfra*ADCrecursiveCoef)/0.003), 0.333) ) / power(ADCiCWP,0.333) ) / 2;
-	Result:=round(power(ADCcoef, 2.5)*0.5)+1;
+   ADCcoef:= ( ( power( ( ( ADCtotalVolInfra*ADCrecursiveCoef )/0.003 ), 0.333 ) ) / power( ADCiCWP,0.333 ) ) *0.5;
+	Result:=round( power ( ADCcoef, 2.5 )*0.5 )+1;
    if Result=1
    then Result:=2;
 end;
@@ -271,16 +263,20 @@ function FCFgICS_BuildingDuration_Calculation(
          ,BDCiCWP
          ,BDCemo: double
    ): integer;
-{:Purpose: calculate the building time in hours.
+{:Purpose: calculate the building time. Returns the building time in hours (int).
     Additions:
+      -2011Sep11- *code audit:
+                  (x)var formatting + refactoring     (N)if..then reformatting   (x)function/procedure refactoring
+                  (N)parameters refactoring           (x) ()reformatting         (N)code optimizations
+                  (x)float local variables=> extended (-)case..of reformatting   (N)local methods
       -2011Sep10- *add: increment the duration to 1 hour in all cases to prevent a real duration less than 1 hr due to the game flow.
 }
-var
-   BDCcoef: double;
+   var
+      BDCcoef: extended;
 begin
    Result:=0;
-   BDCcoef:= ( power(((BDCtotalVolMaterial*BDCrecursiveCoef)/0.003), 0.333) + BDCemo) / power(BDCiCWP,0.333);
-	Result:=round(power(BDCcoef, 2.5)*0.5)+1;
+   BDCcoef:= ( power( ( ( BDCtotalVolMaterial*BDCrecursiveCoef )/0.003 ), 0.333)  + BDCemo ) / power( BDCiCWP,0.333 );
+	Result:=round( power( BDCcoef, 2.5 )*0.5 )+1;
    if Result=1
    then Result:=2;
 end;
@@ -290,57 +286,53 @@ function FCFgICS_iCWP_Calculation(
    		,ICWPCcol
    		,ICWPCinfraLevel: integer
    ): double;
-{:Purpose: calculate the iCWP for a given infrastructure level to assemble/build. Return the iCWP formatted x.x.
+{:Purpose: calculate the iCWP for a given infrastructure level to assemble/build. Returns the iCWP formatted x.x.
     Additions:
+      -2011Sep11- *code audit:
+                  (x)var formatting + refactoring     (x)if..then reformatting   (x)function/procedure refactoring
+                  (N)parameters refactoring           (x) ()reformatting         (x)code optimizations
+                  (x)float local variables=> extended (N)case..of reformatting   (N)local methods
       -2011Jun07- *fix: forgot to put the case when the CAB queue is empty (throw an exception).
 }
-var
-   IWCPCsettleInfraCount
-   ,IWCPCsettleIndexMax
-   ,IWCPCinfraIndex
-   ,IWCPCmax
-   ,IWCPCsettlement
-	,IWCPCsumLvl: integer;
+   var
+      ICWPCinfraIndex
+      ,ICWPCsettCnt
+      ,ICWPCsettIdxCnt
+      ,ICWPCsettIdxMax
+      ,ICWPCsettMax
+      ,ICWPCsumLvl: integer;
 
-   IWCPCdivider
-   ,IWCPCicwp: double;
+      ICWPCdivider
+      ,ICWPCicwp: extended;
 begin
 	Result:=0;
-   IWCPCmax:=length(FCentities[ICWPCent].E_col[ICWPCcol].COL_cabQueue)-1;
-   if IWCPCmax>0
-   then
+   ICWPCsettMax:=length( FCentities[ICWPCent].E_col[ICWPCcol].COL_cabQueue )-1;
+   ICWPCsettCnt:=1;
+   ICWPCsumLvl:=0;
+   while ICWPCsettCnt<=ICWPCsettMax do
    begin
-      IWCPCsettlement:=1;
-      IWCPCsumLvl:=0;
-      while IWCPCsettlement<=IWCPCmax do
+      ICWPCsettIdxMax:=Length( FCentities[ICWPCent].E_col[ICWPCcol].COL_cabQueue[ICWPCsettCnt] )-1;
+      if ICWPCsettIdxMax>0 then
       begin
-       	IWCPCsettleIndexMax:=Length(FCentities[ICWPCent].E_col[ICWPCcol].COL_cabQueue[IWCPCsettlement])-1;
-         if IWCPCsettleIndexMax>0
-         then
+         ICWPCsettIdxCnt:=1;
+         while ICWPCsettIdxCnt<=ICWPCsettIdxMax do
          begin
-            IWCPCsettleInfraCount:=1;
-				while IWCPCsettleInfraCount<=IWCPCsettleIndexMax do
-            begin
-         		IWCPCinfraIndex:=FCentities[ICWPCent].E_col[ICWPCcol].COL_cabQueue[IWCPCsettlement, IWCPCsettleInfraCount];
-               if FCentities[ICWPCent].E_col[ICWPCcol].COL_settlements[IWCPCsettlement].CS_infra[IWCPCinfraIndex].CI_status<>istInConversion
-               then IWCPCsumLvl:=IWCPCsumLvl+FCentities[ICWPCent].E_col[ICWPCcol].COL_settlements[IWCPCsettlement].CS_infra[IWCPCinfraIndex].CI_level;
-               inc(IWCPCsettleInfraCount);
-            end;
+            ICWPCinfraIndex:=FCentities[ICWPCent].E_col[ICWPCcol].COL_cabQueue[ICWPCsettCnt, ICWPCsettIdxCnt];
+            if FCentities[ICWPCent].E_col[ICWPCcol].COL_settlements[ICWPCsettCnt].CS_infra[ICWPCinfraIndex].CI_status<>istInConversion
+            then ICWPCsumLvl:=ICWPCsumLvl+FCentities[ICWPCent].E_col[ICWPCcol].COL_settlements[ICWPCsettCnt].CS_infra[ICWPCinfraIndex].CI_level;
+            inc( ICWPCsettIdxCnt );
          end;
-         inc(IWCPCsettlement);
       end;
-      if IWCPCsumLvl=0
-      then IWCPCicwp:=FCentities[ICWPCent].E_col[ICWPCcol].COL_population.POP_wcpTotal
-      else if IWCPCsumLvl>0
-      then
-      begin
-         IWCPCdivider:=ln(IWCPCsumLvl+1) / ln(ICWPCinfraLevel+1);
-         IWCPCicwp:=FCFcFunc_Rnd(cfrttp1dec, FCentities[ICWPCent].E_col[ICWPCcol].COL_population.POP_wcpTotal/IWCPCdivider);
-      end;
-   end
-   else if IWCPCmax=0
-   then IWCPCicwp:=FCentities[ICWPCent].E_col[ICWPCcol].COL_population.POP_wcpTotal;
-   Result:=IWCPCicwp;
+      inc( ICWPCsettCnt );
+   end;
+   if ICWPCsumLvl=0
+   then ICWPCicwp:=FCentities[ICWPCent].E_col[ICWPCcol].COL_population.POP_wcpTotal
+   else if ICWPCsumLvl>0 then
+   begin
+      ICWPCdivider:=ln( ICWPCsumLvl+1 ) / ln( ICWPCinfraLevel+1 );
+      ICWPCicwp:=FCFcFunc_Rnd( cfrttp1dec, FCentities[ICWPCent].E_col[ICWPCcol].COL_population.POP_wcpTotal/ICWPCdivider );
+   end;
+   Result:=ICWPCicwp;
 end;
 
 function FCFgICS_InfraLevel_Setup(
@@ -390,7 +382,8 @@ procedure FCMgICS_Assembling_PostProcess(
     Additions:
 }
 begin
-
+//   FCentities[ICPPent].E_col[ICPPcol].COL_settlements[ICPPsettlement].CS_infra[ICPPinfra].CI_status:=istOperational;
+//   FCentities[ICPPent].E_col[ICPPcol].COL_cabQueue[ICPPsettlement, ICPPcabQueueIndex]:=0;
 end;
 
 procedure FCMgICS_Assembling_Process(
@@ -421,13 +414,14 @@ procedure FCMgICS_Assembling_Process(
       APisCDPshown: boolean;
 
       APclonedInfra: TFCRdipInfrastructure;
-
-   	APenv: TFCRgcEnvironment;
 begin
-   APenv:=FCFgC_ColEnv_GetTp(APent, APcol);
    APinfraIndex:=length(FCentities[APent].E_col[APcol].COL_settlements[APsettlement].CS_infra);
    SetLength(FCentities[APent].E_col[APcol].COL_settlements[APsettlement].CS_infra, APinfraIndex+1);
-   APclonedInfra:=FCFgInf_DataStructure_Get(APinfraToken, APenv.ENV_envType);
+   APclonedInfra:=FCFgInf_DataStructure_Get(
+      APent
+      ,APcol
+      ,APinfraToken
+      );
    FCentities[APent].E_col[APcol].COL_settlements[APsettlement].CS_infra[APinfraIndex].CI_dbToken:=APclonedInfra.I_token;
 	FCentities[APent].E_col[APcol].COL_settlements[APsettlement].CS_infra[APinfraIndex].CI_level:=FCFgICS_InfraLevel_Setup(
    	APclonedInfra.I_minLevel
@@ -444,7 +438,7 @@ begin
       ,APsettlement
       ,APinfraIndex
       );
-   FCMgICS_FunctionsInit(
+   FCMgIF_Functions_Initialize(
       APent
       ,APcol
       ,APsettlement
@@ -498,13 +492,14 @@ procedure FCMgICS_Building_Process(
       BPisCDPshown: boolean;
 
       BPclonedInfra: TFCRdipInfrastructure;
-
-   	BPenv: TFCRgcEnvironment;
 begin
-   BPenv:=FCFgC_ColEnv_GetTp(BPent, BPcol);
    BPinfraIndex:=length(FCentities[BPent].E_col[BPcol].COL_settlements[BPsettlement].CS_infra);
    SetLength(FCentities[BPent].E_col[BPcol].COL_settlements[BPsettlement].CS_infra, BPinfraIndex+1);
-   BPclonedInfra:=FCFgInf_DataStructure_Get(BPinfraToken, BPenv.ENV_envType);
+   BPclonedInfra:=FCFgInf_DataStructure_Get(
+      BPent
+      ,BPcol
+      ,BPinfraToken
+      );
    FCentities[BPent].E_col[BPcol].COL_settlements[BPsettlement].CS_infra[BPinfraIndex].CI_dbToken:=BPclonedInfra.I_token;
 	FCentities[BPent].E_col[BPcol].COL_settlements[BPsettlement].CS_infra[BPinfraIndex].CI_level:=FCFgICS_InfraLevel_Setup(
    	BPclonedInfra.I_minLevel
@@ -521,7 +516,7 @@ begin
       ,BPsettlement
       ,BPinfraIndex
       );
-   FCMgICS_FunctionsInit(
+   FCMgIF_Functions_Initialize(
       BPent
       ,BPcol
       ,BPsettlement
@@ -679,15 +674,16 @@ var
 
    ICPisCDPshown: boolean;
 
-   ICPenv: TFCRgcEnvironment;
-
    ICPclonedInfra: TFCRdipInfrastructure;
 begin
-   ICPenv:=FCFgC_ColEnv_GetTp(ICPent, ICPcol);
    {:DEV NOTES: colonization equipment module will be taken in consideration in the future, for now i use hardcoded data.}
    SetLength(FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra, length(FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra)+1);
    ICPinfra:=length(FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra)-1;
-   ICPclonedInfra:=FCFgInf_DataStructure_Get('infrColShelt', ICPenv.ENV_envType);
+   ICPclonedInfra:=FCFgInf_DataStructure_Get(
+      ICPent
+      ,ICPcol
+      ,'infrColShelt'
+      );
    FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra[ICPinfra].CI_dbToken:=ICPclonedInfra.I_token;
 
    {:DEV NOTES: transfer the colonization equipment module volume to the prive variable infra volume.
@@ -839,67 +835,6 @@ begin
       ,ICPcol
       ,ICPsettlement
       );
-end;
-
-procedure FCMgICS_FunctionsInit(
-   const FIent
-         ,FIcol
-         ,FIsett
-         ,FIinfra: integer;
-   const FIinfraData: TFCRdipInfrastructure
-   );
-{:Purpose: initialize the infrastructure functions data for assembling/building modes.
-    Additions:
-      -2011Sep09- *fix: for energy function: forgot to update the colony's energy production data.
-      -2011Sep03- *add: for fHousing, add the level in determination of the population capacity.
-      -2011Jul18- *add: complete the fEnergy case.
-}
-   var
-      FIenergyOutput: double;
-begin
-   case FCentities[FIent].E_col[FIcol].COL_settlements[FIsett].CS_infra[FIinfra].CI_function of
-      fEnergy:
-      begin
-         FIenergyOutput:=FCFgEM_OutputFromFunction_GetValue(
-            FIent
-            ,FIcol
-            ,FCentities[FIent].E_col[FIcol].COL_settlements[FIsett].CS_infra[FIinfra].CI_level
-            ,FIinfraData
-            );
-         FCMgIP_CSMEnergy_Update(
-            FIent
-            ,FIcol
-            ,false
-            ,0
-            ,FIenergyOutput
-            ,0
-            ,0
-            );
-      end;
-
-      fHousing:
-      begin
-         FCentities[FIent].E_col[FIcol].COL_settlements[FIsett].CS_infra[FIinfra].CI_fhousPCAP:=FIinfraData.I_fHousPopulationCap[FCentities[FIent].E_col[FIcol].COL_settlements[FIsett].CS_infra[FIinfra].CI_level];
-         FCentities[FIent].E_col[FIcol].COL_settlements[FIsett].CS_infra[FIinfra].CI_fhousQOL:=FIinfraData.I_fHousQualityOfLife;
-         FCentities[FIent].E_col[FIcol].COL_settlements[FIsett].CS_infra[FIinfra].CI_fhousVol:=0;
-         FCentities[FIent].E_col[FIcol].COL_settlements[FIsett].CS_infra[FIinfra].CI_fhousSurf:=0;
-      end;
-
-      fIntelligence:
-      begin
-
-      end;
-
-      fMiscellaneous:
-      begin
-
-      end;
-
-      fProduction:
-      begin
-
-      end;
-   end;
 end;
 
 end.
