@@ -92,7 +92,53 @@ procedure FCMgCSM_ColonyData_Init(const CDIfac, CDIcolIdx: Integer);
 ///<summary>
 ///   update the choosen CSM data and update all the depencies if required
 ///</summary>
-///   <param name="CDUdata">type of data</param>
+///   <param name="CDUdata">type of data
+   ///<summary>
+   ///   gcsmdPopulation: cduvalue= population xfert, cduvalue1= 0, poptype= never none, fullupd= true=trigger dependencies
+      ///<summary>
+      ///!!!!!-for population transfer inside the same population use FCMgCSM_Pop_Xfert
+      ///</summary>
+   ///</summary>
+   ///<summary>
+   ///   gcsmdBirthR: cduvalue= 0, cduvalue1= 0, poptype= always none, fullupd= always false
+   ///</summary>
+   ///<summary>
+   ///   gcsmdCohes: cduvalue= cohesion modifier, cduvalue1= 0, poptype= always none, fullupd= always false
+   ///</summary>
+   ///<summary>
+   ///   gcsmdColLvl: cduvalue= 0, cduvalue1= 0, poptype= always none, fullupd= always true
+   ///</summary>
+   ///<summary>
+   ///   gcsmdDeathR: cduvalue= 0, cduvalue1= 0, poptype= always none, fullupd= always false
+   ///</summary>
+   ///<summary>
+   ///   gcsmdHEAL: cduvalue= HEAL modifier (if fullupd=false), cduvalue1= 0, poptype= always none, fullupd= true=full/false=mod
+   ///<summary>
+      ///!!!!!-use false ONLY when it's a CSM event which trigger the calculation
+      ///</summary>
+   ///</summary>
+   ///<summary>
+   ///   gcsmdEdu: cduvalue= education modifier, cduvalue1= 0, poptype= always none, fullupd= always false
+   ///</summary>
+   ///<summary>
+   ///   gcsmdMeanAge: cduvalue= population from sender, cduvalue1= sender mean age, poptype= always none, fullupd= always true
+   ///</summary>
+   ///<summary>
+   ///   gcsmdPCAP: cduvalue= PCAP modifier (if fullupd=false), cduvalue1= 0, poptype= always none, fullupd= true=full/false=mod
+   ///</summary>
+   ///<summary>
+   ///   gcsmdQOL: method setup: cduvalue= 0, cduvalue1= 0, poptype= always none, fullupd= always true
+   ///</summary>
+   ///<summary>
+   ///   gcsmdSec: method setup: cduvalue= 0, cduvalue1= 0, poptype= always none, fullupd= always true
+   ///</summary>
+   ///<summary>
+   ///   gcsmdSPL: method setup: cduvalue= 0, cduvalue1= 0, poptype= always none, fullupd= always true
+   ///</summary>
+   ///<summary>
+   ///   gcsmdTens: method setup: cduvalue= tension modifier, cduvalue1= 0, poptype= always none, fullupd= always false
+   ///</summary>
+///</param>
 ///   <param name="CDUfac">faction index #</param>
 ///   <param name="CDUcol">colony index #</param>
 ///   <param name="CDUvalue">[optional] cumulative value to apply in + or -</param>
@@ -455,8 +501,6 @@ begin
       {.population addition}
       gcsmdPopulation:
       begin
-         {.method setup: cduvalue= population xfert, cduvalue1= 0, poptype= never none, fullupd= true=trigger dependencies}
-         {:DEV NOTES: WARNING for population transfer inside the same population use FCMgCSM_Pop_Xfert.}
          CDUdatI:=FCentities[CDUfac].E_col[CDUcol].COL_population.POP_total;
          CDUdatI1:=round(CDUvalue);
          FCentities[CDUfac].E_col[CDUcol].COL_population.POP_total:=CDUdatI+CDUdatI1;
@@ -577,21 +621,18 @@ begin
       end; //==END== case: gcsmdPopulation ==//
       gcsmdBirthR:
       begin
-         {.method setup: cduvalue= 0, cduvalue1= 0, poptype= always none, fullupd= always false}
          if FCentities[CDUfac].E_col[CDUcol].COL_population.POP_total>0
          then FCMgPGS_BR_Calc(CDUfac, CDUcol);
          {.update dependencies}
       end;
       gcsmdCohes:
       begin
-         {.method setup: cduvalue= cohesion modifier, cduvalue1= 0, poptype= always none, fullupd= always false}
          CDUdatI:=FCentities[CDUfac].E_col[CDUcol].COL_cohes;
          FCentities[CDUfac].E_col[CDUcol].COL_cohes:=CDUdatI+round(CDUvalue);
          {.update dependencies}
       end;
       gcsmdColLvl:
       begin
-         {.method setup: cduvalue= 0, cduvalue1= 0, poptype= always none, fullupd= always true}
          {:DEV NOTES: don't forget to also put the region control test.}
          if (FCentities[CDUfac].E_col[CDUcol].COL_population.POP_total>=1)
             and (FCentities[CDUfac].E_col[CDUcol].COL_population.POP_total<11)
@@ -618,16 +659,12 @@ begin
       end;
       gcsmdDeathR:
       begin
-         {.method setup: cduvalue= 0, cduvalue1= 0, poptype= always none, fullupd= always false}
          if FCentities[CDUfac].E_col[CDUcol].COL_population.POP_total>0
          then FCMgPGS_DR_Calc(CDUfac, CDUcol);
          {.update dependencies}
       end;
       gcsmdHEAL:
       begin
-         {.method setup: cduvalue= HEAL modifier (if fullupd=false), cduvalue1= 0, poptype= always none, fullupd= true=full/false=mod
-         use false ONLY when it's a CSM event which trigger the calculation
-         }
          if not CDUfullUpd
          then
          begin
@@ -726,7 +763,6 @@ begin
       end;
       gcsmdEdu:
       begin
-         {.method setup: cduvalue= education modifier, cduvalue1= 0, poptype= always none, fullupd= always false}
          CDUdatI:=FCentities[CDUfac].E_col[CDUcol].COL_edu;
          FCentities[CDUfac].E_col[CDUcol].COL_edu:=CDUdatI+round(CDUvalue);
          {.update dependencies}
@@ -734,7 +770,6 @@ begin
       {.population mean age}
       gcsmdMeanAge:
       begin
-         {.method setup: cduvalue= population from sender, cduvalue1= sender mean age, poptype= always none, fullupd= always true}
          FCMgPGS_MeanAge_UpdXfert(
             CDUfac
             ,CDUcol
@@ -755,7 +790,6 @@ begin
       {.population capacity}
       gcsmdPCAP:
       begin
-         {.method setup: cduvalue= PCAP modifier (if fullupd=false), cduvalue1= 0, poptype= always none, fullupd= true=full/false=mod}
          if not CDUfullUpd
          then
          begin
@@ -809,7 +843,6 @@ begin
       {.quality of life}
       gcsmdQOL:
       begin
-         {.method setup: cduvalue= 0, cduvalue1= 0, poptype= always none, fullupd= always true}
          CDUdatI:=0;
          CDUdatI1:=0;
          CDUdatF:=0;
@@ -868,7 +901,6 @@ begin
       end;
       gcsmdSec:
       begin
-         {.method setup: cduvalue= 0, cduvalue1= 0, poptype= always none, fullupd= always true}
          CDUdatI:=0;
          CDUdatI1:=0;
          CDUdatI2:=0;
@@ -900,7 +932,6 @@ begin
       end;
       gcsmdSPL:
       begin
-         {.method setup: cduvalue= 0, cduvalue1= 0, poptype= always none, fullupd= always true}
          CDUdatF:=FCentities[CDUfac].E_col[CDUcol].COL_csmHOpcap/FCentities[CDUfac].E_col[CDUcol].COL_population.POP_total;
          FCentities[CDUfac].E_col[CDUcol].COL_csmHOspl:=DecimalRound(CDUdatF, 2, 0.001);
          {.csm events trigger}
@@ -918,7 +949,6 @@ begin
       {.tension}
       gcsmdTens:
       begin
-         {.method setup: cduvalue= tension modifier, cduvalue1= 0, poptype= always none, fullupd= always false}
          CDUdatI:=FCentities[CDUfac].E_col[CDUcol].COL_tens;
          FCentities[CDUfac].E_col[CDUcol].COL_tens:=CDUdatI+round(CDUvalue);
          {.update dependencies}
