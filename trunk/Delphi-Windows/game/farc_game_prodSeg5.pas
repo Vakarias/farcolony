@@ -124,7 +124,7 @@ begin
 
                istInTransition:
                begin
-
+                  dec( FCentities[CABTSPent].E_col[CABTSPcol].COL_settlements[CABTSPcntSet].CS_infra[CABTSPinfraIdx].CI_cabDuration );
                end;
             end; //==END== case FCentities[CABTSPent].E_col[CABTSPcol].COL_settlements[CABTSPcntSet].CS_infra[CABTSPinfraIdx].CI_status of ==//
             inc( CABTSPcntIdx );
