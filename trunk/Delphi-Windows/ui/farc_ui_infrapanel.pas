@@ -148,8 +148,6 @@ procedure FCMuiIP_AvailInfra_Setup(
       ,AISbreakFormat
       ,AIStitle: string;
 
-      AISenvironment: TFCRgcEnvironment;
-
       AIScurrLocation: CDPcurrentLocIndexes;
 begin
    AIStask:='';
@@ -172,8 +170,11 @@ begin
    begin
       UIIPcolony:=FCFuiCDP_VarCurrentColony_Get;
       UIIPsettlement:=FCFuiCDP_VarCurrentSettlement_Get;
-      AISenvironment:=FCFgC_ColEnv_GetTp(0, UIIPcolony);
-      UIIPinfrastructure:=FCFgInf_DataStructure_Get(AISinfraToken, AISenvironment.ENV_envType);
+      UIIPinfrastructure:=FCFgInf_DataStructure_Get(
+         0
+         ,UIIPcolony
+         ,AISinfraToken
+         );
       if UIIPinfrastructure.I_constr=cBuilt
       then
       begin

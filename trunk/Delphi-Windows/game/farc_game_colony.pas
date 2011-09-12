@@ -269,8 +269,6 @@ var
    ,CIDRsettleCnt
    ,CIDRsettleMax: integer;
 
-   CIDRenvironment: TFCRgcEnvironment;
-
    CIDRinfr: TFCRdipInfrastructure;
 begin
    CIDRres:=0;
@@ -278,7 +276,6 @@ begin
    if CIDRsettleMax>0
    then
    begin
-      CIDRenvironment:=FCFgC_ColEnv_GetTp(CIDRfac, CIDRcol);
       CIDRsettleCnt:=1;
       while CIDRsettleCnt<=CIDRsettleMax do
       begin
@@ -290,7 +287,11 @@ begin
                {.number of housing infrastructures}
                gciaskNumOfHous:
                begin
-                  CIDRinfr:=FCFgInf_DataStructure_Get(FCentities[CIDRfac].E_col[CIDRcol].COL_settlements[CIDRsettleCnt].CS_infra[CIDRinfraCnt].CI_dbToken, CIDRenvironment.ENV_envType);
+                  CIDRinfr:=FCFgInf_DataStructure_Get(
+                     CIDRfac
+                     ,CIDRcol
+                     ,FCentities[CIDRfac].E_col[CIDRcol].COL_settlements[CIDRsettleCnt].CS_infra[CIDRinfraCnt].CI_dbToken
+                     );
                   if CIDRinfr.I_function=fHousing
                   then inc(CIDRres);
                end;
@@ -694,7 +695,6 @@ procedure FCMgC_HQ_Remove( const HQRent, HQRcol: integer );
 
       HQRinfraData: TFCRdipInfrastructure;
 
-      HQRcolEnv: TFCRgcEnvironment;
 begin
    HQRhigherHQfound:=dgNoHQ;
    HQRsetMax:=Length(FCentities[HQRent].E_col[HQRcol].COL_settlements)-1;
@@ -709,8 +709,11 @@ begin
             or (FCentities[HQRent].E_col[HQRcol].COL_settlements[HQRsetCnt].CS_infra[HQRinfraCnt].CI_function=fMiscellaneous)
          then
          begin
-            HQRcolEnv:=FCFgC_ColEnv_GetTp( HQRent, HQRcol );
-            HQRinfraData:=FCFgInf_DataStructure_Get( FCentities[HQRent].E_col[HQRcol].COL_settlements[HQRsetCnt].CS_infra[HQRinfraCnt].CI_dbToken, HQRcolEnv.ENV_envType );
+            HQRinfraData:=FCFgInf_DataStructure_Get(
+               HQRent
+               ,HQRcol
+               ,FCentities[HQRent].E_col[HQRcol].COL_settlements[HQRsetCnt].CS_infra[HQRinfraCnt].CI_dbToken
+               );
             HQRsearchResult:=FCFgICFX_EffectHQ_Search( HQRinfraData );
             if HQRsearchResult>HQRhigherHQfound
             then HQRhigherHQfound:=HQRsearchResult;

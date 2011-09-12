@@ -50,10 +50,10 @@ function FCFgInf_Function_GetToken(const IFGStype: TFCEdipFunction): string;
 ///   get the requested infrastructure
 ///</summary>
 ///   <param name="IGDinfToken">token id of the requested infrastructure</param>
-///   <param name="IGDinfToken">token id of the requested infrastructure</param>
 function FCFgInf_DataStructure_Get(
-   const IGDinfToken: string;
-   const DSGenvironment: TFCEduEnv
+   const IGDent
+         ,IGDcol: integer;
+   const IGDinfToken: string
    ): TFCRdipInfrastructure;
 
 ///<summary>
@@ -142,11 +142,14 @@ begin
 end;
 
 function FCFgInf_DataStructure_Get(
-   const IGDinfToken: string;
-   const DSGenvironment: TFCEduEnv
+   const IGDent
+         ,IGDcol: integer;
+   const IGDinfToken: string
    ): TFCRdipInfrastructure;
 {:Purpose: get the requested infrastructure.
     Additions:
+      -2011Sep11- *add: the environment is now directly processed inside this function, not outside. Allow to remove many duplicated code.
+                  *add: entity/colony parameters.
       -2011May06- *fix: take in account the ANY environment.
       -2011Mar07- *add: environment type parameter for getting the right infrastructure.
       -2011Feb21- *mod: initialize the infrastructure token with 'ERROR!' by default to put an error message in case of problem.
@@ -155,15 +158,17 @@ function FCFgInf_DataStructure_Get(
 var
    IGDcnt
    ,IGDmax: integer;
-//   IGDinf: TFCRdipInfrastructure;
+
+   IGDenv: TFCRgcEnvironment;
 begin
+   IGDenv:=FCFgC_ColEnv_GetTp(IGDent, IGDcol);
    IGDcnt:=1;
    IGDmax:=high(FCDBinfra);
    Result.I_token:='ERROR';
    while IGDcnt<=IGDmax do
    begin
       if (FCDBinfra[IGDcnt].I_token=IGDinfToken)
-         and ( (FCDBinfra[IGDcnt].I_environment=envAny) or (FCDBinfra[IGDcnt].I_environment=DSGenvironment) )
+         and ( (FCDBinfra[IGDcnt].I_environment=envAny) or (FCDBinfra[IGDcnt].I_environment=IGDenv.ENV_envType) )
       then
       begin
          Result:=FCDBinfra[IGDcnt];
@@ -307,12 +312,13 @@ procedure FCMgInf_Disabling_Process(
    Additions:
 }
    var
-      DPcolEnv: TFCRgcEnvironment;
-
       DPinfraData: TFCRdipInfrastructure;
 begin
-   DPcolEnv:=FCFgC_ColEnv_GetTp( DPent, DPcol );
-   DPinfraData:=FCFgInf_DataStructure_Get( FCentities[DPent].E_col[DPcol].COL_settlements[DPset].CS_infra[DPinf].CI_dbToken, DPcolEnv.ENV_envType );
+   DPinfraData:=FCFgInf_DataStructure_Get(
+      DPent
+      ,DPcol
+      ,FCentities[DPent].E_col[DPcol].COL_settlements[DPset].CS_infra[DPinf].CI_dbToken
+      );
    {reverse infra functions data here}
    FCMgIP_CSMEnergy_Update(
       DPent
@@ -347,12 +353,13 @@ procedure FCMgInf_Enabling_Process(
 {:Purpose: infrastructure enabling rule.
 }
    var
-      EPcolEnv: TFCRgcEnvironment;
-
       EPinfraData: TFCRdipInfrastructure;
 begin
-   EPcolEnv:=FCFgC_ColEnv_GetTp( EPent, EPcol );
-   EPinfraData:=FCFgInf_DataStructure_Get( FCentities[EPent].E_col[EPcol].COL_settlements[EPset].CS_infra[EPinf].CI_dbToken, EPcolEnv.ENV_envType );
+   EPinfraData:=FCFgInf_DataStructure_Get(
+      EPent
+      ,EPcol
+      ,FCentities[EPent].E_col[EPcol].COL_settlements[EPset].CS_infra[EPinf].CI_dbToken
+      );
    FCMgIP_CSMEnergy_Update(
       EPent
       ,EPcol

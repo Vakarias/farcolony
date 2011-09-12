@@ -1169,7 +1169,11 @@ begin
                then
                begin
                   CPUinfKitroot:=FCDBProducts[CPUintDump].PROD_fInfKitToken;
-                  CPUinfra:=FCFgInf_DataStructure_Get(FCDBProducts[CPUintDump].PROD_fInfKitToken, CPUenvironment.ENV_envType);
+                  CPUinfra:=FCFgInf_DataStructure_Get(
+                     0
+                     ,CPUcol
+                     ,FCDBProducts[CPUintDump].PROD_fInfKitToken
+                     );
                   if (CPUinfra.I_token<>'ERROR')
                      and (FCentities[0].E_col[CPUcol].COL_settlements[CPUsettlement].CS_level>=FCDBProducts[CPUintDump].PROD_fInfKitLevel)
                   then
