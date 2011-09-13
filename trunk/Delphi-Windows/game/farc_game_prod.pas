@@ -104,13 +104,13 @@ begin
          PCPcolCount:=1;
          while PCPcolCount<=PCPcolMax do
          begin
-            {:DEV NOTES: 1st segment: energy.}
+            {.1st segment: energy.}
             FCMgPS1_EnergySegment_Process(PCPfacCount, PCPcolCount);
-            {:DEV NOTES: 2nd segment, items production, test the production matrix here.}
+            {.2nd segment, items production, test the production matrix here.}
             FCMgPS2_ProductionSegment_Process(PCPfacCount, PCPcolCount);
             {:DEV NOTES: 3rd segment, reserves testing each 24hours.}
             {:DEV NOTES: post 1st alpha: 4th segment, space unit manufacturing.}
-            {:DEV NOTES: 5th segment, CAB queue processing.}
+            {.5th segment, CAB queue processing.}
             FCMgPS5_CABTransitionSegment_Process(PCPfacCount, PCPcolCount);
             inc(PCPcolCount);
          end;
