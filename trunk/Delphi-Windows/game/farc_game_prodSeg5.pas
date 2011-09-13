@@ -106,6 +106,7 @@ begin
                      ,CABTSPcol
                      ,CABTSPcntSet
                      ,CABTSPinfraIdx
+                     ,CABTSPcntIdx
                      );
                end;
 
@@ -124,7 +125,10 @@ begin
 
                istInTransition:
                begin
-                  dec( FCentities[CABTSPent].E_col[CABTSPcol].COL_settlements[CABTSPcntSet].CS_infra[CABTSPinfraIdx].CI_cabDuration );
+                  if FCentities[CABTSPent].E_col[CABTSPcol].COL_settlements[CABTSPcntSet].CS_infra[CABTSPinfraIdx].CI_cabDuration=-1
+                  then
+                  else if FCentities[CABTSPent].E_col[CABTSPcol].COL_settlements[CABTSPcntSet].CS_infra[CABTSPinfraIdx].CI_cabDuration>0
+                  then dec( FCentities[CABTSPent].E_col[CABTSPcol].COL_settlements[CABTSPcntSet].CS_infra[CABTSPinfraIdx].CI_cabDuration );
                end;
             end; //==END== case FCentities[CABTSPent].E_col[CABTSPcol].COL_settlements[CABTSPcntSet].CS_infra[CABTSPinfraIdx].CI_status of ==//
             inc( CABTSPcntIdx );
