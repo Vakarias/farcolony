@@ -109,7 +109,8 @@ procedure FCMgICS_Assembling_PostProcess(
    const APPent
          ,APPcol
          ,APPsettlement
-         ,APPinfra: integer
+         ,APPinfra
+         ,APPcabIdx: integer
    );
 
 ///<summary>
@@ -227,6 +228,7 @@ uses
    ,farc_game_infracustomfx
    ,farc_game_infrafunctions
    ,farc_game_infrapower
+   ,farc_game_infrastaff
    ,farc_spu_functions
    ,farc_ui_coldatapanel
    ,farc_win_debug;
@@ -376,12 +378,35 @@ procedure FCMgICS_Assembling_PostProcess(
    const APPent
          ,APPcol
          ,APPsettlement
-         ,APPinfra: integer
+         ,APPinfra
+         ,APPcabIdx: integer
    );
 {:Purpose: asssembling post-process.
     Additions:
+      -2011Sep12- *add: test the required staff and assign it if there's enough available persons in the population's colony.
+                  *add: new parameter: APPcabIdx.
 }
+   var
+      APPstaff: TFCRdgColonPopulation;
 begin
+   APPstaff:=FCFgIS_RequiredStaff_Test(
+      APPent
+      ,APPcol
+      ,APPsettlement
+      ,APPinfra
+      ,true
+      );
+   
+
+
+//   FCMgIF_Functions_Initialize(
+
+//      ,FCFgInf_DataStructure_Get(
+//         APPent
+//         ,APPcol
+//         ,FCentities[APPent].E_col[APPcol].COL_settlements[APPsettlement].CS_infra[APPinfra].CI_dbToken
+//         )
+//      );
 //   FCentities[ICPPent].E_col[ICPPcol].COL_settlements[ICPPsettlement].CS_infra[ICPPinfra].CI_status:=istOperational;
 //   FCentities[ICPPent].E_col[ICPPcol].COL_cabQueue[ICPPsettlement, ICPPcabQueueIndex]:=0;
 end;
@@ -445,6 +470,7 @@ begin
       ,APinfraIndex
       ,APclonedInfra
       );
+   {.remove the infrastructure kit which correspond to the infrastructure}
    APxfer:=FCFgC_Storage_Update(
       false
       ,FCEntities[APent].E_col[APcol].COL_storageList[APinfraKitInStorage].CPR_token
