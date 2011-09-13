@@ -124,6 +124,7 @@ uses
    farc_game_colony
    ,farc_game_infraconsys
    ,farc_game_infracustomfx
+   ,farc_game_infrafunctions
    ,farc_game_infrapower
    ,farc_univ_func;
 
@@ -351,6 +352,8 @@ procedure FCMgInf_Enabling_Process(
          ,EPinf: integer
    );
 {:Purpose: infrastructure enabling rule.
+   Additions:
+      -2011Sep12- *add: infrastructure function data are applied in case of a istDisabledByEE.
 }
    var
       EPinfraData: TFCRdipInfrastructure;
@@ -382,7 +385,12 @@ begin
    else if FCentities[EPent].E_col[EPcol].COL_settlements[EPset].CS_infra[EPinf].CI_status=istDisabledByEE then
    begin
       FCentities[EPent].E_col[EPcol].COL_settlements[EPset].CS_infra[EPinf].CI_status:=istOperational;
-      {.ENABLE FUNCTION + PRODMODES HERE}
+      FCMgIF_Functions_Application(
+         EPent
+         ,EPcol
+         ,EPset
+         ,EPinf
+         );
    end;
 end;
 
