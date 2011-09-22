@@ -71,6 +71,7 @@ function FCFgIS_RequiredStaff_Test(
    ): TFCRdgColonPopulation;
 {:Purpose: test if a colony can support the required staff of a given owned infrastructure.
     Additions:
+      -2011Sep20- *add: complete the routine, by adding the code when the test/assignment fail.
 }
    var
       RSTstaffCnt
@@ -321,20 +322,38 @@ begin
          end;
          inc( RSTstaffCnt );
       end;
-      if Result.POP_total=0 then
+      if Result.POP_total>0 then
       begin
-         //apply pop assignment here
-
-      end
-      else if Result.POP_total>0 then
-      begin
-         {:DEV NOTES: remove assigned population here, if there's any (test each Assigned.}
-         FCentities[RSTent].E_col[RSTcol].COL_settlements[RSTsett].CS_infra[RSTinfra].CI_status:=istInTransition;
-         FCentities[RSTent].E_col[RSTcol].COL_settlements[RSTsett].CS_infra[RSTinfra].CI_cabDuration:=-1;
+         if Result.POP_tpColonAssigned>0
+         then FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpColonAssigned:=FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpColonAssigned-Result.POP_tpColonAssigned;
+         if Result.POP_tpASoffAssigned>0
+         then FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpASoffAssigned:=FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpASoffAssigned-Result.POP_tpASoffAssigned;
+         if Result.POP_tpASmiSpAssigned>0
+         then FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpASmiSpAssigned:=FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpASmiSpAssigned-Result.POP_tpASmiSpAssigned;
+         if Result.POP_tpBSbioAssigned>0
+         then FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpBSbioAssigned:=FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpBSbioAssigned-Result.POP_tpBSbioAssigned;
+         if Result.POP_tpBSdocAssigned>0
+         then FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpBSdocAssigned:=FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpBSdocAssigned-Result.POP_tpBSdocAssigned;
+         if Result.POP_tpIStechAssigned>0
+         then FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpIStechAssigned:=FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpIStechAssigned-Result.POP_tpIStechAssigned;
+         if Result.POP_tpISengAssigned>0
+         then FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpISengAssigned:=FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpISengAssigned-Result.POP_tpISengAssigned;
+         if Result.POP_tpMSsoldAssigned>0
+         then FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpMSsoldAssigned:=FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpMSsoldAssigned-Result.POP_tpMSsoldAssigned;
+         if Result.POP_tpMScommAssigned>0
+         then FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpMScommAssigned:=FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpMScommAssigned-Result.POP_tpMScommAssigned;
+         if Result.POP_tpPSphysAssigned>0
+         then FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpPSphysAssigned:=FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpPSphysAssigned-Result.POP_tpPSphysAssigned;
+         if Result.POP_tpPSastrAssigned>0
+         then FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpPSastrAssigned:=FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpPSastrAssigned-Result.POP_tpPSastrAssigned;
+         if Result.POP_tpESecolAssigned>0
+         then FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpESecolAssigned:=FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpESecolAssigned-Result.POP_tpESecolAssigned;
+         if Result.POP_tpESecofAssigned>0
+         then FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpESecofAssigned:=FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpESecofAssigned-Result.POP_tpESecofAssigned;
+         if Result.POP_tpAmedianAssigned>0
+         then FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpAmedianAssigned:=FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpAmedianAssigned-Result.POP_tpAmedianAssigned;
       end;
-
    end;
-
 end;
 
 //===========================END FUNCTIONS SECTION==========================================
