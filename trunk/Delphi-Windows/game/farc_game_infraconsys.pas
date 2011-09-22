@@ -99,21 +99,6 @@ function FCFgICS_RecursiveCoef_Calculation(const RCCdoneTime, RCCinitTime: integ
 //===========================END FUNCTIONS SECTION==========================================
 
 ///<summary>
-///   asssembling post-process
-///</summary>
-///   <param name="APPent">entity index #</param>
-///   <param name="APPcol">colony index #</param>
-///   <param name="APPsettlement">settlement index #</param>
-///   <param name="APPinfra">infrastructure index #</param>
-procedure FCMgICS_Assembling_PostProcess(
-   const APPent
-         ,APPcol
-         ,APPsettlement
-         ,APPinfra
-         ,APPcabIdx: integer
-   );
-
-///<summary>
 ///   process in the assembling of an infrastructure
 ///</summary>
 ///   <param name="APent">entity index #</param>
@@ -131,19 +116,6 @@ procedure FCMgICS_Assembling_Process(
    const APinfraKitInStorage: integer
    );
 
-///<summary>
-///   building post-process
-///</summary>
-///   <param name="BPPent">entity index #</param>
-///   <param name="BPPcol">colony index #</param>
-///   <param name="BPPsettlement">settlement index #</param>
-///   <param name="BPPinfra">infrastructure index #</param>
-procedure FCMgICS_Building_PostProcess(
-   const BPPent
-         ,BPPcol
-         ,BPPsettlement
-         ,BPPinfra: integer
-   );
 
 ///<summary>
 ///   process in the building of an infrastructure
@@ -213,6 +185,24 @@ procedure FCMgICS_Conversion_Process(
          ,ICPspu
          ,ICPcol
          ,ICPsettlement: integer
+   );
+   
+///<summary>
+///   process the transition rule, considering that staff requirements are fufilled
+///</summary>
+///   <param name="TRPent">entity index #</param>
+///   <param name="TRPcol">colony index #</param>
+///   <param name="TRPsettlement">settlement index #</param>
+///   <param name="TRPownInfra">owned infrastructure index #</param>
+///   <param name="TRPcabIdx">CAB queue index #</param>
+///   <param name="TRPincludeStaffTest">=true, a staff test/assignment is made</param>
+procedure FCMgICS_TransitionRule_Process(
+   const TRPent
+         ,TRPcol
+         ,TRPsettlement
+         ,TRPownInfra
+         ,TRPcabIdx: integer;
+         TRPincludeStaffTest: boolean
    );
 
 implementation
@@ -374,43 +364,6 @@ end;
 
 //===========================END FUNCTIONS SECTION==========================================
 
-procedure FCMgICS_Assembling_PostProcess(
-   const APPent
-         ,APPcol
-         ,APPsettlement
-         ,APPinfra
-         ,APPcabIdx: integer
-   );
-{:Purpose: asssembling post-process.
-    Additions:
-      -2011Sep12- *add: test the required staff and assign it if there's enough available persons in the population's colony.
-                  *add: new parameter: APPcabIdx.
-}
-   var
-      APPstaff: TFCRdgColonPopulation;
-begin
-   APPstaff:=FCFgIS_RequiredStaff_Test(
-      APPent
-      ,APPcol
-      ,APPsettlement
-      ,APPinfra
-      ,true
-      );
-   
-
-
-//   FCMgIF_Functions_Initialize(
-
-//      ,FCFgInf_DataStructure_Get(
-//         APPent
-//         ,APPcol
-//         ,FCentities[APPent].E_col[APPcol].COL_settlements[APPsettlement].CS_infra[APPinfra].CI_dbToken
-//         )
-//      );
-//   FCentities[ICPPent].E_col[ICPPcol].COL_settlements[ICPPsettlement].CS_infra[ICPPinfra].CI_status:=istOperational;
-//   FCentities[ICPPent].E_col[ICPPcol].COL_cabQueue[ICPPsettlement, ICPPcabQueueIndex]:=0;
-end;
-
 procedure FCMgICS_Assembling_Process(
    const APent
          ,APcol
@@ -421,6 +374,7 @@ procedure FCMgICS_Assembling_Process(
    );
 {:Purpose: process in the assembling of an infrastructure.
     Additions:
+      -2011Sep21- *rem: moved function initalization to the assembling/building post-process.
       -2011Jul05- *add/fix: forgot to update the CAB queue list !
       -2011Jul04- *add: add a parameter to indicate the storage index # of the used infrastructure kit.
                   *add: remove one unit of infrastructure kit that is used for the assembling.
@@ -463,13 +417,6 @@ begin
       ,APsettlement
       ,APinfraIndex
       );
-   FCMgIF_Functions_Initialize(
-      APent
-      ,APcol
-      ,APsettlement
-      ,APinfraIndex
-      ,APclonedInfra
-      );
    {.remove the infrastructure kit which correspond to the infrastructure}
    APxfer:=FCFgC_Storage_Update(
       false
@@ -487,19 +434,6 @@ begin
       );
 end;
 
-procedure FCMgICS_Building_PostProcess(
-   const BPPent
-         ,BPPcol
-         ,BPPsettlement
-         ,BPPinfra: integer
-   );
-{:Purpose: building post-process.
-    Additions:
-}
-begin
-
-end;
-
 procedure FCMgICS_Building_Process(
    const BPent
          ,BPcol
@@ -509,11 +443,12 @@ procedure FCMgICS_Building_Process(
    );
 {:Purpose: process in the building of an infrastructure.
     Additions:
+      -2011Sep21- *rem: moved function initalization to the assembling/building post-process.
       -2011Jul05- *add/fix: forgot to update the CAB queue list !
       -2011Jun26- *add: initialize the infrastructure functions in a separate method.
 }
-	var
-   	BPinfraIndex: integer;
+   var
+      BPinfraIndex: integer;
 
       BPisCDPshown: boolean;
 
@@ -527,27 +462,20 @@ begin
       ,BPinfraToken
       );
    FCentities[BPent].E_col[BPcol].COL_settlements[BPsettlement].CS_infra[BPinfraIndex].CI_dbToken:=BPclonedInfra.I_token;
-	FCentities[BPent].E_col[BPcol].COL_settlements[BPsettlement].CS_infra[BPinfraIndex].CI_level:=FCFgICS_InfraLevel_Setup(
-   	BPclonedInfra.I_minLevel
+   FCentities[BPent].E_col[BPcol].COL_settlements[BPsettlement].CS_infra[BPinfraIndex].CI_level:=FCFgICS_InfraLevel_Setup(
+      BPclonedInfra.I_minLevel
       ,BPclonedInfra.I_maxLevel
       ,FCentities[BPent].E_col[BPcol].COL_settlements[BPsettlement].CS_level
       );
    FCentities[BPent].E_col[BPcol].COL_settlements[BPsettlement].CS_infra[BPinfraIndex].CI_status:=istInBldSite;
    FCentities[BPent].E_col[BPcol].COL_settlements[BPsettlement].CS_infra[BPinfraIndex].CI_function:=BPclonedInfra.I_function;
-	FCentities[BPent].E_col[BPcol].COL_settlements[BPsettlement].CS_infra[BPinfraIndex].CI_cabDuration:=BPduration;
+   FCentities[BPent].E_col[BPcol].COL_settlements[BPsettlement].CS_infra[BPinfraIndex].CI_cabDuration:=BPduration;
    FCentities[BPent].E_col[BPcol].COL_settlements[BPsettlement].CS_infra[BPinfraIndex].CI_cabWorked:=0;
    FCMgICS_CAB_Add(
       BPent
       ,BPcol
       ,BPsettlement
       ,BPinfraIndex
-      );
-   FCMgIF_Functions_Initialize(
-      BPent
-      ,BPcol
-      ,BPsettlement
-      ,BPinfraIndex
-      ,BPclonedInfra
       );
    BPisCDPshown:=FCFuiCDP_isInfrastructuresSection_Shown(BPcol, BPsettlement);
    if BPisCDPshown
@@ -667,8 +595,8 @@ procedure FCMgICS_Conversion_Process(
                   *mod: storage is now initialized in custom effects application routines.
       -2011Jul13- *add: infrastructure power consumption.
       -2011Jul12- *add: initialize the energy data according to the conversion rule.
-      -2011May15-	*mod: change in the infrastructure level calculation, according to the rule change in the design document.
-      				*add: CABworked initialization.
+      -2011May15- *mod: change in the infrastructure level calculation, according to the rule change in the design document.
+                  *add: CABworked initialization.
       -2011May06- *add: hardcoded storage data.
       -2011Apr26- *mod: the method is moved in it's proper unit.
       -2011Apr20- *add: add hardcoded technicians and soldier to the population.
@@ -863,4 +791,93 @@ begin
       );
 end;
 
+procedure FCMgICS_TransitionRule_Process(
+   const TRPent
+         ,TRPcol
+         ,TRPsettlement
+         ,TRPownInfra
+         ,TRPcabIdx: integer;
+         TRPincludeStaffTest: boolean
+   );
+{:Purpose: process the transition rule, considering that staff requirements are fufilled.
+   Additions:
+}
+   var
+      TRPstaff: TFCRdgColonPopulation;
+
+      TRPinfraData: TFCRdipInfrastructure;
+
+   procedure TRP_ProductionDelay_Process;
+   begin
+      TRPinfraData:=FCFgInf_DataStructure_Get(
+         TRPent
+         ,TRPcol
+         ,FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_dbToken
+         );
+      FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_cabWorked:=0;
+      if TRPinfraData.I_function=fProduction then
+      begin
+         FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_status:=istInTransition;
+         FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_cabDuration:=2;
+      end
+      else
+      begin
+         FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_status:=istOperational;
+         FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_cabDuration:=0;
+         FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_powerCons
+            :=TRPinfraData.I_basePwr[FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_level];
+         FCMgIP_CSMEnergy_Update(
+            TRPent
+            ,TRPcol
+            ,false
+            ,FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_powerCons
+            ,0
+            ,0
+            ,0
+            );
+         FCentities[TRPent].E_col[TRPcol].COL_cabQueue[TRPsettlement, TRPcabIdx]:=0;
+         FCMgIF_Functions_Initialize(
+            TRPent
+            ,TRPcol
+            ,TRPsettlement
+            ,TRPownInfra
+            ,TRPinfraData
+            );
+         FCMgIF_Functions_Application(
+            TRPent
+            ,TRPcol
+            ,TRPsettlement
+            ,TRPownInfra
+            );
+         FCMgICFX_Effects_Application(
+            TRPent
+            ,TRPcol
+            ,FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_level
+            ,TRPinfraData
+            );
+      end;
+   end;
+
+begin
+   if TRPincludeStaffTest then
+   begin
+      TRPstaff:=FCFgIS_RequiredStaff_Test(
+         TRPent
+         ,TRPcol
+         ,TRPsettlement
+         ,TRPownInfra
+         ,true
+         );
+      if TRPstaff.POP_total=0
+      then TRP_ProductionDelay_Process
+      else if TRPstaff.POP_total>0 then
+      begin
+         FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_status:=istInTransition;
+         FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_cabDuration:=-1;
+      end;
+   end
+   else if not TRPincludeStaffTest
+   then TRP_ProductionDelay_Process;
+end;
+   
 end.
