@@ -61,6 +61,7 @@ procedure FCMgPS5_CABTransitionSegment_Process(
    );
 {:Purpose:  segment 5 (CAB + Transition Status) processing.
     Additions:
+      -2011Sep21- *add: complete the inTransition case.
       -2011Sep10- *fix: correct the max index length reading.
 }
    var
@@ -69,6 +70,8 @@ procedure FCMgPS5_CABTransitionSegment_Process(
       ,CABTSPinfraIdx
       ,CABTSPmaxIdx
       ,CABTSPmaxSet: integer;
+      
+      CABTSPpopResult: TFCRdgColonPopulation;
 begin
    CABTSPmaxSet:=length( FCentities[CABTSPent].E_col[CABTSPcol].COL_cabQueue )-1;
    if CABTSPmaxSet>0 then
@@ -101,12 +104,13 @@ begin
                   inc(FCentities[CABTSPent].E_col[CABTSPcol].COL_settlements[CABTSPcntSet].CS_infra[CABTSPinfraIdx].CI_cabWorked);
                   if FCentities[CABTSPent].E_col[CABTSPcol].COL_settlements[CABTSPcntSet].CS_infra[CABTSPinfraIdx].CI_cabWorked
                      =FCentities[CABTSPent].E_col[CABTSPcol].COL_settlements[CABTSPcntSet].CS_infra[CABTSPinfraIdx].CI_cabDuration
-                  then FCMgICS_Assembling_PostProcess(
+                  then FCMgICS_TransitionRule_Process(
                      CABTSPent
                      ,CABTSPcol
                      ,CABTSPcntSet
                      ,CABTSPinfraIdx
                      ,CABTSPcntIdx
+                     ,true
                      );
                end;
 
@@ -115,20 +119,40 @@ begin
                   inc(FCentities[CABTSPent].E_col[CABTSPcol].COL_settlements[CABTSPcntSet].CS_infra[CABTSPinfraIdx].CI_cabWorked);
                   if FCentities[CABTSPent].E_col[CABTSPcol].COL_settlements[CABTSPcntSet].CS_infra[CABTSPinfraIdx].CI_cabWorked
                      =FCentities[CABTSPent].E_col[CABTSPcol].COL_settlements[CABTSPcntSet].CS_infra[CABTSPinfraIdx].CI_cabDuration
-                  then FCMgICS_Building_PostProcess(
+                  then FCMgICS_TransitionRule_Process(
                      CABTSPent
                      ,CABTSPcol
                      ,CABTSPcntSet
                      ,CABTSPinfraIdx
+                     ,CABTSPcntIdx
+                     ,true
                      );
                end;
 
                istInTransition:
                begin
                   if FCentities[CABTSPent].E_col[CABTSPcol].COL_settlements[CABTSPcntSet].CS_infra[CABTSPinfraIdx].CI_cabDuration=-1
-                  then
-                  else if FCentities[CABTSPent].E_col[CABTSPcol].COL_settlements[CABTSPcntSet].CS_infra[CABTSPinfraIdx].CI_cabDuration>0
-                  then dec( FCentities[CABTSPent].E_col[CABTSPcol].COL_settlements[CABTSPcntSet].CS_infra[CABTSPinfraIdx].CI_cabDuration );
+                  then FCMgICS_TransitionRule_Process(
+                     CABTSPent
+                     ,CABTSPcol
+                     ,CABTSPcntSet
+                     ,CABTSPinfraIdx
+                     ,CABTSPcntIdx
+                     ,true
+                     )
+                  else if FCentities[CABTSPent].E_col[CABTSPcol].COL_settlements[CABTSPcntSet].CS_infra[CABTSPinfraIdx].CI_cabDuration>0 then
+                  begin
+                     dec( FCentities[CABTSPent].E_col[CABTSPcol].COL_settlements[CABTSPcntSet].CS_infra[CABTSPinfraIdx].CI_cabDuration );
+                     if FCentities[CABTSPent].E_col[CABTSPcol].COL_settlements[CABTSPcntSet].CS_infra[CABTSPinfraIdx].CI_cabDuration=0
+                     then FCMgICS_TransitionRule_Process(
+                        CABTSPent
+                        ,CABTSPcol
+                        ,CABTSPcntSet
+                        ,CABTSPinfraIdx
+                        ,CABTSPcntIdx
+                        ,false
+                        );
+                  end;
                end;
             end; //==END== case FCentities[CABTSPent].E_col[CABTSPcol].COL_settlements[CABTSPcntSet].CS_infra[CABTSPinfraIdx].CI_status of ==//
             inc( CABTSPcntIdx );
