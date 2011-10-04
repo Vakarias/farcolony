@@ -801,6 +801,7 @@ procedure FCMgICS_TransitionRule_Process(
    );
 {:Purpose: process the transition rule, considering that staff requirements are fufilled.
    Additions:
+      -2011Oct03- *add: add the possibility to call the routine with the cabIdx at 0. Used for re-enabling infrastructures.
 }
    var
       TRPstaff: TFCRdgColonPopulation;
@@ -819,6 +820,13 @@ procedure FCMgICS_TransitionRule_Process(
       begin
          FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_status:=istInTransition;
          FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_cabDuration:=2;
+         if TRPcabIdx=0
+         then FCMgICS_CAB_Add(
+            TRPent
+            ,TRPcol
+            ,TRPsettlement
+            ,TRPownInfra
+            );
       end
       else
       begin
@@ -835,7 +843,8 @@ procedure FCMgICS_TransitionRule_Process(
             ,0
             ,0
             );
-         FCentities[TRPent].E_col[TRPcol].COL_cabQueue[TRPsettlement, TRPcabIdx]:=0;
+         if TRPcabIdx>0
+         then FCentities[TRPent].E_col[TRPcol].COL_cabQueue[TRPsettlement, TRPcabIdx]:=0;
          FCMgIF_Functions_Initialize(
             TRPent
             ,TRPcol
@@ -843,11 +852,12 @@ procedure FCMgICS_TransitionRule_Process(
             ,TRPownInfra
             ,TRPinfraData
             );
-         FCMgIF_Functions_Application(
+         FCMgIF_Functions_ApplicationRemove(
             TRPent
             ,TRPcol
             ,TRPsettlement
             ,TRPownInfra
+            ,false
             );
          FCMgICFX_Effects_Application(
             TRPent
@@ -874,6 +884,13 @@ begin
       begin
          FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_status:=istInTransition;
          FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_cabDuration:=-1;
+         if TRPcabIdx=0
+         then FCMgICS_CAB_Add(
+            TRPent
+            ,TRPcol
+            ,TRPsettlement
+            ,TRPownInfra
+            );
       end;
    end
    else if not TRPincludeStaffTest
