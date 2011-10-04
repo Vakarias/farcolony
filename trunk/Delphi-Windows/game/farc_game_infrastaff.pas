@@ -52,6 +52,20 @@ function FCFgIS_RequiredStaff_Test(
 
 //===========================END FUNCTIONS SECTION==========================================
 
+///<summary>
+///   free the staff and give it back to the colony's available population slots
+///</summary>
+///   <param name="RSRent">entity index #</param>
+///   <param name="RSRcol">colony index #</param>
+///   <param name="RSRsett">settlement index #</param>
+///   <param name="RSRownInfra">owned infrastructure index #</param>
+procedure FCMgIS_RequiredStaff_Recover(
+   const RSRent
+         ,RSRcol
+         ,RSRsett
+         ,RSRownInfra: integer
+   );
+
 implementation
 
 uses
@@ -357,5 +371,65 @@ begin
 end;
 
 //===========================END FUNCTIONS SECTION==========================================
+
+procedure FCMgIS_RequiredStaff_Recover(
+   const RSRent
+         ,RSRcol
+         ,RSRsett
+         ,RSRownInfra: integer
+   );
+{:Purpose: free the staff and give it back to the colony's available population slots.
+    Additions:
+}
+   var
+      RSRcnt
+      ,RSRmax: integer;
+
+      RSRinfraData: TFCRdipInfrastructure;
+begin
+   RSRinfraData:=FCFgInf_DataStructure_Get(
+      RSRent
+      ,RSRcol
+      ,FCentities[RSRent].E_col[RSRcol].COL_settlements[RSRsett].CS_infra[RSRownInfra].CI_dbToken
+      );
+   RSRmax:=Length(RSRinfraData.I_reqStaff)-1;
+   if RSRmax>0 then
+   begin
+      RSRcnt:=1;
+      while RSRcnt<=RSRmax do
+      begin
+         case RSRinfraData.I_reqStaff[RSRcnt].RS_type of
+            ptColonist: FCentities[RSRent].E_col[RSRcol].COL_population.POP_tpColonAssigned:=FCentities[RSRent].E_col[RSRcol].COL_population.POP_tpColonAssigned-RSRinfraData.I_reqStaff[RSRcnt].RS_required;
+
+            ptOfficer: FCentities[RSRent].E_col[RSRcol].COL_population.POP_tpASoffAssigned:=FCentities[RSRent].E_col[RSRcol].COL_population.POP_tpASoffAssigned-RSRinfraData.I_reqStaff[RSRcnt].RS_required;
+
+            ptMissSpe: FCentities[RSRent].E_col[RSRcol].COL_population.POP_tpASmiSpAssigned:=FCentities[RSRent].E_col[RSRcol].COL_population.POP_tpASmiSpAssigned-RSRinfraData.I_reqStaff[RSRcnt].RS_required;
+
+            ptBiolog: FCentities[RSRent].E_col[RSRcol].COL_population.POP_tpBSbioAssigned:=FCentities[RSRent].E_col[RSRcol].COL_population.POP_tpBSbioAssigned-RSRinfraData.I_reqStaff[RSRcnt].RS_required;
+
+            ptDoctor: FCentities[RSRent].E_col[RSRcol].COL_population.POP_tpBSdocAssigned:=FCentities[RSRent].E_col[RSRcol].COL_population.POP_tpBSdocAssigned-RSRinfraData.I_reqStaff[RSRcnt].RS_required;
+
+            ptTechnic: FCentities[RSRent].E_col[RSRcol].COL_population.POP_tpIStechAssigned:=FCentities[RSRent].E_col[RSRcol].COL_population.POP_tpIStechAssigned-RSRinfraData.I_reqStaff[RSRcnt].RS_required;
+
+            ptEngineer: FCentities[RSRent].E_col[RSRcol].COL_population.POP_tpISengAssigned:=FCentities[RSRent].E_col[RSRcol].COL_population.POP_tpISengAssigned-RSRinfraData.I_reqStaff[RSRcnt].RS_required;
+
+            ptSoldier: FCentities[RSRent].E_col[RSRcol].COL_population.POP_tpMSsoldAssigned:=FCentities[RSRent].E_col[RSRcol].COL_population.POP_tpMSsoldAssigned-RSRinfraData.I_reqStaff[RSRcnt].RS_required;
+
+            ptCommando: FCentities[RSRent].E_col[RSRcol].COL_population.POP_tpMScommAssigned:=FCentities[RSRent].E_col[RSRcol].COL_population.POP_tpMScommAssigned-RSRinfraData.I_reqStaff[RSRcnt].RS_required;
+
+            ptPhysic: FCentities[RSRent].E_col[RSRcol].COL_population.POP_tpPSphysAssigned:=FCentities[RSRent].E_col[RSRcol].COL_population.POP_tpPSphysAssigned-RSRinfraData.I_reqStaff[RSRcnt].RS_required;
+
+            ptAstroph: FCentities[RSRent].E_col[RSRcol].COL_population.POP_tpPSastrAssigned:=FCentities[RSRent].E_col[RSRcol].COL_population.POP_tpPSastrAssigned-RSRinfraData.I_reqStaff[RSRcnt].RS_required;
+
+            ptEcolog: FCentities[RSRent].E_col[RSRcol].COL_population.POP_tpESecolAssigned:=FCentities[RSRent].E_col[RSRcol].COL_population.POP_tpESecolAssigned-RSRinfraData.I_reqStaff[RSRcnt].RS_required;
+
+            ptEcoform: FCentities[RSRent].E_col[RSRcol].COL_population.POP_tpESecofAssigned:=FCentities[RSRent].E_col[RSRcol].COL_population.POP_tpESecofAssigned-RSRinfraData.I_reqStaff[RSRcnt].RS_required;
+
+            ptMedian: FCentities[RSRent].E_col[RSRcol].COL_population.POP_tpAmedianAssigned:=FCentities[RSRent].E_col[RSRcol].COL_population.POP_tpAmedianAssigned-RSRinfraData.I_reqStaff[RSRcnt].RS_required;
+         end;
+         inc(RSRcnt);
+      end;
+   end;
+end;
 
 end.
