@@ -92,10 +92,10 @@ function FCFgInf_Status_GetToken(const SGTstatus: TFCEdgInfStatTp): string;
 ///   infrastructure disabling rule
 ///</summary>
 ///   <param name="DPent">entity index #</param>
-///   <param name="">colony index #</param>
-///   <param name="">settlement index #</param>
-///   <param name="">infrastructure index #</param>
-///   <param name="">true= the infrastructure is disabled according to energy equilibrium/infrastructure disabling rules</param>
+///   <param name="DPcol">colony index #</param>
+///   <param name="DPset">settlement index #</param>
+///   <param name="DPinf">infrastructure index #</param>
+///   <param name="DPisByEnergyEq">true= the infrastructure is disabled according to energy equilibrium/infrastructure disabling rules</param>
 procedure FCMgInf_Disabling_Process(
    const DPent
          ,DPcol
@@ -126,6 +126,7 @@ uses
    ,farc_game_infracustomfx
    ,farc_game_infrafunctions
    ,farc_game_infrapower
+   ,farc_game_infrastaff
    ,farc_univ_func;
 
 //===================================END OF INIT============================================
@@ -311,6 +312,7 @@ procedure FCMgInf_Disabling_Process(
    );
 {:Purpose: infrastructure disabling rule.
    Additions:
+      -2010Oct03- *add: complete the routine by adding function's data remove and staff recover rule.
 }
    var
       DPinfraData: TFCRdipInfrastructure;
@@ -320,7 +322,6 @@ begin
       ,DPcol
       ,FCentities[DPent].E_col[DPcol].COL_settlements[DPset].CS_infra[DPinf].CI_dbToken
       );
-   {reverse infra functions data here}
    FCMgIP_CSMEnergy_Update(
       DPent
       ,DPcol
@@ -336,11 +337,22 @@ begin
       ,FCentities[DPent].E_col[DPcol].COL_settlements[DPset].CS_infra[DPinf].CI_level
       ,DPinfraData
       );
-   {:DEV NOTES: reverse function data here, including production modes, wait for the next part of dev w/ prod modes and items production segment to include it.}
+   FCMgIF_Functions_ApplicationRemove(
+      DPent
+      ,DPcol
+      ,DPset
+      ,DPinf
+      ,true
+      );
    if not DPisByEnergyEq then
    begin
       FCentities[DPent].E_col[DPcol].COL_settlements[DPset].CS_infra[DPinf].CI_status:=istDisabled;
-      {:DEV NOTES: include staff recover rule here.}
+      FCMgIS_RequiredStaff_Recover(
+         DPent
+         ,DPcol
+         ,DPset
+         ,DPinf
+         );
    end
    else FCentities[DPent].E_col[DPcol].COL_settlements[DPset].CS_infra[DPinf].CI_status:=istDisabledByEE;
 end;
@@ -353,45 +365,28 @@ procedure FCMgInf_Enabling_Process(
    );
 {:Purpose: infrastructure enabling rule.
    Additions:
+      -2011Oct03- *add: complete the enabling process by adding the transition rule, and remove useless duplicate code.
       -2011Sep12- *add: infrastructure function data are applied in case of a istDisabledByEE.
 }
-   var
-      EPinfraData: TFCRdipInfrastructure;
 begin
-   EPinfraData:=FCFgInf_DataStructure_Get(
+   if FCentities[EPent].E_col[EPcol].COL_settlements[EPset].CS_infra[EPinf].CI_status=istDisabled
+   then FCMgICS_TransitionRule_Process(
       EPent
       ,EPcol
-      ,FCentities[EPent].E_col[EPcol].COL_settlements[EPset].CS_infra[EPinf].CI_dbToken
-      );
-   FCMgIP_CSMEnergy_Update(
+      ,EPset
+      ,EPinf
+      ,0
+      ,true
+      )
+   else if FCentities[EPent].E_col[EPcol].COL_settlements[EPset].CS_infra[EPinf].CI_status=istDisabledByEE
+   then FCMgICS_TransitionRule_Process(
       EPent
       ,EPcol
+      ,EPset
+      ,EPinf
+      ,0
       ,false
-      ,EPinfraData.I_basePwr[ FCentities[EPent].E_col[EPcol].COL_settlements[EPset].CS_infra[EPinf].CI_level ]
-      ,0
-      ,0
-      ,0
       );
-   FCMgICFX_Effects_Application(
-      EPent
-      ,EPcol
-      ,FCentities[EPent].E_col[EPcol].COL_settlements[EPset].CS_infra[EPinf].CI_level
-      ,EPinfraData
-      );
-   if FCentities[EPent].E_col[EPcol].COL_settlements[EPset].CS_infra[EPinf].CI_status=istDisabled then
-   begin
-      {:DEV NOTES: link to staff/production delay rule here.}
-   end
-   else if FCentities[EPent].E_col[EPcol].COL_settlements[EPset].CS_infra[EPinf].CI_status=istDisabledByEE then
-   begin
-      FCentities[EPent].E_col[EPcol].COL_settlements[EPset].CS_infra[EPinf].CI_status:=istOperational;
-      FCMgIF_Functions_Application(
-         EPent
-         ,EPcol
-         ,EPset
-         ,EPinf
-         );
-   end;
 end;
 
 end.
