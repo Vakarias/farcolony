@@ -36,17 +36,20 @@ uses
 //===========================END FUNCTIONS SECTION==========================================
 
 ///<summary>
-///   applies (enable) the function's data. WARNING: the owned infrastructure must had FCMgIF_Functions_Initialize applied previously
+///   applies (enable) or remove (disable) the function's data. WARNING: the owned infrastructure must had FCMgIF_Functions_Initialize applied previously for applies
 ///</summary>
-///   <param name="FAent">entity index #</param>
-///   <param name="FAcol">colony index #</param>
-///   <param name="FAsett">settlement index #</param>
-///   <param name="FAinfra">owned infrastructure index #</param>
-procedure FCMgIF_Functions_Application(
-   const FAent
-         ,FAcol
-         ,FAsett
-         ,FAinfra: integer);
+///   <param name="FARent">entity index #</param>
+///   <param name="FARcol">colony index #</param>
+///   <param name="FARsett">settlement index #</param>
+///   <param name="FARinfra">owned infrastructure index #</param>
+///   <param name="FARisRemove">true= remove the function's data, false= applies</param>
+procedure FCMgIF_Functions_ApplicationRemove(
+   const FARent
+         ,FARcol
+         ,FARsett
+         ,FARinfra: integer;
+   const FARisRemove: boolean
+         );
 
 ///<summary>
 ///   initialize the infrastructure functions data for assembling/building modes, witout enable them into the colony
@@ -75,24 +78,34 @@ uses
 //===================================================END OF INIT============================
 //===========================END FUNCTIONS SECTION==========================================
 
-procedure FCMgIF_Functions_Application(
-   const FAent
-         ,FAcol
-         ,FAsett
-         ,FAinfra: integer);
+procedure FCMgIF_Functions_ApplicationRemove(
+   const FARent
+         ,FARcol
+         ,FARsett
+         ,FARinfra: integer;
+   const FARisRemove: boolean
+         );
 {:Purpose: applies (enable) the function's data. WARNING: the owned infrastructure must had FCMgIF_Functions_Initialize applied previously.
     Additions:
+      -2011Oct03- *add: new parameter for indicate if the function data are removed or not + modify changes for each case.
 }
+   var
+      FARint: integer;
+
+      FARfloat: double;
 begin
-   case FCentities[FAent].E_col[FAcol].COL_settlements[FAsett].CS_infra[FAinfra].CI_function of
+   case FCentities[FARent].E_col[FARcol].COL_settlements[FARsett].CS_infra[FARinfra].CI_function of
       fEnergy:
       begin
+         if FARisRemove
+         then FARfloat:=-FCentities[FARent].E_col[FARcol].COL_settlements[FARsett].CS_infra[FARinfra].CI_fEnergOut
+         else FARfloat:=FCentities[FARent].E_col[FARcol].COL_settlements[FARsett].CS_infra[FARinfra].CI_fEnergOut;
          FCMgIP_CSMEnergy_Update(
-            FAent
-            ,FAcol
+            FARent
+            ,FARcol
             ,false
             ,0
-            ,FCentities[FAent].E_col[FAcol].COL_settlements[FAsett].CS_infra[FAinfra].CI_fEnergOut
+            ,FARfloat
             ,0
             ,0
             );
@@ -100,19 +113,22 @@ begin
 
       fHousing:
       begin
+         if FARisRemove
+         then FARint:=-FCentities[FARent].E_col[FARcol].COL_settlements[FARsett].CS_infra[FARinfra].CI_fhousPCAP
+         else FARint:=FCentities[FARent].E_col[FARcol].COL_settlements[FARsett].CS_infra[FARinfra].CI_fhousPCAP;
          FCMgCSM_ColonyData_Upd(
             gcsmdPCAP
-            ,FAent
-            ,FAcol
-            ,FCentities[FAent].E_col[FAcol].COL_settlements[FAsett].CS_infra[FAinfra].CI_fhousPCAP
+            ,FARent
+            ,FARcol
+            ,FARint
             ,0
             ,gcsmptNone
             ,false
             );
          FCMgCSM_ColonyData_Upd(
             gcsmdQOL
-            ,FAent
-            ,FAcol
+            ,FARent
+            ,FARcol
             ,0
             ,0
             ,gcsmptNone
