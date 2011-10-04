@@ -196,14 +196,10 @@ begin
 
          cfxProductStorage:
          begin
-            FCentities[EAent].E_col[EAcolony].COL_storCapacitySolidMax
-               :=FCentities[EAent].E_col[EAcolony].COL_storCapacitySolidMax+EAinfraDat.I_customFx[EAcnt].ICFX_prodStorageLvl[EAownedLvl].IPS_solid;
-            FCentities[EAent].E_col[EAcolony].COL_storCapacityLiquidMax
-               :=FCentities[EAent].E_col[EAcolony].COL_storCapacityLiquidMax+EAinfraDat.I_customFx[EAcnt].ICFX_prodStorageLvl[EAownedLvl].IPS_liquid;
-            FCentities[EAent].E_col[EAcolony].COL_storCapacityGasMax
-               :=FCentities[EAent].E_col[EAcolony].COL_storCapacityGasMax+EAinfraDat.I_customFx[EAcnt].ICFX_prodStorageLvl[EAownedLvl].IPS_gas;
-            FCentities[EAent].E_col[EAcolony].COL_storCapacityBioMax
-               :=FCentities[EAent].E_col[EAcolony].COL_storCapacityBioMax+EAinfraDat.I_customFx[EAcnt].ICFX_prodStorageLvl[EAownedLvl].IPS_biologic;
+            FCentities[EAent].E_col[EAcolony].COL_storCapacitySolidMax:=FCentities[EAent].E_col[EAcolony].COL_storCapacitySolidMax+EAinfraDat.I_customFx[EAcnt].ICFX_prodStorageLvl[EAownedLvl].IPS_solid;
+            FCentities[EAent].E_col[EAcolony].COL_storCapacityLiquidMax:=FCentities[EAent].E_col[EAcolony].COL_storCapacityLiquidMax+EAinfraDat.I_customFx[EAcnt].ICFX_prodStorageLvl[EAownedLvl].IPS_liquid;
+            FCentities[EAent].E_col[EAcolony].COL_storCapacityGasMax:=FCentities[EAent].E_col[EAcolony].COL_storCapacityGasMax+EAinfraDat.I_customFx[EAcnt].ICFX_prodStorageLvl[EAownedLvl].IPS_gas;
+            FCentities[EAent].E_col[EAcolony].COL_storCapacityBioMax:=FCentities[EAent].E_col[EAcolony].COL_storCapacityBioMax+EAinfraDat.I_customFx[EAcnt].ICFX_prodStorageLvl[EAownedLvl].IPS_biologic;
          end;
       end; //==END== case EAinfraDat.I_customFx[EAcnt].ICFX_customEffect of ==//
       inc(EAcnt);

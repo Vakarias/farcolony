@@ -41,8 +41,8 @@ interface
 ///   <param name=CSMEUent">entity index</param>
 ///   <param name="CSMEUcol">colony index</param>
 ///   <param name="CSMEUisFullCalculation">true= process full calculation, the next parameters must be at 0</param>
-///   <param name="CSMEUgen">for [CSMEUisFullCalculation=false] update in + or - the energy generated in the colony</param>
 ///   <param name="CSMEUcons">for [CSMEUisFullCalculation=false] update in + or - the energy consumed in the colony</param>
+///   <param name="CSMEUgen">for [CSMEUisFullCalculation=false] update in + or - the energy generated in the colony</param>
 ///   <param name="CSMEUstorCurr">for [CSMEUisFullCalculation=false] update in + or - the current energy stored in the colony</param>
 ///   <param name="CSMEUstorMax">for [CSMEUisFullCalculation=false] update in + or - the maximum energy that can be stored in the colony</param>
 procedure FCMgIP_CSMEnergy_Update(
