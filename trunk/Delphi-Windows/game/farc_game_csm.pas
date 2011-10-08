@@ -1721,7 +1721,7 @@ begin
          )
       );
    case SGISenv of
-      freeLiving:
+      envfreeLiving:
       begin
          case SGIStens of
             1:
@@ -1998,7 +1998,7 @@ begin
    else if FCentities[SPLGIMfac].E_col[SPLGIMcol].COL_locSat=''
    then SPLGIMenv:=FCDBsSys[SPLGIMssys].SS_star[SPLGIMstar].SDB_obobj[SPLGIMoobj].OO_envTp;
    case SPLGIMenv of
-      freeLiving:
+      envfreeLiving:
       begin
          if FCentities[SPLGIMfac].E_col[SPLGIMcol].COL_csmHOspl<0.5
          then

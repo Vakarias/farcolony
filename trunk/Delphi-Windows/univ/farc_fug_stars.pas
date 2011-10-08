@@ -39,7 +39,7 @@ uses
 
 type TFCRfsClassDat=record
    private
-   FSCD_class: TFCEstarClass;
+   FSCD_class: TFCEduStarClass;
    FSCD_temp: integer;
    FSCD_mass: double;
    FSCD_diam: double;

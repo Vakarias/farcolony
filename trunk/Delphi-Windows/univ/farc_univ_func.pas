@@ -266,7 +266,7 @@ function FCFuF_Env_Get(
     Additions:
 }
 begin
-   Result:=freeLiving;
+   Result:=envfreeLiving;
    if EGsat=0
    then Result:=FCDBsSys[EGssys].SS_star[EGstar].SDB_obobj[EGoobj].OO_envTp
    else if EGsat>0
@@ -285,7 +285,7 @@ function FCFuF_Env_Get(
 var
    EGrow: TFCRufStelObj;
 begin
-   Result:=freeLiving;
+   Result:=envfreeLiving;
    EGrow[1]:=EGrow[0];
    EGrow[2]:=EGrow[0];
    EGrow[3]:=EGrow[0];
@@ -320,7 +320,7 @@ begin
    then EGSenv:=FCDBsSys[EGSssys].SS_star[EGSstar].SDB_obobj[EGSoobj].OO_satList[EGSsat].OOS_envTp;
    Result:='';
    case EGSenv of
-      freeLiving: Result:=FCFdTFiles_UIStr_Get(uistrUI, 'secpEnvFL');
+      envfreeLiving: Result:=FCFdTFiles_UIStr_Get(uistrUI, 'secpEnvFL');
       restrict: Result:=FCFdTFiles_UIStr_Get(uistrUI, 'secpEnvR');
       space: Result:=FCFdTFiles_UIStr_Get(uistrUI, 'secpEnvS');
    end;
@@ -356,7 +356,7 @@ begin
    then EGSenv:=FCDBsSys[EGSrow[1]].SS_star[EGSrow[2]].SDB_obobj[EGSrow[3]].OO_satList[EGSrow[4]].OOS_envTp;
    Result:='';
    case EGSenv of
-      freeLiving: Result:=FCFdTFiles_UIStr_Get(uistrUI, 'secpEnvFL');
+      envfreeLiving: Result:=FCFdTFiles_UIStr_Get(uistrUI, 'secpEnvFL');
       restrict: Result:=FCFdTFiles_UIStr_Get(uistrUI, 'secpEnvR');
       space: Result:=FCFdTFiles_UIStr_Get(uistrUI, 'secpEnvS');
    end;

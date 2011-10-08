@@ -506,7 +506,7 @@ begin
          ETenv:=FCFgC_ColEnv_GetTp(ETfacIdx, ETcolIdx);
          FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_lvl:=-1;
          case ETenv.ENV_envType of
-            freeLiving:
+            envfreeLiving:
             begin
                FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_lvl:=0;
                FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_tensMod:=10;

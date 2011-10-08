@@ -19,8 +19,8 @@ object FCWinFUG: TFCWinFUG
   object Label1: TLabel
     Left = 792
     Top = 23
-    Width = 69
-    Height = 15
+    Width = 74
+    Height = 16
     Caption = 'XML Output'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clBlack
@@ -32,8 +32,8 @@ object FCWinFUG: TFCWinFUG
   object Label2: TLabel
     Left = 176
     Top = 23
-    Width = 270
-    Height = 15
+    Width = 288
+    Height = 16
     Caption = 'Stellar System / Orbital Objects Configuration'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clBlack
@@ -139,6 +139,10 @@ object FCWinFUG: TFCWinFUG
       ColorTo = clNone
       TabColor = clBtnFace
       TabColorTo = clNone
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object AdvGroupBox1: TAdvGroupBox
         Left = 16
         Top = 3

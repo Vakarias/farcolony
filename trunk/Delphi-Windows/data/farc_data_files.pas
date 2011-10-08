@@ -753,7 +753,7 @@ begin
          if DBIRstr='ANY'
          then FCDBinfra[DBIRcnt].I_environment:=envAny
          else if DBIRstr='FE'
-         then FCDBinfra[DBIRcnt].I_environment:=freeLiving
+         then FCDBinfra[DBIRcnt].I_environment:=envfreeLiving
          else if DBIRstr='RE'
          then FCDBinfra[DBIRcnt].I_environment:=restrict
          else if DBIRstr='SE'
@@ -2313,7 +2313,7 @@ begin
                               {.environment}
                               DBSSPorbObjdmp:=DBSSPorbObjNode.Attributes['ooenvtype'];
                               if DBSSPorbObjdmp='freeLiving'
-                              then OO_envTp:=freeLiving
+                              then OO_envTp:=envfreeLiving
                               else if DBSSPorbObjdmp='restrict'
                               then OO_envTp:=restrict
                               else if DBSSPorbObjdmp='space'
@@ -2567,7 +2567,7 @@ begin
                                     {.environment}
                                     DBSSPorbObjdmp:=DBSSPsatNode.Attributes['satenvtype'];
                                     if DBSSPorbObjdmp='freeLiving'
-                                    then OO_satList[DBSSPsatCnt].OOS_envTp:=freeLiving
+                                    then OO_satList[DBSSPsatCnt].OOS_envTp:=envfreeLiving
                                     else if DBSSPorbObjdmp='restrict'
                                     then OO_satList[DBSSPsatCnt].OOS_envTp:=restrict
                                     else if DBSSPorbObjdmp='space'
