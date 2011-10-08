@@ -51,7 +51,7 @@ interface
    {:DEV NOTES: update universe.xml + FCMdFiles_DBstarSys_Process.}
    type TFCEduEnv=(
       envAny
-      ,freeLiving
+      ,envfreeLiving
       ,restrict
       ,space
       ,gaseous
@@ -166,8 +166,40 @@ interface
       {.old num=103}
       ,oobtpRing_Icy
       );
-   {list of all star classes used in FARC}
-   type TFCEstarClass=(
+
+   {.resource quality}
+   type TFCEduRsrcQuality=(
+      rqNone
+      ,rqFbad
+      ,rqEpoor
+      ,rqDfairavg
+      ,rqCgood
+      ,rqBexcellent
+      ,rqAperfect
+      );
+
+   {.resource rarity}
+   type TFCEduRsrcRarity=(
+      rrRich
+      ,rrAbundant
+      ,rrCommon
+      ,rrPresent
+      ,rrUncommon
+      ,rrRare
+      ,rrAbsent
+      );
+
+   {.types of resource spot}
+   type TFCEduRsrcSpotType=(
+      rstGasField
+      ,rstHydroWell
+      ,rstIcyOreField
+      ,rstOreField
+      ,rstUnderWater
+      );
+
+   {.list of all star classes used in FARC}
+   type TFCEduStarClass=(
       {super giant blue Ia/Ib}
       cB5, cB6, cB7, cB8, cB9
       {super giant white}
@@ -342,7 +374,7 @@ interface
          ,rc10extreme
       );
    {.region sub data structure}
-   {:DEV NOTE: for regions, update FCMdF_DBstarSys_Process.}
+   {:DEV NOTE: update FCMdF_DBstarSys_Process.}
    type TFCRoobReg = record
       {.type of soil}
       OOR_soilTp: TFCEregSoilTp;
@@ -366,6 +398,12 @@ interface
       OOR_setSet: integer;
       {.environment modifier}
       OOR_emo: double;
+      {.resources data}
+      OOR_resourceSpot: array of record
+         RS_type: TFCEduRsrcSpotType;
+         RS_quality: TFCEduRsrcQuality;
+         RS_rarity: TFCEduRsrcRarity;
+      end;
    end;
    {.satellite data structure, child of TFCRorbObj}
    {:DEV NOTE: don't forget to update farc_data_files / FCMdFiles_DBstarSys_Process.}
@@ -497,7 +535,7 @@ interface
       {db token id}
       SDB_token: string[20];
       {class, like G2, K, PSR...}
-      SDB_class: TFCEstarClass;
+      SDB_class: TFCEduStarClass;
       {temperature in degree Kelvin}
       SDB_temp: Integer;
       {mass, relative to Sun}
