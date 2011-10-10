@@ -35,7 +35,9 @@ uses
    Math
    ,SysUtils
    ,Windows
-   ,XMLIntf;
+   ,XMLIntf
+
+   ,TypInfo;
 
 {list of switch for DBstarSys_Process}
 type TFCEdfstSysProc=(
@@ -1751,6 +1753,11 @@ procedure FCMdF_DBstarSys_Process(
    );
 {:Purpose: read the universe database xml file.
    Additions:
+      -2011Oct09- *mod: optimize how the star class is loaded, many lines of code removed.
+                  *mod: optimize how the companion star's orbit type is loaded, some lines of code removed.
+                  *mod: optimize how the orbital object type is loaded, many lines of code removed.
+                  *mod: optimize how the orbital zone is loaded, many lines of code removed.
+                  *mod: optimize how the environment is loaded, many lines of code removed.
       -2011Jun14- *add: region environmnent modifier.
       -2011Feb14- *initialize region's settlement data.
       -2010Jul15- *add: companion star data
@@ -1791,17 +1798,15 @@ var
    ,DBSSPperOrbNode
    ,DBSSPregNode: IXMLNode;
 
-   DBSSPstarSysCnt
+   DBSSPenumIndex
+   ,DBSSPstarSysCnt
    ,DBSSPstarCnt
    ,DBSSPorbObjCnt
    ,DBSSPsatCnt
    ,DBSSPperOrbCnt
    ,DBSSPregCnt: Integer;
 
-   DBSSPcompOrb
-   ,DBSSPstarClass
-   ,DBSSPorbObjdmp
-   ,DBSSPperOrbDmp
+   DBSSPperOrbDmp
    ,DBSSPhydroTp
    ,DBSSPregDmp: string;
 begin
@@ -1834,297 +1839,11 @@ begin
             begin
                DBSSPorbObjCnt:=0;
                {.star token id and class}
-               FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_token
-                  :=DBSSPstarNode.Attributes['startoken'] ;
-               DBSSPstarClass:= DBSSPstarNode.Attributes['starclass'] ;
-               if DBSSPstarClass='cB5'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=cB5
-               else if DBSSPstarClass='cB6'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=cB6
-               else if DBSSPstarClass='cB7'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=cB7
-               else if DBSSPstarClass='cB8'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=cB5
-               else if DBSSPstarClass='cB9'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=cB9
-               else if DBSSPstarClass='cA0'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=cA0
-               else if DBSSPstarClass='cA1'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=cA1
-               else if DBSSPstarClass='cA2'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=cA2
-               else if DBSSPstarClass='cA3'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=cA3
-               else if DBSSPstarClass='cA4'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=cA4
-               else if DBSSPstarClass='cA5'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=cA5
-               else if DBSSPstarClass='cA6'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=cA6
-               else if DBSSPstarClass='cA7'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=cA7
-               else if DBSSPstarClass='cA8'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=cA8
-               else if DBSSPstarClass='cA9'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=cA9
-               else if DBSSPstarClass='cK0'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=cK0
-               else if DBSSPstarClass='cK1'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=cK1
-               else if DBSSPstarClass='cK2'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=cK2
-               else if DBSSPstarClass='cK3'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=cK3
-               else if DBSSPstarClass='cK4'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=cK4
-               else if DBSSPstarClass='cK5'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=cK5
-               else if DBSSPstarClass='cK6'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=cK6
-               else if DBSSPstarClass='cK7'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=cK7
-               else if DBSSPstarClass='cK8'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=cK8
-               else if DBSSPstarClass='cK9'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=cK9
-               else if DBSSPstarClass='cM0'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=cM0
-               else if DBSSPstarClass='cM1'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=cM1
-               else if DBSSPstarClass='cM2'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=cM2
-               else if DBSSPstarClass='cM3'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=cM3
-               else if DBSSPstarClass='cM4'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=cM4
-               else if DBSSPstarClass='cM5'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=cM5
-               else if DBSSPstarClass='gF0'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=gF0
-               else if DBSSPstarClass='gF1'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=gF1
-               else if DBSSPstarClass='gF2'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=gF2
-               else if DBSSPstarClass='gF3'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=gF3
-               else if DBSSPstarClass='gF4'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=gF4
-               else if DBSSPstarClass='gF5'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=gF5
-               else if DBSSPstarClass='gF6'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=gF6
-               else if DBSSPstarClass='gF7'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=gF7
-               else if DBSSPstarClass='gF8'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=gF8
-               else if DBSSPstarClass='gF9'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=gF9
-               else if DBSSPstarClass='gG0'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=gG0
-               else if DBSSPstarClass='gG1'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=gG1
-               else if DBSSPstarClass='gG2'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=gG2
-               else if DBSSPstarClass='gG3'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=gG3
-               else if DBSSPstarClass='gG4'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=gG4
-               else if DBSSPstarClass='gG5'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=gG5
-               else if DBSSPstarClass='gG6'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=gG6
-               else if DBSSPstarClass='gG7'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=gG7
-               else if DBSSPstarClass='gG8'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=gG8
-               else if DBSSPstarClass='gG9'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=gG9
-               else if DBSSPstarClass='gK0'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=gK0
-               else if DBSSPstarClass='gK1'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=gK1
-               else if DBSSPstarClass='gK2'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=gK2
-               else if DBSSPstarClass='gK3'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=gK3
-               else if DBSSPstarClass='gK4'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=gK4
-               else if DBSSPstarClass='gK5'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=gK5
-               else if DBSSPstarClass='gK6'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=gK6
-               else if DBSSPstarClass='gK7'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=gK7
-               else if DBSSPstarClass='gK8'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=gK8
-               else if DBSSPstarClass='gK9'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=gK9
-               else if DBSSPstarClass='gM0'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=gM0
-               else if DBSSPstarClass='gM1'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=gM1
-               else if DBSSPstarClass='gM2'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=gM2
-               else if DBSSPstarClass='gM3'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=gM3
-               else if DBSSPstarClass='gM4'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=gM4
-               else if DBSSPstarClass='gM5'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=gM5
-               else if DBSSPstarClass='O5'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=O5
-               else if DBSSPstarClass='O6'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=O6
-               else if DBSSPstarClass='O7'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=O7
-               else if DBSSPstarClass='O8'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=O8
-               else if DBSSPstarClass='O9'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=O9
-               else if DBSSPstarClass='B0'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=B0
-               else if DBSSPstarClass='B1'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=B1
-               else if DBSSPstarClass='B2'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=B2
-               else if DBSSPstarClass='B3'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=B3
-               else if DBSSPstarClass='B4'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=B4
-               else if DBSSPstarClass='B5'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=B5
-               else if DBSSPstarClass='B6'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=B6
-               else if DBSSPstarClass='B7'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=B7
-               else if DBSSPstarClass='B8'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=B8
-               else if DBSSPstarClass='B9'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=B9
-               else if DBSSPstarClass='A0'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=A0
-               else if DBSSPstarClass='A1'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=A1
-               else if DBSSPstarClass='A2'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=A2
-               else if DBSSPstarClass='A3'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=A3
-               else if DBSSPstarClass='A4'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=A4
-               else if DBSSPstarClass='A5'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=A5
-               else if DBSSPstarClass='A6'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=A6
-               else if DBSSPstarClass='A7'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=A7
-               else if DBSSPstarClass='A8'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=A8
-               else if DBSSPstarClass='A9'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=A9
-               else if DBSSPstarClass='F0'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=F0
-               else if DBSSPstarClass='F1'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=F1
-               else if DBSSPstarClass='F2'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=F2
-               else if DBSSPstarClass='F3'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=F3
-               else if DBSSPstarClass='F4'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=F4
-               else if DBSSPstarClass='F5'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=F5
-               else if DBSSPstarClass='F6'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=F6
-               else if DBSSPstarClass='F7'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=F7
-               else if DBSSPstarClass='F8'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=F8
-               else if DBSSPstarClass='F9'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=F9
-               else if DBSSPstarClass='G0'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=G0
-               else if DBSSPstarClass='G1'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=G1
-               else if DBSSPstarClass='G2'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=G2
-               else if DBSSPstarClass='G3'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=G3
-               else if DBSSPstarClass='G4'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=G4
-               else if DBSSPstarClass='G5'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=G5
-               else if DBSSPstarClass='G6'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=G6
-               else if DBSSPstarClass='G7'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=G7
-               else if DBSSPstarClass='G8'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=G8
-               else if DBSSPstarClass='G9'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=G9
-               else if DBSSPstarClass='K0'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=K0
-               else if DBSSPstarClass='K1'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=K1
-               else if DBSSPstarClass='K2'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=K2
-               else if DBSSPstarClass='K3'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=K3
-               else if DBSSPstarClass='K4'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=K4
-               else if DBSSPstarClass='K5'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=K5
-               else if DBSSPstarClass='K6'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=K6
-               else if DBSSPstarClass='K7'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=K7
-               else if DBSSPstarClass='K8'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=K8
-               else if DBSSPstarClass='K9'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=K9
-               else if DBSSPstarClass='M0'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=M0
-               else if DBSSPstarClass='M1'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=M1
-               else if DBSSPstarClass='M2'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=M2
-               else if DBSSPstarClass='M3'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=M3
-               else if DBSSPstarClass='M4'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=M4
-               else if DBSSPstarClass='M5'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=M5
-               else if DBSSPstarClass='M6'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=M6
-               else if DBSSPstarClass='M7'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=M7
-               else if DBSSPstarClass='M8'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=M8
-               else if DBSSPstarClass='M9'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=M9
-               else if DBSSPstarClass='WD0'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=WD0
-               else if DBSSPstarClass='WD1'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=WD1
-               else if DBSSPstarClass='WD2'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=WD2
-               else if DBSSPstarClass='WD3'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=WD3
-               else if DBSSPstarClass='WD4'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=WD4
-               else if DBSSPstarClass='WD5'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=WD5
-               else if DBSSPstarClass='WD6'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=WD6
-               else if DBSSPstarClass='WD7'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=WD7
-               else if DBSSPstarClass='WD8'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=WD8
-               else if DBSSPstarClass='WD9'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=WD9
-               else if DBSSPstarClass='PSR'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=PSR
-               else if DBSSPstarClass='BH'
-               then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=BH;
+               FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_token:=DBSSPstarNode.Attributes['startoken'] ;
+               DBSSPenumIndex:=GetEnumValue(TypeInfo(TFCEduStarClass),DBSSPstarNode.Attributes['starclass']);
+               FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=TFCEduStarClass(DBSSPenumIndex) ;
+               if DBSSPenumIndex=-1
+               then raise Exception.Create('bad star class: '+DBSSPstarNode.Attributes['starclass']);
                {.star subdata processing loop}
                DBSSPstarSubNode:= DBSSPstarNode.ChildNodes.First;
                while DBSSPstarSubNode<>nil do
@@ -2139,26 +1858,20 @@ begin
                      FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_lum:=DBSSPstarSubNode.Attributes['starlum'];
                   end
                   {.companion star's data}
-                  else if DBSSPstarSubNode.NodeName='starcompdata'
-                  then
+                  else if DBSSPstarSubNode.NodeName='starcompdata' then
                   begin
                      FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_meanSep:=DBSSPstarSubNode.Attributes['compmsep'];
                      FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_minApD:=DBSSPstarSubNode.Attributes['compminapd'];
                      FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_ecc:=DBSSPstarSubNode.Attributes['compecc'];
-                     if DBSSPstarCnt=3
-                     then
+                     if DBSSPstarCnt=3 then
                      begin
-                        DBSSPcompOrb:=DBSSPstarSubNode.Attributes['comporb'];
-                        if DBSSPcompOrb='coAroundCenter'
-                        then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_comp2Orb:=coAroundCenter
-                        else if DBSSPcompOrb='coAroundComp'
-                        then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_comp2Orb:=coAroundComp
-                        else if DBSSPcompOrb='coAroundGravC'
-                        then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_comp2Orb:=coAroundGravC;
+                        DBSSPenumIndex:=GetEnumValue(TypeInfo(TFCEduCompOrb), DBSSPstarSubNode.Attributes['comporb'] );
+                        FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_comp2Orb:=TFCEduCompOrb(DBSSPenumIndex);
+                        if DBSSPenumIndex=-1
+                        then raise Exception.Create('bad companion star orbit type: '+DBSSPstarSubNode.Attributes['comporb']);
                      end;
                   end
-                  else if DBSSPstarSubNode.NodeName='orbobj'
-                  then
+                  else if DBSSPstarSubNode.NodeName='orbobj' then
                   begin
                      inc(DBSSPorbObjCnt);
                      if DBSSPorbObjCnt>= Length(FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj)
@@ -2184,13 +1897,10 @@ begin
                               {.eccentricity}
                               OO_ecc:=DBSSPorbObjNode.Attributes['ooecc'];
                               {.orbital zone type}
-                              DBSSPorbObjdmp:=DBSSPorbObjNode.Attributes['ooorbzne'];
-                              if DBSSPorbObjdmp='zoneInner'
-                              then OO_orbZone:=zoneInner
-                              else if DBSSPorbObjdmp='zoneInterm'
-                              then OO_orbZone:=zoneInterm
-                              else if DBSSPorbObjdmp='zoneOuter'
-                              then OO_orbZone:=zoneOuter;
+                              DBSSPenumIndex:=GetEnumValue( TypeInfo( TFCEduHabZone ), DBSSPorbObjNode.Attributes['ooorbzne'] );
+                              FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_orbZone:=TFCEduHabZone(DBSSPenumIndex);
+                              if DBSSPenumIndex=-1
+                              then raise Exception.Create( 'bad orbital zone: '+DBSSPorbObjNode.Attributes['ooorbzne'] );
                               {.revolution period}
                               OO_revol:=DBSSPorbObjNode.Attributes['oorevol'];
                               {.revolution period init day}
@@ -2224,70 +1934,10 @@ begin
                            then
                            begin
                               {.orbital object type}
-                              DBSSPorbObjdmp:=DBSSPorbObjNode.Attributes['ootype'];
-                              if DBSSPorbObjdmp='oobtpProtoDisk' then OO_type:=oobtpProtoDisk
-                              else if DBSSPorbObjdmp='oobtpAsterBelt_Metall'
-                              then OO_type:=oobtpAsterBelt_Metall
-                              else if DBSSPorbObjdmp='oobtpAsterBelt_Sili'
-                              then OO_type:=oobtpAsterBelt_Sili
-                              else if DBSSPorbObjdmp='oobtpAsterBelt_Carbo'
-                              then OO_type:=oobtpAsterBelt_Carbo
-                              else if DBSSPorbObjdmp='oobtpAsterBelt_Icy'
-                              then OO_type:=oobtpAsterBelt_Icy
-                              else if DBSSPorbObjdmp='oobtpAster_Metall'
-                              then OO_type:=oobtpAster_Metall
-                              else if DBSSPorbObjdmp='oobtpAster_Sili'
-                              then OO_type:=oobtpAster_Sili
-                              else if DBSSPorbObjdmp='oobtpAster_Carbo'
-                              then OO_type:=oobtpAster_Carbo
-                              else if DBSSPorbObjdmp='oobtpAster_Icy'
-                              then OO_type:=oobtpAster_Icy
-                              else if DBSSPorbObjdmp='oobtpPlan_Tellu_EarthH0H1'
-                              then OO_type:=oobtpPlan_Tellu_EarthH0H1
-                              else if DBSSPorbObjdmp='oobtpPlan_Tellu_EarthH2'
-                              then OO_type:=oobtpPlan_Tellu_EarthH2
-                              else if DBSSPorbObjdmp='oobtpPlan_Tellu_EarthH3'
-                              then OO_type:=oobtpPlan_Tellu_EarthH3
-                              else if DBSSPorbObjdmp='oobtpPlan_Tellu_EarthH4'
-                              then OO_type:=oobtpPlan_Tellu_EarthH4
-                              else if DBSSPorbObjdmp='oobtpPlan_Tellu_MarsH0H1'
-                              then OO_type:=oobtpPlan_Tellu_MarsH0H1
-                              else if DBSSPorbObjdmp='oobtpPlan_Tellu_MarsH2'
-                              then OO_type:=oobtpPlan_Tellu_MarsH2
-                              else if DBSSPorbObjdmp='oobtpPlan_Tellu_MarsH3'
-                              then OO_type:=oobtpPlan_Tellu_MarsH3
-                              else if DBSSPorbObjdmp='oobtpPlan_Tellu_MarsH4'
-                              then OO_type:=oobtpPlan_Tellu_MarsH4
-                              else if DBSSPorbObjdmp='oobtpPlan_Tellu_VenusH0H1'
-                              then OO_type:=oobtpPlan_Tellu_VenusH0H1
-                              else if DBSSPorbObjdmp='oobtpPlan_Tellu_VenusH2'
-                              then OO_type:=oobtpPlan_Tellu_VenusH2
-                              else if DBSSPorbObjdmp='oobtpPlan_Tellu_VenusH3'
-                              then OO_type:=oobtpPlan_Tellu_VenusH3
-                              else if DBSSPorbObjdmp='oobtpPlan_Tellu_VenusH4'
-                              then OO_type:=oobtpPlan_Tellu_VenusH4
-                              else if DBSSPorbObjdmp='oobtpPlan_Tellu_MercuH0'
-                              then OO_type:=oobtpPlan_Tellu_MercuH0
-                              else if DBSSPorbObjdmp='oobtpPlan_Tellu_MercuH3'
-                              then OO_type:=oobtpPlan_Tellu_MercuH3
-                              else if DBSSPorbObjdmp='oobtpPlan_Tellu_MercuH4'
-                              then OO_type:=oobtpPlan_Tellu_MercuH4
-                              else if DBSSPorbObjdmp='oobtpPlan_Icy_PlutoH3'
-                              then OO_type:=oobtpPlan_Icy_PlutoH3
-                              else if DBSSPorbObjdmp='oobtpPlan_Icy_EuropeH4'
-                              then OO_type:=oobtpPlan_Icy_EuropeH4
-                              else if DBSSPorbObjdmp='oobtpPlan_Icy_CallistoH3H4Atm0'
-                              then OO_type:=oobtpPlan_Icy_CallistoH3H4Atm0
-                              else if DBSSPorbObjdmp='oobtpPlan_Gas_Uranus'
-                              then OO_type:=oobtpPlan_Gas_Uranus
-                              else if DBSSPorbObjdmp='oobtpPlan_Gas_Neptun'
-                              then OO_type:=oobtpPlan_Gas_Neptun
-                              else if DBSSPorbObjdmp='oobtpPlan_Gas_Saturn'
-                              then OO_type:=oobtpPlan_Gas_Saturn
-                              else if DBSSPorbObjdmp='oobtpPlan_Jovian_Jupiter'
-                              then OO_type:=oobtpPlan_Jovian_Jupiter
-                              else if DBSSPorbObjdmp='oobtpPlan_Supergiant1'
-                              then OO_type:=oobtpPlan_Supergiant1;
+                              DBSSPenumIndex:=GetEnumValue( TypeInfo( TFCEduOobjTp ), DBSSPorbObjNode.Attributes['ootype'] );
+                              FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_type:=TFCEduOobjTp( DBSSPenumIndex );
+                              if DBSSPenumIndex=-1
+                              then raise Exception.Create( 'bad orbital object type: '+DBSSPorbObjNode.Attributes['ootype'] );
                               {.diameter}
                               OO_diam:=DBSSPorbObjNode.Attributes['oodiam'];
                               {.density}
@@ -2311,14 +1961,10 @@ begin
                            then
                            begin
                               {.environment}
-                              DBSSPorbObjdmp:=DBSSPorbObjNode.Attributes['ooenvtype'];
-                              if DBSSPorbObjdmp='freeLiving'
-                              then OO_envTp:=envfreeLiving
-                              else if DBSSPorbObjdmp='restrict'
-                              then OO_envTp:=restrict
-                              else if DBSSPorbObjdmp='space'
-                              then OO_envTp:=space
-                              else OO_envTp:=gaseous;
+                              DBSSPenumIndex:=GetEnumValue( TypeInfo( TFCEduEnv ), DBSSPorbObjNode.Attributes['ooenvtype'] );
+                              FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_envTp:=TFCEduEnv(DBSSPenumIndex);
+                              if DBSSPenumIndex=-1
+                              then raise Exception.Create( 'bad environment type: '+DBSSPorbObjNode.Attributes['ooenvtype'] );
                               {.atmosphere pressure}
                               OO_atmPress:=DBSSPorbObjNode.Attributes['ooatmpres'];
                               {.clouds cover}
@@ -2471,17 +2117,9 @@ begin
                                     OO_satList[DBSSPsatCnt].OOS_revol:=DBSSPsatNode.Attributes['satrevol'];
                                     {.revolution period init day}
                                     OO_satList[DBSSPsatCnt].OOS_revolInit:=DBSSPsatNode.Attributes['satrevinit'];
-                                    OO_satList[DBSSPsatCnt].OOS_angle1stDay
-                                       :=roundto
-                                          (
-                                             OO_satList[DBSSPsatCnt].OOS_revolInit
-                                                *360
-                                                /OO_satList[DBSSPsatCnt].OOS_revol
-                                             , -2
-                                          );
+                                    OO_satList[DBSSPsatCnt].OOS_angle1stDay:=roundto(OO_satList[DBSSPsatCnt].OOS_revolInit*360/OO_satList[DBSSPsatCnt].OOS_revol, -2);
                                     {.gravity sphere of influence radius}
-                                    OO_satList[DBSSPsatCnt].OOS_gravSphRad
-                                       :=DBSSPsatNode.Attributes['satgravsphrad'];
+                                    OO_satList[DBSSPsatCnt].OOS_gravSphRad:=DBSSPsatNode.Attributes['satgravsphrad'];
                                  end
                                  else if DBSSPsatNode.NodeName='orbperlist'
                                  then
@@ -2493,58 +2131,24 @@ begin
                                        inc(DBSSPperOrbCnt);
                                        DBSSPperOrbDmp:=DBSSPperOrbNode.Attributes['optype'];
                                        if DBSSPperOrbDmp='optClosest'
-                                       then OO_satList[DBSSPsatCnt].OOS_orbPeriod[DBSSPperOrbCnt].OP_type
-                                          :=optClosest
+                                       then OO_satList[DBSSPsatCnt].OOS_orbPeriod[DBSSPperOrbCnt].OP_type:=optClosest
                                        else if DBSSPperOrbDmp='optInterm'
-                                       then OO_satList[DBSSPsatCnt].OOS_orbPeriod[DBSSPperOrbCnt].OP_type
-                                          :=optInterm
+                                       then OO_satList[DBSSPsatCnt].OOS_orbPeriod[DBSSPperOrbCnt].OP_type:=optInterm
                                        else if DBSSPperOrbDmp='optFarest'
-                                       then OO_satList[DBSSPsatCnt].OOS_orbPeriod[DBSSPperOrbCnt].OP_type
-                                          :=optFarest;
-                                       OO_satList[DBSSPsatCnt].OOS_orbPeriod[DBSSPperOrbCnt].OP_dayStart
-                                          :=DBSSPperOrbNode.Attributes['opstrt'];
-                                       OO_satList[DBSSPsatCnt].OOS_orbPeriod[DBSSPperOrbCnt].OP_dayEnd
-                                          :=DBSSPperOrbNode.Attributes['opend'];
-                                       OO_satList[DBSSPsatCnt].OOS_orbPeriod[DBSSPperOrbCnt].OP_meanTemp
-                                          :=DBSSPperOrbNode.Attributes['opmtemp'];
+                                       then OO_satList[DBSSPsatCnt].OOS_orbPeriod[DBSSPperOrbCnt].OP_type:=optFarest;
+                                       OO_satList[DBSSPsatCnt].OOS_orbPeriod[DBSSPperOrbCnt].OP_dayStart:=DBSSPperOrbNode.Attributes['opstrt'];
+                                       OO_satList[DBSSPsatCnt].OOS_orbPeriod[DBSSPperOrbCnt].OP_dayEnd:=DBSSPperOrbNode.Attributes['opend'];
+                                       OO_satList[DBSSPsatCnt].OOS_orbPeriod[DBSSPperOrbCnt].OP_meanTemp:=DBSSPperOrbNode.Attributes['opmtemp'];
                                        DBSSPperOrbNode:= DBSSPperOrbNode.NextSibling;
                                     end;
                                  end //==END== else if DBSSPsatNode.NodeName='orbperlist' ==//
                                  else if DBSSPsatNode.NodeName='satgeophysdata'
                                  then
                                  begin
-                                    {.orbital object type}
-                                    DBSSPorbObjdmp:=DBSSPsatNode.Attributes['sattype'];
-                                    if DBSSPorbObjdmp='oobtpSat_Aster_Metall'
-                                    then OO_satList[DBSSPsatCnt].OOS_type:=oobtpSat_Aster_Metall
-                                    else if DBSSPorbObjdmp='oobtpSat_Aster_Sili'
-                                    then OO_satList[DBSSPsatCnt].OOS_type:=oobtpSat_Aster_Sili
-                                    else if DBSSPorbObjdmp='oobtpSat_Aster_Carbo'
-                                    then OO_satList[DBSSPsatCnt].OOS_type:=oobtpSat_Aster_Carbo
-                                    else if DBSSPorbObjdmp='oobtpSat_Aster_Icy'
-                                    then OO_satList[DBSSPsatCnt].OOS_type:=oobtpSat_Aster_Icy
-                                    else if DBSSPorbObjdmp='oobtpSat_Tellu_Lunar'
-                                    then OO_satList[DBSSPsatCnt].OOS_type:=oobtpSat_Tellu_Lunar
-                                    else if DBSSPorbObjdmp='oobtpSat_Tellu_Io'
-                                    then OO_satList[DBSSPsatCnt].OOS_type:=oobtpSat_Tellu_Io
-                                    else if DBSSPorbObjdmp='oobtpSat_Tellu_Titan'
-                                    then OO_satList[DBSSPsatCnt].OOS_type:=oobtpSat_Tellu_Titan
-                                    else if DBSSPorbObjdmp='oobtpSat_Tellu_Earth'
-                                    then OO_satList[DBSSPsatCnt].OOS_type:=oobtpSat_Tellu_Earth
-                                    else if DBSSPorbObjdmp='oobtpSat_Icy_Pluto'
-                                    then OO_satList[DBSSPsatCnt].OOS_type:=oobtpSat_Icy_Pluto
-                                    else if DBSSPorbObjdmp='oobtpSat_Icy_Europe'
-                                    then OO_satList[DBSSPsatCnt].OOS_type:=oobtpSat_Icy_Europe
-                                    else if DBSSPorbObjdmp='oobtpSat_Icy_Callisto'
-                                    then OO_satList[DBSSPsatCnt].OOS_type:=oobtpSat_Icy_Callisto
-                                    else if DBSSPorbObjdmp='oobtpRing_Metall'
-                                    then OO_satList[DBSSPsatCnt].OOS_type:=oobtpRing_Metall
-                                    else if DBSSPorbObjdmp='oobtpRing_Sili'
-                                    then OO_satList[DBSSPsatCnt].OOS_type:=oobtpRing_Sili
-                                    else if DBSSPorbObjdmp='oobtpRing_Carbo'
-                                    then OO_satList[DBSSPsatCnt].OOS_type:=oobtpRing_Carbo
-                                    else if DBSSPorbObjdmp='oobtpRing_Icy'
-                                    then OO_satList[DBSSPsatCnt].OOS_type:=oobtpRing_Icy;
+                                    DBSSPenumIndex:=GetEnumValue( TypeInfo( TFCEduOobjTp ), DBSSPsatNode.Attributes['sattype'] );
+                                    FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_type:=TFCEduOobjTp( DBSSPenumIndex );
+                                    if DBSSPenumIndex=-1
+                                    then raise Exception.Create( 'bad (sat) orbital object type: '+DBSSPsatNode.Attributes['sattype'] );
                                     {.diameter}
                                     OO_satList[DBSSPsatCnt].OOS_diam:=DBSSPsatNode.Attributes['satdiam'];
                                     {.density}
@@ -2565,14 +2169,10 @@ begin
                                  else if DBSSPsatNode.NodeName='satecosdata' then
                                  begin
                                     {.environment}
-                                    DBSSPorbObjdmp:=DBSSPsatNode.Attributes['satenvtype'];
-                                    if DBSSPorbObjdmp='freeLiving'
-                                    then OO_satList[DBSSPsatCnt].OOS_envTp:=envfreeLiving
-                                    else if DBSSPorbObjdmp='restrict'
-                                    then OO_satList[DBSSPsatCnt].OOS_envTp:=restrict
-                                    else if DBSSPorbObjdmp='space'
-                                    then OO_satList[DBSSPsatCnt].OOS_envTp:=space
-                                    else OO_satList[DBSSPsatCnt].OOS_envTp:=gaseous;
+                                    DBSSPenumIndex:=GetEnumValue( TypeInfo( TFCEduEnv ), DBSSPsatNode.Attributes['satenvtype'] );
+                                    FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_envTp:=TFCEduEnv( DBSSPenumIndex );
+                                    if DBSSPenumIndex=-1
+                                    then raise Exception.Create( 'bad (sat) environment type: '+DBSSPsatNode.Attributes['satenvtype'] );
                                     {.atmosphere pressure}
                                     OO_satList[DBSSPsatCnt].OOS_atmPress:=DBSSPsatNode.Attributes['satatmpres'];
                                     {.clouds cover}

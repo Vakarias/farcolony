@@ -37,6 +37,7 @@ interface
    //=======================================================================================
    {.stars and orbital objects datastructures}
    //=======================================================================================
+   {+M}
    {.companion 2 orbit type}
    {:DEV NOTES : update universe.xml + FCMdFiles_DBstarSys_Process.}
    type TFCEduCompOrb=(
@@ -47,6 +48,7 @@ interface
       {.around gravity center of main-companion 1 star}
       ,coAroundGravC
       );
+
    {.environment type}
    {:DEV NOTES: update universe.xml + FCMdFiles_DBstarSys_Process.}
    type TFCEduEnv=(
@@ -56,6 +58,7 @@ interface
       ,space
       ,gaseous
       );
+
    {.orbital zones}
    type TFCEduHabZone=(
       {.inner zone}
@@ -65,6 +68,7 @@ interface
       {.outer zone}
       ,zoneOuter
       );
+
    {.orbital object type list, derived from previous FARC}
    type TFCEduOobjTp=(
       {.protoplanetary disk, old num=1}
@@ -166,6 +170,7 @@ interface
       {.old num=103}
       ,oobtpRing_Icy
       );
+   {-M}
 
    {.resource quality}
    type TFCEduRsrcQuality=(
@@ -198,6 +203,7 @@ interface
       ,rstUnderWater
       );
 
+   {M+}
    {.list of all star classes used in FARC}
    type TFCEduStarClass=(
       {super giant blue Ia/Ib}
@@ -237,6 +243,7 @@ interface
       {black hole}
       ,BH
       );
+   {M-}
    //==END ENUM=============================================================================
 
    {:DEV NOTES: ****you need to update FARC.main.odt when updating this data structure****}
@@ -375,7 +382,7 @@ interface
       );
    {.region sub data structure}
    {:DEV NOTE: update FCMdF_DBstarSys_Process.}
-   type TFCRoobReg = record
+   type TFCRduOObRegion = record
       {.type of soil}
       OOR_soilTp: TFCEregSoilTp;
       {.type of relief}
@@ -459,7 +466,7 @@ interface
          {.hydrosphere area}
       OOS_hydroArea: double;
          {.regions}
-      OOS_regions: array of TFCRoobReg;
+      OOS_regions: array of TFCRduOObRegion;
    end;
    {.FUG orbits to generate}
    type TFCRduFUGstarOrb= array[0..3] of integer;
@@ -528,7 +535,7 @@ interface
          {.hydrosphere area}
       OO_hydroArea: double;
          {.regions}
-      OO_regions: array of TFCRoobReg;
+      OO_regions: array of TFCRduOObRegion;
    end;
    {.star data structure, child of TFCRstarSys}
    type TFCRstar = record
