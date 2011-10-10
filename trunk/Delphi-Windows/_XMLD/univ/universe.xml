@@ -1,4 +1,5 @@
-﻿<!--    include alpha centaury stellar system + alpha centaury A
+﻿<!-- Universe Database -->
+<!--    include alpha centaury stellar system + alpha centaury A
       + it's orbital objects (only basic data, not including 
       regions ones
       
@@ -16,6 +17,7 @@
       coAroundGravC
    
    {.environment type}
+   [ooenvtype]
       freeLiving
       restrict
       space
@@ -185,6 +187,34 @@ Climate= ,rc01vhotHumid
          ,rc08periarctic
          ,rc09arctic
          ,rc10extreme
+        
+   {.types of resource spot}
+   [resourcespot type]
+      rstGasField
+      rstHydroWell
+      rstIcyOreField
+      rstOreField
+      rstUnderWater
+        
+   {.resource quality}
+   [resourcespot quality]
+      rqNone
+      rqFbad
+      rqEpoor
+      rqDfairavg
+      rqCgood
+      rqBexcellent
+      rqAperfect
+      
+   {.resource rarity}
+   [resourcespot rarity] 
+      rrRich
+      rrAbundant
+      rrCommon
+      rrPresent
+      rrUncommon
+      rrRare
+      rrAbsent
       
    <starsys sstoken="" steslocx="" steslocy="" steslocz="">
       <star startoken="" starclass="">
@@ -201,7 +231,9 @@ Climate= ,rc01vhotHumid
             <orbobjgeophysdata ootype="" oodiam="" oodens="" oomass="" oograv="" ooescvel="" oorotper="" ooinclax="" oomagfld="" ooalbe=""/>
             <orbobjecosdata ooenvtype="" ooatmpres="" oocloudscov="" atmH2="" atmHe="" atmCH4="" atmNH3="" atmH2O="" atmNe="" atmN2="" atmCO="" atmNO="" atmO2="" atmH2S="" atmAr="" atmCO2="" atmNO2="" atmO3="" atmSO2="" hydroTp="" hydroArea=""/>
             <orbobjregions>
-               <region soiltp="" relief="" climate="" mtdmin="" mtdint="" mtdmax="" wndspd="" precip=""/>
+               <region soiltp="" relief="" climate="" mtdmin="" mtdint="" mtdmax="" wndspd="" precip="">
+                  <resourcespot type="" quality="" rarity=""/>
+               </region>
             </orbobjregions>
             <satobj sattoken="">
                <satorbdata satdist="" satrevol="" satrevinit="" satgravsphrad=""/>      
@@ -214,7 +246,9 @@ Climate= ,rc01vhotHumid
                <satgeophysdata sattype="" satdiam="" satdens="" satmass="" satgrav="" satescvel="" satinclax="" satmagfld="" satalbe=""/>
                <satecosdata satenvtype="" satatmpres="" satcloudscov=""  atmH2="" atmHe="" atmCH4="" atmNH3="" atmH2O="" atmNe="" atmN2="" atmCO="" atmNO="" atmO2="" atmH2S="" atmAr="" atmCO2="" atmNO2="" atmO3="" atmSO2="" hydroTp="" hydroArea=""/>
                <satregions>
-                  <region soiltp="" relief="" climate="" mtdmin="" mtdint="" mtdmax="" wndspd="" precip=""/>
+                  <region soiltp="" relief="" climate="" mtdmin="" mtdint="" mtdmax="" wndspd="" precip="">
+                     <resourcespot type="" quality="" rarity=""/>
+                  </region>
                </satregions>
             </satobj>
          </orbobj>
@@ -237,10 +271,14 @@ Climate= ,rc01vhotHumid
             <orbobjgeophysdata ootype="oobtpAster_Carbo" oodiam="1542.5" oodens="2758" oomass="5.299909" oograv="0.061" ooescvel="0.96" oorotper="2688" ooinclax="29" oomagfld="0" ooalbe="0.07"/>
             <orbobjecosdata ooenvtype="space" ooatmpres="0" oocloudscov="0" atmH2="0" atmHe="0" atmCH4="0" atmNH3="0" atmH2O="0" atmNe="0" atmN2="0" atmCO="0" atmNO="0" atmO2="0" atmH2S="0" atmAr="0" atmCO2="0" atmNO2="0" atmO3="0" atmSO2="0" hydroTp="htNone" hydroArea="0"/>
             <orbobjregions>
-               <region soiltp="rst14barren" relief="rr1plain" climate="rst14barren" mtdmin="237.99" mtdint="288.07" mtdmax="338.54" wndspd="0" precip="0" emo="1.5"/>
-               <region soiltp="rst14barren" relief="rr4broken" climate="rst14barren" mtdmin="319.65" mtdint="353" mtdmax="390.13" wndspd="0" precip="0" emo="1.5"/>
-               <region soiltp="rst14barren" relief="rr4broken" climate="rst14barren" mtdmin="237.99" mtdint="288.07" mtdmax="338.54" wndspd="0" precip="0" emo="1.5"/>
-               <region soiltp="rst14barren" relief="rr4broken" climate="rst14barren" mtdmin="237.99" mtdint="288.07" mtdmax="338.54" wndspd="0" precip="0" emo="1.5"/>
+               <region soiltp="rst14barren" relief="rr1plain" climate="rst14barren" mtdmin="237.99" mtdint="288.07" mtdmax="338.54" wndspd="0" precip="0" emo="1.5">
+               </region>
+               <region soiltp="rst14barren" relief="rr4broken" climate="rst14barren" mtdmin="319.65" mtdint="353" mtdmax="390.13" wndspd="0" precip="0" emo="1.5">
+               </region>
+               <region soiltp="rst14barren" relief="rr4broken" climate="rst14barren" mtdmin="237.99" mtdint="288.07" mtdmax="338.54" wndspd="0" precip="0" emo="1.5">
+               </region>
+               <region soiltp="rst14barren" relief="rr4broken" climate="rst14barren" mtdmin="237.99" mtdint="288.07" mtdmax="338.54" wndspd="0" precip="0" emo="1.5">
+               </region>
             </orbobjregions>
          </orbobj>
          <orbobj ootoken="orbobjAcentA2">
@@ -254,32 +292,58 @@ Climate= ,rc01vhotHumid
             <orbobjgeophysdata ootype="oobtpPlan_Tellu_MarsH0H1" oodiam="8344" oodens="6331" oomass="0.3222" oograv="0.752" ooescvel="7.85" oorotper="32.55" ooinclax="39" oomagfld="0.092" ooalbe="0.2"/>
             <orbobjecosdata ooenvtype="restrict" ooatmpres="134.662" oocloudscov="37.2" atmH2="0" atmHe="0" atmCH4="2" atmNH3="2" atmH2O="2" atmNe="2" atmN2="3" atmCO="2" atmNO="2" atmO2="2" atmH2S="2" atmAr="2" atmCO2="2" atmNO2="2" atmO3="2" atmSO2="2" hydroTp="htVapor" hydroArea="32.7"/>
             <orbobjregions>
-               <region soiltp="rst01rockDes" relief="rr1plain" climate="rc07coldArid" mtdmin="210.04" mtdint="251.99" mtdmax="313.36" wndspd="32.24" precip="95" emo="1.5"/>
-               <region soiltp="rst03volcanic" relief="rr4broken" climate="rc03hotSemiArid" mtdmin="278.03" mtdint="296.75" mtdmax="317.43" wndspd="116.47" precip="247" emo="1.5"/>
-               <region soiltp="rst06fertile" relief="rr4broken" climate="rc03hotSemiArid" mtdmin="272.68" mtdint="298.27" mtdmax="318.76" wndspd="121.1" precip="244" emo="1.5"/>
-               <region soiltp="rst03volcanic" relief="rr9mountain" climate="rst03volcanic" mtdmin="285.08" mtdint="288.76" mtdmax="325.24" wndspd="116.49" precip="251" emo="1.5"/>
-               <region soiltp="rst06fertile" relief="rr1plain" climate="rc03hotSemiArid" mtdmin="280.53" mtdint="295.68" mtdmax="320.14" wndspd="120.98" precip="248" emo="1.5"/>
-               <region soiltp="rst06fertile" relief="rr1plain" climate="rc03hotSemiArid" mtdmin="281.75" mtdint="291.57" mtdmax="318.96" wndspd="118.19" precip="246" emo="1.5"/>
-               <region soiltp="rst06fertile" relief="rr1plain" climate="rc03hotSemiArid" mtdmin="281.61" mtdint="288.39" mtdmax="322.22" wndspd="119.1" precip="246" emo="1.5"/>
-               <region soiltp="rst06fertile" relief="rr9mountain" climate="rc02vhotSemiHumid" mtdmin="365.33" mtdint="335.86" mtdmax="329.07" wndspd="184.53" precip="412" emo="1.5"/>
-               <region soiltp="rst06fertile" relief="rr4broken" climate="rc02vhotSemiHumid" mtdmin="358.72" mtdint="334.5" mtdmax="330.84" wndspd="182.76" precip="408" emo="1.5"/>
-               <region soiltp="rst06fertile" relief="rr1plain" climate="rc02vhotSemiHumid" mtdmin="356.28" mtdint="329.81" mtdmax="326.92" wndspd="182.87" precip="399" emo="1.5"/>
-               <region soiltp="rst06fertile" relief="rr9mountain" climate="rc02vhotSemiHumid" mtdmin="359.59" mtdint="338.96" mtdmax="339.44" wndspd="183.81" precip="418" emo="1.5"/>
-               <region soiltp="rst06fertile" relief="rr4broken" climate="rc02vhotSemiHumid" mtdmin="360.1" mtdint="338.47" mtdmax="336.13" wndspd="184.72" precip="415" emo="1.5"/>
-               <region soiltp="rst06fertile" relief="rr4broken" climate="rc02vhotSemiHumid" mtdmin="357.24" mtdint="333.29" mtdmax="336.01" wndspd="183.87" precip="409" emo="1.5"/>
-               <region soiltp="rst06fertile" relief="rr1plain" climate="rc02vhotSemiHumid" mtdmin="391.59" mtdint="338.37" mtdmax="311.25" wndspd="185.37" precip="419" emo="1.5"/>
-               <region soiltp="rst03volcanic" relief="rr4broken" climate="rc02vhotSemiHumid" mtdmin="400.62" mtdint="331.04" mtdmax="309.8" wndspd="186.02" precip="419" emo="1.5"/>
-               <region soiltp="rst03volcanic" relief="rr4broken" climate="rc02vhotSemiHumid" mtdmin="397.05" mtdint="334.98" mtdmax="312.63" wndspd="186.74" precip="421" emo="1.5"/>
-               <region soiltp="rst06fertile" relief="rr1plain" climate="rc02vhotSemiHumid" mtdmin="394.73" mtdint="338.32" mtdmax="304.72" wndspd="186.12" precip="417" emo="1.5"/>
-               <region soiltp="rst06fertile" relief="rr1plain" climate="rc02vhotSemiHumid" mtdmin="388.89" mtdint="343.76" mtdmax="308.45" wndspd="187.22" precip="419" emo="1.5"/>
-               <region soiltp="rst03volcanic" relief="rr4broken" climate="rc02vhotSemiHumid" mtdmin="393.68" mtdint="343.47" mtdmax="305.51" wndspd="184.75" precip="421" emo="1.5"/>
-               <region soiltp="rst06fertile" relief="rr9mountain" climate="rc03hotSemiArid" mtdmin="364" mtdint="290.04" mtdmax="236.46" wndspd="120.47" precip="244" emo="1.5"/>
-               <region soiltp="rst06fertile" relief="rr9mountain" climate="rc03hotSemiArid" mtdmin="370.91" mtdint="290.1" mtdmax="246.15" wndspd="118.27" precip="255" emo="1.5"/>
-               <region soiltp="rst03volcanic" relief="rr9mountain" climate="rc03hotSemiArid" mtdmin="370.8" mtdint="298.3" mtdmax="242.33" wndspd="120.53" precip="257" emo="1.5"/>
-               <region soiltp="rst06fertile" relief="rr1plain" climate="rc03hotSemiArid" mtdmin="376.11" mtdint="291.48" mtdmax="238.24" wndspd="118.84" precip="254" emo="1.5"/>
-               <region soiltp="rst03volcanic" relief="rr4broken" climate="rc03hotSemiArid" mtdmin="367.87" mtdint="301.01" mtdmax="243" wndspd="116.74" precip="259" emo="1.5"/>
-               <region soiltp="rst03volcanic" relief="rr4broken" climate="rc03hotSemiArid" mtdmin="368.76" mtdint="281.72" mtdmax="236.97" wndspd="119.13" precip="243" emo="1.5"/>
-               <region soiltp="rst01rockDes" relief="rr4broken" climate="rc07coldArid" mtdmin="355.57" mtdint="256.48" mtdmax="173.13" wndspd="33.32" precip="95" emo="1.5"/>
+               <region soiltp="rst01rockDes" relief="rr1plain" climate="rc07coldArid" mtdmin="210.04" mtdint="251.99" mtdmax="313.36" wndspd="32.24" precip="95" emo="1.5">
+               </region>
+               <region soiltp="rst03volcanic" relief="rr4broken" climate="rc03hotSemiArid" mtdmin="278.03" mtdint="296.75" mtdmax="317.43" wndspd="116.47" precip="247" emo="1.5">
+               </region>
+               <region soiltp="rst06fertile" relief="rr4broken" climate="rc03hotSemiArid" mtdmin="272.68" mtdint="298.27" mtdmax="318.76" wndspd="121.1" precip="244" emo="1.5">
+               </region>
+               <region soiltp="rst03volcanic" relief="rr9mountain" climate="rst03volcanic" mtdmin="285.08" mtdint="288.76" mtdmax="325.24" wndspd="116.49" precip="251" emo="1.5">
+               </region>
+               <region soiltp="rst06fertile" relief="rr1plain" climate="rc03hotSemiArid" mtdmin="280.53" mtdint="295.68" mtdmax="320.14" wndspd="120.98" precip="248" emo="1.5">
+               </region>
+               <region soiltp="rst06fertile" relief="rr1plain" climate="rc03hotSemiArid" mtdmin="281.75" mtdint="291.57" mtdmax="318.96" wndspd="118.19" precip="246" emo="1.5">
+               </region>
+               <region soiltp="rst06fertile" relief="rr1plain" climate="rc03hotSemiArid" mtdmin="281.61" mtdint="288.39" mtdmax="322.22" wndspd="119.1" precip="246" emo="1.5">
+               </region>
+               <region soiltp="rst06fertile" relief="rr9mountain" climate="rc02vhotSemiHumid" mtdmin="365.33" mtdint="335.86" mtdmax="329.07" wndspd="184.53" precip="412" emo="1.5">
+               </region>
+               <region soiltp="rst06fertile" relief="rr4broken" climate="rc02vhotSemiHumid" mtdmin="358.72" mtdint="334.5" mtdmax="330.84" wndspd="182.76" precip="408" emo="1.5">
+               </region>
+               <region soiltp="rst06fertile" relief="rr1plain" climate="rc02vhotSemiHumid" mtdmin="356.28" mtdint="329.81" mtdmax="326.92" wndspd="182.87" precip="399" emo="1.5">
+               </region>
+               <region soiltp="rst06fertile" relief="rr9mountain" climate="rc02vhotSemiHumid" mtdmin="359.59" mtdint="338.96" mtdmax="339.44" wndspd="183.81" precip="418" emo="1.5">
+               </region>
+               <region soiltp="rst06fertile" relief="rr4broken" climate="rc02vhotSemiHumid" mtdmin="360.1" mtdint="338.47" mtdmax="336.13" wndspd="184.72" precip="415" emo="1.5">
+               </region>
+               <region soiltp="rst06fertile" relief="rr4broken" climate="rc02vhotSemiHumid" mtdmin="357.24" mtdint="333.29" mtdmax="336.01" wndspd="183.87" precip="409" emo="1.5">
+               </region>
+               <region soiltp="rst06fertile" relief="rr1plain" climate="rc02vhotSemiHumid" mtdmin="391.59" mtdint="338.37" mtdmax="311.25" wndspd="185.37" precip="419" emo="1.5">
+               </region>
+               <region soiltp="rst03volcanic" relief="rr4broken" climate="rc02vhotSemiHumid" mtdmin="400.62" mtdint="331.04" mtdmax="309.8" wndspd="186.02" precip="419" emo="1.5">
+               </region>
+               <region soiltp="rst03volcanic" relief="rr4broken" climate="rc02vhotSemiHumid" mtdmin="397.05" mtdint="334.98" mtdmax="312.63" wndspd="186.74" precip="421" emo="1.5">
+               </region>
+               <region soiltp="rst06fertile" relief="rr1plain" climate="rc02vhotSemiHumid" mtdmin="394.73" mtdint="338.32" mtdmax="304.72" wndspd="186.12" precip="417" emo="1.5">
+               </region>
+               <region soiltp="rst06fertile" relief="rr1plain" climate="rc02vhotSemiHumid" mtdmin="388.89" mtdint="343.76" mtdmax="308.45" wndspd="187.22" precip="419" emo="1.5">
+               </region>
+               <region soiltp="rst03volcanic" relief="rr4broken" climate="rc02vhotSemiHumid" mtdmin="393.68" mtdint="343.47" mtdmax="305.51" wndspd="184.75" precip="421" emo="1.5">
+               </region>
+               <region soiltp="rst06fertile" relief="rr9mountain" climate="rc03hotSemiArid" mtdmin="364" mtdint="290.04" mtdmax="236.46" wndspd="120.47" precip="244" emo="1.5">
+               </region>
+               <region soiltp="rst06fertile" relief="rr9mountain" climate="rc03hotSemiArid" mtdmin="370.91" mtdint="290.1" mtdmax="246.15" wndspd="118.27" precip="255" emo="1.5">
+               </region>
+               <region soiltp="rst03volcanic" relief="rr9mountain" climate="rc03hotSemiArid" mtdmin="370.8" mtdint="298.3" mtdmax="242.33" wndspd="120.53" precip="257" emo="1.5">
+               </region>
+               <region soiltp="rst06fertile" relief="rr1plain" climate="rc03hotSemiArid" mtdmin="376.11" mtdint="291.48" mtdmax="238.24" wndspd="118.84" precip="254" emo="1.5">
+               </region>
+               <region soiltp="rst03volcanic" relief="rr4broken" climate="rc03hotSemiArid" mtdmin="367.87" mtdint="301.01" mtdmax="243" wndspd="116.74" precip="259" emo="1.5">
+               </region>
+               <region soiltp="rst03volcanic" relief="rr4broken" climate="rc03hotSemiArid" mtdmin="368.76" mtdint="281.72" mtdmax="236.97" wndspd="119.13" precip="243" emo="1.5">
+               </region>
+               <region soiltp="rst01rockDes" relief="rr4broken" climate="rc07coldArid" mtdmin="355.57" mtdint="256.48" mtdmax="173.13" wndspd="33.32" precip="95" emo="1.5">
+               </region>
             </orbobjregions>
          </orbobj>
          <orbobj ootoken="orbobjAcentA3">
@@ -293,28 +357,50 @@ Climate= ,rc01vhotHumid
             <orbobjgeophysdata ootype="oobtpPlan_Tellu_MarsH2" oodiam="6552" oodens="6331" oomass="0.156" oograv="0.591" ooescvel="6.16" oorotper="935.93" ooinclax="24" oomagfld="0.001" ooalbe="0.16"/>
             <orbobjecosdata ooenvtype="restrict" ooatmpres="31.595" oocloudscov="36.9" atmH2="0" atmHe="0" atmCH4="2" atmNH3="2" atmH2O="2" atmNe="2" atmN2="3" atmCO="2" atmNO="2" atmO2="2" atmH2S="2" atmAr="2" atmCO2="2" atmNO2="2" atmO3="2" atmSO2="2" hydroTp="htLiquid" hydroArea="11"/>
             <orbobjregions>
-               <region soiltp="rst01rockDes" relief="rr4broken" climate="rc07coldArid" mtdmin="166.86" mtdint="212.62" mtdmax="277.13" wndspd="1.9" precip="99" emo="1.5"/>
-               <region soiltp="rst01rockDes" relief="rr4broken" climate="rc07coldArid" mtdmin="235.71" mtdint="263.75" mtdmax="316.01" wndspd="2.31" precip="97" emo="1.5"/>
-               <region soiltp="rst01rockDes" relief="rr1plain" climate="rc07coldArid" mtdmin="228.43" mtdint="275.5" mtdmax="312.49" wndspd="5.76" precip="97" emo="1.5"/>
-               <region soiltp="rst08coastRockDes" relief="rr9mountain" climate="rc07coldArid" mtdmin="225.47" mtdint="267.14" mtdmax="322.81" wndspd="3.97" precip="75" emo="1.5"/>
-               <region soiltp="rst08coastRockDes" relief="rr1plain" climate="rc07coldArid" mtdmin="230.94" mtdint="268.31" mtdmax="313.34" wndspd="4.78" precip="96" emo="1.5"/>
-               <region soiltp="rst05arid" relief="rr4broken" climate="rc08periarctic" mtdmin="242.81" mtdint="271.6" mtdmax="313.98" wndspd="1.23" precip="928" emo="1.5"/>
-               <region soiltp="rst01rockDes" relief="rr4broken" climate="rc04hotArid" mtdmin="296.77" mtdint="319.82" mtdmax="340.09" wndspd="8.62" precip="51" emo="1.5"/>
-               <region soiltp="rst01rockDes" relief="rr4broken" climate="rc04hotArid" mtdmin="300.31" mtdint="317.16" mtdmax="332.79" wndspd="5.06" precip="70" emo="1.5"/>
-               <region soiltp="rst08coastRockDes" relief="rr4broken" climate="rc04hotArid" mtdmin="304.06" mtdint="310.05" mtdmax="345.84" wndspd="6.75" precip="56" emo="1.5"/>
-               <region soiltp="rst08coastRockDes" relief="rr4broken" climate="rc04hotArid" mtdmin="294.53" mtdint="313" mtdmax="347.61" wndspd="6.84" precip="57" emo="1.5"/>
-               <region soiltp="rst01rockDes" relief="rr4broken" climate="rc04hotArid" mtdmin="298.93" mtdint="306.38" mtdmax="340.27" wndspd="5.09" precip="71" emo="1.5"/>
-               <region soiltp="rst01rockDes" relief="rr1plain" climate="rc04hotArid" mtdmin="325.11" mtdint="314.42" mtdmax="308.63" wndspd="2.47" precip="127" emo="1.5"/>
-               <region soiltp="rst01rockDes" relief="rr4broken" climate="rc04hotArid" mtdmin="323.25" mtdint="305.88" mtdmax="312.66" wndspd="7.53" precip="59" emo="1.5"/>
-               <region soiltp="rst08coastRockDes" relief="rr4broken" climate="rc04hotArid" mtdmin="327.48" mtdint="310.77" mtdmax="311.56" wndspd="4.72" precip="73" emo="1.5"/>
-               <region soiltp="rst08coastRockDes" relief="rr4broken" climate="rc04hotArid" mtdmin="333.33" mtdint="323.19" mtdmax="308.72" wndspd="6.36" precip="56" emo="1.5"/>
-               <region soiltp="rst01rockDes" relief="rr1plain" climate="rc04hotArid" mtdmin="332.33" mtdint="320.63" mtdmax="312.18" wndspd="4.75" precip="66" emo="1.5"/>
-               <region soiltp="rst01rockDes" relief="rr1plain" climate="rc07coldArid" mtdmin="309.02" mtdint="267.01" mtdmax="230.44" wndspd="1.35" precip="95" emo="1.5"/>
-               <region soiltp="rst01rockDes" relief="rr1plain" climate="rc07coldArid" mtdmin="309.79" mtdint="271.65" mtdmax="234.64" wndspd="1.95" precip="96" emo="1.5"/>
-               <region soiltp="rst08coastRockDes" relief="rr4broken" climate="rc07coldArid" mtdmin="304.8" mtdint="264.23" mtdmax="236.37" wndspd="5.92" precip="95" emo="1.5"/>
-               <region soiltp="rst08coastRockDes" relief="rr4broken" climate="rc07coldArid" mtdmin="303.12" mtdint="262.67" mtdmax="244.04" wndspd="4.03" precip="96" emo="1.5"/>
-               <region soiltp="rst01rockDes" relief="rr1plain" climate="rc07coldArid" mtdmin="305.89" mtdint="266.25" mtdmax="243.09" wndspd="7.65" precip="99" emo="1.5"/>
-               <region soiltp="rst08coastRockDes" relief="rr9mountain" climate="rc07coldArid" mtdmin="273.21" mtdint="215.35" mtdmax="177.87" wndspd="1.29" precip="97" emo="1.5"/>   
+               <region soiltp="rst01rockDes" relief="rr4broken" climate="rc07coldArid" mtdmin="166.86" mtdint="212.62" mtdmax="277.13" wndspd="1.9" precip="99" emo="1.5">
+               </region>
+               <region soiltp="rst01rockDes" relief="rr4broken" climate="rc07coldArid" mtdmin="235.71" mtdint="263.75" mtdmax="316.01" wndspd="2.31" precip="97" emo="1.5">
+               </region>
+               <region soiltp="rst01rockDes" relief="rr1plain" climate="rc07coldArid" mtdmin="228.43" mtdint="275.5" mtdmax="312.49" wndspd="5.76" precip="97" emo="1.5">
+               </region>
+               <region soiltp="rst08coastRockDes" relief="rr9mountain" climate="rc07coldArid" mtdmin="225.47" mtdint="267.14" mtdmax="322.81" wndspd="3.97" precip="75" emo="1.5">
+               </region>
+               <region soiltp="rst08coastRockDes" relief="rr1plain" climate="rc07coldArid" mtdmin="230.94" mtdint="268.31" mtdmax="313.34" wndspd="4.78" precip="96" emo="1.5">
+               </region>
+               <region soiltp="rst05arid" relief="rr4broken" climate="rc08periarctic" mtdmin="242.81" mtdint="271.6" mtdmax="313.98" wndspd="1.23" precip="928" emo="1.5">
+               </region>
+               <region soiltp="rst01rockDes" relief="rr4broken" climate="rc04hotArid" mtdmin="296.77" mtdint="319.82" mtdmax="340.09" wndspd="8.62" precip="51" emo="1.5">
+               </region>
+               <region soiltp="rst01rockDes" relief="rr4broken" climate="rc04hotArid" mtdmin="300.31" mtdint="317.16" mtdmax="332.79" wndspd="5.06" precip="70" emo="1.5">
+               </region>
+               <region soiltp="rst08coastRockDes" relief="rr4broken" climate="rc04hotArid" mtdmin="304.06" mtdint="310.05" mtdmax="345.84" wndspd="6.75" precip="56" emo="1.5">
+               </region>
+               <region soiltp="rst08coastRockDes" relief="rr4broken" climate="rc04hotArid" mtdmin="294.53" mtdint="313" mtdmax="347.61" wndspd="6.84" precip="57" emo="1.5">
+               </region>
+               <region soiltp="rst01rockDes" relief="rr4broken" climate="rc04hotArid" mtdmin="298.93" mtdint="306.38" mtdmax="340.27" wndspd="5.09" precip="71" emo="1.5">
+               </region>
+               <region soiltp="rst01rockDes" relief="rr1plain" climate="rc04hotArid" mtdmin="325.11" mtdint="314.42" mtdmax="308.63" wndspd="2.47" precip="127" emo="1.5">
+               </region>
+               <region soiltp="rst01rockDes" relief="rr4broken" climate="rc04hotArid" mtdmin="323.25" mtdint="305.88" mtdmax="312.66" wndspd="7.53" precip="59" emo="1.5">
+               </region>
+               <region soiltp="rst08coastRockDes" relief="rr4broken" climate="rc04hotArid" mtdmin="327.48" mtdint="310.77" mtdmax="311.56" wndspd="4.72" precip="73" emo="1.5">
+               </region>
+               <region soiltp="rst08coastRockDes" relief="rr4broken" climate="rc04hotArid" mtdmin="333.33" mtdint="323.19" mtdmax="308.72" wndspd="6.36" precip="56" emo="1.5">
+               </region>
+               <region soiltp="rst01rockDes" relief="rr1plain" climate="rc04hotArid" mtdmin="332.33" mtdint="320.63" mtdmax="312.18" wndspd="4.75" precip="66" emo="1.5">
+               </region>
+               <region soiltp="rst01rockDes" relief="rr1plain" climate="rc07coldArid" mtdmin="309.02" mtdint="267.01" mtdmax="230.44" wndspd="1.35" precip="95" emo="1.5">
+               </region>
+               <region soiltp="rst01rockDes" relief="rr1plain" climate="rc07coldArid" mtdmin="309.79" mtdint="271.65" mtdmax="234.64" wndspd="1.95" precip="96" emo="1.5">
+               </region>
+               <region soiltp="rst08coastRockDes" relief="rr4broken" climate="rc07coldArid" mtdmin="304.8" mtdint="264.23" mtdmax="236.37" wndspd="5.92" precip="95" emo="1.5">
+               </region>
+               <region soiltp="rst08coastRockDes" relief="rr4broken" climate="rc07coldArid" mtdmin="303.12" mtdint="262.67" mtdmax="244.04" wndspd="4.03" precip="96" emo="1.5">
+               </region>
+               <region soiltp="rst01rockDes" relief="rr1plain" climate="rc07coldArid" mtdmin="305.89" mtdint="266.25" mtdmax="243.09" wndspd="7.65" precip="99" emo="1.5">
+               </region>
+               <region soiltp="rst08coastRockDes" relief="rr9mountain" climate="rc07coldArid" mtdmin="273.21" mtdint="215.35" mtdmax="177.87" wndspd="1.29" precip="97" emo="1.5">
+               </region>   
             </orbobjregions>
          </orbobj>
          <orbobj ootoken="orbobjAcentA4">
@@ -328,10 +414,14 @@ Climate= ,rc01vhotHumid
             <orbobjgeophysdata ootype="oobtpPlan_Tellu_VenusH2" oodiam="16865.2" oodens="5912" oomass="2.4848" oograv="1.42" ooescvel="15.33" oorotper="-21.99" ooinclax="121.2" oomagfld="0.025" ooalbe="0.05"/>
             <orbobjecosdata ooenvtype="restrict" ooatmpres="6008.659" oocloudscov="16.8" atmH2="2" atmHe="2" atmCH4="2" atmNH3="2" atmH2O="2" atmNe="2" atmN2="3" atmCO="2" atmNO="2" atmO2="3" atmH2S="2" atmAr="2" atmCO2="2" atmNO2="2" atmO3="2" atmSO2="1" hydroTp="htLiquid" hydroArea="31"/>
             <orbobjregions>
-               <region soiltp="rst01rockDes" relief="rr1plain" climate="rc07coldArid" mtdmin="315.28" mtdint="227.27" mtdmax="140.23" wndspd="49.71" precip="86" emo="1.5"/>
-               <region soiltp="rst08coastRockDes" relief="rr1plain" climate="rc07coldArid" mtdmin="301.11" mtdint="237.76" mtdmax="164.91" wndspd="176.51" precip="66" emo="1.5"/>
-               <region soiltp="rst01rockDes" relief="rr4broken" climate="rc07coldArid" mtdmin="303.73" mtdint="238.05" mtdmax="179.07" wndspd="176.76" precip="65" emo="1.5"/>
-               <region soiltp="rst03volcanic" relief="rr4broken" climate="rc07coldArid" mtdmin="297.2" mtdint="238.87" mtdmax="169.44" wndspd="174.92" precip="68" emo="1.5"/>
+               <region soiltp="rst01rockDes" relief="rr1plain" climate="rc07coldArid" mtdmin="315.28" mtdint="227.27" mtdmax="140.23" wndspd="49.71" precip="86" emo="1.5">
+               </region>
+               <region soiltp="rst08coastRockDes" relief="rr1plain" climate="rc07coldArid" mtdmin="301.11" mtdint="237.76" mtdmax="164.91" wndspd="176.51" precip="66" emo="1.5">
+               </region>
+               <region soiltp="rst01rockDes" relief="rr4broken" climate="rc07coldArid" mtdmin="303.73" mtdint="238.05" mtdmax="179.07" wndspd="176.76" precip="65" emo="1.5">
+               </region>
+               <region soiltp="rst03volcanic" relief="rr4broken" climate="rc07coldArid" mtdmin="297.2" mtdint="238.87" mtdmax="169.44" wndspd="174.92" precip="68" emo="1.5">
+               </region>
             </orbobjregions>
             <satobj sattoken="satAcentA4At01">
                <satorbdata satdist="68.3" satrevol="1" satrevinit="1" satgravsphrad="1274.9"/>      
@@ -344,10 +434,14 @@ Climate= ,rc01vhotHumid
                <satgeophysdata sattype="oobtpSat_Aster_Carbo" satdiam="121.6" satdens="3309" satmass="0.003115" satgrav="0.006" satescvel="0.08" satinclax="32" satmagfld="0" satalbe="0"/>
                <satecosdata satenvtype="space" satatmpres="0" satcloudscov="0"  atmH2="0" atmHe="0" atmCH4="0" atmNH3="0" atmH2O="0" atmNe="0" atmN2="0" atmCO="0" atmNO="0" atmO2="0" atmH2S="0" atmAr="0" atmCO2="0" atmNO2="0" atmO3="0" atmSO2="0" hydroTp="htNone" hydroArea="0"/>
                <satregions>
-                  <region soiltp="rst01rockDes" relief="rr1plain" climate="rc07coldArid" mtdmin="210.04" mtdint="251.99" mtdmax="313.36" wndspd="32.24" precip="95" emo="1.5"/>
-                  <region soiltp="rst03volcanic" relief="rr4broken" climate="rc03hotSemiArid" mtdmin="278.03" mtdint="296.75" mtdmax="317.43" wndspd="116.47" precip="247" emo="1.5"/>
-                  <region soiltp="rst03volcanic" relief="rr4broken" climate="rc03hotSemiArid" mtdmin="278.03" mtdint="296.75" mtdmax="317.43" wndspd="116.47" precip="247" emo="1.5"/>
-                  <region soiltp="rst01rockDes" relief="rr1plain" climate="rc07coldArid" mtdmin="210.04" mtdint="251.99" mtdmax="313.36" wndspd="32.24" precip="95" emo="1.5"/>
+                  <region soiltp="rst01rockDes" relief="rr1plain" climate="rc07coldArid" mtdmin="210.04" mtdint="251.99" mtdmax="313.36" wndspd="32.24" precip="95" emo="1.5">
+                  </region>
+                  <region soiltp="rst03volcanic" relief="rr4broken" climate="rc03hotSemiArid" mtdmin="278.03" mtdint="296.75" mtdmax="317.43" wndspd="116.47" precip="247" emo="1.5">
+                  </region>
+                  <region soiltp="rst03volcanic" relief="rr4broken" climate="rc03hotSemiArid" mtdmin="278.03" mtdint="296.75" mtdmax="317.43" wndspd="116.47" precip="247" emo="1.5">
+                  </region>
+                  <region soiltp="rst01rockDes" relief="rr1plain" climate="rc07coldArid" mtdmin="210.04" mtdint="251.99" mtdmax="313.36" wndspd="32.24" precip="95" emo="1.5">
+                  </region>
                </satregions>
             </satobj>
             <satobj sattoken="satAcentA4At02">
@@ -361,10 +455,14 @@ Climate= ,rc01vhotHumid
                <satgeophysdata sattype="oobtpSat_Icy_Callisto" satdiam="4121.6" satdens="3309" satmass="0.003115" satgrav="0.006" satescvel="0.08" satinclax="32" satmagfld="0" satalbe="0"/>
                <satecosdata satenvtype="restrict" satatmpres="1000" satcloudscov="60"  atmH2="0" atmHe="0" atmCH4="0" atmNH3="0" atmH2O="0" atmNe="0" atmN2="0" atmCO="0" atmNO="0" atmO2="0" atmH2S="0" atmAr="0" atmCO2="0" atmNO2="0" atmO3="0" atmSO2="0" hydroTp="htVapor" hydroArea="30"/>
                <satregions>
-                  <region soiltp="rst01rockDes" relief="rr1plain" climate="rc07coldArid" mtdmin="210.04" mtdint="251.99" mtdmax="313.36" wndspd="32.24" precip="95" emo="1.5"/>
-                  <region soiltp="rst03volcanic" relief="rr4broken" climate="rc03hotSemiArid" mtdmin="278.03" mtdint="296.75" mtdmax="317.43" wndspd="116.47" precip="247" emo="1.5"/>
-                  <region soiltp="rst03volcanic" relief="rr4broken" climate="rc03hotSemiArid" mtdmin="278.03" mtdint="296.75" mtdmax="317.43" wndspd="116.47" precip="247" emo="1.5"/>
-                  <region soiltp="rst01rockDes" relief="rr1plain" climate="rc07coldArid" mtdmin="210.04" mtdint="251.99" mtdmax="313.36" wndspd="32.24" precip="95" emo="1.5"/>
+                  <region soiltp="rst01rockDes" relief="rr1plain" climate="rc07coldArid" mtdmin="210.04" mtdint="251.99" mtdmax="313.36" wndspd="32.24" precip="95" emo="1.5">
+                  </region>
+                  <region soiltp="rst03volcanic" relief="rr4broken" climate="rc03hotSemiArid" mtdmin="278.03" mtdint="296.75" mtdmax="317.43" wndspd="116.47" precip="247" emo="1.5">
+                  </region>
+                  <region soiltp="rst03volcanic" relief="rr4broken" climate="rc03hotSemiArid" mtdmin="278.03" mtdint="296.75" mtdmax="317.43" wndspd="116.47" precip="247" emo="1.5">
+                  </region>
+                  <region soiltp="rst01rockDes" relief="rr1plain" climate="rc07coldArid" mtdmin="210.04" mtdint="251.99" mtdmax="313.36" wndspd="32.24" precip="95" emo="1.5">
+                  </region>
                </satregions>
             </satobj>
          </orbobj>
@@ -389,10 +487,14 @@ Climate= ,rc01vhotHumid
                <satgeophysdata sattype="oobtpSat_Aster_Icy" satdiam="121.6" satdens="3309" satmass="0.003115" satgrav="0.006" satescvel="0.08" satinclax="32" satmagfld="0" satalbe="0"/>
                <satecosdata satenvtype="space" satatmpres="0" satcloudscov="0"  atmH2="0" atmHe="0" atmCH4="0" atmNH3="0" atmH2O="0" atmNe="0" atmN2="0" atmCO="0" atmNO="0" atmO2="0" atmH2S="0" atmAr="0" atmCO2="0" atmNO2="0" atmO3="0" atmSO2="0" hydroTp="htNone" hydroArea="0"/>
                <satregions>
-                  <region soiltp="rst01rockDes" relief="rr1plain" climate="rc07coldArid" mtdmin="210.04" mtdint="251.99" mtdmax="313.36" wndspd="32.24" precip="95" emo="1.5"/>
-                  <region soiltp="rst03volcanic" relief="rr4broken" climate="rc03hotSemiArid" mtdmin="278.03" mtdint="296.75" mtdmax="317.43" wndspd="116.47" precip="247" emo="1.5"/>
-                  <region soiltp="rst03volcanic" relief="rr4broken" climate="rc03hotSemiArid" mtdmin="278.03" mtdint="296.75" mtdmax="317.43" wndspd="116.47" precip="247" emo="1.5"/>
-                  <region soiltp="rst01rockDes" relief="rr1plain" climate="rc07coldArid" mtdmin="210.04" mtdint="251.99" mtdmax="313.36" wndspd="32.24" precip="95" emo="1.5"/>
+                  <region soiltp="rst01rockDes" relief="rr1plain" climate="rc07coldArid" mtdmin="210.04" mtdint="251.99" mtdmax="313.36" wndspd="32.24" precip="95" emo="1.5">
+                  </region>
+                  <region soiltp="rst03volcanic" relief="rr4broken" climate="rc03hotSemiArid" mtdmin="278.03" mtdint="296.75" mtdmax="317.43" wndspd="116.47" precip="247" emo="1.5">
+                  </region>
+                  <region soiltp="rst03volcanic" relief="rr4broken" climate="rc03hotSemiArid" mtdmin="278.03" mtdint="296.75" mtdmax="317.43" wndspd="116.47" precip="247" emo="1.5">
+                  </region>
+                  <region soiltp="rst01rockDes" relief="rr1plain" climate="rc07coldArid" mtdmin="210.04" mtdint="251.99" mtdmax="313.36" wndspd="32.24" precip="95" emo="1.5">
+                  </region>
                </satregions>
             </satobj>
             <satobj sattoken="satAcentA5t02">
@@ -406,10 +508,14 @@ Climate= ,rc01vhotHumid
                <satgeophysdata satenvtype="restrict" sattype="oobtpSat_Icy_Europe" satdiam="3000.6" satdens="3309" satmass="0.003115" satgrav="0.006" satescvel="0.08" satinclax="32" satmagfld="0" satalbe="0"/>
                <satecosdata satenvtype="restrict" satatmpres="1000" satcloudscov="80"  atmH2="0" atmHe="0" atmCH4="0" atmNH3="0" atmH2O="0" atmNe="0" atmN2="0" atmCO="0" atmNO="0" atmO2="0" atmH2S="0" atmAr="0" atmCO2="0" atmNO2="0" atmO3="0" atmSO2="0" hydroTp="htLiqCH4" hydroArea="30"/>
                <satregions>
-                  <region soiltp="rst01rockDes" relief="rr1plain" climate="rc07coldArid" mtdmin="210.04" mtdint="251.99" mtdmax="313.36" wndspd="32.24" precip="95" emo="1.5"/>
-                  <region soiltp="rst03volcanic" relief="rr4broken" climate="rc03hotSemiArid" mtdmin="278.03" mtdint="296.75" mtdmax="317.43" wndspd="116.47" precip="247" emo="1.5"/>
-                  <region soiltp="rst03volcanic" relief="rr4broken" climate="rc03hotSemiArid" mtdmin="278.03" mtdint="296.75" mtdmax="317.43" wndspd="116.47" precip="247" emo="1.5"/>
-                  <region soiltp="rst01rockDes" relief="rr1plain" climate="rc07coldArid" mtdmin="210.04" mtdint="251.99" mtdmax="313.36" wndspd="32.24" precip="95" emo="1.5"/>
+                  <region soiltp="rst01rockDes" relief="rr1plain" climate="rc07coldArid" mtdmin="210.04" mtdint="251.99" mtdmax="313.36" wndspd="32.24" precip="95" emo="1.5">
+                  </region>
+                  <region soiltp="rst03volcanic" relief="rr4broken" climate="rc03hotSemiArid" mtdmin="278.03" mtdint="296.75" mtdmax="317.43" wndspd="116.47" precip="247" emo="1.5">
+                  </region>
+                  <region soiltp="rst03volcanic" relief="rr4broken" climate="rc03hotSemiArid" mtdmin="278.03" mtdint="296.75" mtdmax="317.43" wndspd="116.47" precip="247" emo="1.5">
+                  </region>
+                  <region soiltp="rst01rockDes" relief="rr1plain" climate="rc07coldArid" mtdmin="210.04" mtdint="251.99" mtdmax="313.36" wndspd="32.24" precip="95" emo="1.5">
+                  </region>
                </satregions>
             </satobj>
          </orbobj>

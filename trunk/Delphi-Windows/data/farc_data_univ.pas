@@ -170,9 +170,9 @@ interface
       {.old num=103}
       ,oobtpRing_Icy
       );
-   {-M}
 
    {.resource quality}
+   {:DEV NOTES: update universe.xml.}
    type TFCEduRsrcQuality=(
       rqNone
       ,rqFbad
@@ -184,6 +184,7 @@ interface
       );
 
    {.resource rarity}
+   {:DEV NOTES: update universe.xml.}
    type TFCEduRsrcRarity=(
       rrRich
       ,rrAbundant
@@ -195,6 +196,7 @@ interface
       );
 
    {.types of resource spot}
+   {:DEV NOTES: update universe.xml.}
    type TFCEduRsrcSpotType=(
       rstGasField
       ,rstHydroWell
@@ -203,7 +205,6 @@ interface
       ,rstUnderWater
       );
 
-   {M+}
    {.list of all star classes used in FARC}
    type TFCEduStarClass=(
       {super giant blue Ia/Ib}
