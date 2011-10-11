@@ -98,7 +98,9 @@ uses
   farc_game_spmcfx in 'game\farc_game_spmcfx.pas',
   farc_game_prodSeg5 in 'game\farc_game_prodSeg5.pas',
   farc_game_infrafunctions in 'game\farc_game_infrafunctions.pas',
-  farc_game_infrastaff in 'game\farc_game_infrastaff.pas';
+  farc_game_infrastaff in 'game\farc_game_infrastaff.pas',
+  farc_data_filesavegame in 'data\farc_data_filesavegame.pas',
+  farc_game_prodrsrcspots in 'game\farc_game_prodrsrcspots.pas';
 
 {$R *.res}
 

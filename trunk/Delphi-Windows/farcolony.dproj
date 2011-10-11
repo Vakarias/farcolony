@@ -122,6 +122,8 @@
 			<DCCReference Include="game\farc_game_prodSeg5.pas"/>
 			<DCCReference Include="game\farc_game_infrafunctions.pas"/>
 			<DCCReference Include="game\farc_game_infrastaff.pas"/>
+			<DCCReference Include="data\farc_data_filesavegame.pas"/>
+			<DCCReference Include="game\farc_game_prodrsrcspots.pas"/>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>

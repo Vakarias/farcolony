@@ -127,7 +127,10 @@ uses
    ,farc_game_infrafunctions
    ,farc_game_infrapower
    ,farc_game_infrastaff
-   ,farc_univ_func;
+   ,farc_univ_func
+   {:DEV NOTES: debug, to remove.}
+   ,farc_main
+   ,farc_win_debug;
 
 //===================================END OF INIT============================================
 
@@ -228,19 +231,18 @@ begin
    FCentities[SAent].E_col[SAcol].COL_settlements[SAcnt].CS_level:=1;
    FCentities[SAent].E_col[SAcol].COL_settlements[SAcnt].CS_region:=SAreg;
    setlength(FCentities[SAent].E_col[SAcol].COL_settlements[SAcnt].CS_infra, 1);
-   if SAret[4]=0
-   then
-   begin
-      FCDBsSys[SAret[1]].SS_star[SAret[2]].SDB_obobj[SAret[3]].OO_regions[SAreg].OOR_setEnt:=SAent;
-      FCDBsSys[SAret[1]].SS_star[SAret[2]].SDB_obobj[SAret[3]].OO_regions[SAreg].OOR_setCol:=SAcol;
-      FCDBsSys[SAret[1]].SS_star[SAret[2]].SDB_obobj[SAret[3]].OO_regions[SAreg].OOR_setSet:=SAcnt;
-   end
-   else if SAret[4]>0
+        if SAret[4]>0
    then
    begin
       FCDBsSys[SAret[1]].SS_star[SAret[2]].SDB_obobj[SAret[3]].OO_satList[SAret[4]].OOS_regions[SAreg].OOR_setEnt:=SAent;
       FCDBsSys[SAret[1]].SS_star[SAret[2]].SDB_obobj[SAret[3]].OO_satList[SAret[4]].OOS_regions[SAreg].OOR_setCol:=SAcol;
       FCDBsSys[SAret[1]].SS_star[SAret[2]].SDB_obobj[SAret[3]].OO_satList[SAret[4]].OOS_regions[SAreg].OOR_setSet:=SAcnt;
+   end
+   else
+   begin
+      FCDBsSys[SAret[1]].SS_star[SAret[2]].SDB_obobj[SAret[3]].OO_regions[SAreg].OOR_setEnt:=SAent;
+      FCDBsSys[SAret[1]].SS_star[SAret[2]].SDB_obobj[SAret[3]].OO_regions[SAreg].OOR_setCol:=SAcol;
+      FCDBsSys[SAret[1]].SS_star[SAret[2]].SDB_obobj[SAret[3]].OO_regions[SAreg].OOR_setSet:=SAcnt;
    end;
    {.update the colony's CAB queue}
    if length(FCentities[SAent].E_col[SAcol].COL_cabQueue)<1

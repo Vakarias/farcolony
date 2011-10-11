@@ -70,6 +70,7 @@ uses
    ,farc_data_game
    ,farc_data_init
    ,farc_data_textfiles
+   ,farc_data_univ
    ,farc_game_cps
    ,farc_game_gameflow
    ,farc_game_spm
@@ -194,6 +195,7 @@ end;
 procedure FCMgNG_Core_Proceed;
 {:Purpose: commit new game and initialize game interface.
    Additions:
+      -2011Oct10- *add: surveyed regions initialization.
       -2010Dec19- *add: entity's higher hq level present in the faction
       -2010Oct11- *add: player's faction status initialization.
       -2010Oct06- *add: initialize separate policies and memes data.
@@ -295,7 +297,7 @@ begin
    FCRplayer.P_ecoStat:=FCDBFactions[CPfacIdx].F_facCmode[CPcolMidx].FCM_cpsEconS;
    FCRplayer.P_socStat:=FCDBFactions[CPfacIdx].F_facCmode[CPcolMidx].FCM_cpsSocS;
    FCRplayer.P_milStat:=FCDBFactions[CPfacIdx].F_facCmode[CPcolMidx].FCM_cpsMilS;
-   {DEV NOTE: the following code will be change later with choice of planet following choosen faction.}
+   {DEV NOTE: the following code will be changed later with choice of planet following choosen faction.}
    {.determine starting location, regarding starting location list}
    CPcount1:=length(FCDBFactions[CPfacIdx].F_facStartLocList)-1;
    if CPcount1=1 then
@@ -355,6 +357,9 @@ begin
    FCRplayer.P_timeday:=1;
    FCRplayer.P_timeMth:=1;
    FCRplayer.P_timeYr:=2250;
+   {.surveyed region initialization}
+   {:DEV NOTES: it's important to put it BEFORE the entities main loop, because future faction's data will include already surveyed regions data.}
+   SetLength(FCRplayer.P_SurveyedResourceSpots, 1);
    {.entities main loop}
    CPent:=0;
    while CPent<=FCCfacMax do

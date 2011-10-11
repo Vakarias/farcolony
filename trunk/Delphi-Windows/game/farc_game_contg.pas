@@ -44,6 +44,7 @@ implementation
 uses
    farc_data_files
    ,farc_data_game
+   ,farc_data_filesavegame
    ,farc_data_init
    ,farc_data_textfiles
    ,farc_gfx_core
@@ -105,7 +106,7 @@ begin
    FCMdF_DBstarSys_Process(dfsspStarSys,'','');
    FCMuiM_Messages_Reset;
    {.load current game}
-   FCMdF_Game_Load;
+   FCMdFSG_Game_Load;
    {.prevent a file error}
    if FCRplayer.P_starSysLoc=''
    then

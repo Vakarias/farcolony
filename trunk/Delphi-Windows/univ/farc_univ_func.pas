@@ -136,7 +136,7 @@ function FCFuF_StarLight_CalcPower(const SLCPstarLum, SLCPoobjDist: double): dou
 ///<summary>
 ///   retrieve db index number of asked star system, star, orbital object and satellite
 ///   hierarchy is in this natural order: star system> star> orbital object> satellite
-///   it needs hierarchical parent index data for retrieve the desired object
+///   it needs hierarchical parent index data for be able to retrieve the desired object
 ///</summary>
 ///   <param name="SOGDIobject">type of object to retrieve</param>
 ///   <param name="SOGDItokenId">token id to retrieve</param>

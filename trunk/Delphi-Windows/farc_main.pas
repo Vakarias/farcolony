@@ -420,6 +420,7 @@ implementation
 uses
    farc_common_func
    ,farc_data_files
+   ,farc_data_filesavegame
    ,farc_data_game
    ,farc_data_init
    ,farc_data_textfiles
@@ -1028,7 +1029,7 @@ end;
 
 procedure TFCWinMain.FCWM_MMenu_G_FlushOldClick(Sender: TObject);
 begin
-   FCMdF_Savegame_FlushOthr;
+   FCMdFSG_Game_SaveAndFlushOther;
 end;
 
 procedure TFCWinMain.FCWM_MMenu_G_NewClick(Sender: TObject);
@@ -1044,7 +1045,7 @@ end;
 
 procedure TFCWinMain.FCWM_MMenu_G_SaveClick(Sender: TObject);
 begin
-   FCMdF_Game_Save;
+   FCMdFSG_Game_Save;
 end;
 
 procedure TFCWinMain.FCWM_MMenu_H_AboutClick(Sender: TObject);

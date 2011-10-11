@@ -32,7 +32,8 @@ unit farc_data_game;
 interface
 
    uses
-      farc_data_infrprod;
+      farc_data_infrprod
+      ,farc_data_univ;
 
    const
       {:DEV NOTES: update FCMuiWin_MsgeBox_AddMsg/ FCMuiWin_MsgeBox_AddMsg.}
@@ -685,7 +686,7 @@ interface
       {:DEV NOTES: also update the array of colonies for TFCRorbObj + TFCRorbObjSat + TFCRcsmTest.}
       TFCDBfactions = array [0..FCCfacMax] of TFCRdgFaction;
    {.player's data structure}
-   {DEV NOTE: DON'T FORGET TO UPDATE NEW GAME SETUP + FCMdFiles_Game_Load + FCMdFiles_Game_Save}
+   {DEV NOTE: UPDATE NEW GAME SETUP + FCMdFSG_Game_Save + FCMdFSG_Game_Load}
    type TFCRdgPlayer = record
       {.game name, used for save game name}
       P_gameName: string;
@@ -719,6 +720,20 @@ interface
       P_timeYr: integer;
       {.time phases}
       P_timePhse: TFCEtimePhases;
+      {surveyed resources}
+      P_SurveyedResourceSpots: array of record
+         SS_oobjToken: string[20];
+         SS_ssysIndex: integer;
+         SS_starIndex: integer;
+         SS_oobjIndex: integer;
+         SS_satIndex: integer;
+         SS_surveyedRegions: array of record
+            SR_type: TFCEduRsrcSpotType;
+            SR_MQC: double;
+            SR_SpotSizeCur: integer;
+            SR_SpotSizeMax: integer;
+         end;
+      end;
    end;
    {.SPMi requirements sub-data structure}
    {:DEV NOTES: update spmdb.xml + FCMdF_DBSPMi_Read.}

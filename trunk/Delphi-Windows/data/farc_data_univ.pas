@@ -198,7 +198,8 @@ interface
    {.types of resource spot}
    {:DEV NOTES: update universe.xml.}
    type TFCEduRsrcSpotType=(
-      rstGasField
+      rstNone
+      ,rstGasField
       ,rstHydroWell
       ,rstIcyOreField
       ,rstOreField
