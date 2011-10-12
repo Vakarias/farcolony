@@ -73,6 +73,8 @@ uses
 procedure FCMdFSG_Game_Load;
 {:Purpose: load the current game.
    Additions:
+      -2011Oct11- *fix: forgot to set the size of the region dynamic array.
+                  *fix: correction on spotSizCurr attribute loading.
       -2011Oct10- *add: list for surveyed resources.
       -2011Jul31- *add: infrastructure status istDisabledByEE.
       -2011Jul19- *add: CSM Energy module - storage data.
@@ -359,6 +361,25 @@ begin
                      )
                ) then
             begin
+               if FCRplayer.P_SurveyedResourceSpots[GLcount].SS_satIndex=0
+               then SetLength(
+                  FCRplayer.P_SurveyedResourceSpots[GLcount].SS_surveyedRegions
+                  ,length(
+                     FCDBsSys[FCRplayer.P_SurveyedResourceSpots[GLcount].SS_ssysIndex].
+                        SS_star[FCRplayer.P_SurveyedResourceSpots[GLcount].SS_starIndex].
+                        SDB_obobj[FCRplayer.P_SurveyedResourceSpots[GLcount].SS_oobjIndex].OO_regions
+                     )+1
+                  )
+               else if FCRplayer.P_SurveyedResourceSpots[GLcount].SS_satIndex>0
+               then SetLength(
+                  FCRplayer.P_SurveyedResourceSpots[GLcount].SS_surveyedRegions
+                  ,length(
+                     FCDBsSys[FCRplayer.P_SurveyedResourceSpots[GLcount].SS_ssysIndex].
+                        SS_star[FCRplayer.P_SurveyedResourceSpots[GLcount].SS_starIndex].
+                        SDB_obobj[FCRplayer.P_SurveyedResourceSpots[GLcount].SS_oobjIndex].
+                        OO_satList[FCRplayer.P_SurveyedResourceSpots[GLcount].SS_satIndex].OOS_regions
+                     )+1
+                  );
                GLxmlSurveyRegion:=GLxmlSurveyRsrc.ChildNodes.First;
                while GLxmlSurveyRegion<>nil do
                begin
@@ -370,7 +391,7 @@ begin
                   else if GLenumIndex>0 then
                   begin
                      FCRplayer.P_SurveyedResourceSpots[GLcount].SS_surveyedRegions[GLsubCnt].SR_MQC:=GLxmlSurveyRegion.Attributes['meanQualCoef'];
-                     FCRplayer.P_SurveyedResourceSpots[GLcount].SS_surveyedRegions[GLsubCnt].SR_SpotSizeCur:=GLxmlSurveyRegion.Attributes['spotsizCurr'];
+                     FCRplayer.P_SurveyedResourceSpots[GLcount].SS_surveyedRegions[GLsubCnt].SR_SpotSizeCur:=GLxmlSurveyRegion.Attributes['spotSizCurr'];
                      FCRplayer.P_SurveyedResourceSpots[GLcount].SS_surveyedRegions[GLsubCnt].SR_SpotSizeMax:=GLxmlSurveyRegion.Attributes['spotSizeMax'];
                   end;
                   GLxmlSurveyRegion:=GLxmlSurveyRegion.NextSibling;
