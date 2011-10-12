@@ -41,7 +41,7 @@ type TFCEgcLVselTp=(
    );
 
 ///<summary>
-///   post process colonize mission
+///   colonize mission - post process
 ///</summary>
 ///   <param name=""></param>
 ///   <param name=""></param>
@@ -118,9 +118,9 @@ procedure FCMgC_Colonize_PostProc(
          CPPname
          ,CPPsettleName: string
    );
-{:Purpose: post process colonize mission.
+{:Purpose: colonize mission - post process.
     Additions:
-      -2011Oct11- *add: hardcoded resource spots data (WIP).
+      -2011Oct11- *add: hardcoded resource spots data.
       -2011Jul24- *rem: the procedure doesn't update the colony data panel, it's already done when required.
       -2011Feb15- *add: update the surface panel if the destination orbital object/satellite is selected.
                   *add: display the settlement icon, if one is created and the surface panel focus on the destination object.
@@ -135,20 +135,31 @@ procedure FCMgC_Colonize_PostProc(
 }
 var
    CPPcolIdx
-   ,CPPsettlement, i , regionttl: integer;
+   ,CPPsettlement
+   ,regionttl: integer;
+
 begin
    CPPsettlement:=0;
+   {:DEV NOTES: resource survey data, TO REMOVE WHEN REGION SURVEY IS IMPLEMENTED.}
+   SetLength(FCRplayer.P_SurveyedResourceSpots, 2);
+   {:DEV NOTES: END HARCODED SURVEY DATA.}
    if CPPsatIdx=0
    then
    begin
       CPPcolIdx:=FCDBSsys[CPPssys].SS_star[CPPstar].SDB_obobj[CPPobjIdx].OO_colonies[0];
+      {:DEV NOTES: resource survey data, TO REMOVE WHEN REGION SURVEY IS IMPLEMENTED.}
       regionttl:=length(FCDBSsys[CPPssys].SS_star[CPPstar].SDB_obobj[CPPobjIdx].OO_regions);
+      FCRplayer.P_SurveyedResourceSpots[1].SS_oobjToken:=FCDBSsys[CPPssys].SS_star[CPPstar].SDB_obobj[CPPobjIdx].OO_token;
+      {:DEV NOTES: END HARCODED SURVEY DATA.}
    end
    else if CPPsatIdx>0
    then
    begin
       CPPcolIdx:=FCDBSsys[CPPssys].SS_star[CPPstar].SDB_obobj[CPPobjIdx].OO_satList[CPPsatIdx].OOS_colonies[0];
+      {:DEV NOTES: resource survey data, TO REMOVE WHEN REGION SURVEY IS IMPLEMENTED.}
       regionttl:=length(FCDBSsys[CPPssys].SS_star[CPPstar].SDB_obobj[CPPobjIdx].OO_satList[CPPsatIdx].OOS_regions);
+      FCRplayer.P_SurveyedResourceSpots[1].SS_oobjToken:=FCDBSsys[CPPssys].SS_star[CPPstar].SDB_obobj[CPPobjIdx].OO_satList[CPPsatIdx].OOS_token;
+      {:DEV NOTES: END HARCODED SURVEY DATA.}
    end;
    {.establish the colony if no one exist}
    if CPPcolIdx=0
@@ -174,30 +185,17 @@ begin
          and (FCWinMain.FCWM_SP_RDat.Tag=CPPsatIdx)
          and (CPPfac=0)
       then FCMgfxC_Settlement_SwitchState(CPPregion);
-
       {:DEV NOTES: resource survey data, TO REMOVE WHEN REGION SURVEY IS IMPLEMENTED.}
-   SetLength(FCRplayer.P_SurveyedResourceSpots, 2);
-   FCRplayer.P_SurveyedResourceSpots[1].SS_oobjToken:='a';
-   FCRplayer.P_SurveyedResourceSpots[1].SS_ssysIndex:=1;
-   FCRplayer.P_SurveyedResourceSpots[1].SS_starIndex:=1;
-   FCRplayer.P_SurveyedResourceSpots[1].SS_oobjIndex:=1;
-   FCRplayer.P_SurveyedResourceSpots[1].SS_satIndex:=0;
-   setlength(FCRplayer.P_SurveyedResourceSpots[1].SS_surveyedRegions, regionttl);
-   for i  := 1 to 22 do
-   begin
-      FCRplayer.P_SurveyedResourceSpots[1].SS_surveyedRegions[i].SR_type:=rstNone;
-   FCRplayer.P_SurveyedResourceSpots[1].SS_surveyedRegions[i].SR_MQC:=0;
-   FCRplayer.P_SurveyedResourceSpots[1].SS_surveyedRegions[i].SR_SpotSizeCur:=0;
-   FCRplayer.P_SurveyedResourceSpots[1].SS_surveyedRegions[i].SR_SpotSizeMax:=0;
-   end;
-
-
-//   FCRplayer.P_SurveyedResourceSpots[1].SS_surveyedRegions[SAreg].SR_type:=rstOreField;
-//   FCRplayer.P_SurveyedResourceSpots[1].SS_surveyedRegions[SAreg].SR_MQC:=0.7;
-//   FCRplayer.P_SurveyedResourceSpots[1].SS_surveyedRegions[SAreg].SR_SpotSizeCur:=0;
-//   FCRplayer.P_SurveyedResourceSpots[1].SS_surveyedRegions[SAreg].SR_SpotSizeMax:=50;
-   {:DEV NOTES: END HARCODED SURVEY DATA.}
-
+      FCRplayer.P_SurveyedResourceSpots[1].SS_ssysIndex:=CPPssys;
+      FCRplayer.P_SurveyedResourceSpots[1].SS_starIndex:=CPPstar;
+      FCRplayer.P_SurveyedResourceSpots[1].SS_oobjIndex:=CPPobjIdx;
+      FCRplayer.P_SurveyedResourceSpots[1].SS_satIndex:=CPPsatIdx;
+      setlength(FCRplayer.P_SurveyedResourceSpots[1].SS_surveyedRegions, regionttl);
+      FCRplayer.P_SurveyedResourceSpots[1].SS_surveyedRegions[CPPregion].SR_type:=rstOreField;
+      FCRplayer.P_SurveyedResourceSpots[1].SS_surveyedRegions[CPPregion].SR_MQC:=0.7;
+      FCRplayer.P_SurveyedResourceSpots[1].SS_surveyedRegions[CPPregion].SR_SpotSizeCur:=0;
+      FCRplayer.P_SurveyedResourceSpots[1].SS_surveyedRegions[CPPregion].SR_SpotSizeMax:=50;
+      {:DEV NOTES: END HARCODED SURVEY DATA.}
       FCMuiM_Message_Add(
          mtColonizeWset
          ,0
