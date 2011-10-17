@@ -283,6 +283,10 @@ const
    {.production modes}
    {:DEV NOTES: update infrastrucdb.xml + FCMdF_DBInfra_Read.}
    type TFCRdipInfraProdMode= record
+      ///<summary>
+      /// occupancy of the production mode for the infrastructure, if the building has only one production mode, occupancy=100(%)
+      ///</summary>
+      IPM_occupancy: integer;
       case IPM_productionModes: TFCEdipProductionModes of
          pmCarbonaceousOreRefining:
             ();

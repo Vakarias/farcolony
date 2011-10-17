@@ -671,6 +671,7 @@ end;
 procedure FCMdF_DBInfra_Read;
 {:Purpose: Read the infrastructure database xml file.
     Additions:
+      -2011Oct16- *add: production mode occupancy data.
       -2011Sep05- *add: required staff.
       -2011Sep01- *mod: change some region soil requirement items.
       -2011Aug31- *mod: function Housing: put the population capacity by infrastructure level (because it depends on the size).
@@ -1092,6 +1093,7 @@ begin
                   while DBIRpmode<>nil do
                   begin
                      inc(DBIRpmodeCnt);
+                     FCDBinfra[DBIRcnt].I_fProductionMode[DBIRpmodeCnt].IPM_occupancy:=DBIRpmode.Attributes['occupancy'];
                      DBIRstr:=DBIRpmode.Attributes['pmode'];
                      if DBIRstr='pmCarbonaceousOreRefining'
                      then FCDBinfra[DBIRcnt].I_fProductionMode[DBIRpmodeCnt].IPM_productionModes:=pmCarbonaceousOreRefining

@@ -376,7 +376,7 @@ interface
          {.production}
          fProduction:
             {:DEV NOTES: to replace by real data when it will be the time.}
-            {:DEV NOTES: put production mode settings here (which ones are enabled).}
+            {:DEV NOTES: put production mode settings here: array w/ enum for type and enabled true/false.}
             (IO_dummy: integer);
    end;
    {.settlements data structure}
