@@ -379,6 +379,21 @@ interface
             {:DEV NOTES: put production mode settings here: array w/ enum for type and enabled true/false.}
             (IO_dummy: integer);
    end;
+   {.production matrix item}
+   type TFCRdgColonProdMatrixItm= record
+      CPMI_productToken: string[20];
+      ///<summary>
+      /// production flow in + or - and in unit/hr
+      ///</summary>
+      CPMI_productionFlow: double;
+      ///<summary>
+      /// source products [x] = production matrix index. can be nil if the production matrix item is a source only in the matrix.
+      ///</summary>
+      CPMI_sourceProduct: array of integer;
+      CPMI_isDisabledManually: boolean;
+      CPMI_isDisabledByProdSegment: boolean;
+   end;
+
    {.settlements data structure}
    {:DEV NOTES: update .}
    type TFCRdgColonSettlements= record
