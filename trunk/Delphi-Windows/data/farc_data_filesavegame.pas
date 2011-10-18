@@ -73,6 +73,7 @@ uses
 procedure FCMdFSG_Game_Load;
 {:Purpose: load the current game.
    Additions:
+      -2011Oct17- *add: complete the production matrix loading.
       -2011Oct11- *fix: forgot to set the size of the region dynamic array.
                   *fix: correction on spotSizCurr attribute loading.
       -2011Oct10- *add: list for surveyed resources.
@@ -158,6 +159,7 @@ var
    ,GLxmlCSMpL
    ,GLxmlCSMpLsub
    ,GLxmlProdMatrix
+   ,GLxmlProdMatrixSource
    ,GLxmlSPMset
    ,GLxmlSpOwn
    ,GLxmlStorage
@@ -729,9 +731,20 @@ begin
                            begin
                               inc(GLprodMatrixCnt);
                               SetLength(FCentities[GLentCnt].E_col[GLcount].COL_productionMatrix, GLprodMatrixCnt+1);
-                              FCentities[GLentCnt].E_col[GLcount].COL_productionMatrix[GLprodMatrixCnt].CPMI_token:=GLxmlProdMatrix.Attributes['token'];
-                              FCentities[GLentCnt].E_col[GLcount].COL_productionMatrix[GLprodMatrixCnt].CPMI_unit:=GLxmlProdMatrix.Attributes['unit'];
-                              FCentities[GLentCnt].E_col[GLcount].COL_productionMatrix[GLprodMatrixCnt].CPMI_StorageIndex:=GLxmlProdMatrix.Attributes['storIdx'];
+                              FCentities[GLentCnt].E_col[GLcount].COL_productionMatrix[GLprodMatrixCnt].CPMI_productToken:=GLxmlProdMatrix.Attributes['token'];
+                              FCentities[GLentCnt].E_col[GLcount].COL_productionMatrix[GLprodMatrixCnt].CPMI_storageIndex:=GLxmlProdMatrix.Attributes['storIdx'];
+                              FCentities[GLentCnt].E_col[GLcount].COL_productionMatrix[GLprodMatrixCnt].CPMI_isDisabledManually:=GLxmlProdMatrix.Attributes['disabledMan'];
+                              FCentities[GLentCnt].E_col[GLcount].COL_productionMatrix[GLprodMatrixCnt].CPMI_isDisabledByProdSegment:=GLxmlProdMatrix.Attributes['disabledProdSeg'];
+                              FCentities[GLentCnt].E_col[GLcount].COL_productionMatrix[GLprodMatrixCnt].CPMI_productionFlow:=GLxmlProdMatrix.Attributes['prodFlow'];
+                              SetLength(FCentities[GLentCnt].E_col[GLcount].COL_productionMatrix[GLprodMatrixCnt].CPMI_sourceProduct, 1);
+                              GLxmlProdMatrixSource:=GLxmlProdMatrix.ChildNodes.First;
+                              while GLxmlProdMatrixSource<>nil do
+                              begin
+                                 inc(GLsubCnt);
+                                 SetLength(FCentities[GLentCnt].E_col[GLcount].COL_productionMatrix[GLprodMatrixCnt].CPMI_sourceProduct, GLsubCnt+1);
+                                 FCentities[GLentCnt].E_col[GLcount].COL_productionMatrix[GLprodMatrixCnt].CPMI_sourceProduct[GLsubCnt]:=GLxmlProdMatrixSource.Attributes['sourceIdx'];
+                                 GLxmlProdMatrixSource:=GLxmlProdMatrixSource.NextSibling;
+                              end;
                               GLxmlProdMatrix:=GLxmlProdMatrix.NextSibling;
                            end;
                         end
@@ -845,6 +858,7 @@ end;
 procedure FCMdFSG_Game_Save;
 {:Purpose: save the current game.
     Additions:
+      -2011Oct17- *add: complete the production matrix saving.
       -2011Oct10- *add: list for surveyed resources.
       -2011Jul31- *add: infrastructure status istDisabledByEE.
       -2011Jul19- *add: CSM Energy module - storage data.
@@ -931,6 +945,7 @@ var
    ,GSxmlPop
    ,GSxmlProdMatrix
    ,GSxmlProdMatrixRoot
+   ,GSxmlProdMatrixSource
    ,GSxmlReserves
    ,GSxmlRoot
    ,GSxmlSettle
@@ -1338,8 +1353,7 @@ begin
                while GSsettleCnt<=GSsettleMax do
                begin
                   GScabMax:=length(FCentities[GScount].E_col[GScolCnt].COL_cabQueue[GSsettleCnt])-1;
-                  if GScabMax>0
-                  then
+                  if GScabMax>0 then
                   begin
                      if GSxmlCABroot=nil
                      then GSxmlCABroot:=GSxmlCol.AddChild('colCAB');
@@ -1356,17 +1370,29 @@ begin
                end;
                {.production matrix}
                GSprodMatrixMax:=Length(FCentities[GScount].E_col[GScolCnt].COL_productionMatrix)-1;
-               if GSprodMatrixMax>0
-               then
+               if GSprodMatrixMax>0 then
                begin
                   GSxmlProdMatrixRoot:=GSxmlCol.AddChild('colProdMatrix');
                   GSprodMatrixCnt:=1;
                   while GSprodMatrixCnt<=GSprodMatrixMax do
                   begin
-                     GSxmlProdMatrix:=GSxmlProdMatrixRoot.AddChild('matrixItem');
-                     GSxmlProdMatrix.Attributes['token']:=FCentities[GScount].E_col[GScolCnt].COL_productionMatrix[GSprodMatrixCnt].CPMI_token;
-                     GSxmlProdMatrix.Attributes['unit']:=FCentities[GScount].E_col[GScolCnt].COL_productionMatrix[GSprodMatrixCnt].CPMI_unit;
-                     GSxmlProdMatrix.Attributes['storIdx']:=FCentities[GScount].E_col[GScolCnt].COL_productionMatrix[GSprodMatrixCnt].CPMI_StorageIndex;
+                     GSxmlProdMatrix:=GSxmlProdMatrixRoot.AddChild('prodItem');
+                     GSxmlProdMatrix.Attributes['token']:=FCentities[GScount].E_col[GScolCnt].COL_productionMatrix[GSprodMatrixCnt].CPMI_productToken;
+                     GSxmlProdMatrix.Attributes['storIdx']:=FCentities[GScount].E_col[GScolCnt].COL_productionMatrix[GSprodMatrixCnt].CPMI_storageIndex;
+                     GSxmlProdMatrix.Attributes['disabledMan']:=FCentities[GScount].E_col[GScolCnt].COL_productionMatrix[GSprodMatrixCnt].CPMI_isDisabledManually;
+                     GSxmlProdMatrix.Attributes['disabledProdSeg']:=FCentities[GScount].E_col[GScolCnt].COL_productionMatrix[GSprodMatrixCnt].CPMI_isDisabledByProdSegment;
+                     GSxmlProdMatrix.Attributes['prodFlow']:=FCentities[GScount].E_col[GScolCnt].COL_productionMatrix[GSprodMatrixCnt].CPMI_productionFlow;
+                     GSsubMax:=length(FCentities[GScount].E_col[GScolCnt].COL_productionMatrix[GSprodMatrixCnt].CPMI_sourceProduct)-1;
+                     if GSsubMax>0 then
+                     begin
+                        GSsubCount:=1;
+                        while GSsubCount<=GSsubMax do
+                        begin
+                           GSxmlProdMatrixSource:=GSxmlProdMatrix.AddChild('sourceItem');
+                           GSxmlProdMatrixSource.Attributes['sourceIdx']:=FCentities[GScount].E_col[GScolCnt].COL_productionMatrix[GSprodMatrixCnt].CPMI_sourceProduct[GSsubCount];
+                           inc(GSsubCount);
+                        end;
+                     end;
                      inc(GSprodMatrixCnt);
                   end;
                end;
@@ -1381,8 +1407,7 @@ begin
                GSxmlstorageRoot.Attributes['capBioCur']:=FCentities[GScount].E_col[GScolCnt].COL_storCapacityBioCurr;
                GSxmlstorageRoot.Attributes['capBioMax']:=FCentities[GScount].E_col[GScolCnt].COL_storCapacityBioMax;
 					GSstorageMax:=length(FCentities[GScount].E_col[GScolCnt].COL_storageList)-1;
-               if GSstorageMax>0
-               then
+               if GSstorageMax>0 then
                begin
                   GSstorageCnt:=1;
                   while GSstorageCnt<=GSstorageMax do

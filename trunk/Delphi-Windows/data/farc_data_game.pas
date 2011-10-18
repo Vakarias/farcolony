@@ -380,8 +380,12 @@ interface
             (IO_dummy: integer);
    end;
    {.production matrix item}
+   {:DEV NOTES: update FCMdFiles_Game_Load + FCMdFiles_Game_Save + FCMgCSM_ColonyData_Init.}
    type TFCRdgColonProdMatrixItm= record
       CPMI_productToken: string[20];
+      CPMI_storageIndex: integer;
+      CPMI_isDisabledManually: boolean;
+      CPMI_isDisabledByProdSegment: boolean;
       ///<summary>
       /// production flow in + or - and in unit/hr
       ///</summary>
@@ -390,8 +394,6 @@ interface
       /// source products [x] = production matrix index. can be nil if the production matrix item is a source only in the matrix.
       ///</summary>
       CPMI_sourceProduct: array of integer;
-      CPMI_isDisabledManually: boolean;
-      CPMI_isDisabledByProdSegment: boolean;
    end;
 
    {.settlements data structure}
@@ -479,13 +481,6 @@ interface
       CPR_token: string[20];
       CPR_unit: double;
    end;
-   {.colony's production matrix item}
-   {:DEV NOTES: update FCMdFiles_Game_Load + FCMdFiles_Game_Save + FCMgCSM_ColonyData_Init.}
-   type TFCRdgColonProdMatrixItem=record
-      CPMI_token: string[20];
-      CPMI_unit: double;
-      CPMI_StorageIndex: integer;
-   end;
    {.colony data structure}
    {DEV NOTE: update FCMdFiles_Game_Load + FCMdFiles_Game_Save + FCMgCSM_ColonyData_Init + FCMgCSM_ColonyData_Upd}
    {:DEV NOTES: for sub data structure dependencies, update FCFgC_Colony_Core and eventually related methods/functions.}
@@ -555,7 +550,7 @@ interface
       ///</summary>
       COL_cabQueue: array of array of integer;
       {.production matrix}
-      COL_productionMatrix: array of TFCRdgColonProdMatrixItem;
+      COL_productionMatrix: array of TFCRdgColonProdMatrixItm;
       {.storage capacities}
       COL_storCapacitySolidCurr: double;
       COL_storCapacitySolidMax: double;
