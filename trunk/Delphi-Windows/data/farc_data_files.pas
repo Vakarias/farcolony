@@ -671,6 +671,7 @@ end;
 procedure FCMdF_DBInfra_Read;
 {:Purpose: Read the infrastructure database xml file.
     Additions:
+      -2011Oct17- *add: complete and optimize resource spot requirement.
       -2011Oct16- *add: production mode occupancy data.
       -2011Sep05- *add: required staff.
       -2011Sep01- *mod: change some region soil requirement items.
@@ -705,6 +706,7 @@ procedure FCMdF_DBInfra_Read;
 var
    DBIRcnt
    ,DBIRcustFXcnt
+   ,DBIRenumIndex
    ,DBIRlevel
    ,DBIRpmodeCnt
    ,DBIRreqCMatCnt
@@ -874,13 +876,10 @@ begin
                   else if DBIRreqsub.NodeName='irRsrcSpot'
                   then
                   begin
-                     DBIRstr:=DBIRreqsub.Attributes['spottype'];
-                     if DBIRstr='rssrN_A'
-                     then FCDBinfra[DBIRcnt].I_reqRsrcSpot:=rssrN_A
-                     else if DBIRstr='rssrany'
-                     then FCDBinfra[DBIRcnt].I_reqRsrcSpot:=rssrany
-                     else if DBIRstr='rssrMetalIcyRareMetCarbRadOre'
-                     then FCDBinfra[DBIRcnt].I_reqRsrcSpot:=rssrMetalIcyRareMetCarbRadOre;
+                     DBIRenumIndex:=GetEnumValue( TypeInfo( TFCEduRsrcSpotType ), DBIRreqsub.Attributes['spottype'] );
+                     FCDBinfra[DBIRcnt].I_reqRsrcSpot:=TFCEduRsrcSpotType(DBIRenumIndex);
+                     if DBIRenumIndex=-1
+                     then raise Exception.Create('bad resource spot req: '+DBIRreqsub.Attributes['spottype'] );
                   end
                   else if DBIRreqsub.NodeName='irTechSci'
                   then

@@ -153,13 +153,6 @@ const
       ,rsrAnyFertile
       ,rsOceanic
       );
-   {.requirement - resource spot}
-   {:DEV NOTES: update infrastrucdb + FCMdF_DBInfra_Read.}
-   type TFCEdipRsrcSpotReq=(
-      rssrN_A
-      ,rssrany
-      ,rssrMetalIcyRareMetCarbRadOre
-      );
    {.storage type}
    {:DEV NOTES: update productsdb.xml + FCMdF_DBProducts_Read + FCFgC_Storage_Update.}
    type TFCEdipStorageType=(
@@ -331,7 +324,7 @@ const
          RCM_percent: integer;
       end;
       I_reqRegionSoil: TFCEdipRegionSoilReq;
-      I_reqRsrcSpot: TFCEdipRsrcSpotReq;
+      I_reqRsrcSpot: TFCEduRsrcSpotType;
       I_reqTechSci: record
          RTS_sector: TFCEdresResearchSectors;
          RTS_token: string[20];

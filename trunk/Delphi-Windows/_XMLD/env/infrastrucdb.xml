@@ -38,9 +38,12 @@
       
    {.requirement - resource spot}
    [spottype]
-      rssrN_A
-      rssrany
-      rssrMetalIcyRareMetCarbRadOre
+      rstNone
+      rstGasField
+      rstHydroWell
+      rstIcyOreField
+      rstOreField
+      rstUnderWater
       
    {.research sectors}
    [sector]
