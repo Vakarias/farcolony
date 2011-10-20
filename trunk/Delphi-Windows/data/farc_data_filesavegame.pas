@@ -73,6 +73,7 @@ uses
 procedure FCMdFSG_Game_Load;
 {:Purpose: load the current game.
    Additions:
+      -2011Oct19- *add: add, in list of surveyed resources, the specificity concerning the Ore field type.
       -2011Oct17- *add: complete the production matrix loading.
       -2011Oct11- *fix: forgot to set the size of the region dynamic array.
                   *fix: correction on spotSizCurr attribute loading.
@@ -395,6 +396,13 @@ begin
                      FCRplayer.P_SurveyedResourceSpots[GLcount].SS_surveyedRegions[GLsubCnt].SR_MQC:=GLxmlSurveyRegion.Attributes['meanQualCoef'];
                      FCRplayer.P_SurveyedResourceSpots[GLcount].SS_surveyedRegions[GLsubCnt].SR_SpotSizeCur:=GLxmlSurveyRegion.Attributes['spotSizCurr'];
                      FCRplayer.P_SurveyedResourceSpots[GLcount].SS_surveyedRegions[GLsubCnt].SR_SpotSizeMax:=GLxmlSurveyRegion.Attributes['spotSizeMax'];
+                     if FCRplayer.P_SurveyedResourceSpots[GLcount].SS_surveyedRegions[GLsubCnt].SR_type=rstOreField then
+                     begin
+                        FCRplayer.P_SurveyedResourceSpots[GLcount].SS_surveyedRegions[GLsubCnt].SR_oreCarbonaceous:=GLxmlSurveyRegion.Attributes['oreCarbo'];
+                        FCRplayer.P_SurveyedResourceSpots[GLcount].SS_surveyedRegions[GLsubCnt].SR_oreMetallic:=GLxmlSurveyRegion.Attributes['oreMetal'];
+                        FCRplayer.P_SurveyedResourceSpots[GLcount].SS_surveyedRegions[GLsubCnt].SR_oreRare:=GLxmlSurveyRegion.Attributes['oreRare'];
+                        FCRplayer.P_SurveyedResourceSpots[GLcount].SS_surveyedRegions[GLsubCnt].SR_oreUranium:=GLxmlSurveyRegion.Attributes['oreUra'];
+                     end;
                   end;
                   GLxmlSurveyRegion:=GLxmlSurveyRegion.NextSibling;
                end;
@@ -858,6 +866,7 @@ end;
 procedure FCMdFSG_Game_Save;
 {:Purpose: save the current game.
     Additions:
+      -2011Oct19- *add: add, in list of surveyed resources, the specificity concerning the Ore field type.
       -2011Oct17- *add: complete the production matrix saving.
       -2011Oct10- *add: list for surveyed resources.
       -2011Jul31- *add: infrastructure status istDisabledByEE.
@@ -1111,6 +1120,13 @@ begin
             GSxmlSurveyRegion.Attributes['meanQualCoef']:=FCRplayer.P_SurveyedResourceSpots[GScount].SS_surveyedRegions[GSsubCount].SR_MQC;
             GSxmlSurveyRegion.Attributes['spotSizCurr']:=FCRplayer.P_SurveyedResourceSpots[GScount].SS_surveyedRegions[GSsubCount].SR_SpotSizeCur;
             GSxmlSurveyRegion.Attributes['spotSizeMax']:=FCRplayer.P_SurveyedResourceSpots[GScount].SS_surveyedRegions[GSsubCount].SR_SpotSizeMax;
+            if FCRplayer.P_SurveyedResourceSpots[GScount].SS_surveyedRegions[GSsubCount].SR_type=rstOreField then
+            begin
+               GSxmlSurveyRegion.Attributes['oreCarbo']:=FCRplayer.P_SurveyedResourceSpots[GScount].SS_surveyedRegions[GSsubCount].SR_oreCarbonaceous;
+               GSxmlSurveyRegion.Attributes['oreMetal']:=FCRplayer.P_SurveyedResourceSpots[GScount].SS_surveyedRegions[GSsubCount].SR_oreMetallic;
+               GSxmlSurveyRegion.Attributes['oreRare']:=FCRplayer.P_SurveyedResourceSpots[GScount].SS_surveyedRegions[GSsubCount].SR_oreRare;
+               GSxmlSurveyRegion.Attributes['oreUra']:=FCRplayer.P_SurveyedResourceSpots[GScount].SS_surveyedRegions[GSsubCount].SR_oreUranium;
+            end;
             inc(GSsubCount);
          end;
          inc(GScount);

@@ -196,7 +196,7 @@ interface
       );
 
    {.types of resource spot}
-   {:DEV NOTES: update universe.xml.}
+   {:DEV NOTES: update universe.xml + infrastructures.ods + infrastrucdb.xml + see TFCRdipInfrastructure updates.}
    type TFCEduRsrcSpotType=(
       rstNone
       ,rstGasField
