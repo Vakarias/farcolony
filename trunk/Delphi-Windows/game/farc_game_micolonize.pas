@@ -120,6 +120,7 @@ procedure FCMgC_Colonize_PostProc(
    );
 {:Purpose: colonize mission - post process.
     Additions:
+      -2011Oct19- *add: update hardcoded resource data w/ Ore Field specific values.
       -2011Oct11- *add: hardcoded resource spots data.
       -2011Jul24- *rem: the procedure doesn't update the colony data panel, it's already done when required.
       -2011Feb15- *add: update the surface panel if the destination orbital object/satellite is selected.
@@ -195,6 +196,10 @@ begin
       FCRplayer.P_SurveyedResourceSpots[1].SS_surveyedRegions[CPPregion].SR_MQC:=0.7;
       FCRplayer.P_SurveyedResourceSpots[1].SS_surveyedRegions[CPPregion].SR_SpotSizeCur:=0;
       FCRplayer.P_SurveyedResourceSpots[1].SS_surveyedRegions[CPPregion].SR_SpotSizeMax:=50;
+      FCRplayer.P_SurveyedResourceSpots[1].SS_surveyedRegions[CPPregion].SR_oreCarbonaceous:=25;
+      FCRplayer.P_SurveyedResourceSpots[1].SS_surveyedRegions[CPPregion].SR_oreMetallic:=25;
+      FCRplayer.P_SurveyedResourceSpots[1].SS_surveyedRegions[CPPregion].SR_oreRare:=25;
+      FCRplayer.P_SurveyedResourceSpots[1].SS_surveyedRegions[CPPregion].SR_oreUranium:=25;
       {:DEV NOTES: END HARCODED SURVEY DATA.}
       FCMuiM_Message_Add(
          mtColonizeWset
