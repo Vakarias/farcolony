@@ -48,6 +48,7 @@ type TFCEgcInfAsk=(
    );
 
 type TFCRgcEnvironment= record
+   ENV_gravity: double;
    ENV_envType: TFCEduEnv;
    ENV_hydroTp: TFCEhydroTp;
 end;
@@ -60,11 +61,11 @@ type TFCRgcInfraKit= array of record
 end;
 
 ///<summary>
-///   return the environment type of the specified colony. Include also the hydrosphere type
+///   return the environment type of the specified colony. Include also the hydrosphere type, and the gravity
 ///</summary>
 ///   <param name="CEGTfac">faction index #</param>
 ///   <param name="CEGTcol">colony index #</param>
-function FCFgC_ColEnv_GetTp(const CEGTfac, CEGTcol: integer): TFCRgcEnvironment;
+function FCFgC_ColEnv_GetTp( const CEGTfac, CEGTcol: integer ): TFCRgcEnvironment;
 
 ///<summary>
 ///   request specified data in a colony infrastructure sub-data structure
@@ -171,78 +172,63 @@ uses
    ,farc_univ_func
    ,farc_win_debug;
 
+var
+   GCssys
+   ,GCstar
+   ,GCoobj
+   ,GCsat: integer;
+
 //===================================================END OF INIT============================
 
-function FCFgC_ColEnv_GetTp(const CEGTfac, CEGTcol: integer): TFCRgcEnvironment;
+function FCFgC_ColEnv_GetTp( const CEGTfac, CEGTcol: integer ): TFCRgcEnvironment;
 {:Purpose: return the environment type of the specified colony. Include also the hydrosphere type.
     Additions:
+      -2011Oct23- *mod: orbital object indexes are now stored in unit's private data.
+                  *mod: use the full row function to retrieve the indexes + remove useless code.
+                  *add: retireve also the gravity.
+                  *add: forgot to retrieve the hydrosphere type in case of a satellite.
       -2011Apr17- *add: include also the hydrosphere type.
       -2010Sep14- *add: entities code.
       -2010Aug29- *fix: correct the code concerning the satellite, this bug occurs to return gaseous even if it's for a telluric planet or asteroid.
 }
 var
-   CEGToobj
-   ,CEGTsat
-   ,CEGTssys
-   ,CEGTstar: integer;
+   CEGTgravity: double;
 
-   CEGToobjStr
-   ,CEGTsatStr
-   ,CEGTssysStr
-   ,CEGTstarStr: string;
+   CEGToobjLoc: TFCRufStelObj;
 
    CEGTenv: TFCEduEnv;
 
    CEGThydro: TFCEhydroTp;
 begin
-   CEGToobj:=0;
-   CEGTsat:=0;
-   CEGTssys:=0;
-   CEGTstar:=0;
+   CEGTgravity:=0;
    CEGTenv:=gaseous;
    CEGThydro:=htNone;
+   Result.ENV_gravity:=0;
    Result.ENV_envType:=gaseous;
    Result.ENV_hydroTp:=htNone;
-   CEGToobjStr:=FCentities[CEGTfac].E_col[CEGTcol].COL_locOObj;
-   CEGTsatStr:=FCentities[CEGTfac].E_col[CEGTcol].COL_locSat;
-   CEGTssysStr:=FCentities[CEGTfac].E_col[CEGTcol].COL_locSSys;
-   CEGTstarStr:=FCentities[CEGTfac].E_col[CEGTcol].COL_locStar;
-   CEGTssys:=FCFuF_StelObj_GetDbIdx(
-      ufsoSsys
-      ,CEGTssysStr
-      ,0
-      ,0
-      ,0
+   GCssys:=0;
+   GCstar:=0;
+   GCoobj:=0;
+   GCsat:=0;
+   CEGToobjLoc:=FCFuF_StelObj_GetFullRow(
+      FCentities[CEGTfac].E_col[CEGTcol].COL_locSSys
+      ,FCentities[CEGTfac].E_col[CEGTcol].COL_locStar
+      ,FCentities[CEGTfac].E_col[CEGTcol].COL_locOObj
+      ,FCentities[CEGTfac].E_col[CEGTcol].COL_locSat
       );
-   CEGTstar:=FCFuF_StelObj_GetDbIdx(
-      ufsoStar
-      ,CEGTstarStr
-      ,CEGTssys
-      ,0
-      ,0
-      );
-   CEGToobj:=FCFuF_StelObj_GetDbIdx(
-      ufsoOObj
-      ,CEGToobjStr
-      ,CEGTssys
-      ,CEGTstar
-      ,0
-      );
-   if CEGTsatStr<>''
-   then
+   if FCentities[CEGTfac].E_col[CEGTcol].COL_locSat='' then
    begin
-      CEGTsat:=FCFuF_StelObj_GetDbIdx(
-         ufsoSat
-         ,CEGTsatStr
-         ,CEGTssys
-         ,CEGTstar
-         ,CEGToobj
-         );
-      CEGTenv:=FCDBSsys[CEGTssys].SS_star[CEGTstar].SDB_obobj[CEGToobj].OO_satList[CEGTsat].OOS_envTp;
-      CEGThydro:=FCDBSsys[CEGTssys].SS_star[CEGTstar].SDB_obobj[CEGToobj].OO_satList[CEGTsat].OOS_hydrotp;
+      CEGTgravity:=FCDBSsys[ CEGToobjLoc[1] ].SS_star[ CEGToobjLoc[2] ].SDB_obobj[ CEGToobjLoc[3] ].OO_grav;
+      CEGTenv:=FCDBSsys[ CEGToobjLoc[1] ].SS_star[ CEGToobjLoc[2] ].SDB_obobj[ CEGToobjLoc[3] ].OO_envTp;
+      CEGThydro:=FCDBSsys[ CEGToobjLoc[1] ].SS_star[ CEGToobjLoc[2] ].SDB_obobj[ CEGToobjLoc[3] ].OO_hydrotp;
    end
-   else if CEGTsatStr=''
-   then CEGTenv:=FCDBSsys[CEGTssys].SS_star[CEGTstar].SDB_obobj[CEGToobj].OO_envTp;
+   else if FCentities[CEGTfac].E_col[CEGTcol].COL_locSat<>'' then
+   begin
+      CEGTgravity:=FCDBSsys[ CEGToobjLoc[1] ].SS_star[ CEGToobjLoc[2] ].SDB_obobj[ CEGToobjLoc[3] ].OO_satList[ CEGToobjLoc[4] ].OOS_grav;
+      CEGTenv:=FCDBSsys[ CEGToobjLoc[1] ].SS_star[ CEGToobjLoc[2] ].SDB_obobj[ CEGToobjLoc[3] ].OO_satList[ CEGToobjLoc[4] ].OOS_envTp;
+      CEGThydro:=FCDBSsys[ CEGToobjLoc[1] ].SS_star[ CEGToobjLoc[2] ].SDB_obobj[ CEGToobjLoc[3] ].OO_satList[ CEGToobjLoc[4] ].OOS_hydrotp;
+   end;
+   Result.ENV_gravity:=CEGTgravity;
    Result.ENV_envType:=CEGTenv;
    Result.ENV_hydroTp:=CEGThydro;
 end;

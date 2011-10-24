@@ -1,8 +1,8 @@
 ﻿<!-- Infrastructures Database -->
 <!-- 
-	{.functions}
+   {.functions}
    [infFunc]
-	   fEnergy
+      fEnergy
       fHousing
       fIntelligence
       fMiscellaneous
@@ -108,6 +108,9 @@
          //for cPrefab/cConv do not put this line at all
       </infBuild>
       <infReq>
+         //if max = n/a put -1
+         //EXCEPTED FOR CONVERTED INFRASTRUCTURES this line must be set even if it's 0 - n/a
+         <irGravity min="" max=""/>
          //only if >hrAny
          <irHydro hydrotype=""/>
          //for cBuild ONLY
@@ -216,6 +219,7 @@
          <ibVolMat volmatlv2="585"/>
       </infBuild>
       <infReq>
+         <irGravity min="0.1" max="1.5"/>
          <irConstrMat>
             <cmItem token="matConcrete" percent="98"/>
             <cmItem token="matCarbComposites" percent="2"/>
@@ -233,6 +237,7 @@
          <ibVolMat volmatlv2="603"/>
       </infBuild>
       <infReq>
+         <irGravity min="0.1" max="1.5"/>
          <irConstrMat>
             <cmItem token="matConcrete" percent="97"/>
             <cmItem token="matCarbComposites" percent="3"/>
@@ -249,6 +254,7 @@
          <ibBasePwr pwrlv1="1.03" pwrlv2="1.81" pwrlv3="2.16"/>
       </infBuild>
       <infReq>
+         <irGravity min="0" max=""/>
          <irRegionSoil allowtype="rsrAnyNonVolcanic"/>
       </infReq>
       <infCustFX>

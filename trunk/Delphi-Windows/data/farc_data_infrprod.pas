@@ -134,13 +134,13 @@ const
    {:DEV NOTES: update infrastrucdb + TFCRdipInfraProdMode.}
    type TFCEdipProductionModes=(
       pmNone
-      ,pmCarbonaceousOreRefining
-      ,pmHumidityGathering
-      ,pmMetallicOreRefining
-      ,pmRadioactiveOreRefining
-      ,pmRareMetalsOreRefining
+//      ,pmCarbonaceousOreRefining
+//      ,pmHumidityGathering
+//      ,pmMetallicOreRefining
+//      ,pmRadioactiveOreRefining
+//      ,pmRareMetalsOreRefining
       ,pmResourceMining
-      ,pmWaterElectrolysis
+//      ,pmWaterElectrolysis
       );
    {.requirement - region soil}
    {:DEV NOTES: update infrastrucdb + FCMdF_DBInfra_Read.}
@@ -281,24 +281,26 @@ const
       ///</summary>
       IPM_occupancy: integer;
       case IPM_productionModes: TFCEdipProductionModes of
-         pmCarbonaceousOreRefining:
-            ();
-         pmHumidityGathering:
-            (IPM_roofArea: integer;
-            IPM_trapArea: integer);
-         pmMetallicOreRefining:
-            ();
-         pmRadioactiveOreRefining:
-            ();
-         pmRareMetalsOreRefining:
-            ();
-         pmResourceMining:
-            ();
-         pmWaterElectrolysis:
-            ();
+//         pmCarbonaceousOreRefining:
+//            ();
+//         pmHumidityGathering:
+//            (IPM_roofArea: integer;
+//            IPM_trapArea: integer);
+//         pmMetallicOreRefining:
+//            ();
+//         pmRadioactiveOreRefining:
+//            ();
+//         pmRareMetalsOreRefining:
+//            ();
+
+         pmResourceMining: ();
+
+//         pmWaterElectrolysis:
+//            ();
    end;
    {.infrastructure}
    {:DEV NOTES: update infrastrucdb.xml + FCMdF_DBInfra_Read + FCMgICS_Conversion_Process + FCMgICS_Assembling_Process + FCMgICS_Building_Process.}
+   {:DEV NOTES: for requirements update FCMuiCDP_Data_Update.}
    type TFCRdipInfrastructure= record
       I_token: string[20];
       I_environment: TFCEduEnv;
@@ -318,6 +320,8 @@ const
       {.material volume, for each levels in the range}
       I_matVolume: array[0..7] of double;
       {.prerequisites}
+      I_reqGravMin: double;
+      I_reqGravMax: double;
       I_reqHydro: TFCEdipHydrosphereReq;
       I_reqConstrMat: array of record
          RCM_token: string[20];

@@ -612,6 +612,7 @@ procedure FCMuiCDP_Data_Update(
    CPUsettlement: integer
    );
 {:Purpose: update the colony data display
+   -2011Oct23- *add: available infrastructures list - take in account the gravity requirement + add missing requirements test for infrastructure kits.
    -2011Jul24- *add: complete and cleaner rewrite of the procedure.
    -2011Jul20- *add: dtCSMenergy data type completion.
    -2011Jul19- *add: dtCSMenergy data type.
@@ -1121,15 +1122,19 @@ begin
          {:DEV NOTES: req to implement technosciences database + research status array for entities before to put the code for technoscience requirement.}
          CPUmax:=length(FCDBinfra)-1;
          CPUcnt:=1;
+         CPUenvironment:=FCFgC_ColEnv_GetTp(0, CPUcol);
          while CPUcnt<=CPUmax do
          begin
-            CPUenvironment:=FCFgC_ColEnv_GetTp(0, CPUcol);
             if (FCDBinfra[CPUcnt].I_constr=cBuilt)
                and (
                   (FCentities[0].E_col[CPUcol].COL_settlements[CPUsettlement].CS_level>=FCDBinfra[CPUcnt].I_minLevel)
                      and (FCentities[0].E_col[CPUcol].COL_settlements[CPUsettlement].CS_level<=FCDBinfra[CPUcnt].I_maxLevel)
                   )
                and (FCDBinfra[CPUcnt].I_environment=CPUenvironment.ENV_envType)
+               and (
+                  ( FCDBinfra[CPUcnt].I_reqGravMin>=CPUenvironment.ENV_gravity )
+                     and ( FCDBinfra[CPUcnt].I_reqGravMax<=CPUenvironment.ENV_gravity )
+                  )
                and ((FCDBinfra[CPUcnt].I_reqHydro=hrAny)
                   or ((FCDBinfra[CPUcnt].I_reqHydro=hrLiquid_LiquidNH3) and ( (CPUenvironment.ENV_hydroTp=htLiquid) or (CPUenvironment.ENV_hydroTp=htLiqNH3) ))
                   or ((FCDBinfra[CPUcnt].I_reqHydro=hrNone) and (CPUenvironment.ENV_hydroTp=htNone) )
@@ -1139,8 +1144,7 @@ begin
                   or ((FCDBinfra[CPUcnt].I_reqHydro=hrCrystal) and (CPUenvironment.ENV_hydroTp=htCrystal) )
                   or ((FCDBinfra[CPUcnt].I_reqHydro=hrLiquidNH3) and (CPUenvironment.ENV_hydroTp=htLiqNH3) )
                   or ((FCDBinfra[CPUcnt].I_reqHydro=hrCH4) and (CPUenvironment.ENV_hydroTp=htLiqCH4) )
-                  )
-            then
+                  ) then
             begin
                CPUinfDisplay:='<a href="'+FCDBInfra[CPUcnt].I_token+'">'
                   +FCFdTFiles_UIStr_Get(uistrUI, FCDBInfra[CPUcnt].I_token)
@@ -1157,16 +1161,14 @@ begin
          end; //==END== while CPUcnt<=CPUmax do ==//
          {.include the infrastructure kits, if there's any}
          CPUmax:=length(FCentities[0].E_col[CPUcol].COL_storageList)-1;
-         if CPUmax>0
-         then
+         if CPUmax>0 then
          begin
             CPUcnt:=1;
             while CPUcnt<=CPUmax do
             begin
                CPUintDump:=FCFgP_Product_GetIndex(FCentities[0].E_col[CPUcol].COL_storageList[CPUcnt].CPR_token);
                if (FCDBProducts[CPUintDump].PROD_function=prfuInfraKit)
-                  and ( (CPUinfKitroot='') or (FCDBProducts[CPUintDump].PROD_fInfKitToken<>CPUinfKitroot) )
-               then
+                  and ( (CPUinfKitroot='') or (FCDBProducts[CPUintDump].PROD_fInfKitToken<>CPUinfKitroot) ) then
                begin
                   CPUinfKitroot:=FCDBProducts[CPUintDump].PROD_fInfKitToken;
                   CPUinfra:=FCFgInf_DataStructure_Get(
@@ -1176,10 +1178,23 @@ begin
                      );
                   if (CPUinfra.I_token<>'ERROR')
                      and (FCentities[0].E_col[CPUcol].COL_settlements[CPUsettlement].CS_level>=FCDBProducts[CPUintDump].PROD_fInfKitLevel)
-                  then
+                     and (CPUinfra.I_environment=CPUenvironment.ENV_envType)
+                     and (
+                        ( CPUinfra.I_reqGravMin>=CPUenvironment.ENV_gravity )
+                           and ( CPUinfra.I_reqGravMax<=CPUenvironment.ENV_gravity )
+                        )
+                     and ((CPUinfra.I_reqHydro=hrAny)
+                        or ((CPUinfra.I_reqHydro=hrLiquid_LiquidNH3) and ( (CPUenvironment.ENV_hydroTp=htLiquid) or (CPUenvironment.ENV_hydroTp=htLiqNH3) ))
+                        or ((CPUinfra.I_reqHydro=hrNone) and (CPUenvironment.ENV_hydroTp=htNone) )
+                        or ((CPUinfra.I_reqHydro=hrVapour) and (CPUenvironment.ENV_hydroTp=htVapor) )
+                        or ((CPUinfra.I_reqHydro=hrLiquid) and (CPUenvironment.ENV_hydroTp=htLiquid) )
+                        or ((CPUinfra.I_reqHydro=hrIceSheet) and (CPUenvironment.ENV_hydroTp=htIceSheet) )
+                        or ((CPUinfra.I_reqHydro=hrCrystal) and (CPUenvironment.ENV_hydroTp=htCrystal) )
+                        or ((CPUinfra.I_reqHydro=hrLiquidNH3) and (CPUenvironment.ENV_hydroTp=htLiqNH3) )
+                        or ((CPUinfra.I_reqHydro=hrCH4) and (CPUenvironment.ENV_hydroTp=htLiqCH4) )
+                        ) then
                   begin
-                     CPUinfDisplay:='<a href="'+CPUinfra.I_token+'">'+FCFdTFiles_UIStr_Get(uistrUI, CPUinfra.I_token)+'</a> x '
-                        +FloatToStr(FCentities[0].E_col[CPUcol].COL_storageList[CPUcnt].CPR_unit);
+                     CPUinfDisplay:='<a href="'+CPUinfra.I_token+'">'+FCFdTFiles_UIStr_Get(uistrUI, CPUinfra.I_token)+'</a> x '+FloatToStr(FCentities[0].E_col[CPUcol].COL_storageList[CPUcnt].CPR_unit);
                      case CPUinfra.I_function of
                         fEnergy: CPUsubnode:=FCWinMain.FCWM_CDPinfrAvail.Items.AddChild(CPUrootnodeInfraEN, CPUinfDisplay);
                         fHousing: CPUsubnode:=FCWinMain.FCWM_CDPinfrAvail.Items.AddChild(CPUrootnodeInfraHO, CPUinfDisplay);

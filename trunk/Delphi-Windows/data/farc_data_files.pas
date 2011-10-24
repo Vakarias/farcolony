@@ -671,6 +671,7 @@ end;
 procedure FCMdF_DBInfra_Read;
 {:Purpose: Read the infrastructure database xml file.
     Additions:
+      -2011Oct23- *add: new requirement: gravity min/max.
       -2011Oct17- *add: complete and optimize resource spot requirement.
       -2011Oct16- *add: production mode occupancy data.
       -2011Sep05- *add: required staff.
@@ -816,7 +817,12 @@ begin
                DBIRreqsub:=DBIRsubN.ChildNodes.First;
                while DBIRreqsub<>nil do
                begin
-                  if DBIRreqsub.NodeName='irHydro'
+                  if DBIRreqsub.NodeName='irGravity' then
+                  begin
+                     FCDBinfra[DBIRcnt].I_minLevel:=DBIRreqsub.Attributes['min'];
+                     FCDBinfra[DBIRcnt].I_maxLevel:=DBIRreqsub.Attributes['max'];
+                  end
+                  else if DBIRreqsub.NodeName='irHydro'
                   then
                   begin
                      DBIRstr:=DBIRreqsub.Attributes['hydrotype'];
@@ -1083,9 +1089,9 @@ begin
                   DBIRpmodeCnt:=1;
                   while DBIRpmodeCnt<=FCCpModeMax do
                   begin
-                     FCDBinfra[DBIRcnt].I_fProductionMode[DBIRpmodeCnt].IPM_productionModes:=pmNone;
-                     FCDBinfra[DBIRcnt].I_fProductionMode[DBIRpmodeCnt].IPM_roofArea:=0;
-                     FCDBinfra[DBIRcnt].I_fProductionMode[DBIRpmodeCnt].IPM_trapArea:=0;
+//                     FCDBinfra[DBIRcnt].I_fProductionMode[DBIRpmodeCnt].IPM_productionModes:=pmNone;
+//                     FCDBinfra[DBIRcnt].I_fProductionMode[DBIRpmodeCnt].IPM_roofArea:=0;
+//                     FCDBinfra[DBIRcnt].I_fProductionMode[DBIRpmodeCnt].IPM_trapArea:=0;
                      inc(DBIRpmodeCnt);
                   end;
                   DBIRpmodeCnt:=0;
@@ -1093,26 +1099,26 @@ begin
                   begin
                      inc(DBIRpmodeCnt);
                      FCDBinfra[DBIRcnt].I_fProductionMode[DBIRpmodeCnt].IPM_occupancy:=DBIRpmode.Attributes['occupancy'];
-                     DBIRstr:=DBIRpmode.Attributes['pmode'];
-                     if DBIRstr='pmCarbonaceousOreRefining'
-                     then FCDBinfra[DBIRcnt].I_fProductionMode[DBIRpmodeCnt].IPM_productionModes:=pmCarbonaceousOreRefining
-                     else if DBIRstr='pmHumidityGathering'
-                     then
-                     begin
-                        FCDBinfra[DBIRcnt].I_fProductionMode[DBIRpmodeCnt].IPM_productionModes:=pmHumidityGathering;
-                        FCDBinfra[DBIRcnt].I_fProductionMode[DBIRpmodeCnt].IPM_roofArea:=DBIRpmode.Attributes['roofArea'];
-                        FCDBinfra[DBIRcnt].I_fProductionMode[DBIRpmodeCnt].IPM_trapArea:=DBIRpmode.Attributes['trapArea'];
-                     end
-                     else if DBIRstr='pmMetallicOreRefining'
-                     then FCDBinfra[DBIRcnt].I_fProductionMode[DBIRpmodeCnt].IPM_productionModes:=pmMetallicOreRefining
-                     else if DBIRstr='pmRadioactiveOreRefining'
-                     then FCDBinfra[DBIRcnt].I_fProductionMode[DBIRpmodeCnt].IPM_productionModes:=pmRadioactiveOreRefining
-                     else if DBIRstr='pmRareMetalsOreRefining'
-                     then FCDBinfra[DBIRcnt].I_fProductionMode[DBIRpmodeCnt].IPM_productionModes:=pmRareMetalsOreRefining
-                     else if DBIRstr='pmResourceMining'
-                     then FCDBinfra[DBIRcnt].I_fProductionMode[DBIRpmodeCnt].IPM_productionModes:=pmResourceMining
-                     else if DBIRstr='pmWaterElectrolysis'
-                     then FCDBinfra[DBIRcnt].I_fProductionMode[DBIRpmodeCnt].IPM_productionModes:=pmWaterElectrolysis;
+//                     DBIRstr:=DBIRpmode.Attributes['pmode'];
+//                     if DBIRstr='pmCarbonaceousOreRefining'
+//                     then FCDBinfra[DBIRcnt].I_fProductionMode[DBIRpmodeCnt].IPM_productionModes:=pmCarbonaceousOreRefining
+//                     else if DBIRstr='pmHumidityGathering'
+//                     then
+//                     begin
+//                        FCDBinfra[DBIRcnt].I_fProductionMode[DBIRpmodeCnt].IPM_productionModes:=pmHumidityGathering;
+//                        FCDBinfra[DBIRcnt].I_fProductionMode[DBIRpmodeCnt].IPM_roofArea:=DBIRpmode.Attributes['roofArea'];
+//                        FCDBinfra[DBIRcnt].I_fProductionMode[DBIRpmodeCnt].IPM_trapArea:=DBIRpmode.Attributes['trapArea'];
+//                     end
+//                     else if DBIRstr='pmMetallicOreRefining'
+//                     then FCDBinfra[DBIRcnt].I_fProductionMode[DBIRpmodeCnt].IPM_productionModes:=pmMetallicOreRefining
+//                     else if DBIRstr='pmRadioactiveOreRefining'
+//                     then FCDBinfra[DBIRcnt].I_fProductionMode[DBIRpmodeCnt].IPM_productionModes:=pmRadioactiveOreRefining
+//                     else if DBIRstr='pmRareMetalsOreRefining'
+//                     then FCDBinfra[DBIRcnt].I_fProductionMode[DBIRpmodeCnt].IPM_productionModes:=pmRareMetalsOreRefining
+//                     else if DBIRstr='pmResourceMining'
+//                     then FCDBinfra[DBIRcnt].I_fProductionMode[DBIRpmodeCnt].IPM_productionModes:=pmResourceMining
+//                     else if DBIRstr='pmWaterElectrolysis'
+//                     then FCDBinfra[DBIRcnt].I_fProductionMode[DBIRpmodeCnt].IPM_productionModes:=pmWaterElectrolysis;
                      DBIRpmode:=DBIRpmode.NextSibling;
                   end;
                end;
