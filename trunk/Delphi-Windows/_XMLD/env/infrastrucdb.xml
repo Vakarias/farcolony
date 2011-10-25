@@ -254,7 +254,7 @@
          <ibBasePwr pwrlv1="1.03" pwrlv2="1.81" pwrlv3="2.16"/>
       </infBuild>
       <infReq>
-         <irGravity min="0" max=""/>
+         <irGravity min="0" max="1.1"/>
          <irRegionSoil allowtype="rsrAnyNonVolcanic"/>
       </infReq>
       <infCustFX>
@@ -273,6 +273,7 @@
          <ibBasePwr pwrlv1="1.5" pwrlv2="2.64" pwrlv3="3.15"/>
       </infBuild>
       <infReq>
+         <irGravity min="0" max="1.1"/>
          <irRegionSoil allowtype="rsrAnyNonVolcanic"/>
       </infReq>
       <infCustFX>
@@ -291,6 +292,7 @@
          <ibBasePwr pwrlv1="2.21" pwrlv2="3.89" pwrlv3="4.64"/>
       </infBuild>
       <infReq>
+         <irGravity min="0" max="1.1"/>
          <irRegionSoil allowtype="rsrAnyNonVolcanic"/>
       </infReq>
       <infCustFX>
@@ -309,6 +311,7 @@
          <ibBasePwr pwrlv1="0.47" pwrlv2="1.55" pwrlv3="3.09" pwrlv4="4.64"/>
       </infBuild>
       <infReq>
+         <irGravity min="0" max="1.1"/>
          <irRegionSoil allowtype="rsrAnyNonVolcanic"/>
       </infReq>
       <infFunc infFunc="fHousing" pcaplv1="2" pcaplv2="6" pcaplv3="12" pcaplv4="18" qol="1"/>
@@ -321,6 +324,7 @@
          <ibBasePwr pwrlv1="0.68" pwrlv2="2.26" pwrlv3="4.3" pwrlv4="6.56"/>
       </infBuild>
       <infReq>
+         <irGravity min="0" max="1.1"/>
          <irRegionSoil allowtype="rsrAnyNonVolcanic"/>
       </infReq>
       <infFunc infFunc="fHousing" pcaplv1="2" pcaplv2="6" pcaplv3="12" pcaplv4="18" qol="1"/>
@@ -333,6 +337,7 @@
          <ibBasePwr pwrlv1="1" pwrlv2="3.33" pwrlv3="6.66" pwrlv4="9.99"/>
       </infBuild>
       <infReq>
+         <irGravity min="0" max="1.1"/>
          <irRegionSoil allowtype="rsrAnyNonVolcanic"/>
       </infReq>
       <infFunc infFunc="fHousing" pcaplv1="2" pcaplv2="6" pcaplv3="12" pcaplv4="18" qol="1"/>
@@ -345,6 +350,7 @@
          <ibBasePwr pwrlv1="1.47" pwrlv2="5.08" pwrlv3="9.36" pwrlv4="17.06" pwrlv5="21.26"/>
       </infBuild>
       <infReq>
+         <irGravity min="0" max="1.25"/>
          <irRegionSoil allowtype="rsrAnyNonVolcanic"/>
       </infReq>
       <infCustFX>
@@ -364,6 +370,7 @@
          <ibBasePwr pwrlv1="2.15" pwrlv2="7.42" pwrlv3="13.67" pwrlv4="24.91" pwrlv5="31.05"/>
       </infBuild>
       <infReq>
+         <irGravity min="0" max="1.25"/>
          <irRegionSoil allowtype="rsrAnyNonVolcanic"/>
       </infReq>
       <infCustFX>
@@ -383,6 +390,7 @@
          <ibBasePwr pwrlv1="3.16" pwrlv2="10.93" pwrlv3="20.14" pwrlv4="36.7" pwrlv5="45.74"/>
       </infBuild>
       <infReq>
+         <irGravity min="0" max="1.25"/>
          <irRegionSoil allowtype="rsrAnyNonVolcanic"/>
       </infReq>
       <infCustFX>
@@ -400,6 +408,9 @@
          <ibSurf surflv1="12" surflv2="24" surflv3="48" surflv4="84"/>
          <ibVol vollv1="23" vollv2="45" vollv3="89" vollv4="156"/>
       </infBuild>
+      <infReq>
+         <irGravity min="0" max="1.5"/>
+      </infReq>
       <infFunc infFunc="ifEnergy" emode="egmFission" fixedprodlv1="40" fixedprodlv1byDL="3.52" fixedprodlv2="64" fixedprodlv2byDL="5.63" fixedprodlv3="88" fixedprodlv3byDL="7.74" fixedprodlv4="112" fixedprodlv4byDL="9.86"/>
    </infra>
  </infrastructures>
