@@ -126,25 +126,25 @@
 		<FR></FR>
 	</bioFruitsVeg>
 	<energNucFisRsm>
-		<EN></EN>
-		<FR></FR>
-	</energNucFisRsm>
+      <EN></EN>
+      <FR></FR>
+   </energNucFisRsm>
    <energNucFisRmed>
-		<EN></EN>
-		<FR></FR>
-	</energNucFisRmed>
+      <EN></EN>
+      <FR></FR>
+   </energNucFisRmed>
    <energNucFisRlg>
-		<EN></EN>
-		<FR></FR>
-	</energNucFisRlg>
+      <EN></EN>
+      <FR></FR>
+   </energNucFisRlg>
    <energNucFisRxl>
-		<EN></EN>
-		<FR></FR>
-	</energNucFisRxl>
-	<energNucPellets>
-		<EN></EN>
-		<FR></FR>
-	</energNucPellets>
+      <EN></EN>
+      <FR></FR>
+   </energNucFisRxl>
+   <energNucPellets>
+      <EN></EN>
+      <FR></FR>
+   </energNucPellets>
    <equipAdvTools>
       <EN></EN>
       <FR></FR>
@@ -157,6 +157,10 @@
       <EN></EN>
       <FR></FR>
    </equipHandTools>
+   <equipMiningMachinery>
+      <EN></EN>
+      <FR></FR>
+   </equipMiningMachinery>
    <equipMultiDepot1>
       <EN></EN>
       <FR></FR>
@@ -543,6 +547,7 @@
       <hintitem link="bioFish" title="Product: Fish"/>
       <hintitem link="bioFruitsVeg" title="Product: Fruits &amp; Vegetables"/>
       <hintitem link="equipHandTools" title="Product: Hand Tools"/>
+      <hintitem link="equipMiningMachinery" title="Product: Mining Machinery"/>
       <hintitem link="matMWNT" title="Product: Multi-Walled Nanotubes (MWNT)"/>
       <hintitem link="equipMultiDepot1" title="Product: Multipurpose Depot Level 1"/>
       <hintitem link="equipMultiDepot2" title="Product: Multipurpose Depot Level 2"/>
@@ -588,7 +593,7 @@
       <hintitem link="csmevUprising" title="Evènement CSM: Révolte"/>
       <hintitem link="csmevUnrest" title="Evènement CSM: Troubles"/>
       <hintitem link="infrColShelt" title="Infrastructure: Abris de Colonisation"/>
-		<hintitem link="infrMultiDepot" title="Infrastructure: Entrepôt Multifonction"/>
+      <hintitem link="infrMultiDepot" title="Infrastructure: Entrepôt Multifonction"/>
       <hintitem link="infrInflatHab" title="Infrastructure: Habitat Gonflable"/>
       <hintitem link="infrHousesPack" title="Infrastructure: Pack de Maisons"/>
       <hintitem link="infrNucFissReactor" title="Infrastructure: Réacteur à Fission Nucléaire"/>
@@ -654,6 +659,7 @@
       <hintitem link="equipConstrExo" title="Produit: Exowalkers de Construction"/>
       <hintitem link="bioFruitsVeg" title="Produit: Fruits &amp; Légumes"/>
       <hintitem link="energNucPellets" title="Produit: Granules Nucléaires"/>
+      <hintitem link="equipMiningMachinery" title="Produit: Machinerie de Forage"/>
       <hintitem link="matNanocomposites" title="Produit: Nanocomposites"/>
       <hintitem link="matMWNT" title="Produit: Nanotubes Multi-Couches (MWNT)"/>
       <hintitem link="matSWNT" title="Produit: Nanotubes Simple-Couche (SWNT)"/>

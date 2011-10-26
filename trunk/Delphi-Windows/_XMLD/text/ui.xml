@@ -1783,6 +1783,10 @@
       <EN>Inflatable Greenhouse (xlarge)</EN>
       <FR>Serre Gonflable (xlarge)</FR>
    </equipInflatGreenXL>
+   <equipMiningMachinery>
+      <EN>Mining Machinery</EN>
+      <FR>Machinerie de Forage</FR>
+   </equipMiningMachinery>
    <equipMultiDepot1>
       <EN>Multipurpose Depot Level 1</EN>
       <FR>Entrepôt Multifonction Niveau 1</FR>

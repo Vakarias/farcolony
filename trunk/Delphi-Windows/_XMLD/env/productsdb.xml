@@ -280,6 +280,11 @@
       <function token="prfuInfraKit" infratoken="infrInflatGreen" infralevel="3"/>
       <techsci sector="rsAerospaceEng" token="tsciInflatHabitat"/>
    </product>
+   <!-- Mining Machinery - Equipment -->
+   <product token="equipMiningMachinery" class="prcEquipment" storage="stSolid" cargo="" volbyunit="96" massbyunit="42.048">
+      <function token="prfuBuildingSupportEquip"/>
+      <techsci sector="rsIndustrialTech" token="tsciBasicMiningRefin"/>
+   </product>
    <!-- Multipurpose Depot Level 1 - Equipment -->
    <product token="equipMultiDepot1" class="prcEquipment" storage="stSolid" cargo="" volbyunit="16.97" massbyunit="38.013">
       <function token="prfuInfraKit" infratoken="infrMultiDepot" infralevel="1"/>
