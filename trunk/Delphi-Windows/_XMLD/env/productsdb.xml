@@ -18,6 +18,7 @@
    {.product functions}
    [function]
       prfuBuildingMat
+      prfuBuildingSupportEquip
       prfuEnergyGeneration
       prfuFood
       prfuInfraKit
@@ -50,6 +51,7 @@
    <product token="" class="" storage="" cargo="" volbyunit="" massbyunit="">
       {case function specific data}
       <function token="prfuBuildingMat" tensilestr="" tsbylevel="" youngmodulus="" ymbylevel="" thermalprot="" reflectivity="" corrosiveclass=""/>
+      <function token="prfuBuildingSupportEquip"/>
       <function token="prfuEnergyGeneration"/>
       <function token="prfuFood" foodpoint=""/>
       <function token="prfuInfraKit" infratoken="" infralevel=""/>

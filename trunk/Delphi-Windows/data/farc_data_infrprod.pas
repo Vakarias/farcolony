@@ -119,6 +119,7 @@ const
    type TFCEdipProductFunctions=(
       prfuNone
       ,prfuBuildingMat
+      ,prfuBuildingSupportEquip
       ,prfuEnergyGeneration
       ,prfuFood
       ,prfuInfraKit
