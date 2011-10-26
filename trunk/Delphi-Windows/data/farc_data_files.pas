@@ -1136,6 +1136,8 @@ end;
 procedure FCMdF_DBProducts_Read;
 {:Purpose: Read the products database xml file.
    Additions:
+      -2011Oct25  *add: new function: Building Support Equipment.
+                  *mod: class + storage + function + corrosive class + research sector loading.
       -2011Aug28- *add: energy generation function.
       -2011May13-	*add: infrastructure kit function - add level data.
       -2011May11- *rem: environment for infrastructure kits is removed, it's the same kit for all type of environment.
@@ -1153,9 +1155,8 @@ procedure FCMdF_DBProducts_Read;
 }
 {:DEV NOTES: WARNING: when updating one material function, update all the other ones too.}
 var
-	DBPRcnt: integer;
-
-	DBPRdumpStr: string;
+	DBPRcnt
+   ,DBPRenumIndex: integer;
 
 	DBPRnode
 	,DBPRsub
@@ -1176,163 +1177,98 @@ begin
          inc(DBPRcnt);
          SetLength(FCDBProducts, DBPRcnt+1);
          FCDBProducts[DBPRcnt].PROD_token:=DBPRnode.Attributes['token'];
-         DBPRdumpStr:=DBPRnode.Attributes['class'];
-         if DBPRdumpStr='prclResource'
-         then FCDBProducts[DBPRcnt].PROD_class:=prclResource
-         else if DBPRdumpStr='prcEnergyRelItem'
-         then FCDBProducts[DBPRcnt].PROD_class:=prcEnergyRelItem
-         else if DBPRdumpStr='prcMaterial'
-         then FCDBProducts[DBPRcnt].PROD_class:=prcMaterial
-         else if DBPRdumpStr='prcBioproduct'
-         then FCDBProducts[DBPRcnt].PROD_class:=prcBioproduct
-         else if DBPRdumpStr='prcEquipment'
-         then FCDBProducts[DBPRcnt].PROD_class:=prcEquipment;
-         DBPRdumpStr:=DBPRnode.Attributes['storage'];
-         if DBPRdumpStr='stSolid '
-         then FCDBProducts[DBPRcnt].PROD_storage:=stSolid
-         else if DBPRdumpStr='stLiquid'
-         then FCDBProducts[DBPRcnt].PROD_storage:=stLiquid
-         else if DBPRdumpStr='stGas'
-         then FCDBProducts[DBPRcnt].PROD_storage:=stGas
-         else if DBPRdumpStr='stBiologic'
-         then FCDBProducts[DBPRcnt].PROD_storage:=stBiologic;
-         DBPRdumpStr:=DBPRnode.Attributes['cargo'];
+         DBPRenumIndex:=GetEnumValue( TypeInfo( TFCEdipProductClasses ), DBPRnode.Attributes['class'] );
+         FCDBProducts[DBPRcnt].PROD_class:=TFCEdipProductClasses( DBPRenumIndex );
+         if DBPRenumIndex=-1
+         then raise Exception.Create( 'bad product class: '+DBPRnode.Attributes['class'] );
+         DBPRenumIndex:=GetEnumValue( TypeInfo( TFCEdipStorageType ), DBPRnode.Attributes['storage'] );
+         FCDBProducts[DBPRcnt].PROD_storage:=TFCEdipStorageType( DBPRenumIndex );
+         if DBPRenumIndex=-1
+         then raise Exception.Create( 'bad storage: '+DBPRnode.Attributes['storage'] );
          {:DEV NOTE: complete cargo type loading here}
+//         DBPRdumpStr:=DBPRnode.Attributes['cargo'];
          FCDBProducts[DBPRcnt].PROD_volByUnit:=DBPRnode.Attributes['volbyunit'];
          FCDBProducts[DBPRcnt].PROD_massByUnit:=DBPRnode.Attributes['massbyunit'];
          DBPRsub:=DBPRnode.ChildNodes.First;
          while DBPRsub<>nil do
          begin
-            if DBPRsub.NodeName='function'
-            then
+            if DBPRsub.NodeName='function' then
             begin
-               DBPRdumpStr:=DBPRsub.Attributes['token'];
-               if DBPRdumpStr='prfuBuildingMat'
-               then
-               begin
-                  FCDBProducts[DBPRcnt].PROD_function:=prfuBuildingMat;
-                  FCDBProducts[DBPRcnt].PROD_fBmatTensileStr:=DBPRsub.Attributes['tensilestr'];
-                  FCDBProducts[DBPRcnt].PROD_fBmatTSbyLevel:=DBPRsub.Attributes['tsbylevel'];
-                  FCDBProducts[DBPRcnt].PROD_fBmatYoungModulus:=DBPRsub.Attributes['youngmodulus'];
-                  FCDBProducts[DBPRcnt].PROD_fBmatYMbyLevel:=DBPRsub.Attributes['ymbylevel'];
-                  FCDBProducts[DBPRcnt].PROD_fBmatThermalProt:=DBPRsub.Attributes['thermalprot'];
-                  FCDBProducts[DBPRcnt].PROD_fBmatReflectivity:=DBPRsub.Attributes['reflectivity'];
-                  DBPRdumpStr:=DBPRsub.Attributes['corrosiveclass'];
-                  if DBPRdumpStr='prciDpoor'
-                  then FCDBProducts[DBPRcnt].PROD_fBmatCorrosiveClass:=prciDpoor
-                  else if DBPRdumpStr='prciCfair'
-                  then FCDBProducts[DBPRcnt].PROD_fBmatCorrosiveClass:=prciCfair
-                  else if DBPRdumpStr='prciBgood'
-                  then FCDBProducts[DBPRcnt].PROD_fBmatCorrosiveClass:=prciBgood
-                  else if DBPRdumpStr='prciAexcellent'
-                  then FCDBProducts[DBPRcnt].PROD_fBmatCorrosiveClass:=prciAexcellent;
-               end
-               else if DBPRdumpStr='prfuEnergyGeneration'
-               then FCDBProducts[DBPRcnt].PROD_function:=prfuEnergyGeneration
-               else if DBPRdumpStr='prfuFood'
-               then
-               begin
-                  FCDBProducts[DBPRcnt].PROD_function:=prfuFood;
-                  FCDBProducts[DBPRcnt].PROD_fFoodPoint:=DBPRsub.Attributes['foodpoint'];
-               end
-               else if DBPRdumpStr='prfuInfraKit'
-               then
-               begin
-                  FCDBProducts[DBPRcnt].PROD_function:=prfuInfraKit;
-                  FCDBProducts[DBPRcnt].PROD_fInfKitToken:=DBPRsub.Attributes['infratoken'];
-                  FCDBProducts[DBPRcnt].PROD_fInfKitLevel:=DBPRsub.Attributes['infralevel'];
-               end
-               else if DBPRdumpStr='prfuManConstruction'
-               then
-               begin
-                  FCDBProducts[DBPRcnt].PROD_function:=prfuManConstruction;
-                  FCDBProducts[DBPRcnt].PROD_fManConstWCPcoef:=DBPRsub.Attributes['wcpcoef'];
-               end
-               else if DBPRdumpStr='prfuManufacturingMat'
-               then
-               begin
-                  FCDBProducts[DBPRcnt].PROD_function:=prfuManufacturingMat;
-               end
-               else if DBPRdumpStr='prfuMechConstruction'
-               then
-               begin
-                  FCDBProducts[DBPRcnt].PROD_function:=prfuMechConstruction;
-                  FCDBProducts[DBPRcnt].PROD_fMechConstWCP:=DBPRsub.Attributes['wcp'];
-                  FCDBProducts[DBPRcnt].PROD_fMechConstCrew:=DBPRsub.Attributes['crew'];
-               end
-               else if DBPRdumpStr='prfuMultipurposeMat'
-               then
-               begin
-                  FCDBProducts[DBPRcnt].PROD_function:=prfuMultipurposeMat;
-                  FCDBProducts[DBPRcnt].PROD_fMmatTensileStr:=DBPRsub.Attributes['tensilestr'];
-                  FCDBProducts[DBPRcnt].PROD_fMmatTSbyLevel:=DBPRsub.Attributes['tsbylevel'];
-                  FCDBProducts[DBPRcnt].PROD_fMmatYoungModulus:=DBPRsub.Attributes['youngmodulus'];
-                  FCDBProducts[DBPRcnt].PROD_fMmatYMbyLevel:=DBPRsub.Attributes['ymbylevel'];
-                  FCDBProducts[DBPRcnt].PROD_fMmatThermalProt:=DBPRsub.Attributes['thermalprot'];
-                  FCDBProducts[DBPRcnt].PROD_fMmatReflectivity:=DBPRsub.Attributes['reflectivity'];
-                  DBPRdumpStr:=DBPRsub.Attributes['corrosiveclass'];
-                  if DBPRdumpStr='prciDpoor'
-                  then FCDBProducts[DBPRcnt].PROD_fMmatCorrosiveClass:=prciDpoor
-                  else if DBPRdumpStr='prciCfair'
-                  then FCDBProducts[DBPRcnt].PROD_fMmatCorrosiveClass:=prciCfair
-                  else if DBPRdumpStr='prciBgood'
-                  then FCDBProducts[DBPRcnt].PROD_fMmatCorrosiveClass:=prciBgood
-                  else if DBPRdumpStr='prciAexcellent'
-                  then FCDBProducts[DBPRcnt].PROD_fMmatCorrosiveClass:=prciAexcellent;
-               end
-               else if DBPRdumpStr='prfuOxygen'
-               then
-               begin
-                  FCDBProducts[DBPRcnt].PROD_function:=prfuOxygen;
-                  FCDBProducts[DBPRcnt].PROD_fOxyPoint:=DBPRsub.Attributes['oxypoint'];
-               end
-               else if DBPRdumpStr='prfuSpaceMat'
-               then
-               begin
-                  FCDBProducts[DBPRcnt].PROD_function:=prfuSpaceMat;
-                  FCDBProducts[DBPRcnt].PROD_fSmatTensileStr:=DBPRsub.Attributes['tensilestr'];
-                  FCDBProducts[DBPRcnt].PROD_fSmatTSbyLevel:=DBPRsub.Attributes['tsbylevel'];
-                  FCDBProducts[DBPRcnt].PROD_fSmatYoungModulus:=DBPRsub.Attributes['youngmodulus'];
-                  FCDBProducts[DBPRcnt].PROD_fSmatYMbyLevel:=DBPRsub.Attributes['ymbylevel'];
-                  FCDBProducts[DBPRcnt].PROD_fSmatThermalProt:=DBPRsub.Attributes['thermalprot'];
-                  FCDBProducts[DBPRcnt].PROD_fSmatReflectivity:=DBPRsub.Attributes['reflectivity'];
-                  DBPRdumpStr:=DBPRsub.Attributes['corrosiveclass'];
-                  if DBPRdumpStr='prciDpoor'
-                  then FCDBProducts[DBPRcnt].PROD_fSmatCorrosiveClass:=prciDpoor
-                  else if DBPRdumpStr='prciCfair'
-                  then FCDBProducts[DBPRcnt].PROD_fSmatCorrosiveClass:=prciCfair
-                  else if DBPRdumpStr='prciBgood'
-                  then FCDBProducts[DBPRcnt].PROD_fSmatCorrosiveClass:=prciBgood
-                  else if DBPRdumpStr='prciAexcellent'
-                  then FCDBProducts[DBPRcnt].PROD_fSmatCorrosiveClass:=prciAexcellent;
-               end
-               else if DBPRdumpStr='prfuWater'
-               then
-               begin
-                  FCDBProducts[DBPRcnt].PROD_function:=prfuWater;
-                  FCDBProducts[DBPRcnt].PROD_fWaterPoint:=DBPRsub.Attributes['waterpoint'];
-               end;
+               DBPRenumIndex:=GetEnumValue( TypeInfo( TFCEdipProductFunctions ), DBPRsub.Attributes['token'] );
+               FCDBProducts[DBPRcnt].PROD_function:=TFCEdipProductFunctions( DBPRenumIndex );
+               if DBPRenumIndex=-1
+               then raise Exception.Create( 'bad product function: '+DBPRsub.Attributes['token'] );
+               case FCDBProducts[DBPRcnt].PROD_function of
+                  prfuBuildingMat:
+                  begin
+                     FCDBProducts[DBPRcnt].PROD_fBmatTensileStr:=DBPRsub.Attributes['tensilestr'];
+                     FCDBProducts[DBPRcnt].PROD_fBmatTSbyLevel:=DBPRsub.Attributes['tsbylevel'];
+                     FCDBProducts[DBPRcnt].PROD_fBmatYoungModulus:=DBPRsub.Attributes['youngmodulus'];
+                     FCDBProducts[DBPRcnt].PROD_fBmatYMbyLevel:=DBPRsub.Attributes['ymbylevel'];
+                     FCDBProducts[DBPRcnt].PROD_fBmatThermalProt:=DBPRsub.Attributes['thermalprot'];
+                     FCDBProducts[DBPRcnt].PROD_fBmatReflectivity:=DBPRsub.Attributes['reflectivity'];
+                     DBPRenumIndex:=GetEnumValue( TypeInfo( TFCEdipProductCorrosiveClasses ), DBPRsub.Attributes['corrosiveclass'] );
+                     FCDBProducts[DBPRcnt].PROD_fBmatCorrosiveClass:=TFCEdipProductCorrosiveClasses( DBPRenumIndex );
+                     if DBPRenumIndex=-1
+                     then raise Exception.Create( 'bad corrosive class: '+DBPRsub.Attributes['corrosiveclass'] );
+                  end;
+
+                  prfuFood: FCDBProducts[DBPRcnt].PROD_fFoodPoint:=DBPRsub.Attributes['foodpoint'];
+
+                  prfuInfraKit:
+                  begin
+                     FCDBProducts[DBPRcnt].PROD_fInfKitToken:=DBPRsub.Attributes['infratoken'];
+                     FCDBProducts[DBPRcnt].PROD_fInfKitLevel:=DBPRsub.Attributes['infralevel'];
+                  end;
+
+                  prfuManConstruction: FCDBProducts[DBPRcnt].PROD_fManConstWCPcoef:=DBPRsub.Attributes['wcpcoef'];
+
+                  prfuMechConstruction:
+                  begin
+                     FCDBProducts[DBPRcnt].PROD_fMechConstWCP:=DBPRsub.Attributes['wcp'];
+                     FCDBProducts[DBPRcnt].PROD_fMechConstCrew:=DBPRsub.Attributes['crew'];
+                  end;
+
+                  prfuMultipurposeMat:
+                  begin
+                     FCDBProducts[DBPRcnt].PROD_fMmatTensileStr:=DBPRsub.Attributes['tensilestr'];
+                     FCDBProducts[DBPRcnt].PROD_fMmatTSbyLevel:=DBPRsub.Attributes['tsbylevel'];
+                     FCDBProducts[DBPRcnt].PROD_fMmatYoungModulus:=DBPRsub.Attributes['youngmodulus'];
+                     FCDBProducts[DBPRcnt].PROD_fMmatYMbyLevel:=DBPRsub.Attributes['ymbylevel'];
+                     FCDBProducts[DBPRcnt].PROD_fMmatThermalProt:=DBPRsub.Attributes['thermalprot'];
+                     FCDBProducts[DBPRcnt].PROD_fMmatReflectivity:=DBPRsub.Attributes['reflectivity'];
+                     DBPRenumIndex:=GetEnumValue( TypeInfo( TFCEdipProductCorrosiveClasses ), DBPRsub.Attributes['corrosiveclass'] );
+                     FCDBProducts[DBPRcnt].PROD_fMmatCorrosiveClass:=TFCEdipProductCorrosiveClasses( DBPRenumIndex );
+                     if DBPRenumIndex=-1
+                     then raise Exception.Create( 'bad corrosive class: '+DBPRsub.Attributes['corrosiveclass'] );
+                  end;
+
+                  prfuOxygen: FCDBProducts[DBPRcnt].PROD_fOxyPoint:=DBPRsub.Attributes['oxypoint'];
+
+                  prfuSpaceMat:
+                  begin
+                     FCDBProducts[DBPRcnt].PROD_function:=prfuSpaceMat;
+                     FCDBProducts[DBPRcnt].PROD_fSmatTensileStr:=DBPRsub.Attributes['tensilestr'];
+                     FCDBProducts[DBPRcnt].PROD_fSmatTSbyLevel:=DBPRsub.Attributes['tsbylevel'];
+                     FCDBProducts[DBPRcnt].PROD_fSmatYoungModulus:=DBPRsub.Attributes['youngmodulus'];
+                     FCDBProducts[DBPRcnt].PROD_fSmatYMbyLevel:=DBPRsub.Attributes['ymbylevel'];
+                     FCDBProducts[DBPRcnt].PROD_fSmatThermalProt:=DBPRsub.Attributes['thermalprot'];
+                     FCDBProducts[DBPRcnt].PROD_fSmatReflectivity:=DBPRsub.Attributes['reflectivity'];
+                     DBPRenumIndex:=GetEnumValue( TypeInfo( TFCEdipProductCorrosiveClasses ), DBPRsub.Attributes['corrosiveclass'] );
+                     FCDBProducts[DBPRcnt].PROD_fSmatCorrosiveClass:=TFCEdipProductCorrosiveClasses( DBPRenumIndex );
+                     if DBPRenumIndex=-1
+                     then raise Exception.Create( 'bad corrosive class: '+DBPRsub.Attributes['corrosiveclass'] );
+                  end;
+
+                  prfuWater: FCDBProducts[DBPRcnt].PROD_fWaterPoint:=DBPRsub.Attributes['waterpoint'];
+               end; //==END== case FCDBProducts[DBPRcnt].PROD_function of ==//
             end //==END== if DBPRsub.NodeName='function' ==//
-            else if DBPRsub.NodeName='techsci'
-            then
+            else if DBPRsub.NodeName='techsci' then
             begin
-               DBPRdumpStr:=DBPRsub.Attributes['sector'];
-               if DBPRdumpStr='rsNone'
-               then FCDBProducts[DBPRcnt].PROD_tsSector:=rsNone
-               else if DBPRdumpStr='rsAerospaceEng'
-               then FCDBProducts[DBPRcnt].PROD_tsSector:=rsAerospaceEng
-               else if DBPRdumpStr='rsBiogenetics'
-               then FCDBProducts[DBPRcnt].PROD_tsSector:=rsBiogenetics
-               else if DBPRdumpStr='rsEcosciences'
-               then FCDBProducts[DBPRcnt].PROD_tsSector:=rsEcosciences
-               else if DBPRdumpStr='rsIndustrialTech'
-               then FCDBProducts[DBPRcnt].PROD_tsSector:=rsIndustrialTech
-               else if DBPRdumpStr='rsMedicine'
-               then FCDBProducts[DBPRcnt].PROD_tsSector:=rsMedicine
-               else if DBPRdumpStr='rsNanotech'
-               then FCDBProducts[DBPRcnt].PROD_tsSector:=rsNanotech
-               else if DBPRdumpStr='rsPhysics'
-               then FCDBProducts[DBPRcnt].PROD_tsSector:=rsPhysics;
+               DBPRenumIndex:=GetEnumValue( TypeInfo( TFCEdresResearchSectors ), DBPRsub.Attributes['sector'] );
+               FCDBProducts[DBPRcnt].PROD_tsSector:=TFCEdresResearchSectors( DBPRenumIndex );
+               if DBPRenumIndex=-1
+               then raise Exception.Create( 'bad research sector: '+DBPRsub.Attributes['sector'] );
                FCDBProducts[DBPRcnt].PROD_tsToken:=DBPRsub.Attributes['token'];
             end //==END== if DBPRsub.NodeName='techsci' ==//
             else if DBPRsub.NodeName='tags'
