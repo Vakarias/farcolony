@@ -801,6 +801,7 @@ procedure FCMgICS_TransitionRule_Process(
    );
 {:Purpose: process the transition rule, considering that staff requirements are fufilled.
    Additions:
+      -2011Oct26- *add: add a condition for production infrastructure case to prevent them to be in transition in a infinite loop.
       -2011Oct03- *add: add the possibility to call the routine with the cabIdx at 0. Used for re-enabling infrastructures.
 }
    var
@@ -815,11 +816,12 @@ procedure FCMgICS_TransitionRule_Process(
          ,TRPcol
          ,FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_dbToken
          );
-      FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_cabWorked:=0;
-      if TRPinfraData.I_function=fProduction then
+      if (TRPinfraData.I_function=fProduction)
+         and (FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_cabWorked>-1) then
       begin
          FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_status:=istInTransition;
          FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_cabDuration:=2;
+         FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_cabWorked:=-1;
          if TRPcabIdx=0
          then FCMgICS_CAB_Add(
             TRPent
@@ -832,6 +834,7 @@ procedure FCMgICS_TransitionRule_Process(
       begin
          FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_status:=istOperational;
          FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_cabDuration:=0;
+         FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_cabWorked:=0;
          FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_powerCons
             :=TRPinfraData.I_basePwr[FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_level];
          FCMgIP_CSMEnergy_Update(
