@@ -671,6 +671,7 @@ end;
 procedure FCMdF_DBInfra_Read;
 {:Purpose: Read the infrastructure database xml file.
     Additions:
+      -2011Oct26- *add: required staff by infrastructure level.
       -2011Oct23- *add: new requirement: gravity min/max.
       -2011Oct17- *add: complete and optimize resource spot requirement.
       -2011Oct16- *add: production mode occupancy data.
@@ -1021,7 +1022,12 @@ begin
                   then FCDBinfra[DBIRcnt].I_reqStaff[DBIRreqStaffCnt].RS_type:=ptEcoform
                   else if DBIRstr='ptMedian'
                   then FCDBinfra[DBIRcnt].I_reqStaff[DBIRreqStaffCnt].RS_type:=ptMedian;
-                  FCDBinfra[DBIRcnt].I_reqStaff[DBIRreqStaffCnt].RS_required:=DBIRreqStaff.Attributes['requiredNum'];
+                  DBIRsizeCnt:=FCDBinfra[DBIRcnt].I_minLevel;
+                  while DBIRsizeCnt<=FCDBinfra[DBIRcnt].I_maxLevel do
+                  begin
+                     FCDBinfra[DBIRcnt].I_reqStaff[DBIRreqStaffCnt].RS_requiredByLv[DBIRsizeCnt]:=DBIRreqStaff.Attributes['requiredNumLv'+IntToStr(DBIRsizeCnt)];
+                     inc(DBIRsizeCnt);
+                  end;
                   DBIRreqStaff:=DBIRreqStaff.NextSibling;
                end; //==END== while DBIRreqStaff<>nil do ==//
             end //==END== else if DBIRsubN.NodeName='infCustFX' ==//

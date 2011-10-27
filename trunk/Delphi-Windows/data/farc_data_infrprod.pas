@@ -339,7 +339,7 @@ const
       {.required staff}
       I_reqStaff: array of record
          RS_type: TFCEdiPopType;
-         RS_required: integer;
+         RS_requiredByLv: array[0..7] of integer;
       end;
       {.function}
       case I_function: TFCEdipFunction of
