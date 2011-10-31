@@ -585,7 +585,7 @@ procedure FCMgICS_Conversion_Process(
          ,ICPcol
          ,ICPsettlement: integer
    );
-{:Purpose: convert a space unit to a corresponding infrastructure as requested. 0
+{:Purpose: convert a space unit to a corresponding infrastructure as requested.
     Additions:
       -2011Oct30- *add: hardcoded product: Mining Machinery.
       -2011Sep10- *add: increment the duration to 1 hour in all cases to prevent a real duration less than 1 hr due to the game flow.
@@ -722,7 +722,7 @@ begin
    setlength(ICPclonedInfra.I_customFx, length(ICPclonedInfra.I_customFx)+1);
    ICPeffectIdx:=length(ICPclonedInfra.I_customFx)-1;
    ICPclonedInfra.I_customFx[ICPeffectIdx].ICFX_customEffect:=cfxProductStorage;
-   ICPclonedInfra.I_customFx[ICPeffectIdx].ICFX_prodStorageLvl[FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra[ICPinfra].CI_level].IPS_solid:=70;
+   ICPclonedInfra.I_customFx[ICPeffectIdx].ICFX_prodStorageLvl[FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra[ICPinfra].CI_level].IPS_solid:=100;
    ICPclonedInfra.I_customFx[ICPeffectIdx].ICFX_prodStorageLvl[FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra[ICPinfra].CI_level].IPS_liquid:=30;
    ICPclonedInfra.I_customFx[ICPeffectIdx].ICFX_prodStorageLvl[FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra[ICPinfra].CI_level].IPS_gas:=30;
    ICPclonedInfra.I_customFx[ICPeffectIdx].ICFX_prodStorageLvl[FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra[ICPinfra].CI_level].IPS_biologic:=30;
