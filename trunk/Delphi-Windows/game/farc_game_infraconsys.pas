@@ -585,8 +585,9 @@ procedure FCMgICS_Conversion_Process(
          ,ICPcol
          ,ICPsettlement: integer
    );
-{:Purpose: convert a space unit to a corresponding infrastructure as requested.
+{:Purpose: convert a space unit to a corresponding infrastructure as requested. 0
     Additions:
+      -2011Oct30- *add: hardcoded product: Mining Machinery.
       -2011Sep10- *add: increment the duration to 1 hour in all cases to prevent a real duration less than 1 hr due to the game flow.
       -2011Jul24- *add: update the colony data panel with the infrastructures list if it's needed.
       -2011Jul17- *add: harcoded custom effects: energy generation and storage.
@@ -778,6 +779,13 @@ begin
    ICPxfer:=FCFgC_Storage_Update(
       true
       ,'equipConstrExo'
+      ,1
+      ,0
+      ,ICPcol
+      );
+   ICPxfer:=FCFgC_Storage_Update(
+      true
+      ,'equipMiningMachinery'
       ,1
       ,0
       ,ICPcol
