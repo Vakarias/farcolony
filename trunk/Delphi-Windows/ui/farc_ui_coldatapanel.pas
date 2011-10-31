@@ -612,6 +612,7 @@ procedure FCMuiCDP_Data_Update(
    CPUsettlement: integer
    );
 {:Purpose: update the colony data display
+   -2011Oct26- *add: available infrastructures list - take in account the ANY environment + fix gravity requirements.
    -2011Oct23- *add: available infrastructures list - take in account the gravity requirement + add missing requirements test for infrastructure kits.
    -2011Jul24- *add: complete and cleaner rewrite of the procedure.
    -2011Jul20- *add: dtCSMenergy data type completion.
@@ -1130,10 +1131,10 @@ begin
                   (FCentities[0].E_col[CPUcol].COL_settlements[CPUsettlement].CS_level>=FCDBinfra[CPUcnt].I_minLevel)
                      and (FCentities[0].E_col[CPUcol].COL_settlements[CPUsettlement].CS_level<=FCDBinfra[CPUcnt].I_maxLevel)
                   )
-               and (FCDBinfra[CPUcnt].I_environment=CPUenvironment.ENV_envType)
+               and ( (FCDBinfra[CPUcnt].I_environment=envAny) or (FCDBinfra[CPUcnt].I_environment=CPUenvironment.ENV_envType) )
                and (
-                  ( FCDBinfra[CPUcnt].I_reqGravMin>=CPUenvironment.ENV_gravity )
-                     and ( FCDBinfra[CPUcnt].I_reqGravMax<=CPUenvironment.ENV_gravity )
+                  ( FCDBinfra[CPUcnt].I_reqGravMin<=CPUenvironment.ENV_gravity )
+                     and ( ( FCDBinfra[CPUcnt].I_reqGravMax=-1) or ( FCDBinfra[CPUcnt].I_reqGravMax>=CPUenvironment.ENV_gravity ) )
                   )
                and ((FCDBinfra[CPUcnt].I_reqHydro=hrAny)
                   or ((FCDBinfra[CPUcnt].I_reqHydro=hrLiquid_LiquidNH3) and ( (CPUenvironment.ENV_hydroTp=htLiquid) or (CPUenvironment.ENV_hydroTp=htLiqNH3) ))
@@ -1178,10 +1179,10 @@ begin
                      );
                   if (CPUinfra.I_token<>'ERROR')
                      and (FCentities[0].E_col[CPUcol].COL_settlements[CPUsettlement].CS_level>=FCDBProducts[CPUintDump].PROD_fInfKitLevel)
-                     and (CPUinfra.I_environment=CPUenvironment.ENV_envType)
+                     and ( (CPUinfra.I_environment=envAny) or (CPUinfra.I_environment=CPUenvironment.ENV_envType) )
                      and (
-                        ( CPUinfra.I_reqGravMin>=CPUenvironment.ENV_gravity )
-                           and ( CPUinfra.I_reqGravMax<=CPUenvironment.ENV_gravity )
+                        ( CPUinfra.I_reqGravMin<=CPUenvironment.ENV_gravity )
+                           and ( ( CPUinfra.I_reqGravMax=-1 ) or ( CPUinfra.I_reqGravMax>=CPUenvironment.ENV_gravity ) )
                         )
                      and ((CPUinfra.I_reqHydro=hrAny)
                         or ((CPUinfra.I_reqHydro=hrLiquid_LiquidNH3) and ( (CPUenvironment.ENV_hydroTp=htLiquid) or (CPUenvironment.ENV_hydroTp=htLiqNH3) ))
