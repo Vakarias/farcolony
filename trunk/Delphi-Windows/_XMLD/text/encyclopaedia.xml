@@ -104,6 +104,10 @@
       <EN></EN>
       <FR></FR>
    </infrInflatHab>
+   <infrMiningSite>
+      <EN></EN>
+      <FR></FR>
+   </infrMiningSite>
 	<infrMultiDepot>
 		<EN></EN>
 		<FR></FR>
@@ -487,6 +491,7 @@
       <hintitem link="infrHousesPack" title="Infrastructure: Houses Pack"/>
       <hintitem link="infrInflatGreen" title="Infrastructure: Inflatable Greenhouse"/>
       <hintitem link="infrInflatHab" title="Infrastructure: Inflatable Habitat"/>
+      <hintitem link="infrMiningSite" title="Infrastructure: Mining Site"/>
       <hintitem link="infrMultiDepot" title="Infrastructure: Multipurpose Depot"/>
       <hintitem link="infrNucFissReactor" title="Infrastructure: Nuclear Fission Reactor"/>
       <hintitem link="spmRoot" title="SPM: Socio-Political Matrix"/>
@@ -598,6 +603,7 @@
       <hintitem link="infrHousesPack" title="Infrastructure: Pack de Maisons"/>
       <hintitem link="infrNucFissReactor" title="Infrastructure: Réacteur à Fission Nucléaire"/>
       <hintitem link="infrInflatGreen" title="Infrastructure: Serre Gonflable"/>
+      <hintitem link="infrMiningSite" title="Infrastructure: Site de Minage"/>
       <hintitem link="spmRoot" title="SPM: Matrice Socio-Politique"/>
       <hintitem link="spmPolicies" title="SPM: Politiques"/>
       <hintitem link="spmMemes" title="SPM: Memes"/>

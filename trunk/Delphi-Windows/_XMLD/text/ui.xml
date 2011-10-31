@@ -1065,6 +1065,10 @@
       <EN>Inflatable Habitat</EN>
       <FR>Habitat Gonflable</FR>
    </infrInflatHab>
+   <infrMiningSite>
+      <EN>Mining Site</EN>
+      <FR>Site de Minage</FR>
+   </infrMiningSite>
    <infrMultiDepot>
       <EN>Multipurpose Depot</EN>
       <FR>Entrepôt Multifonction</FR>
