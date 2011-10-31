@@ -672,6 +672,7 @@ procedure FCMdF_DBInfra_Read;
 {:Purpose: Read the infrastructure database xml file.
     Additions:
       -2011Oct26- *add: required staff by infrastructure level.
+                  *fix: bad data assignment for gravity requirements.
       -2011Oct23- *add: new requirement: gravity min/max.
       -2011Oct17- *add: complete and optimize resource spot requirement.
       -2011Oct16- *add: production mode occupancy data.
@@ -820,8 +821,8 @@ begin
                begin
                   if DBIRreqsub.NodeName='irGravity' then
                   begin
-                     FCDBinfra[DBIRcnt].I_minLevel:=DBIRreqsub.Attributes['min'];
-                     FCDBinfra[DBIRcnt].I_maxLevel:=DBIRreqsub.Attributes['max'];
+                     FCDBinfra[DBIRcnt].I_reqGravMin:=DBIRreqsub.Attributes['min'];
+                     FCDBinfra[DBIRcnt].I_reqGravMax:=DBIRreqsub.Attributes['max'];
                   end
                   else if DBIRreqsub.NodeName='irHydro'
                   then
@@ -1072,7 +1073,7 @@ begin
                then
                begin
                   FCDBinfra[DBIRcnt].I_function:=fHousing;
-                  if FCDBinfra[DBIRcnt].I_constr<>cConv then
+                  if FCDBinfra[DBIRcnt].I_constr<cConv then
                   begin
                      DBIRsizeCnt:=FCDBinfra[DBIRcnt].I_minLevel;
                      while DBIRsizeCnt<=FCDBinfra[DBIRcnt].I_maxLevel do
