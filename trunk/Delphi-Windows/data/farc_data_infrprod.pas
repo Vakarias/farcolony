@@ -276,6 +276,7 @@ const
 	end;
    {.production modes}
    {:DEV NOTES: update infrastrucdb.xml + FCMdF_DBInfra_Read.}
+   {:DEV NOTES: update data_game/TFCRdgColonInfra.}
    type TFCRdipInfraProdMode= record
       ///<summary>
       /// occupancy of the production mode for the infrastructure, if the building has only one production mode, occupancy=100(%)

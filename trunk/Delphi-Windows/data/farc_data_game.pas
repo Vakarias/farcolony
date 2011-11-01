@@ -344,7 +344,7 @@ interface
    end;
    {.owned infrastructure data structure}
    {:DEV NOTES: update FCMdFiles_Game_Save/Load + FCMgICS_Conversion_Process + FCMgICS_Assembling_Process + FCMgICS_Building_Process + FCMuiCDP_Data_Update/dtInfra.}
-   {:DEV NOTES: for functions: update FCMgIF_Functions_Initialize + FCMgIF_Functions_Application.}
+   {:DEV NOTES: for functions: update FCMgIF_Functions_Initialize + FCMgIF_Functions_ApplicationRemove.}
    type TFCRdgColonInfra= record
       {.dbinfra token id}
       CI_dbToken: string[20];
@@ -363,6 +363,7 @@ interface
          fEnergy:
             {.energy output by hour in kW}
             (CI_fEnergOut: double);
+
          {.housing}
          fHousing:
             {.population capacity}
@@ -372,19 +373,42 @@ interface
             {.calculated volume}
             CI_fhousVol: integer;
             {.calculated surface}
-            CI_fhousSurf: integer);
+            CI_fhousSurf: integer
+            );
+
          {.production}
          fProduction:
-            {:DEV NOTES: to replace by real data when it will be the time.}
-            {:DEV NOTES: put production mode settings here: array w/ enum for type and enabled true/false.}
-            (IO_dummy: integer);
+            (
+            ///<summary>
+            /// linked resource spot index, if any
+            ///</summary>
+            CI_LinkedRspot: integer;
+            CI_fprodMode: array [0..FCCpModeMax] of record
+               PM_type: TFCEdipProductionModes;
+               PM_enabled: boolean;
+               PM_energyCons: double;
+               ///<summary>
+               /// index [0] is always for the input the rest can have upto 5 output
+               ///</summary>
+               PM_InputOutput: array [0..5] of record
+                  ///<summary>
+                  /// product token excepted if: 'rspot': from a resource spot 'atm': from the atmosphere
+                  ///</summary>
+                  IO_token: string[20];
+                  ///<summary>
+                  /// production flow in unit/hr
+                  ///</summary>
+                  IO_production: double;
+               end;
+            end;
+            );
    end;
    {.production matrix item}
    {:DEV NOTES: update FCMdFiles_Game_Load + FCMdFiles_Game_Save + FCMgCSM_ColonyData_Init.}
    type TFCRdgColonProdMatrixItm= record
       CPMI_productToken: string[20];
       CPMI_storageIndex: integer;
-      CPMI_isDisabledManually: boolean;
+//      CPMI_isDisabledManually: boolean;
       CPMI_isDisabledByProdSegment: boolean;
       ///<summary>
       /// production flow in + or - and in unit/hr

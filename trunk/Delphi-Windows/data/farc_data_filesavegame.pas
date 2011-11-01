@@ -741,7 +741,7 @@ begin
                               SetLength(FCentities[GLentCnt].E_col[GLcount].COL_productionMatrix, GLprodMatrixCnt+1);
                               FCentities[GLentCnt].E_col[GLcount].COL_productionMatrix[GLprodMatrixCnt].CPMI_productToken:=GLxmlProdMatrix.Attributes['token'];
                               FCentities[GLentCnt].E_col[GLcount].COL_productionMatrix[GLprodMatrixCnt].CPMI_storageIndex:=GLxmlProdMatrix.Attributes['storIdx'];
-                              FCentities[GLentCnt].E_col[GLcount].COL_productionMatrix[GLprodMatrixCnt].CPMI_isDisabledManually:=GLxmlProdMatrix.Attributes['disabledMan'];
+//                              FCentities[GLentCnt].E_col[GLcount].COL_productionMatrix[GLprodMatrixCnt].CPMI_isDisabledManually:=GLxmlProdMatrix.Attributes['disabledMan'];
                               FCentities[GLentCnt].E_col[GLcount].COL_productionMatrix[GLprodMatrixCnt].CPMI_isDisabledByProdSegment:=GLxmlProdMatrix.Attributes['disabledProdSeg'];
                               FCentities[GLentCnt].E_col[GLcount].COL_productionMatrix[GLprodMatrixCnt].CPMI_productionFlow:=GLxmlProdMatrix.Attributes['prodFlow'];
                               SetLength(FCentities[GLentCnt].E_col[GLcount].COL_productionMatrix[GLprodMatrixCnt].CPMI_sourceProduct, 1);
@@ -1395,7 +1395,7 @@ begin
                      GSxmlProdMatrix:=GSxmlProdMatrixRoot.AddChild('prodItem');
                      GSxmlProdMatrix.Attributes['token']:=FCentities[GScount].E_col[GScolCnt].COL_productionMatrix[GSprodMatrixCnt].CPMI_productToken;
                      GSxmlProdMatrix.Attributes['storIdx']:=FCentities[GScount].E_col[GScolCnt].COL_productionMatrix[GSprodMatrixCnt].CPMI_storageIndex;
-                     GSxmlProdMatrix.Attributes['disabledMan']:=FCentities[GScount].E_col[GScolCnt].COL_productionMatrix[GSprodMatrixCnt].CPMI_isDisabledManually;
+//                     GSxmlProdMatrix.Attributes['disabledMan']:=FCentities[GScount].E_col[GScolCnt].COL_productionMatrix[GSprodMatrixCnt].CPMI_isDisabledManually;
                      GSxmlProdMatrix.Attributes['disabledProdSeg']:=FCentities[GScount].E_col[GScolCnt].COL_productionMatrix[GSprodMatrixCnt].CPMI_isDisabledByProdSegment;
                      GSxmlProdMatrix.Attributes['prodFlow']:=FCentities[GScount].E_col[GScolCnt].COL_productionMatrix[GSprodMatrixCnt].CPMI_productionFlow;
                      GSsubMax:=length(FCentities[GScount].E_col[GScolCnt].COL_productionMatrix[GSprodMatrixCnt].CPMI_sourceProduct)-1;
