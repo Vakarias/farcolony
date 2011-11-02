@@ -73,6 +73,8 @@ uses
 procedure FCMdFSG_Game_Load;
 {:Purpose: load the current game.
    Additions:
+      -2011Nov01- *add: complete the production matrix.
+                  *add: complete production mode data for owned infrastructures.
       -2011Oct19- *add: add, in list of surveyed resources, the specificity concerning the Ore field type.
       -2011Oct17- *add: complete the production matrix loading.
       -2011Oct11- *fix: forgot to set the size of the region dynamic array.
@@ -694,12 +696,18 @@ begin
                               FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra[GLinfCnt].CI_function:=GLxmlInfra.Attributes['Func'];
                               case FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra[GLinfCnt].CI_function of
                                  fEnergy: FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra[GLinfCnt].CI_fEnergOut:=GLxmlInfra.Attributes['energyOut'];
+
                                  fHousing:
                                  begin
                                     FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra[GLinfCnt].CI_fhousPCAP:=GLxmlInfra.Attributes['PCAP'];
                                     FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra[GLinfCnt].CI_fhousQOL:=GLxmlInfra.Attributes['QOL'];
                                     FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra[GLinfCnt].CI_fhousVol:=GLxmlInfra.Attributes['vol'];
                                     FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra[GLinfCnt].CI_fhousSurf:=GLxmlInfra.Attributes['surf'];
+                                 end;
+
+                                 fProduction:
+                                 begin
+
                                  end;
                               end;
                               GLxmlInfra:=GLxmlInfra.NextSibling;
@@ -741,16 +749,20 @@ begin
                               SetLength(FCentities[GLentCnt].E_col[GLcount].COL_productionMatrix, GLprodMatrixCnt+1);
                               FCentities[GLentCnt].E_col[GLcount].COL_productionMatrix[GLprodMatrixCnt].CPMI_productToken:=GLxmlProdMatrix.Attributes['token'];
                               FCentities[GLentCnt].E_col[GLcount].COL_productionMatrix[GLprodMatrixCnt].CPMI_storageIndex:=GLxmlProdMatrix.Attributes['storIdx'];
-//                              FCentities[GLentCnt].E_col[GLcount].COL_productionMatrix[GLprodMatrixCnt].CPMI_isDisabledManually:=GLxmlProdMatrix.Attributes['disabledMan'];
-                              FCentities[GLentCnt].E_col[GLcount].COL_productionMatrix[GLprodMatrixCnt].CPMI_isDisabledByProdSegment:=GLxmlProdMatrix.Attributes['disabledProdSeg'];
-                              FCentities[GLentCnt].E_col[GLcount].COL_productionMatrix[GLprodMatrixCnt].CPMI_productionFlow:=GLxmlProdMatrix.Attributes['prodFlow'];
-                              SetLength(FCentities[GLentCnt].E_col[GLcount].COL_productionMatrix[GLprodMatrixCnt].CPMI_sourceProduct, 1);
+                              FCentities[GLentCnt].E_col[GLcount].COL_productionMatrix[GLprodMatrixCnt].CPMI_globalProdFlow:=GLxmlProdMatrix.Attributes['globalProdFlow'];
+                              SetLength(FCentities[GLentCnt].E_col[GLcount].COL_productionMatrix[GLprodMatrixCnt].CPMI_productionModes, 1);
+                              GLsubCnt:=0;
                               GLxmlProdMatrixSource:=GLxmlProdMatrix.ChildNodes.First;
                               while GLxmlProdMatrixSource<>nil do
                               begin
                                  inc(GLsubCnt);
-                                 SetLength(FCentities[GLentCnt].E_col[GLcount].COL_productionMatrix[GLprodMatrixCnt].CPMI_sourceProduct, GLsubCnt+1);
-                                 FCentities[GLentCnt].E_col[GLcount].COL_productionMatrix[GLprodMatrixCnt].CPMI_sourceProduct[GLsubCnt]:=GLxmlProdMatrixSource.Attributes['sourceIdx'];
+                                 SetLength(FCentities[GLentCnt].E_col[GLcount].COL_productionMatrix[GLprodMatrixCnt].CPMI_productionModes, GLsubCnt+1);
+                                 FCentities[GLentCnt].E_col[GLcount].COL_productionMatrix[GLprodMatrixCnt].CPMI_productionModes[GLsubCnt].PF_locSettlement:=GLxmlProdMatrixSource.Attributes['locSettle'];
+                                 FCentities[GLentCnt].E_col[GLcount].COL_productionMatrix[GLprodMatrixCnt].CPMI_productionModes[GLsubCnt].PF_locInfra:=GLxmlProdMatrixSource.Attributes['locInfra'];
+                                 FCentities[GLentCnt].E_col[GLcount].COL_productionMatrix[GLprodMatrixCnt].CPMI_productionModes[GLsubCnt].PF_locProdModeIndex:=GLxmlProdMatrixSource.Attributes['locPModeIndex'];
+                                 FCentities[GLentCnt].E_col[GLcount].COL_productionMatrix[GLprodMatrixCnt].CPMI_productionModes[GLsubCnt].PF_isDisabledManually:=GLxmlProdMatrixSource.Attributes['isDisabledMan'];
+                                 FCentities[GLentCnt].E_col[GLcount].COL_productionMatrix[GLprodMatrixCnt].CPMI_productionModes[GLsubCnt].PF_isDisabledByProdSegment:=GLxmlProdMatrixSource.Attributes['isDisabledPS'];
+                                 FCentities[GLentCnt].E_col[GLcount].COL_productionMatrix[GLprodMatrixCnt].CPMI_productionModes[GLsubCnt].PF_productionFlow:=GLxmlProdMatrixSource.Attributes['prodFlow'];
                                  GLxmlProdMatrixSource:=GLxmlProdMatrixSource.NextSibling;
                               end;
                               GLxmlProdMatrix:=GLxmlProdMatrix.NextSibling;
@@ -866,6 +878,8 @@ end;
 procedure FCMdFSG_Game_Save;
 {:Purpose: save the current game.
     Additions:
+      -2011Nov01- *add: complete the production matrix.
+                  *add: complete production mode data for owned infrastructures.
       -2011Oct19- *add: add, in list of surveyed resources, the specificity concerning the Ore field type.
       -2011Oct17- *add: complete the production matrix saving.
       -2011Oct10- *add: list for surveyed resources.
@@ -1352,12 +1366,25 @@ begin
                      GSxmlColInf.Attributes['Func']:=FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_function;
                      case FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_function of
                         fEnergy: GSxmlColInf.Attributes['energyOut']:=FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_fEnergOut;
+
                         fHousing:
                         begin
                            GSxmlColInf.Attributes['PCAP']:=FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_fhousPCAP;
                            GSxmlColInf.Attributes['QOL']:=FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_fhousQOL;
                            GSxmlColInf.Attributes['vol']:=FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_fhousVol;
                            GSxmlColInf.Attributes['surf']:=FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_fhousSurf;
+                        end;
+
+                        fProduction:
+                        begin
+                           GSxmlColInf.Attributes['linkedRsrcSpot']:=FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_fprodLinkedRspot;
+                           GSsubCount:=1;
+                           while GSsubCount<=FCCpModeMax do
+                           begin
+//                              GSxmlColInf.Attributes['']:=FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_fprodMode[GSsubCount].PM_type;
+                              inc(GSsubCount);
+                           end;
+
                         end;
                      end;
                      inc(GSsubC);
@@ -1395,17 +1422,20 @@ begin
                      GSxmlProdMatrix:=GSxmlProdMatrixRoot.AddChild('prodItem');
                      GSxmlProdMatrix.Attributes['token']:=FCentities[GScount].E_col[GScolCnt].COL_productionMatrix[GSprodMatrixCnt].CPMI_productToken;
                      GSxmlProdMatrix.Attributes['storIdx']:=FCentities[GScount].E_col[GScolCnt].COL_productionMatrix[GSprodMatrixCnt].CPMI_storageIndex;
-//                     GSxmlProdMatrix.Attributes['disabledMan']:=FCentities[GScount].E_col[GScolCnt].COL_productionMatrix[GSprodMatrixCnt].CPMI_isDisabledManually;
-                     GSxmlProdMatrix.Attributes['disabledProdSeg']:=FCentities[GScount].E_col[GScolCnt].COL_productionMatrix[GSprodMatrixCnt].CPMI_isDisabledByProdSegment;
-                     GSxmlProdMatrix.Attributes['prodFlow']:=FCentities[GScount].E_col[GScolCnt].COL_productionMatrix[GSprodMatrixCnt].CPMI_productionFlow;
-                     GSsubMax:=length(FCentities[GScount].E_col[GScolCnt].COL_productionMatrix[GSprodMatrixCnt].CPMI_sourceProduct)-1;
+                     GSxmlProdMatrix.Attributes['globalProdFlow']:=FCentities[GScount].E_col[GScolCnt].COL_productionMatrix[GSprodMatrixCnt].CPMI_globalProdFlow;
+                     GSsubMax:=length(FCentities[GScount].E_col[GScolCnt].COL_productionMatrix[GSprodMatrixCnt].CPMI_productionModes)-1;
                      if GSsubMax>0 then
                      begin
                         GSsubCount:=1;
                         while GSsubCount<=GSsubMax do
                         begin
-                           GSxmlProdMatrixSource:=GSxmlProdMatrix.AddChild('sourceItem');
-                           GSxmlProdMatrixSource.Attributes['sourceIdx']:=FCentities[GScount].E_col[GScolCnt].COL_productionMatrix[GSprodMatrixCnt].CPMI_sourceProduct[GSsubCount];
+                           GSxmlProdMatrixSource:=GSxmlProdMatrix.AddChild('prodMode');
+                           GSxmlProdMatrixSource.Attributes['locSettle']:=FCentities[GScount].E_col[GScolCnt].COL_productionMatrix[GSprodMatrixCnt].CPMI_productionModes[GSsubCount].PF_locSettlement;
+                           GSxmlProdMatrixSource.Attributes['locInfra']:=FCentities[GScount].E_col[GScolCnt].COL_productionMatrix[GSprodMatrixCnt].CPMI_productionModes[GSsubCount].PF_locInfra;
+                           GSxmlProdMatrixSource.Attributes['locPModeIndex']:=FCentities[GScount].E_col[GScolCnt].COL_productionMatrix[GSprodMatrixCnt].CPMI_productionModes[GSsubCount].PF_locProdModeIndex;
+                           GSxmlProdMatrixSource.Attributes['isDisabledMan']:=FCentities[GScount].E_col[GScolCnt].COL_productionMatrix[GSprodMatrixCnt].CPMI_productionModes[GSsubCount].PF_isDisabledManually;
+                           GSxmlProdMatrixSource.Attributes['isDisabledPS']:=FCentities[GScount].E_col[GScolCnt].COL_productionMatrix[GSprodMatrixCnt].CPMI_productionModes[GSsubCount].PF_isDisabledByProdSegment;
+                           GSxmlProdMatrixSource.Attributes['prodFlow']:=FCentities[GScount].E_col[GScolCnt].COL_productionMatrix[GSprodMatrixCnt].CPMI_productionModes[GSsubCount].PF_productionFlow;
                            inc(GSsubCount);
                         end;
                      end;

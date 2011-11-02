@@ -359,12 +359,10 @@ interface
       CI_powerCons: double;
       {.function and dependent data}
       case CI_function: TFCEdipFunction of
-         {.energy}
          fEnergy:
             {.energy output by hour in kW}
             (CI_fEnergOut: double);
 
-         {.housing}
          fHousing:
             {.population capacity}
             (CI_fhousPCAP: integer;
@@ -376,29 +374,21 @@ interface
             CI_fhousSurf: integer
             );
 
-         {.production}
          fProduction:
             (
             ///<summary>
             /// linked resource spot index, if any
             ///</summary>
-            CI_LinkedRspot: integer;
+            CI_fprodLinkedRspot: integer;
             CI_fprodMode: array [0..FCCpModeMax] of record
                PM_type: TFCEdipProductionModes;
-               PM_enabled: boolean;
                PM_energyCons: double;
                ///<summary>
-               /// index [0] is always for the input the rest can have upto 5 output
+               /// linked matrix items indexes
                ///</summary>
-               PM_InputOutput: array [0..5] of record
-                  ///<summary>
-                  /// product token excepted if: 'rspot': from a resource spot 'atm': from the atmosphere
-                  ///</summary>
-                  IO_token: string[20];
-                  ///<summary>
-                  /// production flow in unit/hr
-                  ///</summary>
-                  IO_production: double;
+               PF_linkedMatrixItemIndexes: array [0..20] of record
+                  LMII_matrixItmIndex: integer;
+                  LMII_matrixProdModeIndex: integer;
                end;
             end;
             );
@@ -408,16 +398,18 @@ interface
    type TFCRdgColonProdMatrixItm= record
       CPMI_productToken: string[20];
       CPMI_storageIndex: integer;
-//      CPMI_isDisabledManually: boolean;
-      CPMI_isDisabledByProdSegment: boolean;
-      ///<summary>
-      /// production flow in + or - and in unit/hr
-      ///</summary>
-      CPMI_productionFlow: double;
-      ///<summary>
-      /// source products [x] = production matrix index. can be nil if the production matrix item is a source only in the matrix.
-      ///</summary>
-      CPMI_sourceProduct: array of integer;
+      CPMI_globalProdFlow: double;
+      CPMI_productionModes: array of record
+         PF_locSettlement: integer;
+         PF_locInfra: integer;
+         PF_locProdModeIndex: integer;
+         PF_isDisabledManually: boolean;
+         PF_isDisabledByProdSegment: boolean;
+         ///<summary>
+         /// production flow in + or - and in unit/hr. if -: used as source
+         ///</summary>
+         PF_productionFlow: double;
+      end;
    end;
 
    {.settlements data structure}
