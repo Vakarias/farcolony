@@ -172,7 +172,7 @@
       //ifProduction
       <infFunc infFunc="fProduction">
          <ifProdMode pmode="pmCarbonaceousOreRefining" occupancy=""/>
-         <ifProdMode pmode="pmHumidityGathering" occupancy=""roofArea="" trapArea=""/>
+         <ifProdMode pmode="pmHumidityGathering" occupancy="" roofArea="" trapArea=""/>
          <ifProdMode pmode="pmMetallicOreRefining" occupancy=""/>
          <ifProdMode pmode="pmRadioactiveOreRefining" occupancy=""/>
          <ifProdMode pmode="pmRareMetalsOreRefining" occupancy=""/>
