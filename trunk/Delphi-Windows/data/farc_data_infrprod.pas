@@ -132,7 +132,7 @@ const
       ,prfuWater
       );
    {.production modes}
-   {:DEV NOTES: update infrastrucdb + TFCRdipInfraProdMode.}
+   {:DEV NOTES: update infrastrucdb + TFCRdipInfraProdMode + FCMdFSG_Game_Save/Load.}
    type TFCEdipProductionModes=(
       pmNone
 //      ,pmCarbonaceousOreRefining

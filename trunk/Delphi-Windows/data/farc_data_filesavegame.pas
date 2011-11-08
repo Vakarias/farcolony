@@ -73,8 +73,10 @@ uses
 procedure FCMdFSG_Game_Load;
 {:Purpose: load the current game.
    Additions:
+      -2011Nov07- *add: complete production mode data for owned infrastructures.
+                  *add: put full function name for owned infrastuctures.
+                  *code: optimize owned infrastructure status and funtion loading.
       -2011Nov01- *add: complete the production matrix.
-                  *add: complete production mode data for owned infrastructures.
       -2011Oct19- *add: add, in list of surveyed resources, the specificity concerning the Ore field type.
       -2011Oct17- *add: complete the production matrix loading.
       -2011Oct11- *fix: forgot to set the size of the region dynamic array.
@@ -161,6 +163,8 @@ var
    ,GLxmlMsg
    ,GLxmlCSMpL
    ,GLxmlCSMpLsub
+   ,GLxmlProdMode
+   ,GLxmlMatrixItem
    ,GLxmlProdMatrix
    ,GLxmlProdMatrixSource
    ,GLxmlSPMset
@@ -192,6 +196,7 @@ var
    ,GLsettleMax
    ,GLstorageCnt
    ,GLsubCnt
+   ,GLsubCnt1
    ,GLtLft
    ,GLenumIndex
    ,GLregionTtl: integer;
@@ -203,7 +208,6 @@ var
 
    GLcurrDir
    ,GLcurrG
-   ,GLinfStatus
    ,GLsettleType: string;
 
    GLvObjList: array of TFCRcpsObj;
@@ -610,8 +614,7 @@ begin
                            FCentities[GLentCnt].E_col[GLcount].COL_population.POP_wcpAssignedPeople:=GLxmlColsub.Attributes['wcpAssignPpl'];
                         end
                         {.colony events}
-                        else if GLxmlColsub.NodeName='colEvent'
-                        then
+                        else if GLxmlColsub.NodeName='colEvent' then
                         begin
                            SetLength(FCentities[GLentCnt].E_col[GLcount].COL_evList, length(FCentities[GLentCnt].E_col[GLcount].COL_evList)+1);
                            inc(GLevCnt);
@@ -627,34 +630,26 @@ begin
                            FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].CSMEV_healMod:=GLxmlColsub.Attributes['modheal'];
                         end
                         {.colony settlements}
-                        else if GLxmlColsub.NodeName='colSettlement'
-                        then
+                        else if GLxmlColsub.NodeName='colSettlement' then
                         begin
                            SetLength(FCentities[GLentCnt].E_col[GLcount].COL_settlements, length(FCentities[GLentCnt].E_col[GLcount].COL_settlements)+1);
                            inc(GLsettleCnt);
                            SetLength(FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra, 1);
                            FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_name:=GLxmlColsub.Attributes['name'];
-                           GLsettleType:=GLxmlColsub.Attributes['type'];
-                           if GLsettleType='stSurface'
-                           then FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_type:=stSurface
-                           else if GLsettleType='stSpaceSurf'
-                           then FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_type:=stSpaceSurf
-                           else if GLsettleType='stSubterranean'
-                           then FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_type:=stSubterranean
-                           else if GLsettleType='stSpaceBased'
-                           then FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_type:=stSpaceBased;
+                           GLenumIndex:=GetEnumValue(TypeInfo(TFCEdgSettleType), GLxmlColsub.Attributes['type'] );
+                           FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_type:=TFCEdgSettleType(GLenumIndex);
+                           if GLenumIndex=-1
+                           then raise Exception.Create('bad gamesave loading w/settlement type: '+GLxmlColsub.Attributes['type']) ;
                            FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_level:=GLxmlColsub.Attributes['level'];
                            FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_region:=GLxmlColsub.Attributes['region'];
                            GLregionIdx:=FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_region;
-                           if GLoobjRow[4]=0
-                           then
+                           if GLoobjRow[4]=0 then
                            begin
                               FCDBSsys[GLoobjRow[1]].SS_star[GLoobjRow[2]].SDB_obobj[GLoobjRow[3]].OO_regions[GLregionIdx].OOR_setEnt:=GLentCnt;
                               FCDBSsys[GLoobjRow[1]].SS_star[GLoobjRow[2]].SDB_obobj[GLoobjRow[3]].OO_regions[GLregionIdx].OOR_setCol:=GLcount;
                               FCDBSsys[GLoobjRow[1]].SS_star[GLoobjRow[2]].SDB_obobj[GLoobjRow[3]].OO_regions[GLregionIdx].OOR_setSet:=GLsettleCnt;
                            end
-                           else if GLoobjRow[4]>0
-                           then
+                           else if GLoobjRow[4]>0 then
                            begin
                               FCDBSsys[GLoobjRow[1]].SS_star[GLoobjRow[2]].SDB_obobj[GLoobjRow[3]].OO_satList[GLoobjRow[4]].OOS_regions[GLregionIdx].OOR_setEnt:=GLentCnt;
                               FCDBSsys[GLoobjRow[1]].SS_star[GLoobjRow[2]].SDB_obobj[GLoobjRow[3]].OO_satList[GLoobjRow[4]].OOS_regions[GLregionIdx].OOR_setCol:=GLcount;
@@ -664,36 +659,21 @@ begin
                            GLxmlInfra:=GLxmlColsub.ChildNodes.First;
                            while GLxmlInfra<>nil do
                            begin
-                              SetLength(
-                                 FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra
-                                 ,length(FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra
-                                 )+1);
+                              SetLength( FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra, length( FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra )+1 );
                               inc(GLinfCnt);
                               FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra[GLinfCnt].CI_dbToken:=GLxmlInfra.Attributes['token'];
                               FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra[GLinfCnt].CI_level:=GLxmlInfra.Attributes['level'];
-                              GLinfStatus:=GLxmlInfra.Attributes['status'];
+                              GLenumIndex:=GetEnumValue(TypeInfo(TFCEdgInfStatTp), GLxmlInfra.Attributes['status'] );
+                              FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra[GLinfCnt].CI_status:=TFCEdgInfStatTp(GLenumIndex);
+                              if GLenumIndex=-1
+                              then raise Exception.Create('bad gamesave loading w/infra status: '+GLxmlInfra.Attributes['status']);
                               FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra[GLinfCnt].CI_cabDuration:=GLxmlInfra.Attributes['CABduration'];
                               FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra[GLinfCnt].CI_cabWorked:=GLxmlInfra.Attributes['CABworked'];
                               FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra[GLinfCnt].CI_powerCons:=GLxmlInfra.Attributes['powerCons'];
-                              if GLinfStatus='istInKit'
-                              then FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra[GLinfCnt].CI_status:=istInKit
-                              else if GLinfStatus='istInConversion'
-                              then FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra[GLinfCnt].CI_status:=istInConversion
-                              else if GLinfStatus='istInAssembling'
-                              then FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra[GLinfCnt].CI_status:=istInAssembling
-                              else if GLinfStatus='istInBldSite'
-                              then FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra[GLinfCnt].CI_status:=istInBldSite
-                              else if GLinfStatus='istDisabled'
-                              then FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra[GLinfCnt].CI_status:=istDisabled
-                              else if GLinfStatus='istDisabledByEE'
-                              then FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra[GLinfCnt].CI_status:=istDisabledByEE
-                              else if GLinfStatus='istInTransition'
-                              then FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra[GLinfCnt].CI_status:=istInTransition
-                              else if GLinfStatus='istOperational'
-                              then FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra[GLinfCnt].CI_status:=istOperational
-                              else if GLinfStatus='istDestroyed'
-                              then FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra[GLinfCnt].CI_status:=istDestroyed;
-                              FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra[GLinfCnt].CI_function:=GLxmlInfra.Attributes['Func'];
+                              GLenumIndex:=GetEnumValue(TypeInfo(TFCEdipFunction), GLxmlInfra.Attributes['Func'] );
+                              FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra[GLinfCnt].CI_function:=TFCEdipFunction(GLenumIndex);
+                              if GLenumIndex=-1
+                              then raise Exception.Create('bad gamesave loading w/infra function: '+GLxmlInfra.Attributes['Func']);
                               case FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra[GLinfCnt].CI_function of
                                  fEnergy: FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra[GLinfCnt].CI_fEnergOut:=GLxmlInfra.Attributes['energyOut'];
 
@@ -707,7 +687,30 @@ begin
 
                                  fProduction:
                                  begin
-
+                                    FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra[GLinfCnt].CI_fprodLinkedRspot:=GLxmlInfra.Attributes['linkedRsrcSpot'];
+                                    GLsubCnt:=0;
+                                    GLxmlProdMode:=GLxmlInfra.ChildNodes.First;
+                                    while GLxmlProdMode<>nil do
+                                    begin
+                                       inc(GLsubCnt);
+                                       GLenumIndex:=GetEnumValue(TypeInfo(TFCEdipProductionModes), GLxmlProdMode.Attributes['prodModeType'] );
+                                       FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra[GLinfCnt].CI_fprodMode[GLsubCnt].PM_type:=TFCEdipProductionModes(GLenumIndex);
+                                       if GLenumIndex=-1
+                                       then raise Exception.Create('bad gamesave loading w/infra prod mode type: '+GLxmlProdMode.Attributes['prodModeType']);
+                                       FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra[GLinfCnt].CI_fprodMode[GLsubCnt].PM_energyCons:=GLxmlProdMode.Attributes['energyCons'];
+                                       GLsubCnt1:=0;
+                                       GLxmlMatrixItem:=GLxmlProdMode.ChildNodes.First;
+                                       while GLxmlMatrixItem<>nil do
+                                       begin
+                                          inc(GLsubCnt1);
+                                          FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra[GLinfCnt].CI_fprodMode[GLsubCnt].PF_linkedMatrixItemIndexes[GLsubCnt1].LMII_matrixItmIndex
+                                             :=GLxmlMatrixItem.Attributes['pmitmIndex'];
+                                          FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra[GLinfCnt].CI_fprodMode[GLsubCnt].PF_linkedMatrixItemIndexes[GLsubCnt1].LMII_matrixProdModeIndex
+                                             :=GLxmlMatrixItem.Attributes['pmIndex'];
+                                          GLxmlMatrixItem:=GLxmlMatrixItem.NextSibling;
+                                       end;
+                                       GLxmlProdMode:=GLxmlProdMode.NextSibling;
+                                    end;
                                  end;
                               end;
                               GLxmlInfra:=GLxmlInfra.NextSibling;
@@ -878,8 +881,9 @@ end;
 procedure FCMdFSG_Game_Save;
 {:Purpose: save the current game.
     Additions:
+      -2011Nov07- *add: complete production mode data for owned infrastructures.
+                  *add: put full function name for owned infrastuctures.
       -2011Nov01- *add: complete the production matrix.
-                  *add: complete production mode data for owned infrastructures.
       -2011Oct19- *add: add, in list of surveyed resources, the specificity concerning the Ore field type.
       -2011Oct17- *add: complete the production matrix saving.
       -2011Oct10- *add: list for surveyed resources.
@@ -964,6 +968,8 @@ var
    ,GSxmlEntRoot
    ,GSxmlEnt
    ,GSxmlItm
+   ,GSxmlProdMode
+   ,GSxmlMatrixItem
    ,GSxmlMsg
    ,GSxmlPop
    ,GSxmlProdMatrix
@@ -985,6 +991,7 @@ var
    ,GScount
    ,GSsubCount
    ,GSsubMax
+   ,GSsubCount1
    ,GSdock
    ,GSlength
    ,GSphFac
@@ -1006,7 +1013,7 @@ var
 
    GScurrDir
    ,GScurrG
-   ,GSinfStatus
+   ,GSstringStore
    ,GSsettleTp: string;
 begin
    if not FCWinMain.CloseQuery
@@ -1301,8 +1308,7 @@ begin
             GSxmlPop.Attributes['wcpAssignPpl']:=FCentities[GScount].E_col[GScolCnt].COL_population.POP_wcpAssignedPeople;
             {.colony events}
             GSsubL:=length(FCentities[GScount].E_col[GScolCnt].COL_evList);
-            if GSsubL>1
-            then
+            if GSsubL>1 then
             begin
                GSsubC:=1;
                while GSsubC<=GSsubL-1 do
@@ -1323,8 +1329,7 @@ begin
             end; //==END== if GSsubL>1 ==//
             {.colony settlements}
             GSsettleMax:=length(FCentities[GScount].E_col[GScolCnt].COL_settlements)-1;
-            if GSsettleMax>0
-            then
+            if GSsettleMax>0 then
             begin
                GSxmlCABroot:=nil;
                GSsettleCnt:=1;
@@ -1349,26 +1354,30 @@ begin
                      GSxmlColInf.Attributes['token']:=FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_dbToken;
                      GSxmlColInf.Attributes['level']:=FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_level;
                      case FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_status of
-                        istInKit: GSinfStatus:='istInKit';
-                        istInConversion: GSinfStatus:='istInConversion';
-                        istInAssembling: GSinfStatus:='istInAssembling';
-                        istInBldSite: GSinfStatus:='istInBldSite';
-                        istDisabled: GSinfStatus:='istDisabled';
-                        istDisabledByEE: GSinfStatus:='istDisabledByEE';
-                        istInTransition: GSinfStatus:='istInTransition';
-                        istOperational: GSinfStatus:='istOperational';
-                        istDestroyed: GSinfStatus:='istDestroyed';
+                        istInKit: GSstringStore:='istInKit';
+                        istInConversion: GSstringStore:='istInConversion';
+                        istInAssembling: GSstringStore:='istInAssembling';
+                        istInBldSite: GSstringStore:='istInBldSite';
+                        istDisabled: GSstringStore:='istDisabled';
+                        istDisabledByEE: GSstringStore:='istDisabledByEE';
+                        istInTransition: GSstringStore:='istInTransition';
+                        istOperational: GSstringStore:='istOperational';
+                        istDestroyed: GSstringStore:='istDestroyed';
                      end;
-                     GSxmlColInf.Attributes['status']:=GSinfStatus;
+                     GSxmlColInf.Attributes['status']:=GSstringStore;
                      GSxmlColInf.Attributes['CABduration']:=FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_cabDuration;
                      GSxmlColInf.Attributes['CABworked']:=FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_cabWorked;
                      GSxmlColInf.Attributes['powerCons']:=FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_powerCons;
-                     GSxmlColInf.Attributes['Func']:=FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_function;
                      case FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_function of
-                        fEnergy: GSxmlColInf.Attributes['energyOut']:=FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_fEnergOut;
+                        fEnergy:
+                        begin
+                           GSxmlColInf.Attributes['Func']:='fEnergy';
+                           GSxmlColInf.Attributes['energyOut']:=FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_fEnergOut;
+                        end;
 
                         fHousing:
                         begin
+                           GSxmlColInf.Attributes['Func']:='fHousing';
                            GSxmlColInf.Attributes['PCAP']:=FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_fhousPCAP;
                            GSxmlColInf.Attributes['QOL']:=FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_fhousQOL;
                            GSxmlColInf.Attributes['vol']:=FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_fhousVol;
@@ -1377,18 +1386,39 @@ begin
 
                         fProduction:
                         begin
+                           GSxmlColInf.Attributes['Func']:='fProduction';
                            GSxmlColInf.Attributes['linkedRsrcSpot']:=FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_fprodLinkedRspot;
                            GSsubCount:=1;
                            while GSsubCount<=FCCpModeMax do
                            begin
-//                              GSxmlColInf.Attributes['']:=FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_fprodMode[GSsubCount].PM_type;
+                              GSxmlProdMode:=GSxmlColInf.AddChild('prodmode');
+                              case FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_fprodMode[GSsubCount].PM_type of
+                                 pmNone: GSstringStore:='ERRORPM';
+
+                                 pmResourceMining: GSstringStore:='pmResourceMining';
+                              end;
+                              GSxmlProdMode.Attributes['prodModeType']:=GSstringStore;
+                              GSxmlProdMode.Attributes['energyCons']:=FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_fprodMode[GSsubCount].PM_energyCons;
+                              GSsubCount1:=1;
+                              while GSsubCount1<=FCCmatrixItems do
+                              begin
+                                 if FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_fprodMode[GSsubCount].PF_linkedMatrixItemIndexes[GSsubCount1].LMII_matrixItmIndex=0
+                                 then break
+                                 else begin
+                                    GSxmlMatrixItem:=GSxmlProdMode.AddChild('linkedMatrixItem');
+                                    GSxmlMatrixItem.Attributes['pmitmIndex']
+                                       :=FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_fprodMode[GSsubCount].PF_linkedMatrixItemIndexes[GSsubCount1].LMII_matrixItmIndex;
+                                    GSxmlMatrixItem.Attributes['pmIndex']
+                                       :=FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_fprodMode[GSsubCount].PF_linkedMatrixItemIndexes[GSsubCount1].LMII_matrixProdModeIndex;
+                                 end;
+                                 inc(GSsubCount1);
+                              end;
                               inc(GSsubCount);
                            end;
-
                         end;
                      end;
                      inc(GSsubC);
-                  end;
+                  end; //==END== while GSsubC<=GSsubL do ==//
                   inc(GSsettleCnt);
                end; //==END== while GSsettleCnt<=GSsettleMax do ==//
                {.CAB queue}

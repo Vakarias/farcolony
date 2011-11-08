@@ -38,6 +38,7 @@ interface
    const
       {:DEV NOTES: update FCMuiWin_MsgeBox_AddMsg/ FCMuiWin_MsgeBox_AddMsg.}
       FCCfacMax=1;
+      FCCmatrixItems=20;
 
    //=======================================================================================
    {.game system datastructures}
@@ -386,7 +387,7 @@ interface
                ///<summary>
                /// linked matrix items indexes
                ///</summary>
-               PF_linkedMatrixItemIndexes: array [0..20] of record
+               PF_linkedMatrixItemIndexes: array [0..FCCmatrixItems] of record
                   LMII_matrixItmIndex: integer;
                   LMII_matrixProdModeIndex: integer;
                end;
