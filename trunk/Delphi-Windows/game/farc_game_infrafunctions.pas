@@ -73,7 +73,8 @@ uses
    farc_data_game
    ,farc_game_csm
    ,farc_game_energymodes
-   ,farc_game_infrapower;
+   ,farc_game_infrapower
+   ,farc_game_prodmodes;
 
 //===================================================END OF INIT============================
 //===========================END FUNCTIONS SECTION==========================================
@@ -162,6 +163,7 @@ procedure FCMgIF_Functions_Initialize(
    );
 {:Purpose: initialize the infrastructure functions data for assembling/building modes, witout enable them into the colony.
     Additions:
+      -2011Nov14- *add: enable the FCMgPM_ProductionModeDataFromFunction_Generate link of the fProduction case.
       -2011Nov08- *add: enable the fProduction case.
       -2011Sep11- *mod: remove the previous fix, function's data are only initialized here. Replace it by the owned infrastructure data loading.
                   *code: the procedure is moved in it's proper unit.
@@ -205,7 +207,14 @@ begin
 
       fProduction:
       begin
-         {:DEV NOTES: FCMgPM_ProductionModeDataFromFunction_Generate(); .}
+         FCMgPM_ProductionModeDataFromFunction_Generate(
+            FIent
+            ,FIcol
+            ,FIsett
+            ,FIinfra
+            ,FCentities[FIent].E_col[FIcol].COL_settlements[FIsett].CS_infra[FIinfra].CI_level
+            ,FIinfraData
+            );
       end;
    end;
 end;
