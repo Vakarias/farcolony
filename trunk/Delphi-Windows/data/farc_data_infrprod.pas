@@ -132,7 +132,7 @@ const
       ,prfuWater
       );
    {.production modes}
-   {:DEV NOTES: update infrastrucdb + TFCRdipInfraProdMode + FCMdFSG_Game_Save/Load.}
+   {:DEV NOTES: update infrastrucdb + TFCRdipInfraProdMode + FCMdFSG_Game_Save/Load + FCMgPM_ProductionModeDataFromFunction_Generate.}
    type TFCEdipProductionModes=(
       pmNone
 //      ,pmCarbonaceousOreRefining
@@ -276,7 +276,7 @@ const
 	end;
    {.production modes}
    {:DEV NOTES: update infrastrucdb.xml + FCMdF_DBInfra_Read.}
-   {:DEV NOTES: update data_game/TFCRdgColonInfra.}
+   {:DEV NOTES: update data_game/TFCRdgColonInfra + FCMgPM_ProductionModeDataFromFunction_Generate.}
    type TFCRdipInfraProdMode= record
       ///<summary>
       /// occupancy of the production mode for the infrastructure, if the building has only one production mode, occupancy=100(%)

@@ -162,6 +162,7 @@ procedure FCMgIF_Functions_Initialize(
    );
 {:Purpose: initialize the infrastructure functions data for assembling/building modes, witout enable them into the colony.
     Additions:
+      -2011Nov08- *add: enable the fProduction case.
       -2011Sep11- *mod: remove the previous fix, function's data are only initialized here. Replace it by the owned infrastructure data loading.
                   *code: the procedure is moved in it's proper unit.
       -2011Sep09- *fix: for energy function: forgot to update the colony's energy production data.
@@ -204,7 +205,7 @@ begin
 
       fProduction:
       begin
-
+         {:DEV NOTES: FCMgPM_ProductionModeDataFromFunction_Generate(); .}
       end;
    end;
 end;

@@ -33,6 +33,16 @@ interface
 //===========================END FUNCTIONS SECTION==========================================
 
 ///<summary>
+///   add a production item in a colony's production matrix
+///</summary>
+///   <param name=""></param>
+///   <param name=""></param>
+//procedure FCMgPS2_productionItem_Add(
+//   const PIAent
+//         ,PIAcol: integer
+//   );
+
+///<summary>
 ///   segment 2 (items production) processing
 ///</summary>
 ///   <param name="PSPent">entity index #</param>

@@ -30,8 +30,27 @@ unit farc_game_prodmodes;
 
 interface
 
+uses
+   farc_data_infrprod;
+
 
 //===========================END FUNCTIONS SECTION==========================================
+
+///<summary>
+///   generate the production modes' data from the infrastructure's function
+///</summary>
+///   <param name="PMDFFGent">entity index #</param>
+///   <param name="PMDFFGcol">colony index #</param>
+///   <param name="PMDFFGsett">settlement index #</param>
+///   <param name="PMDFFGinfra">owned infrastructure index #</param>
+///   <param name="PMDFFGinfraData">infrastructure data</param>
+procedure FCMgPM_ProductionModeDataFromFunction_Generate(
+   const PMDFFGent
+         ,PMDFFGcol
+         ,PMDFFGsett
+         ,PMDFFGinfra: integer;
+   const PMDFFGinfraData: TFCRdipInfrastructure
+   );
 
 implementation
 
@@ -39,5 +58,19 @@ implementation
 
 
 //===========================END FUNCTIONS SECTION==========================================
+
+procedure FCMgPM_ProductionModeDataFromFunction_Generate(
+   const PMDFFGent
+         ,PMDFFGcol
+         ,PMDFFGsett
+         ,PMDFFGinfra: integer;
+   const PMDFFGinfraData: TFCRdipInfrastructure
+   );
+{:Purpose: generate the production modes' data from the infrastructure's function.
+    Additions:
+}
+begin
+
+end;
 
 end.
