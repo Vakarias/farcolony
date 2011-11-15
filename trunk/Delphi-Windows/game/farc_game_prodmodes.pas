@@ -31,7 +31,9 @@ unit farc_game_prodmodes;
 interface
 
 uses
-   farc_data_infrprod;
+   math
+
+   ,farc_data_infrprod;
 
 
 //===========================END FUNCTIONS SECTION==========================================
@@ -43,16 +45,21 @@ uses
 ///   <param name="PMDFFGcol">colony index #</param>
 ///   <param name="PMDFFGsett">settlement index #</param>
 ///   <param name="PMDFFGinfra">owned infrastructure index #</param>
+///   <param name="PMDFFGinfraLevel">owned infrastructure level</param>
 ///   <param name="PMDFFGinfraData">infrastructure data</param>
 procedure FCMgPM_ProductionModeDataFromFunction_Generate(
    const PMDFFGent
          ,PMDFFGcol
          ,PMDFFGsett
-         ,PMDFFGinfra: integer;
+         ,PMDFFGinfra
+         ,PMDFFGinfraLevel: integer;
    const PMDFFGinfraData: TFCRdipInfrastructure
    );
 
 implementation
+
+uses
+   farc_data_game;
 
 //===================================================END OF INIT============================
 
@@ -63,14 +70,40 @@ procedure FCMgPM_ProductionModeDataFromFunction_Generate(
    const PMDFFGent
          ,PMDFFGcol
          ,PMDFFGsett
-         ,PMDFFGinfra: integer;
+         ,PMDFFGinfra
+         ,PMDFFGinfraLevel: integer;
    const PMDFFGinfraData: TFCRdipInfrastructure
    );
 {:Purpose: generate the production modes' data from the infrastructure's function.
     Additions:
+      -2011Nov14- *add: code framewrok inclusion + Resource Mining (WIP).
 }
-begin
+   var
+      PMDFFGcnt
+      ,PMDFFGrscSpot: integer;
 
+      PMDFFGrmp: extended;
+begin
+   PMDFFGcnt:=1;
+   while PMDFFGcnt<=FCCpModeMax do
+   begin
+      if PMDFFGinfraData.I_fProductionMode[PMDFFGcnt].IPM_occupancy=0
+      then break
+      else if PMDFFGinfraData.I_fProductionMode[PMDFFGcnt].IPM_occupancy>0 then
+      begin
+         case PMDFFGinfraData.I_fProductionMode[PMDFFGcnt].IPM_productionModes of
+            pmNone: break;
+
+            pmResourceMining:
+            begin
+               PMDFFGrscSpot:=FCentities[PMDFFGent].E_col[PMDFFGcol].COL_settlements[PMDFFGsett].CS_infra[PMDFFGinfra].CI_fprodLinkedRspot;
+//               PMDFFGrmp:=( ( power( PMDFFGinfraData.I_surface[PMDFFGinfraLevel], 0.333 ) + power( PMDFFGinfraData.I_volume[PMDFFGinfraLevel], 0.111 ) )*0.5 )*
+               {:DEV NOTES: look and implement resource spot data.}
+            end;
+         end;
+      end;
+      inc(PMDFFGcnt);
+   end;
 end;
 
 end.
