@@ -378,7 +378,7 @@ interface
          fProduction:
             (
             ///<summary>
-            /// linked resource spot index, if any
+            /// linked resource spot index, if needed
             ///</summary>
             CI_fprodLinkedRspot: integer;
             CI_fprodMode: array [0..FCCpModeMax] of record
@@ -766,6 +766,7 @@ interface
                   SR_oreUranium: integer;
                   );
          end;
+         {:DEV NOTES: there's only ONE rsrc spot type by region for now, inspect that !.}
       end;
    end;
    {.SPMi requirements sub-data structure}

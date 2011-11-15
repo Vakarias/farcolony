@@ -417,6 +417,7 @@ begin
       ,APsettlement
       ,APinfraIndex
       );
+   {:DEV NOTES: put rsrc spot data update here, if required (for production infra w / rsrc spot req only.}
    {.remove the infrastructure kit which correspond to the infrastructure}
    APxfer:=FCFgC_Storage_Update(
       false

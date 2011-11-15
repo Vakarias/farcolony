@@ -37,6 +37,9 @@ uses
    ,farc_data_univ;
 
 const
+   ///<summary>
+   /// max number of production modes
+   ///</summary>
    FCCpModeMax=10;
 
    //=======================================================================================
