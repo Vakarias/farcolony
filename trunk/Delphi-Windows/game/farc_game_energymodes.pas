@@ -213,34 +213,31 @@ function FCFgEM_OutputFromFunction_GetValue(
    ): double;
 {:Purpose: retrieve the energy output of an infrastructure from it's function (must be EN). It's separated from custom effects since they aren't initialized in the same way.
     Additions:
+      -2011Nov14- *rem: remove a useless test.
       -2011Jul18- *add: complete the photon energy case.
 }
 {:DEV NOTES: when an update is made in this function, don't forget to also update FCFgEM_OutputFromCustomFx_GetValue.}
 begin
    Result:=0;
-   if OFFGVinfraData.I_function=fEnergy
-   then
-   begin
-      case OFFGVinfraData.I_fEnergyPmode.FEPM_productionModes of
-         egmAntimatter: ;
+   case OFFGVinfraData.I_fEnergyPmode.FEPM_productionModes of
+      egmAntimatter: ;
 
-			egmFission: Result:=FCFgEM_NuclearFission_OutputCalculation(
-            OFFGVinfraData.I_fEnergyPmode.FEPM_fissionFPlvl[OFFGVcurrentLevel], OFFGVinfraData.I_fEnergyPmode.FEPM_fissionFPlvlByDL[OFFGVcurrentLevel]
-            );
+      egmFission: Result:=FCFgEM_NuclearFission_OutputCalculation(
+         OFFGVinfraData.I_fEnergyPmode.FEPM_fissionFPlvl[OFFGVcurrentLevel], OFFGVinfraData.I_fEnergyPmode.FEPM_fissionFPlvlByDL[OFFGVcurrentLevel]
+         );
 
-			egmFusionDT:;
+      egmFusionDT:;
 
-			egmFusionH2:;
+      egmFusionH2:;
 
-			egmFusionHe3:;
+      egmFusionHe3:;
 
-			egmPhoton: Result:=FCFgEM_PhotonEnergy_OutputCalculation(
-            OFFGVent
-            ,OFFGVcol
-            ,OFFGVinfraData.I_fEnergyPmode.FEPM_photonArea
-            ,OFFGVinfraData.I_fEnergyPmode.FEPM_photonEfficiency
-            );
-      end;
+      egmPhoton: Result:=FCFgEM_PhotonEnergy_OutputCalculation(
+         OFFGVent
+         ,OFFGVcol
+         ,OFFGVinfraData.I_fEnergyPmode.FEPM_photonArea
+         ,OFFGVinfraData.I_fEnergyPmode.FEPM_photonEfficiency
+         );
    end;
 end;
 
