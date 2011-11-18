@@ -29,12 +29,46 @@ Copyright (c) 2009-2011, Jean-Francois Baconnet
 unit farc_game_prodrsrcspots;
 
 interface
+
+   uses
+      farc_data_univ;
+
        {:DEV NOTES: upd SurveyedRsrcSpot.}
+
+///<summary>
+///   check if a given resource spot type is present (surveyed) by giving entity/colony and settlement #
+///</summary>
+///   <param name="IPIRCentity">entity index #</param>
+///   <param name="IPIRCcolony">colony index#</param>
+///   <param name="IPIRCsettlement">settlement index #</param>
+///   <param name="IPIRCrsrcSpot">resource spot type</param>
+///   <returns>the resource spot index #, 0 if not found, more than 0 if found</returns>
+function FCFgPRS_PresenceBySettlement_Check(
+   const IPIRCentity
+         ,IPIRCcolony
+         ,IPIRCsettlement: integer;
+   const IPIRCrsrcSpot: TFCEduRsrcSpotType
+   ): integer;
+
 //===========================END FUNCTIONS SECTION==========================================
 
 implementation
 
 //===================================================END OF INIT============================
+
+function FCFgPRS_PresenceBySettlement_Check(
+   const IPIRCentity
+         ,IPIRCcolony
+         ,IPIRCsettlement: integer;
+   const IPIRCrsrcSpot: TFCEduRsrcSpotType
+   ): integer;
+{:Purpose: check if a given resource spot type is present (surveyed) by giving entity/colony and settlement #.
+    Additions:
+}
+begin
+
+end;
+
 //===========================END FUNCTIONS SECTION==========================================
 
 end.
