@@ -198,6 +198,7 @@ uses
    ,farc_game_csmevents
    ,farc_game_infra
    ,farc_game_prod
+   ,farc_game_prodrsrcspots
    ,farc_main
    ,farc_ui_keys
    ,farc_ui_win
@@ -668,7 +669,7 @@ var
    CPUcnt
    ,CPUintDump
    ,CPUmax
-   ,CPUradioIdx: integer;
+   ,CPUradioIdx, CPUrspotIndex: integer;
 
    CPUcolLv
    ,CPUdataIndex
@@ -1126,6 +1127,12 @@ begin
          CPUenvironment:=FCFgC_ColEnv_GetTp(0, CPUcol);
          while CPUcnt<=CPUmax do
          begin
+            CPUrspotIndex:=FCFgPRS_PresenceBySettlement_Check(
+               0
+               ,CPUcol
+               ,CPUsettlement
+               ,FCDBinfra[CPUcnt].I_reqRsrcSpot
+               );
             if (FCDBinfra[CPUcnt].I_constr=cBuilt)
                and (
                   (FCentities[0].E_col[CPUcol].COL_settlements[CPUsettlement].CS_level>=FCDBinfra[CPUcnt].I_minLevel)
@@ -1145,7 +1152,9 @@ begin
                   or ((FCDBinfra[CPUcnt].I_reqHydro=hrCrystal) and (CPUenvironment.ENV_hydroTp=htCrystal) )
                   or ((FCDBinfra[CPUcnt].I_reqHydro=hrLiquidNH3) and (CPUenvironment.ENV_hydroTp=htLiqNH3) )
                   or ((FCDBinfra[CPUcnt].I_reqHydro=hrCH4) and (CPUenvironment.ENV_hydroTp=htLiqCH4) )
-                  ) then
+                  )
+//               and ( (FCDBinfra[CPUcnt].I_reqRsrcSpot=rstNone) or ({dev: rsrcSpot_checkifpresent(FCDBinfra[CPUcnt].I_reqRsrcSpot) } )
+                  then
             begin
                CPUinfDisplay:='<a href="'+FCDBInfra[CPUcnt].I_token+'">'
                   +FCFdTFiles_UIStr_Get(uistrUI, FCDBInfra[CPUcnt].I_token)
