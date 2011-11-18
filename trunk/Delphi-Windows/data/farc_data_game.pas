@@ -755,18 +755,19 @@ interface
          SS_oobjIndex: integer;
          SS_satIndex: integer;
          SS_surveyedRegions: array of record
-            SR_MQC: double;
-            SR_SpotSizeCur: integer;
-            SR_SpotSizeMax: integer;
-            case SR_type: TFCEduRsrcSpotType of
-               rstOreField: (
-                  SR_oreCarbonaceous: integer;
-                  SR_oreMetallic: integer;
-                  SR_oreRare: integer;
-                  SR_oreUranium: integer;
-                  );
+            SR_ResourceSpot: array of record
+               RS_MQC: double;
+               RS_SpotSizeCur: integer;
+               RS_SpotSizeMax: integer;
+               case RS_type: TFCEduRsrcSpotType of
+                  rstOreField: (
+                     RS_oreCarbonaceous: integer;
+                     RS_oreMetallic: integer;
+                     RS_oreRare: integer;
+                     RS_oreUranium: integer;
+                     );
+            end;
          end;
-         {:DEV NOTES: there's only ONE rsrc spot type by region for now, inspect that !.}
       end;
    end;
    {.SPMi requirements sub-data structure}

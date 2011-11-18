@@ -73,6 +73,7 @@ uses
 procedure FCMdFSG_Game_Load;
 {:Purpose: load the current game.
    Additions:
+      -2011Nov18- *add: update hardcoded resource data w/ updated data structure.
       -2011Nov07- *add: complete production mode data for owned infrastructures.
                   *add: put full function name for owned infrastuctures.
                   *code: optimize owned infrastructure status and funtion loading.
@@ -173,7 +174,8 @@ var
    ,GLxmlTskInPr
    ,GLxmlViaObj
    ,GLxmlSurveyRsrc
-   ,GLxmlSurveyRegion: IXMLNode;
+   ,GLxmlSurveyRegion
+   ,GLxmlSurveyRSpot: IXMLNode;
 
    GLcabCnt
    ,GLcabValue
@@ -393,22 +395,30 @@ begin
                while GLxmlSurveyRegion<>nil do
                begin
                   GLsubCnt:=GLxmlSurveyRegion.Attributes['regionIdx'];
-                  GLenumIndex:=GetEnumValue(TypeInfo(TFCEduRsrcSpotType), GLxmlSurveyRegion.Attributes['spotType'] );
-                  FCRplayer.P_SurveyedResourceSpots[GLcount].SS_surveyedRegions[GLsubCnt].SR_type:=TFCEduRsrcSpotType(GLenumIndex);
-                  if GLenumIndex=-1
-                  then raise Exception.Create('bad gamesave loading w/rsrc spot type: '+GLxmlSurveyRegion.Attributes['spotType'])
-                  else if GLenumIndex>0 then
+                  GLsubCnt1:=0;
+                  GLxmlSurveyRSpot:=GLxmlSurveyRegion.ChildNodes.First;
+                  while GLxmlSurveyRSpot<>nil do
                   begin
-                     FCRplayer.P_SurveyedResourceSpots[GLcount].SS_surveyedRegions[GLsubCnt].SR_MQC:=GLxmlSurveyRegion.Attributes['meanQualCoef'];
-                     FCRplayer.P_SurveyedResourceSpots[GLcount].SS_surveyedRegions[GLsubCnt].SR_SpotSizeCur:=GLxmlSurveyRegion.Attributes['spotSizCurr'];
-                     FCRplayer.P_SurveyedResourceSpots[GLcount].SS_surveyedRegions[GLsubCnt].SR_SpotSizeMax:=GLxmlSurveyRegion.Attributes['spotSizeMax'];
-                     if FCRplayer.P_SurveyedResourceSpots[GLcount].SS_surveyedRegions[GLsubCnt].SR_type=rstOreField then
+                     inc(GLsubCnt1);
+                     SetLength(FCRplayer.P_SurveyedResourceSpots[GLcount].SS_surveyedRegions[GLsubCnt].SR_ResourceSpot, GLsubCnt1+1);
+                     GLenumIndex:=GetEnumValue(TypeInfo(TFCEduRsrcSpotType), GLxmlSurveyRSpot.Attributes['spotType'] );
+                     FCRplayer.P_SurveyedResourceSpots[GLcount].SS_surveyedRegions[GLsubCnt].SR_ResourceSpot[GLsubCnt1].RS_type:=TFCEduRsrcSpotType(GLenumIndex);
+                     if GLenumIndex=-1
+                     then raise Exception.Create('bad gamesave loading w/rsrc spot type: '+GLxmlSurveyRSpot.Attributes['spotType'])
+                     else if GLenumIndex>0 then
                      begin
-                        FCRplayer.P_SurveyedResourceSpots[GLcount].SS_surveyedRegions[GLsubCnt].SR_oreCarbonaceous:=GLxmlSurveyRegion.Attributes['oreCarbo'];
-                        FCRplayer.P_SurveyedResourceSpots[GLcount].SS_surveyedRegions[GLsubCnt].SR_oreMetallic:=GLxmlSurveyRegion.Attributes['oreMetal'];
-                        FCRplayer.P_SurveyedResourceSpots[GLcount].SS_surveyedRegions[GLsubCnt].SR_oreRare:=GLxmlSurveyRegion.Attributes['oreRare'];
-                        FCRplayer.P_SurveyedResourceSpots[GLcount].SS_surveyedRegions[GLsubCnt].SR_oreUranium:=GLxmlSurveyRegion.Attributes['oreUra'];
+                        FCRplayer.P_SurveyedResourceSpots[GLcount].SS_surveyedRegions[GLsubCnt].SR_ResourceSpot[GLsubCnt1].RS_MQC:=GLxmlSurveyRSpot.Attributes['meanQualCoef'];
+                        FCRplayer.P_SurveyedResourceSpots[GLcount].SS_surveyedRegions[GLsubCnt].SR_ResourceSpot[GLsubCnt1].RS_SpotSizeCur:=GLxmlSurveyRSpot.Attributes['spotSizCurr'];
+                        FCRplayer.P_SurveyedResourceSpots[GLcount].SS_surveyedRegions[GLsubCnt].SR_ResourceSpot[GLsubCnt1].RS_SpotSizeMax:=GLxmlSurveyRSpot.Attributes['spotSizeMax'];
+                        if FCRplayer.P_SurveyedResourceSpots[GLcount].SS_surveyedRegions[GLsubCnt].SR_ResourceSpot[GLsubCnt1].RS_type=rstOreField then
+                        begin
+                           FCRplayer.P_SurveyedResourceSpots[GLcount].SS_surveyedRegions[GLsubCnt].SR_ResourceSpot[GLsubCnt1].RS_oreCarbonaceous:=GLxmlSurveyRSpot.Attributes['oreCarbo'];
+                           FCRplayer.P_SurveyedResourceSpots[GLcount].SS_surveyedRegions[GLsubCnt].SR_ResourceSpot[GLsubCnt1].RS_oreMetallic:=GLxmlSurveyRSpot.Attributes['oreMetal'];
+                           FCRplayer.P_SurveyedResourceSpots[GLcount].SS_surveyedRegions[GLsubCnt].SR_ResourceSpot[GLsubCnt1].RS_oreRare:=GLxmlSurveyRSpot.Attributes['oreRare'];
+                           FCRplayer.P_SurveyedResourceSpots[GLcount].SS_surveyedRegions[GLsubCnt].SR_ResourceSpot[GLsubCnt1].RS_oreUranium:=GLxmlSurveyRSpot.Attributes['oreUra'];
+                        end;
                      end;
+                     GLxmlSurveyRSpot:=GLxmlSurveyRSpot.NextSibling;
                   end;
                   GLxmlSurveyRegion:=GLxmlSurveyRegion.NextSibling;
                end;
@@ -881,6 +891,7 @@ end;
 procedure FCMdFSG_Game_Save;
 {:Purpose: save the current game.
     Additions:
+      -2011Nov18- *add: update hardcoded resource data w/ updated data structure.
       -2011Nov07- *add: complete production mode data for owned infrastructures.
                   *add: put full function name for owned infrastuctures.
       -2011Nov01- *add: complete the production matrix.
@@ -984,13 +995,15 @@ var
 	,GSxmlstorageRoot
    ,GSxmlTskInPr
    ,GSxmlSurveyRsrc
-   ,GSxmlSurveyRegion: IXMLNode;
+   ,GSxmlSurveyRegion
+   ,GSxmlSurveyRSpot: IXMLNode;
 
    GScabCount
    ,GScabMax
    ,GScount
    ,GSsubCount
    ,GSsubMax
+   ,GSsubMax1
    ,GSsubCount1
    ,GSdock
    ,GSlength
@@ -1135,23 +1148,34 @@ begin
          GSsubCount:=1;
          while GSsubCount<=GSsubMax do
          begin
-            GSxmlSurveyRegion:=GSxmlSurveyRsrc.AddChild('gfSpotRegion');
-            GSxmlSurveyRegion.Attributes['regionIdx']:=GSsubCount;
-            GSxmlSurveyRegion.Attributes['spotType']:=GetEnumName(TypeInfo(TFCEduRsrcSpotType), Integer(FCRplayer.P_SurveyedResourceSpots[GScount].SS_surveyedRegions[GSsubCount].SR_type));
-            GSxmlSurveyRegion.Attributes['meanQualCoef']:=FCRplayer.P_SurveyedResourceSpots[GScount].SS_surveyedRegions[GSsubCount].SR_MQC;
-            GSxmlSurveyRegion.Attributes['spotSizCurr']:=FCRplayer.P_SurveyedResourceSpots[GScount].SS_surveyedRegions[GSsubCount].SR_SpotSizeCur;
-            GSxmlSurveyRegion.Attributes['spotSizeMax']:=FCRplayer.P_SurveyedResourceSpots[GScount].SS_surveyedRegions[GSsubCount].SR_SpotSizeMax;
-            if FCRplayer.P_SurveyedResourceSpots[GScount].SS_surveyedRegions[GSsubCount].SR_type=rstOreField then
+            GSsubMax1:=length(FCRplayer.P_SurveyedResourceSpots[GScount].SS_surveyedRegions[GSsubCount].SR_ResourceSpot)-1;
+            if GSsubMax1>0 then
             begin
-               GSxmlSurveyRegion.Attributes['oreCarbo']:=FCRplayer.P_SurveyedResourceSpots[GScount].SS_surveyedRegions[GSsubCount].SR_oreCarbonaceous;
-               GSxmlSurveyRegion.Attributes['oreMetal']:=FCRplayer.P_SurveyedResourceSpots[GScount].SS_surveyedRegions[GSsubCount].SR_oreMetallic;
-               GSxmlSurveyRegion.Attributes['oreRare']:=FCRplayer.P_SurveyedResourceSpots[GScount].SS_surveyedRegions[GSsubCount].SR_oreRare;
-               GSxmlSurveyRegion.Attributes['oreUra']:=FCRplayer.P_SurveyedResourceSpots[GScount].SS_surveyedRegions[GSsubCount].SR_oreUranium;
+               GSxmlSurveyRegion:=GSxmlSurveyRsrc.AddChild('gfSpotRegion');
+               GSxmlSurveyRegion.Attributes['regionIdx']:=GSsubCount;
+               GSsubCount1:=1;
+               while GSsubCount1<=GSsubMax1 do
+               begin
+                  GSxmlSurveyRSpot:=GSxmlSurveyRegion.AddChild('gfRsrcSpot');
+                  GSxmlSurveyRSpot.Attributes['spotType']
+                     :=GetEnumName(TypeInfo(TFCEduRsrcSpotType), Integer(FCRplayer.P_SurveyedResourceSpots[GScount].SS_surveyedRegions[GSsubCount].SR_ResourceSpot[GSsubCount1].RS_type));
+                  GSxmlSurveyRSpot.Attributes['meanQualCoef']:=FCRplayer.P_SurveyedResourceSpots[GScount].SS_surveyedRegions[GSsubCount].SR_ResourceSpot[GSsubCount1].RS_MQC;
+                  GSxmlSurveyRSpot.Attributes['spotSizCurr']:=FCRplayer.P_SurveyedResourceSpots[GScount].SS_surveyedRegions[GSsubCount].SR_ResourceSpot[GSsubCount1].RS_SpotSizeCur;
+                  GSxmlSurveyRSpot.Attributes['spotSizeMax']:=FCRplayer.P_SurveyedResourceSpots[GScount].SS_surveyedRegions[GSsubCount].SR_ResourceSpot[GSsubCount1].RS_SpotSizeMax;
+                  if FCRplayer.P_SurveyedResourceSpots[GScount].SS_surveyedRegions[GSsubCount].SR_ResourceSpot[GSsubCount1].RS_type=rstOreField then
+                  begin
+                     GSxmlSurveyRSpot.Attributes['oreCarbo']:=FCRplayer.P_SurveyedResourceSpots[GScount].SS_surveyedRegions[GSsubCount].SR_ResourceSpot[GSsubCount1].RS_oreCarbonaceous;
+                     GSxmlSurveyRSpot.Attributes['oreMetal']:=FCRplayer.P_SurveyedResourceSpots[GScount].SS_surveyedRegions[GSsubCount].SR_ResourceSpot[GSsubCount1].RS_oreMetallic;
+                     GSxmlSurveyRSpot.Attributes['oreRare']:=FCRplayer.P_SurveyedResourceSpots[GScount].SS_surveyedRegions[GSsubCount].SR_ResourceSpot[GSsubCount1].RS_oreRare;
+                     GSxmlSurveyRSpot.Attributes['oreUra']:=FCRplayer.P_SurveyedResourceSpots[GScount].SS_surveyedRegions[GSsubCount].SR_ResourceSpot[GSsubCount1].RS_oreUranium;
+                  end;
+                  inc(GSsubCount1);
+               end;
             end;
             inc(GSsubCount);
          end;
          inc(GScount);
-      end; {.while GScount<=GSlength-1}
+      end; //==END== while GScount<=GSlength-1 do ==//
    end; //==END== if GSlength>1 then... for surveyed resource spots ==//
    {.create "CSM" saved game item}
    GSlength:=length(FCGcsmPhList);

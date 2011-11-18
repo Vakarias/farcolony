@@ -120,6 +120,7 @@ procedure FCMgC_Colonize_PostProc(
    );
 {:Purpose: colonize mission - post process.
     Additions:
+      -2011Nov17- *add: update hardcoded resource data w/ updated data structure.
       -2011Oct19- *add: update hardcoded resource data w/ Ore Field specific values.
       -2011Oct11- *add: hardcoded resource spots data.
       -2011Jul24- *rem: the procedure doesn't update the colony data panel, it's already done when required.
@@ -192,14 +193,15 @@ begin
       FCRplayer.P_SurveyedResourceSpots[1].SS_oobjIndex:=CPPobjIdx;
       FCRplayer.P_SurveyedResourceSpots[1].SS_satIndex:=CPPsatIdx;
       setlength(FCRplayer.P_SurveyedResourceSpots[1].SS_surveyedRegions, regionttl);
-      FCRplayer.P_SurveyedResourceSpots[1].SS_surveyedRegions[CPPregion].SR_type:=rstOreField;
-      FCRplayer.P_SurveyedResourceSpots[1].SS_surveyedRegions[CPPregion].SR_MQC:=0.7;
-      FCRplayer.P_SurveyedResourceSpots[1].SS_surveyedRegions[CPPregion].SR_SpotSizeCur:=0;
-      FCRplayer.P_SurveyedResourceSpots[1].SS_surveyedRegions[CPPregion].SR_SpotSizeMax:=50;
-      FCRplayer.P_SurveyedResourceSpots[1].SS_surveyedRegions[CPPregion].SR_oreCarbonaceous:=25;
-      FCRplayer.P_SurveyedResourceSpots[1].SS_surveyedRegions[CPPregion].SR_oreMetallic:=25;
-      FCRplayer.P_SurveyedResourceSpots[1].SS_surveyedRegions[CPPregion].SR_oreRare:=25;
-      FCRplayer.P_SurveyedResourceSpots[1].SS_surveyedRegions[CPPregion].SR_oreUranium:=25;
+      setlength(FCRplayer.P_SurveyedResourceSpots[1].SS_surveyedRegions[CPPregion].SR_ResourceSpot, 2 );
+      FCRplayer.P_SurveyedResourceSpots[1].SS_surveyedRegions[CPPregion].SR_ResourceSpot[1].RS_MQC:=0.7;
+      FCRplayer.P_SurveyedResourceSpots[1].SS_surveyedRegions[CPPregion].SR_ResourceSpot[1].RS_SpotSizeCur:=0;
+      FCRplayer.P_SurveyedResourceSpots[1].SS_surveyedRegions[CPPregion].SR_ResourceSpot[1].RS_SpotSizeMax:=50;
+      FCRplayer.P_SurveyedResourceSpots[1].SS_surveyedRegions[CPPregion].SR_ResourceSpot[1].RS_type:=rstOreField;
+      FCRplayer.P_SurveyedResourceSpots[1].SS_surveyedRegions[CPPregion].SR_ResourceSpot[1].RS_oreCarbonaceous:=25;
+      FCRplayer.P_SurveyedResourceSpots[1].SS_surveyedRegions[CPPregion].SR_ResourceSpot[1].RS_oreMetallic:=25;
+      FCRplayer.P_SurveyedResourceSpots[1].SS_surveyedRegions[CPPregion].SR_ResourceSpot[1].RS_oreRare:=25;
+      FCRplayer.P_SurveyedResourceSpots[1].SS_surveyedRegions[CPPregion].SR_ResourceSpot[1].RS_oreUranium:=25;
       {:DEV NOTES: END HARCODED SURVEY DATA.}
       FCMuiM_Message_Add(
          mtColonizeWset
