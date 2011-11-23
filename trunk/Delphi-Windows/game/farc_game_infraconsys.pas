@@ -455,8 +455,10 @@ procedure FCMgICS_Building_Process(
 
       BPclonedInfra: TFCRdipInfrastructure;
 begin
-   BPinfraIndex:=length(FCentities[BPent].E_col[BPcol].COL_settlements[BPsettlement].CS_infra);
-   SetLength(FCentities[BPent].E_col[BPcol].COL_settlements[BPsettlement].CS_infra, BPinfraIndex+1);
+   if Length(FCentities[BPent].E_col[BPcol].COL_settlements[BPsettlement].CS_infra)<2
+   then setLength(FCentities[BPent].E_col[BPcol].COL_settlements[BPsettlement].CS_infra, 2)
+   else SetLength(FCentities[BPent].E_col[BPcol].COL_settlements[BPsettlement].CS_infra, length(FCentities[BPent].E_col[BPcol].COL_settlements[BPsettlement].CS_infra)+1);
+   BPinfraIndex:=length(FCentities[BPent].E_col[BPcol].COL_settlements[BPsettlement].CS_infra)-1;
    BPclonedInfra:=FCFgInf_DataStructure_Get(
       BPent
       ,BPcol

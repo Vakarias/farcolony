@@ -245,7 +245,7 @@ begin
       FCDBsSys[SAret[1]].SS_star[SAret[2]].SDB_obobj[SAret[3]].OO_regions[SAreg].OOR_setSet:=SAcnt;
    end;
    {.update the colony's CAB queue}
-   if length(FCentities[SAent].E_col[SAcol].COL_cabQueue)<1
+   if length(FCentities[SAent].E_col[SAcol].COL_cabQueue)<2
    then SetLength(FCentities[SAent].E_col[SAcol].COL_cabQueue, 2)
    else SetLength(FCentities[SAent].E_col[SAcol].COL_cabQueue, length(FCentities[SAent].E_col[SAcol].COL_cabQueue)+1);
    Result:=SAcnt;

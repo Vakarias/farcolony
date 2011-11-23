@@ -73,6 +73,8 @@ uses
 procedure FCMdFSG_Game_Load;
 {:Purpose: load the current game.
    Additions:
+      -2011Nov22- *fix: initialize correctly the CAB queue of all loaded settlement (even before the CAB queue itself is loaded.
+                        prevent: crash during the commit of the setup of an assembling/building + crash during the loading of the CAB queue.
       -2011Nov18- *add: update hardcoded resource data w/ updated data structure.
       -2011Nov07- *add: complete production mode data for owned infrastructures.
                   *add: put full function name for owned infrastuctures.
@@ -537,6 +539,7 @@ begin
                      inc(GLcount);
                      SetLength(FCentities[GLentCnt].E_col[GLcount].COL_evList, 1);
                      SetLength(FCentities[GLentCnt].E_col[GLcount].COL_settlements, 1);
+                     SetLength( FCentities[GLentCnt].E_col[GLcount].COL_cabQueue, 1);
                      GLevCnt:=0;
                      GLsettleCnt:=0;
                      FCentities[GLentCnt].E_col[GLcount].COL_name:=GLxmlCol.Attributes['prname'];
@@ -642,9 +645,10 @@ begin
                         {.colony settlements}
                         else if GLxmlColsub.NodeName='colSettlement' then
                         begin
-                           SetLength(FCentities[GLentCnt].E_col[GLcount].COL_settlements, length(FCentities[GLentCnt].E_col[GLcount].COL_settlements)+1);
                            inc(GLsettleCnt);
+                           SetLength(FCentities[GLentCnt].E_col[GLcount].COL_settlements, GLsettleCnt+1);
                            SetLength(FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra, 1);
+                           SetLength( FCentities[GLentCnt].E_col[GLcount].COL_cabQueue, length( FCentities[GLentCnt].E_col[GLcount].COL_cabQueue )+1 );
                            FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_name:=GLxmlColsub.Attributes['name'];
                            GLenumIndex:=GetEnumValue(TypeInfo(TFCEdgSettleType), GLxmlColsub.Attributes['type'] );
                            FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_type:=TFCEdgSettleType(GLenumIndex);
@@ -730,8 +734,6 @@ begin
                         else if GLxmlColsub.NodeName='colCAB'
                         then
                         begin
-                           SetLength(FCentities[GLentCnt].E_col[GLcount].COL_cabQueue, GLsettleCnt+1);
-                           GLsettleMax:=GLsettleCnt;
                            GLsettleCnt:=1;
                            while GLsettleCnt<=GLsettleMax do
                            begin
@@ -739,12 +741,13 @@ begin
                               inc(GLsettleCnt);
                            end;
                            GLxmlCAB:=GLxmlColsub.ChildNodes.First;
+                           GLcabCnt:=0;
                            while GLxmlCAB<>nil do
                            begin
+                              inc(GLcabCnt);
                               GLsettleCnt:=GLxmlCAB.Attributes['settlement'];
+                              SetLength(FCentities[GLentCnt].E_col[GLcount].COL_cabQueue[GLsettleCnt], GLcabCnt+1);
                               GLcabValue:=GLxmlCAB.Attributes['infraIdx'];
-                              SetLength(FCentities[GLentCnt].E_col[GLcount].COL_cabQueue[GLsettleCnt], length(FCentities[GLentCnt].E_col[GLcount].COL_cabQueue[GLsettleCnt])+1);
-                              GLcabCnt:=length(FCentities[GLentCnt].E_col[GLcount].COL_cabQueue[GLsettleCnt])-1;
                               FCentities[GLentCnt].E_col[GLcount].COL_cabQueue[GLsettleCnt, GLcabCnt]:=GLcabValue;
                               GLxmlCAB:=GLxmlCAB.NextSibling;
                            end;
