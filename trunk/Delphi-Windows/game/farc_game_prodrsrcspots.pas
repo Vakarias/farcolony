@@ -30,10 +30,12 @@ unit farc_game_prodrsrcspots;
 
 interface
 
-   uses
-      farc_data_univ;
+uses
+   SysUtils
 
-       {:DEV NOTES: upd SurveyedRsrcSpot.}
+   ,farc_data_univ;
+
+    {:DEV NOTES: upd SurveyedRsrcSpot.}
 
 ///<summary>
 ///   check if a given resource spot type is present (surveyed) by giving entity/colony and settlement #
@@ -58,7 +60,8 @@ implementation
 
 uses
    farc_data_game
-   ,farc_univ_func;
+   ,farc_univ_func
+   ,farc_win_debug;
 
 var
    GPRSloc: TFCRufStelObj;
@@ -74,6 +77,7 @@ function FCFgPRS_PresenceBySettlement_Check(
    ): integer;
 {:Purpose: check if a given resource spot type is present (surveyed) by giving entity/colony and settlement #.
     Additions:
+      -2011Nov22- *fix: prevent a crash when the target is a satellite.
 }
    var
       IPIRCregion
@@ -85,19 +89,18 @@ function FCFgPRS_PresenceBySettlement_Check(
       IPIRCtargetOobj: string[20];
 begin
    Result:=0;
+
    if ( IPIRCcalculateLocation )
-      or ( GPRSloc[1]=0 ) then
-   begin
-      GPRSloc:=FCFuF_StelObj_GetFullRow(
-         FCentities[IPIRCentity].E_col[IPIRCcolony].COL_locSSys
-         ,FCentities[IPIRCentity].E_col[IPIRCcolony].COL_locStar
-         ,FCentities[IPIRCentity].E_col[IPIRCcolony].COL_locOObj
-         ,FCentities[IPIRCentity].E_col[IPIRCcolony].COL_locSat
-         );
-   end;
-   if GPRSloc[4]=0
+      or ( GPRSloc[1]=0 )
+   then GPRSloc:=FCFuF_StelObj_GetFullRow(
+      FCentities[IPIRCentity].E_col[IPIRCcolony].COL_locSSys
+      ,FCentities[IPIRCentity].E_col[IPIRCcolony].COL_locStar
+      ,FCentities[IPIRCentity].E_col[IPIRCcolony].COL_locOObj
+      ,FCentities[IPIRCentity].E_col[IPIRCcolony].COL_locSat
+      );
+   if FCentities[IPIRCentity].E_col[IPIRCcolony].COL_locSat=''
    then IPIRCtargetOobj:=FCDBSSys[ GPRSloc[1] ].SS_star[ GPRSloc[2] ].SDB_obobj[ GPRSloc[3] ].OO_token
-   else if GPRSloc[4]>0
+   else if FCentities[IPIRCentity].E_col[IPIRCcolony].COL_locSat<>''
    then IPIRCtargetOobj:=FCDBSSys[ GPRSloc[1] ].SS_star[ GPRSloc[2] ].SDB_obobj[ GPRSloc[3] ].OO_satList[ GPRSloc[4] ].OOS_token;
    IPIRCregion:=FCentities[IPIRCentity].E_col[IPIRCcolony].COL_settlements[IPIRCsettlement].CS_region;
    IPIRCspotMax:=length(FCRplayer.P_SurveyedResourceSpots)-1;

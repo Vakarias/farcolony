@@ -1130,7 +1130,7 @@ begin
             0
             ,CPUcol
             ,CPUsettlement
-            ,FCDBinfra[1].I_reqRsrcSpot
+            ,rstOreField
             ,true
             );
          while CPUcnt<=CPUmax do
