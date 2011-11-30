@@ -1730,8 +1730,8 @@ begin
             :=FC3DmatLibSplanT.Materials.Items[0].Material.BackProperties.Diffuse.Color;
          FC3DobjPlan[OOGobjIdx].Material.BackProperties.Emission.Color
             :=FC3DmatLibSplanT.Materials.Items[0].Material.BackProperties.Emission.Color;
-         FC3DobjPlan[OOGobjIdx].Material.BackProperties.PolygonMode
-            :=FC3DmatLibSplanT.Materials.Items[0].Material.BackProperties.PolygonMode;
+         FC3DobjPlan[OOGobjIdx].Material.PolygonMode
+            :=FC3DmatLibSplanT.Materials.Items[0].Material.PolygonMode;
          FC3DobjPlan[OOGobjIdx].Material.BackProperties.Shininess
             :=FC3DmatLibSplanT.Materials.Items[0].Material.BackProperties.Shininess;
          FC3DobjPlan[OOGobjIdx].Material.BackProperties.Specular.Color
@@ -1742,8 +1742,8 @@ begin
          FC3DobjPlan[OOGobjIdx].Material.FrontProperties.Diffuse:=FC3DmatLibSplanT.Materials.Items[0].Material.FrontProperties.Diffuse;
          FC3DobjPlan[OOGobjIdx].Material.FrontProperties.Emission
             :=FC3DmatLibSplanT.Materials.Items[0].Material.FrontProperties.Emission;
-         FC3DobjPlan[OOGobjIdx].Material.FrontProperties.PolygonMode
-            :=FC3DmatLibSplanT.Materials.Items[0].Material.FrontProperties.PolygonMode;
+         FC3DobjPlan[OOGobjIdx].Material.PolygonMode
+            :=FC3DmatLibSplanT.Materials.Items[0].Material.PolygonMode;
          FC3DobjPlan[OOGobjIdx].Material.FrontProperties.Shininess
             :=FC3DmatLibSplanT.Materials.Items[0].Material.FrontProperties.Shininess;
          FC3DobjPlan[OOGobjIdx].Material.FrontProperties.Specular
@@ -1832,8 +1832,8 @@ begin
             :=FC3DmatLibSplanT.Materials.Items[0].Material.BackProperties.Diffuse.Color;
          FC3DobjSat[OOGobjIdx].Material.BackProperties.Emission.Color
             :=FC3DmatLibSplanT.Materials.Items[0].Material.BackProperties.Emission.Color;
-         FC3DobjSat[OOGobjIdx].Material.BackProperties.PolygonMode
-            :=FC3DmatLibSplanT.Materials.Items[0].Material.BackProperties.PolygonMode;
+         FC3DobjSat[OOGobjIdx].Material.PolygonMode
+            :=FC3DmatLibSplanT.Materials.Items[0].Material.PolygonMode;
          FC3DobjSat[OOGobjIdx].Material.BackProperties.Shininess
             :=FC3DmatLibSplanT.Materials.Items[0].Material.BackProperties.Shininess;
          FC3DobjSat[OOGobjIdx].Material.BackProperties.Specular.Color
@@ -1848,8 +1848,8 @@ begin
             :=FC3DmatLibSplanT.Materials.Items[0].Material.FrontProperties.Diffuse;
          FC3DobjSat[OOGobjIdx].Material.FrontProperties.Emission
             :=FC3DmatLibSplanT.Materials.Items[0].Material.FrontProperties.Emission;
-         FC3DobjSat[OOGobjIdx].Material.FrontProperties.PolygonMode
-            :=FC3DmatLibSplanT.Materials.Items[0].Material.FrontProperties.PolygonMode;
+         FC3DobjSat[OOGobjIdx].Material.PolygonMode
+            :=FC3DmatLibSplanT.Materials.Items[0].Material.PolygonMode;
          FC3DobjSat[OOGobjIdx].Material.FrontProperties.Shininess
             :=FC3DmatLibSplanT.Materials.Items[0].Material.FrontProperties.Shininess;
          FC3DobjSat[OOGobjIdx].Material.FrontProperties.Specular

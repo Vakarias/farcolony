@@ -141,13 +141,13 @@ begin
    FCWinMain.FCGLSStarMain.Material.BackProperties.Ambient.Color:=clrTransparent;
    FCWinMain.FCGLSStarMain.Material.BackProperties.Diffuse.Color:=clrTransparent;
    FCWinMain.FCGLSStarMain.Material.BackProperties.Emission.Color:=clrTransparent;
-   FCWinMain.FCGLSStarMain.Material.BackProperties.PolygonMode:=pmFill;
+   FCWinMain.FCGLSStarMain.Material.PolygonMode:=pmFill;
    FCWinMain.FCGLSStarMain.Material.BackProperties.Shininess:=0;
    FCWinMain.FCGLSStarMain.Material.BackProperties.Specular.Color:=clrTransparent;
    FCWinMain.FCGLSStarMain.Material.FrontProperties.Ambient.Color:=clrTransparent;
    FCWinMain.FCGLSStarMain.Material.FrontProperties.Diffuse.Color:=clrTransparent;
    FCWinMain.FCGLSStarMain.Material.FrontProperties.Emission.Color:=clrTransparent;
-   FCWinMain.FCGLSStarMain.Material.FrontProperties.PolygonMode:=pmFill;
+   FCWinMain.FCGLSStarMain.Material.PolygonMode:=pmFill;
    FCWinMain.FCGLSStarMain.Material.FrontProperties.Shininess:=0;
    FCWinMain.FCGLSStarMain.Material.FrontProperties.Specular.Color:=clrTransparent;
    FCWinMain.FCGLSStarMain.Material.BlendingMode:=bmAlphaTest50;
@@ -195,7 +195,7 @@ begin
       FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.BackProperties.Ambient.Color:=clrGray20;
       FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.BackProperties.Diffuse.Color:=clrGray80;
       FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.BackProperties.Emission.Color:=clrBlack;
-      FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.BackProperties.PolygonMode:=pmFill;
+      FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.PolygonMode:=pmFill;
       FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.BackProperties.Shininess:=0;
       FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.BackProperties.Specular.Color:=clrBlack;
       FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.BlendingMode:=bmOpaque;
@@ -203,7 +203,7 @@ begin
       FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.FrontProperties.Ambient:=FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.BackProperties.Ambient;
       FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.FrontProperties.Diffuse:=FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.BackProperties.Diffuse;
       FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.FrontProperties.Emission:=FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.BackProperties.Emission;
-      FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.BackProperties.PolygonMode:=FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.BackProperties.PolygonMode;
+      FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.PolygonMode:=FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.PolygonMode;
       FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.FrontProperties.Shininess:=FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.BackProperties.Shininess;
       FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.FrontProperties.Specular:=FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.BackProperties.Specular;
       FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.MaterialOptions:=[];
@@ -247,6 +247,7 @@ begin
    FCWinMain.FCGLSHUDstarTemp.Tag:=101;
    {.space unit hud capabilities}
    FCWinMain.FCGLSHUDspunDockd.Material.Texture.Image.LoadFromFile(FCVpathRsrc+'pics-ui-spu\spucapab_docking.jpg');
+   FCWinMain.FCGLSHUDcolplyr.Material.Texture.Image.LoadFromFile(FCVpathRsrc+'pics-ui-colony\colonyicn.png');
 end;
 
 procedure FCMoglInit_StdText_Set(const STSisHR, STSforceLoad: boolean);
