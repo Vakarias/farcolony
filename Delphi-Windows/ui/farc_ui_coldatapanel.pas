@@ -1130,6 +1130,7 @@ begin
             0
             ,CPUcol
             ,CPUsettlement
+            ,0
             ,rstOreField
             ,true
             );
@@ -1139,6 +1140,7 @@ begin
                0
                ,CPUcol
                ,CPUsettlement
+               ,0
                ,FCDBinfra[CPUcnt].I_reqRsrcSpot
                ,false
                );
@@ -1162,8 +1164,7 @@ begin
                   or ((FCDBinfra[CPUcnt].I_reqHydro=hrLiquidNH3) and (CPUenvironment.ENV_hydroTp=htLiqNH3) )
                   or ((FCDBinfra[CPUcnt].I_reqHydro=hrCH4) and (CPUenvironment.ENV_hydroTp=htLiqCH4) )
                   )
-               and ( (FCDBinfra[CPUcnt].I_reqRsrcSpot=rstNone) or ( CPUrspotIndex>0 ) )
-                  then
+               and ( (FCDBinfra[CPUcnt].I_reqRsrcSpot=rstNone) or ( CPUrspotIndex>0 ) ) then
             begin
                CPUinfDisplay:='<a href="'+FCDBInfra[CPUcnt].I_token+'">'
                   +FCFdTFiles_UIStr_Get(uistrUI, FCDBInfra[CPUcnt].I_token)
@@ -1200,6 +1201,7 @@ begin
                      0
                      ,CPUcol
                      ,CPUsettlement
+                     ,0
                      ,CPUinfra.I_reqRsrcSpot
                      ,false
                      )

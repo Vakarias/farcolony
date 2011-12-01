@@ -359,7 +359,7 @@ begin
    FCRplayer.P_timeYr:=2250;
    {.surveyed region initialization}
    {:DEV NOTES: it's important to put it BEFORE the entities main loop, because future faction's data will include already surveyed regions data.}
-   SetLength(FCRplayer.P_SurveyedResourceSpots, 1);
+   SetLength(FCRplayer.P_surveyedSpots, 1);
    {.entities main loop}
    CPent:=0;
    while CPent<=FCCfacMax do

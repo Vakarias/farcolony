@@ -378,9 +378,11 @@ interface
          fProduction:
             (
             ///<summary>
-            /// linked resource spot index, if needed
+            /// linked resource spot indexes, if needed
             ///</summary>
-            CI_fprodLinkedRspot: integer;
+            CI_fprodSurveyedSpot: integer;
+            CI_fprodSurveyedRegion: integer;
+            CI_fprodResourceSpot: integer;
             CI_fprodMode: array [0..FCCpModeMax] of record
                PM_type: TFCEdipProductionModes;
                PM_energyCons: double;
@@ -748,7 +750,7 @@ interface
       {.time phases}
       P_timePhse: TFCEtimePhases;
       {surveyed resources}
-      P_SurveyedResourceSpots: array of record
+      P_surveyedSpots: array of record
          SS_oobjToken: string[20];
          SS_ssysIndex: integer;
          SS_starIndex: integer;

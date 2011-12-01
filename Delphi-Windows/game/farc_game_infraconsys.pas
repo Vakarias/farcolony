@@ -418,6 +418,7 @@ begin
       ,APinfraIndex
       );
    {:DEV NOTES: put rsrc spot data update here, if required (for production infra w / rsrc spot req only.}
+   //FCMgPRS_SurveyedRsrcSpot_AssignInfra
    {.remove the infrastructure kit which correspond to the infrastructure}
    APxfer:=FCFgC_Storage_Update(
       false
@@ -480,6 +481,8 @@ begin
       ,BPsettlement
       ,BPinfraIndex
       );
+   {:DEV NOTES: put rsrc spot data update here, if required (for production infra w / rsrc spot req only.}
+   //FCMgPRS_SurveyedRsrcSpot_AssignInfra
    BPisCDPshown:=FCFuiCDP_isInfrastructuresSection_Shown(BPcol, BPsettlement);
    if BPisCDPshown
    then FCMuiCDP_Data_Update(

@@ -96,7 +96,7 @@ begin
 
             pmResourceMining:
             begin
-               PMDFFGrscSpot:=FCentities[PMDFFGent].E_col[PMDFFGcol].COL_settlements[PMDFFGsett].CS_infra[PMDFFGinfra].CI_fprodLinkedRspot;
+               PMDFFGrscSpot:=FCentities[PMDFFGent].E_col[PMDFFGcol].COL_settlements[PMDFFGsett].CS_infra[PMDFFGinfra].CI_fprodSurveyedSpot;
 //               PMDFFGrmp:=( ( power( PMDFFGinfraData.I_surface[PMDFFGinfraLevel], 0.333 ) + power( PMDFFGinfraData.I_volume[PMDFFGinfraLevel], 0.111 ) )*0.5 )*
                {:DEV NOTES: look and implement resource spot data.}
             end;
