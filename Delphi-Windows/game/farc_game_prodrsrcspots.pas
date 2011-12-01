@@ -33,9 +33,8 @@ interface
 uses
    SysUtils
 
+   ,farc_data_infrprod
    ,farc_data_univ;
-
-    {:DEV NOTES: upd SurveyedRsrcSpot.}
 
 ///<summary>
 ///   check if a given resource spot type is present (surveyed) by giving entity/colony and settlement #
@@ -43,18 +42,37 @@ uses
 ///   <param name="IPIRCentity">entity index #</param>
 ///   <param name="IPIRCcolony">colony index#</param>
 ///   <param name="IPIRCsettlement">settlement index #</param>
+///   <param name="IPIRCownedInfra">owned infrastructure index #, if >0 => and spot found, indexes are stored in the owned data structure. THE OWNED INFRASTRUCTURE MUST BE A PRODUCTION ONE.</param>
 ///   <param name="IPIRCrsrcSpot">resource spot type</param>
 ///   <param name="IPIRCcalculateLocation">true= calculate the colony's location (retrieve the indexes)</param>
 ///   <returns>the resource spot index #, 0 if not found, more than 0 if found</returns>
 function FCFgPRS_PresenceBySettlement_Check(
    const IPIRCentity
          ,IPIRCcolony
-         ,IPIRCsettlement: integer;
+         ,IPIRCsettlement
+         ,IPIRCownedInfra: integer;
    const IPIRCrsrcSpot: TFCEduRsrcSpotType;
    const IPIRCcalculateLocation: boolean
    ): integer;
+   {:DEV NOTES: ADD curr/max level TEST.}
 
 //===========================END FUNCTIONS SECTION==========================================
+
+///<summary>
+///   assign an owned infrastructure to it's resource spot
+///</summary>
+///   <param name="SRSAIentity">entity index #</param>
+///   <param name="SRSAIcolony">colony index#</param>
+///   <param name="SRSAIsettlement">settlement index #</param>
+///   <param name="SRSAIownedInfra">owned infrastructure index #. THE OWNED INFRASTRUCTURE MUST BE A PRODUCTION ONE.</param>
+///   <param name="SRSAIinfraData">DB infrastructure data</param>
+procedure FCMgPRS_SurveyedRsrcSpot_AssignInfra(
+   const SRSAIentity
+         ,SRSAIcolony
+         ,SRSAIsettlement
+         ,SRSAIownedInfra: integer;
+         SRSAIinfraData: TFCRdipInfrastructure
+   );
 
 implementation
 
@@ -71,12 +89,14 @@ var
 function FCFgPRS_PresenceBySettlement_Check(
    const IPIRCentity
          ,IPIRCcolony
-         ,IPIRCsettlement: integer;
+         ,IPIRCsettlement
+         ,IPIRCownedInfra: integer;
    const IPIRCrsrcSpot: TFCEduRsrcSpotType;
    const IPIRCcalculateLocation: boolean
    ): integer;
 {:Purpose: check if a given resource spot type is present (surveyed) by giving entity/colony and settlement #.
     Additions:
+      -2011Nov30- *add: new parameter to indicate an owned infrastructure, if >0 => and spot is found, the data are stored in the owned infrastructure data structure.
       -2011Nov22- *fix: prevent a crash when the target is a satellite.
 }
    var
@@ -89,7 +109,6 @@ function FCFgPRS_PresenceBySettlement_Check(
       IPIRCtargetOobj: string[20];
 begin
    Result:=0;
-
    if ( IPIRCcalculateLocation )
       or ( GPRSloc[1]=0 )
    then GPRSloc:=FCFuF_StelObj_GetFullRow(
@@ -103,20 +122,28 @@ begin
    else if FCentities[IPIRCentity].E_col[IPIRCcolony].COL_locSat<>''
    then IPIRCtargetOobj:=FCDBSSys[ GPRSloc[1] ].SS_star[ GPRSloc[2] ].SDB_obobj[ GPRSloc[3] ].OO_satList[ GPRSloc[4] ].OOS_token;
    IPIRCregion:=FCentities[IPIRCentity].E_col[IPIRCcolony].COL_settlements[IPIRCsettlement].CS_region;
-   IPIRCspotMax:=length(FCRplayer.P_SurveyedResourceSpots)-1;
+   IPIRCspotMax:=length(FCRplayer.P_surveyedSpots)-1;
    if IPIRCspotMax>0 then
    begin
       IPIRCspotCount:=1;
       while IPIRCspotCount<=IPIRCspotMax do
       begin
-         if FCRplayer.P_SurveyedResourceSpots[IPIRCspotCount].SS_oobjToken=IPIRCtargetOobj then
+         if FCRplayer.P_surveyedSpots[IPIRCspotCount].SS_oobjToken=IPIRCtargetOobj then
          begin
-            IPIRCspotSubMax:=length( FCRplayer.P_SurveyedResourceSpots[IPIRCspotCount].SS_surveyedRegions[IPIRCregion].SR_ResourceSpot )-1;
+            IPIRCspotSubMax:=length( FCRplayer.P_surveyedSpots[IPIRCspotCount].SS_surveyedRegions[IPIRCregion].SR_ResourceSpot )-1;
             IPIRCspotSubCount:=1;
             while IPIRCspotSubCount<=IPIRCspotSubMax do
             begin
-               if FCRplayer.P_SurveyedResourceSpots[IPIRCspotCount].SS_surveyedRegions[IPIRCregion].SR_ResourceSpot[IPIRCspotSubCount].RS_type=IPIRCrsrcSpot
-               then Result:=IPIRCspotCount;
+               if FCRplayer.P_surveyedSpots[IPIRCspotCount].SS_surveyedRegions[IPIRCregion].SR_ResourceSpot[IPIRCspotSubCount].RS_type=IPIRCrsrcSpot then
+               begin
+                  Result:=IPIRCspotCount;
+                  if IPIRCownedInfra>0 then
+                  begin
+                     FCentities[IPIRCentity].E_col[IPIRCcolony].COL_settlements[IPIRCsettlement].CS_infra[IPIRCownedInfra].CI_fprodSurveyedSpot:=IPIRCspotCount;
+                     FCentities[IPIRCentity].E_col[IPIRCcolony].COL_settlements[IPIRCsettlement].CS_infra[IPIRCownedInfra].CI_fprodSurveyedRegion:=IPIRCregion;
+                     FCentities[IPIRCentity].E_col[IPIRCcolony].COL_settlements[IPIRCsettlement].CS_infra[IPIRCownedInfra].CI_fprodResourceSpot:=IPIRCspotSubCount;
+                  end;
+               end;
                inc( IPIRCspotSubCount );
             end;
          end;
@@ -126,5 +153,19 @@ begin
 end;
 
 //===========================END FUNCTIONS SECTION==========================================
+
+procedure FCMgPRS_SurveyedRsrcSpot_AssignInfra(
+   const SRSAIentity
+         ,SRSAIcolony
+         ,SRSAIsettlement
+         ,SRSAIownedInfra: integer;
+         SRSAIinfraData: TFCRdipInfrastructure
+   );
+{:Purpose: assign an owned infrastructure to it's resource spot.
+    Additions:
+}
+begin
+
+end;
 
 end.
