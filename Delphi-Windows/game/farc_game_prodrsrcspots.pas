@@ -164,8 +164,26 @@ procedure FCMgPRS_SurveyedRsrcSpot_AssignInfra(
 {:Purpose: assign an owned infrastructure to it's resource spot.
     Additions:
 }
-begin
+   var
+      SRSAIresourceSpot
+      ,SRSAIsurveyedRegion
+      ,SRSAIsurveyedSpot: integer;
 
+begin
+   FCFgPRS_PresenceBySettlement_Check(
+      SRSAIentity
+      ,SRSAIcolony
+      ,SRSAIsettlement
+      ,SRSAIownedInfra
+      ,SRSAIinfraData.I_reqRsrcSpot
+      ,true
+      );
+   SRSAIsurveyedSpot:=FCentities[ SRSAIentity ].E_col[ SRSAIcolony ].COL_settlements[ SRSAIsettlement ].CS_infra[ SRSAIownedInfra ].CI_fprodSurveyedSpot;
+   SRSAIsurveyedRegion:=FCentities[ SRSAIentity ].E_col[ SRSAIcolony ].COL_settlements[ SRSAIsettlement ].CS_infra[ SRSAIownedInfra ].CI_fprodSurveyedRegion;
+   SRSAIresourceSpot:=FCentities[ SRSAIentity ].E_col[ SRSAIcolony ].COL_settlements[ SRSAIsettlement ].CS_infra[ SRSAIownedInfra ].CI_fprodResourceSpot;
+   FCRplayer.P_surveyedSpots[ SRSAIsurveyedSpot ].SS_surveyedRegions[ SRSAIsurveyedRegion ].SR_ResourceSpot[ SRSAIresourceSpot ].RS_SpotSizeCur:=
+      FCRplayer.P_surveyedSpots[ SRSAIsurveyedSpot ].SS_surveyedRegions[ SRSAIsurveyedRegion ].SR_ResourceSpot[ SRSAIresourceSpot ].RS_SpotSizeCur
+      +FCentities[ SRSAIentity ].E_col[ SRSAIcolony ].COL_settlements[ SRSAIsettlement ].CS_infra[ SRSAIownedInfra ].CI_level;
 end;
 
 end.
