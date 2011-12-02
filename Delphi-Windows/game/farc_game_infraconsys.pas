@@ -219,6 +219,7 @@ uses
    ,farc_game_infrafunctions
    ,farc_game_infrapower
    ,farc_game_infrastaff
+   ,farc_game_prodrsrcspots
    ,farc_spu_functions
    ,farc_ui_coldatapanel
    ,farc_win_debug;
@@ -374,6 +375,7 @@ procedure FCMgICS_Assembling_Process(
    );
 {:Purpose: process in the assembling of an infrastructure.
     Additions:
+      -2011Dec01- *add: update the resource spot requirement if needed.
       -2011Sep21- *rem: moved function initalization to the assembling/building post-process.
       -2011Jul05- *add/fix: forgot to update the CAB queue list !
       -2011Jul04- *add: add a parameter to indicate the storage index # of the used infrastructure kit.
@@ -417,8 +419,15 @@ begin
       ,APsettlement
       ,APinfraIndex
       );
-   {:DEV NOTES: put rsrc spot data update here, if required (for production infra w / rsrc spot req only.}
-   //FCMgPRS_SurveyedRsrcSpot_AssignInfra
+   {.update the resource spot data if the infrastructure's requirement have one}
+   if APclonedInfra.I_reqRsrcSpot>rstNone
+   then FCMgPRS_SurveyedRsrcSpot_AssignInfra(
+      APent
+      ,APcol
+      ,APsettlement
+      ,APinfraIndex
+      ,APclonedInfra
+      );
    {.remove the infrastructure kit which correspond to the infrastructure}
    APxfer:=FCFgC_Storage_Update(
       false
@@ -445,6 +454,7 @@ procedure FCMgICS_Building_Process(
    );
 {:Purpose: process in the building of an infrastructure.
     Additions:
+      -2011Dec01- *add: update the resource spot requirement if needed.
       -2011Sep21- *rem: moved function initalization to the assembling/building post-process.
       -2011Jul05- *add/fix: forgot to update the CAB queue list !
       -2011Jun26- *add: initialize the infrastructure functions in a separate method.
@@ -481,8 +491,15 @@ begin
       ,BPsettlement
       ,BPinfraIndex
       );
-   {:DEV NOTES: put rsrc spot data update here, if required (for production infra w / rsrc spot req only.}
-   //FCMgPRS_SurveyedRsrcSpot_AssignInfra
+   {.update the resource spot data if the infrastructure's requirement have one}
+   if BPclonedInfra.I_reqRsrcSpot>rstNone
+   then FCMgPRS_SurveyedRsrcSpot_AssignInfra(
+      BPent
+      ,BPcol
+      ,BPsettlement
+      ,BPinfraIndex
+      ,BPclonedInfra
+      );
    BPisCDPshown:=FCFuiCDP_isInfrastructuresSection_Shown(BPcol, BPsettlement);
    if BPisCDPshown
    then FCMuiCDP_Data_Update(
