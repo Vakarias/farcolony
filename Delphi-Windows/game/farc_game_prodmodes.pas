@@ -59,7 +59,8 @@ procedure FCMgPM_ProductionModeDataFromFunction_Generate(
 implementation
 
 uses
-   farc_data_game;
+   farc_data_game
+   ,farc_data_univ;
 
 //===================================================END OF INIT============================
 
@@ -76,34 +77,43 @@ procedure FCMgPM_ProductionModeDataFromFunction_Generate(
    );
 {:Purpose: generate the production modes' data from the infrastructure's function.
     Additions:
+      -2011Dec04- *add: Resource Mining (WIP).
       -2011Nov14- *add: code framewrok inclusion + Resource Mining (WIP).
 }
    var
       PMDFFGcnt
-      ,PMDFFGrscSpot: integer;
+      ,PMDFFGresourceSpot
+      ,PMDFFGsurveyedRegion
+      ,PMDFFGsurveyedSpot: integer;
 
       PMDFFGrmp: extended;
 begin
    PMDFFGcnt:=1;
    while PMDFFGcnt<=FCCpModeMax do
    begin
-      if PMDFFGinfraData.I_fProductionMode[PMDFFGcnt].IPM_occupancy=0
-      then break
-      else if PMDFFGinfraData.I_fProductionMode[PMDFFGcnt].IPM_occupancy>0 then
+      if PMDFFGinfraData.I_fProductionMode[PMDFFGcnt].IPM_occupancy>0 then
       begin
          case PMDFFGinfraData.I_fProductionMode[PMDFFGcnt].IPM_productionModes of
             pmNone: break;
 
             pmResourceMining:
             begin
-               PMDFFGrscSpot:=FCentities[PMDFFGent].E_col[PMDFFGcol].COL_settlements[PMDFFGsett].CS_infra[PMDFFGinfra].CI_fprodSurveyedSpot;
-//               PMDFFGrmp:=( ( power( PMDFFGinfraData.I_surface[PMDFFGinfraLevel], 0.333 ) + power( PMDFFGinfraData.I_volume[PMDFFGinfraLevel], 0.111 ) )*0.5 )*
-               {:DEV NOTES: look and implement resource spot data.}
+               FCentities[PMDFFGent].E_col[PMDFFGcol].COL_settlements[PMDFFGsett].CS_infra[PMDFFGinfra].CI_fprodMode[PMDFFGcnt].PM_type:=PMDFFGinfraData.I_fProductionMode[PMDFFGcnt].IPM_productionModes;
+               PMDFFGsurveyedSpot:=FCentities[PMDFFGent].E_col[PMDFFGcol].COL_settlements[PMDFFGsett].CS_infra[PMDFFGinfra].CI_fprodSurveyedSpot;
+               PMDFFGsurveyedRegion:=FCentities[PMDFFGent].E_col[PMDFFGcol].COL_settlements[PMDFFGsett].CS_infra[PMDFFGinfra].CI_fprodSurveyedRegion;
+               PMDFFGresourceSpot:=FCentities[PMDFFGent].E_col[PMDFFGcol].COL_settlements[PMDFFGsett].CS_infra[PMDFFGinfra].CI_fprodResourceSpot;
+               PMDFFGrmp:=( ( power( PMDFFGinfraData.I_surface[PMDFFGinfraLevel], 0.333 ) + power( PMDFFGinfraData.I_volume[PMDFFGinfraLevel], 0.111 ) )*0.5 )
+                  * FCRplayer.P_surveyedSpots[PMDFFGsurveyedSpot].SS_surveyedRegions[PMDFFGsurveyedRegion].SR_ResourceSpot[PMDFFGresourceSpot].RS_MQC
+                  * (PMDFFGinfraData.I_fProductionMode[PMDFFGcnt].IPM_occupancy*0.01);
+//               if PMDFFGinfraData.I_reqRsrcSpot=rstIcyOreField
+//               then FCMgPS2_productionMatrixItem_Add
+//               energy: FCentities[PMDFFGent].E_col[PMDFFGcol].COL_settlements[PMDFFGsett].CS_infra[PMDFFGinfra].CI_fprodMode[PMDFFGcnt].PM_energyCons:=;
             end;
-         end;
-      end;
+         end; //==END== case PMDFFGinfraData.I_fProductionMode[PMDFFGcnt].IPM_productionModes of ==//
+      end //==END== if PMDFFGinfraData.I_fProductionMode[PMDFFGcnt].IPM_occupancy>0 then ==//
+      else Break;
       inc(PMDFFGcnt);
-   end;
+   end; //==END== while PMDFFGcnt<=FCCpModeMax do ==//
 end;
 
 end.
