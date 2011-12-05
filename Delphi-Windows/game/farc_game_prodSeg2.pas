@@ -82,10 +82,41 @@ procedure FCMgPS2_ProductionMatrixItem_Add(
 {:Purpose: add a production item in a colony's production matrix.
     Additions:
 }
-   var PIAisNewlyCreated: boolean;
-begin
-   PIAisNewlyCreated:=false;
+   var
+      PIApmCount
+      ,PIApmMax
+      ,PIApmodeCount
+      ,PIApmodeMax: integer;
 
+      PIAisCreated: boolean;
+begin
+   PIAisCreated:=false;
+   PIApmCount:=1;
+   PIApmMax:=Length( FCentities[ PIAent ].E_col[ PIAcol ].COL_productionMatrix )-1;
+   if PIApmMax<1 then
+   begin
+      SetLength( FCentities[ PIAent ].E_col[ PIAcol ].COL_productionMatrix, 2 );
+      PIApmMax:=1;
+      {:DEV NOTES: load the production matrix item here.}
+      PIAisCreated:=true;
+   end
+   else begin
+      while PIApmCount<=PIApmMax do
+      begin
+         if FCentities[ PIAent ].E_col[ PIAcol ].COL_productionMatrix[ PIApmCount ].CPMI_productToken=PIAproduct then
+         begin
+            PIApmodeMax:=Length( FCentities[ PIAent ].E_col[ PIAcol ].COL_productionMatrix[ PIApmCount ].CPMI_productionModes )-1;
+            PIApmodeCount:=1;
+            while PIApmodeCount<=PIApmodeMax do
+            begin
+               inc( PIApmodeCount );
+            end;
+         end;
+         inc( PIApmCount );
+      end;
+   end;
+//   if not PIAisCreated
+//   then
 end;
 
 procedure FCMgPS2_ProductionSegment_Process(
