@@ -35,12 +35,22 @@ interface
 ///<summary>
 ///   add a production item in a colony's production matrix
 ///</summary>
-///   <param name=""></param>
-///   <param name=""></param>
-//procedure FCMgPS2_productionItem_Add(
-//   const PIAent
-//         ,PIAcol: integer
-//   );
+///   <param name="PIAent">entity index #</param>
+///   <param name="PIAcol">colony index #</param>
+///   <param name="PIAsettlement">settlement index #</param>
+///   <param name="PIAownedInfra">owned infrastructure index #</param>
+///   <param name="PIAprodModeIndex">owned infrastructure's production mode index #</param>
+///   <param name="PIAproduct">product's token</param>
+///   <param name="PIAproductionFlow">production flow in product's unit/hr (override number)</param>
+procedure FCMgPS2_ProductionMatrixItem_Add(
+   const PIAent
+         ,PIAcol
+         ,PIAsettlement
+         ,PIAownedInfra
+         ,PIAprodModeIndex: integer;
+   const PIAproduct: string;
+   const PIAproductionFlow: double
+   );
 
 ///<summary>
 ///   segment 2 (items production) processing
@@ -59,6 +69,24 @@ uses
 
 //===================================================END OF INIT============================
 //===========================END FUNCTIONS SECTION==========================================
+
+procedure FCMgPS2_ProductionMatrixItem_Add(
+   const PIAent
+         ,PIAcol
+         ,PIAsettlement
+         ,PIAownedInfra
+         ,PIAprodModeIndex: integer;
+   const PIAproduct: string;
+   const PIAproductionFlow: double
+   );
+{:Purpose: add a production item in a colony's production matrix.
+    Additions:
+}
+   var PIAisNewlyCreated: boolean;
+begin
+   PIAisNewlyCreated:=false;
+
+end;
 
 procedure FCMgPS2_ProductionSegment_Process(
    const PSPent

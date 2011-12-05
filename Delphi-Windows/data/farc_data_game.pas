@@ -400,13 +400,28 @@ interface
    {:DEV NOTES: update FCMdFiles_Game_Load + FCMdFiles_Game_Save + FCMgCSM_ColonyData_Init.}
    type TFCRdgColonProdMatrixItm= record
       CPMI_productToken: string[20];
+      ///<summary>
+      /// index # in the colony's storage which correspond to the product
+      ///</summary>
       CPMI_storageIndex: integer;
+      ///<summary>
+      /// global production flow
+      ///</summary>
       CPMI_globalProdFlow: double;
       CPMI_productionModes: array of record
          PF_locSettlement: integer;
          PF_locInfra: integer;
+         ///<summary>
+         /// owned infrastructure's production mode index
+         ///</summary>
          PF_locProdModeIndex: integer;
+         ///<summary>
+         /// switch when the related production mode is disabled or not by the game or the player
+         ///</summary>
          PF_isDisabledManually: boolean;
+         ///<summary>
+         /// switch used by the production phase to manage the production matrix
+         ///</summary>
          PF_isDisabledByProdSegment: boolean;
          ///<summary>
          /// production flow in + or - and in unit/hr. if -: used as source
@@ -762,6 +777,8 @@ interface
                RS_SpotSizeCur: integer;
                RS_SpotSizeMax: integer;
                case RS_type: TFCEduRsrcSpotType of
+                  rstIcyOreField: ();
+
                   rstOreField: (
                      RS_oreCarbonaceous: integer;
                      RS_oreMetallic: integer;
