@@ -81,42 +81,71 @@ procedure FCMgPS2_ProductionMatrixItem_Add(
    );
 {:Purpose: add a production item in a colony's production matrix.
     Additions:
+      -2011Dec05- *add: Work In Progress of the procedure basics.
 }
    var
       PIApmCount
       ,PIApmMax
       ,PIApmodeCount
-      ,PIApmodeMax: integer;
+      ,PIApmodeMax
+      ,PIAprodMatrixFound: integer;
 
-      PIAisCreated: boolean;
+      PIAisPMatrixItemCreated
+      ,PIAisPModeCreated: boolean;
 begin
-   PIAisCreated:=false;
+   PIAprodMatrixFound:=0;
+   PIAisPMatrixItemCreated:=false;
+   PIAisPModeCreated:=false;
    PIApmCount:=1;
    PIApmMax:=Length( FCentities[ PIAent ].E_col[ PIAcol ].COL_productionMatrix )-1;
-   if PIApmMax<1 then
+//   if PIApmMax<1 then
+//   begin
+//
+//      PIApmMax:=1;
+//      {:DEV NOTES: load the production matrix item here.}
+//      PIAisCreated:=true;
+//   end
+//   else begin
+   if PIApmMax>0 then
    begin
-      SetLength( FCentities[ PIAent ].E_col[ PIAcol ].COL_productionMatrix, 2 );
-      PIApmMax:=1;
-      {:DEV NOTES: load the production matrix item here.}
-      PIAisCreated:=true;
-   end
-   else begin
       while PIApmCount<=PIApmMax do
       begin
          if FCentities[ PIAent ].E_col[ PIAcol ].COL_productionMatrix[ PIApmCount ].CPMI_productToken=PIAproduct then
          begin
+            PIAisPMatrixItemCreated:=true;
+            PIAprodMatrixFound:=PIApmCount;
             PIApmodeMax:=Length( FCentities[ PIAent ].E_col[ PIAcol ].COL_productionMatrix[ PIApmCount ].CPMI_productionModes )-1;
             PIApmodeCount:=1;
             while PIApmodeCount<=PIApmodeMax do
             begin
+               if ( FCentities[ PIAent ].E_col[ PIAcol ].COL_productionMatrix[ PIApmCount ].CPMI_productionModes[ PIApmodeCount ].PF_locSettlement=PIAsettlement )
+                  and ( FCentities[ PIAent ].E_col[ PIAcol ].COL_productionMatrix[ PIApmCount ].CPMI_productionModes[ PIApmodeCount ].PF_locInfra=PIAownedInfra )
+                  and ( FCentities[ PIAent ].E_col[ PIAcol ].COL_productionMatrix[ PIApmCount ].CPMI_productionModes[ PIApmodeCount ].PF_locProdModeIndex=PIAprodModeIndex ) then
+               begin
+                  FCentities[ PIAent ].E_col[ PIAcol ].COL_productionMatrix[ PIApmCount ].CPMI_productionModes[ PIApmodeCount ].PF_productionFlow:=PIAproductionFlow;
+                  PIAisPModeCreated:=true;
+                  Break;
+               end;
                inc( PIApmodeCount );
             end;
          end;
-         inc( PIApmCount );
+         if PIAisPModeCreated
+         then Break
+         else inc( PIApmCount );
       end;
    end;
-//   if not PIAisCreated
-//   then
+   if not PIAisPModeCreated then
+   begin
+      if not PIAisPMatrixItemCreated then
+      begin
+         inc( PIApmMax );
+         SetLength( FCentities[ PIAent ].E_col[ PIAcol ].COL_productionMatrix, PIApmMax+1 );
+         PIAprodMatrixFound:=PIApmMax;
+         FCentities[ PIAent ].E_col[ PIAcol ].COL_productionMatrix[ PIAprodMatrixFound ].CPMI_productToken:=PIAproduct;
+//         storindex:=FCFgC_Storage_RetrieveIndex(
+//         FCentities[ PIAent ].E_col[ PIAcol ].COL_productionMatrix[ PIAprodMatrixFound ].CPMI_storageIndex:=storindex;
+      end;
+   end;
 end;
 
 procedure FCMgPS2_ProductionSegment_Process(
