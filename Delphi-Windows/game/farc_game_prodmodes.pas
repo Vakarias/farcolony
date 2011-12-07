@@ -60,7 +60,8 @@ implementation
 
 uses
    farc_data_game
-   ,farc_data_univ;
+   ,farc_data_univ
+   ,farc_game_prodSeg2;
 
 //===================================================END OF INIT============================
 
@@ -105,8 +106,18 @@ begin
                PMDFFGrmp:=( ( power( PMDFFGinfraData.I_surface[PMDFFGinfraLevel], 0.333 ) + power( PMDFFGinfraData.I_volume[PMDFFGinfraLevel], 0.111 ) )*0.5 )
                   * FCRplayer.P_surveyedSpots[PMDFFGsurveyedSpot].SS_surveyedRegions[PMDFFGsurveyedRegion].SR_ResourceSpot[PMDFFGresourceSpot].RS_MQC
                   * (PMDFFGinfraData.I_fProductionMode[PMDFFGcnt].IPM_occupancy*0.01);
-//               if PMDFFGinfraData.I_reqRsrcSpot=rstIcyOreField
-//               then FCMgPS2_productionMatrixItem_Add
+               if PMDFFGinfraData.I_reqRsrcSpot=rstIcyOreField then
+               begin
+                  FCMgPS2_ProductionMatrixItem_Add(
+                     PMDFFGent
+                     ,PMDFFGcol
+                     ,PMDFFGsett
+                     ,PMDFFGinfra
+                     ,PMDFFGcnt
+                     ,'resIcyOre'
+                     ,
+                     );
+               else
 //               energy: FCentities[PMDFFGent].E_col[PMDFFGcol].COL_settlements[PMDFFGsett].CS_infra[PMDFFGinfra].CI_fprodMode[PMDFFGcnt].PM_energyCons:=;
             end;
          end; //==END== case PMDFFGinfraData.I_fProductionMode[PMDFFGcnt].IPM_productionModes of ==//
