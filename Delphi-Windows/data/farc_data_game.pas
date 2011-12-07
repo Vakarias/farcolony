@@ -386,6 +386,7 @@ interface
             CI_fprodMode: array [0..FCCpModeMax] of record
                PM_type: TFCEdipProductionModes;
                PM_energyCons: double;
+               PM_matrixItemMax: integer;
                ///<summary>
                /// linked matrix items indexes
                ///</summary>

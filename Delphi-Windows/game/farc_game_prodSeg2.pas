@@ -99,6 +99,7 @@ begin
    PIAstorageIndex:=0;
    PIAisPModeCreated:=false;
    PIApmCount:=1;
+   {.first, the production matrix item is tested if it already created}
    PIApmMax:=Length( FCentities[ PIAent ].E_col[ PIAcol ].COL_productionMatrix )-1;
    while PIApmCount<=PIApmMax do
    begin
@@ -114,6 +115,9 @@ begin
                and ( FCentities[ PIAent ].E_col[ PIAcol ].COL_productionMatrix[ PIApmCount ].CPMI_productionModes[ PIApmodeCount ].PF_locProdModeIndex=PIAprodModeIndex ) then
             begin
                FCentities[ PIAent ].E_col[ PIAcol ].COL_productionMatrix[ PIApmCount ].CPMI_productionModes[ PIApmodeCount ].PF_productionFlow:=PIAproductionFlow;
+               FCentities[ PIAent ].E_col[ PIAcol ].COL_productionMatrix[ PIApmCount ].CPMI_globalProdFlow:=
+                  FCentities[ PIAent ].E_col[ PIAcol ].COL_productionMatrix[ PIApmCount ].CPMI_globalProdFlow
+                     +FCentities[ PIAent ].E_col[ PIAcol ].COL_productionMatrix[ PIApmCount ].CPMI_productionModes[ PIApmodeCount ].PF_productionFlow;
                PIAisPModeCreated:=true;
                Break;
             end;
@@ -124,6 +128,7 @@ begin
       then Break
       else inc( PIApmCount );
    end;
+   {.if not created, a new production matrix item is created and initialized}
    if not PIAisPModeCreated then
    begin
       if PIAprodMatrixFound=0 then
@@ -148,7 +153,14 @@ begin
       FCentities[ PIAent ].E_col[ PIAcol ].COL_productionMatrix[ PIAprodMatrixFound ].CPMI_productionModes[ PIApmodeCount ].PF_locProdModeIndex:=PIAprodModeIndex;
       FCentities[ PIAent ].E_col[ PIAcol ].COL_productionMatrix[ PIAprodMatrixFound ].CPMI_productionModes[ PIApmodeCount ].PF_isDisabledManually:=false;
       FCentities[ PIAent ].E_col[ PIAcol ].COL_productionMatrix[ PIAprodMatrixFound ].CPMI_productionModes[ PIApmodeCount ].PF_isDisabledByProdSegment:=false;
-      FCentities[ PIAent ].E_col[ PIAcol ].COL_productionMatrix[ PIAprodMatrixFound ].CPMI_productionModes[ PIApmodeCount ].PF_productionFlow:=PIAproductionFlow
+      FCentities[ PIAent ].E_col[ PIAcol ].COL_productionMatrix[ PIAprodMatrixFound ].CPMI_productionModes[ PIApmodeCount ].PF_productionFlow:=PIAproductionFlow;
+      FCentities[ PIAent ].E_col[ PIAcol ].COL_productionMatrix[ PIAprodMatrixFound ].CPMI_globalProdFlow:=
+                  FCentities[ PIAent ].E_col[ PIAcol ].COL_productionMatrix[ PIAprodMatrixFound ].CPMI_globalProdFlow
+                     +FCentities[ PIAent ].E_col[ PIAcol ].COL_productionMatrix[ PIAprodMatrixFound ].CPMI_productionModes[ PIApmodeCount ].PF_productionFlow;
+      inc( FCentities[ PIAent ].E_col[ PIAcol ].COL_settlements[ PIAsettlement ].CS_infra[ PIAownedInfra ].CI_fprodMode[ PIAprodModeIndex ].PM_matrixItemMax );
+      PIApmCount:=FCentities[ PIAent ].E_col[ PIAcol ].COL_settlements[ PIAsettlement ].CS_infra[ PIAownedInfra ].CI_fprodMode[ PIAprodModeIndex ].PM_matrixItemMax;
+      FCentities[ PIAent ].E_col[ PIAcol ].COL_settlements[ PIAsettlement ].CS_infra[ PIAownedInfra ].CI_fprodMode[ PIAprodModeIndex ].PF_linkedMatrixItemIndexes[ PIApmCount ].LMII_matrixItmIndex:=PIAprodMatrixFound;
+      FCentities[ PIAent ].E_col[ PIAcol ].COL_settlements[ PIAsettlement ].CS_infra[ PIAownedInfra ].CI_fprodMode[ PIAprodModeIndex ].PF_linkedMatrixItemIndexes[ PIApmCount ].LMII_matrixProdModeIndex:=PIApmodeCount;
    end;
 end;
 
