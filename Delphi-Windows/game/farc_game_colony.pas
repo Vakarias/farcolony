@@ -478,9 +478,22 @@ function FCFgC_Storage_RetrieveIndex(
 {:Purpose: retrieve the index # of a specified product contained in a specified colony's storage, with an option to create the storage's entry if not found.
     Additions:
 }
+   var
+      SRIcount
+      ,SRImax: integer;
 begin
    Result:=0;
-   {:DEV NOTES: put search code here.}
+   SRImax:=Length( FCentities[ SRIentity ].E_col[ SRIcolony ].COL_storageList )-1;
+   SRIcount:=1;
+   while SRIcount<=SRImax do
+   begin
+      if FCentities[ SRIentity ].E_col[ SRIcolony ].COL_storageList[ SRIcount ].CPR_token=SRItoken then
+      begin
+         Result:=SRIcount;
+         Break;
+      end;
+      inc( SRIcount );
+   end;
    if ( Result=0 )
       and ( SRImustCreateIfNotFound ) then
    begin
@@ -491,7 +504,8 @@ begin
          ,SRIentity
          ,SRIcolony
          );
-//      Result:=searchcounter+1;
+      inc( SRImax );
+      Result:=SRImax;
    end;
 end;
 
@@ -504,6 +518,7 @@ function FCFgC_Storage_Update(
    ): integer;
 {:Purpose: update the storage of a colony with a specific product. Return the amount in unit that couldn't be transfered.
     Additions:
+      -2011Dec06- *some code cleanup.
       -2011Dec05- *add: include the case when the parameter SUunit=0.
                   *code: some writing cleanup.
       -2011Jul04- *code cleanup.
@@ -525,9 +540,9 @@ begin
    SUnewUnit:=0;
    SUcapaLoaded:=0;
    SUvolToXfer:=0;
+   SUcnt:=1;
    if SUmax>0 then
    begin
-      SUcnt:=1;
       while SUcnt<=SUmax do
       begin
          if FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storageList[SUcnt].CPR_token=SUtoken
@@ -541,11 +556,8 @@ begin
          inc(SUcnt);
       end;
    end
-   else if SUmax<=0 then
-   begin
-      SUcnt:=1;
-      SetLength(FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storageList, 2);
-   end;
+   else if SUmax<=0
+   then SetLength(FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storageList, 2);
    if (SUisStoreMode)
       and (SUcnt>0) then
    begin
