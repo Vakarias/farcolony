@@ -82,6 +82,7 @@ procedure FCMgPS2_ProductionMatrixItem_Add(
    );
 {:Purpose: add a production item in a colony's production matrix.
     Additions:
+      -2011Dec08- *mod: if the production mode, inside the production matrix, is created, it is disabled by default. The reason is that a production mode is created only in case of a new infrastructure.
       -2011Dec06- *add: completion of procedure basics.
       -2011Dec05- *add: Work In Progress of the procedure basics.
 }
@@ -151,7 +152,7 @@ begin
       FCentities[ PIAent ].E_col[ PIAcol ].COL_productionMatrix[ PIAprodMatrixFound ].CPMI_productionModes[ PIApmodeCount ].PF_locSettlement:=PIAsettlement;
       FCentities[ PIAent ].E_col[ PIAcol ].COL_productionMatrix[ PIAprodMatrixFound ].CPMI_productionModes[ PIApmodeCount ].PF_locInfra:=PIAownedInfra;
       FCentities[ PIAent ].E_col[ PIAcol ].COL_productionMatrix[ PIAprodMatrixFound ].CPMI_productionModes[ PIApmodeCount ].PF_locProdModeIndex:=PIAprodModeIndex;
-      FCentities[ PIAent ].E_col[ PIAcol ].COL_productionMatrix[ PIAprodMatrixFound ].CPMI_productionModes[ PIApmodeCount ].PF_isDisabledManually:=false;
+      FCentities[ PIAent ].E_col[ PIAcol ].COL_productionMatrix[ PIAprodMatrixFound ].CPMI_productionModes[ PIApmodeCount ].PF_isDisabledManually:=true;
       FCentities[ PIAent ].E_col[ PIAcol ].COL_productionMatrix[ PIAprodMatrixFound ].CPMI_productionModes[ PIApmodeCount ].PF_isDisabledByProdSegment:=false;
       FCentities[ PIAent ].E_col[ PIAcol ].COL_productionMatrix[ PIAprodMatrixFound ].CPMI_productionModes[ PIApmodeCount ].PF_productionFlow:=PIAproductionFlow;
       FCentities[ PIAent ].E_col[ PIAcol ].COL_productionMatrix[ PIAprodMatrixFound ].CPMI_globalProdFlow:=
