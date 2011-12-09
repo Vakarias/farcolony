@@ -59,8 +59,12 @@ procedure FCMgPM_ProductionModeDataFromFunction_Generate(
 implementation
 
 uses
-   farc_data_game
+   farc_common_func
+   ,farc_data_init
+   ,farc_data_game
    ,farc_data_univ
+   ,farc_game_colony
+   ,farc_game_infrastaff
    ,farc_game_prodSeg2;
 
 //===================================================END OF INIT============================
@@ -78,16 +82,25 @@ procedure FCMgPM_ProductionModeDataFromFunction_Generate(
    );
 {:Purpose: generate the production modes' data from the infrastructure's function.
     Additions:
+      -2011Dec04- *add: Resource Mining (COMPLETION).
       -2011Dec04- *add: Resource Mining (WIP).
       -2011Nov14- *add: code framewrok inclusion + Resource Mining (WIP).
 }
    var
       PMDFFGcnt
       ,PMDFFGresourceSpot
+      ,PMDFFGstaffColonIndex
+      ,PMDFFGstaffTechIndex
       ,PMDFFGsurveyedRegion
       ,PMDFFGsurveyedSpot: integer;
 
-      PMDFFGrmp: extended;
+      PMDFFGresCarbonace
+      ,PMDFFGresMetallic
+      ,PMDFFGresRareMetal
+      ,PMDFFGresUranium
+      ,PMDFFGrmp: extended;
+
+      PMDFFGenv: TFCRgcEnvironment;
 begin
    PMDFFGcnt:=1;
    while PMDFFGcnt<=FCCpModeMax do
@@ -108,6 +121,7 @@ begin
                   * (PMDFFGinfraData.I_fProductionMode[PMDFFGcnt].IPM_occupancy*0.01);
                if PMDFFGinfraData.I_reqRsrcSpot=rstIcyOreField then
                begin
+                  PMDFFGrmp:=FCFcFunc_Rnd( cfrttpVolm3, PMDFFGrmp );
                   FCMgPS2_ProductionMatrixItem_Add(
                      PMDFFGent
                      ,PMDFFGcol
@@ -115,10 +129,62 @@ begin
                      ,PMDFFGinfra
                      ,PMDFFGcnt
                      ,'resIcyOre'
-                     ,
+                     ,PMDFFGrmp
                      );
-               else
-//               energy: FCentities[PMDFFGent].E_col[PMDFFGcol].COL_settlements[PMDFFGsett].CS_infra[PMDFFGinfra].CI_fprodMode[PMDFFGcnt].PM_energyCons:=;
+               end
+               else begin
+                  PMDFFGresCarbonace:=PMDFFGrmp*( FCRplayer.P_surveyedSpots[PMDFFGsurveyedSpot].SS_surveyedRegions[PMDFFGsurveyedRegion].SR_ResourceSpot[PMDFFGresourceSpot].RS_oreCarbonaceous*0.01 );
+                  PMDFFGresCarbonace:=FCFcFunc_Rnd( cfrttpVolm3, PMDFFGresCarbonace );
+                  FCMgPS2_ProductionMatrixItem_Add(
+                     PMDFFGent
+                     ,PMDFFGcol
+                     ,PMDFFGsett
+                     ,PMDFFGinfra
+                     ,PMDFFGcnt
+                     ,'resCarbOre'
+                     ,PMDFFGresCarbonace
+                     );
+                  PMDFFGresMetallic:=PMDFFGrmp*( FCRplayer.P_surveyedSpots[PMDFFGsurveyedSpot].SS_surveyedRegions[PMDFFGsurveyedRegion].SR_ResourceSpot[PMDFFGresourceSpot].RS_oreMetallic*0.01 );
+                  PMDFFGresMetallic:=FCFcFunc_Rnd( cfrttpVolm3, PMDFFGresMetallic );
+                  FCMgPS2_ProductionMatrixItem_Add(
+                     PMDFFGent
+                     ,PMDFFGcol
+                     ,PMDFFGsett
+                     ,PMDFFGinfra
+                     ,PMDFFGcnt
+                     ,'resMetalOre'
+                     ,PMDFFGresMetallic
+                     );
+                  PMDFFGresRareMetal:=PMDFFGrmp*( FCRplayer.P_surveyedSpots[PMDFFGsurveyedSpot].SS_surveyedRegions[PMDFFGsurveyedRegion].SR_ResourceSpot[PMDFFGresourceSpot].RS_oreRare*0.01 );
+                  PMDFFGresRareMetal:=FCFcFunc_Rnd( cfrttpVolm3, PMDFFGresRareMetal );
+                  FCMgPS2_ProductionMatrixItem_Add(
+                     PMDFFGent
+                     ,PMDFFGcol
+                     ,PMDFFGsett
+                     ,PMDFFGinfra
+                     ,PMDFFGcnt
+                     ,'resRareMetOre'
+                     ,PMDFFGresRareMetal
+                     );
+                  PMDFFGresUranium:=PMDFFGrmp*( FCRplayer.P_surveyedSpots[PMDFFGsurveyedSpot].SS_surveyedRegions[PMDFFGsurveyedRegion].SR_ResourceSpot[PMDFFGresourceSpot].RS_oreUranium*0.01 );
+                  PMDFFGresUranium:=FCFcFunc_Rnd( cfrttpVolm3, PMDFFGresUranium );
+                  FCMgPS2_ProductionMatrixItem_Add(
+                     PMDFFGent
+                     ,PMDFFGcol
+                     ,PMDFFGsett
+                     ,PMDFFGinfra
+                     ,PMDFFGcnt
+                     ,'resUrOre'
+                     ,PMDFFGresUranium
+                     );
+               end;
+               PMDFFGstaffColonIndex:=FCFgIS_IndexByData_Retrieve( ptColonist, PMDFFGinfraData );
+               PMDFFGstaffTechIndex:=FCFgIS_IndexByData_Retrieve( ptTechnic, PMDFFGinfraData );
+               PMDFFGenv:=FCFgC_ColEnv_GetTp( PMDFFGent, PMDFFGcol );
+               PMDFFGrmp:=
+                  ( ( sqrt( PMDFFGinfraData.I_reqStaff[PMDFFGstaffColonIndex].RS_requiredByLv[ PMDFFGinfraLevel ] )*5 )+( sqrt( PMDFFGinfraData.I_reqStaff[PMDFFGstaffTechIndex].RS_requiredByLv[ PMDFFGinfraLevel ] )*30 ) )
+                  *( 1-( ( 1-PMDFFGenv.ENV_gravity )*0.5 ) );
+               FCentities[PMDFFGent].E_col[PMDFFGcol].COL_settlements[PMDFFGsett].CS_infra[PMDFFGinfra].CI_fprodMode[PMDFFGcnt].PM_energyCons:=FCFcFunc_Rnd( rttPowerKw, PMDFFGrmp );
             end;
          end; //==END== case PMDFFGinfraData.I_fProductionMode[PMDFFGcnt].IPM_productionModes of ==//
       end //==END== if PMDFFGinfraData.I_fProductionMode[PMDFFGcnt].IPM_occupancy>0 then ==//
