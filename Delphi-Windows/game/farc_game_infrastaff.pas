@@ -31,7 +31,9 @@ unit farc_game_infrastaff;
 interface
 
 uses
-   farc_data_game;
+   farc_data_game
+   ,farc_data_infrprod
+   ,farc_data_init;
 
 ///<summary>
 ///   test if a colony can support the required staff of a given owned infrastructure
@@ -49,6 +51,14 @@ function FCFgIS_RequiredStaff_Test(
          ,RSTinfra: integer;
    const RTSapplyAssignment: boolean
    ): TFCRdgColonPopulation;
+
+///<summary>
+///   retrieve the index # of a specified staff in a given infrastructure's data structure
+///</summary>
+///   <param name="IBDRstaff">specified staff to find</param>
+///   <param name="IBDRinfraData">infrastructure data</param>
+///   <returns>staff index #, 0 if not found</returns>
+function FCFgIS_IndexByData_Retrieve( const IBDRstaff: TFCEdiPopType; const IBDRinfraData: TFCRdipInfrastructure): integer;
 
 //===========================END FUNCTIONS SECTION==========================================
 
@@ -69,10 +79,7 @@ procedure FCMgIS_RequiredStaff_Recover(
 implementation
 
 uses
-
-   farc_data_infrprod
-   ,farc_data_init
-   ,farc_game_infra;
+   farc_game_infra;
 
 //===================================================END OF INIT============================
 
@@ -370,6 +377,28 @@ begin
          if Result.POP_tpAmedianAssigned>0
          then FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpAmedianAssigned:=FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpAmedianAssigned-Result.POP_tpAmedianAssigned;
       end;
+   end;
+end;
+
+function FCFgIS_IndexByData_Retrieve( const IBDRstaff: TFCEdiPopType; const IBDRinfraData: TFCRdipInfrastructure): integer;
+{:Purpose: retrieve the index # of a specified staff in a given infrastructure's data structure.
+    Additions:
+}
+   var
+      IBDRcount
+      ,IBDRmax: integer;
+begin
+   Result:=0;
+   IBDRmax:=Length( IBDRinfraData.I_reqStaff )-1;
+   IBDRcount:=1;
+   while IBDRcount<=IBDRmax do
+   begin
+      if IBDRinfraData.I_reqStaff[ IBDRcount ].RS_type=IBDRstaff then
+      begin
+         Result:=IBDRcount;
+         Break;
+      end;
+      inc( IBDRcount );
    end;
 end;
 
