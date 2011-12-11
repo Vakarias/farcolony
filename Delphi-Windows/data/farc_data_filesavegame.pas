@@ -73,6 +73,7 @@ uses
 procedure FCMdFSG_Game_Load;
 {:Purpose: load the current game.
    Additions:
+      -2011Dec11- *mod: transfert the disable state for production mode of the production matrix into the owned infrastructure data structure.
       -2011Dec08- *add: owned infrastructures / production function / PM_matrixItemMax.
       -2011Nov30- *add: complete surveyed resource spot data for infrastructures.
       -2011Nov22- *fix: initialize correctly the CAB queue of all loaded settlement (even before the CAB queue itself is loaded.
@@ -715,6 +716,7 @@ begin
                                        FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra[GLinfCnt].CI_fprodMode[GLsubCnt].PM_type:=TFCEdipProductionModes(GLenumIndex);
                                        if GLenumIndex=-1
                                        then raise Exception.Create('bad gamesave loading w/infra prod mode type: '+GLxmlProdMode.Attributes['prodModeType']);
+                                       FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra[GLinfCnt].CI_fprodMode[GLsubCnt].PM_isDisabled:=GLxmlProdMode.Attributes['isDisabled'];
                                        FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra[GLinfCnt].CI_fprodMode[GLsubCnt].PM_energyCons:=GLxmlProdMode.Attributes['energyCons'];
                                        FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra[GLinfCnt].CI_fprodMode[GLsubCnt].PM_matrixItemMax:=GLxmlProdMode.Attributes['matrixItemMax'];
                                        GLsubCnt1:=0;
@@ -781,7 +783,7 @@ begin
                                  FCentities[GLentCnt].E_col[GLcount].COL_productionMatrix[GLprodMatrixCnt].CPMI_productionModes[GLsubCnt].PF_locSettlement:=GLxmlProdMatrixSource.Attributes['locSettle'];
                                  FCentities[GLentCnt].E_col[GLcount].COL_productionMatrix[GLprodMatrixCnt].CPMI_productionModes[GLsubCnt].PF_locInfra:=GLxmlProdMatrixSource.Attributes['locInfra'];
                                  FCentities[GLentCnt].E_col[GLcount].COL_productionMatrix[GLprodMatrixCnt].CPMI_productionModes[GLsubCnt].PF_locProdModeIndex:=GLxmlProdMatrixSource.Attributes['locPModeIndex'];
-                                 FCentities[GLentCnt].E_col[GLcount].COL_productionMatrix[GLprodMatrixCnt].CPMI_productionModes[GLsubCnt].PF_isDisabledManually:=GLxmlProdMatrixSource.Attributes['isDisabledMan'];
+//                                 FCentities[GLentCnt].E_col[GLcount].COL_productionMatrix[GLprodMatrixCnt].CPMI_productionModes[GLsubCnt].PF_isDisabledManually:=GLxmlProdMatrixSource.Attributes['isDisabledMan'];
                                  FCentities[GLentCnt].E_col[GLcount].COL_productionMatrix[GLprodMatrixCnt].CPMI_productionModes[GLsubCnt].PF_isDisabledByProdSegment:=GLxmlProdMatrixSource.Attributes['isDisabledPS'];
                                  FCentities[GLentCnt].E_col[GLcount].COL_productionMatrix[GLprodMatrixCnt].CPMI_productionModes[GLsubCnt].PF_productionFlow:=GLxmlProdMatrixSource.Attributes['prodFlow'];
                                  GLxmlProdMatrixSource:=GLxmlProdMatrixSource.NextSibling;
@@ -899,6 +901,7 @@ end;
 procedure FCMdFSG_Game_Save;
 {:Purpose: save the current game.
     Additions:
+      -2011Dec11- *mod: transfert the disable state for production mode of the production matrix into the owned infrastructure data structure.
       -2011Dec08- *add: owned infrastructures / production function / PM_matrixItemMax.
       -2011Nov30- *add: complete surveyed resource spot data for infrastructures.
       -2011Nov18- *add: update hardcoded resource data w/ updated data structure.
@@ -1434,6 +1437,7 @@ begin
                                  pmResourceMining: GSstringStore:='pmResourceMining';
                               end;
                               GSxmlProdMode.Attributes['prodModeType']:=GSstringStore;
+                              GSxmlProdMode.Attributes['isDisabled']:=FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_fprodMode[GSsubCount].PM_isDisabled;
                               GSxmlProdMode.Attributes['energyCons']:=FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_fprodMode[GSsubCount].PM_energyCons;
                               GSxmlProdMode.Attributes['matrixItemMax']:=FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_fprodMode[GSsubCount].PM_matrixItemMax;
                               GSsubCount1:=1;
@@ -1496,7 +1500,6 @@ begin
                            GSxmlProdMatrixSource.Attributes['locSettle']:=FCentities[GScount].E_col[GScolCnt].COL_productionMatrix[GSprodMatrixCnt].CPMI_productionModes[GSsubCount].PF_locSettlement;
                            GSxmlProdMatrixSource.Attributes['locInfra']:=FCentities[GScount].E_col[GScolCnt].COL_productionMatrix[GSprodMatrixCnt].CPMI_productionModes[GSsubCount].PF_locInfra;
                            GSxmlProdMatrixSource.Attributes['locPModeIndex']:=FCentities[GScount].E_col[GScolCnt].COL_productionMatrix[GSprodMatrixCnt].CPMI_productionModes[GSsubCount].PF_locProdModeIndex;
-                           GSxmlProdMatrixSource.Attributes['isDisabledMan']:=FCentities[GScount].E_col[GScolCnt].COL_productionMatrix[GSprodMatrixCnt].CPMI_productionModes[GSsubCount].PF_isDisabledManually;
                            GSxmlProdMatrixSource.Attributes['isDisabledPS']:=FCentities[GScount].E_col[GScolCnt].COL_productionMatrix[GSprodMatrixCnt].CPMI_productionModes[GSsubCount].PF_isDisabledByProdSegment;
                            GSxmlProdMatrixSource.Attributes['prodFlow']:=FCentities[GScount].E_col[GScolCnt].COL_productionMatrix[GSprodMatrixCnt].CPMI_productionModes[GSsubCount].PF_productionFlow;
                            inc(GSsubCount);

@@ -385,6 +385,10 @@ interface
             CI_fprodResourceSpot: integer;
             CI_fprodMode: array [0..FCCpModeMax] of record
                PM_type: TFCEdipProductionModes;
+               ///<summary>
+               /// switch when the related production mode is disabled or not by the game or the player
+               ///</summary>
+               PM_isDisabled: boolean;
                PM_energyCons: double;
                PM_matrixItemMax: integer;
                ///<summary>
@@ -416,10 +420,6 @@ interface
          /// owned infrastructure's production mode index
          ///</summary>
          PF_locProdModeIndex: integer;
-         ///<summary>
-         /// switch when the related production mode is disabled or not by the game or the player
-         ///</summary>
-         PF_isDisabledManually: boolean;
          ///<summary>
          /// switch used by the production phase to manage the production matrix
          ///</summary>
