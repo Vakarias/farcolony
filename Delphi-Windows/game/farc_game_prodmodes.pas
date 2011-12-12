@@ -39,6 +39,40 @@ uses
 //===========================END FUNCTIONS SECTION==========================================
 
 ///<summary>
+///   enable or disable a specified production mode by applying its data into colony's global data
+///</summary>
+///   <param name="EDPentity">entity index #</param>
+///   <param name="EDPcolony">colony index #</param>
+///   <param name="EDPsettlement">settlement index #</param>
+///   <param name="EDPownedInfra">owned infrastructure index #</param>
+///   <param name="EDPproductionMode">production mode index #</param>
+///   <param name="EDPisToEnable">if true=> enable the production mode</param>
+procedure FCMgPM_EnableDisable_Process(
+   const EDPentity
+         ,EDPcolony
+         ,EDPsettlement
+         ,EDPownedInfra
+         ,EDPproductionMode: integer;
+   const EDPisToEnable: boolean
+         );
+
+///<summary>
+///   enable or disable all production modes of a specified infrastructure
+///</summary>
+///   <param name="EDPentity">entity index #</param>
+///   <param name="EDPcolony">colony index #</param>
+///   <param name="EDPsettlement">settlement index #</param>
+///   <param name="EDPownedInfra">owned infrastructure index #</param>
+///   <param name="EDPisToEnable">if true=> enable the production mode</param>
+procedure FCMgPM_EnableDisableAll_Process(
+   const EDAPentity
+         ,EDAPcolony
+         ,EDAPsettlement
+         ,EDAPownedInfra: integer;
+   const EDAPisToEnable: boolean
+         );
+
+///<summary>
 ///   generate the production modes' data from the infrastructure's function
 ///</summary>
 ///   <param name="PMDFFGent">entity index #</param>
@@ -64,6 +98,7 @@ uses
    ,farc_data_game
    ,farc_data_univ
    ,farc_game_colony
+   ,farc_game_infrapower
    ,farc_game_infrastaff
    ,farc_game_prodSeg2;
 
@@ -71,6 +106,113 @@ uses
 
 
 //===========================END FUNCTIONS SECTION==========================================
+
+procedure FCMgPM_EnableDisable_Process(
+   const EDPentity
+         ,EDPcolony
+         ,EDPsettlement
+         ,EDPownedInfra
+         ,EDPproductionMode: integer;
+   const EDPisToEnable: boolean
+         );
+{:Purpose: enable or disable a specified production mode by applying its data into colony's global data.
+    Additions:
+}
+   var
+      EDPpmiCount
+      ,EDPprodMatrixIndex
+      ,EDPprodModeIndex: integer;
+begin
+   if EDPisToEnable then
+   begin
+      FCentities[ EDPentity ].E_col[ EDPcolony ].COL_settlements[ EDPsettlement ].CS_infra[ EDPownedInfra ].CI_fprodMode[ EDPproductionMode ].PM_isDisabled:=false;
+      EDPpmiCount:=1;
+      while EDPpmiCount<=FCentities[ EDPentity ].E_col[ EDPcolony ].COL_settlements[ EDPsettlement ].CS_infra[ EDPownedInfra ].CI_fprodMode[ EDPproductionMode ].PM_matrixItemMax do
+      begin
+         EDPprodMatrixIndex:=
+            FCentities[ EDPentity ].E_col[ EDPcolony ].COL_settlements[ EDPsettlement ].CS_infra[ EDPownedInfra ].CI_fprodMode[ EDPproductionMode ].PF_linkedMatrixItemIndexes[ EDPpmiCount ].LMII_matrixItmIndex;
+         EDPprodModeIndex:=
+            FCentities[ EDPentity ].E_col[ EDPcolony ].COL_settlements[ EDPsettlement ].CS_infra[ EDPownedInfra ].CI_fprodMode[ EDPproductionMode ].PF_linkedMatrixItemIndexes[ EDPpmiCount ].LMII_matrixProdModeIndex;
+         FCentities[ EDPentity ].E_col[ EDPcolony ].COL_productionMatrix[ EDPprodMatrixIndex ].CPMI_globalProdFlow:=
+            FCentities[ EDPentity ].E_col[ EDPcolony ].COL_productionMatrix[ EDPprodMatrixIndex ].CPMI_globalProdFlow
+            +FCentities[ EDPentity ].E_col[ EDPcolony ].COL_productionMatrix[ EDPprodMatrixIndex ].CPMI_productionModes[ EDPprodModeIndex ].PF_productionFlow
+            ;
+         FCentities[ EDPentity ].E_col[ EDPcolony ].COL_settlements[ EDPsettlement ].CS_infra[ EDPownedInfra ].CI_powerCons:=
+            FCentities[ EDPentity ].E_col[ EDPcolony ].COL_settlements[ EDPsettlement ].CS_infra[ EDPownedInfra ].CI_powerCons
+            +FCentities[ EDPentity ].E_col[ EDPcolony ].COL_settlements[ EDPsettlement ].CS_infra[ EDPownedInfra ].CI_fprodMode[ EDPproductionMode ].PM_energyCons
+            ;
+         FCMgIP_CSMEnergy_Update(
+            EDPentity
+            ,EDPcolony
+            ,false
+            ,FCentities[ EDPentity ].E_col[ EDPcolony ].COL_settlements[ EDPsettlement ].CS_infra[ EDPownedInfra ].CI_fprodMode[ EDPproductionMode ].PM_energyCons
+            ,0
+            ,0
+            ,0
+            );
+         inc( EDPpmiCount );
+      end;
+   end
+   else begin
+      FCentities[ EDPentity ].E_col[ EDPcolony ].COL_settlements[ EDPsettlement ].CS_infra[ EDPownedInfra ].CI_fprodMode[ EDPproductionMode ].PM_isDisabled:=true;
+      EDPpmiCount:=1;
+      while EDPpmiCount<=FCentities[ EDPentity ].E_col[ EDPcolony ].COL_settlements[ EDPsettlement ].CS_infra[ EDPownedInfra ].CI_fprodMode[ EDPproductionMode ].PM_matrixItemMax do
+      begin
+         EDPprodMatrixIndex:=
+            FCentities[ EDPentity ].E_col[ EDPcolony ].COL_settlements[ EDPsettlement ].CS_infra[ EDPownedInfra ].CI_fprodMode[ EDPproductionMode ].PF_linkedMatrixItemIndexes[ EDPpmiCount ].LMII_matrixItmIndex;
+         EDPprodModeIndex:=
+            FCentities[ EDPentity ].E_col[ EDPcolony ].COL_settlements[ EDPsettlement ].CS_infra[ EDPownedInfra ].CI_fprodMode[ EDPproductionMode ].PF_linkedMatrixItemIndexes[ EDPpmiCount ].LMII_matrixProdModeIndex;
+         FCentities[ EDPentity ].E_col[ EDPcolony ].COL_productionMatrix[ EDPprodMatrixIndex ].CPMI_globalProdFlow:=
+            FCentities[ EDPentity ].E_col[ EDPcolony ].COL_productionMatrix[ EDPprodMatrixIndex ].CPMI_globalProdFlow
+            -FCentities[ EDPentity ].E_col[ EDPcolony ].COL_productionMatrix[ EDPprodMatrixIndex ].CPMI_productionModes[ EDPprodModeIndex ].PF_productionFlow
+            ;
+         FCentities[ EDPentity ].E_col[ EDPcolony ].COL_settlements[ EDPsettlement ].CS_infra[ EDPownedInfra ].CI_powerCons:=
+            FCentities[ EDPentity ].E_col[ EDPcolony ].COL_settlements[ EDPsettlement ].CS_infra[ EDPownedInfra ].CI_powerCons
+            -FCentities[ EDPentity ].E_col[ EDPcolony ].COL_settlements[ EDPsettlement ].CS_infra[ EDPownedInfra ].CI_fprodMode[ EDPproductionMode ].PM_energyCons
+            ;
+         FCMgIP_CSMEnergy_Update(
+            EDPentity
+            ,EDPcolony
+            ,false
+            ,-FCentities[ EDPentity ].E_col[ EDPcolony ].COL_settlements[ EDPsettlement ].CS_infra[ EDPownedInfra ].CI_fprodMode[ EDPproductionMode ].PM_energyCons
+            ,0
+            ,0
+            ,0
+            );
+         inc( EDPpmiCount );
+      end;
+   end;
+end;
+
+procedure FCMgPM_EnableDisableAll_Process(
+   const EDAPentity
+         ,EDAPcolony
+         ,EDAPsettlement
+         ,EDAPownedInfra: integer;
+   const EDAPisToEnable: boolean
+         );
+{:Purpose: enable or disable all production modes of a specified infrastructure.
+    Additions:
+}
+   var
+      EDAPpmodeCount: integer;
+begin
+   EDAPpmodeCount:=1;
+   while EDAPpmodeCount<=FCCpModeMax do
+   begin
+      if FCentities[ EDAPentity ].E_col[ EDAPcolony ].COL_settlements[ EDAPsettlement ].CS_infra[ EDAPownedInfra ].CI_fprodMode[ EDAPpmodeCount ].PM_type>pmNone
+      then FCMgPM_EnableDisable_Process(
+         EDAPentity
+         ,EDAPcolony
+         ,EDAPsettlement
+         ,EDAPownedInfra
+         ,EDAPpmodeCount
+         ,EDAPisToEnable
+         )
+      else Break;
+      inc( EDAPpmodeCount );
+   end;
+end;
 
 procedure FCMgPM_ProductionModeDataFromFunction_Generate(
    const PMDFFGent
