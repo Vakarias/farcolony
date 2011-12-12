@@ -48,7 +48,7 @@ procedure FCMgIF_Functions_ApplicationRemove(
          ,FARcol
          ,FARsett
          ,FARinfra: integer;
-   const FARisRemove: boolean
+   const FARisApply: boolean
          );
 
 ///<summary>
@@ -84,10 +84,12 @@ procedure FCMgIF_Functions_ApplicationRemove(
          ,FARcol
          ,FARsett
          ,FARinfra: integer;
-   const FARisRemove: boolean
+   const FARisApply: boolean
          );
 {:Purpose: applies (enable) the function's data. WARNING: the owned infrastructure must had FCMgIF_Functions_Initialize applied previously.
     Additions:
+      -2011Dec11- *add: complete fProduction case.
+                  *mod: change FARisRemove by FARisApply and modify the code calls + cases.
       -2011Oct03- *add: new parameter for indicate if the function data are removed or not + modify changes for each case.
 }
    var
@@ -98,7 +100,7 @@ begin
    case FCentities[FARent].E_col[FARcol].COL_settlements[FARsett].CS_infra[FARinfra].CI_function of
       fEnergy:
       begin
-         if FARisRemove
+         if not FARisApply
          then FARfloat:=-FCentities[FARent].E_col[FARcol].COL_settlements[FARsett].CS_infra[FARinfra].CI_fEnergOut
          else FARfloat:=FCentities[FARent].E_col[FARcol].COL_settlements[FARsett].CS_infra[FARinfra].CI_fEnergOut;
          FCMgIP_CSMEnergy_Update(
@@ -114,7 +116,7 @@ begin
 
       fHousing:
       begin
-         if FARisRemove
+         if not FARisApply
          then FARint:=-FCentities[FARent].E_col[FARcol].COL_settlements[FARsett].CS_infra[FARinfra].CI_fhousPCAP
          else FARint:=FCentities[FARent].E_col[FARcol].COL_settlements[FARsett].CS_infra[FARinfra].CI_fhousPCAP;
          FCMgCSM_ColonyData_Upd(
@@ -149,7 +151,13 @@ begin
 
       fProduction:
       begin
-
+         FCMgPM_EnableDisableAll_Process(
+            FARent
+            ,FARcol
+            ,FARsett
+            ,FARinfra
+            ,FARisApply
+            );
       end;
    end;
 end;

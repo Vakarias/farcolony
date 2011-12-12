@@ -891,7 +891,7 @@ procedure FCMgICS_TransitionRule_Process(
             ,TRPcol
             ,TRPsettlement
             ,TRPownInfra
-            ,false
+            ,true
             );
          FCMgICFX_Effects_Application(
             TRPent
