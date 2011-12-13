@@ -671,6 +671,7 @@ end;
 procedure FCMdF_DBInfra_Read;
 {:Purpose: Read the infrastructure database xml file.
     Additions:
+      -2011Dec12- *fix: load correctly the production modes of the fProduction function.
       -2011Oct26- *add: required staff by infrastructure level.
                   *fix: bad data assignment for gravity requirements.
       -2011Oct23- *add: new requirement: gravity min/max.
@@ -928,7 +929,6 @@ begin
                   then
                   begin
                      FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_customEffect:=cfxEnergyGen;
-
                      DBIRstr:=DBIRsubN.Attributes['genMode'];
                      if DBIRstr='egmAntimatter'
                      then FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_enGenMode.FEPM_productionModes:=egmAntimatter
@@ -1092,22 +1092,20 @@ begin
                then
                begin
                   FCDBinfra[DBIRcnt].I_function:=fProduction;
-                  DBIRpmode:=DBIRsubN.ChildNodes.First;
-                  DBIRpmodeCnt:=1;
-                  while DBIRpmodeCnt<=FCCpModeMax do
-                  begin
-//                     FCDBinfra[DBIRcnt].I_fProductionMode[DBIRpmodeCnt].IPM_productionModes:=pmNone;
-//                     FCDBinfra[DBIRcnt].I_fProductionMode[DBIRpmodeCnt].IPM_roofArea:=0;
-//                     FCDBinfra[DBIRcnt].I_fProductionMode[DBIRpmodeCnt].IPM_trapArea:=0;
-                     inc(DBIRpmodeCnt);
-                  end;
                   DBIRpmodeCnt:=0;
+                  DBIRpmode:=DBIRsubN.ChildNodes.First;
                   while DBIRpmode<>nil do
                   begin
-                     inc(DBIRpmodeCnt);
+                     inc( DBIRpmodeCnt );
+                     DBIRenumIndex:=GetEnumValue( TypeInfo( TFCEdipProductionModes ), DBIRpmode.Attributes['pmode'] );
+                     FCDBinfra[DBIRcnt].I_fProductionMode[ DBIRpmodeCnt ].IPM_productionModes:=TFCEdipProductionModes(DBIRenumIndex);
+                     if DBIRenumIndex=-1
+                     then raise Exception.Create('bad production mode: '+DBIRpmode.Attributes['pmode'] );
                      FCDBinfra[DBIRcnt].I_fProductionMode[DBIRpmodeCnt].IPM_occupancy:=DBIRpmode.Attributes['occupancy'];
-//                     DBIRstr:=DBIRpmode.Attributes['pmode'];
-//                     if DBIRstr='pmCarbonaceousOreRefining'
+                     {:DEV NOTES: for future further data loading based on the type of production mode.}
+//                     case FCDBinfra[DBIRcnt].I_fProductionMode[ DBIRpmodeCnt ].IPM_productionModes of
+//                        pmResourceMining
+                        //                     if DBIRstr='pmCarbonaceousOreRefining'
 //                     then FCDBinfra[DBIRcnt].I_fProductionMode[DBIRpmodeCnt].IPM_productionModes:=pmCarbonaceousOreRefining
 //                     else if DBIRstr='pmHumidityGathering'
 //                     then
@@ -1126,8 +1124,11 @@ begin
 //                     then FCDBinfra[DBIRcnt].I_fProductionMode[DBIRpmodeCnt].IPM_productionModes:=pmResourceMining
 //                     else if DBIRstr='pmWaterElectrolysis'
 //                     then FCDBinfra[DBIRcnt].I_fProductionMode[DBIRpmodeCnt].IPM_productionModes:=pmWaterElectrolysis;
+//                     end;
                      DBIRpmode:=DBIRpmode.NextSibling;
-                  end;
+                  end; //==END== while DBIRpmode<>nil do ==//
+                  if DBIRpmodeCnt+1<=FCCpModeMax
+                  then FCDBinfra[DBIRcnt].I_fProductionMode[ DBIRpmodeCnt+1 ].IPM_productionModes:=pmNone;
                end;
             end; //==END== else if DBIRsubN.NodeName='infFunc' ==//
             DBIRsubN:=DBIRsubN.NextSibling;
