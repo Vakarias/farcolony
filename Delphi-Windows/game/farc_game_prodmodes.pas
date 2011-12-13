@@ -32,6 +32,7 @@ interface
 
 uses
    math
+   ,sysutils
 
    ,farc_data_infrprod;
 
@@ -100,7 +101,8 @@ uses
    ,farc_game_colony
    ,farc_game_infrapower
    ,farc_game_infrastaff
-   ,farc_game_prodSeg2;
+   ,farc_game_prodSeg2
+   ,farc_win_debug;
 
 //===================================================END OF INIT============================
 
@@ -117,6 +119,7 @@ procedure FCMgPM_EnableDisable_Process(
          );
 {:Purpose: enable or disable a specified production mode by applying its data into colony's global data.
     Additions:
+      -2011Dec12- *fix: power consumption calculations are put outside the matrix item processing loops, prevent to update the CSM energy <matrix items number> time.
 }
    var
       EDPpmiCount
@@ -126,6 +129,19 @@ begin
    if EDPisToEnable then
    begin
       FCentities[ EDPentity ].E_col[ EDPcolony ].COL_settlements[ EDPsettlement ].CS_infra[ EDPownedInfra ].CI_fprodMode[ EDPproductionMode ].PM_isDisabled:=false;
+      FCentities[ EDPentity ].E_col[ EDPcolony ].COL_settlements[ EDPsettlement ].CS_infra[ EDPownedInfra ].CI_powerCons:=
+         FCentities[ EDPentity ].E_col[ EDPcolony ].COL_settlements[ EDPsettlement ].CS_infra[ EDPownedInfra ].CI_powerCons
+         +FCentities[ EDPentity ].E_col[ EDPcolony ].COL_settlements[ EDPsettlement ].CS_infra[ EDPownedInfra ].CI_fprodMode[ EDPproductionMode ].PM_energyCons
+         ;
+      FCMgIP_CSMEnergy_Update(
+         EDPentity
+         ,EDPcolony
+         ,false
+         ,FCentities[ EDPentity ].E_col[ EDPcolony ].COL_settlements[ EDPsettlement ].CS_infra[ EDPownedInfra ].CI_fprodMode[ EDPproductionMode ].PM_energyCons
+         ,0
+         ,0
+         ,0
+         );
       EDPpmiCount:=1;
       while EDPpmiCount<=FCentities[ EDPentity ].E_col[ EDPcolony ].COL_settlements[ EDPsettlement ].CS_infra[ EDPownedInfra ].CI_fprodMode[ EDPproductionMode ].PM_matrixItemMax do
       begin
@@ -137,24 +153,24 @@ begin
             FCentities[ EDPentity ].E_col[ EDPcolony ].COL_productionMatrix[ EDPprodMatrixIndex ].CPMI_globalProdFlow
             +FCentities[ EDPentity ].E_col[ EDPcolony ].COL_productionMatrix[ EDPprodMatrixIndex ].CPMI_productionModes[ EDPprodModeIndex ].PF_productionFlow
             ;
-         FCentities[ EDPentity ].E_col[ EDPcolony ].COL_settlements[ EDPsettlement ].CS_infra[ EDPownedInfra ].CI_powerCons:=
-            FCentities[ EDPentity ].E_col[ EDPcolony ].COL_settlements[ EDPsettlement ].CS_infra[ EDPownedInfra ].CI_powerCons
-            +FCentities[ EDPentity ].E_col[ EDPcolony ].COL_settlements[ EDPsettlement ].CS_infra[ EDPownedInfra ].CI_fprodMode[ EDPproductionMode ].PM_energyCons
-            ;
-         FCMgIP_CSMEnergy_Update(
-            EDPentity
-            ,EDPcolony
-            ,false
-            ,FCentities[ EDPentity ].E_col[ EDPcolony ].COL_settlements[ EDPsettlement ].CS_infra[ EDPownedInfra ].CI_fprodMode[ EDPproductionMode ].PM_energyCons
-            ,0
-            ,0
-            ,0
-            );
          inc( EDPpmiCount );
       end;
    end
    else begin
       FCentities[ EDPentity ].E_col[ EDPcolony ].COL_settlements[ EDPsettlement ].CS_infra[ EDPownedInfra ].CI_fprodMode[ EDPproductionMode ].PM_isDisabled:=true;
+      FCentities[ EDPentity ].E_col[ EDPcolony ].COL_settlements[ EDPsettlement ].CS_infra[ EDPownedInfra ].CI_powerCons:=
+         FCentities[ EDPentity ].E_col[ EDPcolony ].COL_settlements[ EDPsettlement ].CS_infra[ EDPownedInfra ].CI_powerCons
+         -FCentities[ EDPentity ].E_col[ EDPcolony ].COL_settlements[ EDPsettlement ].CS_infra[ EDPownedInfra ].CI_fprodMode[ EDPproductionMode ].PM_energyCons
+         ;
+      FCMgIP_CSMEnergy_Update(
+         EDPentity
+         ,EDPcolony
+         ,false
+         ,-FCentities[ EDPentity ].E_col[ EDPcolony ].COL_settlements[ EDPsettlement ].CS_infra[ EDPownedInfra ].CI_fprodMode[ EDPproductionMode ].PM_energyCons
+         ,0
+         ,0
+         ,0
+         );
       EDPpmiCount:=1;
       while EDPpmiCount<=FCentities[ EDPentity ].E_col[ EDPcolony ].COL_settlements[ EDPsettlement ].CS_infra[ EDPownedInfra ].CI_fprodMode[ EDPproductionMode ].PM_matrixItemMax do
       begin
@@ -166,19 +182,6 @@ begin
             FCentities[ EDPentity ].E_col[ EDPcolony ].COL_productionMatrix[ EDPprodMatrixIndex ].CPMI_globalProdFlow
             -FCentities[ EDPentity ].E_col[ EDPcolony ].COL_productionMatrix[ EDPprodMatrixIndex ].CPMI_productionModes[ EDPprodModeIndex ].PF_productionFlow
             ;
-         FCentities[ EDPentity ].E_col[ EDPcolony ].COL_settlements[ EDPsettlement ].CS_infra[ EDPownedInfra ].CI_powerCons:=
-            FCentities[ EDPentity ].E_col[ EDPcolony ].COL_settlements[ EDPsettlement ].CS_infra[ EDPownedInfra ].CI_powerCons
-            -FCentities[ EDPentity ].E_col[ EDPcolony ].COL_settlements[ EDPsettlement ].CS_infra[ EDPownedInfra ].CI_fprodMode[ EDPproductionMode ].PM_energyCons
-            ;
-         FCMgIP_CSMEnergy_Update(
-            EDPentity
-            ,EDPcolony
-            ,false
-            ,-FCentities[ EDPentity ].E_col[ EDPcolony ].COL_settlements[ EDPsettlement ].CS_infra[ EDPownedInfra ].CI_fprodMode[ EDPproductionMode ].PM_energyCons
-            ,0
-            ,0
-            ,0
-            );
          inc( EDPpmiCount );
       end;
    end;
@@ -326,7 +329,9 @@ begin
                PMDFFGrmp:=
                   ( ( sqrt( PMDFFGinfraData.I_reqStaff[PMDFFGstaffColonIndex].RS_requiredByLv[ PMDFFGinfraLevel ] )*5 )+( sqrt( PMDFFGinfraData.I_reqStaff[PMDFFGstaffTechIndex].RS_requiredByLv[ PMDFFGinfraLevel ] )*30 ) )
                   *( 1-( ( 1-PMDFFGenv.ENV_gravity )*0.5 ) );
+                  {:DEV NOTES: DEBUG LINE HERE TO REMOVE.}
                FCentities[PMDFFGent].E_col[PMDFFGcol].COL_settlements[PMDFFGsett].CS_infra[PMDFFGinfra].CI_fprodMode[PMDFFGcnt].PM_energyCons:=FCFcFunc_Rnd( rttPowerKw, PMDFFGrmp );
+               FCWinDebug.AdvMemo1.Lines.Add('prodmodepower='+floattostr(PMDFFGrmp)+'  rounded energy='+FloatToStr(FCentities[PMDFFGent].E_col[PMDFFGcol].COL_settlements[PMDFFGsett].CS_infra[PMDFFGinfra].CI_fprodMode[PMDFFGcnt].PM_energyCons));
             end;
          end; //==END== case PMDFFGinfraData.I_fProductionMode[PMDFFGcnt].IPM_productionModes of ==//
       end //==END== if PMDFFGinfraData.I_fProductionMode[PMDFFGcnt].IPM_occupancy>0 then ==//
