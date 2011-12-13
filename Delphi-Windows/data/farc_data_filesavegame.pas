@@ -901,6 +901,7 @@ end;
 procedure FCMdFSG_Game_Save;
 {:Purpose: save the current game.
     Additions:
+      -2011Dec12- *mod: owned infrastructures / production function / optimize the saving if no production mode is initialized yet (in the case when the infrastructure is in assembling/building.
       -2011Dec11- *mod: transfert the disable state for production mode of the production matrix into the owned infrastructure data structure.
       -2011Dec08- *add: owned infrastructures / production function / PM_matrixItemMax.
       -2011Nov30- *add: complete surveyed resource spot data for infrastructures.
@@ -1430,26 +1431,28 @@ begin
                            GSsubCount:=1;
                            while GSsubCount<=FCCpModeMax do
                            begin
-                              GSxmlProdMode:=GSxmlColInf.AddChild('prodmode');
-                              case FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_fprodMode[GSsubCount].PM_type of
-                                 pmNone: GSstringStore:='ERRORPM';
-
-                                 pmResourceMining: GSstringStore:='pmResourceMining';
-                              end;
-                              GSxmlProdMode.Attributes['prodModeType']:=GSstringStore;
-                              GSxmlProdMode.Attributes['isDisabled']:=FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_fprodMode[GSsubCount].PM_isDisabled;
-                              GSxmlProdMode.Attributes['energyCons']:=FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_fprodMode[GSsubCount].PM_energyCons;
-                              GSxmlProdMode.Attributes['matrixItemMax']:=FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_fprodMode[GSsubCount].PM_matrixItemMax;
-                              GSsubCount1:=1;
-                              while GSsubCount1<=FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_fprodMode[GSsubCount].PM_matrixItemMax do
+                              if FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_fprodMode[GSsubCount].PM_type>pmNone then
                               begin
-                                 GSxmlMatrixItem:=GSxmlProdMode.AddChild('linkedMatrixItem');
-                                 GSxmlMatrixItem.Attributes['pmitmIndex']
-                                    :=FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_fprodMode[GSsubCount].PF_linkedMatrixItemIndexes[GSsubCount1].LMII_matrixItmIndex;
-                                 GSxmlMatrixItem.Attributes['pmIndex']
-                                    :=FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_fprodMode[GSsubCount].PF_linkedMatrixItemIndexes[GSsubCount1].LMII_matrixProdModeIndex;
-                                 inc(GSsubCount1);
-                              end;
+                                 GSxmlProdMode:=GSxmlColInf.AddChild('prodmode');
+                                 case FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_fprodMode[GSsubCount].PM_type of
+                                    pmResourceMining: GSstringStore:='pmResourceMining';
+                                 end;
+                                 GSxmlProdMode.Attributes['prodModeType']:=GSstringStore;
+                                 GSxmlProdMode.Attributes['isDisabled']:=FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_fprodMode[GSsubCount].PM_isDisabled;
+                                 GSxmlProdMode.Attributes['energyCons']:=FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_fprodMode[GSsubCount].PM_energyCons;
+                                 GSxmlProdMode.Attributes['matrixItemMax']:=FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_fprodMode[GSsubCount].PM_matrixItemMax;
+                                 GSsubCount1:=1;
+                                 while GSsubCount1<=FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_fprodMode[GSsubCount].PM_matrixItemMax do
+                                 begin
+                                    GSxmlMatrixItem:=GSxmlProdMode.AddChild('linkedMatrixItem');
+                                    GSxmlMatrixItem.Attributes['pmitmIndex']
+                                       :=FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_fprodMode[GSsubCount].PF_linkedMatrixItemIndexes[GSsubCount1].LMII_matrixItmIndex;
+                                    GSxmlMatrixItem.Attributes['pmIndex']
+                                       :=FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_fprodMode[GSsubCount].PF_linkedMatrixItemIndexes[GSsubCount1].LMII_matrixProdModeIndex;
+                                    inc(GSsubCount1);
+                                 end;
+                              end
+                              else Break;
                               inc(GSsubCount);
                            end;
                         end;
