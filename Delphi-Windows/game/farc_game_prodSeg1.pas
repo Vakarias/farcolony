@@ -86,6 +86,7 @@ procedure FCMgSP1_EnergyEqRule_LoadList(
          ,EERLLcol: integer
    );
 {:Purpose: load the three infrastructure lists
+   -2011Dec12- *fix: correctly initialize the GPS1infraProduction array.
 }
    var
       EERLLinfraCnt
@@ -114,7 +115,7 @@ begin
             then
             begin
                inc(GPS1infraPindex);
-               SetLength( GPS1infraHousing, GPS1infraPindex+1 );
+               SetLength( GPS1infraProduction, GPS1infraPindex+1 );
                GPS1infraProduction[GPS1infraPindex].IL_settlement:=EERLLSetCnt;
                GPS1infraProduction[GPS1infraPindex].IL_index:=EERLLinfraCnt;
             end
