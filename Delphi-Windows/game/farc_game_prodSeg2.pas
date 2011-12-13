@@ -82,6 +82,7 @@ procedure FCMgPS2_ProductionMatrixItem_Add(
    );
 {:Purpose: add a production item in a colony's production matrix.
     Additions:
+      -2011Dec12- *fix: update the global production flow only if the production mode is enabled.
       -2011Dec11- *mod: the production matrix' global production flow value isn't updated when the production mode is created and set as disabled.
       -2011Dec08- *mod: if the production mode, inside the production matrix, is created, it is disabled by default. The reason is that a production mode is created only in case of a new infrastructure.
       -2011Dec06- *add: completion of procedure basics.
@@ -117,9 +118,11 @@ begin
                and ( FCentities[ PIAent ].E_col[ PIAcol ].COL_productionMatrix[ PIApmCount ].CPMI_productionModes[ PIApmodeCount ].PF_locProdModeIndex=PIAprodModeIndex ) then
             begin
                FCentities[ PIAent ].E_col[ PIAcol ].COL_productionMatrix[ PIApmCount ].CPMI_productionModes[ PIApmodeCount ].PF_productionFlow:=PIAproductionFlow;
-               FCentities[ PIAent ].E_col[ PIAcol ].COL_productionMatrix[ PIApmCount ].CPMI_globalProdFlow:=
+               if not FCentities[ PIAent ].E_col[ PIAcol ].COL_settlements[ PIAsettlement ].CS_infra[ PIAownedInfra ].CI_fprodMode[ PIAprodModeIndex ].PM_isDisabled
+               then FCentities[ PIAent ].E_col[ PIAcol ].COL_productionMatrix[ PIApmCount ].CPMI_globalProdFlow:=
                   FCentities[ PIAent ].E_col[ PIAcol ].COL_productionMatrix[ PIApmCount ].CPMI_globalProdFlow
-                     +FCentities[ PIAent ].E_col[ PIAcol ].COL_productionMatrix[ PIApmCount ].CPMI_productionModes[ PIApmodeCount ].PF_productionFlow;
+                  +FCentities[ PIAent ].E_col[ PIAcol ].COL_productionMatrix[ PIApmCount ].CPMI_productionModes[ PIApmodeCount ].PF_productionFlow
+                  ;
                PIAisPModeCreated:=true;
                Break;
             end;
@@ -135,7 +138,9 @@ begin
    begin
       if PIAprodMatrixFound=0 then
       begin
-         inc( PIApmMax );
+         if PIApmMax<=0
+         then PIApmMax:=1
+         else inc( PIApmMax );
          SetLength( FCentities[ PIAent ].E_col[ PIAcol ].COL_productionMatrix, PIApmMax+1 );
          PIAprodMatrixFound:=PIApmMax;
          FCentities[ PIAent ].E_col[ PIAcol ].COL_productionMatrix[ PIAprodMatrixFound ].CPMI_productToken:=PIAproduct;
