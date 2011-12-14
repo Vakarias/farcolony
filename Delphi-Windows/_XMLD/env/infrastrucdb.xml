@@ -154,13 +154,13 @@
       //nuclear fission - only use the infrastructure's level range
       <infFunc infFunc="ifEnergy" emode="egmFission" fixedprodlv1="" fixedprodlv1byDL="" fixedprodlv2="" fixedprodlv2byDL="" fixedprodlv3="" fixedprodlv3byDL="" fixedprodlv4="" fixedprodlv4byDL="" fixedprodlv5="" fixedprodlv5byDL="" fixedprodlv6="" fixedprodlv6byDL="" fixedprodlv7="" fixedprodlv7byDL=""/>
       //nuclear fusion DT
-      <infFunc infFunc="ifEnergy" emode="egmFusionDT"/>
+      <infFunc infFunc="fEnergy" emode="egmFusionDT"/>
       //nuclear fusion H2
-      <infFunc infFunc="ifEnergy" emode="egmFusionH2"/>
+      <infFunc infFunc="fEnergy" emode="egmFusionH2"/>
       //nuclear fusion He-3
-      <infFunc infFunc="ifEnergy" emode="egmFusionHe3"/>
+      <infFunc infFunc="fEnergy" emode="egmFusionHe3"/>
       //Photonic Energy
-      <infFunc infFunc="ifEnergy" emode="egmPhoton" area="" efficiency=""/>
+      <infFunc infFunc="fEnergy" emode="egmPhoton" area="" efficiency=""/>
       //ifHousing EXCEPTED cConv
       <infFunc infFunc="fHousing" pcaplv1="" pcaplv2="" pcaplv3="" pcaplv4="" pcaplv5="" pcaplv6="" pcaplv7="" qol=""/> 
       //for cConv ONLY
@@ -436,6 +436,6 @@
       <infReq>
          <irGravity min="0" max="1.5"/>
       </infReq>
-      <infFunc infFunc="ifEnergy" emode="egmFission" fixedprodlv1="40" fixedprodlv1byDL="3.52" fixedprodlv2="64" fixedprodlv2byDL="5.63" fixedprodlv3="88" fixedprodlv3byDL="7.74" fixedprodlv4="112" fixedprodlv4byDL="9.86"/>
+      <infFunc infFunc="fEnergy" emode="egmFission" fixedprodlv1="40" fixedprodlv1byDL="3.52" fixedprodlv2="64" fixedprodlv2byDL="5.63" fixedprodlv3="88" fixedprodlv3byDL="7.74" fixedprodlv4="112" fixedprodlv4byDL="9.86"/>
    </infra>
  </infrastructures>
