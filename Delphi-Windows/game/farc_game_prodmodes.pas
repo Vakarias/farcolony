@@ -329,9 +329,7 @@ begin
                PMDFFGrmp:=
                   ( ( sqrt( PMDFFGinfraData.I_reqStaff[PMDFFGstaffColonIndex].RS_requiredByLv[ PMDFFGinfraLevel ] )*5 )+( sqrt( PMDFFGinfraData.I_reqStaff[PMDFFGstaffTechIndex].RS_requiredByLv[ PMDFFGinfraLevel ] )*30 ) )
                   *( 1-( ( 1-PMDFFGenv.ENV_gravity )*0.5 ) );
-                  {:DEV NOTES: DEBUG LINE HERE TO REMOVE.}
                FCentities[PMDFFGent].E_col[PMDFFGcol].COL_settlements[PMDFFGsett].CS_infra[PMDFFGinfra].CI_fprodMode[PMDFFGcnt].PM_energyCons:=FCFcFunc_Rnd( rttPowerKw, PMDFFGrmp );
-               FCWinDebug.AdvMemo1.Lines.Add('prodmodepower='+floattostr(PMDFFGrmp)+'  rounded energy='+FloatToStr(FCentities[PMDFFGent].E_col[PMDFFGcol].COL_settlements[PMDFFGsett].CS_infra[PMDFFGinfra].CI_fprodMode[PMDFFGcnt].PM_energyCons));
             end;
          end; //==END== case PMDFFGinfraData.I_fProductionMode[PMDFFGcnt].IPM_productionModes of ==//
       end //==END== if PMDFFGinfraData.I_fProductionMode[PMDFFGcnt].IPM_occupancy>0 then ==//

@@ -1108,6 +1108,7 @@ begin
                   CPUsubnode
                   ,FCFdTFiles_UIStr_Get(uistrUI, CPUinfStatus)+': '+IntToStr(FCentities[0].E_col[CPUcol].COL_settlements[CPUsettlement].CS_infra[CPUcnt].CI_cabDuration)+' hr(s)' );
                {:DEV NOTES: for transition, duration calculation must be inmplemented first.}
+               {:DEV NOTES: TO IMPLEMENT, transition rule is already DONE.}
                istInTransition: FCWinMain.FCWM_CDPinfrList.Items.AddChild(CPUsubnode, '<i>Not Implemented yet');
             end;
             inc(CPUcnt);
