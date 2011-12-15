@@ -407,8 +407,7 @@ procedure FCMuiCDP_CWPAssignKey_Test(
 }
 var
    CWPAKTcol
-   ,CWPAKTequipIndex
-   ,CWPAKTxfer: integer;
+   ,CWPAKTequipIndex: integer;
 
    CWPAKTvalue: integer;
 
@@ -438,13 +437,13 @@ begin
       begin
          if FCEntities[0].E_col[CWPAKTcol].COL_storageList[ CDPmanEquipStor[CWPAKTequipIndex] ].CPR_unit<CWPAKTvalue
          then CWPAKTvalue:=round(FCEntities[0].E_col[CWPAKTcol].COL_storageList[ CDPmanEquipStor[CWPAKTequipIndex] ].CPR_unit);
-         CWPAKTxfer:=FCFgC_Storage_Update(
-               false
-               ,FCEntities[0].E_col[CWPAKTcol].COL_storageList[ CDPmanEquipStor[CWPAKTequipIndex] ].CPR_token
-               ,CWPAKTvalue
-               ,0
-               ,CWPAKTcol
-               );
+         FCFgC_Storage_Update(
+            false
+            ,FCEntities[0].E_col[CWPAKTcol].COL_storageList[ CDPmanEquipStor[CWPAKTequipIndex] ].CPR_token
+            ,CWPAKTvalue
+            ,0
+            ,CWPAKTcol
+            );
          CWPAKTcwp:=FCFcFunc_Rnd( cfrttpSizem, CWPAKTvalue*FCDBproducts[ CDPmanEquipDB[CWPAKTequipIndex] ].PROD_fManConstWCPcoef );
       end;
       FCEntities[0].E_col[CWPAKTcol].COL_population.POP_tpColonAssigned:=FCEntities[0].E_col[CWPAKTcol].COL_population.POP_tpColonAssigned+CWPAKTvalue;
@@ -471,8 +470,7 @@ var
    CWPAVKTcol
    ,CWPAVKTcrew
    ,CWPAVKTequipIndex
-   ,CWPAVKTvalue
-   ,CWPAVKTxfer: integer;
+   ,CWPAVKTvalue: integer;
 
    CWPAVKTcwp: double;
 begin
@@ -504,7 +502,7 @@ begin
                / FCDBproducts[ CDPmanEquipDB[CWPAVKTequipIndex] ].PROD_fMechConstCrew );
             CWPAVKTcrew:=CWPAVKTvalue*FCDBproducts[ CDPmanEquipDB[CWPAVKTequipIndex] ].PROD_fMechConstCrew;
          end;
-         CWPAVKTxfer:=FCFgC_Storage_Update(
+         FCFgC_Storage_Update(
             false
             ,FCEntities[0].E_col[CWPAVKTcol].COL_storageList[ CDPmanEquipStor[CWPAVKTequipIndex] ].CPR_token
             ,CWPAVKTvalue

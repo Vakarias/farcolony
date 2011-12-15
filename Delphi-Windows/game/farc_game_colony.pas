@@ -148,10 +148,10 @@ function FCFgC_Storage_RetrieveIndex(
 function FCFgC_Storage_Update(
    const SUisStoreMode: boolean;
    const SUtoken: string;
-   const SUunit
-         ,SUtargetEnt
+   const SUunit: double;
+   const SUtargetEnt
          ,SUtargetCol: integer
-   ): integer;     {:DEV NOTES: required parameters refactoring.}
+   ): double;     {:DEV NOTES: required parameters refactoring.}
 
 //===========================END FUNCTIONS SECTION==========================================
 
@@ -512,12 +512,14 @@ end;
 function FCFgC_Storage_Update(
    const SUisStoreMode: boolean;
    const SUtoken: string;
-   const SUunit
-         ,SUtargetEnt
+   const SUunit: double;
+   const SUtargetEnt
          ,SUtargetCol: integer
-   ): integer;
+   ): double;
 {:Purpose: update the storage of a colony with a specific product. Return the amount in unit that couldn't be transfered.
     Additions:
+      -2011Dec14- *mod: change the parameter SUunit type to double, since a stored product with volume by unit =1 can have units in formatted float (x.xxx) format.
+                  *mod: change also the return value to double;
       -2011Dec06- *some code cleanup.
       -2011Dec05- *add: include the case when the parameter SUunit=0.
                   *code: some writing cleanup.
@@ -527,11 +529,11 @@ function FCFgC_Storage_Update(
 var
    SUcnt
    ,SUindex
-   ,SUmax
-   ,SUnewUnit: integer;
+   ,SUmax: integer;
 
    SUcapaLoaded
-   ,SUvolToXfer: double;
+   ,SUnewUnit
+   ,SUvolToXfer: extended;
 begin
    Result:=0;
    SUcnt:=0;
@@ -578,14 +580,18 @@ begin
                   Result:=0;
                end
                else begin
-                  SUnewUnit:=trunc(
-                     (FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacitySolidMax-FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacitySolidCurr)
-                     /FCDBProducts[SUindex].PROD_volByUnit
-                     );
+                  SUnewUnit:=FCFgP_UnitFromVolume_Get( SUindex, FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacitySolidMax-FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacitySolidCurr );
+//
+//                  trunc(
+//                     (FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacitySolidMax-FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacitySolidCurr)
+//                     /FCDBProducts[SUindex].PROD_volByUnit
+//                     )+1;
                   if SUnewUnit=0
                   then Result:=SUunit
                   else begin
-                     SUvolToXfer:=FCFcFunc_Rnd(cfrttpVolm3, FCDBProducts[SUindex].PROD_volByUnit*SUnewUnit);
+                     if FCDBProducts[SUindex].PROD_volByUnit>1
+                     then SUvolToXfer:=FCFcFunc_Rnd(cfrttpVolm3, FCDBProducts[SUindex].PROD_volByUnit*SUnewUnit)
+                     else SUvolToXfer:=SUnewUnit;
                      FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacitySolidCurr:=FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacitySolidCurr+SUvolToXfer;
                      FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storageList[SUcnt].CPR_unit:=FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storageList[SUcnt].CPR_unit+SUunit;
                      Result:=SUunit-SUnewUnit;
@@ -603,14 +609,17 @@ begin
                   Result:=0;
                end
                else begin
-                  SUnewUnit:=trunc(
-                     (FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacityLiquidMax-FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacityLiquidCurr)
-                     /FCDBProducts[SUindex].PROD_volByUnit
-                     );
+                  SUnewUnit:=FCFgP_UnitFromVolume_Get( SUindex, FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacityLiquidMax-FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacityLiquidCurr );
+//                  SUnewUnit:=trunc(
+//                     (FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacityLiquidMax-FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacityLiquidCurr)
+//                     /FCDBProducts[SUindex].PROD_volByUnit
+//                     )+1;
                   if SUnewUnit=0
                   then Result:=SUunit
                   else begin
-                     SUvolToXfer:=FCFcFunc_Rnd(cfrttpVolm3, FCDBProducts[SUindex].PROD_volByUnit*SUnewUnit);
+                     if FCDBProducts[SUindex].PROD_volByUnit>1
+                     then SUvolToXfer:=FCFcFunc_Rnd(cfrttpVolm3, FCDBProducts[SUindex].PROD_volByUnit*SUnewUnit)
+                     else SUvolToXfer:=SUnewUnit;
                      FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacityLiquidCurr:=FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacityLiquidCurr+SUvolToXfer;
                      FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storageList[SUcnt].CPR_unit:=FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storageList[SUcnt].CPR_unit+SUunit;
                      Result:=SUunit-SUnewUnit;
@@ -628,15 +637,19 @@ begin
                   Result:=0;
                end
                else begin
-                  SUnewUnit:=trunc(
-                     (FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacityGasMax-FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacityGasCurr)
-                     /FCDBProducts[SUindex].PROD_volByUnit
-                     );
+                  SUnewUnit:=FCFgP_UnitFromVolume_Get( SUindex, FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacityGasMax-FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacityGasCurr );
+//                  SUnewUnit:=trunc(
+//                     (FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacityGasMax-FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacityGasCurr)
+//                     /FCDBProducts[SUindex].PROD_volByUnit
+//                     );
                   if SUnewUnit=0
                   then Result:=SUunit
                   else
                   begin
-                     SUvolToXfer:=FCFcFunc_Rnd(cfrttpVolm3, FCDBProducts[SUindex].PROD_volByUnit*SUnewUnit);
+                     if FCDBProducts[SUindex].PROD_volByUnit>1
+                     then SUvolToXfer:=FCFcFunc_Rnd(cfrttpVolm3, FCDBProducts[SUindex].PROD_volByUnit*SUnewUnit)
+                     else SUvolToXfer:=SUnewUnit;
+//                     SUvolToXfer:=FCFcFunc_Rnd(cfrttpVolm3, FCDBProducts[SUindex].PROD_volByUnit*SUnewUnit);
                      FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacityGasCurr:=FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacityGasCurr+SUvolToXfer;
                      FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storageList[SUcnt].CPR_unit:=FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storageList[SUcnt].CPR_unit+SUunit;
                      Result:=SUunit-SUnewUnit;
@@ -656,15 +669,19 @@ begin
                end
                else
                begin
-                  SUnewUnit:=trunc(
-                     (FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacityBioMax-FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacityBioCurr)
-                     /FCDBProducts[SUindex].PROD_volByUnit
-                     );
+                  SUnewUnit:=FCFgP_UnitFromVolume_Get( SUindex, FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacityBioMax-FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacityBioCurr );
+//                  SUnewUnit:=trunc(
+//                     (FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacityBioMax-FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacityBioCurr)
+//                     /FCDBProducts[SUindex].PROD_volByUnit
+//                     );
                   if SUnewUnit=0
                   then Result:=SUunit
                   else
                   begin
-                     SUvolToXfer:=FCFcFunc_Rnd(cfrttpVolm3, FCDBProducts[SUindex].PROD_volByUnit*SUnewUnit);
+                     if FCDBProducts[SUindex].PROD_volByUnit>1
+                     then SUvolToXfer:=FCFcFunc_Rnd(cfrttpVolm3, FCDBProducts[SUindex].PROD_volByUnit*SUnewUnit)
+                     else SUvolToXfer:=SUnewUnit;
+//                     SUvolToXfer:=FCFcFunc_Rnd(cfrttpVolm3, FCDBProducts[SUindex].PROD_volByUnit*SUnewUnit);
                      FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacityBioCurr:=FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacityBioCurr+SUvolToXfer;
                      FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storageList[SUcnt].CPR_unit:=FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storageList[SUcnt].CPR_unit+SUunit;
                      Result:=SUunit-SUnewUnit;
@@ -677,7 +694,10 @@ begin
    else if (not SUisStoreMode)
       and (SUcnt>0) then
    begin
-      SUvolToXfer:=FCFcFunc_Rnd(cfrttpVolm3, FCDBProducts[SUindex].PROD_volByUnit*SUunit);
+      if FCDBProducts[SUindex].PROD_volByUnit>1
+      then SUvolToXfer:=FCFcFunc_Rnd(cfrttpVolm3, FCDBProducts[SUindex].PROD_volByUnit*SUunit)
+      else SUvolToXfer:=SUunit;
+//      SUvolToXfer:=FCFcFunc_Rnd(cfrttpVolm3, FCDBProducts[SUindex].PROD_volByUnit*SUunit);
       case FCDBProducts[SUindex].PROD_storage of
          stSolid:
          begin
@@ -709,6 +729,8 @@ begin
    else begin
       Result:=SUunit;
    end;
+   if frac(Result)>0
+   then Result:=FCFcFunc_Rnd( cfrttpVolm3, Result );
 end;
 //===========================END FUNCTIONS SECTION==========================================
 
