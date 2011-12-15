@@ -219,6 +219,7 @@ uses
    ,farc_game_infrafunctions
    ,farc_game_infrapower
    ,farc_game_infrastaff
+   ,farc_game_prod
    ,farc_game_prodrsrcspots
    ,farc_spu_functions
    ,farc_ui_coldatapanel
@@ -389,8 +390,7 @@ procedure FCMgICS_Assembling_Process(
     	-2011May17-	*add: assembling process (WIP).
 }
 	var
-   	APinfraIndex
-      ,APxfer: integer;
+   	APinfraIndex: integer;
 
       APisCDPshown: boolean;
 
@@ -429,7 +429,7 @@ begin
       ,APclonedInfra
       );
    {.remove the infrastructure kit which correspond to the infrastructure}
-   APxfer:=FCFgC_Storage_Update(
+   FCFgC_Storage_Update(
       false
       ,FCEntities[APent].E_col[APcol].COL_storageList[APinfraKitInStorage].CPR_token
       ,1
@@ -454,13 +454,21 @@ procedure FCMgICS_Building_Process(
    );
 {:Purpose: process in the building of an infrastructure.
     Additions:
+      -2011Dec14- *add: remove the required construction materials from the colony's storage.
       -2011Dec01- *add: update the resource spot requirement if needed.
       -2011Sep21- *rem: moved function initalization to the assembling/building post-process.
       -2011Jul05- *add/fix: forgot to update the CAB queue list !
       -2011Jun26- *add: initialize the infrastructure functions in a separate method.
 }
    var
-      BPinfraIndex: integer;
+      BPcount
+      ,BPinfraIndex
+      ,BPmax: integer;
+
+      BPresultUnits: double;
+
+      BPcurrentMatVol
+      ,BPtempMatVol: extended;
 
       BPisCDPshown: boolean;
 
@@ -500,6 +508,35 @@ begin
       ,BPinfraIndex
       ,BPclonedInfra
       );
+   {.remove the construction materials needed for the building}
+   BPcurrentMatVol:=BPclonedInfra.I_matVolume[ FCentities[BPent].E_col[BPcol].COL_settlements[BPsettlement].CS_infra[BPinfraIndex].CI_level ];
+   BPmax:=length( BPclonedInfra.I_reqConstrMat )-1;
+   BPcount:=1;
+   while BPcount<=BPmax do
+   begin
+      if BPcount=BPmax
+      then FCFgC_Storage_Update(
+         false
+         ,BPclonedInfra.I_reqConstrMat[ BPcount ].RCM_token
+         ,BPresultUnits
+         ,BPent
+         ,BPcol
+         )
+      else begin
+         BPtempMatVol:=BPclonedInfra.I_matVolume[ FCentities[BPent].E_col[BPcol].COL_settlements[BPsettlement].CS_infra[BPinfraIndex].CI_level ]*( BPclonedInfra.I_reqConstrMat[ BPcount ].RCM_percent*0.01 );
+         BPtempMatVol:=FCFcFunc_Rnd( cfrttpVolm3, BPtempMatVol );
+         BPresultUnits:=FCFgP_UnitFromVolume_Get( BPclonedInfra.I_reqConstrMat[ BPcount ].RCM_token, BPtempMatVol );
+         BPcurrentMatVol:=BPcurrentMatVol-BPtempMatVol;
+      end;
+      FCFgC_Storage_Update(
+         false
+         ,BPclonedInfra.I_reqConstrMat[ BPcount ].RCM_token
+         ,BPresultUnits
+         ,BPent
+         ,BPcol
+         );
+      inc( BPcount );
+   end;
    BPisCDPshown:=FCFuiCDP_isInfrastructuresSection_Shown(BPcol, BPsettlement);
    if BPisCDPshown
    then FCMuiCDP_Data_Update(
@@ -645,8 +682,7 @@ var
    ,ICPinfra
    ,ICPprodIndex
    ,ICPsurf
-   ,ICPvol
-   ,ICPxfer: integer;
+   ,ICPvol: integer;
 
    ICPx: double;
 
@@ -778,35 +814,35 @@ begin
       ,0
       ,0
       );
-   ICPxfer:=FCFgC_Storage_Update(
+   FCFgC_Storage_Update(
       true
       ,'energNucFisRsm'
       ,1
       ,0
       ,ICPcol
       );
-   ICPxfer:=FCFgC_Storage_Update(
+   FCFgC_Storage_Update(
       true
       ,'equipHandTools'
       ,10
       ,0
       ,ICPcol
       );
-   ICPxfer:=FCFgC_Storage_Update(
+   FCFgC_Storage_Update(
       true
       ,'equipPowerTools'
       ,10
       ,0
       ,ICPcol
       );
-   ICPxfer:=FCFgC_Storage_Update(
+   FCFgC_Storage_Update(
       true
       ,'equipConstrExo'
       ,1
       ,0
       ,ICPcol
       );
-   ICPxfer:=FCFgC_Storage_Update(
+   FCFgC_Storage_Update(
       true
       ,'equipMiningMachinery'
       ,1
