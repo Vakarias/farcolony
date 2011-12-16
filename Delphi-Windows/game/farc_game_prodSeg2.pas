@@ -176,17 +176,44 @@ procedure FCMgPS2_ProductionSegment_Process(
     Additions:
 }
    var
-      PSPprodMatrixCnt
-      ,PSPprodMatrixMax: integer;
-begin
-   PSPprodMatrixMax:=length(FCEntities[PSPent].E_col[PSPcol].COL_productionMatrix)-1;
-   if PSPprodMatrixMax>0 then
-   begin
-      PSPprodMatrixCnt:=1;
-      while PSPprodMatrixCnt<=PSPprodMatrixMax do
-      begin
+      PSPcnt
+      ,PSPmax
+      ,PSPstorCnt
+      ,PSPstorIndex
+      ,PSPstorMax: integer;
 
-         inc(PSPprodMatrixCnt);
+      PSPstorageRoot: array of TFCRdgColonProduct;
+begin
+   SetLength( PSPstorageRoot, 1 );
+   PSPstorageRoot:=nil;
+   PSPstorMax:=length( FCEntities[PSPent].E_col[PSPcol].COL_storageList )-1;
+   SetLength( PSPstorageRoot, PSPstorMax+1 );
+   PSPstorCnt:=1;
+   while PSPstorCnt<=PSPstorMax do
+   begin
+      PSPstorageRoot[ PSPstorCnt ].CPR_token:=FCEntities[PSPent].E_col[PSPcol].COL_storageList[ PSPstorCnt ].CPR_token;
+      PSPstorageRoot[ PSPstorCnt ].CPR_unit:=FCEntities[PSPent].E_col[PSPcol].COL_storageList[ PSPstorCnt ].CPR_unit;
+      inc( PSPstorCnt );
+   end;
+   PSPmax:=length( FCEntities[PSPent].E_col[PSPcol].COL_productionMatrix )-1;
+   if PSPmax>0 then
+   begin
+      PSPcnt:=1;
+      while PSPcnt<=PSPmax do
+      begin
+         PSPstorIndex:=FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcnt ].CPMI_storageIndex;
+         if FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcnt ].CPMI_globalProdFlow<0 then
+         begin
+            if FCEntities[PSPent].E_col[PSPcol].COL_storageList[ PSPstorIndex ].CPR_unit>=FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcnt ].CPMI_globalProdFlow
+            then FCFgC_Storage_Update( {:DEV NOTES: put var to store the result, if not all is xfer.}
+               false
+               ,FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcnt ].CPMI_productToken
+               ,FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcnt ].CPMI_globalProdFlow
+               ,PSPent
+               ,PSPcol
+               );
+         end;
+         inc(PSPcnt);
       end;
    end;
 end;
