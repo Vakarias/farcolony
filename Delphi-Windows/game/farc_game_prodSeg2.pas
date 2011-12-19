@@ -66,7 +66,8 @@ implementation
 
 uses
    farc_data_game
-   ,farc_game_colony;
+   ,farc_game_colony
+   ,farc_game_prodmodes;
 
 //===================================================END OF INIT============================
 //===========================END FUNCTIONS SECTION==========================================
@@ -174,46 +175,89 @@ procedure FCMgPS2_ProductionSegment_Process(
    );
 {:Purpose:  segment 2 (items production) processing.
     Additions:
+      -2011Dec18- *add: rule foundation, work-in-progress.
 }
    var
-      PSPcnt
-      ,PSPmax
-      ,PSPstorCnt
-      ,PSPstorIndex
-      ,PSPstorMax: integer;
+      PSPcntPmatrix
+      ,PSPcntPMitems
+      ,PSPcntPmode
+      ,PSPmaxPmatrix
+//      ,PSPmaxPMitems
+      ,PSPmaxPmode
+      ,PSPownedInfra
+      ,PSPpmatrixIndex
+//      ,PSPpmatrixPModeIndex
+      ,PSPprodModeIndex
+      ,PSPsettlement
+      ,PSPstorageIndex: integer;
 
-      PSPstorageRoot: array of TFCRdgColonProduct;
+//      PSPstorageRoot: array of TFCRdgColonProduct;
 begin
-   SetLength( PSPstorageRoot, 1 );
-   PSPstorageRoot:=nil;
-   PSPstorMax:=length( FCEntities[PSPent].E_col[PSPcol].COL_storageList )-1;
-   SetLength( PSPstorageRoot, PSPstorMax+1 );
-   PSPstorCnt:=1;
-   while PSPstorCnt<=PSPstorMax do
+
+   PSPmaxPmatrix:=length( FCEntities[PSPent].E_col[PSPcol].COL_productionMatrix )-1;
+   if PSPmaxPmatrix>0 then
    begin
-      PSPstorageRoot[ PSPstorCnt ].CPR_token:=FCEntities[PSPent].E_col[PSPcol].COL_storageList[ PSPstorCnt ].CPR_token;
-      PSPstorageRoot[ PSPstorCnt ].CPR_unit:=FCEntities[PSPent].E_col[PSPcol].COL_storageList[ PSPstorCnt ].CPR_unit;
-      inc( PSPstorCnt );
-   end;
-   PSPmax:=length( FCEntities[PSPent].E_col[PSPcol].COL_productionMatrix )-1;
-   if PSPmax>0 then
-   begin
-      PSPcnt:=1;
-      while PSPcnt<=PSPmax do
+      PSPcntPmatrix:=1;
+      while PSPcntPmatrix<=PSPmaxPmatrix do
       begin
-         PSPstorIndex:=FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcnt ].CPMI_storageIndex;
-         if FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcnt ].CPMI_globalProdFlow<0 then
+         PSPstorageIndex:=FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcntPmatrix ].CPMI_storageIndex;
+         if FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcntPmatrix ].CPMI_globalProdFlow<0 then
          begin
-            if FCEntities[PSPent].E_col[PSPcol].COL_storageList[ PSPstorIndex ].CPR_unit>=FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcnt ].CPMI_globalProdFlow
-            then FCFgC_Storage_Update( {:DEV NOTES: put var to store the result, if not all is xfer.}
+            if FCEntities[PSPent].E_col[PSPcol].COL_storageList[ PSPstorageIndex ].CPR_unit<FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcntPmatrix ].CPMI_globalProdFlow then
+            begin
+               PSPmaxPmode:=length( FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcntPmatrix ].CPMI_productionModes )-1;
+               PSPcntPmode:=1;
+               while PSPcntPmode<=PSPmaxPmode do
+               begin
+                  if FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcntPmatrix ].CPMI_productionModes[ PSPcntPmode ].PF_productionFlow<0 then
+                  begin
+                     PSPsettlement:=FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcntPmatrix ].CPMI_productionModes[ PSPcntPmode ].PF_locSettlement;
+                     PSPownedInfra:=FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcntPmatrix ].CPMI_productionModes[ PSPcntPmode ].PF_locInfra;
+                     PSPprodModeIndex:=FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcntPmatrix ].CPMI_productionModes[ PSPcntPmode ].PF_locProdModeIndex;
+                     PSPcntPMitems:=1;
+                     while PSPcntPMitems<=FCEntities[ PSPent ].E_col[ PSPcol ].COL_settlements[ PSPsettlement ].CS_infra[ PSPownedInfra ].CI_fprodMode[ PSPprodModeIndex ].PM_matrixItemMax do
+                     begin
+                        PSPpmatrixIndex:=
+                           FCEntities[ PSPent ].E_col[ PSPcol ].COL_settlements[ PSPsettlement ].CS_infra[ PSPownedInfra ].CI_fprodMode[ PSPprodModeIndex ].PF_linkedMatrixItemIndexes[ PSPcntPMitems ].LMII_matrixItmIndex;
+//                        if PSPpmatrixIndex< PSPcntPmatrix
+//                        then revert the production calculation since the production mode is disabled
+//                           else if PSPpmatrixIndex>=PSPcntPmatrix
+//                           then break;
+
+                        inc( PSPcntPMitems );
+                     end;
+                     FCMgPM_EnableDisable_Process(
+                        PSPent
+                        ,PSPcol
+                        ,FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcntPmatrix ].CPMI_productionModes[ PSPcntPmode ].PF_locSettlement
+                        ,FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcntPmatrix ].CPMI_productionModes[ PSPcntPmode ].PF_locInfra
+                        ,FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcntPmatrix ].CPMI_productionModes[ PSPcntPmode ].PF_locProdModeIndex
+                        ,false
+                        );
+                     if FCEntities[PSPent].E_col[PSPcol].COL_storageList[ PSPstorageIndex ].CPR_unit>=FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcntPmatrix ].CPMI_globalProdFlow
+                     then Break;
+                  end;
+                  inc( PSPcntPmode );
+               end;
+            end
+            else if FCEntities[PSPent].E_col[PSPcol].COL_storageList[ PSPstorageIndex ].CPR_unit>=FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcntPmatrix ].CPMI_globalProdFlow
+            then FCFgC_Storage_Update(
                false
-               ,FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcnt ].CPMI_productToken
-               ,FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcnt ].CPMI_globalProdFlow
+               ,FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcntPmatrix ].CPMI_productToken
+               ,FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcntPmatrix ].CPMI_globalProdFlow
                ,PSPent
                ,PSPcol
                );
-         end;
-         inc(PSPcnt);
+         end
+         else if FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcntPmatrix ].CPMI_globalProdFlow>0
+         then FCFgC_Storage_Update(
+            true
+            ,FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcntPmatrix ].CPMI_productToken
+            ,FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcntPmatrix ].CPMI_globalProdFlow
+            ,PSPent
+            ,PSPcol
+            );
+         inc(PSPcntPmatrix);
       end;
    end;
 end;
