@@ -65,7 +65,8 @@ procedure FCMgPS2_ProductionSegment_Process(
 implementation
 
 uses
-   farc_data_game
+   farc_common_func
+   ,farc_data_game
    ,farc_game_colony
    ,farc_game_prodmodes;
 
@@ -175,25 +176,32 @@ procedure FCMgPS2_ProductionSegment_Process(
    );
 {:Purpose:  segment 2 (items production) processing.
     Additions:
+      -2011Dec19- *add: rule foundation, COMPLETION.
       -2011Dec18- *add: rule foundation, work-in-progress.
 }
+   type prodMatrixDisabled=record
+      matrixItemIndex: integer;
+      prodModeIndex: integer;
+   end;
+
    var
       PSPcntPmatrix
       ,PSPcntPMitems
       ,PSPcntPmode
       ,PSPmaxPmatrix
-//      ,PSPmaxPMitems
       ,PSPmaxPmode
       ,PSPownedInfra
+      ,PSPpmatrixDisIndex
       ,PSPpmatrixIndex
-//      ,PSPpmatrixPModeIndex
       ,PSPprodModeIndex
       ,PSPsettlement
       ,PSPstorageIndex: integer;
 
-//      PSPstorageRoot: array of TFCRdgColonProduct;
+      prodMatrixDisList: array of prodMatrixDisabled;
 begin
-
+   prodMatrixDisList:=nil;
+   setlength( prodMatrixDisList, 1);
+   PSPpmatrixDisIndex:=0;
    PSPmaxPmatrix:=length( FCEntities[PSPent].E_col[PSPcol].COL_productionMatrix )-1;
    if PSPmaxPmatrix>0 then
    begin
@@ -219,21 +227,42 @@ begin
                      begin
                         PSPpmatrixIndex:=
                            FCEntities[ PSPent ].E_col[ PSPcol ].COL_settlements[ PSPsettlement ].CS_infra[ PSPownedInfra ].CI_fprodMode[ PSPprodModeIndex ].PF_linkedMatrixItemIndexes[ PSPcntPMitems ].LMII_matrixItmIndex;
-//                        if PSPpmatrixIndex< PSPcntPmatrix
-//                        then revert the production calculation since the production mode is disabled
-//                           else if PSPpmatrixIndex>=PSPcntPmatrix
-//                           then break;
-
+                        if PSPpmatrixIndex<PSPcntPmatrix then
+                        begin
+                           if FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPpmatrixIndex ].CPMI_globalProdFlow<0
+                           then FCFgC_Storage_Update(
+                              true
+                              ,FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPpmatrixIndex ].CPMI_productToken
+                              ,FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPpmatrixIndex ].CPMI_globalProdFlow
+                              ,PSPent
+                              ,PSPcol
+                              )
+                           else if FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPpmatrixIndex ].CPMI_globalProdFlow>0
+                           then FCFgC_Storage_Update(
+                              false
+                              ,FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPpmatrixIndex ].CPMI_productToken
+                              ,FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPpmatrixIndex ].CPMI_globalProdFlow
+                              ,PSPent
+                              ,PSPcol
+                              );
+                        end
+                        else if PSPpmatrixIndex>=PSPcntPmatrix
+                        then break;
                         inc( PSPcntPMitems );
                      end;
                      FCMgPM_EnableDisable_Process(
                         PSPent
                         ,PSPcol
-                        ,FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcntPmatrix ].CPMI_productionModes[ PSPcntPmode ].PF_locSettlement
-                        ,FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcntPmatrix ].CPMI_productionModes[ PSPcntPmode ].PF_locInfra
-                        ,FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcntPmatrix ].CPMI_productionModes[ PSPcntPmode ].PF_locProdModeIndex
+                        ,PSPsettlement
+                        ,PSPownedInfra
+                        ,PSPprodModeIndex
                         ,false
+                        ,true
                         );
+                     inc( PSPpmatrixDisIndex );
+                     setlength( prodMatrixDisList, PSPpmatrixDisIndex+1 );
+                     prodMatrixDisList[ PSPpmatrixDisIndex ].matrixItemIndex:=PSPcntPmatrix;
+                     prodMatrixDisList[ PSPpmatrixDisIndex ].prodModeIndex:=PSPcntPmode;
                      if FCEntities[PSPent].E_col[PSPcol].COL_storageList[ PSPstorageIndex ].CPR_unit>=FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcntPmatrix ].CPMI_globalProdFlow
                      then Break;
                   end;
@@ -248,7 +277,7 @@ begin
                ,PSPent
                ,PSPcol
                );
-         end
+         end //==END== if FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcntPmatrix ].CPMI_globalProdFlow<0 then ==//
          else if FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcntPmatrix ].CPMI_globalProdFlow>0
          then FCFgC_Storage_Update(
             true
@@ -258,8 +287,28 @@ begin
             ,PSPcol
             );
          inc(PSPcntPmatrix);
+      end; //==END== while PSPcntPmatrix<=PSPmaxPmatrix do ==//
+      if PSPpmatrixDisIndex>0 then
+      begin
+         PSPcntPmatrix:=1;
+         while PSPcntPmatrix<=PSPpmatrixDisIndex do
+         begin
+            PSPsettlement:=FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ prodMatrixDisList[ PSPcntPmatrix ].matrixItemIndex ].CPMI_productionModes[ prodMatrixDisList[ PSPcntPmatrix ].prodModeIndex ].PF_locSettlement;
+            PSPownedInfra:=FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ prodMatrixDisList[ PSPcntPmatrix ].matrixItemIndex ].CPMI_productionModes[ prodMatrixDisList[ PSPcntPmatrix ].prodModeIndex ].PF_locInfra;
+            PSPprodModeIndex:=FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ prodMatrixDisList[ PSPcntPmatrix ].matrixItemIndex ].CPMI_productionModes[ prodMatrixDisList[ PSPcntPmatrix ].prodModeIndex ].PF_locProdModeIndex;
+            FCMgPM_EnableDisable_Process(
+               PSPent
+               ,PSPcol
+               ,PSPsettlement
+               ,PSPownedInfra
+               ,PSPprodModeIndex
+               ,true
+               ,true
+               );
+            inc( PSPcntPmatrix );
+         end;
       end;
-   end;
+   end; //==END== if PSPmaxPmatrix>0 then ==//
 end;
 
 end.
