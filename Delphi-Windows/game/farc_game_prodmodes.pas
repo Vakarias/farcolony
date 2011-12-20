@@ -48,13 +48,15 @@ uses
 ///   <param name="EDPownedInfra">owned infrastructure index #</param>
 ///   <param name="EDPproductionMode">production mode index #</param>
 ///   <param name="EDPisToEnable">if true=> enable the production mode</param>
+///   <param name="EDPifFromProd">if true=> enable/disable comes from the production phase</param>
 procedure FCMgPM_EnableDisable_Process(
    const EDPentity
          ,EDPcolony
          ,EDPsettlement
          ,EDPownedInfra
          ,EDPproductionMode: integer;
-   const EDPisToEnable: boolean
+   const EDPisToEnable
+         ,EDPifFromProd: boolean
          );
 
 ///<summary>
@@ -115,10 +117,12 @@ procedure FCMgPM_EnableDisable_Process(
          ,EDPsettlement
          ,EDPownedInfra
          ,EDPproductionMode: integer;
-   const EDPisToEnable: boolean
+   const EDPisToEnable
+         ,EDPifFromProd: boolean
          );
 {:Purpose: enable or disable a specified production mode by applying its data into colony's global data.
     Additions:
+      -2011Dec19- *add: new parameter for indicate if a disabling/enabling comes from the production phase or not.
       -2011Dec12- *fix: power consumption calculations are put outside the matrix item processing loops, prevent to update the CSM energy <matrix items number> time.
 }
    var
@@ -128,7 +132,8 @@ procedure FCMgPM_EnableDisable_Process(
 begin
    if EDPisToEnable then
    begin
-      FCentities[ EDPentity ].E_col[ EDPcolony ].COL_settlements[ EDPsettlement ].CS_infra[ EDPownedInfra ].CI_fprodMode[ EDPproductionMode ].PM_isDisabled:=false;
+      if not EDPifFromProd
+      then FCentities[ EDPentity ].E_col[ EDPcolony ].COL_settlements[ EDPsettlement ].CS_infra[ EDPownedInfra ].CI_fprodMode[ EDPproductionMode ].PM_isDisabled:=false;
       FCentities[ EDPentity ].E_col[ EDPcolony ].COL_settlements[ EDPsettlement ].CS_infra[ EDPownedInfra ].CI_powerCons:=
          FCentities[ EDPentity ].E_col[ EDPcolony ].COL_settlements[ EDPsettlement ].CS_infra[ EDPownedInfra ].CI_powerCons
          +FCentities[ EDPentity ].E_col[ EDPcolony ].COL_settlements[ EDPsettlement ].CS_infra[ EDPownedInfra ].CI_fprodMode[ EDPproductionMode ].PM_energyCons
@@ -153,11 +158,14 @@ begin
             FCentities[ EDPentity ].E_col[ EDPcolony ].COL_productionMatrix[ EDPprodMatrixIndex ].CPMI_globalProdFlow
             +FCentities[ EDPentity ].E_col[ EDPcolony ].COL_productionMatrix[ EDPprodMatrixIndex ].CPMI_productionModes[ EDPprodModeIndex ].PF_productionFlow
             ;
+         if EDPifFromProd
+         then FCEntities[ EDPentity ].E_col[ EDPcolony ].COL_productionMatrix[ EDPprodMatrixIndex ].CPMI_productionModes[ EDPprodModeIndex ].PF_isDisabledByProdSegment:=false;
          inc( EDPpmiCount );
       end;
    end
    else begin
-      FCentities[ EDPentity ].E_col[ EDPcolony ].COL_settlements[ EDPsettlement ].CS_infra[ EDPownedInfra ].CI_fprodMode[ EDPproductionMode ].PM_isDisabled:=true;
+      if not EDPifFromProd
+      then FCentities[ EDPentity ].E_col[ EDPcolony ].COL_settlements[ EDPsettlement ].CS_infra[ EDPownedInfra ].CI_fprodMode[ EDPproductionMode ].PM_isDisabled:=true;
       FCentities[ EDPentity ].E_col[ EDPcolony ].COL_settlements[ EDPsettlement ].CS_infra[ EDPownedInfra ].CI_powerCons:=
          FCentities[ EDPentity ].E_col[ EDPcolony ].COL_settlements[ EDPsettlement ].CS_infra[ EDPownedInfra ].CI_powerCons
          -FCentities[ EDPentity ].E_col[ EDPcolony ].COL_settlements[ EDPsettlement ].CS_infra[ EDPownedInfra ].CI_fprodMode[ EDPproductionMode ].PM_energyCons
@@ -182,6 +190,8 @@ begin
             FCentities[ EDPentity ].E_col[ EDPcolony ].COL_productionMatrix[ EDPprodMatrixIndex ].CPMI_globalProdFlow
             -FCentities[ EDPentity ].E_col[ EDPcolony ].COL_productionMatrix[ EDPprodMatrixIndex ].CPMI_productionModes[ EDPprodModeIndex ].PF_productionFlow
             ;
+         if EDPifFromProd
+         then FCEntities[ EDPentity ].E_col[ EDPcolony ].COL_productionMatrix[ EDPprodMatrixIndex ].CPMI_productionModes[ EDPprodModeIndex ].PF_isDisabledByProdSegment:=true;
          inc( EDPpmiCount );
       end;
    end;
@@ -211,6 +221,7 @@ begin
          ,EDAPownedInfra
          ,EDAPpmodeCount
          ,EDAPisToEnable
+         ,false
          )
       else Break;
       inc( EDAPpmodeCount );
