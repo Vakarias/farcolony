@@ -103,6 +103,12 @@ function FCFcFunc_ScaleConverter(
    ): double;
 
 ///<summary>
+///   swap the sign of a value (+ => - / - => +)
+///</summary>
+///   <param name="SSvalue">value to swap</param>
+function FCFcF_SignSwap( const SSvalue: double ): double;
+
+///<summary>
 ///   retrieve space unit id# from token id in a owned list
 ///</summary>
 ///    <param name="SUGODBfacTp">faction id #</param>
@@ -327,6 +333,19 @@ begin
    end;
    Result:=TDSCdmpRes;
 end;
+
+function FCFcF_SignSwap( const SSvalue: double ): double;
+{:Purpose: swap the sign of a value (+ => - / - => +).
+    Additions:
+}
+begin
+   Result:=0;
+   if SSvalue<0
+   then Result:=abs( SSvalue )
+   else if SSvalue>0
+   then Result:=-SSvalue;
+end;
+
 
 function FCFcFunc_SpUnit_getOwnDB(
    const SUGODBentity: integer;
