@@ -176,7 +176,7 @@ begin
          ,CPPsatIdx
          );
       FCentities[CPPfac].E_col[CPPcolIdx].COL_name:=CPPname;
-      CPPsettlement:=FCFgInf_Settlement_Add(
+      CPPsettlement:=FCFgC_Settlement_Add(
          CPPfac
          ,CPPcolIdx
          ,CPPregion
@@ -216,7 +216,7 @@ begin
    end
    else
    begin
-      CPPsettlement:=FCFgInf_Settlement_GetFromRegion(
+      CPPsettlement:=FCFgC_Settlement_GetIndexFromRegion(
          CPPfac
          ,CPPcolIdx
          ,CPPregion
@@ -224,7 +224,7 @@ begin
       if CPPsettlement=0
       then
       begin
-         CPPsettlement:=FCFgInf_Settlement_Add(
+         CPPsettlement:=FCFgC_Settlement_Add(
             CPPfac
             ,CPPcolIdx
             ,CPPregion

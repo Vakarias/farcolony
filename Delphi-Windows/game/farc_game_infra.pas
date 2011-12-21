@@ -43,42 +43,22 @@ uses
 ///<summary>
 ///   get the infrastructure function token string
 ///</summary>
-///   <param name="IFGStype">infrastructure type string</param>
-function FCFgInf_Function_GetToken(const IFGStype: TFCEdipFunction): string;
+///   <param name="functionType">infrastructure type</param>
+///   <returns>infrastructure function token string</returns>
+function FCFgI_Function_GetToken( const FunctionType: TFCEdipFunction ): string;
 
 ///<summary>
-///   get the requested infrastructure
+///   get the requested infrastructure data
 ///</summary>
-///   <param name="IGDinfToken">token id of the requested infrastructure</param>
-function FCFgInf_DataStructure_Get(
-   const IGDent
-         ,IGDcol: integer;
-   const IGDinfToken: string
+///   <param name="entity">entity index #</param>
+///   <param name="colony">colony index #</param>
+///   <param name="infraToken">token id of the requested infrastructure</param>
+///   <returns>the requested infrastructure data (taken in the database)</returns>
+function FCFgI_DataStructure_Get(
+   const Entity
+         ,Colony: integer;
+   const InfraToken: string
    ): TFCRdipInfrastructure;
-
-///<summary>
-///   initialize a new settlement for a colony, return the new settlement index.
-///</summary>
-///   <param name=""></param>
-///   <param name=""></param>
-function FCFgInf_Settlement_Add(
-   const SAent
-         ,SAcol
-         ,SAreg
-         ,SAsettleType: integer;
-   const SAsettleName: string
-   ): integer;
-
-///<summary>
-///   get the settlement index# of a given colony's region #
-///</summary>
-///   <param name=""></param>
-///   <param name=""></param>
-function FCFgInf_Settlement_GetFromRegion(
-   const SGFRent
-         ,SGFRcol
-         ,SGFRreg: integer
-   ): integer;
 
 ///<summary>
 ///   return the token of a given infrastructure status
@@ -127,32 +107,40 @@ uses
    ,farc_game_infrafunctions
    ,farc_game_infrapower
    ,farc_game_infrastaff
-   ,farc_univ_func
-   {:DEV NOTES: debug, to remove.}
-   ,farc_main
-   ,farc_win_debug;
+   ,farc_univ_func;
 
 //===================================END OF INIT============================================
 
-function FCFgInf_Function_GetToken(const IFGStype: TFCEdipFunction): string;
+function FCFgI_Function_GetToken( const FunctionType: TFCEdipFunction ): string;
 {:Purpose: get the infrastructure function token string.
    Additions:
+      -2011Dec20- *code audit:
+                  (_)var formatting + refactoring     (_)if..then reformatting   (x)function/procedure refactoring
+                  (x)parameters refactoring           (x) ()reformatting         (_)code optimizations
+                  (_)float local variables=> extended (x)case..of reformatting   (_)local methods
+                  (x)summary completion
       -2011Mar07- *add: converted housing.
 }
 begin
-   case IFGStype of
+   case FunctionType of
       fHousing: Result:='infrahousingicn';
+
       fProduction: Result:='infraprodicn';
    end;
 end;
 
-function FCFgInf_DataStructure_Get(
-   const IGDent
-         ,IGDcol: integer;
-   const IGDinfToken: string
+function FCFgI_DataStructure_Get(
+   const Entity
+         ,Colony: integer;
+   const InfraToken: string
    ): TFCRdipInfrastructure;
-{:Purpose: get the requested infrastructure.
+{:Purpose: get the requested infrastructure data.
     Additions:
+      -2011Dec20- *code audit:
+                  (x)var formatting + refactoring     (x)if..then reformatting   (x)function/procedure refactoring
+                  (x)parameters refactoring           (x) ()reformatting         (_)code optimizations
+                  (_)float local variables=> extended (_)case..of reformatting   (_)local methods
+                  (x)summary completion
       -2011Sep11- *add: the environment is now directly processed inside this function, not outside. Allow to remove many duplicated code.
                   *add: entity/colony parameters.
       -2011May06- *fix: take in account the ANY environment.
@@ -160,125 +148,25 @@ function FCFgInf_DataStructure_Get(
       -2011Feb21- *mod: initialize the infrastructure token with 'ERROR!' by default to put an error message in case of problem.
       -2010May30- *fix: when the right data structure is found the function doesn't exit, instead the flow is broke.
 }
-var
-   IGDcnt
-   ,IGDmax: integer;
+   var
+      Count
+      ,Max: integer;
 
-   IGDenv: TFCRgcEnvironment;
+      Environment: TFCRgcEnvironment;
 begin
-   IGDenv:=FCFgC_ColEnv_GetTp(IGDent, IGDcol);
-   IGDcnt:=1;
-   IGDmax:=high(FCDBinfra);
+   Environment:=FCFgC_ColEnv_GetTp( Entity, Colony );
+   Count:=1;
+   Max:=high( FCDBinfra );
    Result.I_token:='ERROR';
-   while IGDcnt<=IGDmax do
+   while Count<=Max do
    begin
-      if (FCDBinfra[IGDcnt].I_token=IGDinfToken)
-         and ( (FCDBinfra[IGDcnt].I_environment=envAny) or (FCDBinfra[IGDcnt].I_environment=IGDenv.ENV_envType) )
-      then
+      if (FCDBinfra[ Count ].I_token=InfraToken )
+         and ( ( FCDBinfra[ Count ].I_environment=envAny ) or ( FCDBinfra[ Count ].I_environment=Environment.ENV_envType ) ) then
       begin
-         Result:=FCDBinfra[IGDcnt];
+         Result:=FCDBinfra[ Count ];
          break;
       end;
-      inc(IGDcnt);
-   end;
-end;
-
-function FCFgInf_Settlement_Add(
-   const SAent
-         ,SAcol
-         ,SAreg
-         ,SAsettleType: integer;
-   const SAsettleName: string
-   ): integer;
-{:Purpose: initialize a new settlement for a colony.
-    Additions:
-      -2011Mar09- *add: initialize the corresponding CAB queue range.
-      -2011Feb14- *add: set region's settlement data.
-}
-var
-   SAcnt
-   ,SAnbSetstart: integer;
-
-   SAret: TFCRufStelObj;
-begin
-   Result:=0;
-   SAcnt:=0;
-   SAret[1]:=SAret[0];
-   SAret[2]:=SAret[0];
-   SAret[3]:=SAret[0];
-   SAret[4]:=SAret[0];
-   SAret:=FCFuF_StelObj_GetFullRow(
-      FCentities[SAent].E_col[SAcol].COL_locSSys
-      ,FCentities[SAent].E_col[SAcol].COL_locStar
-      ,FCentities[SAent].E_col[SAcol].COL_locOObj
-      ,FCentities[SAent].E_col[SAcol].COL_locSat
-      );
-   SAnbSetstart:=length(FCentities[SAent].E_col[SAcol].COL_settlements);
-   if SAnbSetstart<1
-   then
-   begin
-      setlength(FCentities[SAent].E_col[SAcol].COL_settlements, 2);
-      SAcnt:=1;
-   end
-   else if SAnbSetstart>=1
-   then
-   begin
-      setlength(FCentities[SAent].E_col[SAcol].COL_settlements, SAnbSetstart+1);
-      SAcnt:=SAnbSetstart;
-   end;
-   FCentities[SAent].E_col[SAcol].COL_settlements[SAcnt].CS_name:=SAsettleName;
-   FCentities[SAent].E_col[SAcol].COL_settlements[SAcnt].CS_type:=TFCEdgSettleType(SAsettleType);
-   FCentities[SAent].E_col[SAcol].COL_settlements[SAcnt].CS_level:=1;
-   FCentities[SAent].E_col[SAcol].COL_settlements[SAcnt].CS_region:=SAreg;
-   setlength(FCentities[SAent].E_col[SAcol].COL_settlements[SAcnt].CS_infra, 1);
-        if SAret[4]>0
-   then
-   begin
-      FCDBsSys[SAret[1]].SS_star[SAret[2]].SDB_obobj[SAret[3]].OO_satList[SAret[4]].OOS_regions[SAreg].OOR_setEnt:=SAent;
-      FCDBsSys[SAret[1]].SS_star[SAret[2]].SDB_obobj[SAret[3]].OO_satList[SAret[4]].OOS_regions[SAreg].OOR_setCol:=SAcol;
-      FCDBsSys[SAret[1]].SS_star[SAret[2]].SDB_obobj[SAret[3]].OO_satList[SAret[4]].OOS_regions[SAreg].OOR_setSet:=SAcnt;
-   end
-   else
-   begin
-      FCDBsSys[SAret[1]].SS_star[SAret[2]].SDB_obobj[SAret[3]].OO_regions[SAreg].OOR_setEnt:=SAent;
-      FCDBsSys[SAret[1]].SS_star[SAret[2]].SDB_obobj[SAret[3]].OO_regions[SAreg].OOR_setCol:=SAcol;
-      FCDBsSys[SAret[1]].SS_star[SAret[2]].SDB_obobj[SAret[3]].OO_regions[SAreg].OOR_setSet:=SAcnt;
-   end;
-   {.update the colony's CAB queue}
-   if length(FCentities[SAent].E_col[SAcol].COL_cabQueue)<2
-   then SetLength(FCentities[SAent].E_col[SAcol].COL_cabQueue, 2)
-   else SetLength(FCentities[SAent].E_col[SAcol].COL_cabQueue, length(FCentities[SAent].E_col[SAcol].COL_cabQueue)+1);
-   Result:=SAcnt;
-end;
-
-function FCFgInf_Settlement_GetFromRegion(
-   const SGFRent
-         ,SGFRcol
-         ,SGFRreg: integer
-   ): integer;
-{:Purpose: get the settlement index# of a given colony's region #.
-    Additions:
-}
-var
-   SGFRcnt
-   ,SGFRmax: integer;
-begin
-   Result:=0;
-   SGFRmax:=length(FCentities[SGFRent].E_col[SGFRcol].COL_settlements)-1;
-   if SGFRmax>0
-   then
-   begin
-      SGFRcnt:=1;
-      while SGFRcnt<=SGFRmax do
-      begin
-         if FCentities[SGFRent].E_col[SGFRcol].COL_settlements[SGFRcnt].CS_region=SGFRreg
-         then
-         begin
-            Result:=SGFRcnt;
-            break;
-         end;
-         inc(SGFRcnt);
-      end;
+      inc( Count );
    end;
 end;
 
@@ -319,7 +207,7 @@ procedure FCMgInf_Disabling_Process(
    var
       DPinfraData: TFCRdipInfrastructure;
 begin
-   DPinfraData:=FCFgInf_DataStructure_Get(
+   DPinfraData:=FCFgI_DataStructure_Get(
       DPent
       ,DPcol
       ,FCentities[DPent].E_col[DPcol].COL_settlements[DPset].CS_infra[DPinf].CI_dbToken

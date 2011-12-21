@@ -121,6 +121,33 @@ function FCFgC_InfraKitsInStorage_Retrieve(
    const IKISRinfraToken: string
    ): TFCRgcInfraKit;
 
+///<summary>
+///   add and initialize a new settlement for a colony
+///</summary>
+///   <param name="entity">entity  index #</param>
+///   <param name="colony">colony index #</param>
+///   <param name="region">settlement's region index #</param>
+///   <param name="settlementType">type of settlement in enum index #</param>
+///   <param name="settlementName">personalized name of the settlement</param>
+///   <returns>the new settlement index #</returns>
+function FCFgC_Settlement_Add(
+   const Entity
+         ,Colony
+         ,Region
+         ,SettlementType: integer;
+   const SettlementName: string
+   ): integer;
+
+///<summary>
+///   get the settlement index# of a given colony's region #
+///</summary>
+///   <param name=""></param>
+///   <param name=""></param>
+function FCFgC_Settlement_GetIndexFromRegion(
+   const Entity
+         ,Colony
+         ,Region: integer
+   ): integer;
 
 ///<summary>
 ///   retrieve the index # of a specified product contained in a specified colony's storage, with an option to create the storage's entry if not found
@@ -289,7 +316,7 @@ begin
                {.number of housing infrastructures}
                gciaskNumOfHous:
                begin
-                  CIDRinfr:=FCFgInf_DataStructure_Get(
+                  CIDRinfr:=FCFgI_DataStructure_Get(
                      CIDRfac
                      ,CIDRcol
                      ,FCentities[CIDRfac].E_col[CIDRcol].COL_settlements[CIDRsettleCnt].CS_infra[CIDRinfraCnt].CI_dbToken
@@ -465,6 +492,104 @@ begin
             Result[IKISRresIndex].IK_infraLevel:=FCDBProducts[IKISRprodIndex].PROD_fInfKitLevel;
          end;
          inc(IKISRcnt);
+      end;
+   end;
+end;
+
+function FCFgC_Settlement_Add(
+   const Entity
+         ,Colony
+         ,Region
+         ,SettlementType: integer;
+   const SettlementName: string
+   ): integer;
+{:Purpose: add and initialize a new settlement for a colony.
+    Additions:
+      -2011Dec20- *mod: move the function into the farc_game_colony unit.
+                  *code audit:
+                  (x)var formatting + refactoring     (x)if..then reformatting   (x)function/procedure refactoring
+                  (x)parameters refactoring           (x) ()reformatting         (x)code optimizations
+                  (_)float local variables=> extended (_)case..of reformatting   (_)local methods
+                  (x)summary completion
+      -2011Mar09- *add: initialize the corresponding CAB queue range.
+      -2011Feb14- *add: set region's settlement data.
+}
+   var
+      Max: integer;
+
+      OobjLocation: TFCRufStelObj;
+begin
+   Result:=0;
+   OobjLocation[1]:=OobjLocation[0];
+   OobjLocation[2]:=OobjLocation[0];
+   OobjLocation[3]:=OobjLocation[0];
+   OobjLocation[4]:=OobjLocation[0];
+   OobjLocation:=FCFuF_StelObj_GetFullRow(
+      FCentities[ Entity ].E_col[ Colony ].COL_locSSys
+      ,FCentities[ Entity ].E_col[ Colony ].COL_locStar
+      ,FCentities[ Entity ].E_col[ Colony ].COL_locOObj
+      ,FCentities[ Entity ].E_col[ Colony ].COL_locSat
+      );
+   Max:=length( FCentities[ Entity ].E_col[ Colony ].COL_settlements );
+   if Max<1
+   then Max:=1;
+   setlength( FCentities[ Entity ].E_col[ Colony ].COL_settlements, Max+1 );
+   FCentities[ Entity ].E_col[ Colony ].COL_settlements[ Max ].CS_name:=SettlementName;
+   FCentities[ Entity ].E_col[ Colony ].COL_settlements[ Max ].CS_type:=TFCEdgSettleType( SettlementType );
+   FCentities[ Entity ].E_col[ Colony ].COL_settlements[ Max ].CS_level:=1;
+   FCentities[ Entity ].E_col[ Colony ].COL_settlements[ Max ].CS_region:=Region;
+   setlength( FCentities[ Entity ].E_col[ Colony ].COL_settlements[ Max ].CS_infra, 1 );
+   if OobjLocation[4]>0 then
+   begin
+      FCDBsSys[OobjLocation[1]].SS_star[OobjLocation[2]].SDB_obobj[OobjLocation[3]].OO_satList[OobjLocation[4]].OOS_regions[ Region ].OOR_setEnt:=Entity;
+      FCDBsSys[OobjLocation[1]].SS_star[OobjLocation[2]].SDB_obobj[OobjLocation[3]].OO_satList[OobjLocation[4]].OOS_regions[ Region ].OOR_setCol:=Colony;
+      FCDBsSys[OobjLocation[1]].SS_star[OobjLocation[2]].SDB_obobj[OobjLocation[3]].OO_satList[OobjLocation[4]].OOS_regions[ Region ].OOR_setSet:=Max;
+   end
+   else begin
+      FCDBsSys[OobjLocation[1]].SS_star[OobjLocation[2]].SDB_obobj[OobjLocation[3]].OO_regions[ Region ].OOR_setEnt:=Entity;
+      FCDBsSys[OobjLocation[1]].SS_star[OobjLocation[2]].SDB_obobj[OobjLocation[3]].OO_regions[ Region ].OOR_setCol:=Colony;
+      FCDBsSys[OobjLocation[1]].SS_star[OobjLocation[2]].SDB_obobj[OobjLocation[3]].OO_regions[ Region ].OOR_setSet:=Max;
+   end;
+   {.update the colony's CAB queue}
+   if length( FCentities[ Entity ].E_col[Colony].COL_cabQueue )<2
+   then SetLength( FCentities[ Entity ].E_col[ Colony ].COL_cabQueue, 2 )
+   else SetLength( FCentities[ Entity ].E_col[ Colony ].COL_cabQueue, length( FCentities[ Entity ].E_col[ Colony ].COL_cabQueue )+1 );
+   Result:=Max;
+end;
+
+function FCFgC_Settlement_GetIndexFromRegion(
+   const Entity
+         ,Colony
+         ,Region: integer
+   ): integer;
+{:Purpose: get the settlement index# of a given colony's region #.
+    Additions:
+      -2011Dec20- *mod: move the function into the farc_game_colony unit.
+                  *code audit:
+                  (x)var formatting + refactoring     (-)if..then reformatting   (x)function/procedure refactoring
+                  (x)parameters refactoring           (-) ()reformatting         (-)code optimizations
+                  (-)float local variables=> extended (-)case..of reformatting   (-)local methods
+                  (-)summary completion
+}
+   var
+      Count
+      ,Max: integer;
+begin
+   Result:=0;
+   Max:=length(FCentities[Entity].E_col[Colony].COL_settlements)-1;
+   if Max>0
+   then
+   begin
+      Count:=1;
+      while Count<=Max do
+      begin
+         if FCentities[Entity].E_col[Colony].COL_settlements[Count].CS_region=Region
+         then
+         begin
+            Result:=Count;
+            break;
+         end;
+         inc(Count);
       end;
    end;
 end;
@@ -772,7 +897,7 @@ begin
             or (FCentities[HQRent].E_col[HQRcol].COL_settlements[HQRsetCnt].CS_infra[HQRinfraCnt].CI_function=fMiscellaneous)
          then
          begin
-            HQRinfraData:=FCFgInf_DataStructure_Get(
+            HQRinfraData:=FCFgI_DataStructure_Get(
                HQRent
                ,HQRcol
                ,FCentities[HQRent].E_col[HQRcol].COL_settlements[HQRsetCnt].CS_infra[HQRinfraCnt].CI_dbToken

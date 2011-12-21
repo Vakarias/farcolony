@@ -424,6 +424,7 @@ uses
    ,farc_data_game
    ,farc_data_init
    ,farc_data_textfiles
+   ,farc_game_colony
    ,farc_fug_com
    ,farc_game_cps
    ,farc_game_micolonize
@@ -1279,7 +1280,7 @@ begin
       if not FCWinMissSet.FCWMS_Grp_MCGColName.Visible
       then
       begin
-         SPSSCcurrSettlement:=FCFgInf_Settlement_GetFromRegion(
+         SPSSCcurrSettlement:=FCFgC_Settlement_GetIndexFromRegion(
             0
             ,FCWinMissSet.FCWMS_Grp_MCGColName.Tag
             ,GMCregion

@@ -134,7 +134,7 @@ begin
    Result.POP_tpESecolAssigned:=0;
    Result.POP_tpESecofAssigned:=0;
    Result.POP_tpAmedianAssigned:=0;
-   RSTinfraData:=FCFgInf_DataStructure_Get(
+   RSTinfraData:=FCFgI_DataStructure_Get(
       RSTent
       ,RSTcol
       ,FCentities[RSTent].E_col[RSTcol].COL_settlements[RSTsett].CS_infra[RSTinfra].CI_dbToken
@@ -421,7 +421,7 @@ procedure FCMgIS_RequiredStaff_Recover(
 
       RSRinfraData: TFCRdipInfrastructure;
 begin
-   RSRinfraData:=FCFgInf_DataStructure_Get(
+   RSRinfraData:=FCFgI_DataStructure_Get(
       RSRent
       ,RSRcol
       ,FCentities[RSRent].E_col[RSRcol].COL_settlements[RSRsett].CS_infra[RSRownInfra].CI_dbToken

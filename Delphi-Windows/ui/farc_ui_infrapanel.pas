@@ -170,7 +170,7 @@ begin
    begin
       UIIPcolony:=FCFuiCDP_VarCurrentColony_Get;
       UIIPsettlement:=FCFuiCDP_VarCurrentSettlement_Get;
-      UIIPinfrastructure:=FCFgInf_DataStructure_Get(
+      UIIPinfrastructure:=FCFgI_DataStructure_Get(
          0
          ,UIIPcolony
          ,AISinfraToken

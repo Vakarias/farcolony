@@ -1190,7 +1190,7 @@ begin
                   and ( (CPUinfKitroot='') or (FCDBProducts[CPUintDump].PROD_fInfKitToken<>CPUinfKitroot) ) then
                begin
                   CPUinfKitroot:=FCDBProducts[CPUintDump].PROD_fInfKitToken;
-                  CPUinfra:=FCFgInf_DataStructure_Get(
+                  CPUinfra:=FCFgI_DataStructure_Get(
                      0
                      ,CPUcol
                      ,FCDBProducts[CPUintDump].PROD_fInfKitToken

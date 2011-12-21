@@ -398,7 +398,7 @@ procedure FCMgICS_Assembling_Process(
 begin
    APinfraIndex:=length(FCentities[APent].E_col[APcol].COL_settlements[APsettlement].CS_infra);
    SetLength(FCentities[APent].E_col[APcol].COL_settlements[APsettlement].CS_infra, APinfraIndex+1);
-   APclonedInfra:=FCFgInf_DataStructure_Get(
+   APclonedInfra:=FCFgI_DataStructure_Get(
       APent
       ,APcol
       ,APinfraToken
@@ -478,7 +478,7 @@ begin
    then setLength(FCentities[BPent].E_col[BPcol].COL_settlements[BPsettlement].CS_infra, 2)
    else SetLength(FCentities[BPent].E_col[BPcol].COL_settlements[BPsettlement].CS_infra, length(FCentities[BPent].E_col[BPcol].COL_settlements[BPsettlement].CS_infra)+1);
    BPinfraIndex:=length(FCentities[BPent].E_col[BPcol].COL_settlements[BPsettlement].CS_infra)-1;
-   BPclonedInfra:=FCFgInf_DataStructure_Get(
+   BPclonedInfra:=FCFgI_DataStructure_Get(
       BPent
       ,BPcol
       ,BPinfraToken
@@ -693,7 +693,7 @@ begin
    {:DEV NOTES: colonization equipment module will be taken in consideration in the future, for now i use hardcoded data.}
    SetLength(FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra, length(FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra)+1);
    ICPinfra:=length(FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra)-1;
-   ICPclonedInfra:=FCFgInf_DataStructure_Get(
+   ICPclonedInfra:=FCFgI_DataStructure_Get(
       ICPent
       ,ICPcol
       ,'infrColShelt'
@@ -878,7 +878,7 @@ procedure FCMgICS_TransitionRule_Process(
 
    procedure TRP_ProductionDelay_Process;
    begin
-      TRPinfraData:=FCFgInf_DataStructure_Get(
+      TRPinfraData:=FCFgI_DataStructure_Get(
          TRPent
          ,TRPcol
          ,FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_dbToken
