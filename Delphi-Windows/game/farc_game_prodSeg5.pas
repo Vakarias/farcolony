@@ -50,6 +50,7 @@ implementation
 uses
    farc_data_game
    ,farc_game_infraconsys
+   ,farc_ui_coredatadisplay
    ,farc_win_debug;
 
 //===================================================END OF INIT============================
@@ -61,6 +62,7 @@ procedure FCMgPS5_CABTransitionSegment_Process(
    );
 {:Purpose:  segment 5 (CAB + Transition Status) processing.
     Additions:
+      -2011Dec21- *add: update the interface if needed.
       -2011Sep21- *add: complete the inTransition case.
       -2011Sep10- *fix: correct the max index length reading.
 }
@@ -157,6 +159,12 @@ begin
             end; //==END== case FCentities[CABTSPent].E_col[CABTSPcol].COL_settlements[CABTSPcntSet].CS_infra[CABTSPinfraIdx].CI_status of ==//
             inc( CABTSPcntIdx );
          end; //==END== while CABTSPcntIdx<=CABTSPmaxIdx do ==//
+         if CABTSPent=0
+         then FCMuiCDD_Production_Update(
+            plInfrastructuresCABupdate
+            ,CABTSPcol
+            ,CABTSPcntSet
+            );
          inc(CABTSPcntSet);
       end; //==END== while CABTSPcntSet<=CABTSPmaxSet do ==//
       FCMgICS_CAB_Cleanup( CABTSPent, CABTSPcol );
