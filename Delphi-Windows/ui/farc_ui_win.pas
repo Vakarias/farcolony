@@ -202,6 +202,7 @@ uses
    ,farc_ogl_ui
    ,farc_spu_functions
    ,farc_ui_coldatapanel
+   ,farc_ui_coredatadisplay
    ,farc_ui_msges
    ,farc_ui_umi
    ,farc_univ_func
@@ -2148,6 +2149,7 @@ end;
 procedure FCMuiWin_UI_LangUpd;
 {:Purpose: update interface for new language.
     Additions:
+      -2011Dec21- *mod: integrate the new method to call the colony data panel.
       -2011Jul20- *add: update the Colony Data Panel, especially the data display itself, if needed.
       -2011May24- *add: colony data panel / infrastructure functions private variables initialization.
       -2010Oct31- *fix: UMI/Faction section - display correctly the government status section.
@@ -2157,8 +2159,6 @@ procedure FCMuiWin_UI_LangUpd;
       -2009Nov17- *update also the opengl display if needed.
       -2009Oct10- *add mission setup window.
 }
-   var
-      UILUcol: integer;
 begin
    FCMdF_ConfigFile_Write(false);
    FCMuiWin_UI_Upd(mwupTextWinMain);
@@ -2174,17 +2174,13 @@ begin
    then FCcps.FCM_ViabObj_Init(false);
    FCMumi_Faction_Upd(uiwAllSection, true);
    FCMuiCDP_FunctionCateg_Initialize;
-   UILUcol:=FCFuiCDP_VarCurrentColony_Get;
-   if (FCWinMain.FCWM_ColDPanel.Visible)
-      and (UILUcol>0)
-   then
-   begin
-      FCMuiCDP_Data_Update(
-         dtAll
-         ,UILUcol
-         ,0
-         );
-   end;
+   FCMuiCDD_Colony_Update(
+      cdlColonyAll
+      ,0
+      ,0
+      ,false
+      ,false
+      );
 end;
 
 procedure FCMuiWin_UI_Upd(const UIUtp: TFCEmwinUpdTp);

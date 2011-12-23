@@ -174,6 +174,7 @@ uses
    ,farc_game_csm
    ,farc_main
    ,farc_ui_coldatapanel
+   ,farc_ui_coredatadisplay
    ,farc_ui_win
    ,farc_win_debug;
 
@@ -2853,13 +2854,13 @@ begin
          ,USFRevLvl
          ,false
          );
-      if (FCWinMain.FCWM_ColDPanel.Visible)
-         and (USFRfac=0)
-         and (USFRdisplayedColony=USFRcol)
-      then FCMuiCDP_Data_Update(
-         dtCSMev
+      if USFRfac=0
+      then FCMuiCDD_Colony_Update(
+         cdlColonyDataCSMevents
          ,USFRcol
          ,0
+         ,true
+         ,false
          );
    end //==END== if USFRmax>1 ==//
    else if (USFRmax<=1)
@@ -2873,13 +2874,13 @@ begin
          ,USFRevLvl
          ,false
          );
-      if (FCWinMain.FCWM_ColDPanel.Visible)
-         and (USFRfac=0)
-         and (USFRdisplayedColony=USFRcol)
-      then FCMuiCDP_Data_Update(
-         dtCSMev
+      if USFRfac=0
+      then FCMuiCDD_Colony_Update(
+         cdlColonyDataCSMevents
          ,USFRcol
          ,0
+         ,true
+         ,false
          );
    end;
 end;

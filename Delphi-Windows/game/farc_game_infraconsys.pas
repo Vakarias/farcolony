@@ -223,6 +223,7 @@ uses
    ,farc_game_prodrsrcspots
    ,farc_spu_functions
    ,farc_ui_coldatapanel
+   ,farc_ui_coredatadisplay
    ,farc_win_debug;
 
 //===================================================END OF INIT============================
@@ -376,6 +377,7 @@ procedure FCMgICS_Assembling_Process(
    );
 {:Purpose: process in the assembling of an infrastructure.
     Additions:
+      -2011Dec22- *mod: update the interface refresh by using the link to the new routine.
       -2011Dec01- *add: update the resource spot requirement if needed.
       -2011Sep21- *rem: moved function initalization to the assembling/building post-process.
       -2011Jul05- *add/fix: forgot to update the CAB queue list !
@@ -391,8 +393,6 @@ procedure FCMgICS_Assembling_Process(
 }
 	var
    	APinfraIndex: integer;
-
-      APisCDPshown: boolean;
 
       APclonedInfra: TFCRdipInfrastructure;
 begin
@@ -436,10 +436,9 @@ begin
       ,APent
       ,APcol
       );
-   APisCDPshown:=FCFuiCDP_isInfrastructuresSection_Shown(APcol, APsettlement);
-   if APisCDPshown
-   then FCMuiCDP_Data_Update(
-      dtInfra
+   if APent=0
+   then FCMuiCDD_Production_Update(
+      plInfrastructuresInit
       ,APcol
       ,APsettlement
       );
@@ -454,6 +453,7 @@ procedure FCMgICS_Building_Process(
    );
 {:Purpose: process in the building of an infrastructure.
     Additions:
+      -2011Dec22- *mod: update the interface refresh by using the link to the new routine.
       -2011Dec14- *add: remove the required construction materials from the colony's storage.
       -2011Dec01- *add: update the resource spot requirement if needed.
       -2011Sep21- *rem: moved function initalization to the assembling/building post-process.
@@ -469,8 +469,6 @@ procedure FCMgICS_Building_Process(
 
       BPcurrentMatVol
       ,BPtempMatVol: extended;
-
-      BPisCDPshown: boolean;
 
       BPclonedInfra: TFCRdipInfrastructure;
 begin
@@ -537,10 +535,9 @@ begin
          );
       inc( BPcount );
    end;
-   BPisCDPshown:=FCFuiCDP_isInfrastructuresSection_Shown(BPcol, BPsettlement);
-   if BPisCDPshown
-   then FCMuiCDP_Data_Update(
-      dtInfra
+   if BPent=0
+   then FCMuiCDD_Production_Update(
+      plInfrastructuresInit
       ,BPcol
       ,BPsettlement
       );
@@ -647,6 +644,7 @@ procedure FCMgICS_Conversion_Process(
    );
 {:Purpose: convert a space unit to a corresponding infrastructure as requested.
     Additions:
+      -2011Dec22- *mod: update the interface refresh by using the link to the new routine.
       -2011Oct30- *add: hardcoded product: Mining Machinery.
       -2011Sep10- *add: increment the duration to 1 hour in all cases to prevent a real duration less than 1 hr due to the game flow.
       -2011Jul24- *add: update the colony data panel with the infrastructures list if it's needed.
@@ -685,8 +683,6 @@ var
    ,ICPvol: integer;
 
    ICPx: double;
-
-   ICPisCDPshown: boolean;
 
    ICPclonedInfra: TFCRdipInfrastructure;
 begin
@@ -789,7 +785,7 @@ begin
    ICPeffectIdx:=length(ICPclonedInfra.I_customFx)-1;
    ICPclonedInfra.I_customFx[ICPeffectIdx].ICFX_customEffect:=cfxEnergyGen;
    ICPclonedInfra.I_customFx[ICPeffectIdx].ICFX_enGenMode.FEPM_productionModes:=egmPhoton;
-   ICPclonedInfra.I_customFx[ICPeffectIdx].ICFX_enGenMode.FEPM_photonArea:=10;
+   ICPclonedInfra.I_customFx[ICPeffectIdx].ICFX_enGenMode.FEPM_photonArea:=30;
    ICPclonedInfra.I_customFx[ICPeffectIdx].ICFX_enGenMode.FEPM_photonEfficiency:=90;
    setlength(ICPclonedInfra.I_customFx, length(ICPclonedInfra.I_customFx)+1);
    ICPeffectIdx:=length(ICPclonedInfra.I_customFx)-1;
@@ -849,10 +845,9 @@ begin
       ,0
       ,ICPcol
       );
-   ICPisCDPshown:=FCFuiCDP_isInfrastructuresSection_Shown(ICPcol, ICPsettlement);
-   if ICPisCDPshown
-   then FCMuiCDP_Data_Update(
-      dtInfra
+   if ICPent=0
+   then FCMuiCDD_Production_Update(
+      plInfrastructuresInit
       ,ICPcol
       ,ICPsettlement
       );
