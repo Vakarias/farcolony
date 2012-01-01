@@ -5,8 +5,8 @@ object FCWinAbout: TFCWinAbout
   AlphaBlendValue = 180
   BorderStyle = bsNone
   Caption = 'FCWinAbout'
-  ClientHeight = 320
-  ClientWidth = 434
+  ClientHeight = 343
+  ClientWidth = 465
   Color = clBlack
   Ctl3D = False
   DefaultMonitor = dmMainForm
@@ -23,31 +23,31 @@ object FCWinAbout: TFCWinAbout
   OnKeyDown = FormKeyDown
   OnShow = FormShow
   PixelsPerInch = 96
-  TextHeight = 14
+  TextHeight = 15
   object FCWA_Frame: TAdvGroupBox
     Left = 0
     Top = 0
-    Width = 434
-    Height = 320
+    Width = 465
+    Height = 343
     Align = alClient
     Caption = 'FCWA_Frame'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWhite
-    Font.Height = -12
+    Font.Height = -13
     Font.Name = 'DejaVu Sans Condensed'
     Font.Style = []
     ParentFont = False
     TabOrder = 0
     object FCWA_Frm_Header: THTMLabel
       Left = 2
-      Top = 17
-      Width = 430
-      Height = 17
+      Top = 18
+      Width = 461
+      Height = 18
       Align = alTop
       Color = clBlack
       Font.Charset = DEFAULT_CHARSET
       Font.Color = 14803425
-      Font.Height = -12
+      Font.Height = -13
       Font.Name = 'FrancophilSans'
       Font.Style = []
       Hover = True
@@ -57,21 +57,18 @@ object FCWinAbout: TFCWinAbout
       ParentFont = False
       URLColor = 14068651
       Version = '1.8.1.0'
-      ExplicitLeft = 112
-      ExplicitTop = 48
-      ExplicitWidth = 120
     end
     object FCWA_Frm_Creds: THTMLCredit
       Left = 2
-      Top = 205
-      Width = 430
-      Height = 113
+      Top = 220
+      Width = 461
+      Height = 121
       Align = alBottom
       AutoScroll = True
       Color = clBlack
       Font.Charset = DEFAULT_CHARSET
       Font.Color = 14803425
-      Font.Height = -12
+      Font.Height = -13
       Font.Name = 'FrancophilSans'
       Font.Style = []
       HoverColor = clBlack

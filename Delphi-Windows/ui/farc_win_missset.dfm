@@ -4,8 +4,8 @@ object FCWinMissSet: TFCWinMissSet
   AlphaBlendValue = 180
   BorderStyle = bsNone
   Caption = 'FCWinMissSet'
-  ClientHeight = 320
-  ClientWidth = 434
+  ClientHeight = 343
+  ClientWidth = 465
   Color = clBlack
   Ctl3D = False
   DefaultMonitor = dmMainForm
@@ -22,43 +22,43 @@ object FCWinMissSet: TFCWinMissSet
   OnCreate = FormCreate
   OnKeyDown = FormKeyDown
   PixelsPerInch = 96
-  TextHeight = 14
+  TextHeight = 15
   object FCWMS_Grp: TAdvGroupBox
     Left = 0
     Top = 0
-    Width = 434
-    Height = 320
+    Width = 465
+    Height = 343
     Align = alClient
     Caption = 'FCWMS_Grp'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWhite
-    Font.Height = -12
+    Font.Height = -13
     Font.Name = 'DejaVu Sans Condensed'
     Font.Style = []
     ParentFont = False
     TabOrder = 0
     object FCWMS_Grp_MSDG: TAdvGroupBox
-      Left = 232
-      Top = 16
-      Width = 185
-      Height = 89
+      Left = 249
+      Top = 17
+      Width = 198
+      Height = 96
       Caption = 'AdvGroupBox1'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWhite
-      Font.Height = -11
+      Font.Height = -12
       Font.Name = 'DejaVu Sans Condensed'
       Font.Style = []
       ParentFont = False
       TabOrder = 0
       object FCWMS_Grp_MSDG_Disp: THTMLabel
         Left = 2
-        Top = 16
-        Width = 181
-        Height = 71
+        Top = 17
+        Width = 194
+        Height = 76
         Align = alClient
         Font.Charset = DEFAULT_CHARSET
         Font.Color = 14803425
-        Font.Height = -12
+        Font.Height = -13
         Font.Name = 'FrancophilSans'
         Font.Style = []
         Hover = True
@@ -67,35 +67,31 @@ object FCWinMissSet: TFCWinMissSet
         ParentFont = False
         URLColor = 14068651
         Version = '1.8.1.0'
-        ExplicitLeft = 64
-        ExplicitTop = 32
-        ExplicitWidth = 49
-        ExplicitHeight = 25
       end
     end
     object FCWMS_Grp_MCG: TAdvGroupBox
-      Left = 96
-      Top = 128
-      Width = 273
-      Height = 161
+      Left = 103
+      Top = 137
+      Width = 292
+      Height = 173
       Caption = 'AdvGroupBox1'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWhite
-      Font.Height = -12
+      Font.Height = -13
       Font.Name = 'DejaVu Sans Condensed'
       Font.Style = []
       ParentFont = False
       TabOrder = 1
       object FCWMS_Grp_MCG_DatDisp: THTMLabel
         Left = 2
-        Top = 17
-        Width = 70
-        Height = 142
+        Top = 18
+        Width = 75
+        Height = 153
         Align = alLeft
         Color = clBlack
         Font.Charset = DEFAULT_CHARSET
         Font.Color = 14803425
-        Font.Height = -12
+        Font.Height = -13
         Font.Name = 'FrancophilSans'
         Font.Style = []
         Hover = True
@@ -105,18 +101,18 @@ object FCWinMissSet: TFCWinMissSet
         ParentFont = False
         URLColor = 14068651
         Version = '1.8.1.0'
-        ExplicitHeight = 181
+        ExplicitHeight = 152
       end
       object FCWMS_Grp_MCG_MissCfgData: THTMLabel
-        Left = 201
-        Top = 17
-        Width = 70
-        Height = 142
+        Left = 215
+        Top = 18
+        Width = 75
+        Height = 153
         Align = alRight
         Color = clBlack
         Font.Charset = DEFAULT_CHARSET
         Font.Color = 14803425
-        Font.Height = -12
+        Font.Height = -13
         Font.Name = 'FrancophilSans'
         Font.Style = []
         Hover = True
@@ -128,14 +124,13 @@ object FCWinMissSet: TFCWinMissSet
         ParentFont = False
         URLColor = 14068651
         Version = '1.8.1.0'
-        ExplicitLeft = 2
-        ExplicitHeight = 181
+        ExplicitHeight = 152
       end
       object FCWMS_Grp_MCG_RMassTrack: TAdvTrackBar
-        Left = 24
-        Top = 63
-        Width = 137
-        Height = 50
+        Left = 26
+        Top = 68
+        Width = 147
+        Height = 53
         BorderColor = clNone
         BorderColorDisabled = clNone
         Buttons.BorderColor = clBlack
@@ -222,10 +217,10 @@ object FCWinMissSet: TFCWinMissSet
         OnKeyDown = FCWMS_Grp_MCG_RMassTrackKeyDown
       end
       object FCWMS_Grp_MCGColName: TLabeledEdit
-        Left = 167
-        Top = 78
-        Width = 150
-        Height = 20
+        Left = 179
+        Top = 84
+        Width = 161
+        Height = 21
         Alignment = taCenter
         BevelInner = bvNone
         BevelKind = bkFlat
@@ -234,12 +229,12 @@ object FCWinMissSet: TFCWinMissSet
         Color = clWhite
         Ctl3D = False
         EditLabel.AlignWithMargins = True
-        EditLabel.Width = 133
-        EditLabel.Height = 14
+        EditLabel.Width = 168
+        EditLabel.Height = 16
         EditLabel.Caption = 'FCWMS_Grp_MCGColName'
         EditLabel.Font.Charset = DEFAULT_CHARSET
         EditLabel.Font.Color = clWhite
-        EditLabel.Font.Height = -12
+        EditLabel.Font.Height = -13
         EditLabel.Font.Name = 'FrancophilSans'
         EditLabel.Font.Style = []
         EditLabel.ParentFont = False
@@ -247,7 +242,7 @@ object FCWinMissSet: TFCWinMissSet
         EditLabel.Layout = tlCenter
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clBlack
-        Font.Height = -12
+        Font.Height = -13
         Font.Name = 'FrancophilSans'
         Font.Style = []
         MaxLength = 20
@@ -259,10 +254,10 @@ object FCWinMissSet: TFCWinMissSet
         OnKeyPress = FCWMS_Grp_MCGColNameKeyPress
       end
       object FCWMS_Grp_MCG_SetName: TLabeledEdit
-        Left = 24
-        Top = 52
-        Width = 150
-        Height = 20
+        Left = 26
+        Top = 56
+        Width = 160
+        Height = 21
         Alignment = taCenter
         BevelInner = bvNone
         BevelKind = bkFlat
@@ -271,13 +266,13 @@ object FCWinMissSet: TFCWinMissSet
         Color = clWhite
         Ctl3D = False
         EditLabel.AlignWithMargins = True
-        EditLabel.Width = 140
-        EditLabel.Height = 14
+        EditLabel.Width = 176
+        EditLabel.Height = 16
         EditLabel.Caption = 'FCWMS_Grp_MCG_SetName'
         EditLabel.Color = clWhite
         EditLabel.Font.Charset = DEFAULT_CHARSET
         EditLabel.Font.Color = clWhite
-        EditLabel.Font.Height = -12
+        EditLabel.Font.Height = -13
         EditLabel.Font.Name = 'FrancophilSans'
         EditLabel.Font.Style = []
         EditLabel.ParentColor = False
@@ -286,7 +281,7 @@ object FCWinMissSet: TFCWinMissSet
         EditLabel.Layout = tlCenter
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clBlack
-        Font.Height = -12
+        Font.Height = -13
         Font.Name = 'FrancophilSans'
         Font.Style = []
         MaxLength = 20
@@ -298,9 +293,9 @@ object FCWinMissSet: TFCWinMissSet
         OnKeyPress = FCWMS_Grp_MCG_SetNameKeyPress
       end
       object FCWMS_Grp_MCG_SetType: TAdvComboBox
-        Left = 24
-        Top = 119
-        Width = 158
+        Left = 26
+        Top = 128
+        Width = 169
         Height = 22
         Color = clWhite
         Version = '1.3.1.0'
@@ -310,11 +305,11 @@ object FCWinMissSet: TFCWinMissSet
         Enabled = True
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clBlack
-        Font.Height = -12
+        Font.Height = -13
         Font.Name = 'DejaVu Sans Condensed'
         Font.Style = []
         ItemIndex = -1
-        ItemHeight = 14
+        ItemHeight = 15
         LabelFont.Charset = DEFAULT_CHARSET
         LabelFont.Color = clWindowText
         LabelFont.Height = -11
@@ -327,14 +322,14 @@ object FCWinMissSet: TFCWinMissSet
     end
   end
   object FCWMS_ButCancel: TAdvGlowButton
-    Left = 25
-    Top = 288
-    Width = 113
-    Height = 41
+    Left = 27
+    Top = 309
+    Width = 121
+    Height = 44
     Caption = 'FCWMS_ButCancel'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clBlack
-    Font.Height = -12
+    Font.Height = -13
     Font.Name = 'Space Age'
     Font.Style = []
     FocusType = ftHot
@@ -373,14 +368,14 @@ object FCWinMissSet: TFCWinMissSet
     Appearance.SystemFont = False
   end
   object FCWMS_ButProceed: TAdvGlowButton
-    Left = 289
-    Top = 288
-    Width = 113
-    Height = 41
+    Left = 310
+    Top = 309
+    Width = 121
+    Height = 44
     Caption = 'FCWNGS_Frm_ButtProceed'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clBlack
-    Font.Height = -12
+    Font.Height = -13
     Font.Name = 'Space Age'
     Font.Style = []
     FocusType = ftHot

@@ -1,4 +1,4 @@
-{=====(C) Copyright Aug.2009-2011 Jean-Francois Baconnet All rights reserved================
+{=====(C) Copyright Aug.2009-2012 Jean-Francois Baconnet All rights reserved================
 
         Title:  FAR Colony
         Author: Jean-Francois Baconnet
@@ -11,7 +11,7 @@
 
 ============================================================================================
 ********************************************************************************************
-Copyright (c) 2009-2011, Jean-Francois Baconnet
+Copyright (c) 2009-2012, Jean-Francois Baconnet
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by

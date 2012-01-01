@@ -158,6 +158,10 @@ object FCWinNewGSetup: TFCWinNewGSetup
         TabColor = clBlack
         TabColorTo = clGray
         TextColor = 14803425
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object FCWNGS_Frm_DPad_SHisto_Text: THTMLabel
           Left = 0
           Top = 0
@@ -188,6 +192,10 @@ object FCWinNewGSetup: TFCWinNewGSetup
         TabColor = clBlack
         TabColorTo = clGray
         TextColor = 14803425
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object FCWNGS_FDPad_ShSPM_SPMList: THTMLTreeview
           Left = 0
           Top = 0
@@ -228,6 +236,10 @@ object FCWinNewGSetup: TFCWinNewGSetup
         TabColor = clBlack
         TabColorTo = clGray
         TextColor = 14803425
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object FCWNGS_Frm_DPad_SCol_Text: THTMLabel
           Left = 0
           Top = 0
@@ -258,6 +270,10 @@ object FCWinNewGSetup: TFCWinNewGSetup
         TabColor = clBlack
         TabColorTo = clGray
         TextColor = 14803425
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object FCWNGS_Frm_DPad_SDL_DotList: THTMLTreeview
           Left = 0
           Top = 0
