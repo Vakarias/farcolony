@@ -115,7 +115,6 @@
 			<DCCReference Include="ui\farc_ui_html.pas"/>
 			<DCCReference Include="univ\farc_fug_habidx.pas"/>
 			<DCCReference Include="game\farc_game_prodSeg1.pas"/>
-			<DCCReference Include="game\farc_game_infrapower.pas"/>
 			<DCCReference Include="game\farc_game_energymodes.pas"/>
 			<DCCReference Include="game\farc_game_prodSeg2.pas"/>
 			<DCCReference Include="game\farc_game_spmcfx.pas"/>
@@ -157,7 +156,7 @@
 						<VersionInfo Name="MajorVer">0</VersionInfo>
 						<VersionInfo Name="MinorVer">5</VersionInfo>
 						<VersionInfo Name="Release">1</VersionInfo>
-						<VersionInfo Name="Build">834</VersionInfo>
+						<VersionInfo Name="Build">835</VersionInfo>
 						<VersionInfo Name="Debug">False</VersionInfo>
 						<VersionInfo Name="PreRelease">False</VersionInfo>
 						<VersionInfo Name="Special">False</VersionInfo>
@@ -169,7 +168,7 @@
 					<VersionInfoKeys>
 						<VersionInfoKeys Name="CompanyName"/>
 						<VersionInfoKeys Name="FileDescription"/>
-						<VersionInfoKeys Name="FileVersion">0.5.1.834</VersionInfoKeys>
+						<VersionInfoKeys Name="FileVersion">0.5.1.835</VersionInfoKeys>
 						<VersionInfoKeys Name="InternalName"/>
 						<VersionInfoKeys Name="LegalCopyright">2009-2012 - Jean-Francois Baconnet</VersionInfoKeys>
 						<VersionInfoKeys Name="LegalTrademarks"/>

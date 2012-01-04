@@ -92,7 +92,6 @@ uses
   farc_ui_html in 'ui\farc_ui_html.pas',
   farc_fug_habidx in 'univ\farc_fug_habidx.pas',
   farc_game_prodSeg1 in 'game\farc_game_prodSeg1.pas',
-  farc_game_infrapower in 'game\farc_game_infrapower.pas',
   farc_game_energymodes in 'game\farc_game_energymodes.pas',
   farc_game_prodSeg2 in 'game\farc_game_prodSeg2.pas',
   farc_game_spmcfx in 'game\farc_game_spmcfx.pas',
