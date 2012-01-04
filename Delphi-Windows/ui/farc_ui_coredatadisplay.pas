@@ -102,6 +102,7 @@ procedure FCMuiCDD_Colony_Update(
    );
 {:Purpose: core data display refresh for colony data. Update the Colony Data Panel and the related UMI tabs if required.
     Additions:
+      -2012Jan03- *add: routine completion.
 }
    var
       ColonyDataPanelColony
@@ -122,7 +123,6 @@ begin
          or ( ( isMustBeTheSameSettlement ) and ( Settlement=ColonyDataPanelSettlement ) )
          )
    then isColonyDataPanelShown:=true;
-//   FCFuiCDP_isPanel_Shown
    case DataType of
       cdlColonyAll:
       begin
@@ -138,32 +138,73 @@ begin
 
       cdlColonyLevel:
       begin
+         if isColonyDataPanelShown
+         then FCMuiCDP_Data_Update(
+            dtLvl
+            ,Colony
+            ,Settlement
+            );
       end;
 
       cdlColonyDataCohesion:
       begin
-
+         if isColonyDataPanelShown
+         then FCMuiCDP_Data_Update(
+            dtCohes
+            ,Colony
+            ,Settlement
+            );
          {:DEV NOTES: update UMI here w/ colonies' list.}
       end;
 
       cdlColonyDataSecurity:
       begin
+         if isColonyDataPanelShown
+         then FCMuiCDP_Data_Update(
+            dtSecu
+            ,Colony
+            ,Settlement
+            );
       end;
 
       cdlColonyDataTension:
       begin
+         if isColonyDataPanelShown
+         then FCMuiCDP_Data_Update(
+            dtTens
+            ,Colony
+            ,Settlement
+            );
       end;
 
       cdlColonyDataEducation:
       begin
+         if isColonyDataPanelShown
+         then FCMuiCDP_Data_Update(
+            dtEdu
+            ,Colony
+            ,Settlement
+            );
       end;
 
       cdlColonyDataHealth:
       begin
+         if isColonyDataPanelShown
+         then FCMuiCDP_Data_Update(
+            dtHeal
+            ,Colony
+            ,Settlement
+            );
       end;
 
       cdlColonyDataCSMenergy:
       begin
+         if isColonyDataPanelShown
+         then FCMuiCDP_Data_Update(
+            dtCSMenergy
+            ,Colony
+            ,Settlement
+            );
       end;
 
       cdlColonyDataPopulation:
@@ -179,6 +220,13 @@ begin
 
       cdlColonyDataCSMevents:
       begin
+         if ( isColonyDataPanelShown )
+            and (FCWinMain.FCWM_CDPepi.ActivePage=FCWinMain.FCWM_CDPcsme)
+         then FCMuiCDP_Data_Update(
+            dtCSMev
+            ,Colony
+            ,Settlement
+            );
       end;
 
       cdlColonyDataInfrastructuresAll:
@@ -221,7 +269,7 @@ procedure FCMuiCDD_Production_Update(
    const Colony
          ,Settlement: integer
    );
-{:Purpose: .
+{:Purpose: core data display refresh for production data. Update the Colony Data Panel and the related UMI tabs if required.
     Additions:
 }
 begin
@@ -252,6 +300,13 @@ begin
 
       plProducts:
       begin
+//         FCMuiCDD_Colony_Update(
+//            cdlColonyDataInfrastructuresOwned
+//            ,Colony
+//            ,Settlement
+//            ,true
+//            ,true
+//            );
       end;
 
       plSpaceUnits:
