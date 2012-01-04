@@ -217,7 +217,6 @@ uses
    ,farc_game_infra
    ,farc_game_infracustomfx
    ,farc_game_infrafunctions
-   ,farc_game_infrapower
    ,farc_game_infrastaff
    ,farc_game_prod
    ,farc_game_prodrsrcspots
@@ -377,6 +376,7 @@ procedure FCMgICS_Assembling_Process(
    );
 {:Purpose: process in the assembling of an infrastructure.
     Additions:
+      -2012Jan04- *add: initialize power consumption / generation by custom effect.
       -2011Dec22- *mod: update the interface refresh by using the link to the new routine.
       -2011Dec01- *add: update the resource spot requirement if needed.
       -2011Sep21- *rem: moved function initalization to the assembling/building post-process.
@@ -413,6 +413,8 @@ begin
    FCentities[APent].E_col[APcol].COL_settlements[APsettlement].CS_infra[APinfraIndex].CI_function:=APclonedInfra.I_function;
 	FCentities[APent].E_col[APcol].COL_settlements[APsettlement].CS_infra[APinfraIndex].CI_cabDuration:=APduration;
    FCentities[APent].E_col[APcol].COL_settlements[APsettlement].CS_infra[APinfraIndex].CI_cabWorked:=0;
+   FCentities[APent].E_col[APcol].COL_settlements[APsettlement].CS_infra[APinfraIndex].CI_powerCons:=0;
+   FCentities[APent].E_col[APcol].COL_settlements[APsettlement].CS_infra[APinfraIndex].CI_powerGenFromCFx:=0;
    FCMgICS_CAB_Add(
       APent
       ,APcol
@@ -453,6 +455,7 @@ procedure FCMgICS_Building_Process(
    );
 {:Purpose: process in the building of an infrastructure.
     Additions:
+      -2012Jan04- *add: initialize power consumption / generation by custom effect.
       -2011Dec22- *mod: update the interface refresh by using the link to the new routine.
       -2011Dec14- *add: remove the required construction materials from the colony's storage.
       -2011Dec01- *add: update the resource spot requirement if needed.
@@ -491,6 +494,8 @@ begin
    FCentities[BPent].E_col[BPcol].COL_settlements[BPsettlement].CS_infra[BPinfraIndex].CI_function:=BPclonedInfra.I_function;
    FCentities[BPent].E_col[BPcol].COL_settlements[BPsettlement].CS_infra[BPinfraIndex].CI_cabDuration:=BPduration;
    FCentities[BPent].E_col[BPcol].COL_settlements[BPsettlement].CS_infra[BPinfraIndex].CI_cabWorked:=0;
+   FCentities[BPent].E_col[BPcol].COL_settlements[BPsettlement].CS_infra[BPinfraIndex].CI_powerCons:=0;
+   FCentities[BPent].E_col[BPcol].COL_settlements[BPsettlement].CS_infra[BPinfraIndex].CI_powerGenFromCFx:=0;
    FCMgICS_CAB_Add(
       BPent
       ,BPcol
@@ -644,6 +649,7 @@ procedure FCMgICS_Conversion_Process(
    );
 {:Purpose: convert a space unit to a corresponding infrastructure as requested.
     Additions:
+      -2012Jan04- *add: initialize power consumption / generation by custom effect.
       -2011Dec22- *mod: update the interface refresh by using the link to the new routine.
       -2011Oct30- *add: hardcoded product: Mining Machinery.
       -2011Sep10- *add: increment the duration to 1 hour in all cases to prevent a real duration less than 1 hr due to the game flow.
@@ -783,6 +789,7 @@ begin
    ICPclonedInfra.I_customFx[ICPeffectIdx].ICFX_prodStorageLvl[FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra[ICPinfra].CI_level].IPS_biologic:=30;
    setlength(ICPclonedInfra.I_customFx, length(ICPclonedInfra.I_customFx)+1);
    ICPeffectIdx:=length(ICPclonedInfra.I_customFx)-1;
+   FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra[ICPinfra].CI_powerGenFromCFx:=0;
    ICPclonedInfra.I_customFx[ICPeffectIdx].ICFX_customEffect:=cfxEnergyGen;
    ICPclonedInfra.I_customFx[ICPeffectIdx].ICFX_enGenMode.FEPM_productionModes:=egmPhoton;
    ICPclonedInfra.I_customFx[ICPeffectIdx].ICFX_enGenMode.FEPM_photonArea:=20;
@@ -794,14 +801,15 @@ begin
    FCMgICFX_Effects_Application(
       ICPent
       ,ICPcol
-      ,FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra[ICPinfra].CI_level
+      ,ICPsettlement
+      ,ICPinfra
       ,ICPclonedInfra
       );
    FCMspuF_SpUnit_Remove(ICPent, ICPspu);
    {:DEV NOTES: energy consumption-generation-storage data will be calculated from the space unit's design.}
    {:DEV NOTES: for now it's simply hardcoded.}
    FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra[ICPinfra].CI_powerCons:=5;
-   FCMgIP_CSMEnergy_Update(
+   FCMgCSM_Energy_Update(
       ICPent
       ,ICPcol
       ,false
@@ -899,7 +907,7 @@ procedure FCMgICS_TransitionRule_Process(
          FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_cabWorked:=0;
          FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_powerCons
             :=TRPinfraData.I_basePwr[FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_level];
-         FCMgIP_CSMEnergy_Update(
+         FCMgCSM_Energy_Update(
             TRPent
             ,TRPcol
             ,false
@@ -927,7 +935,8 @@ procedure FCMgICS_TransitionRule_Process(
          FCMgICFX_Effects_Application(
             TRPent
             ,TRPcol
-            ,FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_level
+            ,TRPsettlement
+            ,TRPownInfra
             ,TRPinfraData
             );
       end;

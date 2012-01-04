@@ -48,12 +48,14 @@ function FCFgICFX_EffectHQ_Search( const EHQSinfra: TFCRdipInfrastructure ): TFC
 ///</summary>
 ///   <param name="EAent">entity #</param>
 ///   <param name="EAcolony">colony #</param>
-///   <param name="EAownedLvl">owned infrastructure colony level</param>
+///   <param name="Settlement">settlement index #</param>
+///   <param name="OwnedInfrastructure">owned infrastructure index #</param>
 ///   <param name="EAinfraDat">concerned infrastructure cloned data</param>
 procedure FCMgICFX_Effects_Application(
    const EAent
          ,EAcolony
-         ,EAownedLvl: integer;
+         ,Settlement
+         ,OwnedInfrastructure: integer;
    const EAinfraDat: TFCRdipInfrastructure
    );
 
@@ -62,12 +64,14 @@ procedure FCMgICFX_Effects_Application(
 ///</summary>
 ///   <param name="ERent">entity #</param>
 ///   <param name="ERcolony">colony #</param>
-///   <param name="ERownedLvl">owned infrastructure colony level</param>
+///   <param name="Settlement">settlement index #</param>
+///   <param name="OwnedInfra">owned infrastructure index #</param>
 ///   <param name="ERinfraDat">concerned infrastructure cloned data</param>
 procedure FCMgICFX_Effects_Removing(
    const ERent
          ,ERcolony
-         ,ERownedLvl: integer;
+         ,Settlement
+         ,OwnedInfra: integer;
    const ERinfraDat: TFCRdipInfrastructure
    );
 
@@ -75,8 +79,8 @@ implementation
 
 uses
    farc_game_colony
-   ,farc_game_energymodes
-   ,farc_game_infrapower;
+   ,farc_game_csm
+   ,farc_game_energymodes;
 
 //===================================================END OF INIT============================
 
@@ -120,11 +124,14 @@ end;
 procedure FCMgICFX_Effects_Application(
    const EAent
          ,EAcolony
-         ,EAownedLvl: integer;
+         ,Settlement
+         ,OwnedInfrastructure: integer;
    const EAinfraDat: TFCRdipInfrastructure
    );
 {:Purpose: applies the effects of a given infrastructure, if there's any.
     Additions:
+      -2012Jan04- *add: two parameters settlement/owned infrastructure.
+                  *add: store the energy output in CI_powerGenFromCFx if needed.
       -2011Jul17- *add: energy generation and energy storage custom effects.
       -2011Jul14- *add: complete cfxHQbasic, cfxHQPrimary, cfxHQSecondary and cfxProductStorage.
                   *add: new parameter: level of the owned infrastructure.
@@ -134,10 +141,12 @@ procedure FCMgICFX_Effects_Application(
 {:DEV NOTES: don't forget to update FCMgICFX_Effects_Removing too.}
    var
       EAcnt
+      ,LevelInfra
       ,EAmax: integer;
 
       EAnergyOutput: double;
 begin
+   LevelInfra:=FCEntities[ EAent ].E_col[ EAcolony ].COL_settlements[ Settlement ].CS_infra[ OwnedInfrastructure ].CI_level;
    EAmax:=length(EAinfraDat.I_customFx)-1;
    while EAcnt<=EAmax do
    begin
@@ -148,10 +157,11 @@ begin
                EAent
                ,EAcolony
                ,EAcnt
-               ,EAownedLvl
+               ,LevelInfra
                ,EAinfraDat
                );
-            FCMgIP_CSMEnergy_Update(
+            FCEntities[ EAent ].E_col[ EAcolony ].COL_settlements[ Settlement ].CS_infra[ OwnedInfrastructure ].CI_powerGenFromCFx:=EAnergyOutput;
+            FCMgCSM_Energy_Update(
                EAent
                ,EAcolony
                ,false
@@ -164,15 +174,14 @@ begin
 
          cfxEnergyStor:
          begin
-            EAnergyOutput:=EAinfraDat.I_customFx[EAcnt].ICFX_enStorLvl[EAownedLvl];
-            FCMgIP_CSMEnergy_Update(
+            FCMgCSM_Energy_Update(
                EAent
                ,EAcolony
                ,false
                ,0
                ,0
                ,0
-               ,EAnergyOutput
+               ,EAinfraDat.I_customFx[EAcnt].ICFX_enStorLvl[ LevelInfra ]
                );
          end;
 
@@ -196,10 +205,10 @@ begin
 
          cfxProductStorage:
          begin
-            FCentities[EAent].E_col[EAcolony].COL_storCapacitySolidMax:=FCentities[EAent].E_col[EAcolony].COL_storCapacitySolidMax+EAinfraDat.I_customFx[EAcnt].ICFX_prodStorageLvl[EAownedLvl].IPS_solid;
-            FCentities[EAent].E_col[EAcolony].COL_storCapacityLiquidMax:=FCentities[EAent].E_col[EAcolony].COL_storCapacityLiquidMax+EAinfraDat.I_customFx[EAcnt].ICFX_prodStorageLvl[EAownedLvl].IPS_liquid;
-            FCentities[EAent].E_col[EAcolony].COL_storCapacityGasMax:=FCentities[EAent].E_col[EAcolony].COL_storCapacityGasMax+EAinfraDat.I_customFx[EAcnt].ICFX_prodStorageLvl[EAownedLvl].IPS_gas;
-            FCentities[EAent].E_col[EAcolony].COL_storCapacityBioMax:=FCentities[EAent].E_col[EAcolony].COL_storCapacityBioMax+EAinfraDat.I_customFx[EAcnt].ICFX_prodStorageLvl[EAownedLvl].IPS_biologic;
+            FCentities[EAent].E_col[EAcolony].COL_storCapacitySolidMax:=FCentities[EAent].E_col[EAcolony].COL_storCapacitySolidMax+EAinfraDat.I_customFx[EAcnt].ICFX_prodStorageLvl[LevelInfra].IPS_solid;
+            FCentities[EAent].E_col[EAcolony].COL_storCapacityLiquidMax:=FCentities[EAent].E_col[EAcolony].COL_storCapacityLiquidMax+EAinfraDat.I_customFx[EAcnt].ICFX_prodStorageLvl[LevelInfra].IPS_liquid;
+            FCentities[EAent].E_col[EAcolony].COL_storCapacityGasMax:=FCentities[EAent].E_col[EAcolony].COL_storCapacityGasMax+EAinfraDat.I_customFx[EAcnt].ICFX_prodStorageLvl[LevelInfra].IPS_gas;
+            FCentities[EAent].E_col[EAcolony].COL_storCapacityBioMax:=FCentities[EAent].E_col[EAcolony].COL_storCapacityBioMax+EAinfraDat.I_customFx[EAcnt].ICFX_prodStorageLvl[LevelInfra].IPS_biologic;
          end;
       end; //==END== case EAinfraDat.I_customFx[EAcnt].ICFX_customEffect of ==//
       inc(EAcnt);
@@ -209,54 +218,51 @@ end;
 procedure FCMgICFX_Effects_Removing(
    const ERent
          ,ERcolony
-         ,ERownedLvl: integer;
+         ,Settlement
+         ,OwnedInfra: integer;
    const ERinfraDat: TFCRdipInfrastructure
    );
 {:Purpose: remove the effects of a given infrastructure, if there's any.
    Additions:
+      -2012Jan04- *add: two parameters settlement/owned infrastructure.
+                  *mod: in case of cfxEnergyGen, use CI_powerGenFromCFx instead to recalculate the energy generation value.
+                  *rem: removal of useless variable and code.
 }
 {:DEV NOTES: don't forget to update FCMgICFX_Effects_Application too.}
    var
       ERcnt
+      ,LevelInfra
       ,ERmax: integer;
-
-      ERnergyOutput: double;
 begin
+   LevelInfra:=FCEntities[ ERent ].E_col[ ERcolony ].COL_settlements[ Settlement ].CS_infra[ OwnedInfra ].CI_level;
    ERmax:=length(ERinfraDat.I_customFx)-1;
    while ERcnt<=ERmax do
    begin
       case ERinfraDat.I_customFx[ERcnt].ICFX_customEffect of
          cfxEnergyGen:
          begin
-            ERnergyOutput:=FCFgEM_OutputFromCustomFx_GetValue(
-               ERent
-               ,ERcolony
-               ,ERcnt
-               ,ERownedLvl
-               ,ERinfraDat
-               );
-            FCMgIP_CSMEnergy_Update(
+            FCMgCSM_Energy_Update(
                ERent
                ,ERcolony
                ,false
                ,0
-               ,-ERnergyOutput
+               ,-FCEntities[ ERent ].E_col[ ERcolony ].COL_settlements[ Settlement ].CS_infra[ OwnedInfra ].CI_powerGenFromCFx
                ,0
                ,0
                );
+            FCEntities[ ERent ].E_col[ ERcolony ].COL_settlements[ Settlement ].CS_infra[ OwnedInfra ].CI_powerGenFromCFx:=0;
          end;
 
          cfxEnergyStor:
          begin
-            ERnergyOutput:=ERinfraDat.I_customFx[ERcnt].ICFX_enStorLvl[ERownedLvl];
-            FCMgIP_CSMEnergy_Update(
+            FCMgCSM_Energy_Update(
                ERent
                ,ERcolony
                ,false
                ,0
                ,0
                ,0
-               ,-ERnergyOutput
+               ,-ERinfraDat.I_customFx[ERcnt].ICFX_enStorLvl[LevelInfra]
                );
          end;
 
@@ -264,10 +270,10 @@ begin
 
          cfxProductStorage:
          begin
-            FCentities[ERent].E_col[ERcolony].COL_storCapacitySolidMax:=FCentities[ERent].E_col[ERcolony].COL_storCapacitySolidMax-ERinfraDat.I_customFx[ERcnt].ICFX_prodStorageLvl[ERownedLvl].IPS_solid;
-            FCentities[ERent].E_col[ERcolony].COL_storCapacityLiquidMax:=FCentities[ERent].E_col[ERcolony].COL_storCapacityLiquidMax-ERinfraDat.I_customFx[ERcnt].ICFX_prodStorageLvl[ERownedLvl].IPS_liquid;
-            FCentities[ERent].E_col[ERcolony].COL_storCapacityGasMax:=FCentities[ERent].E_col[ERcolony].COL_storCapacityGasMax-ERinfraDat.I_customFx[ERcnt].ICFX_prodStorageLvl[ERownedLvl].IPS_gas;
-            FCentities[ERent].E_col[ERcolony].COL_storCapacityBioMax:=FCentities[ERent].E_col[ERcolony].COL_storCapacityBioMax-ERinfraDat.I_customFx[ERcnt].ICFX_prodStorageLvl[ERownedLvl].IPS_biologic;
+            FCentities[ERent].E_col[ERcolony].COL_storCapacitySolidMax:=FCentities[ERent].E_col[ERcolony].COL_storCapacitySolidMax-ERinfraDat.I_customFx[ERcnt].ICFX_prodStorageLvl[LevelInfra].IPS_solid;
+            FCentities[ERent].E_col[ERcolony].COL_storCapacityLiquidMax:=FCentities[ERent].E_col[ERcolony].COL_storCapacityLiquidMax-ERinfraDat.I_customFx[ERcnt].ICFX_prodStorageLvl[LevelInfra].IPS_liquid;
+            FCentities[ERent].E_col[ERcolony].COL_storCapacityGasMax:=FCentities[ERent].E_col[ERcolony].COL_storCapacityGasMax-ERinfraDat.I_customFx[ERcnt].ICFX_prodStorageLvl[LevelInfra].IPS_gas;
+            FCentities[ERent].E_col[ERcolony].COL_storCapacityBioMax:=FCentities[ERent].E_col[ERcolony].COL_storCapacityBioMax-ERinfraDat.I_customFx[ERcnt].ICFX_prodStorageLvl[LevelInfra].IPS_biologic;
          end;
       end; //==END== case ERinfraDat.I_customFx[ERcnt].ICFX_customEffect of ==//
       inc(ERcnt);
