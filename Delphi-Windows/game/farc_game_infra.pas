@@ -102,10 +102,10 @@ implementation
 
 uses
    farc_game_colony
+   ,farc_game_csm
    ,farc_game_infraconsys
    ,farc_game_infracustomfx
    ,farc_game_infrafunctions
-   ,farc_game_infrapower
    ,farc_game_infrastaff
    ,farc_univ_func;
 
@@ -212,7 +212,7 @@ begin
       ,DPcol
       ,FCentities[DPent].E_col[DPcol].COL_settlements[DPset].CS_infra[DPinf].CI_dbToken
       );
-   FCMgIP_CSMEnergy_Update(
+   FCMgCSM_Energy_Update(
       DPent
       ,DPcol
       ,false
@@ -224,7 +224,8 @@ begin
    FCMgICFX_Effects_Removing(
       DPent
       ,DPcol
-      ,FCentities[DPent].E_col[DPcol].COL_settlements[DPset].CS_infra[DPinf].CI_level
+      ,DPset
+      ,DPinf
       ,DPinfraData
       );
    FCMgIF_Functions_ApplicationRemove(

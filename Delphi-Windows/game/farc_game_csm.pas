@@ -156,6 +156,26 @@ procedure FCMgCSM_ColonyData_Upd(
    );
 
 ///<summary>
+///   update the CSM-Energy data of a colony
+///</summary>
+///   <param name=Entity">entity index</param>
+///   <param name="Colony">colony index</param>
+///   <param name="isFullCalculation">true= process full calculation, the next parameters must be at 0</param>
+///   <param name="ConsumptionMod">for [CSMEUisFullCalculation=false] update in + or - the energy consumed in the colony</param>
+///   <param name="GenerationMod">for [CSMEUisFullCalculation=false] update in + or - the energy generated in the colony</param>
+///   <param name="StorageCurrentMod">for [CSMEUisFullCalculation=false] update in + or - the current energy stored in the colony</param>
+///   <param name="StorageMaxMod">for [CSMEUisFullCalculation=false] update in + or - the maximum energy that can be stored in the colony</param>
+procedure FCMgCSM_Energy_Update(
+   const Entity
+         ,Colony: integer;
+   const isFullCalculation: boolean;
+   const ConsumptionMod
+         ,GenerationMod
+         ,StorageCurrentMod
+         ,StorageMaxMod: double
+   );
+
+///<summary>
 ///   get the education index string
 ///</summary>
 function FCFgCSM_Education_GetIdxStr(const EGISfac, EGIScol: integer): string;
@@ -250,6 +270,7 @@ uses
    ,farc_game_csmevents
    ,farc_game_pgs
    ,farc_game_spmdata
+   ,farc_ui_coredatadisplay
    ,farc_univ_func
    ,farc_win_debug;
 
@@ -963,6 +984,94 @@ begin
             );
       end;
    end; //==END== case CDUdata of ==//
+end;
+
+procedure FCMgCSM_Energy_Update(
+   const Entity
+         ,Colony: integer;
+   const isFullCalculation: boolean;
+   const ConsumptionMod
+         ,GenerationMod
+         ,StorageCurrentMod
+         ,StorageMaxMod: double
+   );
+{:Purpose: update the CSM-Energy data of a colony.
+    Additions:
+      -2012Jan04- *code: the procedure is moved into the game_csm unit.
+                  *code audit:
+                  (x)var formatting + refactoring     (x)if..then reformatting   (x)function/procedure refactoring
+                  (x)parameters refactoring           (x) ()reformatting         (-)code optimizations
+                  (_)float local variables=> extended (_)case..of reformatting   (_)local methods
+                  (x)summary completion
+                  *add: in case of a complete calculation, limit the COL_csmENstorCurr if it's > newly calculated COL_csmENstorMax.
+                  *add: in case of a complete calculation, add the energy generation due to custom effect, if any.
+      -2011Jul23- *fix: correction in energy storage/current value calculation.
+      -2011Jul19- *add: a new parameter for update the current energy storage.
+                  *add: update the Colony Data Panel if this one is opened with the current colony.
+      -2011Jul17- *fix: in the case of not CSMEUisFullCalculation, load the correct variable for energy consumption and storage.
+}
+   var
+      InfraCount
+      ,InfraMax
+      ,SettlementCount
+      ,SettlementMax: integer;
+
+begin
+   if not isFullCalculation then
+   begin
+      if ConsumptionMod>0
+      then FCentities[ Entity ].E_col[ Colony ].COL_csmENcons:=FCentities[ Entity ].E_col[ Colony ].COL_csmENcons+ConsumptionMod;
+      if GenerationMod>0
+      then FCentities[ Entity ].E_col[ Colony ].COL_csmENgen:=FCentities[ Entity ].E_col[ Colony ].COL_csmENgen+GenerationMod;
+      if StorageCurrentMod>0
+      then FCentities[ Entity ].E_col[ Colony ].COL_csmENstorCurr:=FCentities[ Entity ].E_col[ Colony ].COL_csmENstorCurr+StorageCurrentMod;
+      if StorageMaxMod>0
+      then FCentities[ Entity ].E_col[ Colony ].COL_csmENstorMax:=FCentities[ Entity ].E_col[ Colony ].COL_csmENstorMax+StorageMaxMod;
+   end
+   else if isFullCalculation then
+   begin
+      FCentities[ Entity ].E_col[ Colony ].COL_csmENcons:=0;
+      FCentities[ Entity ].E_col[ Colony ].COL_csmENgen:=0;
+      FCentities[ Entity ].E_col[ Colony ].COL_csmENstorMax:=0;
+      SettlementMax:=length( FCentities[ Entity ].E_col[ Colony ].COL_settlements )-1;
+      SettlementCount:=1;
+      while SettlementCount<=SettlementMax do
+      begin
+         InfraMax:=Length( FCentities[ Entity ].E_col[ Colony ].COL_settlements[ SettlementCount ].CS_infra )-1;
+         InfraCount:=1;
+         while InfraCount<=InfraMax do
+         begin
+            if (
+               ( FCentities[ Entity ].E_col[ Colony ].COL_settlements[ SettlementCount ].CS_infra[ InfraCount ].CI_status=istInConversion )
+               or (
+                  ( FCentities[ Entity ].E_col[ Colony ].COL_settlements[ SettlementCount ].CS_infra[ InfraCount ].CI_status>istDisabled )
+                     and ( FCentities[ Entity ].E_col[ Colony ].COL_settlements[ SettlementCount ].CS_infra[ InfraCount ].CI_status<istDestroyed )
+                  )
+               ) then
+            begin
+               FCentities[ Entity ].E_col[ Colony ].COL_csmENcons
+                  :=FCentities[ Entity ].E_col[ Colony ].COL_csmENcons+FCentities[ Entity ].E_col[ Colony ].COL_settlements[ SettlementCount ].CS_infra[ InfraCount ].CI_powerCons;
+               if FCentities[ Entity ].E_col[ Colony ].COL_settlements[ SettlementCount ].CS_infra[ InfraCount ].CI_function=fEnergy
+               then FCentities[ Entity ].E_col[ Colony ].COL_csmENgen:=
+                  FCentities[ Entity ].E_col[ Colony ].COL_csmENgen+FCentities[ Entity ].E_col[ Colony ].COL_settlements[ SettlementCount ].CS_infra[ InfraCount ].CI_fEnergOut
+                  +FCentities[ Entity ].E_col[ Colony ].COL_settlements[ SettlementCount ].CS_infra[ InfraCount ].CI_powerGenFromCFx;
+               {:DEV NOTES: add custom effect energy storage.}
+            end;
+            inc( InfraCount );
+         end;
+         inc( SettlementCount );
+      end; //==END== while CSMEUsettleCnt<=CSMEUsettleMax do ==//
+      if FCentities[ Entity ].E_col[ Colony ].COL_csmENstorCurr>FCentities[ Entity ].E_col[ Colony ].COL_csmENstorMax
+      then FCentities[ Entity ].E_col[ Colony ].COL_csmENstorCurr:=FCentities[ Entity ].E_col[ Colony ].COL_csmENstorMax;
+   end; //==END== else if CSMEUisFullCalculation ==//
+   if Entity>0
+   then FCMuiCDD_Colony_Update(
+      cdlColonyDataCSMenergy
+      ,Colony
+      ,0
+      ,true
+      ,false
+      );
 end;
 
 function FCFgCSM_Education_GetIdxStr(const EGISfac, EGIScol: integer): string;

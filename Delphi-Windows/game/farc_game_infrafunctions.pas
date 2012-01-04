@@ -73,7 +73,6 @@ uses
    farc_data_game
    ,farc_game_csm
    ,farc_game_energymodes
-   ,farc_game_infrapower
    ,farc_game_prodmodes;
 
 //===================================================END OF INIT============================
@@ -103,7 +102,7 @@ begin
          if not FARisApply
          then FARfloat:=-FCentities[FARent].E_col[FARcol].COL_settlements[FARsett].CS_infra[FARinfra].CI_fEnergOut
          else FARfloat:=FCentities[FARent].E_col[FARcol].COL_settlements[FARsett].CS_infra[FARinfra].CI_fEnergOut;
-         FCMgIP_CSMEnergy_Update(
+         FCMgCSM_Energy_Update(
             FARent
             ,FARcol
             ,false

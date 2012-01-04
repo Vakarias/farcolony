@@ -40,6 +40,7 @@ uses
 ///</summary>
 ///   <param name="NFOCfixedOutput">fixed output value@level</param>
 ///   <param name="NFOCfixedOutputByDL">fixed output value@level by Development Level</param>
+///   <returns>energy output in kW formatted according from the convention (x.xx)</returns>
 function FCFgEM_NuclearFission_OutputCalculation(
    const NFOCfixedOutput
          ,NFOCfixedOutputByDL: double
@@ -52,6 +53,7 @@ function FCFgEM_NuclearFission_OutputCalculation(
 ///   <param name="PEOCcol">colony index #</param>
 ///   <param name="PEOCphotonarea">photon area</param>
 ///   <param name="PEOCefficiency">photo efficiency</param>
+///   <returns>energy output in kW formatted according from the convention (x.xx)</returns>
 function FCFgEM_PhotonEnergy_OutputCalculation(
    const PEOCent
          ,PEOCcol
@@ -67,6 +69,7 @@ function FCFgEM_PhotonEnergy_OutputCalculation(
 ///   <param name="OFCFGVcustomFxIndex">index of the concerned custom effect</param>
 ///   <param name="OFCFGVcurrentLevel">current level of the owned infrastructure</param>
 ///   <param name="OFCFGVinfraData">database data structure the owned infrastructure belongs to</param>
+///   <returns>energy output in kW formatted according from the convention (x.xx)</returns>
 function FCFgEM_OutputFromCustomFx_GetValue(
    const OFCFGVent
          ,OFCFGVcol
@@ -82,6 +85,7 @@ function FCFgEM_OutputFromCustomFx_GetValue(
 ///   <param name="OFFGVcol">colony index #</param>
 ///   <param name="OFFGVcurrentLevel">current level of the owned infrastructure</param>
 ///   <param name="OFFGVinfraData">database data structure the owned infrastructure belongs to</param>
+///   <returns>energy output in kW formatted according from the convention (x.xx)</returns>
 function FCFgEM_OutputFromFunction_GetValue(
    const OFFGVent
          ,OFFGVcol

@@ -59,8 +59,8 @@ implementation
 uses
    farc_data_game
    ,farc_data_infrprod
-   ,farc_game_infra
-   ,farc_game_infrapower;
+   ,farc_game_csm
+   ,farc_game_infra;
 
    type GPS1infraList=record
       IL_settlement: integer;
@@ -387,7 +387,7 @@ begin
    begin
       if (FCentities[ESPent].E_col[ESPcol].COL_csmENstorCurr>0)
          and (FCentities[ESPent].E_col[ESPcol].COL_csmENgen+FCentities[ESPent].E_col[ESPcol].COL_csmENstorCurr>=FCentities[ESPent].E_col[ESPcol].COL_csmENcons)
-      then FCMgIP_CSMEnergy_Update(
+      then FCMgCSM_Energy_Update(
          ESPent
          ,ESPcol
          ,false
@@ -400,7 +400,7 @@ begin
          and (FCentities[ESPent].E_col[ESPcol].COL_csmENgen+FCentities[ESPent].E_col[ESPcol].COL_csmENstorCurr<FCentities[ESPent].E_col[ESPcol].COL_csmENcons)
       then
       begin
-         FCMgIP_CSMEnergy_Update(
+         FCMgCSM_Energy_Update(
             ESPent
             ,ESPcol
             ,false

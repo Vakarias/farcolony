@@ -101,7 +101,7 @@ uses
    ,farc_data_game
    ,farc_data_univ
    ,farc_game_colony
-   ,farc_game_infrapower
+   ,farc_game_csm
    ,farc_game_infrastaff
    ,farc_game_prodSeg2
    ,farc_win_debug;
@@ -138,7 +138,7 @@ begin
          FCentities[ EDPentity ].E_col[ EDPcolony ].COL_settlements[ EDPsettlement ].CS_infra[ EDPownedInfra ].CI_powerCons
          +FCentities[ EDPentity ].E_col[ EDPcolony ].COL_settlements[ EDPsettlement ].CS_infra[ EDPownedInfra ].CI_fprodMode[ EDPproductionMode ].PM_energyCons
          ;
-      FCMgIP_CSMEnergy_Update(
+      FCMgCSM_Energy_Update(
          EDPentity
          ,EDPcolony
          ,false
@@ -170,7 +170,7 @@ begin
          FCentities[ EDPentity ].E_col[ EDPcolony ].COL_settlements[ EDPsettlement ].CS_infra[ EDPownedInfra ].CI_powerCons
          -FCentities[ EDPentity ].E_col[ EDPcolony ].COL_settlements[ EDPsettlement ].CS_infra[ EDPownedInfra ].CI_fprodMode[ EDPproductionMode ].PM_energyCons
          ;
-      FCMgIP_CSMEnergy_Update(
+      FCMgCSM_Energy_Update(
          EDPentity
          ,EDPcolony
          ,false

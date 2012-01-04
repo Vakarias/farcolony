@@ -72,19 +72,6 @@ function FCFuiCDP_AvailInfra_RetrieveIndex( const AIRIcategoryName: string; cons
 function FCFuiCDP_DisplayLocation_Retrieve: CDPcurrentLocIndexes;
 
 ///<summary>
-///   test if the colony data panel is opened with the infrastructure section displayed with the requested colony and settlement
-///</summary>
-///   <param name="IISScolony">player's colony index #</param>
-///   <param name="IISSsettlement">colony's settlement index #</param>
-function FCFuiCDP_isInfrastructuresSection_Shown(const IISScolony, IISSsettlement: integer): boolean;
-
-///<summary>
-///   test if the colony data panel is opened with the requested colony
-///</summary>
-///   <param name="IPScolony">player's colony index #</param>
-function FCFuiCDP_isPanel_Shown(const IPScolony: integer): boolean;
-
-///<summary>
 ///   retrieve an infrastructure index of the current colony and settlement by using HTML tree view selected data
 ///</summary>
 ///   <param name="LIRIcategoryName">infrastructure's category has it appears on the tree list</param>
@@ -281,31 +268,6 @@ function FCFuiCDP_DisplayLocation_Retrieve: CDPcurrentLocIndexes;
 }
 begin
    Result:=CDPdisplayLocation;
-end;
-
-function FCFuiCDP_isInfrastructuresSection_Shown(const IISScolony, IISSsettlement: integer): boolean;
-{:Purpose: test if the colony data panel is opened with the infrastructure section displayed with the requested colony and settlement.
-    Additions:
-      -2011Jul19- *mod: remove the non sense Colony Data Panel Update call and replace it by Result=true.
-}
-begin
-   Result:=false;
-   if (FCWinMain.FCWM_ColDPanel.Visible)
-      and (FCWinMain.FCWM_CDPepi.ActivePage=FCWinMain.FCWM_CDPinfr)
-      and (IISScolony=CDPcurrentColony)
-      and (IISSsettlement=CDPcurrentSettlement)
-   then Result:=true;
-end;
-
-function FCFuiCDP_isPanel_Shown(const IPScolony: integer): boolean;
-{:Purpose: test if the colony data panel is opened with the requested colony.
-    Additions:
-}
-begin
-   Result:=false;
-   if (FCWinMain.FCWM_ColDPanel.Visible)
-      and (IPScolony=CDPcurrentColony)
-   then Result:=true;
 end;
 
 function FCFuiCDP_ListInfra_RetrieveIndex( const LIRIcategoryName: string; const LIRIcategoryIndex: integer ): integer;
