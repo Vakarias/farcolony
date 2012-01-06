@@ -433,6 +433,7 @@ procedure FCMuiCDP_CWPAssignVehKey_Test(
    );
 {:Purpose: test key routine for colony data panel / population / WCP vehicles assign edit.
     Additions:
+      -2011Jan05- *mod: adjust the index due to the removal of the "No Equipment" item in the list.
       -2011Jul04- *fix: correctly call the colony's storage update to avoid a double update on the storage values.
 }
 var
@@ -455,7 +456,7 @@ begin
    then
    begin
       CWPAVKTcwp:=0;
-      CWPAVKTequipIndex:=FCWinMain.FCWM_CDPwcpEquip.ItemIndex;
+      CWPAVKTequipIndex:=FCWinMain.FCWM_CDPwcpEquip.ItemIndex+1;
       if CWPAVKTequipIndex>0
       then
       begin
@@ -497,6 +498,7 @@ end;
 procedure FCMuiCDP_WCPradio_Click(const WCPRCset: boolean);
 {:Purpose: process the WCP radio click.
     Additions:
+      -2012Jan05- *mod: display the "No Equipment" item only in the case of an "Add Colonists".
       -2011May09- *add: set the display of the vehicles assignation ui element.
       -2011May06- *add: populate the dropdown interface element w/ equipments, if there's one available.
 }
@@ -516,12 +518,12 @@ begin
    FCWinMain.FCWM_CDPwcpAssign.Text:='';
    FCWinMain.FCWM_CDPcwpAssignVeh.Text:='';
    FCWinMain.FCWM_CDPwcpEquip.Items.Clear;
-   FCWinMain.FCWM_CDPwcpEquip.Items.Add(FCFdTFiles_UIStr_Get(uistrUI, 'cwpEquipNone'));
    WCPRCcol:=FCFuiCDP_VarCurrentColony_Get;
    if (WCPRCset)
       or (WCPRCcheck)
    then
    begin
+      FCWinMain.FCWM_CDPwcpEquip.Items.Add(FCFdTFiles_UIStr_Get(uistrUI, 'cwpEquipNone'));
       FCWinMain.FCWM_CDPcwpAssignVeh.Visible:=false;
       FCWinMain.FCWM_CDPwcpAssign.Visible:=true;
       WCPRCmax:=Length(FCentities[0].E_col[WCPRCcol].COL_storageList)-1;
@@ -582,6 +584,7 @@ procedure FCMuiCDP_Data_Update(
          ,CPUsettlement: integer
    );
 {:Purpose: update the colony data display
+   -2012Jan05- *add: Population / CWP - set correctly the first option, "Add Colonists", by default.
    -2011Dec22- *add: 2 possible display for infrastructures: owned only, available only.
    -2011Dec21- *add: if the CPUcol is at 0, private data is used and not updated. CPUsettlement can't be at 0, if it's the case, the index 1 is selected (there's no colony w/o at least one settlement anyway).
                *mod: CPUsettlement is back in a constant.
@@ -904,6 +907,7 @@ begin
          FCWinMain.FCWM_CDPpopList.Items.AddChild(CDPconstNode, 'Total <a href="cwpRoot">CWP</a> [ <b>'+FloatToStr(FCentities[0].E_col[CDPcurrentColony].COL_population.POP_wcpTotal)+'</b> ]');
          FCWinMain.FCWM_CDPpopList.Items.AddChild(CDPconstNode, FCFdTFiles_UIStr_Get(uistrUI, 'cwpColonAdd'));
          FCWinMain.FCWM_CDPpopList.SetRadioButton(CDPconstNode[2], CPUradioIdx=1);
+         FCWinMain.FCWM_CDPpopList.SetRadioButton(CDPconstNode[2], true);
          FCWinMain.FCWM_CDPpopList.Items.AddChild(CDPconstNode, FCFdTFiles_UIStr_Get(uistrUI, 'cwpMechAdd'));
          FCWinMain.FCWM_CDPpopList.SetRadioButton(CDPconstNode[3], CPUradioIdx=2);
          FCWinMain.FCWM_CDPpopList.Items.AddChild(CDPconstNode, FCFdTFiles_UIStr_Get(uistrUI, 'cwpAssignConfirm'));

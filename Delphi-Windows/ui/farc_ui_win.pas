@@ -2186,6 +2186,8 @@ end;
 procedure FCMuiWin_UI_Upd(const UIUtp: TFCEmwinUpdTp);
 {:Purpose: update and initialize all user's interface elements of the game.
    Additions:
+      -2012Jan05- *mod: adjust FCWM_CDPwcpEquip location.
+                  *mod: set the correct active page of the FCWM_CDPepi.
       -2011Jun29- *add: infrastructure panel - FCWM_IPinfraKits initialization.
       -2011Jun06- *add: infrastructure panel - initialize the commit button.
                   *mod: infrastructure panel - refine the panel size.
@@ -2194,7 +2196,7 @@ procedure FCMuiWin_UI_Upd(const UIUtp: TFCEmwinUpdTp);
       -2011May23: *add: infrastructure panel initialization.
       -2011May08- *add: colony data panel - population - construction workforce - FCWM_CDPcwpAssignVeh initialization.
       -2011May06- *mod: size refinments for the Help Panel.
-      -2011May01- *add: colony data panel - population - construction workforce - initialize equipment list + number edit font.
+      -2011May01- *add: colony FCWM_CDPepidata panel - population - construction workforce - initialize equipment list + number edit font.
       -2011Apr29- *add: colony data panel - population - construction workforce - initialize the number edit.
       -2011Apr17- *add: colony data panel - infrastructures available list - font initialization.
       -2011Apr14- *add: colony data panel - infrastructures tree list/available list - sizes initialization.
@@ -2581,6 +2583,7 @@ begin
       FCWinMain.FCWM_CDPepi.Height:=269;
       FCWinMain.FCWM_CDPepi.Left:=FCWinMain.FCWM_CDPinfo.Left+FCWinMain.FCWM_CDPinfo.Width+2;
       FCWinMain.FCWM_CDPepi.Top:=19;
+      FCWinMain.FCWM_CDPepi.ActivePage:=FCWinMain.FCWM_CDPpopul;
       FCWinMain.FCWM_CDPpopList.Width:=(FCWinMain.FCWM_CDPepi.Width shr 1)-2;
       FCWinMain.FCWM_CDPpopType.Width:=FCWinMain.FCWM_CDPpopList.Width;
       FCWinMain.FCWM_CDPinfrList.Width:=FCWinMain.FCWM_CDPepi.Width shr 1;
@@ -2597,8 +2600,8 @@ begin
       FCWinMain.FCWM_CDPcwpAssignVeh.Visible:=false;
       FCWinMain.FCWM_CDPwcpEquip.Width:=92;
       FCWinMain.FCWM_CDPwcpEquip.Height:=20;
-      FCWinMain.FCWM_CDPwcpEquip.Left:=162;
-      FCWinMain.FCWM_CDPwcpEquip.Top:=216;
+      FCWinMain.FCWM_CDPwcpEquip.Left:=162-134;
+      FCWinMain.FCWM_CDPwcpEquip.Top:=216+24;
       {.UMI}
       FCWinMain.FCWM_UMI.Width:=FCVwMumiW;
       FCWinMain.FCWM_UMI.Height:=FCVwMumiH;

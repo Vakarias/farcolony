@@ -297,6 +297,8 @@ type
     FCWM_IPconfirmButton: TAdvGlowButton;
     FCWM_IPinfraKits: THTMLRadioGroup;
     FCXMLdbTechnosciences: TXMLDocument;
+    FCWM_CDPstorage: TAdvTabSheet;
+    HTMLTreeview1: THTMLTreeview;
       procedure FormCreate(Sender: TObject);
       procedure FormResize(Sender: TObject);
       procedure FCWM_MMenu_G_QuitClick(Sender: TObject);
@@ -394,6 +396,8 @@ type
     procedure FCWM_CDPepiChange(Sender: TObject);
     procedure FCWM_IPconfirmButtonClick(Sender: TObject);
     procedure FCWM_IPinfraKitsClick(Sender: TObject);
+    procedure FCWM_CDPpopListCollapsed(Sender: TObject; Node: TTreeNode);
+    procedure FCWM_CDPpopListExpanded(Sender: TObject; Node: TTreeNode);
    private
       { Private declarations }
          {timesteps needed for camera transitions}
@@ -910,6 +914,26 @@ procedure TFCWinMain.FCWM_CDPpopListAnchorClick(Sender: TObject; Node: TTreeNode
   anchor: string);
 begin
    FCMuiW_HelpTDef_Link(anchor, true);
+end;
+
+procedure TFCWinMain.FCWM_CDPpopListCollapsed(Sender: TObject; Node: TTreeNode);
+begin
+   if Node.Index=1 then
+   begin
+      FCWM_CDPwcpEquip.Hide;
+      FCWM_CDPwcpAssign.Hide;
+      FCWM_CDPcwpAssignVeh.Hide;
+   end;
+end;
+
+procedure TFCWinMain.FCWM_CDPpopListExpanded(Sender: TObject; Node: TTreeNode);
+begin
+   if Node.Index=1 then
+   begin
+      FCWM_CDPwcpEquip.Show;
+      FCWM_CDPwcpAssign.Show;
+      FCWM_CDPcwpAssignVeh.Show;
+   end;
 end;
 
 procedure TFCWinMain.FCWM_CDPpopListKeyDown(Sender: TObject; var Key: Word;
