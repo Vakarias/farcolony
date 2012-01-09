@@ -446,6 +446,7 @@ uses
    ,farc_ui_infrapanel
    ,farc_ui_keys
    ,farc_ui_msges
+   ,farc_ui_surfpanel
    ,farc_ui_umi
    ,farc_ui_win
    ,farc_win_missset;
@@ -1214,12 +1215,12 @@ begin
    if FCWM_ColDPanel.Visible
    then FCWM_ColDPanel.Hide;
    if FCGLSCamMainViewGhost.TargetObject=FC3DobjGrp[FCV3DselOobj]
-   then FCMuiWin_SurfEcos_Set(FCV3DselOobj, 0, false)
+   then FCMuiSP_SurfaceEcosphere_Set(FCV3DselOobj, 0, false)
    else if FCGLSCamMainViewGhost.TargetObject=FC3DobjSatGrp[FCV3DselSat]
    then
    begin
       PMFODCdmpOobj:=round(FC3DobjSatGrp[FCV3DselSat].TagFloat);
-      FCMuiWin_SurfEcos_Set(PMFODCdmpOobj, FC3DobjSatGrp[FCV3DselSat].Tag, false);
+      FCMuiSP_SurfaceEcosphere_Set(PMFODCdmpOobj, FC3DobjSatGrp[FCV3DselSat].Tag, false);
    end;
 end;
 
@@ -1273,10 +1274,10 @@ procedure TFCWinMain.FCWM_SP_SurfaceHotSpotEnter(Sender: TObject; HotSpot: THotS
 begin
    if (FCWM_SP_Surface.Tag<>HotSpot.ID)
       and (FCWM_SP_DataSheet.ActivePage=FCWM_SP_ShReg)
-   then FCMuiWin_SurfEcos_RegUpd(HotSpot.ID, false)
+   then FCMuiSP_RegionDataPicture_Update(HotSpot.ID, false)
    else if (FCWM_SP_Surface.Tag<>HotSpot.ID)
       and (FCWM_SP_DataSheet.ActivePage<>FCWM_SP_ShReg)
-   then FCMuiWin_SurfEcos_RegUpd(HotSpot.ID, true);
+   then FCMuiSP_RegionDataPicture_Update(HotSpot.ID, true);
 end;
 
 procedure TFCWinMain.FCWM_SP_SurfaceMouseMove(Sender: TObject; Shift: TShiftState; X,
@@ -1294,7 +1295,7 @@ begin
    then
    begin
       FCWM_SP_DataSheet.ActivePage:=FCWM_SP_ShReg;
-      FCMuiWin_SurfEcos_RegUpd(FCWM_SP_Surface.Tag, false);
+      FCMuiSP_RegionDataPicture_Update(FCWM_SP_Surface.Tag, false);
    end;
    if (FCWinMissSet.Visible)
 //      and (FCWinMissSet.FCWMS_Grp.Caption=FCFdTFiles_UIStr_Get(uistrUI,'FCWinMissSet')+FCFdTFiles_UIStr_Get(uistrUI,'Mission.coloniz'))

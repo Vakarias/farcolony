@@ -99,6 +99,7 @@ uses
    ,farc_main
    ,farc_ui_coldatapanel
    ,farc_ui_msges
+   ,farc_ui_surfpanel
    ,farc_ui_win
    ,farc_univ_func
    ,farc_win_debug
@@ -138,7 +139,9 @@ procedure FCMgC_Colonize_PostProc(
 var
    CPPcolIdx
    ,CPPsettlement
-   ,regionttl: integer;
+   ,regionttl
+   ,surfaceOObj
+   ,surfaceSat: integer;
 
 begin
    CPPsettlement:=0;
@@ -183,8 +186,10 @@ begin
          ,CPPsettleTp
          ,CPPsettleName
          );
-      if (FCWinMain.FCWM_SP_LDat.Tag=CPPobjIdx)
-         and (FCWinMain.FCWM_SP_RDat.Tag=CPPsatIdx)
+      surfaceOObj:=FCFuiSP_VarCurrentOObj_Get;
+      surfaceSat:=FCFuiSP_VarCurrentSat_Get;
+      if (surfaceOObj=CPPobjIdx)
+         and (surfaceSat=CPPsatIdx)
          and (CPPfac=0)
       then FCMgfxC_Settlement_SwitchState(CPPregion);
       {:DEV NOTES: resource survey data, TO REMOVE WHEN REGION SURVEY IS IMPLEMENTED.}
@@ -231,8 +236,10 @@ begin
             ,CPPsettleTp
             ,CPPsettleName
             );
-         if (FCWinMain.FCWM_SP_LDat.Tag=CPPobjIdx)
-            and (FCWinMain.FCWM_SP_RDat.Tag=CPPsatIdx)
+         surfaceOObj:=FCFuiSP_VarCurrentOObj_Get;
+         surfaceSat:=FCFuiSP_VarCurrentSat_Get;
+         if (surfaceOObj=CPPobjIdx)
+            and (surfaceSat=CPPsatIdx)
             and (CPPfac=0)
          then FCMgfxC_Settlement_SwitchState(CPPregion);
       end;
@@ -253,10 +260,12 @@ begin
       ,CPPsettlement
       );
    FCMgSPMD_Level_Upd(CPPfac);
+   surfaceOObj:=FCFuiSP_VarCurrentOObj_Get;
+   surfaceSat:=FCFuiSP_VarCurrentSat_Get;
    if (FCWinMain.FCWM_SurfPanel.Visible)
       and (CPPfac=0)
-      and (FCWinMain.FCWM_SP_LDat.Tag=CPPobjIdx)
-      and (FCWinMain.FCWM_SP_RDat.Tag=CPPsatIdx)
+      and (surfaceOObj=CPPobjIdx)
+      and (surfaceSat=CPPsatIdx)
    then
    begin
       FCWinMain.FCWM_ColDPanel.Show;

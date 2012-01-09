@@ -54,7 +54,7 @@ uses
    ,farc_ogl_viewmain
    ,farc_spu_functions
    ,farc_ui_msges
-   ,farc_ui_win
+   ,farc_ui_surfpanel
    ,farc_univ_func;
 
 //===================================================END OF INIT============================
@@ -98,7 +98,7 @@ begin
    FCWinMain.FCWM_MMenu_G_New.Enabled:=false;
 //   if FCWinMain.FCWM_MMenu_DebTools.Visible
 //   then FCWinMain.FCWM_MMenu_DebTools.Visible:=false;
-   FCMuiWin_TerrGfxColl_Init;
+   FCMgfxC_TerrainsCollection_Init;
    if not Assigned(FCRdiSettlementPic[1])
    then FCMgfxC_Settlements_Init;
    {.data initialization}
@@ -263,7 +263,7 @@ begin
             and (FCV3DttlSat>0)
          then FCV3DselSat:=1;
       end; //==END== 3d initialization try..finally ==//
-      FCMuiWin_SurfEcos_Set(0, 0, true);
+      FCMuiSP_SurfaceEcosphere_Set(0, 0, true);
       FCWinMain.caption:=FCWinMain.caption+'   ['+FCFdTFiles_UIStr_Get(uistrUI,'comCurGame')+FCRplayer.P_gameName+']';
       FCMoglUI_Main3DViewUI_Update(oglupdtpTxtOnly, ogluiutCPS);
    end; //==END== else of if FCRplayer.Play_starSysLoc='' ==//

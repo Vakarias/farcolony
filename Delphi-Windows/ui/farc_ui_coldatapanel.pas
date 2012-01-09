@@ -192,6 +192,7 @@ uses
    ,farc_main
    ,farc_ui_coredatadisplay
    ,farc_ui_keys
+   ,farc_ui_surfpanel
    ,farc_ui_win
    ,farc_win_debug;
 
@@ -655,7 +656,7 @@ var
    ,CPUinfDisplay
    ,CPUinfKitroot
    ,CPUinfStatus
-   ,CPUpopMax
+   ,CPUpopMaxOrAssigned
    ,CPUpopTtl: string;
 
    CPUnode
@@ -877,14 +878,14 @@ begin
          FCWinMain.FCWM_CDPpopList.Items.Clear;
          FCWinMain.FCWM_CDPpopType.Items.Clear;
          CPUpopTtl:=FCFcFunc_ThSep(FCentities[0].E_col[CDPcurrentColony].COL_population.POP_total,',');
-         CPUpopMax:=FCFcFunc_ThSep(FCentities[0].E_col[CDPcurrentColony].COL_csmHOpcap,',');
+         CPUpopMaxOrAssigned:=FCFcFunc_ThSep(FCentities[0].E_col[CDPcurrentColony].COL_csmHOpcap,',');
          CPUdataIndex:=FCFgCSM_SPL_GetIdxMod(
             indexstr
             ,0
             ,CDPcurrentColony
             );
          CPUrootnode:=FCWinMain.FCWM_CDPpopList.Items.Add( nil, 'Population Details');
-         FCWinMain.FCWM_CDPpopList.Items.AddChild( CPUrootnode, '<b>'+CPUpopTtl+' / '+CPUpopMax+'</b> max');
+         FCWinMain.FCWM_CDPpopList.Items.AddChild( CPUrootnode, '<b>'+CPUpopTtl+' / '+CPUpopMaxOrAssigned+'</b> max');
          CPUsubnode:=FCWinMain.FCWM_CDPpopList.Items.AddChild( CPUrootnode, FCFdTFiles_UIStr_Get(uistrUI, 'colPopSPL')+' [ <b>'+CPUdataIndex+'</b> ]');
          FCWinMain.FCWM_CDPpopList.Items.AddChild(
             CPUrootnode
@@ -913,9 +914,11 @@ begin
          FCWinMain.FCWM_CDPpopList.Items.AddChild(CDPconstNode, FCFdTFiles_UIStr_Get(uistrUI, 'cwpAssignConfirm'));
          FCWinMain.FCWM_CDPpopList.Items.AddChild(CDPconstNode, FCFdTFiles_UIStr_Get(uistrUI, 'cwpAvailEquip'));
          FCMuiCDP_WCPradio_Click(true);
+         CPUpopTtl:=FCFcFunc_ThSep( FCentities[0].E_col[CDPcurrentColony].COL_population.POP_tpColon, ',' );
+         CPUpopMaxOrAssigned:=FCFcFunc_ThSep( FCentities[0].E_col[CDPcurrentColony].COL_population.POP_tpColonAssigned, ',' );
          FCWinMain.FCWM_CDPpopType.Items.Add(
             nil
-            ,FCFdTFiles_UIStr_Get(uistrUI, 'colPTcol')+' [ <b>'+inttostr(FCentities[0].E_col[CDPcurrentColony].COL_population.POP_tpColon)+'</b> ]'
+            ,FCFdTFiles_UIStr_Get(uistrUI, 'colPTcol')+' [ <b>'+CPUpopMaxOrAssigned+' / '+CPUpopTtl+'</b> ]'
             );
          CPUnodeTp:=FCWinMain.FCWM_CDPpopType.Items.Add(nil, FCFdTFiles_UIStr_Get(uistrUI, 'colPTspe'));
          FCWinMain.FCWM_CDPpopType.Items.AddChild(
@@ -1250,7 +1253,9 @@ procedure FCMuiCDP_Display_Set(
       -2010Jun16- *add: relocate surface panel + display the two panels.
 }
 var
-   CFDcol: integer;
+   CFDcol
+   ,surfaceOObj
+   ,surfaceSat: integer;
 begin
    CDPdisplayLocation.CLI_starsys:=CFDssys;
    CDPdisplayLocation.CLI_star:=CFDstar;
@@ -1261,8 +1266,9 @@ begin
    if CFDsat=0
    then
    begin
-      if FCWinMain.FCWM_SP_LDat.Tag<>CFDoobj
-      then FCMuiWin_SurfEcos_Set(
+      surfaceOObj:=FCFuiSP_VarCurrentOObj_Get;
+      if surfaceOObj<>CFDoobj
+      then FCMuiSP_SurfaceEcosphere_Set(
          CFDoobj
          ,0
          ,false
@@ -1282,8 +1288,9 @@ begin
    else if CFDsat>0
    then
    begin
-      if FCWinMain.FCWM_SP_RDat.Tag<>CFDsat
-      then FCMuiWin_SurfEcos_Set(
+      surfaceSat:=FCFuiSP_VarCurrentSat_Get;
+      if surfaceSat<>CFDsat
+      then FCMuiSP_SurfaceEcosphere_Set(
          CFDoobj
          ,CFDsat
          ,false

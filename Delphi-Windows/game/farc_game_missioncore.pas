@@ -123,6 +123,7 @@ uses
    ,farc_ogl_viewmain
    ,farc_spu_functions
    ,farc_ui_msges
+   ,farc_ui_surfpanel
    ,farc_ui_win
    ,farc_univ_func
 //   ,farc_win_debug
@@ -553,7 +554,8 @@ var
    MScol
    ,MSdesgn
    ,MSdockedNum
-   ,MSownedIdx: integer;
+   ,MSownedIdx
+   ,surfaceOObj: integer;
 
    MSdmpStatus
    ,MSdispIdx: string;
@@ -672,8 +674,9 @@ begin
             ,0
             );
          {.set the interface elements}
-         if FCWinMain.FCWM_SP_LDat.Tag<>GMCrootOObIdx
-         then FCMuiWin_SurfEcos_Set(GMCrootOObIdx, GMCrootSatIdx, false)
+         surfaceOObj:=FCFuiSP_VarCurrentOObj_Get;
+         if surfaceOObj<>GMCrootOObIdx
+         then FCMuiSP_SurfaceEcosphere_Set(GMCrootOObIdx, GMCrootSatIdx, false)
          else begin
             FCWinMain.FCWM_SurfPanel.Visible:=true;
             fcwinmain.FCWM_SP_Surface.Enabled:=true;

@@ -224,7 +224,7 @@ uses
    ,farc_ui_infrapanel
    ,farc_ui_msges
    ,farc_ui_umi
-   ,farc_ui_win
+   ,farc_ui_surfpanel
    ,farc_win_about
    ,farc_win_missset
    ,farc_win_newgset;
@@ -278,7 +278,7 @@ begin
                   then FCMgMCore_Mission_DestUpd(false)
                   else if (not FCWinMissSet.Visible)
                      and (FCWinMain.FCWM_SP_AutoUp.Checked)
-                  then FCMuiWin_SurfEcos_Set(FCV3DselOobj, 0, false);
+                  then FCMuiSP_SurfaceEcosphere_Set(FCV3DselOobj, 0, false);
                end;
             end;
             uikbkPrev:
@@ -298,7 +298,7 @@ begin
                   FCMoglVM_CamMain_Target(FCV3DselOobj, true);
                   if (FCWinMain.FCWM_SP_AutoUp.Checked)
                      and (FCV3DselOobj>0)
-                  then FCMuiWin_SurfEcos_Set(FCV3DselOobj, 0, false);
+                  then FCMuiSP_SurfaceEcosphere_Set(FCV3DselOobj, 0, false);
                end;
             end;
             uikbkFirst:
@@ -328,7 +328,7 @@ begin
                   then FCMgMCore_Mission_DestUpd(false)
                   else if (not FCWinMissSet.Visible)
                      and (FCWinMain.FCWM_SP_AutoUp.Checked)
-                  then FCMuiWin_SurfEcos_Set(FCV3DselOobj, 0, false);
+                  then FCMuiSP_SurfaceEcosphere_Set(FCV3DselOobj, 0, false);
                end;
             end;
          end; //==END== case BKSbk of ==//
@@ -390,7 +390,7 @@ begin
          then FCMgMCore_Mission_DestUpd(false)
          else if (not FCWinMissSet.Visible)
             and (FCWinMain.FCWM_SP_AutoUp.Checked)
-         then FCMuiWin_SurfEcos_Set(FCV3DselOobj, FC3DobjSatGrp[FCV3DselSat].Tag, false);
+         then FCMuiSP_SurfaceEcosphere_Set(FCV3DselOobj, FC3DobjSatGrp[FCV3DselSat].Tag, false);
       end; //==END== case - uikbtSat ==//
       uikbtSpU:
       begin

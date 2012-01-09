@@ -48,12 +48,17 @@ procedure FCMgfxC_Settlements_Hide;
 ///</summary>
 procedure FCMgfxC_Settlements_Init;
 
+///<summary>
+///   initialize the terrains graphic collection
+///</summary>
+procedure FCMgfxC_TerrainsCollection_Init;
+
 implementation
 
 uses
    farc_data_init
    ,farc_main
-   ,farc_ui_win;
+   ,farc_ui_surfpanel;
 
 type TFCgfxCsettlementEvents = class
    {.settlements icons mouse enter event}
@@ -88,10 +93,10 @@ begin
    end;
    if (FCWinMain.FCWM_SP_Surface.Tag<>SOMEreg)
       and (FCWinMain.FCWM_SP_DataSheet.ActivePage=FCWinMain.FCWM_SP_ShReg)
-   then FCMuiWin_SurfEcos_RegUpd(SOMEreg, false)
+   then FCMuiSP_RegionDataPicture_Update(SOMEreg, false)
    else if (FCWinMain.FCWM_SP_Surface.Tag<>SOMEreg)
       and (FCWinMain.FCWM_SP_DataSheet.ActivePage<>FCWinMain.FCWM_SP_ShReg)
-   then FCMuiWin_SurfEcos_RegUpd(SOMEreg, true);
+   then FCMuiSP_RegionDataPicture_Update(SOMEreg, true);
 end;
 
 procedure FCMgfxC_Settlement_SwitchState(const SSSregion: integer);
@@ -159,6 +164,71 @@ begin
       inc(SIcnt);
    end;
    SIbmp.Free;
+end;
+
+procedure FCMgfxC_TerrainsCollection_Init;
+{:Purpose: initialize the terrains graphic collection.
+    Additions:
+      -2012Jan06- *code: procedure moved in its proper unit.
+}
+var
+   TGCIcnt
+   ,TGCIdmp: integer;
+   TGCIfile: string;
+begin
+   if FCWinMain.FCWM_RegTerrLib.Bitmaps.Count>0
+   then FCWinMain.FCWM_RegTerrLib.Bitmaps.Clear;
+   TGCIcnt:=0;
+   while TGCIcnt<=41 do
+   begin
+      TGCIdmp:=TGCIcnt;
+      FCWinMain.FCWM_RegTerrLib.Bitmaps.Add;
+      case TGCIcnt of
+         0: TGCIfile:='rst01rockDes_plain.jpg';
+         1: TGCIfile:='rst01rockDes_brok.jpg';
+         2: TGCIfile:='rst01rockDes_moun.jpg';
+         3: TGCIfile:='rst02sandDes_plain.jpg';
+         4: TGCIfile:='rst02sandDes_brok.jpg';
+         5: TGCIfile:='rst03volcanic_plain.jpg';
+         6: TGCIfile:='rst03volcanic_brok.jpg';
+         7: TGCIfile:='rst03volcanic_moun.jpg';
+         8: TGCIfile:='rst04polar_plain.jpg';
+         9: TGCIfile:='rst04polar_brok.jpg';
+         10: TGCIfile:='rst04polar_moun.jpg';
+         11: TGCIfile:='rst05arid_plain.jpg';
+         12: TGCIfile:='rst05arid_brok.jpg';
+         13: TGCIfile:='rst05arid_moun.jpg';
+         14: TGCIfile:='rst06fertile_plain.jpg';
+         15: TGCIfile:='rst06fertile_brok.jpg';
+         16: TGCIfile:='rst06fertile_moun.jpg';
+         17: TGCIfile:='rst07oceanic.jpg';
+         18: TGCIfile:='rst08coastRockDes_plain.jpg';
+         19: TGCIfile:='rst08coastRockDes_brok.jpg';
+         20: TGCIfile:='rst08coastRockDes_moun.jpg';
+         21: TGCIfile:='rst09coastSandDes_plain.jpg';
+         22: TGCIfile:='rst09coastSandDes_brok.jpg';
+         23: TGCIfile:='rst10coastVolcanic_plain.jpg';
+         24: TGCIfile:='rst10coastVolcanic_brok.jpg';
+         25: TGCIfile:='rst10coastVolcanic_moun.jpg';
+         26: TGCIfile:='rst11coastPolar_plain.jpg';
+         27: TGCIfile:='rst11coastPolar_brok.jpg';
+         28: TGCIfile:='rst11coastPolar_moun.jpg';
+         29: TGCIfile:='rst12coastArid_plain.jpg';
+         30: TGCIfile:='rst12coastArid_brok.jpg';
+         31: TGCIfile:='rst12coastArid_moun.jpg';
+         32: TGCIfile:='rst13coastFertile_plain.jpg';
+         33: TGCIfile:='rst13coastFertile_brok.jpg';
+         34: TGCIfile:='rst13coastFertile_moun.jpg';
+         35: TGCIfile:='rst14barren_plain.jpg';
+         36: TGCIfile:='rst14barren_brok.jpg';
+         37: TGCIfile:='rst14barren_moun.jpg';
+         38: TGCIfile:='rst15icyBarren_plain.jpg';
+         39: TGCIfile:='rst15icyBarren_brok.jpg';
+         40: TGCIfile:='rst15icyBarren_moun.jpg';
+      end; //==END== case TGCIcnt ==//
+      FCWinMain.FCWM_RegTerrLib.Bitmap[TGCIdmp].LoadFromFile(FCVpathRsrc+'pics-ui-terrain\'+TGCIfile);
+      inc(TGCIcnt);
+   end; //==END== while TGCIcnt<=41 ==//
 end;
 
 end.
