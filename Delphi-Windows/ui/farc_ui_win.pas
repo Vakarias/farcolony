@@ -981,6 +981,7 @@ procedure FCMuiWin_SurfEcos_Set(
 {:Purpose: set and display the Surface / Ecosphere Panel.
 tags set: FCWM_SurfPanel=FCWM_SurfPanel.Width FCWM_SP_DataSheet:=FCWM_SP_DataSheet.Left
     Additions:
+      -2012Jan08- *code: move the procedure in its proper unit.
       -2011Feb14- *add: display settlements if a region have one.
                   *mod: some code optimization.
       -2010Jun27- *add: environmnent data.
@@ -2186,6 +2187,9 @@ end;
 procedure FCMuiWin_UI_Upd(const UIUtp: TFCEmwinUpdTp);
 {:Purpose: update and initialize all user's interface elements of the game.
    Additions:
+      -2012Jan08- *mod: year change for the main title.
+                  *mod: change the size of the colony data panel.
+                  *add: surface panel - complete rework in size/positions and for the ecosphere data sheet.
       -2012Jan05- *mod: adjust FCWM_CDPwcpEquip location.
                   *mod: set the correct active page of the FCWM_CDPepi.
       -2011Jun29- *add: infrastructure panel - FCWM_IPinfraKits initialization.
@@ -2323,7 +2327,7 @@ begin
    then
    begin
       {.main title bar}
-		FCWinMain.Caption:=FCCgameNam+'  ['+FCFcFunc_FARCVersion_Get+']  ©2009-2011 J.F. Baconnet';
+		FCWinMain.Caption:=FCCgameNam+'  ['+FCFcFunc_FARCVersion_Get+']  ©2009-2012 J.F. Baconnet';
 		{.main menu - game section}
 		FCWinMain.FCWM_MMenu_Game.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MainMenu_Game');
 		FCWinMain.FCWM_MMenu_G_New.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MainMenu_Game_New');
@@ -2532,22 +2536,27 @@ begin
       FCWinMain.FCWM_HDPhintsList.Width:=FCWinMain.FCWM_HelpPanel.Width shr 5*15;
       FCWinMain.FCWM_HDPhintsText.Width:=(FCWinMain.FCWM_HelpPanel.Width shr 5*17)-8;
       {.surface panel}
-      FCWinMain.FCWM_SurfPanel.Width:=784;
+      FCWinMain.FCWM_SurfPanel.Width:=1024;//784;
       FCWinMain.FCWM_SurfPanel.Height:=375;
       FCWinMain.FCWM_SurfPanel.Left:=(UIUmainW2)-(FCWinMain.FCWM_SurfPanel.Width shr 1);
       FCWinMain.FCWM_SurfPanel.Top:=(UIUmainH2)-(FCWinMain.FCWM_SurfPanel.Height shr 1);
       FCWinMain.FCWM_SP_AutoUp.Width:=82;
       FCWinMain.FCWM_SP_AutoUp.Left:=FCWinMain.FCWM_SurfPanel.Width-25-FCWinMain.FCWM_SP_AutoUp.Width;
       FCWinMain.FCWM_SP_AutoUp.Top:=1;
+      {.surface panel - ecosphere sheet}
+      FCWinMain.FCWM_SPShEcos_Lab.Width:=260;
+      FCWinMain.FCWM_SPShEcos_Lab.Height:=FCWinMain.FCWM_SurfPanel.Height-19;
+      FCWinMain.FCWM_SPShEcos_Lab.Left:=1;
+      FCWinMain.FCWM_SPShEcos_Lab.Top:=19;
       {.surface panel - surface hotspot}
       FCWinMain.FCWM_SP_Surface.Width:=512;
       FCWinMain.FCWM_SP_Surface.Height:=256;
-      FCWinMain.FCWM_SP_Surface.Left:=1;
-      FCWinMain.FCWM_SP_Surface.Top:=19;
+      FCWinMain.FCWM_SP_Surface.Left:=FCWinMain.FCWM_SPShEcos_Lab.Left+FCWinMain.FCWM_SPShEcos_Lab.Width+1;
+      FCWinMain.FCWM_SP_Surface.Top:=FCWinMain.FCWM_SPShEcos_Lab.Top;
       {.surface panel - left data}
       FCWinMain.FCWM_SP_LDatFrm.Width:=111;
       FCWinMain.FCWM_SP_LDatFrm.Height:=99;
-      FCWinMain.FCWM_SP_LDatFrm.Left:=0;
+      FCWinMain.FCWM_SP_LDatFrm.Left:=FCWinMain.FCWM_SP_Surface.Left;
       FCWinMain.FCWM_SP_LDatFrm.Top:=FCWinMain.FCWM_SP_Surface.Top+FCWinMain.FCWM_SP_Surface.Height+1;
       {.surface panel - region picture}
       FCWinMain.FCWM_SP_SPicFrm.Width:=292;
@@ -2564,12 +2573,12 @@ begin
       FCWinMain.FCWM_SP_RDatFrm.Left:=FCWinMain.FCWM_SP_SPicFrm.Left+FCWinMain.FCWM_SP_SPicFrm.Width;
       FCWinMain.FCWM_SP_RDatFrm.Top:=FCWinMain.FCWM_SP_SPicFrm.Top;
       {.surface panel - data sheet}
-      FCWinMain.FCWM_SP_DataSheet.Width:=270;
-      FCWinMain.FCWM_SP_DataSheet.Height:=FCWinMain.FCWM_SurfPanel.Height-19;
+      FCWinMain.FCWM_SP_DataSheet.Width:=FCWinMain.FCWM_SurfPanel.Width-FCWinMain.FCWM_SPShEcos_Lab.Width-FCWinMain.FCWM_SP_Surface.Width-4;//270;
+      FCWinMain.FCWM_SP_DataSheet.Height:=FCWinMain.FCWM_SPShEcos_Lab.Height;
       FCWinMain.FCWM_SP_DataSheet.Left:=FCWinMain.FCWM_SP_Surface.Left+FCWinMain.FCWM_SP_Surface.Width+1;
       FCWinMain.FCWM_SP_DataSheet.Top:=FCWinMain.FCWM_SP_Surface.Top;
       {.colony data panel}
-      FCWinMain.FCWM_ColDPanel.Width:=784;
+      FCWinMain.FCWM_ColDPanel.Width:=1024;//784;
       FCWinMain.FCWM_ColDPanel.Height:=350;
       FCWinMain.FCWM_CDPinfo.Width:=260;
       FCWinMain.FCWM_CDPinfo.Height:=229;
