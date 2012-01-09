@@ -1060,10 +1060,6 @@ object FCWinMain: TFCWinMain
           TabColor = clBlack
           TabColorTo = clGray
           TextColor = 14803425
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
           object HTMLabel1: THTMLabel
             Left = 0
             Top = 0
@@ -1992,10 +1988,6 @@ object FCWinMain: TFCWinMain
           TabColor = clBlack
           TabColorTo = clGray
           TextColor = 14803425
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
         end
         object FCWM_UMI_TabShProd: TAdvTabSheet
           Caption = 'FCWM_UMI_TabShProd'
@@ -2040,10 +2032,6 @@ object FCWinMain: TFCWinMain
           TabColor = clBlack
           TabColorTo = clGray
           TextColor = 14803425
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
         end
       end
     end
@@ -2279,7 +2267,7 @@ object FCWinMain: TFCWinMain
         Top = 20
         Width = 172
         Height = 289
-        ActivePage = FCWM_SP_ShEcos
+        ActivePage = FCWM_SP_ShReg
         ActiveFont.Charset = DEFAULT_CHARSET
         ActiveFont.Color = 13238272
         ActiveFont.Height = -11
@@ -2310,20 +2298,6 @@ object FCWinMain: TFCWinMain
         Version = '1.6.2.1'
         TabOrder = 0
         TabStop = False
-        object FCWM_SP_ShEcos: TAdvTabSheet
-          Caption = 'FCWM_SP_ShEcos'
-          Color = clBlack
-          ColorTo = clNone
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWhite
-          Font.Height = -12
-          Font.Name = 'DejaVu Sans'
-          Font.Style = []
-          ParentFont = False
-          TabColor = clBlack
-          TabColorTo = clGray
-          TextColor = 14803425
-        end
         object FCWM_SP_ShReg: TAdvTabSheet
           Caption = 'FCWM_SP_ShReg'
           Color = clBlack
@@ -2337,11 +2311,13 @@ object FCWinMain: TFCWinMain
           TabColor = clBlack
           TabColorTo = clGray
           TextColor = 14803425
+          ExplicitTop = 44
+          ExplicitHeight = 241
           object FCWM_SPShReg_Lab: THTMLabel
             Left = 0
             Top = 0
             Width = 164
-            Height = 241
+            Height = 260
             Align = alClient
             Color = clBlack
             GradientType = gtFullVertical

@@ -191,7 +191,6 @@ type
       FCWM_MMenu_H_HPanel: TMenuItem;
       FCWM_SurfPanel: TAdvPanel;
       FCWM_SP_DataSheet: TAdvPageControl;
-      FCWM_SP_ShEcos: TAdvTabSheet;
       FCWM_SPShEcos_Lab: THTMLabel;
       FCWM_SP_Surface: THotSpotImage;
       FCWM_SP_SPicFrm: TAdvGroupBox;
@@ -1272,12 +1271,7 @@ end;
 
 procedure TFCWinMain.FCWM_SP_SurfaceHotSpotEnter(Sender: TObject; HotSpot: THotSpot);
 begin
-   if (FCWM_SP_Surface.Tag<>HotSpot.ID)
-      and (FCWM_SP_DataSheet.ActivePage=FCWM_SP_ShReg)
-   then FCMuiSP_RegionDataPicture_Update(HotSpot.ID, false)
-   else if (FCWM_SP_Surface.Tag<>HotSpot.ID)
-      and (FCWM_SP_DataSheet.ActivePage<>FCWM_SP_ShReg)
-   then FCMuiSP_RegionDataPicture_Update(HotSpot.ID, true);
+   FCMuiSP_RegionDataPicture_Update(HotSpot.ID, false);
 end;
 
 procedure TFCWinMain.FCWM_SP_SurfaceMouseMove(Sender: TObject; Shift: TShiftState; X,
@@ -1291,12 +1285,12 @@ var
    SPSSCcurrSettlement: integer;
 begin
    SPSSCcurrSettlement:=0;
-   if FCWM_SP_DataSheet.ActivePage<>FCWM_SP_ShReg
-   then
-   begin
-      FCWM_SP_DataSheet.ActivePage:=FCWM_SP_ShReg;
-      FCMuiSP_RegionDataPicture_Update(FCWM_SP_Surface.Tag, false);
-   end;
+//   if FCWM_SP_DataSheet.ActivePage<>FCWM_SP_ShReg
+//   then
+//   begin
+//      FCWM_SP_DataSheet.ActivePage:=FCWM_SP_ShReg;
+//      FCMuiSP_RegionDataPicture_Update(FCWM_SP_Surface.Tag, false);
+//   end;
    if (FCWinMissSet.Visible)
 //      and (FCWinMissSet.FCWMS_Grp.Caption=FCFdTFiles_UIStr_Get(uistrUI,'FCWinMissSet')+FCFdTFiles_UIStr_Get(uistrUI,'Mission.coloniz'))
    then

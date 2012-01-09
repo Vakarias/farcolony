@@ -894,6 +894,8 @@ procedure FCMuiSP_SurfaceEcosphere_Set(
 tags set: FCWM_SurfPanel=FCWM_SurfPanel.Width FCWM_SP_DataSheet:=FCWM_SP_DataSheet.Left
     Additions:
       -2012Jan08- *code: procedure moved in its proper unit.
+                  *mod: since the Ecosphere tab doesn't exist, it the region tab that is focused.
+                  *add: initialize correctly the region data sheet by load it with data of the first region.
       -2011Feb14- *add: display settlements if a region have one.
                   *mod: some code optimization.
       -2010Jun27- *add: environmnent data.
@@ -947,7 +949,7 @@ begin
          SPcurrentOObjIndex:=SESoobjIdx;
          SPcurrentSatIndex:=0;
          FCWM_SP_Surface.Tag:=0;
-         FCWM_SP_DataSheet.ActivePage:=FCWM_SP_ShEcos;
+         FCWM_SP_DataSheet.ActivePage:=FCWM_SP_ShReg;
          FCWM_SP_SurfSel.Width:=0;
          FCWM_SP_SurfSel.Height:=0;
          FCWM_SP_SurfSel.Left:=0;
@@ -1496,7 +1498,7 @@ begin
          if not FCWM_SurfPanel.Visible
          then FCWM_SurfPanel.Visible:=true;
          if FCWM_SurfPanel.Tag=0
-         then FCMuiSP_RegionDataPicture_Update(1, true);
+         then FCMuiSP_RegionDataPicture_Update(1, false);
       end //==END== if not SESinit ==//
       else if SESinit
       then

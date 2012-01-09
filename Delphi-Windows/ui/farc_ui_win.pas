@@ -638,6 +638,7 @@ begin
       ,0
       ,false
       ,false
+      ,true
       );
 end;
 
@@ -647,6 +648,7 @@ procedure FCMuiWin_UI_Upd(const UIUtp: TFCEmwinUpdTp);
       -2012Jan08- *mod: year change for the main title.
                   *mod: change the size of the colony data panel.
                   *add: surface panel - complete rework in size/positions and for the ecosphere data sheet.
+                  *rem: surface panel - Ecosphere tab.
       -2012Jan05- *mod: adjust FCWM_CDPwcpEquip location.
                   *mod: set the correct active page of the FCWM_CDPepi.
       -2011Jun29- *add: infrastructure panel - FCWM_IPinfraKits initialization.
@@ -860,7 +862,6 @@ begin
       {.surface panel}
       FCWinMain.FCWM_SurfPanel.Caption.Text:='';
       FCWinMain.FCWM_SP_AutoUp.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_SP_AutoUp');
-      FCWinMain.FCWM_SP_ShEcos.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_SP_ShEcos');
       FCWinMain.FCWM_SP_ShReg.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_SP_ShReg');
       {.viability objectives panel}
       if Assigned(FCcps)
