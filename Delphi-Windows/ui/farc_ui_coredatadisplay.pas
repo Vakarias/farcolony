@@ -64,12 +64,14 @@ type TFCEuicddProductionList=(
 ///   <param name="Settlement">settlement index #</param>
 ///   <param name="isMustbeTheSameColony">if true=> the Colony index parameter must be of the same value than the current colony displayed</param>
 ///   <param name="isMustBeTheSameSettlement">if true=> the Settlement index parameter must be of the same value than the current settlement displayed</param>
+///   <param name="isSurfacePanelUpdate">if true=> indicate if the surface panel must be updated too (used in case of language change for ex). Used only w/cdlColonyAll</param>
 procedure FCMuiCDD_Colony_Update(
    const DataType: TFCEuicddColonyDataList;
    const Colony
          ,Settlement: integer;
    const isMustBeTheSameColony
-         ,isMustBeTheSameSettlement: boolean
+         ,isMustBeTheSameSettlement
+         ,isSurfacePanelUpdate: boolean
    );
 
 ///<summary>
@@ -88,7 +90,8 @@ implementation
 
 uses
    farc_main
-   ,farc_ui_coldatapanel;
+   ,farc_ui_coldatapanel
+   ,farc_ui_surfpanel;
 
 //===================================================END OF INIT============================
 //===========================END FUNCTIONS SECTION==========================================
@@ -98,15 +101,19 @@ procedure FCMuiCDD_Colony_Update(
    const Colony
          ,Settlement: integer;
    const isMustBeTheSameColony
-         ,isMustBeTheSameSettlement: boolean
+         ,isMustBeTheSameSettlement
+         ,isSurfacePanelUpdate: boolean
    );
 {:Purpose: core data display refresh for colony data. Update the Colony Data Panel and the related UMI tabs if required.
     Additions:
+      -2012Jan08- *add: new parameter to indicate if the surface panel must be updated too (used in case of language change for ex).
       -2012Jan03- *add: routine completion.
 }
    var
       ColonyDataPanelColony
-      ,ColonyDataPanelSettlement: integer;
+      ,ColonyDataPanelSettlement
+      ,SurfaceOOb
+      ,SurfaceSat: integer;
 
       isColonyDataPanelShown: boolean;
 begin
@@ -132,6 +139,17 @@ begin
             ,Colony
             ,Settlement
             );
+         {.update the surface panel if needed}
+         if isSurfacePanelUpdate then
+         begin
+            SurfaceOOb:=FCFuiSP_VarCurrentOObj_Get;
+            SurfaceSat:=FCFuiSP_VarCurrentSat_Get;
+            FCMuiSP_SurfaceEcosphere_Set(
+               SurfaceOOb
+               ,SurfaceSat
+               ,false
+               );
+         end;
          {:DEV NOTES: also update the UMI here (full entry in the colonies list).}
          {:DEV NOTES: update the 3d w/ colony name here, if required.}
       end;
@@ -282,6 +300,7 @@ begin
             ,Settlement
             ,true
             ,true
+            ,false
             );
          {:DEV NOTES: UMI here.}
       end;
@@ -294,6 +313,7 @@ begin
             ,Settlement
             ,true
             ,true
+            ,false
             );
          {:DEV NOTES: UMI here.}
       end;
