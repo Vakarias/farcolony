@@ -363,315 +363,6 @@ object FCWinMain: TFCWinMain
         end
       end
     end
-    object FCWM_SurfPanel: TAdvPanel
-      Left = 585
-      Top = 462
-      Width = 541
-      Height = 309
-      BevelOuter = bvNone
-      Color = clBlack
-      Font.Charset = ANSI_CHARSET
-      Font.Color = clWhite
-      Font.Height = -12
-      Font.Name = 'Tahoma'
-      Font.Style = []
-      Locked = True
-      ParentFont = False
-      TabOrder = 3
-      UseDockManager = True
-      Version = '1.9.1.0'
-      AutoHideChildren = False
-      BorderColor = clSilver
-      BorderWidth = 1
-      CanMove = True
-      Caption.Color = clBlack
-      Caption.ColorTo = 7237230
-      Caption.CloseButton = True
-      Caption.Flat = True
-      Caption.Font.Charset = DEFAULT_CHARSET
-      Caption.Font.Color = clWhite
-      Caption.Font.Height = -12
-      Caption.Font.Name = 'DejaVu Sans Condensed'
-      Caption.Font.Style = []
-      Caption.GradientDirection = gdVertical
-      Caption.Height = 21
-      Caption.MinMaxButton = True
-      Caption.MinMaxButtonHoverColor = clSkyBlue
-      Caption.Shape = csSemiRounded
-      Caption.Visible = True
-      CollapsColor = clBlack
-      CollapsDelay = 0
-      FixedHeight = True
-      FixedWidth = True
-      StatusBar.Font.Charset = DEFAULT_CHARSET
-      StatusBar.Font.Color = clWhite
-      StatusBar.Font.Height = -11
-      StatusBar.Font.Name = 'Tahoma'
-      StatusBar.Font.Style = []
-      URLColor = 14068651
-      FullHeight = 0
-      object FCWM_SP_DataSheet: TAdvPageControl
-        Left = 351
-        Top = 20
-        Width = 172
-        Height = 289
-        ActivePage = FCWM_SP_ShReg
-        ActiveFont.Charset = DEFAULT_CHARSET
-        ActiveFont.Color = 13238272
-        ActiveFont.Height = -11
-        ActiveFont.Name = 'Tahoma'
-        ActiveFont.Style = [fsBold]
-        Align = alCustom
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWhite
-        Font.Height = -12
-        Font.Name = 'DejaVu Sans'
-        Font.Style = []
-        HotTrack = True
-        MultiLine = True
-        ParentFont = False
-        DefaultTextColor = 14803425
-        DefaultTabColor = clBlack
-        DefaultTabColorTo = clGray
-        ActiveColor = 4210752
-        ActiveColorTo = clWhite
-        TabBorderColor = clBlack
-        TabSheetBorderColor = clSilver
-        TabHoverColor = clGray
-        TabHoverColorTo = clBlack
-        TabHoverBorder = clWhite
-        TabBackGroundColor = clBlack
-        TabMargin.RightMargin = 0
-        TabOverlap = 0
-        Version = '1.6.2.1'
-        TabOrder = 0
-        TabStop = False
-        object FCWM_SP_ShEcos: TAdvTabSheet
-          Caption = 'FCWM_SP_ShEcos'
-          Color = clBlack
-          ColorTo = clNone
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWhite
-          Font.Height = -12
-          Font.Name = 'DejaVu Sans'
-          Font.Style = []
-          ParentFont = False
-          TabColor = clBlack
-          TabColorTo = clGray
-          TextColor = 14803425
-          object FCWM_SPShEcos_Lab: THTMLabel
-            Left = 0
-            Top = 0
-            Width = 164
-            Height = 241
-            Align = alClient
-            Color = clBlack
-            GradientType = gtFullVertical
-            Font.Charset = ANSI_CHARSET
-            Font.Color = 14803425
-            Font.Height = -13
-            Font.Name = 'FrancophilSans'
-            Font.Style = []
-            Hover = True
-            HoverColor = clBlack
-            HoverFontColor = clSkyBlue
-            ParentColor = False
-            ParentFont = False
-            URLColor = 14068651
-            Version = '1.8.1.0'
-          end
-        end
-        object FCWM_SP_ShReg: TAdvTabSheet
-          Caption = 'FCWM_SP_ShReg'
-          Color = clBlack
-          ColorTo = clNone
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWhite
-          Font.Height = -12
-          Font.Name = 'DejaVu Sans'
-          Font.Style = []
-          ParentFont = False
-          TabColor = clBlack
-          TabColorTo = clGray
-          TextColor = 14803425
-          object FCWM_SPShReg_Lab: THTMLabel
-            Left = 0
-            Top = 0
-            Width = 164
-            Height = 241
-            Align = alClient
-            Color = clBlack
-            GradientType = gtFullVertical
-            Font.Charset = ANSI_CHARSET
-            Font.Color = 14803425
-            Font.Height = -13
-            Font.Name = 'FrancophilSans'
-            Font.Style = []
-            Hover = True
-            HoverColor = clBlack
-            HoverFontColor = clSkyBlue
-            HTMLText.Strings = (
-              'TMS <b>HTML</b> label ')
-            ParentColor = False
-            ParentFont = False
-            URLColor = 14068651
-            Version = '1.8.1.0'
-            ExplicitWidth = 163
-            ExplicitHeight = 239
-          end
-        end
-      end
-      object FCWM_SP_Surface: THotSpotImage
-        Left = 17
-        Top = 34
-        Width = 130
-        Height = 104
-        AutoSize = False
-        Color = clSilver
-        HotSpotCursor = crDefault
-        HotSpots = <>
-        Transparent = False
-        Stretch = True
-        Version = '2.0.2.4'
-        OnHotSpotEnter = FCWM_SP_SurfaceHotSpotEnter
-        OnMouseMove = FCWM_SP_SurfaceMouseMove
-        object FCWM_SP_SurfSel: THTMLabel
-          Left = 4
-          Top = 5
-          Width = 100
-          Height = 65
-          Align = alCustom
-          BorderWidth = 1
-          BorderStyle = bsSingle
-          BorderColor = 217
-          Color = clNone
-          GradientType = gtFullVertical
-          Font.Charset = ANSI_CHARSET
-          Font.Color = 49601
-          Font.Height = -13
-          Font.Name = 'FrancophilSans'
-          Font.Style = []
-          HoverColor = clBlack
-          HoverFontColor = clSkyBlue
-          ParentColor = False
-          ParentFont = False
-          Transparent = True
-          URLColor = 14068651
-          OnClick = FCWM_SP_SurfSelClick
-          Version = '1.8.1.0'
-        end
-      end
-      object FCWM_SP_SPicFrm: TAdvGroupBox
-        Left = 128
-        Top = 179
-        Width = 312
-        Height = 106
-        Font.Charset = ANSI_CHARSET
-        Font.Color = clWhite
-        Font.Height = -12
-        Font.Name = 'DejaVu Sans Condensed'
-        Font.Style = []
-        ParentFont = False
-        TabOrder = 2
-        object FCWM_SP_SPic: TImage32
-          Left = 26
-          Top = 17
-          Width = 69
-          Height = 36
-          Bitmap.ResamplerClassName = 'TNearestResampler'
-          BitmapAlign = baTopLeft
-          Scale = 1.000000000000000000
-          ScaleMode = smNormal
-          TabOrder = 0
-        end
-      end
-      object FCWM_SP_LDatFrm: TAdvGroupBox
-        Left = 153
-        Top = 34
-        Width = 118
-        Height = 103
-        Font.Charset = ANSI_CHARSET
-        Font.Color = clWhite
-        Font.Height = -12
-        Font.Name = 'DejaVu Sans Condensed'
-        Font.Style = []
-        ParentFont = False
-        TabOrder = 3
-        object FCWM_SP_LDat: THTMLabel
-          Left = 2
-          Top = 3
-          Width = 114
-          Height = 98
-          Align = alClient
-          Color = clBlack
-          GradientType = gtFullVertical
-          Font.Charset = ANSI_CHARSET
-          Font.Color = 14803425
-          Font.Height = -13
-          Font.Name = 'FrancophilSans'
-          Font.Style = []
-          Hover = True
-          HoverColor = clBlack
-          HoverFontColor = clSkyBlue
-          ParentColor = False
-          ParentFont = False
-          URLColor = 14068651
-          Version = '1.8.1.0'
-        end
-      end
-      object FCWM_SP_RDatFrm: TAdvGroupBox
-        Left = 19
-        Top = 154
-        Width = 104
-        Height = 70
-        Font.Charset = ANSI_CHARSET
-        Font.Color = clWhite
-        Font.Height = -12
-        Font.Name = 'Tahoma'
-        Font.Style = []
-        ParentFont = False
-        TabOrder = 4
-        object FCWM_SP_RDat: THTMLabel
-          Left = 2
-          Top = 3
-          Width = 100
-          Height = 65
-          Align = alClient
-          Color = clBlack
-          GradientType = gtFullVertical
-          Font.Charset = ANSI_CHARSET
-          Font.Color = 14803425
-          Font.Height = -13
-          Font.Name = 'FrancophilSans'
-          Font.Style = []
-          Hover = True
-          HoverColor = clBlack
-          HoverFontColor = clSkyBlue
-          ParentColor = False
-          ParentFont = False
-          URLColor = 14068651
-          Version = '1.8.1.0'
-        end
-      end
-      object FCWM_SP_AutoUp: TCheckBox
-        Left = 403
-        Top = 3
-        Width = 104
-        Height = 18
-        TabStop = False
-        Caption = 'Auto Update'
-        Color = 4737096
-        Font.Charset = ANSI_CHARSET
-        Font.Color = clWhite
-        Font.Height = -13
-        Font.Name = 'FrancophilSans'
-        Font.Style = []
-        ParentColor = False
-        ParentFont = False
-        TabOrder = 5
-        OnKeyDown = FCWM_SP_AutoUpKeyDown
-      end
-    end
     object FCWM_DockLstPanel: TAdvPanel
       Left = 150
       Top = 462
@@ -1157,10 +848,6 @@ object FCWinMain: TFCWinMain
           TabColor = clBlack
           TabColorTo = clGray
           TextColor = 14803425
-          ExplicitLeft = 24
-          ExplicitTop = 0
-          ExplicitWidth = 100
-          ExplicitHeight = 100
           object HTMLTreeview1: THTMLTreeview
             Left = 0
             Top = 0
@@ -1373,6 +1060,10 @@ object FCWinMain: TFCWinMain
           TabColor = clBlack
           TabColorTo = clGray
           TextColor = 14803425
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
           object HTMLabel1: THTMLabel
             Left = 0
             Top = 0
@@ -2301,6 +1992,10 @@ object FCWinMain: TFCWinMain
           TabColor = clBlack
           TabColorTo = clGray
           TextColor = 14803425
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
         end
         object FCWM_UMI_TabShProd: TAdvTabSheet
           Caption = 'FCWM_UMI_TabShProd'
@@ -2345,6 +2040,10 @@ object FCWinMain: TFCWinMain
           TabColor = clBlack
           TabColorTo = clGray
           TextColor = 14803425
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
         end
       end
     end
@@ -2502,6 +2201,318 @@ object FCWinMain: TFCWinMain
         ParentFont = False
         TabOrder = 2
         OnClick = FCWM_IPinfraKitsClick
+      end
+    end
+    object FCWM_SurfPanel: TAdvPanel
+      Left = 585
+      Top = 462
+      Width = 541
+      Height = 309
+      BevelOuter = bvNone
+      Color = clBlack
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWhite
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      Locked = True
+      ParentFont = False
+      TabOrder = 3
+      UseDockManager = True
+      Version = '1.9.1.0'
+      AutoHideChildren = False
+      BorderColor = clSilver
+      BorderWidth = 1
+      CanMove = True
+      Caption.Color = clBlack
+      Caption.ColorTo = 7237230
+      Caption.CloseButton = True
+      Caption.Flat = True
+      Caption.Font.Charset = DEFAULT_CHARSET
+      Caption.Font.Color = clWhite
+      Caption.Font.Height = -12
+      Caption.Font.Name = 'DejaVu Sans Condensed'
+      Caption.Font.Style = []
+      Caption.GradientDirection = gdVertical
+      Caption.Height = 21
+      Caption.MinMaxButton = True
+      Caption.MinMaxButtonHoverColor = clSkyBlue
+      Caption.Shape = csSemiRounded
+      Caption.Visible = True
+      CollapsColor = clBlack
+      CollapsDelay = 0
+      FixedHeight = True
+      FixedWidth = True
+      StatusBar.Font.Charset = DEFAULT_CHARSET
+      StatusBar.Font.Color = clWhite
+      StatusBar.Font.Height = -11
+      StatusBar.Font.Name = 'Tahoma'
+      StatusBar.Font.Style = []
+      URLColor = 14068651
+      FullHeight = 0
+      object FCWM_SPShEcos_Lab: THTMLabel
+        Left = 0
+        Top = 0
+        Width = 164
+        Height = 241
+        Align = alCustom
+        BorderWidth = 1
+        BorderStyle = bsSingle
+        BorderColor = clSilver
+        Color = clBlack
+        GradientType = gtFullVertical
+        Font.Charset = ANSI_CHARSET
+        Font.Color = 14803425
+        Font.Height = -13
+        Font.Name = 'FrancophilSans'
+        Font.Style = []
+        Hover = True
+        HoverColor = clBlack
+        HoverFontColor = clSkyBlue
+        ParentColor = False
+        ParentFont = False
+        URLColor = 14068651
+        Version = '1.8.1.0'
+      end
+      object FCWM_SP_DataSheet: TAdvPageControl
+        Left = 351
+        Top = 20
+        Width = 172
+        Height = 289
+        ActivePage = FCWM_SP_ShEcos
+        ActiveFont.Charset = DEFAULT_CHARSET
+        ActiveFont.Color = 13238272
+        ActiveFont.Height = -11
+        ActiveFont.Name = 'Tahoma'
+        ActiveFont.Style = [fsBold]
+        Align = alCustom
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWhite
+        Font.Height = -12
+        Font.Name = 'DejaVu Sans'
+        Font.Style = []
+        HotTrack = True
+        MultiLine = True
+        ParentFont = False
+        DefaultTextColor = 14803425
+        DefaultTabColor = clBlack
+        DefaultTabColorTo = clGray
+        ActiveColor = 4210752
+        ActiveColorTo = clWhite
+        TabBorderColor = clBlack
+        TabSheetBorderColor = clSilver
+        TabHoverColor = clGray
+        TabHoverColorTo = clBlack
+        TabHoverBorder = clWhite
+        TabBackGroundColor = clBlack
+        TabMargin.RightMargin = 0
+        TabOverlap = 0
+        Version = '1.6.2.1'
+        TabOrder = 0
+        TabStop = False
+        object FCWM_SP_ShEcos: TAdvTabSheet
+          Caption = 'FCWM_SP_ShEcos'
+          Color = clBlack
+          ColorTo = clNone
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWhite
+          Font.Height = -12
+          Font.Name = 'DejaVu Sans'
+          Font.Style = []
+          ParentFont = False
+          TabColor = clBlack
+          TabColorTo = clGray
+          TextColor = 14803425
+        end
+        object FCWM_SP_ShReg: TAdvTabSheet
+          Caption = 'FCWM_SP_ShReg'
+          Color = clBlack
+          ColorTo = clNone
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWhite
+          Font.Height = -12
+          Font.Name = 'DejaVu Sans'
+          Font.Style = []
+          ParentFont = False
+          TabColor = clBlack
+          TabColorTo = clGray
+          TextColor = 14803425
+          object FCWM_SPShReg_Lab: THTMLabel
+            Left = 0
+            Top = 0
+            Width = 164
+            Height = 241
+            Align = alClient
+            Color = clBlack
+            GradientType = gtFullVertical
+            Font.Charset = ANSI_CHARSET
+            Font.Color = 14803425
+            Font.Height = -13
+            Font.Name = 'FrancophilSans'
+            Font.Style = []
+            Hover = True
+            HoverColor = clBlack
+            HoverFontColor = clSkyBlue
+            HTMLText.Strings = (
+              'TMS <b>HTML</b> label ')
+            ParentColor = False
+            ParentFont = False
+            URLColor = 14068651
+            Version = '1.8.1.0'
+            ExplicitWidth = 163
+            ExplicitHeight = 239
+          end
+        end
+      end
+      object FCWM_SP_Surface: THotSpotImage
+        Left = 17
+        Top = 34
+        Width = 130
+        Height = 104
+        AutoSize = False
+        Color = clSilver
+        HotSpotCursor = crDefault
+        HotSpots = <>
+        Transparent = False
+        Stretch = True
+        Version = '2.0.2.4'
+        OnHotSpotEnter = FCWM_SP_SurfaceHotSpotEnter
+        OnMouseMove = FCWM_SP_SurfaceMouseMove
+        object FCWM_SP_SurfSel: THTMLabel
+          Left = 4
+          Top = 5
+          Width = 100
+          Height = 65
+          Align = alCustom
+          BorderWidth = 1
+          BorderStyle = bsSingle
+          BorderColor = 217
+          Color = clNone
+          GradientType = gtFullVertical
+          Font.Charset = ANSI_CHARSET
+          Font.Color = 49601
+          Font.Height = -13
+          Font.Name = 'FrancophilSans'
+          Font.Style = []
+          HoverColor = clBlack
+          HoverFontColor = clSkyBlue
+          ParentColor = False
+          ParentFont = False
+          Transparent = True
+          URLColor = 14068651
+          OnClick = FCWM_SP_SurfSelClick
+          Version = '1.8.1.0'
+        end
+      end
+      object FCWM_SP_SPicFrm: TAdvGroupBox
+        Left = 128
+        Top = 179
+        Width = 312
+        Height = 106
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWhite
+        Font.Height = -12
+        Font.Name = 'DejaVu Sans Condensed'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 2
+        object FCWM_SP_SPic: TImage32
+          Left = 26
+          Top = 17
+          Width = 69
+          Height = 36
+          Bitmap.ResamplerClassName = 'TNearestResampler'
+          BitmapAlign = baTopLeft
+          Scale = 1.000000000000000000
+          ScaleMode = smNormal
+          TabOrder = 0
+        end
+      end
+      object FCWM_SP_LDatFrm: TAdvGroupBox
+        Left = 153
+        Top = 34
+        Width = 118
+        Height = 103
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWhite
+        Font.Height = -12
+        Font.Name = 'DejaVu Sans Condensed'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 3
+        object FCWM_SP_LDat: THTMLabel
+          Left = 2
+          Top = 3
+          Width = 114
+          Height = 98
+          Align = alClient
+          Color = clBlack
+          GradientType = gtFullVertical
+          Font.Charset = ANSI_CHARSET
+          Font.Color = 14803425
+          Font.Height = -13
+          Font.Name = 'FrancophilSans'
+          Font.Style = []
+          Hover = True
+          HoverColor = clBlack
+          HoverFontColor = clSkyBlue
+          ParentColor = False
+          ParentFont = False
+          URLColor = 14068651
+          Version = '1.8.1.0'
+        end
+      end
+      object FCWM_SP_RDatFrm: TAdvGroupBox
+        Left = 19
+        Top = 154
+        Width = 104
+        Height = 70
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWhite
+        Font.Height = -12
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 4
+        object FCWM_SP_RDat: THTMLabel
+          Left = 2
+          Top = 3
+          Width = 100
+          Height = 65
+          Align = alClient
+          Color = clBlack
+          GradientType = gtFullVertical
+          Font.Charset = ANSI_CHARSET
+          Font.Color = 14803425
+          Font.Height = -13
+          Font.Name = 'FrancophilSans'
+          Font.Style = []
+          Hover = True
+          HoverColor = clBlack
+          HoverFontColor = clSkyBlue
+          ParentColor = False
+          ParentFont = False
+          URLColor = 14068651
+          Version = '1.8.1.0'
+        end
+      end
+      object FCWM_SP_AutoUp: TCheckBox
+        Left = 403
+        Top = 3
+        Width = 104
+        Height = 18
+        TabStop = False
+        Caption = 'Auto Update'
+        Color = 4737096
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWhite
+        Font.Height = -13
+        Font.Name = 'FrancophilSans'
+        Font.Style = []
+        ParentColor = False
+        ParentFont = False
+        TabOrder = 5
+        OnKeyDown = FCWM_SP_AutoUpKeyDown
       end
     end
   end
