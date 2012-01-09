@@ -2,510 +2,510 @@
 <!-- Spanish and German are not officially implemented far from be completed yet and experimental -->
 <!-- proper names are also implemented here with a unique string (tagged #) (there's no language specific nodes) -->
 <!-- Implemented sections are, in order:
-		********** ABOUT WINDOW **********
-		********** ACRONYMS **********
-		********** ATMOSPHERIC GASES **********
-		********** BUTTONS CAPTIONS **********
-		********** COLONIES / FACTION **********
-		********** COLONIZATION MODES AND CPS **********
-		********** COMMON **********
-		********** CSM **********
-		********** FACTION NAMES **********
-		********** HELP PANEL **********
-		********** INFRASTRUCTURES **********
-		********** MAIN 3D VIEW FRAME *******
-		********** MAIN 3D VIEW UI *******
-		********** MAIN MENU **********
-		********** MESSAGES **********
-		********** MISSIONS SETUP WINDOW **********
-		********** NEW GAME SETUP WINDOW **********
-		********** ORBITAL OBJECTS TYPES **********
-		********** POPUP MENU - FOCUSED OBJECT *******
+      ********** ABOUT WINDOW **********
+      ********** ACRONYMS **********
+      ********** ATMOSPHERIC GASES **********
+      ********** BUTTONS CAPTIONS **********
+      ********** COLONIES / FACTION **********
+      ********** COLONIZATION MODES AND CPS **********
+      ********** COMMON **********
+      ********** CSM **********
+      ********** FACTION NAMES **********
+      ********** HELP PANEL **********
+      ********** INFRASTRUCTURES **********
+      ********** MAIN 3D VIEW FRAME *******
+      ********** MAIN 3D VIEW UI *******
+      ********** MAIN MENU **********
+      ********** MESSAGES **********
+      ********** MISSIONS SETUP WINDOW **********
+      ********** NEW GAME SETUP WINDOW **********
+      ********** ORBITAL OBJECTS TYPES **********
+      ********** POPUP MENU - FOCUSED OBJECT *******
       ********** PRODUCTS *******
-		********** SPACE UNIT ARCHITECTURE **********
-		********** SPACE UNIT OVERALL **********
-		********** SPM **********
-		********** STAR CLASSES **********
-		********** SURFACE / ECOSPHERE PANEL **********
-		********** TECHNOSCIENCES **********
-		********** TIME FRAME **********
-		********** UMI **********
-		#********** DESIGN NAMES **********
-		#********** ORBITAL OBJECTS NAMES **********
-		#********** OVERALL NAMES **********
-		#********** STARS NAMES **********
-		#********** STELLAR SYSTEMS NAMES **********
+      ********** SPACE UNIT ARCHITECTURE **********
+      ********** SPACE UNIT OVERALL **********
+      ********** SPM **********
+      ********** STAR CLASSES **********
+      ********** SURFACE / ECOSPHERE PANEL **********
+      ********** TECHNOSCIENCES **********
+      ********** TIME FRAME **********
+      ********** UMI **********
+      #********** DESIGN NAMES **********
+      #********** ORBITAL OBJECTS NAMES **********
+      #********** OVERALL NAMES **********
+      #********** STARS NAMES **********
+      #********** STELLAR SYSTEMS NAMES **********
 -->
 <uitext>
-	<!-- ********** ABOUT WINDOW ********** -->
-	<FCWA_Frm_CredsHead>
-		<EN>&#60;p align=&#34;left&#34;&#62;&#60;font size=&#34;11&#34; color=&#34;clwhite&#34;&#62;&#60;b&#62;CREDITS&#60;/b&#62;&#60;/font&#62;&#60;br&#62;</EN>
-		<FR>&#60;p align=&#34;left&#34;&#62;&#60;font size=&#34;11&#34; color=&#34;clwhite&#34;&#62;&#60;b&#62;CREDITS&#60;/b&#62;&#60;/font&#62;&#60;br&#62;</FR>
-	</FCWA_Frm_CredsHead>
-	<FCWA_Frm_CredsAuth>
-		<EN>&#60;ul&#62;&#60;u&#62;Authors&#60;/u&#62;&#60;br&#62;&#60;li&#62;J.F. Baconnet  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Game Design, Programming and 3d&#60;/b&#62;&#60;/font&#62;)&#60;/ul&#62;</EN>
-		<FR>&#60;ul&#62;&#60;u&#62;Auteurs&#60;/u&#62;&#60;br&#62;&#60;li&#62;J.F. Baconnet  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Design de Jeu, Programmation et 3d&#60;/b&#62;&#60;/font&#62;)&#60;/ul&#62;</FR>
-	</FCWA_Frm_CredsAuth>
-	<FCWA_Frm_CredsSrcComp>
-		<EN>&#60;br&#62;&#60;ul&#62;&#60;u&#62;Sources Code and Components&#60;/u&#62;&#60;br&#62;&#60;li&#62;&#60;a href=&#34;http://www.dave.serveusers.com/&#34;&#62;Dave Gravel&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;.3ds Loader code&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;&#60;a href=&#34;http://glscene.sourceforge.net/wikka/HomePage&#34;&#62;GLScene&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;3D Framework&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;&#60;a href=&#34;http://graphics32.org/wiki/&#34;&#62;GR32&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;2D Library&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;&#60;a href=&#34;http://www.tmssoftware.com/site/&#34;&#62;TMS Software&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;User's Interface Components&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;&#60;a href=&#34;http://www.gtdelphicomponents.gr/&#34;&#62;Trifidis George&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;GT Threaded Timer&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;&#60;a href=&#34;http://imaginglib.sourceforge.net/&#34;&#62;Vampyre Imaging Library&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;2D Library&#60;/b&#62;&#60;/font&#62;)&#60;/ul&#62;</EN>
-		<FR>&#60;br&#62;&#60;ul&#62;&#60;u&#62;Codes Sources et Composants&#60;/u&#62;&#60;br&#62;&#60;li&#62;&#60;a href=&#34;http://www.dave.serveusers.com/&#34;&#62;Dave Gravel&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Code .3ds Loader&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;&#60;a href=&#34;http://glscene.sourceforge.net/wikka/HomePage&#34;&#62;GLScene&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Framework 3D&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;&#60;a href=&#34;http://graphics32.org/wiki/&#34;&#62;GR32&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Bibliothèque 2D&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;&#60;a href=&#34;http://www.tmssoftware.com/site/&#34;&#62;TMS Software&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Composants Interface Utilisateur&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;&#60;a href=&#34;http://www.gtdelphicomponents.gr/&#34;&#62;Trifidis George&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;GT Threaded Timer&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;&#60;a href=&#34;http://imaginglib.sourceforge.net/&#34;&#62;Vampyre Imaging Library&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Bibliothèque 2D&#60;/b&#62;&#60;/font&#62;)&#60;/ul&#62;</FR>
-	</FCWA_Frm_CredsSrcComp>
-	<FCWA_Frm_CredsContrib>
-		<EN>&#60;br&#62;&#60;ul&#62;&#60;u&#62;Contributions&#60;/u&#62;&#60;br&#62;&#60;li&#62;&#60;a href=&#34;http://www.robotconstruct.com/&#34;&#62;Forgebot&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Ambient Tunes&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;Eric Alain (rikoal)  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Background Graphics&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;Ratimir Rakuljic (ratko)  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Background Graphics&#60;/b&#62;&#60;/font&#62;)&#60;/ul&#62;</EN>
-		<FR>&#60;br&#62;&#60;ul&#62;&#60;u&#62;Contributions&#60;/u&#62;&#60;br&#62;&#60;li&#62;&#60;a href=&#34;http://www.robotconstruct.com/&#34;&#62;Forgebot&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Musiques Ambiantes&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;Eric Alain (rikoal)  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Graphiques de Fond&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;Ratimir Rakuljic (ratko)  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Graphiques de Fond&#60;/b&#62;&#60;/font&#62;)&#60;/ul&#62;</FR>
-	</FCWA_Frm_CredsContrib>
-	<FCWA_Frm_CredsOthrSrc>
-		<EN>
-			&#60;br&#62;&#60;ul&#62;&#60;u&#62;Other Sources&#60;/u&#62;
-			&#60;br&#62;&#60;li&#62;Dave McDonald  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Texture&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
-			&#60;ul&#62;&#60;li&#62;NeptuneCold.jpg
-			&#60;/ul&#62;&#60;/font&#62;
-			&#60;li&#62;John M.Dollan  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Texture&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
-			&#60;ul&#62;&#60;li&#62;SuperGiantCold.jpg (from Sanche)&#60;/ul&#62;&#60;/font&#62;
-			&#60;li&#62;John Van Vliet  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Textures&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
-			&#60;ul&#62;&#60;li&#62;CallistoH3.jpg
-			&#60;li&#62;Europa.jpg
-			&#60;li&#62;JovianCold.jpg
-			&#60;li&#62;SatIo.jpg
-			&#60;/ul&#62;&#60;/font&#62;
-			&#60;li&#62;milosz1987_87.o2.pl  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Textures&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
-			&#60;ul&#62;&#60;li&#62;SatCallistoH3.jpg
-			&#60;li&#62;UranusHot.jpg
-			&#60;/ul&#62;&#60;/font&#62;
-			&#60;li&#62;NASA JPL  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Textures&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
-			&#60;ul&#62;&#60;li&#62;CallistoH4.jpg
-			&#60;li&#62;MercuryH0.jpg
-			&#60;li&#62;MercuryH3.jpg
-			&#60;li&#62;MercuryH4.jpg
-			&#60;li&#62;Pluto.jpg
-			&#60;li&#62;SatCallistoH4.jpg
-			&#60;li&#62;SatEuropa.jpg
-			&#60;li&#62;SatLunar.jpg
-			&#60;li&#62;SaturnCold.jpg
-			&#60;li&#62;UranusCold.jpg
-			&#60;/ul&#62;&#60;/font&#62;
-			&#60;li&#62;Rob Sanders  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Textures&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
-			&#60;ul&#62;&#60;li&#62;aster_metal.jpg
-			&#60;li&#62;aster_icy.jpg
-			&#60;li&#62;JovianHot.jpg
-			&#60;li&#62;SaturnHot.jpg
-			&#60;/ul&#62;&#60;/font&#62;
-			&#60;li&#62;Shcuf  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Textures&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
-			&#60;ul&#62;&#60;li&#62;NeptuneHot.jpg
-			&#60;li&#62;SatLunarCold.jpg
-			&#60;/ul&#62;&#60;/font&#62;
-			&#60;li&#62;SolCommand  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;3d Object: spacecraft&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
-			&#60;ul&#62;&#60;li&#62;scis001.3ds (from Eris)&#60;/ul&#62;&#60;/font&#62;
-			&#60;li&#62;Steve Bowers  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Texture&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
-			&#60;ul&#62;&#60;li&#62;SuperGiantHot.jpg (from greenbrowngasgiant)
-			&#60;/ul&#62;&#60;/font&#62;
-			&#60;li&#62;tornadorip1984.yahoo.com  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Texture&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
-			&#60;ul&#62;&#60;li&#62;SatPluto.jpg&#60;/ul&#62;&#60;/font&#62;
+   <!-- ********** ABOUT WINDOW ********** -->
+   <FCWA_Frm_CredsHead>
+      <EN>&#60;p align=&#34;left&#34;&#62;&#60;font size=&#34;11&#34; color=&#34;clwhite&#34;&#62;&#60;b&#62;CREDITS&#60;/b&#62;&#60;/font&#62;&#60;br&#62;</EN>
+      <FR>&#60;p align=&#34;left&#34;&#62;&#60;font size=&#34;11&#34; color=&#34;clwhite&#34;&#62;&#60;b&#62;CREDITS&#60;/b&#62;&#60;/font&#62;&#60;br&#62;</FR>
+   </FCWA_Frm_CredsHead>
+   <FCWA_Frm_CredsAuth>
+      <EN>&#60;ul&#62;&#60;u&#62;Authors&#60;/u&#62;&#60;br&#62;&#60;li&#62;J.F. Baconnet  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Game Design, Programming and 3d&#60;/b&#62;&#60;/font&#62;)&#60;/ul&#62;</EN>
+      <FR>&#60;ul&#62;&#60;u&#62;Auteurs&#60;/u&#62;&#60;br&#62;&#60;li&#62;J.F. Baconnet  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Design de Jeu, Programmation et 3d&#60;/b&#62;&#60;/font&#62;)&#60;/ul&#62;</FR>
+   </FCWA_Frm_CredsAuth>
+   <FCWA_Frm_CredsSrcComp>
+      <EN>&#60;br&#62;&#60;ul&#62;&#60;u&#62;Sources Code and Components&#60;/u&#62;&#60;br&#62;&#60;li&#62;&#60;a href=&#34;http://www.dave.serveusers.com/&#34;&#62;Dave Gravel&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;.3ds Loader code&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;&#60;a href=&#34;http://glscene.sourceforge.net/wikka/HomePage&#34;&#62;GLScene&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;3D Framework&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;&#60;a href=&#34;http://graphics32.org/wiki/&#34;&#62;GR32&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;2D Library&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;&#60;a href=&#34;http://www.tmssoftware.com/site/&#34;&#62;TMS Software&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;User's Interface Components&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;&#60;a href=&#34;http://www.gtdelphicomponents.gr/&#34;&#62;Trifidis George&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;GT Threaded Timer&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;&#60;a href=&#34;http://imaginglib.sourceforge.net/&#34;&#62;Vampyre Imaging Library&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;2D Library&#60;/b&#62;&#60;/font&#62;)&#60;/ul&#62;</EN>
+      <FR>&#60;br&#62;&#60;ul&#62;&#60;u&#62;Codes Sources et Composants&#60;/u&#62;&#60;br&#62;&#60;li&#62;&#60;a href=&#34;http://www.dave.serveusers.com/&#34;&#62;Dave Gravel&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Code .3ds Loader&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;&#60;a href=&#34;http://glscene.sourceforge.net/wikka/HomePage&#34;&#62;GLScene&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Framework 3D&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;&#60;a href=&#34;http://graphics32.org/wiki/&#34;&#62;GR32&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Bibliothèque 2D&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;&#60;a href=&#34;http://www.tmssoftware.com/site/&#34;&#62;TMS Software&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Composants Interface Utilisateur&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;&#60;a href=&#34;http://www.gtdelphicomponents.gr/&#34;&#62;Trifidis George&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;GT Threaded Timer&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;&#60;a href=&#34;http://imaginglib.sourceforge.net/&#34;&#62;Vampyre Imaging Library&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Bibliothèque 2D&#60;/b&#62;&#60;/font&#62;)&#60;/ul&#62;</FR>
+   </FCWA_Frm_CredsSrcComp>
+   <FCWA_Frm_CredsContrib>
+      <EN>&#60;br&#62;&#60;ul&#62;&#60;u&#62;Contributions&#60;/u&#62;&#60;br&#62;&#60;li&#62;&#60;a href=&#34;http://www.robotconstruct.com/&#34;&#62;Forgebot&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Ambient Tunes&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;Eric Alain (rikoal)  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Background Graphics&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;Ratimir Rakuljic (ratko)  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Background Graphics&#60;/b&#62;&#60;/font&#62;)&#60;/ul&#62;</EN>
+      <FR>&#60;br&#62;&#60;ul&#62;&#60;u&#62;Contributions&#60;/u&#62;&#60;br&#62;&#60;li&#62;&#60;a href=&#34;http://www.robotconstruct.com/&#34;&#62;Forgebot&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Musiques Ambiantes&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;Eric Alain (rikoal)  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Graphiques de Fond&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;Ratimir Rakuljic (ratko)  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Graphiques de Fond&#60;/b&#62;&#60;/font&#62;)&#60;/ul&#62;</FR>
+   </FCWA_Frm_CredsContrib>
+   <FCWA_Frm_CredsOthrSrc>
+      <EN>
+         &#60;br&#62;&#60;ul&#62;&#60;u&#62;Other Sources&#60;/u&#62;
+         &#60;br&#62;&#60;li&#62;Dave McDonald  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Texture&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
+         &#60;ul&#62;&#60;li&#62;NeptuneCold.jpg
+         &#60;/ul&#62;&#60;/font&#62;
+         &#60;li&#62;John M.Dollan  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Texture&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
+         &#60;ul&#62;&#60;li&#62;SuperGiantCold.jpg (from Sanche)&#60;/ul&#62;&#60;/font&#62;
+         &#60;li&#62;John Van Vliet  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Textures&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
+         &#60;ul&#62;&#60;li&#62;CallistoH3.jpg
+         &#60;li&#62;Europa.jpg
+         &#60;li&#62;JovianCold.jpg
+         &#60;li&#62;SatIo.jpg
+         &#60;/ul&#62;&#60;/font&#62;
+         &#60;li&#62;milosz1987_87.o2.pl  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Textures&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
+         &#60;ul&#62;&#60;li&#62;SatCallistoH3.jpg
+         &#60;li&#62;UranusHot.jpg
+         &#60;/ul&#62;&#60;/font&#62;
+         &#60;li&#62;NASA JPL  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Textures&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
+         &#60;ul&#62;&#60;li&#62;CallistoH4.jpg
+         &#60;li&#62;MercuryH0.jpg
+         &#60;li&#62;MercuryH3.jpg
+         &#60;li&#62;MercuryH4.jpg
+         &#60;li&#62;Pluto.jpg
+         &#60;li&#62;SatCallistoH4.jpg
+         &#60;li&#62;SatEuropa.jpg
+         &#60;li&#62;SatLunar.jpg
+         &#60;li&#62;SaturnCold.jpg
+         &#60;li&#62;UranusCold.jpg
+         &#60;/ul&#62;&#60;/font&#62;
+         &#60;li&#62;Rob Sanders  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Textures&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
+         &#60;ul&#62;&#60;li&#62;aster_metal.jpg
+         &#60;li&#62;aster_icy.jpg
+         &#60;li&#62;JovianHot.jpg
+         &#60;li&#62;SaturnHot.jpg
+         &#60;/ul&#62;&#60;/font&#62;
+         &#60;li&#62;Shcuf  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Textures&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
+         &#60;ul&#62;&#60;li&#62;NeptuneHot.jpg
+         &#60;li&#62;SatLunarCold.jpg
+         &#60;/ul&#62;&#60;/font&#62;
+         &#60;li&#62;SolCommand  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;3d Object: spacecraft&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
+         &#60;ul&#62;&#60;li&#62;scis001.3ds (from Eris)&#60;/ul&#62;&#60;/font&#62;
+         &#60;li&#62;Steve Bowers  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Texture&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
+         &#60;ul&#62;&#60;li&#62;SuperGiantHot.jpg (from greenbrowngasgiant)
+         &#60;/ul&#62;&#60;/font&#62;
+         &#60;li&#62;tornadorip1984.yahoo.com  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Texture&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
+         &#60;ul&#62;&#60;li&#62;SatPluto.jpg&#60;/ul&#62;&#60;/font&#62;
          &#60;li&#62;Brightmix - CC0 LICENSE  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Pictures&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
-			&#60;ul&#62;&#60;li&#62;infrastatus_destroyed16.jpg
+         &#60;ul&#62;&#60;li&#62;infrastatus_destroyed16.jpg
          &#60;li&#62;infrastatus_disabled16.jpg
          &#60;li&#62;infrastatus_inCAB16.jpg
          &#60;li&#62;infrastatus_intransition16.jpg
          &#60;li&#62;infrastatus_operational16.jpg&#60;/ul&#62;&#60;/font&#62;
-			&#60;/ul&#62;</EN>
-		<FR>
-			&#60;br&#62;&#60;ul&#62;&#60;u&#62;Autres Sources&#60;/u&#62;
-			&#60;br&#62;&#60;li&#62;Dave McDonald  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Texture&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
-			&#60;ul&#62;&#60;li&#62;NeptuneCold.jpg
-			&#60;/ul&#62;&#60;/font&#62;
-			&#60;li&#62;John M.Dollan  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Texture&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
-			&#60;ul&#62;&#60;li&#62;SuperGiantCold.jpg (Venant de Sanche)&#60;/ul&#62;&#60;/font&#62;
-			&#60;li&#62;John Van Vliet  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Textures&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
-			&#60;ul&#62;&#60;li&#62;CallistoH3.jpg
-			&#60;li&#62;Europa.jpg
-			&#60;li&#62;JovianCold.jpg
-			&#60;li&#62;SatIo.jpg
-			&#60;/ul&#62;&#60;/font&#62;
-			&#60;li&#62;milosz1987_87@o2.pl  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Textures&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
-			&#60;ul&#62;&#60;li&#62;SatCallistoH3.jpg
-			&#60;li&#62;UranusHot.jpg
-			&#60;/ul&#62;&#60;/font&#62;
-			&#60;li&#62;NASA JPL  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Textures&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
-			&#60;ul&#62;&#60;li&#62;CallistoH4.jpg
-			&#60;li&#62;MercuryH0.jpg
-			&#60;li&#62;MercuryH3.jpg
-			&#60;li&#62;MercuryH4.jpg
-			&#60;li&#62;Pluto.jpg
-			&#60;li&#62;SatCallistoH4.jpg
-			&#60;li&#62;SatEuropa.jpg
-			&#60;li&#62;SatLunar.jpg
-			&#60;li&#62;SaturnCold.jpg
-			&#60;li&#62;UranusCold.jpg
-			&#60;/ul&#62;&#60;/font&#62;
-			&#60;li&#62;Rob Sanders  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Textures&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
-			&#60;ul&#62;&#60;li&#62;aster_metal.jpg
-			&#60;li&#62;aster_icy.jpg
-			&#60;li&#62;JovianHot.jpg
-			&#60;li&#62;SaturnHot.jpg
-			&#60;/ul&#62;&#60;/font&#62;
-			&#60;li&#62;Shcuf  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Textures&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
-			&#60;ul&#62;&#60;li&#62;NeptuneHot.jpg
-			&#60;li&#62;SatLunarCold.jpg
-			&#60;/ul&#62;&#60;/font&#62;
-			&#60;li&#62;SolCommand  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Objet 3d: vaisseau spatial&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
-			&#60;ul&#62;&#60;li&#62;scis001.3ds (venant d'Eris)&#60;/ul&#62;&#60;/font&#62;
-			&#60;li&#62;Steve Bowers  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Texture&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
-			&#60;ul&#62;&#60;li&#62;SuperGiantHot.jpg (venant de greenbrowngasgiant)
-			&#60;/ul&#62;&#60;/font&#62;
-			&#60;li&#62;tornadorip1984@yahoo.com  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Texture&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
-			&#60;ul&#62;&#60;li&#62;SatPluto.jpg&#60;/ul&#62;&#60;/font&#62;
+         &#60;/ul&#62;</EN>
+      <FR>
+         &#60;br&#62;&#60;ul&#62;&#60;u&#62;Autres Sources&#60;/u&#62;
+         &#60;br&#62;&#60;li&#62;Dave McDonald  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Texture&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
+         &#60;ul&#62;&#60;li&#62;NeptuneCold.jpg
+         &#60;/ul&#62;&#60;/font&#62;
+         &#60;li&#62;John M.Dollan  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Texture&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
+         &#60;ul&#62;&#60;li&#62;SuperGiantCold.jpg (Venant de Sanche)&#60;/ul&#62;&#60;/font&#62;
+         &#60;li&#62;John Van Vliet  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Textures&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
+         &#60;ul&#62;&#60;li&#62;CallistoH3.jpg
+         &#60;li&#62;Europa.jpg
+         &#60;li&#62;JovianCold.jpg
+         &#60;li&#62;SatIo.jpg
+         &#60;/ul&#62;&#60;/font&#62;
+         &#60;li&#62;milosz1987_87@o2.pl  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Textures&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
+         &#60;ul&#62;&#60;li&#62;SatCallistoH3.jpg
+         &#60;li&#62;UranusHot.jpg
+         &#60;/ul&#62;&#60;/font&#62;
+         &#60;li&#62;NASA JPL  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Textures&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
+         &#60;ul&#62;&#60;li&#62;CallistoH4.jpg
+         &#60;li&#62;MercuryH0.jpg
+         &#60;li&#62;MercuryH3.jpg
+         &#60;li&#62;MercuryH4.jpg
+         &#60;li&#62;Pluto.jpg
+         &#60;li&#62;SatCallistoH4.jpg
+         &#60;li&#62;SatEuropa.jpg
+         &#60;li&#62;SatLunar.jpg
+         &#60;li&#62;SaturnCold.jpg
+         &#60;li&#62;UranusCold.jpg
+         &#60;/ul&#62;&#60;/font&#62;
+         &#60;li&#62;Rob Sanders  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Textures&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
+         &#60;ul&#62;&#60;li&#62;aster_metal.jpg
+         &#60;li&#62;aster_icy.jpg
+         &#60;li&#62;JovianHot.jpg
+         &#60;li&#62;SaturnHot.jpg
+         &#60;/ul&#62;&#60;/font&#62;
+         &#60;li&#62;Shcuf  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Textures&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
+         &#60;ul&#62;&#60;li&#62;NeptuneHot.jpg
+         &#60;li&#62;SatLunarCold.jpg
+         &#60;/ul&#62;&#60;/font&#62;
+         &#60;li&#62;SolCommand  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Objet 3d: vaisseau spatial&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
+         &#60;ul&#62;&#60;li&#62;scis001.3ds (venant d'Eris)&#60;/ul&#62;&#60;/font&#62;
+         &#60;li&#62;Steve Bowers  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Texture&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
+         &#60;ul&#62;&#60;li&#62;SuperGiantHot.jpg (venant de greenbrowngasgiant)
+         &#60;/ul&#62;&#60;/font&#62;
+         &#60;li&#62;tornadorip1984@yahoo.com  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Texture&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
+         &#60;ul&#62;&#60;li&#62;SatPluto.jpg&#60;/ul&#62;&#60;/font&#62;
          &#60;li&#62;Brightmix (recolored by myself) CC0 LICENSE  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Pictures&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
-			&#60;ul&#62;&#60;li&#62;infrastatus_destroyed16.jpg&#60;
+         &#60;ul&#62;&#60;li&#62;infrastatus_destroyed16.jpg&#60;
          &#60;li&#62;infrastatus_disabled16.jpg&#60;
          &#60;li&#62;infrastatus_inCAB16.jpg&#60;
          &#60;li&#62;infrastatus_intransition16.jpg&#60;
          &#60;li&#62;infrastatus_operational16.jpg&#60;/ul&#62;&#60;/font&#62;
-			&#60;/ul&#62;</FR>
-	</FCWA_Frm_CredsOthrSrc>
-	<FCWA_Frm_CredsInspSrc>
-		<EN>
-			&#60;br&#62;&#60;ul&#62;&#60;u&#62;Inspiration Sources&#60;/u&#62;&#60;br&#62;
-			&#60;li&#62;2001 A Space Odyssey  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Movie&#60;/b&#62;&#60;/font&#62;)
-			&#60;li&#62;Advanced Automation for Space Missions  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Book&#60;/b&#62;&#60;/font&#62;)
-			&#60;li&#62;Islands in the Sky  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Book&#60;/b&#62;&#60;/font&#62;)
-			&#60;li&#62;Planètes &#38; Satellites  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Book&#60;/b&#62;&#60;/font&#62;)
-			&#60;li&#62;SpaceMaster  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;RPG&#60;/b&#62;&#60;/font&#62;)
-			&#60;li&#62;The High Frontier  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Book&#60;/b&#62;&#60;/font&#62;)
-			&#60;li&#62;The Hydrogen Economy  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Book&#60;/b&#62;&#60;/font&#62;)
-			&#60;li&#62;Transhuman Space  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;RPG&#60;/b&#62;&#60;/font&#62;)
-			&#60;li&#62;Traveller, MegaTraveller  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;RPG&#60;/b&#62;&#60;/font&#62;)
-			&#60;/ul&#62;</EN>
-		<FR>
-			&#60;br&#62;&#60;ul&#62;&#60;u&#62;Sources d'Inspiration&#60;/u&#62;&#60;br&#62;
-			&#60;li&#62;2001 A Space Odyssey  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Film&#60;/b&#62;&#60;/font&#62;)
-			&#60;li&#62;Advanced Automation for Space Missions  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Livre&#60;/b&#62;&#60;/font&#62;)
-			&#60;li&#62;Islands in the Sky  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Livre&#60;/b&#62;&#60;/font&#62;)
-			&#60;li&#62;Planètes &#38; Satellites  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Livre&#60;/b&#62;&#60;/font&#62;)
-			&#60;li&#62;SpaceMaster  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;JDR&#60;/b&#62;&#60;/font&#62;)
-			&#60;li&#62;The High Frontier  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Livre&#60;/b&#62;&#60;/font&#62;)
-			&#60;li&#62;The Hydrogen Economy  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Livre&#60;/b&#62;&#60;/font&#62;)
-			&#60;li&#62;Transhuman Space  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;JDR&#60;/b&#62;&#60;/font&#62;)
-			&#60;li&#62;Traveller, MegaTraveller  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;JDR&#60;/b&#62;&#60;/font&#62;)
-			&#60;/ul&#62;</FR>
-	</FCWA_Frm_CredsInspSrc>
-	<FCWA_Frm_Header>
-		<EN>
-			&#60;br&#62;&#60;p align=&#34;center&#34;&#62;&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;®2009-2012 J.F.Baconnet&#60;/b&#62;&#60;/font&#62;&#60;/p&#62;License: GPLv3&#60;br&#62;&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Website  &#60;/b&#62;&#60;/font&#62;&#60;a href=&#34;http://farcolony.sourceforge.net/&#34;&#62;http://farcolony.sourceforge.net/&#60;/a&#62;&#60;br&#62;&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Project Page  &#60;/b&#62;&#60;/font&#62;&#60;a href=&#34;http://sourceforge.net/projects/farcolony&#34;&#62;http://sourceforge.net/projects/farcolony&#60;/a&#62;</EN>
-		<FR>&#60;br&#62;&#60;p align=&#34;center&#34;&#62;&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;®2009-2012 J.F.Baconnet&#60;/b&#62;&#60;/font&#62;&#60;/p&#62;License: GPLv3&#60;br&#62;&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Site Web  &#60;/b&#62;&#60;/font&#62;&#60;a href=&#34;http://farcolony.sourceforge.net/&#34;&#62;http://farcolony.sourceforge.net/&#60;/a&#62;&#60;br&#62;&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Page du Project  &#60;/b&#62;&#60;/font&#62;&#60;a href=&#34;http://sourceforge.net/projects/farcolony&#34;&#62;http://sourceforge.net/projects/farcolony&#60;/a&#62;</FR>
-	</FCWA_Frm_Header>
-	<!-- ********** ACRONYMS ********** -->
-	<acronAU>
-		<EN>AU</EN>
-		<FR>UA</FR>
-	</acronAU>
-	<acronAUwDes>
-		<EN>Astronomical Unit(s) [AU]</EN>
-		<FR>Unité(s) Astronomique(s) [UA]</FR>
-	</acronAUwDes>
-	<acronUC>
-		<EN>UC</EN>
-		<FR>CU</FR>
-	</acronUC>
-	<acronUCwDes>
-		<EN>Universal Credit</EN>
-		<FR>Crédit Universel</FR>
-	</acronUCwDes>
-	<acronYr>
-		<EN>yrs</EN>
-		<FR>an.</FR>
-	</acronYr>
-	<!-- ********** ATMOSPHERIC GASES ********** -->
-	<gasAr>
-		<EN>Argon</EN>
-		<FR>Argon</FR>
-	</gasAr>
-	<gasCH4>
-		<EN>Methane</EN>
-		<FR>Méthane</FR>
-	</gasCH4>
-	<gasCO>
-		<EN>Carbone Monoxide</EN>
-		<FR>Monoxyde de Carbone</FR>
-	</gasCO>	
-	<gasCO2>
-		<EN>Carbon Dioxide</EN>
-		<FR>Dioxyde de Carbone</FR>
-	</gasCO2>
-	<gasH2>
-		<EN>Hydrogen</EN>
-		<FR>Hydrogène</FR>
-	</gasH2>
-	<gasH2O>
-		<EN>Water Vapor</EN>
-		<FR>Vapeur d'Eau</FR>
-	</gasH2O>
-	<gasH2S>
-		<EN>Hydrogen Sulfide</EN>
-		<FR>Sulfure d'Hydrogène</FR>
-	</gasH2S>
-	<gasHe>
-		<EN>Helium</EN>
-		<FR>Hélium</FR>
-	</gasHe>
-	<gasN2>
-		<EN>Nitrogen</EN>
-		<FR>Nitrogène</FR>
-	</gasN2>
-	<gasNe>
-		<EN>Neon</EN>
-		<FR>Néon</FR>
-	</gasNe>
-	<gasNH3>
-		<EN>Ammonia</EN>
-		<FR>Ammoniac</FR>
-	</gasNH3>
-	<gasNO>
-		<EN>Nitrogen Oxide</EN>
-		<FR>Oxyde de Nitrogène</FR>
-	</gasNO>
-	<gasNO2>
-		<EN>Nitrogen Dioxide</EN>
-		<FR>Dioxyde de Nitrogène</FR>
-	</gasNO2>
-	<gasO2>
-		<EN>Oxygen</EN>
-		<FR>Oxygène</FR>
-	</gasO2>
-	<gasO3>
-		<EN>Ozone</EN>
-		<FR>Ozone</FR>
-	</gasO3>
-	<gasSO2>
-		<EN>Sulfur Dioxide</EN>
-		<FR>Dioxyde de Soufre</FR>
-	</gasSO2>
-	<!-- ********** BUTTONS CAPTIONS ********** -->
-	<ButtCancel>
-		<EN>Cancel</EN>
-		<FR>Annuler</FR>
-	</ButtCancel>
-	<ButtDown>
-		<EN>Down</EN>
-		<FR>Bas</FR>
-	</ButtDown>
-	<ButtProceed>
-		<EN>Proceed</EN>
-		<FR>Procéder</FR>
-	</ButtProceed>
-	<ButtUp>
-		<EN>Up</EN>
-		<FR>Haut</FR>
-	</ButtUp>
-	<!-- ********** COLONIES / FACTION ********** -->
-	<colDat>
-		<EN>Colony Data</EN>
-		<FR>Données de la Colonie</FR>
-	</colDat>
+         &#60;/ul&#62;</FR>
+   </FCWA_Frm_CredsOthrSrc>
+   <FCWA_Frm_CredsInspSrc>
+      <EN>
+         &#60;br&#62;&#60;ul&#62;&#60;u&#62;Inspiration Sources&#60;/u&#62;&#60;br&#62;
+         &#60;li&#62;2001 A Space Odyssey  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Movie&#60;/b&#62;&#60;/font&#62;)
+         &#60;li&#62;Advanced Automation for Space Missions  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Book&#60;/b&#62;&#60;/font&#62;)
+         &#60;li&#62;Islands in the Sky  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Book&#60;/b&#62;&#60;/font&#62;)
+         &#60;li&#62;Planètes &#38; Satellites  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Book&#60;/b&#62;&#60;/font&#62;)
+         &#60;li&#62;SpaceMaster  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;RPG&#60;/b&#62;&#60;/font&#62;)
+         &#60;li&#62;The High Frontier  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Book&#60;/b&#62;&#60;/font&#62;)
+         &#60;li&#62;The Hydrogen Economy  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Book&#60;/b&#62;&#60;/font&#62;)
+         &#60;li&#62;Transhuman Space  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;RPG&#60;/b&#62;&#60;/font&#62;)
+         &#60;li&#62;Traveller, MegaTraveller  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;RPG&#60;/b&#62;&#60;/font&#62;)
+         &#60;/ul&#62;</EN>
+      <FR>
+         &#60;br&#62;&#60;ul&#62;&#60;u&#62;Sources d'Inspiration&#60;/u&#62;&#60;br&#62;
+         &#60;li&#62;2001 A Space Odyssey  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Film&#60;/b&#62;&#60;/font&#62;)
+         &#60;li&#62;Advanced Automation for Space Missions  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Livre&#60;/b&#62;&#60;/font&#62;)
+         &#60;li&#62;Islands in the Sky  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Livre&#60;/b&#62;&#60;/font&#62;)
+         &#60;li&#62;Planètes &#38; Satellites  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Livre&#60;/b&#62;&#60;/font&#62;)
+         &#60;li&#62;SpaceMaster  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;JDR&#60;/b&#62;&#60;/font&#62;)
+         &#60;li&#62;The High Frontier  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Livre&#60;/b&#62;&#60;/font&#62;)
+         &#60;li&#62;The Hydrogen Economy  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Livre&#60;/b&#62;&#60;/font&#62;)
+         &#60;li&#62;Transhuman Space  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;JDR&#60;/b&#62;&#60;/font&#62;)
+         &#60;li&#62;Traveller, MegaTraveller  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;JDR&#60;/b&#62;&#60;/font&#62;)
+         &#60;/ul&#62;</FR>
+   </FCWA_Frm_CredsInspSrc>
+   <FCWA_Frm_Header>
+      <EN>
+         &#60;br&#62;&#60;p align=&#34;center&#34;&#62;&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;®2009-2012 J.F.Baconnet&#60;/b&#62;&#60;/font&#62;&#60;/p&#62;License: GPLv3&#60;br&#62;&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Website  &#60;/b&#62;&#60;/font&#62;&#60;a href=&#34;http://farcolony.sourceforge.net/&#34;&#62;http://farcolony.sourceforge.net/&#60;/a&#62;&#60;br&#62;&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Project Page  &#60;/b&#62;&#60;/font&#62;&#60;a href=&#34;http://sourceforge.net/projects/farcolony&#34;&#62;http://sourceforge.net/projects/farcolony&#60;/a&#62;</EN>
+      <FR>&#60;br&#62;&#60;p align=&#34;center&#34;&#62;&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;®2009-2012 J.F.Baconnet&#60;/b&#62;&#60;/font&#62;&#60;/p&#62;License: GPLv3&#60;br&#62;&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Site Web  &#60;/b&#62;&#60;/font&#62;&#60;a href=&#34;http://farcolony.sourceforge.net/&#34;&#62;http://farcolony.sourceforge.net/&#60;/a&#62;&#60;br&#62;&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Page du Project  &#60;/b&#62;&#60;/font&#62;&#60;a href=&#34;http://sourceforge.net/projects/farcolony&#34;&#62;http://sourceforge.net/projects/farcolony&#60;/a&#62;</FR>
+   </FCWA_Frm_Header>
+   <!-- ********** ACRONYMS ********** -->
+   <acronAU>
+      <EN>AU</EN>
+      <FR>UA</FR>
+   </acronAU>
+   <acronAUwDes>
+      <EN>Astronomical Unit(s) [AU]</EN>
+      <FR>Unité(s) Astronomique(s) [UA]</FR>
+   </acronAUwDes>
+   <acronUC>
+      <EN>UC</EN>
+      <FR>CU</FR>
+   </acronUC>
+   <acronUCwDes>
+      <EN>Universal Credit</EN>
+      <FR>Crédit Universel</FR>
+   </acronUCwDes>
+   <acronYr>
+      <EN>yrs</EN>
+      <FR>an.</FR>
+   </acronYr>
+   <!-- ********** ATMOSPHERIC GASES ********** -->
+   <gasAr>
+      <EN>Argon</EN>
+      <FR>Argon</FR>
+   </gasAr>
+   <gasCH4>
+      <EN>Methane</EN>
+      <FR>Méthane</FR>
+   </gasCH4>
+   <gasCO>
+      <EN>Carbone Monoxide</EN>
+      <FR>Monoxyde de Carbone</FR>
+   </gasCO>   
+   <gasCO2>
+      <EN>Carbon Dioxide</EN>
+      <FR>Dioxyde de Carbone</FR>
+   </gasCO2>
+   <gasH2>
+      <EN>Hydrogen</EN>
+      <FR>Hydrogène</FR>
+   </gasH2>
+   <gasH2O>
+      <EN>Water Vapor</EN>
+      <FR>Vapeur d'Eau</FR>
+   </gasH2O>
+   <gasH2S>
+      <EN>Hydrogen Sulfide</EN>
+      <FR>Sulfure d'Hydrogène</FR>
+   </gasH2S>
+   <gasHe>
+      <EN>Helium</EN>
+      <FR>Hélium</FR>
+   </gasHe>
+   <gasN2>
+      <EN>Nitrogen</EN>
+      <FR>Nitrogène</FR>
+   </gasN2>
+   <gasNe>
+      <EN>Neon</EN>
+      <FR>Néon</FR>
+   </gasNe>
+   <gasNH3>
+      <EN>Ammonia</EN>
+      <FR>Ammoniac</FR>
+   </gasNH3>
+   <gasNO>
+      <EN>Nitrogen Oxide</EN>
+      <FR>Oxyde de Nitrogène</FR>
+   </gasNO>
+   <gasNO2>
+      <EN>Nitrogen Dioxide</EN>
+      <FR>Dioxyde de Nitrogène</FR>
+   </gasNO2>
+   <gasO2>
+      <EN>Oxygen</EN>
+      <FR>Oxygène</FR>
+   </gasO2>
+   <gasO3>
+      <EN>Ozone</EN>
+      <FR>Ozone</FR>
+   </gasO3>
+   <gasSO2>
+      <EN>Sulfur Dioxide</EN>
+      <FR>Dioxyde de Soufre</FR>
+   </gasSO2>
+   <!-- ********** BUTTONS CAPTIONS ********** -->
+   <ButtCancel>
+      <EN>Cancel</EN>
+      <FR>Annuler</FR>
+   </ButtCancel>
+   <ButtDown>
+      <EN>Down</EN>
+      <FR>Bas</FR>
+   </ButtDown>
+   <ButtProceed>
+      <EN>Proceed</EN>
+      <FR>Procéder</FR>
+   </ButtProceed>
+   <ButtUp>
+      <EN>Up</EN>
+      <FR>Haut</FR>
+   </ButtUp>
+   <!-- ********** COLONIES / FACTION ********** -->
+   <colDat>
+      <EN>Colony Data</EN>
+      <FR>Données de la Colonie</FR>
+   </colDat>
    <colDbrate>
-		<EN>Birth Rate</EN>
-		<FR>Natalité</FR>
-	</colDbrate>
-	<colDcohes>
-		<EN>Cohesion</EN>
-		<FR>Cohésion</FR>
-	</colDcohes>
-	<colDcohesI1>
-		<EN>Dissident Colony</EN>
-		<FR>Colonie Dissidente</FR>
-	</colDcohesI1>
-	<colDcohesI2>
-		<EN>Remote Colony</EN>
-		<FR>Colonie Eloignée</FR>
-	</colDcohesI2>
-	<colDcohesI3>
-		<EN>Weak</EN>
-		<FR>Faible</FR>
-	</colDcohesI3>
-	<colDcohesI4>
-		<EN>Wavering</EN>
-		<FR>Vacillante</FR>
-	</colDcohesI4>
-	<colDcohesI5>
-		<EN>Stable</EN>
-		<FR>Stable</FR>
-	</colDcohesI5>
-	<colDcohesI6>
-		<EN>Strong</EN>
-		<FR>Solide</FR>
-	</colDcohesI6>
-	<colDcohesI7>
-		<EN>Unified</EN>
-		<FR>Unifiée</FR>
-	</colDcohesI7>
-	<colDCSMEnergUsed>
-		<EN>Used</EN>
-		<FR>Utilisée</FR>
-	</colDCSMEnergUsed>
-	<colDCSMEnergStocked>
-		<EN>Stored</EN>
-		<FR>Stockée</FR>
-	</colDCSMEnergStocked>
-	<colDCSMEnergTitle>
-		<EN>Energy</EN>
-		<FR>Energie</FR>
-	</colDCSMEnergTitle>
+      <EN>Birth Rate</EN>
+      <FR>Natalité</FR>
+   </colDbrate>
+   <colDcohes>
+      <EN>Cohesion</EN>
+      <FR>Cohésion</FR>
+   </colDcohes>
+   <colDcohesI1>
+      <EN>Dissident Colony</EN>
+      <FR>Colonie Dissidente</FR>
+   </colDcohesI1>
+   <colDcohesI2>
+      <EN>Remote Colony</EN>
+      <FR>Colonie Eloignée</FR>
+   </colDcohesI2>
+   <colDcohesI3>
+      <EN>Weak</EN>
+      <FR>Faible</FR>
+   </colDcohesI3>
+   <colDcohesI4>
+      <EN>Wavering</EN>
+      <FR>Vacillante</FR>
+   </colDcohesI4>
+   <colDcohesI5>
+      <EN>Stable</EN>
+      <FR>Stable</FR>
+   </colDcohesI5>
+   <colDcohesI6>
+      <EN>Strong</EN>
+      <FR>Solide</FR>
+   </colDcohesI6>
+   <colDcohesI7>
+      <EN>Unified</EN>
+      <FR>Unifiée</FR>
+   </colDcohesI7>
+   <colDCSMEnergUsed>
+      <EN>Used</EN>
+      <FR>Utilisée</FR>
+   </colDCSMEnergUsed>
+   <colDCSMEnergStocked>
+      <EN>Stored</EN>
+      <FR>Stockée</FR>
+   </colDCSMEnergStocked>
+   <colDCSMEnergTitle>
+      <EN>Energy</EN>
+      <FR>Energie</FR>
+   </colDCSMEnergTitle>
    <colDdrate>
-		<EN>Death Rate</EN>
-		<FR>Mortalité</FR>
-	</colDdrate>
-	<colDedu>
-		<EN>Education</EN>
-		<FR>Education</FR>
-	</colDedu>
-	<colDeduI1>
-		<EN>F Grade</EN>
-		<FR>Niveau F</FR>
-	</colDeduI1>
-	<colDeduI2>
-		<EN>E Grade</EN>
-		<FR>Niveau E</FR>
-	</colDeduI2>
-	<colDeduI3>
-		<EN>D Grade</EN>
-		<FR>Niveau D</FR>
-	</colDeduI3>
-	<colDeduI4>
-		<EN>C Grade</EN>
-		<FR>Niveau C</FR>
-	</colDeduI4>
-	<colDeduI5>
-		<EN>B Grade</EN>
-		<FR>Niveau B</FR>
-	</colDeduI5>
-	<colDeduI6>
-		<EN>A Grade</EN>
-		<FR>Niveau A</FR>
-	</colDeduI6>
-	<colDheal>
-		<EN>Health</EN>
-		<FR>Santé</FR>
-	</colDheal>
-	<colDhealI1>
-		<EN>Non-Existent</EN>
-		<FR>Inexistante</FR>
-	</colDhealI1>
-	<colDhealI2>
-		<EN>Poor</EN>
-		<FR>Pauvre</FR>
-	</colDhealI2>
-	<colDhealI3>
-		<EN>Basic</EN>
-		<FR>Basique</FR>
-	</colDhealI3>
-	<colDhealI4>
-		<EN>Adequate</EN>
-		<FR>Adequat</FR>
-	</colDhealI4>
-	<colDhealI5>
-		<EN>Good</EN>
-		<FR>Bonne</FR>
-	</colDhealI5>
-	<colDhealI6>
-		<EN>Perfect</EN>
-		<FR>Parfaite</FR>
-	</colDhealI6>
-	<colDsec>
-		<EN>Security</EN>
-		<FR>Sécurité</FR>
-	</colDsec>
-	<colDsecI1>
-		<EN>Inadequate</EN>
-		<FR>Inadéquat</FR>
-	</colDsecI1>
-	<colDsecI2>
-		<EN>Minimal</EN>
-		<FR>Minimale</FR>
-	</colDsecI2>
-	<colDsecI3>
-		<EN>Fair</EN>
-		<FR>Convenable</FR>
-	</colDsecI3>
-	<colDsecI4>
-		<EN>Large</EN>
-		<FR>Importante</FR>
-	</colDsecI4>
-	<colDsecI5>
-		<EN>Overkill</EN>
-		<FR>En Excès</FR>
-	</colDsecI5>
-	<colDsplI1>
-		<EN>Impossible to Live In</EN>
-		<FR>Impossible d'Y Vivre</FR>
-	</colDsplI1>
-	<colDsplI2>
-		<EN>Overpopulated</EN>
-		<FR>Surpeuplé</FR>
-	</colDsplI2>
-	<colDsplI3>
-		<EN>Crowded</EN>
-		<FR>Encombré</FR>
-	</colDsplI3>
-	<colDsplI4>
-		<EN>No Extra Space</EN>
-		<FR>Pas d'Espace Supplémentaire</FR>
-	</colDsplI4>
-	<colDsplI5>
-		<EN>Minimal Extra Space</EN>
-		<FR>Espace Minimal en Extra</FR>
-	</colDsplI5>
-	<colDsplI6>
-		<EN>Acceptable Extra Space</EN>
-		<FR>Espace Acceptable en Extra</FR>
-	</colDsplI6>
-	<colDsplI7>
-		<EN>Standard Extra Space</EN>
-		<FR>Espace Standard en Extra</FR>
-	</colDsplI7>
-	<colDsplI8>
-		<EN>Comfortable Extra Space</EN>
-		<FR>Espace Confortable en Extra</FR>
-	</colDsplI8>
-	<colDsplI9>
-		<EN>Luxious Extra Space</EN>
-		<FR>Espace Luxieux en Extra</FR>
-	</colDsplI9>
-	<colDtens>
-		<EN>Tension</EN>
-		<FR>Tension</FR>
-	</colDtens>
-	<colDtensI1>
-		<EN>Not Perceptible</EN>
-		<FR>Non Perceptible</FR>
-	</colDtensI1>
-	<colDtensI2>
-		<EN>Low</EN>
-		<FR>Basse</FR>
-	</colDtensI2>
-	<colDtensI3>
-		<EN>Tangible</EN>
-		<FR>Tangible</FR>
-	</colDtensI3>
-	<colDtensI4>
-		<EN>High</EN>
-		<FR>Haute</FR>
-	</colDtensI4>
-	<colDtensI5>
-		<EN>Critical</EN>
-		<FR>Critique</FR>
-	</colDtensI5>
-	<colFndD>
+      <EN>Death Rate</EN>
+      <FR>Mortalité</FR>
+   </colDdrate>
+   <colDedu>
+      <EN>Education</EN>
+      <FR>Education</FR>
+   </colDedu>
+   <colDeduI1>
+      <EN>F Grade</EN>
+      <FR>Niveau F</FR>
+   </colDeduI1>
+   <colDeduI2>
+      <EN>E Grade</EN>
+      <FR>Niveau E</FR>
+   </colDeduI2>
+   <colDeduI3>
+      <EN>D Grade</EN>
+      <FR>Niveau D</FR>
+   </colDeduI3>
+   <colDeduI4>
+      <EN>C Grade</EN>
+      <FR>Niveau C</FR>
+   </colDeduI4>
+   <colDeduI5>
+      <EN>B Grade</EN>
+      <FR>Niveau B</FR>
+   </colDeduI5>
+   <colDeduI6>
+      <EN>A Grade</EN>
+      <FR>Niveau A</FR>
+   </colDeduI6>
+   <colDheal>
+      <EN>Health</EN>
+      <FR>Santé</FR>
+   </colDheal>
+   <colDhealI1>
+      <EN>Non-Existent</EN>
+      <FR>Inexistante</FR>
+   </colDhealI1>
+   <colDhealI2>
+      <EN>Poor</EN>
+      <FR>Pauvre</FR>
+   </colDhealI2>
+   <colDhealI3>
+      <EN>Basic</EN>
+      <FR>Basique</FR>
+   </colDhealI3>
+   <colDhealI4>
+      <EN>Adequate</EN>
+      <FR>Adequat</FR>
+   </colDhealI4>
+   <colDhealI5>
+      <EN>Good</EN>
+      <FR>Bonne</FR>
+   </colDhealI5>
+   <colDhealI6>
+      <EN>Perfect</EN>
+      <FR>Parfaite</FR>
+   </colDhealI6>
+   <colDsec>
+      <EN>Security</EN>
+      <FR>Sécurité</FR>
+   </colDsec>
+   <colDsecI1>
+      <EN>Inadequate</EN>
+      <FR>Inadéquat</FR>
+   </colDsecI1>
+   <colDsecI2>
+      <EN>Minimal</EN>
+      <FR>Minimale</FR>
+   </colDsecI2>
+   <colDsecI3>
+      <EN>Fair</EN>
+      <FR>Convenable</FR>
+   </colDsecI3>
+   <colDsecI4>
+      <EN>Large</EN>
+      <FR>Importante</FR>
+   </colDsecI4>
+   <colDsecI5>
+      <EN>Overkill</EN>
+      <FR>En Excès</FR>
+   </colDsecI5>
+   <colDsplI1>
+      <EN>Impossible to Live In</EN>
+      <FR>Impossible d'Y Vivre</FR>
+   </colDsplI1>
+   <colDsplI2>
+      <EN>Overpopulated</EN>
+      <FR>Surpeuplé</FR>
+   </colDsplI2>
+   <colDsplI3>
+      <EN>Crowded</EN>
+      <FR>Encombré</FR>
+   </colDsplI3>
+   <colDsplI4>
+      <EN>No Extra Space</EN>
+      <FR>Pas d'Espace Supplémentaire</FR>
+   </colDsplI4>
+   <colDsplI5>
+      <EN>Minimal Extra Space</EN>
+      <FR>Espace Minimal en Extra</FR>
+   </colDsplI5>
+   <colDsplI6>
+      <EN>Acceptable Extra Space</EN>
+      <FR>Espace Acceptable en Extra</FR>
+   </colDsplI6>
+   <colDsplI7>
+      <EN>Standard Extra Space</EN>
+      <FR>Espace Standard en Extra</FR>
+   </colDsplI7>
+   <colDsplI8>
+      <EN>Comfortable Extra Space</EN>
+      <FR>Espace Confortable en Extra</FR>
+   </colDsplI8>
+   <colDsplI9>
+      <EN>Luxious Extra Space</EN>
+      <FR>Espace Luxieux en Extra</FR>
+   </colDsplI9>
+   <colDtens>
+      <EN>Tension</EN>
+      <FR>Tension</FR>
+   </colDtens>
+   <colDtensI1>
+      <EN>Not Perceptible</EN>
+      <FR>Non Perceptible</FR>
+   </colDtensI1>
+   <colDtensI2>
+      <EN>Low</EN>
+      <FR>Basse</FR>
+   </colDtensI2>
+   <colDtensI3>
+      <EN>Tangible</EN>
+      <FR>Tangible</FR>
+   </colDtensI3>
+   <colDtensI4>
+      <EN>High</EN>
+      <FR>Haute</FR>
+   </colDtensI4>
+   <colDtensI5>
+      <EN>Critical</EN>
+      <FR>Critique</FR>
+   </colDtensI5>
+   <colFndD>
       <EN>Foundation Date</EN>
       <FR>Date de Fondation</FR>
    </colFndD>
-	<colLoc>
-		<EN>Location</EN>
-		<FR>Localisation</FR>
-	</colLoc>
-	<colLvl>
+   <colLoc>
+      <EN>Location</EN>
+      <FR>Localisation</FR>
+   </colLoc>
+   <colLvl>
       <EN>Colony Level</EN>
       <FR>Niveau de la Colonie</FR>
    </colLvl>
-	<colLvl1>
+   <colLvl1>
       <EN>Outpost</EN>
       <FR>Poste Avancé</FR>
    </colLvl1>
@@ -545,367 +545,367 @@
       <EN>Unified World</EN>
       <FR>Monde Unifié</FR>
    </colLvl10>
-	<colMsgNotEst>
-		<EN>There's No Established Colony Yet</EN>
-		<FR>Il N'y a Encore Aucune Colonie Fondée</FR>
-	</colMsgNotEst>
-	<colPopBDR>
-		<EN>person(s)</EN>
-		<FR>personne(s)</FR>
-	</colPopBDR>
+   <colMsgNotEst>
+      <EN>There's No Established Colony Yet</EN>
+      <FR>Il N'y a Encore Aucune Colonie Fondée</FR>
+   </colMsgNotEst>
+   <colPopBDR>
+      <EN>person(s)</EN>
+      <FR>personne(s)</FR>
+   </colPopBDR>
    <colPopMAge>
-		<EN>Mean Age</EN>
-		<FR>Age Moyen</FR>
-	</colPopMAge>
-	<colPopMax>
-		<EN>Capacity</EN>
-		<FR>Capacité</FR>
-	</colPopMax>
-	<colPopSPL>
-		<EN>Density</EN>
-		<FR>Densité</FR>
-	</colPopSPL>
+      <EN>Mean Age</EN>
+      <FR>Age Moyen</FR>
+   </colPopMAge>
+   <colPopMax>
+      <EN>Capacity</EN>
+      <FR>Capacité</FR>
+   </colPopMax>
+   <colPopSPL>
+      <EN>Density</EN>
+      <FR>Densité</FR>
+   </colPopSPL>
    <colPopTtl>
-		<EN>Total</EN>
-		<FR>Total</FR>
-	</colPopTtl>
-	<colPTadmin>
-		<EN>Administration</EN>
-		<FR>Administration</FR>
-	</colPTadmin>
+      <EN>Total</EN>
+      <FR>Total</FR>
+   </colPopTtl>
+   <colPTadmin>
+      <EN>Administration</EN>
+      <FR>Administration</FR>
+   </colPTadmin>
    <colPTaero>
-		<EN>Aerospace</EN>
-		<FR>Aérospatial</FR>
-	</colPTaero>
+      <EN>Aerospace</EN>
+      <FR>Aérospatial</FR>
+   </colPTaero>
    <colPTarmy>
-		<EN>Army</EN>
-		<FR>Armée</FR>
-	</colPTarmy>
-	<colPTastrop>
-		<EN>Astrophysicists</EN>
-		<FR>Astrophysiciens</FR>
-	</colPTastrop>
+      <EN>Army</EN>
+      <FR>Armée</FR>
+   </colPTarmy>
+   <colPTastrop>
+      <EN>Astrophysicists</EN>
+      <FR>Astrophysiciens</FR>
+   </colPTastrop>
    <colPTbio>
-		<EN>Biology</EN>
-		<FR>Biologie</FR>
-	</colPTbio>
+      <EN>Biology</EN>
+      <FR>Biologie</FR>
+   </colPTbio>
    <colPTbios>
-		<EN>Biologists</EN>
-		<FR>Biologistes</FR>
-	</colPTbios>
+      <EN>Biologists</EN>
+      <FR>Biologistes</FR>
+   </colPTbios>
    <colPTcol>
-		<EN>Colonists</EN>
-		<FR>Colons</FR>
-	</colPTcol>
+      <EN>Colonists</EN>
+      <FR>Colons</FR>
+   </colPTcol>
    <colPTcom>
-		<EN>Commandos</EN>
-		<FR>Commandos</FR>
-	</colPTcom>
+      <EN>Commandos</EN>
+      <FR>Commandos</FR>
+   </colPTcom>
    <colPTdoc>
-		<EN>Doctors</EN>
-		<FR>Docteurs</FR>
-	</colPTdoc>
-	<colPTeco>
-		<EN>Ecology</EN>
-		<FR>Ecologie</FR>
-	</colPTeco>
-	<colPTecof>
-		<EN>Ecoformers</EN>
-		<FR>Ecoformers</FR>
-	</colPTecof>
-	<colPTecol>
-		<EN>Ecologists</EN>
-		<FR>Ecologistes</FR>
-	</colPTecol>
+      <EN>Doctors</EN>
+      <FR>Docteurs</FR>
+   </colPTdoc>
+   <colPTeco>
+      <EN>Ecology</EN>
+      <FR>Ecologie</FR>
+   </colPTeco>
+   <colPTecof>
+      <EN>Ecoformers</EN>
+      <FR>Ecoformers</FR>
+   </colPTecof>
+   <colPTecol>
+      <EN>Ecologists</EN>
+      <FR>Ecologistes</FR>
+   </colPTecol>
    <colPTeng>
-		<EN>Engineers</EN>
-		<FR>Ingénieurs</FR>
-	</colPTeng>
-	<colPTmedian>
-		<EN>Medians</EN>
-		<FR>Médians</FR>
-	</colPTmedian>
+      <EN>Engineers</EN>
+      <FR>Ingénieurs</FR>
+   </colPTeng>
+   <colPTmedian>
+      <EN>Medians</EN>
+      <FR>Médians</FR>
+   </colPTmedian>
    <colPTindus>
-		<EN>Industry</EN>
-		<FR>Industrie</FR>
-	</colPTindus>
+      <EN>Industry</EN>
+      <FR>Industrie</FR>
+   </colPTindus>
    <colPTmisss>
-		<EN>Mission Specialists</EN>
-		<FR>Spécialistes de Mission</FR>
-	</colPTmisss>
+      <EN>Mission Specialists</EN>
+      <FR>Spécialistes de Mission</FR>
+   </colPTmisss>
    <colPToff>
-		<EN>Officers</EN>
-		<FR>Officiers</FR>
-	</colPToff>
+      <EN>Officers</EN>
+      <FR>Officiers</FR>
+   </colPToff>
    <colPTphy>
-		<EN>Physics</EN>
-		<FR>Physique</FR>
-	</colPTphy>
+      <EN>Physics</EN>
+      <FR>Physique</FR>
+   </colPTphy>
    <colPTphys>
-		<EN>Physicists</EN>
-		<FR>Physiciens</FR>
-	</colPTphys>
+      <EN>Physicists</EN>
+      <FR>Physiciens</FR>
+   </colPTphys>
    <colPTsold>
-		<EN>Soldiers</EN>
-		<FR>Soldats</FR>
-	</colPTsold>
+      <EN>Soldiers</EN>
+      <FR>Soldats</FR>
+   </colPTsold>
    <colPTspe>
-		<EN>Specialists</EN>
-		<FR>Spécialistes</FR>
-	</colPTspe>
+      <EN>Specialists</EN>
+      <FR>Spécialistes</FR>
+   </colPTspe>
    <colPTtech>
-		<EN>Technicians</EN>
-		<FR>Techniciens</FR>
-	</colPTtech>
-	<facstat>
-		<EN>Current Dependence Status</EN>
-		<FR>Status de Dépendance Actuels</FR>
-	</facstat>
-	<FCWM_CDPcolName>
-		<EN>Colony Name (enter for set)</EN>
-		<FR>Nom de la Colonie (entrée pour régler)</FR>
-	</FCWM_CDPcolName>
-	<FCWM_CDPcolNameNo>
-		<EN>No Name Set</EN>
-		<FR>Pas de Nom Choisi</FR>
-	</FCWM_CDPcolNameNo>
-	<FCWM_CDPcsme>
-		<EN>Events</EN>
-		<FR>Evènements</FR>
-	</FCWM_CDPcsme>
-	<FCWM_CDPinfr>
-		<EN>Infrastructures</EN>
-		<FR>Infrastructures</FR>
-	</FCWM_CDPinfr>
-	<FCWM_CDPpopul>
-		<EN>Population</EN>
-		<FR>Population</FR>
-	</FCWM_CDPpopul>
-	<FCWM_ColDPanel>
-		<EN>Colony Data Panel</EN>
-		<FR>Panneau de Données de la Colonie</FR>
-	</FCWM_ColDPanel>
-	<!-- ********** COLONIZATION MODES AND CPS ********** -->
-	<cpsCr>
-		<EN>Line of Credit</EN>
-		<FR>Marge de Crédit</FR>
-	</cpsCr>
-	<cpsCrR>
-		<EN>Credit Range</EN>
-		<FR>Ecart de Crédit</FR>
-	</cpsCrR>
-	<cpsCrIR>
-		<EN>Interest Rates Range</EN>
-		<FR>Gamme de Taux d'intérêts</FR>
-	</cpsCrIR>
-	<CPSobjPanel>
-		<EN>Viability Objectives Status</EN>
-		<FR>Status des Objectifs de Viabilité</FR>
-	</CPSobjPanel>
-	<cpsSLcateg>
-		<EN>Category</EN>
-		<FR>Catégorie</FR>
-	</cpsSLcateg>
-	<cpsSLecon>
-		<EN>Economic</EN>
-		<FR>Economique</FR>
-	</cpsSLecon>
-	<cpsSLmaxS>
-		<EN>Max. Allowed Status</EN>
-		<FR>Etat Max. Permis</FR>
-	</cpsSLmaxS>
-	<cpsSLmil>
-		<EN>Military</EN>
-		<FR>Militaire</FR>
-	</cpsSLmil>
-	<cpsSLsoc>
-		<EN>Social</EN>
-		<FR>Social</FR>
-	</cpsSLsoc>
-	<cpsSLstS>
-		<EN>Starting Status</EN>
-		<FR>Etat de Départ</FR>
-	</cpsSLstS>
-	<cpsStatFD>
-		<EN>Dependent</EN>
-		<FR>Dépendante</FR>
-	</cpsStatFD>
-	<cpsStatFI>
-		<EN>Fully Independent</EN>
-		<FR>Totalement Indépendante</FR>
-	</cpsStatFI>
-	<cpsStatNV>
-		<EN>Not Viable</EN>
-		<FR>Non Viable</FR>
-	</cpsStatNV>
-	<cpsStatSD>
-		<EN>Semi-Dependent</EN>
-		<FR>Semi-Dépendante</FR>
-	</cpsStatSD>
-	<cpsStatus>
-		<EN>Player's Faction Status</EN>
-		<FR>Status de la Faction du Joueur</FR>
-	</cpsStatus>
-	<cpsVOotEcoEnEff>
-		<EN>Energy Efficient</EN>
-		<FR>Efficacité Energétique</FR>
-	</cpsVOotEcoEnEff>
-	<cpsVOotEcoLowCr>
-		<EN>Low Credit Line Use</EN>
-		<FR>Faible Utilisation de la Marge de Crédit</FR>
-	</cpsVOotEcoLowCr>
-	<cpsVOotEcoSustCol>
-		<EN>Sustainable Colony</EN>
-		<FR>Colonie Durable</FR>
-	</cpsVOotEcoSustCol>
-	<cpsVOotSocSecPop>
-		<EN>Secure Population</EN>
-		<FR>Population Protégée</FR>
-	</cpsVOotSocSecPop>
-	<munCmodARC>
-		<EN>Autonomous Remote Colony (ARC)</EN>
-		<FR>Colonie Autonome Eloignée (ARC)</FR>
-	</munCmodARC>
-	<!-- ********** COMMON ********** -->
-	<comCurGame>
-		<EN>Current Game: </EN>
-		<FR>Partie Actuelle: </FR>
-	</comCurGame>
-	<comNoneP>
-		<EN>None Present</EN>
-		<FR>Aucun(e) Présent(e)</FR>
-	</comNoneP>
-	<!-- ********** CSM ********** -->
+      <EN>Technicians</EN>
+      <FR>Techniciens</FR>
+   </colPTtech>
+   <facstat>
+      <EN>Current Dependence Status</EN>
+      <FR>Status de Dépendance Actuels</FR>
+   </facstat>
+   <FCWM_CDPcolName>
+      <EN>Colony Name (enter for set)</EN>
+      <FR>Nom de la Colonie (entrée pour régler)</FR>
+   </FCWM_CDPcolName>
+   <FCWM_CDPcolNameNo>
+      <EN>No Name Set</EN>
+      <FR>Pas de Nom Choisi</FR>
+   </FCWM_CDPcolNameNo>
+   <FCWM_CDPcsme>
+      <EN>Events</EN>
+      <FR>Evènements</FR>
+   </FCWM_CDPcsme>
+   <FCWM_CDPinfr>
+      <EN>Infrastructures</EN>
+      <FR>Infrastructures</FR>
+   </FCWM_CDPinfr>
+   <FCWM_CDPpopul>
+      <EN>Population</EN>
+      <FR>Population</FR>
+   </FCWM_CDPpopul>
+   <FCWM_ColDPanel>
+      <EN>Colony Data Panel</EN>
+      <FR>Panneau de Données de la Colonie</FR>
+   </FCWM_ColDPanel>
+   <!-- ********** COLONIZATION MODES AND CPS ********** -->
+   <cpsCr>
+      <EN>Line of Credit</EN>
+      <FR>Marge de Crédit</FR>
+   </cpsCr>
+   <cpsCrR>
+      <EN>Credit Range</EN>
+      <FR>Ecart de Crédit</FR>
+   </cpsCrR>
+   <cpsCrIR>
+      <EN>Interest Rates Range</EN>
+      <FR>Gamme de Taux d'intérêts</FR>
+   </cpsCrIR>
+   <CPSobjPanel>
+      <EN>Viability Objectives Status</EN>
+      <FR>Status des Objectifs de Viabilité</FR>
+   </CPSobjPanel>
+   <cpsSLcateg>
+      <EN>Category</EN>
+      <FR>Catégorie</FR>
+   </cpsSLcateg>
+   <cpsSLecon>
+      <EN>Economic</EN>
+      <FR>Economique</FR>
+   </cpsSLecon>
+   <cpsSLmaxS>
+      <EN>Max. Allowed Status</EN>
+      <FR>Etat Max. Permis</FR>
+   </cpsSLmaxS>
+   <cpsSLmil>
+      <EN>Military</EN>
+      <FR>Militaire</FR>
+   </cpsSLmil>
+   <cpsSLsoc>
+      <EN>Social</EN>
+      <FR>Social</FR>
+   </cpsSLsoc>
+   <cpsSLstS>
+      <EN>Starting Status</EN>
+      <FR>Etat de Départ</FR>
+   </cpsSLstS>
+   <cpsStatFD>
+      <EN>Dependent</EN>
+      <FR>Dépendante</FR>
+   </cpsStatFD>
+   <cpsStatFI>
+      <EN>Fully Independent</EN>
+      <FR>Totalement Indépendante</FR>
+   </cpsStatFI>
+   <cpsStatNV>
+      <EN>Not Viable</EN>
+      <FR>Non Viable</FR>
+   </cpsStatNV>
+   <cpsStatSD>
+      <EN>Semi-Dependent</EN>
+      <FR>Semi-Dépendante</FR>
+   </cpsStatSD>
+   <cpsStatus>
+      <EN>Player's Faction Status</EN>
+      <FR>Status de la Faction du Joueur</FR>
+   </cpsStatus>
+   <cpsVOotEcoEnEff>
+      <EN>Energy Efficient</EN>
+      <FR>Efficacité Energétique</FR>
+   </cpsVOotEcoEnEff>
+   <cpsVOotEcoLowCr>
+      <EN>Low Credit Line Use</EN>
+      <FR>Faible Utilisation de la Marge de Crédit</FR>
+   </cpsVOotEcoLowCr>
+   <cpsVOotEcoSustCol>
+      <EN>Sustainable Colony</EN>
+      <FR>Colonie Durable</FR>
+   </cpsVOotEcoSustCol>
+   <cpsVOotSocSecPop>
+      <EN>Secure Population</EN>
+      <FR>Population Protégée</FR>
+   </cpsVOotSocSecPop>
+   <munCmodARC>
+      <EN>Autonomous Remote Colony (ARC)</EN>
+      <FR>Colonie Autonome Eloignée (ARC)</FR>
+   </munCmodARC>
+   <!-- ********** COMMON ********** -->
+   <comCurGame>
+      <EN>Current Game: </EN>
+      <FR>Partie Actuelle: </FR>
+   </comCurGame>
+   <comNoneP>
+      <EN>None Present</EN>
+      <FR>Aucun(e) Présent(e)</FR>
+   </comNoneP>
+   <!-- ********** CSM ********** -->
    <csmdesc>
-   	<EN>Event Description</EN>
-   	<FR>Description de l'Évènement</FR>
+      <EN>Event Description</EN>
+      <FR>Description de l'Évènement</FR>
    </csmdesc>
    <csmdur>
-   	<EN>Duration</EN>
-   	<FR>Durée</FR>
+      <EN>Duration</EN>
+      <FR>Durée</FR>
    </csmdur>
    <csmieco>
-   	<EN>Economic and Industrial Output</EN>
-   	<FR>Performance Economique et Industrielle</FR>
+      <EN>Economic and Industrial Output</EN>
+      <FR>Performance Economique et Industrielle</FR>
    </csmieco>
    <csmevColDissident>
-		<EN>Dissident Colony</EN>
-		<FR>Colonie Dissidente</FR>
-	</csmevColDissident>
+      <EN>Dissident Colony</EN>
+      <FR>Colonie Dissidente</FR>
+   </csmevColDissident>
    <csmevColEst>
-		<EN>Colony Establishment</EN>
-		<FR>Etablissement de la Colonie</FR>
-	</csmevColEst>
+      <EN>Colony Establishment</EN>
+      <FR>Etablissement de la Colonie</FR>
+   </csmevColEst>
    <csmevColRogue>
-		<EN>Rogue Colony</EN>
-		<FR>Colonie .</FR>
-	</csmevColRogue>
-	<csmevGovDestab>
-		<EN>Governmental Destabilization</EN>
-		<FR>Destabilisation du Gouvernement</FR>
-	</csmevGovDestab>
-	<csmevHealthEduRel>
-		<EN>Health-Education Relation</EN>
-		<FR>Relation Santé-Education</FR>
-	</csmevHealthEduRel>
+      <EN>Rogue Colony</EN>
+      <FR>Colonie .</FR>
+   </csmevColRogue>
+   <csmevGovDestab>
+      <EN>Governmental Destabilization</EN>
+      <FR>Destabilisation du Gouvernement</FR>
+   </csmevGovDestab>
+   <csmevHealthEduRel>
+      <EN>Health-Education Relation</EN>
+      <FR>Relation Santé-Education</FR>
+   </csmevHealthEduRel>
    <csmevSocDis>
-		<EN>Social Disorder</EN>
-		<FR>Désordre Social</FR>
-	</csmevSocDis>
-	<csmevSocDisRec>
-		<EN>Social Disorder (Recovering)</EN>
-		<FR>Désordre Social (Récupèration)</FR>
-	</csmevSocDisRec>
+      <EN>Social Disorder</EN>
+      <FR>Désordre Social</FR>
+   </csmevSocDis>
+   <csmevSocDisRec>
+      <EN>Social Disorder (Recovering)</EN>
+      <FR>Désordre Social (Récupèration)</FR>
+   </csmevSocDisRec>
    <csmevUnrest>
-		<EN>Unrest</EN>
-		<FR>Troubles</FR>
-	</csmevUnrest>
-	<csmevUnrestRec>
-		<EN>Unrest (Recovering)</EN>
-		<FR>Troubles (Récupèration)</FR>
-	</csmevUnrestRec>
+      <EN>Unrest</EN>
+      <FR>Troubles</FR>
+   </csmevUnrest>
+   <csmevUnrestRec>
+      <EN>Unrest (Recovering)</EN>
+      <FR>Troubles (Récupèration)</FR>
+   </csmevUnrestRec>
    <csmevUprising>
-		<EN>Uprising</EN>
-		<FR>Révolte</FR>
-	</csmevUprising>
-	<csmevUprisingRec>
-		<EN>Uprising (Recovering)</EN>
-		<FR>Révolte (Récupèration)</FR>
-	</csmevUprisingRec>
-	<!-- ********** FACTION NAMES ********** -->
-	<factkMagelUni>
-		<EN>Magellan Unity (MUN)</EN>
-    	<FR>Unité de Magellan (UDM)</FR>
-	</factkMagelUni>
-	<factkMagelUniWart>
-		<EN>The Magellan Unity</EN>
-    	<FR>l'Unité de Magellan</FR>
-	</factkMagelUniWart>
-	<!-- ********** HELP PANEL ********** -->
-	<FCWM_HelpPanel>
-		<EN>FAR Colony Help Panel</EN>
-		<FR>Panneau d'Aide de FAR Colony</FR>
-	</FCWM_HelpPanel>
-	<FCWM_HPdPad_Keys>
-		<EN>Keys List</EN>
-		<FR>Liste des Touches</FR>
-	</FCWM_HPdPad_Keys>
-	<FCWM_HPDPhints>
-		<EN>Topics - Definitions</EN>
-		<FR>Sujets - Définitions</FR>
-	</FCWM_HPDPhints>
-	<HPKeys>
-		<EN>
-		&#60;br&#62;&#60;b&#62;&#60;u&#62;3D View - Focused Object Browse&#60;/u&#62;&#60;/b&#62;
-		&lt;ind x="361"&gt;&#60;b&#62;&#60;u&#62;Unified Macromanagement Interface&#60;/u&#62;&#60;/b&#62;
-		&#60;br&#62;&#60;b&#62;NUMPAD 4: &#60;/b&#62;focus previous object 
-		&lt;ind x="361"&gt;&#60;b&#62;F2: &#60;/b&#62;Universe tab
-		&#60;br&#62;&#60;b&#62;NUMPAD 6: &#60;/b&#62;focus next object
-		&lt;ind x="361"&gt;&#60;b&#62;F3: &#60;/b&#62;Faction tab w/ Political Structure
-		&#60;br&#62;&#60;b&#62;NUMPAD 7: &#60;/b&#62;focus first object 
-		&lt;ind x="361"&gt;&#60;b&#62;F4: &#60;/b&#62;Faction tab w/ Socio-Political Matrix (SPM) Setting
-		&#60;br&#62;&#60;b&#62;NUMPAD 1: &#60;/b&#62;focus last object
-		&lt;ind x="361"&gt;&#60;b&#62;F5: &#60;/b&#62;Faction tab w/ Policies Enforcement
-		&#60;br&#62;&#60;b&#62;A: &#60;/b&#62;switch between satellite and orbital object display
-		&lt;ind x="361"&gt;&#60;b&#62;F6: &#60;/b&#62;Space Units tab
-		&#60;br&#62;&#60;b&#62;S: &#60;/b&#62;switch between space unit and orbital object display
-		&lt;ind x="361"&gt;&#60;b&#62;F7: &#60;/b&#62;Production tab&lt;br&gt;
-		&lt;ind x="361"&gt;&#60;b&#62;F8: &#60;/b&#62;Research &amp; Development tab
-		&#60;br&#62;&#60;b&#62;&#60;u&#62;3D View - Time Frame&#60;/u&#62;&#60;/b&#62;
-		&#60;br&#62;&#60;b&#62;P: &#60;/b&#62;pause game
-		&#60;br&#62;&#60;b&#62;Z: &#60;/b&#62;tactical time frame (1sec RT ~ 10min GT)
-		&#60;br&#62;&#60;b&#62;X: &#60;/b&#62;management time frame (1sec RT ~ 20min GT)
-		&#60;br&#62;&#60;b&#62;C: &#60;/b&#62;strategical/historical time frame (1sec RT ~ 100min GT)
-		&#60;br&#62;&#60;br&#62;&#60;b&#62;&#60;u&#62;Message Box&#60;/u&#62;&#60;/b&#62;
-		&#60;br&#62;&#60;b&#62;M: &#60;/b&#62;raise =&#62; maximize =&#62; minimize the message box
-		&#60;br&#62;&#60;b&#62;ESC: &#60;/b&#62;minimize the message box</EN>
-		<FR>
-		&#60;br&#62;&#60;b&#62;&#60;u&#62;Vue 3D - Navigation de l'Objet Centré&#60;/u&#62;&#60;/b&#62;
-		&lt;ind x="361"&gt;&#60;b&#62;&#60;u&#62;Interface de Macrogestion Unifiée (UMI)&#60;/u&#62;&#60;/b&#62;
-		&#60;br&#62;&#60;b&#62;PAVÉ NUMÉRIQUE 4: &#60;/b&#62;focus l'objet précédent
-		&lt;ind x="361"&gt;&#60;b&#62;F2: &#60;/b&#62;onglet Univers
-		&#60;br&#62;&#60;b&#62;PAVÉ NUMÉRIQUE 6: &#60;/b&#62;focus l'objet suivant
-		&lt;ind x="361"&gt;&#60;b&#62;F3: &#60;/b&#62;onglet Faction avec Structure Politique
-		&#60;br&#62;&#60;b&#62;PAVÉ NUMÉRIQUE 7: &#60;/b&#62;focus le premier objet
-		&lt;ind x="361"&gt;&#60;b&#62;F4: &#60;/b&#62;onglet Faction avec la Matrice Socio-Politique (SPM)
-		&#60;br&#62;&#60;b&#62;PAVÉ NUMÉRIQUE 1: &#60;/b&#62;focus le dernier objet
-		&lt;ind x="361"&gt;&#60;b&#62;F5: &#60;/b&#62;onglet Faction avec Application de Politiques
-		&#60;br&#62;&#60;b&#62;A: &#60;/b&#62;switch entre l'affichage du satellite et de l'objet orbital
-		&lt;ind x="361"&gt;&#60;b&#62;F6: &#60;/b&#62;onglet Unités Spatiales
-		&#60;br&#62;&#60;b&#62;S: &#60;/b&#62;switch entre l'affichage de l'unité spatiale et de l'objet orbital
-		&lt;ind x="361"&gt;&#60;b&#62;F7: &#60;/b&#62;onglet Production&lt;br&gt;
-		&lt;ind x="361"&gt;&#60;b&#62;F8: &#60;/b&#62;onglet Recherche &amp; Dévelopement
-		&#60;br&#62;&#60;b&#62;&#60;u&#62;Vue 3D - Temps&#60;/u&#62;&#60;/b&#62;
-		&#60;br&#62;&#60;b&#62;P: &#60;/b&#62;jeu en pause
-		&#60;br&#62;&#60;b&#62;Z: &#60;/b&#62;temps tactique (1sec TR ~ 10min TJ)
-		&#60;br&#62;&#60;b&#62;X: &#60;/b&#62;temps de gestion (1sec TR ~ 20min TJ)
-		&#60;br&#62;&#60;b&#62;C: &#60;/b&#62;temps stratégique/historique (1sec TR ~ 100min TJ)
-		&#60;br&#62;&#60;br&#62;&#60;b&#62;&#60;u&#62;Boite de Message&#60;/u&#62;&#60;/b&#62;
-		&#60;br&#62;&#60;b&#62;M: &#60;/b&#62;affiche =&#62; maximise =&#62; minimise la boite de message
-		&#60;br&#62;&#60;b&#62;ESC: &#60;/b&#62;minimise la boite de message</FR>
-	</HPKeys>
-	<!-- ********** INFRASTRUCTURES ********** -->
-	<cwpAssignConfirm>
+      <EN>Uprising</EN>
+      <FR>Révolte</FR>
+   </csmevUprising>
+   <csmevUprisingRec>
+      <EN>Uprising (Recovering)</EN>
+      <FR>Révolte (Récupèration)</FR>
+   </csmevUprisingRec>
+   <!-- ********** FACTION NAMES ********** -->
+   <factkMagelUni>
+      <EN>Magellan Unity (MUN)</EN>
+       <FR>Unité de Magellan (UDM)</FR>
+   </factkMagelUni>
+   <factkMagelUniWart>
+      <EN>The Magellan Unity</EN>
+       <FR>l'Unité de Magellan</FR>
+   </factkMagelUniWart>
+   <!-- ********** HELP PANEL ********** -->
+   <FCWM_HelpPanel>
+      <EN>FAR Colony Help Panel</EN>
+      <FR>Panneau d'Aide de FAR Colony</FR>
+   </FCWM_HelpPanel>
+   <FCWM_HPdPad_Keys>
+      <EN>Keys List</EN>
+      <FR>Liste des Touches</FR>
+   </FCWM_HPdPad_Keys>
+   <FCWM_HPDPhints>
+      <EN>Topics - Definitions</EN>
+      <FR>Sujets - Définitions</FR>
+   </FCWM_HPDPhints>
+   <HPKeys>
+      <EN>
+      &#60;br&#62;&#60;b&#62;&#60;u&#62;3D View - Focused Object Browse&#60;/u&#62;&#60;/b&#62;
+      &lt;ind x="361"&gt;&#60;b&#62;&#60;u&#62;Unified Macromanagement Interface&#60;/u&#62;&#60;/b&#62;
+      &#60;br&#62;&#60;b&#62;NUMPAD 4: &#60;/b&#62;focus previous object 
+      &lt;ind x="361"&gt;&#60;b&#62;F2: &#60;/b&#62;Universe tab
+      &#60;br&#62;&#60;b&#62;NUMPAD 6: &#60;/b&#62;focus next object
+      &lt;ind x="361"&gt;&#60;b&#62;F3: &#60;/b&#62;Faction tab w/ Political Structure
+      &#60;br&#62;&#60;b&#62;NUMPAD 7: &#60;/b&#62;focus first object 
+      &lt;ind x="361"&gt;&#60;b&#62;F4: &#60;/b&#62;Faction tab w/ Socio-Political Matrix (SPM) Setting
+      &#60;br&#62;&#60;b&#62;NUMPAD 1: &#60;/b&#62;focus last object
+      &lt;ind x="361"&gt;&#60;b&#62;F5: &#60;/b&#62;Faction tab w/ Policies Enforcement
+      &#60;br&#62;&#60;b&#62;A: &#60;/b&#62;switch between satellite and orbital object display
+      &lt;ind x="361"&gt;&#60;b&#62;F6: &#60;/b&#62;Space Units tab
+      &#60;br&#62;&#60;b&#62;S: &#60;/b&#62;switch between space unit and orbital object display
+      &lt;ind x="361"&gt;&#60;b&#62;F7: &#60;/b&#62;Production tab&lt;br&gt;
+      &lt;ind x="361"&gt;&#60;b&#62;F8: &#60;/b&#62;Research &amp; Development tab
+      &#60;br&#62;&#60;b&#62;&#60;u&#62;3D View - Time Frame&#60;/u&#62;&#60;/b&#62;
+      &#60;br&#62;&#60;b&#62;P: &#60;/b&#62;pause game
+      &#60;br&#62;&#60;b&#62;Z: &#60;/b&#62;tactical time frame (1sec RT ~ 10min GT)
+      &#60;br&#62;&#60;b&#62;X: &#60;/b&#62;management time frame (1sec RT ~ 20min GT)
+      &#60;br&#62;&#60;b&#62;C: &#60;/b&#62;strategical/historical time frame (1sec RT ~ 100min GT)
+      &#60;br&#62;&#60;br&#62;&#60;b&#62;&#60;u&#62;Message Box&#60;/u&#62;&#60;/b&#62;
+      &#60;br&#62;&#60;b&#62;M: &#60;/b&#62;raise =&#62; maximize =&#62; minimize the message box
+      &#60;br&#62;&#60;b&#62;ESC: &#60;/b&#62;minimize the message box</EN>
+      <FR>
+      &#60;br&#62;&#60;b&#62;&#60;u&#62;Vue 3D - Navigation de l'Objet Centré&#60;/u&#62;&#60;/b&#62;
+      &lt;ind x="361"&gt;&#60;b&#62;&#60;u&#62;Interface de Macrogestion Unifiée (UMI)&#60;/u&#62;&#60;/b&#62;
+      &#60;br&#62;&#60;b&#62;PAVÉ NUMÉRIQUE 4: &#60;/b&#62;focus l'objet précédent
+      &lt;ind x="361"&gt;&#60;b&#62;F2: &#60;/b&#62;onglet Univers
+      &#60;br&#62;&#60;b&#62;PAVÉ NUMÉRIQUE 6: &#60;/b&#62;focus l'objet suivant
+      &lt;ind x="361"&gt;&#60;b&#62;F3: &#60;/b&#62;onglet Faction avec Structure Politique
+      &#60;br&#62;&#60;b&#62;PAVÉ NUMÉRIQUE 7: &#60;/b&#62;focus le premier objet
+      &lt;ind x="361"&gt;&#60;b&#62;F4: &#60;/b&#62;onglet Faction avec la Matrice Socio-Politique (SPM)
+      &#60;br&#62;&#60;b&#62;PAVÉ NUMÉRIQUE 1: &#60;/b&#62;focus le dernier objet
+      &lt;ind x="361"&gt;&#60;b&#62;F5: &#60;/b&#62;onglet Faction avec Application de Politiques
+      &#60;br&#62;&#60;b&#62;A: &#60;/b&#62;switch entre l'affichage du satellite et de l'objet orbital
+      &lt;ind x="361"&gt;&#60;b&#62;F6: &#60;/b&#62;onglet Unités Spatiales
+      &#60;br&#62;&#60;b&#62;S: &#60;/b&#62;switch entre l'affichage de l'unité spatiale et de l'objet orbital
+      &lt;ind x="361"&gt;&#60;b&#62;F7: &#60;/b&#62;onglet Production&lt;br&gt;
+      &lt;ind x="361"&gt;&#60;b&#62;F8: &#60;/b&#62;onglet Recherche &amp; Dévelopement
+      &#60;br&#62;&#60;b&#62;&#60;u&#62;Vue 3D - Temps&#60;/u&#62;&#60;/b&#62;
+      &#60;br&#62;&#60;b&#62;P: &#60;/b&#62;jeu en pause
+      &#60;br&#62;&#60;b&#62;Z: &#60;/b&#62;temps tactique (1sec TR ~ 10min TJ)
+      &#60;br&#62;&#60;b&#62;X: &#60;/b&#62;temps de gestion (1sec TR ~ 20min TJ)
+      &#60;br&#62;&#60;b&#62;C: &#60;/b&#62;temps stratégique/historique (1sec TR ~ 100min TJ)
+      &#60;br&#62;&#60;br&#62;&#60;b&#62;&#60;u&#62;Boite de Message&#60;/u&#62;&#60;/b&#62;
+      &#60;br&#62;&#60;b&#62;M: &#60;/b&#62;affiche =&#62; maximise =&#62; minimise la boite de message
+      &#60;br&#62;&#60;b&#62;ESC: &#60;/b&#62;minimise la boite de message</FR>
+   </HPKeys>
+   <!-- ********** INFRASTRUCTURES ********** -->
+   <cwpAssignConfirm>
       <EN>[ENTER] for confirm</EN>
       <FR>[Entrée] pour confirmer'</FR>
    </cwpAssignConfirm>
@@ -929,134 +929,134 @@
       <EN>Add Mechanized Workforce</EN>
       <FR>Ajout d'une Force Mécanisée</FR>
    </cwpMechAdd>
-	<FCWM_IPconfirmButton>
-		<EN>Confiirm</EN>
-		<FR>Confirmer</FR>
-	</FCWM_IPconfirmButton>
-	<FCWMinfraKit1>
-		<EN>Please select an infrastructure kit among those available above,</EN>
-		<FR>Svp sélectionnez un kit d'infrastructure parmis ceux disponible ci-dessus,</FR>
-	</FCWMinfraKit1>
-	<FCWMinfraKit2>
-		<EN>the assembling duration will be automatically calculated.</EN>
-		<FR>la durée d'Assemblage sera automatiquement calculé.</FR>
-	</FCWMinfraKit2>
-	<FCWMtaskAssemble>
-		<EN>This infrastructure is ready to be assembled, one infrastructure kit will be taken from the colony's storage.</EN>
-		<FR>Cette infrastructure est prête à être assemblée, un kit d'infrastructure sera pris du stockage de la colonie.</FR>
-	</FCWMtaskAssemble>
-	<FCWMtaskBuild>
-		<EN>This infrastructure is ready to be build, required materials will be taken from the colony's storage.</EN>
-		<FR>Cette infrastructure est prête à être construite, les materiaux requis serons pris du stockage de la colonie.</FR>
-	</FCWMtaskBuild>
-	<FCWMtaskCannotAssemble1>
-		<EN>This infrastructure cannot be assembled, there's no more available Workforce Construction Points for it.</EN>
-		<FR>Cette infrastructure ne peut être assemblée, il n'y a plus de Points de Force de Construction disponible pour.</FR>
-	</FCWMtaskCannotAssemble1>
-	<FCWMtaskCannotAssemble2>
-		<EN>You need to assign more Construction Workforce Points in the Population section.</EN>
-		<FR>Vous avez besoin d'assigner plus de Points de Force de Construction dans la section Population.</FR>
-	</FCWMtaskCannotAssemble2>
-	<FCWMtaskCannotBuild>
-		<EN>This infrastructure cannot be built, there's no more available Workforce Construction Points for it.</EN>
-		<FR>Cette infrastructure ne peut être construite, il n'y a plus de Points de Force de Construction disponible pour.</FR>
-	</FCWMtaskCannotBuild>
-	<FCWMtaskCWPassemble>
-		<EN>The &#60;a href="cwpRoot"&#62;CWP&#60;/a&#62; assigned to this assembling will be equal to</EN>
-		<FR>Le &#60;a href="cwpRoot"&#62;CWP&#60;/a&#62; assigné à cet assemblage sera égal à</FR>
-	</FCWMtaskCWPassemble>
-	<FCWMtaskCWPbuild>
-		<EN>The &#60;a href="cwpRoot"&#62;CWP&#60;/a&#62; assigned to this building will be equal to</EN>
-		<FR>Le &#60;a href="cwpRoot"&#62;CWP&#60;/a&#62; assigné à cette construction sera égal à</FR>
-	</FCWMtaskCWPbuild>
-	<FCWMtaskDuration1>
-		<EN>and will take</EN>
-		<FR>et prendra</FR>
-	</FCWMtaskDuration1>
-	<FCWMtaskDuration2>
-		<EN>hours to be completed.</EN>
-		<FR>heures à complèter.</FR>
-	</FCWMtaskDuration2>
-	<FCWMtitleAssemble>
-		<EN>Assembling Configuration</EN>
-		<FR>Configuration d'Assemblage</FR>
-	</FCWMtitleAssemble>
-	<FCWMtitleBuild>
-		<EN>Building Configuration</EN>
-		<FR>Configuration de Construction</FR>
-	</FCWMtitleBuild>
+   <FCWM_IPconfirmButton>
+      <EN>Confiirm</EN>
+      <FR>Confirmer</FR>
+   </FCWM_IPconfirmButton>
+   <FCWMinfraKit1>
+      <EN>Please select an infrastructure kit among those available above,</EN>
+      <FR>Svp sélectionnez un kit d'infrastructure parmis ceux disponible ci-dessus,</FR>
+   </FCWMinfraKit1>
+   <FCWMinfraKit2>
+      <EN>the assembling duration will be automatically calculated.</EN>
+      <FR>la durée d'Assemblage sera automatiquement calculé.</FR>
+   </FCWMinfraKit2>
+   <FCWMtaskAssemble>
+      <EN>This infrastructure is ready to be assembled, one infrastructure kit will be taken from the colony's storage.</EN>
+      <FR>Cette infrastructure est prête à être assemblée, un kit d'infrastructure sera pris du stockage de la colonie.</FR>
+   </FCWMtaskAssemble>
+   <FCWMtaskBuild>
+      <EN>This infrastructure is ready to be build, required materials will be taken from the colony's storage.</EN>
+      <FR>Cette infrastructure est prête à être construite, les materiaux requis serons pris du stockage de la colonie.</FR>
+   </FCWMtaskBuild>
+   <FCWMtaskCannotAssemble1>
+      <EN>This infrastructure cannot be assembled, there's no more available Workforce Construction Points for it.</EN>
+      <FR>Cette infrastructure ne peut être assemblée, il n'y a plus de Points de Force de Construction disponible pour.</FR>
+   </FCWMtaskCannotAssemble1>
+   <FCWMtaskCannotAssemble2>
+      <EN>You need to assign more Construction Workforce Points in the Population section.</EN>
+      <FR>Vous avez besoin d'assigner plus de Points de Force de Construction dans la section Population.</FR>
+   </FCWMtaskCannotAssemble2>
+   <FCWMtaskCannotBuild>
+      <EN>This infrastructure cannot be built, there's no more available Workforce Construction Points for it.</EN>
+      <FR>Cette infrastructure ne peut être construite, il n'y a plus de Points de Force de Construction disponible pour.</FR>
+   </FCWMtaskCannotBuild>
+   <FCWMtaskCWPassemble>
+      <EN>The &#60;a href="cwpRoot"&#62;CWP&#60;/a&#62; assigned to this assembling will be equal to</EN>
+      <FR>Le &#60;a href="cwpRoot"&#62;CWP&#60;/a&#62; assigné à cet assemblage sera égal à</FR>
+   </FCWMtaskCWPassemble>
+   <FCWMtaskCWPbuild>
+      <EN>The &#60;a href="cwpRoot"&#62;CWP&#60;/a&#62; assigned to this building will be equal to</EN>
+      <FR>Le &#60;a href="cwpRoot"&#62;CWP&#60;/a&#62; assigné à cette construction sera égal à</FR>
+   </FCWMtaskCWPbuild>
+   <FCWMtaskDuration1>
+      <EN>and will take</EN>
+      <FR>et prendra</FR>
+   </FCWMtaskDuration1>
+   <FCWMtaskDuration2>
+      <EN>hours to be completed.</EN>
+      <FR>heures à complèter.</FR>
+   </FCWMtaskDuration2>
+   <FCWMtitleAssemble>
+      <EN>Assembling Configuration</EN>
+      <FR>Configuration d'Assemblage</FR>
+   </FCWMtitleAssemble>
+   <FCWMtitleBuild>
+      <EN>Building Configuration</EN>
+      <FR>Configuration de Construction</FR>
+   </FCWMtitleBuild>
    <cwpTitle>
       <EN>Construction Workforce</EN>
       <FR>Force de Construction</FR>
    </cwpTitle>
    <infrafunc_Energy>
-		<EN>Energy</EN>
-		<FR>Energie</FR>
-	</infrafunc_Energy>
+      <EN>Energy</EN>
+      <FR>Energie</FR>
+   </infrafunc_Energy>
    <infrafunc_Housing>
-		<EN>Housing</EN>
-		<FR>Logement</FR>
-	</infrafunc_Housing>
+      <EN>Housing</EN>
+      <FR>Logement</FR>
+   </infrafunc_Housing>
    <infrafunc_Intel>
-		<EN>Intelligence</EN>
-		<FR>Intelligence</FR>
-	</infrafunc_Intel>
+      <EN>Intelligence</EN>
+      <FR>Intelligence</FR>
+   </infrafunc_Intel>
    <infrafunc_Misc>
-		<EN>Miscellaneous</EN>
-		<FR>Divers</FR>
-	</infrafunc_Misc>
+      <EN>Miscellaneous</EN>
+      <FR>Divers</FR>
+   </infrafunc_Misc>
    <infrafunc_Prod>
-		<EN>Production</EN>
-		<FR>Production</FR>
-	</infrafunc_Prod>
+      <EN>Production</EN>
+      <FR>Production</FR>
+   </infrafunc_Prod>
    <infrastatus_destroyed>
-		<EN>Destroyed</EN>
-		<FR>Détruite</FR>
-	</infrastatus_destroyed>
+      <EN>Destroyed</EN>
+      <FR>Détruite</FR>
+   </infrastatus_destroyed>
    <infrastatus_disabled>
-		<EN>Disabled</EN>
-		<FR>Hors Service</FR>
-	</infrastatus_disabled>
+      <EN>Disabled</EN>
+      <FR>Hors Service</FR>
+   </infrastatus_disabled>
    <infrastatus_inAssembling>
-		<EN>Assembled In</EN>
-		<FR>Assemblé En</FR>
-	</infrastatus_inAssembling>
+      <EN>Assembled In</EN>
+      <FR>Assemblé En</FR>
+   </infrastatus_inAssembling>
    <infrastatus_inBuilding>
-		<EN>Built In</EN>
-		<FR>Construit En</FR>
-	</infrastatus_inBuilding>
+      <EN>Built In</EN>
+      <FR>Construit En</FR>
+   </infrastatus_inBuilding>
    <infrastatus_inConversion>
-		<EN>Converted In</EN>
-		<FR>Converti En</FR>
-	</infrastatus_inConversion>
+      <EN>Converted In</EN>
+      <FR>Converti En</FR>
+   </infrastatus_inConversion>
    <infrastatus_inKit>
-		<EN>In Kit</EN>
-		<FR>En Kit</FR>
-	</infrastatus_inKit>
+      <EN>In Kit</EN>
+      <FR>En Kit</FR>
+   </infrastatus_inKit>
    <infrastatus_inTransition>
-		<EN>Transition Time</EN>
-		<FR>Temps de Transition</FR>
-	</infrastatus_inTransition>
+      <EN>Transition Time</EN>
+      <FR>Temps de Transition</FR>
+   </infrastatus_inTransition>
    <infrastatus_operational>
-		<EN>Operational</EN>
-		<FR>Opérationnel</FR>
-	</infrastatus_operational>
+      <EN>Operational</EN>
+      <FR>Opérationnel</FR>
+   </infrastatus_operational>
    <Infrastructure>
-		<EN>Infrastructure</EN>
-		<FR>Infrastructure</FR>
-	</Infrastructure>
+      <EN>Infrastructure</EN>
+      <FR>Infrastructure</FR>
+   </Infrastructure>
    <infraUIavailTitle>
       <EN>Available Infrastructures</EN>
       <FR>Infrastructures Disponibles</FR>
    </infraUIavailTitle>
-	<infrColShelt>
-		<EN>Colonization Shelter</EN>
-		<FR>Abris de Colonisation</FR>
-	</infrColShelt>
+   <infrColShelt>
+      <EN>Colonization Shelter</EN>
+      <FR>Abris de Colonisation</FR>
+   </infrColShelt>
    <infrHousesPack>
-		<EN>Houses Pack</EN>
-		<FR>Pack de Maisons</FR>
-	</infrHousesPack>
+      <EN>Houses Pack</EN>
+      <FR>Pack de Maisons</FR>
+   </infrHousesPack>
    <infrInflatGreen>
       <EN>Inflatable Greenhouse</EN>
       <FR>Serre Gonflable</FR>
@@ -1078,208 +1078,208 @@
       <FR>Réacteur à Fission Nucléaire</FR>
    </infrNucFissReactor>
    <!-- ********** MAIN 3D VIEW FRAME ******* -->
-	<FCWM_3dMainGrp.Upd>
-		<EN>Updating...</EN>
-		<FR>Mise à Jour...</FR>
-	</FCWM_3dMainGrp.Upd>
-	<FCWM_3dMainGrp.SSys>
-		<EN>[Stellar System:</EN>
-		<FR>[Système Stellaire:</FR>
-	</FCWM_3dMainGrp.SSys>
-	<FCWM_3dMainGrp.Star>
-		<EN>[Star:</EN>
-		<FR>[Etoile:</FR>
-	</FCWM_3dMainGrp.Star>
-	<!-- ********** MAIN 3D VIEW UI ******* -->
-	<MVUIcpsCVS>
-		<EN>Credit Line               CVS               Time Left</EN>
-		<FR>Ligne de Crédit            CVS          Temps Restant</FR>
-	</MVUIcpsCVS>
-	<MVUIoobjAlb>
-		<EN>Albedo</EN>
-		<FR>Albédo</FR>
-	</MVUIoobjAlb>
-	<MVUIoobjAxTilt>
-		<EN>Axial Tilt</EN>
-		<FR>Inclinaison d'Axe</FR>
-	</MVUIoobjAxTilt>
-	<MVUIoobjDens>
-		<EN>Density</EN>
-		<FR>Densité</FR>
-	</MVUIoobjDens>
-	<MVUIoobjDiam>
-		<EN>Diameter</EN>
-		<FR>Diamètre</FR>
-	</MVUIoobjDiam>
-	<MVUIoobjDistFSt>
-		<EN>Distance From Star</EN>
-		<FR>Distance de l'Étoile</FR>
-	</MVUIoobjDistFSt>
-	<MVUIoobjEcc>
-		<EN>Orbit Eccentricity</EN>
-		<FR>Eccentricité d'Orbite</FR>
-	</MVUIoobjEcc>
-	<MVUIoobjEscVel>
-		<EN>Escape Velocity</EN>
-		<FR>Vélocité d'Evasion</FR>
-	</MVUIoobjEscVel>
-	<MVUIoobjGeophyDatH>
-		<EN>Geophysical Data</EN>
-		<FR>Données Géophysiques</FR>
-	</MVUIoobjGeophyDatH>
-	<MVUIoobjGrav>
-		<EN>Gravity</EN>
-		<FR>Gravité</FR>
-	</MVUIoobjGrav>
-	<MVUIoobjMagF>
-		<EN>Magnetic Field</EN>
-		<FR>Champs Magnétique</FR>
-	</MVUIoobjMagF>
-	<MVUIoobjMass>
-		<EN>Mass (Rel. to Earth)</EN>
-		<FR>Mass (Rel. à la Terre)</FR>
-	</MVUIoobjMass>
-	<MVUIoobjOOType>
-		<EN>Orbital Object Type</EN>
-		<FR>Type d'Objet Orbital</FR>
-	</MVUIoobjOOType>
-	<MVUIoobjOrbDatH>
-		<EN>Orbital Data</EN>
-		<FR>Données Orbitales</FR>
-	</MVUIoobjOrbDatH>
-	<MVUIoobjOrbZone>
-		<EN>Orbital Zone</EN>
-		<FR>Zone Orbitale</FR>
-	</MVUIoobjOrbZone>
-	<MVUIoobjRevPer>
-		<EN>Revolution Period</EN>
-		<FR>Période de Révolution</FR>
-	</MVUIoobjRevPer>
-	<MVUIoobjRotPer>
-		<EN>Rotation Period</EN>
-		<FR>Période de Rotation</FR>
-	</MVUIoobjRotPer>
-	<MVUIoobjSat>
-		<EN>Number of Satellites</EN>
-		<FR>Nombre de Satellites</FR>
-	</MVUIoobjSat>
-	<MVUIoobjTidLckd>
-		<EN>Tidally Locked</EN>
-		<FR>Vérouillé par les Forces de Marées</FR>
-	</MVUIoobjTidLckd>
-	<MVUIsatDistFCP>
-		<EN>Distance from Planet</EN>
-		<FR>Distance de la Planète</FR>
-	</MVUIsatDistFCP>
-	<MVUIspunAttStat>
-		<EN>Attitude Status</EN>
-		<FR>État d'Attitude</FR>
-	</MVUIspunAttStat>
-	<MVUIspunDV>
-		<EN>Current DeltaV</EN>
-		<FR>DeltaV Actuel</FR>
-	</MVUIspunDV>
-	<MVUIspunRMass>
-		<EN>Reaction Mass</EN>
-		<FR>Masse de Réaction</FR>
-	</MVUIspunRMass>
-	<MVUIstarClass>
-		<EN>Star Class</EN>
-		<FR>Classe d'Étoile</FR>
-	</MVUIstarClass>
-	<MVUIstarDiam>
-		<EN>Diameter (Sun=1)</EN>
-		<FR>Diamètre (Soleil=1)</FR>
-	</MVUIstarDiam>
-	<MVUIstarLum>
-		<EN>Luminosity (Sun=1)</EN>
-		<FR>Luminosité (Soleil=1)</FR>
-	</MVUIstarLum>
-	<MVUIstarMass>
-		<EN>Mass (Sun=1)</EN>
-		<FR>Masse (Soleil=1)</FR>
-	</MVUIstarMass>
-	<MVUIstarTemp>
-		<EN>Temperature</EN>
-		<FR>Température</FR>
-	</MVUIstarTemp>
-	<zoneInner>
-		<EN>Inner</EN>
-		<FR>Intérieure</FR>
-	</zoneInner>
-	<zoneInterm>
-		<EN>Intermediate</EN>
-		<FR>Intermédiaire</FR>
-	</zoneInterm>
-	<zoneOuter>
-		<EN>Outer</EN>
-		<FR>Extérieure</FR>
-	</zoneOuter>
-	<!-- ********** MAIN MENU ********** -->
-	<!-- Main Menu / Game -->
-	<FCWM_MainMenu_Game>
-		<EN>Game</EN>
-    	<FR>Jeu</FR>
-    	<GE>Spiel</GE>
-    	<SPA>Juego</SPA>
-	</FCWM_MainMenu_Game>
-		<!-- Main Menu / Game / New -->
-		<FCWM_MainMenu_Game_New>
- 			<EN>New Game</EN>
-	    	<FR>Nouvelle Partie</FR>
-	    	<GE>Neu Partie</GE>
-	    	<SPA>Nueva Partida</SPA>
-		</FCWM_MainMenu_Game_New>
-		<!-- Main Menu / Game / Continue -->
-		<FCWM_MainMenu_Game_Cont>
-			<EN>Continue Game</EN>
-			<FR>Continuer la Partie</FR>
-		</FCWM_MainMenu_Game_Cont>
-		<!-- Main Menu / Game / Save -->
-		<FCWM_MMenu_G_Save>
-			<EN>Save Game</EN>
-			<FR>Sauvegarder la Partie</FR>
-		</FCWM_MMenu_G_Save>
-		<!-- Main Menu / Game / Flush Older Files -->
-		<FCWM_MMenu_G_FlushOld>
-			<EN>Save and Cleanup All Other Files</EN>
-			<FR>Sauvegarder et Effacer Tout les Autres Fichiers</FR>
-		</FCWM_MMenu_G_FlushOld>
-		<!-- Main Menu / Game / Quit -->
-		<FCWM_MainMenu_Game_Quit>
- 			<EN>Quit</EN>
-	    	<FR>Quitter</FR>
-			<SPA>Salir</SPA>
-		</FCWM_MainMenu_Game_Quit>
-	<!-- Main Menu / Options -->
-  	<FCWM_MainMenu_Options>
-   	<EN>Options</EN>
+   <FCWM_3dMainGrp.Upd>
+      <EN>Updating...</EN>
+      <FR>Mise à Jour...</FR>
+   </FCWM_3dMainGrp.Upd>
+   <FCWM_3dMainGrp.SSys>
+      <EN>[Stellar System:</EN>
+      <FR>[Système Stellaire:</FR>
+   </FCWM_3dMainGrp.SSys>
+   <FCWM_3dMainGrp.Star>
+      <EN>[Star:</EN>
+      <FR>[Etoile:</FR>
+   </FCWM_3dMainGrp.Star>
+   <!-- ********** MAIN 3D VIEW UI ******* -->
+   <MVUIcpsCVS>
+      <EN>Credit Line               CVS               Time Left</EN>
+      <FR>Ligne de Crédit            CVS          Temps Restant</FR>
+   </MVUIcpsCVS>
+   <MVUIoobjAlb>
+      <EN>Albedo</EN>
+      <FR>Albédo</FR>
+   </MVUIoobjAlb>
+   <MVUIoobjAxTilt>
+      <EN>Axial Tilt</EN>
+      <FR>Inclinaison d'Axe</FR>
+   </MVUIoobjAxTilt>
+   <MVUIoobjDens>
+      <EN>Density</EN>
+      <FR>Densité</FR>
+   </MVUIoobjDens>
+   <MVUIoobjDiam>
+      <EN>Diameter</EN>
+      <FR>Diamètre</FR>
+   </MVUIoobjDiam>
+   <MVUIoobjDistFSt>
+      <EN>Distance From Star</EN>
+      <FR>Distance de l'Étoile</FR>
+   </MVUIoobjDistFSt>
+   <MVUIoobjEcc>
+      <EN>Orbit Eccentricity</EN>
+      <FR>Eccentricité d'Orbite</FR>
+   </MVUIoobjEcc>
+   <MVUIoobjEscVel>
+      <EN>Escape Velocity</EN>
+      <FR>Vélocité d'Evasion</FR>
+   </MVUIoobjEscVel>
+   <MVUIoobjGeophyDatH>
+      <EN>Geophysical Data</EN>
+      <FR>Données Géophysiques</FR>
+   </MVUIoobjGeophyDatH>
+   <MVUIoobjGrav>
+      <EN>Gravity</EN>
+      <FR>Gravité</FR>
+   </MVUIoobjGrav>
+   <MVUIoobjMagF>
+      <EN>Magnetic Field</EN>
+      <FR>Champs Magnétique</FR>
+   </MVUIoobjMagF>
+   <MVUIoobjMass>
+      <EN>Mass (Rel. to Earth)</EN>
+      <FR>Mass (Rel. à la Terre)</FR>
+   </MVUIoobjMass>
+   <MVUIoobjOOType>
+      <EN>Orbital Object Type</EN>
+      <FR>Type d'Objet Orbital</FR>
+   </MVUIoobjOOType>
+   <MVUIoobjOrbDatH>
+      <EN>Orbital Data</EN>
+      <FR>Données Orbitales</FR>
+   </MVUIoobjOrbDatH>
+   <MVUIoobjOrbZone>
+      <EN>Orbital Zone</EN>
+      <FR>Zone Orbitale</FR>
+   </MVUIoobjOrbZone>
+   <MVUIoobjRevPer>
+      <EN>Revolution Period</EN>
+      <FR>Période de Révolution</FR>
+   </MVUIoobjRevPer>
+   <MVUIoobjRotPer>
+      <EN>Rotation Period</EN>
+      <FR>Période de Rotation</FR>
+   </MVUIoobjRotPer>
+   <MVUIoobjSat>
+      <EN>Number of Satellites</EN>
+      <FR>Nombre de Satellites</FR>
+   </MVUIoobjSat>
+   <MVUIoobjTidLckd>
+      <EN>Tidally Locked</EN>
+      <FR>Vérouillé par les Forces de Marées</FR>
+   </MVUIoobjTidLckd>
+   <MVUIsatDistFCP>
+      <EN>Distance from Planet</EN>
+      <FR>Distance de la Planète</FR>
+   </MVUIsatDistFCP>
+   <MVUIspunAttStat>
+      <EN>Attitude Status</EN>
+      <FR>État d'Attitude</FR>
+   </MVUIspunAttStat>
+   <MVUIspunDV>
+      <EN>Current DeltaV</EN>
+      <FR>DeltaV Actuel</FR>
+   </MVUIspunDV>
+   <MVUIspunRMass>
+      <EN>Reaction Mass</EN>
+      <FR>Masse de Réaction</FR>
+   </MVUIspunRMass>
+   <MVUIstarClass>
+      <EN>Star Class</EN>
+      <FR>Classe d'Étoile</FR>
+   </MVUIstarClass>
+   <MVUIstarDiam>
+      <EN>Diameter (Sun=1)</EN>
+      <FR>Diamètre (Soleil=1)</FR>
+   </MVUIstarDiam>
+   <MVUIstarLum>
+      <EN>Luminosity (Sun=1)</EN>
+      <FR>Luminosité (Soleil=1)</FR>
+   </MVUIstarLum>
+   <MVUIstarMass>
+      <EN>Mass (Sun=1)</EN>
+      <FR>Masse (Soleil=1)</FR>
+   </MVUIstarMass>
+   <MVUIstarTemp>
+      <EN>Temperature</EN>
+      <FR>Température</FR>
+   </MVUIstarTemp>
+   <zoneInner>
+      <EN>Inner</EN>
+      <FR>Intérieure</FR>
+   </zoneInner>
+   <zoneInterm>
+      <EN>Intermediate</EN>
+      <FR>Intermédiaire</FR>
+   </zoneInterm>
+   <zoneOuter>
+      <EN>Outer</EN>
+      <FR>Extérieure</FR>
+   </zoneOuter>
+   <!-- ********** MAIN MENU ********** -->
+   <!-- Main Menu / Game -->
+   <FCWM_MainMenu_Game>
+      <EN>Game</EN>
+       <FR>Jeu</FR>
+       <GE>Spiel</GE>
+       <SPA>Juego</SPA>
+   </FCWM_MainMenu_Game>
+      <!-- Main Menu / Game / New -->
+      <FCWM_MainMenu_Game_New>
+          <EN>New Game</EN>
+          <FR>Nouvelle Partie</FR>
+          <GE>Neu Partie</GE>
+          <SPA>Nueva Partida</SPA>
+      </FCWM_MainMenu_Game_New>
+      <!-- Main Menu / Game / Continue -->
+      <FCWM_MainMenu_Game_Cont>
+         <EN>Continue Game</EN>
+         <FR>Continuer la Partie</FR>
+      </FCWM_MainMenu_Game_Cont>
+      <!-- Main Menu / Game / Save -->
+      <FCWM_MMenu_G_Save>
+         <EN>Save Game</EN>
+         <FR>Sauvegarder la Partie</FR>
+      </FCWM_MMenu_G_Save>
+      <!-- Main Menu / Game / Flush Older Files -->
+      <FCWM_MMenu_G_FlushOld>
+         <EN>Save and Cleanup All Other Files</EN>
+         <FR>Sauvegarder et Effacer Tout les Autres Fichiers</FR>
+      </FCWM_MMenu_G_FlushOld>
+      <!-- Main Menu / Game / Quit -->
+      <FCWM_MainMenu_Game_Quit>
+          <EN>Quit</EN>
+          <FR>Quitter</FR>
+         <SPA>Salir</SPA>
+      </FCWM_MainMenu_Game_Quit>
+   <!-- Main Menu / Options -->
+     <FCWM_MainMenu_Options>
+      <EN>Options</EN>
     <FR>Options</FR>
-	<SPA>Opciones</SPA>
-  	</FCWM_MainMenu_Options>
-  		<!-- Main Menu / Options / Language -->
-		<FCWM_MainMenu_Options_Lang>
- 			<EN>Language</EN>
- 			<FR>Langue</FR>
- 			<SPA>Lengua</SPA>
-		</FCWM_MainMenu_Options_Lang>
-			<!-- Main Menu / Options / Language / English -->
-			<FCWM_MainMenu_Options_Lang_EN>
-				<EN>English</EN>
-				<FR>Anglais</FR>
-				<SPA>Inglés</SPA>
-			</FCWM_MainMenu_Options_Lang_EN>
-			<!-- Main Menu / Language / French -->
-			<FCWM_MainMenu_Options_Lang_FR>
-				<EN>French</EN>
-				<FR>Francais</FR>
-				<SPA>Francés</SPA>
-			</FCWM_MainMenu_Options_Lang_FR>
-		<!-- Main Menu / Options / Panels Location -->
-		<FCWM_MMenu_O_Loc>
- 			<EN>Panels Locations Saving</EN>
- 			<FR>Sauvegarde des Placements des Panneaux</FR>
-		</FCWM_MMenu_O_Loc>
+   <SPA>Opciones</SPA>
+     </FCWM_MainMenu_Options>
+        <!-- Main Menu / Options / Language -->
+      <FCWM_MainMenu_Options_Lang>
+          <EN>Language</EN>
+          <FR>Langue</FR>
+          <SPA>Lengua</SPA>
+      </FCWM_MainMenu_Options_Lang>
+         <!-- Main Menu / Options / Language / English -->
+         <FCWM_MainMenu_Options_Lang_EN>
+            <EN>English</EN>
+            <FR>Anglais</FR>
+            <SPA>Inglés</SPA>
+         </FCWM_MainMenu_Options_Lang_EN>
+         <!-- Main Menu / Language / French -->
+         <FCWM_MainMenu_Options_Lang_FR>
+            <EN>French</EN>
+            <FR>Francais</FR>
+            <SPA>Francés</SPA>
+         </FCWM_MainMenu_Options_Lang_FR>
+      <!-- Main Menu / Options / Panels Location -->
+      <FCWM_MMenu_O_Loc>
+          <EN>Panels Locations Saving</EN>
+          <FR>Sauvegarde des Placements des Panneaux</FR>
+      </FCWM_MMenu_O_Loc>
          <!-- Main Menu / Options / Help -->
          <FCWM_MMenu_O_LocHelp>
             <EN>Help</EN>
@@ -1290,479 +1290,479 @@
             <EN>Viability Objectives</EN>
             <FR>Objectifs de Viabilité</FR>
          </FCWM_MMenu_O_LocVObj>
-		<!-- Main Menu / Options / WideScreen Background -->
-		<FCWM_MMenu_O_WideScr>
-			<EN>Widescreen Background</EN>
-			<FR>Fond Écran Large</FR>
-		</FCWM_MMenu_O_WideScr>
-		<!-- Main Menu / Options / Standard Textures Resolution -->
-		<FCWM_MMenu_O_TexR>
-			<EN>Standard Textures Resolution</EN>
-			<FR>Résolution des Textures Standard</FR>
-		</FCWM_MMenu_O_TexR>
-	<!-- Main Menu / Debug Tools -->
-	<FCWM_MMenu_DebTools>
-		<EN>Debug Tools</EN>
-		<FR>Outils de Debug</FR>
-	</FCWM_MMenu_DebTools>
-		<!-- Main Menu / Debug Tools / FUG -->
-		<FCWM_MMenu_DTFUG>
-			<EN>FARC Universe Generator</EN>
-			<FR>Generateur d'Univers de FARC</FR>
-		</FCWM_MMenu_DTFUG>
-		<!-- Main Menu / Debug Tools / Reload Text Files -->
-		<FCWM_MMenu_DTreloadTfiles>
-			<EN>Reload Text Files (WARNING)</EN>
-			<FR>Recharge les Fichiers Texte (ATTENTION)</FR>
-		</FCWM_MMenu_DTreloadTfiles>
-		<!-- Main Menu / Debug Tools / FUG -->
-		<FCWM_MMenu_DT_FUG>
-			<EN>FARC Universe Generator</EN>
-			<FR>FARC Générateur d'Univers</FR>
-		</FCWM_MMenu_DT_FUG>
-	<!-- Main Menu / Help -->
-  	<FCWM_MMenu_Help>
-    	<EN>Help</EN>
-    	<FR>Aide</FR>
-		<SPA>Ayuda</SPA>	
-  	</FCWM_MMenu_Help>
-  		<!-- Main Menu / Help / Help Panel -->
-  		<FCWM_MMenu_H_HPanel>
-  			<EN>Help Panel Popup</EN>
-  			<FR>Popup le Panneau d'Aide</FR>
-  		</FCWM_MMenu_H_HPanel>
-		<!-- Main Menu / Help / About -->
-	  	<FCWM_MMenu_H_About>
-	    	<EN>About</EN>
-	    	<FR>A Propos de</FR>
-	  	</FCWM_MMenu_H_About>
-	<!-- ********** MESSAGES ********** 
-		case of expedition/colonization mode:
-		<state expedition/norac>
-		03.En tant qu'expedition montée par la CONAM, l'objectif de la colonie est de devenir une plateforme industrielle stable et à long terme. Afin de fournir diverses ressources à la Coalition.
-		<private expedition/norac>
-		03.en tant qu'Expedition à titre privé, une nouvelle aventure dans un monde nouveau s'ouvre aux colons.
-		<br>
-		end.C'est ainsi que la première journée de la colonie débute. Celle-ci nécessite d'être maintenant deployée sur ses nouvelles terres.
-		-
-	-->
-	<!-- Introduction message -->
-	<MSG_IntroHead>
-		<EN>New Game Introduction and Goals</EN>
-		<FR>Introduction de Nouvelle Partie et Objectifs</FR>
-	</MSG_IntroHead>
-	<MSG_Intro1>
-		<EN>Welcome to FAR Colony.&#60;br&#62;After a long travel, the expedition set by </EN>
-		<FR>Bienvenue à FAR Colony.&#60;br&#62;Après un long voyage, l'expédition mise en place par </FR>
-	</MSG_Intro1>
-	<MSG_Intro2>
-		<EN> arrives in orbit of the planet &#60;b&#62;</EN>
-		<FR> arrive en orbite de la planète &#60;b&#62;</FR>
-	</MSG_Intro2>
-	<MSG_Intro3>
-		<EN>&#60;/b&#62; located in orbit of the star &#60;b&#62;</EN>
-		<FR>&#60;/b&#62; située en orbite de l'étoile &#60;b&#62;</FR>
-	</MSG_Intro3>
-	<MSG_Intro4>
-		<EN>&#60;/b&#62; , in the &#60;b&#62;</EN>
-		<FR>&#60;/b&#62; , dans le système stellaire &#60;b&#62;</FR>
-	</MSG_Intro4>
-	<MSG_Intro5>
-		<EN>&#60;/b&#62; star system.</EN>
-		<FR>&#60;/b&#62; .</FR>
-	</MSG_Intro5>
-	<MSG_IntroCMend>
-		<EN>As a player you'll have to obtain the best viability score, during the colonization phase of the first colony, by trying to complete the different colonization objectives. The different status of these objectives are described in the second message.&#60;br&#62;The Colonization Phase itself have a duration of 1 standard year (365 standard days).&#60;br&#62;Good luck !</EN>
-		<FR>En tant que joueur vous devrez obtenir le meilleur score de viabilité, pendant la phase de colonisation de la première colonie, en essayant de complèter les différents objectifs de colonisation. Les différents statut de ces objectifs sont décrits dans le deuxième message.&#60;br&#62;Le Colonization Phase elle-même a une durée de 1 année standard (365 jours standard).&#60;br&#62;Bonne chance !</FR>
-	</MSG_IntroCMend>
-	<MSG_IntroCMmun>
-		<EN>The future &#60;b&#62;Autonomous Remote Colony (ARC)&#60;/b&#62;, such an extension of the Unity, will have to stay sustainable on long term, and even if it can't become completely independent, the range of allowed actions is wide.</EN>
-		<FR>La future &#60;b&#62;Colonie Autonome Lointaine (ARC)&#60;/b&#62;, telle une extension de l'Unité, devra rester durable sur le long terme, et même si elle ne peut pas devenir complètement indépendante, la gamme des actions permises est large.</FR>
-	</MSG_IntroCMmun>
-	<MSG_MissColHead>
-		<EN>End of Colonization Mission</EN>
-		<FR>Fin de Mission de Colonisation</FR>
-	</MSG_MissColHead>
-	<MSG_MissCol0>
-		<EN>The Lander Vehicle (LV) &lt;b&gt;</EN>
-		<FR>Le Véhicule Atterrisseur (LV) &lt;b&gt;</FR>
-	</MSG_MissCol0>
-	<MSG_MissCol1>
-		<EN>&lt;/b&gt; has landed on the surface of &lt;b&gt;</EN>
-		<FR>&lt;/b&gt; a atterri sur la surface de &lt;b&gt;</FR>
-	</MSG_MissCol1>
-	<MSG_MissCol2>
-		<EN>&lt;/b&gt; in the region [</EN>
-		<FR>&lt;/b&gt; dans la région [</FR>
-	</MSG_MissCol2>
-	<MSG_MissCol3>
-		<EN>], and the colonist founded the "</EN>
-		<FR>], et les colons ont fondé la colonie "</FR>
-	</MSG_MissCol3>
-	<MSG_MissCol4>
-		<EN>" colony.</EN>
-		<FR>".</FR>
-	</MSG_MissCol4>
-	<MSG_MissCol5>
-		<EN>], and the colonist joined the already existing colony "</EN>
-		<FR>], et les colons ont rejoint la colonie déjà présente de "</FR>
-	</MSG_MissCol5>
-	<MSG_MissCol6>
-		<EN>".</EN>
-		<FR>".</FR>
-	</MSG_MissCol6>
-	<MSG_MissITHead>
-		<EN>End of Interplanetary Transit</EN>
-		<FR>Fin de Transit Interplanétaire</FR>
-	</MSG_MissITHead>
-	<MSG_MissIT0>
-		<EN>The space unit &lt;b&gt;</EN>
-		<FR>L'unité spatiale &lt;b&gt;</FR>
-	</MSG_MissIT0>
-	<MSG_MissIT1>
-		<EN>&lt;/b&gt; is arrived in orbit of &lt;b&gt;</EN>
-		<FR>&lt;/b&gt; est arrivée en orbite de &lt;b&gt;</FR>
-	</MSG_MissIT1>
-	<MSG_SPMreqHead>
-		<EN>SPM Phase: Requirements Problem</EN>
-		<FR>Phase SPM: Problème de Conditions Requises</FR>
-	</MSG_SPMreqHead>
-	<MSG_SPMreq0>
-		<EN>The meme </EN>
-		<FR>Le meme </FR>
-	</MSG_SPMreq0>
-	<MSG_SPMreq1>
-		<EN>The policy </EN>
-		<FR>La politique </FR>
-	</MSG_SPMreq1>
-	<MSG_SPMreq2>
-		<EN>doesn't meet anymore at least one requirement, and is no more enforced now.&lt;br&gt;Please refer yourself to the UMI/Faction tab/Policy Enforcement sub-tab for see what requirement isn't met.</EN>
-		<FR>ne rencontre plus au moins une condition requise, et n'est maintenant plus appliqué(e).&lt;br&gt;S'il-vous-plait référez-vous à l'UMI/tab Faction/Application de Politique pour voir quelle condition requise n'est pas rencontrée.</FR>
-	</MSG_SPMreq2>
-	<!-- ********** MISSIONS SETUP WINDOW ********** -->
-	<FCWinMissSet>
-		<EN>Mission Setup: </EN>
-		<FR>Mise en Place de Mission: </FR>
-	</FCWinMissSet>
-		<!-- Mission Setup Window / Mission Configuration GroupBox -->
-		<FCWMS_Grp_MCG>
-			<EN>Mission Configuration</EN>
-			<FR>Configuration de Mission</FR>
-		</FCWMS_Grp_MCG>
-				<MCGColCVSel>
-					<EN>Colonization LV Used</EN>
-					<FR>LV de Colonisation Utilisés</FR>
-				</MCGColCVSel>
-				<MCGtransSpd>
-					<EN>Transit Flight Selector</EN>
-					<FR>Selecteur de Vol de Transit</FR>
-				</MCGtransSpd>
-				<!-- Mission Setup Window / Mission Configuration GroupBox / Trackbar -->
-				<FCWMS_Grp_MCG_RMassTrackITransEco>
-					<EN>Economic Transit Flight</EN>
-					<FR>Vol de Transit Economique</FR>
-				</FCWMS_Grp_MCG_RMassTrackITransEco>
-				<FCWMS_Grp_MCG_RMassTrackITransSlow>
-					<EN>Slow Transit Flight</EN>
-					<FR>Vol de Transit Lent</FR>
-				</FCWMS_Grp_MCG_RMassTrackITransSlow>
-				<FCWMS_Grp_MCG_RMassTrackITransFast>
-					<EN>Fast Transit Flight</EN>
-					<FR>Vol de Transit Rapide</FR>
-				</FCWMS_Grp_MCG_RMassTrackITransFast>
-				<!-- Mission Setup Window / Mission Configuration GroupBox / Settlements -->
-				<FCWMS_Grp_MCG_SetName>
-					<EN>Settlement's Name</EN>
-					<FR>Nom de la Communeauté</FR>
-				</FCWMS_Grp_MCG_SetName>
-				<FCWMS_Grp_MCG_SetType0>
-					<EN>Surface Settlement</EN>
-					<FR>Communeauté de Surface</FR>
-				</FCWMS_Grp_MCG_SetType0>
-				<FCWMS_Grp_MCG_SetType1>
-					<EN>Space Surface Settlement</EN>
-					<FR>Communeauté Spatiale de Surface</FR>
-				</FCWMS_Grp_MCG_SetType1>
-				<FCWMS_Grp_MCG_SetType2>
-					<EN>Subterranean Settlement</EN>
-					<FR>Communeauté Souterraine</FR>
-				</FCWMS_Grp_MCG_SetType2>
-				<FCWMS_Grp_MCG_SetType3>
-					<EN>Space-Based Settlement</EN>
-					<FR>Communeauté Spatiale</FR>
-				</FCWMS_Grp_MCG_SetType3>
-				<!-- Mission Setup Window / Mission Configuration GroupBox / Mission Configuration Data -->
-				<!-- Mission Configuration Data Header -->
-				<MCGDatHead>
-					<EN>Configuration Results</EN>
-					<FR>Résultats de Configuration</FR>
-				</MCGDatHead>
-				<!-- Mission Configuration Data -->
-				<MCGDatAccel>
-					<EN>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Acceleration&#60;/b&#62;&#60;/font&#62;</EN>
-					<FR>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Accelération&#60;/b&#62;&#60;/font&#62;</FR>
-				</MCGDatAccel>
-				<MCGatmEntDV>
-					<EN>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Atmosphere Entry &#60;font face=&#34;symbol&#34;&#62;D&#60;/font&#62;V&#60;/b&#62;&#60;/font&#62;</EN>
-					<FR>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;&#60;font face=&#34;symbol&#34;&#62;D&#60;/font&#62;V d'Entrée Atmosphèrique&#60;/b&#62;&#60;/font&#62;</FR>
-				</MCGatmEntDV>
-				<MCGDatCruiseDV>
-					<EN>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Cruise &#60;font face=&#34;symbol&#34;&#62;D&#60;/font&#62;V&#60;/b&#62;&#60;/font&#62;</EN>
-					<FR>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;&#60;font face=&#34;symbol&#34;&#62;D&#60;/font&#62;V de Croisière&#60;/b&#62;&#60;/font&#62;</FR>
-				</MCGDatCruiseDV>
-				<MCGDatFinalDV>
-					<EN>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Final &#60;font face=&#34;symbol&#34;&#62;D&#60;/font&#62;V&#60;/b&#62;&#60;/font&#62;</EN>
-					<FR>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;&#60;font face=&#34;symbol&#34;&#62;D&#60;/font&#62;V Final&#60;/b&#62;&#60;/font&#62;</FR>
-				</MCGDatFinalDV>
-				<MCGDatNA>
-					<EN>Not Applicable !&#60;br&#62;Not Enough Reaction Mass</EN>
-					<FR>Non Applicable !&#60;br&#62;Pas Assez de Masse de Réaction</FR>
-				</MCGDatNA>
-				<MCGDatMaxTime>
-					<EN>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Max. ETA&#60;/b&#62;&#60;/font&#62;</EN>
-					<FR>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Max. TEA&#60;/b&#62;&#60;/font&#62;</FR>
-				</MCGDatMaxTime>
-				<MCGDatMinTime>
-					<EN>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Min. ETA&#60;/b&#62;&#60;/font&#62;</EN>
-					<FR>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Min. TEA&#60;/b&#62;&#60;/font&#62;</FR>
-				</MCGDatMinTime>
-				<MCGDatTripTime>
-					<EN>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Trip Time&#60;/b&#62;&#60;/font&#62;</EN>
-					<FR>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Temps de Voyage&#60;/b&#62;&#60;/font&#62;</FR>
-				</MCGDatTripTime>
-				<MCGDatUsdRM>
-					<EN>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Used Reaction Mass&#60;/b&#62;&#60;/font&#62;</EN>
-					<FR>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Masse de Réaction Utilisée&#60;/b&#62;&#60;/font&#62;</FR>
-				</MCGDatUsdRM>
-		<Mission.coloniz>
-			<EN>Colonization</EN>
-			<FR>Colonisation</FR>
-		</Mission.coloniz>
-		<Mission.itransit>
-			<EN>Interplanetary Transit</EN>
-			<FR>Transit Interplanétaire</FR>
-		</Mission.itransit>
-		<!-- Mission Setup Window / Mission Data GroupBox -->
-		<FCWMS_Grp_MSDG>
-			<EN>Mission Data</EN>
-			<FR>Données de Mission</FR>
-		</FCWMS_Grp_MSDG>
-			<!-- Mission Setup Window / Mission Data / Space unit id and status -->
-			<MSDGspUnIdStat>
-				<EN>Space Unit Id. And Status</EN>
-				<FR>Id. et Status de l'Unité Spatiale</FR>
-			</MSDGspUnIdStat>
-			<MSDGmotherSpUnIdStat>
-				<EN>Mother-Vessel Id. And Status</EN>
-				<FR>Id. et Status du Vaisseau-Mère</FR>
-			</MSDGmotherSpUnIdStat>
-			<!-- Mission Setup Window / Mission Data / Current DeltaV and Remaining RMass -->
-			<MSDGcurDV>
-				<EN>Current &#60;font face=&#34;symbol&#34;&#62;D&#60;/font&#62;V</EN>
-				<FR>&#60;font face=&#34;symbol&#34;&#62;D&#60;/font&#62;V Actuel</FR>
-			</MSDGcurDV>
-			<MSDGremRMass>
-				<EN>Remaining Reaction Mass</EN>
-				<FR>Masse de Réaction Restante</FR>
-			</MSDGremRMass>
-			<!-- Mission Setup Window / Mission Data / Current Destination -->
-			<MSDGcurDest>
-				<EN>Current Destination</EN>
-				<FR>Destination Actuelle</FR>
-			</MSDGcurDest>
-			<MSDGcurDestNone>
-				<EN>None (destination same as origin)</EN>
-				<FR>Aucune (destination identique à l'origine)</FR>
-			</MSDGcurDestNone>
-			<MSDGcurRegDestNone>
-				<EN>None (please select a region)</EN>
-				<FR>Aucune (svp veuillez sélectionner une région)</FR>
-			</MSDGcurRegDestNone>
-			<MSDGdistAtm>
-				<EN>Distance to Atmosphere Entry</EN>
-				<FR>Distance vers l'Entrée Atmosphèrique</FR>
-			</MSDGdistAtm>
-			<!-- Mission Setup Window / Mission Data / Destination Intercept Course -->
-			<MSDGdesIntC>
-				<EN>Destination Intercept Course</EN>
-				<FR>Route d'Interception de la Destination</FR>
-			</MSDGdesIntC>
-			<MSDGdesIntCdist>
-				<EN>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Distance&#60;/b&#62;&#60;/font&#62;</EN>
-				<FR>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Distance&#60;/b&#62;&#60;/font&#62;</FR>
-			</MSDGdesIntCdist>
-			<MSDGdestIntCminDV>
-				<EN>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Min. Required&#60;font face=&#34;symbol&#34;&#62;D&#60;/font&#62;V&#60;/b&#62;&#60;/font&#62;</EN>
-				<FR>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;&#60;font face=&#34;symbol&#34;&#62;D&#60;/font&#62;V Min. Requis&#60;/b&#62;&#60;/font&#62;</FR>
-			</MSDGdestIntCminDV>
-  	<!-- ********** NEW GAME SETUP WINDOW ********** -->
-  	<FCWNGS_Frame>
-    	<EN>New Game Setup [Esc.: quit  Enter: proceed]</EN>
-    	<FR>Configuration de Nouvelle Partie [Esc.: quitter  Entrée: procéder]</FR>
-  	</FCWNGS_Frame>
-	  	<FCWNGS_Frm_ColMode>
-	  		<EN>Colonization Mode</EN>
-	  		<FR>Mode de Colonisation</FR>
-	  	</FCWNGS_Frm_ColMode>
-	  	<FCWNGS_Frm_DPad_SheetCol>
-	    	<EN>Colonization Politics</EN>
-	    	<FR>Politique de Colonisation</FR>
-	  	</FCWNGS_Frm_DPad_SheetCol>
-	  	<FCWNGS_Frm_DPad_SheetDotList>
-	    	<EN>Equipment List</EN>
-	    	<FR>Liste d'Equipement</FR>
-	  	</FCWNGS_Frm_DPad_SheetDotList>
-	  	<FCWNGS_Frm_DPad_SheetHisto>
-	    	<EN>Description</EN>
-	    	<FR>Description</FR>
-	  	</FCWNGS_Frm_DPad_SheetHisto>
-	  	<FCWNGS_Frm_DPad_SheetSPM>
-	  		<EN>Socio-Policital Matrix</EN>
-	  		<FR>Matrice Socio-Politique</FR>
-	  	</FCWNGS_Frm_DPad_SheetSPM>
-	  	<FCWNGS_Frm_GNameEditEditLabel>
-	    	<EN>Enter a Game Name (5 characters min.)</EN>
-	    	<FR>Entrez un Nom de Partie (5 caractères min)</FR>
-	  	</FCWNGS_Frm_GNameEditEditLabel>
-	<!-- ********** ORBITAL OBJECTS TYPES ********** -->
-	<oobtpAster_Carbo>
-		<EN>Carbonaceous Asteroid</EN>
-		<FR>Astéroïde Carbonifère</FR>
-	</oobtpAster_Carbo>
-	<oobtpAster_Icy>
-		<EN>Icy Asteroid</EN>
-		<FR>Astéroïde Glaciaire</FR>
-	</oobtpAster_Icy>
-	<oobtpAster_Metall>
-		<EN>Metallic Asteroid </EN>
-		<FR>Astéroïde Metallique</FR>
-	</oobtpAster_Metall>
-	<oobtpAster_Sili>
-		<EN>Silicate Asteroid </EN>
-		<FR>Astéroïde Silicate</FR>
-	</oobtpAster_Sili>
-	<oobtpAsterBelt_Carbo>
-		<EN>Asteroids Belt (Carbonaceous)</EN>
-		<FR>Ceinture d'Astéroïdes (Carbonifères)</FR>
-	</oobtpAsterBelt_Carbo>
-	<oobtpAsterBelt_Icy>
-		<EN>Asteroids Belt (Icy)</EN>
-		<FR>Ceinture d'Astéroïdes (Glaciaires)</FR>
-	</oobtpAsterBelt_Icy>
-	<oobtpAsterBelt_Metall>
-		<EN>Asteroids Belt (Métallics)</EN>
-		<FR>Ceinture d'Astéroïdes (Métalliques)</FR>
-	</oobtpAsterBelt_Metall>
-	<oobtpAsterBelt_Sili>
-		<EN>Asteroids Belt (Silicates)</EN>
-		<FR>Ceinture d'Astéroïdes (Silicates)</FR>
-	</oobtpAsterBelt_Sili>
-	<oobtpPlan_Gas>
-		<EN>Gaseous Planet</EN>
-		<FR>Planète Gazeuze</FR>
-	</oobtpPlan_Gas>
-	<oobtpPlan_GasGiant>
-		<EN>Giant Gaseous</EN>
-		<FR>Géante Gazeuze</FR>
-	</oobtpPlan_GasGiant>
-	<oobtpPlan_Icy>
-		<EN>Icy Planet</EN>
-		<FR>Planète Glaciaire</FR>
-	</oobtpPlan_Icy>
-	<oobtpPlan_Jovian>
-		<EN>Jovian Planet</EN>
-		<FR>Planète Jovienne</FR>
-	</oobtpPlan_Jovian>
-	<oobtpPlan_SuperGiant>
-		<EN>Gaseous SuperGiant</EN>
-		<FR>Supergéante Gazeuze</FR>
-	</oobtpPlan_SuperGiant>
-	<oobtpPlan_Tellu>
-		<EN>Telluric Planet</EN>
-		<FR>Planète Tellurique</FR>
-	</oobtpPlan_Tellu>
-	<oobtpProtoDisk>
-		<EN>Protoplanetary Disk</EN>
-		<FR>Disque Protoplanétaire</FR>
-	</oobtpProtoDisk>
-	<!-- ********** POPUP MENU - FOCUSED OBJECT  ******* -->
-	<FCWM_PMFOcolfacData>
-		<EN>Colony/Faction Data</EN>
-		<FR>Données de la Colonie/Faction</FR>
-	</FCWM_PMFOcolfacData>
-	<FCWM_PMFO_Header_SpUnitOObj.OObj>
-		<EN>Orbital Object Menu</EN>
-		<FR>Menu de l'Objet Orbital</FR>
-	</FCWM_PMFO_Header_SpUnitOObj.OObj>
-	<FCWM_PMFO_Header_SpUnitOObj.SpUnit>
-		<EN>Space Unit Menu</EN>
-		<FR>Menu de l'Unité Spatiale</FR>
-	</FCWM_PMFO_Header_SpUnitOObj.SpUnit>
-		<FCWM_PMFO_DList>
-			<EN>|__Docking List</EN>
-			<FR>|__Liste d'Amarrage</FR>
-		</FCWM_PMFO_DList>
-		<FCWM_PMFO_Data.OObj>
-			<EN>Ecosphere / Surface</EN>
-			<FR>Ecosphère / Surface</FR>
-		</FCWM_PMFO_Data.OObj>
-		<FCWM_PMFO_Data.SpUnit>
-			<EN>---Detailed Data</EN>
-			<FR>---Données Détaillées</FR>
-		</FCWM_PMFO_Data.SpUnit>
-		<FCWM_PMFO_MissCancel>
-			<EN>---Cancel Current Mission</EN>
-			<FR>---Annule la Mission en Cours</FR>
-		</FCWM_PMFO_MissCancel>
-	<FCWM_PMFO_Header_Travel>
-		<EN>Travel Missions</EN>
-		<FR>Missions de Voyage</FR>
-	</FCWM_PMFO_Header_Travel>
-		<FCWM_PMFO_MissITransit>
-			<EN>|__Interplanetary Transit</EN>
-			<FR>|__Transit Interplanétaire</FR>
-		</FCWM_PMFO_MissITransit>
-	<FCWM_PMFO_HeaderSpecMiss>
-		<EN>Specific Missions</EN>
-		<FR>Missions Spécifiques</FR>
-	</FCWM_PMFO_HeaderSpecMiss>
-		<FCWM_PMFO_MissColoniz>
-			<EN>|__Colonization</EN>
-			<FR>|__Colonisation</FR>
-		</FCWM_PMFO_MissColoniz>
-	<!-- ********** PRODUCTS ******* -->
-	<bioAnimalFood>
-		<EN>Animal Food</EN>
-		<FR>Nourriture Animale</FR>
-	</bioAnimalFood>
-	<bioFish>
-		<EN>Fish</EN>
-		<FR>Poisson</FR>
-	</bioFish>
-	<bioFruitsVeg>
-		<EN>Fruits &amp; Vegetables</EN>
-		<FR>Fruits &amp; Légumes</FR>
-	</bioFruitsVeg>
-	<energNucFisRsm>
-		<EN>Nuclear Fission Reactor (small)</EN>
-		<FR>Réacteur à Fission Nucléaire (petit)</FR>
-	</energNucFisRsm>
+      <!-- Main Menu / Options / WideScreen Background -->
+      <FCWM_MMenu_O_WideScr>
+         <EN>Widescreen Background</EN>
+         <FR>Fond Écran Large</FR>
+      </FCWM_MMenu_O_WideScr>
+      <!-- Main Menu / Options / Standard Textures Resolution -->
+      <FCWM_MMenu_O_TexR>
+         <EN>Standard Textures Resolution</EN>
+         <FR>Résolution des Textures Standard</FR>
+      </FCWM_MMenu_O_TexR>
+   <!-- Main Menu / Debug Tools -->
+   <FCWM_MMenu_DebTools>
+      <EN>Debug Tools</EN>
+      <FR>Outils de Debug</FR>
+   </FCWM_MMenu_DebTools>
+      <!-- Main Menu / Debug Tools / FUG -->
+      <FCWM_MMenu_DTFUG>
+         <EN>FARC Universe Generator</EN>
+         <FR>Generateur d'Univers de FARC</FR>
+      </FCWM_MMenu_DTFUG>
+      <!-- Main Menu / Debug Tools / Reload Text Files -->
+      <FCWM_MMenu_DTreloadTfiles>
+         <EN>Reload Text Files (WARNING)</EN>
+         <FR>Recharge les Fichiers Texte (ATTENTION)</FR>
+      </FCWM_MMenu_DTreloadTfiles>
+      <!-- Main Menu / Debug Tools / FUG -->
+      <FCWM_MMenu_DT_FUG>
+         <EN>FARC Universe Generator</EN>
+         <FR>FARC Générateur d'Univers</FR>
+      </FCWM_MMenu_DT_FUG>
+   <!-- Main Menu / Help -->
+     <FCWM_MMenu_Help>
+       <EN>Help</EN>
+       <FR>Aide</FR>
+      <SPA>Ayuda</SPA>   
+     </FCWM_MMenu_Help>
+        <!-- Main Menu / Help / Help Panel -->
+        <FCWM_MMenu_H_HPanel>
+           <EN>Help Panel Popup</EN>
+           <FR>Popup le Panneau d'Aide</FR>
+        </FCWM_MMenu_H_HPanel>
+      <!-- Main Menu / Help / About -->
+        <FCWM_MMenu_H_About>
+          <EN>About</EN>
+          <FR>A Propos de</FR>
+        </FCWM_MMenu_H_About>
+   <!-- ********** MESSAGES ********** 
+      case of expedition/colonization mode:
+      <state expedition/norac>
+      03.En tant qu'expedition montée par la CONAM, l'objectif de la colonie est de devenir une plateforme industrielle stable et à long terme. Afin de fournir diverses ressources à la Coalition.
+      <private expedition/norac>
+      03.en tant qu'Expedition à titre privé, une nouvelle aventure dans un monde nouveau s'ouvre aux colons.
+      <br>
+      end.C'est ainsi que la première journée de la colonie débute. Celle-ci nécessite d'être maintenant deployée sur ses nouvelles terres.
+      -
+   -->
+   <!-- Introduction message -->
+   <MSG_IntroHead>
+      <EN>New Game Introduction and Goals</EN>
+      <FR>Introduction de Nouvelle Partie et Objectifs</FR>
+   </MSG_IntroHead>
+   <MSG_Intro1>
+      <EN>Welcome to FAR Colony.&#60;br&#62;After a long travel, the expedition set by </EN>
+      <FR>Bienvenue à FAR Colony.&#60;br&#62;Après un long voyage, l'expédition mise en place par </FR>
+   </MSG_Intro1>
+   <MSG_Intro2>
+      <EN> arrives in orbit of the planet &#60;b&#62;</EN>
+      <FR> arrive en orbite de la planète &#60;b&#62;</FR>
+   </MSG_Intro2>
+   <MSG_Intro3>
+      <EN>&#60;/b&#62; located in orbit of the star &#60;b&#62;</EN>
+      <FR>&#60;/b&#62; située en orbite de l'étoile &#60;b&#62;</FR>
+   </MSG_Intro3>
+   <MSG_Intro4>
+      <EN>&#60;/b&#62; , in the &#60;b&#62;</EN>
+      <FR>&#60;/b&#62; , dans le système stellaire &#60;b&#62;</FR>
+   </MSG_Intro4>
+   <MSG_Intro5>
+      <EN>&#60;/b&#62; star system.</EN>
+      <FR>&#60;/b&#62; .</FR>
+   </MSG_Intro5>
+   <MSG_IntroCMend>
+      <EN>As a player you'll have to obtain the best viability score, during the colonization phase of the first colony, by trying to complete the different colonization objectives. The different status of these objectives are described in the second message.&#60;br&#62;The Colonization Phase itself have a duration of 1 standard year (365 standard days).&#60;br&#62;Good luck !</EN>
+      <FR>En tant que joueur vous devrez obtenir le meilleur score de viabilité, pendant la phase de colonisation de la première colonie, en essayant de complèter les différents objectifs de colonisation. Les différents statut de ces objectifs sont décrits dans le deuxième message.&#60;br&#62;Le Colonization Phase elle-même a une durée de 1 année standard (365 jours standard).&#60;br&#62;Bonne chance !</FR>
+   </MSG_IntroCMend>
+   <MSG_IntroCMmun>
+      <EN>The future &#60;b&#62;Autonomous Remote Colony (ARC)&#60;/b&#62;, such an extension of the Unity, will have to stay sustainable on long term, and even if it can't become completely independent, the range of allowed actions is wide.</EN>
+      <FR>La future &#60;b&#62;Colonie Autonome Lointaine (ARC)&#60;/b&#62;, telle une extension de l'Unité, devra rester durable sur le long terme, et même si elle ne peut pas devenir complètement indépendante, la gamme des actions permises est large.</FR>
+   </MSG_IntroCMmun>
+   <MSG_MissColHead>
+      <EN>End of Colonization Mission</EN>
+      <FR>Fin de Mission de Colonisation</FR>
+   </MSG_MissColHead>
+   <MSG_MissCol0>
+      <EN>The Lander Vehicle (LV) &lt;b&gt;</EN>
+      <FR>Le Véhicule Atterrisseur (LV) &lt;b&gt;</FR>
+   </MSG_MissCol0>
+   <MSG_MissCol1>
+      <EN>&lt;/b&gt; has landed on the surface of &lt;b&gt;</EN>
+      <FR>&lt;/b&gt; a atterri sur la surface de &lt;b&gt;</FR>
+   </MSG_MissCol1>
+   <MSG_MissCol2>
+      <EN>&lt;/b&gt; in the region [</EN>
+      <FR>&lt;/b&gt; dans la région [</FR>
+   </MSG_MissCol2>
+   <MSG_MissCol3>
+      <EN>], and the colonist founded the "</EN>
+      <FR>], et les colons ont fondé la colonie "</FR>
+   </MSG_MissCol3>
+   <MSG_MissCol4>
+      <EN>" colony.</EN>
+      <FR>".</FR>
+   </MSG_MissCol4>
+   <MSG_MissCol5>
+      <EN>], and the colonist joined the already existing colony "</EN>
+      <FR>], et les colons ont rejoint la colonie déjà présente de "</FR>
+   </MSG_MissCol5>
+   <MSG_MissCol6>
+      <EN>".</EN>
+      <FR>".</FR>
+   </MSG_MissCol6>
+   <MSG_MissITHead>
+      <EN>End of Interplanetary Transit</EN>
+      <FR>Fin de Transit Interplanétaire</FR>
+   </MSG_MissITHead>
+   <MSG_MissIT0>
+      <EN>The space unit &lt;b&gt;</EN>
+      <FR>L'unité spatiale &lt;b&gt;</FR>
+   </MSG_MissIT0>
+   <MSG_MissIT1>
+      <EN>&lt;/b&gt; is arrived in orbit of &lt;b&gt;</EN>
+      <FR>&lt;/b&gt; est arrivée en orbite de &lt;b&gt;</FR>
+   </MSG_MissIT1>
+   <MSG_SPMreqHead>
+      <EN>SPM Phase: Requirements Problem</EN>
+      <FR>Phase SPM: Problème de Conditions Requises</FR>
+   </MSG_SPMreqHead>
+   <MSG_SPMreq0>
+      <EN>The meme </EN>
+      <FR>Le meme </FR>
+   </MSG_SPMreq0>
+   <MSG_SPMreq1>
+      <EN>The policy </EN>
+      <FR>La politique </FR>
+   </MSG_SPMreq1>
+   <MSG_SPMreq2>
+      <EN>doesn't meet anymore at least one requirement, and is no more enforced now.&lt;br&gt;Please refer yourself to the UMI/Faction tab/Policy Enforcement sub-tab for see what requirement isn't met.</EN>
+      <FR>ne rencontre plus au moins une condition requise, et n'est maintenant plus appliqué(e).&lt;br&gt;S'il-vous-plait référez-vous à l'UMI/tab Faction/Application de Politique pour voir quelle condition requise n'est pas rencontrée.</FR>
+   </MSG_SPMreq2>
+   <!-- ********** MISSIONS SETUP WINDOW ********** -->
+   <FCWinMissSet>
+      <EN>Mission Setup: </EN>
+      <FR>Mise en Place de Mission: </FR>
+   </FCWinMissSet>
+      <!-- Mission Setup Window / Mission Configuration GroupBox -->
+      <FCWMS_Grp_MCG>
+         <EN>Mission Configuration</EN>
+         <FR>Configuration de Mission</FR>
+      </FCWMS_Grp_MCG>
+            <MCGColCVSel>
+               <EN>Colonization LV Used</EN>
+               <FR>LV de Colonisation Utilisés</FR>
+            </MCGColCVSel>
+            <MCGtransSpd>
+               <EN>Transit Flight Selector</EN>
+               <FR>Selecteur de Vol de Transit</FR>
+            </MCGtransSpd>
+            <!-- Mission Setup Window / Mission Configuration GroupBox / Trackbar -->
+            <FCWMS_Grp_MCG_RMassTrackITransEco>
+               <EN>Economic Transit Flight</EN>
+               <FR>Vol de Transit Economique</FR>
+            </FCWMS_Grp_MCG_RMassTrackITransEco>
+            <FCWMS_Grp_MCG_RMassTrackITransSlow>
+               <EN>Slow Transit Flight</EN>
+               <FR>Vol de Transit Lent</FR>
+            </FCWMS_Grp_MCG_RMassTrackITransSlow>
+            <FCWMS_Grp_MCG_RMassTrackITransFast>
+               <EN>Fast Transit Flight</EN>
+               <FR>Vol de Transit Rapide</FR>
+            </FCWMS_Grp_MCG_RMassTrackITransFast>
+            <!-- Mission Setup Window / Mission Configuration GroupBox / Settlements -->
+            <FCWMS_Grp_MCG_SetName>
+               <EN>Settlement's Name</EN>
+               <FR>Nom de la Communeauté</FR>
+            </FCWMS_Grp_MCG_SetName>
+            <FCWMS_Grp_MCG_SetType0>
+               <EN>Surface Settlement</EN>
+               <FR>Communeauté de Surface</FR>
+            </FCWMS_Grp_MCG_SetType0>
+            <FCWMS_Grp_MCG_SetType1>
+               <EN>Space Surface Settlement</EN>
+               <FR>Communeauté Spatiale de Surface</FR>
+            </FCWMS_Grp_MCG_SetType1>
+            <FCWMS_Grp_MCG_SetType2>
+               <EN>Subterranean Settlement</EN>
+               <FR>Communeauté Souterraine</FR>
+            </FCWMS_Grp_MCG_SetType2>
+            <FCWMS_Grp_MCG_SetType3>
+               <EN>Space-Based Settlement</EN>
+               <FR>Communeauté Spatiale</FR>
+            </FCWMS_Grp_MCG_SetType3>
+            <!-- Mission Setup Window / Mission Configuration GroupBox / Mission Configuration Data -->
+            <!-- Mission Configuration Data Header -->
+            <MCGDatHead>
+               <EN>Configuration Results</EN>
+               <FR>Résultats de Configuration</FR>
+            </MCGDatHead>
+            <!-- Mission Configuration Data -->
+            <MCGDatAccel>
+               <EN>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Acceleration&#60;/b&#62;&#60;/font&#62;</EN>
+               <FR>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Accelération&#60;/b&#62;&#60;/font&#62;</FR>
+            </MCGDatAccel>
+            <MCGatmEntDV>
+               <EN>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Atmosphere Entry &#60;font face=&#34;symbol&#34;&#62;D&#60;/font&#62;V&#60;/b&#62;&#60;/font&#62;</EN>
+               <FR>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;&#60;font face=&#34;symbol&#34;&#62;D&#60;/font&#62;V d'Entrée Atmosphèrique&#60;/b&#62;&#60;/font&#62;</FR>
+            </MCGatmEntDV>
+            <MCGDatCruiseDV>
+               <EN>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Cruise &#60;font face=&#34;symbol&#34;&#62;D&#60;/font&#62;V&#60;/b&#62;&#60;/font&#62;</EN>
+               <FR>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;&#60;font face=&#34;symbol&#34;&#62;D&#60;/font&#62;V de Croisière&#60;/b&#62;&#60;/font&#62;</FR>
+            </MCGDatCruiseDV>
+            <MCGDatFinalDV>
+               <EN>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Final &#60;font face=&#34;symbol&#34;&#62;D&#60;/font&#62;V&#60;/b&#62;&#60;/font&#62;</EN>
+               <FR>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;&#60;font face=&#34;symbol&#34;&#62;D&#60;/font&#62;V Final&#60;/b&#62;&#60;/font&#62;</FR>
+            </MCGDatFinalDV>
+            <MCGDatNA>
+               <EN>Not Applicable !&#60;br&#62;Not Enough Reaction Mass</EN>
+               <FR>Non Applicable !&#60;br&#62;Pas Assez de Masse de Réaction</FR>
+            </MCGDatNA>
+            <MCGDatMaxTime>
+               <EN>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Max. ETA&#60;/b&#62;&#60;/font&#62;</EN>
+               <FR>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Max. TEA&#60;/b&#62;&#60;/font&#62;</FR>
+            </MCGDatMaxTime>
+            <MCGDatMinTime>
+               <EN>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Min. ETA&#60;/b&#62;&#60;/font&#62;</EN>
+               <FR>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Min. TEA&#60;/b&#62;&#60;/font&#62;</FR>
+            </MCGDatMinTime>
+            <MCGDatTripTime>
+               <EN>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Trip Time&#60;/b&#62;&#60;/font&#62;</EN>
+               <FR>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Temps de Voyage&#60;/b&#62;&#60;/font&#62;</FR>
+            </MCGDatTripTime>
+            <MCGDatUsdRM>
+               <EN>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Used Reaction Mass&#60;/b&#62;&#60;/font&#62;</EN>
+               <FR>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Masse de Réaction Utilisée&#60;/b&#62;&#60;/font&#62;</FR>
+            </MCGDatUsdRM>
+      <Mission.coloniz>
+         <EN>Colonization</EN>
+         <FR>Colonisation</FR>
+      </Mission.coloniz>
+      <Mission.itransit>
+         <EN>Interplanetary Transit</EN>
+         <FR>Transit Interplanétaire</FR>
+      </Mission.itransit>
+      <!-- Mission Setup Window / Mission Data GroupBox -->
+      <FCWMS_Grp_MSDG>
+         <EN>Mission Data</EN>
+         <FR>Données de Mission</FR>
+      </FCWMS_Grp_MSDG>
+         <!-- Mission Setup Window / Mission Data / Space unit id and status -->
+         <MSDGspUnIdStat>
+            <EN>Space Unit Id. And Status</EN>
+            <FR>Id. et Status de l'Unité Spatiale</FR>
+         </MSDGspUnIdStat>
+         <MSDGmotherSpUnIdStat>
+            <EN>Mother-Vessel Id. And Status</EN>
+            <FR>Id. et Status du Vaisseau-Mère</FR>
+         </MSDGmotherSpUnIdStat>
+         <!-- Mission Setup Window / Mission Data / Current DeltaV and Remaining RMass -->
+         <MSDGcurDV>
+            <EN>Current &#60;font face=&#34;symbol&#34;&#62;D&#60;/font&#62;V</EN>
+            <FR>&#60;font face=&#34;symbol&#34;&#62;D&#60;/font&#62;V Actuel</FR>
+         </MSDGcurDV>
+         <MSDGremRMass>
+            <EN>Remaining Reaction Mass</EN>
+            <FR>Masse de Réaction Restante</FR>
+         </MSDGremRMass>
+         <!-- Mission Setup Window / Mission Data / Current Destination -->
+         <MSDGcurDest>
+            <EN>Current Destination</EN>
+            <FR>Destination Actuelle</FR>
+         </MSDGcurDest>
+         <MSDGcurDestNone>
+            <EN>None (destination same as origin)</EN>
+            <FR>Aucune (destination identique à l'origine)</FR>
+         </MSDGcurDestNone>
+         <MSDGcurRegDestNone>
+            <EN>None (please select a region)</EN>
+            <FR>Aucune (svp veuillez sélectionner une région)</FR>
+         </MSDGcurRegDestNone>
+         <MSDGdistAtm>
+            <EN>Distance to Atmosphere Entry</EN>
+            <FR>Distance vers l'Entrée Atmosphèrique</FR>
+         </MSDGdistAtm>
+         <!-- Mission Setup Window / Mission Data / Destination Intercept Course -->
+         <MSDGdesIntC>
+            <EN>Destination Intercept Course</EN>
+            <FR>Route d'Interception de la Destination</FR>
+         </MSDGdesIntC>
+         <MSDGdesIntCdist>
+            <EN>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Distance&#60;/b&#62;&#60;/font&#62;</EN>
+            <FR>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Distance&#60;/b&#62;&#60;/font&#62;</FR>
+         </MSDGdesIntCdist>
+         <MSDGdestIntCminDV>
+            <EN>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Min. Required&#60;font face=&#34;symbol&#34;&#62;D&#60;/font&#62;V&#60;/b&#62;&#60;/font&#62;</EN>
+            <FR>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;&#60;font face=&#34;symbol&#34;&#62;D&#60;/font&#62;V Min. Requis&#60;/b&#62;&#60;/font&#62;</FR>
+         </MSDGdestIntCminDV>
+     <!-- ********** NEW GAME SETUP WINDOW ********** -->
+     <FCWNGS_Frame>
+       <EN>New Game Setup [Esc.: quit  Enter: proceed]</EN>
+       <FR>Configuration de Nouvelle Partie [Esc.: quitter  Entrée: procéder]</FR>
+     </FCWNGS_Frame>
+        <FCWNGS_Frm_ColMode>
+           <EN>Colonization Mode</EN>
+           <FR>Mode de Colonisation</FR>
+        </FCWNGS_Frm_ColMode>
+        <FCWNGS_Frm_DPad_SheetCol>
+          <EN>Colonization Politics</EN>
+          <FR>Politique de Colonisation</FR>
+        </FCWNGS_Frm_DPad_SheetCol>
+        <FCWNGS_Frm_DPad_SheetDotList>
+          <EN>Equipment List</EN>
+          <FR>Liste d'Equipement</FR>
+        </FCWNGS_Frm_DPad_SheetDotList>
+        <FCWNGS_Frm_DPad_SheetHisto>
+          <EN>Description</EN>
+          <FR>Description</FR>
+        </FCWNGS_Frm_DPad_SheetHisto>
+        <FCWNGS_Frm_DPad_SheetSPM>
+           <EN>Socio-Policital Matrix</EN>
+           <FR>Matrice Socio-Politique</FR>
+        </FCWNGS_Frm_DPad_SheetSPM>
+        <FCWNGS_Frm_GNameEditEditLabel>
+          <EN>Enter a Game Name (5 characters min.)</EN>
+          <FR>Entrez un Nom de Partie (5 caractères min)</FR>
+        </FCWNGS_Frm_GNameEditEditLabel>
+   <!-- ********** ORBITAL OBJECTS TYPES ********** -->
+   <oobtpAster_Carbo>
+      <EN>Carbonaceous Asteroid</EN>
+      <FR>Astéroïde Carbonifère</FR>
+   </oobtpAster_Carbo>
+   <oobtpAster_Icy>
+      <EN>Icy Asteroid</EN>
+      <FR>Astéroïde Glaciaire</FR>
+   </oobtpAster_Icy>
+   <oobtpAster_Metall>
+      <EN>Metallic Asteroid </EN>
+      <FR>Astéroïde Metallique</FR>
+   </oobtpAster_Metall>
+   <oobtpAster_Sili>
+      <EN>Silicate Asteroid </EN>
+      <FR>Astéroïde Silicate</FR>
+   </oobtpAster_Sili>
+   <oobtpAsterBelt_Carbo>
+      <EN>Asteroids Belt (Carbonaceous)</EN>
+      <FR>Ceinture d'Astéroïdes (Carbonifères)</FR>
+   </oobtpAsterBelt_Carbo>
+   <oobtpAsterBelt_Icy>
+      <EN>Asteroids Belt (Icy)</EN>
+      <FR>Ceinture d'Astéroïdes (Glaciaires)</FR>
+   </oobtpAsterBelt_Icy>
+   <oobtpAsterBelt_Metall>
+      <EN>Asteroids Belt (Métallics)</EN>
+      <FR>Ceinture d'Astéroïdes (Métalliques)</FR>
+   </oobtpAsterBelt_Metall>
+   <oobtpAsterBelt_Sili>
+      <EN>Asteroids Belt (Silicates)</EN>
+      <FR>Ceinture d'Astéroïdes (Silicates)</FR>
+   </oobtpAsterBelt_Sili>
+   <oobtpPlan_Gas>
+      <EN>Gaseous Planet</EN>
+      <FR>Planète Gazeuze</FR>
+   </oobtpPlan_Gas>
+   <oobtpPlan_GasGiant>
+      <EN>Giant Gaseous</EN>
+      <FR>Géante Gazeuze</FR>
+   </oobtpPlan_GasGiant>
+   <oobtpPlan_Icy>
+      <EN>Icy Planet</EN>
+      <FR>Planète Glaciaire</FR>
+   </oobtpPlan_Icy>
+   <oobtpPlan_Jovian>
+      <EN>Jovian Planet</EN>
+      <FR>Planète Jovienne</FR>
+   </oobtpPlan_Jovian>
+   <oobtpPlan_SuperGiant>
+      <EN>Gaseous SuperGiant</EN>
+      <FR>Supergéante Gazeuze</FR>
+   </oobtpPlan_SuperGiant>
+   <oobtpPlan_Tellu>
+      <EN>Telluric Planet</EN>
+      <FR>Planète Tellurique</FR>
+   </oobtpPlan_Tellu>
+   <oobtpProtoDisk>
+      <EN>Protoplanetary Disk</EN>
+      <FR>Disque Protoplanétaire</FR>
+   </oobtpProtoDisk>
+   <!-- ********** POPUP MENU - FOCUSED OBJECT  ******* -->
+   <FCWM_PMFOcolfacData>
+      <EN>Colony/Faction Data</EN>
+      <FR>Données de la Colonie/Faction</FR>
+   </FCWM_PMFOcolfacData>
+   <FCWM_PMFO_Header_SpUnitOObj.OObj>
+      <EN>Orbital Object Menu</EN>
+      <FR>Menu de l'Objet Orbital</FR>
+   </FCWM_PMFO_Header_SpUnitOObj.OObj>
+   <FCWM_PMFO_Header_SpUnitOObj.SpUnit>
+      <EN>Space Unit Menu</EN>
+      <FR>Menu de l'Unité Spatiale</FR>
+   </FCWM_PMFO_Header_SpUnitOObj.SpUnit>
+      <FCWM_PMFO_DList>
+         <EN>|__Docking List</EN>
+         <FR>|__Liste d'Amarrage</FR>
+      </FCWM_PMFO_DList>
+      <FCWM_PMFO_Data.OObj>
+         <EN>Ecosphere / Surface</EN>
+         <FR>Ecosphère / Surface</FR>
+      </FCWM_PMFO_Data.OObj>
+      <FCWM_PMFO_Data.SpUnit>
+         <EN>---Detailed Data</EN>
+         <FR>---Données Détaillées</FR>
+      </FCWM_PMFO_Data.SpUnit>
+      <FCWM_PMFO_MissCancel>
+         <EN>---Cancel Current Mission</EN>
+         <FR>---Annule la Mission en Cours</FR>
+      </FCWM_PMFO_MissCancel>
+   <FCWM_PMFO_Header_Travel>
+      <EN>Travel Missions</EN>
+      <FR>Missions de Voyage</FR>
+   </FCWM_PMFO_Header_Travel>
+      <FCWM_PMFO_MissITransit>
+         <EN>|__Interplanetary Transit</EN>
+         <FR>|__Transit Interplanétaire</FR>
+      </FCWM_PMFO_MissITransit>
+   <FCWM_PMFO_HeaderSpecMiss>
+      <EN>Specific Missions</EN>
+      <FR>Missions Spécifiques</FR>
+   </FCWM_PMFO_HeaderSpecMiss>
+      <FCWM_PMFO_MissColoniz>
+         <EN>|__Colonization</EN>
+         <FR>|__Colonisation</FR>
+      </FCWM_PMFO_MissColoniz>
+   <!-- ********** PRODUCTS ******* -->
+   <bioAnimalFood>
+      <EN>Animal Food</EN>
+      <FR>Nourriture Animale</FR>
+   </bioAnimalFood>
+   <bioFish>
+      <EN>Fish</EN>
+      <FR>Poisson</FR>
+   </bioFish>
+   <bioFruitsVeg>
+      <EN>Fruits &amp; Vegetables</EN>
+      <FR>Fruits &amp; Légumes</FR>
+   </bioFruitsVeg>
+   <energNucFisRsm>
+      <EN>Nuclear Fission Reactor (small)</EN>
+      <FR>Réacteur à Fission Nucléaire (petit)</FR>
+   </energNucFisRsm>
    <energNucFisRmed>
-		<EN>Nuclear Fission Reactor (medium)</EN>
-		<FR>Réacteur à Fission Nucléaire (moyen)</FR>
-	</energNucFisRmed>
+      <EN>Nuclear Fission Reactor (medium)</EN>
+      <FR>Réacteur à Fission Nucléaire (moyen)</FR>
+   </energNucFisRmed>
    <energNucFisRlg>
-		<EN>Nuclear Fission Reactor (large)</EN>
-		<FR>Réacteur à Fission Nucléaire (large)</FR>
-	</energNucFisRlg>
+      <EN>Nuclear Fission Reactor (large)</EN>
+      <FR>Réacteur à Fission Nucléaire (large)</FR>
+   </energNucFisRlg>
    <energNucFisRxl>
-		<EN>Nuclear Fission Reactor (xlarge)</EN>
-		<FR>Réacteur à Fission Nucléaire (xlarge)</FR>
-	</energNucFisRxl>
-	<energNucPellets>
-		<EN>Nuclear Pellets</EN>
-		<FR>Granules Nucléaires</FR>
-	</energNucPellets>
+      <EN>Nuclear Fission Reactor (xlarge)</EN>
+      <FR>Réacteur à Fission Nucléaire (xlarge)</FR>
+   </energNucFisRxl>
+   <energNucPellets>
+      <EN>Nuclear Pellets</EN>
+      <FR>Granules Nucléaires</FR>
+   </energNucPellets>
    <equipAdvTools>
       <EN>Avanced Tools</EN>
       <FR>Outils Avancés</FR>
@@ -1815,306 +1815,306 @@
       <EN>Power Tools</EN>
       <FR>Outils Electriques</FR>
    </equipPowerTools>
-	<matAluminium>
-		<EN>Aluminium</EN>
-		<FR>Aluminium</FR>
-	</matAluminium>
+   <matAluminium>
+      <EN>Aluminium</EN>
+      <FR>Aluminium</FR>
+   </matAluminium>
    <matCarbComposites>
-		<EN>Carbon Composites</EN>
-		<FR>Composites de Carbone</FR>
-	</matCarbComposites>
+      <EN>Carbon Composites</EN>
+      <FR>Composites de Carbone</FR>
+   </matCarbComposites>
    <matConcrete>
-		<EN>Concrete</EN>
-		<FR>Béton</FR>
-	</matConcrete>
-	<matMWNT>
-		<EN>Multi-Walled Nanotubes (MWNT)</EN>
-		<FR>Nanotubes Multi-Couches (MWNT)</FR>
-	</matMWNT>
-	<matNanocomposites>
-		<EN>Nanocomposites</EN>
-		<FR>Nanocomposites</FR>
-	</matNanocomposites>
-	<matPlastics>
-		<EN>Plastics</EN>
-		<FR>Plastiques</FR>
-	</matPlastics>
-	<matSilicon>
-		<EN>Silicon (Si)</EN>
-		<FR>Silicone (Si)</FR>
-	</matSilicon>
-	<matSteel>
-		<EN>Steel</EN>
-		<FR>Acier</FR>
-	</matSteel>
-	<matSWNT>
-		<EN>Single-Walled Nanotubes (SWNT)</EN>
-		<FR>Nanotubes Simple-Couche (SWNT)</FR>
-	</matSWNT>
-	<matTitanium>
-		<EN>Titanium</EN>
-		<FR>Titane</FR>
-	</matTitanium>
+      <EN>Concrete</EN>
+      <FR>Béton</FR>
+   </matConcrete>
+   <matMWNT>
+      <EN>Multi-Walled Nanotubes (MWNT)</EN>
+      <FR>Nanotubes Multi-Couches (MWNT)</FR>
+   </matMWNT>
+   <matNanocomposites>
+      <EN>Nanocomposites</EN>
+      <FR>Nanocomposites</FR>
+   </matNanocomposites>
+   <matPlastics>
+      <EN>Plastics</EN>
+      <FR>Plastiques</FR>
+   </matPlastics>
+   <matSilicon>
+      <EN>Silicon (Si)</EN>
+      <FR>Silicone (Si)</FR>
+   </matSilicon>
+   <matSteel>
+      <EN>Steel</EN>
+      <FR>Acier</FR>
+   </matSteel>
+   <matSWNT>
+      <EN>Single-Walled Nanotubes (SWNT)</EN>
+      <FR>Nanotubes Simple-Couche (SWNT)</FR>
+   </matSWNT>
+   <matTitanium>
+      <EN>Titanium</EN>
+      <FR>Titane</FR>
+   </matTitanium>
    <resNH3>
-		<EN>Ammonia</EN>
-		<FR>Amoniac</FR>
-	</resNH3>
-	<resAr>
-		<EN>Argon</EN>
-		<FR>Argon</FR>
-	</resAr>
-	<resCarbOre>
-		<EN>Carbonaceous Ore</EN>
-		<FR>Minerais Carbonifère</FR>
-	</resCarbOre>
-	<resH2>
-		<EN>Hydrogen</EN>
-		<FR>Hydrogène</FR>
-	</resH2>
-	<resIcyOre>
-		<EN>Icy Ore</EN>
-		<FR>Minerais de Glace</FR>
-	</resIcyOre>
-	<resLiveAni>
-		<EN>Live Animals</EN>
-		<FR>Animaux Vivants</FR>
-	</resLiveAni>
-	<resMetalOre>
-		<EN>Metallic Ore</EN>
-		<FR>Minerais Métallique</FR>
-	</resMetalOre>
-	<resCH4>
-		<EN>Methane</EN>
-		<FR>Méthane</FR>
-	</resCH4>
-	<resN2>
-		<EN>Nitrogen</EN>
-		<FR>Nitrogène</FR>
-	</resN2>
-	<resO2>
-		<EN>Oxygen</EN>
-		<FR>Oxygène</FR>
-	</resO2>
-	<resRareMetOre>
-		<EN>Rare Metals Ore</EN>
-		<FR>Minerais de Métaux Rares</FR>
-	</resRareMetOre>
-	<resRock>
-		<EN>Rock</EN>
-		<FR>Roche</FR>
-	</resRock>
-	<resSolidWastes>
-		<EN>Solid Wastes</EN>
-		<FR>Déchets Solides</FR>
-	</resSolidWastes>
-	<resUrOre>
-		<EN>Uranium Ore</EN>
-		<FR>Minerais d'Uranium</FR>
-	</resUrOre>
-	<resWater>
-		<EN>Water</EN>
-		<FR>Eau</FR>
-	</resWater>
-	<!-- ********** SPACE UNIT ARCHITECTURE ********** -->
-	<scarchtpDSV>
-		<EN>Deep-Space Vehicle (DSV)</EN>
-		<FR>Véhicule en Espace Profond (DSV)</FR>
-	</scarchtpDSV>
+      <EN>Ammonia</EN>
+      <FR>Amoniac</FR>
+   </resNH3>
+   <resAr>
+      <EN>Argon</EN>
+      <FR>Argon</FR>
+   </resAr>
+   <resCarbOre>
+      <EN>Carbonaceous Ore</EN>
+      <FR>Minerais Carbonifère</FR>
+   </resCarbOre>
+   <resH2>
+      <EN>Hydrogen</EN>
+      <FR>Hydrogène</FR>
+   </resH2>
+   <resIcyOre>
+      <EN>Icy Ore</EN>
+      <FR>Minerais de Glace</FR>
+   </resIcyOre>
+   <resLiveAni>
+      <EN>Live Animals</EN>
+      <FR>Animaux Vivants</FR>
+   </resLiveAni>
+   <resMetalOre>
+      <EN>Metallic Ore</EN>
+      <FR>Minerais Métallique</FR>
+   </resMetalOre>
+   <resCH4>
+      <EN>Methane</EN>
+      <FR>Méthane</FR>
+   </resCH4>
+   <resN2>
+      <EN>Nitrogen</EN>
+      <FR>Nitrogène</FR>
+   </resN2>
+   <resO2>
+      <EN>Oxygen</EN>
+      <FR>Oxygène</FR>
+   </resO2>
+   <resRareMetOre>
+      <EN>Rare Metals Ore</EN>
+      <FR>Minerais de Métaux Rares</FR>
+   </resRareMetOre>
+   <resRock>
+      <EN>Rock</EN>
+      <FR>Roche</FR>
+   </resRock>
+   <resSolidWastes>
+      <EN>Solid Wastes</EN>
+      <FR>Déchets Solides</FR>
+   </resSolidWastes>
+   <resUrOre>
+      <EN>Uranium Ore</EN>
+      <FR>Minerais d'Uranium</FR>
+   </resUrOre>
+   <resWater>
+      <EN>Water</EN>
+      <FR>Eau</FR>
+   </resWater>
+   <!-- ********** SPACE UNIT ARCHITECTURE ********** -->
+   <scarchtpDSV>
+      <EN>Deep-Space Vehicle (DSV)</EN>
+      <FR>Véhicule en Espace Profond (DSV)</FR>
+   </scarchtpDSV>
    <scarchtpHLV>
-   	<EN>Heavy Launch Vehicle (HLV)</EN>
-   	<FR>Véhicule de Lancement Lourd (HLV)</FR>
+      <EN>Heavy Launch Vehicle (HLV)</EN>
+      <FR>Véhicule de Lancement Lourd (HLV)</FR>
    </scarchtpHLV>
-  	<scarchtpLV>
-  		<EN>Lander Vehicle (LV)</EN>
-  		<FR>Véhicule Atterrisseur (LV)</FR>
-  	</scarchtpLV>
-  	<scarchtpLAV>
-  		<EN>Lander/Ascent Vehicle (LAV)</EN>
-  		<FR>Véhicule Atterrisseur/d'Ascension (LAV)</FR>
-  	</scarchtpLAV>
-  	<scarchtpOMV>
-  		<EN>Orbital Multipurpose Vehicle (OMV)</EN>
-  		<FR>Véhicule Orbital Multifonction (OMV)</FR>
-  	</scarchtpOMV>
-  	<scarchtpSSI>
-  		<EN>Stabilized Space Infrastructure (SSI)</EN>
-  		<FR>Infrastructure Spatiale Stabilisée (SSI)</FR>
-  	</scarchtpSSI>
+     <scarchtpLV>
+        <EN>Lander Vehicle (LV)</EN>
+        <FR>Véhicule Atterrisseur (LV)</FR>
+     </scarchtpLV>
+     <scarchtpLAV>
+        <EN>Lander/Ascent Vehicle (LAV)</EN>
+        <FR>Véhicule Atterrisseur/d'Ascension (LAV)</FR>
+     </scarchtpLAV>
+     <scarchtpOMV>
+        <EN>Orbital Multipurpose Vehicle (OMV)</EN>
+        <FR>Véhicule Orbital Multifonction (OMV)</FR>
+     </scarchtpOMV>
+     <scarchtpSSI>
+        <EN>Stabilized Space Infrastructure (SSI)</EN>
+        <FR>Infrastructure Spatiale Stabilisée (SSI)</FR>
+     </scarchtpSSI>
    <scarchtpTAV>
-   	<EN>Transatmospheric Vehicle (TAV)</EN>
-   	<FR>Véhicule Transatmosphèrique (TAV)</FR>
+      <EN>Transatmospheric Vehicle (TAV)</EN>
+      <FR>Véhicule Transatmosphèrique (TAV)</FR>
    </scarchtpTAV>
    <scarchtpBSV>
-   	<EN>Beam Sail Vehicle (BSV)</EN>
-   	<FR>Véhicle à Voile à Rayonnement (BSV)</FR>
+      <EN>Beam Sail Vehicle (BSV)</EN>
+      <FR>Véhicle à Voile à Rayonnement (BSV)</FR>
    </scarchtpBSV>
-	<!-- ********** SPACE UNIT OVERALL ********** -->
-	<ggfptAccel>
-		<EN>Acceleration Flight</EN>
-		<FR>Vol d'Accelération</FR>
-	</ggfptAccel>
-	<ggftpAtmEnt>
-		<EN>Atmospheric Entry</EN>
-		<FR>Entrée Atmosphèrique</FR>
-	</ggftpAtmEnt>
-	<ggfptCruise>
-		<EN>Cruise Flight</EN>
-		<FR>Vol de Croisière</FR>
-	</ggfptCruise>
-	<ggfptDecel>
-		<EN>Deceleration Flight</EN>
-		<FR>Vol de Deceleration</FR>
-	</ggfptDecel>
-	<spUnDock>
-		<EN>Docking List of </EN>
-		<FR>Liste d'Amarrage de </FR>
-	</spUnDock>
-	<spUnDrvTp>
-		<EN>Drive Type</EN>
-		<FR>Type de Propulsion</FR>
-	</spUnDrvTp>
-	<spUnISPfull>
-		<EN>Specific Impulse (I&#60;sub&#62;sp&#60;/sub&#62;)</EN>
-		<FR>Impulsion Spécifique (I&#60;sub&#62;sp&#60;/sub&#62;)</FR>
-	</spUnISPfull>
-	<spUnOvGenName>
-		<EN>Player's Space Unit</EN>
-		<FR>Unité Spatiale du Joueur</FR>
-	</spUnOvGenName>
-	<spUnMissCurr>
-		<EN>Current Mission</EN>
-		<FR>Mission Actuelle</FR>
-	</spUnMissCurr>
-	<spUnMissNone>
-		<EN>None Allocated</EN>
-		<FR>Aucune Assignée</FR>
-	</spUnMissNone>
-	<spUnPhaseCurr>
-		<EN>Current Phase</EN>
-		<FR>Phase Actuelle</FR>
-	</spUnPhaseCurr>
-	<susDeadWreck>
-		<EN>is a Dead Wreck</EN>
-		<FR>est une Epave Morte</FR>
-	</susDeadWreck>
-	<susDocked>
-		<EN>Docked to </EN>
-		<FR>Amarré à </FR>
-	</susDocked>
-	<susInAtmosph>
-		<EN>In Atmospheric Flight at </EN>
-		<FR>En Vol Atmophèrique à </FR>
-	</susInAtmosph>
-	<susInFreeSpace>
-		<EN>In Free Space</EN>
-		<FR>En Espace Libre</FR>
-	</susInFreeSpace>
-	<susInOrbit>
-		<EN>In Orbit of </EN>
-		<FR>En Orbite de </FR>
-	</susInOrbit>
-	<susLanded>
-		<EN>Landed on </EN>
-		<FR>Aterri sur</FR>
-	</susLanded>
-	<susOutOfCtl>
-		<EN>is Out of Control</EN>
-		<FR>est Hors de Contrôle</FR>
-	</susOutOfCtl>
-	<!-- ******* SPM ********** -->
-	<faclvl>
-		<EN>Faction's Level</EN>
-		<FR>Niveau de la Faction</FR>
-	</faclvl>
-	<faclvl0>
-		<EN>No Settled Colony</EN>
-		<FR>Pas de Colonie Etablie</FR>
-	</faclvl0>
-	<faclvl1>
-		<EN>Isolated Colony</EN>
-		<FR>Colonie Isolée</FR>
-	</faclvl1>
-	<faclvl2>
-		<EN>Space Nation</EN>
-		<FR>Nation Spatiale</FR>
-	</faclvl2>
-	<faclvl3>
-		<EN>Micro-Federation</EN>
-		<FR>Micro-Fédération</FR>
-	</faclvl3>
-	<faclvl4>
-		<EN>Minor Space Power</EN>
-		<FR>Puissance Spatiale Mineure</FR>
-	</faclvl4>
-	<faclvl5>
-		<EN>Space Power</EN>
-		<FR>Puissance Spatiale</FR>
-	</faclvl5>
-	<faclvl6>
-		<EN>Major Space Power</EN>
-		<FR>Puissance Spatiale Majeure</FR>
-	</faclvl6>
-	<faclvl7>
-		<EN>Federation</EN>
-		<FR>Fédération</FR>
-	</faclvl7>
-	<faclvl8>
-		<EN>Macro-Federation</EN>
-		<FR>Macro-Fédération</FR>
-	</faclvl8>
-	<faclvl9>
-		<EN>Empire</EN>
-		<FR>Empire</FR>
-	</faclvl9>
-	<SPMdatBur>
-		<EN>Bureaucracy</EN>
-		<FR>Bureaucratie</FR>
-	</SPMdatBur>
-	<SPMdatCorr>
-		<EN>Corruption</EN>
-		<FR>Corruption</FR>
-	</SPMdatCorr>
-	<SPMdatEquil>
-		<EN>Equilibrium</EN>
-		<FR>Equilibre</FR>
-	</SPMdatEquil>
-	<SPMdatFacStab>
-		<EN>Faction's Stability</EN>
-		<FR>Stabilité de la Faction</FR>
-	</SPMdatFacStab>
-	<SPMdatInstLvl>
-		<EN>Instruction Level</EN>
-		<FR>Niveau d'Instruction</FR>
-	</SPMdatInstLvl>
-	<SPMdatLifeQ>
-		<EN>Life Quality</EN>
-		<FR>Qualité de Vie</FR>
-	</SPMdatLifeQ>
-	<SPMiAreaADMIN>
-		<EN>Administration</EN>
-		<FR>Administration</FR>
-	</SPMiAreaADMIN>
-	<SPMiAreaECON>
-		<EN>Economy</EN>
-		<FR>Economie</FR>
-	</SPMiAreaECON>
-	<SPMiAreaMEDCA>
-		<EN>Medical Care</EN>
-		<FR>Soins Medicaux</FR>
-	</SPMiAreaMEDCA>
-	<SPMiAreaSOC>
-		<EN>Society</EN>
-		<FR>Société</FR>
-	</SPMiAreaSOC>
-	<SPMiAreaSPOL>
-		<EN>Space Politics</EN>
-		<FR>Politique Spatiale</FR>
-	</SPMiAreaSPOL>
-	<SPMiAreaSPI>
-		<EN>Spirituality</EN>
-		<FR>Spiritualité</FR>
-	</SPMiAreaSPI>
-	<SPMi_Abolition>
+   <!-- ********** SPACE UNIT OVERALL ********** -->
+   <ggfptAccel>
+      <EN>Acceleration Flight</EN>
+      <FR>Vol d'Accelération</FR>
+   </ggfptAccel>
+   <ggftpAtmEnt>
+      <EN>Atmospheric Entry</EN>
+      <FR>Entrée Atmosphèrique</FR>
+   </ggftpAtmEnt>
+   <ggfptCruise>
+      <EN>Cruise Flight</EN>
+      <FR>Vol de Croisière</FR>
+   </ggfptCruise>
+   <ggfptDecel>
+      <EN>Deceleration Flight</EN>
+      <FR>Vol de Deceleration</FR>
+   </ggfptDecel>
+   <spUnDock>
+      <EN>Docking List of </EN>
+      <FR>Liste d'Amarrage de </FR>
+   </spUnDock>
+   <spUnDrvTp>
+      <EN>Drive Type</EN>
+      <FR>Type de Propulsion</FR>
+   </spUnDrvTp>
+   <spUnISPfull>
+      <EN>Specific Impulse (I&#60;sub&#62;sp&#60;/sub&#62;)</EN>
+      <FR>Impulsion Spécifique (I&#60;sub&#62;sp&#60;/sub&#62;)</FR>
+   </spUnISPfull>
+   <spUnOvGenName>
+      <EN>Player's Space Unit</EN>
+      <FR>Unité Spatiale du Joueur</FR>
+   </spUnOvGenName>
+   <spUnMissCurr>
+      <EN>Current Mission</EN>
+      <FR>Mission Actuelle</FR>
+   </spUnMissCurr>
+   <spUnMissNone>
+      <EN>None Allocated</EN>
+      <FR>Aucune Assignée</FR>
+   </spUnMissNone>
+   <spUnPhaseCurr>
+      <EN>Current Phase</EN>
+      <FR>Phase Actuelle</FR>
+   </spUnPhaseCurr>
+   <susDeadWreck>
+      <EN>is a Dead Wreck</EN>
+      <FR>est une Epave Morte</FR>
+   </susDeadWreck>
+   <susDocked>
+      <EN>Docked to </EN>
+      <FR>Amarré à </FR>
+   </susDocked>
+   <susInAtmosph>
+      <EN>In Atmospheric Flight at </EN>
+      <FR>En Vol Atmophèrique à </FR>
+   </susInAtmosph>
+   <susInFreeSpace>
+      <EN>In Free Space</EN>
+      <FR>En Espace Libre</FR>
+   </susInFreeSpace>
+   <susInOrbit>
+      <EN>In Orbit of </EN>
+      <FR>En Orbite de </FR>
+   </susInOrbit>
+   <susLanded>
+      <EN>Landed on </EN>
+      <FR>Aterri sur</FR>
+   </susLanded>
+   <susOutOfCtl>
+      <EN>is Out of Control</EN>
+      <FR>est Hors de Contrôle</FR>
+   </susOutOfCtl>
+   <!-- ******* SPM ********** -->
+   <faclvl>
+      <EN>Faction's Level</EN>
+      <FR>Niveau de la Faction</FR>
+   </faclvl>
+   <faclvl0>
+      <EN>No Settled Colony</EN>
+      <FR>Pas de Colonie Etablie</FR>
+   </faclvl0>
+   <faclvl1>
+      <EN>Isolated Colony</EN>
+      <FR>Colonie Isolée</FR>
+   </faclvl1>
+   <faclvl2>
+      <EN>Space Nation</EN>
+      <FR>Nation Spatiale</FR>
+   </faclvl2>
+   <faclvl3>
+      <EN>Micro-Federation</EN>
+      <FR>Micro-Fédération</FR>
+   </faclvl3>
+   <faclvl4>
+      <EN>Minor Space Power</EN>
+      <FR>Puissance Spatiale Mineure</FR>
+   </faclvl4>
+   <faclvl5>
+      <EN>Space Power</EN>
+      <FR>Puissance Spatiale</FR>
+   </faclvl5>
+   <faclvl6>
+      <EN>Major Space Power</EN>
+      <FR>Puissance Spatiale Majeure</FR>
+   </faclvl6>
+   <faclvl7>
+      <EN>Federation</EN>
+      <FR>Fédération</FR>
+   </faclvl7>
+   <faclvl8>
+      <EN>Macro-Federation</EN>
+      <FR>Macro-Fédération</FR>
+   </faclvl8>
+   <faclvl9>
+      <EN>Empire</EN>
+      <FR>Empire</FR>
+   </faclvl9>
+   <SPMdatBur>
+      <EN>Bureaucracy</EN>
+      <FR>Bureaucratie</FR>
+   </SPMdatBur>
+   <SPMdatCorr>
+      <EN>Corruption</EN>
+      <FR>Corruption</FR>
+   </SPMdatCorr>
+   <SPMdatEquil>
+      <EN>Equilibrium</EN>
+      <FR>Equilibre</FR>
+   </SPMdatEquil>
+   <SPMdatFacStab>
+      <EN>Faction's Stability</EN>
+      <FR>Stabilité de la Faction</FR>
+   </SPMdatFacStab>
+   <SPMdatInstLvl>
+      <EN>Instruction Level</EN>
+      <FR>Niveau d'Instruction</FR>
+   </SPMdatInstLvl>
+   <SPMdatLifeQ>
+      <EN>Life Quality</EN>
+      <FR>Qualité de Vie</FR>
+   </SPMdatLifeQ>
+   <SPMiAreaADMIN>
+      <EN>Administration</EN>
+      <FR>Administration</FR>
+   </SPMiAreaADMIN>
+   <SPMiAreaECON>
+      <EN>Economy</EN>
+      <FR>Economie</FR>
+   </SPMiAreaECON>
+   <SPMiAreaMEDCA>
+      <EN>Medical Care</EN>
+      <FR>Soins Medicaux</FR>
+   </SPMiAreaMEDCA>
+   <SPMiAreaSOC>
+      <EN>Society</EN>
+      <FR>Société</FR>
+   </SPMiAreaSOC>
+   <SPMiAreaSPOL>
+      <EN>Space Politics</EN>
+      <FR>Politique Spatiale</FR>
+   </SPMiAreaSPOL>
+   <SPMiAreaSPI>
+      <EN>Spirituality</EN>
+      <FR>Spiritualité</FR>
+   </SPMiAreaSPI>
+   <SPMi_Abolition>
       <EN>Abolitionism</EN>
       <FR>Abolitionisme</FR>
    </SPMi_Abolition>
@@ -2282,441 +2282,437 @@
       <EN>Zero Tolerance</EN>
       <FR>Tolérance Zéro</FR>
    </SPMi_ZeroTol>
-	<SPMiBL>
-		<EN>Belief Level:</EN>
-		<FR>Niveau de Croyance:</FR>
-	</SPMiBL>
-	<SPMiBL0>
-		<EN>Unknown</EN>
-		<FR>Inconnu</FR>
-	</SPMiBL0>
-	<SPMiBL1>
-		<EN>Fleeting</EN>
-		<FR>Fugace</FR>
-	</SPMiBL1>
-	<SPMiBL2>
-		<EN>Uncommon</EN>
-		<FR>Peu Commun</FR>
-	</SPMiBL2>
-	<SPMiBL3>
-		<EN>Common</EN>
-		<FR>Courant</FR>
-	</SPMiBL3>
-	<SPMiBL4>
-		<EN>Strong</EN>
-		<FR>fort</FR>
-	</SPMiBL4>
-	<SPMiBL5>
-		<EN>Known by All</EN>
-		<FR>Connu de Tous</FR>
-	</SPMiBL5>
-	<SPMiSV>
-		<EN>Spread Value</EN>
-		<FR>Valeur de Propagation</FR>
-	</SPMiSV>
-	<!-- ********** STAR CLASSES ********** -->
-	<stclBH>
-		<EN>Black Hole (BH)</EN>
-		<FR>Trou Noir (BH)</FR>
-	</stclBH>
-	<stclCA>
-		<EN>White Super Giant</EN>
-		<FR>Super Géante Blanche</FR>
-	</stclCA>
-	<stclCB>
-		<EN>Blue Super Giant</EN>
-		<FR>Super Géante Bleue</FR>
-	</stclCB>
-	<stclCK>
-		<EN>Orange Super Giant</EN>
-		<FR>Super Géante Orange</FR>
-	</stclCK>
-	<stclCM>
-		<EN>Red Super Giant</EN>
-		<FR>Super Géante Rouge</FR>
-	</stclCM>
-	<stclGF>
-		<EN>Yellow-White Giant</EN>
-		<FR>Géante Jaune-Blanche</FR>
-	</stclGF>
-	<stclGG>
-		<EN>Yellow Giant</EN>
-		<FR>Géante Jaune</FR>
-	</stclGG>
-	<stclGK>
-		<EN>Orange Giant</EN>
-		<FR>Géante Orange</FR>
-	</stclGK>
-	<stclGM>
-		<EN>Red Giant</EN>
-		<FR>Géante Rouge</FR>
-	</stclGM>
-	<stclA>
-		<EN>White Main Sequence</EN>
-		<FR>Séquence Principale Blanche</FR>
-	</stclA>
-	<stclB>
-		<EN>Blue-White Main Sequence</EN>
-		<FR>Séquence Principale Bleu-Blanche</FR>
-	</stclB>
-	<stclF>
-		<EN>Yellow-White Main Sequence</EN>
-		<FR>Séquence Principale Jaune-Blanche</FR>
-	</stclF>
-	<stclG>
-		<EN>Yellow Main Sequence</EN>
-		<FR>Séquence Principale Jaune</FR>
-	</stclG>
-	<stclK>
-		<EN>Orange Main Sequence</EN>
-		<FR>Séquence Principale Orange</FR>
-	</stclK>
-	<stclM>
-		<EN>Red Main Sequence</EN>
-		<FR>Séquence Principale Rouge</FR>
-	</stclM>
-	<stclO>
-		<EN>Blue Main Sequence</EN>
-		<FR>Séquence Principale Bleue</FR>
-	</stclO>
-	<stclPSR>
-		<EN>Pulsar</EN>
-		<FR>Pulsar</FR>
-	</stclPSR>
-	<stclWD>
-		<EN>White Dwarf</EN>
-		<FR>Naine Blanche</FR>
-	</stclWD>
-	<!-- ********** SURFACE / ECOSPHERE PANEL ********** -->
-	<FCWM_SP_AutoUp>
-		<EN>Auto Update</EN>
-		<FR>MàJ Auto</FR>
-	</FCWM_SP_AutoUp>
-	<FCWM_SP_ShEcos>
-		<EN>Ecosphere</EN>
-		<FR>Ecosphère</FR>
-	</FCWM_SP_ShEcos>
-	<FCWM_SP_ShReg>
-		<EN>Region</EN>
-		<FR>Région</FR>
-	</FCWM_SP_ShReg>
-	<FCWM_SurfPanel>
-		<EN>Surface of </EN>
-		<FR>Surface de </FR>
-	</FCWM_SurfPanel>
-	<FCWM_SurfPanel.NoTell>
-		<EN>Ecosphere of </EN>
-		<FR>Ecosphère de </FR>
-	</FCWM_SurfPanel.NoTell>
-	<climate>
-		<EN>Climate Type</EN>
-		<FR>Type de Climat</FR>
-	</climate>
-	<climtpArc>
-		<EN>Arctic</EN>
-		<FR>Glacial</FR>
-	</climtpArc>
-	<climtpColdAr>
-		<EN>Cold Arid</EN>
-		<FR>Aride Froid</FR>
-	</climtpColdAr>
-	<climtpExtr>
-		<EN>Extreme</EN>
-		<FR>Extrême</FR>
-	</climtpExtr>
-	<climtpHotAr>
-		<EN>Hot Arid</EN>
-		<FR>Aride Chaud</FR>
-	</climtpHotAr>
-	<climtpHotSAr>
-		<EN>Hot Semi-Arid</EN>
-		<FR>Semi-Aride Chaud</FR>
-	</climtpHotSAr>
-	<climtpModD>
-		<EN>Moderate Dry</EN>
-		<FR>Tempéré Sec</FR>
-	</climtpModD>
-	<climtpModH>
-		<EN>Moderate Humid</EN>
-		<FR>Tempéré Humide</FR>
-	</climtpModH>
-	<climtpPeria>
-		<EN>Periarctic</EN>
-		<FR>Périglacial</FR>
-	</climtpPeria>
-	<climtpVHotH>
-		<EN>Very Hot Humid</EN>
-		<FR>Humide Trés Chaud</FR>
-	</climtpVHotH>
-	<climtpVHotSH>
-		<EN>Very Hot Semi-Humid</EN>
-		<FR>Semi-Humide Trés Chaud</FR>
-	</climtpVHotSH>
-	<climtpVoid>
-		<EN>None (Space Void)</EN>
-		<FR>Aucun (Vide Spatial)</FR>
-	</climtpVoid>
-	<precip>
-		<EN>Yearly Mean Precipitations</EN>
-		<FR>Precipitations Annuelles Moyennes</FR>
-	</precip>
-	<reglocNPole>
-		<EN>North Pole</EN>
-		<FR>Pôle Nord</FR>
-	</reglocNPole>
-	<reglocSPole>
-		<EN>South Pole</EN>
-		<FR>Pôle Sud</FR>
-	</reglocSPole>
-	<reliefBrok>
-		<EN>Broken</EN>
-		<FR>Accidenté</FR>
-	</reliefBrok>
-	<reliefMount>
-		<EN>Mountainous</EN>
-		<FR>Montagneux</FR>
-	</reliefMount>
-	<reliefPlain>
-		<EN>Plain</EN>
-		<FR>Plaine</FR>
-	</reliefPlain>
-	<season>
-		<EN>Current Season</EN>
-		<FR>Saison Actuelle</FR>
-	</season>
-	<seasonMax>
-		<EN>Winter</EN>
-		<FR>Hiver</FR>
-	</seasonMax>
-	<seasonMid>
-		<EN>Intermediate</EN>
-		<FR>Intermédiaire</FR>
-	</seasonMid>
-	<seasonMin>
-		<EN>Summer</EN>
-		<FR>Eté</FR>
-	</seasonMin>
-	<secpAtm>
-		<EN>&#60;b&#62;Atmosphere&#60;/b&#62;</EN>
-		<FR>&#60;b&#62;Atmosphère&#60;/b&#62;</FR>
-	</secpAtm>
-	<secpClCov>
-		<EN>Clouds Cover&#60;/u&#62;&#60;/ul&#62;</EN>
-		<FR>Couverture Nuageuse&#60;/u&#62;&#60;/ul&#62;</FR>
-	</secpClCov>
-	<secpEnv>
-		<EN>&#60;b&#62;Environment&#60;/b&#62;</EN>
-		<FR>&#60;b&#62;Environnement&#60;/b&#62;</FR>
-	</secpEnv>
-	<secpEnvFL>
-		<EN>Free Living</EN>
-		<FR>Vie Libre</FR>
-	</secpEnvFL>
-	<secpEnvR>
-		<EN>Restricted</EN>
-		<FR>Restreint</FR>
-	</secpEnvR>
-	<secpEnvS>
-		<EN>Space / 0 Atmosphere</EN>
-		<FR>Espace / Atmosphère 0</FR>
-	</secpEnvS>
-	<secpGasM>
-		<EN>&#60;ul&#62;&#60;li&#62;&#60;u&#62;Main Gases&#60;/u&#62;&#60;/ul&#62;</EN>
-		<FR>&#60;ul&#62;&#60;li&#62;&#60;u&#62;Gaz Principaux&#60;/u&#62;&#60;/ul&#62;</FR>
-	</secpGasM>
-	<secpGasS>
-		<EN>&#60;ul&#62;&#60;li&#62;&#60;u&#62;Secondary Gases&#60;/u&#62;&#60;/ul&#62;</EN>
-		<FR>&#60;ul&#62;&#60;li&#62;&#60;u&#62;Gaz Secondaires&#60;/u&#62;&#60;/ul&#62;</FR>
-	</secpGasS>
-	<secpGasT>
-		<EN>&#60;ul&#62;&#60;li&#62;&#60;u&#62;Trace Gases&#60;/u&#62;&#60;/ul&#62;</EN>
-		<FR>&#60;ul&#62;&#60;li&#62;&#60;u&#62;Gaz Rares&#60;/u&#62;&#60;/ul&#62;</FR>
-	</secpGasT>
+   <SPMiBL>
+      <EN>Belief Level:</EN>
+      <FR>Niveau de Croyance:</FR>
+   </SPMiBL>
+   <SPMiBL0>
+      <EN>Unknown</EN>
+      <FR>Inconnu</FR>
+   </SPMiBL0>
+   <SPMiBL1>
+      <EN>Fleeting</EN>
+      <FR>Fugace</FR>
+   </SPMiBL1>
+   <SPMiBL2>
+      <EN>Uncommon</EN>
+      <FR>Peu Commun</FR>
+   </SPMiBL2>
+   <SPMiBL3>
+      <EN>Common</EN>
+      <FR>Courant</FR>
+   </SPMiBL3>
+   <SPMiBL4>
+      <EN>Strong</EN>
+      <FR>fort</FR>
+   </SPMiBL4>
+   <SPMiBL5>
+      <EN>Known by All</EN>
+      <FR>Connu de Tous</FR>
+   </SPMiBL5>
+   <SPMiSV>
+      <EN>Spread Value</EN>
+      <FR>Valeur de Propagation</FR>
+   </SPMiSV>
+   <!-- ********** STAR CLASSES ********** -->
+   <stclBH>
+      <EN>Black Hole (BH)</EN>
+      <FR>Trou Noir (BH)</FR>
+   </stclBH>
+   <stclCA>
+      <EN>White Super Giant</EN>
+      <FR>Super Géante Blanche</FR>
+   </stclCA>
+   <stclCB>
+      <EN>Blue Super Giant</EN>
+      <FR>Super Géante Bleue</FR>
+   </stclCB>
+   <stclCK>
+      <EN>Orange Super Giant</EN>
+      <FR>Super Géante Orange</FR>
+   </stclCK>
+   <stclCM>
+      <EN>Red Super Giant</EN>
+      <FR>Super Géante Rouge</FR>
+   </stclCM>
+   <stclGF>
+      <EN>Yellow-White Giant</EN>
+      <FR>Géante Jaune-Blanche</FR>
+   </stclGF>
+   <stclGG>
+      <EN>Yellow Giant</EN>
+      <FR>Géante Jaune</FR>
+   </stclGG>
+   <stclGK>
+      <EN>Orange Giant</EN>
+      <FR>Géante Orange</FR>
+   </stclGK>
+   <stclGM>
+      <EN>Red Giant</EN>
+      <FR>Géante Rouge</FR>
+   </stclGM>
+   <stclA>
+      <EN>White Main Sequence</EN>
+      <FR>Séquence Principale Blanche</FR>
+   </stclA>
+   <stclB>
+      <EN>Blue-White Main Sequence</EN>
+      <FR>Séquence Principale Bleu-Blanche</FR>
+   </stclB>
+   <stclF>
+      <EN>Yellow-White Main Sequence</EN>
+      <FR>Séquence Principale Jaune-Blanche</FR>
+   </stclF>
+   <stclG>
+      <EN>Yellow Main Sequence</EN>
+      <FR>Séquence Principale Jaune</FR>
+   </stclG>
+   <stclK>
+      <EN>Orange Main Sequence</EN>
+      <FR>Séquence Principale Orange</FR>
+   </stclK>
+   <stclM>
+      <EN>Red Main Sequence</EN>
+      <FR>Séquence Principale Rouge</FR>
+   </stclM>
+   <stclO>
+      <EN>Blue Main Sequence</EN>
+      <FR>Séquence Principale Bleue</FR>
+   </stclO>
+   <stclPSR>
+      <EN>Pulsar</EN>
+      <FR>Pulsar</FR>
+   </stclPSR>
+   <stclWD>
+      <EN>White Dwarf</EN>
+      <FR>Naine Blanche</FR>
+   </stclWD>
+   <!-- ********** SURFACE / ECOSPHERE PANEL ********** -->
+   <FCWM_SP_AutoUp>
+      <EN>Auto Update</EN>
+      <FR>MàJ Auto</FR>
+   </FCWM_SP_AutoUp>
+   <FCWM_SP_ShReg>
+      <EN>Region</EN>
+      <FR>Région</FR>
+   </FCWM_SP_ShReg>
+   <FCWM_SurfPanel>
+      <EN>Surface of </EN>
+      <FR>Surface de </FR>
+   </FCWM_SurfPanel>
+   <FCWM_SurfPanel.NoTell>
+      <EN>Ecosphere of </EN>
+      <FR>Ecosphère de </FR>
+   </FCWM_SurfPanel.NoTell>
+   <climate>
+      <EN>Climate Type</EN>
+      <FR>Type de Climat</FR>
+   </climate>
+   <climtpArc>
+      <EN>Arctic</EN>
+      <FR>Glacial</FR>
+   </climtpArc>
+   <climtpColdAr>
+      <EN>Cold Arid</EN>
+      <FR>Aride Froid</FR>
+   </climtpColdAr>
+   <climtpExtr>
+      <EN>Extreme</EN>
+      <FR>Extrême</FR>
+   </climtpExtr>
+   <climtpHotAr>
+      <EN>Hot Arid</EN>
+      <FR>Aride Chaud</FR>
+   </climtpHotAr>
+   <climtpHotSAr>
+      <EN>Hot Semi-Arid</EN>
+      <FR>Semi-Aride Chaud</FR>
+   </climtpHotSAr>
+   <climtpModD>
+      <EN>Moderate Dry</EN>
+      <FR>Tempéré Sec</FR>
+   </climtpModD>
+   <climtpModH>
+      <EN>Moderate Humid</EN>
+      <FR>Tempéré Humide</FR>
+   </climtpModH>
+   <climtpPeria>
+      <EN>Periarctic</EN>
+      <FR>Périglacial</FR>
+   </climtpPeria>
+   <climtpVHotH>
+      <EN>Very Hot Humid</EN>
+      <FR>Humide Trés Chaud</FR>
+   </climtpVHotH>
+   <climtpVHotSH>
+      <EN>Very Hot Semi-Humid</EN>
+      <FR>Semi-Humide Trés Chaud</FR>
+   </climtpVHotSH>
+   <climtpVoid>
+      <EN>None (Space Void)</EN>
+      <FR>Aucun (Vide Spatial)</FR>
+   </climtpVoid>
+   <precip>
+      <EN>Yearly Mean Precipitations</EN>
+      <FR>Precipitations Annuelles Moyennes</FR>
+   </precip>
+   <reglocNPole>
+      <EN>North Pole</EN>
+      <FR>Pôle Nord</FR>
+   </reglocNPole>
+   <reglocSPole>
+      <EN>South Pole</EN>
+      <FR>Pôle Sud</FR>
+   </reglocSPole>
+   <reliefBrok>
+      <EN>Broken</EN>
+      <FR>Accidenté</FR>
+   </reliefBrok>
+   <reliefMount>
+      <EN>Mountainous</EN>
+      <FR>Montagneux</FR>
+   </reliefMount>
+   <reliefPlain>
+      <EN>Plain</EN>
+      <FR>Plaine</FR>
+   </reliefPlain>
+   <season>
+      <EN>Current Season</EN>
+      <FR>Saison Actuelle</FR>
+   </season>
+   <seasonMax>
+      <EN>Winter</EN>
+      <FR>Hiver</FR>
+   </seasonMax>
+   <seasonMid>
+      <EN>Intermediate</EN>
+      <FR>Intermédiaire</FR>
+   </seasonMid>
+   <seasonMin>
+      <EN>Summer</EN>
+      <FR>Eté</FR>
+   </seasonMin>
+   <secpAtm>
+      <EN>&#60;b&#62;Atmosphere&#60;/b&#62;</EN>
+      <FR>&#60;b&#62;Atmosphère&#60;/b&#62;</FR>
+   </secpAtm>
+   <secpClCov>
+      <EN>Clouds Cover&#60;/u&#62;&#60;/ul&#62;</EN>
+      <FR>Couverture Nuageuse&#60;/u&#62;&#60;/ul&#62;</FR>
+   </secpClCov>
+   <secpEnv>
+      <EN>&#60;b&#62;Environment&#60;/b&#62;</EN>
+      <FR>&#60;b&#62;Environnement&#60;/b&#62;</FR>
+   </secpEnv>
+   <secpEnvFL>
+      <EN>Free Living</EN>
+      <FR>Vie Libre</FR>
+   </secpEnvFL>
+   <secpEnvR>
+      <EN>Restricted</EN>
+      <FR>Restreint</FR>
+   </secpEnvR>
+   <secpEnvS>
+      <EN>Space / 0 Atmosphere</EN>
+      <FR>Espace / Atmosphère 0</FR>
+   </secpEnvS>
+   <secpGasM>
+      <EN>&#60;ul&#62;&#60;li&#62;&#60;u&#62;Main Gases&#60;/u&#62;&#60;/ul&#62;</EN>
+      <FR>&#60;ul&#62;&#60;li&#62;&#60;u&#62;Gaz Principaux&#60;/u&#62;&#60;/ul&#62;</FR>
+   </secpGasM>
+   <secpGasS>
+      <EN>&#60;ul&#62;&#60;li&#62;&#60;u&#62;Secondary Gases&#60;/u&#62;&#60;/ul&#62;</EN>
+      <FR>&#60;ul&#62;&#60;li&#62;&#60;u&#62;Gaz Secondaires&#60;/u&#62;&#60;/ul&#62;</FR>
+   </secpGasS>
+   <secpGasT>
+      <EN>&#60;ul&#62;&#60;li&#62;&#60;u&#62;Trace Gases&#60;/u&#62;&#60;/ul&#62;</EN>
+      <FR>&#60;ul&#62;&#60;li&#62;&#60;u&#62;Gaz Rares&#60;/u&#62;&#60;/ul&#62;</FR>
+   </secpGasT>
    <specpHtpCryst>
-   	<EN>Crystal Ice</EN>
-   	<FR>Crystaux de Glace</FR>
+      <EN>Crystal Ice</EN>
+      <FR>Crystaux de Glace</FR>
    </specpHtpCryst>
    <specpHtpISh>
-   	<EN>Ice Sheets</EN>
-   	<FR>Couches de Glace</FR>
+      <EN>Ice Sheets</EN>
+      <FR>Couches de Glace</FR>
    </specpHtpISh>
-	<specpHtpLiq>
-		<EN>Liquid Water</EN>
-		<FR>Eau Liquide</FR>
-	</specpHtpLiq>
-	<specpHtpLiqNH3>
-		<EN>Liquid Water/Ammonia</EN>
-		<FR>Eau/Ammoniaque Liquide</FR>
-	</specpHtpLiqNH3>
-	<specpHtpLiqCH4>
-		<EN>Liquid Methane</EN>
-		<FR>Méthane Liquide</FR>
-	</specpHtpLiqCH4>
+   <specpHtpLiq>
+      <EN>Liquid Water</EN>
+      <FR>Eau Liquide</FR>
+   </specpHtpLiq>
+   <specpHtpLiqNH3>
+      <EN>Liquid Water/Ammonia</EN>
+      <FR>Eau/Ammoniaque Liquide</FR>
+   </specpHtpLiqNH3>
+   <specpHtpLiqCH4>
+      <EN>Liquid Methane</EN>
+      <FR>Méthane Liquide</FR>
+   </specpHtpLiqCH4>
    <specpHtpVap>
-   	<EN>Water Vapor</EN>
-   	<FR>Vapeur d'Eau</FR>
+      <EN>Water Vapor</EN>
+      <FR>Vapeur d'Eau</FR>
    </specpHtpVap>   
-	<secpHydr>
-		<EN>&#60;b&#62;Hydrosphere&#60;/b&#62;</EN>
-		<FR>&#60;b&#62;Hydrosphère&#60;/b&#62;</FR>
-	</secpHydr>
-	<secpCov>
-		<EN> (Covers an Area of </EN>
-		<FR> (Couvre une Zone de </FR>
-	</secpCov>
-	<secpPress>
-		<EN>&#60;ul&#62;&#60;li&#62;&#60;u&#62;Pressure</EN>
-		<FR>&#60;ul&#62;&#60;li&#62;&#60;u&#62;Pression</FR>
-	</secpPress>
-	<secpTerrTp>
-		<EN>Terrain Type</EN>
-		<FR>Type de Terrain</FR>
-	</secpTerrTp>
-	<temp>
-		<EN>Current Mean Temperature</EN>
-		<FR>Température Actuelle Moyenne</FR>
-	</temp>
-	<tempIdx1>
-		<EN>Stasis Cold</EN>
-		<FR>Froid de Stase</FR>
-	</tempIdx1>
-	<tempIdx2>
-		<EN>Extreme Cold</EN>
-		<FR>Froid Extrême</FR>
-	</tempIdx2>
-	<tempIdx3>
-		<EN>Freeze Cold</EN>
-		<FR>Froid Glacé</FR>
-	</tempIdx3>
-	<tempIdx4>
-		<EN>Nordic</EN>
-		<FR>Nordique</FR>
-	</tempIdx4>
-	<tempIdx5>
-		<EN>Moderate Cold</EN>
-		<FR>Tempéré Froid</FR>
-	</tempIdx5>
-	<tempIdx6>
-		<EN>Moderate</EN>
-		<FR>Tempéré</FR>
-	</tempIdx6>
-	<tempIdx7>
-		<EN>Moderate Warm</EN>
-		<FR>Tempéré Chaud</FR>
-	</tempIdx7>
-	<tempIdx8>
-		<EN>Tropical Warm</EN>
-		<FR>Chaleur Tropicale</FR>
-	</tempIdx8>
-	<tempIdx9>
-		<EN>Desert Warm</EN>
-		<FR>Chaleur de Désert</FR>
-	</tempIdx9>
-	<tempIdx10>
-		<EN>Hot Oven</EN>
-		<FR>Four Brulant</FR>
-	</tempIdx10>
-	<tempIdx11>
-		<EN>Venusian</EN>
-		<FR>Vénusien</FR>
-	</tempIdx11>
-	<terrainArid>
-		<EN>Arid</EN>
-		<FR>Aride</FR>
-	</terrainArid>
-	<terrainCoastArid>
-		<EN>Coastal Arid</EN>
-		<FR>Aride Côtier</FR>
-	</terrainCoastArid>
-	<terrainCoastFert>
-		<EN>Coastal Fertile</EN>
-		<FR>Fertile Côtier</FR>
-	</terrainCoastFert>
-	<terrainCoastPol>
-		<EN>Coastal Polar</EN>
-		<FR>Polaire Côtier</FR>
-	</terrainCoastPol>
-	<terrainCoastRDes>
-		<EN>Coastal Rocky Desert</EN>
-		<FR>Désertique Rocheux Côtier</FR>
-	</terrainCoastRDes>
-	<terrainCoastSDes>
-		<EN>Coastal Sandy Desert</EN>
-		<FR>Désertique Sablonneux Côtier</FR>
-	</terrainCoastSDes>
-	<terrainCoastVol>
-		<EN>Coastal Volcanic</EN>
-		<FR>Volcanique Côtier</FR>
-	</terrainCoastVol>
-	<terrainFert>
-		<EN>Fertile</EN>
-		<FR>Fertile</FR>
-	</terrainFert>
-	<terrainIcSter>
-		<EN>Icy Sterile</EN>
-		<FR>Stérile Glacé</FR>
-	</terrainIcSter>
-	<terrainOcean>
-		<EN>Oceanic</EN>
-		<FR>Océanique</FR>
-	</terrainOcean>
-	<terrainPol>
-		<EN>Polar</EN>
-		<FR>Polaire</FR>
-	</terrainPol>
-	<terrainRDes>
-		<EN>Rocky Desert</EN>
-		<FR>Désertique Rocheux</FR>
-	</terrainRDes>
-	<terrainSDes>
-		<EN>Sandy Desert</EN>
-		<FR>Désertique Sablonneux</FR>
-	</terrainSDes>
-	<terrainSter>
-		<EN>Sterile</EN>
-		<FR>Stérile</FR>
-	</terrainSter>
-	<terrainVol>
-		<EN>Volcanic</EN>
-		<FR>Volcanique</FR>
-	</terrainVol>
-	<wndspd>
-		<EN>Wind Speed</EN>
-		<FR>Vitesse du Vent</FR>
-	</wndspd>
-	<wspdIdx0>
-		<EN>No Wind</EN>
-		<FR>Pas de Vent</FR>
-	</wspdIdx0>
-	<wspdIdx1>
-		<EN>Light Winds</EN>
-		<FR>Vents Légers</FR>
-	</wspdIdx1>
-	<wspdIdx2>
-		<EN>Moderate Winds</EN>
-		<FR>Vents Modérés</FR>
-	</wspdIdx2>
-	<wspdIdx3>
-		<EN>Strong Winds</EN>
-		<FR>Vents Forts</FR>
-	</wspdIdx3>
-	<wspdIdx4>
-		<EN>Gale</EN>
-		<FR>Grands Vents</FR>
-	</wspdIdx4>
-	<wspdIdx5>
-		<EN>Storms</EN>
-		<FR>Tempêtes</FR>
-	</wspdIdx5>
-	<wspdIdx6>
-		<EN>Hurricanes</EN>
-		<FR>Ouragans</FR>
-	</wspdIdx6>
-	<wspdIdx7>
-		<EN>Permanent Danger</EN>
-		<FR>Danger Permanent</FR>
-	</wspdIdx7>
-	<!-- ********** TECHNOSCIENCES ********** -->
+   <secpHydr>
+      <EN>&#60;b&#62;Hydrosphere&#60;/b&#62;</EN>
+      <FR>&#60;b&#62;Hydrosphère&#60;/b&#62;</FR>
+   </secpHydr>
+   <secpCov>
+      <EN> (Covers an Area of </EN>
+      <FR> (Couvre une Zone de </FR>
+   </secpCov>
+   <secpPress>
+      <EN>&#60;ul&#62;&#60;li&#62;&#60;u&#62;Pressure</EN>
+      <FR>&#60;ul&#62;&#60;li&#62;&#60;u&#62;Pression</FR>
+   </secpPress>
+   <secpTerrTp>
+      <EN>Terrain Type</EN>
+      <FR>Type de Terrain</FR>
+   </secpTerrTp>
+   <temp>
+      <EN>Current Mean Temperature</EN>
+      <FR>Température Actuelle Moyenne</FR>
+   </temp>
+   <tempIdx1>
+      <EN>Stasis Cold</EN>
+      <FR>Froid de Stase</FR>
+   </tempIdx1>
+   <tempIdx2>
+      <EN>Extreme Cold</EN>
+      <FR>Froid Extrême</FR>
+   </tempIdx2>
+   <tempIdx3>
+      <EN>Freeze Cold</EN>
+      <FR>Froid Glacé</FR>
+   </tempIdx3>
+   <tempIdx4>
+      <EN>Nordic</EN>
+      <FR>Nordique</FR>
+   </tempIdx4>
+   <tempIdx5>
+      <EN>Moderate Cold</EN>
+      <FR>Tempéré Froid</FR>
+   </tempIdx5>
+   <tempIdx6>
+      <EN>Moderate</EN>
+      <FR>Tempéré</FR>
+   </tempIdx6>
+   <tempIdx7>
+      <EN>Moderate Warm</EN>
+      <FR>Tempéré Chaud</FR>
+   </tempIdx7>
+   <tempIdx8>
+      <EN>Tropical Warm</EN>
+      <FR>Chaleur Tropicale</FR>
+   </tempIdx8>
+   <tempIdx9>
+      <EN>Desert Warm</EN>
+      <FR>Chaleur de Désert</FR>
+   </tempIdx9>
+   <tempIdx10>
+      <EN>Hot Oven</EN>
+      <FR>Four Brulant</FR>
+   </tempIdx10>
+   <tempIdx11>
+      <EN>Venusian</EN>
+      <FR>Vénusien</FR>
+   </tempIdx11>
+   <terrainArid>
+      <EN>Arid</EN>
+      <FR>Aride</FR>
+   </terrainArid>
+   <terrainCoastArid>
+      <EN>Coastal Arid</EN>
+      <FR>Aride Côtier</FR>
+   </terrainCoastArid>
+   <terrainCoastFert>
+      <EN>Coastal Fertile</EN>
+      <FR>Fertile Côtier</FR>
+   </terrainCoastFert>
+   <terrainCoastPol>
+      <EN>Coastal Polar</EN>
+      <FR>Polaire Côtier</FR>
+   </terrainCoastPol>
+   <terrainCoastRDes>
+      <EN>Coastal Rocky Desert</EN>
+      <FR>Désertique Rocheux Côtier</FR>
+   </terrainCoastRDes>
+   <terrainCoastSDes>
+      <EN>Coastal Sandy Desert</EN>
+      <FR>Désertique Sablonneux Côtier</FR>
+   </terrainCoastSDes>
+   <terrainCoastVol>
+      <EN>Coastal Volcanic</EN>
+      <FR>Volcanique Côtier</FR>
+   </terrainCoastVol>
+   <terrainFert>
+      <EN>Fertile</EN>
+      <FR>Fertile</FR>
+   </terrainFert>
+   <terrainIcSter>
+      <EN>Icy Sterile</EN>
+      <FR>Stérile Glacé</FR>
+   </terrainIcSter>
+   <terrainOcean>
+      <EN>Oceanic</EN>
+      <FR>Océanique</FR>
+   </terrainOcean>
+   <terrainPol>
+      <EN>Polar</EN>
+      <FR>Polaire</FR>
+   </terrainPol>
+   <terrainRDes>
+      <EN>Rocky Desert</EN>
+      <FR>Désertique Rocheux</FR>
+   </terrainRDes>
+   <terrainSDes>
+      <EN>Sandy Desert</EN>
+      <FR>Désertique Sablonneux</FR>
+   </terrainSDes>
+   <terrainSter>
+      <EN>Sterile</EN>
+      <FR>Stérile</FR>
+   </terrainSter>
+   <terrainVol>
+      <EN>Volcanic</EN>
+      <FR>Volcanique</FR>
+   </terrainVol>
+   <wndspd>
+      <EN>Wind Speed</EN>
+      <FR>Vitesse du Vent</FR>
+   </wndspd>
+   <wspdIdx0>
+      <EN>No Wind</EN>
+      <FR>Pas de Vent</FR>
+   </wspdIdx0>
+   <wspdIdx1>
+      <EN>Light Winds</EN>
+      <FR>Vents Légers</FR>
+   </wspdIdx1>
+   <wspdIdx2>
+      <EN>Moderate Winds</EN>
+      <FR>Vents Modérés</FR>
+   </wspdIdx2>
+   <wspdIdx3>
+      <EN>Strong Winds</EN>
+      <FR>Vents Forts</FR>
+   </wspdIdx3>
+   <wspdIdx4>
+      <EN>Gale</EN>
+      <FR>Grands Vents</FR>
+   </wspdIdx4>
+   <wspdIdx5>
+      <EN>Storms</EN>
+      <FR>Tempêtes</FR>
+   </wspdIdx5>
+   <wspdIdx6>
+      <EN>Hurricanes</EN>
+      <FR>Ouragans</FR>
+   </wspdIdx6>
+   <wspdIdx7>
+      <EN>Permanent Danger</EN>
+      <FR>Danger Permanent</FR>
+   </wspdIdx7>
+   <!-- ********** TECHNOSCIENCES ********** -->
    <tsciAlloys>
       <EN>Alloys</EN>
       <FR>Alliages</FR>
@@ -2737,189 +2733,189 @@
       <EN>Nuclear Fission</EN>
       <FR>Fission Nucléaire</FR>
    </tsciNucFission>
-	<!-- ********** TIME FRAME ********** -->
-	<TimeF1st>
-		<EN>st</EN>
-		<FR>er</FR>
-	</TimeF1st>
-	<TimeFM1>
-		<EN>January</EN>
-		<FR>Janvier</FR>
-	</TimeFM1>
-	<TimeFM2>
-		<EN>February</EN>
-		<FR>Février</FR>
-	</TimeFM2>
-	<TimeFM3>
-		<EN>March</EN>
-		<FR>Mars</FR>
-	</TimeFM3>
-	<TimeFM4>
-		<EN>April</EN>
-		<FR>Avril</FR>
-	</TimeFM4>
-	<TimeFM5>
-		<EN>May</EN>
-		<FR>Mai</FR>
-	</TimeFM5>
-	<TimeFM6>
-		<EN>June</EN>
-		<FR>Juin</FR>
-	</TimeFM6>
-	<TimeFM7>
-		<EN>July</EN>
-		<FR>Juillet</FR>
-	</TimeFM7>
-	<TimeFM8>
-		<EN>August</EN>
-		<FR>Août</FR>
-	</TimeFM8>
-	<TimeFM9>
-		<EN>September</EN>
-		<FR>Septembre</FR>
-	</TimeFM9>
-	<TimeFM10>
-		<EN>October</EN>
-		<FR>Octobre</FR>
-	</TimeFM10>
-	<TimeFM11>
-		<EN>November</EN>
-		<FR>Novembre</FR>
-	</TimeFM11>
-	<TimeFM12>
-		<EN>December</EN>
-		<FR>Décembre</FR>
-	</TimeFM12>
-	<TimeFmonth>
-		<EN>month(s)</EN>
-		<FR>mois</FR>
-	</TimeFmonth>
-	<TimeFphaseTac>
-		<EN>Tactical Time Phase</EN>
-		<FR>Phase de Temps Tactique</FR>
-	</TimeFphaseTac>
-	<TimeFphaseMan>
-		<EN>Management Time Phase</EN>
-		<FR>Phase de Temps de Gestion</FR>
-	</TimeFphaseMan>
-	<TimeFphasePAUSE>
-		<EN>Game Paused ...</EN>
-		<FR>Jeu en Pause...</FR>
-	</TimeFphasePAUSE>
-	<TimeFphaseStH>
-		<EN>Historical Time Phase</EN>
-		<FR>Phase de Temps Historique</FR>
-	</TimeFphaseStH>
-	<TimeFstdD>
-		<EN>std d</EN>
-		<FR>jr std</FR>
-	</TimeFstdD>
-	<TimeFstdDfull>
-		<EN>standard(s) day(s)</EN>
-		<FR>jour(s) standard(s)</FR>
-	</TimeFstdDfull>
+   <!-- ********** TIME FRAME ********** -->
+   <TimeF1st>
+      <EN>st</EN>
+      <FR>er</FR>
+   </TimeF1st>
+   <TimeFM1>
+      <EN>January</EN>
+      <FR>Janvier</FR>
+   </TimeFM1>
+   <TimeFM2>
+      <EN>February</EN>
+      <FR>Février</FR>
+   </TimeFM2>
+   <TimeFM3>
+      <EN>March</EN>
+      <FR>Mars</FR>
+   </TimeFM3>
+   <TimeFM4>
+      <EN>April</EN>
+      <FR>Avril</FR>
+   </TimeFM4>
+   <TimeFM5>
+      <EN>May</EN>
+      <FR>Mai</FR>
+   </TimeFM5>
+   <TimeFM6>
+      <EN>June</EN>
+      <FR>Juin</FR>
+   </TimeFM6>
+   <TimeFM7>
+      <EN>July</EN>
+      <FR>Juillet</FR>
+   </TimeFM7>
+   <TimeFM8>
+      <EN>August</EN>
+      <FR>Août</FR>
+   </TimeFM8>
+   <TimeFM9>
+      <EN>September</EN>
+      <FR>Septembre</FR>
+   </TimeFM9>
+   <TimeFM10>
+      <EN>October</EN>
+      <FR>Octobre</FR>
+   </TimeFM10>
+   <TimeFM11>
+      <EN>November</EN>
+      <FR>Novembre</FR>
+   </TimeFM11>
+   <TimeFM12>
+      <EN>December</EN>
+      <FR>Décembre</FR>
+   </TimeFM12>
+   <TimeFmonth>
+      <EN>month(s)</EN>
+      <FR>mois</FR>
+   </TimeFmonth>
+   <TimeFphaseTac>
+      <EN>Tactical Time Phase</EN>
+      <FR>Phase de Temps Tactique</FR>
+   </TimeFphaseTac>
+   <TimeFphaseMan>
+      <EN>Management Time Phase</EN>
+      <FR>Phase de Temps de Gestion</FR>
+   </TimeFphaseMan>
+   <TimeFphasePAUSE>
+      <EN>Game Paused ...</EN>
+      <FR>Jeu en Pause...</FR>
+   </TimeFphasePAUSE>
+   <TimeFphaseStH>
+      <EN>Historical Time Phase</EN>
+      <FR>Phase de Temps Historique</FR>
+   </TimeFphaseStH>
+   <TimeFstdD>
+      <EN>std d</EN>
+      <FR>jr std</FR>
+   </TimeFstdD>
+   <TimeFstdDfull>
+      <EN>standard(s) day(s)</EN>
+      <FR>jour(s) standard(s)</FR>
+   </TimeFstdDfull>
    <TimeFstdY>
-		<EN>std yr</EN>
-		<FR>an. std</FR>
-	</TimeFstdY>
+      <EN>std yr</EN>
+      <FR>an. std</FR>
+   </TimeFstdY>
    <TimeFstdYfull>
-		<EN>standard(s) year(s)</EN>
-		<FR>année(s) standard(s)</FR>
-	</TimeFstdYfull>
-	<TimeFwks>
-		<EN>week(s)</EN>
-		<FR>semaine(s)</FR>
-	</TimeFwks>
-	<!-- ********** UMI ********** -->
-	<FCWM_UMI>
-		<EN>Unified Macromanagement Interface (UMI)</EN>
-		<FR>Interface de Macrogestion Unifiée (UMI)</FR>
-	</FCWM_UMI>
-	<FCWM_UMI_FacDatG>
-		<EN>Government Status</EN>
-		<FR>Status du Gouvernement</FR>
-	</FCWM_UMI_FacDatG>
-	<FCWM_UMI_TabShFac>
-		<EN>Faction {Government [F3]-SPM [F4]-Policies [F5]}</EN>
-		<FR>Faction {Gouvernement [F3]-SPM [F4]-Politiques [F5]}</FR>
-	</FCWM_UMI_TabShFac>
-	<FCWM_UMI_TabShProd>
-		<EN>Production [F7]</EN>
-		<FR>Production [F7]</FR>
-	</FCWM_UMI_TabShProd>
-	<FCWM_UMI_TabShRDS>
-		<EN>Research and Development [F8]</EN>
-		<FR>Recherche et Dévelopement [F8]</FR>
-	</FCWM_UMI_TabShRDS>
-	<FCWM_UMI_TabShSpU>
-		<EN>Space Units [F6]</EN>
-		<FR>Unités Spatiales [F6]</FR>
-	</FCWM_UMI_TabShSpU>
-	<FCWM_UMI_TabShUniv>
-		<EN>Universe [F2]</EN>
-		<FR>Univers [F2]</FR>
-	</FCWM_UMI_TabShUniv>
-	<FCWM_UMIFac_Colonies0>
-		<EN>Colony Name</EN>
-		<FR>Nom de la Colonie</FR>
-	</FCWM_UMIFac_Colonies0>
-	<FCWM_UMIFac_Colonies1>
-		<EN>Location</EN>
-		<FR>Localisation</FR>
-	</FCWM_UMIFac_Colonies1>
-	<FCWM_UMIFac_Colonies2>
-		<EN>HQ Status</EN>
-		<FR>Status du QG</FR>
-	</FCWM_UMIFac_Colonies2>
-	<FCWM_UMIFac_TabShPol>
-		<EN>Political Structure [F3]</EN>
-		<FR>Structure Politique [F3]</FR>
-	</FCWM_UMIFac_TabShPol>
-	<FCWM_UMIFac_PolGvtDetails>
-		<EN>Government Details</EN>
-		<FR>Détails du Gouvernement</FR>
-	</FCWM_UMIFac_PolGvtDetails>
-	<FCWM_UMIFac_TabShSPM>
-		<EN>Socio-Political Matrix (SPM) Setting [F4]</EN>
-		<FR>Disposition de la Matrice Socio-Politique (SPM) [F4]</FR>
-	</FCWM_UMIFac_TabShSPM>
-	<FCWM_UMIFac_TabShSPMpol>
-		<EN>Policies Enforcement [F5]</EN>
-		<FR>Application de Politiques [F5]</FR>
-	</FCWM_UMIFac_TabShSPMpol>
-	<FCWM_UMISh_CEFcommit>
-		<EN>Confirm Policy</EN>
-		<FR>Confirmer la Politique</FR>
-	</FCWM_UMISh_CEFcommit>
-	<FCWM_UMISh_CEFenforce>
-		<EN>Enforce Policy</EN>
-		<FR>Appliquer la Politique</FR>
-	</FCWM_UMISh_CEFenforce>
-	<FCWM_UMISh_CEFenforceNreq>
-		<EN>Req. Not Fulfilled</EN>
-		<FR>Req. Non Atteint</FR>
-	</FCWM_UMISh_CEFenforceNreq>
-	<FCWM_UMISh_CEFretire>
-		<EN>Retire Policy</EN>
-		<FR>Retirer la Politique</FR>
-	</FCWM_UMISh_CEFretire>
-	<FCWM_UMISh_CEnfF>
-		<EN>Enforcement Decisions</EN>
-		<FR>Décisions d'Application</FR>
-	</FCWM_UMISh_CEnfF>
-	<UMIenfEnforced>
-		<EN>The enforcement of this policy result in </EN>
-		<FR>L'application de cette politique résulte en </FR>
-	</UMIenfEnforced>
-	<UMIenfEnforcedCAcc>
-		<EN>of this one by the population.&lt;br&gt;You can now enforce it or retire it without penalties:&lt;br&gt;If you enforce it, the policy duration will be of </EN>
-		<FR>de celle-ci par la population.&lt;br&gt;Vous pouvez maintenant la mettre en vigueur ou la retirer sans pénalités.&lt;br&gt;Si vous la mettez en vigueur, la durée de la politique sera de </FR>
-	</UMIenfEnforcedCAcc>
-	<UMIenfEnforcedCAcc1>
-		<EN>month(s) before that's evaluated again.&lt;br&gt;If you retire it, you can enforce it again at any time.</EN>
-		<FR>mois avant qu'elle soit à nouveau évaluée.&lt;br&gt;Si vous la retirez, vous pouvez l'appliquer encore à n'importe quel moment.</FR>
-	</UMIenfEnforcedCAcc1>
-	<UMIenfEnforcedFift>
+      <EN>standard(s) year(s)</EN>
+      <FR>année(s) standard(s)</FR>
+   </TimeFstdYfull>
+   <TimeFwks>
+      <EN>week(s)</EN>
+      <FR>semaine(s)</FR>
+   </TimeFwks>
+   <!-- ********** UMI ********** -->
+   <FCWM_UMI>
+      <EN>Unified Macromanagement Interface (UMI)</EN>
+      <FR>Interface de Macrogestion Unifiée (UMI)</FR>
+   </FCWM_UMI>
+   <FCWM_UMI_FacDatG>
+      <EN>Government Status</EN>
+      <FR>Status du Gouvernement</FR>
+   </FCWM_UMI_FacDatG>
+   <FCWM_UMI_TabShFac>
+      <EN>Faction {Government [F3]-SPM [F4]-Policies [F5]}</EN>
+      <FR>Faction {Gouvernement [F3]-SPM [F4]-Politiques [F5]}</FR>
+   </FCWM_UMI_TabShFac>
+   <FCWM_UMI_TabShProd>
+      <EN>Production [F7]</EN>
+      <FR>Production [F7]</FR>
+   </FCWM_UMI_TabShProd>
+   <FCWM_UMI_TabShRDS>
+      <EN>Research and Development [F8]</EN>
+      <FR>Recherche et Dévelopement [F8]</FR>
+   </FCWM_UMI_TabShRDS>
+   <FCWM_UMI_TabShSpU>
+      <EN>Space Units [F6]</EN>
+      <FR>Unités Spatiales [F6]</FR>
+   </FCWM_UMI_TabShSpU>
+   <FCWM_UMI_TabShUniv>
+      <EN>Universe [F2]</EN>
+      <FR>Univers [F2]</FR>
+   </FCWM_UMI_TabShUniv>
+   <FCWM_UMIFac_Colonies0>
+      <EN>Colony Name</EN>
+      <FR>Nom de la Colonie</FR>
+   </FCWM_UMIFac_Colonies0>
+   <FCWM_UMIFac_Colonies1>
+      <EN>Location</EN>
+      <FR>Localisation</FR>
+   </FCWM_UMIFac_Colonies1>
+   <FCWM_UMIFac_Colonies2>
+      <EN>HQ Status</EN>
+      <FR>Status du QG</FR>
+   </FCWM_UMIFac_Colonies2>
+   <FCWM_UMIFac_TabShPol>
+      <EN>Political Structure [F3]</EN>
+      <FR>Structure Politique [F3]</FR>
+   </FCWM_UMIFac_TabShPol>
+   <FCWM_UMIFac_PolGvtDetails>
+      <EN>Government Details</EN>
+      <FR>Détails du Gouvernement</FR>
+   </FCWM_UMIFac_PolGvtDetails>
+   <FCWM_UMIFac_TabShSPM>
+      <EN>Socio-Political Matrix (SPM) Setting [F4]</EN>
+      <FR>Disposition de la Matrice Socio-Politique (SPM) [F4]</FR>
+   </FCWM_UMIFac_TabShSPM>
+   <FCWM_UMIFac_TabShSPMpol>
+      <EN>Policies Enforcement [F5]</EN>
+      <FR>Application de Politiques [F5]</FR>
+   </FCWM_UMIFac_TabShSPMpol>
+   <FCWM_UMISh_CEFcommit>
+      <EN>Confirm Policy</EN>
+      <FR>Confirmer la Politique</FR>
+   </FCWM_UMISh_CEFcommit>
+   <FCWM_UMISh_CEFenforce>
+      <EN>Enforce Policy</EN>
+      <FR>Appliquer la Politique</FR>
+   </FCWM_UMISh_CEFenforce>
+   <FCWM_UMISh_CEFenforceNreq>
+      <EN>Req. Not Fulfilled</EN>
+      <FR>Req. Non Atteint</FR>
+   </FCWM_UMISh_CEFenforceNreq>
+   <FCWM_UMISh_CEFretire>
+      <EN>Retire Policy</EN>
+      <FR>Retirer la Politique</FR>
+   </FCWM_UMISh_CEFretire>
+   <FCWM_UMISh_CEnfF>
+      <EN>Enforcement Decisions</EN>
+      <FR>Décisions d'Application</FR>
+   </FCWM_UMISh_CEnfF>
+   <UMIenfEnforced>
+      <EN>The enforcement of this policy result in </EN>
+      <FR>L'application de cette politique résulte en </FR>
+   </UMIenfEnforced>
+   <UMIenfEnforcedCAcc>
+      <EN>of this one by the population.&lt;br&gt;You can now enforce it or retire it without penalties:&lt;br&gt;If you enforce it, the policy duration will be of </EN>
+      <FR>de celle-ci par la population.&lt;br&gt;Vous pouvez maintenant la mettre en vigueur ou la retirer sans pénalités.&lt;br&gt;Si vous la mettez en vigueur, la durée de la politique sera de </FR>
+   </UMIenfEnforcedCAcc>
+   <UMIenfEnforcedCAcc1>
+      <EN>month(s) before that's evaluated again.&lt;br&gt;If you retire it, you can enforce it again at any time.</EN>
+      <FR>mois avant qu'elle soit à nouveau évaluée.&lt;br&gt;Si vous la retirez, vous pouvez l'appliquer encore à n'importe quel moment.</FR>
+   </UMIenfEnforcedCAcc1>
+   <UMIenfEnforcedFift>
       <EN>of this one by the population.&lt;br&gt;You can now enforce it, with a cohesion penalty, or retire it:&lt;br&gt;If you enforce it, the policy duration will be of </EN>
       <FR>de celle-ci par la population.&lt;br&gt;Vous pouvez maintenant la mettre en vigueur, avec une pénalité de cohésion, ou la retirer:&lt;br&gt;Si vous la mettez en vigueur, la durée de la politique sera de </FR>
    </UMIenfEnforcedFift>
@@ -2963,214 +2959,214 @@
       <EN>will be applied on all you colonies.</EN>
       <FR>sera appliqué sur toutes vos colonies.</FR>
    </UMIenfEnforcedReject3>
-	<UMIenfNReq>
-		<EN>A prerequisite of this policy isn't fulfilled.&lt;br&gt;It's impossible for this moment to enforce it.</EN>
-		<FR>Un prérequis de cette politique n'est pas rempli.&lt;br&gt;C'est impossible pour le moment de la mettre en vigueur.</FR>
-	</UMIenfNReq>
-	<UMIenfYReq1>
-		<EN>You can now enforce the policy. According to statistics, the policy enforcement will gives </EN>
-		<FR>Vous pouvez maintenant mettre en vigueur la politique. Par rapport aux statistiques, l'application de la politique donnera</FR>
-	</UMIenfYReq1>
-	<UMIenfYReq2>
-		<EN>, from the population, with a probability of &lt;b&gt;50%&lt;/b&gt;.&lt;br&gt;By knowing this, it's up to you to enforce it or not.</EN>
-		<FR>, de la part de la population, avec une probabilité de &lt;b&gt;50%&lt;/b&gt;.&lt;br&gt;En sachant cela, c'est à vous de voir si vous l'appliquez ou non.</FR>
-	</UMIenfYReq2>
-	<UMIenfRsltComplAcc>
-		<EN>&lt;b&gt;a complete acceptance&lt;/b&gt;</EN>
-		<FR>&lt;b&gt;une acceptation complète&lt;/b&gt;</FR>
-	</UMIenfRsltComplAcc>
-	<UMIenfRsltMassRej>
-		<EN>&lt;b&gt;a massive reject&lt;/b&gt;</EN>
-		<FR>&lt;b&gt;un rejet massive&lt;/b&gt;</FR>
-	</UMIenfRsltMassRej>
-	<UMIenfRsltMitig>
-		<EN>&lt;b&gt;a mitigated acceptance&lt;/b&gt;</EN>
-		<FR>&lt;b&gt;une acceptation mitigée&lt;/b&gt;</FR>
-	</UMIenfRsltMitig>
-	<UMIenfRsltReject>
-		<EN>&lt;b&gt;a reject&lt;/b&gt;</EN>
-		<FR>&lt;b&gt;un rejet&lt;/b&gt;</FR>
-	</UMIenfRsltReject>
-	<UMIenfUnique>
-		<EN>This policy is unique and replace the </EN>
-		<FR>Cette politique remplace le </FR>
-	</UMIenfUnique>
-	<UMIgvtEcoSys>
-		<EN>Economic System</EN>
-		<FR>Système Economique</FR>
-	</UMIgvtEcoSys>
-	<UMIgvtHcareSys>
-		<EN>Healthcare System</EN>
-		<FR>Système de Santé</FR>
-	</UMIgvtHcareSys>
-	<UMIgvtPolSys>
-		<EN>Political System</EN>
-		<FR>Système Politique</FR>
-	</UMIgvtPolSys>
-	<UMIgvtRelSys>
-		<EN>Religious System</EN>
-		<FR>Système Religieux</FR>
-	</UMIgvtRelSys>
-	<UMIhqBasic>
-		<EN>Basic HQ</EN>
-		<FR>QG Basique</FR>
-	</UMIhqBasic>
-	<UMIhqNo>
-		<EN>No HQ</EN>
-		<FR>Pas de HQ</FR>
-	</UMIhqNo>
-	<UMIhqNoMsg>
-		<EN>Your faction doesn't have any headquarter to enforce policies.&lt;br&gt;Set a colony or build an HQ infrastructure.</EN>
-		<FR>Votre faction n'a pas de quartier général pour appliquer des politiques.&lt;br&gt;Mettez en place une colony ou construisez une infrastructure QG.</FR>
-	</UMIhqNoMsg>
-	<UMIhqPrim>
-		<EN>Primary/Unique HQ</EN>
-		<FR>QG Primaire/Unique</FR>
-	</UMIhqPrim>
-	<UMIhqSec>
-		<EN>Secondary HQ</EN>
-		<FR>QG Secondaire</FR>
-	</UMIhqSec>
-	<UMImemeSet>
-		<EN>(Present)</EN>
-		<FR>(Présent)</FR>
-	</UMImemeSet>
-	<UMInocol>
-		<EN>No Colony</EN>
-		<FR>Pas de Colonie</FR>
-	</UMInocol>
-	<UMIpolenfAProb>
-		<EN>Acceptance Probability (AP)</EN>
-		<FR>Probabilité d'Acceptation (AP)</FR>
-	</UMIpolenfAProb>
-	<UMIpolenfAvail>
-		<EN>Available Policies</EN>
-		<FR>Politiques Disponibles</FR>
-	</UMIpolenfAvail>
-	<UMIpolenfInflTtl>
-		<EN>Total Influence</EN>
-		<FR>Influence Totale</FR>
-	</UMIpolenfInflTtl>
-	<UMIpolenfReq>
-		<EN>Required:</EN>
-		<FR>Requis:</FR>
-	</UMIpolenfReq>
-	<UMIpolenfReqCurr>
-		<EN>You currently have</EN>
-		<FR>Vous avez actuellement</FR>
-	</UMIpolenfReqCurr>
-	<UMIpolenfReqFail>
-		<EN>Fail !</EN>
-		<FR>Echec !</FR>
-	</UMIpolenfReqFail>
-	<UMIpolenfReqInf1>
-		<EN>present in</EN>
-		<FR>présent dans</FR>
-	</UMIpolenfReqInf1>
-	<UMIpolenfReqInf2>
-		<EN>of all colonies</EN>
-		<FR>de toutes les colonies</FR>
-	</UMIpolenfReqInf2>
-	<UMIpolenfReqL>
-		<EN>Requirements List</EN>
-		<FR>Liste des Conditions Requises</FR>
-	</UMIpolenfReqL>
-	<UMIpolenfReqPass>
-		<EN>Passed !</EN>
-		<FR>Passé !</FR>
-	</UMIpolenfReqPass>
-	<UMIpolenfReqPen>
-		<EN>Requirements Penalty</EN>
-		<FR>Pénalité des Conditions Requises</FR>
-	</UMIpolenfReqPen>
-	<UMIpolenfReqUC1>
-		<EN>for</EN>
-		<FR>pour </FR>
-	</UMIpolenfReqUC1>
-	<UMIpolenfReqUC2>
-		<EN>month(s) cycle</EN>
-		<FR>mois de cycle</FR>
-	</UMIpolenfReqUC2>
-	<UMIpolenfRuleNoEnf1>
-		<EN>Your faction doesn't have a sufficient &lt;a href="cpsStatusSoc"&gt;social status level&lt;/a&gt; to enforce policies.&lt;br&gt;The current social status level is </EN>
-		<FR>Votre faction n'a pas de quartier général pour appliquer des politiques.&lt;br&gt;Mettez en place une colony ou construisez une infrastructure QG.</FR>
-	</UMIpolenfRuleNoEnf1>
-	<UMIpolenfRuleNoEnf2>
-		<EN>and the minimum required level is </EN>
-		<FR>et le niveau minimum requis est </FR>
-	</UMIpolenfRuleNoEnf2>
-	<UMIpolenfRuleNoEnf3>
-		<EN>Since you're in the &lt;a href="cpsRoot"&gt;Colonization Phase&lt;/a&gt; of the game, try to get the better &lt;a href="cpsCVS"&gt;Colonization Viability Score(CVS)&lt;/a&gt; to reach the best status levels at the end of the phase, if the colonization mode you have choosen allows an enough social level.</EN>
-		<FR>Depuis que vous êtes dans la &lt;a href="cpsRoot"&gt;Phase de Colonisation&lt;/a&gt; du jeu, essayez d'obtenir le meilleur &lt;a href="cpsCVS"&gt;Score de Viabilité de Colonisation (CVS)&lt;/a&gt; pour atteindre les meilleurs niveaux de statut à la fin de la phase, si le mode de colonisation vous avez choisi permet un niveau social suffisant.</FR>
-	</UMIpolenfRuleNoEnf3>
-	<UMIpolenfRuleNoEnf4>
-		<EN>Since the &lt;a href="cpsRoot"&gt;Colonization Phase&lt;/a&gt; is finished, you can't enforce policies for the rest of your current game.&lt;br&gt;If you want to be allowed to enforce policies, try a new game.</EN>
-		<FR>Depuis que la &lt;a href="cpsRoot"&gt;Phase de Colonisation&lt;/a&gt; est finie, vous ne pouvez appliquer des politiques pour le reste de votre partie actuelle.&lt;br&gt;Si vous voulez avoir la permission d'en appliquer, commencez une nouvelle partie.</FR>
-	</UMIpolenfRuleNoEnf4>
-	<UMIpolenfRuleNoUnique>
-		<EN>Due to your faction's status level you can't change of governmental, economical, healthcare and religious system.&lt;br&gt;Try to get the better &lt;a href="cpsCVS"&gt;Colonization Viability Score(CVS)&lt;/a&gt; to reach the best status levels at the end of the phase.</EN>
-		<FR>Vu votre niveau de statut de faction vous ne pouvez changer de système gouvernemental, economique, de santé et religieux.&lt;br&gt;Essayez d'avoir le meilleur &lt;a href="cpsCVS"&gt;Score de Viabilité de Colonisation(CVS)&lt;/a&gt; pour atteindre les meilleurs niveaux de statut à la fin de la phase.</FR>
-	</UMIpolenfRuleNoUnique>
-	<UMIpolicy>
-		<EN>Policy</EN>
-		<FR>Politique</FR>
-	</UMIpolicy>
-	<UMIpolicyDur>
-		<EN>Enforcement Duration</EN>
-		<FR>Durée d'Application</FR>
-	</UMIpolicyDur>
-	<UMIpolicyDurFail>
-		<EN>Next Enforcement After</EN>
-		<FR>Prochaine Application Après</FR>
-	</UMIpolicyDurFail>
-	<UMIpolicy0>
-		<EN>Policy [Political System]</EN>
-		<FR>Politique [Système Politique]</FR>
-	</UMIpolicy0>
-	<UMIpolicy1>
-		<EN>Policy [Economy Type]</EN>
-		<FR>Politique [Type d'Economie]</FR>
-	</UMIpolicy1>
-	<UMIpolicy2>
-		<EN>Policy [Healthcare System]</EN>
-		<FR>Politique [Système de Santé]</FR>
-	</UMIpolicy2>
-	<UMIpolicy5>
-		<EN>Policy [Religious System]</EN>
-		<FR>Politique [Système Religieux]</FR>
-	</UMIpolicy5>
-	<UMIpolSet>
-		<EN>set at</EN>
-		<FR>placée à</FR>
-	</UMIpolSet>
-	<!-- #********** DESIGN NAMES ********** -->
-	<scdesAspen2 name="Aspen II"/>
-	<scdesFCP80 name="FCP-80"/>
-	<scdesTaurus name="Taurus"/>
-	<!-- #********** ORBITAL OBJECTS NAMES ********** -->
-	<orbobjAcentA1 name="Alpha Centauri A-1"/>
-	<orbobjAcentA2 name="Alpha Centauri A-2"/>
-	<orbobjAcentA3 name="Alpha Centauri A-3"/>
-	<orbobjAcentA4 name="Alpha Centauri A-4"/>
-	<orbobjAcentA5 name="Alpha Centauri A-5"/>
-	<orbobjAcentA6 name="Alpha Centauri A-6"/>
-	<satAcentA4At01 name="Testing Sat A401"/>
-	<satAcentA4At02 name="Testing Sat A402"/>
-	<satAcentA5t01 name="Testing Sat A501"/>
-	<satAcentA5t02 name="Testing Sat A502"/>
-	<!-- #********** OVERALL NAMES ********** -->
-	<wrdMUNburt name="Burtack"/>
-	<wrdMUNkevRey name="Kevaan Reyes"/>
-	<wrdMUNmov name="Movane"/>
-	<wrdMUNcp1 name="CPod01"/>
-	<wrdMUNcp2 name="CPod02"/>
-	<wrdMUNcp3 name="CPod03"/>
-	<wrdMUNcp4 name="CPod04"/>
-	<!-- #********** STARS NAMES ********** -->
-	<starACentA name="Alpha Centauri A"/>
-	<starACentB name="Alpha Centauri B"/>
-	<starSun name="Sun"/>
-	<!-- #	********** STELLAR SYSTEMS NAMES ********** -->
-	<stelsysACent name="Alpha Centauri"/>
-	<stelsysSol name="Sol"/>
+   <UMIenfNReq>
+      <EN>A prerequisite of this policy isn't fulfilled.&lt;br&gt;It's impossible for this moment to enforce it.</EN>
+      <FR>Un prérequis de cette politique n'est pas rempli.&lt;br&gt;C'est impossible pour le moment de la mettre en vigueur.</FR>
+   </UMIenfNReq>
+   <UMIenfYReq1>
+      <EN>You can now enforce the policy. According to statistics, the policy enforcement will gives </EN>
+      <FR>Vous pouvez maintenant mettre en vigueur la politique. Par rapport aux statistiques, l'application de la politique donnera</FR>
+   </UMIenfYReq1>
+   <UMIenfYReq2>
+      <EN>, from the population, with a probability of &lt;b&gt;50%&lt;/b&gt;.&lt;br&gt;By knowing this, it's up to you to enforce it or not.</EN>
+      <FR>, de la part de la population, avec une probabilité de &lt;b&gt;50%&lt;/b&gt;.&lt;br&gt;En sachant cela, c'est à vous de voir si vous l'appliquez ou non.</FR>
+   </UMIenfYReq2>
+   <UMIenfRsltComplAcc>
+      <EN>&lt;b&gt;a complete acceptance&lt;/b&gt;</EN>
+      <FR>&lt;b&gt;une acceptation complète&lt;/b&gt;</FR>
+   </UMIenfRsltComplAcc>
+   <UMIenfRsltMassRej>
+      <EN>&lt;b&gt;a massive reject&lt;/b&gt;</EN>
+      <FR>&lt;b&gt;un rejet massive&lt;/b&gt;</FR>
+   </UMIenfRsltMassRej>
+   <UMIenfRsltMitig>
+      <EN>&lt;b&gt;a mitigated acceptance&lt;/b&gt;</EN>
+      <FR>&lt;b&gt;une acceptation mitigée&lt;/b&gt;</FR>
+   </UMIenfRsltMitig>
+   <UMIenfRsltReject>
+      <EN>&lt;b&gt;a reject&lt;/b&gt;</EN>
+      <FR>&lt;b&gt;un rejet&lt;/b&gt;</FR>
+   </UMIenfRsltReject>
+   <UMIenfUnique>
+      <EN>This policy is unique and replace the </EN>
+      <FR>Cette politique remplace le </FR>
+   </UMIenfUnique>
+   <UMIgvtEcoSys>
+      <EN>Economic System</EN>
+      <FR>Système Economique</FR>
+   </UMIgvtEcoSys>
+   <UMIgvtHcareSys>
+      <EN>Healthcare System</EN>
+      <FR>Système de Santé</FR>
+   </UMIgvtHcareSys>
+   <UMIgvtPolSys>
+      <EN>Political System</EN>
+      <FR>Système Politique</FR>
+   </UMIgvtPolSys>
+   <UMIgvtRelSys>
+      <EN>Religious System</EN>
+      <FR>Système Religieux</FR>
+   </UMIgvtRelSys>
+   <UMIhqBasic>
+      <EN>Basic HQ</EN>
+      <FR>QG Basique</FR>
+   </UMIhqBasic>
+   <UMIhqNo>
+      <EN>No HQ</EN>
+      <FR>Pas de HQ</FR>
+   </UMIhqNo>
+   <UMIhqNoMsg>
+      <EN>Your faction doesn't have any headquarter to enforce policies.&lt;br&gt;Set a colony or build an HQ infrastructure.</EN>
+      <FR>Votre faction n'a pas de quartier général pour appliquer des politiques.&lt;br&gt;Mettez en place une colony ou construisez une infrastructure QG.</FR>
+   </UMIhqNoMsg>
+   <UMIhqPrim>
+      <EN>Primary/Unique HQ</EN>
+      <FR>QG Primaire/Unique</FR>
+   </UMIhqPrim>
+   <UMIhqSec>
+      <EN>Secondary HQ</EN>
+      <FR>QG Secondaire</FR>
+   </UMIhqSec>
+   <UMImemeSet>
+      <EN>(Present)</EN>
+      <FR>(Présent)</FR>
+   </UMImemeSet>
+   <UMInocol>
+      <EN>No Colony</EN>
+      <FR>Pas de Colonie</FR>
+   </UMInocol>
+   <UMIpolenfAProb>
+      <EN>Acceptance Probability (AP)</EN>
+      <FR>Probabilité d'Acceptation (AP)</FR>
+   </UMIpolenfAProb>
+   <UMIpolenfAvail>
+      <EN>Available Policies</EN>
+      <FR>Politiques Disponibles</FR>
+   </UMIpolenfAvail>
+   <UMIpolenfInflTtl>
+      <EN>Total Influence</EN>
+      <FR>Influence Totale</FR>
+   </UMIpolenfInflTtl>
+   <UMIpolenfReq>
+      <EN>Required:</EN>
+      <FR>Requis:</FR>
+   </UMIpolenfReq>
+   <UMIpolenfReqCurr>
+      <EN>You currently have</EN>
+      <FR>Vous avez actuellement</FR>
+   </UMIpolenfReqCurr>
+   <UMIpolenfReqFail>
+      <EN>Fail !</EN>
+      <FR>Echec !</FR>
+   </UMIpolenfReqFail>
+   <UMIpolenfReqInf1>
+      <EN>present in</EN>
+      <FR>présent dans</FR>
+   </UMIpolenfReqInf1>
+   <UMIpolenfReqInf2>
+      <EN>of all colonies</EN>
+      <FR>de toutes les colonies</FR>
+   </UMIpolenfReqInf2>
+   <UMIpolenfReqL>
+      <EN>Requirements List</EN>
+      <FR>Liste des Conditions Requises</FR>
+   </UMIpolenfReqL>
+   <UMIpolenfReqPass>
+      <EN>Passed !</EN>
+      <FR>Passé !</FR>
+   </UMIpolenfReqPass>
+   <UMIpolenfReqPen>
+      <EN>Requirements Penalty</EN>
+      <FR>Pénalité des Conditions Requises</FR>
+   </UMIpolenfReqPen>
+   <UMIpolenfReqUC1>
+      <EN>for</EN>
+      <FR>pour </FR>
+   </UMIpolenfReqUC1>
+   <UMIpolenfReqUC2>
+      <EN>month(s) cycle</EN>
+      <FR>mois de cycle</FR>
+   </UMIpolenfReqUC2>
+   <UMIpolenfRuleNoEnf1>
+      <EN>Your faction doesn't have a sufficient &lt;a href="cpsStatusSoc"&gt;social status level&lt;/a&gt; to enforce policies.&lt;br&gt;The current social status level is </EN>
+      <FR>Votre faction n'a pas de quartier général pour appliquer des politiques.&lt;br&gt;Mettez en place une colony ou construisez une infrastructure QG.</FR>
+   </UMIpolenfRuleNoEnf1>
+   <UMIpolenfRuleNoEnf2>
+      <EN>and the minimum required level is </EN>
+      <FR>et le niveau minimum requis est </FR>
+   </UMIpolenfRuleNoEnf2>
+   <UMIpolenfRuleNoEnf3>
+      <EN>Since you're in the &lt;a href="cpsRoot"&gt;Colonization Phase&lt;/a&gt; of the game, try to get the better &lt;a href="cpsCVS"&gt;Colonization Viability Score(CVS)&lt;/a&gt; to reach the best status levels at the end of the phase, if the colonization mode you have choosen allows an enough social level.</EN>
+      <FR>Depuis que vous êtes dans la &lt;a href="cpsRoot"&gt;Phase de Colonisation&lt;/a&gt; du jeu, essayez d'obtenir le meilleur &lt;a href="cpsCVS"&gt;Score de Viabilité de Colonisation (CVS)&lt;/a&gt; pour atteindre les meilleurs niveaux de statut à la fin de la phase, si le mode de colonisation vous avez choisi permet un niveau social suffisant.</FR>
+   </UMIpolenfRuleNoEnf3>
+   <UMIpolenfRuleNoEnf4>
+      <EN>Since the &lt;a href="cpsRoot"&gt;Colonization Phase&lt;/a&gt; is finished, you can't enforce policies for the rest of your current game.&lt;br&gt;If you want to be allowed to enforce policies, try a new game.</EN>
+      <FR>Depuis que la &lt;a href="cpsRoot"&gt;Phase de Colonisation&lt;/a&gt; est finie, vous ne pouvez appliquer des politiques pour le reste de votre partie actuelle.&lt;br&gt;Si vous voulez avoir la permission d'en appliquer, commencez une nouvelle partie.</FR>
+   </UMIpolenfRuleNoEnf4>
+   <UMIpolenfRuleNoUnique>
+      <EN>Due to your faction's status level you can't change of governmental, economical, healthcare and religious system.&lt;br&gt;Try to get the better &lt;a href="cpsCVS"&gt;Colonization Viability Score(CVS)&lt;/a&gt; to reach the best status levels at the end of the phase.</EN>
+      <FR>Vu votre niveau de statut de faction vous ne pouvez changer de système gouvernemental, economique, de santé et religieux.&lt;br&gt;Essayez d'avoir le meilleur &lt;a href="cpsCVS"&gt;Score de Viabilité de Colonisation(CVS)&lt;/a&gt; pour atteindre les meilleurs niveaux de statut à la fin de la phase.</FR>
+   </UMIpolenfRuleNoUnique>
+   <UMIpolicy>
+      <EN>Policy</EN>
+      <FR>Politique</FR>
+   </UMIpolicy>
+   <UMIpolicyDur>
+      <EN>Enforcement Duration</EN>
+      <FR>Durée d'Application</FR>
+   </UMIpolicyDur>
+   <UMIpolicyDurFail>
+      <EN>Next Enforcement After</EN>
+      <FR>Prochaine Application Après</FR>
+   </UMIpolicyDurFail>
+   <UMIpolicy0>
+      <EN>Policy [Political System]</EN>
+      <FR>Politique [Système Politique]</FR>
+   </UMIpolicy0>
+   <UMIpolicy1>
+      <EN>Policy [Economy Type]</EN>
+      <FR>Politique [Type d'Economie]</FR>
+   </UMIpolicy1>
+   <UMIpolicy2>
+      <EN>Policy [Healthcare System]</EN>
+      <FR>Politique [Système de Santé]</FR>
+   </UMIpolicy2>
+   <UMIpolicy5>
+      <EN>Policy [Religious System]</EN>
+      <FR>Politique [Système Religieux]</FR>
+   </UMIpolicy5>
+   <UMIpolSet>
+      <EN>set at</EN>
+      <FR>placée à</FR>
+   </UMIpolSet>
+   <!-- #********** DESIGN NAMES ********** -->
+   <scdesAspen2 name="Aspen II"/>
+   <scdesFCP80 name="FCP-80"/>
+   <scdesTaurus name="Taurus"/>
+   <!-- #********** ORBITAL OBJECTS NAMES ********** -->
+   <orbobjAcentA1 name="Alpha Centauri A-1"/>
+   <orbobjAcentA2 name="Alpha Centauri A-2"/>
+   <orbobjAcentA3 name="Alpha Centauri A-3"/>
+   <orbobjAcentA4 name="Alpha Centauri A-4"/>
+   <orbobjAcentA5 name="Alpha Centauri A-5"/>
+   <orbobjAcentA6 name="Alpha Centauri A-6"/>
+   <satAcentA4At01 name="Testing Sat A401"/>
+   <satAcentA4At02 name="Testing Sat A402"/>
+   <satAcentA5t01 name="Testing Sat A501"/>
+   <satAcentA5t02 name="Testing Sat A502"/>
+   <!-- #********** OVERALL NAMES ********** -->
+   <wrdMUNburt name="Burtack"/>
+   <wrdMUNkevRey name="Kevaan Reyes"/>
+   <wrdMUNmov name="Movane"/>
+   <wrdMUNcp1 name="CPod01"/>
+   <wrdMUNcp2 name="CPod02"/>
+   <wrdMUNcp3 name="CPod03"/>
+   <wrdMUNcp4 name="CPod04"/>
+   <!-- #********** STARS NAMES ********** -->
+   <starACentA name="Alpha Centauri A"/>
+   <starACentB name="Alpha Centauri B"/>
+   <starSun name="Sun"/>
+   <!-- #   ********** STELLAR SYSTEMS NAMES ********** -->
+   <stelsysACent name="Alpha Centauri"/>
+   <stelsysSol name="Sol"/>
 </uitext>
