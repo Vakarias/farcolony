@@ -2856,7 +2856,7 @@ begin
          );
       if USFRfac=0
       then FCMuiCDD_Colony_Update(
-         cdlColonyDataCSMevents
+         cdlCSMevents
          ,USFRcol
          ,0
          ,true
@@ -2877,7 +2877,7 @@ begin
          );
       if USFRfac=0
       then FCMuiCDD_Colony_Update(
-         cdlColonyDataCSMevents
+         cdlCSMevents
          ,USFRcol
          ,0
          ,true

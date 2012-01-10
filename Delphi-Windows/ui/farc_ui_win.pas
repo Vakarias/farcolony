@@ -633,7 +633,7 @@ begin
    FCMumi_Faction_Upd(uiwAllSection, true);
    FCMuiCDP_FunctionCateg_Initialize;
    FCMuiCDD_Colony_Update(
-      cdlColonyAll
+      cdlAll
       ,0
       ,0
       ,false

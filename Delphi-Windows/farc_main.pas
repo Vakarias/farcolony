@@ -297,7 +297,7 @@ type
     FCWM_IPinfraKits: THTMLRadioGroup;
     FCXMLdbTechnosciences: TXMLDocument;
     FCWM_CDPstorage: TAdvTabSheet;
-    HTMLTreeview1: THTMLTreeview;
+    CDPstorageList: THTMLTreeview;
       procedure FormCreate(Sender: TObject);
       procedure FormResize(Sender: TObject);
       procedure FCWM_MMenu_G_QuitClick(Sender: TObject);
@@ -930,9 +930,8 @@ procedure TFCWinMain.FCWM_CDPpopListExpanded(Sender: TObject; Node: TTreeNode);
 begin
    if Node.Index=1 then
    begin
+      FCMuiCDP_WCPradio_Click(false);
       FCWM_CDPwcpEquip.Show;
-      FCWM_CDPwcpAssign.Show;
-      FCWM_CDPcwpAssignVeh.Show;
    end;
 end;
 

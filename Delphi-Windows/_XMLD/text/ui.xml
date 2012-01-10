@@ -657,6 +657,10 @@
       <EN>Technicians</EN>
       <FR>Techniciens</FR>
    </colPTtech>
+   <colStorage>
+      <EN>Colony's Storage</EN>
+      <FR>Stockage de la Colonie</FR>
+   </colStorage>
    <facstat>
       <EN>Current Dependence Status</EN>
       <FR>Status de Dépendance Actuels</FR>

@@ -50,6 +50,7 @@ type TFCEuicdpDataTypes=(
    ,dtInfraAll
    ,dtInfraOwned
    ,dtInfraAvail
+   ,dtStorage
    );
 
 type CDPcurrentLocIndexes= record
@@ -367,6 +368,7 @@ procedure FCMuiCDP_CWPAssignKey_Test(
    );
 {:Purpose: test key routine for colony data panel / population / WCP population assign edit.
     Additions:
+      -2011Jan09- *fix: take in account when there's no more available colonists.
       -2011Dec22- *mod: update the interface refresh by using the link to the new routine.
       -2011Jul04- *fix: correctly call the colony's storage update to avoid a double update on the storage values + change location of CWP calculations.
       -2011May24- *mod: use a private variable instead of a tag for the colony index.
@@ -375,7 +377,8 @@ procedure FCMuiCDP_CWPAssignKey_Test(
 }
 var
    CWPAKTcol
-   ,CWPAKTequipIndex: integer;
+   ,CWPAKTequipIndex
+   ,ColonistLeft: integer;
 
    CWPAKTvalue: integer;
 
@@ -393,38 +396,43 @@ begin
    then
    begin
       CWPAKTcwp:=0;
-      CWPAKTvalue:=StrToInt64(FCWinMain.FCWM_CDPwcpAssign.Text);
       CWPAKTcol:=FCFuiCDP_VarCurrentColony_Get;
-      CWPAKTequipIndex:=FCWinMain.FCWM_CDPwcpEquip.ItemIndex;
-      if CWPAKTvalue>(FCEntities[0].E_col[CWPAKTcol].COL_population.POP_tpColon-FCEntities[0].E_col[CWPAKTcol].COL_population.POP_tpColonAssigned)
-      then CWPAKTvalue:=FCEntities[0].E_col[CWPAKTcol].COL_population.POP_tpColon-FCEntities[0].E_col[CWPAKTcol].COL_population.POP_tpColonAssigned;
-      if CWPAKTequipIndex=0
-      then CWPAKTcwp:=FCFcFunc_Rnd( cfrttpSizem, CWPAKTvalue*0.5 )
-      else if CWPAKTequipIndex>0
-      then
+      ColonistLeft:=FCEntities[0].E_col[CWPAKTcol].COL_population.POP_tpColon-FCEntities[0].E_col[CWPAKTcol].COL_population.POP_tpColonAssigned;
+      FCWinDebug.AdvMemo1.Lines.Add('ColonistLeft='+inttostr(ColonistLeft));
+      if ColonistLeft>0 then
       begin
-         if FCEntities[0].E_col[CWPAKTcol].COL_storageList[ CDPmanEquipStor[CWPAKTequipIndex] ].CPR_unit<CWPAKTvalue
-         then CWPAKTvalue:=round(FCEntities[0].E_col[CWPAKTcol].COL_storageList[ CDPmanEquipStor[CWPAKTequipIndex] ].CPR_unit);
-         FCFgC_Storage_Update(
-            false
-            ,FCEntities[0].E_col[CWPAKTcol].COL_storageList[ CDPmanEquipStor[CWPAKTequipIndex] ].CPR_token
-            ,CWPAKTvalue
+         CWPAKTvalue:=StrToInt64(FCWinMain.FCWM_CDPwcpAssign.Text);
+         CWPAKTequipIndex:=FCWinMain.FCWM_CDPwcpEquip.ItemIndex;
+         if CWPAKTvalue>ColonistLeft
+         then CWPAKTvalue:=ColonistLeft;
+         if CWPAKTequipIndex=0
+         then CWPAKTcwp:=FCFcFunc_Rnd( cfrttpSizem, CWPAKTvalue*0.5 )
+         else if CWPAKTequipIndex>0
+         then
+         begin
+            if FCEntities[0].E_col[CWPAKTcol].COL_storageList[ CDPmanEquipStor[CWPAKTequipIndex] ].CPR_unit<CWPAKTvalue
+            then CWPAKTvalue:=round(FCEntities[0].E_col[CWPAKTcol].COL_storageList[ CDPmanEquipStor[CWPAKTequipIndex] ].CPR_unit);
+            FCFgC_Storage_Update(
+               false
+               ,FCEntities[0].E_col[CWPAKTcol].COL_storageList[ CDPmanEquipStor[CWPAKTequipIndex] ].CPR_token
+               ,CWPAKTvalue
+               ,0
+               ,CWPAKTcol
+               );
+            CWPAKTcwp:=FCFcFunc_Rnd( cfrttpSizem, CWPAKTvalue*FCDBproducts[ CDPmanEquipDB[CWPAKTequipIndex] ].PROD_fManConstWCPcoef );
+         end;
+         FCEntities[0].E_col[CWPAKTcol].COL_population.POP_tpColonAssigned:=FCEntities[0].E_col[CWPAKTcol].COL_population.POP_tpColonAssigned+CWPAKTvalue;
+         FCEntities[0].E_col[CWPAKTcol].COL_population.POP_wcpAssignedPeople:=FCEntities[0].E_col[CWPAKTcol].COL_population.POP_wcpAssignedPeople+CWPAKTvalue;
+         FCEntities[0].E_col[CWPAKTcol].COL_population.POP_wcpTotal:=FCEntities[0].E_col[CWPAKTcol].COL_population.POP_wcpTotal+CWPAKTcwp;
+         FCMuiCDD_Colony_Update(
+            cdlDataPopulation
             ,0
-            ,CWPAKTcol
+            ,0
+            ,false
+            ,false
+            ,false
             );
-         CWPAKTcwp:=FCFcFunc_Rnd( cfrttpSizem, CWPAKTvalue*FCDBproducts[ CDPmanEquipDB[CWPAKTequipIndex] ].PROD_fManConstWCPcoef );
       end;
-      FCEntities[0].E_col[CWPAKTcol].COL_population.POP_tpColonAssigned:=FCEntities[0].E_col[CWPAKTcol].COL_population.POP_tpColonAssigned+CWPAKTvalue;
-      FCEntities[0].E_col[CWPAKTcol].COL_population.POP_wcpAssignedPeople:=FCEntities[0].E_col[CWPAKTcol].COL_population.POP_wcpAssignedPeople+CWPAKTvalue;
-      FCEntities[0].E_col[CWPAKTcol].COL_population.POP_wcpTotal:=FCEntities[0].E_col[CWPAKTcol].COL_population.POP_wcpTotal+CWPAKTcwp;
-      FCMuiCDD_Colony_Update(
-         cdlColonyDataPopulation
-         ,0
-         ,0
-         ,false
-         ,false
-         ,false
-         );
       FCWinMain.FCWM_CDPwcpAssign.Text:='';
    end;
 end;
@@ -435,6 +443,7 @@ procedure FCMuiCDP_CWPAssignVehKey_Test(
    );
 {:Purpose: test key routine for colony data panel / population / WCP vehicles assign edit.
     Additions:
+      -2011Jan09- *fix: take in account when there's no more available colonists.
       -2011Jan05- *mod: adjust the index due to the removal of the "No Equipment" item in the list.
       -2011Jul04- *fix: correctly call the colony's storage update to avoid a double update on the storage values.
 }
@@ -442,7 +451,8 @@ var
    CWPAVKTcol
    ,CWPAVKTcrew
    ,CWPAVKTequipIndex
-   ,CWPAVKTvalue: integer;
+   ,CWPAVKTvalue
+   ,ColonistLeft: integer;
 
    CWPAVKTcwp: double;
 begin
@@ -459,19 +469,20 @@ begin
    begin
       CWPAVKTcwp:=0;
       CWPAVKTequipIndex:=FCWinMain.FCWM_CDPwcpEquip.ItemIndex+1;
-      if CWPAVKTequipIndex>0
+      CWPAVKTcol:=FCFuiCDP_VarCurrentColony_Get;
+      ColonistLeft:=FCEntities[0].E_col[CWPAVKTcol].COL_population.POP_tpColon-FCEntities[0].E_col[CWPAVKTcol].COL_population.POP_tpColonAssigned;
+      if (ColonistLeft>0)
+         and (CWPAVKTequipIndex>0)
       then
       begin
          CWPAVKTvalue:=StrToInt64(FCWinMain.FCWM_CDPcwpAssignVeh.Text);
-         CWPAVKTcol:=FCFuiCDP_VarCurrentColony_Get;
          if CWPAVKTvalue>FCEntities[0].E_col[CWPAVKTcol].COL_storageList[ CDPmanEquipStor[CWPAVKTequipIndex] ].CPR_unit
          then CWPAVKTvalue:=round(FCEntities[0].E_col[CWPAVKTcol].COL_storageList[ CDPmanEquipStor[CWPAVKTequipIndex] ].CPR_unit);
          CWPAVKTcrew:=CWPAVKTvalue*FCDBproducts[ CDPmanEquipDB[CWPAVKTequipIndex] ].PROD_fMechConstCrew;
-         if CWPAVKTcrew>(FCEntities[0].E_col[CWPAVKTcol].COL_population.POP_tpColon-FCEntities[0].E_col[CWPAVKTcol].COL_population.POP_tpColonAssigned)
+         if CWPAVKTcrew>(ColonistLeft)
          then
          begin
-            CWPAVKTvalue:=trunc( (FCEntities[0].E_col[CWPAVKTcol].COL_population.POP_tpColon-FCEntities[0].E_col[CWPAVKTcol].COL_population.POP_tpColonAssigned)
-               / FCDBproducts[ CDPmanEquipDB[CWPAVKTequipIndex] ].PROD_fMechConstCrew );
+            CWPAVKTvalue:=trunc( ColonistLeft / FCDBproducts[ CDPmanEquipDB[CWPAVKTequipIndex] ].PROD_fMechConstCrew );
             CWPAVKTcrew:=CWPAVKTvalue*FCDBproducts[ CDPmanEquipDB[CWPAVKTequipIndex] ].PROD_fMechConstCrew;
          end;
          FCFgC_Storage_Update(
@@ -486,7 +497,7 @@ begin
          CWPAVKTcwp:=FCFcFunc_Rnd( cfrttpSizem, CWPAVKTvalue*FCDBproducts[ CDPmanEquipDB[CWPAVKTequipIndex] ].PROD_fManConstWCPcoef );
          FCEntities[0].E_col[CWPAVKTcol].COL_population.POP_wcpTotal:=FCEntities[0].E_col[CWPAVKTcol].COL_population.POP_wcpTotal+CWPAVKTcwp;
          FCMuiCDD_Colony_Update(
-            cdlColonyDataPopulation
+            cdlDataPopulation
             ,0
             ,0
             ,false
@@ -587,6 +598,7 @@ procedure FCMuiCDP_Data_Update(
          ,CPUsettlement: integer
    );
 {:Purpose: update the colony data display
+   -2012Jan09- *add: Storage List.
    -2012Jan05- *add: Population / CWP - set correctly the first option, "Add Colonists", by default.
    -2011Dec22- *add: 2 possible display for infrastructures: owned only, available only.
    -2011Dec21- *add: if the CPUcol is at 0, private data is used and not updated. CPUsettlement can't be at 0, if it's the case, the index 1 is selected (there's no colony w/o at least one settlement anyway).
@@ -773,6 +785,7 @@ begin
          FCMuiCDP_Data_Update(dtPopAll, 0, CDPcurrentSettlement);
          FCMuiCDP_Data_Update(dtCSMev, 0, CDPcurrentSettlement);
          FCMuiCDP_Data_Update(dtInfraAll, 0, CDPcurrentSettlement);
+         FCMuiCDP_Data_Update(dtStorage, 0, CDPcurrentSettlement);
       end; //==END== case of: dtAll ==//
 
       dtLvl:
@@ -923,10 +936,12 @@ begin
             ,FCFdTFiles_UIStr_Get(uistrUI, 'colPTcol')+' [ <b>'+CPUpopMaxOrAssigned+' / '+CPUpopTtl+'</b> ]'
             );
          CPUnodeTp:=FCWinMain.FCWM_CDPpopType.Items.Add(nil, FCFdTFiles_UIStr_Get(uistrUI, 'colPTspe'));
+         CPUpopTtl:=FCFcFunc_ThSep( FCentities[0].E_col[CDPcurrentColony].COL_population.POP_tpASoff, ',' );
+         CPUpopMaxOrAssigned:=FCFcFunc_ThSep( FCentities[0].E_col[CDPcurrentColony].COL_population.POP_tpASoffAssigned, ',' );
          FCWinMain.FCWM_CDPpopType.Items.AddChild(
             CPUnodeTp
             ,'<u>'+FCFdTFiles_UIStr_Get(uistrUI, 'colPTaero')+'</u>  '+FCFdTFiles_UIStr_Get(uistrUI, 'colPToff')
-               +' [ <b>'+floattostr(FCentities[0].E_col[CDPcurrentColony].COL_population.POP_tpASoff)+'</b> ]'
+               +' [ <b>'+CPUpopMaxOrAssigned+' / '+CPUpopTtl+'</b> ]'
             );
          FCWinMain.FCWM_CDPpopType.Items.AddChild(
             CPUnodeTp
@@ -1235,6 +1250,32 @@ begin
          FCWinMain.FCWM_CDPinfrAvail.FullExpand;
          FCWinMain.FCWM_CDPinfrAvail.Select(CPUrootnodeInfra);
       end;
+
+      dtStorage:
+      begin
+         FCWinMain.CDPstorageList.Items.Clear;
+         CPUmax:=length( FCEntities[ 0 ].E_col[ CDPcurrentColony ].COL_storageList )-1;
+         CPUcnt:=1;
+         CPUrootnode:=FCWinMain.CDPstorageList.Items.Add( nil, FCFdTFiles_UIStr_Get(uistrUI, 'colStorage'));
+         while CPUcnt<=CPUmax do
+         begin
+            CPUnode:= FCWinMain.CDPstorageList.Items.AddChild(
+               CPUrootnode,
+               FCFgP_StringFromUnit_Get(
+                  FCEntities[ 0 ].E_col[ CDPcurrentColony ].COL_storageList[ CPUcnt ].CPR_token
+                  ,FCEntities[ 0 ].E_col[ CDPcurrentColony ].COL_storageList[ CPUcnt ].CPR_unit
+                  ,FCFdTFiles_UIStr_Get( uistrUI, FCEntities[ 0 ].E_col[ CDPcurrentColony ].COL_storageList[ CPUcnt ].CPR_token )
+                  ,true
+                  )
+               );
+            inc( CPUcnt );
+         end;
+         FCWinMain.CDPstorageList.FullExpand;
+         FCWinMain.CDPstorageList.SortType:=stText;
+         FCWinMain.CDPstorageList.Select(CPUrootnode);
+//         FCWinDebug.AdvMemo1.Lines.Add('1st item:='+FCWinMain.CDPstorageList.Items[1].Text);
+//         FCWinDebug.AdvMemo1.Lines.Add('2nd item:='+FCWinMain.CDPstorageList.Items[2].Text);
+      end;
    end; //==END== case CPUtp of ==//
 end;
 
@@ -1314,7 +1355,7 @@ begin
    FCMuiCDP_Surface_Relocate;
    FCWinMain.FCWM_ColDPanel.Visible:=true;
    FCMuiCDD_Colony_Update(
-      cdlColonyAll
+      cdlAll
       ,CFDcol
       ,0
       ,false

@@ -31,19 +31,20 @@ unit farc_ui_coredatadisplay;
 interface
 
 type TFCEuicddColonyDataList=(
-   cdlColonyAll
-   ,cdlColonyLevel
-   ,cdlColonyDataCohesion
-   ,cdlColonyDataSecurity
-   ,cdlColonyDataTension
-   ,cdlColonyDataEducation
-   ,cdlColonyDataHealth
-   ,cdlColonyDataCSMenergy
-   ,cdlColonyDataPopulation
-   ,cdlColonyDataCSMevents
-   ,cdlColonyDataInfrastructuresAll
-   ,cdlColonyDataInfrastructuresOwned
-   ,cdlColonyDataInfrastructuresAvail
+   cdlAll
+   ,cdlLevel
+   ,cdlDataCohesion
+   ,cdlDataSecurity
+   ,cdlDataTension
+   ,cdlDataEducation
+   ,cdlDataHealth
+   ,cdlDataCSMenergy
+   ,cdlDataPopulation
+   ,cdlCSMevents
+   ,cdlInfrastructuresAll
+   ,cdlInfrastructuresOwned
+   ,cdlInfrastructuresAvail
+   ,cdlStorage
    );
 
 type TFCEuicddProductionList=(
@@ -106,6 +107,7 @@ procedure FCMuiCDD_Colony_Update(
    );
 {:Purpose: core data display refresh for colony data. Update the Colony Data Panel and the related UMI tabs if required.
     Additions:
+      -2012Jan09- *add: storage update.
       -2012Jan08- *add: new parameter to indicate if the surface panel must be updated too (used in case of language change for ex).
       -2012Jan03- *add: routine completion.
 }
@@ -131,7 +133,7 @@ begin
          )
    then isColonyDataPanelShown:=true;
    case DataType of
-      cdlColonyAll:
+      cdlAll:
       begin
          if isColonyDataPanelShown
          then FCMuiCDP_Data_Update(
@@ -154,7 +156,7 @@ begin
          {:DEV NOTES: update the 3d w/ colony name here, if required.}
       end;
 
-      cdlColonyLevel:
+      cdlLevel:
       begin
          if isColonyDataPanelShown
          then FCMuiCDP_Data_Update(
@@ -164,7 +166,7 @@ begin
             );
       end;
 
-      cdlColonyDataCohesion:
+      cdlDataCohesion:
       begin
          if isColonyDataPanelShown
          then FCMuiCDP_Data_Update(
@@ -175,7 +177,7 @@ begin
          {:DEV NOTES: update UMI here w/ colonies' list.}
       end;
 
-      cdlColonyDataSecurity:
+      cdlDataSecurity:
       begin
          if isColonyDataPanelShown
          then FCMuiCDP_Data_Update(
@@ -185,7 +187,7 @@ begin
             );
       end;
 
-      cdlColonyDataTension:
+      cdlDataTension:
       begin
          if isColonyDataPanelShown
          then FCMuiCDP_Data_Update(
@@ -195,7 +197,7 @@ begin
             );
       end;
 
-      cdlColonyDataEducation:
+      cdlDataEducation:
       begin
          if isColonyDataPanelShown
          then FCMuiCDP_Data_Update(
@@ -205,7 +207,7 @@ begin
             );
       end;
 
-      cdlColonyDataHealth:
+      cdlDataHealth:
       begin
          if isColonyDataPanelShown
          then FCMuiCDP_Data_Update(
@@ -215,7 +217,7 @@ begin
             );
       end;
 
-      cdlColonyDataCSMenergy:
+      cdlDataCSMenergy:
       begin
          if isColonyDataPanelShown
          then FCMuiCDP_Data_Update(
@@ -225,7 +227,7 @@ begin
             );
       end;
 
-      cdlColonyDataPopulation:
+      cdlDataPopulation:
       begin
          if ( isColonyDataPanelShown )
             and (FCWinMain.FCWM_CDPepi.ActivePage=FCWinMain.FCWM_CDPpopul)
@@ -236,7 +238,7 @@ begin
             );
       end;
 
-      cdlColonyDataCSMevents:
+      cdlCSMevents:
       begin
          if ( isColonyDataPanelShown )
             and (FCWinMain.FCWM_CDPepi.ActivePage=FCWinMain.FCWM_CDPcsme)
@@ -247,7 +249,7 @@ begin
             );
       end;
 
-      cdlColonyDataInfrastructuresAll:
+      cdlInfrastructuresAll:
       begin
          if ( isColonyDataPanelShown )
             and (FCWinMain.FCWM_CDPepi.ActivePage=FCWinMain.FCWM_CDPinfr)
@@ -258,7 +260,7 @@ begin
             );
       end;
 
-      cdlColonyDataInfrastructuresOwned:
+      cdlInfrastructuresOwned:
       begin
          if ( isColonyDataPanelShown )
             and (FCWinMain.FCWM_CDPepi.ActivePage=FCWinMain.FCWM_CDPinfr)
@@ -269,12 +271,23 @@ begin
             );
       end;
 
-      cdlColonyDataInfrastructuresAvail:
+      cdlInfrastructuresAvail:
       begin
          if ( isColonyDataPanelShown )
             and (FCWinMain.FCWM_CDPepi.ActivePage=FCWinMain.FCWM_CDPinfr)
          then FCMuiCDP_Data_Update(
             dtInfraAvail
+            ,Colony
+            ,Settlement
+            );
+      end;
+
+      cdlStorage:
+      begin
+         if ( isColonyDataPanelShown )
+            and (FCWinMain.FCWM_CDPepi.ActivePage=FCWinMain.FCWM_CDPstorage)
+         then FCMuiCDP_Data_Update(
+            dtStorage
             ,Colony
             ,Settlement
             );
@@ -295,7 +308,7 @@ begin
       plInfrastructuresInit:
       begin
          FCMuiCDD_Colony_Update(
-            cdlColonyDataInfrastructuresAll
+            cdlInfrastructuresAll
             ,Colony
             ,Settlement
             ,true
@@ -308,7 +321,7 @@ begin
       plInfrastructuresCABupdate:
       begin
          FCMuiCDD_Colony_Update(
-            cdlColonyDataInfrastructuresOwned
+            cdlInfrastructuresOwned
             ,Colony
             ,Settlement
             ,true

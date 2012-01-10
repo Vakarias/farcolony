@@ -68,7 +68,8 @@ uses
    farc_common_func
    ,farc_data_game
    ,farc_game_colony
-   ,farc_game_prodmodes;
+   ,farc_game_prodmodes
+   ,farc_ui_coredatadisplay;
 
 //===================================================END OF INIT============================
 //===========================END FUNCTIONS SECTION==========================================
@@ -176,6 +177,7 @@ procedure FCMgPS2_ProductionSegment_Process(
    );
 {:Purpose:  segment 2 (items production) processing.
     Additions:
+      -2012Jan09- *add: update the colony data panel / storage display if needed.
       -2011Dec19- *add: rule foundation, COMPLETION.
       -2011Dec18- *add: rule foundation, work-in-progress.
 }
@@ -308,6 +310,14 @@ begin
             inc( PSPcntPmatrix );
          end;
       end;
+      FCMuiCDD_Colony_Update(
+         cdlStorage
+         ,PSPcol
+         ,0
+         ,true
+         ,false
+         ,false
+         );
    end; //==END== if PSPmaxPmatrix>0 then ==//
 end;
 
