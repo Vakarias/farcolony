@@ -997,6 +997,7 @@ procedure FCMgCSM_Energy_Update(
    );
 {:Purpose: update the CSM-Energy data of a colony.
     Additions:
+      -2012Jan09- *fix: update the colony data panel ONLY IF Entity=0 and not >0.
       -2012Jan04- *code: the procedure is moved into the game_csm unit.
                   *code audit:
                   (x)var formatting + refactoring     (x)if..then reformatting   (x)function/procedure refactoring
@@ -1064,9 +1065,9 @@ begin
       if FCentities[ Entity ].E_col[ Colony ].COL_csmENstorCurr>FCentities[ Entity ].E_col[ Colony ].COL_csmENstorMax
       then FCentities[ Entity ].E_col[ Colony ].COL_csmENstorCurr:=FCentities[ Entity ].E_col[ Colony ].COL_csmENstorMax;
    end; //==END== else if CSMEUisFullCalculation ==//
-   if Entity>0
+   if Entity=0
    then FCMuiCDD_Colony_Update(
-      cdlColonyDataCSMenergy
+      cdlDataCSMenergy
       ,Colony
       ,0
       ,true
