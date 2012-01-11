@@ -212,6 +212,7 @@ uses
    ,farc_game_infra
    ,farc_game_infracustomfx
    ,farc_game_prod
+   ,farc_ui_coredatadisplay
    ,farc_univ_func
    ,farc_win_debug;
 
@@ -863,6 +864,14 @@ begin
    end;
    if frac(Result)>0
    then Result:=FCFcFunc_Rnd( cfrttpVolm3, Result );
+   FCMuiCDD_Colony_Update(
+      cdlStorageItem
+      ,SUtargetCol
+      ,SUcnt
+      ,true
+      ,false
+      ,false
+      );
 end;
 //===========================END FUNCTIONS SECTION==========================================
 

@@ -310,14 +310,14 @@ begin
             inc( PSPcntPmatrix );
          end;
       end;
-      FCMuiCDD_Colony_Update(
-         cdlStorage
-         ,PSPcol
-         ,0
-         ,true
-         ,false
-         ,false
-         );
+//      FCMuiCDD_Colony_Update(
+//         cdlStorage
+//         ,PSPcol
+//         ,0
+//         ,true
+//         ,false
+//         ,false
+//         );
    end; //==END== if PSPmaxPmatrix>0 then ==//
 end;
 
