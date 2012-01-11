@@ -44,7 +44,8 @@ type TFCEuicddColonyDataList=(
    ,cdlInfrastructuresAll
    ,cdlInfrastructuresOwned
    ,cdlInfrastructuresAvail
-   ,cdlStorage
+   ,cdlStorageAll
+   ,cdlStorageItem
    );
 
 type TFCEuicddProductionList=(
@@ -62,14 +63,14 @@ type TFCEuicddProductionList=(
 ///</summary>
 ///   <param name="DataType">type of data to refresh in the display</param>
 ///   <param name="Colony">colony index #</param>
-///   <param name="Settlement">settlement index #</param>
+///   <param name="Settlement">settlement index #, EXCEPTED FOR cdlStorageItem, it represent the item index #</param>
 ///   <param name="isMustbeTheSameColony">if true=> the Colony index parameter must be of the same value than the current colony displayed</param>
 ///   <param name="isMustBeTheSameSettlement">if true=> the Settlement index parameter must be of the same value than the current settlement displayed</param>
 ///   <param name="isSurfacePanelUpdate">if true=> indicate if the surface panel must be updated too (used in case of language change for ex). Used only w/cdlColonyAll</param>
 procedure FCMuiCDD_Colony_Update(
    const DataType: TFCEuicddColonyDataList;
    const Colony
-         ,Settlement: integer;
+         ,SettlementStorageItemIndex: integer;
    const isMustBeTheSameColony
          ,isMustBeTheSameSettlement
          ,isSurfacePanelUpdate: boolean
@@ -100,7 +101,7 @@ uses
 procedure FCMuiCDD_Colony_Update(
    const DataType: TFCEuicddColonyDataList;
    const Colony
-         ,Settlement: integer;
+         ,SettlementStorageItemIndex: integer;
    const isMustBeTheSameColony
          ,isMustBeTheSameSettlement
          ,isSurfacePanelUpdate: boolean
@@ -129,7 +130,7 @@ begin
          )
       and (
          ( not isMustBeTheSameSettlement )
-         or ( ( isMustBeTheSameSettlement ) and ( Settlement=ColonyDataPanelSettlement ) )
+         or ( ( isMustBeTheSameSettlement ) and ( SettlementStorageItemIndex=ColonyDataPanelSettlement ) )
          )
    then isColonyDataPanelShown:=true;
    case DataType of
@@ -139,7 +140,8 @@ begin
          then FCMuiCDP_Data_Update(
             dtAll
             ,Colony
-            ,Settlement
+            ,SettlementStorageItemIndex
+            ,0
             );
          {.update the surface panel if needed}
          if isSurfacePanelUpdate then
@@ -162,7 +164,8 @@ begin
          then FCMuiCDP_Data_Update(
             dtLvl
             ,Colony
-            ,Settlement
+            ,SettlementStorageItemIndex
+            ,0
             );
       end;
 
@@ -172,7 +175,8 @@ begin
          then FCMuiCDP_Data_Update(
             dtCohes
             ,Colony
-            ,Settlement
+            ,SettlementStorageItemIndex
+            ,0
             );
          {:DEV NOTES: update UMI here w/ colonies' list.}
       end;
@@ -183,7 +187,8 @@ begin
          then FCMuiCDP_Data_Update(
             dtSecu
             ,Colony
-            ,Settlement
+            ,SettlementStorageItemIndex
+            ,0
             );
       end;
 
@@ -193,7 +198,8 @@ begin
          then FCMuiCDP_Data_Update(
             dtTens
             ,Colony
-            ,Settlement
+            ,SettlementStorageItemIndex
+            ,0
             );
       end;
 
@@ -203,7 +209,8 @@ begin
          then FCMuiCDP_Data_Update(
             dtEdu
             ,Colony
-            ,Settlement
+            ,SettlementStorageItemIndex
+            ,0
             );
       end;
 
@@ -213,7 +220,8 @@ begin
          then FCMuiCDP_Data_Update(
             dtHeal
             ,Colony
-            ,Settlement
+            ,SettlementStorageItemIndex
+            ,0
             );
       end;
 
@@ -223,7 +231,8 @@ begin
          then FCMuiCDP_Data_Update(
             dtCSMenergy
             ,Colony
-            ,Settlement
+            ,SettlementStorageItemIndex
+            ,0
             );
       end;
 
@@ -234,7 +243,8 @@ begin
          then FCMuiCDP_Data_Update(
             dtPopAll
             ,Colony
-            ,Settlement
+            ,SettlementStorageItemIndex
+            ,0
             );
       end;
 
@@ -245,7 +255,8 @@ begin
          then FCMuiCDP_Data_Update(
             dtCSMev
             ,Colony
-            ,Settlement
+            ,SettlementStorageItemIndex
+            ,0
             );
       end;
 
@@ -256,7 +267,8 @@ begin
          then FCMuiCDP_Data_Update(
             dtInfraAll
             ,Colony
-            ,Settlement
+            ,SettlementStorageItemIndex
+            ,0
             );
       end;
 
@@ -267,7 +279,8 @@ begin
          then FCMuiCDP_Data_Update(
             dtInfraOwned
             ,Colony
-            ,Settlement
+            ,SettlementStorageItemIndex
+            ,0
             );
       end;
 
@@ -278,18 +291,32 @@ begin
          then FCMuiCDP_Data_Update(
             dtInfraAvail
             ,Colony
-            ,Settlement
+            ,SettlementStorageItemIndex
+            ,0
             );
       end;
 
-      cdlStorage:
+      cdlStorageAll:
       begin
          if ( isColonyDataPanelShown )
             and (FCWinMain.FCWM_CDPepi.ActivePage=FCWinMain.FCWM_CDPstorage)
          then FCMuiCDP_Data_Update(
-            dtStorage
+            dtStorageAll
             ,Colony
-            ,Settlement
+            ,SettlementStorageItemIndex
+            ,0
+            );
+      end;
+
+      cdlStorageItem:
+      begin
+         if ( isColonyDataPanelShown )
+            and (FCWinMain.FCWM_CDPepi.ActivePage=FCWinMain.FCWM_CDPstorage)
+         then FCMuiCDP_Data_Update(
+            dtStorageIndex
+            ,Colony
+            ,0
+            ,SettlementStorageItemIndex
             );
       end;
    end; //==END== case DataType of ==//
