@@ -455,6 +455,7 @@ procedure FCMgICS_Building_Process(
    );
 {:Purpose: process in the building of an infrastructure.
     Additions:
+      -2011Jan11- *fix: correction in the calculations in the main loop.
       -2012Jan04- *add: initialize power consumption / generation by custom effect.
       -2011Dec22- *mod: update the interface refresh by using the link to the new routine.
       -2011Dec14- *add: remove the required construction materials from the colony's storage.
@@ -517,20 +518,10 @@ begin
    BPcount:=1;
    while BPcount<=BPmax do
    begin
-      if BPcount=BPmax
-      then FCFgC_Storage_Update(
-         false
-         ,BPclonedInfra.I_reqConstrMat[ BPcount ].RCM_token
-         ,BPresultUnits
-         ,BPent
-         ,BPcol
-         )
-      else begin
-         BPtempMatVol:=BPclonedInfra.I_matVolume[ FCentities[BPent].E_col[BPcol].COL_settlements[BPsettlement].CS_infra[BPinfraIndex].CI_level ]*( BPclonedInfra.I_reqConstrMat[ BPcount ].RCM_percent*0.01 );
-         BPtempMatVol:=FCFcFunc_Rnd( cfrttpVolm3, BPtempMatVol );
-         BPresultUnits:=FCFgP_UnitFromVolume_Get( BPclonedInfra.I_reqConstrMat[ BPcount ].RCM_token, BPtempMatVol );
-         BPcurrentMatVol:=BPcurrentMatVol-BPtempMatVol;
-      end;
+      BPtempMatVol:=BPclonedInfra.I_matVolume[ FCentities[BPent].E_col[BPcol].COL_settlements[BPsettlement].CS_infra[BPinfraIndex].CI_level ]*( BPclonedInfra.I_reqConstrMat[ BPcount ].RCM_percent*0.01 );
+      BPtempMatVol:=FCFcFunc_Rnd( cfrttpVolm3, BPtempMatVol );
+      BPresultUnits:=FCFgP_UnitFromVolume_Get( BPclonedInfra.I_reqConstrMat[ BPcount ].RCM_token, BPtempMatVol );
+      BPcurrentMatVol:=BPcurrentMatVol-BPtempMatVol;
       FCFgC_Storage_Update(
          false
          ,BPclonedInfra.I_reqConstrMat[ BPcount ].RCM_token
