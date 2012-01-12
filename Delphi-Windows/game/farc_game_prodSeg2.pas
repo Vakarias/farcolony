@@ -67,7 +67,9 @@ implementation
 uses
    farc_common_func
    ,farc_data_game
+   ,farc_data_infrprod
    ,farc_game_colony
+   ,farc_game_prod
    ,farc_game_prodmodes
    ,farc_ui_coredatadisplay;
 
@@ -85,6 +87,7 @@ procedure FCMgPS2_ProductionMatrixItem_Add(
    );
 {:Purpose: add a production item in a colony's production matrix.
     Additions:
+      -2012Jan11- *add: load the CPMI_storageType.
       -2011Dec12- *fix: update the global production flow only if the production mode is enabled.
       -2011Dec11- *mod: the production matrix' global production flow value isn't updated when the production mode is created and set as disabled.
       -2011Dec08- *mod: if the production mode, inside the production matrix, is created, it is disabled by default. The reason is that a production mode is created only in case of a new infrastructure.
@@ -97,12 +100,14 @@ procedure FCMgPS2_ProductionMatrixItem_Add(
       ,PIApmodeCount
       ,PIApmodeMax
       ,PIAprodMatrixFound
-      ,PIAstorageIndex: integer;
+      ,PIAstorageIndex
+      ,ProductIndex: integer;
 
       PIAisPModeCreated: boolean;
 begin
    PIAprodMatrixFound:=0;
    PIAstorageIndex:=0;
+   ProductIndex:=0;
    PIAisPModeCreated:=false;
    PIApmCount:=1;
    {.first, the production matrix item is tested if it already created}
@@ -154,6 +159,8 @@ begin
             ,true
             );
          FCentities[ PIAent ].E_col[ PIAcol ].COL_productionMatrix[ PIAprodMatrixFound ].CPMI_storageIndex:=PIAstorageIndex;
+         ProductIndex:=FCFgP_Product_GetIndex( FCentities[ PIAent ].E_col[ PIAcol ].COL_productionMatrix[ PIAprodMatrixFound ].CPMI_productToken );
+         FCentities[ PIAent ].E_col[ PIAcol ].COL_productionMatrix[ PIAprodMatrixFound ].CPMI_storageType:=FCDBProducts[ ProductIndex ].PROD_storage;
          SetLength( FCentities[ PIAent ].E_col[ PIAcol ].COL_productionMatrix[ PIAprodMatrixFound ].CPMI_productionModes, 1 );
       end;
       PIApmodeCount:=Length( FCentities[ PIAent ].E_col[ PIAcol ].COL_productionMatrix[ PIAprodMatrixFound ].CPMI_productionModes );
@@ -177,6 +184,7 @@ procedure FCMgPS2_ProductionSegment_Process(
    );
 {:Purpose:  segment 2 (items production) processing.
     Additions:
+      -2012Jan11- *add: in case of a storage reached it's max capacity, and in case of a positive production flow, revert and disable the production of a product (Work In Progress).
       -2012Jan09- *add: update the colony data panel / storage display if needed.
       -2011Dec19- *add: rule foundation, COMPLETION.
       -2011Dec18- *add: rule foundation, work-in-progress.
@@ -199,8 +207,25 @@ procedure FCMgPS2_ProductionSegment_Process(
       ,PSPsettlement
       ,PSPstorageIndex: integer;
 
+      isMaxStorageSolidFull
+      ,isMaxStorageLiquidFull
+      ,isMaxStorageGasFull
+      ,isMaxStorageBioFull: boolean;
+
       prodMatrixDisList: array of prodMatrixDisabled;
 begin
+   if FCEntities[ PSPent ].E_col[ PSPcol ].COL_storCapacitySolidCurr=FCEntities[ PSPent ].E_col[ PSPcol ].COL_storCapacitySolidMax
+   then isMaxStorageSolidFull:=true
+   else isMaxStorageSolidFull:=false;
+   if FCEntities[ PSPent ].E_col[ PSPcol ].COL_storCapacityLiquidCurr=FCEntities[ PSPent ].E_col[ PSPcol ].COL_storCapacityLiquidMax
+   then isMaxStorageLiquidFull:=true
+   else isMaxStorageLiquidFull:=false;
+   if FCEntities[ PSPent ].E_col[ PSPcol ].COL_storCapacityGasCurr=FCEntities[ PSPent ].E_col[ PSPcol ].COL_storCapacityGasMax
+   then isMaxStorageGasFull:=true
+   else isMaxStorageGasFull:=false;
+   if FCEntities[ PSPent ].E_col[ PSPcol ].COL_storCapacityBioCurr=FCEntities[ PSPent ].E_col[ PSPcol ].COL_storCapacityBioMax
+   then isMaxStorageBioFull:=true
+   else isMaxStorageBioFull:=false;
    prodMatrixDisList:=nil;
    setlength( prodMatrixDisList, 1);
    PSPpmatrixDisIndex:=0;
@@ -243,7 +268,7 @@ begin
                            then FCFgC_Storage_Update(
                               false
                               ,FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPpmatrixIndex ].CPMI_productToken
-                              ,FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPpmatrixIndex ].CPMI_globalProdFlow
+                              ,abs( FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPpmatrixIndex ].CPMI_globalProdFlow )
                               ,PSPent
                               ,PSPcol
                               );
@@ -275,12 +300,15 @@ begin
             then FCFgC_Storage_Update(
                false
                ,FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcntPmatrix ].CPMI_productToken
-               ,FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcntPmatrix ].CPMI_globalProdFlow
+               ,abs( FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcntPmatrix ].CPMI_globalProdFlow )
                ,PSPent
                ,PSPcol
                );
          end //==END== if FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcntPmatrix ].CPMI_globalProdFlow<0 then ==//
-         else if FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcntPmatrix ].CPMI_globalProdFlow>0
+         else if (FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcntPmatrix ].CPMI_globalProdFlow>0)
+//            and (
+//               (  )
+//               );
          then FCFgC_Storage_Update(
             true
             ,FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcntPmatrix ].CPMI_productToken
@@ -288,6 +316,7 @@ begin
             ,PSPent
             ,PSPcol
             );
+         {:DEV NOTES: revert prod mode and disable it for the segment 2 session (like for neg values).}
          inc(PSPcntPmatrix);
       end; //==END== while PSPcntPmatrix<=PSPmaxPmatrix do ==//
       if PSPpmatrixDisIndex>0 then
@@ -310,14 +339,6 @@ begin
             inc( PSPcntPmatrix );
          end;
       end;
-//      FCMuiCDD_Colony_Update(
-//         cdlStorage
-//         ,PSPcol
-//         ,0
-//         ,true
-//         ,false
-//         ,false
-//         );
    end; //==END== if PSPmaxPmatrix>0 then ==//
 end;
 
