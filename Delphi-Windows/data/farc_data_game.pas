@@ -406,13 +406,17 @@ interface
             );
    end;
    {.production matrix item}
-   {:DEV NOTES: update FCMdFiles_Game_Load + FCMdFiles_Game_Save + FCMgCSM_ColonyData_Init.}
+   {:DEV NOTES: update FCMdFiles_Game_Load + FCMdFiles_Game_Save + FCMgCSM_ColonyData_Init + FCMgPS2_ProductionMatrixItem_Add.}
    type TFCRdgColonProdMatrixItm= record
       CPMI_productToken: string[20];
       ///<summary>
       /// index # in the colony's storage which correspond to the product
       ///</summary>
       CPMI_storageIndex: integer;
+      ///<summary>
+      /// indicate the storage type used by the product
+      ///</summary>
+      CPMI_storageType: TFCEdipStorageType;
       ///<summary>
       /// global production flow
       ///</summary>
