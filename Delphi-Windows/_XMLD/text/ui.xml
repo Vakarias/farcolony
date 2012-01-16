@@ -297,6 +297,10 @@
       <FR>Haut</FR>
    </ButtUp>
    <!-- ********** COLONIES / FACTION ********** -->
+   <FCWM_CDPstorage>
+      <EN>Storage/Production Matrix</EN>
+      <FR>Stockage/Matrice de Production</FR>
+   </FCWM_CDPstorage>
    <colDat>
       <EN>Colony Data</EN>
       <FR>Données de la Colonie</FR>

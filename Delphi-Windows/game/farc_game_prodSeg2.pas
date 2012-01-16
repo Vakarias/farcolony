@@ -326,7 +326,6 @@ begin
             ,PSPcol
             )
          else RevertProduction(false);
-         {:DEV NOTES: revert prod mode and disable it for the segment 2 session (like for neg values).}
          inc(PSPcntPmatrix);
       end; //==END== while PSPcntPmatrix<=PSPmaxPmatrix do ==//
       if PSPpmatrixDisIndex>0 then

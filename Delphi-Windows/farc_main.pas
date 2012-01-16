@@ -298,6 +298,8 @@ type
     FCXMLdbTechnosciences: TXMLDocument;
     FCWM_CDPstorage: TAdvTabSheet;
     CDPstorageList: THTMLTreeview;
+    CDPstorageCapacity: THTMLabel;
+    CDPproductionMatrixList: THTMLTreeview;
       procedure FormCreate(Sender: TObject);
       procedure FormResize(Sender: TObject);
       procedure FCWM_MMenu_G_QuitClick(Sender: TObject);

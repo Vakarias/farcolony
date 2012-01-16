@@ -645,6 +645,10 @@ end;
 procedure FCMuiWin_UI_Upd(const UIUtp: TFCEmwinUpdTp);
 {:Purpose: update and initialize all user's interface elements of the game.
    Additions:
+      -2012Jan15- *add: storage list font and size changes.
+                  *add: CDPstorageCapacity initialization.
+                  *add: tab is relocated and its text is localized.
+                  *add: CDPproductionMatrixList initialization.
       -2012Jan08- *mod: year change for the main title.
                   *mod: change the size of the colony data panel.
                   *add: surface panel - complete rework in size/positions and for the ecosphere data sheet.
@@ -871,6 +875,7 @@ begin
       FCWinMain.FCWM_CDPcsme.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_CDPcsme');
       FCWinMain.FCWM_CDPinfr.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_CDPinfr');
       FCWinMain.FCWM_CDPpopul.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_CDPpopul');
+      FCWinMain.FCWM_CDPstorage.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_CDPstorage');
       FCWinMain.FCWM_CDPcolName.EditLabel.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_CDPcolName');
       {.UMI}
       FCWinMain.FCWM_UMI.Caption.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_UMI');
@@ -1069,6 +1074,9 @@ begin
       FCWinMain.FCWM_CDPwcpEquip.Height:=20;
       FCWinMain.FCWM_CDPwcpEquip.Left:=162-134;
       FCWinMain.FCWM_CDPwcpEquip.Top:=216+24;
+      FCWinMain.CDPstorageList.Width:=( FCWinMain.FCWM_CDPepi.Width div 15 * 6 )-2;
+      FCWinMain.CDPstorageCapacity.Width:=( FCWinMain.FCWM_CDPepi.Width div 15 * 3 )-2;
+      FCWinMain.CDPproductionMatrixList.Width:=FCWinMain.FCWM_CDPepi.Width-FCWinMain.CDPstorageList.Width-FCWinMain.CDPstorageCapacity.Width-8;
       {.UMI}
       FCWinMain.FCWM_UMI.Width:=FCVwMumiW;
       FCWinMain.FCWM_UMI.Height:=FCVwMumiH;
@@ -1394,6 +1402,8 @@ begin
       FCWinMain.FCWM_CDPcwpAssignVeh.Font.Size:=FCFuiWin_Font_GetSize(uiwDescText);
       FCWinMain.FCWM_CDPwcpEquip.Font.Size:=FCFuiWin_Font_GetSize(uiwListItems);
       FCWinMain.FCWM_CDPwcpEquip.LabelFont.Size:=FCFuiWin_Font_GetSize(uiwDescText);
+      FCWinMain.CDPstorageList.Font.Size:=FCFuiWin_Font_GetSize(uiwDescText);
+      FCWinMain.CDPstorageCapacity.Font.Size:=FCFuiWin_Font_GetSize(uiwDescText);
       {.UMI}
       FCWinMain.FCWM_UMI.Caption.Font.Size:=FCFuiWin_Font_GetSize(uiwPanelTitle);
       FCWinMain.FCWM_UMI_TabSh.Font.Size:=FCFuiWin_Font_GetSize(uiwPageCtrl);
