@@ -91,7 +91,10 @@ procedure FCMuiCDD_Production_Update(
 implementation
 
 uses
-   farc_main
+   farc_data_game
+   ,farc_data_infrprod
+   ,farc_game_prod
+   ,farc_main
    ,farc_ui_coldatapanel
    ,farc_ui_surfpanel;
 
@@ -108,6 +111,7 @@ procedure FCMuiCDD_Colony_Update(
    );
 {:Purpose: core data display refresh for colony data. Update the Colony Data Panel and the related UMI tabs if required.
     Additions:
+      -2012Jan16- *add: cdlStorageItem - update also the corresponding storage capacity.
       -2012Jan09- *add: storage update.
       -2012Jan08- *add: new parameter to indicate if the surface panel must be updated too (used in case of language change for ex).
       -2012Jan03- *add: routine completion.
@@ -115,8 +119,8 @@ procedure FCMuiCDD_Colony_Update(
    var
       ColonyDataPanelColony
       ,ColonyDataPanelSettlement
-      ,SurfaceOOb
-      ,SurfaceSat: integer;
+      ,ReturnInt1
+      ,ReturnInt2: integer;
 
       isColonyDataPanelShown: boolean;
 begin
@@ -146,11 +150,11 @@ begin
          {.update the surface panel if needed}
          if isSurfacePanelUpdate then
          begin
-            SurfaceOOb:=FCFuiSP_VarCurrentOObj_Get;
-            SurfaceSat:=FCFuiSP_VarCurrentSat_Get;
+            ReturnInt1:=FCFuiSP_VarCurrentOObj_Get;
+            ReturnInt2:=FCFuiSP_VarCurrentSat_Get;
             FCMuiSP_SurfaceEcosphere_Set(
-               SurfaceOOb
-               ,SurfaceSat
+               ReturnInt1
+               ,ReturnInt2
                ,false
                );
          end;
@@ -311,13 +315,45 @@ begin
       cdlStorageItem:
       begin
          if ( isColonyDataPanelShown )
-            and (FCWinMain.FCWM_CDPepi.ActivePage=FCWinMain.FCWM_CDPstorage)
-         then FCMuiCDP_Data_Update(
-            dtStorageIndex
-            ,Colony
-            ,0
-            ,SettlementStorageItemIndex
-            );
+            and (FCWinMain.FCWM_CDPepi.ActivePage=FCWinMain.FCWM_CDPstorage) then
+         begin
+            FCMuiCDP_Data_Update(
+               dtStorageIndex
+               ,Colony
+               ,0
+               ,SettlementStorageItemIndex
+               );
+            ReturnInt1:=FCFgP_Product_GetIndex( FCEntities[ 0 ].E_col[ Colony ].COL_storageList[ SettlementStorageItemIndex ].CPR_token );
+            case FCDBProducts[ ReturnInt1 ].PROD_storage of
+               stSolid: FCMuiCDP_Data_Update(
+                  dtStorageCapSolid
+                  ,Colony
+                  ,0
+                  ,0
+                  );
+
+               stLiquid:FCMuiCDP_Data_Update(
+                  dtStorageCapLiquid
+                  ,Colony
+                  ,0
+                  ,0
+                  );
+
+               stGas:FCMuiCDP_Data_Update(
+                  dtStorageCapGas
+                  ,Colony
+                  ,0
+                  ,0
+                  );
+
+               stBiologic:FCMuiCDP_Data_Update(
+                  dtStorageCapBio
+                  ,Colony
+                  ,0
+                  ,0
+                  );
+            end;
+         end;
       end;
    end; //==END== case DataType of ==//
 end;
