@@ -83,8 +83,8 @@ function FCFcFunc_FARCVersion_Get: string;
 ///</summary>
 function FCFcFunc_Rnd(
    const RentryType: TFCEcfRndToTp;
-   const Rval: double
-   ): double;
+   const Rval: extended
+   ): extended;
 
 ///<summary>
 ///   "real' random function including a randomize each time
@@ -254,8 +254,8 @@ end;
 
 function FCFcFunc_Rnd(
    const RentryType: TFCEcfRndToTp;
-   const Rval: double
-   ): double;
+   const Rval: extended
+   ): extended;
 {:Purpose: round the target value dollowing value type.
     Additions:
       -2011Jul17- *add: power/kW rounding.

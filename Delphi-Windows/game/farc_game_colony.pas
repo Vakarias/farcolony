@@ -175,10 +175,10 @@ function FCFgC_Storage_RetrieveIndex(
 function FCFgC_Storage_Update(
    const SUisStoreMode: boolean;
    const SUtoken: string;
-         SUunit: double;
+         SUunit: extended;
    const SUtargetEnt
          ,SUtargetCol: integer
-   ): double;     {:DEV NOTES: required parameters refactoring.}
+   ): extended;     {:DEV NOTES: required parameters refactoring.}
 
 //===========================END FUNCTIONS SECTION==========================================
 
@@ -638,13 +638,13 @@ end;
 function FCFgC_Storage_Update(
    const SUisStoreMode: boolean;
    const SUtoken: string;
-         SUunit: double;
+         SUunit: extended;
    const SUtargetEnt
          ,SUtargetCol: integer
-   ): double;
+   ): extended;
 {:Purpose: update the storage of a colony with a specific product. Return the amount in unit that couldn't be transfered.
     Additions:
-      -2011Jan11- *fix: many consolidation and fixes in the calculations.
+      -2012Jan11- *fix: many consolidation and fixes in the calculations.
       -2011Dec19- *rem: remove the constant switch for the unit parameter.
                   *add: ensure that the unit parameter is always put with a positive sign (force it).
                   *add: not store mode - put a protection to avoid the current storage value to be <0.
