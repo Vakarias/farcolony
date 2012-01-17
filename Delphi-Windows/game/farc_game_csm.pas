@@ -997,6 +997,7 @@ procedure FCMgCSM_Energy_Update(
    );
 {:Purpose: update the CSM-Energy data of a colony.
     Additions:
+      -2012Jan16- *fix: if not isFullCalculation and the mod is<0 it is now also taken in account.
       -2012Jan09- *fix: update the colony data panel ONLY IF Entity=0 and not >0.
       -2012Jan04- *code: the procedure is moved into the game_csm unit.
                   *code audit:
@@ -1020,13 +1021,13 @@ procedure FCMgCSM_Energy_Update(
 begin
    if not isFullCalculation then
    begin
-      if ConsumptionMod>0
+      if ConsumptionMod<>0
       then FCentities[ Entity ].E_col[ Colony ].COL_csmENcons:=FCentities[ Entity ].E_col[ Colony ].COL_csmENcons+ConsumptionMod;
-      if GenerationMod>0
+      if GenerationMod<>0
       then FCentities[ Entity ].E_col[ Colony ].COL_csmENgen:=FCentities[ Entity ].E_col[ Colony ].COL_csmENgen+GenerationMod;
-      if StorageCurrentMod>0
+      if StorageCurrentMod<>0
       then FCentities[ Entity ].E_col[ Colony ].COL_csmENstorCurr:=FCentities[ Entity ].E_col[ Colony ].COL_csmENstorCurr+StorageCurrentMod;
-      if StorageMaxMod>0
+      if StorageMaxMod<>0
       then FCentities[ Entity ].E_col[ Colony ].COL_csmENstorMax:=FCentities[ Entity ].E_col[ Colony ].COL_csmENstorMax+StorageMaxMod;
    end
    else if isFullCalculation then
