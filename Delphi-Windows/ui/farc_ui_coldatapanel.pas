@@ -52,6 +52,12 @@ type TFCEuicdpDataTypes=(
    ,dtInfraAvail
    ,dtStorageAll
    ,dtStorageIndex
+   ,dtStorageCapSolid
+   ,dtStorageCapLiquid
+   ,dtStorageCapGas
+   ,dtStorageCapBio
+   ,dtProdMatrixAll
+   ,dtProdMatrixIndex
    );
 
 type CDPcurrentLocIndexes= record
@@ -602,6 +608,9 @@ procedure FCMuiCDP_Data_Update(
          ,DataIndex: integer
    );
 {:Purpose: update the colony data display
+   -2012Jan16- *add: dtStorageCapSolid + dtStorageCapLiquid + dtStorageCapGas + dtStorageCapBio (update display for each kind of storage).
+               *add: dtProdMatrixAll (display of the production matrix).
+               *add: dtAll - update also the production matrix now.
    -2012Jan15- *add: dtStorageAll - display the storage capacities.
    -2012Jan10- *mod: Population - display the population in the form assigned/total.
                *add: new parameter to indicate the index to update, when it's required.
@@ -795,6 +804,7 @@ begin
          FCMuiCDP_Data_Update(dtCSMev, 0, CDPcurrentSettlement, 0);
          FCMuiCDP_Data_Update(dtInfraAll, 0, CDPcurrentSettlement, 0);
          FCMuiCDP_Data_Update(dtStorageAll, 0, CDPcurrentSettlement, 0);
+         FCMuiCDP_Data_Update(dtProdMatrixAll, 0, CDPcurrentSettlement, 0);
       end; //==END== case of: dtAll ==//
 
       dtLvl:
@@ -1324,27 +1334,22 @@ begin
          {.idx=4}
          FCWinMain.CDPstorageCapacity.HTMLText.Add(
             FCFcFunc_ThSep( FCentities[ 0 ].E_col[ CDPcurrentColony ].COL_storCapacityLiquidCurr, ',' )+' m3<br>/<br>'
-            +FCFcFunc_ThSep( FCentities[ 0 ].E_col[ CDPcurrentColony ].COL_storCapacityLiquidMax, ',' )+' m3<br>'
+               +FCFcFunc_ThSep( FCentities[ 0 ].E_col[ CDPcurrentColony ].COL_storCapacityLiquidMax, ',' )+' m3<br>'
             );
          {.idx=5}
          FCWinMain.CDPstorageCapacity.HTMLText.Add( FCCFdHeadC+'Gas (curr./max)'+FCCFdHeadEnd );
          {.idx=6}
          FCWinMain.CDPstorageCapacity.HTMLText.Add(
             FCFcFunc_ThSep( FCentities[ 0 ].E_col[ CDPcurrentColony ].COL_storCapacityGasCurr, ',' )+' m3<br>/<br>'
-            +FCFcFunc_ThSep( FCentities[ 0 ].E_col[ CDPcurrentColony ].COL_storCapacityGasMax, ',' )+' m3<br>'
+               +FCFcFunc_ThSep( FCentities[ 0 ].E_col[ CDPcurrentColony ].COL_storCapacityGasMax, ',' )+' m3<br>'
             );
          {.idx=7}
          FCWinMain.CDPstorageCapacity.HTMLText.Add( FCCFdHeadC+'Biologicue (curr./max)'+FCCFdHeadEnd );
          {.idx=8}
          FCWinMain.CDPstorageCapacity.HTMLText.Add(
             FCFcFunc_ThSep( FCentities[ 0 ].E_col[ CDPcurrentColony ].COL_storCapacityBioCurr, ',' )+' m3<br>/<br>'
-            +FCFcFunc_ThSep( FCentities[ 0 ].E_col[ CDPcurrentColony ].COL_storCapacityBioMax, ',' )+' m3'
+               +FCFcFunc_ThSep( FCentities[ 0 ].E_col[ CDPcurrentColony ].COL_storCapacityBioMax, ',' )+' m3'
             );
-         FCWinMain.CDPproductionMatrixList.Items.Clear;
-         CPUintDump:=length( FCEntities[ 0 ].E_col[ CDPcurrentColony ].COL_productionMatrix );
-         CPUmax:=CPUintDump-1;
-         CPUcnt:=1;
-         CPUrootnode:=FCWinMain.CDPproductionMatrixList.Items.Add( nil, 'Colonys Production Matrix');//FCFdTFiles_UIStr_Get(uistrUI, ''));
       end;
 
       dtStorageIndex:
@@ -1360,6 +1365,87 @@ begin
                ,true
                );
 //            FCWinMain.CDPstorageList.SortType:=stText;
+         end;
+      end;
+
+      dtStorageCapSolid:
+      begin
+         FCWinMain.CDPstorageCapacity.HTMLText.Insert(
+            2
+            ,FCFcFunc_ThSep( FCentities[ 0 ].E_col[ CDPcurrentColony ].COL_storCapacitySolidCurr, ',' )+' m3<br>/<br>'
+               +FCFcFunc_ThSep( FCentities[ 0 ].E_col[ CDPcurrentColony ].COL_storCapacitySolidMax, ',' )+' m3<br>'
+            );
+         FCWinMain.CDPstorageCapacity.HTMLText.Delete( 3 );
+      end;
+
+      dtStorageCapLiquid:
+      begin
+         FCWinMain.CDPstorageCapacity.HTMLText.Insert(
+            4
+            ,FCFcFunc_ThSep( FCentities[ 0 ].E_col[ CDPcurrentColony ].COL_storCapacityLiquidCurr, ',' )+' m3<br>/<br>'
+               +FCFcFunc_ThSep( FCentities[ 0 ].E_col[ CDPcurrentColony ].COL_storCapacityLiquidMax, ',' )+' m3<br>'
+            );
+         FCWinMain.CDPstorageCapacity.HTMLText.Delete( 5 );
+      end;
+
+      dtStorageCapGas:
+      begin
+         FCWinMain.CDPstorageCapacity.HTMLText.Insert(
+            6
+            ,FCFcFunc_ThSep( FCentities[ 0 ].E_col[ CDPcurrentColony ].COL_storCapacityGasCurr, ',' )+' m3<br>/<br>'
+               +FCFcFunc_ThSep( FCentities[ 0 ].E_col[ CDPcurrentColony ].COL_storCapacityGasMax, ',' )+' m3<br>'
+            );
+         FCWinMain.CDPstorageCapacity.HTMLText.Delete( 7 );
+      end;
+
+      dtStorageCapBio:
+      begin
+         FCWinMain.CDPstorageCapacity.HTMLText.Insert(
+            8
+            ,FCFcFunc_ThSep( FCentities[ 0 ].E_col[ CDPcurrentColony ].COL_storCapacityBioCurr, ',' )+' m3<br>/<br>'
+               +FCFcFunc_ThSep( FCentities[ 0 ].E_col[ CDPcurrentColony ].COL_storCapacityBioMax, ',' )+' m3'
+            );
+         FCWinMain.CDPstorageCapacity.HTMLText.Delete( 9 );
+      end;
+
+      dtProdMatrixAll:
+      begin
+         FCWinMain.CDPproductionMatrixList.Items.Clear;
+         CPUintDump:=length( FCEntities[ 0 ].E_col[ CDPcurrentColony ].COL_productionMatrix );
+         CPUmax:=CPUintDump-1;
+         CPUcnt:=1;
+         CPUrootnode:=FCWinMain.CDPproductionMatrixList.Items.Add( nil, 'Colonys Production Matrix');//FCFdTFiles_UIStr_Get(uistrUI, ''));
+         while CPUcnt<=CPUmax do
+         begin
+            CPUnode:= FCWinMain.CDPproductionMatrixList.Items.AddChild(
+               CPUrootnode,
+               FCFgP_StringFromUnit_Get(
+                  FCEntities[ 0 ].E_col[ CDPcurrentColony ].COL_productionMatrix[ CPUcnt ].CPMI_productToken
+                  ,FCEntities[ 0 ].E_col[ CDPcurrentColony ].COL_productionMatrix[ CPUcnt ].CPMI_globalProdFlow
+                  ,FCFdTFiles_UIStr_Get( uistrUI, FCEntities[ 0 ].E_col[ CDPcurrentColony ].COL_productionMatrix[ CPUcnt ].CPMI_productToken )
+                  ,true
+                  )
+               );
+            inc( CPUcnt );
+         end;
+         FCWinMain.CDPproductionMatrixList.FullExpand;
+//         FCWinMain.CDPproductionMatrixList.SortType:=stText;
+         FCWinMain.CDPproductionMatrixList.Select(CPUrootnode);
+      end;
+
+      dtProdMatrixIndex:
+      begin
+         if DataIndex+1>FCWinMain.CDPproductionMatrixList.Items.Count
+         then FCMuiCDP_Data_Update(dtProdMatrixAll, 0, CDPcurrentSettlement, 0)
+         else begin
+//            FCWinMain.CDPproductionMatrixList.SortType:=stData;
+            FCWinMain.CDPproductionMatrixList.Items[ DataIndex ].Text:=FCFgP_StringFromUnit_Get(
+               FCEntities[ 0 ].E_col[ CDPcurrentColony ].COL_productionMatrix[ DataIndex ].CPMI_productToken
+               ,FCEntities[ 0 ].E_col[ CDPcurrentColony ].COL_productionMatrix[ DataIndex ].CPMI_globalProdFlow
+               ,FCFdTFiles_UIStr_Get( uistrUI, FCEntities[ 0 ].E_col[ CDPcurrentColony ].COL_productionMatrix[ DataIndex ].CPMI_productToken )
+               ,true
+               );
+//            FCWinMain.CDPproductionMatrixList.SortType:=stText;
          end;
       end;
    end; //==END== case CPUtp of ==//
