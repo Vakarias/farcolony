@@ -50,7 +50,7 @@ procedure FCMgMiT_ITransit_Setup;
 ///   calculate the trip data of the interplanetary transit mission, following transit
 ///   flight selection.
 ///</summary>
-procedure FCMgMiT_MissionTrip_Calc(const MTCflightTp: integer; MTCcurDV: double);
+procedure FCMgMiT_MissionTrip_Calc(const MTCflightTp: integer; MTCcurDV: extended);
 
 ///<summary>
 ///   calculate the distance, in AU, between a space unit and an orbital object in the same
@@ -67,7 +67,7 @@ function FCFgMTrans_ObObjInLStar_CalcRng(
    const OOILSCRorgTp,
          OOILSCRdestTp: TFCEgmtLocTp;
    const isConvToAU: boolean
-   ): double;
+   ): extended;
 
 implementation
 
@@ -97,7 +97,7 @@ var
    ,MCCmaxBurnEndSec
    ,MCCdepOrbVel
    ,MCCarrOrbVel
-   ,MCCvh: double;
+   ,MCCvh: extended;
 
    MCCdsgn
    ,MCCfac
@@ -219,7 +219,7 @@ begin
 //====================(END) GLOBAL DATA FORMATING===========================
 end;
 
-procedure FCMgMiT_MissionTrip_Calc(const MTCflightTp: integer; MTCcurDV: double);
+procedure FCMgMiT_MissionTrip_Calc(const MTCflightTp: integer; MTCcurDV: extended);
 {:Purpose: calculate the trip data of the interplanetary transit mission, following transit
 flight selection.
     Additions:
@@ -243,7 +243,7 @@ var
    MTCtimeAtDecel,
    MTCdistAtCruise,
    MTCtimeAtCruise
-   : double;
+   : extended;
 const
    MTCgeesInKmS=FCCgeesInMS*0.001;
 begin
@@ -355,7 +355,7 @@ function FCFgMTrans_ObObjInLStar_CalcRng
       const OOILSCRorgTp,
             OOILSCRdestTp: TFCEgmtLocTp;
       const isConvToAU: boolean
-   ): double;
+   ): extended;
 {:Purpose: calculate the distance, in AU, between a space unit and an orbital object in the
    same local star aera.
       Additions:
@@ -375,7 +375,7 @@ var
    ,OOILSCRxDest
    ,OOILSCRzDest
    ,OOILSCRgravSphOrg
-   ,OOILSCRgravSphDes: double;
+   ,OOILSCRgravSphDes: extended;
 
    OOILSCRsatPlanIdxOrg
    ,OOILSCRsatIdxOrg

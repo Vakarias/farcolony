@@ -46,7 +46,7 @@ uses
 function FCFgICS_AssemblingDuration_Calculation(
    const ADCtotalVolInfra
          ,ADCrecursiveCoef
-         ,ADCiCWP: double
+         ,ADCiCWP: extended
    ): integer;
 
 ///<summary>
@@ -61,7 +61,7 @@ function FCFgICS_BuildingDuration_Calculation(
    const BDCtotalVolMaterial
          ,BDCrecursiveCoef
          ,BDCiCWP
-         ,BDCemo: double
+         ,BDCemo: extended
    ): integer;
 
 ///<summary>
@@ -75,7 +75,7 @@ function FCFgICS_iCWP_Calculation(
 	const ICWPCent
    		,ICWPCcol
    		,ICWPCinfraLevel: integer
-   ): double;
+   ): extended;
 
 ///<summary>
 ///   determine the level of a new infrastructure according to it's level range, the settlement type and level
@@ -94,7 +94,7 @@ function FCFgICS_InfraLevel_Setup(
 ///</summary>
 ///   <param name="RCCdoneTime">time, in hours, already done</param>
 ///   <param name="RCCinitTime">starting duration</param>
-function FCFgICS_RecursiveCoef_Calculation(const RCCdoneTime, RCCinitTime: integer): double;
+function FCFgICS_RecursiveCoef_Calculation(const RCCdoneTime, RCCinitTime: integer): extended;
 
 //===========================END FUNCTIONS SECTION==========================================
 
@@ -230,7 +230,7 @@ uses
 function FCFgICS_AssemblingDuration_Calculation(
    const ADCtotalVolInfra
          ,ADCrecursiveCoef
-         ,ADCiCWP: double
+         ,ADCiCWP: extended
    ): integer;
 {:Purpose: calculate the assembling time. Returns the assembling time in hours (int).
     Additions:
@@ -255,7 +255,7 @@ function FCFgICS_BuildingDuration_Calculation(
    const BDCtotalVolMaterial
          ,BDCrecursiveCoef
          ,BDCiCWP
-         ,BDCemo: double
+         ,BDCemo: extended
    ): integer;
 {:Purpose: calculate the building time. Returns the building time in hours (int).
     Additions:
@@ -279,7 +279,7 @@ function FCFgICS_iCWP_Calculation(
 	const ICWPCent
    		,ICWPCcol
    		,ICWPCinfraLevel: integer
-   ): double;
+   ): extended;
 {:Purpose: calculate the iCWP for a given infrastructure level to assemble/build. Returns the iCWP formatted x.x.
     Additions:
       -2011Sep11- *code audit:
@@ -348,12 +348,12 @@ begin
    end;
 end;
 
-function FCFgICS_RecursiveCoef_Calculation(const RCCdoneTime, RCCinitTime: integer): double;
+function FCFgICS_RecursiveCoef_Calculation(const RCCdoneTime, RCCinitTime: integer): extended;
 {:Purpose: calculate the recursive coefficient of a given assembling/building.
     Additions:
 }
 var
-   RCCcoef: double;
+   RCCcoef: extended;
 begin
    Result:=0;
    if RCCinitTime>0
@@ -469,7 +469,7 @@ procedure FCMgICS_Building_Process(
       ,BPinfraIndex
       ,BPmax: integer;
 
-      BPresultUnits: double;
+      BPresultUnits: extended;
 
       BPcurrentMatVol
       ,BPtempMatVol: extended;
@@ -680,7 +680,7 @@ var
    ,ICPsurf
    ,ICPvol: integer;
 
-   ICPx: double;
+   ICPx: extended;
 
    ICPclonedInfra: TFCRdipInfrastructure;
 begin

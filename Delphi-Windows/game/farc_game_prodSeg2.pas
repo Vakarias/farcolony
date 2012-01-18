@@ -49,7 +49,7 @@ procedure FCMgPS2_ProductionMatrixItem_Add(
          ,PIAownedInfra
          ,PIAprodModeIndex: integer;
    const PIAproduct: string;
-   const PIAproductionFlow: double
+   const PIAproductionFlow: extended
    );
 
 ///<summary>
@@ -83,7 +83,7 @@ procedure FCMgPS2_ProductionMatrixItem_Add(
          ,PIAownedInfra
          ,PIAprodModeIndex: integer;
    const PIAproduct: string;
-   const PIAproductionFlow: double
+   const PIAproductionFlow: extended
    );
 {:Purpose: add a production item in a colony's production matrix.
     Additions:

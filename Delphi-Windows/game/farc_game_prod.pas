@@ -46,7 +46,7 @@ function FCFgP_Product_GetIndex(const PGIproduct: string): integer;
 ///   <returns>if the vol/m3 is = 1, then a "x,xxx.xxx m3" format is returned, if it's>1, then a "xn,nnn" format is returned</returns>
 function FCFgP_StringFromUnit_Get(
    const Product: string;
-   const ProdUnits: double;
+   const ProdUnits: extended;
    const RelatedString: string;
    const isValueinHTMLbold: boolean
    ): string;
@@ -57,7 +57,7 @@ function FCFgP_StringFromUnit_Get(
 ///   <param name="UFVGdbproductIndex">DB product index #</param>
 ///   <param name="UFVGvolume">volume in cubic meters</param>
 ///   <returns>a formatted (x.xxx) float</returns>
-function FCFgP_UnitFromVolume_Get( const UFVGdbproductIndex: integer; UFVGvolume: double ): double; overload;
+function FCFgP_UnitFromVolume_Get( const UFVGdbproductIndex: integer; UFVGvolume: extended ): extended; overload;
 
 ///<summary>
 ///   returns the number of units, of a specified product, by giving a volume value. This function is useful because when a product has a volume by unit <> 1, it doesn't convert directly
@@ -65,7 +65,7 @@ function FCFgP_UnitFromVolume_Get( const UFVGdbproductIndex: integer; UFVGvolume
 ///   <param name="UFVGdbproductToken">DB product token</param>
 ///   <param name="UFVGvolume">volume in cubic meters</param>
 ///   <returns>a formatted (x.xxx) float</returns>
-function FCFgP_UnitFromVolume_Get( const UFVGdbproductToken: string; UFVGvolume: double ): double; overload;
+function FCFgP_UnitFromVolume_Get( const UFVGdbproductToken: string; UFVGvolume: extended ): extended; overload;
 
 //===========================END FUNCTIONS SECTION==========================================
 
@@ -114,7 +114,7 @@ end;
 
 function FCFgP_StringFromUnit_Get(
    const Product: string;
-   const ProdUnits: double;
+   const ProdUnits: extended;
    const RelatedString: string;
    const isValueinHTMLbold: boolean
    ): string;
@@ -145,7 +145,7 @@ begin
    then Result:=RelatedString+' x'+BoldHTML+FCFcFunc_ThSep( ProdUnits, ',' )+BoldHTMLend;
 end;
 
-function FCFgP_UnitFromVolume_Get( const UFVGdbproductIndex: integer; UFVGvolume: double ): double; overload;
+function FCFgP_UnitFromVolume_Get( const UFVGdbproductIndex: integer; UFVGvolume: extended ): extended; overload;
 {:Purpose: returns the number of units, of a specified product, by giving a volume value. This function is useful because when a product has a volume by unit <> 1, it doesn't convert directly.
     Additions:
       -2012Jan09- *fix: take in account when volbyunit<1 too.
@@ -163,7 +163,7 @@ begin
    end;
 end;
 
-function FCFgP_UnitFromVolume_Get( const UFVGdbproductToken: string; UFVGvolume: double ): double; overload;
+function FCFgP_UnitFromVolume_Get( const UFVGdbproductToken: string; UFVGvolume: extended ): extended; overload;
 {:Purpose: returns the number of units, of a specified product, by giving a volume value. This function is useful because when a product has a volume by unit <> 1, it doesn't convert directly.
       Additions:
 }

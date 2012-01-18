@@ -211,7 +211,7 @@ var
    ,GLregionTtl: integer;
 
    GLcrInt
-   ,GLcrLineU: double;
+   ,GLcrLineU: extended;
 
    GLisCPSenabled: boolean;
 

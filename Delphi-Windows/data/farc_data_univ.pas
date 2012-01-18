@@ -319,7 +319,7 @@ interface
          {.ending day of the season/orbital period}
       OP_dayEnd: integer;
          {.mean surface temperature during this season}
-      OP_meanTemp: double;
+      OP_meanTemp: extended;
    end;
    {:DEV NOTES: ****you need to update FARC.main.odt when updating this data structure****}
       {.hydrosphere types}
@@ -392,13 +392,13 @@ interface
       {.type of climate}
       OOR_climate: TFCEregClimate;
       {.mean temperature at minimum orbital distance in kelvin}
-      OOR_meanTdMin: Double;
+      OOR_meanTdMin: extended;
       {.mean temperature at intermediate orbital distance in kelvin}
-      OOR_meanTdInt: Double;
+      OOR_meanTdInt: extended;
       {.mean temperature at maximum orbital distance in kelvin}
-      OOR_meanTdMax: Double;
+      OOR_meanTdMax: extended;
       {.mean windspeed in m/s}
-      OOR_windSpd: Double;
+      OOR_windSpd: extended;
       {.yearly precipitation in mm}
       OOR_precip: Integer;
       {.settlement data}
@@ -406,7 +406,7 @@ interface
       OOR_setCol: integer;
       OOR_setSet: integer;
       {.environment modifier}
-      OOR_emo: double;
+      OOR_emo: extended;
       {.resources data}
       OOR_resourceSpot: array of record
          RS_type: TFCEduRsrcSpotType;
@@ -430,35 +430,35 @@ interface
       {.environment type}
       OOS_envTp: TFCEduEnv;
          {distance from it's central planet in thousands of km}
-      OOS_distFrmOOb: double;
+      OOS_distFrmOOb: extended;
          {revolution period, in standard days, around it's planet}
       OOS_revol: integer;
          {starting day for revolution period}
       OOS_revolInit: integer;
          {NOT LOADED DATA - value used for 3d display}
-      OOS_angle1stDay: double;
+      OOS_angle1stDay: extended;
          {diameter in km RTO-1}
-      OOS_diam: double;
+      OOS_diam: extended;
          {density in kg/m3}
-      OOS_dens: double;
+      OOS_dens: extended;
          {mass in Earth mass equivalent RTO-6}
-      OOS_mass: double;
+      OOS_mass: extended;
          {gravity in gees RTO-3}
-      OOS_grav: double;
+      OOS_grav: extended;
          {gravity sphere of influence radius  in km RTO-1}
-      OOS_gravSphRad: double;
+      OOS_gravSphRad: extended;
          {escape velocity in km/s RTO-2}
-      OOS_escVel: double;
+      OOS_escVel: extended;
          {inclination axis}
-      OOS_inclAx: double;
+      OOS_inclAx: extended;
          {magnetic field in gauss}
-      OOS_magFld: double;
+      OOS_magFld: extended;
          {body albedo RTO-2}
-      OOS_albedo: double;
+      OOS_albedo: extended;
          {atmosphere pressure in mbars, 1013 eq 1 atm eq 101.3kpa}
-      OOS_atmPress: double;
+      OOS_atmPress: extended;
          {cloud cover in %}
-      OOS_cloudsCov: double;
+      OOS_cloudsCov: extended;
          {atmosphere detailed composition}
       OOS_atmosph: TFCRatmComp;
          {.orbital periods list, 2 intermediate 1 closest (summer) 1 farest (winter)}
@@ -466,7 +466,7 @@ interface
          {.hydrosphere type}
       OOS_hydrotp: TFCEhydroTp;
          {.hydrosphere area}
-      OOS_hydroArea: double;
+      OOS_hydroArea: extended;
          {.regions}
       OOS_regions: array of TFCRduOObRegion;
    end;
@@ -493,9 +493,9 @@ interface
       {.environment type}
       OO_envTp: TFCEduEnv;
          {distance from it's star in AU}
-      OO_distFrmStar: double;
+      OO_distFrmStar: extended;
          {orbit eccentricity in #.### format}
-      OO_ecc: double;
+      OO_ecc: extended;
          {orbital zone type}
       OO_orbZone: TFCEduHabZone;
          {revolution period, in standard days, around it's star}
@@ -503,31 +503,31 @@ interface
          {starting day for revolution period}
       OO_revolInit: integer;
          {NOT LOADED DATA - value used for 3d display}
-      OO_angle1stDay: double;
+      OO_angle1stDay: extended;
          {diameter in km RTO-1}
-      OO_diam: double;
+      OO_diam: extended;
          {density in kg/m3}
-      OO_dens: double;
+      OO_dens: extended;
          {mass in Earth mass equivalent RTO-6}
-      OO_mass: double;
+      OO_mass: extended;
          {gravity in gees RTO-3}
-      OO_grav: double;
+      OO_grav: extended;
          {gravity sphere of influence radius  in km RTO-1}
-      OO_gravSphRad: double;
+      OO_gravSphRad: extended;
          {escape velocity in km/s RTO-2}
-      OO_escVel: double;
+      OO_escVel: extended;
          {rotation period, around it's own axis, in hours RTO-2}
-      OO_rotPer: double;
+      OO_rotPer: extended;
          {inclination axis}
-      OO_inclAx: double;
+      OO_inclAx: extended;
          {magnetic field in gauss}
-      OO_magFld: double;
+      OO_magFld: extended;
          {body albedo RTO-2}
-      OO_albedo: double;
+      OO_albedo: extended;
          {atmosphere pressure in mbars, 1013 eq 1 atm eq 101.3kpa}
-      OO_atmPress: double;
+      OO_atmPress: extended;
          {cloud cover in %}
-      OO_cloudsCov: double;
+      OO_cloudsCov: extended;
          {atmosphere detailed composition}
       OO_atmosph: TFCRatmComp;
          {.orbital periods list, 2 intermediate 1 closest (summer) 1 farest (winter)}
@@ -535,7 +535,7 @@ interface
          {.hydrosphere type}
       OO_hydrotp: TFCEhydroTp;
          {.hydrosphere area}
-      OO_hydroArea: double;
+      OO_hydroArea: extended;
          {.regions}
       OO_regions: array of TFCRduOObRegion;
    end;
@@ -548,19 +548,19 @@ interface
       {temperature in degree Kelvin}
       SDB_temp: Integer;
       {mass, relative to Sun}
-      SDB_mass: Double;
+      SDB_mass: extended;
       {diameter, relative to Sun}
-      SDB_diam: Double;
+      SDB_diam: extended;
       {luminosity, relative to Sun}
-      SDB_lum: Double;
+      SDB_lum: extended;
       {orbital object sub-datastructure}
       SDB_obobj: array of TFCRduOobj;
       {.companion star - mean separation}
-      SDB_meanSep: double;
+      SDB_meanSep: extended;
       {.companion star - minimal approach distance}
-      SDB_minApD: double;
+      SDB_minApD: extended;
       {.companion star - eccentricity}
-      SDB_ecc: double;
+      SDB_ecc: extended;
       {.companion star 2 - orbit type}
       SDB_comp2Orb: TFCEduCompOrb;
    end;
@@ -570,10 +570,10 @@ interface
       {.star system db token id}
       SS_token: string[20];
       {.star system location on X axis, the unit is in AU and relative to Sol}
-      SS_gLocX: double;
-      SS_gLocY: double;                   {star system location on Y axis, the unit is in AU
+      SS_gLocX: extended;
+      SS_gLocY: extended;                   {star system location on Y axis, the unit is in AU
                                           and relative to Sol}
-      SS_gLocZ: double;                   {star system location on Z axis, the unit is in AU
+      SS_gLocZ: extended;                   {star system location on Z axis, the unit is in AU
                                           and relative to Sol}
       SS_star: array [0..3] of TFCRstar;  {star's sub datastructure 1= main 2 and 3 =
                                           compagnon ones}

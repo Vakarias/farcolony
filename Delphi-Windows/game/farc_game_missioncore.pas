@@ -41,7 +41,7 @@ type TFCRgmcDckd=record
    GMCD_index: integer;
    GMCD_landTime: integer;
    GMCD_tripTime: integer;
-   GMCD_usedRM: double;
+   GMCD_usedRM: extended;
 end;
 
 ///<summary>
@@ -95,7 +95,7 @@ var
    GMCcruiseDV,
    GMCAccelG,
    GMCusedRMvol,
-   GMCmaxDV: double;
+   GMCmaxDV: extended;
 
 
    GMCdckd: array of TFCRgmcDckd;

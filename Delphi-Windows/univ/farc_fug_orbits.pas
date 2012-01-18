@@ -60,7 +60,7 @@ var
    ,OrbitProbaRngMin
    ,OrbitProbaTest: integer;
 
-   FOGdapmMin: double;
+   FOGdapmMin: extended;
 
    FOGisPassedBiTri: boolean;
 

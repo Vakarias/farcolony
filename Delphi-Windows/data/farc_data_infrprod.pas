@@ -175,8 +175,8 @@ const
 
 			egmFission:
             {.fixed production value, in kW, for each infrastructure levels}
-				(FEPM_fissionFPlvl: array [0..7] of double;
-            	FEPM_fissionFPlvlByDL: array [0..7] of double
+				(FEPM_fissionFPlvl: array [0..7] of extended;
+            	FEPM_fissionFPlvlByDL: array [0..7] of extended
                );
 
 			egmFusionDT: ();
@@ -192,10 +192,10 @@ const
    end;
 
    type TFCRdipInfraProdStorage= record
-   	IPS_solid: double;
-      IPS_liquid: double;
-      IPS_gas: double;
-      IPS_biologic: double;
+   	IPS_solid: extended;
+      IPS_liquid: extended;
+      IPS_gas: extended;
+      IPS_biologic: extended;
    end;
    {.product data structure}
    {:DEV NOTES: update productsdb.xml + FCMdF_DBProducts_Read.}
@@ -209,17 +209,17 @@ const
 		PROD_tagHazFire: boolean;
 		PROD_tagHazRad: boolean;
 		PROD_tagHazToxic: boolean;
-      PROD_volByUnit: double;
-      PROD_massByUnit: double;
+      PROD_volByUnit: extended;
+      PROD_massByUnit: extended;
       case PROD_function: TFCEdipProductFunctions of
 			prfuBuildingMat:
 				(
-					PROD_fBmatTensileStr: double;
-					PROD_fBmatTSbyLevel: double;
-					PROD_fBmatYoungModulus: double;
-					PROD_fBmatYMbyLevel: double;
-					PROD_fBmatThermalProt: double;
-					PROD_fBmatReflectivity: double;
+					PROD_fBmatTensileStr: extended;
+					PROD_fBmatTSbyLevel: extended;
+					PROD_fBmatYoungModulus: extended;
+					PROD_fBmatYMbyLevel: extended;
+					PROD_fBmatThermalProt: extended;
+					PROD_fBmatReflectivity: extended;
 					PROD_fBmatCorrosiveClass: TFCEdipProductCorrosiveClasses;
 					);
 
@@ -232,34 +232,34 @@ const
              	PROD_fInfKitLevel: integer;
             	);
 			prfuManConstruction:
-				(PROD_fManConstWCPcoef: double);
+				(PROD_fManConstWCPcoef: extended);
 			prfuManufacturingMat:
 				();
 			prfuMechConstruction:
 				(
-					PROD_fMechConstWCP: double;
+					PROD_fMechConstWCP: extended;
 					PROD_fMechConstCrew: integer
 					);
 			prfuMultipurposeMat:
 				(
-					PROD_fMmatTensileStr: double;
-					PROD_fMmatTSbyLevel: double;
-					PROD_fMmatYoungModulus: double;
-					PROD_fMmatYMbyLevel: double;
-					PROD_fMmatThermalProt: double;
-					PROD_fMmatReflectivity: double;
+					PROD_fMmatTensileStr: extended;
+					PROD_fMmatTSbyLevel: extended;
+					PROD_fMmatYoungModulus: extended;
+					PROD_fMmatYMbyLevel: extended;
+					PROD_fMmatThermalProt: extended;
+					PROD_fMmatReflectivity: extended;
 					PROD_fMmatCorrosiveClass: TFCEdipProductCorrosiveClasses
 					);
 			prfuOxygen:
             (PROD_fOxyPoint: integer);
 			prfuSpaceMat:
 				(
-					PROD_fSmatTensileStr: double;
-					PROD_fSmatTSbyLevel: double;
-					PROD_fSmatYoungModulus: double;
-					PROD_fSmatYMbyLevel: double;
-					PROD_fSmatThermalProt: double;
-					PROD_fSmatReflectivity: double;
+					PROD_fSmatTensileStr: extended;
+					PROD_fSmatTSbyLevel: extended;
+					PROD_fSmatYoungModulus: extended;
+					PROD_fSmatYMbyLevel: extended;
+					PROD_fSmatThermalProt: extended;
+					PROD_fSmatReflectivity: extended;
 					PROD_fSmatCorrosiveClass: TFCEdipProductCorrosiveClasses
 					);
 			prfuWater:
@@ -271,7 +271,7 @@ const
 	type TFCRdipInfraCustomFX= record
       case ICFX_customEffect: TFCEdipCustomFX of
          cfxEnergyGen: (ICFX_enGenMode: TFCRdipEnergyGenerationMode);
-         cfxEnergyStor: (ICFX_enStorLvl: array [0..7] of double);
+         cfxEnergyStor: (ICFX_enStorLvl: array [0..7] of extended);
          cfxHQbasic: ();
          cfxHQSecondary: ();
          cfxHQPrimary: ();
@@ -317,16 +317,16 @@ const
       {.is surface only}
       I_isSurfOnly: boolean;
       {.surface, for each levels in the range}
-      I_surface: array[0..7] of double;
+      I_surface: array[0..7] of extended;
       {.volume, for each levels in the range}
-      I_volume: array[0..7] of double;
+      I_volume: array[0..7] of extended;
       {.base power consumption, for each levels in the range}
-      I_basePwr: array[0..7] of double;
+      I_basePwr: array[0..7] of extended;
       {.material volume, for each levels in the range}
-      I_matVolume: array[0..7] of double;
+      I_matVolume: array[0..7] of extended;
       {.prerequisites}
-      I_reqGravMin: double;
-      I_reqGravMax: double;
+      I_reqGravMin: extended;
+      I_reqGravMax: extended;
       I_reqHydro: TFCEdipHydrosphereReq;
       I_reqConstrMat: array of record
          RCM_token: string[20];

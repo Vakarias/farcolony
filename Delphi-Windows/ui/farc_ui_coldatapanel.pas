@@ -391,7 +391,7 @@ var
 
    CWPAKTvalue: integer;
 
-   CWPAKTcwp: double;
+   CWPAKTcwp: extended;
 begin
    if (ssAlt in CWCPAshftCtrl)
    then FCMuiK_WinMain_Test(CWCPAkey, CWCPAshftCtrl)
@@ -463,7 +463,7 @@ var
    ,CWPAVKTvalue
    ,ColonistLeft: integer;
 
-   CWPAVKTcwp: double;
+   CWPAVKTcwp: extended;
 begin
    if (ssAlt in CWPAVKshftCtrl)
    then FCMuiK_WinMain_Test(CWPAVKkey, CWPAVKshftCtrl)

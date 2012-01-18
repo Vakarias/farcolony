@@ -62,10 +62,10 @@ uses
          {.time left in ticks}
          CPStLft: integer;
          {.credit line current interest used}
-         CPSint: double;
+         CPSint: extended;
          {.credit line max and currently used}
          CPScrLineM: integer;
-         CPScrLineU: double;
+         CPScrLineU: extended;
          function FCF_ViabObj_GetIdx(const VOGItype: TFCEcpsObjTp): integer;
          procedure FCM_ViabObj_Load(const VOLobjList: array of TFCRdgFactCMViabObj); overload;
          procedure FCM_ViabObj_Load(const VOLobjList: array of TFCRcpsObj); overload;
@@ -90,7 +90,7 @@ uses
                   ,CPSCtlft
                   ,CPSCcrLineM : integer;
             const CPSCint
-                  ,CPSCcrLineU: double;
+                  ,CPSCcrLineU: extended;
             const CPSCobjList: array of TFCRcpsObj;
             const CPSCisEnabled: boolean
             ); overload;
@@ -266,7 +266,7 @@ constructor TFCcps.Create(
          ,CPSCtlft
          ,CPSCcrLineM : integer;
    const CPSCint
-         ,CPSCcrLineU: double;
+         ,CPSCcrLineU: extended;
    const CPSCobjList: array of TFCRcpsObj;
    const CPSCisEnabled: boolean
    );

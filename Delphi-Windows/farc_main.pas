@@ -402,7 +402,7 @@ type
    private
       { Private declarations }
          {timesteps needed for camera transitions}
-      FCV3DcamTimeSteps: double;
+      FCV3DcamTimeSteps: extended;
       FCVisFARCclosing: boolean;
       FCVwinMmouseNewPosX: Integer;
       FCVwinMmouseNewPosY: Integer;

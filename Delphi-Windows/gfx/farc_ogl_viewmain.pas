@@ -99,7 +99,7 @@ procedure FCMoglVM_Orbits_Gen(
    const OBobjIdx,
          OBsatIdx,
          OBsatCnt: integer;
-   const OBdistInUnit: double
+   const OBdistInUnit: extended
    );
 
 ///<summary>
@@ -289,7 +289,7 @@ var
    ,ASChighColBlue
    ,ASClowColRed
    ,ASClowColGreen
-   ,ASClowColBlue: double;
+   ,ASClowColBlue: extended;
 
    ASCh2
    ,ASChe
@@ -449,7 +449,7 @@ procedure FCMoglVM_CamMain_Target(
       -2009Aug27- *star targeting completion.
 }
 var
-   CMTdmpCoef: double;
+   CMTdmpCoef: extended;
    CMTdmpSatIdx
    ,CMTdmpSatPlanIdx: integer;
 begin
@@ -579,12 +579,12 @@ begin
    end;
 end;
 
-function FCFoglVMain_CloudsCov_Conv2AtmOp(const CCC2AOcover: double): double;
+function FCFoglVMain_CloudsCov_Conv2AtmOp(const CCC2AOcover: extended): extended;
 {:Purpose: calculate atmosphere opacity following clouds covers given.à
    Additions:
       -2010Mar21- *add: reinstate round of the result with a new method.
 }
-var CCC2AOdmp: double;
+var CCC2AOdmp: extended;
 begin
    if CCC2AOcover=0
    then Result:=0
@@ -614,7 +614,7 @@ var
    MTAdmpLibName
    ,MTAdmpOobjToken
    ,MTAdmpTexPath: string;
-   MTAdmpTemp: double;
+   MTAdmpTemp: extended;
 begin
    MTAdmpLibName:='';
    if MTAsatIdx=0
@@ -822,7 +822,7 @@ var
    LSVUangleRad
 	,LSVUorbDistUnit
    ,LSVUsatDistUnit
-   ,LSVUstarSize: double;
+   ,LSVUstarSize: extended;
 
    TDMVUorbObjCnt,
    MVUentCnt,
@@ -1469,7 +1469,7 @@ procedure FCMoglVM_Orbits_Gen(
    const OBobjIdx,
          OBsatIdx,
          OBsatCnt: integer;
-   const OBdistInUnit: double
+   const OBdistInUnit: extended
    );
 {:Purpose: generate an orbit display at 1/4 and centered around central scene object for
             planet orbit or full and centered around spacecraft for vessel beacon.
@@ -1497,7 +1497,7 @@ var
    ,OByyCen
    ,OBxRotated
    ,OByRotated
-   ,OBrotAngle: double;
+   ,OBrotAngle: extended;
 begin
    if OBorbitType=oglvmotpPlanet then
    begin
@@ -1929,7 +1929,7 @@ procedure FCMoglVM_OObjSpUn_ChgeScale(const OOSUCSobjIdx: integer);
       -2009Dec10- *bugfix: don't make a cumulative size change anymore.
 }
 var
-   OOSUCSdmpSize: double;
+   OOSUCSdmpSize: extended;
 begin
    if FC3DobjSpUnit[OOSUCSobjIdx].Hint=''
    then

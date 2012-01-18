@@ -295,7 +295,7 @@ var
    CSdummy
    ,CSentVel
    ,CSdistDecel
-   ,CSfinalVel: double;
+   ,CSfinalVel: extended;
 begin
    setlength(GMCdckd, 1);
    if CSmethod=gclvstBySelector

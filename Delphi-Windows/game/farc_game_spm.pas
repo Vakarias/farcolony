@@ -52,7 +52,7 @@ type TFCEgspmPolRslt=(
 ///   return the private calculated enforcement data
 ///</summary>
 ///   <param name="CDGdata">type of data to retrieve</param>
-function FCFgSPM_EnforcData_Get(const CDGdata: TFCEgspmData): double;
+function FCFgSPM_EnforcData_Get(const CDGdata: TFCEgspmData): extended;
 
 ///<summary>
 ///   return the state of the unique data of the current policy to enforce
@@ -218,7 +218,7 @@ var
 
 //===================================================END OF INIT============================
 
-function FCFgSPM_EnforcData_Get(const CDGdata: TFCEgspmData): double;
+function FCFgSPM_EnforcData_Get(const CDGdata: TFCEgspmData): extended;
 {:Purpose: return the private calculated enforcement data.
     Additions:
       -2010Dec07- *add: influence.
@@ -1025,7 +1025,7 @@ var
    PPblMod
    ,PPcalc
    ,PPt2
-   ,PPt4: double;
+   ,PPt4: extended;
 
    PPblRed
    ,PPpostSVoverride

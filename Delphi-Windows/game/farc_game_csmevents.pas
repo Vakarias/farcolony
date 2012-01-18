@@ -473,7 +473,7 @@ var
    ,ETuprRebels: integer;
 
    ETdur
-   ,ETuprDurCoef: double;
+   ,ETuprDurCoef: extended;
 
    ETenv: TFCRgcEnvironment;
 begin
@@ -1107,7 +1107,7 @@ var
    OTPratio
    ,OTPratioPop
    ,OTPratioSold
-   ,OTPrebEqup: double;
+   ,OTPrebEqup: extended;
 
    OTPevArr: array of TFCRdgColonCSMev;
 begin

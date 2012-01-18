@@ -471,7 +471,7 @@ var
    ,SERUidxWdSpd: integer;
 
    SERUwndSpd
-   ,SERUtemp: double;
+   ,SERUtemp: extended;
 
    SERUrelief
    ,SERUseason
@@ -930,7 +930,7 @@ var
 
    SESdmpAtmPr
    ,SESdmpCCov
-   ,SESdmpHCov: double;
+   ,SESdmpHCov: extended;
 
    SESenv
    ,SESdmpToken

@@ -50,7 +50,7 @@ procedure FCFgMl_Land_Calc(
          ,LCsatObjIdx: integer;
 
    const LCdistDecel
-         ,LCentrVel: double;
+         ,LCentrVel: extended;
 
    const LCsetPeVel: boolean
    );
@@ -77,7 +77,7 @@ procedure FCFgMl_Land_Calc(
          ,LCsatObjIdx: integer;
 
    const LCdistDecel
-         ,LCentrVel: double;
+         ,LCentrVel: extended;
 
    const LCsetPeVel: boolean
    );
@@ -96,7 +96,7 @@ var
    ,LCburnEnd
    ,LCusedRM
    ,LCtime
-   ,LCatm: double;
+   ,LCatm: extended;
 const
    LCgeesInKmS=FCCgeesInMS*0.001;
 begin

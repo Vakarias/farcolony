@@ -94,7 +94,7 @@ procedure FCMgIF_Functions_ApplicationRemove(
    var
       FARint: integer;
 
-      FARfloat: double;
+      FARfloat: extended;
 begin
    case FCentities[FARent].E_col[FARcol].COL_settlements[FARsett].CS_infra[FARinfra].CI_function of
       fEnergy:
@@ -180,7 +180,7 @@ procedure FCMgIF_Functions_Initialize(
 }
 {:DEV NOTES: don't forget to update FCMgIF_Functions_Application.}
    var
-      FIenergyOutput: double;
+      FIenergyOutput: extended;
 begin
    case FCentities[FIent].E_col[FIcol].COL_settlements[FIsett].CS_infra[FIinfra].CI_function of
       fEnergy:

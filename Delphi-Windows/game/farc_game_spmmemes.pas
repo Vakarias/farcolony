@@ -40,7 +40,7 @@ type
 ///   returns the BL modifier regarding the given belief level
 ///</summary>
 ///   <param name="BLMGbl">belief level</param>
-function FCFgSPMM_BLMod_Get(const BLMGbl: TFCEdgBelLvl): double;
+function FCFgSPMM_BLMod_Get(const BLMGbl: TFCEdgBelLvl): extended;
 
 ///<summary>
 ///   returns requirements margin modifier value
@@ -88,7 +88,7 @@ var
    GSPMMmarginMod: integer;
 
 //===================================================END OF INIT============================
-function FCFgSPMM_BLMod_Get(const BLMGbl: TFCEdgBelLvl): double;
+function FCFgSPMM_BLMod_Get(const BLMGbl: TFCEdgBelLvl): extended;
 {:Purpose: returns the BL modifier regarding the given belief level.
     Additions:
 }
@@ -358,7 +358,7 @@ var
    ,MCFUoldTens: integer;
 
    MCFUnewSVmod
-   ,MCFUoldSVmod: double;
+   ,MCFUoldSVmod: extended;
 
    MCFUspmi: TFCRdgSPMi;
 

@@ -144,7 +144,7 @@ procedure FCMgICFX_Effects_Application(
       ,LevelInfra
       ,EAmax: integer;
 
-      EAnergyOutput: double;
+      EAnergyOutput: extended;
 begin
    LevelInfra:=FCEntities[ EAent ].E_col[ EAcolony ].COL_settlements[ Settlement ].CS_infra[ OwnedInfrastructure ].CI_level;
    EAmax:=length(EAinfraDat.I_customFx)-1;

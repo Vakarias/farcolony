@@ -48,7 +48,7 @@ type TFCEgcInfAsk=(
    );
 
 type TFCRgcEnvironment= record
-   ENV_gravity: double;
+   ENV_gravity: extended;
    ENV_envType: TFCEduEnv;
    ENV_hydroTp: TFCEhydroTp;
 end;
@@ -236,7 +236,7 @@ function FCFgC_ColEnv_GetTp( const CEGTfac, CEGTcol: integer ): TFCRgcEnvironmen
       -2010Aug29- *fix: correct the code concerning the satellite, this bug occurs to return gaseous even if it's for a telluric planet or asteroid.
 }
 var
-   CEGTgravity: double;
+   CEGTgravity: extended;
 
    CEGToobjLoc: TFCRufStelObj;
 

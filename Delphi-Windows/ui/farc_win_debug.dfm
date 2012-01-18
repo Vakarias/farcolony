@@ -1,7 +1,6 @@
 object FCWinDebug: TFCWinDebug
   Left = 0
   Top = 0
-  AlphaBlend = True
   AlphaBlendValue = 180
   Caption = 'FARC Debug Output Console'
   ClientHeight = 573

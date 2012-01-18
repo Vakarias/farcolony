@@ -268,7 +268,7 @@ var
    ,CPsSys
    ,CPstar: integer;
 
-   CPsv: double;
+   CPsv: extended;
 
    CPspmI: TFCRdgSPMi;
 begin

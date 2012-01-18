@@ -101,7 +101,7 @@ var
    ,UIIPinfraKitUsed
    ,UIIPsettlement: integer;
 
-   UIIPiCWP: double;
+   UIIPiCWP: extended;
 
    UIIPinfraToken: string;
 

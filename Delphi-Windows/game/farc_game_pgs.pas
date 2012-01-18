@@ -134,7 +134,7 @@ var
    ,BRCpopPSastrFert
    ,BRCpopPSphys
    ,BRCpopPSphysFert
-   ,BRCspm: double;
+   ,BRCspm: extended;
 begin
    BRCpopAmedianFert:=0;
    BRCpopASmiSpFert:=0;
@@ -637,7 +637,7 @@ var
    DRCbasicDR
    ,DRCmA
    ,DRCfinalDR
-   ,DRCmodDR: double;
+   ,DRCmodDR: extended;
 begin
    DRChealth:=0;
    DRCpop:=0;
@@ -799,7 +799,7 @@ procedure FCMgPGS_MeanAge_UpdXfert(
       -2010Sep14- *add: entities code.
 }
 var
-   MAUXmeanA: double;
+   MAUXmeanA: extended;
 begin
    MAUXmeanA
       :=FCentities[MAUXfac].E_col[MAUXcol].COL_population.POP_meanA

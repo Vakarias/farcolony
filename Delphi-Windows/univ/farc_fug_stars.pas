@@ -41,9 +41,9 @@ type TFCRfsClassDat=record
    private
    FSCD_class: TFCEduStarClass;
    FSCD_temp: integer;
-   FSCD_mass: double;
-   FSCD_diam: double;
-   FSCD_lum: double;
+   FSCD_mass: extended;
+   FSCD_diam: extended;
+   FSCD_lum: extended;
 end;
 
 ///<summary>
@@ -63,19 +63,19 @@ procedure FCMfS_Data_Load(const DLstIdx: integer);
 ///</summary>
 ///   <param name="DCstar">star's index#</param>
 ///   <param name=""></param>
-function FCFfS_Diameter_Calc(const DCstar: integer): double;
+function FCFfS_Diameter_Calc(const DCstar: integer): extended;
 
 ///<summary>
 ///   calculate the star's luminosity
 ///</summary>
 ///   <param name="LCstar">star's index#</param>
-function FCFfS_Luminosity_Calc(const LCstar: integer): double;
+function FCFfS_Luminosity_Calc(const LCstar: integer): extended;
 
 ///<summary>
 ///   calculate the star's mass
 ///</summary>
 ///   <param name="TMstar">star's index#</param>
-function FCFfS_Mass_Calc(const TMstar: integer): double;
+function FCFfS_Mass_Calc(const TMstar: integer): extended;
 
 ///<summary>
 ///   calculate the star's temperature
@@ -104,7 +104,7 @@ var
    ,CECecc
    ,CECeccMax
    ,CECend
-   ,CECendf: double;
+   ,CECendf: extended;
 begin
    if CECstIdx=2 then
    begin
@@ -196,7 +196,7 @@ var
 
    CSCecc
    ,CSCmsep
-   ,CSCmad: double;
+   ,CSCmad: extended;
 begin
    if CSCstIdx=2
    then
@@ -267,11 +267,11 @@ begin
    end;
 end;
 
-function FCFfS_Data_WDLum(const DWDLidx: integer): double;
+function FCFfS_Data_WDLum(const DWDLidx: integer): extended;
 {:Purpose: calculate the luminosity for White Dwarves
 }
 var
-   DWDLlum: double;
+   DWDLlum: extended;
 begin
    Result:=0;
    DWDLlum:=(sqr(FCDBsSys[0].SS_star[DWDLidx].SDB_diam*0.5)*power(FCDBsSys[0].SS_star[DWDLidx].SDB_temp,4))/power(5800,4);
@@ -285,7 +285,7 @@ procedure FCMfS_Data_Load(const DLstIdx: integer);
     Additions:
 }
 var
-   DLdiam: double;
+   DLdiam: extended;
 begin
    FSCD.FSCD_class:=FCDBsSys[0].SS_star[DLstIdx].SDB_class;
    case FSCD.FSCD_class of
@@ -1303,12 +1303,12 @@ begin
    end; //==END== case DLclass of ==//
 end;
 
-function FCFfS_Diameter_Calc(const DCstar: integer): double;
+function FCFfS_Diameter_Calc(const DCstar: integer): extended;
 {:Purpose: calculate the star's diameter.
     Additions:
 }
 var
-   DCdiam: double;
+   DCdiam: extended;
 begin
    Result:=0;
    if FCDBsSys[0].SS_star[DCstar].SDB_class<>FSCD.FSCD_class
@@ -1324,12 +1324,12 @@ begin
    else Result:=FSCD.FSCD_diam;
 end;
 
-function FCFfS_Luminosity_Calc(const LCstar: integer): double;
+function FCFfS_Luminosity_Calc(const LCstar: integer): extended;
 {:Purpose: calculate the star's luminosity.
     Additions:
 }
 var
-   DClum: double;
+   DClum: extended;
 begin
    Result:=0;
    if FCDBsSys[0].SS_star[LCstar].SDB_class<>FSCD.FSCD_class
@@ -1351,12 +1351,12 @@ begin
    else Result:=FSCD.FSCD_lum;
 end;
 
-function FCFfS_Mass_Calc(const TMstar: integer): double;
+function FCFfS_Mass_Calc(const TMstar: integer): extended;
 {:Purpose: calculate the star's mass.
     Additions:
 }
 var
-   TMmass: double;
+   TMmass: extended;
 begin
    Result:=0;
    if FCDBsSys[0].SS_star[TMstar].SDB_class<>FSCD.FSCD_class

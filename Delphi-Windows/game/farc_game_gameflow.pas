@@ -237,7 +237,7 @@ var
   ,GTPthreadIdx: integer;
 
   GTPmove
-  ,GTPspUnVel: double;
+  ,GTPspUnVel: extended;
 
   GTPendPh: boolean;
 begin

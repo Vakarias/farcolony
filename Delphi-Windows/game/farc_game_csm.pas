@@ -150,7 +150,7 @@ procedure FCMgCSM_ColonyData_Upd(
    const CDUfac
          ,CDUcol: integer;
    const CDUvalue
-         ,CDUvalue1: double;
+         ,CDUvalue1: extended;
    const CDUpopType: TFCEgcsmPopTp;
    const CDUfullUpd: boolean
    );
@@ -172,7 +172,7 @@ procedure FCMgCSM_Energy_Update(
    const ConsumptionMod
          ,GenerationMod
          ,StorageCurrentMod
-         ,StorageMaxMod: double
+         ,StorageMaxMod: extended
    );
 
 ///<summary>
@@ -463,7 +463,7 @@ procedure FCMgCSM_ColonyData_Upd(
    const CDUfac
          ,CDUcol: integer;
    const CDUvalue
-         ,CDUvalue1: double;
+         ,CDUvalue1: extended;
    const CDUpopType: TFCEgcsmPopTp;
    const CDUfullUpd: boolean
    );
@@ -514,7 +514,7 @@ var
 
    CDUdatF
    ,CDUdatF1
-   ,CDUmeanAge: double;
+   ,CDUmeanAge: extended;
 
    CDUqolModstr: string;
 begin
@@ -993,7 +993,7 @@ procedure FCMgCSM_Energy_Update(
    const ConsumptionMod
          ,GenerationMod
          ,StorageCurrentMod
-         ,StorageMaxMod: double
+         ,StorageMaxMod: extended
    );
 {:Purpose: update the CSM-Energy data of a colony.
     Additions:
@@ -1225,7 +1225,7 @@ var
    ,PPtest
    ,PPx: integer;
 
-   PPmodF: double;
+   PPmodF: extended;
 
    PPstr: string;
 

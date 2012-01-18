@@ -172,19 +172,19 @@ procedure FCMdInit_Initialize;
       {type of control module allowed for the internal structure}
       SCIS_contMdlAllwd: TFCEscCtlMdlTp;
       {overall length in meter [RTO-1]}
-      SCIS_length: double;
+      SCIS_length: extended;
       {overall wingsapn in meter [RTO-1]}
-      SCIS_wingsp: double;
+      SCIS_wingsp: extended;
       {overall height in meter [RTO-1]}
-      SCIS_height: double;
+      SCIS_height: extended;
       {available volume for the design in cubic meter [RTO-1]}
-      SCIS_availStrVol: double;
+      SCIS_availStrVol: extended;
       {available surface for the design in square meter [RTO-1]}
-      SCIS_availStrSur: double;
+      SCIS_availStrSur: extended;
       {max volume, of total available, that can be occupied by the spacedrive [RTO-1]}
-      SCIS_driveMaxVol: double;
+      SCIS_driveMaxVol: extended;
       {max surface, of total available, that can be occupied by the spacedrive [RTO-1]}
-      SCIS_driveMaxSur: double;
+      SCIS_driveMaxSur: extended;
    end;
       {.spacecraft's internal structures dynamic array}
       TFCDBscintStruc = array of TFCRscIntStr;
@@ -207,17 +207,17 @@ procedure FCMdInit_Initialize;
       {data structure clone of the internal structure linked to the design}
       SCD_intStrClone: TFCRscIntStr;
       {used volume out the available volume, in cubic meter [RTO-1}
-      SCD_usedVol: double;
+      SCD_usedVol: extended;
       {used surface out the available surface, in square meter [RTO-1}
-      SCD_usedSur: double;
+      SCD_usedSur: extended;
       {empty mass of the spacecraft, w/o payload & crew [RTO-2]}
-      SCD_massEmp: double;
+      SCD_massEmp: extended;
       {list of installed equipment modules}
       SCD_eqMdlInst: array of TFCRscEqMdl;
       {ISP of installed space drive}
       SCD_spDriveISP: integer;
       {maximum reaction mass volume the spacecraft can carry}
-      SCD_spDriveRMassMaxVol: double;
+      SCD_spDriveRMassMaxVol: extended;
       {.capabilities. when updated, update too: farc_spu_functions/TFCEsufCapab}
       SUD_capInterstel: boolean;
       SUD_capColoniz: boolean;
@@ -306,7 +306,7 @@ procedure FCMdInit_Initialize;
       {.HR standard map (2048*1024) switch, false= 1024*512}
       FCV3DstdTresHR: boolean;
       {.store data for intial size of a targeted space unit}
-      FCV3DspUnSiz: double;
+      FCV3DspUnSiz: extended;
       //==========main window related=======================================================
       FCVwinMallowUp: boolean = false;
       {.stored left of the main window}

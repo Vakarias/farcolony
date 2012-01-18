@@ -97,7 +97,7 @@ function FCFuF_Env_GetStr(
 ///    <param name=""></param>
 function FCFuF_Index_Get(
    const IGtp: TFCEufIdxTp;
-   const IGvalue: double
+   const IGvalue: extended
    ): integer;
 
 ///<summary>
@@ -105,7 +105,7 @@ function FCFuF_Index_Get(
 ///</summary>
 ///    <param name="OPGMToobjIdx">orbital object index #</param>
 ///    <param name="OPGMTsatIdx">[optional] satellite index</param>
-function FCFuF_OrbPeriod_GetMeanTemp(const OPGMToobjIdx, OPGMTsatIdx: integer): double;
+function FCFuF_OrbPeriod_GetMeanTemp(const OPGMToobjIdx, OPGMTsatIdx: integer): extended;
 
 ///<summary>
 ///   get the climate token of a choosen region
@@ -131,7 +131,7 @@ function FCFuF_RegionLoc_Extract(
 ///</summary>
 ///   <param name="SLCPstarLum">star luminosity</param>
 ///   <param name="SLCPoobjDist">distance (of an orbital object) from the star, in AU</param>
-function FCFuF_StarLight_CalcPower(const SLCPstarLum, SLCPoobjDist: double): double;
+function FCFuF_StarLight_CalcPower(const SLCPstarLum, SLCPoobjDist: extended): extended;
 
 ///<summary>
 ///   retrieve db index number of asked star system, star, orbital object and satellite
@@ -364,7 +364,7 @@ end;
 
 function FCFuF_Index_Get(
    const IGtp: TFCEufIdxTp;
-   const IGvalue: double
+   const IGvalue: extended
    ): integer;
 {:Purpose: get the requested index of a given value, as for temperature or windspeed for example.
     Additions:
@@ -455,7 +455,7 @@ begin
    Result:=IGidx;
 end;
 
-function FCFuF_OrbPeriod_GetMeanTemp(const OPGMToobjIdx, OPGMTsatIdx: integer): double;
+function FCFuF_OrbPeriod_GetMeanTemp(const OPGMToobjIdx, OPGMTsatIdx: integer): extended;
 {:Purpose: calculate surface temperate by process the mean value between the 4 orbital periods.
     Additions:
       -2010Jan07- *add: satellite calculations.
@@ -465,7 +465,7 @@ var
    ,OPGMTdmpT2
    ,OPGMTdmpT3
    ,OPGMTdmpT4
-   ,OPGMTdmpRes: double;
+   ,OPGMTdmpRes: extended;
 begin
    if OPGMTsatIdx=0
    then
@@ -638,7 +638,7 @@ begin
    end;
 end;
 
-function FCFuF_StarLight_CalcPower(const SLCPstarLum, SLCPoobjDist: double): double;
+function FCFuF_StarLight_CalcPower(const SLCPstarLum, SLCPoobjDist: extended): extended;
 {:Purpose: calculate the power, in watts / m2, provided by a star in space.
     Additions:
 }

@@ -43,8 +43,8 @@ uses
 ///   <returns>energy output in kW formatted according from the convention (x.xx)</returns>
 function FCFgEM_NuclearFission_OutputCalculation(
    const NFOCfixedOutput
-         ,NFOCfixedOutputByDL: double
-   ): double;
+         ,NFOCfixedOutputByDL: extended
+   ): extended;
 
 ///<summary>
 ///   calculate the energy output for the Photon Energy generation
@@ -59,7 +59,7 @@ function FCFgEM_PhotonEnergy_OutputCalculation(
          ,PEOCcol
          ,PEOCphotonarea
          ,PEOCefficiency: integer
-   ): double;
+   ): extended;
 
 ///<summary>
 ///   retrieve the energy output of an infrastructure from custom effect. It's separated from EN function since they aren't initialized in the same way
@@ -76,7 +76,7 @@ function FCFgEM_OutputFromCustomFx_GetValue(
          ,OFCFGVcustomFxIndex
          ,OFCFGVcurrentLevel: integer;
    const OFCFGVinfraData: TFCRdipInfrastructure
-   ): double;
+   ): extended;
 
 ///<summary>
 ///   retrieve the energy output of an infrastructure from it's function (must be EN). It's separated from custom effects since they aren't initialized in the same way
@@ -91,7 +91,7 @@ function FCFgEM_OutputFromFunction_GetValue(
          ,OFFGVcol
          ,OFFGVcurrentLevel: integer;
    const OFFGVinfraData: TFCRdipInfrastructure
-   ): double;
+   ): extended;
 
 //===========================END FUNCTIONS SECTION==========================================
 
@@ -108,8 +108,8 @@ uses
 
 function FCFgEM_NuclearFission_OutputCalculation(
    const NFOCfixedOutput
-         ,NFOCfixedOutputByDL: double
-   ): double;
+         ,NFOCfixedOutputByDL: extended
+   ): extended;
 {:Purpose: calculate the energy output for the Nuclear Fission generation.
     Additions:
       -2011Jul17- *code: the code is moved in it's proper unit + complete rewrite.
@@ -133,7 +133,7 @@ function FCFgEM_PhotonEnergy_OutputCalculation(
          ,PEOCcol
          ,PEOCphotonarea
          ,PEOCefficiency: integer
-   ): double;
+   ): extended;
 {:Purpose: calculate the energy output for the Photon Energy generation.
     Additions:
       -2011Jul24- *fix: put the local float variables in extended, it's fix an out of range and calculation errors.
@@ -178,7 +178,7 @@ function FCFgEM_OutputFromCustomFx_GetValue(
          ,OFCFGVcustomFxIndex
          ,OFCFGVcurrentLevel: integer;
    const OFCFGVinfraData: TFCRdipInfrastructure
-   ): double;
+   ): extended;
 {:Purpose: retrieve the energy output of an infrastructure from custom effect. It's separated from EN function since they aren't initialized in the same way.
     Additions:
       -2011Jul18- *add: complete the photon energy case.
@@ -214,7 +214,7 @@ function FCFgEM_OutputFromFunction_GetValue(
          ,OFFGVcol
          ,OFFGVcurrentLevel: integer;
    const OFFGVinfraData: TFCRdipInfrastructure
-   ): double;
+   ): extended;
 {:Purpose: retrieve the energy output of an infrastructure from it's function (must be EN). It's separated from custom effects since they aren't initialized in the same way.
     Additions:
       -2011Nov14- *rem: remove a useless test.

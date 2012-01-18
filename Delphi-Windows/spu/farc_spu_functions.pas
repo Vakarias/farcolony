@@ -67,7 +67,7 @@ function FCFspuF_DeltaV_GetFromOrbit(
          ,DVGFOstar
          ,DVGFOobobj
          ,DVGFOsat: integer
-   ): double;
+   ): extended;
 
 ///<summary>
 ///   retrieve db record number of given spacecraft internal structure/design token
@@ -206,7 +206,7 @@ function FCFspuF_DeltaV_GetFromOrbit(
          ,DVGFOstar
          ,DVGFOobobj
          ,DVGFOsat: integer
-   ): double;
+   ): extended;
 {:Purpose: get the orbital deltav of a given orbital object.
     Additions:
       -2010Sep02- *code audit.
@@ -391,7 +391,7 @@ function FCFspuF_SpUObject_Search(const SUOSfac, SUOSidx: integer): integer;
 var
    SUOScnt: integer;
 
-   SUOSret: double;
+   SUOSret: extended;
 
    SUOSsyst: string;
 begin

@@ -99,14 +99,14 @@ function FCFcFunc_Rand_Int(const RIrange: integer): integer;
 ///   <param name="TDSCvalue">value to convert</param>
 function FCFcFunc_ScaleConverter(
    const SCconversion: TFCEcfunc3dCvTp;
-   const SCvalue: double
-   ): double;
+   const SCvalue: extended
+   ): extended;
 
 ///<summary>
 ///   swap the sign of a value (+ => - / - => +)
 ///</summary>
 ///   <param name="SSvalue">value to swap</param>
-function FCFcF_SignSwap( const SSvalue: double ): double;
+function FCFcF_SignSwap( const SSvalue: extended ): extended;
 
 ///<summary>
 ///   retrieve space unit id# from token id in a owned list
@@ -146,7 +146,7 @@ function FCFcFunc_ThSep(
 ///    <param name="TSval">value</param>
 ///    <param name="TSchr">thousand separator character</param>
 function FCFcFunc_ThSep(
-   const TSval: double;
+   const TSval: extended;
    const TSchr: Char
    ): string; overload;
 
@@ -163,7 +163,7 @@ function FCFcF_Time_GetDate(
 ///   transform time ticks in readable date.
 ///</summary>
 ///    <param name="TTGDtick">ticks value. 1= 10min GT</param>
-function FCFcFunc_TimeTick_GetDate(const TTGDtick: double): string;
+function FCFcFunc_TimeTick_GetDate(const TTGDtick: extended): string;
 
 ///<summary>
 ///   get the folder path of several kind of folders. The code is directly taken from
@@ -288,8 +288,8 @@ end;
 
 function FCFcFunc_ScaleConverter(
    const SCconversion: TFCEcfunc3dCvTp;
-   const SCvalue: double
-   ): double;
+   const SCvalue: extended
+   ): extended;
 {:Purpose: convert units in all ways.
     Additions:
       -2010Apr05- *mod: simplify and cleanup cf3dctMeterToSpUnitSize.
@@ -308,7 +308,7 @@ function FCFcFunc_ScaleConverter(
       -2009Aug30- *add ua<->unit.
 }
 var
-   TDSCdmpRes: double;
+   TDSCdmpRes: extended;
 begin
    TDSCdmpRes:=0;
    case SCconversion of
@@ -334,7 +334,7 @@ begin
    Result:=TDSCdmpRes;
 end;
 
-function FCFcF_SignSwap( const SSvalue: double ): double;
+function FCFcF_SignSwap( const SSvalue: extended ): extended;
 {:Purpose: swap the sign of a value (+ => - / - => +).
     Additions:
 }
@@ -1567,7 +1567,7 @@ begin
 end;
 
 function FCFcFunc_ThSep(
-   const TSval: double;
+   const TSval: extended;
    const TSchr: Char
    ): string; overload;
 {:Purpose: format the value in a thousand separator format.
@@ -1646,14 +1646,14 @@ begin
    end;
 end;
 
-function FCFcFunc_TimeTick_GetDate(const TTGDtick: double): string;
+function FCFcFunc_TimeTick_GetDate(const TTGDtick: extended): string;
 {:Purpose: transform time ticks in readable date.
     Additions:
 }
 var
    TTGDdays,
    TTGDhrs,
-   TTGDmin: double;
+   TTGDmin: extended;
    TTGDdaysFinal,
    TTGDhrsFinal,
    TTGDminFinal: integer;
