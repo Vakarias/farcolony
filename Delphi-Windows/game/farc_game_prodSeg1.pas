@@ -149,6 +149,7 @@ procedure FCMgSP1_EnergyEqRule_Process(
    );
 {:Purpose: energy equilibrium rule, return any excedent.
     Additions:
+      -2012Jan18- *fix: in case of a not EERPisShortageMode + if there's a surplus of generated energy after that the rule is processed, the energy is stocked.
       -2011Aug18- *add: surplus of energy - full completion with addition of the enabling/disabling tests.
       -2011Aug17- *add: complete the case: surplus of energy.
       -2011Aug16- *add: complete the case: surplus of energy.
@@ -291,6 +292,16 @@ begin
             inc(EERPinfraCnt);
          end;
       end;
+      if FCentities[EERPent].E_col[EERPcol].COL_csmENgen>FCentities[EERPent].E_col[EERPcol].COL_csmENcons
+      then FCMgCSM_Energy_Update(
+         EERPent
+         ,EERPcol
+         ,false
+         ,0
+         ,0
+         ,FCentities[EERPent].E_col[EERPcol].COL_csmENgen-FCentities[EERPent].E_col[EERPcol].COL_csmENcons
+         ,0
+         );
    end //==END== if not EERPisShortageMode ==//
    else
    begin
