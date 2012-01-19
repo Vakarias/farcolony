@@ -51,8 +51,8 @@ type TFCEuicddColonyDataList=(
 type TFCEuicddProductionList=(
    plInfrastructuresInit
    ,plInfrastructuresCABupdate
-   ,plProducts
-   ,plSpaceUnits
+   ,plProdMatrixAll
+   ,plProdMatrixItem
    );
 
 //===========================END FUNCTIONS SECTION==========================================
@@ -81,7 +81,7 @@ procedure FCMuiCDD_Colony_Update(
 ///</summary>
 ///   <param name="DataType">type of data to refresh in the display</param>
 ///   <param name="Colony">colony index #</param>
-///   <param name="Settlement">settlement index #</param>
+///   <param name="Settlement">settlement index #, EXCEPTED FOR plProdMatrixItem, it represent the item index #</param>
 procedure FCMuiCDD_Production_Update(
    const DataType: TFCEuicddProductionList;
    const Colony
@@ -365,8 +365,18 @@ procedure FCMuiCDD_Production_Update(
    );
 {:Purpose: core data display refresh for production data. Update the Colony Data Panel and the related UMI tabs if required.
     Additions:
+      -2012Jan18- *add: plProdMatrixAll + plProdMatrixItem.
 }
+   var
+      ColonyDataPanelColony: integer;
+
+      isColonyDataPanelShown: boolean;
 begin
+   isColonyDataPanelShown:=false;
+   ColonyDataPanelColony:=FCFuiCDP_VarCurrentColony_Get;
+   if ( FCWinMain.FCWM_ColDPanel.Visible )
+      and (Colony=ColonyDataPanelColony )
+   then isColonyDataPanelShown:=true;
    case DataType of
       plInfrastructuresInit:
       begin
@@ -394,19 +404,28 @@ begin
          {:DEV NOTES: UMI here.}
       end;
 
-      plProducts:
+      plProdMatrixAll:
       begin
-//         FCMuiCDD_Colony_Update(
-//            cdlColonyDataInfrastructuresOwned
-//            ,Colony
-//            ,Settlement
-//            ,true
-//            ,true
-//            );
+         if ( isColonyDataPanelShown )
+            and (FCWinMain.FCWM_CDPepi.ActivePage=FCWinMain.FCWM_CDPstorage)
+         then FCMuiCDP_Data_Update(
+            dtProdMatrixAll
+            ,Colony
+            ,0
+            ,0
+            );
       end;
 
-      plSpaceUnits:
+      plProdMatrixItem:
       begin
+         if ( isColonyDataPanelShown )
+            and (FCWinMain.FCWM_CDPepi.ActivePage=FCWinMain.FCWM_CDPstorage)
+         then FCMuiCDP_Data_Update(
+            dtProdMatrixIndex
+            ,Colony
+            ,0
+            ,Settlement
+            );
       end;
    end;
 end;

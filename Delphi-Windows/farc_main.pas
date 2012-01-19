@@ -443,6 +443,7 @@ uses
    ,farc_ogl_viewmain
    ,farc_ogl_ui
    ,farc_ui_coldatapanel
+   ,farc_ui_coredatadisplay
    ,farc_ui_html
    ,farc_ui_infrapanel
    ,farc_ui_keys
@@ -808,6 +809,49 @@ procedure TFCWinMain.FCWM_CDPepiChange(Sender: TObject);
 begin
    if FCWinMain.FCWM_InfraPanel.Visible
    then FCWinMain.FCWM_InfraPanel.Hide;
+   if FCWM_CDPepi.ActivePage=FCWM_CDPpopul
+   then FCMuiCDD_Colony_Update(
+      cdlDataPopulation
+      ,0
+      ,0
+      ,false
+      ,false
+      ,false
+      )
+   else if FCWM_CDPepi.ActivePage=FCWM_CDPstorage then
+   begin
+      FCMuiCDD_Colony_Update(
+         cdlStorageAll
+         ,0
+         ,0
+         ,false
+         ,false
+         ,false
+         );
+      FCMuiCDD_Production_Update(
+         plProdMatrixAll
+         ,0
+         ,0
+         );
+   end
+   else if FCWM_CDPepi.ActivePage=FCWM_CDPinfr
+   then FCMuiCDD_Colony_Update(
+      cdlInfrastructuresAll
+      ,0
+      ,0
+      ,false
+      ,false
+      ,false
+      )
+   else if FCWM_CDPepi.ActivePage=FCWM_CDPcsme
+   then FCMuiCDD_Colony_Update(
+      cdlCSMevents
+      ,0
+      ,0
+      ,false
+      ,false
+      ,false
+      );
 end;
 
 procedure TFCWinMain.FCWM_CDPinfrAvailAnchorClick(Sender: TObject; Node: TTreeNode;

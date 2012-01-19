@@ -87,7 +87,7 @@ procedure FCMgPS2_ProductionMatrixItem_Add(
    );
 {:Purpose: add a production item in a colony's production matrix.
     Additions:
-      -2012Jan16- *add: update the colony data panel / prouction matrix display if required.
+      -2012Jan18- *add: if a production matrix item need to be created, the colony data panel is updated if required.
       -2012Jan11- *add: load the CPMI_storageType.
       -2011Dec12- *fix: update the global production flow only if the production mode is enabled.
       -2011Dec11- *mod: the production matrix' global production flow value isn't updated when the production mode is created and set as disabled.
@@ -163,6 +163,12 @@ begin
          ProductIndex:=FCFgP_Product_GetIndex( FCentities[ PIAent ].E_col[ PIAcol ].COL_productionMatrix[ PIAprodMatrixFound ].CPMI_productToken );
          FCentities[ PIAent ].E_col[ PIAcol ].COL_productionMatrix[ PIAprodMatrixFound ].CPMI_storageType:=FCDBProducts[ ProductIndex ].PROD_storage;
          SetLength( FCentities[ PIAent ].E_col[ PIAcol ].COL_productionMatrix[ PIAprodMatrixFound ].CPMI_productionModes, 1 );
+         if PIAent=0
+         then FCMuiCDD_Production_Update(
+            plProdMatrixAll
+            ,PIAcol
+            ,PIAsettlement
+            );
       end;
       PIApmodeCount:=Length( FCentities[ PIAent ].E_col[ PIAcol ].COL_productionMatrix[ PIAprodMatrixFound ].CPMI_productionModes );
       SetLength( FCentities[ PIAent ].E_col[ PIAcol ].COL_productionMatrix[ PIAprodMatrixFound ].CPMI_productionModes, PIApmodeCount+1 );

@@ -104,6 +104,7 @@ uses
    ,farc_game_csm
    ,farc_game_infrastaff
    ,farc_game_prodSeg2
+   ,farc_ui_coredatadisplay
    ,farc_win_debug;
 
 //===================================================END OF INIT============================
@@ -122,6 +123,7 @@ procedure FCMgPM_EnableDisable_Process(
          );
 {:Purpose: enable or disable a specified production mode by applying its data into colony's global data.
     Additions:
+      -2011Jan18- *add: update the data display if required.
       -2011Dec19- *add: new parameter for indicate if a disabling/enabling comes from the production phase or not.
       -2011Dec12- *fix: power consumption calculations are put outside the matrix item processing loops, prevent to update the CSM energy <matrix items number> time.
 }
@@ -160,6 +162,12 @@ begin
             ;
          if EDPifFromProd
          then FCEntities[ EDPentity ].E_col[ EDPcolony ].COL_productionMatrix[ EDPprodMatrixIndex ].CPMI_productionModes[ EDPprodModeIndex ].PF_isDisabledByProdSegment:=false;
+         if EDPentity=0
+         then FCMuiCDD_Production_Update(
+            plProdMatrixItem
+            ,EDPcolony
+            ,EDPprodMatrixIndex
+            );
          inc( EDPpmiCount );
       end;
    end
@@ -192,6 +200,12 @@ begin
             ;
          if EDPifFromProd
          then FCEntities[ EDPentity ].E_col[ EDPcolony ].COL_productionMatrix[ EDPprodMatrixIndex ].CPMI_productionModes[ EDPprodModeIndex ].PF_isDisabledByProdSegment:=true;
+         if EDPentity=0
+         then FCMuiCDD_Production_Update(
+            plProdMatrixItem
+            ,EDPcolony
+            ,EDPprodMatrixIndex
+            );
          inc( EDPpmiCount );
       end;
    end;
