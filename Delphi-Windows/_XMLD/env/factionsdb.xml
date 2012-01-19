@@ -86,6 +86,12 @@
          <facEqupItm   itemTp="feitSpaceCraft" properName="" designToken="" status="" spuDock="" availEnRM=""/>
          //for products
          <facEqupItm itemTp="feitProduct" prodToken="" unit="" carriedBy=""/>
+         //for products
+         //WARNING TO DEV, req: space unit designs + transfert mission
+         <facEqupItm itemTp="feitPopulation" popToken="" number="" location=""/>
+         <facPlyrSPM>
+         
+         </facPlyrSPM>
       </facColMode>
       <facStartLoc locSSys="" locStar="" locObObj=""/>
       <facSPM>
@@ -133,6 +139,8 @@
          <facSPMi token="SPMi_StateRel" duration="" isSet="" aprob="-1" belieflev="0" spreadval="0"/>
          <facSPMi token="SPMi_TheFreeUnion" duration="0" isSet="false" aprob="-2" belieflev="" spreadval=""/>
       </facSPM>
+      <facColonies>
+      </facColonies>
    </faction>      
 -->
 <factionsDB>
