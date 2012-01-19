@@ -998,6 +998,7 @@ procedure FCMgCSM_Energy_Update(
 {:Purpose: update the CSM-Energy data of a colony.
     Additions:
       -2012Jan16- *fix: if not isFullCalculation and the mod is<0 it is now also taken in account.
+                  *add: cap the energy storage if the current value>max value.
       -2012Jan09- *fix: update the colony data panel ONLY IF Entity=0 and not >0.
       -2012Jan04- *code: the procedure is moved into the game_csm unit.
                   *code audit:
@@ -1025,8 +1026,12 @@ begin
       then FCentities[ Entity ].E_col[ Colony ].COL_csmENcons:=FCentities[ Entity ].E_col[ Colony ].COL_csmENcons+ConsumptionMod;
       if GenerationMod<>0
       then FCentities[ Entity ].E_col[ Colony ].COL_csmENgen:=FCentities[ Entity ].E_col[ Colony ].COL_csmENgen+GenerationMod;
-      if StorageCurrentMod<>0
-      then FCentities[ Entity ].E_col[ Colony ].COL_csmENstorCurr:=FCentities[ Entity ].E_col[ Colony ].COL_csmENstorCurr+StorageCurrentMod;
+      if StorageCurrentMod<>0 then
+      begin
+         FCentities[ Entity ].E_col[ Colony ].COL_csmENstorCurr:=FCentities[ Entity ].E_col[ Colony ].COL_csmENstorCurr+StorageCurrentMod;
+         if FCentities[ Entity ].E_col[ Colony ].COL_csmENstorCurr>FCentities[ Entity ].E_col[ Colony ].COL_csmENstorMax
+         then FCentities[ Entity ].E_col[ Colony ].COL_csmENstorCurr:=FCentities[ Entity ].E_col[ Colony ].COL_csmENstorMax;
+      end;
       if StorageMaxMod<>0
       then FCentities[ Entity ].E_col[ Colony ].COL_csmENstorMax:=FCentities[ Entity ].E_col[ Colony ].COL_csmENstorMax+StorageMaxMod;
    end
