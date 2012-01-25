@@ -130,6 +130,7 @@ procedure FCMgICFX_Effects_Application(
    );
 {:Purpose: applies the effects of a given infrastructure, if there's any.
     Additions:
+      -2012Jan23- *fix: set the CfxCount with a correct starting position.
       -2012Jan04- *add: two parameters settlement/owned infrastructure.
                   *add: store the energy output in CI_powerGenFromCFx if needed.
       -2011Jul17- *add: energy generation and energy storage custom effects.
@@ -140,23 +141,24 @@ procedure FCMgICFX_Effects_Application(
 }
 {:DEV NOTES: don't forget to update FCMgICFX_Effects_Removing too.}
    var
-      EAcnt
+      CfxCount
       ,LevelInfra
       ,EAmax: integer;
 
       EAnergyOutput: extended;
 begin
    LevelInfra:=FCEntities[ EAent ].E_col[ EAcolony ].COL_settlements[ Settlement ].CS_infra[ OwnedInfrastructure ].CI_level;
+   CfxCount:=1;
    EAmax:=length(EAinfraDat.I_customFx)-1;
-   while EAcnt<=EAmax do
+   while CfxCount<=EAmax do
    begin
-      case EAinfraDat.I_customFx[EAcnt].ICFX_customEffect of
+      case EAinfraDat.I_customFx[CfxCount].ICFX_customEffect of
          cfxEnergyGen:
          begin
             EAnergyOutput:=FCFgEM_OutputFromCustomFx_GetValue(
                EAent
                ,EAcolony
-               ,EAcnt
+               ,CfxCount
                ,LevelInfra
                ,EAinfraDat
                );
@@ -181,7 +183,7 @@ begin
                ,0
                ,0
                ,0
-               ,EAinfraDat.I_customFx[EAcnt].ICFX_enStorLvl[ LevelInfra ]
+               ,EAinfraDat.I_customFx[CfxCount].ICFX_enStorLvl[ LevelInfra ]
                );
          end;
 
@@ -205,13 +207,13 @@ begin
 
          cfxProductStorage:
          begin
-            FCentities[EAent].E_col[EAcolony].COL_storCapacitySolidMax:=FCentities[EAent].E_col[EAcolony].COL_storCapacitySolidMax+EAinfraDat.I_customFx[EAcnt].ICFX_prodStorageLvl[LevelInfra].IPS_solid;
-            FCentities[EAent].E_col[EAcolony].COL_storCapacityLiquidMax:=FCentities[EAent].E_col[EAcolony].COL_storCapacityLiquidMax+EAinfraDat.I_customFx[EAcnt].ICFX_prodStorageLvl[LevelInfra].IPS_liquid;
-            FCentities[EAent].E_col[EAcolony].COL_storCapacityGasMax:=FCentities[EAent].E_col[EAcolony].COL_storCapacityGasMax+EAinfraDat.I_customFx[EAcnt].ICFX_prodStorageLvl[LevelInfra].IPS_gas;
-            FCentities[EAent].E_col[EAcolony].COL_storCapacityBioMax:=FCentities[EAent].E_col[EAcolony].COL_storCapacityBioMax+EAinfraDat.I_customFx[EAcnt].ICFX_prodStorageLvl[LevelInfra].IPS_biologic;
+            FCentities[EAent].E_col[EAcolony].COL_storCapacitySolidMax:=FCentities[EAent].E_col[EAcolony].COL_storCapacitySolidMax+EAinfraDat.I_customFx[CfxCount].ICFX_prodStorageLvl[LevelInfra].IPS_solid;
+            FCentities[EAent].E_col[EAcolony].COL_storCapacityLiquidMax:=FCentities[EAent].E_col[EAcolony].COL_storCapacityLiquidMax+EAinfraDat.I_customFx[CfxCount].ICFX_prodStorageLvl[LevelInfra].IPS_liquid;
+            FCentities[EAent].E_col[EAcolony].COL_storCapacityGasMax:=FCentities[EAent].E_col[EAcolony].COL_storCapacityGasMax+EAinfraDat.I_customFx[CfxCount].ICFX_prodStorageLvl[LevelInfra].IPS_gas;
+            FCentities[EAent].E_col[EAcolony].COL_storCapacityBioMax:=FCentities[EAent].E_col[EAcolony].COL_storCapacityBioMax+EAinfraDat.I_customFx[CfxCount].ICFX_prodStorageLvl[LevelInfra].IPS_biologic;
          end;
       end; //==END== case EAinfraDat.I_customFx[EAcnt].ICFX_customEffect of ==//
-      inc(EAcnt);
+      inc(CfxCount);
    end; //==END== while EAcnt<=EAmax do ==//
 end;
 

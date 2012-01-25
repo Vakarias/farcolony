@@ -686,7 +686,7 @@ begin
             FCWinMain.FCWM_SP_SurfSel.Left:=0;
             FCWinMain.FCWM_SP_SurfSel.Top:=0;
          end;
-         FCWinMain.FCWM_SurfPanel.Left:=(FCWinMissSet.Width shr 1)-(FCWinMain.FCWM_SurfPanel.Width shr 1);
+         FCWinMain.FCWM_SurfPanel.Left:=FCWinMissSet.Left;//(FCWinMissSet.Width shr 1)-(FCWinMain.FCWM_SurfPanel.Width shr 1);
          FCWinMain.FCWM_SurfPanel.Top:=FCWinMissSet.Top-58+FCWinMissSet.Height;
          FCWinMain.FCWM_SP_DataSheet.ActivePage:=FCWinMain.FCWM_SP_ShReg;
          {.mission data display}

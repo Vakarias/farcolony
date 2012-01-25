@@ -148,6 +148,10 @@ function FCFgEM_PhotonEnergy_OutputCalculation(
       PEOCstarLoc: TFCRufStelObj;
 begin
    Result:=0;
+   PEOCstarLoc[1]:=0;
+   PEOCstarLoc[2]:=0;
+   PEOCstarLoc[3]:=0;
+   PEOCstarLoc[4]:=0;
    PEOCstarLoc:=FCFuF_StelObj_GetFullRow(
       FCentities[PEOCent].E_col[PEOCcol].COL_locSSys
       ,FCentities[PEOCent].E_col[PEOCcol].COL_locStar

@@ -738,15 +738,16 @@ function FCFuF_StelObj_GetFullRow(
    ): TFCRufStelObj;
 {:Purpose: retrieve db index numbers of the complete row (star system, star, orbital object and eventually the satellite).
     Additions:
+      -2012Jan23- *fix: remove a bug w/ satellite retrieving.
 }
 var
    SOGFRcnt
    ,SOGFRmax: integer;
 begin
-   Result[1]:=Result[0];
-   Result[2]:=Result[0];
-   Result[3]:=Result[0];
-   Result[4]:=Result[0];
+   Result[1]:=0;
+   Result[2]:=0;
+   Result[3]:=0;
+   Result[4]:=0;
    Result[1]:=FCFuF_StelObj_GetDbIdx(
       ufsoSsys
       ,SOGFRssys
@@ -775,7 +776,8 @@ begin
       ,Result[1]
       ,Result[2]
       ,Result[3]
-      );
+      )
+   else Result[4]:=0;
 end;
 
 end.
