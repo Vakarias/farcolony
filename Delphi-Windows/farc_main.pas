@@ -399,6 +399,12 @@ type
     procedure FCWM_IPinfraKitsClick(Sender: TObject);
     procedure FCWM_CDPpopListCollapsed(Sender: TObject; Node: TTreeNode);
     procedure FCWM_CDPpopListExpanded(Sender: TObject; Node: TTreeNode);
+    procedure CDPstorageListMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
+    procedure CDPstorageListKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure CDPproductionMatrixListMouseMove(Sender: TObject; Shift: TShiftState; X,
+      Y: Integer);
+    procedure CDPproductionMatrixListKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
    private
       { Private declarations }
          {timesteps needed for camera transitions}
@@ -460,6 +466,30 @@ const
 //=======================================END OF INIT========================================
 
 {$R *.dfm}
+
+procedure TFCWinMain.CDPproductionMatrixListKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+   FCMuiCDP_KeyProductionMatrixList_Test( Key, Shift );
+end;
+
+procedure TFCWinMain.CDPproductionMatrixListMouseMove(Sender: TObject; Shift: TShiftState;
+  X, Y: Integer);
+begin
+   FocusControl(CDPproductionMatrixList);
+end;
+
+procedure TFCWinMain.CDPstorageListKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+   FCMuiCDP_KeyStorageList_Test( Key, Shift );
+end;
+
+procedure TFCWinMain.CDPstorageListMouseMove(Sender: TObject; Shift: TShiftState; X,
+  Y: Integer);
+begin
+   FocusControl(CDPstorageList);
+end;
 
 procedure TFCWinMain.FCGLScadencerProgress(Sender: TObject; const deltaTime,
   newTime: Double);
@@ -863,7 +893,7 @@ end;
 procedure TFCWinMain.FCWM_CDPinfrAvailKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
-   FCMuiCDP_AvailInfra_Test(key, shift);
+   FCMuiCDP_KeyAvailInfra_Test(key, shift);
 end;
 
 procedure TFCWinMain.FCWM_CDPinfrAvailMouseDown(Sender: TObject; Button: TMouseButton;
@@ -914,7 +944,7 @@ end;
 procedure TFCWinMain.FCWM_CDPinfrListKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
-   FCMuiCDP_InfraListKey_Test(key, shift);
+   FCMuiCDP_KeyInfraList_Test(key, shift);
 end;
 
 procedure TFCWinMain.FCWM_CDPinfrListMouseDown(Sender: TObject; Button: TMouseButton;

@@ -99,16 +99,6 @@ function FCFuiCDP_VarCurrentSettlement_Get: integer;
 //===========================END FUNCTIONS SECTION==========================================
 
 ///<summary>
-///   test key routine for colony panel / available infrastructures list
-///</summary>
-///   <param="AITkey">key number</param>
-///   <param="AITshftCtrl">shift state</param>
-procedure FCMuiCDP_AvailInfra_Test(
-   const AITkey: integer;
-   const AITshftCtrl: TShiftState
-   );
-
-///<summary>
 ///   test key routine for colony data panel / population / CWP population assign edit
 ///</summary>
 ///   <param="CNTkeyDump">key number</param>
@@ -164,13 +154,43 @@ procedure FCMuiCDP_Display_Set(
 procedure FCMuiCDP_FunctionCateg_Initialize;
 
 ///<summary>
+///   test key routine for colony panel / available infrastructures list
+///</summary>
+///   <param="AITkey">key number</param>
+///   <param="AITshftCtrl">shift state</param>
+procedure FCMuiCDP_KeyAvailInfra_Test(
+   const AITkey: integer;
+   const AITshftCtrl: TShiftState
+   );
+
+///<summary>
 ///   test key routine for colony panel / infrastructures list.
 ///</summary>
 ///   <param="ILKTkey">key number</param>
 ///   <param="ILKTshftCtrl">shift state</param>
-procedure FCMuiCDP_InfraListKey_Test(
+procedure FCMuiCDP_KeyInfraList_Test(
    const ILKTkey: integer;
    const ILKTshftCtrl: TShiftState
+   );
+
+///<summary>
+///   test key routine for colony panel / production matrix list
+///</summary>
+///   <param="InputKey">key number</param>
+///   <param="ShiftControl">shift state</param>
+procedure FCMuiCDP_KeyProductionMatrixList_Test(
+   const InputKey: integer;
+   const ShiftControl: TShiftState
+   );
+
+///<summary>
+///   test key routine for colony panel / storage list
+///</summary>
+///   <param="InputKey">key number</param>
+///   <param="ShiftControl">shift state</param>
+procedure FCMuiCDP_KeyStorageList_Test(
+   const InputKey: integer;
+   const ShiftControl: TShiftState
    );
 
 ///<summary>
@@ -346,30 +366,6 @@ begin
 end;
 
 //===========================END FUNCTIONS SECTION==========================================
-
-procedure FCMuiCDP_AvailInfra_Test(
-   const AITkey: integer;
-   const AITshftCtrl: TShiftState
-   );
-{:Purpose: test key routine for colony panel / available infrastructures list.
-    Additions:
-}
-begin
-   if (ssAlt in AITshftCtrl)
-   then FCMuiK_WinMain_Test(AITkey, AITshftCtrl);
-//   if ((ILTkey<>13) and (FCWinMain.Tag<>1))
-//      and (ILTkey<>38)
-//      and (ILTkey<>40)
-//   then FCMuiK_WinMain_Test(ILTkey, ILTshftCtrl);
-//   {.ENTER}
-//   {.infrastructure selection}
-//   {:DEV NOTE: will be used for details display.}
-//   if ILTkey=13
-//   then
-//   begin
-//
-//   end;
-end;
 
 procedure FCMuiCDP_CWPAssignKey_Test(
    const CWCPAkey: integer;
@@ -1543,19 +1539,32 @@ begin
    CDPfunctionPR:='['+FCFdTFiles_UIStr_Get(uistrUI, 'infrafunc_Prod')+']';
 end;
 
-procedure FCMuiCDP_InfraListKey_Test(
+procedure FCMuiCDP_KeyAvailInfra_Test(
+   const AITkey: integer;
+   const AITshftCtrl: TShiftState
+   );
+{:Purpose: test key routine for colony panel / available infrastructures list.
+    Additions:
+      -2012Jan25- *add: complete the routine
+}
+begin
+   if (ssAlt in AITshftCtrl)
+   then FCMuiK_WinMain_Test(AITkey, AITshftCtrl);
+   {.keep up/down keys for the list}
+   if ( (AITkey<>38) and (AITkey<>40) )
+   then FCMuiK_WinMain_Test(AITkey, AITshftCtrl);
+end;
+
+procedure FCMuiCDP_KeyInfraList_Test(
    const ILKTkey: integer;
    const ILKTshftCtrl: TShiftState
    );
 {:Purpose: test key routine for colony panel / infrastructures list.
     Additions:
+      -2012Jan25- *mod: routine optimization.
 }
 begin
    if (ssAlt in ILKTshftCtrl)
-   then FCMuiK_WinMain_Test(ILKTkey, ILKTshftCtrl);
-   if ((ILKTkey<>13) and (FCWinMain.Tag<>1))
-      and (ILKTkey<>38)
-      and (ILKTkey<>40)
    then FCMuiK_WinMain_Test(ILKTkey, ILKTshftCtrl);
    {.ENTER}
    {.infrastructure selection}
@@ -1564,7 +1573,40 @@ begin
    then
    begin
 
-   end;
+   end
+   {.keep up/down keys for the list}
+   else if ( (ILKTkey<>38) and (ILKTkey<>40) )
+   then FCMuiK_WinMain_Test(ILKTkey, ILKTshftCtrl);
+end;
+
+procedure FCMuiCDP_KeyProductionMatrixList_Test(
+   const InputKey: integer;
+   const ShiftControl: TShiftState
+   );
+{:Purpose: test key routine for colony panel / production matrix list.
+    Additions:
+}
+begin
+   if (ssAlt in ShiftControl)
+   then FCMuiK_WinMain_Test(InputKey, ShiftControl);
+   {.keep up/down keys for the list}
+   if ( (InputKey<>38) and (InputKey<>40) )
+   then FCMuiK_WinMain_Test(InputKey, ShiftControl);
+end;
+
+procedure FCMuiCDP_KeyStorageList_Test(
+   const InputKey: integer;
+   const ShiftControl: TShiftState
+   );
+{:Purpose: test key routine for colony panel / storage list.
+    Additions:
+}
+begin
+   if (ssAlt in ShiftControl)
+   then FCMuiK_WinMain_Test(InputKey, ShiftControl);
+   {.keep up/down keys for the list}
+   if ( (InputKey<>38) and (InputKey<>40) )
+   then FCMuiK_WinMain_Test(InputKey, ShiftControl);
 end;
 
 procedure FCMuiCDP_Surface_Relocate;
