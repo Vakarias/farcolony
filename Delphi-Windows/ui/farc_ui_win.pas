@@ -645,6 +645,7 @@ end;
 procedure FCMuiWin_UI_Upd(const UIUtp: TFCEmwinUpdTp);
 {:Purpose: update and initialize all user's interface elements of the game.
    Additions:
+      -2012Jan25- *add: production matrix font initialization.
       -2012Jan15- *add: storage list font and size changes.
                   *add: CDPstorageCapacity initialization.
                   *add: tab is relocated and its text is localized.
@@ -1404,6 +1405,7 @@ begin
       FCWinMain.FCWM_CDPwcpEquip.LabelFont.Size:=FCFuiWin_Font_GetSize(uiwDescText);
       FCWinMain.CDPstorageList.Font.Size:=FCFuiWin_Font_GetSize(uiwDescText);
       FCWinMain.CDPstorageCapacity.Font.Size:=FCFuiWin_Font_GetSize(uiwDescText);
+      FCWinMain.CDPproductionMatrixList.Font.Size:=FCFuiWin_Font_GetSize(uiwDescText);
       {.UMI}
       FCWinMain.FCWM_UMI.Caption.Font.Size:=FCFuiWin_Font_GetSize(uiwPanelTitle);
       FCWinMain.FCWM_UMI_TabSh.Font.Size:=FCFuiWin_Font_GetSize(uiwPageCtrl);

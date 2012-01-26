@@ -606,6 +606,7 @@ procedure FCMuiCDP_Data_Update(
 {:Purpose: update the colony data display
    -2012Jan25_ *mod: some code cleanup + root in tree isn't selected by default.
                *add: localize storage and production matrix display.
+               *add: forgot to localize the production matrix header.
    -2012Jan16- *add: dtStorageCapSolid + dtStorageCapLiquid + dtStorageCapGas + dtStorageCapBio (update display for each kind of storage).
                *add: dtProdMatrixAll (display of the production matrix).
                *add: dtAll - update also the production matrix now.
@@ -1406,7 +1407,7 @@ begin
          CPUintDump:=length( FCEntities[ 0 ].E_col[ CDPcurrentColony ].COL_productionMatrix );
          CPUmax:=CPUintDump-1;
          CPUcnt:=1;
-         CPUrootnode:=FCWinMain.CDPproductionMatrixList.Items.Add( nil, 'Colonys Production Matrix');//FCFdTFiles_UIStr_Get(uistrUI, ''));
+         CPUrootnode:=FCWinMain.CDPproductionMatrixList.Items.Add( nil, FCFdTFiles_UIStr_Get(uistrUI, 'colProdMatrix') );
          while CPUcnt<=CPUmax do
          begin
             CPUnode:= FCWinMain.CDPproductionMatrixList.Items.AddChild(
