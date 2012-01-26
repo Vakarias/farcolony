@@ -1370,7 +1370,7 @@ begin
 //      and (FCWinMissSet.FCWMS_Grp.Caption=FCFdTFiles_UIStr_Get(uistrUI,'FCWinMissSet')+FCFdTFiles_UIStr_Get(uistrUI,'Mission.coloniz'))
    then
    begin
-      GMCregion:=FCWM_SP_Surface.Tag;
+      GMCregion:=FCFuiSP_VarRegionSelected_Get;
       if not FCWinMissSet.FCWMS_Grp_MCGColName.Visible
       then
       begin

@@ -1481,7 +1481,7 @@ begin
       begin
          FCWinMain.FCWM_SurfPanel.Visible:=true;
          FCWinMain.FCWM_SP_Surface.Enabled:=true;
-         FCWinMain.FCWM_SP_Surface.Tag:=0;
+         FCMuiSP_VarRegionSelected_Reset;
          FCWinMain.FCWM_SP_SurfSel.Width:=0;
          FCWinMain.FCWM_SP_SurfSel.Height:=0;
          FCWinMain.FCWM_SP_SurfSel.Left:=0;
@@ -1503,7 +1503,7 @@ begin
       begin
          FCWinMain.FCWM_SurfPanel.Visible:=true;
          FCWinMain.FCWM_SP_Surface.Enabled:=true;
-         FCWinMain.FCWM_SP_Surface.Tag:=0;
+         FCMuiSP_VarRegionSelected_Reset;
          FCWinMain.FCWM_SP_SurfSel.Width:=0;
          FCWinMain.FCWM_SP_SurfSel.Height:=0;
          FCWinMain.FCWM_SP_SurfSel.Left:=0;

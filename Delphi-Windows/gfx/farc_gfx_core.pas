@@ -74,10 +74,13 @@ var FCgfxCsettlementEvents: TFCgfxCsettlementEvents;
 procedure TFCgfxCsettlementEvents.FCMgfxC_Settlement_OnMouseEnter(SOMEsender: TObject);
 {:Purpose: settlements icons mouse enter event.
     Additions:
+      -2012Jan25- *mod: use a private data instead of FCWinMain.FCWM_SP_Surface.Tag.
 }
 var
    SOMEcnt
    ,SOMEreg: integer;
+
+   RegionSelected: integer;
 begin
    SOMEreg:=0;
    SOMEcnt:=1;
@@ -91,10 +94,11 @@ begin
       end;
       inc(SOMEcnt);
    end;
-   if (FCWinMain.FCWM_SP_Surface.Tag<>SOMEreg)
+   RegionSelected:=FCFuiSP_VarRegionSelected_Get;
+   if (RegionSelected<>SOMEreg)
       and (FCWinMain.FCWM_SP_DataSheet.ActivePage=FCWinMain.FCWM_SP_ShReg)
    then FCMuiSP_RegionDataPicture_Update(SOMEreg, false)
-   else if (FCWinMain.FCWM_SP_Surface.Tag<>SOMEreg)
+   else if (RegionSelected<>SOMEreg)
       and (FCWinMain.FCWM_SP_DataSheet.ActivePage<>FCWinMain.FCWM_SP_ShReg)
    then FCMuiSP_RegionDataPicture_Update(SOMEreg, true);
 end;

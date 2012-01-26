@@ -45,6 +45,11 @@ function FCFuiSP_VarCurrentOObj_Get: integer;
 ///</summary>
 function FCFuiSP_VarCurrentSat_Get: integer;
 
+///<summary>
+///   retrieve the SPregionSelected variable value
+///</summary>
+function FCFuiSP_VarRegionSelected_Get: integer;
+
 //===========================END FUNCTIONS SECTION==========================================
 
 ///<summary>
@@ -69,6 +74,11 @@ procedure FCMuiSP_SurfaceEcosphere_Set(
    const SESinit: boolean
    );
 
+///<summary>
+///   reset the SPregionSelected to zero
+///</summary>
+procedure FCMuiSP_VarRegionSelected_Reset;
+
 implementation
 
 uses
@@ -82,7 +92,8 @@ uses
 
 var
    SPcurrentOObjIndex
-   ,SPcurrentSatIndex: integer;
+   ,SPcurrentSatIndex
+   ,SPregionSelected: integer;
 
 //===================================================END OF INIT============================
 
@@ -446,6 +457,14 @@ begin
    Result:=SPcurrentSatIndex;
 end;
 
+function FCFuiSP_VarRegionSelected_Get: integer;
+{:Purpose: retrieve the SPregionSelected variable value.
+    Additions:
+}
+begin
+   Result:=SPregionSelected;
+end;
+
 //===========================END FUNCTIONS SECTION==========================================
 
 procedure FCMuiSP_RegionDataPicture_Update(
@@ -483,7 +502,7 @@ begin
    with FCWinMain do
    begin
       SERUseason:=FCFuF_Ecosph_GetCurSeas(SPcurrentOObjIndex, SPcurrentSatIndex);
-      FCWM_SP_Surface.Tag:=SERUregIdx;
+      SPregionSelected:=SERUregIdx;
       {.initialize required data}
       if SPcurrentSatIndex=0
       then
@@ -948,7 +967,7 @@ begin
          FCWM_SP_SPic.Bitmap.Clear;
          SPcurrentOObjIndex:=SESoobjIdx;
          SPcurrentSatIndex:=0;
-         FCWM_SP_Surface.Tag:=0;
+         SPregionSelected:=0;
          FCWM_SP_DataSheet.ActivePage:=FCWM_SP_ShReg;
          FCWM_SP_SurfSel.Width:=0;
          FCWM_SP_SurfSel.Height:=0;
@@ -1091,7 +1110,7 @@ begin
                FCWM_SP_Surface.Visible:=true;
                FCWM_SurfPanel.Width:=FCWM_SurfPanel.Tag;
                FCWM_SurfPanel.Tag:=0;
-               FCWM_SP_Surface.Tag:=0;
+               SPregionSelected:=0;
                FCWM_SP_DataSheet.Align:=alCustom;
                FCWM_SP_DataSheet.Left:=FCWM_SP_DataSheet.Tag;
                FCWM_SP_DataSheet.Tag:=0;
@@ -1509,7 +1528,7 @@ begin
          FCWM_SurfPanel.Caption.Text:='';
          SPcurrentOObjIndex:=0;
          SPcurrentSatIndex:=0;
-         FCWM_SP_Surface.Tag:=0;
+         SPregionSelected:=0;
          FCWM_SP_Surface.Enabled:=false;
          FCWM_SP_Surface.HotSpots.Clear;
          SEScnt:=1;
@@ -1554,6 +1573,14 @@ begin
          FCWM_SP_Surface.HotSpots.Clear;
       end; //==END== else if SESinit ==//
    end; //==END== with FCWinMain ==//
+end;
+
+procedure FCMuiSP_VarRegionSelected_Reset;
+{:Purpose: reset the SPregionSelected to zero.
+    Additions:
+}
+begin
+   SPregionSelected:=0;
 end;
 
 end.

@@ -680,7 +680,7 @@ begin
          else begin
             FCWinMain.FCWM_SurfPanel.Visible:=true;
             fcwinmain.FCWM_SP_Surface.Enabled:=true;
-            FCWinMain.FCWM_SP_Surface.Tag:=0;
+            FCMuiSP_VarRegionSelected_Reset;
             FCWinMain.FCWM_SP_SurfSel.Width:=0;
             FCWinMain.FCWM_SP_SurfSel.Height:=0;
             FCWinMain.FCWM_SP_SurfSel.Left:=0;
