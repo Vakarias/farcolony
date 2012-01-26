@@ -141,8 +141,9 @@ function FCFgC_Settlement_Add(
 ///<summary>
 ///   get the settlement index# of a given colony's region #
 ///</summary>
-///   <param name=""></param>
-///   <param name=""></param>
+///   <param name="Entity">entity index #</param>
+///   <param name="Colony">colony index #</param>
+///   <param name="Region">region index #</param>
 function FCFgC_Settlement_GetIndexFromRegion(
    const Entity
          ,Colony
@@ -565,33 +566,29 @@ function FCFgC_Settlement_GetIndexFromRegion(
    ): integer;
 {:Purpose: get the settlement index# of a given colony's region #.
     Additions:
+      -2011Jan25- *code: forgot to complete the code audit, done now.
       -2011Dec20- *mod: move the function into the farc_game_colony unit.
                   *code audit:
-                  (x)var formatting + refactoring     (-)if..then reformatting   (x)function/procedure refactoring
-                  (x)parameters refactoring           (-) ()reformatting         (-)code optimizations
-                  (-)float local variables=> extended (-)case..of reformatting   (-)local methods
-                  (-)summary completion
+                  (x)var formatting + refactoring     (x)if..then reformatting   (x)function/procedure refactoring
+                  (x)parameters refactoring           (o) ()reformatting         (x)code optimizations
+                  (_)float local variables=> extended (_)case..of reformatting   (_)local methods
+                  (x)summary completion
 }
    var
       Count
       ,Max: integer;
 begin
    Result:=0;
-   Max:=length(FCentities[Entity].E_col[Colony].COL_settlements)-1;
-   if Max>0
-   then
+   Max:=length( FCentities[ Entity ].E_col[ Colony ].COL_settlements )-1;
+   Count:=1;
+   while Count<=Max do
    begin
-      Count:=1;
-      while Count<=Max do
+      if FCentities[ Entity ].E_col[ Colony ].COL_settlements[ Count ].CS_region=Region then
       begin
-         if FCentities[Entity].E_col[Colony].COL_settlements[Count].CS_region=Region
-         then
-         begin
-            Result:=Count;
-            break;
-         end;
-         inc(Count);
+         Result:=Count;
+         break;
       end;
+      inc( Count );
    end;
 end;
 
