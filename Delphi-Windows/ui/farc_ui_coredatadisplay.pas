@@ -365,6 +365,7 @@ procedure FCMuiCDD_Production_Update(
    );
 {:Purpose: core data display refresh for production data. Update the Colony Data Panel and the related UMI tabs if required.
     Additions:
+      -2012Jan25- *fix: support of the case when Colony=0. Allow a rare case like tab selection to be enabled.
       -2012Jan18- *add: plProdMatrixAll + plProdMatrixItem.
 }
    var
@@ -375,7 +376,7 @@ begin
    isColonyDataPanelShown:=false;
    ColonyDataPanelColony:=FCFuiCDP_VarCurrentColony_Get;
    if ( FCWinMain.FCWM_ColDPanel.Visible )
-      and (Colony=ColonyDataPanelColony )
+      and ( ( Colony=0 ) or ( ( Colony>0 ) and ( Colony=ColonyDataPanelColony ) ) )
    then isColonyDataPanelShown:=true;
    case DataType of
       plInfrastructuresInit:
