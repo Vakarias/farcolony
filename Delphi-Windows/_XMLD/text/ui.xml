@@ -573,6 +573,10 @@
       <EN>Total</EN>
       <FR>Total</FR>
    </colPopTtl>
+   <colProdMatrix>
+      <EN>Production Matrix</EN>
+      <FR>Matrix de Production</FR>
+   </colProdMatrix>
    <colPTadmin>
       <EN>Administration</EN>
       <FR>Administration</FR>
@@ -662,9 +666,29 @@
       <FR>Techniciens</FR>
    </colPTtech>
    <colStorage>
-      <EN>Colony's Storage</EN>
-      <FR>Stockage de la Colonie</FR>
+      <EN>Storage</EN>
+      <FR>Stockage</FR>
    </colStorage>
+   <colStorageCapBio>
+      <EN>Biologic</EN>
+      <FR>Biologique</FR>
+   </colStorageCapBio>
+   <colStorageCapGas>
+      <EN>Gas</EN>
+      <FR>Gaz</FR>
+   </colStorageCapGas>
+   <colStorageCapHead>
+      <EN>Storage Capacities</EN>
+      <FR>Capacités de Stockage</FR>
+   </colStorageCapHead>
+   <colStorageCapLiquid>
+      <EN>Liquid</EN>
+      <FR>Liquide</FR>
+   </colStorageCapLiquid>
+   <colStorageCapSolid>
+      <EN>Solid</EN>
+      <FR>Solide</FR>
+   </colStorageCapSolid>
    <facstat>
       <EN>Current Dependence Status</EN>
       <FR>Status de Dépendance Actuels</FR>
