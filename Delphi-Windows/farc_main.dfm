@@ -2041,7 +2041,7 @@ object FCWinMain: TFCWinMain
         Top = 20
         Width = 290
         Height = 289
-        ActivePage = FCWM_CDPstorage
+        ActivePage = FCWM_CDPpopul
         ActiveFont.Charset = DEFAULT_CHARSET
         ActiveFont.Color = 13238272
         ActiveFont.Height = -11

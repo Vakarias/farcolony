@@ -1150,7 +1150,7 @@ end;
 
 procedure TFCWinMain.FCWM_MMenu_H_AboutClick(Sender: TObject);
 begin
-   FCMuiWin_About_Raise;
+   FCMuiW_About_Raise;
 end;
 
 procedure TFCWinMain.FCWM_MMenu_H_HPanelClick(Sender: TObject);
@@ -1181,7 +1181,7 @@ begin
    else if not FCVwMhelpPstore
    then FCVwMhelpPstore:=true;
    FCMdF_ConfigFile_Write(false);
-   FCMuiWin_UI_Upd(mwupMenuLoc);
+   FCMuiW_UI_Initialize(mwupMenuLoc);
 end;
 
 procedure TFCWinMain.FCWM_MMenu_O_LocVObjClick(Sender: TObject);
@@ -1191,7 +1191,7 @@ begin
    else if not FCVwMcpsPstore
    then FCVwMcpsPstore:=true;
    FCMdF_ConfigFile_Write(false);
-   FCMuiWin_UI_Upd(mwupMenuLoc);
+   FCMuiW_UI_Initialize(mwupMenuLoc);
 end;
 
 procedure TFCWinMain.FCWM_MMenu_O_L_ENClick(Sender: TObject);
@@ -1222,7 +1222,7 @@ begin
    then FCVwinWideScr:=false
    else if not FCVwinWideScr
    then FCVwinWideScr:=true;
-   FCMuiWin_BckgdPic_Upd;
+   FCMuiW_BackgroundPicture_Update;
 end;
 
 procedure TFCWinMain.FCWM_MsgeBoxCaptionDBlClick(Sender: TObject);
@@ -1530,7 +1530,7 @@ begin
       FCwide:=Addr(FClocalPath[1]);
       AddFontResource(FCwide);
       SendMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0) ;
-      FCMuiWin_UI_Upd(mwupAll);
+      FCMuiW_UI_Initialize(mwupAll);
 	end;
 	FCVwinMallowUp:=true;
    {.initialize the game timer}
@@ -1560,7 +1560,7 @@ begin
    FCVisFARCclosing:=true;
    FCVwinMallowUp:=false;
    {.store main window location}
-	FCMuiWin_MainWindow_StoreLocSiz;
+	FCMuiW_MainWindow_StoreLocSiz;
    {.free cps}
    if assigned (FCcps)
    then FCcps.Free;
@@ -1658,20 +1658,20 @@ procedure TFCWinMain.UpdUI(UUIwinOnly: boolean);
 begin
    {.save main window location and size}
    if FCVwinMallowUp
-   then FCMuiWin_MainWindow_StoreLocSiz;
+   then FCMuiW_MainWindow_StoreLocSiz;
    {.update mission setup window}
-   FCMuiWin_UI_Upd(mwupSecwinMissSetup);
+   FCMuiW_UI_Initialize(mwupSecwinMissSetup);
    {.update about window}
-   FCMuiWin_UI_Upd(mwupSecwinAbout);
+   FCMuiW_UI_Initialize(mwupSecwinAbout);
    {.update new game setting window}
-   FCMuiWin_UI_Upd(mwupSecWinNewGSetup);
+   FCMuiW_UI_Initialize(mwupSecWinNewGSetup);
    if not UUIwinOnly
    then
    begin
       {.update font sizes if needed}
-      FCMuiWin_UI_Upd(mwupFontAll);
+      FCMuiW_UI_Initialize(mwupFontAll);
       {.relocate and/or resize the message box}
-      FCMuiWin_UI_Upd(mwupMsgeBox);
+      FCMuiW_UI_Initialize(mwupMsgeBox);
       {.update 3d main view frame and all childs}
       if FCWM_3dMainGrp.Visible
       then

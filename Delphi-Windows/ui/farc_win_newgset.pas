@@ -173,9 +173,9 @@ end;
 procedure TFCWinNewGSetup.FormCreate(Sender: TObject);
 begin
    FCVallowUpNGSWin:=true;
-   FCMuiWin_UI_Upd(mwupSecWinNewGSetup);
-   FCMuiWin_UI_Upd(mwupFontWinNGS);
-   FCMuiWin_UI_Upd(mwupTextWinNGS);
+   FCMuiW_UI_Initialize(mwupSecWinNewGSetup);
+   FCMuiW_UI_Initialize(mwupFontWinNGS);
+   FCMuiW_UI_Initialize(mwupTextWinNGS);
 end;
 
 procedure TFCWinNewGSetup.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);

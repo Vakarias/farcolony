@@ -363,7 +363,7 @@ begin
    CPSobjPanel.Caption.Font.Charset:=ANSI_CHARSET;
    CPSobjPanel.Caption.Font.Height:=-11;
    CPSobjPanel.Caption.Font.Name:='DejaVu Sans Condensed';
-   CPSobjPanel.Caption.Font.Size:=FCFuiWin_Font_GetSize(uiwPanelTitle);
+   CPSobjPanel.Caption.Font.Size:=FCFuiW_Font_GetSize(uiwPanelTitle);
    CPSobjPanel.Caption.GradientDirection:=gdVertical;
    CPSobjPanel.Caption.MinMaxButton:=true;
    CPSobjPanel.Caption.MinMaxButtonHoverColor:=clSkyBlue;

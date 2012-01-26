@@ -785,7 +785,7 @@ begin
          if (CPUintDump=0)
             and (FCentities[0].E_col[CDPcurrentColony].COL_csmENcons>0)
          then CPUintDump:=1;
-         CPUdataIndex:=FCMuiW_PercentColorGBad_Generate( CPUintDump );
+         CPUdataIndex:=FCMuiW_PercentColorGoodBad_Generate( CPUintDump );
          FCWinMain.FCWM_CDPinfoText.HTMLText.Add(
             '<p align="left">'+FCCFidxL+FCCFcolWhBL+FCFdTFiles_UIStr_Get(uistrUI, 'colDCSMEnergUsed')+FCCFcolEND+'<ind x="58"><b>'+CPUdataIndex+' % of '
             +FCFcFunc_ThSep(FCentities[0].E_col[CDPcurrentColony].COL_csmENgen, ',')+'</b> kW <br>'
@@ -885,7 +885,7 @@ begin
          if (CPUintDump=0)
             and (FCentities[0].E_col[CDPcurrentColony].COL_csmENcons>0)
          then CPUintDump:=1;
-         CPUdataIndex:=FCMuiW_PercentColorGBad_Generate( CPUintDump );
+         CPUdataIndex:=FCMuiW_PercentColorGoodBad_Generate( CPUintDump );
          FCWinMain.FCWM_CDPinfoText.HTMLText.Insert(
             10
             ,'<p align="left">'+FCCFidxL+FCCFcolWhBL+FCFdTFiles_UIStr_Get(uistrUI, 'colDCSMEnergUsed')+FCCFcolEND+'<ind x="58"><b>'+CPUdataIndex+' % of '

@@ -266,7 +266,7 @@ begin
    then
    begin
       FCV3DstdTresHR:=true;
-      FCMuiWin_UI_Upd(mwupMenuStex);
+      FCMuiW_UI_Initialize(mwupMenuStex);
       FCMdF_ConfigFile_Write(false);
       STSisLoad:=true;
    end
@@ -275,7 +275,7 @@ begin
    then
    begin
       FCV3DstdTresHR:=false;
-      FCMuiWin_UI_Upd(mwupMenuStex);
+      FCMuiW_UI_Initialize(mwupMenuStex);
       FCMdF_ConfigFile_Write(false);
       STSisLoad:=true;
    end;

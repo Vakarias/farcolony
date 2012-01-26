@@ -191,9 +191,9 @@ end;
 procedure TFCWinMissSet.FormCreate(Sender: TObject);
 begin
    FCVallowUpMSWin:=true;
-   FCMuiWin_UI_Upd(mwupSecwinMissSetup);
-   FCMuiWin_UI_Upd(mwupFontWinMS);
-   FCMuiWin_UI_Upd(mwupTextWinMS);
+   FCMuiW_UI_Initialize(mwupSecwinMissSetup);
+   FCMuiW_UI_Initialize(mwupFontWinMS);
+   FCMuiW_UI_Initialize(mwupTextWinMS);
 end;
 
 procedure TFCWinMissSet.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);

@@ -1460,7 +1460,7 @@ begin
    {.3d view post setup}
    FCWinMain.FCGLScadencer.Enabled:=true;
    FCWinMain.FCGLSmainView.Show;
-   FCMuiWin_UI_Upd(mwupTextWM3dFrame);
+   FCMuiW_UI_Initialize(mwupTextWM3dFrame);
    FCMoglVM_CamMain_Target(FCV3DselOobj, true);
 end;
 

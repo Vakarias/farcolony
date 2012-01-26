@@ -88,35 +88,35 @@ type TFCEuiwPopupKind=(
 ///   generate colorized index of a percent value from 0%(good) to 100%+(bad). Returns the string
 ///</summary>
 ///   <param name="PCGBGpercent">integer percent value</param>
-function FCMuiW_PercentColorGBad_Generate(const PCGBGpercent: integer): string;
+function FCMuiW_PercentColorGoodBad_Generate(const PCGBGpercent: integer): string;
 
 //===========================END FUNCTIONS SECTION==========================================
 
 ///<summary>
 ///   close the about window.
 ///</summary>
-procedure FCMuiWin_About_Close;
+procedure FCMuiW_About_Close;
 
 ///<summary>
 ///   show the about window.
 ///</summary>
-procedure FCMuiWin_About_Raise;
+procedure FCMuiW_About_Raise;
 
 ///<summary>
 ///   update the background with the right choosen format.
 ///</summary>
-procedure FCMuiWin_BckgdPic_Upd;
+procedure FCMuiW_BackgroundPicture_Update;
 
 ///<summary>
 ///   get correct font size of a targeted font class following the size of the window.
 ///</summary>
 ///    <param name="FGZftClass">font size class</param>
-function FCFuiWin_Font_GetSize(const FGZftClass: TFCEuiwFtClass): integer;
+function FCFuiW_Font_GetSize(const FGZftClass: TFCEuiwFtClass): integer;
 
 ///<summary>
 ///   store current size and location of the main window.
 ///</summary>
-procedure FCMuiWin_MainWindow_StoreLocSiz;
+procedure FCMuiW_MainWindow_StoreLocSiz;
 
 ///<summary>
 ///   update the popup menu of the focused object
@@ -149,7 +149,7 @@ procedure FCMuiWin_UI_LangUpd;
 ///   update and initialize all user's interface elements of the game.
 ///</summary>
 ///    <param name="WUupdKind">target to update.</param>
-procedure FCMuiWin_UI_Upd(const UIUtp: TFCEmwinUpdTp);
+procedure FCMuiW_UI_Initialize(const UIUtp: TFCEmwinUpdTp);
 
 implementation
 
@@ -186,7 +186,7 @@ uses
 
 //===================================END OF INIT============================================
 
-function FCMuiW_PercentColorGBad_Generate(const PCGBGpercent: integer): string;
+function FCMuiW_PercentColorGoodBad_Generate(const PCGBGpercent: integer): string;
 {:Purpose: generate colorized index of a percent value from 0%(good) to 100%+(bad). Returns the string.
     Additions:
 }
@@ -205,7 +205,7 @@ end;
 
 //===========================END FUNCTIONS SECTION==========================================
 
-procedure FCMuiWin_About_Close;
+procedure FCMuiW_About_Close;
 {:Purpose: close the about window.
     Additions:
       -2010Apr06- *add: release the game if needed.
@@ -222,7 +222,7 @@ begin
    FCWinMain.Enabled:=true;
 end;
 
-procedure FCMuiWin_About_Raise;
+procedure FCMuiW_About_Raise;
 {:Purpose: show the about window.
     Additions:
       -2010Apr06- *add: pause the game.
@@ -230,7 +230,7 @@ procedure FCMuiWin_About_Raise;
                   window.
 }
 begin
-   FCMuiWin_UI_Upd(mwupSecwinAbout);
+   FCMuiW_UI_Initialize(mwupSecwinAbout);
    FCWinMain.Enabled:=false;
    if FCWinMain.FCWM_3dMainGrp.Visible then
    begin
@@ -243,7 +243,7 @@ begin
    FCWinAbout.BringToFront;
 end;
 
-procedure FCMuiWin_BckgdPic_Upd;
+procedure FCMuiW_BackgroundPicture_Update;
 {:Purpose: update the background with the right choosen format.
     Additions:
 }
@@ -252,10 +252,10 @@ begin
    then FCWinMain.FCWM_BckgImage.Bitmap.LoadFromFile(FCVpathRsrc+'pics-ui-' +'desk\puidesk0w.jpg')
    else if not FCVwinWideScr
    then FCWinMain.FCWM_BckgImage.Bitmap.LoadFromFile(FCVpathRsrc+'pics-ui-' +'desk\puidesk0.jpg');
-   FCMuiWin_UI_Upd(mwupMenuWideScr);
+   FCMuiW_UI_Initialize(mwupMenuWideScr);
 end;
 
-function FCFuiWin_Font_GetSize(const FGZftClass: TFCEuiwFtClass): integer;
+function FCFuiW_Font_GetSize(const FGZftClass: TFCEuiwFtClass): integer;
 {:Purpose: get correct font size of a targeted font class following the size of the window.
    Additions:
       -2010Oct18- *mod: complete refactoring and retooling fo the parameters.
@@ -321,7 +321,7 @@ begin
    end; {.case FGZftClass of}
 end;
 
-procedure FCMuiWin_MainWindow_StoreLocSiz;
+procedure FCMuiW_MainWindow_StoreLocSiz;
 {:Purpose: store current size and location of the main window.
    Additions:
 }
@@ -619,11 +619,11 @@ procedure FCMuiWin_UI_LangUpd;
 }
 begin
    FCMdF_ConfigFile_Write(false);
-   FCMuiWin_UI_Upd(mwupTextWinMain);
-   FCMuiWin_UI_Upd(mwupTextWinAb);
-   FCMuiWin_UI_Upd(mwupTextWinNGS);
-   FCMuiWin_UI_Upd(mwupTextWinMS);
-   FCMuiWin_UI_Upd(mwupMenuLang);
+   FCMuiW_UI_Initialize(mwupTextWinMain);
+   FCMuiW_UI_Initialize(mwupTextWinAb);
+   FCMuiW_UI_Initialize(mwupTextWinNGS);
+   FCMuiW_UI_Initialize(mwupTextWinMS);
+   FCMuiW_UI_Initialize(mwupMenuLang);
    if FCWinMain.FCWM_3dMainGrp.Visible
    then FCMoglUI_Main3DViewUI_Update(oglupdtpTxtOnly, ogluiutAll);
    if assigned(FCcps)
@@ -642,7 +642,7 @@ begin
       );
 end;
 
-procedure FCMuiWin_UI_Upd(const UIUtp: TFCEmwinUpdTp);
+procedure FCMuiW_UI_Initialize(const UIUtp: TFCEmwinUpdTp);
 {:Purpose: update and initialize all user's interface elements of the game.
    Additions:
       -2012Jan25- *add: production matrix font initialization.
@@ -974,7 +974,7 @@ begin
       UIUmainW2:=FCWinMain.Width shr 1;
       UIUmainH2:=FCWinMain.Height shr 1;
       {.background image}
-      FCMuiWin_BckgdPic_Upd;
+      FCMuiW_BackgroundPicture_Update;
       {.continue game menu item}
       if FCRplayer.P_gameName=''
       then FCWinMain.FCWM_MMenu_G_Cont.Enabled:=false
@@ -1350,117 +1350,117 @@ begin
       or (UIUtp=mwupFontAll)
    then
    begin
-      FCWinMain.Font.Size:=FCFuiWin_Font_GetSize(uiwDescText);
-      FCWinMain.FCWM_3dMainGrp.Font.Size:=FCFuiWin_Font_GetSize(uiwGrpBox);
+      FCWinMain.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+      FCWinMain.FCWM_3dMainGrp.Font.Size:=FCFuiW_Font_GetSize(uiwGrpBox);
       {.message box}
-      FCWinMain.FCWM_MsgeBox.Caption.Font.Size:=FCFuiWin_Font_GetSize(uiwPanelTitle);
-      FCWinMain.FCWM_MsgeBox_List.Font.Size:=FCFuiWin_Font_GetSize(uiwListItems);
-      FCWinMain.FCWM_MsgeBox_Desc.Font.Size:=FCFuiWin_Font_GetSize(uiwDescText);
+      FCWinMain.FCWM_MsgeBox.Caption.Font.Size:=FCFuiW_Font_GetSize(uiwPanelTitle);
+      FCWinMain.FCWM_MsgeBox_List.Font.Size:=FCFuiW_Font_GetSize(uiwListItems);
+      FCWinMain.FCWM_MsgeBox_Desc.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
       {.docking list panel}
-      FCWinMain.FCWM_DockLstPanel.Caption.Font.Size:=FCFuiWin_Font_GetSize(uiwPanelTitle);
-      FCWinMain.FCWM_DLP_DockList.Font.Size:=FCFuiWin_Font_GetSize(uiwListItems);
+      FCWinMain.FCWM_DockLstPanel.Caption.Font.Size:=FCFuiW_Font_GetSize(uiwPanelTitle);
+      FCWinMain.FCWM_DLP_DockList.Font.Size:=FCFuiW_Font_GetSize(uiwListItems);
       {.help panel}
-      FCWinMain.FCWM_HelpPanel.Caption.Font.Size:=FCFuiWin_Font_GetSize(uiwPanelTitle);
-      FCWinMain.FCWM_HPdataPad.Font.Size:=FCFuiWin_Font_GetSize(uiwPageCtrl);
-      FCWinMain.FCWM_HPdPad_Keys.Font.Size:=FCFuiWin_Font_GetSize(uiwPageCtrl);
-      FCWinMain.FCWM_HPdPad_KeysTxt.Font.Size:=FCFuiWin_Font_GetSize(uiwDescText);
-      FCWinMain.FCWM_HPDPhints.Font.Size:=FCFuiWin_Font_GetSize(uiwPageCtrl);
-      FCWinMain.FCWM_HDPhintsList.Font.Size:=FCFuiWin_Font_GetSize(uiwListItems);
-      FCWinMain.FCWM_HDPhintsText.Font.Size:=FCFuiWin_Font_GetSize(uiwDescText);
+      FCWinMain.FCWM_HelpPanel.Caption.Font.Size:=FCFuiW_Font_GetSize(uiwPanelTitle);
+      FCWinMain.FCWM_HPdataPad.Font.Size:=FCFuiW_Font_GetSize(uiwPageCtrl);
+      FCWinMain.FCWM_HPdPad_Keys.Font.Size:=FCFuiW_Font_GetSize(uiwPageCtrl);
+      FCWinMain.FCWM_HPdPad_KeysTxt.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+      FCWinMain.FCWM_HPDPhints.Font.Size:=FCFuiW_Font_GetSize(uiwPageCtrl);
+      FCWinMain.FCWM_HDPhintsList.Font.Size:=FCFuiW_Font_GetSize(uiwListItems);
+      FCWinMain.FCWM_HDPhintsText.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
       {.surface panel}
-      FCWinMain.FCWM_SP_AutoUp.Font.Size:=FCFuiWin_Font_GetSize(uiwDescText);
-      FCWinMain.FCWM_SurfPanel.Caption.Font.Size:=FCFuiWin_Font_GetSize(uiwPanelTitle);
-      FCWinMain.FCWM_SP_DataSheet.Font.Size:=FCFuiWin_Font_GetSize(uiwPageCtrl);
-      FCWinMain.FCWM_SPShEcos_Lab.Font.Size:=FCFuiWin_Font_GetSize(uiwDescText);
-      FCWinMain.FCWM_SPShReg_Lab.Font.Size:=FCFuiWin_Font_GetSize(uiwDescText);
-      FCWinMain.FCWM_SP_LDat.Font.Size:=FCFuiWin_Font_GetSize(uiwDescText);
-      FCWinMain.FCWM_SP_RDat.Font.Size:=FCFuiWin_Font_GetSize(uiwDescText);
+      FCWinMain.FCWM_SP_AutoUp.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+      FCWinMain.FCWM_SurfPanel.Caption.Font.Size:=FCFuiW_Font_GetSize(uiwPanelTitle);
+      FCWinMain.FCWM_SP_DataSheet.Font.Size:=FCFuiW_Font_GetSize(uiwPageCtrl);
+      FCWinMain.FCWM_SPShEcos_Lab.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+      FCWinMain.FCWM_SPShReg_Lab.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+      FCWinMain.FCWM_SP_LDat.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+      FCWinMain.FCWM_SP_RDat.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
       {.viability objectives panel}
       if Assigned(FCcps)
       then
       begin
-         FCcps.CPSobjPanel.Caption.Font.Size:=FCFuiWin_Font_GetSize(uiwPanelTitle);
-         FCcps.CPSobjP_List.Font.Size:=FCFuiWin_Font_GetSize(uiwDescText);
+         FCcps.CPSobjPanel.Caption.Font.Size:=FCFuiW_Font_GetSize(uiwPanelTitle);
+         FCcps.CPSobjP_List.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
       end;
       {.colony data panel}
-      FCWinMain.FCWM_ColDPanel.Caption.Font.Size:=FCFuiWin_Font_GetSize(uiwPanelTitle);
-      FCWinMain.FCWM_CDPinfo.Font.Size:=FCFuiWin_Font_GetSize(uiwGrpBox);
-      FCWinMain.FCWM_CDPinfoText.Font.Size:=FCFuiWin_Font_GetSize(uiwDescText);
-      FCWinMain.FCWM_CDPpopList.Font.Size:=FCFuiWin_Font_GetSize(uiwDescText);
-      FCWinMain.FCWM_CDPpopType.Font.Size:=FCFuiWin_Font_GetSize(uiwDescText);
-      FCWinMain.FCWM_CDPepi.Font.Size:=FCFuiWin_Font_GetSize(uiwPageCtrl);
-      FCWinMain.FCWM_CDPpopul.Font.Size:=FCFuiWin_Font_GetSize(uiwPageCtrl);
-      FCWinMain.FCWM_CDPcsme.Font.Size:=FCFuiWin_Font_GetSize(uiwPageCtrl);
-      FCWinMain.FCWM_CDPcsmeList.Font.Size:=FCFuiWin_Font_GetSize(uiwDescText);
-      FCWinMain.FCWM_CDPinfr.Font.Size:=FCFuiWin_Font_GetSize(uiwPageCtrl);
-      FCWinMain.FCWM_CDPinfrList.Font.Size:=FCFuiWin_Font_GetSize(uiwDescText);
-      FCWinMain.FCWM_CDPinfrAvail.Font.Size:=FCFuiWin_Font_GetSize(uiwDescText);
-      FCWinMain.FCWM_CDPcolName.EditLabel.Font.Size:=FCFuiWin_Font_GetSize(uiwDescText);
-      FCWinMain.FCWM_CDPcolName.Font.Size:=FCFuiWin_Font_GetSize(uiwDescText);
-      FCWinMain.FCWM_CDPwcpAssign.EditLabel.Font.Size:=FCFuiWin_Font_GetSize(uiwDescText);
-      FCWinMain.FCWM_CDPwcpAssign.Font.Size:=FCFuiWin_Font_GetSize(uiwDescText);
-      FCWinMain.FCWM_CDPcwpAssignVeh.EditLabel.Font.Size:=FCFuiWin_Font_GetSize(uiwDescText);
-      FCWinMain.FCWM_CDPcwpAssignVeh.Font.Size:=FCFuiWin_Font_GetSize(uiwDescText);
-      FCWinMain.FCWM_CDPwcpEquip.Font.Size:=FCFuiWin_Font_GetSize(uiwListItems);
-      FCWinMain.FCWM_CDPwcpEquip.LabelFont.Size:=FCFuiWin_Font_GetSize(uiwDescText);
-      FCWinMain.CDPstorageList.Font.Size:=FCFuiWin_Font_GetSize(uiwDescText);
-      FCWinMain.CDPstorageCapacity.Font.Size:=FCFuiWin_Font_GetSize(uiwDescText);
-      FCWinMain.CDPproductionMatrixList.Font.Size:=FCFuiWin_Font_GetSize(uiwDescText);
+      FCWinMain.FCWM_ColDPanel.Caption.Font.Size:=FCFuiW_Font_GetSize(uiwPanelTitle);
+      FCWinMain.FCWM_CDPinfo.Font.Size:=FCFuiW_Font_GetSize(uiwGrpBox);
+      FCWinMain.FCWM_CDPinfoText.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+      FCWinMain.FCWM_CDPpopList.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+      FCWinMain.FCWM_CDPpopType.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+      FCWinMain.FCWM_CDPepi.Font.Size:=FCFuiW_Font_GetSize(uiwPageCtrl);
+      FCWinMain.FCWM_CDPpopul.Font.Size:=FCFuiW_Font_GetSize(uiwPageCtrl);
+      FCWinMain.FCWM_CDPcsme.Font.Size:=FCFuiW_Font_GetSize(uiwPageCtrl);
+      FCWinMain.FCWM_CDPcsmeList.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+      FCWinMain.FCWM_CDPinfr.Font.Size:=FCFuiW_Font_GetSize(uiwPageCtrl);
+      FCWinMain.FCWM_CDPinfrList.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+      FCWinMain.FCWM_CDPinfrAvail.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+      FCWinMain.FCWM_CDPcolName.EditLabel.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+      FCWinMain.FCWM_CDPcolName.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+      FCWinMain.FCWM_CDPwcpAssign.EditLabel.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+      FCWinMain.FCWM_CDPwcpAssign.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+      FCWinMain.FCWM_CDPcwpAssignVeh.EditLabel.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+      FCWinMain.FCWM_CDPcwpAssignVeh.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+      FCWinMain.FCWM_CDPwcpEquip.Font.Size:=FCFuiW_Font_GetSize(uiwListItems);
+      FCWinMain.FCWM_CDPwcpEquip.LabelFont.Size:=FCFuiW_Font_GetSize(uiwDescText);
+      FCWinMain.CDPstorageList.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+      FCWinMain.CDPstorageCapacity.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+      FCWinMain.CDPproductionMatrixList.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
       {.UMI}
-      FCWinMain.FCWM_UMI.Caption.Font.Size:=FCFuiWin_Font_GetSize(uiwPanelTitle);
-      FCWinMain.FCWM_UMI_TabSh.Font.Size:=FCFuiWin_Font_GetSize(uiwPageCtrl);
-      FCWinMain.FCWM_UMI_TabShUniv.Font.Size:=FCFuiWin_Font_GetSize(uiwPageCtrl);
-      FCWinMain.FCWM_UMI_TabShFac.Font.Size:=FCFuiWin_Font_GetSize(uiwPageCtrl);
-      FCWinMain.FCWM_UMI_TabShSpU.Font.Size:=FCFuiWin_Font_GetSize(uiwPageCtrl);
-      FCWinMain.FCWM_UMI_TabShProd.Font.Size:=FCFuiWin_Font_GetSize(uiwPageCtrl);
-      FCWinMain.FCWM_UMI_TabShRDS.Font.Size:=FCFuiWin_Font_GetSize(uiwPageCtrl);
-      FCWinMain.FCWM_UMI_FacDatG.Font.Size:=FCFuiWin_Font_GetSize(uiwGrpBoxSec);
-      FCWinMain.FCWM_UMIFac_TabSh.Font.Size:=FCFuiWin_Font_GetSize(uiwPageCtrl);
-      FCWinMain.FCWM_UMIFac_TabShPol.Font.Size:=FCFuiWin_Font_GetSize(uiwPageCtrl);
-      FCWinMain.FCWM_UMIFac_PolGvtDetails.Font.Size:=FCFuiWin_Font_GetSize(uiwGrpBoxSec);
-      FCWinMain.FCWM_UMIFac_PGDdata.Font.Size:=FCFuiWin_Font_GetSize(uiwDescText);
-      FCWinMain.FCWM_UMIFac_Colonies.Font.Size:=FCFuiWin_Font_GetSize(uiwDescText);
-      FCWinMain.FCWM_UMIFac_Colonies.HeaderSettings.Font.Size:=FCFuiWin_Font_GetSize(uiwPageCtrl);
-      FCWinMain.FCWM_UMIFac_Colonies.Columns[0].Font.Size:=FCFuiWin_Font_GetSize(uiwDescText);
-      FCWinMain.FCWM_UMIFac_Colonies.Columns[1].Font.Size:=FCFuiWin_Font_GetSize(uiwDescText);
-      FCWinMain.FCWM_UMIFac_Colonies.Columns[2].Font.Size:=FCFuiWin_Font_GetSize(uiwDescText);
-      FCWinMain.FCWM_UMIFac_Colonies.Columns[3].Font.Size:=FCFuiWin_Font_GetSize(uiwDescText);
-      FCWinMain.FCWM_UMIFac_TabShSPM.Font.Size:=FCFuiWin_Font_GetSize(uiwPageCtrl);
-      FCWinMain.FCWM_UMIFac_TabShSPMpol.Font.Size:=FCFuiWin_Font_GetSize(uiwPageCtrl);
-      FCWinMain.FCWM_UMIFSh_SPMadmin.Font.Size:=FCFuiWin_Font_GetSize(uiwDescText);
-      FCWinMain.FCWM_UMIFSh_SPMecon.Font.Size:=FCFuiWin_Font_GetSize(uiwDescText);
-      FCWinMain.FCWM_UMIFSh_SPMmedca.Font.Size:=FCFuiWin_Font_GetSize(uiwDescText);
-      FCWinMain.FCWM_UMIFSh_SPMsoc.Font.Size:=FCFuiWin_Font_GetSize(uiwDescText);
-      FCWinMain.FCWM_UMIFSh_SPMspol.Font.Size:=FCFuiWin_Font_GetSize(uiwDescText);
-      FCWinMain.FCWM_UMIFSh_SPMspi.Font.Size:=FCFuiWin_Font_GetSize(uiwDescText);
-      FCWinMain.FCWM_UMIFSh_AvailF.Font.Size:=FCFuiWin_Font_GetSize(uiwGrpBoxSec);
-      FCWinMain.FCWM_UMIFSh_AFlist.Font.Size:=FCFuiWin_Font_GetSize(uiwListItems);
-      FCWinMain.FCWM_UMIFSh_CAPF.Font.Size:=FCFuiWin_Font_GetSize(uiwGrpBoxSec);
-      FCWinMain.FCWM_UMIFSh_CAPFlab.Font.Size:=FCFuiWin_Font_GetSize(uiwDescText);
-      FCWinMain.FCWM_UMIFSh_ReqF.Font.Size:=FCFuiWin_Font_GetSize(uiwGrpBoxSec);
-      FCWinMain.FCWM_UMIFSh_RFdisp.Font.Size:=FCFuiWin_Font_GetSize(uiwDescText);
-      FCWinMain.FCWM_UMISh_CEnfF.Font.Size:=FCFuiWin_Font_GetSize(uiwGrpBoxSec);
-      FCWinMain.FCWM_UMISh_CEFreslt.Font.Size:=FCFuiWin_Font_GetSize(uiwDescText);
-      FCWinMain.FCWM_UMISh_CEFcommit.Font.Size:=FCFuiWin_Font_GetSize(uiwButton);
-      FCWinMain.FCWM_UMISh_CEFenforce.Font.Size:=FCFuiWin_Font_GetSize(uiwButton);
-      FCWinMain.FCWM_UMISh_CEFretire.Font.Size:=FCFuiWin_Font_GetSize(uiwButton);
+      FCWinMain.FCWM_UMI.Caption.Font.Size:=FCFuiW_Font_GetSize(uiwPanelTitle);
+      FCWinMain.FCWM_UMI_TabSh.Font.Size:=FCFuiW_Font_GetSize(uiwPageCtrl);
+      FCWinMain.FCWM_UMI_TabShUniv.Font.Size:=FCFuiW_Font_GetSize(uiwPageCtrl);
+      FCWinMain.FCWM_UMI_TabShFac.Font.Size:=FCFuiW_Font_GetSize(uiwPageCtrl);
+      FCWinMain.FCWM_UMI_TabShSpU.Font.Size:=FCFuiW_Font_GetSize(uiwPageCtrl);
+      FCWinMain.FCWM_UMI_TabShProd.Font.Size:=FCFuiW_Font_GetSize(uiwPageCtrl);
+      FCWinMain.FCWM_UMI_TabShRDS.Font.Size:=FCFuiW_Font_GetSize(uiwPageCtrl);
+      FCWinMain.FCWM_UMI_FacDatG.Font.Size:=FCFuiW_Font_GetSize(uiwGrpBoxSec);
+      FCWinMain.FCWM_UMIFac_TabSh.Font.Size:=FCFuiW_Font_GetSize(uiwPageCtrl);
+      FCWinMain.FCWM_UMIFac_TabShPol.Font.Size:=FCFuiW_Font_GetSize(uiwPageCtrl);
+      FCWinMain.FCWM_UMIFac_PolGvtDetails.Font.Size:=FCFuiW_Font_GetSize(uiwGrpBoxSec);
+      FCWinMain.FCWM_UMIFac_PGDdata.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+      FCWinMain.FCWM_UMIFac_Colonies.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+      FCWinMain.FCWM_UMIFac_Colonies.HeaderSettings.Font.Size:=FCFuiW_Font_GetSize(uiwPageCtrl);
+      FCWinMain.FCWM_UMIFac_Colonies.Columns[0].Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+      FCWinMain.FCWM_UMIFac_Colonies.Columns[1].Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+      FCWinMain.FCWM_UMIFac_Colonies.Columns[2].Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+      FCWinMain.FCWM_UMIFac_Colonies.Columns[3].Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+      FCWinMain.FCWM_UMIFac_TabShSPM.Font.Size:=FCFuiW_Font_GetSize(uiwPageCtrl);
+      FCWinMain.FCWM_UMIFac_TabShSPMpol.Font.Size:=FCFuiW_Font_GetSize(uiwPageCtrl);
+      FCWinMain.FCWM_UMIFSh_SPMadmin.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+      FCWinMain.FCWM_UMIFSh_SPMecon.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+      FCWinMain.FCWM_UMIFSh_SPMmedca.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+      FCWinMain.FCWM_UMIFSh_SPMsoc.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+      FCWinMain.FCWM_UMIFSh_SPMspol.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+      FCWinMain.FCWM_UMIFSh_SPMspi.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+      FCWinMain.FCWM_UMIFSh_AvailF.Font.Size:=FCFuiW_Font_GetSize(uiwGrpBoxSec);
+      FCWinMain.FCWM_UMIFSh_AFlist.Font.Size:=FCFuiW_Font_GetSize(uiwListItems);
+      FCWinMain.FCWM_UMIFSh_CAPF.Font.Size:=FCFuiW_Font_GetSize(uiwGrpBoxSec);
+      FCWinMain.FCWM_UMIFSh_CAPFlab.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+      FCWinMain.FCWM_UMIFSh_ReqF.Font.Size:=FCFuiW_Font_GetSize(uiwGrpBoxSec);
+      FCWinMain.FCWM_UMIFSh_RFdisp.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+      FCWinMain.FCWM_UMISh_CEnfF.Font.Size:=FCFuiW_Font_GetSize(uiwGrpBoxSec);
+      FCWinMain.FCWM_UMISh_CEFreslt.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+      FCWinMain.FCWM_UMISh_CEFcommit.Font.Size:=FCFuiW_Font_GetSize(uiwButton);
+      FCWinMain.FCWM_UMISh_CEFenforce.Font.Size:=FCFuiW_Font_GetSize(uiwButton);
+      FCWinMain.FCWM_UMISh_CEFretire.Font.Size:=FCFuiW_Font_GetSize(uiwButton);
       {.infrastructure panel}
-      FCWinMain.FCWM_InfraPanel.Caption.Font.Size:=FCFuiWin_Font_GetSize(uiwPanelTitle);
-      FCWinMain.FCWM_IPlabel.Font.Size:=FCFuiWin_Font_GetSize(uiwDescText);
-      FCWinMain.FCWM_IPinfraKits.Font.Size:=FCFuiWin_Font_GetSize(uiwDescText);
+      FCWinMain.FCWM_InfraPanel.Caption.Font.Size:=FCFuiW_Font_GetSize(uiwPanelTitle);
+      FCWinMain.FCWM_IPlabel.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+      FCWinMain.FCWM_IPinfraKits.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
    end; //==END== if (UIUtp=mwupAll) or (UIUtp=mwupFontAll) ==//
    {.for about window}
    if ((UIUtp=mwupFontWinAb) or (UIUtp=mwupFontAll))
       and (FCVallowUpAbWin)
    then
    begin
-      FCWinAbout.Font.Size:=FCFuiWin_Font_GetSize(uiwDescText);
+      FCWinAbout.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
       {.frame}
-      FCWinAbout.FCWA_Frame.Font.Size:=FCFuiWin_Font_GetSize(uiwGrpBox);
+      FCWinAbout.FCWA_Frame.Font.Size:=FCFuiW_Font_GetSize(uiwGrpBox);
       {.header}
-      FCWinAbout.FCWA_Frm_Header.Font.Size:=FCFuiWin_Font_GetSize(uiwDescText);
+      FCWinAbout.FCWA_Frm_Header.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
       {.main section}
-      FCWinAbout.FCWA_Frm_Creds.Font.Size:=FCFuiWin_Font_GetSize(uiwDescText);
+      FCWinAbout.FCWA_Frm_Creds.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
    end;
    {.for new game setup window}
    if ((UIUtp=mwupFontWinNGS) or (UIUtp=mwupFontAll))
@@ -1469,28 +1469,28 @@ begin
    begin
       with FCWinNewGSetup do
       begin
-         Font.Size:=FCFuiWin_Font_GetSize(uiwDescText);
-         FCWNGS_Frame.Font.Size:=FCFuiWin_Font_GetSize(uiwGrpBox);
+         Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+         FCWNGS_Frame.Font.Size:=FCFuiW_Font_GetSize(uiwGrpBox);
          {.game name edit}
-         FCWNGS_Frm_GNameEdit.EditLabel.Font.Size:=FCFuiWin_Font_GetSize(uiwDescText);
-         FCWNGS_Frm_GNameEdit.Font.Size:=FCFuiWin_Font_GetSize(uiwDescText);
+         FCWNGS_Frm_GNameEdit.EditLabel.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+         FCWNGS_Frm_GNameEdit.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
          {.colonization mode}
-         FCWNGS_Frm_ColMode.Font.Size:=FCFuiWin_Font_GetSize(uiwDescText);
+         FCWNGS_Frm_ColMode.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
          {.faction's list}
-         FCWNGS_Frm_FactionList.Font.Size:=FCFuiWin_Font_GetSize(uiwListItems);
+         FCWNGS_Frm_FactionList.Font.Size:=FCFuiW_Font_GetSize(uiwListItems);
          {.data pad}
-         FCWNGS_Frm_DataPad.Font.Size:=FCFuiWin_Font_GetSize(uiwPageCtrl);
-         FCWNGS_Frm_DPad_SheetHisto.Font.Size:=FCFuiWin_Font_GetSize(uiwPageCtrl);
-         FCWNGS_Frm_DPad_SHisto_Text.Font.Size:=FCFuiWin_Font_GetSize(uiwDescText);
-         FCWNGS_Frm_DPad_SheetSPM.Font.Size:=FCFuiWin_Font_GetSize(uiwPageCtrl);
-         FCWNGS_FDPad_ShSPM_SPMList.Font.Size:=FCFuiWin_Font_GetSize(uiwDescText);
-         FCWNGS_Frm_DPad_SheetCol.Font.Size:=FCFuiWin_Font_GetSize(uiwPageCtrl);
-         FCWNGS_Frm_DPad_SCol_Text.Font.Size:=FCFuiWin_Font_GetSize(uiwDescText);
-         FCWNGS_Frm_DPad_SheetDotList.Font.Size:=FCFuiWin_Font_GetSize(uiwPageCtrl);
-         FCWNGS_Frm_DPad_SDL_DotList.Font.Size:=FCFuiWin_Font_GetSize(uiwDescText);
+         FCWNGS_Frm_DataPad.Font.Size:=FCFuiW_Font_GetSize(uiwPageCtrl);
+         FCWNGS_Frm_DPad_SheetHisto.Font.Size:=FCFuiW_Font_GetSize(uiwPageCtrl);
+         FCWNGS_Frm_DPad_SHisto_Text.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+         FCWNGS_Frm_DPad_SheetSPM.Font.Size:=FCFuiW_Font_GetSize(uiwPageCtrl);
+         FCWNGS_FDPad_ShSPM_SPMList.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+         FCWNGS_Frm_DPad_SheetCol.Font.Size:=FCFuiW_Font_GetSize(uiwPageCtrl);
+         FCWNGS_Frm_DPad_SCol_Text.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+         FCWNGS_Frm_DPad_SheetDotList.Font.Size:=FCFuiW_Font_GetSize(uiwPageCtrl);
+         FCWNGS_Frm_DPad_SDL_DotList.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
          {.buttons}
-         FCWNGS_Frm_ButtProceed.Font.Size:=FCFuiWin_Font_GetSize(uiwButton);
-         FCWNGS_Frm_ButtCancel.Font.Size:=FCFuiWin_Font_GetSize(uiwButton);
+         FCWNGS_Frm_ButtProceed.Font.Size:=FCFuiW_Font_GetSize(uiwButton);
+         FCWNGS_Frm_ButtCancel.Font.Size:=FCFuiW_Font_GetSize(uiwButton);
       end; {.with FCWinNewGSetup do}
    end;
    {.for mission setup window}
@@ -1500,19 +1500,19 @@ begin
    begin
       with FCWinMissSet do
       begin
-         Font.Size:=FCFuiWin_Font_GetSize(uiwDescText);
-         FCWMS_Grp.Font.Size:=FCFuiWin_Font_GetSize(uiwGrpBox);
-         FCWMS_Grp_MSDG.Font.Size:=FCFuiWin_Font_GetSize(uiwGrpBoxSec);
-         FCWMS_Grp_MSDG_Disp.Font.Size:=FCFuiWin_Font_GetSize(uiwDescText);
-         FCWMS_Grp_MCG.Font.Size:=FCFuiWin_Font_GetSize(uiwGrpBoxSec);
-         FCWMS_Grp_MCG_DatDisp.Font.Size:=FCFuiWin_Font_GetSize(uiwDescText);
-         FCWMS_Grp_MCGColName.Font.Size:=FCFuiWin_Font_GetSize(uiwDescText);
-         FCWMS_Grp_MCG_MissCfgData.Font.Size:=FCFuiWin_Font_GetSize(uiwDescText);
-         FCWMS_Grp_MCG_RMassTrack.TrackLabel.Font.Size:=FCFuiWin_Font_GetSize(uiwDescText);
-         FCWMS_ButCancel.Font.Size:=FCFuiWin_Font_GetSize(uiwButton);
-         FCWMS_ButProceed.Font.Size:=FCFuiWin_Font_GetSize(uiwButton);
-         FCWMS_Grp_MCG_SetName.Font.Size:=FCFuiWin_Font_GetSize(uiwDescText);
-         FCWMS_Grp_MCG_SetType.Font.Size:=FCFuiWin_Font_GetSize(uiwGrpBoxSec);
+         Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+         FCWMS_Grp.Font.Size:=FCFuiW_Font_GetSize(uiwGrpBox);
+         FCWMS_Grp_MSDG.Font.Size:=FCFuiW_Font_GetSize(uiwGrpBoxSec);
+         FCWMS_Grp_MSDG_Disp.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+         FCWMS_Grp_MCG.Font.Size:=FCFuiW_Font_GetSize(uiwGrpBoxSec);
+         FCWMS_Grp_MCG_DatDisp.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+         FCWMS_Grp_MCGColName.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+         FCWMS_Grp_MCG_MissCfgData.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+         FCWMS_Grp_MCG_RMassTrack.TrackLabel.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+         FCWMS_ButCancel.Font.Size:=FCFuiW_Font_GetSize(uiwButton);
+         FCWMS_ButProceed.Font.Size:=FCFuiW_Font_GetSize(uiwButton);
+         FCWMS_Grp_MCG_SetName.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+         FCWMS_Grp_MCG_SetType.Font.Size:=FCFuiW_Font_GetSize(uiwGrpBoxSec);
       end;
    end;
 end;
