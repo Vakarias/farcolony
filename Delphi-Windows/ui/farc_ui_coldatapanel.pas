@@ -608,6 +608,7 @@ procedure FCMuiCDP_Data_Update(
          ,DataIndex: integer
    );
 {:Purpose: update the colony data display
+   -2012Jan25_ *mod: some code cleanup + root in tree isn't selected by default.
    -2012Jan16- *add: dtStorageCapSolid + dtStorageCapLiquid + dtStorageCapGas + dtStorageCapBio (update display for each kind of storage).
                *add: dtProdMatrixAll (display of the production matrix).
                *add: dtAll - update also the production matrix now.
@@ -1162,7 +1163,6 @@ begin
             inc(CPUcnt);
          end; //==END== while CPUcnt<=CPUmax do ==//
          FCWinMain.FCWM_CDPinfrList.FullExpand;
-         FCWinMain.FCWM_CDPinfrList.Select(CPUrootnodeInfra);
       end;
 
       dtInfraAvail:
@@ -1291,7 +1291,6 @@ begin
             end; //==END== while CPUcnt<=CPUmax do ==//
          end; //==END== if CPUmax>0 ==//
          FCWinMain.FCWM_CDPinfrAvail.FullExpand;
-         FCWinMain.FCWM_CDPinfrAvail.Select(CPUrootnodeInfra);
       end;
 
       dtStorageAll:
@@ -1315,8 +1314,6 @@ begin
             inc( CPUcnt );
          end;
          FCWinMain.CDPstorageList.FullExpand;
-//         FCWinMain.CDPstorageList.SortType:=stText;
-         FCWinMain.CDPstorageList.Select(CPUrootnode);
 //         FCWinDebug.AdvMemo1.Lines.Add('1st item:='+FCWinMain.CDPstorageList.Items[1].Text);
 //         FCWinDebug.AdvMemo1.Lines.Add('2nd item:='+FCWinMain.CDPstorageList.Items[2].Text);
          FCWinMain.CDPstorageCapacity.HTMLText.Clear;
@@ -1357,14 +1354,12 @@ begin
          if DataIndex+1>FCWinMain.CDPstorageList.Items.Count
          then FCMuiCDP_Data_Update(dtStorageAll, 0, CDPcurrentSettlement, 0)
          else begin
-//            FCWinMain.CDPstorageList.SortType:=stData;
             FCWinMain.CDPstorageList.Items[ DataIndex ].Text:=FCFgP_StringFromUnit_Get(
                FCEntities[ 0 ].E_col[ CDPcurrentColony ].COL_storageList[ DataIndex ].CPR_token
                ,FCEntities[ 0 ].E_col[ CDPcurrentColony ].COL_storageList[ DataIndex ].CPR_unit
                ,FCFdTFiles_UIStr_Get( uistrUI, FCEntities[ 0 ].E_col[ CDPcurrentColony ].COL_storageList[ DataIndex ].CPR_token )
                ,true
                );
-//            FCWinMain.CDPstorageList.SortType:=stText;
          end;
       end;
 
@@ -1429,8 +1424,6 @@ begin
             inc( CPUcnt );
          end;
          FCWinMain.CDPproductionMatrixList.FullExpand;
-//         FCWinMain.CDPproductionMatrixList.SortType:=stText;
-         FCWinMain.CDPproductionMatrixList.Select(CPUrootnode);
       end;
 
       dtProdMatrixIndex:
@@ -1438,14 +1431,12 @@ begin
          if DataIndex+1>FCWinMain.CDPproductionMatrixList.Items.Count
          then FCMuiCDP_Data_Update(dtProdMatrixAll, 0, CDPcurrentSettlement, 0)
          else begin
-//            FCWinMain.CDPproductionMatrixList.SortType:=stData;
             FCWinMain.CDPproductionMatrixList.Items[ DataIndex ].Text:=FCFgP_StringFromUnit_Get(
                FCEntities[ 0 ].E_col[ CDPcurrentColony ].COL_productionMatrix[ DataIndex ].CPMI_productToken
                ,FCEntities[ 0 ].E_col[ CDPcurrentColony ].COL_productionMatrix[ DataIndex ].CPMI_globalProdFlow
                ,FCFdTFiles_UIStr_Get( uistrUI, FCEntities[ 0 ].E_col[ CDPcurrentColony ].COL_productionMatrix[ DataIndex ].CPMI_productToken )
                ,true
                );
-//            FCWinMain.CDPproductionMatrixList.SortType:=stText;
          end;
       end;
    end; //==END== case CPUtp of ==//
