@@ -243,24 +243,29 @@
       <FR></FR>
    </SPMi_Abolition>
    <SPMi_AIchitect>
-      <EN>&lt;b&gt;Area:&lt;/b&gt; Administration(ADMIN)&lt;ind x="200"&gt;&lt;b&gt;Type:&lt;/b&gt; Policy&lt;br&gt;&lt;b&gt;Description:&lt;/b&gt; &lt;b&gt;This Policy is a political system.&lt;/b&gt;&lt;br&gt;</EN>
-      <FR></FR>
+      <EncyEntry format="SPMi"/>
+      <EN>les membres du gvt sont remplacée par une matrice composée d'une AI architecte centrale et d'un conseil de représentants humains assistés par des AI specialisees subalternes. Ce n'est pas une dictature car les AI n'on pour but que le bien de la population, mais les decision sont prises au niveau du cyber-gvt et la population en est informée en temps reel. Ce Systeme permet une gestion plus rationalisée et egalitaire, aussi la corruption est eradiquée. De plus ce système politique représente l'apogée de la relation humain - synthétique.</EN>
+      <FR>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</FR>
    </SPMi_AIchitect>
    <SPMi_Amortalism>
-      <EN></EN>
-      <FR></FR>
+      <EncyEntry format="SPMi"/>
+      <EN>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</EN>
+      <FR>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</FR>
    </SPMi_Amortalism>
    <SPMi_AntiHumSpacef>
-      <EN></EN>
-      <FR></FR>
+      <EncyEntry format="SPMi"/>
+      <EN>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</EN>
+      <FR>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</FR>
    </SPMi_AntiHumSpacef>
    <SPMi_BioroidsAdopt>
-      <EN></EN>
-      <FR></FR>
+      <EncyEntry format="SPMi"/>
+      <EN>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</EN>
+      <FR>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</FR>
    </SPMi_BioroidsAdopt>
    <SPMi_BirthsCtl>
-      <EN></EN>
-      <FR></FR>
+      <EncyEntry format="SPMi"/>
+      <EN>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</EN>
+      <FR>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</FR>
    </SPMi_BirthsCtl>
    <SPMi_CentrAuth>
       <EN>&lt;b&gt;Area:&lt;/b&gt; Administration(ADMIN)/Economy(ECON)/Medical Care(MEDCA)/Society(SOC)/Space Politics(SPOL)/Spirituality(SPI)
@@ -269,8 +274,9 @@
       <FR></FR>
    </SPMi_CentrAuth>
    <SPMi_Colonialism>
-      <EN></EN>
-      <FR></FR>
+      <EncyEntry format="SPMi"/>
+      <EN>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</EN>
+      <FR>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</FR>
    </SPMi_Colonialism>
    <SPMi_CorpOrg>
       <EN></EN>

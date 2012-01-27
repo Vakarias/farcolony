@@ -30,6 +30,9 @@ unit farc_ui_html;
 
 interface
 
+uses
+   SysUtils;
+
 
 ///<summary>
 ///   extract the a href value in a string that must begin with <a href=". Return the value in a string
@@ -37,9 +40,24 @@ interface
 ///   <param name="AIAEhref">string containing the a href</param>
 function FCFuiHTML_AnchorInAhref_Extract(const AIAEhref: string): string;
 
+
+///<summary>
+///   format a modifier value (+/- integer or extended) to a formatted HTML text with green (positive), red (negative) or default color (=0) colors, including the sign +/-
+///</summary>
+///   <param name="ModifierValue">the value to format</param>
+///   <param name="isPutValInBold">[true]= put the value in bold</param>
+///   <returns>the formatted HTML modifier</returns>
+function FCFuiHTML_Modifier_GetFormat(
+   const ModifierValue: extended;
+   const isPutValInBold: boolean
+   ): string;
+
 //===========================END FUNCTIONS SECTION==========================================
 
 implementation
+
+uses
+   farc_data_init;
 
 type
    UIHTMLcharset = set of char;
@@ -65,6 +83,34 @@ begin
    While (AIAEcount<=length(AIAEworkString)) and not (AIAEworkString[AIAEcount] in UIHTMLcharEndHref) do inc(AIAEcount);
    delete(AIAEworkString, AIAEcount, length(AIAEworkString));
    Result:=AIAEworkString;
+end;
+
+function FCFuiHTML_Modifier_GetFormat(
+   const ModifierValue: extended;
+   const isPutValInBold: boolean
+   ): string;
+{:Purpose: format a modifier value (+/- integer or extended) to a formatted HTML text with green (positive), red (negative) or default color (=0) colors, including the sign +/-.
+    Additions:
+}
+   var
+      BoldEndText
+      ,BoldText
+      ,ValText: string;
+begin
+   Result:='';
+   BoldEndText:='';
+   BoldText:='';
+   ValText:='';
+   if isPutValInBold then
+   begin
+      BoldEndText:='</b>';
+      BoldText:='<b>';
+   end;
+   if ModifierValue<0
+   then Result:=FCCFcolRed+BoldText+FloatToStr( ModifierValue )+BoldEndText+FCCFcolEND
+   else if ModifierValue>0
+   then Result:=FCCFcolGreen+BoldText+'+'+FloatToStr( ModifierValue )+BoldEndText+FCCFcolEND
+   else Result:=BoldText+FloatToStr( ModifierValue )+BoldEndText;
 end;
 
 //===========================END FUNCTIONS SECTION==========================================

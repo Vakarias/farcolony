@@ -49,6 +49,11 @@ type TFCEgspmPolRslt=(
    );
 
 ///<summary>
+///   return the token of a given SPM area
+///</summary>
+function FCFgSPM_Area_GetString(const SPMarea: TFCEdgSPMarea): string;
+
+///<summary>
 ///   return the private calculated enforcement data
 ///</summary>
 ///   <param name="CDGdata">type of data to retrieve</param>
@@ -217,6 +222,21 @@ var
    GSPMrslt: TFCEgspmPolRslt;
 
 //===================================================END OF INIT============================
+
+function FCFgSPM_Area_GetString(const SPMarea: TFCEdgSPMarea): string;
+{:Purpose: return the token of a given SPM area.
+}
+begin
+   result:='';
+   case SPMarea of
+      dgADMIN: result:='SPMiAreaADMIN';
+      dgECON: result:='SPMiAreaECON';
+      dgMEDCA: result:='SPMiAreaMEDCA';
+      dgSOC: result:='SPMiAreaSOC';
+      dgSPOL: result:='SPMiAreaSPOL';
+      dgSPI: result:='SPMiAreaSPI';
+   end;
+end;
 
 function FCFgSPM_EnforcData_Get(const CDGdata: TFCEgspmData): extended;
 {:Purpose: return the private calculated enforcement data.

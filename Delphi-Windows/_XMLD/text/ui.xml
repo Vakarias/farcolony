@@ -2342,6 +2342,42 @@
       <EN>Known by All</EN>
       <FR>Connu de Tous</FR>
    </SPMiBL5>
+   <SPMiFormat_Area>
+      <EN>Area</EN>
+      <FR>Secteur</FR>
+   </SPMiFormat_Area>
+   <SPMiFormat_BasMod>
+      <EN>Basic Modifiers</EN>
+      <FR>Modificateurs de Base</FR>
+   </SPMiFormat_BasMod>
+   <SPMiFormat_Description>
+      <EN>Description</EN>
+      <FR>Description</FR>
+   </SPMiFormat_Description>
+   <SPMiFormat_Notice>
+      <EN>This policy is a </EN>
+      <FR>Cette politique est un </FR>
+   </SPMiFormat_Notice>
+   <SPMiFormat_Prereq>
+      <EN>Prerequisites</EN>
+      <FR>Prérequis</FR>
+   </SPMiFormat_Prereq>
+   <SPMiFormat_PrereqNone>
+      <EN>None Required</EN>
+      <FR>Aucun Nécéssaire</FR>
+   </SPMiFormat_PrereqNone>
+   <SPMiFormat_Type>
+      <EN>Type</EN>
+      <FR>Type</FR>
+   </SPMiFormat_Type>
+   <SPMiFormat_TypeMeme>
+      <EN>Meme</EN>
+      <FR>Meme</FR>
+   </SPMiFormat_TypeMeme>
+   <SPMiFormat_TypePolicy>
+      <EN>Policy</EN>
+      <FR>Politique</FR>
+   </SPMiFormat_TypePolicy>
    <SPMiSV>
       <EN>Spread Value</EN>
       <FR>Valeur de Propagation</FR>
