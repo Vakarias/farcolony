@@ -300,6 +300,7 @@ type
     CDPstorageList: THTMLTreeview;
     CDPstorageCapacity: THTMLabel;
     CDPproductionMatrixList: THTMLTreeview;
+    FCWM_MMenu_O_L_SP: TMenuItem;
       procedure FormCreate(Sender: TObject);
       procedure FormResize(Sender: TObject);
       procedure FCWM_MMenu_G_QuitClick(Sender: TObject);
@@ -405,6 +406,7 @@ type
       Y: Integer);
     procedure CDPproductionMatrixListKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
+    procedure FCWM_MMenu_O_L_SPClick(Sender: TObject);
    private
       { Private declarations }
          {timesteps needed for camera transitions}
@@ -1203,6 +1205,12 @@ end;
 procedure TFCWinMain.FCWM_MMenu_O_L_FRClick(Sender: TObject);
 begin
    FCMdTfiles_Lang_Switch('FR');
+   FCMuiWin_UI_LangUpd;
+end;
+
+procedure TFCWinMain.FCWM_MMenu_O_L_SPClick(Sender: TObject);
+begin
+   FCMdTfiles_Lang_Switch('SP');
    FCMuiWin_UI_LangUpd;
 end;
 

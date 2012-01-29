@@ -448,6 +448,7 @@ end;
 procedure FCMdTfiles_Lang_Switch(const LSlang: string);
 {:Purpose: switch the language.
    Additions:
+      -2012Jan29- *add: spanish language.
 }
 begin
    if (LSlang='EN')
@@ -455,7 +456,10 @@ begin
    then FCVlang:='EN'
    else if (LSlang='FR')
       and (FCVlang<>'FR')
-   then FCVlang:='FR';
+   then FCVlang:='FR'
+   else if (LSlang='SP')
+      and (FCVlang<>'SP')
+   then FCVlang:='SP';
 end;
 
 procedure FCMdTfiles_UIString_Init;
