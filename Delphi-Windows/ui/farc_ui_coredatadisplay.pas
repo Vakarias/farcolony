@@ -111,6 +111,7 @@ procedure FCMuiCDD_Colony_Update(
    );
 {:Purpose: core data display refresh for colony data. Update the Colony Data Panel and the related UMI tabs if required.
     Additions:
+      -2012Jan29- *fix: cdlAll - prevent the surface panel update if the CDP isn't displayed.
       -2012Jan16- *add: cdlStorageItem - update also the corresponding storage capacity.
       -2012Jan09- *add: storage update.
       -2012Jan08- *add: new parameter to indicate if the surface panel must be updated too (used in case of language change for ex).
@@ -140,23 +141,25 @@ begin
    case DataType of
       cdlAll:
       begin
-         if isColonyDataPanelShown
-         then FCMuiCDP_Data_Update(
-            dtAll
-            ,Colony
-            ,SettlementStorageItemIndex
-            ,0
-            );
-         {.update the surface panel if needed}
-         if isSurfacePanelUpdate then
+         if isColonyDataPanelShown then
          begin
-            ReturnInt1:=FCFuiSP_VarCurrentOObj_Get;
-            ReturnInt2:=FCFuiSP_VarCurrentSat_Get;
-            FCMuiSP_SurfaceEcosphere_Set(
-               ReturnInt1
-               ,ReturnInt2
-               ,false
+            FCMuiCDP_Data_Update(
+               dtAll
+               ,Colony
+               ,SettlementStorageItemIndex
+               ,0
                );
+            {.update the surface panel if needed}
+            if isSurfacePanelUpdate then
+            begin
+               ReturnInt1:=FCFuiSP_VarCurrentOObj_Get;
+               ReturnInt2:=FCFuiSP_VarCurrentSat_Get;
+               FCMuiSP_SurfaceEcosphere_Set(
+                  ReturnInt1
+                  ,ReturnInt2
+                  ,false
+                  );
+            end;
          end;
          {:DEV NOTES: also update the UMI here (full entry in the colonies list).}
          {:DEV NOTES: update the 3d w/ colony name here, if required.}
