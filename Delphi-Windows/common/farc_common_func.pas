@@ -1623,6 +1623,7 @@ function FCFcF_Time_GetDate(
    ): string;
 {:Purpose: transform time values in readable date.
     Additions:
+      -2012Jan29- *add: Spanish language.
 }
 var
    TGD1st: string;
@@ -1638,6 +1639,13 @@ begin
          +' '+IntToStr(TGDyr);
    end
    else if FCVlang='FR'
+   then
+   begin
+      Result:=IntToStr(TGDday)+TGD1st
+         +' '+FCFdTFiles_UIStr_Get(uistrUI, 'TimeFM'+IntToStr(TGDmth))
+         +' '+IntToStr(TGDyr);
+   end
+   else if FCVlang='SP'
    then
    begin
       Result:=IntToStr(TGDday)+TGD1st

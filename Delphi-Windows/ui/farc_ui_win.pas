@@ -645,6 +645,7 @@ end;
 procedure FCMuiW_UI_Initialize(const UIUtp: TFCEmwinUpdTp);
 {:Purpose: update and initialize all user's interface elements of the game.
    Additions:
+      -2012Jan29- *add: update language submenu for Spanish.
       -2012Jan29- *add: main menu / options / language / spanish.
       -2012Jan25- *add: production matrix font initialization.
       -2012Jan15- *add: storage list font and size changes.
@@ -1289,12 +1290,21 @@ begin
       begin
          FCWinMain.FCWM_MMenu_O_L_EN.Checked:=true;
          FCWinMain.FCWM_MMenu_O_L_FR.Checked:=false;
+         FCWinMain.FCWM_MMenu_O_L_SP.Checked:=false;
       end
       else if FCVlang='FR'
       then
       begin
          FCWinMain.FCWM_MMenu_O_L_EN.Checked:=false;
          FCWinMain.FCWM_MMenu_O_L_FR.Checked:=true;
+         FCWinMain.FCWM_MMenu_O_L_SP.Checked:=false;
+      end
+      else if FCVlang='SP'
+      then
+      begin
+         FCWinMain.FCWM_MMenu_O_L_EN.Checked:=false;
+         FCWinMain.FCWM_MMenu_O_L_FR.Checked:=false;
+         FCWinMain.FCWM_MMenu_O_L_SP.Checked:=true;
       end;
    end;
    //=======================================================================================================
