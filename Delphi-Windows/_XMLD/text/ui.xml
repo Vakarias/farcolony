@@ -868,19 +868,19 @@
       <SP>Gas</SP>
    </colStorageCapGas>
    <colStorageCapHead>
-      <EN>Storage Capacities</EN>
-      <FR>Capacités de Stockage</FR>
-      <SP>Capacidades de Almacenaje</SP>
+      <EN>Capacities</EN>
+      <FR>Capacités</FR>
+      <SP>Capacidades</SP>
    </colStorageCapHead>
    <colStorageCapLiquid>
       <EN>Liquid</EN>
       <FR>Liquide</FR>
-      <SP></SP>
+      <SP>Liquidos</SP>
    </colStorageCapLiquid>
    <colStorageCapSolid>
       <EN>Solid</EN>
       <FR>Solide</FR>
-      <SP>Liquidos</SP>
+      <SP>Sólido</SP>
    </colStorageCapSolid>
    <facstat>
       <EN>Current Dependence Status</EN>
@@ -3508,6 +3508,11 @@
       <FR>Habitats Gonflables</FR>
       <SP>Habitats Inflables</SP>
    </tsciInflatHabitat>
+   <tsciLabel>
+      <EN>Technoscience</EN>
+      <FR>Technoscience</FR>
+      <SP>.</SP>
+   </tsciLabel>
    <tsciNucFission>
       <EN>Nuclear Fission</EN>
       <FR>Fission Nucléaire</FR>
