@@ -404,8 +404,8 @@
    </colDat>
    <colDbrate>
       <EN>Birth Rate</EN>
-      <FR>Natalité</FR>
-      <SP>Natalidad</SP>
+      <FR>Taux de Natalité</FR>
+      <SP>Indice de Natalidad</SP>
    </colDbrate>
    <colDcohes>
       <EN>Cohesion</EN>
@@ -415,12 +415,12 @@
    <colDcohesI1>
       <EN>Dissident Colony</EN>
       <FR>Colonie Dissidente</FR>
-      <SP>Colonia residente</SP>
+      <SP>Colonia Disidente</SP>
    </colDcohesI1>
    <colDcohesI2>
       <EN>Remote Colony</EN>
       <FR>Colonie Eloignée</FR>
-      <SP>Colonia remota</SP>
+      <SP>Colonia Remota</SP>
    </colDcohesI2>
    <colDcohesI3>
       <EN>Weak</EN>
@@ -464,8 +464,8 @@
    </colDCSMEnergTitle>
    <colDdrate>
       <EN>Death Rate</EN>
-      <FR>Mortalité</FR>
-      <SP>Mortalidad</SP>
+      <FR>Taux de Mortalité</FR>
+      <SP>Indice de Mortalidad</SP>
    </colDdrate>
    <colDedu>
       <EN>Education</EN>
@@ -537,6 +537,16 @@
       <FR>Parfaite</FR>
       <SP>Perfecta</SP>
    </colDhealI6>
+   <colMortality>
+      <EN>Mortality</EN>
+      <FR>Mortalité</FR>
+      <SP>Mortalidad</SP>
+   </colMortality>
+   <colNatality>
+      <EN>Natality</EN>
+      <FR>Natalité</FR>
+      <SP>Natalidad</SP>
+   </colNatality>
    <colDsec>
       <EN>Security</EN>
       <FR>Sécurité</FR>

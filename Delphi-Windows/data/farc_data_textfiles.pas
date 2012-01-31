@@ -122,11 +122,20 @@ function FCFdTFiles_UIStr_Get(
    ): string; overload;
 {:Purpose: retrieve text for ui/ encyclopaedia or proper names.
     Additions:
+      -2012Jan30- *add: complete special reformatting for SPMi (WIP).
       -2012Jan29- *add: complete special reformatting for SPMi (WIP).
       -2012Jan26- *add: complete special reformatting for SPMi (WIP).
       -2011Mar23- *add/mod: special reformatting system for encyclopedia texts.
       -2009Nov05- *use ui.xml + encyclopaedia.xml in memory.
 }
+   const
+      TensionX='<ind x="70">';
+      SecurityX='<ind x="126">';
+      EducationX='<ind x="182">';
+      NatalityX='<ind x="238">';
+      HealthX='<ind x="294">';
+      BureaucracyX='<ind x="350">';
+      CorruptionX='<ind x="406">';
 var
 	UISGreqCnt
    ,UISGreqMax: integer;
@@ -230,27 +239,27 @@ begin
                         begin
                            UISGresDump3:=IntToStr(Integer(UISGspmi.SPMI_req[UISGreqCnt].SPMIR_datTp)+1);
                            UISGresDump2:=FCFdTFiles_UIStr_Get(uistrUI, 'faclvl') +'... ('
-                              +UISGresDump3+')-'+FCFdTFiles_UIStr_Get(uistrUI,'faclvl'+UISGresDump3)+' +</b>';
+                              +UISGresDump3+')-'+FCFdTFiles_UIStr_Get(uistrUI,'faclvl'+UISGresDump3)+'</b>';
                         end;
                         rfdFacStab:
                         begin
                            UISGresDump3:=IntToStr(UISGspmi.SPMI_req[UISGreqCnt].SPMIR_datValue);
-                           UISGresDump2:=FCFdTFiles_UIStr_Get(uistrUI, 'SPMdatEquil') +'... >= '+UISGresDump3+' +</b>';
+                           UISGresDump2:=FCFdTFiles_UIStr_Get(uistrUI, 'SPMdatEquil') +'... >= '+UISGresDump3+'</b>';
                         end;
                         rfdInstrLv:
                         begin
                            UISGresDump3:=IntToStr(UISGspmi.SPMI_req[UISGreqCnt].SPMIR_datValue);
-                           UISGresDump2:=FCFdTFiles_UIStr_Get(uistrUI, 'SPMdatInstLvl') +'... >= '+UISGresDump3+' +</b>';
+                           UISGresDump2:=FCFdTFiles_UIStr_Get(uistrUI, 'SPMdatInstLvl') +'... >= '+UISGresDump3+'</b>';
                         end;
                         rfdLifeQ:
                         begin
                            UISGresDump3:=IntToStr(UISGspmi.SPMI_req[UISGreqCnt].SPMIR_datValue);
-                           UISGresDump2:=FCFdTFiles_UIStr_Get(uistrUI, 'SPMdatLifeQ') +'... >= '+UISGresDump3+' +</b>';
+                           UISGresDump2:=FCFdTFiles_UIStr_Get(uistrUI, 'SPMdatLifeQ') +'... >= '+UISGresDump3+'</b>';
                         end;
                         rfdEquil:
                         begin
                            UISGresDump3:=IntToStr(UISGspmi.SPMI_req[UISGreqCnt].SPMIR_datValue);
-                           UISGresDump2:=FCFdTFiles_UIStr_Get(uistrUI, 'SPMdatEquil') +'... >= '+UISGresDump3+' +</b>';
+                           UISGresDump2:=FCFdTFiles_UIStr_Get(uistrUI, 'SPMdatEquil') +'... >= '+UISGresDump3+'</b>';
                         end;
                      end; //==END== case SPMI_req[UISGreqCnt].SPMIR_datTp of ==//
                   end;
@@ -270,15 +279,19 @@ begin
                      case UISGspmi.SPMI_req[UISGreqCnt].SPMIR_ucMethod of
                         dgFixed:
                         begin
-//                           UISGresDump2:=UISGresDump2+FCFdTFiles_UIStr_Get(uistrUI, '<fixed value of nn / month>')+
+                           UISGresDump3:=floattostr( UISGspmi.SPMI_req[UISGreqCnt].SPMIR_ucVal);
+                           UISGresDump2:=UISGresDump2+FCFdTFiles_UIStr_Get(uistrUI, '<fixed value of nn / month>')+' '+UISGresDump3+'</b>'
                         end;
 
                         dgFixed_yr:
                         begin
+                           UISGresDump3:=floattostr( UISGspmi.SPMI_req[UISGreqCnt].SPMIR_ucVal);
+                           UISGresDump2:=UISGresDump2+FCFdTFiles_UIStr_Get(uistrUI, '<fixed value of nn / year>')+' '+UISGresDump3+'</b>'
                         end;
 
                         dgCalcPop:
                         begin
+                          //cf spm doc + main doc o.O
                         end;
 
                         dgCalcPop_yr:
@@ -300,10 +313,24 @@ begin
             end; //==END== while UISGreqCnt<=UISGreqMax do ==//
             {.basic modifiers}
             UISGresDump1:='<b>'+FCFdTFiles_UIStr_Get(uistrUI ,'SPMiFormat_BasMod')+'</b><br>'
-               +FCCFidxL+FCFdTFiles_UIStr_Get(uistrUI ,'colDcohes')+'<br>'
-               +FCCFidxL+FCFuiHTML_Modifier_GetFormat(UISGspmi.SPMI_modCohes, true);
+               +FCCFidxL+FCFdTFiles_UIStr_Get(uistrUI ,'colDcohes')
+               +TensionX+FCFdTFiles_UIStr_Get(uistrUI ,'colDtens')
+               +SecurityX+FCFdTFiles_UIStr_Get(uistrUI ,'colDsec')
+               +EducationX+FCFdTFiles_UIStr_Get(uistrUI ,'colDedu')
+               +NatalityX+FCFdTFiles_UIStr_Get(uistrUI ,'colNatality')
+               +HealthX+FCFdTFiles_UIStr_Get(uistrUI ,'colDheal')
+               +BureaucracyX+FCFdTFiles_UIStr_Get(uistrUI ,'SPMdatBur')
+               +CorruptionX+FCFdTFiles_UIStr_Get(uistrUI ,'SPMdatCorr')
+               +'<br>'
+               +FCCFidxL+FCFuiHTML_Modifier_GetFormat(UISGspmi.SPMI_modCohes, true)
+               +TensionX+FCFuiHTML_Modifier_GetFormat(UISGspmi.SPMI_modTens, true)
+               +SecurityX+FCFuiHTML_Modifier_GetFormat(UISGspmi.SPMI_modSec, true)
+               +EducationX+FCFuiHTML_Modifier_GetFormat(UISGspmi.SPMI_modEdu, true)
+               +NatalityX+FCFuiHTML_Modifier_GetFormat(UISGspmi.SPMI_modNat, true)
+               +HealthX+FCFuiHTML_Modifier_GetFormat(UISGspmi.SPMI_modHeal, true)
+               +BureaucracyX+FCFuiHTML_Modifier_GetFormat(UISGspmi.SPMI_modBur, true)
+               +CorruptionX+FCFuiHTML_Modifier_GetFormat(UISGspmi.SPMI_modCorr, true);
             UISGresDump:=UISGresDump+UISGresDump1;
-
          end; //==END== if UISGtxtSubItm.Attributes['format']='SPMi' ==//
       end //==END== if UISGtxtSubItm<>nil ==//
       {.keep the comptability with the old format}
