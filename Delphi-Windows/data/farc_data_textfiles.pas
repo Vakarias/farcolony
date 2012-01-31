@@ -128,14 +128,6 @@ function FCFdTFiles_UIStr_Get(
       -2011Mar23- *add/mod: special reformatting system for encyclopedia texts.
       -2009Nov05- *use ui.xml + encyclopaedia.xml in memory.
 }
-   const
-      TensionX='<ind x="70">';
-      SecurityX='<ind x="126">';
-      EducationX='<ind x="182">';
-      NatalityX='<ind x="238">';
-      HealthX='<ind x="294">';
-      BureaucracyX='<ind x="350">';
-      CorruptionX='<ind x="406">';
 var
 	UISGreqCnt
    ,UISGreqMax: integer;
@@ -217,13 +209,15 @@ begin
             then UISGresDump:=UISGresDump
                +'<b>'+FCFdTFiles_UIStr_Get(uistrUI ,'SPMiFormat_Description')+':</b> '
                +UISGencyItem.Text
-               +'<br><ul>';
+               +'<br><br>';
             {.SPMi requirements}
             UISGreqCnt:=1;
             UISGreqMax:=length(UISGspmi.SPMI_req)-1;
+            if UISGreqMax>0
+            then UISGresDump:=UISGresDump+'<b>'+FCFdTFiles_UIStr_Get( uistrUI, 'SPMiFormat_Prereq' )+':</b>';
             while UISGreqCnt<=UISGreqMax do
             begin
-               UISGresDump1:='<ind x="15"><li><b>';
+               UISGresDump1:='<ul><ind x="15"><li>';
                UISGresDump2:='';
                case UISGspmi.SPMI_req[UISGreqCnt].SPMIR_type of
                   dgBuilding:
@@ -275,61 +269,70 @@ begin
                   end;
                   dgUC:
                   begin
-                     UISGresDump2:=FCFdTFiles_UIStr_Get(uistrUI, '<ucReq>') +'... ';
+                     UISGresDump2:=FCFdTFiles_UIStr_Get(uistrUI, 'acronUCwDes') +'... ';
                      case UISGspmi.SPMI_req[UISGreqCnt].SPMIR_ucMethod of
                         dgFixed:
                         begin
                            UISGresDump3:=floattostr( UISGspmi.SPMI_req[UISGreqCnt].SPMIR_ucVal);
                            UISGresDump2:=UISGresDump2+FCFdTFiles_UIStr_Get(uistrUI, '<fixed value of nn / month>')+' '+UISGresDump3+'</b>'
+                           //a
                         end;
 
                         dgFixed_yr:
                         begin
-                           UISGresDump3:=floattostr( UISGspmi.SPMI_req[UISGreqCnt].SPMIR_ucVal);
-                           UISGresDump2:=UISGresDump2+FCFdTFiles_UIStr_Get(uistrUI, '<fixed value of nn / year>')+' '+UISGresDump3+'</b>'
+                           UISGresDump3:=floattostr( UISGspmi.SPMI_req[UISGreqCnt].SPMIR_ucVal*12);
+                           UISGresDump2:=UISGresDump2+FCFdTFiles_UIStr_Get(uistrUI, '<fixed value of nn*12 / year>')+' '+UISGresDump3+'</b>'
+                           //PPreqSubVal:=round( GSPMspmi.SPMI_req[PPreqCnt].SPMIR_ucVal*PPsubCnt );
                         end;
 
                         dgCalcPop:
                         begin
-                          //cf spm doc + main doc o.O
+                           UISGresDump3:=floattostr( UISGspmi.SPMI_req[UISGreqCnt].SPMIR_ucVal);
+                           UISGresDump2:=UISGresDump2+'a value dependend of the total population * by '+UISGresDump3+FCFdTFiles_UIStr_Get(uistrUI, 'acronUC' )+' for one month</b>';//FCFdTFiles_UIStr_Get(uistrUI, '<fixed value of nn*12 / year>')+' '+UISGresDump3+'</b>'
+//                          PPreqSubVal:=round( GSPMspmi.SPMI_req[PPreqCnt].SPMIR_ucVal*FCFgSPMD_GlobalData_Get(gmspmdPopulation, PPent)*1 );
                         end;
 
                         dgCalcPop_yr:
                         begin
+                           UISGresDump3:=floattostr( UISGspmi.SPMI_req[UISGreqCnt].SPMIR_ucVal*12 );
+                           UISGresDump2:=UISGresDump2+'a value dependend of the total population * by '+UISGresDump3+FCFdTFiles_UIStr_Get(uistrUI, 'acronUC' )+' for one year</b>';//FCFdTFiles_UIStr_Get(uistrUI, '<fixed value of nn*12 / year>')+' '+UISGresDump3+'</b>'
+//                           PPreqSubVal:=round( GSPMspmi.SPMI_req[PPreqCnt].SPMIR_ucVal*FCFgSPMD_GlobalData_Get(gmspmdPopulation, PPent)*12 );
                         end;
 
                         dgCalcCol:
                         begin
+//                           PPreqSubVal:=round( GSPMspmi.SPMI_req[PPreqCnt].SPMIR_ucVal*( length(FCentities[PPent].E_col)-1 )*1 );
                         end;
 
                         dgCalcCol_yr:
                         begin
+//                           PPreqSubVal:=round( GSPMspmi.SPMI_req[PPreqCnt].SPMIR_ucVal*( length(FCentities[PPent].E_col)-1 )*12 );
                         end;
                      end;
                   end;
                end; //==END== case SPMI_req[UISGreqCnt].SPMIR_type of ==//
-               UISGresDump:=UISGresDump+UISGresDump1+UISGresDump2;
+               UISGresDump:=UISGresDump+UISGresDump1+UISGresDump2+'<br>';
                inc(UISGreqCnt);
             end; //==END== while UISGreqCnt<=UISGreqMax do ==//
             {.basic modifiers}
-            UISGresDump1:='<b>'+FCFdTFiles_UIStr_Get(uistrUI ,'SPMiFormat_BasMod')+'</b><br>'
-               +FCCFidxL+FCFdTFiles_UIStr_Get(uistrUI ,'colDcohes')
-               +TensionX+FCFdTFiles_UIStr_Get(uistrUI ,'colDtens')
-               +SecurityX+FCFdTFiles_UIStr_Get(uistrUI ,'colDsec')
-               +EducationX+FCFdTFiles_UIStr_Get(uistrUI ,'colDedu')
-               +NatalityX+FCFdTFiles_UIStr_Get(uistrUI ,'colNatality')
-               +HealthX+FCFdTFiles_UIStr_Get(uistrUI ,'colDheal')
-               +BureaucracyX+FCFdTFiles_UIStr_Get(uistrUI ,'SPMdatBur')
-               +CorruptionX+FCFdTFiles_UIStr_Get(uistrUI ,'SPMdatCorr')
+            UISGresDump1:='<b><p align="center">'+FCFdTFiles_UIStr_Get(uistrUI ,'SPMiFormat_BasMod')+'</p></b><br><p align="left">'
+               +FCFdTFiles_UIStr_Get(uistrUI ,'colDcohes')
+               +'<ind x="56">'+FCFdTFiles_UIStr_Get(uistrUI ,'colDtens')
+               +'<ind x="110">'+FCFdTFiles_UIStr_Get(uistrUI ,'colDsec')
+               +'<ind x="165">'+FCFdTFiles_UIStr_Get(uistrUI ,'colDedu')
+               +'<ind x="224">'+FCFdTFiles_UIStr_Get(uistrUI ,'colNatality')
+               +'<ind x="280">'+FCFdTFiles_UIStr_Get(uistrUI ,'colDheal')
+               +'<ind x="323">'+FCFdTFiles_UIStr_Get(uistrUI ,'SPMdatBur')
+               +'<ind x="396">'+FCFdTFiles_UIStr_Get(uistrUI ,'SPMdatCorr')
                +'<br>'
                +FCCFidxL+FCFuiHTML_Modifier_GetFormat(UISGspmi.SPMI_modCohes, true)
-               +TensionX+FCFuiHTML_Modifier_GetFormat(UISGspmi.SPMI_modTens, true)
-               +SecurityX+FCFuiHTML_Modifier_GetFormat(UISGspmi.SPMI_modSec, true)
-               +EducationX+FCFuiHTML_Modifier_GetFormat(UISGspmi.SPMI_modEdu, true)
-               +NatalityX+FCFuiHTML_Modifier_GetFormat(UISGspmi.SPMI_modNat, true)
-               +HealthX+FCFuiHTML_Modifier_GetFormat(UISGspmi.SPMI_modHeal, true)
-               +BureaucracyX+FCFuiHTML_Modifier_GetFormat(UISGspmi.SPMI_modBur, true)
-               +CorruptionX+FCFuiHTML_Modifier_GetFormat(UISGspmi.SPMI_modCorr, true);
+               +'<ind x="70">'+FCFuiHTML_Modifier_GetFormat(UISGspmi.SPMI_modTens, true)
+               +'<ind x="124">'+FCFuiHTML_Modifier_GetFormat(UISGspmi.SPMI_modSec, true)
+               +'<ind x="179">'+FCFuiHTML_Modifier_GetFormat(UISGspmi.SPMI_modEdu, true)
+               +'<ind x="238">'+FCFuiHTML_Modifier_GetFormat(UISGspmi.SPMI_modNat, true)
+               +'<ind x="294">'+FCFuiHTML_Modifier_GetFormat(UISGspmi.SPMI_modHeal, true)
+               +'<ind x="337">'+FCFuiHTML_Modifier_GetFormat(UISGspmi.SPMI_modBur, true)
+               +'<ind x="410">'+FCFuiHTML_Modifier_GetFormat(UISGspmi.SPMI_modCorr, true);
             UISGresDump:=UISGresDump+UISGresDump1;
          end; //==END== if UISGtxtSubItm.Attributes['format']='SPMi' ==//
       end //==END== if UISGtxtSubItm<>nil ==//

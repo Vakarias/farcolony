@@ -387,8 +387,9 @@
       <FR></FR>
    </SPMi_Slavery>
    <SPMi_SocSystem>
-      <EN></EN>
-      <FR></FR>
+      <EncyEntry format="SPMi"/>
+      <EN>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</EN>
+      <FR>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</FR>
    </SPMi_SocSystem>
    <SPMi_SpDebMClean>
       <EN></EN>

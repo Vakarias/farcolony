@@ -841,7 +841,7 @@ begin
             +FCFdTFiles_UIStr_Get(dtfscPrprName, FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_token)
             +']';
       {.help panel}
-      FCWinMain.FCWM_HelpPanel.Caption.Text:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_HelpPanel');
+      FCWinMain.FCWM_HelpPanel.Caption.Text:='<p align="center"><b>'+FCFdTFiles_UIStr_Get(uistrUI,'FCWM_HelpPanel')+'</b>';
       FCWinMain.FCWM_HPdPad_Keys.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_HPdPad_Keys');
       FCWinMain.FCWM_HPdPad_KeysTxt.HTMLText.Clear;
       FCWinMain.FCWM_HPdPad_KeysTxt.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI,'HPKeys'));
@@ -998,10 +998,10 @@ begin
       FCWinMain.FCWM_DockLstPanel.Width:=200;
       FCWinMain.FCWM_DockLstPanel.Height:=450;
       {.help panel}
-      FCWinMain.FCWM_HelpPanel.Width:=780;
+      FCWinMain.FCWM_HelpPanel.Width:=840;
       FCWinMain.FCWM_HelpPanel.Height:=440;
-      FCWinMain.FCWM_HDPhintsList.Width:=FCWinMain.FCWM_HelpPanel.Width shr 5*15;
-      FCWinMain.FCWM_HDPhintsText.Width:=(FCWinMain.FCWM_HelpPanel.Width shr 5*17)-8;
+      FCWinMain.FCWM_HDPhintsList.Width:=(FCWinMain.FCWM_HelpPanel.Width shr 5*14)-5;
+      FCWinMain.FCWM_HDPhintsText.Width:=(FCWinMain.FCWM_HelpPanel.Width shr 5*18);
       {.surface panel}
       FCWinMain.FCWM_SurfPanel.Width:=1024;//784;
       FCWinMain.FCWM_SurfPanel.Height:=375;

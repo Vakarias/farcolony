@@ -1123,9 +1123,9 @@
    </factkMagelUniWart>
    <!-- ********** HELP PANEL ********** -->
    <FCWM_HelpPanel>
-      <EN>FAR Colony Help Panel</EN>
-      <FR>Panneau d'Aide de FAR Colony</FR>
-      <SP>Panel de Ayuda FAR Colony</SP>
+      <EN>Help Panel</EN>
+      <FR>Panneau d'Aide</FR>
+      <SP>Panel de Ayuda</SP>
    </FCWM_HelpPanel>
    <FCWM_HPdPad_Keys>
       <EN>Keys List</EN>
