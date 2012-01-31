@@ -873,16 +873,16 @@ begin
       FCWinMain.FCWM_SP_ShReg.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_SP_ShReg');
       {.viability objectives panel}
       if Assigned(FCcps)
-      then FCcps.CPSobjPanel.Caption.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'CPSobjPanel');
+      then FCcps.CPSobjPanel.Caption.Text:='<p align="center"><b>'+FCFdTFiles_UIStr_Get(uistrUI, 'CPSobjPanel')+'</b>';
       {.colony data panel}
-      FCWinMain.FCWM_ColDPanel.Caption.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_ColDPanel');
+      FCWinMain.FCWM_ColDPanel.Caption.Text:='<p align="center"><b>'+FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_ColDPanel')+'</b>';
       FCWinMain.FCWM_CDPcsme.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_CDPcsme');
       FCWinMain.FCWM_CDPinfr.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_CDPinfr');
       FCWinMain.FCWM_CDPpopul.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_CDPpopul');
       FCWinMain.FCWM_CDPstorage.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_CDPstorage');
       FCWinMain.FCWM_CDPcolName.EditLabel.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_CDPcolName');
       {.UMI}
-      FCWinMain.FCWM_UMI.Caption.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_UMI');
+      FCWinMain.FCWM_UMI.Caption.Text:='<p align="center"><b>'+FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_UMI')+'</b>';
       FCWinMain.FCWM_UMI_TabShFac.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_UMI_TabShFac');
       FCWinMain.FCWM_UMI_TabShProd.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_UMI_TabShProd');
       FCWinMain.FCWM_UMI_TabShRDS.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_UMI_TabShRDS');
@@ -905,7 +905,7 @@ begin
       FCWinMain.FCWM_UMISh_CEFretire.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_UMISh_CEFretire');
       FCWinMain.FCWM_UMISh_CEFenforce.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_UMISh_CEFenforce');
       {.infrastructure panel}
-      FCWinMain.FCWM_IPconfirmButton.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_IPconfirmButton');
+      FCWinMain.FCWM_IPconfirmButton.Caption:='<p align="center"><b>'+FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_IPconfirmButton')+'</b>';
       FCWinMain.FCWM_IPinfraKits.Caption:='Available Infrastructure Kits (choose one)';
    end;
    //=======================================================================================

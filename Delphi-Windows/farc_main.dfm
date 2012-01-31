@@ -106,6 +106,7 @@ object FCWinMain: TFCWinMain
       Caption.Height = 21
       Caption.MinMaxButtonHoverColor = clSkyBlue
       Caption.Shape = csSemiRounded
+      Caption.TopIndent = 2
       Caption.Visible = True
       CollapsColor = clBlack
       CollapsDelay = 0
@@ -400,6 +401,7 @@ object FCWinMain: TFCWinMain
       Caption.MinMaxButton = True
       Caption.MinMaxButtonHoverColor = clSkyBlue
       Caption.Shape = csSemiRounded
+      Caption.TopIndent = 2
       Caption.Visible = True
       CollapsColor = clBlack
       CollapsDelay = 0
@@ -482,6 +484,7 @@ object FCWinMain: TFCWinMain
       Caption.MinMaxButton = True
       Caption.MinMaxButtonHoverColor = clSkyBlue
       Caption.Shape = csSemiRounded
+      Caption.TopIndent = 2
       Caption.Visible = True
       CollapsColor = clBlack
       CollapsDelay = 0
@@ -1567,6 +1570,7 @@ object FCWinMain: TFCWinMain
       Caption.MinMaxButton = True
       Caption.MinMaxButtonHoverColor = clSkyBlue
       Caption.Shape = csSemiRounded
+      Caption.TopIndent = 2
       Caption.Visible = True
       CollapsColor = clBlack
       CollapsDelay = 0
@@ -1722,6 +1726,7 @@ object FCWinMain: TFCWinMain
       Caption.MinMaxButton = True
       Caption.MinMaxButtonHoverColor = clSkyBlue
       Caption.Shape = csSemiRounded
+      Caption.TopIndent = 2
       Caption.Visible = True
       CollapsColor = clBlack
       CollapsDelay = 0
@@ -2021,6 +2026,7 @@ object FCWinMain: TFCWinMain
       Caption.MinMaxButton = True
       Caption.MinMaxButtonHoverColor = clSkyBlue
       Caption.Shape = csSemiRounded
+      Caption.TopIndent = 2
       Caption.Visible = True
       CollapsColor = clBlack
       CollapsDelay = 0
