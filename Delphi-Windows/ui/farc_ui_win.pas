@@ -1087,11 +1087,11 @@ begin
       FCWinMain.FCWM_UMI.Left:=UIUmainW2-(FCWinMain.FCWM_UMI.Width shr 1);
       FCWinMain.FCWM_UMI.Top:=UIUmainH2-(FCWinMain.FCWM_UMI.Height shr 1);
       FCWinMain.FCWM_UMI_TabSh.ActivePage:=FCWinMain.FCWM_UMI_TabShUniv;
-      FCWinMain.FCWM_UMI_FacDatG.Height:=90;
+      FCWinMain.FCWM_UMI_FacDatG.Height:=96;
       FCWinMain.FCWM_UMI_FacLvl.Width:=32;
       FCWinMain.FCWM_UMI_FacLvl.Height:=32;
       FCWinMain.FCWM_UMI_FacLvl.Left:=14;
-      FCWinMain.FCWM_UMI_FacLvl.Top:=48;
+      FCWinMain.FCWM_UMI_FacLvl.Top:=56;
       FCWinMain.FCWM_UMI_FacLvl.Max:=10;
       FCWinMain.FCWM_UMI_FacLvl.Segments:=10;
       FCWinMain.FCWM_UMI_FacLvl.Position:=0;

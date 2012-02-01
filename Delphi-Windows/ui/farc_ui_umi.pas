@@ -151,6 +151,7 @@ procedure FCMumi_Faction_Upd(
    );
 {:Purpose: update the UMI/Faction section.
     Additions:
+      -2011Jan31- *mod: relocate correctly the Current Dependence Status title.
       -2011Apr30- *mod: levels display jauge adjustments.
       -2011Jan13- *add: Policy Enforcement - take in account faction's status rules for unique policies.
       -2011Jan11- *add: Policy Enforcement - take in account faction's status rules.
@@ -252,7 +253,7 @@ begin
       FCWinMain.FCWM_UMI_FacData.HTMLText.Clear;
       FCWinMain.FCWM_UMI_FacData.HTMLText.Add(
          FCCFdHeadC
-         +'<ind x="'+IntToStr(UMIUFsoc-60)+'">'+FCFdTFiles_UIStr_Get(uistrUI, 'facstat')
+         +'<ind x="'+IntToStr(UMIUFsoc-( ( UMIUFsoc-UMIUFecon ) shr 1 ) )+'">'+FCFdTFiles_UIStr_Get(uistrUI, 'facstat')
          +FCCFdHeadEnd
          );
       {.header, idx=1}

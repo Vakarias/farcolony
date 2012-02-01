@@ -452,6 +452,7 @@ function FCFgSPM_PolicyEnf_Preproc(
    ): boolean;
 {:Purpose: preprocess a policy setup, return false if the faction doesn't meet the policy's requirements.
     Additions:
+      -2012Jan31- *fix: for UC requirement, display the right requirement value.
       -2010Dec29- *add: UC cost in case of UC requirement.
       -2010Dec13- *add: store SPMi data in a private variable.
       -2010Dec09- *add: infrastructure requirement results display, complete the requirements display.
@@ -754,7 +755,7 @@ begin
                      +IntToStr(PPreqSubVal)+'</b>'
                      +' '+FCFdTFiles_UIStr_Get(uistrUI, 'acronUC')
                      +' '+FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolenfReqUC1')
-                     +' '+IntToStr(PPsubCnt)
+                     +' '+IntToStr(PPreqSubVal)
                      +' '+FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolenfReqUC2')
                      +'<br>'
                      +FCCFidxL+FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolenfReqCurr')
@@ -778,11 +779,12 @@ begin
    begin
       if GSPMmodMax=0
       then GSPMmodMax:=Length(FCDBdgSPMi)-2;
-      PPbAP:=22;
+      PPbAP:=50;//22;
       PPbREQ:=GSPMmarginMod;
       PPeSUM:=FCFgSPM_SPMiInfluence_Get(GSPMspmi, PPent);
       PPbcMod:=round( (FCentities[PPent].E_bureau-FCentities[PPent].E_corrupt)/5 );
-      PPfAP:=PPbAP+PPbREQ+round( ( (24*GSPMmodMax)+(PPeSUM*4) )/ GSPMmodMax )+PPbcMod;
+//      PPfAP:=PPbAP+PPbREQ+round( ( (24*GSPMmodMax)+(PPeSUM*4) )/ GSPMmodMax )+PPbcMod;
+      PPfAP:=PPbAP+PPbREQ+round(PPeSUM*0.5)+PPbcMod;
       GSPMap:=PPfAP;
       GSPMinfluence:=PPeSUM;
    end;
@@ -978,6 +980,8 @@ end;
 function FCFgSPM_PolicyProc_DoTest(PPDTsimulVal: integer): TFCEgspmPolRslt;
 {:Purpose: process the policy enforcement test and retrieve the result.
     Additions:
+      -2012Jan31- *fix: really use the PPDTsimulVal in the case of a simulation !
+                  *mod: change the random probability calculation.
 }
 var
    PPDTproba: integer;
@@ -989,13 +993,13 @@ begin
    if PPDTsimulVal=0
    then
    begin
-      PPDTproba:=FCFcFunc_Rand_Int(99)+1;
+      PPDTproba:=(FCFcFunc_Rand_Int(9)+1)*10;
       GSPMfap_x:=GSPMap-(PPDTproba+GSPMfsMod);
    end
    else if PPDTsimulVal>0
    then
    begin
-      GSPMfap_x:=GSPMap-(50+GSPMfsMod);
+      GSPMfap_x:=GSPMap-(PPDTsimulVal+GSPMfsMod);
    end;
    if GSPMfap_x<-24
    then Result:=gspmResMassRjct
