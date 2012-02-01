@@ -1772,7 +1772,7 @@
    <spmi token="SPMi_SpDebMClean" area="dgSPOL" isunique="false" ispolicy="true">
       <spmmod mcohes="0" mtens="0" msec="0" medu="0" mnat="0" mhealth="0" mbur="0" mcorr="0"/>
       <spmreq>
-         <requirement token="dgUC" ucmethod="dgCalcCol" ucval="0.001"/>
+         <requirement token="dgUC" ucmethod="dgCalcCol" ucval="8"/>
       </spmreq>
       <spminfluences>
          <influence vstoken="SPMi_AIchitect" vsmod="0"/>
