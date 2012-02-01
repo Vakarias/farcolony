@@ -976,12 +976,12 @@
    <cpsSLstS>
       <EN>Starting Status</EN>
       <FR>Etat de Départ</FR>
-      <SP>Estado de Comienzo</SP>
+      <SP>Estado al Comienzo</SP>
    </cpsSLstS>
    <cpsStatFD>
       <EN>Dependent</EN>
       <FR>Dépendante</FR>
-      <SP>Dependencia</SP>
+      <SP>Dependiente</SP>
    </cpsStatFD>
    <cpsStatFI>
       <EN>Fully Independent</EN>
@@ -2836,8 +2836,8 @@
       <SP>Flota Nacional de Transporte Espacial</SP>
    </SPMi_NatTranpSpFleet>
    <SPMi_OneWorldCom>
-      <FR>One-World Community</FR>
-      <EN>Communeauté à Monde Unique</EN>
+      <EN>One-World Community</EN>
+      <FR>Communeauté à Monde Unique</FR>
       <SP>Comunidad de Mundo Unico</SP>
    </SPMi_OneWorldCom>
    <SPMi_Pacifism>
