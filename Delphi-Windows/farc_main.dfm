@@ -2219,6 +2219,7 @@ object FCWinMain: TFCWinMain
             ParentFont = False
             TabOrder = 3
             Text = 'Sol Like'
+            OnKeyDown = FCWM_CDPwcpEquipKeyDown
             BevelInner = bvNone
             BevelOuter = bvNone
             BevelEdges = []

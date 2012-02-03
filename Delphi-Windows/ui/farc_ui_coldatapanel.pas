@@ -164,6 +164,16 @@ procedure FCMuiCDP_KeyAvailInfra_Test(
    );
 
 ///<summary>
+///   test key routine for colony panel / CWP Equipment List
+///</summary>
+///   <param="InputKey">key number</param>
+///   <param="ShiftControl">shift state</param>
+procedure FCMuiCDP_KeyCWPEquipmentList_Test(
+   const InputKey: integer;
+   const ShiftControl: TShiftState
+   );
+
+///<summary>
 ///   test key routine for colony panel / infrastructures list.
 ///</summary>
 ///   <param="ILKTkey">key number</param>
@@ -1553,6 +1563,21 @@ begin
    {.keep up/down keys for the list}
    if ( (AITkey<>38) and (AITkey<>40) )
    then FCMuiK_WinMain_Test(AITkey, AITshftCtrl);
+end;
+
+procedure FCMuiCDP_KeyCWPEquipmentList_Test(
+   const InputKey: integer;
+   const ShiftControl: TShiftState
+   );
+{:Purpose: test key routine for colony panel / CWP Equipment List.
+    Additions:
+}
+begin
+   if (ssAlt in ShiftControl)
+   then FCMuiK_WinMain_Test(InputKey, ShiftControl);
+   {.keep up/down keys for the list}
+   if ( (InputKey<>38) and (InputKey<>40) )
+   then FCMuiK_WinMain_Test(InputKey, ShiftControl);
 end;
 
 procedure FCMuiCDP_KeyInfraList_Test(

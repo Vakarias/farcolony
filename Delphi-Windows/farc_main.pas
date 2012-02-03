@@ -407,6 +407,7 @@ type
     procedure CDPproductionMatrixListKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure FCWM_MMenu_O_L_SPClick(Sender: TObject);
+    procedure FCWM_CDPwcpEquipKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
    private
       { Private declarations }
          {timesteps needed for camera transitions}
@@ -1034,6 +1035,12 @@ procedure TFCWinMain.FCWM_CDPwcpAssignKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
    FCMuiCDP_CWPAssignKey_Test(Key, Shift);
+end;
+
+procedure TFCWinMain.FCWM_CDPwcpEquipKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+   FCMuiCDP_KeyCWPEquipmentList_Test( Key, Shift );
 end;
 
 procedure TFCWinMain.FCWM_ColDPanelClose(Sender: TObject);
