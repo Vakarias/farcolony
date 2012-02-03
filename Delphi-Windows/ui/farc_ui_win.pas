@@ -645,6 +645,7 @@ end;
 procedure FCMuiW_UI_Initialize(const UIUtp: TFCEmwinUpdTp);
 {:Purpose: update and initialize all user's interface elements of the game.
    Additions:
+      -2012Feb02- *mod: FCWM_CDPwcpEquip size is adjusted correctly.
       -2012Jan29- *add: update language submenu for Spanish.
       -2012Jan29- *add: main menu / options / language / spanish.
       -2012Jan25- *add: production matrix font initialization.
@@ -1074,7 +1075,7 @@ begin
       FCWinMain.FCWM_CDPcwpAssignVeh.Left:=FCWinMain.FCWM_CDPwcpAssign.Left;
       FCWinMain.FCWM_CDPcwpAssignVeh.Top:=FCWinMain.FCWM_CDPwcpAssign.Top;
       FCWinMain.FCWM_CDPcwpAssignVeh.Visible:=false;
-      FCWinMain.FCWM_CDPwcpEquip.Width:=92;
+      FCWinMain.FCWM_CDPwcpEquip.Width:=192;
       FCWinMain.FCWM_CDPwcpEquip.Height:=20;
       FCWinMain.FCWM_CDPwcpEquip.Left:=162-134;
       FCWinMain.FCWM_CDPwcpEquip.Top:=216+24;
