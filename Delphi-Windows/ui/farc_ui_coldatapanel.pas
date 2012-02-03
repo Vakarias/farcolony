@@ -72,7 +72,7 @@ end;
 ///</summary>
 ///   <param name=ALIRIcategoryName">infrastructure's category has it appears on the tree list</param>
 ///   <param name="AIRIcategoryIndex">index of the infrastructure in the designed category</param>
-function FCFuiCDP_AvailInfra_RetrieveIndex( const AIRIcategoryName: string; const AIRIcategoryIndex: integer ): integer;
+//function FCFuiCDP_AvailInfra_RetrieveIndex( const AIRIcategoryName: string; const AIRIcategoryIndex: integer ): integer;
 
 ///<summary>
 ///   retrieve the display's current location in the universe
@@ -246,53 +246,53 @@ var
 
 //===================================================END OF INIT============================
 
-function FCFuiCDP_AvailInfra_RetrieveIndex( const AIRIcategoryName: string; const AIRIcategoryIndex: integer ): integer;
-{:Purpose: retrieve an database infrastructure index by using HTML tree view selected data.
-    Additions:
-}
-var
-   AIRIcount
-   ,AIRIcurrentCategoryIndex
-   ,AIRImax: integer;
-
-   LIRIfunctionToSearch: TFCEdipFunction;
-begin
-   Result:=0;
-   AIRImax:=0;
-   if AIRIcategoryName=CDPfunctionEN
-   then LIRIfunctionToSearch:=fEnergy
-   else if AIRIcategoryName=CDPfunctionHO
-   then LIRIfunctionToSearch:=fHousing
-   else if AIRIcategoryName=CDPfunctionIN
-   then LIRIfunctionToSearch:=fIntelligence
-   else if AIRIcategoryName=CDPfunctionMISC
-   then LIRIfunctionToSearch:=fMiscellaneous
-   else if AIRIcategoryName=CDPfunctionPR
-   then LIRIfunctionToSearch:=fProduction
-   else AIRImax:=-1;
-   if AIRImax>-1
-   then
-   begin
-      AIRImax:=length(FCDBinfra)-1;
-      AIRIcount:=1;
-      AIRIcurrentCategoryIndex:=0;
-      while AIRIcount<=AIRImax do
-      begin
-         if FCDBinfra[AIRIcount].I_function=LIRIfunctionToSearch
-         then
-         begin
-            inc(AIRIcurrentCategoryIndex);
-            if AIRIcurrentCategoryIndex=AIRIcategoryIndex
-            then
-            begin
-               Result:=AIRIcount;
-               break;
-            end;
-         end;
-         inc(AIRIcount);
-      end;
-   end;
-end;
+//function FCFuiCDP_AvailInfra_RetrieveIndex( const AIRIcategoryName: string; const AIRIcategoryIndex: integer ): integer;
+//{:Purpose: retrieve an database infrastructure index by using HTML tree view selected data.
+//    Additions:
+//}
+//var
+//   AIRIcount
+//   ,AIRIcurrentCategoryIndex
+//   ,AIRImax: integer;
+//
+//   LIRIfunctionToSearch: TFCEdipFunction;
+//begin
+//   Result:=0;
+//   AIRImax:=0;
+//   if AIRIcategoryName=CDPfunctionEN
+//   then LIRIfunctionToSearch:=fEnergy
+//   else if AIRIcategoryName=CDPfunctionHO
+//   then LIRIfunctionToSearch:=fHousing
+//   else if AIRIcategoryName=CDPfunctionIN
+//   then LIRIfunctionToSearch:=fIntelligence
+//   else if AIRIcategoryName=CDPfunctionMISC
+//   then LIRIfunctionToSearch:=fMiscellaneous
+//   else if AIRIcategoryName=CDPfunctionPR
+//   then LIRIfunctionToSearch:=fProduction
+//   else AIRImax:=-1;
+//   if AIRImax>-1
+//   then
+//   begin
+//      AIRImax:=length(FCDBinfra)-1;
+//      AIRIcount:=1;
+//      AIRIcurrentCategoryIndex:=0;
+//      while AIRIcount<=AIRImax do
+//      begin
+//         if FCDBinfra[AIRIcount].I_function=LIRIfunctionToSearch
+//         then
+//         begin
+//            inc(AIRIcurrentCategoryIndex);
+//            if AIRIcurrentCategoryIndex=AIRIcategoryIndex
+//            then
+//            begin
+//               Result:=AIRIcount;
+//               break;
+//            end;
+//         end;
+//         inc(AIRIcount);
+//      end;
+//   end;
+//end;
 
 function FCFuiCDP_DisplayLocation_Retrieve: CDPcurrentLocIndexes;
 {:Purpose: retrieve the display's current location in the universe.
