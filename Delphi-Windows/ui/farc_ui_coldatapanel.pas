@@ -518,6 +518,9 @@ end;
 procedure FCMuiCDP_WCPradio_Click(const WCPRCset: boolean);
 {:Purpose: process the WCP radio click.
     Additions:
+      -2012Feb02- *add: display also the number of available units for each listed equipment.
+                  *add: display each equipment only if their unit in the storage list >0.
+                  *add: for mechanized workforce option, if there's no available equipment, the player cannot set anything for the CWP.
       -2012Jan05- *mod: display the "No Equipment" item only in the case of an "Add Colonists".
       -2011May09- *add: set the display of the vehicles assignation ui element.
       -2011May06- *add: populate the dropdown interface element w/ equipments, if there's one available.
@@ -539,6 +542,7 @@ begin
    FCWinMain.FCWM_CDPcwpAssignVeh.Text:='';
    FCWinMain.FCWM_CDPwcpEquip.Items.Clear;
    WCPRCcol:=FCFuiCDP_VarCurrentColony_Get;
+   FCWinMain.FCWM_CDPwcpEquip.Enabled:=true;
    if (WCPRCset)
       or (WCPRCcheck)
    then
@@ -554,7 +558,8 @@ begin
          while WCPRCstorCnt<=WCPRCmax do
          begin
             WCPRCdbCnt:=FCFgP_Product_GetIndex(FCentities[0].E_col[WCPRCcol].COL_storageList[WCPRCstorCnt].CPR_token);
-            if FCDBProducts[WCPRCdbCnt].PROD_function=prfuManConstruction
+            if ( FCDBProducts[WCPRCdbCnt].PROD_function=prfuManConstruction )
+               and ( FCentities[0].E_col[WCPRCcol].COL_storageList[WCPRCstorCnt].CPR_unit>0 )
             then
             begin
                inc(WCPRCindex);
@@ -562,7 +567,7 @@ begin
                setlength(CDPmanEquipStor, WCPRCindex+1);
                CDPmanEquipDB[WCPRCindex]:=WCPRCdbCnt;
                CDPmanEquipStor[WCPRCindex]:=WCPRCstorCnt;
-               FCWinMain.FCWM_CDPwcpEquip.Items.Add(FCFdTFiles_UIStr_Get(uistrUI, FCDBProducts[WCPRCdbCnt].PROD_token));
+               FCWinMain.FCWM_CDPwcpEquip.Items.Add( FCFdTFiles_UIStr_Get( uistrUI, FCDBProducts[WCPRCdbCnt].PROD_token )+' (x '+floattostr( FCentities[0].E_col[WCPRCcol].COL_storageList[WCPRCstorCnt].CPR_unit )+')' );
             end;
             inc(WCPRCstorCnt);
          end;
@@ -572,6 +577,7 @@ begin
    else
    begin
       FCWinMain.FCWM_CDPcwpAssignVeh.Visible:=true;
+      FCWinMain.FCWM_CDPcwpAssignVeh.Enabled:=true;
       FCWinMain.FCWM_CDPwcpAssign.Visible:=false;
       WCPRCmax:=Length(FCentities[0].E_col[WCPRCcol].COL_storageList)-1;
       if WCPRCmax>1
@@ -581,7 +587,8 @@ begin
          while WCPRCstorCnt<=WCPRCmax do
          begin
             WCPRCdbCnt:=FCFgP_Product_GetIndex(FCentities[0].E_col[WCPRCcol].COL_storageList[WCPRCstorCnt].CPR_token);
-            if FCDBProducts[WCPRCdbCnt].PROD_function=prfuMechConstruction
+            if ( FCDBProducts[WCPRCdbCnt].PROD_function=prfuMechConstruction )
+               and ( FCentities[0].E_col[WCPRCcol].COL_storageList[WCPRCstorCnt].CPR_unit>0 )
             then
             begin
                inc(WCPRCindex);
@@ -589,12 +596,19 @@ begin
                setlength(CDPmanEquipStor, WCPRCindex+1);
                CDPmanEquipDB[WCPRCindex]:=WCPRCdbCnt;
                CDPmanEquipStor[WCPRCindex]:=WCPRCstorCnt;
-               FCWinMain.FCWM_CDPwcpEquip.Items.Add(FCFdTFiles_UIStr_Get(uistrUI, FCDBProducts[WCPRCdbCnt].PROD_token));
+               FCWinMain.FCWM_CDPwcpEquip.Items.Add(FCFdTFiles_UIStr_Get(uistrUI, FCDBProducts[WCPRCdbCnt].PROD_token)+' (x '+floattostr( FCentities[0].E_col[WCPRCcol].COL_storageList[WCPRCstorCnt].CPR_unit )+')' );
             end;
             inc(WCPRCstorCnt);
          end;
       end;
-      FCWinMain.FCWM_CDPwcpEquip.ItemIndex:=0;
+      if FCWinMain.FCWM_CDPwcpEquip.Items.Count=0 then
+      begin
+         FCWinMain.FCWM_CDPwcpEquip.Items.Add(FCFdTFiles_UIStr_Get(uistrUI, 'cwpEquipNone'));
+         FCWinMain.FCWM_CDPwcpEquip.Enabled:=false;
+         FCWinMain.FCWM_CDPcwpAssignVeh.Text:='N/A';
+         FCWinMain.FCWM_CDPcwpAssignVeh.Enabled:=false;
+      end
+      else FCWinMain.FCWM_CDPwcpEquip.ItemIndex:=0;
    end;
 end;
 
