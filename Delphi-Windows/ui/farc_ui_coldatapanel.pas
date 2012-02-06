@@ -629,6 +629,8 @@ procedure FCMuiCDP_Data_Update(
          ,DataIndex: integer
    );
 {:Purpose: update the colony data display
+   -2012Feb05- *fix: do not display an infrastructure kit, in the available infrastructures list, if there's no more kits.
+               *add: in the owned infrastructures list, when an infrastructure is in Transition phase, the transition duration is correctly displayed now.
    -2012Feb05- *add: complete the production matrix list.
    -2012Jan29- *mod: relocate the CSM Energy data for taking in account the spanish language + put the format infos in a constant.
                *mod: CSM Events list no use the specific function to display the modifiers (remove useless code).
@@ -1162,10 +1164,16 @@ begin
             case FCentities[0].E_col[CDPcurrentColony].COL_settlements[CDPcurrentSettlement].CS_infra[CPUcnt].CI_status of
                istInConversion, istInAssembling, istInBldSite: FCWinMain.FCWM_CDPinfrList.Items.AddChild(
                   CPUsubnode
-                  ,FCFdTFiles_UIStr_Get(uistrUI, CPUinfStatus)+': '+IntToStr(FCentities[0].E_col[CDPcurrentColony].COL_settlements[CDPcurrentSettlement].CS_infra[CPUcnt].CI_cabDuration-FCentities[0].E_col[CDPcurrentColony].COL_settlements[CDPcurrentSettlement].CS_infra[CPUcnt].CI_cabWorked)+' hr(s)' );
-               {:DEV NOTES: for transition, duration calculation must be inmplemented first.}
-               {:DEV NOTES: TO IMPLEMENT, transition rule is already DONE.}
-               istInTransition: FCWinMain.FCWM_CDPinfrList.Items.AddChild(CPUsubnode, '<i>Not Implemented yet');
+                  ,FCFdTFiles_UIStr_Get(uistrUI, CPUinfStatus)+': '+IntToStr(
+                     FCentities[0].E_col[CDPcurrentColony].COL_settlements[CDPcurrentSettlement].CS_infra[CPUcnt].CI_cabDuration
+                     -FCentities[0].E_col[CDPcurrentColony].COL_settlements[CDPcurrentSettlement].CS_infra[CPUcnt].CI_cabWorked
+                     )+' hr(s)'
+                  );
+
+               istInTransition: FCWinMain.FCWM_CDPinfrList.Items.AddChild(
+                  CPUsubnode
+                  ,FCFdTFiles_UIStr_Get(uistrUI, CPUinfStatus)+': '+IntToStr( FCentities[0].E_col[CDPcurrentColony].COL_settlements[CDPcurrentSettlement].CS_infra[CPUcnt].CI_cabDuration )+' hr(s)'
+                  );
             end;
             inc(CPUcnt);
          end; //==END== while CPUcnt<=CPUmax do ==//
@@ -1248,6 +1256,7 @@ begin
             begin
                CPUintDump:=FCFgP_Product_GetIndex(FCentities[0].E_col[CDPcurrentColony].COL_storageList[CPUcnt].CPR_token);
                if (FCDBProducts[CPUintDump].PROD_function=prfuInfraKit)
+                  and ( FCentities[0].E_col[CDPcurrentColony].COL_storageList[CPUcnt].CPR_unit>0 )
                   and ( (CPUinfKitroot='') or (FCDBProducts[CPUintDump].PROD_fInfKitToken<>CPUinfKitroot) ) then
                begin
                   CPUinfKitroot:=FCDBProducts[CPUintDump].PROD_fInfKitToken;
