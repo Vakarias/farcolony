@@ -43,12 +43,14 @@ function FCFgP_Product_GetIndex(const PGIproduct: string): integer;
 ///   <param name="ProdUnits">the unit value to display</param>
 ///   <param name="RelatedString">the string to add in the format</param>
 ///   <param name="isValueinHTMLbold">if true, the value is displayed in bold HTML format</param>
+///   <param name="isIncludeSign">if true, the value's sign is added</param>
 ///   <returns>if the vol/m3 is = 1, then a "x,xxx.xxx m3" format is returned, if it's>1, then a "xn,nnn" format is returned</returns>
 function FCFgP_StringFromUnit_Get(
    const Product: string;
    const ProdUnits: extended;
    const RelatedString: string;
-   const isValueinHTMLbold: boolean
+   const isValueinHTMLbold
+         ,isIncludeSign: boolean
    ): string;
 
 ///<summary>
@@ -116,19 +118,23 @@ function FCFgP_StringFromUnit_Get(
    const Product: string;
    const ProdUnits: extended;
    const RelatedString: string;
-   const isValueinHTMLbold: boolean
+   const isValueinHTMLbold
+         ,isIncludeSign: boolean
    ): string;
 {:Purpose: get a formatted text of the unit/volume of a product.
     Additions:
+      -2012Feb05- *add: isIncludeSign parameter to include the sign '+' or '-' if required.
 }
    var
       ProdIndex: integer;
 
       BoldHTML
-      ,BoldHTMLend: string;
+      ,BoldHTMLend
+      ,SignString: string;
 begin
    ProdIndex:=0;
    Result:='';
+   SignString:='';
    if not isValueinHTMLbold then
    begin
       BoldHTML:='';
@@ -138,11 +144,17 @@ begin
       BoldHTML:='<b>';
       BoldHTMLend:='</b>';
    end;
+   if ( isIncludeSign )
+      and ( ProdUnits<0 )
+   then SignString:='-'
+   else if ( isIncludeSign )
+      and ( ProdUnits>0 )
+   then SignString:='+';
    ProdIndex:=FCFgP_Product_GetIndex( Product );
    if FCDBProducts[ ProdIndex ].PROD_volByUnit=1
-   then Result:=RelatedString+' '+BoldHTML+FCFcFunc_ThSep( ProdUnits, ',' )+BoldHTMLend+' m3'
+   then Result:=RelatedString+' '+SignString+BoldHTML+FCFcFunc_ThSep( ProdUnits, ',' )+BoldHTMLend+' m3'
    else if FCDBProducts[ ProdIndex ].PROD_volByUnit<>1
-   then Result:=RelatedString+' x'+BoldHTML+FCFcFunc_ThSep( ProdUnits, ',' )+BoldHTMLend;
+   then Result:=RelatedString+' '+SignString+BoldHTML+FCFcFunc_ThSep( ProdUnits, ',' )+BoldHTMLend;
 end;
 
 function FCFgP_UnitFromVolume_Get( const UFVGdbproductIndex: integer; UFVGvolume: extended ): extended; overload;
