@@ -47,7 +47,7 @@ interface
       );
 
    {.faction's viability objectives}
-   type TFCRcpsoViailitybObjective = record
+   type TFCRcpsoViabilityObjective = record
       FVO_objTp: TFCEcpsoObjectiveTypes;
    end;
 

@@ -68,7 +68,7 @@ uses
          CPScrLineM: integer;
          CPScrLineU: extended;
          function FCF_ViabObj_GetIdx(const VOGItype: TFCEcpsoObjectiveTypes): integer;
-         procedure FCM_ViabObj_Load(const VOLobjList: array of TFCRcpsoViailitybObjective); overload;
+         procedure FCM_ViabObj_Load(const VOLobjList: array of TFCRcpsoViabilityObjective); overload;
          procedure FCM_ViabObj_Load(const VOLobjList: array of TFCRcpsObj); overload;
       public
          {.cps panel location}
@@ -84,7 +84,7 @@ uses
          constructor Create(
             const CPSCcredRng
                   ,CPSCintRng: TFCEcrIntRg;
-            const CPSCobjList: array of TFCRcpsoViailitybObjective
+            const CPSCobjList: array of TFCRcpsoViabilityObjective
             ); overload;
          constructor Create(
             const CPSCcvs
@@ -214,7 +214,7 @@ uses
 constructor TFCcps.Create(
             const CPSCcredRng
                   ,CPSCintRng: TFCEcrIntRg;
-            const CPSCobjList: array of TFCRcpsoViailitybObjective
+            const CPSCobjList: array of TFCRcpsoViabilityObjective
             );
 {:Purpose: CPS creation and initialization.
     Additions:
@@ -550,7 +550,7 @@ begin
    FCcps.CPSobjPanel.Visible:=true;
 end;
 
-procedure TFCcps.FCM_ViabObj_Load(const VOLobjList: array of TFCRcpsoViailitybObjective);
+procedure TFCcps.FCM_ViabObj_Load(const VOLobjList: array of TFCRcpsoViabilityObjective);
 {:Purpose: load the viability objectives, case of first initialization.
     Additions:
 }

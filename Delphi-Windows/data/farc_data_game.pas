@@ -674,7 +674,7 @@ interface
       {.CPS data - interest range}
       FCM_cpsIntRg: TFCEcrIntRg;
       {.CPS data - viability objectives}
-      FCM_cpsViabObj: array of TFCRcpsoViailitybObjective;
+      FCM_cpsViabObj: array of TFCRcpsoViabilityObjective;
       {.dotation list sub datastructure}
       FCM_dotList: array of TFCRdgFactCMEquipItm;
    end;
