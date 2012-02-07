@@ -116,6 +116,7 @@ uses
    ,farc_data_research
    ,farc_data_univ
    ,farc_game_cps
+   ,farc_game_cpsobjectives
    ,farc_game_gameflow
    ,farc_main
    ,farc_univ_func
@@ -550,16 +551,16 @@ begin
                      DBFRdoItmDmpStr:=DBFRfacEquipItm.Attributes['objTp'];
                      if DBFRdoItmDmpStr='cpsotEcoEnEff'
                      then FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_cpsViabObj[DBFRviabObjCnt].FVO_objTp
-                        :=cpsotEcoEnEff
+                        :=otEcoEnEff
                      else if DBFRdoItmDmpStr='cpsotEcoLowCr'
                      then FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_cpsViabObj[DBFRviabObjCnt].FVO_objTp
-                        :=cpsotEcoLowCr
+                        :=otEcoLowCr
                      else if DBFRdoItmDmpStr='cpsotEcoSustCol'
                      then FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_cpsViabObj[DBFRviabObjCnt].FVO_objTp
-                        :=cpsotEcoSustCol
+                        :=otEcoSustCol
                      else if DBFRdoItmDmpStr='cpsotSocSecPop'
                      then FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_cpsViabObj[DBFRviabObjCnt].FVO_objTp
-                        :=cpsotSocSecPop;
+                        :=otSocSecPop;
                   end
                   {.equipment items list}
                   else if DBFRfacEquipItm.NodeName='facEqupItm'

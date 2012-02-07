@@ -33,7 +33,8 @@ interface
 
    uses
       farc_data_infrprod
-      ,farc_data_univ;
+      ,farc_data_univ
+      ,farc_game_cpsobjectives;
 
    const
       {:DEV NOTES: update FCMuiWin_MsgeBox_AddMsg/ FCMuiWin_MsgeBox_AddMsg.}
@@ -72,19 +73,6 @@ interface
       {.continental state}
       ,cl9ContSt
       ,cl10UniWrld
-      );
-   {.viability objectives types}
-   {:DEV NOTE: update factionsdb.xml + FCMdFiles_DBFactions_Read + FCMdFiles_Game_Save/Load}
-   {:DEV NOTE: update FCM_ViabObj_Init + FCF_ViabObj_Use + FCM_ViabObj_Calc + FCF_ViabObj_GetIdx.}
-   type TFCEcpsObjTp=(
-      {.energy efficient}
-      cpsotEcoEnEff
-      {.low credit line use}
-      ,cpsotEcoLowCr
-      {.sustainable colony}
-      ,cpsotEcoSustCol
-      {.secure population}
-      ,cpsotSocSecPop
       );
    {.credit and interest range}
    type TFCEcrIntRg=(
@@ -664,10 +652,6 @@ interface
                FCMEI_spuAvailEnRM: extended
                );
    end;
-   {.faction's viability objectives}
-   type TFCRdgFactCMViabObj = record
-      FVO_objTp: TFCEcpsObjTp;
-   end;
    {.colonization mode data structure}
    {:DEV NOTE: update FCMdFiles_DBFactions_Read.}
    type TFCRdgFactColMode = record
@@ -690,7 +674,7 @@ interface
       {.CPS data - interest range}
       FCM_cpsIntRg: TFCEcrIntRg;
       {.CPS data - viability objectives}
-      FCM_cpsViabObj: array of TFCRdgFactCMViabObj;
+      FCM_cpsViabObj: array of TFCRcpsoViailitybObjective;
       {.dotation list sub datastructure}
       FCM_dotList: array of TFCRdgFactCMEquipItm;
    end;
