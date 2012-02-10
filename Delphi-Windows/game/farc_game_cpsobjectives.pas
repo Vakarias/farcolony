@@ -30,14 +30,17 @@ unit farc_game_cpsobjectives;
 
 interface
 
-//uses
+uses
+   Math;
 
    {.viability objectives types}
    {:DEV NOTE: update factionsdb.xml + FCMdFiles_DBFactions_Read + FCMdFiles_Game_Save/Load}
-   {:DEV NOTE: update FCM_ViabObj_Init + FCF_ViabObj_Use + FCM_ViabObj_Calc + FCF_ViabObj_GetIdx.}
+   {:DEV NOTE: update FCM_ViabObj_Init + FCF_ViabObj_Use + FCF_ViabObj_GetIdx.}
    type TFCEcpsoObjectiveTypes=(
+      {.for internal use only, do not include it in the XML and savegame file}
+      otAll
       {.energy efficient}
-      otEcoEnEff
+      ,otEcoEnEff
       {.low credit line use}
       ,otEcoLowCr
       {.sustainable colony}
@@ -53,9 +56,96 @@ interface
 
 //===========================END FUNCTIONS SECTION==========================================
 
+///<summary>
+///   update the score of a specified objective
+///</summary>
+///   <param name="ObjectiveToUpdateIndex">index of the CPS objective to update</param>
+///   <param name="isCVStoCalculate">[=true] update the CVS</param>
+procedure FCMgCPSO_Score_Update(
+   const ObjectiveToUpdateIndex: integer;
+   const isCVStoCalculate: boolean
+   );
+{:DEV NOTES: put objectives score calculations in THIS procedure.}
+{:DEV NOTES: move the code from game_cps.}
+{:DEV NOTES: look to include it in the coredata display ! and put some link, as at the end of the prod/spm phase for each colony (and ONLY if entity=0 + colony=1 indeed).}
+
 implementation
+
+uses
+   farc_data_game
+   ,farc_game_cps;
 
 //===================================================END OF INIT============================
 //===========================END FUNCTIONS SECTION==========================================
+
+procedure FCMgCPSO_Score_Update(
+   const ObjectiveToUpdateIndex: integer;
+   const isCVStoCalculate: boolean
+   );
+{:Purpose: update the score of a specified objective.
+    Additions:
+}
+   var
+      CVStempo
+      ,ObjectiveCount
+      ,ObjectiveMax: integer;
+
+      CreditLineInterest
+      ,CreditLineMax
+      ,CreditLineUsed: extended;
+
+      SocreList: array of double;
+begin
+   CVStempo:=0;
+   ObjectiveCount:=0;
+   ObjectiveMax:=0;
+   CreditLineInterest:=0;
+   CreditLineMax:=0;
+   CreditLineUsed:=0;
+   case FCcps.CPSviabObj[ ObjectiveToUpdateIndex ].CPSO_type of
+      otEcoEnEff:
+      begin
+         if FCentities[ 0 ].E_col[ 1 ].COL_csmENcons=0
+         then FCcps.CPSviabObj[ ObjectiveToUpdateIndex ].CPSO_score:=100
+         else FCcps.CPSviabObj[ ObjectiveToUpdateIndex ].CPSO_score:=round( power( ln( FCentities[ 0 ].E_col[ 1 ].COL_csmENgen ) - ln( FCentities[ 0 ].E_col[ 1 ].COL_csmENcons ), 0.333 )*60 );
+      end;
+
+      otEcoLowCr:
+      begin
+         CreditLineInterest:=FCcps.FCF_CredLineInterest_Get;
+         CreditLineMax:=FCcps.FCF_CredLine_Get( false );
+         CreditLineUsed:=FCcps.FCF_CredLine_Get( true );
+         if CreditLineUsed=0
+         then FCcps.CPSviabObj[ ObjectiveToUpdateIndex ].CPSO_score:=100
+         else FCcps.CPSviabObj[ ObjectiveToUpdateIndex ].CPSO_score:=round( ( power( ln( CreditLineMax ) - ln( CreditLineUsed ), 0.333 ) *50 ) + ( ln( 5 ) - power( ln( CreditLineInterest ), 2.5 ) ) );
+      end;
+
+      otEcoSustCol:
+      begin
+      end;
+
+      otSocSecPop:
+      begin
+      end;
+   end;
+   if FCcps.CPSviabObj[ ObjectiveToUpdateIndex ].CPSO_score<0
+   then FCcps.CPSviabObj[ ObjectiveToUpdateIndex ].CPSO_score:=0
+   else if FCcps.CPSviabObj[ ObjectiveToUpdateIndex ].CPSO_score>100
+   then FCcps.CPSviabObj[ ObjectiveToUpdateIndex ].CPSO_score:=100;
+   {.update the CVS score is asked to do it}
+   if isCVStoCalculate then
+   begin
+      ObjectiveMax:=length( FCcps.CPSviabObj )-1;
+      setlength( SocreList, ObjectiveMax );
+      ObjectiveCount:=1;
+      while ObjectiveCount<=ObjectiveMax-1 do
+      begin
+         SocreList[ ObjectiveCount-1 ]:=FCcps.CPSviabObj[ ObjectiveCount ].CPSO_score;
+         inc( ObjectiveCount );
+      end;
+      CVStempo:=round( mean( SocreList ) );
+      FCcps.FCM_CVS_update( CVStempo );
+   end;
+end;
 
 end.

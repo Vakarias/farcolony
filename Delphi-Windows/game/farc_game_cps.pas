@@ -67,7 +67,6 @@ uses
          {.credit line max and currently used}
          CPScrLineM: integer;
          CPScrLineU: extended;
-         function FCF_ViabObj_GetIdx(const VOGItype: TFCEcpsoObjectiveTypes): integer;
          procedure FCM_ViabObj_Load(const VOLobjList: array of TFCRcpsoViabilityObjective); overload;
          procedure FCM_ViabObj_Load(const VOLobjList: array of TFCRcpsObj); overload;
       public
@@ -97,20 +96,38 @@ uses
             ); overload;
 
          ///<summary>
-         ///   return the credit line interest w/o the '%'
+         ///   return the credit line interest with or w/o the '%'
          ///</summary>
-         function FCF_CredInt_Get: string;
+         function FCF_CredLineInterest_Get( const isUseARawValue: boolean): string; overload;
+
+         ///<summary>
+         ///   return the credit line interest value
+         ///</summary>
+         function FCF_CredLineInterest_Get: extended; overload;
 
          ///<summary>
          ///   return the used or max credit line in UC (w/o the acronym)
          ///</summary>
          ///    <param name="GCLgetUsed">true= get used, false= get max credit line</param>
-         function FCF_CredLine_Get(const GCLgetUsed, GCLraw: boolean): string;
+         ///    <param name="GCLraw">true= get the raw value, false return a x,xxx,xxx.xx format</param>
+         function FCF_CredLine_Get(const GCLgetUsed, GCLraw: boolean): string; overload;
+
+         ///<summary>
+         ///   return the used or max credit line value
+         ///</summary>
+         ///    <param name="GCLgetUsed">true= get used, false= get max credit line</param>
+         function FCF_CredLine_Get(const GCLgetUsed: boolean): extended; overload;
 
          ///<summary>
          ///   return Colony Viability Score
          ///</summary>
          function FCF_CVS_Get: string;
+
+         ///<summary>
+         ///   update the CVS with a new value
+         ///</summary>
+         ///   <param name="NewCVS">new value to replace the current CVS</param>
+         procedure FCM_CVS_update( NewCVS: integer );
 
          ///<summary>
          ///   end of colonization phase process
@@ -120,8 +137,6 @@ uses
          ///<summary>
          ///   initialize the objective panel
          ///</summary>
-         ///   <param name=""></param>
-         ///   <param name=""></param>
          procedure FCM_ObjPanel_Init;
 
          ///<summary>
@@ -136,28 +151,15 @@ uses
          function FCF_TimeLeft_Get(const TLGraw: boolean): string;
 
          ///<summary>
-			///	calculate the choosen viability objective score
-			///</summary>
-         procedure FCM_ViabObj_Calc(
-            const VOCcalcTgt: TFCEcpsoObjectiveTypes;
-            const VOCvoIdx: integer;
-            const VOCcalcMean: boolean
-            );
-
-			///<summary>
 			///	initialize each viability objective and update the viability objectives panel
 			///</summary>
 			procedure FCM_ViabObj_Init(VOIinclCalc: boolean);
 
          ///<summary>
-         ///   update or return the value of the choosen colonization objective.
+         ///   update a specific type of objective, if exists, and also update in accordance the panel
          ///</summary>
          ///    <param name="VOUobj">viability objective type</param>
-         ///    <param name="VOUisUpd">true= update objective status, false= return objective status</param>
-         function FCF_ViabObj_Use(
-            const VOUobj: TFCEcpsoObjectiveTypes;
-            const VOUisUpd: boolean
-            ): string;
+         procedure FCF_ViabObj_Use( const VOUobj: TFCEcpsoObjectiveTypes );
          //=================================================================================
          //CONSTANTS
          const
@@ -218,6 +220,7 @@ constructor TFCcps.Create(
             );
 {:Purpose: CPS creation and initialization.
     Additions:
+      -2012Feb09- *mod: put the local float data in extended format.
       -2010Jun06- *add: viability objectives panel creation.
       -2010Mar22- *add: time left initialization.
       -2010Mar13- *mod: put viability objectives initialization in a separate method.
@@ -226,7 +229,7 @@ constructor TFCcps.Create(
 var
    CPSCcnt
    ,CPSCmax: integer;
-   CPSCint: double;
+   CPSCint: extended;
 begin
    inherited Create;
    {.set time left, 52560 ticks= 365 standard days}
@@ -291,12 +294,23 @@ begin
    CPSisEnabled:=CPSCisEnabled;
 end;
 
-function TFCcps.FCF_CredInt_Get: string;
-{:Purpose: return the credit line interest w/o the '%'.
+function TFCcps.FCF_CredLineInterest_Get( const isUseARawValue: boolean): string;
+{:Purpose: return the credit line interest with or w/o the '%'.
     Additions:
 }
 begin
-   Result:=FloatToStr(CPSint);
+   Result:='';
+   if not isUseARawValue
+   then Result:=FloatToStr(CPSint)+' %'
+   else Result:=FloatToStr(CPSint);
+end;
+
+function TFCcps.FCF_CredLineInterest_Get: extended;
+{:Purpose: return the credit line interest value.
+    Additions:
+}
+begin
+   Result:=CPSint;
 end;
 
 function TFCcps.FCF_CredLine_Get(const GCLgetUsed, GCLraw: boolean): string;
@@ -323,12 +337,32 @@ begin
    end;
 end;
 
+function TFCcps.FCF_CredLine_Get(const GCLgetUsed: boolean): extended;
+{:Purpose: return the used or max credit line value.
+    Additions:
+}
+begin
+   Result:=0;
+   if GCLgetUsed
+   then Result:=CPScrLineU
+   else if not GCLgetUsed
+   then Result:=CPScrLineM;
+end;
+
 function TFCcps.FCF_CVS_Get: string;
 {:Purpose: return Colony Viability Score.
     Additions:
 }
 begin
    Result:=IntTostr(CPScvs);
+end;
+
+procedure TFCcps.FCM_CVS_update( NewCVS: integer );
+{:Purpose: update the CVS with a new value.
+    Additions:
+}
+begin
+   CPScvs:=NewCVS;
 end;
 
 procedure TFCcps.FCM_EndPhase_Proc;
@@ -348,6 +382,8 @@ end;
 procedure TFCcps.FCM_ObjPanel_Init;
 {:Purpose: initialize the objective panel.
     Additions:
+      -2012Feb09- *fix: panel's height is fixed.
+                  *add: panel's title is now localized.
 }
 begin
    CPSobjPanel:=TAdvPanel.Create(FCWinMain);
@@ -369,7 +405,7 @@ begin
    CPSobjPanel.Caption.MinMaxButton:=true;
    CPSobjPanel.Caption.MinMaxButtonHoverColor:=clSkyBlue;
    CPSobjPanel.Caption.Shape:=csSemiRounded;
-   CPSobjPanel.Caption.Text:='test';
+   CPSobjPanel.Caption.Text:=FCFdTFiles_UIStr_Get( uistrUI, 'FCWM_MMenu_O_LocVObj' );
    CPSobjPanel.Caption.Visible:=true;
    CPSobjPanel.CollapsColor:=clBlack;
    CPSobjPanel.CollapsDelay:=0;
@@ -378,7 +414,7 @@ begin
    CPSobjPanel.FixedWidth:=true;
    CPSobjPanel.Font.Color:=clWhite;
    CPSobjPanel.Font.Name:='Tahoma';
-   CPSobjPanel.Height:=((length(CPSviabObj)-1)*22);
+   CPSobjPanel.Height:=((length(CPSviabObj)-1)*24);
    if FCVwMcpsPstore
    then
    begin
@@ -449,75 +485,14 @@ begin
    end;
 end;
 
-procedure TFCcps.FCM_ViabObj_Calc(
-   const VOCcalcTgt: TFCEcpsoObjectiveTypes;
-   const VOCvoIdx: integer;
-   const VOCcalcMean: boolean
-   );
-{:Purpose: calculate the choosen viability objective score and the main cvs score.
-   Additions:
-      -2012Feb06- *add: cpsotEcoEnEff calculations.
-                  *mod: update the cpsotEcoLowCr calculations with definitive formula.
-}
-var
-   VOCcnt
-   ,VOCmax: integer;
-   VOCcpsScList: array of double;
-begin
-   case VOCcalcTgt of
-      otEcoEnEff:
-      begin
-         if FCentities[ 0 ].E_col[ 1 ].COL_csmENcons=0
-         then CPSviabObj[ VOCvoIdx ].CPSO_score:=100
-         else CPSviabObj[ VOCvoIdx ].CPSO_score:=round( power( ln( FCentities[ 0 ].E_col[ 1 ].COL_csmENgen ) - ln( FCentities[ 0 ].E_col[ 1 ].COL_csmENcons ), 0.333 )*60 );
-      end;
-
-      otEcoLowCr:
-      begin
-         if CPScrLineU=0
-         then CPSviabObj[VOCvoIdx].CPSO_score:=100
-         else CPSviabObj[VOCvoIdx].CPSO_score:=round( ( power( ln( CPScrLineM ) - ln( CPScrLineU ), 0.333 ) *50 ) + ( ln( 5 ) - power( ln( CPSint ), 2.5 ) ) );
-      end;
-
-      otEcoSustCol:
-      begin
-      end;
-
-      otSocSecPop:
-      begin
-      end;
-   end;
-   if CPSviabObj[ VOCvoIdx ].CPSO_score<0
-   then CPSviabObj[ VOCvoIdx ].CPSO_score:=0
-   else if CPSviabObj[ VOCvoIdx ].CPSO_score>100
-   then CPSviabObj[ VOCvoIdx ].CPSO_score:=100;
-   {.update the CVS score is asked to do it}
-   if VOCcalcMean
-   then
-   begin
-      VOcmax:=length(CPSviabObj)-1;
-      setlength(VOCcpsScList, VOCmax);
-      VOCcnt:=1;
-      while VOCcnt<=VOCmax-1 do
-      begin
-         VOCcpsScList[VOCcnt-1]:=CPSviabObj[VOCcnt].CPSO_score;
-         inc(VOCcnt);
-      end;
-      CPScvs:=round(mean(VOCcpsScList));
-   end;
-end;
-
-function TFCcps.FCF_ViabObj_GetIdx(const VOGItype: TFCEcpsoObjectiveTypes): integer;
-{:Purpose: get the index in the viability objectives list, of the asked viability objective type.}
-begin
-end;
-
 procedure TFCcps.FCM_ViabObj_Init(VOIinclCalc: boolean);
 {:Purpose: initialize each viability objective and update the viability objectives panel.
 }
 var
    VOIcnt
    ,VOImax: integer;
+
+  ItemString: string;
 begin
    CPSobjP_List.HTMLText.Clear;
    VOIcnt:=1;
@@ -526,25 +501,20 @@ begin
    begin
       if (VOIinclCalc)
          and (VOIcnt<VOImax)
-      then FCM_ViabObj_Calc(
-         CPSviabObj[VOIcnt].CPSO_type
-         ,VOIcnt
-         ,false
-         )
+      then FCMgCPSO_Score_Update( VOIcnt, false )
       else if (VOIinclCalc)
          and (VOIcnt=VOImax)
-      then FCM_ViabObj_Calc(
-         CPSviabObj[VOIcnt].CPSO_type
-         ,VOIcnt
-         ,true
-         );
+      then FCMgCPSO_Score_Update( VOIcnt, true );
       case CPSviabObj[VOIcnt].CPSO_type of
-         otEcoEnEff: CPSobjP_List.HTMLText.Add(FCCFdHead+FCFdTFiles_UIStr_Get(uistrUI, 'cpsVOotEcoEnEff'));
-         otEcoLowCr: CPSobjP_List.HTMLText.Add(FCCFdHead+FCFdTFiles_UIStr_Get(uistrUI, 'cpsVOotEcoLowCr'));
-         otEcoSustCol: CPSobjP_List.HTMLText.Add(FCCFdHead+FCFdTFiles_UIStr_Get(uistrUI, 'cpsVOotEcoSustCol'));
-         otSocSecPop: CPSobjP_List.HTMLText.Add(FCCFdHead+FCFdTFiles_UIStr_Get(uistrUI, 'cpsVOotSocSecPop'));
+         otEcoEnEff: ItemString:=FCCFdHead+FCFdTFiles_UIStr_Get(uistrUI, 'cpsVOotEcoEnEff');
+
+         otEcoLowCr: ItemString:=FCCFdHead+FCFdTFiles_UIStr_Get(uistrUI, 'cpsVOotEcoLowCr');
+
+         otEcoSustCol: ItemString:=FCCFdHead+FCFdTFiles_UIStr_Get(uistrUI, 'cpsVOotEcoSustCol');
+
+         otSocSecPop: ItemString:=FCCFdHead+FCFdTFiles_UIStr_Get(uistrUI, 'cpsVOotSocSecPop');
       end;
-      CPSobjP_List.HTMLText.Add('<ind x="250"> ['+inttostr(CPSviabObj[VOIcnt].CPSO_score)+'%]'+FCCFdHeadEnd);
+      CPSobjP_List.HTMLText.Add(ItemString+'<ind x="250"> ['+inttostr(CPSviabObj[VOIcnt].CPSO_score)+'%]'+FCCFdHeadEnd);
       inc(VOIcnt);
    end;
    FCcps.CPSobjPanel.Visible:=true;
@@ -584,45 +554,59 @@ begin
    end;
 end;
 
-function TFCcps.FCF_ViabObj_Use(
-   const VOUobj: TFCEcpsoObjectiveTypes;
-   const VOUisUpd: boolean
-   ): string;
-{:Purpose: update or return the value of the choosen colonization objective.
+procedure TFCcps.FCF_ViabObj_Use( const VOUobj: TFCEcpsoObjectiveTypes );
+{:Purpose: update a specific type of objective, if exists, and also update in accordance the panel, or return the value of the choosen colonization objective.
     Additions:
+      -2012Feb09- *add: completion - Work-In-Progress.
       -2010Sep14- *add: entities code.
 }
-var
-   VOUcolMax: integer;
+   var
+      CPSobjCount
+      ,CPSobjMax
+      ,ObjectivePanelIndex: integer;
+
+      ItemString: string;
 begin
-   Result:='';
-   VOUcolMax:=length(FCentities[0].E_col);
-   if VOUisUpd
-   then
+   //xxx:=FCF_ViabObj_GetIdx(VOUobj)
+   CPSobjMax:=length( FCcps.CPSviabObj )-1;
+   CPSobjCount:=1;
+   ObjectivePanelIndex:=0;
+   ItemString:='';
+   while CPSobjCount<=CPSobjMax do
    begin
-      //xxx:=FCF_ViabObj_GetIdx(VOUobj)
+      if FCcps.CPSviabObj[ CPSobjCount ].CPSO_type=VOUobj
+      then break
+      else inc( CPSobjCount);
+   end;
+   if CPSobjCount<=CPSobjMax  then
+   begin
       case VOUobj of
          otEcoEnEff:
          begin
          //calculations (use ext method, that is used also w/ ViabObj_Init
          //get html index(header, and data = html index+1) = (idxViabObj*2)-1
          //insert + delete
+            FCMgCPSO_Score_Update( CPSobjCount, true );
+            ItemString:=FCCFdHead+FCFdTFiles_UIStr_Get(uistrUI, 'cpsVOotEcoEnEff');
          end;
+
          otEcoLowCr:
          begin
+            FCMgCPSO_Score_Update( CPSobjCount, true );
+            ItemString:=FCCFdHead+FCFdTFiles_UIStr_Get(uistrUI, 'cpsVOotEcoLowCr');
          end;
+
          otEcoSustCol:
          begin
          end;
+
          otSocSecPop:
          begin
          end;
       end;
-   end;
-   if Result=''
-   then
-   begin
-
+      ObjectivePanelIndex:=CPSobjCount-1;
+      FCcps.CPSobjP_List.HTMLText.Insert( ObjectivePanelIndex, ItemString+'<ind x="250"> ['+inttostr(CPSviabObj[CPSobjCount].CPSO_score)+'%]'+FCCFdHeadEnd );
+      FCcps.CPSobjP_List.HTMLText.Delete( CPSobjCount );
    end;
 end;
 
