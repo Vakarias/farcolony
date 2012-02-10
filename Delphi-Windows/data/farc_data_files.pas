@@ -549,16 +549,16 @@ begin
                      SetLength(FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_cpsViabObj, DBFRviabObjCnt+1);
                      {.viability type}
                      DBFRdoItmDmpStr:=DBFRfacEquipItm.Attributes['objTp'];
-                     if DBFRdoItmDmpStr='cpsotEcoEnEff'
+                     if DBFRdoItmDmpStr='otEcoEnEff'
                      then FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_cpsViabObj[DBFRviabObjCnt].FVO_objTp
                         :=otEcoEnEff
-                     else if DBFRdoItmDmpStr='cpsotEcoLowCr'
+                     else if DBFRdoItmDmpStr='otEcoLowCr'
                      then FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_cpsViabObj[DBFRviabObjCnt].FVO_objTp
                         :=otEcoLowCr
-                     else if DBFRdoItmDmpStr='cpsotEcoSustCol'
+                     else if DBFRdoItmDmpStr='otEcoSustCol'
                      then FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_cpsViabObj[DBFRviabObjCnt].FVO_objTp
                         :=otEcoSustCol
-                     else if DBFRdoItmDmpStr='cpsotSocSecPop'
+                     else if DBFRdoItmDmpStr='otSocSecPop'
                      then FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_cpsViabObj[DBFRviabObjCnt].FVO_objTp
                         :=otSocSecPop;
                   end

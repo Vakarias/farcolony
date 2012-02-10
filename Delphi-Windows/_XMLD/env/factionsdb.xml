@@ -35,10 +35,10 @@
          
    {.viability objectives types}
    [facViabObj-objTp]
-      cpsotEcoEnEff
-      cpsotEcoLowCr
-      cpsotEcoSustCol
-      cpsotSocSecPop
+      otEcoEnEff
+      otEcoLowCr
+      otEcoSustCol
+      otSocSecPop
     
    {.meme belief levels} 
    [belieflev]
@@ -147,9 +147,9 @@
    <!-- Magellan Unity -->
    <faction token="factkMagelUni" level="4">
       <facColMode token="munCmodARC" sstateco="fs1StabFDep" sstatsoc="fs1StabFDep" sstatmil="fs1StabFDep" mstateco="fs3Indep" mstatsoc="fs2DepVar" mstatmil="fs2DepVar" creditrng="crirRch_High" intrng="crirBelAvg_Mod">
-         <facViabObj objTp="cpsotEcoEnEff"/>
-         <facViabObj objTp="cpsotEcoLowCr"/>
-         <facViabObj objTp="cpsotEcoSustCol"/>
+         <facViabObj objTp="otEcoEnEff"/>
+         <facViabObj objTp="otEcoLowCr"/>
+         <facViabObj objTp="otEcoSustCol"/>
          <facEqupItm itemTp="feitSpaceCraft" properName="wrdMUNmov" designToken="scdesTaurus" status="scstatInOrbit" spuDock="1" availEnRM="1650"/>
          <facEqupItm itemTp="feitSpaceCraft" properName="wrdMUNcp1" designToken="scdesFCP80" status="scstatDocked" spuDock="0" availEnRM="800"/>
          <facEqupItm itemTp="feitSpaceCraft" properName="wrdMUNcp2" designToken="scdesFCP80" status="scstatDocked" spuDock="0" availEnRM="800"/>
