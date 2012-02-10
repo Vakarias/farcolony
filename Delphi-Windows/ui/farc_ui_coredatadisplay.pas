@@ -93,6 +93,8 @@ implementation
 uses
    farc_data_game
    ,farc_data_infrprod
+   ,farc_game_cps
+   ,farc_game_cpsobjectives
    ,farc_game_prod
    ,farc_main
    ,farc_ui_coldatapanel
@@ -111,6 +113,7 @@ procedure FCMuiCDD_Colony_Update(
    );
 {:Purpose: core data display refresh for colony data. Update the Colony Data Panel and the related UMI tabs if required.
     Additions:
+      -2012Feb09- *add: cdlDataCSMenergy - update CPS panel for otEcoEnEff if needed.
       -2012Jan29- *fix: cdlAll - prevent the surface panel update if the CDP isn't displayed.
       -2012Jan16- *add: cdlStorageItem - update also the corresponding storage capacity.
       -2012Jan09- *add: storage update.
@@ -241,6 +244,8 @@ begin
             ,SettlementStorageItemIndex
             ,0
             );
+         if Assigned(FCcps)
+         then FCcps.FCF_ViabObj_Use( otEcoEnEff );
       end;
 
       cdlDataPopulation:
