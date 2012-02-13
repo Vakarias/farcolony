@@ -78,8 +78,7 @@ uses
    ,farc_data_univ
    ,farc_game_missioncore
    ,farc_main
-   ,farc_spu_functions
-   ,farc_win_missset;
+   ,farc_spu_functions;
 
 //===================================END OF INIT============================================
 
@@ -256,8 +255,8 @@ begin
             and (GMCcruiseDV>GMCmaxDV)
          then
          begin
-            FCWinMissSet.FCWMS_Grp_MCG_RMassTrack.Enabled:=false;
-            FCWinMissSet.FCWMS_ButProceed.Enabled:=false;
+            FCWinMain.FCWMS_Grp_MCG_RMassTrack.Enabled:=false;
+            FCWinMain.FCWMS_ButProceed.Enabled:=false;
          end
          else if GMCcruiseDV<GMCfinalDV
          then GMCcruiseDV:=GMCfinalDV;
@@ -269,8 +268,8 @@ begin
             and (GMCcruiseDV>GMCmaxDV)
          then
          begin
-            FCWinMissSet.FCWMS_Grp_MCG_RMassTrack.Enabled:=false;
-            FCWinMissSet.FCWMS_ButProceed.Enabled:=false;
+            FCWinMain.FCWMS_Grp_MCG_RMassTrack.Enabled:=false;
+            FCWinMain.FCWMS_ButProceed.Enabled:=false;
          end
          else if GMCcruiseDV<GMCfinalDV
          then GMCcruiseDV:=GMCfinalDV;
@@ -282,14 +281,14 @@ begin
             and (GMCreqDV>GMCmaxDV)
          then
          begin
-            FCWinMissSet.FCWMS_Grp_MCG_RMassTrack.Enabled:=false;
-            FCWinMissSet.FCWMS_ButProceed.Enabled:=false;
+            FCWinMain.FCWMS_Grp_MCG_RMassTrack.Enabled:=false;
+            FCWinMain.FCWMS_ButProceed.Enabled:=false;
          end
          else if GMCcruiseDV<GMCfinalDV
          then GMCcruiseDV:=GMCfinalDV;
       end;
    end;
-   if FCWinMissSet.FCWMS_Grp_MCG_RMassTrack.Enabled
+   if FCWinMain.FCWMS_Grp_MCG_RMassTrack.Enabled
    then
    begin
       MTCfac:=FC3DobjSpUnit[FCV3DselSpU].Tag;
@@ -331,11 +330,11 @@ begin
          case MTCflightTp of
             1:
             begin
-               FCWinMissSet.FCWMS_Grp_MCG_RMassTrack.Enabled:=false;
-               FCWinMissSet.FCWMS_ButProceed.Enabled:=false;
+               FCWinMain.FCWMS_Grp_MCG_RMassTrack.Enabled:=false;
+               FCWinMain.FCWMS_ButProceed.Enabled:=false;
             end;
-            2: FCWinMissSet.FCWMS_Grp_MCG_RMassTrack.Position:=1;
-            3: FCWinMissSet.FCWMS_Grp_MCG_RMassTrack.Position:=2;
+            2: FCWinMain.FCWMS_Grp_MCG_RMassTrack.Position:=1;
+            3: FCWinMain.FCWMS_Grp_MCG_RMassTrack.Position:=2;
          end;
       end;
 //====================GLOBAL DATA FORMATING=================================

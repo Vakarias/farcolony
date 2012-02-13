@@ -330,8 +330,6 @@ procedure FCMdInit_Initialize;
       //==========secondary windows related=================================================
       {.switch to block the updating of the about window before it's created.}
       FCVallowUpAbWin: boolean = false;
-      {.switch to block the updating of the mission setup window before it's created.}
-      FCVallowUpMSWin: boolean = false;
       {.switch to block the updating of the new game setup window before it's created.}
       FCVallowUpNGSWin: boolean = false;
       //==========message box===============================================================

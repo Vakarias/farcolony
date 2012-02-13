@@ -301,6 +301,18 @@ type
     CDPstorageCapacity: THTMLabel;
     CDPproductionMatrixList: THTMLTreeview;
     FCWM_MMenu_O_L_SP: TMenuItem;
+    FCWM_MissionSettings: TAdvPanel;
+    FCWMS_ButCancel: TAdvGlowButton;
+    FCWMS_ButProceed: TAdvGlowButton;
+    FCWMS_Grp_MSDG: TAdvGroupBox;
+    FCWMS_Grp_MSDG_Disp: THTMLabel;
+    FCWMS_Grp_MCG: TAdvGroupBox;
+    FCWMS_Grp_MCG_DatDisp: THTMLabel;
+    FCWMS_Grp_MCG_MissCfgData: THTMLabel;
+    FCWMS_Grp_MCG_RMassTrack: TAdvTrackBar;
+    FCWMS_Grp_MCGColName: TLabeledEdit;
+    FCWMS_Grp_MCG_SetName: TLabeledEdit;
+    FCWMS_Grp_MCG_SetType: TAdvComboBox;
       procedure FormCreate(Sender: TObject);
       procedure FormResize(Sender: TObject);
       procedure FCWM_MMenu_G_QuitClick(Sender: TObject);
@@ -308,8 +320,7 @@ type
       procedure FCWM_MMenu_O_L_ENClick(Sender: TObject);
       procedure FCWM_MMenu_G_NewClick(Sender: TObject);
       procedure FCGLScadencerProgress(Sender: TObject; const deltaTime, newTime: Double);
-      procedure FCGLSmainViewMouseDown(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
+      procedure FCGLSmainViewMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
       procedure FCGLSmainViewMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
       procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
       procedure FCWM_MsgeBoxCaptionDBlClick(Sender: TObject);
@@ -334,12 +345,10 @@ type
       procedure FCWM_SP_AutoUpKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
       procedure FCWM_PMFO_DListClick(Sender: TObject);
     procedure FCWM_DLP_DockListKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure FCWM_DLP_DockListMouseMove(Sender: TObject; Shift: TShiftState; X,
-      Y: Integer);
+    procedure FCWM_DLP_DockListMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
     procedure FCWM_DLP_DockListClick(Sender: TObject);
     procedure FCWM_PMFO_MissColonizClick(Sender: TObject);
-    procedure FCGLSmainViewMouseUp(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
+    procedure FCGLSmainViewMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure FCWM_MMenu_O_LocVObjClick(Sender: TObject);
     procedure FCWM_MMenu_O_LocHelpClick(Sender: TObject);
     procedure FCWM_MMenu_DTFUGClick(Sender: TObject);
@@ -402,12 +411,21 @@ type
     procedure FCWM_CDPpopListExpanded(Sender: TObject; Node: TTreeNode);
     procedure CDPstorageListMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
     procedure CDPstorageListKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure CDPproductionMatrixListMouseMove(Sender: TObject; Shift: TShiftState; X,
-      Y: Integer);
-    procedure CDPproductionMatrixListKeyDown(Sender: TObject; var Key: Word;
-      Shift: TShiftState);
+    procedure CDPproductionMatrixListMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
+    procedure CDPproductionMatrixListKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FCWM_MMenu_O_L_SPClick(Sender: TObject);
     procedure FCWM_CDPwcpEquipKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure FCWMS_ButCancelClick(Sender: TObject);
+    procedure FCWMS_ButCancelKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure FCWMS_ButProceedClick(Sender: TObject);
+    procedure FCWMS_ButProceedKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure FCWMS_Grp_MCGColNameKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure FCWMS_Grp_MCGColNameKeyPress(Sender: TObject; var Key: Char);
+    procedure FCWMS_Grp_MCG_RMassTrackChange(Sender: TObject);
+    procedure FCWMS_Grp_MCG_RMassTrackKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure FCWMS_Grp_MCG_SetNameKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure FCWMS_Grp_MCG_SetNameKeyPress(Sender: TObject; var Key: Char);
+    procedure FCWM_MissionSettingsClose(Sender: TObject);
    private
       { Private declarations }
          {timesteps needed for camera transitions}
@@ -459,8 +477,7 @@ uses
    ,farc_ui_msges
    ,farc_ui_surfpanel
    ,farc_ui_umi
-   ,farc_ui_win
-   ,farc_win_missset;
+   ,farc_ui_win;
 
 const
    mb_Left = Controls.mbLeft;
@@ -761,7 +778,7 @@ begin
          or (FCGLSCamMainViewGhost.TargetObject=FC3DobjGrp[FCV3DselOobj])
          or (FCGLSCamMainViewGhost.TargetObject=FCGLSStarMain)
       )
-      and (not FCWinMissSet.Visible)
+      and (not FCWM_MissionSettings.Visible)
    then FCWM_PopMenFocusedObj.PopupAtCursor;
    {.middle mouse button}
    if (Button=mb_Middle)
@@ -802,6 +819,86 @@ begin
             (FCentities[0].E_spU[round(FC3DobjSpUnit[FCV3DselSpU].TagFloat)].SUO_3dmove>0)
             )
    then FCGtimeFlow.Enabled:=true;
+end;
+
+procedure TFCWinMain.FCWMS_ButCancelClick(Sender: TObject);
+begin
+   FCWinMain.FCWM_MissionSettings.Hide;
+   FCGtimeFlow.Enabled:=true;
+end;
+
+procedure TFCWinMain.FCWMS_ButCancelKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+   FCMuiK_WinMissSet_Test(Key, Shift);
+end;
+
+procedure TFCWinMain.FCWMS_ButProceedClick(Sender: TObject);
+begin
+   FCMgMCore_Mission_Commit;
+end;
+
+procedure TFCWinMain.FCWMS_ButProceedKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+   FCMuiK_WinMissSet_Test(Key, Shift);
+end;
+
+procedure TFCWinMain.FCWMS_Grp_MCGColNameKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+   FCMuiK_MissionColonyName_Test(Key, Shift);
+end;
+
+procedure TFCWinMain.FCWMS_Grp_MCGColNameKeyPress(Sender: TObject; var Key: Char);
+begin
+   If sender is TLabeledEdit then
+   begin
+      if Key in [#8, #13, #32, #39, 'a'..'z', 'A'..'Z', '0'..'9']
+      then exit
+      else Key:=#0;
+   end;
+end;
+
+procedure TFCWinMain.FCWMS_Grp_MCG_RMassTrackChange(Sender: TObject);
+   var
+      RMTCmiss: string;
+begin
+   if (FCWinMain.FCWM_MissionSettings.Visible)
+      and (FCWMS_Grp_MCG_RMassTrack.Tag=0)
+   then
+   begin
+      RMTCmiss:=FCFdTFiles_UIStr_Get(uistrUI,'FCWinMissSet');
+      if FCWinMain.FCWM_MissionSettings.Caption.Text=RMTCmiss+FCFdTFiles_UIStr_Get(uistrUI,'Mission.itransit')
+      then FCMgMCore_Mission_TrackUpd(tatpMissItransit)
+      else if FCWinMain.FCWM_MissionSettings.Caption.Text=RMTCmiss+FCFdTFiles_UIStr_Get(uistrUI,'Mission.coloniz')
+      then FCMgMCore_Mission_TrackUpd(tatpMissColonize);
+   end
+   else if (FCWinMain.FCWM_MissionSettings.Visible)
+      and (FCWMS_Grp_MCG_RMassTrack.Tag=1)
+   then FCWMS_Grp_MCG_RMassTrack.Tag:=0;
+end;
+
+procedure TFCWinMain.FCWMS_Grp_MCG_RMassTrackKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+   FCMuiK_WinMissSet_Test(Key, Shift);
+end;
+
+procedure TFCWinMain.FCWMS_Grp_MCG_SetNameKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+   FCMuiK_MissionSettleName_Test(Key, Shift);
+end;
+
+procedure TFCWinMain.FCWMS_Grp_MCG_SetNameKeyPress(Sender: TObject; var Key: Char);
+begin
+   If sender is TLabeledEdit then
+   begin
+      if Key in [#8, #13, #32, #39, 'a'..'z', 'A'..'Z', '0'..'9']
+      then exit
+      else Key:=#0;
+   end;
 end;
 
 procedure TFCWinMain.FCWM_CDPcolNameKeyDown(Sender: TObject; var Key: Word;
@@ -1120,6 +1217,18 @@ begin
    FCMuiW_HelpTDef_Link(anchor, true);
 end;
 
+procedure TFCWinMain.FCWM_MissionSettingsClose(Sender: TObject);
+begin
+   FCWinMain.FCWM_MissionSettings.Hide;
+   FCWinMain.FCWM_MissionSettings.Enabled:=False;
+   if FCWinMain.FCWM_SurfPanel.Visible
+   then
+   begin
+      FCWinMain.FCWM_SurfPanel.Hide;
+      fcwinmain.FCWM_SP_Surface.Enabled:=false;
+   end;
+end;
+
 procedure TFCWinMain.FCWM_MMenu_DTFUGClick(Sender: TObject);
 begin
    FCMfC_Initialize;
@@ -1242,7 +1351,7 @@ end;
 
 procedure TFCWinMain.FCWM_MsgeBoxCaptionDBlClick(Sender: TObject);
 begin
-   if not FCWinMissSet.Visible
+   if not FCWinMain.FCWM_MissionSettings.Visible
    then
    begin
       if FCWM_MsgeBox.Collaps
@@ -1381,37 +1490,37 @@ begin
 //      FCWM_SP_DataSheet.ActivePage:=FCWM_SP_ShReg;
 //      FCMuiSP_RegionDataPicture_Update(FCWM_SP_Surface.Tag, false);
 //   end;
-   if (FCWinMissSet.Visible)
+   if (FCWinMain.FCWM_MissionSettings.Visible)
 //      and (FCWinMissSet.FCWMS_Grp.Caption=FCFdTFiles_UIStr_Get(uistrUI,'FCWinMissSet')+FCFdTFiles_UIStr_Get(uistrUI,'Mission.coloniz'))
    then
    begin
       GMCregion:=FCFuiSP_VarRegionSelected_Get;
-      if not FCWinMissSet.FCWMS_Grp_MCGColName.Visible
+      if not FCWinMain.FCWMS_Grp_MCGColName.Visible
       then
       begin
          SPSSCcurrSettlement:=FCFgC_Settlement_GetIndexFromRegion(
             0
-            ,FCWinMissSet.FCWMS_Grp_MCGColName.Tag
+            ,FCWinMain.FCWMS_Grp_MCGColName.Tag
             ,GMCregion
             );
          if SPSSCcurrSettlement=0
          then
          begin
-            FCWinMissSet.FCWMS_Grp_MCG_SetType.Show;
-            FCWinMissSet.FCWMS_Grp_MCG_SetName.Show;
+            FCWinMain.FCWMS_Grp_MCG_SetType.Show;
+            FCWinMain.FCWMS_Grp_MCG_SetName.Show;
          end
          else if SPSSCcurrSettlement>0
          then
          begin
-            FCWinMissSet.FCWMS_Grp_MCG_SetType.Hide;
-            FCWinMissSet.FCWMS_Grp_MCG_SetName.Hide;
+            FCWinMain.FCWMS_Grp_MCG_SetType.Hide;
+            FCWinMain.FCWMS_Grp_MCG_SetName.Hide;
          end;
       end
-      else if FCWinMissSet.FCWMS_Grp_MCGColName.Visible
+      else if FCWinMain.FCWMS_Grp_MCGColName.Visible
       then
       begin
-         FCWinMissSet.FCWMS_Grp_MCG_SetType.Show;
-         FCWinMissSet.FCWMS_Grp_MCG_SetName.Show;
+         FCWinMain.FCWMS_Grp_MCG_SetType.Show;
+         FCWinMain.FCWMS_Grp_MCG_SetName.Show;
       end;
       FCMgMc_Colonize_Upd(GMCregion);
    end;
@@ -1569,8 +1678,6 @@ begin
       FCGtimeFlow.Enabled:=false;
       FCGtimeFlow.Free;
    end;
-   if FCWinMissSet.Visible
-   then FCWinMissSet.Close;
    {.windows switchs}
    FCVisFARCclosing:=true;
    FCVwinMallowUp:=false;
@@ -1674,8 +1781,6 @@ begin
    {.save main window location and size}
    if FCVwinMallowUp
    then FCMuiW_MainWindow_StoreLocSiz;
-   {.update mission setup window}
-   FCMuiW_UI_Initialize(mwupSecwinMissSetup);
    {.update about window}
    FCMuiW_UI_Initialize(mwupSecwinAbout);
    {.update new game setting window}

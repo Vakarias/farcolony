@@ -52,7 +52,6 @@ uses
   farc_game_gameflow in 'game\farc_game_gameflow.pas',
   farc_game_missioncore in 'game\farc_game_missioncore.pas',
   farc_game_mitransit in 'game\farc_game_mitransit.pas',
-  farc_win_missset in 'ui\farc_win_missset.pas' {FCWinMissSet},
   farc_spu_functions in 'spu\farc_spu_functions.pas',
   farc_win_about in 'ui\farc_win_about.pas' {FCWinAbout},
   farc_game_contg in 'game\farc_game_contg.pas',
@@ -110,7 +109,6 @@ begin
   Application.Title := 'FAR Colony';
   Application.CreateForm(TFCWinMain, FCWinMain);
   Application.CreateForm(TFCWinNewGSetup, FCWinNewGSetup);
-  Application.CreateForm(TFCWinMissSet, FCWinMissSet);
   Application.CreateForm(TFCWinAbout, FCWinAbout);
   Application.CreateForm(TFCWinFUG, FCWinFUG);
   Application.Run;

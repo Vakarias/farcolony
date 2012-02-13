@@ -567,7 +567,6 @@ procedure TFCcps.FCF_ViabObj_Use( const VOUobj: TFCEcpsoObjectiveTypes );
 
       ItemString: string;
 begin
-   //xxx:=FCF_ViabObj_GetIdx(VOUobj)
    CPSobjMax:=length( FCcps.CPSviabObj )-1;
    CPSobjCount:=1;
    ObjectivePanelIndex:=0;
@@ -583,9 +582,6 @@ begin
       case VOUobj of
          otEcoEnEff:
          begin
-         //calculations (use ext method, that is used also w/ ViabObj_Init
-         //get html index(header, and data = html index+1) = (idxViabObj*2)-1
-         //insert + delete
             FCMgCPSO_Score_Update( CPSobjCount, true );
             ItemString:=FCCFdHead+FCFdTFiles_UIStr_Get(uistrUI, 'cpsVOotEcoEnEff');
          end;

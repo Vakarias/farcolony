@@ -125,9 +125,7 @@ uses
    ,farc_ui_msges
    ,farc_ui_surfpanel
    ,farc_ui_win
-   ,farc_univ_func
-//   ,farc_win_debug
-   ,farc_win_missset;
+   ,farc_univ_func;
 
 var
    GMCmother: integer;
@@ -230,14 +228,14 @@ begin
             FCGtskLstToProc[MCtskL].TITP_velFinal:=GMCfinalDV;
             FCGtskLstToProc[MCtskL].TITP_timeToFinal:=GMCdckd[MCcnt].GMCD_landTime;
             FCGtskLstToProc[MCtskL].TITP_usedRMassV:=GMCdckd[MCcnt].GMCD_usedRM;
-            if FCWinMissSet.FCWMS_Grp_MCGColName.Text<>FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_CDPcolNameNo')
-            then FCGtskLstToProc[MCtskL].TITP_str1:=FCWinMissSet.FCWMS_Grp_MCGColName.Text
+            if FCWinMain.FCWMS_Grp_MCGColName.Text<>FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_CDPcolNameNo')
+            then FCGtskLstToProc[MCtskL].TITP_str1:=FCWinMain.FCWMS_Grp_MCGColName.Text
             else FCGtskLstToProc[MCtskL].TITP_str1:='';
-            if FCWinMissSet.FCWMS_Grp_MCG_SetName.Visible
+            if FCWinMain.FCWMS_Grp_MCG_SetName.Visible
             then
             begin
-               FCGtskLstToProc[MCtskL].TITP_str2:=FCWinMissSet.FCWMS_Grp_MCG_SetName.Text;
-               FCGtskLstToProc[MCtskL].TITP_int1:=FCWinMissSet.FCWMS_Grp_MCG_SetType.ItemIndex;
+               FCGtskLstToProc[MCtskL].TITP_str2:=FCWinMain.FCWMS_Grp_MCG_SetName.Text;
+               FCGtskLstToProc[MCtskL].TITP_int1:=FCWinMain.FCWMS_Grp_MCG_SetType.ItemIndex;
             end
             else
             begin
@@ -251,7 +249,8 @@ begin
                );
             inc(MCcnt);
          end; //==END== while MCcnt<=MCmax ==//
-         FCWinMissSet.Close;
+         FCWinMain.FCWM_SurfPanel.Hide;
+         FCWinMain.FCWM_MissionSettings.Hide;
          if FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3DobjSpUnit[GMCmother]
          then
          begin
@@ -305,8 +304,8 @@ begin
          FCGtskLstToProc[MCtskL].TITP_str1:='';
          FCGtskLstToProc[MCtskL].TITP_str2:='';
          FCGtskLstToProc[MCtskL].TITP_int1:=0;
-         FCWinMissSet.Close;
-         FCWinMissSet.FCWMS_Grp_MCG_RMassTrack.Position:=1;
+         FCWinMain.FCWM_MissionSettings.Hide;
+         FCWinMain.FCWMS_Grp_MCG_RMassTrack.Position:=1;
          if GMCrootSatIdx=0
          then FCV3DselOobj:=GMCrootOObIdx
          else if GMCrootSatIdx>0
@@ -328,7 +327,7 @@ procedure FCMgMCore_Mission_ConfData;
 }
 begin
    {.mission configuration data}
-   FCWinMissSet.FCWMS_Grp_MCG_MissCfgData.HTMLText.Insert
+   FCWinMain.FCWMS_Grp_MCG_MissCfgData.HTMLText.Insert
    (
       1
       ,  FCFdTFiles_UIStr_Get(uistrUI,'MCGDatAccel')+' '+FloatToStr(GMCAccelG)
@@ -350,7 +349,7 @@ begin
             +FCCFdHead+FCFdTFiles_UIStr_Get(uistrUI,'MCGDatTripTime')+FCCFdHeadEnd
             +FCFcFunc_TimeTick_GetDate(GMCtripTime)
    );
-   FCWinMissSet.FCWMS_Grp_MCG_MissCfgData.HTMLText.Delete(2);
+   FCWinMain.FCWMS_Grp_MCG_MissCfgData.HTMLText.Delete(2);
 end;
 
 procedure FCMgMCore_Mission_DestUpd(const MDUtripOnly: boolean);
@@ -376,17 +375,17 @@ begin
    then
    begin
       FCMgMiT_ITransit_Setup;
-      FCWinMissSet.FCWMS_Grp_MCG_RMassTrack.Enabled:=true;
-      FCWinMissSet.FCWMS_ButProceed.Enabled:=true;
-      FCWinMissSet.FCWMS_Grp_MCG_RMassTrack.Max:=3;
+      FCWinMain.FCWMS_Grp_MCG_RMassTrack.Enabled:=true;
+      FCWinMain.FCWMS_ButProceed.Enabled:=true;
+      FCWinMain.FCWMS_Grp_MCG_RMassTrack.Max:=3;
    end;
    {.calculate all trip data}
-   if FCWinMissSet.FCWMS_Grp_MCG_RMassTrack.Enabled
+   if FCWinMain.FCWMS_Grp_MCG_RMassTrack.Enabled
    then
    begin
       FCMgMiT_MissionTrip_Calc
          (
-            FCWinMissSet.FCWMS_Grp_MCG_RMassTrack.Position
+            FCWinMain.FCWMS_Grp_MCG_RMassTrack.Position
             ,FCentities[GMCfac].E_spU[round(FC3DobjSpUnit[FCV3DselSpU].TagFloat)].SUO_deltaV
          );
    end;
@@ -395,32 +394,32 @@ begin
    then
    begin
       if (FCV3DselOobj=GMCrootOObIdx)
-         or (not FCWinMissSet.FCWMS_Grp_MCG_RMassTrack.Enabled)
+         or (not FCWinMain.FCWMS_Grp_MCG_RMassTrack.Enabled)
       then
       begin
-         FCWinMissSet.FCWMS_ButProceed.Enabled:=false;
-         FCWinMissSet.FCWMS_Grp_MCG_RMassTrack.Enabled:=false;
+         FCWinMain.FCWMS_ButProceed.Enabled:=false;
+         FCWinMain.FCWMS_Grp_MCG_RMassTrack.Enabled:=false;
          {.current destination}
-         FCWinMissSet.FCWMS_Grp_MSDG_Disp.HTMLText.Insert(7, FCFdTFiles_UIStr_Get(uistrUI,'MSDGcurDestNone')+'<br>');
-         FCWinMissSet.FCWMS_Grp_MSDG_Disp.HTMLText.Delete(8);
+         FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Insert(7, FCFdTFiles_UIStr_Get(uistrUI,'MSDGcurDestNone')+'<br>');
+         FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Delete(8);
          {.distance + min deltaV}
-         FCWinMissSet.FCWMS_Grp_MSDG_Disp.HTMLText.Insert
+         FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Insert
          (
             9
             ,FCFdTFiles_UIStr_Get(uistrUI,'MSDGdesIntCdist')
                +' 0 '
                +FCFdTFiles_UIStr_Get(uistrUI,'acronAU')
-               +'<ind x="'+IntToStr(FCWinMissSet.FCWMS_Grp_MSDG_Disp.Width shr 1)+'">'
+               +'<ind x="'+IntToStr(FCWinMain.FCWMS_Grp_MSDG_Disp.Width shr 1)+'">'
                +FCFdTFiles_UIStr_Get(uistrUI,'MSDGdestIntCminDV')
                +' 0 km/s'
          );
-         FCWinMissSet.FCWMS_Grp_MSDG_Disp.HTMLText.Delete(10);
+         FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Delete(10);
          {.mission configuration data}
-         if (not FCWinMissSet.FCWMS_Grp_MCG_RMassTrack.Enabled)
+         if (not FCWinMain.FCWMS_Grp_MCG_RMassTrack.Enabled)
             and (FCV3DselOobj<>GMCrootOObIdx)
-         then FCWinMissSet.FCWMS_Grp_MCG_MissCfgData.HTMLText.Insert(1, FCFdTFiles_UIStr_Get(uistrUI,'MCGDatNA'))
-         else FCWinMissSet.FCWMS_Grp_MCG_MissCfgData.HTMLText.Insert(1, FCFdTFiles_UIStr_Get(uistrUI,'MSDGcurDestNone'));
-         FCWinMissSet.FCWMS_Grp_MCG_MissCfgData.HTMLText.Delete(2);
+         then FCWinMain.FCWMS_Grp_MCG_MissCfgData.HTMLText.Insert(1, FCFdTFiles_UIStr_Get(uistrUI,'MCGDatNA'))
+         else FCWinMain.FCWMS_Grp_MCG_MissCfgData.HTMLText.Insert(1, FCFdTFiles_UIStr_Get(uistrUI,'MSDGcurDestNone'));
+         FCWinMain.FCWMS_Grp_MCG_MissCfgData.HTMLText.Delete(2);
       end //==END== if FCV3DoObjSlctd=CFVoobjIdDB or (not FCWMS_Grp_MCG_RMassTrack.Enabled) ==//
       else if FCV3DselOobj<>GMCrootOObIdx
       then
@@ -433,19 +432,19 @@ begin
                dtfscPrprName
                ,FCDBsSys[GMCrootSsys].SS_star[GMCrootStar].SDB_obobj[FCV3DselOobj].OO_token
                );
-            FCWinMissSet.FCWMS_Grp_MSDG_Disp.HTMLText.Insert(7, MDUdmpTokenName+'<br>');
-            FCWinMissSet.FCWMS_Grp_MSDG_Disp.HTMLText.Delete(8);
-            FCWinMissSet.FCWMS_Grp_MSDG_Disp.HTMLText.Insert
+            FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Insert(7, MDUdmpTokenName+'<br>');
+            FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Delete(8);
+            FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Insert
             (
                9
                ,FCFdTFiles_UIStr_Get(uistrUI,'MSDGdesIntCdist')+' '
                   +FloatToStr(GMCbaseDist)+' '
                   +FCFdTFiles_UIStr_Get(uistrUI,'acronAU')
-                  +'<ind x="'+IntToStr(FCWinMissSet.FCWMS_Grp_MSDG_Disp.Width shr 1)+'">'
+                  +'<ind x="'+IntToStr(FCWinMain.FCWMS_Grp_MSDG_Disp.Width shr 1)+'">'
                   +FCFdTFiles_UIStr_Get(uistrUI,'MSDGdestIntCminDV')
                   +' '+FloatToStr(GMCreqDV)+' km/s'
             );
-            FCWinMissSet.FCWMS_Grp_MSDG_Disp.HTMLText.Delete(10);
+            FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Delete(10);
          end; //==END== if not MDUtripOnly ==//
          FCMgMCore_Mission_ConfData;
       end; {.else if FCV3dMVorbObjSlctd<>CFVoobjIdDB}
@@ -455,33 +454,33 @@ begin
    then
    begin
       if (GMCrootSatIdx>0)
-         and ((FCV3DselSat=GMCrootSatObjIdx) or (not FCWinMissSet.FCWMS_Grp_MCG_RMassTrack.Enabled))
+         and ((FCV3DselSat=GMCrootSatObjIdx) or (not FCWinMain.FCWMS_Grp_MCG_RMassTrack.Enabled))
       then
       begin
-         FCWinMissSet.FCWMS_ButProceed.Enabled:=false;
-         FCWinMissSet.FCWMS_Grp_MCG_RMassTrack.Enabled:=false;
+         FCWinMain.FCWMS_ButProceed.Enabled:=false;
+         FCWinMain.FCWMS_Grp_MCG_RMassTrack.Enabled:=false;
          {.current destination}
-         FCWinMissSet.FCWMS_Grp_MSDG_Disp.HTMLText.Insert(7, FCFdTFiles_UIStr_Get(uistrUI,'MSDGcurDestNone')+'<br>');
-         FCWinMissSet.FCWMS_Grp_MSDG_Disp.HTMLText.Delete(8);
+         FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Insert(7, FCFdTFiles_UIStr_Get(uistrUI,'MSDGcurDestNone')+'<br>');
+         FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Delete(8);
          {.distance + min deltaV}
-         FCWinMissSet.FCWMS_Grp_MSDG_Disp.HTMLText.Insert
+         FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Insert
          (
             9
             ,FCFdTFiles_UIStr_Get(uistrUI,'MSDGdesIntCdist')
                +' 0 '
                +FCFdTFiles_UIStr_Get(uistrUI,'acronAU')
-               +'<ind x="'+IntToStr(FCWinMissSet.FCWMS_Grp_MSDG_Disp.Width shr 1)+'">'
+               +'<ind x="'+IntToStr(FCWinMain.FCWMS_Grp_MSDG_Disp.Width shr 1)+'">'
                +FCFdTFiles_UIStr_Get(uistrUI,'MSDGdestIntCminDV')
                +' 0 km/s'
          );
-         FCWinMissSet.FCWMS_Grp_MSDG_Disp.HTMLText.Delete(10);
+         FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Delete(10);
          {.mission configuration data}
-         if (not FCWinMissSet.FCWMS_Grp_MCG_RMassTrack.Enabled)
+         if (not FCWinMain.FCWMS_Grp_MCG_RMassTrack.Enabled)
             and (FCV3DselSat<>GMCrootSatObjIdx)
-         then FCWinMissSet.FCWMS_Grp_MCG_MissCfgData.HTMLText.Insert(1, FCFdTFiles_UIStr_Get(uistrUI,'MCGDatNA'))
-         else FCWinMissSet.FCWMS_Grp_MCG_MissCfgData.HTMLText.Insert
+         then FCWinMain.FCWMS_Grp_MCG_MissCfgData.HTMLText.Insert(1, FCFdTFiles_UIStr_Get(uistrUI,'MCGDatNA'))
+         else FCWinMain.FCWMS_Grp_MCG_MissCfgData.HTMLText.Insert
             (1, FCFdTFiles_UIStr_Get(uistrUI,'MSDGcurDestNone'));
-         FCWinMissSet.FCWMS_Grp_MCG_MissCfgData.HTMLText.Delete(2);
+         FCWinMain.FCWMS_Grp_MCG_MissCfgData.HTMLText.Delete(2);
       end
       else if ((GMCrootSatIdx>0) and (FCV3DselSat<>GMCrootSatObjIdx))
          or (GMCrootSatObjIdx=0)
@@ -498,18 +497,18 @@ begin
                dtfscPrprName
                ,FCDBsSys[GMCrootSsys].SS_star[GMCrootStar].SDB_obobj[MDUdmpPlanSatIdx].OO_satList[MDUdmpSatIdx].OOS_token
                );
-            FCWinMissSet.FCWMS_Grp_MSDG_Disp.HTMLText.Insert(7, MDUdmpTokenName+'<br>');
-            FCWinMissSet.FCWMS_Grp_MSDG_Disp.HTMLText.Delete(8);
-            FCWinMissSet.FCWMS_Grp_MSDG_Disp.HTMLText.Insert(
+            FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Insert(7, MDUdmpTokenName+'<br>');
+            FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Delete(8);
+            FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Insert(
                9
                ,FCFdTFiles_UIStr_Get(uistrUI,'MSDGdesIntCdist')+' '
                   +FloatToStr(GMCbaseDist)+' '
                   +FCFdTFiles_UIStr_Get(uistrUI,'acronAU')
-                  +'<ind x="'+IntToStr(FCWinMissSet.FCWMS_Grp_MSDG_Disp.Width shr 1)+'">'
+                  +'<ind x="'+IntToStr(FCWinMain.FCWMS_Grp_MSDG_Disp.Width shr 1)+'">'
                   +FCFdTFiles_UIStr_Get(uistrUI,'MSDGdestIntCminDV')
                   +' '+FloatToStr(GMCreqDV)+' km/s'
                );
-            FCWinMissSet.FCWMS_Grp_MSDG_Disp.HTMLText.Delete(10);
+            FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Delete(10);
          end; //==END== if not MDUtripOnly ==//
          FCMgMCore_Mission_ConfData;
       end;
@@ -524,6 +523,7 @@ procedure FCMgMCore_Mission_Setup(
     Additions:
       -2011Feb12- *add: settlements initialization.
                   *mod: adjust location of colonization mission interface elements.
+                  *mod: for the interplanetary transit mission, fix the trackbar label to correctly display the part of used reaction mass.
       -2010Sep16- *add: a faction # parameter.
                   *entities code.
       -2010Sep02- *add: use a local variable for the design #.
@@ -564,9 +564,9 @@ var
 begin
    FCGtimeFlow.Enabled:=false;
    {.pre initialization for all the missions}
-   FCWinMissSet.Enabled:=true;
+   FCWinMain.FCWM_MissionSettings.Enabled:=true;
    FCMuiM_MessageBox_ResetState(true);
-   FCWinMissSet.FCWMS_Grp_MCGColName.Text:='';
+   FCWinMain.FCWMS_Grp_MCGColName.Text:='';
    GMCAccelG:=0;
    GMCbaseDist:=0;
    GMCcruiseDV:=0;
@@ -589,13 +589,13 @@ begin
    GMCmissTp:=MSmissType;
    MSownedIdx:=round(FC3DobjSpUnit[FCV3DselSpU].TagFloat);
    MSdesgn:=FCFspuF_Design_getDB(FCentities[GMCfac].E_spU[MSownedIdx].SUO_designId);
-   MSdispIdx:='<ind x="'+IntToStr(FCWinMissSet.FCWMS_Grp_MSDG.Width shr 1)+'">';
+   MSdispIdx:='<ind x="'+IntToStr(FCWinMain.FCWMS_Grp_MSDG.Width shr 1)+'">';
    {.missions specific settings}
    case MSmissType of
       tatpMissColonize:
       begin
          {.set the mission name}
-         FCWinMissSet.FCWMS_Grp.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWinMissSet')+FCFdTFiles_UIStr_Get(uistrUI,'Mission.coloniz');
+         FCWinMain.FCWM_MissionSettings.Caption.Text:=FCFdTFiles_UIStr_Get(uistrUI,'FCWinMissSet')+FCFdTFiles_UIStr_Get(uistrUI,'Mission.coloniz');
          {.initialize mission data}
          GMCmother:=MSownedIdx;
          MSdmpStatus:=FCFspuF_AttStatus_Get(FC3DobjSpUnit[FCV3DselSpU].Tag, GMCmother);
@@ -686,19 +686,19 @@ begin
             FCWinMain.FCWM_SP_SurfSel.Left:=0;
             FCWinMain.FCWM_SP_SurfSel.Top:=0;
          end;
-         FCWinMain.FCWM_SurfPanel.Left:=FCWinMissSet.Left;//(FCWinMissSet.Width shr 1)-(FCWinMain.FCWM_SurfPanel.Width shr 1);
-         FCWinMain.FCWM_SurfPanel.Top:=FCWinMissSet.Top-58+FCWinMissSet.Height;
+         FCWinMain.FCWM_SurfPanel.Left:=FCWinMain.FCWM_MissionSettings.Left;//(FCWinMissSet.Width shr 1)-(FCWinMain.FCWM_SurfPanel.Width shr 1);
+         FCWinMain.FCWM_SurfPanel.Top:=FCWinMain.FCWM_MissionSettings.Top+FCWinMain.FCWM_MissionSettings.Height-18;
          FCWinMain.FCWM_SP_DataSheet.ActivePage:=FCWinMain.FCWM_SP_ShReg;
          {.mission data display}
-         FCWinMissSet.FCWMS_Grp_MSDG_Disp.HTMLText.Clear;
+         FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Clear;
          {.idx=0}
-         FCWinMissSet.FCWMS_Grp_MSDG_Disp.HTMLText.Add(
+         FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Add(
             FCCFdHead
             +FCFdTFiles_UIStr_Get(uistrUI,'MSDGmotherSpUnIdStat')
             +FCCFdHeadEnd
             );
          {.idx=1}
-         FCWinMissSet.FCWMS_Grp_MSDG_Disp.HTMLText.Add(
+         FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Add(
             FCFdTFiles_UIStr_Get(dtfscPrprName, FCentities[GMCfac].E_spU[MSownedIdx].SUO_nameToken)+
             ' '
             +FCFdTFiles_UIStr_Get(dtfscSCarchShort, FCDBscDesigns[MSdesgn].SCD_intStrClone.SCIS_archTp)
@@ -706,106 +706,106 @@ begin
             +'<br>'
             );
          {.current destination idx=2}
-         FCWinMissSet.FCWMS_Grp_MSDG_Disp.HTMLText.Add(
+         FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Add(
             FCCFdHead
             +FCFdTFiles_UIStr_Get(uistrUI,'MSDGcurDest')
             +FCCFdHeadEnd
             );
          {.idx=3}
-         FCWinMissSet.FCWMS_Grp_MSDG_Disp.HTMLText.Add(
+         FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Add(
             FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_SP_ShReg')+
             ' ['
             +FCFdTFiles_UIStr_Get(uistrUI,'MSDGcurRegDestNone')
                +']<br>'
             );
          {.current destination idx=4}
-         FCWinMissSet.FCWMS_Grp_MSDG_Disp.HTMLText.Add(
+         FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Add(
             FCCFdHead
             +FCFdTFiles_UIStr_Get(uistrUI,'MSDGdistAtm')
             +FCCFdHeadEnd
             );
          {.idx=5}
-         FCWinMissSet.FCWMS_Grp_MSDG_Disp.HTMLText.Add(FloatToStr(FCFcFunc_ScaleConverter(cf3dct3dViewUnitToKm, GMCbaseDist))+' km');
+         FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Add(FloatToStr(FCFcFunc_ScaleConverter(cf3dct3dViewUnitToKm, GMCbaseDist))+' km');
          {.track bar for number of spacecrafts}
-         FCWinMissSet.FCWMS_Grp_MCG_RMassTrack.Tag:=1;
-         FCWinMissSet.FCWMS_Grp_MCG_RMassTrack.Left:=12;
-         FCWinMissSet.FCWMS_Grp_MCG_RMassTrack.Top:=28;
-         FCWinMissSet.FCWMS_Grp_MCG_RMassTrack.Position:=1;
-         FCWinMissSet.FCWMS_Grp_MCG_RMassTrack.Min:=1;
+         FCWinMain.FCWMS_Grp_MCG_RMassTrack.Tag:=1;
+         FCWinMain.FCWMS_Grp_MCG_RMassTrack.Left:=12;
+         FCWinMain.FCWMS_Grp_MCG_RMassTrack.Top:=28;
+         FCWinMain.FCWMS_Grp_MCG_RMassTrack.Position:=1;
+         FCWinMain.FCWMS_Grp_MCG_RMassTrack.Min:=1;
          if MSdockedNum=1
          then
          begin
-            FCWinMissSet.FCWMS_Grp_MCG_RMassTrack.Max:=2;
-            FCWinMissSet.FCWMS_Grp_MCG_RMassTrack.Visible:=false;
-            FCWinMissSet.FCWMS_Grp_MCG_RMassTrack.Enabled:=false;
+            FCWinMain.FCWMS_Grp_MCG_RMassTrack.Max:=2;
+            FCWinMain.FCWMS_Grp_MCG_RMassTrack.Visible:=false;
+            FCWinMain.FCWMS_Grp_MCG_RMassTrack.Enabled:=false;
          end
          else if MSdockedNum>1
          then
          begin
-            FCWinMissSet.FCWMS_Grp_MCG_RMassTrack.Max:=MSdockedNum;
-            if FCWinMissSet.FCWMS_Grp_MCG_RMassTrack.Tag=1
-            then FCWinMissSet.FCWMS_Grp_MCG_RMassTrack.Tag:=0;
-            FCWinMissSet.FCWMS_Grp_MCG_RMassTrack.TrackLabel.Format:=IntToStr(FCWinMissSet.FCWMS_Grp_MCG_RMassTrack.Position);
+            FCWinMain.FCWMS_Grp_MCG_RMassTrack.Max:=MSdockedNum;
+            if FCWinMain.FCWMS_Grp_MCG_RMassTrack.Tag=1
+            then FCWinMain.FCWMS_Grp_MCG_RMassTrack.Tag:=0;
+            FCWinMain.FCWMS_Grp_MCG_RMassTrack.TrackLabel.Format:=IntToStr(FCWinMain.FCWMS_Grp_MCG_RMassTrack.Position);
          end;
          {.colony name}
-         FCWinMissSet.FCWMS_Grp_MCGColName.Left
-            :=FCWinMissSet.FCWMS_Grp_MCG_RMassTrack.Left+(FCWinMissSet.FCWMS_Grp_MCG_RMassTrack.Width shr 1)-(FCWinMissSet.FCWMS_Grp_MCGColName.Width shr 1);
-         FCWinMissSet.FCWMS_Grp_MCGColName.Top:=FCWinMissSet.FCWMS_Grp_MCG_RMassTrack.Top+FCWinMissSet.FCWMS_Grp_MCG_RMassTrack.Height+24;
+         FCWinMain.FCWMS_Grp_MCGColName.Left
+            :=FCWinMain.FCWMS_Grp_MCG_RMassTrack.Left+(FCWinMain.FCWMS_Grp_MCG_RMassTrack.Width shr 1)-(FCWinMain.FCWMS_Grp_MCGColName.Width shr 1);
+         FCWinMain.FCWMS_Grp_MCGColName.Top:=FCWinMain.FCWMS_Grp_MCG_RMassTrack.Top+FCWinMain.FCWMS_Grp_MCG_RMassTrack.Height+24;
          if MScol=0
          then
          begin
-            FCWinMissSet.FCWMS_Grp_MCGColName.Tag:=0;
-            FCWinMissSet.FCWMS_Grp_MCGColName.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_CDPcolNameNo');
-            FCWinMissSet.FCWMS_Grp_MCGColName.Show;
+            FCWinMain.FCWMS_Grp_MCGColName.Tag:=0;
+            FCWinMain.FCWMS_Grp_MCGColName.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_CDPcolNameNo');
+            FCWinMain.FCWMS_Grp_MCGColName.Show;
          end
          else if MScol>0
          then
          begin
-            FCWinMissSet.FCWMS_Grp_MCGColName.Tag:=MScol;
-            FCWinMissSet.FCWMS_Grp_MCGColName.Text:='';
-            FCWinMissSet.FCWMS_Grp_MCGColName.Hide;
+            FCWinMain.FCWMS_Grp_MCGColName.Tag:=MScol;
+            FCWinMain.FCWMS_Grp_MCGColName.Text:='';
+            FCWinMain.FCWMS_Grp_MCGColName.Hide;
          end;
          {.settlement type}
-         FCWinMissSet.FCWMS_Grp_MCG_SetType.Left:=FCWinMissSet.FCWMS_Grp_MCGColName.Left-4;
-         FCWinMissSet.FCWMS_Grp_MCG_SetType.Top:=FCWinMissSet.FCWMS_Grp_MCGColName.Top+FCWinMissSet.FCWMS_Grp_MCGColName.Height+4;
-         FCWinMissSet.FCWMS_Grp_MCG_SetType.ItemIndex:=-1;
-         FCWinMissSet.FCWMS_Grp_MCG_SetType.Items.Clear;
+         FCWinMain.FCWMS_Grp_MCG_SetType.Left:=FCWinMain.FCWMS_Grp_MCGColName.Left-4;
+         FCWinMain.FCWMS_Grp_MCG_SetType.Top:=FCWinMain.FCWMS_Grp_MCGColName.Top+FCWinMain.FCWMS_Grp_MCGColName.Height+4;
+         FCWinMain.FCWMS_Grp_MCG_SetType.ItemIndex:=-1;
+         FCWinMain.FCWMS_Grp_MCG_SetType.Items.Clear;
          if MSenvironment<space
          then
          begin
-            FCWinMissSet.FCWMS_Grp_MCG_SetType.Items.Add( FCFdTFiles_UIStr_Get(uistrUI, 'FCWMS_Grp_MCG_SetType0') );
-            FCWinMissSet.FCWMS_Grp_MCG_SetType.Items.Add( FCFdTFiles_UIStr_Get(uistrUI, 'FCWMS_Grp_MCG_SetType2') );
+            FCWinMain.FCWMS_Grp_MCG_SetType.Items.Add( FCFdTFiles_UIStr_Get(uistrUI, 'FCWMS_Grp_MCG_SetType0') );
+            FCWinMain.FCWMS_Grp_MCG_SetType.Items.Add( FCFdTFiles_UIStr_Get(uistrUI, 'FCWMS_Grp_MCG_SetType2') );
          end
          else if MSenvironment=space
          then
          begin
-            FCWinMissSet.FCWMS_Grp_MCG_SetType.Items.Add( FCFdTFiles_UIStr_Get(uistrUI, 'FCWMS_Grp_MCG_SetType1') );
-            FCWinMissSet.FCWMS_Grp_MCG_SetType.Items.Add( FCFdTFiles_UIStr_Get(uistrUI, 'FCWMS_Grp_MCG_SetType2') );
+            FCWinMain.FCWMS_Grp_MCG_SetType.Items.Add( FCFdTFiles_UIStr_Get(uistrUI, 'FCWMS_Grp_MCG_SetType1') );
+            FCWinMain.FCWMS_Grp_MCG_SetType.Items.Add( FCFdTFiles_UIStr_Get(uistrUI, 'FCWMS_Grp_MCG_SetType2') );
          end;
-         FCWinMissSet.FCWMS_Grp_MCG_SetType.ItemIndex:=0;
-         FCWinMissSet.FCWMS_Grp_MCG_SetType.Hide;
+         FCWinMain.FCWMS_Grp_MCG_SetType.ItemIndex:=0;
+         FCWinMain.FCWMS_Grp_MCG_SetType.Hide;
          {.settlement name}
-         FCWinMissSet.FCWMS_Grp_MCG_SetName.Left:=FCWinMissSet.FCWMS_Grp_MCGColName.Left;
-         FCWinMissSet.FCWMS_Grp_MCG_SetName.Top:=FCWinMissSet.FCWMS_Grp_MCG_SetType.Top+FCWinMissSet.FCWMS_Grp_MCG_SetType.Height+19;
-         FCWinMissSet.FCWMS_Grp_MCG_SetName.Hide;
+         FCWinMain.FCWMS_Grp_MCG_SetName.Left:=FCWinMain.FCWMS_Grp_MCGColName.Left;
+         FCWinMain.FCWMS_Grp_MCG_SetName.Top:=FCWinMain.FCWMS_Grp_MCG_SetType.Top+FCWinMain.FCWMS_Grp_MCG_SetType.Height+19;
+         FCWinMain.FCWMS_Grp_MCG_SetName.Hide;
          {.initialize the 2 mission configuration panels}
-         FCWinMissSet.FCWMS_Grp_MCG_DatDisp.HTMLText.Clear;
-         FCWinMissSet.FCWMS_Grp_MCG_MissCfgData.HTMLText.Clear;
+         FCWinMain.FCWMS_Grp_MCG_DatDisp.HTMLText.Clear;
+         FCWinMain.FCWMS_Grp_MCG_MissCfgData.HTMLText.Clear;
          {.mission configuration background panel}
-         FCWinMissSet.FCWMS_Grp_MCG_DatDisp.HTMLText.Add(
+         FCWinMain.FCWMS_Grp_MCG_DatDisp.HTMLText.Add(
             FCCFdHead
             +FCFdTFiles_UIStr_Get(uistrUI,'MCGColCVSel')
             +FCCFdHeadEnd
             );
          {.mission configuration data}
-         FCWinMissSet.FCWMS_Grp_MCG_MissCfgData.HTMLText.Add(
+         FCWinMain.FCWMS_Grp_MCG_MissCfgData.HTMLText.Add(
             FCCFdHead
             +FCFdTFiles_UIStr_Get(uistrUI,'MCGDatHead')
             +FCCFdHeadEnd
             );
-         FCWinMissSet.FCWMS_Grp_MCG_MissCfgData.HTMLText.Add( FCFdTFiles_UIStr_Get(uistrUI,'MSDGcurRegDestNone') );
+         FCWinMain.FCWMS_Grp_MCG_MissCfgData.HTMLText.Add( FCFdTFiles_UIStr_Get(uistrUI,'MSDGcurRegDestNone') );
          {.mission configuration proceed button}
-         FCWinMissSet.FCWMS_ButProceed.Enabled:=false;
+         FCWinMain.FCWMS_ButProceed.Enabled:=false;
       end; //==END== case: gmcmnColoniz ==//
       tatpMissItransit:
       begin
@@ -859,17 +859,17 @@ begin
          else if GMCrootSatIdx=0
          then FCMoglVM_CamMain_Target(FCV3DselOobj, false);
          {.set user's interface}
-         FCWinMissSet.FCWMS_Grp.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWinMissSet')+FCFdTFiles_UIStr_Get(uistrUI,'Mission.itransit');
-         FCWinMissSet.FCWMS_Grp_MCG_RMassTrack.Visible:=true;
-         FCWinMissSet.FCWMS_Grp_MCG_RMassTrack.Enabled:=false;
+         FCWinMain.FCWM_MissionSettings.Caption.Text:=FCFdTFiles_UIStr_Get(uistrUI,'FCWinMissSet')+FCFdTFiles_UIStr_Get(uistrUI,'Mission.itransit');
+         FCWinMain.FCWMS_Grp_MCG_RMassTrack.Visible:=true;
+         FCWinMain.FCWMS_Grp_MCG_RMassTrack.Enabled:=false;
          {.mission data display}
-         FCWinMissSet.FCWMS_Grp_MSDG_Disp.HTMLText.Clear;
+         FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Clear;
          {.idx=0}
-         FCWinMissSet.FCWMS_Grp_MSDG_Disp.HTMLText.Add(
+         FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Add(
             FCCFdHead+FCFdTFiles_UIStr_Get(uistrUI,'MSDGspUnIdStat')+FCCFdHeadEnd
             );
          {.idx=1}
-         FCWinMissSet.FCWMS_Grp_MSDG_Disp.HTMLText.Add(
+         FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Add(
             FCFdTFiles_UIStr_Get(dtfscPrprName, FCentities[GMCfac].E_spU[MSownedIdx].SUO_nameToken)
             +' '
             +FCFdTFiles_UIStr_Get(dtfscSCarchShort, FCDBscDesigns[MSdesgn].SCD_intStrClone.SCIS_archTp)
@@ -877,7 +877,7 @@ begin
             +'<br>'
             );
          {.current deltaV + reaction mass, idx=2}
-         FCWinMissSet.FCWMS_Grp_MSDG_Disp.HTMLText.Add(
+         FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Add(
             FCCFdHead
             +FCFdTFiles_UIStr_Get(uistrUI,'MSDGcurDV')
             +MSdispIdx
@@ -885,14 +885,14 @@ begin
             +FCCFdHeadEnd
             );
          {.idx=3}
-         FCWinMissSet.FCWMS_Grp_MSDG_Disp.HTMLText.Add(
+         FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Add(
             FloatToStr(FCentities[GMCfac].E_spU[MSownedIdx].SUO_deltaV)+' km/s'
             +MSdispIdx
             +FloatToStr(FCentities[GMCfac].E_spU[MSownedIdx].SUO_availRMass)+' m<sup>3</sup>'
             +'<br>'
             );
          {.space drive type and isp, idx=4}
-         FCWinMissSet.FCWMS_Grp_MSDG_Disp.HTMLText.Add(
+         FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Add(
             FCCFdHead
             +FCFdTFiles_UIStr_Get(uistrUI,'spUnDrvTp')
             +MSdispIdx
@@ -900,28 +900,28 @@ begin
             +FCCFdHeadEnd
             );
          {.idx=5}
-         FCWinMissSet.FCWMS_Grp_MSDG_Disp.HTMLText.Add(
+         FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Add(
             '(data not implemented yet)'
             +MSdispIdx
             +IntToStr(FCDBscDesigns[MSdesgn].SCD_spDriveISP)+' sec'
             +'<br>'
             );
          {.current destination idx=6}
-         FCWinMissSet.FCWMS_Grp_MSDG_Disp.HTMLText.Add(
+         FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Add(
             FCCFdHead
             +FCFdTFiles_UIStr_Get(uistrUI,'MSDGcurDest')
             +FCCFdHeadEnd
             );
          {.idx= 7}
-         FCWinMissSet.FCWMS_Grp_MSDG_Disp.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI,'MSDGcurDestNone')+'<br>');
+         FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI,'MSDGcurDestNone')+'<br>');
          {.destination intercept course, idx=8}
-         FCWinMissSet.FCWMS_Grp_MSDG_Disp.HTMLText.Add(
+         FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Add(
             FCCFdHead
             +FCFdTFiles_UIStr_Get(uistrUI,'MSDGdesIntC')
             +FCCFdHeadEnd
             );
          {.idx=9}
-         FCWinMissSet.FCWMS_Grp_MSDG_Disp.HTMLText.Add(
+         FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Add(
             FCFdTFiles_UIStr_Get(uistrUI,'MSDGdesIntCdist')
             +' 0 '
             +FCFdTFiles_UIStr_Get(uistrUI,'acronAU')
@@ -930,34 +930,36 @@ begin
             +' 0 km/s'
             );
          {.mission configuration proceed button}
-         FCWinMissSet.FCWMS_ButProceed.Enabled:=false;
+         FCWinMain.FCWMS_ButProceed.Enabled:=false;
          {.mission configuration trackbar}
-         FCWinMissSet.FCWMS_Grp_MCG_RMassTrack.Tag:=1;
-         FCWinMissSet.FCWMS_Grp_MCG_RMassTrack.Left:=24;
-         FCWinMissSet.FCWMS_Grp_MCG_RMassTrack.Top:=32;
-         FCWinMissSet.FCWMS_Grp_MCG_RMassTrack.Max:=3;
-         FCWinMissSet.FCWMS_Grp_MCG_RMassTrack.Min:=1;
-         FCWinMissSet.FCWMS_Grp_MCG_RMassTrack.Position:=1;
-         FCMgMCore_Mission_TrackUpd(tatpMissColonize);
+         FCWinMain.FCWMS_Grp_MCG_RMassTrack.Tag:=1;
+         FCWinMain.FCWMS_Grp_MCG_RMassTrack.Left:=24;
+         FCWinMain.FCWMS_Grp_MCG_RMassTrack.Top:=32;
+         FCWinMain.FCWMS_Grp_MCG_RMassTrack.Max:=3;
+         FCWinMain.FCWMS_Grp_MCG_RMassTrack.Min:=1;
+         FCWinMain.FCWMS_Grp_MCG_RMassTrack.Position:=1;
+         FCMgMCore_Mission_TrackUpd( tatpMissItransit );
+         FCWinMain.FCWMS_Grp_MCG_RMassTrack.Enabled:=false;
          {.initialize the 2 mission configuration panels}
-         FCWinMissSet.FCWMS_Grp_MCG_DatDisp.HTMLText.Clear;
-         FCWinMissSet.FCWMS_Grp_MCG_MissCfgData.HTMLText.Clear;
+         FCWinMain.FCWMS_Grp_MCG_DatDisp.HTMLText.Clear;
+         FCWinMain.FCWMS_Grp_MCG_MissCfgData.HTMLText.Clear;
          {.mission configuration background panel}
-         FCWinMissSet.FCWMS_Grp_MCG_DatDisp.HTMLText.Add(
+         FCWinMain.FCWMS_Grp_MCG_DatDisp.HTMLText.Add(
             FCCFdHead
             +FCFdTFiles_UIStr_Get(uistrUI,'MCGtransSpd')
             +FCCFdHeadEnd
             );
          {.mission configuration data}
-         FCWinMissSet.FCWMS_Grp_MCG_MissCfgData.HTMLText.Add(
+         FCWinMain.FCWMS_Grp_MCG_MissCfgData.HTMLText.Add(
             FCCFdHead
             +FCFdTFiles_UIStr_Get(uistrUI,'MCGDatHead')
             +FCCFdHeadEnd
             );
-         FCWinMissSet.FCWMS_Grp_MCG_MissCfgData.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI,'MSDGcurDestNone')+'<br>');
+         FCWinMain.FCWMS_Grp_MCG_MissCfgData.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI,'MSDGcurDestNone')+'<br>');
       end; //==END== case: gmcmnItransit ==//
    end; //==END== case MSmissType of ==//
-   FCWinMissSet.Show;
+   FCWinMain.FCWM_MissionSettings.Show;
+   FCWinMain.FCWM_MissionSettings.BringToFront;
 end;
 
 procedure FCMgMCore_Mission_TrackUpd(const MTUmission: TFCEtaskActionTp);
@@ -977,8 +979,8 @@ begin
    case MTUmission of
       tatpMissColonize:
       begin
-         FCWinMissSet.FCWMS_Grp_MCG_RMassTrack.TrackLabel.Format:=IntToStr(FCWinMissSet.FCWMS_Grp_MCG_RMassTrack.Position);
-         if FCWinMissSet.FCWMS_Grp_MCG_RMassTrack.Tag=0
+         FCWinMain.FCWMS_Grp_MCG_RMassTrack.TrackLabel.Format:=IntToStr(FCWinMain.FCWMS_Grp_MCG_RMassTrack.Position);
+         if FCWinMain.FCWMS_Grp_MCG_RMassTrack.Tag=0
          then
          begin
 
@@ -995,23 +997,23 @@ begin
                ,MTUsatObj
                );
          end
-         else if FCWinMissSet.FCWMS_Grp_MCG_RMassTrack.Tag=1
-         then FCWinMissSet.FCWMS_Grp_MCG_RMassTrack.Tag:=0;
+         else if FCWinMain.FCWMS_Grp_MCG_RMassTrack.Tag=1
+         then FCWinMain.FCWMS_Grp_MCG_RMassTrack.Tag:=0;
       end;
       tatpMissItransit:
       begin
-         case FCWinMissSet.FCWMS_Grp_MCG_RMassTrack.Position of
-            1: FCWinMissSet.FCWMS_Grp_MCG_RMassTrack.TrackLabel.Format
+         case FCWinMain.FCWMS_Grp_MCG_RMassTrack.Position of
+            1: FCWinMain.FCWMS_Grp_MCG_RMassTrack.TrackLabel.Format
                :=FCFdTFiles_UIStr_Get(uistrUI,'FCWMS_Grp_MCG_RMassTrackITransEco');
-            2: FCWinMissSet.FCWMS_Grp_MCG_RMassTrack.TrackLabel.Format
+            2: FCWinMain.FCWMS_Grp_MCG_RMassTrack.TrackLabel.Format
                :=FCFdTFiles_UIStr_Get(uistrUI,'FCWMS_Grp_MCG_RMassTrackITransSlow');
-            3: FCWinMissSet.FCWMS_Grp_MCG_RMassTrack.TrackLabel.Format
+            3: FCWinMain.FCWMS_Grp_MCG_RMassTrack.TrackLabel.Format
                :=FCFdTFiles_UIStr_Get(uistrUI,'FCWMS_Grp_MCG_RMassTrackITransFast');
          end;
-         if FCWinMissSet.FCWMS_Grp_MCG_RMassTrack.Tag=0
+         if FCWinMain.FCWMS_Grp_MCG_RMassTrack.Tag=0
          then FCMgMCore_Mission_DestUpd(true)
-         else if FCWinMissSet.FCWMS_Grp_MCG_RMassTrack.Tag=1
-         then FCWinMissSet.FCWMS_Grp_MCG_RMassTrack.Tag:=0;
+         else if FCWinMain.FCWMS_Grp_MCG_RMassTrack.Tag=1
+         then FCWinMain.FCWMS_Grp_MCG_RMassTrack.Tag:=0;
       end;
    end; //==END== case MTUmission of ==//
    {.update the trackbar label}

@@ -102,8 +102,7 @@ uses
    ,farc_ui_surfpanel
    ,farc_ui_win
    ,farc_univ_func
-   ,farc_win_debug
-   ,farc_win_missset;
+   ,farc_win_debug;
 
 //===================================END OF INIT============================================
 
@@ -330,9 +329,9 @@ begin
       {.distance conversion in m}
       CSdistDecel:=GMCbaseDist*CFC3dUnInKm*1000;
       {.begin the docked LV's setup}
-      if FCWinMissSet.FCWMS_Grp_MCG_RMassTrack.Visible
-      then CSmax:=FCWinMissSet.FCWMS_Grp_MCG_RMassTrack.Position
-      else if not FCWinMissSet.FCWMS_Grp_MCG_RMassTrack.Visible
+      if FCWinMain.FCWMS_Grp_MCG_RMassTrack.Visible
+      then CSmax:=FCWinMain.FCWMS_Grp_MCG_RMassTrack.Position
+      else if not FCWinMain.FCWMS_Grp_MCG_RMassTrack.Visible
       then CSmax:=1;
       setlength(GMCdckd, CSmax+1);
       CScnt:=1;
@@ -403,23 +402,23 @@ begin
    CUtimeMin:=MinIntValue(CUarrTime);
    CUtimeMax:=MaxIntValue(CUarrTime);
    {.update selected region location idx=3}
-   FCWinMissSet.FCWMS_Grp_MSDG_Disp.HTMLText.Insert(
+   FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Insert(
       3
       ,FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_SP_ShReg')+' ['
       +CUregLoc+']<br>'
       );
-   FCWinMissSet.FCWMS_Grp_MSDG_Disp.HTMLText.Delete(4);
+   FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Delete(4);
    {.update mission data}
-   FCWinMissSet.FCWMS_Grp_MCG_MissCfgData.HTMLText.Insert(
+   FCWinMain.FCWMS_Grp_MCG_MissCfgData.HTMLText.Insert(
       1
       ,FCFdTFiles_UIStr_Get(uistrUI, 'MCGatmEntDV')+' '+FloatToStr(GMCfinalDV)+' km/s<br>'
          +FCCFdHead+FCFdTFiles_UIStr_Get(uistrUI,'MCGDatTripTime')+FCCFdHeadEnd
          +FCFdTFiles_UIStr_Get(uistrUI, 'MCGDatMinTime')+' '+FCFcFunc_TimeTick_GetDate(CUtimeMin)
          +'<br>'+FCFdTFiles_UIStr_Get(uistrUI, 'MCGDatMaxTime')+' '+FCFcFunc_TimeTick_GetDate(CUtimeMax)
       );
-   FCWinMissSet.FCWMS_Grp_MCG_MissCfgData.HTMLText.Delete(2);
-   if not FCWinMissSet.FCWMS_ButProceed.Enabled
-   then FCWinMissSet.FCWMS_ButProceed.Enabled:=true;
+   FCWinMain.FCWMS_Grp_MCG_MissCfgData.HTMLText.Delete(2);
+   if not FCWinMain.FCWMS_ButProceed.Enabled
+   then FCWinMain.FCWMS_ButProceed.Enabled:=true;
 end;
 
 end.

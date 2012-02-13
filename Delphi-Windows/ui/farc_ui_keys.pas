@@ -226,7 +226,6 @@ uses
    ,farc_ui_umi
    ,farc_ui_surfpanel
    ,farc_win_about
-   ,farc_win_missset
    ,farc_win_newgset;
 
 //=============================================END OF INIT==================================
@@ -274,16 +273,16 @@ begin
                begin
                   inc(FCV3DselOobj);
                   FCMoglVM_CamMain_Target(FCV3DselOobj, true);
-                  if FCWinMissSet.Visible
+                  if FCWinMain.FCWM_MissionSettings.Visible
                   then FCMgMCore_Mission_DestUpd(false)
-                  else if (not FCWinMissSet.Visible)
+                  else if (not FCWinMain.FCWM_MissionSettings.Visible)
                      and (FCWinMain.FCWM_SP_AutoUp.Checked)
                   then FCMuiSP_SurfaceEcosphere_Set(FCV3DselOobj, 0, false);
                end;
             end;
             uikbkPrev:
             begin
-               if (FCWinMissSet.Visible)
+               if (FCWinMain.FCWM_MissionSettings.Visible)
                   and (FCV3DselOobj>1)
                then
                begin
@@ -291,7 +290,7 @@ begin
                   FCMoglVM_CamMain_Target(FCV3DselOobj, true);
                   FCMgMCore_Mission_DestUpd(false);
                end
-               else if not FCWinMissSet.Visible
+               else if not FCWinMain.FCWM_MissionSettings.Visible
                then
                begin
                   dec(FCV3DselOobj);
@@ -303,14 +302,14 @@ begin
             end;
             uikbkFirst:
             begin
-               if FCWinMissSet.Visible
+               if FCWinMain.FCWM_MissionSettings.Visible
                then
                begin
                   FCV3DselOobj:=1;
                   FCMoglVM_CamMain_Target(FCV3DselOobj, true);
                   FCMgMCore_Mission_DestUpd(false);
                end
-               else if not FCWinMissSet.Visible
+               else if not FCWinMain.FCWM_MissionSettings.Visible
                then
                begin
                   FCV3DselOobj:=0;
@@ -324,9 +323,9 @@ begin
                begin
                   FCV3DselOobj:=FCV3DttlOobj;
                   FCMoglVM_CamMain_Target(FCV3DselOobj, true);
-                  if FCWinMissSet.Visible
+                  if FCWinMain.FCWM_MissionSettings.Visible
                   then FCMgMCore_Mission_DestUpd(false)
-                  else if (not FCWinMissSet.Visible)
+                  else if (not FCWinMain.FCWM_MissionSettings.Visible)
                      and (FCWinMain.FCWM_SP_AutoUp.Checked)
                   then FCMuiSP_SurfaceEcosphere_Set(FCV3DselOobj, 0, false);
                end;
@@ -386,9 +385,9 @@ begin
             end;
          end; //==END== case BKSbk of ==//
          FCMoglVM_CamMain_Target(100, false);
-         if FCWinMissSet.Visible
+         if FCWinMain.FCWM_MissionSettings.Visible
          then FCMgMCore_Mission_DestUpd(false)
-         else if (not FCWinMissSet.Visible)
+         else if (not FCWinMain.FCWM_MissionSettings.Visible)
             and (FCWinMain.FCWM_SP_AutoUp.Checked)
          then FCMuiSP_SurfaceEcosphere_Set(FCV3DselOobj, FC3DobjSatGrp[FCV3DselSat].Tag, false);
       end; //==END== case - uikbtSat ==//
@@ -862,7 +861,7 @@ begin
       if WMTkeyDump=27
       then
       begin
-         if FCWinMissSet.Visible
+         if FCWinMain.FCWM_MissionSettings.Visible
          then FCMuiK_WinMissSet_Test(WMTkeyDump, WMTshftCtrl)
          else if FCWinMain.FCWM_InfraPanel.Visible
          then FCMuiIP_PanelKey_Test(WMTkeyDump, WMTshftCtrl);
@@ -918,11 +917,11 @@ begin
          case WMTfocus of
             1, 2:
             begin
-               if (not FCWinMissSet.Visible)
+               if (not FCWinMain.FCWM_MissionSettings.Visible)
                   or (
-                        (FCWinMissSet.Visible)
+                        (FCWinMain.FCWM_MissionSettings.Visible)
                         and
-                        (FCWinMissSet.FCWMS_Grp.Caption
+                        (FCWinMain.FCWM_MissionSettings.Caption.Text
                            <>FCFdTFiles_UIStr_Get(uistrUI,'FCWinMissSet')+FCFdTFiles_UIStr_Get(uistrUI,'Mission.coloniz')
                         )
                      )
@@ -936,7 +935,7 @@ begin
             end;
             3:
             begin
-               if not FCWinMissSet.Visible
+               if not FCWinMain.FCWM_MissionSettings.Visible
                then FCMuiK_BrowseK_Set(uikbtSpU, uikbkLast);
             end;
          end;
@@ -952,11 +951,11 @@ begin
          case WMTfocus of
             1, 2:
             begin
-               if (not FCWinMissSet.Visible)
+               if (not FCWinMain.FCWM_MissionSettings.Visible)
                   or (
-                        (FCWinMissSet.Visible)
+                        (FCWinMain.FCWM_MissionSettings.Visible)
                         and
-                        (FCWinMissSet.FCWMS_Grp.Caption
+                        (FCWinMain.FCWM_MissionSettings.Caption.Text
                            <>FCFdTFiles_UIStr_Get(uistrUI,'FCWinMissSet')+FCFdTFiles_UIStr_Get(uistrUI,'Mission.coloniz')
                         )
                      )
@@ -970,7 +969,7 @@ begin
             end;
             3:
             begin
-               if not FCWinMissSet.Visible
+               if not FCWinMain.FCWM_MissionSettings.Visible
                then FCMuiK_BrowseK_Set(uikbtSpU, uikbkPrev);
             end;
          end;
@@ -986,11 +985,11 @@ begin
          case WMTfocus of
             0, 1, 2:
             begin
-               if (not FCWinMissSet.Visible)
+               if (not FCWinMain.FCWM_MissionSettings.Visible)
                   or (
-                        (FCWinMissSet.Visible)
+                        (FCWinMain.FCWM_MissionSettings.Visible)
                         and
-                        (FCWinMissSet.FCWMS_Grp.Caption
+                        (FCWinMain.FCWM_MissionSettings.Caption.Text
                            <>FCFdTFiles_UIStr_Get(uistrUI,'FCWinMissSet')+FCFdTFiles_UIStr_Get(uistrUI,'Mission.coloniz')
                         )
                      )
@@ -1005,7 +1004,7 @@ begin
             end;
             3:
             begin
-               if not FCWinMissSet.Visible
+               if not FCWinMain.FCWM_MissionSettings.Visible
                then FCMuiK_BrowseK_Set(uikbtSpU, uikbkNext);
             end;
          end;
@@ -1021,11 +1020,11 @@ begin
          case WMTfocus of
             1, 2:
             begin
-               if (not FCWinMissSet.Visible)
+               if (not FCWinMain.FCWM_MissionSettings.Visible)
                   or (
-                        (FCWinMissSet.Visible)
+                        (FCWinMain.FCWM_MissionSettings.Visible)
                         and
-                        (FCWinMissSet.FCWMS_Grp.Caption
+                        (FCWinMain.FCWM_MissionSettings.Caption.Text
                            <>FCFdTFiles_UIStr_Get(uistrUI,'FCWinMissSet')+FCFdTFiles_UIStr_Get(uistrUI,'Mission.coloniz')
                         )
                      )
@@ -1039,7 +1038,7 @@ begin
             end;
             3:
             begin
-               if not FCWinMissSet.Visible
+               if not FCWinMain.FCWM_MissionSettings.Visible
                then FCMuiK_BrowseK_Set(uikbtSpU, uikbkFirst);
             end;
          end;
@@ -1052,15 +1051,15 @@ begin
          and
             (
                (
-                  (not FCWinMissSet.Visible)
+                  (not FCWinMain.FCWM_MissionSettings.Visible)
                   and
                   (length(FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[FCV3DselOobj].OO_satList)>1)
                )
                or
                (
-                  (FCWinMissSet.Visible)
+                  (FCWinMain.FCWM_MissionSettings.Visible)
                   and
-                  (FCWinMissSet.FCWMS_Grp.Caption
+                  (FCWinMain.FCWM_MissionSettings.Caption.Text
                      <>FCFdTFiles_UIStr_Get(uistrUI,'FCWinMissSet')+FCFdTFiles_UIStr_Get(uistrUI,'Mission.coloniz')
                   )
                )
@@ -1073,7 +1072,7 @@ begin
             FCV3DselOobj:=round(FC3DobjSatGrp[FCV3DselSat].TagFloat);
          end;
          FCMoglVM_CamMain_Target(100, false);
-         if FCWinMissSet.Visible
+         if FCWinMain.FCWM_MissionSettings.Visible
          then FCMgMCore_Mission_DestUpd(false);
       end
       else if (WMTkeyDump=65)
@@ -1082,7 +1081,7 @@ begin
       then
       begin
          FCMoglVM_CamMain_Target(FCV3DselOobj, true);
-         if FCWinMissSet.Visible
+         if FCWinMain.FCWM_MissionSettings.Visible
          then FCMgMCore_Mission_DestUpd(false);
       end;
       {.C}
@@ -1091,7 +1090,7 @@ begin
          and (FCWinMain.FCGLScadencer.Enabled)
          and (FCGtimeFlow.Enabled)
          and (not FCWinNewGSetup.Visible)
-         and (not FCWinMissSet.Visible)
+         and (not FCWinMain.FCWM_MissionSettings.Visible)
       then
       begin
          if FCRplayer.P_timePhse<>tphSTH
@@ -1101,7 +1100,7 @@ begin
       {.message box raise/expand}
       if (WMTkeyDump=77)
          and (FCWinMain.FCWM_3dMainGrp.Visible)
-         and (not FCWinMissSet.Visible)
+         and (not FCWinMain.FCWM_MissionSettings.Visible)
       then
       begin
          if FCWinMain.FCWM_MsgeBox.Collaps
@@ -1140,12 +1139,12 @@ begin
       if (WMTkeyDump=83)
          and (FCV3DttlSpU>0)
          and (FCWinMain.FCGLSCamMainViewGhost.TargetObject<>FC3DobjSpUnit[FCV3DselSpU])
-         and (not FCWinMissSet.Visible)
+         and (not FCWinMain.FCWM_MissionSettings.Visible)
       then FCMoglVM_CamMain_Target(-1, true)
       else if (WMTkeyDump=83)
          and (FCV3DttlSpU>0)
          and (FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3DobjSpUnit[FCV3DselSpU])
-         and (not FCWinMissSet.Visible)
+         and (not FCWinMain.FCWM_MissionSettings.Visible)
       then FCMoglVM_CamMain_Target(FCV3DselOobj, true);
       {.X}
       if (WMTkeyDump=88)
@@ -1153,7 +1152,7 @@ begin
          and (FCWinMain.FCGLScadencer.Enabled)
          and (FCGtimeFlow.Enabled)
          and (not FCWinNewGSetup.Visible)
-         and (not FCWinMissSet.Visible)
+         and (not FCWinMain.FCWM_MissionSettings.Visible)
       then
       begin
          if FCRplayer.P_timePhse<>tphMan
@@ -1165,7 +1164,7 @@ begin
          and (FCWinMain.FCGLScadencer.Enabled)
          and (FCGtimeFlow.Enabled)
          and (not FCWinNewGSetup.Visible)
-         and (not FCWinMissSet.Visible)
+         and (not FCWinMain.FCWM_MissionSettings.Visible)
       then
       begin
          if FCRplayer.P_timePhse<>tphTac
@@ -1194,8 +1193,8 @@ begin
    if WMSTkeyDump=27
    then
    begin
-      FCWinMissSet.Close;
-      FCWinMissSet.Enabled:=false;
+      FCWinMain.FCWM_MissionSettings.Hide;
+      FCWinMain.FCWM_MissionSettings.Enabled:=false;
       FCGtimeFlow.Enabled:=true;
    end;
 end;

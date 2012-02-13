@@ -62,7 +62,6 @@ type TFCEmwinUpdTp=(
    ,mwupTextWM3dFrame
    ,mwupTextWinMain
    ,mwupTextWinAb
-   ,mwupTextWinMS
    ,mwupTextWinNGS
    ,mwupTextMenu
    ,mwupMenuLang
@@ -71,10 +70,8 @@ type TFCEmwinUpdTp=(
    ,mwupMenuStex
    ,mwupSecwinAbout
    ,mwupSecwinDebug
-   ,mwupSecwinMissSetup
    ,mwupSecWinNewGSetup
    ,mwupFontWinAb
-   ,mwupFontWinMS
    ,mwupFontWinNGS
    ,mwupFontAll
    );
@@ -181,7 +178,6 @@ uses
    ,farc_univ_func
    ,farc_win_about
    ,farc_win_debug
-   ,farc_win_missset
    ,farc_win_newgset;
 
 //===================================END OF INIT============================================
@@ -622,7 +618,6 @@ begin
    FCMuiW_UI_Initialize(mwupTextWinMain);
    FCMuiW_UI_Initialize(mwupTextWinAb);
    FCMuiW_UI_Initialize(mwupTextWinNGS);
-   FCMuiW_UI_Initialize(mwupTextWinMS);
    FCMuiW_UI_Initialize(mwupMenuLang);
    if FCWinMain.FCWM_3dMainGrp.Visible
    then FCMoglUI_Main3DViewUI_Update(oglupdtpTxtOnly, ogluiutAll);
@@ -908,6 +903,13 @@ begin
       {.infrastructure panel}
       FCWinMain.FCWM_IPconfirmButton.Caption:='<p align="center"><b>'+FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_IPconfirmButton')+'</b>';
       FCWinMain.FCWM_IPinfraKits.Caption:='Available Infrastructure Kits (choose one)';
+      {.missions panel}
+      FCWinMain.FCWMS_Grp_MSDG.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWMS_Grp_MSDG');
+      FCWinMain.FCWMS_Grp_MCG.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWMS_Grp_MCG');
+      FCWinMain.FCWMS_ButProceed.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'ButtProceed');
+      FCWinMain.FCWMS_ButCancel.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'ButtCancel');
+      FCWinMain.FCWMS_Grp_MCGColName.EditLabel.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_CDPcolName');
+      FCWinMain.FCWMS_Grp_MCG_SetName.EditLabel.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'FCWMS_Grp_MCG_SetName');
    end;
    //=======================================================================================
    {.this section concern only all texts of about window}
@@ -948,18 +950,6 @@ begin
       {.button cancel}
       FCWinNewGSetup.FCWNGS_Frm_ButtCancel.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'ButtCancel');
       {:DEV NOTES: upd the faction list}
-   end;
-   //=======================================================================================
-   {.this section concern only all texts of mission setup window}
-   if UIUtp=mwupTextWinMS
-   then
-   begin
-      FCWinMissSet.FCWMS_Grp_MSDG.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWMS_Grp_MSDG');
-      FCWinMissSet.FCWMS_Grp_MCG.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWMS_Grp_MCG');
-      FCWinMissSet.FCWMS_ButProceed.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'ButtProceed');
-      FCWinMissSet.FCWMS_ButCancel.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'ButtCancel');
-      FCWinMissSet.FCWMS_Grp_MCGColName.EditLabel.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_CDPcolName');
-      FCWinMissSet.FCWMS_Grp_MCG_SetName.EditLabel.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'FCWMS_Grp_MCG_SetName');
    end;
    //=======================================================================================
    {.this section concern all graphical elements of main window w/o text
@@ -1137,6 +1127,38 @@ begin
       FCWinMain.FCWM_IPinfraKits.Height:=20;
       FCWinMain.FCWM_IPinfraKits.Left:=20;
       FCWinMain.FCWM_IPinfraKits.Top:=84;
+      {.missions panel}
+      FCWinMain.FCWM_MissionSettings.Width:=FCWinMain.FCWM_SurfPanel.Width;//800;
+      FCWinMain.FCWM_MissionSettings.Height:=280;
+      FCWinMain.FCWM_MissionSettings.Left:=12;
+      FCWinMain.FCWM_MissionSettings.Top:=20;
+      {.mission data group}
+      FCWinMain.FCWMS_Grp_MSDG.Width:=(FCWinMain.FCWM_MissionSettings.Width shr 1)-6;
+      FCWinMain.FCWMS_Grp_MSDG.Height:=FCWinMain.FCWM_MissionSettings.Height-24;
+      FCWinMain.FCWMS_Grp_MSDG.Left:=4;
+      FCWinMain.FCWMS_Grp_MSDG.Top:=24;
+      {.mission configuration group}
+      FCWinMain.FCWMS_Grp_MCG.Width:=FCWinMain.FCWMS_Grp_MSDG.Width;
+      FCWinMain.FCWMS_Grp_MCG.Height:=FCWinMain.FCWMS_Grp_MSDG.Height;
+      FCWinMain.FCWMS_Grp_MCG.Left:=FCWinMain.FCWMS_Grp_MSDG.Left+FCWinMain.FCWMS_Grp_MSDG.Width+4;
+      FCWinMain.FCWMS_Grp_MCG.Top:=FCWinMain.FCWMS_Grp_MSDG.Top;
+      {.mission configuration background panel}
+      FCWinMain.FCWMS_Grp_MCG_DatDisp.Width:=FCWinMain.FCWMS_Grp_MCG.Width shr 1;
+      {.mission configuration data panel}
+      FCWinMain.FCWMS_Grp_MCG_MissCfgData.Width:=FCWinMain.FCWMS_Grp_MCG_DatDisp.Width;
+      {.mission configuration trackbar}
+      FCWinMain.FCWMS_Grp_MCG_RMassTrack.Width:=170;
+      FCWinMain.FCWMS_Grp_MCG_RMassTrack.Height:=50;
+      {.cancel button}
+      FCWinMain.FCWMS_ButCancel.Width:=116;
+      FCWinMain.FCWMS_ButCancel.Height:=26;
+      FCWinMain.FCWMS_ButCancel.Left:=8;
+      FCWinMain.FCWMS_ButCancel.Top:=FCWinMain.FCWMS_Grp_MCG.Height-FCWinMain.FCWMS_ButCancel.Height-8;
+      {.proceed button}
+      FCWinMain.FCWMS_ButProceed.Width:=FCWinMain.FCWMS_ButCancel.Width;
+      FCWinMain.FCWMS_ButProceed.Height:=FCWinMain.FCWMS_ButCancel.Height;
+      FCWinMain.FCWMS_ButProceed.Left:=FCWinMain.FCWMS_Grp_MCG.Width-FCWinMain.FCWMS_ButProceed.Width-8;
+      FCWinMain.FCWMS_ButProceed.Top:=FCWinMain.FCWMS_ButCancel.Top;
    end;
    if UIUtp<>mwupAll
    then
@@ -1240,45 +1262,6 @@ begin
          FCWNGS_Frm_ButtCancel.Top:=FCWNGS_Frm_ButtProceed.Top+FCWNGS_Frm_ButtProceed.Height+4;
       end; //==END== with FCWinNewGSetup ==//
    end; //==END== if (WUupdKind=mwupSecWinNewGSetup) and (FCVallowUpNGSWin) ==//
-   //=======================================================================================
-   {.this section concern all graphical elements of mission setup window w/o text
-   initialization/update}
-   if (UIUtp=mwupSecwinMissSetup)
-      and (FCVallowUpMSWin)
-   then
-   begin
-      FCWinMissSet.Width:=800;
-      FCWinMissSet.Height:=217;
-      FCWinMissSet.Left:=FCWinMain.Left+4;
-      FCWinMissSet.Top:=FCWinMain.Top+98;
-      {.mission data group}
-      FCWinMissSet.FCWMS_Grp_MSDG.Width:=(FCWinMissSet.Width shr 1)-6;
-      FCWinMissSet.FCWMS_Grp_MSDG.Height:=FCWinMissSet.Height-24;
-      FCWinMissSet.FCWMS_Grp_MSDG.Left:=4;
-      FCWinMissSet.FCWMS_Grp_MSDG.Top:=12;
-      {.mission configuration group}
-      FCWinMissSet.FCWMS_Grp_MCG.Width:=FCWinMissSet.FCWMS_Grp_MSDG.Width;
-      FCWinMissSet.FCWMS_Grp_MCG.Height:=FCWinMissSet.FCWMS_Grp_MSDG.Height;
-      FCWinMissSet.FCWMS_Grp_MCG.Left:=FCWinMissSet.FCWMS_Grp_MSDG.Left+FCWinMissSet.FCWMS_Grp_MSDG.Width+4;
-      FCWinMissSet.FCWMS_Grp_MCG.Top:=FCWinMissSet.FCWMS_Grp_MSDG.Top;
-      {.mission configuration background panel}
-      FCWinMissSet.FCWMS_Grp_MCG_DatDisp.Width:=FCWinMissSet.FCWMS_Grp_MCG.Width shr 1;
-      {.mission configuration data panel}
-      FCWinMissSet.FCWMS_Grp_MCG_MissCfgData.Width:=FCWinMissSet.FCWMS_Grp_MCG_DatDisp.Width;
-      {.mission configuration trackbar}
-      FCWinMissSet.FCWMS_Grp_MCG_RMassTrack.Width:=170;
-      FCWinMissSet.FCWMS_Grp_MCG_RMassTrack.Height:=50;
-      {.cancel button}
-      FCWinMissSet.FCWMS_ButCancel.Width:=116;
-      FCWinMissSet.FCWMS_ButCancel.Height:=26;
-      FCWinMissSet.FCWMS_ButCancel.Left:=8;
-      FCWinMissSet.FCWMS_ButCancel.Top:=FCWinMissSet.Height-FCWinMissSet.FCWMS_ButCancel.Height;
-      {.proceed button}
-      FCWinMissSet.FCWMS_ButProceed.Width:=FCWinMissSet.FCWMS_ButCancel.Width;
-      FCWinMissSet.FCWMS_ButProceed.Height:=FCWinMissSet.FCWMS_ButCancel.Height;
-      FCWinMissSet.FCWMS_ButProceed.Left:=FCWinMissSet.Width-FCWinMissSet.FCWMS_ButProceed.Width-8;
-      FCWinMissSet.FCWMS_ButProceed.Top:=FCWinMissSet.FCWMS_ButCancel.Top;
-   end; {.if (WUupdKind=mwupSecwinMissSetup) and (FCVallowUpMSWin)}
    //=======================================================================================================
    {.this section update language submenus}
    if (UIUtp=mwupAll)
@@ -1461,6 +1444,20 @@ begin
       FCWinMain.FCWM_InfraPanel.Caption.Font.Size:=FCFuiW_Font_GetSize(uiwPanelTitle);
       FCWinMain.FCWM_IPlabel.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
       FCWinMain.FCWM_IPinfraKits.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+      {.missions panel}
+      FCWinMain.FCWM_MissionSettings.Caption.Font.Size:=FCFuiW_Font_GetSize(uiwPanelTitle);
+      FCWinMain.FCWM_MissionSettings.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+      FCWinMain.FCWMS_Grp_MSDG.Font.Size:=FCFuiW_Font_GetSize(uiwGrpBoxSec);
+      FCWinMain.FCWMS_Grp_MSDG_Disp.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+      FCWinMain.FCWMS_Grp_MCG.Font.Size:=FCFuiW_Font_GetSize(uiwGrpBoxSec);
+      FCWinMain.FCWMS_Grp_MCG_DatDisp.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+      FCWinMain.FCWMS_Grp_MCGColName.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+      FCWinMain.FCWMS_Grp_MCG_MissCfgData.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+      FCWinMain.FCWMS_Grp_MCG_RMassTrack.TrackLabel.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+      FCWinMain.FCWMS_ButCancel.Font.Size:=FCFuiW_Font_GetSize(uiwButton);
+      FCWinMain.FCWMS_ButProceed.Font.Size:=FCFuiW_Font_GetSize(uiwButton);
+      FCWinMain.FCWMS_Grp_MCG_SetName.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+      FCWinMain.FCWMS_Grp_MCG_SetType.Font.Size:=FCFuiW_Font_GetSize(uiwGrpBoxSec);
    end; //==END== if (UIUtp=mwupAll) or (UIUtp=mwupFontAll) ==//
    {.for about window}
    if ((UIUtp=mwupFontWinAb) or (UIUtp=mwupFontAll))
@@ -1505,28 +1502,6 @@ begin
          FCWNGS_Frm_ButtProceed.Font.Size:=FCFuiW_Font_GetSize(uiwButton);
          FCWNGS_Frm_ButtCancel.Font.Size:=FCFuiW_Font_GetSize(uiwButton);
       end; {.with FCWinNewGSetup do}
-   end;
-   {.for mission setup window}
-   if ((UIUtp=mwupFontWinMS) or (UIUtp=mwupFontAll))
-      and (FCVallowUpMSWin)
-   then
-   begin
-      with FCWinMissSet do
-      begin
-         Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
-         FCWMS_Grp.Font.Size:=FCFuiW_Font_GetSize(uiwGrpBox);
-         FCWMS_Grp_MSDG.Font.Size:=FCFuiW_Font_GetSize(uiwGrpBoxSec);
-         FCWMS_Grp_MSDG_Disp.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
-         FCWMS_Grp_MCG.Font.Size:=FCFuiW_Font_GetSize(uiwGrpBoxSec);
-         FCWMS_Grp_MCG_DatDisp.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
-         FCWMS_Grp_MCGColName.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
-         FCWMS_Grp_MCG_MissCfgData.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
-         FCWMS_Grp_MCG_RMassTrack.TrackLabel.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
-         FCWMS_ButCancel.Font.Size:=FCFuiW_Font_GetSize(uiwButton);
-         FCWMS_ButProceed.Font.Size:=FCFuiW_Font_GetSize(uiwButton);
-         FCWMS_Grp_MCG_SetName.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
-         FCWMS_Grp_MCG_SetType.Font.Size:=FCFuiW_Font_GetSize(uiwGrpBoxSec);
-      end;
    end;
 end;
 

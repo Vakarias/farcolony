@@ -67,9 +67,6 @@
 			<DCCReference Include="game\farc_game_gameflow.pas"/>
 			<DCCReference Include="game\farc_game_missioncore.pas"/>
 			<DCCReference Include="game\farc_game_mitransit.pas"/>
-			<DCCReference Include="ui\farc_win_missset.pas">
-				<Form>FCWinMissSet</Form>
-			</DCCReference>
 			<DCCReference Include="spu\farc_spu_functions.pas"/>
 			<DCCReference Include="ui\farc_win_about.pas">
 				<Form>FCWinAbout</Form>
@@ -157,7 +154,7 @@
 						<VersionInfo Name="MajorVer">0</VersionInfo>
 						<VersionInfo Name="MinorVer">5</VersionInfo>
 						<VersionInfo Name="Release">2</VersionInfo>
-						<VersionInfo Name="Build">843</VersionInfo>
+						<VersionInfo Name="Build">844</VersionInfo>
 						<VersionInfo Name="Debug">False</VersionInfo>
 						<VersionInfo Name="PreRelease">False</VersionInfo>
 						<VersionInfo Name="Special">False</VersionInfo>
@@ -169,7 +166,7 @@
 					<VersionInfoKeys>
 						<VersionInfoKeys Name="CompanyName"/>
 						<VersionInfoKeys Name="FileDescription"/>
-						<VersionInfoKeys Name="FileVersion">0.5.2.843</VersionInfoKeys>
+						<VersionInfoKeys Name="FileVersion">0.5.2.844</VersionInfoKeys>
 						<VersionInfoKeys Name="InternalName"/>
 						<VersionInfoKeys Name="LegalCopyright">2009-2012 - Jean-Francois Baconnet</VersionInfoKeys>
 						<VersionInfoKeys Name="LegalTrademarks"/>

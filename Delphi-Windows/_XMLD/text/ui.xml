@@ -1868,7 +1868,7 @@
    </MSG_SPMreq2>
    <!-- ********** MISSIONS SETUP WINDOW ********** -->
    <FCWinMissSet>
-      <EN>Mission Setup: </EN>
+      <EN>&lt;p align="center"&gt;&lt;b&gt;Mission Setup: </EN>
       <FR>Mise en Place de Mission: </FR>
       <SP>Ajustes de Mision: </SP>
    </FCWinMissSet>
