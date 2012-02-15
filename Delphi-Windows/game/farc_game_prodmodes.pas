@@ -353,7 +353,7 @@ begin
                PMDFFGstaffTechIndex:=FCFgIS_IndexByData_Retrieve( ptTechnic, PMDFFGinfraData );
                PMDFFGenv:=FCFgC_ColEnv_GetTp( PMDFFGent, PMDFFGcol );
                PMDFFGrmp:=(
-                  ( sqrt( PMDFFGinfraData.I_reqStaff[PMDFFGstaffColonIndex].RS_requiredByLv[ PMDFFGinfraLevel ] )*0.5 )
+                  ( PMDFFGinfraData.I_reqStaff[PMDFFGstaffColonIndex].RS_requiredByLv[ PMDFFGinfraLevel ]*2 )
                   +( int( PMDFFGinfraData.I_reqStaff[PMDFFGstaffTechIndex].RS_requiredByLv[ PMDFFGinfraLevel ] /3 )*354 )
                   )
                   *( 1-( 1-PMDFFGenv.ENV_gravity ) );
