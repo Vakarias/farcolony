@@ -346,9 +346,9 @@
    <infra token="infrMiningSite" environment="ANY">
       <infBuild construct="cBuilt" isSurfOnly="true" minlevel="1" maxlevel="7">
          <ibSurf surflv1="900" surflv2="3481" surflv3="13689" surflv4="53361" surflv5="104976" surflv6="410881" surflv7="810000"/>
-         <ibVol vollv1="1800" vollv2="10443" vollv3="54756" vollv4="213444" vollv5="524880" vollv6="2054405" vollv7="4860000"/>
-         <ibBasePwr pwrlv1="17.19" pwrlv2="66.49" pwrlv3="261.46" pwrlv4="1019.2" pwrlv5="2005.04" pwrlv6="7847.83" pwrlv7="15471"/>
-         <ibVolMat volmatlv1="96" volmatlv2="192" volmatlv3="288" volmatlv4="480" volmatlv5="768" volmatlv6="1440" volmatlv7="2208"/>
+         <ibVol vollv1="900" vollv2="6962" vollv3="41067" vollv4="213444" vollv5="524880" vollv6="2465286" vollv7="4860000"/>
+         <ibBasePwr pwrlv1="4.15" pwrlv2="8.15" pwrlv3="16.17" pwrlv4="31.92" pwrlv5="44.78" pwrlv6="88.59" pwrlv7="124.38"/>
+         <ibVolMat volmatlv1="96" volmatlv2="192" volmatlv3="384" volmatlv4="768" volmatlv5="1152" volmatlv6="2304" volmatlv7="3168"/>
       </infBuild>
       <infReq>
          <irGravity min="0.1" max="-1"/>
@@ -360,8 +360,8 @@
          <irTechSci sector="rsIndustrialTech" token="tsciBasicMiningRefin"/>
       </infReq>
       <infReqStaff>
-         <rstaff type="ptColonist" requiredNumLv1="14" requiredNumLv2="34" requiredNumLv3="78" requiredNumLv4="154" requiredNumLv5="241" requiredNumLv6="478" requiredNumLv7="735"/>
-         <rstaff type="ptTechnic" requiredNumLv1="4" requiredNumLv2="7" requiredNumLv3="11" requiredNumLv4="15" requiredNumLv5="19" requiredNumLv6="28" requiredNumLv7="35"/>
+         <rstaff type="ptColonist" requiredNumLv1="12" requiredNumLv2="25" requiredNumLv3="45" requiredNumLv4="77" requiredNumLv5="104" requiredNumLv6="174" requiredNumLv7="219"/>
+         <rstaff type="ptTechnic" requiredNumLv1="2" requiredNumLv2="5" requiredNumLv3="11" requiredNumLv4="24" requiredNumLv5="34" requiredNumLv6="70" requiredNumLv7="98"/>
       </infReqStaff>
       <infFunc infFunc="fProduction">
          <ifProdMode pmode="pmResourceMining" occupancy="100"/>

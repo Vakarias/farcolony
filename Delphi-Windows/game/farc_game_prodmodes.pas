@@ -252,6 +252,7 @@ procedure FCMgPM_ProductionModeDataFromFunction_Generate(
    );
 {:Purpose: generate the production modes' data from the infrastructure's function.
     Additions:
+      -2012Feb14- *mod: pmResourceMining - new calculation of the energy consumption.
       -2011Dec04- *add: Resource Mining (COMPLETION).
       -2011Dec04- *add: Resource Mining (WIP).
       -2011Nov14- *add: code framewrok inclusion + Resource Mining (WIP).
@@ -351,9 +352,11 @@ begin
                PMDFFGstaffColonIndex:=FCFgIS_IndexByData_Retrieve( ptColonist, PMDFFGinfraData );
                PMDFFGstaffTechIndex:=FCFgIS_IndexByData_Retrieve( ptTechnic, PMDFFGinfraData );
                PMDFFGenv:=FCFgC_ColEnv_GetTp( PMDFFGent, PMDFFGcol );
-               PMDFFGrmp:=
-                  ( ( sqrt( PMDFFGinfraData.I_reqStaff[PMDFFGstaffColonIndex].RS_requiredByLv[ PMDFFGinfraLevel ] )*5 )+( sqrt( PMDFFGinfraData.I_reqStaff[PMDFFGstaffTechIndex].RS_requiredByLv[ PMDFFGinfraLevel ] )*30 ) )
-                  *( 1-( ( 1-PMDFFGenv.ENV_gravity )*0.5 ) );
+               PMDFFGrmp:=(
+                  ( sqrt( PMDFFGinfraData.I_reqStaff[PMDFFGstaffColonIndex].RS_requiredByLv[ PMDFFGinfraLevel ] )*0.5 )
+                  +( int( PMDFFGinfraData.I_reqStaff[PMDFFGstaffTechIndex].RS_requiredByLv[ PMDFFGinfraLevel ] /3 )*354 )
+                  )
+                  *( 1-( 1-PMDFFGenv.ENV_gravity ) );
                FCentities[PMDFFGent].E_col[PMDFFGcol].COL_settlements[PMDFFGsett].CS_infra[PMDFFGinfra].CI_fprodMode[PMDFFGcnt].PM_energyCons:=FCFcFunc_Rnd( rttPowerKw, PMDFFGrmp );
             end;
          end; //==END== case PMDFFGinfraData.I_fProductionMode[PMDFFGcnt].IPM_productionModes of ==//

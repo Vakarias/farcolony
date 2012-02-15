@@ -370,10 +370,16 @@ interface
          fProduction:
             (
             ///<summary>
-            /// linked resource spot indexes, if needed
+            /// linked surveyed spot index, if needed
             ///</summary>
             CI_fprodSurveyedSpot: integer;
+            ///<summary>
+            /// linked surveyed region index, if needed
+            ///</summary>
             CI_fprodSurveyedRegion: integer;
+            ///<summary>
+            /// linked surveyed resource spot index, in the surveyed region, if needed
+            ///</summary>
             CI_fprodResourceSpot: integer;
             CI_fprodMode: array [0..FCCpModeMax] of record
                PM_type: TFCEdipProductionModes;

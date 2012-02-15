@@ -672,6 +672,7 @@ end;
 procedure FCMdF_DBInfra_Read;
 {:Purpose: Read the infrastructure database xml file.
     Additions:
+      -2012Feb14- *fix: ibVolMat - the correct data is loaded, it was loaded in I_surface.
       -2011Dec12- *fix: load correctly the production modes of the fProduction function.
       -2011Oct26- *add: required staff by infrastructure level.
                   *fix: bad data assignment for gravity requirements.
@@ -808,7 +809,7 @@ begin
                      DBIRsizeCnt:=FCDBinfra[DBIRcnt].I_minLevel;
                      while DBIRsizeCnt<=FCDBinfra[DBIRcnt].I_maxLevel do
                      begin
-                        FCDBinfra[DBIRcnt].I_surface[DBIRsizeCnt]:=DBIRsizeN.Attributes['volmatlv'+IntToStr(DBIRsizeCnt)];
+                        FCDBinfra[DBIRcnt].I_matVolume[DBIRsizeCnt]:=DBIRsizeN.Attributes['volmatlv'+IntToStr(DBIRsizeCnt)];
                         inc(DBIRsizeCnt);
                      end;
                   end;
