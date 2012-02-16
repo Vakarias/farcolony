@@ -268,7 +268,7 @@ begin
    then
    begin
       FCWinMain.FCWM_ColDPanel.Show;
-      FCMuiCDP_Surface_Relocate;
+      FCMuiSP_Panel_Relocate( false );
    end;
 end;
 

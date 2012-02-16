@@ -53,6 +53,12 @@ function FCFuiSP_VarRegionSelected_Get: integer;
 //===========================END FUNCTIONS SECTION==========================================
 
 ///<summary>
+///   relocate the surface panel behind the colony panel
+///</summary>
+///   <param="isMissionSettings">[true]=relocate for mission settings, [false]=relocate for the colony panel</param>
+procedure FCMuiSP_Panel_Relocate( const isMissionSettings: boolean );
+
+///<summary>
 ///   update the region data and picture
 ///</summary>
 ///    <param name="SERUregIdx">targeted region index #</param>
@@ -466,6 +472,27 @@ begin
 end;
 
 //===========================END FUNCTIONS SECTION==========================================
+
+procedure FCMuiSP_Panel_Relocate( const isMissionSettings: boolean );
+{:Purpose: relocate the surface panel behind the colony panel.
+    Additions:
+      -2012Feb15- *code: relocate the procedure into the farc_ui_surfpanel.
+                  *add: the case for the mission setting panel.
+                  *mod: for the case of the colony data panel, the location of the surface panel is fully dynamic.
+}
+begin
+   if FCWinMain.FCWM_SurfPanel.Collaps
+   then FCWinMain.FCWM_SurfPanel.Collaps:=false;
+   if not isMissionSettings then
+   begin
+      FCWinMain.FCWM_SurfPanel.Left:=FCWinMain.FCWM_ColDPanel.Left;
+      FCWinMain.FCWM_SurfPanel.Top:=FCWinMain.FCWM_ColDPanel.Top+FCWinMain.FCWM_ColDPanel.Height-20;
+   end
+   else begin
+      FCWinMain.FCWM_SurfPanel.Left:=FCWinMain.FCWM_MissionSettings.Left;
+      FCWinMain.FCWM_SurfPanel.Top:=FCWinMain.FCWM_MissionSettings.Top+FCWinMain.FCWM_MissionSettings.Height-18;
+   end;
+end;
 
 procedure FCMuiSP_RegionDataPicture_Update(
    const SERUregIdx: integer;

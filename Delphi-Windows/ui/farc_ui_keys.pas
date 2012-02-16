@@ -197,16 +197,6 @@ procedure FCMuiK_WinMain_Test(
    const WMTshftCtrl: TShiftState
    );
 
-///<summary>
-///   test key routine for mission setup window.
-///</summary>
-///   <param="WMSTkeyDump">key number</param>
-///   <param="WMSTshftCtrl">shift state</param>
-procedure FCMuiK_WinMissSet_Test(
-   const WMSTkeyDump: integer;
-   const WMSTshftCtrl: TShiftState
-   );
-
 implementation
 
 uses
@@ -554,7 +544,7 @@ begin
          or ((CNMTkeyDump>90) and (CNMTkeyDump<96))
          or ((CNMTkeyDump>105) and (CNMTkeyDump<180))
          )
-   then FCMuiK_WinMissSet_Test(CNMTkeyDump, CNMTshftCtrl);
+   then FCMgMC_KeyButtons_Test(CNMTkeyDump, CNMTshftCtrl);
 end;
 
 procedure FCMuiK_ColPopulation_Test(
@@ -633,7 +623,7 @@ begin
          or ((CNMTkeyDump>90) and (CNMTkeyDump<96))
          or ((CNMTkeyDump>105) and (CNMTkeyDump<180))
          )
-   then FCMuiK_WinMissSet_Test(CNMTkeyDump, CNMTshftCtrl);
+   then FCMgMC_KeyButtons_Test(CNMTkeyDump, CNMTshftCtrl);
 end;
 
 procedure FCMuiK_MsgBoxList_Test(
@@ -862,7 +852,7 @@ begin
       then
       begin
          if FCWinMain.FCWM_MissionSettings.Visible
-         then FCMuiK_WinMissSet_Test(WMTkeyDump, WMTshftCtrl)
+         then FCMgMC_KeyButtons_Test(WMTkeyDump, WMTshftCtrl)
          else if FCWinMain.FCWM_InfraPanel.Visible
          then FCMuiIP_PanelKey_Test(WMTkeyDump, WMTshftCtrl);
       end;
@@ -1170,32 +1160,6 @@ begin
          if FCRplayer.P_timePhse<>tphTac
          then FCMgTFlow_FlowState_Set(tphTac);
       end;
-   end;
-end;
-
-procedure FCMuiK_WinMissSet_Test(
-   const WMSTkeyDump: integer;
-   const WMSTshftCtrl: TShiftState
-   );
-{:Purpose: test key routine for mission setup window..
-    Additions:
-      -2010Jul03- *fix: set correctly the parameters if the mission window is closed.
-}
-begin
-   if (ssAlt in WMSTshftCtrl)
-   then FCMuiK_WinMain_Test(WMSTkeyDump, WMSTshftCtrl);
-   if (WMSTkeyDump<>65)
-      and (WMSTkeyDump<>67)
-      and (WMSTkeyDump<>27)
-   then FCMuiK_WinMain_Test(WMSTkeyDump, WMSTshftCtrl);
-   {.ESCAPE}
-   {.close the mission setup window}
-   if WMSTkeyDump=27
-   then
-   begin
-      FCWinMain.FCWM_MissionSettings.Hide;
-      FCWinMain.FCWM_MissionSettings.Enabled:=false;
-      FCGtimeFlow.Enabled:=true;
    end;
 end;
 

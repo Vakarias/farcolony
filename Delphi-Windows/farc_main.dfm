@@ -2030,6 +2030,7 @@ object FCWinMain: TFCWinMain
       OnEndMoveSize = FCWM_ColDPanelEndMoveSize
       OnMinimize = FCWM_ColDPanelMinimize
       OnMaximize = FCWM_ColDPanelMaximize
+      OnEndCollapsExpand = FCWM_ColDPanelEndCollapsExpand
       FullHeight = 0
       object FCWM_CDPepi: TAdvPageControl
         Left = 549
@@ -2605,6 +2606,10 @@ object FCWinMain: TFCWinMain
       StatusBar.Font.Style = []
       URLColor = 14068651
       OnClose = FCWM_MissionSettingsClose
+      OnEndMoveSize = FCWM_MissionSettingsEndMoveSize
+      OnMinimize = FCWM_MissionSettingsMinimize
+      OnMaximize = FCWM_MissionSettingsMaximize
+      OnEndCollapsExpand = FCWM_MissionSettingsEndCollapsExpand
       FullHeight = 0
       object FCWMS_Grp_MCG: TAdvGroupBox
         Left = 225

@@ -204,11 +204,6 @@ procedure FCMuiCDP_KeyStorageList_Test(
    );
 
 ///<summary>
-///   relocate the surface panel behind the colony panel
-///</summary>
-procedure FCMuiCDP_Surface_Relocate;
-
-///<summary>
 ///   load the CDPcurrentColony variable with a new data
 ///</summary>
 ///   <param name="VCCLcolony">player's colony index to load</param>
@@ -1535,7 +1530,7 @@ begin
    end;
    if FCWinMain.FCWM_SP_AutoUp.Checked
    then FCWinMain.FCWM_SP_AutoUp.Checked:=false;
-   FCMuiCDP_Surface_Relocate;
+   FCMuiSP_Panel_Relocate( false );
    FCWinMain.FCWM_ColDPanel.Visible:=true;
    FCMuiCDD_Colony_Update(
       cdlAll
@@ -1646,17 +1641,6 @@ begin
    {.keep up/down keys for the list}
    if ( (InputKey<>38) and (InputKey<>40) )
    then FCMuiK_WinMain_Test(InputKey, ShiftControl);
-end;
-
-procedure FCMuiCDP_Surface_Relocate;
-{:Purpose: relocate the surface panel behind the colony panel.
-    Additions:
-}
-begin
-   if FCWinMain.FCWM_SurfPanel.Collaps
-   then FCWinMain.FCWM_SurfPanel.Collaps:=false;
-   FCWinMain.FCWM_SurfPanel.Left:=FCWinMain.FCWM_ColDPanel.Left;
-   FCWinMain.FCWM_SurfPanel.Top:=FCWinMain.FCWM_ColDPanel.Top+330;
 end;
 
 end.

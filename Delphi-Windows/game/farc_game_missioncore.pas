@@ -32,7 +32,8 @@ unit farc_game_missioncore;
 interface
 
 uses
-   SysUtils
+   Classes
+   ,SysUtils
 
    ,farc_data_game
    ,farc_data_init;
@@ -44,6 +45,18 @@ type TFCRgmcDckd=record
    GMCD_usedRM: extended;
 end;
 
+//===========================END FUNCTIONS SECTION==========================================
+
+///<summary>
+///   test key routine for mission setup window.
+///</summary>
+///   <param="WMSTkeyDump">key number</param>
+///   <param="WMSTshftCtrl">shift state</param>
+procedure FCMgMC_KeyButtons_Test(
+   const WMSTkeyDump: integer;
+   const WMSTshftCtrl: TShiftState
+   );
+
 ///<summary>
 ///   cancel the mission of a selected space unit
 ///</summary>
@@ -54,6 +67,11 @@ procedure FCMgMCore_Mission_Cancel(const MCownSpUidx: integer);
 ///   commit the mission by creating a task.
 ///</summary>
 procedure FCMgMCore_Mission_Commit;
+
+///<summary>
+///   core routine for mission panel closing
+///</summary>
+procedure FCMgMCore_Mission_ClosePanel;
 
 ///<summary>
 ///   update the destination object and distance.
@@ -122,6 +140,8 @@ uses
    ,farc_ogl_ui
    ,farc_ogl_viewmain
    ,farc_spu_functions
+   ,farc_ui_coldatapanel
+   ,farc_ui_keys
    ,farc_ui_msges
    ,farc_ui_surfpanel
    ,farc_ui_win
@@ -133,6 +153,31 @@ var
    GMCmissTp: TFCEtaskActionTp;
 
 //===================================END OF INIT============================================
+
+//===========================END FUNCTIONS SECTION==========================================
+
+procedure FCMgMC_KeyButtons_Test(
+   const WMSTkeyDump: integer;
+   const WMSTshftCtrl: TShiftState
+   );
+{:Purpose: test key routine for mission setup window..
+    Additions:
+      -2012Feb15- *code:  move the procedure into farc_game_missioncore.
+                  *mod: link the escape key to the mission_closepanel core routine.
+      -2010Jul03- *fix: set correctly the parameters if the mission window is closed.
+}
+begin
+   if (ssAlt in WMSTshftCtrl)
+   then FCMuiK_WinMain_Test(WMSTkeyDump, WMSTshftCtrl);
+   {.ESCAPE}
+   {.close the mission setup window}
+   if WMSTkeyDump=27
+   then FCMgMCore_Mission_ClosePanel
+   else if (WMSTkeyDump<>65)
+      and (WMSTkeyDump<>67)
+      and (WMSTkeyDump<>27)
+   then FCMuiK_WinMain_Test(WMSTkeyDump, WMSTshftCtrl);
+end;
 
 procedure FCMgMCore_Mission_Cancel(const MCownSpUidx: integer);
 {:Purpose: cancel the mission of a selected space unit.
@@ -350,6 +395,22 @@ begin
             +FCFcFunc_TimeTick_GetDate(GMCtripTime)
    );
    FCWinMain.FCWMS_Grp_MCG_MissCfgData.HTMLText.Delete(2);
+end;
+
+procedure FCMgMCore_Mission_ClosePanel;
+{:Purpose: core routine for mission panel closing.
+    Additions:
+}
+begin
+   FCWinMain.FCWM_MissionSettings.Hide;
+   FCWinMain.FCWM_MissionSettings.Enabled:=False;
+   if FCWinMain.FCWM_SurfPanel.Visible
+   then
+   begin
+      FCWinMain.FCWM_SurfPanel.Hide;
+      FCWinMain.FCWM_SP_Surface.Enabled:=false;
+   end;
+   FCGtimeFlow.Enabled:=true;
 end;
 
 procedure FCMgMCore_Mission_DestUpd(const MDUtripOnly: boolean);
@@ -686,8 +747,7 @@ begin
             FCWinMain.FCWM_SP_SurfSel.Left:=0;
             FCWinMain.FCWM_SP_SurfSel.Top:=0;
          end;
-         FCWinMain.FCWM_SurfPanel.Left:=FCWinMain.FCWM_MissionSettings.Left;//(FCWinMissSet.Width shr 1)-(FCWinMain.FCWM_SurfPanel.Width shr 1);
-         FCWinMain.FCWM_SurfPanel.Top:=FCWinMain.FCWM_MissionSettings.Top+FCWinMain.FCWM_MissionSettings.Height-18;
+         FCMuiSP_Panel_Relocate ( true );
          FCWinMain.FCWM_SP_DataSheet.ActivePage:=FCWinMain.FCWM_SP_ShReg;
          {.mission data display}
          FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Clear;

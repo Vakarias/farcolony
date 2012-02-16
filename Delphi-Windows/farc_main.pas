@@ -426,6 +426,11 @@ type
     procedure FCWMS_Grp_MCG_SetNameKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FCWMS_Grp_MCG_SetNameKeyPress(Sender: TObject; var Key: Char);
     procedure FCWM_MissionSettingsClose(Sender: TObject);
+    procedure FCWM_MissionSettingsEndMoveSize(Sender: TObject);
+    procedure FCWM_MissionSettingsMaximize(Sender: TObject);
+    procedure FCWM_MissionSettingsMinimize(Sender: TObject);
+    procedure FCWM_MissionSettingsEndCollapsExpand(Sender: TObject);
+    procedure FCWM_ColDPanelEndCollapsExpand(Sender: TObject);
    private
       { Private declarations }
          {timesteps needed for camera transitions}
@@ -830,7 +835,7 @@ end;
 procedure TFCWinMain.FCWMS_ButCancelKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
-   FCMuiK_WinMissSet_Test(Key, Shift);
+   FCMgMC_KeyButtons_Test(Key, Shift);
 end;
 
 procedure TFCWinMain.FCWMS_ButProceedClick(Sender: TObject);
@@ -841,7 +846,7 @@ end;
 procedure TFCWinMain.FCWMS_ButProceedKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
-   FCMuiK_WinMissSet_Test(Key, Shift);
+   FCMgMC_KeyButtons_Test(Key, Shift);
 end;
 
 procedure TFCWinMain.FCWMS_Grp_MCGColNameKeyDown(Sender: TObject; var Key: Word;
@@ -882,7 +887,7 @@ end;
 procedure TFCWinMain.FCWMS_Grp_MCG_RMassTrackKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
-   FCMuiK_WinMissSet_Test(Key, Shift);
+   FCMgMC_KeyButtons_Test(Key, Shift);
 end;
 
 procedure TFCWinMain.FCWMS_Grp_MCG_SetNameKeyDown(Sender: TObject; var Key: Word;
@@ -1145,14 +1150,19 @@ begin
    FCWM_SurfPanel.Hide;
 end;
 
+procedure TFCWinMain.FCWM_ColDPanelEndCollapsExpand(Sender: TObject);
+begin
+   FCMuiSP_Panel_Relocate( false );
+end;
+
 procedure TFCWinMain.FCWM_ColDPanelEndMoveSize(Sender: TObject);
 begin
-   FCMuiCDP_Surface_Relocate;
+   if FCWM_SurfPanel.Visible
+   then FCMuiSP_Panel_Relocate( false );
 end;
 
 procedure TFCWinMain.FCWM_ColDPanelMaximize(Sender: TObject);
 begin
-   FCMuiCDP_Surface_Relocate;
    FCWM_SurfPanel.show;
 end;
 
@@ -1219,14 +1229,28 @@ end;
 
 procedure TFCWinMain.FCWM_MissionSettingsClose(Sender: TObject);
 begin
-   FCWinMain.FCWM_MissionSettings.Hide;
-   FCWinMain.FCWM_MissionSettings.Enabled:=False;
-   if FCWinMain.FCWM_SurfPanel.Visible
-   then
-   begin
-      FCWinMain.FCWM_SurfPanel.Hide;
-      fcwinmain.FCWM_SP_Surface.Enabled:=false;
-   end;
+   FCMgMCore_Mission_ClosePanel;
+end;
+
+procedure TFCWinMain.FCWM_MissionSettingsEndCollapsExpand(Sender: TObject);
+begin
+   FCMuiSP_Panel_Relocate( true );
+end;
+
+procedure TFCWinMain.FCWM_MissionSettingsEndMoveSize(Sender: TObject);
+begin
+   if FCWM_SurfPanel.Visible
+   then FCMuiSP_Panel_Relocate( true );
+end;
+
+procedure TFCWinMain.FCWM_MissionSettingsMaximize(Sender: TObject);
+begin
+   FCWM_SurfPanel.show;
+end;
+
+procedure TFCWinMain.FCWM_MissionSettingsMinimize(Sender: TObject);
+begin
+   FCWM_SurfPanel.Hide;
 end;
 
 procedure TFCWinMain.FCWM_MMenu_DTFUGClick(Sender: TObject);
