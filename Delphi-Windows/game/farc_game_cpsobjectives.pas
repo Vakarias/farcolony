@@ -84,6 +84,7 @@ procedure FCMgCPSO_Score_Update(
    );
 {:Purpose: update the score of a specified objective.
     Additions:
+      -2012Feb15- *add: otEcoEnEff - add also the reserves in the calculations of the score.
 }
    var
       CVStempo
@@ -107,7 +108,9 @@ begin
       begin
          if FCentities[ 0 ].E_col[ 1 ].COL_csmENcons=0
          then FCcps.CPSviabObj[ ObjectiveToUpdateIndex ].CPSO_score:=100
-         else FCcps.CPSviabObj[ ObjectiveToUpdateIndex ].CPSO_score:=round( power( ln( FCentities[ 0 ].E_col[ 1 ].COL_csmENgen ) - ln( FCentities[ 0 ].E_col[ 1 ].COL_csmENcons ), 0.333 )*60 );
+         else FCcps.CPSviabObj[ ObjectiveToUpdateIndex ].CPSO_score:=round(
+            power( ln( FCentities[ 0 ].E_col[ 1 ].COL_csmENgen+FCentities[ 0 ].E_col[ 1 ].COL_csmENstorCurr ) - ln( FCentities[ 0 ].E_col[ 1 ].COL_csmENcons ), 0.333 )*60
+            );
       end;
 
       otEcoLowCr:
