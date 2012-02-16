@@ -640,6 +640,7 @@ procedure FCMgICS_Conversion_Process(
    );
 {:Purpose: convert a space unit to a corresponding infrastructure as requested.
     Additions:
+      -2012Feb15- *mod: adjust the energy generation of the hardcoded data.
       -2012Jan11- *fix: raise the max storage capacity to avoid errors.
       -2012Jan04- *add: initialize power consumption / generation by custom effect.
       -2011Dec22- *mod: update the interface refresh by using the link to the new routine.
@@ -784,8 +785,8 @@ begin
    FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra[ICPinfra].CI_powerGenFromCFx:=0;
    ICPclonedInfra.I_customFx[ICPeffectIdx].ICFX_customEffect:=cfxEnergyGen;
    ICPclonedInfra.I_customFx[ICPeffectIdx].ICFX_enGenMode.FEPM_productionModes:=egmPhoton;
-   ICPclonedInfra.I_customFx[ICPeffectIdx].ICFX_enGenMode.FEPM_photonArea:=20;
-   ICPclonedInfra.I_customFx[ICPeffectIdx].ICFX_enGenMode.FEPM_photonEfficiency:=90;
+   ICPclonedInfra.I_customFx[ICPeffectIdx].ICFX_enGenMode.FEPM_photonArea:=12;
+   ICPclonedInfra.I_customFx[ICPeffectIdx].ICFX_enGenMode.FEPM_photonEfficiency:=70;
    setlength(ICPclonedInfra.I_customFx, length(ICPclonedInfra.I_customFx)+1);
    ICPeffectIdx:=length(ICPclonedInfra.I_customFx)-1;
    ICPclonedInfra.I_customFx[ICPeffectIdx].ICFX_customEffect:=cfxEnergyStor;
