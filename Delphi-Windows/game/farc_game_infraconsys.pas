@@ -641,6 +641,7 @@ procedure FCMgICS_Conversion_Process(
 {:Purpose: convert a space unit to a corresponding infrastructure as requested.
     Additions:
       -2012Feb15- *mod: adjust the energy generation of the hardcoded data.
+                  *add: hardcoded product, add 1 infrastructure kit: Multipurpose Depot Level 1 by colonization pod.
       -2012Jan11- *fix: raise the max storage capacity to avoid errors.
       -2012Jan04- *add: initialize power consumption / generation by custom effect.
       -2011Dec22- *mod: update the interface refresh by using the link to the new routine.
@@ -814,6 +815,13 @@ begin
    FCFgC_Storage_Update(
       true
       ,'energNucFisRsm'
+      ,1
+      ,0
+      ,ICPcol
+      );
+   FCFgC_Storage_Update(
+      true
+      ,'equipMultiDepot1'
       ,1
       ,0
       ,ICPcol
