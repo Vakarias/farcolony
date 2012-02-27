@@ -168,6 +168,7 @@ begin
             plProdMatrixAll
             ,PIAcol
             ,PIAsettlement
+            ,0
             );
       end;
       PIApmodeCount:=Length( FCentities[ PIAent ].E_col[ PIAcol ].COL_productionMatrix[ PIAprodMatrixFound ].CPMI_productionModes );

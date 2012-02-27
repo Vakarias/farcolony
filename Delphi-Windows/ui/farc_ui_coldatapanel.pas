@@ -33,7 +33,9 @@ interface
 uses
    Classes
    ,ComCtrls
-   ,SysUtils;
+   ,SysUtils
+
+   ,farc_data_infrprod;
 
 {:DEV NOTES: update TFCEuicddColonyDataList+FCMuiCDD_Colony_Update.}
 type TFCEuicdpDataTypes=(
@@ -49,6 +51,7 @@ type TFCEuicdpDataTypes=(
    ,dtCSMev
    ,dtInfraAll
    ,dtInfraOwned
+   ,dtInfraOwnedIndex
    ,dtInfraAvail
    ,dtStorageAll
    ,dtStorageIndex
@@ -78,6 +81,14 @@ end;
 ///   retrieve the display's current location in the universe
 ///</summary>
 function FCFuiCDP_DisplayLocation_Retrieve: CDPcurrentLocIndexes;
+
+///<summary>
+///   compare a tree node function text with one specified enumeration
+///</summary>
+///   <param name="FunctionToCompare">function to compare</param>
+///   <param name="FunctionText">tree node function text</param>
+///   <returns>true= match function</returns>
+function FCFuiCDP_FunctionCateg_Compare( const FunctionToCompare: TFCEdipFunction; const FunctionText: string ): boolean;
 
 ///<summary>
 ///   retrieve an infrastructure index of the current colony and settlement by using HTML tree view selected data
@@ -130,12 +141,12 @@ procedure FCMuiCDP_WCPradio_Click(const WCPRCset: boolean);
 ///    <param name="CPUtp">colony's data to update</param>
 ///    <param name="CPUcol">colony index</param>
 ///    <param name="CPUsettlement">[optional] settlement index</param>
-///    <param name="DataIndex">[optional] only for Index type, indicate which index in a list is to update</param>
+///    <param name="DataIndex1">[optional] only for Index type, indicate which index in a list is to update</param>
 procedure FCMuiCDP_Data_Update(
    const CPUtp: TFCEuicdpDataTypes;
    const CPUcol
          ,CPUsettlement
-         ,DataIndex: integer
+         ,DataIndex1: integer
    );
 
 ///<summary>
@@ -215,7 +226,6 @@ uses
    farc_common_func
    ,farc_data_textfiles
    ,farc_data_game
-   ,farc_data_infrprod
    ,farc_data_init
    ,farc_data_univ
    ,farc_game_colony
@@ -305,6 +315,25 @@ function FCFuiCDP_DisplayLocation_Retrieve: CDPcurrentLocIndexes;
 }
 begin
    Result:=CDPdisplayLocation;
+end;
+
+function FCFuiCDP_FunctionCateg_Compare( const FunctionToCompare: TFCEdipFunction; const FunctionText: string ): boolean;
+{:Purpose: compare a tree node function text with one specified enumeration.
+    Additions:
+}
+begin
+   Result:=false;
+   case FunctionToCompare of
+      fEnergy: if FunctionText=CDPfunctionEN then Result:=true;
+
+      fHousing: if FunctionText=CDPfunctionHO then Result:=true;
+
+      fIntelligence: if FunctionText=CDPfunctionIN then Result:=true;
+
+      fMiscellaneous: if FunctionText=CDPfunctionMISC then Result:=true;
+
+      fProduction: if FunctionText=CDPfunctionPR then Result:=true;
+   end;
 end;
 
 function FCFuiCDP_ListInfra_RetrieveIndex( const LIRIcategoryName: string; const LIRIcategoryIndex: integer ): integer;
@@ -439,6 +468,7 @@ begin
             cdlDataPopulation
             ,0
             ,0
+            ,0
             ,false
             ,false
             ,false
@@ -509,6 +539,7 @@ begin
          FCEntities[0].E_col[CWPAVKTcol].COL_population.POP_wcpTotal:=FCEntities[0].E_col[CWPAVKTcol].COL_population.POP_wcpTotal+CWPAVKTcwp;
          FCMuiCDD_Colony_Update(
             cdlDataPopulation
+            ,0
             ,0
             ,0
             ,false
@@ -621,9 +652,11 @@ procedure FCMuiCDP_Data_Update(
    const CPUtp: TFCEuicdpDataTypes;
    const CPUcol
          ,CPUsettlement
-         ,DataIndex: integer
+         ,DataIndex1: integer
    );
 {:Purpose: update the colony data display
+   -2012Feb23- *add: complete dtInfraOwnedIndex.
+   -2012Feb23- *add: new category dtInfraOwnedIndex, for update only one owned infrastructure instead to refresh the whole list.
    -2012Feb05- *fix: do not display an infrastructure kit, in the available infrastructures list, if there's no more kits.
                *add: in the owned infrastructures list, when an infrastructure is in Transition phase, the transition duration is correctly displayed now.
    -2012Feb05- *add: complete the production matrix list.
@@ -716,6 +749,8 @@ var
    ,CPUinfStatus
    ,CPUpopMaxOrAssigned
    ,CPUstrDump1: string;
+
+   isSearchDone: boolean;
 
    CPUnode
    ,CPUnodeTp
@@ -1175,6 +1210,51 @@ begin
          FCWinMain.FCWM_CDPinfrList.FullExpand;
       end;
 
+      dtInfraOwnedIndex:
+      begin
+         CPUinfStatus:=FCFgInf_Status_GetToken(FCentities[0].E_col[CDPcurrentColony].COL_settlements[CDPcurrentSettlement].CS_infra[DataIndex1].CI_status);
+         CPUrootnode:=FCWinMain.FCWM_CDPinfrList.Items.GetFirstNode;
+         CPUmax:=FCFgI_IndexInFunction_Retrieve(
+            0
+            ,CPUcol
+            ,CPUsettlement
+            ,DataIndex1
+            )-1;
+         isSearchDone:=false;
+         CPUnode:=CPUrootnode.getFirstChild;
+         while ( CPUnode<>nil )
+            and (not isSearchDone) do
+         begin
+            if FCFuiCDP_FunctionCateg_Compare( FCEntities[ 0 ].E_col[ CDPcurrentColony ].COL_settlements[ CDPcurrentSettlement ].CS_infra[ DataIndex1 ].CI_function, CPUnode.Text ) then
+            begin
+               CPUsubnode:=CPUnode.getFirstChild;
+               CPUcnt:=0;
+               while CPUcnt<=CPUmax do
+               begin
+                  if CPUcnt>0
+                  then CPUsubnode:=CPUsubnode.getNextSibling;
+                  inc( CPUcnt );
+               end;
+               CPUsubnodeTp:=CPUsubnode.getFirstChild;
+               case FCentities[0].E_col[CDPcurrentColony].COL_settlements[CDPcurrentSettlement].CS_infra[DataIndex1].CI_status of
+                  istInConversion, istInAssembling, istInBldSite: CPUsubnodetp.Text:=
+                     FCFdTFiles_UIStr_Get(uistrUI, CPUinfStatus)+': '+IntToStr(
+                        FCentities[0].E_col[CDPcurrentColony].COL_settlements[CDPcurrentSettlement].CS_infra[DataIndex1].CI_cabDuration
+                        -FCentities[0].E_col[CDPcurrentColony].COL_settlements[CDPcurrentSettlement].CS_infra[DataIndex1].CI_cabWorked
+                        )+' hr(s)';
+
+                  istInTransition: CPUsubnodetp.Text:=
+                     FCFdTFiles_UIStr_Get(uistrUI, CPUinfStatus)+': '+IntToStr( FCentities[0].E_col[CDPcurrentColony].COL_settlements[CDPcurrentSettlement].CS_infra[DataIndex1].CI_cabDuration )+' hr(s)'
+                     ;
+
+                  istOperational: CPUsubnodeTp.Delete;
+               end;
+               isSearchDone:=true;
+            end;
+            CPUnode:=CPUnode.getNextSibling;
+         end;
+      end;
+
       dtInfraAvail:
       begin
          {.available infrastructure list}
@@ -1363,13 +1443,13 @@ begin
 
       dtStorageIndex:
       begin
-         if DataIndex+1>FCWinMain.CDPstorageList.Items.Count
+         if DataIndex1+1>FCWinMain.CDPstorageList.Items.Count
          then FCMuiCDP_Data_Update(dtStorageAll, 0, CDPcurrentSettlement, 0)
          else begin
-            FCWinMain.CDPstorageList.Items[ DataIndex ].Text:=FCFgP_StringFromUnit_Get(
-               FCEntities[ 0 ].E_col[ CDPcurrentColony ].COL_storageList[ DataIndex ].CPR_token
-               ,FCEntities[ 0 ].E_col[ CDPcurrentColony ].COL_storageList[ DataIndex ].CPR_unit
-               ,FCFdTFiles_UIStr_Get( uistrUI, FCEntities[ 0 ].E_col[ CDPcurrentColony ].COL_storageList[ DataIndex ].CPR_token )
+            FCWinMain.CDPstorageList.Items[ DataIndex1 ].Text:=FCFgP_StringFromUnit_Get(
+               FCEntities[ 0 ].E_col[ CDPcurrentColony ].COL_storageList[ DataIndex1 ].CPR_token
+               ,FCEntities[ 0 ].E_col[ CDPcurrentColony ].COL_storageList[ DataIndex1 ].CPR_unit
+               ,FCFdTFiles_UIStr_Get( uistrUI, FCEntities[ 0 ].E_col[ CDPcurrentColony ].COL_storageList[ DataIndex1 ].CPR_token )
                ,true
                ,false
                );
@@ -1442,13 +1522,13 @@ begin
 
       dtProdMatrixIndex:
       begin
-         if DataIndex+1>FCWinMain.CDPproductionMatrixList.Items.Count
+         if DataIndex1+1>FCWinMain.CDPproductionMatrixList.Items.Count
          then FCMuiCDP_Data_Update(dtProdMatrixAll, 0, CDPcurrentSettlement, 0)
          else begin
-            FCWinMain.CDPproductionMatrixList.Items[ DataIndex ].Text:=FCFgP_StringFromUnit_Get(
-               FCEntities[ 0 ].E_col[ CDPcurrentColony ].COL_productionMatrix[ DataIndex ].CPMI_productToken
-               ,FCEntities[ 0 ].E_col[ CDPcurrentColony ].COL_productionMatrix[ DataIndex ].CPMI_globalProdFlow
-               ,FCFdTFiles_UIStr_Get( uistrUI, FCEntities[ 0 ].E_col[ CDPcurrentColony ].COL_productionMatrix[ DataIndex ].CPMI_productToken )
+            FCWinMain.CDPproductionMatrixList.Items[ DataIndex1 ].Text:=FCFgP_StringFromUnit_Get(
+               FCEntities[ 0 ].E_col[ CDPcurrentColony ].COL_productionMatrix[ DataIndex1 ].CPMI_productToken
+               ,FCEntities[ 0 ].E_col[ CDPcurrentColony ].COL_productionMatrix[ DataIndex1 ].CPMI_globalProdFlow
+               ,FCFdTFiles_UIStr_Get( uistrUI, FCEntities[ 0 ].E_col[ CDPcurrentColony ].COL_productionMatrix[ DataIndex1 ].CPMI_productToken )
                ,true
                ,true
                )+' /hr';
@@ -1535,6 +1615,7 @@ begin
    FCMuiCDD_Colony_Update(
       cdlAll
       ,CFDcol
+      ,0
       ,0
       ,false
       ,false

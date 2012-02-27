@@ -43,6 +43,7 @@ type TFCEuicddColonyDataList=(
    ,cdlCSMevents
    ,cdlInfrastructuresAll
    ,cdlInfrastructuresOwned
+   ,cdlInfrastructuresOwnedIndex
    ,cdlInfrastructuresAvail
    ,cdlStorageAll
    ,cdlStorageItem
@@ -63,14 +64,16 @@ type TFCEuicddProductionList=(
 ///</summary>
 ///   <param name="DataType">type of data to refresh in the display</param>
 ///   <param name="Colony">colony index #</param>
-///   <param name="Settlement">settlement index #, EXCEPTED FOR cdlStorageItem, it represent the item index #</param>
+///   <param name="SettlementStorageItemIndex">settlement index #, EXCEPTED FOR cdlStorageItem, it represent the item index #</param>
+///   <param name="SecondaryIndex">[optional] index, with cdlInfrastructuresOwnedIndex, for indicate the owned infrastructure's index</param>
 ///   <param name="isMustbeTheSameColony">if true=> the Colony index parameter must be of the same value than the current colony displayed</param>
 ///   <param name="isMustBeTheSameSettlement">if true=> the Settlement index parameter must be of the same value than the current settlement displayed</param>
 ///   <param name="isSurfacePanelUpdate">if true=> indicate if the surface panel must be updated too (used in case of language change for ex). Used only w/cdlColonyAll</param>
 procedure FCMuiCDD_Colony_Update(
    const DataType: TFCEuicddColonyDataList;
    const Colony
-         ,SettlementStorageItemIndex: integer;
+         ,SettlementStorageItemIndex
+         ,SecondaryIndex: integer;
    const isMustBeTheSameColony
          ,isMustBeTheSameSettlement
          ,isSurfacePanelUpdate: boolean
@@ -82,10 +85,12 @@ procedure FCMuiCDD_Colony_Update(
 ///   <param name="DataType">type of data to refresh in the display</param>
 ///   <param name="Colony">colony index #</param>
 ///   <param name="Settlement">settlement index #, EXCEPTED FOR plProdMatrixItem, it represent the item index #</param>
+///   <param name="Index1">[optional] index for indicate, with plInfrastructuresCABupdate, the concerned infrastructure</param>
 procedure FCMuiCDD_Production_Update(
    const DataType: TFCEuicddProductionList;
    const Colony
-         ,Settlement: integer
+         ,Settlement
+         ,Index1: integer
    );
 
 implementation
@@ -106,13 +111,17 @@ uses
 procedure FCMuiCDD_Colony_Update(
    const DataType: TFCEuicddColonyDataList;
    const Colony
-         ,SettlementStorageItemIndex: integer;
+         ,SettlementStorageItemIndex
+         ,SecondaryIndex: integer;
    const isMustBeTheSameColony
          ,isMustBeTheSameSettlement
          ,isSurfacePanelUpdate: boolean
    );
 {:Purpose: core data display refresh for colony data. Update the Colony Data Panel and the related UMI tabs if required.
     Additions:
+      -2012Feb26: *add: new parameter SecondaryIndex.
+                  *add: complete cdlInfrastructuresOwnedIndex.
+      -2012Feb23- *add: cdlInfrastructuresOwnedIndex.
       -2012Feb09- *add: cdlDataCSMenergy - update CPS panel for otEcoEnEff if needed.
       -2012Jan29- *fix: cdlAll - prevent the surface panel update if the CDP isn't displayed.
       -2012Jan16- *add: cdlStorageItem - update also the corresponding storage capacity.
@@ -296,6 +305,18 @@ begin
             );
       end;
 
+      cdlInfrastructuresOwnedIndex:
+      begin
+         if ( isColonyDataPanelShown )
+            and (FCWinMain.FCWM_CDPepi.ActivePage=FCWinMain.FCWM_CDPinfr)
+         then FCMuiCDP_Data_Update(
+            dtInfraOwned
+            ,Colony
+            ,SettlementStorageItemIndex
+            ,SecondaryIndex
+            );
+      end;
+
       cdlInfrastructuresAvail:
       begin
          if ( isColonyDataPanelShown )
@@ -369,10 +390,13 @@ end;
 procedure FCMuiCDD_Production_Update(
    const DataType: TFCEuicddProductionList;
    const Colony
-         ,Settlement: integer
+         ,Settlement
+         ,Index1: integer
    );
 {:Purpose: core data display refresh for production data. Update the Colony Data Panel and the related UMI tabs if required.
     Additions:
+      -2012Feb26- *add: new parameter Index1 for customized secondary data.
+                  *add: plInfrastructuresCABupdate - update only one item at a time.
       -2012Jan25- *fix: support of the case when Colony=0. Allow a rare case like tab selection to be enabled.
       -2012Jan18- *add: plProdMatrixAll + plProdMatrixItem.
 }
@@ -393,6 +417,7 @@ begin
             cdlInfrastructuresAll
             ,Colony
             ,Settlement
+            ,0
             ,true
             ,true
             ,false
@@ -402,13 +427,13 @@ begin
 
       plInfrastructuresCABupdate:
       begin
-         FCMuiCDD_Colony_Update(
-            cdlInfrastructuresOwned
+         if ( isColonyDataPanelShown )
+            and (FCWinMain.FCWM_CDPepi.ActivePage=FCWinMain.FCWM_CDPinfr)
+         then FCMuiCDP_Data_Update(
+            dtInfraOwnedIndex
             ,Colony
             ,Settlement
-            ,true
-            ,true
-            ,false
+            ,Index1
             );
          {:DEV NOTES: UMI here.}
       end;

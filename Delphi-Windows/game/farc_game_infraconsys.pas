@@ -443,6 +443,7 @@ begin
       plInfrastructuresInit
       ,APcol
       ,APsettlement
+      ,0
       );
 end;
 
@@ -536,6 +537,7 @@ begin
       plInfrastructuresInit
       ,BPcol
       ,BPsettlement
+      ,0
       );
 end;
 
@@ -859,6 +861,7 @@ begin
       plInfrastructuresInit
       ,ICPcol
       ,ICPsettlement
+      ,0
       );
 end;
 

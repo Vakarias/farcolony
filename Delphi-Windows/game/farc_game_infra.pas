@@ -48,6 +48,21 @@ uses
 function FCFgI_Function_GetToken( const FunctionType: TFCEdipFunction ): string;
 
 ///<summary>
+///   retrieve the index in a function list for an owned infrastructure
+///</summary>
+///   <param name="entity">entity index #</param>
+///   <param name="colony">colony index #</param>
+///   <param name="Settlement">settlement index #</param>
+///   <param name="OwnedInfra">owned infrastructure owned index #</param>
+///   <returns>return the index in the category, for ex. the infrastructure #12 (function= Energy) is the #3 in the function's index</returns>
+function FCFgI_IndexInFunction_Retrieve(
+   const Entity
+         ,Colony
+         ,Settlement
+         ,OwnedInfra: integer
+   ): integer;
+
+///<summary>
 ///   get the requested infrastructure data
 ///</summary>
 ///   <param name="entity">entity index #</param>
@@ -126,6 +141,42 @@ begin
       fHousing: Result:='infrahousingicn';
 
       fProduction: Result:='infraprodicn';
+   end;
+end;
+
+function FCFgI_IndexInFunction_Retrieve(
+   const Entity
+         ,Colony
+         ,Settlement
+         ,OwnedInfra: integer
+   ): integer;
+{:Purpose: retrieve the index in a function list for an owned infrastructure.
+    Additions:
+}
+   var
+      Count
+      ,Max
+      ,SubIndex: integer;
+
+      FunctionToSearch: TFCEdipFunction;
+begin
+   Result:=0;
+   Max:=length( FCEntities[ Entity ].E_col[ Colony ].COL_settlements[ Settlement ].CS_infra )-1;
+   SubIndex:=0;
+   FunctionToSearch:=FCEntities[ Entity ].E_col[ Colony ].COL_settlements[ Settlement ].CS_infra[ OwnedInfra ].CI_function;
+   Count:=1;
+   while Count<=Max do
+   begin
+      if FCEntities[ Entity ].E_col[ Colony ].COL_settlements[ Settlement ].CS_infra[ Count ].CI_function=FunctionToSearch then
+      begin
+         inc( SubIndex );
+         if Count=OwnedInfra then
+         begin
+            Result:=SubIndex;
+            break;
+         end;
+      end;
+      inc( Count );
    end;
 end;
 

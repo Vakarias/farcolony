@@ -62,6 +62,7 @@ procedure FCMgPS5_CABTransitionSegment_Process(
    );
 {:Purpose:  segment 5 (CAB + Transition Status) processing.
     Additions:
+      -2012Feb26- *mod: the owned list now refresh only updated items, and only of course if the CAB queue isn't empty.
       -2011Dec21- *add: update the interface if needed.
       -2011Sep21- *add: complete the inTransition case.
       -2011Sep10- *fix: correct the max index length reading.
@@ -157,14 +158,15 @@ begin
                   end;
                end;
             end; //==END== case FCentities[CABTSPent].E_col[CABTSPcol].COL_settlements[CABTSPcntSet].CS_infra[CABTSPinfraIdx].CI_status of ==//
+            if CABTSPent=0
+            then FCMuiCDD_Production_Update(
+               plInfrastructuresCABupdate
+               ,CABTSPcol
+               ,CABTSPcntSet
+               ,CABTSPinfraIdx
+               );
             inc( CABTSPcntIdx );
          end; //==END== while CABTSPcntIdx<=CABTSPmaxIdx do ==//
-         if CABTSPent=0
-         then FCMuiCDD_Production_Update(
-            plInfrastructuresCABupdate
-            ,CABTSPcol
-            ,CABTSPcntSet
-            );
          inc(CABTSPcntSet);
       end; //==END== while CABTSPcntSet<=CABTSPmaxSet do ==//
       FCMgICS_CAB_Cleanup( CABTSPent, CABTSPcol );

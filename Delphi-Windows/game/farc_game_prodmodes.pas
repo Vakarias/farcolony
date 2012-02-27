@@ -167,6 +167,7 @@ begin
             plProdMatrixItem
             ,EDPcolony
             ,EDPprodMatrixIndex
+            ,0
             );
          inc( EDPpmiCount );
       end;
@@ -205,6 +206,7 @@ begin
             plProdMatrixItem
             ,EDPcolony
             ,EDPprodMatrixIndex
+            ,0
             );
          inc( EDPpmiCount );
       end;
