@@ -72,7 +72,8 @@ procedure FCMgCPSO_Score_Update(
 implementation
 
 uses
-   farc_data_game
+   farc_common_func
+   ,farc_data_game
    ,farc_game_cps;
 
 //===================================================END OF INIT============================
@@ -84,6 +85,9 @@ procedure FCMgCPSO_Score_Update(
    );
 {:Purpose: update the score of a specified objective.
     Additions:
+      -2012Mar07- *fix: otEcoEnEff - apply correction in calculation order to be in accordance to the results in the game design documents.
+                  *fix: otEcoEnEff - take in account if the reserves=0, remove a calculation error with the ln().
+                  *fix: otEcoLowCr - protect ln() in the calculations.
       -2012Feb15- *add: otEcoEnEff - add also the reserves in the calculations of the score.
 }
    var
@@ -109,7 +113,7 @@ begin
          if FCentities[ 0 ].E_col[ 1 ].COL_csmENcons=0
          then FCcps.CPSviabObj[ ObjectiveToUpdateIndex ].CPSO_score:=100
          else FCcps.CPSviabObj[ ObjectiveToUpdateIndex ].CPSO_score:=round(
-            power( ln( FCentities[ 0 ].E_col[ 1 ].COL_csmENgen+FCentities[ 0 ].E_col[ 1 ].COL_csmENstorCurr ) - ln( FCentities[ 0 ].E_col[ 1 ].COL_csmENcons ), 0.333 )*60
+            power( FCFcF_Ln_Protected( FCentities[ 0 ].E_col[ 1 ].COL_csmENgen ) + FCFcF_Ln_Protected( FCentities[ 0 ].E_col[ 1 ].COL_csmENstorCurr ) - FCFcF_Ln_Protected( FCentities[ 0 ].E_col[ 1 ].COL_csmENcons ), 0.333 )*60
             );
       end;
 
@@ -120,7 +124,9 @@ begin
          CreditLineUsed:=FCcps.FCF_CredLine_Get( true );
          if CreditLineUsed=0
          then FCcps.CPSviabObj[ ObjectiveToUpdateIndex ].CPSO_score:=100
-         else FCcps.CPSviabObj[ ObjectiveToUpdateIndex ].CPSO_score:=round( ( power( ln( CreditLineMax ) - ln( CreditLineUsed ), 0.333 ) *50 ) + ( ln( 5 ) - power( ln( CreditLineInterest ), 2.5 ) ) );
+         else FCcps.CPSviabObj[ ObjectiveToUpdateIndex ].CPSO_score:=round(
+            ( power( FCFcF_Ln_Protected( CreditLineMax ) - FCFcF_Ln_Protected( CreditLineUsed ), 0.333 ) *50 ) + ( ln( 5 ) - power( FCFcF_Ln_Protected( CreditLineInterest ), 2.5 ) )
+            );
       end;
 
       otEcoSustCol:
