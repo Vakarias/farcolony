@@ -36,6 +36,9 @@
    <!-- Industrial Tech - Composite Materials -->
    <tsci token="tsciComposMat" rsector="rsIndustrialTech" level="2" type="rtExpResearch" difficulty="">
    </tsci>
+   <!-- Industrial Tech - Cryogenics -->
+   <tsci token="tsciCryogenics" rsector="rsIndustrialTech" level="2" type="rtCompleteResearch" difficulty="">
+   </tsci>
    <!-- Physics - Nuclear Fission -->
    <tsci token="tsciNucFission" rsector="rsPhysics" level="1" type="rtBasicTech" difficulty="">
    </tsci>

@@ -252,10 +252,14 @@
       <function token="prfuFood" foodpoint="1166"/>
       <techsci sector="rsNone" token=""/>
    </product>
-   <!-- Fruits & Vegetables -->
+   <!-- Fruits & Vegetables - Bioproduct -->
    <product token="bioFruitsVeg" class="prcBioproduct" storage="stBiologic" cargo="" volbyunit="1" massbyunit="0.641">
       <function token="prfuFood" foodpoint="1037"/>
       <techsci sector="rsNone" token=""/>
+   </product>
+   <!-- Advanced Tools - Equipment -->
+   <product token="equipAdvTools" class="prcEquipment" storage="stSolid" cargo="" volbyunit="0.004" massbyunit="0.004">
+      <function token="prfuManConstruction" wcpcoef="1.25"/>
    </product>
    <!-- Construction Exowalkers - Equipment -->
    <product token="equipConstrExo" class="prcEquipment" storage="stSolid" cargo="" volbyunit="40" massbyunit="12">
@@ -314,8 +318,39 @@
    <product token="equipPowerTools" class="prcEquipment" storage="stSolid" cargo="" volbyunit="0.004" massbyunit="0.004">
       <function token="prfuManConstruction" wcpcoef="1"/>
    </product>
-   <!-- Advanced Tools - Equipment -->
-   <product token="equipAdvTools" class="prcEquipment" storage="stSolid" cargo="" volbyunit="0.004" massbyunit="0.004">
-      <function token="prfuManConstruction" wcpcoef="1.25"/>
+   <!-- Pressurized Tanks Array Level 1 - Equipment -->
+   <product token="equipPressTanksArr1" class="prcEquipment" storage="stSolid" cargo="" volbyunit="8.328" massbyunit="8.911">
+      <function token="prfuInfraKit" infratoken="infrPressTanksArray" infralevel="1"/>
+      <techsci sector="rsIndustrialTech" token="tsciCryogenics"/>
+   </product>
+   <!-- Pressurized Tanks Array Level 2 - Equipment -->
+   <product token="equipPressTanksArr2" class="prcEquipment" storage="stSolid" cargo="" volbyunit="11.854" massbyunit="11.712">
+      <function token="prfuInfraKit" infratoken="infrPressTanksArray" infralevel="2"/>
+      <techsci sector="rsIndustrialTech" token="tsciCryogenics"/>
+   </product>
+   <!-- Pressurized Tanks Array Level 3 - Equipment -->
+   <product token="equipPressTanksArr3" class="prcEquipment" storage="stSolid" cargo="" volbyunit="14.648" massbyunit="13.535">
+      <function token="prfuInfraKit" infratoken="infrPressTanksArray" infralevel="3"/>
+      <techsci sector="rsIndustrialTech" token="tsciCryogenics"/>
+   </product>
+   <!-- Pressurized Tanks Array Level 4 - Equipment -->
+   <product token="equipPressTanksArr4" class="prcEquipment" storage="stSolid" cargo="" volbyunit="21.464" massbyunit="17.579">
+      <function token="prfuInfraKit" infratoken="infrPressTanksArray" infralevel="4"/>
+      <techsci sector="rsIndustrialTech" token="tsciCryogenics"/>
+   </product>
+   <!-- Pressurized Tanks Array Level 5 - Equipment -->
+   <product token="equipPressTanksArr5" class="prcEquipment" storage="stSolid" cargo="" volbyunit="30.147" massbyunit="22.158">
+      <function token="prfuInfraKit" infratoken="infrPressTanksArray" infralevel="5"/>
+      <techsci sector="rsIndustrialTech" token="tsciCryogenics"/>
+   </product>
+   <!-- Pressurized Tanks Array Level 6 - Equipment -->
+   <product token="equipPressTanksArr6" class="prcEquipment" storage="stSolid" cargo="" volbyunit="47.093" massbyunit="30.045">
+      <function token="prfuInfraKit" infratoken="infrPressTanksArray" infralevel="6"/>
+      <techsci sector="rsIndustrialTech" token="tsciCryogenics"/>
+   </product>
+   <!-- Pressurized Tanks Array Level 7 - Equipment -->
+   <product token="equipPressTanksArr7" class="prcEquipment" storage="stSolid" cargo="" volbyunit="85.22" massbyunit="42.354">
+      <function token="prfuInfraKit" infratoken="infrPressTanksArray" infralevel="7"/>
+      <techsci sector="rsIndustrialTech" token="tsciCryogenics"/>
    </product>
 </productsDB>

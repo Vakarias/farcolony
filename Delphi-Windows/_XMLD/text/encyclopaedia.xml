@@ -116,6 +116,11 @@
       <EN></EN>
       <EN></EN>
    </infrNucFissReactor>
+   <infrPressTanksArray>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </infrPressTanksArray>
    <!-- ********** PRODUCTS ********** -->
    <bioAnimalFood>
       <EN></EN>
@@ -189,6 +194,41 @@
       <EN></EN>
       <FR></FR>
    </equipPowerTools>
+   <equipPressTanksArr1>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </equipPressTanksArr1>
+   <equipPressTanksArr2>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </equipPressTanksArr2>
+   <equipPressTanksArr3>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </equipPressTanksArr3>
+   <equipPressTanksArr4>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </equipPressTanksArr4>
+   <equipPressTanksArr5>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </equipPressTanksArr5>
+   <equipPressTanksArr6>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </equipPressTanksArr6>
+   <equipPressTanksArr7>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </equipPressTanksArr7>
    <matAluminium>
       <EN></EN>
       <FR></FR>
@@ -581,6 +621,7 @@
       <hintitem link="infrMiningSite" title="Infrastructure: Mining Site"/>
       <hintitem link="infrMultiDepot" title="Infrastructure: Multipurpose Depot"/>
       <hintitem link="infrNucFissReactor" title="Infrastructure: Nuclear Fission Reactor"/>
+      <hintitem link="infrPressTanksArray" title="Infrastructure: Pressurized Tanks Array"/>
       <hintitem link="spmRoot" title="SPM: Socio-Political Matrix"/>
       <hintitem link="spmPolicies" title="SPM: Policies"/>
       <hintitem link="spmMemes" title="SPM: Memes"/>
@@ -654,6 +695,13 @@
       <hintitem link="energNucPellets" title="Product: Nuclear Pellets"/>
       <hintitem link="matPlastics" title="Product: Plastics"/>
       <hintitem link="equipPowerTools" title="Product: Power Tools"/>
+      <hintitem link="equipPressTanksArr1" title="Product: Pressurized Tanks Array Level 1"/>
+      <hintitem link="equipPressTanksArr2" title="Product: Pressurized Tanks Array Level 2"/>
+      <hintitem link="equipPressTanksArr3" title="Product: Pressurized Tanks Array Level 3"/>
+      <hintitem link="equipPressTanksArr4" title="Product: Pressurized Tanks Array Level 4"/>
+      <hintitem link="equipPressTanksArr5" title="Product: Pressurized Tanks Array Level 5"/>
+      <hintitem link="equipPressTanksArr6" title="Product: Pressurized Tanks Array Level 6"/>
+      <hintitem link="equipPressTanksArr7" title="Product: Pressurized Tanks Array Level 7"/>
       <hintitem link="matSilicon" title="Product: Silicon (Si)"/>
       <hintitem link="matSWNT" title="Product: Single-Walled Nanotubes (SWNT)"/>
       <hintitem link="matSteel" title="Product: Steel"/>
@@ -686,6 +734,7 @@
       <hintitem link="csmevUnrest" title="Evènement CSM: Troubles"/>
       <hintitem link="infrColShelt" title="Infrastructure: Abris de Colonisation"/>
       <hintitem link="infrMultiDepot" title="Infrastructure: Entrepôt Multifonction"/>
+      <hintitem link="infrPressTanksArray" title="Infrastructure: Grille de Réservoirs Préssurisés"/>
       <hintitem link="infrInflatHab" title="Infrastructure: Habitat Gonflable"/>
       <hintitem link="infrHousesPack" title="Infrastructure: Pack de Maisons"/>
       <hintitem link="infrNucFissReactor" title="Infrastructure: Réacteur à Fission Nucléaire"/>
@@ -752,6 +801,13 @@
       <hintitem link="equipConstrExo" title="Produit: Exowalkers de Construction"/>
       <hintitem link="bioFruitsVeg" title="Produit: Fruits &amp; Légumes"/>
       <hintitem link="energNucPellets" title="Produit: Granules Nucléaires"/>
+      <hintitem link="equipPressTanksArr1" title="Produit: Grille de Réservoirs Préssurisés Niveau 1"/>
+      <hintitem link="equipPressTanksArr2" title="Produit: Grille de Réservoirs Préssurisés Niveau 2"/>
+      <hintitem link="equipPressTanksArr3" title="Produit: Grille de Réservoirs Préssurisés Niveau 3"/>
+      <hintitem link="equipPressTanksArr4" title="Produit: Grille de Réservoirs Préssurisés Niveau 4"/>
+      <hintitem link="equipPressTanksArr5" title="Produit: Grille de Réservoirs Préssurisés Niveau 5"/>
+      <hintitem link="equipPressTanksArr6" title="Produit: Grille de Réservoirs Préssurisés Niveau 6"/>
+      <hintitem link="equipPressTanksArr7" title="Produit: Grille de Réservoirs Préssurisés Niveau 7"/>
       <hintitem link="equipMiningMachinery" title="Produit: Machinerie de Forage"/>
       <hintitem link="matNanocomposites" title="Produit: Nanocomposites"/>
       <hintitem link="matMWNT" title="Produit: Nanotubes Multi-Couches (MWNT)"/>
@@ -801,6 +857,7 @@
       <hintitem link="infrMiningSite" title="Infrastructure: Mining Site"/>
       <hintitem link="infrMultiDepot" title="Infrastructure: Multipurpose Depot"/>
       <hintitem link="infrNucFissReactor" title="Infrastructure: Nuclear Fission Reactor"/>
+      <hintitem link="infrPressTanksArray" title="Infrastructure: Pressurized Tanks Array"/>
       <hintitem link="spmRoot" title="SPM: Socio-Political Matrix"/>
       <hintitem link="spmPolicies" title="SPM: Policies"/>
       <hintitem link="spmMemes" title="SPM: Memes"/>
@@ -874,6 +931,13 @@
       <hintitem link="energNucPellets" title="Product: Nuclear Pellets"/>
       <hintitem link="matPlastics" title="Product: Plastics"/>
       <hintitem link="equipPowerTools" title="Product: Power Tools"/>
+      <hintitem link="equipPressTanksArr1" title="Product: Pressurized Tanks Array Level 1"/>
+      <hintitem link="equipPressTanksArr2" title="Product: Pressurized Tanks Array Level 2"/>
+      <hintitem link="equipPressTanksArr3" title="Product: Pressurized Tanks Array Level 3"/>
+      <hintitem link="equipPressTanksArr4" title="Product: Pressurized Tanks Array Level 4"/>
+      <hintitem link="equipPressTanksArr5" title="Product: Pressurized Tanks Array Level 5"/>
+      <hintitem link="equipPressTanksArr6" title="Product: Pressurized Tanks Array Level 6"/>
+      <hintitem link="equipPressTanksArr7" title="Product: Pressurized Tanks Array Level 7"/>
       <hintitem link="matSilicon" title="Product: Silicon (Si)"/>
       <hintitem link="matSWNT" title="Product: Single-Walled Nanotubes (SWNT)"/>
       <hintitem link="matSteel" title="Product: Steel"/>

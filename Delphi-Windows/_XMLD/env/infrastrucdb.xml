@@ -438,4 +438,29 @@
       </infReq>
       <infFunc infFunc="fEnergy" emode="egmFission" fixedprodlv1="40" fixedprodlv1byDL="3.52" fixedprodlv2="64" fixedprodlv2byDL="5.63" fixedprodlv3="88" fixedprodlv3byDL="7.74" fixedprodlv4="112" fixedprodlv4byDL="9.86"/>
    </infra>
+   <!-- Pressurized Tanks Array / Any Environment -->
+   <infra token="infrPressTanksArray" environment="ANY">
+      <infBuild construct="cPrefab" isSurfOnly="False" minlevel="1" maxlevel="7">
+         <ibSurf surflv1="18.3" surflv2="24.19" surflv3="27.9" surflv4="36.07" surflv5="45.33" surflv6="61.16" surflv7="85.96"/>
+         <ibVol vollv1="23.795" vollv2="33.869" vollv3="41.85" vollv4="61.326" vollv5="86.135" vollv6="134.552" vollv7="243.486"/>
+         <ibBasePwr pwrlv1="8.61" pwrlv2="10.9" pwrlv3="12.99" pwrlv4="17.26" pwrlv5="21.92" pwrlv6="30.53" pwrlv7="44.05"/>
+      </infBuild>
+      <infReq>
+         <irGravity min="0" max="2"/>
+         <irRegionSoil allowtype="rsrAnyNonVolcanic"/>
+      </infReq>
+      <infCustFX>
+         <cfxProductStorage storlevel="1" storSolid="0" storLiquid="10" storGas="10" storBio="0"/>
+         <cfxProductStorage storlevel="2" storSolid="0" storLiquid="14" storGas="14" storBio="0"/>
+         <cfxProductStorage storlevel="3" storSolid="0" storLiquid="18" storGas="18" storBio="0"/>
+         <cfxProductStorage storlevel="4" storSolid="0" storLiquid="27" storGas="27" storBio="0"/>
+         <cfxProductStorage storlevel="5" storSolid="0" storLiquid="38" storGas="38" storBio="0"/>
+         <cfxProductStorage storlevel="6" storSolid="0" storLiquid="61" storGas="61" storBio="0"/>
+         <cfxProductStorage storlevel="7" storSolid="0" storLiquid="103" storGas="103" storBio="0"/>
+      </infCustFX>
+      <infReqStaff>
+         <rstaff type="ptTechnic" requiredNumLv1="1" requiredNumLv2="1" requiredNumLv3="1" requiredNumLv4="1" requiredNumLv5="1" requiredNumLv6="1" requiredNumLv7="1"/>
+      </infReqStaff>
+      <infFunc infFunc="fMiscellaneous"/>
+   </infra>
  </infrastructures>

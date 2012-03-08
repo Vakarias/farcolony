@@ -1427,6 +1427,11 @@
       <FR>Réacteur à Fission Nucléaire</FR>
       <SP>Reactor de Fision Nuclear</SP>
    </infrNucFissReactor>
+   <infrPressTanksArray>
+      <EN>Pressurized Tanks Array</EN>
+      <FR>Grille de Réservoirs Préssurisés</FR>
+      <SP>Pressurized Tanks Array</SP>
+   </infrPressTanksArray>
    <!-- ********** MAIN 3D VIEW FRAME ******* -->
    <FCWM_3dMainGrp.Upd>
       <EN>Updating...</EN>
@@ -2332,6 +2337,41 @@
       <FR>Outils Electriques</FR>
       <SP>Herramientas Electricas</SP>
    </equipPowerTools>
+   <equipPressTanksArr1>
+      <EN>Pressurized Tanks Array Level 1</EN>
+      <FR>Grille de Réservoirs Préssurisés Niveau 1</FR>
+      <SP>Pressurized Tanks Array Level 1</SP>
+   </equipPressTanksArr1>
+   <equipPressTanksArr2>
+      <EN>Pressurized Tanks Array Level 2</EN>
+      <FR>Grille de Réservoirs Préssurisés Niveau 2</FR>
+      <SP>Pressurized Tanks Array Level 2</SP>
+   </equipPressTanksArr2>
+   <equipPressTanksArr3>
+      <EN>Pressurized Tanks Array Level 3</EN>
+      <FR>Grille de Réservoirs Préssurisés Niveau 3</FR>
+      <SP>Pressurized Tanks Array Level 3</SP>
+   </equipPressTanksArr3>
+   <equipPressTanksArr4>
+      <EN>Pressurized Tanks Array Level 4</EN>
+      <FR>Grille de Réservoirs Préssurisés Niveau 4</FR>
+      <SP>Pressurized Tanks Array Level 4</SP>
+   </equipPressTanksArr4>
+   <equipPressTanksArr5>
+      <EN>Pressurized Tanks Array Level 5</EN>
+      <FR>Grille de Réservoirs Préssurisés Niveau 5</FR>
+      <SP>Pressurized Tanks Array Level 5</SP>
+   </equipPressTanksArr5>
+   <equipPressTanksArr6>
+      <EN>Pressurized Tanks Array Level 6</EN>
+      <FR>Grille de Réservoirs Préssurisés Niveau 6</FR>
+      <SP>Pressurized Tanks Array Level 6</SP>
+   </equipPressTanksArr6>
+   <equipPressTanksArr7>
+      <EN>Pressurized Tanks Array Level 7</EN>
+      <FR>Grille de Réservoirs Préssurisés Niveau 7</FR>
+      <SP>Pressurized Tanks Array Level 7</SP>
+   </equipPressTanksArr7>
    <matAluminium>
       <EN>Aluminium</EN>
       <FR>Aluminium</FR>
