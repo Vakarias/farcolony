@@ -79,6 +79,13 @@ type TFCEufClassF=(
 function FCFcFunc_FARCVersion_Get: string;
 
 ///<summary>
+///   protect the ln() function with value <= 0
+///</summary>
+///   <param name="aValue">value to apply the ln() to</param>
+///   <returns>result of the logarithm or 0</returns>
+function FCFcF_Ln_Protected( const aValue: extended): extended;
+
+///<summary>
 ///   round the target value following value type
 ///</summary>
 function FCFcFunc_Rnd(
@@ -250,6 +257,16 @@ begin
    Result:=0;
    Randomize;
    Result:=random(RIrange);
+end;
+
+function FCFcF_Ln_Protected( const aValue: extended): extended;
+{:Purpose: protect the ln() function with value <= 0.
+    Additions:
+}
+begin
+   Result:=aValue;
+   if aValue>0
+   then Result:=ln(aValue);
 end;
 
 function FCFcFunc_Rnd(
