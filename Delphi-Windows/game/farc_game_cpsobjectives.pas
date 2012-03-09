@@ -34,13 +34,16 @@ uses
    Math;
 
    {.viability objectives types}
+   {:DEV NOTES: update TFCRcpsObj.}
    {:DEV NOTE: update factionsdb.xml + FCMdFiles_DBFactions_Read + FCMdFiles_Game_Save/Load}
-   {:DEV NOTE: update FCM_ViabObj_Init + FCF_ViabObj_Use + FCF_ViabObj_GetIdx.}
+   {:DEV NOTE: update FCM_ViabObj_Init + FCF_ViabObj_Use + FCF_ViabObj_GetIdx + FCMgCPSO_Score_Update.}
    type TFCEcpsoObjectiveTypes=(
       {.for internal use only, do not include it in the XML and savegame file}
       otAll
       {.energy efficient}
       ,otEcoEnEff
+      {.industrial force}
+      ,otEcoIndustrialForce
       {.low credit line use}
       ,otEcoLowCr
       {.sustainable colony}

@@ -50,9 +50,20 @@ uses
    {.viability objective data structure}
    {:DEV NOTE: update TFCcps.Create + FCMdFiles_Game_Save/load.}
    type TFCRcpsObj=record
-      CPSO_type: TFCEcpsoObjectiveTypes;
-      {.current calculated objective's score}
       CPSO_score: integer;
+      case CPSO_type: TFCEcpsoObjectiveTypes of
+         otEcoEnEff: ();
+
+         otEcoIndustrialForce:(
+            CPSO_ifProduct: string[20];
+            CPSO_ifThreshold: extended;
+            );
+
+         otEcoLowCr: ();
+
+         otEcoSustCol: ();
+
+         otSocSecPop: ();
    end;
    {.colonization phase system class}
    {:DEV NOTE: update TFCcps.Create + FCMdFiles_Game_Save/load.}

@@ -36,6 +36,7 @@
    {.viability objectives types}
    [facViabObj-objTp]
       otEcoEnEff
+      otEcoIndustrialForce
       otEcoLowCr
       otEcoSustCol
       otSocSecPop
@@ -81,7 +82,11 @@
    <faction token="" level="">
       <facColMode token="" sstateco="" sstatsoc="" sstatmil="" mstateco="" mstatsoc="" mstatmil="" creditrng="" intrng="">
          //ALWAY PUT THE SEQUENCE IN THIS ORDER
-         <facViabObj objTp=""/>
+         <facViabObj objTp="otEcoEnEff"/>
+         <facViabObj objTp="otEcoIndustrialForce" product="" threshold=""/>
+         <facViabObj objTp="otEcoLowCr"/>
+         <facViabObj objTp="otEcoSustCol"/>
+         <facViabObj objTp="otSocSecPop"/>
          //for space units
          <facEqupItm   itemTp="feitSpaceCraft" properName="" designToken="" status="" spuDock="" availEnRM=""/>
          //for products
