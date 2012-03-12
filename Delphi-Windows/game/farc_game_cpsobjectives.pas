@@ -35,8 +35,8 @@ uses
 
    {.viability objectives types}
    {:DEV NOTES: update TFCRcpsObj.}
-   {:DEV NOTE: update factionsdb.xml + FCMdFiles_DBFactions_Read + FCMdFiles_Game_Save/Load}
-   {:DEV NOTE: update FCM_ViabObj_Init + FCF_ViabObj_Use + FCF_ViabObj_GetIdx + FCMgCPSO_Score_Update.}
+   {:DEV NOTE: update factionsdb.xml + FCMdF_DBFactions_Read + FCMdFiles_Game_Save/Load}
+   {:DEV NOTE: update FCM_ViabObj_Init + FCF_ViabObj_Use + FCMgCPSO_Score_Update.}
    type TFCEcpsoObjectiveTypes=(
       {.for internal use only, do not include it in the XML and savegame file}
       otAll
@@ -54,7 +54,19 @@ uses
 
    {.faction's viability objectives}
    type TFCRcpsoViabilityObjective = record
-      FVO_objTp: TFCEcpsoObjectiveTypes;
+      case FVO_objTp: TFCEcpsoObjectiveTypes of
+         otEcoEnEff: ();
+
+         otEcoIndustrialForce: (
+            FVO_ifProduct: string[20];
+            FVO_ifThreshold: extended;
+            );
+
+         otEcoLowCr: ();
+
+         otEcoSustCol: ();
+
+         otSocSecPop: ();
    end;
 
 //===========================END FUNCTIONS SECTION==========================================
@@ -77,7 +89,8 @@ implementation
 uses
    farc_common_func
    ,farc_data_game
-   ,farc_game_cps;
+   ,farc_game_cps
+   ,farc_game_prodSeg2;
 
 //===================================================END OF INIT============================
 //===========================END FUNCTIONS SECTION==========================================
@@ -88,6 +101,7 @@ procedure FCMgCPSO_Score_Update(
    );
 {:Purpose: update the score of a specified objective.
     Additions:
+      -2012Mar11- *add: otEcoIndustrialForce.
       -2012Mar07- *fix: otEcoEnEff - apply correction in calculation order to be in accordance to the results in the game design documents.
                   *fix: otEcoEnEff - take in account if the reserves=0, remove a calculation error with the ln().
                   *fix: otEcoLowCr - protect ln() in the calculations.
@@ -120,6 +134,21 @@ begin
             );
       end;
 
+      otEcoIndustrialForce:
+      begin
+         CVStempo:=FCFgPS2_ProductionMatrixItem_Search(
+            0
+            ,1
+            ,FCcps.CPSviabObj[ ObjectiveToUpdateIndex ].CPSO_ifProduct
+            );
+         if (CVStempo=0)
+            or ( FCentities[ 0 ].E_col[ 1 ].COL_productionMatrix[ CVStempo ].CPMI_globalProdFlow<=0 )
+         then FCcps.CPSviabObj[ ObjectiveToUpdateIndex ].CPSO_score:=0
+         else FCcps.CPSviabObj[ ObjectiveToUpdateIndex ].CPSO_score:=round(
+            ( FCentities[ 0 ].E_col[ 1 ].COL_productionMatrix[ CVStempo ].CPMI_globalProdFlow / FCcps.CPSviabObj[ ObjectiveToUpdateIndex ].CPSO_ifThreshold )*100
+            );
+      end;
+
       otEcoLowCr:
       begin
          CreditLineInterest:=FCcps.FCF_CredLineInterest_Get;
@@ -147,6 +176,7 @@ begin
    {.update the CVS score is asked to do it}
    if isCVStoCalculate then
    begin
+      CVStempo:=0;
       ObjectiveMax:=length( FCcps.CPSviabObj )-1;
       setlength( SocreList, ObjectiveMax );
       ObjectiveCount:=1;

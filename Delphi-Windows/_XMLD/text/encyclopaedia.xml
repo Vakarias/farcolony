@@ -36,6 +36,31 @@
       <EN></EN>
       <FR></FR>
    </cpsStatusSoc>
+   <cpsVOotEcoEnEff>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </cpsVOotEcoEnEff>
+   <cpsVOotEcoIndustrialForce>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </cpsVOotEcoIndustrialForce>
+   <cpsVOotEcoLowCr>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </cpsVOotEcoLowCr>
+   <cpsVOotEcoSustCol>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </cpsVOotEcoSustCol>
+   <cpsVOotSocSecPop>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </cpsVOotSocSecPop>
    <!-- ********** CSM ********** -->
    <csmData>
       <EN>A colony is defined by 5 basic data : cohesion, tension, security, education, and colony level.&lt;br&gt;With these, there's additional data provided by CSM Modules:&lt;ul&gt;&lt;ind x="15"&gt;&lt;li&gt;Housing Module: population capacity, space level, quality of life&lt;br&gt;&lt;ind x="15"&gt;&lt;li&gt;Food Module: &lt;i&gt;not implemented yet&lt;/i&gt;&lt;br&gt;&lt;ind x="15"&gt;&lt;li&gt;Oxygen Module: &lt;i&gt;not implemented yet&lt;/i&gt;&lt;br&gt;&lt;ind x="15"&gt;&lt;li&gt;Energy Module: &lt;i&gt;not implemented yet&lt;/i&gt;&lt;br&gt;&lt;ind x="15"&gt;&lt;li&gt;Health Module: health&lt;/ul&gt;&lt;br&gt;These 5 basic data and those of the CSM modules are tested at the data management phase of the CSM.&lt;br&gt;The CSM data management phase or simply CSM phase occurs by periods of 7 standard days, from the foundation date of each colony. The CSM Phase do in this order:&lt;ul&gt;&lt;ind x="15"&gt;&lt;li&gt;1- Data Management: each concerned colony have their data tested and the possible CSM events are triggered and-or canceled&lt;br&gt;&lt;ind x="15"&gt;&lt;li&gt;2- Update of the events in Recovering state: each event data in Recovering mode is updated, if the recovering is complete, the event is removed&lt;br&gt;&lt;ind x="15"&gt;&lt;li&gt;3- Over Time Calculations: each currently enabled event is updated following it's Over Time Calculations rules&lt;/ul&gt;</EN>
@@ -607,6 +632,11 @@
       <hintitem link="cpsStatusEco" title="CPS: Economic Status"/>
       <hintitem link="cpsStatusMil" title="CPS: Military Status"/>
       <hintitem link="cpsStatusSoc" title="CPS: Social Status"/>
+      <hintitem link="cpsVOotEcoEnEff" title="CPS Objective: Energy Efficient"/>
+      <hintitem link="cpsVOotEcoIndustrialForce" title="CPS Objective: Industrial Force"/>
+      <hintitem link="cpsVOotEcoLowCr" title="CPS Objective: Low Credit Line Use"/>
+      <hintitem link="cpsVOotEcoSustCol" title="CPS Objective: Sustainable Colony"/>
+      <hintitem link="cpsVOotSocSecPop" title="CPS Objective: Secure Population"/>
       <hintitem link="csmRoot" title="CSM: Colony Simulation Model"/>
       <hintitem link="csmData" title="CSM: Data Management"/>
       <hintitem link="csmevColEst" title="CSM Event: Colony Established"/>
@@ -725,6 +755,11 @@
       <hintitem link="cpsStatusEco" title="CPS: Status Economique"/>
       <hintitem link="cpsStatusMil" title="CPS: Status Militaire"/>
       <hintitem link="cpsStatusSoc" title="CPS: Status Social"/>
+      <hintitem link="cpsVOotEcoSustCol" title="CPS - Objectif: Colonie Durable"/>
+      <hintitem link="cpsVOotEcoEnEff" title="CPS - Objectif: Efficacité Energétique"/>
+      <hintitem link="cpsVOotEcoLowCr" title="CPS - Objectif: Faible Utilisation de la Marge de Crédit"/>
+      <hintitem link="cpsVOotEcoIndustrialForce" title="CPS - Objectif: Force Industrielle"/>
+      <hintitem link="cpsVOotSocSecPop" title="CPS - Objectif: Population Protégée"/>
       <hintitem link="csmRoot" title="CSM: Modèle de Simulation de Colonie"/>
       <hintitem link="csmData" title="CSM: Gestion des Données"/>
       <hintitem link="csmevColEst" title="Evènement CSM: Colonie Etablie"/>
@@ -843,6 +878,11 @@
       <hintitem link="cpsStatusEco" title="CPS: Economic Status"/>
       <hintitem link="cpsStatusMil" title="CPS: Military Status"/>
       <hintitem link="cpsStatusSoc" title="CPS: Social Status"/>
+      <hintitem link="cpsVOotEcoEnEff" title="CPS Objective: Energy Efficient"/>
+      <hintitem link="cpsVOotEcoIndustrialForce" title="CPS Objective: Industrial Force"/>
+      <hintitem link="cpsVOotEcoLowCr" title="CPS Objective: Low Credit Line Use"/>
+      <hintitem link="cpsVOotEcoSustCol" title="CPS Objective: Sustainable Colony"/>
+      <hintitem link="cpsVOotSocSecPop" title="CPS Objective: Secure Population"/>
       <hintitem link="csmRoot" title="CSM: Colony Simulation Model"/>
       <hintitem link="csmData" title="CSM: Data Management"/>
       <hintitem link="csmevColEst" title="CSM Event: Colony Established"/>

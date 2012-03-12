@@ -1008,6 +1008,11 @@
       <FR>Efficacité Energétique</FR>
       <SP>Eficiencia Energetica</SP>
    </cpsVOotEcoEnEff>
+   <cpsVOotEcoIndustrialForce>
+      <EN>Industrial Force</EN>
+      <FR>Force Industrielle</FR>
+      <SP>Industrial Force</SP>
+   </cpsVOotEcoIndustrialForce>
    <cpsVOotEcoLowCr>
       <EN>Low Credit Line Use</EN>
       <FR>Faible Utilisation de la Marge de Crédit</FR>

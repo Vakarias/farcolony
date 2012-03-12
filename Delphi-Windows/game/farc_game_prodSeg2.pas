@@ -30,6 +30,19 @@ unit farc_game_prodSeg2;
 
 interface
 
+///<summary>
+///   search a specified product in a specified colony's production matrix
+///</summary>
+///   <param name="Entity">entity index #</param>
+///   <param name="Colony">colony index #</param>
+///   <param name="ProductToFind">product's token</param>
+///   <returns>0 if not found, >0 => production matrix's index # if found</returns>
+function FCFgPS2_ProductionMatrixItem_Search(
+   const Entity
+         ,Colony: integer;
+   const ProductToFind: string
+   ): integer;
+
 //===========================END FUNCTIONS SECTION==========================================
 
 ///<summary>
@@ -74,6 +87,33 @@ uses
    ,farc_ui_coredatadisplay;
 
 //===================================================END OF INIT============================
+
+function FCFgPS2_ProductionMatrixItem_Search(
+   const Entity
+         ,Colony: integer;
+   const ProductToFind: string
+   ): integer;
+{:Purpose: search a specified product in a specified colony's production matrix.
+    Additions:
+}
+   var
+      Count
+      ,Max: integer;
+begin
+   Result:=0;
+   Max:=Length( FCentities[ Entity ].E_col[ Colony ].COL_productionMatrix )-1;
+   Count:=1;
+   while Count<=Max do
+   begin
+      if FCentities[ Entity ].E_col[ Colony ].COL_productionMatrix[ Count ].CPMI_productToken=ProductToFind then
+      begin
+         Result:=Count;
+         break;
+      end
+      else inc( Count );
+   end;
+end;
+
 //===========================END FUNCTIONS SECTION==========================================
 
 procedure FCMgPS2_ProductionMatrixItem_Add(

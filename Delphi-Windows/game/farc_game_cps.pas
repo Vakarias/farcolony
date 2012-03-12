@@ -49,12 +49,13 @@ uses
 
    {.viability objective data structure}
    {:DEV NOTE: update TFCcps.Create + FCMdFiles_Game_Save/load.}
+   {:DEV NOTES: update TFCRcpsoViabilityObjective if needed.}
    type TFCRcpsObj=record
       CPSO_score: integer;
       case CPSO_type: TFCEcpsoObjectiveTypes of
          otEcoEnEff: ();
 
-         otEcoIndustrialForce:(
+         otEcoIndustrialForce: (
             CPSO_ifProduct: string[20];
             CPSO_ifThreshold: extended;
             );
@@ -498,6 +499,8 @@ end;
 
 procedure TFCcps.FCM_ViabObj_Init(VOIinclCalc: boolean);
 {:Purpose: initialize each viability objective and update the viability objectives panel.
+   Additions:
+      -2012Mar11- *add: otEcoIndustrialForce.
 }
 var
    VOIcnt
@@ -518,6 +521,8 @@ begin
       then FCMgCPSO_Score_Update( VOIcnt, true );
       case CPSviabObj[VOIcnt].CPSO_type of
          otEcoEnEff: ItemString:=FCCFdHead+FCFdTFiles_UIStr_Get(uistrUI, 'cpsVOotEcoEnEff');
+
+         otEcoIndustrialForce: ItemString:=FCCFdHead+FCFdTFiles_UIStr_Get(uistrUI, 'cpsVOotEcoIndustrialForce');
 
          otEcoLowCr: ItemString:=FCCFdHead+FCFdTFiles_UIStr_Get(uistrUI, 'cpsVOotEcoLowCr');
 
@@ -568,6 +573,7 @@ end;
 procedure TFCcps.FCF_ViabObj_Use( const VOUobj: TFCEcpsoObjectiveTypes );
 {:Purpose: update a specific type of objective, if exists, and also update in accordance the panel, or return the value of the choosen colonization objective.
     Additions:
+      -2012Mar11- *add: otEcoIndustrialForce.
       -2012Feb09- *add: completion - Work-In-Progress.
       -2010Sep14- *add: entities code.
 }
@@ -595,6 +601,12 @@ begin
          begin
             FCMgCPSO_Score_Update( CPSobjCount, true );
             ItemString:=FCCFdHead+FCFdTFiles_UIStr_Get(uistrUI, 'cpsVOotEcoEnEff');
+         end;
+
+         otEcoIndustrialForce:
+         begin
+            FCMgCPSO_Score_Update( CPSobjCount, true );
+            ItemString:=FCCFdHead+FCFdTFiles_UIStr_Get(uistrUI, 'cpsVOotEcoIndustrialForce');
          end;
 
          otEcoLowCr:

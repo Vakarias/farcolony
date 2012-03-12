@@ -431,6 +431,8 @@ end;
 procedure FCMdF_DBFactions_Read;
 {:Purpose: read the factions database xml file.
    Additions:
+      -2012Mar11- *mod: optimize the loading of the viability objectives.
+                  *add: otEcoIndustrialForce viability objective.
       -2011Apr25- *mod: XML refactoring and clarifications for equipment items.
                   *code: clarifications.
                   *add: product equipment item.
@@ -466,7 +468,8 @@ var
    ,DBFRfacEquipItm
    ,DBFRspmItm: IXMLNode;
 
-   DBFRitmCnt
+   DBFRenumIndex
+   ,DBFRitmCnt
    ,DBFRequItmCnt
    ,DBFRstartLocCnt
    ,DBFRspmiCnt
@@ -548,19 +551,15 @@ begin
                      inc(DBFRviabObjCnt);
                      SetLength(FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_cpsViabObj, DBFRviabObjCnt+1);
                      {.viability type}
-                     DBFRdoItmDmpStr:=DBFRfacEquipItm.Attributes['objTp'];
-                     if DBFRdoItmDmpStr='otEcoEnEff'
-                     then FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_cpsViabObj[DBFRviabObjCnt].FVO_objTp
-                        :=otEcoEnEff
-                     else if DBFRdoItmDmpStr='otEcoLowCr'
-                     then FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_cpsViabObj[DBFRviabObjCnt].FVO_objTp
-                        :=otEcoLowCr
-                     else if DBFRdoItmDmpStr='otEcoSustCol'
-                     then FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_cpsViabObj[DBFRviabObjCnt].FVO_objTp
-                        :=otEcoSustCol
-                     else if DBFRdoItmDmpStr='otSocSecPop'
-                     then FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_cpsViabObj[DBFRviabObjCnt].FVO_objTp
-                        :=otSocSecPop;
+                     DBFRenumIndex:=GetEnumValue( TypeInfo( TFCEcpsoObjectiveTypes ), DBFRfacEquipItm.Attributes['objTp'] );
+                     FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_cpsViabObj[DBFRviabObjCnt].FVO_objTp:=TFCEcpsoObjectiveTypes(DBFRenumIndex);
+                     if DBFRenumIndex=-1
+                     then raise Exception.Create('bad faction viability objective: '+DBFRfacEquipItm.Attributes['objTp'] );
+                     if FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_cpsViabObj[DBFRviabObjCnt].FVO_objTp=otEcoIndustrialForce then
+                     begin
+                        FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_cpsViabObj[DBFRviabObjCnt].FVO_ifProduct:=DBFRfacEquipItm.Attributes['product'];
+                        FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_cpsViabObj[DBFRviabObjCnt].FVO_ifThreshold:=DBFRfacEquipItm.Attributes['threshold'];
+                     end;
                   end
                   {.equipment items list}
                   else if DBFRfacEquipItm.NodeName='facEqupItm'
