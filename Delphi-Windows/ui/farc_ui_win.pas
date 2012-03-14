@@ -641,6 +641,7 @@ end;
 procedure FCMuiW_UI_Initialize(const UIUtp: TFCEmwinUpdTp);
 {:Purpose: update and initialize all user's interface elements of the game.
    Additions:
+      -2012Mar13- *fix: clear the FCWM_IPconfirmButton's caption text with the useless anchors.
       -2012Feb02- *mod: FCWM_CDPwcpEquip size is adjusted correctly.
       -2012Jan29- *add: update language submenu for Spanish.
       -2012Jan29- *add: main menu / options / language / spanish.
@@ -902,7 +903,7 @@ begin
       FCWinMain.FCWM_UMISh_CEFretire.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_UMISh_CEFretire');
       FCWinMain.FCWM_UMISh_CEFenforce.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_UMISh_CEFenforce');
       {.infrastructure panel}
-      FCWinMain.FCWM_IPconfirmButton.Caption:='<p align="center"><b>'+FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_IPconfirmButton')+'</b>';
+      FCWinMain.FCWM_IPconfirmButton.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_IPconfirmButton');
       FCWinMain.FCWM_IPinfraKits.Caption:='Available Infrastructure Kits (choose one)';
       {.missions panel}
       FCWinMain.FCWMS_Grp_MSDG.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWMS_Grp_MSDG');

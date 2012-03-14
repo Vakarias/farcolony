@@ -655,6 +655,7 @@ procedure FCMuiCDP_Data_Update(
          ,DataIndex1: integer
    );
 {:Purpose: update the colony data display
+   -2012Mar13- *fix: correctly update the status icons for dtInfraOwnedIndex;
    -2012Feb23- *add: complete dtInfraOwnedIndex.
    -2012Feb23- *add: new category dtInfraOwnedIndex, for update only one owned infrastructure instead to refresh the whole list.
    -2012Feb05- *fix: do not display an infrastructure kit, in the available infrastructures list, if there's no more kits.
@@ -1243,11 +1244,26 @@ begin
                         -FCentities[0].E_col[CDPcurrentColony].COL_settlements[CDPcurrentSettlement].CS_infra[DataIndex1].CI_cabWorked
                         )+' hr(s)';
 
-                  istInTransition: CPUsubnodetp.Text:=
-                     FCFdTFiles_UIStr_Get(uistrUI, CPUinfStatus)+': '+IntToStr( FCentities[0].E_col[CDPcurrentColony].COL_settlements[CDPcurrentSettlement].CS_infra[DataIndex1].CI_cabDuration )+' hr(s)'
-                     ;
+                  istInTransition:
+                  begin
+                     if FCentities[0].E_col[CDPcurrentColony].COL_settlements[CDPcurrentSettlement].CS_infra[DataIndex1].CI_cabDuration=FCCtransitionTime
+                     then CPUsubnode.Text:='<img src="file://'+FCVpathRsrc+'pics-ui-colony\'+CPUinfStatus+'16.jpg" align="middle"> - '
+                        +'<a href="'+FCentities[0].E_col[CDPcurrentColony].COL_settlements[CDPcurrentSettlement].CS_infra[DataIndex1].CI_dbToken+'">'
+                        +FCFdTFiles_UIStr_Get(uistrUI, FCentities[0].E_col[CDPcurrentColony].COL_settlements[CDPcurrentSettlement].CS_infra[DataIndex1].CI_dbToken)
+                        +'</a>';
+                     CPUsubnodetp.Text:=
+                        FCFdTFiles_UIStr_Get(uistrUI, CPUinfStatus)+': '+IntToStr( FCentities[0].E_col[CDPcurrentColony].COL_settlements[CDPcurrentSettlement].CS_infra[DataIndex1].CI_cabDuration )+' hr(s)'
+                        ;
+                  end;
 
-                  istOperational: CPUsubnodeTp.Delete;
+                  istOperational:
+                  begin
+                     CPUsubnode.Text:='<img src="file://'+FCVpathRsrc+'pics-ui-colony\'+CPUinfStatus+'16.jpg" align="middle"> - '
+                        +'<a href="'+FCentities[0].E_col[CDPcurrentColony].COL_settlements[CDPcurrentSettlement].CS_infra[DataIndex1].CI_dbToken+'">'
+                        +FCFdTFiles_UIStr_Get(uistrUI, FCentities[0].E_col[CDPcurrentColony].COL_settlements[CDPcurrentSettlement].CS_infra[DataIndex1].CI_dbToken)
+                        +'</a>';
+                     CPUsubnodeTp.Delete;
+                  end;
                end;
                isSearchDone:=true;
             end;

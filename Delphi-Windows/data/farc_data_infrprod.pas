@@ -42,6 +42,11 @@ const
    ///</summary>
    FCCpModeMax=10;
 
+   ///<summary>
+   /// standard transition time (hours)
+   ///</summary>
+   FCCtransitionTime=2;
+
    //=======================================================================================
    {.infrastructures data}
    //=======================================================================================

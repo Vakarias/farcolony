@@ -642,6 +642,7 @@ procedure FCMgICS_Conversion_Process(
    );
 {:Purpose: convert a space unit to a corresponding infrastructure as requested.
     Additions:
+      -2012Mar13- *mod: adjust some hardcoded data.
       -2012Feb15- *mod: adjust the energy generation of the hardcoded data.
                   *add: hardcoded product, add 1 infrastructure kit: Multipurpose Depot Level 1 by colonization pod.
       -2012Jan11- *fix: raise the max storage capacity to avoid errors.
@@ -788,7 +789,7 @@ begin
    FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra[ICPinfra].CI_powerGenFromCFx:=0;
    ICPclonedInfra.I_customFx[ICPeffectIdx].ICFX_customEffect:=cfxEnergyGen;
    ICPclonedInfra.I_customFx[ICPeffectIdx].ICFX_enGenMode.FEPM_productionModes:=egmPhoton;
-   ICPclonedInfra.I_customFx[ICPeffectIdx].ICFX_enGenMode.FEPM_photonArea:=12;
+   ICPclonedInfra.I_customFx[ICPeffectIdx].ICFX_enGenMode.FEPM_photonArea:=10;
    ICPclonedInfra.I_customFx[ICPeffectIdx].ICFX_enGenMode.FEPM_photonEfficiency:=70;
    setlength(ICPclonedInfra.I_customFx, length(ICPclonedInfra.I_customFx)+1);
    ICPeffectIdx:=length(ICPclonedInfra.I_customFx)-1;
@@ -814,7 +815,9 @@ begin
       ,0
       ,0
       );
-   FCFgC_Storage_Update(
+   if (ICPinfra=2)
+      or (ICPinfra=4)
+   then FCFgC_Storage_Update(
       true
       ,'energNucFisRsm'
       ,1
@@ -839,6 +842,15 @@ begin
       true
       ,'equipPowerTools'
       ,10
+      ,0
+      ,ICPcol
+      );
+   if (ICPinfra=2)
+      or (ICPinfra=4)
+   then FCFgC_Storage_Update(
+      true
+      ,'equipPressTanksArr1'
+      ,1
       ,0
       ,ICPcol
       );
@@ -894,7 +906,7 @@ procedure FCMgICS_TransitionRule_Process(
          and (FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_cabWorked>-1) then
       begin
          FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_status:=istInTransition;
-         FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_cabDuration:=2;
+         FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_cabDuration:=FCCtransitionTime;
          FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_cabWorked:=-1;
          if TRPcabIdx=0
          then FCMgICS_CAB_Add(
