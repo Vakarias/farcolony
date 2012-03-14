@@ -539,6 +539,7 @@ end;
 procedure TFCcps.FCM_ViabObj_Load(const VOLobjList: array of TFCRcpsoViabilityObjective);
 {:Purpose: load the viability objectives, case of first initialization.
     Additions:
+      -2012Mar13- *fix: forgot to load the specific otEcoIndustrialForce if needed.
 }
 var
    VOLcnt: integer;
@@ -549,6 +550,11 @@ begin
    begin
       CPSviabObj[VOLcnt].CPSO_type:=VOLobjList[VOLcnt].FVO_objTp;
       CPSviabObj[VOLcnt].CPSO_score:=-1;
+      if CPSviabObj[VOLcnt].CPSO_type=otEcoIndustrialForce then
+      begin
+         CPSviabObj[VOLcnt].CPSO_ifProduct:=VOLobjList[VOLcnt].FVO_ifProduct;
+         CPSviabObj[VOLcnt].CPSO_ifThreshold:=VOLobjList[VOLcnt].FVO_ifThreshold;
+      end;
       inc(VOLcnt);
    end;
 end;
@@ -556,6 +562,7 @@ end;
 procedure TFCcps.FCM_ViabObj_Load(const VOLobjList: array of TFCRcpsObj);
 {:Purpose: load the viability objectives, case of a loading game.
     Additions:
+      -2012Mar13- *fix: forgot to load the specific otEcoIndustrialForce if needed.
 }
 var
    VOLcnt: integer;
@@ -566,6 +573,11 @@ begin
    begin
       CPSviabObj[VOLcnt].CPSO_type:=VOLobjList[VOLcnt].CPSO_type;
       CPSviabObj[VOLcnt].CPSO_score:=VOLobjList[VOLcnt].CPSO_score;
+      if CPSviabObj[VOLcnt].CPSO_type=otEcoIndustrialForce then
+      begin
+         CPSviabObj[VOLcnt].CPSO_ifProduct:=VOLobjList[VOLcnt].CPSO_ifProduct;
+         CPSviabObj[VOLcnt].CPSO_ifThreshold:=VOLobjList[VOLcnt].CPSO_ifThreshold;
+      end;
       inc(VOLcnt);
    end;
 end;

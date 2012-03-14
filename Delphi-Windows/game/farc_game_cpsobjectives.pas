@@ -36,7 +36,7 @@ uses
    {.viability objectives types}
    {:DEV NOTES: update TFCRcpsObj.}
    {:DEV NOTE: update factionsdb.xml + FCMdF_DBFactions_Read + FCMdFiles_Game_Save/Load}
-   {:DEV NOTE: update FCM_ViabObj_Init + FCF_ViabObj_Use + FCMgCPSO_Score_Update.}
+   {:DEV NOTE: update FCM_ViabObj_Init + FCM_ViabObj_Load + FCF_ViabObj_Use + FCMgCPSO_Score_Update.}
    type TFCEcpsoObjectiveTypes=(
       {.for internal use only, do not include it in the XML and savegame file}
       otAll

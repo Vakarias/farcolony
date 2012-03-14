@@ -74,6 +74,7 @@ uses
 procedure FCMdFSG_Game_Load;
 {:Purpose: load the current game.
    Additions:
+      -2012Mar13- *add: selective loading for otEcoIndustrialForce data.
       -2012Mar11- *add: viability objective: otEcoIndustrialForce.
       -2012Feb09- *add: load directly the CPS objective type.
       -2012Jan11- *add: production matrix / CPMI_storageType.
@@ -296,8 +297,11 @@ begin
             if GLenumIndex=-1
             then raise Exception.Create('bad gamesave loading w/CPS objective: '+GLxmlViaObj.Attributes['objTp']);
             GLvObjList[GLcount].CPSO_score:=GLxmlViaObj.Attributes['score'];
-            GLvObjList[GLcount].CPSO_ifProduct:=GLxmlViaObj.Attributes['product'];
-            GLvObjList[GLcount].CPSO_ifThreshold:=GLxmlViaObj.Attributes['threshold'];
+            if GLvObjList[GLcount].CPSO_type=otEcoIndustrialForce then
+            begin
+               GLvObjList[GLcount].CPSO_ifProduct:=GLxmlViaObj.Attributes['product'];
+               GLvObjList[GLcount].CPSO_ifThreshold:=GLxmlViaObj.Attributes['threshold'];
+            end;
             GLxmlViaObj:=GLxmlViaObj.NextSibling;
          end; //==END== GLxmlViaObj<>nil ==//
          FCcps:=TFCcps.Create(
@@ -915,6 +919,7 @@ end;
 procedure FCMdFSG_Game_Save;
 {:Purpose: save the current game.
     Additions:
+      -2012Mar13- *add: selective saving for otEcoIndustrialForce data.
       -2012Mar11- *add: viability objective: otEcoIndustrialForce.
       -2012Feb09- *add: save directly the CPS objective type.
       -2012Jan11- *add: production matrix / CPMI_storageType.
@@ -1120,8 +1125,11 @@ begin
          GSxmlCPS:=GSxmlItm.AddChild('gfViabObj');
          GSxmlCPS.Attributes['objTp']:=GetEnumName( TypeInfo( TFCEcpsoObjectiveTypes ), Integer( FCcps.CPSviabObj[GScount].CPSO_type ) );
          GSxmlCPS.Attributes['score']:=FCcps.CPSviabObj[GScount].CPSO_score;
-         GSxmlCPS.Attributes['product']:=FCcps.CPSviabObj[GScount].CPSO_ifProduct;
-         GSxmlCPS.Attributes['threshold']:=FCcps.CPSviabObj[GScount].CPSO_ifThreshold;
+         if FCcps.CPSviabObj[GScount].CPSO_type=otEcoIndustrialForce then
+         begin
+            GSxmlCPS.Attributes['product']:=FCcps.CPSviabObj[GScount].CPSO_ifProduct;
+            GSxmlCPS.Attributes['threshold']:=FCcps.CPSviabObj[GScount].CPSO_ifThreshold;
+         end;
          inc(GScount);
       end; {.while GScount<=GSlength-1}
    end; //==END== if FCcps<>nil ==//

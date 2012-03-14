@@ -395,6 +395,7 @@ procedure FCMuiCDD_Production_Update(
    );
 {:Purpose: core data display refresh for production data. Update the Colony Data Panel and the related UMI tabs if required.
     Additions:
+      -2012Mar13- *add: update also the otEcoIndustrialForce display if required.
       -2012Feb26- *add: new parameter Index1 for customized secondary data.
                   *add: plInfrastructuresCABupdate - update only one item at a time.
       -2012Jan25- *fix: support of the case when Colony=0. Allow a rare case like tab selection to be enabled.
@@ -448,6 +449,8 @@ begin
             ,0
             ,0
             );
+         if Assigned(FCcps)
+         then FCcps.FCF_ViabObj_Use( otEcoIndustrialForce );
       end;
 
       plProdMatrixItem:
@@ -460,6 +463,8 @@ begin
             ,0
             ,Settlement
             );
+         if Assigned(FCcps)
+         then FCcps.FCF_ViabObj_Use( otEcoIndustrialForce );
       end;
    end;
 end;
