@@ -81,6 +81,7 @@ const
    {.infrastructure functions}
    {:DEV NOTES: update infrastrucdb.xml + FCMdF_DBInfra_Read + FCFgInf_InfFunc_GetStr + FCFgC_ColInfra_DReq.}
    {:DEV NOTES: update TFCRdipInfrastructure.}
+   {:DEV NOTES: UPDATE FCMdFSG_Game_Save/Load.}
    type TFCEdipFunction=(
       fEnergy
       ,fHousing

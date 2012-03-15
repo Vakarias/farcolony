@@ -74,6 +74,8 @@ uses
 procedure FCMdFSG_Game_Load;
 {:Purpose: load the current game.
    Additions:
+      -2012Mar14- *fix: colony's production matrix - correct a data mismatch error in the production matrix item loading.
+                  *fix: owned infrastructures - forgot to include MISC and INTELLIGENCE function for saving them and their possible specific data.
       -2012Mar13- *add: selective loading for otEcoIndustrialForce data.
       -2012Mar11- *add: viability objective: otEcoIndustrialForce.
       -2012Feb09- *add: load directly the CPS objective type.
@@ -717,6 +719,10 @@ begin
                                     FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra[GLinfCnt].CI_fhousSurf:=GLxmlInfra.Attributes['surf'];
                                  end;
 
+                                 fIntelligence:;
+
+                                 fMiscellaneous:;
+
                                  fProduction:
                                  begin
                                     FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra[GLinfCnt].CI_fprodSurveyedSpot:=GLxmlInfra.Attributes['surveyedSpot'];
@@ -787,10 +793,10 @@ begin
                               SetLength(FCentities[GLentCnt].E_col[GLcount].COL_productionMatrix, GLprodMatrixCnt+1);
                               FCentities[GLentCnt].E_col[GLcount].COL_productionMatrix[GLprodMatrixCnt].CPMI_productToken:=GLxmlProdMatrix.Attributes['token'];
                               FCentities[GLentCnt].E_col[GLcount].COL_productionMatrix[GLprodMatrixCnt].CPMI_storageIndex:=GLxmlProdMatrix.Attributes['storIdx'];
-                              GLenumIndex:=GetEnumValue(TypeInfo(TFCEdipStorageType), GLxmlProdMode.Attributes['storageType'] );
+                              GLenumIndex:=GetEnumValue(TypeInfo(TFCEdipStorageType), GLxmlProdMatrix.Attributes['storageType'] );
                               FCentities[GLentCnt].E_col[GLcount].COL_productionMatrix[GLprodMatrixCnt].CPMI_storageType:=TFCEdipStorageType(GLenumIndex);
                               if GLenumIndex=-1
-                              then raise Exception.Create('bad gamesave loading w/production matrix item storage type: '+GLxmlProdMode.Attributes['storageType']);
+                              then raise Exception.Create('bad gamesave loading w/production matrix item storage type: '+GLxmlProdMatrix.Attributes['storageType']);
                               FCentities[GLentCnt].E_col[GLcount].COL_productionMatrix[GLprodMatrixCnt].CPMI_globalProdFlow:=GLxmlProdMatrix.Attributes['globalProdFlow'];
                               SetLength(FCentities[GLentCnt].E_col[GLcount].COL_productionMatrix[GLprodMatrixCnt].CPMI_productionModes, 1);
                               GLsubCnt:=0;
@@ -919,6 +925,7 @@ end;
 procedure FCMdFSG_Game_Save;
 {:Purpose: save the current game.
     Additions:
+      -2012Mar14- *fix: owned infrastructures - forgot to include MISC and INTELLIGENCE function for saving them and their possible specific data.
       -2012Mar13- *add: selective saving for otEcoIndustrialForce data.
       -2012Mar11- *add: viability objective: otEcoIndustrialForce.
       -2012Feb09- *add: save directly the CPS objective type.
@@ -1451,6 +1458,10 @@ begin
                            GSxmlColInf.Attributes['surf']:=FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_fhousSurf;
                         end;
 
+                        fIntelligence: GSxmlColInf.Attributes['Func']:='fIntelligence';
+
+                        fMiscellaneous: GSxmlColInf.Attributes['Func']:='fMiscellaneous';
+
                         fProduction:
                         begin
                            GSxmlColInf.Attributes['Func']:='fProduction';
@@ -1485,7 +1496,7 @@ begin
                               inc(GSsubCount);
                            end;
                         end;
-                     end;
+                     end; //==END== case FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_function of ==//
                      inc(GSsubC);
                   end; //==END== while GSsubC<=GSsubL do ==//
                   inc(GSsettleCnt);
