@@ -221,6 +221,7 @@ uses
    ,farc_data_init
    ,farc_data_textfiles
    ,farc_main
+   ,farc_ui_cps
    ,farc_ui_win;
 
 //=============================================END OF INIT==================================
@@ -394,6 +395,7 @@ end;
 procedure TFCcps.FCM_ObjPanel_Init;
 {:Purpose: initialize the objective panel.
     Additions:
+      -2012Mar15- *mod: change height calculation and refined its position.
       -2012Feb09- *fix: panel's height is fixed.
                   *add: panel's title is now localized.
 }
@@ -426,14 +428,14 @@ begin
    CPSobjPanel.FixedWidth:=true;
    CPSobjPanel.Font.Color:=clWhite;
    CPSobjPanel.Font.Name:='Tahoma';
-   CPSobjPanel.Height:=((length(CPSviabObj)-1)*24);
+   CPSobjPanel.Height:=((length(CPSviabObj)-1)*24*2);
    if FCVwMcpsPstore
    then
    begin
       CPSobjPanel.Left:=FCWinMain.FCGLSHUDcpsCredL.Tag;
       CPSpX:=CPSobjPanel.Left;
    end
-   else CPSobjPanel.Left:=2;
+   else CPSobjPanel.Left:=8;
    CPSobjPanel.Locked:=true;
    CPSobjPanel.ParentColor:=false;
    CPSobjPanel.ParentFont:=false;
@@ -519,18 +521,7 @@ begin
       else if (VOIinclCalc)
          and (VOIcnt=VOImax)
       then FCMgCPSO_Score_Update( VOIcnt, true );
-      case CPSviabObj[VOIcnt].CPSO_type of
-         otEcoEnEff: ItemString:=FCCFdHead+FCFdTFiles_UIStr_Get(uistrUI, 'cpsVOotEcoEnEff');
-
-         otEcoIndustrialForce: ItemString:=FCCFdHead+FCFdTFiles_UIStr_Get(uistrUI, 'cpsVOotEcoIndustrialForce');
-
-         otEcoLowCr: ItemString:=FCCFdHead+FCFdTFiles_UIStr_Get(uistrUI, 'cpsVOotEcoLowCr');
-
-         otEcoSustCol: ItemString:=FCCFdHead+FCFdTFiles_UIStr_Get(uistrUI, 'cpsVOotEcoSustCol');
-
-         otSocSecPop: ItemString:=FCCFdHead+FCFdTFiles_UIStr_Get(uistrUI, 'cpsVOotSocSecPop');
-      end;
-      CPSobjP_List.HTMLText.Add(ItemString+'<ind x="250"> ['+inttostr(CPSviabObj[VOIcnt].CPSO_score)+'%]'+FCCFdHeadEnd);
+      CPSobjP_List.HTMLText.Add( FCFuiCPS_Objective_GetFormat( CPSviabObj[VOIcnt].CPSO_type, CPSviabObj[VOIcnt].CPSO_score ) );
       inc(VOIcnt);
    end;
    FCcps.CPSobjPanel.Visible:=true;
@@ -585,6 +576,7 @@ end;
 procedure TFCcps.FCF_ViabObj_Use( const VOUobj: TFCEcpsoObjectiveTypes );
 {:Purpose: update a specific type of objective, if exists, and also update in accordance the panel, or return the value of the choosen colonization objective.
     Additions:
+      -2012Mar14- *code: optimization.
       -2012Mar11- *add: otEcoIndustrialForce.
       -2012Feb09- *add: completion - Work-In-Progress.
       -2010Sep14- *add: entities code.
@@ -608,35 +600,9 @@ begin
    end;
    if CPSobjCount<=CPSobjMax  then
    begin
-      case VOUobj of
-         otEcoEnEff:
-         begin
-            FCMgCPSO_Score_Update( CPSobjCount, true );
-            ItemString:=FCCFdHead+FCFdTFiles_UIStr_Get(uistrUI, 'cpsVOotEcoEnEff');
-         end;
-
-         otEcoIndustrialForce:
-         begin
-            FCMgCPSO_Score_Update( CPSobjCount, true );
-            ItemString:=FCCFdHead+FCFdTFiles_UIStr_Get(uistrUI, 'cpsVOotEcoIndustrialForce');
-         end;
-
-         otEcoLowCr:
-         begin
-            FCMgCPSO_Score_Update( CPSobjCount, true );
-            ItemString:=FCCFdHead+FCFdTFiles_UIStr_Get(uistrUI, 'cpsVOotEcoLowCr');
-         end;
-
-         otEcoSustCol:
-         begin
-         end;
-
-         otSocSecPop:
-         begin
-         end;
-      end;
+      FCMgCPSO_Score_Update( CPSobjCount, true );
       ObjectivePanelIndex:=CPSobjCount-1;
-      FCcps.CPSobjP_List.HTMLText.Insert( ObjectivePanelIndex, ItemString+'<ind x="250"> ['+inttostr(CPSviabObj[CPSobjCount].CPSO_score)+'%]'+FCCFdHeadEnd );
+      FCcps.CPSobjP_List.HTMLText.Insert( ObjectivePanelIndex,  FCFuiCPS_Objective_GetFormat( CPSviabObj[CPSobjCount].CPSO_type, CPSviabObj[CPSobjCount].CPSO_score ) );
       FCcps.CPSobjP_List.HTMLText.Delete( CPSobjCount );
    end;
 end;

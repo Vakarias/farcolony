@@ -100,7 +100,8 @@ uses
   farc_data_filesavegame in 'data\farc_data_filesavegame.pas',
   farc_game_prodrsrcspots in 'game\farc_game_prodrsrcspots.pas',
   farc_ui_coredatadisplay in 'ui\farc_ui_coredatadisplay.pas',
-  farc_game_cpsobjectives in 'game\farc_game_cpsobjectives.pas';
+  farc_game_cpsobjectives in 'game\farc_game_cpsobjectives.pas',
+  farc_ui_cps in 'ui\farc_ui_cps.pas';
 
 {$R *.res}
 
