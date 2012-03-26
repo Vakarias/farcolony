@@ -1713,7 +1713,7 @@ begin
    {.store main window location}
 	FCMuiW_MainWindow_StoreLocSiz;
    {.free cps}
-   if assigned (FCcps)
+   if assigned (FCcps) //to remove, duplicate code with free()
    then FCcps.Free;
    {.disable 3d}
    FCGLSmainView.Enabled:=false;
@@ -1729,7 +1729,7 @@ begin
    SetLength(FC3DobjSatAster,0);
    FreeAndNil(FCGLSsmthNavMainV);
    FCGLSRootMain.Objects.DeleteChildren;
-   if assigned(FC3DmatLibSplanT)
+   if assigned(FC3DmatLibSplanT)  //to remove, duplicate code with free()
    then FC3DmatLibSplanT.Free;
    {.disable XML components}
    FCXMLcfg.Active:=false;

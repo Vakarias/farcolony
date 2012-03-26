@@ -1,4 +1,4 @@
-{======(C) Copyright Aug.2009-2011 Jean-Francois Baconnet All rights reserved==============
+{======(C) Copyright Aug.2009-2012 Jean-Francois Baconnet All rights reserved==============
 
         Title:  FAR Colony
         Author: Jean-Francois Baconnet
@@ -11,7 +11,7 @@
 
 ============================================================================================
 ********************************************************************************************
-Copyright (c) 2009-2011, Jean-Francois Baconnet
+Copyright (c) 2009-2012, Jean-Francois Baconnet
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -130,7 +130,10 @@ begin
          if FCentities[ 0 ].E_col[ 1 ].COL_csmENcons=0
          then FCcps.CPSviabObj[ ObjectiveToUpdateIndex ].CPSO_score:=100
          else FCcps.CPSviabObj[ ObjectiveToUpdateIndex ].CPSO_score:=round(
-            power( FCFcF_Ln_Protected( FCentities[ 0 ].E_col[ 1 ].COL_csmENgen ) + FCFcF_Ln_Protected( FCentities[ 0 ].E_col[ 1 ].COL_csmENstorCurr ) - FCFcF_Ln_Protected( FCentities[ 0 ].E_col[ 1 ].COL_csmENcons ), 0.333 )*60
+            power(
+               FCFcF_Ln_Protected( FCentities[ 0 ].E_col[ 1 ].COL_csmENgen ) + FCFcF_Ln_Protected( FCentities[ 0 ].E_col[ 1 ].COL_csmENstorCurr ) - FCFcF_Ln_Protected( FCentities[ 0 ].E_col[ 1 ].COL_csmENcons )
+               ,0.333
+               )*60
             );
       end;
 

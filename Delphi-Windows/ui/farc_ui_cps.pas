@@ -1,4 +1,4 @@
-{======(C) Copyright Aug.2009-2011 Jean-Francois Baconnet All rights reserved==============
+{======(C) Copyright Aug.2009-2012 Jean-Francois Baconnet All rights reserved==============
 
         Title:  FAR Colony
         Author: Jean-Francois Baconnet
@@ -11,7 +11,7 @@
 
 ============================================================================================
 ********************************************************************************************
-Copyright (c) 2009-2011, Jean-Francois Baconnet
+Copyright (c) 2009-2012, Jean-Francois Baconnet
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -38,44 +38,71 @@ uses
 ///<summary>
 ///   format a string which contain the specified CPS objectives, its score, and additional data if needed
 ///</summary>
-///   <param name="TFCEcpsoObjectiveTypes">objective type</param>
-///   <param name="ObjectiveScore">current objective' score</param>
+///   <param name="ObjectiveIndex">objective index #</param>
 ///   <returns>the formatted objective w/ score and data</returns>
-function FCFuiCPS_Objective_GetFormat( const ObjectiveType: TFCEcpsoObjectiveTypes; const ObjectiveScore: integer ): string;
+function FCFuiCPS_Objective_GetFormat( const ObjectiveIndex: integer ): string;
 
 //===========================END FUNCTIONS SECTION==========================================
 
 implementation
 
 uses
-   farc_data_init
+   farc_data_game
+   ,farc_data_init
    ,farc_data_textfiles
-   ,farc_game_cps;
+   ,farc_game_cps
+   ,farc_game_entitiesfactions
+   ,farc_game_prod;
 
 //===================================================END OF INIT============================
 
-function FCFuiCPS_Objective_GetFormat( const ObjectiveType: TFCEcpsoObjectiveTypes; const ObjectiveScore: integer ): string;
+function FCFuiCPS_Objective_GetFormat( const ObjectiveIndex: integer ): string;
 {:Purpose: format a string which contain the specified CPS objectives, its score, and additional data if needed.
     Additions:
+      -2012Mar25- *add: otEcoEnEff + otEcoIndustrialForce + otEcoLowCr completion.
 }
    var
-      ResultStr: string;
+      ResultStr1
+      ,ResultStr2: string;
 begin
    Result:='';
-   ResultStr:='';
-   case ObjectiveType of
-      otEcoEnEff: ResultStr:=FCCFdHead+FCFdTFiles_UIStr_Get(uistrUI, 'cpsVOotEcoEnEff');
+   ResultStr1:='';
+   ResultStr2:='';
+   case FCcps.CPSviabObj[ ObjectiveIndex ].CPSO_type of
+      otEcoEnEff:
+      begin
+         ResultStr1:=FCCFdHead+FCFdTFiles_UIStr_Get(uistrUI, 'cpsVOotEcoEnEff');
+         ResultStr2:=' <br>';
+         FCcpsObjectivesLines:=FCcpsObjectivesLines+1;
+      end;
 
-      otEcoIndustrialForce: ResultStr:=FCCFdHead+FCFdTFiles_UIStr_Get(uistrUI, 'cpsVOotEcoIndustrialForce');
-      {:DEV NOTES: take in plyrs allegiance faction the secondary data and create a line with a br.}
+      otEcoIndustrialForce:
+      begin
+         ResultStr1:=FCCFdHead+FCFdTFiles_UIStr_Get(uistrUI, 'cpsVOotEcoIndustrialForce');
+         ResultStr2:='Product to Produce: '+FCFdTFiles_UIStr_Get( uistrUI, FCcps.CPSviabObj[ ObjectiveIndex ].CPSO_ifProduct )+'<br>'
+            +'Threshold to Reach: '+FCFgP_StringFromUnit_Get(
+               FCcps.CPSviabObj[ ObjectiveIndex ].CPSO_ifProduct
+               ,FCcps.CPSviabObj[ ObjectiveIndex ].CPSO_ifThreshold
+               ,''
+               ,false
+               ,false
+               )+' /hr <br><br> ';
+         FCcpsObjectivesLines:=FCcpsObjectivesLines+3;
+      end;
 
-      otEcoLowCr: ResultStr:=FCCFdHead+FCFdTFiles_UIStr_Get(uistrUI, 'cpsVOotEcoLowCr');
+      otEcoLowCr:
+      begin
+         ResultStr1:=FCCFdHead+FCFdTFiles_UIStr_Get(uistrUI, 'cpsVOotEcoLowCr');
+         ResultStr2:=' <br>';
+         FCcpsObjectivesLines:=FCcpsObjectivesLines+1;
+      end;
 
       otEcoSustCol:;
 
       otSocSecPop:;
    end;
-   Result:=ResultStr+'<ind x="250"> ['+inttostr(ObjectiveScore)+'%]'+'<br>Product = "carbonaceous ore" threshold="2.0"'+FCCFdHeadEnd;
+   Result:=ResultStr1+'<ind x="250"> ['+inttostr(FCcps.CPSviabObj[ ObjectiveIndex ].CPSO_score)+'%]'+FCCFdHeadEnd+ResultStr2;
+
 end;
 
 //===========================END FUNCTIONS SECTION==========================================

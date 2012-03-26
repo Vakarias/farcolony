@@ -213,6 +213,7 @@ uses
 
 var
    FCcps: TFCcps;
+   FCcpsObjectivesLines: integer;
 
 implementation
 
@@ -428,7 +429,7 @@ begin
    CPSobjPanel.FixedWidth:=true;
    CPSobjPanel.Font.Color:=clWhite;
    CPSobjPanel.Font.Name:='Tahoma';
-   CPSobjPanel.Height:=((length(CPSviabObj)-1)*24*2);
+   CPSobjPanel.Height:=1;
    if FCVwMcpsPstore
    then
    begin
@@ -511,6 +512,7 @@ var
   ItemString: string;
 begin
    CPSobjP_List.HTMLText.Clear;
+   FCcpsObjectivesLines:=0;
    VOIcnt:=1;
    VOImax:=length(CPSviabObj)-1;
    while VOIcnt<=VOImax do
@@ -521,9 +523,10 @@ begin
       else if (VOIinclCalc)
          and (VOIcnt=VOImax)
       then FCMgCPSO_Score_Update( VOIcnt, true );
-      CPSobjP_List.HTMLText.Add( FCFuiCPS_Objective_GetFormat( CPSviabObj[VOIcnt].CPSO_type, CPSviabObj[VOIcnt].CPSO_score ) );
+      CPSobjP_List.HTMLText.Add( FCFuiCPS_Objective_GetFormat( VOIcnt ) );
       inc(VOIcnt);
    end;
+   CPSobjPanel.Height:=( ( length(CPSviabObj)-1+FCcpsObjectivesLines )*18);
    FCcps.CPSobjPanel.Visible:=true;
 end;
 
@@ -602,7 +605,7 @@ begin
    begin
       FCMgCPSO_Score_Update( CPSobjCount, true );
       ObjectivePanelIndex:=CPSobjCount-1;
-      FCcps.CPSobjP_List.HTMLText.Insert( ObjectivePanelIndex,  FCFuiCPS_Objective_GetFormat( CPSviabObj[CPSobjCount].CPSO_type, CPSviabObj[CPSobjCount].CPSO_score ) );
+      FCcps.CPSobjP_List.HTMLText.Insert( ObjectivePanelIndex,  FCFuiCPS_Objective_GetFormat( CPSobjCount ) );
       FCcps.CPSobjP_List.HTMLText.Delete( CPSobjCount );
    end;
 end;
