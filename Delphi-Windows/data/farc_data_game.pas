@@ -600,12 +600,10 @@ interface
       {.storage list, in units}
 		COL_storageList: array of TFCRdgColonProduct;
 		{.reserves}
-		COL_reserveFoodCur: integer;
-		COL_reserveFoodMax: integer;
-		COL_reserveOxygenCur: integer;
-		COL_reserveOxygenMax: integer;
-		COL_reserveWaterCur: integer;
-		COL_reserveWaterMax: integer;
+      COL_reserveOxygen: integer;
+		COL_reserveFood: integer;
+      COL_reserveFoodList: array of integer;
+		COL_reserveWater: integer;
    end;
    {.CSM test list}
    {:DEV NOTES: update FCMdFiles_Game_Load/Save + FCMgTFlow_CSMphase_Proc.}

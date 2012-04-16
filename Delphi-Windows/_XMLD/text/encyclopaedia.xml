@@ -66,6 +66,11 @@
       <EN>A colony is defined by 5 basic data : cohesion, tension, security, education, and colony level.&lt;br&gt;With these, there's additional data provided by CSM Modules:&lt;ul&gt;&lt;ind x="15"&gt;&lt;li&gt;Housing Module: population capacity, space level, quality of life&lt;br&gt;&lt;ind x="15"&gt;&lt;li&gt;Food Module: &lt;i&gt;not implemented yet&lt;/i&gt;&lt;br&gt;&lt;ind x="15"&gt;&lt;li&gt;Oxygen Module: &lt;i&gt;not implemented yet&lt;/i&gt;&lt;br&gt;&lt;ind x="15"&gt;&lt;li&gt;Energy Module: &lt;i&gt;not implemented yet&lt;/i&gt;&lt;br&gt;&lt;ind x="15"&gt;&lt;li&gt;Health Module: health&lt;/ul&gt;&lt;br&gt;These 5 basic data and those of the CSM modules are tested at the data management phase of the CSM.&lt;br&gt;The CSM data management phase or simply CSM phase occurs by periods of 7 standard days, from the foundation date of each colony. The CSM Phase do in this order:&lt;ul&gt;&lt;ind x="15"&gt;&lt;li&gt;1- Data Management: each concerned colony have their data tested and the possible CSM events are triggered and-or canceled&lt;br&gt;&lt;ind x="15"&gt;&lt;li&gt;2- Update of the events in Recovering state: each event data in Recovering mode is updated, if the recovering is complete, the event is removed&lt;br&gt;&lt;ind x="15"&gt;&lt;li&gt;3- Over Time Calculations: each currently enabled event is updated following it's Over Time Calculations rules&lt;/ul&gt;</EN>
       <FR>Une colonie est définie par 5 données de base : cohésion, tension, sécurité, éducation, et niveau de colonie.&lt;br&gt;Avec celles-ci, il y a des données additionnelles fournies par les modules CSM:&lt;ul&gt;&lt;ind x="15"&gt;&lt;li&gt;Module Logement: capacité de population, niveau d'espace, qualité de vie&lt;br&gt;&lt;ind x="15"&gt;&lt;li&gt;Module Nourriture: &lt;i&gt;non implémenté pour l'instant&lt;/i&gt;&lt;br&gt;&lt;ind x="15"&gt;&lt;li&gt;Module Oxygène: &lt;i&gt;non implémenté pour l'instant&lt;/i&gt;&lt;br&gt;&lt;ind x="15"&gt;&lt;li&gt;Module Energie: &lt;i&gt;non implémenté pour l'instant&lt;/i&gt;&lt;br&gt;&lt;ind x="15"&gt;&lt;li&gt;Module Santé: santé&lt;/ul&gt;&lt;br&gt;Ces 5 données de base et celles des modules CSM sont testée à la phase de gestion de données du CSM.&lt;br&gt;La phase de gestion de données CSM ou simplement la phase CSM a lieu par périodes de 7 jours standards, en partant de la date de fondation de chaque colonie. La phase CSM effectue dans cet ordre:&lt;ul&gt;&lt;ind x="15"&gt;&lt;li&gt;1- Gestion de Données: chaque colonie concernée a ses données testées et des possible évènements CSM sont activés et/ou annulés&lt;br&gt;&lt;ind x="15"&gt;&lt;li&gt;2- Mise à jour des évènements dans un état de Récupèration: chaque donnée d'un évènement en mode de Récupèration est mis à jour, si la récupèration est complète, l'évènement est retiré&lt;br&gt;&lt;ind x="15"&gt;&lt;li&gt;3- Calculs sur la Durée: chaque évènement actuellement en service est mis à jour suivant ses règles de Calculs sur la Durée&lt;/ul&gt;</FR>
    </csmData>
+   <csmDataCohesion>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </csmDataCohesion>
    <csmevColEst>
       <EN>This event occurs only when a colony is just settled. It apply the stress and some chaotic moments of a colony establishment on a new world. The applied modifiers are different regarding in which environment the colony is settled, with more penalties in harsh environments.&lt;br&gt;&lt;br&gt;&lt;b&gt;Duration:&lt;/b&gt; the event is resident and the duration is 5 weeks.&lt;br&gt;&lt;br&gt;&lt;b&gt;Resolve:&lt;/b&gt; there's nothing that can be resolved directly by you, because the stress effect decay only with time. It's possible to compensate the modifiers by other mean if possible.&lt;br&gt;&lt;br&gt;&lt;b&gt;Cancellation:&lt;/b&gt; this event cannot be cancelled by any means. At the end of the duration the termination is immediate.</EN>
       <FR>Cet évènement se passe seulement quand une colonie vient d'être fondée. Il applique le stress et quelques moments chaotiques d'un établissement de colonie sur un nouveau monde. Les modificateurs qui sont appliqués sont différents suivant dans quel environnement la colonie est établie, avec plus de pénalités en environnement difficile.&lt;br&gt;&lt;br&gt;&lt;b&gt;Durée:&lt;/b&gt; l'évènement est persistant et sa durée est de 5 semaines.&lt;br&gt;&lt;br&gt;&lt;b&gt;Résolution:&lt;/b&gt; il n'y a rien qui peut être directement résolu par vous, parceque l'effet du stress disparait avec le temps seulement. Il est possible de compenser les modificateurs par d'autres moyens si possible.&lt;br&gt;&lt;br&gt;&lt;b&gt;Annulation:&lt;/b&gt; cet évènement ne peut être annulé par aucun moyen. A la fin de la durée l'annulation est immédiat.</FR>
@@ -639,6 +644,7 @@
       <hintitem link="cpsVOotSocSecPop" title="CPS Objective: Secure Population"/>
       <hintitem link="csmRoot" title="CSM: Colony Simulation Model"/>
       <hintitem link="csmData" title="CSM: Data Management"/>
+      <hintitem link="csmDataCohesion" title="CSM Data: Cohesion"/>
       <hintitem link="csmevColEst" title="CSM Event: Colony Established"/>
       <hintitem link="csmevHealthEduRel" title="CSM Event: Health-Education Relation"/>
       <hintitem link="csmevSocDis" title="CSM Event: Social Disorder"/>
@@ -762,6 +768,7 @@
       <hintitem link="cpsVOotSocSecPop" title="CPS - Objectif: Population Protégée"/>
       <hintitem link="csmRoot" title="CSM: Modèle de Simulation de Colonie"/>
       <hintitem link="csmData" title="CSM: Gestion des Données"/>
+      <hintitem link="csmDataCohesion" title="CSM - Donnée: Cohésion"/>
       <hintitem link="csmevColEst" title="Evènement CSM: Colonie Etablie"/>
       <hintitem link="csmevSocDis" title="Evènement CSM: Désordre Social"/>
       <hintitem link="csmevHealthEduRel" title="Evènement CSM: Relation Santé-Education"/>
@@ -885,6 +892,7 @@
       <hintitem link="cpsVOotSocSecPop" title="CPS Objective: Secure Population"/>
       <hintitem link="csmRoot" title="CSM: Colony Simulation Model"/>
       <hintitem link="csmData" title="CSM: Data Management"/>
+      <hintitem link="csmDataCohesion" title="CSM Data: Cohesion"/>
       <hintitem link="csmevColEst" title="CSM Event: Colony Established"/>
       <hintitem link="csmevHealthEduRel" title="CSM Event: Health-Education Relation"/>
       <hintitem link="csmevSocDis" title="CSM Event: Social Disorder"/>

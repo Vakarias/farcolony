@@ -61,6 +61,8 @@ type TFCEuicdpDataTypes=(
    ,dtStorageCapBio
    ,dtProdMatrixAll
    ,dtProdMatrixIndex
+   ,dtReservesAll
+   ,dtReservesIndex
    );
 
 type CDPcurrentLocIndexes= record
@@ -655,7 +657,10 @@ procedure FCMuiCDP_Data_Update(
          ,DataIndex1: integer
    );
 {:Purpose: update the colony data display
-   -2012Mar13- *fix: correctly update the status icons for dtInfraOwnedIndex;
+   -2012Apr15- *add: reserves.
+               *mod: colony level is now regrouped with the basic data.
+               *add: [experiment-WIP] encyclopedia link are displayed with [?].
+   -2012Mar13- *fix: correctly update the status icons for dtInfraOwnedIndex.
    -2012Feb23- *add: complete dtInfraOwnedIndex.
    -2012Feb23- *add: new category dtInfraOwnedIndex, for update only one owned infrastructure instead to refresh the whole list.
    -2012Feb05- *fix: do not display an infrastructure kit, in the available infrastructures list, if there's no more kits.
@@ -795,26 +800,27 @@ begin
             +FCFdTFiles_UIStr_Get( dtfscPrprName, FCentities[0].E_col[CDPcurrentColony].COL_locOObj )+'<br>'
             );
          {.idx=1}
-         FCWinMain.FCWM_CDPinfoText.HTMLText.Add(FCCFdHeadC+FCFdTFiles_UIStr_Get(uistrUI, 'colLvl')+FCCFdHeadEnd);
+         FCWinMain.FCWM_CDPinfoText.HTMLText.Add( FCCFdHeadC+FCFdTFiles_UIStr_Get( uistrUI, 'colDat' )+FCCFdHeadEnd) ;
          {.idx=2}
          CPUcolLv:=inttostr( FCFgC_ColLvl_GetIdx( 0, CDPcurrentColony ) );
-         FCWinMain.FCWM_CDPinfoText.HTMLText.Add( '['+CPUcolLv+'] '+FCFdTFiles_UIStr_Get(uistrUI, 'colLvl'+CPUcolLv)+'<br>' );
+         FCWinMain.FCWM_CDPinfoText.HTMLText.Add(
+            '<p align="left">'+FCCFidxL+FCCFcolWhBL+FCFdTFiles_UIStr_Get( uistrUI, 'colLvl' )+FCCFcolEND+'<ind x="79"><b>'
+            +CPUcolLv+'</b> (<b>'+FCFdTFiles_UIStr_Get(uistrUI, 'colLvl'+CPUcolLv)+'</b>)<br>'
+            );
          {.idx=3}
-         FCWinMain.FCWM_CDPinfoText.HTMLText.Add( FCCFdHeadC+FCFdTFiles_UIStr_Get( uistrUI, 'colDat' )+FCCFdHeadEnd) ;
-         {.idx=4}
          CPUdataIndex:=FCFgCSM_Cohesion_GetIdxStr( 0, CDPcurrentColony );
          FCWinMain.FCWM_CDPinfoText.HTMLText.Add(
-            '<p align="left">'+FCCFidxL+FCCFcolWhBL+FCFdTFiles_UIStr_Get( uistrUI, 'colDcohes' )+FCCFcolEND+'<ind x="79"><b>'
-            +inttostr( FCentities[0].E_col[CDPcurrentColony].COL_cohes )+'</b> % (<b>'+CPUdataIndex+'</b>)<br>'
+            '<p align="left">'+FCCFidxL+FCCFcolWhBL+FCFdTFiles_UIStr_Get( uistrUI, 'colDcohes' )+FCCFcolEND+' [<a href="csmDataCohesion">?</a>]'
+            +'<ind x="79"><b>'+inttostr( FCentities[0].E_col[CDPcurrentColony].COL_cohes )+'</b> % (<b>'+CPUdataIndex+'</b>)<br>'
             );
-         {.idx=5}
+         {.idx=4}
          CPUdataIndex:=FCFgCSM_Security_GetIdxStr(
             0
             ,CDPcurrentColony
             ,false
             );
          FCWinMain.FCWM_CDPinfoText.HTMLText.Add( '<p align="left">'+FCCFidxL+FCCFcolWhBL+FCFdTFiles_UIStr_Get( uistrUI, 'colDsec' )+FCCFcolEND+'<ind x="79"><b>'+CPUdataIndex+'</b><br>' );
-         {.idx=6}
+         {.idx=5}
          CPUdataIndex:=FCFgCSM_Tension_GetIdx(
             0
             ,CDPcurrentColony
@@ -824,13 +830,13 @@ begin
             '<p align="left">'+FCCFidxL+FCCFcolWhBL+FCFdTFiles_UIStr_Get( uistrUI, 'colDtens' )+FCCFcolEND+'<ind x="79"><b>'
             +inttostr( FCentities[0].E_col[CDPcurrentColony].COL_tens )+'</b> % (<b>'+CPUdataIndex+'</b>)<br>'
             );
-         {.idx=7}
+         {.idx=6}
          CPUdataIndex:=FCFgCSM_Education_GetIdxStr(0, CDPcurrentColony);
          FCWinMain.FCWM_CDPinfoText.HTMLText.Add(
             '<p align="left">'+FCCFidxL+FCCFcolWhBL+FCFdTFiles_UIStr_Get( uistrUI, 'colDedu' )+FCCFcolEND+'<ind x="79"><b>'
             +inttostr( FCentities[0].E_col[CDPcurrentColony].COL_edu )+'</b> % (<b>'+CPUdataIndex+'</b>)<br>'
             );
-         {.idx=8}
+         {.idx=7}
          CPUdataIndex:=FCFgCSM_Health_GetIdxStr(
             false
             ,0
@@ -840,7 +846,7 @@ begin
             '<p align="left">'+FCCFidxL+FCCFcolWhBL+FCFdTFiles_UIStr_Get(uistrUI, 'colDheal')+FCCFcolEND+'<ind x="79"><b>'
             +inttostr(FCentities[0].E_col[CDPcurrentColony].COL_csmHEheal)+'</b> % (<b>'+CPUdataIndex+'<b>)</p>'
             );
-         {.idx=9 to 11}
+         {.idx=8 to 10}
          FCWinMain.FCWM_CDPinfoText.HTMLText.Add(
             FCCFdHeadC+FCFdTFiles_UIStr_Get( uistrUI, 'colDCSMEnergTitle' )+FCCFdHeadEnd
             );
@@ -862,6 +868,8 @@ begin
             '<p align="left">'+FCCFidxL+FCCFcolWhBL+FCFdTFiles_UIStr_Get(uistrUI, 'colDCSMEnergStocked')+FCCFcolEND+CSMEnergyIndX+'<b>'+CPUdataIndex+' % of '
             +FCFcFunc_ThSep(FCentities[0].E_col[CDPcurrentColony].COL_csmENstorMax, ',')+'</b> kW </p>'
             );
+         {.END of colony's data}
+         FCMuiCDP_Data_Update( dtReservesAll, 0, CDPcurrentSettlement, 0 );
          FCMuiCDP_Data_Update(dtPopAll, 0, CDPcurrentSettlement, 0);
          FCMuiCDP_Data_Update(dtCSMev, 0, CDPcurrentSettlement, 0);
          FCMuiCDP_Data_Update(dtInfraAll, 0, CDPcurrentSettlement, 0);
@@ -872,7 +880,8 @@ begin
       dtLvl:
       begin
          CPUcolLv:=IntToStr( FCFgC_ColLvl_GetIdx( 0, CDPcurrentColony ) );
-         FCWinMain.FCWM_CDPinfoText.HTMLText.Insert( 2, '['+CPUcolLv+'] '+FCFdTFiles_UIStr_Get( uistrUI, 'colLvl'+CPUcolLv )+'<br>' );
+         FCWinMain.FCWM_CDPinfoText.HTMLText.Insert( 2, '<p align="left">'+FCCFidxL+FCCFcolWhBL+FCFdTFiles_UIStr_Get( uistrUI, 'colLvl' )+FCCFcolEND+'<ind x="79"><b>'
+            +CPUcolLv+'</b> (<b>'+FCFdTFiles_UIStr_Get(uistrUI, 'colLvl'+CPUcolLv)+'</b>)<br>' );
          FCWinMain.FCWM_CDPinfoText.HTMLText.Delete( 3 );
       end;
 
@@ -880,11 +889,11 @@ begin
       begin
          CPUdataIndex:=FCFgCSM_Cohesion_GetIdxStr( 0, CDPcurrentColony );
          FCWinMain.FCWM_CDPinfoText.HTMLText.Insert(
-            4
+            3
             ,'<p align="left">'+FCCFidxL+FCCFcolWhBL+FCFdTFiles_UIStr_Get( uistrUI, 'colDcohes' )+FCCFcolEND+'<ind x="79"><b>'
             +inttostr( FCentities[0].E_col[CDPcurrentColony].COL_cohes )+'</b> % (<b>'+CPUdataIndex+'</b>)<br>'
             );
-         FCWinMain.FCWM_CDPinfoText.HTMLText.Delete( 5 );
+         FCWinMain.FCWM_CDPinfoText.HTMLText.Delete( 4 );
       end;
 
       dtSecu:
@@ -895,10 +904,10 @@ begin
             ,false
             );
          FCWinMain.FCWM_CDPinfoText.HTMLText.Insert(
-            5
+            4
             ,'<p align="left">'+FCCFidxL+FCCFcolWhBL+FCFdTFiles_UIStr_Get( uistrUI, 'colDsec' )+FCCFcolEND+'<ind x="79"><b>'+CPUdataIndex+'</b><br>'
             );
-         FCWinMain.FCWM_CDPinfoText.HTMLText.Delete( 6 );
+         FCWinMain.FCWM_CDPinfoText.HTMLText.Delete( 5 );
       end;
 
       dtTens:
@@ -909,22 +918,22 @@ begin
             ,false
             );
          FCWinMain.FCWM_CDPinfoText.HTMLText.Insert(
-            6
+            5
             ,'<p align="left">'+FCCFidxL+FCCFcolWhBL+FCFdTFiles_UIStr_Get( uistrUI, 'colDtens' )+FCCFcolEND+'<ind x="79"><b>'
             +inttostr( FCentities[0].E_col[CDPcurrentColony].COL_tens )+'</b> % (<b>'+CPUdataIndex+'</b>)<br>'
             );
-         FCWinMain.FCWM_CDPinfoText.HTMLText.Delete( 7 );
+         FCWinMain.FCWM_CDPinfoText.HTMLText.Delete( 6 );
       end;
 
       dtEdu:
       begin
          CPUdataIndex:=FCFgCSM_Education_GetIdxStr(0, CDPcurrentColony);
          FCWinMain.FCWM_CDPinfoText.HTMLText.Insert(
-            7
+            6
             ,'<p align="left">'+FCCFidxL+FCCFcolWhBL+FCFdTFiles_UIStr_Get( uistrUI, 'colDedu' )+FCCFcolEND+'<ind x="79"><b>'
             +inttostr( FCentities[0].E_col[CDPcurrentColony].COL_edu )+'</b> % (<b>'+CPUdataIndex+'</b>)<br>'
             );
-         FCWinMain.FCWM_CDPinfoText.HTMLText.Delete( 8 );
+         FCWinMain.FCWM_CDPinfoText.HTMLText.Delete( 7 );
       end;
 
       dtHeal:
@@ -935,11 +944,11 @@ begin
             ,CDPcurrentColony
             );
          FCWinMain.FCWM_CDPinfoText.HTMLText.Insert(
-            8
+            7
             ,'<p align="left">'+FCCFidxL+FCCFcolWhBL+FCFdTFiles_UIStr_Get(uistrUI, 'colDheal')+FCCFcolEND+'<ind x="79"><b>'
             +inttostr(FCentities[0].E_col[CDPcurrentColony].COL_csmHEheal)+'</b> % (<b>'+CPUdataIndex+'<b>)</p>'
             );
-         FCWinMain.FCWM_CDPinfoText.HTMLText.Delete( 9 );
+         FCWinMain.FCWM_CDPinfoText.HTMLText.Delete( 8 );
       end;
 
       dtCSMenergy:
@@ -950,22 +959,22 @@ begin
          then CPUintDump:=1;
          CPUdataIndex:=FCMuiW_PercentColorGoodBad_Generate( CPUintDump );
          FCWinMain.FCWM_CDPinfoText.HTMLText.Insert(
-            10
+            9
             ,'<p align="left">'+FCCFidxL+FCCFcolWhBL+FCFdTFiles_UIStr_Get(uistrUI, 'colDCSMEnergUsed')+FCCFcolEND+CSMEnergyIndX+'<b>'+CPUdataIndex+' % of '
             +FCFcFunc_ThSep(FCentities[0].E_col[CDPcurrentColony].COL_csmENgen, ',')+'</b> kW <br>'
             );
-         FCWinMain.FCWM_CDPinfoText.HTMLText.Delete( 11 );
+         FCWinMain.FCWM_CDPinfoText.HTMLText.Delete( 10 );
          CPUintDump:=round( FCentities[0].E_col[CDPcurrentColony].COL_csmENstorCurr*100/FCentities[0].E_col[CDPcurrentColony].COL_csmENstorMax );
          if (CPUintDump=0)
             and (FCentities[0].E_col[CDPcurrentColony].COL_csmENstorCurr>0)
          then CPUintDump:=1;
          CPUdataIndex:=IntToStr(CPUintDump);
          FCWinMain.FCWM_CDPinfoText.HTMLText.Insert(
-            11
+            10
             ,'<p align="left">'+FCCFidxL+FCCFcolWhBL+FCFdTFiles_UIStr_Get(uistrUI, 'colDCSMEnergStocked')+FCCFcolEND+CSMEnergyIndX+'<b>'+CPUdataIndex+' % of '
             +FCFcFunc_ThSep(FCentities[0].E_col[CDPcurrentColony].COL_csmENstorMax, ',')+'</b> kW </p>'
             );
-         FCWinMain.FCWM_CDPinfoText.HTMLText.Delete( 12 );
+         FCWinMain.FCWM_CDPinfoText.HTMLText.Delete( 11 );
       end;
 
       dtPopAll:
@@ -1549,6 +1558,34 @@ begin
                ,true
                )+' /hr';
          end;
+      end;
+
+      dtReservesAll:
+      begin
+         {.idx=11}
+         FCWinMain.FCWM_CDPinfoText.HTMLText.Add( FCCFdHeadC+FCFdTFiles_UIStr_Get( uistrUI, 'colReserves' )+FCCFdHeadEnd) ;
+         {.idx=12}
+         if FCEntities[ 0 ].E_col[ CDPcurrentColony ].COL_reserveOxygen=-1
+         then CPUstrDump1:='N/A'
+         else CPUstrDump1:=IntToStr( FCEntities[ 0 ].E_col[ CDPcurrentColony ].COL_reserveOxygen );
+         FCWinMain.FCWM_CDPinfoText.HTMLText.Add(
+            '<p align="left">'+FCCFidxL+FCCFcolWhBL+FCFdTFiles_UIStr_Get( uistrUI, 'colReserveOxygen' )+' (<sub>?</sub>)'+FCCFcolEND+'<ind x="79"><b>'
+            +CPUstrDump1+'</b><br>'
+            );
+         {.idx=13}
+         FCWinMain.FCWM_CDPinfoText.HTMLText.Add(
+            '<p align="left">'+FCCFidxL+FCCFcolWhBL+FCFdTFiles_UIStr_Get( uistrUI, 'colReserveFood' )+FCCFcolEND+'<ind x="79"><b>'
+            +IntToStr( FCEntities[ 0 ].E_col[ CDPcurrentColony ].COL_reserveFood )+'</b><br>'
+            );
+         {.idx=14}
+         FCWinMain.FCWM_CDPinfoText.HTMLText.Add(
+            '<p align="left">'+FCCFidxL+FCCFcolWhBL+FCFdTFiles_UIStr_Get( uistrUI, 'colReserveWater' )+FCCFcolEND+'<ind x="79"><b>'
+            +IntToStr( FCEntities[ 0 ].E_col[ CDPcurrentColony ].COL_reserveWater )+'</b><br>'
+            );
+      end;
+
+      dtReservesIndex:
+      begin
       end;
    end; //==END== case CPUtp of ==//
 end;

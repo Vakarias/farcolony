@@ -372,6 +372,7 @@ function FCFgC_Colony_Core(
    ): integer;
 {:Purpose: core system for colony creation/removal/data updating. Return the colony index.
     Additions:
+      -2012Apr15- *add: set the oxygen reserve, according to the colony's environment type.
       -2010Mar19- *add: for established - initialize the colony's storage.
       -2010Sep14- *add: entities code.
       -2010Aug29- *fix: put the 2 event after the colony location initialization (remove a bug for Colony Established event).
@@ -387,6 +388,8 @@ function FCFgC_Colony_Core(
 }
 var
    CCcolIdx: integer;
+
+   ColonyEnvironment: TFCEduEnv;
 begin
    Result:=0;
    if CCaction=gcaEstablished
@@ -406,19 +409,23 @@ begin
       FCentities[CCfacId].E_col[CCcolIdx].COL_locOObj:=FCDBsSys[CClocSS].SS_star[CClocSt].SDB_obobj[CClocOObj].OO_token;
       {.initialize colony's data}
       FCMgCSM_ColonyData_Init(0, CCcolIdx);
-      {.update the orbital object colonies presence}
+      {.update the orbital object colonies presence, and secondary, retrieve the environment}
       if CClocSat=0
       then
       begin
          FCentities[CCfacId].E_col[CCcolIdx].COL_locSat:='';
          FCDBsSys[CClocSS].SS_star[CClocSt].SDB_obobj[CClocOObj].OO_colonies[CCfacId]:=CCcolIdx;
+         ColonyEnvironment:=FCDBsSys[CClocSS].SS_star[CClocSt].SDB_obobj[CClocOObj].OO_envTp;
       end
       else if CClocSat>0
       then
       begin
          FCentities[CCfacId].E_col[CCcolIdx].COL_locSat:=FCDBsSys[CClocSS].SS_star[CClocSt].SDB_obobj[CClocOObj].OO_satList[CClocSat].OOS_token;
          FCDBsSys[CClocSS].SS_star[CClocSt].SDB_obobj[CClocOObj].OO_satList[CClocSat].OOS_colonies[CCfacId]:=CCcolIdx;
+         ColonyEnvironment:=FCDBsSys[CClocSS].SS_star[CClocSt].SDB_obobj[CClocOObj].OO_satList[CClocSat].OOS_envTp;
       end;
+      if ColonyEnvironment<>envfreeLiving
+      then FCentities[CCfacId].E_col[CCcolIdx].COL_reserveOxygen:=-1;
       {.trigger basic CSM events}
       FCMgCSME_Event_Trigger(
          etHealthEduRel
@@ -641,6 +648,7 @@ function FCFgC_Storage_Update(
    ): extended;
 {:Purpose: update the storage of a colony with a specific product. Return the amount in unit that couldn't be transfered.
     Additions:
+      -2012Apr15- *add: reserves management.
       -2012Jan11- *fix: many consolidation and fixes in the calculations.
       -2011Dec19- *rem: remove the constant switch for the unit parameter.
                   *add: ensure that the unit parameter is always put with a positive sign (force it).
@@ -656,7 +664,8 @@ function FCFgC_Storage_Update(
 var
    SUcnt
    ,SUindex
-   ,SUmax: integer;
+   ,SUmax
+   ,FoodReserveIndex: integer;
 
    SUcapaLoaded
    ,SUnewUnit
@@ -670,6 +679,7 @@ begin
    SUnewUnit:=0;
    SUcapaLoaded:=0;
    SUvolToXfer:=0;
+   FoodReserveIndex:=0;
    SUcnt:=1;
    if SUmax>0 then
    begin
@@ -681,6 +691,14 @@ begin
          begin
             inc(SUcnt);
             SetLength(FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storageList, SUcnt+1);
+            {.specific code for reserves}
+            if FCDBProducts[ SUindex ].PROD_function=prfuFood then
+            begin
+               FoodReserveIndex:=Length( FCentities[SUtargetEnt].E_col[SUtargetCol].COL_reserveFoodList );
+               SetLength( FCentities[SUtargetEnt].E_col[SUtargetCol].COL_reserveFoodList, FoodReserveIndex+1 );
+               FCentities[SUtargetEnt].E_col[SUtargetCol].COL_reserveFoodList[ FoodReserveIndex ]:=SUcnt;
+            end;
+            {.END specific code for reserves}
             break;
          end;
          inc(SUcnt);
@@ -715,10 +733,7 @@ begin
                   if SUnewUnit=0
                   then Result:=SUunit
                   else begin
-//                     if FCDBProducts[SUindex].PROD_volByUnit<>1
-//                     then SUvolToXfer:=FCFcFunc_Rnd(cfrttpVolm3, FCDBProducts[SUindex].PROD_volByUnit*SUnewUnit)
-//                     else SUvolToXfer:=SUnewUnit;
-                     FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacitySolidCurr:=FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacitySolidMax;//FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacitySolidCurr+SUvolToXfer;
+                     FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacitySolidCurr:=FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacitySolidMax;
                      FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storageList[SUcnt].CPR_unit:=FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storageList[SUcnt].CPR_unit+SUnewUnit;
                      Result:=SUunit-SUnewUnit;
                   end;
@@ -739,10 +754,7 @@ begin
                   if SUnewUnit=0
                   then Result:=SUunit
                   else begin
-//                     if FCDBProducts[SUindex].PROD_volByUnit<>1
-//                     then SUvolToXfer:=FCFcFunc_Rnd(cfrttpVolm3, FCDBProducts[SUindex].PROD_volByUnit*SUnewUnit)
-//                     else SUvolToXfer:=SUnewUnit;
-                     FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacityLiquidCurr:=FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacityLiquidMax;//FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacityLiquidCurr+SUvolToXfer;
+                     FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacityLiquidCurr:=FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacityLiquidMax;
                      FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storageList[SUcnt].CPR_unit:=FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storageList[SUcnt].CPR_unit+SUnewUnit;
                      Result:=SUunit-SUnewUnit;
                   end;
@@ -764,10 +776,7 @@ begin
                   then Result:=SUunit
                   else
                   begin
-//                     if FCDBProducts[SUindex].PROD_volByUnit<>1
-//                     then SUvolToXfer:=FCFcFunc_Rnd(cfrttpVolm3, FCDBProducts[SUindex].PROD_volByUnit*SUnewUnit)
-//                     else SUvolToXfer:=SUnewUnit;
-                     FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacityGasCurr:=FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacityGasMax;//FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacityGasCurr+SUvolToXfer;
+                     FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacityGasCurr:=FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacityGasMax;
                      FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storageList[SUcnt].CPR_unit:=FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storageList[SUcnt].CPR_unit+SUnewUnit;
                      Result:=SUunit-SUnewUnit;
                   end;
@@ -791,16 +800,15 @@ begin
                   then Result:=SUunit
                   else
                   begin
-//                     if FCDBProducts[SUindex].PROD_volByUnit<>1
-//                     then SUvolToXfer:=FCFcFunc_Rnd(cfrttpVolm3, FCDBProducts[SUindex].PROD_volByUnit*SUnewUnit)
-//                     else SUvolToXfer:=SUnewUnit;
-                     FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacityBioCurr:=FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacityBioMax;//FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacityBioCurr+SUvolToXfer;
+                     FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacityBioCurr:=FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacityBioMax;
                      FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storageList[SUcnt].CPR_unit:=FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storageList[SUcnt].CPR_unit+SUnewUnit;
                      Result:=SUunit-SUnewUnit;
                   end;
                end;
             end;
          end;  //==END== case FCDBProducts[SUindex].PROD_storage of ==//
+         {.specific code for reserves}
+         FCMgCR_Reserve_UpdateByUnits
       end; //==END== else begin of: if SUunit<=0 ==//
    end //==END== if (SUisStoreMode) and (SUcnt>0) ==//
    else if (not SUisStoreMode)

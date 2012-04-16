@@ -663,9 +663,9 @@
       <SP>Localizacion</SP>
    </colLoc>
    <colLvl>
-      <EN>Colony Level</EN>
-      <FR>Niveau de la Colonie</FR>
-      <SP>Nivel de Colonia</SP>
+      <EN>Level</EN>
+      <FR>Niveau</FR>
+      <SP>Nivel</SP>
    </colLvl>
    <colLvl1>
       <EN>Outpost</EN>
@@ -862,6 +862,26 @@
       <FR>Techniciens</FR>
       <SP>Tecnicos</SP>
    </colPTtech>
+   <colReserves>
+      <EN>Reserves</EN>
+      <FR>Réserves</FR>
+      <SP>Reserves</SP>
+   </colReserves>
+   <colReserveOxygen>
+      <EN>Oxygen</EN>
+      <FR>Oxygène</FR>
+      <SP>Oxygen</SP>
+   </colReserveOxygen>
+   <colReserveFood>
+      <EN>Food</EN>
+      <FR>Nourriture</FR>
+      <SP>Food</SP>
+   </colReserveFood>
+   <colReserveWater>
+      <EN>Water</EN>
+      <FR>Eau</FR>
+      <SP>Water</SP>
+   </colReserveWater>
    <colStorage>
       <EN>Storage</EN>
       <FR>Stockage</FR>

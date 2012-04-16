@@ -47,6 +47,8 @@ type TFCEuicddColonyDataList=(
    ,cdlInfrastructuresAvail
    ,cdlStorageAll
    ,cdlStorageItem
+   ,cdlReserveAll
+   ,cdlReserveItem
    );
 
 type TFCEuicddProductionList=(
@@ -119,7 +121,8 @@ procedure FCMuiCDD_Colony_Update(
    );
 {:Purpose: core data display refresh for colony data. Update the Colony Data Panel and the related UMI tabs if required.
     Additions:
-      -2012Feb26: *add: new parameter SecondaryIndex.
+      -2012Apr15- *add: reserves.
+      -2012Feb26- *add: new parameter SecondaryIndex.
                   *add: complete cdlInfrastructuresOwnedIndex.
       -2012Feb23- *add: cdlInfrastructuresOwnedIndex.
       -2012Feb09- *add: cdlDataCSMenergy - update CPS panel for otEcoEnEff if needed.
@@ -383,6 +386,21 @@ begin
                   );
             end;
          end;
+      end;
+
+      cdlReserveAll:
+      begin
+//         if isColonyDataPanelShown
+//         then FCMuiCDP_Data_Update(
+//            dtStorageAll
+//            ,Colony
+//            ,SettlementStorageItemIndex
+//            ,0
+//            );
+      end;
+
+      cdlReserveItem:
+      begin
       end;
    end; //==END== case DataType of ==//
 end;

@@ -74,6 +74,8 @@ uses
 procedure FCMdFSG_Game_Load;
 {:Purpose: load the current game.
    Additions:
+      -2012Apr15- *add: completion of colony's reserves.
+                  *fix: correctly load the colony level.
       -2012Mar14- *fix: colony's production matrix - correct a data mismatch error in the production matrix item loading.
                   *fix: owned infrastructures - forgot to include MISC and INTELLIGENCE function for saving them and their possible specific data.
       -2012Mar13- *add: selective loading for otEcoIndustrialForce data.
@@ -168,6 +170,7 @@ var
    GLxmlCAB
    ,GLxmlCol
    ,GLxmlColsub
+   ,GLxmlColsub1
    ,GLxmlDock
    ,GLxmlEntRoot
    ,GLxmlEntSubRoot
@@ -183,7 +186,6 @@ var
    ,GLxmlProdMatrixSource
    ,GLxmlSPMset
    ,GLxmlSpOwn
-   ,GLxmlStorage
    ,GLxmlTskInPr
    ,GLxmlViaObj
    ,GLxmlSurveyRsrc
@@ -584,7 +586,7 @@ begin
                      then FCDBSsys[GLoobjRow[1]].SS_star[GLoobjRow[2]].SDB_obobj[GLoobjRow[3]].OO_colonies[0]:=GLcount
                      else if GLoobjRow[4]>0
                      then FCDBSsys[GLoobjRow[1]].SS_star[GLoobjRow[2]].SDB_obobj[GLoobjRow[3]].OO_satList[GLoobjRow[4]].OOS_colonies[0]:=GLcount;
-                     FCentities[GLentCnt].E_col[GLcount].COL_level:=GLxmlCol.Attributes['collvl'];
+                     FCentities[GLentCnt].E_col[GLcount].COL_level:=TFCEcolLvl(GLxmlCol.Attributes['collvl']-1);
                      FCentities[GLentCnt].E_col[GLcount].COL_hqPres:=GLxmlCol.Attributes['hqpresence'];
                      FCentities[GLentCnt].E_col[GLcount].COL_cohes:=GLxmlCol.Attributes['dcohes'];
                      FCentities[GLentCnt].E_col[GLcount].COL_secu:=GLxmlCol.Attributes['dsecu'];
@@ -829,25 +831,32 @@ begin
                            FCentities[GLentCnt].E_col[GLcount].COL_storCapacityBioMax:=GLxmlColsub.Attributes['capBioMax'];
                            SetLength(FCentities[GLentCnt].E_col[GLcount].COL_storageList, 1);
                            GLstorageCnt:=0;
-                           GLxmlStorage:=GLxmlColsub.ChildNodes.First;
-                           while GLxmlStorage<>nil do
+                           GLxmlColsub1:=GLxmlColsub.ChildNodes.First;
+                           while GLxmlColsub1<>nil do
                            begin
                               inc(GLstorageCnt);
                               SetLength(FCentities[GLentCnt].E_col[GLcount].COL_storageList, GLstorageCnt+1);
-                              FCentities[GLentCnt].E_col[GLcount].COL_storageList[GLstorageCnt].CPR_token:=GLxmlStorage.Attributes['token'];
-                              FCentities[GLentCnt].E_col[GLcount].COL_storageList[GLstorageCnt].CPR_unit:=GLxmlStorage.Attributes['unit'];
-                              GLxmlStorage:=GLxmlStorage.NextSibling;
+                              FCentities[GLentCnt].E_col[GLcount].COL_storageList[GLstorageCnt].CPR_token:=GLxmlColsub1.Attributes['token'];
+                              FCentities[GLentCnt].E_col[GLcount].COL_storageList[GLstorageCnt].CPR_unit:=GLxmlColsub1.Attributes['unit'];
+                              GLxmlColsub1:=GLxmlColsub1.NextSibling;
                            end;
                         end
                         else if GLxmlColsub.NodeName='colReserves'
                         then
                         begin
-                           FCentities[GLentCnt].E_col[GLcount].COL_reserveFoodCur:=GLxmlColsub.Attributes['foodCur'];
-                           FCentities[GLentCnt].E_col[GLcount].COL_reserveFoodMax:=GLxmlColsub.Attributes['foodMax'];
-                           FCentities[GLentCnt].E_col[GLcount].COL_reserveOxygenCur:=GLxmlColsub.Attributes['oxygenCur'];
-                           FCentities[GLentCnt].E_col[GLcount].COL_reserveOxygenMax:=GLxmlColsub.Attributes['oxygenMax'];
-                           FCentities[GLentCnt].E_col[GLcount].COL_reserveWaterCur:=GLxmlColsub.Attributes['waterCur'];
-                           FCentities[GLentCnt].E_col[GLcount].COL_reserveWaterMax:=GLxmlColsub.Attributes['waterMax'];
+                           FCentities[GLentCnt].E_col[GLcount].COL_reserveOxygen:=GLxmlColsub.Attributes['oxygen'];
+                           FCentities[GLentCnt].E_col[GLcount].COL_reserveFood:=GLxmlColsub.Attributes['food'];
+                           SetLength( FCentities[ GLentCnt ].E_col[ GLcount ].COL_reserveFoodList, 1 );
+                           GLstorageCnt:=0;
+                           GLxmlColsub1:=GLxmlColsub.ChildNodes.First;
+                           while GLxmlColsub1<>nil do
+                           begin
+                              inc(GLstorageCnt);
+                              SetLength( FCentities[ GLentCnt ].E_col[ GLcount ].COL_reserveFoodList, GLstorageCnt+1 );
+                              FCentities[ GLentCnt ].E_col[ GLcount ].COL_reserveFoodList[ GLstorageCnt ]:=GLxmlColsub1.Attributes['index'];
+                              GLxmlColsub1:=GLxmlColsub1.NextSibling;
+                           end;
+                           FCentities[GLentCnt].E_col[GLcount].COL_reserveWater:=GLxmlColsub.Attributes['water'];
 								end;
                         GLxmlColsub:=GLxmlColsub.NextSibling;
                      end; //==END== while GLxmlColsub<>nil do ==//
@@ -925,6 +934,7 @@ end;
 procedure FCMdFSG_Game_Save;
 {:Purpose: save the current game.
     Additions:
+      -2012Apr15- *add: completion of colony's reserves.
       -2012Mar14- *fix: owned infrastructures - forgot to include MISC and INTELLIGENCE function for saving them and their possible specific data.
       -2012Mar13- *add: selective saving for otEcoIndustrialForce data.
       -2012Mar11- *add: viability objective: otEcoIndustrialForce.
@@ -1031,6 +1041,7 @@ var
    ,GSxmlProdMatrixRoot
    ,GSxmlProdMatrixSource
    ,GSxmlReserves
+   ,GSxmlReservesRoot
    ,GSxmlRoot
    ,GSxmlSettle
    ,GSxmlSPM
@@ -1581,13 +1592,18 @@ begin
                   end;
                end;
                {.reserves}
-               GSxmlReserves:=GSxmlCol.AddChild('colReserves');
-               GSxmlReserves.Attributes['foodCur']:=FCentities[GScount].E_col[GScolCnt].COL_reserveFoodCur;
-               GSxmlReserves.Attributes['foodMax']:=FCentities[GScount].E_col[GScolCnt].COL_reserveFoodMax;
-               GSxmlReserves.Attributes['oxygenCur']:=FCentities[GScount].E_col[GScolCnt].COL_reserveOxygenCur;
-               GSxmlReserves.Attributes['oxygenMax']:=FCentities[GScount].E_col[GScolCnt].COL_reserveOxygenMax;
-               GSxmlReserves.Attributes['waterCur']:=FCentities[GScount].E_col[GScolCnt].COL_reserveWaterCur;
-               GSxmlReserves.Attributes['waterMax']:=FCentities[GScount].E_col[GScolCnt].COL_reserveWaterMax;
+               GSxmlReservesRoot:=GSxmlCol.AddChild('colReserves');
+               GSxmlReservesRoot.Attributes['oxygen']:=FCentities[GScount].E_col[GScolCnt].COL_reserveOxygen;
+               GSxmlReservesRoot.Attributes['food']:=FCentities[GScount].E_col[GScolCnt].COL_reserveFood;
+               GSstorageMax:=length(FCentities[GScount].E_col[GScolCnt].COL_reserveFoodList)-1;
+               GSstorageCnt:=1;
+               while GSstorageCnt<=GSstorageMax do
+               begin
+                  GSxmlReserves:=GSxmlReservesRoot.AddChild( 'foodRve'+IntToStr( GSstorageCnt ) );
+                  GSxmlReserves.Attributes['index']:=FCentities[GScount].E_col[GScolCnt].COL_reserveFoodList[ GSstorageCnt ];
+                  inc(GSstorageCnt);
+               end;
+               GSxmlReservesRoot.Attributes['water']:=FCentities[GScount].E_col[GScolCnt].COL_reserveWater;
             end; //==END== if GSsettleMax>0 ==//
             inc(GScolCnt);
          end; //==END== while GScolCnt<=GScolMax do ==//

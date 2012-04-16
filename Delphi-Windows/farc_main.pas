@@ -431,6 +431,7 @@ type
     procedure FCWM_MissionSettingsMinimize(Sender: TObject);
     procedure FCWM_MissionSettingsEndCollapsExpand(Sender: TObject);
     procedure FCWM_ColDPanelEndCollapsExpand(Sender: TObject);
+    procedure FCWM_CDPinfoTextAnchorClick(Sender: TObject; Anchor: string);
    private
       { Private declarations }
          {timesteps needed for camera transitions}
@@ -992,6 +993,11 @@ begin
       ,false
       ,false
       );
+end;
+
+procedure TFCWinMain.FCWM_CDPinfoTextAnchorClick(Sender: TObject; Anchor: string);
+begin
+   FCMuiW_HelpTDef_Link(anchor, true);
 end;
 
 procedure TFCWinMain.FCWM_CDPinfrAvailAnchorClick(Sender: TObject; Node: TTreeNode;

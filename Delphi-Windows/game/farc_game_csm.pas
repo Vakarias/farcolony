@@ -340,6 +340,7 @@ end;
 procedure FCMgCSM_ColonyData_Init(const CDIfac, CDIcolIdx: Integer);
 {:Purpose: initialize choosen colony's data.
     Additions:
+      -2012Apr15- *add: complete reserve data initialization.
       -2011Jul19- *add: initialize CSM Energy module data.
       -2011Jul07- *add: initialize the production matrix.
       -2011May06- *mod: apply changes for storage data.
@@ -450,12 +451,10 @@ begin
    FCentities[CDIfac].E_col[CDIcolIdx].COL_storCapacityBioCurr:=0;
    FCentities[CDIfac].E_col[CDIcolIdx].COL_storCapacityBioMax:=0;
    setlength(FCentities[CDIfac].E_col[CDIcolIdx].COL_storageList, 1);
-   FCentities[CDIfac].E_col[CDIcolIdx].COL_reserveFoodCur:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].COL_reserveFoodMax:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].COL_reserveOxygenCur:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].COL_reserveOxygenMax:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].COL_reserveWaterCur:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].COL_reserveWaterMax:=0;
+   FCentities[CDIfac].E_col[CDIcolIdx].COL_reserveOxygen:=0;
+   FCentities[CDIfac].E_col[CDIcolIdx].COL_reserveFood:=0;
+   SetLength( FCentities[CDIfac].E_col[CDIcolIdx].COL_reserveFoodList, 1 );
+   FCentities[CDIfac].E_col[CDIcolIdx].COL_reserveWater:=0;
 end;
 
 procedure FCMgCSM_ColonyData_Upd(
