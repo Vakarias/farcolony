@@ -208,6 +208,7 @@ uses
    farc_common_func
    ,farc_data_infrprod
    ,farc_data_init
+   ,farc_game_colonyrves
    ,farc_game_csm
    ,farc_game_csmevents
    ,farc_game_infra
@@ -372,6 +373,7 @@ function FCFgC_Colony_Core(
    ): integer;
 {:Purpose: core system for colony creation/removal/data updating. Return the colony index.
     Additions:
+      -2012Apr16- *fix: bugfix in the attribution of the oxygen reserve.
       -2012Apr15- *add: set the oxygen reserve, according to the colony's environment type.
       -2010Mar19- *add: for established - initialize the colony's storage.
       -2010Sep14- *add: entities code.
@@ -424,7 +426,7 @@ begin
          FCDBsSys[CClocSS].SS_star[CClocSt].SDB_obobj[CClocOObj].OO_satList[CClocSat].OOS_colonies[CCfacId]:=CCcolIdx;
          ColonyEnvironment:=FCDBsSys[CClocSS].SS_star[CClocSt].SDB_obobj[CClocOObj].OO_satList[CClocSat].OOS_envTp;
       end;
-      if ColonyEnvironment<>envfreeLiving
+      if ColonyEnvironment=envfreeLiving
       then FCentities[CCfacId].E_col[CCcolIdx].COL_reserveOxygen:=-1;
       {.trigger basic CSM events}
       FCMgCSME_Event_Trigger(
@@ -648,6 +650,7 @@ function FCFgC_Storage_Update(
    ): extended;
 {:Purpose: update the storage of a colony with a specific product. Return the amount in unit that couldn't be transfered.
     Additions:
+      -2012Apr16- *add: COMPLETE reserves management.
       -2012Apr15- *add: reserves management.
       -2012Jan11- *fix: many consolidation and fixes in the calculations.
       -2011Dec19- *rem: remove the constant switch for the unit parameter.
@@ -808,7 +811,16 @@ begin
             end;
          end;  //==END== case FCDBProducts[SUindex].PROD_storage of ==//
          {.specific code for reserves}
-         FCMgCR_Reserve_UpdateByUnits
+         if ( FCDBProducts[SUindex].PROD_function=prfuFood )
+            or ( ( FCDBProducts[SUindex].PROD_function=prfuOxygen ) and ( FCentities[SUtargetEnt].E_col[SUtargetCol].COL_reserveOxygen<>-1 ) )
+            or ( FCDBProducts[SUindex].PROD_function=prfuWater )
+         then FCMgCR_Reserve_UpdateByUnits(
+            SUtargetEnt
+            ,SUtargetCol
+            ,FCDBProducts[SUindex].PROD_function
+            ,SUunit-Result
+            ,FCDBProducts[SUindex].PROD_massByUnit
+            );
       end; //==END== else begin of: if SUunit<=0 ==//
    end //==END== if (SUisStoreMode) and (SUcnt>0) ==//
    else if (not SUisStoreMode)
@@ -883,6 +895,17 @@ begin
             FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacityBioCurr:=SUcapaLoaded;
          end;
       end;  //==END== case FCDBProducts[SUindex].PROD_storage of ==//
+      {.specific code for reserves}
+      if ( FCDBProducts[SUindex].PROD_function=prfuFood )
+         or ( ( FCDBProducts[SUindex].PROD_function=prfuOxygen ) and ( FCentities[SUtargetEnt].E_col[SUtargetCol].COL_reserveOxygen<>-1 ) )
+         or ( FCDBProducts[SUindex].PROD_function=prfuWater )
+      then FCMgCR_Reserve_UpdateByUnits(
+         SUtargetEnt
+         ,SUtargetCol
+         ,FCDBProducts[SUindex].PROD_function
+         ,-(SUunit-Result)
+         ,FCDBProducts[SUindex].PROD_massByUnit
+         );
       FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storageList[SUcnt].CPR_unit:=FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storageList[SUcnt].CPR_unit-SUnewUnit;
    end
    else begin

@@ -151,11 +151,23 @@ function FCFcFunc_ThSep(
 ///format the value in a thousand separator format
 ///</summary>
 ///    <param name="TSval">value</param>
+function FCFcFunc_ThSep( const TSval: integer ): string; overload;
+
+///<summary>
+///format the value in a thousand separator format
+///</summary>
+///    <param name="TSval">value</param>
 ///    <param name="TSchr">thousand separator character</param>
 function FCFcFunc_ThSep(
    const TSval: extended;
    const TSchr: Char
    ): string; overload;
+
+///<summary>
+///   format the value in a thousand separator format
+///</summary>
+///   <param name="TSval">value</param>
+function FCFcFunc_ThSep( const TSval: extended ): string; overload;
 
 ///<summary>
 ///   transform time values in readable date.
@@ -1583,6 +1595,14 @@ begin
    end;
 end;
 
+function FCFcFunc_ThSep( const TSval: integer ): string; overload;
+{:Purpose: format the value in a thousand separator format.
+    Additions:
+}
+begin
+   Result:=FCFcFunc_ThSep( TSval, ',' );
+end;
+
 function FCFcFunc_ThSep(
    const TSval: extended;
    const TSchr: Char
@@ -1631,6 +1651,14 @@ begin
          );
       TSlen:=TSlen-3;
    end;
+end;
+
+function FCFcFunc_ThSep( const TSval: extended ): string; overload;
+{:Purpose: format the value in a thousand separator format.
+    Additions:
+}
+begin
+   Result:=FCFcFunc_ThSep( TSval, ',' );
 end;
 
 function FCFcF_Time_GetDate(

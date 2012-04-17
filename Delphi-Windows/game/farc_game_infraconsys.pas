@@ -642,6 +642,7 @@ procedure FCMgICS_Conversion_Process(
    );
 {:Purpose: convert a space unit to a corresponding infrastructure as requested.
     Additions:
+      -2012Apr16- *add: new hardcoded resource added to the colony: water, oxygen and some food for reserves development and testing.
       -2012Mar13- *mod: adjust some hardcoded data.
       -2012Feb15- *mod: adjust the energy generation of the hardcoded data.
                   *add: hardcoded product, add 1 infrastructure kit: Multipurpose Depot Level 1 by colonization pod.
@@ -865,6 +866,27 @@ begin
       true
       ,'equipMiningMachinery'
       ,1
+      ,0
+      ,ICPcol
+      );
+   FCFgC_Storage_Update(
+      true
+      ,'resWater'
+      ,20
+      ,0
+      ,ICPcol
+      );
+   FCFgC_Storage_Update(
+      true
+      ,'resO2'
+      ,20
+      ,0
+      ,ICPcol
+      );
+   FCFgC_Storage_Update(
+      true
+      ,'bioFish'
+      ,20
       ,0
       ,ICPcol
       );

@@ -56,11 +56,13 @@ procedure FCMgCR_Reserve_Update(
 ///   <param name="Colony">colony index #</param>
 ///   <param name="TypeOfReserve">type of reserve to update, must be prfuFood, prfuOxygen or prfuWater. The rest is ignored</param>
 ///   <param name="ValueModifier">modifier in +/- to apply to the reserve amount</param>
+///   <param name="FoodDensity">for food reserve only: food density (REQUIRED PARAMETER)</param>
 procedure FCMgCR_Reserve_UpdateByUnits(
    const Entity
          ,Colony: integer;
    const TypeOfReserve: TFCEdipProductFunctions;
-   const ValueModifier: extended
+   const ValueModifier
+         ,FoodDensity: extended
    );
 
 implementation
@@ -80,31 +82,86 @@ procedure FCMgCR_Reserve_Update(
    );
 {:Purpose: update a specified reserve with a +/- value. The value is in reserve points.
     Additions:
+      -2012Apr16- *add: completion.
 }
 begin
    case TypeOfReserve of
-      prfuFood: FCentities[ Entity ].E_col[ Colony ].COL_reserveFood:=FCentities[ Entity ].E_col[ Colony ].COL_reserveFood+ValueModifier;
+      prfuFood:
+      begin
+         FCentities[ Entity ].E_col[ Colony ].COL_reserveFood:=FCentities[ Entity ].E_col[ Colony ].COL_reserveFood+ValueModifier;
+         if Entity=0
+         then FCMuiCDD_Colony_Update(
+            cdlReserveFood
+            ,Colony
+            ,0
+            ,0
+            ,true
+            ,false
+            ,false
+            );
+      end;
 
-      prfuOxygen: FCentities[ Entity ].E_col[ Colony ].COL_reserveOxygen:=FCentities[ Entity ].E_col[ Colony ].COL_reserveOxygen+ValueModifier;
+      prfuOxygen:
+      begin
+         FCentities[ Entity ].E_col[ Colony ].COL_reserveOxygen:=FCentities[ Entity ].E_col[ Colony ].COL_reserveOxygen+ValueModifier;
+         if Entity=0
+         then FCMuiCDD_Colony_Update(
+            cdlReserveOxy
+            ,Colony
+            ,0
+            ,0
+            ,true
+            ,false
+            ,false
+            );
+      end;
 
-
-      prfuWater: FCentities[ Entity ].E_col[ Colony ].COL_reserveWater:=FCentities[ Entity ].E_col[ Colony ].COL_reserveWater+ValueModifier;
+      prfuWater:
+      begin
+         FCentities[ Entity ].E_col[ Colony ].COL_reserveWater:=FCentities[ Entity ].E_col[ Colony ].COL_reserveWater+ValueModifier;
+         if Entity=0
+         then FCMuiCDD_Colony_Update(
+            cdlReserveWater
+            ,Colony
+            ,0
+            ,0
+            ,true
+            ,false
+            ,false
+            );
+      end;
    end;
-   FCMuiCDD_Colony_Update(
-      );
 end;
 
 procedure FCMgCR_Reserve_UpdateByUnits(
    const Entity
          ,Colony: integer;
    const TypeOfReserve: TFCEdipProductFunctions;
-   const ValueModifier: extended
+   const ValueModifier
+         ,FoodDensity: extended
    );
 {:Purpose: update a specified reserve with a +/- value. The value is in units or more specifically in cubic meters.
     Additions:
+      -2012Apr16- *add: completion.
 }
+   var
+      ConvertedModifier: integer;
 begin
+   ConvertedModifier:=0;
+   case TypeOfReserve of
+      prfuFood: ConvertedModifier:=trunc( ( FoodDensity*ValueModifier ) / 0.000618 );
 
+      prfuOxygen: ConvertedModifier:=trunc( ValueModifier / 0.000736 );
+
+      prfuWater: ConvertedModifier:=trunc( ValueModifier / 0.018077 );
+   end;
+   if ConvertedModifier<>0
+   then FCMgCR_Reserve_Update(
+      Entity
+      ,Colony
+      ,TypeOfReserve
+      ,ConvertedModifier
+      );
 end;
 
 end.

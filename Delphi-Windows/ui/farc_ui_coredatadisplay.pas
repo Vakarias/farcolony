@@ -48,7 +48,9 @@ type TFCEuicddColonyDataList=(
    ,cdlStorageAll
    ,cdlStorageItem
    ,cdlReserveAll
-   ,cdlReserveItem
+   ,cdlReserveOxy
+   ,cdlReserveFood
+   ,cdlReserveWater
    );
 
 type TFCEuicddProductionList=(
@@ -121,6 +123,7 @@ procedure FCMuiCDD_Colony_Update(
    );
 {:Purpose: core data display refresh for colony data. Update the Colony Data Panel and the related UMI tabs if required.
     Additions:
+      -2012Apr16- *add: reserves (COMPLETION).
       -2012Apr15- *add: reserves.
       -2012Feb26- *add: new parameter SecondaryIndex.
                   *add: complete cdlInfrastructuresOwnedIndex.
@@ -390,17 +393,46 @@ begin
 
       cdlReserveAll:
       begin
-//         if isColonyDataPanelShown
-//         then FCMuiCDP_Data_Update(
-//            dtStorageAll
-//            ,Colony
-//            ,SettlementStorageItemIndex
-//            ,0
-//            );
+         if isColonyDataPanelShown
+         then FCMuiCDP_Data_Update(
+            dtReservesAll
+            ,Colony
+            ,SettlementStorageItemIndex
+            ,0
+            );
       end;
 
-      cdlReserveItem:
+      cdlReserveOxy:
       begin
+         if isColonyDataPanelShown
+         then FCMuiCDP_Data_Update(
+            dtReservesOxy
+            ,Colony
+            ,SettlementStorageItemIndex
+            ,0
+            );
+      end;
+
+      cdlReserveFood:
+      begin
+         if isColonyDataPanelShown
+         then FCMuiCDP_Data_Update(
+            dtReservesFood
+            ,Colony
+            ,SettlementStorageItemIndex
+            ,0
+            );
+      end;
+
+      cdlReserveWater:
+      begin
+         if isColonyDataPanelShown
+         then FCMuiCDP_Data_Update(
+            dtReservesWater
+            ,Colony
+            ,SettlementStorageItemIndex
+            ,0
+            );
       end;
    end; //==END== case DataType of ==//
 end;

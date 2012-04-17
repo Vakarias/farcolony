@@ -54,6 +54,10 @@ function FCFuiHTML_Modifier_GetFormat(
 
 //===========================END FUNCTIONS SECTION==========================================
 
+const
+   UIHTMLencyBEGIN='<font size="7"><a href="';
+   UIHTMLencyEND='">?</a></font>';
+
 implementation
 
 uses

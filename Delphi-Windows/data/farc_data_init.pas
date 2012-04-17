@@ -387,6 +387,7 @@ procedure FCMdInit_Initialize;
       FCCFcolRed='<font color="#EA000000">';
       FCCFcolWhBL='<font color="#DCEAFA00">';
       FCCFcolYel='<font color="#FFFFCA00">';
+      FCCFidxL6='<ind x="6">';
       FCCFidxL='<ind x="14">';
       FCCFidxL2='<ind x="20">';
       FCCFidxR='<ind x="120">';

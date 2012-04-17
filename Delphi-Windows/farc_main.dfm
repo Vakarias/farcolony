@@ -2527,7 +2527,7 @@ object FCWinMain: TFCWinMain
           HoverFontColor = clSkyBlue
           ParentColor = False
           ParentFont = False
-          URLColor = 4227327
+          URLColor = 14068651
           OnAnchorClick = FCWM_CDPinfoTextAnchorClick
           Version = '1.8.1.0'
           ExplicitHeight = 240
