@@ -659,6 +659,7 @@ procedure FCMuiCDP_Data_Update(
          ,DataIndex1: integer
    );
 {:Purpose: update the colony data display
+   -2012Apr18- *add: encyclopaedia links reformat for owned infrastructures list.
    -2012Apr16- *add: encyclopedia link are displayed with [?] (COMPLETION).
                *add: reserves (COMPLETION)
    -2012Apr15- *add: reserves.
@@ -1144,15 +1145,18 @@ begin
          begin
             CPUevN:=FCFgCSME_Event_GetStr(FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CSMEV_token);
             CPUdataIndex:='';
-            if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CSMEV_duration=-1
-            then CPUrootnode:=FCWinMain.FCWM_CDPcsmeList.Items.Add(nil, FCFdTFiles_UIStr_Get(uistrUI, CPUevN))
-            else if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CSMEV_duration>0
-            then CPUrootnode:=FCWinMain.FCWM_CDPcsmeList.Items.Add(
-               nil
-               ,FCFdTFiles_UIStr_Get(uistrUI, CPUevN)+' ('+FCFdTFiles_UIStr_Get(uistrUI, 'csmdur')+': <b>'+IntToStr(FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CSMEV_duration)
-                  +' </b>'+FCFdTFiles_UIStr_Get(uistrUI, 'TimeFwks')+' )'
-               );
-            FCWinMain.FCWM_CDPpopList.Items.AddChild( CPUrootnode , '<a href="'+CPUevN+'">'+FCFdTFiles_UIStr_Get(uistrUI, 'csmdesc')+'</a>' );
+            CPUrootnode:=FCWinMain.FCWM_CDPcsmeList.Items.Add(nil, FCFdTFiles_UIStr_Get(uistrUI, CPUevN)+' '+UIHTMLencyBEGIN+CPUevN+UIHTMLencyEND );
+
+            if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CSMEV_duration>0
+            then FCWinMain.FCWM_CDPpopList.Items.AddChild( CPUrootnode, FCFdTFiles_UIStr_Get(uistrUI, 'csmdur')+': <b>'+IntToStr(FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CSMEV_duration)
+                  +' </b>'+FCFdTFiles_UIStr_Get(uistrUI, 'TimeFwks') );
+
+
+//            CPUrootnode:=FCWinMain.FCWM_CDPcsmeList.Items.Add(
+//               nil
+//               ,FCFdTFiles_UIStr_Get(uistrUI, CPUevN)+' ('++' ) '+UIHTMLencyBEGIN+CPUevN+UIHTMLencyEND
+//               );
+//
             {.cohesion mod}
             if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CSMEV_cohMod<>0
             then CPUdataIndex:=FCFdTFiles_UIStr_Get(uistrUI, 'colDcohes')+' <b>'+FCFuiHTML_Modifier_GetFormat( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CSMEV_cohMod, true )+'</b>  ';
@@ -1202,9 +1206,8 @@ begin
          begin
             CPUinfStatus:=FCFgInf_Status_GetToken(FCentities[0].E_col[CDPcurrentColony].COL_settlements[CDPcurrentSettlement].CS_infra[CPUcnt].CI_status);
             CPUinfDisplay:='<img src="file://'+FCVpathRsrc+'pics-ui-colony\'+CPUinfStatus+'16.jpg" align="middle"> - '
-               +'<a href="'+FCentities[0].E_col[CDPcurrentColony].COL_settlements[CDPcurrentSettlement].CS_infra[CPUcnt].CI_dbToken+'">'
                +FCFdTFiles_UIStr_Get(uistrUI, FCentities[0].E_col[CDPcurrentColony].COL_settlements[CDPcurrentSettlement].CS_infra[CPUcnt].CI_dbToken)
-               +'</a>';
+               +' '+UIHTMLencyBEGIN+FCentities[0].E_col[CDPcurrentColony].COL_settlements[CDPcurrentSettlement].CS_infra[CPUcnt].CI_dbToken+UIHTMLencyEND;
             case FCentities[0].E_col[CDPcurrentColony].COL_settlements[CDPcurrentSettlement].CS_infra[CPUcnt].CI_function of
                fEnergy: CPUsubnode:=FCWinMain.FCWM_CDPinfrList.Items.AddChild(CPUrootnodeInfraEN, CPUinfDisplay);
                fHousing: CPUsubnode:=FCWinMain.FCWM_CDPinfrList.Items.AddChild(CPUrootnodeInfraHO, CPUinfDisplay);
@@ -1268,9 +1271,8 @@ begin
                   begin
                      if FCentities[0].E_col[CDPcurrentColony].COL_settlements[CDPcurrentSettlement].CS_infra[DataIndex1].CI_cabDuration=FCCtransitionTime
                      then CPUsubnode.Text:='<img src="file://'+FCVpathRsrc+'pics-ui-colony\'+CPUinfStatus+'16.jpg" align="middle"> - '
-                        +'<a href="'+FCentities[0].E_col[CDPcurrentColony].COL_settlements[CDPcurrentSettlement].CS_infra[DataIndex1].CI_dbToken+'">'
                         +FCFdTFiles_UIStr_Get(uistrUI, FCentities[0].E_col[CDPcurrentColony].COL_settlements[CDPcurrentSettlement].CS_infra[DataIndex1].CI_dbToken)
-                        +'</a>';
+                        +' '+UIHTMLencyBEGIN+FCentities[0].E_col[CDPcurrentColony].COL_settlements[CDPcurrentSettlement].CS_infra[DataIndex1].CI_dbToken+UIHTMLencyEND;
                      CPUsubnodetp.Text:=
                         FCFdTFiles_UIStr_Get(uistrUI, CPUinfStatus)+': '+IntToStr( FCentities[0].E_col[CDPcurrentColony].COL_settlements[CDPcurrentSettlement].CS_infra[DataIndex1].CI_cabDuration )+' hr(s)'
                         ;
@@ -1279,9 +1281,8 @@ begin
                   istOperational:
                   begin
                      CPUsubnode.Text:='<img src="file://'+FCVpathRsrc+'pics-ui-colony\'+CPUinfStatus+'16.jpg" align="middle"> - '
-                        +'<a href="'+FCentities[0].E_col[CDPcurrentColony].COL_settlements[CDPcurrentSettlement].CS_infra[DataIndex1].CI_dbToken+'">'
                         +FCFdTFiles_UIStr_Get(uistrUI, FCentities[0].E_col[CDPcurrentColony].COL_settlements[CDPcurrentSettlement].CS_infra[DataIndex1].CI_dbToken)
-                        +'</a>';
+                        +' '+UIHTMLencyBEGIN+FCentities[0].E_col[CDPcurrentColony].COL_settlements[CDPcurrentSettlement].CS_infra[DataIndex1].CI_dbToken+UIHTMLencyEND;
                      CPUsubnodeTp.Delete;
                   end;
                end;
