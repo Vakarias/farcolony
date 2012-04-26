@@ -1086,9 +1086,9 @@
       <SP>Colonia Disidente</SP>
    </csmevColDissident>
    <csmevColEst>
-      <EN>Colony Establishment</EN>
-      <FR>Etablissement de la Colonie</FR>
-      <SP>Establecimiento de la Colonia</SP>
+      <EN>Colony Established</EN>
+      <FR>Colonie Etablie</FR>
+      <SP>Colonia Establecido</SP>
    </csmevColEst>
    <csmevColRogue>
       <EN>Rogue Colony</EN>
