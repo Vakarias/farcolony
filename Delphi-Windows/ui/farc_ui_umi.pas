@@ -98,7 +98,8 @@ uses
    ,farc_game_cps
    ,farc_game_spm
    ,farc_game_spmdata
-   ,farc_main;
+   ,farc_main
+   ,farc_ui_html;
 
 //===================================END OF INIT============================================
 
@@ -151,6 +152,8 @@ procedure FCMumi_Faction_Upd(
    );
 {:Purpose: update the UMI/Faction section.
     Additions:
+      -2012Apr25- *add: apply the new format for encyclopaedia links in the SPM setting and policies enforcement.
+                  *add: enforced policies are displayed in green, known memes are displayed in blue.
       -2011Jan31- *mod: relocate correctly the Current Dependence Status title.
       -2011Apr30- *mod: levels display jauge adjustments.
       -2011Jan13- *add: Policy Enforcement - take in account faction's status rules for unique policies.
@@ -513,23 +516,23 @@ begin
          if FCentities[0].E_spm[UMIUFcnt].SPMS_isPolicy
          then
          begin
-            if FCentities[0].E_spm[UMIUFcnt].SPMS_isSet
-            then
+            if FCentities[0].E_spm[UMIUFcnt].SPMS_isSet then
             begin
                UMIUFpolSet:='  ['+FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolSet')+' <b>'+IntToStr(FCentities[0].E_spm[UMIUFcnt].SPMS_aprob)+'</b> %]';
-               UMIUFformat:='<a href="'+FCentities[0].E_spm[UMIUFcnt].SPMS_token+'">'+FCFdTFiles_UIStr_Get(uistrUI, FCentities[0].E_spm[UMIUFcnt].SPMS_token)+'</a>'
-                     +FCCFcolGreen+UMIUFpolSet+FCCFcolEND;
+               UMIUFformat:=FCCFcolGreen+FCFdTFiles_UIStr_Get( uistrUI, FCentities[0].E_spm[UMIUFcnt].SPMS_token)+UIHTMLencyBEGIN+FCentities[0].E_spm[UMIUFcnt].SPMS_token+UIHTMLencyEND+FCCFcolGreen+UMIUFpolSet+FCCFcolEND;
                if not UMIUFspmi.SPMI_isUnique2set
                then UMIUFspmiDur:=FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolicyDur')+' [<b>'+IntToStr(FCentities[0].E_spm[UMIUFcnt].SPMS_duration)+'</b> '
                   +FCFdTFiles_UIStr_Get(uistrUI,'TimeFmonth')+']';
             end
-            else if not FCentities[0].E_spm[UMIUFcnt].SPMS_isSet
-            then
+            else if not FCentities[0].E_spm[UMIUFcnt].SPMS_isSet then
             begin
-               UMIUFformat:='<a href="'+FCentities[0].E_spm[UMIUFcnt].SPMS_token+'">'+FCFdTFiles_UIStr_Get(uistrUI, FCentities[0].E_spm[UMIUFcnt].SPMS_token)+'</a>';
-               if FCentities[0].E_spm[UMIUFcnt].SPMS_duration>0
-               then UMIUFspmiDur:=FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolicyDurFail')+' [<b>'+IntToStr(FCentities[0].E_spm[UMIUFcnt].SPMS_duration)+'</b> '
-                  +FCFdTFiles_UIStr_Get(uistrUI,'TimeFmonth')+']';
+
+               if FCentities[0].E_spm[UMIUFcnt].SPMS_duration>0 then
+               begin
+                  UMIUFspmiDur:=FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolicyDurFail')+' [<b>'+IntToStr(FCentities[0].E_spm[UMIUFcnt].SPMS_duration)+'</b> '+FCFdTFiles_UIStr_Get(uistrUI,'TimeFmonth')+']';
+                  UMIUFformat:=FCCFcolRed;
+               end;
+               UMIUFformat:=UMIUFformat+FCFdTFiles_UIStr_Get(uistrUI, FCentities[0].E_spm[UMIUFcnt].SPMS_token)+UIHTMLencyBEGIN+FCentities[0].E_spm[UMIUFcnt].SPMS_token+UIHTMLencyEND;
             end;
             if UMIUFspmi.SPMI_isUnique2set
             then UMIUFspmiDesc:=FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolicy'+IntToStr(Integer(UMIUFspmi.SPMI_area)))
@@ -539,9 +542,12 @@ begin
          else if not FCentities[0].E_spm[UMIUFcnt].SPMS_isPolicy
          then
          begin
-            if FCentities[0].E_spm[UMIUFcnt].SPMS_bLvl>dgUnknown
-            then UMIUFpolSet:=FCCFcolGreen+FCFdTFiles_UIStr_Get(uistrUI, 'UMImemeSet')+FCCFcolEND;;
-            UMIUFformat:='<a href="'+FCentities[0].E_spm[UMIUFcnt].SPMS_token+'">'+FCFdTFiles_UIStr_Get(uistrUI, FCentities[0].E_spm[UMIUFcnt].SPMS_token)+'</a> '+UMIUFpolSet;
+            if FCentities[0].E_spm[UMIUFcnt].SPMS_bLvl>dgUnknown then
+            begin
+                UMIUFpolSet:=FCCFcolBlueL+FCFdTFiles_UIStr_Get(uistrUI, 'UMImemeSet')+FCCFcolEND;
+                UMIUFformat:=FCCFcolBlueL;
+            end;
+            UMIUFformat:=UMIUFformat+FCFdTFiles_UIStr_Get(uistrUI, FCentities[0].E_spm[UMIUFcnt].SPMS_token)+UIHTMLencyBEGIN+FCentities[0].E_spm[UMIUFcnt].SPMS_token+UIHTMLencyEND+UMIUFpolSet;
             UMIUFspmiDesc:='  [<a href="SPMiBL">BL</a>: <b>'+FCFdTFiles_UIStr_Get(uistrUI, 'SPMiBL'+IntToStr( Integer( FCentities[0].E_spm[UMIUFcnt].SPMS_bLvl ) ) )
                +'</b> / <a href="SPMiSV">SV</a>: <b>'+IntToStr(FCentities[0].E_spm[UMIUFcnt].SPMS_sprdVal)+'</b> %]';
          end;
@@ -694,6 +700,7 @@ begin
                and (FCentities[0].E_spm[UMIUFcnt].SPMS_duration=0)
             then FCWinMain.FCWM_UMIFSh_AFlist.Items.Add(
                '<a href="'+FCentities[0].E_spm[UMIUFcnt].SPMS_token+'">'+FCFdTFiles_UIStr_Get(uistrUI, FCentities[0].E_spm[UMIUFcnt].SPMS_token)+'</a>'
+//               FCFdTFiles_UIStr_Get(uistrUI, FCentities[0].E_spm[UMIUFcnt].SPMS_token)+UIHTMLencyBEGIN+FCentities[0].E_spm[UMIUFcnt].SPMS_token+UIHTMLencyEND
                );
             inc(UMIUFcnt)
          end;
