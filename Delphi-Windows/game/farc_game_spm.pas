@@ -429,6 +429,7 @@ end;
 function FCFgSPM_Policy_GetFSMod(const PGFSMent: integer): integer;
 {:Purpose: retrieve the FS modifier, regarding the entity, for policy processing and return the modifier.
     Additions:
+      -2012Apr25- *fix: take into account when cohesion>100.
 }
 var
    PGFSMfs: integer;
@@ -442,7 +443,7 @@ begin
       50..64: Result:=0;
       65..79: Result:=-7;
       80..94: Result:=-11;
-      95..100: Result:=-13;
+      95..1000: Result:=-13;
    end;
 end;
 
@@ -782,9 +783,9 @@ begin
       PPbAP:=50;//22;
       PPbREQ:=GSPMmarginMod;
       PPeSUM:=FCFgSPM_SPMiInfluence_Get(GSPMspmi, PPent);
-      PPbcMod:=round( (FCentities[PPent].E_bureau-FCentities[PPent].E_corrupt)/5 );
+      PPbcMod:=round( sqrt(FCentities[PPent].E_bureau-FCentities[PPent].E_corrupt)*2 );
 //      PPfAP:=PPbAP+PPbREQ+round( ( (24*GSPMmodMax)+(PPeSUM*4) )/ GSPMmodMax )+PPbcMod;
-      PPfAP:=PPbAP+PPbREQ+round(PPeSUM*0.5)+PPbcMod;
+      PPfAP:=PPbAP+PPbREQ+round(PPeSUM*1)+PPbcMod;
       GSPMap:=PPfAP;
       GSPMinfluence:=PPeSUM;
    end;
@@ -993,7 +994,7 @@ begin
    if PPDTsimulVal=0
    then
    begin
-      PPDTproba:=(FCFcFunc_Rand_Int(9)+1)*10;
+      PPDTproba:=(FCFcFunc_Rand_Int(4)+1)*20;
       GSPMfap_x:=GSPMap-(PPDTproba+GSPMfsMod);
    end
    else if PPDTsimulVal>0
