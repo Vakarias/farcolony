@@ -1143,6 +1143,7 @@ function FCFgCSM_Health_GetIdxStr(
    ): string;
 {:Purpose: get the health index string or index value string.
    Additions:
+      -2012Apr29- *add/mod: apply the last changes in the doc, by modifying the ranges and add a new level.
       -2010Sep14- *add: a faction parameter.
                   *add: entities code.
 }
@@ -1166,33 +1167,41 @@ begin
       then CGISclr:=FCCFcolOrge;
    end
    else if (FCentities[HGISfac].E_col[HGIScol].COL_csmHEheal>=51)
-      and (FCentities[HGISfac].E_col[HGIScol].COL_csmHEheal<66)
+      and (FCentities[HGISfac].E_col[HGIScol].COL_csmHEheal<91)
    then
    begin
       CGISidx:='3';
       if not HGISvalue
       then CGISclr:=FCCFcolOrge;
    end
-   else if (FCentities[HGISfac].E_col[HGIScol].COL_csmHEheal>=66)
-      and (FCentities[HGISfac].E_col[HGIScol].COL_csmHEheal<81)
+   else if (FCentities[HGISfac].E_col[HGIScol].COL_csmHEheal>=91)
+      and (FCentities[HGISfac].E_col[HGIScol].COL_csmHEheal<111)
    then
    begin
       CGISidx:='4';
       if not HGISvalue
       then CGISclr:=FCCFcolYel;
    end
-   else if (FCentities[HGISfac].E_col[HGIScol].COL_csmHEheal>=81)
-      and (FCentities[HGISfac].E_col[HGIScol].COL_csmHEheal<96)
+   else if (FCentities[HGISfac].E_col[HGIScol].COL_csmHEheal>=111)
+      and (FCentities[HGISfac].E_col[HGIScol].COL_csmHEheal<126)
    then
    begin
       CGISidx:='5';
       if not HGISvalue
       then CGISclr:=FCCFcolBlueL;
    end
-   else if FCentities[HGISfac].E_col[HGIScol].COL_csmHEheal>=96
+   else if (FCentities[HGISfac].E_col[HGIScol].COL_csmHEheal>=126)
+      and (FCentities[HGISfac].E_col[HGIScol].COL_csmHEheal<141)
    then
    begin
       CGISidx:='6';
+      if not HGISvalue
+      then CGISclr:=FCCFcolGreen;
+   end
+   else if FCentities[HGISfac].E_col[HGIScol].COL_csmHEheal>=141
+   then
+   begin
+      CGISidx:='7';
       if not HGISvalue
       then CGISclr:=FCCFcolGreen;
    end;
