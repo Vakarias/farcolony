@@ -33,6 +33,29 @@ interface
 uses
    farc_data_infrprod;
 
+
+///<summary>
+///   convert a density and volume of food in food reserve's points
+///</summary>
+///   <param name="FoodVolume">food volume, in cubic meters, to convert</param>
+///   <param name="FoodDensity">food density, in t / units, to convert</param>
+///   <returns>the converted oxygen reserve's points</returns>
+function FCFgCR_Food_Convert( const FoodVolume, FoodDensity: extended ): integer;
+
+///<summary>
+///   convert a volume of oxygen in oxygen reserve's points
+///</summary>
+///   <param name="OxygenVolume">oxygen volume, in cubic meters, to convert</param>
+///   <returns>the converted oxygen reserve's points</returns>
+function FCFgCR_Oxygen_Convert( const OxygenVolume: extended ): integer;
+
+///<summary>
+///   convert a volume of water in water reserve's points
+///</summary>
+///   <param name="WaterVolume">oxygen volume, in cubic meters, to convert</param>
+///   <returns>the converted water reserve's points</returns>
+function FCFgCR_Water_Convert( const WaterVolume: extended ): integer;
+
 //===========================END FUNCTIONS SECTION==========================================
 
 ///<summary>
@@ -72,6 +95,34 @@ uses
    ,farc_ui_coredatadisplay;
 
 //===================================================END OF INIT============================
+
+function FCFgCR_Food_Convert( const FoodVolume, FoodDensity: extended ): integer;
+{:Purpose: convert a density and volume of food in food reserve's points.
+    Additions:
+}
+begin
+   Result:=0;
+   Result:=trunc( ( FoodDensity*FoodVolume ) / 0.000618 );
+end;
+
+function FCFgCR_Oxygen_Convert( const OxygenVolume: extended ): integer;
+{:Purpose: convert a volume of oxygen in oxygen reserve's points.
+    Additions:
+}
+begin
+   Result:=0;
+   Result:=trunc( OxygenVolume / 0.000736 );
+end;
+
+function FCFgCR_Water_Convert( const WaterVolume: extended ): integer;
+{:Purpose: convert a volume of water in water reserve's points.
+    Additions:
+}
+begin
+   Result:=0;
+   Result:=trunc( WaterVolume / 0.018077 );
+end;
+
 //===========================END FUNCTIONS SECTION==========================================
 
 procedure FCMgCR_Reserve_Update(
@@ -149,11 +200,11 @@ procedure FCMgCR_Reserve_UpdateByUnits(
 begin
    ConvertedModifier:=0;
    case TypeOfReserve of
-      prfuFood: ConvertedModifier:=trunc( ( FoodDensity*ValueModifier ) / 0.000618 );
+      prfuFood: ConvertedModifier:=FCFgCR_Food_Convert( ValueModifier, FoodDensity );
 
-      prfuOxygen: ConvertedModifier:=trunc( ValueModifier / 0.000736 );
+      prfuOxygen: ConvertedModifier:=FCFgCR_Oxygen_Convert( ValueModifier );
 
-      prfuWater: ConvertedModifier:=trunc( ValueModifier / 0.018077 );
+      prfuWater: ConvertedModifier:=FCFgCR_Water_Convert( ValueModifier );
    end;
    if ConvertedModifier<>0
    then FCMgCR_Reserve_Update(
