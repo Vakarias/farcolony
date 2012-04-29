@@ -95,7 +95,7 @@ interface
    {:DEV NOTES: update FCFgCSME_Event_GetStr. WARNING: deprecate any previous save game files if an event is INSERTED}
    {:DEV NOTES: update also FCMgCSME_Event_Cancel if a recovering status is added and for the override mode.}
    {:DEV NOTES: update also FCMgCSME_OT_Proc for over time processing + FCMgCSME_Event_Trigger.}
-   type TFCEevTp=(
+   type TFCEdgEventTypes=(
       {.colony established}
       etColEstab
       {.unrest}
@@ -312,10 +312,10 @@ interface
       );
    //==END ENUM=============================================================================
    {.colony event data structure}
-   {:DEV NOTE: DON'T FORGET TO UPDATE FCMdFiles_Game_Load + FCMdFiles_Game_Save + FCMuiW_ColPan_Upd}
-   {:DEV NOTES: UPDATE FCMgCSME_Event_Trigger + FCMgCSME_Event_Cancel + FCFgCSME_Mod_Sum + TFCEcsmeModTp.}
+   {:DEV NOTES: UPDATE FCMdFiles_Game_Load + FCMdFiles_Game_Save + FCMuiW_ColPan_Upd}
+   {:DEV NOTES: UPDATE FCMgCSME_Event_Trigger + FCMgCSME_Event_Cancel + FCMgCSME_OT_Proc + FCFgCSME_Mod_Sum + TFCEcsmeModTp.}
    type TFCRdgColonCSMev = record
-      CSMEV_token: TFCEevTp;
+      CSMEV_token: TFCEdgEventTypes;
       {.define if the event is resident or (=false =>) occasional (w/ a duration of 24hrs}
       CSMEV_isRes: boolean;
       {.duration in # of full weeks (or # of CSM phases)}

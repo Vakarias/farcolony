@@ -1243,7 +1243,7 @@ var
 
    PPstr: string;
 
-   PPev: TFCEevTp;
+   PPev: TFCEdgEventTypes;
 begin
    {.retrieve colony's data}
    PPcohes:=FCentities[PPfac].E_col[PPcol].COL_cohes;

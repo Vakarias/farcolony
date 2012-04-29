@@ -653,8 +653,8 @@ begin
                         begin
                            SetLength(FCentities[GLentCnt].E_col[GLcount].COL_evList, length(FCentities[GLentCnt].E_col[GLcount].COL_evList)+1);
                            inc(GLevCnt);
-                           GLenumIndex:=GetEnumValue(TypeInfo(TFCEevTp), GLxmlColsub.Attributes['token'] );
-                           FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].CSMEV_token:=TFCEevTp(GLenumIndex);
+                           GLenumIndex:=GetEnumValue(TypeInfo(TFCEdgEventTypes), GLxmlColsub.Attributes['token'] );
+                           FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].CSMEV_token:=TFCEdgEventTypes(GLenumIndex);
                            if GLenumIndex=-1
                            then raise Exception.Create('bad gamesave loading w/CSM event type: '+GLxmlColsub.Attributes['token']) ;
                            FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].CSMEV_isRes:=GLxmlColsub.Attributes['isres'];

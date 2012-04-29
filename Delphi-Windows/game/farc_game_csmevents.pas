@@ -66,7 +66,7 @@ procedure FCMgCSME_Event_Cancel(
    const ECfacIdx
          ,ECcolIdx
          ,ECevent: integer;
-   const ECnewEvent: TFCEevTp;
+   const ECnewEvent: TFCEdgEventTypes;
    const ECnewLvl: integer
    );
 
@@ -74,7 +74,7 @@ procedure FCMgCSME_Event_Cancel(
 ///   get the event token string
 ///</summary>
 ///    <param name="EGSevent">type of event</param>
-function FCFgCSME_Event_GetStr(const EGSevent: TFCEevTp): string;
+function FCFgCSME_Event_GetStr(const EGSevent: TFCEdgEventTypes): string;
 
 ///<summary>
 ///   search if a specified event is present, return the event# (0 if not found)
@@ -83,7 +83,7 @@ function FCFgCSME_Event_GetStr(const EGSevent: TFCEevTp): string;
 ///    <param name="ETfacIdx">faction index #</param>
 ///    <param name="ETcolIdx">colony index #</param>
 function FCSgCSME_Event_Search(
-   const ESevent: TFCEevTp;
+   const ESevent: TFCEdgEventTypes;
    const ESfacIdx
          ,EScolIdx: integer
    ): integer;
@@ -96,7 +96,7 @@ function FCSgCSME_Event_Search(
 ///    <param name="ETcolIdx">colony index #</param>
 ///    <param name="ETlvl">[optional] level</param>
 procedure FCMgCSME_Event_Trigger(
-   const ETevent: TFCEevTp;
+   const ETevent: TFCEdgEventTypes;
    const ETfacIdx
          ,ETcolIdx
          ,ETlvl: integer;
@@ -132,7 +132,7 @@ function FCFgCSME_Mod_Sum(
 function FCFgCSME_UnSup_Find(
    const USFfac
          ,USFcol: integer
-   ): TFCEevTp;
+   ): TFCEdgEventTypes;
 
 ///<summary>
 ///   over time processing for events of a colony
@@ -155,7 +155,7 @@ procedure FCMgCSME_OT_Proc(
 procedure FCMgCSME_UnSup_FindRepl(
    const USFRfac
          ,USFRcol: integer;
-   const USFRevent: TFCEevTp;
+   const USFRevent: TFCEdgEventTypes;
    const USFRevLvl: integer;
    const USFRevCancel: TFCEcsmeEvCan;
    const USFRtriggerIfEmpty: boolean
@@ -185,7 +185,7 @@ procedure FCMgCSME_Event_Cancel(
    const ECfacIdx
          ,ECcolIdx
          ,ECevent: integer;
-   const ECnewEvent: TFCEevTp;
+   const ECnewEvent: TFCEdgEventTypes;
    const ECnewLvl: integer
    );
 {:Purpose: cancel a specified event.
@@ -334,7 +334,8 @@ begin
             else if ECmax=1
             then setlength(FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList, 1);
          end;
-      end; //==END== case of: csmeecImmediate ==//
+      end; //==END== case of: csmeecImmediate, csmeecImmediateDelay ==//
+
       csmeecRecover:
       begin
          case FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CSMEV_token of
@@ -348,6 +349,7 @@ begin
             end;
          end;
       end;
+
       csmeecOverride:
       begin
          FCMgCSME_Event_Trigger(
@@ -374,7 +376,7 @@ begin
    {refresh colony panel - events if it's displayed}
 end;
 
-function FCFgCSME_Event_GetStr(const EGSevent: TFCEevTp): string;
+function FCFgCSME_Event_GetStr(const EGSevent: TFCEdgEventTypes): string;
 {:Purpose: get the event token string.
    Additions:
       -2012Apr29- *add: forgot to add: etGovDestabRec.
@@ -402,7 +404,7 @@ begin
 end;
 
 function FCSgCSME_Event_Search(
-   const ESevent: TFCEevTp;
+   const ESevent: TFCEdgEventTypes;
    const ESfacIdx
          ,EScolIdx: integer
    ): integer;
@@ -430,7 +432,7 @@ begin
 end;
 
 procedure FCMgCSME_Event_Trigger(
-   const ETevent: TFCEevTp;
+   const ETevent: TFCEdgEventTypes;
    const ETfacIdx
          ,ETcolIdx
          ,ETlvl: integer;
@@ -994,7 +996,7 @@ end;
 function FCFgCSME_UnSup_Find(
    const USFfac
          ,USFcol: integer
-   ): TFCEevTp;
+   ): TFCEdgEventTypes;
 {:Purpose: find if any Unrest, Social Disorder, Uprising or Dissident Colony event is set, and return the type.
     Additions:
       -2010Sep14- *add: entities code.
@@ -2727,7 +2729,7 @@ end;
 procedure FCMgCSME_UnSup_FindRepl(
    const USFRfac
          ,USFRcol: integer;
-   const USFRevent: TFCEevTp;
+   const USFRevent: TFCEdgEventTypes;
    const USFRevLvl: integer;
    const USFRevCancel: TFCEcsmeEvCan;
    const USFRtriggerIfEmpty: boolean
