@@ -74,6 +74,7 @@ uses
 procedure FCMdFSG_Game_Load;
 {:Purpose: load the current game.
    Additions:
+      -2012Apr29- *mod: CSM event token are loaded by their full names now.
       -2012Apr15- *add: completion of colony's reserves.
                   *fix: correctly load the colony level.
       -2012Mar14- *fix: colony's production matrix - correct a data mismatch error in the production matrix item loading.
@@ -652,7 +653,10 @@ begin
                         begin
                            SetLength(FCentities[GLentCnt].E_col[GLcount].COL_evList, length(FCentities[GLentCnt].E_col[GLcount].COL_evList)+1);
                            inc(GLevCnt);
-                           FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].CSMEV_token:=GLxmlColsub.Attributes['token'];
+                           GLenumIndex:=GetEnumValue(TypeInfo(TFCEevTp), GLxmlColsub.Attributes['token'] );
+                           FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].CSMEV_token:=TFCEevTp(GLenumIndex);
+                           if GLenumIndex=-1
+                           then raise Exception.Create('bad gamesave loading w/CSM event type: '+GLxmlColsub.Attributes['token']) ;
                            FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].CSMEV_isRes:=GLxmlColsub.Attributes['isres'];
                            FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].CSMEV_duration:=GLxmlColsub.Attributes['duration'];
                            FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].CSMEV_lvl:=GLxmlColsub.Attributes['level'];
@@ -934,6 +938,7 @@ end;
 procedure FCMdFSG_Game_Save;
 {:Purpose: save the current game.
     Additions:
+      -2012Apr29- *mod: CSM event token are saved in their full names now.
       -2012Apr15- *add: completion of colony's reserves.
       -2012Mar14- *fix: owned infrastructures - forgot to include MISC and INTELLIGENCE function for saving them and their possible specific data.
       -2012Mar13- *add: selective saving for otEcoIndustrialForce data.
@@ -1082,7 +1087,7 @@ var
    GScurrDir
    ,GScurrG
    ,GSstringStore
-   ,GSsettleTp: string;
+   ,GSenumString: string;
 begin
    if not FCWinMain.CloseQuery
    then FCMgTFlow_FlowState_Set(tphPAUSE);
@@ -1398,7 +1403,20 @@ begin
                while GSsubC<=GSsubL-1 do
                begin
                   GSxmlColEv:=GSxmlCol.AddChild('colEvent');
-                  GSxmlColEv.Attributes['token']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].CSMEV_token;
+                  case FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].CSMEV_token of
+                     etColEstab: GSenumString:='etColEstab';
+                     etUnrest: GSenumString:='etUnrest';
+                     etUnrestRec: GSenumString:='etUnrestRec';
+                     etSocdis: GSenumString:='etSocdis';
+                     etSocdisRec: GSenumString:='etSocdisRec';
+                     etUprising: GSenumString:='etUprising';
+                     etUprisingRec: GSenumString:='etUprisingRec';
+                     etColDissident: GSenumString:='etColDissident';
+                     etHealthEduRel: GSenumString:='etHealthEduRel';
+                     etGovDestab: GSenumString:='etGovDestab';
+                     etGovDestabRec: GSenumString:='etGovDestabRec';
+                  end;
+                  GSxmlColEv.Attributes['token']:=GSenumString;
                   GSxmlColEv.Attributes['isres']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].CSMEV_isRes;
                   GSxmlColEv.Attributes['duration']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].CSMEV_duration;
                   GSxmlColEv.Attributes['level']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].CSMEV_lvl;
@@ -1422,12 +1440,12 @@ begin
                   GSxmlSettle:=GSxmlCol.AddChild('colSettlement');
                   GSxmlSettle.Attributes['name']:=FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_name;
                   case FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_type of
-                     stSurface: GSsettleTp:='stSurface';
-                     stSpaceSurf: GSsettleTp:='stSpaceSurf';
-                     stSubterranean: GSsettleTp:='stSubterranean';
-                     stSpaceBased: GSsettleTp:='stSpaceBased';
+                     stSurface: GSenumString:='stSurface';
+                     stSpaceSurf: GSenumString:='stSpaceSurf';
+                     stSubterranean: GSenumString:='stSubterranean';
+                     stSpaceBased: GSenumString:='stSpaceBased';
                   end;
-                  GSxmlSettle.Attributes['type']:=GSsettleTp;
+                  GSxmlSettle.Attributes['type']:=GSenumString;
                   GSxmlSettle.Attributes['level']:=FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_level;
                   GSxmlSettle.Attributes['region']:=FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_region;
                   GSsubL:=length(FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra)-1;
