@@ -125,6 +125,7 @@
 			<DCCReference Include="ui\farc_ui_cps.pas"/>
 			<DCCReference Include="game\farc_game_entitiesfactions.pas"/>
 			<DCCReference Include="game\farc_game_colonyrves.pas"/>
+			<DCCReference Include="game\farc_game_prodSeg3.pas"/>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>

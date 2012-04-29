@@ -84,6 +84,7 @@ uses
    ,farc_data_infrprod
    ,farc_game_prodSeg1
    ,farc_game_prodSeg2
+   ,farc_game_prodSeg3
    ,farc_game_prodSeg5;
 
 var
@@ -192,6 +193,7 @@ end;
 procedure FCMgP_PhaseCore_Process;
 {:Purpose: production phase, core routine.
     Additions:
+      -2012Apr27- *add: reserves consumption - segment 3 link.
       -2011Sep06- *add: CAB/Transition segment link.
       -2011Jul25- *add: production segment 2 link.
       -2011Jul14- *fix: apply correction in the second while loop by increasing the correct data.
@@ -215,7 +217,8 @@ begin
             FCMgPS1_EnergySegment_Process(PCPfacCount, PCPcolCount);
             {.2nd segment, items production, test the production matrix here.}
             FCMgPS2_ProductionSegment_Process(PCPfacCount, PCPcolCount);
-            {:DEV NOTES: 3rd segment, reserves testing each 24hours.}
+            {.3rd segment, reserves consumption.}
+            FCMgPS3_ReservesSegment_Process( PCPfacCount, PCPcolCount );
             {:DEV NOTES: post 1st alpha: 4th segment, space unit manufacturing.}
             {.5th segment, CAB queue processing.}
             FCMgPS5_CABTransitionSegment_Process(PCPfacCount, PCPcolCount);

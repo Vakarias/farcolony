@@ -103,7 +103,8 @@ uses
   farc_game_cpsobjectives in 'game\farc_game_cpsobjectives.pas',
   farc_ui_cps in 'ui\farc_ui_cps.pas',
   farc_game_entitiesfactions in 'game\farc_game_entitiesfactions.pas',
-  farc_game_colonyrves in 'game\farc_game_colonyrves.pas';
+  farc_game_colonyrves in 'game\farc_game_colonyrves.pas',
+  farc_game_prodSeg3 in 'game\farc_game_prodSeg3.pas';
 
 {$R *.res}
 
