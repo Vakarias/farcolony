@@ -377,6 +377,7 @@ end;
 function FCFgCSME_Event_GetStr(const EGSevent: TFCEevTp): string;
 {:Purpose: get the event token string.
    Additions:
+      -2012Apr29- *add: forgot to add: etGovDestabRec.
       -2011Jan18- *add: etGovDestab.
       -2010Aug12- *rem: etColRogue.
       -2010Aug02- *add: etHealthEduRel.
@@ -396,6 +397,7 @@ begin
       etColDissident: result:='csmevColDissident';
       etHealthEduRel: result:='csmevHealthEduRel';
       etGovDestab: result:='csmevGovDestab';
+      etGovDestabRec: result:= 'csmevGovDestabRec';
    end;
 end;
 
@@ -921,6 +923,8 @@ function FCFgCSME_HealEdu_GetMod(
    ): integer;
 {:Purpose: get the health-education event modifier value.
     Additions:
+      -2012Apr29- *mod: refinement of the modifiers.
+                  *add: apply the changes in the health levels according to the update in the document.
 }
 var
    HEGMhealLvl
@@ -936,12 +940,13 @@ begin
          )
       );
    case HEGMhealLvl of
-      1: HEGMmod:=-40;
-      2: HEGMmod:=-20;
-      3: HEGMmod:=-10;
+      1: HEGMmod:=-20;
+      2: HEGMmod:=-10;
+      3: HEGMmod:=-5;
       4: HEGMmod:=0;
-      5: HEGMmod:=10;
-      6: HEGMmod:=20;
+      5: HEGMmod:=5;
+      6: HEGMmod:=10;
+      7: HEGMmod:=20;
    end;
    Result:=HEGMmod;
 end;
