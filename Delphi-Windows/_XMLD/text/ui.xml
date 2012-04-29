@@ -533,10 +533,15 @@
       <SP>Buena</SP>
    </colDhealI5>
    <colDhealI6>
+      <EN>Superior</EN>
+      <FR>Supérieure</FR>
+      <SP></SP>
+   </colDhealI6>
+   <colDhealI7>
       <EN>Perfect</EN>
       <FR>Parfaite</FR>
       <SP>Perfecta</SP>
-   </colDhealI6>
+   </colDhealI7>
    <colMortality>
       <EN>Mortality</EN>
       <FR>Mortalité</FR>
@@ -1100,6 +1105,11 @@
       <FR>Destabilisation du Gouvernement</FR>
       <SP>Desestabilizacion del Gobierno</SP>
    </csmevGovDestab>
+   <csmevGovDestabRec>
+      <EN>Governmental Destabilization (Recovering)</EN>
+      <FR>Destabilisation du Gouvernement (Récupèration)</FR>
+      <SP>Desestabilizacion del Gobierno (Recuperacion)</SP>
+   </csmevGovDestabRec>
    <csmevHealthEduRel>
       <EN>Health-Education Relation</EN>
       <FR>Relation Santé-Education</FR>
