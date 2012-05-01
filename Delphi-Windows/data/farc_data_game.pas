@@ -313,23 +313,43 @@ interface
    //==END ENUM=============================================================================
    {.colony event data structure}
    {:DEV NOTES: UPDATE FCMdFiles_Game_Load + FCMdFiles_Game_Save + FCMuiW_ColPan_Upd}
-   {:DEV NOTES: UPDATE FCMgCSME_Event_Trigger + FCMgCSME_Event_Cancel + FCMgCSME_OT_Proc + FCFgCSME_Mod_Sum + TFCEcsmeModTp.}
+   {:DEV NOTES: UPDATE FCMgCSME_Event_Trigger + FCMgCSME_Event_Cancel + FCMgCSME_OT_Proc.}
+   {:DEV NOTES: update farc_game_csmevents/TFCEcsmeModTp + FCFgCSME_Mod_Sum + FCMuiCDP_Data_Update/dtCSMev if any modifier is modified / added.}
    type TFCRdgColonCSMev = record
-      CSMEV_token: TFCEdgEventTypes;
       {.define if the event is resident or (=false =>) occasional (w/ a duration of 24hrs}
       CSMEV_isRes: boolean;
       {.duration in # of full weeks (or # of CSM phases)}
       CSMEV_duration: integer;
       {.optional level data - this data is never displayed to the player}
       CSMEV_lvl: integer;
-      {.modifiers list}
-      {:DEV NOTES: update TFCEcsmeModTp.}
-      CSMEV_cohMod: integer;
-      CSMEV_tensMod: integer;
-      CSMEV_secMod: integer;
-      CSMEV_eduMod: integer;
-      CSMEV_iecoMod: integer;
-      CSMEV_healMod: integer;
+      {.event types with linked data}
+      case CSMEV_token: TFCEdgEventTypes of
+         etColEstab:(
+            CE_tensionMod: integer;
+            CE_securityMod: integer
+            );
+
+         etUnrest, etUnrestRec:(
+            UN_ecoindMod: integer;
+            UN_tensionMod: integer
+            );
+
+         etSocdis, etSocdisRec:(
+            SD_ecoindMod: integer;
+            SD_tensionMod: integer
+            );
+
+         {:DEV NOTES: add rebels and fighting results.}
+         etUprising, etUprisingRec:(
+            UP_ecoindMod: integer;
+            UP_tensionMod: integer
+            );
+
+         etColDissident:();
+
+         etHealthEduRel:( HER_educationMod: integer );
+
+         etGovDestab, etGovDestabRec:( GD_cohesionMod: integer );
    end;
    {.owned infrastructure data structure}
    {:DEV NOTES: update FCMdFiles_Game_Save/Load + FCMgICS_Conversion_Process + FCMgICS_Assembling_Process + FCMgICS_Building_Process + FCMuiCDP_Data_Update/dtInfra.}

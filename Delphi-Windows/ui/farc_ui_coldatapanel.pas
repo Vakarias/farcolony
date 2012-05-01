@@ -659,6 +659,7 @@ procedure FCMuiCDP_Data_Update(
          ,DataIndex1: integer
    );
 {:Purpose: update the colony data display
+   -2012aPR29- *mod: CSM event modifiers and data are displayed according to the new changes in the data structure.
    -2012Apr18- *add: encyclopaedia links reformat for owned infrastructures list.
    -2012Apr16- *add: encyclopedia link are displayed with [?] (COMPLETION).
                *add: reserves (COMPLETION)
@@ -1146,28 +1147,59 @@ begin
             CPUevN:=FCFgCSME_Event_GetStr(FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CSMEV_token);
             CPUdataIndex:='';
             CPUrootnode:=FCWinMain.FCWM_CDPcsmeList.Items.Add(nil, FCFdTFiles_UIStr_Get(uistrUI, CPUevN)+UIHTMLencyBEGIN+CPUevN+UIHTMLencyEND );
-
             if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CSMEV_duration>0
             then FCWinMain.FCWM_CDPpopList.Items.AddChild( CPUrootnode, FCFdTFiles_UIStr_Get(uistrUI, 'csmdur')+': <b>'+IntToStr(FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CSMEV_duration)
                   +' </b>'+FCFdTFiles_UIStr_Get(uistrUI, 'TimeFwks') );
-            {.cohesion mod}
-            if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CSMEV_cohMod<>0
-            then CPUdataIndex:=FCFdTFiles_UIStr_Get(uistrUI, 'colDcohes')+' <b>'+FCFuiHTML_Modifier_GetFormat( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CSMEV_cohMod, true )+'</b>  ';
-            {.tension mod}
-            if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CSMEV_tensMod<>0
-            then CPUdataIndex:=CPUdataIndex+FCFdTFiles_UIStr_Get(uistrUI, 'colDtens')+' <b>'+FCFuiHTML_Modifier_GetFormat( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CSMEV_tensMod, true )+'</b>  ';
-            {.security mod}
-            if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CSMEV_secMod<>0
-            then CPUdataIndex:=CPUdataIndex+FCFdTFiles_UIStr_Get(uistrUI, 'colDsec')+' <b>'+FCFuiHTML_Modifier_GetFormat( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CSMEV_secMod, true )+'</b>  ';
-            {.education mod}
-            if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CSMEV_eduMod<>0
-            then CPUdataIndex:=CPUdataIndex+FCFdTFiles_UIStr_Get(uistrUI, 'colDedu')+' <b>'+FCFuiHTML_Modifier_GetFormat( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CSMEV_eduMod, true )+'</b>  ';
-            {.economic and industrial ouput mod}
-            if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CSMEV_iecoMod<>0
-            then CPUdataIndex:=CPUdataIndex+FCFdTFiles_UIStr_Get(uistrUI, 'csmieco')+' <b>'+FCFuiHTML_Modifier_GetFormat( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CSMEV_iecoMod, true )+'</b>  ';
-            {.health mod}
-            if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CSMEV_healMod<>0
-            then CPUdataIndex:=CPUdataIndex+FCFdTFiles_UIStr_Get(uistrUI, 'colDheal')+' <b>'+FCFuiHTML_Modifier_GetFormat( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CSMEV_healMod, true )+'</b>  ';
+            {.order to display modifiers is: cohesion, tension, security, education, economic and industrial output, health}
+            {.the special data are always displayed after the modifiers}
+            case FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CSMEV_token of
+               etColEstab:
+               begin
+                  if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CE_tensionMod<>0
+                  then CPUdataIndex:=CPUdataIndex+FCFdTFiles_UIStr_Get(uistrUI, 'colDtens')+' <b>'+FCFuiHTML_Modifier_GetFormat( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CE_tensionMod, true )+'</b>  ';
+                  if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CE_securityMod<>0
+                  then CPUdataIndex:=CPUdataIndex+FCFdTFiles_UIStr_Get(uistrUI, 'colDsec')+' <b>'+FCFuiHTML_Modifier_GetFormat( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CE_securityMod, true )+'</b>  ';
+               end;
+
+               etUnrest, etUnrestRec:
+               begin
+                  if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].UN_ecoindMod<>0
+                  then CPUdataIndex:=CPUdataIndex+FCFdTFiles_UIStr_Get(uistrUI, 'csmieco')+' <b>'+FCFuiHTML_Modifier_GetFormat( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].UN_ecoindMod, true )+'</b>  ';
+                  if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].UN_tensionMod<>0
+                  then CPUdataIndex:=CPUdataIndex+FCFdTFiles_UIStr_Get(uistrUI, 'colDtens')+' <b>'+FCFuiHTML_Modifier_GetFormat( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].UN_tensionMod, true )+'</b>  ';
+               end;
+
+               etSocdis, etSocdisRec:
+               begin
+                  if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].SD_ecoindMod<>0
+                  then CPUdataIndex:=CPUdataIndex+FCFdTFiles_UIStr_Get(uistrUI, 'csmieco')+' <b>'+FCFuiHTML_Modifier_GetFormat( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].SD_ecoindMod, true )+'</b>  ';
+                  if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].SD_tensionMod<>0
+                  then CPUdataIndex:=CPUdataIndex+FCFdTFiles_UIStr_Get(uistrUI, 'colDtens')+' <b>'+FCFuiHTML_Modifier_GetFormat( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].SD_tensionMod, true )+'</b>  ';
+               end;
+
+               etUprising, etUprisingRec:
+               begin
+                  if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].UP_ecoindMod<>0
+                  then CPUdataIndex:=CPUdataIndex+FCFdTFiles_UIStr_Get(uistrUI, 'csmieco')+' <b>'+FCFuiHTML_Modifier_GetFormat( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].UP_ecoindMod, true )+'</b>  ';
+                  if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].UP_tensionMod<>0
+                  then CPUdataIndex:=CPUdataIndex+FCFdTFiles_UIStr_Get(uistrUI, 'colDtens')+' <b>'+FCFuiHTML_Modifier_GetFormat( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].UP_tensionMod, true )+'</b>  ';
+               end;
+
+               etHealthEduRel:
+               begin
+                  if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].HER_educationMod<>0
+                  then CPUdataIndex:=CPUdataIndex+FCFdTFiles_UIStr_Get(uistrUI, 'colDedu')+' <b>'+FCFuiHTML_Modifier_GetFormat( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].HER_educationMod, true )+'</b>  ';
+               end;
+
+               etGovDestab, etGovDestabRec:
+               begin
+                  if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].GD_cohesionMod<>0
+                  then CPUdataIndex:=FCFdTFiles_UIStr_Get(uistrUI, 'colDcohes')+' <b>'+FCFuiHTML_Modifier_GetFormat( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].GD_cohesionMod, true )+'</b>  ';
+               end;
+            end; //==END== case FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CSMEV_token of ==//
+//            {.health mod}
+//            if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CSMEV_healMod<>0
+//            then CPUdataIndex:=CPUdataIndex+FCFdTFiles_UIStr_Get(uistrUI, 'colDheal')+' <b>'+FCFuiHTML_Modifier_GetFormat( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CSMEV_healMod, true )+'</b>  ';
             FCWinMain.FCWM_CDPpopList.Items.AddChild(
                CPUrootnode
                ,CPUdataIndex

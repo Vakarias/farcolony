@@ -43,6 +43,7 @@ type TFCEcsmeEvCan=(
    ,csmeecOverride
    );
 
+{:DEV NOTES: update FCFgCSME_Mod_Sum.}
 type TFCEcsmeModTp=(
    csmemtCohes
    ,csmemtTens
@@ -100,7 +101,7 @@ procedure FCMgCSME_Event_Trigger(
    const ETfacIdx
          ,ETcolIdx
          ,ETlvl: integer;
-   const ETretr: boolean
+   const LoadIndex0: boolean
    );
 
 ///<summary>
@@ -189,6 +190,7 @@ procedure FCMgCSME_Event_Cancel(
    const ECnewLvl: integer
    );
 {:Purpose: cancel a specified event.
+   -2012Apr30- *mod: rewriting of the code due to  new changes in the data structure.
    -2011Jan19- *add: recovery mode for Governmental Destabilization.
    -2010Aug29- *add: csmeecImmediate: add the case if there was only 1 record left.
                *add: csmeecImmediateDelay, delay the data structure cleanup.
@@ -200,51 +202,88 @@ procedure FCMgCSME_Event_Cancel(
                *add: health modifier.
    -2010Aug01- *add: immediate cancellation: cohesion, tension.
 }
-var
-   ECcnt
-   ,ECcntClone
-   ,ECcoh
-   ,ECcohMean
-   ,ECedu
-   ,ECeduMean
-   ,ECheal
-   ,EChealMean
-   ,ECieco
-   ,ECiecoMean
-   ,ECmax
-   ,ECres
-   ,ECtens
-   ,ECtensMean: integer;
+   var
+      ECcnt
+   //   ,ECcntClone
+      ,ModCohesion
+   //   ,ECcohMean
 
-   ECeventLst: array of TFCRdgColonCSMev;
+   //   ,ECeduMean
+   //   ,ECheal
+   //   ,EChealMean
+      ,ModEcoIndOut
+      ,ModInstruction
+   //   ,ECiecoMean
+   //   ,ECmax
+      ,ECres
+      ,ModSecurity
+      ,ModTension
+   //   ,ECtensMean
+      : integer;
+
+      ECeventLst: array of TFCRdgColonCSMev;
 begin
-   ECcoh:=FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CSMEV_cohMod;
-   ECtens:=FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CSMEV_tensMod;
-   ECedu:=FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CSMEV_eduMod;
-   ECieco:=FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CSMEV_iecoMod;
-   ECheal:=FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CSMEV_healMod;
+   ModCohesion:=0;
+   ModEcoIndOut:=0;
+   ModInstruction:=0;
+   ModSecurity:=0;
+   ModTension:=0;
+   {.retrieve the modifiers}
+   case FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].CSMEV_token of
+      etColEstab:
+      begin
+         ModTension:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].CE_tensionMod;
+         ModSecurity:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].CE_securityMod;
+      end;
+
+      etUnrest, etUnrestRec:
+      begin
+         ModEcoIndOut:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].UN_ecoindMod;
+         ModTension:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].UN_tensionMod;
+      end;
+
+      etSocdis, etSocdisRec:
+      begin
+         ModEcoIndOut:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].SD_ecoindMod;
+         ModTension:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].SD_tensionMod;
+      end;
+
+      etUprising, etUprisingRec:
+      begin
+         ModEcoIndOut:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].UP_ecoindMod;
+         ModTension:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].UP_tensionMod;
+      end;
+
+      etHealthEduRel: ModInstruction:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].HER_educationMod;
+
+      etGovDestab, etGovDestabRec: ModCohesion:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].GD_cohesionMod;
+   end;
+   {.apply the correct cancellation method}
    case ECcancelTp of
       csmeecImmediate, csmeecImmediateDelay:
       begin
-         {.cohesion}
-         if ECcoh<0
-         then ECres:=abs(ECcoh)
-         else if ECcoh>0
-         then ECres:=-ECcoh;
-         FCMgCSM_ColonyData_Upd(
-            gcsmdCohes
-            ,ECfacIdx
-            ,ECcolIdx
-            ,ECres
-            ,0
-            ,gcsmptNone
-            ,false
-            );
+         {.reverse the modifiers effects}
+         if ModCohesion<>0 then
+         begin
+            if ModCohesion<0
+            then ECres:=abs(ModCohesion)
+            else if ModCohesion>0
+            then ECres:=-ModCohesion;
+            FCMgCSM_ColonyData_Upd(
+               gcsmdCohes
+               ,ECfacIdx
+               ,ECcolIdx
+               ,ECres
+               ,0
+               ,gcsmptNone
+               ,false
+               );
+         end;
          {.tension}
-         if ECtens<0
-         then ECres:=abs(ECtens)
-         else if ECtens>0
-         then ECres:=-ECtens;
+         if ModTension<0
+         then ECres:=abs(ModTension)
+         else if ModTension>0
+         then ECres:=-ModTension;
          FCMgCSM_ColonyData_Upd(
             gcsmdTens
             ,ECfacIdx
@@ -257,7 +296,7 @@ begin
          {.security}
          if FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CSMEV_secMod<0
          then ECres:=abs(FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CSMEV_secMod)
-         else if ECtens>0
+         else if ModTension>0
          then ECres:=-FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CSMEV_secMod;
          FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CSMEV_secMod:=ECres;
          FCMgCSM_ColonyData_Upd(
@@ -270,10 +309,10 @@ begin
             ,true
             );
          {.education}
-         if ECedu<0
-         then ECres:=abs(ECedu)
-         else if ECedu>0
-         then ECres:=-ECedu;
+         if ModInstruction<0
+         then ECres:=abs(ModInstruction)
+         else if ModInstruction>0
+         then ECres:=-ModInstruction;
          FCMgCSM_ColonyData_Upd(
             gcsmdEdu
             ,ECfacIdx
@@ -359,11 +398,11 @@ begin
             ,ECnewLvl
             ,true
             );
-         ECcohMean:=round((ECcoh+FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].CSMEV_cohMod)*0.5);
-         ECtensMean:=round((ECtens+FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].CSMEV_tensMod)*0.5);
-         ECeduMean:=round((ECedu+FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].CSMEV_eduMod)*0.5);
+         ECcohMean:=round((ModCohesion+FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].CSMEV_cohMod)*0.5);
+         ECtensMean:=round((ModTension+FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].CSMEV_tensMod)*0.5);
+         ECeduMean:=round((ModInstruction+FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].CSMEV_eduMod)*0.5);
          EChealMean:=round((ECheal+FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].CSMEV_healMod)*0.5);
-         ECiecoMean:=round((ECieco+FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].CSMEV_iecoMod)*0.5);
+         ECiecoMean:=round((ModEcoIndOut+FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].CSMEV_iecoMod)*0.5);
          FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CSMEV_token:=ECnewEvent;
          FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CSMEV_lvl:=ECnewLvl;
          FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CSMEV_cohMod:=ECcohMean;
@@ -373,7 +412,6 @@ begin
          FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CSMEV_iecoMod:=ECiecoMean;
       end;
    end; //==END== case ECcancelTp of ==//
-   {refresh colony panel - events if it's displayed}
 end;
 
 function FCFgCSME_Event_GetStr(const EGSevent: TFCEdgEventTypes): string;
@@ -436,10 +474,11 @@ procedure FCMgCSME_Event_Trigger(
    const ETfacIdx
          ,ETcolIdx
          ,ETlvl: integer;
-   const ETretr: boolean
+   const LoadIndex0: boolean
    );
 {:Purpose: trigger a specified event.
     Additions:
+      -2012Apr30- *add: update the colony panel if needed.
       -2011Jan19- *add: governmental destabilization.
       -2010Sep14- *add: entities code.
       -2010Aug29- *mod: Dissident Colony: there's no duration, it's the fight itself which decide of the duration.
@@ -481,7 +520,7 @@ var
 
    ETenv: TFCRgcEnvironment;
 begin
-   if ETretr
+   if LoadIndex0
    then
    begin
       if length(FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList)=0
@@ -495,7 +534,7 @@ begin
       FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[0].CSMEV_iecoMod:=0;
       FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[0].CSMEV_healMod:=0;
    end
-   else if not ETretr
+   else if not LoadIndex0
    then
    begin
       ETuprRebAmnt:=0;
@@ -534,7 +573,7 @@ begin
          FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_eduMod:=0;
          FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_iecoMod:=0;
          FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_healMod:=0;
-         if not ETretr
+         if not LoadIndex0
          then
          begin
             FCMgCSM_ColonyData_Upd(
@@ -609,7 +648,7 @@ begin
                FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_iecoMod:=-3;
             end;
          end; //==END== case ETlvl of ==//
-         if not ETretr
+         if not LoadIndex0
          then
          begin
             FCMgCSM_ColonyData_Upd(
@@ -675,7 +714,7 @@ begin
                FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_iecoMod:=-8;
             end;
          end; //==END== case ETlvl of ==//
-         if not ETretr
+         if not LoadIndex0
          then
          begin
             FCMgCSM_ColonyData_Upd(
@@ -764,7 +803,7 @@ begin
             FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_duration:=round(ETdur);
          end;
          FCentities[ETfacIdx].E_col[ETcolIdx].COL_population.POP_tpRebels:=ETuprRebels;
-         if not ETretr
+         if not LoadIndex0
          then
          begin
             FCMgCSM_ColonyData_Upd(
@@ -917,6 +956,16 @@ begin
          FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_healMod:=0;
       end;
    end; //==END== case ETevent of ==//
+   if ETfacIdx=0
+   then FCMuiCDD_Colony_Update(
+      cdlCSMevents
+      ,ETcolIdx
+      ,0
+      ,0
+      ,true
+      ,false
+      ,false
+      );
 end;
 
 function FCFgCSME_HealEdu_GetMod(
@@ -1072,6 +1121,7 @@ procedure FCMgCSME_OT_Proc(
    );
 {:Purpose: over time processing for events of a colony.
    Additions:
+      -2012Apr30- *add: update the colony panel if needed.
       -2011Jan20- *add: government destabilization - recovery calculations.
       -2011Jan19- *add: government destabilization.
       -2010Sep14- *add: entities code.
@@ -2723,6 +2773,16 @@ begin
          end; //==END== if OTPevArr[OTPcnt].CSMEV_duration<=-2 ==//
          inc(OTPcnt);
       end; //==END== while OTPcnt<=OTPmax do ==//
+      if OTPfac=0
+      then FCMuiCDD_Colony_Update(
+         cdlCSMevents
+         ,OTPcol
+         ,0
+         ,0
+         ,true
+         ,false
+         ,false
+         );
    end; //==END== if OTPmax>1 ==//
 end;
 
@@ -2736,6 +2796,7 @@ procedure FCMgCSME_UnSup_FindRepl(
    );
 {:Purpose: find if any Unrest, Social Disorder, Uprising event is set, and replace it by a chosen event w/ a specified method.
    Additions:
+      -2012Apr30- *add: update the colony panel if needed.
       -2011May24- *mod: use a private variable instead of a tag for the colony index.
       -2010Sep14- *add: entities code.
       -2010Aug30- *fix: prevent a recover/etColEstab to trigger again etColEstab. etColEstab is used as default value for unrest/social disorder/uprising events.
@@ -2894,6 +2955,16 @@ begin
          ,false
          );
    end;
+   if USFRfac=0
+   then FCMuiCDD_Colony_Update(
+      cdlCSMevents
+      ,USFRcol
+      ,0
+      ,0
+      ,true
+      ,false
+      ,false
+      );
 end;
 
 end.

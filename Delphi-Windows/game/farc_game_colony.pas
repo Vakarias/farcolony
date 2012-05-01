@@ -650,6 +650,7 @@ function FCFgC_Storage_Update(
    ): extended;
 {:Purpose: update the storage of a colony with a specific product. Return the amount in unit that couldn't be transfered.
     Additions:
+      -2012Apr30- *fix: FCMuiCDD_Colony_Update - update the colony panel if only it's the player's faction which is concerned.
       -2012Apr16- *add: COMPLETE reserves management.
       -2012Apr15- *add: reserves management.
       -2012Jan11- *fix: many consolidation and fixes in the calculations.
@@ -913,7 +914,8 @@ begin
    end;
    if frac(Result)>0
    then Result:=FCFcFunc_Rnd( cfrttpVolm3, Result );
-   FCMuiCDD_Colony_Update(
+   if SUtargetEnt=0
+   then FCMuiCDD_Colony_Update(
       cdlStorageItem
       ,SUtargetCol
       ,SUcnt

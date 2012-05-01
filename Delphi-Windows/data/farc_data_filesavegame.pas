@@ -75,6 +75,7 @@ procedure FCMdFSG_Game_Load;
 {:Purpose: load the current game.
    Additions:
       -2012Apr29- *mod: CSM event token are loaded by their full names now.
+                  *mod: CSM event modifiers and data are loaded according to the new changes in the data structure.
       -2012Apr15- *add: completion of colony's reserves.
                   *fix: correctly load the colony level.
       -2012Mar14- *fix: colony's production matrix - correct a data mismatch error in the production matrix item loading.
@@ -660,12 +661,43 @@ begin
                            FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].CSMEV_isRes:=GLxmlColsub.Attributes['isres'];
                            FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].CSMEV_duration:=GLxmlColsub.Attributes['duration'];
                            FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].CSMEV_lvl:=GLxmlColsub.Attributes['level'];
-                           FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].CSMEV_cohMod:=GLxmlColsub.Attributes['modcoh'];
-                           FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].CSMEV_tensMod:=GLxmlColsub.Attributes['modtens'];
-                           FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].CSMEV_secMod:=GLxmlColsub.Attributes['modsec'];
-                           FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].CSMEV_eduMod:=GLxmlColsub.Attributes['modedu'];
-                           FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].CSMEV_iecoMod:=GLxmlColsub.Attributes['modieco'];
-                           FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].CSMEV_healMod:=GLxmlColsub.Attributes['modheal'];
+                           case FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].CSMEV_token of
+                              etColEstab:
+                              begin
+                                 FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].CE_tensionMod:=GLxmlColsub.Attributes['modTension'];
+                                 FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].CE_securityMod:=GLxmlColsub.Attributes['modSecurity'];
+                              end;
+
+                              etUnrest, etUnrestRec:
+                              begin
+                                 FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].UN_ecoindMod:=GLxmlColsub.Attributes['modEcoInd'];
+                                 FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].UN_tensionMod:=GLxmlColsub.Attributes['modTension'];
+                              end;
+
+                              etSocdis, etSocdisRec:
+                              begin
+                                 FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].SD_ecoindMod:=GLxmlColsub.Attributes['modEcoInd'];
+                                 FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].SD_tensionMod:=GLxmlColsub.Attributes['modTension'];
+                              end;
+
+                              etUprising, etUprisingRec:
+                              begin
+                                 FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].UP_ecoindMod:=GLxmlColsub.Attributes['modEcoInd'];
+                                 FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].UP_tensionMod:=GLxmlColsub.Attributes['modTension'];
+                              end;
+
+                              etColDissident: ;
+
+                              etHealthEduRel:
+                              begin
+                                 FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].HER_educationMod:=GLxmlColsub.Attributes['modInstruction'];
+                              end;
+
+                              etGovDestab, etGovDestabRec:
+                              begin
+                                 FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].GD_cohesionMod:=GLxmlColsub.Attributes['modCohesion'];
+                              end;
+                           end; //==END== case FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].CSMEV_token of ==//
                         end
                         {.colony settlements}
                         else if GLxmlColsub.NodeName='colSettlement' then
@@ -939,6 +971,7 @@ procedure FCMdFSG_Game_Save;
 {:Purpose: save the current game.
     Additions:
       -2012Apr29- *mod: CSM event token are saved in their full names now.
+                  *mod: CSM event modifiers and data are saved according to the new changes in the data structure.
       -2012Apr15- *add: completion of colony's reserves.
       -2012Mar14- *fix: owned infrastructures - forgot to include MISC and INTELLIGENCE function for saving them and their possible specific data.
       -2012Mar13- *add: selective saving for otEcoIndustrialForce data.
@@ -1404,30 +1437,80 @@ begin
                begin
                   GSxmlColEv:=GSxmlCol.AddChild('colEvent');
                   case FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].CSMEV_token of
-                     etColEstab: GSenumString:='etColEstab';
-                     etUnrest: GSenumString:='etUnrest';
-                     etUnrestRec: GSenumString:='etUnrestRec';
-                     etSocdis: GSenumString:='etSocdis';
-                     etSocdisRec: GSenumString:='etSocdisRec';
-                     etUprising: GSenumString:='etUprising';
-                     etUprisingRec: GSenumString:='etUprisingRec';
-                     etColDissident: GSenumString:='etColDissident';
-                     etHealthEduRel: GSenumString:='etHealthEduRel';
-                     etGovDestab: GSenumString:='etGovDestab';
-                     etGovDestabRec: GSenumString:='etGovDestabRec';
-                  end;
-                  GSxmlColEv.Attributes['token']:=GSenumString;
+                     etColEstab:
+                     begin
+                        GSxmlColEv.Attributes['token']:='etColEstab';
+                        GSxmlColEv.Attributes['modTension']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].CE_tensionMod;
+                        GSxmlColEv.Attributes['modSecurity']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].CE_securityMod;
+                     end;
+
+                     etUnrest:
+                     begin
+                        GSxmlColEv.Attributes['token']:='etUnrest';
+                        GSxmlColEv.Attributes['modEcoInd']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].UN_ecoindMod;
+                        GSxmlColEv.Attributes['modTension']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].UN_tensionMod;
+                     end;
+
+                     etUnrestRec:
+                     begin
+                        GSxmlColEv.Attributes['token']:='etUnrestRec';
+                        GSxmlColEv.Attributes['modEcoInd']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].UN_ecoindMod;
+                        GSxmlColEv.Attributes['modTension']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].UN_tensionMod;
+                     end;
+
+                     etSocdis:
+                     begin
+                        GSxmlColEv.Attributes['token']:='etSocdis';
+                        GSxmlColEv.Attributes['modEcoInd']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].SD_ecoindMod;
+                        GSxmlColEv.Attributes['modTension']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].SD_tensionMod;
+                     end;
+
+                     etSocdisRec:
+                     begin
+                        GSxmlColEv.Attributes['token']:='etSocdisRec';
+                        GSxmlColEv.Attributes['modEcoInd']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].SD_ecoindMod;
+                        GSxmlColEv.Attributes['modTension']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].SD_tensionMod;
+                     end;
+
+                     etUprising:
+                     begin
+                        GSxmlColEv.Attributes['token']:='etUprising';
+                        GSxmlColEv.Attributes['modEcoInd']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].UP_ecoindMod;
+                        GSxmlColEv.Attributes['modTension']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].UP_tensionMod;
+                     end;
+
+                     etUprisingRec:
+                     begin
+                        GSxmlColEv.Attributes['token']:='etUprisingRec';
+                        GSxmlColEv.Attributes['modEcoInd']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].UP_ecoindMod;
+                        GSxmlColEv.Attributes['modTension']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].UP_tensionMod;
+                     end;
+
+                     etColDissident: GSxmlColEv.Attributes['token']:='etColDissident';
+
+                     etHealthEduRel:
+                     begin
+                        GSxmlColEv.Attributes['token']:='etHealthEduRel';
+                        GSxmlColEv.Attributes['modInstruction']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].HER_educationMod;
+                     end;
+
+                     etGovDestab:
+                     begin
+                        GSxmlColEv.Attributes['token']:='etGovDestab';
+                        GSxmlColEv.Attributes['modCohesion']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].GD_cohesionMod;
+                     end;
+
+                     etGovDestabRec:
+                     begin
+                        GSxmlColEv.Attributes['token']:='etGovDestabRec';
+                        GSxmlColEv.Attributes['modCohesion']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].GD_cohesionMod;
+                     end;
+                  end; //==END== case FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].CSMEV_token of ==//
                   GSxmlColEv.Attributes['isres']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].CSMEV_isRes;
                   GSxmlColEv.Attributes['duration']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].CSMEV_duration;
                   GSxmlColEv.Attributes['level']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].CSMEV_lvl;
-                  GSxmlColEv.Attributes['modcoh']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].CSMEV_cohMod;
-                  GSxmlColEv.Attributes['modtens']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].CSMEV_tensMod;
-                  GSxmlColEv.Attributes['modsec']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].CSMEV_secMod;
-                  GSxmlColEv.Attributes['modedu']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].CSMEV_eduMod;
-                  GSxmlColEv.Attributes['modieco']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].CSMEV_iecoMod;
-                  GSxmlColEv.Attributes['modheal']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].CSMEV_healMod;
                   inc(GSsubC);
-               end;
+               end; //==END== while GSsubC<=GSsubL-1 do ==//
             end; //==END== if GSsubL>1 ==//
             {.colony settlements}
             GSsettleMax:=length(FCentities[GScount].E_col[GScolCnt].COL_settlements)-1;
