@@ -455,7 +455,7 @@ begin
       begin
          if MCFUfinalCoh<>0
          then FCMgCSM_ColonyData_Upd(
-            gcsmdCohes
+            dCohesion
             ,0
             ,MCFUcnt
             ,MCFUfinalCoh
@@ -465,7 +465,7 @@ begin
             );
          if MCFUfinalTens<>0
          then FCMgCSM_ColonyData_Upd(
-            gcsmdTens
+            dTension
             ,0
             ,MCFUcnt
             ,MCFUfinalTens
@@ -475,7 +475,7 @@ begin
             );
          if MCFUfinalSec<>0
          then FCMgCSM_ColonyData_Upd(
-            gcsmdSec
+            dSecurity
             ,0
             ,MCFUcnt
             ,0
@@ -485,7 +485,7 @@ begin
             );
          if MCFUfinalEdu<>0
          then FCMgCSM_ColonyData_Upd(
-            gcsmdEdu
+            dInstruction
             ,0
             ,MCFUcnt
             ,MCFUfinalEdu
@@ -496,7 +496,7 @@ begin
          if (MCFUfinalNat<>0)
             and (MCFUfinalTens=0)
          then FCMgCSM_ColonyData_Upd(
-            gcsmdBirthR
+            dBirthRate
             ,0
             ,MCFUcnt
             ,0
@@ -507,7 +507,7 @@ begin
          if (MCFUfinalHealth<>0)
             and (MCFUfinalTens=0)
          then FCMgCSM_ColonyData_Upd(
-            gcsmdHEAL
+            dHealth
             ,0
             ,MCFUcnt
             ,MCFUfinalHealth

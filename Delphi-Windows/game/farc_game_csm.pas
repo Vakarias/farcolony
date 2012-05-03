@@ -36,20 +36,21 @@ uses
 
    ,DecimalRounding_JH1;
 
-type TFCEgcsmDat=(
-   gcsmdPopulation
-   ,gcsmdBirthR
-   ,gcsmdCohes
-   ,gcsmdColLvl
-   ,gcsmdDeathR
-   ,gcsmdHEAL
-   ,gcsmdEdu
-   ,gcsmdMeanAge
-   ,gcsmdPCAP
-   ,gcsmdQOL
-   ,gcsmdSec
-   ,gcsmdSPL
-   ,gcsmdTens
+type TFCEgcsmData=(
+   dPopulation
+   ,dBirthRate
+   ,dCohesion
+   ,dColonyLvl
+   ,dDeathRate
+   ,dHealth
+   ,dInstruction
+   ,dMeanAge
+   ,dPCAP
+   ,dQOL
+   ,dSecurity
+   ,dSPL
+   ,dTension
+   ,dEcoIndusOut
    );
 
 type TFCEgcsmPopTp=(
@@ -94,49 +95,52 @@ procedure FCMgCSM_ColonyData_Init(const CDIfac, CDIcolIdx: Integer);
 ///</summary>
 ///   <param name="CDUdata">type of data
    ///<summary>
-   ///   gcsmdPopulation: cduvalue= population xfert, cduvalue1= 0, poptype= never none, fullupd= true=trigger dependencies
+   ///   dPopulation: cduvalue= population xfert, cduvalue1= 0, poptype= never none, fullupd= true=trigger dependencies
       ///<summary>
       ///!!!!!-for population transfer inside the same population use FCMgCSM_Pop_Xfert
       ///</summary>
    ///</summary>
    ///<summary>
-   ///   gcsmdBirthR: cduvalue= 0, cduvalue1= 0, poptype= always none, fullupd= always false
+   ///   dBirthRate: cduvalue= 0, cduvalue1= 0, poptype= always none, fullupd= always false
    ///</summary>
    ///<summary>
-   ///   gcsmdCohes: cduvalue= cohesion modifier, cduvalue1= 0, poptype= always none, fullupd= always false
+   ///   dCohesion: cduvalue= cohesion modifier, cduvalue1= 0, poptype= always none, fullupd= always false
    ///</summary>
    ///<summary>
-   ///   gcsmdColLvl: cduvalue= 0, cduvalue1= 0, poptype= always none, fullupd= always true
+   ///   dColonyLvl: cduvalue= 0, cduvalue1= 0, poptype= always none, fullupd= always true
    ///</summary>
    ///<summary>
-   ///   gcsmdDeathR: cduvalue= 0, cduvalue1= 0, poptype= always none, fullupd= always false
+   ///   dDeathRate: cduvalue= 0, cduvalue1= 0, poptype= always none, fullupd= always false
    ///</summary>
    ///<summary>
-   ///   gcsmdHEAL: cduvalue= HEAL modifier (if fullupd=false), cduvalue1= 0, poptype= always none, fullupd= true=full/false=mod
+   ///   dHealth: cduvalue= HEAL modifier (if fullupd=false), cduvalue1= 0, poptype= always none, fullupd= true=full/false=mod
    ///<summary>
       ///!!!!!-use false ONLY when it's a CSM event which trigger the calculation
       ///</summary>
    ///</summary>
    ///<summary>
-   ///   gcsmdEdu: cduvalue= education modifier, cduvalue1= 0, poptype= always none, fullupd= always false
+   ///   dInstruction: cduvalue= instruction modifier, cduvalue1= 0, poptype= always none, fullupd= always false
    ///</summary>
    ///<summary>
-   ///   gcsmdMeanAge: cduvalue= population from sender, cduvalue1= sender mean age, poptype= always none, fullupd= always true
+   ///   dMeanAge: cduvalue= population from sender, cduvalue1= sender mean age, poptype= always none, fullupd= always true
    ///</summary>
    ///<summary>
-   ///   gcsmdPCAP: cduvalue= PCAP modifier (if fullupd=false), cduvalue1= 0, poptype= always none, fullupd= true=full/false=mod
+   ///   dPCAP: cduvalue= PCAP modifier (if fullupd=false), cduvalue1= 0, poptype= always none, fullupd= true=full/false=mod
    ///</summary>
    ///<summary>
-   ///   gcsmdQOL: method setup: cduvalue= 0, cduvalue1= 0, poptype= always none, fullupd= always true
+   ///   dQOL: method setup: cduvalue= 0, cduvalue1= 0, poptype= always none, fullupd= always true
    ///</summary>
    ///<summary>
-   ///   gcsmdSec: method setup: cduvalue= 0, cduvalue1= 0, poptype= always none, fullupd= always true
+   ///   dSecurity: method setup: cduvalue= 0, cduvalue1= 0, poptype= always none, fullupd= always true
    ///</summary>
    ///<summary>
-   ///   gcsmdSPL: method setup: cduvalue= 0, cduvalue1= 0, poptype= always none, fullupd= always true
+   ///   dSPL: method setup: cduvalue= 0, cduvalue1= 0, poptype= always none, fullupd= always true
    ///</summary>
    ///<summary>
-   ///   gcsmdTens: method setup: cduvalue= tension modifier, cduvalue1= 0, poptype= always none, fullupd= always false
+   ///   dTension: method setup: cduvalue= tension modifier, cduvalue1= 0, poptype= always none, fullupd= always false
+   ///</summary>
+   ///<summary>
+   ///   dEcoIndusOut: method setup: cduvalue= EIOUT modifier, cduvalue1= 0, poptype= always none, fullupd= always false
    ///</summary>
 ///</param>
 ///   <param name="CDUfac">faction index #</param>
@@ -146,7 +150,7 @@ procedure FCMgCSM_ColonyData_Init(const CDIfac, CDIcolIdx: Integer);
 ///   <param name="CDUfullUpd">true= do not use the cumulative value but recalculate completely the data
 ///                            [required for gcsmdSec - gcsmdQOL]</param>
 procedure FCMgCSM_ColonyData_Upd(
-   const CDUdata: TFCEgcsmDat;
+   const CDUdata: TFCEgcsmData;
    const CDUfac
          ,CDUcol: integer;
    const CDUvalue
@@ -458,7 +462,7 @@ begin
 end;
 
 procedure FCMgCSM_ColonyData_Upd(
-   const CDUdata: TFCEgcsmDat;
+   const CDUdata: TFCEgcsmData;
    const CDUfac
          ,CDUcol: integer;
    const CDUvalue
@@ -468,6 +472,7 @@ procedure FCMgCSM_ColonyData_Upd(
    );
 {:Purpose: update the choosen CSM data and update all the depencies if required.
     Additions:
+      -2012May02- *add: dEcoIndusOut.
       -2011Jul05- *fix: for PCAP and QOL, also include the inConversion infrastructures, since their capabilities are already taken in account.
       -2011Jul04- *fix: prevent a division by zero for the Quality of Life calculations, especially when at the start of a game there's no operational infrastructures.
       -2011Jun26- *add: for PCAP and QOL the calculation include now only the operational infrastructures.
@@ -519,7 +524,7 @@ var
 begin
    case CDUdata of
       {.population addition}
-      gcsmdPopulation:
+      dPopulation:
       begin
          CDUdatI:=FCentities[CDUfac].E_col[CDUcol].COL_population.POP_total;
          CDUdatI1:=round(CDUvalue);
@@ -602,7 +607,7 @@ begin
          then
          begin
             FCMgCSM_ColonyData_Upd(
-               gcsmdColLvl
+               dColonyLvl
                ,CDUfac
                ,CDUcol
                ,0
@@ -611,7 +616,7 @@ begin
                ,true
                );
             FCMgCSM_ColonyData_Upd(
-               gcsmdMeanAge
+               dMeanAge
                ,CDUfac
                ,CDUcol
                ,CDUdatI1
@@ -620,7 +625,7 @@ begin
                ,true
                );
             FCMgCSM_ColonyData_Upd(
-               gcsmdSPL
+               dSPL
                ,CDUfac
                ,CDUcol
                ,0
@@ -629,7 +634,7 @@ begin
                ,true
                );
             FCMgCSM_ColonyData_Upd(
-               gcsmdSec
+               dSecurity
                ,CDUfac
                ,CDUcol
                ,0
@@ -639,19 +644,19 @@ begin
                );
          end;
       end; //==END== case: gcsmdPopulation ==//
-      gcsmdBirthR:
+      dBirthRate:
       begin
          if FCentities[CDUfac].E_col[CDUcol].COL_population.POP_total>0
          then FCMgPGS_BR_Calc(CDUfac, CDUcol);
          {.update dependencies}
       end;
-      gcsmdCohes:
+      dCohesion:
       begin
          CDUdatI:=FCentities[CDUfac].E_col[CDUcol].COL_cohes;
          FCentities[CDUfac].E_col[CDUcol].COL_cohes:=CDUdatI+round(CDUvalue);
          {.update dependencies}
       end;
-      gcsmdColLvl:
+      dColonyLvl:
       begin
          {:DEV NOTES: don't forget to also put the region control test.}
          if (FCentities[CDUfac].E_col[CDUcol].COL_population.POP_total>=1)
@@ -677,13 +682,13 @@ begin
          {.csm events trigger}
          {.update dependencies}
       end;
-      gcsmdDeathR:
+      dDeathRate:
       begin
          if FCentities[CDUfac].E_col[CDUcol].COL_population.POP_total>0
          then FCMgPGS_DR_Calc(CDUfac, CDUcol);
          {.update dependencies}
       end;
-      gcsmdHEAL:
+      dHealth:
       begin
          if not CDUfullUpd
          then
@@ -743,7 +748,7 @@ begin
          then CDUdatI1:=abs(FCentities[CDUfac].E_col[CDUcol].COL_evList[CDUdatI].CSMEV_eduMod);
          FCentities[CDUfac].E_col[CDUcol].COL_evList[CDUdatI].CSMEV_eduMod:=CDUdatI1;
          FCMgCSM_ColonyData_Upd(
-            gcsmdEdu
+            dInstruction
             ,CDUfac
             ,CDUcol
             ,CDUdatI1
@@ -754,7 +759,7 @@ begin
          CDUdatI2:=FCFgCSME_HealEdu_GetMod(CDUfac, CDUcol);
          FCentities[CDUfac].E_col[CDUcol].COL_evList[CDUdatI].CSMEV_eduMod:=CDUdatI2;
          FCMgCSM_ColonyData_Upd(
-            gcsmdEdu
+            dInstruction
             ,CDUfac
             ,CDUcol
             ,CDUdatI2
@@ -763,7 +768,7 @@ begin
             ,false
             );
          FCMgCSM_ColonyData_Upd(
-            gcsmdDeathR
+            dDeathRate
             ,CDUfac
             ,CDUcol
             ,0
@@ -772,7 +777,7 @@ begin
             ,false
             );
          FCMgCSM_ColonyData_Upd(
-            gcsmdBirthR
+            dBirthRate
             ,CDUfac
             ,CDUcol
             ,0
@@ -781,14 +786,14 @@ begin
             ,false
             );
       end;
-      gcsmdEdu:
+      dInstruction:
       begin
          CDUdatI:=FCentities[CDUfac].E_col[CDUcol].COL_edu;
          FCentities[CDUfac].E_col[CDUcol].COL_edu:=CDUdatI+round(CDUvalue);
          {.update dependencies}
       end;
       {.population mean age}
-      gcsmdMeanAge:
+      dMeanAge:
       begin
          FCMgPGS_MeanAge_UpdXfert(
             CDUfac
@@ -798,7 +803,7 @@ begin
             );
          {.update dependencies}
          FCMgCSM_ColonyData_Upd(
-            gcsmdDeathR
+            dDeathRate
             ,CDUfac
             ,CDUcol
             ,0
@@ -808,7 +813,7 @@ begin
             );
       end;
       {.population capacity}
-      gcsmdPCAP:
+      dPCAP:
       begin
          if not CDUfullUpd
          then
@@ -851,7 +856,7 @@ begin
          {.csm events trigger}
          {.update dependencies}
          FCMgCSM_ColonyData_Upd(
-            gcsmdSPL
+            dSPL
             ,CDUfac
             ,CDUcol
             ,0
@@ -861,7 +866,7 @@ begin
             );
       end;
       {.quality of life}
-      gcsmdQOL:
+      dQOL:
       begin
          CDUdatI:=0;
          CDUdatI1:=0;
@@ -910,7 +915,7 @@ begin
          then FCentities[CDUfac].E_col[CDUcol].COL_csmHOqol:=1;
          {.update dependencies}
          FCMgCSM_ColonyData_Upd(
-            gcsmdHEAL
+            dHealth
             ,CDUfac
             ,CDUcol
             ,0
@@ -919,7 +924,7 @@ begin
             ,true
             );
       end;
-      gcsmdSec:
+      dSecurity:
       begin
          CDUdatI:=0;
          CDUdatI1:=0;
@@ -950,14 +955,14 @@ begin
          end;
          {.update dependencies}
       end;
-      gcsmdSPL:
+      dSPL:
       begin
          CDUdatF:=FCentities[CDUfac].E_col[CDUcol].COL_csmHOpcap/FCentities[CDUfac].E_col[CDUcol].COL_population.POP_total;
          FCentities[CDUfac].E_col[CDUcol].COL_csmHOspl:=DecimalRound(CDUdatF, 2, 0.001);
          {.csm events trigger}
          {.update dependencies}
          FCMgCSM_ColonyData_Upd(
-            gcsmdQOL
+            dQOL
             ,CDUfac
             ,CDUcol
             ,0
@@ -966,14 +971,15 @@ begin
             ,true
             );
       end;
+
       {.tension}
-      gcsmdTens:
+      dTension:
       begin
          CDUdatI:=FCentities[CDUfac].E_col[CDUcol].COL_tens;
          FCentities[CDUfac].E_col[CDUcol].COL_tens:=CDUdatI+round(CDUvalue);
          {.update dependencies}
          FCMgCSM_ColonyData_Upd(
-            gcsmdHEAL
+            dHealth
             ,CDUfac
             ,CDUcol
             ,0
@@ -981,6 +987,13 @@ begin
             ,gcsmptNone
             ,true
             );
+      end;
+
+      {.economic - industrial output}
+      dEcoIndusOut:
+      begin
+         CDUdatI:=FCentities[CDUfac].E_col[CDUcol].COL_eiOut;
+         FCentities[CDUfac].E_col[CDUcol].COL_eiOut:=CDUdatI+round(CDUvalue);
       end;
    end; //==END== case CDUdata of ==//
 end;
@@ -1667,7 +1680,7 @@ begin
    if (PPTens>0)
       and ((PPev<=etColEstab) or (PPev>etColDissident))
    then FCMgCSM_ColonyData_Upd(
-      gcsmdTens
+      dTension
       ,PPfac
       ,PPcol
       ,-1

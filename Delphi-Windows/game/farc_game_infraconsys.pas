@@ -717,7 +717,7 @@ begin
    FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra[ICPinfra].CI_fhousSurf:=ICPsurf;
    {:DEV NOTES: for pcap, don'T forget to update the different types according to the population of the colonization module and also the crew.}
    FCMgCSM_ColonyData_Upd(
-      gcsmdPCAP
+      dPCAP
       ,ICPent
       ,ICPcol
       ,FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra[ICPinfra].CI_fhousPCAP
@@ -726,7 +726,7 @@ begin
       ,false
       );
    FCMgCSM_ColonyData_Upd(
-      gcsmdQOL
+      dQOL
       ,ICPent
       ,ICPcol
       ,0
@@ -735,7 +735,7 @@ begin
       ,true
       );
    FCMgCSM_ColonyData_Upd(
-      gcsmdPopulation
+      dPopulation
       ,ICPent
       ,ICPcol
       ,20
@@ -744,7 +744,7 @@ begin
       ,true
       );
    FCMgCSM_ColonyData_Upd(
-      gcsmdPopulation
+      dPopulation
       ,ICPent
       ,ICPcol
       ,8
@@ -753,7 +753,7 @@ begin
       ,true
       );
    FCMgCSM_ColonyData_Upd(
-      gcsmdPopulation
+      dPopulation
       ,ICPent
       ,ICPcol
       ,2

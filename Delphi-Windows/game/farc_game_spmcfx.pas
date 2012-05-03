@@ -76,6 +76,7 @@ implementation
 
 uses
    farc_data_game
+   ,farc_game_csm
    ,farc_game_spm
    ,farc_game_spmdata;
 
@@ -150,7 +151,15 @@ begin
    EIOUTAcount:=1;
    while EIOUTAcount<=EIOUTAmax do
    begin
-      FCentities[EIOUTAent].E_col[EIOUTAcount].COL_eiOut:=FCentities[EIOUTAent].E_col[EIOUTAcount].COL_eiOut+EIOUTAmod;
+      FCMgCSM_ColonyData_Upd(
+         dEcoIndusOut
+         ,EIOUTAent
+         ,EIOUTAcount
+         ,EIOUTAmod
+         ,0
+         ,gcsmptNone
+         ,false
+         );
       inc( EIOUTAcount );
    end;
 end;

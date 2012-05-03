@@ -203,22 +203,22 @@ procedure FCMgCSME_Event_Cancel(
    -2010Aug01- *add: immediate cancellation: cohesion, tension.
 }
    var
-      ECcnt
-   //   ,ECcntClone
+      Count
+      ,CountClone
       ,ModCohesion
-   //   ,ECcohMean
+      ,MeanCohesion
 
-   //   ,ECeduMean
+      ,MeanInstruction
    //   ,ECheal
    //   ,EChealMean
       ,ModEcoIndOut
       ,ModInstruction
    //   ,ECiecoMean
-   //   ,ECmax
-      ,ECres
+      ,Max
+      ,FinalCSMvalue
       ,ModSecurity
       ,ModTension
-   //   ,ECtensMean
+      ,MeanTension
       : integer;
 
       ECeventLst: array of TFCRdgColonCSMev;
@@ -266,111 +266,133 @@ begin
          if ModCohesion<>0 then
          begin
             if ModCohesion<0
-            then ECres:=abs(ModCohesion)
+            then FinalCSMvalue:=abs(ModCohesion)
             else if ModCohesion>0
-            then ECres:=-ModCohesion;
+            then FinalCSMvalue:=-ModCohesion;
             FCMgCSM_ColonyData_Upd(
-               gcsmdCohes
+               dCohesion
                ,ECfacIdx
                ,ECcolIdx
-               ,ECres
+               ,FinalCSMvalue
                ,0
                ,gcsmptNone
                ,false
                );
          end;
-         {.tension}
-         if ModTension<0
-         then ECres:=abs(ModTension)
-         else if ModTension>0
-         then ECres:=-ModTension;
-         FCMgCSM_ColonyData_Upd(
-            gcsmdTens
-            ,ECfacIdx
-            ,ECcolIdx
-            ,ECres
-            ,0
-            ,gcsmptNone
-            ,false
-            );
-         {.security}
-         if FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CSMEV_secMod<0
-         then ECres:=abs(FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CSMEV_secMod)
-         else if ModTension>0
-         then ECres:=-FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CSMEV_secMod;
-         FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CSMEV_secMod:=ECres;
-         FCMgCSM_ColonyData_Upd(
-            gcsmdSec
-            ,ECfacIdx
-            ,ECcolIdx
-            ,0
-            ,0
-            ,gcsmptNone
-            ,true
-            );
-         {.education}
-         if ModInstruction<0
-         then ECres:=abs(ModInstruction)
-         else if ModInstruction>0
-         then ECres:=-ModInstruction;
-         FCMgCSM_ColonyData_Upd(
-            gcsmdEdu
-            ,ECfacIdx
-            ,ECcolIdx
-            ,ECres
-            ,0
-            ,gcsmptNone
-            ,false
-            );
-         {.economic and industrial output}
-         FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CSMEV_iecoMod:=0;
+         if ModTension<>0 then
+         begin
+            if ModTension<0
+            then FinalCSMvalue:=abs(ModTension)
+            else if ModTension>0
+            then FinalCSMvalue:=-ModTension;
+            FCMgCSM_ColonyData_Upd(
+               dTension
+               ,ECfacIdx
+               ,ECcolIdx
+               ,FinalCSMvalue
+               ,0
+               ,gcsmptNone
+               ,false
+               );
+         end;
+         if ModSecurity<>0 then
+         begin
+            if ModSecurity<0
+            then FinalCSMvalue:=abs(ModSecurity)
+            else if ModSecurity>0
+            then FinalCSMvalue:=-ModSecurity;
+            case FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].CSMEV_token of
+               etColEstab: FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].CE_securityMod:=FinalCSMvalue;
+            end;
+            FCMgCSM_ColonyData_Upd(
+               dSecurity
+               ,ECfacIdx
+               ,ECcolIdx
+               ,0
+               ,0
+               ,gcsmptNone
+               ,true
+               );
+         end;
+         if ModInstruction<>0 then
+         begin
+            if ModInstruction<0
+            then FinalCSMvalue:=abs(ModInstruction)
+            else if ModInstruction>0
+            then FinalCSMvalue:=-ModInstruction;
+            FCMgCSM_ColonyData_Upd(
+               dInstruction
+               ,ECfacIdx
+               ,ECcolIdx
+               ,FinalCSMvalue
+               ,0
+               ,gcsmptNone
+               ,false
+               );
+         end;
+         if ModEcoIndOut<>0 then
+         begin
+            if ModEcoIndOut<0
+            then FinalCSMvalue:=abs(ModEcoIndOut)
+            else if ModEcoIndOut>0
+            then FinalCSMvalue:=-ModEcoIndOut;
+            FCMgCSM_ColonyData_Upd(
+               dEcoIndusOut
+               ,ECfacIdx
+               ,ECcolIdx
+               ,FinalCSMvalue
+               ,0
+               ,gcsmptNone
+               ,false
+               );
+         end;
          {.health}
-         if ECheal<0
-         then ECres:=abs(ECheal)
-         else if ECheal>0
-         then ECres:=-ECheal;
-         FCMgCSM_ColonyData_Upd(
-            gcsmdHEAL
-            ,ECfacIdx
-            ,ECcolIdx
-            ,ECres
-            ,0
-            ,gcsmptNone
-            ,false
-            );
+//         if ECheal<0
+//         then FinalCSMvalue:=abs(ECheal)
+//         else if ECheal>0
+//         then FinalCSMvalue:=-ECheal;
+//         FCMgCSM_ColonyData_Upd(
+//            dHealth
+//            ,ECfacIdx
+//            ,ECcolIdx
+//            ,FinalCSMvalue
+//            ,0
+//            ,gcsmptNone
+//            ,false
+//            );
          {.indicate that the event must be cleared}
          FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CSMEV_duration:=-255;
          if ECcancelTp=csmeecImmediate
          then
          begin
             SetLength(ECeventLst, 0);
-            ECmax:=length(FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList)-1;
-            ECcnt:=1;
-            ECcntClone:=0;
-            if ECmax>1
+            Max:=length(FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList)-1;
+            Count:=1;
+            CountClone:=0;
+            if Max>1
             then
             begin
-               SetLength(ECeventLst, ECmax);
-               while ECcnt<=ECmax do
+               SetLength(ECeventLst, Max);
+               while Count<=Max do
                begin
-                  if FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECcnt].CSMEV_duration<>-255
+                  if FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[Count].CSMEV_duration<>-255
                   then
                   begin
-                     inc(ECcntClone);
-                     ECeventLst[ECcntClone]:=FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECcnt];
+                     inc(CountClone);
+                     ECeventLst[CountClone]:=FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[Count];
                   end;
-                  inc(ECcnt);
+                  inc(Count);
                end;
                SetLength(FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList, 0);
-               SetLength(FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList, ECcntClone+1);
-               ECcnt:=1;
-               while ECcnt<=ECcntClone do
+               SetLength(FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList, CountClone+1);
+               Count:=1;
+               while Count<=CountClone do
                begin
-                  FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECcnt]:=ECeventLst[ECcnt];
-                  inc(ECcnt);
+                  FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[Count]:=ECeventLst[Count];
+                  inc(Count);
                end;
             end
-            else if ECmax=1
+            else if Max=1
             then setlength(FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList, 1);
          end;
       end; //==END== case of: csmeecImmediate, csmeecImmediateDelay ==//
@@ -398,18 +420,49 @@ begin
             ,ECnewLvl
             ,true
             );
-         ECcohMean:=round((ModCohesion+FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].CSMEV_cohMod)*0.5);
-         ECtensMean:=round((ModTension+FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].CSMEV_tensMod)*0.5);
-         ECeduMean:=round((ModInstruction+FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].CSMEV_eduMod)*0.5);
-         EChealMean:=round((ECheal+FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].CSMEV_healMod)*0.5);
-         ECiecoMean:=round((ModEcoIndOut+FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].CSMEV_iecoMod)*0.5);
          FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CSMEV_token:=ECnewEvent;
          FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CSMEV_lvl:=ECnewLvl;
-         FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CSMEV_cohMod:=ECcohMean;
-         FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CSMEV_tensMod:=ECtensMean;
-         FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CSMEV_eduMod:=ECeduMean;
-         FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CSMEV_healMod:=EChealMean;
-         FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CSMEV_iecoMod:=ECiecoMean;
+         case FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].CSMEV_token of
+            etColEstab:
+            begin
+               MeanTension:=round( ( ModTension+FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].CE_tensionMod )*0.5 );
+
+               ModSecurity:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].CE_securityMod;
+            end;
+
+            etUnrest, etUnrestRec:
+            begin
+               ModEcoIndOut:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].UN_ecoindMod;
+               ModTension:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].UN_tensionMod;
+            end;
+
+            etSocdis, etSocdisRec:
+            begin
+               ModEcoIndOut:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].SD_ecoindMod;
+               ModTension:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].SD_tensionMod;
+            end;
+
+            etUprising, etUprisingRec:
+            begin
+               ModEcoIndOut:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].UP_ecoindMod;
+               ModTension:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].UP_tensionMod;
+            end;
+
+            etHealthEduRel: ModInstruction:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].HER_educationMod;
+
+            etGovDestab, etGovDestabRec: ModCohesion:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].GD_cohesionMod;
+         end;
+//         MeanCohesion:=round((ModCohesion+FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].CSMEV_cohMod)*0.5);
+//         ECtensMean:=round((ModTension+FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].CSMEV_tensMod)*0.5);
+//         MeanInstruction:=round((ModInstruction+FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].CSMEV_eduMod)*0.5);
+//         EChealMean:=round((ECheal+FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].CSMEV_healMod)*0.5);
+//         ECiecoMean:=round((ModEcoIndOut+FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].CSMEV_iecoMod)*0.5);
+
+//         FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CSMEV_cohMod:=MeanCohesion;
+//         FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CSMEV_tensMod:=ECtensMean;
+//         FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CSMEV_eduMod:=MeanInstruction;
+//         FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CSMEV_healMod:=EChealMean;
+//         FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CSMEV_iecoMod:=ECiecoMean;
       end;
    end; //==END== case ECcancelTp of ==//
 end;
@@ -577,7 +630,7 @@ begin
          then
          begin
             FCMgCSM_ColonyData_Upd(
-               gcsmdTens
+               dTension
                ,ETfacIdx
                ,ETcolIdx
                ,FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_tensMod
@@ -586,7 +639,7 @@ begin
                ,false
                );
             FCMgCSM_ColonyData_Upd(
-               gcsmdSec
+               dSecurity
                ,ETfacIdx
                ,ETcolIdx
                ,0
@@ -652,7 +705,7 @@ begin
          then
          begin
             FCMgCSM_ColonyData_Upd(
-               gcsmdTens
+               dTension
                ,ETfacIdx
                ,ETcolIdx
                ,FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_tensMod
@@ -718,7 +771,7 @@ begin
          then
          begin
             FCMgCSM_ColonyData_Upd(
-               gcsmdTens
+               dTension
                ,ETfacIdx
                ,ETcolIdx
                ,FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_tensMod
@@ -807,7 +860,7 @@ begin
          then
          begin
             FCMgCSM_ColonyData_Upd(
-               gcsmdTens
+               dTension
                ,ETfacIdx
                ,ETcolIdx
                ,FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_tensMod
@@ -928,7 +981,7 @@ begin
          ETevMod:=FCFgCSME_HealEdu_GetMod(ETfacIdx, ETcolIdx);
          FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_eduMod:=ETevMod;
          FCMgCSM_ColonyData_Upd(
-            gcsmdEdu
+            dInstruction
             ,ETfacIdx
             ,ETcolIdx
             ,ETevMod
@@ -1199,7 +1252,7 @@ begin
                end;
                FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_tensMod:=OTPmodTens+OTPmod1;
                FCMgCSM_ColonyData_Upd(
-                  gcsmdTens
+                  dTension
                   ,OTPfac
                   ,OTPcol
                   ,OTPmod1
@@ -1209,7 +1262,7 @@ begin
                   );
                FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_secMod:=OTPmodSec+OTPmod2;
                FCMgCSM_ColonyData_Upd(
-                  gcsmdSec
+                  dSecurity
                   ,OTPfac
                   ,OTPcol
                   ,0
@@ -1269,7 +1322,7 @@ begin
                end;
                FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_tensMod:=OTPmodTens+OTPmod2;
                FCMgCSM_ColonyData_Upd(
-                  gcsmdTens
+                  dTension
                   ,OTPfac
                   ,OTPcol
                   ,OTPmod2
@@ -1334,7 +1387,7 @@ begin
                end;
                FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_tensMod:=OTPmodTens+OTPmod2;
                FCMgCSM_ColonyData_Upd(
-                  gcsmdTens
+                  dTension
                   ,OTPfac
                   ,OTPcol
                   ,OTPmod2
@@ -1389,7 +1442,7 @@ begin
                end;
                FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_tensMod:=OTPmodTens+OTPmod2;
                FCMgCSM_ColonyData_Upd(
-                  gcsmdTens
+                  dTension
                   ,OTPfac
                   ,OTPcol
                   ,OTPmod2
@@ -1451,7 +1504,7 @@ begin
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
-                                    gcsmdPopulation
+                                    dPopulation
                                     ,OTPfac
                                     ,OTPcol
                                     ,-OTPcurr
@@ -1465,7 +1518,7 @@ begin
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
-                                    gcsmdPopulation
+                                    dPopulation
                                     ,OTPfac
                                     ,OTPcol
                                     ,-OTPrem
@@ -1488,7 +1541,7 @@ begin
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
-                                    gcsmdPopulation
+                                    dPopulation
                                     ,OTPfac
                                     ,OTPcol
                                     ,-OTPcurr
@@ -1502,7 +1555,7 @@ begin
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
-                                    gcsmdPopulation
+                                    dPopulation
                                     ,OTPfac
                                     ,OTPcol
                                     ,-OTPrem
@@ -1525,7 +1578,7 @@ begin
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
-                                    gcsmdPopulation
+                                    dPopulation
                                     ,OTPfac
                                     ,OTPcol
                                     ,-OTPcurr
@@ -1539,7 +1592,7 @@ begin
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
-                                    gcsmdPopulation
+                                    dPopulation
                                     ,OTPfac
                                     ,OTPcol
                                     ,-OTPrem
@@ -1562,7 +1615,7 @@ begin
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
-                                    gcsmdPopulation
+                                    dPopulation
                                     ,OTPfac
                                     ,OTPcol
                                     ,-OTPcurr
@@ -1576,7 +1629,7 @@ begin
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
-                                    gcsmdPopulation
+                                    dPopulation
                                     ,OTPfac
                                     ,OTPcol
                                     ,-OTPrem
@@ -1599,7 +1652,7 @@ begin
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
-                                    gcsmdPopulation
+                                    dPopulation
                                     ,OTPfac
                                     ,OTPcol
                                     ,-OTPcurr
@@ -1613,7 +1666,7 @@ begin
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
-                                    gcsmdPopulation
+                                    dPopulation
                                     ,OTPfac
                                     ,OTPcol
                                     ,-OTPrem
@@ -1636,7 +1689,7 @@ begin
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
-                                    gcsmdPopulation
+                                    dPopulation
                                     ,OTPfac
                                     ,OTPcol
                                     ,-OTPcurr
@@ -1650,7 +1703,7 @@ begin
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
-                                    gcsmdPopulation
+                                    dPopulation
                                     ,OTPfac
                                     ,OTPcol
                                     ,-OTPrem
@@ -1673,7 +1726,7 @@ begin
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
-                                    gcsmdPopulation
+                                    dPopulation
                                     ,OTPfac
                                     ,OTPcol
                                     ,-OTPcurr
@@ -1687,7 +1740,7 @@ begin
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
-                                    gcsmdPopulation
+                                    dPopulation
                                     ,OTPfac
                                     ,OTPcol
                                     ,-OTPrem
@@ -1710,7 +1763,7 @@ begin
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
-                                    gcsmdPopulation
+                                    dPopulation
                                     ,OTPfac
                                     ,OTPcol
                                     ,-OTPcurr
@@ -1724,7 +1777,7 @@ begin
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
-                                    gcsmdPopulation
+                                    dPopulation
                                     ,OTPfac
                                     ,OTPcol
                                     ,-OTPrem
@@ -1747,7 +1800,7 @@ begin
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
-                                    gcsmdPopulation
+                                    dPopulation
                                     ,OTPfac
                                     ,OTPcol
                                     ,-OTPcurr
@@ -1761,7 +1814,7 @@ begin
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
-                                    gcsmdPopulation
+                                    dPopulation
                                     ,OTPfac
                                     ,OTPcol
                                     ,-OTPrem
@@ -1784,7 +1837,7 @@ begin
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
-                                    gcsmdPopulation
+                                    dPopulation
                                     ,OTPfac
                                     ,OTPcol
                                     ,-OTPcurr
@@ -1798,7 +1851,7 @@ begin
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
-                                    gcsmdPopulation
+                                    dPopulation
                                     ,OTPfac
                                     ,OTPcol
                                     ,-OTPrem
@@ -1821,7 +1874,7 @@ begin
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
-                                    gcsmdPopulation
+                                    dPopulation
                                     ,OTPfac
                                     ,OTPcol
                                     ,-OTPcurr
@@ -1835,7 +1888,7 @@ begin
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
-                                    gcsmdPopulation
+                                    dPopulation
                                     ,OTPfac
                                     ,OTPcol
                                     ,-OTPrem
@@ -1858,7 +1911,7 @@ begin
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
-                                    gcsmdPopulation
+                                    dPopulation
                                     ,OTPfac
                                     ,OTPcol
                                     ,-OTPcurr
@@ -1872,7 +1925,7 @@ begin
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
-                                    gcsmdPopulation
+                                    dPopulation
                                     ,OTPfac
                                     ,OTPcol
                                     ,-OTPrem
@@ -1895,7 +1948,7 @@ begin
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
-                                    gcsmdPopulation
+                                    dPopulation
                                     ,OTPfac
                                     ,OTPcol
                                     ,-OTPcurr
@@ -1909,7 +1962,7 @@ begin
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
-                                    gcsmdPopulation
+                                    dPopulation
                                     ,OTPfac
                                     ,OTPcol
                                     ,-OTPrem
@@ -1929,7 +1982,7 @@ begin
                   {.final data changes}
                   FCentities[OTPfac].E_col[OTPcol].COL_population.POP_tpRebels:=OTPreb-OTPcasPop;
                   FCMgCSM_ColonyData_Upd(
-                     gcsmdPopulation
+                     dPopulation
                      ,OTPfac
                      ,OTPcol
                      ,-OTPcasSold
@@ -1938,7 +1991,7 @@ begin
                      ,true
                      );
                   FCMgCSM_ColonyData_Upd(
-                     gcsmdCohes
+                     dCohesion
                      ,OTPfac
                      ,OTPcol
                      ,-1
@@ -2034,7 +2087,7 @@ begin
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
-                                    gcsmdPopulation
+                                    dPopulation
                                     ,OTPfac
                                     ,OTPcol
                                     ,-OTPcurr
@@ -2048,7 +2101,7 @@ begin
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
-                                    gcsmdPopulation
+                                    dPopulation
                                     ,OTPfac
                                     ,OTPcol
                                     ,-OTPrem
@@ -2071,7 +2124,7 @@ begin
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
-                                    gcsmdPopulation
+                                    dPopulation
                                     ,OTPfac
                                     ,OTPcol
                                     ,-OTPcurr
@@ -2085,7 +2138,7 @@ begin
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
-                                    gcsmdPopulation
+                                    dPopulation
                                     ,OTPfac
                                     ,OTPcol
                                     ,-OTPrem
@@ -2108,7 +2161,7 @@ begin
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
-                                    gcsmdPopulation
+                                    dPopulation
                                     ,OTPfac
                                     ,OTPcol
                                     ,-OTPcurr
@@ -2122,7 +2175,7 @@ begin
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
-                                    gcsmdPopulation
+                                    dPopulation
                                     ,OTPfac
                                     ,OTPcol
                                     ,-OTPrem
@@ -2145,7 +2198,7 @@ begin
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
-                                    gcsmdPopulation
+                                    dPopulation
                                     ,OTPfac
                                     ,OTPcol
                                     ,-OTPcurr
@@ -2159,7 +2212,7 @@ begin
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
-                                    gcsmdPopulation
+                                    dPopulation
                                     ,OTPfac
                                     ,OTPcol
                                     ,-OTPrem
@@ -2182,7 +2235,7 @@ begin
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
-                                    gcsmdPopulation
+                                    dPopulation
                                     ,OTPfac
                                     ,OTPcol
                                     ,-OTPcurr
@@ -2196,7 +2249,7 @@ begin
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
-                                    gcsmdPopulation
+                                    dPopulation
                                     ,OTPfac
                                     ,OTPcol
                                     ,-OTPrem
@@ -2219,7 +2272,7 @@ begin
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
-                                    gcsmdPopulation
+                                    dPopulation
                                     ,OTPfac
                                     ,OTPcol
                                     ,-OTPcurr
@@ -2233,7 +2286,7 @@ begin
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
-                                    gcsmdPopulation
+                                    dPopulation
                                     ,OTPfac
                                     ,OTPcol
                                     ,-OTPrem
@@ -2256,7 +2309,7 @@ begin
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
-                                    gcsmdPopulation
+                                    dPopulation
                                     ,OTPfac
                                     ,OTPcol
                                     ,-OTPcurr
@@ -2270,7 +2323,7 @@ begin
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
-                                    gcsmdPopulation
+                                    dPopulation
                                     ,OTPfac
                                     ,OTPcol
                                     ,-OTPrem
@@ -2293,7 +2346,7 @@ begin
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
-                                    gcsmdPopulation
+                                    dPopulation
                                     ,OTPfac
                                     ,OTPcol
                                     ,-OTPcurr
@@ -2307,7 +2360,7 @@ begin
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
-                                    gcsmdPopulation
+                                    dPopulation
                                     ,OTPfac
                                     ,OTPcol
                                     ,-OTPrem
@@ -2330,7 +2383,7 @@ begin
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
-                                    gcsmdPopulation
+                                    dPopulation
                                     ,OTPfac
                                     ,OTPcol
                                     ,-OTPcurr
@@ -2344,7 +2397,7 @@ begin
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
-                                    gcsmdPopulation
+                                    dPopulation
                                     ,OTPfac
                                     ,OTPcol
                                     ,-OTPrem
@@ -2367,7 +2420,7 @@ begin
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
-                                    gcsmdPopulation
+                                    dPopulation
                                     ,OTPfac
                                     ,OTPcol
                                     ,-OTPcurr
@@ -2381,7 +2434,7 @@ begin
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
-                                    gcsmdPopulation
+                                    dPopulation
                                     ,OTPfac
                                     ,OTPcol
                                     ,-OTPrem
@@ -2404,7 +2457,7 @@ begin
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
-                                    gcsmdPopulation
+                                    dPopulation
                                     ,OTPfac
                                     ,OTPcol
                                     ,-OTPcurr
@@ -2418,7 +2471,7 @@ begin
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
-                                    gcsmdPopulation
+                                    dPopulation
                                     ,OTPfac
                                     ,OTPcol
                                     ,-OTPrem
@@ -2441,7 +2494,7 @@ begin
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
-                                    gcsmdPopulation
+                                    dPopulation
                                     ,OTPfac
                                     ,OTPcol
                                     ,-OTPcurr
@@ -2455,7 +2508,7 @@ begin
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
-                                    gcsmdPopulation
+                                    dPopulation
                                     ,OTPfac
                                     ,OTPcol
                                     ,-OTPrem
@@ -2478,7 +2531,7 @@ begin
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
-                                    gcsmdPopulation
+                                    dPopulation
                                     ,OTPfac
                                     ,OTPcol
                                     ,-OTPcurr
@@ -2492,7 +2545,7 @@ begin
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
-                                    gcsmdPopulation
+                                    dPopulation
                                     ,OTPfac
                                     ,OTPcol
                                     ,-OTPrem
@@ -2515,7 +2568,7 @@ begin
                   then FCentities[OTPfac].E_col[OTPcol].COL_population.POP_tpMilitia:=OTPmili-OTPcasSold
                   else if OTPsold>0
                   then FCMgCSM_ColonyData_Upd(
-                     gcsmdPopulation
+                     dPopulation
                      ,OTPfac
                      ,OTPcol
                      ,-OTPcasSold
@@ -2524,7 +2577,7 @@ begin
                      ,true
                      );
                   FCMgCSM_ColonyData_Upd(
-                     gcsmdCohes
+                     dCohesion
                      ,OTPfac
                      ,OTPcol
                      ,-1
@@ -2554,7 +2607,7 @@ begin
                end;
                FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_cohMod:=OTPmodCoh+OTPmod1;
                FCMgCSM_ColonyData_Upd(
-                  gcsmdCohes
+                  dCohesion
                   ,OTPfac
                   ,OTPcol
                   ,OTPmod1
@@ -2726,7 +2779,7 @@ begin
                         ,FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_lvl*2
                         );
                      FCMgCSM_ColonyData_Upd(
-                        gcsmdCohes
+                        dCohesion
                         ,OTPfac
                         ,OTPcol
                         ,OTPmod1

@@ -1341,7 +1341,7 @@ begin
             {.apply the direct cohesion penalty if any}
             if PECmodCoh<>0
             then FCMgCSM_ColonyData_Upd(
-               gcsmdCohes
+               dCohesion
                ,0
                ,PECcnt
                ,PECapplyCohMod
@@ -1352,7 +1352,7 @@ begin
             {.apply the SPMi modifiers if needed}
             if GSPMspmi.SPMI_modCohes<>0
             then FCMgCSM_ColonyData_Upd(
-               gcsmdCohes
+               dCohesion
                ,0
                ,PECcnt
                ,PECmodCoh
@@ -1362,7 +1362,7 @@ begin
                );
             if GSPMspmi.SPMI_modTens<>0
             then FCMgCSM_ColonyData_Upd(
-               gcsmdTens
+               dTension
                ,0
                ,PECcnt
                ,PECmodTens
@@ -1372,7 +1372,7 @@ begin
                );
             if GSPMspmi.SPMI_modSec<>0
             then FCMgCSM_ColonyData_Upd(
-               gcsmdSec
+               dSecurity
                ,0
                ,PECcnt
                ,0
@@ -1382,7 +1382,7 @@ begin
                );
             if GSPMspmi.SPMI_modEdu<>0
             then FCMgCSM_ColonyData_Upd(
-               gcsmdEdu
+               dInstruction
                ,0
                ,PECcnt
                ,PECmodEdu
@@ -1393,7 +1393,7 @@ begin
             if (GSPMspmi.SPMI_modNat<>0)
                and (GSPMspmi.SPMI_modTens=0)
             then FCMgCSM_ColonyData_Upd(
-               gcsmdBirthR
+               dBirthRate
                ,0
                ,PECcnt
                ,0
@@ -1404,7 +1404,7 @@ begin
             if (GSPMspmi.SPMI_modHeal<>0)
                and (GSPMspmi.SPMI_modTens=0)
             then FCMgCSM_ColonyData_Upd(
-               gcsmdHEAL
+               dHealth
                ,0
                ,PECcnt
                ,PECmodHeal
@@ -1429,7 +1429,7 @@ begin
          begin
             {.apply the direct cohesion penalty if any}
             FCMgCSM_ColonyData_Upd(
-               gcsmdCohes
+               dCohesion
                ,0
                ,PECcnt
                ,PECapplyCohMod
@@ -1566,7 +1566,7 @@ begin
          while PERcnt<=PERmax do
          begin
             FCMgCSM_ColonyData_Upd(
-               gcsmdCohes
+               dCohesion
                ,0
                ,PERcnt
                ,PERapplyCohMod
@@ -1710,7 +1710,7 @@ begin
       begin
          if SPMIRcohSet
          then FCMgCSM_ColonyData_Upd(
-            gcsmdCohes
+            dCohesion
             ,SPMIRent
             ,SPMIRcnt
             ,SPMIRcohes
@@ -1728,7 +1728,7 @@ begin
                SPMIRhealSet:=false;
             end;
             FCMgCSM_ColonyData_Upd(
-               gcsmdTens
+               dTension
                ,SPMIRent
                ,SPMIRcnt
                ,SPMIRtens
@@ -1739,7 +1739,7 @@ begin
          end;
          if SPMIRsecSet
          then FCMgCSM_ColonyData_Upd(
-            gcsmdSec
+            dSecurity
             ,SPMIRent
             ,SPMIRcnt
             ,0
@@ -1749,7 +1749,7 @@ begin
             );
          if SPMIReduSet
          then FCMgCSM_ColonyData_Upd(
-            gcsmdEdu
+            dInstruction
             ,SPMIRent
             ,SPMIRcnt
             ,SPMIRedu
@@ -1759,7 +1759,7 @@ begin
             );
          if SPMIRnatSet
          then FCMgCSM_ColonyData_Upd(
-            gcsmdBirthR
+            dBirthRate
             ,SPMIRent
             ,SPMIRcnt
             ,0
@@ -1769,7 +1769,7 @@ begin
             );
          if SPMIRhealSet
          then FCMgCSM_ColonyData_Upd(
-            gcsmdHEAL
+            dHealth
             ,SPMIRent
             ,SPMIRcnt
             ,SPMIRnat
@@ -1891,7 +1891,7 @@ begin
       begin
          if SPMIScohSet
          then FCMgCSM_ColonyData_Upd(
-            gcsmdCohes
+            dCohesion
             ,SPMISent
             ,SPMIScnt
             ,SPMISspmDat.SPMI_modCohes
@@ -1909,7 +1909,7 @@ begin
                SPMISnatSet:=false;
             end;
             FCMgCSM_ColonyData_Upd(
-               gcsmdTens
+               dTension
                ,SPMISent
                ,SPMIScnt
                ,SPMISspmDat.SPMI_modTens
@@ -1920,7 +1920,7 @@ begin
          end;
          if SPMISsecSet
          then FCMgCSM_ColonyData_Upd(
-            gcsmdSec
+            dSecurity
             ,SPMISent
             ,SPMIScnt
             ,0
@@ -1930,7 +1930,7 @@ begin
             );
          if SPMISeduSet
          then FCMgCSM_ColonyData_Upd(
-            gcsmdEdu
+            dInstruction
             ,SPMISent
             ,SPMIScnt
             ,SPMISspmDat.SPMI_modEdu
@@ -1940,7 +1940,7 @@ begin
             );
          if SPMISnatSet
          then FCMgCSM_ColonyData_Upd(
-            gcsmdBirthR
+            dBirthRate
             ,SPMISent
             ,SPMIScnt
             ,0
@@ -1950,7 +1950,7 @@ begin
             );
          if SPMIShealSet
          then FCMgCSM_ColonyData_Upd(
-            gcsmdHEAL
+            dHealth
             ,SPMISent
             ,SPMIScnt
             ,SPMISspmDat.SPMI_modHeal

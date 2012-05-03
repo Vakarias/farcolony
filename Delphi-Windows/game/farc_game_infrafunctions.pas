@@ -119,7 +119,7 @@ begin
          then FARint:=-FCentities[FARent].E_col[FARcol].COL_settlements[FARsett].CS_infra[FARinfra].CI_fhousPCAP
          else FARint:=FCentities[FARent].E_col[FARcol].COL_settlements[FARsett].CS_infra[FARinfra].CI_fhousPCAP;
          FCMgCSM_ColonyData_Upd(
-            gcsmdPCAP
+            dPCAP
             ,FARent
             ,FARcol
             ,FARint
@@ -128,7 +128,7 @@ begin
             ,false
             );
          FCMgCSM_ColonyData_Upd(
-            gcsmdQOL
+            dQOL
             ,FARent
             ,FARcol
             ,0
