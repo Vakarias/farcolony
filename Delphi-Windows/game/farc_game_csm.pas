@@ -942,7 +942,7 @@ begin
                /FCentities[CDUfac].E_col[CDUcol].COL_population.POP_tpMSsold;
             CDUdatI:=round(CDUdatF);
             CDUdatI1:=FCFgCSME_Mod_Sum(
-               csmemtSecu
+               mtSecurity
                ,CDUfac
                ,CDUcol
                );

@@ -45,12 +45,12 @@ type TFCEcsmeEvCan=(
 
 {:DEV NOTES: update FCFgCSME_Mod_Sum.}
 type TFCEcsmeModTp=(
-   csmemtCohes
-   ,csmemtTens
-   ,csmemtSecu
-   ,csmemtInno
-   ,csmemtIeco
-   ,csmemtHeal
+   mtCohesion
+   ,mtTension
+   ,mtSecurity
+   ,mtInstruction
+   ,mtEcoIndOutput
+   ,mtHealth
    );
 
 ///<summary>
@@ -190,6 +190,7 @@ procedure FCMgCSME_Event_Cancel(
    const ECnewLvl: integer
    );
 {:Purpose: cancel a specified event.
+   -2012May03- *add: COMPLETION - rewriting of the code due to  new changes in the data structure.
    -2012Apr30- *mod: rewriting of the code due to  new changes in the data structure.
    -2011Jan19- *add: recovery mode for Governmental Destabilization.
    -2010Aug29- *add: csmeecImmediate: add the case if there was only 1 record left.
@@ -213,13 +214,13 @@ procedure FCMgCSME_Event_Cancel(
    //   ,EChealMean
       ,ModEcoIndOut
       ,ModInstruction
-   //   ,ECiecoMean
+      ,MeanEcoIndOut
       ,Max
       ,FinalCSMvalue
       ,ModSecurity
+      ,MeanSecurity
       ,ModTension
-      ,MeanTension
-      : integer;
+      ,MeanTension: integer;
 
       ECeventLst: array of TFCRdgColonCSMev;
 begin
@@ -426,44 +427,48 @@ begin
             etColEstab:
             begin
                MeanTension:=round( ( ModTension+FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].CE_tensionMod )*0.5 );
-
-               ModSecurity:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].CE_securityMod;
+               MeanSecurity:=round( ( ModSecurity+FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].CE_securityMod )*0.5 );
+               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CE_tensionMod:=MeanTension;
+               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CE_securityMod:=MeanSecurity;
             end;
 
             etUnrest, etUnrestRec:
             begin
-               ModEcoIndOut:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].UN_ecoindMod;
-               ModTension:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].UN_tensionMod;
+               MeanEcoIndOut:=round( ( ModEcoIndOut+FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].UN_ecoindMod )*0.5 );
+               MeanTension:=round( ( ModTension+FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].UN_tensionMod )*0.5 );
+               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].UN_ecoindMod:=MeanEcoIndOut;
+               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].UN_tensionMod:=MeanTension;
             end;
 
             etSocdis, etSocdisRec:
             begin
-               ModEcoIndOut:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].SD_ecoindMod;
-               ModTension:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].SD_tensionMod;
+               MeanEcoIndOut:=round( ( ModEcoIndOut+FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].SD_ecoindMod )*0.5 );
+               MeanTension:=round( ( ModTension+FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].SD_tensionMod )*0.5 );
+               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].SD_ecoindMod:=MeanEcoIndOut;
+               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].SD_tensionMod:=MeanTension;
             end;
 
             etUprising, etUprisingRec:
             begin
-               ModEcoIndOut:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].UP_ecoindMod;
-               ModTension:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].UP_tensionMod;
+               MeanEcoIndOut:=round( ( ModEcoIndOut+FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].UP_ecoindMod )*0.5 );
+               MeanTension:=round( ( ModTension+FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].UP_tensionMod )*0.5 );
+               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].UP_ecoindMod:=MeanEcoIndOut;
+               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].UP_tensionMod:=MeanTension;
             end;
 
-            etHealthEduRel: ModInstruction:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].HER_educationMod;
+            etHealthEduRel:
+            begin
+               MeanInstruction:=round( ( ModInstruction+FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].HER_educationMod )*0.5 );
+               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].HER_educationMod:=MeanInstruction;
+            end;
 
-            etGovDestab, etGovDestabRec: ModCohesion:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].GD_cohesionMod;
+            etGovDestab, etGovDestabRec:
+            begin
+               MeanCohesion:=round( ( ModCohesion+FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].GD_cohesionMod )*0.5 );
+               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].GD_cohesionMod:=MeanCohesion;
+            end;
          end;
-//         MeanCohesion:=round((ModCohesion+FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].CSMEV_cohMod)*0.5);
-//         ECtensMean:=round((ModTension+FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].CSMEV_tensMod)*0.5);
-//         MeanInstruction:=round((ModInstruction+FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].CSMEV_eduMod)*0.5);
-//         EChealMean:=round((ECheal+FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].CSMEV_healMod)*0.5);
-//         ECiecoMean:=round((ModEcoIndOut+FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].CSMEV_iecoMod)*0.5);
-
-//         FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CSMEV_cohMod:=MeanCohesion;
-//         FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CSMEV_tensMod:=ECtensMean;
-//         FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CSMEV_eduMod:=MeanInstruction;
-//         FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CSMEV_healMod:=EChealMean;
-//         FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CSMEV_iecoMod:=ECiecoMean;
-      end;
+      end; //==END== case: csmeecOverride ==//
    end; //==END== case ECcancelTp of ==//
 end;
 
@@ -531,6 +536,7 @@ procedure FCMgCSME_Event_Trigger(
    );
 {:Purpose: trigger a specified event.
     Additions:
+      -2012May03- *mod: apply modification according to changes in the CSM event data structure.
       -2012Apr30- *add: update the colony panel if needed.
       -2011Jan19- *add: governmental destabilization.
       -2010Sep14- *add: entities code.
@@ -579,13 +585,12 @@ begin
       if length(FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList)=0
       then setlength(FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList, 1);
       ETevIdx:=0;
+      FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[0].CSMEV_isRes:=false;
+      FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[0].CSMEV_duration:=0;
       FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[0].CSMEV_lvl:=0;
-      FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[0].CSMEV_cohMod:=0;
-      FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[0].CSMEV_tensMod:=0;
-      FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[0].CSMEV_secMod:=0;
-      FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[0].CSMEV_eduMod:=0;
-      FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[0].CSMEV_iecoMod:=0;
-      FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[0].CSMEV_healMod:=0;
+      FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[0].CSMEV_token:=etColEstab;
+      FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[0].CE_tensionMod:=0;
+      FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[0].CE_securityMod:=0;
    end
    else if not LoadIndex0
    then
@@ -606,26 +611,24 @@ begin
             envfreeLiving:
             begin
                FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_lvl:=0;
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_tensMod:=10;
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_secMod:=-15;
+               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CE_tensionMod:=10;
+               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CE_securityMod:=-15;
             end;
+
             restrict:
             begin
                FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_lvl:=1;
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_tensMod:=15;
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_secMod:=-20;
+               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CE_tensionMod:=15;
+               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CE_securityMod:=-20;
             end;
+
             space:
             begin
                FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_lvl:=2;
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_tensMod:=25;
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_secMod:=-20;
+               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CE_tensionMod:=25;
+               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CE_securityMod:=-20;
             end;
          end;
-         FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_cohMod:=0;
-         FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_eduMod:=0;
-         FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_iecoMod:=0;
-         FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_healMod:=0;
          if not LoadIndex0
          then
          begin
@@ -633,7 +636,7 @@ begin
                dTension
                ,ETfacIdx
                ,ETcolIdx
-               ,FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_tensMod
+               ,FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CE_tensionMod
                ,0
                ,gcsmptNone
                ,false
@@ -649,56 +652,60 @@ begin
                );
          end;
       end; //==END== case: csmeeColEstablished ==//
+
       etUnrest:
       begin
          FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_token:=etUnrest;
          FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_isRes:=true;
          FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_duration:=-1;
          FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_lvl:=ETlvl;
-         FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_cohMod:=0;
-         FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_secMod:=0;
-         FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_eduMod:=0;
-         FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_healMod:=0;
          case ETlvl of
             1:
             begin
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_tensMod:=15;
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_iecoMod:=-15;
+               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].UN_ecoindMod:=-15;
+               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].UN_tensionMod:=15;
             end;
+
             2:
             begin
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_tensMod:=11;
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_iecoMod:=-13;
+               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].UN_ecoindMod:=-13;
+               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].UN_tensionMod:=11;
             end;
+
             3:
             begin
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_tensMod:=9;
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_iecoMod:=-13;
+               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].UN_ecoindMod:=-13;
+               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].UN_tensionMod:=9;
             end;
+
             4:
             begin
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_tensMod:=7;
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_iecoMod:=-10;
+               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].UN_ecoindMod:=-10;
+               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].UN_tensionMod:=7;
             end;
+
             5:
             begin
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_tensMod:=5;
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_iecoMod:=-8;
+               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].UN_ecoindMod:=-8;
+               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].UN_tensionMod:=5;
             end;
+
             6:
             begin
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_tensMod:=4;
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_iecoMod:=-5;
+               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].UN_ecoindMod:=-5;
+               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].UN_tensionMod:=4;
             end;
+
             7:
             begin
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_tensMod:=3;
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_iecoMod:=-5;
+               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].UN_ecoindMod:=-5;
+               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].UN_tensionMod:=3;
             end;
+
             8..9:
             begin
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_tensMod:=3;
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_iecoMod:=-3;
+               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].UN_ecoindMod:=-3;
+               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].UN_tensionMod:=3;
             end;
          end; //==END== case ETlvl of ==//
          if not LoadIndex0
@@ -708,63 +715,67 @@ begin
                dTension
                ,ETfacIdx
                ,ETcolIdx
-               ,FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_tensMod
+               ,FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].UN_tensionMod
                ,0
                ,gcsmptNone
                ,false
                );
          end;
       end; //==END== case: etUnrest ==//
+
       etSocdis:
       begin
          FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_token:=etSocdis;
          FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_isRes:=true;
          FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_duration:=-1;
          FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_lvl:=ETlvl;
-         FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_cohMod:=0;
-         FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_secMod:=0;
-         FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_eduMod:=0;
-         FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_healMod:=0;
          case ETlvl of
             1:
             begin
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_tensMod:=22;
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_iecoMod:=-32;
+               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].SD_ecoindMod:=-32;
+               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].SD_tensionMod:=22;
             end;
+
             2:
             begin
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_tensMod:=17;
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_iecoMod:=-29;
+               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].SD_ecoindMod:=-29;
+               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].SD_tensionMod:=17;
             end;
+
             3:
             begin
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_tensMod:=17;
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_iecoMod:=-25;
+               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].SD_ecoindMod:=-25;
+               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].SD_tensionMod:=17;
             end;
+
             4:
             begin
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_tensMod:=13;
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_iecoMod:=-20;
+               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].SD_ecoindMod:=-20;
+               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].SD_tensionMod:=13;
             end;
+
             5:
             begin
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_tensMod:=13;
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_iecoMod:=-19;
+               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].SD_ecoindMod:=-19;
+               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].SD_tensionMod:=13;
             end;
+
             6:
             begin
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_tensMod:=10;
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_iecoMod:=-13;
+               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].SD_ecoindMod:=-13;
+               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].SD_tensionMod:=10;
             end;
+
             7:
             begin
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_tensMod:=9;
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_iecoMod:=-10;
+               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].SD_ecoindMod:=-10;
+               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].SD_tensionMod:=9;
             end;
+
             8..9:
             begin
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_tensMod:=8;
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_iecoMod:=-8;
+               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].SD_ecoindMod:=-8;
+               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].SD_tensionMod:=8;
             end;
          end; //==END== case ETlvl of ==//
          if not LoadIndex0
@@ -774,23 +785,20 @@ begin
                dTension
                ,ETfacIdx
                ,ETcolIdx
-               ,FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_tensMod
+               ,FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].SD_tensionMod
                ,0
                ,gcsmptNone
                ,false
                );
          end;
       end; //==END== case: etSocdis ==//
+
       etUprising:
       begin
          FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_token:=etUprising;
          FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_isRes:=true;
          FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_duration:=0;
          FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_lvl:=ETlvl;
-         FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_cohMod:=0;
-         FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_secMod:=0;
-         FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_eduMod:=0;
-         FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_healMod:=0;
          case ETlvl of
             1:
             begin
@@ -799,9 +807,10 @@ begin
                then FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_duration:=-1
                else if FCentities[ETfacIdx].E_col[ETcolIdx].COL_population.POP_tpMSsold=0
                then ETuprDurCoef:=5;
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_tensMod:=43;
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_iecoMod:=-65;
+               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].UP_ecoindMod:=-65;
+               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].UP_tensionMod:=43;
             end;
+
             2:
             begin
                ETuprRebAmnt:=50;
@@ -809,9 +818,10 @@ begin
                then FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_duration:=-1
                else if FCentities[ETfacIdx].E_col[ETcolIdx].COL_population.POP_tpMSsold=0
                then ETuprDurCoef:=4;
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_tensMod:=34;
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_iecoMod:=-52;
+               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].UP_ecoindMod:=-52;
+               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].UP_tensionMod:=34;
             end;
+
             3:
             begin
                ETuprRebAmnt:=30;
@@ -819,9 +829,10 @@ begin
                then FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_duration:=-1
                else if FCentities[ETfacIdx].E_col[ETcolIdx].COL_population.POP_tpMSsold=0
                then ETuprDurCoef:=2;
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_tensMod:=26;
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_iecoMod:=-39;
+               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].UP_ecoindMod:=-39;
+               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].UP_tensionMod:=26;
             end;
+
             4:
             begin
                ETuprRebAmnt:=20;
@@ -829,9 +840,10 @@ begin
                then FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_duration:=-1
                else if FCentities[ETfacIdx].E_col[ETcolIdx].COL_population.POP_tpMSsold=0
                then ETuprDurCoef:=1.5;
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_tensMod:=19;
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_iecoMod:=-23;
+               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].UP_ecoindMod:=-23;
+               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].UP_tensionMod:=19;
             end;
+
             5:
             begin
                ETuprRebAmnt:=10;
@@ -839,14 +851,13 @@ begin
                then FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_duration:=-1
                else if FCentities[ETfacIdx].E_col[ETcolIdx].COL_population.POP_tpMSsold=0
                then ETuprDurCoef:=1;
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_tensMod:=15;
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_iecoMod:=-15;
+               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].UP_ecoindMod:=-15;
+               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].UP_tensionMod:=15;
             end;
          end; //==END== case ETlvl of ==//
          if FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_duration=-1
          then ETuprRebels:=round(
-            (FCentities[ETfacIdx].E_col[ETcolIdx].COL_population.POP_total-FCentities[ETfacIdx].E_col[ETcolIdx].COL_population.POP_tpMSsold)
-            *(1+(ETuprRebAmnt/100))
+            ( FCentities[ETfacIdx].E_col[ETcolIdx].COL_population.POP_total-FCentities[ETfacIdx].E_col[ETcolIdx].COL_population.POP_tpMSsold )*( 1+( ETuprRebAmnt/100 ) )
             )
          else if FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_duration=0
          then
@@ -863,22 +874,19 @@ begin
                dTension
                ,ETfacIdx
                ,ETcolIdx
-               ,FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_tensMod
+               ,FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].UP_tensionMod
                ,0
                ,gcsmptNone
                ,false
                );
          end;
       end; //==END== case: etUprising ==//
+
       etColDissident:
       begin
          FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_token:=etColDissident;
          FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_isRes:=true;
          FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_lvl:=ETlvl;
-         FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_cohMod:=0;
-         FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_secMod:=0;
-         FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_eduMod:=0;
-         FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_healMod:=0;
          ETrnd:=FCFcFunc_Rand_Int(100);
          ETintEv:=0;
          ETuprRebAmnt:=0;
@@ -950,10 +958,7 @@ begin
                then
                begin
                   ETuprRebels:=round(FCentities[ETfacIdx].E_col[ETcolIdx].COL_population.POP_total*(1+(ETuprRebAmnt/100)));
-                  ETloyalCalc:=round(
-                     (FCentities[ETfacIdx].E_col[ETcolIdx].COL_population.POP_total-ETuprRebels)
-                     *(1+(ETloyal/100))
-                     );
+                  ETloyalCalc:=round((FCentities[ETfacIdx].E_col[ETcolIdx].COL_population.POP_total-ETuprRebels)*(1+(ETloyal/100)));
                end
                else if FCentities[ETfacIdx].E_col[ETcolIdx].COL_population.POP_tpMSsold>0
                then
@@ -969,17 +974,15 @@ begin
             end;
          end; //==END== case ETintEv of ==//
       end; //==END== case: etColDissident ==//
+
       etHealthEduRel:
       begin
          FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_token:=etHealthEduRel;
          FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_isRes:=true;
          FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_duration:=-1;
          FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_lvl:=0;
-         FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_cohMod:=0;
-         FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_tensMod:=0;
-         FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_secMod:=0;
          ETevMod:=FCFgCSME_HealEdu_GetMod(ETfacIdx, ETcolIdx);
-         FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_eduMod:=ETevMod;
+         FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].HER_educationMod:=ETevMod;
          FCMgCSM_ColonyData_Upd(
             dInstruction
             ,ETfacIdx
@@ -989,24 +992,18 @@ begin
             ,gcsmptNone
             ,false
             );
-         FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_iecoMod:=0;
-         FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_healMod:=0;
       end;
+
       etGovDestab:
       begin
          FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_token:=etGovDestab;
          FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_isRes:=true;
          FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_duration:=-1;
          case ETlvl of
-            1..3: FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_cohMod:=-8;
-            4..6: FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_cohMod:=-13;
-            7..9: FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_cohMod:=-20;
+            1..3: FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].GD_cohesionMod:=-8;
+            4..6: FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].GD_cohesionMod:=-13;
+            7..9: FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].GD_cohesionMod:=-20;
          end;
-         FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_tensMod:=0;
-         FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_secMod:=0;
-         FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_eduMod:=0;
-         FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_iecoMod:=0;
-         FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_healMod:=0;
       end;
    end; //==END== case ETevent of ==//
    if ETfacIdx=0
@@ -1062,6 +1059,7 @@ function FCFgCSME_Mod_Sum(
    ): integer;
 {:Purpose: make the sum of one type of data modifiers in one colony events list.
     Additions:
+      -2012May03- *mod: apply modification according to changes in the CSM event data structure.
       -2010Sep14- *add: entities faction.
       -2010Aug02- *add: health modifier.
       -2010Aug01- *add/fix: missed the result load.
@@ -1082,12 +1080,52 @@ begin
       while MScnt<=MSmax do
       begin
          case MStype of
-            csmemtCohes: MSdmp:=MSdmp+FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].CSMEV_cohMod;
-            csmemtTens: MSdmp:=MSdmp+FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].CSMEV_tensMod;
-            csmemtSecu: MSdmp:=MSdmp+FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].CSMEV_secMod;
-            csmemtInno: MSdmp:=MSdmp+FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].CSMEV_eduMod;
-            csmemtIeco: MSdmp:=MSdmp+FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].CSMEV_iecoMod;
-            csmemtHeal: MSdmp:=MSdmp+FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].CSMEV_healMod;
+            mtCohesion:
+            begin
+               case FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].CSMEV_token of
+                  etGovDestab, etGovDestabRec: MSdmp:=MSdmp+FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].GD_cohesionMod;
+               end;
+            end;
+
+            mtTension:
+            begin
+               case FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].CSMEV_token of
+                  etColEstab: MSdmp:=MSdmp+FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].CE_tensionMod;
+
+                  etUnrest, etUnrestRec: MSdmp:=MSdmp+FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].UN_tensionMod;
+
+                  etSocdis, etSocdisRec: MSdmp:=MSdmp+FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].SD_tensionMod;
+
+                  etUprising, etUprisingRec: MSdmp:=MSdmp+FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].UP_tensionMod;
+               end;
+            end;
+
+            mtSecurity:
+            begin
+               case FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].CSMEV_token of
+                  etColEstab: MSdmp:=MSdmp+FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].CE_securityMod;
+               end;
+            end;
+
+            mtInstruction:
+            begin
+               case FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].CSMEV_token of
+                  etHealthEduRel: MSdmp:=MSdmp+FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].HER_educationMod;
+               end;
+            end;
+
+            mtEcoIndOutput:
+            begin
+               case FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].CSMEV_token of
+                  etUnrest, etUnrestRec: MSdmp:=MSdmp+FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].UN_ecoindMod;
+
+                  etSocdis, etSocdisRec: MSdmp:=MSdmp+FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].SD_ecoindMod;
+
+                  etUprising, etUprisingRec: MSdmp:=MSdmp+FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].UP_ecoindMod;
+               end;
+            end;
+
+            mtHealth: ;
          end;
          inc(MScnt);
       end;
@@ -1141,6 +1179,7 @@ procedure FCMgCSME_OT_UnSUpRecovery(
    );
 {:Purpose: over time recovery for Unrest/Social Disorder/Uprising events.
     Additions:
+      -2012May03- *mod: apply modification according to changes in the CSM event data structure.
       -2010Sep14- *add: entities code.
 }
 var
