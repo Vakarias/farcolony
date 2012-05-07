@@ -98,10 +98,10 @@ function FCSgCSME_Event_Search(
 ///    <param name="ETlvl">[optional] level</param>
 procedure FCMgCSME_Event_Trigger(
    const ETevent: TFCEdgEventTypes;
-   const ETfacIdx
-         ,ETcolIdx
-         ,ETlvl: integer;
-   const LoadIndex0: boolean
+   const Entity
+         ,Colony
+         ,EventLevel: integer;
+   const LoadToIndex0: boolean
    );
 
 ///<summary>
@@ -141,8 +141,8 @@ function FCFgCSME_UnSup_Find(
 ///    <param name="OTPfac">faction index #</param>
 ///    <param name="OTPcol">colony index #</param>
 procedure FCMgCSME_OT_Proc(
-   const OTPfac
-         ,OTPcol: integer
+   const Entity
+         ,Colony: integer
    );
 
 ///<summary>
@@ -165,7 +165,8 @@ procedure FCMgCSME_UnSup_FindRepl(
 implementation
 
 uses
-   farc_common_func
+   farc_game_colonyrves
+   ,farc_common_func
    ,farc_data_init
    ,farc_data_textfiles
    ,farc_data_univ
@@ -190,6 +191,7 @@ procedure FCMgCSME_Event_Cancel(
    const ECnewLvl: integer
    );
 {:Purpose: cancel a specified event.
+   -2012May06- *add: etRveOxygenOverload.
    -2012May03- *add: COMPLETION - rewriting of the code due to  new changes in the data structure.
    -2012Apr30- *mod: rewriting of the code due to  new changes in the data structure.
    -2011Jan19- *add: recovery mode for Governmental Destabilization.
@@ -229,7 +231,7 @@ begin
    ModInstruction:=0;
    ModSecurity:=0;
    ModTension:=0;
-   {.retrieve the modifiers}
+   {.retrieve the CSM modifiers, if the event have any, or apply special rule to non modifier data}
    case FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].CSMEV_token of
       etColEstab:
       begin
@@ -258,6 +260,8 @@ begin
       etHealthEduRel: ModInstruction:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].HER_educationMod;
 
       etGovDestab, etGovDestabRec: ModCohesion:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].GD_cohesionMod;
+
+      etRveOxygenOverload: FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].ROO_percPopNotSupported:=0;
    end;
    {.apply the correct cancellation method}
    case ECcancelTp of
@@ -475,6 +479,7 @@ end;
 function FCFgCSME_Event_GetStr(const EGSevent: TFCEdgEventTypes): string;
 {:Purpose: get the event token string.
    Additions:
+      -2012May06- *add: etRveOxygenOverload.
       -2012Apr29- *add: forgot to add: etGovDestabRec.
       -2011Jan18- *add: etGovDestab.
       -2010Aug12- *rem: etColRogue.
@@ -496,6 +501,7 @@ begin
       etHealthEduRel: result:='csmevHealthEduRel';
       etGovDestab: result:='csmevGovDestab';
       etGovDestabRec: result:= 'csmevGovDestabRec';
+      etRveOxygenOverload: result:='csmevRveOxygenOverload';
    end;
 end;
 
@@ -529,13 +535,16 @@ end;
 
 procedure FCMgCSME_Event_Trigger(
    const ETevent: TFCEdgEventTypes;
-   const ETfacIdx
-         ,ETcolIdx
-         ,ETlvl: integer;
-   const LoadIndex0: boolean
+   const Entity
+         ,Colony
+         ,EventLevel: integer;
+   const LoadToIndex0: boolean
    );
+   {:DEV NOTES: A LOT OF UPDATE TO PUT, FOLLOW THE DOC !! + COMPLETE CSM DATA UPDATE (like for ecoIndOutput !!!!.}
 {:Purpose: trigger a specified event.
     Additions:
+      -2012May05- *add: etRveOxygenOverload event.
+                  *code: refactoring of all procedure's parameters.
       -2012May03- *mod: apply modification according to changes in the CSM event data structure.
       -2012Apr30- *add: update the colony panel if needed.
       -2011Jan19- *add: governmental destabilization.
@@ -565,7 +574,7 @@ procedure FCMgCSME_Event_Trigger(
       -2010Jul23- *add: switchs.
 }
 var
-   ETevIdx
+   CurrentEventIndex
    ,ETevMod
    ,ETintEv
    ,ETloyal
@@ -579,72 +588,71 @@ var
 
    ETenv: TFCRgcEnvironment;
 begin
-   if LoadIndex0
+   if LoadToIndex0
    then
    begin
-      if length(FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList)=0
-      then setlength(FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList, 1);
-      ETevIdx:=0;
-      FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[0].CSMEV_isRes:=false;
-      FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[0].CSMEV_duration:=0;
-      FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[0].CSMEV_lvl:=0;
-      FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[0].CSMEV_token:=etColEstab;
-      FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[0].CE_tensionMod:=0;
-      FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[0].CE_securityMod:=0;
+      if length(FCentities[Entity].E_col[Colony].COL_evList)=0
+      then setlength(FCentities[Entity].E_col[Colony].COL_evList, 1);
+      CurrentEventIndex:=0;
+      FCentities[Entity].E_col[Colony].COL_evList[0].CSMEV_isRes:=false;
+      FCentities[Entity].E_col[Colony].COL_evList[0].CSMEV_duration:=0;
+      FCentities[Entity].E_col[Colony].COL_evList[0].CSMEV_lvl:=0;
+      FCentities[Entity].E_col[Colony].COL_evList[0].CSMEV_token:=etColEstab;
+      FCentities[Entity].E_col[Colony].COL_evList[0].CE_tensionMod:=0;
+      FCentities[Entity].E_col[Colony].COL_evList[0].CE_securityMod:=0;
    end
-   else if not LoadIndex0
+   else if not LoadToIndex0
    then
    begin
       ETuprRebAmnt:=0;
-      setlength(FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList, length(FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList)+1);
-      ETevIdx:=length(FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList)-1;
+      setlength(FCentities[Entity].E_col[Colony].COL_evList, length(FCentities[Entity].E_col[Colony].COL_evList)+1);
+      CurrentEventIndex:=length(FCentities[Entity].E_col[Colony].COL_evList)-1;
    end;
    case ETevent of
       etColEstab:
       begin
-         FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_token:=etColEstab;
-         FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_isRes:=true;
-         FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_duration:=5;
-         ETenv:=FCFgC_ColEnv_GetTp(ETfacIdx, ETcolIdx);
-         FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_lvl:=-1;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_token:=etColEstab;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_isRes:=true;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_duration:=5;
+         ETenv:=FCFgC_ColEnv_GetTp(Entity, Colony);
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_lvl:=-1;
          case ETenv.ENV_envType of
             envfreeLiving:
             begin
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_lvl:=0;
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CE_tensionMod:=10;
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CE_securityMod:=-15;
+               FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_lvl:=0;
+               FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CE_tensionMod:=10;
+               FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CE_securityMod:=-15;
             end;
 
             restrict:
             begin
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_lvl:=1;
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CE_tensionMod:=15;
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CE_securityMod:=-20;
+               FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_lvl:=1;
+               FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CE_tensionMod:=15;
+               FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CE_securityMod:=-20;
             end;
 
             space:
             begin
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_lvl:=2;
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CE_tensionMod:=25;
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CE_securityMod:=-20;
+               FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_lvl:=2;
+               FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CE_tensionMod:=25;
+               FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CE_securityMod:=-20;
             end;
          end;
-         if not LoadIndex0
-         then
+         if not LoadToIndex0 then
          begin
             FCMgCSM_ColonyData_Upd(
                dTension
-               ,ETfacIdx
-               ,ETcolIdx
-               ,FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CE_tensionMod
+               ,Entity
+               ,Colony
+               ,FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CE_tensionMod
                ,0
                ,gcsmptNone
                ,false
                );
             FCMgCSM_ColonyData_Upd(
                dSecurity
-               ,ETfacIdx
-               ,ETcolIdx
+               ,Entity
+               ,Colony
                ,0
                ,0
                ,gcsmptNone
@@ -655,244 +663,235 @@ begin
 
       etUnrest:
       begin
-         FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_token:=etUnrest;
-         FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_isRes:=true;
-         FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_duration:=-1;
-         FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_lvl:=ETlvl;
-         case ETlvl of
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_token:=etUnrest;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_isRes:=true;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_duration:=-1;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_lvl:=EventLevel;
+         case EventLevel of
             1:
             begin
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].UN_ecoindMod:=-15;
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].UN_tensionMod:=15;
+               FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].UN_ecoindMod:=-15;
+               FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].UN_tensionMod:=15;
             end;
 
             2:
             begin
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].UN_ecoindMod:=-13;
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].UN_tensionMod:=11;
+               FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].UN_ecoindMod:=-13;
+               FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].UN_tensionMod:=11;
             end;
 
             3:
             begin
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].UN_ecoindMod:=-13;
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].UN_tensionMod:=9;
+               FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].UN_ecoindMod:=-13;
+               FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].UN_tensionMod:=9;
             end;
 
             4:
             begin
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].UN_ecoindMod:=-10;
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].UN_tensionMod:=7;
+               FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].UN_ecoindMod:=-10;
+               FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].UN_tensionMod:=7;
             end;
 
             5:
             begin
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].UN_ecoindMod:=-8;
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].UN_tensionMod:=5;
+               FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].UN_ecoindMod:=-8;
+               FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].UN_tensionMod:=5;
             end;
 
             6:
             begin
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].UN_ecoindMod:=-5;
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].UN_tensionMod:=4;
+               FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].UN_ecoindMod:=-5;
+               FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].UN_tensionMod:=4;
             end;
 
             7:
             begin
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].UN_ecoindMod:=-5;
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].UN_tensionMod:=3;
+               FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].UN_ecoindMod:=-5;
+               FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].UN_tensionMod:=3;
             end;
 
             8..9:
             begin
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].UN_ecoindMod:=-3;
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].UN_tensionMod:=3;
+               FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].UN_ecoindMod:=-3;
+               FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].UN_tensionMod:=3;
             end;
          end; //==END== case ETlvl of ==//
-         if not LoadIndex0
-         then
-         begin
-            FCMgCSM_ColonyData_Upd(
-               dTension
-               ,ETfacIdx
-               ,ETcolIdx
-               ,FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].UN_tensionMod
-               ,0
-               ,gcsmptNone
-               ,false
-               );
-         end;
+         if not LoadToIndex0
+         then FCMgCSM_ColonyData_Upd(
+            dTension
+            ,Entity
+            ,Colony
+            ,FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].UN_tensionMod
+            ,0
+            ,gcsmptNone
+            ,false
+            );
       end; //==END== case: etUnrest ==//
 
       etSocdis:
       begin
-         FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_token:=etSocdis;
-         FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_isRes:=true;
-         FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_duration:=-1;
-         FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_lvl:=ETlvl;
-         case ETlvl of
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_token:=etSocdis;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_isRes:=true;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_duration:=-1;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_lvl:=EventLevel;
+         case EventLevel of
             1:
             begin
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].SD_ecoindMod:=-32;
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].SD_tensionMod:=22;
+               FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].SD_ecoindMod:=-32;
+               FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].SD_tensionMod:=22;
             end;
 
             2:
             begin
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].SD_ecoindMod:=-29;
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].SD_tensionMod:=17;
+               FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].SD_ecoindMod:=-29;
+               FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].SD_tensionMod:=17;
             end;
 
             3:
             begin
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].SD_ecoindMod:=-25;
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].SD_tensionMod:=17;
+               FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].SD_ecoindMod:=-25;
+               FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].SD_tensionMod:=17;
             end;
 
             4:
             begin
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].SD_ecoindMod:=-20;
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].SD_tensionMod:=13;
+               FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].SD_ecoindMod:=-20;
+               FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].SD_tensionMod:=13;
             end;
 
             5:
             begin
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].SD_ecoindMod:=-19;
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].SD_tensionMod:=13;
+               FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].SD_ecoindMod:=-19;
+               FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].SD_tensionMod:=13;
             end;
 
             6:
             begin
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].SD_ecoindMod:=-13;
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].SD_tensionMod:=10;
+               FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].SD_ecoindMod:=-13;
+               FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].SD_tensionMod:=10;
             end;
 
             7:
             begin
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].SD_ecoindMod:=-10;
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].SD_tensionMod:=9;
+               FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].SD_ecoindMod:=-10;
+               FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].SD_tensionMod:=9;
             end;
 
             8..9:
             begin
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].SD_ecoindMod:=-8;
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].SD_tensionMod:=8;
+               FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].SD_ecoindMod:=-8;
+               FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].SD_tensionMod:=8;
             end;
          end; //==END== case ETlvl of ==//
-         if not LoadIndex0
-         then
-         begin
-            FCMgCSM_ColonyData_Upd(
-               dTension
-               ,ETfacIdx
-               ,ETcolIdx
-               ,FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].SD_tensionMod
-               ,0
-               ,gcsmptNone
-               ,false
-               );
-         end;
+         if not LoadToIndex0
+         then FCMgCSM_ColonyData_Upd(
+            dTension
+            ,Entity
+            ,Colony
+            ,FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].SD_tensionMod
+            ,0
+            ,gcsmptNone
+            ,false
+            );
       end; //==END== case: etSocdis ==//
 
       etUprising:
       begin
-         FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_token:=etUprising;
-         FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_isRes:=true;
-         FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_duration:=0;
-         FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_lvl:=ETlvl;
-         case ETlvl of
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_token:=etUprising;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_isRes:=true;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_duration:=0;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_lvl:=EventLevel;
+         case EventLevel of
             1:
             begin
                ETuprRebAmnt:=80;
-               if FCentities[ETfacIdx].E_col[ETcolIdx].COL_population.POP_tpMSsold>0
-               then FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_duration:=-1
-               else if FCentities[ETfacIdx].E_col[ETcolIdx].COL_population.POP_tpMSsold=0
+               if FCentities[Entity].E_col[Colony].COL_population.POP_tpMSsold>0
+               then FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_duration:=-1
+               else if FCentities[Entity].E_col[Colony].COL_population.POP_tpMSsold=0
                then ETuprDurCoef:=5;
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].UP_ecoindMod:=-65;
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].UP_tensionMod:=43;
+               FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].UP_ecoindMod:=-65;
+               FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].UP_tensionMod:=43;
             end;
 
             2:
             begin
                ETuprRebAmnt:=50;
-               if FCentities[ETfacIdx].E_col[ETcolIdx].COL_population.POP_tpMSsold>0
-               then FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_duration:=-1
-               else if FCentities[ETfacIdx].E_col[ETcolIdx].COL_population.POP_tpMSsold=0
+               if FCentities[Entity].E_col[Colony].COL_population.POP_tpMSsold>0
+               then FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_duration:=-1
+               else if FCentities[Entity].E_col[Colony].COL_population.POP_tpMSsold=0
                then ETuprDurCoef:=4;
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].UP_ecoindMod:=-52;
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].UP_tensionMod:=34;
+               FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].UP_ecoindMod:=-52;
+               FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].UP_tensionMod:=34;
             end;
 
             3:
             begin
                ETuprRebAmnt:=30;
-               if FCentities[ETfacIdx].E_col[ETcolIdx].COL_population.POP_tpMSsold>0
-               then FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_duration:=-1
-               else if FCentities[ETfacIdx].E_col[ETcolIdx].COL_population.POP_tpMSsold=0
+               if FCentities[Entity].E_col[Colony].COL_population.POP_tpMSsold>0
+               then FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_duration:=-1
+               else if FCentities[Entity].E_col[Colony].COL_population.POP_tpMSsold=0
                then ETuprDurCoef:=2;
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].UP_ecoindMod:=-39;
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].UP_tensionMod:=26;
+               FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].UP_ecoindMod:=-39;
+               FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].UP_tensionMod:=26;
             end;
 
             4:
             begin
                ETuprRebAmnt:=20;
-               if FCentities[ETfacIdx].E_col[ETcolIdx].COL_population.POP_tpMSsold>0
-               then FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_duration:=-1
-               else if FCentities[ETfacIdx].E_col[ETcolIdx].COL_population.POP_tpMSsold=0
+               if FCentities[Entity].E_col[Colony].COL_population.POP_tpMSsold>0
+               then FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_duration:=-1
+               else if FCentities[Entity].E_col[Colony].COL_population.POP_tpMSsold=0
                then ETuprDurCoef:=1.5;
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].UP_ecoindMod:=-23;
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].UP_tensionMod:=19;
+               FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].UP_ecoindMod:=-23;
+               FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].UP_tensionMod:=19;
             end;
 
             5:
             begin
                ETuprRebAmnt:=10;
-               if FCentities[ETfacIdx].E_col[ETcolIdx].COL_population.POP_tpMSsold>0
-               then FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_duration:=-1
-               else if FCentities[ETfacIdx].E_col[ETcolIdx].COL_population.POP_tpMSsold=0
+               if FCentities[Entity].E_col[Colony].COL_population.POP_tpMSsold>0
+               then FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_duration:=-1
+               else if FCentities[Entity].E_col[Colony].COL_population.POP_tpMSsold=0
                then ETuprDurCoef:=1;
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].UP_ecoindMod:=-15;
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].UP_tensionMod:=15;
+               FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].UP_ecoindMod:=-15;
+               FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].UP_tensionMod:=15;
             end;
          end; //==END== case ETlvl of ==//
-         if FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_duration=-1
+         if FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_duration=-1
          then ETuprRebels:=round(
-            ( FCentities[ETfacIdx].E_col[ETcolIdx].COL_population.POP_total-FCentities[ETfacIdx].E_col[ETcolIdx].COL_population.POP_tpMSsold )*( 1+( ETuprRebAmnt/100 ) )
+            ( FCentities[Entity].E_col[Colony].COL_population.POP_total-FCentities[Entity].E_col[Colony].COL_population.POP_tpMSsold )*( 1+( ETuprRebAmnt/100 ) )
             )
-         else if FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_duration=0
+         else if FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_duration=0
          then
          begin
-            ETuprRebels:=round(FCentities[ETfacIdx].E_col[ETcolIdx].COL_population.POP_total*(1+(ETuprRebAmnt/100)));
+            ETuprRebels:=round(FCentities[Entity].E_col[Colony].COL_population.POP_total*(1+(ETuprRebAmnt/100)));
             ETdur:=sqrt(ETuprRebels)*ETuprDurCoef;
-            FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_duration:=round(ETdur);
+            FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_duration:=round(ETdur);
          end;
-         FCentities[ETfacIdx].E_col[ETcolIdx].COL_population.POP_tpRebels:=ETuprRebels;
-         if not LoadIndex0
-         then
-         begin
-            FCMgCSM_ColonyData_Upd(
-               dTension
-               ,ETfacIdx
-               ,ETcolIdx
-               ,FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].UP_tensionMod
-               ,0
-               ,gcsmptNone
-               ,false
-               );
-         end;
+         FCentities[Entity].E_col[Colony].COL_population.POP_tpRebels:=ETuprRebels;
+         if not LoadToIndex0
+         then FCMgCSM_ColonyData_Upd(
+            dTension
+            ,Entity
+            ,Colony
+            ,FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].UP_tensionMod
+            ,0
+            ,gcsmptNone
+            ,false
+            );
       end; //==END== case: etUprising ==//
 
       etColDissident:
       begin
-         FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_token:=etColDissident;
-         FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_isRes:=true;
-         FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_lvl:=ETlvl;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_token:=etColDissident;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_isRes:=true;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_lvl:=EventLevel;
          ETrnd:=FCFcFunc_Rand_Int(100);
          ETintEv:=0;
          ETuprRebAmnt:=0;
          ETloyal:=0;
          ETloyalCalc:=0;
-         case ETlvl of
+         case EventLevel of
             1:
             begin
                ETuprRebAmnt:=1;
@@ -931,8 +930,8 @@ begin
                ETloyal:=5;
             end;
          end; //==END== case ETlvl of ==//
-         FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_lvl:=ETintEv;
-         FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_duration:=-1;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_lvl:=ETintEv;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_duration:=-1;
          case ETintEv of
             {.no resistance}
             0:
@@ -954,62 +953,74 @@ begin
             end;
             1..3:
             begin
-               if FCentities[ETfacIdx].E_col[ETcolIdx].COL_population.POP_tpMSsold=0
+               if FCentities[Entity].E_col[Colony].COL_population.POP_tpMSsold=0
                then
                begin
-                  ETuprRebels:=round(FCentities[ETfacIdx].E_col[ETcolIdx].COL_population.POP_total*(1+(ETuprRebAmnt/100)));
-                  ETloyalCalc:=round((FCentities[ETfacIdx].E_col[ETcolIdx].COL_population.POP_total-ETuprRebels)*(1+(ETloyal/100)));
+                  ETuprRebels:=round(FCentities[Entity].E_col[Colony].COL_population.POP_total*(1+(ETuprRebAmnt/100)));
+                  ETloyalCalc:=round((FCentities[Entity].E_col[Colony].COL_population.POP_total-ETuprRebels)*(1+(ETloyal/100)));
                end
-               else if FCentities[ETfacIdx].E_col[ETcolIdx].COL_population.POP_tpMSsold>0
+               else if FCentities[Entity].E_col[Colony].COL_population.POP_tpMSsold>0
                then
                begin
                   ETuprRebels:=round(
-                     (FCentities[ETfacIdx].E_col[ETcolIdx].COL_population.POP_total-FCentities[ETfacIdx].E_col[ETcolIdx].COL_population.POP_tpMSsold)
+                     (FCentities[Entity].E_col[Colony].COL_population.POP_total-FCentities[Entity].E_col[Colony].COL_population.POP_tpMSsold)
                      *(1+(ETuprRebAmnt/100))
                      );
                   ETloyalCalc:=0;
                end;
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_population.POP_tpRebels:=ETuprRebels;
-               FCentities[ETfacIdx].E_col[ETcolIdx].COL_population.POP_tpMilitia:=ETloyalCalc;
+               FCentities[Entity].E_col[Colony].COL_population.POP_tpRebels:=ETuprRebels;
+               FCentities[Entity].E_col[Colony].COL_population.POP_tpMilitia:=ETloyalCalc;
             end;
          end; //==END== case ETintEv of ==//
       end; //==END== case: etColDissident ==//
 
       etHealthEduRel:
       begin
-         FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_token:=etHealthEduRel;
-         FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_isRes:=true;
-         FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_duration:=-1;
-         FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_lvl:=0;
-         ETevMod:=FCFgCSME_HealEdu_GetMod(ETfacIdx, ETcolIdx);
-         FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].HER_educationMod:=ETevMod;
-         FCMgCSM_ColonyData_Upd(
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_token:=etHealthEduRel;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_isRes:=true;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_duration:=-1;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_lvl:=0;
+         ETevMod:=FCFgCSME_HealEdu_GetMod(Entity, Colony);
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].HER_educationMod:=ETevMod;
+         if not LoadToIndex0
+         then FCMgCSM_ColonyData_Upd(
             dInstruction
-            ,ETfacIdx
-            ,ETcolIdx
+            ,Entity
+            ,Colony
             ,ETevMod
             ,0
             ,gcsmptNone
             ,false
             );
-      end;
+      end; //==END== case: etHealthEduRel ==//
 
       etGovDestab:
       begin
-         FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_token:=etGovDestab;
-         FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_isRes:=true;
-         FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].CSMEV_duration:=-1;
-         case ETlvl of
-            1..3: FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].GD_cohesionMod:=-8;
-            4..6: FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].GD_cohesionMod:=-13;
-            7..9: FCentities[ETfacIdx].E_col[ETcolIdx].COL_evList[ETevIdx].GD_cohesionMod:=-20;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_token:=etGovDestab;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_isRes:=true;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_duration:=-1;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_lvl:=EventLevel;
+         case EventLevel of
+            1..3: FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].GD_cohesionMod:=-8;
+            4..6: FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].GD_cohesionMod:=-13;
+            7..9: FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].GD_cohesionMod:=-20;
          end;
-      end;
+      end; //==END== case: etGovDestab ==//
+
+      etRveOxygenOverload:
+      begin
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_token:=etRveOxygenOverload;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_isRes:=true;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_duration:=-1;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_lvl:=0;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].ROO_percPopNotSupported:=0;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].ROO_percPopNotSupported:=FCFgCR_OxygenOverload_Calc( Entity, Colony );
+      end; //==END== case: etRveOxygenOverload ==//
    end; //==END== case ETevent of ==//
-   if ETfacIdx=0
+   if Entity=0
    then FCMuiCDD_Colony_Update(
       cdlCSMevents
-      ,ETcolIdx
+      ,Colony
       ,0
       ,0
       ,true
@@ -1363,14 +1374,15 @@ begin
 end;
 
 procedure FCMgCSME_OT_Proc(
-   const OTPfac
-         ,OTPcol: integer
+   const Entity
+         ,Colony: integer
    );
 {:Purpose: over time processing for events of a colony.
    Additions:
       -2012May06- *mod: apply modification according to changes in the CSM event data structure.
                   *mod: cleanup data assignation by using FCMgCSM_ColonyData_Upd.
                   *add: complete the recovering part for the concerned events.
+                  *add: etRveOxygenOverload event.
       -2012Apr30- *add: update the colony panel if needed.
       -2011Jan20- *add: government destabilization - recovery calculations.
       -2011Jan19- *add: government destabilization.
@@ -1418,19 +1430,19 @@ var
 
    OTPevArr: array of TFCRdgColonCSMev;
 begin
-   OTPmax:=length(FCentities[OTPfac].E_col[OTPcol].COL_evList)-1;
+   OTPmax:=length(FCentities[Entity].E_col[Colony].COL_evList)-1;
    if OTPmax>1
    then
    begin
       OTPcnt:=1;
       while OTPcnt<=OTPmax do
       begin
-         case FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_token of
+         case FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].CSMEV_token of
             etColEstab:
             begin
-               OTPmodTens:=FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CE_tensionMod;
-               OTPmodSec:=FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CE_securityMod;
-               case FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_lvl of
+               OTPmodTens:=FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].CE_tensionMod;
+               OTPmodSec:=FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].CE_securityMod;
+               case FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].CSMEV_lvl of
                   0:
                   begin
                      OTPmod1:=-5;
@@ -1447,36 +1459,36 @@ begin
                      OTPmod2:=3;
                   end;
                end;
-               FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CE_tensionMod:=OTPmodTens+OTPmod1;
+               FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].CE_tensionMod:=OTPmodTens+OTPmod1;
                FCMgCSM_ColonyData_Upd(
                   dTension
-                  ,OTPfac
-                  ,OTPcol
+                  ,Entity
+                  ,Colony
                   ,OTPmod1
                   ,0
                   ,gcsmptNone
                   ,false
                   );
-               FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CE_securityMod:=OTPmodSec+OTPmod2;
+               FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].CE_securityMod:=OTPmodSec+OTPmod2;
                FCMgCSM_ColonyData_Upd(
                   dSecurity
-                  ,OTPfac
-                  ,OTPcol
+                  ,Entity
+                  ,Colony
                   ,0
                   ,0
                   ,gcsmptNone
                   ,true
                   );
-               dec(FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_duration);
-               if FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_duration=0
-               then FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_duration:=-2;
+               dec(FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].CSMEV_duration);
+               if FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].CSMEV_duration=0
+               then FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].CSMEV_duration:=-2;
             end; //==END== case: etColEstab ==//
 
             etUnrest:
             begin
-               OTPmodEiO:=FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].UN_ecoindMod;
-               OTPmodTens:=FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].UN_tensionMod;
-               case FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_lvl of
+               OTPmodEiO:=FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].UN_ecoindMod;
+               OTPmodTens:=FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].UN_tensionMod;
+               case FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].CSMEV_lvl of
                   1:
                   begin
                      OTPmod1:=-3;
@@ -1518,21 +1530,21 @@ begin
                      OTPmod2:=1;
                   end;
                end;
-               FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].UN_ecoindMod:=OTPmodEiO+OTPmod1;
+               FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].UN_ecoindMod:=OTPmodEiO+OTPmod1;
                FCMgCSM_ColonyData_Upd(
                   dEcoIndusOut
-                  ,OTPfac
-                  ,OTPcol
+                  ,Entity
+                  ,Colony
                   ,OTPmod1
                   ,0
                   ,gcsmptNone
                   ,false
                   );
-               FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].UN_tensionMod:=OTPmodTens+OTPmod2;
+               FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].UN_tensionMod:=OTPmodTens+OTPmod2;
                FCMgCSM_ColonyData_Upd(
                   dTension
-                  ,OTPfac
-                  ,OTPcol
+                  ,Entity
+                  ,Colony
                   ,OTPmod2
                   ,0
                   ,gcsmptNone
@@ -1543,16 +1555,16 @@ begin
             end; //==END== case: etUnrest ==//
 
             etUnrestRec: FCMgCSME_Recovering_Process(
-               OTPfac
-               ,OTPcol
+               Entity
+               ,Colony
                ,OTPcnt
                );
 
             etSocdis:
             begin
-               OTPmodEiO:=FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].SD_ecoindMod;
-               OTPmodTens:=FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].SD_tensionMod;
-               case FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_lvl of
+               OTPmodEiO:=FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].SD_ecoindMod;
+               OTPmodTens:=FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].SD_tensionMod;
+               case FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].CSMEV_lvl of
                   1:
                   begin
                      OTPmod1:=-5;
@@ -1594,21 +1606,21 @@ begin
                      OTPmod2:=1;
                   end;
                end;
-               FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].SD_ecoindMod:=OTPmodEiO+OTPmod1;
+               FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].SD_ecoindMod:=OTPmodEiO+OTPmod1;
                FCMgCSM_ColonyData_Upd(
                   dEcoIndusOut
-                  ,OTPfac
-                  ,OTPcol
+                  ,Entity
+                  ,Colony
                   ,OTPmod1
                   ,0
                   ,gcsmptNone
                   ,false
                   );
-               FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].SD_tensionMod:=OTPmodTens+OTPmod2;
+               FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].SD_tensionMod:=OTPmodTens+OTPmod2;
                FCMgCSM_ColonyData_Upd(
                   dTension
-                  ,OTPfac
-                  ,OTPcol
+                  ,Entity
+                  ,Colony
                   ,OTPmod2
                   ,0
                   ,gcsmptNone
@@ -1617,16 +1629,16 @@ begin
             end; //==END== case: etSocdis ==//
 
             etSocdisRec: FCMgCSME_Recovering_Process(
-               OTPfac
-               ,OTPcol
+               Entity
+               ,Colony
                ,OTPcnt
                );
 
             etUprising:
             begin
-               OTPmodEiO:=FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].UP_ecoindMod;
-               OTPmodTens:=FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].UP_tensionMod;
-               case FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_lvl of
+               OTPmodEiO:=FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].UP_ecoindMod;
+               OTPmodTens:=FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].UP_tensionMod;
+               case FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].CSMEV_lvl of
                   1:
                   begin
                      OTPmod1:=-8;
@@ -1658,39 +1670,39 @@ begin
                      OTPrebEqup:=0.5;
                   end;
                end;
-               FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].UP_ecoindMod:=OTPmodEiO+OTPmod1;
+               FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].UP_ecoindMod:=OTPmodEiO+OTPmod1;
                FCMgCSM_ColonyData_Upd(
                   dEcoIndusOut
-                  ,OTPfac
-                  ,OTPcol
+                  ,Entity
+                  ,Colony
                   ,OTPmod1
                   ,0
                   ,gcsmptNone
                   ,false
                   );
-               FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].UP_tensionMod:=OTPmodTens+OTPmod2;
+               FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].UP_tensionMod:=OTPmodTens+OTPmod2;
                FCMgCSM_ColonyData_Upd(
                   dTension
-                  ,OTPfac
-                  ,OTPcol
+                  ,Entity
+                  ,Colony
                   ,OTPmod2
                   ,0
                   ,gcsmptNone
                   ,false
                   );
                {.fighting system}
-               OTPsold:=FCentities[OTPfac].E_col[OTPcol].COL_population.POP_tpMSsold;
-               OTPreb:=FCentities[OTPfac].E_col[OTPcol].COL_population.POP_tpRebels;
+               OTPsold:=FCentities[Entity].E_col[Colony].COL_population.POP_tpMSsold;
+               OTPreb:=FCentities[Entity].E_col[Colony].COL_population.POP_tpRebels;
                if OTPsold>0
                then
                begin
                   {.in case of soldiers were been added after that the uprising event was set}
-                  if FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_duration<>-1
-                  then FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_duration:=-1;
+                  if FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].CSMEV_duration<>-1
+                  then FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].CSMEV_duration:=-1;
                   OTPsec:=StrToInt(
                      FCFgCSM_Security_GetIdxStr(
-                        OTPfac
-                        ,OTPcol
+                        Entity
+                        ,Colony
                         ,true
                         )
                      );
@@ -1713,7 +1725,7 @@ begin
                   then OTPcasSold:=OTPsold;
                   {.population losses are calculated proportionally on each population classes}
                   OTPcurr:=OTPcasPop;
-                  OTPpopTtl:=FCentities[OTPfac].E_col[OTPcol].COL_population.POP_total-OTPsold;
+                  OTPpopTtl:=FCentities[Entity].E_col[Colony].COL_population.POP_total-OTPsold;
                   OTPpCnt:=1;
                   while OTPcurr>0 do
                   begin
@@ -1721,17 +1733,17 @@ begin
                         {.colonists}
                         1:
                         begin
-                           if FCentities[OTPfac].E_col[OTPcol].COL_population.POP_tpColon>0
+                           if FCentities[Entity].E_col[Colony].COL_population.POP_tpColon>0
                            then
                            begin
-                              OTPrem:=round(FCentities[OTPfac].E_col[OTPcol].COL_population.POP_tpColon*OTPcasPop/OTPpopTtl);
+                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.POP_tpColon*OTPcasPop/OTPpopTtl);
                               if OTPrem>=OTPcurr
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
                                     dPopulation
-                                    ,OTPfac
-                                    ,OTPcol
+                                    ,Entity
+                                    ,Colony
                                     ,-OTPcurr
                                     ,0
                                     ,gcsmptColon
@@ -1744,8 +1756,8 @@ begin
                               begin
                                  FCMgCSM_ColonyData_Upd(
                                     dPopulation
-                                    ,OTPfac
-                                    ,OTPcol
+                                    ,Entity
+                                    ,Colony
                                     ,-OTPrem
                                     ,0
                                     ,gcsmptColon
@@ -1758,17 +1770,17 @@ begin
                         {.aerospace officers}
                         2:
                         begin
-                           if FCentities[OTPfac].E_col[OTPcol].COL_population.POP_tpASoff>0
+                           if FCentities[Entity].E_col[Colony].COL_population.POP_tpASoff>0
                            then
                            begin
-                              OTPrem:=round(FCentities[OTPfac].E_col[OTPcol].COL_population.POP_tpASoff*OTPcasPop/OTPpopTtl);
+                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.POP_tpASoff*OTPcasPop/OTPpopTtl);
                               if OTPrem>=OTPcurr
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
                                     dPopulation
-                                    ,OTPfac
-                                    ,OTPcol
+                                    ,Entity
+                                    ,Colony
                                     ,-OTPcurr
                                     ,0
                                     ,gcsmptASoff
@@ -1781,8 +1793,8 @@ begin
                               begin
                                  FCMgCSM_ColonyData_Upd(
                                     dPopulation
-                                    ,OTPfac
-                                    ,OTPcol
+                                    ,Entity
+                                    ,Colony
                                     ,-OTPrem
                                     ,0
                                     ,gcsmptASoff
@@ -1795,17 +1807,17 @@ begin
                         {.mission specialists}
                         3:
                         begin
-                           if FCentities[OTPfac].E_col[OTPcol].COL_population.POP_tpASmiSp>0
+                           if FCentities[Entity].E_col[Colony].COL_population.POP_tpASmiSp>0
                            then
                            begin
-                              OTPrem:=round(FCentities[OTPfac].E_col[OTPcol].COL_population.POP_tpASmiSp*OTPcasPop/OTPpopTtl);
+                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.POP_tpASmiSp*OTPcasPop/OTPpopTtl);
                               if OTPrem>=OTPcurr
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
                                     dPopulation
-                                    ,OTPfac
-                                    ,OTPcol
+                                    ,Entity
+                                    ,Colony
                                     ,-OTPcurr
                                     ,0
                                     ,gcsmptASmiSp
@@ -1818,8 +1830,8 @@ begin
                               begin
                                  FCMgCSM_ColonyData_Upd(
                                     dPopulation
-                                    ,OTPfac
-                                    ,OTPcol
+                                    ,Entity
+                                    ,Colony
                                     ,-OTPrem
                                     ,0
                                     ,gcsmptASmiSp
@@ -1832,17 +1844,17 @@ begin
                         {.biologists}
                         4:
                         begin
-                           if FCentities[OTPfac].E_col[OTPcol].COL_population.POP_tpBSbio>0
+                           if FCentities[Entity].E_col[Colony].COL_population.POP_tpBSbio>0
                            then
                            begin
-                              OTPrem:=round(FCentities[OTPfac].E_col[OTPcol].COL_population.POP_tpBSbio*OTPcasPop/OTPpopTtl);
+                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.POP_tpBSbio*OTPcasPop/OTPpopTtl);
                               if OTPrem>=OTPcurr
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
                                     dPopulation
-                                    ,OTPfac
-                                    ,OTPcol
+                                    ,Entity
+                                    ,Colony
                                     ,-OTPcurr
                                     ,0
                                     ,gcsmptBSbio
@@ -1855,8 +1867,8 @@ begin
                               begin
                                  FCMgCSM_ColonyData_Upd(
                                     dPopulation
-                                    ,OTPfac
-                                    ,OTPcol
+                                    ,Entity
+                                    ,Colony
                                     ,-OTPrem
                                     ,0
                                     ,gcsmptBSbio
@@ -1869,17 +1881,17 @@ begin
                         {.doctors}
                         5:
                         begin
-                           if FCentities[OTPfac].E_col[OTPcol].COL_population.POP_tpBSdoc>0
+                           if FCentities[Entity].E_col[Colony].COL_population.POP_tpBSdoc>0
                            then
                            begin
-                              OTPrem:=round(FCentities[OTPfac].E_col[OTPcol].COL_population.POP_tpBSdoc*OTPcasPop/OTPpopTtl);
+                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.POP_tpBSdoc*OTPcasPop/OTPpopTtl);
                               if OTPrem>=OTPcurr
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
                                     dPopulation
-                                    ,OTPfac
-                                    ,OTPcol
+                                    ,Entity
+                                    ,Colony
                                     ,-OTPcurr
                                     ,0
                                     ,gcsmptBSdoc
@@ -1892,8 +1904,8 @@ begin
                               begin
                                  FCMgCSM_ColonyData_Upd(
                                     dPopulation
-                                    ,OTPfac
-                                    ,OTPcol
+                                    ,Entity
+                                    ,Colony
                                     ,-OTPrem
                                     ,0
                                     ,gcsmptBSdoc
@@ -1906,17 +1918,17 @@ begin
                         {.technicians}
                         6:
                         begin
-                           if FCentities[OTPfac].E_col[OTPcol].COL_population.POP_tpIStech>0
+                           if FCentities[Entity].E_col[Colony].COL_population.POP_tpIStech>0
                            then
                            begin
-                              OTPrem:=round(FCentities[OTPfac].E_col[OTPcol].COL_population.POP_tpIStech*OTPcasPop/OTPpopTtl);
+                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.POP_tpIStech*OTPcasPop/OTPpopTtl);
                               if OTPrem>=OTPcurr
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
                                     dPopulation
-                                    ,OTPfac
-                                    ,OTPcol
+                                    ,Entity
+                                    ,Colony
                                     ,-OTPcurr
                                     ,0
                                     ,gcsmptIStech
@@ -1929,8 +1941,8 @@ begin
                               begin
                                  FCMgCSM_ColonyData_Upd(
                                     dPopulation
-                                    ,OTPfac
-                                    ,OTPcol
+                                    ,Entity
+                                    ,Colony
                                     ,-OTPrem
                                     ,0
                                     ,gcsmptIStech
@@ -1943,17 +1955,17 @@ begin
                         {.engineers}
                         7:
                         begin
-                           if FCentities[OTPfac].E_col[OTPcol].COL_population.POP_tpISeng>0
+                           if FCentities[Entity].E_col[Colony].COL_population.POP_tpISeng>0
                            then
                            begin
-                              OTPrem:=round(FCentities[OTPfac].E_col[OTPcol].COL_population.POP_tpISeng*OTPcasPop/OTPpopTtl);
+                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.POP_tpISeng*OTPcasPop/OTPpopTtl);
                               if OTPrem>=OTPcurr
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
                                     dPopulation
-                                    ,OTPfac
-                                    ,OTPcol
+                                    ,Entity
+                                    ,Colony
                                     ,-OTPcurr
                                     ,0
                                     ,gcsmptISeng
@@ -1966,8 +1978,8 @@ begin
                               begin
                                  FCMgCSM_ColonyData_Upd(
                                     dPopulation
-                                    ,OTPfac
-                                    ,OTPcol
+                                    ,Entity
+                                    ,Colony
                                     ,-OTPrem
                                     ,0
                                     ,gcsmptISeng
@@ -1980,17 +1992,17 @@ begin
                         {.commandos}
                         8:
                         begin
-                           if FCentities[OTPfac].E_col[OTPcol].COL_population.POP_tpMScomm>0
+                           if FCentities[Entity].E_col[Colony].COL_population.POP_tpMScomm>0
                            then
                            begin
-                              OTPrem:=round(FCentities[OTPfac].E_col[OTPcol].COL_population.POP_tpMScomm*OTPcasPop/OTPpopTtl);
+                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.POP_tpMScomm*OTPcasPop/OTPpopTtl);
                               if OTPrem>=OTPcurr
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
                                     dPopulation
-                                    ,OTPfac
-                                    ,OTPcol
+                                    ,Entity
+                                    ,Colony
                                     ,-OTPcurr
                                     ,0
                                     ,gcsmptMScomm
@@ -2003,8 +2015,8 @@ begin
                               begin
                                  FCMgCSM_ColonyData_Upd(
                                     dPopulation
-                                    ,OTPfac
-                                    ,OTPcol
+                                    ,Entity
+                                    ,Colony
                                     ,-OTPrem
                                     ,0
                                     ,gcsmptMScomm
@@ -2017,17 +2029,17 @@ begin
                         {.physicists}
                         9:
                         begin
-                           if FCentities[OTPfac].E_col[OTPcol].COL_population.POP_tpPSphys>0
+                           if FCentities[Entity].E_col[Colony].COL_population.POP_tpPSphys>0
                            then
                            begin
-                              OTPrem:=round(FCentities[OTPfac].E_col[OTPcol].COL_population.POP_tpPSphys*OTPcasPop/OTPpopTtl);
+                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.POP_tpPSphys*OTPcasPop/OTPpopTtl);
                               if OTPrem>=OTPcurr
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
                                     dPopulation
-                                    ,OTPfac
-                                    ,OTPcol
+                                    ,Entity
+                                    ,Colony
                                     ,-OTPcurr
                                     ,0
                                     ,gcsmptPSphys
@@ -2040,8 +2052,8 @@ begin
                               begin
                                  FCMgCSM_ColonyData_Upd(
                                     dPopulation
-                                    ,OTPfac
-                                    ,OTPcol
+                                    ,Entity
+                                    ,Colony
                                     ,-OTPrem
                                     ,0
                                     ,gcsmptPSphys
@@ -2054,17 +2066,17 @@ begin
                         {.astrophysicists}
                         10:
                         begin
-                           if FCentities[OTPfac].E_col[OTPcol].COL_population.POP_tpPSastr>0
+                           if FCentities[Entity].E_col[Colony].COL_population.POP_tpPSastr>0
                            then
                            begin
-                              OTPrem:=round(FCentities[OTPfac].E_col[OTPcol].COL_population.POP_tpPSastr*OTPcasPop/OTPpopTtl);
+                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.POP_tpPSastr*OTPcasPop/OTPpopTtl);
                               if OTPrem>=OTPcurr
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
                                     dPopulation
-                                    ,OTPfac
-                                    ,OTPcol
+                                    ,Entity
+                                    ,Colony
                                     ,-OTPcurr
                                     ,0
                                     ,gcsmptPSastr
@@ -2077,8 +2089,8 @@ begin
                               begin
                                  FCMgCSM_ColonyData_Upd(
                                     dPopulation
-                                    ,OTPfac
-                                    ,OTPcol
+                                    ,Entity
+                                    ,Colony
                                     ,-OTPrem
                                     ,0
                                     ,gcsmptPSastr
@@ -2091,17 +2103,17 @@ begin
                         {.ecologists}
                         11:
                         begin
-                           if FCentities[OTPfac].E_col[OTPcol].COL_population.POP_tpESecol>0
+                           if FCentities[Entity].E_col[Colony].COL_population.POP_tpESecol>0
                            then
                            begin
-                              OTPrem:=round(FCentities[OTPfac].E_col[OTPcol].COL_population.POP_tpESecol*OTPcasPop/OTPpopTtl);
+                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.POP_tpESecol*OTPcasPop/OTPpopTtl);
                               if OTPrem>=OTPcurr
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
                                     dPopulation
-                                    ,OTPfac
-                                    ,OTPcol
+                                    ,Entity
+                                    ,Colony
                                     ,-OTPcurr
                                     ,0
                                     ,gcsmptESecol
@@ -2114,8 +2126,8 @@ begin
                               begin
                                  FCMgCSM_ColonyData_Upd(
                                     dPopulation
-                                    ,OTPfac
-                                    ,OTPcol
+                                    ,Entity
+                                    ,Colony
                                     ,-OTPrem
                                     ,0
                                     ,gcsmptESecol
@@ -2128,17 +2140,17 @@ begin
                         {.ecoformers}
                         12:
                         begin
-                           if FCentities[OTPfac].E_col[OTPcol].COL_population.POP_tpESecof>0
+                           if FCentities[Entity].E_col[Colony].COL_population.POP_tpESecof>0
                            then
                            begin
-                              OTPrem:=round(FCentities[OTPfac].E_col[OTPcol].COL_population.POP_tpESecof*OTPcasPop/OTPpopTtl);
+                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.POP_tpESecof*OTPcasPop/OTPpopTtl);
                               if OTPrem>=OTPcurr
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
                                     dPopulation
-                                    ,OTPfac
-                                    ,OTPcol
+                                    ,Entity
+                                    ,Colony
                                     ,-OTPcurr
                                     ,0
                                     ,gcsmptESecof
@@ -2151,8 +2163,8 @@ begin
                               begin
                                  FCMgCSM_ColonyData_Upd(
                                     dPopulation
-                                    ,OTPfac
-                                    ,OTPcol
+                                    ,Entity
+                                    ,Colony
                                     ,-OTPrem
                                     ,0
                                     ,gcsmptESecof
@@ -2165,17 +2177,17 @@ begin
                         {.medians}
                         13:
                         begin
-                           if FCentities[OTPfac].E_col[OTPcol].COL_population.POP_tpAmedian>0
+                           if FCentities[Entity].E_col[Colony].COL_population.POP_tpAmedian>0
                            then
                            begin
-                              OTPrem:=round(FCentities[OTPfac].E_col[OTPcol].COL_population.POP_tpAmedian*OTPcasPop/OTPpopTtl);
+                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.POP_tpAmedian*OTPcasPop/OTPpopTtl);
                               if OTPrem>=OTPcurr
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
                                     dPopulation
-                                    ,OTPfac
-                                    ,OTPcol
+                                    ,Entity
+                                    ,Colony
                                     ,-OTPcurr
                                     ,0
                                     ,gcsmptAmedian
@@ -2188,8 +2200,8 @@ begin
                               begin
                                  FCMgCSM_ColonyData_Upd(
                                     dPopulation
-                                    ,OTPfac
-                                    ,OTPcol
+                                    ,Entity
+                                    ,Colony
                                     ,-OTPrem
                                     ,0
                                     ,gcsmptAmedian
@@ -2205,11 +2217,11 @@ begin
                      then break;
                   end; //==END== while OTPcurr>0 do ==//
                   {.final data changes}
-                  FCentities[OTPfac].E_col[OTPcol].COL_population.POP_tpRebels:=OTPreb-OTPcasPop;
+                  FCentities[Entity].E_col[Colony].COL_population.POP_tpRebels:=OTPreb-OTPcasPop;
                   FCMgCSM_ColonyData_Upd(
                      dPopulation
-                     ,OTPfac
-                     ,OTPcol
+                     ,Entity
+                     ,Colony
                      ,-OTPcasSold
                      ,0
                      ,gcsmptMSsold
@@ -2217,39 +2229,39 @@ begin
                      );
                   FCMgCSM_ColonyData_Upd(
                      dCohesion
-                     ,OTPfac
-                     ,OTPcol
+                     ,Entity
+                     ,Colony
                      ,-1
                      ,0
                      ,gcsmptNone
                      ,false
                      );
                   {.event resolving rules}
-                  if FCentities[OTPfac].E_col[OTPcol].COL_population.POP_tpRebels=0
-                  then FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_duration:=-3
-                  else if FCentities[OTPfac].E_col[OTPcol].COL_population.POP_tpMSsold=0
-                  then FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_duration:=-4;
+                  if FCentities[Entity].E_col[Colony].COL_population.POP_tpRebels=0
+                  then FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].CSMEV_duration:=-3
+                  else if FCentities[Entity].E_col[Colony].COL_population.POP_tpMSsold=0
+                  then FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].CSMEV_duration:=-4;
                end //==END== if OTPsold>0 ==//
                else if (OTPsold=0)
-                  and (FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_duration<>-1)
+                  and (FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].CSMEV_duration<>-1)
                then
                begin
-                  dec(FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_duration);
+                  dec(FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].CSMEV_duration);
                   {.event resolving rules}
-                  if FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_duration=0
-                  then FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_duration:=-2
+                  if FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].CSMEV_duration=0
+                  then FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].CSMEV_duration:=-2
                end;
             end; //==END== case: etUprising ==//
 
             etUprisingRec: FCMgCSME_Recovering_Process(
-               OTPfac
-               ,OTPcol
+               Entity
+               ,Colony
                ,OTPcnt
                );
 
             etColDissident:
             begin
-               case FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_lvl of
+               case FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].CSMEV_lvl of
                   {.unrest}
                   1: OTPrebEqup:=1;
                   {.social disorder}
@@ -2258,17 +2270,17 @@ begin
                   3: OTPrebEqup:=3;
                end;
                {.fighting system}
-               OTPsold:=FCentities[OTPfac].E_col[OTPcol].COL_population.POP_tpMSsold;
-               OTPreb:=FCentities[OTPfac].E_col[OTPcol].COL_population.POP_tpRebels;
-               OTPmili:=FCentities[OTPfac].E_col[OTPcol].COL_population.POP_tpMilitia;
+               OTPsold:=FCentities[Entity].E_col[Colony].COL_population.POP_tpMSsold;
+               OTPreb:=FCentities[Entity].E_col[Colony].COL_population.POP_tpRebels;
+               OTPmili:=FCentities[Entity].E_col[Colony].COL_population.POP_tpMilitia;
                if (OTPsold>0)
                   or (OTPmili>0)
                then
                begin
                   OTPsec:=StrToInt(
                      FCFgCSM_Security_GetIdxStr(
-                        OTPfac
-                        ,OTPcol
+                        Entity
+                        ,Colony
                         ,true
                         )
                      );
@@ -2298,7 +2310,7 @@ begin
                   else if OTPmili=0
                   then OTPcurr:=OTPcasPop;
                   OTPcivil:=OTPcurr;
-                  OTPpopTtl:=FCentities[OTPfac].E_col[OTPcol].COL_population.POP_total-OTPsold;
+                  OTPpopTtl:=FCentities[Entity].E_col[Colony].COL_population.POP_total-OTPsold;
                   OTPpCnt:=1;
                   while OTPcurr>0 do
                   begin
@@ -2306,17 +2318,17 @@ begin
                         {.colonists}
                         1:
                         begin
-                           if FCentities[OTPfac].E_col[OTPcol].COL_population.POP_tpColon>0
+                           if FCentities[Entity].E_col[Colony].COL_population.POP_tpColon>0
                            then
                            begin
-                              OTPrem:=round(FCentities[OTPfac].E_col[OTPcol].COL_population.POP_tpColon*OTPcivil/OTPpopTtl);
+                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.POP_tpColon*OTPcivil/OTPpopTtl);
                               if OTPrem>=OTPcurr
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
                                     dPopulation
-                                    ,OTPfac
-                                    ,OTPcol
+                                    ,Entity
+                                    ,Colony
                                     ,-OTPcurr
                                     ,0
                                     ,gcsmptColon
@@ -2329,8 +2341,8 @@ begin
                               begin
                                  FCMgCSM_ColonyData_Upd(
                                     dPopulation
-                                    ,OTPfac
-                                    ,OTPcol
+                                    ,Entity
+                                    ,Colony
                                     ,-OTPrem
                                     ,0
                                     ,gcsmptColon
@@ -2343,17 +2355,17 @@ begin
                         {.aerospace officers}
                         2:
                         begin
-                           if FCentities[OTPfac].E_col[OTPcol].COL_population.POP_tpASoff>0
+                           if FCentities[Entity].E_col[Colony].COL_population.POP_tpASoff>0
                            then
                            begin
-                              OTPrem:=round(FCentities[OTPfac].E_col[OTPcol].COL_population.POP_tpASoff*OTPcivil/OTPpopTtl);
+                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.POP_tpASoff*OTPcivil/OTPpopTtl);
                               if OTPrem>=OTPcurr
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
                                     dPopulation
-                                    ,OTPfac
-                                    ,OTPcol
+                                    ,Entity
+                                    ,Colony
                                     ,-OTPcurr
                                     ,0
                                     ,gcsmptASoff
@@ -2366,8 +2378,8 @@ begin
                               begin
                                  FCMgCSM_ColonyData_Upd(
                                     dPopulation
-                                    ,OTPfac
-                                    ,OTPcol
+                                    ,Entity
+                                    ,Colony
                                     ,-OTPrem
                                     ,0
                                     ,gcsmptASoff
@@ -2380,17 +2392,17 @@ begin
                         {.mission specialists}
                         3:
                         begin
-                           if FCentities[OTPfac].E_col[OTPcol].COL_population.POP_tpASmiSp>0
+                           if FCentities[Entity].E_col[Colony].COL_population.POP_tpASmiSp>0
                            then
                            begin
-                              OTPrem:=round(FCentities[OTPfac].E_col[OTPcol].COL_population.POP_tpASmiSp*OTPcivil/OTPpopTtl);
+                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.POP_tpASmiSp*OTPcivil/OTPpopTtl);
                               if OTPrem>=OTPcurr
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
                                     dPopulation
-                                    ,OTPfac
-                                    ,OTPcol
+                                    ,Entity
+                                    ,Colony
                                     ,-OTPcurr
                                     ,0
                                     ,gcsmptASmiSp
@@ -2403,8 +2415,8 @@ begin
                               begin
                                  FCMgCSM_ColonyData_Upd(
                                     dPopulation
-                                    ,OTPfac
-                                    ,OTPcol
+                                    ,Entity
+                                    ,Colony
                                     ,-OTPrem
                                     ,0
                                     ,gcsmptASmiSp
@@ -2417,17 +2429,17 @@ begin
                         {.biologists}
                         4:
                         begin
-                           if FCentities[OTPfac].E_col[OTPcol].COL_population.POP_tpBSbio>0
+                           if FCentities[Entity].E_col[Colony].COL_population.POP_tpBSbio>0
                            then
                            begin
-                              OTPrem:=round(FCentities[OTPfac].E_col[OTPcol].COL_population.POP_tpBSbio*OTPcivil/OTPpopTtl);
+                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.POP_tpBSbio*OTPcivil/OTPpopTtl);
                               if OTPrem>=OTPcurr
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
                                     dPopulation
-                                    ,OTPfac
-                                    ,OTPcol
+                                    ,Entity
+                                    ,Colony
                                     ,-OTPcurr
                                     ,0
                                     ,gcsmptBSbio
@@ -2440,8 +2452,8 @@ begin
                               begin
                                  FCMgCSM_ColonyData_Upd(
                                     dPopulation
-                                    ,OTPfac
-                                    ,OTPcol
+                                    ,Entity
+                                    ,Colony
                                     ,-OTPrem
                                     ,0
                                     ,gcsmptBSbio
@@ -2454,17 +2466,17 @@ begin
                         {.doctors}
                         5:
                         begin
-                           if FCentities[OTPfac].E_col[OTPcol].COL_population.POP_tpBSdoc>0
+                           if FCentities[Entity].E_col[Colony].COL_population.POP_tpBSdoc>0
                            then
                            begin
-                              OTPrem:=round(FCentities[OTPfac].E_col[OTPcol].COL_population.POP_tpBSdoc*OTPcivil/OTPpopTtl);
+                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.POP_tpBSdoc*OTPcivil/OTPpopTtl);
                               if OTPrem>=OTPcurr
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
                                     dPopulation
-                                    ,OTPfac
-                                    ,OTPcol
+                                    ,Entity
+                                    ,Colony
                                     ,-OTPcurr
                                     ,0
                                     ,gcsmptBSdoc
@@ -2477,8 +2489,8 @@ begin
                               begin
                                  FCMgCSM_ColonyData_Upd(
                                     dPopulation
-                                    ,OTPfac
-                                    ,OTPcol
+                                    ,Entity
+                                    ,Colony
                                     ,-OTPrem
                                     ,0
                                     ,gcsmptBSdoc
@@ -2491,17 +2503,17 @@ begin
                         {.technicians}
                         6:
                         begin
-                           if FCentities[OTPfac].E_col[OTPcol].COL_population.POP_tpIStech>0
+                           if FCentities[Entity].E_col[Colony].COL_population.POP_tpIStech>0
                            then
                            begin
-                              OTPrem:=round(FCentities[OTPfac].E_col[OTPcol].COL_population.POP_tpIStech*OTPcivil/OTPpopTtl);
+                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.POP_tpIStech*OTPcivil/OTPpopTtl);
                               if OTPrem>=OTPcurr
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
                                     dPopulation
-                                    ,OTPfac
-                                    ,OTPcol
+                                    ,Entity
+                                    ,Colony
                                     ,-OTPcurr
                                     ,0
                                     ,gcsmptIStech
@@ -2514,8 +2526,8 @@ begin
                               begin
                                  FCMgCSM_ColonyData_Upd(
                                     dPopulation
-                                    ,OTPfac
-                                    ,OTPcol
+                                    ,Entity
+                                    ,Colony
                                     ,-OTPrem
                                     ,0
                                     ,gcsmptIStech
@@ -2528,17 +2540,17 @@ begin
                         {.engineers}
                         7:
                         begin
-                           if FCentities[OTPfac].E_col[OTPcol].COL_population.POP_tpISeng>0
+                           if FCentities[Entity].E_col[Colony].COL_population.POP_tpISeng>0
                            then
                            begin
-                              OTPrem:=round(FCentities[OTPfac].E_col[OTPcol].COL_population.POP_tpISeng*OTPcivil/OTPpopTtl);
+                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.POP_tpISeng*OTPcivil/OTPpopTtl);
                               if OTPrem>=OTPcurr
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
                                     dPopulation
-                                    ,OTPfac
-                                    ,OTPcol
+                                    ,Entity
+                                    ,Colony
                                     ,-OTPcurr
                                     ,0
                                     ,gcsmptISeng
@@ -2551,8 +2563,8 @@ begin
                               begin
                                  FCMgCSM_ColonyData_Upd(
                                     dPopulation
-                                    ,OTPfac
-                                    ,OTPcol
+                                    ,Entity
+                                    ,Colony
                                     ,-OTPrem
                                     ,0
                                     ,gcsmptISeng
@@ -2565,17 +2577,17 @@ begin
                         {.commandos}
                         8:
                         begin
-                           if FCentities[OTPfac].E_col[OTPcol].COL_population.POP_tpMScomm>0
+                           if FCentities[Entity].E_col[Colony].COL_population.POP_tpMScomm>0
                            then
                            begin
-                              OTPrem:=round(FCentities[OTPfac].E_col[OTPcol].COL_population.POP_tpMScomm*OTPcivil/OTPpopTtl);
+                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.POP_tpMScomm*OTPcivil/OTPpopTtl);
                               if OTPrem>=OTPcurr
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
                                     dPopulation
-                                    ,OTPfac
-                                    ,OTPcol
+                                    ,Entity
+                                    ,Colony
                                     ,-OTPcurr
                                     ,0
                                     ,gcsmptMScomm
@@ -2588,8 +2600,8 @@ begin
                               begin
                                  FCMgCSM_ColonyData_Upd(
                                     dPopulation
-                                    ,OTPfac
-                                    ,OTPcol
+                                    ,Entity
+                                    ,Colony
                                     ,-OTPrem
                                     ,0
                                     ,gcsmptMScomm
@@ -2602,17 +2614,17 @@ begin
                         {.physicists}
                         9:
                         begin
-                           if FCentities[OTPfac].E_col[OTPcol].COL_population.POP_tpPSphys>0
+                           if FCentities[Entity].E_col[Colony].COL_population.POP_tpPSphys>0
                            then
                            begin
-                              OTPrem:=round(FCentities[OTPfac].E_col[OTPcol].COL_population.POP_tpPSphys*OTPcivil/OTPpopTtl);
+                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.POP_tpPSphys*OTPcivil/OTPpopTtl);
                               if OTPrem>=OTPcurr
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
                                     dPopulation
-                                    ,OTPfac
-                                    ,OTPcol
+                                    ,Entity
+                                    ,Colony
                                     ,-OTPcurr
                                     ,0
                                     ,gcsmptPSphys
@@ -2625,8 +2637,8 @@ begin
                               begin
                                  FCMgCSM_ColonyData_Upd(
                                     dPopulation
-                                    ,OTPfac
-                                    ,OTPcol
+                                    ,Entity
+                                    ,Colony
                                     ,-OTPrem
                                     ,0
                                     ,gcsmptPSphys
@@ -2639,17 +2651,17 @@ begin
                         {.astrophysicists}
                         10:
                         begin
-                           if FCentities[OTPfac].E_col[OTPcol].COL_population.POP_tpPSastr>0
+                           if FCentities[Entity].E_col[Colony].COL_population.POP_tpPSastr>0
                            then
                            begin
-                              OTPrem:=round(FCentities[OTPfac].E_col[OTPcol].COL_population.POP_tpPSastr*OTPcivil/OTPpopTtl);
+                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.POP_tpPSastr*OTPcivil/OTPpopTtl);
                               if OTPrem>=OTPcurr
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
                                     dPopulation
-                                    ,OTPfac
-                                    ,OTPcol
+                                    ,Entity
+                                    ,Colony
                                     ,-OTPcurr
                                     ,0
                                     ,gcsmptPSastr
@@ -2662,8 +2674,8 @@ begin
                               begin
                                  FCMgCSM_ColonyData_Upd(
                                     dPopulation
-                                    ,OTPfac
-                                    ,OTPcol
+                                    ,Entity
+                                    ,Colony
                                     ,-OTPrem
                                     ,0
                                     ,gcsmptPSastr
@@ -2676,17 +2688,17 @@ begin
                         {.ecologists}
                         11:
                         begin
-                           if FCentities[OTPfac].E_col[OTPcol].COL_population.POP_tpESecol>0
+                           if FCentities[Entity].E_col[Colony].COL_population.POP_tpESecol>0
                            then
                            begin
-                              OTPrem:=round(FCentities[OTPfac].E_col[OTPcol].COL_population.POP_tpESecol*OTPcivil/OTPpopTtl);
+                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.POP_tpESecol*OTPcivil/OTPpopTtl);
                               if OTPrem>=OTPcurr
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
                                     dPopulation
-                                    ,OTPfac
-                                    ,OTPcol
+                                    ,Entity
+                                    ,Colony
                                     ,-OTPcurr
                                     ,0
                                     ,gcsmptESecol
@@ -2699,8 +2711,8 @@ begin
                               begin
                                  FCMgCSM_ColonyData_Upd(
                                     dPopulation
-                                    ,OTPfac
-                                    ,OTPcol
+                                    ,Entity
+                                    ,Colony
                                     ,-OTPrem
                                     ,0
                                     ,gcsmptESecol
@@ -2713,17 +2725,17 @@ begin
                         {.ecoformers}
                         12:
                         begin
-                           if FCentities[OTPfac].E_col[OTPcol].COL_population.POP_tpESecof>0
+                           if FCentities[Entity].E_col[Colony].COL_population.POP_tpESecof>0
                            then
                            begin
-                              OTPrem:=round(FCentities[OTPfac].E_col[OTPcol].COL_population.POP_tpESecof*OTPcivil/OTPpopTtl);
+                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.POP_tpESecof*OTPcivil/OTPpopTtl);
                               if OTPrem>=OTPcurr
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
                                     dPopulation
-                                    ,OTPfac
-                                    ,OTPcol
+                                    ,Entity
+                                    ,Colony
                                     ,-OTPcurr
                                     ,0
                                     ,gcsmptESecof
@@ -2736,8 +2748,8 @@ begin
                               begin
                                  FCMgCSM_ColonyData_Upd(
                                     dPopulation
-                                    ,OTPfac
-                                    ,OTPcol
+                                    ,Entity
+                                    ,Colony
                                     ,-OTPrem
                                     ,0
                                     ,gcsmptESecof
@@ -2750,17 +2762,17 @@ begin
                         {.medians}
                         13:
                         begin
-                           if FCentities[OTPfac].E_col[OTPcol].COL_population.POP_tpAmedian>0
+                           if FCentities[Entity].E_col[Colony].COL_population.POP_tpAmedian>0
                            then
                            begin
-                              OTPrem:=round(FCentities[OTPfac].E_col[OTPcol].COL_population.POP_tpAmedian*OTPcivil/OTPpopTtl);
+                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.POP_tpAmedian*OTPcivil/OTPpopTtl);
                               if OTPrem>=OTPcurr
                               then
                               begin
                                  FCMgCSM_ColonyData_Upd(
                                     dPopulation
-                                    ,OTPfac
-                                    ,OTPcol
+                                    ,Entity
+                                    ,Colony
                                     ,-OTPcurr
                                     ,0
                                     ,gcsmptAmedian
@@ -2773,8 +2785,8 @@ begin
                               begin
                                  FCMgCSM_ColonyData_Upd(
                                     dPopulation
-                                    ,OTPfac
-                                    ,OTPcol
+                                    ,Entity
+                                    ,Colony
                                     ,-OTPrem
                                     ,0
                                     ,gcsmptAmedian
@@ -2790,14 +2802,14 @@ begin
                      then break;
                   end; //==END== while OTPcurr>0 do ==//
                   {.final data changes}
-                  FCentities[OTPfac].E_col[OTPcol].COL_population.POP_tpRebels:=OTPreb-OTPcasPop;
+                  FCentities[Entity].E_col[Colony].COL_population.POP_tpRebels:=OTPreb-OTPcasPop;
                   if OTPmili>0
-                  then FCentities[OTPfac].E_col[OTPcol].COL_population.POP_tpMilitia:=OTPmili-OTPcasSold
+                  then FCentities[Entity].E_col[Colony].COL_population.POP_tpMilitia:=OTPmili-OTPcasSold
                   else if OTPsold>0
                   then FCMgCSM_ColonyData_Upd(
                      dPopulation
-                     ,OTPfac
-                     ,OTPcol
+                     ,Entity
+                     ,Colony
                      ,-OTPcasSold
                      ,0
                      ,gcsmptMSsold
@@ -2805,50 +2817,50 @@ begin
                      );
                   FCMgCSM_ColonyData_Upd(
                      dCohesion
-                     ,OTPfac
-                     ,OTPcol
+                     ,Entity
+                     ,Colony
                      ,-1
                      ,0
                      ,gcsmptNone
                      ,false
                      );
                   {.event resolving rules}
-                  if FCentities[OTPfac].E_col[OTPcol].COL_population.POP_tpRebels=0
-                  then FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_duration:=-3
-                  else if (FCentities[OTPfac].E_col[OTPcol].COL_population.POP_tpMSsold=0)
-                     and (FCentities[OTPfac].E_col[OTPcol].COL_population.POP_tpMilitia=0)
-                  then FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_duration:=-4;
+                  if FCentities[Entity].E_col[Colony].COL_population.POP_tpRebels=0
+                  then FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].CSMEV_duration:=-3
+                  else if (FCentities[Entity].E_col[Colony].COL_population.POP_tpMSsold=0)
+                     and (FCentities[Entity].E_col[Colony].COL_population.POP_tpMilitia=0)
+                  then FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].CSMEV_duration:=-4;
                end //==END== if OTPsold>0 or OTPmili>0 ==//
                else if (OTPsold=0)
                   and (OTPmili=0)
-               then FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_duration:=-2;
+               then FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].CSMEV_duration:=-2;
             end; //==END== case: etColDissident: ==//
 
             etGovDestab:
             begin
-               OTPmodCoh:=FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].GD_cohesionMod;
+               OTPmodCoh:=FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].GD_cohesionMod;
                OTPmod1:=0;
-               case FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_lvl of
+               case FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].CSMEV_lvl of
                   2..3: OTPmod1:=-2;
                   5..6: OTPmod1:=-3;
                   8..9: OTPmod1:=-5;
                end;
-               FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].GD_cohesionMod:=OTPmodCoh+OTPmod1;
+               FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].GD_cohesionMod:=OTPmodCoh+OTPmod1;
                FCMgCSM_ColonyData_Upd(
                   dCohesion
-                  ,OTPfac
-                  ,OTPcol
+                  ,Entity
+                  ,Colony
                   ,OTPmod1
                   ,0
                   ,gcsmptNone
                   ,false
                   );
-               if FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_duration>0
+               if FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].CSMEV_duration>0
                then
                begin
-                  dec(FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_duration);
-                  if FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_duration=0
-                  then FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_duration:=-2;
+                  dec(FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].CSMEV_duration);
+                  if FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].CSMEV_duration=0
+                  then FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].CSMEV_duration:=-2;
                                     {:DEV NOTES: enable the new HQ, if duration or reorganization time is equal to 0, and put the event in recovery.}
 //                  if FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_duration=0
 //                  then HQ get + HQ enable + Rec;
@@ -2858,21 +2870,31 @@ begin
             end;
 
             etGovDestabRec: FCMgCSME_Recovering_Process(
-               OTPfac
-               ,OTPcol
+               Entity
+               ,Colony
                ,OTPcnt
                );
+
+            etRveOxygenOverload:
+            begin
+               OTPmod1:=FCFgCR_OxygenOverload_Calc( Entity, Colony );
+               if OTPmod1<=0 then
+               begin
+                  FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].ROO_percPopNotSupported:=0;
+                  FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].CSMEV_duration:=-2;
+               end;
+            end;
          end; //==END== case FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_token of ==//
          inc(OTPcnt);
       end; //==END== while OTPcnt<=OTPmax do ==//
       {.post-process sub-routine for event resolving}
-      setlength(OTPevArr, length(FCentities[OTPfac].E_col[OTPcol].COL_evList));
+      setlength(OTPevArr, length(FCentities[Entity].E_col[Colony].COL_evList));
       {.load the event list data structure in a temp data structure. It's required to have this extra loop because in the next one the origin event list
          will be altered. Mainly by event cancellations call}
       OTPcnt:=1;
       while OTPcnt<=OTPmax do
       begin
-         OTPevArr[OTPcnt]:=FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt];
+         OTPevArr[OTPcnt]:=FCentities[Entity].E_col[Colony].COL_evList[OTPcnt];
          inc(OTPcnt);
       end;
       OTPcnt:=1;
@@ -2886,21 +2908,22 @@ begin
                   if OTPcnt=OTPmax
                   then FCMgCSME_Event_Cancel(
                      csmeecImmediate
-                     ,OTPfac
-                     ,OTPcol
+                     ,Entity
+                     ,Colony
                      ,OTPcnt
                      ,etColEstab
                      ,0
                      )
                   else FCMgCSME_Event_Cancel(
                      csmeecImmediateDelay
-                     ,OTPfac
-                     ,OTPcol
+                     ,Entity
+                     ,Colony
                      ,OTPcnt
                      ,etColEstab
                      ,0
                      );
                end;
+
                etUprising:
                begin
                   if (OTPevArr[OTPcnt].CSMEV_duration=-2)
@@ -2909,37 +2932,39 @@ begin
                   begin
                      FCMgCSME_Event_Cancel(
                         csmeecOverride
-                        ,OTPfac
-                        ,OTPcol
+                        ,Entity
+                        ,Colony
                         ,OTPcnt
                         ,etSocdis
                         ,OTPevArr[OTPcnt].CSMEV_lvl
                         );
-                     FCentities[OTPfac].E_col[OTPcol].COL_population.POP_tpRebels:=0;
+                     FCentities[Entity].E_col[Colony].COL_population.POP_tpRebels:=0;
                   end
                   else if OTPevArr[OTPcnt].CSMEV_duration=-4
-                  then FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_duration:=round(sqrt(FCentities[OTPfac].E_col[OTPcol].COL_population.POP_tpRebels));
+                  then FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].CSMEV_duration:=round(sqrt(FCentities[Entity].E_col[Colony].COL_population.POP_tpRebels));
                end;
+
                etUprisingRec:
                begin
                   if OTPcnt=OTPmax
                   then FCMgCSME_Event_Cancel(
                      csmeecImmediate
-                     ,OTPfac
-                     ,OTPcol
+                     ,Entity
+                     ,Colony
                      ,OTPcnt
                      ,etColEstab
                      ,0
                      )
                   else FCMgCSME_Event_Cancel(
                      csmeecImmediateDelay
-                     ,OTPfac
-                     ,OTPcol
+                     ,Entity
+                     ,Colony
                      ,OTPcnt
                      ,etColEstab
                      ,0
                      );
                end;
+
                etColDissident:
                begin
                   if OTPevArr[OTPcnt].CSMEV_duration=-2
@@ -2948,16 +2973,16 @@ begin
                      if OTPcnt=OTPmax
                      then FCMgCSME_Event_Cancel(
                         csmeecImmediate
-                        ,OTPfac
-                        ,OTPcol
+                        ,Entity
+                        ,Colony
                         ,OTPcnt
                         ,etColEstab
                         ,0
                         )
                      else FCMgCSME_Event_Cancel(
                         csmeecImmediateDelay
-                        ,OTPfac
-                        ,OTPcol
+                        ,Entity
+                        ,Colony
                         ,OTPcnt
                         ,etColEstab
                         ,0
@@ -2985,7 +3010,7 @@ begin
                   then
                   begin
                      OTPmod1:=0;
-                     case FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_lvl of
+                     case FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].CSMEV_lvl of
                         1: OTPmod1:=1;
                         2: OTPmod1:=5;
                         3: OTPmod1:=10;
@@ -2993,51 +3018,74 @@ begin
                      end;
                      FCMgCSME_Event_Cancel(
                         csmeecOverride
-                        ,OTPfac
-                        ,OTPcol
+                        ,Entity
+                        ,Colony
                         ,OTPcnt
                         ,etUprising
-                        ,FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_lvl*2
+                        ,FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].CSMEV_lvl*2
                         );
                      FCMgCSM_ColonyData_Upd(
                         dCohesion
-                        ,OTPfac
-                        ,OTPcol
+                        ,Entity
+                        ,Colony
                         ,OTPmod1
                         ,0
                         ,gcsmptNone
                         ,false
                         );
-                     FCentities[OTPfac].E_col[OTPcol].COL_population.POP_tpRebels:=0;
-                     FCentities[OTPfac].E_col[OTPcol].COL_population.POP_tpMilitia:=0;
+                     FCentities[Entity].E_col[Colony].COL_population.POP_tpRebels:=0;
+                     FCentities[Entity].E_col[Colony].COL_population.POP_tpMilitia:=0;
                   end;
                end; //==END== case: etColDissident ==//
+
                etGovDestab:
                begin
                   FCMgCSME_Event_Cancel(
                      csmeecRecover
-                     ,OTPfac
-                     ,OTPcol
+                     ,Entity
+                     ,Colony
                      ,OTPcnt
                      ,etColEstab
                      ,0
                      );
                end;
+
                etGovDestabRec:
                begin
                   if OTPcnt=OTPmax
                   then FCMgCSME_Event_Cancel(
                      csmeecImmediate
-                     ,OTPfac
-                     ,OTPcol
+                     ,Entity
+                     ,Colony
                      ,OTPcnt
                      ,etColEstab
                      ,0
                      )
                   else FCMgCSME_Event_Cancel(
                      csmeecImmediateDelay
-                     ,OTPfac
-                     ,OTPcol
+                     ,Entity
+                     ,Colony
+                     ,OTPcnt
+                     ,etColEstab
+                     ,0
+                     );
+               end;
+
+               etRveOxygenOverload:
+               begin
+                  if OTPcnt=OTPmax
+                  then FCMgCSME_Event_Cancel(
+                     csmeecImmediate
+                     ,Entity
+                     ,Colony
+                     ,OTPcnt
+                     ,etColEstab
+                     ,0
+                     )
+                  else FCMgCSME_Event_Cancel(
+                     csmeecImmediateDelay
+                     ,Entity
+                     ,Colony
                      ,OTPcnt
                      ,etColEstab
                      ,0
@@ -3047,10 +3095,10 @@ begin
          end; //==END== if OTPevArr[OTPcnt].CSMEV_duration<=-2 ==//
          inc(OTPcnt);
       end; //==END== while OTPcnt<=OTPmax do ==//
-      if OTPfac=0
+      if Entity=0
       then FCMuiCDD_Colony_Update(
          cdlCSMevents
-         ,OTPcol
+         ,Colony
          ,0
          ,0
          ,true

@@ -74,6 +74,7 @@ uses
 procedure FCMdFSG_Game_Load;
 {:Purpose: load the current game.
    Additions:
+      -2012May06- *add: CSM event: etRveOxygenOverload.
       -2012Apr29- *mod: CSM event token are loaded by their full names now.
                   *mod: CSM event modifiers and data are loaded according to the new changes in the data structure.
       -2012Apr15- *add: completion of colony's reserves.
@@ -688,15 +689,11 @@ begin
 
                               etColDissident: ;
 
-                              etHealthEduRel:
-                              begin
-                                 FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].HER_educationMod:=GLxmlColsub.Attributes['modInstruction'];
-                              end;
+                              etHealthEduRel: FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].HER_educationMod:=GLxmlColsub.Attributes['modInstruction'];
 
-                              etGovDestab, etGovDestabRec:
-                              begin
-                                 FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].GD_cohesionMod:=GLxmlColsub.Attributes['modCohesion'];
-                              end;
+                              etGovDestab, etGovDestabRec: FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].GD_cohesionMod:=GLxmlColsub.Attributes['modCohesion'];
+
+                              etRveOxygenOverload: FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].ROO_percPopNotSupported:=GLxmlColsub.Attributes['percPopNotSupported'];
                            end; //==END== case FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].CSMEV_token of ==//
                         end
                         {.colony settlements}
@@ -970,6 +967,7 @@ end;
 procedure FCMdFSG_Game_Save;
 {:Purpose: save the current game.
     Additions:
+      -2012May06- *add: CSM event: etRveOxygenOverload.
       -2012Apr29- *mod: CSM event token are saved in their full names now.
                   *mod: CSM event modifiers and data are saved according to the new changes in the data structure.
       -2012Apr15- *add: completion of colony's reserves.
@@ -1504,6 +1502,12 @@ begin
                      begin
                         GSxmlColEv.Attributes['token']:='etGovDestabRec';
                         GSxmlColEv.Attributes['modCohesion']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].GD_cohesionMod;
+                     end;
+
+                     etRveOxygenOverload:
+                     begin
+                        GSxmlColEv.Attributes['token']:='etRveOxygenOverload';
+                        GSxmlColEv.Attributes['percPopNotSupported']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].ROO_percPopNotSupported;
                      end;
                   end; //==END== case FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].CSMEV_token of ==//
                   GSxmlColEv.Attributes['isres']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].CSMEV_isRes;

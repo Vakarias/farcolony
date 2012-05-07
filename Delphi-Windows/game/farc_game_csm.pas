@@ -472,6 +472,7 @@ procedure FCMgCSM_ColonyData_Upd(
    );
 {:Purpose: update the choosen CSM data and update all the depencies if required.
     Additions:
+      -2012May06- *mod: apply modification according to changes in the CSM event data structure.
       -2012May02- *add: dEcoIndusOut.
       -2011Jul05- *fix: for PCAP and QOL, also include the inConversion infrastructures, since their capabilities are already taken in account.
       -2011Jul04- *fix: prevent a division by zero for the Quality of Life calculations, especially when at the start of a game there's no operational infrastructures.
@@ -704,17 +705,12 @@ begin
             CDUdatI2:=0;
             CDUdatI3:=0;
             {.sum of HEAL CSM events modifiers}
-            CDUcnt:=1;
-            CDUmax:=length(FCentities[CDUfac].E_col[CDUcol].COL_evList)-1;
-            if CDUmax>0
-            then
-            begin
-               while CDUcnt<=CDUmax do
-               begin
-                  CDUdatI1:=CDUdatI1+FCentities[CDUfac].E_col[CDUcol].COL_evList[CDUcnt].CSMEV_healMod;
-                  inc(CDUcnt);
-               end;
-            end;
+            CDUcnt:=FCFgCSME_Mod_Sum(
+               mtHealth
+               ,CDUfac
+               ,CDUcol
+               );
+            CDUdatI1:=CDUdatI1+CDUcnt;
             {.tension modifier}
             CDUdatI:=StrToInt(
                FCFgCSM_Tension_GetIdx(
@@ -742,11 +738,11 @@ begin
             ,CDUfac
             ,CDUcol
             );
-         if FCentities[CDUfac].E_col[CDUcol].COL_evList[CDUdatI].CSMEV_eduMod>0
-         then CDUdatI1:=-FCentities[CDUfac].E_col[CDUcol].COL_evList[CDUdatI].CSMEV_eduMod
-         else if FCentities[CDUfac].E_col[CDUcol].COL_evList[CDUdatI].CSMEV_eduMod<0
-         then CDUdatI1:=abs(FCentities[CDUfac].E_col[CDUcol].COL_evList[CDUdatI].CSMEV_eduMod);
-         FCentities[CDUfac].E_col[CDUcol].COL_evList[CDUdatI].CSMEV_eduMod:=CDUdatI1;
+         if FCentities[CDUfac].E_col[CDUcol].COL_evList[CDUdatI].HER_educationMod>0
+         then CDUdatI1:=-FCentities[CDUfac].E_col[CDUcol].COL_evList[CDUdatI].HER_educationMod
+         else if FCentities[CDUfac].E_col[CDUcol].COL_evList[CDUdatI].HER_educationMod<0
+         then CDUdatI1:=abs(FCentities[CDUfac].E_col[CDUcol].COL_evList[CDUdatI].HER_educationMod);
+         FCentities[CDUfac].E_col[CDUcol].COL_evList[CDUdatI].HER_educationMod:=CDUdatI1;
          FCMgCSM_ColonyData_Upd(
             dInstruction
             ,CDUfac
@@ -757,7 +753,7 @@ begin
             ,false
             );
          CDUdatI2:=FCFgCSME_HealEdu_GetMod(CDUfac, CDUcol);
-         FCentities[CDUfac].E_col[CDUcol].COL_evList[CDUdatI].CSMEV_eduMod:=CDUdatI2;
+         FCentities[CDUfac].E_col[CDUcol].COL_evList[CDUdatI].HER_educationMod:=CDUdatI2;
          FCMgCSM_ColonyData_Upd(
             dInstruction
             ,CDUfac

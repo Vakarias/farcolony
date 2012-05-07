@@ -659,7 +659,8 @@ procedure FCMuiCDP_Data_Update(
          ,DataIndex1: integer
    );
 {:Purpose: update the colony data display
-   -2012aPR29- *mod: CSM event modifiers and data are displayed according to the new changes in the data structure.
+   -2012May06- *add: CSM event: etRveOxygenOverload.
+   -2012apr29- *mod: CSM event modifiers and data are displayed according to the new changes in the data structure.
    -2012Apr18- *add: encyclopaedia links reformat for owned infrastructures list.
    -2012Apr16- *add: encyclopedia link are displayed with [?] (COMPLETION).
                *add: reserves (COMPLETION)
@@ -1196,6 +1197,9 @@ begin
                   if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].GD_cohesionMod<>0
                   then CPUdataIndex:=FCFdTFiles_UIStr_Get(uistrUI, 'colDcohes')+' <b>'+FCFuiHTML_Modifier_GetFormat( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].GD_cohesionMod, true )+'</b>  ';
                end;
+
+               etRveOxygenOverload: CPUdataIndex:=FCFdTFiles_UIStr_Get(uistrUI, 'csmevRveOxygenOverloadPopulation')+'<b>'
+                  +IntToStr( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].ROO_percPopNotSupported )+'</b>  ';
             end; //==END== case FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CSMEV_token of ==//
 //            {.health mod}
 //            if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CSMEV_healMod<>0

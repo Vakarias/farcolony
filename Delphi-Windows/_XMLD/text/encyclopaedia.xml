@@ -79,6 +79,11 @@
       <EN>This event is only used for storing the bonus/penalty modifier for education in relation of the &lt;b&gt;Health&lt;/b&gt; data.&lt;br&gt;&lt;br&gt;&lt;b&gt;Duration:&lt;/b&gt; the event is resident and permanent for all colony lifetime.&lt;br&gt;&lt;br&gt;&lt;b&gt;Resolve:&lt;/b&gt; there's nothing to resolve with this event.&lt;br&gt;&lt;br&gt;&lt;b&gt;Cancellation:&lt;/b&gt; this event cannot be cancelled by any means.</EN>
       <FR>Cet évènement est utilisée seulement pour enregistrer le modificateur bonus/malus pour l'éducation en relation à la donnée de &lt;b&gt;Santé&lt;/b&gt;.&lt;br&gt;&lt;br&gt;&lt;b&gt;Durée:&lt;/b&gt; l'évènement est résident et permanent pour toute la durée de vie de la colonie.&lt;br&gt;&lt;br&gt;&lt;b&gt;Résolution:&lt;/b&gt; il n'y a rien à résoudre avec cet évènement.&lt;br&gt;&lt;br&gt;&lt;b&gt;Annulation:&lt;/b&gt; cet évènement ne peut être annulé par aucun moyen.</FR>
    </csmevHealthEduRel>
+   <csmevRveOxygenOverload>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </csmevRveOxygenOverload>
    <csmevSocDis>
       <EN>Social Disorder is a social state worst than Unrest, it indicate there's multiple strikes and wide manifestations from the population. This event applies modifiers following the cohesion test level. If this event is triggered it cancel &lt;b&gt;Unrest&lt;/b&gt; or &lt;b&gt;Uprising&lt;/b&gt; event. In fact between &lt;b&gt;Unrest, Social Disorder and Uprising&lt;/b&gt; there can be only one of them enabled.&lt;br&gt;&lt;br&gt;&lt;b&gt;Duration:&lt;/b&gt; the event is resident without a duration.&lt;br&gt;&lt;br&gt;&lt;b&gt;Resolve:&lt;/b&gt; the event is resolved if an another event of the same kind is set.&lt;br&gt;&lt;br&gt;&lt;b&gt;Cancellation:&lt;/b&gt; this event is cancelled with Unrest or Uprising. The cancellation is always by recovering method.</EN>
       <FR>le Désordre Social est un état social pire que de simples Troubles, il indique qu'il y a de multiples grèves ainsi que de larges manifestations venant de la population. Cet évènement applique des modificateurs suivant le niveau de test de cohésion. Si cet évènement est enclanché il annule l'évènement &lt;b&gt;Troubles&lt;/b&gt; ou &lt;b&gt;Révolte&lt;/b&gt;. En fait entre &lt;b&gt;Troubles, Désordre Social et Révolte&lt;/b&gt; il ne peut y avoir qu'un seul d'entre eux d'actif.&lt;br&gt;&lt;br&gt;&lt;b&gt;Durée:&lt;/b&gt; l'évènement est résident sans durée spécifique.&lt;br&gt;&lt;br&gt;&lt;b&gt;Résolution:&lt;/b&gt; l'évènement est résolu si un autre évènement du même type est enclanché.&lt;br&gt;&lt;br&gt;&lt;b&gt;Annulation:&lt;/b&gt; cet évènement est annulé par Troubles ou Révolte. L'annulation est toujours par la méthode de récupèration.</FR>
@@ -647,6 +652,7 @@
       <hintitem link="csmDataCohesion" title="CSM Data: Cohesion"/>
       <hintitem link="csmevColEst" title="CSM Event: Colony Established"/>
       <hintitem link="csmevHealthEduRel" title="CSM Event: Health-Education Relation"/>
+      <hintitem link="csmevRveOxygenOverload" title="CSM Event: Oxygen Production Overload"/>
       <hintitem link="csmevSocDis" title="CSM Event: Social Disorder"/>
       <hintitem link="csmevUnrest" title="CSM Event: Unrest"/>
       <hintitem link="csmevUprising" title="CSM Event: Uprising"/>
@@ -773,6 +779,7 @@
       <hintitem link="csmevSocDis" title="Evènement CSM: Désordre Social"/>
       <hintitem link="csmevHealthEduRel" title="Evènement CSM: Relation Santé-Education"/>
       <hintitem link="csmevUprising" title="Evènement CSM: Révolte"/>
+      <hintitem link="csmevRveOxygenOverload" title="Evènement CSM: Surcharge de Production d'Oxygène"/>
       <hintitem link="csmevUnrest" title="Evènement CSM: Troubles"/>
       <hintitem link="infrColShelt" title="Infrastructure: Abris de Colonisation"/>
       <hintitem link="infrMultiDepot" title="Infrastructure: Entrepôt Multifonction"/>
@@ -895,6 +902,7 @@
       <hintitem link="csmDataCohesion" title="CSM Data: Cohesion"/>
       <hintitem link="csmevColEst" title="CSM Event: Colony Established"/>
       <hintitem link="csmevHealthEduRel" title="CSM Event: Health-Education Relation"/>
+      <hintitem link="csmevRveOxygenOverload" title="CSM Event: Oxygen Production Overload"/>
       <hintitem link="csmevSocDis" title="CSM Event: Social Disorder"/>
       <hintitem link="csmevUnrest" title="CSM Event: Unrest"/>
       <hintitem link="csmevUprising" title="CSM Event: Uprising"/>

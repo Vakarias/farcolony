@@ -50,6 +50,14 @@ function FCFgCR_Food_Convert( const FoodVolume, FoodDensity: extended ): integer
 function FCFgCR_Oxygen_Convert( const OxygenVolume: extended ): integer;
 
 ///<summary>
+///   calculate the percent of people not supported for the Oxygen Production Overload CSM event
+///</summary>
+///   <param name="Entity">entity index #</param>
+///   <param name="Colony">colony index #</param>
+///   <returns>the percent of people not supported</returns>
+function FCFgCR_OxygenOverload_Calc( const Entity, Colony: integer ): integer;
+
+///<summary>
 ///   convert a volume of water in water reserve's points
 ///</summary>
 ///   <param name="WaterVolume">oxygen volume, in cubic meters, to convert</param>
@@ -92,6 +100,7 @@ implementation
 
 uses
    farc_data_game
+   ,farc_game_prodSeg2
    ,farc_ui_coredatadisplay;
 
 //===================================================END OF INIT============================
@@ -112,6 +121,33 @@ function FCFgCR_Oxygen_Convert( const OxygenVolume: extended ): integer;
 begin
    Result:=0;
    Result:=trunc( OxygenVolume / 0.000736 );
+end;
+
+function FCFgCR_OxygenOverload_Calc( const Entity, Colony: integer ): integer;
+{:Purpose: calculate the percent of people not supported for the Oxygen Production Overload CSM event.
+    Additions:
+}
+   var
+      IntCalc1
+      ,IntCalc2
+      ,IntCalc3: integer;
+begin
+   IntCalc1:=0;
+   IntCalc2:=0;
+   IntCalc3:=0;
+   Result:=0;
+   IntCalc1:=FCFgPS2_ProductionMatrixItem_Search(
+      Entity
+      ,Colony
+      ,'resO2'
+      );
+   if IntCalc1=0
+   then IntCalc3:=0
+   else begin
+      IntCalc2:=trunc( FCentities[ Entity ].E_col[ Colony ].COL_productionMatrix[ IntCalc1 ].CPMI_globalProdFlow / 0.000736 );
+      IntCalc3:=round( IntCalc2 / FCentities[ Entity ].E_col[ Colony ].COL_population.POP_total *100 );
+   end;
+   Result:=IntCalc3;
 end;
 
 function FCFgCR_Water_Convert( const WaterVolume: extended ): integer;

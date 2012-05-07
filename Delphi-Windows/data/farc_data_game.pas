@@ -93,8 +93,6 @@ interface
       );
    {.colony event type list}
    {:DEV NOTES: update FCFgCSME_Event_GetStr. WARNING: deprecate any previous save game files if an event is INSERTED}
-   {:DEV NOTES: update also FCMgCSME_Event_Cancel if a recovering status is added and for the override mode.}
-   {:DEV NOTES: update also FCMgCSME_OT_Proc for over time processing + FCMgCSME_Event_Trigger.}
    type TFCEdgEventTypes=(
       {.colony established}
       etColEstab
@@ -118,6 +116,8 @@ interface
       ,etGovDestab
       {.government destabilization - recovering}
       ,etGovDestabRec
+      {.Oxygen Production Overload}
+      ,etRveOxygenOverload
       );
    {.list of faction equipment item types}
    {:DEV NOTES: update factionsdbxml + FCMdF_DBFactions_Read + FCMgNG_Core_Proceed}
@@ -312,7 +312,7 @@ interface
       );
    //==END ENUM=============================================================================
    {.colony event data structure}
-   {:DEV NOTES: UPDATE FCMdFiles_Game_Load + FCMdFiles_Game_Save + FCMuiW_ColPan_Upd}
+   {:DEV NOTES: UPDATE FCMdFiles_Game_Load + FCMdFiles_Game_Save + FCMuiCDP_Data_Update}
    {:DEV NOTES: UPDATE FCMgCSME_Event_Trigger + FCMgCSME_Event_Cancel + FCMgCSME_OT_Proc.}
    {:DEV NOTES: update farc_game_csmevents/TFCEcsmeModTp + FCFgCSME_Mod_Sum + FCMuiCDP_Data_Update/dtCSMev if any modifier is modified / added.}
    {:DEV NOTES: update FCMgCSME_Recovering_Process.}
@@ -351,6 +351,8 @@ interface
          etHealthEduRel:( HER_educationMod: integer );
 
          etGovDestab, etGovDestabRec:( GD_cohesionMod: integer );
+
+         etRveOxygenOverload:( ROO_percPopNotSupported: integer );
    end;
    {.owned infrastructure data structure}
    {:DEV NOTES: update FCMdFiles_Game_Save/Load + FCMgICS_Conversion_Process + FCMgICS_Assembling_Process + FCMgICS_Building_Process + FCMuiCDP_Data_Update/dtInfra.}
