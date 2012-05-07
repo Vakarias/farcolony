@@ -315,6 +315,7 @@ interface
    {:DEV NOTES: UPDATE FCMdFiles_Game_Load + FCMdFiles_Game_Save + FCMuiW_ColPan_Upd}
    {:DEV NOTES: UPDATE FCMgCSME_Event_Trigger + FCMgCSME_Event_Cancel + FCMgCSME_OT_Proc.}
    {:DEV NOTES: update farc_game_csmevents/TFCEcsmeModTp + FCFgCSME_Mod_Sum + FCMuiCDP_Data_Update/dtCSMev if any modifier is modified / added.}
+   {:DEV NOTES: update FCMgCSME_Recovering_Process.}
    type TFCRdgColonCSMev = record
       {.define if the event is resident or (=false =>) occasional (w/ a duration of 24hrs}
       CSMEV_isRes: boolean;

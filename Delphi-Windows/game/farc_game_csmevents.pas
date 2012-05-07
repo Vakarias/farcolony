@@ -1125,7 +1125,7 @@ begin
                end;
             end;
 
-            mtHealth: ;
+//            mtHealth: ;
          end;
          inc(MScnt);
       end;
@@ -1172,39 +1172,194 @@ begin
    end;
 end;
 
-procedure FCMgCSME_OT_UnSUpRecovery(
-   const OTUSURfac
-         ,OTUSURcol
-         ,OTUSURev: integer
+procedure FCMgCSME_Recovering_Process(
+   const Entity
+         ,Colony
+         ,Event: integer
    );
-{:Purpose: over time recovery for Unrest/Social Disorder/Uprising events.
+{:Purpose: apply one time the recover rule on a specified event.
     Additions:
-      -2012May03- *mod: apply modification according to changes in the CSM event data structure.
-      -2010Sep14- *add: entities code.
 }
-var
-   OTUSURmod1
-   ,OTUSURmod2
-   ,OTUSURmodEiO
-   ,OTUSURmodTens: integer;
+   var
+      AbsoluteCoefficient
+      ,ModCohesion
+      ,ModEcoIndOutput
+      ,ModTension
+      ,NewCohesion
+      ,NewEcoIndOutput
+      ,NewTension: integer;
 begin
-   OTUSURmodTens:=FCentities[OTUSURfac].E_col[OTUSURcol].COL_evList[OTUSURev].CSMEV_tensMod;
-   OTUSURmodEiO:=FCentities[OTUSURfac].E_col[OTUSURcol].COL_evList[OTUSURev].CSMEV_iecoMod;
-   OTUSURmod1:=-round(OTUSURmodTens*0.1);
-   if OTUSURmod1=0
-   then OTUSURmod1:=-1;
-   OTUSURmod2:=abs(round(OTUSURmodEiO*0.1));
-   if OTUSURmod2=0
-   then OTUSURmod2:=1;
-   FCentities[OTUSURfac].E_col[OTUSURcol].COL_evList[OTUSURev].CSMEV_tensMod:=OTUSURmodTens+OTUSURmod1;
-   if FCentities[OTUSURfac].E_col[OTUSURcol].COL_evList[OTUSURev].CSMEV_tensMod<0
-   then FCentities[OTUSURfac].E_col[OTUSURcol].COL_evList[OTUSURev].CSMEV_tensMod:=0;
-   FCentities[OTUSURfac].E_col[OTUSURcol].COL_evList[OTUSURev].CSMEV_iecoMod:=OTUSURmodEiO+OTUSURmod2;
-   if FCentities[OTUSURfac].E_col[OTUSURcol].COL_evList[OTUSURev].CSMEV_iecoMod>0
-   then FCentities[OTUSURfac].E_col[OTUSURcol].COL_evList[OTUSURev].CSMEV_iecoMod:=0;
-   if (FCentities[OTUSURfac].E_col[OTUSURcol].COL_evList[OTUSURev].CSMEV_tensMod=0)
-      and (FCentities[OTUSURfac].E_col[OTUSURcol].COL_evList[OTUSURev].CSMEV_iecoMod=0)
-   then FCentities[OTUSURfac].E_col[OTUSURcol].COL_evList[OTUSURev].CSMEV_duration:=-2;
+   AbsoluteCoefficient:=0;
+   ModCohesion:=0;
+   ModEcoIndOutput:=0;
+   ModTension:=0;
+   NewCohesion:=0;
+   NewEcoIndOutput:=0;
+   NewTension:=0;
+   {.we retrieve the specific data}
+   case FCentities[ Entity ].E_col[ Colony ].COL_evList[ Event ].CSMEV_token of
+      etUnrestRec:
+      begin
+         ModEcoIndOutput:=FCentities[ Entity ].E_col[ Colony ].COL_evList[ Event ].UN_ecoindMod;
+         ModTension:=FCentities[ Entity ].E_col[ Colony ].COL_evList[ Event ].UN_tensionMod;
+      end;
+
+      etSocdisRec:
+      begin
+         ModEcoIndOutput:=FCentities[ Entity ].E_col[ Colony ].COL_evList[ Event ].SD_ecoindMod;
+         ModTension:=FCentities[ Entity ].E_col[ Colony ].COL_evList[ Event ].SD_tensionMod;
+      end;
+
+      etUprisingRec:
+      begin
+         ModEcoIndOutput:=FCentities[ Entity ].E_col[ Colony ].COL_evList[ Event ].UP_ecoindMod;
+         ModTension:=FCentities[ Entity ].E_col[ Colony ].COL_evList[ Event ].UP_tensionMod;
+      end;
+
+      etGovDestabRec: ModCohesion:=FCentities[ Entity ].E_col[ Colony ].COL_evList[ Event ].GD_cohesionMod;
+   end;
+   {.rule process for each modifier}
+   if ModCohesion<0 then
+   begin
+      AbsoluteCoefficient:=abs( round( ModCohesion * 0.1 ) );
+      if AbsoluteCoefficient=0
+      then AbsoluteCoefficient:=1;
+   end
+   else if ModCohesion>0 then
+   begin
+      AbsoluteCoefficient:=-round( ModCohesion * 0.1 );
+      if AbsoluteCoefficient=0
+      then AbsoluteCoefficient:=-1;
+   end
+   else AbsoluteCoefficient:=0;
+   NewCohesion:=ModCohesion+AbsoluteCoefficient;
+   if ModEcoIndOutput<0 then
+   begin
+      AbsoluteCoefficient:=abs( round( ModEcoIndOutput * 0.1 ) );
+      if AbsoluteCoefficient=0
+      then AbsoluteCoefficient:=1;
+   end
+   else if ModEcoIndOutput>0 then
+   begin
+      AbsoluteCoefficient:=-round( ModEcoIndOutput * 0.1 );
+      if AbsoluteCoefficient=0
+      then AbsoluteCoefficient:=-1;
+   end
+   else AbsoluteCoefficient:=0;
+   NewEcoIndOutput:=ModEcoIndOutput+AbsoluteCoefficient;
+   if ModTension<0 then
+   begin
+      AbsoluteCoefficient:=abs( round( ModTension * 0.1 ) );
+      if AbsoluteCoefficient=0
+      then AbsoluteCoefficient:=1;
+   end
+   else if ModTension>0 then
+   begin
+      AbsoluteCoefficient:=-round( ModTension * 0.1 );
+      if AbsoluteCoefficient=0
+      then AbsoluteCoefficient:=-1;
+   end
+   else AbsoluteCoefficient:=0;
+   NewTension:=ModTension+AbsoluteCoefficient;
+   {.determine if the recovering is finished + whatever the case, update the CSM}
+   case FCentities[ Entity ].E_col[ Colony ].COL_evList[ Event ].CSMEV_token of
+      etUnrestRec:
+      begin
+         if ( NewEcoIndOutput=0 )
+            and ( NewTension=0 )
+         then FCentities[ Entity ].E_col[ Colony ].COL_evList[ Event ].CSMEV_duration:=-2;
+         FCentities[ Entity ].E_col[ Colony ].COL_evList[ Event ].UN_ecoindMod:=NewEcoIndOutput;
+         FCMgCSM_ColonyData_Upd(
+            dEcoIndusOut
+            ,Entity
+            ,Colony
+            ,NewEcoIndOutput
+            ,0
+            ,gcsmptNone
+            ,false
+            );
+         FCentities[ Entity ].E_col[ Colony ].COL_evList[ Event ].UN_tensionMod:=NewTension;
+         FCMgCSM_ColonyData_Upd(
+            dTension
+            ,Entity
+            ,Colony
+            ,NewTension
+            ,0
+            ,gcsmptNone
+            ,false
+            );
+      end; //==END== case: etUnrestRec ==//
+
+      etSocdisRec:
+      begin
+         if ( NewEcoIndOutput=0 )
+            and ( NewTension=0 )
+         then FCentities[ Entity ].E_col[ Colony ].COL_evList[ Event ].CSMEV_duration:=-2;
+         FCentities[ Entity ].E_col[ Colony ].COL_evList[ Event ].SD_ecoindMod:=NewEcoIndOutput;
+         FCMgCSM_ColonyData_Upd(
+            dEcoIndusOut
+            ,Entity
+            ,Colony
+            ,NewEcoIndOutput
+            ,0
+            ,gcsmptNone
+            ,false
+            );
+         FCentities[ Entity ].E_col[ Colony ].COL_evList[ Event ].SD_tensionMod:=NewTension;
+         FCMgCSM_ColonyData_Upd(
+            dTension
+            ,Entity
+            ,Colony
+            ,NewTension
+            ,0
+            ,gcsmptNone
+            ,false
+            );
+      end; //==END== case: etSocdisRec ==//
+
+      etUprisingRec:
+      begin
+         if ( NewEcoIndOutput=0 )
+            and ( NewTension=0 )
+         then FCentities[ Entity ].E_col[ Colony ].COL_evList[ Event ].CSMEV_duration:=-2;
+         FCentities[ Entity ].E_col[ Colony ].COL_evList[ Event ].UP_ecoindMod:=NewEcoIndOutput;
+         FCMgCSM_ColonyData_Upd(
+            dEcoIndusOut
+            ,Entity
+            ,Colony
+            ,NewEcoIndOutput
+            ,0
+            ,gcsmptNone
+            ,false
+            );
+         FCentities[ Entity ].E_col[ Colony ].COL_evList[ Event ].UP_tensionMod:=NewTension;
+         FCMgCSM_ColonyData_Upd(
+            dTension
+            ,Entity
+            ,Colony
+            ,NewTension
+            ,0
+            ,gcsmptNone
+            ,false
+            );
+      end; //==END== case: etUprisingRec ==//
+
+      etGovDestabRec:
+      begin
+         if NewCohesion=0
+         then FCentities[ Entity ].E_col[ Colony ].COL_evList[ Event ].CSMEV_duration:=-2;
+         FCentities[ Entity ].E_col[ Colony ].COL_evList[ Event ].GD_cohesionMod:=NewCohesion;
+         FCMgCSM_ColonyData_Upd(
+            dCohesion
+            ,Entity
+            ,Colony
+            ,NewCohesion
+            ,0
+            ,gcsmptNone
+            ,false
+            );
+      end; //==END== case: etGovDestabRec ==//
+   end; //==END== case FCentities[ Entity ].E_col[ Colony ].COL_evList[ Event ].CSMEV_token of ==//
 end;
 
 procedure FCMgCSME_OT_Proc(
@@ -1213,6 +1368,9 @@ procedure FCMgCSME_OT_Proc(
    );
 {:Purpose: over time processing for events of a colony.
    Additions:
+      -2012May06- *mod: apply modification according to changes in the CSM event data structure.
+                  *mod: cleanup data assignation by using FCMgCSM_ColonyData_Upd.
+                  *add: complete the recovering part for the concerned events.
       -2012Apr30- *add: update the colony panel if needed.
       -2011Jan20- *add: government destabilization - recovery calculations.
       -2011Jan19- *add: government destabilization.
@@ -1270,8 +1428,8 @@ begin
          case FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_token of
             etColEstab:
             begin
-               OTPmodTens:=FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_tensMod;
-               OTPmodSec:=FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_secMod;
+               OTPmodTens:=FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CE_tensionMod;
+               OTPmodSec:=FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CE_securityMod;
                case FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_lvl of
                   0:
                   begin
@@ -1289,7 +1447,7 @@ begin
                      OTPmod2:=3;
                   end;
                end;
-               FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_tensMod:=OTPmodTens+OTPmod1;
+               FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CE_tensionMod:=OTPmodTens+OTPmod1;
                FCMgCSM_ColonyData_Upd(
                   dTension
                   ,OTPfac
@@ -1299,7 +1457,7 @@ begin
                   ,gcsmptNone
                   ,false
                   );
-               FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_secMod:=OTPmodSec+OTPmod2;
+               FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CE_securityMod:=OTPmodSec+OTPmod2;
                FCMgCSM_ColonyData_Upd(
                   dSecurity
                   ,OTPfac
@@ -1313,10 +1471,11 @@ begin
                if FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_duration=0
                then FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_duration:=-2;
             end; //==END== case: etColEstab ==//
+
             etUnrest:
             begin
-               OTPmodTens:=FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_tensMod;
-               OTPmodEiO:=FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_iecoMod;
+               OTPmodEiO:=FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].UN_ecoindMod;
+               OTPmodTens:=FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].UN_tensionMod;
                case FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_lvl of
                   1:
                   begin
@@ -1359,7 +1518,17 @@ begin
                      OTPmod2:=1;
                   end;
                end;
-               FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_tensMod:=OTPmodTens+OTPmod2;
+               FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].UN_ecoindMod:=OTPmodEiO+OTPmod1;
+               FCMgCSM_ColonyData_Upd(
+                  dEcoIndusOut
+                  ,OTPfac
+                  ,OTPcol
+                  ,OTPmod1
+                  ,0
+                  ,gcsmptNone
+                  ,false
+                  );
+               FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].UN_tensionMod:=OTPmodTens+OTPmod2;
                FCMgCSM_ColonyData_Upd(
                   dTension
                   ,OTPfac
@@ -1369,19 +1538,20 @@ begin
                   ,gcsmptNone
                   ,false
                   );
-               FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_iecoMod:=OTPmodEiO+OTPmod1;
-               if FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_iecoMod<-100
-               then FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_iecoMod:=-100;
+
+
             end; //==END== case: etUnrest ==//
-            etUnrestRec: FCMgCSME_OT_UnSUpRecovery(
+
+            etUnrestRec: FCMgCSME_Recovering_Process(
                OTPfac
                ,OTPcol
                ,OTPcnt
                );
+
             etSocdis:
             begin
-               OTPmodTens:=FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_tensMod;
-               OTPmodEiO:=FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_iecoMod;
+               OTPmodEiO:=FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].SD_ecoindMod;
+               OTPmodTens:=FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].SD_tensionMod;
                case FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_lvl of
                   1:
                   begin
@@ -1424,7 +1594,17 @@ begin
                      OTPmod2:=1;
                   end;
                end;
-               FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_tensMod:=OTPmodTens+OTPmod2;
+               FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].SD_ecoindMod:=OTPmodEiO+OTPmod1;
+               FCMgCSM_ColonyData_Upd(
+                  dEcoIndusOut
+                  ,OTPfac
+                  ,OTPcol
+                  ,OTPmod1
+                  ,0
+                  ,gcsmptNone
+                  ,false
+                  );
+               FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].SD_tensionMod:=OTPmodTens+OTPmod2;
                FCMgCSM_ColonyData_Upd(
                   dTension
                   ,OTPfac
@@ -1434,19 +1614,18 @@ begin
                   ,gcsmptNone
                   ,false
                   );
-               FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_iecoMod:=OTPmodEiO+OTPmod1;
-               if FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_iecoMod<-100
-               then FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_iecoMod:=-100;
-            end;
-            etSocdisRec: FCMgCSME_OT_UnSUpRecovery(
+            end; //==END== case: etSocdis ==//
+
+            etSocdisRec: FCMgCSME_Recovering_Process(
                OTPfac
                ,OTPcol
                ,OTPcnt
                );
+
             etUprising:
             begin
-               OTPmodTens:=FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_tensMod;
-               OTPmodEiO:=FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_iecoMod;
+               OTPmodEiO:=FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].UP_ecoindMod;
+               OTPmodTens:=FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].UP_tensionMod;
                case FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_lvl of
                   1:
                   begin
@@ -1479,7 +1658,17 @@ begin
                      OTPrebEqup:=0.5;
                   end;
                end;
-               FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_tensMod:=OTPmodTens+OTPmod2;
+               FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].UP_ecoindMod:=OTPmodEiO+OTPmod1;
+               FCMgCSM_ColonyData_Upd(
+                  dEcoIndusOut
+                  ,OTPfac
+                  ,OTPcol
+                  ,OTPmod1
+                  ,0
+                  ,gcsmptNone
+                  ,false
+                  );
+               FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].UP_tensionMod:=OTPmodTens+OTPmod2;
                FCMgCSM_ColonyData_Upd(
                   dTension
                   ,OTPfac
@@ -1489,9 +1678,6 @@ begin
                   ,gcsmptNone
                   ,false
                   );
-               FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_iecoMod:=OTPmodEiO+OTPmod1;
-               if FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_iecoMod<-100
-               then FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_iecoMod:=-100;
                {.fighting system}
                OTPsold:=FCentities[OTPfac].E_col[OTPcol].COL_population.POP_tpMSsold;
                OTPreb:=FCentities[OTPfac].E_col[OTPcol].COL_population.POP_tpRebels;
@@ -2054,11 +2240,13 @@ begin
                   then FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_duration:=-2
                end;
             end; //==END== case: etUprising ==//
-            etUprisingRec: FCMgCSME_OT_UnSUpRecovery(
+
+            etUprisingRec: FCMgCSME_Recovering_Process(
                OTPfac
                ,OTPcol
                ,OTPcnt
                );
+
             etColDissident:
             begin
                case FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_lvl of
@@ -2635,16 +2823,17 @@ begin
                   and (OTPmili=0)
                then FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_duration:=-2;
             end; //==END== case: etColDissident: ==//
+
             etGovDestab:
             begin
-               OTPmodCoh:=FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_cohMod;
+               OTPmodCoh:=FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].GD_cohesionMod;
                OTPmod1:=0;
                case FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_lvl of
                   2..3: OTPmod1:=-2;
                   5..6: OTPmod1:=-3;
                   8..9: OTPmod1:=-5;
                end;
-               FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_cohMod:=OTPmodCoh+OTPmod1;
+               FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].GD_cohesionMod:=OTPmodCoh+OTPmod1;
                FCMgCSM_ColonyData_Upd(
                   dCohesion
                   ,OTPfac
@@ -2667,18 +2856,12 @@ begin
 //                  then
                end;
             end;
-            etGovDestabRec:
-            begin
-               OTPmodCoh:=FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_cohMod;
-               OTPmod1:=round(abs(OTPmodCoh*0.1));
-               if OTPmod1=0
-               then OTPmod1:=1;
-               FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_cohMod:=OTPmodCoh+OTPmod1;
-               if FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_cohMod<0
-               then FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_cohMod:=0;
-               if FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_cohMod=0
-               then FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_duration:=-2;
-            end;
+
+            etGovDestabRec: FCMgCSME_Recovering_Process(
+               OTPfac
+               ,OTPcol
+               ,OTPcnt
+               );
          end; //==END== case FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_token of ==//
          inc(OTPcnt);
       end; //==END== while OTPcnt<=OTPmax do ==//
@@ -2695,8 +2878,7 @@ begin
       OTPcnt:=1;
       while OTPcnt<=OTPmax do
       begin
-         if OTPevArr[OTPcnt].CSMEV_duration<=-2
-         then
+         if OTPevArr[OTPcnt].CSMEV_duration<=-2 then
          begin
             case OTPevArr[OTPcnt].CSMEV_token of
                etColEstab, etUnrestRec, etSocdisRec:
