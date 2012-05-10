@@ -118,6 +118,16 @@ interface
       ,etGovDestabRec
       {.Oxygen Production Overload}
       ,etRveOxygenOverload
+      {.Oxygen Shortage}
+      ,etRveOxygenShortage
+      {.Water Production Overload}
+      ,etRveWaterOverload
+      {.Water Shortage}
+      ,etRveWaterShortage
+      {.Food Production Overload}
+      ,etRveFoodOverload
+      {.Food Shortage}
+      ,etRveFoodShortage
       );
    {.list of faction equipment item types}
    {:DEV NOTES: update factionsdbxml + FCMdF_DBFactions_Read + FCMgNG_Core_Proceed}
@@ -353,6 +363,38 @@ interface
          etGovDestab, etGovDestabRec:( GD_cohesionMod: integer );
 
          etRveOxygenOverload:( ROO_percPopNotSupported: integer );
+
+         etRveOxygenShortage:(
+            ///<summary>
+            /// percent of population not supported at time of SF calculation
+            ///</summary>
+            ROS_percPopNotSupAtCalc: integer;
+            ROS_ecoindMod: integer;
+            ROS_healthMod: integer
+            );
+
+         etRveWaterOverload:( RWO_percPopNotSupported: integer );
+
+         etRveWaterShortage:(
+            ///<summary>
+            /// percent of population not supported at time of SF calculation
+            ///</summary>
+            RWS_percPopNotSupAtCalc: integer;
+            RWS_ecoindMod: integer;
+            RWS_healthMod: integer
+            );
+
+         etRveFoodOverload:( RFO_percPopNotSupported: integer );
+
+         etRveFoodShortage:(
+            ///<summary>
+            /// percent of population not supported at time of SF calculation
+            ///</summary>
+            RFS_percPopNotSupAtCalc: integer;
+            RFS_ecoindMod: integer;
+            RFS_healthMod: integer
+            );
+         //==END== case CSMEV_token: TFCEdgEventTypes of ==//
    end;
    {.owned infrastructure data structure}
    {:DEV NOTES: update FCMdFiles_Game_Save/Load + FCMgICS_Conversion_Process + FCMgICS_Assembling_Process + FCMgICS_Building_Process + FCMuiCDP_Data_Update/dtInfra.}

@@ -74,6 +74,7 @@ uses
 procedure FCMdFSG_Game_Load;
 {:Purpose: load the current game.
    Additions:
+      -2012May10- *add: CSM event: etRveOxygenShortage, etRveWaterOverload, etRveWaterShortage, etRveFoodOverload and etRveFoodShortage.
       -2012May06- *add: CSM event: etRveOxygenOverload.
       -2012Apr29- *mod: CSM event token are loaded by their full names now.
                   *mod: CSM event modifiers and data are loaded according to the new changes in the data structure.
@@ -967,6 +968,7 @@ end;
 procedure FCMdFSG_Game_Save;
 {:Purpose: save the current game.
     Additions:
+      -2012May10- *add: CSM event: etRveOxygenShortage, etRveWaterOverload, etRveWaterShortage, etRveFoodOverload and etRveFoodShortage.
       -2012May06- *add: CSM event: etRveOxygenOverload.
       -2012Apr29- *mod: CSM event token are saved in their full names now.
                   *mod: CSM event modifiers and data are saved according to the new changes in the data structure.
@@ -1508,6 +1510,14 @@ begin
                      begin
                         GSxmlColEv.Attributes['token']:='etRveOxygenOverload';
                         GSxmlColEv.Attributes['percPopNotSupported']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].ROO_percPopNotSupported;
+                     end;
+
+                     etRveOxygenShortage:
+                     begin
+                        GSxmlColEv.Attributes['token']:='etRveOxygenShortage';
+                        GSxmlColEv.Attributes['percPopNotSupAtCalc']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].ROS_percPopNotSupAtCalc;
+                        GSxmlColEv.Attributes['modEcoInd']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].ROS_ecoindMod;
+                        GSxmlColEv.Attributes['modHealth']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].ROS_healthMod;
                      end;
                   end; //==END== case FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].CSMEV_token of ==//
                   GSxmlColEv.Attributes['isres']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].CSMEV_isRes;
