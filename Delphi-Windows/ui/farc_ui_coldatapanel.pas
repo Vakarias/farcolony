@@ -1198,8 +1198,7 @@ begin
                   then CPUdataIndex:=FCFdTFiles_UIStr_Get(uistrUI, 'colDcohes')+' <b>'+FCFuiHTML_Modifier_GetFormat( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].GD_cohesionMod, true )+'</b>  ';
                end;
 
-               etRveOxygenOverload: CPUdataIndex:=FCFdTFiles_UIStr_Get(uistrUI, 'csmevRveOxygenOverloadPopulation')+'<b>'
-                  +IntToStr( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].ROO_percPopNotSupported )+'</b>  ';
+               etRveOxygenOverload: CPUdataIndex:=FCFdTFiles_UIStr_Get(uistrUI, 'csmPercPopNotSupported')+'<b>'+IntToStr( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].ROO_percPopNotSupported )+'</b>  ';
             end; //==END== case FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CSMEV_token of ==//
 //            {.health mod}
 //            if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CSMEV_healMod<>0

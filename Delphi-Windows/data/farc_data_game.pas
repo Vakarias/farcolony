@@ -120,14 +120,20 @@ interface
       ,etRveOxygenOverload
       {.Oxygen Shortage}
       ,etRveOxygenShortage
+      {.Oxygen Shortage - recovering}
+      ,etRveOxygenShortageRec
       {.Water Production Overload}
       ,etRveWaterOverload
       {.Water Shortage}
       ,etRveWaterShortage
+      {.Water Shortage - recovering}
+      ,etRveWaterShortageRec
       {.Food Production Overload}
       ,etRveFoodOverload
       {.Food Shortage}
       ,etRveFoodShortage
+      {.Food Shortage - recovering}
+      ,etRveFoodShortageRec
       );
    {.list of faction equipment item types}
    {:DEV NOTES: update factionsdbxml + FCMdF_DBFactions_Read + FCMgNG_Core_Proceed}
@@ -364,34 +370,37 @@ interface
 
          etRveOxygenOverload:( ROO_percPopNotSupported: integer );
 
-         etRveOxygenShortage:(
+         etRveOxygenShortage, etRveOxygenShortageRec:(
             ///<summary>
             /// percent of population not supported at time of SF calculation
             ///</summary>
             ROS_percPopNotSupAtCalc: integer;
             ROS_ecoindMod: integer;
+            ROS_tensionMod: integer;
             ROS_healthMod: integer
             );
 
          etRveWaterOverload:( RWO_percPopNotSupported: integer );
 
-         etRveWaterShortage:(
+         etRveWaterShortage, etRveWaterShortageRec:(
             ///<summary>
             /// percent of population not supported at time of SF calculation
             ///</summary>
             RWS_percPopNotSupAtCalc: integer;
             RWS_ecoindMod: integer;
+            RWS_tensionMod: integer;
             RWS_healthMod: integer
             );
 
          etRveFoodOverload:( RFO_percPopNotSupported: integer );
 
-         etRveFoodShortage:(
+         etRveFoodShortage, etRveFoodShortageRec:(
             ///<summary>
             /// percent of population not supported at time of SF calculation
             ///</summary>
             RFS_percPopNotSupAtCalc: integer;
             RFS_ecoindMod: integer;
+            RFS_tensionMod: integer;
             RFS_healthMod: integer
             );
          //==END== case CSMEV_token: TFCEdgEventTypes of ==//

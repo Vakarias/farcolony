@@ -479,6 +479,7 @@ end;
 function FCFgCSME_Event_GetStr(const EGSevent: TFCEdgEventTypes): string;
 {:Purpose: get the event token string.
    Additions:
+      -2012May12- *add: etRveOxygenShortage, etRveWaterShortageRec, etRveWaterOverload, etRveWaterShortage, etRveFoodOverload and etRveFoodShortage.
       -2012May06- *add: etRveOxygenOverload.
       -2012Apr29- *add: forgot to add: etGovDestabRec.
       -2011Jan18- *add: etGovDestab.
@@ -491,17 +492,44 @@ function FCFgCSME_Event_GetStr(const EGSevent: TFCEdgEventTypes): string;
 begin
    case EGSevent of
       etColEstab: result:='csmevColEst';
+
       etUnrest: result:='csmevUnrest';
+
       etUnrestRec: result:='csmevUnrestRec';
+
       etSocdis: result:='csmevSocDis';
+
       etSocdisRec: result:='csmevSocDisRec';
+
       etUprising: result:='csmevUprising';
+
       etUprisingRec: result:='csmevUprisingRec';
+
       etColDissident: result:='csmevColDissident';
+
       etHealthEduRel: result:='csmevHealthEduRel';
+
       etGovDestab: result:='csmevGovDestab';
+
       etGovDestabRec: result:= 'csmevGovDestabRec';
+
       etRveOxygenOverload: result:='csmevRveOxygenOverload';
+
+      etRveOxygenShortage: result:='csmevRveOxygenShortage';
+
+      etRveOxygenShortageRec: result:='csmevRveOxygenShortageRec';
+
+      etRveWaterOverload: result:='csmevRveWaterOverload';
+
+      etRveWaterShortage: result:='csmevRveWaterShortage';
+
+      etRveWaterShortageRec: result:='csmevRveWaterShortageRec';
+
+      etRveFoodOverload: result:='csmevRveFoodOverload';
+
+      etRveFoodShortage: result:='csmevRveFoodShortage';
+
+      etRveFoodShortageRec: result:='csmevRveFoodShortageRec';
    end;
 end;
 
@@ -541,6 +569,7 @@ procedure FCMgCSME_Event_Trigger(
    const LoadToIndex0: boolean
    );
    {:DEV NOTES: A LOT OF UPDATE TO PUT, FOLLOW THE DOC !! + COMPLETE CSM DATA UPDATE (like for ecoIndOutput !!!!.}
+   {:DEV NOTES: test if a same event already exist in recovering mode, if it's the case => override, if not => do nothing.}
 {:Purpose: trigger a specified event.
     Additions:
       -2012May05- *add: etRveOxygenOverload event.

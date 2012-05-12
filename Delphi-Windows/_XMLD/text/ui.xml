@@ -1085,6 +1085,11 @@
       <FR>Performance Economique et Industrielle</FR>
       <SP>Rendimiento Economico y Industrial</SP>
    </csmieco>
+   <csmPercPopNotSupported>
+      <EN>Percent of Total Population not Supported: </EN>
+      <FR>Pourcent de la Population Totale Non Supportée:</FR>
+      <SP></SP>
+   </csmPercPopNotSupported>
    <csmevColDissident>
       <EN>Dissident Colony</EN>
       <FR>Colonie Dissidente</FR>
@@ -1120,11 +1125,46 @@
       <FR>Surcharge de Production d'Oxygène</FR>
       <SP></SP>
    </csmevRveOxygenOverload>
-   <csmevRveOxygenOverloadPopulation>
-      <EN>Percent of Total Population not Supported: </EN>
-      <FR>Pourcent de la Population Totale Non Supportée:</FR>
+   <csmevRveOxygenShortage>
+      <EN>Oxygen Shortage</EN>
+      <FR>Pénurie d'Oxygène</FR>
       <SP></SP>
-   </csmevRveOxygenOverloadPopulation>
+   </csmevRveOxygenShortage>
+   <csmevRveOxygenShortageRec>
+      <EN>Oxygen Shortage (Recovering)</EN>
+      <FR>Pénurie d'Oxygène (Récupèration)</FR>
+      <SP></SP>
+   </csmevRveOxygenShortageRec>
+   <csmevRveFoodOverload>
+      <EN>Food Production Overload</EN>
+      <FR>Surcharge de Production de Nourriture</FR>
+      <SP></SP>
+   </csmevRveFoodOverload>
+   <csmevRveFoodShortage>
+      <EN>Food Shortage</EN>
+      <FR>Pénurie de Nourriture</FR>
+      <SP></SP>
+   </csmevRveFoodShortage>
+   <csmevRveFoodShortageRec>
+      <EN>Food Shortage (Recovering)</EN>
+      <FR>Pénurie de Nourriture (Récupèration)</FR>
+      <SP></SP>
+   </csmevRveFoodShortageRec>
+   <csmevRveWaterOverload>
+      <EN>Water Production Overload</EN>
+      <FR>Surcharge de Production d'Eau</FR>
+      <SP></SP>
+   </csmevRveWaterOverload>
+   <csmevRveWaterShortage>
+      <EN>Water Shortage</EN>
+      <FR>Pénurie d'Eau</FR>
+      <SP></SP>
+   </csmevRveWaterShortage>
+   <csmevRveWaterShortageRec>
+      <EN>Water Shortage (Recovering)</EN>
+      <FR>Pénurie d'Eau (Récupèration)</FR>
+      <SP></SP>
+   </csmevRveWaterShortageRec>
    <csmevSocDis>
       <EN>Social Disorder</EN>
       <FR>Désordre Social</FR>

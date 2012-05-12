@@ -74,7 +74,7 @@ uses
 procedure FCMdFSG_Game_Load;
 {:Purpose: load the current game.
    Additions:
-      -2012May10- *add: CSM event: etRveOxygenShortage, etRveWaterOverload, etRveWaterShortage, etRveFoodOverload and etRveFoodShortage.
+      -2012May12- *add: CSM event: etRveOxygenShortage, etRveWaterOverload, etRveWaterShortage, etRveFoodOverload and etRveFoodShortage.
       -2012May06- *add: CSM event: etRveOxygenOverload.
       -2012Apr29- *mod: CSM event token are loaded by their full names now.
                   *mod: CSM event modifiers and data are loaded according to the new changes in the data structure.
@@ -695,6 +695,34 @@ begin
                               etGovDestab, etGovDestabRec: FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].GD_cohesionMod:=GLxmlColsub.Attributes['modCohesion'];
 
                               etRveOxygenOverload: FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].ROO_percPopNotSupported:=GLxmlColsub.Attributes['percPopNotSupported'];
+
+                              etRveOxygenShortage, etRveOxygenShortageRec:
+                              begin
+                                 FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].ROS_percPopNotSupAtCalc:=GLxmlColsub.Attributes['percPopNotSupAtCalc'];
+                                 FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].ROS_ecoindMod:=GLxmlColsub.Attributes['modEcoInd'];
+                                 FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].ROS_tensionMod:=GLxmlColsub.Attributes['modTension'];
+                                 FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].ROS_healthMod:=GLxmlColsub.Attributes['modHealth'];
+                              end;
+
+                              etRveWaterOverload: FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].RWO_percPopNotSupported:=GLxmlColsub.Attributes['percPopNotSupported'];
+
+                              etRveWaterShortage, etRveWaterShortageRec:
+                              begin
+                                 FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].RWS_percPopNotSupAtCalc:=GLxmlColsub.Attributes['percPopNotSupAtCalc'];
+                                 FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].RWS_ecoindMod:=GLxmlColsub.Attributes['modEcoInd'];
+                                 FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].RWS_tensionMod:=GLxmlColsub.Attributes['modTension'];
+                                 FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].RWS_healthMod:=GLxmlColsub.Attributes['modHealth'];
+                              end;
+
+                              etRveFoodOverload: FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].RFO_percPopNotSupported:=GLxmlColsub.Attributes['percPopNotSupported'];
+
+                              etRveFoodShortage, etRveFoodShortageRec:
+                              begin
+                                 FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].RFS_percPopNotSupAtCalc:=GLxmlColsub.Attributes['percPopNotSupAtCalc'];
+                                 FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].RFS_ecoindMod:=GLxmlColsub.Attributes['modEcoInd'];
+                                 FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].RFS_tensionMod:=GLxmlColsub.Attributes['modTension'];
+                                 FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].RFS_healthMod:=GLxmlColsub.Attributes['modHealth'];
+                              end;
                            end; //==END== case FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].CSMEV_token of ==//
                         end
                         {.colony settlements}
@@ -968,7 +996,7 @@ end;
 procedure FCMdFSG_Game_Save;
 {:Purpose: save the current game.
     Additions:
-      -2012May10- *add: CSM event: etRveOxygenShortage, etRveWaterOverload, etRveWaterShortage, etRveFoodOverload and etRveFoodShortage.
+      -2012May12- *add: CSM event: etRveOxygenShortage, etRveWaterOverload, etRveWaterShortage, etRveFoodOverload and etRveFoodShortage.
       -2012May06- *add: CSM event: etRveOxygenOverload.
       -2012Apr29- *mod: CSM event token are saved in their full names now.
                   *mod: CSM event modifiers and data are saved according to the new changes in the data structure.
@@ -1444,44 +1472,35 @@ begin
                         GSxmlColEv.Attributes['modSecurity']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].CE_securityMod;
                      end;
 
-                     etUnrest:
+                     etUnrest, etUnrestRec:
                      begin
-                        GSxmlColEv.Attributes['token']:='etUnrest';
+                        case FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].CSMEV_token of
+                           etUnrest: GSxmlColEv.Attributes['token']:='etUnrest';
+
+                           etUnrestRec: GSxmlColEv.Attributes['token']:='etUnrestRec';
+                        end;
                         GSxmlColEv.Attributes['modEcoInd']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].UN_ecoindMod;
                         GSxmlColEv.Attributes['modTension']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].UN_tensionMod;
                      end;
 
-                     etUnrestRec:
+                     etSocdis, etSocdisRec:
                      begin
-                        GSxmlColEv.Attributes['token']:='etUnrestRec';
-                        GSxmlColEv.Attributes['modEcoInd']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].UN_ecoindMod;
-                        GSxmlColEv.Attributes['modTension']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].UN_tensionMod;
-                     end;
+                        case FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].CSMEV_token of
+                           etSocdis: GSxmlColEv.Attributes['token']:='etSocdis';
 
-                     etSocdis:
-                     begin
-                        GSxmlColEv.Attributes['token']:='etSocdis';
+                           etSocdisRec: GSxmlColEv.Attributes['token']:='etSocdisRec';
+                        end;
                         GSxmlColEv.Attributes['modEcoInd']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].SD_ecoindMod;
                         GSxmlColEv.Attributes['modTension']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].SD_tensionMod;
                      end;
 
-                     etSocdisRec:
+                     etUprising, etUprisingRec:
                      begin
-                        GSxmlColEv.Attributes['token']:='etSocdisRec';
-                        GSxmlColEv.Attributes['modEcoInd']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].SD_ecoindMod;
-                        GSxmlColEv.Attributes['modTension']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].SD_tensionMod;
-                     end;
+                        case FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].CSMEV_token of
+                           etUprising: GSxmlColEv.Attributes['token']:='etUprising';
 
-                     etUprising:
-                     begin
-                        GSxmlColEv.Attributes['token']:='etUprising';
-                        GSxmlColEv.Attributes['modEcoInd']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].UP_ecoindMod;
-                        GSxmlColEv.Attributes['modTension']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].UP_tensionMod;
-                     end;
-
-                     etUprisingRec:
-                     begin
-                        GSxmlColEv.Attributes['token']:='etUprisingRec';
+                           etUprisingRec: GSxmlColEv.Attributes['token']:='etUprisingRec';
+                        end;
                         GSxmlColEv.Attributes['modEcoInd']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].UP_ecoindMod;
                         GSxmlColEv.Attributes['modTension']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].UP_tensionMod;
                      end;
@@ -1494,15 +1513,12 @@ begin
                         GSxmlColEv.Attributes['modInstruction']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].HER_educationMod;
                      end;
 
-                     etGovDestab:
+                     etGovDestab, etGovDestabRec:
                      begin
-                        GSxmlColEv.Attributes['token']:='etGovDestab';
-                        GSxmlColEv.Attributes['modCohesion']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].GD_cohesionMod;
-                     end;
-
-                     etGovDestabRec:
-                     begin
-                        GSxmlColEv.Attributes['token']:='etGovDestabRec';
+                        case FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].CSMEV_token of
+                           etGovDestab: GSxmlColEv.Attributes['token']:='etGovDestab';
+                           etGovDestabRec: GSxmlColEv.Attributes['token']:='etGovDestabRec';
+                        end;
                         GSxmlColEv.Attributes['modCohesion']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].GD_cohesionMod;
                      end;
 
@@ -1512,12 +1528,55 @@ begin
                         GSxmlColEv.Attributes['percPopNotSupported']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].ROO_percPopNotSupported;
                      end;
 
-                     etRveOxygenShortage:
+                     etRveOxygenShortage, etRveWaterShortageRec:
                      begin
-                        GSxmlColEv.Attributes['token']:='etRveOxygenShortage';
+                        case FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].CSMEV_token of
+                           etRveOxygenShortage: GSxmlColEv.Attributes['token']:='etRveOxygenShortage';
+
+                           etRveWaterShortageRec: GSxmlColEv.Attributes['token']:='etRveOxygenShortageRec';
+                        end;
                         GSxmlColEv.Attributes['percPopNotSupAtCalc']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].ROS_percPopNotSupAtCalc;
                         GSxmlColEv.Attributes['modEcoInd']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].ROS_ecoindMod;
+                        GSxmlColEv.Attributes['modTension']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].ROS_tensionMod;
                         GSxmlColEv.Attributes['modHealth']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].ROS_healthMod;
+                     end;
+
+                     etRveWaterOverload:
+                     begin
+                        GSxmlColEv.Attributes['token']:='etRveWaterOverload';
+                        GSxmlColEv.Attributes['percPopNotSupported']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].RWO_percPopNotSupported;
+                     end;
+
+                     etRveWaterShortage:
+                     begin
+                        case FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].CSMEV_token of
+                           etRveWaterShortage: GSxmlColEv.Attributes['token']:='etRveWaterShortage';
+
+                           etRveWaterShortageRec: GSxmlColEv.Attributes['token']:='etRveWaterShortageRec';
+                        end;
+                        GSxmlColEv.Attributes['percPopNotSupAtCalc']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].RWS_percPopNotSupAtCalc;
+                        GSxmlColEv.Attributes['modEcoInd']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].RWS_ecoindMod;
+                        GSxmlColEv.Attributes['modTension']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].RWS_tensionMod;
+                        GSxmlColEv.Attributes['modHealth']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].RWS_healthMod;
+                     end;
+
+                     etRveFoodOverload:
+                     begin
+                        GSxmlColEv.Attributes['token']:='etRveFoodOverload';
+                        GSxmlColEv.Attributes['percPopNotSupported']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].RFO_percPopNotSupported;
+                     end;
+
+                     etRveFoodShortage:
+                     begin
+                        case FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].CSMEV_token of
+                           etRveFoodShortage: GSxmlColEv.Attributes['token']:='etRveFoodShortage';
+
+                           etRveFoodShortageRec: GSxmlColEv.Attributes['token']:='etRveFoodShortageRec';
+                        end;
+                        GSxmlColEv.Attributes['percPopNotSupAtCalc']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].RFS_percPopNotSupAtCalc;
+                        GSxmlColEv.Attributes['modEcoInd']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].RFS_ecoindMod;
+                        GSxmlColEv.Attributes['modTension']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].RFS_tensionMod;
+                        GSxmlColEv.Attributes['modHealth']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].RFS_healthMod;
                      end;
                   end; //==END== case FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].CSMEV_token of ==//
                   GSxmlColEv.Attributes['isres']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].CSMEV_isRes;
