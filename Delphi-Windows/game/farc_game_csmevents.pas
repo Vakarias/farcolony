@@ -624,7 +624,7 @@ var
    ,EventDataF3
    ,EventDataF4: extended;
 
-   ETenv: TFCRgcEnvironment;
+   ColonyEnvironment: TFCRgcEnvironment;
 begin
    if LoadToIndex0
    then
@@ -652,9 +652,9 @@ begin
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_token:=etColEstab;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_isRes:=true;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_duration:=5;
-         ETenv:=FCFgC_ColEnv_GetTp(Entity, Colony);
+         ColonyEnvironment:=FCFgC_ColEnv_GetTp(Entity, Colony);
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_lvl:=-1;
-         case ETenv.ENV_envType of
+         case ColonyEnvironment.ENV_envType of
             envfreeLiving:
             begin
                FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_lvl:=0;
@@ -1094,7 +1094,6 @@ begin
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_isRes:=true;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_duration:=-1;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_lvl:=0;
-         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].ROO_percPopNotSupported:=0;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].ROO_percPopNotSupported:=FCFgCR_OxygenOverload_Calc( Entity, Colony );
       end; //==END== case: etRveOxygenOverload ==//
 
@@ -1106,23 +1105,26 @@ begin
             ,Entity
             ,Colony
             );
-         {.sub data for SF calculation}
-         EventDataI2:=0;
-         {.modifier calculation dump storage}
-         EventDataF4:=0;
          if EventDataI1=0
          then raise Exception.Create('there is no Oxygen Production Overload event created, prior to Oxygen Shortage, check the reserves consumption rule.');
+         {.EventDataI2 = sub data for SF calculation}
+         EventDataI2:=0;
          {.EventDataF1 = PPS}
          EventDataF1:=0;
          {.EventDataF2 = SF}
          EventDataF2:=0;
          {.EventDataF3 = age coefficient}
          EventDataF3:=0;
+         {.EventDataF4 = modifier calculation dump storage}
+         EventDataF4:=0;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_token:=etRveOxygenShortage;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_isRes:=true;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_duration:=-1;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_lvl:=0;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].ROS_percPopNotSupAtCalc:=FCentities[ Entity ].E_col[ Colony ].COL_evList[ EventDataI1 ].ROO_percPopNotSupported;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].ROS_ecoindMod:=0;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].ROS_tensionMod:=0;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].ROS_healthMod:=0;
          EventDataF1:=FCentities[ Entity ].E_col[ Colony ].COL_evList[ EventDataI1 ].ROO_percPopNotSupported * 0.01;
          EventDataI2:=round( FCentities[ Entity ].E_col[ Colony ].COL_population.POP_total * EventDataF1 );
          EventDataF2:=FCentities[ Entity ].E_col[ Colony ].COL_population.POP_total / ( FCentities[ Entity ].E_col[ Colony ].COL_population.POP_total - EventDataI2 );
@@ -1170,7 +1172,7 @@ begin
          end
          {.case if the entire population die}
          else FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_duration:=-3;
-      end;
+      end; //==END== case: etRveOxygenShortage ==//
 
       etRveWaterOverload:
       begin
@@ -1178,26 +1180,107 @@ begin
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_isRes:=true;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_duration:=-1;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_lvl:=0;
-         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].RWO_percPopNotSupported:=0;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].RWO_percPopNotSupported:=FCFgCR_WaterOverload_Calc( Entity, Colony );
       end;
 
       etRveWaterShortage:
       begin
-//         (
-            ///<summary>
-            /// percent of population not supported at time of SF calculation
-            ///</summary>
-//            RWS_percPopNotSupAtCalc: integer;
-//            RWS_ecoindMod: integer;
-//            RWS_tensionMod: integer;
-//            RWS_healthMod: integer
-//            );
-      end;
+         {.EventDataI1 = index # for Oxygen Production Overload event}
+         EventDataI1:=FCFgCSME_Search_ByType(
+            etRveWaterOverload
+            ,Entity
+            ,Colony
+            );
+         if EventDataI1=0
+         then raise Exception.Create('there is no Water Production Overload event created, prior to Water Shortage, check the reserves consumption rule.');
+         {.EventDataI2=PPS}
+         EventDataI2:=0;
+         {.EventDataF1 = age coefficient}
+         EventDataF1:=0;
+         {.EventDataF2 = modifier calculation dump storage}
+         EventDataF2:=0;
+         {.EventDataF3 = environment coeficient}
+         EventDataF3:=0;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_token:=etRveWaterShortage;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_isRes:=true;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_duration:=-1;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_lvl:=0;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].RWS_percPopNotSupAtCalc:=FCentities[ Entity ].E_col[ Colony ].COL_evList[ EventDataI1 ].RWO_percPopNotSupported;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].RWS_ecoindMod:=0;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].RWS_tensionMod:=0;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].RWS_healthMod:=0;
+         EventDataI2:=FCentities[ Entity ].E_col[ Colony ].COL_evList[ EventDataI1 ].RWO_percPopNotSupported;
+         if ( EventDataI2>2 )
+            and ( EventDataI2<=15 ) then
+         begin
+            EventDataF1:=FCFgCSM_AgeCoefficient_Retrieve( Entity, Colony );
+            if EventDataI2>6 then
+            begin
+               EventDataF2:=( EventDataI2 - 6 ) * ( 5 * EventDataF1 );
+               FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].RWS_ecoindMod:=-round( EventDataF2 );
+               if not LoadToIndex0
+               then FCMgCSM_ColonyData_Upd(
+                  dEcoIndusOut
+                  ,Entity
+                  ,Colony
+                  ,FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].RWS_ecoindMod
+                  ,0
+                  ,gcsmptNone
+                  ,false
+                  );
+            end;
+            ColonyEnvironment:=FCFgC_ColEnv_GetTp( Entity, Colony );
+            case ColonyEnvironment.ENV_envType of
+               envfreeLiving: if ColonyEnvironment.ENV_hydroTp<>htLiquid
+                  then EventDataF3:=1
+                  else EventDataF3:=0.39;
+
+               restrict: if ColonyEnvironment.ENV_hydroTp<>htLiquid
+                  then EventDataF3:=1.8
+                  else EventDataF3:=0.83;
+
+               space: if ColonyEnvironment.ENV_hydroTp<>htLiquid
+                  then EventDataF3:=1.8
+                  else EventDataF3:=1;
+            end;
+            EventDataF2:=( EventDataI2 * 1.7 ) * EventDataF3;
+            FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].RWS_tensionMod:=round( EventDataF2 );
+            EventDataF2:=( EventDataI2 - 1 ) * EventDataF1;
+            FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].RWS_healthMod:=-round( EventDataF2 );
+            if not LoadToIndex0 then
+            begin
+               FCMgCSM_ColonyData_Upd(
+                  dTension
+                  ,Entity
+                  ,Colony
+                  ,FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].RWS_tensionMod
+                  ,0
+                  ,gcsmptNone
+                  ,false
+                  );
+               FCMgCSM_ColonyData_Upd(
+                  dHealth
+                  ,Entity
+                  ,Colony
+                  ,FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].RWS_healthMod
+                  ,0
+                  ,gcsmptNone
+                  ,false
+                  );
+            end;
+         end //==END==  if ( EventDataI2>2 ) and ( EventDataI2<=15 ) ==//
+         {.case if the entire population die}
+         else if EventDataI2>15
+         then FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_duration:=-3;
+      end; //==END== case: etRveWaterShortage ==//
 
       etRveFoodOverload:
       begin
-//         ( RFO_percPopNotSupported: integer );
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_token:=etRveFoodOverload;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_isRes:=true;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_duration:=-1;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_lvl:=0;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].RWO_percPopNotSupported:=FCFgCR_FoodOverload_Calc( Entity, Colony );
       end;
 
       etRveFoodShortage:

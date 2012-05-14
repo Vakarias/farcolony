@@ -43,6 +43,14 @@ uses
 function FCFgCR_Food_Convert( const FoodVolume, FoodDensity: extended ): integer;
 
 ///<summary>
+///   calculate the percent of people not supported for the food Production Overload CSM event
+///</summary>
+///   <param name="Entity">entity index #</param>
+///   <param name="Colony">colony index #</param>
+///   <returns>the percent of people not supported</returns>
+function FCFgCR_FoodOverload_Calc( const Entity, Colony: integer ): integer;
+
+///<summary>
 ///   convert a volume of oxygen in oxygen reserve's points
 ///</summary>
 ///   <param name="OxygenVolume">oxygen volume, in cubic meters, to convert</param>
@@ -108,6 +116,7 @@ implementation
 
 uses
    farc_data_game
+   ,farc_game_prod
    ,farc_game_prodSeg2
    ,farc_ui_coredatadisplay;
 
@@ -120,6 +129,42 @@ function FCFgCR_Food_Convert( const FoodVolume, FoodDensity: extended ): integer
 begin
    Result:=0;
    Result:=trunc( ( FoodDensity*FoodVolume ) / 0.000618 );
+end;
+
+function FCFgCR_FoodOverload_Calc( const Entity, Colony: integer ): integer;
+{:Purpose: calculate the percent of people not supported for the food Production Overload CSM event.
+    Additions:
+}
+   var
+      FoodPointCalculated
+      ,PPS
+      ,ProdMatrixItemCount
+      ,ProdMatrixItemMax
+      ,ProductIndex
+      ,TotalProductionRvePoints: integer;
+
+      ProdMatrixItemProduct: string;
+begin
+   Result:=0;
+   FoodPointCalculated:=0;
+   ProdMatrixItemProduct:='';
+   ProductIndex:=0;
+   TotalProductionRvePoints:=0;
+   ProdMatrixItemCount:=1;
+   ProdMatrixItemMax:=length( FCentities[ Entity ].E_col[ Colony ].COL_productionMatrix )-1;
+   while ProdMatrixItemCount<=ProdMatrixItemMax do
+   begin
+      ProdMatrixItemProduct:=FCentities[ Entity ].E_col[ Colony ].COL_productionMatrix[ ProdMatrixItemCount ].CPMI_productToken;
+      ProductIndex:=FCFgP_Product_GetIndex( ProdMatrixItemProduct );
+      if FCDBProducts[ ProductIndex ].PROD_function=prfuFood then
+      begin
+         FoodPointCalculated:=FCFgCR_Food_Convert( FCentities[ Entity ].E_col[ Colony ].COL_productionMatrix[ ProdMatrixItemCount ].CPMI_globalProdFlow, FCDBProducts[ ProductIndex ].PROD_massByUnit );
+         TotalProductionRvePoints:=TotalProductionRvePoints+FoodPointCalculated;
+      end;
+      inc( ProdMatrixItemCount );
+   end;
+   PPS:=round( TotalProductionRvePoints / FCentities[ Entity ].E_col[ Colony ].COL_population.POP_total *100 );
+   Result:=PPS;
 end;
 
 function FCFgCR_Oxygen_Convert( const OxygenVolume: extended ): integer;

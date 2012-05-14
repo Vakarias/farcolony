@@ -650,6 +650,7 @@ function FCFgC_Storage_Update(
    ): extended;
 {:Purpose: update the storage of a colony with a specific product. Return the amount in unit that couldn't be transfered.
     Additions:
+      -2012May13- *add: SUunit must be > 0 to apply the storage rule.
       -2012Apr30- *fix: FCMuiCDD_Colony_Update - update the colony panel if only it's the player's faction which is concerned.
       -2012Apr16- *add: COMPLETE reserves management.
       -2012Apr15- *add: reserves management.
@@ -711,7 +712,8 @@ begin
    else if SUmax<=0
    then SetLength(FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storageList, 2);
    if (SUisStoreMode)
-      and (SUcnt>0) then
+      and (SUcnt>0)
+      and (SUunit>0) then
    begin
       if FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storageList[SUcnt].CPR_token=''
       then FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storageList[SUcnt].CPR_token:=SUtoken;
@@ -825,7 +827,8 @@ begin
       end; //==END== else begin of: if SUunit<=0 ==//
    end //==END== if (SUisStoreMode) and (SUcnt>0) ==//
    else if (not SUisStoreMode)
-      and (SUcnt>0) then
+      and (SUcnt>0)
+      and (SUunit>0) then
    begin
       SUnewUnit:=0;
       if FCDBProducts[SUindex].PROD_volByUnit<>1
@@ -908,7 +911,7 @@ begin
          ,FCDBProducts[SUindex].PROD_massByUnit
          );
       FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storageList[SUcnt].CPR_unit:=FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storageList[SUcnt].CPR_unit-SUnewUnit;
-   end
+   end //==END== else if (not SUisStoreMode) and (SUcnt>0) and (SUunit>0) ==//
    else begin
       Result:=SUunit;
    end;
