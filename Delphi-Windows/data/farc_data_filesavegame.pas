@@ -74,6 +74,7 @@ uses
 procedure FCMdFSG_Game_Load;
 {:Purpose: load the current game.
    Additions:
+      -2012May13- *add: CSM event: etRveFoodShortage, addition of the direct death period + death fractional value.
       -2012May12- *add: CSM event: etRveOxygenShortage, etRveWaterOverload, etRveWaterShortage, etRveFoodOverload and etRveFoodShortage.
       -2012May06- *add: CSM event: etRveOxygenOverload.
       -2012Apr29- *mod: CSM event token are loaded by their full names now.
@@ -722,6 +723,8 @@ begin
                                  FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].RFS_ecoindMod:=GLxmlColsub.Attributes['modEcoInd'];
                                  FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].RFS_tensionMod:=GLxmlColsub.Attributes['modTension'];
                                  FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].RFS_healthMod:=GLxmlColsub.Attributes['modHealth'];
+                                 FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].RFS_directDeathPeriod:=GLxmlColsub.Attributes['directDeathPeriod'];
+                                 FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].RFS_deathFracValue:=GLxmlColsub.Attributes['deathFracValue'];
                               end;
                            end; //==END== case FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].CSMEV_token of ==//
                         end
@@ -996,6 +999,7 @@ end;
 procedure FCMdFSG_Game_Save;
 {:Purpose: save the current game.
     Additions:
+      -2012May13- *add: CSM event: etRveFoodShortage, addition of the direct death period + death fractional value.
       -2012May12- *add: CSM event: etRveOxygenShortage, etRveWaterOverload, etRveWaterShortage, etRveFoodOverload and etRveFoodShortage.
       -2012May06- *add: CSM event: etRveOxygenOverload.
       -2012Apr29- *mod: CSM event token are saved in their full names now.
@@ -1577,6 +1581,8 @@ begin
                         GSxmlColEv.Attributes['modEcoInd']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].RFS_ecoindMod;
                         GSxmlColEv.Attributes['modTension']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].RFS_tensionMod;
                         GSxmlColEv.Attributes['modHealth']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].RFS_healthMod;
+                        GSxmlColEv.Attributes['directDeathPeriod']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].RFS_directDeathPeriod;
+                        GSxmlColEv.Attributes['deathFracValue']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].RFS_deathFracValue;
                      end;
                   end; //==END== case FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].CSMEV_token of ==//
                   GSxmlColEv.Attributes['isres']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].CSMEV_isRes;

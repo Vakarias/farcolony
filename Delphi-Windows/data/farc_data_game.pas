@@ -401,7 +401,9 @@ interface
             RFS_percPopNotSupAtCalc: integer;
             RFS_ecoindMod: integer;
             RFS_tensionMod: integer;
-            RFS_healthMod: integer
+            RFS_healthMod: integer;
+            RFS_directDeathPeriod: integer;
+            RFS_deathFracValue: extended
             );
          //==END== case CSMEV_token: TFCEdgEventTypes of ==//
    end;

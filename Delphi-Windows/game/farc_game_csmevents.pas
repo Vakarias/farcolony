@@ -83,7 +83,7 @@ function FCFgCSME_Event_GetStr(const EGSevent: TFCEdgEventTypes): string;
 ///    <param name="ETevent">type of event</param>
 ///    <param name="ETfacIdx">faction index #</param>
 ///    <param name="ETcolIdx">colony index #</param>
-function FCSgCSME_Event_Search(
+function FCFgCSME_Search_ByType(
    const ESevent: TFCEdgEventTypes;
    const ESfacIdx
          ,EScolIdx: integer
@@ -533,7 +533,7 @@ begin
    end;
 end;
 
-function FCSgCSME_Event_Search(
+function FCFgCSME_Search_ByType(
    const ESevent: TFCEdgEventTypes;
    const ESfacIdx
          ,EScolIdx: integer
@@ -572,6 +572,9 @@ procedure FCMgCSME_Event_Trigger(
    {:DEV NOTES: test if a same event already exist in recovering mode, if it's the case => override, if not => do nothing.}
 {:Purpose: trigger a specified event.
     Additions:
+      -2012May13- *add: etRveOxygenShortage, etRveWaterOverload, etRveWaterShortage, etRveFoodOverload and etRveFoodShortage events.
+                  *fix: forgot to update the CSM data Economic & Industrial Output for some events.
+                  *fix: etGovDestab - forgot to update the CSM data related to this event.
       -2012May05- *add: etRveOxygenOverload event.
                   *code: refactoring of all procedure's parameters.
       -2012May03- *mod: apply modification according to changes in the CSM event data structure.
@@ -610,10 +613,16 @@ var
    ,ETloyalCalc
    ,ETrnd
    ,ETuprRebAmnt
-   ,ETuprRebels: integer;
+   ,ETuprRebels
+   ,EventDataI1
+   ,EventDataI2: integer;
 
    ETdur
-   ,ETuprDurCoef: extended;
+   ,ETuprDurCoef
+   ,EventDataF1
+   ,EventDataF2
+   ,EventDataF3
+   ,EventDataF4: extended;
 
    ETenv: TFCRgcEnvironment;
 begin
@@ -745,16 +754,27 @@ begin
                FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].UN_tensionMod:=3;
             end;
          end; //==END== case ETlvl of ==//
-         if not LoadToIndex0
-         then FCMgCSM_ColonyData_Upd(
-            dTension
-            ,Entity
-            ,Colony
-            ,FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].UN_tensionMod
-            ,0
-            ,gcsmptNone
-            ,false
-            );
+         if not LoadToIndex0 then
+         begin
+            FCMgCSM_ColonyData_Upd(
+               dEcoIndusOut
+               ,Entity
+               ,Colony
+               ,FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].UN_ecoindMod
+               ,0
+               ,gcsmptNone
+               ,false
+               );
+            FCMgCSM_ColonyData_Upd(
+               dTension
+               ,Entity
+               ,Colony
+               ,FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].UN_tensionMod
+               ,0
+               ,gcsmptNone
+               ,false
+               );
+         end;
       end; //==END== case: etUnrest ==//
 
       etSocdis:
@@ -812,16 +832,27 @@ begin
                FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].SD_tensionMod:=8;
             end;
          end; //==END== case ETlvl of ==//
-         if not LoadToIndex0
-         then FCMgCSM_ColonyData_Upd(
-            dTension
-            ,Entity
-            ,Colony
-            ,FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].SD_tensionMod
-            ,0
-            ,gcsmptNone
-            ,false
-            );
+         if not LoadToIndex0 then
+         begin
+            FCMgCSM_ColonyData_Upd(
+               dEcoIndusOut
+               ,Entity
+               ,Colony
+               ,FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].SD_ecoindMod
+               ,0
+               ,gcsmptNone
+               ,false
+               );
+            FCMgCSM_ColonyData_Upd(
+               dTension
+               ,Entity
+               ,Colony
+               ,FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].SD_tensionMod
+               ,0
+               ,gcsmptNone
+               ,false
+               );
+         end;
       end; //==END== case: etSocdis ==//
 
       etUprising:
@@ -898,16 +929,27 @@ begin
             FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_duration:=round(ETdur);
          end;
          FCentities[Entity].E_col[Colony].COL_population.POP_tpRebels:=ETuprRebels;
-         if not LoadToIndex0
-         then FCMgCSM_ColonyData_Upd(
-            dTension
-            ,Entity
-            ,Colony
-            ,FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].UP_tensionMod
-            ,0
-            ,gcsmptNone
-            ,false
-            );
+         if not LoadToIndex0 then
+         begin
+            FCMgCSM_ColonyData_Upd(
+               dEcoIndusOut
+               ,Entity
+               ,Colony
+               ,FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].UP_ecoindMod
+               ,0
+               ,gcsmptNone
+               ,false
+               );
+            FCMgCSM_ColonyData_Upd(
+               dTension
+               ,Entity
+               ,Colony
+               ,FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].UP_tensionMod
+               ,0
+               ,gcsmptNone
+               ,false
+               );
+         end;
       end; //==END== case: etUprising ==//
 
       etColDissident:
@@ -1034,6 +1076,16 @@ begin
             4..6: FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].GD_cohesionMod:=-13;
             7..9: FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].GD_cohesionMod:=-20;
          end;
+         if not LoadToIndex0
+         then FCMgCSM_ColonyData_Upd(
+            dCohesion
+            ,Entity
+            ,Colony
+            ,FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].GD_cohesionMod
+            ,0
+            ,gcsmptNone
+            ,false
+            );
       end; //==END== case: etGovDestab ==//
 
       etRveOxygenOverload:
@@ -1045,6 +1097,123 @@ begin
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].ROO_percPopNotSupported:=0;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].ROO_percPopNotSupported:=FCFgCR_OxygenOverload_Calc( Entity, Colony );
       end; //==END== case: etRveOxygenOverload ==//
+
+      etRveOxygenShortage:
+      begin
+         {.EventDataI1 = index # for Oxygen Production Overload event}
+         EventDataI1:=FCFgCSME_Search_ByType(
+            etRveOxygenOverload
+            ,Entity
+            ,Colony
+            );
+         {.sub data for SF calculation}
+         EventDataI2:=0;
+         {.modifier calculation dump storage}
+         EventDataF4:=0;
+         if EventDataI1=0
+         then raise Exception.Create('there is no Oxygen Production Overload event created, prior to Oxygen Shortage, check the reserves consumption rule.');
+         {.EventDataF1 = PPS}
+         EventDataF1:=0;
+         {.EventDataF2 = SF}
+         EventDataF2:=0;
+         {.EventDataF3 = age coefficient}
+         EventDataF3:=0;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_token:=etRveOxygenShortage;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_isRes:=true;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_duration:=-1;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_lvl:=0;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].ROS_percPopNotSupAtCalc:=FCentities[ Entity ].E_col[ Colony ].COL_evList[ EventDataI1 ].ROO_percPopNotSupported;
+         EventDataF1:=FCentities[ Entity ].E_col[ Colony ].COL_evList[ EventDataI1 ].ROO_percPopNotSupported * 0.01;
+         EventDataI2:=round( FCentities[ Entity ].E_col[ Colony ].COL_population.POP_total * EventDataF1 );
+         EventDataF2:=FCentities[ Entity ].E_col[ Colony ].COL_population.POP_total / ( FCentities[ Entity ].E_col[ Colony ].COL_population.POP_total - EventDataI2 );
+         EventDataF2:=FCFcFunc_Rnd( cfrttp2dec, EventDataF2 );
+         {.severity factor result}
+         if EventDataF2<2.5 then
+         begin
+            EventDataF3:=FCFgCSM_AgeCoefficient_Retrieve( Entity, Colony );
+            EventDataF4:=( 1 - ( 1 / EventDataF2 ) ) * ( 140 * EventDataF3 );
+            FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].ROS_ecoindMod:=-round( EventDataF4 );
+            EventDataF4:=SQR( EventDataF2 - 1 ) * 20;
+            FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].ROS_tensionMod:=round( EventDataF4 );
+            EventDataF4:=( EventDataF2 - 1 ) * ( 40 * EventDataF3 );
+            FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].ROS_healthMod:=-round( EventDataF4 );
+            if not LoadToIndex0 then
+            begin
+               FCMgCSM_ColonyData_Upd(
+                  dEcoIndusOut
+                  ,Entity
+                  ,Colony
+                  ,FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].ROS_ecoindMod
+                  ,0
+                  ,gcsmptNone
+                  ,false
+                  );
+               FCMgCSM_ColonyData_Upd(
+                  dTension
+                  ,Entity
+                  ,Colony
+                  ,FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].ROS_tensionMod
+                  ,0
+                  ,gcsmptNone
+                  ,false
+                  );
+               FCMgCSM_ColonyData_Upd(
+                  dHealth
+                  ,Entity
+                  ,Colony
+                  ,FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].ROS_healthMod
+                  ,0
+                  ,gcsmptNone
+                  ,false
+                  );
+            end;
+         end
+         {.case if the entire population die}
+         else FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_duration:=-3;
+      end;
+
+      etRveWaterOverload:
+      begin
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_token:=etRveWaterOverload;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_isRes:=true;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_duration:=-1;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_lvl:=0;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].RWO_percPopNotSupported:=0;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].RWO_percPopNotSupported:=FCFgCR_WaterOverload_Calc( Entity, Colony );
+      end;
+
+      etRveWaterShortage:
+      begin
+//         (
+            ///<summary>
+            /// percent of population not supported at time of SF calculation
+            ///</summary>
+//            RWS_percPopNotSupAtCalc: integer;
+//            RWS_ecoindMod: integer;
+//            RWS_tensionMod: integer;
+//            RWS_healthMod: integer
+//            );
+      end;
+
+      etRveFoodOverload:
+      begin
+//         ( RFO_percPopNotSupported: integer );
+      end;
+
+      etRveFoodShortage:
+      begin
+//      (
+            ///<summary>
+            /// percent of population not supported at time of SF calculation
+            ///</summary>
+//            RFS_percPopNotSupAtCalc: integer;
+//            RFS_ecoindMod: integer;
+//            RFS_tensionMod: integer;
+//            RFS_healthMod: integer;
+//            RFS_directDeathPeriod: integer;
+//            RFS_deathFracValue: extended
+//            );
+      end;
    end; //==END== case ETevent of ==//
    if Entity=0
    then FCMuiCDD_Colony_Update(
@@ -1073,13 +1242,7 @@ var
 begin
    Result:=0;
    HEGMmod:=0;
-   HEGMhealLvl:=StrToInt(
-      FCFgCSM_Health_GetIdxStr(
-         true
-         ,HEGMfacIdx
-         ,HEGMcolIdx
-         )
-      );
+   HEGMhealLvl:=FCFgCSM_Health_GetIdx( HEGMfacIdx, HEGMcolIdx );
    case HEGMhealLvl of
       1: HEGMmod:=-20;
       2: HEGMmod:=-10;
@@ -1099,6 +1262,8 @@ function FCFgCSME_Mod_Sum(
    ): integer;
 {:Purpose: make the sum of one type of data modifiers in one colony events list.
     Additions:
+      -2012May13- *add: mtHealth section w/ all related events currently implemented.
+                  *add: etRveOxygenShortage, etRveOxygenShortageRec, etRveWaterShortage, etRveWaterShortageRec, etRveFoodShortage and etRveFoodShortageRec.
       -2012May03- *mod: apply modification according to changes in the CSM event data structure.
       -2010Sep14- *add: entities faction.
       -2010Aug02- *add: health modifier.
@@ -1113,9 +1278,9 @@ begin
    MSdmp:=0;
    Result:=0;
    MSmax:=length(FCentities[MSfac].E_col[MScolIDx].COL_evList)-1;
-   if MSmax>0
-   then
-   begin
+//   if MSmax>0
+//   then
+//   begin
       MScnt:=1;
       while MScnt<=MSmax do
       begin
@@ -1137,6 +1302,12 @@ begin
                   etSocdis, etSocdisRec: MSdmp:=MSdmp+FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].SD_tensionMod;
 
                   etUprising, etUprisingRec: MSdmp:=MSdmp+FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].UP_tensionMod;
+
+                  etRveOxygenShortage, etRveOxygenShortageRec: MSdmp:=MSdmp+FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].ROS_tensionMod;
+
+                  etRveWaterShortage, etRveWaterShortageRec: MSdmp:=MSdmp+FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].RWS_tensionMod;
+
+                  etRveFoodShortage, etRveFoodShortageRec: MSdmp:=MSdmp+FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].RFS_tensionMod;
                end;
             end;
 
@@ -1162,14 +1333,29 @@ begin
                   etSocdis, etSocdisRec: MSdmp:=MSdmp+FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].SD_ecoindMod;
 
                   etUprising, etUprisingRec: MSdmp:=MSdmp+FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].UP_ecoindMod;
+
+                  etRveOxygenShortage, etRveOxygenShortageRec: MSdmp:=MSdmp+FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].ROS_ecoindMod;
+
+                  etRveWaterShortage, etRveWaterShortageRec: MSdmp:=MSdmp+FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].RWS_ecoindMod;
+
+                  etRveFoodShortage, etRveFoodShortageRec: MSdmp:=MSdmp+FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].RFS_ecoindMod;
                end;
             end;
 
-//            mtHealth: ;
-         end;
+            mtHealth:
+            begin
+               case FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].CSMEV_token of
+                  etRveOxygenShortage, etRveOxygenShortageRec: MSdmp:=MSdmp+FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].ROS_healthMod;
+
+                  etRveWaterShortage, etRveWaterShortageRec: MSdmp:=MSdmp+FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].RWS_healthMod;
+
+                  etRveFoodShortage, etRveFoodShortageRec: MSdmp:=MSdmp+FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].RFS_healthMod;
+               end;
+            end;
+         end; //==END== case MStype of ==//
          inc(MScnt);
-      end;
-   end;
+      end; //==END== while MScnt<=MSmax do ==//
+//   end;
    Result:=MSdmp;
 end;
 

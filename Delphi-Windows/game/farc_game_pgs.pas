@@ -7,7 +7,7 @@
         License: GPLv3
         Website: http://farcolony.sourceforge.net/
 
-        Unit: people growth system (PGS) - core unit
+        Unit: population growth system (PGS) - core unit
 
 ============================================================================================
 ********************************************************************************************
@@ -161,13 +161,7 @@ begin
    BRCfertPS:=0;
    BRCfinal:=0;
    BRCpop:=FCentities[BRCfac].E_col[BRCcol].COL_population.POP_total;
-   BRChealth:=StrToInt(
-      FCFgCSM_Health_GetIdxStr(
-         true
-         ,BRCfac
-         ,BRCcol
-         )
-      );
+   BRChealth:=FCFgCSM_Health_GetIdx( BRCfac, BRCcol );
    BRCqol:=FCentities[BRCfac].E_col[BRCcol].COL_csmHOqol;
    BRCtension:=StrToInt(
       FCFgCSM_Tension_GetIdx(
@@ -679,13 +673,7 @@ begin
    DRCmA:=0;
    DRCfinalDR:=0;
    DRCmodDR:=0;
-   DRChealth:=StrToInt(
-      FCFgCSM_Health_GetIdxStr(
-         true
-         ,DRCfac
-         ,DRCcol
-         )
-      );
+   DRChealth:=FCFgCSM_Health_GetIdx( DRCfac, DRCcol );
    DRCpop:=FCentities[DRCfac].E_col[DRCcol].COL_population.POP_total;
    DRCmA:=FCentities[DRCfac].E_col[DRCcol].COL_population.POP_meanA;
    DRCpopAmedian:=FCentities[DRCfac].E_col[DRCcol].COL_population.POP_tpAmedian;

@@ -79,9 +79,36 @@ type TFCEgcsmSPLtp=(
    );
 
 ///<summary>
+///   retrieve the age coefficient based on the colony's mean age and on the health index
+///</summary>
+///   <param name="Entity">entity index #</param>
+///   <param name="Colony">colony index #</param>
+///   <returns>the age coefficient</returns>
+function FCFgCSM_AgeCoefficient_Retrieve( const Entity, Colony: integer ): extended;
+
+///<summary>
 ///   get the cohesion index string
 ///</summary>
 function FCFgCSM_Cohesion_GetIdxStr(const CGISfac, CGIScol: integer): string;
+
+///<summary>
+///   get the health index of a colony
+///</summary>
+///   <param name="Entity">entity index #</param>
+///   <param name="Colony">colony index #</param>
+///   <returns>health index value</returns>
+function FCFgCSM_Health_GetIdx( const Entity, Colony: integer ): integer;
+
+///<summary>
+///   get the health index string or index level string
+///</summary>
+function FCFgCSM_Health_GetIdxStr(
+   const HGISvalue: boolean;
+   const HGISfac
+         ,HGIScol: integer
+   ): string;
+
+//===========================END FUNCTIONS SECTION==========================================
 
 ///<summary>
 ///   initialize choosen colony's data
@@ -185,15 +212,6 @@ procedure FCMgCSM_Energy_Update(
 function FCFgCSM_Education_GetIdxStr(const EGISfac, EGIScol: integer): string;
 
 ///<summary>
-///   get the health index string or index value string
-///</summary>
-function FCFgCSM_Health_GetIdxStr(
-   const HGISvalue: boolean;
-   const HGISfac
-         ,HGIScol: integer
-   ): string;
-
-///<summary>
 ///   CSM phase w/ colony's data tests
 ///</summary>
 ///   <param name="PPfacIdx">faction index #</param>
@@ -280,6 +298,125 @@ uses
 
 //===================================================END OF INIT============================
 
+function FCFgCSM_AgeCoefficient_Retrieve( const Entity, Colony: integer ): extended;
+{:Purpose: retrieve the age coefficient based on the colony's mean age and on the health index.
+    Additions:
+}
+   var
+      HealthIndex
+      ,MeanAge: integer;
+begin
+   Result:=0;
+   HealthIndex:=FCFgCSM_Health_GetIdx( Entity, Colony );
+   MeanAge:=trunc( FCEntities[ Entity ].E_col[ Colony ].COL_population.POP_meanA );
+   case HealthIndex of
+      1:
+      begin
+         case MeanAge of
+            0..50: Result:=1.2;
+
+            51..59: Result:=1.3;
+
+            60..84: Result:=1.5;
+
+            85..109: Result:=1.6;
+
+            110..999: Result:=2;
+         end;
+      end;
+
+      2:
+      begin
+         case MeanAge of
+            0..50: Result:=1.1;
+
+            51..59: Result:=1.2;
+
+            60..84: Result:=1.4;
+
+            85..109: Result:=1.5;
+
+            110..999: Result:=1.9;
+         end;
+      end;
+
+      3:
+      begin
+         case MeanAge of
+            0..50: Result:=1;
+
+            51..59: Result:=1.2;
+
+            60..84: Result:=1.3;
+
+            85..109: Result:=1.5;
+
+            110..999: Result:=1.8;
+         end;
+      end;
+
+      4:
+      begin
+         case MeanAge of
+            0..50: Result:=1;
+
+            51..59: Result:=1.1;
+
+            60..84: Result:=1.3;
+
+            85..109: Result:=1.4;
+
+            110..999: Result:=1.8;
+         end;
+      end;
+
+      5:
+      begin
+         case MeanAge of
+            0..50: Result:=0.9;
+
+            51..59: Result:=1.1;
+
+            60..84: Result:=1.2;
+
+            85..109: Result:=1.4;
+
+            110..999: Result:=1.7;
+         end;
+      end;
+
+      6:
+      begin
+         case MeanAge of
+            0..50: Result:=0.9;
+
+            51..59: Result:=1;
+
+            60..84: Result:=1.2;
+
+            85..109: Result:=1.3;
+
+            110..999: Result:=1.7;
+         end;
+      end;
+
+      7:
+      begin
+         case MeanAge of
+            0..50: Result:=0.8;
+
+            51..59: Result:=1;
+
+            60..84: Result:=1.1;
+
+            85..109: Result:=1.3;
+
+            110..999: Result:=1.6;
+         end;
+      end;
+   end; //==END== case HealthIndex of ==//
+end;
+
 function FCFgCSM_Cohesion_GetIdxStr(const CGISfac, CGIScol: integer): string;
 {:Purpose: get the cohesion index string.
     Additions:
@@ -340,6 +477,80 @@ begin
    end;
    Result:=CGISclr+FCFdTFiles_UIStr_Get(uistrUI, 'colDcohesI'+CGISidx)+FCCFcolEND;
 end;
+
+function FCFgCSM_Health_GetIdx( const Entity, Colony: integer ): integer;
+{:Purpose: get the health index of a colony.
+    Additions:
+}
+   var
+      HealthIndex: integer;
+begin
+   Result:=0;
+   HealthIndex:=0;
+   if FCentities[Entity].E_col[Colony].COL_csmHEheal<=0
+   then HealthIndex:=1
+   else if (FCentities[Entity].E_col[Colony].COL_csmHEheal>=1)
+      and (FCentities[Entity].E_col[Colony].COL_csmHEheal<51)
+   then HealthIndex:=2
+   else if (FCentities[Entity].E_col[Colony].COL_csmHEheal>=51)
+      and (FCentities[Entity].E_col[Colony].COL_csmHEheal<91)
+   then HealthIndex:=3
+   else if (FCentities[Entity].E_col[Colony].COL_csmHEheal>=91)
+      and (FCentities[Entity].E_col[Colony].COL_csmHEheal<111)
+   then HealthIndex:=4
+   else if (FCentities[Entity].E_col[Colony].COL_csmHEheal>=111)
+      and (FCentities[Entity].E_col[Colony].COL_csmHEheal<126)
+   then HealthIndex:=5
+   else if (FCentities[Entity].E_col[Colony].COL_csmHEheal>=126)
+      and (FCentities[Entity].E_col[Colony].COL_csmHEheal<141)
+   then HealthIndex:=6
+   else if FCentities[Entity].E_col[Colony].COL_csmHEheal>=141
+   then HealthIndex:=7;
+   Result:=HealthIndex;
+end;
+
+function FCFgCSM_Health_GetIdxStr(
+   const HGISvalue: boolean;
+   const HGISfac
+         ,HGIScol: integer
+   ): string;
+{:Purpose: get the health index string or index value string.
+   Additions:
+      -2012May13- *code: level determination is tranfered to FCFgCSM_Health_GetIdx.
+      -2012May12- *mod: take in account if the COL_csmHEheal<0.
+      -2012Apr29- *add/mod: apply the last changes in the doc, by modifying the ranges and add a new level.
+      -2010Sep14- *add: a faction parameter.
+                  *add: entities code.
+}
+var
+   HealthIndex: integer;
+
+   CGISclr
+   ,CGISidx: string;
+begin
+   Result:='';
+   CGISclr:='';
+   HealthIndex:=FCFgCSM_Health_GetIdx( HGISfac, HGIScol );
+   CGISidx:=IntToStr( HealthIndex );
+   if not HGISvalue then
+   begin
+      case HealthIndex of
+         1: CGISclr:=FCCFcolRed;
+
+         2..3: CGISclr:=FCCFcolOrge;
+
+         4: CGISclr:=FCCFcolYel;
+
+         5: CGISclr:=FCCFcolBlueL;
+
+         6..7: CGISclr:=FCCFcolGreen;
+      end;
+      Result:=CGISclr+FCFdTFiles_UIStr_Get(uistrUI, 'colDhealI'+CGISidx)+FCCFcolEND;
+   end
+   else Result:=CGISidx;
+end;
+
+//===========================END FUNCTIONS SECTION==========================================
 
 procedure FCMgCSM_ColonyData_Init(const CDIfac, CDIcolIdx: Integer);
 {:Purpose: initialize choosen colony's data.
@@ -472,6 +683,7 @@ procedure FCMgCSM_ColonyData_Upd(
    );
 {:Purpose: update the choosen CSM data and update all the depencies if required.
     Additions:
+      -2012May13- *fix: dHealth - for CDUfullUpd, the wrong data was updated.
       -2012May06- *mod: apply modification according to changes in the CSM event data structure.
       -2012May02- *add: dEcoIndusOut.
       -2011Jul05- *fix: for PCAP and QOL, also include the inConversion infrastructures, since their capabilities are already taken in account.
@@ -695,7 +907,7 @@ begin
          then
          begin
             CDUdatI:=FCentities[CDUfac].E_col[CDUcol].COL_csmHEheal;
-            FCentities[CDUfac].E_col[CDUcol].COL_csmHOpcap:=CDUdatI+round(CDUvalue);
+            FCentities[CDUfac].E_col[CDUcol].COL_csmHEheal:=CDUdatI+round(CDUvalue);
          end
          else if CDUfullUpd
          then
@@ -733,7 +945,7 @@ begin
          CDUdatI:=0;
          CDUdatI1:=0;
          CDUdatI2:=0;
-         CDUdatI:=FCSgCSME_Event_Search(
+         CDUdatI:=FCFgCSME_Search_ByType(
             etHealthEduRel
             ,CDUfac
             ,CDUcol
@@ -1143,81 +1355,6 @@ begin
       EGISclr:=FCCFcolGreen;
    end;
    Result:=EGISclr+FCFdTFiles_UIStr_Get(uistrUI, 'colDeduI'+EGISidx)+FCCFcolEND;
-end;
-
-function FCFgCSM_Health_GetIdxStr(
-   const HGISvalue: boolean;
-   const HGISfac
-         ,HGIScol: integer
-   ): string;
-{:Purpose: get the health index string or index value string.
-   Additions:
-      -2012Apr29- *add/mod: apply the last changes in the doc, by modifying the ranges and add a new level.
-      -2010Sep14- *add: a faction parameter.
-                  *add: entities code.
-}
-var
-   CGISclr
-   ,CGISidx: string;
-begin
-   if FCentities[HGISfac].E_col[HGIScol].COL_csmHEheal=0
-   then
-   begin
-      CGISidx:='1';
-      if not HGISvalue
-      then CGISclr:=FCCFcolRed;
-   end
-   else if (FCentities[HGISfac].E_col[HGIScol].COL_csmHEheal>=1)
-      and (FCentities[HGISfac].E_col[HGIScol].COL_csmHEheal<51)
-   then
-   begin
-      CGISidx:='2';
-      if not HGISvalue
-      then CGISclr:=FCCFcolOrge;
-   end
-   else if (FCentities[HGISfac].E_col[HGIScol].COL_csmHEheal>=51)
-      and (FCentities[HGISfac].E_col[HGIScol].COL_csmHEheal<91)
-   then
-   begin
-      CGISidx:='3';
-      if not HGISvalue
-      then CGISclr:=FCCFcolOrge;
-   end
-   else if (FCentities[HGISfac].E_col[HGIScol].COL_csmHEheal>=91)
-      and (FCentities[HGISfac].E_col[HGIScol].COL_csmHEheal<111)
-   then
-   begin
-      CGISidx:='4';
-      if not HGISvalue
-      then CGISclr:=FCCFcolYel;
-   end
-   else if (FCentities[HGISfac].E_col[HGIScol].COL_csmHEheal>=111)
-      and (FCentities[HGISfac].E_col[HGIScol].COL_csmHEheal<126)
-   then
-   begin
-      CGISidx:='5';
-      if not HGISvalue
-      then CGISclr:=FCCFcolBlueL;
-   end
-   else if (FCentities[HGISfac].E_col[HGIScol].COL_csmHEheal>=126)
-      and (FCentities[HGISfac].E_col[HGIScol].COL_csmHEheal<141)
-   then
-   begin
-      CGISidx:='6';
-      if not HGISvalue
-      then CGISclr:=FCCFcolGreen;
-   end
-   else if FCentities[HGISfac].E_col[HGIScol].COL_csmHEheal>=141
-   then
-   begin
-      CGISidx:='7';
-      if not HGISvalue
-      then CGISclr:=FCCFcolGreen;
-   end;
-   if not HGISvalue
-   then Result:=CGISclr+FCFdTFiles_UIStr_Get(uistrUI, 'colDhealI'+CGISidx)+FCCFcolEND
-   else if HGISvalue
-   then Result:=CGISidx;
 end;
 
 procedure FCMgCSM_Phase_Proc(

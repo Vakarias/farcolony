@@ -64,6 +64,14 @@ function FCFgCR_OxygenOverload_Calc( const Entity, Colony: integer ): integer;
 ///   <returns>the converted water reserve's points</returns>
 function FCFgCR_Water_Convert( const WaterVolume: extended ): integer;
 
+///<summary>
+///   calculate the percent of people not supported for the Water Production Overload CSM event
+///</summary>
+///   <param name="Entity">entity index #</param>
+///   <param name="Colony">colony index #</param>
+///   <returns>the percent of people not supported</returns>
+function FCFgCR_WaterOverload_Calc( const Entity, Colony: integer ): integer;
+
 //===========================END FUNCTIONS SECTION==========================================
 
 ///<summary>
@@ -144,7 +152,7 @@ begin
    if IntCalc1=0
    then IntCalc3:=0
    else begin
-      IntCalc2:=trunc( FCentities[ Entity ].E_col[ Colony ].COL_productionMatrix[ IntCalc1 ].CPMI_globalProdFlow / 0.000736 );
+      IntCalc2:=FCFgCR_Oxygen_Convert( FCentities[ Entity ].E_col[ Colony ].COL_productionMatrix[ IntCalc1 ].CPMI_globalProdFlow );
       IntCalc3:=round( IntCalc2 / FCentities[ Entity ].E_col[ Colony ].COL_population.POP_total *100 );
    end;
    Result:=IntCalc3;
@@ -157,6 +165,33 @@ function FCFgCR_Water_Convert( const WaterVolume: extended ): integer;
 begin
    Result:=0;
    Result:=trunc( WaterVolume / 0.018077 );
+end;
+
+function FCFgCR_WaterOverload_Calc( const Entity, Colony: integer ): integer;
+{:Purpose: calculate the percent of people not supported for the Water Production Overload CSM event.
+    Additions:
+}
+   var
+      IntCalc1
+      ,IntCalc2
+      ,IntCalc3: integer;
+begin
+   IntCalc1:=0;
+   IntCalc2:=0;
+   IntCalc3:=0;
+   Result:=0;
+   IntCalc1:=FCFgPS2_ProductionMatrixItem_Search(
+      Entity
+      ,Colony
+      ,'resWater'
+      );
+   if IntCalc1=0
+   then IntCalc3:=0
+   else begin
+      IntCalc2:=FCFgCR_Water_Convert( FCentities[ Entity ].E_col[ Colony ].COL_productionMatrix[ IntCalc1 ].CPMI_globalProdFlow );
+      IntCalc3:=round( IntCalc2 / FCentities[ Entity ].E_col[ Colony ].COL_population.POP_total *100 );
+   end;
+   Result:=IntCalc3;
 end;
 
 //===========================END FUNCTIONS SECTION==========================================

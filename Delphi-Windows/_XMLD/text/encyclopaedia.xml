@@ -84,6 +84,41 @@
       <FR></FR>
       <SP></SP>
    </csmevRveOxygenOverload>
+   <csmevRveOxygenShortage>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </csmevRveOxygenShortage>
+   <csmevRveFoodOverload>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </csmevRveFoodOverload>
+   <csmevRveFoodShortage>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </csmevRveFoodShortage>
+   <csmevRveFoodShortageRec>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </csmevRveFoodShortageRec>
+   <csmevRveWaterOverload>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </csmevRveWaterOverload>
+   <csmevRveWaterShortage>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </csmevRveWaterShortage>
+   <csmevRveWaterShortageRec>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </csmevRveWaterShortageRec>
    <csmevSocDis>
       <EN>Social Disorder is a social state worst than Unrest, it indicate there's multiple strikes and wide manifestations from the population. This event applies modifiers following the cohesion test level. If this event is triggered it cancel &lt;b&gt;Unrest&lt;/b&gt; or &lt;b&gt;Uprising&lt;/b&gt; event. In fact between &lt;b&gt;Unrest, Social Disorder and Uprising&lt;/b&gt; there can be only one of them enabled.&lt;br&gt;&lt;br&gt;&lt;b&gt;Duration:&lt;/b&gt; the event is resident without a duration.&lt;br&gt;&lt;br&gt;&lt;b&gt;Resolve:&lt;/b&gt; the event is resolved if an another event of the same kind is set.&lt;br&gt;&lt;br&gt;&lt;b&gt;Cancellation:&lt;/b&gt; this event is cancelled with Unrest or Uprising. The cancellation is always by recovering method.</EN>
       <FR>le Désordre Social est un état social pire que de simples Troubles, il indique qu'il y a de multiples grèves ainsi que de larges manifestations venant de la population. Cet évènement applique des modificateurs suivant le niveau de test de cohésion. Si cet évènement est enclanché il annule l'évènement &lt;b&gt;Troubles&lt;/b&gt; ou &lt;b&gt;Révolte&lt;/b&gt;. En fait entre &lt;b&gt;Troubles, Désordre Social et Révolte&lt;/b&gt; il ne peut y avoir qu'un seul d'entre eux d'actif.&lt;br&gt;&lt;br&gt;&lt;b&gt;Durée:&lt;/b&gt; l'évènement est résident sans durée spécifique.&lt;br&gt;&lt;br&gt;&lt;b&gt;Résolution:&lt;/b&gt; l'évènement est résolu si un autre évènement du même type est enclanché.&lt;br&gt;&lt;br&gt;&lt;b&gt;Annulation:&lt;/b&gt; cet évènement est annulé par Troubles ou Révolte. L'annulation est toujours par la méthode de récupèration.</FR>
@@ -653,6 +688,11 @@
       <hintitem link="csmevColEst" title="CSM Event: Colony Established"/>
       <hintitem link="csmevHealthEduRel" title="CSM Event: Health-Education Relation"/>
       <hintitem link="csmevRveOxygenOverload" title="CSM Event: Oxygen Production Overload"/>
+      <hintitem link="csmevRveOxygenShortage" title="CSM Event: Oxygen Shortage"/>
+      <hintitem link="csmevRveFoodOverload" title="CSM Event: Food Production Overload"/>
+      <hintitem link="csmevRveFoodShortage" title="CSM Event: Food Shortage"/>
+      <hintitem link="csmevRveWaterOverload" title="CSM Event: Water Production Overload"/>
+      <hintitem link="csmevRveWaterShortage" title="CSM Event: Water Shortage"/>
       <hintitem link="csmevSocDis" title="CSM Event: Social Disorder"/>
       <hintitem link="csmevUnrest" title="CSM Event: Unrest"/>
       <hintitem link="csmevUprising" title="CSM Event: Uprising"/>
@@ -780,6 +820,11 @@
       <hintitem link="csmevHealthEduRel" title="Evènement CSM: Relation Santé-Education"/>
       <hintitem link="csmevUprising" title="Evènement CSM: Révolte"/>
       <hintitem link="csmevRveOxygenOverload" title="Evènement CSM: Surcharge de Production d'Oxygène"/>
+      <hintitem link="csmevRveOxygenShortage" title="Evènement CSM: Pénurie d'Oxygène"/>
+      <hintitem link="csmevRveFoodOverload" title="Evènement CSM: Surcharge de Production de Nourriture"/>
+      <hintitem link="csmevRveFoodShortage" title="Evènement CSM: Pénurie de Nourriture"/>
+      <hintitem link="csmevRveWaterOverload" title="Evènement CSM: Surcharge de Production d'Eau"/>
+      <hintitem link="csmevRveWaterShortage" title="Evènement CSM: Pénurie d'Eau"/>
       <hintitem link="csmevUnrest" title="Evènement CSM: Troubles"/>
       <hintitem link="infrColShelt" title="Infrastructure: Abris de Colonisation"/>
       <hintitem link="infrMultiDepot" title="Infrastructure: Entrepôt Multifonction"/>
@@ -903,6 +948,11 @@
       <hintitem link="csmevColEst" title="CSM Event: Colony Established"/>
       <hintitem link="csmevHealthEduRel" title="CSM Event: Health-Education Relation"/>
       <hintitem link="csmevRveOxygenOverload" title="CSM Event: Oxygen Production Overload"/>
+      <hintitem link="csmevRveOxygenShortage" title="CSM Event: Oxygen Shortage"/>
+      <hintitem link="csmevRveFoodOverload" title="CSM Event: Food Production Overload"/>
+      <hintitem link="csmevRveFoodShortage" title="CSM Event: Food Shortage"/>
+      <hintitem link="csmevRveWaterOverload" title="CSM Event: Water Production Overload"/>
+      <hintitem link="csmevRveWaterShortage" title="CSM Event: Water Shortage"/>
       <hintitem link="csmevSocDis" title="CSM Event: Social Disorder"/>
       <hintitem link="csmevUnrest" title="CSM Event: Unrest"/>
       <hintitem link="csmevUprising" title="CSM Event: Uprising"/>
