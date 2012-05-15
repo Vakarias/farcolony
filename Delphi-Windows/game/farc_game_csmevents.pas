@@ -572,7 +572,8 @@ procedure FCMgCSME_Event_Trigger(
    {:DEV NOTES: test if a same event already exist in recovering mode, if it's the case => override, if not => do nothing.}
 {:Purpose: trigger a specified event.
     Additions:
-      -2012May13- *add: etRveOxygenShortage, etRveWaterOverload, etRveWaterShortage, etRveFoodOverload and etRveFoodShortage events.
+      -2012May14- *add: etRveFoodShortage.
+      -2012May13- *add: etRveOxygenShortage, etRveWaterOverload, etRveWaterShortage and etRveFoodOverload events.
                   *fix: forgot to update the CSM data Economic & Industrial Output for some events.
                   *fix: etGovDestab - forgot to update the CSM data related to this event.
       -2012May05- *add: etRveOxygenOverload event.
@@ -615,7 +616,8 @@ var
    ,ETuprRebAmnt
    ,ETuprRebels
    ,EventDataI1
-   ,EventDataI2: integer;
+   ,EventDataI2
+   ,EventDataI3: integer;
 
    ETdur
    ,ETuprDurCoef
@@ -1185,7 +1187,7 @@ begin
 
       etRveWaterShortage:
       begin
-         {.EventDataI1 = index # for Oxygen Production Overload event}
+         {.EventDataI1 = index # for Water Production Overload event}
          EventDataI1:=FCFgCSME_Search_ByType(
             etRveWaterOverload
             ,Entity
@@ -1280,23 +1282,118 @@ begin
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_isRes:=true;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_duration:=-1;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_lvl:=0;
-         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].RWO_percPopNotSupported:=FCFgCR_FoodOverload_Calc( Entity, Colony );
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].RFO_percPopNotSupported:=FCFgCR_FoodOverload_Calc( Entity, Colony );
       end;
 
       etRveFoodShortage:
       begin
-//      (
-            ///<summary>
-            /// percent of population not supported at time of SF calculation
-            ///</summary>
-//            RFS_percPopNotSupAtCalc: integer;
-//            RFS_ecoindMod: integer;
-//            RFS_tensionMod: integer;
-//            RFS_healthMod: integer;
-//            RFS_directDeathPeriod: integer;
-//            RFS_deathFracValue: extended
-//            );
-      end;
+         {.EventDataI1 = index # for Food Production Overload event}
+         EventDataI1:=FCFgCSME_Search_ByType(
+            etRveFoodOverload
+            ,Entity
+            ,Colony
+            );
+         if EventDataI1=0
+         then raise Exception.Create('there is no Food Production Overload event created, prior to Food Shortage, check the reserves consumption rule.');
+         {.EventDataI2=PPS}
+         EventDataI2:=0;
+         {.EventDataI3 = # of dead}
+         EventDataI3:=0;
+         {.EventDataF1 = age coefficient}
+         EventDataF1:=0;
+         {.EventDataF2 = modifier calculation dump storage}
+         EventDataF2:=0;
+         {.EventDataF3 = environment coeficient and fractional value for direct death}
+         EventDataF3:=0;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_token:=etRveFoodShortage;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_isRes:=true;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_duration:=-1;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_lvl:=0;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].RFS_percPopNotSupAtCalc:=FCentities[ Entity ].E_col[ Colony ].COL_evList[ EventDataI1 ].RFO_percPopNotSupported;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].RFS_ecoindMod:=0;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].RFS_tensionMod:=0;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].RFS_healthMod:=0;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].RFS_directDeathPeriod:=0;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].RFS_deathFracValue:=0;
+         EventDataI2:=FCentities[ Entity ].E_col[ Colony ].COL_evList[ EventDataI1 ].RFO_percPopNotSupported;
+         EventDataF1:=FCFgCSM_AgeCoefficient_Retrieve( Entity, Colony );
+         if EventDataI2<=40 then
+         begin
+            if EventDataI2>10 then
+            begin
+               EventDataF2:=SQR( EventDataI2 ) * ( 0.05 * EventDataF1 );
+               FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].RFS_ecoindMod:=- round( EventDataF2 );
+               ColonyEnvironment:=FCFgC_ColEnv_GetTp( Entity, Colony );
+               case ColonyEnvironment.ENV_envType of
+                  envfreeLiving: EventDataF3:=1;
+
+                  restrict: EventDataF3:=1.3;
+
+                  space: EventDataF3:=1.7;
+               end;
+               EventDataF2:=SQRT( EventDataI2 ) * ( 5 * EventDataF3 );
+               FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].RFS_tensionMod:=round( EventDataF2 );
+               if not LoadToIndex0 then
+               begin
+                  FCMgCSM_ColonyData_Upd(
+                     dEcoIndusOut
+                     ,Entity
+                     ,Colony
+                     ,FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].RFS_ecoindMod
+                     ,0
+                     ,gcsmptNone
+                     ,false
+                     );
+                  FCMgCSM_ColonyData_Upd(
+                     dTension
+                     ,Entity
+                     ,Colony
+                     ,FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].RFS_tensionMod
+                     ,0
+                     ,gcsmptNone
+                     ,false
+                     );
+               end;
+            end;
+         end
+         else if EventDataI2>40 then
+         begin
+            FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].RFS_ecoindMod:=-100;
+            if not LoadToIndex0
+            then FCMgCSM_ColonyData_Upd(
+               dEcoIndusOut
+               ,Entity
+               ,Colony
+               ,FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].RFS_ecoindMod
+               ,0
+               ,gcsmptNone
+               ,false
+               );
+         end;
+         EventDataF2:=SQRT( EventDataI2 ) * ( 10 * EventDataF1 );
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].RFS_healthMod:=- round( EventDataF2 );
+         if not LoadToIndex0
+         then FCMgCSM_ColonyData_Upd(
+            dHealth
+            ,Entity
+            ,Colony
+            ,FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].RFS_healthMod
+            ,0
+            ,gcsmptNone
+            ,false
+            );
+         {.direct death}
+         if EventDataI2>10 then
+         begin
+            EventDataF2:=SQRT( EventDataI2 - 10 ) * ( 4 * EventDataF1 );//+stored fractional value
+            EventDataF2:=FCFcFunc_Rnd( cfrttp2dec, EventDataF2 );
+            EventDataI3:=trunc( EventDataF2 );
+            {:DEV NOTES: apply the direct death here, create a method in farc_game_pgs.}
+            EventDataF3:=frac( EventDataF2 );
+            FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].RFS_directDeathPeriod:=4;
+            FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].RFS_deathFracValue:=EventDataF3;
+         end;
+      end; //==END== case: etRveFoodShortage ==//
    end; //==END== case ETevent of ==//
    if Entity=0
    then FCMuiCDD_Colony_Update(
