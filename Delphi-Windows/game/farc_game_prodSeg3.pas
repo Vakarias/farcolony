@@ -45,7 +45,8 @@ procedure FCMgPS3_ReservesSegment_Process(
 implementation
 
 uses
-   farc_data_game;
+   farc_data_game
+   ,farc_game_csmevents;
 
 //===================================================END OF INIT============================
 //===========================END FUNCTIONS SECTION==========================================
@@ -56,17 +57,55 @@ procedure FCMgPS3_ReservesSegment_Process(
    );
 {:Purpose: segment 3 (reserves consumption) processing.
     Additions:
+      -2012May14- *add: (WORK IN PROGRESS) - coding of the segment 3, including consumption and CSM events trigger, update and cancel.
 }
+   var
+      ReturnedOverloadEvent
+      ,ReturnedShortageEvent: integer;
 begin
    {.oxygen consumption}
    if FCentities[ Entity ].E_col[ Colony ].COL_reserveOxygen<>-1 then
    begin
+      ReturnedOverloadEvent:=FCFgCSME_Search_ByType(
+         etRveOxygenOverload
+         ,Entity
+         ,Colony
+         );
+      if ReturnedOverloadEvent=0 then
+      begin
+      end
+      else if ReturnedOverloadEvent>0 then
+      begin
+      end;
+
+
+      ReturnedShortageEvent:=FCFgCSME_Search_ByType(
+         etRveOxygenShortage
+         ,Entity
+         ,Colony
+         );
+      if ReturnedShortageEvent=0 then
+      begin
+         ReturnedShortageEvent:=FCFgCSME_Search_ByType(
+            etRveOxygenShortageRec
+            ,Entity
+            ,Colony
+            );
+
+      end
+      else if ReturnedShortageEvent>0 then
+      begin
+      end;
+
+
       {:DEV NOTES:       if FCentities[ Entity ].E_col[ Colony ].COL_reserveOxygen=0 or not enough, trigger an oxygen reserve shortage  .}
 
       {:DEV NOTES: test and trigger oxygen production overload, if there's no oxygen production or there is but not enough to sustain all the population.}
 
+//
    end
-
+   {.water consumption}
+   {.food consumption}
 end;
 
 
