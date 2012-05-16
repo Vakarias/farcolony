@@ -61,7 +61,7 @@ type TFCEcsmeModTp=(
 ///    <param name="ECcolIdx">colony index #</param>
 ///    <param name="ECevent">event #</param>
 ///    <param name="ECnewEvent">[only for override] new event type</param>
-///    <param name="ECnewLvl">[only for override] event level if needed</param>
+///    <param name="ECnewLvl">[only for override] event level if needed. For etRveOxygenOverload, etRveWaterOverload and etRveFoodOverload it's the new PPS which is loaded in this parameter</param>
 procedure FCMgCSME_Event_Cancel(
    const ECcancelTp: TFCEcsmeEvCan;
    const ECfacIdx
@@ -95,7 +95,7 @@ function FCFgCSME_Search_ByType(
 ///    <param name="ETevent">type of event</param>
 ///    <param name="ETfacIdx">faction index #</param>
 ///    <param name="ETcolIdx">colony index #</param>
-///    <param name="ETlvl">[optional] level</param>
+///    <param name="ETlvl">[optional] level. For etRveOxygenOverload, etRveWaterOverload and etRveFoodOverload it's the PPS which is loaded in this parameter</param>
 procedure FCMgCSME_Event_Trigger(
    const ETevent: TFCEdgEventTypes;
    const Entity
@@ -191,6 +191,10 @@ procedure FCMgCSME_Event_Cancel(
    const ECnewLvl: integer
    );
 {:Purpose: cancel a specified event.
+   -2012May15- *add: etRveWaterOverload, etRveFoodOverload.
+               *add: etRveOxygenShortage, etRveWaterShortage, etRveFoodShortage.
+               *mod: re-enable health data update for cancellation.
+               mod: csmeecOverride - only events that can be overriden stay in the list, the rest is removed.
    -2012May06- *add: etRveOxygenOverload.
    -2012May03- *add: COMPLETION - rewriting of the code due to  new changes in the data structure.
    -2012Apr30- *mod: rewriting of the code due to  new changes in the data structure.
@@ -212,8 +216,8 @@ procedure FCMgCSME_Event_Cancel(
       ,MeanCohesion
 
       ,MeanInstruction
-   //   ,ECheal
-   //   ,EChealMean
+      ,ModHealth
+      ,MeanHealth
       ,ModEcoIndOut
       ,ModInstruction
       ,MeanEcoIndOut
@@ -231,6 +235,7 @@ begin
    ModInstruction:=0;
    ModSecurity:=0;
    ModTension:=0;
+   ModHealth:=0;
    {.retrieve the CSM modifiers, if the event have any, or apply special rule to non modifier data}
    case FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].CSMEV_token of
       etColEstab:
@@ -262,7 +267,35 @@ begin
       etGovDestab, etGovDestabRec: ModCohesion:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].GD_cohesionMod;
 
       etRveOxygenOverload: FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].ROO_percPopNotSupported:=0;
-   end;
+
+      etRveOxygenShortage, etRveOxygenShortageRec:
+      begin
+         FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].ROS_percPopNotSupAtCalc:=0;
+         ModEcoIndOut:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].ROS_ecoindMod;
+         ModTension:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].ROS_tensionMod;
+         ModHealth:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].ROS_healthMod;
+      end;
+
+      etRveWaterOverload: FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].RWO_percPopNotSupported:=0;
+
+      etRveWaterShortage, etRveWaterShortageRec:
+      begin
+         FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].RWS_percPopNotSupAtCalc:=0;
+         ModEcoIndOut:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].RWS_ecoindMod;
+         ModTension:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].RWS_tensionMod;
+         ModHealth:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].RWS_healthMod;
+      end;
+
+      etRveFoodOverload: FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].RFO_percPopNotSupported:=0;
+
+      etRveFoodShortage, etRveFoodShortageRec:
+      begin
+         FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].RFS_percPopNotSupAtCalc:=0;
+         ModEcoIndOut:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].RFS_ecoindMod;
+         ModTension:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].RFS_tensionMod;
+         ModHealth:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].RFS_healthMod;
+      end;
+   end; //==END== case FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].CSMEV_token of ==//
    {.apply the correct cancellation method}
    case ECcancelTp of
       csmeecImmediate, csmeecImmediateDelay:
@@ -352,19 +385,19 @@ begin
                );
          end;
          {.health}
-//         if ECheal<0
-//         then FinalCSMvalue:=abs(ECheal)
-//         else if ECheal>0
-//         then FinalCSMvalue:=-ECheal;
-//         FCMgCSM_ColonyData_Upd(
-//            dHealth
-//            ,ECfacIdx
-//            ,ECcolIdx
-//            ,FinalCSMvalue
-//            ,0
-//            ,gcsmptNone
-//            ,false
-//            );
+         if ModHealth<0
+         then FinalCSMvalue:=abs(ModHealth)
+         else if ModHealth>0
+         then FinalCSMvalue:=-ModHealth;
+         FCMgCSM_ColonyData_Upd(
+            dHealth
+            ,ECfacIdx
+            ,ECcolIdx
+            ,FinalCSMvalue
+            ,0
+            ,gcsmptNone
+            ,false
+            );
          {.indicate that the event must be cleared}
          FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CSMEV_duration:=-255;
          if ECcancelTp=csmeecImmediate
@@ -406,13 +439,22 @@ begin
       begin
          case FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CSMEV_token of
             etUnrest: FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CSMEV_token:=etUnrestRec;
+
             etSocdis: FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CSMEV_token:=etSocdisRec;
+
             etUprising: FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CSMEV_token:=etUprisingRec;
+
             etGovDestab:
             begin
                FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CSMEV_token:=etGovDestabRec;
                FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CSMEV_duration:=-1;
             end;
+
+            etRveOxygenShortage: FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CSMEV_token:=etRveOxygenShortageRec;
+
+            etRveWaterShortage: FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CSMEV_token:=etRveWaterShortageRec;
+
+            etRveFoodShortage: FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CSMEV_token:=etRveFoodShortageRec;
          end;
       end;
 
@@ -426,52 +468,89 @@ begin
             ,true
             );
          FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CSMEV_token:=ECnewEvent;
-         FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CSMEV_lvl:=ECnewLvl;
          case FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].CSMEV_token of
-            etColEstab:
-            begin
-               MeanTension:=round( ( ModTension+FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].CE_tensionMod )*0.5 );
-               MeanSecurity:=round( ( ModSecurity+FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].CE_securityMod )*0.5 );
-               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CE_tensionMod:=MeanTension;
-               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CE_securityMod:=MeanSecurity;
-            end;
+//            etColEstab:
+//            begin
+//               MeanTension:=round( ( ModTension+FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].CE_tensionMod )*0.5 );
+//               MeanSecurity:=round( ( ModSecurity+FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].CE_securityMod )*0.5 );
+//               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CE_tensionMod:=MeanTension;
+//               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CE_securityMod:=MeanSecurity;
+//            end;
 
-            etUnrest, etUnrestRec:
+            etUnrest:
             begin
+               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CSMEV_lvl:=ECnewLvl;
                MeanEcoIndOut:=round( ( ModEcoIndOut+FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].UN_ecoindMod )*0.5 );
                MeanTension:=round( ( ModTension+FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].UN_tensionMod )*0.5 );
                FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].UN_ecoindMod:=MeanEcoIndOut;
                FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].UN_tensionMod:=MeanTension;
             end;
 
-            etSocdis, etSocdisRec:
+            etSocdis:
             begin
+               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CSMEV_lvl:=ECnewLvl;
                MeanEcoIndOut:=round( ( ModEcoIndOut+FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].SD_ecoindMod )*0.5 );
                MeanTension:=round( ( ModTension+FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].SD_tensionMod )*0.5 );
                FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].SD_ecoindMod:=MeanEcoIndOut;
                FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].SD_tensionMod:=MeanTension;
             end;
 
-            etUprising, etUprisingRec:
+            etUprising:
             begin
+               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CSMEV_lvl:=ECnewLvl;
                MeanEcoIndOut:=round( ( ModEcoIndOut+FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].UP_ecoindMod )*0.5 );
                MeanTension:=round( ( ModTension+FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].UP_tensionMod )*0.5 );
                FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].UP_ecoindMod:=MeanEcoIndOut;
                FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].UP_tensionMod:=MeanTension;
             end;
 
-            etHealthEduRel:
-            begin
-               MeanInstruction:=round( ( ModInstruction+FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].HER_educationMod )*0.5 );
-               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].HER_educationMod:=MeanInstruction;
-            end;
+//            etHealthEduRel:
+//            begin
+//               MeanInstruction:=round( ( ModInstruction+FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].HER_educationMod )*0.5 );
+//               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].HER_educationMod:=MeanInstruction;
+//            end;
 
-            etGovDestab, etGovDestabRec:
+            etGovDestab:
             begin
+               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CSMEV_lvl:=ECnewLvl;
                MeanCohesion:=round( ( ModCohesion+FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].GD_cohesionMod )*0.5 );
                FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].GD_cohesionMod:=MeanCohesion;
             end;
-         end;
+
+            etRveOxygenShortage:
+            begin
+               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].ROS_percPopNotSupAtCalc:=ECnewLvl;
+               MeanEcoIndOut:=round( ( ModEcoIndOut + FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].ROS_ecoindMod )*0.5 );
+               MeanTension:=round( ( ModTension + FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].ROS_tensionMod )*0.5 );
+               MeanHealth:=round( ( ModHealth + FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].ROS_healthMod )*0.5 );
+               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].ROS_ecoindMod:=MeanEcoIndOut;
+               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].ROS_tensionMod:=MeanTension;
+               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].ROS_healthMod:=MeanHealth;
+            end;
+
+            etRveWaterShortage:
+            begin
+               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].RWS_percPopNotSupAtCalc:=ECnewLvl;
+               MeanEcoIndOut:=round( ( ModEcoIndOut + FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].RWS_ecoindMod )*0.5 );
+               MeanTension:=round( ( ModTension + FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].RWS_tensionMod )*0.5 );
+               MeanHealth:=round( ( ModHealth + FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].RWS_healthMod )*0.5 );
+               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].RWS_ecoindMod:=MeanEcoIndOut;
+               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].RWS_tensionMod:=MeanTension;
+               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].RWS_healthMod:=MeanHealth;
+            end;
+
+            etRveFoodShortage:
+            begin
+               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].RFS_percPopNotSupAtCalc:=ECnewLvl;
+               MeanEcoIndOut:=round( ( ModEcoIndOut + FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].RFS_ecoindMod )*0.5 );
+               MeanTension:=round( ( ModTension + FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].RFS_tensionMod )*0.5 );
+               MeanHealth:=round( ( ModHealth + FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].RFS_healthMod )*0.5 );
+               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].RFS_ecoindMod:=MeanEcoIndOut;
+               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].RFS_tensionMod:=MeanTension;
+               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].RFS_healthMod:=MeanHealth;
+            end;
+         end; //==END== case FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].CSMEV_token of ==//
+
       end; //==END== case: csmeecOverride ==//
    end; //==END== case ECcancelTp of ==//
 end;
@@ -572,6 +651,7 @@ procedure FCMgCSME_Event_Trigger(
    {:DEV NOTES: test if a same event already exist in recovering mode, if it's the case => override, if not => do nothing.}
 {:Purpose: trigger a specified event.
     Additions:
+      -2012May15- *mod: etRveOxygenOverload - since the PPS is already calculated in the segment 3, it's loaded in the EventLevel parameter (so need to recalculate the PPS in this method).
       -2012May14- *add: etRveFoodShortage.
       -2012May13- *add: etRveOxygenShortage, etRveWaterOverload, etRveWaterShortage and etRveFoodOverload events.
                   *fix: forgot to update the CSM data Economic & Industrial Output for some events.
@@ -1096,7 +1176,7 @@ begin
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_isRes:=true;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_duration:=-1;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_lvl:=0;
-         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].ROO_percPopNotSupported:=FCFgCR_OxygenOverload_Calc( Entity, Colony );
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].ROO_percPopNotSupported:=EventLevel;
       end; //==END== case: etRveOxygenOverload ==//
 
       etRveOxygenShortage:
@@ -1774,6 +1854,7 @@ procedure FCMgCSME_OT_Proc(
    );
 {:Purpose: over time processing for events of a colony.
    Additions:
+      -2012May15- *rem: etRveOxygenOverload is removed, there's no process in CSM phase of this event, it's processed in the segment 3 of the production phase.
       -2012May06- *mod: apply modification according to changes in the CSM event data structure.
                   *mod: cleanup data assignation by using FCMgCSM_ColonyData_Upd.
                   *add: complete the recovering part for the concerned events.
@@ -3269,16 +3350,6 @@ begin
                ,Colony
                ,OTPcnt
                );
-
-            etRveOxygenOverload:
-            begin
-               OTPmod1:=FCFgCR_OxygenOverload_Calc( Entity, Colony );
-               if OTPmod1<=0 then
-               begin
-                  FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].ROO_percPopNotSupported:=0;
-                  FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].CSMEV_duration:=-2;
-               end;
-            end;
          end; //==END== case FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_token of ==//
          inc(OTPcnt);
       end; //==END== while OTPcnt<=OTPmax do ==//
@@ -3446,27 +3517,6 @@ begin
                end;
 
                etGovDestabRec:
-               begin
-                  if OTPcnt=OTPmax
-                  then FCMgCSME_Event_Cancel(
-                     csmeecImmediate
-                     ,Entity
-                     ,Colony
-                     ,OTPcnt
-                     ,etColEstab
-                     ,0
-                     )
-                  else FCMgCSME_Event_Cancel(
-                     csmeecImmediateDelay
-                     ,Entity
-                     ,Colony
-                     ,OTPcnt
-                     ,etColEstab
-                     ,0
-                     );
-               end;
-
-               etRveOxygenOverload:
                begin
                   if OTPcnt=OTPmax
                   then FCMgCSME_Event_Cancel(
