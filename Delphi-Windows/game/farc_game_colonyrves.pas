@@ -134,6 +134,7 @@ end;
 function FCFgCR_FoodOverload_Calc( const Entity, Colony: integer ): integer;
 {:Purpose: calculate the percent of people not supported for the food Production Overload CSM event.
     Additions:
+      -2012May15- *fix: forgot an element of calculation for the PPS.
 }
    var
       FoodPointCalculated
@@ -163,7 +164,7 @@ begin
       end;
       inc( ProdMatrixItemCount );
    end;
-   PPS:=round( TotalProductionRvePoints / FCentities[ Entity ].E_col[ Colony ].COL_population.POP_total *100 );
+   PPS:=round( 100- ( TotalProductionRvePoints / FCentities[ Entity ].E_col[ Colony ].COL_population.POP_total *100 ) );
    Result:=PPS;
 end;
 
@@ -179,6 +180,7 @@ end;
 function FCFgCR_OxygenOverload_Calc( const Entity, Colony: integer ): integer;
 {:Purpose: calculate the percent of people not supported for the Oxygen Production Overload CSM event.
     Additions:
+      -2012May15- *fix: forgot an element of calculation for the PPS.
 }
    var
       IntCalc1
@@ -198,7 +200,7 @@ begin
    then IntCalc3:=0
    else begin
       IntCalc2:=FCFgCR_Oxygen_Convert( FCentities[ Entity ].E_col[ Colony ].COL_productionMatrix[ IntCalc1 ].CPMI_globalProdFlow );
-      IntCalc3:=round( IntCalc2 / FCentities[ Entity ].E_col[ Colony ].COL_population.POP_total *100 );
+      IntCalc3:=round( 100-( IntCalc2 / FCentities[ Entity ].E_col[ Colony ].COL_population.POP_total *100 ) );
    end;
    Result:=IntCalc3;
 end;
@@ -215,6 +217,7 @@ end;
 function FCFgCR_WaterOverload_Calc( const Entity, Colony: integer ): integer;
 {:Purpose: calculate the percent of people not supported for the Water Production Overload CSM event.
     Additions:
+      -2012May15- *fix: forgot an element of calculation for the PPS.
 }
    var
       IntCalc1
@@ -234,7 +237,7 @@ begin
    then IntCalc3:=0
    else begin
       IntCalc2:=FCFgCR_Water_Convert( FCentities[ Entity ].E_col[ Colony ].COL_productionMatrix[ IntCalc1 ].CPMI_globalProdFlow );
-      IntCalc3:=round( IntCalc2 / FCentities[ Entity ].E_col[ Colony ].COL_population.POP_total *100 );
+      IntCalc3:=round( 100- (IntCalc2 / FCentities[ Entity ].E_col[ Colony ].COL_population.POP_total *100 ) );
    end;
    Result:=IntCalc3;
 end;
