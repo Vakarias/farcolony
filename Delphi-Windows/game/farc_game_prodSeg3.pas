@@ -46,6 +46,7 @@ implementation
 
 uses
    farc_data_game
+   ,farc_game_colonyrves
    ,farc_game_csmevents;
 
 //===================================================END OF INIT============================
@@ -60,10 +61,14 @@ procedure FCMgPS3_ReservesSegment_Process(
       -2012May14- *add: (WORK IN PROGRESS) - coding of the segment 3, including consumption and CSM events trigger, update and cancel.
 }
    var
-      ReturnedOverloadEvent
+      PPS
+      ,ReturnedOverloadEvent
       ,ReturnedShortageEvent: integer;
+
+      doNotProcessShortageEvent: boolean;
 begin
    {.oxygen consumption}
+   doNotProcessShortageEvent:=false;
    if FCentities[ Entity ].E_col[ Colony ].COL_reserveOxygen<>-1 then
    begin
       ReturnedOverloadEvent:=FCFgCSME_Search_ByType(
@@ -71,39 +76,68 @@ begin
          ,Entity
          ,Colony
          );
-      if ReturnedOverloadEvent=0 then
-      begin
-      end
-      else if ReturnedOverloadEvent>0 then
-      begin
-      end;
-
-
-      ReturnedShortageEvent:=FCFgCSME_Search_ByType(
-         etRveOxygenShortage
+      PPS:=FCFgCR_OxygenOverload_Calc( Entity, Colony );
+      if ( ReturnedOverloadEvent=0 )
+         and ( PPS>0 )
+      then FCMgCSME_Event_Trigger(
+         etRveOxygenOverload
          ,Entity
          ,Colony
-         );
-      if ReturnedShortageEvent=0 then
+         ,PPS
+         ,false
+         )
+      else if ReturnedOverloadEvent>0 then
+      begin
+         if PPS<=0 then
+         begin
+            FCMgCSME_Event_Cancel(
+               csmeecImmediate
+               ,Entity
+               ,Colony
+               ,ReturnedOverloadEvent
+               ,etColEstab
+               ,0
+               );
+            ReturnedShortageEvent:=FCFgCSME_Search_ByType(
+               etRveOxygenShortage
+               ,Entity
+               ,Colony
+               );
+            if ReturnedShortageEvent>0
+            then FCMgCSME_Event_Cancel(
+               csmeecRecover
+               ,Entity
+               ,Colony
+               ,ReturnedShortageEvent
+               ,etColEstab
+               ,0
+               );
+            doNotProcessShortageEvent:=true;
+         end
+         else FCentities[ Entity ].E_col[ Colony ].COL_evList[ ReturnedOverloadEvent ].ROO_percPopNotSupported:=PPS;
+      end;
+
+      if not doNotProcessShortageEvent then
       begin
          ReturnedShortageEvent:=FCFgCSME_Search_ByType(
-            etRveOxygenShortageRec
+            etRveOxygenShortage
             ,Entity
             ,Colony
             );
+         if ReturnedShortageEvent=0 then
+         begin
+            ReturnedShortageEvent:=FCFgCSME_Search_ByType(
+               etRveOxygenShortageRec
+               ,Entity
+               ,Colony
+               );
 
-      end
-      else if ReturnedShortageEvent>0 then
-      begin
+         end
+         else if ReturnedShortageEvent>0 then
+         begin
+         end;
       end;
-
-
-      {:DEV NOTES:       if FCentities[ Entity ].E_col[ Colony ].COL_reserveOxygen=0 or not enough, trigger an oxygen reserve shortage  .}
-
-      {:DEV NOTES: test and trigger oxygen production overload, if there's no oxygen production or there is but not enough to sustain all the population.}
-
-//
-   end
+   end //==END== if FCentities[ Entity ].E_col[ Colony ].COL_reserveOxygen<>-1 ==//
    {.water consumption}
    {.food consumption}
 end;
