@@ -47,6 +47,8 @@ implementation
 uses
    farc_data_game
    ,farc_game_colonyrves
+   ,farc_game_core
+   ,farc_game_cps
    ,farc_game_csmevents;
 
 //===================================================END OF INIT============================
@@ -77,6 +79,7 @@ begin
          ,Colony
          );
       PPS:=FCFgCR_OxygenOverload_Calc( Entity, Colony );
+      {.process the Oxygen Overload Event}
       if ( ReturnedOverloadEvent=0 )
          and ( PPS>0 )
       then FCMgCSME_Event_Trigger(
@@ -113,10 +116,10 @@ begin
                ,0
                );
             doNotProcessShortageEvent:=true;
-         end
+         end //==END== if PPS<=0 ==//
          else FCentities[ Entity ].E_col[ Colony ].COL_evList[ ReturnedOverloadEvent ].ROO_percPopNotSupported:=PPS;
-      end;
-
+      end; //==END== else if ReturnedOverloadEvent>0 ==//
+      {.process the Oxygen Shortage event}
       if not doNotProcessShortageEvent then
       begin
          ReturnedShortageEvent:=FCFgCSME_Search_ByType(
@@ -131,12 +134,50 @@ begin
                ,Entity
                ,Colony
                );
-
+            if ReturnedShortageEvent>0 then
+            begin
+               FCMgCSME_Recovering_Process(
+                  Entity
+                  ,Colony
+                  ,ReturnedShortageEvent
+                  );
+               if FCentities[ Entity ].E_col[ Colony ].COL_evList[ ReturnedShortageEvent ].CSMEV_duration=-2
+               then FCMgCSME_Event_Cancel(
+                  csmeecImmediate
+                  ,Entity
+                  ,Colony
+                  ,ReturnedShortageEvent
+                  ,etColEstab
+                  ,0
+                  );
+            end;
          end
          else if ReturnedShortageEvent>0 then
          begin
+            {.case when all the population die of asphyxia}
+            if FCentities[ Entity ].E_col[ Colony ].COL_evList[ ReturnedShortageEvent ].CSMEV_duration=-3 then
+            begin
+               if Assigned( FCcps )
+               then FCMgCore_GameOver_Process( gfrCPSentirePopulationDie )
+               {:DEV NOTES: if not trigger a colony unbearable, see the cancellation rule of the Oxygen Shortage event.}
+            end
+            {.case if there's enough oxygen reserve for at least 1 tick}
+            else if FCentities[ Entity ].E_col[ Colony ].COL_reserveOxygen>=FCentities[ Entity ].E_col[ Colony ].COL_population.POP_total
+            then FCMgCSME_Event_Cancel(
+               csmeecRecover
+               ,Entity
+               ,Colony
+               ,ReturnedShortageEvent
+               ,etColEstab
+               ,0
+               )
+            {.in any other case, do the over time process, if it's required}
+            else if PPS<>FCentities[ Entity ].E_col[ Colony ].COL_evList[ ReturnedShortageEvent ].ROS_percPopNotSupAtCalc then
+            begin
+
+            end;
          end;
-      end;
+      end; //==END== if not doNotProcessShortageEvent ==//
    end //==END== if FCentities[ Entity ].E_col[ Colony ].COL_reserveOxygen<>-1 ==//
    {.water consumption}
    {.food consumption}

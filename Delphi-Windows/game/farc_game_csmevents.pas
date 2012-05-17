@@ -61,7 +61,7 @@ type TFCEcsmeModTp=(
 ///    <param name="ECcolIdx">colony index #</param>
 ///    <param name="ECevent">event #</param>
 ///    <param name="ECnewEvent">[only for override] new event type</param>
-///    <param name="ECnewLvl">[only for override] event level if needed. For etRveOxygenOverload, etRveWaterOverload and etRveFoodOverload it's the new PPS which is loaded in this parameter</param>
+///    <param name="ECnewLvl">[only for override] event level if needed</param>
 procedure FCMgCSME_Event_Cancel(
    const ECcancelTp: TFCEcsmeEvCan;
    const ECfacIdx
@@ -76,6 +76,18 @@ procedure FCMgCSME_Event_Cancel(
 ///</summary>
 ///    <param name="EGSevent">type of event</param>
 function FCFgCSME_Event_GetStr(const EGSevent: TFCEdgEventTypes): string;
+
+///<summary>
+///   apply one time the recover rule on a specified event
+///</summary>
+///   <param name="Entity">entity index #</param>
+///   <param name="Colony">colony index #</param>
+///   <param name="Event">recovering event index #</param>
+procedure FCMgCSME_Recovering_Process(
+   const Entity
+         ,Colony
+         ,Event: integer
+   );
 
 ///<summary>
 ///   search if a specified event is present, return the event# (0 if not found)
@@ -191,6 +203,8 @@ procedure FCMgCSME_Event_Cancel(
    const ECnewLvl: integer
    );
 {:Purpose: cancel a specified event.
+   -2012May16- *add: etRveFoodShortage, etRveFoodShortageRec - reset of RFS_directDeathPeriod and RFS_deathFracValue.
+               *add: etRveFoodShortage, etRveFoodShortageRec - re-initialize RFS_directDeathPeriod in case of an override.
    -2012May15- *add: etRveWaterOverload, etRveFoodOverload.
                *add: etRveOxygenShortage, etRveWaterShortage, etRveFoodShortage.
                *mod: re-enable health data update for cancellation.
@@ -294,6 +308,8 @@ begin
          ModEcoIndOut:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].RFS_ecoindMod;
          ModTension:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].RFS_tensionMod;
          ModHealth:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].RFS_healthMod;
+         FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].RFS_directDeathPeriod:=0;
+         FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].RFS_deathFracValue:=0;
       end;
    end; //==END== case FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].CSMEV_token of ==//
    {.apply the correct cancellation method}
@@ -519,7 +535,7 @@ begin
 
             etRveOxygenShortage:
             begin
-               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].ROS_percPopNotSupAtCalc:=ECnewLvl;
+               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].ROS_percPopNotSupAtCalc:=FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].ROS_percPopNotSupAtCalc;
                MeanEcoIndOut:=round( ( ModEcoIndOut + FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].ROS_ecoindMod )*0.5 );
                MeanTension:=round( ( ModTension + FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].ROS_tensionMod )*0.5 );
                MeanHealth:=round( ( ModHealth + FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].ROS_healthMod )*0.5 );
@@ -530,7 +546,7 @@ begin
 
             etRveWaterShortage:
             begin
-               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].RWS_percPopNotSupAtCalc:=ECnewLvl;
+               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].RWS_percPopNotSupAtCalc:=FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].RWS_percPopNotSupAtCalc;
                MeanEcoIndOut:=round( ( ModEcoIndOut + FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].RWS_ecoindMod )*0.5 );
                MeanTension:=round( ( ModTension + FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].RWS_tensionMod )*0.5 );
                MeanHealth:=round( ( ModHealth + FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].RWS_healthMod )*0.5 );
@@ -541,13 +557,15 @@ begin
 
             etRveFoodShortage:
             begin
-               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].RFS_percPopNotSupAtCalc:=ECnewLvl;
+               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].RFS_percPopNotSupAtCalc:=FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].RFS_percPopNotSupAtCalc;
                MeanEcoIndOut:=round( ( ModEcoIndOut + FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].RFS_ecoindMod )*0.5 );
                MeanTension:=round( ( ModTension + FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].RFS_tensionMod )*0.5 );
                MeanHealth:=round( ( ModHealth + FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].RFS_healthMod )*0.5 );
                FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].RFS_ecoindMod:=MeanEcoIndOut;
                FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].RFS_tensionMod:=MeanTension;
                FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].RFS_healthMod:=MeanHealth;
+               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].RFS_directDeathPeriod:=FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].RFS_directDeathPeriod;
+               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].RFS_deathFracValue:=FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].RFS_deathFracValue;
             end;
          end; //==END== case FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].CSMEV_token of ==//
 
@@ -1090,10 +1108,11 @@ begin
             0:
             begin
                if Assigned(FCcps)
-               then FCMgCore_EndofGame_Fail
+               then FCMgCore_GameOver_Process( gfrCPScolonyBecameDissident )
                else if not Assigned(FCcps)
                then
                begin
+                  {:DEV NOTES: WARNING, DUPLICATE CODE W/ OT - FIX THAT !.}
                   {:DEV NOTES: colony is lost.
                   the procedure to implement when AI will be done:
                      1/create a faction for the dissident colony and transfert the colony's data to the new faction's sub-datastructure
@@ -1665,23 +1684,30 @@ procedure FCMgCSME_Recovering_Process(
    );
 {:Purpose: apply one time the recover rule on a specified event.
     Additions:
+      -2012May16- *add: etRveOxygenShortageRec, etRveWaterShortageRec and etRveFoodShortageRec.
+                  *add: rule process for the health modifier.
+                  *code: put the method in public.
 }
    var
       AbsoluteCoefficient
       ,ModCohesion
       ,ModEcoIndOutput
       ,ModTension
+      ,ModHealth
       ,NewCohesion
       ,NewEcoIndOutput
-      ,NewTension: integer;
+      ,NewTension
+      ,NewHealth: integer;
 begin
    AbsoluteCoefficient:=0;
    ModCohesion:=0;
    ModEcoIndOutput:=0;
    ModTension:=0;
+   ModHealth:=0;
    NewCohesion:=0;
    NewEcoIndOutput:=0;
    NewTension:=0;
+   NewHealth:=0;
    {.we retrieve the specific data}
    case FCentities[ Entity ].E_col[ Colony ].COL_evList[ Event ].CSMEV_token of
       etUnrestRec:
@@ -1703,7 +1729,28 @@ begin
       end;
 
       etGovDestabRec: ModCohesion:=FCentities[ Entity ].E_col[ Colony ].COL_evList[ Event ].GD_cohesionMod;
-   end;
+
+      etRveOxygenShortageRec:
+      begin
+         ModEcoIndOutput:=FCentities[ Entity ].E_col[ Colony ].COL_evList[ Event ].ROS_ecoindMod;
+         ModTension:=FCentities[ Entity ].E_col[ Colony ].COL_evList[ Event ].ROS_tensionMod;
+         ModHealth:=FCentities[ Entity ].E_col[ Colony ].COL_evList[ Event ].ROS_healthMod;
+      end;
+
+      etRveWaterShortageRec:
+      begin
+         ModEcoIndOutput:=FCentities[ Entity ].E_col[ Colony ].COL_evList[ Event ].RWS_ecoindMod;
+         ModTension:=FCentities[ Entity ].E_col[ Colony ].COL_evList[ Event ].RWS_tensionMod;
+         ModHealth:=FCentities[ Entity ].E_col[ Colony ].COL_evList[ Event ].RWS_healthMod;
+      end;
+
+      etRveFoodShortageRec:
+      begin
+         ModEcoIndOutput:=FCentities[ Entity ].E_col[ Colony ].COL_evList[ Event ].RFS_ecoindMod;
+         ModTension:=FCentities[ Entity ].E_col[ Colony ].COL_evList[ Event ].RFS_tensionMod;
+         ModHealth:=FCentities[ Entity ].E_col[ Colony ].COL_evList[ Event ].RFS_healthMod;
+      end;
+   end; //==END== case FCentities[ Entity ].E_col[ Colony ].COL_evList[ Event ].CSMEV_token of ==//
    {.rule process for each modifier}
    if ModCohesion<0 then
    begin
@@ -1747,6 +1794,20 @@ begin
    end
    else AbsoluteCoefficient:=0;
    NewTension:=ModTension+AbsoluteCoefficient;
+   if ModHealth<0 then
+   begin
+      AbsoluteCoefficient:=abs( round( ModHealth * 0.1 ) );
+      if AbsoluteCoefficient=0
+      then AbsoluteCoefficient:=1;
+   end
+   else if ModHealth>0 then
+   begin
+      AbsoluteCoefficient:=-round( ModHealth * 0.1 );
+      if AbsoluteCoefficient=0
+      then AbsoluteCoefficient:=-1;
+   end
+   else AbsoluteCoefficient:=0;
+   NewHealth:=ModHealth+AbsoluteCoefficient;
    {.determine if the recovering is finished + whatever the case, update the CSM}
    case FCentities[ Entity ].E_col[ Colony ].COL_evList[ Event ].CSMEV_token of
       etUnrestRec:
@@ -1845,6 +1906,120 @@ begin
             ,false
             );
       end; //==END== case: etGovDestabRec ==//
+
+      etRveOxygenShortageRec:
+      begin
+         if ( NewEcoIndOutput=0 )
+            and ( NewTension=0 )
+            and ( NewHealth=0 )
+         then FCentities[ Entity ].E_col[ Colony ].COL_evList[ Event ].CSMEV_duration:=-2;
+         FCentities[ Entity ].E_col[ Colony ].COL_evList[ Event ].ROS_ecoindMod:=NewEcoIndOutput;
+         FCMgCSM_ColonyData_Upd(
+            dEcoIndusOut
+            ,Entity
+            ,Colony
+            ,NewEcoIndOutput
+            ,0
+            ,gcsmptNone
+            ,false
+            );
+         FCentities[ Entity ].E_col[ Colony ].COL_evList[ Event ].ROS_tensionMod:=NewTension;
+         FCMgCSM_ColonyData_Upd(
+            dTension
+            ,Entity
+            ,Colony
+            ,NewTension
+            ,0
+            ,gcsmptNone
+            ,false
+            );
+         FCentities[ Entity ].E_col[ Colony ].COL_evList[ Event ].ROS_healthMod:=NewHealth;
+         FCMgCSM_ColonyData_Upd(
+            dHealth
+            ,Entity
+            ,Colony
+            ,NewHealth
+            ,0
+            ,gcsmptNone
+            ,false
+            );
+      end; //==END== case: etRveOxygenShortageRec ==//
+
+      etRveWaterShortageRec:
+      begin
+         if ( NewEcoIndOutput=0 )
+            and ( NewTension=0 )
+            and ( NewHealth=0 )
+         then FCentities[ Entity ].E_col[ Colony ].COL_evList[ Event ].CSMEV_duration:=-2;
+         FCentities[ Entity ].E_col[ Colony ].COL_evList[ Event ].RWS_ecoindMod:=NewEcoIndOutput;
+         FCMgCSM_ColonyData_Upd(
+            dEcoIndusOut
+            ,Entity
+            ,Colony
+            ,NewEcoIndOutput
+            ,0
+            ,gcsmptNone
+            ,false
+            );
+         FCentities[ Entity ].E_col[ Colony ].COL_evList[ Event ].RWS_tensionMod:=NewTension;
+         FCMgCSM_ColonyData_Upd(
+            dTension
+            ,Entity
+            ,Colony
+            ,NewTension
+            ,0
+            ,gcsmptNone
+            ,false
+            );
+         FCentities[ Entity ].E_col[ Colony ].COL_evList[ Event ].RWS_healthMod:=NewHealth;
+         FCMgCSM_ColonyData_Upd(
+            dHealth
+            ,Entity
+            ,Colony
+            ,NewHealth
+            ,0
+            ,gcsmptNone
+            ,false
+            );
+      end; //==END== case: etRveWaterShortageRec ==//
+
+      etRveFoodShortageRec:
+      begin
+         if ( NewEcoIndOutput=0 )
+            and ( NewTension=0 )
+            and ( NewHealth=0 )
+         then FCentities[ Entity ].E_col[ Colony ].COL_evList[ Event ].CSMEV_duration:=-2;
+         FCentities[ Entity ].E_col[ Colony ].COL_evList[ Event ].RFS_ecoindMod:=NewEcoIndOutput;
+         FCMgCSM_ColonyData_Upd(
+            dEcoIndusOut
+            ,Entity
+            ,Colony
+            ,NewEcoIndOutput
+            ,0
+            ,gcsmptNone
+            ,false
+            );
+         FCentities[ Entity ].E_col[ Colony ].COL_evList[ Event ].RFS_tensionMod:=NewTension;
+         FCMgCSM_ColonyData_Upd(
+            dTension
+            ,Entity
+            ,Colony
+            ,NewTension
+            ,0
+            ,gcsmptNone
+            ,false
+            );
+         FCentities[ Entity ].E_col[ Colony ].COL_evList[ Event ].RFS_healthMod:=NewHealth;
+         FCMgCSM_ColonyData_Upd(
+            dHealth
+            ,Entity
+            ,Colony
+            ,NewHealth
+            ,0
+            ,gcsmptNone
+            ,false
+            );
+      end; //==END== case: etRveFoodShortageRec ==//
    end; //==END== case FCentities[ Entity ].E_col[ Colony ].COL_evList[ Event ].CSMEV_token of ==//
 end;
 
@@ -3458,7 +3633,7 @@ begin
                   then
                   begin
                      if Assigned(FCcps)
-                     then FCMgCore_EndofGame_Fail
+                     then FCMgCore_GameOver_Process( gfrCPScolonyBecameDissident )
                      else if not Assigned(FCcps)
                      then
                      begin

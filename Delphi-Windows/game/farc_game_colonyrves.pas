@@ -83,6 +83,20 @@ function FCFgCR_WaterOverload_Calc( const Entity, Colony: integer ): integer;
 //===========================END FUNCTIONS SECTION==========================================
 
 ///<summary>
+///   process the calculations for the Oxygen Shortage event
+///</summary>
+///   <param name="Entity">entity index #</param>
+///   <param name="Colony">colony index #</param>
+///   <param name="Event">event index # to process</param>
+///   <param name="NewPPS">new Percent of Population not Supported to apply</param>
+procedure FCMgCR_OxygenShortage_Calc(
+   const Entity
+         ,Colony
+         ,Event
+         ,NewPPS: integer
+   );
+
+///<summary>
 ///   update a specified reserve with a +/- value. The value is in reserve points
 ///</summary>
 ///   <param name="Entity">entity index #</param>
@@ -243,6 +257,19 @@ begin
 end;
 
 //===========================END FUNCTIONS SECTION==========================================
+
+procedure FCMgCR_OxygenShortage_Calc(
+   const Entity
+         ,Colony
+         ,Event
+         ,NewPPS: integer
+   );
+{:Purpose: process the calculations for the Oxygen Shortage event.
+    Additions:
+}
+begin
+
+end;
 
 procedure FCMgCR_Reserve_Update(
    const Entity

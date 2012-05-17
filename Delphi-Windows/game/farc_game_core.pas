@@ -31,10 +31,16 @@ unit farc_game_core;
 
 interface
 
+type TFCEgcGameOverReason=(
+   gfrCPScolonyBecameDissident
+   ,gfrCPSentirePopulationDie
+   );
+
 ///<summary>
-///   terminate the current game because of a failure
+///   the game over core feature, can be because of a failure or a success
 ///</summary>
-procedure FCMgCore_EndofGame_Fail;
+///   <param name="GameOverReason">the reason of the game over</param>
+procedure FCMgCore_GameOver_Process( const GameOverReason: TFCEgcGameOverReason );
 
 implementation
 
@@ -44,17 +50,23 @@ uses
 
 //=============================================END OF INIT==================================
 
-procedure FCMgCore_EndofGame_Fail;
-{:Purpose: terminate the current game because of a failure.
+procedure FCMgCore_GameOver_Process( const GameOverReason: TFCEgcGameOverReason );
+{:Purpose: the game over core feature, can be because of a failure or a success.
     Additions:
+      -2012May16- *add:
 }
 begin
    {:DEV NOTES: for now there's only the case where there no more colony and no space unit available and able to settle one.}
-   FCGtimeFlow.Enabled:=false;
-   FCWinMain.FCGLScadencer.Enabled:=false;
-   FCWinMain.FCWM_3dMainGrp.Visible:=false;
+//   FCWinMain.FCWM_3dMainGrp.Visible:=false;
    {:DEV NOTES: trigger failure message and display them.
                   for especially 1st phase, encourage the player to try again (depending the cause of failure).}
+   FCGtimeFlow.Enabled:=false;
+   FCWinMain.FCGLScadencer.Enabled:=false;
+   case GameOverReason of
+      gfrCPScolonyBecameDissident:;
+
+      gfrCPSentirePopulationDie:;
+   end; //==END== case GameOverReason of ==//
 end;
 
 end.
