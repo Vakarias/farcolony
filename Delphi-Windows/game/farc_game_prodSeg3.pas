@@ -46,10 +46,12 @@ implementation
 
 uses
    farc_data_game
+   ,farc_data_infrprod
    ,farc_game_colonyrves
    ,farc_game_core
    ,farc_game_cps
-   ,farc_game_csmevents;
+   ,farc_game_csmevents
+   ,farc_ui_coredatadisplay;
 
 //===================================================END OF INIT============================
 //===========================END FUNCTIONS SECTION==========================================
@@ -157,8 +159,11 @@ begin
             {.case when all the population die of asphyxia}
             if FCentities[ Entity ].E_col[ Colony ].COL_evList[ ReturnedShortageEvent ].CSMEV_duration=-3 then
             begin
-               if Assigned( FCcps )
+               if ( Entity=0 )
+                  and ( Assigned( FCcps ) )
                then FCMgCore_GameOver_Process( gfrCPSentirePopulationDie )
+               else begin
+               end;
                {:DEV NOTES: if not trigger a colony unbearable, see the cancellation rule of the Oxygen Shortage event.}
             end
             {.case if there's enough oxygen reserve for at least 1 tick}
@@ -172,15 +177,89 @@ begin
                ,0
                )
             {.in any other case, do the over time process, if it's required}
-            else if PPS<>FCentities[ Entity ].E_col[ Colony ].COL_evList[ ReturnedShortageEvent ].ROS_percPopNotSupAtCalc then
-            begin
-
-            end;
+            else if PPS<>FCentities[ Entity ].E_col[ Colony ].COL_evList[ ReturnedShortageEvent ].ROS_percPopNotSupAtCalc
+            then FCMgCR_OxygenShortage_Calc(
+               Entity
+               ,Colony
+               ,ReturnedShortageEvent
+               ,PPS
+               );
          end;
       end; //==END== if not doNotProcessShortageEvent ==//
-   end //==END== if FCentities[ Entity ].E_col[ Colony ].COL_reserveOxygen<>-1 ==//
+      {.process the oxygen consumption}
+      if FCentities[ Entity ].E_col[ Colony ].COL_reserveOxygen<FCentities[ Entity ].E_col[ Colony ].COL_population.POP_total then
+      begin
+         ReturnedShortageEvent:=FCFgCSME_Search_ByType(
+            etRveOxygenShortageRec
+            ,Entity
+            ,Colony
+            );
+         if ReturnedShortageEvent=0 then
+         begin
+            ReturnedShortageEvent:=FCFgCSME_Search_ByType(
+               etRveOxygenShortage
+               ,Entity
+               ,Colony
+               );
+            if ReturnedShortageEvent=0
+            then FCMgCSME_Event_Trigger(
+               etRveOxygenShortage
+               ,Entity
+               ,Colony
+               ,0
+               ,false
+               );
+         end
+         else if ReturnedShortageEvent>0
+         then FCMgCSME_Event_Cancel(
+            csmeecOverride
+            ,Entity
+            ,Colony
+            ,ReturnedShortageEvent
+            ,etRveOxygenShortage
+            ,0
+            );
+         FCMgCR_Reserve_Update(
+            Entity
+            ,Colony
+            ,prfuOxygen
+            ,-FCentities[ Entity ].E_col[ Colony ].COL_reserveOxygen
+            ,true
+            );
+      end
+      else if FCentities[ Entity ].E_col[ Colony ].COL_reserveOxygen>=FCentities[ Entity ].E_col[ Colony ].COL_population.POP_total
+      then FCMgCR_Reserve_Update(
+         Entity
+         ,Colony
+         ,prfuOxygen
+         ,-FCentities[ Entity ].E_col[ Colony ].COL_population.POP_total
+         ,true
+         );
+      {.update the interface if required}
+      if Entity=0
+      then FCMuiCDD_Colony_Update(
+         cdlReserveOxy
+         ,Colony
+         ,0
+         ,0
+         ,true
+         ,false
+         ,false
+         );
+   end; //==END== if FCentities[ Entity ].E_col[ Colony ].COL_reserveOxygen<>-1 ==//
    {.water consumption}
    {.food consumption}
+   {.update the interface for CSM events list is required}
+   if Entity=0
+   then FCMuiCDD_Colony_Update(
+      cdlCSMevents
+      ,Colony
+      ,0
+      ,0
+      ,true
+      ,false
+      ,false
+      );
 end;
 
 

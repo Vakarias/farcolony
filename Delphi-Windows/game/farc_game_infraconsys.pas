@@ -432,9 +432,8 @@ begin
       );
    {.remove the infrastructure kit which correspond to the infrastructure}
    FCFgC_Storage_Update(
-      false
-      ,FCEntities[APent].E_col[APcol].COL_storageList[APinfraKitInStorage].CPR_token
-      ,1
+      FCEntities[APent].E_col[APcol].COL_storageList[APinfraKitInStorage].CPR_token
+      ,-1
       ,APent
       ,APcol
       );
@@ -524,9 +523,8 @@ begin
       BPresultUnits:=FCFgP_UnitFromVolume_Get( BPclonedInfra.I_reqConstrMat[ BPcount ].RCM_token, BPtempMatVol );
       BPcurrentMatVol:=BPcurrentMatVol-BPtempMatVol;
       FCFgC_Storage_Update(
-         false
-         ,BPclonedInfra.I_reqConstrMat[ BPcount ].RCM_token
-         ,BPresultUnits
+         BPclonedInfra.I_reqConstrMat[ BPcount ].RCM_token
+         ,-BPresultUnits
          ,BPent
          ,BPcol
          );
@@ -819,29 +817,25 @@ begin
    if (ICPinfra=2)
       or (ICPinfra=4)
    then FCFgC_Storage_Update(
-      true
-      ,'energNucFisRsm'
+      'energNucFisRsm'
       ,1
       ,0
       ,ICPcol
       );
    FCFgC_Storage_Update(
-      true
-      ,'equipMultiDepot1'
+      'equipMultiDepot1'
       ,1
       ,0
       ,ICPcol
       );
    FCFgC_Storage_Update(
-      true
-      ,'equipHandTools'
+      'equipHandTools'
       ,10
       ,0
       ,ICPcol
       );
    FCFgC_Storage_Update(
-      true
-      ,'equipPowerTools'
+      'equipPowerTools'
       ,10
       ,0
       ,ICPcol
@@ -849,43 +843,37 @@ begin
    if (ICPinfra=2)
       or (ICPinfra=4)
    then FCFgC_Storage_Update(
-      true
-      ,'equipPressTanksArr1'
+      'equipPressTanksArr1'
       ,1
       ,0
       ,ICPcol
       );
    FCFgC_Storage_Update(
-      true
-      ,'equipConstrExo'
+      'equipConstrExo'
       ,1
       ,0
       ,ICPcol
       );
    FCFgC_Storage_Update(
-      true
-      ,'equipMiningMachinery'
+      'equipMiningMachinery'
       ,1
       ,0
       ,ICPcol
       );
    FCFgC_Storage_Update(
-      true
-      ,'resWater'
+      'resWater'
       ,20
       ,0
       ,ICPcol
       );
    FCFgC_Storage_Update(
-      true
-      ,'resO2'
+      'resO2'
       ,20
       ,0
       ,ICPcol
       );
    FCFgC_Storage_Update(
-      true
-      ,'bioFish'
+      'bioFish'
       ,20
       ,0
       ,ICPcol

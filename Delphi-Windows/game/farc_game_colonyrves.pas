@@ -31,7 +31,9 @@ unit farc_game_colonyrves;
 interface
 
 uses
-   farc_data_infrprod;
+   SysUtils
+
+   ,farc_data_infrprod;
 
 
 ///<summary>
@@ -51,19 +53,26 @@ function FCFgCR_Food_Convert( const FoodVolume, FoodDensity: extended ): integer
 function FCFgCR_FoodOverload_Calc( const Entity, Colony: integer ): integer;
 
 ///<summary>
-///   convert a volume of oxygen in oxygen reserve's points
-///</summary>
-///   <param name="OxygenVolume">oxygen volume, in cubic meters, to convert</param>
-///   <returns>the converted oxygen reserve's points</returns>
-function FCFgCR_Oxygen_Convert( const OxygenVolume: extended ): integer;
-
-///<summary>
 ///   calculate the percent of people not supported for the Oxygen Production Overload CSM event
 ///</summary>
 ///   <param name="Entity">entity index #</param>
 ///   <param name="Colony">colony index #</param>
 ///   <returns>the percent of people not supported</returns>
 function FCFgCR_OxygenOverload_Calc( const Entity, Colony: integer ): integer;
+
+///<summary>
+///   convert a volume of oxygen into oxygen reserve's points
+///</summary>
+///   <param name="OxygenVolume">oxygen volume, in cubic meters, to convert</param>
+///   <returns>the converted oxygen reserve's points</returns>
+function FCFgCR_OxygenToReserve_Convert( const OxygenVolume: extended ): integer;
+
+///<summary>
+///   convert oxygen reserve's points into a volume of oxygen
+///</summary>
+///   <param name="OxygenPoints">oxygen points to convert</param>
+///   <returns>the converted and formatted(x.xxx) oxygen volume, in cubic meters</returns>
+function FCFgCR_ReserveToOxygen_Convert( const OxygenPoints: integer ): extended;
 
 ///<summary>
 ///   convert a volume of water in water reserve's points
@@ -107,7 +116,8 @@ procedure FCMgCR_Reserve_Update(
    const Entity
          ,Colony: integer;
    const TypeOfReserve: TFCEdipProductFunctions;
-   const ValueModifier: integer
+   const ValueModifier: integer;
+   const updateStorage: boolean
    );
 
 ///<summary>
@@ -129,10 +139,14 @@ procedure FCMgCR_Reserve_UpdateByUnits(
 implementation
 
 uses
-   farc_data_game
+   farc_common_func
+   ,farc_data_game
+   ,farc_game_colony
+   ,farc_game_csm
    ,farc_game_prod
    ,farc_game_prodSeg2
-   ,farc_ui_coredatadisplay;
+   ,farc_ui_coredatadisplay
+   ,farc_win_debug;
 
 //===================================================END OF INIT============================
 
@@ -182,15 +196,6 @@ begin
    Result:=PPS;
 end;
 
-function FCFgCR_Oxygen_Convert( const OxygenVolume: extended ): integer;
-{:Purpose: convert a volume of oxygen in oxygen reserve's points.
-    Additions:
-}
-begin
-   Result:=0;
-   Result:=trunc( OxygenVolume / 0.000736 );
-end;
-
 function FCFgCR_OxygenOverload_Calc( const Entity, Colony: integer ): integer;
 {:Purpose: calculate the percent of people not supported for the Oxygen Production Overload CSM event.
     Additions:
@@ -213,10 +218,28 @@ begin
    if IntCalc1=0
    then IntCalc3:=0
    else begin
-      IntCalc2:=FCFgCR_Oxygen_Convert( FCentities[ Entity ].E_col[ Colony ].COL_productionMatrix[ IntCalc1 ].CPMI_globalProdFlow );
+      IntCalc2:=FCFgCR_OxygenToReserve_Convert( FCentities[ Entity ].E_col[ Colony ].COL_productionMatrix[ IntCalc1 ].CPMI_globalProdFlow );
       IntCalc3:=round( 100-( IntCalc2 / FCentities[ Entity ].E_col[ Colony ].COL_population.POP_total *100 ) );
    end;
    Result:=IntCalc3;
+end;
+
+function FCFgCR_OxygenToReserve_Convert( const OxygenVolume: extended ): integer;
+{:Purpose: convert a volume of oxygen in oxygen reserve's points.
+    Additions:
+}
+begin
+   Result:=0;
+   Result:=trunc( OxygenVolume / 0.000736 );
+end;
+
+function FCFgCR_ReserveToOxygen_Convert( const OxygenPoints: integer ): extended;
+{:Purpose: convert oxygen reserve's points into a volume of oxygen.
+    Additions:
+}
+begin
+   Result:=0;
+   Result:=FCFcFunc_Rnd( cfrttpVolm3, OxygenPoints * 0.000736 );
 end;
 
 function FCFgCR_Water_Convert( const WaterVolume: extended ): integer;
@@ -267,20 +290,140 @@ procedure FCMgCR_OxygenShortage_Calc(
 {:Purpose: process the calculations for the Oxygen Shortage event.
     Additions:
 }
-begin
+   var
+      SubSFcalc: integer;
 
+      AgeCoefficient
+      ,ModifierCalc
+      ,SFcalc
+      ,PPScalc: extended;
+begin
+   FCentities[Entity].E_col[Colony].COL_evList[Event].ROS_percPopNotSupAtCalc:=NewPPS;
+   {.reset the modifiers in the colony's data, if required}
+   if FCentities[Entity].E_col[Colony].COL_evList[Event].ROS_ecoindMod<0
+   then FCMgCSM_ColonyData_Upd(
+      dEcoIndusOut
+      ,Entity
+      ,Colony
+      ,abs( FCentities[Entity].E_col[Colony].COL_evList[Event].ROS_ecoindMod )
+      ,0
+      ,gcsmptNone
+      ,false
+      )
+   else if FCentities[Entity].E_col[Colony].COL_evList[Event].ROS_ecoindMod>0
+   then FCMgCSM_ColonyData_Upd(
+      dEcoIndusOut
+      ,Entity
+      ,Colony
+      ,-FCentities[Entity].E_col[Colony].COL_evList[Event].ROS_ecoindMod
+      ,0
+      ,gcsmptNone
+      ,false
+      );
+   if FCentities[Entity].E_col[Colony].COL_evList[Event].ROS_tensionMod<0
+   then FCMgCSM_ColonyData_Upd(
+      dTension
+      ,Entity
+      ,Colony
+      ,abs( FCentities[Entity].E_col[Colony].COL_evList[Event].ROS_tensionMod )
+      ,0
+      ,gcsmptNone
+      ,false
+      )
+   else if FCentities[Entity].E_col[Colony].COL_evList[Event].ROS_tensionMod>0
+   then FCMgCSM_ColonyData_Upd(
+      dTension
+      ,Entity
+      ,Colony
+      ,-FCentities[Entity].E_col[Colony].COL_evList[Event].ROS_tensionMod
+      ,0
+      ,gcsmptNone
+      ,false
+      );
+   if FCentities[Entity].E_col[Colony].COL_evList[Event].ROS_healthMod<0
+   then FCMgCSM_ColonyData_Upd(
+      dHealth
+      ,Entity
+      ,Colony
+      ,abs( FCentities[Entity].E_col[Colony].COL_evList[Event].ROS_healthMod )
+      ,0
+      ,gcsmptNone
+      ,false
+      )
+   else if FCentities[Entity].E_col[Colony].COL_evList[Event].ROS_healthMod>0
+   then FCMgCSM_ColonyData_Upd(
+      dHealth
+      ,Entity
+      ,Colony
+      ,-FCentities[Entity].E_col[Colony].COL_evList[Event].ROS_healthMod
+      ,0
+      ,gcsmptNone
+      ,false
+      );
+   PPScalc:=NewPPS * 0.01;
+   SubSFcalc:=round( FCentities[ Entity ].E_col[ Colony ].COL_population.POP_total * PPScalc );
+   SFcalc:=FCentities[ Entity ].E_col[ Colony ].COL_population.POP_total / ( FCentities[ Entity ].E_col[ Colony ].COL_population.POP_total - SubSFcalc );
+   SFcalc:=FCFcFunc_Rnd( cfrttp2dec, SFcalc );
+   if SFcalc<2.5 then
+   begin
+      AgeCoefficient:=FCFgCSM_AgeCoefficient_Retrieve( Entity, Colony );
+      ModifierCalc:=( 1 - ( 1 / SFcalc ) ) * ( 140 * AgeCoefficient );
+      FCentities[Entity].E_col[Colony].COL_evList[Event].ROS_ecoindMod:=-round( ModifierCalc );
+      ModifierCalc:=SQR( SFcalc - 1 ) * 20;
+      FCentities[Entity].E_col[Colony].COL_evList[Event].ROS_tensionMod:=round( ModifierCalc );
+      ModifierCalc:=( SFcalc - 1 ) * ( 40 * AgeCoefficient );
+      FCentities[Entity].E_col[Colony].COL_evList[Event].ROS_healthMod:=-round( ModifierCalc );
+      if Event>0 then
+      begin
+         FCMgCSM_ColonyData_Upd(
+            dEcoIndusOut
+            ,Entity
+            ,Colony
+            ,FCentities[Entity].E_col[Colony].COL_evList[Event].ROS_ecoindMod
+            ,0
+            ,gcsmptNone
+            ,false
+            );
+         FCMgCSM_ColonyData_Upd(
+            dTension
+            ,Entity
+            ,Colony
+            ,FCentities[Entity].E_col[Colony].COL_evList[Event].ROS_tensionMod
+            ,0
+            ,gcsmptNone
+            ,false
+            );
+         FCMgCSM_ColonyData_Upd(
+            dHealth
+            ,Entity
+            ,Colony
+            ,FCentities[Entity].E_col[Colony].COL_evList[Event].ROS_healthMod
+            ,0
+            ,gcsmptNone
+            ,false
+            );
+      end;
+   end
+   {.case if the entire population die}
+   else FCentities[Entity].E_col[Colony].COL_evList[Event].CSMEV_duration:=-3;
 end;
 
 procedure FCMgCR_Reserve_Update(
    const Entity
          ,Colony: integer;
    const TypeOfReserve: TFCEdipProductFunctions;
-   const ValueModifier: integer
+   const ValueModifier: integer;
+   const updateStorage: boolean
    );
 {:Purpose: update a specified reserve with a +/- value. The value is in reserve points.
     Additions:
+      -2012May17- *add: update the oxygen storage in accordance.
       -2012Apr16- *add: completion.
 }
+   var
+      StorageItem: integer;
+
+      VolumeFromReserve: extended;
 begin
    case TypeOfReserve of
       prfuFood:
@@ -301,16 +444,43 @@ begin
       prfuOxygen:
       begin
          FCentities[ Entity ].E_col[ Colony ].COL_reserveOxygen:=FCentities[ Entity ].E_col[ Colony ].COL_reserveOxygen+ValueModifier;
-         if Entity=0
-         then FCMuiCDD_Colony_Update(
-            cdlReserveOxy
+         VolumeFromReserve:=FCFgCR_ReserveToOxygen_Convert( ValueModifier );
+         FCWinDebug.AdvMemo1.Lines.Add('VolumeFromReserve='+floattostr(VolumeFromReserve));
+         if updatestorage then begin
+            FCFgC_Storage_Update(
+               'resO2'
+               ,VolumeFromReserve
+               ,Entity
+               ,Colony
+               );
+         end;
+         StorageItem:=FCFgC_Storage_RetrieveIndex(
+            'resO2'
+            ,Entity
             ,Colony
-            ,0
-            ,0
-            ,true
-            ,false
             ,false
             );
+         if Entity=0 then
+         begin
+            FCMuiCDD_Colony_Update(
+               cdlReserveOxy
+               ,Colony
+               ,0
+               ,0
+               ,true
+               ,false
+               ,false
+               );
+            FCMuiCDD_Colony_Update(
+               cdlStorageItem
+               ,Colony
+               ,StorageItem
+               ,0
+               ,true
+               ,false
+               ,false
+               );
+         end;
       end;
 
       prfuWater:
@@ -348,7 +518,7 @@ begin
    case TypeOfReserve of
       prfuFood: ConvertedModifier:=FCFgCR_Food_Convert( ValueModifier, FoodDensity );
 
-      prfuOxygen: ConvertedModifier:=FCFgCR_Oxygen_Convert( ValueModifier );
+      prfuOxygen: ConvertedModifier:=FCFgCR_OxygenToReserve_Convert( ValueModifier );
 
       prfuWater: ConvertedModifier:=FCFgCR_Water_Convert( ValueModifier );
    end;
@@ -358,6 +528,7 @@ begin
       ,Colony
       ,TypeOfReserve
       ,ConvertedModifier
+      ,false
       );
 end;
 

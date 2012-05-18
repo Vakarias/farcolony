@@ -457,9 +457,8 @@ begin
             if FCEntities[0].E_col[CWPAKTcol].COL_storageList[ CDPmanEquipStor[CWPAKTequipIndex] ].CPR_unit<CWPAKTvalue
             then CWPAKTvalue:=round(FCEntities[0].E_col[CWPAKTcol].COL_storageList[ CDPmanEquipStor[CWPAKTequipIndex] ].CPR_unit);
             FCFgC_Storage_Update(
-               false
-               ,FCEntities[0].E_col[CWPAKTcol].COL_storageList[ CDPmanEquipStor[CWPAKTequipIndex] ].CPR_token
-               ,CWPAKTvalue
+               FCEntities[0].E_col[CWPAKTcol].COL_storageList[ CDPmanEquipStor[CWPAKTequipIndex] ].CPR_token
+               ,-CWPAKTvalue
                ,0
                ,CWPAKTcol
                );
@@ -531,9 +530,8 @@ begin
             CWPAVKTcrew:=CWPAVKTvalue*FCDBproducts[ CDPmanEquipDB[CWPAVKTequipIndex] ].PROD_fMechConstCrew;
          end;
          FCFgC_Storage_Update(
-            false
-            ,FCEntities[0].E_col[CWPAVKTcol].COL_storageList[ CDPmanEquipStor[CWPAVKTequipIndex] ].CPR_token
-            ,CWPAVKTvalue
+            FCEntities[0].E_col[CWPAVKTcol].COL_storageList[ CDPmanEquipStor[CWPAVKTequipIndex] ].CPR_token
+            ,-CWPAVKTvalue
             ,0
             ,CWPAVKTcol
             );

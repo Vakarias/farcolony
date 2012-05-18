@@ -59,15 +59,15 @@ type TFCEcsmeModTp=(
 ///    <param name="ECcancelTp">cancellation type</param>
 ///    <param name="ECfacIdx">faction index #</param>
 ///    <param name="ECcolIdx">colony index #</param>
-///    <param name="ECevent">event #</param>
-///    <param name="ECnewEvent">[only for override] new event type</param>
+///    <param name="EventIndex">event index #</param>
+///    <param name="NewEventType">[only for override] new event type</param>
 ///    <param name="ECnewLvl">[only for override] event level if needed</param>
 procedure FCMgCSME_Event_Cancel(
    const ECcancelTp: TFCEcsmeEvCan;
    const ECfacIdx
          ,ECcolIdx
-         ,ECevent: integer;
-   const ECnewEvent: TFCEdgEventTypes;
+         ,EventIndex: integer;
+   const NewEventType: TFCEdgEventTypes;
    const ECnewLvl: integer
    );
 
@@ -198,11 +198,12 @@ procedure FCMgCSME_Event_Cancel(
    const ECcancelTp: TFCEcsmeEvCan;
    const ECfacIdx
          ,ECcolIdx
-         ,ECevent: integer;
-   const ECnewEvent: TFCEdgEventTypes;
+         ,EventIndex: integer;
+   const NewEventType: TFCEdgEventTypes;
    const ECnewLvl: integer
    );
 {:Purpose: cancel a specified event.
+   -2012May17- *add: csmeecOverride - reset also the durations.
    -2012May16- *add: etRveFoodShortage, etRveFoodShortageRec - reset of RFS_directDeathPeriod and RFS_deathFracValue.
                *add: etRveFoodShortage, etRveFoodShortageRec - re-initialize RFS_directDeathPeriod in case of an override.
    -2012May15- *add: etRveWaterOverload, etRveFoodOverload.
@@ -251,65 +252,65 @@ begin
    ModTension:=0;
    ModHealth:=0;
    {.retrieve the CSM modifiers, if the event have any, or apply special rule to non modifier data}
-   case FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].CSMEV_token of
+   case FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ EventIndex ].CSMEV_token of
       etColEstab:
       begin
-         ModTension:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].CE_tensionMod;
-         ModSecurity:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].CE_securityMod;
+         ModTension:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ EventIndex ].CE_tensionMod;
+         ModSecurity:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ EventIndex ].CE_securityMod;
       end;
 
       etUnrest, etUnrestRec:
       begin
-         ModEcoIndOut:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].UN_ecoindMod;
-         ModTension:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].UN_tensionMod;
+         ModEcoIndOut:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ EventIndex ].UN_ecoindMod;
+         ModTension:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ EventIndex ].UN_tensionMod;
       end;
 
       etSocdis, etSocdisRec:
       begin
-         ModEcoIndOut:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].SD_ecoindMod;
-         ModTension:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].SD_tensionMod;
+         ModEcoIndOut:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ EventIndex ].SD_ecoindMod;
+         ModTension:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ EventIndex ].SD_tensionMod;
       end;
 
       etUprising, etUprisingRec:
       begin
-         ModEcoIndOut:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].UP_ecoindMod;
-         ModTension:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].UP_tensionMod;
+         ModEcoIndOut:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ EventIndex ].UP_ecoindMod;
+         ModTension:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ EventIndex ].UP_tensionMod;
       end;
 
-      etHealthEduRel: ModInstruction:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].HER_educationMod;
+      etHealthEduRel: ModInstruction:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ EventIndex ].HER_educationMod;
 
-      etGovDestab, etGovDestabRec: ModCohesion:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].GD_cohesionMod;
+      etGovDestab, etGovDestabRec: ModCohesion:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ EventIndex ].GD_cohesionMod;
 
-      etRveOxygenOverload: FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].ROO_percPopNotSupported:=0;
+      etRveOxygenOverload: FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ EventIndex ].ROO_percPopNotSupported:=0;
 
       etRveOxygenShortage, etRveOxygenShortageRec:
       begin
-         FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].ROS_percPopNotSupAtCalc:=0;
-         ModEcoIndOut:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].ROS_ecoindMod;
-         ModTension:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].ROS_tensionMod;
-         ModHealth:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].ROS_healthMod;
+         FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ EventIndex ].ROS_percPopNotSupAtCalc:=0;
+         ModEcoIndOut:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ EventIndex ].ROS_ecoindMod;
+         ModTension:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ EventIndex ].ROS_tensionMod;
+         ModHealth:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ EventIndex ].ROS_healthMod;
       end;
 
-      etRveWaterOverload: FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].RWO_percPopNotSupported:=0;
+      etRveWaterOverload: FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ EventIndex ].RWO_percPopNotSupported:=0;
 
       etRveWaterShortage, etRveWaterShortageRec:
       begin
-         FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].RWS_percPopNotSupAtCalc:=0;
-         ModEcoIndOut:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].RWS_ecoindMod;
-         ModTension:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].RWS_tensionMod;
-         ModHealth:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].RWS_healthMod;
+         FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ EventIndex ].RWS_percPopNotSupAtCalc:=0;
+         ModEcoIndOut:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ EventIndex ].RWS_ecoindMod;
+         ModTension:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ EventIndex ].RWS_tensionMod;
+         ModHealth:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ EventIndex ].RWS_healthMod;
       end;
 
-      etRveFoodOverload: FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].RFO_percPopNotSupported:=0;
+      etRveFoodOverload: FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ EventIndex ].RFO_percPopNotSupported:=0;
 
       etRveFoodShortage, etRveFoodShortageRec:
       begin
-         FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].RFS_percPopNotSupAtCalc:=0;
-         ModEcoIndOut:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].RFS_ecoindMod;
-         ModTension:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].RFS_tensionMod;
-         ModHealth:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].RFS_healthMod;
-         FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].RFS_directDeathPeriod:=0;
-         FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].RFS_deathFracValue:=0;
+         FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ EventIndex ].RFS_percPopNotSupAtCalc:=0;
+         ModEcoIndOut:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ EventIndex ].RFS_ecoindMod;
+         ModTension:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ EventIndex ].RFS_tensionMod;
+         ModHealth:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ EventIndex ].RFS_healthMod;
+         FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ EventIndex ].RFS_directDeathPeriod:=0;
+         FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ EventIndex ].RFS_deathFracValue:=0;
       end;
    end; //==END== case FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].CSMEV_token of ==//
    {.apply the correct cancellation method}
@@ -355,8 +356,8 @@ begin
             then FinalCSMvalue:=abs(ModSecurity)
             else if ModSecurity>0
             then FinalCSMvalue:=-ModSecurity;
-            case FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].CSMEV_token of
-               etColEstab: FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].CE_securityMod:=FinalCSMvalue;
+            case FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ EventIndex ].CSMEV_token of
+               etColEstab: FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ EventIndex ].CE_securityMod:=FinalCSMvalue;
             end;
             FCMgCSM_ColonyData_Upd(
                dSecurity
@@ -415,7 +416,7 @@ begin
             ,false
             );
          {.indicate that the event must be cleared}
-         FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CSMEV_duration:=-255;
+         FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[EventIndex].CSMEV_duration:=-255;
          if ECcancelTp=csmeecImmediate
          then
          begin
@@ -453,119 +454,106 @@ begin
 
       csmeecRecover:
       begin
-         case FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CSMEV_token of
-            etUnrest: FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CSMEV_token:=etUnrestRec;
+         case FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[EventIndex].CSMEV_token of
+            etUnrest: FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[EventIndex].CSMEV_token:=etUnrestRec;
 
-            etSocdis: FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CSMEV_token:=etSocdisRec;
+            etSocdis: FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[EventIndex].CSMEV_token:=etSocdisRec;
 
-            etUprising: FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CSMEV_token:=etUprisingRec;
+            etUprising: FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[EventIndex].CSMEV_token:=etUprisingRec;
 
             etGovDestab:
             begin
-               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CSMEV_token:=etGovDestabRec;
-               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CSMEV_duration:=-1;
+               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[EventIndex].CSMEV_token:=etGovDestabRec;
+               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[EventIndex].CSMEV_duration:=-1;
             end;
 
-            etRveOxygenShortage: FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CSMEV_token:=etRveOxygenShortageRec;
+            etRveOxygenShortage: FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[EventIndex].CSMEV_token:=etRveOxygenShortageRec;
 
-            etRveWaterShortage: FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CSMEV_token:=etRveWaterShortageRec;
+            etRveWaterShortage: FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[EventIndex].CSMEV_token:=etRveWaterShortageRec;
 
-            etRveFoodShortage: FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CSMEV_token:=etRveFoodShortageRec;
+            etRveFoodShortage: FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[EventIndex].CSMEV_token:=etRveFoodShortageRec;
          end;
       end;
 
       csmeecOverride:
       begin
          FCMgCSME_Event_Trigger(
-            ECnewEvent
+            NewEventType
             ,ECfacIdx
             ,ECcolIdx
             ,ECnewLvl
             ,true
             );
-         FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CSMEV_token:=ECnewEvent;
-         case FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].CSMEV_token of
-//            etColEstab:
-//            begin
-//               MeanTension:=round( ( ModTension+FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].CE_tensionMod )*0.5 );
-//               MeanSecurity:=round( ( ModSecurity+FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].CE_securityMod )*0.5 );
-//               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CE_tensionMod:=MeanTension;
-//               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CE_securityMod:=MeanSecurity;
-//            end;
-
+         FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[EventIndex].CSMEV_token:=NewEventType;
+         FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[EventIndex].CSMEV_duration:=FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].CSMEV_duration;
+         case FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ EventIndex ].CSMEV_token of
             etUnrest:
             begin
-               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CSMEV_lvl:=ECnewLvl;
+               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[EventIndex].CSMEV_lvl:=ECnewLvl;
                MeanEcoIndOut:=round( ( ModEcoIndOut+FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].UN_ecoindMod )*0.5 );
                MeanTension:=round( ( ModTension+FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].UN_tensionMod )*0.5 );
-               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].UN_ecoindMod:=MeanEcoIndOut;
-               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].UN_tensionMod:=MeanTension;
+               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[EventIndex].UN_ecoindMod:=MeanEcoIndOut;
+               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[EventIndex].UN_tensionMod:=MeanTension;
             end;
 
             etSocdis:
             begin
-               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CSMEV_lvl:=ECnewLvl;
+               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[EventIndex].CSMEV_lvl:=ECnewLvl;
                MeanEcoIndOut:=round( ( ModEcoIndOut+FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].SD_ecoindMod )*0.5 );
                MeanTension:=round( ( ModTension+FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].SD_tensionMod )*0.5 );
-               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].SD_ecoindMod:=MeanEcoIndOut;
-               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].SD_tensionMod:=MeanTension;
+               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[EventIndex].SD_ecoindMod:=MeanEcoIndOut;
+               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[EventIndex].SD_tensionMod:=MeanTension;
             end;
 
             etUprising:
             begin
-               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CSMEV_lvl:=ECnewLvl;
+               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[EventIndex].CSMEV_lvl:=ECnewLvl;
                MeanEcoIndOut:=round( ( ModEcoIndOut+FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].UP_ecoindMod )*0.5 );
                MeanTension:=round( ( ModTension+FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].UP_tensionMod )*0.5 );
-               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].UP_ecoindMod:=MeanEcoIndOut;
-               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].UP_tensionMod:=MeanTension;
+               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[EventIndex].UP_ecoindMod:=MeanEcoIndOut;
+               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[EventIndex].UP_tensionMod:=MeanTension;
             end;
-
-//            etHealthEduRel:
-//            begin
-//               MeanInstruction:=round( ( ModInstruction+FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].HER_educationMod )*0.5 );
-//               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].HER_educationMod:=MeanInstruction;
-//            end;
 
             etGovDestab:
             begin
-               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].CSMEV_lvl:=ECnewLvl;
+               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[EventIndex].CSMEV_lvl:=ECnewLvl;
                MeanCohesion:=round( ( ModCohesion+FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].GD_cohesionMod )*0.5 );
-               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].GD_cohesionMod:=MeanCohesion;
+               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[EventIndex].GD_cohesionMod:=MeanCohesion;
             end;
 
             etRveOxygenShortage:
             begin
-               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].ROS_percPopNotSupAtCalc:=FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].ROS_percPopNotSupAtCalc;
+               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[EventIndex].ROS_percPopNotSupAtCalc:=FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].ROS_percPopNotSupAtCalc;
                MeanEcoIndOut:=round( ( ModEcoIndOut + FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].ROS_ecoindMod )*0.5 );
                MeanTension:=round( ( ModTension + FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].ROS_tensionMod )*0.5 );
                MeanHealth:=round( ( ModHealth + FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].ROS_healthMod )*0.5 );
-               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].ROS_ecoindMod:=MeanEcoIndOut;
-               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].ROS_tensionMod:=MeanTension;
-               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].ROS_healthMod:=MeanHealth;
+               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[EventIndex].ROS_ecoindMod:=MeanEcoIndOut;
+               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[EventIndex].ROS_tensionMod:=MeanTension;
+               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[EventIndex].ROS_healthMod:=MeanHealth;
             end;
 
             etRveWaterShortage:
             begin
-               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].RWS_percPopNotSupAtCalc:=FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].RWS_percPopNotSupAtCalc;
+               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[EventIndex].RWS_percPopNotSupAtCalc:=FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].RWS_percPopNotSupAtCalc;
                MeanEcoIndOut:=round( ( ModEcoIndOut + FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].RWS_ecoindMod )*0.5 );
                MeanTension:=round( ( ModTension + FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].RWS_tensionMod )*0.5 );
                MeanHealth:=round( ( ModHealth + FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].RWS_healthMod )*0.5 );
-               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].RWS_ecoindMod:=MeanEcoIndOut;
-               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].RWS_tensionMod:=MeanTension;
-               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].RWS_healthMod:=MeanHealth;
+               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[EventIndex].RWS_ecoindMod:=MeanEcoIndOut;
+               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[EventIndex].RWS_tensionMod:=MeanTension;
+               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[EventIndex].RWS_healthMod:=MeanHealth;
             end;
 
             etRveFoodShortage:
             begin
-               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].RFS_percPopNotSupAtCalc:=FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].RFS_percPopNotSupAtCalc;
+               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[EventIndex].RFS_percPopNotSupAtCalc:=FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].RFS_percPopNotSupAtCalc;
                MeanEcoIndOut:=round( ( ModEcoIndOut + FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].RFS_ecoindMod )*0.5 );
                MeanTension:=round( ( ModTension + FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].RFS_tensionMod )*0.5 );
                MeanHealth:=round( ( ModHealth + FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].RFS_healthMod )*0.5 );
-               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].RFS_ecoindMod:=MeanEcoIndOut;
-               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].RFS_tensionMod:=MeanTension;
-               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].RFS_healthMod:=MeanHealth;
-               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].RFS_directDeathPeriod:=FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].RFS_directDeathPeriod;
-               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[ECevent].RFS_deathFracValue:=FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].RFS_deathFracValue;
+               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[EventIndex].RFS_ecoindMod:=MeanEcoIndOut;
+               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[EventIndex].RFS_tensionMod:=MeanTension;
+               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[EventIndex].RFS_healthMod:=MeanHealth;
+               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[EventIndex].RFS_directDeathPeriod:=FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].RFS_directDeathPeriod;
+               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[EventIndex].RFS_deathFracValue:=FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].RFS_deathFracValue;
             end;
          end; //==END== case FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ ECevent ].CSMEV_token of ==//
 
@@ -669,6 +657,7 @@ procedure FCMgCSME_Event_Trigger(
    {:DEV NOTES: test if a same event already exist in recovering mode, if it's the case => override, if not => do nothing.}
 {:Purpose: trigger a specified event.
     Additions:
+      -2012May17- *rem: etRveFoodShortage calculation is moved into its proper method.
       -2012May15- *mod: etRveOxygenOverload - since the PPS is already calculated in the segment 3, it's loaded in the EventLevel parameter (so need to recalculate the PPS in this method).
       -2012May14- *add: etRveFoodShortage.
       -2012May13- *add: etRveOxygenShortage, etRveWaterOverload, etRveWaterShortage and etRveFoodOverload events.
@@ -1107,11 +1096,10 @@ begin
             {.no resistance}
             0:
             begin
-               if Assigned(FCcps)
+               if ( Entity=0)
+                  and ( Assigned(FCcps) )
                then FCMgCore_GameOver_Process( gfrCPScolonyBecameDissident )
-               else if not Assigned(FCcps)
-               then
-               begin
+               else begin
                   {:DEV NOTES: WARNING, DUPLICATE CODE W/ OT - FIX THAT !.}
                   {:DEV NOTES: colony is lost.
                   the procedure to implement when AI will be done:
@@ -1208,71 +1196,19 @@ begin
             );
          if EventDataI1=0
          then raise Exception.Create('there is no Oxygen Production Overload event created, prior to Oxygen Shortage, check the reserves consumption rule.');
-         {.EventDataI2 = sub data for SF calculation}
-         EventDataI2:=0;
-         {.EventDataF1 = PPS}
-         EventDataF1:=0;
-         {.EventDataF2 = SF}
-         EventDataF2:=0;
-         {.EventDataF3 = age coefficient}
-         EventDataF3:=0;
-         {.EventDataF4 = modifier calculation dump storage}
-         EventDataF4:=0;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_token:=etRveOxygenShortage;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_isRes:=true;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_duration:=-1;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_lvl:=0;
-         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].ROS_percPopNotSupAtCalc:=FCentities[ Entity ].E_col[ Colony ].COL_evList[ EventDataI1 ].ROO_percPopNotSupported;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].ROS_ecoindMod:=0;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].ROS_tensionMod:=0;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].ROS_healthMod:=0;
-         EventDataF1:=FCentities[ Entity ].E_col[ Colony ].COL_evList[ EventDataI1 ].ROO_percPopNotSupported * 0.01;
-         EventDataI2:=round( FCentities[ Entity ].E_col[ Colony ].COL_population.POP_total * EventDataF1 );
-         EventDataF2:=FCentities[ Entity ].E_col[ Colony ].COL_population.POP_total / ( FCentities[ Entity ].E_col[ Colony ].COL_population.POP_total - EventDataI2 );
-         EventDataF2:=FCFcFunc_Rnd( cfrttp2dec, EventDataF2 );
-         {.severity factor result}
-         if EventDataF2<2.5 then
-         begin
-            EventDataF3:=FCFgCSM_AgeCoefficient_Retrieve( Entity, Colony );
-            EventDataF4:=( 1 - ( 1 / EventDataF2 ) ) * ( 140 * EventDataF3 );
-            FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].ROS_ecoindMod:=-round( EventDataF4 );
-            EventDataF4:=SQR( EventDataF2 - 1 ) * 20;
-            FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].ROS_tensionMod:=round( EventDataF4 );
-            EventDataF4:=( EventDataF2 - 1 ) * ( 40 * EventDataF3 );
-            FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].ROS_healthMod:=-round( EventDataF4 );
-            if not LoadToIndex0 then
-            begin
-               FCMgCSM_ColonyData_Upd(
-                  dEcoIndusOut
-                  ,Entity
-                  ,Colony
-                  ,FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].ROS_ecoindMod
-                  ,0
-                  ,gcsmptNone
-                  ,false
-                  );
-               FCMgCSM_ColonyData_Upd(
-                  dTension
-                  ,Entity
-                  ,Colony
-                  ,FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].ROS_tensionMod
-                  ,0
-                  ,gcsmptNone
-                  ,false
-                  );
-               FCMgCSM_ColonyData_Upd(
-                  dHealth
-                  ,Entity
-                  ,Colony
-                  ,FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].ROS_healthMod
-                  ,0
-                  ,gcsmptNone
-                  ,false
-                  );
-            end;
-         end
-         {.case if the entire population die}
-         else FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_duration:=-3;
+         FCMgCR_OxygenShortage_Calc(
+            Entity
+            ,Colony
+            ,CurrentEventIndex
+            ,FCentities[ Entity ].E_col[ Colony ].COL_evList[ EventDataI1 ].ROO_percPopNotSupported
+            );
       end; //==END== case: etRveOxygenShortage ==//
 
       etRveWaterOverload:
@@ -2029,6 +1965,7 @@ procedure FCMgCSME_OT_Proc(
    );
 {:Purpose: over time processing for events of a colony.
    Additions:
+      -2012May16- *fix: for CPS test, do it ONLY if it'S NOT the player's faction.
       -2012May15- *rem: etRveOxygenOverload is removed, there's no process in CSM phase of this event, it's processed in the segment 3 of the production phase.
       -2012May06- *mod: apply modification according to changes in the CSM event data structure.
                   *mod: cleanup data assignation by using FCMgCSM_ColonyData_Upd.
@@ -3632,11 +3569,10 @@ begin
                   else if OTPevArr[OTPcnt].CSMEV_duration=-3
                   then
                   begin
-                     if Assigned(FCcps)
+                     if ( Entity=0)
+                        and ( Assigned(FCcps) )
                      then FCMgCore_GameOver_Process( gfrCPScolonyBecameDissident )
-                     else if not Assigned(FCcps)
-                     then
-                     begin
+                     else begin
                         {:DEV NOTES: colony is lost.
                         the procedure to implement when AI will be done:
                            1/create a faction for the dissident colony and transfert the colony's data to the new faction's sub-datastructure

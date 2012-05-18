@@ -166,15 +166,14 @@ function FCFgC_Storage_RetrieveIndex(
    ): integer;
 
 ///<summary>
-///   update the storage of a colony with a specific product. Return the amount in unit that couldn't be transfered
+///   update the storage of a colony with a specific product
 ///</summary>
-///   <param name="SUisStoreMode">if true=> the product is stored, if false=> the product is removed</param>
 ///   <param name="SUtoken">product's token</param>
-///   <param name="SUunit">product's unit #</param>
+///   <param name="SUunit">product's unit # in + or -</param>
 ///   <param name="SUtargetEnt">target entity #</param>
 ///   <param name="SUtargetCol">target colony #</param>
+///   <returns>amount in unit that couldn't be transfered</returns>
 function FCFgC_Storage_Update(
-   const SUisStoreMode: boolean;
    const SUtoken: string;
          SUunit: extended;
    const SUtargetEnt
@@ -630,8 +629,7 @@ begin
       and ( SRImustCreateIfNotFound ) then
    begin
       FCFgC_Storage_Update(
-         true
-         ,SRItoken
+         SRItoken
          ,0
          ,SRIentity
          ,SRIcolony
@@ -642,7 +640,6 @@ begin
 end;
 
 function FCFgC_Storage_Update(
-   const SUisStoreMode: boolean;
    const SUtoken: string;
          SUunit: extended;
    const SUtargetEnt
@@ -650,6 +647,7 @@ function FCFgC_Storage_Update(
    ): extended;
 {:Purpose: update the storage of a colony with a specific product. Return the amount in unit that couldn't be transfered.
     Additions:
+      -2012May17- *rem: SUisStoreMode, must use +/- now.
       -2012May13- *add: SUunit must be > 0 to apply the storage rule.
       -2012Apr30- *fix: FCMuiCDD_Colony_Update - update the colony panel if only it's the player's faction which is concerned.
       -2012Apr16- *add: COMPLETE reserves management.
@@ -680,7 +678,7 @@ begin
    SUcnt:=0;
    SUindex:=FCFgP_Product_GetIndex(SUtoken);
    SUmax:=length(FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storageList)-1;
-   SUunit:=abs( SUunit );
+//   SUunit:=abs( SUunit );
    SUnewUnit:=0;
    SUcapaLoaded:=0;
    SUvolToXfer:=0;
@@ -711,9 +709,8 @@ begin
    end
    else if SUmax<=0
    then SetLength(FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storageList, 2);
-   if (SUisStoreMode)
-      and (SUcnt>0)
-      and (SUunit>0) then
+   if (SUunit>0)
+      and (SUcnt>0) then
    begin
       if FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storageList[SUcnt].CPR_token=''
       then FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storageList[SUcnt].CPR_token:=SUtoken;
@@ -826,10 +823,11 @@ begin
             );
       end; //==END== else begin of: if SUunit<=0 ==//
    end //==END== if (SUisStoreMode) and (SUcnt>0) ==//
-   else if (not SUisStoreMode)
-      and (SUcnt>0)
-      and (SUunit>0) then
+   else if (SUunit<0)
+      and (SUcnt>0) then
    begin
+      {:DEV NOTES: quick change, recode later.}
+      SUunit:=abs( SUunit );  //quick fix
       SUnewUnit:=0;
       if FCDBProducts[SUindex].PROD_volByUnit<>1
       then SUvolToXfer:=FCFcFunc_Rnd(cfrttpVolm3, FCDBProducts[SUindex].PROD_volByUnit*SUunit)
@@ -913,7 +911,7 @@ begin
       FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storageList[SUcnt].CPR_unit:=FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storageList[SUcnt].CPR_unit-SUnewUnit;
    end //==END== else if (not SUisStoreMode) and (SUcnt>0) and (SUunit>0) ==//
    else begin
-      Result:=SUunit;
+      Result:=abs( SUunit );
    end;
    if frac(Result)>0
    then Result:=FCFcFunc_Rnd( cfrttpVolm3, Result );
