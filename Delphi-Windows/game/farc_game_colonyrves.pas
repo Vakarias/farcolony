@@ -99,6 +99,34 @@ function FCFgCR_WaterToReserve_Convert( const WaterVolume: extended ): integer;
 //===========================END FUNCTIONS SECTION==========================================
 
 ///<summary>
+///   process the calculations for the Food Shortage event
+///</summary>
+///   <param name="Entity">entity index #</param>
+///   <param name="Colony">colony index #</param>
+///   <param name="Event">event index # to process</param>
+///   <param name="NewPPS">new Percent of Population not Supported to apply</param>
+procedure FCMgCR_FoodShortage_Calc(
+   const Entity
+         ,Colony
+         ,Event
+         ,NewPPS: integer
+   );
+
+///<summary>
+///   apply and process the direct death calculations for the Food Shortage event
+///</summary>
+///   <param name="Entity">entity index #</param>
+///   <param name="Colony">colony index #</param>
+///   <param name="Event">event index # to process</param>
+///   <param name="AgeCoef">[optional] age coefficient</param>
+procedure FCMgCR_FoodShortage_DirectDeath(
+   const Entity
+         ,Colony
+         ,Event: integer;
+   const AgeCoef: extended
+   );
+
+///<summary>
 ///   process the calculations for the Oxygen Shortage event
 ///</summary>
 ///   <param name="Entity">entity index #</param>
@@ -312,6 +340,192 @@ end;
 
 //===========================END FUNCTIONS SECTION==========================================
 
+procedure FCMgCR_FoodShortage_Calc(
+   const Entity
+         ,Colony
+         ,Event
+         ,NewPPS: integer
+   );
+{:Purpose: process the calculations for the Food Shortage event.
+    Additions:
+}
+   var
+      AgeCoefficient
+      ,EnvCoefFracValue
+      ,ModifierCalc
+      ,PPScalc: extended;
+
+      ColonyEnvironment: TFCRgcEnvironment;
+begin
+   FCentities[Entity].E_col[Colony].COL_evList[Event].RFS_percPopNotSupAtCalc:=NewPPS;
+   {.reset the modifiers in the colony's data, if required}
+   if FCentities[Entity].E_col[Colony].COL_evList[Event].RFS_ecoindMod<0
+   then FCMgCSM_ColonyData_Upd(
+      dEcoIndusOut
+      ,Entity
+      ,Colony
+      ,abs( FCentities[Entity].E_col[Colony].COL_evList[Event].RFS_ecoindMod )
+      ,0
+      ,gcsmptNone
+      ,false
+      )
+   else if FCentities[Entity].E_col[Colony].COL_evList[Event].RFS_ecoindMod>0
+   then FCMgCSM_ColonyData_Upd(
+      dEcoIndusOut
+      ,Entity
+      ,Colony
+      ,-FCentities[Entity].E_col[Colony].COL_evList[Event].RFS_ecoindMod
+      ,0
+      ,gcsmptNone
+      ,false
+      );
+   if FCentities[Entity].E_col[Colony].COL_evList[Event].RFS_tensionMod<0
+   then FCMgCSM_ColonyData_Upd(
+      dTension
+      ,Entity
+      ,Colony
+      ,abs( FCentities[Entity].E_col[Colony].COL_evList[Event].RFS_tensionMod )
+      ,0
+      ,gcsmptNone
+      ,false
+      )
+   else if FCentities[Entity].E_col[Colony].COL_evList[Event].RFS_tensionMod>0
+   then FCMgCSM_ColonyData_Upd(
+      dTension
+      ,Entity
+      ,Colony
+      ,-FCentities[Entity].E_col[Colony].COL_evList[Event].RFS_tensionMod
+      ,0
+      ,gcsmptNone
+      ,false
+      );
+   if FCentities[Entity].E_col[Colony].COL_evList[Event].RFS_healthMod<0
+   then FCMgCSM_ColonyData_Upd(
+      dHealth
+      ,Entity
+      ,Colony
+      ,abs( FCentities[Entity].E_col[Colony].COL_evList[Event].RFS_healthMod )
+      ,0
+      ,gcsmptNone
+      ,false
+      )
+   else if FCentities[Entity].E_col[Colony].COL_evList[Event].RFS_healthMod>0
+   then FCMgCSM_ColonyData_Upd(
+      dHealth
+      ,Entity
+      ,Colony
+      ,-FCentities[Entity].E_col[Colony].COL_evList[Event].RFS_healthMod
+      ,0
+      ,gcsmptNone
+      ,false
+      );
+   AgeCoefficient:=FCFgCSM_AgeCoefficient_Retrieve( Entity, Colony );
+   if NewPPS<=40 then
+   begin
+      if NewPPS>10 then
+      begin
+         ModifierCalc:=SQR( NewPPS ) * ( 0.05 * AgeCoefficient );
+         FCentities[Entity].E_col[Colony].COL_evList[Event].RFS_ecoindMod:=- round( ModifierCalc );
+         ColonyEnvironment:=FCFgC_ColEnv_GetTp( Entity, Colony );
+         case ColonyEnvironment.ENV_envType of
+            envfreeLiving: EnvCoefFracValue:=1;
+
+            restrict: EnvCoefFracValue:=1.3;
+
+            space: EnvCoefFracValue:=1.7;
+         end;
+         ModifierCalc:=SQRT( NewPPS ) * ( 5 * EnvCoefFracValue );
+         FCentities[Entity].E_col[Colony].COL_evList[Event].RFS_tensionMod:=round( ModifierCalc );
+         if Event>0 then
+         begin
+            FCMgCSM_ColonyData_Upd(
+               dEcoIndusOut
+               ,Entity
+               ,Colony
+               ,FCentities[Entity].E_col[Colony].COL_evList[Event].RFS_ecoindMod
+               ,0
+               ,gcsmptNone
+               ,false
+               );
+            FCMgCSM_ColonyData_Upd(
+               dTension
+               ,Entity
+               ,Colony
+               ,FCentities[Entity].E_col[Colony].COL_evList[Event].RFS_tensionMod
+               ,0
+               ,gcsmptNone
+               ,false
+               );
+         end;
+      end;
+   end
+   else if NewPPS>40 then
+   begin
+      FCentities[Entity].E_col[Colony].COL_evList[Event].RFS_ecoindMod:=-100;
+      if Event>0
+      then FCMgCSM_ColonyData_Upd(
+         dEcoIndusOut
+         ,Entity
+         ,Colony
+         ,FCentities[Entity].E_col[Colony].COL_evList[Event].RFS_ecoindMod
+         ,0
+         ,gcsmptNone
+         ,false
+         );
+   end;
+   if NewPPS=100
+   then else FCentities[Entity].E_col[Colony].COL_evList[Event].CSMEV_duration:=-3;
+   ModifierCalc:=SQRT( NewPPS ) * ( 10 * AgeCoefficient );
+   FCentities[Entity].E_col[Colony].COL_evList[Event].RFS_healthMod:=- round( ModifierCalc );
+   if Event>0
+   then FCMgCSM_ColonyData_Upd(
+      dHealth
+      ,Entity
+      ,Colony
+      ,FCentities[Entity].E_col[Colony].COL_evList[Event].RFS_healthMod
+      ,0
+      ,gcsmptNone
+      ,false
+      );
+   {.direct death}
+   if (NewPPS>10)
+      and ( FCentities[Entity].E_col[Colony].COL_evList[Event].RFS_directDeathPeriod=0)
+   then FCMgCR_FoodShortage_DirectDeath(
+      Entity
+      ,Colony
+      ,Event
+      ,AgeCoefficient
+      );
+end;
+
+procedure FCMgCR_FoodShortage_DirectDeath(
+   const Entity
+         ,Colony
+         ,Event: integer;
+   const AgeCoef: extended
+   );
+{:Purpose: apply and process the direct death calculations for the Food Shortage event.
+    Additions:
+}
+   var
+      AgeCoefficient
+      ,FracValue
+      ,ModifierCalc: extended;
+
+      DeadToApply: integer;
+begin
+   if AgeCoef=0
+   then AgeCoefficient:=FCFgCSM_AgeCoefficient_Retrieve( Entity, Colony )
+   else AgeCoefficient:=AgeCoef;
+   ModifierCalc:=( SQRT( FCentities[Entity].E_col[Colony].COL_evList[Event].RFS_percPopNotSupAtCalc - 10 ) * ( 4 * AgeCoefficient ) )+FCentities[Entity].E_col[Colony].COL_evList[Event].RFS_deathFracValue;
+   ModifierCalc:=FCFcFunc_Rnd( cfrttp2dec, ModifierCalc );
+   DeadToApply:=trunc( ModifierCalc );
+   {:DEV NOTES: apply the direct death here, create a method in farc_game_pgs.}
+   FracValue:=frac( ModifierCalc );
+   FCentities[Entity].E_col[Colony].COL_evList[Event].RFS_directDeathPeriod:=4;
+   FCentities[Entity].E_col[Colony].COL_evList[Event].RFS_deathFracValue:=FracValue;
+end;
+
 procedure FCMgCR_OxygenShortage_Calc(
    const Entity
          ,Colony
@@ -448,6 +662,7 @@ procedure FCMgCR_Reserve_Update(
    );
 {:Purpose: update a specified reserve with a +/- value. The value is in reserve points.
     Additions:
+      -2012May20- *mod: complete water/oxygen storage calls.
       -2012May17- *add: update the water storage in accordance.
       -2012May17- *add: update the oxygen storage in accordance.
       -2012Apr16- *add: completion.

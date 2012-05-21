@@ -62,7 +62,7 @@ procedure FCMgPS3_ReservesSegment_Process(
    );
 {:Purpose: segment 3 (reserves consumption) processing.
     Additions:
-      -2012May20- *add: (WORK IN PROGRESS) - coding of the segment 3, add water consumption processing.
+      -2012May20- *add: (COMPLETION) - coding of the segment 3, add water consumption processing.
       -2012May14- *add: (WORK IN PROGRESS) - coding of the segment 3, including consumption and CSM events trigger, update and cancel.
 }
    var
@@ -328,7 +328,7 @@ begin
             then FCMgCore_GameOver_Process( gfrCPSentirePopulationDie )
             else begin
             end;
-            {:DEV NOTES: if not trigger a colony unbearable, see the cancellation rule of the Oxygen Shortage event.}
+            {:DEV NOTES: if not trigger a colony unbearable, see the cancellation rule of the Water Shortage event.}
          end
          {.case if there's enough water reserve for at least 1 tick}
          else if FCentities[ Entity ].E_col[ Colony ].COL_reserveWater>=FCentities[ Entity ].E_col[ Colony ].COL_population.POP_total
@@ -400,6 +400,167 @@ begin
       ,true
       );
    {.food consumption}
+   doNotProcessShortageEvent:=false;
+   ReturnedOverloadEvent:=FCFgCSME_Search_ByType(
+      etRveFoodOverload
+      ,Entity
+      ,Colony
+      );
+   PPS:=FCFgCR_FoodOverload_Calc( Entity, Colony );
+   {.process the Food Overload Event}
+   if ( ReturnedOverloadEvent=0 )
+      and ( PPS>0 )
+   then FCMgCSME_Event_Trigger(
+      etRveFoodOverload
+      ,Entity
+      ,Colony
+      ,PPS
+      ,false
+      )
+   else if ReturnedOverloadEvent>0 then
+   begin
+      if PPS<=0 then
+      begin
+         FCMgCSME_Event_Cancel(
+            csmeecImmediate
+            ,Entity
+            ,Colony
+            ,ReturnedOverloadEvent
+            ,etColEstab
+            ,0
+            );
+         ReturnedShortageEvent:=FCFgCSME_Search_ByType(
+            etRveFoodShortage
+            ,Entity
+            ,Colony
+            );
+         if ReturnedShortageEvent>0
+         then FCMgCSME_Event_Cancel(
+            csmeecRecover
+            ,Entity
+            ,Colony
+            ,ReturnedShortageEvent
+            ,etColEstab
+            ,0
+            );
+         doNotProcessShortageEvent:=true;
+      end //==END== if PPS<=0 ==//
+      else FCentities[ Entity ].E_col[ Colony ].COL_evList[ ReturnedOverloadEvent ].RFO_percPopNotSupported:=PPS;
+   end; //==END== else if ReturnedOverloadEvent>0 ==//
+   {.process the Food Shortage event}
+   if not doNotProcessShortageEvent then
+   begin
+      ReturnedShortageEvent:=FCFgCSME_Search_ByType(
+         etRveFoodShortage
+         ,Entity
+         ,Colony
+         );
+      if ReturnedShortageEvent=0 then
+      begin
+         ReturnedShortageEvent:=FCFgCSME_Search_ByType(
+            etRveFoodShortageRec
+            ,Entity
+            ,Colony
+            );
+         if ReturnedShortageEvent>0 then
+         begin
+            FCMgCSME_Recovering_Process(
+               Entity
+               ,Colony
+               ,ReturnedShortageEvent
+               );
+            if FCentities[ Entity ].E_col[ Colony ].COL_evList[ ReturnedShortageEvent ].CSMEV_duration=-2
+            then FCMgCSME_Event_Cancel(
+               csmeecImmediate
+               ,Entity
+               ,Colony
+               ,ReturnedShortageEvent
+               ,etColEstab
+               ,0
+               );
+         end;
+      end
+      else if ReturnedShortageEvent>0 then
+      begin
+         {.case when all the population die of starvation}
+         if FCentities[ Entity ].E_col[ Colony ].COL_evList[ ReturnedShortageEvent ].CSMEV_duration=-3 then
+         begin
+            if ( Entity=0 )
+               and ( Assigned( FCcps ) )
+            then FCMgCore_GameOver_Process( gfrCPSentirePopulationDie )
+            else begin
+            end;
+            {:DEV NOTES: if not trigger a colony unbearable, see the cancellation rule of the Food Shortage event.}
+         end
+         {.case if there's enough food reserve for at least 1 tick}
+         else if FCentities[ Entity ].E_col[ Colony ].COL_reserveFood>=FCentities[ Entity ].E_col[ Colony ].COL_population.POP_total
+         then FCMgCSME_Event_Cancel(
+            csmeecRecover
+            ,Entity
+            ,Colony
+            ,ReturnedShortageEvent
+            ,etColEstab
+            ,0
+            )
+         {.in any other case, do the over time process, if it's required}
+         else if PPS<>FCentities[ Entity ].E_col[ Colony ].COL_evList[ ReturnedShortageEvent ].RFS_percPopNotSupAtCalc
+         then FCMgCR_FoodShortage_Calc(
+            Entity
+            ,Colony
+            ,ReturnedShortageEvent
+            ,PPS
+            );
+      end;
+   end; //==END== if not doNotProcessShortageEvent ==//
+   {.process the food consumption}
+   if FCentities[ Entity ].E_col[ Colony ].COL_reserveFood<FCentities[ Entity ].E_col[ Colony ].COL_population.POP_total then
+   begin
+      ReturnedShortageEvent:=FCFgCSME_Search_ByType(
+         etRveFoodShortageRec
+         ,Entity
+         ,Colony
+         );
+      if ReturnedShortageEvent=0 then
+      begin
+         ReturnedShortageEvent:=FCFgCSME_Search_ByType(
+            etRveFoodShortage
+            ,Entity
+            ,Colony
+            );
+         if ReturnedShortageEvent=0
+         then FCMgCSME_Event_Trigger(
+            etRveFoodShortage
+            ,Entity
+            ,Colony
+            ,0
+            ,false
+            );
+      end
+      else if ReturnedShortageEvent>0
+      then FCMgCSME_Event_Cancel(
+         csmeecOverride
+         ,Entity
+         ,Colony
+         ,ReturnedShortageEvent
+         ,etRveFoodShortage
+         ,0
+         );
+      FCMgCR_Reserve_Update(
+         Entity
+         ,Colony
+         ,prfuFood
+         ,-FCentities[ Entity ].E_col[ Colony ].COL_reserveFood
+         ,true
+         );
+   end
+   else if FCentities[ Entity ].E_col[ Colony ].COL_reserveFood>=FCentities[ Entity ].E_col[ Colony ].COL_population.POP_total
+   then FCMgCR_Reserve_Update(
+      Entity
+      ,Colony
+      ,prfuFood
+      ,-FCentities[ Entity ].E_col[ Colony ].COL_population.POP_total
+      ,true
+      );
    {.update the interface for CSM events list is required}
    if Entity=0
    then FCMuiCDD_Colony_Update(
