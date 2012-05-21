@@ -678,6 +678,9 @@ interface
 		{.reserves}
       COL_reserveOxygen: integer;
 		COL_reserveFood: integer;
+      ///<summary>
+      /// store the storage indexes for each food product
+      ///</summary>
       COL_reserveFoodList: array of integer;
 		COL_reserveWater: integer;
    end;

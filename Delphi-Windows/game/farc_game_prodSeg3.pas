@@ -30,6 +30,9 @@ unit farc_game_prodSeg3;
 
 interface
 
+uses
+   SysUtils;
+
 //===========================END FUNCTIONS SECTION==========================================
 
 ///<summary>
@@ -51,7 +54,8 @@ uses
    ,farc_game_core
    ,farc_game_cps
    ,farc_game_csmevents
-   ,farc_ui_coredatadisplay;
+   ,farc_ui_coredatadisplay
+   ,farc_win_debug;
 
 //===================================================END OF INIT============================
 //===========================END FUNCTIONS SECTION==========================================

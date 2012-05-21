@@ -46,7 +46,8 @@ implementation
 
 uses
    farc_data_init
-   ,farc_main;
+   ,farc_main
+   ,farc_win_debug;
 
 //=============================================END OF INIT==================================
 
@@ -65,7 +66,7 @@ begin
    case GameOverReason of
       gfrCPScolonyBecameDissident:;
 
-      gfrCPSentirePopulationDie:;
+      gfrCPSentirePopulationDie: FCWinDebug.AdvMemo1.Lines.Add('all population die of dehydration, enjoy :)');
    end; //==END== case GameOverReason of ==//
 end;
 

@@ -1184,7 +1184,7 @@ begin
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_isRes:=true;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_duration:=-1;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_lvl:=0;
-         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].ROO_percPopNotSupported:=EventLevel;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].ROO_percPopNotSupported:=FCFgCR_OxygenOverload_Calc( Entity, Colony );;
       end; //==END== case: etRveOxygenOverload ==//
 
       etRveOxygenShortage:
@@ -1817,6 +1817,7 @@ procedure FCMgCSME_OT_Proc(
    );
 {:Purpose: over time processing for events of a colony.
    Additions:
+      -2012May21- *add: etRveFoodShortage for the direct death process.
       -2012May16- *fix: for CPS test, do it ONLY if it'S NOT the player's faction.
       -2012May15- *rem: etRveOxygenOverload is removed, there's no process in CSM phase of this event, it's processed in the segment 3 of the production phase.
       -2012May06- *mod: apply modification according to changes in the CSM event data structure.
@@ -3314,6 +3315,22 @@ begin
                ,Colony
                ,OTPcnt
                );
+
+            etRveFoodShortage:
+            begin
+               dec( FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].RFS_directDeathPeriod);
+               if FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].RFS_directDeathPeriod=0 then
+               begin
+                  if FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].RFS_percPopNotSupAtCalc>10
+                  then FCMgCR_FoodShortage_DirectDeath(
+                     Entity
+                     ,Colony
+                     ,OTPcnt
+                     ,0
+                     );
+                  FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].RFS_directDeathPeriod:=4;
+               end;
+            end;
          end; //==END== case FCentities[OTPfac].E_col[OTPcol].COL_evList[OTPcnt].CSMEV_token of ==//
          inc(OTPcnt);
       end; //==END== while OTPcnt<=OTPmax do ==//

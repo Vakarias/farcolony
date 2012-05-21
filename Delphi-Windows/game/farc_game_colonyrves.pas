@@ -68,6 +68,14 @@ function FCFgCR_OxygenOverload_Calc( const Entity, Colony: integer ): integer;
 function FCFgCR_OxygenToReserve_Convert( const OxygenVolume: extended ): integer;
 
 ///<summary>
+///   convert food reserve's points into a volume of food
+///</summary>
+///   <param name="FoodPoints">food points to convert</param>
+///   <param name="FoodDensity">food density</param>
+///   <returns>the converted and formatted(x.xxx) food volume, in cubic meters</returns>
+function FCFgCR_ReserveToFood_Convert( const FoodPoints: integer; FoodDensity: extended ): extended;
+
+///<summary>
 ///   convert oxygen reserve's points into a volume of oxygen
 ///</summary>
 ///   <param name="OxygenPoints">oxygen points to convert</param>
@@ -249,26 +257,27 @@ end;
 function FCFgCR_OxygenOverload_Calc( const Entity, Colony: integer ): integer;
 {:Purpose: calculate the percent of people not supported for the Oxygen Production Overload CSM event.
     Additions:
+      -2012May21- *fix: miscalculation when there's no existing production matrix item.
       -2012May15- *fix: forgot an element of calculation for the PPS.
 }
    var
-      IntCalc1
+      ProdMatrixIdx
       ,IntCalc2
       ,IntCalc3: integer;
 begin
-   IntCalc1:=0;
+   ProdMatrixIdx:=0;
    IntCalc2:=0;
    IntCalc3:=0;
    Result:=0;
-   IntCalc1:=FCFgPS2_ProductionMatrixItem_Search(
+   ProdMatrixIdx:=FCFgPS2_ProductionMatrixItem_Search(
       Entity
       ,Colony
       ,'resO2'
       );
-   if IntCalc1=0
-   then IntCalc3:=0
+   if ProdMatrixIdx=0
+   then IntCalc3:=100
    else begin
-      IntCalc2:=FCFgCR_OxygenToReserve_Convert( FCentities[ Entity ].E_col[ Colony ].COL_productionMatrix[ IntCalc1 ].CPMI_globalProdFlow );
+      IntCalc2:=FCFgCR_OxygenToReserve_Convert( FCentities[ Entity ].E_col[ Colony ].COL_productionMatrix[ ProdMatrixIdx ].CPMI_globalProdFlow );
       IntCalc3:=round( 100-( IntCalc2 / FCentities[ Entity ].E_col[ Colony ].COL_population.POP_total *100 ) );
    end;
    Result:=IntCalc3;
@@ -283,6 +292,16 @@ begin
    Result:=trunc( OxygenVolume / 0.000736 );
 end;
 
+function FCFgCR_ReserveToFood_Convert( const FoodPoints: integer; FoodDensity: extended ): extended;
+{:Purpose: convert food reserve's points into a volume of food.
+    Additions:
+}
+begin
+   Result:=0;
+   Result:=FCFcFunc_Rnd( cfrttpVolm3, ( FoodPoints / FoodDensity ) * 0.000618 );
+end;
+
+
 function FCFgCR_ReserveToOxygen_Convert( const OxygenPoints: integer ): extended;
 {:Purpose: convert oxygen reserve's points into a volume of oxygen.
     Additions:
@@ -296,14 +315,18 @@ function FCFgCR_ReserveToWater_Convert( const WaterPoints: integer ): extended;
 {:Purpose: convert water reserve's points into a volume of water.
     Additions:
 }
+   var
+      WaterCalc: extended;
 begin
    Result:=0;
-   Result:=FCFcFunc_Rnd( cfrttpVolm3, WaterPoints * 0.018077 );
+   WaterCalc:=WaterPoints * 0.018077;
+   Result:=FCFcFunc_Rnd( cfrttpVolm3, WaterCalc );
 end;
 
 function FCFgCR_WaterOverload_Calc( const Entity, Colony: integer ): integer;
 {:Purpose: calculate the percent of people not supported for the Water Production Overload CSM event.
     Additions:
+      -2012May21- *fix: miscalculation when there's no existing production matrix item.
       -2012May15- *fix: forgot an element of calculation for the PPS.
 }
    var
@@ -321,7 +344,7 @@ begin
       ,'resWater'
       );
    if IntCalc1=0
-   then IntCalc3:=0
+   then IntCalc3:=100
    else begin
       IntCalc2:=FCFgCR_WaterToReserve_Convert( FCentities[ Entity ].E_col[ Colony ].COL_productionMatrix[ IntCalc1 ].CPMI_globalProdFlow );
       IntCalc3:=round( 100- (IntCalc2 / FCentities[ Entity ].E_col[ Colony ].COL_population.POP_total *100 ) );
@@ -662,16 +685,31 @@ procedure FCMgCR_Reserve_Update(
    );
 {:Purpose: update a specified reserve with a +/- value. The value is in reserve points.
     Additions:
+      -2012May21- *add: update the food storage in accordance.
       -2012May20- *mod: complete water/oxygen storage calls.
       -2012May17- *add: update the water storage in accordance.
       -2012May17- *add: update the oxygen storage in accordance.
       -2012Apr16- *add: completion.
 }
    var
-//      StorageItem: integer;
+      Count
+      ,Max
+      ,ProductIdx
+      ,ReservesCalc
+      ,StorageIdx: integer;
 
-      VolumeFromReserve: extended;
+      SumOfStorageUnits
+      ,VolumeFromReserve: extended;
+
+      FoodDistribution: array of extended;
 begin
+   Count:=0;
+   Max:=0;
+   ProductIdx:=0;
+   StorageIdx:=0;
+   SumOfStorageUnits:=0;
+   VolumeFromReserve:=0;
+   setlength( FoodDistribution, 0 );
    case TypeOfReserve of
       prfuFood:
       begin
@@ -686,7 +724,54 @@ begin
             ,false
             ,false
             );
-      end;
+         if updateStorage then
+         begin
+            Max:=length( FCentities[ Entity ].E_col[ Colony ].COL_reserveFoodList )-1;
+            if length( FoodDistribution )<>Max+1
+            then SetLength( FoodDistribution, Max+1 );
+            if Max=1 then
+            begin
+               StorageIdx:=FCentities[ Entity ].E_col[ Colony ].COL_reserveFoodList[ Max ];
+               ProductIdx:=FCFgP_Product_GetIndex( FCentities[ Entity ].E_col[ Colony ].COL_storageList[ StorageIdx ].CPR_token );
+               VolumeFromReserve:=FCFgCR_ReserveToFood_Convert( ReservePointsToXfer, FCDBProducts[ ProductIdx ].PROD_massByUnit );
+               FCFgC_Storage_Update(
+                  FCentities[ Entity ].E_col[ Colony ].COL_storageList[ StorageIdx ].CPR_token
+                  ,VolumeFromReserve
+                  ,Entity
+                  ,Colony
+                  ,false
+                  );
+            end
+            else if Max>1 then
+            begin
+               count:=1;
+               while Count<=Max do
+               begin
+                  StorageIdx:=FCentities[ Entity ].E_col[ Colony ].COL_reserveFoodList[ Count ];
+                  SumOfStorageUnits:=SumOfStorageUnits+FCentities[ Entity ].E_col[ Colony ].COL_storageList[ StorageIdx ].CPR_unit;
+                  inc( Count );
+               end;
+               Count:=1;
+               while Count<=Max do
+               begin
+                  StorageIdx:=FCentities[ Entity ].E_col[ Colony ].COL_reserveFoodList[ Count ];
+                  ProductIdx:=FCFgP_Product_GetIndex( FCentities[ Entity ].E_col[ Colony ].COL_storageList[ StorageIdx ].CPR_token );
+                  FoodDistribution[ Count ]:=FCentities[ Entity ].E_col[ Colony ].COL_storageList[ StorageIdx ].CPR_unit*100/SumOfStorageUnits;
+                  FoodDistribution[ Count ]:=FCFcFunc_Rnd( cfrttp1dec, FoodDistribution[ Count ] );
+                  ReservesCalc:=trunc( ReservePointsToXfer*( FoodDistribution[ Count ]*0.01 ) )+1;
+                  VolumeFromReserve:=FCFgCR_ReserveToFood_Convert( ReservesCalc, FCDBProducts[ ProductIdx ].PROD_massByUnit );
+                  FCFgC_Storage_Update(
+                     FCentities[ Entity ].E_col[ Colony ].COL_storageList[ StorageIdx ].CPR_token
+                     ,VolumeFromReserve
+                     ,Entity
+                     ,Colony
+                     ,false
+                     );
+                  inc( Count );
+               end;
+            end;
+         end;
+      end; //==END== case: prfuFood ==//
 
       prfuOxygen:
       begin

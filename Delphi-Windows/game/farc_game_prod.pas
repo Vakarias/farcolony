@@ -90,7 +90,7 @@ function FCFgP_VolumeFromUnit_Get( const ProductToken: string; UnitsToConvert: e
 ///<summary>
 ///   production phase, core routine
 ///</summary>
-procedure FCMgP_PhaseCore_Process;
+procedure FCMgP_PhaseCore_Process( const isNewDay: boolean);
 
 implementation
 
@@ -239,9 +239,11 @@ end;
 
 //===========================END FUNCTIONS SECTION==========================================
 
-procedure FCMgP_PhaseCore_Process;
+procedure FCMgP_PhaseCore_Process( const isNewDay: boolean);
 {:Purpose: production phase, core routine.
     Additions:
+      -2012May21- *add: new parameter to indicate if a new day passed.
+                  *add: trigger the segment 3 only if isNewDay=true.
       -2012Apr27- *add: reserves consumption - segment 3 link.
       -2011Sep06- *add: CAB/Transition segment link.
       -2011Jul25- *add: production segment 2 link.
@@ -267,7 +269,8 @@ begin
             {.2nd segment, items production, test the production matrix here.}
             FCMgPS2_ProductionSegment_Process(PCPfacCount, PCPcolCount);
             {.3rd segment, reserves consumption.}
-            FCMgPS3_ReservesSegment_Process( PCPfacCount, PCPcolCount );
+            if isNewDay
+            then FCMgPS3_ReservesSegment_Process( PCPfacCount, PCPcolCount );
             {:DEV NOTES: post 1st alpha: 4th segment, space unit manufacturing.}
             {.5th segment, CAB queue processing.}
             FCMgPS5_CABTransitionSegment_Process(PCPfacCount, PCPcolCount);

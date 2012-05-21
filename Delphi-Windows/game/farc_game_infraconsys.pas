@@ -890,6 +890,13 @@ begin
       ,ICPcol
       ,true
       );
+   FCFgC_Storage_Update(
+      'bioFruitsVeg'
+      ,20
+      ,0
+      ,ICPcol
+      ,true
+      );
    if ICPent=0
    then FCMuiCDD_Production_Update(
       plInfrastructuresInit

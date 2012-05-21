@@ -78,8 +78,10 @@ uses
    ,farc_win_debug;
 
 var
-   GGFisProdPhaseSwitch
-   ,GGFisSPMphasePassed: boolean;
+   {:DEV NOTES: put these in method's data.}
+//   GGFisProdPhaseSwitch
+//   ,
+   GGFisSPMphasePassed: boolean;
 
 //=============================================END OF INIT==================================
 
@@ -666,9 +668,8 @@ end;
 procedure FCMgGF_GameTimer_Process;
 {:Purpose: gametimer flow processing routine.
     Additions:
-      -2011Jul06- *code audit:   [x] summary    [x] procedure naming    [x] local variables     [x] procedure parameters   [x] local variables incl tab.
-                  *code audit:   [x] code cleanup
-                  *code: put the CSM phase before the SPM phase.
+      -2012May21- *add: trigger the segment 3 of the production phase only when a day passed.
+      -2011Jul06- *code: put the CSM phase before the SPM phase.
                   *add: production phase link and activation.
       -2011Apr20- *fix: update the CPS only if it's enabled.
       -2010Jan06- *add: a watchdog to avoid to trigger the SPM phase multiple times in day 1 of each month.
@@ -714,8 +715,12 @@ procedure FCMgGF_GameTimer_Process;
       ,GTPstartTaskAt
       ,GTPtaskIdx: integer;
 
-      GTPendPh: boolean;
+      isProdPhaseSwitch
+      ,isSegment3Switch
+      ,GTPendPh: boolean;
 begin
+   isProdPhaseSwitch:=false;
+   isSegment3Switch:=false;
    {.time updating}
    inc(FCRplayer.P_timeTick);
    GGFnewTick:=FCRplayer.P_timeTick;
@@ -725,12 +730,13 @@ begin
    then
    begin
       FCRplayer.P_timeMin:=0;
-      GGFisProdPhaseSwitch:=true;
+      isProdPhaseSwitch:=true;
       if FCRplayer.P_timeHr<23
       then inc(FCRplayer.P_timeHr)
       else
       begin
          FCRplayer.P_timeHr:=0;
+         isSegment3Switch:=true;
          GTPmaxDayMonth:=FCFgTFlow_GameTimer_DayMthGet;
          if FCRplayer.P_timeday<GTPmaxDayMonth
          then inc(FCRplayer.P_timeday)
@@ -749,11 +755,11 @@ begin
    end;
    FCMoglUI_Main3DViewUI_Update(oglupdtpTxtOnly, ogluiutTime);
    {.production phase}
-   if GGFisProdPhaseSwitch
+   if isProdPhaseSwitch
    then
    begin
-      FCMgP_PhaseCore_Process;
-      GGFisProdPhaseSwitch:=false;
+      FCMgP_PhaseCore_Process(isSegment3Switch);
+      isProdPhaseSwitch:=false;
    end;
    {.CSM phase}
    GTPphLmax:=length(FCGcsmPhList)-1;

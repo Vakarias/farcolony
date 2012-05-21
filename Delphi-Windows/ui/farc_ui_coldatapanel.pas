@@ -659,7 +659,8 @@ procedure FCMuiCDP_Data_Update(
          ,DataIndex1: integer
    );
 {:Purpose: update the colony data display
-   -2012May06- *add: CSM event: etRveOxygenOverload.
+   -2012May21- *add: CSM events: etRveOxygenShortage, etRveOxygenShortageRec, etRveWaterOverload, etRveWaterShortage, etRveWaterShortageRec, etRveFoodOverload, etRveFoodShortage and, etRveFoodShortageRec.
+   -2012May06- *add: CSM events: etRveOxygenOverload.
    -2012apr29- *mod: CSM event modifiers and data are displayed according to the new changes in the data structure.
    -2012Apr18- *add: encyclopaedia links reformat for owned infrastructures list.
    -2012Apr16- *add: encyclopedia link are displayed with [?] (COMPLETION).
@@ -1199,10 +1200,41 @@ begin
                end;
 
                etRveOxygenOverload: CPUdataIndex:=FCFdTFiles_UIStr_Get(uistrUI, 'csmPercPopNotSupported')+'<b>'+IntToStr( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].ROO_percPopNotSupported )+'</b>  ';
+
+               etRveOxygenShortage, etRveOxygenShortageRec:
+               begin
+                  if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].ROS_ecoindMod<>0
+                  then CPUdataIndex:=CPUdataIndex+FCFdTFiles_UIStr_Get(uistrUI, 'csmieco')+' <b>'+FCFuiHTML_Modifier_GetFormat( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].ROS_ecoindMod, true )+'</b>  ';
+                  if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].ROS_tensionMod<>0
+                  then CPUdataIndex:=CPUdataIndex+FCFdTFiles_UIStr_Get(uistrUI, 'colDtens')+' <b>'+FCFuiHTML_Modifier_GetFormat( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].ROS_tensionMod, true )+'</b>  ';
+                  if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].ROS_healthMod<>0
+                  then CPUdataIndex:=CPUdataIndex+FCFdTFiles_UIStr_Get(uistrUI, 'colDheal')+' <b>'+FCFuiHTML_Modifier_GetFormat( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].ROS_healthMod, true )+'</b>  ';
+               end;
+
+               etRveWaterOverload: CPUdataIndex:=FCFdTFiles_UIStr_Get(uistrUI, 'csmPercPopNotSupported')+'<b>'+IntToStr( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].RWO_percPopNotSupported )+'</b>  ';
+
+               etRveWaterShortage, etRveWaterShortageRec:
+               begin
+                  if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].RWS_ecoindMod<>0
+                  then CPUdataIndex:=CPUdataIndex+FCFdTFiles_UIStr_Get(uistrUI, 'csmieco')+' <b>'+FCFuiHTML_Modifier_GetFormat( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].RWS_ecoindMod, true )+'</b>  ';
+                  if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].RWS_tensionMod<>0
+                  then CPUdataIndex:=CPUdataIndex+FCFdTFiles_UIStr_Get(uistrUI, 'colDtens')+' <b>'+FCFuiHTML_Modifier_GetFormat( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].RWS_tensionMod, true )+'</b>  ';
+                  if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].RWS_healthMod<>0
+                  then CPUdataIndex:=CPUdataIndex+FCFdTFiles_UIStr_Get(uistrUI, 'colDheal')+' <b>'+FCFuiHTML_Modifier_GetFormat( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].RWS_healthMod, true )+'</b>  ';
+               end;
+
+               etRveFoodOverload: CPUdataIndex:=FCFdTFiles_UIStr_Get(uistrUI, 'csmPercPopNotSupported')+'<b>'+IntToStr( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].RFO_percPopNotSupported )+'</b>  ';
+
+               etRveFoodShortage, etRveFoodShortageRec:
+               begin
+                  if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].RFS_ecoindMod<>0
+                  then CPUdataIndex:=CPUdataIndex+FCFdTFiles_UIStr_Get(uistrUI, 'csmieco')+' <b>'+FCFuiHTML_Modifier_GetFormat( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].RFS_ecoindMod, true )+'</b>  ';
+                  if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].RFS_tensionMod<>0
+                  then CPUdataIndex:=CPUdataIndex+FCFdTFiles_UIStr_Get(uistrUI, 'colDtens')+' <b>'+FCFuiHTML_Modifier_GetFormat( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].RFS_tensionMod, true )+'</b>  ';
+                  if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].RFS_healthMod<>0
+                  then CPUdataIndex:=CPUdataIndex+FCFdTFiles_UIStr_Get(uistrUI, 'colDheal')+' <b>'+FCFuiHTML_Modifier_GetFormat( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].RFS_healthMod, true )+'</b>  ';
+               end;
             end; //==END== case FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CSMEV_token of ==//
-//            {.health mod}
-//            if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CSMEV_healMod<>0
-//            then CPUdataIndex:=CPUdataIndex+FCFdTFiles_UIStr_Get(uistrUI, 'colDheal')+' <b>'+FCFuiHTML_Modifier_GetFormat( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CSMEV_healMod, true )+'</b>  ';
             FCWinMain.FCWM_CDPpopList.Items.AddChild(
                CPUrootnode
                ,CPUdataIndex
