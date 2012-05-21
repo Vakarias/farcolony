@@ -657,7 +657,8 @@ procedure FCMgCSME_Event_Trigger(
    {:DEV NOTES: test if a same event already exist in recovering mode, if it's the case => override, if not => do nothing.}
 {:Purpose: trigger a specified event.
     Additions:
-      -2012May17- *rem: etRveFoodShortage calculation is moved into its proper method.
+      -2012May19- *rem: etRveWaterShortage calculation is moved into its proper method.
+      -2012May17- *rem: etRveOxygenShortage calculation is moved into its proper method.
       -2012May15- *mod: etRveOxygenOverload - since the PPS is already calculated in the segment 3, it's loaded in the EventLevel parameter (so need to recalculate the PPS in this method).
       -2012May14- *add: etRveFoodShortage.
       -2012May13- *add: etRveOxygenShortage, etRveWaterOverload, etRveWaterShortage and etRveFoodOverload events.
@@ -1230,85 +1231,19 @@ begin
             );
          if EventDataI1=0
          then raise Exception.Create('there is no Water Production Overload event created, prior to Water Shortage, check the reserves consumption rule.');
-         {.EventDataI2=PPS}
-         EventDataI2:=0;
-         {.EventDataF1 = age coefficient}
-         EventDataF1:=0;
-         {.EventDataF2 = modifier calculation dump storage}
-         EventDataF2:=0;
-         {.EventDataF3 = environment coeficient}
-         EventDataF3:=0;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_token:=etRveWaterShortage;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_isRes:=true;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_duration:=-1;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_lvl:=0;
-         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].RWS_percPopNotSupAtCalc:=FCentities[ Entity ].E_col[ Colony ].COL_evList[ EventDataI1 ].RWO_percPopNotSupported;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].RWS_ecoindMod:=0;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].RWS_tensionMod:=0;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].RWS_healthMod:=0;
-         EventDataI2:=FCentities[ Entity ].E_col[ Colony ].COL_evList[ EventDataI1 ].RWO_percPopNotSupported;
-         if ( EventDataI2>2 )
-            and ( EventDataI2<=15 ) then
-         begin
-            EventDataF1:=FCFgCSM_AgeCoefficient_Retrieve( Entity, Colony );
-            if EventDataI2>6 then
-            begin
-               EventDataF2:=( EventDataI2 - 6 ) * ( 5 * EventDataF1 );
-               FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].RWS_ecoindMod:=-round( EventDataF2 );
-               if not LoadToIndex0
-               then FCMgCSM_ColonyData_Upd(
-                  dEcoIndusOut
-                  ,Entity
-                  ,Colony
-                  ,FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].RWS_ecoindMod
-                  ,0
-                  ,gcsmptNone
-                  ,false
-                  );
-            end;
-            ColonyEnvironment:=FCFgC_ColEnv_GetTp( Entity, Colony );
-            case ColonyEnvironment.ENV_envType of
-               envfreeLiving: if ColonyEnvironment.ENV_hydroTp<>htLiquid
-                  then EventDataF3:=1
-                  else EventDataF3:=0.39;
-
-               restrict: if ColonyEnvironment.ENV_hydroTp<>htLiquid
-                  then EventDataF3:=1.8
-                  else EventDataF3:=0.83;
-
-               space: if ColonyEnvironment.ENV_hydroTp<>htLiquid
-                  then EventDataF3:=1.8
-                  else EventDataF3:=1;
-            end;
-            EventDataF2:=( EventDataI2 * 1.7 ) * EventDataF3;
-            FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].RWS_tensionMod:=round( EventDataF2 );
-            EventDataF2:=( EventDataI2 - 1 ) * EventDataF1;
-            FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].RWS_healthMod:=-round( EventDataF2 );
-            if not LoadToIndex0 then
-            begin
-               FCMgCSM_ColonyData_Upd(
-                  dTension
-                  ,Entity
-                  ,Colony
-                  ,FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].RWS_tensionMod
-                  ,0
-                  ,gcsmptNone
-                  ,false
-                  );
-               FCMgCSM_ColonyData_Upd(
-                  dHealth
-                  ,Entity
-                  ,Colony
-                  ,FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].RWS_healthMod
-                  ,0
-                  ,gcsmptNone
-                  ,false
-                  );
-            end;
-         end //==END==  if ( EventDataI2>2 ) and ( EventDataI2<=15 ) ==//
-         {.case if the entire population die}
-         else if EventDataI2>15
-         then FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_duration:=-3;
+         FCMgCR_WaterShortage_Calc(
+            Entity
+            ,Colony
+            ,CurrentEventIndex
+            ,FCentities[ Entity ].E_col[ Colony ].COL_evList[ EventDataI1 ].RWO_percPopNotSupported
+            );
       end; //==END== case: etRveWaterShortage ==//
 
       etRveFoodOverload:

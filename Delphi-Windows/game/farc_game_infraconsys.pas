@@ -436,6 +436,7 @@ begin
       ,-1
       ,APent
       ,APcol
+      ,false
       );
    if APent=0
    then FCMuiCDD_Production_Update(
@@ -527,6 +528,7 @@ begin
          ,-BPresultUnits
          ,BPent
          ,BPcol
+         ,true
          );
       inc( BPcount );
    end;
@@ -821,24 +823,28 @@ begin
       ,1
       ,0
       ,ICPcol
+      ,false
       );
    FCFgC_Storage_Update(
       'equipMultiDepot1'
       ,1
       ,0
       ,ICPcol
+      ,false
       );
    FCFgC_Storage_Update(
       'equipHandTools'
       ,10
       ,0
       ,ICPcol
+      ,false
       );
    FCFgC_Storage_Update(
       'equipPowerTools'
       ,10
       ,0
       ,ICPcol
+      ,false
       );
    if (ICPinfra=2)
       or (ICPinfra=4)
@@ -847,36 +853,42 @@ begin
       ,1
       ,0
       ,ICPcol
+      ,false
       );
    FCFgC_Storage_Update(
       'equipConstrExo'
       ,1
       ,0
       ,ICPcol
+      ,false
       );
    FCFgC_Storage_Update(
       'equipMiningMachinery'
       ,1
       ,0
       ,ICPcol
+      ,false
       );
    FCFgC_Storage_Update(
       'resWater'
       ,20
       ,0
       ,ICPcol
+      ,true
       );
    FCFgC_Storage_Update(
       'resO2'
       ,20
       ,0
       ,ICPcol
+      ,true
       );
    FCFgC_Storage_Update(
       'bioFish'
       ,20
       ,0
       ,ICPcol
+      ,true
       );
    if ICPent=0
    then FCMuiCDD_Production_Update(

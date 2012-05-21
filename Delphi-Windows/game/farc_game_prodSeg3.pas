@@ -62,6 +62,7 @@ procedure FCMgPS3_ReservesSegment_Process(
    );
 {:Purpose: segment 3 (reserves consumption) processing.
     Additions:
+      -2012May20- *add: (WORK IN PROGRESS) - coding of the segment 3, add water consumption processing.
       -2012May14- *add: (WORK IN PROGRESS) - coding of the segment 3, including consumption and CSM events trigger, update and cancel.
 }
    var
@@ -235,19 +236,169 @@ begin
          ,-FCentities[ Entity ].E_col[ Colony ].COL_population.POP_total
          ,true
          );
-      {.update the interface if required}
-      if Entity=0
-      then FCMuiCDD_Colony_Update(
-         cdlReserveOxy
-         ,Colony
-         ,0
-         ,0
-         ,true
-         ,false
-         ,false
-         );
    end; //==END== if FCentities[ Entity ].E_col[ Colony ].COL_reserveOxygen<>-1 ==//
    {.water consumption}
+   doNotProcessShortageEvent:=false;
+   ReturnedOverloadEvent:=FCFgCSME_Search_ByType(
+      etRveWaterOverload
+      ,Entity
+      ,Colony
+      );
+   PPS:=FCFgCR_WaterOverload_Calc( Entity, Colony );
+   {.process the Water Overload Event}
+   if ( ReturnedOverloadEvent=0 )
+      and ( PPS>0 )
+   then FCMgCSME_Event_Trigger(
+      etRveWaterOverload
+      ,Entity
+      ,Colony
+      ,PPS
+      ,false
+      )
+   else if ReturnedOverloadEvent>0 then
+   begin
+      if PPS<=0 then
+      begin
+         FCMgCSME_Event_Cancel(
+            csmeecImmediate
+            ,Entity
+            ,Colony
+            ,ReturnedOverloadEvent
+            ,etColEstab
+            ,0
+            );
+         ReturnedShortageEvent:=FCFgCSME_Search_ByType(
+            etRveWaterShortage
+            ,Entity
+            ,Colony
+            );
+         if ReturnedShortageEvent>0
+         then FCMgCSME_Event_Cancel(
+            csmeecRecover
+            ,Entity
+            ,Colony
+            ,ReturnedShortageEvent
+            ,etColEstab
+            ,0
+            );
+         doNotProcessShortageEvent:=true;
+      end //==END== if PPS<=0 ==//
+      else FCentities[ Entity ].E_col[ Colony ].COL_evList[ ReturnedOverloadEvent ].RWO_percPopNotSupported:=PPS;
+   end; //==END== else if ReturnedOverloadEvent>0 ==//
+   {.process the Water Shortage event}
+   if not doNotProcessShortageEvent then
+   begin
+      ReturnedShortageEvent:=FCFgCSME_Search_ByType(
+         etRveWaterShortage
+         ,Entity
+         ,Colony
+         );
+      if ReturnedShortageEvent=0 then
+      begin
+         ReturnedShortageEvent:=FCFgCSME_Search_ByType(
+            etRveWaterShortageRec
+            ,Entity
+            ,Colony
+            );
+         if ReturnedShortageEvent>0 then
+         begin
+            FCMgCSME_Recovering_Process(
+               Entity
+               ,Colony
+               ,ReturnedShortageEvent
+               );
+            if FCentities[ Entity ].E_col[ Colony ].COL_evList[ ReturnedShortageEvent ].CSMEV_duration=-2
+            then FCMgCSME_Event_Cancel(
+               csmeecImmediate
+               ,Entity
+               ,Colony
+               ,ReturnedShortageEvent
+               ,etColEstab
+               ,0
+               );
+         end;
+      end
+      else if ReturnedShortageEvent>0 then
+      begin
+         {.case when all the population die of dehydratation}
+         if FCentities[ Entity ].E_col[ Colony ].COL_evList[ ReturnedShortageEvent ].CSMEV_duration=-3 then
+         begin
+            if ( Entity=0 )
+               and ( Assigned( FCcps ) )
+            then FCMgCore_GameOver_Process( gfrCPSentirePopulationDie )
+            else begin
+            end;
+            {:DEV NOTES: if not trigger a colony unbearable, see the cancellation rule of the Oxygen Shortage event.}
+         end
+         {.case if there's enough water reserve for at least 1 tick}
+         else if FCentities[ Entity ].E_col[ Colony ].COL_reserveWater>=FCentities[ Entity ].E_col[ Colony ].COL_population.POP_total
+         then FCMgCSME_Event_Cancel(
+            csmeecRecover
+            ,Entity
+            ,Colony
+            ,ReturnedShortageEvent
+            ,etColEstab
+            ,0
+            )
+         {.in any other case, do the over time process, if it's required}
+         else if PPS<>FCentities[ Entity ].E_col[ Colony ].COL_evList[ ReturnedShortageEvent ].RWS_percPopNotSupAtCalc
+         then FCMgCR_WaterShortage_Calc(
+            Entity
+            ,Colony
+            ,ReturnedShortageEvent
+            ,PPS
+            );
+      end;
+   end; //==END== if not doNotProcessShortageEvent ==//
+   {.process the water consumption}
+   if FCentities[ Entity ].E_col[ Colony ].COL_reserveWater<FCentities[ Entity ].E_col[ Colony ].COL_population.POP_total then
+   begin
+      ReturnedShortageEvent:=FCFgCSME_Search_ByType(
+         etRveWaterShortageRec
+         ,Entity
+         ,Colony
+         );
+      if ReturnedShortageEvent=0 then
+      begin
+         ReturnedShortageEvent:=FCFgCSME_Search_ByType(
+            etRveWaterShortage
+            ,Entity
+            ,Colony
+            );
+         if ReturnedShortageEvent=0
+         then FCMgCSME_Event_Trigger(
+            etRveWaterShortage
+            ,Entity
+            ,Colony
+            ,0
+            ,false
+            );
+      end
+      else if ReturnedShortageEvent>0
+      then FCMgCSME_Event_Cancel(
+         csmeecOverride
+         ,Entity
+         ,Colony
+         ,ReturnedShortageEvent
+         ,etRveWaterShortage
+         ,0
+         );
+      FCMgCR_Reserve_Update(
+         Entity
+         ,Colony
+         ,prfuWater
+         ,-FCentities[ Entity ].E_col[ Colony ].COL_reserveWater
+         ,true
+         );
+   end
+   else if FCentities[ Entity ].E_col[ Colony ].COL_reserveWater>=FCentities[ Entity ].E_col[ Colony ].COL_population.POP_total
+   then FCMgCR_Reserve_Update(
+      Entity
+      ,Colony
+      ,prfuWater
+      ,-FCentities[ Entity ].E_col[ Colony ].COL_population.POP_total
+      ,true
+      );
    {.food consumption}
    {.update the interface for CSM events list is required}
    if Entity=0

@@ -232,7 +232,8 @@ procedure FCMgPS2_ProductionSegment_Process(
    );
 {:Purpose:  segment 2 (items production) processing.
     Additions:
-      -2016Jan16- *add: in case of a positive production flow that overload a storage, the corresponding 'Full' boolean is updated.
+      -2012Mar20- *fix: correction in the tests with negative production flow.
+      -2012Jan16- *add: in case of a positive production flow that overload a storage, the corresponding 'Full' boolean is updated.
                   *fix: correction of some logical errors.
       -2012Jan12- *add: in case of a storage reached its max capacity, and in case of a positive production flow, revert and disable the production of a product (COMPLETION).
       -2012Jan11- *add: in case of a storage reached its max capacity, and in case of a positive production flow, revert and disable the production of a product (Work In Progress).
@@ -291,6 +292,7 @@ procedure FCMgPS2_ProductionSegment_Process(
                         ,abs( FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPpmatrixIndex ].CPMI_globalProdFlow )
                         ,PSPent
                         ,PSPcol
+                        ,true
                         )
                      else if FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPpmatrixIndex ].CPMI_globalProdFlow>0
                      then FCFgC_Storage_Update(
@@ -298,6 +300,7 @@ procedure FCMgPS2_ProductionSegment_Process(
                         ,-FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPpmatrixIndex ].CPMI_globalProdFlow
                         ,PSPent
                         ,PSPcol
+                        ,true
                         );
                   end
                   else if PSPpmatrixIndex>=PSPcntPmatrix
@@ -343,14 +346,15 @@ begin
       PSPstorageIndex:=FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcntPmatrix ].CPMI_storageIndex;
       if FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcntPmatrix ].CPMI_globalProdFlow<0 then
       begin
-         if FCEntities[PSPent].E_col[PSPcol].COL_storageList[ PSPstorageIndex ].CPR_unit<FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcntPmatrix ].CPMI_globalProdFlow
+         if FCEntities[PSPent].E_col[PSPcol].COL_storageList[ PSPstorageIndex ].CPR_unit < abs( FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcntPmatrix ].CPMI_globalProdFlow )
          then RevertProduction(true)
-         else if FCEntities[PSPent].E_col[PSPcol].COL_storageList[ PSPstorageIndex ].CPR_unit>=FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcntPmatrix ].CPMI_globalProdFlow
+         else if FCEntities[PSPent].E_col[PSPcol].COL_storageList[ PSPstorageIndex ].CPR_unit>=abs( FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcntPmatrix ].CPMI_globalProdFlow )
          then FCFgC_Storage_Update(
             FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcntPmatrix ].CPMI_productToken
             ,FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcntPmatrix ].CPMI_globalProdFlow
             ,PSPent
             ,PSPcol
+            ,true
             );
       end //==END== if FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcntPmatrix ].CPMI_globalProdFlow<0 then ==//
       else if (FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcntPmatrix ].CPMI_globalProdFlow>0)
@@ -367,6 +371,7 @@ begin
             ,FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcntPmatrix ].CPMI_globalProdFlow
             ,PSPent
             ,PSPcol
+            ,true
             );
          if ReturnPRod<>0 then begin
             case FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcntPmatrix ].CPMI_storageType of

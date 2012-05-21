@@ -461,6 +461,7 @@ begin
                ,-CWPAKTvalue
                ,0
                ,CWPAKTcol
+               ,false
                );
             CWPAKTcwp:=FCFcFunc_Rnd( cfrttpSizem, CWPAKTvalue*FCDBproducts[ CDPmanEquipDB[CWPAKTequipIndex] ].PROD_fManConstWCPcoef );
          end;
@@ -534,6 +535,7 @@ begin
             ,-CWPAVKTvalue
             ,0
             ,CWPAVKTcol
+            ,false
             );
          FCEntities[0].E_col[CWPAVKTcol].COL_population.POP_tpColonAssigned:=FCEntities[0].E_col[CWPAVKTcol].COL_population.POP_tpColonAssigned+CWPAVKTcrew;
          FCEntities[0].E_col[CWPAVKTcol].COL_population.POP_wcpAssignedPeople:=FCEntities[0].E_col[CWPAVKTcol].COL_population.POP_wcpAssignedPeople+CWPAVKTcrew;

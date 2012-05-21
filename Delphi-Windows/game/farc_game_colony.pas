@@ -174,10 +174,11 @@ function FCFgC_Storage_RetrieveIndex(
 ///   <param name="SUtargetCol">target colony #</param>
 ///   <returns>amount in unit that couldn't be transfered</returns>
 function FCFgC_Storage_Update(
-   const SUtoken: string;
-         SUunit: extended;
-   const SUtargetEnt
-         ,SUtargetCol: integer
+   const ProductToken: string;
+         UnitToTransfer: extended;
+   const Entity
+         ,Colony: integer;
+   const isUpdateReserves: boolean
    ): extended;     {:DEV NOTES: required parameters refactoring.}
 
 //===========================END FUNCTIONS SECTION==========================================
@@ -633,6 +634,7 @@ begin
          ,0
          ,SRIentity
          ,SRIcolony
+         ,false
          );
       inc( SRImax );
       Result:=SRImax;
@@ -640,13 +642,15 @@ begin
 end;
 
 function FCFgC_Storage_Update(
-   const SUtoken: string;
-         SUunit: extended;
-   const SUtargetEnt
-         ,SUtargetCol: integer
+   const ProductToken: string;
+         UnitToTransfer: extended;
+   const Entity
+         ,Colony: integer;
+   const isUpdateReserves: boolean
    ): extended;
 {:Purpose: update the storage of a colony with a specific product. Return the amount in unit that couldn't be transfered.
     Additions:
+      -2012May20- *code: complete rewrite (but w/o audits).
       -2012May17- *rem: SUisStoreMode, must use +/- now.
       -2012May13- *add: SUunit must be > 0 to apply the storage rule.
       -2012Apr30- *fix: FCMuiCDD_Colony_Update - update the colony panel if only it's the player's faction which is concerned.
@@ -665,261 +669,241 @@ function FCFgC_Storage_Update(
       -2011May06- *add: complete the code for the case when SUisStoreMode = false.
 }
 var
-   SUcnt
-   ,SUindex
-   ,SUmax
+   StorageIdxToUse
+   ,ProductIndex
+   ,MaxStorageIndex
    ,FoodReserveIndex: integer;
 
-   SUcapaLoaded
-   ,SUnewUnit
-   ,SUvolToXfer: extended;
+   CapacityLoaded
+   ,FinalTransferedUnits
+   ,TotalVolToTransfer: extended;
 begin
    Result:=0;
-   SUcnt:=0;
-   SUindex:=FCFgP_Product_GetIndex(SUtoken);
-   SUmax:=length(FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storageList)-1;
-//   SUunit:=abs( SUunit );
-   SUnewUnit:=0;
-   SUcapaLoaded:=0;
-   SUvolToXfer:=0;
-   FoodReserveIndex:=0;
-   SUcnt:=1;
-   if SUmax>0 then
+   ProductIndex:=FCFgP_Product_GetIndex(ProductToken);
+   MaxStorageIndex:=length(FCentities[Entity].E_col[Colony].COL_storageList)-1;
+   StorageIdxToUse:=1;
+   {.the asked storage index is retrieved, if it doesn't exist, it'S automatically created}
+   if MaxStorageIndex>0 then
    begin
-      while SUcnt<=SUmax do
+      while StorageIdxToUse<=MaxStorageIndex do
       begin
-         if FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storageList[SUcnt].CPR_token=SUtoken
+         if FCentities[Entity].E_col[Colony].COL_storageList[StorageIdxToUse].CPR_token=ProductToken
          then break
-         else if SUcnt=SUmax then
+         else if StorageIdxToUse=MaxStorageIndex then
          begin
-            inc(SUcnt);
-            SetLength(FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storageList, SUcnt+1);
+            inc(StorageIdxToUse);
+            SetLength(FCentities[Entity].E_col[Colony].COL_storageList, StorageIdxToUse+1);
             {.specific code for reserves}
-            if FCDBProducts[ SUindex ].PROD_function=prfuFood then
+            if FCDBProducts[ ProductIndex ].PROD_function=prfuFood then
             begin
-               FoodReserveIndex:=Length( FCentities[SUtargetEnt].E_col[SUtargetCol].COL_reserveFoodList );
-               SetLength( FCentities[SUtargetEnt].E_col[SUtargetCol].COL_reserveFoodList, FoodReserveIndex+1 );
-               FCentities[SUtargetEnt].E_col[SUtargetCol].COL_reserveFoodList[ FoodReserveIndex ]:=SUcnt;
+               FoodReserveIndex:=Length( FCentities[Entity].E_col[Colony].COL_reserveFoodList );
+               SetLength( FCentities[Entity].E_col[Colony].COL_reserveFoodList, FoodReserveIndex+1 );
+               FCentities[Entity].E_col[Colony].COL_reserveFoodList[ FoodReserveIndex ]:=StorageIdxToUse;
             end;
             {.END specific code for reserves}
             break;
          end;
-         inc(SUcnt);
+         inc(StorageIdxToUse);
       end;
    end
-   else if SUmax<=0
-   then SetLength(FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storageList, 2);
-   if (SUunit>0)
-      and (SUcnt>0) then
+   else if MaxStorageIndex<=0
+   then SetLength(FCentities[Entity].E_col[Colony].COL_storageList, 2);
+   {.transfer process}
+   if (UnitToTransfer<>0)
+      and (StorageIdxToUse>0) then
    begin
-      if FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storageList[SUcnt].CPR_token=''
-      then FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storageList[SUcnt].CPR_token:=SUtoken;
-      if SUunit<=0
-      then Result:=0
-      else begin
-         if FCDBProducts[SUindex].PROD_volByUnit=1
-         then SUvolToXfer:=SUunit
-         else if FCDBProducts[SUindex].PROD_volByUnit<>1
-         then SUvolToXfer:=FCFcFunc_Rnd(cfrttpVolm3, FCDBProducts[SUindex].PROD_volByUnit*SUunit);
-         case FCDBProducts[SUindex].PROD_storage of
-            stSolid:
-            begin
-               SUcapaLoaded:=SUvolToXfer+FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacitySolidCurr;
-               if SUcapaLoaded<=FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacitySolidMax then
-               begin
-                  FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacitySolidCurr:=SUcapaLoaded;
-                  FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storageList[SUcnt].CPR_unit:=FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storageList[SUcnt].CPR_unit+SUunit;
-                  Result:=0;
-               end
-               else begin
-                  SUnewUnit:=FCFgP_UnitFromVolume_Get( SUindex, FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacitySolidMax-FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacitySolidCurr );
-                  if SUnewUnit=0
-                  then Result:=SUunit
-                  else begin
-                     FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacitySolidCurr:=FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacitySolidMax;
-                     FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storageList[SUcnt].CPR_unit:=FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storageList[SUcnt].CPR_unit+SUnewUnit;
-                     Result:=SUunit-SUnewUnit;
-                  end;
-               end;
-            end;
-
-            stLiquid:
-            begin
-               SUcapaLoaded:=SUvolToXfer+FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacityLiquidCurr;
-               if SUcapaLoaded<=FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacityLiquidMax then
-               begin
-                  FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacityLiquidCurr:=SUcapaLoaded;
-                  FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storageList[SUcnt].CPR_unit:=FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storageList[SUcnt].CPR_unit+SUunit;
-                  Result:=0;
-               end
-               else begin
-                  SUnewUnit:=FCFgP_UnitFromVolume_Get( SUindex, FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacityLiquidMax-FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacityLiquidCurr );
-                  if SUnewUnit=0
-                  then Result:=SUunit
-                  else begin
-                     FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacityLiquidCurr:=FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacityLiquidMax;
-                     FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storageList[SUcnt].CPR_unit:=FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storageList[SUcnt].CPR_unit+SUnewUnit;
-                     Result:=SUunit-SUnewUnit;
-                  end;
-               end;
-            end;
-
-            stGas:
-            begin
-               SUcapaLoaded:=SUvolToXfer+FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacityGasCurr;
-               if SUcapaLoaded<=FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacityGasMax then
-               begin
-                  FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacityGasCurr:=SUcapaLoaded;
-                  FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storageList[SUcnt].CPR_unit:=FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storageList[SUcnt].CPR_unit+SUunit;
-                  Result:=0;
-               end
-               else begin
-                  SUnewUnit:=FCFgP_UnitFromVolume_Get( SUindex, FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacityGasMax-FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacityGasCurr );
-                  if SUnewUnit=0
-                  then Result:=SUunit
-                  else
-                  begin
-                     FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacityGasCurr:=FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacityGasMax;
-                     FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storageList[SUcnt].CPR_unit:=FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storageList[SUcnt].CPR_unit+SUnewUnit;
-                     Result:=SUunit-SUnewUnit;
-                  end;
-               end;
-            end;
-
-            stBiologic:
-            begin
-               SUcapaLoaded:=SUvolToXfer+FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacityBioCurr;
-               if SUcapaLoaded<=FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacityBioMax
-               then
-               begin
-                  FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacityBioCurr:=SUcapaLoaded;
-                  FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storageList[SUcnt].CPR_unit:=FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storageList[SUcnt].CPR_unit+SUunit;
-                  Result:=0;
-               end
-               else
-               begin
-                  SUnewUnit:=FCFgP_UnitFromVolume_Get( SUindex, FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacityBioMax-FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacityBioCurr );
-                  if SUnewUnit=0
-                  then Result:=SUunit
-                  else
-                  begin
-                     FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacityBioCurr:=FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacityBioMax;
-                     FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storageList[SUcnt].CPR_unit:=FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storageList[SUcnt].CPR_unit+SUnewUnit;
-                     Result:=SUunit-SUnewUnit;
-                  end;
-               end;
-            end;
-         end;  //==END== case FCDBProducts[SUindex].PROD_storage of ==//
-         {.specific code for reserves}
-         if ( FCDBProducts[SUindex].PROD_function=prfuFood )
-            or ( ( FCDBProducts[SUindex].PROD_function=prfuOxygen ) and ( FCentities[SUtargetEnt].E_col[SUtargetCol].COL_reserveOxygen<>-1 ) )
-            or ( FCDBProducts[SUindex].PROD_function=prfuWater )
-         then FCMgCR_Reserve_UpdateByUnits(
-            SUtargetEnt
-            ,SUtargetCol
-            ,FCDBProducts[SUindex].PROD_function
-            ,SUunit-Result
-            ,FCDBProducts[SUindex].PROD_massByUnit
-            );
-      end; //==END== else begin of: if SUunit<=0 ==//
-   end //==END== if (SUisStoreMode) and (SUcnt>0) ==//
-   else if (SUunit<0)
-      and (SUcnt>0) then
-   begin
-      {:DEV NOTES: quick change, recode later.}
-      SUunit:=abs( SUunit );  //quick fix
-      SUnewUnit:=0;
-      if FCDBProducts[SUindex].PROD_volByUnit<>1
-      then SUvolToXfer:=FCFcFunc_Rnd(cfrttpVolm3, FCDBProducts[SUindex].PROD_volByUnit*SUunit)
-      else SUvolToXfer:=SUunit;
-      case FCDBProducts[SUindex].PROD_storage of
+      if FCentities[Entity].E_col[Colony].COL_storageList[StorageIdxToUse].CPR_token=''
+      then FCentities[Entity].E_col[Colony].COL_storageList[StorageIdxToUse].CPR_token:=ProductToken;
+      TotalVolToTransfer:=FCFgP_VolumeFromUnit_Get( ProductIndex, UnitToTransfer );
+      case FCDBProducts[ProductIndex].PROD_storage of
          stSolid:
          begin
-            SUcapaLoaded:=FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacitySolidCurr-SUvolToXfer;
-            if SUcapaLoaded<0 then
+            CapacityLoaded:=FCentities[Entity].E_col[Colony].COL_storCapacitySolidCurr+TotalVolToTransfer;
+            {.normally a case that shouldn't happen...}
+            if CapacityLoaded<0 then
             begin
-               SUcapaLoaded:=0;
-               SUnewUnit:=FCFgP_UnitFromVolume_Get( SUindex, FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacitySolidCurr );
-               Result:=SUunit-SUnewUnit;
+               CapacityLoaded:=0;
+               FinalTransferedUnits:=FCFgP_UnitFromVolume_Get( ProductIndex, FCentities[Entity].E_col[Colony].COL_storCapacitySolidCurr );
+               FCentities[Entity].E_col[Colony].COL_storCapacitySolidCurr:=0;
+               FCentities[Entity].E_col[Colony].COL_storageList[StorageIdxToUse].CPR_unit:=0;
+               Result:=UnitToTransfer-FinalTransferedUnits;
             end
-            else begin
+            else if CapacityLoaded<=FCentities[Entity].E_col[Colony].COL_storCapacitySolidMax then
+            begin
+               FinalTransferedUnits:=UnitToTransfer;
+               FCentities[Entity].E_col[Colony].COL_storCapacitySolidCurr:=CapacityLoaded;
+               FCentities[Entity].E_col[Colony].COL_storageList[StorageIdxToUse].CPR_unit:=FCentities[Entity].E_col[Colony].COL_storageList[StorageIdxToUse].CPR_unit+FinalTransferedUnits;
                Result:=0;
-               SUnewUnit:=SUunit;
+            end
+            else if CapacityLoaded>FCentities[Entity].E_col[Colony].COL_storCapacitySolidMax then
+            begin
+               FinalTransferedUnits:=FCFgP_UnitFromVolume_Get( ProductIndex, FCentities[Entity].E_col[Colony].COL_storCapacitySolidMax-FCentities[Entity].E_col[Colony].COL_storCapacitySolidCurr );
+               if FinalTransferedUnits=0
+               then Result:=UnitToTransfer
+               else begin
+                  FCentities[Entity].E_col[Colony].COL_storCapacitySolidCurr:=FCentities[Entity].E_col[Colony].COL_storCapacitySolidMax;
+                  FCentities[Entity].E_col[Colony].COL_storageList[StorageIdxToUse].CPR_unit:=FCentities[Entity].E_col[Colony].COL_storageList[StorageIdxToUse].CPR_unit+FinalTransferedUnits;
+                  Result:=UnitToTransfer-FinalTransferedUnits;
+               end;
             end;
-            FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacitySolidCurr:=SUcapaLoaded;
-         end;
+         end; //==END== case: stSolid ==//
 
          stLiquid:
          begin
-            SUcapaLoaded:=FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacityLiquidCurr-SUvolToXfer;
-            if SUcapaLoaded<0 then
+            CapacityLoaded:=FCentities[Entity].E_col[Colony].COL_storCapacityLiquidCurr+TotalVolToTransfer;
+            {.normally a case that shouldn't happen...}
+            if CapacityLoaded<0 then
             begin
-               SUcapaLoaded:=0;
-               SUnewUnit:=FCFgP_UnitFromVolume_Get( SUindex, FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacityLiquidCurr );
-               Result:=SUunit-SUnewUnit;
+               CapacityLoaded:=0;
+               FinalTransferedUnits:=FCFgP_UnitFromVolume_Get( ProductIndex, FCentities[Entity].E_col[Colony].COL_storCapacityLiquidCurr );
+               FCentities[Entity].E_col[Colony].COL_storCapacityLiquidCurr:=0;
+               FCentities[Entity].E_col[Colony].COL_storageList[StorageIdxToUse].CPR_unit:=0;
+               Result:=UnitToTransfer-FinalTransferedUnits;
             end
-            else begin
+            else if CapacityLoaded<=FCentities[Entity].E_col[Colony].COL_storCapacityLiquidMax then
+            begin
+               FinalTransferedUnits:=UnitToTransfer;
+               FCentities[Entity].E_col[Colony].COL_storCapacityLiquidCurr:=CapacityLoaded;
+               FCentities[Entity].E_col[Colony].COL_storageList[StorageIdxToUse].CPR_unit:=FCentities[Entity].E_col[Colony].COL_storageList[StorageIdxToUse].CPR_unit+FinalTransferedUnits;
                Result:=0;
-               SUnewUnit:=SUunit;
+            end
+            else if CapacityLoaded>FCentities[Entity].E_col[Colony].COL_storCapacityLiquidMax then
+            begin
+               FinalTransferedUnits:=FCFgP_UnitFromVolume_Get( ProductIndex, FCentities[Entity].E_col[Colony].COL_storCapacityLiquidMax-FCentities[Entity].E_col[Colony].COL_storCapacityLiquidCurr );
+               if FinalTransferedUnits=0
+               then Result:=UnitToTransfer
+               else begin
+                  FCentities[Entity].E_col[Colony].COL_storCapacityLiquidCurr:=FCentities[Entity].E_col[Colony].COL_storCapacityLiquidMax;
+                  FCentities[Entity].E_col[Colony].COL_storageList[StorageIdxToUse].CPR_unit:=FCentities[Entity].E_col[Colony].COL_storageList[StorageIdxToUse].CPR_unit+FinalTransferedUnits;
+                  Result:=UnitToTransfer-FinalTransferedUnits;
+               end;
             end;
-            FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacityLiquidCurr:=SUcapaLoaded;
-         end;
+         end; //==END== stLiquid ==//
 
          stGas:
          begin
-            SUcapaLoaded:=FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacityGasCurr-SUvolToXfer;
-            if SUcapaLoaded<0 then
+            CapacityLoaded:=FCentities[Entity].E_col[Colony].COL_storCapacityGasCurr+TotalVolToTransfer;
+            {.normally a case that shouldn't happen...}
+            if CapacityLoaded<0 then
             begin
-               SUcapaLoaded:=0;
-               SUnewUnit:=FCFgP_UnitFromVolume_Get( SUindex, FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacityGasCurr );
-               Result:=SUunit-SUnewUnit;
+               CapacityLoaded:=0;
+               FinalTransferedUnits:=FCFgP_UnitFromVolume_Get( ProductIndex, FCentities[Entity].E_col[Colony].COL_storCapacityGasCurr );
+               FCentities[Entity].E_col[Colony].COL_storCapacityGasCurr:=0;
+               FCentities[Entity].E_col[Colony].COL_storageList[StorageIdxToUse].CPR_unit:=0;
+               Result:=UnitToTransfer-FinalTransferedUnits;
             end
-            else begin
+            else if CapacityLoaded<=FCentities[Entity].E_col[Colony].COL_storCapacityGasMax then
+            begin
+               FinalTransferedUnits:=UnitToTransfer;
+               FCentities[Entity].E_col[Colony].COL_storCapacityGasCurr:=CapacityLoaded;
+               FCentities[Entity].E_col[Colony].COL_storageList[StorageIdxToUse].CPR_unit:=FCentities[Entity].E_col[Colony].COL_storageList[StorageIdxToUse].CPR_unit+FinalTransferedUnits;
                Result:=0;
-               SUnewUnit:=SUunit;
+            end
+            else if CapacityLoaded>FCentities[Entity].E_col[Colony].COL_storCapacityGasMax then
+            begin
+               FinalTransferedUnits:=FCFgP_UnitFromVolume_Get( ProductIndex, FCentities[Entity].E_col[Colony].COL_storCapacityGasMax-FCentities[Entity].E_col[Colony].COL_storCapacityGasCurr );
+               if FinalTransferedUnits=0
+               then Result:=UnitToTransfer
+               else begin
+                  FCentities[Entity].E_col[Colony].COL_storCapacityGasCurr:=FCentities[Entity].E_col[Colony].COL_storCapacityGasMax;
+                  FCentities[Entity].E_col[Colony].COL_storageList[StorageIdxToUse].CPR_unit:=FCentities[Entity].E_col[Colony].COL_storageList[StorageIdxToUse].CPR_unit+FinalTransferedUnits;
+                  Result:=UnitToTransfer-FinalTransferedUnits;
+               end;
             end;
-            FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacityGasCurr:=SUcapaLoaded;
-         end;
+         end; //==END== stGas ==//
 
          stBiologic:
          begin
-            SUcapaLoaded:=FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacityBioCurr-SUvolToXfer;
-            if SUcapaLoaded<0 then
+            CapacityLoaded:=FCentities[Entity].E_col[Colony].COL_storCapacityBioCurr+TotalVolToTransfer;
+            {.normally a case that shouldn't happen...}
+            if CapacityLoaded<0 then
             begin
-               SUcapaLoaded:=0;
-               SUnewUnit:=FCFgP_UnitFromVolume_Get( SUindex, FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacityBioCurr );
-               Result:=SUunit-SUnewUnit;
+               CapacityLoaded:=0;
+               FinalTransferedUnits:=FCFgP_UnitFromVolume_Get( ProductIndex, FCentities[Entity].E_col[Colony].COL_storCapacityBioCurr );
+               FCentities[Entity].E_col[Colony].COL_storCapacityBioCurr:=0;
+               FCentities[Entity].E_col[Colony].COL_storageList[StorageIdxToUse].CPR_unit:=0;
+               Result:=UnitToTransfer-FinalTransferedUnits;
             end
-            else begin
+            else if CapacityLoaded<=FCentities[Entity].E_col[Colony].COL_storCapacityBioMax then
+            begin
+               FinalTransferedUnits:=UnitToTransfer;
+               FCentities[Entity].E_col[Colony].COL_storCapacityBioCurr:=CapacityLoaded;
+               FCentities[Entity].E_col[Colony].COL_storageList[StorageIdxToUse].CPR_unit:=FCentities[Entity].E_col[Colony].COL_storageList[StorageIdxToUse].CPR_unit+FinalTransferedUnits;
                Result:=0;
-               SUnewUnit:=SUunit;
+            end
+            else if CapacityLoaded>FCentities[Entity].E_col[Colony].COL_storCapacityBioMax then
+            begin
+               FinalTransferedUnits:=FCFgP_UnitFromVolume_Get( ProductIndex, FCentities[Entity].E_col[Colony].COL_storCapacityBioMax-FCentities[Entity].E_col[Colony].COL_storCapacityBioCurr );
+               if FinalTransferedUnits=0
+               then Result:=UnitToTransfer
+               else
+               begin
+                  FCentities[Entity].E_col[Colony].COL_storCapacityBioCurr:=FCentities[Entity].E_col[Colony].COL_storCapacityBioMax;
+                  FCentities[Entity].E_col[Colony].COL_storageList[StorageIdxToUse].CPR_unit:=FCentities[Entity].E_col[Colony].COL_storageList[StorageIdxToUse].CPR_unit+FinalTransferedUnits;
+                  Result:=UnitToTransfer-FinalTransferedUnits;
+               end;
             end;
-            FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storCapacityBioCurr:=SUcapaLoaded;
          end;
-      end;  //==END== case FCDBProducts[SUindex].PROD_storage of ==//
+      end;  //==END== case FCDBProducts[ProductIndex].PROD_storage of ==//
       {.specific code for reserves}
-      if ( FCDBProducts[SUindex].PROD_function=prfuFood )
-         or ( ( FCDBProducts[SUindex].PROD_function=prfuOxygen ) and ( FCentities[SUtargetEnt].E_col[SUtargetCol].COL_reserveOxygen<>-1 ) )
-         or ( FCDBProducts[SUindex].PROD_function=prfuWater )
-      then FCMgCR_Reserve_UpdateByUnits(
-         SUtargetEnt
-         ,SUtargetCol
-         ,FCDBProducts[SUindex].PROD_function
-         ,-(SUunit-Result)
-         ,FCDBProducts[SUindex].PROD_massByUnit
-         );
-      FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storageList[SUcnt].CPR_unit:=FCentities[SUtargetEnt].E_col[SUtargetCol].COL_storageList[SUcnt].CPR_unit-SUnewUnit;
-   end //==END== else if (not SUisStoreMode) and (SUcnt>0) and (SUunit>0) ==//
-   else begin
-      Result:=abs( SUunit );
-   end;
+      if (isUpdateReserves)
+         and (
+            ( FCDBProducts[ProductIndex].PROD_function=prfuFood )
+            or ( ( FCDBProducts[ProductIndex].PROD_function=prfuOxygen ) and ( FCentities[Entity].E_col[Colony].COL_reserveOxygen<>-1 ) )
+            or ( FCDBProducts[ProductIndex].PROD_function=prfuWater )
+            ) then
+      begin
+         FCMgCR_Reserve_UpdateByUnits(
+            Entity
+            ,Colony
+            ,FCDBProducts[ProductIndex].PROD_function
+            ,FinalTransferedUnits
+            ,FCDBProducts[ProductIndex].PROD_massByUnit
+            );
+         if Entity=0 then
+         begin
+            case FCDBProducts[ProductIndex].PROD_function of
+               prfuFood: FCMuiCDD_Colony_Update(
+                  cdlReserveFood
+                  ,Colony
+                  ,0
+                  ,0
+                  ,true
+                  ,false
+                  ,false
+                  );
+
+               prfuOxygen: FCMuiCDD_Colony_Update(
+                  cdlReserveOxy
+                  ,Colony
+                  ,0
+                  ,0
+                  ,true
+                  ,false
+                  ,false
+                  );
+
+               prfuWater: FCMuiCDD_Colony_Update(
+                  cdlReserveWater
+                  ,Colony
+                  ,0
+                  ,0
+                  ,true
+                  ,false
+                  ,false
+                  );
+            end;
+         end;
+      end;
+   end //==END== if (UnitToTransfer<>0) and (StorageIdxToUse>0) then ==//
+   else Result:=UnitToTransfer;
    if frac(Result)>0
    then Result:=FCFcFunc_Rnd( cfrttpVolm3, Result );
-   if SUtargetEnt=0
+   if Entity=0
    then FCMuiCDD_Colony_Update(
       cdlStorageItem
-      ,SUtargetCol
-      ,SUcnt
+      ,Colony
+      ,StorageIdxToUse
       ,0
       ,true
       ,false

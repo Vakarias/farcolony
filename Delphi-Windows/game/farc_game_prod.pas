@@ -58,7 +58,7 @@ function FCFgP_StringFromUnit_Get(
 ///</summary>
 ///   <param name="UFVGdbproductIndex">DB product index #</param>
 ///   <param name="UFVGvolume">volume in cubic meters</param>
-///   <returns>a formatted (x.xxx) float</returns>
+///   <returns>a formatted (x.xxx) float or integer</returns>
 function FCFgP_UnitFromVolume_Get( const UFVGdbproductIndex: integer; UFVGvolume: extended ): extended; overload;
 
 ///<summary>
@@ -66,8 +66,24 @@ function FCFgP_UnitFromVolume_Get( const UFVGdbproductIndex: integer; UFVGvolume
 ///</summary>
 ///   <param name="UFVGdbproductToken">DB product token</param>
 ///   <param name="UFVGvolume">volume in cubic meters</param>
-///   <returns>a formatted (x.xxx) float</returns>
+///   <returns>a formatted (x.xxx) float or integer</returns>
 function FCFgP_UnitFromVolume_Get( const UFVGdbproductToken: string; UFVGvolume: extended ): extended; overload;
+
+///<summary>
+///   returns the volume, of a specified product, by giving number of units. This function is useful because when a product has a volume by unit <> 1, it doesn't convert directly
+///</summary>
+///   <param name="ProductIndex">DB product index #</param>
+///   <param name="UnitsToConvert">units</param>
+///   <returns>volume formatted (x.xxx) in cubic meters</returns>
+function FCFgP_VolumeFromUnit_Get( const DBProductIndex: integer; UnitsToConvert: extended ): extended; overload;
+
+///<summary>
+///   returns the volume, of a specified product, by giving number of units. This function is useful because when a product has a volume by unit <> 1, it doesn't convert directly
+///</summary>
+///   <param name="ProductToken">DB product token</param>
+///   <param name="UnitsToConvert">units</param>
+///   <returns>volume formatted (x.xxx) in cubic meters</returns>
+function FCFgP_VolumeFromUnit_Get( const ProductToken: string; UnitsToConvert: extended ): extended; overload;
 
 //===========================END FUNCTIONS SECTION==========================================
 
@@ -161,6 +177,7 @@ end;
 function FCFgP_UnitFromVolume_Get( const UFVGdbproductIndex: integer; UFVGvolume: extended ): extended; overload;
 {:Purpose: returns the number of units, of a specified product, by giving a volume value. This function is useful because when a product has a volume by unit <> 1, it doesn't convert directly.
     Additions:
+      -2012May20- *fix: result refinement.
       -2012Jan09- *fix: take in account when volbyunit<1 too.
 }
    var
@@ -172,7 +189,10 @@ begin
    else if FCDBProducts[ UFVGdbproductIndex ].PROD_volByUnit<>1 then
    begin
       UFVGworkingData:=UFVGvolume / FCDBProducts[ UFVGdbproductIndex ].PROD_volByUnit;
-      Result:=int( UFVGworkingData )+1;
+      Result:=int( UFVGworkingData );
+      if (Result=0)
+         and (UFVGvolume<>0)
+      then Result:=1;
    end;
 end;
 
@@ -186,6 +206,35 @@ begin
    Result:=0;
    UFVGindex:=FCFgP_Product_GetIndex( UFVGdbproductToken );
    Result:=FCFgP_UnitFromVolume_Get( UFVGindex, UFVGvolume );
+end;
+
+function FCFgP_VolumeFromUnit_Get( const DBProductIndex: integer; UnitsToConvert: extended ): extended; overload;
+{:Purpose: returns the volume, of a specified product, by giving number of units. This function is useful because when a product has a volume by unit <> 1, it doesn't convert directly.
+    Additions:
+}
+   var
+      WorkingData: extended;
+begin
+   Result:=0;
+   if FCDBProducts[ DBProductIndex ].PROD_volByUnit=1
+   then Result:=FCFcFunc_Rnd( cfrttpVolm3, UnitsToConvert )
+   else if FCDBProducts[ DBProductIndex ].PROD_volByUnit<>1 then
+   begin
+      WorkingData:=UnitsToConvert * FCDBProducts[ DBProductIndex ].PROD_volByUnit;
+      Result:=FCFcFunc_Rnd( cfrttpVolm3, WorkingData );
+   end;
+end;
+
+function FCFgP_VolumeFromUnit_Get( const ProductToken: string; UnitsToConvert: extended ): extended; overload;
+{:Purpose: returns the volume, of a specified product, by giving number of units. This function is useful because when a product has a volume by unit <> 1, it doesn't convert directly.
+    Additions:
+}
+   var
+      ProductIndex: integer;
+begin
+   Result:=0;
+   ProductIndex:=FCFgP_Product_GetIndex( ProductToken );
+   Result:=FCFgP_VolumeFromUnit_Get( ProductIndex, UnitsToConvert );
 end;
 
 //===========================END FUNCTIONS SECTION==========================================
