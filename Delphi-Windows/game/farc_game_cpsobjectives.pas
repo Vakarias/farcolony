@@ -101,6 +101,7 @@ procedure FCMgCPSO_Score_Update(
    );
 {:Purpose: update the score of a specified objective.
     Additions:
+      -2012May22- *mod: remove the cap of 100% on the scores.
       -2012Mar11- *add: otEcoIndustrialForce.
       -2012Mar07- *fix: otEcoEnEff - apply correction in calculation order to be in accordance to the results in the game design documents.
                   *fix: otEcoEnEff - take in account if the reserves=0, remove a calculation error with the ln().
@@ -173,9 +174,7 @@ begin
       end;
    end;
    if FCcps.CPSviabObj[ ObjectiveToUpdateIndex ].CPSO_score<0
-   then FCcps.CPSviabObj[ ObjectiveToUpdateIndex ].CPSO_score:=0
-   else if FCcps.CPSviabObj[ ObjectiveToUpdateIndex ].CPSO_score>100
-   then FCcps.CPSviabObj[ ObjectiveToUpdateIndex ].CPSO_score:=100;
+   then FCcps.CPSviabObj[ ObjectiveToUpdateIndex ].CPSO_score:=0;
    {.update the CVS score is asked to do it}
    if isCVStoCalculate then
    begin

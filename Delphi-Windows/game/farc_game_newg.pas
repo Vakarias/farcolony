@@ -92,6 +92,8 @@ uses
 procedure FCMgNG_ColMode_Upd;
 {:Purpose: update colonization mode data and it's corresponding equipment list, using the index.
     Additions:
+      -2012May22- *rem: min/max status levels.
+                  *add: economic, social and military viability thresholds.
       -2011Apr25- *mod: some adjustments for space unit equipment items, according to the updated changes in the data structure.
                   *add: the framework of the products equipment item display (needs a prerequisite to complete the code, see the dev note below).
       -2010Sep30- *code audit.
@@ -130,17 +132,17 @@ begin
          +FCCFidxR+FCFdTFiles_UIStr_Get(uistrUI, 'cpsSLstS')
          +FCCFidxRRR+FCFdTFiles_UIStr_Get(uistrUI, 'cpsSLmaxS')
          +FCCFdHeadEnd
-         +FCCFidxL+'<b>'+FCFdTFiles_UIStr_Get(uistrUI, 'cpsSLecon')+'</b>'
-         +FCCFidxR+FCFdTFiles_UIStr_Get(FCDBfactions[CMUfac].F_facCmode[CMUcolMode].FCM_cpsEconS)
-         +FCCFidxRRR+FCFdTFiles_UIStr_Get(FCDBfactions[CMUfac].F_facCmode[CMUcolMode].FCM_cpsEconM)
-         +'<br>'
-         +FCCFidxL+'<b>'+FCFdTFiles_UIStr_Get(uistrUI, 'cpsSLsoc')+'</b>'
-         +FCCFidxR+FCFdTFiles_UIStr_Get(FCDBfactions[CMUfac].F_facCmode[CMUcolMode].FCM_cpsSocS)
-         +FCCFidxRRR+FCFdTFiles_UIStr_Get(FCDBfactions[CMUfac].F_facCmode[CMUcolMode].FCM_cpsSocM)
-         +'<br>'
-         +'<b>'+FCCFidxL+FCFdTFiles_UIStr_Get(uistrUI, 'cpsSLmil')+'</b>'
-         +FCCFidxR+FCFdTFiles_UIStr_Get(FCDBfactions[CMUfac].F_facCmode[CMUcolMode].FCM_cpsMilS)
-         +FCCFidxRRR+FCFdTFiles_UIStr_Get(FCDBfactions[CMUfac].F_facCmode[CMUcolMode].FCM_cpsMilM)
+//         +FCCFidxL+'<b>'+FCFdTFiles_UIStr_Get(uistrUI, 'cpsSLecon')+'</b>'
+//         +FCCFidxR+FCFdTFiles_UIStr_Get(FCDBfactions[CMUfac].F_facCmode[CMUcolMode].FCM_cpsEconS)
+//         +FCCFidxRRR+FCFdTFiles_UIStr_Get(FCDBfactions[CMUfac].F_facCmode[CMUcolMode].FCM_cpsEconM)
+//         +'<br>'
+//         +FCCFidxL+'<b>'+FCFdTFiles_UIStr_Get(uistrUI, 'cpsSLsoc')+'</b>'
+//         +FCCFidxR+FCFdTFiles_UIStr_Get(FCDBfactions[CMUfac].F_facCmode[CMUcolMode].FCM_cpsSocS)
+//         +FCCFidxRRR+FCFdTFiles_UIStr_Get(FCDBfactions[CMUfac].F_facCmode[CMUcolMode].FCM_cpsSocM)
+//         +'<br>'
+//         +'<b>'+FCCFidxL+FCFdTFiles_UIStr_Get(uistrUI, 'cpsSLmil')+'</b>'
+//         +FCCFidxR+FCFdTFiles_UIStr_Get(FCDBfactions[CMUfac].F_facCmode[CMUcolMode].FCM_cpsMilS)
+//         +FCCFidxRRR+FCFdTFiles_UIStr_Get(FCDBfactions[CMUfac].F_facCmode[CMUcolMode].FCM_cpsMilM)
          +'<br><br>'
       );
    FCWinNewGSetup.FCWNGS_Frm_DPad_SCol_Text.HTMLText.Add(
@@ -195,6 +197,8 @@ end;
 procedure FCMgNG_Core_Proceed;
 {:Purpose: commit new game and initialize game interface.
    Additions:
+      -2012May22- *rem: min/max status levels.
+                  *add: economic, social and military viability thresholds.
       -2011Oct10- *add: surveyed regions initialization.
       -2010Dec19- *add: entity's higher hq level present in the faction
       -2010Oct11- *add: player's faction status initialization.
@@ -294,9 +298,9 @@ begin
    FCRplayer.P_gameName:=FCWinNewGSetup.FCWNGS_Frm_GNameEdit.Text;
    FCRplayer.P_facAlleg:=FCDBFactions[CPfacIdx].F_token;
    CPcolMidx:=FCWinNewGSetup.FCWNGS_Frm_ColMode.ItemIndex+1;
-   FCRplayer.P_ecoStat:=FCDBFactions[CPfacIdx].F_facCmode[CPcolMidx].FCM_cpsEconS;
-   FCRplayer.P_socStat:=FCDBFactions[CPfacIdx].F_facCmode[CPcolMidx].FCM_cpsSocS;
-   FCRplayer.P_milStat:=FCDBFactions[CPfacIdx].F_facCmode[CPcolMidx].FCM_cpsMilS;
+   FCRplayer.P_ecoStat:=fs1StabFDep;
+   FCRplayer.P_socStat:=fs1StabFDep;
+   FCRplayer.P_milStat:=fs1StabFDep;
    {DEV NOTE: the following code will be changed later with choice of planet following choosen faction.}
    {.determine starting location, regarding starting location list}
    CPcount1:=length(FCDBFactions[CPfacIdx].F_facStartLocList)-1;

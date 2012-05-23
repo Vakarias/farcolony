@@ -431,6 +431,8 @@ end;
 procedure FCMdF_DBFactions_Read;
 {:Purpose: read the factions database xml file.
    Additions:
+      -2012May22- *rem: colonization mode - min/max status levels.
+                  *add: colonization mode - economic, social and military viability thresholds.
       -2012Mar11- *mod: optimize the loading of the viability objectives.
                   *add: otEcoIndustrialForce viability objective.
       -2011Apr25- *mod: XML refactoring and clarifications for equipment items.
@@ -514,6 +516,7 @@ begin
          DBFRfacSubItem:= DBFRfacItem.ChildNodes.First;
          while DBFRfacSubItem<>nil do
          begin
+            {.colonization mode}
             if DBFRfacSubItem.NodeName='facColMode'
             then
             begin
@@ -522,23 +525,11 @@ begin
                DBFRequItmCnt:=0;
                inc(DBFRcolMdCnt);
                SetLength(FCDBfactions[DBFRitmCnt].F_facCmode, DBFRcolMdCnt+1);
-               {.colonization mode token}
                FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_token:=DBFRfacSubItem.Attributes['token'];
-               {.starting status - econ}
-               FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_cpsEconS:=FCFdF_DBFactStat_FStr(DBFRfacSubItem.Attributes['sstateco']);
-               {.starting status - soc}
-               FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_cpsSocS:=FCFdF_DBFactStat_FStr(DBFRfacSubItem.Attributes['sstatsoc']);
-               {.starting status - mil}
-               FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_cpsMilS:=FCFdF_DBFactStat_FStr(DBFRfacSubItem.Attributes['sstatmil']);
-               {.max status - econ}
-               FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_cpsEconM:=FCFdF_DBFactStat_FStr(DBFRfacSubItem.Attributes['mstateco']);
-               {.max status - soc}
-               FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_cpsSocM:=FCFdF_DBFactStat_FStr(DBFRfacSubItem.Attributes['mstatsoc']);
-               {.max status - mil}
-               FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_cpsMilM:=FCFdF_DBFactStat_FStr(DBFRfacSubItem.Attributes['mstatmil']);
-               {.credit range}
+               FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_cpsVthEconomic:=DBFRfacSubItem.Attributes['viabThrEco'];
+               FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_cpsVthSocial:=DBFRfacSubItem.Attributes['viabThrSoc'];
+               FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_cpsVthMilitary:=DBFRfacSubItem.Attributes['viabThrMil'];
                FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_cpsCrRg:=FCFdF_DBFactCred_FStr(DBFRfacSubItem.Attributes['creditrng']);
-               {.interest range}
                FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_cpsIntRg:=FCFdF_DBFactCred_FStr(DBFRfacSubItem.Attributes['intrng']);
                {.equipment list items}
                DBFRfacEquipItm:=DBFRfacSubItem.ChildNodes.First;

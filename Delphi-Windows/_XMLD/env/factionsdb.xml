@@ -77,10 +77,17 @@
    Common         60%      41%
    Strong         80%      61%
    Known by All   100%     81%
-
+   
+   Viability Threshold  Difficulty           Associated Colonization Ideology
+            70 %        Childishly Simple    Permissive
+            85 %        Easy                 Open to change
+            100 %       Fair                 Neutral / Balanced
+            110 %       Uneasy               Nationalism
+            120 %       Difficult            Protectionism / Closed to change
+            130 %       Hard                 Dictatorship
    
    <faction token="" level="">
-      <facColMode token="" sstateco="" sstatsoc="" sstatmil="" mstateco="" mstatsoc="" mstatmil="" creditrng="" intrng="">
+      <facColMode token="" viabThrEco="" viabThrSoc="" viabThrMil="" creditrng="" intrng="">
          //ALWAY PUT THE SEQUENCE IN THIS ORDER
          <facViabObj objTp="otEcoEnEff"/>
          <facViabObj objTp="otEcoIndustrialForce" product="" threshold=""/>
@@ -151,7 +158,7 @@
 <factionsDB>
    <!-- Magellan Unity -->
    <faction token="factkMagelUni" level="4">
-      <facColMode token="munCmodARC" sstateco="fs1StabFDep" sstatsoc="fs1StabFDep" sstatmil="fs1StabFDep" mstateco="fs3Indep" mstatsoc="fs2DepVar" mstatmil="fs2DepVar" creditrng="crirRch_High" intrng="crirBelAvg_Mod">
+      <facColMode token="munCmodARC" viabThrEco="85" viabThrSoc="120" viabThrMil="110" creditrng="crirRch_High" intrng="crirBelAvg_Mod">
          <facViabObj objTp="otEcoEnEff"/>
          <facViabObj objTp="otEcoIndustrialForce" product="resCarbOre" threshold="1.5"/>
          <facViabObj objTp="otEcoLowCr"/>

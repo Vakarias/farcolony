@@ -736,22 +736,22 @@ interface
                );
    end;
    {.colonization mode data structure}
-   {:DEV NOTE: update FCMdFiles_DBFactions_Read.}
+   {:DEV NOTE: update FCMdFiles_DBFactions_Read + FCMgNG_ColMode_Upd + FCMgNG_Core_Proceed.}
    type TFCRdgFactColMode = record
       {.token}
       FCM_token: string[20];
-      {.CPS data - starting econ status}
-      FCM_cpsEconS: TFCEfacStat;
-      {.CPS data - starting soc status}
-      FCM_cpsSocS: TFCEfacStat;
-      {.CPS data - starting mil status}
-      FCM_cpsMilS: TFCEfacStat;
-      {.CPS data - max econ status}
-      FCM_cpsEconM: TFCEfacStat;
-      {.CPS data - max soc status}
-      FCM_cpsSocM: TFCEfacStat;
-      {.CPS data - max mil status}
-      FCM_cpsMilM: TFCEfacStat;
+      ///<summary>
+      /// CPS - economic viability threshold
+      ///</summary>
+      FCM_cpsVthEconomic: integer;
+      ///<summary>
+      /// CPS - social viability threshold
+      ///</summary>
+      FCM_cpsVthSocial: integer;
+      ///<summary>
+      /// CPS - military viability threshold
+      ///</summary>
+      FCM_cpsVthMilitary: integer;
       {.CPS data - credit range}
       FCM_cpsCrRg: TFCEcrIntRg;
       {.CPS data - interest range}
