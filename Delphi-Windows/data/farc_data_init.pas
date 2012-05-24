@@ -394,6 +394,7 @@ procedure FCMdInit_Initialize;
       FCCFidxRi='<ind x="140">';
       FCCFidxRR='<ind x="180">';
       FCCFidxRRR='<ind x="240">';
+      FCCFidxRRRR='<ind x="340">';
       FCCFpanelTitle=FCCFidxL2+'<b>';
 
 implementation

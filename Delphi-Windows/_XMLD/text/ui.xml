@@ -983,26 +983,16 @@
       <FR>Economique</FR>
       <SP>Economica</SP>
    </cpsSLecon>
-   <cpsSLmaxS>
-      <EN>Max. Allowed Status</EN>
-      <FR>Etat Max. Permis</FR>
-      <SP>Estado Max. Permitido</SP>
-   </cpsSLmaxS>
    <cpsSLmil>
-      <EN>Space & Military</EN>
-      <FR>Espace & Militaire</FR>
-      <SP>Espacio & Militar</SP>
+      <EN>Space &amp; Military</EN>
+      <FR>Espace &amp; Militaire</FR>
+      <SP>Espacio &amp; Militar</SP>
    </cpsSLmil>
    <cpsSLsoc>
       <EN>Social</EN>
       <FR>Social</FR>
       <SP>Social</SP>
    </cpsSLsoc>
-   <cpsSLstS>
-      <EN>Starting Status</EN>
-      <FR>Etat de Départ</FR>
-      <SP>Estado al Comienzo</SP>
-   </cpsSLstS>
    <cpsStatFD>
       <EN>Dependent</EN>
       <FR>Dépendante</FR>
@@ -1024,10 +1014,50 @@
       <SP>Semi-Dependiente</SP>
    </cpsStatSD>
    <cpsStatus>
-      <EN>Player's Faction Status</EN>
-      <FR>Status de la Faction du Joueur</FR>
-      <SP>Estado de la Faccion del Jugador</SP>
+      <EN>Viability Thresholds</EN>
+      <FR>Seuils de Viabilité</FR>
+      <SP></SP>
    </cpsStatus>
+   <cpsThr>
+      <EN>Threshold</EN>
+      <FR>Seuil</FR>
+      <SP></SP>
+   </cpsThr>
+   <cpsThr1>
+      <EN>Childishly Simple (Permissive)</EN>
+      <FR>Enfantin (Permissif)</FR>
+      <SP></SP>
+   </cpsThr1>
+   <cpsThr2>
+      <EN>Easy (Open to change)</EN>
+      <FR>Facile (ouvert au changement)</FR>
+      <SP></SP>
+   </cpsThr2>
+   <cpsThr3>
+      <EN>Fair (Neutral / Balanced)</EN>
+      <FR>Juste (Neutre / Balancé)</FR>
+      <SP></SP>
+   </cpsThr3>
+   <cpsThr4>
+      <EN>Uneasy (Nationalism)</EN>
+      <FR>Difficile (Nationalisme)</FR>
+      <SP></SP>
+   </cpsThr4>
+   <cpsThr5>
+      <EN>Difficult (Protectionism)</EN>
+      <FR>Trés Difficile (Protectionisme)</FR>
+      <SP></SP>
+   </cpsThr5>
+   <cpsThr6>
+      <EN>Hard (Dictatorship)</EN>
+      <FR>Ardu (Dictature)</FR>
+      <SP></SP>
+   </cpsThr6>
+   <cpsThrDiff>
+      <EN>Threshold Difficulty (Ideology)</EN>
+      <FR>Difficulté de Seuil (Idéologie)</FR>
+      <SP></SP>
+   </cpsThrDiff>
    <cpsVOotEcoEnEff>
       <EN>Energy Efficient</EN>
       <FR>Efficacité Energétique</FR>

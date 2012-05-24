@@ -152,6 +152,13 @@ uses
          procedure FCM_ObjPanel_Init;
 
          ///<summary>
+         ///   get the descriptive string of the numeric viability threshold
+         ///</summary>
+         ///   <param name="Threshold">threshold value</param>
+         ///   <returns>threshold descriptive string (difficulty (ideology))</returns>
+         function FCF_Threshold_GetString( const Threshold: integer ): string;
+
+         ///<summary>
          ///   update the time left (one click less), and trigger the end of phase when needed
          ///   return true if end of phase
          ///</summary>
@@ -483,6 +490,27 @@ begin
    then Result:=IntToStr(FCcps.CPStLft)
    else if not TLGraw
    then Result:=FCFcFunc_TimeTick_GetDate(FCcps.CPStLft);
+end;
+
+function TFCcps.FCF_Threshold_GetString( const Threshold: integer ): string;
+{:Purpose: get the descriptive string of the numeric viability threshold.
+    Additions:
+}
+begin
+   Result:='';
+   case Threshold of
+      70: Result:=FCFdTFiles_UIStr_Get( uistrUI, 'cpsThr1');
+
+      85: Result:=FCFdTFiles_UIStr_Get( uistrUI, 'cpsThr2');
+
+      100: Result:=FCFdTFiles_UIStr_Get( uistrUI, 'cpsThr3');
+
+      110: Result:=FCFdTFiles_UIStr_Get( uistrUI, 'cpsThr4');
+
+      120: Result:=FCFdTFiles_UIStr_Get( uistrUI, 'cpsThr5');
+
+      130: Result:=FCFdTFiles_UIStr_Get( uistrUI, 'cpsThr6');
+   end;
 end;
 
 function TFCcps.FCF_TimeLeft_Upd: boolean;

@@ -92,6 +92,7 @@ uses
 procedure FCMgNG_ColMode_Upd;
 {:Purpose: update colonization mode data and it's corresponding equipment list, using the index.
     Additions:
+      -2012May23- *mod: changed the display for status' viability thresolds.
       -2012May22- *rem: min/max status levels.
                   *add: economic, social and military viability thresholds.
       -2011Apr25- *mod: some adjustments for space unit equipment items, according to the updated changes in the data structure.
@@ -129,20 +130,20 @@ begin
       FCCFdHeadC+FCFdTFiles_UIStr_Get(uistrUI, 'cpsStatus')+FCCFdHeadEnd
          +FCCFdHead
          +FCCFidxL+FCFdTFiles_UIStr_Get(uistrUI, 'cpsSLcateg')
-         +FCCFidxR+FCFdTFiles_UIStr_Get(uistrUI, 'cpsSLstS')
-         +FCCFidxRRR+FCFdTFiles_UIStr_Get(uistrUI, 'cpsSLmaxS')
+         +FCCFidxRi+FCFdTFiles_UIStr_Get(uistrUI, 'cpsThrDiff')
+         +FCCFidxRRRR+FCFdTFiles_UIStr_Get(uistrUI, 'cpsThr')
          +FCCFdHeadEnd
-//         +FCCFidxL+'<b>'+FCFdTFiles_UIStr_Get(uistrUI, 'cpsSLecon')+'</b>'
-//         +FCCFidxR+FCFdTFiles_UIStr_Get(FCDBfactions[CMUfac].F_facCmode[CMUcolMode].FCM_cpsEconS)
-//         +FCCFidxRRR+FCFdTFiles_UIStr_Get(FCDBfactions[CMUfac].F_facCmode[CMUcolMode].FCM_cpsEconM)
-//         +'<br>'
-//         +FCCFidxL+'<b>'+FCFdTFiles_UIStr_Get(uistrUI, 'cpsSLsoc')+'</b>'
-//         +FCCFidxR+FCFdTFiles_UIStr_Get(FCDBfactions[CMUfac].F_facCmode[CMUcolMode].FCM_cpsSocS)
-//         +FCCFidxRRR+FCFdTFiles_UIStr_Get(FCDBfactions[CMUfac].F_facCmode[CMUcolMode].FCM_cpsSocM)
-//         +'<br>'
-//         +'<b>'+FCCFidxL+FCFdTFiles_UIStr_Get(uistrUI, 'cpsSLmil')+'</b>'
-//         +FCCFidxR+FCFdTFiles_UIStr_Get(FCDBfactions[CMUfac].F_facCmode[CMUcolMode].FCM_cpsMilS)
-//         +FCCFidxRRR+FCFdTFiles_UIStr_Get(FCDBfactions[CMUfac].F_facCmode[CMUcolMode].FCM_cpsMilM)
+         +FCCFidxL+'<b>'+FCFdTFiles_UIStr_Get(uistrUI, 'cpsSLecon')+'</b>'
+         +FCCFidxRi+FCcps.FCF_Threshold_GetString( FCDBfactions[CMUfac].F_facCmode[CMUcolMode].FCM_cpsVthEconomic)
+         +FCCFidxRRRR+IntToStr( FCDBfactions[CMUfac].F_facCmode[CMUcolMode].FCM_cpsVthEconomic )+' %'
+         +'<br>'
+         +FCCFidxL+'<b>'+FCFdTFiles_UIStr_Get(uistrUI, 'cpsSLsoc')+'</b>'
+         +FCCFidxRi+FCcps.FCF_Threshold_GetString( FCDBfactions[CMUfac].F_facCmode[CMUcolMode].FCM_cpsVthSocial)
+         +FCCFidxRRRR+IntToStr( FCDBfactions[CMUfac].F_facCmode[CMUcolMode].FCM_cpsVthSocial )+' %'
+         +'<br>'
+         +'<b>'+FCCFidxL+FCFdTFiles_UIStr_Get(uistrUI, 'cpsSLmil')+'</b>'
+         +FCCFidxRi+FCcps.FCF_Threshold_GetString( FCDBfactions[CMUfac].F_facCmode[CMUcolMode].FCM_cpsVthSpaceMilitary)
+         +FCCFidxRRRR+IntToStr( FCDBfactions[CMUfac].F_facCmode[CMUcolMode].FCM_cpsVthEconomic )+' %'
          +'<br><br>'
       );
    FCWinNewGSetup.FCWNGS_Frm_DPad_SCol_Text.HTMLText.Add(
