@@ -627,7 +627,7 @@ begin
       inc( SRIcount );
    end;
    if ( Result=0 )
-      and ( SRImustCreateIfNotFound ) then
+      and ( SRImustCreateIfNotFound )then
    begin
       FCFgC_Storage_Update(
          SRItoken
@@ -651,6 +651,7 @@ function FCFgC_Storage_Update(
 {:Purpose: update the storage of a colony with a specific product. Return the amount in unit that couldn't be transfered.
     Additions:
       -2012May21- *fix: protect all float add/sub w/ FCFcFunc_Rnds, there's a precision bug in delphi or x86 architecture.
+                  *fix: apply corrections in storage creation.
       -2012May20- *code: complete rewrite (but w/o audits).
       -2012May17- *rem: SUisStoreMode, must use +/- now.
       -2012May13- *add: SUunit must be > 0 to apply the storage rule.
@@ -694,6 +695,7 @@ begin
          begin
             inc(StorageIdxToUse);
             SetLength(FCentities[Entity].E_col[Colony].COL_storageList, StorageIdxToUse+1);
+            FCentities[Entity].E_col[Colony].COL_storageList[StorageIdxToUse].CPR_token:=ProductToken;
             {.specific code for reserves}
             if FCDBProducts[ ProductIndex ].PROD_function=prfuFood then
             begin
@@ -707,14 +709,16 @@ begin
          inc(StorageIdxToUse);
       end;
    end
-   else if MaxStorageIndex<=0
-   then SetLength(FCentities[Entity].E_col[Colony].COL_storageList, 2);
+   else if MaxStorageIndex<=0 then
+   begin
+      StorageIdxToUse:=1;
+      SetLength(FCentities[Entity].E_col[Colony].COL_storageList, StorageIdxToUse+1);
+      FCentities[Entity].E_col[Colony].COL_storageList[StorageIdxToUse].CPR_token:=ProductToken;
+   end;
    {.transfer process}
    if (UnitToTransfer<>0)
       and (StorageIdxToUse>0) then
    begin
-      if FCentities[Entity].E_col[Colony].COL_storageList[StorageIdxToUse].CPR_token=''
-      then FCentities[Entity].E_col[Colony].COL_storageList[StorageIdxToUse].CPR_token:=ProductToken;
       TotalVolToTransfer:=FCFgP_VolumeFromUnit_Get( ProductIndex, UnitToTransfer );
       case FCDBProducts[ProductIndex].PROD_storage of
          stSolid:
