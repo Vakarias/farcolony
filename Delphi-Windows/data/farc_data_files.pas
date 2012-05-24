@@ -528,7 +528,7 @@ begin
                FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_token:=DBFRfacSubItem.Attributes['token'];
                FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_cpsVthEconomic:=DBFRfacSubItem.Attributes['viabThrEco'];
                FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_cpsVthSocial:=DBFRfacSubItem.Attributes['viabThrSoc'];
-               FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_cpsVthMilitary:=DBFRfacSubItem.Attributes['viabThrMil'];
+               FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_cpsVthSpaceMilitary:=DBFRfacSubItem.Attributes['viabThrSpMil'];
                FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_cpsCrRg:=FCFdF_DBFactCred_FStr(DBFRfacSubItem.Attributes['creditrng']);
                FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_cpsIntRg:=FCFdF_DBFactCred_FStr(DBFRfacSubItem.Attributes['intrng']);
                {.equipment list items}

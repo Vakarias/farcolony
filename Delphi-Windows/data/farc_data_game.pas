@@ -749,9 +749,9 @@ interface
       ///</summary>
       FCM_cpsVthSocial: integer;
       ///<summary>
-      /// CPS - military viability threshold
+      /// CPS - space & military viability threshold
       ///</summary>
-      FCM_cpsVthMilitary: integer;
+      FCM_cpsVthSpaceMilitary: integer;
       {.CPS data - credit range}
       FCM_cpsCrRg: TFCEcrIntRg;
       {.CPS data - interest range}

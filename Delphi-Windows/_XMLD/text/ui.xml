@@ -989,9 +989,9 @@
       <SP>Estado Max. Permitido</SP>
    </cpsSLmaxS>
    <cpsSLmil>
-      <EN>Military</EN>
-      <FR>Militaire</FR>
-      <SP>Militar</SP>
+      <EN>Space & Military</EN>
+      <FR>Espace & Militaire</FR>
+      <SP>Espacio & Militar</SP>
    </cpsSLmil>
    <cpsSLsoc>
       <EN>Social</EN>

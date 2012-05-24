@@ -87,7 +87,7 @@
             130 %       Hard                 Dictatorship
    
    <faction token="" level="">
-      <facColMode token="" viabThrEco="" viabThrSoc="" viabThrMil="" creditrng="" intrng="">
+      <facColMode token="" viabThrEco="" viabThrSoc="" viabThrSpMil="" creditrng="" intrng="">
          //ALWAY PUT THE SEQUENCE IN THIS ORDER
          <facViabObj objTp="otEcoEnEff"/>
          <facViabObj objTp="otEcoIndustrialForce" product="" threshold=""/>
@@ -158,7 +158,7 @@
 <factionsDB>
    <!-- Magellan Unity -->
    <faction token="factkMagelUni" level="4">
-      <facColMode token="munCmodARC" viabThrEco="85" viabThrSoc="120" viabThrMil="110" creditrng="crirRch_High" intrng="crirBelAvg_Mod">
+      <facColMode token="munCmodARC" viabThrEco="85" viabThrSoc="120" viabThrSpMil="110" creditrng="crirRch_High" intrng="crirBelAvg_Mod">
          <facViabObj objTp="otEcoEnEff"/>
          <facViabObj objTp="otEcoIndustrialForce" product="resCarbOre" threshold="1.5"/>
          <facViabObj objTp="otEcoLowCr"/>
