@@ -34,9 +34,10 @@ uses
    Math;
 
    {.viability objectives types}
-   {:DEV NOTES: update TFCRcpsObj.}
+   {:DEV NOTES: update TFCRcpsoViabilityObjective + TFCRcpsObj + FCFuiCPS_Objective_GetFormat.}
    {:DEV NOTE: update factionsdb.xml + FCMdF_DBFactions_Read + FCMdFiles_Game_Save/Load}
    {:DEV NOTE: update FCM_ViabObj_Init + FCM_ViabObj_Load + FCF_ViabObj_Use + FCMgCPSO_Score_Update.}
+   {:DEV NOTES: update TFCcps.FCM_EndPhase_Proc.}
    type TFCEcpsoObjectiveTypes=(
       {.for internal use only, do not include it in the XML and savegame file}
       otAll
@@ -49,7 +50,7 @@ uses
       {.sustainable colony}
       ,otEcoSustCol
       {.secure population}
-      ,otSocSecPop
+//      ,otSocSecPop
       );
 
    {.faction's viability objectives}
@@ -66,8 +67,16 @@ uses
 
          otEcoSustCol: ();
 
-         otSocSecPop: ();
+//         otSocSecPop: ();
    end;
+
+///<summary>
+///   caculate the final outcome of a CPS status category based on the given mean score
+///</summary>
+///   <param name="ViabilityThreshold">viability threshold in the category</param>
+///   <param name="MeanScore">calculated mean score in %</param>
+///   <returns>the final outcome level</returns>
+function FCMgCPSO_Outcome_Process( const ViabilityThreshold, MeanScore: integer ): integer;
 
 //===========================END FUNCTIONS SECTION==========================================
 
@@ -93,6 +102,94 @@ uses
    ,farc_game_prodSeg2;
 
 //===================================================END OF INIT============================
+
+function FCMgCPSO_Outcome_Process( const ViabilityThreshold, MeanScore: integer ): integer;
+{:Purpose: caculate the final outcome of a CPS status category based on the given mean score.
+    Additions:
+}
+begin
+   Result:=0;
+   case ViabilityThreshold of
+      70:
+      begin
+         case MeanScore of
+            0..19: Result:=0;
+
+            20..54: Result:=1;
+
+            55..69: Result:=2;
+
+            70..999: Result:=3;
+         end;
+      end;
+
+      85:
+      begin
+         case MeanScore of
+            0..34: Result:=0;
+
+            35..69: Result:=1;
+
+            70..84: Result:=2;
+
+            85..999: Result:=3;
+         end;
+      end;
+
+      100:
+      begin
+         case MeanScore of
+            0..49: Result:=0;
+
+            50..84: Result:=1;
+
+            85..99: Result:=2;
+
+            100..999: Result:=3;
+         end;
+      end;
+
+      110:
+      begin
+         case MeanScore of
+            0..59: Result:=0;
+
+            60..94: Result:=1;
+
+            95..109: Result:=2;
+
+            110..999: Result:=3;
+         end;
+      end;
+
+      120:
+      begin
+         case MeanScore of
+            0..69: Result:=0;
+
+            70..104: Result:=1;
+
+            105..119: Result:=2;
+
+            120..999: Result:=3;
+         end;
+      end;
+
+      130:
+      begin
+         case MeanScore of
+            0..79: Result:=0;
+
+            80..114: Result:=1;
+
+            115..129: Result:=2;
+
+            130..999: Result:=3;
+         end;
+      end;
+   end; //==END== case ViabilityThreshold of ==//
+end;
+
 //===========================END FUNCTIONS SECTION==========================================
 
 procedure FCMgCPSO_Score_Update(
@@ -169,9 +266,9 @@ begin
       begin
       end;
 
-      otSocSecPop:
-      begin
-      end;
+//      otSocSecPop:
+//      begin
+//      end;
    end;
    if FCcps.CPSviabObj[ ObjectiveToUpdateIndex ].CPSO_score<0
    then FCcps.CPSviabObj[ ObjectiveToUpdateIndex ].CPSO_score:=0;

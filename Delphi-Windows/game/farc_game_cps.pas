@@ -64,7 +64,7 @@ uses
 
          otEcoSustCol: ();
 
-         otSocSecPop: ();
+//         otSocSecPop: ();
    end;
    {.colonization phase system class}
    {:DEV NOTE: update TFCcps.Create + FCMdFiles_Game_Save/load.}
@@ -389,10 +389,64 @@ end;
 procedure TFCcps.FCM_EndPhase_Proc;
 {:Purpose: end of colonization phase process.
     Additions:
+      -2012May24- *add: Work-In-Progress - basic end of phase with mean scores calculations and outcomes.
       -2010Jun08- *add: cps related ui finalization.
 }
+   var
+      Count
+      ,Max
+      ,Outcome
+      ,StatusEconCount
+      ,StatusEconMean
+      ,StatusSocCount
+      ,StatusSocMean
+      ,StatusSpMilCount
+      ,StatusSpMilMean: integer;
 begin
-   {:DEV NOTE: add final calculations + final status gathered.}
+   StatusEconCount:=0;
+   StatusEconMean:=0;
+   StatusSocCount:=0;
+   StatusSocMean:=0;
+   StatusSpMilCount:=0;
+   StatusSpMilMean:=0;
+   {.mean scores calculations and outcomes}
+   Count:=1;
+   Max:=length( FCcps.CPSviabObj )-1;
+   while Count<=Max do
+   begin
+      case FCcps.CPSviabObj[ Count ].CPSO_type of
+         otEcoEnEff, otEcoIndustrialForce, otEcoLowCr, otEcoSustCol:
+         begin
+            inc( StatusEconCount );
+            StatusEconMean:=StatusEconMean+FCcps.CPSviabObj[ Count ].CPSO_score;
+         end;
+      end;
+      inc( Count );
+   end;
+   if StatusEconCount=0
+   then FCRplayer.P_ecoStat:=fs1StabFDep
+   else if StatusEconCount>0 then
+   begin
+      StatusEconMean:=StatusEconMean div StatusEconCount;
+      Outcome:=FCMgCPSO_Outcome_Process( FCRplayer.P_viabThrEco, StatusEconMean);
+      FCRplayer.P_ecoStat:=TFCEfacStat( Outcome );
+   end;
+   if StatusSocCount=0
+   then FCRplayer.P_socStat:=fs1StabFDep
+   else if StatusSocCount>0 then
+   begin
+      StatusSocMean:=StatusSocMean div StatusEconCount;
+      Outcome:=FCMgCPSO_Outcome_Process( FCRplayer.P_viabThrSoc, StatusSocMean);
+      FCRplayer.P_socStat:=TFCEfacStat( Outcome );
+   end;
+   if StatusSpMilCount=0
+   then FCRplayer.P_milStat:=fs1StabFDep
+   else if StatusSpMilCount>0 then
+   begin
+      StatusSpMilMean:=StatusSpMilMean div StatusSpMilCount;
+      Outcome:=FCMgCPSO_Outcome_Process( FCRplayer.P_viabThrSpMil, StatusSpMilMean);
+      FCRplayer.P_milStat:=TFCEfacStat( Outcome );
+   end;
    {:DEV NOTE:add credit line reimburse + rented / lended equipment/spacecrafts.}
    {.free cps related ui}
    FCVwMcpsPstore:=false;

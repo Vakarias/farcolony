@@ -814,10 +814,13 @@ interface
       P_facAlleg: string[20];
       {.economic status}
       P_ecoStat: TFCEfacStat;
+      P_viabThrEco: integer;
       {.social status}
       P_socStat: TFCEfacStat;
+      P_viabThrSoc: integer;
       {.military status}
       P_milStat: TFCEfacStat;
+      P_viabThrSpMil: integer;
       {.3d view focus location - star system token id}
       P_starSysLoc: string[20];
       {.3d view focus location - star token id}

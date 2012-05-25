@@ -114,7 +114,7 @@ var
    CMUnode: TTreeNode;
 begin
    CMUfac:=FCWinNewGSetup.FCWNGS_Frm_FactionList.ItemIndex+1;
-   CMUcolMode:=FCWinNewGSetup.FCWNGS_Frm_ColMode.ItemIndex+1;
+   CMUcolMode:=FCWinNewGSetup.FCWNGS_Frm_ColMode.ItemIndex+1;   {:DEV NOTES: put these two in parameters.}
    FCWinNewGSetup.FCWNGS_Frm_DPad_SCol_Text.HTMLText.Clear;
    FCWinNewGSetup.FCWNGS_Frm_DPad_SDL_DotList.Items.Clear;
    {.update colonization politics}
@@ -198,6 +198,7 @@ end;
 procedure FCMgNG_Core_Proceed;
 {:Purpose: commit new game and initialize game interface.
    Additions:
+      -2012May24- *add: store the viability thresholds.
       -2012May22- *rem: min/max status levels.
                   *add: economic, social and military viability thresholds.
       -2011Oct10- *add: surveyed regions initialization.
@@ -300,8 +301,11 @@ begin
    FCRplayer.P_facAlleg:=FCDBFactions[CPfacIdx].F_token;
    CPcolMidx:=FCWinNewGSetup.FCWNGS_Frm_ColMode.ItemIndex+1;
    FCRplayer.P_ecoStat:=fs1StabFDep;
+   FCRplayer.P_viabThrEco:=FCDBFactions[CPfacIdx].F_facCmode[ CPcolMidx ].FCM_cpsVthEconomic;
    FCRplayer.P_socStat:=fs1StabFDep;
+   FCRplayer.P_viabThrSoc:=FCDBFactions[CPfacIdx].F_facCmode[ CPcolMidx ].FCM_cpsVthSocial;
    FCRplayer.P_milStat:=fs1StabFDep;
+   FCRplayer.P_viabThrSpMil:=FCDBFactions[CPfacIdx].F_facCmode[ CPcolMidx ].FCM_cpsVthSpaceMilitary;
    {DEV NOTE: the following code will be changed later with choice of planet following choosen faction.}
    {.determine starting location, regarding starting location list}
    CPcount1:=length(FCDBFactions[CPfacIdx].F_facStartLocList)-1;

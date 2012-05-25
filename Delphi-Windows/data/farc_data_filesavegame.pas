@@ -74,6 +74,7 @@ uses
 procedure FCMdFSG_Game_Load;
 {:Purpose: load the current game.
    Additions:
+      -2012May24- *add: CPS - Viability thresholds.
       -2012May13- *add: CSM event: etRveFoodShortage, addition of the direct death period + death fractional value.
       -2012May12- *add: CSM event: etRveOxygenShortage, etRveWaterOverload, etRveWaterShortage, etRveFoodOverload and etRveFoodShortage.
       -2012May06- *add: CSM event: etRveOxygenOverload.
@@ -280,8 +281,11 @@ begin
       then
       begin
          FCRplayer.P_ecoStat:=GLxmlItm.Attributes['statEco'];
+         FCRplayer.P_viabThrEco:=GLxmlItm.Attributes['statEcoThr'];
          FCRplayer.P_socStat:=GLxmlItm.Attributes['statSoc'];
-         FCRplayer.P_milStat:=GLxmlItm.Attributes['statMil'];
+         FCRplayer.P_viabThrSoc:=GLxmlItm.Attributes['statSocThr'];
+         FCRplayer.P_milStat:=GLxmlItm.Attributes['statSpMil'];
+         FCRplayer.P_viabThrSpMil:=GLxmlItm.Attributes['statSpMilThr'];
       end;
       {.read "cps" section}
       GLxmlItm:=FCWinMain.FCXMLsave.DocumentElement.ChildNodes.FindNode('gfCPS');
@@ -999,6 +1003,7 @@ end;
 procedure FCMdFSG_Game_Save;
 {:Purpose: save the current game.
     Additions:
+      -2012May24- *add: CPS - Viability thresholds.
       -2012May13- *add: CSM event: etRveFoodShortage, addition of the direct death period + death fractional value.
       -2012May12- *add: CSM event: etRveOxygenShortage, etRveWaterOverload, etRveWaterShortage, etRveFoodOverload and etRveFoodShortage.
       -2012May06- *add: CSM event: etRveOxygenOverload.
@@ -1193,8 +1198,11 @@ begin
    {.create "status" item}
    GSxmlItm:=GSxmlRoot.AddChild('gfStatus');
    GSxmlItm.Attributes['statEco']:=FCRplayer.P_ecoStat;
+   GSxmlItm.Attributes['statEcoThr']:=FCRplayer.P_viabThrEco;
    GSxmlItm.Attributes['statSoc']:=FCRplayer.P_socStat;
-   GSxmlItm.Attributes['statMil']:=FCRplayer.P_milStat;
+   GSxmlItm.Attributes['statSocThr']:=FCRplayer.P_viabThrSoc;
+   GSxmlItm.Attributes['statSpMil']:=FCRplayer.P_milStat;
+   GSxmlItm.Attributes['statSpMilThr']:=FCRplayer.P_viabThrSpMil;
    {.create "cps" saved game item}
    if FCcps<>nil
    then

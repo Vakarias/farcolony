@@ -99,7 +99,7 @@ begin
 
       otEcoSustCol:;
 
-      otSocSecPop:;
+//      otSocSecPop:;
    end;
    Result:=ResultStr1+'<ind x="250"> ['+inttostr(FCcps.CPSviabObj[ ObjectiveIndex ].CPSO_score)+'%]'+FCCFdHeadEnd+ResultStr2;
 

@@ -15,10 +15,12 @@
    <cpsCVS>
       <EN>The &lt;b&gt;CVS&lt;/b&gt; is a mean to know if the &lt;b&gt;&lt;a href="cpsRoot"&gt;Colonization Phase&lt;/a&gt;&lt;/b&gt; is a success. It's a global score noted from 0 to 100% that represent the mean of all objectives scores.&lt;br&gt;Over time, when the player start to fulfil his/her objectives, the &lt;b&gt;CVS&lt;/b&gt; will raise up. On the contrary if the player is not able to fulfil them, the &lt;b&gt;CVS&lt;/b&gt; will tend to 0.</EN>
       <FR>Le &lt;b&gt;CVS&lt;/b&gt; est un moyen de savoir si la &lt;b&gt;&lt;a href="cpsRoot"&gt;Phase de Colonisation&lt;/a&gt;&lt;/b&gt; est un succès. C'est un score global noté de 0 à 100% qui représente la moyenne des scores de tout les objectifs.&lt;br&gt;Dans la durée, quand le joueur commence à remplir ses objectifs, le &lt;b&gt;CVS&lt;/b&gt; augmentera. Au contraire si le joueur n'est pas capable de les remplir, le &lt;b&gt;CVS&lt;/b&gt; aura tendance à aller vers 0.</FR>
+      <SP></SP>
    </cpsCVS>
    <cpsRoot>
-      <EN>The &lt;b&gt;Colonization Phase System or CPS&lt;/b&gt; manage the &lt;b&gt;&lt;a href="cpsCVS"&gt;Colonization Viability Score (or CVS)&lt;/a&gt;&lt;/b&gt; and the viability objectives, for the colonization of the first player's colony. That also depend of other elements like the &lt;b&gt;&lt;a href="csmRoot"&gt;CSM&lt;/a&gt;&lt;/b&gt; and the PGS for example. The player have a standard year (365 standard days) for make his/her colony viable and try to reach the maximum faction's status allowed by the colonization mode. For have a good score the method is simple: the player must try to fulfil each viability objectives.&lt;br&gt;The &lt;b&gt;CPS&lt;/b&gt; itself keep track of all the required data for this first colonization phase. In fact this system is the simpler and one of the most important system of FARC.&lt;br&gt;At the end of this phase the &lt;b&gt;CPS&lt;/b&gt; calculate final score and set the result according to the chosen colonization mode and faction. After that, the player have the choice to continue the game freely (more or less following the result) or to stop it here.</EN>
-      <FR>Le &lt;b&gt;Système de la Phase de Colonisation ou CPS&lt;/b&gt; gère le &lt;b&gt;&lt;a href="cpsCVS"&gt;Score de Viabilité de Colonisation (ou CVS)&lt;/a&gt;&lt;/b&gt; et les objectifs de viabilité, pour la colonisation de la première colonie du joueur. Cela dépend aussi d'autres éléments comme le &lt;b&gt;&lt;a href="csmRoot"&gt;CSM&lt;/a&gt;&lt;/b&gt; et le PGS par exemple. Le joueur a une année standard (365 jours standards) pour rendre viable sa colonie et essayer d'atteindre le status de faction maximum permis par le mode de colonisation. Pour avoir un bon score la méthode est simple: le joueur doit essayer de remplir chaque objectif de viabilité.&lt;br&gt;Le &lt;b&gt;CPS&lt;/b&gt; lui-même garde la trace de toutes les données requises pour cette phase de colonisation. En fait ce système est le plus simple et le plus important système de FARC.&lt;br&gt;A la fin de cette phase le &lt;b&gt;CPS&lt;/b&gt; calcule le score final et configure le résultat en relation avec la faction et le mode de colonisation choisi. Après cela, le joueur a le choix de continuer (plus ou moins) librement le jeu ou de le stopper dans l'état actuel.</FR>
+      <EN>The &lt;b&gt;Colonization Phase System or CPS&lt;/b&gt; manage the &lt;b&gt;&lt;a href="cpsCVS"&gt;Colonization Viability Score (or CVS)&lt;/a&gt;&lt;/b&gt; and the &lt;b&gt;&lt;a href="cpsViabilityObjectives"&gt;viability objectives&lt;/a&gt;&lt;/b&gt;, including their scores, for the colonization of the first player's colony. The player have a standard year (365 standard days) for make his/her colony viable and also to try to make his/her colony the less dependent possible.&lt;br&gt; For have a good score the method is simple; the player must try to fulfil each viability objectives, and so must reach the higher possible scores.&lt;br&gt;At the end of this phase the &lt;b&gt;CPS&lt;/b&gt; calculate final scores for each category, generate a report, and set the results according to the chosen colonization mode and faction. After that, the player have the choice to continue the game freely (more or less following the results) or to stop it here.</EN>
+      <FR>Le &lt;b&gt;Système de la Phase de Colonisation ou CPS&lt;/b&gt; gère le &lt;b&gt;&lt;a href="cpsCVS"&gt;Score de Viabilité de Colonisation (ou CVS)&lt;/a&gt;&lt;/b&gt; et les &lt;b&gt;&lt;a href="cpsViabilityObjectives"&gt;objectifs de viabilité&lt;/a&gt;&lt;/b&gt;, pour la colonisation de la première colonie du joueur. Le joueur a une année standard (365 jours standards) pour rendre viable sa colonie et aussi rendre sa colonie la moins dépendante possible. Pour avoir un bon score la méthode est simple: le joueur doit essayer de remplir chaque objectif de viabilité, et donc doit atteindre les plus haut scores possible.&lt;br&gt;A la fin de cette phase le &lt;b&gt;CPS&lt;/b&gt; calcule les scores finaux, génère un rapport, et configure le résultats en relation avec la faction et le mode de colonisation choisi. Après cela, le joueur a le choix de continuer librement (plus ou moins suivant les résultats) librement le jeu ou de le stopper dans l'état actuel.</FR>
+      <SP></SP>
    </cpsRoot>
    <cpsStatus>
       <EN>The player's faction has 3 status, that are used in the &lt;b&gt;&lt;a href="cpsRoot"&gt;Colonization Phase&lt;/a&gt;&lt;/b&gt; of the game, arranged in 3 categories:&lt;ul&gt;&lt;ind x="15"&gt;&lt;li&gt;&lt;a href="cpsStatusEco"&gt;Economic&lt;/a&gt;&lt;br&gt;&lt;ind x="15"&gt;&lt;li&gt;&lt;a href="cpsStatusMil"&gt;Military&lt;/a&gt;&lt;br&gt;&lt;ind x="15"&gt;&lt;li&gt;&lt;a href="cpsStatusSoc"&gt;Social&lt;/a&gt;&lt;/ul&gt;&lt;br&gt;The status indicate the link of allegiance regarding the faction of origin from which belongs the colony and has 4 levels from 0 to 4.&lt;br&gt;&lt;b&gt;Levels Meaning:&lt;br&gt;&lt;ind x="15"&gt;Level&lt;ind x="60"&gt;Description&lt;/b&gt;&lt;br&gt;&lt;ind x="25"&gt;0&lt;ind x="60"&gt;Not Viable: it's a game failure situation because the colony can't&lt;br&gt;&lt;ind x="60"&gt;sustains itself in the specified category&lt;br&gt;&lt;ind x="25"&gt;1&lt;ind x="60"&gt;Stable but Fully Dependent: the worst yet playable level,&lt;br&gt;&lt;ind x="60"&gt;normally the first colony begin at this level&lt;br&gt;&lt;ind x="25"&gt;2&lt;ind x="60"&gt;Semi-Dependent: you can apply some changes within a certain&lt;br&gt;&lt;ind x="60"&gt;range&lt;br&gt;&lt;ind x="25"&gt;3&lt;ind x="60"&gt;Fully Independent: you're free to do whatever you want with&lt;br&gt;&lt;ind x="60"&gt;your faction&lt;br&gt;&lt;br&gt;&lt;b&gt;For specific level description for each category, click on the categories links above&lt;/b&gt;.</EN>
@@ -36,6 +38,11 @@
       <EN></EN>
       <FR></FR>
    </cpsStatusSoc>
+   <cpsViabilityObjectives>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </cpsViabilityObjectives>
    <cpsVOotEcoEnEff>
       <EN></EN>
       <FR></FR>
@@ -677,6 +684,7 @@
       <hintitem link="cpsStatusEco" title="CPS: Economic Status"/>
       <hintitem link="cpsStatusMil" title="CPS: Military Status"/>
       <hintitem link="cpsStatusSoc" title="CPS: Social Status"/>
+      <hintitem link="cpsViabilityObjectives" title="CPS: Viability Objectives"/>
       <hintitem link="cpsVOotEcoEnEff" title="CPS Objective: Energy Efficient"/>
       <hintitem link="cpsVOotEcoIndustrialForce" title="CPS Objective: Industrial Force"/>
       <hintitem link="cpsVOotEcoLowCr" title="CPS Objective: Low Credit Line Use"/>
@@ -807,6 +815,7 @@
       <hintitem link="cpsStatusEco" title="CPS: Status Economique"/>
       <hintitem link="cpsStatusMil" title="CPS: Status Militaire"/>
       <hintitem link="cpsStatusSoc" title="CPS: Status Social"/>
+      <hintitem link="cpsViabilityObjectives" title="CPS: Objectifs de Viabilité"/>
       <hintitem link="cpsVOotEcoSustCol" title="CPS - Objectif: Colonie Durable"/>
       <hintitem link="cpsVOotEcoEnEff" title="CPS - Objectif: Efficacité Energétique"/>
       <hintitem link="cpsVOotEcoLowCr" title="CPS - Objectif: Faible Utilisation de la Marge de Crédit"/>
@@ -930,133 +939,5 @@
       <hintitem link="univAU" title="Univers: Unité Astronomique (UA)"/>
    </hintlistFR>
    <hintlistSP>
-      <hintitem link="cwpRoot" title="Construction: Construction Workforce Points (CWP)"/>
-      <hintitem link="cpsRoot" title="CPS: Colonization Phase System"/>
-      <hintitem link="cpsCVS" title="CPS: Colonization Viability Score (CVS)"/>
-      <hintitem link="cpsStatus" title="CPS: Player's Faction Status"/>
-      <hintitem link="cpsStatusEco" title="CPS: Economic Status"/>
-      <hintitem link="cpsStatusMil" title="CPS: Military Status"/>
-      <hintitem link="cpsStatusSoc" title="CPS: Social Status"/>
-      <hintitem link="cpsVOotEcoEnEff" title="CPS Objective: Energy Efficient"/>
-      <hintitem link="cpsVOotEcoIndustrialForce" title="CPS Objective: Industrial Force"/>
-      <hintitem link="cpsVOotEcoLowCr" title="CPS Objective: Low Credit Line Use"/>
-      <hintitem link="cpsVOotEcoSustCol" title="CPS Objective: Sustainable Colony"/>
-      <hintitem link="cpsVOotSocSecPop" title="CPS Objective: Secure Population"/>
-      <hintitem link="csmRoot" title="CSM: Colony Simulation Model"/>
-      <hintitem link="csmData" title="CSM: Data Management"/>
-      <hintitem link="csmDataCohesion" title="CSM Data: Cohesion"/>
-      <hintitem link="csmevColEst" title="CSM Event: Colony Established"/>
-      <hintitem link="csmevHealthEduRel" title="CSM Event: Health-Education Relation"/>
-      <hintitem link="csmevRveOxygenOverload" title="CSM Event: Oxygen Production Overload"/>
-      <hintitem link="csmevRveOxygenShortage" title="CSM Event: Oxygen Shortage"/>
-      <hintitem link="csmevRveFoodOverload" title="CSM Event: Food Production Overload"/>
-      <hintitem link="csmevRveFoodShortage" title="CSM Event: Food Shortage"/>
-      <hintitem link="csmevRveWaterOverload" title="CSM Event: Water Production Overload"/>
-      <hintitem link="csmevRveWaterShortage" title="CSM Event: Water Shortage"/>
-      <hintitem link="csmevSocDis" title="CSM Event: Social Disorder"/>
-      <hintitem link="csmevUnrest" title="CSM Event: Unrest"/>
-      <hintitem link="csmevUprising" title="CSM Event: Uprising"/>
-      <hintitem link="infrColShelt" title="Infrastructure: Colonization Shelter"/>
-      <hintitem link="infrHousesPack" title="Infrastructure: Houses Pack"/>
-      <hintitem link="infrInflatGreen" title="Infrastructure: Inflatable Greenhouse"/>
-      <hintitem link="infrInflatHab" title="Infrastructure: Inflatable Habitat"/>
-      <hintitem link="infrMiningSite" title="Infrastructure: Mining Site"/>
-      <hintitem link="infrMultiDepot" title="Infrastructure: Multipurpose Depot"/>
-      <hintitem link="infrNucFissReactor" title="Infrastructure: Nuclear Fission Reactor"/>
-      <hintitem link="infrPressTanksArray" title="Infrastructure: Pressurized Tanks Array"/>
-      <hintitem link="spmRoot" title="SPM: Socio-Political Matrix"/>
-      <hintitem link="spmPolicies" title="SPM: Policies"/>
-      <hintitem link="spmMemes" title="SPM: Memes"/>
-      <hintitem link="SPMiBL" title="SPM: Meme, Belief Level (BL)"/>
-      <hintitem link="SPMiSV" title="SPM: Meme, Spread Value (SV)"/>
-      <hintitem link="SPMi_Amortalism" title="Meme: Amortalism"/>
-      <hintitem link="SPMi_BioroidsAdopt" title="Meme: Bioroids Adoption"/>
-      <hintitem link="SPMi_Colonialism" title="Meme: Colonialism"/>
-      <hintitem link="SPMi_CosmosPreserv" title="Meme: Cosmos Preservation"/>
-      <hintitem link="SPMi_Cryptosurv" title="Meme: Cryptosurvivalism"/>
-      <hintitem link="SPMi_CultOfAtheism" title="Meme: Cult of Atheism"/>
-      <hintitem link="SPMi_Cybergnosticism" title="Meme: Cybergnosticism"/>
-      <hintitem link="SPMi_Decel" title="Meme: Decelerationism"/>
-      <hintitem link="SPMi_Environmental" title="Meme: Environmentalism"/>
-      <hintitem link="SPMi_HomoSoc" title="Meme: Homo-Society"/>
-      <hintitem link="SPMi_HumRetire" title="Meme: Human Retirement"/>
-      <hintitem link="SPMi_Immortalism" title="Meme: Immortalism"/>
-      <hintitem link="SPMi_Infotranscend" title="Meme: Infotranscendence"/>
-      <hintitem link="SPMi_RiggElec" title="Meme: Rigged Elections"/>
-      <hintitem link="SPMi_Pacifism" title="Meme: Pacifism"/>
-      <hintitem link="SPMi_TheFreeUnion" title="Meme: The Freedom Union"/>
-      <hintitem link="SPMi_Xenophobia" title="Meme: Xenophobia"/>
-      <hintitem link="SPMi_Abolition" title="Policy: Abolitionism"/>
-      <hintitem link="SPMi_AIchitect" title="Policy: AIchitect"/>
-      <hintitem link="SPMi_AntiHumSpacef" title="Policy: Anti-Human-Spaceflight"/>
-      <hintitem link="SPMi_BirthsCtl" title="Policy: Births Control"/>
-      <hintitem link="SPMi_CentrAuth" title="Policy: Centralized Authority"/>
-      <hintitem link="SPMi_CorpOrg" title="Policy: Corporate Organization"/>
-      <hintitem link="SPMi_Cyberdemo" title="Policy: Cyberdemocracy"/>
-      <hintitem link="SPMi_ElecGov" title="Policy: Elected Government"/>
-      <hintitem link="SPMi_Eugenics" title="Policy: Eugenism"/>
-      <hintitem link="SPMi_FreeMark" title="Policy: Free Market"/>
-      <hintitem link="SPMi_GreenEco" title="Policy: Green Economy"/>
-      <hintitem link="SPMi_MilSoc" title="Policy: Militarized Society"/>
-      <hintitem link="SPMi_NatTranpSpFleet" title="Policy: National Transport Space Fleet"/>
-      <hintitem link="SPMi_OneWorldCom" title="Policy: One-World Community"/>
-      <hintitem link="SPMi_ParticipEcon" title="Policy: Participatory Economy"/>
-      <hintitem link="SPMi_PlanEcon" title="Policy: Planned Economy"/>
-      <hintitem link="SPMi_ProacCitiz" title="Policy: Proactive Citizenship"/>
-      <hintitem link="SPMi_ProfTechno" title="Policy: Profitable Technocracy"/>
-      <hintitem link="SPMi_ReligiousFree" title="Policy: Religious Freedom"/>
-      <hintitem link="SPMi_Slavery" title="Policy: Slavery"/>
-      <hintitem link="SPMi_SocSystem" title="Policy: Social System"/>
-      <hintitem link="SPMi_SpDebMClean" title="Policy: Space Cleanup and Servicing"/>
-      <hintitem link="SPMi_StatePol" title="Policy: State Police"/>
-      <hintitem link="SPMi_StateRel" title="Policy: State Religion"/>
-      <hintitem link="SPMi_ZeroTol" title="Policy: Zero Tolerance"/>
-      <hintitem link="Products_Root" title="Products"/>
-      <hintitem link="equipAdvTools" title="Product: Advanced Tools"/>
-      <hintitem link="matAluminium" title="Product: Aluminium"/>
-      <hintitem link="resNH3" title="Product: Ammonia"/>
-      <hintitem link="bioAnimalFood" title="Product: Animal Food"/>
-      <hintitem link="matCarbComposites" title="Product: Carbon Composites"/>
-      <hintitem link="matConcrete" title="Product: Concrete"/>
-      <hintitem link="equipConstrExo" title="Product: Construction Exowalkers"/>
-      <hintitem link="bioFish" title="Product: Fish"/>
-      <hintitem link="bioFruitsVeg" title="Product: Fruits &amp; Vegetables"/>
-      <hintitem link="equipHandTools" title="Product: Hand Tools"/>
-      <hintitem link="equipMiningMachinery" title="Product: Mining Machinery"/>
-      <hintitem link="matMWNT" title="Product: Multi-Walled Nanotubes (MWNT)"/>
-      <hintitem link="equipMultiDepot1" title="Product: Multipurpose Depot Level 1"/>
-      <hintitem link="equipMultiDepot2" title="Product: Multipurpose Depot Level 2"/>
-      <hintitem link="equipMultiDepot3" title="Product: Multipurpose Depot Level 3"/>
-      <hintitem link="equipMultiDepot4" title="Product: Multipurpose Depot Level 4"/>
-      <hintitem link="equipMultiDepot5" title="Product: Multipurpose Depot Level 5"/>
-      <hintitem link="matNanocomposites" title="Product: Nanocomposites"/>
-      <hintitem link="energNucFisRsm" title="Product: Nuclear Fission Reactor (small)"/>
-      <hintitem link="energNucFisRmed" title="Product: Nuclear Fission Reactor (medium)"/>
-      <hintitem link="energNucFisRlg" title="Product: Nuclear Fission Reactor (large)"/>
-      <hintitem link="energNucFisRxl" title="Product: Nuclear Fission Reactor (xlarge)"/>
-      <hintitem link="energNucPellets" title="Product: Nuclear Pellets"/>
-      <hintitem link="matPlastics" title="Product: Plastics"/>
-      <hintitem link="equipPowerTools" title="Product: Power Tools"/>
-      <hintitem link="equipPressTanksArr1" title="Product: Pressurized Tanks Array Level 1"/>
-      <hintitem link="equipPressTanksArr2" title="Product: Pressurized Tanks Array Level 2"/>
-      <hintitem link="equipPressTanksArr3" title="Product: Pressurized Tanks Array Level 3"/>
-      <hintitem link="equipPressTanksArr4" title="Product: Pressurized Tanks Array Level 4"/>
-      <hintitem link="equipPressTanksArr5" title="Product: Pressurized Tanks Array Level 5"/>
-      <hintitem link="equipPressTanksArr6" title="Product: Pressurized Tanks Array Level 6"/>
-      <hintitem link="equipPressTanksArr7" title="Product: Pressurized Tanks Array Level 7"/>
-      <hintitem link="matSilicon" title="Product: Silicon (Si)"/>
-      <hintitem link="matSWNT" title="Product: Single-Walled Nanotubes (SWNT)"/>
-      <hintitem link="matSteel" title="Product: Steel"/>
-      <hintitem link="matTitanium" title="Product: Titanium"/>
-      <hintitem link="tsciAlloys" title="Technoscience: Alloys"/>
-      <hintitem link="tsciChemEng" title="Technoscience: Chemical Engineering"/>
-      <hintitem link="tsciComposMat" title="Technoscience: Composite Materials"/>
-      <hintitem link="tsciInflatHabitat" title="Technoscience: Inflatable Habitats"/>
-      <hintitem link="tsciNucFission" title="Technoscience: Nuclear Fission"/>
-      <hintitem link="univAlbedo" title="Universe: Albedo"/>
-      <hintitem link="univAU" title="Universe: Astronomical Unit (AU)"/>
-      <hintitem link="univDis" title="Universe: Distance"/>
-      <hintitem link="univEccOO" title="Universe: Eccentricity (Orbital Object)"/>
-      <hintitem link="univStarTemp" title="Universe: Star Temperature"/>
    </hintlistSP>
 </encytext>
