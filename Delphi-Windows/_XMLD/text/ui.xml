@@ -973,6 +973,11 @@
       <FR>Status des Objectifs de Viabilité</FR>
       <SP>Estado de los Objetivos de Viabilidad</SP>
    </CPSobjPanel>
+   <CPSrepSetTitle>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </CPSrepSetTitle>
    <cpsSLcateg>
       <EN>Category</EN>
       <FR>Catégorie</FR>

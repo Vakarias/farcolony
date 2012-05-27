@@ -33,6 +33,7 @@ interface
 
 type TFCEgcGameOverReason=(
    gfrCPScolonyBecameDissident
+   ,gfrCPSendOfPhase
    ,gfrCPSentirePopulationDie
    );
 
@@ -46,6 +47,7 @@ implementation
 
 uses
    farc_data_init
+   ,farc_game_cps
    ,farc_main
    ,farc_win_debug;
 
@@ -54,7 +56,7 @@ uses
 procedure FCMgCore_GameOver_Process( const GameOverReason: TFCEgcGameOverReason );
 {:Purpose: the game over core feature, can be because of a failure or a success.
     Additions:
-      -2012May16- *add:
+      -2012May26- *add: gfrCPSendOfPhase.
 }
 begin
    {:DEV NOTES: for now there's only the case where there no more colony and no space unit available and able to settle one.}
@@ -67,6 +69,14 @@ begin
       gfrCPScolonyBecameDissident:;
 
       gfrCPSentirePopulationDie: FCWinDebug.AdvMemo1.Lines.Add('all population die of dehydration, enjoy :)');
+
+      gfrCPSendOfPhase:
+      begin
+         {.free cps related ui}
+         FCVwMcpsPstore:=false;
+         FCcps.CPSobjP_List.Free;
+         FCcps.CPSobjPanel.Free;
+      end;
    end; //==END== case GameOverReason of ==//
 end;
 

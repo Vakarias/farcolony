@@ -447,7 +447,7 @@ begin
       Outcome:=FCMgCPSO_Outcome_Process( FCRplayer.P_viabThrSpMil, StatusSpMilMean);
       FCRplayer.P_milStat:=TFCEfacStat( Outcome );
    end;
-   {:DEV NOTE:add credit line reimburse + rented / lended equipment/spacecrafts.}
+   {:DEV NOTES: generate the report and include that in FCM_CPSFinalReport dev comment: :DEV NOTE:add credit line reimburse + rented / lended equipment/spacecrafts.}
    {.free cps related ui}
    FCVwMcpsPstore:=false;
    CPSobjP_List.Free;

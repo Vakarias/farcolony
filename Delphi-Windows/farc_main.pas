@@ -313,6 +313,11 @@ type
     FCWMS_Grp_MCGColName: TLabeledEdit;
     FCWMS_Grp_MCG_SetName: TLabeledEdit;
     FCWMS_Grp_MCG_SetType: TAdvComboBox;
+    FCWM_CPSreportSet: TAdvPanel;
+    HTMLabel2: THTMLabel;
+    HTMLCheckBox2: THTMLCheckBox;
+    AdvGlowButton1: TAdvGlowButton;
+    HTMLRadioGroup1: THTMLRadioGroup;
       procedure FormCreate(Sender: TObject);
       procedure FormResize(Sender: TObject);
       procedure FCWM_MMenu_G_QuitClick(Sender: TObject);

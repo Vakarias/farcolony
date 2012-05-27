@@ -641,6 +641,7 @@ end;
 procedure FCMuiW_UI_Initialize(const UIUtp: TFCEmwinUpdTp);
 {:Purpose: update and initialize all user's interface elements of the game.
    Additions:
+      -2012May26- *add: FCWM_CPSreport.
       -2012Mar13- *fix: clear the FCWM_IPconfirmButton's caption text with the useless anchors.
       -2012Feb02- *mod: FCWM_CDPwcpEquip size is adjusted correctly.
       -2012Jan29- *add: update language submenu for Spanish.
@@ -912,6 +913,8 @@ begin
       FCWinMain.FCWMS_ButCancel.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'ButtCancel');
       FCWinMain.FCWMS_Grp_MCGColName.EditLabel.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_CDPcolName');
       FCWinMain.FCWMS_Grp_MCG_SetName.EditLabel.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'FCWMS_Grp_MCG_SetName');
+      {.CPS report and settings}
+      FCWinMain.FCWM_CPSreportSet.Caption.Text:=FCFdTFiles_UIStr_Get( uistrUI, '' );
    end;
    //=======================================================================================
    {.this section concern only all texts of about window}
