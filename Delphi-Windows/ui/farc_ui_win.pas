@@ -793,7 +793,7 @@ begin
    then
    begin
       {.main title bar}
-		FCWinMain.Caption:=FCCgameNam+'  ['+FCFcFunc_FARCVersion_Get+']  ©2009-2012 J.F. Baconnet';
+		FCWinMain.Caption:=FCCgameNam+' '+FCFcFunc_FARCVersion_Get+'  ©2009-2012 J.F. Baconnet';
 		{.main menu - game section}
 		FCWinMain.FCWM_MMenu_Game.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MainMenu_Game');
 		FCWinMain.FCWM_MMenu_G_New.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MainMenu_Game_New');

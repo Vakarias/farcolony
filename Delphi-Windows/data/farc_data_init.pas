@@ -257,6 +257,7 @@ procedure FCMdInit_Initialize;
       {.path of the XML directory - w/ end separator}
 		FCVpathXML: string;
       //==========3d related================================================================
+      {:DEV NOTES: put them in farc_data_ogl.}
       {.material library for standard planetary textures}
       FC3DmatLibSplanT: TGLMaterialLibrary;
       {.objects list for asteroids}
@@ -357,6 +358,7 @@ procedure FCMdInit_Initialize;
       {conversion constant degree to radiant by multiply by this constant}
       FCCdeg2RadM=Pi/180;
       FCCgameNam='FAR Colony';
+      FCCalphaNumber='1';
       {conversion contant 1 gee = 9.807 m/s}
       FCCgeesInMS=9.807;
       {gravity constant in astrophysics}
@@ -376,6 +378,7 @@ procedure FCMdInit_Initialize;
       //FCCcredRL1x=10000000;//20000;
 //         FCC_DegToRadDiv=180/Pi
       {.miniHTML standard formating}
+      {:DEV NOTES: put them in ui_html.}
       FCCFdHead='<p align="left" bgcolor="#374A4A00" bgcolorto="#25252500"><b>';
       FCCFdHeadC='<p align="center" bgcolor="#374A4A00" bgcolorto="#25252500"><b>';
       FCCFdHeadEnd='</b></p>';
@@ -394,7 +397,7 @@ procedure FCMdInit_Initialize;
       FCCFidxRi='<ind x="140">';
       FCCFidxRR='<ind x="180">';
       FCCFidxRRR='<ind x="240">';
-      FCCFidxRRRR='<ind x="340">';
+      FCCFidxRRRR='<ind x="340">';    {:DEV NOTES: rename them including the spaceX.}
       FCCFpanelTitle=FCCFidxL2+'<b>';
 
 implementation

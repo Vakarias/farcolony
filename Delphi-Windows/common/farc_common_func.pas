@@ -227,7 +227,10 @@ uses
 function FCFcFunc_FARCVersion_Get: string;
 {:Purpose: return the version of Far Colony. This code come from Alexandre of the
     www.developpez.com website, is not my proper code. This code is modified for taking into
-    account of the future beta (0.9) and regular rls (>=1.0)}
+    account of the future beta (0.9) and regular rls (>=1.0)
+   Additions:
+      -2012May27- *add: take into account of the alpha #.
+}
 var
   VerInfoSize, Dummy: DWord;
   VerInfo: Pointer;
@@ -242,19 +245,21 @@ begin
       VerQueryValue(VerInfo, '\', Pointer(VerValue), VerValueSize);
       with VerValue^ do
       begin
-         Result:=IntTostr(dwFileVersionMS shr 16);//0
+
+         if ((dwFileVersionMS shr 16)=0)
+//            and ((dwFileVersionMS and $FFFF)<1)
+         then Result:='Alpha '+FCCalphaNumber+' '
+         else if ((dwFileVersionMS shr 16)=1)
+           and ((dwFileVersionMS and $FFFF)=0)
+         then Result:=Result+'Beta'
+         else if ((dwFileVersionMS shr 16)=1)
+           and ((dwFileVersionMS and $FFFF)=1)
+         then Result:=Result+'Final'
+         ;
+         Result:=Result+'['+IntTostr(dwFileVersionMS shr 16);//0
          Result:=Result+'.'+IntTostr(dwFileVersionMS and $FFFF);//.4
          Result:=Result+'.'+IntTostr(dwFileVersionLS shr 16);//.0
-         Result:=Result+'.'+IntTostr(dwFileVersionLS and $FFFF);//.177
-      if ((dwFileVersionMS shr 16)=0)
-         and ((dwFileVersionMS and $FFFF)<9)
-      then Result:=Result+' Alpha'
-      else if ((dwFileVersionMS shr 16)=0)
-        and ((dwFileVersionMS and $FFFF)=9)
-      then Result:=Result+' Beta'
-      else if ((dwFileVersionMS shr 16)=1)
-        and ((dwFileVersionMS and $FFFF)=5)
-      then Result:=Result+' Final';
+         Result:=Result+'.'+IntTostr(dwFileVersionLS and $FFFF)+']';//.177
       end;
       FreeMem(VerInfo, VerInfoSize);
    end
