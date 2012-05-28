@@ -641,7 +641,8 @@ end;
 procedure FCMuiW_UI_Initialize(const UIUtp: TFCEmwinUpdTp);
 {:Purpose: update and initialize all user's interface elements of the game.
    Additions:
-      -2012May26- *add: FCWM_CPSreport.
+      -2012May27- *add: FCWM_CPSreport.
+                  *fix: infrastructure panel - forgot to size correctly the text of FCWM_IPconfirmButton.
       -2012Mar13- *fix: clear the FCWM_IPconfirmButton's caption text with the useless anchors.
       -2012Feb02- *mod: FCWM_CDPwcpEquip size is adjusted correctly.
       -2012Jan29- *add: update language submenu for Spanish.
@@ -914,7 +915,8 @@ begin
       FCWinMain.FCWMS_Grp_MCGColName.EditLabel.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_CDPcolName');
       FCWinMain.FCWMS_Grp_MCG_SetName.EditLabel.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'FCWMS_Grp_MCG_SetName');
       {.CPS report and settings}
-      FCWinMain.FCWM_CPSreportSet.Caption.Text:=FCFdTFiles_UIStr_Get( uistrUI, '' );
+      FCWinMain.FCWM_CPSreportSet.Caption.Text:='<p align="center"><b>'+FCFdTFiles_UIStr_Get( uistrUI, 'CPSrepSetTitle' )+'</b>';
+      FCWinMain.FCWM_CPSRSbuttonConfirm.Caption:='OK';
    end;
    //=======================================================================================
    {.this section concern only all texts of about window}
@@ -1164,6 +1166,11 @@ begin
       FCWinMain.FCWMS_ButProceed.Height:=FCWinMain.FCWMS_ButCancel.Height;
       FCWinMain.FCWMS_ButProceed.Left:=FCWinMain.FCWMS_Grp_MCG.Width-FCWinMain.FCWMS_ButProceed.Width-8;
       FCWinMain.FCWMS_ButProceed.Top:=FCWinMain.FCWMS_ButCancel.Top;
+      {.CPS report and settings}
+      FCWinMain.FCWM_CPSreportSet.Width:=560;
+      FCWinMain.FCWM_CPSreportSet.Height:=330;
+      FCWinMain.FCWM_CPSRSIGscores.Width:=180;
+      FCWinMain.FCWM_CPSRSinfogroup.Width:=FCWinMain.FCWM_CPSreportSet.Width-8-FCWinMain.FCWM_CPSRSIGscores.Width;
    end;
    if UIUtp<>mwupAll
    then
@@ -1449,6 +1456,7 @@ begin
       FCWinMain.FCWM_InfraPanel.Caption.Font.Size:=FCFuiW_Font_GetSize(uiwPanelTitle);
       FCWinMain.FCWM_IPlabel.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
       FCWinMain.FCWM_IPinfraKits.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+      FCWinMain.FCWM_IPconfirmButton.Font.Size:=FCFuiW_Font_GetSize(uiwButton);
       {.missions panel}
       FCWinMain.FCWM_MissionSettings.Caption.Font.Size:=FCFuiW_Font_GetSize(uiwPanelTitle);
       FCWinMain.FCWM_MissionSettings.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
@@ -1463,6 +1471,12 @@ begin
       FCWinMain.FCWMS_ButProceed.Font.Size:=FCFuiW_Font_GetSize(uiwButton);
       FCWinMain.FCWMS_Grp_MCG_SetName.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
       FCWinMain.FCWMS_Grp_MCG_SetType.Font.Size:=FCFuiW_Font_GetSize(uiwGrpBoxSec);
+      {.CPS report and settings}
+      FCWinMain.FCWM_CPSreportSet.Caption.Font.Size:=FCFuiW_Font_GetSize(uiwPanelTitle);
+      FCWinMain.FCWM_CPSRSIGscores.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+      FCWinMain.FCWM_CPSRSinfogroup.Font.Size:=FCFuiW_Font_GetSize(uiwGrpBoxSec);
+      FCWinMain.FCWM_CPSRSIGreport.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+      FCWinMain.FCWM_CPSRSbuttonConfirm.Font.Size:=FCFuiW_Font_GetSize(uiwButton);
    end; //==END== if (UIUtp=mwupAll) or (UIUtp=mwupFontAll) ==//
    {.for about window}
    if ((UIUtp=mwupFontWinAb) or (UIUtp=mwupFontAll))

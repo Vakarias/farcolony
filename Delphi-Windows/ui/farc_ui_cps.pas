@@ -35,6 +35,10 @@ uses
 
    ,farc_game_cpsobjectives;
 
+type TFCEuicpsReportStage=(
+   rsEndOfPhaseReportWithEnd
+   );
+
 ///<summary>
 ///   format a string which contain the specified CPS objectives, its score, and additional data if needed
 ///</summary>
@@ -44,6 +48,20 @@ function FCFuiCPS_Objective_GetFormat( const ObjectiveIndex: integer ): string;
 
 //===========================END FUNCTIONS SECTION==========================================
 
+///<summary>
+///   set and display the end of phase report and settings at different stage
+///</summary>
+///   <param name="DisplayStage">specify at which stage the panel must be opened</param>
+///   <param name="ScoreEcon">final economic score</param>
+///   <param name="ScoreSoc">final social score</param>
+///   <param name="ScoreSpMil">final space & military score</param>
+procedure FCMuiCPS_EndPhaseReport_Show(
+   const DisplayStage: TFCEuicpsReportStage;
+   const ScoreEcon
+         ,ScoreSoc
+         ,ScoreSpMil: integer
+   );
+
 implementation
 
 uses
@@ -52,7 +70,8 @@ uses
    ,farc_data_textfiles
    ,farc_game_cps
    ,farc_game_entitiesfactions
-   ,farc_game_prod;
+   ,farc_game_prod
+   ,farc_main;
 
 //===================================================END OF INIT============================
 
@@ -106,5 +125,90 @@ begin
 end;
 
 //===========================END FUNCTIONS SECTION==========================================
+
+procedure FCMuiCPS_EndPhaseReport_Show(
+   const DisplayStage: TFCEuicpsReportStage;
+   const ScoreEcon
+         ,ScoreSoc
+         ,ScoreSpMil: integer
+   );
+{:Purpose: set and display the end of phase report and settings at different stage.
+    Additions:
+}
+begin
+//   case DisplayStage of
+//      rsEndOfPhaseReportWithEnd:
+//      begin
+//   FCWinMain.FCWM_MainMenu.Items.Enabled:=false;
+//   FCWinMain.FCWM_MainMenu.Items.Visible:=false;
+   FCWinMain.FCWM_MMenu_Game.Enabled:=false;
+   FCWinMain.FCWM_MMenu_Options.Enabled:=false;
+   FCWinMain.FCWM_MMenu_Help.Enabled:=false;
+   FCWinMain.FCWM_MMenu_DebTools.Enabled:=false;
+   FCWinMain.FCWM_CPSreportSet.Left:=((FCWinMain.FCWM_3dMainGrp.Left+FCWinMain.FCWM_3dMainGrp.Width) shr 1)-(FCWinMain.FCWM_CPSreportSet.Width shr 1);
+   FCWinMain.FCWM_CPSreportSet.Top:=((FCWinMain.FCWM_3dMainGrp.Top+FCWinMain.FCWM_3dMainGrp.Height) shr 1)-(FCWinMain.FCWM_CPSreportSet.Height shr 1);
+   FCWinMain.FCWM_CPSRSbuttonConfirm.Left:=8;
+   FCWinMain.FCWM_CPSRSbuttonConfirm.Top:=FCWinMain.FCWM_CPSreportSet.Height-FCWinMain.FCWM_CPSRSbuttonConfirm.Height-8;
+   FCWinMain.FCWM_CPSRSIGscores.HTMLText.Clear;
+   FCWinMain.FCWM_CPSRSIGscores.HTMLText.Add( '<p align="center"><font size="14">'+FCFdTFiles_UIStr_Get( uistrUI, 'CPSrepScoreTitle' )+'</p><br><br><p align="right">' );
+   FCWinMain.FCWM_CPSRSIGscores.HTMLText.Add( FCFdTFiles_UIStr_Get( uistrUI, 'cpsSLecon' )+'  [ '+IntToStr(ScoreEcon)+'% ]<br>' );
+   FCWinMain.FCWM_CPSRSIGscores.HTMLText.Add( FCFdTFiles_UIStr_Get( uistrUI, 'cpsSLsoc' )+'  [ '+IntToStr(ScoreSoc)+'% ]<br>' );
+   FCWinMain.FCWM_CPSRSIGscores.HTMLText.Add( FCFdTFiles_UIStr_Get( uistrUI, 'cpsSLmil' )+'  [ '+IntToStr(ScoreSpMil)+'% ]' );
+   FCWinMain.FCWM_CPSRSinfogroup.Caption:=FCFdTFiles_UIStr_Get( uistrUI, 'CPSreport' );
+   FCWinMain.FCWM_CPSRSIGreport.HTMLText.Clear;
+   if ( FCRplayer.P_ecoStat=fs0NViable )
+      xor ( FCRplayer.P_socStat=fs0NViable )
+      xor ( FCRplayer.P_milStat=fs0NViable )
+   then FCWinMain.FCWM_CPSRSIGreport.HTMLText.Add( 'Your colony didnt achieved to be viable on long term')
+   else if ( FCRplayer.P_ecoStat=fs3Indep )
+      and ( FCRplayer.P_socStat=fs3Indep )
+      and ( FCRplayer.P_milStat=fs3Indep )
+   then FCWinMain.FCWM_CPSRSIGreport.HTMLText.Add(
+      'Congratulation ! Your colony achieved to be fully independent !'
+      )
+   else begin
+      FCWinMain.FCWM_CPSRSIGreport.HTMLText.Add(
+         'Congratulation ! Your colony is viable on long term, but not completely independent:<br>'
+         );
+      case FCRplayer.P_ecoStat of
+         fs1StabFDep: FCWinMain.FCWM_CPSRSIGreport.HTMLText.Add(
+            FCCFidxL6+'- Economically, your colony will stay dependent'//, that mean that you cant '
+            );
+
+         fs2DepVar: FCWinMain.FCWM_CPSRSIGreport.HTMLText.Add(
+            FCCFidxL6+'- Economically, your colony will stay semi-dependent'
+            );
+      end;
+      FCWinMain.FCWM_CPSRSIGreport.HTMLText.Add('<br>');
+      case FCRplayer.P_socStat of
+         fs1StabFDep: FCWinMain.FCWM_CPSRSIGreport.HTMLText.Add(
+            FCCFidxL6+'- Socially, your colony will stay dependent'//, that mean that you cant '
+            );
+
+         fs2DepVar: FCWinMain.FCWM_CPSRSIGreport.HTMLText.Add(
+            FCCFidxL6+'- Socially, your colony will stay semi-dependent'
+            );
+      end;
+      FCWinMain.FCWM_CPSRSIGreport.HTMLText.Add('<br>');
+      case FCRplayer.P_milStat of
+         fs1StabFDep: FCWinMain.FCWM_CPSRSIGreport.HTMLText.Add(
+            FCCFidxL6+'- For the Space and the Army, your colony will stay dependent'//, that mean that you cant '
+            );
+
+         fs2DepVar: FCWinMain.FCWM_CPSRSIGreport.HTMLText.Add(
+            FCCFidxL6+'- For the Space and the Army, your colony will stay semi-dependent'
+            );
+      end;
+   end;
+   FCWinMain.FCWM_CPSRSIGreport.HTMLText.Add( '<br><br>There'+chr(39)+'s nothing more beyond this phase, for now, until the development goes further.' );
+   FCWinMain.FCWM_CPSRSIGreport.HTMLText.Add( '<br>In the future, according to the status of the colony, you'+chr(39)+'ll have to set the political, economical, healthcare and spiritual systems.<br><br>' );
+   FCWinMain.FCWM_CPSRSIGreport.HTMLText.Add('<b>Sorry for the typos in the text, its a quick & dirty one and its not localized yet.</b><br><br>');
+   FCWinMain.FCWM_CPSRSIGreport.HTMLText.Add('I hope you liked it, even if this project is far to be feature complete and obviously is still in construction.<br>Future patches will consolidate this Alpha 1.');
+   FCWinMain.FCWM_CPSRSIGreport.HTMLText.Add('<br><br><font size="12"><b>Thank you for your interest. :)');
+
+
+   FCWinMain.FCWM_CPSreportSet.Show;
+//      end;
+end;
 
 end.

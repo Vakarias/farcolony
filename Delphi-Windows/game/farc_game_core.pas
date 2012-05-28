@@ -72,10 +72,14 @@ begin
 
       gfrCPSendOfPhase:
       begin
-         {.free cps related ui}
-         FCVwMcpsPstore:=false;
-         FCcps.CPSobjP_List.Free;
-         FCcps.CPSobjPanel.Free;
+         if Assigned( FCcps )
+         {:DEV NOTES: will be replaced in the future when post 1st alpha features will begin to implemented.}
+         then FCWinMain.Close;
+//         then begin
+//         {.free cps related ui}
+//         FCVwMcpsPstore:=false;
+//         FCcps.CPSobjP_List.Free;
+//         FCcps.CPSobjPanel.Free;
       end;
    end; //==END== case GameOverReason of ==//
 end;

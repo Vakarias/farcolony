@@ -314,10 +314,10 @@ type
     FCWMS_Grp_MCG_SetName: TLabeledEdit;
     FCWMS_Grp_MCG_SetType: TAdvComboBox;
     FCWM_CPSreportSet: TAdvPanel;
-    HTMLabel2: THTMLabel;
-    HTMLCheckBox2: THTMLCheckBox;
-    AdvGlowButton1: TAdvGlowButton;
-    HTMLRadioGroup1: THTMLRadioGroup;
+    FCWM_CPSRSIGscores: THTMLabel;
+    FCWM_CPSRSbuttonConfirm: TAdvGlowButton;
+    FCWM_CPSRSinfogroup: TAdvGroupBox;
+    FCWM_CPSRSIGreport: THTMLabel;
       procedure FormCreate(Sender: TObject);
       procedure FormResize(Sender: TObject);
       procedure FCWM_MMenu_G_QuitClick(Sender: TObject);
@@ -437,6 +437,7 @@ type
     procedure FCWM_MissionSettingsEndCollapsExpand(Sender: TObject);
     procedure FCWM_ColDPanelEndCollapsExpand(Sender: TObject);
     procedure FCWM_CDPinfoTextAnchorClick(Sender: TObject; Anchor: string);
+    procedure FCWM_CPSRSbuttonConfirmClick(Sender: TObject);
    private
       { Private declarations }
          {timesteps needed for camera transitions}
@@ -469,6 +470,7 @@ uses
    ,farc_data_textfiles
    ,farc_game_colony
    ,farc_fug_com
+   ,farc_game_core
    ,farc_game_cps
    ,farc_game_micolonize
    ,farc_game_missioncore
@@ -774,6 +776,7 @@ begin
 //   else if (Button=mb_Right)
 //      and (FCWM_PopMenFocusedObj.Tag=0)
       and (FCRplayer.P_timePhse<>tphPAUSE)
+      and (not FCWinMain.FCWM_CPSreportSet.Visible)
       and
       (
          (
@@ -1185,6 +1188,11 @@ end;
 procedure TFCWinMain.FCWM_ColDPanelMinimize(Sender: TObject);
 begin
    FCWM_SurfPanel.Hide;
+end;
+
+procedure TFCWinMain.FCWM_CPSRSbuttonConfirmClick(Sender: TObject);
+begin
+   FCMgCore_GameOver_Process( gfrCPSendOfPhase );
 end;
 
 procedure TFCWinMain.FCWM_DLP_DockListClick(Sender: TObject);

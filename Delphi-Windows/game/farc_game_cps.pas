@@ -228,6 +228,7 @@ uses
    farc_common_func
    ,farc_data_init
    ,farc_data_textfiles
+   ,farc_game_core
    ,farc_main
    ,farc_ui_cps
    ,farc_ui_win;
@@ -447,11 +448,12 @@ begin
       Outcome:=FCMgCPSO_Outcome_Process( FCRplayer.P_viabThrSpMil, StatusSpMilMean);
       FCRplayer.P_milStat:=TFCEfacStat( Outcome );
    end;
+   FCGtimeFlow.Enabled:=false;
+   FCWinMain.FCGLScadencer.Enabled:=false;
+   FCMuiCPS_EndPhaseReport_Show( rsEndOfPhaseReportWithEnd, StatusEconMean, StatusSocMean, StatusSpMilMean );
+   
    {:DEV NOTES: generate the report and include that in FCM_CPSFinalReport dev comment: :DEV NOTE:add credit line reimburse + rented / lended equipment/spacecrafts.}
-   {.free cps related ui}
-   FCVwMcpsPstore:=false;
-   CPSobjP_List.Free;
-   CPSobjPanel.Free;
+
 end;
 
 procedure TFCcps.FCM_ObjPanel_Init;

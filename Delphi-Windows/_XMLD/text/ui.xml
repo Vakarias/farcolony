@@ -973,9 +973,19 @@
       <FR>Status des Objectifs de Viabilité</FR>
       <SP>Estado de los Objetivos de Viabilidad</SP>
    </CPSobjPanel>
+   <CPSreport>
+      <EN>Colonization Report</EN>
+      <FR>Rapport de Colonisation</FR>
+      <SP></SP>
+   </CPSreport>
+   <CPSrepScoreTitle>
+      <EN>Final Scores</EN>
+      <FR>Scores Finaux</FR>
+      <SP></SP>
+   </CPSrepScoreTitle>
    <CPSrepSetTitle>
-      <EN></EN>
-      <FR></FR>
+      <EN>Colonization Phase - End Report and Settings</EN>
+      <FR>Phase de Colonisation - Rapport de Fin et Règlages</FR>
       <SP></SP>
    </CPSrepSetTitle>
    <cpsSLcateg>
