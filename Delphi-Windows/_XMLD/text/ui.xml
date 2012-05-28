@@ -948,9 +948,9 @@
       <SP>Poblacion</SP>
    </FCWM_CDPpopul>
    <FCWM_ColDPanel>
-      <EN>Colony Data Panel</EN>
-      <FR>Panneau de Données de la Colonie</FR>
-      <SP>Panel de Datos de la Colonia</SP>
+      <EN>Colony Panel</EN>
+      <FR>Panneau de la Colonie</FR>
+      <SP>Panel de la Colonia</SP>
    </FCWM_ColDPanel>
    <!-- ********** COLONIZATION MODES AND CPS ********** -->
    <cpsCr>
