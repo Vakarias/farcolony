@@ -349,6 +349,7 @@ end;
 procedure FCMuiW_FocusPopup_Upd(const PPOFUtp: TFCEuiwPopupKind);
 {:Purpose: update the popup menu of the focused object.
     Additions:
+      -2012May27- *mod: disable the mission cancel and interplanetary transit menu items. WILL BE RE-ENABLE IN FURTHER ALPHAs.
       -2010Sep19- *add: entities code.
       -2010Jun20- *fix: correct the colonization menu item when no colony is settled and cps is enabled.
       -2010Jun16- *mod: change ecosphere/surface and colony data panel menu items display.
@@ -449,17 +450,17 @@ begin
       {.detailed data subitem}
       {DEV NOTE: to add when i'll implement a detailed data panel.}
       {.cancel current mission subitem}
-      if FPUdmpTaskId>0
-      then FCWinMain.FCWM_PMFO_MissCancel.Visible:=true;
+//      if FPUdmpTaskId>0
+//      then FCWinMain.FCWM_PMFO_MissCancel.Visible:=true;
       {.START POINT OF TRAVEL MISSIONS}
       {.interplanetary transit menu item}
-      if (FPUdmpSpUnStatus in [susInFreeSpace..susDocked])
-         and(FPUdmpTaskId=0)
-      then
-      begin
-         FCWinMain.FCWM_PMFO_Header_Travel.Visible:=true;
-         FCWinMain.FCWM_PMFO_MissITransit.Visible:=true;
-      end;
+//      if (FPUdmpSpUnStatus in [susInFreeSpace..susDocked])
+//         and(FPUdmpTaskId=0)
+//      then
+//      begin
+//         FCWinMain.FCWM_PMFO_Header_Travel.Visible:=true;
+//         FCWinMain.FCWM_PMFO_MissITransit.Visible:=true;
+//      end;
       {.START POINT OF SPECIFIC MISSIONS}
       {.colonization menu item}
       FPUlvNum:=FCFspuF_DockedSpU_GetNum(
