@@ -2,8 +2,8 @@ object FCWinMain: TFCWinMain
   Left = 0
   Top = 0
   Caption = 'FCWinMain'
-  ClientHeight = 873
-  ClientWidth = 1102
+  ClientHeight = 935
+  ClientWidth = 1181
   Color = clBlack
   Ctl3D = False
   DefaultMonitor = dmMainForm
@@ -22,12 +22,12 @@ object FCWinMain: TFCWinMain
   OnKeyDown = FormKeyDown
   OnResize = FormResize
   PixelsPerInch = 96
-  TextHeight = 14
+  TextHeight = 15
   object FCWM_BckgImage: TImage32
     Left = 0
     Top = 0
-    Width = 1102
-    Height = 873
+    Width = 1181
+    Height = 935
     Align = alClient
     Bitmap.ResamplerClassName = 'TNearestResampler'
     BitmapAlign = baCenter
@@ -38,14 +38,14 @@ object FCWinMain: TFCWinMain
   object FCWM_3dMainGrp: TAdvGroupBox
     Left = 0
     Top = 0
-    Width = 1102
-    Height = 873
+    Width = 1181
+    Height = 935
     Transparent = False
     Align = alClient
     Caption = 'FCWM_3dMainGrp'
     Font.Charset = ANSI_CHARSET
     Font.Color = clWhite
-    Font.Height = -12
+    Font.Height = -13
     Font.Name = 'DejaVu Sans Condensed'
     Font.Style = []
     ParentFont = False
@@ -53,9 +53,9 @@ object FCWinMain: TFCWinMain
     Visible = False
     object FCGLSmainView: TGLSceneViewer
       Left = 2
-      Top = 17
-      Width = 1098
-      Height = 854
+      Top = 18
+      Width = 1177
+      Height = 915
       Cursor = crCross
       Camera = FCGLSCamMainView
       VSync = vsmSync
@@ -66,7 +66,7 @@ object FCWinMain: TFCWinMain
       Buffer.AntiAliasing = aa4xHQ
       Buffer.ColorDepth = cd24bits
       Buffer.ShadeModel = smSmooth
-      FieldOfView = 156.195632934570300000
+      FieldOfView = 157.741622924804700000
       Align = alClient
       PopupMenu = FCWM_PopMenFocusedObj
       OnMouseDown = FCGLSmainViewMouseDown
@@ -76,14 +76,14 @@ object FCWinMain: TFCWinMain
     end
     object FCWM_MsgeBox: TAdvPanel
       Left = 3
-      Top = 576
-      Width = 110
-      Height = 104
+      Top = 617
+      Width = 118
+      Height = 112
       BevelOuter = bvNone
       Color = clBlack
       Font.Charset = ANSI_CHARSET
       Font.Color = clWhite
-      Font.Height = -11
+      Font.Height = -12
       Font.Name = 'Tahoma'
       Font.Style = []
       Locked = True
@@ -99,10 +99,11 @@ object FCWinMain: TFCWinMain
       Caption.Flat = True
       Caption.Font.Charset = DEFAULT_CHARSET
       Caption.Font.Color = clWhite
-      Caption.Font.Height = -11
+      Caption.Font.Height = -12
       Caption.Font.Name = 'DejaVu Sans Condensed'
       Caption.Font.Style = []
       Caption.GradientDirection = gdVertical
+      Caption.Height = 21
       Caption.MinMaxButtonHoverColor = clSkyBlue
       Caption.Shape = csSemiRounded
       Caption.TopIndent = 2
@@ -122,16 +123,16 @@ object FCWinMain: TFCWinMain
       OnCaptionDBlClick = FCWM_MsgeBoxCaptionDBlClick
       FullHeight = 0
       object FCWM_MsgeBox_Desc: THTMLabel
-        Left = 71
-        Top = 16
-        Width = 17
-        Height = 33
+        Left = 76
+        Top = 17
+        Width = 18
+        Height = 36
         ColorTo = 4210752
         Color = clBlack
         GradientType = gtFullVertical
         Font.Charset = ANSI_CHARSET
         Font.Color = 14803425
-        Font.Height = -12
+        Font.Height = -13
         Font.Name = 'FrancophilSans'
         Font.Style = []
         Hover = True
@@ -146,10 +147,10 @@ object FCWinMain: TFCWinMain
         Version = '1.8.1.0'
       end
       object FCWM_MsgeBox_List: THTMListBox
-        Left = 16
-        Top = 16
-        Width = 49
-        Height = 25
+        Left = 17
+        Top = 17
+        Width = 53
+        Height = 27
         TabStop = False
         AutoItemHeight = False
         BorderStyle = bsNone
@@ -157,7 +158,7 @@ object FCWinMain: TFCWinMain
         ExtendedSelect = False
         Font.Charset = ANSI_CHARSET
         Font.Color = 14803425
-        Font.Height = -11
+        Font.Height = -12
         Font.Name = 'DejaVu Sans Condensed'
         Font.Style = [fsBold]
         ItemHeight = 16
@@ -178,15 +179,15 @@ object FCWinMain: TFCWinMain
       end
     end
     object FCWM_HelpPanel: TAdvPanel
-      Left = 19
-      Top = 484
-      Width = 401
-      Height = 289
+      Left = 20
+      Top = 519
+      Width = 430
+      Height = 309
       BevelOuter = bvNone
       Color = clBlack
       Font.Charset = ANSI_CHARSET
       Font.Color = clWhite
-      Font.Height = -11
+      Font.Height = -12
       Font.Name = 'DejaVu Sans'
       Font.Style = []
       Locked = True
@@ -205,10 +206,11 @@ object FCWinMain: TFCWinMain
       Caption.Flat = True
       Caption.Font.Charset = DEFAULT_CHARSET
       Caption.Font.Color = clWhite
-      Caption.Font.Height = -11
+      Caption.Font.Height = -12
       Caption.Font.Name = 'DejaVu Sans Condensed'
       Caption.Font.Style = []
       Caption.GradientDirection = gdVertical
+      Caption.Height = 21
       Caption.MinMaxButton = True
       Caption.MinMaxButtonHoverColor = clSkyBlue
       Caption.Shape = csSemiRounded
@@ -227,9 +229,9 @@ object FCWinMain: TFCWinMain
       FullHeight = 0
       object FCWM_HPdataPad: TAdvPageControl
         Left = 1
-        Top = 19
-        Width = 399
-        Height = 269
+        Top = 20
+        Width = 428
+        Height = 288
         ActivePage = FCWM_HPdPad_Keys
         ActiveFont.Charset = DEFAULT_CHARSET
         ActiveFont.Color = 13238272
@@ -239,7 +241,7 @@ object FCWinMain: TFCWinMain
         Align = alClient
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWhite
-        Font.Height = -11
+        Font.Height = -12
         Font.Name = 'DejaVu Sans'
         Font.Style = []
         HotTrack = True
@@ -267,7 +269,7 @@ object FCWinMain: TFCWinMain
           ColorTo = clNone
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWhite
-          Font.Height = -11
+          Font.Height = -12
           Font.Name = 'DejaVu Sans'
           Font.Style = []
           ParentFont = False
@@ -277,14 +279,14 @@ object FCWinMain: TFCWinMain
           object FCWM_HPdPad_KeysTxt: THTMLabel
             Left = 0
             Top = 0
-            Width = 391
-            Height = 241
+            Width = 420
+            Height = 259
             Align = alClient
             Color = clBlack
             GradientType = gtFullVertical
             Font.Charset = ANSI_CHARSET
             Font.Color = 14803425
-            Font.Height = -12
+            Font.Height = -13
             Font.Name = 'FrancophilSans'
             Font.Style = []
             Hover = True
@@ -296,8 +298,8 @@ object FCWinMain: TFCWinMain
             ParentFont = False
             URLColor = 14068651
             Version = '1.8.1.0'
-            ExplicitWidth = 392
-            ExplicitHeight = 242
+            ExplicitWidth = 419
+            ExplicitHeight = 258
           end
         end
         object FCWM_HPDPhints: TAdvTabSheet
@@ -308,16 +310,16 @@ object FCWinMain: TFCWinMain
           TabColorTo = clGray
           TextColor = 14803425
           object FCWM_HDPhintsText: THTMLabel
-            Left = 391
+            Left = 420
             Top = 0
             Width = 0
-            Height = 241
+            Height = 259
             Align = alRight
             Color = clBlack
             GradientType = gtFullVertical
             Font.Charset = ANSI_CHARSET
             Font.Color = 14803425
-            Font.Height = -12
+            Font.Height = -13
             Font.Name = 'FrancophilSans'
             Font.Style = []
             Hover = True
@@ -328,20 +330,20 @@ object FCWinMain: TFCWinMain
             URLColor = 13869987
             OnAnchorClick = FCWM_HDPhintsTextAnchorClick
             Version = '1.8.1.0'
-            ExplicitLeft = 392
-            ExplicitHeight = 242
+            ExplicitLeft = 419
+            ExplicitHeight = 258
           end
           object FCWM_HDPhintsList: THTMListBox
             Left = 0
             Top = 0
-            Width = 391
-            Height = 241
+            Width = 419
+            Height = 259
             Align = alLeft
             Color = clBlack
             ExtendedSelect = False
             Font.Charset = ANSI_CHARSET
             Font.Color = 14803425
-            Font.Height = -12
+            Font.Height = -13
             Font.Name = 'DejaVu Sans Condensed'
             Font.Style = [fsBold]
             ItemHeight = 16
@@ -364,15 +366,15 @@ object FCWinMain: TFCWinMain
       end
     end
     object FCWM_DockLstPanel: TAdvPanel
-      Left = 140
-      Top = 431
-      Width = 401
-      Height = 289
+      Left = 150
+      Top = 462
+      Width = 430
+      Height = 309
       BevelOuter = bvNone
       Color = clBlack
       Font.Charset = ANSI_CHARSET
       Font.Color = clWhite
-      Font.Height = -11
+      Font.Height = -12
       Font.Name = 'Tahoma'
       Font.Style = []
       Locked = True
@@ -391,10 +393,11 @@ object FCWinMain: TFCWinMain
       Caption.Flat = True
       Caption.Font.Charset = DEFAULT_CHARSET
       Caption.Font.Color = clWhite
-      Caption.Font.Height = -11
+      Caption.Font.Height = -12
       Caption.Font.Name = 'DejaVu Sans Condensed'
       Caption.Font.Style = []
       Caption.GradientDirection = gdVertical
+      Caption.Height = 21
       Caption.MinMaxButton = True
       Caption.MinMaxButtonHoverColor = clSkyBlue
       Caption.Shape = csSemiRounded
@@ -413,16 +416,16 @@ object FCWinMain: TFCWinMain
       FullHeight = 0
       object FCWM_DLP_DockList: THTMListBox
         Left = 1
-        Top = 19
-        Width = 399
-        Height = 269
+        Top = 20
+        Width = 428
+        Height = 288
         TabStop = False
         Align = alClient
         BorderStyle = bsNone
         Color = clBlack
         Font.Charset = ANSI_CHARSET
         Font.Color = 14803425
-        Font.Height = -12
+        Font.Height = -13
         Font.Name = 'DejaVu Sans Condensed'
         Font.Style = [fsBold]
         ItemHeight = 16
@@ -445,15 +448,15 @@ object FCWinMain: TFCWinMain
       end
     end
     object FCWM_UMI: TAdvPanel
-      Left = 190
-      Top = 307
-      Width = 810
-      Height = 570
+      Left = 204
+      Top = 329
+      Width = 867
+      Height = 611
       BevelOuter = bvNone
       Color = clBlack
       Font.Charset = ANSI_CHARSET
       Font.Color = clWhite
-      Font.Height = -11
+      Font.Height = -12
       Font.Name = 'Tahoma'
       Font.Style = []
       ParentFont = False
@@ -473,10 +476,11 @@ object FCWinMain: TFCWinMain
       Caption.Flat = True
       Caption.Font.Charset = DEFAULT_CHARSET
       Caption.Font.Color = clWhite
-      Caption.Font.Height = -11
+      Caption.Font.Height = -12
       Caption.Font.Name = 'DejaVu Sans Condensed'
       Caption.Font.Style = []
       Caption.GradientDirection = gdVertical
+      Caption.Height = 21
       Caption.MinMaxButton = True
       Caption.MinMaxButtonHoverColor = clSkyBlue
       Caption.Shape = csSemiRounded
@@ -495,9 +499,9 @@ object FCWinMain: TFCWinMain
       FullHeight = 0
       object FCWM_UMI_TabSh: TAdvPageControl
         Left = 1
-        Top = 19
-        Width = 808
-        Height = 550
+        Top = 20
+        Width = 865
+        Height = 590
         ActivePage = FCWM_UMI_TabShFac
         ActiveFont.Charset = DEFAULT_CHARSET
         ActiveFont.Color = 13238272
@@ -507,7 +511,7 @@ object FCWinMain: TFCWinMain
         Align = alClient
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWhite
-        Font.Height = -11
+        Font.Height = -12
         Font.Name = 'DejaVu Sans'
         Font.Style = []
         HotTrack = True
@@ -536,24 +540,28 @@ object FCWinMain: TFCWinMain
           ColorTo = clNone
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWhite
-          Font.Height = -11
+          Font.Height = -12
           Font.Name = 'DejaVu Sans'
           Font.Style = []
           ParentFont = False
           TabColor = clBlack
           TabColorTo = clGray
           TextColor = 14803425
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
           object HTMLabel1: THTMLabel
             Left = 0
             Top = 0
-            Width = 800
-            Height = 522
+            Width = 857
+            Height = 559
             Align = alClient
             Color = clBlack
             GradientType = gtFullVertical
             Font.Charset = ANSI_CHARSET
             Font.Color = 14803425
-            Font.Height = -12
+            Font.Height = -13
             Font.Name = 'FrancophilSans'
             Font.Style = []
             Hover = True
@@ -565,7 +573,6 @@ object FCWinMain: TFCWinMain
             ParentFont = False
             URLColor = 14068651
             Version = '1.8.1.0'
-            ExplicitHeight = 524
           end
         end
         object FCWM_UMI_TabShFac: TAdvTabSheet
@@ -578,28 +585,28 @@ object FCWinMain: TFCWinMain
           object FCWM_UMI_FacDatG: TAdvGroupBox
             Left = 0
             Top = 0
-            Width = 800
-            Height = 97
+            Width = 857
+            Height = 104
             Align = alTop
             Caption = 'FCWM_UMI_FacDatG'
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clWhite
-            Font.Height = -11
+            Font.Height = -12
             Font.Name = 'DejaVu Sans Condensed'
             Font.Style = []
             ParentFont = False
             TabOrder = 0
             object FCWM_UMI_FacData: THTMLabel
               Left = 2
-              Top = 16
-              Width = 796
-              Height = 79
+              Top = 17
+              Width = 853
+              Height = 85
               Align = alClient
               Color = clBlack
               GradientType = gtFullVertical
               Font.Charset = ANSI_CHARSET
               Font.Color = 14803425
-              Font.Height = -12
+              Font.Height = -13
               Font.Name = 'FrancophilSans'
               Font.Style = []
               Hover = True
@@ -612,10 +619,10 @@ object FCWinMain: TFCWinMain
               Version = '1.8.1.0'
             end
             object FCWM_UMI_FacLvl: TAdvCircularProgress
-              Left = 14
-              Top = 20
-              Width = 32
-              Height = 32
+              Left = 15
+              Top = 21
+              Width = 34
+              Height = 35
               Segments = 10
               Max = 12
               Position = 3
@@ -629,10 +636,10 @@ object FCWinMain: TFCWinMain
               Interval = 0
             end
             object FCWM_UMI_FacEcon: TAdvCircularProgress
-              Left = 52
-              Top = 20
-              Width = 32
-              Height = 32
+              Left = 56
+              Top = 21
+              Width = 34
+              Height = 35
               Segments = 10
               Max = 12
               Position = 3
@@ -646,10 +653,10 @@ object FCWinMain: TFCWinMain
               Interval = 0
             end
             object FCWM_UMI_FacSoc: TAdvCircularProgress
-              Left = 90
-              Top = 20
-              Width = 32
-              Height = 32
+              Left = 96
+              Top = 21
+              Width = 35
+              Height = 35
               Segments = 10
               Max = 12
               Position = 3
@@ -663,10 +670,10 @@ object FCWinMain: TFCWinMain
               Interval = 0
             end
             object FCWM_UMI_FacMil: TAdvCircularProgress
-              Left = 128
-              Top = 20
-              Width = 32
-              Height = 32
+              Left = 137
+              Top = 21
+              Width = 34
+              Height = 35
               Segments = 10
               Max = 12
               Position = 3
@@ -682,9 +689,9 @@ object FCWinMain: TFCWinMain
           end
           object FCWM_UMIFac_TabSh: TAdvPageControl
             Left = 0
-            Top = 97
-            Width = 800
-            Height = 425
+            Top = 104
+            Width = 857
+            Height = 457
             ActivePage = FCWM_UMIFac_TabShSPMpol
             ActiveFont.Charset = DEFAULT_CHARSET
             ActiveFont.Color = 13238272
@@ -694,7 +701,7 @@ object FCWinMain: TFCWinMain
             Align = alClient
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clWhite
-            Font.Height = -11
+            Font.Height = -12
             Font.Name = 'DejaVu Sans'
             Font.Style = []
             HotTrack = True
@@ -724,31 +731,36 @@ object FCWinMain: TFCWinMain
               TabColor = clBlack
               TabColorTo = clGray
               TextColor = 14803425
+              ExplicitLeft = 0
+              ExplicitTop = 0
+              ExplicitWidth = 0
+              ExplicitHeight = 0
               object FCWM_UMIFac_PolGvtDetails: TAdvGroupBox
                 Left = 0
                 Top = 0
-                Width = 97
-                Height = 397
+                Width = 104
+                Height = 428
                 Align = alLeft
                 Caption = 'FCWM_UMI_FacDatG'
                 Font.Charset = DEFAULT_CHARSET
                 Font.Color = clWhite
-                Font.Height = -11
+                Font.Height = -12
                 Font.Name = 'DejaVu Sans Condensed'
                 Font.Style = []
                 ParentFont = False
                 TabOrder = 0
+                ExplicitHeight = 425
                 object FCWM_UMIFac_PGDdata: THTMLabel
                   Left = 2
-                  Top = 16
-                  Width = 93
-                  Height = 379
+                  Top = 17
+                  Width = 100
+                  Height = 406
                   Align = alClient
                   Color = clBlack
                   GradientType = gtFullVertical
                   Font.Charset = ANSI_CHARSET
                   Font.Color = 14803425
-                  Font.Height = -12
+                  Font.Height = -13
                   Font.Name = 'FrancophilSans'
                   Font.Style = []
                   Hover = True
@@ -759,15 +771,14 @@ object FCWinMain: TFCWinMain
                   URLColor = 13869987
                   OnAnchorClick = FCWM_HDPhintsTextAnchorClick
                   Version = '1.8.1.0'
-                  ExplicitHeight = 382
                 end
               end
               object FCWM_UMIFac_Colonies: THTMLTreeList
                 AlignWithMargins = True
-                Left = 101
+                Left = 108
                 Top = 26
-                Width = 687
-                Height = 367
+                Width = 737
+                Height = 398
                 Margins.Left = 4
                 Margins.Top = 4
                 Margins.Right = 4
@@ -782,7 +793,7 @@ object FCWinMain: TFCWinMain
                 DoubleBuffered = True
                 Font.Charset = DEFAULT_CHARSET
                 Font.Color = 14803425
-                Font.Height = -11
+                Font.Height = -12
                 Font.Name = 'FrancophilSans'
                 Font.Style = []
                 Indent = 19
@@ -834,7 +845,7 @@ object FCWinMain: TFCWinMain
                   end>
                 ColumnLines = False
                 Separator = ';'
-                ItemHeight = 14
+                ItemHeight = 18
                 HeaderSettings.AllowResize = False
                 HeaderSettings.Color = clBlack
                 HeaderSettings.ColorTo = clGray
@@ -857,17 +868,21 @@ object FCWinMain: TFCWinMain
               TabColor = clBlack
               TabColorTo = clGray
               TextColor = 14803425
+              ExplicitLeft = 0
+              ExplicitTop = 0
+              ExplicitWidth = 0
+              ExplicitHeight = 0
               object FCWM_UMIFSh_SPMlistTop: TAdvPanel
                 Left = 0
                 Top = 0
-                Width = 792
-                Height = 185
+                Width = 849
+                Height = 201
                 Align = alClient
                 BevelOuter = bvNone
                 Color = clBlack
                 Font.Charset = ANSI_CHARSET
                 Font.Color = clWhite
-                Font.Height = -11
+                Font.Height = -12
                 Font.Name = 'Tahoma'
                 Font.Style = []
                 ParentFont = False
@@ -883,10 +898,11 @@ object FCWinMain: TFCWinMain
                 Caption.Flat = True
                 Caption.Font.Charset = DEFAULT_CHARSET
                 Caption.Font.Color = clWhite
-                Caption.Font.Height = -11
+                Caption.Font.Height = -12
                 Caption.Font.Name = 'DejaVu Sans Condensed'
                 Caption.Font.Style = []
                 Caption.GradientDirection = gdVertical
+                Caption.Height = 21
                 Caption.MinMaxButtonHoverColor = clSkyBlue
                 Caption.Shape = csSemiRounded
                 CollapsColor = clBlack
@@ -897,15 +913,16 @@ object FCWinMain: TFCWinMain
                 StatusBar.Font.Name = 'Tahoma'
                 StatusBar.Font.Style = []
                 URLColor = 14068651
+                ExplicitHeight = 198
                 FullHeight = 182
                 object FCWM_UMIFSh_SPMadmin: THTMLTreeview
                   Left = 1
                   Top = 1
-                  Width = 264
-                  Height = 183
+                  Width = 283
+                  Height = 199
                   ControlStyle = csFlat
                   ControlColor = clSilver
-                  ItemHeight = 16
+                  ItemHeight = 18
                   SelectionColors.BorderColor = clNone
                   SelectionColors.ColorFrom = clBlack
                   SelectionColors.ColorTo = 7237230
@@ -921,7 +938,7 @@ object FCWinMain: TFCWinMain
                   Color = clBlack
                   Font.Charset = ANSI_CHARSET
                   Font.Color = 14803425
-                  Font.Height = -12
+                  Font.Height = -13
                   Font.Name = 'FrancophilSans'
                   Font.Style = []
                   Indent = 19
@@ -932,13 +949,13 @@ object FCWinMain: TFCWinMain
                   Version = '1.2.1.0'
                 end
                 object FCWM_UMIFSh_SPMecon: THTMLTreeview
-                  Left = 265
+                  Left = 284
                   Top = 1
-                  Width = 262
-                  Height = 183
+                  Width = 281
+                  Height = 199
                   ControlStyle = csFlat
                   ControlColor = clSilver
-                  ItemHeight = 16
+                  ItemHeight = 18
                   SelectionColors.BorderColor = clNone
                   SelectionColors.ColorFrom = clBlack
                   SelectionColors.ColorTo = 7237230
@@ -954,7 +971,7 @@ object FCWinMain: TFCWinMain
                   Color = clBlack
                   Font.Charset = ANSI_CHARSET
                   Font.Color = 14803425
-                  Font.Height = -12
+                  Font.Height = -13
                   Font.Name = 'FrancophilSans'
                   Font.Style = []
                   Indent = 19
@@ -965,13 +982,13 @@ object FCWinMain: TFCWinMain
                   Version = '1.2.1.0'
                 end
                 object FCWM_UMIFSh_SPMmedca: THTMLTreeview
-                  Left = 527
+                  Left = 565
                   Top = 1
-                  Width = 264
-                  Height = 183
+                  Width = 283
+                  Height = 199
                   ControlStyle = csFlat
                   ControlColor = clSilver
-                  ItemHeight = 16
+                  ItemHeight = 18
                   SelectionColors.BorderColor = clNone
                   SelectionColors.ColorFrom = clBlack
                   SelectionColors.ColorTo = 7237230
@@ -988,7 +1005,7 @@ object FCWinMain: TFCWinMain
                   Color = clBlack
                   Font.Charset = ANSI_CHARSET
                   Font.Color = 14803425
-                  Font.Height = -12
+                  Font.Height = -13
                   Font.Name = 'FrancophilSans'
                   Font.Style = []
                   Indent = 19
@@ -1001,15 +1018,15 @@ object FCWinMain: TFCWinMain
               end
               object FCWM_UMIFSh_SPMlistBottom: TAdvPanel
                 Left = 0
-                Top = 185
-                Width = 792
-                Height = 212
+                Top = 201
+                Width = 849
+                Height = 227
                 Align = alBottom
                 BevelOuter = bvNone
                 Color = clBlack
                 Font.Charset = ANSI_CHARSET
                 Font.Color = clWhite
-                Font.Height = -11
+                Font.Height = -12
                 Font.Name = 'Tahoma'
                 Font.Style = []
                 ParentFont = False
@@ -1025,10 +1042,11 @@ object FCWinMain: TFCWinMain
                 Caption.Flat = True
                 Caption.Font.Charset = DEFAULT_CHARSET
                 Caption.Font.Color = clWhite
-                Caption.Font.Height = -11
+                Caption.Font.Height = -12
                 Caption.Font.Name = 'DejaVu Sans Condensed'
                 Caption.Font.Style = []
                 Caption.GradientDirection = gdVertical
+                Caption.Height = 21
                 Caption.MinMaxButtonHoverColor = clSkyBlue
                 Caption.Shape = csSemiRounded
                 CollapsColor = clBlack
@@ -1039,15 +1057,16 @@ object FCWinMain: TFCWinMain
                 StatusBar.Font.Name = 'Tahoma'
                 StatusBar.Font.Style = []
                 URLColor = 14068651
+                ExplicitTop = 198
                 FullHeight = 182
                 object FCWM_UMIFSh_SPMsoc: THTMLTreeview
                   Left = 1
                   Top = 1
-                  Width = 264
-                  Height = 210
+                  Width = 283
+                  Height = 225
                   ControlStyle = csFlat
                   ControlColor = clSilver
-                  ItemHeight = 16
+                  ItemHeight = 18
                   SelectionColors.BorderColor = clNone
                   SelectionColors.ColorFrom = clBlack
                   SelectionColors.ColorTo = 7237230
@@ -1063,7 +1082,7 @@ object FCWinMain: TFCWinMain
                   Color = clBlack
                   Font.Charset = ANSI_CHARSET
                   Font.Color = 14803425
-                  Font.Height = -12
+                  Font.Height = -13
                   Font.Name = 'FrancophilSans'
                   Font.Style = []
                   Indent = 19
@@ -1074,13 +1093,13 @@ object FCWinMain: TFCWinMain
                   Version = '1.2.1.0'
                 end
                 object FCWM_UMIFSh_SPMspol: THTMLTreeview
-                  Left = 265
+                  Left = 284
                   Top = 1
-                  Width = 262
-                  Height = 210
+                  Width = 281
+                  Height = 225
                   ControlStyle = csFlat
                   ControlColor = clSilver
-                  ItemHeight = 16
+                  ItemHeight = 18
                   SelectionColors.BorderColor = clNone
                   SelectionColors.ColorFrom = clBlack
                   SelectionColors.ColorTo = 7237230
@@ -1096,7 +1115,7 @@ object FCWinMain: TFCWinMain
                   Color = clBlack
                   Font.Charset = ANSI_CHARSET
                   Font.Color = 14803425
-                  Font.Height = -12
+                  Font.Height = -13
                   Font.Name = 'FrancophilSans'
                   Font.Style = []
                   Indent = 19
@@ -1107,13 +1126,13 @@ object FCWinMain: TFCWinMain
                   Version = '1.2.1.0'
                 end
                 object FCWM_UMIFSh_SPMspi: THTMLTreeview
-                  Left = 527
+                  Left = 565
                   Top = 1
-                  Width = 264
-                  Height = 210
+                  Width = 283
+                  Height = 225
                   ControlStyle = csFlat
                   ControlColor = clSilver
-                  ItemHeight = 16
+                  ItemHeight = 18
                   SelectionColors.BorderColor = clNone
                   SelectionColors.ColorFrom = clBlack
                   SelectionColors.ColorTo = 7237230
@@ -1129,7 +1148,7 @@ object FCWinMain: TFCWinMain
                   Color = clBlack
                   Font.Charset = ANSI_CHARSET
                   Font.Color = 14803425
-                  Font.Height = -12
+                  Font.Height = -13
                   Font.Name = 'FrancophilSans'
                   Font.Style = []
                   Indent = 19
@@ -1151,27 +1170,27 @@ object FCWinMain: TFCWinMain
               object FCWM_UMIFSh_AvailF: TAdvGroupBox
                 Left = 0
                 Top = 0
-                Width = 275
-                Height = 397
+                Width = 295
+                Height = 428
                 Align = alLeft
                 Caption = 'FCWM_UMIFSh_AvailF'
                 Font.Charset = DEFAULT_CHARSET
                 Font.Color = clWhite
-                Font.Height = -11
+                Font.Height = -12
                 Font.Name = 'DejaVu Sans Condensed'
                 Font.Style = []
                 ParentFont = False
                 TabOrder = 0
                 object FCWM_UMIFSh_AFlist: THTMListBox
                   Left = 2
-                  Top = 16
-                  Width = 271
-                  Height = 379
+                  Top = 17
+                  Width = 291
+                  Height = 409
                   Align = alClient
                   Color = clBlack
                   Font.Charset = ANSI_CHARSET
                   Font.Color = 14803425
-                  Font.Height = -12
+                  Font.Height = -13
                   Font.Name = 'DejaVu Sans Condensed'
                   Font.Style = [fsBold]
                   ItemHeight = 16
@@ -1193,30 +1212,30 @@ object FCWinMain: TFCWinMain
                 end
               end
               object FCWM_UMIFSh_ReqF: TAdvGroupBox
-                Left = 517
+                Left = 554
                 Top = 0
-                Width = 275
-                Height = 397
+                Width = 295
+                Height = 428
                 Align = alRight
                 Caption = 'FCWM_UMIFSh_ReqF'
                 Font.Charset = DEFAULT_CHARSET
                 Font.Color = clWhite
-                Font.Height = -11
+                Font.Height = -12
                 Font.Name = 'DejaVu Sans Condensed'
                 Font.Style = []
                 ParentFont = False
                 TabOrder = 1
                 object FCWM_UMIFSh_RFdisp: THTMLabel
                   Left = 2
-                  Top = 16
-                  Width = 271
-                  Height = 379
+                  Top = 17
+                  Width = 291
+                  Height = 409
                   Align = alClient
                   Color = clBlack
                   GradientType = gtFullVertical
                   Font.Charset = ANSI_CHARSET
                   Font.Color = 14803425
-                  Font.Height = -12
+                  Font.Height = -13
                   Font.Name = 'FrancophilSans'
                   Font.Style = []
                   Hover = True
@@ -1227,18 +1246,18 @@ object FCWinMain: TFCWinMain
                   URLColor = 13869987
                   OnAnchorClick = FCWM_HDPhintsTextAnchorClick
                   Version = '1.8.1.0'
-                  ExplicitHeight = 382
+                  ExplicitHeight = 406
                 end
               end
               object FCWM_UMIFSh_CentF: TAdvGroupBox
-                Left = 275
+                Left = 295
                 Top = 0
-                Width = 242
-                Height = 397
+                Width = 259
+                Height = 428
                 Align = alClient
                 Font.Charset = DEFAULT_CHARSET
                 Font.Color = clWhite
-                Font.Height = -11
+                Font.Height = -12
                 Font.Name = 'DejaVu Sans Condensed'
                 Font.Style = []
                 ParentFont = False
@@ -1246,13 +1265,13 @@ object FCWinMain: TFCWinMain
                 object FCWM_UMIFSh_CAPF: TAdvGroupBox
                   Left = 2
                   Top = 3
-                  Width = 238
-                  Height = 73
+                  Width = 255
+                  Height = 78
                   Align = alTop
                   Caption = 'FCWM_UMIFSh_CAPF'
                   Font.Charset = DEFAULT_CHARSET
                   Font.Color = clWhite
-                  Font.Height = -11
+                  Font.Height = -12
                   Font.Name = 'DejaVu Sans Condensed'
                   Font.Style = []
                   ParentFont = False
@@ -1260,9 +1279,9 @@ object FCWinMain: TFCWinMain
                   object FCWM_UMIFSh_CAPFlab: THTMLabel
                     AlignWithMargins = True
                     Left = 6
-                    Top = 20
-                    Width = 226
-                    Height = 47
+                    Top = 21
+                    Width = 243
+                    Height = 51
                     Margins.Left = 4
                     Margins.Top = 4
                     Margins.Right = 4
@@ -1272,7 +1291,7 @@ object FCWinMain: TFCWinMain
                     GradientType = gtFullVertical
                     Font.Charset = ANSI_CHARSET
                     Font.Color = 14803425
-                    Font.Height = -12
+                    Font.Height = -13
                     Font.Name = 'FrancophilSans'
                     Font.Style = []
                     Hover = True
@@ -1286,34 +1305,34 @@ object FCWinMain: TFCWinMain
                 end
                 object FCWM_UMISh_CEnfF: TAdvGroupBox
                   Left = 2
-                  Top = 76
-                  Width = 238
-                  Height = 319
+                  Top = 81
+                  Width = 255
+                  Height = 345
                   Align = alClient
                   Caption = 'FCWM_UMISh_CEnfF'
                   Font.Charset = DEFAULT_CHARSET
                   Font.Color = clWhite
-                  Font.Height = -11
+                  Font.Height = -12
                   Font.Name = 'DejaVu Sans Condensed'
                   Font.Style = []
                   ParentFont = False
                   TabOrder = 1
                   object FCWM_UMISh_CEFreslt: THTMLabel
                     AlignWithMargins = True
-                    Left = 10
-                    Top = 24
-                    Width = 218
-                    Height = 285
-                    Margins.Left = 8
-                    Margins.Top = 8
-                    Margins.Right = 8
-                    Margins.Bottom = 8
+                    Left = 11
+                    Top = 26
+                    Width = 233
+                    Height = 308
+                    Margins.Left = 9
+                    Margins.Top = 9
+                    Margins.Right = 9
+                    Margins.Bottom = 9
                     Align = alClient
                     Color = clBlack
                     GradientType = gtFullVertical
                     Font.Charset = ANSI_CHARSET
                     Font.Color = 14803425
-                    Font.Height = -12
+                    Font.Height = -13
                     Font.Name = 'FrancophilSans'
                     Font.Style = []
                     Hover = True
@@ -1324,17 +1343,17 @@ object FCWinMain: TFCWinMain
                     URLColor = 13869987
                     OnAnchorClick = FCWM_HDPhintsTextAnchorClick
                     Version = '1.8.1.0'
-                    ExplicitHeight = 288
+                    ExplicitHeight = 305
                   end
                   object FCWM_UMISh_CEFcommit: TAdvGlowButton
-                    Left = 119
-                    Top = 291
-                    Width = 116
-                    Height = 26
+                    Left = 128
+                    Top = 312
+                    Width = 124
+                    Height = 28
                     Caption = 'FCWM_UMISh_CEFcommit'
                     Font.Charset = DEFAULT_CHARSET
                     Font.Color = clBlack
-                    Font.Height = -12
+                    Font.Height = -13
                     Font.Name = 'DejaVu Sans'
                     Font.Style = []
                     FocusType = ftHot
@@ -1373,13 +1392,13 @@ object FCWinMain: TFCWinMain
                   end
                   object FCWM_UMISh_CEFretire: TAdvGlowButton
                     Left = 2
-                    Top = 291
-                    Width = 116
-                    Height = 26
+                    Top = 312
+                    Width = 124
+                    Height = 28
                     Caption = 'FCWMS_ButCancel'
                     Font.Charset = DEFAULT_CHARSET
                     Font.Color = clBlack
-                    Font.Height = -12
+                    Font.Height = -13
                     Font.Name = 'DejaVu Sans'
                     Font.Style = []
                     FocusType = ftHot
@@ -1417,14 +1436,14 @@ object FCWinMain: TFCWinMain
                     Appearance.SystemFont = False
                   end
                   object FCWM_UMISh_CEFenforce: TAdvGlowButton
-                    Left = 60
-                    Top = 18
-                    Width = 116
-                    Height = 26
+                    Left = 64
+                    Top = 19
+                    Width = 125
+                    Height = 28
                     Caption = 'FCWMS_ButCancel'
                     Font.Charset = DEFAULT_CHARSET
                     Font.Color = clBlack
-                    Font.Height = -12
+                    Font.Height = -13
                     Font.Name = 'DejaVu Sans'
                     Font.Style = []
                     FocusType = ftHot
@@ -1473,6 +1492,10 @@ object FCWinMain: TFCWinMain
           TabColor = clBlack
           TabColorTo = clGray
           TextColor = 14803425
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
         end
         object FCWM_UMI_TabShProd: TAdvTabSheet
           Caption = 'FCWM_UMI_TabShProd'
@@ -1484,13 +1507,13 @@ object FCWinMain: TFCWinMain
           object HTMListBox1: THTMListBox
             Left = 0
             Top = 0
-            Width = 391
-            Height = 522
+            Width = 419
+            Height = 561
             Align = alLeft
             Color = clBlack
             Font.Charset = ANSI_CHARSET
             Font.Color = 14803425
-            Font.Height = -12
+            Font.Height = -13
             Font.Name = 'DejaVu Sans Condensed'
             Font.Style = [fsBold]
             ItemHeight = 16
@@ -1517,19 +1540,23 @@ object FCWinMain: TFCWinMain
           TabColor = clBlack
           TabColorTo = clGray
           TextColor = 14803425
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
         end
       end
     end
     object FCWM_InfraPanel: TAdvPanel
       Left = 0
-      Top = 31
-      Width = 784
-      Height = 289
+      Top = 33
+      Width = 840
+      Height = 310
       BevelOuter = bvNone
       Color = clBlack
       Font.Charset = ANSI_CHARSET
       Font.Color = clWhite
-      Font.Height = -11
+      Font.Height = -12
       Font.Name = 'Tahoma'
       Font.Style = []
       Locked = True
@@ -1548,10 +1575,11 @@ object FCWinMain: TFCWinMain
       Caption.Flat = True
       Caption.Font.Charset = DEFAULT_CHARSET
       Caption.Font.Color = clWhite
-      Caption.Font.Height = -11
+      Caption.Font.Height = -12
       Caption.Font.Name = 'DejaVu Sans Condensed'
       Caption.Font.Style = []
       Caption.GradientDirection = gdVertical
+      Caption.Height = 21
       Caption.MinMaxButton = True
       Caption.MinMaxButtonHoverColor = clSkyBlue
       Caption.Shape = csSemiRounded
@@ -1570,15 +1598,15 @@ object FCWinMain: TFCWinMain
       FullHeight = 0
       object FCWM_IPlabel: THTMLabel
         Left = 1
-        Top = 19
-        Width = 782
-        Height = 269
+        Top = 20
+        Width = 838
+        Height = 289
         Align = alClient
         Color = clBlack
         GradientType = gtFullVertical
         Font.Charset = ANSI_CHARSET
         Font.Color = 14803425
-        Font.Height = -12
+        Font.Height = -13
         Font.Name = 'FrancophilSans'
         Font.Style = []
         Hover = True
@@ -1593,10 +1621,10 @@ object FCWinMain: TFCWinMain
         Version = '1.8.1.0'
       end
       object HTMLCheckBox1: THTMLCheckBox
-        Left = 455
-        Top = 157
-        Width = 92
-        Height = 18
+        Left = 488
+        Top = 168
+        Width = 98
+        Height = 20
         Alignment = taLeftJustify
         ButtonType = btClassic
         Caption = 'THTMLCheckBox'
@@ -1606,14 +1634,14 @@ object FCWinMain: TFCWinMain
         Version = '1.5.4.0'
       end
       object FCWM_IPconfirmButton: TAdvGlowButton
-        Left = 119
-        Top = 263
-        Width = 116
-        Height = 26
+        Left = 128
+        Top = 282
+        Width = 124
+        Height = 28
         Caption = 'FCWM_UMISh_CEFcommit'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clBlack
-        Font.Height = -12
+        Font.Height = -13
         Font.Name = 'DejaVu Sans'
         Font.Style = []
         FocusType = ftHot
@@ -1652,10 +1680,10 @@ object FCWinMain: TFCWinMain
         Appearance.SystemFont = False
       end
       object FCWM_IPinfraKits: THTMLRadioGroup
-        Left = 307
-        Top = 76
-        Width = 177
-        Height = 50
+        Left = 329
+        Top = 81
+        Width = 190
+        Height = 54
         Margins.Top = 0
         Margins.Bottom = 0
         ButtonType = btFlat
@@ -1664,7 +1692,7 @@ object FCWinMain: TFCWinMain
         Version = '1.5.4.0'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = 14803425
-        Font.Height = -12
+        Font.Height = -13
         Font.Name = 'FrancophilSans'
         Font.Style = []
         ParentFont = False
@@ -1673,15 +1701,15 @@ object FCWinMain: TFCWinMain
       end
     end
     object FCWM_SurfPanel: TAdvPanel
-      Left = 546
-      Top = 431
-      Width = 505
-      Height = 289
+      Left = 585
+      Top = 462
+      Width = 541
+      Height = 309
       BevelOuter = bvNone
       Color = clBlack
       Font.Charset = ANSI_CHARSET
       Font.Color = clWhite
-      Font.Height = -11
+      Font.Height = -12
       Font.Name = 'Tahoma'
       Font.Style = []
       Locked = True
@@ -1699,10 +1727,11 @@ object FCWinMain: TFCWinMain
       Caption.Flat = True
       Caption.Font.Charset = DEFAULT_CHARSET
       Caption.Font.Color = clWhite
-      Caption.Font.Height = -11
+      Caption.Font.Height = -12
       Caption.Font.Name = 'DejaVu Sans Condensed'
       Caption.Font.Style = []
       Caption.GradientDirection = gdVertical
+      Caption.Height = 21
       Caption.MinMaxButton = True
       Caption.MinMaxButtonHoverColor = clSkyBlue
       Caption.Shape = csSemiRounded
@@ -1722,8 +1751,8 @@ object FCWinMain: TFCWinMain
       object FCWM_SPShEcos_Lab: THTMLabel
         Left = 0
         Top = 0
-        Width = 153
-        Height = 225
+        Width = 164
+        Height = 241
         Align = alCustom
         BorderWidth = 1
         BorderStyle = bsSingle
@@ -1732,7 +1761,7 @@ object FCWinMain: TFCWinMain
         GradientType = gtFullVertical
         Font.Charset = ANSI_CHARSET
         Font.Color = 14803425
-        Font.Height = -12
+        Font.Height = -13
         Font.Name = 'FrancophilSans'
         Font.Style = []
         Hover = True
@@ -1744,10 +1773,10 @@ object FCWinMain: TFCWinMain
         Version = '1.8.1.0'
       end
       object FCWM_SP_DataSheet: TAdvPageControl
-        Left = 328
-        Top = 19
-        Width = 160
-        Height = 269
+        Left = 351
+        Top = 20
+        Width = 172
+        Height = 289
         ActivePage = FCWM_SP_ShReg
         ActiveFont.Charset = DEFAULT_CHARSET
         ActiveFont.Color = 13238272
@@ -1757,7 +1786,7 @@ object FCWinMain: TFCWinMain
         Align = alCustom
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWhite
-        Font.Height = -11
+        Font.Height = -12
         Font.Name = 'DejaVu Sans'
         Font.Style = []
         HotTrack = True
@@ -1785,7 +1814,7 @@ object FCWinMain: TFCWinMain
           ColorTo = clNone
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWhite
-          Font.Height = -11
+          Font.Height = -12
           Font.Name = 'DejaVu Sans'
           Font.Style = []
           ParentFont = False
@@ -1795,14 +1824,14 @@ object FCWinMain: TFCWinMain
           object FCWM_SPShReg_Lab: THTMLabel
             Left = 0
             Top = 0
-            Width = 152
-            Height = 241
+            Width = 164
+            Height = 260
             Align = alClient
             Color = clBlack
             GradientType = gtFullVertical
             Font.Charset = ANSI_CHARSET
             Font.Color = 14803425
-            Font.Height = -12
+            Font.Height = -13
             Font.Name = 'FrancophilSans'
             Font.Style = []
             Hover = True
@@ -1814,16 +1843,16 @@ object FCWinMain: TFCWinMain
             ParentFont = False
             URLColor = 14068651
             Version = '1.8.1.0'
-            ExplicitWidth = 153
-            ExplicitHeight = 243
+            ExplicitWidth = 163
+            ExplicitHeight = 258
           end
         end
       end
       object FCWM_SP_Surface: THotSpotImage
-        Left = 16
-        Top = 32
-        Width = 121
-        Height = 97
+        Left = 17
+        Top = 34
+        Width = 130
+        Height = 104
         AutoSize = False
         Color = clSilver
         HotSpotCursor = crDefault
@@ -1836,8 +1865,8 @@ object FCWinMain: TFCWinMain
         object FCWM_SP_SurfSel: THTMLabel
           Left = 4
           Top = 5
-          Width = 93
-          Height = 60
+          Width = 100
+          Height = 65
           Align = alCustom
           BorderWidth = 1
           BorderStyle = bsSingle
@@ -1846,7 +1875,7 @@ object FCWinMain: TFCWinMain
           GradientType = gtFullVertical
           Font.Charset = ANSI_CHARSET
           Font.Color = 49601
-          Font.Height = -12
+          Font.Height = -13
           Font.Name = 'FrancophilSans'
           Font.Style = []
           HoverColor = clBlack
@@ -1860,22 +1889,22 @@ object FCWinMain: TFCWinMain
         end
       end
       object FCWM_SP_SPicFrm: TAdvGroupBox
-        Left = 119
-        Top = 167
-        Width = 292
-        Height = 99
+        Left = 128
+        Top = 179
+        Width = 312
+        Height = 106
         Font.Charset = ANSI_CHARSET
         Font.Color = clWhite
-        Font.Height = -11
+        Font.Height = -12
         Font.Name = 'DejaVu Sans Condensed'
         Font.Style = []
         ParentFont = False
         TabOrder = 2
         object FCWM_SP_SPic: TImage32
-          Left = 24
-          Top = 16
-          Width = 65
-          Height = 33
+          Left = 26
+          Top = 17
+          Width = 69
+          Height = 36
           Bitmap.ResamplerClassName = 'TNearestResampler'
           BitmapAlign = baTopLeft
           Scale = 1.000000000000000000
@@ -1884,13 +1913,13 @@ object FCWinMain: TFCWinMain
         end
       end
       object FCWM_SP_LDatFrm: TAdvGroupBox
-        Left = 143
-        Top = 32
-        Width = 110
-        Height = 96
+        Left = 153
+        Top = 34
+        Width = 118
+        Height = 103
         Font.Charset = ANSI_CHARSET
         Font.Color = clWhite
-        Font.Height = -11
+        Font.Height = -12
         Font.Name = 'DejaVu Sans Condensed'
         Font.Style = []
         ParentFont = False
@@ -1898,14 +1927,14 @@ object FCWinMain: TFCWinMain
         object FCWM_SP_LDat: THTMLabel
           Left = 2
           Top = 3
-          Width = 106
-          Height = 91
+          Width = 114
+          Height = 98
           Align = alClient
           Color = clBlack
           GradientType = gtFullVertical
           Font.Charset = ANSI_CHARSET
           Font.Color = 14803425
-          Font.Height = -12
+          Font.Height = -13
           Font.Name = 'FrancophilSans'
           Font.Style = []
           Hover = True
@@ -1918,13 +1947,13 @@ object FCWinMain: TFCWinMain
         end
       end
       object FCWM_SP_RDatFrm: TAdvGroupBox
-        Left = 18
-        Top = 144
-        Width = 97
-        Height = 65
+        Left = 19
+        Top = 154
+        Width = 104
+        Height = 70
         Font.Charset = ANSI_CHARSET
         Font.Color = clWhite
-        Font.Height = -11
+        Font.Height = -12
         Font.Name = 'Tahoma'
         Font.Style = []
         ParentFont = False
@@ -1932,14 +1961,14 @@ object FCWinMain: TFCWinMain
         object FCWM_SP_RDat: THTMLabel
           Left = 2
           Top = 3
-          Width = 93
-          Height = 60
+          Width = 100
+          Height = 65
           Align = alClient
           Color = clBlack
           GradientType = gtFullVertical
           Font.Charset = ANSI_CHARSET
           Font.Color = 14803425
-          Font.Height = -12
+          Font.Height = -13
           Font.Name = 'FrancophilSans'
           Font.Style = []
           Hover = True
@@ -1952,16 +1981,16 @@ object FCWinMain: TFCWinMain
         end
       end
       object FCWM_SP_AutoUp: TCheckBox
-        Left = 376
+        Left = 403
         Top = 3
-        Width = 97
-        Height = 17
+        Width = 104
+        Height = 18
         TabStop = False
         Caption = 'Auto Update'
         Color = 4737096
         Font.Charset = ANSI_CHARSET
         Font.Color = clWhite
-        Font.Height = -12
+        Font.Height = -13
         Font.Name = 'FrancophilSans'
         Font.Style = []
         ParentColor = False
@@ -1971,15 +2000,15 @@ object FCWinMain: TFCWinMain
       end
     end
     object FCWM_ColDPanel: TAdvPanel
-      Left = 104
-      Top = 17
-      Width = 784
-      Height = 289
+      Left = 111
+      Top = 18
+      Width = 840
+      Height = 310
       BevelOuter = bvNone
       Color = clBlack
       Font.Charset = ANSI_CHARSET
       Font.Color = clWhite
-      Font.Height = -11
+      Font.Height = -12
       Font.Name = 'Tahoma'
       Font.Style = []
       Locked = True
@@ -1998,10 +2027,11 @@ object FCWinMain: TFCWinMain
       Caption.Flat = True
       Caption.Font.Charset = DEFAULT_CHARSET
       Caption.Font.Color = clWhite
-      Caption.Font.Height = -11
+      Caption.Font.Height = -12
       Caption.Font.Name = 'DejaVu Sans Condensed'
       Caption.Font.Style = []
       Caption.GradientDirection = gdVertical
+      Caption.Height = 21
       Caption.MinMaxButton = True
       Caption.MinMaxButtonHoverColor = clSkyBlue
       Caption.Shape = csSemiRounded
@@ -2024,10 +2054,10 @@ object FCWinMain: TFCWinMain
       OnEndCollapsExpand = FCWM_ColDPanelEndCollapsExpand
       FullHeight = 0
       object FCWM_CDPepi: TAdvPageControl
-        Left = 512
-        Top = 19
-        Width = 271
-        Height = 269
+        Left = 549
+        Top = 20
+        Width = 290
+        Height = 289
         ActivePage = FCWM_CDPcsme
         ActiveFont.Charset = DEFAULT_CHARSET
         ActiveFont.Color = 13238272
@@ -2037,7 +2067,7 @@ object FCWinMain: TFCWinMain
         Align = alRight
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWhite
-        Font.Height = -11
+        Font.Height = -12
         Font.Name = 'DejaVu Sans'
         Font.Style = []
         HotTrack = True
@@ -2066,14 +2096,18 @@ object FCWinMain: TFCWinMain
           TabColor = clBlack
           TabColorTo = clGray
           TextColor = 14803425
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
           object FCWM_CDPpopList: THTMLTreeview
             Left = 0
             Top = 0
-            Width = 263
-            Height = 241
+            Width = 282
+            Height = 260
             ControlStyle = csFlat
             ControlColor = clSilver
-            ItemHeight = 16
+            ItemHeight = 18
             SelectionColors.BorderColor = clNone
             SelectionColors.ColorFrom = clBlack
             SelectionColors.ColorTo = 7237230
@@ -2090,7 +2124,7 @@ object FCWinMain: TFCWinMain
             Color = clBlack
             Font.Charset = ANSI_CHARSET
             Font.Color = 14803425
-            Font.Height = -12
+            Font.Height = -13
             Font.Name = 'FrancophilSans'
             Font.Style = []
             Indent = 19
@@ -2102,13 +2136,13 @@ object FCWinMain: TFCWinMain
             Version = '1.2.1.0'
           end
           object FCWM_CDPpopType: THTMLTreeview
-            Left = 263
+            Left = 282
             Top = 0
             Width = 0
-            Height = 241
+            Height = 260
             ControlStyle = csFlat
             ControlColor = clSilver
-            ItemHeight = 16
+            ItemHeight = 18
             SelectionColors.BorderColor = clNone
             SelectionColors.ColorFrom = clBlack
             SelectionColors.ColorTo = 7237230
@@ -2123,7 +2157,7 @@ object FCWinMain: TFCWinMain
             Color = clBlack
             Font.Charset = ANSI_CHARSET
             Font.Color = 14803425
-            Font.Height = -12
+            Font.Height = -13
             Font.Name = 'FrancophilSans'
             Font.Style = []
             Indent = 19
@@ -2133,10 +2167,10 @@ object FCWinMain: TFCWinMain
             Version = '1.2.1.0'
           end
           object FCWM_CDPwcpAssign: TLabeledEdit
-            Left = 48
-            Top = 44
-            Width = 81
-            Height = 19
+            Left = 51
+            Top = 47
+            Width = 87
+            Height = 21
             TabStop = False
             Alignment = taCenter
             BevelInner = bvNone
@@ -2146,12 +2180,12 @@ object FCWinMain: TFCWinMain
             Color = clWhite
             Ctl3D = False
             EditLabel.AlignWithMargins = True
-            EditLabel.Width = 100
-            EditLabel.Height = 14
+            EditLabel.Width = 126
+            EditLabel.Height = 16
             EditLabel.Caption = 'FCWM_CDPcolName'
             EditLabel.Font.Charset = DEFAULT_CHARSET
             EditLabel.Font.Color = clWhite
-            EditLabel.Font.Height = -12
+            EditLabel.Font.Height = -13
             EditLabel.Font.Name = 'FrancophilSans'
             EditLabel.Font.Style = []
             EditLabel.ParentFont = False
@@ -2159,7 +2193,7 @@ object FCWinMain: TFCWinMain
             EditLabel.Layout = tlCenter
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
-            Font.Height = -12
+            Font.Height = -13
             Font.Name = 'FrancophilSans'
             Font.Style = []
             MaxLength = 20
@@ -2171,9 +2205,9 @@ object FCWinMain: TFCWinMain
             OnKeyDown = FCWM_CDPwcpAssignKeyDown
           end
           object FCWM_CDPwcpEquip: TAdvComboBox
-            Left = 22
-            Top = 74
-            Width = 83
+            Left = 24
+            Top = 79
+            Width = 89
             Height = 20
             Color = clWhite
             Version = '1.3.1.0'
@@ -2183,11 +2217,11 @@ object FCWinMain: TFCWinMain
             Enabled = True
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
-            Font.Height = -11
+            Font.Height = -12
             Font.Name = 'FrancophilSans'
             Font.Style = []
             ItemIndex = -1
-            ItemHeight = 12
+            ItemHeight = 15
             LabelCaption = 'Equip'
             LabelPosition = lpLeftCenter
             LabelAlwaysEnabled = True
@@ -2205,10 +2239,10 @@ object FCWinMain: TFCWinMain
             BevelEdges = []
           end
           object FCWM_CDPcwpAssignVeh: TLabeledEdit
-            Left = 55
-            Top = 51
-            Width = 81
-            Height = 20
+            Left = 59
+            Top = 55
+            Width = 87
+            Height = 21
             TabStop = False
             Alignment = taCenter
             BevelInner = bvNone
@@ -2218,12 +2252,12 @@ object FCWinMain: TFCWinMain
             Color = clWhite
             Ctl3D = False
             EditLabel.AlignWithMargins = True
-            EditLabel.Width = 100
-            EditLabel.Height = 14
+            EditLabel.Width = 126
+            EditLabel.Height = 16
             EditLabel.Caption = 'FCWM_CDPcolName'
             EditLabel.Font.Charset = DEFAULT_CHARSET
             EditLabel.Font.Color = clWhite
-            EditLabel.Font.Height = -12
+            EditLabel.Font.Height = -13
             EditLabel.Font.Name = 'FrancophilSans'
             EditLabel.Font.Style = []
             EditLabel.ParentFont = False
@@ -2231,7 +2265,7 @@ object FCWinMain: TFCWinMain
             EditLabel.Layout = tlCenter
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
-            Font.Height = -12
+            Font.Height = -13
             Font.Name = 'FrancophilSans'
             Font.Style = []
             MaxLength = 20
@@ -2250,11 +2284,15 @@ object FCWinMain: TFCWinMain
           TabColor = clBlack
           TabColorTo = clGray
           TextColor = 14803425
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
           object CDPstorageCapacity: THTMLabel
-            Left = 53
+            Left = 57
             Top = 0
-            Width = 82
-            Height = 241
+            Width = 88
+            Height = 260
             Align = alLeft
             BorderWidth = 1
             BorderStyle = bsSingle
@@ -2263,7 +2301,7 @@ object FCWinMain: TFCWinMain
             GradientType = gtFullVertical
             Font.Charset = ANSI_CHARSET
             Font.Color = 14803425
-            Font.Height = -12
+            Font.Height = -13
             Font.Name = 'FrancophilSans'
             Font.Style = []
             Hover = True
@@ -2273,16 +2311,16 @@ object FCWinMain: TFCWinMain
             ParentFont = False
             URLColor = 14068651
             Version = '1.8.1.0'
-            ExplicitHeight = 243
+            ExplicitHeight = 258
           end
           object CDPstorageList: THTMLTreeview
             Left = 0
             Top = 0
-            Width = 53
-            Height = 241
+            Width = 57
+            Height = 260
             ControlStyle = csFlat
             ControlColor = clSilver
-            ItemHeight = 16
+            ItemHeight = 18
             SelectionColors.BorderColor = clNone
             SelectionColors.ColorFrom = clBlack
             SelectionColors.ColorTo = 7237230
@@ -2298,7 +2336,7 @@ object FCWinMain: TFCWinMain
             Color = clBlack
             Font.Charset = ANSI_CHARSET
             Font.Color = 14803425
-            Font.Height = -12
+            Font.Height = -13
             Font.Name = 'FrancophilSans'
             Font.Style = []
             Indent = 19
@@ -2310,13 +2348,13 @@ object FCWinMain: TFCWinMain
             Version = '1.2.1.0'
           end
           object CDPproductionMatrixList: THTMLTreeview
-            Left = 210
+            Left = 225
             Top = 0
-            Width = 53
-            Height = 241
+            Width = 57
+            Height = 260
             ControlStyle = csFlat
             ControlColor = clSilver
-            ItemHeight = 16
+            ItemHeight = 18
             SelectionColors.BorderColor = clNone
             SelectionColors.ColorFrom = clBlack
             SelectionColors.ColorTo = 7237230
@@ -2332,7 +2370,7 @@ object FCWinMain: TFCWinMain
             Color = clBlack
             Font.Charset = ANSI_CHARSET
             Font.Color = 14803425
-            Font.Height = -12
+            Font.Height = -13
             Font.Name = 'FrancophilSans'
             Font.Style = []
             Indent = 19
@@ -2351,14 +2389,18 @@ object FCWinMain: TFCWinMain
           TabColor = clBlack
           TabColorTo = clGray
           TextColor = 14803425
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
           object FCWM_CDPinfrList: THTMLTreeview
             Left = 0
             Top = 0
-            Width = 263
-            Height = 241
+            Width = 282
+            Height = 260
             ControlStyle = csFlat
             ControlColor = clSilver
-            ItemHeight = 16
+            ItemHeight = 18
             SelectionColors.BorderColor = clNone
             SelectionColors.ColorFrom = clBlack
             SelectionColors.ColorTo = 7237230
@@ -2374,7 +2416,7 @@ object FCWinMain: TFCWinMain
             Color = clBlack
             Font.Charset = ANSI_CHARSET
             Font.Color = 14803425
-            Font.Height = -12
+            Font.Height = -13
             Font.Name = 'FrancophilSans'
             Font.Style = []
             Indent = 19
@@ -2390,11 +2432,11 @@ object FCWinMain: TFCWinMain
           object FCWM_CDPinfrAvail: THTMLTreeview
             Left = 0
             Top = 0
-            Width = 263
-            Height = 241
+            Width = 282
+            Height = 260
             ControlStyle = csFlat
             ControlColor = clSilver
-            ItemHeight = 16
+            ItemHeight = 18
             SelectionColors.BorderColor = clNone
             SelectionColors.ColorFrom = clBlack
             SelectionColors.ColorTo = 7237230
@@ -2410,7 +2452,7 @@ object FCWinMain: TFCWinMain
             Color = clBlack
             Font.Charset = ANSI_CHARSET
             Font.Color = 14803425
-            Font.Height = -12
+            Font.Height = -13
             Font.Name = 'FrancophilSans'
             Font.Style = []
             Indent = 19
@@ -2429,7 +2471,7 @@ object FCWinMain: TFCWinMain
           ColorTo = clNone
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWhite
-          Font.Height = -11
+          Font.Height = -12
           Font.Name = 'DejaVu Sans'
           Font.Style = []
           ParentFont = False
@@ -2439,11 +2481,11 @@ object FCWinMain: TFCWinMain
           object FCWM_CDPcsmeList: THTMLTreeview
             Left = 0
             Top = 0
-            Width = 263
-            Height = 241
+            Width = 282
+            Height = 260
             ControlStyle = csFlat
             ControlColor = clSilver
-            ItemHeight = 16
+            ItemHeight = 18
             SelectionColors.BorderColor = clNone
             SelectionColors.ColorFrom = clBlack
             SelectionColors.ColorTo = 7237230
@@ -2459,7 +2501,7 @@ object FCWinMain: TFCWinMain
             Color = clBlack
             Font.Charset = ANSI_CHARSET
             Font.Color = 14803425
-            Font.Height = -12
+            Font.Height = -13
             Font.Name = 'FrancophilSans'
             Font.Style = []
             Indent = 19
@@ -2474,17 +2516,17 @@ object FCWinMain: TFCWinMain
       object FCWM_CDPinfo: TAdvGroupBox
         AlignWithMargins = True
         Left = 1
-        Top = 59
-        Width = 224
-        Height = 229
+        Top = 63
+        Width = 240
+        Height = 246
         Margins.Left = 0
-        Margins.Top = 40
+        Margins.Top = 43
         Margins.Right = 0
         Margins.Bottom = 0
         Align = alLeft
         Font.Charset = ANSI_CHARSET
         Font.Color = clWhite
-        Font.Height = -11
+        Font.Height = -12
         Font.Name = 'DejaVu Sans Condensed'
         Font.Style = []
         ParentFont = False
@@ -2492,14 +2534,14 @@ object FCWinMain: TFCWinMain
         object FCWM_CDPinfoText: THTMLabel
           Left = 2
           Top = 3
-          Width = 220
-          Height = 224
+          Width = 236
+          Height = 241
           Align = alClient
           Color = clBlack
           GradientType = gtFullVertical
           Font.Charset = ANSI_CHARSET
           Font.Color = 14803425
-          Font.Height = -12
+          Font.Height = -13
           Font.Name = 'FrancophilSans'
           Font.Style = []
           Hover = True
@@ -2510,14 +2552,14 @@ object FCWinMain: TFCWinMain
           URLColor = 14068651
           OnAnchorClick = FCWM_CDPinfoTextAnchorClick
           Version = '1.8.1.0'
-          ExplicitHeight = 225
+          ExplicitHeight = 240
         end
       end
       object FCWM_CDPcolName: TLabeledEdit
-        Left = 192
-        Top = 36
-        Width = 81
-        Height = 20
+        Left = 206
+        Top = 39
+        Width = 87
+        Height = 21
         Alignment = taCenter
         BevelInner = bvNone
         BevelKind = bkFlat
@@ -2526,12 +2568,12 @@ object FCWinMain: TFCWinMain
         Color = clWhite
         Ctl3D = False
         EditLabel.AlignWithMargins = True
-        EditLabel.Width = 100
-        EditLabel.Height = 14
+        EditLabel.Width = 126
+        EditLabel.Height = 16
         EditLabel.Caption = 'FCWM_CDPcolName'
         EditLabel.Font.Charset = DEFAULT_CHARSET
         EditLabel.Font.Color = clWhite
-        EditLabel.Font.Height = -12
+        EditLabel.Font.Height = -13
         EditLabel.Font.Name = 'FrancophilSans'
         EditLabel.Font.Style = []
         EditLabel.ParentFont = False
@@ -2539,7 +2581,7 @@ object FCWinMain: TFCWinMain
         EditLabel.Layout = tlCenter
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clBlack
-        Font.Height = -12
+        Font.Height = -13
         Font.Name = 'FrancophilSans'
         Font.Style = []
         MaxLength = 20
@@ -2551,15 +2593,15 @@ object FCWinMain: TFCWinMain
       end
     end
     object FCWM_MissionSettings: TAdvPanel
-      Left = 217
-      Top = 183
-      Width = 770
-      Height = 468
+      Left = 233
+      Top = 196
+      Width = 825
+      Height = 502
       BevelOuter = bvNone
       Color = clBlack
       Font.Charset = ANSI_CHARSET
       Font.Color = clWhite
-      Font.Height = -11
+      Font.Height = -12
       Font.Name = 'Tahoma'
       Font.Style = []
       Locked = True
@@ -2578,10 +2620,11 @@ object FCWinMain: TFCWinMain
       Caption.Flat = True
       Caption.Font.Charset = DEFAULT_CHARSET
       Caption.Font.Color = clWhite
-      Caption.Font.Height = -11
+      Caption.Font.Height = -12
       Caption.Font.Name = 'DejaVu Sans Condensed'
       Caption.Font.Style = []
       Caption.GradientDirection = gdVertical
+      Caption.Height = 21
       Caption.MinMaxButton = True
       Caption.MinMaxButtonHoverColor = clSkyBlue
       Caption.Shape = csSemiRounded
@@ -2604,28 +2647,28 @@ object FCWinMain: TFCWinMain
       OnEndCollapsExpand = FCWM_MissionSettingsEndCollapsExpand
       FullHeight = 0
       object FCWMS_Grp_MCG: TAdvGroupBox
-        Left = 210
-        Top = 128
-        Width = 442
-        Height = 239
+        Left = 225
+        Top = 137
+        Width = 474
+        Height = 256
         Caption = 'AdvGroupBox1'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWhite
-        Font.Height = -12
+        Font.Height = -13
         Font.Name = 'DejaVu Sans Condensed'
         Font.Style = []
         ParentFont = False
         TabOrder = 0
         object FCWMS_Grp_MCG_DatDisp: THTMLabel
           Left = 2
-          Top = 17
-          Width = 70
-          Height = 220
+          Top = 18
+          Width = 75
+          Height = 236
           Align = alLeft
           Color = clBlack
           Font.Charset = DEFAULT_CHARSET
           Font.Color = 14803425
-          Font.Height = -12
+          Font.Height = -13
           Font.Name = 'FrancophilSans'
           Font.Style = []
           Hover = True
@@ -2639,15 +2682,15 @@ object FCWinMain: TFCWinMain
           Version = '1.8.1.0'
         end
         object FCWMS_Grp_MCG_MissCfgData: THTMLabel
-          Left = 370
-          Top = 17
-          Width = 70
-          Height = 220
+          Left = 397
+          Top = 18
+          Width = 75
+          Height = 236
           Align = alRight
           Color = clBlack
           Font.Charset = DEFAULT_CHARSET
           Font.Color = 14803425
-          Font.Height = -12
+          Font.Height = -13
           Font.Name = 'FrancophilSans'
           Font.Style = []
           Hover = True
@@ -2659,13 +2702,13 @@ object FCWinMain: TFCWinMain
           ParentFont = False
           URLColor = 14068651
           Version = '1.8.1.0'
-          ExplicitLeft = 371
+          ExplicitLeft = 396
         end
         object FCWMS_Grp_MCG_RMassTrack: TAdvTrackBar
-          Left = 24
-          Top = 63
-          Width = 137
-          Height = 50
+          Left = 26
+          Top = 68
+          Width = 147
+          Height = 53
           BorderColor = clNone
           BorderColorDisabled = clNone
           Buttons.BorderColor = clBlack
@@ -2752,10 +2795,10 @@ object FCWinMain: TFCWinMain
           OnKeyDown = FCWMS_Grp_MCG_RMassTrackKeyDown
         end
         object FCWMS_Grp_MCGColName: TLabeledEdit
-          Left = 167
-          Top = 78
-          Width = 150
-          Height = 20
+          Left = 179
+          Top = 84
+          Width = 161
+          Height = 21
           Alignment = taCenter
           BevelInner = bvNone
           BevelKind = bkFlat
@@ -2764,12 +2807,12 @@ object FCWinMain: TFCWinMain
           Color = clWhite
           Ctl3D = False
           EditLabel.AlignWithMargins = True
-          EditLabel.Width = 133
-          EditLabel.Height = 14
+          EditLabel.Width = 168
+          EditLabel.Height = 16
           EditLabel.Caption = 'FCWMS_Grp_MCGColName'
           EditLabel.Font.Charset = DEFAULT_CHARSET
           EditLabel.Font.Color = clWhite
-          EditLabel.Font.Height = -12
+          EditLabel.Font.Height = -13
           EditLabel.Font.Name = 'FrancophilSans'
           EditLabel.Font.Style = []
           EditLabel.ParentFont = False
@@ -2777,7 +2820,7 @@ object FCWinMain: TFCWinMain
           EditLabel.Layout = tlCenter
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
-          Font.Height = -12
+          Font.Height = -13
           Font.Name = 'FrancophilSans'
           Font.Style = []
           MaxLength = 20
@@ -2789,10 +2832,10 @@ object FCWinMain: TFCWinMain
           OnKeyPress = FCWMS_Grp_MCGColNameKeyPress
         end
         object FCWMS_Grp_MCG_SetName: TLabeledEdit
-          Left = 24
-          Top = 52
-          Width = 150
-          Height = 20
+          Left = 26
+          Top = 56
+          Width = 160
+          Height = 21
           Alignment = taCenter
           BevelInner = bvNone
           BevelKind = bkFlat
@@ -2801,13 +2844,13 @@ object FCWinMain: TFCWinMain
           Color = clWhite
           Ctl3D = False
           EditLabel.AlignWithMargins = True
-          EditLabel.Width = 140
-          EditLabel.Height = 14
+          EditLabel.Width = 176
+          EditLabel.Height = 16
           EditLabel.Caption = 'FCWMS_Grp_MCG_SetName'
           EditLabel.Color = clWhite
           EditLabel.Font.Charset = DEFAULT_CHARSET
           EditLabel.Font.Color = clWhite
-          EditLabel.Font.Height = -12
+          EditLabel.Font.Height = -13
           EditLabel.Font.Name = 'FrancophilSans'
           EditLabel.Font.Style = []
           EditLabel.ParentColor = False
@@ -2816,7 +2859,7 @@ object FCWinMain: TFCWinMain
           EditLabel.Layout = tlCenter
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
-          Font.Height = -12
+          Font.Height = -13
           Font.Name = 'FrancophilSans'
           Font.Style = []
           MaxLength = 20
@@ -2828,10 +2871,10 @@ object FCWinMain: TFCWinMain
           OnKeyPress = FCWMS_Grp_MCG_SetNameKeyPress
         end
         object FCWMS_Grp_MCG_SetType: TAdvComboBox
-          Left = 24
-          Top = 119
-          Width = 158
-          Height = 22
+          Left = 26
+          Top = 128
+          Width = 169
+          Height = 23
           Color = clWhite
           Version = '1.3.1.0'
           Visible = False
@@ -2840,11 +2883,11 @@ object FCWinMain: TFCWinMain
           Enabled = True
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
-          Font.Height = -12
+          Font.Height = -13
           Font.Name = 'DejaVu Sans Condensed'
           Font.Style = []
           ItemIndex = -1
-          ItemHeight = 14
+          ItemHeight = 15
           LabelFont.Charset = DEFAULT_CHARSET
           LabelFont.Color = clWindowText
           LabelFont.Height = -11
@@ -2855,14 +2898,14 @@ object FCWinMain: TFCWinMain
           Text = 'Sol Like'
         end
         object FCWMS_ButCancel: TAdvGlowButton
-          Left = 25
-          Top = 198
-          Width = 113
-          Height = 41
+          Left = 27
+          Top = 212
+          Width = 121
+          Height = 44
           Caption = 'FCWMS_ButCancel'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
-          Font.Height = -12
+          Font.Height = -13
           Font.Name = 'Space Age'
           Font.Style = []
           FocusType = ftHot
@@ -2901,14 +2944,14 @@ object FCWinMain: TFCWinMain
           Appearance.SystemFont = False
         end
         object FCWMS_ButProceed: TAdvGlowButton
-          Left = 289
-          Top = 198
-          Width = 113
-          Height = 41
+          Left = 310
+          Top = 212
+          Width = 121
+          Height = 44
           Caption = 'FCWNGS_Frm_ButtProceed'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
-          Font.Height = -12
+          Font.Height = -13
           Font.Name = 'Space Age'
           Font.Style = []
           FocusType = ftHot
@@ -2949,27 +2992,27 @@ object FCWinMain: TFCWinMain
         end
       end
       object FCWMS_Grp_MSDG: TAdvGroupBox
-        Left = 232
-        Top = 16
-        Width = 185
-        Height = 89
+        Left = 249
+        Top = 17
+        Width = 198
+        Height = 96
         Caption = 'AdvGroupBox1'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWhite
-        Font.Height = -11
+        Font.Height = -12
         Font.Name = 'DejaVu Sans Condensed'
         Font.Style = []
         ParentFont = False
         TabOrder = 1
         object FCWMS_Grp_MSDG_Disp: THTMLabel
           Left = 2
-          Top = 16
-          Width = 181
-          Height = 71
+          Top = 17
+          Width = 194
+          Height = 77
           Align = alClient
           Font.Charset = DEFAULT_CHARSET
           Font.Color = 14803425
-          Font.Height = -12
+          Font.Height = -13
           Font.Name = 'FrancophilSans'
           Font.Style = []
           Hover = True
@@ -2980,20 +3023,20 @@ object FCWinMain: TFCWinMain
           ParentFont = False
           URLColor = 14068651
           Version = '1.8.1.0'
-          ExplicitHeight = 72
+          ExplicitHeight = 76
         end
       end
     end
     object FCWM_CPSreportSet: TAdvPanel
-      Left = 7
-      Top = 154
-      Width = 784
-      Height = 290
+      Left = 8
+      Top = 165
+      Width = 840
+      Height = 311
       BevelOuter = bvNone
       Color = clBlack
       Font.Charset = ANSI_CHARSET
       Font.Color = clWhite
-      Font.Height = -11
+      Font.Height = -12
       Font.Name = 'Tahoma'
       Font.Style = []
       Locked = True
@@ -3011,10 +3054,11 @@ object FCWinMain: TFCWinMain
       Caption.Flat = True
       Caption.Font.Charset = DEFAULT_CHARSET
       Caption.Font.Color = clWhite
-      Caption.Font.Height = -11
+      Caption.Font.Height = -12
       Caption.Font.Name = 'DejaVu Sans Condensed'
       Caption.Font.Style = []
       Caption.GradientDirection = gdVertical
+      Caption.Height = 21
       Caption.MinMaxButtonHoverColor = clSkyBlue
       Caption.Shape = csSemiRounded
       Caption.TopIndent = 2
@@ -3032,16 +3076,16 @@ object FCWinMain: TFCWinMain
       FullHeight = 0
       object FCWM_CPSRSIGscores: THTMLabel
         Left = 1
-        Top = 19
-        Width = 271
-        Height = 270
+        Top = 20
+        Width = 290
+        Height = 290
         Align = alLeft
         BorderColor = clNone
         Color = clBlack
         GradientType = gtFullVertical
         Font.Charset = ANSI_CHARSET
         Font.Color = 14803425
-        Font.Height = -12
+        Font.Height = -13
         Font.Name = 'FrancophilSans'
         Font.Style = []
         Hover = True
@@ -3053,14 +3097,14 @@ object FCWinMain: TFCWinMain
         Version = '1.8.1.0'
       end
       object FCWM_CPSRSbuttonConfirm: TAdvGlowButton
-        Left = 17
-        Top = 245
-        Width = 116
-        Height = 26
+        Left = 18
+        Top = 263
+        Width = 125
+        Height = 27
         Caption = 'FCWM_UMISh_CEFcommit'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clBlack
-        Font.Height = -12
+        Font.Height = -13
         Font.Name = 'DejaVu Sans'
         Font.Style = []
         FocusType = ftHot
@@ -3098,35 +3142,33 @@ object FCWinMain: TFCWinMain
         Appearance.SystemFont = False
       end
       object FCWM_CPSRSinfogroup: TAdvGroupBox
-        Left = 583
-        Top = 19
-        Width = 200
-        Height = 270
+        Left = 625
+        Top = 20
+        Width = 214
+        Height = 290
         Margins.Left = 0
-        Margins.Top = 40
+        Margins.Top = 43
         Margins.Right = 0
         Margins.Bottom = 0
         Align = alRight
         Font.Charset = ANSI_CHARSET
         Font.Color = clWhite
-        Font.Height = -11
+        Font.Height = -12
         Font.Name = 'DejaVu Sans Condensed'
         Font.Style = []
         ParentFont = False
         TabOrder = 1
-        ExplicitTop = 59
-        ExplicitHeight = 230
         object FCWM_CPSRSIGreport: THTMLabel
           Left = 2
           Top = 3
-          Width = 196
-          Height = 265
+          Width = 210
+          Height = 285
           Align = alClient
           Color = clBlack
           GradientType = gtFullVertical
           Font.Charset = ANSI_CHARSET
           Font.Color = 14803425
-          Font.Height = -12
+          Font.Height = -13
           Font.Name = 'FrancophilSans'
           Font.Style = []
           Hover = True
@@ -3136,9 +3178,7 @@ object FCWinMain: TFCWinMain
           ParentFont = False
           URLColor = 14068651
           Version = '1.8.1.0'
-          ExplicitLeft = -38
-          ExplicitTop = 6
-          ExplicitHeight = 164
+          ExplicitHeight = 284
         end
       end
     end

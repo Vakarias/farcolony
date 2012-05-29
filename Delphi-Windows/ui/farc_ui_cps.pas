@@ -145,6 +145,19 @@ begin
    FCWinMain.FCWM_MMenu_Options.Enabled:=false;
    FCWinMain.FCWM_MMenu_Help.Enabled:=false;
    FCWinMain.FCWM_MMenu_DebTools.Enabled:=false;
+   if FCWinMain.FCWM_ColDPanel.Visible
+   then FCWinMain.FCWM_ColDPanel.Hide;
+
+   if FCWinMain.FCWM_UMI.Visible
+   then FCWinMain.FCWM_UMI.Hide;
+
+   if FCWinMain.FCWM_DockLstPanel.Visible
+   then FCWinMain.FCWM_DockLstPanel.Hide;
+   if FCWinMain.FCWM_SurfPanel.Visible
+   then FCWinMain.FCWM_SurfPanel.Hide;
+
+   FCWinMain.FCGLSmainView.Enabled:=false;
+
    FCWinMain.FCWM_CPSreportSet.Left:=((FCWinMain.FCWM_3dMainGrp.Left+FCWinMain.FCWM_3dMainGrp.Width) shr 1)-(FCWinMain.FCWM_CPSreportSet.Width shr 1);
    FCWinMain.FCWM_CPSreportSet.Top:=((FCWinMain.FCWM_3dMainGrp.Top+FCWinMain.FCWM_3dMainGrp.Height) shr 1)-(FCWinMain.FCWM_CPSreportSet.Height shr 1);
    FCWinMain.FCWM_CPSRSbuttonConfirm.Left:=8;

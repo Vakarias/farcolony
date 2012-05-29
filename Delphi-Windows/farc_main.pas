@@ -1079,29 +1079,30 @@ var
    ILMDcurrentNode
    ,ILMDrootNode: ttreenode;
 begin
-   ILMDinfraIndex:=0;
-   if Button=mb_Right
-   then
-   begin
-      ILMDcurrentNode:=THTMLTreeview(sender).Selected;
-      if not ILMDcurrentNode.IsFirstNode
-      then
-      begin
-         ILMDrootNode:=ILMDcurrentNode.Parent;
-         if not ILMDrootNode.IsFirstNode
-         then ILMDinfraIndex:=FCFuiCDP_ListInfra_RetrieveIndex( ILMDrootNode.text, ILMDcurrentNode.Index+1);
-         FCMuiIP_InfraList_Setup(
-            ILMDinfraIndex
-            ,X
-            ,Y
-            );
-      end
-      else FCMuiIP_InfraList_Setup(
-         0
-         ,X
-         ,Y
-         );
-   end;
+{:DEV NOTES: will be reactivated in future alpha.}
+//   ILMDinfraIndex:=0;
+//   if Button=mb_Right
+//   then
+//   begin
+//      ILMDcurrentNode:=THTMLTreeview(sender).Selected;
+//      if not ILMDcurrentNode.IsFirstNode
+//      then
+//      begin
+//         ILMDrootNode:=ILMDcurrentNode.Parent;
+//         if not ILMDrootNode.IsFirstNode
+//         then ILMDinfraIndex:=FCFuiCDP_ListInfra_RetrieveIndex( ILMDrootNode.text, ILMDcurrentNode.Index+1);
+//         FCMuiIP_InfraList_Setup(
+//            ILMDinfraIndex
+//            ,X
+//            ,Y
+//            );
+//      end
+//      else FCMuiIP_InfraList_Setup(
+//         0
+//         ,X
+//         ,Y
+//         );
+//   end;
 end;
 
 procedure TFCWinMain.FCWM_CDPinfrListMouseMove(Sender: TObject; Shift: TShiftState; X,
