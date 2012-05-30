@@ -44,7 +44,9 @@ uses
    oxLib3dsImports,
    oxLib3dsMeshLoader,
 
-//   GLVectorFileObject,
+//   GLVectorFileObjects
+//   ,GLFile3DSSceneObjects
+//,glfile3ds
 
    o_GTTimer
 
@@ -287,7 +289,7 @@ procedure FCMdInit_Initialize;
       {.objects list for satellites}
       FC3DobjSat: array of TGLSphere;
       {.objects list for space units, tag= faction id#, tagfloat= owned index}
-      FC3DobjSpUnit: array of TDGLib3dsStaMesh;
+      FC3DobjSpUnit: array of TDGLib3dsStaMesh;//TGLFile3DSFreeForm;
       {.index which target selected object}
       FCV3DselOobj: integer;
       {.index which target selected satellite}

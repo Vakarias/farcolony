@@ -41,6 +41,9 @@ uses
    ,GLColor
    ,GLObjects
    ,GLScene
+//   ,GLVectorFileObjects
+//   ,glfile3ds
+//   ,GLFile3DSSceneObjects
 
    ,oxLib3dsMeshLoader;
 
@@ -2107,6 +2110,7 @@ procedure FCMoglVM_SpUn_Gen(
 }
 var
    SUGdesgn: integer;
+
 begin
    if (SUGstatus=scfDocked)
       or (SUGstatus=scfInOrbit)
@@ -2118,7 +2122,12 @@ begin
       SUGdesgn:=FCFspuF_Design_getDB(FCentities[SUGfac].E_spU[SUGspUnOwnIdx].SUO_designId);
       {.create the object and set some basic data}
       FC3DobjSpUnit[FCV3DttlSpU]:=TDGLib3dsStaMesh(FCWinMain.FCGLSRootMain.Objects.AddNewChild(TDGLib3dsStaMesh));
-      FC3DobjSpUnit[FCV3DttlSpU].Load3DSFileFrom(FCVpathRsrc+'obj-3ds-scraft\'+FCDBscDesigns[SUGdesgn].SCD_intStrClone.SCIS_token+'.3ds');
+//      TGLFile3DSFreeForm(FCWinMain.FCGLSRootMain.Objects.AddNewChild(TGLFile3DSFreeForm));
+
+
+
+      FC3DobjSpUnit[FCV3DttlSpU].Load3DSFileFrom(FCVpathRsrc+'obj-3ds-scraft\'+FCDBscDesigns[SUGdesgn].SCD_intStrClone.SCIS_token+'.3ds');//Load3DSFileFrom(FCVpathRsrc+'obj-3ds-scraft\'+FCDBscDesigns[SUGdesgn].SCD_intStrClone.SCIS_token+'.3ds');
+//      FC3DobjSpUnit[FCV3DttlSpU].UseMeshMaterials:=true;
       {.set the space unit 3d scales}
       FC3DobjSpUnit[FCV3DttlSpU].Scale.X:=FCFcFunc_ScaleConverter(cf3dctMeterToSpUnitSize, SUGdesgn);
       FC3DobjSpUnit[FCV3DttlSpU].Scale.Y:=FC3DobjSpUnit[FCV3DttlSpU].Scale.X;
@@ -2136,6 +2145,7 @@ begin
       FC3DobjSpUnit[FCV3DttlSpU].TagFloat:=SUGspUnOwnIdx;
       FCentities[SUGfac].E_spU[SUGspUnOwnIdx].SUO_3dObjIdx:=FCV3DttlSpU;
       {.finalization}
+      FC3DobjSpUnit[FCV3DttlSpU].UseMeshMaterials:=true;
       FC3DobjSpUnit[FCV3DttlSpU].Material.Texture.Disabled:=false;
       if (SUGstatus<>scfDocked)
       then FC3DobjSpUnit[FCV3DttlSpU].Visible:=true

@@ -145,11 +145,11 @@ const
    type TFCEdipProductionModes=(
       pmNone
 //      ,pmCarbonaceousOreRefining
-//      ,pmHumidityGathering
 //      ,pmMetallicOreRefining
 //      ,pmRadioactiveOreRefining
 //      ,pmRareMetalsOreRefining
       ,pmResourceMining
+      ,pmWaterRecovery
 //      ,pmWaterElectrolysis
       );
    {.requirement - region soil}

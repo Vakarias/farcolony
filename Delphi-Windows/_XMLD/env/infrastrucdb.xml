@@ -68,14 +68,8 @@
       
    {.production modes}
    [pmode]
-      pmNone
-      pmCarbonaceousOreRefining
-      pmHumidityGathering
-      pmMetallicOreRefining
-      pmRadioactiveOreRefining
-      pmRareMetalsOreRefining
       pmResourceMining
-      pmWaterElectrolysis
+      pmWaterRecovery
 
    {.staff types}
    [rstaff type]
@@ -171,13 +165,8 @@
       <infFunc infFunc="fMiscellaneous"/>
       //ifProduction
       <infFunc infFunc="fProduction">
-         <ifProdMode pmode="pmCarbonaceousOreRefining" occupancy=""/>
-         <ifProdMode pmode="pmHumidityGathering" occupancy="" roofArea="" trapArea=""/>
-         <ifProdMode pmode="pmMetallicOreRefining" occupancy=""/>
-         <ifProdMode pmode="pmRadioactiveOreRefining" occupancy=""/>
-         <ifProdMode pmode="pmRareMetalsOreRefining" occupancy=""/>
+         <ifProdMode pmode="pmWaterRecovery" occupancy="" roofArea="" trapArea=""/>
          <ifProdMode pmode="pmResourceMining" occupancy=""/>
-         <ifProdMode pmode="pmWaterElectrolysis" occupancy=""/>
       </infFunc>
    </infra>
 -->
