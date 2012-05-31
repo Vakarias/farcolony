@@ -165,8 +165,8 @@
       <infFunc infFunc="fMiscellaneous"/>
       //ifProduction
       <infFunc infFunc="fProduction">
-         <ifProdMode pmode="pmWaterRecovery" occupancy="" roofArea="" trapArea=""/>
          <ifProdMode pmode="pmResourceMining" occupancy=""/>
+         <ifProdMode pmode="pmWaterRecovery" occupancy="" roofArea="" trapArea=""/>
       </infFunc>
    </infra>
 -->
