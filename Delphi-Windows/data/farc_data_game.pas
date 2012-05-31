@@ -473,7 +473,7 @@ interface
                   LMII_matrixProdModeIndex: integer;
                end;
             end;
-            );
+      );
    end;
    {.production matrix item}
    {:DEV NOTES: update FCMdFiles_Game_Load + FCMdFiles_Game_Save + FCMgCSM_ColonyData_Init + FCMgPS2_ProductionMatrixItem_Add.}

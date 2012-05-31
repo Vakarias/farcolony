@@ -360,7 +360,7 @@ procedure FCMdInit_Initialize;
       {conversion constant degree to radiant by multiply by this constant}
       FCCdeg2RadM=Pi/180;
       FCCgameNam='FAR Colony';
-      FCCalphaNumber='1';
+      FCCalphaNumber='2';
       {conversion contant 1 gee = 9.807 m/s}
       FCCgeesInMS=9.807;
       {gravity constant in astrophysics}

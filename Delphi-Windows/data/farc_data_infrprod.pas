@@ -141,7 +141,7 @@ const
       ,prfuWater
       );
    {.production modes}
-   {:DEV NOTES: update infrastrucdb + TFCRdipInfraProdMode + FCMdFSG_Game_Save/Load + FCMgPM_ProductionModeDataFromFunction_Generate.}
+   {:DEV NOTES: update infrastrucdb.xml + TFCRdipInfraProdMode.}
    type TFCEdipProductionModes=(
       pmNone
 //      ,pmCarbonaceousOreRefining
@@ -284,8 +284,7 @@ const
          cfxProductStorage: (ICFX_prodStorageLvl: array[0..7] of TFCRdipInfraProdStorage);
 	end;
    {.production modes}
-   {:DEV NOTES: update infrastrucdb.xml + FCMdF_DBInfra_Read.}
-   {:DEV NOTES: update data_game/TFCRdgColonInfra + FCMgPM_ProductionModeDataFromFunction_Generate.}
+   {:DEV NOTES: update infrastrucdb.xml + FCMdF_DBInfra_Read + FCMgPM_ProductionModeDataFromFunction_Generate.}
    type TFCRdipInfraProdMode= record
       ///<summary>
       /// occupancy of the production mode for the infrastructure, if the building has only one production mode, occupancy=100(%)
@@ -294,9 +293,6 @@ const
       case IPM_productionModes: TFCEdipProductionModes of
 //         pmCarbonaceousOreRefining:
 //            ();
-//         pmHumidityGathering:
-//            (IPM_roofArea: integer;
-//            IPM_trapArea: integer);
 //         pmMetallicOreRefining:
 //            ();
 //         pmRadioactiveOreRefining:
@@ -305,6 +301,11 @@ const
 //            ();
 
          pmResourceMining: ();
+
+         pmWaterRecovery:(
+            WR_roofarea: extended;
+            WR_traparea: extended
+            );
 
 //         pmWaterElectrolysis:
 //            ();

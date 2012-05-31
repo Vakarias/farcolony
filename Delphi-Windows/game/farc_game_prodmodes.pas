@@ -105,6 +105,7 @@ uses
    ,farc_game_infrastaff
    ,farc_game_prodSeg2
    ,farc_ui_coredatadisplay
+   ,farc_univ_func
    ,farc_win_debug;
 
 //===================================================END OF INIT============================
@@ -254,117 +255,192 @@ procedure FCMgPM_ProductionModeDataFromFunction_Generate(
    );
 {:Purpose: generate the production modes' data from the infrastructure's function.
     Additions:
+      -2012May30- *add: pmWaterRecovery.
       -2012Feb14- *mod: pmResourceMining - new calculation of the energy consumption.
       -2011Dec04- *add: Resource Mining (COMPLETION).
       -2011Dec04- *add: Resource Mining (WIP).
       -2011Nov14- *add: code framewrok inclusion + Resource Mining (WIP).
 }
    var
-      PMDFFGcnt
-      ,PMDFFGresourceSpot
+      InfraProdModeCount
+      ,ProdModeDataI1
       ,PMDFFGstaffColonIndex
       ,PMDFFGstaffTechIndex
-      ,PMDFFGsurveyedRegion
+      ,ProdModeDataI2
       ,PMDFFGsurveyedSpot: integer;
 
-      PMDFFGresCarbonace
-      ,PMDFFGresMetallic
-      ,PMDFFGresRareMetal
-      ,PMDFFGresUranium
-      ,PMDFFGrmp: extended;
+      ProdModeDataF1
+      ,ProdModeDataF2
+      ,ProdModeDataF3
+      ,ProdModeDataF4
+      ,ProdModeDataF5: extended;
 
-      PMDFFGenv: TFCRgcEnvironment;
+      ColonyEnvironment: TFCRgcEnvironment;
+
+      OrbObjRow: TFCRufStelObj;
 begin
-   PMDFFGcnt:=1;
-   while PMDFFGcnt<=FCCpModeMax do
+   InfraProdModeCount:=1;
+   while InfraProdModeCount<=FCCpModeMax do
    begin
-      if PMDFFGinfraData.I_fProductionMode[PMDFFGcnt].IPM_occupancy>0 then
+      if PMDFFGinfraData.I_fProductionMode[InfraProdModeCount].IPM_occupancy>0 then
       begin
-         case PMDFFGinfraData.I_fProductionMode[PMDFFGcnt].IPM_productionModes of
+         case PMDFFGinfraData.I_fProductionMode[InfraProdModeCount].IPM_productionModes of
             pmNone: break;
 
             pmResourceMining:
             begin
-               FCentities[PMDFFGent].E_col[PMDFFGcol].COL_settlements[PMDFFGsett].CS_infra[PMDFFGinfra].CI_fprodMode[PMDFFGcnt].PM_type:=PMDFFGinfraData.I_fProductionMode[PMDFFGcnt].IPM_productionModes;
+               {.resource mining production}
+               ProdModeDataF1:=0;
+               {.RMP for carbonaceous ore}
+               ProdModeDataF2:=0;
+               {.RMP for metallic ore}
+               ProdModeDataF3:=0;
+               {.RMP for rare metal}
+               ProdModeDataF4:=0;
+               {.RMP for uranium}
+               ProdModeDataF5:=0;
+               {.resource spot index}
+               ProdModeDataI1:=0;
+               {.surveyed region index}
+               ProdModeDataI2:=0;
+               {.calculations}
+               FCentities[PMDFFGent].E_col[PMDFFGcol].COL_settlements[PMDFFGsett].CS_infra[PMDFFGinfra].CI_fprodMode[InfraProdModeCount].PM_type:=PMDFFGinfraData.I_fProductionMode[InfraProdModeCount].IPM_productionModes;
                PMDFFGsurveyedSpot:=FCentities[PMDFFGent].E_col[PMDFFGcol].COL_settlements[PMDFFGsett].CS_infra[PMDFFGinfra].CI_fprodSurveyedSpot;
-               PMDFFGsurveyedRegion:=FCentities[PMDFFGent].E_col[PMDFFGcol].COL_settlements[PMDFFGsett].CS_infra[PMDFFGinfra].CI_fprodSurveyedRegion;
-               PMDFFGresourceSpot:=FCentities[PMDFFGent].E_col[PMDFFGcol].COL_settlements[PMDFFGsett].CS_infra[PMDFFGinfra].CI_fprodResourceSpot;
-               PMDFFGrmp:=( ( power( PMDFFGinfraData.I_surface[PMDFFGinfraLevel], 0.333 ) + power( PMDFFGinfraData.I_volume[PMDFFGinfraLevel], 0.111 ) )*0.5 )
-                  * FCRplayer.P_surveyedSpots[PMDFFGsurveyedSpot].SS_surveyedRegions[PMDFFGsurveyedRegion].SR_ResourceSpot[PMDFFGresourceSpot].RS_MQC
-                  * (PMDFFGinfraData.I_fProductionMode[PMDFFGcnt].IPM_occupancy*0.01);
+               ProdModeDataI2:=FCentities[PMDFFGent].E_col[PMDFFGcol].COL_settlements[PMDFFGsett].CS_infra[PMDFFGinfra].CI_fprodSurveyedRegion;
+               ProdModeDataI1:=FCentities[PMDFFGent].E_col[PMDFFGcol].COL_settlements[PMDFFGsett].CS_infra[PMDFFGinfra].CI_fprodResourceSpot;
+               ProdModeDataF1:=( ( power( PMDFFGinfraData.I_surface[PMDFFGinfraLevel], 0.333 ) + power( PMDFFGinfraData.I_volume[PMDFFGinfraLevel], 0.111 ) )*0.5 )
+                  * FCRplayer.P_surveyedSpots[PMDFFGsurveyedSpot].SS_surveyedRegions[ProdModeDataI2].SR_ResourceSpot[ProdModeDataI1].RS_MQC
+                  * (PMDFFGinfraData.I_fProductionMode[InfraProdModeCount].IPM_occupancy*0.01);
                if PMDFFGinfraData.I_reqRsrcSpot=rstIcyOreField then
                begin
-                  PMDFFGrmp:=FCFcFunc_Rnd( cfrttpVolm3, PMDFFGrmp );
+                  ProdModeDataF1:=FCFcFunc_Rnd( cfrttpVolm3, ProdModeDataF1 );
                   FCMgPS2_ProductionMatrixItem_Add(
                      PMDFFGent
                      ,PMDFFGcol
                      ,PMDFFGsett
                      ,PMDFFGinfra
-                     ,PMDFFGcnt
+                     ,InfraProdModeCount
                      ,'resIcyOre'
-                     ,PMDFFGrmp
+                     ,ProdModeDataF1
                      );
                end
                else begin
-                  PMDFFGresCarbonace:=PMDFFGrmp*( FCRplayer.P_surveyedSpots[PMDFFGsurveyedSpot].SS_surveyedRegions[PMDFFGsurveyedRegion].SR_ResourceSpot[PMDFFGresourceSpot].RS_oreCarbonaceous*0.01 );
-                  PMDFFGresCarbonace:=FCFcFunc_Rnd( cfrttpVolm3, PMDFFGresCarbonace );
+                  ProdModeDataF2:=ProdModeDataF1*( FCRplayer.P_surveyedSpots[PMDFFGsurveyedSpot].SS_surveyedRegions[ProdModeDataI2].SR_ResourceSpot[ProdModeDataI1].RS_oreCarbonaceous*0.01 );
+                  ProdModeDataF2:=FCFcFunc_Rnd( cfrttpVolm3, ProdModeDataF2 );
                   FCMgPS2_ProductionMatrixItem_Add(
                      PMDFFGent
                      ,PMDFFGcol
                      ,PMDFFGsett
                      ,PMDFFGinfra
-                     ,PMDFFGcnt
+                     ,InfraProdModeCount
                      ,'resCarbOre'
-                     ,PMDFFGresCarbonace
+                     ,ProdModeDataF2
                      );
-                  PMDFFGresMetallic:=PMDFFGrmp*( FCRplayer.P_surveyedSpots[PMDFFGsurveyedSpot].SS_surveyedRegions[PMDFFGsurveyedRegion].SR_ResourceSpot[PMDFFGresourceSpot].RS_oreMetallic*0.01 );
-                  PMDFFGresMetallic:=FCFcFunc_Rnd( cfrttpVolm3, PMDFFGresMetallic );
+                  ProdModeDataF3:=ProdModeDataF1*( FCRplayer.P_surveyedSpots[PMDFFGsurveyedSpot].SS_surveyedRegions[ProdModeDataI2].SR_ResourceSpot[ProdModeDataI1].RS_oreMetallic*0.01 );
+                  ProdModeDataF3:=FCFcFunc_Rnd( cfrttpVolm3, ProdModeDataF3 );
                   FCMgPS2_ProductionMatrixItem_Add(
                      PMDFFGent
                      ,PMDFFGcol
                      ,PMDFFGsett
                      ,PMDFFGinfra
-                     ,PMDFFGcnt
+                     ,InfraProdModeCount
                      ,'resMetalOre'
-                     ,PMDFFGresMetallic
+                     ,ProdModeDataF3
                      );
-                  PMDFFGresRareMetal:=PMDFFGrmp*( FCRplayer.P_surveyedSpots[PMDFFGsurveyedSpot].SS_surveyedRegions[PMDFFGsurveyedRegion].SR_ResourceSpot[PMDFFGresourceSpot].RS_oreRare*0.01 );
-                  PMDFFGresRareMetal:=FCFcFunc_Rnd( cfrttpVolm3, PMDFFGresRareMetal );
+                  ProdModeDataF4:=ProdModeDataF1*( FCRplayer.P_surveyedSpots[PMDFFGsurveyedSpot].SS_surveyedRegions[ProdModeDataI2].SR_ResourceSpot[ProdModeDataI1].RS_oreRare*0.01 );
+                  ProdModeDataF4:=FCFcFunc_Rnd( cfrttpVolm3, ProdModeDataF4 );
                   FCMgPS2_ProductionMatrixItem_Add(
                      PMDFFGent
                      ,PMDFFGcol
                      ,PMDFFGsett
                      ,PMDFFGinfra
-                     ,PMDFFGcnt
+                     ,InfraProdModeCount
                      ,'resRareMetOre'
-                     ,PMDFFGresRareMetal
+                     ,ProdModeDataF4
                      );
-                  PMDFFGresUranium:=PMDFFGrmp*( FCRplayer.P_surveyedSpots[PMDFFGsurveyedSpot].SS_surveyedRegions[PMDFFGsurveyedRegion].SR_ResourceSpot[PMDFFGresourceSpot].RS_oreUranium*0.01 );
-                  PMDFFGresUranium:=FCFcFunc_Rnd( cfrttpVolm3, PMDFFGresUranium );
+                  ProdModeDataF5:=ProdModeDataF1*( FCRplayer.P_surveyedSpots[PMDFFGsurveyedSpot].SS_surveyedRegions[ProdModeDataI2].SR_ResourceSpot[ProdModeDataI1].RS_oreUranium*0.01 );
+                  ProdModeDataF5:=FCFcFunc_Rnd( cfrttpVolm3, ProdModeDataF5 );
                   FCMgPS2_ProductionMatrixItem_Add(
                      PMDFFGent
                      ,PMDFFGcol
                      ,PMDFFGsett
                      ,PMDFFGinfra
-                     ,PMDFFGcnt
+                     ,InfraProdModeCount
                      ,'resUrOre'
-                     ,PMDFFGresUranium
+                     ,ProdModeDataF5
                      );
                end;
+               {.staff calculation}
                PMDFFGstaffColonIndex:=FCFgIS_IndexByData_Retrieve( ptColonist, PMDFFGinfraData );
                PMDFFGstaffTechIndex:=FCFgIS_IndexByData_Retrieve( ptTechnic, PMDFFGinfraData );
-               PMDFFGenv:=FCFgC_ColEnv_GetTp( PMDFFGent, PMDFFGcol );
-               PMDFFGrmp:=(
+               ColonyEnvironment:=FCFgC_ColEnv_GetTp( PMDFFGent, PMDFFGcol );
+               ProdModeDataF1:=(
                   ( PMDFFGinfraData.I_reqStaff[PMDFFGstaffColonIndex].RS_requiredByLv[ PMDFFGinfraLevel ]*2 )
                   +( int( PMDFFGinfraData.I_reqStaff[PMDFFGstaffTechIndex].RS_requiredByLv[ PMDFFGinfraLevel ] /3 )*354 )
                   )
-                  *( 1-( 1-PMDFFGenv.ENV_gravity ) );
-               FCentities[PMDFFGent].E_col[PMDFFGcol].COL_settlements[PMDFFGsett].CS_infra[PMDFFGinfra].CI_fprodMode[PMDFFGcnt].PM_energyCons:=FCFcFunc_Rnd( rttPowerKw, PMDFFGrmp );
+                  *( 1-( 1-ColonyEnvironment.ENV_gravity ) );
+               FCentities[PMDFFGent].E_col[PMDFFGcol].COL_settlements[PMDFFGsett].CS_infra[PMDFFGinfra].CI_fprodMode[InfraProdModeCount].PM_energyCons:=FCFcFunc_Rnd( rttPowerKw, ProdModeDataF1 );
+            end; //==END== case of: pmResourceMining ==//
+
+            pmWaterRecovery:
+            begin
+               {.cmyr}
+               ProdModeDataF1:=0;
+               {.l/m2 for 1cm rainfall}
+               ProdModeDataF2:=9.94507683310307;
+               {.universal process efficiency}
+               ProdModeDataF3:=0.95;
+               {.precipitations calculations}
+               ProdModeDataF4:=0;
+               {.region's windspeed}
+               ProdModeDataF5:=0;
+               {.settlement's region number}
+               ProdModeDataI1:=FCentities[PMDFFGent].E_col[PMDFFGcol].COL_settlements[PMDFFGsett].CS_region;
+               {.region's precipitations}
+               ProdModeDataI2:=0;
+               {.we retrieve the colony's orbital object indexes}
+               OrbObjRow:=FCFuF_StelObj_GetFullRow(
+                  FCentities[PMDFFGent].E_col[PMDFFGcol].COL_locSSys
+                  ,FCentities[PMDFFGent].E_col[PMDFFGcol].COL_locStar
+                  ,FCentities[PMDFFGent].E_col[PMDFFGcol].COL_locOObj
+                  ,FCentities[PMDFFGent].E_col[PMDFFGcol].COL_locSat
+                  );
+               {.calculations}
+               FCentities[PMDFFGent].E_col[PMDFFGcol].COL_settlements[PMDFFGsett].CS_infra[PMDFFGinfra].CI_fprodMode[InfraProdModeCount].PM_type:=PMDFFGinfraData.I_fProductionMode[InfraProdModeCount].IPM_productionModes;
+               if OrbObjRow[ 4 ]=0 then
+               begin
+                  {.region's precipitations}
+                  ProdModeDataI2:=FCDBSSys[ OrbObjRow[ 1 ] ].SS_star[ OrbObjRow[ 2 ] ].SDB_obobj[ OrbObjRow[ 3 ] ].OO_regions[ ProdModeDataI1 ].OOR_precip;
+                  {.region's windspeed}
+                  ProdModeDataF5:=FCDBSSys[ OrbObjRow[ 1 ] ].SS_star[ OrbObjRow[ 2 ] ].SDB_obobj[ OrbObjRow[ 3 ] ].OO_regions[ ProdModeDataI1 ].OOR_windSpd;
+               end
+               else if OrbObjRow[ 4 ]>0 then
+               begin
+                  {.region's precipitations}
+                  ProdModeDataI2:=FCDBSSys[ OrbObjRow[ 1 ] ].SS_star[ OrbObjRow[ 2 ] ].SDB_obobj[ OrbObjRow[ 3 ] ].OO_satList[ OrbObjRow[ 4 ] ].OOS_regions[ ProdModeDataI1 ].OOR_precip;
+                  {.region's windspeed}
+                  ProdModeDataF5:=FCDBSSys[ OrbObjRow[ 1 ] ].SS_star[ OrbObjRow[ 2 ] ].SDB_obobj[ OrbObjRow[ 3 ] ].OO_satList[ OrbObjRow[ 4 ] ].OOS_regions[ ProdModeDataI1 ].OOR_windSpd;
+               end;
+               {.cmyr}
+               ProdModeDataF1:=( ProdModeDataI2 / sqrt( ProdModeDataF5 ) )*0.1;
+               {.precipitations calculations}
+               ProdModeDataF4:=( ProdModeDataF1 * PMDFFGinfraData.I_fProductionMode[InfraProdModeCount].WR_roofarea * ProdModeDataF2 * ProdModeDataF3 * 0.001 ) / 8760;
+               {.format and update the production matrix}
+               ProdModeDataF4:=FCFcFunc_Rnd( cfrttpVolm3, ProdModeDataF4 );
+               FCMgPS2_ProductionMatrixItem_Add(
+                  PMDFFGent
+                  ,PMDFFGcol
+                  ,PMDFFGsett
+                  ,PMDFFGinfra
+                  ,InfraProdModeCount
+                  ,'resWater'
+                  ,ProdModeDataF4
+                  );
             end;
          end; //==END== case PMDFFGinfraData.I_fProductionMode[PMDFFGcnt].IPM_productionModes of ==//
       end //==END== if PMDFFGinfraData.I_fProductionMode[PMDFFGcnt].IPM_occupancy>0 then ==//
       else Break;
-      inc(PMDFFGcnt);
+      inc(InfraProdModeCount);
    end; //==END== while PMDFFGcnt<=FCCpModeMax do ==//
 end;
 
