@@ -255,6 +255,7 @@ procedure FCMgPM_ProductionModeDataFromFunction_Generate(
    );
 {:Purpose: generate the production modes' data from the infrastructure's function.
     Additions:
+      -2012Jun01- *add: complete pmWaterRecovery by adding calculation for the atmosphere humidity part and the energy consumption.
       -2012May30- *add: pmWaterRecovery.
       -2012Feb14- *mod: pmResourceMining - new calculation of the energy consumption.
       -2011Dec04- *add: Resource Mining (COMPLETION).
@@ -276,6 +277,8 @@ procedure FCMgPM_ProductionModeDataFromFunction_Generate(
       ,ProdModeDataF5: extended;
 
       ColonyEnvironment: TFCRgcEnvironment;
+
+      AtmosphereGases: TFCRufAtmosphereGasesPercent;
 
       OrbObjRow: TFCRufStelObj;
 begin
@@ -436,7 +439,18 @@ begin
                   ,'resWater'
                   ,ProdModeDataF4
                   );
-            end;
+               {.atmosphere humidity calculations}
+               AtmosphereGases.AGP_primaryGasPercent:=0;
+               AtmosphereGases.AGP_secondaryGasPercent:=0;
+               AtmosphereGases.AGP_traceGasPercent:=0;
+               AtmosphereGases.AtmosphereGases_CalculatePercents(
+                  OrbObjRow[ 1 ]
+                  ,OrbObjRow[ 2 ]
+                  ,OrbObjRow[ 3 ]
+                  ,OrbObjRow[ 4 ]
+                  );
+
+            end; //==END== case of: pmWaterRecovery ==//
          end; //==END== case PMDFFGinfraData.I_fProductionMode[PMDFFGcnt].IPM_productionModes of ==//
       end //==END== if PMDFFGinfraData.I_fProductionMode[PMDFFGcnt].IPM_occupancy>0 then ==//
       else Break;

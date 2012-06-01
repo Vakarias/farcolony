@@ -48,7 +48,37 @@ type TFCEufStelObj=(
    ,ufsoSat
    );
 
+///<summary>
+/// record used to retrieve the volumes taken by the gases. Use the internal AtmosphereGases_CalculatePercents method to calculate them
+///</summary>
+type TFCRufAtmosphereGasesPercent=record
+   AGP_primaryGasPercent: extended;
+   AGP_secondaryGasPercent: extended;
+   AGP_traceGasPercent: extended;
+   ///<summary>
+   ///   calculate the percents of total volume taken by secondary and trace gases
+   ///</summary>
+   ///   <param name="StarSytem">star system index #</param>
+   ///   <param name="Star">star index #</param>
+   ///   <param name="OrbitalObj">orbital object index #</param>
+   ///   <param name="SatelliteObj">[optional] satellite index #</param>
+   ///   <returns>[format x.xx ] load the AGP_primaryGasPercent/AGP_secondaryGasPercent and AGP_traceGasPercent data with results</returns>
+   ///   <remarks>the procedure reset itself the record's data</remarks>
+   procedure AtmosphereGases_CalculatePercents(
+      const StarSytem
+            ,Star
+            ,OrbitalObj
+            ,SatelliteObj: integer
+      );
+end;
+
 type TFCRufStelObj = array[0..4] of integer;
+
+
+
+
+
+
 
 ///<summary>
 ///   get the current season token
@@ -162,6 +192,8 @@ function FCFuF_StelObj_GetFullRow(
          ,SOGFRoobj
          ,SOGFRsat: string
    ): TFCRufStelObj;
+
+//===========================END FUNCTIONS SECTION==========================================
 
 implementation
 
@@ -778,6 +810,22 @@ begin
       ,Result[3]
       )
    else Result[4]:=0;
+end;
+
+//===========================END FUNCTIONS SECTION==========================================
+
+procedure TFCRufAtmosphereGasesPercent.AtmosphereGases_CalculatePercents(
+   const StarSytem
+         ,Star
+         ,OrbitalObj
+         ,SatelliteObj: integer
+   );
+begin
+   {:DEV NOTES: PUT THE OLD DATA: Primary Gas Volume (called GasVol) !}
+//   if OrbitalObj=0
+//   then AGP_primaryGasPercent:=FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_;
+   AGP_secondaryGasPercent:=0;
+   AGP_traceGasPercent:=0;
 end;
 
 end.
