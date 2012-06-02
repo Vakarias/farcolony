@@ -52,17 +52,18 @@ type TFCEufStelObj=(
 /// record used to retrieve the volumes taken by the gases. Use the internal AtmosphereGases_CalculatePercents method to calculate them
 ///</summary>
 type TFCRufAtmosphereGasesPercent=record
-   AGP_primaryGasPercent: extended;
+   AGP_atmosphericPressure: extended;
+   AGP_primaryGasPercent: integer;
    AGP_secondaryGasPercent: extended;
    AGP_traceGasPercent: extended;
    ///<summary>
-   ///   calculate the percents of total volume taken by secondary and trace gases
+   ///   calculate the percents of total volume taken by secondary and trace gases, the percents are by gases
    ///</summary>
    ///   <param name="StarSytem">star system index #</param>
    ///   <param name="Star">star index #</param>
    ///   <param name="OrbitalObj">orbital object index #</param>
    ///   <param name="SatelliteObj">[optional] satellite index #</param>
-   ///   <returns>[format x.xx ] load the AGP_primaryGasPercent/AGP_secondaryGasPercent and AGP_traceGasPercent data with results</returns>
+   ///   <returns>[format x.xx ] load the AGP_primaryGasPercent/AGP_secondaryGasPercent/AGP_traceGasPercent and AGP_atmosphericPressure data with results</returns>
    ///   <remarks>the procedure reset itself the record's data</remarks>
    procedure AtmosphereGases_CalculatePercents(
       const StarSytem
@@ -73,12 +74,6 @@ type TFCRufAtmosphereGasesPercent=record
 end;
 
 type TFCRufStelObj = array[0..4] of integer;
-
-
-
-
-
-
 
 ///<summary>
 ///   get the current season token
@@ -198,7 +193,8 @@ function FCFuF_StelObj_GetFullRow(
 implementation
 
 uses
-   farc_data_init
+   farc_common_func
+   ,farc_data_init
    ,farc_data_textfiles;
 
 //===================================END OF INIT============================================
@@ -820,12 +816,170 @@ procedure TFCRufAtmosphereGasesPercent.AtmosphereGases_CalculatePercents(
          ,OrbitalObj
          ,SatelliteObj: integer
    );
+{:Purpose: calculate the percents of total volume taken by secondary and trace gases, the percents are by gases.
+    Additions:
+}
+   var
+      RestOfGasVolume
+      ,SecondaryGasesCount
+      ,TraceGasesCount: integer;
+
+      TotalPercentForSecondaryGases
+      ,TotalPercentForTraceGases: extended;
 begin
-   {:DEV NOTES: PUT THE OLD DATA: Primary Gas Volume (called GasVol) !}
-//   if OrbitalObj=0
-//   then AGP_primaryGasPercent:=FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_;
+   RestOfGasVolume:=0;
+   SecondaryGasesCount:=0;
+   TraceGasesCount:=0;
+   TotalPercentForSecondaryGases:=0;
+   TotalPercentForTraceGases:=0;
+   AGP_atmosphericPressure:=0;
+   if SatelliteObj=0 then
+   begin
+      AGP_atmosphericPressure:=FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_atmPress;
+      AGP_primaryGasPercent:=FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_atmosph.AC_primaryGasVolumePerc;
+      if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_atmosph.agasH2=agsTrace
+      then inc( TraceGasesCount )
+      else if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_atmosph.agasH2=agsSec
+      then inc( SecondaryGasesCount );
+      if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_atmosph.agasHe=agsTrace
+      then inc( TraceGasesCount )
+      else if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_atmosph.agasHe=agsSec
+      then inc( SecondaryGasesCount );
+      if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_atmosph.agasCH4=agsTrace
+      then inc( TraceGasesCount )
+      else if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_atmosph.agasCH4=agsSec
+      then inc( SecondaryGasesCount );
+      if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_atmosph.agasNH3=agsTrace
+      then inc( TraceGasesCount )
+      else if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_atmosph.agasNH3=agsSec
+      then inc( SecondaryGasesCount );
+      if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_atmosph.agasH2O=agsTrace
+      then inc( TraceGasesCount )
+      else if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_atmosph.agasH2O=agsSec
+      then inc( SecondaryGasesCount );
+      if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_atmosph.agasNe=agsTrace
+      then inc( TraceGasesCount )
+      else if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_atmosph.agasNe=agsSec
+      then inc( SecondaryGasesCount );
+      if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_atmosph.agasN2=agsTrace
+      then inc( TraceGasesCount )
+      else if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_atmosph.agasN2=agsSec
+      then inc( SecondaryGasesCount );
+      if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_atmosph.agasCO=agsTrace
+      then inc( TraceGasesCount )
+      else if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_atmosph.agasCO=agsSec
+      then inc( SecondaryGasesCount );
+      if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_atmosph.agasNO=agsTrace
+      then inc( TraceGasesCount )
+      else if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_atmosph.agasNO=agsSec
+      then inc( SecondaryGasesCount );
+      if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_atmosph.agasO2=agsTrace
+      then inc( TraceGasesCount )
+      else if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_atmosph.agasO2=agsSec
+      then inc( SecondaryGasesCount );
+      if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_atmosph.agasH2S=agsTrace
+      then inc( TraceGasesCount )
+      else if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_atmosph.agasH2S=agsSec
+      then inc( SecondaryGasesCount );
+      if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_atmosph.agasAr=agsTrace
+      then inc( TraceGasesCount )
+      else if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_atmosph.agasAr=agsSec
+      then inc( SecondaryGasesCount );
+      if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_atmosph.agasCO2=agsTrace
+      then inc( TraceGasesCount )
+      else if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_atmosph.agasCO2=agsSec
+      then inc( SecondaryGasesCount );
+      if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_atmosph.agasNO2=agsTrace
+      then inc( TraceGasesCount )
+      else if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_atmosph.agasNO2=agsSec
+      then inc( SecondaryGasesCount );
+      if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_atmosph.agasO3=agsTrace
+      then inc( TraceGasesCount )
+      else if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_atmosph.agasO3=agsSec
+      then inc( SecondaryGasesCount );
+      if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_atmosph.agasSO2=agsTrace
+      then inc( TraceGasesCount )
+      else if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_atmosph.agasSO2=agsSec
+      then inc( SecondaryGasesCount );
+   end //==END== if SatelliteObj=0 then ==//
+   else if SatelliteObj>0 then
+   begin
+      AGP_atmosphericPressure:=FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_satList[ SatelliteObj ].OOS_atmPress;
+      AGP_primaryGasPercent:=FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_satList[ SatelliteObj ].OOS_atmosph.AC_primaryGasVolumePerc;
+      if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_satList[ SatelliteObj ].OOS_atmosph.agasH2=agsTrace
+      then inc( TraceGasesCount )
+      else if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_satList[ SatelliteObj ].OOS_atmosph.agasH2=agsSec
+      then inc( SecondaryGasesCount );
+      if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_satList[ SatelliteObj ].OOS_atmosph.agasHe=agsTrace
+      then inc( TraceGasesCount )
+      else if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_satList[ SatelliteObj ].OOS_atmosph.agasHe=agsSec
+      then inc( SecondaryGasesCount );
+      if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_satList[ SatelliteObj ].OOS_atmosph.agasCH4=agsTrace
+      then inc( TraceGasesCount )
+      else if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_satList[ SatelliteObj ].OOS_atmosph.agasCH4=agsSec
+      then inc( SecondaryGasesCount );
+      if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_satList[ SatelliteObj ].OOS_atmosph.agasNH3=agsTrace
+      then inc( TraceGasesCount )
+      else if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_satList[ SatelliteObj ].OOS_atmosph.agasNH3=agsSec
+      then inc( SecondaryGasesCount );
+      if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_satList[ SatelliteObj ].OOS_atmosph.agasH2O=agsTrace
+      then inc( TraceGasesCount )
+      else if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_satList[ SatelliteObj ].OOS_atmosph.agasH2O=agsSec
+      then inc( SecondaryGasesCount );
+      if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_satList[ SatelliteObj ].OOS_atmosph.agasNe=agsTrace
+      then inc( TraceGasesCount )
+      else if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_satList[ SatelliteObj ].OOS_atmosph.agasNe=agsSec
+      then inc( SecondaryGasesCount );
+      if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_satList[ SatelliteObj ].OOS_atmosph.agasN2=agsTrace
+      then inc( TraceGasesCount )
+      else if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_satList[ SatelliteObj ].OOS_atmosph.agasN2=agsSec
+      then inc( SecondaryGasesCount );
+      if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_satList[ SatelliteObj ].OOS_atmosph.agasCO=agsTrace
+      then inc( TraceGasesCount )
+      else if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_satList[ SatelliteObj ].OOS_atmosph.agasCO=agsSec
+      then inc( SecondaryGasesCount );
+      if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_satList[ SatelliteObj ].OOS_atmosph.agasNO=agsTrace
+      then inc( TraceGasesCount )
+      else if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_satList[ SatelliteObj ].OOS_atmosph.agasNO=agsSec
+      then inc( SecondaryGasesCount );
+      if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_satList[ SatelliteObj ].OOS_atmosph.agasO2=agsTrace
+      then inc( TraceGasesCount )
+      else if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_satList[ SatelliteObj ].OOS_atmosph.agasO2=agsSec
+      then inc( SecondaryGasesCount );
+      if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_satList[ SatelliteObj ].OOS_atmosph.agasH2S=agsTrace
+      then inc( TraceGasesCount )
+      else if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_satList[ SatelliteObj ].OOS_atmosph.agasH2S=agsSec
+      then inc( SecondaryGasesCount );
+      if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_satList[ SatelliteObj ].OOS_atmosph.agasAr=agsTrace
+      then inc( TraceGasesCount )
+      else if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_satList[ SatelliteObj ].OOS_atmosph.agasAr=agsSec
+      then inc( SecondaryGasesCount );
+      if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_satList[ SatelliteObj ].OOS_atmosph.agasCO2=agsTrace
+      then inc( TraceGasesCount )
+      else if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_satList[ SatelliteObj ].OOS_atmosph.agasCO2=agsSec
+      then inc( SecondaryGasesCount );
+      if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_satList[ SatelliteObj ].OOS_atmosph.agasNO2=agsTrace
+      then inc( TraceGasesCount )
+      else if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_satList[ SatelliteObj ].OOS_atmosph.agasNO2=agsSec
+      then inc( SecondaryGasesCount );
+      if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_satList[ SatelliteObj ].OOS_atmosph.agasO3=agsTrace
+      then inc( TraceGasesCount )
+      else if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_satList[ SatelliteObj ].OOS_atmosph.agasO3=agsSec
+      then inc( SecondaryGasesCount );
+      if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_satList[ SatelliteObj ].OOS_atmosph.agasSO2=agsTrace
+      then inc( TraceGasesCount )
+      else if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_satList[ SatelliteObj ].OOS_atmosph.agasSO2=agsSec
+      then inc( SecondaryGasesCount );
+   end; //==END== else if SatelliteObj>0 then ==//
    AGP_secondaryGasPercent:=0;
    AGP_traceGasPercent:=0;
+   RestOfGasVolume:=100-AGP_primaryGasPercent;
+   TotalPercentForTraceGases:=( RestOfGasVolume * TraceGasesCount ) / 200;
+   TotalPercentForSecondaryGases:=RestOfGasVolume - TotalPercentForTraceGases;
+   AGP_secondaryGasPercent:=TotalPercentForSecondaryGases / SecondaryGasesCount;
+   AGP_secondaryGasPercent:=FCFcFunc_Rnd( cfrttp2dec, AGP_secondaryGasPercent );
+   AGP_traceGasPercent:=TotalPercentForTraceGases / TraceGasesCount;
+   AGP_traceGasPercent:=FCFcFunc_Rnd( cfrttp2dec, AGP_traceGasPercent );
 end;
 
 end.

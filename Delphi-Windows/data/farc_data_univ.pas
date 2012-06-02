@@ -257,9 +257,10 @@ interface
          agsMain        {main gas}
       );
 
-   {:DEV NOTES: ****you need to update FARC.main.odt when updating this data structure****}
-      {atmospheric composition data structure}
+   {.atmospheric composition data structure}
+   {:DEV NOTES: update universe.xml + FCMdF_DBstarSys_Process.}
    type TFCRatmComp = record
+      AC_primaryGasVolumePerc: integer;
          {hydrogen}
       agasH2: TFCEatmGasStat;
          {helium}

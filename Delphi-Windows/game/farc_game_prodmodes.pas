@@ -255,7 +255,7 @@ procedure FCMgPM_ProductionModeDataFromFunction_Generate(
    );
 {:Purpose: generate the production modes' data from the infrastructure's function.
     Additions:
-      -2012Jun01- *add: complete pmWaterRecovery by adding calculation for the atmosphere humidity part and the energy consumption.
+      -2012Jun02- *add: complete pmWaterRecovery by adding calculation for the atmosphere humidity part and the energy consumption.
       -2012May30- *add: pmWaterRecovery.
       -2012Feb14- *mod: pmResourceMining - new calculation of the energy consumption.
       -2011Dec04- *add: Resource Mining (COMPLETION).
@@ -265,16 +265,17 @@ procedure FCMgPM_ProductionModeDataFromFunction_Generate(
    var
       InfraProdModeCount
       ,ProdModeDataI1
-      ,PMDFFGstaffColonIndex
       ,PMDFFGstaffTechIndex
       ,ProdModeDataI2
+      ,ProdModeDataI3
       ,PMDFFGsurveyedSpot: integer;
 
       ProdModeDataF1
       ,ProdModeDataF2
       ,ProdModeDataF3
       ,ProdModeDataF4
-      ,ProdModeDataF5: extended;
+      ,ProdModeDataF5
+      ,ProdModeDataF6: extended;
 
       ColonyEnvironment: TFCRgcEnvironment;
 
@@ -292,7 +293,7 @@ begin
 
             pmResourceMining:
             begin
-               {.resource mining production}
+               {.resource mining production / production mode's energy consumption}
                ProdModeDataF1:=0;
                {.RMP for carbonaceous ore}
                ProdModeDataF2:=0;
@@ -306,11 +307,16 @@ begin
                ProdModeDataI1:=0;
                {.surveyed region index}
                ProdModeDataI2:=0;
+               {.staff colonists index}
+               ProdModeDataI3:=0;
                {.calculations}
                FCentities[PMDFFGent].E_col[PMDFFGcol].COL_settlements[PMDFFGsett].CS_infra[PMDFFGinfra].CI_fprodMode[InfraProdModeCount].PM_type:=PMDFFGinfraData.I_fProductionMode[InfraProdModeCount].IPM_productionModes;
                PMDFFGsurveyedSpot:=FCentities[PMDFFGent].E_col[PMDFFGcol].COL_settlements[PMDFFGsett].CS_infra[PMDFFGinfra].CI_fprodSurveyedSpot;
+               {.surveyed region index}
                ProdModeDataI2:=FCentities[PMDFFGent].E_col[PMDFFGcol].COL_settlements[PMDFFGsett].CS_infra[PMDFFGinfra].CI_fprodSurveyedRegion;
+               {.resource spot index}
                ProdModeDataI1:=FCentities[PMDFFGent].E_col[PMDFFGcol].COL_settlements[PMDFFGsett].CS_infra[PMDFFGinfra].CI_fprodResourceSpot;
+               {.resource mining production calculation}
                ProdModeDataF1:=( ( power( PMDFFGinfraData.I_surface[PMDFFGinfraLevel], 0.333 ) + power( PMDFFGinfraData.I_volume[PMDFFGinfraLevel], 0.111 ) )*0.5 )
                   * FCRplayer.P_surveyedSpots[PMDFFGsurveyedSpot].SS_surveyedRegions[ProdModeDataI2].SR_ResourceSpot[ProdModeDataI1].RS_MQC
                   * (PMDFFGinfraData.I_fProductionMode[InfraProdModeCount].IPM_occupancy*0.01);
@@ -373,12 +379,13 @@ begin
                      ,ProdModeDataF5
                      );
                end;
-               {.staff calculation}
-               PMDFFGstaffColonIndex:=FCFgIS_IndexByData_Retrieve( ptColonist, PMDFFGinfraData );
+               {.staff colonists index}
+               ProdModeDataI3:=FCFgIS_IndexByData_Retrieve( ptColonist, PMDFFGinfraData );
                PMDFFGstaffTechIndex:=FCFgIS_IndexByData_Retrieve( ptTechnic, PMDFFGinfraData );
                ColonyEnvironment:=FCFgC_ColEnv_GetTp( PMDFFGent, PMDFFGcol );
+               {.production mode's energy consumption calculation}
                ProdModeDataF1:=(
-                  ( PMDFFGinfraData.I_reqStaff[PMDFFGstaffColonIndex].RS_requiredByLv[ PMDFFGinfraLevel ]*2 )
+                  ( PMDFFGinfraData.I_reqStaff[ProdModeDataI3].RS_requiredByLv[ PMDFFGinfraLevel ]*2 )
                   +( int( PMDFFGinfraData.I_reqStaff[PMDFFGstaffTechIndex].RS_requiredByLv[ PMDFFGinfraLevel ] /3 )*354 )
                   )
                   *( 1-( 1-ColonyEnvironment.ENV_gravity ) );
@@ -397,10 +404,14 @@ begin
                ProdModeDataF4:=0;
                {.region's windspeed}
                ProdModeDataF5:=0;
+               {.atmospheric humidity calculations}
+               ProdModeDataF6:=0;
                {.settlement's region number}
                ProdModeDataI1:=FCentities[PMDFFGent].E_col[PMDFFGcol].COL_settlements[PMDFFGsett].CS_region;
                {.region's precipitations}
                ProdModeDataI2:=0;
+               {.H2O gas status}
+               ProdModeDataI3:=0;
                {.we retrieve the colony's orbital object indexes}
                OrbObjRow:=FCFuF_StelObj_GetFullRow(
                   FCentities[PMDFFGent].E_col[PMDFFGcol].COL_locSSys
@@ -416,6 +427,9 @@ begin
                   ProdModeDataI2:=FCDBSSys[ OrbObjRow[ 1 ] ].SS_star[ OrbObjRow[ 2 ] ].SDB_obobj[ OrbObjRow[ 3 ] ].OO_regions[ ProdModeDataI1 ].OOR_precip;
                   {.region's windspeed}
                   ProdModeDataF5:=FCDBSSys[ OrbObjRow[ 1 ] ].SS_star[ OrbObjRow[ 2 ] ].SDB_obobj[ OrbObjRow[ 3 ] ].OO_regions[ ProdModeDataI1 ].OOR_windSpd;
+                  {.H2O gas status}
+                  ProdModeDataI3:=Integer(FCDBSSys[ OrbObjRow[ 1 ] ].SS_star[ OrbObjRow[ 2 ] ].SDB_obobj[ OrbObjRow[ 3 ] ].OO_atmosph.agasH2O);
+                  FCWinDebug.AdvMemo1.Lines.Add('H2O gas status='+inttostr(ProdModeDataI3));
                end
                else if OrbObjRow[ 4 ]>0 then
                begin
@@ -423,6 +437,8 @@ begin
                   ProdModeDataI2:=FCDBSSys[ OrbObjRow[ 1 ] ].SS_star[ OrbObjRow[ 2 ] ].SDB_obobj[ OrbObjRow[ 3 ] ].OO_satList[ OrbObjRow[ 4 ] ].OOS_regions[ ProdModeDataI1 ].OOR_precip;
                   {.region's windspeed}
                   ProdModeDataF5:=FCDBSSys[ OrbObjRow[ 1 ] ].SS_star[ OrbObjRow[ 2 ] ].SDB_obobj[ OrbObjRow[ 3 ] ].OO_satList[ OrbObjRow[ 4 ] ].OOS_regions[ ProdModeDataI1 ].OOR_windSpd;
+                  {.H2O gas status}
+                  ProdModeDataI3:=Integer(FCDBSSys[ OrbObjRow[ 1 ] ].SS_star[ OrbObjRow[ 2 ] ].SDB_obobj[ OrbObjRow[ 3 ] ].OO_satList[ OrbObjRow[ 4 ] ].OOS_atmosph.agasH2O);
                end;
                {.cmyr}
                ProdModeDataF1:=( ProdModeDataI2 / sqrt( ProdModeDataF5 ) )*0.1;
@@ -449,7 +465,14 @@ begin
                   ,OrbObjRow[ 3 ]
                   ,OrbObjRow[ 4 ]
                   );
-
+               {.atmospheric humidity calculations}
+               if ProdModeDataI3=1
+               then ProdModeDataF6:=AtmosphereGases.AGP_traceGasPercent * 0.01
+               else if ProdModeDataI3=2
+               then ProdModeDataF6:=AtmosphereGases.AGP_secondaryGasPercent * 0.01
+               else if ProdModeDataI3=3
+               then ProdModeDataF6:=AtmosphereGases.AGP_primaryGasPercent * 0.01;
+               ProdModeDataF6:=ProdModeDataF6 * ( AtmosphereGases.AGP_atmosphericPressure * 0.001 ) * PMDFFGinfraData.I_fProductionMode[InfraProdModeCount].WR_traparea;
             end; //==END== case of: pmWaterRecovery ==//
          end; //==END== case PMDFFGinfraData.I_fProductionMode[PMDFFGcnt].IPM_productionModes of ==//
       end //==END== if PMDFFGinfraData.I_fProductionMode[PMDFFGcnt].IPM_occupancy>0 then ==//

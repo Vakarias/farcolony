@@ -41,6 +41,14 @@ uses
 ///   <param name="EHQSinfra">infrastructure to examine</param>
 function FCFgICFX_EffectHQ_Search( const EHQSinfra: TFCRdipInfrastructure ): TFCEdgHQstatus;
 
+///<summary>
+///   search if a given infrastructure has a custom effect Product Storage that contain liquid storage
+///</summary>
+///   <param name="InfraData">infrastructure to examine</param>
+///   <param name="OwnedInfraLevel">owned infrastructure's level</param>
+///   <returns>the storage's value in cubic meters, as stored in the database, relative to the given infrastructure's level. Returns 0 if not found</returns>
+function FCFgICFX_EffectStorageLiquid_Search( const InfraData: TFCRdipInfrastructure; OwnedInfraLevel: integer ): double;
+
 //===========================END FUNCTIONS SECTION==========================================
 
 ///<summary>
@@ -118,6 +126,20 @@ begin
       end;
       inc(EHQScfxCnt);
    end;
+end;
+
+function FCFgICFX_EffectStorageLiquid_Search( const InfraData: TFCRdipInfrastructure; OwnedInfraLevel: integer ): double;
+{:Purpose: search if a given infrastructure has a custom effect Product Storage that contain liquid storage.
+    Additions:
+}
+   var
+      Count
+      ,Max: integer;
+begin
+   Result:=0;
+   Count:=1;
+   Max:=Length( InfraData.I_customFx )-1;
+
 end;
 
 //===========================END FUNCTIONS SECTION==========================================

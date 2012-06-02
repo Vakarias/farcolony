@@ -1666,6 +1666,7 @@ procedure FCMdF_DBstarSys_Process(
    );
 {:Purpose: read the universe database xml file.
    Additions:
+      -2012Jun02- *add: primary gas volume.
       -2011Oct09- *mod: optimize how the star class is loaded, many lines of code removed.
                   *mod: optimize how the companion star's orbit type is loaded, some lines of code removed.
                   *mod: optimize how the orbital object type is loaded, many lines of code removed.
@@ -1887,6 +1888,8 @@ begin
                            FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_atmPress:=DBSSPorbObjNode.Attributes['ooatmpres'];
                            {.clouds cover}
                            FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_cloudsCov:=DBSSPorbObjNode.Attributes['oocloudscov'];
+                           {.primary gas volume}
+                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_atmosph.AC_primaryGasVolumePerc:=DBSSPorbObjNode.Attributes['atmprimgasvol'];
                            {.atmospheric composition}
                            FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_atmosph.agasH2:=DBSSPorbObjNode.Attributes['atmH2'];
                            FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_atmosph.agasHe:=DBSSPorbObjNode.Attributes['atmHe'];
@@ -2117,6 +2120,8 @@ begin
                                  FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_atmPress:=DBSSPsatNode.Attributes['satatmpres'];
                                  {.clouds cover}
                                  FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_cloudsCov:=DBSSPsatNode.Attributes['satcloudscov'];
+                                 {.primary gas volume}
+                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_atmosph.AC_primaryGasVolumePerc:=DBSSPorbObjNode.Attributes['atmprimgasvol'];
                                  {.atmospheric composition}
                                  FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_atmosph.agasH2:=DBSSPsatNode.Attributes['atmH2'];
                                  FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_atmosph.agasHe:=DBSSPsatNode.Attributes['atmHe'];
