@@ -98,6 +98,7 @@ uses
    ,farc_gfx_core
    ,farc_main
    ,farc_ui_coldatapanel
+   ,farc_ui_coredatadisplay
    ,farc_ui_msges
    ,farc_ui_surfpanel
    ,farc_ui_win
@@ -120,6 +121,7 @@ procedure FCMgC_Colonize_PostProc(
    );
 {:Purpose: colonize mission - post process.
     Additions:
+      -2012Jun03- *mod: the colony panel is correctly updated when a colonization mission is completed and the surface panel is displayed.
       -2011Nov17- *add: update hardcoded resource data w/ updated data structure.
       -2011Oct19- *add: update hardcoded resource data w/ Ore Field specific values.
       -2011Oct11- *add: hardcoded resource spots data.
@@ -267,8 +269,18 @@ begin
       and (surfaceSat=CPPsatIdx)
    then
    begin
-      FCWinMain.FCWM_ColDPanel.Show;
-      FCMuiSP_Panel_Relocate( false );
+      FCMuiCDD_Colony_Update(
+         cdlAll
+         ,CPPcolIdx
+         ,CPPsettlement
+         ,0
+         ,false
+         ,false
+         ,true
+         );
+
+//      FCWinMain.FCWM_ColDPanel.Show;
+//      FCMuiSP_Panel_Relocate( false );
    end;
 end;
 
