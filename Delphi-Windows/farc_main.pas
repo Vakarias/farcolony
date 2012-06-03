@@ -1668,8 +1668,13 @@ begin
    {.set the paths}
    FCVpathGame:=ExtractFilePath(Application.ExeName);
    FCVcfgDir:=FCFcFunc_WinFolders_GetMyDocs(false);
-   if DecimalSeparator=','
-   then DecimalSeparator:='.';
+//   if DecimalSeparator=','
+//   then
+   //prevent unwanted re-setting of DefaultFormatsettings
+  Application.UpdateFormatSettings := False;
+  //Now it is safe to set this for the lifetime of my app
+
+   DecimalSeparator:='.';
    RandSeed:=GetTickCount;
    FCVpathCfg:=FCVcfgDir+'config.xml';
    {.initialize some global data and acces to the configuration file}
