@@ -123,6 +123,7 @@ procedure FCMuiCDD_Colony_Update(
    );
 {:Purpose: core data display refresh for colony data. Update the Colony Data Panel and the related UMI tabs if required.
     Additions:
+      -2012Jun03- *mod: remove isColonyDataPanelShown, change conditions and display the colony panel if it's not the case.
       -2012Apr16- *add: reserves (COMPLETION).
       -2012Apr15- *add: reserves.
       -2012Feb26- *add: new parameter SecondaryIndex.
@@ -141,13 +142,15 @@ procedure FCMuiCDD_Colony_Update(
       ,ReturnInt1
       ,ReturnInt2: integer;
 
-      isColonyDataPanelShown: boolean;
+//      isColonyDataPanelShown: boolean;
 begin
-   isColonyDataPanelShown:=false;
+//   isColonyDataPanelShown:=false;
    ColonyDataPanelColony:=FCFuiCDP_VarCurrentColony_Get;
    ColonyDataPanelSettlement:=FCFuiCDP_VarCurrentSettlement_Get;
-   if ( FCWinMain.FCWM_ColDPanel.Visible )
-      and (
+   if
+//   ( FCWinMain.FCWM_ColDPanel.Visible )
+//      and
+      (
          ( not isMustbeTheSameColony )
          or ( ( isMustbeTheSameColony ) and ( Colony=ColonyDataPanelColony ) )
          )
@@ -155,286 +158,286 @@ begin
          ( not isMustBeTheSameSettlement )
          or ( ( isMustBeTheSameSettlement ) and ( SettlementStorageItemIndex=ColonyDataPanelSettlement ) )
          )
-   then isColonyDataPanelShown:=true;
-   case DataType of
-      cdlAll:
-      begin
-         if isColonyDataPanelShown then
+   then begin
+      if not (FCWinMain.FCWM_ColDPanel.Visible)
+         and (FCWinMain.FCWM_SurfPanel.Visible)
+      then FCWinMain.FCWM_ColDPanel.Show;
+//   isColonyDataPanelShown:=true;
+      case DataType of
+         cdlAll:
          begin
+//            if isColonyDataPanelShown then
+//            begin
+               FCMuiCDP_Data_Update(
+                  dtAll
+                  ,Colony
+                  ,SettlementStorageItemIndex
+                  ,0
+                  );
+               {.update the surface panel if needed}
+               if isSurfacePanelUpdate then
+               begin
+                  ReturnInt1:=FCFuiSP_VarCurrentOObj_Get;
+                  ReturnInt2:=FCFuiSP_VarCurrentSat_Get;
+                  FCMuiSP_SurfaceEcosphere_Set(
+                     ReturnInt1
+                     ,ReturnInt2
+                     ,false
+                     );
+               end;
+//            end;
+            {:DEV NOTES: also update the UMI here (full entry in the colonies list).}
+            {:DEV NOTES: update the 3d w/ colony name here, if required.}
+         end;
+
+         cdlLevel:
+         begin
+//            if isColonyDataPanelShown
+//            then
             FCMuiCDP_Data_Update(
-               dtAll
+               dtLvl
                ,Colony
                ,SettlementStorageItemIndex
                ,0
                );
-            {.update the surface panel if needed}
-            if isSurfacePanelUpdate then
+         end;
+
+         cdlDataCohesion:
+         begin
+//            if isColonyDataPanelShown
+//            then
+            FCMuiCDP_Data_Update(
+               dtCohes
+               ,Colony
+               ,SettlementStorageItemIndex
+               ,0
+               );
+            {:DEV NOTES: update UMI here w/ colonies' list.}
+         end;
+
+         cdlDataSecurity:
+         begin
+//            if isColonyDataPanelShown
+//            then
+            FCMuiCDP_Data_Update(
+               dtSecu
+               ,Colony
+               ,SettlementStorageItemIndex
+               ,0
+               );
+         end;
+
+         cdlDataTension:
+         begin
+//            if isColonyDataPanelShown
+//            then
+            FCMuiCDP_Data_Update(
+               dtTens
+               ,Colony
+               ,SettlementStorageItemIndex
+               ,0
+               );
+         end;
+
+         cdlDataEducation:
+         begin
+//            if isColonyDataPanelShown
+//            then
+             FCMuiCDP_Data_Update(
+               dtEdu
+               ,Colony
+               ,SettlementStorageItemIndex
+               ,0
+               );
+         end;
+
+         cdlDataHealth:
+         begin
+//            if isColonyDataPanelShown
+//            then
+            FCMuiCDP_Data_Update(
+               dtHeal
+               ,Colony
+               ,SettlementStorageItemIndex
+               ,0
+               );
+         end;
+
+         cdlDataCSMenergy:
+         begin
+//            if isColonyDataPanelShown
+//            then
+            FCMuiCDP_Data_Update(
+               dtCSMenergy
+               ,Colony
+               ,SettlementStorageItemIndex
+               ,0
+               );
+            if Assigned(FCcps)
+            then FCcps.FCF_ViabObj_Use( otEcoEnEff );
+         end;
+
+         cdlDataPopulation:
+         begin
+            if FCWinMain.FCWM_CDPepi.ActivePage=FCWinMain.FCWM_CDPpopul
+            then FCMuiCDP_Data_Update(
+               dtPopAll
+               ,Colony
+               ,SettlementStorageItemIndex
+               ,0
+               );
+         end;
+
+         cdlCSMevents:
+         begin
+            if FCWinMain.FCWM_CDPepi.ActivePage=FCWinMain.FCWM_CDPcsme
+            then FCMuiCDP_Data_Update(
+               dtCSMev
+               ,Colony
+               ,SettlementStorageItemIndex
+               ,0
+               );
+         end;
+
+         cdlInfrastructuresAll:
+         begin
+            if FCWinMain.FCWM_CDPepi.ActivePage=FCWinMain.FCWM_CDPinfr
+            then FCMuiCDP_Data_Update(
+               dtInfraAll
+               ,Colony
+               ,SettlementStorageItemIndex
+               ,0
+               );
+         end;
+
+         cdlInfrastructuresOwned:
+         begin
+            if FCWinMain.FCWM_CDPepi.ActivePage=FCWinMain.FCWM_CDPinfr
+            then FCMuiCDP_Data_Update(
+               dtInfraOwned
+               ,Colony
+               ,SettlementStorageItemIndex
+               ,0
+               );
+         end;
+
+         cdlInfrastructuresOwnedIndex:
+         begin
+            if FCWinMain.FCWM_CDPepi.ActivePage=FCWinMain.FCWM_CDPinfr
+            then FCMuiCDP_Data_Update(
+               dtInfraOwned
+               ,Colony
+               ,SettlementStorageItemIndex
+               ,SecondaryIndex
+               );
+         end;
+
+         cdlInfrastructuresAvail:
+         begin
+            if FCWinMain.FCWM_CDPepi.ActivePage=FCWinMain.FCWM_CDPinfr
+            then FCMuiCDP_Data_Update(
+               dtInfraAvail
+               ,Colony
+               ,SettlementStorageItemIndex
+               ,0
+               );
+         end;
+
+         cdlStorageAll:
+         begin
+            if FCWinMain.FCWM_CDPepi.ActivePage=FCWinMain.FCWM_CDPstorage
+            then FCMuiCDP_Data_Update(
+               dtStorageAll
+               ,Colony
+               ,SettlementStorageItemIndex
+               ,0
+               );
+         end;
+
+         cdlStorageItem:
+         begin
+            if FCWinMain.FCWM_CDPepi.ActivePage=FCWinMain.FCWM_CDPstorage then
             begin
-               ReturnInt1:=FCFuiSP_VarCurrentOObj_Get;
-               ReturnInt2:=FCFuiSP_VarCurrentSat_Get;
-               FCMuiSP_SurfaceEcosphere_Set(
-                  ReturnInt1
-                  ,ReturnInt2
-                  ,false
+               FCMuiCDP_Data_Update(
+                  dtStorageIndex
+                  ,Colony
+                  ,0
+                  ,SettlementStorageItemIndex
                   );
+               ReturnInt1:=FCFgP_Product_GetIndex( FCEntities[ 0 ].E_col[ Colony ].COL_storageList[ SettlementStorageItemIndex ].CPR_token );
+               case FCDBProducts[ ReturnInt1 ].PROD_storage of
+                  stSolid: FCMuiCDP_Data_Update(
+                     dtStorageCapSolid
+                     ,Colony
+                     ,0
+                     ,0
+                     );
+
+                  stLiquid:FCMuiCDP_Data_Update(
+                     dtStorageCapLiquid
+                     ,Colony
+                     ,0
+                     ,0
+                     );
+
+                  stGas:FCMuiCDP_Data_Update(
+                     dtStorageCapGas
+                     ,Colony
+                     ,0
+                     ,0
+                     );
+
+                  stBiologic:FCMuiCDP_Data_Update(
+                     dtStorageCapBio
+                     ,Colony
+                     ,0
+                     ,0
+                     );
+               end;
             end;
          end;
-         {:DEV NOTES: also update the UMI here (full entry in the colonies list).}
-         {:DEV NOTES: update the 3d w/ colony name here, if required.}
-      end;
 
-      cdlLevel:
-      begin
-         if isColonyDataPanelShown
-         then FCMuiCDP_Data_Update(
-            dtLvl
-            ,Colony
-            ,SettlementStorageItemIndex
-            ,0
-            );
-      end;
-
-      cdlDataCohesion:
-      begin
-         if isColonyDataPanelShown
-         then FCMuiCDP_Data_Update(
-            dtCohes
-            ,Colony
-            ,SettlementStorageItemIndex
-            ,0
-            );
-         {:DEV NOTES: update UMI here w/ colonies' list.}
-      end;
-
-      cdlDataSecurity:
-      begin
-         if isColonyDataPanelShown
-         then FCMuiCDP_Data_Update(
-            dtSecu
-            ,Colony
-            ,SettlementStorageItemIndex
-            ,0
-            );
-      end;
-
-      cdlDataTension:
-      begin
-         if isColonyDataPanelShown
-         then FCMuiCDP_Data_Update(
-            dtTens
-            ,Colony
-            ,SettlementStorageItemIndex
-            ,0
-            );
-      end;
-
-      cdlDataEducation:
-      begin
-         if isColonyDataPanelShown
-         then FCMuiCDP_Data_Update(
-            dtEdu
-            ,Colony
-            ,SettlementStorageItemIndex
-            ,0
-            );
-      end;
-
-      cdlDataHealth:
-      begin
-         if isColonyDataPanelShown
-         then FCMuiCDP_Data_Update(
-            dtHeal
-            ,Colony
-            ,SettlementStorageItemIndex
-            ,0
-            );
-      end;
-
-      cdlDataCSMenergy:
-      begin
-         if isColonyDataPanelShown
-         then FCMuiCDP_Data_Update(
-            dtCSMenergy
-            ,Colony
-            ,SettlementStorageItemIndex
-            ,0
-            );
-         if Assigned(FCcps)
-         then FCcps.FCF_ViabObj_Use( otEcoEnEff );
-      end;
-
-      cdlDataPopulation:
-      begin
-         if ( isColonyDataPanelShown )
-            and (FCWinMain.FCWM_CDPepi.ActivePage=FCWinMain.FCWM_CDPpopul)
-         then FCMuiCDP_Data_Update(
-            dtPopAll
-            ,Colony
-            ,SettlementStorageItemIndex
-            ,0
-            );
-      end;
-
-      cdlCSMevents:
-      begin
-         if ( isColonyDataPanelShown )
-            and (FCWinMain.FCWM_CDPepi.ActivePage=FCWinMain.FCWM_CDPcsme)
-         then FCMuiCDP_Data_Update(
-            dtCSMev
-            ,Colony
-            ,SettlementStorageItemIndex
-            ,0
-            );
-      end;
-
-      cdlInfrastructuresAll:
-      begin
-         if ( isColonyDataPanelShown )
-            and (FCWinMain.FCWM_CDPepi.ActivePage=FCWinMain.FCWM_CDPinfr)
-         then FCMuiCDP_Data_Update(
-            dtInfraAll
-            ,Colony
-            ,SettlementStorageItemIndex
-            ,0
-            );
-      end;
-
-      cdlInfrastructuresOwned:
-      begin
-         if ( isColonyDataPanelShown )
-            and (FCWinMain.FCWM_CDPepi.ActivePage=FCWinMain.FCWM_CDPinfr)
-         then FCMuiCDP_Data_Update(
-            dtInfraOwned
-            ,Colony
-            ,SettlementStorageItemIndex
-            ,0
-            );
-      end;
-
-      cdlInfrastructuresOwnedIndex:
-      begin
-         if ( isColonyDataPanelShown )
-            and (FCWinMain.FCWM_CDPepi.ActivePage=FCWinMain.FCWM_CDPinfr)
-         then FCMuiCDP_Data_Update(
-            dtInfraOwned
-            ,Colony
-            ,SettlementStorageItemIndex
-            ,SecondaryIndex
-            );
-      end;
-
-      cdlInfrastructuresAvail:
-      begin
-         if ( isColonyDataPanelShown )
-            and (FCWinMain.FCWM_CDPepi.ActivePage=FCWinMain.FCWM_CDPinfr)
-         then FCMuiCDP_Data_Update(
-            dtInfraAvail
-            ,Colony
-            ,SettlementStorageItemIndex
-            ,0
-            );
-      end;
-
-      cdlStorageAll:
-      begin
-         if ( isColonyDataPanelShown )
-            and (FCWinMain.FCWM_CDPepi.ActivePage=FCWinMain.FCWM_CDPstorage)
-         then FCMuiCDP_Data_Update(
-            dtStorageAll
-            ,Colony
-            ,SettlementStorageItemIndex
-            ,0
-            );
-      end;
-
-      cdlStorageItem:
-      begin
-         if ( isColonyDataPanelShown )
-            and (FCWinMain.FCWM_CDPepi.ActivePage=FCWinMain.FCWM_CDPstorage) then
+         cdlReserveAll:
          begin
             FCMuiCDP_Data_Update(
-               dtStorageIndex
+               dtReservesAll
                ,Colony
-               ,0
                ,SettlementStorageItemIndex
+               ,0
                );
-            ReturnInt1:=FCFgP_Product_GetIndex( FCEntities[ 0 ].E_col[ Colony ].COL_storageList[ SettlementStorageItemIndex ].CPR_token );
-            case FCDBProducts[ ReturnInt1 ].PROD_storage of
-               stSolid: FCMuiCDP_Data_Update(
-                  dtStorageCapSolid
-                  ,Colony
-                  ,0
-                  ,0
-                  );
-
-               stLiquid:FCMuiCDP_Data_Update(
-                  dtStorageCapLiquid
-                  ,Colony
-                  ,0
-                  ,0
-                  );
-
-               stGas:FCMuiCDP_Data_Update(
-                  dtStorageCapGas
-                  ,Colony
-                  ,0
-                  ,0
-                  );
-
-               stBiologic:FCMuiCDP_Data_Update(
-                  dtStorageCapBio
-                  ,Colony
-                  ,0
-                  ,0
-                  );
-            end;
          end;
-      end;
 
-      cdlReserveAll:
-      begin
-         if isColonyDataPanelShown
-         then FCMuiCDP_Data_Update(
-            dtReservesAll
-            ,Colony
-            ,SettlementStorageItemIndex
-            ,0
-            );
-      end;
+         cdlReserveOxy:
+         begin
+            FCMuiCDP_Data_Update(
+               dtReservesOxy
+               ,Colony
+               ,SettlementStorageItemIndex
+               ,0
+               );
+         end;
 
-      cdlReserveOxy:
-      begin
-         if isColonyDataPanelShown
-         then FCMuiCDP_Data_Update(
-            dtReservesOxy
-            ,Colony
-            ,SettlementStorageItemIndex
-            ,0
-            );
-      end;
+         cdlReserveFood:
+         begin
+            FCMuiCDP_Data_Update(
+               dtReservesFood
+               ,Colony
+               ,SettlementStorageItemIndex
+               ,0
+               );
+         end;
 
-      cdlReserveFood:
-      begin
-         if isColonyDataPanelShown
-         then FCMuiCDP_Data_Update(
-            dtReservesFood
-            ,Colony
-            ,SettlementStorageItemIndex
-            ,0
-            );
-      end;
-
-      cdlReserveWater:
-      begin
-         if isColonyDataPanelShown
-         then FCMuiCDP_Data_Update(
-            dtReservesWater
-            ,Colony
-            ,SettlementStorageItemIndex
-            ,0
-            );
-      end;
-   end; //==END== case DataType of ==//
+         cdlReserveWater:
+         begin
+            FCMuiCDP_Data_Update(
+               dtReservesWater
+               ,Colony
+               ,SettlementStorageItemIndex
+               ,0
+               );
+         end;
+      end; //==END== case DataType of ==//
+   end;
 end;
 
 procedure FCMuiCDD_Production_Update(
