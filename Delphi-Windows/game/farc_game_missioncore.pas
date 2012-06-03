@@ -582,6 +582,7 @@ procedure FCMgMCore_Mission_Setup(
    );
 {:Purpose: Interplanetary transit mission setup.
     Additions:
+      -2012Jun03- *add: close the colony data panel.
       -2011Feb12- *add: settlements initialization.
                   *mod: adjust location of colonization mission interface elements.
                   *mod: for the interplanetary transit mission, fix the trackbar label to correctly display the part of used reaction mass.
@@ -627,6 +628,7 @@ begin
    {.pre initialization for all the missions}
    FCWinMain.FCWM_MissionSettings.Enabled:=true;
    FCMuiM_MessageBox_ResetState(true);
+   FCWinMain.FCWM_ColDPanel.Hide;
    FCWinMain.FCWMS_Grp_MCGColName.Text:='';
    GMCAccelG:=0;
    GMCbaseDist:=0;
