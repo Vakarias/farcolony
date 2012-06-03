@@ -1733,8 +1733,8 @@ begin
             :=FC3DmatLibSplanT.Materials.Items[0].Material.BackProperties.Diffuse.Color;
          FC3DobjPlan[OOGobjIdx].Material.BackProperties.Emission.Color
             :=FC3DmatLibSplanT.Materials.Items[0].Material.BackProperties.Emission.Color;
-         FC3DobjPlan[OOGobjIdx].Material.PolygonMode
-            :=FC3DmatLibSplanT.Materials.Items[0].Material.PolygonMode;
+//         FC3DobjPlan[OOGobjIdx].Material.PolygonMode
+//            :=FC3DmatLibSplanT.Materials.Items[0].Material.PolygonMode;
          FC3DobjPlan[OOGobjIdx].Material.BackProperties.Shininess
             :=FC3DmatLibSplanT.Materials.Items[0].Material.BackProperties.Shininess;
          FC3DobjPlan[OOGobjIdx].Material.BackProperties.Specular.Color
@@ -1745,18 +1745,18 @@ begin
          FC3DobjPlan[OOGobjIdx].Material.FrontProperties.Diffuse:=FC3DmatLibSplanT.Materials.Items[0].Material.FrontProperties.Diffuse;
          FC3DobjPlan[OOGobjIdx].Material.FrontProperties.Emission
             :=FC3DmatLibSplanT.Materials.Items[0].Material.FrontProperties.Emission;
-         FC3DobjPlan[OOGobjIdx].Material.PolygonMode
-            :=FC3DmatLibSplanT.Materials.Items[0].Material.PolygonMode;
+//         FC3DobjPlan[OOGobjIdx].Material.PolygonMode
+//            :=FC3DmatLibSplanT.Materials.Items[0].Material.PolygonMode;
          FC3DobjPlan[OOGobjIdx].Material.FrontProperties.Shininess
             :=FC3DmatLibSplanT.Materials.Items[0].Material.FrontProperties.Shininess;
          FC3DobjPlan[OOGobjIdx].Material.FrontProperties.Specular
             :=FC3DmatLibSplanT.Materials.Items[0].Material.FrontProperties.Specular;
          FC3DobjPlan[OOGobjIdx].Material.MaterialOptions:=FC3DmatLibSplanT.Materials.Items[0].Material.MaterialOptions;
-         FC3DobjPlan[OOGobjIdx].Material.Texture.BorderColor.Color
-            :=FC3DmatLibSplanT.Materials.Items[0].Material.Texture.BorderColor.Color;
+//         FC3DobjPlan[OOGobjIdx].Material.Texture.BorderColor.Color
+//            :=FC3DmatLibSplanT.Materials.Items[0].Material.Texture.BorderColor.Color;
          FC3DobjPlan[OOGobjIdx].Material.Texture.Compression:=FC3DmatLibSplanT.Materials.Items[0].Material.Texture.Compression;
-         FC3DobjPlan[OOGobjIdx].Material.Texture.DepthTextureMode
-            :=FC3DmatLibSplanT.Materials.Items[0].Material.Texture.DepthTextureMode;
+//         FC3DobjPlan[OOGobjIdx].Material.Texture.DepthTextureMode
+//            :=FC3DmatLibSplanT.Materials.Items[0].Material.Texture.DepthTextureMode;
          FC3DobjPlan[OOGobjIdx].Material.Texture.Disabled:=FC3DmatLibSplanT.Materials.Items[0].Material.Texture.Disabled;
          FC3DobjPlan[OOGobjIdx].Material.Texture.EnvColor.Color:=FC3DmatLibSplanT.Materials.Items[0].Material.Texture.EnvColor.Color;
          FC3DobjPlan[OOGobjIdx].Material.Texture.FilteringQuality
@@ -1767,16 +1767,16 @@ begin
          FC3DobjPlan[OOGobjIdx].Material.Texture.MappingMode:=FC3DmatLibSplanT.Materials.Items[0].Material.Texture.MappingMode;
          FC3DobjPlan[OOGobjIdx].Material.Texture.MinFilter:=FC3DmatLibSplanT.Materials.Items[0].Material.Texture.MinFilter;
          FC3DobjPlan[OOGobjIdx].Material.Texture.NormalMapScale:=FC3DmatLibSplanT.Materials.Items[0].Material.Texture.NormalMapScale;
-         FC3DobjPlan[OOGobjIdx].Material.Texture.TextureCompareFunc
-            :=FC3DmatLibSplanT.Materials.Items[0].Material.Texture.TextureCompareFunc;
-         FC3DobjPlan[OOGobjIdx].Material.Texture.TextureCompareMode
-            :=FC3DmatLibSplanT.Materials.Items[0].Material.Texture.TextureCompareMode;
+//         FC3DobjPlan[OOGobjIdx].Material.Texture.TextureCompareFunc
+//            :=FC3DmatLibSplanT.Materials.Items[0].Material.Texture.TextureCompareFunc;
+//         FC3DobjPlan[OOGobjIdx].Material.Texture.TextureCompareMode
+//            :=FC3DmatLibSplanT.Materials.Items[0].Material.Texture.TextureCompareMode;
          FC3DobjPlan[OOGobjIdx].Material.Texture.TextureFormat:=FC3DmatLibSplanT.Materials.Items[0].Material.Texture.TextureFormat;
          FC3DobjPlan[OOGobjIdx].Material.Texture.TextureMode:=FC3DmatLibSplanT.Materials.Items[0].Material.Texture.TextureMode;
          FC3DobjPlan[OOGobjIdx].Material.Texture.TextureWrap:=FC3DmatLibSplanT.Materials.Items[0].Material.Texture.TextureWrap;
-         FC3DobjPlan[OOGobjIdx].Material.Texture.TextureWrapS:=FC3DmatLibSplanT.Materials.Items[0].Material.Texture.TextureWrapS;
-         FC3DobjPlan[OOGobjIdx].Material.Texture.TextureWrapT:=FC3DmatLibSplanT.Materials.Items[0].Material.Texture.TextureWrapT;
-         FC3DobjPlan[OOGobjIdx].Material.Texture.TextureWrapR:=FC3DmatLibSplanT.Materials.Items[0].Material.Texture.TextureWrapR;
+//         FC3DobjPlan[OOGobjIdx].Material.Texture.TextureWrapS:=FC3DmatLibSplanT.Materials.Items[0].Material.Texture.TextureWrapS;
+//         FC3DobjPlan[OOGobjIdx].Material.Texture.TextureWrapT:=FC3DmatLibSplanT.Materials.Items[0].Material.Texture.TextureWrapT;
+//         FC3DobjPlan[OOGobjIdx].Material.Texture.TextureWrapR:=FC3DmatLibSplanT.Materials.Items[0].Material.Texture.TextureWrapR;
       end //==END== if OOGobjClass=oglvmootNorm ==//
       else if OOGobjClass=oglvmootAster
       then
@@ -1835,8 +1835,8 @@ begin
             :=FC3DmatLibSplanT.Materials.Items[0].Material.BackProperties.Diffuse.Color;
          FC3DobjSat[OOGobjIdx].Material.BackProperties.Emission.Color
             :=FC3DmatLibSplanT.Materials.Items[0].Material.BackProperties.Emission.Color;
-         FC3DobjSat[OOGobjIdx].Material.PolygonMode
-            :=FC3DmatLibSplanT.Materials.Items[0].Material.PolygonMode;
+//         FC3DobjSat[OOGobjIdx].Material.PolygonMode
+//            :=FC3DmatLibSplanT.Materials.Items[0].Material.PolygonMode;
          FC3DobjSat[OOGobjIdx].Material.BackProperties.Shininess
             :=FC3DmatLibSplanT.Materials.Items[0].Material.BackProperties.Shininess;
          FC3DobjSat[OOGobjIdx].Material.BackProperties.Specular.Color
@@ -1851,20 +1851,20 @@ begin
             :=FC3DmatLibSplanT.Materials.Items[0].Material.FrontProperties.Diffuse;
          FC3DobjSat[OOGobjIdx].Material.FrontProperties.Emission
             :=FC3DmatLibSplanT.Materials.Items[0].Material.FrontProperties.Emission;
-         FC3DobjSat[OOGobjIdx].Material.PolygonMode
-            :=FC3DmatLibSplanT.Materials.Items[0].Material.PolygonMode;
+//         FC3DobjSat[OOGobjIdx].Material.PolygonMode
+//            :=FC3DmatLibSplanT.Materials.Items[0].Material.PolygonMode;
          FC3DobjSat[OOGobjIdx].Material.FrontProperties.Shininess
             :=FC3DmatLibSplanT.Materials.Items[0].Material.FrontProperties.Shininess;
          FC3DobjSat[OOGobjIdx].Material.FrontProperties.Specular
             :=FC3DmatLibSplanT.Materials.Items[0].Material.FrontProperties.Specular;
          FC3DobjSat[OOGobjIdx].Material.MaterialOptions
             :=FC3DmatLibSplanT.Materials.Items[0].Material.MaterialOptions;
-         FC3DobjSat[OOGobjIdx].Material.Texture.BorderColor.Color
-            :=FC3DmatLibSplanT.Materials.Items[0].Material.Texture.BorderColor.Color;
+//         FC3DobjSat[OOGobjIdx].Material.Texture.BorderColor.Color
+//            :=FC3DmatLibSplanT.Materials.Items[0].Material.Texture.BorderColor.Color;
          FC3DobjSat[OOGobjIdx].Material.Texture.Compression
             :=FC3DmatLibSplanT.Materials.Items[0].Material.Texture.Compression;
-         FC3DobjSat[OOGobjIdx].Material.Texture.DepthTextureMode
-            :=FC3DmatLibSplanT.Materials.Items[0].Material.Texture.DepthTextureMode;
+//         FC3DobjSat[OOGobjIdx].Material.Texture.DepthTextureMode
+//            :=FC3DmatLibSplanT.Materials.Items[0].Material.Texture.DepthTextureMode;
          FC3DobjSat[OOGobjIdx].Material.Texture.Disabled
             :=FC3DmatLibSplanT.Materials.Items[0].Material.Texture.Disabled;
          FC3DobjSat[OOGobjIdx].Material.Texture.EnvColor.Color
@@ -1883,22 +1883,22 @@ begin
             :=FC3DmatLibSplanT.Materials.Items[0].Material.Texture.MinFilter;
          FC3DobjSat[OOGobjIdx].Material.Texture.NormalMapScale
             :=FC3DmatLibSplanT.Materials.Items[0].Material.Texture.NormalMapScale;
-         FC3DobjSat[OOGobjIdx].Material.Texture.TextureCompareFunc
-            :=FC3DmatLibSplanT.Materials.Items[0].Material.Texture.TextureCompareFunc;
-         FC3DobjSat[OOGobjIdx].Material.Texture.TextureCompareMode
-            :=FC3DmatLibSplanT.Materials.Items[0].Material.Texture.TextureCompareMode;
+//         FC3DobjSat[OOGobjIdx].Material.Texture.TextureCompareFunc
+//            :=FC3DmatLibSplanT.Materials.Items[0].Material.Texture.TextureCompareFunc;
+//         FC3DobjSat[OOGobjIdx].Material.Texture.TextureCompareMode
+//            :=FC3DmatLibSplanT.Materials.Items[0].Material.Texture.TextureCompareMode;
          FC3DobjSat[OOGobjIdx].Material.Texture.TextureFormat
             :=FC3DmatLibSplanT.Materials.Items[0].Material.Texture.TextureFormat;
          FC3DobjSat[OOGobjIdx].Material.Texture.TextureMode
             :=FC3DmatLibSplanT.Materials.Items[0].Material.Texture.TextureMode;
          FC3DobjSat[OOGobjIdx].Material.Texture.TextureWrap
             :=FC3DmatLibSplanT.Materials.Items[0].Material.Texture.TextureWrap;
-         FC3DobjSat[OOGobjIdx].Material.Texture.TextureWrapS
-            :=FC3DmatLibSplanT.Materials.Items[0].Material.Texture.TextureWrapS;
-         FC3DobjSat[OOGobjIdx].Material.Texture.TextureWrapT
-            :=FC3DmatLibSplanT.Materials.Items[0].Material.Texture.TextureWrapT;
-         FC3DobjSat[OOGobjIdx].Material.Texture.TextureWrapR
-            :=FC3DmatLibSplanT.Materials.Items[0].Material.Texture.TextureWrapR;
+//         FC3DobjSat[OOGobjIdx].Material.Texture.TextureWrapS
+//            :=FC3DmatLibSplanT.Materials.Items[0].Material.Texture.TextureWrapS;
+//         FC3DobjSat[OOGobjIdx].Material.Texture.TextureWrapT
+//            :=FC3DmatLibSplanT.Materials.Items[0].Material.Texture.TextureWrapT;
+//         FC3DobjSat[OOGobjIdx].Material.Texture.TextureWrapR
+//            :=FC3DmatLibSplanT.Materials.Items[0].Material.Texture.TextureWrapR;
       end //==END== if OOGobjClass=oglvmootSatNorm ==//
       else if OOGobjClass=oglvmootSatAster then
       begin

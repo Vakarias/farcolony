@@ -39,8 +39,10 @@ uses
    GLRenderContextInfo,
    GLScene,
    GLState,
-   GLTexture,
-   GLTextureFormat;
+   GLTexture
+//   ,
+//   GLTextureFormat
+   ;
 
 ///<summary>initialize data of all OpenGL components in FARC</summary>
 procedure FCMoglInit_Initialize;
@@ -141,13 +143,13 @@ begin
    FCWinMain.FCGLSStarMain.Material.BackProperties.Ambient.Color:=clrTransparent;
    FCWinMain.FCGLSStarMain.Material.BackProperties.Diffuse.Color:=clrTransparent;
    FCWinMain.FCGLSStarMain.Material.BackProperties.Emission.Color:=clrTransparent;
-   FCWinMain.FCGLSStarMain.Material.PolygonMode:=pmFill;
+//   FCWinMain.FCGLSStarMain.Material.PolygonMode:=pmFill;
    FCWinMain.FCGLSStarMain.Material.BackProperties.Shininess:=0;
    FCWinMain.FCGLSStarMain.Material.BackProperties.Specular.Color:=clrTransparent;
    FCWinMain.FCGLSStarMain.Material.FrontProperties.Ambient.Color:=clrTransparent;
    FCWinMain.FCGLSStarMain.Material.FrontProperties.Diffuse.Color:=clrTransparent;
    FCWinMain.FCGLSStarMain.Material.FrontProperties.Emission.Color:=clrTransparent;
-   FCWinMain.FCGLSStarMain.Material.PolygonMode:=pmFill;
+//   FCWinMain.FCGLSStarMain.Material.PolygonMode:=pmFill;
    FCWinMain.FCGLSStarMain.Material.FrontProperties.Shininess:=0;
    FCWinMain.FCGLSStarMain.Material.FrontProperties.Specular.Color:=clrTransparent;
    FCWinMain.FCGLSStarMain.Material.BlendingMode:=bmAlphaTest50;
@@ -195,7 +197,7 @@ begin
       FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.BackProperties.Ambient.Color:=clrGray20;
       FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.BackProperties.Diffuse.Color:=clrGray80;
       FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.BackProperties.Emission.Color:=clrBlack;
-      FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.PolygonMode:=pmFill;
+//      FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.PolygonMode:=pmFill;
       FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.BackProperties.Shininess:=0;
       FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.BackProperties.Specular.Color:=clrBlack;
       FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.BlendingMode:=bmOpaque;
@@ -203,13 +205,13 @@ begin
       FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.FrontProperties.Ambient:=FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.BackProperties.Ambient;
       FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.FrontProperties.Diffuse:=FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.BackProperties.Diffuse;
       FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.FrontProperties.Emission:=FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.BackProperties.Emission;
-      FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.PolygonMode:=FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.PolygonMode;
+//      FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.PolygonMode:=FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.PolygonMode;
       FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.FrontProperties.Shininess:=FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.BackProperties.Shininess;
       FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.FrontProperties.Specular:=FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.BackProperties.Specular;
       FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.MaterialOptions:=[];
-      FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.Texture.BorderColor.Color:=clrTransparent;
+//      FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.Texture.BorderColor.Color:=clrTransparent;
       FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.Texture.Compression:=tcNone;
-      FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.Texture.DepthTextureMode:=dtmLuminance;
+//      FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.Texture.DepthTextureMode:=dtmLuminance;
       FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.Texture.Disabled:=false;
       FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.Texture.EnvColor.Color:=clrTransparent;
       FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.Texture.FilteringQuality:=tfIsotropic;
@@ -219,14 +221,14 @@ begin
       FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.Texture.MappingMode:=tmmUser;
       FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.Texture.MinFilter:=miNearestMipmapLinear;
       FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.Texture.NormalMapScale:=0.45;
-      FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.Texture.TextureCompareFunc:=cfEqual;
-      FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.Texture.TextureCompareMode:=tcmNone;
+//      FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.Texture.TextureCompareFunc:=cfEqual;
+//      FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.Texture.TextureCompareMode:=tcmNone;
       FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.Texture.TextureFormat:=tfDefault;
       FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.Texture.TextureMode:=tmModulate;
       FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.Texture.TextureWrap:=twBoth;
-      FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.Texture.TextureWrapS:=twRepeat;
-      FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.Texture.TextureWrapT:=twRepeat;
-      FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.Texture.TextureWrapR:=twRepeat;
+//      FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.Texture.TextureWrapS:=twRepeat;
+//      FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.Texture.TextureWrapT:=twRepeat;
+//      FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.Texture.TextureWrapR:=twRepeat;
       inc(OGLIIcnt);
    end; //==END== while OGLIIcnt<=23 ==//
    FCMoglInit_StdText_Set(FCV3DstdTresHR, true);
