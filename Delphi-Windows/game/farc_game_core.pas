@@ -68,7 +68,8 @@ begin
    case GameOverReason of
       gfrCPScolonyBecameDissident:;
 
-      gfrCPSentirePopulationDie: FCWinDebug.AdvMemo1.Lines.Add('all population die of dehydration, enjoy :)');
+      gfrCPSentirePopulationDie: if FCGdebug
+      then FCWinDebug.AdvMemo1.Lines.Add('all population die of dehydration, enjoy :)');
 
       gfrCPSendOfPhase:
       begin

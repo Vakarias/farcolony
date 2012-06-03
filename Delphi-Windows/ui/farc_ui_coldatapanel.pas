@@ -442,7 +442,6 @@ begin
       CWPAKTcwp:=0;
       CWPAKTcol:=FCFuiCDP_VarCurrentColony_Get;
       ColonistLeft:=FCEntities[0].E_col[CWPAKTcol].COL_population.POP_tpColon-FCEntities[0].E_col[CWPAKTcol].COL_population.POP_tpColonAssigned;
-      FCWinDebug.AdvMemo1.Lines.Add('ColonistLeft='+inttostr(ColonistLeft));
       if ColonistLeft>0 then
       begin
          CWPAKTvalue:=StrToInt64(FCWinMain.FCWM_CDPwcpAssign.Text);
