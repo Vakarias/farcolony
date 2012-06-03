@@ -939,5 +939,134 @@
       <hintitem link="univAU" title="Univers: Unité Astronomique (UA)"/>
    </hintlistFR>
    <hintlistSP>
+      <hintitem link="cwpRoot" title="Construction: Points de Force de Construction (CWP)"/>
+      <hintitem link="cpsRoot" title="CPS: Système de la Phase de Colonisation"/>
+      <hintitem link="cpsCVS" title="CPS: Score de Viabilité de Colonisation (CVS)"/>
+      <hintitem link="cpsStatus" title="CPS: Status de la Faction du Joueur"/>
+      <hintitem link="cpsStatusEco" title="CPS: Status Economique"/>
+      <hintitem link="cpsStatusMil" title="CPS: Status Militaire"/>
+      <hintitem link="cpsStatusSoc" title="CPS: Status Social"/>
+      <hintitem link="cpsViabilityObjectives" title="CPS: Objectifs de Viabilité"/>
+      <hintitem link="cpsVOotEcoSustCol" title="CPS - Objectif: Colonie Durable"/>
+      <hintitem link="cpsVOotEcoEnEff" title="CPS - Objectif: Efficacité Energétique"/>
+      <hintitem link="cpsVOotEcoLowCr" title="CPS - Objectif: Faible Utilisation de la Marge de Crédit"/>
+      <hintitem link="cpsVOotEcoIndustrialForce" title="CPS - Objectif: Force Industrielle"/>
+      <hintitem link="cpsVOotSocSecPop" title="CPS - Objectif: Population Protégée"/>
+      <hintitem link="csmRoot" title="CSM: Modèle de Simulation de Colonie"/>
+      <hintitem link="csmData" title="CSM: Gestion des Données"/>
+      <hintitem link="csmDataCohesion" title="CSM - Donnée: Cohésion"/>
+      <hintitem link="csmevColEst" title="Evènement CSM: Colonie Etablie"/>
+      <hintitem link="csmevSocDis" title="Evènement CSM: Désordre Social"/>
+      <hintitem link="csmevHealthEduRel" title="Evènement CSM: Relation Santé-Education"/>
+      <hintitem link="csmevUprising" title="Evènement CSM: Révolte"/>
+      <hintitem link="csmevRveOxygenOverload" title="Evènement CSM: Surcharge de Production d'Oxygène"/>
+      <hintitem link="csmevRveOxygenShortage" title="Evènement CSM: Pénurie d'Oxygène"/>
+      <hintitem link="csmevRveFoodOverload" title="Evènement CSM: Surcharge de Production de Nourriture"/>
+      <hintitem link="csmevRveFoodShortage" title="Evènement CSM: Pénurie de Nourriture"/>
+      <hintitem link="csmevRveWaterOverload" title="Evènement CSM: Surcharge de Production d'Eau"/>
+      <hintitem link="csmevRveWaterShortage" title="Evènement CSM: Pénurie d'Eau"/>
+      <hintitem link="csmevUnrest" title="Evènement CSM: Troubles"/>
+      <hintitem link="infrColShelt" title="Infrastructure: Abris de Colonisation"/>
+      <hintitem link="infrMultiDepot" title="Infrastructure: Entrepôt Multifonction"/>
+      <hintitem link="infrPressTanksArray" title="Infrastructure: Grille de Réservoirs Préssurisés"/>
+      <hintitem link="infrInflatHab" title="Infrastructure: Habitat Gonflable"/>
+      <hintitem link="infrHousesPack" title="Infrastructure: Pack de Maisons"/>
+      <hintitem link="infrNucFissReactor" title="Infrastructure: Réacteur à Fission Nucléaire"/>
+      <hintitem link="infrInflatGreen" title="Infrastructure: Serre Gonflable"/>
+      <hintitem link="infrMiningSite" title="Infrastructure: Site de Minage"/>
+      <hintitem link="spmRoot" title="SPM: Matrice Socio-Politique"/>
+      <hintitem link="spmPolicies" title="SPM: Politiques"/>
+      <hintitem link="spmMemes" title="SPM: Memes"/>
+      <hintitem link="SPMiBL" title="SPM: Meme, Niveau de Croyance (BL)"/>
+      <hintitem link="SPMiSV" title="SPM: Meme, Valeur de Propagation (SV)"/>
+      <hintitem link="SPMi_BioroidsAdopt" title="Meme: Adoption de Bioroïdes"/>
+      <hintitem link="SPMi_Amortalism" title="Meme: Amortalisme"/>
+      <hintitem link="SPMi_Colonialism" title="Meme: Colonialisme"/>
+      <hintitem link="SPMi_Cryptosurv" title="Meme: Cryptosurvivalisme"/>
+      <hintitem link="SPMi_CultOfAtheism" title="Meme: Culte de l'Athéisme"/>
+      <hintitem link="SPMi_Cybergnosticism" title="Meme: Cybergnosticisme"/>
+      <hintitem link="SPMi_Decel" title="Meme: Decelerationisme"/>
+      <hintitem link="SPMi_RiggElec" title="Meme: Elections Truquées"/>
+      <hintitem link="SPMi_Environmental" title="Meme: Environnementalisme"/>
+      <hintitem link="SPMi_HomoSoc" title="Meme: Homo-Société"/>
+      <hintitem link="SPMi_Immortalism" title="Meme: Immortalisme"/>
+      <hintitem link="SPMi_Infotranscend" title="Meme: Infotranscendance"/>
+      <hintitem link="SPMi_TheFreeUnion" title="Meme: l'Union de la Liberté"/>
+      <hintitem link="SPMi_CosmosPreserv" title="Meme: Préservation du Cosmos"/>
+      <hintitem link="SPMi_Pacifism" title="Meme: Pacifisme"/>
+      <hintitem link="SPMi_HumRetire" title="Meme: Retrait Humain"/>
+      <hintitem link="SPMi_Xenophobia" title="Meme: Xenophobie"/>
+      <hintitem link="SPMi_Abolition" title="Politique: Abolitionisme"/>
+      <hintitem link="SPMi_CentrAuth" title="Politique: Autorité Centralisée"/>
+      <hintitem link="SPMi_ProacCitiz" title="Politique: Citoyenneté Proactive"/>
+      <hintitem link="SPMi_OneWorldCom" title="Politique: Communeauté à Monde Unique"/>
+      <hintitem link="SPMi_BirthsCtl" title="Politique: Contrôle des Naissances"/>
+      <hintitem link="SPMi_Cyberdemo" title="Politique: Cyberdémocratie"/>
+      <hintitem link="SPMi_ParticipEcon" title="Politique: Economie Participative"/>
+      <hintitem link="SPMi_GreenEco" title="Politique: Economie Verte"/>
+      <hintitem link="SPMi_PlanEcon" title="Politique: Economie Planifiée"/>
+      <hintitem link="SPMi_Slavery" title="Politique: Esclavage"/>
+      <hintitem link="SPMi_Eugenics" title="Politique: Eugénisme"/>
+      <hintitem link="SPMi_NatTranpSpFleet" title="Politique: Flotte Nationale de Transport Spatial"/>
+      <hintitem link="SPMi_ElecGov" title="Politique: Gouvernement Elu"/>
+      <hintitem link="SPMi_AIchitect" title="Politique: IAchitecte"/>
+      <hintitem link="SPMi_ReligiousFree" title="Politique: Liberté Religieuse"/>
+      <hintitem link="SPMi_FreeMark" title="Politique: Marché Libre"/>
+      <hintitem link="SPMi_SpDebMClean" title="Politique: Nettoyage et Entretient Spatial"/>
+      <hintitem link="SPMi_CorpOrg" title="Politique: Organisation Corporative"/>
+      <hintitem link="SPMi_StatePol" title="Politique: Police d'Etat"/>
+      <hintitem link="SPMi_StateRel" title="Politique: Religion d'Etat"/>
+      <hintitem link="SPMi_MilSoc" title="Politique: Société Militarisée"/>
+      <hintitem link="SPMi_SocSystem" title="Politique: Système Social"/>
+      <hintitem link="SPMi_ProfTechno" title="Politique: (Technocracie Profitable)"/>
+      <hintitem link="SPMi_ZeroTol" title="Politique: Tolérance Zéro"/>
+      <hintitem link="SPMi_AntiHumSpacef" title="Politique: Vol Spatial Anti-Humain"/>
+      <hintitem link="Products_Root" title="Produits"/>
+      <hintitem link="matSteel" title="Produit: Acier"/>
+      <hintitem link="matAluminium" title="Produit: Aluminium"/>
+      <hintitem link="resNH3" title="Produit: Ammoniac"/>
+      <hintitem link="matConcrete" title="Produit: Béton"/>
+      <hintitem link="matCarbComposites" title="Produit: Composites de Carbone"/>
+      <hintitem link="equipMultiDepot1" title="Produit: Entrepôt Multifonction Niveau 1"/>
+      <hintitem link="equipMultiDepot2" title="Produit: Entrepôt Multifonction Niveau 2"/>
+      <hintitem link="equipMultiDepot3" title="Produit: Entrepôt Multifonction Niveau 3"/>
+      <hintitem link="equipMultiDepot4" title="Produit: Entrepôt Multifonction Niveau 4"/>
+      <hintitem link="equipMultiDepot5" title="Produit: Entrepôt Multifonction Niveau 5"/>
+      <hintitem link="equipConstrExo" title="Produit: Exowalkers de Construction"/>
+      <hintitem link="bioFruitsVeg" title="Produit: Fruits &amp; Légumes"/>
+      <hintitem link="energNucPellets" title="Produit: Granules Nucléaires"/>
+      <hintitem link="equipPressTanksArr1" title="Produit: Grille de Réservoirs Préssurisés Niveau 1"/>
+      <hintitem link="equipPressTanksArr2" title="Produit: Grille de Réservoirs Préssurisés Niveau 2"/>
+      <hintitem link="equipPressTanksArr3" title="Produit: Grille de Réservoirs Préssurisés Niveau 3"/>
+      <hintitem link="equipPressTanksArr4" title="Produit: Grille de Réservoirs Préssurisés Niveau 4"/>
+      <hintitem link="equipPressTanksArr5" title="Produit: Grille de Réservoirs Préssurisés Niveau 5"/>
+      <hintitem link="equipPressTanksArr6" title="Produit: Grille de Réservoirs Préssurisés Niveau 6"/>
+      <hintitem link="equipPressTanksArr7" title="Produit: Grille de Réservoirs Préssurisés Niveau 7"/>
+      <hintitem link="equipMiningMachinery" title="Produit: Machinerie de Forage"/>
+      <hintitem link="matNanocomposites" title="Produit: Nanocomposites"/>
+      <hintitem link="matMWNT" title="Produit: Nanotubes Multi-Couches (MWNT)"/>
+      <hintitem link="matSWNT" title="Produit: Nanotubes Simple-Couche (SWNT)"/>
+      <hintitem link="bioFish" title="Produit: Poisson"/>
+      <hintitem link="bioAnimalFood" title="Produit: Nourriture Animale"/>
+      <hintitem link="equipAdvTools" title="Produit: Outils Avancés"/>
+      <hintitem link="equipPowerTools" title="Produit: Outils Electriques"/>
+      <hintitem link="equipHandTools" title="Produit: Outils Manuels"/>
+      <hintitem link="matPlastics" title="Produit: Plastiques"/>
+      <hintitem link="energNucFisRsm" title="Produit: Réacteur à Fission Nucléaire (petit)"/>
+      <hintitem link="energNucFisRmed" title="Produit: Réacteur à Fission Nucléaire (moyen)"/>
+      <hintitem link="energNucFisRlg" title="Produit: Réacteur à Fission Nucléaire (large)"/>
+      <hintitem link="energNucFisRxl" title="Produit: Réacteur à Fission Nucléaire (xlarge)"/>
+      <hintitem link="matSilicon" title="Produit: Silicone (Si)"/>
+      <hintitem link="matTitanium" title="Produit: Titane"/>
+      <hintitem link="univAlbedo" title="Univers: Albédo"/>
+      <hintitem link="tsciAlloys" title="Technoscience: Alliages"/>
+      <hintitem link="tsciNucFission" title="Technoscience: Fission Nucléaire"/>
+      <hintitem link="tsciInflatHabitat" title="Technoscience: Habitats Gonflables"/>
+      <hintitem link="tsciChemEng" title="Technoscience: Ingénieurie Chimique"/>
+      <hintitem link="tsciComposMat" title="Technoscience: Materiaux Composites"/>
+      <hintitem link="univDis" title="Univers: Distance"/>
+      <hintitem link="univEccOO" title="Univers: Eccentricité (Objet Orbital)"/>
+      <hintitem link="univStarTemp" title="Univers: Température d'Étoile"/>
+      <hintitem link="univAU" title="Univers: Unité Astronomique (UA)"/>
    </hintlistSP>
 </encytext>
