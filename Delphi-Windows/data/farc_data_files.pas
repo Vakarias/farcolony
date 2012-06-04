@@ -2121,7 +2121,7 @@ begin
                                  {.clouds cover}
                                  FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_cloudsCov:=DBSSPsatNode.Attributes['satcloudscov'];
                                  {.primary gas volume}
-                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_atmosph.AC_primaryGasVolumePerc:=DBSSPorbObjNode.Attributes['atmprimgasvol'];
+                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_atmosph.AC_primaryGasVolumePerc:=DBSSPsatNode.Attributes['atmprimgasvol'];
                                  {.atmospheric composition}
                                  FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_atmosph.agasH2:=DBSSPsatNode.Attributes['atmH2'];
                                  FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_atmosph.agasHe:=DBSSPsatNode.Attributes['atmHe'];

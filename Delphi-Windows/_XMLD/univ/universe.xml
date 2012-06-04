@@ -244,7 +244,7 @@ Climate= ,rc01vhotHumid
                   <orbper optype="" opstrt="" opend="" opmtemp=""/>
                </orbperlist>
                <satgeophysdata sattype="" satdiam="" satdens="" satmass="" satgrav="" satescvel="" satinclax="" satmagfld="" satalbe=""/>
-               <satecosdata satenvtype="" satatmpres="" satcloudscov=""  atmH2="" atmHe="" atmCH4="" atmNH3="" atmH2O="" atmNe="" atmN2="" atmCO="" atmNO="" atmO2="" atmH2S="" atmAr="" atmCO2="" atmNO2="" atmO3="" atmSO2="" hydroTp="" hydroArea=""/>
+               <satecosdata satenvtype="" satatmpres="" satcloudscov="" atmprimgasvol="" atmH2="" atmHe="" atmCH4="" atmNH3="" atmH2O="" atmNe="" atmN2="" atmCO="" atmNO="" atmO2="" atmH2S="" atmAr="" atmCO2="" atmNO2="" atmO3="" atmSO2="" hydroTp="" hydroArea=""/>
                <satregions>
                   <region soiltp="" relief="" climate="" mtdmin="" mtdint="" mtdmax="" wndspd="" precip="">
                      <resourcespot type="" quality="" rarity=""/>
@@ -432,7 +432,7 @@ Climate= ,rc01vhotHumid
                   <orbper optype="optInterm" opstrt="334" opend="444" opmtemp="309.07"/>
                </orbperlist>
                <satgeophysdata sattype="oobtpSat_Aster_Carbo" satdiam="121.6" satdens="3309" satmass="0.003115" satgrav="0.006" satescvel="0.08" satinclax="32" satmagfld="0" satalbe="0"/>
-               <satecosdata satenvtype="space" satatmpres="0" satcloudscov="0"  atmH2="0" atmHe="0" atmCH4="0" atmNH3="0" atmH2O="0" atmNe="0" atmN2="0" atmCO="0" atmNO="0" atmO2="0" atmH2S="0" atmAr="0" atmCO2="0" atmNO2="0" atmO3="0" atmSO2="0" hydroTp="htNone" hydroArea="0"/>
+               <satecosdata satenvtype="space" satatmpres="0" satcloudscov="0" atmprimgasvol="0" atmH2="0" atmHe="0" atmCH4="0" atmNH3="0" atmH2O="0" atmNe="0" atmN2="0" atmCO="0" atmNO="0" atmO2="0" atmH2S="0" atmAr="0" atmCO2="0" atmNO2="0" atmO3="0" atmSO2="0" hydroTp="htNone" hydroArea="0"/>
                <satregions>
                   <region soiltp="rst01rockDes" relief="rr1plain" climate="rc07coldArid" mtdmin="210.04" mtdint="251.99" mtdmax="313.36" wndspd="32.24" precip="95" emo="1.5">
                   </region>
@@ -453,7 +453,7 @@ Climate= ,rc01vhotHumid
                   <orbper optype="optInterm" opstrt="334" opend="444" opmtemp="309.07"/>
                </orbperlist>
                <satgeophysdata sattype="oobtpSat_Icy_Callisto" satdiam="4121.6" satdens="3309" satmass="0.003115" satgrav="0.006" satescvel="0.08" satinclax="32" satmagfld="0" satalbe="0"/>
-               <satecosdata satenvtype="restrict" satatmpres="1000" satcloudscov="60"  atmH2="0" atmHe="0" atmCH4="0" atmNH3="0" atmH2O="0" atmNe="0" atmN2="0" atmCO="0" atmNO="0" atmO2="0" atmH2S="0" atmAr="0" atmCO2="0" atmNO2="0" atmO3="0" atmSO2="0" hydroTp="htVapor" hydroArea="30"/>
+               <satecosdata satenvtype="restrict" satatmpres="1000" satcloudscov="60" atmprimgasvol="0" atmH2="0" atmHe="0" atmCH4="0" atmNH3="0" atmH2O="0" atmNe="0" atmN2="0" atmCO="0" atmNO="0" atmO2="0" atmH2S="0" atmAr="0" atmCO2="0" atmNO2="0" atmO3="0" atmSO2="0" hydroTp="htVapor" hydroArea="30"/>
                <satregions>
                   <region soiltp="rst01rockDes" relief="rr1plain" climate="rc07coldArid" mtdmin="210.04" mtdint="251.99" mtdmax="313.36" wndspd="32.24" precip="95" emo="1.5">
                   </region>
@@ -485,7 +485,7 @@ Climate= ,rc01vhotHumid
                   <orbper optype="optInterm" opstrt="742" opend="988" opmtemp="170.95"/>
                </orbperlist>
                <satgeophysdata sattype="oobtpSat_Aster_Icy" satdiam="121.6" satdens="3309" satmass="0.003115" satgrav="0.006" satescvel="0.08" satinclax="32" satmagfld="0" satalbe="0"/>
-               <satecosdata satenvtype="space" satatmpres="0" satcloudscov="0"  atmH2="0" atmHe="0" atmCH4="0" atmNH3="0" atmH2O="0" atmNe="0" atmN2="0" atmCO="0" atmNO="0" atmO2="0" atmH2S="0" atmAr="0" atmCO2="0" atmNO2="0" atmO3="0" atmSO2="0" hydroTp="htNone" hydroArea="0"/>
+               <satecosdata satenvtype="space" satatmpres="0" satcloudscov="0" atmprimgasvol="0" atmH2="0" atmHe="0" atmCH4="0" atmNH3="0" atmH2O="0" atmNe="0" atmN2="0" atmCO="0" atmNO="0" atmO2="0" atmH2S="0" atmAr="0" atmCO2="0" atmNO2="0" atmO3="0" atmSO2="0" hydroTp="htNone" hydroArea="0"/>
                <satregions>
                   <region soiltp="rst01rockDes" relief="rr1plain" climate="rc07coldArid" mtdmin="210.04" mtdint="251.99" mtdmax="313.36" wndspd="32.24" precip="95" emo="1.5">
                   </region>
@@ -506,7 +506,7 @@ Climate= ,rc01vhotHumid
                   <orbper optype="optInterm" opstrt="742" opend="988" opmtemp="170.95"/>
                </orbperlist>
                <satgeophysdata satenvtype="restrict" sattype="oobtpSat_Icy_Europe" satdiam="3000.6" satdens="3309" satmass="0.003115" satgrav="0.006" satescvel="0.08" satinclax="32" satmagfld="0" satalbe="0"/>
-               <satecosdata satenvtype="restrict" satatmpres="1000" satcloudscov="80"  atmH2="0" atmHe="0" atmCH4="0" atmNH3="0" atmH2O="0" atmNe="0" atmN2="0" atmCO="0" atmNO="0" atmO2="0" atmH2S="0" atmAr="0" atmCO2="0" atmNO2="0" atmO3="0" atmSO2="0" hydroTp="htLiqCH4" hydroArea="30"/>
+               <satecosdata satenvtype="restrict" satatmpres="1000" satcloudscov="80" atmprimgasvol="0" atmH2="0" atmHe="0" atmCH4="0" atmNH3="0" atmH2O="0" atmNe="0" atmN2="0" atmCO="0" atmNO="0" atmO2="0" atmH2S="0" atmAr="0" atmCO2="0" atmNO2="0" atmO3="0" atmSO2="0" hydroTp="htLiqCH4" hydroArea="30"/>
                <satregions>
                   <region soiltp="rst01rockDes" relief="rr1plain" climate="rc07coldArid" mtdmin="210.04" mtdint="251.99" mtdmax="313.36" wndspd="32.24" precip="95" emo="1.5">
                   </region>

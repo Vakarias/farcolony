@@ -139,7 +139,16 @@ begin
    Result:=0;
    Count:=1;
    Max:=Length( InfraData.I_customFx )-1;
-
+   while Count<=Max do
+   begin
+      if ( InfraData.I_customFx[ Count ].ICFX_customEffect=cfxProductStorage )
+         and( InfraData.I_customFx[ Count ].ICFX_prodStorageLvl[ OwnedInfraLevel ].IPS_liquid>0) then
+      begin
+         Result:=InfraData.I_customFx[ Count ].ICFX_prodStorageLvl[ OwnedInfraLevel ].IPS_liquid;
+         break;
+      end;
+      inc( Count );
+   end;
 end;
 
 //===========================END FUNCTIONS SECTION==========================================

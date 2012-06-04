@@ -102,6 +102,7 @@ uses
    ,farc_data_univ
    ,farc_game_colony
    ,farc_game_csm
+   ,farc_game_infracustomfx
    ,farc_game_infrastaff
    ,farc_game_prodSeg2
    ,farc_ui_coredatadisplay
@@ -255,7 +256,7 @@ procedure FCMgPM_ProductionModeDataFromFunction_Generate(
    );
 {:Purpose: generate the production modes' data from the infrastructure's function.
     Additions:
-      -2012Jun02- *add: complete pmWaterRecovery by adding calculation for the atmosphere humidity part and the energy consumption.
+      -2012Jun03- *add: complete pmWaterRecovery by adding calculation for the atmosphere humidity part and the energy consumption.
       -2012May30- *add: pmWaterRecovery.
       -2012Feb14- *mod: pmResourceMining - new calculation of the energy consumption.
       -2011Dec04- *add: Resource Mining (COMPLETION).
@@ -383,7 +384,7 @@ begin
                ProdModeDataI3:=FCFgIS_IndexByData_Retrieve( ptColonist, PMDFFGinfraData );
                PMDFFGstaffTechIndex:=FCFgIS_IndexByData_Retrieve( ptTechnic, PMDFFGinfraData );
                ColonyEnvironment:=FCFgC_ColEnv_GetTp( PMDFFGent, PMDFFGcol );
-               {.production mode's energy consumption calculation}
+               {.energy consumption calculation}
                ProdModeDataF1:=(
                   ( PMDFFGinfraData.I_reqStaff[ProdModeDataI3].RS_requiredByLv[ PMDFFGinfraLevel ]*2 )
                   +( int( PMDFFGinfraData.I_reqStaff[PMDFFGstaffTechIndex].RS_requiredByLv[ PMDFFGinfraLevel ] /3 )*354 )
@@ -394,7 +395,7 @@ begin
 
             pmWaterRecovery:
             begin
-               {.cmyr}
+               {.cmyr / production mode's energy consumption}
                ProdModeDataF1:=0;
                {.l/m2 for 1cm rainfall}
                ProdModeDataF2:=9.94507683310307;
@@ -429,7 +430,8 @@ begin
                   ProdModeDataF5:=FCDBSSys[ OrbObjRow[ 1 ] ].SS_star[ OrbObjRow[ 2 ] ].SDB_obobj[ OrbObjRow[ 3 ] ].OO_regions[ ProdModeDataI1 ].OOR_windSpd;
                   {.H2O gas status}
                   ProdModeDataI3:=Integer(FCDBSSys[ OrbObjRow[ 1 ] ].SS_star[ OrbObjRow[ 2 ] ].SDB_obobj[ OrbObjRow[ 3 ] ].OO_atmosph.agasH2O);
-                  FCWinDebug.AdvMemo1.Lines.Add('H2O gas status='+inttostr(ProdModeDataI3));
+                  if FCGdebug
+                  then FCWinDebug.AdvMemo1.Lines.Add('H2O gas status='+inttostr(ProdModeDataI3));
                end
                else if OrbObjRow[ 4 ]>0 then
                begin
@@ -473,6 +475,10 @@ begin
                else if ProdModeDataI3=3
                then ProdModeDataF6:=AtmosphereGases.AGP_primaryGasPercent * 0.01;
                ProdModeDataF6:=ProdModeDataF6 * ( AtmosphereGases.AGP_atmosphericPressure * 0.001 ) * PMDFFGinfraData.I_fProductionMode[InfraProdModeCount].WR_traparea;
+               {.energy consumption calculations}
+               ProdModeDataF1:=FCFgICFX_EffectStorageLiquid_Search( PMDFFGinfraData, PMDFFGinfraLevel );
+               ProdModeDataF1:=ProdModeDataF1 / 4.5 * 1.1;
+               FCentities[PMDFFGent].E_col[PMDFFGcol].COL_settlements[PMDFFGsett].CS_infra[PMDFFGinfra].CI_fprodMode[InfraProdModeCount].PM_energyCons:=FCFcFunc_Rnd( rttPowerKw, ProdModeDataF1 );
             end; //==END== case of: pmWaterRecovery ==//
          end; //==END== case PMDFFGinfraData.I_fProductionMode[PMDFFGcnt].IPM_productionModes of ==//
       end //==END== if PMDFFGinfraData.I_fProductionMode[PMDFFGcnt].IPM_occupancy>0 then ==//
