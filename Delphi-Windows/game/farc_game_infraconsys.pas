@@ -782,7 +782,7 @@ begin
    ICPeffectIdx:=length(ICPclonedInfra.I_customFx)-1;
    ICPclonedInfra.I_customFx[ICPeffectIdx].ICFX_customEffect:=cfxProductStorage;
    ICPclonedInfra.I_customFx[ICPeffectIdx].ICFX_prodStorageLvl[FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra[ICPinfra].CI_level].IPS_solid:=200;
-   ICPclonedInfra.I_customFx[ICPeffectIdx].ICFX_prodStorageLvl[FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra[ICPinfra].CI_level].IPS_liquid:=140;
+   ICPclonedInfra.I_customFx[ICPeffectIdx].ICFX_prodStorageLvl[FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra[ICPinfra].CI_level].IPS_liquid:=210;
    ICPclonedInfra.I_customFx[ICPeffectIdx].ICFX_prodStorageLvl[FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra[ICPinfra].CI_level].IPS_gas:=30;
    ICPclonedInfra.I_customFx[ICPeffectIdx].ICFX_prodStorageLvl[FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra[ICPinfra].CI_level].IPS_biologic:=30;
    setlength(ICPclonedInfra.I_customFx, length(ICPclonedInfra.I_customFx)+1);
@@ -803,7 +803,7 @@ begin
       ,ICPinfra
       ,ICPclonedInfra
       );
-   FCMspuF_SpUnit_Remove(ICPent, ICPspu);
+//   FCMspuF_SpUnit_Remove(ICPent, ICPspu);
    {:DEV NOTES: energy consumption-generation-storage data will be calculated from the space unit's design.}
    {:DEV NOTES: for now it's simply hardcoded.}
    FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra[ICPinfra].CI_powerCons:=5;
@@ -871,7 +871,7 @@ begin
       );
    FCFgC_Storage_Update(
       'resWater'
-      ,133
+      ,200
       ,0
       ,ICPcol
       ,true
