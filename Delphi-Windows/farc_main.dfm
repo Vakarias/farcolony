@@ -16,6 +16,7 @@ object FCWinMain: TFCWinMain
   Menu = FCWM_MainMenu
   OldCreateOrder = False
   Position = poDesigned
+  Scaled = False
   Visible = True
   OnCreate = FormCreate
   OnDestroy = FormDestroy
@@ -542,15 +543,11 @@ object FCWinMain: TFCWinMain
           TabColor = clBlack
           TabColorTo = clGray
           TextColor = 14803425
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
           object HTMLabel1: THTMLabel
             Left = 0
             Top = 0
             Width = 800
-            Height = 524
+            Height = 522
             Align = alClient
             Color = clBlack
             GradientType = gtFullVertical
@@ -568,6 +565,7 @@ object FCWinMain: TFCWinMain
             ParentFont = False
             URLColor = 14068651
             Version = '1.8.1.0'
+            ExplicitHeight = 524
           end
         end
         object FCWM_UMI_TabShFac: TAdvTabSheet
@@ -726,10 +724,6 @@ object FCWinMain: TFCWinMain
               TabColor = clBlack
               TabColorTo = clGray
               TextColor = 14803425
-              ExplicitLeft = 0
-              ExplicitTop = 0
-              ExplicitWidth = 0
-              ExplicitHeight = 0
               object FCWM_UMIFac_PolGvtDetails: TAdvGroupBox
                 Left = 0
                 Top = 0
@@ -744,12 +738,11 @@ object FCWinMain: TFCWinMain
                 Font.Style = []
                 ParentFont = False
                 TabOrder = 0
-                ExplicitHeight = 399
                 object FCWM_UMIFac_PGDdata: THTMLabel
                   Left = 2
                   Top = 16
                   Width = 93
-                  Height = 382
+                  Height = 379
                   Align = alClient
                   Color = clBlack
                   GradientType = gtFullVertical
@@ -766,6 +759,7 @@ object FCWinMain: TFCWinMain
                   URLColor = 13869987
                   OnAnchorClick = FCWM_HDPhintsTextAnchorClick
                   Version = '1.8.1.0'
+                  ExplicitHeight = 382
                 end
               end
               object FCWM_UMIFac_Colonies: THTMLTreeList
@@ -863,10 +857,6 @@ object FCWinMain: TFCWinMain
               TabColor = clBlack
               TabColorTo = clGray
               TextColor = 14803425
-              ExplicitLeft = 0
-              ExplicitTop = 0
-              ExplicitWidth = 0
-              ExplicitHeight = 0
               object FCWM_UMIFSh_SPMlistTop: TAdvPanel
                 Left = 0
                 Top = 0
@@ -907,7 +897,6 @@ object FCWinMain: TFCWinMain
                 StatusBar.Font.Name = 'Tahoma'
                 StatusBar.Font.Style = []
                 URLColor = 14068651
-                ExplicitHeight = 188
                 FullHeight = 182
                 object FCWM_UMIFSh_SPMadmin: THTMLTreeview
                   Left = 1
@@ -1050,7 +1039,6 @@ object FCWinMain: TFCWinMain
                 StatusBar.Font.Name = 'Tahoma'
                 StatusBar.Font.Style = []
                 URLColor = 14068651
-                ExplicitTop = 188
                 FullHeight = 182
                 object FCWM_UMIFSh_SPMsoc: THTMLTreeview
                   Left = 1
@@ -1485,10 +1473,6 @@ object FCWinMain: TFCWinMain
           TabColor = clBlack
           TabColorTo = clGray
           TextColor = 14803425
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
         end
         object FCWM_UMI_TabShProd: TAdvTabSheet
           Caption = 'FCWM_UMI_TabShProd'
@@ -1533,10 +1517,6 @@ object FCWinMain: TFCWinMain
           TabColor = clBlack
           TabColorTo = clGray
           TextColor = 14803425
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
         end
       end
     end
@@ -2086,10 +2066,6 @@ object FCWinMain: TFCWinMain
           TabColor = clBlack
           TabColorTo = clGray
           TextColor = 14803425
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
           object FCWM_CDPpopList: THTMLTreeview
             Left = 0
             Top = 0
@@ -2198,7 +2174,7 @@ object FCWinMain: TFCWinMain
             Left = 22
             Top = 74
             Width = 83
-            Height = 23
+            Height = 20
             Color = clWhite
             Version = '1.3.1.0'
             Visible = True
@@ -2274,10 +2250,6 @@ object FCWinMain: TFCWinMain
           TabColor = clBlack
           TabColorTo = clGray
           TextColor = 14803425
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
           object CDPstorageCapacity: THTMLabel
             Left = 53
             Top = 0
@@ -2379,10 +2351,6 @@ object FCWinMain: TFCWinMain
           TabColor = clBlack
           TabColorTo = clGray
           TextColor = 14803425
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
           object FCWM_CDPinfrList: THTMLTreeview
             Left = 0
             Top = 0
