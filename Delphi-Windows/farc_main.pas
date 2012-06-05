@@ -463,6 +463,7 @@ implementation
 
 uses
    farc_common_func
+   ,farc_data_3dopengl
    ,farc_data_files
    ,farc_data_filesavegame
    ,farc_data_game

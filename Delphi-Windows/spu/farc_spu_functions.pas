@@ -34,7 +34,8 @@ interface
 uses
    SysUtils
 
-   ,farc_data_init;
+//   ,farc_data_init
+   ,farc_data_spu;
 
 type TFCEsufCapab=(
    sufcAny
@@ -154,6 +155,7 @@ implementation
 
 uses
    farc_common_func
+   ,farc_data_3dopengl
    ,farc_data_game
    ,farc_data_textfiles
    ,farc_data_univ

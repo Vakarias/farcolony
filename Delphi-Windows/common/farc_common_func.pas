@@ -218,6 +218,7 @@ implementation
 
 uses
    farc_data_game
+   ,farc_data_spu
    ,farc_data_textfiles
    ,farc_data_univ
    ,farc_win_debug;

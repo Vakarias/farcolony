@@ -61,6 +61,7 @@ uses
    farc_common_func
    ,farc_data_game
    ,farc_data_init
+   ,farc_data_spu
    ,farc_data_univ
    ,farc_game_missioncore
    ,farc_spu_functions;

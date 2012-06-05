@@ -7,7 +7,7 @@
         License: GPLv3
         Website: http://farcolony.sourceforge.net/
 
-        Unit: global data initialization and all core data related functions
+        Unit: data that doesn't fit to any other farc_data_xxx unit
 
 ============================================================================================
 ********************************************************************************************
@@ -32,33 +32,35 @@ unit farc_data_init;
 interface
 
 uses
-   Classes,
-   SysUtils,
-   Windows,
+   Classes
+   ,SysUtils
 
-   GLAtmosphere,
-   GLObjects,
-   GLMaterial,
-   GLScene,
-
-   oxLib3dsImports,
-   oxLib3dsMeshLoader,
-
-//   GLVectorFileObjects
-//   ,GLFile3DSSceneObjects
-//,glfile3ds
-
-   o_GTTimer
+   ,o_GTTimer
 
    ,GR32_Image;
 
-///<summary>
-///   initialize all the basic data, test the configuration file and the save games
-///   directory.
-///</summary>
-procedure FCMdInit_Initialize;
 
-   type TFCRtopdef= record
+//==END PUBLIC ENUM=========================================================================
+
+//==END PUBLIC RECORDS======================================================================
+
+   //==========subsection===================================================================
+//   var
+//==END PUBLIC VAR==========================================================================
+
+//   const
+//==END PUBLIC CONST========================================================================
+
+//===========================END FUNCTIONS SECTION==========================================
+
+
+
+
+
+
+
+
+      type TFCRtopdef= record
       TD_link: string[20];
       TD_str: string;
    end;
@@ -67,172 +69,16 @@ procedure FCMdInit_Initialize;
    {.core data structures}
    //=======================================================================================
 
-   {.population types, used for all other data structures than colony's population}
-   {:DEV NOTES: update infrastrucdb.xml + FCMdF_DBInfra_Read.}
-   type TFCEdiPopType=(
-      ptColonist
-      ,ptOfficer
-      ,ptMissSpe
-      ,ptBiolog
-      ,ptDoctor
-      ,ptTechnic
-      ,ptEngineer
-      ,ptSoldier
-      ,ptCommando
-      ,ptPhysic
-      ,ptAstroph
-      ,ptEcolog
-      ,ptEcoform
-      ,ptMedian
-      ,ptRebels
-      ,ptMilitia
-      );
+   
 
    //==END ENUM=============================================================================
    //=======================================================================================
    {.space units data}
    //=======================================================================================
-   {list of equipment module classes}
-   {:DEV NOTES: update scdesignsdb.xml.}
-   type TFCEemClass=(
-      {compartment}
-      emcCompart
-      {control as bridge or cockpit}
-      ,emcCtrl
-      {hull modification as a spinning hull w/ it's mechanism}
-      ,emcHullMod
-      {powergrid (generators and capacitors)}
-      ,emcPwrGrid
-      {space drive}
-      ,emcSpDrive
-      {subsystem}
-      ,emcSubSys
-      {weapon system}
-      ,emcWeapSys
-      );
-   {.architecture types}
-   {:DEV NOTES: update scintstrucdb.xml + FCMdFiles_DBSpaceCrafts_Read.}
-   type TFCEscArchTp=(
-      {.for internal use only, do not put it in xml}
-      scatNone
-      {Deep-Space Vehicle}
-      ,scarchtpDSV
-      {Heavy-Lift Vehicle}
-      ,scarchtpHLV
-      {Lander Vehicle}
-      ,scarchtpLV
-      {Lander/Ascent Vehicle}
-      ,scarchtpLAV
-      {Orbital Multipurpose Vehicle}
-      ,scarchtpOMV
-      {Stabilized Space Infrastructure}
-      ,scarchtpSSI
-      {Transatmospheric Vehicle}
-      ,scarchtpTAV
-      {Beam Sail Vehicle}
-      ,scarchtpBSV
-      );
-   {list of control module types}
-   {:DEV NOTES: update scintstrucdb.xml.}
-   type TFCEscCtlMdlTp=(
-      {cockpit}
-      sccmtCockpit
-      {control bridge}
-      ,sccmtBridge
-      {unnamed controls - by an AI}
-      ,sccmtUnna
-      );
-   {list of internal structure general shapes}
-   {:DEV NOTE: UPDATE scintstrucdb.xml.}
-   type TFCEisShape=(
-      {assembled: assembled parts with a central beam or not}
-      stAssem
-      {composed of modules of SEV shape}
-      ,stModul
-      {spherical shape}
-      ,stSpher
-      {cylindrical shape}
-      ,stCylin
-      {streamlined cylindrical shape}
-      ,stCylSt
-      {streamlined delta shape}
-      ,stDelta
-      {box shape}
-      ,stBox
-      {toroidal shape}
-      ,stTorus
-      );
-   //==END ENUM=============================================================================
-   {datastructure of spacecraft's internal structures}
-   type TFCRscIntStr = record
-      {internal infrastructure db token id}
-      SCIS_token: string[20];
-      {overall shape of the structure}
-      SCIS_shape: TFCEisShape;
-      {architecture type}
-      SCIS_archTp: TFCEscArchTp;
-      {type of control module allowed for the internal structure}
-      SCIS_contMdlAllwd: TFCEscCtlMdlTp;
-      {overall length in meter [RTO-1]}
-      SCIS_length: extended;
-      {overall wingsapn in meter [RTO-1]}
-      SCIS_wingsp: extended;
-      {overall height in meter [RTO-1]}
-      SCIS_height: extended;
-      {available volume for the design in cubic meter [RTO-1]}
-      SCIS_availStrVol: extended;
-      {available surface for the design in square meter [RTO-1]}
-      SCIS_availStrSur: extended;
-      {max volume, of total available, that can be occupied by the spacedrive [RTO-1]}
-      SCIS_driveMaxVol: extended;
-      {max surface, of total available, that can be occupied by the spacedrive [RTO-1]}
-      SCIS_driveMaxSur: extended;
-   end;
-      {.spacecraft's internal structures dynamic array}
-      TFCDBscintStruc = array of TFCRscIntStr;
-   type TFCRscEqMdl = record
-      SCEM_token: string[20];
-      SCEM_emClass: TFCEemClass;
-      //SCEM_subDriveData: Tlink to sub datastructure
-//       SCEM_thrPerf: double; //rto-1 thrust / cubicmeter of volume of drive
-                             {DEV NOTE: will be replaced later by a more
-                             expanded structure (for taking in account R&D)}
 
-   end;
-      {.equipment modules dynamic array}
-      TFCDBscEqMdls = array of TFCRscEqMdl;
-   {datastructure of spacecraft's designs}
-   {:DEV NOTES: update FCMdFiles_DBSpaceCrafts_Read.}
-   type TFCRspUdsgn = record
-      {design db token id}
-      SUD_token: string[20];
-      {data structure clone of the internal structure linked to the design}
-      SCD_intStrClone: TFCRscIntStr;
-      {used volume out the available volume, in cubic meter [RTO-1}
-      SCD_usedVol: extended;
-      {used surface out the available surface, in square meter [RTO-1}
-      SCD_usedSur: extended;
-      {empty mass of the spacecraft, w/o payload & crew [RTO-2]}
-      SCD_massEmp: extended;
-      {list of installed equipment modules}
-      SCD_eqMdlInst: array of TFCRscEqMdl;
-      {ISP of installed space drive}
-      SCD_spDriveISP: integer;
-      {maximum reaction mass volume the spacecraft can carry}
-      SCD_spDriveRMassMaxVol: extended;
-      {.capabilities. when updated, update too: farc_spu_functions/TFCEsufCapab}
-      SUD_capInterstel: boolean;
-      SUD_capColoniz: boolean;
-      SUD_capPassngr: boolean;
-      SUD_capCombat: boolean;
-      {DEV NOTE:
-         total mass
-         drive cloned: token / perf thr/vol of drive / rmass type product token
-         total drive thr
-      }
-  end;
-      {.spacecraft's designs dynamic array}
-      TFCDBscDesigns = array of TFCRspUdsgn;
+   
+   //==END ENUM=============================================================================
+   
    {.settlements pictures}
    type TFCRdiSettlementPic=array[1..30] of TImage32;
    //=======================================================================================
@@ -241,9 +87,7 @@ procedure FCMdInit_Initialize;
    var
       //==========databases and other data structures pre-init==============================
       FCDBhelpTdef: TFCDBtdef;
-      FCDBscDesigns: TFCDBscDesigns;
-      FCDBscEqMdls: TFCDBscEqMdls;
-      FCDBscIntStruc: TFCDBscintStruc;
+      
       FCRdiSettlementPic: TFCRdiSettlementPic;
       //==========path strings==============================================================
       {.root path for the directory of the data files, /<user>/My Documents/farcolony}
@@ -258,58 +102,7 @@ procedure FCMdInit_Initialize;
 		FCVpathRsrc: string;
       {.path of the XML directory - w/ end separator}
 		FCVpathXML: string;
-      //==========3d related================================================================
-      {:DEV NOTES: put them in farc_data_ogl.}
-      {.material library for standard planetary textures}
-      FC3DmatLibSplanT: TGLMaterialLibrary;
-      {.objects list for asteroids}
-      FC3DobjAster: array of TDGLib3dsStaMesh;
-      {.dump asteroid}
-      FC3DobjAsterDmp: TDGLib3dsStaMesh;
-      {.objects list for atmospheres}
-      FC3DobjAtmosph: array of TGLAtmosphere;
-      {.objects list for object groups}
-      FC3DobjGrp: array of TGLDummyCube;
-      {.objects list for gravity well}
-      FC3DobjPlanGrav: array of TGLLines;
-      {.objects list for orbits}
-      FC3DobjPlanOrbit: array of TGLLines;
-      {.objects list for planets}
-      FC3DobjPlan: array of TGLSphere;
-      {.objects list for satellite / asteroids}
-      FC3DobjSatAster: array of TDGLib3dsStaMesh;
-      {.objects list for satellite atmospheres}
-      FC3DobjSatAtmosph: array of TGLAtmosphere;
-      {.objects list for object satellite groups}
-      FC3DobjSatGrp: array of TGLDummyCube;
-      {.objects list for satellite gravity well}
-      FC3DobjSatGrav: array of TGLLines;
-      {.objects list for satellite orbits}
-      FC3DobjSatOrbit: array of TGLLines;
-      {.objects list for satellites}
-      FC3DobjSat: array of TGLSphere;
-      {.objects list for space units, tag= faction id#, tagfloat= owned index}
-      FC3DobjSpUnit: array of TDGLib3dsStaMesh;//TGLFile3DSFreeForm;
-      {.index which target selected object}
-      FCV3DselOobj: integer;
-      {.index which target selected satellite}
-      FCV3DselSat: integer;
-      {.index of targeted space unit}
-      FCV3DselSpU: integer;
-      {.selected stellar system for 3d view, related to FCRplayer}
-      FCV3DselSsys: integer;
-      {.selected star for 3d view, related to FCRplayer}
-      FCV3DselStar: integer;
-      {.total orbital object created in current 3d main view w/o count central star}
-      FCV3DttlOobj: integer;
-      {.total satellites the linked orbital object have}
-      FCV3DttlSat: integer;
-      {.total space units created in current 3d main view}
-      FCV3DttlSpU: integer;
-      {.HR standard map (2048*1024) switch, false= 1024*512}
-      FCV3DstdTresHR: boolean;
-      {.store data for intial size of a targeted space unit}
-      FCV3DspUnSiz: extended;
+      
       //==========main window related=======================================================
       FCVwinMallowUp: boolean = false;
       {.stored left of the main window}
@@ -401,6 +194,12 @@ procedure FCMdInit_Initialize;
       FCCFidxRRR='<ind x="240">';
       FCCFidxRRRR='<ind x="340">';    {:DEV NOTES: rename them including the spaceX.}
       FCCFpanelTitle=FCCFidxL2+'<b>';
+
+///<summary>
+///   initialize all the basic data, test the configuration file and the save games
+///   directory.
+///</summary>
+procedure FCMdInit_Initialize;
 
 implementation
 

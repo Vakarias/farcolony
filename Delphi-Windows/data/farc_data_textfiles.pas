@@ -41,7 +41,8 @@ uses
 //   ,xmldom
 
    ,farc_data_game
-   ,farc_data_init;
+   ,farc_data_init
+   ,farc_data_spu;
 
 type
    TFCEdtfStCat=

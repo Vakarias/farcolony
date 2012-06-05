@@ -61,7 +61,8 @@ function FCFoglInit_StdTexIdx_Get(const STIGname: string): integer;
 implementation
 
 uses
-   farc_data_files
+   farc_data_3dopengl
+   ,farc_data_files
    ,farc_data_init
    ,farc_main
    ,farc_ogl_ui

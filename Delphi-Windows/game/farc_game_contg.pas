@@ -42,7 +42,8 @@ procedure FCMgCG_Core_Proceed;
 implementation
 
 uses
-   farc_data_files
+   farc_data_3dopengl
+   ,farc_data_files
    ,farc_data_game
    ,farc_data_filesavegame
    ,farc_data_init

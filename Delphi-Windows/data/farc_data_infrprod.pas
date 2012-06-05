@@ -33,6 +33,7 @@ interface
 
 uses
    farc_data_init
+   ,farc_data_pgs
    ,farc_data_research
    ,farc_data_univ;
 
@@ -349,7 +350,7 @@ const
       I_customFx: array of TFCRdipInfraCustomFX;
       {.required staff}
       I_reqStaff: array of record
-         RS_type: TFCEdiPopType;
+         RS_type: TFCEdpgsPopulationType;
          RS_requiredByLv: array[0..7] of integer;
       end;
       {.function}

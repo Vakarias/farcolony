@@ -71,22 +71,24 @@
       pmResourceMining
       pmWaterRecovery
 
-   {.staff types}
+   {.population types}
    [rstaff type]
       ptColonist
       ptOfficer
-      ptMissSpe
-      ptBiolog
+      ptMissionSpecialist
+      ptBiologist
       ptDoctor
-      ptTechnic
+      ptTechnician
       ptEngineer
       ptSoldier
       ptCommando
-      ptPhysic
-      ptAstroph
-      ptEcolog
-      ptEcoform
+      ptPhysicist
+      ptAstrophysicist
+      ptEcologist
+      ptEcoformer
       ptMedian
+      ptRebels
+      ptMilitia
       
    <infra token="" environment="">
       <infBuild construct="" isSurfOnly="" minlevel="" maxlevel="">
@@ -350,7 +352,7 @@
       </infReq>
       <infReqStaff>
          <rstaff type="ptColonist" requiredNumLv1="12" requiredNumLv2="25" requiredNumLv3="45" requiredNumLv4="77" requiredNumLv5="104" requiredNumLv6="174" requiredNumLv7="219"/>
-         <rstaff type="ptTechnic" requiredNumLv1="2" requiredNumLv2="5" requiredNumLv3="11" requiredNumLv4="24" requiredNumLv5="34" requiredNumLv6="70" requiredNumLv7="98"/>
+         <rstaff type="ptTechnician" requiredNumLv1="2" requiredNumLv2="5" requiredNumLv3="11" requiredNumLv4="24" requiredNumLv5="34" requiredNumLv6="70" requiredNumLv7="98"/>
       </infReqStaff>
       <infFunc infFunc="fProduction">
          <ifProdMode pmode="pmResourceMining" occupancy="100"/>
@@ -448,7 +450,7 @@
          <cfxProductStorage storlevel="7" storSolid="0" storLiquid="103" storGas="103" storBio="0"/>
       </infCustFX>
       <infReqStaff>
-         <rstaff type="ptTechnic" requiredNumLv1="1" requiredNumLv2="1" requiredNumLv3="1" requiredNumLv4="1" requiredNumLv5="1" requiredNumLv6="1" requiredNumLv7="1"/>
+         <rstaff type="ptTechnician" requiredNumLv1="1" requiredNumLv2="1" requiredNumLv3="1" requiredNumLv4="1" requiredNumLv5="1" requiredNumLv6="1" requiredNumLv7="1"/>
       </infReqStaff>
       <infFunc infFunc="fMiscellaneous"/>
    </infra>

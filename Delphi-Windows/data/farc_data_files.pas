@@ -110,10 +110,13 @@ implementation
 
 uses
    farc_common_func
+   ,farc_data_3dopengl
    ,farc_data_game
    ,farc_data_infrprod
    ,farc_data_init
+   ,farc_data_pgs
    ,farc_data_research
+   ,farc_data_spu
    ,farc_data_univ
    ,farc_game_cps
    ,farc_game_cpsobjectives
@@ -993,13 +996,13 @@ begin
                   else if DBIRstr='ptOfficer'
                   then FCDBinfra[DBIRcnt].I_reqStaff[DBIRreqStaffCnt].RS_type:=ptOfficer
                   else if DBIRstr='ptMissSpe'
-                  then FCDBinfra[DBIRcnt].I_reqStaff[DBIRreqStaffCnt].RS_type:=ptMissSpe
+                  then FCDBinfra[DBIRcnt].I_reqStaff[DBIRreqStaffCnt].RS_type:=ptMissionSpecialist
                   else if DBIRstr='ptBiolog'
-                  then FCDBinfra[DBIRcnt].I_reqStaff[DBIRreqStaffCnt].RS_type:=ptBiolog
+                  then FCDBinfra[DBIRcnt].I_reqStaff[DBIRreqStaffCnt].RS_type:=ptBiologist
                   else if DBIRstr='ptDoctor'
                   then FCDBinfra[DBIRcnt].I_reqStaff[DBIRreqStaffCnt].RS_type:=ptDoctor
                   else if DBIRstr='ptTechnic'
-                  then FCDBinfra[DBIRcnt].I_reqStaff[DBIRreqStaffCnt].RS_type:=ptTechnic
+                  then FCDBinfra[DBIRcnt].I_reqStaff[DBIRreqStaffCnt].RS_type:=ptTechnician
                   else if DBIRstr='ptEngineer'
                   then FCDBinfra[DBIRcnt].I_reqStaff[DBIRreqStaffCnt].RS_type:=ptEngineer
                   else if DBIRstr='ptSoldier'
@@ -1007,13 +1010,13 @@ begin
                   else if DBIRstr='ptCommando'
                   then FCDBinfra[DBIRcnt].I_reqStaff[DBIRreqStaffCnt].RS_type:=ptCommando
                   else if DBIRstr='ptPhysic'
-                  then FCDBinfra[DBIRcnt].I_reqStaff[DBIRreqStaffCnt].RS_type:=ptPhysic
+                  then FCDBinfra[DBIRcnt].I_reqStaff[DBIRreqStaffCnt].RS_type:=ptPhysicist
                   else if DBIRstr='ptAstroph'
-                  then FCDBinfra[DBIRcnt].I_reqStaff[DBIRreqStaffCnt].RS_type:=ptAstroph
+                  then FCDBinfra[DBIRcnt].I_reqStaff[DBIRreqStaffCnt].RS_type:=ptAstrophysicist
                   else if DBIRstr='ptEcolog'
-                  then FCDBinfra[DBIRcnt].I_reqStaff[DBIRreqStaffCnt].RS_type:=ptEcolog
+                  then FCDBinfra[DBIRcnt].I_reqStaff[DBIRreqStaffCnt].RS_type:=ptEcologist
                   else if DBIRstr='ptEcoform'
-                  then FCDBinfra[DBIRcnt].I_reqStaff[DBIRreqStaffCnt].RS_type:=ptEcoform
+                  then FCDBinfra[DBIRcnt].I_reqStaff[DBIRreqStaffCnt].RS_type:=ptEcoformer
                   else if DBIRstr='ptMedian'
                   then FCDBinfra[DBIRcnt].I_reqStaff[DBIRreqStaffCnt].RS_type:=ptMedian;
                   DBIRsizeCnt:=FCDBinfra[DBIRcnt].I_minLevel;

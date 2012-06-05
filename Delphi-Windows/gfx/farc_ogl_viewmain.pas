@@ -165,12 +165,14 @@ implementation
 
 uses
    farc_common_func
+   ,farc_data_3dopengl
    ,farc_data_game
    ,farc_data_init
    ,farc_data_univ
    ,farc_data_textfiles
    ,farc_main
    ,farc_ogl_ui
+   ,farc_data_spu
    ,farc_spu_functions
    ,farc_ui_win
    ,farc_univ_func

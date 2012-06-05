@@ -131,6 +131,8 @@ implementation
 
 uses
    farc_common_func
+   ,farc_data_3dopengl
+   ,farc_data_spu
    ,farc_data_textfiles
    ,farc_data_univ
    ,farc_game_gameflow

@@ -88,7 +88,8 @@ procedure FCMuiSP_VarRegionSelected_Reset;
 implementation
 
 uses
-   farc_data_init
+   farc_data_3dopengl
+   ,farc_data_init
    ,farc_data_textfiles
    ,farc_data_univ
    ,farc_gfx_core

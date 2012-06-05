@@ -60,6 +60,7 @@ implementation
 
 uses
    farc_common_func
+   ,farc_data_3dopengl
    ,farc_data_init
    ,farc_data_univ
    ,farc_game_cps

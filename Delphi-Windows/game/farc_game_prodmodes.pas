@@ -99,6 +99,7 @@ uses
    farc_common_func
    ,farc_data_init
    ,farc_data_game
+   ,farc_data_pgs
    ,farc_data_univ
    ,farc_game_colony
    ,farc_game_csm
@@ -382,7 +383,7 @@ begin
                end;
                {.staff colonists index}
                ProdModeDataI3:=FCFgIS_IndexByData_Retrieve( ptColonist, PMDFFGinfraData );
-               PMDFFGstaffTechIndex:=FCFgIS_IndexByData_Retrieve( ptTechnic, PMDFFGinfraData );
+               PMDFFGstaffTechIndex:=FCFgIS_IndexByData_Retrieve( ptTechnician, PMDFFGinfraData );
                ColonyEnvironment:=FCFgC_ColEnv_GetTp( PMDFFGent, PMDFFGcol );
                {.energy consumption calculation}
                ProdModeDataF1:=(

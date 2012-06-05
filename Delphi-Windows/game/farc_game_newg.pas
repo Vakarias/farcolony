@@ -66,9 +66,11 @@ procedure FCMgNG_FactionList_Multipurpose(
 implementation
 
 uses
-   farc_data_files
+   farc_data_3dopengl
+   ,farc_data_files
    ,farc_data_game
    ,farc_data_init
+   ,farc_data_spu
    ,farc_data_textfiles
    ,farc_data_univ
    ,farc_game_cps

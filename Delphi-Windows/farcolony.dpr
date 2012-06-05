@@ -104,7 +104,10 @@ uses
   farc_ui_cps in 'ui\farc_ui_cps.pas',
   farc_game_entitiesfactions in 'game\farc_game_entitiesfactions.pas',
   farc_game_colonyrves in 'game\farc_game_colonyrves.pas',
-  farc_game_prodSeg3 in 'game\farc_game_prodSeg3.pas';
+  farc_game_prodSeg3 in 'game\farc_game_prodSeg3.pas',
+  farc_data_pgs in 'data\farc_data_pgs.pas',
+  farc_data_spu in 'data\farc_data_spu.pas',
+  farc_data_3dopengl in 'data\farc_data_3dopengl.pas';
 
 {$R *.res}
 
