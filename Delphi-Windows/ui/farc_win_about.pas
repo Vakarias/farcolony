@@ -118,7 +118,7 @@ end;
 
 procedure TFCWinAbout.FormCreate(Sender: TObject);
 begin
-   FCVallowUpAbWin:=true;
+   FCVdiWinAboutAllowUpdate:=true;
    FCMuiW_UI_Initialize(mwupSecwinAbout);
    FCMuiW_UI_Initialize(mwupFontWinAb);
    FCMuiW_UI_Initialize(mwupTextWinAb);

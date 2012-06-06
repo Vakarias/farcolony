@@ -191,6 +191,7 @@ implementation
 
 uses
    farc_common_func
+   ,farc_data_html
    ,farc_data_init
    ,farc_data_infrprod
    ,farc_data_textfiles

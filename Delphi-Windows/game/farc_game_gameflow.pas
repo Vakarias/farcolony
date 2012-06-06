@@ -156,17 +156,17 @@ begin
       or (FSSstate=tphPAUSEwo)
    then
    begin
-      FCGtimeFlow.Enabled:=false;
+      FCVdiGameFlowTimer.Enabled:=false;
       FCWinMain.FCGLScadencer.Enabled:=false;
       FCGtimePhase:=FCRplayer.P_timePhse;
       FCRplayer.P_timePhse:=FSSstate;
    end
    else
    begin
-      if FCGtimeFlow.Enabled=false
+      if FCVdiGameFlowTimer.Enabled=false
       then
       begin
-         FCGtimeFlow.Enabled:=true;
+         FCVdiGameFlowTimer.Enabled:=true;
          FCWinMain.FCGLScadencer.Enabled:=true;
          FCRplayer.P_timePhse:=FCGtimePhase;
       end
@@ -174,9 +174,9 @@ begin
       begin
          FCRplayer.P_timePhse:=FSSstate;
          case FSSstate of
-            tphTac: FCGtimeFlow.Interval:=1000;
-            tphMan: FCGtimeFlow.Interval:=500;
-            tphSTH: FCGtimeFlow.Interval:=100;
+            tphTac: FCVdiGameFlowTimer.Interval:=1000;
+            tphMan: FCVdiGameFlowTimer.Interval:=500;
+            tphSTH: FCVdiGameFlowTimer.Interval:=100;
          end;
       end;
    end;

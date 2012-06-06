@@ -69,6 +69,7 @@ uses
    farc_data_3dopengl
    ,farc_data_files
    ,farc_data_game
+   ,farc_data_html
    ,farc_data_init
    ,farc_data_spu
    ,farc_data_textfiles
@@ -288,7 +289,7 @@ begin
    if FCWinMain.FCWM_MMenu_DebTools.Visible
    then FCWinMain.FCWM_MMenu_DebTools.Visible:=false;
    FCMgfxC_TerrainsCollection_Init;
-   if not Assigned(FCRdiSettlementPic[1])
+   if not Assigned(FCRdiSettlementPictures[1])
    then FCMgfxC_Settlements_Init;
    {DEV NOTE: will be re-enabled in future.}
    FCWinMain.FCWM_MMenu_G_New.Enabled:=false;
@@ -714,7 +715,7 @@ begin
          FCWinNewGSetup.FCWNGS_FDPad_ShSPM_SPMList.FullExpand;
       end;
       {.display the faction's flag}
-      FCWinNewGSetup.FCWNGS_Frm_FactionFlag.Bitmap.LoadFromFile(FCVpathRsrc+'pics-ui-faction\FAC_'+FCDBfactions[FLMfac].F_token+'_flag.jpg');
+      FCWinNewGSetup.FCWNGS_Frm_FactionFlag.Bitmap.LoadFromFile(FCVdiPathResourceDir+'pics-ui-faction\FAC_'+FCDBfactions[FLMfac].F_token+'_flag.jpg');
       {.set colonization modes}
       FCWinNewGSetup.FCWNGS_Frm_ColMode.Items.Clear;
       FLMmax:=length(FCDBfactions[FLMfac].F_facCmode)-1;

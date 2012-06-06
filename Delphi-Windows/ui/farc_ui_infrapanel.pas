@@ -84,6 +84,7 @@ implementation
 
 uses
    farc_data_game
+   ,farc_data_html
    ,farc_data_infrprod
    ,farc_data_init
    ,farc_data_textfiles

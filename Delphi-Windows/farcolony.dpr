@@ -107,7 +107,8 @@ uses
   farc_game_prodSeg3 in 'game\farc_game_prodSeg3.pas',
   farc_data_pgs in 'data\farc_data_pgs.pas',
   farc_data_spu in 'data\farc_data_spu.pas',
-  farc_data_3dopengl in 'data\farc_data_3dopengl.pas';
+  farc_data_3dopengl in 'data\farc_data_3dopengl.pas',
+  farc_data_html in 'data\farc_data_html.pas';
 
 {$R *.res}
 

@@ -431,7 +431,7 @@ begin
                   ProdModeDataF5:=FCDBSSys[ OrbObjRow[ 1 ] ].SS_star[ OrbObjRow[ 2 ] ].SDB_obobj[ OrbObjRow[ 3 ] ].OO_regions[ ProdModeDataI1 ].OOR_windSpd;
                   {.H2O gas status}
                   ProdModeDataI3:=Integer(FCDBSSys[ OrbObjRow[ 1 ] ].SS_star[ OrbObjRow[ 2 ] ].SDB_obobj[ OrbObjRow[ 3 ] ].OO_atmosph.agasH2O);
-                  if FCGdebug
+                  if FCVdiDebugMode
                   then FCWinDebug.AdvMemo1.Lines.Add('H2O gas status='+inttostr(ProdModeDataI3));
                end
                else if OrbObjRow[ 4 ]>0 then

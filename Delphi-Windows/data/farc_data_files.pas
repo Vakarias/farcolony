@@ -112,6 +112,7 @@ uses
    farc_common_func
    ,farc_data_3dopengl
    ,farc_data_game
+   ,farc_data_html
    ,farc_data_infrprod
    ,farc_data_init
    ,farc_data_pgs
@@ -144,57 +145,57 @@ var
 	CFRxmlCfgItm: IXMLNode;
 begin
 	{.read the document}
-	FCWinMain.FCXMLcfg.FileName:=FCVpathCfg;
+	FCWinMain.FCXMLcfg.FileName:=FCVdiPathConfigFile;
 	FCWinMain.FCXMLcfg.Active:=true;
 	{.read the locale setting}
    CFRxmlCfgItm:=FCWinMain.FCXMLcfg.DocumentElement.ChildNodes.FindNode('locale');
    if CFRxmlCfgItm<>nil
-   then FCVlang:=CFRxmlCfgItm.Attributes['lang'];
+   then FCVdiLanguage:=CFRxmlCfgItm.Attributes['lang'];
    {.read the main window data}
 	CFRxmlCfgItm:=FCWinMain.FCXMLcfg.DocumentElement.ChildNodes.FindNode('mainwin');
 	if CFRxmlCfgItm<>nil
    then
 	begin
-		FCVwinMsizeW:=CFRxmlCfgItm.Attributes['mwwidth'];
-		FCVwinMsizeH:=CFRxmlCfgItm.Attributes['mwheight'];
-		FCVwinMlocL:=CFRxmlCfgItm.Attributes['mwlft'];
-		FCVwinMlocT:=CFRxmlCfgItm.Attributes['mwtop'];
+		FCVdiWinMainWidth:=CFRxmlCfgItm.Attributes['mwwidth'];
+		FCVdiWinMainHeight:=CFRxmlCfgItm.Attributes['mwheight'];
+		FCVdiWinMainLeft:=CFRxmlCfgItm.Attributes['mwlft'];
+		FCVdiWinMainTop:=CFRxmlCfgItm.Attributes['mwtop'];
 	end;
    {.read the panels data}
 	CFRxmlCfgItm:=FCWinMain.FCXMLcfg.DocumentElement.ChildNodes.FindNode('panels');
 	if CFRxmlCfgItm<>nil
    then
 	begin
-      FCVwMcolfacPstore:=CFRxmlCfgItm.Attributes['colfacStore'];
-      if FCVwMcolfacPstore
+      FCVdiLocStoreColonyPanel:=CFRxmlCfgItm.Attributes['colfacStore'];
+      if FCVdiLocStoreColonyPanel
       then
       begin
          FCWinMain.FCWM_ColDPanel.Left:=CFRxmlCfgItm.Attributes['cfacX'];
          FCWinMain.FCWM_ColDPanel.Top:=CFRxmlCfgItm.Attributes['cfacY'];
       end
-      else if not FCVwMcolfacPstore
+      else if not FCVdiLocStoreColonyPanel
       then
       begin
          FCWinMain.FCWM_ColDPanel.Left:=20;
          FCWinMain.FCWM_ColDPanel.Top:=80;
       end;
-      FCVwMcpsPstore:=CFRxmlCfgItm.Attributes['cpsStore'];
+      FCVdiLocStoreCPSobjPanel:=CFRxmlCfgItm.Attributes['cpsStore'];
       if assigned(FCcps)
-         and (FCVwMcpsPstore)
+         and (FCVdiLocStoreCPSobjPanel)
       then
       begin
          FCcps.CPSpX:=CFRxmlCfgItm.Attributes['cpsX'];
          FCcps.CPSpY:=CFRxmlCfgItm.Attributes['cpsY'];
       end
       else if not assigned(FCcps)
-         and (FCVwMcpsPstore)
+         and (FCVdiLocStoreCPSobjPanel)
       then
       begin
          FCWinMain.FCGLSHUDcpsCredL.Tag:=CFRxmlCfgItm.Attributes['cpsX'];
          FCWinMain.FCGLSHUDcpsTlft.Tag:=CFRxmlCfgItm.Attributes['cpsY'];
       end;
-		FCVwMhelpPstore:=CFRxmlCfgItm.Attributes['helpStore'];
-      if FCVwMhelpPstore
+		FCVdiLocStoreHelpPanel:=CFRxmlCfgItm.Attributes['helpStore'];
+      if FCVdiLocStoreHelpPanel
       then
       begin
          FCWinMain.FCWM_HelpPanel.Left:=CFRxmlCfgItm.Attributes['helpX'];
@@ -206,7 +207,7 @@ begin
    if CFRxmlCfgItm<>nil
    then
    begin
-      FCVwinWideScr:=CFRxmlCfgItm.Attributes['wide'];
+      FCVdiWinMainWideScreen:=CFRxmlCfgItm.Attributes['wide'];
       FCV3DstdTresHR:=CFRxmlCfgItm.Attributes['hrstdt'];
    end;
    {.read the current game data}
@@ -229,7 +230,7 @@ begin
    {.read the debug info}
 	CFRxmlCfgItm:=FCWinMain.FCXMLcfg.DocumentElement.ChildNodes.FindNode('debug');
 	if CFRxmlCfgItm<>nil
-   then FCGdebug:=CFRxmlCfgItm.Attributes['dswitch'];
+   then FCVdiDebugMode:=CFRxmlCfgItm.Attributes['dswitch'];
 	{.free the memory}
 	FCWinMain.FCXMLcfg.Active:=false;
 	FCWinMain.FCXMLcfg.FileName:='';
@@ -260,14 +261,14 @@ var
 	CFWxmlCfgItm: IXMLNode;
 begin
    {.clear the old file if it exists}
-   if FileExists(FCVpathCfg)
+   if FileExists(FCVdiPathConfigFile)
    then
    begin
       if FCRplayer.P_gameName<>''
       then
       begin
          {.read the document}
-         FCWinMain.FCXMLcfg.FileName:=FCVpathCfg;
+         FCWinMain.FCXMLcfg.FileName:=FCVdiPathConfigFile;
          FCWinMain.FCXMLcfg.Active:=true;
          CFWxmlCfgItm:=FCWinMain.FCXMLcfg.DocumentElement.ChildNodes.FindNode('currGame');
          if CFWxmlCfgItm<>nil
@@ -284,7 +285,7 @@ begin
          FCWinMain.FCXMLcfg.Active:=false;
          FCWinMain.FCXMLcfg.FileName:='';
       end;
-      DeleteFile(pchar(FCVpathCfg));
+      DeleteFile(pchar(FCVdiPathConfigFile));
    end;
    {.create the document}
    FCWinMain.FCXMLcfg.Active:=true;
@@ -292,17 +293,17 @@ begin
    CFWxmlRoot:=FCWinMain.FCXMLcfg.AddChild('configfile');
    {.create the config item "locale"}
    CFWxmlCfgItm:= CFWxmlRoot.AddChild('locale');
-   CFWxmlCfgItm.Attributes['lang']:= FCVlang;
+   CFWxmlCfgItm.Attributes['lang']:= FCVdiLanguage;
    {.create the config item "mainwin"}
    CFWxmlCfgItm:= CFWxmlRoot.AddChild('mainwin');
-   CFWxmlCfgItm.Attributes['mwwidth']:= FCVwinMsizeW;
-   CFWxmlCfgItm.Attributes['mwheight']:= FCVwinMsizeH;
-   CFWxmlCfgItm.Attributes['mwlft']:= FCVwinMlocL;
-   CFWxmlCfgItm.Attributes['mwtop']:= FCVwinMlocT;
+   CFWxmlCfgItm.Attributes['mwwidth']:= FCVdiWinMainWidth;
+   CFWxmlCfgItm.Attributes['mwheight']:= FCVdiWinMainHeight;
+   CFWxmlCfgItm.Attributes['mwlft']:= FCVdiWinMainLeft;
+   CFWxmlCfgItm.Attributes['mwtop']:= FCVdiWinMainTop;
    {.create the config item "panels"}
 	CFWxmlCfgItm:=CFWxmlRoot.AddChild('panels');
-   CFWxmlCfgItm.Attributes['colfacStore']:=FCVwMcolfacPstore;
-   if FCVwMcolfacPstore
+   CFWxmlCfgItm.Attributes['colfacStore']:=FCVdiLocStoreColonyPanel;
+   if FCVdiLocStoreColonyPanel
    then begin
       CFWxmlCfgItm.Attributes['cfacX']:=FCWinMain.FCWM_ColDPanel.Left;
       CFWxmlCfgItm.Attributes['cfacY']:=FCWinMain.FCWM_ColDPanel.Top;
@@ -312,29 +313,29 @@ begin
       CFWxmlCfgItm.Attributes['cfacX']:=20;
       CFWxmlCfgItm.Attributes['cfacY']:=80;
    end;
-   CFWxmlCfgItm.Attributes['cpsStore']:=FCVwMcpsPstore;
-   if not FCVwMcpsPstore
+   CFWxmlCfgItm.Attributes['cpsStore']:=FCVdiLocStoreCPSobjPanel;
+   if not FCVdiLocStoreCPSobjPanel
    then
    begin
       CFWxmlCfgItm.Attributes['cpsX']:=0;
       CFWxmlCfgItm.Attributes['cpsY']:=0;
    end
    else if assigned(FCcps)
-      and (FCVwMcpsPstore)
+      and (FCVdiLocStoreCPSobjPanel)
    then
    begin
       CFWxmlCfgItm.Attributes['cpsX']:=FCcps.CPSobjPanel.Left;
       CFWxmlCfgItm.Attributes['cpsY']:=FCcps.CPSobjPanel.Top;
    end
    else if not assigned(FCcps)
-      and (FCVwMcpsPstore)
+      and (FCVdiLocStoreCPSobjPanel)
    then
    begin
       CFWxmlCfgItm.Attributes['cpsX']:=2;
       CFWxmlCfgItm.Attributes['cpsY']:=40;
    end;
-   CFWxmlCfgItm.Attributes['helpStore']:=FCVwMhelpPstore;
-   if FCVwMhelpPstore
+   CFWxmlCfgItm.Attributes['helpStore']:=FCVdiLocStoreHelpPanel;
+   if FCVdiLocStoreHelpPanel
    then begin
       CFWxmlCfgItm.Attributes['helpX']:=FCWinMain.FCWM_HelpPanel.Left;
       CFWxmlCfgItm.Attributes['helpY']:=FCWinMain.FCWM_HelpPanel.Top;
@@ -346,7 +347,7 @@ begin
    end;
    {.create the graphic setting}
    CFWxmlCfgItm:=CFWxmlRoot.AddChild('gfx');
-   CFWxmlCfgItm.Attributes['wide']:=FCVwinWideScr;
+   CFWxmlCfgItm.Attributes['wide']:=FCVdiWinMainWideScreen;
    CFWxmlCfgItm.Attributes['hrstdt']:=FCV3DstdTresHR;
    {.create the current game data}
 	CFWxmlCfgItm:=CFWxmlRoot.AddChild('currGame');
@@ -385,9 +386,9 @@ begin
    end;
    {.create the debug info}
 	CFWxmlCfgItm:=CFWxmlRoot.AddChild('debug');
-	CFWxmlCfgItm.Attributes['dswitch']:=FCGdebug;
+	CFWxmlCfgItm.Attributes['dswitch']:=FCVdiDebugMode;
    {.write the file and free the memory}
-   FCWinMain.FCXMLcfg.SaveToFile(FCVpathCfg);
+   FCWinMain.FCXMLcfg.SaveToFile(FCVdiPathConfigFile);
    FCWinMain.FCXMLcfg.Active:=false;
 end;
 
@@ -498,7 +499,7 @@ begin
 	DBFRitmCnt:=1;
    DBFRequItmCnt:=0;
 	{.read the document}
-	FCWinMain.FCXMLdbFac.FileName:=FCVpathXML+'\env\factionsdb.xml';
+	FCWinMain.FCXMLdbFac.FileName:=FCVdiPathXML+'\env\factionsdb.xml';
 	FCWinMain.FCXMLdbFac.Active:=true;
 	DBFRfacItem:= FCWinMain.FCXMLdbFac.DocumentElement.ChildNodes.First;
 	while DBFRfacItem<>nil do
@@ -729,7 +730,7 @@ begin
    SetLength(FCDBinfra, 1);
    DBIRcnt:=1;
    {.read the document}
-	FCWinMain.FCXMLdbInfra.FileName:=FCVpathXML+'\env\infrastrucdb.xml';
+	FCWinMain.FCXMLdbInfra.FileName:=FCVdiPathXML+'\env\infrastrucdb.xml';
 	FCWinMain.FCXMLdbInfra.Active:=true;
 	DBIRnode:=FCWinMain.FCXMLdbInfra.DocumentElement.ChildNodes.First;
 	while DBIRnode<>nil do
@@ -1154,7 +1155,7 @@ begin
    SetLength(FCDBProducts, 1);
    DBPRcnt:=0;
    {.read the document}
-   FCWinMain.FCXMLdbProducts.FileName:=FCVpathXML+'\env\productsdb.xml';
+   FCWinMain.FCXMLdbProducts.FileName:=FCVdiPathXML+'\env\productsdb.xml';
    FCWinMain.FCXMLdbProducts.Active:=true;
    DBPRnode:= FCWinMain.FCXMLdbProducts.DocumentElement.ChildNodes.First;
    while DBPRnode<>nil do
@@ -1313,7 +1314,7 @@ begin
    DBSCRcount:=1;
    {.INTERNAL STRUCTURES}
    {.read the document}
-   FCWinMain.FCXMLdbSCraft.FileName:=FCVpathXML+'\env\scintstrucdb.xml';
+   FCWinMain.FCXMLdbSCraft.FileName:=FCVdiPathXML+'\env\scintstrucdb.xml';
    FCWinMain.FCXMLdbSCraft.Active:=true;
    DBSCRnode:= FCWinMain.FCXMLdbSCraft.DocumentElement.ChildNodes.First;
    while DBSCRnode<>nil do
@@ -1383,7 +1384,7 @@ begin
    DBSCRcount:=1;
    {.DESIGNS}
    {.read the document}
-   FCWinMain.FCXMLdbSCraft.FileName:=FCVpathXML+'\env\scdesignsdb.xml';
+   FCWinMain.FCXMLdbSCraft.FileName:=FCVdiPathXML+'\env\scdesignsdb.xml';
    FCWinMain.FCXMLdbSCraft.Active:=true;
    DBSCRnode:= FCWinMain.FCXMLdbSCraft.DocumentElement.ChildNodes.First;
    while DBSCRnode<>nil do
@@ -1470,7 +1471,7 @@ begin
    SetLength(FCDBdgSPMi, 1);
    DBSPMIcnt:=0;
 	{.read the document}
-	FCWinMain.FCXMLdbSPMi.FileName:=FCVpathXML+'\env\spmdb.xml';
+	FCWinMain.FCXMLdbSPMi.FileName:=FCVdiPathXML+'\env\spmdb.xml';
 	FCWinMain.FCXMLdbSPMi.Active:=true;
 	DBSPMIitm:= FCWinMain.FCXMLdbSPMi.DocumentElement.ChildNodes.First;
 	while DBSPMIitm<>nil do
@@ -1738,7 +1739,7 @@ begin
       SetLength(FCDBsSys,1);
       DBSSPstarSysCnt:=1;
       {.read the document}
-      FCWinMain.FCXMLdbUniv.FileName:=FCVpathXML+'\univ\universe.xml';
+      FCWinMain.FCXMLdbUniv.FileName:=FCVdiPathXML+'\univ\universe.xml';
       FCWinMain.FCXMLdbUniv.Active:=true;
       DBSSPstarSysNode:= FCWinMain.FCXMLdbUniv.DocumentElement.ChildNodes.First;
       while DBSSPstarSysNode<>nil do
@@ -2316,7 +2317,7 @@ begin
    SetLength(FCDBtechsci, 1);
    DBTLcnt:=0;
    {.read the document}
-   FCWinMain.FCXMLdbTechnosciences.FileName:=FCVpathXML+'\env\technosciencesdb.xml';
+   FCWinMain.FCXMLdbTechnosciences.FileName:=FCVdiPathXML+'\env\technosciencesdb.xml';
    FCWinMain.FCXMLdbTechnosciences.Active:=true;
    DBTLnode:=FCWinMain.FCXMLdbTechnosciences.DocumentElement.ChildNodes.First;
    while DBTLnode<>nil do
@@ -2372,7 +2373,7 @@ var
    ,HTDLlang
    ,HTDLroot: IXMLNode;
 begin
-   HTDLroot:=FCWinMain.FCXMLtxtEncy.DocumentElement.ChildNodes.FindNode('hintlist'+FCVlang);
+   HTDLroot:=FCWinMain.FCXMLtxtEncy.DocumentElement.ChildNodes.FindNode('hintlist'+FCVdiLanguage);
    if HTDLroot<>nil
    then
    begin

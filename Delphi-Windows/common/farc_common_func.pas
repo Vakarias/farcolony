@@ -1682,21 +1682,21 @@ begin
    TGD1st:='';
    if TGDday=1
    then TGD1st:=FCFdTFiles_UIStr_Get(uistrUI, 'TimeF1st');
-   if FCVlang='EN'
+   if FCVdiLanguage='EN'
    then
    begin
       Result:=FCFdTFiles_UIStr_Get(uistrUI, 'TimeFM'+IntToStr(TGDmth))
          +' '+IntToStr(TGDday)+TGD1st
          +' '+IntToStr(TGDyr);
    end
-   else if FCVlang='FR'
+   else if FCVdiLanguage='FR'
    then
    begin
       Result:=IntToStr(TGDday)+TGD1st
          +' '+FCFdTFiles_UIStr_Get(uistrUI, 'TimeFM'+IntToStr(TGDmth))
          +' '+IntToStr(TGDyr);
    end
-   else if FCVlang='SP'
+   else if FCVdiLanguage='SP'
    then
    begin
       Result:=IntToStr(TGDday)+TGD1st

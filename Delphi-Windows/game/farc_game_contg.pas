@@ -100,7 +100,7 @@ begin
 //   if FCWinMain.FCWM_MMenu_DebTools.Visible
 //   then FCWinMain.FCWM_MMenu_DebTools.Visible:=false;
    FCMgfxC_TerrainsCollection_Init;
-   if not Assigned(FCRdiSettlementPic[1])
+   if not Assigned(FCRdiSettlementPictures[1])
    then FCMgfxC_Settlements_Init;
    {.data initialization}
    SetLength(FCGtskLstToProc,1);
@@ -112,7 +112,7 @@ begin
    if FCRplayer.P_starSysLoc=''
    then
    begin
-      DeleteFile(FCVcfgDir+'SavedGames\'+FCRplayer.P_gameName+'.xml');
+      DeleteFile(FCVdiPathConfigDir+'SavedGames\'+FCRplayer.P_gameName+'.xml');
       FCRplayer.P_gameName:='';
       FCMdF_ConfigFile_Write(false);
    end

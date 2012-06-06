@@ -230,6 +230,7 @@ uses
    farc_common_func
    ,farc_data_textfiles
    ,farc_data_game
+   ,farc_data_html
    ,farc_data_init
    ,farc_data_univ
    ,farc_game_colony
@@ -1264,7 +1265,7 @@ begin
          while CPUcnt<=CPUmax do
          begin
             CPUinfStatus:=FCFgInf_Status_GetToken(FCentities[0].E_col[CDPcurrentColony].COL_settlements[CDPcurrentSettlement].CS_infra[CPUcnt].CI_status);
-            CPUinfDisplay:='<img src="file://'+FCVpathRsrc+'pics-ui-colony\'+CPUinfStatus+'16.jpg" align="middle"> - '
+            CPUinfDisplay:='<img src="file://'+FCVdiPathResourceDir+'pics-ui-colony\'+CPUinfStatus+'16.jpg" align="middle"> - '
                +FCFdTFiles_UIStr_Get(uistrUI, FCentities[0].E_col[CDPcurrentColony].COL_settlements[CDPcurrentSettlement].CS_infra[CPUcnt].CI_dbToken)
                +' '+UIHTMLencyBEGIN+FCentities[0].E_col[CDPcurrentColony].COL_settlements[CDPcurrentSettlement].CS_infra[CPUcnt].CI_dbToken+UIHTMLencyEND;
             case FCentities[0].E_col[CDPcurrentColony].COL_settlements[CDPcurrentSettlement].CS_infra[CPUcnt].CI_function of
@@ -1329,7 +1330,7 @@ begin
                   istInTransition:
                   begin
                      if FCentities[0].E_col[CDPcurrentColony].COL_settlements[CDPcurrentSettlement].CS_infra[DataIndex1].CI_cabDuration=FCCtransitionTime
-                     then CPUsubnode.Text:='<img src="file://'+FCVpathRsrc+'pics-ui-colony\'+CPUinfStatus+'16.jpg" align="middle"> - '
+                     then CPUsubnode.Text:='<img src="file://'+FCVdiPathResourceDir+'pics-ui-colony\'+CPUinfStatus+'16.jpg" align="middle"> - '
                         +FCFdTFiles_UIStr_Get(uistrUI, FCentities[0].E_col[CDPcurrentColony].COL_settlements[CDPcurrentSettlement].CS_infra[DataIndex1].CI_dbToken)
                         +' '+UIHTMLencyBEGIN+FCentities[0].E_col[CDPcurrentColony].COL_settlements[CDPcurrentSettlement].CS_infra[DataIndex1].CI_dbToken+UIHTMLencyEND;
                      CPUsubnodetp.Text:=
@@ -1339,7 +1340,7 @@ begin
 
                   istOperational:
                   begin
-                     CPUsubnode.Text:='<img src="file://'+FCVpathRsrc+'pics-ui-colony\'+CPUinfStatus+'16.jpg" align="middle"> - '
+                     CPUsubnode.Text:='<img src="file://'+FCVdiPathResourceDir+'pics-ui-colony\'+CPUinfStatus+'16.jpg" align="middle"> - '
                         +FCFdTFiles_UIStr_Get(uistrUI, FCentities[0].E_col[CDPcurrentColony].COL_settlements[CDPcurrentSettlement].CS_infra[DataIndex1].CI_dbToken)
                         +' '+UIHTMLencyBEGIN+FCentities[0].E_col[CDPcurrentColony].COL_settlements[CDPcurrentSettlement].CS_infra[DataIndex1].CI_dbToken+UIHTMLencyEND;
                      CPUsubnodeTp.Delete;

@@ -132,6 +132,7 @@ implementation
 uses
    farc_common_func
    ,farc_data_3dopengl
+   ,farc_data_html
    ,farc_data_spu
    ,farc_data_textfiles
    ,farc_data_univ
@@ -364,7 +365,7 @@ begin
          FCMoglVM_CamMain_Target(-1, false);
       end; //==END== case: gmcmnItransit ==//
    end; //==END== case GMCmissTp of ==//
-FCGtimeFlow.Enabled:=true;
+FCVdiGameFlowTimer.Enabled:=true;
 end;
 
 procedure FCMgMCore_Mission_ConfData;
@@ -412,7 +413,7 @@ begin
       FCWinMain.FCWM_SurfPanel.Hide;
       FCWinMain.FCWM_SP_Surface.Enabled:=false;
    end;
-   FCGtimeFlow.Enabled:=true;
+   FCVdiGameFlowTimer.Enabled:=true;
 end;
 
 procedure FCMgMCore_Mission_DestUpd(const MDUtripOnly: boolean);
@@ -626,7 +627,7 @@ var
 
    MSenvironment: TFCEduEnv;
 begin
-   FCGtimeFlow.Enabled:=false;
+   FCVdiGameFlowTimer.Enabled:=false;
    {.pre initialization for all the missions}
    FCWinMain.FCWM_MissionSettings.Enabled:=true;
    FCMuiM_MessageBox_ResetState(true);

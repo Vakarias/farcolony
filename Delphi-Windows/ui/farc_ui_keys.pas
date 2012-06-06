@@ -1079,7 +1079,7 @@ begin
       if (WMTkeyDump=67)
          and (FCWinMain.FCWM_3dMainGrp.Visible)
          and (FCWinMain.FCGLScadencer.Enabled)
-         and (FCGtimeFlow.Enabled)
+         and (FCVdiGameFlowTimer.Enabled)
          and (not FCWinNewGSetup.Visible)
          and (not FCWinMain.FCWM_MissionSettings.Visible)
       then
@@ -1115,7 +1115,7 @@ begin
       if (WMTkeyDump=80)
          and (FCRplayer.P_timePhse<>tphPAUSE)
          and (FCRplayer.P_timePhse<>tphPAUSEwo)
-         and (FCGtimeFlow.Enabled)
+         and (FCVdiGameFlowTimer.Enabled)
          and (FCWinMain.FCGLScadencer.Enabled)
       then
       begin
@@ -1141,7 +1141,7 @@ begin
       if (WMTkeyDump=88)
          and (FCWinMain.FCWM_3dMainGrp.Visible)
          and (FCWinMain.FCGLScadencer.Enabled)
-         and (FCGtimeFlow.Enabled)
+         and (FCVdiGameFlowTimer.Enabled)
          and (not FCWinNewGSetup.Visible)
          and (not FCWinMain.FCWM_MissionSettings.Visible)
       then
@@ -1153,7 +1153,7 @@ begin
       if (WMTkeyDump=90)
          and (FCWinMain.FCWM_3dMainGrp.Visible)
          and (FCWinMain.FCGLScadencer.Enabled)
-         and (FCGtimeFlow.Enabled)
+         and (FCVdiGameFlowTimer.Enabled)
          and (not FCWinNewGSetup.Visible)
          and (not FCWinMain.FCWM_MissionSettings.Visible)
       then

@@ -86,7 +86,7 @@ begin
    SOMEcnt:=1;
    while SOMEcnt<=30 do
    begin
-      if SOMEsender=FCRdiSettlementPic[SOMEcnt]
+      if SOMEsender=FCRdiSettlementPictures[SOMEcnt]
       then
       begin
          SOMEreg:=SOMEcnt;
@@ -111,15 +111,15 @@ var
    SSShot: integer;
 begin
    SSShot:=0;
-   if FCRdiSettlementPic[SSSregion].Visible
-   then FCRdiSettlementPic[SSSregion].Hide
+   if FCRdiSettlementPictures[SSSregion].Visible
+   then FCRdiSettlementPictures[SSSregion].Hide
    else
    begin
       SSShot:=SSSregion-1;
-      FCRdiSettlementPic[SSSregion].Left:=
-         FCWinMain.FCWM_SP_Surface.HotSpots[SSShot].X+(FCWinMain.FCWM_SP_Surface.HotSpots[SSShot].Width shr 1)-(FCRdiSettlementPic[SSSregion].Width shr 1);
-      FCRdiSettlementPic[SSSregion].Top:=FCWinMain.FCWM_SP_Surface.HotSpots[SSShot].Y+4;
-      FCRdiSettlementPic[SSSregion].Show;
+      FCRdiSettlementPictures[SSSregion].Left:=
+         FCWinMain.FCWM_SP_Surface.HotSpots[SSShot].X+(FCWinMain.FCWM_SP_Surface.HotSpots[SSShot].Width shr 1)-(FCRdiSettlementPictures[SSSregion].Width shr 1);
+      FCRdiSettlementPictures[SSSregion].Top:=FCWinMain.FCWM_SP_Surface.HotSpots[SSShot].Y+4;
+      FCRdiSettlementPictures[SSSregion].Show;
    end;
 end;
 
@@ -133,7 +133,7 @@ begin
    SHcnt:=1;
    while SHcnt<=30 do
    begin
-      FCRdiSettlementPic[SHcnt].Visible:=false;
+      FCRdiSettlementPictures[SHcnt].Visible:=false;
       inc(SHcnt);
    end;
 end;
@@ -150,21 +150,21 @@ var
 begin
    SIcnt:=1;
    SIbmp:=TBitmap32.Create;
-   SIbmp.LoadFromFile(FCVpathRsrc+'pics-ui-colony\colonysurficn.png');
+   SIbmp.LoadFromFile(FCVdiPathResourceDir+'pics-ui-colony\colonysurficn.png');
    while SIcnt<=30 do
    begin
-      FCRdiSettlementPic[SIcnt]:=TImage32.Create(FCWinMain.FCWM_SP_Surface);
-      FCRdiSettlementPic[SIcnt].Parent:=FCWinMain.FCWM_SP_Surface;
-      FCRdiSettlementPic[SIcnt].Bitmap:=SIbmp;
-      FCRdiSettlementPic[SIcnt].BitmapAlign:=baTopLeft;
-      FCRdiSettlementPic[SIcnt].Height:=40;
-      FCRdiSettlementPic[SIcnt].Left:=25+(SIcnt*40);
-      FCRdiSettlementPic[SIcnt].Scale:=1;
-      FCRdiSettlementPic[SIcnt].ScaleMode:=smNormal;
-      FCRdiSettlementPic[SIcnt].Top:=60;
-      FCRdiSettlementPic[SIcnt].Visible:=false;
-      FCRdiSettlementPic[SIcnt].Width:=40;
-      FCRdiSettlementPic[SIcnt].OnMouseEnter:=FCgfxCsettlementEvents.FCMgfxC_Settlement_OnMouseEnter;
+      FCRdiSettlementPictures[SIcnt]:=TImage32.Create(FCWinMain.FCWM_SP_Surface);
+      FCRdiSettlementPictures[SIcnt].Parent:=FCWinMain.FCWM_SP_Surface;
+      FCRdiSettlementPictures[SIcnt].Bitmap:=SIbmp;
+      FCRdiSettlementPictures[SIcnt].BitmapAlign:=baTopLeft;
+      FCRdiSettlementPictures[SIcnt].Height:=40;
+      FCRdiSettlementPictures[SIcnt].Left:=25+(SIcnt*40);
+      FCRdiSettlementPictures[SIcnt].Scale:=1;
+      FCRdiSettlementPictures[SIcnt].ScaleMode:=smNormal;
+      FCRdiSettlementPictures[SIcnt].Top:=60;
+      FCRdiSettlementPictures[SIcnt].Visible:=false;
+      FCRdiSettlementPictures[SIcnt].Width:=40;
+      FCRdiSettlementPictures[SIcnt].OnMouseEnter:=FCgfxCsettlementEvents.FCMgfxC_Settlement_OnMouseEnter;
       inc(SIcnt);
    end;
    SIbmp.Free;
@@ -230,7 +230,7 @@ begin
          39: TGCIfile:='rst15icyBarren_brok.jpg';
          40: TGCIfile:='rst15icyBarren_moun.jpg';
       end; //==END== case TGCIcnt ==//
-      FCWinMain.FCWM_RegTerrLib.Bitmap[TGCIdmp].LoadFromFile(FCVpathRsrc+'pics-ui-terrain\'+TGCIfile);
+      FCWinMain.FCWM_RegTerrLib.Bitmap[TGCIdmp].LoadFromFile(FCVdiPathResourceDir+'pics-ui-terrain\'+TGCIfile);
       inc(TGCIcnt);
    end; //==END== while TGCIcnt<=41 ==//
 end;

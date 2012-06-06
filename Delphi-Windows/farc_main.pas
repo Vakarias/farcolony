@@ -467,6 +467,7 @@ uses
    ,farc_data_files
    ,farc_data_filesavegame
    ,farc_data_game
+   ,farc_data_html
    ,farc_data_init
    ,farc_data_textfiles
    ,farc_game_colony
@@ -614,7 +615,7 @@ begin
       end;
       FCVwinMmousePosDumpX:=FCVwinMmouseNewPosX;
       FCVwinMmousePosDumpY:=FCVwinMmouseNewPosY;
-      if FCGtimeFlow.enabled
+      if FCVdiGameFlowTimer.enabled
       then
       begin
          FCMgGFlow_Tasks_Process;
@@ -722,7 +723,7 @@ begin
    begin
       FCGLSRootMain.Tag:=0;
       {.time frame}
-      FCGtimeFlow.Enabled:=true;
+      FCVdiGameFlowTimer.Enabled:=true;
       FCWM_MMenu_G_Save.Enabled:=true;
       FCWM_MMenu_G_FlushOld.Enabled:=true;
       FCWM_MMenu_H_HPanel.Enabled:=true;
@@ -825,7 +826,7 @@ end;
 procedure TFCWinMain.FCGLSmainViewMouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
-   if (not FCGtimeFlow.Enabled)
+   if (not FCVdiGameFlowTimer.Enabled)
       and (
             (FCV3DselSpU>0)
             and
@@ -833,13 +834,13 @@ begin
             and
             (FCentities[0].E_spU[round(FC3DobjSpUnit[FCV3DselSpU].TagFloat)].SUO_3dmove>0)
             )
-   then FCGtimeFlow.Enabled:=true;
+   then FCVdiGameFlowTimer.Enabled:=true;
 end;
 
 procedure TFCWinMain.FCWMS_ButCancelClick(Sender: TObject);
 begin
    FCWinMain.FCWM_MissionSettings.Hide;
-   FCGtimeFlow.Enabled:=true;
+   FCVdiGameFlowTimer.Enabled:=true;
 end;
 
 procedure TFCWinMain.FCWMS_ButCancelKeyDown(Sender: TObject; var Key: Word;
@@ -1344,20 +1345,20 @@ end;
 
 procedure TFCWinMain.FCWM_MMenu_O_LocHelpClick(Sender: TObject);
 begin
-   if FCVwMhelpPstore
-   then FCVwMhelpPstore:=false
-   else if not FCVwMhelpPstore
-   then FCVwMhelpPstore:=true;
+   if FCVdiLocStoreHelpPanel
+   then FCVdiLocStoreHelpPanel:=false
+   else if not FCVdiLocStoreHelpPanel
+   then FCVdiLocStoreHelpPanel:=true;
    FCMdF_ConfigFile_Write(false);
    FCMuiW_UI_Initialize(mwupMenuLoc);
 end;
 
 procedure TFCWinMain.FCWM_MMenu_O_LocVObjClick(Sender: TObject);
 begin
-   if FCVwMcpsPstore
-   then FCVwMcpsPstore:=false
-   else if not FCVwMcpsPstore
-   then FCVwMcpsPstore:=true;
+   if FCVdiLocStoreCPSobjPanel
+   then FCVdiLocStoreCPSobjPanel:=false
+   else if not FCVdiLocStoreCPSobjPanel
+   then FCVdiLocStoreCPSobjPanel:=true;
    FCMdF_ConfigFile_Write(false);
    FCMuiW_UI_Initialize(mwupMenuLoc);
 end;
@@ -1392,10 +1393,10 @@ end;
 
 procedure TFCWinMain.FCWM_MMenu_O_WideScrClick(Sender: TObject);
 begin
-   if FCVwinWideScr
-   then FCVwinWideScr:=false
-   else if not FCVwinWideScr
-   then FCVwinWideScr:=true;
+   if FCVdiWinMainWideScreen
+   then FCVdiWinMainWideScreen:=false
+   else if not FCVdiWinMainWideScreen
+   then FCVdiWinMainWideScreen:=true;
    FCMuiW_BackgroundPicture_Update;
 end;
 
@@ -1618,8 +1619,8 @@ end;
 
 procedure TFCWinMain.FCWM_UMIMaximize(Sender: TObject);
 begin
-   FCWM_UMI.Constraints.MinWidth:=FCVwMumiW;
-   FCWM_UMI.Constraints.MinHeight:=FCVwMumiH;
+   FCWM_UMI.Constraints.MinWidth:=FCVdiUMIconstraintWidth;
+   FCWM_UMI.Constraints.MinHeight:=FCVdiUMIconstraintHeight;
 end;
 
 procedure TFCWinMain.FCWM_UMIMinimize(Sender: TObject);
@@ -1659,64 +1660,76 @@ end;
 procedure TFCWinMain.FormCreate(Sender: TObject);
 var
    FClocalPath: widestring;
-
+//    Ch: char;
    FCwide: pWideChar;
+   DefLCID: LCID;
+Buffer: PWidechar;
 begin
    {.core settings}
    FCVisFARCclosing:=false;
    ThousandSeparator:=',';
    Randomize;
    {.set the paths}
-   FCVpathGame:=ExtractFilePath(Application.ExeName);
-   FCVcfgDir:=FCFcFunc_WinFolders_GetMyDocs(false);
+   FCVdiPathGame:=ExtractFilePath(Application.ExeName);
+   FCVdiPathConfigDir:=FCFcFunc_WinFolders_GetMyDocs(false);
 //   if DecimalSeparator=','
 //   then
    //prevent unwanted re-setting of DefaultFormatsettings
-  Application.UpdateFormatSettings := False;
+//  Application.UpdateFormatSettings := False;
   //Now it is safe to set this for the lifetime of my app
 
-   DecimalSeparator:='.';
+//   DecimalSeparator:='.';
+
+
+Application.UpdateFormatSettings := True;
+Buffer:='.';
+//StrPCopy(Buffer, Ch);
+DefLCID := GetThreadLocale;
+if SetLocaleInfo(DefLCID, LOCALE_SDecimal, Buffer) then
+DecimalSeparator := StrPas(Buffer)[1];
+Application.UpdateFormatSettings := False;
+
    RandSeed:=GetTickCount;
-   FCVpathCfg:=FCVcfgDir+'config.xml';
+   FCVdiPathConfigFile:=FCVdiPathConfigDir+'config.xml';
    {.initialize some global data and acces to the configuration file}
-	FCVpathRsrc:=FCVpathGame+'_RSRC\';
-	FCVpathXML:=FCVpathGame+'_XMLD\';
+	FCVdiPathResourceDir:=FCVdiPathGame+'_RSRC\';
+	FCVdiPathXML:=FCVdiPathGame+'_XMLD\';
    try
       FCMdInit_Initialize;
    finally
       {.local fonts and user's interface initialization}
-      FClocalPath:=FCVpathRsrc+'fnt\DejaVuSans.ttf';
+      FClocalPath:=FCVdiPathResourceDir+'fnt\DejaVuSans.ttf';
       FCwide:=Addr(FClocalPath[1]);
       AddFontResource(FCwide);
       SendMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0) ;
-      FClocalPath:=FCVpathRsrc+'fnt\DejaVuSansCondensed.ttf';
+      FClocalPath:=FCVdiPathResourceDir+'fnt\DejaVuSansCondensed.ttf';
       FCwide:=Addr(FClocalPath[1]);
       AddFontResource(FCwide);
       SendMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0) ;
-      FClocalPath:=FCVpathRsrc+'fnt\disco___.ttf';
+      FClocalPath:=FCVdiPathResourceDir+'fnt\disco___.ttf';
       FCwide:=Addr(FClocalPath[1]);
       AddFontResource(FCwide);
       SendMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0) ;
-      FClocalPath:=FCVpathRsrc+'fnt\Existence-Light.otf';
+      FClocalPath:=FCVdiPathResourceDir+'fnt\Existence-Light.otf';
       FCwide:=Addr(FClocalPath[1]);
       AddFontResource(FCwide);
       SendMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0) ;
-      FClocalPath:=FCVpathRsrc+'fnt\FrancophilSans.ttf';
+      FClocalPath:=FCVdiPathResourceDir+'fnt\FrancophilSans.ttf';
       FCwide:=Addr(FClocalPath[1]);
       AddFontResource(FCwide);
       SendMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0) ;
-      FClocalPath:=FCVpathRsrc+'fnt\Interdimensional.ttf';
+      FClocalPath:=FCVdiPathResourceDir+'fnt\Interdimensional.ttf';
       FCwide:=Addr(FClocalPath[1]);
       AddFontResource(FCwide);
       SendMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0) ;
       FCMuiW_UI_Initialize(mwupAll);
 	end;
-	FCVwinMallowUp:=true;
+	FCVdiWinMainAllowUpdate:=true;
    {.initialize the game timer}
-   FCGtimeFlow:= TgtTimer.Create(Self);
-   FCGtimeFlow.OnTimer := InternalOnGameTimer;
-   FCGtimeFlow.Interval:=1000;
-   FCGtimeFlow.Enabled := False;
+   FCVdiGameFlowTimer:= TgtTimer.Create(Self);
+   FCVdiGameFlowTimer.OnTimer := InternalOnGameTimer;
+   FCVdiGameFlowTimer.Interval:=1000;
+   FCVdiGameFlowTimer.Enabled := False;
 end;
 
 procedure TFCWinMain.FormDestroy(Sender: TObject);
@@ -1727,15 +1740,15 @@ var
 begin
    {.disable timer and threads}
    FCGLScadencer.Enabled:=false;
-   if assigned (FCGtimeFlow)
+   if assigned (FCVdiGameFlowTimer)
    then
    begin
-      FCGtimeFlow.Enabled:=false;
-      FCGtimeFlow.Free;
+      FCVdiGameFlowTimer.Enabled:=false;
+      FCVdiGameFlowTimer.Free;
    end;
    {.windows switchs}
    FCVisFARCclosing:=true;
-   FCVwinMallowUp:=false;
+   FCVdiWinMainAllowUpdate:=false;
    {.store main window location}
 	FCMuiW_MainWindow_StoreLocSiz;
    {.free cps}
@@ -1769,29 +1782,28 @@ begin
    FCXMLtxtUI.Active:=false;
    FCXMLtxtEncy.Active:=false;
    {.free memory streams}
-   FCVmemEncy.Free;
-   FCVmemUI.Free;
-   FDlocalPath:=FCVpathRsrc+'fnt\DejaVuSans.ttf';
+   FCMdTF_MemoryStreams_free;
+   FDlocalPath:=FCVdiPathResourceDir+'fnt\DejaVuSans.ttf';
    FDwide:=Addr(FDlocalPath[1]);
    RemoveFontResource(FDwide);
    SendMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0) ;
-   FDlocalPath:=FCVpathRsrc+'fnt\DejaVuSansCondensed.ttf';
+   FDlocalPath:=FCVdiPathResourceDir+'fnt\DejaVuSansCondensed.ttf';
    FDwide:=Addr(FDlocalPath[1]);
    RemoveFontResource(FDwide);
    SendMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0) ;
-   FDlocalPath:=FCVpathRsrc+'fnt\disco___.ttf';
+   FDlocalPath:=FCVdiPathResourceDir+'fnt\disco___.ttf';
    FDwide:=Addr(FDlocalPath[1]);
    RemoveFontResource(FDwide);
    SendMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0) ;
-   FDlocalPath:=FCVpathRsrc+'fnt\Existence-Light.otf';
+   FDlocalPath:=FCVdiPathResourceDir+'fnt\Existence-Light.otf';
    FDwide:=Addr(FDlocalPath[1]);
    RemoveFontResource(FDwide);
    SendMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0) ;
-   FDlocalPath:=FCVpathRsrc+'fnt\FrancophilSans.ttf';
+   FDlocalPath:=FCVdiPathResourceDir+'fnt\FrancophilSans.ttf';
    FDwide:=Addr(FDlocalPath[1]);
    RemoveFontResource(FDwide);
    SendMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0) ;
-   FDlocalPath:=FCVpathRsrc+'fnt\Interdimensional.ttf';
+   FDlocalPath:=FCVdiPathResourceDir+'fnt\Interdimensional.ttf';
    FDwide:=Addr(FDlocalPath[1]);
    RemoveFontResource(FDwide);
    SendMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0) ;
@@ -1834,7 +1846,7 @@ end;
 procedure TFCWinMain.UpdUI(UUIwinOnly: boolean);
 begin
    {.save main window location and size}
-   if FCVwinMallowUp
+   if FCVdiWinMainAllowUpdate
    then FCMuiW_MainWindow_StoreLocSiz;
    {.update about window}
    FCMuiW_UI_Initialize(mwupSecwinAbout);

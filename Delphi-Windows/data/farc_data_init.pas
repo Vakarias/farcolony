@@ -42,10 +42,128 @@ uses
 
 //==END PUBLIC ENUM=========================================================================
 
+type TFCRdiSettlementPictures=array[1..30] of TImage32;
+
 //==END PUBLIC RECORDS======================================================================
 
-   //==========subsection===================================================================
-//   var
+var
+   //==========databases and other data structures pre-init=================================
+   ///<summary>
+   ///   settlements pictures - contains the settlement icons
+   ///</summary>
+   FCRdiSettlementPictures: TFCRdiSettlementPictures;
+
+   //==========game core====================================================================
+   ///<summary>
+   ///   [true=]debug mode
+   ///</summary>
+   FCVdiDebugMode: boolean =false;
+
+   ///<summary>
+   ///   threaded game timer declaration
+   ///</summary>
+   FCVdiGameFlowTimer : TgtTimer;
+
+   ///<summary>
+   ///   language token of the game, until now: EN = english FR = french SP = spanish
+   ///</summary>
+   FCVdiLanguage: string;
+
+   //==========panels location storing switch===============================================
+   ///<summary>
+   ///   [true=]store colony panel location
+   ///</summary>
+   FCVdiLocStoreColonyPanel: boolean= false;
+
+
+   ///<summary>
+   ///   [true=]store CPS objectives panel location
+   ///</summary>
+   FCVdiLocStoreCPSobjPanel: boolean= false;
+
+   ///<summary>
+   ///   [true=]store help panel location
+   ///</summary>
+   FCVdiLocStoreHelpPanel: boolean= false;
+
+   //==========path strings=================================================================
+   ///<summary>
+   ///   root path for the directory of the data files, /<user>/My Documents/farcolony
+   ///</summary>
+   FCVdiPathConfigDir: string;
+
+   ///<summary>
+   ///   path for the configuration file
+   ///</summary>
+   FCVdiPathConfigFile: string;
+
+   ///<summary>
+   ///   path of the game
+   ///</summary>
+   FCVdiPathGame: string;
+
+   ///<summary>
+   ///   path of the resource directory
+   ///</summary>
+   FCVdiPathResourceDir: string;
+
+   ///<summary>
+   ///   path of the XML directory - include end separator slash
+   ///</summary>
+   FCVdiPathXML: string;
+
+   //==========UMI related==================================================================
+   ///<summary>
+   ///   UMI height constraint
+   ///</summary>
+   FCVdiUMIconstraintHeight: integer=540;
+
+   ///<summary>
+   ///   UMI width constraint
+   ///</summary>
+   FCVdiUMIconstraintWidth: integer=800;
+
+   //==========windows related==============================================================
+   ///<summary>
+   ///   updating switch for the about window
+   ///</summary>
+   FCVdiWinAboutAllowUpdate: boolean = false;
+
+   ///<summary>
+   ///   updating switch for the main window
+   ///</summary>
+   FCVdiWinMainAllowUpdate: boolean = false;
+
+   ///<summary>
+   ///   store data for height size of the main window
+   ///</summary>
+   FCVdiWinMainHeight: integer;
+
+   ///<summary>
+   ///   store data for left position of the main window
+   ///</summary>
+   FCVdiWinMainLeft: integer;
+
+   ///<summary>
+   ///   store data for top position of the main window
+   ///</summary>
+   FCVdiWinMainTop: integer;
+
+   ///<summary>
+   ///   indicate to use background in [true=]wide or [false=]4:3 mode
+   ///</summary>
+   FCVdiWinMainWideScreen: boolean;
+
+   ///<summary>
+   ///   store data for width size of the main window
+   ///</summary>
+   FCVdiWinMainWidth: integer;
+
+   ///<summary>
+   ///   updating switch for the new game setting window
+   ///</summary>
+   FCVdiWinNewGameAllowUpdate: boolean = false;
+
 //==END PUBLIC VAR==========================================================================
 
 //   const
@@ -60,74 +178,13 @@ uses
 
 
 
-      type TFCRtopdef= record
-      TD_link: string[20];
-      TD_str: string;
-   end;
-      TFCDBtdef= array of TFCRtopdef;
-   //=======================================================================================
-   {.core data structures}
-   //=======================================================================================
 
-   
-
-   //==END ENUM=============================================================================
-   //=======================================================================================
-   {.space units data}
-   //=======================================================================================
-
-   
-   //==END ENUM=============================================================================
-   
-   {.settlements pictures}
-   type TFCRdiSettlementPic=array[1..30] of TImage32;
-   //=======================================================================================
-   {.global variables}
-   //=======================================================================================
    var
-      //==========databases and other data structures pre-init==============================
-      FCDBhelpTdef: TFCDBtdef;
-      
-      FCRdiSettlementPic: TFCRdiSettlementPic;
-      //==========path strings==============================================================
-      {.root path for the directory of the data files, /<user>/My Documents/farcolony}
-      FCVcfgDir: string;
-      {.language token of the game, until now: EN = english FR = french}
-      FCVlang: string;
-      {.path of the game}
-      FCVpathGame: string;
-      {.path for the config file}
-      FCVpathCfg: string;
-      {.path of the resource directory}
-		FCVpathRsrc: string;
-      {.path of the XML directory - w/ end separator}
-		FCVpathXML: string;
+
+
       
       //==========main window related=======================================================
-      FCVwinMallowUp: boolean = false;
-      {.stored left of the main window}
-		FCVwinMlocL: integer;
-      {.stored top of the main window}
-      FCVwinMlocT: integer;
-      {.stored height of the main window}
-      FCVwinMsizeH: integer;
-      {.stored width of the main window}
-      FCVwinMsizeW: integer;
-      FCVwMumiW: integer=800;
-      FCVwMumiH: integer=540;
-      {.indicate to use background in wide or 4:3 mode}
-      FCVwinWideScr: boolean;
-      {.stroe colony/faction panel location}
-      FCVwMcolfacPstore: boolean= false;
-      {.store cps panel location}
-      FCVwMcpsPstore: boolean= false;
-      {.store help panel location}
-      FCVwMhelpPstore: boolean= false;
-      //==========secondary windows related=================================================
-      {.switch to block the updating of the about window before it's created.}
-      FCVallowUpAbWin: boolean = false;
-      {.switch to block the updating of the new game setup window before it's created.}
-      FCVallowUpNGSWin: boolean = false;
+
       //==========message box===============================================================
       {.message counter}
       FCVmsgCount: integer;
@@ -136,15 +193,10 @@ uses
       {.array for store message text}
       FCVmsgStoTtl: array of string;
       //==========game system===============================================================
-      {.debug mode}
-      FCGdebug: boolean =false;
-      {.threaded game timer}
-      FCGtimeFlow : TgtTimer;
+
+
       //==========streams and memory management=============================================
-      {.memory stream for encyclopaedia.xml}
-      FCVmemEncy: TMemoryStream;
-      {.memory stream for ui.xml}
-      FCVmemUI: TMemoryStream;
+      
    const
       {conversion constant 1 AU = 149,597,870 km}
       FCCauInKm=149597870;
@@ -172,28 +224,7 @@ uses
       FCCpcInLY=3.261633;
       //FCCcredRL1x=10000000;//20000;
 //         FCC_DegToRadDiv=180/Pi
-      {.miniHTML standard formating}
-      {:DEV NOTES: put them in ui_html.}
-      FCCFdHead='<p align="left" bgcolor="#374A4A00" bgcolorto="#25252500"><b>';
-      FCCFdHeadC='<p align="center" bgcolor="#374A4A00" bgcolorto="#25252500"><b>';
-      FCCFdHeadEnd='</b></p>';
-      FCCFcolBlue='<font color="#3e3eff00">';
-      FCCFcolBlueL='<font color="#409FFF00">';
-      FCCFcolEND='</font>';
-      FCCFcolGreen='<font color="cllime">';
-      FCCFcolOrge='<font color="#FF641a00">';
-      FCCFcolRed='<font color="#EA000000">';
-      FCCFcolWhBL='<font color="#DCEAFA00">';
-      FCCFcolYel='<font color="#FFFFCA00">';
-      FCCFidxL6='<ind x="6">';
-      FCCFidxL='<ind x="14">';
-      FCCFidxL2='<ind x="20">';
-      FCCFidxR='<ind x="120">';
-      FCCFidxRi='<ind x="140">';
-      FCCFidxRR='<ind x="180">';
-      FCCFidxRRR='<ind x="240">';
-      FCCFidxRRRR='<ind x="340">';    {:DEV NOTES: rename them including the spaceX.}
-      FCCFpanelTitle=FCCFidxL2+'<b>';
+
 
 ///<summary>
 ///   initialize all the basic data, test the configuration file and the save games
@@ -224,21 +255,21 @@ directory.
 }
 begin
    {.configuration file initialization}
-   if not FileExists(FCVpathCfg)
+   if not FileExists(FCVdiPathConfigFile)
    then
    begin
-      FCVlang:= 'EN';
-      FCVwinMsizeW:= FCWinMain.Width;
-      FCVwinMsizeH:= FCWinMain.Height;
-      FCVwinMlocL:= FCWinMain.Left;
-      FCVwinMlocT:= FCWinMain.Top;
+      FCVdiLanguage:= 'EN';
+      FCVdiWinMainWidth:= FCWinMain.Width;
+      FCVdiWinMainHeight:= FCWinMain.Height;
+      FCVdiWinMainLeft:= FCWinMain.Left;
+      FCVdiWinMainTop:= FCWinMain.Top;
       FCMdF_ConfigFile_Write(false);
    end
-   else if FileExists(FCVpathCfg)
+   else if FileExists(FCVdiPathConfigFile)
    then FCMdF_ConfigFile_Read(false);
    {.saved games directory initialization}
-   if not DirectoryExists(FCVcfgDir+'SavedGames')
-   then MkDir(FCVcfgDir+'SavedGames');
+   if not DirectoryExists(FCVdiPathConfigDir+'SavedGames')
+   then MkDir(FCVdiPathConfigDir+'SavedGames');
    {.game databases loading}
    FCMdF_DBProducts_Read;
    FCMdF_DBSPMi_Read;

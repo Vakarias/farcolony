@@ -63,12 +63,12 @@ begin
 //   FCWinMain.FCWM_3dMainGrp.Visible:=false;
    {:DEV NOTES: trigger failure message and display them.
                   for especially 1st phase, encourage the player to try again (depending the cause of failure).}
-   FCGtimeFlow.Enabled:=false;
+   FCVdiGameFlowTimer.Enabled:=false;
    FCWinMain.FCGLScadencer.Enabled:=false;
    case GameOverReason of
       gfrCPScolonyBecameDissident:;
 
-      gfrCPSentirePopulationDie: if FCGdebug
+      gfrCPSentirePopulationDie: if FCVdiDebugMode
       then FCWinDebug.AdvMemo1.Lines.Add('all population die of dehydration, enjoy :)');
 
       gfrCPSendOfPhase:

@@ -106,14 +106,26 @@ procedure FCMdTfiles_Lang_Switch(const LSlang: string);
 ///</summary>
 procedure FCMdTfiles_UIString_Init;
 
+///<summary>
+///   free the memory streams used for ui.xml and encyclopaedia.xml
+///</summary>
+procedure FCMdTF_MemoryStreams_free;
+
 implementation
 
 uses
    farc_common_func
+   ,farc_data_html
 	,farc_main
    ,farc_game_cps
    ,farc_game_spm
    ,farc_ui_html;
+
+var
+{.memory stream for encyclopaedia.xml}
+      FCVmemEncy: TMemoryStream;
+      {.memory stream for ui.xml}
+      FCVmemUI: TMemoryStream;
 
 //===================================END OF INIT============================================
 
@@ -184,7 +196,7 @@ begin
                if UISGspmi.SPMI_isUnique2set
                then
                begin
-                  if FCVlang='EN'
+                  if FCVdiLanguage='EN'
                   then UISGresDump3:=' ';
                   case UISGspmi.SPMI_area of
                      dgADMIN: UISGresDump3:='UMIgvtPolSys';
@@ -205,7 +217,7 @@ begin
                +'<br>'
                +UISGresDump2;
             {.SPMi description}
-            UISGencyItem:=UISGtxtItm.ChildNodes.FindNode(FCVlang);
+            UISGencyItem:=UISGtxtItm.ChildNodes.FindNode(FCVdiLanguage);
             if UISGtxtSubItm<>nil
             then UISGresDump:=UISGresDump
                +'<b>'+FCFdTFiles_UIStr_Get(uistrUI ,'SPMiFormat_Description')+':</b> '
@@ -340,7 +352,7 @@ begin
       {.keep the comptability with the old format}
       else
       begin
-         UISGtxtSubItm:=UISGtxtItm.ChildNodes.FindNode(FCVlang);
+         UISGtxtSubItm:=UISGtxtItm.ChildNodes.FindNode(FCVdiLanguage);
          if UISGtxtSubItm<>nil
          then UISGresDump:=UISGtxtSubItm.Text;
       end;
@@ -348,7 +360,7 @@ begin
    else if UISGtxtItm<>nil
    then
    begin
-      UISGtxtSubItm:=UISGtxtItm.ChildNodes.FindNode(FCVlang);
+      UISGtxtSubItm:=UISGtxtItm.ChildNodes.FindNode(FCVdiLanguage);
       if UISGtxtSubItm<>nil
       then UISGresDump:=UISGtxtSubItm.Text;
    end;
@@ -406,7 +418,7 @@ begin
       and (UISGcateg<>dtfscSCarchShort)
    then
 	begin
-		UISGtxtSubItm:=UISGtxtItm.ChildNodes.FindNode(FCVlang);
+		UISGtxtSubItm:=UISGtxtItm.ChildNodes.FindNode(FCVdiLanguage);
 		if UISGtxtSubItm<>nil
       then UISGresDump:=UISGtxtSubItm.Text;
 	end;
@@ -436,7 +448,7 @@ begin
 	if UISGtxtItm<>nil
    then
 	begin
-		UISGtxtSubItm:=UISGtxtItm.ChildNodes.FindNode(FCVlang);
+		UISGtxtSubItm:=UISGtxtItm.ChildNodes.FindNode(FCVdiLanguage);
 		if UISGtxtSubItm<>nil
       then UISGresDump:=UISGtxtSubItm.Text;
 	end;
@@ -493,14 +505,14 @@ procedure FCMdTfiles_Lang_Switch(const LSlang: string);
 }
 begin
    if (LSlang='EN')
-      and (FCVlang<>'EN')
-   then FCVlang:='EN'
-   else if (LSlang='FR')
-      and (FCVlang<>'FR')
-   then FCVlang:='FR'
-   else if (LSlang='SP')
-      and (FCVlang<>'SP')
-   then FCVlang:='SP';
+      and (FCVdiLanguage<>'EN')
+   then FCVdiLanguage:='EN'
+   else if (FCVdiLanguage='FR')
+      and (FCVdiLanguage<>'FR')
+   then FCVdiLanguage:='FR'
+   else if (FCVdiLanguage='SP')
+      and (FCVdiLanguage<>'SP')
+   then FCVdiLanguage:='SP';
 end;
 
 procedure FCMdTfiles_UIString_Init;
@@ -514,19 +526,28 @@ var
    UISIfstream: TFileStream;
 begin
    {.initialize ui.xml in memory}
-   UISIfstream:= TFileStream.Create(FCVpathXML+'\text\ui.xml', fmOpenRead);
+   UISIfstream:= TFileStream.Create(FCVdiPathXML+'\text\ui.xml', fmOpenRead);
    FCVmemUI:= TMemoryStream.Create;
    FCVmemUI.Size:= UISIfstream.Size;
    FCVmemUI.CopyFrom(UISIfstream, UISIfstream.Size);
    UISIfstream.Free;
    FCWinMain.FCXMLtxtUI.LoadFromStream(FCVmemUI);
    {.initialize encyclopaedia.xml in memory}
-   UISIfstream:= TFileStream.Create(FCVpathXML+'\text\encyclopaedia.xml', fmOpenRead);
+   UISIfstream:= TFileStream.Create(FCVdiPathXML+'\text\encyclopaedia.xml', fmOpenRead);
    FCVmemEncy:= TMemoryStream.Create;
    FCVmemEncy.Size:= UISIfstream.Size;
    FCVmemEncy.CopyFrom(UISIfstream, UISIfstream.Size);
    UISIfstream.Free;
    FCWinMain.FCXMLtxtEncy.LoadFromStream(FCVmemEncy);
+end;
+
+procedure FCMdTF_MemoryStreams_free;
+{:Purpose: free the memory streams used for ui.xml and encyclopaedia.xml.
+    Additions:
+}
+begin
+   FCVmemEncy.Free;
+   FCVmemUI.Free;
 end;
 
 end.

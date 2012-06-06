@@ -210,7 +210,7 @@ begin
       oobtpAster_Metall, oobtpSat_Aster_Metall:
       begin
          {.set proper asteroid object and colors}
-         ASresDmp:=FCVpathRsrc+'obj-3ds-aster\aster_metall.3ds';
+         ASresDmp:=FCVdiPathResourceDir+'obj-3ds-aster\aster_metall.3ds';
          with FC3DobjAsterDmp.Material.FrontProperties do
          begin
             Ambient.Blue:=0.2;
@@ -226,7 +226,7 @@ begin
       oobtpAster_Sili, oobtpSat_Aster_Sili:
       begin
          {.set proper asteroid object and colors}
-         ASresDmp:=FCVpathRsrc+'obj-3ds-aster\aster_sili.3ds';
+         ASresDmp:=FCVdiPathResourceDir+'obj-3ds-aster\aster_sili.3ds';
          with FC3DobjAsterDmp.Material.FrontProperties do
          begin
             Ambient.Blue:=0.2;
@@ -242,7 +242,7 @@ begin
       oobtpAster_Carbo, oobtpSat_Aster_Carbo:
       begin
          {.set proper asteroid object and colors}
-         ASresDmp:=FCVpathRsrc+'obj-3ds-aster\aster_carbo.3ds';
+         ASresDmp:=FCVdiPathResourceDir+'obj-3ds-aster\aster_carbo.3ds';
          with FC3DobjAsterDmp.Material.FrontProperties do
          begin
             Ambient.Blue:=0.2;
@@ -258,7 +258,7 @@ begin
       oobtpAster_Icy, oobtpSat_Aster_Icy:
       begin
          {.set proper asteroid object and colors}
-         ASresDmp:=FCVpathRsrc+'obj-3ds-aster\aster_icy.3ds';
+         ASresDmp:=FCVdiPathResourceDir+'obj-3ds-aster\aster_icy.3ds';
          with FC3DobjAsterDmp.Material.FrontProperties do
          begin
             Ambient.Blue:=0.4;
@@ -748,9 +748,9 @@ begin
    else if MTAdmpLibName=''
    then
    begin
-      if FileExists(FCVpathRsrc+'pics-ogl-oobj-pers\'+MTAdmpOobjToken+'.jpg')
-      then MTAdmpTexPath:=FCVpathRsrc+'pics-ogl-oobj-pers\'+MTAdmpOobjToken+'.jpg'
-      else MTAdmpTexPath:=FCVpathRsrc+'pics-ogl-oobj-pers\_error_map.jpg';
+      if FileExists(FCVdiPathResourceDir+'pics-ogl-oobj-pers\'+MTAdmpOobjToken+'.jpg')
+      then MTAdmpTexPath:=FCVdiPathResourceDir+'pics-ogl-oobj-pers\'+MTAdmpOobjToken+'.jpg'
+      else MTAdmpTexPath:=FCVdiPathResourceDir+'pics-ogl-oobj-pers\_error_map.jpg';
       if MTAsatIdx=0
       then FC3DobjPlan[MTAoobjIdx].Material.Texture.Image.LoadFromFile(MTAdmpTexPath)
       else if MTAsatIdx>0
@@ -1169,7 +1169,7 @@ begin
    FCWinMain.FCGLSSM_Light.Specular.Green:=FCWinMain.FCGLSSM_Light.Diffuse.Blue;
    FCWinMain.FCGLSSM_Light.Specular.Red:=FCWinMain.FCGLSSM_Light.Diffuse.Red;
    {.set star's picture}
-   FCWinMain.FCGLSStarMain.Material.Texture.Image.LoadFromFile(FCVpathRsrc+'pics-ogl-stars\star_'+LSVUstarClssStr+'.png');
+   FCWinMain.FCGLSStarMain.Material.Texture.Image.LoadFromFile(FCVdiPathResourceDir+'pics-ogl-stars\star_'+LSVUstarClssStr+'.png');
    {.set orbital objects}
    LSVUorbObjTtlInDS:=Length(FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj)-1;
    if LSVUorbObjTtlInDS>0
@@ -2128,7 +2128,7 @@ begin
 
 
 
-      FC3DobjSpUnit[FCV3DttlSpU].Load3DSFileFrom(FCVpathRsrc+'obj-3ds-scraft\'+FCDBscDesigns[SUGdesgn].SCD_intStrClone.SCIS_token+'.3ds');//Load3DSFileFrom(FCVpathRsrc+'obj-3ds-scraft\'+FCDBscDesigns[SUGdesgn].SCD_intStrClone.SCIS_token+'.3ds');
+      FC3DobjSpUnit[FCV3DttlSpU].Load3DSFileFrom(FCVdiPathResourceDir+'obj-3ds-scraft\'+FCDBscDesigns[SUGdesgn].SCD_intStrClone.SCIS_token+'.3ds');//Load3DSFileFrom(FCVpathRsrc+'obj-3ds-scraft\'+FCDBscDesigns[SUGdesgn].SCD_intStrClone.SCIS_token+'.3ds');
 //      FC3DobjSpUnit[FCV3DttlSpU].UseMeshMaterials:=true;
       {.set the space unit 3d scales}
       FC3DobjSpUnit[FCV3DttlSpU].Scale.X:=FCFcFunc_ScaleConverter(cf3dctMeterToSpUnitSize, SUGdesgn);

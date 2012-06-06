@@ -89,6 +89,7 @@ implementation
 
 uses
    farc_data_3dopengl
+   ,farc_data_html
    ,farc_data_init
    ,farc_data_textfiles
    ,farc_data_univ
@@ -1497,35 +1498,35 @@ begin
             end; //==END== if (SESdmpTtlReg>0) and (HotSpots.Count<>SESdmpTtlReg) ==//
             {.load the surface picture}
             case SESdmpTp of
-               oobtpAster_Metall: FCWM_SP_Surface.Picture.LoadFromFile(FCVpathRsrc+'pics-ogl-oobj-std\aster_metal.jpg');
-               oobtpAster_Sili: FCWM_SP_Surface.Picture.LoadFromFile(FCVpathRsrc+'pics-ogl-oobj-std\aster_sili.jpg');
-               oobtpAster_Carbo:FCWM_SP_Surface.Picture.LoadFromFile(FCVpathRsrc+'pics-ogl-oobj-std\aster_carb.jpg');
-               oobtpAster_Icy: FCWM_SP_Surface.Picture.LoadFromFile(FCVpathRsrc+'pics-ogl-oobj-std\aster_icy.jpg');
+               oobtpAster_Metall: FCWM_SP_Surface.Picture.LoadFromFile(FCVdiPathResourceDir+'pics-ogl-oobj-std\aster_metal.jpg');
+               oobtpAster_Sili: FCWM_SP_Surface.Picture.LoadFromFile(FCVdiPathResourceDir+'pics-ogl-oobj-std\aster_sili.jpg');
+               oobtpAster_Carbo:FCWM_SP_Surface.Picture.LoadFromFile(FCVdiPathResourceDir+'pics-ogl-oobj-std\aster_carb.jpg');
+               oobtpAster_Icy: FCWM_SP_Surface.Picture.LoadFromFile(FCVdiPathResourceDir+'pics-ogl-oobj-std\aster_icy.jpg');
                oobtpPlan_Tellu_EarthH0H1..oobtpPlan_Tellu_VenusH4:
                begin
-                  if FileExists(FCVpathRsrc+'pics-ogl-oobj-pers\'+SESdmpToken+'.jpg')
-                  then FCWM_SP_Surface.Picture.LoadFromFile(FCVpathRsrc+'pics-ogl-oobj-pers\'+SESdmpToken+'.jpg')
-                  else FCWM_SP_Surface.Picture.LoadFromFile(FCVpathRsrc+'pics-ogl-oobj-pers\_error_map.jpg');
+                  if FileExists(FCVdiPathResourceDir+'pics-ogl-oobj-pers\'+SESdmpToken+'.jpg')
+                  then FCWM_SP_Surface.Picture.LoadFromFile(FCVdiPathResourceDir+'pics-ogl-oobj-pers\'+SESdmpToken+'.jpg')
+                  else FCWM_SP_Surface.Picture.LoadFromFile(FCVdiPathResourceDir+'pics-ogl-oobj-pers\_error_map.jpg');
                end;
                oobtpPlan_Tellu_MercuH0..oobtpPlan_Icy_CallistoH3H4Atm0:
                begin
                   try
                      SESdmpIdx:=FCFoglInit_StdTexIdx_Get(FC3DobjPlan[FCV3DselOobj].Material.LibMaterialName);
                      FC3DobjPlan[FCV3DselOobj].Material.MaterialLibrary.Materials[SESdmpIdx].Material.Texture.Image
-                        .SaveToFile(FCVpathCfg+'swap.jpg');
+                        .SaveToFile(FCVdiPathConfigFile+'swap.jpg');
                   finally
-                     FCWM_SP_Surface.Picture.LoadFromFile(FCVpathCfg+'swap.jpg');
+                     FCWM_SP_Surface.Picture.LoadFromFile(FCVdiPathConfigFile+'swap.jpg');
                   end;
                end;
-               oobtpSat_Aster_Metall: FCWM_SP_Surface.Picture.LoadFromFile(FCVpathRsrc+'pics-ogl-oobj-std\aster_metal.jpg');
-               oobtpSat_Aster_Sili: FCWM_SP_Surface.Picture.LoadFromFile(FCVpathRsrc+'pics-ogl-oobj-std\aster_sili.jpg');
-               oobtpSat_Aster_Carbo: FCWM_SP_Surface.Picture.LoadFromFile(FCVpathRsrc+'pics-ogl-oobj-std\aster_carb.jpg');
-               oobtpSat_Aster_Icy: FCWM_SP_Surface.Picture.LoadFromFile(FCVpathRsrc+'pics-ogl-oobj-std\aster_icy.jpg');
+               oobtpSat_Aster_Metall: FCWM_SP_Surface.Picture.LoadFromFile(FCVdiPathResourceDir+'pics-ogl-oobj-std\aster_metal.jpg');
+               oobtpSat_Aster_Sili: FCWM_SP_Surface.Picture.LoadFromFile(FCVdiPathResourceDir+'pics-ogl-oobj-std\aster_sili.jpg');
+               oobtpSat_Aster_Carbo: FCWM_SP_Surface.Picture.LoadFromFile(FCVdiPathResourceDir+'pics-ogl-oobj-std\aster_carb.jpg');
+               oobtpSat_Aster_Icy: FCWM_SP_Surface.Picture.LoadFromFile(FCVdiPathResourceDir+'pics-ogl-oobj-std\aster_icy.jpg');
                oobtpSat_Tellu_Titan..oobtpSat_Tellu_Earth:
                begin
-                  if FileExists(FCVpathRsrc+'pics-ogl-oobj-pers\'+SESdmpToken+'.jpg')
-                  then FCWM_SP_Surface.Picture.LoadFromFile(FCVpathRsrc+'pics-ogl-oobj-pers\'+SESdmpToken+'.jpg')
-                  else FCWM_SP_Surface.Picture.LoadFromFile(FCVpathRsrc+'pics-ogl-oobj-pers\_error_map.jpg');
+                  if FileExists(FCVdiPathResourceDir+'pics-ogl-oobj-pers\'+SESdmpToken+'.jpg')
+                  then FCWM_SP_Surface.Picture.LoadFromFile(FCVdiPathResourceDir+'pics-ogl-oobj-pers\'+SESdmpToken+'.jpg')
+                  else FCWM_SP_Surface.Picture.LoadFromFile(FCVdiPathResourceDir+'pics-ogl-oobj-pers\_error_map.jpg');
                end;
                oobtpSat_Tellu_Lunar..oobtpSat_Tellu_Io, oobtpSat_Icy_Pluto..oobtpSat_Icy_Callisto:
                begin
@@ -1533,9 +1534,9 @@ begin
                      fcwinmain.caption:=inttostr(FCV3DselSat);
                      SESdmpIdx:=FCFoglInit_StdTexIdx_Get(FC3DobjSat[FCV3DselSat].Material.LibMaterialName);
                      FC3DobjSat[FCV3DselSat].Material.MaterialLibrary.Materials[SESdmpIdx].Material.Texture.Image
-                        .SaveToFile(FCVpathCfg+'swap.jpg');
+                        .SaveToFile(FCVdiPathConfigFile+'swap.jpg');
                   finally
-                     FCWM_SP_Surface.Picture.LoadFromFile(FCVpathCfg+'swap.jpg');
+                     FCWM_SP_Surface.Picture.LoadFromFile(FCVdiPathConfigFile+'swap.jpg');
                   end;
                end;
             end; //==END== case SESdmpTp ==//

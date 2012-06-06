@@ -249,8 +249,8 @@ begin
    FCWinMain.FCGLSHUDstarTempLAB.Tag:=101;
    FCWinMain.FCGLSHUDstarTemp.Tag:=101;
    {.space unit hud capabilities}
-   FCWinMain.FCGLSHUDspunDockd.Material.Texture.Image.LoadFromFile(FCVpathRsrc+'pics-ui-spu\spucapab_docking.jpg');
-   FCWinMain.FCGLSHUDcolplyr.Material.Texture.Image.LoadFromFile(FCVpathRsrc+'pics-ui-colony\colonyicn.png');
+   FCWinMain.FCGLSHUDspunDockd.Material.Texture.Image.LoadFromFile(FCVdiPathResourceDir+'pics-ui-spu\spucapab_docking.jpg');
+   FCWinMain.FCGLSHUDcolplyr.Material.Texture.Image.LoadFromFile(FCVdiPathResourceDir+'pics-ui-colony\colonyicn.png');
 end;
 
 procedure FCMoglInit_StdText_Set(const STSisHR, STSforceLoad: boolean);
@@ -296,7 +296,7 @@ begin
       begin
          STSmatStr:=FCFoglInit_StdTexName_Get(STScnt);
          FC3DmatLibSplanT.Materials.Items[STScnt].Material.Texture.Image.LoadFromFile
-            (FCVpathRsrc+'pics-ogl-oobj-std\'+STSmatRes+'_'+STSmatStr+'.jpg');
+            (FCVdiPathResourceDir+'pics-ogl-oobj-std\'+STSmatRes+'_'+STSmatStr+'.jpg');
          inc(STScnt)
       end;
    end; //==END== if STSisLoad ==//

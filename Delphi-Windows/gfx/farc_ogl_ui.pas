@@ -420,8 +420,8 @@ begin
          FCWinMain.FCGLSHUDgameTime.Position.Y:=FCWinMain.FCGLSHUDgameDate.Position.Y+16;
          FCWinMain.FCGLSHUDgameTimePhase.Position.X:=FCWinMain.FCGLSHUDgameDate.Position.X;
          FCWinMain.FCGLSHUDgameTimePhase.Position.Y:=FCWinMain.FCGLSHUDgameTime.Position.Y+16;
-         if (FCVwinMsizeW>=1152)
-            and (FCVwinMsizeH>=896)
+         if (FCVdiWinMainWidth>=1152)
+            and (FCVdiWinMainHeight>=896)
          then FCWinMain.FCGLSFontDateTime.Font.Size:=11
          else FCWinMain.FCGLSFontDateTime.Font.Size:=10;
       end;
@@ -457,11 +457,11 @@ begin
          {.hud name}
          FCWinMain.FCGLSHUDobjectFocused.Position.X:=(FCWinMain.Width shr 1)-8;
          FCWinMain.FCGLSHUDobjectFocused.Position.Y:=(FCWinMain.Height*502) div 768;
-         if FCVwinMsizeH<896
+         if FCVdiWinMainHeight<896
          then FCWinMain.FCGLSHUDobjectFocused.Position.Y:=FCWinMain.FCGLSHUDobjectFocused.Position.Y+32;
             {.hud name font}
-         if (FCVwinMsizeW>=1152)
-            and (FCVwinMsizeH>=896)
+         if (FCVdiWinMainWidth>=1152)
+            and (FCVdiWinMainHeight>=896)
          then FCWinMain.FCGLSFontTitleMain.Font.Size:=15//9
          else FCWinMain.FCGLSFontTitleMain.Font.Size:=12;//8;
          {.colony}
@@ -552,8 +552,8 @@ begin
          //================ORBITAL OBJECTS==================================================
          {.orbital data header}
          FCWinMain.FCGLSHUDobobjOrbDatHLAB.Position.X:=FCWinMain.FCWM_3dMainGrp.Width-270;
-         if (FCVwinMsizeW>=1152)
-            and (FCVwinMsizeH>=896)
+         if (FCVdiWinMainWidth>=1152)
+            and (FCVdiWinMainHeight>=896)
          then FCWinMain.FCGLSHUDobobjOrbDatHLAB.Position.Y:=(FCWinMain.FCWM_3dMainGrp.Height shr 4*5)
          else FCWinMain.FCGLSHUDobobjOrbDatHLAB.Position.Y:=(FCWinMain.FCWM_3dMainGrp.Height shr 4*4);
          {.distance from star}
@@ -666,18 +666,18 @@ begin
          FCWinMain.FCGLSHUDobobjAlbe.Position.Y:=FCWinMain.FCGLSHUDobobjAlbeLAB.Position.Y;
          //================FONTS============================================================
          {.hud data label font}
-         if (FCVwinMsizeW>=1152)
-            and (FCVwinMsizeH>=896)
+         if (FCVdiWinMainWidth>=1152)
+            and (FCVdiWinMainHeight>=896)
          then FCWinMain.FCGLSFontDataLabel.Font.Size:=9
          else FCWinMain.FCGLSFontDataLabel.Font.Size:=8;
          {.hud data font}
-         if (FCVwinMsizeW>=1152)
-            and (FCVwinMsizeH>=896)
+         if (FCVdiWinMainWidth>=1152)
+            and (FCVdiWinMainHeight>=896)
          then FCWinMain.FCGLSFontData.Font.Size:=9
          else FCWinMain.FCGLSFontData.Font.Size:=8;
          {.hud data header font}
-         if (FCVwinMsizeW>=1152)
-            and (FCVwinMsizeH>=896)
+         if (FCVdiWinMainWidth>=1152)
+            and (FCVdiWinMainHeight>=896)
          then FCWinMain.FCGLSFontDataHeader.Font.Size:=11
          else FCWinMain.FCGLSFontDataHeader.Font.Size:=10;
       end;
@@ -1088,8 +1088,8 @@ begin
          FCWinMain.FCGLSHUDcpsTlft.Position.X:=FCWinMain.FCGLSHUDcpsCVS.Position.X+40;
          FCWinMain.FCGLSHUDcpsTlft.Position.Y:=FCWinMain.FCGLSHUDcpsCVS.Position.Y;
          {.fonts}
-         if (FCVwinMsizeW>=1152)
-            and (FCVwinMsizeH>=896)
+         if (FCVdiWinMainWidth>=1152)
+            and (FCVdiWinMainHeight>=896)
          then FCWinMain.FCGLSFontCPSData.Font.Size:=11
          else FCWinMain.FCGLSFontCPSData.Font.Size:=10;
       end;

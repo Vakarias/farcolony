@@ -172,7 +172,7 @@ end;
 
 procedure TFCWinNewGSetup.FormCreate(Sender: TObject);
 begin
-   FCVallowUpNGSWin:=true;
+   FCVdiWinNewGameAllowUpdate:=true;
    FCMuiW_UI_Initialize(mwupSecWinNewGSetup);
    FCMuiW_UI_Initialize(mwupFontWinNGS);
    FCMuiW_UI_Initialize(mwupTextWinNGS);

@@ -155,6 +155,7 @@ uses
    ,farc_data_3dopengl
    ,farc_data_files
    ,farc_data_game
+   ,farc_data_html
    ,farc_data_infrprod
    ,farc_data_init
    ,farc_data_spu
@@ -246,10 +247,10 @@ procedure FCMuiW_BackgroundPicture_Update;
     Additions:
 }
 begin
-   if FCVwinWideScr
-   then FCWinMain.FCWM_BckgImage.Bitmap.LoadFromFile(FCVpathRsrc+'pics-ui-' +'desk\puidesk0w.jpg')
-   else if not FCVwinWideScr
-   then FCWinMain.FCWM_BckgImage.Bitmap.LoadFromFile(FCVpathRsrc+'pics-ui-' +'desk\puidesk0.jpg');
+   if FCVdiWinMainWideScreen
+   then FCWinMain.FCWM_BckgImage.Bitmap.LoadFromFile(FCVdiPathResourceDir+'pics-ui-' +'desk\puidesk0w.jpg')
+   else if not FCVdiWinMainWideScreen
+   then FCWinMain.FCWM_BckgImage.Bitmap.LoadFromFile(FCVdiPathResourceDir+'pics-ui-' +'desk\puidesk0.jpg');
    FCMuiW_UI_Initialize(mwupMenuWideScr);
 end;
 
@@ -269,50 +270,50 @@ begin
    of
       uiwButton:
       begin
-         if (FCVwinMsizeW>=1152)
-            and (FCVwinMsizeH>=896)
+         if (FCVdiWinMainWidth>=1152)
+            and (FCVdiWinMainHeight>=896)
          then Result:=9
          else result:=8;
       end;
       uiwDescText:
       begin
-         if (FCVwinMsizeW>=1152)
-            and (FCVwinMsizeH>=896)
+         if (FCVdiWinMainWidth>=1152)
+            and (FCVdiWinMainHeight>=896)
          then Result:=10
          else result:=9;
       end;
       uiwGrpBox:
       begin
-         if (FCVwinMsizeW>=1152)
-            and (FCVwinMsizeH>=896)
+         if (FCVdiWinMainWidth>=1152)
+            and (FCVdiWinMainHeight>=896)
          then Result:=9
          else result:=8;
       end;
       uiwGrpBoxSec:
       begin
-         if (FCVwinMsizeW>=1152)
-            and (FCVwinMsizeH>=896)
+         if (FCVdiWinMainWidth>=1152)
+            and (FCVdiWinMainHeight>=896)
          then Result:=8
          else result:=7;
       end;
       uiwListItems:
       begin
-         if (FCVwinMsizeW>=1152)
-            and (FCVwinMsizeH>=896)
+         if (FCVdiWinMainWidth>=1152)
+            and (FCVdiWinMainHeight>=896)
          then Result:=9
          else result:=8;
       end;
       uiwPageCtrl:
       begin
-         if (FCVwinMsizeW>=1152)
-            and (FCVwinMsizeH>=896)
+         if (FCVdiWinMainWidth>=1152)
+            and (FCVdiWinMainHeight>=896)
          then Result:=8
          else result:=7;
       end;
       uiwPanelTitle:
       begin
-         if (FCVwinMsizeW>=1152)
-            and (FCVwinMsizeH>=896)
+         if (FCVdiWinMainWidth>=1152)
+            and (FCVdiWinMainHeight>=896)
          then Result:=9
          else result:=8;
       end;
@@ -324,10 +325,10 @@ procedure FCMuiW_MainWindow_StoreLocSiz;
    Additions:
 }
 begin
-   FCVwinMsizeH:=FCWinMain.Height;
-   FCVwinMsizeW:=FCWinMain.Width;
-   FCVwinMlocL:=FCWinMain.Left;
-   FCVwinMlocT:=FCWinMain.Top;
+   FCVdiWinMainHeight:=FCWinMain.Height;
+   FCVdiWinMainWidth:=FCWinMain.Width;
+   FCVdiWinMainLeft:=FCWinMain.Left;
+   FCVdiWinMainTop:=FCWinMain.Top;
 	FCMdF_ConfigFile_Write(false);
 end;
 
@@ -574,12 +575,12 @@ begin
    SUDUdsgn:=FCFspuF_Design_getDB(FCentities[0].E_spU[SUDUsuIdx].SUO_designId);
    SUDUttl:=length(FCentities[0].E_spU[SUDUsuIdx].SUO_dockedSU)-1;
    FCWinMain.FCWM_DLP_DockList.Items.Add(
-      '<p align="center"><img src="file://'+FCVpathRsrc+'pics-ui-scraft\'
+      '<p align="center"><img src="file://'+FCVdiPathResourceDir+'pics-ui-scraft\'
       +FCDBscDesigns[SUDUdsgn].SCD_intStrClone.SCIS_token+'_lst.jpg'
       +'" align="middle">'
       );
    FCWinMain.FCWM_DLP_DockList.Items.Add(
-      '<p align="center"><img src="file://'+FCVpathRsrc+'pics-ui-misc\arrow.jpg'
+      '<p align="center"><img src="file://'+FCVdiPathResourceDir+'pics-ui-misc\arrow.jpg'
       +'" align="middle">'
       );
    SUDUcnt:=1;
@@ -588,7 +589,7 @@ begin
       SUDUdckIdx:=FCFcFunc_SpUnit_getOwnDB(0, FCentities[0].E_spU[SUDUsuIdx].SUO_dockedSU[SUDUcnt].SUD_dckdToken);
       SUDUdsgn:=FCFspuF_Design_getDB(FCentities[0].E_spU[SUDUdckIdx].SUO_designId);
       FCWinMain.FCWM_DLP_DockList.Items.Add(
-         '<img src="file://'+FCVpathRsrc+'pics-ui-scraft\'
+         '<img src="file://'+FCVdiPathResourceDir+'pics-ui-scraft\'
          +FCDBscDesigns[SUDUdsgn].SCD_intStrClone.SCIS_token+'_lst.jpg'
          +'" align="middle">'
          +FCFdTFiles_UIStr_Get(dtfscPrprName, FCentities[0].E_spU[SUDUdckIdx].SUO_nameToken)
@@ -970,10 +971,10 @@ begin
       {.main window and descendants}
       FCWinMain.Constraints.MinWidth:=800;
       FCWinMain.Constraints.MinHeight:=600;
-      FCWinMain.Width:=FCVwinMsizeW;
-      FCWinMain.Height:=FCVwinMsizeH;
-      FCWinMain.Left:=FCVwinMlocL;
-      FCWinMain.Top:=FCVwinMlocT;
+      FCWinMain.Width:=FCVdiWinMainWidth;
+      FCWinMain.Height:=FCVdiWinMainHeight;
+      FCWinMain.Left:=FCVdiWinMainLeft;
+      FCWinMain.Top:=FCVdiWinMainTop;
       FCWinMain.DoubleBuffered:=true;
       UIUmainW2:=FCWinMain.Width shr 1;
       UIUmainH2:=FCWinMain.Height shr 1;
@@ -987,7 +988,7 @@ begin
       FCWinMain.FCWM_MMenu_G_Save.Enabled:=false;
       FCWinMain.FCWM_MMenu_G_FlushOld.Enabled:=false;
       {.debug menu item + console}
-      if FCGdebug
+      if FCVdiDebugMode
       then
       begin
          FCWinMain.FCWM_MMenu_DebTools.Visible:=true;
@@ -1083,8 +1084,8 @@ begin
       FCWinMain.CDPstorageCapacity.Width:=( FCWinMain.FCWM_CDPepi.Width div 15 * 3 )-2;
       FCWinMain.CDPproductionMatrixList.Width:=FCWinMain.FCWM_CDPepi.Width-FCWinMain.CDPstorageList.Width-FCWinMain.CDPstorageCapacity.Width-8;
       {.UMI}
-      FCWinMain.FCWM_UMI.Width:=FCVwMumiW;
-      FCWinMain.FCWM_UMI.Height:=FCVwMumiH;
+      FCWinMain.FCWM_UMI.Width:=FCVdiUMIconstraintWidth;
+      FCWinMain.FCWM_UMI.Height:=FCVdiUMIconstraintHeight;
       FCWinMain.FCWM_UMI.Left:=UIUmainW2-(FCWinMain.FCWM_UMI.Width shr 1);
       FCWinMain.FCWM_UMI.Top:=UIUmainH2-(FCWinMain.FCWM_UMI.Height shr 1);
       FCWinMain.FCWM_UMI_TabSh.ActivePage:=FCWinMain.FCWM_UMI_TabShUniv;
@@ -1212,7 +1213,7 @@ begin
    {.this section concern all graphical elements of about window w/o text
    initialization/update}
    if (UIUtp=mwupSecwinAbout)
-      and (FCVallowUpAbWin)
+      and (FCVdiWinAboutAllowUpdate)
    then
    begin
       FCWinAbout.Width:=400;
@@ -1228,7 +1229,7 @@ begin
    {.this section concern all graphical elements of new game setup window w/o text
    initialization/update}
    if (UIUtp=mwupSecWinNewGSetup)
-      and (FCVallowUpNGSWin)
+      and (FCVdiWinNewGameAllowUpdate)
    then
    begin
       {.new game setup window}
@@ -1284,21 +1285,21 @@ begin
    then
    begin
       {.check status of language submenu items}
-      if FCVlang='EN'
+      if FCVdiLanguage='EN'
       then
       begin
          FCWinMain.FCWM_MMenu_O_L_EN.Checked:=true;
          FCWinMain.FCWM_MMenu_O_L_FR.Checked:=false;
          FCWinMain.FCWM_MMenu_O_L_SP.Checked:=false;
       end
-      else if FCVlang='FR'
+      else if FCVdiLanguage='FR'
       then
       begin
          FCWinMain.FCWM_MMenu_O_L_EN.Checked:=false;
          FCWinMain.FCWM_MMenu_O_L_FR.Checked:=true;
          FCWinMain.FCWM_MMenu_O_L_SP.Checked:=false;
       end
-      else if FCVlang='SP'
+      else if FCVdiLanguage='SP'
       then
       begin
          FCWinMain.FCWM_MMenu_O_L_EN.Checked:=false;
@@ -1312,13 +1313,13 @@ begin
       or (UIUtp=mwupMenuLoc)
    then
    begin
-      if FCVwMcpsPstore
+      if FCVdiLocStoreCPSobjPanel
       then FCWinMain.FCWM_MMenu_O_LocVObj.Checked:=true
-      else if not FCVwMcpsPstore
+      else if not FCVdiLocStoreCPSobjPanel
       then FCWinMain.FCWM_MMenu_O_LocVObj.Checked:=false;
-      if FCVwMhelpPstore
+      if FCVdiLocStoreHelpPanel
       then FCWinMain.FCWM_MMenu_O_LocHelp.Checked:=true
-      else if not FCVwMhelpPstore
+      else if not FCVdiLocStoreHelpPanel
       then FCWinMain.FCWM_MMenu_O_LocHelp.Checked:=false;
    end;
    //=======================================================================================================
@@ -1328,9 +1329,9 @@ begin
    then
    begin
       {.check status of language submenu items}
-      if FCVwinWideScr
+      if FCVdiWinMainWideScreen
       then FCWinMain.FCWM_MMenu_O_WideScr.Checked:=true
-      else if not FCVwinWideScr
+      else if not FCVdiWinMainWideScreen
       then FCWinMain.FCWM_MMenu_O_WideScr.Checked:=false;
    end;
    //=======================================================================================================
@@ -1483,7 +1484,7 @@ begin
    end; //==END== if (UIUtp=mwupAll) or (UIUtp=mwupFontAll) ==//
    {.for about window}
    if ((UIUtp=mwupFontWinAb) or (UIUtp=mwupFontAll))
-      and (FCVallowUpAbWin)
+      and (FCVdiWinAboutAllowUpdate)
    then
    begin
       FCWinAbout.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
@@ -1496,7 +1497,7 @@ begin
    end;
    {.for new game setup window}
    if ((UIUtp=mwupFontWinNGS) or (UIUtp=mwupFontAll))
-      and (FCVallowUpNGSWin)
+      and (FCVdiWinNewGameAllowUpdate)
    then
    begin
       with FCWinNewGSetup do

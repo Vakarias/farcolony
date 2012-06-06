@@ -93,6 +93,7 @@ implementation
 uses
    farc_data_game
    ,farc_data_init
+   ,farc_data_html
    ,farc_data_textfiles
    ,farc_game_colony
    ,farc_game_cps
@@ -814,40 +815,40 @@ begin
       {.universe tab}
       0:
       begin
-         FCVwMumiW:=810;
-         FCVwMumiH:=540;
+         FCVdiUMIconstraintWidth:=810;
+         FCVdiUMIconstraintHeight:=540;
       end;
       {.faction tab}
       1:
       begin
-         FCVwMumiW:=901;
-         FCVwMumiH:=580;
+         FCVdiUMIconstraintWidth:=901;
+         FCVdiUMIconstraintHeight:=580;
       end;
       {.space units tab}
       2:
       begin
-         FCVwMumiW:=810;
-         FCVwMumiH:=540;
+         FCVdiUMIconstraintWidth:=810;
+         FCVdiUMIconstraintHeight:=540;
       end;
       {.production tab}
       3:
       begin
-         FCVwMumiW:=810;
-         FCVwMumiH:=540;
+         FCVdiUMIconstraintWidth:=810;
+         FCVdiUMIconstraintHeight:=540;
       end;
       {.research & development tab}
       4:
       begin
-         FCVwMumiW:=1000;
-         FCVwMumiH:=540;
+         FCVdiUMIconstraintWidth:=1000;
+         FCVdiUMIconstraintHeight:=540;
       end;
    end;
-   FCWinMain.FCWM_UMI.Constraints.MinWidth:=FCVwMumiW;
-   if FCWinMain.FCWM_UMI.Width<FCVwMumiW
-   then FCWinMain.FCWM_UMI.Width:=FCVwMumiW;
-   FCWinMain.FCWM_UMI.Constraints.MinHeight:=FCVwMumiH;
-   if FCWinMain.FCWM_UMI.Height<FCVwMumiH
-   then FCWinMain.FCWM_UMI.Height:=FCVwMumiH;
+   FCWinMain.FCWM_UMI.Constraints.MinWidth:=FCVdiUMIconstraintWidth;
+   if FCWinMain.FCWM_UMI.Width<FCVdiUMIconstraintWidth
+   then FCWinMain.FCWM_UMI.Width:=FCVdiUMIconstraintWidth;
+   FCWinMain.FCWM_UMI.Constraints.MinHeight:=FCVdiUMIconstraintHeight;
+   if FCWinMain.FCWM_UMI.Height<FCVdiUMIconstraintHeight
+   then FCWinMain.FCWM_UMI.Height:=FCVdiUMIconstraintHeight;
 end;
 
 procedure FCMumi_Main_Upd;

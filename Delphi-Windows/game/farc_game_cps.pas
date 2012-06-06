@@ -448,7 +448,7 @@ begin
       Outcome:=FCMgCPSO_Outcome_Process( FCRplayer.P_viabThrSpMil, StatusSpMilMean);
       FCRplayer.P_milStat:=TFCEfacStat( Outcome );
    end;
-   FCGtimeFlow.Enabled:=false;
+   FCVdiGameFlowTimer.Enabled:=false;
    FCWinMain.FCGLScadencer.Enabled:=false;
    FCMuiCPS_EndPhaseReport_Show( rsEndOfPhaseReportWithEnd, StatusEconMean, StatusSocMean, StatusSpMilMean );
    
@@ -493,7 +493,7 @@ begin
    CPSobjPanel.Font.Color:=clWhite;
    CPSobjPanel.Font.Name:='Tahoma';
    CPSobjPanel.Height:=1;
-   if FCVwMcpsPstore
+   if FCVdiLocStoreCPSobjPanel
    then
    begin
       CPSobjPanel.Left:=FCWinMain.FCGLSHUDcpsCredL.Tag;
@@ -503,7 +503,7 @@ begin
    CPSobjPanel.Locked:=true;
    CPSobjPanel.ParentColor:=false;
    CPSobjPanel.ParentFont:=false;
-   if FCVwMcpsPstore
+   if FCVdiLocStoreCPSobjPanel
    then
    begin
       CPSobjPanel.Top:=FCWinMain.FCGLSHUDcpsTlft.Tag;
@@ -522,8 +522,8 @@ begin
    CPSobjP_List.Font.Color:=$00E1E1E1;
    CPSobjP_List.Font.Height:=-12;
    CPSobjP_List.Font.Name:='FrancophilSans';
-   if (FCVwinMsizeW>=1152)
-      and (FCVwinMsizeH>=896)
+   if (FCVdiWinMainWidth>=1152)
+      and (FCVdiWinMainHeight>=896)
    then CPSobjP_List.Font.Size:=10
    else CPSobjP_List.Font.Size:=9;
    CPSobjP_List.GradientType:=gtFullVertical;

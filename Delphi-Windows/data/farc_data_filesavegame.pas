@@ -238,7 +238,7 @@ var
    GLoobjRow: TFCRufStelObj;
 begin
    FCMdF_ConfigFile_Read(true);
-   GLcurrDir:=FCVcfgDir+'SavedGames\'+FCRplayer.P_gameName;
+   GLcurrDir:=FCVdiPathConfigDir+'SavedGames\'+FCRplayer.P_gameName;
    GLcurrG:=IntToStr(FCRplayer.P_timeYr)
       +'-'+IntToStr(FCRplayer.P_timeMth)
       +'-'+IntToStr(FCRplayer.P_timeday)
@@ -1161,7 +1161,7 @@ var
 begin
    if not FCWinMain.CloseQuery
    then FCMgTFlow_FlowState_Set(tphPAUSE);
-   GScurrDir:=FCVcfgDir+'SavedGames\'+FCRplayer.P_gameName;
+   GScurrDir:=FCVdiPathConfigDir+'SavedGames\'+FCRplayer.P_gameName;
    GScurrG:=IntToStr(FCRplayer.P_timeYr)
       +'-'+IntToStr(FCRplayer.P_timeMth)
       +'-'+IntToStr(FCRplayer.P_timeday)
@@ -1878,7 +1878,7 @@ begin
       FCMdFSG_Game_Save;
    finally
       {.read the document}
-      FCWinMain.FCXMLcfg.FileName:=FCVpathCfg;
+      FCWinMain.FCXMLcfg.FileName:=FCVdiPathConfigFile;
       FCWinMain.FCXMLcfg.Active:=true;
       SFOxmlCurrGame:=FCWinMain.FCXMLcfg.DocumentElement.ChildNodes.FindNode('currGame');
       if SFOxmlCurrGame<>nil
@@ -1894,7 +1894,7 @@ begin
       {.free the memory}
       FCWinMain.FCXMLcfg.Active:=false;
       FCWinMain.FCXMLcfg.FileName:='';
-      SFOcurrDir:=FCVcfgDir+'SavedGames\'+FCRplayer.P_gameName;
+      SFOcurrDir:=FCVdiPathConfigDir+'SavedGames\'+FCRplayer.P_gameName;
       SFOcurrG:=IntToStr(SFOtimeYr)
          +'-'+IntToStr(SFOtimeMth)
          +'-'+IntToStr(SFOtimeDay)
@@ -1904,10 +1904,10 @@ begin
       if FileExists(SFOcurrDir+'\'+SFOcurrG)
       then
       begin
-         CopyFile(pchar(SFOcurrDir+'\'+SFOcurrG),pchar(FCVcfgDir+SFOcurrG),false);
+         CopyFile(pchar(SFOcurrDir+'\'+SFOcurrG),pchar(FCVdiPathConfigDir+SFOcurrG),false);
          FCMcF_Files_Del(SFOcurrDir+'\','*.*');
-         CopyFile(pchar(FCVcfgDir+SFOcurrG),pchar(SFOcurrDir+'\'+SFOcurrG),false);
-         DeleteFile(pchar(FCVcfgDir+SFOcurrG));
+         CopyFile(pchar(FCVdiPathConfigDir+SFOcurrG),pchar(SFOcurrDir+'\'+SFOcurrG),false);
+         DeleteFile(pchar(FCVdiPathConfigDir+SFOcurrG));
       end;
    end;
 end;

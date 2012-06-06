@@ -54,6 +54,7 @@ function FCFuiHTML_Modifier_GetFormat(
 
 //===========================END FUNCTIONS SECTION==========================================
 
+{:DEV NOTES: put those in farc_data_html.}
 const
    UIHTMLencyBEGIN=' <font size="7"><a href="';
    UIHTMLencyEND='">?</a></font> ';
@@ -61,7 +62,8 @@ const
 implementation
 
 uses
-   farc_data_init;
+   farc_data_init
+   ,farc_data_html;
 
 type
    UIHTMLcharset = set of char;
