@@ -140,7 +140,7 @@ begin
    else if MCCisDestASat
    then GMCbaseDist:=FCFgMTrans_ObObjInLStar_CalcRng(FCV3DselSpU, FCV3DselSat, gmtltSpUnit, gmtltSat, true);
    {.distance conversion in m}
-   MCCdAccelM:=GMCbaseDist*FCCauInKm*500;
+   MCCdAccelM:=GMCbaseDist*FCCdiKm_In_1AU*500;
    {.calculate final acceleration in gees relative to loaded mass}
    GMCAccelG:=(MRMCDVCthrbyvol*MRMCDVCvolOfDrive)/MRMCDVCloadedMassInTons;
    {.get the space unit's ISP}
@@ -149,7 +149,7 @@ begin
    {.minreqDV.departure orbital velocity}
    if not MCCisOrgAsat
    then MCCdepOrbVel:=(
-      2*pi*FCDBsSys[GMCrootSsys].SS_star[GMCrootStar].SDB_obobj[GMCrootOObIdx].OO_distFrmStar*FCCauInKm
+      2*pi*FCDBsSys[GMCrootSsys].SS_star[GMCrootStar].SDB_obobj[GMCrootOObIdx].OO_distFrmStar*FCCdiKm_In_1AU
       /FCDBsSys[GMCrootSsys].SS_star[GMCrootStar].SDB_obobj[GMCrootOObIdx].OO_revol
       )
       /86400
@@ -162,7 +162,7 @@ begin
    {.minreqDV.arrival orbital velocity}
    if not MCCisDestASat
    then MCCarrOrbVel:=(
-      2*pi*FCDBsSys[GMCrootSsys].SS_star[GMCrootStar].SDB_obobj[FCV3DselOobj].OO_distFrmStar*FCCauInKm
+      2*pi*FCDBsSys[GMCrootSsys].SS_star[GMCrootStar].SDB_obobj[FCV3DselOobj].OO_distFrmStar*FCCdiKm_In_1AU
       /FCDBsSys[GMCrootSsys].SS_star[GMCrootStar].SDB_obobj[FCV3DselOobj].OO_revol
       )
       /86400
@@ -185,17 +185,17 @@ begin
    //================(end) calculate minimal required deltaV================
 //====================(END) DATA INITIALIZATION=============================
    {.calculate max burn endurance}
-   MCCmaxBurnEndSec:=sqrt((MCCdAccelM)/(GMCAccelG*FCCgeesInMS));
+   MCCmaxBurnEndSec:=sqrt((MCCdAccelM)/(GMCAccelG*FCCdiMbySec_In_1G));
    {.calculate maximum allowed deltaV}
-   GMCmaxDV:=(GMCAccelG*FCCgeesInMS*0.001)*(MCCmaxBurnEndSec);
+   GMCmaxDV:=(GMCAccelG*FCCdiMbySec_In_1G*0.001)*(MCCmaxBurnEndSec);
    {.calculate maximum reaction mass volume which can be used}
-   GMCrmMaxVol:=MCCmaxBurnEndSec*(GMCCthrN/(MCCisp*FCCgeesInMS))/(MRMCDVCrmMass*1000);
+   GMCrmMaxVol:=MCCmaxBurnEndSec*(GMCCthrN/(MCCisp*FCCdiMbySec_In_1G))/(MRMCDVCrmMass*1000);
    if GMCrmMaxVol>(FCentities[MCCfac].E_spU[MCCowned].SUO_availRMass*0.5)
    then
    begin
       GMCrmMaxVol:=(FCentities[MCCfac].E_spU[MCCowned].SUO_availRMass*0.5);
-      MCCmaxBurnEndSec:=GMCrmMaxVol/(GMCCthrN/(MCCisp*FCCgeesInMS))*(MRMCDVCrmMass*1000);
-      GMCmaxDV:=(GMCAccelG*FCCgeesInMS*0.001)*(MCCmaxBurnEndSec);
+      MCCmaxBurnEndSec:=GMCrmMaxVol/(GMCCthrN/(MCCisp*FCCdiMbySec_In_1G))*(MRMCDVCrmMass*1000);
+      GMCmaxDV:=(GMCAccelG*FCCdiMbySec_In_1G*0.001)*(MCCmaxBurnEndSec);
    end;
 //====================GLOBAL DATA FORMATING=================================
    {.required deltaV}
@@ -246,7 +246,7 @@ var
    MTCtimeAtCruise
    : extended;
 const
-   MTCgeesInKmS=FCCgeesInMS*0.001;
+   MTCgeesInKmS=FCCdiMbySec_In_1G*0.001;
 begin
    {.decide of the cruise deltav}
    case MTCflightTp of
@@ -301,7 +301,7 @@ begin
       {.caculate used reaction mass volume for acceleration}
       MTCusedRMvolAtAccel:=
          (MTCburnEndAtAccel)
-         *(GMCCthrN/(FCDBscDesigns[MTCdesgn].SCD_spDriveISP*FCCgeesInMS))
+         *(GMCCthrN/(FCDBscDesigns[MTCdesgn].SCD_spDriveISP*FCCdiMbySec_In_1G))
          /(MRMCDVCrmMass*1000);
       {.calculate acceleration distance}
       MTCdistAtAccel:=(GMCAccelG*MTCgeesInKmS)*sqr(MTCburnEndAtAccel);
@@ -312,14 +312,14 @@ begin
       {.caculate used reaction mass volume for deceleration}
       MTCusedRMvolAtDecel:=
          (MTCburnEndAtDecel)
-         *(GMCCthrN/(FCDBscDesigns[MTCdesgn].SCD_spDriveISP*FCCgeesInMS))
+         *(GMCCthrN/(FCDBscDesigns[MTCdesgn].SCD_spDriveISP*FCCdiMbySec_In_1G))
          /(MRMCDVCrmMass*1000);
       {.calculate deceleration distance}
       MTCdistAtDecel:=(GMCAccelG*MTCgeesInKmS)*sqr(MTCburnEndAtDecel);
       {.calculate deceleration time}
       MTCtimeAtDecel:=MTCburnEndAtDecel/600;
       {.calculate cruise distance}
-      MTCdistAtCruise:=(GMCbaseDist*FCCauInKm)-MTCdistAtAccel-MTCdistAtDecel;
+      MTCdistAtCruise:=(GMCbaseDist*FCCdiKm_In_1AU)-MTCdistAtAccel-MTCdistAtDecel;
       {.calculate cruise time}
       MTCtimeAtCruise:=MTCdistAtCruise/GMCcruiseDV/600;
       {.calculate trip time}

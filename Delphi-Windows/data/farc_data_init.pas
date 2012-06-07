@@ -166,71 +166,78 @@ var
 
 //==END PUBLIC VAR==========================================================================
 
-//   const
+const
+
+   //==========conversion / physics constants=========================================================
+   ///<summary>
+   ///   degrees to radian, this constant is a multiplier
+   ///</summary>
+   FCCdiDegrees_To_Radian=Pi/180;
+
+   ///<summary>
+   ///   gravitational constant in astrophysics
+   ///</summary>
+   FCCdiGravitationalConst=6.67428E-11;
+
+   ///<summary>
+   ///   # of kilometers in one Astronomical Unit
+   ///</summary>
+   FCCdiKm_In_1AU=149597870;
+
+   ///<summary>
+   ///   # of light-seconds in one Astonomical Unit
+   ///</summary>
+   FCCdiLightSec_In_1AU=499;
+
+   ///<summary>
+   ///   # of Light-Years in one parsec (pc)
+   ///</summary>
+   FCCdiLY_In_1pc=3.261633;
+
+   ///<summary>
+   ///   mass equivalent for asteroids, 1 unit=10e20kg
+   ///</summary>
+   FCCdiMassEqAsteroid=10e20;
+
+   ///<summary>
+   ///   mass equivalent for any planet, in Earth mass, 1 unit=5.976e24kg
+   ///</summary>
+   FCCdiMassEqEarth=5.976e24;
+
+   ///<summary>
+   ///   # of millibars in one atmosphere
+   ///</summary>
+   FCCdiMbars_In_1atmosphere=1013;
+
+   ///<summary>
+   ///   # of meters by seconds in 1c (light speed index)
+   ///</summary>
+   FCCdiMbySec_In_1c=299792458;
+
+   ///<summary>
+   ///   # of meters by second in 1g
+   ///</summary>
+   FCCdiMbySec_In_1G=9.807;
+
+   ///<summary>
+   ///   # of MegaJoules in 1 kWh
+   ///</summary>
+   FCCdiMJ_In_1kWh=3.6;
+
+   //==========game core====================================================================
+   ///<summary>
+   ///   current alpha # for FARC
+   ///</summary>
+   FCCalphaNumber='3';
+
 //==END PUBLIC CONST========================================================================
 
 //===========================END FUNCTIONS SECTION==========================================
 
-
-
-
-
-
-
-
-
-   var
-
-
-      
-      //==========main window related=======================================================
-
-      //==========message box===============================================================
-      {.message counter}
-      FCVmsgCount: integer;
-      {.array for store message titles}
-      FCVmsgStoMsg: array of string;
-      {.array for store message text}
-      FCVmsgStoTtl: array of string;
-      //==========game system===============================================================
-
-
-      //==========streams and memory management=============================================
-      
-   const
-      {conversion constant 1 AU = 149,597,870 km}
-      FCCauInKm=149597870;
-      {conversion constant 1 AU = 499 light-seconds}
-      FCCauInLsec=499;
-      {conversion constant degree to radiant by multiply by this constant}
-      FCCdeg2RadM=Pi/180;
-      FCCgameNam='FAR Colony';
-      FCCalphaNumber='3';
-      {conversion contant 1 gee = 9.807 m/s}
-      FCCgeesInMS=9.807;
-      {gravity constant in astrophysics}
-      FCCgravConst=6.67428E-11;
-      {conversion constant 1kWh = 3.6MJ}
-      FCCkwhInMJ=3.6;
-      {conversion constant 1c (light speed index) = 299,792,458m/s}
-      FCClightSpdinMS=299792458;
-      {conversion constant: mass for asteroids 1unit= 10e20kg }
-      FCCmassConvAster=10e20;
-      {conversion constant 1 Earth mass = 5.976e24kg used for all planets}
-      FCCmassEqEarth=5.976e24;
-      {.conversion constant mbar (atmosphere pressure) to atmosphere}
-      FCCpress2atmDiv=1013;
-      {conversion constant 1 parsec = 3.261633 LY}
-      FCCpcInLY=3.261633;
-      //FCCcredRL1x=10000000;//20000;
-//         FCC_DegToRadDiv=180/Pi
-
-
 ///<summary>
-///   initialize all the basic data, test the configuration file and the save games
-///   directory.
+///   initialize all the basic data, test the configuration file and the save games directory
 ///</summary>
-procedure FCMdInit_Initialize;
+procedure FCMdi_Data_Initialization;
 
 implementation
 
@@ -242,10 +249,14 @@ uses
 
 //=============================================END OF INIT==================================
 
-procedure FCMdInit_Initialize;
-{purpose: initialize all the basic data, test the configuration file and the save games
-directory.
+procedure FCMdi_Data_Initialization;
+{purpose: initialize all the basic data, test the configuration file and the save games directory.
    Additions:
+      -2012Jun06- *code audit:
+                  (_)var formatting + refactoring     (x)if..then reformatting   (x)function/procedure refactoring
+                  (_)parameters refactoring           (x) ()reformatting         (-)code optimizations
+                  (_)float local variables=> extended (_)case..of reformatting   (x)local methods
+                  (x)summary completion               (_)protect all float add/sub w/ FCFcFunc_Rnd
       -2011May05- *add: products database loading.
       -2010Oct03- *add SPMi database loading.
       -2010May18- *add: infrastructures loading.
@@ -255,8 +266,7 @@ directory.
 }
 begin
    {.configuration file initialization}
-   if not FileExists(FCVdiPathConfigFile)
-   then
+   if not FileExists( FCVdiPathConfigFile ) then
    begin
       FCVdiLanguage:= 'EN';
       FCVdiWinMainWidth:= FCWinMain.Width;
@@ -265,11 +275,11 @@ begin
       FCVdiWinMainTop:= FCWinMain.Top;
       FCMdF_ConfigFile_Write(false);
    end
-   else if FileExists(FCVdiPathConfigFile)
-   then FCMdF_ConfigFile_Read(false);
+   else if FileExists( FCVdiPathConfigFile )
+   then FCMdF_ConfigFile_Read( false );
    {.saved games directory initialization}
-   if not DirectoryExists(FCVdiPathConfigDir+'SavedGames')
-   then MkDir(FCVdiPathConfigDir+'SavedGames');
+   if not DirectoryExists( FCVdiPathConfigDir+'SavedGames' )
+   then MkDir( FCVdiPathConfigDir+'SavedGames' );
    {.game databases loading}
    FCMdF_DBProducts_Read;
    FCMdF_DBSPMi_Read;

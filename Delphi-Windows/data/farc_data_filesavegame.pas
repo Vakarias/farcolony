@@ -61,6 +61,7 @@ uses
    ,farc_data_game
    ,farc_data_infrprod
    ,farc_data_init
+   ,farc_data_messages
    ,farc_data_univ
    ,farc_game_cps
    ,farc_game_cpsobjectives

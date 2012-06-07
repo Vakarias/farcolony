@@ -125,7 +125,7 @@ const
    MRMCDVCvolOfDrive=3000;
    MRMCDVCloadedMassInTons=100000;
    MRMCDVCrmMass=70;
-   GMCCthrN=MRMCDVCthrbyvol*MRMCDVCvolOfDrive*(FCCgeesInMS*1000);
+   GMCCthrN=MRMCDVCthrbyvol*MRMCDVCvolOfDrive*(FCCdiMbySec_In_1G*1000);
 
 implementation
 

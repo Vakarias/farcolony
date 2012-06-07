@@ -797,7 +797,7 @@ begin
    then
    begin
       {.main title bar}
-		FCWinMain.Caption:=FCCgameNam+' '+FCFcFunc_FARCVersion_Get+'  ©2009-2012 J.F. Baconnet';
+		FCWinMain.Caption:='FAR Colony  '+FCFcFunc_FARCVersion_Get+'  ©2009-2012 J.F. Baconnet';
 		{.main menu - game section}
 		FCWinMain.FCWM_MMenu_Game.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MainMenu_Game');
 		FCWinMain.FCWM_MMenu_G_New.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MainMenu_Game_New');
@@ -929,7 +929,7 @@ begin
    begin
       {.main frame}
       FCWinAbout.FCWA_Frame.Caption
-         :=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MMenu_H_About')+' '+FCCgameNam+' '+FCFcFunc_FARCVersion_Get;
+         :=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MMenu_H_About')+' FAR Colony '+FCFcFunc_FARCVersion_Get;
       {.header}
       FCWinAbout.FCWA_Frm_Header.HTMLText.Clear;
       FCWinAbout.FCWA_Frm_Header.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI,'FCWA_Frm_Header'));

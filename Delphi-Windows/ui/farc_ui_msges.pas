@@ -33,6 +33,7 @@ interface
 uses
    SysUtils;
 
+{:DEV NOTES: put that in data_messages.}
 type TFCEuimMsgeTp=(
    mtColonize
    ,mtColonizeWset
@@ -87,6 +88,7 @@ implementation
 uses
    farc_data_game
    ,farc_data_init
+   ,farc_data_messages
    ,farc_data_univ
    ,farc_game_gameflow
    ,farc_main

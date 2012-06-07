@@ -819,8 +819,8 @@ begin
                            cfrttpMassAster
                            ,FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar]
                               .SDB_obobj[M3DVUIUsatPlanIdx].OO_satList[M3DVUIUsatIdx].OOS_mass
-                           *FCCmassConvAster
-                           /FCCmassEqEarth
+                           *FCCdiMassEqAsteroid
+                           /FCCdiMassEqEarth
                         )
                   );
             {.gravity}
@@ -1018,8 +1018,8 @@ begin
                            cfrttpMassAster
                            ,FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar]
                               .SDB_obobj[FCV3DselOobj].OO_mass
-                           *FCCmassConvAster
-                           /FCCmassEqEarth
+                           *FCCdiMassEqAsteroid
+                           /FCCdiMassEqEarth
                            )
                      );
             {.gravity}

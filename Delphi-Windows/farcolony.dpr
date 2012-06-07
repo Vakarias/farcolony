@@ -108,7 +108,8 @@ uses
   farc_data_pgs in 'data\farc_data_pgs.pas',
   farc_data_spu in 'data\farc_data_spu.pas',
   farc_data_3dopengl in 'data\farc_data_3dopengl.pas',
-  farc_data_html in 'data\farc_data_html.pas';
+  farc_data_html in 'data\farc_data_html.pas',
+  farc_data_messages in 'data\farc_data_messages.pas';
 
 {$R *.res}
 

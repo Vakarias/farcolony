@@ -1695,7 +1695,7 @@ Application.UpdateFormatSettings := False;
 	FCVdiPathResourceDir:=FCVdiPathGame+'_RSRC\';
 	FCVdiPathXML:=FCVdiPathGame+'_XMLD\';
    try
-      FCMdInit_Initialize;
+      FCMdi_Data_Initialization;
    finally
       {.local fonts and user's interface initialization}
       FClocalPath:=FCVdiPathResourceDir+'fnt\DejaVuSans.ttf';

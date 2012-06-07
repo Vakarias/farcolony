@@ -99,7 +99,7 @@ var
    ,LCtime
    ,LCatm: extended;
 const
-   LCgeesInKmS=FCCgeesInMS*0.001;
+   LCgeesInKmS=FCCdiMbySec_In_1G*0.001;
 begin
    if LCsatIdx=0
    then LCplanApress:=FCDBsSys[LCssys].SS_star[LCstar].SDB_obobj[LCoobjIdx].OO_atmPress
@@ -115,11 +115,11 @@ begin
    {.calculate the burn endurance for deceleration}
    LCburnEnd:=(LCdepVel-LCentrVel)/(GMCAccelG*LCgeesInKmS);
    {.caculate used reaction mass volume for deceleration}
-   LCusedRM:=(LCburnEnd)*(GMCCthrN/(LCisp*FCCgeesInMS))/(MRMCDVCrmMass*1000);
+   LCusedRM:=(LCburnEnd)*(GMCCthrN/(LCisp*FCCdiMbySec_In_1G))/(MRMCDVCrmMass*1000);
    {.calculate deceleration time}
    LCtime:=LCburnEnd/600;
    {.determine atmosphere entry time}
-   LCatm:=LCplanApress/FCCpress2atmDiv;
+   LCatm:=LCplanApress/FCCdiMbars_In_1atmosphere;
    GMClandTime:=round(((1.84-(1-LCatm))*70)/18.4);
    GMCtripTime:=round(LCtime)+GMClandTime;
    GMCusedRMvol:=FCFcFunc_Rnd(cfrttpVolm3, LCusedRM);

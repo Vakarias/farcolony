@@ -47,6 +47,7 @@ uses
    ,farc_data_game
    ,farc_data_filesavegame
    ,farc_data_init
+   ,farc_data_messages
    ,farc_data_textfiles
    ,farc_gfx_core
    ,farc_main

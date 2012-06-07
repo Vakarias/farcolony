@@ -130,6 +130,7 @@
 			<DCCReference Include="data\farc_data_spu.pas"/>
 			<DCCReference Include="data\farc_data_3dopengl.pas"/>
 			<DCCReference Include="data\farc_data_html.pas"/>
+			<DCCReference Include="data\farc_data_messages.pas"/>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>

@@ -2302,6 +2302,7 @@ begin
 end;
 
 procedure FCMdF_DBTechnosciences_Load;
+{:DEV NOTES: WARNING NOT USED IN ANY PART OF THE CODE, PUT IT IN FARC_DATA_INIT.}
 {:Purpose: load the technosciences database.
     Additions:
 }

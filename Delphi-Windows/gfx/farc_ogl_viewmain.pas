@@ -1193,7 +1193,7 @@ begin
                SetLength(FC3DobjPlanGrav, Length(FC3DobjPlanGrav)+LSVUblocCnt);
                SetLength(FC3DobjPlanOrbit, Length(FC3DobjPlanOrbit)+LSVUblocCnt);
             end;
-            LSVUangleRad:=SDB_obobj[TDMVUorbObjCnt].OO_angle1stDay*FCCdeg2RadM;
+            LSVUangleRad:=SDB_obobj[TDMVUorbObjCnt].OO_angle1stDay*FCCdiDegrees_To_Radian;
             {.asteroid}
             if (SDB_obobj[TDMVUorbObjCnt].OO_type>=oobtpAster_Metall)
                and (SDB_obobj[TDMVUorbObjCnt].OO_type<=oobtpAster_Icy)
@@ -1285,7 +1285,7 @@ begin
                         SetLength(FC3DobjSatGrav, Length(FC3DobjSatGrav)+LSVUblocCnt);
                         SetLength(FC3DobjSatOrbit, Length(FC3DobjSatOrbit)+LSVUblocCnt);
                      end;
-                     LSVUangleRad:=SDB_obobj[TDMVUorbObjCnt].OO_satList[TDMVUsatIdx].OOS_angle1stDay*FCCdeg2RadM;
+                     LSVUangleRad:=SDB_obobj[TDMVUorbObjCnt].OO_satList[TDMVUsatIdx].OOS_angle1stDay*FCCdiDegrees_To_Radian;
                      {.for a satellite asteroid}
                      if SDB_obobj[TDMVUorbObjCnt].OO_satList[TDMVUsatIdx].OOS_type<oobtpSat_Tellu_Lunar
                      then
@@ -1536,7 +1536,7 @@ begin
       OBrotAngle:=DegToRad(0);
       while OBcount<=OBsegments do
       begin
-         OBtheta:=90*(OBcount/OBsegments)*FCCdeg2RadM;
+         OBtheta:=90*(OBcount/OBsegments)*FCCdiDegrees_To_Radian;
          OBxx:=OBxCenter+OBwdth*cos(OBtheta);
          OByy:=OByCenter+OBheight*sin(OBtheta);
          OBxxCen:=OBxx-OBxCenter;
@@ -1578,7 +1578,7 @@ begin
       OBrotAngle:=DegToRad(0);
       while OBcount<=OBsegments do
       begin
-         OBtheta:=360*(OBcount/OBsegments)*FCCdeg2RadM;
+         OBtheta:=360*(OBcount/OBsegments)*FCCdiDegrees_To_Radian;
          OBxx:=OBxCenter+OBwdth*cos(OBtheta);
          OByy:=OByCenter+OBheight*sin(OBtheta);
          OBxxCen:=OBxx-OBxCenter;
@@ -1626,7 +1626,7 @@ begin
       OBrotAngle:=DegToRad(0);
       while OBcount<=OBsegments do
       begin
-         OBtheta:=90*(OBcount/OBsegments)*FCCdeg2RadM;
+         OBtheta:=90*(OBcount/OBsegments)*FCCdiDegrees_To_Radian;
          OBxx:=OBxCenter+OBwdth*cos(OBtheta);
          OByy:=OByCenter+OBheight*sin(OBtheta);
          OBxxCen:=OBxx-OBxCenter;
@@ -1673,7 +1673,7 @@ begin
       OBrotAngle:=DegToRad(0);
       while OBcount<=OBsegments do
       begin
-         OBtheta:=360*(OBcount/OBsegments)*FCCdeg2RadM;
+         OBtheta:=360*(OBcount/OBsegments)*FCCdiDegrees_To_Radian;
          OBxx:=OBxCenter+OBwdth*cos(OBtheta);
          OByy:=OByCenter+OBheight*sin(OBtheta);
          OBxxCen:=OBxx-OBxCenter;
@@ -1998,16 +1998,16 @@ begin
                then OOSUIOspUnObjIdx:=FCentities[OOSUIOfac].E_spU[OOSUIOspUntOwnIdx].SUO_3dObjIdx;
                if FC3DobjGrp[OOSUIOUoobjIdx].Position.X>0
                then FC3DobjSpUnit[OOSUIOspUnObjIdx].Position.X
-                  :=FC3DobjGrp[OOSUIOUoobjIdx].Position.X-(0.9*cos(8*OOSUIOspUnCnt*FCCdeg2RadM)*FC3DobjPlanGrav[OOSUIOUoobjIdx].Scale.X)
+                  :=FC3DobjGrp[OOSUIOUoobjIdx].Position.X-(0.9*cos(8*OOSUIOspUnCnt*FCCdiDegrees_To_Radian)*FC3DobjPlanGrav[OOSUIOUoobjIdx].Scale.X)
                else if FC3DobjGrp[OOSUIOUoobjIdx].Position.X<0
                then FC3DobjSpUnit[OOSUIOspUnObjIdx].Position.X
-                  :=FC3DobjGrp[OOSUIOUoobjIdx].Position.X+(0.9*cos(8*OOSUIOspUnCnt*FCCdeg2RadM)*FC3DobjPlanGrav[OOSUIOUoobjIdx].Scale.X);
+                  :=FC3DobjGrp[OOSUIOUoobjIdx].Position.X+(0.9*cos(8*OOSUIOspUnCnt*FCCdiDegrees_To_Radian)*FC3DobjPlanGrav[OOSUIOUoobjIdx].Scale.X);
                if FC3DobjGrp[OOSUIOUoobjIdx].Position.Z>0
                then FC3DobjSpUnit[OOSUIOspUnObjIdx].Position.Z
-                  :=FC3DobjGrp[OOSUIOUoobjIdx].Position.Z-(0.9*sin(8*OOSUIOspUnCnt*FCCdeg2RadM)*FC3DobjPlanGrav[OOSUIOUoobjIdx].Scale.X)
+                  :=FC3DobjGrp[OOSUIOUoobjIdx].Position.Z-(0.9*sin(8*OOSUIOspUnCnt*FCCdiDegrees_To_Radian)*FC3DobjPlanGrav[OOSUIOUoobjIdx].Scale.X)
                else if FC3DobjGrp[OOSUIOUoobjIdx].Position.Z<0
                then FC3DobjSpUnit[OOSUIOspUnObjIdx].Position.Z
-                  :=FC3DobjGrp[OOSUIOUoobjIdx].Position.Z+(0.9*sin(8*OOSUIOspUnCnt*FCCdeg2RadM)*FC3DobjPlanGrav[OOSUIOUoobjIdx].Scale.X);
+                  :=FC3DobjGrp[OOSUIOUoobjIdx].Position.Z+(0.9*sin(8*OOSUIOspUnCnt*FCCdiDegrees_To_Radian)*FC3DobjPlanGrav[OOSUIOUoobjIdx].Scale.X);
                FC3DobjSpUnit[OOSUIOspUnObjIdx].PointTo(
                   FC3DobjGrp[OOSUIOUoobjIdx]
                   ,FC3DobjGrp[OOSUIOUoobjIdx].Position.AsVector
@@ -2044,16 +2044,16 @@ begin
                then OOSUIOspUnObjIdx:=FCentities[OOSUIOfac].E_spU[OOSUIOspUntOwnIdx].SUO_3dObjIdx;
                if FC3DobjSatGrp[OOSUIOUsatObjIdx].Position.X>0
                then FC3DobjSpUnit[OOSUIOspUnObjIdx].Position.X
-                  :=FC3DobjSatGrp[OOSUIOUsatObjIdx].Position.X-(0.9*cos(8*OOSUIOspUnCnt*FCCdeg2RadM)*FC3DobjSatGrav[OOSUIOUsatObjIdx].Scale.X)
+                  :=FC3DobjSatGrp[OOSUIOUsatObjIdx].Position.X-(0.9*cos(8*OOSUIOspUnCnt*FCCdiDegrees_To_Radian)*FC3DobjSatGrav[OOSUIOUsatObjIdx].Scale.X)
                else if FC3DobjSatGrp[OOSUIOUsatObjIdx].Position.X<0
                then FC3DobjSpUnit[OOSUIOspUnObjIdx].Position.X
-                  :=FC3DobjSatGrp[OOSUIOUsatObjIdx].Position.X+(0.9*cos(8*OOSUIOspUnCnt*FCCdeg2RadM)*FC3DobjSatGrav[OOSUIOUsatObjIdx].Scale.X);
+                  :=FC3DobjSatGrp[OOSUIOUsatObjIdx].Position.X+(0.9*cos(8*OOSUIOspUnCnt*FCCdiDegrees_To_Radian)*FC3DobjSatGrav[OOSUIOUsatObjIdx].Scale.X);
                if FC3DobjSatGrp[OOSUIOUsatObjIdx].Position.Z>0
                then FC3DobjSpUnit[OOSUIOspUnObjIdx].Position.Z
-                  :=FC3DobjSatGrp[OOSUIOUsatObjIdx].Position.Z-(0.9*sin(8*OOSUIOspUnCnt*FCCdeg2RadM)*FC3DobjSatGrav[OOSUIOUsatObjIdx].Scale.X)
+                  :=FC3DobjSatGrp[OOSUIOUsatObjIdx].Position.Z-(0.9*sin(8*OOSUIOspUnCnt*FCCdiDegrees_To_Radian)*FC3DobjSatGrav[OOSUIOUsatObjIdx].Scale.X)
                else if FC3DobjSatGrp[OOSUIOUsatObjIdx].Position.Z<0
                then FC3DobjSpUnit[OOSUIOspUnObjIdx].Position.Z
-                  :=FC3DobjSatGrp[OOSUIOUsatObjIdx].Position.Z+(0.9*sin(8*OOSUIOspUnCnt*FCCdeg2RadM)*FC3DobjSatGrav[OOSUIOUsatObjIdx].Scale.X);
+                  :=FC3DobjSatGrp[OOSUIOUsatObjIdx].Position.Z+(0.9*sin(8*OOSUIOspUnCnt*FCCdiDegrees_To_Radian)*FC3DobjSatGrav[OOSUIOUsatObjIdx].Scale.X);
                FC3DobjSpUnit[OOSUIOspUnObjIdx].PointTo(
                   FC3DobjSatGrp[OOSUIOUsatObjIdx]
                   ,FC3DobjSatGrp[OOSUIOUsatObjIdx].Position.AsVector
