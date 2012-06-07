@@ -357,27 +357,27 @@
    <!-- ********** SPM ********** -->
    <SPMi_Abolition>
       <EncyEntry format="SPMi"/>
-      <EN>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</EN>
-      <FR>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</FR>
-      <SP>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</SP>
+      <EN>Policy which recognize sapient AIs (Artificial Intelligences) as life beings, and not slaves, and must be considered as citizens. It recognizes also the bioroids as humans which must be freed from all service and allowed to live their natural lives. Sapient AIs ownership is prohibited.</EN>
+      <FR>Politique qui reconnait les IAs (Intelligences Artificielles) sapientes comme des êtres vivants, et non des esclaves, qui doivent être considérés comme des citoyens à part entière. Elle reconnait aussi les bioroids comme humains qui doivent être libérés de tout service et permis de vivre leur vies naturelles. La possession d'IAs sapientes est interdite.</FR>
+      <SP>.</SP>
    </SPMi_Abolition>
    <SPMi_AIchitect>
       <EncyEntry format="SPMi"/>
       <EN>AIchitect is a government model where the government members are replaced by a matrix composed by a central architect AI and a council of human representatives assisted by secondary specialized AIs. It's not a dictatorship because the AI have for only goal the well being of the population, but the decisions are taken at the level of the cyber-government and the population is informed by it in realtime. This system permit a more rationalized and egalitarian management, the corruption is also eradicated. It's the apogee of the human-synthetic relation.</EN>
       <FR>IAchitecte est un modèle de gouvernement ou membres du gouvernement sont remplacée par une matrice composée d'une IA architecte centrale et d'un conseil de représentants humains assistés par des IA specialisees subalternes. Ce n'est pas une dictature car les IA n'on pour but que le bien de la population, mais les decisions sont prises au niveau du cyber-gouvernement et la population en est informée en temps reel. Ce Systeme permet une gestion plus rationalisée et égalitaire, aussi la corruption est eradiquée. C'est l'apogée de la relation humain - synthétique.</FR>
-      <SP>AIchitect is a government model where the government members are replaced by a matrix composed by a central architect AI and a council of human representatives assisted by secondary specialized AIs. It's not a dictatorship because the AI have for only goal the well being of the population, but the decisions are taken at the level of the cyber-government and the population is informed by it in realtime. This system permit a more rationalized and egalitarian management, the corruption is also eradicated. It's the apogee of the human-synthetic relation.</SP>
+      <SP>.</SP>
    </SPMi_AIchitect>
    <SPMi_Amortalism>
       <EncyEntry format="SPMi"/>
       <EN>Belief about all life extension of the human being considered as a bad thing for a society and induces ultra-individuality and resistance to change. It praises the purity of the Nature and motives a socialized and cooperative society.</EN>
       <FR>Croyance à propos de toute extension de la vie de l'être humain étant considéré comme une mauvaise chose pour une société et induit de l'ultra-individualité et de l'immobilisme. Elle fait éloge de la pureté de la Nature et motive une société socialisée et coopérative.</FR>
-      <SP></SP>
+      <SP>.</SP>
    </SPMi_Amortalism>
    <SPMi_AntiHumSpacef>
       <EncyEntry format="SPMi"/>
-      <EN>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</EN>
-      <FR>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</FR>
-      <SP>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</SP>
+      <EN>Policy that ban all human presence in space, without obviously ban any automated/AI flight and settlement. This includes all presence on 0 atmosphere orbital objects and on space based megastructures.</EN>
+      <FR>Politique qui banni toute présence humaine spatiale, sans toutefois bannir tout vol et colonie automatisée/IA. Cela inclus toute présence sur des objets orbitaux à 0 atmosphère ainsi que sur les megastructures spatiales.</FR>
+      <SP>.</SP>
    </SPMi_AntiHumSpacef>
    <SPMi_BioroidsAdopt>
       <EncyEntry format="SPMi"/>
@@ -395,67 +395,67 @@
       <EncyEntry format="SPMi"/>
       <EN>Authoritarian government based on the power held and enforced by only one person, or a elite group, not chosen by the people and imposed by itself. Some examples of Centralized Authority are: the Dictatorship, the Monarchy and the Oligarchy. The population must to submit to the authority and to accept a mass lifestyle.</EN>
       <FR>Gouvernement autoritaire basé sur le pouvoir detenu et exercé par une seule personne, ou un groupe restreint, non choisi par le peuple et imposé de lui-même. Quelques exemples d'Autorité Centralisée sont: la Dictature, la Monarchie et l'Oligarchie. La population doit se soumettre à l'autorité et accepter un style de vie de masse.</FR>
-      <SP>Authoritarian government based on the power held and enforced by only one person, or a elite group, not chosen by the people and imposed by itself. Some examples of Centralized Authority are: the Dictatorship, the Monarchy and the Oligarchy. The population must to submit to the authority and to accept a mass lifestyle.</SP>
+      <SP>.</SP>
    </SPMi_CentrAuth>
    <SPMi_Colonialism>
       <EncyEntry format="SPMi"/>
-      <EN>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</EN>
-      <FR>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</FR>
-      <SP>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</SP>
+      <EN>Cultural trend that glorify the pioneer spirit. Colonization is only seen in a positive and rational way, which gives a chance to begin a new life. This also include to occupation of other "inferior" colonies and the use of their resources.</EN>
+      <FR>Tendance culturelle qui glorifie l'esprit pionnier. La colonisation est seulement vue d'une facon positive, laquelle donne une chance de commencer une nouvelle vie. Ceci inclus aussi l'occupation d'autres colonies "inférieures" et l'utilisation de leur ressources.</FR>
+      <SP>.</SP>
    </SPMi_Colonialism>
    <SPMi_CorpOrg>
       <EncyEntry format="SPMi"/>
       <EN>Power held by an international or a transworld corporation. Citizens are called shareholders and have at least 1 share. There's passive shareholders, without any mean of direct acting to the Corporate Society, and active shareholders which detains enough shares for be a voice in government. Shares can be obtained by money (with a limit regarding the service history the shareholder have and her/his abilities which can profit the corporate organization), or by corporate service (depending the function and time).&#60;br&#62;The corporate government, the biggest shareholder, have all rights to buy share(s) of a citizen and expel him/her out of the faction, for security and/or low profit reasons.</EN>
       <FR>Pouvoir tenu par une multinationale ou une transmondiale. Les citoyens sont appellés actionnaires et ont au moins une action. Il y a des actionnaires passifs, sans aucun moyen d'action directe dans la Société Corporative, et des actionnaires actifs lesquels detiennent assez d'actions pour être une voix dans le gouvernement. Les actions peuvent être obtenues par de l'argent (avec une limite en regard de l'historique de service qu'a l'actionnaire ainsi que de ses compétences qui peuvent profiter l'organisation corporative), ou par service corporatif (dependant de la fonction et du temps).&#60;br&#62;Le gouvernement corporatif, le plus gros actionnaire, a tout les droits d'acheter les actions d'un citoyen et de l'expulser en dehors de la faction, pour raison de sécurité et/ou de bas profits.</FR>
-      <SP>Power held by an international or a transworld corporation. Citizens are called shareholders and have at least 1 share. There's passive shareholders, without any mean of direct acting to the Corporate Society, and active shareholders which detains enough shares for be a voice in government. Shares can be obtained by money (with a limit regarding the service history the shareholder have and her/his abilities which can profit the corporate organization), or by corporate service (depending the function and time). The corporate government, the biggest shareholder have all rights to buy share(s) of a citizen and expel him/her out of the faction, for security and/or low profit reasons.</SP>
+      <SP>.</SP>
    </SPMi_CorpOrg>
    <SPMi_CosmosPreserv>
       <EncyEntry format="SPMi"/>
-      <EN>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</EN>
-      <FR>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</FR>
-      <SP>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</SP>
+      <EN>Culture that claim that the cosmos, which is considered as a Nature Entity, must be preserved from human pressure, and more especially by the use of hyperdrives and space megastructures. This trend doesn't concern the orbital objects' ecospheres themselves.</EN>
+      <FR>Culture qui clame que le cosmos, lequel est considéré comme une Entité de la Nature, doit être préservé de la pression humaine, et plus spécialement de l'utilisation des hyperpropulseurs et des megastructures spatiales. Cette tendance ne concerne pas les écosphères des objets orbitaux elles-mêmes.</FR>
+      <SP>.</SP>
    </SPMi_CosmosPreserv>
    <SPMi_Cryptosurv>
       <EncyEntry format="SPMi"/>
-      <EN>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</EN>
-      <FR>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</FR>
-      <SP>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</SP>
+      <EN>This thinking model regroup a need of maximal security for the communications whatever the means, with a level of dictates far superior to the standards usually adopted. These needs don’t affect only the government and some elites but all the society at the cultural level and on the lifestyle. This generates a cryptic direct form of speaking, and also an opaque society and government.</EN>
+      <FR>Ce courant de pensée englobe un besoin de securité maximale pour les communications, quels qu'en soit les moyens, avec un degré d'exigence bien superieur aux standards courament utilisés. Ces besoins n'affectent pas seulement l'appareil gouvernemental et quelques elites mais toute la societé au niveau de la culture ainsi que du style de vie. Cela engendre une mystérieuse forme de parole directe cryptique, et aussi une société ainsi qu'un gouvernement opaque.</FR>
+      <SP>.</SP>
    </SPMi_Cryptosurv>
    <SPMi_CultOfAtheism>
       <EncyEntry format="SPMi"/>
-      <EN>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</EN>
-      <FR>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</FR>
-      <SP>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</SP>
+      <EN>This meme prohibit the faith in supernatural beings and any religion. The religious faith is considered as a form of insanity and treated. A rational lifestyle is promoted.</EN>
+      <FR>Ce meme interdit la foi en des êtres supernaturels et toute religion. La foi religieuse est considérée comme une forme d'insanité et traitée. Un style de vie rationel est promu.</FR>
+      <SP>.</SP>
    </SPMi_CultOfAtheism>
    <SPMi_Cyberdemo>
       <EncyEntry format="SPMi"/>
       <EN>Democracy where an elligible citizen is chosen randomely to fulfill the function of each office he/she hold for a determined time, after that he/she take back his/her private life. The office manager can choose human staff and receive advanced AIs for councelling him/her. The vote of the population to the differents laws is proceded through a global computerized network.</EN>
       <FR>Démocratie où un citoyen éligible est choisi au hasard pour remplir la  fonction de chaque bureau qu'il tient pour un temps déterminé, ensuite il reprend le court de sa vie  privée. Le dirigeant du bureau peut choisir du personnel humain et reçoit des IA avancées pour le  conseiller. Le vote de la population aux differentes lois se fait au travers d'un réseau informatique global.</FR>
-      <SP>Democracy where an elligible citizen is chosen randomely to fulfill the function of each office he/she hold for a determined time, after that he/she take back his/her private life. The office manager can choose human staff and receive advanced AIs for councelling him/her. The vote of the population to the differents laws is proceded through a global computerized network.</SP>
+      <SP>.</SP>
    </SPMi_Cyberdemo>
    <SPMi_Cybergnosticism>
       <EncyEntry format="SPMi"/>
-      <EN>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</EN>
-      <FR>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</FR>
-      <SP>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</SP>
+      <EN>Belief that the physical world is considered impure and/or unreliable and that the existence under pure information is better. That leads to bodily modifications to avoid the temptations of the flesh. Human contacts are mainly made by telepresence.</EN>
+      <FR>Croyance que le monde physique est impur et/ou inefficace et que l'existence  sous forme de pure information est meilleure. Cela entraine des modifications corporelles pour éviter les  tentations de la chair. Le contacts humain se font principalement par téléprésence.</FR>
+      <SP>.</SP>
    </SPMi_Cybergnosticism>
    <SPMi_Decel>
       <EncyEntry format="SPMi"/>
       <EN>Ideology based on the fact that technology progress too fast and need to be slowed down and even regressed like for AI, the nanotechnology, the hyperdrives and all that concern the alteration of any life form. Clearly it's an anti-transhumanism movement.</EN>
       <FR>Idéologie basée sur le fait que la technologie progresse trop rapidement et a besoin d'être ralentie voir même d'être régressée comme pour les IA, la nanotechnologie, les hyperpropulseurs et tout ce qui concerne l'altération de toute forme de vie. Clairement c'est un mouvement anti-transhumain.</FR>
-      <SP>Idéologie basée sur le fait que la technologie progresse trop rapidement et a besoin d'être ralentie voir même d'être régressée comme pour les IA, la nanotechnologie, les hyperpropulseurs et tout ce qui concerne l'altération de toute forme de vie. Clairement c'est un mouvement anti-transhumain.</SP>
+      <SP>.</SP>
    </SPMi_Decel>
    <SPMi_ElecGov>
       <EncyEntry format="SPMi"/>
       <EN>Government in which the members are elected democratically by the people.</EN>
       <FR>Gouvernement dont les membres sont élus démocratiquement par le peuple.</FR>
-      <SP>Government in which the members are elected democratically by the people.</SP>
+      <SP>.</SP>
    </SPMi_ElecGov>
    <SPMi_Environmental>
       <EncyEntry format="SPMi"/>
-      <EN>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</EN>
-      <FR>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</FR>
-      <SP>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</SP>
+      <EN>Meme that support all kind of terraformation, of any orbital object, based on the fact that the human race has the right and the responsibility to spread life across the galaxy. Local fauna and flora must adapt to the "Human Pathway". Earth ecosphere must be reproduced and take over the other ones.</EN>
+      <FR>Meme qui supporte toute les sortes de terraformation, de tout objet orbital, basé sur le fait que la race humaine a le droit et la responsabilité de répandre la vie dans la galaxie. La faune locale doit s'adapter à la "Voie Humaine". L'écosphère de la Terre doit être reproduit et supplanter les autres.</FR>
+      <SP>.</SP>
    </SPMi_Environmental>
    <SPMi_Eugenics>
       <EncyEntry format="SPMi"/>
@@ -467,25 +467,25 @@
       <EncyEntry format="SPMi"/>
       <EN>Free Market symbolize a pure capitalist system which emphasize on private properties and share-based economy. Wealth heavily influence the social status.</EN>
       <FR>Le Libre Marché symbolise un pur system capitaliste lequel se concentre sur la propriété privée et une économie basée sur les actions. La richesse influence lourdement le status social.</FR>
-      <SP>Le Libre Marché symbolise un pur system capitaliste lequel se concentre sur la propriété privée et une économie basée sur les actions. La richesse influence lourdement le status social.</SP>
+      <SP>.</SP>
    </SPMi_FreeMark>
    <SPMi_GreenEco>
       <EncyEntry format="SPMi"/>
       <EN>This economic system is a liberal economy based on the respect of the environment and sustainable development.</EN>
       <FR>Ce système économique est une économie libérale basée sur le respect de l'environnement et du développement durable.</FR>
-      <SP>Ce système économique est une économie libérale basée sur le respect de l'environnement et du développement durable.</SP>
+      <SP>.</SP>
    </SPMi_GreenEco>
    <SPMi_HomoSoc>
       <EncyEntry format="SPMi"/>
-      <EN>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</EN>
-      <FR>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</FR>
-      <SP>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</SP>
+      <EN>Model of society which ban the other sexes (female or male). The reproduction is made by cloning and/or insemination and/or by slaves from the other sex. Opposite sex people are considered as low class and/or enemy.</EN>
+      <FR>Modèle de société qui  banni l'autre sexe (féminin ou masculin). La reproduction se fait par clonage et/ou insiménation et/ou par esclaves de l'autre sexe. Les gens du sexe opposé sont considérés comme de basse classe et/ou enemi.</FR>
+      <SP>.</SP>
    </SPMi_HomoSoc>
    <SPMi_HumRetire>
       <EncyEntry format="SPMi"/>
-      <EN>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</EN>
-      <FR>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</FR>
-      <SP>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</SP>
+      <EN>Holds that since humans are often incapable of acting in their own best interests, it would serve them better to let artificially intelligent machines take care of their needs. Transform the mankind societies in places of relaxation and leisure. Advertising dominate, real information is blurred by directed and synthetic ones. AIs (Artificial Intelligences) are considered as tools.</EN>
+      <FR>Tiens du fait que vu que les humains sont plutôt incapables d'agir dans leurs meilleurs intérêts, cela devrait mieux les servir de laisser des machines intelligentes artificiellement prendre soins de leurs besoins. Transforme les sociétés du genre humain en places de relaxation et amusement. La publicité domine, l'information réelle est brouillée de l'information dirigée et synthétique. Les IAs (Intelligences Artificielles) sont considérées comme des outils.</FR>
+      <SP>.</SP>
    </SPMi_HumRetire>
    <SPMi_Immortalism>
       <EncyEntry format="SPMi"/>
@@ -495,39 +495,39 @@
    </SPMi_Immortalism>
    <SPMi_Infotranscend>
       <EncyEntry format="SPMi"/>
-      <EN>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</EN>
-      <FR>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</FR>
-      <SP>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</SP>
+      <EN>Belief that the AIs (Artificial Intelligences) can reach the transcendence one day, called the singularity, and to exceed the human capabilities in understanding and reasoning. The sentient AIs are so shown as future messiah to guide the human race to a sort of enlightenment and/or evolution.</EN>
+      <FR>Croyance que les IAs (Intelligences Artificielles) peuvent atteindre un jour la transcendence, appellée la singularité, et exceder les capacités humaines de comprehension ainsi que de raisonnement. Les IAs sapientes sont ainsi vues comme de futur messies pour guider la race humaine vers une sorte d'illumination et/ou évolution.</FR>
+      <SP>.</SP>
    </SPMi_Infotranscend>
    <SPMi_MilSoc>
       <EncyEntry format="SPMi"/>
-      <EN>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</EN>
-      <FR>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</FR>
-      <SP>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</SP>
+      <EN>Militarized society is one in which about 50% of the population has received a military training before to integrate civilian life. That allows recruiting soldiers directly in the population in case of a war. The public opinion of such a society has a good tolerance for wars, and the militaristic propaganda is of common use.</EN>
+      <FR>Une société militarisée en est une dans laquelle environ 50% de la population a recu un entrainement militaire avant d'intégrer la vie civile. Cela permet le recrutement de soldats directement dans la population en cas de guerre. L'opinion publique d'une telle société a une bonne tolérance pour les guerres, et la propagande militaire est d'usage commun.</FR>
+      <SP>.</SP>
    </SPMi_MilSoc>
    <SPMi_NatTranpSpFleet>
       <EncyEntry format="SPMi"/>
-      <EN>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</EN>
-      <FR>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</FR>
-      <SP>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</SP>
+      <EN>This policy enables the creation of a national structure to manage a space fleet for trade transfers. The player and AIs (Artificial Intelligence) can assign any space unit, with cargo capability, to the fleet. There's also an ideology purpose about this fleet, which motivate in a moderate way the cohesion of the faction.</EN>
+      <FR>Cette politique permet la création du structure nationale pour gèrer une flotte spatiale for les transferts d'échanges commerciaux. Le/la joueur/joueuse et les IAs (Intelligences Artificielles) peuvent assigner n'importe qu'elle unité spatiale, ayant une capacité de transport, à la flotte. Il y a aussi une fonction idéologique à propos de cette flotte, laquelle motive de facon modérée la cohésion de la faction.</FR>
+      <SP>.</SP>
    </SPMi_NatTranpSpFleet>
    <SPMi_OneWorldCom>
       <EncyEntry format="SPMi"/>
-      <EN>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</EN>
-      <FR>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</FR>
-      <SP>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</SP>
+      <EN>This policy clearly means One People - One World. It forbid to colonize another worlds excepted in the case when the main colony is destroyed. This applies also to automated infrastructures and other settlements of same kind.</EN>
+      <FR>Cette politique veut clairement dire Un Peuple - Un Monde. Elle interdit de coloniser d'autres mondes excepté dans le cas quand la colonie est détruite. Cela s'applique aussi aux infrastructures automatisées et autres colonies du même type.</FR>
+      <SP>.</SP>
    </SPMi_OneWorldCom>
    <SPMi_Pacifism>
       <EncyEntry format="SPMi"/>
-      <EN>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</EN>
-      <FR>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</FR>
-      <SP>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</SP>
+      <EN>Belief in which the human violence and its aggressiveness aren't reliable means to accomplish goals. Emphasize on communication, sociopsychology and also a return to harmony with the nature.</EN>
+      <FR>Croyance dans laquelle la violence humaine et son agressivité ne sont pas des moyens fiables pour atteindre des buts. Elle se concentre sur la communication, la sociopsychologie et aussi un retour à l'harmonie avec la nature.</FR>
+      <SP>.</SP>
    </SPMi_Pacifism>
    <SPMi_ParticipEcon>
       <EncyEntry format="SPMi"/>
       <EN>Economy based on equality where only effort and sacrifice is rewarded. No class of coordinators can develop, there's a minimum of hierarchy and maximum of openness in discussion and decision making. Industrial cooperation and mutual support are usual processes, and there's no secrecy in economic decision making. This system is also not like a planned economy, since private sector can develop but monitored by the state for labour regulation.</EN>
       <FR>Economie basée sur l'égalité où seulement l'effort et le sacrifice sont récompensés. Aucune classe de coordinateurs ne peut se développer, il y a une  hierarchie minimale et un maximum d'ouverture dans les discussion et les prises de décision. La coopération industrielle et le soutient mutuel sont des procédés usuels, et il n'y a pas de secret dans les prises de décision économiques. Ce système aussi n'Est pas comme une économie plannifiée, vu que le secteur privé peut se développer mais est sous surveillance par l'état pour la régulation du travail.</FR>
-      <SP>Economie basée sur l'égalité où seulement l'effort et le sacrifice sont récompensés. Aucune classe de coordinateurs ne peut se développer, il y a une  hierarchie minimale et un maximum d'ouverture dans les discussion et les prises de décision. La coopération industrielle et le soutient mutuel sont des procédés usuels, et il n'y a pas de secret dans les prises de décision économiques. Ce système aussi n'Est pas comme une économie plannifiée, vu que le secteur privé peut se développer mais est sous surveillance par l'état pour la régulation du travail.</SP>
+      <SP>.</SP>
    </SPMi_ParticipEcon>
    <SPMi_PlanEcon>
       <EncyEntry format="SPMi"/>
@@ -549,9 +549,9 @@
    </SPMi_ProfTechno>
    <SPMi_ReligiousFree>
       <EncyEntry format="SPMi"/>
-      <EN>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</EN>
-      <FR>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</FR>
-      <SP>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</SP>
+      <EN>This policy state that all religions or beliefs are allowed and respected, including even non-religious but spiritual movements. It's a personal choice not a state choice, the state itself use secularism.</EN>
+      <FR>Cette politique établi que toutes les religions ou croyances sont permises et respectées, incluant meme les mouvements non religieux mais spirituels. C'est un choix privé et non d'état, l'état lui-même utilise le sécularisme.</FR>
+      <SP>.</SP>
    </SPMi_ReligiousFree>
    <SPMi_RiggElec>
       <EncyEntry format="SPMi"/>
@@ -561,51 +561,51 @@
    </SPMi_RiggElec>
    <SPMi_Slavery>
       <EncyEntry format="SPMi"/>
-      <EN>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</EN>
-      <FR>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</FR>
-      <SP>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</SP>
+      <EN>Policy that allow and tolerate the selling, buying and the use of slaves of inferior rank to a normal citizen.</EN>
+      <FR>Politique qui permet et tolere la vente, l'achat et l'utilisation d'esclaves de rang inférieur à un citoyen normal.</FR>
+      <SP>.</SP>
    </SPMi_Slavery>
    <SPMi_SocSystem>
       <EncyEntry format="SPMi"/>
-      <EN>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</EN>
-      <FR>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</FR>
-      <SP>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</SP>
+      <EN>Policy that entitle the population to have an egalitarian and free access to health care, including basic and advanced drugs. It allows using of a moderate form of social prevention and including a nation-wide emergency system.</EN>
+      <FR>Politique qui donne le droit à une population d'avoir un accès égalitaire et gratuit aux soins médicaux, incluant les médicaments de base et avancés. Elle permet l'utilisation d'une forme modérée de prévention sociale et inclus un système d'urgence d'une portée nationale.</FR>
+      <SP>.</SP>
    </SPMi_SocSystem>
    <SPMi_SpDebMClean>
       <EncyEntry format="SPMi"/>
-      <EN>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</EN>
-      <FR>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</FR>
-      <SP>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</SP>
+      <EN>This policy has for practical goal to avoid creating new debris in orbit. In FAR Colony debris are real nuisances because they occupy space in orbit which reduces proportionally those allocated to the space units. Since debris cannot be controlled, they can enter in collision with other vessels which could be located on this same orbit.</EN>
+      <FR>Cette politique a pour but pratique d'éviter de créer de nouveaux débris en orbite. Dans FAR Colony les débris sont une réelle nuisance car ils occupent de l'espace en orbite qui réduit d'autant plus celui alloué aux unités spatiales. De plus ces débris étant totalement incontrôlables, ils peuvent entrer en collisions avec d'autres vaisseaux qui pourraient se trouver sur cette même orbite.</FR>
+      <SP>.</SP>
    </SPMi_SpDebMClean>
    <SPMi_StatePol>
       <EncyEntry format="SPMi"/>
       <EN>Political police which has the power to act on the population but also on the members of the government to enforce the local laws and ideologies.</EN>
       <FR>Police politique qui a le pouvoir d'agir sur la population mais aussi sur les membres du gouvernement pour faire appliquer les lois et idéologies locales.</FR>
-      <SP>Political police which has the power to act on the population but also on the members of the government to enforce the local laws and ideologies.</SP>
+      <SP>.</SP>
    </SPMi_StatePol>
    <SPMi_StateRel>
       <EncyEntry format="SPMi"/>
-      <EN>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</EN>
-      <FR>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</FR>
-      <SP>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</SP>
+      <EN>State religion that is imposed and profoundly tied in the acts of everyday life as well as in all the levels of the governmental system.</EN>
+      <FR>Religion d'état qui est imposée et profondément liée dans les actes de la vie courante ainsi que dans tout les niveaux de l'appareil gouvernemental.</FR>
+      <SP>.</SP>
    </SPMi_StateRel>
    <SPMi_TheFreeUnion>
       <EncyEntry format="SPMi"/>
-      <EN>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</EN>
-      <FR>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</FR>
-      <SP>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</SP>
+      <EN>Religion of resistance that preaches civil disobedience and considers martyrdom at the hands of an unjust government, a sure path to heaven. Can be linked to a kind of anarchy with a strong spirituality link. The manifestation of civil unrest is passive and acitve and all kind of memetic engineering on this culture is shown like a massacre.</EN>
+      <FR>Religion de résistance qui prèche la désobeissance civile et considère le martyre à la main d'un gouvernement injuste, un chemin sûr vers le paradis. Peut être lié à une sorte d'anarchie avec un lien spirituel fort. La manifestation de trouble civil est passive et active et toute sorte d'ingénieurie mémétique sur cette culture est vue comme un massacre.</FR>
+      <SP>.</SP>
    </SPMi_TheFreeUnion>
    <SPMi_Xenophobia>
       <EncyEntry format="SPMi"/>
-      <EN>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</EN>
-      <FR>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</FR>
-      <SP>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</SP>
+      <EN>Culture of foreign fear and rejection. State of a culturally close-minded and self-centered behavior, and can also be linked to nationalism.</EN>
+      <FR>Culture de la peur et du rejet de l'étranger. Etat d'un comportement culturellement auto-centré aux idées fermées, et peut aussi être lié au nationalisme.</FR>
+      <SP>.</SP>
    </SPMi_Xenophobia>
    <SPMi_ZeroTol>
       <EncyEntry format="SPMi"/>
       <EN>Zero Tolerance imposes automatic punishment for infractions of a stated rule, with the intention of eliminating undesirable conduct. These policies are required to impose a pre-determined punishment regardless of individual culpability, extenuating circumstances, or past history. This pre-determined punishment need not be severe, but it is always meted out.</EN>
       <FR>La Tolérance Zéro.</FR>
-      <SP>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</SP>
+      <SP>.</SP>
    </SPMi_ZeroTol>
    <SPMiBL>
       <EN>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</EN>
