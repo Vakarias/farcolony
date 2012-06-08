@@ -745,21 +745,21 @@ begin
          ColonyEnvironment:=FCFgC_ColEnv_GetTp(Entity, Colony);
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_lvl:=-1;
          case ColonyEnvironment.ENV_envType of
-            envfreeLiving:
+            etFreeLiving:
             begin
                FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_lvl:=0;
                FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CE_tensionMod:=10;
                FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CE_securityMod:=-15;
             end;
 
-            restrict:
+            etRestricted:
             begin
                FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_lvl:=1;
                FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CE_tensionMod:=15;
                FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CE_securityMod:=-20;
             end;
 
-            space:
+            etSpace:
             begin
                FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_lvl:=2;
                FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CE_tensionMod:=25;

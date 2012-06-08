@@ -742,13 +742,13 @@ begin
          FCDBinfra[DBIRcnt].I_token:=DBIRnode.Attributes['token'];
          DBIRstr:=DBIRnode.Attributes['environment'];
          if DBIRstr='ANY'
-         then FCDBinfra[DBIRcnt].I_environment:=envAny
+         then FCDBinfra[DBIRcnt].I_environment:=etAny
          else if DBIRstr='FE'
-         then FCDBinfra[DBIRcnt].I_environment:=envfreeLiving
+         then FCDBinfra[DBIRcnt].I_environment:=etFreeLiving
          else if DBIRstr='RE'
-         then FCDBinfra[DBIRcnt].I_environment:=restrict
+         then FCDBinfra[DBIRcnt].I_environment:=etRestricted
          else if DBIRstr='SE'
-         then FCDBinfra[DBIRcnt].I_environment:=space;
+         then FCDBinfra[DBIRcnt].I_environment:=etSpace;
          DBIRsubN:=DBIRnode.ChildNodes.First;
          while DBIRsubN<>nil do
          begin
@@ -1788,8 +1788,8 @@ begin
                      FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_ecc:=DBSSPstarSubNode.Attributes['compecc'];
                      if DBSSPstarCnt=3 then
                      begin
-                        DBSSPenumIndex:=GetEnumValue(TypeInfo(TFCEduCompOrb), DBSSPstarSubNode.Attributes['comporb'] );
-                        FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_comp2Orb:=TFCEduCompOrb(DBSSPenumIndex);
+                        DBSSPenumIndex:=GetEnumValue(TypeInfo(TFCEduCompanion2OrbitTypes), DBSSPstarSubNode.Attributes['comporb'] );
+                        FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_comp2Orb:=TFCEduCompanion2OrbitTypes(DBSSPenumIndex);
                         if DBSSPenumIndex=-1
                         then raise Exception.Create('bad companion star orbit type: '+DBSSPstarSubNode.Attributes['comporb']);
                      end;
@@ -1884,8 +1884,8 @@ begin
                         then
                         begin
                            {.environment}
-                           DBSSPenumIndex:=GetEnumValue( TypeInfo( TFCEduEnv ), DBSSPorbObjNode.Attributes['ooenvtype'] );
-                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_envTp:=TFCEduEnv(DBSSPenumIndex);
+                           DBSSPenumIndex:=GetEnumValue( TypeInfo( TFCEduEnvironmentTypes ), DBSSPorbObjNode.Attributes['ooenvtype'] );
+                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_envTp:=TFCEduEnvironmentTypes(DBSSPenumIndex);
                            if DBSSPenumIndex=-1
                            then raise Exception.Create( 'bad environment type: '+DBSSPorbObjNode.Attributes['ooenvtype'] );
                            {.atmosphere pressure}
@@ -2116,8 +2116,8 @@ begin
                               else if DBSSPsatNode.NodeName='satecosdata' then
                               begin
                                  {.environment}
-                                 DBSSPenumIndex:=GetEnumValue( TypeInfo( TFCEduEnv ), DBSSPsatNode.Attributes['satenvtype'] );
-                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_envTp:=TFCEduEnv( DBSSPenumIndex );
+                                 DBSSPenumIndex:=GetEnumValue( TypeInfo( TFCEduEnvironmentTypes ), DBSSPsatNode.Attributes['satenvtype'] );
+                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_envTp:=TFCEduEnvironmentTypes( DBSSPenumIndex );
                                  if DBSSPenumIndex=-1
                                  then raise Exception.Create( 'bad (sat) environment type: '+DBSSPsatNode.Attributes['satenvtype'] );
                                  {.atmosphere pressure}

@@ -90,14 +90,14 @@ function FCFuF_Env_Get(
          ,EGstar
          ,EGoobj
          ,EGsat: integer
-   ): TFCEduEnv; overload;
+   ): TFCEduEnvironmentTypes; overload;
 
 function FCFuF_Env_Get(
    const EGssys
          ,EGstar
          ,EGoobj
          ,EGsat: string
-   ): TFCEduEnv; overload;
+   ): TFCEduEnvironmentTypes; overload;
 
 ///<summary>
 ///   get the environment string
@@ -290,12 +290,12 @@ function FCFuF_Env_Get(
          ,EGstar
          ,EGoobj
          ,EGsat: integer
-   ): TFCEduEnv; overload;
+   ): TFCEduEnvironmentTypes; overload;
 {:Purpose: get the environment enum.
     Additions:
 }
 begin
-   Result:=envfreeLiving;
+   Result:=etFreeLiving;
    if EGsat=0
    then Result:=FCDBsSys[EGssys].SS_star[EGstar].SDB_obobj[EGoobj].OO_envTp
    else if EGsat>0
@@ -307,14 +307,14 @@ function FCFuF_Env_Get(
          ,EGstar
          ,EGoobj
          ,EGsat: string
-   ): TFCEduEnv; overload;
+   ): TFCEduEnvironmentTypes; overload;
 {:Purpose: get the environment enum.
     Additions:
 }
 var
    EGrow: TFCRufStelObj;
 begin
-   Result:=envfreeLiving;
+   Result:=etFreeLiving;
    EGrow[1]:=EGrow[0];
    EGrow[2]:=EGrow[0];
    EGrow[3]:=EGrow[0];
@@ -341,7 +341,7 @@ function FCFuF_Env_GetStr(
     Additions:
 }
 var
-   EGSenv: TFCEduEnv;
+   EGSenv: TFCEduEnvironmentTypes;
 begin
    if EGSsat=0
    then EGSenv:=FCDBsSys[EGSssys].SS_star[EGSstar].SDB_obobj[EGSoobj].OO_envTp
@@ -349,9 +349,9 @@ begin
    then EGSenv:=FCDBsSys[EGSssys].SS_star[EGSstar].SDB_obobj[EGSoobj].OO_satList[EGSsat].OOS_envTp;
    Result:='';
    case EGSenv of
-      envfreeLiving: Result:=FCFdTFiles_UIStr_Get(uistrUI, 'secpEnvFL');
-      restrict: Result:=FCFdTFiles_UIStr_Get(uistrUI, 'secpEnvR');
-      space: Result:=FCFdTFiles_UIStr_Get(uistrUI, 'secpEnvS');
+      etFreeLiving: Result:=FCFdTFiles_UIStr_Get(uistrUI, 'secpEnvFL');
+      etRestricted: Result:=FCFdTFiles_UIStr_Get(uistrUI, 'secpEnvR');
+      etSpace: Result:=FCFdTFiles_UIStr_Get(uistrUI, 'secpEnvS');
    end;
 end;
 
@@ -365,7 +365,7 @@ function FCFuF_Env_GetStr(
     Additions:
 }
 var
-   EGSenv: TFCEduEnv;
+   EGSenv: TFCEduEnvironmentTypes;
 
    EGSrow: TFCRufStelObj;
 begin
@@ -385,9 +385,9 @@ begin
    then EGSenv:=FCDBsSys[EGSrow[1]].SS_star[EGSrow[2]].SDB_obobj[EGSrow[3]].OO_satList[EGSrow[4]].OOS_envTp;
    Result:='';
    case EGSenv of
-      envfreeLiving: Result:=FCFdTFiles_UIStr_Get(uistrUI, 'secpEnvFL');
-      restrict: Result:=FCFdTFiles_UIStr_Get(uistrUI, 'secpEnvR');
-      space: Result:=FCFdTFiles_UIStr_Get(uistrUI, 'secpEnvS');
+      etFreeLiving: Result:=FCFdTFiles_UIStr_Get(uistrUI, 'secpEnvFL');
+      etRestricted: Result:=FCFdTFiles_UIStr_Get(uistrUI, 'secpEnvR');
+      etSpace: Result:=FCFdTFiles_UIStr_Get(uistrUI, 'secpEnvS');
    end;
 end;
 

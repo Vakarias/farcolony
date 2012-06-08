@@ -1949,7 +1949,7 @@ var
    SGISclr
    ,SGISidx: string;
 
-   SGISenv: TFCEduEnv;
+   SGISenv: TFCEduEnvironmentTypes;
 begin
    SGISssys:=FCFuF_StelObj_GetDbIdx(
       ufsoSsys
@@ -1994,7 +1994,7 @@ begin
          )
       );
    case SGISenv of
-      envfreeLiving:
+      etFreeLiving:
       begin
          case SGIStens of
             1:
@@ -2054,7 +2054,7 @@ begin
             end;
          end; //==END== case SGIStens of ==//
       end; //==END== case: freeLiving ==//
-      restrict:
+      etRestricted:
       begin
          case SGIStens of
             1:
@@ -2114,7 +2114,7 @@ begin
             end;
          end; //==END== case SGIStens of ==//
       end; //==END== case: restrict ==//
-      space:
+      etSpace:
       begin
          case SGIStens of
             1:
@@ -2233,7 +2233,7 @@ var
    SPLGIMclr
    ,SPLGIMres: string;
 
-   SPLGIMenv: TFCEduEnv;
+   SPLGIMenv: TFCEduEnvironmentTypes;
 begin
    SPLGIMssys:=FCFuF_StelObj_GetDbIdx(
       ufsoSsys
@@ -2271,7 +2271,7 @@ begin
    else if FCentities[SPLGIMfac].E_col[SPLGIMcol].COL_locSat=''
    then SPLGIMenv:=FCDBsSys[SPLGIMssys].SS_star[SPLGIMstar].SDB_obobj[SPLGIMoobj].OO_envTp;
    case SPLGIMenv of
-      envfreeLiving:
+      etFreeLiving:
       begin
          if FCentities[SPLGIMfac].E_col[SPLGIMcol].COL_csmHOspl<0.5
          then
@@ -2389,7 +2389,7 @@ begin
             end;
          end;
       end; //==END== case: freeliving ==//
-      restrict:
+      etRestricted:
       begin
          if FCentities[SPLGIMfac].E_col[SPLGIMcol].COL_csmHOspl<0.65
          then
@@ -2507,7 +2507,7 @@ begin
             end;
          end;
       end; //==END== case: restrict ==//
-      space:
+      etSpace:
       begin
          if FCentities[SPLGIMfac].E_col[SPLGIMcol].COL_csmHOspl<0.75
          then

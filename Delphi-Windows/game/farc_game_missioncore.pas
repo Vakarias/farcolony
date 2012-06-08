@@ -625,7 +625,7 @@ var
    MSdmpStatus
    ,MSdispIdx: string;
 
-   MSenvironment: TFCEduEnv;
+   MSenvironment: TFCEduEnvironmentTypes;
 begin
    FCVdiGameFlowTimer.Enabled:=false;
    {.pre initialization for all the missions}
@@ -835,13 +835,13 @@ begin
          FCWinMain.FCWMS_Grp_MCG_SetType.Top:=FCWinMain.FCWMS_Grp_MCGColName.Top+FCWinMain.FCWMS_Grp_MCGColName.Height+4;
          FCWinMain.FCWMS_Grp_MCG_SetType.ItemIndex:=-1;
          FCWinMain.FCWMS_Grp_MCG_SetType.Items.Clear;
-         if MSenvironment<space
+         if MSenvironment<etSpace
          then
          begin
             FCWinMain.FCWMS_Grp_MCG_SetType.Items.Add( FCFdTFiles_UIStr_Get(uistrUI, 'FCWMS_Grp_MCG_SetType0') );
             FCWinMain.FCWMS_Grp_MCG_SetType.Items.Add( FCFdTFiles_UIStr_Get(uistrUI, 'FCWMS_Grp_MCG_SetType2') );
          end
-         else if MSenvironment=space
+         else if MSenvironment=etSpace
          then
          begin
             FCWinMain.FCWMS_Grp_MCG_SetType.Items.Add( FCFdTFiles_UIStr_Get(uistrUI, 'FCWMS_Grp_MCG_SetType1') );

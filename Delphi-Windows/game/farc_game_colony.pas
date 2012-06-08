@@ -49,7 +49,7 @@ type TFCEgcInfAsk=(
 
 type TFCRgcEnvironment= record
    ENV_gravity: extended;
-   ENV_envType: TFCEduEnv;
+   ENV_envType: TFCEduEnvironmentTypes;
    ENV_hydroTp: TFCEhydroTp;
 end;
 
@@ -242,15 +242,15 @@ var
 
    CEGToobjLoc: TFCRufStelObj;
 
-   CEGTenv: TFCEduEnv;
+   CEGTenv: TFCEduEnvironmentTypes;
 
    CEGThydro: TFCEhydroTp;
 begin
    CEGTgravity:=0;
-   CEGTenv:=gaseous;
+   CEGTenv:=etGaseous;
    CEGThydro:=htNone;
    Result.ENV_gravity:=0;
-   Result.ENV_envType:=gaseous;
+   Result.ENV_envType:=etGaseous;
    Result.ENV_hydroTp:=htNone;
    GCssys:=0;
    GCstar:=0;
@@ -391,7 +391,7 @@ function FCFgC_Colony_Core(
 var
    CCcolIdx: integer;
 
-   ColonyEnvironment: TFCEduEnv;
+   ColonyEnvironment: TFCEduEnvironmentTypes;
 begin
    Result:=0;
    if CCaction=gcaEstablished
@@ -426,7 +426,7 @@ begin
          FCDBsSys[CClocSS].SS_star[CClocSt].SDB_obobj[CClocOObj].OO_satList[CClocSat].OOS_colonies[CCfacId]:=CCcolIdx;
          ColonyEnvironment:=FCDBsSys[CClocSS].SS_star[CClocSt].SDB_obobj[CClocOObj].OO_satList[CClocSat].OOS_envTp;
       end;
-      if ColonyEnvironment=envfreeLiving
+      if ColonyEnvironment=etFreeLiving
       then FCentities[CCfacId].E_col[CCcolIdx].COL_reserveOxygen:=-1;
       {.trigger basic CSM events}
       FCMgCSME_Event_Trigger(

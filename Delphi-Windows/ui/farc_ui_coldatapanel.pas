@@ -1389,7 +1389,7 @@ begin
                   (FCentities[0].E_col[CDPcurrentColony].COL_settlements[CDPcurrentSettlement].CS_level>=FCDBinfra[CPUcnt].I_minLevel)
                      and (FCentities[0].E_col[CDPcurrentColony].COL_settlements[CDPcurrentSettlement].CS_level<=FCDBinfra[CPUcnt].I_maxLevel)
                   )
-               and ( (FCDBinfra[CPUcnt].I_environment=envAny) or (FCDBinfra[CPUcnt].I_environment=CPUenvironment.ENV_envType) )
+               and ( (FCDBinfra[CPUcnt].I_environment=etAny) or (FCDBinfra[CPUcnt].I_environment=CPUenvironment.ENV_envType) )
                and (
                   ( FCDBinfra[CPUcnt].I_reqGravMin<=CPUenvironment.ENV_gravity )
                      and ( ( FCDBinfra[CPUcnt].I_reqGravMax=-1) or ( FCDBinfra[CPUcnt].I_reqGravMax>=CPUenvironment.ENV_gravity ) )
@@ -1448,7 +1448,7 @@ begin
                      )
                   else raise Exception.Create( 'bad infratoken for infra available list/infrastructure kits: Col= '+intTostr(CDPcurrentColony)+'  product token= '+FCDBProducts[CPUintDump].PROD_fInfKitToken );
                   if (FCentities[0].E_col[CDPcurrentColony].COL_settlements[CDPcurrentSettlement].CS_level>=FCDBProducts[CPUintDump].PROD_fInfKitLevel)
-                     and ( (CPUinfra.I_environment=envAny) or (CPUinfra.I_environment=CPUenvironment.ENV_envType) )
+                     and ( (CPUinfra.I_environment=etAny) or (CPUinfra.I_environment=CPUenvironment.ENV_envType) )
                      and (
                         ( CPUinfra.I_reqGravMin<=CPUenvironment.ENV_gravity )
                            and ( ( CPUinfra.I_reqGravMax=-1 ) or ( CPUinfra.I_reqGravMax>=CPUenvironment.ENV_gravity ) )

@@ -451,11 +451,11 @@ begin
          FCentities[Entity].E_col[Colony].COL_evList[Event].RFS_ecoindMod:=- round( ModifierCalc );
          ColonyEnvironment:=FCFgC_ColEnv_GetTp( Entity, Colony );
          case ColonyEnvironment.ENV_envType of
-            envfreeLiving: EnvCoefFracValue:=1;
+            etFreeLiving: EnvCoefFracValue:=1;
 
-            restrict: EnvCoefFracValue:=1.3;
+            etRestricted: EnvCoefFracValue:=1.3;
 
-            space: EnvCoefFracValue:=1.7;
+            etSpace: EnvCoefFracValue:=1.7;
          end;
          ModifierCalc:=SQRT( NewPPS ) * ( 5 * EnvCoefFracValue );
          FCentities[Entity].E_col[Colony].COL_evList[Event].RFS_tensionMod:=round( ModifierCalc );
@@ -960,15 +960,15 @@ begin
       ColonyEnvironment:=FCFgC_ColEnv_GetTp( Entity, Colony );
       EnvCoef:=0;
       case ColonyEnvironment.ENV_envType of
-         envfreeLiving: if ColonyEnvironment.ENV_hydroTp<>htLiquid
+         etFreeLiving: if ColonyEnvironment.ENV_hydroTp<>htLiquid
             then EnvCoef:=1
             else EnvCoef:=0.39;
 
-         restrict: if ColonyEnvironment.ENV_hydroTp<>htLiquid
+         etRestricted: if ColonyEnvironment.ENV_hydroTp<>htLiquid
             then EnvCoef:=1.8
             else EnvCoef:=0.83;
 
-         space: if ColonyEnvironment.ENV_hydroTp<>htLiquid
+         etSpace: if ColonyEnvironment.ENV_hydroTp<>htLiquid
             then EnvCoef:=1.8
             else EnvCoef:=1;
       end;
