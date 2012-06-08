@@ -894,7 +894,7 @@ begin
                      if DBIRstr='rsNone'
                      then FCDBinfra[DBIRcnt].I_reqTechSci.RTS_sector:=rsNone
                      else if DBIRstr='rsAerospaceEng'
-                     then FCDBinfra[DBIRcnt].I_reqTechSci.RTS_sector:=rsAerospaceEng
+                     then FCDBinfra[DBIRcnt].I_reqTechSci.RTS_sector:=rsAerospaceEngineering
                      else if DBIRstr='rsBiogenetics'
                      then FCDBinfra[DBIRcnt].I_reqTechSci.RTS_sector:=rsBiogenetics
                      else if DBIRstr='rsEcosciences'
@@ -1254,8 +1254,8 @@ begin
             end //==END== if DBPRsub.NodeName='function' ==//
             else if DBPRsub.NodeName='techsci' then
             begin
-               DBPRenumIndex:=GetEnumValue( TypeInfo( TFCEdresResearchSectors ), DBPRsub.Attributes['sector'] );
-               FCDBProducts[DBPRcnt].PROD_tsSector:=TFCEdresResearchSectors( DBPRenumIndex );
+               DBPRenumIndex:=GetEnumValue( TypeInfo( TFCEdrResearchSectors ), DBPRsub.Attributes['sector'] );
+               FCDBProducts[DBPRcnt].PROD_tsSector:=TFCEdrResearchSectors( DBPRenumIndex );
                if DBPRenumIndex=-1
                then raise Exception.Create( 'bad research sector: '+DBPRsub.Attributes['sector'] );
                FCDBProducts[DBPRcnt].PROD_tsToken:=DBPRsub.Attributes['token'];
@@ -2333,7 +2333,7 @@ begin
          if DBTLstr='rsNone'
          then FCDBtechsci[DBTLcnt].T_researchSector:=rsNone
          else if DBTLstr='rsAerospaceEng'
-         then FCDBtechsci[DBTLcnt].T_researchSector:=rsAerospaceEng
+         then FCDBtechsci[DBTLcnt].T_researchSector:=rsAerospaceEngineering
          else if DBTLstr='rsBiogenetics'
          then FCDBtechsci[DBTLcnt].T_researchSector:=rsBiogenetics
          else if DBTLstr='rsEcosciences'

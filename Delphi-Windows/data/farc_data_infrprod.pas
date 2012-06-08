@@ -210,7 +210,7 @@ const
       PROD_token: string[20];
       PROD_class: TFCEdipProductClasses;
       PROD_storage: TFCEdipStorageType;
-      PROD_tsSector: TFCEdresResearchSectors;
+      PROD_tsSector: TFCEdrResearchSectors;
       PROD_tsToken: string[20];
 		PROD_tagHazEnv: boolean;
 		PROD_tagHazFire: boolean;
@@ -343,7 +343,7 @@ const
       I_reqRegionSoil: TFCEdipRegionSoilReq;
       I_reqRsrcSpot: TFCEduRsrcSpotType;
       I_reqTechSci: record
-         RTS_sector: TFCEdresResearchSectors;
+         RTS_sector: TFCEdrResearchSectors;
          RTS_token: string[20];
       end;
       {.custom effects}

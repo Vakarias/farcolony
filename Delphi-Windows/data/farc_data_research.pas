@@ -30,58 +30,105 @@ unit farc_data_research;
 
 interface
 
-   //=======================================================================================
-   {.infrastructures data}
-   //=======================================================================================
-   {.research sectors}
-   {:DEV NOTES: update infrastrucdb.xml + productsdb.xml + FCMdF_DBInfra_Read + FCMdF_DBProducts_Read + FCMdF_DBTechnosciences_Load.}
-   type TFCEdresResearchSectors=(
-      rsNone
-      ,rsAerospaceEng
-      ,rsBiogenetics
-      ,rsEcosciences
-      ,rsIndustrialTech
-      ,rsMedicine
-      ,rsNanotech
-      ,rsPhysics
-      );
-   {.research stages}
-   {:DEV NOTES: update .}
-   type TFCEdresResearchStages=(
-      rstNotMastered
-      ,rstAtTheory
-      ,rstAtExperiment
-      ,rstAtApplication
-      );
-   {.research types}
-   {:DEV NOTES: update FCMdF_DBTechnosciences_Load.}
-   type TFCEdresResearchTypes=(
-      rtBasicTech
-      ,rtPureTheory
-      ,rtExpResearch
-      ,rtCompleteResearch
-      );
-   //==END ENUM=============================================================================
-   
-   {.technoscience data structure}
-   {:DEV NOTES: update technosciencesdb.xml + FCMdF_DBTechnosciences_Load.}
-   type TFCRdresTechnoscience= record
-      T_token: string[20];
-      T_researchSector: TFCEdresResearchSectors;
-      T_level: integer;
-      T_type: TFCEdresResearchTypes;
-      T_difficulty: integer;
-   end;
-   TFCDBtechsci= array of TFCRdresTechnoscience;
-   //=======================================================================================
-   {.global variables}
-   //=======================================================================================
+//uses
 
-   var
-      FCDBtechsci: TFCDBtechsci;
+{:REFERENCES LIST
+   - infrastrucdb.xml
+   - productsdb.xml
+   - FCMdF_DBInfra_Read
+   - FCMdF_DBProducts_Read
+   - FCMdF_DBTechnosciences_Load
+}
+///<summary>
+///   research sectors
+///</summary>
+type TFCEdrResearchSectors=(
+   rsNone
+   ,rsAerospaceEngineering
+   ,rsBiogenetics
+   ,rsEcosciences
+   ,rsIndustrialTech
+   ,rsMedicine
+   ,rsNanotech
+   ,rsPhysics
+   );
+
+{:REFERENCES LIST
+   -
+}
+///<summary>
+///   research stages
+///</summary>
+type TTFCEdrResearchStages=(
+   rsNotMastered
+   ,rsAtTheory
+   ,rsAtExperiment
+   ,rsAtApplication
+   );
+
+{:REFERENCES LIST
+   - FCMdF_DBTechnosciences_Load
+}
+///<summary>
+///   research types
+///</summary>
+type TFCEdrResearchTypes=(
+   rtBasicTech
+   ,rtPureTheory
+   ,rtExpResearch
+   ,rtCompleteResearch
+   );
+
+//==END PUBLIC ENUM=========================================================================
+
+{:REFERENCES LIST
+   - technosciencesdb.xml
+   - FCMdF_DBTechnosciences_Load
+}
+///<summary>
+///   technoscience data structure
+///</summary>
+type TFCRdrTechnoscience= record
+   T_token: string[20];
+   T_researchSector: TFCEdrResearchSectors;
+   T_level: integer;
+   T_type: TFCEdrResearchTypes;
+   T_difficulty: integer;
+end;
+   TFCDBtechsci= array of TFCRdrTechnoscience;
+
+//==END PUBLIC RECORDS======================================================================
+
+   //==========subsection===================================================================
+var
+   ///<summary>
+   ///   database technosciences
+   ///</summary>
+   FCDBtechsci: TFCDBtechsci;
+//==END PUBLIC VAR==========================================================================
+
+//const
+//==END PUBLIC CONST========================================================================
+
+//===========================END FUNCTIONS SECTION==========================================
+
 
 implementation
 
-//=============================================END OF INIT==================================
+//uses
+
+//==END PRIVATE ENUM========================================================================
+
+//==END PRIVATE RECORDS=====================================================================
+
+   //==========subsection===================================================================
+//var
+//==END PRIVATE VAR=========================================================================
+
+//const
+//==END PRIVATE CONST=======================================================================
+
+//===================================================END OF INIT============================
+//===========================END FUNCTIONS SECTION==========================================
 
 end.
