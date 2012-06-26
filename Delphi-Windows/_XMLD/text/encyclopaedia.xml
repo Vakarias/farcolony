@@ -334,6 +334,11 @@
       <EN></EN>
       <FR></FR>
    </matSilicon>
+   <matSilver>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </matSilver>
    <matSteel>
       <EN></EN>
       <FR></FR>
@@ -793,6 +798,7 @@
       <hintitem link="equipPressTanksArr6" title="Product: Pressurized Tanks Array Level 6"/>
       <hintitem link="equipPressTanksArr7" title="Product: Pressurized Tanks Array Level 7"/>
       <hintitem link="matSilicon" title="Product: Silicon (Si)"/>
+      <hintitem link="matSilver" title="Product: Silver"/>
       <hintitem link="matSWNT" title="Product: Single-Walled Nanotubes (SWNT)"/>
       <hintitem link="matSteel" title="Product: Steel"/>
       <hintitem link="matTitanium" title="Product: Titanium"/>
@@ -894,6 +900,7 @@
       <hintitem link="matSteel" title="Produit: Acier"/>
       <hintitem link="matAluminium" title="Produit: Aluminium"/>
       <hintitem link="resNH3" title="Produit: Ammoniac"/>
+      <hintitem link="matSilver" title="Produit: Argent"/>
       <hintitem link="matConcrete" title="Produit: Béton"/>
       <hintitem link="matCarbComposites" title="Produit: Composites de Carbone"/>
       <hintitem link="equipMultiDepot1" title="Produit: Entrepôt Multifonction Niveau 1"/>
@@ -1057,6 +1064,7 @@
       <hintitem link="energNucFisRlg" title="Produit: Réacteur à Fission Nucléaire (large)"/>
       <hintitem link="energNucFisRxl" title="Produit: Réacteur à Fission Nucléaire (xlarge)"/>
       <hintitem link="matSilicon" title="Produit: Silicone (Si)"/>
+      <hintitem link="matSilver" title="Product: Silver"/>
       <hintitem link="matTitanium" title="Produit: Titane"/>
       <hintitem link="univAlbedo" title="Univers: Albédo"/>
       <hintitem link="tsciAlloys" title="Technoscience: Alliages"/>

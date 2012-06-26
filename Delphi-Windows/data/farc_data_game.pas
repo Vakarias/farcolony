@@ -431,6 +431,7 @@ interface
          fEnergy:
             {.energy output by hour in kW}
             (CI_fEnergOut: extended);
+            {:DEV NOTES: add energy fuel current status.}
 
          fHousing:
             {.population capacity}

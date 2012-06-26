@@ -104,7 +104,7 @@
    <product token="resMetalOre" class="prclResource" storage="stSolid" cargo="" volbyunit="1" massbyunit="2.5">
    </product>
    <!-- Methane (CH4) - Resource -->
-   <product token="resCH4" class="prclResource" storage="stGas" cargo="" volbyunit="1" massbyunit="0.162">
+   <product token="resCH4" class="prclResource" storage="stGas" cargo="" volbyunit="1" massbyunit="0.464">
       <tags>
          <hazFire/>
          <hazToxic/>
@@ -146,33 +146,25 @@
    <product token="resWater" class="prclResource" storage="stLiquid" cargo="" volbyunit="1" massbyunit="1">
       <function token="prfuWater" waterpoint="55"/>
    </product>
-   <!-- Nuclear Fission Reactor (small) - Energy -->
-   <product token="energNucFisRsm" class="prcEnergyRelItem" storage="stSolid" cargo="" volbyunit="18" massbyunit="2.862">
+   <!-- Nuclear Fission Reactor [level 1] - Energy -->
+   <product token="energNucFisReactor1" class="prcEnergyRelItem" storage="stSolid" cargo="" volbyunit="1.327" massbyunit="5.735">
       <function token="prfuInfraKit" infratoken="infrNucFissReactor" infralevel="1"/>
       <techsci sector="rsPhysics" token="tsciNucFission"/>
       <tags>
          <hazRad/>
       </tags>
    </product>
-   <!-- Nuclear Fission Reactor (medium) - Energy -->
-   <product token="energNucFisRmed"   class="prcEnergyRelItem" storage="stSolid" cargo="" volbyunit="36" massbyunit="4.572">
+   <!-- Nuclear Fission Reactor [level 2] - Energy -->
+   <product token="energNucFisReactor2"   class="prcEnergyRelItem" storage="stSolid" cargo="" volbyunit="2.806" massbyunit="12.656">
       <function token="prfuInfraKit" infratoken="infrNucFissReactor" infralevel="2"/>
       <techsci sector="rsPhysics" token="tsciNucFission"/>
       <tags>
          <hazRad/>
       </tags>
    </product>
-   <!-- Nuclear Fission Reactor (large) - Energy -->
-   <product token="energNucFisRlg" class="prcEnergyRelItem" storage="stSolid" cargo="" volbyunit="72" massbyunit="6.264">
+   <!-- Nuclear Fission Reactor [level 3] - Energy -->
+   <product token="energNucFisReactor3" class="prcEnergyRelItem" storage="stSolid" cargo="" volbyunit="5.812" massbyunit="26.872">
       <function token="prfuInfraKit" infratoken="infrNucFissReactor" infralevel="3"/>
-      <techsci sector="rsPhysics" token="tsciNucFission"/>
-      <tags>
-         <hazRad/>
-      </tags>
-   </product>
-   <!-- Nuclear Fission Reactor (xlarge) - Energy -->
-   <product token="energNucFisRxl" class="prcEnergyRelItem" storage="stSolid" cargo="" volbyunit="126" massbyunit="8.064">
-      <function token="prfuInfraKit" infratoken="infrNucFissReactor" infralevel="4"/>
       <techsci sector="rsPhysics" token="tsciNucFission"/>
       <tags>
          <hazRad/>
@@ -211,7 +203,7 @@
    </product>
    <!-- Nanocomposites - Material -->
    <product token="matNanocomposites" class="prcMaterial" storage="stSolid" cargo="" volbyunit="1" massbyunit="1.5">
-      <function token="prfuSpaceMat" tensilestr="3.6" tsbylevel="0.335" youngmodulus="162" ymbylevel="57.55" thermalprot="185" reflectivity="0.2" corrosiveclass="prciAexcellent"/>
+      <function token="prfuMultipurposeMat" tensilestr="3.6" tsbylevel="0.335" youngmodulus="162" ymbylevel="57.55" thermalprot="185" reflectivity="0.2" corrosiveclass="prciAexcellent"/>
       <techsci sector="rsIndustrialTech" token="tsciNanocomposites"/>
    </product>
    <!-- Plastics - Material -->
@@ -224,9 +216,14 @@
       <function token="prfuManufacturingMat"/>
       <techsci sector="rsIndustrialTech" token="tsciChemEng"/>
    </product>
+   <!-- Silver - Material -->
+   <product token="matSilver" class="prcMaterial" storage="stSolid" cargo="" volbyunit="1" massbyunit="10.49">
+      <function token="prfuManufacturingMat"/>
+      <techsci sector="rsIndustrialTech" token="tsciAlloys"/>
+   </product>
    <!-- Single-Walled Nanotubes (SWNT) - Material -->
    <product token="matSWNT" class="prcMaterial" storage="stSolid" cargo="" volbyunit="1" massbyunit="1.3">
-      <function token="prfuSpaceMat" tensilestr="21" tsbylevel="14.333" youngmodulus="900" ymbylevel="17.11" thermalprot="675" reflectivity="0.1" corrosiveclass="prciAexcellent"/>
+      <function token="prfuMultipurposeMat" tensilestr="21" tsbylevel="14.333" youngmodulus="900" ymbylevel="17.11" thermalprot="675" reflectivity="0.1" corrosiveclass="prciAexcellent"/>
       <techsci sector="rsIndustrialTech" token="tsciFullerProcess"/>
       <tags>
          <hazToxic/>
@@ -262,7 +259,7 @@
       <function token="prfuManConstruction" wcpcoef="1.25"/>
    </product>
    <!-- Construction Exowalkers - Equipment -->
-   <product token="equipConstrExo" class="prcEquipment" storage="stSolid" cargo="" volbyunit="40" massbyunit="12">
+   <product token="equipConstrExo" class="prcEquipment" storage="stSolid" cargo="" volbyunit="15.25" massbyunit="25.62">
       <function token="prfuMechConstruction" wcp="15" crew="4"/>
    </product>
    <!-- Hand Tools -Equipment -->
@@ -315,7 +312,7 @@
       <techsci sector="rsIndustrialTech" token="tsciAlloys"/>
    </product>
    <!-- Power Tools - Equipment -->
-   <product token="equipPowerTools" class="prcEquipment" storage="stSolid" cargo="" volbyunit="0.004" massbyunit="0.004">
+   <product token="equipPowerTools" class="prcEquipment" storage="stSolid" cargo="" volbyunit="0.004" massbyunit="0.007">
       <function token="prfuManConstruction" wcpcoef="1"/>
    </product>
    <!-- Pressurized Tanks Array Level 1 - Equipment -->

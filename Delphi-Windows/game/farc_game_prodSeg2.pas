@@ -84,7 +84,8 @@ uses
    ,farc_game_colony
    ,farc_game_prod
    ,farc_game_prodmodes
-   ,farc_ui_coredatadisplay;
+   ,farc_ui_coredatadisplay
+   ,farc_win_debug;
 
 //===================================================END OF INIT============================
 
@@ -185,6 +186,7 @@ begin
    {.if not created, a new production matrix item is created and initialized}
    if not PIAisPModeCreated then
    begin
+
       if PIAprodMatrixFound=0 then
       begin
          if PIApmMax<=0
@@ -223,13 +225,17 @@ begin
       FCentities[ PIAent ].E_col[ PIAcol ].COL_settlements[ PIAsettlement ].CS_infra[ PIAownedInfra ].CI_fprodMode[ PIAprodModeIndex ].PM_isDisabled:=true;
       FCentities[ PIAent ].E_col[ PIAcol ].COL_settlements[ PIAsettlement ].CS_infra[ PIAownedInfra ].CI_fprodMode[ PIAprodModeIndex ].PF_linkedMatrixItemIndexes[ PIApmCount ].LMII_matrixItmIndex:=PIAprodMatrixFound;
       FCentities[ PIAent ].E_col[ PIAcol ].COL_settlements[ PIAsettlement ].CS_infra[ PIAownedInfra ].CI_fprodMode[ PIAprodModeIndex ].PF_linkedMatrixItemIndexes[ PIApmCount ].LMII_matrixProdModeIndex:=PIApmodeCount;
+
    end;
 end;
+
+{:DEV NOTES: add private FCMgPS2_ProductionReverse_Process and xfer RevertProduction.}
 
 procedure FCMgPS2_ProductionSegment_Process(
    const PSPent
          ,PSPcol: integer
    );
+   {:DEV NOTES: there's an error in case an infrastructure have on prodmode including multiples matrix items BUT WITH <> .}
 {:Purpose:  segment 2 (items production) processing.
     Additions:
       -2012Mar20- *fix: correction in the tests with negative production flow.
@@ -247,11 +253,11 @@ procedure FCMgPS2_ProductionSegment_Process(
    end;
 
    var
-      PSPcntPmatrix
-      ,PSPcntPMitems
-      ,PSPcntPmode
-      ,PSPmaxPmatrix
-      ,PSPmaxPmode
+      ColonyProdMatrixIdx
+      ,InfraPModeLinkedMatrixItmIdx
+      ,ColonyPMatrixPModeIdx
+      ,InfraToColonyLinkedMatrixIdx
+      ,ColonyPMatrixPModesListMax
       ,PSPownedInfra
       ,PSPpmatrixDisIndex
       ,PSPpmatrixIndex
@@ -269,22 +275,22 @@ procedure FCMgPS2_ProductionSegment_Process(
 
       procedure RevertProduction( isGlobalNegative: boolean);
       begin
-         PSPmaxPmode:=length( FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcntPmatrix ].CPMI_productionModes )-1;
-         PSPcntPmode:=1;
-         while PSPcntPmode<=PSPmaxPmode do
+         ColonyPMatrixPModesListMax:=length( FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ ColonyProdMatrixIdx ].CPMI_productionModes )-1;
+         ColonyPMatrixPModeIdx:=1;
+         while ColonyPMatrixPModeIdx<=ColonyPMatrixPModesListMax do
          begin
-            if ( (isGlobalNegative) and ( FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcntPmatrix ].CPMI_productionModes[ PSPcntPmode ].PF_productionFlow<0 ) )
-               or ( (not isGlobalNegative) and ( FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcntPmatrix ].CPMI_productionModes[ PSPcntPmode ].PF_productionFlow>0 ) ) then
+            if ( (isGlobalNegative) and ( FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ ColonyProdMatrixIdx ].CPMI_productionModes[ ColonyPMatrixPModeIdx ].PF_productionFlow<0 ) )
+               or ( (not isGlobalNegative) and ( FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ ColonyProdMatrixIdx ].CPMI_productionModes[ ColonyPMatrixPModeIdx ].PF_productionFlow>0 ) ) then
             begin
-               PSPsettlement:=FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcntPmatrix ].CPMI_productionModes[ PSPcntPmode ].PF_locSettlement;
-               PSPownedInfra:=FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcntPmatrix ].CPMI_productionModes[ PSPcntPmode ].PF_locInfra;
-               PSPprodModeIndex:=FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcntPmatrix ].CPMI_productionModes[ PSPcntPmode ].PF_locProdModeIndex;
-               PSPcntPMitems:=1;
-               while PSPcntPMitems<=FCEntities[ PSPent ].E_col[ PSPcol ].COL_settlements[ PSPsettlement ].CS_infra[ PSPownedInfra ].CI_fprodMode[ PSPprodModeIndex ].PM_matrixItemMax do
+               PSPsettlement:=FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ ColonyProdMatrixIdx ].CPMI_productionModes[ ColonyPMatrixPModeIdx ].PF_locSettlement;
+               PSPownedInfra:=FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ ColonyProdMatrixIdx ].CPMI_productionModes[ ColonyPMatrixPModeIdx ].PF_locInfra;
+               PSPprodModeIndex:=FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ ColonyProdMatrixIdx ].CPMI_productionModes[ ColonyPMatrixPModeIdx ].PF_locProdModeIndex;
+               InfraPModeLinkedMatrixItmIdx:=1;
+               while InfraPModeLinkedMatrixItmIdx<=FCEntities[ PSPent ].E_col[ PSPcol ].COL_settlements[ PSPsettlement ].CS_infra[ PSPownedInfra ].CI_fprodMode[ PSPprodModeIndex ].PM_matrixItemMax do
                begin
                   PSPpmatrixIndex:=
-                     FCEntities[ PSPent ].E_col[ PSPcol ].COL_settlements[ PSPsettlement ].CS_infra[ PSPownedInfra ].CI_fprodMode[ PSPprodModeIndex ].PF_linkedMatrixItemIndexes[ PSPcntPMitems ].LMII_matrixItmIndex;
-                  if PSPpmatrixIndex<PSPcntPmatrix then
+         FCEntities[ PSPent ].E_col[ PSPcol ].COL_settlements[ PSPsettlement ].CS_infra[ PSPownedInfra ].CI_fprodMode[ PSPprodModeIndex ].PF_linkedMatrixItemIndexes[ InfraPModeLinkedMatrixItmIdx ].LMII_matrixItmIndex;
+                  if PSPpmatrixIndex<ColonyProdMatrixIdx then
                   begin
                      if FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPpmatrixIndex ].CPMI_globalProdFlow<0
                      then FCFgC_Storage_Update(
@@ -303,9 +309,9 @@ procedure FCMgPS2_ProductionSegment_Process(
                         ,true
                         );
                   end
-                  else if PSPpmatrixIndex>=PSPcntPmatrix
+                  else if PSPpmatrixIndex>=ColonyProdMatrixIdx
                   then break;
-                  inc( PSPcntPMitems );
+                  inc( InfraPModeLinkedMatrixItmIdx );
                end;
                FCMgPM_EnableDisable_Process(
                   PSPent
@@ -318,13 +324,13 @@ procedure FCMgPS2_ProductionSegment_Process(
                   );
                inc( PSPpmatrixDisIndex );
                setlength( prodMatrixDisList, PSPpmatrixDisIndex+1 );
-               prodMatrixDisList[ PSPpmatrixDisIndex ].matrixItemIndex:=PSPcntPmatrix;
-               prodMatrixDisList[ PSPpmatrixDisIndex ].prodModeIndex:=PSPcntPmode;
+               prodMatrixDisList[ PSPpmatrixDisIndex ].matrixItemIndex:=ColonyProdMatrixIdx;
+               prodMatrixDisList[ PSPpmatrixDisIndex ].prodModeIndex:=ColonyPMatrixPModeIdx;
                if ( isGlobalNegative )
-                  and ( FCEntities[PSPent].E_col[PSPcol].COL_storageList[ PSPstorageIndex ].CPR_unit>=FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcntPmatrix ].CPMI_globalProdFlow )
+                  and ( FCEntities[PSPent].E_col[PSPcol].COL_storageList[ PSPstorageIndex ].CPR_unit>=FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ ColonyProdMatrixIdx ].CPMI_globalProdFlow )
                then Break;
             end;
-            inc( PSPcntPmode );
+            inc( ColonyPMatrixPModeIdx );
          end;
       end;
 begin
@@ -339,42 +345,42 @@ begin
    prodMatrixDisList:=nil;
    setlength( prodMatrixDisList, 1);
    PSPpmatrixDisIndex:=0;
-   PSPmaxPmatrix:=length( FCEntities[PSPent].E_col[PSPcol].COL_productionMatrix )-1;
-   PSPcntPmatrix:=1;
-   while PSPcntPmatrix<=PSPmaxPmatrix do
+   InfraToColonyLinkedMatrixIdx:=length( FCEntities[PSPent].E_col[PSPcol].COL_productionMatrix )-1;
+   ColonyProdMatrixIdx:=1;
+   while ColonyProdMatrixIdx<=InfraToColonyLinkedMatrixIdx do
    begin
-      PSPstorageIndex:=FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcntPmatrix ].CPMI_storageIndex;
-      if FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcntPmatrix ].CPMI_globalProdFlow<0 then
+      PSPstorageIndex:=FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ ColonyProdMatrixIdx ].CPMI_storageIndex;
+      if FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ ColonyProdMatrixIdx ].CPMI_globalProdFlow<0 then
       begin
-         if FCEntities[PSPent].E_col[PSPcol].COL_storageList[ PSPstorageIndex ].CPR_unit < abs( FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcntPmatrix ].CPMI_globalProdFlow )
+         if FCEntities[PSPent].E_col[PSPcol].COL_storageList[ PSPstorageIndex ].CPR_unit < abs( FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ ColonyProdMatrixIdx ].CPMI_globalProdFlow )
          then RevertProduction(true)
-         else if FCEntities[PSPent].E_col[PSPcol].COL_storageList[ PSPstorageIndex ].CPR_unit>=abs( FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcntPmatrix ].CPMI_globalProdFlow )
+         else if FCEntities[PSPent].E_col[PSPcol].COL_storageList[ PSPstorageIndex ].CPR_unit>=abs( FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ ColonyProdMatrixIdx ].CPMI_globalProdFlow )
          then FCFgC_Storage_Update(
-            FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcntPmatrix ].CPMI_productToken
-            ,FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcntPmatrix ].CPMI_globalProdFlow
+            FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ ColonyProdMatrixIdx ].CPMI_productToken
+            ,FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ ColonyProdMatrixIdx ].CPMI_globalProdFlow
             ,PSPent
             ,PSPcol
             ,true
             );
       end //==END== if FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcntPmatrix ].CPMI_globalProdFlow<0 then ==//
-      else if (FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcntPmatrix ].CPMI_globalProdFlow>0)
+      else if (FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ ColonyProdMatrixIdx ].CPMI_globalProdFlow>0)
          and (
-            ( ( FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcntPmatrix ].CPMI_storageType=stSolid ) and ( not isMaxStorageSolidFull) )
-            or ( ( FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcntPmatrix ].CPMI_storageType=stLiquid ) and ( not isMaxStorageLiquidFull) )
-            or ( ( FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcntPmatrix ].CPMI_storageType=stGas ) and ( not isMaxStorageGasFull) )
-            or ( ( FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcntPmatrix ].CPMI_storageType=stBiologic ) and ( not isMaxStorageBioFull) )
+            ( ( FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ ColonyProdMatrixIdx ].CPMI_storageType=stSolid ) and ( not isMaxStorageSolidFull) )
+            or ( ( FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ ColonyProdMatrixIdx ].CPMI_storageType=stLiquid ) and ( not isMaxStorageLiquidFull) )
+            or ( ( FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ ColonyProdMatrixIdx ].CPMI_storageType=stGas ) and ( not isMaxStorageGasFull) )
+            or ( ( FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ ColonyProdMatrixIdx ].CPMI_storageType=stBiologic ) and ( not isMaxStorageBioFull) )
             )
       then
       begin
          ReturnPRod:=FCFgC_Storage_Update(
-            FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcntPmatrix ].CPMI_productToken
-            ,FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcntPmatrix ].CPMI_globalProdFlow
+            FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ ColonyProdMatrixIdx ].CPMI_productToken
+            ,FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ ColonyProdMatrixIdx ].CPMI_globalProdFlow
             ,PSPent
             ,PSPcol
             ,true
             );
          if ReturnPRod<>0 then begin
-            case FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ PSPcntPmatrix ].CPMI_storageType of
+            case FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ ColonyProdMatrixIdx ].CPMI_storageType of
                stSolid: isMaxStorageSolidFull:=true;
                stLiquid: isMaxStorageLiquidFull:=true;
                stGas: isMaxStorageGasFull:=true;
@@ -383,16 +389,16 @@ begin
             RevertProduction(false);
          end;
       end;
-      inc(PSPcntPmatrix);
+      inc(ColonyProdMatrixIdx);
    end; //==END== while PSPcntPmatrix<=PSPmaxPmatrix do ==//
    if PSPpmatrixDisIndex>0 then
    begin
-      PSPcntPmatrix:=1;
-      while PSPcntPmatrix<=PSPpmatrixDisIndex do
+      ColonyProdMatrixIdx:=1;
+      while ColonyProdMatrixIdx<=PSPpmatrixDisIndex do
       begin
-         PSPsettlement:=FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ prodMatrixDisList[ PSPcntPmatrix ].matrixItemIndex ].CPMI_productionModes[ prodMatrixDisList[ PSPcntPmatrix ].prodModeIndex ].PF_locSettlement;
-         PSPownedInfra:=FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ prodMatrixDisList[ PSPcntPmatrix ].matrixItemIndex ].CPMI_productionModes[ prodMatrixDisList[ PSPcntPmatrix ].prodModeIndex ].PF_locInfra;
-         PSPprodModeIndex:=FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ prodMatrixDisList[ PSPcntPmatrix ].matrixItemIndex ].CPMI_productionModes[ prodMatrixDisList[ PSPcntPmatrix ].prodModeIndex ].PF_locProdModeIndex;
+         PSPsettlement:=FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ prodMatrixDisList[ ColonyProdMatrixIdx ].matrixItemIndex ].CPMI_productionModes[ prodMatrixDisList[ ColonyProdMatrixIdx ].prodModeIndex ].PF_locSettlement;
+         PSPownedInfra:=FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ prodMatrixDisList[ ColonyProdMatrixIdx ].matrixItemIndex ].CPMI_productionModes[ prodMatrixDisList[ ColonyProdMatrixIdx ].prodModeIndex ].PF_locInfra;
+         PSPprodModeIndex:=FCEntities[ PSPent ].E_col[ PSPcol ].COL_productionMatrix[ prodMatrixDisList[ ColonyProdMatrixIdx ].matrixItemIndex ].CPMI_productionModes[ prodMatrixDisList[ ColonyProdMatrixIdx ].prodModeIndex ].PF_locProdModeIndex;
          FCMgPM_EnableDisable_Process(
             PSPent
             ,PSPcol
@@ -402,7 +408,7 @@ begin
             ,true
             ,true
             );
-         inc( PSPcntPmatrix );
+         inc( ColonyProdMatrixIdx );
       end;
    end;
 end;

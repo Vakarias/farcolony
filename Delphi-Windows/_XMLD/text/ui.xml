@@ -2377,26 +2377,21 @@
       <FR>Fruits &amp; Légumes</FR>
       <SP>Frutas &amp; Vegetales</SP>
    </bioFruitsVeg>
-   <energNucFisRsm>
-      <EN>Nuclear Fission Reactor (small)</EN>
-      <FR>Réacteur à Fission Nucléaire (petit)</FR>
-      <SP>Reactor de Fision Nuclear (pequeño)</SP>
-   </energNucFisRsm>
-   <energNucFisRmed>
-      <EN>Nuclear Fission Reactor (medium)</EN>
-      <FR>Réacteur à Fission Nucléaire (moyen)</FR>
-      <SP>Reactor de Fision Nuclear (mediano)</SP>
-   </energNucFisRmed>
-   <energNucFisRlg>
-      <EN>Nuclear Fission Reactor (large)</EN>
-      <FR>Réacteur à Fission Nucléaire (large)</FR>
-      <SP>Reactor de Fision Nuclear (grande)</SP>
-   </energNucFisRlg>
-   <energNucFisRxl>
-      <EN>Nuclear Fission Reactor (xlarge)</EN>
-      <FR>Réacteur à Fission Nucléaire (xlarge)</FR>
-      <SP>Reactor de Fision Nuclear (gigante)</SP>
-   </energNucFisRxl>
+   <energNucFisReactor1>
+      <EN>Nuclear Fission Reactor [level 1]</EN>
+      <FR>Réacteur à Fission Nucléaire [niveau 1]</FR>
+      <SP>Reactor de Fision Nuclear [nivel 1]</SP>
+   </energNucFisReactor1>
+   <energNucFisReactor2>
+      <EN>Nuclear Fission Reactor [level 2]</EN>
+      <FR>Réacteur à Fission Nucléaire [niveau 2]</FR>
+      <SP>Reactor de Fision Nuclear [nivel 2]</SP>
+   </energNucFisReactor2>
+   <energNucFisReactor3>
+      <EN>Nuclear Fission Reactor [level 3]</EN>
+      <FR>Réacteur à Fission Nucléaire [niveau 3]</FR>
+      <SP>Reactor de Fision Nuclear [nivel 3]</SP>
+   </energNucFisReactor3>
    <energNucPellets>
       <EN>Nuclear Pellets</EN>
       <FR>Granules Nucléaires</FR>
@@ -2612,6 +2607,11 @@
       <FR>Roche</FR>
       <SP>Rocas</SP>
    </resRock>
+   <matSilver>
+      <EN>Silver</EN>
+      <FR>Argent</FR>
+      <SP></SP>
+   </matSilver>
    <resSolidWastes>
       <EN>Solid Wastes</EN>
       <FR>Déchets Solides</FR>
