@@ -277,9 +277,9 @@ begin
             then
             begin
                case FCDBsSys[0].SS_star[GCcnt].SDB_comp2Orb of
-                  cotAroundMain_Companion1: GCorbStr:='coAroundCenter';
-                  cotAroundCompanion1: GCorbStr:='coAroundComp';
-                  cotAroundMain_Companion1GravityCenter: GCorbStr:='coAroundGravC';
+                  coAroundCenter: GCorbStr:='coAroundCenter';
+                  coAroundComp: GCorbStr:='coAroundComp';
+                  coAroundGravC: GCorbStr:='coAroundGravC';
                end;
                FCWFoutput.Lines.Add(
                   '      <starcompdata compmsep="'+FloatToStr(FCDBsSys[0].SS_star[GCcnt].SDB_meanSep)

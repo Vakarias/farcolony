@@ -163,14 +163,14 @@ begin
    else if CECstIdx=3
    then
    begin
-      if (FCDBsSys[0].SS_star[CECstIdx].SDB_comp2Orb=cotAroundMain_Companion1)
-         or (FCDBsSys[0].SS_star[CECstIdx].SDB_comp2Orb=cotAroundCompanion1)
+      if (FCDBsSys[0].SS_star[CECstIdx].SDB_comp2Orb=coAroundCenter)
+         or (FCDBsSys[0].SS_star[CECstIdx].SDB_comp2Orb=coAroundComp)
       then
       begin
          CECcalc:=(FCDBsSys[0].SS_star[CECstIdx].SDB_meanSep-0.25)/FCDBsSys[0].SS_star[CECstIdx].SDB_meanSep;
          CECeccMax:=DecimalRound(CECcalc, 3, 0.0001);
       end
-      else if FCDBsSys[0].SS_star[CECstIdx].SDB_comp2Orb=cotAroundMain_Companion1GravityCenter
+      else if FCDBsSys[0].SS_star[CECstIdx].SDB_comp2Orb=coAroundGravC
       then
       begin
          CECcalc:=(
@@ -231,8 +231,8 @@ begin
          0..6:
          begin
             if CSCstat<4
-            then FCDBsSys[0].SS_star[CSCstIdx].SDB_comp2Orb:=cotAroundMain_Companion1
-            else FCDBsSys[0].SS_star[CSCstIdx].SDB_comp2Orb:=cotAroundCompanion1;
+            then FCDBsSys[0].SS_star[CSCstIdx].SDB_comp2Orb:=coAroundCenter
+            else FCDBsSys[0].SS_star[CSCstIdx].SDB_comp2Orb:=coAroundComp;
             CSCmod:=FCFcFunc_Rand_Int(9)+1;
             CSCmsep:=(((FCDBsSys[0].SS_star[2].SDB_minApD*0.5)-(FCDBsSys[0].SS_star[2].SDB_minApD*0.1))*0.1)*CSCmod;
             FCDBsSys[0].SS_star[CSCstIdx].SDB_meanSep:=DecimalRound(CSCmsep, 2, 0.001);
@@ -242,7 +242,7 @@ begin
          end;
          7..10:
          begin
-            FCDBsSys[0].SS_star[CSCstIdx].SDB_comp2Orb:=cotAroundMain_Companion1GravityCenter;
+            FCDBsSys[0].SS_star[CSCstIdx].SDB_comp2Orb:=coAroundGravC;
             CSCmod:=FCFcFunc_Rand_Int(100);
             CSCmad:=(((FCDBsSys[0].SS_star[2].SDB_meanSep+FCDBsSys[0].SS_star[2].SDB_minApD)*0.5)+0.25)*(1+(CSCmod*0.1));
             FCDBsSys[0].SS_star[CSCstIdx].SDB_minApD:=DecimalRound(CSCmad, 2, 0.001);

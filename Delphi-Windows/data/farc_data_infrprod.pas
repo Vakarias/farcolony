@@ -316,7 +316,7 @@ const
    {:DEV NOTES: for requirements update FCMuiCDP_Data_Update.}
    type TFCRdipInfrastructure= record
       I_token: string[20];
-      I_environment: TFCEduEnvironmentTypes;
+      I_environment: TFCEduEnv;
       {.construct type}
       I_constr: TFCEdipConstruct;
       {.level range}

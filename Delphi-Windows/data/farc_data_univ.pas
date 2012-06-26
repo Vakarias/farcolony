@@ -31,61 +31,33 @@ unit farc_data_univ;
 
 interface
 
-//uses
-
-
-{:REFERENCES LIST
-   - universe.xml
-   - FCMdFiles_DBstarSys_Process
-}
-///<summary>
-///   companion 2 orbit types
-///</summary>
-type TFCEduCompanion2OrbitTypes=(
-   cotAroundMain_Companion1
-   ,cotAroundCompanion1
-   ,cotAroundMain_Companion1GravityCenter
-   );
-
-{:REFERENCES LIST
-   - universe.xml
-}
-///<summary>
-///   environment types
-///</summary>
-type TFCEduEnvironmentTypes=(
-   etAny
-   ,etFreeLiving
-   ,etRestricted
-   ,etSpace
-   ,etGaseous
-   );
-
-//==END PUBLIC ENUM=========================================================================
-
-//==END PUBLIC RECORDS======================================================================
-
-   //==========subsection===================================================================
-//var
-//==END PUBLIC VAR==========================================================================
-
-//const
-//==END PUBLIC CONST========================================================================
-
-//===========================END FUNCTIONS SECTION==========================================
-
-//============================OLD CODE==================================================================================
    const
       FCDUorbits=100;
 
    //=======================================================================================
    {.stars and orbital objects datastructures}
    //=======================================================================================
-   {.}
-   {:DEV NOTES : update  + FCMdFiles_DBstarSys_Process.}
+   {+M}
+   {.companion 2 orbit type}
+   {:DEV NOTES : update universe.xml + FCMdFiles_DBstarSys_Process.}
+   type TFCEduCompOrb=(
+      {.around main-companion 1 stars}
+      coAroundCenter
+      {.around companion 1 star only}
+      ,coAroundComp
+      {.around gravity center of main-companion 1 star}
+      ,coAroundGravC
+      );
 
-
-
+   {.environment type}
+   {:DEV NOTES: update universe.xml + FCMdFiles_DBstarSys_Process.}
+   type TFCEduEnv=(
+      envAny
+      ,envfreeLiving
+      ,restrict
+      ,space
+      ,gaseous
+      );
 
    {.orbital zones}
    type TFCEduHabZone=(
@@ -457,7 +429,7 @@ type TFCEduEnvironmentTypes=(
          {kind of satellite}
       OOS_type: TFCEduOobjTp;
       {.environment type}
-      OOS_envTp: TFCEduEnvironmentTypes;
+      OOS_envTp: TFCEduEnv;
          {distance from it's central planet in thousands of km}
       OOS_distFrmOOb: extended;
          {revolution period, in standard days, around it's planet}
@@ -520,7 +492,7 @@ type TFCEduEnvironmentTypes=(
          {kind of orbital object}
       OO_type: TFCEduOobjTp;
       {.environment type}
-      OO_envTp: TFCEduEnvironmentTypes;
+      OO_envTp: TFCEduEnv;
          {distance from it's star in AU}
       OO_distFrmStar: extended;
          {orbit eccentricity in #.### format}
@@ -591,7 +563,7 @@ type TFCEduEnvironmentTypes=(
       {.companion star - eccentricity}
       SDB_ecc: extended;
       {.companion star 2 - orbit type}
-      SDB_comp2Orb: TFCEduCompanion2OrbitTypes;
+      SDB_comp2Orb: TFCEduCompOrb;
    end;
    {.unified star systems datastructure}
    {:DEV NOTES : update universe.xml + FCMdFiles_DBstarSys_Process.}
@@ -616,26 +588,9 @@ type TFCEduEnvironmentTypes=(
       FCDBsSys: TFCDBstarSys;
       FUGstarOrb: TFCRduFUGstarOrb;
       FUGsysTp: TFCRduFUGsysTp;
-//
-////=============================================END OF OLD CODE==================================
 
 implementation
 
-//uses
-
-//==END PRIVATE ENUM========================================================================
-
-//==END PRIVATE RECORDS=====================================================================
-
-   //==========subsection===================================================================
-//var
-//==END PRIVATE VAR=========================================================================
-
-//const
-//==END PRIVATE CONST=======================================================================
-
-//===================================================END OF INIT============================
-//===========================END FUNCTIONS SECTION==========================================
-
+//=============================================END OF INIT==================================
 
 end.

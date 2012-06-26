@@ -212,7 +212,7 @@ begin
    while Count<=Max do
    begin
       if (FCDBinfra[ Count ].I_token=InfraToken )
-         and ( ( FCDBinfra[ Count ].I_environment=etAny ) or ( FCDBinfra[ Count ].I_environment=Environment.ENV_envType ) ) then
+         and ( ( FCDBinfra[ Count ].I_environment=envAny ) or ( FCDBinfra[ Count ].I_environment=Environment.ENV_envType ) ) then
       begin
          Result:=FCDBinfra[ Count ];
          break;

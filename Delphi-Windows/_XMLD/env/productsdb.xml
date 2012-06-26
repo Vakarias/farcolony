@@ -272,17 +272,17 @@
    <!-- Inflatable Greenhouse - Equipment -->
    <product token="equipInflatGreen" class="prcEquipment" storage="stSolid" cargo="" volbyunit="112" massbyunit="13.664">
       <function token="prfuInfraKit" infratoken="infrInflatGreen" infralevel="1"/>
-      <techsci sector="rsAerospaceEngineering" token="tsciInflatHabitat"/>
+      <techsci sector="rsAerospaceEng" token="tsciInflatHabitat"/>
    </product>
    <!-- Inflatable Greenhouse (large) - Equipment -->
    <product token="equipInflatGreenLg" class="prcEquipment" storage="stSolid" cargo="" volbyunit="137" massbyunit="16.714">
       <function token="prfuInfraKit" infratoken="infrInflatGreen" infralevel="2"/>
-      <techsci sector="rsAerospaceEngineering" token="tsciInflatHabitat"/>
+      <techsci sector="rsAerospaceEng" token="tsciInflatHabitat"/>
    </product>
    <!-- Inflatable Greenhouse (xlarge) - Equipment -->
    <product token="equipInflatGreenXL" class="prcEquipment" storage="stSolid" cargo=""   volbyunit="177" massbyunit="21.594">
       <function token="prfuInfraKit" infratoken="infrInflatGreen" infralevel="3"/>
-      <techsci sector="rsAerospaceEngineering" token="tsciInflatHabitat"/>
+      <techsci sector="rsAerospaceEng" token="tsciInflatHabitat"/>
    </product>
    <!-- Mining Machinery - Equipment -->
    <product token="equipMiningMachinery" class="prcEquipment" storage="stSolid" cargo="" volbyunit="96" massbyunit="42.048">
