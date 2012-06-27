@@ -2412,6 +2412,31 @@
       <FR>Outils Manuels</FR>
       <SP>Herramientas Manuales</SP>
    </equipHandTools>
+   <equipHumidityTrap1>
+      <EN>Humidity Trap [level 1]</EN>
+      <FR>Piège à Humidité [niveau 1]</FR>
+      <SP></SP>
+   </equipHumidityTrap1>
+   <equipHumidityTrap2>
+      <EN>Humidity Trap [level 2]</EN>
+      <FR>Piège à Humidité [niveau 2]</FR>
+      <SP></SP>
+   </equipHumidityTrap2>
+   <equipHumidityTrap3>
+      <EN>Humidity Trap [level 3]</EN>
+      <FR>Piège à Humidité [niveau 3]</FR>
+      <SP></SP>
+   </equipHumidityTrap3>
+   <equipHumidityTrap4>
+      <EN>Humidity Trap [level 4]</EN>
+      <FR>Piège à Humidité [niveau 4]</FR>
+      <SP></SP>
+   </equipHumidityTrap4>
+   <equipHumidityTrap5>
+      <EN>Humidity Trap [level 5]</EN>
+      <FR>Piège à Humidité [niveau 5]</FR>
+      <SP></SP>
+   </equipHumidityTrap5>
    <equipInflatGreen>
       <EN>Inflatable Greenhouse</EN>
       <FR>Serre Gonflable</FR>
@@ -2532,6 +2557,11 @@
       <FR>Silicone (Si)</FR>
       <SP>Silicona (Si)</SP>
    </matSilicon>
+   <matSilver>
+      <EN>Silver</EN>
+      <FR>Argent</FR>
+      <SP></SP>
+   </matSilver>
    <matSteel>
       <EN>Steel</EN>
       <FR>Acier</FR>
@@ -2607,11 +2637,6 @@
       <FR>Roche</FR>
       <SP>Rocas</SP>
    </resRock>
-   <matSilver>
-      <EN>Silver</EN>
-      <FR>Argent</FR>
-      <SP></SP>
-   </matSilver>
    <resSolidWastes>
       <EN>Solid Wastes</EN>
       <FR>Déchets Solides</FR>

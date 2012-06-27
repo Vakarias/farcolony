@@ -199,6 +199,22 @@
       <SP></SP>
    </infrPressTanksArray>
    <!-- ********** PRODUCTS ********** -->
+   <!-- 
+      future dev:
+      
+      in case of product of multiple levels (infrastructure kits)
+      <FORMAT="InfraKit"
+      <CORE>root token</CORE>
+      <LEVEL>level #</LEVEL>
+      
+      <FORMAT="InfraKitRoot"
+      in the core token put the <EN></EN>.... and so on
+      
+      if not infra kit:
+      <FORMAT ="Product"
+      <EN></EN>... and so on
+      
+      -->
    <bioAnimalFood>
       <EN></EN>
       <FR></FR>
@@ -243,6 +259,31 @@
       <EN></EN>
       <FR></FR>
    </equipHandTools>
+   <equipHumidityTrap1>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </equipHumidityTrap1>
+   <equipHumidityTrap2>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </equipHumidityTrap2>
+   <equipHumidityTrap3>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </equipHumidityTrap3>
+   <equipHumidityTrap4>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </equipHumidityTrap4>
+   <equipHumidityTrap5>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </equipHumidityTrap5>
    <equipMiningMachinery>
       <EN></EN>
       <FR></FR>
@@ -775,6 +816,11 @@
       <hintitem link="bioFish" title="Product: Fish"/>
       <hintitem link="bioFruitsVeg" title="Product: Fruits &amp; Vegetables"/>
       <hintitem link="equipHandTools" title="Product: Hand Tools"/>
+      <hintitem link="equipHumidityTrap1" title="Product: Humidity Trap [level 1]"/>
+      <hintitem link="equipHumidityTrap2" title="Product: Humidity Trap [level 2]"/>
+      <hintitem link="equipHumidityTrap3" title="Product: Humidity Trap [level 3]"/>
+      <hintitem link="equipHumidityTrap4" title="Product: Humidity Trap [level 4]"/>
+      <hintitem link="equipHumidityTrap5" title="Product: Humidity Trap [level 5]"/>
       <hintitem link="equipMiningMachinery" title="Product: Mining Machinery"/>
       <hintitem link="matMWNT" title="Product: Multi-Walled Nanotubes (MWNT)"/>
       <hintitem link="equipMultiDepot1" title="Product: Multipurpose Depot Level 1"/>
@@ -927,6 +973,11 @@
       <hintitem link="equipAdvTools" title="Produit: Outils Avancés"/>
       <hintitem link="equipPowerTools" title="Produit: Outils Electriques"/>
       <hintitem link="equipHandTools" title="Produit: Outils Manuels"/>
+      <hintitem link="equipHumidityTrap1" title="Produit: Piège à Humidité [niveau 1]"/>
+      <hintitem link="equipHumidityTrap2" title="Produit: Piège à Humidité [niveau 2]"/>
+      <hintitem link="equipHumidityTrap3" title="Produit: Piège à Humidité [niveau 3]"/>
+      <hintitem link="equipHumidityTrap4" title="Produit: Piège à Humidité [niveau 4]"/>
+      <hintitem link="equipHumidityTrap5" title="Produit: Piège à Humidité [niveau 5]"/>
       <hintitem link="matPlastics" title="Produit: Plastiques"/>
       <hintitem link="energNucFisRsm" title="Produit: Réacteur à Fission Nucléaire (petit)"/>
       <hintitem link="energNucFisRmed" title="Produit: Réacteur à Fission Nucléaire (moyen)"/>
@@ -1058,6 +1109,11 @@
       <hintitem link="equipAdvTools" title="Produit: Outils Avancés"/>
       <hintitem link="equipPowerTools" title="Produit: Outils Electriques"/>
       <hintitem link="equipHandTools" title="Produit: Outils Manuels"/>
+      <hintitem link="equipHumidityTrap1" title="Produit: Piège à Humidité [niveau 1]"/>
+      <hintitem link="equipHumidityTrap2" title="Produit: Piège à Humidité [niveau 2]"/>
+      <hintitem link="equipHumidityTrap3" title="Produit: Piège à Humidité [niveau 3]"/>
+      <hintitem link="equipHumidityTrap4" title="Produit: Piège à Humidité [niveau 4]"/>
+      <hintitem link="equipHumidityTrap5" title="Produit: Piège à Humidité [niveau 5]"/>
       <hintitem link="matPlastics" title="Produit: Plastiques"/>
       <hintitem link="energNucFisRsm" title="Produit: Réacteur à Fission Nucléaire (petit)"/>
       <hintitem link="energNucFisRmed" title="Produit: Réacteur à Fission Nucléaire (moyen)"/>

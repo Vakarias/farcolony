@@ -255,16 +255,36 @@
       <techsci sector="rsNone" token=""/>
    </product>
    <!-- Advanced Tools - Equipment -->
-   <product token="equipAdvTools" class="prcEquipment" storage="stSolid" cargo="" volbyunit="0.004" massbyunit="0.004">
+   <product token="equipAdvTools" class="prcEquipment" storage="stSolid" cargo="" volbyunit="0.004" massbyunit="0.006">
       <function token="prfuManConstruction" wcpcoef="1.25"/>
    </product>
    <!-- Construction Exowalkers - Equipment -->
-   <product token="equipConstrExo" class="prcEquipment" storage="stSolid" cargo="" volbyunit="15.25" massbyunit="25.62">
+   <product token="equipConstrExo" class="prcEquipment" storage="stSolid" cargo="" volbyunit="3.2" massbyunit="4.054">
       <function token="prfuMechConstruction" wcp="15" crew="4"/>
    </product>
    <!-- Hand Tools -Equipment -->
-   <product token="equipHandTools" class="prcEquipment" storage="stSolid" cargo="" volbyunit="0.002" massbyunit="0.002">
+   <product token="equipHandTools" class="prcEquipment" storage="stSolid" cargo="" volbyunit="0.002" massbyunit="0.004">
       <function token="prfuManConstruction" wcpcoef="0.67"/>
+   </product>
+   <!-- Humidity Trap [level 1] - Equipment -->
+   <product token="equipHumidityTrap1" class="prcEquipment" storage="stSolid" cargo="" volbyunit="13.72" massbyunit="33.624">
+      <function token="prfuInfraKit" infratoken="infrHumidTrap" infralevel="1"/>
+   </product>
+   <!-- Humidity Trap [level 2] - Equipment -->
+   <product token="equipHumidityTrap2" class="prcEquipment" storage="stSolid" cargo="" volbyunit="59.32" massbyunit="148.219">
+      <function token="prfuInfraKit" infratoken="infrHumidTrap" infralevel="2"/>
+   </product>
+   <!-- Humidity Trap [level 3] - Equipment -->
+   <product token="equipHumidityTrap3" class="prcEquipment" storage="stSolid" cargo="" volbyunit="148.635" massbyunit="376.748">
+      <function token="prfuInfraKit" infratoken="infrHumidTrap" infralevel="3"/>
+   </product>
+   <!-- Humidity Trap [level 4] - Equipment -->
+   <product token="equipHumidityTrap4" class="prcEquipment" storage="stSolid" cargo="" volbyunit="289.420" massbyunit="741.557">
+      <function token="prfuInfraKit" infratoken="infrHumidTrap" infralevel="4"/>
+   </product>
+   <!-- Humidity Trap [level 5] - Equipment -->
+   <product token="equipHumidityTrap5" class="prcEquipment" storage="stSolid" cargo="" volbyunit="491.743" massbyunit="1274.120">
+      <function token="prfuInfraKit" infratoken="infrHumidTrap" infralevel="5"/>
    </product>
    <!-- Inflatable Greenhouse - Equipment -->
    <product token="equipInflatGreen" class="prcEquipment" storage="stSolid" cargo="" volbyunit="112" massbyunit="13.664">
