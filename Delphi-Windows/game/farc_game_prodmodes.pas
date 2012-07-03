@@ -430,7 +430,7 @@ begin
                   {.region's windspeed}
                   ProdModeDataF5:=FCDBSSys[ OrbObjRow[ 1 ] ].SS_star[ OrbObjRow[ 2 ] ].SDB_obobj[ OrbObjRow[ 3 ] ].OO_regions[ ProdModeDataI1 ].OOR_windSpd;
                   {.H2O gas status}
-                  ProdModeDataI3:=Integer(FCDBSSys[ OrbObjRow[ 1 ] ].SS_star[ OrbObjRow[ 2 ] ].SDB_obobj[ OrbObjRow[ 3 ] ].OO_atmosph.agasH2O);
+                  ProdModeDataI3:=Integer(FCDBSSys[ OrbObjRow[ 1 ] ].SS_star[ OrbObjRow[ 2 ] ].SDB_obobj[ OrbObjRow[ 3 ] ].OO_atmosph.AC_gasPresenceH2O);
                   if FCVdiDebugMode
                   then FCWinDebug.AdvMemo1.Lines.Add('H2O gas status='+inttostr(ProdModeDataI3));
                end
@@ -441,7 +441,7 @@ begin
                   {.region's windspeed}
                   ProdModeDataF5:=FCDBSSys[ OrbObjRow[ 1 ] ].SS_star[ OrbObjRow[ 2 ] ].SDB_obobj[ OrbObjRow[ 3 ] ].OO_satList[ OrbObjRow[ 4 ] ].OOS_regions[ ProdModeDataI1 ].OOR_windSpd;
                   {.H2O gas status}
-                  ProdModeDataI3:=Integer(FCDBSSys[ OrbObjRow[ 1 ] ].SS_star[ OrbObjRow[ 2 ] ].SDB_obobj[ OrbObjRow[ 3 ] ].OO_satList[ OrbObjRow[ 4 ] ].OOS_atmosph.agasH2O);
+                  ProdModeDataI3:=Integer(FCDBSSys[ OrbObjRow[ 1 ] ].SS_star[ OrbObjRow[ 2 ] ].SDB_obobj[ OrbObjRow[ 3 ] ].OO_satList[ OrbObjRow[ 4 ] ].OOS_atmosph.AC_gasPresenceH2O);
                end;
                {.cmyr}
                ProdModeDataF1:=( ProdModeDataI2 / sqrt( ProdModeDataF5 ) )*0.1;

@@ -190,7 +190,7 @@ material.
 }
 var
    ASresDmp: string;
-   ASobjTp: TFCEduOobjTp;
+   ASobjTp: TFCEduOrbitalObjectTypes;
 begin
    {.test if AsterDmp is created}
    if FC3DobjAsterDmp=nil then
@@ -207,7 +207,7 @@ begin
    then ASobjTp:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASoobjIdx].OO_type;
    {.determine the type of asteroid to load}
    case ASobjTp of
-      oobtpAster_Metall, oobtpSat_Aster_Metall:
+      ootAsteroid_Metallic, ootSatellite_Asteroid_Metallic:
       begin
          {.set proper asteroid object and colors}
          ASresDmp:=FCVdiPathResourceDir+'obj-3ds-aster\aster_metall.3ds';
@@ -223,7 +223,7 @@ begin
             Shininess:=90;
          end;
       end;
-      oobtpAster_Sili, oobtpSat_Aster_Sili:
+      ootAsteroid_Silicate, ootSatellite_Asteroid_Silicate:
       begin
          {.set proper asteroid object and colors}
          ASresDmp:=FCVdiPathResourceDir+'obj-3ds-aster\aster_sili.3ds';
@@ -239,7 +239,7 @@ begin
             Shininess:=70;
          end;
       end;
-      oobtpAster_Carbo, oobtpSat_Aster_Carbo:
+      ootAsteroid_Carbonaceous, ootSatellite_Asteroid_Carbonaceous:
       begin
          {.set proper asteroid object and colors}
          ASresDmp:=FCVdiPathResourceDir+'obj-3ds-aster\aster_carbo.3ds';
@@ -255,7 +255,7 @@ begin
             Shininess:=50;
          end;
       end;
-      oobtpAster_Icy, oobtpSat_Aster_Icy:
+      ootAsteroid_Icy, ootSatellite_Asteroid_Icy:
       begin
          {.set proper asteroid object and colors}
          ASresDmp:=FCVdiPathResourceDir+'obj-3ds-aster\aster_icy.3ds';
@@ -303,29 +303,29 @@ var
    ,ASCh2s
    ,ASCco2
    ,ASCso2
-   : TFCEatmGasStat;
+   : TFCEduAtmosphericGasStatus;
 begin
    if ASCsatIdx=0
    then
    begin
-      ASCh2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASCoobjIdx].OO_atmosph.agasH2;
-      ASChe:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASCoobjIdx].OO_atmosph.agasHe;
-      ASCn2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASCoobjIdx].OO_atmosph.agasN2;
-      ASCo2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASCoobjIdx].OO_atmosph.agasO2;
-      ASCh2s:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASCoobjIdx].OO_atmosph.agasH2S;
-      ASCco2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASCoobjIdx].OO_atmosph.agasCO2;
-      ASCso2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASCoobjIdx].OO_atmosph.agasSO2;
+      ASCh2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASCoobjIdx].OO_atmosph.AC_gasPresenceH2;
+      ASChe:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASCoobjIdx].OO_atmosph.AC_gasPresenceHe;
+      ASCn2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASCoobjIdx].OO_atmosph.AC_gasPresenceN2;
+      ASCo2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASCoobjIdx].OO_atmosph.AC_gasPresenceO2;
+      ASCh2s:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASCoobjIdx].OO_atmosph.AC_gasPresenceH2S;
+      ASCco2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASCoobjIdx].OO_atmosph.AC_gasPresenceCO2;
+      ASCso2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASCoobjIdx].OO_atmosph.AC_gasPresenceSO2;
    end
    else if ASCsatIdx>0
    then
    begin
-      ASCh2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASCoobjIdx].OO_satList[ASCsatIdx].OOS_atmosph.agasH2;
-      ASChe:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASCoobjIdx].OO_satList[ASCsatIdx].OOS_atmosph.agasHe;
-      ASCn2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASCoobjIdx].OO_satList[ASCsatIdx].OOS_atmosph.agasN2;
-      ASCo2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASCoobjIdx].OO_satList[ASCsatIdx].OOS_atmosph.agasO2;
-      ASCh2s:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASCoobjIdx].OO_satList[ASCsatIdx].OOS_atmosph.agasH2S;
-      ASCco2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASCoobjIdx].OO_satList[ASCsatIdx].OOS_atmosph.agasCO2;
-      ASCso2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASCoobjIdx].OO_satList[ASCsatIdx].OOS_atmosph.agasSO2;
+      ASCh2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASCoobjIdx].OO_satList[ASCsatIdx].OOS_atmosph.AC_gasPresenceH2;
+      ASChe:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASCoobjIdx].OO_satList[ASCsatIdx].OOS_atmosph.AC_gasPresenceHe;
+      ASCn2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASCoobjIdx].OO_satList[ASCsatIdx].OOS_atmosph.AC_gasPresenceN2;
+      ASCo2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASCoobjIdx].OO_satList[ASCsatIdx].OOS_atmosph.AC_gasPresenceO2;
+      ASCh2s:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASCoobjIdx].OO_satList[ASCsatIdx].OOS_atmosph.AC_gasPresenceH2S;
+      ASCco2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASCoobjIdx].OO_satList[ASCsatIdx].OOS_atmosph.AC_gasPresenceCO2;
+      ASCso2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASCoobjIdx].OO_satList[ASCsatIdx].OOS_atmosph.AC_gasPresenceSO2;
    end;
    {.N2 atmosphere - titan like}
    if (ASCn2=agsMain)
@@ -614,7 +614,7 @@ procedure FCMoglVMain_MapTex_Assign(const MTAoobjIdx, MTAsatIdx, MTAsatObjIdx: i
       -2010Jan06- *add: implement calculations for mean temperature and and hydrosphere type.
 }
 var
-   MTAdmpObjTp: TFCEduOobjTp;
+   MTAdmpObjTp: TFCEduOrbitalObjectTypes;
    MTAdmpHydroTp: TFCEhydroTp;
    MTAdmpLibName
    ,MTAdmpOobjToken
@@ -637,40 +637,40 @@ begin
       MTAdmpTemp:=FCFuF_OrbPeriod_GetMeanTemp(MTAoobjIdx, MTAsatIdx);
    end;
    {.for gaseous planets => standard textures}
-   if (MTAdmpObjTp>oobtpPlan_Icy_CallistoH3H4Atm0)
-      and (MTAdmpObjTp<oobtpSat_Aster_Metall)
+   if (MTAdmpObjTp>ootPlanet_Icy_CallistoH3H4Atm0)
+      and (MTAdmpObjTp<ootSatellite_Asteroid_Metallic)
    then
    begin
       case MTAdmpObjTp of
-         oobtpPlan_Gas_Uranus:
+         ootPlanet_Gaseous_Uranus:
          begin
             if MTAdmpTemp<=80
             then  MTAdmpLibName:='UranusCold'
             else if MTAdmpTemp>80
             then  MTAdmpLibName:='UranusHot';
          end;
-         oobtpPlan_Gas_Neptun:
+         ootPlanet_Gaseous_Neptune:
          begin
             if MTAdmpTemp<=80
             then  MTAdmpLibName:='NeptuneCold'
             else if MTAdmpTemp>80
             then  MTAdmpLibName:='NeptuneHot';
          end;
-         oobtpPlan_Gas_Saturn:
+         ootPlanet_Gaseous_Saturn:
          begin
             if MTAdmpTemp<=145
             then  MTAdmpLibName:='SaturnCold'
             else if MTAdmpTemp>145
             then  MTAdmpLibName:='SaturnHot';
          end;
-         oobtpPlan_Jovian_Jupiter:
+         ootPlanet_Jovian:
          begin
             if MTAdmpTemp<=175
             then  MTAdmpLibName:='JovianCold'
             else if MTAdmpTemp>175
             then  MTAdmpLibName:='JovianHot';
          end;
-         oobtpPlan_Supergiant1:
+         ootPlanet_Supergiant:
          begin
             if MTAdmpTemp<=175
             then  MTAdmpLibName:='SuperGiantCold'
@@ -680,8 +680,8 @@ begin
       end; //==END== case MTAdmpObjTp ==//
    end //==END== if (MTAdmpObjTp>Plan_Icy_CallistoH3H4Atm0 and <Sat_Aster_Metall) ==//
    {.for planet w/ personalized textures}
-   else if ((MTAdmpObjTp>oobtpAster_Icy) and (MTAdmpObjTp<oobtpPlan_Tellu_MercuH0))
-      or ((MTAdmpObjTp>oobtpSat_Tellu_Io) and (MTAdmpObjTp<oobtpSat_Icy_Pluto))
+   else if ((MTAdmpObjTp>ootAsteroid_Icy) and (MTAdmpObjTp<ootPlanet_Telluric_MercuryH0))
+      or ((MTAdmpObjTp>ootSatellite_Telluric_Io) and (MTAdmpObjTp<ootSatellite_Icy_Pluto))
    then
    begin
       if MTAsatIdx=0
@@ -693,29 +693,29 @@ begin
    {.for the rest of telluric/icy planets w/ standard textures}
    else begin
       case MTAdmpObjTp of
-         oobtpPlan_Tellu_MercuH0: MTAdmpLibName:='MercuryH0';
-         oobtpPlan_Tellu_MercuH3: MTAdmpLibName:='MercuryH3';
-         oobtpPlan_Tellu_MercuH4: MTAdmpLibName:='MercuryH4';
-         oobtpPlan_Icy_PlutoH3: MTAdmpLibName:='Pluto';
-         oobtpPlan_Icy_EuropeH4: MTAdmpLibName:='Europa';
-         oobtpPlan_Icy_CallistoH3H4Atm0:
+         ootPlanet_Telluric_MercuryH0: MTAdmpLibName:='MercuryH0';
+         ootPlanet_Telluric_MercuryH3: MTAdmpLibName:='MercuryH3';
+         ootPlanet_Telluric_MercuryH4: MTAdmpLibName:='MercuryH4';
+         ootPlanet_Icy_PlutoH3: MTAdmpLibName:='Pluto';
+         ootPlanet_Icy_EuropaH4: MTAdmpLibName:='Europa';
+         ootPlanet_Icy_CallistoH3H4Atm0:
          begin
             if  MTAdmpHydroTp=htIceSheet
             then MTAdmpLibName:='CallistoH3'
             else if  MTAdmpHydroTp=htCrystal
             then MTAdmpLibName:='CallistoH4';
          end;
-         oobtpSat_Tellu_Lunar:
+         ootSatellite_Telluric_Lunar:
          begin
             if  MTAdmpTemp<234
             then MTAdmpLibName:='SatLunarCold'
             else if  MTAdmpTemp>=234
             then MTAdmpLibName:='SatLunar';
          end;
-         oobtpSat_Tellu_Io: MTAdmpLibName:='SatIo';
-         oobtpSat_Icy_Pluto: MTAdmpLibName:='SatPluto';
-         oobtpSat_Icy_Europe: MTAdmpLibName:='SatEuropa';
-         oobtpSat_Icy_Callisto:
+         ootSatellite_Telluric_Io: MTAdmpLibName:='SatIo';
+         ootSatellite_Icy_Pluto: MTAdmpLibName:='SatPluto';
+         ootSatellite_Icy_Europa: MTAdmpLibName:='SatEuropa';
+         ootSatellite_Icy_Callisto:
          begin
             MTAdmpLibName:='SatCallistoH3';
             if  MTAdmpHydroTp=htIceSheet
@@ -1195,8 +1195,8 @@ begin
             end;
             LSVUangleRad:=SDB_obobj[TDMVUorbObjCnt].OO_angle1stDay*FCCdiDegrees_To_Radian;
             {.asteroid}
-            if (SDB_obobj[TDMVUorbObjCnt].OO_type>=oobtpAster_Metall)
-               and (SDB_obobj[TDMVUorbObjCnt].OO_type<=oobtpAster_Icy)
+            if (SDB_obobj[TDMVUorbObjCnt].OO_type>=ootAsteroid_Metallic)
+               and (SDB_obobj[TDMVUorbObjCnt].OO_type<=ootAsteroid_Icy)
             then
             begin
                {.initialize 3d structure}
@@ -1227,8 +1227,8 @@ begin
                FCMoglVM_OObjSpUn_inOrbit(TDMVUorbObjCnt, 0, 0, true);
             end //==END== if (OO_type>=oobtpAster_Metall) and (OO_type<=oobtpAster_Icy) ==//
             {.planet}
-            else if (SDB_obobj[TDMVUorbObjCnt].OO_type>=oobtpPlan_Tellu_EarthH0H1)
-                    and (SDB_obobj[TDMVUorbObjCnt].OO_type<=oobtpPlan_Supergiant1)
+            else if (SDB_obobj[TDMVUorbObjCnt].OO_type>=ootPlanet_Telluric_EarthH0H1)
+                    and (SDB_obobj[TDMVUorbObjCnt].OO_type<=ootPlanet_Supergiant)
             then
             begin
                {.initialize 3d structure}
@@ -1249,16 +1249,16 @@ begin
                FC3DobjGrp[TDMVUorbObjCnt].CubeSize:=FC3DobjPlan[TDMVUorbObjCnt].scale.X*2;
                {.set atmosphere}
                if (
-                     ((SDB_obobj[TDMVUorbObjCnt].OO_type in [oobtpPlan_Tellu_EarthH0H1..oobtpPlan_Icy_CallistoH3H4Atm0]))
+                     ((SDB_obobj[TDMVUorbObjCnt].OO_type in [ootPlanet_Telluric_EarthH0H1..ootPlanet_Icy_CallistoH3H4Atm0]))
                      and
                      (SDB_obobj[TDMVUorbObjCnt].OO_atmPress>0)
                   )
-                  or (SDB_obobj[TDMVUorbObjCnt].OO_type in [oobtpPlan_Gas_Uranus..oobtpPlan_Supergiant1])
+                  or (SDB_obobj[TDMVUorbObjCnt].OO_type in [ootPlanet_Gaseous_Uranus..ootPlanet_Supergiant])
                then
                begin
                   FCMoglVMain_Atmosph_SetCol(TDMVUorbObjCnt, 0, 0);
                   FC3DobjAtmosph[TDMVUorbObjCnt].Sun:=FCWinMain.FCGLSSM_Light;
-                  if SDB_obobj[TDMVUorbObjCnt].OO_type<oobtpPlan_Gas_Uranus
+                  if SDB_obobj[TDMVUorbObjCnt].OO_type<ootPlanet_Gaseous_Uranus
                   then FC3DobjAtmosph[TDMVUorbObjCnt].Opacity
                      :=FCFoglVMain_CloudsCov_Conv2AtmOp(SDB_obobj[TDMVUorbObjCnt].OO_cloudsCov)
                   else FC3DobjAtmosph[TDMVUorbObjCnt].Opacity:=FCFoglVMain_CloudsCov_Conv2AtmOp(-1);
@@ -1287,7 +1287,7 @@ begin
                      end;
                      LSVUangleRad:=SDB_obobj[TDMVUorbObjCnt].OO_satList[TDMVUsatIdx].OOS_angle1stDay*FCCdiDegrees_To_Radian;
                      {.for a satellite asteroid}
-                     if SDB_obobj[TDMVUorbObjCnt].OO_satList[TDMVUsatIdx].OOS_type<oobtpSat_Tellu_Lunar
+                     if SDB_obobj[TDMVUorbObjCnt].OO_satList[TDMVUsatIdx].OOS_type<ootSatellite_Telluric_Lunar
                      then
                      begin
                         {.initialize 3d structure}
@@ -1329,8 +1329,8 @@ begin
                         FC3DobjSatAster[TDMVUsatCnt].Visible:=true;
                      end //==END== if ...OOS_type<oobtpSat_Tellu_Lunar ==//
                      {.for a satellite planetoid}
-                     else if (SDB_obobj[TDMVUorbObjCnt].OO_satList[TDMVUsatIdx].OOS_type>oobtpSat_Aster_Icy)
-                        and (SDB_obobj[TDMVUorbObjCnt].OO_satList[TDMVUsatIdx].OOS_type<oobtpRing_Metall)
+                     else if (SDB_obobj[TDMVUorbObjCnt].OO_satList[TDMVUsatIdx].OOS_type>ootSatellite_Asteroid_Icy)
+                        and (SDB_obobj[TDMVUorbObjCnt].OO_satList[TDMVUsatIdx].OOS_type<ootRing_Metallic)
                      then
                      begin
                         {.initialize 3d structure}
@@ -1362,7 +1362,7 @@ begin
                         {.set group scale}
                         FC3DobjSatGrp[TDMVUsatCnt].CubeSize:=FC3DobjSat[TDMVUsatCnt].scale.X*2;
                         {.set atmosphere}
-                        if (SDB_obobj[TDMVUorbObjCnt].OO_satList[TDMVUsatIdx].OOS_type in [oobtpSat_Tellu_Io..oobtpSat_Icy_Callisto])
+                        if (SDB_obobj[TDMVUorbObjCnt].OO_satList[TDMVUsatIdx].OOS_type in [ootSatellite_Telluric_Io..ootSatellite_Icy_Callisto])
                            and (SDB_obobj[TDMVUorbObjCnt].OO_satList[TDMVUsatIdx].OOS_atmPress>0)
                         then
                         begin
@@ -1563,7 +1563,7 @@ begin
       FC3DobjPlanGrav[OBobjIdx].Scale.X:=
          (FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[OBobjIdx].OO_gravSphRad/(CFC3dUnInKm))*2;
       if FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[OBobjIdx].OO_type
-         in [oobtpAster_Metall..oobtpAster_Icy]
+         in [ootAsteroid_Metallic..ootAsteroid_Icy]
       then FC3DobjPlanGrav[OBobjIdx].Scale.X:=FC3DobjPlanGrav[OBobjIdx].Scale.X*6.42;
       FC3DobjPlanGrav[OBobjIdx].Scale.Y:=FC3DobjPlanGrav[OBobjIdx].Scale.X;
       FC3DobjPlanGrav[OBobjIdx].Scale.Z:=FC3DobjPlanGrav[OBobjIdx].Scale.X;
@@ -1657,7 +1657,7 @@ begin
       FC3DobjSatGrav[OBsatCnt].Scale.X:=
          (FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[OBobjIdx].OO_satList[OBsatIdx].OOS_gravSphRad/(CFC3dUnInKm))*2;
       if FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[OBobjIdx].OO_satList[OBsatIdx].OOS_type
-         in [oobtpSat_Aster_Metall..oobtpSat_Aster_Icy]
+         in [ootSatellite_Asteroid_Metallic..ootSatellite_Asteroid_Icy]
       then FC3DobjSatGrav[OBsatCnt].Scale.X:=FC3DobjSatGrav[OBsatCnt].Scale.X*6.42;
       FC3DobjSatGrav[OBsatCnt].Scale.Y:=FC3DobjSatGrav[OBsatCnt].Scale.X;
       FC3DobjSatGrav[OBsatCnt].Scale.Z:=FC3DobjSatGrav[OBsatCnt].Scale.X;

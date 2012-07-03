@@ -23,104 +23,59 @@
 
    {.orbital object type list, derived from previous FARC}
    [ootype-sattype]
-      {.protoplanetary disk, old num=1}
-      oobtpProtoDisk
-      {.old num=2}
-      oobtpAsterBelt_Metall
-      {.old num=3}
-      oobtpAsterBelt_Sili
-      {.old num=4}
-      oobtpAsterBelt_Carbo
-      {.old num=5}
-      oobtpAsterBelt_Icy
-      {.old num=6}
-      oobtpAster_Metall
-      {.old num=7}
-      oobtpAster_Sili
-      {.old num=8}
-      oobtpAster_Carbo
-      {.old num=9}
-      oobtpAster_Icy
-      {.old num=11}
-      oobtpPlan_Tellu_EarthH0H1
-      {.old num=12}
-      oobtpPlan_Tellu_EarthH2
-      {.old num=13}
-      oobtpPlan_Tellu_EarthH3
-      {.old num=14}
-      oobtpPlan_Tellu_EarthH4
-      {.old num=15}
-      oobtpPlan_Tellu_MarsH0H1
-      {.old num=16}
-      oobtpPlan_Tellu_MarsH2
-      {.old num=17}
-      oobtpPlan_Tellu_MarsH3
-      {.old num=18}
-      oobtpPlan_Tellu_MarsH4
-      {.old num=19}
-      oobtpPlan_Tellu_VenusH0H1
-      {.old num=20}
-      oobtpPlan_Tellu_VenusH2
-      {.old num=21}
-      oobtpPlan_Tellu_VenusH3
-      {.old num=22}
-      oobtpPlan_Tellu_VenusH4
-      {.old num=23}
-      oobtpPlan_Tellu_MercuH0
-      {.old num=24}
-      oobtpPlan_Tellu_MercuH3
-      {.old num=25}
-      oobtpPlan_Tellu_MercuH4
-      {.old num=28}
-      oobtpPlan_Icy_PlutoH3
-      {.old num=29}
-      oobtpPlan_Icy_EuropeH4
-      {.old num=30}
-      oobtpPlan_Icy_CallistoH3H4Atm0
-      {.old num=31}
-      oobtpPlan_Gas_Uranus
-      {.old num=32}
-      oobtpPlan_Gas_Neptun
-      {.old num=33}
-      oobtpPlan_Gas_Saturn
-      //                    TL_Plan_Gas_Other    //old num=34
-      {.old num=35}
-      oobtpPlan_Jovian_Jupiter
-      //                    TL_Plan_Jovian_Other //old num=36
-      {.old num=37}
-      oobtpPlan_Supergiant1
-      //                    TL_Plan_Supergiant2  //old num=38
-      {.old num=39}
-      oobtpSat_Aster_Metall
-      {.old num=40}
-      oobtpSat_Aster_Sili
-      {.old num=41}
-      oobtpSat_Aster_Carbo
-      {.old num=42}
-      oobtpSat_Aster_Icy
-      //                    TL_Sat_Tellu_Mercu   //old num=43
-      {.old num=44}
-      oobtpSat_Tellu_Lunar
-      {.old num=45}
-      oobtpSat_Tellu_Io
-      {.old num=46}
-      oobtpSat_Tellu_Titan
-      {.old num=47}
-      oobtpSat_Tellu_Earth
-      {.old num=48}
-      oobtpSat_Icy_Pluto
-      {.old num=49}
-      oobtpSat_Icy_Europe
-      {.old num=50}
-      oobtpSat_Icy_Callisto
-      {.old num=100}
-      oobtpRing_Metall
-      {.old num=101}
-      oobtpRing_Sili
-      {.old num=102}
-      oobtpRing_Carbo
-      {.old num=103}
-      oobtpRing_Icy
+      ootProtoplanetaryDisk
+      ootAsteroidsBelt_Metallic
+      ootAsteroidsBelt_Silicate
+      ootAsteroidsBelt_Carbonaceous
+      ootAsteroidsBelt_Icy
+      ootAsteroid_Metallic
+      ootAsteroid_Silicate
+      ootAsteroid_Carbonaceous
+      ootAsteroid_Icy
+      ootPlanet_Telluric_EarthH0H1
+      ootPlanet_Telluric_EarthH2
+      ootPlanet_Telluric_EarthH3
+      ootPlanet_Telluric_EarthH4
+      ootPlanet_Telluric_MarsH0H1
+      ootPlanet_Telluric_MarsH2
+      ootPlanet_Telluric_MarsH3
+      ootPlanet_Telluric_MarsH4
+      ootPlanet_Telluric_VenusH0H1
+      ootPlanet_Telluric_VenusH2
+      ootPlanet_Telluric_VenusH3
+      ootPlanet_Telluric_VenusH4
+      ootPlanet_Telluric_MercuryH0
+      ootPlanet_Telluric_MercuryH3
+      ootPlanet_Telluric_MercuryH4
+      ootPlanet_Icy_PlutoH3
+      ootPlanet_Icy_EuropaH4
+      ootPlanet_Icy_CallistoH3H4Atm0
+      ootPlanet_Gaseous_Uranus
+      ootPlanet_Gaseous_Neptune
+      ootPlanet_Gaseous_Saturn
+      ootPlanet_Jovian
+      ootPlanet_Supergiant
+      ootSatellite_Asteroid_Metallic
+      ootSatellite_Asteroid_Silicate
+      ootSatellite_Asteroid_Carbonaceous
+      ootSatellite_Asteroid_Icy
+      ootSatellite_Telluric_Lunar
+      ootSatellite_Telluric_Io
+      ootSatellite_Telluric_Titan
+      ootSatellite_Telluric_Earth
+      ootSatellite_Icy_Pluto
+      ootSatellite_Icy_Europa
+      ootSatellite_Icy_Callisto
+      ootRing_Metallic
+      ootRing_Silicate
+      ootRing_Carbonaceous
+      ootRing_Icy
+      
+      {.habitable zones (in the human sense, not for aliens)}
+      [ooorbzne]
+      hzInner
+      hzIntermediary
+      hzOuter
       
 TFCEhabZone=    {orbital zones}
       (
@@ -196,23 +151,23 @@ Climate= ,rc01vhotHumid
         
    {.resource quality}
    [resourcespot quality]
-      rqNone
-      rqFbad
-      rqEpoor
-      rqDfairavg
-      rqCgood
-      rqBexcellent
-      rqAperfect
+      rsqNone
+      rsqF_Bad
+      rsqE_Poor
+      rsqD_FairAverage
+      rsqC_Good
+      rsqB_Excellent
+      rsqA_Perfect
       
    {.resource rarity}
    [resourcespot rarity] 
-      rrRich
-      rrAbundant
-      rrCommon
-      rrPresent
-      rrUncommon
-      rrRare
-      rrAbsent
+      rsrRich
+      rsrAbundant
+      rsrCommon
+      rsrPresent
+      rsrUncommon
+      rsrRare
+      rsrAbsent
       
    <starsys sstoken="" steslocx="" steslocy="" steslocz="">
       <star startoken="" starclass="">
@@ -259,14 +214,14 @@ Climate= ,rc01vhotHumid
       <star startoken="starACentA" starclass="G2">
          <starphysdata startemp="5659" starmass="1.07" stardiam="1.11" starlum="1.32069"/>
          <orbobj ootoken="orbobjAcentA1">
-            <orbobjorbdata oodist="0.46" ooecc="0.062" ooorbzne="zoneInner" oorevol="112" oorevevinit="63" oogravsphrad="9910.5"/>
+            <orbobjorbdata oodist="0.46" ooecc="0.062" ooorbzne="hzInner" oorevol="112" oorevevinit="63" oogravsphrad="9910.5"/>
             <orbperlist>
                <orbper optype="optClosest" opstrt="1" opend="28" opmtemp="437.95"/>
                <orbper optype="optInterm" opstrt="29" opend="56" opmtemp="424.16"/>
                <orbper optype="optFarest" opstrt="57" opend="84" opmtemp="411.59"/>
                <orbper optype="optInterm" opstrt="85" opend="112" opmtemp="424.16"/>
             </orbperlist>      
-            <orbobjgeophysdata ootype="oobtpAster_Carbo" oodiam="1542.5" oodens="2758" oomass="5.299909" oograv="0.061" ooescvel="0.96" oorotper="2688" ooinclax="29" oomagfld="0" ooalbe="0.07"/>
+            <orbobjgeophysdata ootype="ootAsteroid_Carbonaceous" oodiam="1542.5" oodens="2758" oomass="5.299909" oograv="0.061" ooescvel="0.96" oorotper="2688" ooinclax="29" oomagfld="0" ooalbe="0.07"/>
             <orbobjecosdata ooenvtype="etSpace" ooatmpres="0" oocloudscov="0" atmprimgasvol="0" atmH2="0" atmHe="0" atmCH4="0" atmNH3="0" atmH2O="0" atmNe="0" atmN2="0" atmCO="0" atmNO="0" atmO2="0" atmH2S="0" atmAr="0" atmCO2="0" atmNO2="0" atmO3="0" atmSO2="0" hydroTp="htNone" hydroArea="0"/>
             <orbobjregions>
                <region soiltp="rst14barren" relief="rr1plain" climate="rst14barren" mtdmin="237.99" mtdint="288.07" mtdmax="338.54" wndspd="0" precip="0" emo="1.5">
@@ -280,14 +235,14 @@ Climate= ,rc01vhotHumid
             </orbobjregions>
          </orbobj>
          <orbobj ootoken="orbobjAcentA2">
-            <orbobjorbdata oodist="0.64" ooecc="0.097" ooorbzne="zoneInner" oorevol="183" oorevevinit="77" oogravsphrad="366121.4"/>      
+            <orbobjorbdata oodist="0.64" ooecc="0.097" ooorbzne="hzInner" oorevol="183" oorevevinit="77" oogravsphrad="366121.4"/>      
             <orbperlist>
                <orbper optype="optClosest" opstrt="1" opend="45" opmtemp="402.73"/>
                <orbper optype="optInterm" opstrt="46" opend="90" opmtemp="361.82"/>
                <orbper optype="optFarest" opstrt="91" opend="135" opmtemp="345.48"/>
                <orbper optype="optInterm" opstrt="136" opend="180" opmtemp="361.83"/>
             </orbperlist>
-            <orbobjgeophysdata ootype="oobtpPlan_Tellu_MarsH0H1" oodiam="8344" oodens="6331" oomass="0.3222" oograv="0.752" ooescvel="7.85" oorotper="32.55" ooinclax="39" oomagfld="0.092" ooalbe="0.2"/>
+            <orbobjgeophysdata ootype="ootPlanet_Telluric_MarsH0H1" oodiam="8344" oodens="6331" oomass="0.3222" oograv="0.752" ooescvel="7.85" oorotper="32.55" ooinclax="39" oomagfld="0.092" ooalbe="0.2"/>
             <orbobjecosdata ooenvtype="etRestricted" ooatmpres="134.662" oocloudscov="37.2" atmprimgasvol="53" atmH2="0" atmHe="0" atmCH4="2" atmNH3="2" atmH2O="2" atmNe="2" atmN2="3" atmCO="2" atmNO="2" atmO2="2" atmH2S="2" atmAr="2" atmCO2="2" atmNO2="2" atmO3="2" atmSO2="2" hydroTp="htVapor" hydroArea="32.7"/>
             <orbobjregions>
                <region soiltp="rst01rockDes" relief="rr1plain" climate="rc07coldArid" mtdmin="210.04" mtdint="251.99" mtdmax="313.36" wndspd="32.24" precip="95" emo="1.5">
@@ -345,14 +300,14 @@ Climate= ,rc01vhotHumid
             </orbobjregions>
          </orbobj>
          <orbobj ootoken="orbobjAcentA3">
-            <orbobjorbdata oodist="0.83" ooecc="0.011" ooorbzne="zoneInner" oorevol="271" oorevevinit="106" oogravsphrad="355240.8"/>      
+            <orbobjorbdata oodist="0.83" ooecc="0.011" ooorbzne="hzInner" oorevol="271" oorevevinit="106" oogravsphrad="355240.8"/>      
             <orbperlist>
                <orbper optype="optFarest" opstrt="1" opend="67" opmtemp="329.74"/>
                <orbper optype="optInterm" opstrt="68" opend="134" opmtemp="317.45"/>
                <orbper optype="optClosest" opstrt="135" opend="201" opmtemp="319.22"/>
                <orbper optype="optInterm" opstrt="202" opend="268" opmtemp="317.46"/>
             </orbperlist>
-            <orbobjgeophysdata ootype="oobtpPlan_Tellu_MarsH2" oodiam="6552" oodens="6331" oomass="0.156" oograv="0.591" ooescvel="6.16" oorotper="935.93" ooinclax="24" oomagfld="0.001" ooalbe="0.16"/>
+            <orbobjgeophysdata ootype="ootPlanet_Telluric_MarsH2" oodiam="6552" oodens="6331" oomass="0.156" oograv="0.591" ooescvel="6.16" oorotper="935.93" ooinclax="24" oomagfld="0.001" ooalbe="0.16"/>
             <orbobjecosdata ooenvtype="etRestricted" ooatmpres="31.595" oocloudscov="36.9" atmprimgasvol="80" atmH2="0" atmHe="0" atmCH4="2" atmNH3="2" atmH2O="2" atmNe="2" atmN2="3" atmCO="2" atmNO="2" atmO2="2" atmH2S="2" atmAr="2" atmCO2="2" atmNO2="2" atmO3="2" atmSO2="2" hydroTp="htLiquid" hydroArea="11"/>
             <orbobjregions>
                <region soiltp="rst01rockDes" relief="rr4broken" climate="rc07coldArid" mtdmin="166.86" mtdint="212.62" mtdmax="277.13" wndspd="1.9" precip="99" emo="1.5">
@@ -402,14 +357,14 @@ Climate= ,rc01vhotHumid
             </orbobjregions>
          </orbobj>
          <orbobj ootoken="orbobjAcentA4">
-            <orbobjorbdata oodist="1.16" ooecc="0.05" ooorbzne="zoneInterm" oorevol="447" oorevevinit="130" oogravsphrad="1502344.3"/>      
+            <orbobjorbdata oodist="1.16" ooecc="0.05" ooorbzne="hzIntermediary" oorevol="447" oorevevinit="130" oogravsphrad="1502344.3"/>      
             <orbperlist>
                <orbper optype="optClosest" opstrt="1" opend="111" opmtemp="321.24"/>
                <orbper optype="optInterm" opstrt="112" opend="222" opmtemp="309.11"/>
                <orbper optype="optFarest" opstrt="223" opend="333" opmtemp="301.53"/>
                <orbper optype="optInterm" opstrt="334" opend="444" opmtemp="309.07"/>
             </orbperlist>
-            <orbobjgeophysdata ootype="oobtpPlan_Tellu_VenusH2" oodiam="16865.2" oodens="5912" oomass="2.4848" oograv="1.42" ooescvel="15.33" oorotper="-21.99" ooinclax="121.2" oomagfld="0.025" ooalbe="0.05"/>
+            <orbobjgeophysdata ootype="ootPlanet_Telluric_VenusH2" oodiam="16865.2" oodens="5912" oomass="2.4848" oograv="1.42" ooescvel="15.33" oorotper="-21.99" ooinclax="121.2" oomagfld="0.025" ooalbe="0.05"/>
             <orbobjecosdata ooenvtype="etRestricted" ooatmpres="6008.659" oocloudscov="16.8" atmprimgasvol="72" atmH2="2" atmHe="2" atmCH4="2" atmNH3="2" atmH2O="2" atmNe="2" atmN2="3" atmCO="2" atmNO="2" atmO2="3" atmH2S="2" atmAr="2" atmCO2="2" atmNO2="2" atmO3="2" atmSO2="1" hydroTp="htLiquid" hydroArea="31"/>
             <orbobjregions>
                <region soiltp="rst01rockDes" relief="rr1plain" climate="rc07coldArid" mtdmin="315.28" mtdint="227.27" mtdmax="140.23" wndspd="49.71" precip="86" emo="1.5">
@@ -429,7 +384,7 @@ Climate= ,rc01vhotHumid
                   <orbper optype="optFarest" opstrt="223" opend="333" opmtemp="301.53"/>
                   <orbper optype="optInterm" opstrt="334" opend="444" opmtemp="309.07"/>
                </orbperlist>
-               <satgeophysdata sattype="oobtpSat_Aster_Carbo" satdiam="121.6" satdens="3309" satmass="0.003115" satgrav="0.006" satescvel="0.08" satinclax="32" satmagfld="0" satalbe="0"/>
+               <satgeophysdata sattype="ootSatellite_Asteroid_Carbonaceous" satdiam="121.6" satdens="3309" satmass="0.003115" satgrav="0.006" satescvel="0.08" satinclax="32" satmagfld="0" satalbe="0"/>
                <satecosdata satenvtype="etSpace" satatmpres="0" satcloudscov="0" atmprimgasvol="0" atmH2="0" atmHe="0" atmCH4="0" atmNH3="0" atmH2O="0" atmNe="0" atmN2="0" atmCO="0" atmNO="0" atmO2="0" atmH2S="0" atmAr="0" atmCO2="0" atmNO2="0" atmO3="0" atmSO2="0" hydroTp="htNone" hydroArea="0"/>
                <satregions>
                   <region soiltp="rst01rockDes" relief="rr1plain" climate="rc07coldArid" mtdmin="210.04" mtdint="251.99" mtdmax="313.36" wndspd="32.24" precip="95" emo="1.5">
@@ -450,7 +405,7 @@ Climate= ,rc01vhotHumid
                   <orbper optype="optFarest" opstrt="223" opend="333" opmtemp="301.53"/>
                   <orbper optype="optInterm" opstrt="334" opend="444" opmtemp="309.07"/>
                </orbperlist>
-               <satgeophysdata sattype="oobtpSat_Icy_Callisto" satdiam="4121.6" satdens="3309" satmass="0.003115" satgrav="0.006" satescvel="0.08" satinclax="32" satmagfld="0" satalbe="0"/>
+               <satgeophysdata sattype="ootSatellite_Icy_Callisto" satdiam="4121.6" satdens="3309" satmass="0.003115" satgrav="0.006" satescvel="0.08" satinclax="32" satmagfld="0" satalbe="0"/>
                <satecosdata satenvtype="etRestricted" satatmpres="1000" satcloudscov="60" atmprimgasvol="0" atmH2="0" atmHe="0" atmCH4="0" atmNH3="0" atmH2O="0" atmNe="0" atmN2="0" atmCO="0" atmNO="0" atmO2="0" atmH2S="0" atmAr="0" atmCO2="0" atmNO2="0" atmO3="0" atmSO2="0" hydroTp="htVapor" hydroArea="30"/>
                <satregions>
                   <region soiltp="rst01rockDes" relief="rr1plain" climate="rc07coldArid" mtdmin="210.04" mtdint="251.99" mtdmax="313.36" wndspd="32.24" precip="95" emo="1.5">
@@ -465,14 +420,14 @@ Climate= ,rc01vhotHumid
             </satobj>
          </orbobj>
          <orbobj ootoken="orbobjAcentA5">
-            <orbobjorbdata oodist="1.97" ooecc="0.086" ooorbzne="zoneOuter" oorevol="990" oorevevinit="89" oogravsphrad="17486173.5"/>      
+            <orbobjorbdata oodist="1.97" ooecc="0.086" ooorbzne="hzOuter" oorevol="990" oorevevinit="89" oogravsphrad="17486173.5"/>      
             <orbperlist>
                <orbper optype="optClosest" opstrt="1" opend="247" opmtemp="178.81"/>
                <orbper optype="optInterm" opstrt="248" opend="494" opmtemp="170.95"/>
                <orbper optype="optFarest" opstrt="495" opend="741" opmtemp="164.04"/>
                <orbper optype="optInterm" opstrt="742" opend="988" opmtemp="170.95"/>
             </orbperlist>
-            <orbobjgeophysdata ootype="oobtpPlan_Jovian_Jupiter" oodiam="135300" oodens="1408" oomass="305.5513" oograv="2.713" ooescvel="60.01" oorotper="16.87" ooinclax="27" oomagfld="0.461" ooalbe="0.55"/>
+            <orbobjgeophysdata ootype="ootPlanet_Jovian" oodiam="135300" oodens="1408" oomass="305.5513" oograv="2.713" ooescvel="60.01" oorotper="16.87" ooinclax="27" oomagfld="0.461" ooalbe="0.55"/>
             <orbobjecosdata ooenvtype="etGaseous" ooatmpres="1" oocloudscov="0" atmprimgasvol="61" atmH2="3" atmHe="3" atmCH4="2" atmNH3="2" atmH2O="2" atmNe="2" atmN2="2" atmCO="2" atmNO="2" atmO2="2" atmH2S="2" atmAr="2" atmCO2="2" atmNO2="2" atmO3="2" atmSO2="2" hydroTp="htNone" hydroArea="0"/>
             <satobj sattoken="satAcentA5t01">
                <satorbdata satdist="681.3" satrevol="1" satrevinit="1" satgravsphrad="1274.9"/>      
@@ -482,7 +437,7 @@ Climate= ,rc01vhotHumid
                   <orbper optype="optFarest" opstrt="495" opend="741" opmtemp="164.04"/>
                   <orbper optype="optInterm" opstrt="742" opend="988" opmtemp="170.95"/>
                </orbperlist>
-               <satgeophysdata sattype="oobtpSat_Aster_Icy" satdiam="121.6" satdens="3309" satmass="0.003115" satgrav="0.006" satescvel="0.08" satinclax="32" satmagfld="0" satalbe="0"/>
+               <satgeophysdata sattype="ootSatellite_Asteroid_Icy" satdiam="121.6" satdens="3309" satmass="0.003115" satgrav="0.006" satescvel="0.08" satinclax="32" satmagfld="0" satalbe="0"/>
                <satecosdata satenvtype="etSpace" satatmpres="0" satcloudscov="0" atmprimgasvol="0" atmH2="0" atmHe="0" atmCH4="0" atmNH3="0" atmH2O="0" atmNe="0" atmN2="0" atmCO="0" atmNO="0" atmO2="0" atmH2S="0" atmAr="0" atmCO2="0" atmNO2="0" atmO3="0" atmSO2="0" hydroTp="htNone" hydroArea="0"/>
                <satregions>
                   <region soiltp="rst01rockDes" relief="rr1plain" climate="rc07coldArid" mtdmin="210.04" mtdint="251.99" mtdmax="313.36" wndspd="32.24" precip="95" emo="1.5">
@@ -503,7 +458,7 @@ Climate= ,rc01vhotHumid
                   <orbper optype="optFarest" opstrt="495" opend="741" opmtemp="164.04"/>
                   <orbper optype="optInterm" opstrt="742" opend="988" opmtemp="170.95"/>
                </orbperlist>
-               <satgeophysdata sattype="oobtpSat_Icy_Europe" satdiam="3000.6" satdens="3309" satmass="0.003115" satgrav="0.006" satescvel="0.08" satinclax="32" satmagfld="0" satalbe="0"/>
+               <satgeophysdata sattype="ootSatellite_Icy_Europa" satdiam="3000.6" satdens="3309" satmass="0.003115" satgrav="0.006" satescvel="0.08" satinclax="32" satmagfld="0" satalbe="0"/>
                <satecosdata satenvtype="etRestricted" satatmpres="1000" satcloudscov="80" atmprimgasvol="0" atmH2="0" atmHe="0" atmCH4="0" atmNH3="0" atmH2O="0" atmNe="0" atmN2="0" atmCO="0" atmNO="0" atmO2="0" atmH2S="0" atmAr="0" atmCO2="0" atmNO2="0" atmO3="0" atmSO2="0" hydroTp="htLiqCH4" hydroArea="30"/>
                <satregions>
                   <region soiltp="rst01rockDes" relief="rr1plain" climate="rc07coldArid" mtdmin="210.04" mtdint="251.99" mtdmax="313.36" wndspd="32.24" precip="95" emo="1.5">
@@ -518,14 +473,14 @@ Climate= ,rc01vhotHumid
             </satobj>
          </orbobj>
          <orbobj ootoken="orbobjAcentA6">
-            <orbobjorbdata oodist="2.96" ooecc="0.018" ooorbzne="zoneOuter" oorevol="1823" oorevevinit="91" oogravsphrad="17633091.4"/>      
+            <orbobjorbdata oodist="2.96" ooecc="0.018" ooorbzne="hzOuter" oorevol="1823" oorevevinit="91" oogravsphrad="17633091.4"/>      
             <orbperlist>
                <orbper optype="optClosest" opstrt="1" opend="455" opmtemp="147.97"/>
                <orbper optype="optInterm" opstrt="456" opend="910" opmtemp="146.63"/>
                <orbper optype="optFarest" opstrt="911" opend="1365" opmtemp="145.33"/>
                <orbper optype="optInterm" opstrt="1366" opend="1820" opmtemp="146.63"/>
             </orbperlist>
-            <orbobjgeophysdata ootype="oobtpPlan_Gas_Saturn" oodiam="89800" oodens="1777" oomass="112.7469" oograv="2.272" ooescvel="44.74" oorotper="13.76" ooinclax="11" oomagfld="1.23" ooalbe="0.45"/>
+            <orbobjgeophysdata ootype="ootPlanet_Gaseous_Saturn" oodiam="89800" oodens="1777" oomass="112.7469" oograv="2.272" ooescvel="44.74" oorotper="13.76" ooinclax="11" oomagfld="1.23" ooalbe="0.45"/>
             <orbobjecosdata ooenvtype="etGaseous" ooatmpres="1" oocloudscov="0" atmprimgasvol="67" atmH2="3" atmHe="3" atmCH4="2" atmNH3="2" atmH2O="2" atmNe="2" atmN2="2" atmCO="2" atmNO="2" atmO2="2" atmH2S="2" atmAr="2" atmCO2="2" atmNO2="2" atmO3="2" atmSO2="2" hydroTp="htNone" hydroArea="0"/>
          </orbobj>
       </star>

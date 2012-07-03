@@ -856,7 +856,7 @@ interface
                RS_MQC: extended;
                RS_SpotSizeCur: integer;
                RS_SpotSizeMax: integer;
-               case RS_type: TFCEduRsrcSpotType of
+               case RS_type: TFCEduResourceSpotTypes of
                   rstIcyOreField: ();
 
                   rstOreField: (

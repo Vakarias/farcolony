@@ -106,7 +106,7 @@ var
 //===================================================END OF INIT============================
 
 function FCFuiSP_EcoDataAtmosphere_Process(
-   const SEAPlist: TFCEatmGasStat;
+   const SEAPlist: TFCEduAtmosphericGasStatus;
    const SEAPoobjIdx
          ,SEAPsatIdx: integer
    ): string;
@@ -132,65 +132,65 @@ var
    ,SEAPgasCO2
    ,SEAPgasNO2
    ,SEAPgasO3
-   ,SEAPgasSO2: TFCEatmGasStat;
+   ,SEAPgasSO2: TFCEduAtmosphericGasStatus;
 begin
    SAEPres:='';
    SAEPisNxtCol:=false;
    if SEAPsatIdx=0
    then
    begin
-      SEAPgasH2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_atmosph.agasH2;
-      SEAPgasHe:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_atmosph.agasHe;
-      SEAPgasCH4:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_atmosph.agasCH4;
-      SEAPgasNH3:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_atmosph.agasNH3;
-      SEAPgasH2O:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_atmosph.agasH2O;
-      SEAPgasNe:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_atmosph.agasNe;
-      SEAPgasN2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_atmosph.agasN2;
-      SEAPgasCO:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_atmosph.agasCO;
-      SEAPgasNO:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_atmosph.agasNO;
-      SEAPgasO2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_atmosph.agasO2;
-      SEAPgasH2S:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_atmosph.agasH2S;
-      SEAPgasAr:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_atmosph.agasAr;
-      SEAPgasCO2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_atmosph.agasCO2;
-      SEAPgasNO2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_atmosph.agasNO2;
-      SEAPgasO3:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_atmosph.agasO3;
-      SEAPgasSO2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_atmosph.agasSO2;
+      SEAPgasH2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_atmosph.AC_gasPresenceH2;
+      SEAPgasHe:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_atmosph.AC_gasPresenceHe;
+      SEAPgasCH4:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_atmosph.AC_gasPresenceCH4;
+      SEAPgasNH3:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_atmosph.AC_gasPresenceNH3;
+      SEAPgasH2O:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_atmosph.AC_gasPresenceH2O;
+      SEAPgasNe:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_atmosph.AC_gasPresenceNe;
+      SEAPgasN2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_atmosph.AC_gasPresenceN2;
+      SEAPgasCO:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_atmosph.AC_gasPresenceCO;
+      SEAPgasNO:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_atmosph.AC_gasPresenceNO;
+      SEAPgasO2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_atmosph.AC_gasPresenceO2;
+      SEAPgasH2S:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_atmosph.AC_gasPresenceH2S;
+      SEAPgasAr:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_atmosph.AC_gasPresenceAr;
+      SEAPgasCO2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_atmosph.AC_gasPresenceCO2;
+      SEAPgasNO2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_atmosph.AC_gasPresenceNO2;
+      SEAPgasO3:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_atmosph.AC_gasPresenceO3;
+      SEAPgasSO2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_atmosph.AC_gasPresenceSO2;
    end
    else if SEAPsatIdx>0
    then
    begin
       SEAPgasH2
-         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satList[SEAPsatIdx].OOS_atmosph.agasH2;
+         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satList[SEAPsatIdx].OOS_atmosph.AC_gasPresenceH2;
       SEAPgasHe
-         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satList[SEAPsatIdx].OOS_atmosph.agasHe;
+         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satList[SEAPsatIdx].OOS_atmosph.AC_gasPresenceHe;
       SEAPgasCH4
-         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satList[SEAPsatIdx].OOS_atmosph.agasCH4;
+         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satList[SEAPsatIdx].OOS_atmosph.AC_gasPresenceCH4;
       SEAPgasNH3
-         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satList[SEAPsatIdx].OOS_atmosph.agasNH3;
+         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satList[SEAPsatIdx].OOS_atmosph.AC_gasPresenceNH3;
       SEAPgasH2O
-         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satList[SEAPsatIdx].OOS_atmosph.agasH2O;
+         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satList[SEAPsatIdx].OOS_atmosph.AC_gasPresenceH2O;
       SEAPgasNe
-         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satList[SEAPsatIdx].OOS_atmosph.agasNe;
+         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satList[SEAPsatIdx].OOS_atmosph.AC_gasPresenceNe;
       SEAPgasN2
-         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satList[SEAPsatIdx].OOS_atmosph.agasN2;
+         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satList[SEAPsatIdx].OOS_atmosph.AC_gasPresenceN2;
       SEAPgasCO
-         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satList[SEAPsatIdx].OOS_atmosph.agasCO;
+         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satList[SEAPsatIdx].OOS_atmosph.AC_gasPresenceCO;
       SEAPgasNO
-         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satList[SEAPsatIdx].OOS_atmosph.agasNO;
+         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satList[SEAPsatIdx].OOS_atmosph.AC_gasPresenceNO;
       SEAPgasO2
-         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satList[SEAPsatIdx].OOS_atmosph.agasO2;
+         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satList[SEAPsatIdx].OOS_atmosph.AC_gasPresenceO2;
       SEAPgasH2S
-         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satList[SEAPsatIdx].OOS_atmosph.agasH2S;
+         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satList[SEAPsatIdx].OOS_atmosph.AC_gasPresenceH2S;
       SEAPgasAr
-         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satList[SEAPsatIdx].OOS_atmosph.agasAr;
+         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satList[SEAPsatIdx].OOS_atmosph.AC_gasPresenceAr;
       SEAPgasCO2
-         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satList[SEAPsatIdx].OOS_atmosph.agasCO2;
+         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satList[SEAPsatIdx].OOS_atmosph.AC_gasPresenceCO2;
       SEAPgasNO2
-         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satList[SEAPsatIdx].OOS_atmosph.agasNO2;
+         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satList[SEAPsatIdx].OOS_atmosph.AC_gasPresenceNO2;
       SEAPgasO3
-         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satList[SEAPsatIdx].OOS_atmosph.agasO3;
+         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satList[SEAPsatIdx].OOS_atmosph.AC_gasPresenceO3;
       SEAPgasSO2
-         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satList[SEAPsatIdx].OOS_atmosph.agasSO2;
+         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satList[SEAPsatIdx].OOS_atmosph.AC_gasPresenceSO2;
    end;
    {.for hydrogen}
    if SEAPgasH2=SEAPlist
@@ -984,7 +984,7 @@ var
    ,SESdmpToken
    ,SESdmpStrDat: string;
 
-   SESdmpTp: TFCEduOobjTp;
+   SESdmpTp: TFCEduOrbitalObjectTypes;
    SESdmpHydr: TFCEhydroTp;
 begin
    with FCWinMain do
@@ -1051,7 +1051,7 @@ begin
             SESdmpStrDat:=FCFuiSP_EcoDataAtmosphere_Process(agsMain, SESoobjIdx, SESsatIdx);
             FCWM_SPShEcos_Lab.HTMLText.Add(SESdmpStrDat);
             FCWM_SPShEcos_Lab.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI, 'secpGasS'));
-            SESdmpStrDat:=FCFuiSP_EcoDataAtmosphere_Process(agsSec, SESoobjIdx, SESsatIdx);
+            SESdmpStrDat:=FCFuiSP_EcoDataAtmosphere_Process(agsSecondary, SESoobjIdx, SESsatIdx);
             FCWM_SPShEcos_Lab.HTMLText.Add(SESdmpStrDat);
             FCWM_SPShEcos_Lab.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI, 'secpGasT'));
             SESdmpStrDat:=FCFuiSP_EcoDataAtmosphere_Process(agsTrace, SESoobjIdx, SESsatIdx);
@@ -1110,8 +1110,8 @@ begin
                   );
          end; //==END== case SESdmpHydr ==//
          {.set the ecosphere panel if it's a gaseous planet}
-         if (SESdmpTp>oobtpPlan_Icy_CallistoH3H4Atm0)
-            and (SESdmpTp<oobtpSat_Aster_Metall)
+         if (SESdmpTp>ootPlanet_Icy_CallistoH3H4Atm0)
+            and (SESdmpTp<ootSatellite_Asteroid_Metallic)
          then
          begin
             {.set interface}
@@ -1498,17 +1498,17 @@ begin
             end; //==END== if (SESdmpTtlReg>0) and (HotSpots.Count<>SESdmpTtlReg) ==//
             {.load the surface picture}
             case SESdmpTp of
-               oobtpAster_Metall: FCWM_SP_Surface.Picture.LoadFromFile(FCVdiPathResourceDir+'pics-ogl-oobj-std\aster_metal.jpg');
-               oobtpAster_Sili: FCWM_SP_Surface.Picture.LoadFromFile(FCVdiPathResourceDir+'pics-ogl-oobj-std\aster_sili.jpg');
-               oobtpAster_Carbo:FCWM_SP_Surface.Picture.LoadFromFile(FCVdiPathResourceDir+'pics-ogl-oobj-std\aster_carb.jpg');
-               oobtpAster_Icy: FCWM_SP_Surface.Picture.LoadFromFile(FCVdiPathResourceDir+'pics-ogl-oobj-std\aster_icy.jpg');
-               oobtpPlan_Tellu_EarthH0H1..oobtpPlan_Tellu_VenusH4:
+               ootAsteroid_Metallic: FCWM_SP_Surface.Picture.LoadFromFile(FCVdiPathResourceDir+'pics-ogl-oobj-std\aster_metal.jpg');
+               ootAsteroid_Silicate: FCWM_SP_Surface.Picture.LoadFromFile(FCVdiPathResourceDir+'pics-ogl-oobj-std\aster_sili.jpg');
+               ootAsteroid_Carbonaceous:FCWM_SP_Surface.Picture.LoadFromFile(FCVdiPathResourceDir+'pics-ogl-oobj-std\aster_carb.jpg');
+               ootAsteroid_Icy: FCWM_SP_Surface.Picture.LoadFromFile(FCVdiPathResourceDir+'pics-ogl-oobj-std\aster_icy.jpg');
+               ootPlanet_Telluric_EarthH0H1..ootPlanet_Telluric_VenusH4:
                begin
                   if FileExists(FCVdiPathResourceDir+'pics-ogl-oobj-pers\'+SESdmpToken+'.jpg')
                   then FCWM_SP_Surface.Picture.LoadFromFile(FCVdiPathResourceDir+'pics-ogl-oobj-pers\'+SESdmpToken+'.jpg')
                   else FCWM_SP_Surface.Picture.LoadFromFile(FCVdiPathResourceDir+'pics-ogl-oobj-pers\_error_map.jpg');
                end;
-               oobtpPlan_Tellu_MercuH0..oobtpPlan_Icy_CallistoH3H4Atm0:
+               ootPlanet_Telluric_MercuryH0..ootPlanet_Icy_CallistoH3H4Atm0:
                begin
                   try
                      SESdmpIdx:=FCFoglInit_StdTexIdx_Get(FC3DobjPlan[FCV3DselOobj].Material.LibMaterialName);
@@ -1518,17 +1518,17 @@ begin
                      FCWM_SP_Surface.Picture.LoadFromFile(FCVdiPathConfigFile+'swap.jpg');
                   end;
                end;
-               oobtpSat_Aster_Metall: FCWM_SP_Surface.Picture.LoadFromFile(FCVdiPathResourceDir+'pics-ogl-oobj-std\aster_metal.jpg');
-               oobtpSat_Aster_Sili: FCWM_SP_Surface.Picture.LoadFromFile(FCVdiPathResourceDir+'pics-ogl-oobj-std\aster_sili.jpg');
-               oobtpSat_Aster_Carbo: FCWM_SP_Surface.Picture.LoadFromFile(FCVdiPathResourceDir+'pics-ogl-oobj-std\aster_carb.jpg');
-               oobtpSat_Aster_Icy: FCWM_SP_Surface.Picture.LoadFromFile(FCVdiPathResourceDir+'pics-ogl-oobj-std\aster_icy.jpg');
-               oobtpSat_Tellu_Titan..oobtpSat_Tellu_Earth:
+               ootSatellite_Asteroid_Metallic: FCWM_SP_Surface.Picture.LoadFromFile(FCVdiPathResourceDir+'pics-ogl-oobj-std\aster_metal.jpg');
+               ootSatellite_Asteroid_Silicate: FCWM_SP_Surface.Picture.LoadFromFile(FCVdiPathResourceDir+'pics-ogl-oobj-std\aster_sili.jpg');
+               ootSatellite_Asteroid_Carbonaceous: FCWM_SP_Surface.Picture.LoadFromFile(FCVdiPathResourceDir+'pics-ogl-oobj-std\aster_carb.jpg');
+               ootSatellite_Asteroid_Icy: FCWM_SP_Surface.Picture.LoadFromFile(FCVdiPathResourceDir+'pics-ogl-oobj-std\aster_icy.jpg');
+               ootSatellite_Telluric_Titan..ootSatellite_Telluric_Earth:
                begin
                   if FileExists(FCVdiPathResourceDir+'pics-ogl-oobj-pers\'+SESdmpToken+'.jpg')
                   then FCWM_SP_Surface.Picture.LoadFromFile(FCVdiPathResourceDir+'pics-ogl-oobj-pers\'+SESdmpToken+'.jpg')
                   else FCWM_SP_Surface.Picture.LoadFromFile(FCVdiPathResourceDir+'pics-ogl-oobj-pers\_error_map.jpg');
                end;
-               oobtpSat_Tellu_Lunar..oobtpSat_Tellu_Io, oobtpSat_Icy_Pluto..oobtpSat_Icy_Callisto:
+               ootSatellite_Telluric_Lunar..ootSatellite_Telluric_Io, ootSatellite_Icy_Pluto..ootSatellite_Icy_Callisto:
                begin
                   try
                      fcwinmain.caption:=inttostr(FCV3DselSat);
@@ -1552,7 +1552,7 @@ begin
       then
       begin
          FCWM_SurfPanel.Visible:=false;
-         SESdmpTp:=oobtpAster_Metall;
+         SESdmpTp:=ootAsteroid_Metallic;
          SESdmpTtlReg:=4;
          FCWM_SurfPanel.Caption.Text:='';
          SPcurrentOObjIndex:=0;

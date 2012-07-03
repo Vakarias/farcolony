@@ -775,22 +775,22 @@ begin
             case FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[M3DVUIUsatPlanIdx]
                .OO_satList[M3DVUIUsatIdx].OOS_type
             of
-               oobtpSat_Aster_Metall:
+               ootSatellite_Asteroid_Metallic:
                   FCWinMain.FCGLSHUDobobjObjTp.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'oobtpAster_Metall');
-               oobtpSat_Aster_Sili:
+               ootSatellite_Asteroid_Silicate:
                   FCWinMain.FCGLSHUDobobjObjTp.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'oobtpAster_Sili');
-               oobtpSat_Aster_Carbo:
+               ootSatellite_Asteroid_Carbonaceous:
                   FCWinMain.FCGLSHUDobobjObjTp.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'oobtpAster_Carbo');
-               oobtpSat_Aster_Icy:
+               ootSatellite_Asteroid_Icy:
                   FCWinMain.FCGLSHUDobobjObjTp.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'oobtpAster_Icy');
-               oobtpSat_Tellu_Lunar
-               , oobtpSat_Tellu_Io
-               , oobtpSat_Tellu_Titan
-               , oobtpSat_Tellu_Earth:
+               ootSatellite_Telluric_Lunar
+               , ootSatellite_Telluric_Io
+               , ootSatellite_Telluric_Titan
+               , ootSatellite_Telluric_Earth:
                   FCWinMain.FCGLSHUDobobjObjTp.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'oobtpPlan_Tellu');
-               oobtpSat_Icy_Pluto
-               , oobtpSat_Icy_Europe
-               , oobtpSat_Icy_Callisto:
+               ootSatellite_Icy_Pluto
+               , ootSatellite_Icy_Europa
+               , ootSatellite_Icy_Callisto:
                   FCWinMain.FCGLSHUDobobjObjTp.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'oobtpPlan_Icy');
             end;
             {.diameter}
@@ -806,9 +806,9 @@ begin
             {.mass}
             FCWinMain.FCGLSHUDobobjMassLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIoobjMass');
             if (FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[M3DVUIUsatPlanIdx]
-               .OO_satList[M3DVUIUsatIdx].OOS_type>oobtpSat_Aster_Icy)
+               .OO_satList[M3DVUIUsatIdx].OOS_type>ootSatellite_Asteroid_Icy)
             and (FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[M3DVUIUsatPlanIdx]
-               .OO_satList[M3DVUIUsatIdx].OOS_type<oobtpRing_Metall)
+               .OO_satList[M3DVUIUsatIdx].OOS_type<ootRing_Metallic)
             then FCWinMain.FCGLSHUDobobjMass.Text:=FloatToStr(FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar]
                .SDB_obobj[M3DVUIUsatPlanIdx].OO_satList[M3DVUIUsatIdx].OOS_mass)
             else FCWinMain.FCGLSHUDobobjMass.Text
@@ -916,9 +916,9 @@ begin
             {DEV NOTE: for sat use mother's planet zone.}
             FCWinMain.FCGLSHUDobobjZoneLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIoobjOrbZone');
             case FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[FCV3DselOobj].OO_orbZone of
-               zoneInner: FCWinMain.FCGLSHUDobobjZone.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'zoneInner');
-               zoneInterm: FCWinMain.FCGLSHUDobobjZone.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'zoneInterm');
-               zoneOuter: FCWinMain.FCGLSHUDobobjZone.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'zoneOuter');
+               hzInner: FCWinMain.FCGLSHUDobobjZone.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'zoneInner');
+               hzIntermediary: FCWinMain.FCGLSHUDobobjZone.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'zoneInterm');
+               hzOuter: FCWinMain.FCGLSHUDobobjZone.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'zoneOuter');
             end;
             {.revolution period}
             {DEV NOTE: add rev period for rings and protoplanetary disk later.
@@ -932,17 +932,17 @@ begin
             FCWinMain.FCGLSHUDobobjRotPerLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIoobjRotPer');
             if (FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[FCV3DselOobj].OO_rotPer=0)
                and (FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[FCV3DselOobj].OO_type
-                  >oobtpAsterBelt_Icy)
+                  >ootAsteroidsBelt_Icy)
                and (FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[FCV3DselOobj].OO_type
-                  <oobtpRing_Metall)
+                  <ootRing_Metallic)
             then FCWinMain.FCGLSHUDobobjRotPer.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIoobjTidLckd')
             else if (FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[FCV3DselOobj].OO_rotPer=0)
                and (
                      (FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[FCV3DselOobj].OO_type
-                        <oobtpAster_Metall)
+                        <ootAsteroid_Metallic)
                      or
                      (FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[FCV3DselOobj].OO_type
-                        >oobtpPlan_Icy_CallistoH3H4Atm0)
+                        >ootPlanet_Icy_CallistoH3H4Atm0)
                   )
             then FCWinMain.FCGLSHUDobobjRotPer.Text:='N/A'
             else FCWinMain.FCGLSHUDobobjRotPer.Text
@@ -961,39 +961,39 @@ begin
             {.a reminder for complete types not implemented}
             FCWinMain.FCGLSHUDobobjObjTp.Text:='N/A';
             case FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[FCV3DselOobj].OO_type of
-               oobtpProtoDisk: FCWinMain.FCGLSHUDobobjObjTp.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'oobtpProtoDisk');
-               oobtpAsterBelt_Metall: FCWinMain.FCGLSHUDobobjObjTp.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'oobtpAsterBelt_Metall');
-               oobtpAsterBelt_Sili: FCWinMain.FCGLSHUDobobjObjTp.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'oobtpAsterBelt_Sili');
-               oobtpAsterBelt_Carbo: FCWinMain.FCGLSHUDobobjObjTp.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'oobtpAsterBelt_Carbo');
-               oobtpAsterBelt_Icy: FCWinMain.FCGLSHUDobobjObjTp.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'oobtpAsterBelt_Icy');
-               oobtpAster_Metall: FCWinMain.FCGLSHUDobobjObjTp.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'oobtpAster_Metall');
-               oobtpAster_Sili: FCWinMain.FCGLSHUDobobjObjTp.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'oobtpAster_Sili');
-               oobtpAster_Carbo: FCWinMain.FCGLSHUDobobjObjTp.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'oobtpAster_Carbo');
-               oobtpAster_Icy: FCWinMain.FCGLSHUDobobjObjTp.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'oobtpAster_Icy');
-               oobtpPlan_Tellu_EarthH0H1
-               ,oobtpPlan_Tellu_EarthH2
-               ,oobtpPlan_Tellu_EarthH3
-               ,oobtpPlan_Tellu_EarthH4
-               ,oobtpPlan_Tellu_MarsH0H1
-               ,oobtpPlan_Tellu_MarsH2
-               ,oobtpPlan_Tellu_MarsH3
-               ,oobtpPlan_Tellu_MarsH4
-               ,oobtpPlan_Tellu_VenusH0H1
-               ,oobtpPlan_Tellu_VenusH2
-               ,oobtpPlan_Tellu_VenusH3
-               ,oobtpPlan_Tellu_VenusH4
-               ,oobtpPlan_Tellu_MercuH0
-               ,oobtpPlan_Tellu_MercuH3
-               ,oobtpPlan_Tellu_MercuH4:
+               ootProtoplanetaryDisk: FCWinMain.FCGLSHUDobobjObjTp.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'oobtpProtoDisk');
+               ootAsteroidsBelt_Metallic: FCWinMain.FCGLSHUDobobjObjTp.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'oobtpAsterBelt_Metall');
+               ootAsteroidsBelt_Silicate: FCWinMain.FCGLSHUDobobjObjTp.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'oobtpAsterBelt_Sili');
+               ootAsteroidsBelt_Carbonaceous: FCWinMain.FCGLSHUDobobjObjTp.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'oobtpAsterBelt_Carbo');
+               ootAsteroidsBelt_Icy: FCWinMain.FCGLSHUDobobjObjTp.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'oobtpAsterBelt_Icy');
+               ootAsteroid_Metallic: FCWinMain.FCGLSHUDobobjObjTp.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'oobtpAster_Metall');
+               ootAsteroid_Silicate: FCWinMain.FCGLSHUDobobjObjTp.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'oobtpAster_Sili');
+               ootAsteroid_Carbonaceous: FCWinMain.FCGLSHUDobobjObjTp.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'oobtpAster_Carbo');
+               ootAsteroid_Icy: FCWinMain.FCGLSHUDobobjObjTp.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'oobtpAster_Icy');
+               ootPlanet_Telluric_EarthH0H1
+               ,ootPlanet_Telluric_EarthH2
+               ,ootPlanet_Telluric_EarthH3
+               ,ootPlanet_Telluric_EarthH4
+               ,ootPlanet_Telluric_MarsH0H1
+               ,ootPlanet_Telluric_MarsH2
+               ,ootPlanet_Telluric_MarsH3
+               ,ootPlanet_Telluric_MarsH4
+               ,ootPlanet_Telluric_VenusH0H1
+               ,ootPlanet_Telluric_VenusH2
+               ,ootPlanet_Telluric_VenusH3
+               ,ootPlanet_Telluric_VenusH4
+               ,ootPlanet_Telluric_MercuryH0
+               ,ootPlanet_Telluric_MercuryH3
+               ,ootPlanet_Telluric_MercuryH4:
                   FCWinMain.FCGLSHUDobobjObjTp.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'oobtpPlan_Tellu');
-               oobtpPlan_Icy_PlutoH3: FCWinMain.FCGLSHUDobobjObjTp.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'oobtpPlan_Icy');
-               oobtpPlan_Icy_EuropeH4: FCWinMain.FCGLSHUDobobjObjTp.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'oobtpPlan_Icy');
-               oobtpPlan_Icy_CallistoH3H4Atm0: FCWinMain.FCGLSHUDobobjObjTp.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'oobtpPlan_Icy');
-               oobtpPlan_Gas_Uranus: FCWinMain.FCGLSHUDobobjObjTp.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'oobtpPlan_Gas');
-               oobtpPlan_Gas_Neptun: FCWinMain.FCGLSHUDobobjObjTp.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'oobtpPlan_Gas');
-               oobtpPlan_Gas_Saturn: FCWinMain.FCGLSHUDobobjObjTp.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'oobtpPlan_GasGiant');
-               oobtpPlan_Jovian_Jupiter: FCWinMain.FCGLSHUDobobjObjTp.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'oobtpPlan_Jovian');
-               oobtpPlan_Supergiant1: FCWinMain.FCGLSHUDobobjObjTp.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'oobtpPlan_SuperGiant');
+               ootPlanet_Icy_PlutoH3: FCWinMain.FCGLSHUDobobjObjTp.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'oobtpPlan_Icy');
+               ootPlanet_Icy_EuropaH4: FCWinMain.FCGLSHUDobobjObjTp.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'oobtpPlan_Icy');
+               ootPlanet_Icy_CallistoH3H4Atm0: FCWinMain.FCGLSHUDobobjObjTp.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'oobtpPlan_Icy');
+               ootPlanet_Gaseous_Uranus: FCWinMain.FCGLSHUDobobjObjTp.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'oobtpPlan_Gas');
+               ootPlanet_Gaseous_Neptune: FCWinMain.FCGLSHUDobobjObjTp.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'oobtpPlan_Gas');
+               ootPlanet_Gaseous_Saturn: FCWinMain.FCGLSHUDobobjObjTp.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'oobtpPlan_GasGiant');
+               ootPlanet_Jovian: FCWinMain.FCGLSHUDobobjObjTp.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'oobtpPlan_Jovian');
+               ootPlanet_Supergiant: FCWinMain.FCGLSHUDobobjObjTp.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'oobtpPlan_SuperGiant');
             end; {.case FCDBStarSys[CFVstarSysIdDB].SS_star[CFVstarIdDB]
                .SDB_obobj[FCV3dMVorbObjSlctd].OO_type}
             {.diameter}
@@ -1006,8 +1006,8 @@ begin
                :=FloatToStr(FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[FCV3DselOobj].OO_dens)+' Kg';
             {.mass}
             FCWinMain.FCGLSHUDobobjMassLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIoobjMass');
-            if (FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[FCV3DselOobj].OO_type>oobtpAster_Icy)
-               and (FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[FCV3DselOobj].OO_type<oobtpSat_Aster_Metall)
+            if (FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[FCV3DselOobj].OO_type>ootAsteroid_Icy)
+               and (FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[FCV3DselOobj].OO_type<ootSatellite_Asteroid_Metallic)
             then FCWinMain.FCGLSHUDobobjMass.Text:=FloatToStr(FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar]
                   .SDB_obobj[FCV3DselOobj].OO_mass)
             else FCWinMain.FCGLSHUDobobjMass.Text

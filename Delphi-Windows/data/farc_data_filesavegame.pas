@@ -434,8 +434,8 @@ begin
                   begin
                      inc(GLsubCnt1);
                      SetLength(FCRplayer.P_surveyedSpots[GLcount].SS_surveyedRegions[GLsubCnt].SR_ResourceSpot, GLsubCnt1+1);
-                     GLenumIndex:=GetEnumValue(TypeInfo(TFCEduRsrcSpotType), GLxmlSurveyRSpot.Attributes['spotType'] );
-                     FCRplayer.P_surveyedSpots[GLcount].SS_surveyedRegions[GLsubCnt].SR_ResourceSpot[GLsubCnt1].RS_type:=TFCEduRsrcSpotType(GLenumIndex);
+                     GLenumIndex:=GetEnumValue(TypeInfo(TFCEduResourceSpotTypes), GLxmlSurveyRSpot.Attributes['spotType'] );
+                     FCRplayer.P_surveyedSpots[GLcount].SS_surveyedRegions[GLsubCnt].SR_ResourceSpot[GLsubCnt1].RS_type:=TFCEduResourceSpotTypes(GLenumIndex);
                      if GLenumIndex=-1
                      then raise Exception.Create('bad gamesave loading w/rsrc spot type: '+GLxmlSurveyRSpot.Attributes['spotType'])
                      else if GLenumIndex>0 then
@@ -1297,7 +1297,7 @@ begin
                begin
                   GSxmlSurveyRSpot:=GSxmlSurveyRegion.AddChild('gfRsrcSpot');
                   GSxmlSurveyRSpot.Attributes['spotType']
-                     :=GetEnumName(TypeInfo(TFCEduRsrcSpotType), Integer(FCRplayer.P_surveyedSpots[GScount].SS_surveyedRegions[GSsubCount].SR_ResourceSpot[GSsubCount1].RS_type));
+                     :=GetEnumName(TypeInfo(TFCEduResourceSpotTypes), Integer(FCRplayer.P_surveyedSpots[GScount].SS_surveyedRegions[GSsubCount].SR_ResourceSpot[GSsubCount1].RS_type));
                   GSxmlSurveyRSpot.Attributes['meanQualCoef']:=FCRplayer.P_surveyedSpots[GScount].SS_surveyedRegions[GSsubCount].SR_ResourceSpot[GSsubCount1].RS_MQC;
                   GSxmlSurveyRSpot.Attributes['spotSizCurr']:=FCRplayer.P_surveyedSpots[GScount].SS_surveyedRegions[GSsubCount].SR_ResourceSpot[GSsubCount1].RS_SpotSizeCur;
                   GSxmlSurveyRSpot.Attributes['spotSizeMax']:=FCRplayer.P_surveyedSpots[GScount].SS_surveyedRegions[GSsubCount].SR_ResourceSpot[GSsubCount1].RS_SpotSizeMax;

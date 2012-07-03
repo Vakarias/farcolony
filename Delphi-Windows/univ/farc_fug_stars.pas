@@ -37,9 +37,10 @@ uses
 
    ,farc_data_univ;
 
+{:DEV NOTES: move in implementation section.}
 type TFCRfsClassDat=record
    private
-   FSCD_class: TFCEduStarClass;
+   FSCD_class: TFCEduStarClasses;
    FSCD_temp: integer;
    FSCD_mass: extended;
    FSCD_diam: extended;

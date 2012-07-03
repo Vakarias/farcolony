@@ -51,7 +51,7 @@ function FCFgPRS_PresenceBySettlement_Check(
          ,IPIRCcolony
          ,IPIRCsettlement
          ,IPIRCownedInfra: integer;
-   const IPIRCrsrcSpot: TFCEduRsrcSpotType;
+   const IPIRCrsrcSpot: TFCEduResourceSpotTypes;
    const IPIRCcalculateLocation: boolean
    ): integer;
    {:DEV NOTES: ADD curr/max level TEST.}
@@ -91,7 +91,7 @@ function FCFgPRS_PresenceBySettlement_Check(
          ,IPIRCcolony
          ,IPIRCsettlement
          ,IPIRCownedInfra: integer;
-   const IPIRCrsrcSpot: TFCEduRsrcSpotType;
+   const IPIRCrsrcSpot: TFCEduResourceSpotTypes;
    const IPIRCcalculateLocation: boolean
    ): integer;
 {:Purpose: check if a given resource spot type is present (surveyed) by giving entity/colony and settlement #.

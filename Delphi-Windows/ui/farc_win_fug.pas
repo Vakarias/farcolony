@@ -150,7 +150,7 @@ begin
       {.stars}
       FCMfS_Data_Load(1);
       FCDBsSys[0].SS_star[1].SDB_token:=FUGmStartoken.Text;
-      FCDBsSys[0].SS_star[1].SDB_class:=TFCEduStarClass(FUGmStarClass.ItemIndex);
+      FCDBsSys[0].SS_star[1].SDB_class:=TFCEduStarClasses(FUGmStarClass.ItemIndex);
       if FUGmStarTemp.Text=''
       then FCDBsSys[0].SS_star[1].SDB_temp:=FCFfS_Temperature_Calc(1)
       else if FUGmStarTemp.Text<>''
@@ -176,7 +176,7 @@ begin
       then
       begin
          FCDBsSys[0].SS_star[2].SDB_token:=FUGcs1token.Text;
-         FCDBsSys[0].SS_star[2].SDB_class:=TFCEduStarClass(FUGcs1Class.ItemIndex);
+         FCDBsSys[0].SS_star[2].SDB_class:=TFCEduStarClasses(FUGcs1Class.ItemIndex);
          if FUGcs1Temp.Text=''
          then FCDBsSys[0].SS_star[2].SDB_temp:=FCFfS_Temperature_Calc(2)
          else if FUGcs1Temp.Text<>''
@@ -203,7 +203,7 @@ begin
          then
          begin
             FCDBsSys[0].SS_star[3].SDB_token:=FUGcs2token.Text;
-            FCDBsSys[0].SS_star[3].SDB_class:=TFCEduStarClass(FUGcs2Class.ItemIndex);
+            FCDBsSys[0].SS_star[3].SDB_class:=TFCEduStarClasses(FUGcs2Class.ItemIndex);
             if FUGcs2Temp.Text=''
             then FCDBsSys[0].SS_star[3].SDB_temp:=FCFfS_Temperature_Calc(3)
             else if FUGcs2Temp.Text<>''
