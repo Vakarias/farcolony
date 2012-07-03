@@ -173,6 +173,11 @@
       <EN></EN>
       <FR></FR>
    </infrHousesPack>
+   <infrHumidTrap>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </infrHumidTrap>
    <infrInflatGreen>
       <EN></EN>
       <FR></FR>
@@ -227,22 +232,18 @@
       <EN></EN>
       <FR></FR>
    </bioFruitsVeg>
-   <energNucFisRsm>
+   <energNucFisReactor1>
       <EN></EN>
       <FR></FR>
-   </energNucFisRsm>
-   <energNucFisRmed>
+   </energNucFisReactor1>
+   <energNucFisReactor2>
       <EN></EN>
       <FR></FR>
-   </energNucFisRmed>
-   <energNucFisRlg>
+   </energNucFisReactor2>
+   <energNucFisReactor3>
       <EN></EN>
       <FR></FR>
-   </energNucFisRlg>
-   <energNucFisRxl>
-      <EN></EN>
-      <FR></FR>
-   </energNucFisRxl>
+   </energNucFisReactor3>
    <energNucPellets>
       <EN></EN>
       <FR></FR>
@@ -284,6 +285,41 @@
       <FR></FR>
       <SP></SP>
    </equipHumidityTrap5>
+   <equipInflatGreen1>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </equipInflatGreen1>
+   <equipInflatGreen2>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </equipInflatGreen2>
+   <equipInflatGreen3>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </equipInflatGreen3>
+   <equipInflatHab1>
+      <EN>Inflatable Habitat [level 1]</EN>
+      <FR>Inflatable Habitat [niveau 1]</FR>
+      <SP></SP>
+   </equipInflatHab1>
+   <equipInflatHab2>
+      <EN>Inflatable Habitat [level 2]</EN>
+      <FR>Inflatable Habitat [niveau 2]</FR>
+      <SP></SP>
+   </equipInflatHab2>
+   <equipInflatHab3>
+      <EN>Inflatable Habitat [level 3]</EN>
+      <FR>Inflatable Habitat [niveau 3]</FR>
+      <SP></SP>
+   </equipInflatHab3>
+   <equipInflatHab4>
+      <EN>Inflatable Habitat [level 4]</EN>
+      <FR>Inflatable Habitat [niveau 4]</FR>
+      <SP></SP>
+   </equipInflatHab4>
    <equipMiningMachinery>
       <EN></EN>
       <FR></FR>
@@ -752,6 +788,7 @@
       <hintitem link="csmevUprising" title="CSM Event: Uprising"/>
       <hintitem link="infrColShelt" title="Infrastructure: Colonization Shelter"/>
       <hintitem link="infrHousesPack" title="Infrastructure: Houses Pack"/>
+      <hintitem link="infrHumidTrap" title="Infrastructure: Humidity Trap"/>
       <hintitem link="infrInflatGreen" title="Infrastructure: Inflatable Greenhouse"/>
       <hintitem link="infrInflatHab" title="Infrastructure: Inflatable Habitat"/>
       <hintitem link="infrMiningSite" title="Infrastructure: Mining Site"/>
@@ -821,28 +858,33 @@
       <hintitem link="equipHumidityTrap3" title="Product: Humidity Trap [level 3]"/>
       <hintitem link="equipHumidityTrap4" title="Product: Humidity Trap [level 4]"/>
       <hintitem link="equipHumidityTrap5" title="Product: Humidity Trap [level 5]"/>
+      <hintitem link="equipInflatGreen1" title="Product: Inflatable Greenhouse [level 1]"/>
+      <hintitem link="equipInflatGreen2" title="Product: Inflatable Greenhouse [level 2]"/>
+      <hintitem link="equipInflatGreen3" title="Product: Inflatable Greenhouse [level 3]"/>
+      <hintitem link="equipInflatHab1" title="Product: Inflatable Habitat [level 1]"/>
+      <hintitem link="equipInflatHab2" title="Product: Inflatable Habitat [level 2]"/>
+      <hintitem link="equipInflatHab3" title="Product: Inflatable Habitat [level 3]"/>
       <hintitem link="equipMiningMachinery" title="Product: Mining Machinery"/>
       <hintitem link="matMWNT" title="Product: Multi-Walled Nanotubes (MWNT)"/>
-      <hintitem link="equipMultiDepot1" title="Product: Multipurpose Depot Level 1"/>
-      <hintitem link="equipMultiDepot2" title="Product: Multipurpose Depot Level 2"/>
-      <hintitem link="equipMultiDepot3" title="Product: Multipurpose Depot Level 3"/>
-      <hintitem link="equipMultiDepot4" title="Product: Multipurpose Depot Level 4"/>
-      <hintitem link="equipMultiDepot5" title="Product: Multipurpose Depot Level 5"/>
+      <hintitem link="equipMultiDepot1" title="Product: Multipurpose Depot [level 1]"/>
+      <hintitem link="equipMultiDepot2" title="Product: Multipurpose Depot [level 2]"/>
+      <hintitem link="equipMultiDepot3" title="Product: Multipurpose Depot [level 3]"/>
+      <hintitem link="equipMultiDepot4" title="Product: Multipurpose Depot [level 4]"/>
+      <hintitem link="equipMultiDepot5" title="Product: Multipurpose Depot [level 5]"/>
       <hintitem link="matNanocomposites" title="Product: Nanocomposites"/>
-      <hintitem link="energNucFisRsm" title="Product: Nuclear Fission Reactor (small)"/>
-      <hintitem link="energNucFisRmed" title="Product: Nuclear Fission Reactor (medium)"/>
-      <hintitem link="energNucFisRlg" title="Product: Nuclear Fission Reactor (large)"/>
-      <hintitem link="energNucFisRxl" title="Product: Nuclear Fission Reactor (xlarge)"/>
+      <hintitem link="energNucFisReactor1" title="Product: Nuclear Fission Reactor [level 1]"/>
+      <hintitem link="energNucFisReactor2" title="Product: Nuclear Fission Reactor [level 2]"/>
+      <hintitem link="energNucFisReactor3" title="Product: Nuclear Fission Reactor [level 3]"/>
       <hintitem link="energNucPellets" title="Product: Nuclear Pellets"/>
       <hintitem link="matPlastics" title="Product: Plastics"/>
       <hintitem link="equipPowerTools" title="Product: Power Tools"/>
-      <hintitem link="equipPressTanksArr1" title="Product: Pressurized Tanks Array Level 1"/>
-      <hintitem link="equipPressTanksArr2" title="Product: Pressurized Tanks Array Level 2"/>
-      <hintitem link="equipPressTanksArr3" title="Product: Pressurized Tanks Array Level 3"/>
-      <hintitem link="equipPressTanksArr4" title="Product: Pressurized Tanks Array Level 4"/>
-      <hintitem link="equipPressTanksArr5" title="Product: Pressurized Tanks Array Level 5"/>
-      <hintitem link="equipPressTanksArr6" title="Product: Pressurized Tanks Array Level 6"/>
-      <hintitem link="equipPressTanksArr7" title="Product: Pressurized Tanks Array Level 7"/>
+      <hintitem link="equipPressTanksArr1" title="Product: Pressurized Tanks Array [level 1]"/>
+      <hintitem link="equipPressTanksArr2" title="Product: Pressurized Tanks Array [level 2]"/>
+      <hintitem link="equipPressTanksArr3" title="Product: Pressurized Tanks Array [level 3]"/>
+      <hintitem link="equipPressTanksArr4" title="Product: Pressurized Tanks Array [level 4]"/>
+      <hintitem link="equipPressTanksArr5" title="Product: Pressurized Tanks Array [level 5]"/>
+      <hintitem link="equipPressTanksArr6" title="Product: Pressurized Tanks Array [level 6]"/>
+      <hintitem link="equipPressTanksArr7" title="Product: Pressurized Tanks Array [level 7]"/>
       <hintitem link="matSilicon" title="Product: Silicon (Si)"/>
       <hintitem link="matSilver" title="Product: Silver"/>
       <hintitem link="matSWNT" title="Product: Single-Walled Nanotubes (SWNT)"/>
@@ -892,6 +934,7 @@
       <hintitem link="infrPressTanksArray" title="Infrastructure: Grille de Réservoirs Préssurisés"/>
       <hintitem link="infrInflatHab" title="Infrastructure: Habitat Gonflable"/>
       <hintitem link="infrHousesPack" title="Infrastructure: Pack de Maisons"/>
+      <hintitem link="infrHumidTrap" title="Infrastructure: Piège à Humidité"/>
       <hintitem link="infrNucFissReactor" title="Infrastructure: Réacteur à Fission Nucléaire"/>
       <hintitem link="infrInflatGreen" title="Infrastructure: Serre Gonflable"/>
       <hintitem link="infrMiningSite" title="Infrastructure: Site de Minage"/>
@@ -949,21 +992,24 @@
       <hintitem link="matSilver" title="Produit: Argent"/>
       <hintitem link="matConcrete" title="Produit: Béton"/>
       <hintitem link="matCarbComposites" title="Produit: Composites de Carbone"/>
-      <hintitem link="equipMultiDepot1" title="Produit: Entrepôt Multifonction Niveau 1"/>
-      <hintitem link="equipMultiDepot2" title="Produit: Entrepôt Multifonction Niveau 2"/>
-      <hintitem link="equipMultiDepot3" title="Produit: Entrepôt Multifonction Niveau 3"/>
-      <hintitem link="equipMultiDepot4" title="Produit: Entrepôt Multifonction Niveau 4"/>
-      <hintitem link="equipMultiDepot5" title="Produit: Entrepôt Multifonction Niveau 5"/>
+      <hintitem link="equipMultiDepot1" title="Produit: Entrepôt Multifonction [niveau 1]"/>
+      <hintitem link="equipMultiDepot2" title="Produit: Entrepôt Multifonction [niveau 2]"/>
+      <hintitem link="equipMultiDepot3" title="Produit: Entrepôt Multifonction [niveau 3]"/>
+      <hintitem link="equipMultiDepot4" title="Produit: Entrepôt Multifonction [niveau 4]"/>
+      <hintitem link="equipMultiDepot5" title="Produit: Entrepôt Multifonction [niveau 5]"/>
       <hintitem link="equipConstrExo" title="Produit: Exowalkers de Construction"/>
       <hintitem link="bioFruitsVeg" title="Produit: Fruits &amp; Légumes"/>
       <hintitem link="energNucPellets" title="Produit: Granules Nucléaires"/>
-      <hintitem link="equipPressTanksArr1" title="Produit: Grille de Réservoirs Préssurisés Niveau 1"/>
-      <hintitem link="equipPressTanksArr2" title="Produit: Grille de Réservoirs Préssurisés Niveau 2"/>
-      <hintitem link="equipPressTanksArr3" title="Produit: Grille de Réservoirs Préssurisés Niveau 3"/>
-      <hintitem link="equipPressTanksArr4" title="Produit: Grille de Réservoirs Préssurisés Niveau 4"/>
-      <hintitem link="equipPressTanksArr5" title="Produit: Grille de Réservoirs Préssurisés Niveau 5"/>
-      <hintitem link="equipPressTanksArr6" title="Produit: Grille de Réservoirs Préssurisés Niveau 6"/>
-      <hintitem link="equipPressTanksArr7" title="Produit: Grille de Réservoirs Préssurisés Niveau 7"/>
+      <hintitem link="equipPressTanksArr1" title="Produit: Grille de Réservoirs Préssurisés [niveau 1]"/>
+      <hintitem link="equipPressTanksArr2" title="Produit: Grille de Réservoirs Préssurisés [niveau 2]"/>
+      <hintitem link="equipPressTanksArr3" title="Produit: Grille de Réservoirs Préssurisés [niveau 3]"/>
+      <hintitem link="equipPressTanksArr4" title="Produit: Grille de Réservoirs Préssurisés [niveau 4]"/>
+      <hintitem link="equipPressTanksArr5" title="Produit: Grille de Réservoirs Préssurisés [niveau 5]"/>
+      <hintitem link="equipPressTanksArr6" title="Produit: Grille de Réservoirs Préssurisés [niveau 6]"/>
+      <hintitem link="equipPressTanksArr7" title="Produit: Grille de Réservoirs Préssurisés [niveau 7]"/>
+      <hintitem link="equipInflatHab1" title="Produit: Habitat Gonflable [niveau 1]"/>
+      <hintitem link="equipInflatHab2" title="Produit: Habitat Gonflable [niveau 2]"/>
+      <hintitem link="equipInflatHab3" title="Produit: Habitat Gonflable [niveau 3]"/>
       <hintitem link="equipMiningMachinery" title="Produit: Machinerie de Forage"/>
       <hintitem link="matNanocomposites" title="Produit: Nanocomposites"/>
       <hintitem link="matMWNT" title="Produit: Nanotubes Multi-Couches (MWNT)"/>
@@ -979,10 +1025,12 @@
       <hintitem link="equipHumidityTrap4" title="Produit: Piège à Humidité [niveau 4]"/>
       <hintitem link="equipHumidityTrap5" title="Produit: Piège à Humidité [niveau 5]"/>
       <hintitem link="matPlastics" title="Produit: Plastiques"/>
-      <hintitem link="energNucFisRsm" title="Produit: Réacteur à Fission Nucléaire (petit)"/>
-      <hintitem link="energNucFisRmed" title="Produit: Réacteur à Fission Nucléaire (moyen)"/>
-      <hintitem link="energNucFisRlg" title="Produit: Réacteur à Fission Nucléaire (large)"/>
-      <hintitem link="energNucFisRxl" title="Produit: Réacteur à Fission Nucléaire (xlarge)"/>
+      <hintitem link="energNucFisReactor1" title="Produit: Réacteur à Fission Nucléaire [niveau 1]"/>
+      <hintitem link="energNucFisReactor2" title="Produit: Réacteur à Fission Nucléaire [niveau 2]"/>
+      <hintitem link="energNucFisReactor3" title="Produit: Réacteur à Fission Nucléaire [niveau 3]"/>
+      <hintitem link="equipInflatGreen1" title="Produit: Serre Gonflable [niveau 1]"/>
+      <hintitem link="equipInflatGreen2" title="Produit: Serre Gonflable [niveau 2]"/>
+      <hintitem link="equipInflatGreen3" title="Produit: Serre Gonflable [niveau 3]"/>
       <hintitem link="matSilicon" title="Produit: Silicone (Si)"/>
       <hintitem link="matTitanium" title="Produit: Titane"/>
       <hintitem link="univAlbedo" title="Univers: Albédo"/>
@@ -1029,6 +1077,7 @@
       <hintitem link="infrPressTanksArray" title="Infrastructure: Grille de Réservoirs Préssurisés"/>
       <hintitem link="infrInflatHab" title="Infrastructure: Habitat Gonflable"/>
       <hintitem link="infrHousesPack" title="Infrastructure: Pack de Maisons"/>
+      <hintitem link="infrHumidTrap" title="Infrastructure: Piège à Humidité"/>
       <hintitem link="infrNucFissReactor" title="Infrastructure: Réacteur à Fission Nucléaire"/>
       <hintitem link="infrInflatGreen" title="Infrastructure: Serre Gonflable"/>
       <hintitem link="infrMiningSite" title="Infrastructure: Site de Minage"/>
@@ -1083,23 +1132,27 @@
       <hintitem link="matSteel" title="Produit: Acier"/>
       <hintitem link="matAluminium" title="Produit: Aluminium"/>
       <hintitem link="resNH3" title="Produit: Ammoniac"/>
+      <hintitem link="matSilver" title="Produit: Argent"/>
       <hintitem link="matConcrete" title="Produit: Béton"/>
       <hintitem link="matCarbComposites" title="Produit: Composites de Carbone"/>
-      <hintitem link="equipMultiDepot1" title="Produit: Entrepôt Multifonction Niveau 1"/>
-      <hintitem link="equipMultiDepot2" title="Produit: Entrepôt Multifonction Niveau 2"/>
-      <hintitem link="equipMultiDepot3" title="Produit: Entrepôt Multifonction Niveau 3"/>
-      <hintitem link="equipMultiDepot4" title="Produit: Entrepôt Multifonction Niveau 4"/>
-      <hintitem link="equipMultiDepot5" title="Produit: Entrepôt Multifonction Niveau 5"/>
+      <hintitem link="equipMultiDepot1" title="Produit: Entrepôt Multifonction [niveau 1]"/>
+      <hintitem link="equipMultiDepot2" title="Produit: Entrepôt Multifonction [niveau 2]"/>
+      <hintitem link="equipMultiDepot3" title="Produit: Entrepôt Multifonction [niveau 3]"/>
+      <hintitem link="equipMultiDepot4" title="Produit: Entrepôt Multifonction [niveau 4]"/>
+      <hintitem link="equipMultiDepot5" title="Produit: Entrepôt Multifonction [niveau 5]"/>
       <hintitem link="equipConstrExo" title="Produit: Exowalkers de Construction"/>
       <hintitem link="bioFruitsVeg" title="Produit: Fruits &amp; Légumes"/>
       <hintitem link="energNucPellets" title="Produit: Granules Nucléaires"/>
-      <hintitem link="equipPressTanksArr1" title="Produit: Grille de Réservoirs Préssurisés Niveau 1"/>
-      <hintitem link="equipPressTanksArr2" title="Produit: Grille de Réservoirs Préssurisés Niveau 2"/>
-      <hintitem link="equipPressTanksArr3" title="Produit: Grille de Réservoirs Préssurisés Niveau 3"/>
-      <hintitem link="equipPressTanksArr4" title="Produit: Grille de Réservoirs Préssurisés Niveau 4"/>
-      <hintitem link="equipPressTanksArr5" title="Produit: Grille de Réservoirs Préssurisés Niveau 5"/>
-      <hintitem link="equipPressTanksArr6" title="Produit: Grille de Réservoirs Préssurisés Niveau 6"/>
-      <hintitem link="equipPressTanksArr7" title="Produit: Grille de Réservoirs Préssurisés Niveau 7"/>
+      <hintitem link="equipPressTanksArr1" title="Produit: Grille de Réservoirs Préssurisés [niveau 1]"/>
+      <hintitem link="equipPressTanksArr2" title="Produit: Grille de Réservoirs Préssurisés [niveau 2]"/>
+      <hintitem link="equipPressTanksArr3" title="Produit: Grille de Réservoirs Préssurisés [niveau 3]"/>
+      <hintitem link="equipPressTanksArr4" title="Produit: Grille de Réservoirs Préssurisés [niveau 4]"/>
+      <hintitem link="equipPressTanksArr5" title="Produit: Grille de Réservoirs Préssurisés [niveau 5]"/>
+      <hintitem link="equipPressTanksArr6" title="Produit: Grille de Réservoirs Préssurisés [niveau 6]"/>
+      <hintitem link="equipPressTanksArr7" title="Produit: Grille de Réservoirs Préssurisés [niveau 7]"/>
+      <hintitem link="equipInflatHab1" title="Produit: Habitat Gonflable [niveau 1]"/>
+      <hintitem link="equipInflatHab2" title="Produit: Habitat Gonflable [niveau 2]"/>
+      <hintitem link="equipInflatHab3" title="Produit: Habitat Gonflable [niveau 3]"/>
       <hintitem link="equipMiningMachinery" title="Produit: Machinerie de Forage"/>
       <hintitem link="matNanocomposites" title="Produit: Nanocomposites"/>
       <hintitem link="matMWNT" title="Produit: Nanotubes Multi-Couches (MWNT)"/>
@@ -1115,12 +1168,13 @@
       <hintitem link="equipHumidityTrap4" title="Produit: Piège à Humidité [niveau 4]"/>
       <hintitem link="equipHumidityTrap5" title="Produit: Piège à Humidité [niveau 5]"/>
       <hintitem link="matPlastics" title="Produit: Plastiques"/>
-      <hintitem link="energNucFisRsm" title="Produit: Réacteur à Fission Nucléaire (petit)"/>
-      <hintitem link="energNucFisRmed" title="Produit: Réacteur à Fission Nucléaire (moyen)"/>
-      <hintitem link="energNucFisRlg" title="Produit: Réacteur à Fission Nucléaire (large)"/>
-      <hintitem link="energNucFisRxl" title="Produit: Réacteur à Fission Nucléaire (xlarge)"/>
+      <hintitem link="energNucFisReactor1" title="Produit: Réacteur à Fission Nucléaire [niveau 1]"/>
+      <hintitem link="energNucFisReactor2" title="Produit: Réacteur à Fission Nucléaire [niveau 2]"/>
+      <hintitem link="energNucFisReactor3" title="Produit: Réacteur à Fission Nucléaire [niveau 3]"/>
+      <hintitem link="equipInflatGreen1" title="Produit: Serre Gonflable [niveau 1]"/>
+      <hintitem link="equipInflatGreen2" title="Produit: Serre Gonflable [niveau 2]"/>
+      <hintitem link="equipInflatGreen3" title="Produit: Serre Gonflable [niveau 3]"/>
       <hintitem link="matSilicon" title="Produit: Silicone (Si)"/>
-      <hintitem link="matSilver" title="Product: Silver"/>
       <hintitem link="matTitanium" title="Produit: Titane"/>
       <hintitem link="univAlbedo" title="Univers: Albédo"/>
       <hintitem link="tsciAlloys" title="Technoscience: Alliages"/>

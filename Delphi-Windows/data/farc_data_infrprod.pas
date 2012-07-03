@@ -102,6 +102,7 @@ const
       ,hrCrystal
       ,hrLiquidNH3
       ,hrCH4
+      ,hrLiquid_Vapour_Ice_Sheet
       );
    {.product cargos}
 //   type TFCEdipProductCargos=(
@@ -341,7 +342,7 @@ const
          RCM_percent: integer;
       end;
       I_reqRegionSoil: TFCEdipRegionSoilReq;
-      I_reqRsrcSpot: TFCEduRsrcSpotType;
+      I_reqRsrcSpot: TFCEduResourceSpotTypes;
       I_reqTechSci: record
          RTS_sector: TFCEdrResearchSectors;
          RTS_token: string[20];

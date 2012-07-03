@@ -666,6 +666,8 @@ end;
 procedure FCMdF_DBInfra_Read;
 {:Purpose: Read the infrastructure database xml file.
     Additions:
+      -2012Jun27- *add: hydro requirement - hrLiquid_Vapour_Ice Sheet.
+                  *mod: production mode - water recovery: roofarea and traparea are now by level.
       -2012May30- *add: production mode - water recovery.
       -2012Feb14- *fix: ibVolMat - the correct data is loaded, it was loaded in I_surface.
       -2011Dec12- *fix: load correctly the production modes of the fProduction function.
@@ -843,7 +845,9 @@ begin
                      else if DBIRstr='hrLiquidNH3'
                      then FCDBinfra[DBIRcnt].I_reqHydro:=hrLiquidNH3
                      else if DBIRstr='hrCH4'
-                     then FCDBinfra[DBIRcnt].I_reqHydro:=hrCH4;
+                     then FCDBinfra[DBIRcnt].I_reqHydro:=hrCH4
+                     else if DBIRstr='hrLiquid_Vapour_Ice Sheet'
+                     then FCDBinfra[DBIRcnt].I_reqHydro:=hrLiquid_Vapour_Ice_Sheet;
                   end
                   else if DBIRreqsub.NodeName='irConstrMat'
                   then
@@ -882,8 +886,8 @@ begin
                   else if DBIRreqsub.NodeName='irRsrcSpot'
                   then
                   begin
-                     DBIRenumIndex:=GetEnumValue( TypeInfo( TFCEduRsrcSpotType ), DBIRreqsub.Attributes['spottype'] );
-                     FCDBinfra[DBIRcnt].I_reqRsrcSpot:=TFCEduRsrcSpotType(DBIRenumIndex);
+                     DBIRenumIndex:=GetEnumValue( TypeInfo( TFCEduResourceSpotTypes ), DBIRreqsub.Attributes['spottype'] );
+                     FCDBinfra[DBIRcnt].I_reqRsrcSpot:=TFCEduResourceSpotTypes(DBIRenumIndex);
                      if DBIRenumIndex=-1
                      then raise Exception.Create('bad resource spot req: '+DBIRreqsub.Attributes['spottype'] );
                   end
@@ -1103,8 +1107,13 @@ begin
                      then
                      begin
                         FCDBinfra[DBIRcnt].I_fProductionMode[DBIRpmodeCnt].IPM_productionModes:=pmWaterRecovery;
-                        FCDBinfra[DBIRcnt].I_fProductionMode[DBIRpmodeCnt].WR_roofarea:=DBIRpmode.Attributes['roofArea'];
-                        FCDBinfra[DBIRcnt].I_fProductionMode[DBIRpmodeCnt].WR_traparea:=DBIRpmode.Attributes['trapArea'];
+                        DBIRsizeCnt:=FCDBinfra[DBIRcnt].I_minLevel;
+                        while DBIRsizeCnt<=FCDBinfra[DBIRcnt].I_maxLevel do
+                        begin
+                           FCDBinfra[DBIRcnt].I_fProductionMode[DBIRpmodeCnt].WR_roofarea:=DBIRpmode.Attributes['roofArealv'+IntToStr(DBIRsizeCnt)];
+                           FCDBinfra[DBIRcnt].I_fProductionMode[DBIRpmodeCnt].WR_traparea:=DBIRpmode.Attributes['trapArealv'+IntToStr(DBIRsizeCnt)];
+                           inc(DBIRsizeCnt);
+                        end;
                      end;
                      DBIRpmode:=DBIRpmode.NextSibling;
                   end; //==END== while DBIRpmode<>nil do ==//
@@ -1763,8 +1772,8 @@ begin
                DBSSPorbObjCnt:=0;
                {.star token id and class}
                FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_token:=DBSSPstarNode.Attributes['startoken'] ;
-               DBSSPenumIndex:=GetEnumValue(TypeInfo(TFCEduStarClass),DBSSPstarNode.Attributes['starclass']);
-               FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=TFCEduStarClass(DBSSPenumIndex) ;
+               DBSSPenumIndex:=GetEnumValue(TypeInfo(TFCEduStarClasses),DBSSPstarNode.Attributes['starclass']);
+               FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=TFCEduStarClasses(DBSSPenumIndex) ;
                if DBSSPenumIndex=-1
                then raise Exception.Create('bad star class: '+DBSSPstarNode.Attributes['starclass']);
                {.star subdata processing loop}
@@ -1818,8 +1827,8 @@ begin
                            {.eccentricity}
                            FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_ecc:=DBSSPorbObjNode.Attributes['ooecc'];
                            {.orbital zone type}
-                           DBSSPenumIndex:=GetEnumValue( TypeInfo( TFCEduHabZone ), DBSSPorbObjNode.Attributes['ooorbzne'] );
-                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_orbZone:=TFCEduHabZone(DBSSPenumIndex);
+                           DBSSPenumIndex:=GetEnumValue( TypeInfo( TFCEduHabitableZones ), DBSSPorbObjNode.Attributes['ooorbzne'] );
+                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_orbZone:=TFCEduHabitableZones(DBSSPenumIndex);
                            if DBSSPenumIndex=-1
                            then raise Exception.Create( 'bad orbital zone: '+DBSSPorbObjNode.Attributes['ooorbzne'] );
                            {.revolution period}
@@ -1857,8 +1866,8 @@ begin
                         then
                         begin
                            {.orbital object type}
-                           DBSSPenumIndex:=GetEnumValue( TypeInfo( TFCEduOobjTp ), DBSSPorbObjNode.Attributes['ootype'] );
-                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_type:=TFCEduOobjTp( DBSSPenumIndex );
+                           DBSSPenumIndex:=GetEnumValue( TypeInfo( TFCEduOrbitalObjectTypes ), DBSSPorbObjNode.Attributes['ootype'] );
+                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_type:=TFCEduOrbitalObjectTypes( DBSSPenumIndex );
                            if DBSSPenumIndex=-1
                            then raise Exception.Create( 'bad orbital object type: '+DBSSPorbObjNode.Attributes['ootype'] );
                            {.diameter}
@@ -1895,22 +1904,22 @@ begin
                            {.primary gas volume}
                            FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_atmosph.AC_primaryGasVolumePerc:=DBSSPorbObjNode.Attributes['atmprimgasvol'];
                            {.atmospheric composition}
-                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_atmosph.agasH2:=DBSSPorbObjNode.Attributes['atmH2'];
-                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_atmosph.agasHe:=DBSSPorbObjNode.Attributes['atmHe'];
-                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_atmosph.agasCH4:=DBSSPorbObjNode.Attributes['atmCH4'];
-                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_atmosph.agasNH3:=DBSSPorbObjNode.Attributes['atmNH3'];
-                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_atmosph.agasH2O:=DBSSPorbObjNode.Attributes['atmH2O'];
-                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_atmosph.agasNe:=DBSSPorbObjNode.Attributes['atmNe'];
-                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_atmosph.agasN2:=DBSSPorbObjNode.Attributes['atmN2'];
-                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_atmosph.agasCO:=DBSSPorbObjNode.Attributes['atmCO'];
-                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_atmosph.agasNO:=DBSSPorbObjNode.Attributes['atmNO'];
-                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_atmosph.agasO2:=DBSSPorbObjNode.Attributes['atmO2'];
-                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_atmosph.agasH2S:=DBSSPorbObjNode.Attributes['atmH2S'];
-                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_atmosph.agasAr:=DBSSPorbObjNode.Attributes['atmAr'];
-                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_atmosph.agasCO2:=DBSSPorbObjNode.Attributes['atmCO2'];
-                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_atmosph.agasNO2:=DBSSPorbObjNode.Attributes['atmNO2'];
-                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_atmosph.agasO3:=DBSSPorbObjNode.Attributes['atmO3'];
-                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_atmosph.agasSO2:=DBSSPorbObjNode.Attributes['atmSO2'];
+                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_atmosph.AC_gasPresenceH2:=DBSSPorbObjNode.Attributes['atmH2'];
+                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_atmosph.AC_gasPresenceHe:=DBSSPorbObjNode.Attributes['atmHe'];
+                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_atmosph.AC_gasPresenceCH4:=DBSSPorbObjNode.Attributes['atmCH4'];
+                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_atmosph.AC_gasPresenceNH3:=DBSSPorbObjNode.Attributes['atmNH3'];
+                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_atmosph.AC_gasPresenceH2O:=DBSSPorbObjNode.Attributes['atmH2O'];
+                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_atmosph.AC_gasPresenceNe:=DBSSPorbObjNode.Attributes['atmNe'];
+                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_atmosph.AC_gasPresenceN2:=DBSSPorbObjNode.Attributes['atmN2'];
+                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_atmosph.AC_gasPresenceCO:=DBSSPorbObjNode.Attributes['atmCO'];
+                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_atmosph.AC_gasPresenceNO:=DBSSPorbObjNode.Attributes['atmNO'];
+                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_atmosph.AC_gasPresenceO2:=DBSSPorbObjNode.Attributes['atmO2'];
+                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_atmosph.AC_gasPresenceH2S:=DBSSPorbObjNode.Attributes['atmH2S'];
+                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_atmosph.AC_gasPresenceAr:=DBSSPorbObjNode.Attributes['atmAr'];
+                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_atmosph.AC_gasPresenceCO2:=DBSSPorbObjNode.Attributes['atmCO2'];
+                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_atmosph.AC_gasPresenceNO2:=DBSSPorbObjNode.Attributes['atmNO2'];
+                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_atmosph.AC_gasPresenceO3:=DBSSPorbObjNode.Attributes['atmO3'];
+                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_atmosph.AC_gasPresenceSO2:=DBSSPorbObjNode.Attributes['atmSO2'];
                            {.hydrosphere}
                            DBSSPhydroTp:=DBSSPorbObjNode.Attributes['hydroTp'];
                            if DBSSPhydroTp='htNone'
@@ -2024,16 +2033,16 @@ begin
                               while DBSSPresourceNode<>nil do
                               begin
                                  SetLength(FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_resourceSpot, DBSSPresourceCnt+1);
-                                 DBSSPenumIndex:=GetEnumValue(TypeInfo(TFCEduRsrcSpotType), DBSSPresourceNode.Attributes['type'] );
-                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_resourceSpot[DBSSPresourceCnt].RS_type:=TFCEduRsrcSpotType(DBSSPenumIndex);
+                                 DBSSPenumIndex:=GetEnumValue(TypeInfo(TFCEduResourceSpotTypes), DBSSPresourceNode.Attributes['type'] );
+                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_resourceSpot[DBSSPresourceCnt].RS_type:=TFCEduResourceSpotTypes(DBSSPenumIndex);
                                  if DBSSPenumIndex=-1
                                  then raise Exception.Create('bad resource spot type: '+DBSSPresourceNode.Attributes['type']);
-                                 DBSSPenumIndex:=GetEnumValue(TypeInfo(TFCEduRsrcQuality), DBSSPresourceNode.Attributes['quality'] );
-                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_resourceSpot[DBSSPresourceCnt].RS_quality:=TFCEduRsrcQuality(DBSSPenumIndex);
+                                 DBSSPenumIndex:=GetEnumValue(TypeInfo(TFCEduResourceSpotQuality), DBSSPresourceNode.Attributes['quality'] );
+                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_resourceSpot[DBSSPresourceCnt].RS_quality:=TFCEduResourceSpotQuality(DBSSPenumIndex);
                                  if DBSSPenumIndex=-1
                                  then raise Exception.Create('bad resource spot quality: '+DBSSPresourceNode.Attributes['quality']);
-                                 DBSSPenumIndex:=GetEnumValue(TypeInfo(TFCEduRsrcRarity), DBSSPresourceNode.Attributes['rarity'] );
-                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_resourceSpot[DBSSPresourceCnt].RS_rarity:=TFCEduRsrcRarity(DBSSPenumIndex);
+                                 DBSSPenumIndex:=GetEnumValue(TypeInfo(TFCEduResourceSpotRarity), DBSSPresourceNode.Attributes['rarity'] );
+                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_resourceSpot[DBSSPresourceCnt].RS_rarity:=TFCEduResourceSpotRarity(DBSSPenumIndex);
                                  if DBSSPenumIndex=-1
                                  then raise Exception.Create('bad resource spot rarity: '+DBSSPresourceNode.Attributes['rarity']);
                                  inc(DBSSPresourceCnt);
@@ -2092,8 +2101,8 @@ begin
                               else if DBSSPsatNode.NodeName='satgeophysdata'
                               then
                               begin
-                                 DBSSPenumIndex:=GetEnumValue( TypeInfo( TFCEduOobjTp ), DBSSPsatNode.Attributes['sattype'] );
-                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_type:=TFCEduOobjTp( DBSSPenumIndex );
+                                 DBSSPenumIndex:=GetEnumValue( TypeInfo( TFCEduOrbitalObjectTypes ), DBSSPsatNode.Attributes['sattype'] );
+                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_type:=TFCEduOrbitalObjectTypes( DBSSPenumIndex );
                                  if DBSSPenumIndex=-1
                                  then raise Exception.Create( 'bad (sat) orbital object type: '+DBSSPsatNode.Attributes['sattype'] );
                                  {.diameter}
@@ -2127,22 +2136,22 @@ begin
                                  {.primary gas volume}
                                  FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_atmosph.AC_primaryGasVolumePerc:=DBSSPsatNode.Attributes['atmprimgasvol'];
                                  {.atmospheric composition}
-                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_atmosph.agasH2:=DBSSPsatNode.Attributes['atmH2'];
-                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_atmosph.agasHe:=DBSSPsatNode.Attributes['atmHe'];
-                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_atmosph.agasCH4:=DBSSPsatNode.Attributes['atmCH4'];
-                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_atmosph.agasNH3:=DBSSPsatNode.Attributes['atmNH3'];
-                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_atmosph.agasH2O:=DBSSPsatNode.Attributes['atmH2O'];
-                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_atmosph.agasNe:=DBSSPsatNode.Attributes['atmNe'];
-                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_atmosph.agasN2:=DBSSPsatNode.Attributes['atmN2'];
-                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_atmosph.agasCO:=DBSSPsatNode.Attributes['atmCO'];
-                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_atmosph.agasNO:=DBSSPsatNode.Attributes['atmNO'];
-                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_atmosph.agasO2:=DBSSPsatNode.Attributes['atmO2'];
-                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_atmosph.agasH2S:=DBSSPsatNode.Attributes['atmH2S'];
-                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_atmosph.agasAr:=DBSSPsatNode.Attributes['atmAr'];
-                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_atmosph.agasCO2:=DBSSPsatNode.Attributes['atmCO2'];
-                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_atmosph.agasNO2:=DBSSPsatNode.Attributes['atmNO2'];
-                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_atmosph.agasO3:=DBSSPsatNode.Attributes['atmO3'];
-                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_atmosph.agasSO2:=DBSSPsatNode.Attributes['atmSO2'];
+                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_atmosph.AC_gasPresenceH2:=DBSSPsatNode.Attributes['atmH2'];
+                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_atmosph.AC_gasPresenceHe:=DBSSPsatNode.Attributes['atmHe'];
+                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_atmosph.AC_gasPresenceCH4:=DBSSPsatNode.Attributes['atmCH4'];
+                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_atmosph.AC_gasPresenceNH3:=DBSSPsatNode.Attributes['atmNH3'];
+                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_atmosph.AC_gasPresenceH2O:=DBSSPsatNode.Attributes['atmH2O'];
+                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_atmosph.AC_gasPresenceNe:=DBSSPsatNode.Attributes['atmNe'];
+                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_atmosph.AC_gasPresenceN2:=DBSSPsatNode.Attributes['atmN2'];
+                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_atmosph.AC_gasPresenceCO:=DBSSPsatNode.Attributes['atmCO'];
+                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_atmosph.AC_gasPresenceNO:=DBSSPsatNode.Attributes['atmNO'];
+                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_atmosph.AC_gasPresenceO2:=DBSSPsatNode.Attributes['atmO2'];
+                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_atmosph.AC_gasPresenceH2S:=DBSSPsatNode.Attributes['atmH2S'];
+                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_atmosph.AC_gasPresenceAr:=DBSSPsatNode.Attributes['atmAr'];
+                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_atmosph.AC_gasPresenceCO2:=DBSSPsatNode.Attributes['atmCO2'];
+                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_atmosph.AC_gasPresenceNO2:=DBSSPsatNode.Attributes['atmNO2'];
+                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_atmosph.AC_gasPresenceO3:=DBSSPsatNode.Attributes['atmO3'];
+                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_atmosph.AC_gasPresenceSO2:=DBSSPsatNode.Attributes['atmSO2'];
                                  {.hydrosphere}
                                  DBSSPhydroTp:=DBSSPsatNode.Attributes['hydroTp'];
                                  if DBSSPhydroTp='htNone'
@@ -2256,16 +2265,16 @@ begin
                                     while DBSSPresourceNode<>nil do
                                     begin
                                        SetLength(FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_regions[DBSSPregCnt].OOR_resourceSpot, DBSSPresourceCnt+1);
-                                       DBSSPenumIndex:=GetEnumValue(TypeInfo(TFCEduRsrcSpotType), DBSSPresourceNode.Attributes['type'] );
-                                       FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_regions[DBSSPregCnt].OOR_resourceSpot[DBSSPresourceCnt].RS_type:=TFCEduRsrcSpotType(DBSSPenumIndex);
+                                       DBSSPenumIndex:=GetEnumValue(TypeInfo(TFCEduResourceSpotTypes), DBSSPresourceNode.Attributes['type'] );
+                                       FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_regions[DBSSPregCnt].OOR_resourceSpot[DBSSPresourceCnt].RS_type:=TFCEduResourceSpotTypes(DBSSPenumIndex);
                                        if DBSSPenumIndex=-1
                                        then raise Exception.Create('bad resource spot type: '+DBSSPresourceNode.Attributes['type']);
-                                       DBSSPenumIndex:=GetEnumValue(TypeInfo(TFCEduRsrcQuality), DBSSPresourceNode.Attributes['quality'] );
-                                       FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_regions[DBSSPregCnt].OOR_resourceSpot[DBSSPresourceCnt].RS_quality:=TFCEduRsrcQuality(DBSSPenumIndex);
+                                       DBSSPenumIndex:=GetEnumValue(TypeInfo(TFCEduResourceSpotQuality), DBSSPresourceNode.Attributes['quality'] );
+                                       FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_regions[DBSSPregCnt].OOR_resourceSpot[DBSSPresourceCnt].RS_quality:=TFCEduResourceSpotQuality(DBSSPenumIndex);
                                        if DBSSPenumIndex=-1
                                        then raise Exception.Create('bad resource spot quality: '+DBSSPresourceNode.Attributes['quality']);
-                                       DBSSPenumIndex:=GetEnumValue(TypeInfo(TFCEduRsrcRarity), DBSSPresourceNode.Attributes['rarity'] );
-                                       FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_regions[DBSSPregCnt].OOR_resourceSpot[DBSSPresourceCnt].RS_rarity:=TFCEduRsrcRarity(DBSSPenumIndex);
+                                       DBSSPenumIndex:=GetEnumValue(TypeInfo(TFCEduResourceSpotRarity), DBSSPresourceNode.Attributes['rarity'] );
+                                       FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_regions[DBSSPregCnt].OOR_resourceSpot[DBSSPresourceCnt].RS_rarity:=TFCEduResourceSpotRarity(DBSSPenumIndex);
                                        if DBSSPenumIndex=-1
                                        then raise Exception.Create('bad resource spot rarity: '+DBSSPresourceNode.Attributes['rarity']);
                                        inc(DBSSPresourceCnt);

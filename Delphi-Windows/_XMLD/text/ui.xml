@@ -1532,6 +1532,11 @@
       <FR>Pack de Maisons</FR>
       <SP>Pack de Casas</SP>
    </infrHousesPack>
+   <infrHumidTrap>
+      <EN>Humidity Trap</EN>
+      <FR>Piège à Humidité</FR>
+      <SP></SP>
+   </infrHumidTrap>
    <infrInflatGreen>
       <EN>Inflatable Greenhouse</EN>
       <FR>Serre Gonflable</FR>
@@ -2437,50 +2442,70 @@
       <FR>Piège à Humidité [niveau 5]</FR>
       <SP></SP>
    </equipHumidityTrap5>
-   <equipInflatGreen>
-      <EN>Inflatable Greenhouse</EN>
-      <FR>Serre Gonflable</FR>
-      <SP>Inflables de Efecto Invernadero</SP>
-   </equipInflatGreen>
-   <equipInflatGreenLg>
-      <EN>Inflatable Greenhouse (large)</EN>
-      <FR>Serre Gonflable (large)</FR>
-      <SP>Inflables de Efecto Invernadero (grande)</SP>
-   </equipInflatGreenLg>
-   <equipInflatGreenXL>
-      <EN>Inflatable Greenhouse (xlarge)</EN>
-      <FR>Serre Gonflable (xlarge)</FR>
-      <SP>Inflables de Efecto Invernadero(gigante)</SP>
-   </equipInflatGreenXL>
+   <equipInflatGreen1>
+      <EN>Inflatable Greenhouse [level 1]</EN>
+      <FR>Serre Gonflable [niveau 1]</FR>
+      <SP>Inflables de Efecto Invernadero [nivel 1]</SP>
+   </equipInflatGreen1>
+   <equipInflatGreen2>
+      <EN>Inflatable Greenhouse [level 2]</EN>
+      <FR>Serre Gonflable [niveau 2]</FR>
+      <SP>Inflables de Efecto Invernadero [nivel 2]</SP>
+   </equipInflatGreen2>
+   <equipInflatGreen3>
+      <EN>Inflatable Greenhouse [level 3]</EN>
+      <FR>Serre Gonflable [niveau 3]</FR>
+      <SP>Inflables de Efecto Invernadero [nivel 3]</SP>
+   </equipInflatGreen3>
+   <equipInflatHab1>
+      <EN>Inflatable Habitat [level 1]</EN>
+      <FR>Inflatable Habitat [niveau 1]</FR>
+      <SP></SP>
+   </equipInflatHab1>
+   <equipInflatHab2>
+      <EN>Inflatable Habitat [level 2]</EN>
+      <FR>Inflatable Habitat [niveau 2]</FR>
+      <SP></SP>
+   </equipInflatHab2>
+   <equipInflatHab3>
+      <EN>Inflatable Habitat [level 3]</EN>
+      <FR>Inflatable Habitat [niveau 3]</FR>
+      <SP></SP>
+   </equipInflatHab3>
+   <equipInflatHab4>
+      <EN>Inflatable Habitat [level 4]</EN>
+      <FR>Inflatable Habitat [niveau 4]</FR>
+      <SP></SP>
+   </equipInflatHab4>
    <equipMiningMachinery>
       <EN>Mining Machinery</EN>
       <FR>Machinerie de Forage</FR>
       <SP>Maquinaria de Mineria</SP>
    </equipMiningMachinery>
    <equipMultiDepot1>
-      <EN>Multipurpose Depot Level 1</EN>
-      <FR>Entrepôt Multifonction Niveau 1</FR>
-      <SP>Almacen multiproposito de Nivel 1</SP>
+      <EN>Multipurpose Depot [level 1]</EN>
+      <FR>Entrepôt Multifonction [niveau 1]</FR>
+      <SP>Almacen multiproposito [nivel 1]</SP>
    </equipMultiDepot1>
    <equipMultiDepot2>
-      <EN>Multipurpose Depot Level 2</EN>
-      <FR>Entrepôt Multifonction Niveau 2</FR>
-      <SP>Almacen multiproposito de Nivel 2</SP>
+      <EN>Multipurpose Depot [level 2]</EN>
+      <FR>Entrepôt Multifonction [niveau 2]</FR>
+      <SP>Almacen multiproposito [nivel 2]</SP>
    </equipMultiDepot2>
    <equipMultiDepot3>
-      <EN>Multipurpose Depot Level 3</EN>
-      <FR>Entrepôt Multifonction Niveau 3</FR>
-      <SP>Almacen multiproposito de Nivel 3</SP>
+      <EN>Multipurpose Depot [level 3]</EN>
+      <FR>Entrepôt Multifonction [niveau 3]</FR>
+      <SP>Almacen multiproposito [nivel 3]</SP>
    </equipMultiDepot3>
    <equipMultiDepot4>
-      <EN>Multipurpose Depot Level 4</EN>
-      <FR>Entrepôt Multifonction Niveau 4</FR>
-      <SP>Almacen multiproposito de Nivel 4</SP>
+      <EN>Multipurpose Depot [level 4]</EN>
+      <FR>Entrepôt Multifonction [niveau 4]</FR>
+      <SP>Almacen multiproposito [nivel 4]</SP>
    </equipMultiDepot4>
    <equipMultiDepot5>
-      <EN>Multipurpose Depot Level 5</EN>
-      <FR>Entrepôt Multifonction Niveau 5</FR>
-      <SP>Almacen multiproposito de Nivel 5</SP>
+      <EN>Multipurpose Depot [level 5]</EN>
+      <FR>Entrepôt Multifonction [niveau 5]</FR>
+      <SP>Almacen multiproposito [nivel 5]</SP>
    </equipMultiDepot5>
    <equipPowerTools>
       <EN>Power Tools</EN>
@@ -2488,39 +2513,39 @@
       <SP>Herramientas Electricas</SP>
    </equipPowerTools>
    <equipPressTanksArr1>
-      <EN>Pressurized Tanks Array Level 1</EN>
-      <FR>Grille de Réservoirs Préssurisés Niveau 1</FR>
-      <SP>Pressurized Tanks Array Level 1</SP>
+      <EN>Pressurized Tanks Array [level 1</EN>
+      <FR>Grille de Réservoirs Préssurisés [niveau 1]</FR>
+      <SP></SP>
    </equipPressTanksArr1>
    <equipPressTanksArr2>
-      <EN>Pressurized Tanks Array Level 2</EN>
-      <FR>Grille de Réservoirs Préssurisés Niveau 2</FR>
-      <SP>Pressurized Tanks Array Level 2</SP>
+      <EN>Pressurized Tanks Array [level 2</EN>
+      <FR>Grille de Réservoirs Préssurisés [niveau 2]</FR>
+      <SP></SP>
    </equipPressTanksArr2>
    <equipPressTanksArr3>
-      <EN>Pressurized Tanks Array Level 3</EN>
-      <FR>Grille de Réservoirs Préssurisés Niveau 3</FR>
-      <SP>Pressurized Tanks Array Level 3</SP>
+      <EN>Pressurized Tanks Array [level 3</EN>
+      <FR>Grille de Réservoirs Préssurisés [niveau 3]</FR>
+      <SP></SP>
    </equipPressTanksArr3>
    <equipPressTanksArr4>
-      <EN>Pressurized Tanks Array Level 4</EN>
-      <FR>Grille de Réservoirs Préssurisés Niveau 4</FR>
-      <SP>Pressurized Tanks Array Level 4</SP>
+      <EN>Pressurized Tanks Array [level 4</EN>
+      <FR>Grille de Réservoirs Préssurisés [niveau 4]</FR>
+      <SP></SP>
    </equipPressTanksArr4>
    <equipPressTanksArr5>
-      <EN>Pressurized Tanks Array Level 5</EN>
-      <FR>Grille de Réservoirs Préssurisés Niveau 5</FR>
-      <SP>Pressurized Tanks Array Level 5</SP>
+      <EN>Pressurized Tanks Array [level 5</EN>
+      <FR>Grille de Réservoirs Préssurisés [niveau 5]</FR>
+      <SP></SP>
    </equipPressTanksArr5>
    <equipPressTanksArr6>
-      <EN>Pressurized Tanks Array Level 6</EN>
-      <FR>Grille de Réservoirs Préssurisés Niveau 6</FR>
-      <SP>Pressurized Tanks Array Level 6</SP>
+      <EN>Pressurized Tanks Array [level 6</EN>
+      <FR>Grille de Réservoirs Préssurisés [niveau 6]</FR>
+      <SP></SP>
    </equipPressTanksArr6>
    <equipPressTanksArr7>
-      <EN>Pressurized Tanks Array Level 7</EN>
-      <FR>Grille de Réservoirs Préssurisés Niveau 7</FR>
-      <SP>Pressurized Tanks Array Level 7</SP>
+      <EN>Pressurized Tanks Array [level 7</EN>
+      <FR>Grille de Réservoirs Préssurisés [niveau 7]</FR>
+      <SP></SP>
    </equipPressTanksArr7>
    <matAluminium>
       <EN>Aluminium</EN>
