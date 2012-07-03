@@ -35,6 +35,21 @@ interface
 
 
 {:REFERENCES LIST
+   - FCMoglVMain_Atmosph_SetCol
+   - FCFuiSP_EcoDataAtmosphere_Process    FCMuiSP_SurfaceEcosphere_Set
+   - TFCRufAtmosphereGasesPercent.AtmosphereGases_CalculatePercents
+}
+///<summary>
+///   atmospheric gas status
+///</summary>
+type TFCEduAtmosphericGasStatus=(
+   agsNotPresent
+   ,agsTrace
+   ,agsSecondary
+   ,agsMain
+   );
+
+{:REFERENCES LIST
    - universe.xml
    - FCMdFiles_DBstarSys_Process
 }
@@ -49,6 +64,7 @@ type TFCEduCompanion2OrbitTypes=(
 
 {:REFERENCES LIST
    - universe.xml
+   - FCFuF_Env_GetStr
 }
 ///<summary>
 ///   environment types
@@ -61,7 +77,255 @@ type TFCEduEnvironmentTypes=(
    ,etGaseous
    );
 
+{:REFERENCES LIST
+   - universe.xml
+   - FCMdFiles_DBstarSys_Process
+}
+///<summary>
+///   habitable zones (in the human sense, not for aliens)
+///</summary>
+type TFCEduHabitableZones=(
+   hzInner
+   ,hzIntermediary
+   ,hzOuter
+   );
+
+{:REFERENCES LIST
+   - universe.xml
+   - FCMoglUI_Main3DViewUI_Update
+   - FCFoglVMain_Aster_Set    FCMoglVMain_MapTex_Assign  FCMoglVM_MView_Upd
+   - FCMuiSP_SurfaceEcosphere_Set
+}
+///<summary>
+///   orbital object types list. old num take reference of the data format of the previous iterations of FARC
+///</summary>
+{:DEV NOTES: REMOVE THE OLD REFRENCES WHEN THE FUG WILL BE COMPLETE.}
+type TFCEduOrbitalObjectTypes=(
+   {.old mum=1}
+   ootProtoplanetaryDisk
+   {.old num=2}
+   ,ootAsteroidsBelt_Metallic
+   {.old num=3}
+   ,ootAsteroidsBelt_Silicate
+   {.old num=4}
+   ,ootAsteroidsBelt_Carbonaceous
+   {.old num=5}
+   ,ootAsteroidsBelt_Icy
+   {.old num=6}
+   ,ootAsteroid_Metallic
+   {.old num=7}
+   ,ootAsteroid_Silicate
+   {.old num=8}
+   ,ootAsteroid_Carbonaceous
+   {.old num=9}
+   ,ootAsteroid_Icy
+   {.old num=11}
+   ,ootPlanet_Telluric_EarthH0H1
+   {.old num=12}
+   ,ootPlanet_Telluric_EarthH2
+   {.old num=13}
+   ,ootPlanet_Telluric_EarthH3
+   {.old num=14}
+   ,ootPlanet_Telluric_EarthH4
+   {.old num=15}
+   ,ootPlanet_Telluric_MarsH0H1
+   {.old num=16}
+   ,ootPlanet_Telluric_MarsH2
+   {.old num=17}
+   ,ootPlanet_Telluric_MarsH3
+   {.old num=18}
+   ,ootPlanet_Telluric_MarsH4
+   {.old num=19}
+   ,ootPlanet_Telluric_VenusH0H1
+   {.old num=20}
+   ,ootPlanet_Telluric_VenusH2
+   {.old num=21}
+   ,ootPlanet_Telluric_VenusH3
+   {.old num=22}
+   ,ootPlanet_Telluric_VenusH4
+   {.old num=23}
+   ,ootPlanet_Telluric_MercuryH0
+   {.old num=24}
+   ,ootPlanet_Telluric_MercuryH3
+   {.old num=25}
+   ,ootPlanet_Telluric_MercuryH4
+   {.old num=28}
+   ,ootPlanet_Icy_PlutoH3
+   {.old num=29}
+   ,ootPlanet_Icy_EuropaH4
+   {.old num=30}
+   ,ootPlanet_Icy_CallistoH3H4Atm0
+   {.old num=31}
+   ,ootPlanet_Gaseous_Uranus
+   {.old num=32}
+   ,ootPlanet_Gaseous_Neptune
+   {.old num=33}
+   ,ootPlanet_Gaseous_Saturn
+   //                    TL_Plan_Gas_Other    //old num=34
+   {.old num=35}
+   ,ootPlanet_Jovian
+   //                    TL_Plan_Jovian_Other //old num=36
+   {.old num=37}
+   ,ootPlanet_Supergiant
+   //                    TL_Plan_Supergiant2  //old num=38
+   {.old num=39}
+   ,ootSatellite_Asteroid_Metallic
+   {.old num=40}
+   ,ootSatellite_Asteroid_Silicate
+   {.old num=41}
+   ,ootSatellite_Asteroid_Carbonaceous
+   {.old num=42}
+   ,ootSatellite_Asteroid_Icy
+   //                    TL_Sat_Tellu_Mercu   //old num=43
+   {.old num=44}
+   ,ootSatellite_Telluric_Lunar
+   {.old num=45}
+   ,ootSatellite_Telluric_Io
+   {.old num=46}
+   ,ootSatellite_Telluric_Titan
+   {.old num=47}
+   ,ootSatellite_Telluric_Earth
+   {.old num=48}
+   ,ootSatellite_Icy_Pluto
+   {.old num=49}
+   ,ootSatellite_Icy_Europa
+   {.old num=50}
+   ,ootSatellite_Icy_Callisto
+   {.old num=100}
+   ,ootRing_Metallic
+   {.old num=101}
+   ,ootRing_Silicate
+   {.old num=102}
+   ,ootRing_Carbonaceous
+   {.old num=103}
+   ,ootRing_Icy
+   );
+
+{:REFERENCES LIST
+   - universe.xml
+}
+///<summary>
+///   resource spot quality
+///</summary>
+type TFCEduResourceSpotQuality=(
+   rsqNone
+   ,rsqF_Bad
+   ,rsqE_Poor
+   ,rsqD_FairAverage
+   ,rsqC_Good
+   ,rsqB_Excellent
+   ,rsqA_Perfect
+   );
+
+{:REFERENCES LIST
+   - universe.xml
+}
+///<summary>
+///   resource spot rarity
+///</summary>
+type TFCEduResourceSpotRarity=(
+   rsrRich
+   ,rsrAbundant
+   ,rsrCommon
+   ,rsrPresent
+   ,rsrUncommon
+   ,rsrRare
+   ,rsrAbsent
+   );
+
+{:REFERENCES LIST
+   - infrastrucdb.xml
+   - universe.xml
+}
+///<summary>
+///   types of resource spot
+///</summary>
+type TFCEduResourceSpotTypes=(
+   rstNone
+   ,rstGasField
+   ,rstHydroWell
+   ,rstIcyOreField
+   ,rstOreField
+   ,rstUnderWater
+   );
+
+{:REFERENCES LIST
+   - FCMdF_DBstarSys_Process
+   - TFCWinFUG.FCWFgenerateClick
+}
+///<summary>
+///   star classes used in FARC
+///</summary>
+type TFCEduStarClasses=(
+   {.super giant blue Ia/Ib}
+   cB5, cB6, cB7, cB8, cB9
+   {.super giant white}
+   ,cA0, cA1, cA2, cA3, cA4, cA5, cA6, cA7, cA8, cA9
+   {.super giant orange}
+   ,cK0, cK1, cK2, cK3, cK4, cK5, cK6, cK7, cK8, cK9
+   {.super giant red}
+   ,cM0, cM1, cM2, cM3, cM4, cM5
+   {.giant yellow-white III}
+   ,gF0, gF1, gF2, gF3, gF4, gF5, gF6, gF7, gF8, gF9
+   {.giant yellow}
+   ,gG0, gG1, gG2, gG3, gG4, gG5, gG6, gG7, gG8, gG9
+   {.giant orange}
+   ,gK0, gK1, gK2, gK3, gK4, gK5, gK6, gK7, gK8, gK9
+   {.giant red}
+   ,gM0, gM1, gM2, gM3, gM4, gM5
+   {.main sequence blue dwarf}
+   ,O5, O6, O7, O8, O9
+   {.main sequence blue-white dwarf}
+   ,B0, B1, B2, B3, B4, B5, B6, B7, B8, B9
+   {.main sequence white dwarf}
+   ,A0, A1, A2, A3, A4, A5, A6, A7, A8, A9
+   {.main sequence yellow-white dwarf}
+   ,F0, F1, F2, F3, F4, F5, F6, F7, F8, F9
+   {.main sequence yellow dwarf}
+   ,G0, G1, G2, G3, G4, G5, G6, G7, G8, G9
+   {.main sequence orange dwarf}
+   ,K0, K1, K2, K3, K4, K5, K6, K7, K8, K9
+   {.main sequence red dwarf}
+   ,M0, M1, M2, M3, M4, M5, M6, M7, M8, M9
+   {.white dwarf}
+   ,WD0, WD1, WD2, WD3, WD4, WD5, WD6, WD7, WD8, WD9
+   {.pulsar}
+   ,PSR
+   {.black hole}
+   ,BH
+   );
+
 //==END PUBLIC ENUM=========================================================================
+
+{:REFERENCES LIST
+   - universe.xml
+   - FCMdF_DBstarSys_Process
+   - FCMoglVMain_Atmosph_SetCol
+   - FCFuiSP_EcoDataAtmosphere_Process
+   - TFCRufAtmosphereGasesPercent.AtmosphereGases_CalculatePercents
+}
+///<summary>
+///   atmospheric composition
+///</summary>
+type TFCRduAtmosphericComposition = record
+   AC_primaryGasVolumePerc: integer;
+   AC_gasPresenceH2: TFCEduAtmosphericGasStatus;
+   AC_gasPresenceHe: TFCEduAtmosphericGasStatus;
+   AC_gasPresenceCH4: TFCEduAtmosphericGasStatus;
+   AC_gasPresenceNH3: TFCEduAtmosphericGasStatus;
+   AC_gasPresenceH2O: TFCEduAtmosphericGasStatus;
+   AC_gasPresenceNe: TFCEduAtmosphericGasStatus;
+   AC_gasPresenceN2: TFCEduAtmosphericGasStatus;
+   AC_gasPresenceCO: TFCEduAtmosphericGasStatus;
+   AC_gasPresenceNO: TFCEduAtmosphericGasStatus;
+   AC_gasPresenceO2: TFCEduAtmosphericGasStatus;
+   AC_gasPresenceH2S: TFCEduAtmosphericGasStatus;
+   AC_gasPresenceAr: TFCEduAtmosphericGasStatus;
+   AC_gasPresenceCO2: TFCEduAtmosphericGasStatus;
+   AC_gasPresenceNO2: TFCEduAtmosphericGasStatus;
+   AC_gasPresenceO3: TFCEduAtmosphericGasStatus;
+   AC_gasPresenceSO2: TFCEduAtmosphericGasStatus;
+end;
 
 //==END PUBLIC RECORDS======================================================================
 
@@ -81,247 +345,9 @@ type TFCEduEnvironmentTypes=(
    //=======================================================================================
    {.stars and orbital objects datastructures}
    //=======================================================================================
-   {.}
-   {:DEV NOTES : update  + FCMdFiles_DBstarSys_Process.}
+   
 
 
-
-
-   {.orbital zones}
-   type TFCEduHabZone=(
-      {.inner zone}
-      zoneInner
-      {.intermediate zone}
-      ,zoneInterm
-      {.outer zone}
-      ,zoneOuter
-      );
-
-   {.orbital object type list, derived from previous FARC}
-   type TFCEduOobjTp=(
-      {.protoplanetary disk, old num=1}
-      oobtpProtoDisk
-      {.old num=2}
-      ,oobtpAsterBelt_Metall
-      {.old num=3}
-      ,oobtpAsterBelt_Sili
-      {.old num=4}
-      ,oobtpAsterBelt_Carbo
-      {.old num=5}
-      ,oobtpAsterBelt_Icy
-      {.old num=6}
-      ,oobtpAster_Metall
-      {.old num=7}
-      ,oobtpAster_Sili
-      {.old num=8}
-      ,oobtpAster_Carbo
-      {.old num=9}
-      ,oobtpAster_Icy
-      {.old num=11}
-      ,oobtpPlan_Tellu_EarthH0H1
-      {.old num=12}
-      ,oobtpPlan_Tellu_EarthH2
-      {.old num=13}
-      ,oobtpPlan_Tellu_EarthH3
-      {.old num=14}
-      ,oobtpPlan_Tellu_EarthH4
-      {.old num=15}
-      ,oobtpPlan_Tellu_MarsH0H1
-      {.old num=16}
-      ,oobtpPlan_Tellu_MarsH2
-      {.old num=17}
-      ,oobtpPlan_Tellu_MarsH3
-      {.old num=18}
-      ,oobtpPlan_Tellu_MarsH4
-      {.old num=19}
-      ,oobtpPlan_Tellu_VenusH0H1
-      {.old num=20}
-      ,oobtpPlan_Tellu_VenusH2
-      {.old num=21}
-      ,oobtpPlan_Tellu_VenusH3
-      {.old num=22}
-      ,oobtpPlan_Tellu_VenusH4
-      {.old num=23}
-      ,oobtpPlan_Tellu_MercuH0
-      {.old num=24}
-      ,oobtpPlan_Tellu_MercuH3
-      {.old num=25}
-      ,oobtpPlan_Tellu_MercuH4
-      {.old num=28}
-      ,oobtpPlan_Icy_PlutoH3
-      {.old num=29}
-      ,oobtpPlan_Icy_EuropeH4
-      {.old num=30}
-      ,oobtpPlan_Icy_CallistoH3H4Atm0
-      {.old num=31}
-      ,oobtpPlan_Gas_Uranus
-      {.old num=32}
-      ,oobtpPlan_Gas_Neptun
-      {.old num=33}
-      ,oobtpPlan_Gas_Saturn
-      //                    TL_Plan_Gas_Other    //old num=34
-      {.old num=35}
-      ,oobtpPlan_Jovian_Jupiter
-      //                    TL_Plan_Jovian_Other //old num=36
-      {.old num=37}
-      ,oobtpPlan_Supergiant1
-      //                    TL_Plan_Supergiant2  //old num=38
-      {.old num=39}
-      ,oobtpSat_Aster_Metall
-      {.old num=40}
-      ,oobtpSat_Aster_Sili
-      {.old num=41}
-      ,oobtpSat_Aster_Carbo
-      {.old num=42}
-      ,oobtpSat_Aster_Icy
-      //                    TL_Sat_Tellu_Mercu   //old num=43
-      {.old num=44}
-      ,oobtpSat_Tellu_Lunar
-      {.old num=45}
-      ,oobtpSat_Tellu_Io
-      {.old num=46}
-      ,oobtpSat_Tellu_Titan
-      {.old num=47}
-      ,oobtpSat_Tellu_Earth
-      {.old num=48}
-      ,oobtpSat_Icy_Pluto
-      {.old num=49}
-      ,oobtpSat_Icy_Europe
-      {.old num=50}
-      ,oobtpSat_Icy_Callisto
-      {.old num=100}
-      ,oobtpRing_Metall
-      {.old num=101}
-      ,oobtpRing_Sili
-      {.old num=102}
-      ,oobtpRing_Carbo
-      {.old num=103}
-      ,oobtpRing_Icy
-      );
-
-   {.resource quality}
-   {:DEV NOTES: update universe.xml.}
-   type TFCEduRsrcQuality=(
-      rqNone
-      ,rqFbad
-      ,rqEpoor
-      ,rqDfairavg
-      ,rqCgood
-      ,rqBexcellent
-      ,rqAperfect
-      );
-
-   {.resource rarity}
-   {:DEV NOTES: update universe.xml.}
-   type TFCEduRsrcRarity=(
-      rrRich
-      ,rrAbundant
-      ,rrCommon
-      ,rrPresent
-      ,rrUncommon
-      ,rrRare
-      ,rrAbsent
-      );
-
-   {.types of resource spot}
-   {:DEV NOTES: update universe.xml + infrastructures.ods + infrastrucdb.xml + see TFCRdipInfrastructure updates.}
-   type TFCEduRsrcSpotType=(
-      rstNone
-      ,rstGasField
-      ,rstHydroWell
-      ,rstIcyOreField
-      ,rstOreField
-      ,rstUnderWater
-      );
-
-   {.list of all star classes used in FARC}
-   type TFCEduStarClass=(
-      {super giant blue Ia/Ib}
-      cB5, cB6, cB7, cB8, cB9
-      {super giant white}
-      ,cA0, cA1, cA2, cA3, cA4, cA5, cA6, cA7, cA8, cA9
-      {super giant orange}
-      ,cK0, cK1, cK2, cK3, cK4, cK5, cK6, cK7, cK8, cK9
-      {super giant red}
-      ,cM0, cM1, cM2, cM3, cM4, cM5
-      {giant yellow-white III}
-      ,gF0, gF1, gF2, gF3, gF4, gF5, gF6, gF7, gF8, gF9
-      {giant yellow}
-      ,gG0, gG1, gG2, gG3, gG4, gG5, gG6, gG7, gG8, gG9
-      {giant orange}
-      ,gK0, gK1, gK2, gK3, gK4, gK5, gK6, gK7, gK8, gK9
-      {giant red}
-      ,gM0, gM1, gM2, gM3, gM4, gM5
-      {main sequence blue dwarf }
-      ,O5, O6, O7, O8, O9
-      {main sequence blue-white dwarf}
-      ,B0, B1, B2, B3, B4, B5, B6, B7, B8, B9
-      {main sequence white dwarf}
-      ,A0, A1, A2, A3, A4, A5, A6, A7, A8, A9
-      {main sequence yellow-white dwarf}
-      ,F0, F1, F2, F3, F4, F5, F6, F7, F8, F9
-      {main sequence yellow dwarf}
-      ,G0, G1, G2, G3, G4, G5, G6, G7, G8, G9
-      {main sequence orange dwarf}
-      ,K0, K1, K2, K3, K4, K5, K6, K7, K8, K9
-      {main sequence red dwarf}
-      ,M0, M1, M2, M3, M4, M5, M6, M7, M8, M9
-      {white dwarf}
-      ,WD0, WD1, WD2, WD3, WD4, WD5, WD6, WD7, WD8, WD9
-      {pulsar}
-      ,PSR
-      {black hole}
-      ,BH
-      );
-   {M-}
-   //==END ENUM=============================================================================
-
-   {:DEV NOTES: ****you need to update FARC.main.odt when updating this data structure****}
-   type TFCEatmGasStat= {atmosphere gas status}
-      (
-         agsNotPr,      {gas not present}
-         agsTrace,      {trace gas}
-         agsSec,        {secondary gas}
-         agsMain        {main gas}
-      );
-
-   {.atmospheric composition data structure}
-   {:DEV NOTES: update universe.xml + FCMdF_DBstarSys_Process.}
-   type TFCRatmComp = record
-      AC_primaryGasVolumePerc: integer;
-         {hydrogen}
-      agasH2: TFCEatmGasStat;
-         {helium}
-      agasHe: TFCEatmGasStat;
-         {methane}
-      agasCH4: TFCEatmGasStat;
-         {ammonia}
-      agasNH3: TFCEatmGasStat;
-         {water vapor}
-      agasH2O: TFCEatmGasStat;
-         {neon}
-      agasNe: TFCEatmGasStat;
-         {nitrogen}
-      agasN2: TFCEatmGasStat;
-         {carbon monoxyde}
-      agasCO: TFCEatmGasStat;
-         {nitric oxyde / nitrogen}
-      agasNO: TFCEatmGasStat;
-         {oxygen}
-      agasO2: TFCEatmGasStat;
-         {hydrogen sulfide}
-      agasH2S: TFCEatmGasStat;
-         {argon}
-      agasAr: TFCEatmGasStat;
-         {carbon dioxide}
-      agasCO2: TFCEatmGasStat;
-         {nitrogen dioxide}
-      agasNO2: TFCEatmGasStat;
-         {ozone}
-      agasO3: TFCEatmGasStat;
-         {sulfur dioxide}
-      agasSO2: TFCEatmGasStat;
-   end;
 
    {.sub datastructure about units in orbit (space units only)}
    type TFCRorbitUnit = record
@@ -350,7 +376,7 @@ type TFCEduEnvironmentTypes=(
          {.mean surface temperature during this season}
       OP_meanTemp: extended;
    end;
-   {:DEV NOTES: ****you need to update FARC.main.odt when updating this data structure****}
+   {:DEV NOTES: update}
       {.hydrosphere types}
    type TFCEhydroTp=
       (
@@ -438,9 +464,9 @@ type TFCEduEnvironmentTypes=(
       OOR_emo: extended;
       {.resources data}
       OOR_resourceSpot: array of record
-         RS_type: TFCEduRsrcSpotType;
-         RS_quality: TFCEduRsrcQuality;
-         RS_rarity: TFCEduRsrcRarity;
+         RS_type: TFCEduResourceSpotTypes;
+         RS_quality: TFCEduResourceSpotQuality;
+         RS_rarity: TFCEduResourceSpotRarity;
       end;
    end;
    {.satellite data structure, child of TFCRorbObj}
@@ -455,7 +481,7 @@ type TFCEduEnvironmentTypes=(
       {.colonies settled on it [faction#]=owned colony id db #, 0= player}
       OOS_colonies: array [0..1] of integer;
          {kind of satellite}
-      OOS_type: TFCEduOobjTp;
+      OOS_type: TFCEduOrbitalObjectTypes;
       {.environment type}
       OOS_envTp: TFCEduEnvironmentTypes;
          {distance from it's central planet in thousands of km}
@@ -489,7 +515,7 @@ type TFCEduEnvironmentTypes=(
          {cloud cover in %}
       OOS_cloudsCov: extended;
          {atmosphere detailed composition}
-      OOS_atmosph: TFCRatmComp;
+      OOS_atmosph: TFCRduAtmosphericComposition;
          {.orbital periods list, 2 intermediate 1 closest (summer) 1 farest (winter)}
       OOS_orbPeriod: array[0..4] of TFCRorbPeriod;
          {.hydrosphere type}
@@ -518,7 +544,7 @@ type TFCEduEnvironmentTypes=(
       {.colonies settled on it [faction#]=owned colony id db #, 0= player}
       OO_colonies: array [0..1] of integer;
          {kind of orbital object}
-      OO_type: TFCEduOobjTp;
+      OO_type: TFCEduOrbitalObjectTypes;
       {.environment type}
       OO_envTp: TFCEduEnvironmentTypes;
          {distance from it's star in AU}
@@ -526,7 +552,7 @@ type TFCEduEnvironmentTypes=(
          {orbit eccentricity in #.### format}
       OO_ecc: extended;
          {orbital zone type}
-      OO_orbZone: TFCEduHabZone;
+      OO_orbZone: TFCEduHabitableZones;
          {revolution period, in standard days, around it's star}
       OO_revol: integer;
          {starting day for revolution period}
@@ -558,7 +584,7 @@ type TFCEduEnvironmentTypes=(
          {cloud cover in %}
       OO_cloudsCov: extended;
          {atmosphere detailed composition}
-      OO_atmosph: TFCRatmComp;
+      OO_atmosph: TFCRduAtmosphericComposition;
          {.orbital periods list, 2 intermediate 1 closest (summer) 1 farest (winter)}
       OO_orbPeriod: array[0..4] of TFCRorbPeriod;
          {.hydrosphere type}
@@ -573,7 +599,7 @@ type TFCEduEnvironmentTypes=(
       {db token id}
       SDB_token: string[20];
       {class, like G2, K, PSR...}
-      SDB_class: TFCEduStarClass;
+      SDB_class: TFCEduStarClasses;
       {temperature in degree Kelvin}
       SDB_temp: Integer;
       {mass, relative to Sun}
