@@ -985,7 +985,7 @@ var
    ,SESdmpStrDat: string;
 
    SESdmpTp: TFCEduOrbitalObjectTypes;
-   SESdmpHydr: TFCEhydroTp;
+   SESdmpHydr: TFCEduHydrospheres;
 begin
    with FCWinMain do
    begin
@@ -1071,38 +1071,38 @@ begin
          end; //==END== else if SESdmpAtmPr>0 ==//
          FCWM_SPShEcos_Lab.HTMLText.Add('<br>'+FCFdTFiles_UIStr_Get(uistrUI, 'secpHydr')+'<br>');
          case SESdmpHydr of
-            htNone: FCWM_SPShEcos_Lab.HTMLText.Add(FCCFidxL+FCFdTFiles_UIStr_Get(uistrUI, 'comNoneP'));
-            htVapor:
+            hNoH2O: FCWM_SPShEcos_Lab.HTMLText.Add(FCCFidxL+FCFdTFiles_UIStr_Get(uistrUI, 'comNoneP'));
+            hVaporH2O:
                FCWM_SPShEcos_Lab.HTMLText.Add(
                   FCCFidxL
                   +FCFdTFiles_UIStr_Get(uistrUI, 'specpHtpVap')
                   +FCFdTFiles_UIStr_Get(uistrUI, 'secpCov')+floattostr(SESdmpHCov)+' %)'
                   );
-            htLiquid:
+            hLiquidH2O:
                FCWM_SPShEcos_Lab.HTMLText.Add(
                   FCCFidxL
                   +FCFdTFiles_UIStr_Get(uistrUI, 'specpHtpLiq')
                   +FCFdTFiles_UIStr_Get(uistrUI, 'secpCov')+floattostr(SESdmpHCov)+' %)'
                   );
-            htIceSheet:
+            hIceSheet:
                FCWM_SPShEcos_Lab.HTMLText.Add(
                   FCCFidxL
                   +FCFdTFiles_UIStr_Get(uistrUI, 'specpHtpISh')
                   +FCFdTFiles_UIStr_Get(uistrUI, 'secpCov')+floattostr(SESdmpHCov)+' %)'
                   );
-            htCrystal:
+            hCrystalIce:
                FCWM_SPShEcos_Lab.HTMLText.Add(
                   FCCFidxL
                   +FCFdTFiles_UIStr_Get(uistrUI, 'specpHtpCryst')
                   +FCFdTFiles_UIStr_Get(uistrUI, 'secpCov')+floattostr(SESdmpHCov)+' %)'
                   );
-            htLiqNH3:
+            hLiquidH2O_blend_NH3:
                FCWM_SPShEcos_Lab.HTMLText.Add(
                   FCCFidxL
                   +FCFdTFiles_UIStr_Get(uistrUI, 'specpHtpLiqNH3')
                   +FCFdTFiles_UIStr_Get(uistrUI, 'secpCov')+floattostr(SESdmpHCov)+' %)'
                   );
-            htLiqCH4:
+            hLiquidCH4:
                FCWM_SPShEcos_Lab.HTMLText.Add(
                   FCCFidxL
                   +FCFdTFiles_UIStr_Get(uistrUI, 'specpHtpLiqCH4')

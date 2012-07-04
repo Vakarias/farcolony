@@ -50,7 +50,7 @@ type TFCEgcInfAsk=(
 type TFCRgcEnvironment= record
    ENV_gravity: extended;
    ENV_envType: TFCEduEnvironmentTypes;
-   ENV_hydroTp: TFCEhydroTp;
+   ENV_hydroTp: TFCEduHydrospheres;
 end;
 
 type TFCRgcInfraKit= array of record
@@ -244,14 +244,14 @@ var
 
    CEGTenv: TFCEduEnvironmentTypes;
 
-   CEGThydro: TFCEhydroTp;
+   CEGThydro: TFCEduHydrospheres;
 begin
    CEGTgravity:=0;
    CEGTenv:=etGaseous;
-   CEGThydro:=htNone;
+   CEGThydro:=hNoH2O;
    Result.ENV_gravity:=0;
    Result.ENV_envType:=etGaseous;
-   Result.ENV_hydroTp:=htNone;
+   Result.ENV_hydroTp:=hNoH2O;
    GCssys:=0;
    GCstar:=0;
    GCoobj:=0;

@@ -221,7 +221,7 @@ var
    ,GCSorbP1tp
    ,GCSorbP2tp
    ,GCSorbP3tp
-   ,GCSorbP4tp: TFCEorbPeriodTp;
+   ,GCSorbP4tp: TFCEduOrbitalPeriodTypes;
 begin
    GCSorbTpRes:=optClosest;
    GCSseasRes:='';
@@ -231,18 +231,18 @@ begin
       with FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[GCSooIdx] do
       begin
          GCSrevolIni:=OO_revolInit;
-         GCSorbP1s:=OO_orbPeriod[1].OP_dayStart;
-         GCSorbP1e:=OO_orbPeriod[1].OP_dayEnd;
-         GCSorbP1tp:=OO_orbPeriod[1].OP_type;
-         GCSorbP2s:=OO_orbPeriod[2].OP_dayStart;
-         GCSorbP2e:=OO_orbPeriod[2].OP_dayEnd;
-         GCSorbP2tp:=OO_orbPeriod[2].OP_type;
-         GCSorbP3s:=OO_orbPeriod[3].OP_dayStart;
-         GCSorbP3e:=OO_orbPeriod[3].OP_dayEnd;
-         GCSorbP3tp:=OO_orbPeriod[3].OP_type;
-         GCSorbP4s:=OO_orbPeriod[4].OP_dayStart;
-         GCSorbP4e:=OO_orbPeriod[4].OP_dayEnd;
-         GCSorbP4tp:=OO_orbPeriod[4].OP_type;
+         GCSorbP1s:=OO_orbPeriod[1].S_dayStart;
+         GCSorbP1e:=OO_orbPeriod[1].S_dayEnd;
+         GCSorbP1tp:=OO_orbPeriod[1].S_orbitalPeriodType;
+         GCSorbP2s:=OO_orbPeriod[2].S_dayStart;
+         GCSorbP2e:=OO_orbPeriod[2].S_dayEnd;
+         GCSorbP2tp:=OO_orbPeriod[2].S_orbitalPeriodType;
+         GCSorbP3s:=OO_orbPeriod[3].S_dayStart;
+         GCSorbP3e:=OO_orbPeriod[3].S_dayEnd;
+         GCSorbP3tp:=OO_orbPeriod[3].S_orbitalPeriodType;
+         GCSorbP4s:=OO_orbPeriod[4].S_dayStart;
+         GCSorbP4e:=OO_orbPeriod[4].S_dayEnd;
+         GCSorbP4tp:=OO_orbPeriod[4].S_orbitalPeriodType;
       end;
    end
    else if GCSsatIdx>0
@@ -251,18 +251,18 @@ begin
       with FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[GCSooIdx].OO_satList[GCSsatIdx] do
       begin
          GCSrevolIni:=OOS_revolInit;
-         GCSorbP1s:=OOS_orbPeriod[1].OP_dayStart;
-         GCSorbP1e:=OOS_orbPeriod[1].OP_dayEnd;
-         GCSorbP1tp:=OOS_orbPeriod[1].OP_type;
-         GCSorbP2s:=OOS_orbPeriod[2].OP_dayStart;
-         GCSorbP2e:=OOS_orbPeriod[2].OP_dayEnd;
-         GCSorbP2tp:=OOS_orbPeriod[2].OP_type;
-         GCSorbP3s:=OOS_orbPeriod[3].OP_dayStart;
-         GCSorbP3e:=OOS_orbPeriod[3].OP_dayEnd;
-         GCSorbP3tp:=OOS_orbPeriod[3].OP_type;
-         GCSorbP4s:=OOS_orbPeriod[4].OP_dayStart;
-         GCSorbP4e:=OOS_orbPeriod[4].OP_dayEnd;
-         GCSorbP4tp:=OOS_orbPeriod[4].OP_type;
+         GCSorbP1s:=OOS_orbPeriod[1].S_dayStart;
+         GCSorbP1e:=OOS_orbPeriod[1].S_dayEnd;
+         GCSorbP1tp:=OOS_orbPeriod[1].S_orbitalPeriodType;
+         GCSorbP2s:=OOS_orbPeriod[2].S_dayStart;
+         GCSorbP2e:=OOS_orbPeriod[2].S_dayEnd;
+         GCSorbP2tp:=OOS_orbPeriod[2].S_orbitalPeriodType;
+         GCSorbP3s:=OOS_orbPeriod[3].S_dayStart;
+         GCSorbP3e:=OOS_orbPeriod[3].S_dayEnd;
+         GCSorbP3tp:=OOS_orbPeriod[3].S_orbitalPeriodType;
+         GCSorbP4s:=OOS_orbPeriod[4].S_dayStart;
+         GCSorbP4e:=OOS_orbPeriod[4].S_dayEnd;
+         GCSorbP4tp:=OOS_orbPeriod[4].S_orbitalPeriodType;
       end;
    end;
    if (GCSrevolIni>=GCSorbP1s)
@@ -279,7 +279,7 @@ begin
    then GCSorbTpRes:=GCSorbP4tp;
    case GCSorbTpRes of
       optClosest: GCSseasRes:='seasonMin';
-      optInterm: GCSseasRes:='seasonMid';
+      optIntermediary: GCSseasRes:='seasonMid';
       optFarest: GCSseasRes:='seasonMax';
    end;
    Result:=GCSseasRes;
@@ -499,22 +499,22 @@ begin
    if OPGMTsatIdx=0
    then
    begin
-      OPGMTdmpT1:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[OPGMToobjIdx].OO_orbPeriod[1].OP_meanTemp;
-      OPGMTdmpT2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[OPGMToobjIdx].OO_orbPeriod[2].OP_meanTemp;
-      OPGMTdmpT3:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[OPGMToobjIdx].OO_orbPeriod[3].OP_meanTemp;
-      OPGMTdmpT4:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[OPGMToobjIdx].OO_orbPeriod[4].OP_meanTemp;
+      OPGMTdmpT1:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[OPGMToobjIdx].OO_orbPeriod[1].S_meanTemperature;
+      OPGMTdmpT2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[OPGMToobjIdx].OO_orbPeriod[2].S_meanTemperature;
+      OPGMTdmpT3:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[OPGMToobjIdx].OO_orbPeriod[3].S_meanTemperature;
+      OPGMTdmpT4:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[OPGMToobjIdx].OO_orbPeriod[4].S_meanTemperature;
    end
    else if OPGMTsatIdx>0
    then
    begin
       OPGMTdmpT1
-         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[OPGMToobjIdx].OO_satList[OPGMTsatIdx].OOS_orbPeriod[1].OP_meanTemp;
+         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[OPGMToobjIdx].OO_satList[OPGMTsatIdx].OOS_orbPeriod[1].S_meanTemperature;
       OPGMTdmpT2
-         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[OPGMToobjIdx].OO_satList[OPGMTsatIdx].OOS_orbPeriod[2].OP_meanTemp;
+         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[OPGMToobjIdx].OO_satList[OPGMTsatIdx].OOS_orbPeriod[2].S_meanTemperature;
       OPGMTdmpT3
-         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[OPGMToobjIdx].OO_satList[OPGMTsatIdx].OOS_orbPeriod[3].OP_meanTemp;
+         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[OPGMToobjIdx].OO_satList[OPGMTsatIdx].OOS_orbPeriod[3].S_meanTemperature;
       OPGMTdmpT4
-         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[OPGMToobjIdx].OO_satList[OPGMTsatIdx].OOS_orbPeriod[4].OP_meanTemp;
+         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[OPGMToobjIdx].OO_satList[OPGMTsatIdx].OOS_orbPeriod[4].S_meanTemperature;
    end;
    OPGMTdmpRes:=(OPGMTdmpT1+OPGMTdmpT2+OPGMTdmpT3+OPGMTdmpT4)/4;
    Result:=OPGMTdmpRes;

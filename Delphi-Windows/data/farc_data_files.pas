@@ -1677,6 +1677,7 @@ procedure FCMdF_DBstarSys_Process(
    const DBSSPstarSysID
          ,DBSSPstarID: string
    );
+{:DEV NOTES: init: TFCRduSpaceUnitInOrbit for security, put that in a separate method (will be used for new game / load game=> put a dev note in these respective methods.}
 {:Purpose: read the universe database xml file.
    Additions:
       -2012Jun02- *add: primary gas volume.
@@ -1851,14 +1852,14 @@ begin
                               inc(DBSSPperOrbCnt);
                               DBSSPperOrbDmp:=DBSSPperOrbNode.Attributes['optype'];
                               if DBSSPperOrbDmp='optClosest'
-                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_orbPeriod[DBSSPperOrbCnt].OP_type:=optClosest
+                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_orbPeriod[DBSSPperOrbCnt].S_orbitalPeriodType:=optClosest
                               else if DBSSPperOrbDmp='optInterm'
-                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_orbPeriod[DBSSPperOrbCnt].OP_type:=optInterm
+                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_orbPeriod[DBSSPperOrbCnt].S_orbitalPeriodType:=optIntermediary
                               else if DBSSPperOrbDmp='optFarest'
-                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_orbPeriod[DBSSPperOrbCnt].OP_type:=optFarest;
-                              FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_orbPeriod[DBSSPperOrbCnt].OP_dayStart:=DBSSPperOrbNode.Attributes['opstrt'];
-                              FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_orbPeriod[DBSSPperOrbCnt].OP_dayEnd:=DBSSPperOrbNode.Attributes['opend'];
-                              FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_orbPeriod[DBSSPperOrbCnt].OP_meanTemp:=DBSSPperOrbNode.Attributes['opmtemp'];
+                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_orbPeriod[DBSSPperOrbCnt].S_orbitalPeriodType:=optFarest;
+                              FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_orbPeriod[DBSSPperOrbCnt].S_dayStart:=DBSSPperOrbNode.Attributes['opstrt'];
+                              FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_orbPeriod[DBSSPperOrbCnt].S_dayEnd:=DBSSPperOrbNode.Attributes['opend'];
+                              FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_orbPeriod[DBSSPperOrbCnt].S_meanTemperature:=DBSSPperOrbNode.Attributes['opmtemp'];
                               DBSSPperOrbNode:= DBSSPperOrbNode.NextSibling;
                            end;
                         end //==END== else if DBSSPorbObjNode.NodeName='orbperlist' ==//
@@ -1923,19 +1924,19 @@ begin
                            {.hydrosphere}
                            DBSSPhydroTp:=DBSSPorbObjNode.Attributes['hydroTp'];
                            if DBSSPhydroTp='htNone'
-                           then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_hydrotp:=htNone
+                           then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_hydrotp:=hNoH2O
                            else if DBSSPhydroTp='htVapor'
-                           then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_hydrotp:=htVapor
+                           then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_hydrotp:=hVaporH2O
                            else if DBSSPhydroTp='htLiquid'
-                           then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_hydrotp:=htLiquid
+                           then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_hydrotp:=hLiquidH2O
                            else if DBSSPhydroTp='htIceSheet'
-                           then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_hydrotp:=htIceSheet
+                           then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_hydrotp:=hIceSheet
                            else if DBSSPhydroTp='htCrystal'
-                           then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_hydrotp:=htCrystal
+                           then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_hydrotp:=hCrystalIce
                            else if DBSSPhydroTp='htLiqNH3'
-                           then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_hydrotp:=htLiqNH3
+                           then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_hydrotp:=hLiquidH2O_blend_NH3
                            else if DBSSPhydroTp='htLiqCH4'
-                           then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_hydrotp:=htLiqCH4;
+                           then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_hydrotp:=hLiquidCH4;
                            FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_hydroArea:=DBSSPorbObjNode.Attributes['hydroArea'];
                         end {.else if DBSSPorbObjNode.NodeName='orbobjecosdata'}
                         else if DBSSPorbObjNode.NodeName='orbobjregions'
@@ -2087,14 +2088,14 @@ begin
                                     inc(DBSSPperOrbCnt);
                                     DBSSPperOrbDmp:=DBSSPperOrbNode.Attributes['optype'];
                                     if DBSSPperOrbDmp='optClosest'
-                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_orbPeriod[DBSSPperOrbCnt].OP_type:=optClosest
+                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_orbPeriod[DBSSPperOrbCnt].S_orbitalPeriodType:=optClosest
                                     else if DBSSPperOrbDmp='optInterm'
-                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_orbPeriod[DBSSPperOrbCnt].OP_type:=optInterm
+                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_orbPeriod[DBSSPperOrbCnt].S_orbitalPeriodType:=optIntermediary
                                     else if DBSSPperOrbDmp='optFarest'
-                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_orbPeriod[DBSSPperOrbCnt].OP_type:=optFarest;
-                                    FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_orbPeriod[DBSSPperOrbCnt].OP_dayStart:=DBSSPperOrbNode.Attributes['opstrt'];
-                                    FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_orbPeriod[DBSSPperOrbCnt].OP_dayEnd:=DBSSPperOrbNode.Attributes['opend'];
-                                    FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_orbPeriod[DBSSPperOrbCnt].OP_meanTemp:=DBSSPperOrbNode.Attributes['opmtemp'];
+                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_orbPeriod[DBSSPperOrbCnt].S_orbitalPeriodType:=optFarest;
+                                    FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_orbPeriod[DBSSPperOrbCnt].S_dayStart:=DBSSPperOrbNode.Attributes['opstrt'];
+                                    FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_orbPeriod[DBSSPperOrbCnt].S_dayEnd:=DBSSPperOrbNode.Attributes['opend'];
+                                    FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_orbPeriod[DBSSPperOrbCnt].S_meanTemperature:=DBSSPperOrbNode.Attributes['opmtemp'];
                                     DBSSPperOrbNode:= DBSSPperOrbNode.NextSibling;
                                  end;
                               end //==END== else if DBSSPsatNode.NodeName='orbperlist' ==//
@@ -2155,19 +2156,19 @@ begin
                                  {.hydrosphere}
                                  DBSSPhydroTp:=DBSSPsatNode.Attributes['hydroTp'];
                                  if DBSSPhydroTp='htNone'
-                                 then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_hydrotp:=htNone
+                                 then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_hydrotp:=hNoH2O
                                  else if DBSSPhydroTp='htVapor'
-                                 then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_hydrotp:=htVapor
+                                 then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_hydrotp:=hVaporH2O
                                  else if DBSSPhydroTp='htLiquid'
-                                 then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_hydrotp:=htLiquid
+                                 then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_hydrotp:=hLiquidH2O
                                  else if DBSSPhydroTp='htIceSheet'
-                                 then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_hydrotp:=htIceSheet
+                                 then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_hydrotp:=hIceSheet
                                  else if DBSSPhydroTp='htCrystal'
-                                 then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_hydrotp:=htCrystal
+                                 then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_hydrotp:=hCrystalIce
                                  else if DBSSPhydroTp='htLiqNH3'
-                                 then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_hydrotp:=htLiqNH3
+                                 then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_hydrotp:=hLiquidH2O_blend_NH3
                                  else if DBSSPhydroTp='htLiqCH4'
-                                 then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_hydrotp:=htLiqCH4;
+                                 then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_hydrotp:=hLiquidCH4;
                                  FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OOS_hydroArea:=DBSSPsatNode.Attributes['hydroArea'];
                               end {.else if DBSSPsatNode.NodeName='satecosdata'}
                               else if DBSSPsatNode.NodeName='satregions'

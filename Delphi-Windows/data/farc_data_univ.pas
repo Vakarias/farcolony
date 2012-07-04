@@ -64,6 +64,7 @@ type TFCEduCompanion2OrbitTypes=(
 
 {:REFERENCES LIST
    - universe.xml
+   - FCMdF_DBstarSys_Process
    - FCFuF_Env_GetStr
 }
 ///<summary>
@@ -91,7 +92,27 @@ type TFCEduHabitableZones=(
    );
 
 {:REFERENCES LIST
+   - FCFgC_ColEnv_GetTp
+   - FCMoglVMain_MapTex_Assign
+   - FCMuiCDP_Data_Update
+   - FCMuiSP_SurfaceEcosphere_Set
+}
+///<summary>
+///   types of hydrospheres
+///</summary>
+type TFCEduHydrospheres=(
+   hNoH2O
+   ,hVaporH2O
+   ,hLiquidH2O
+   ,hIceSheet
+   ,hCrystalIce
+   ,hLiquidH2O_blend_NH3
+   ,hLiquidCH4
+   );
+
+{:REFERENCES LIST
    - universe.xml
+   - FCMdF_DBstarSys_Process
    - FCMoglUI_Main3DViewUI_Update
    - FCFoglVMain_Aster_Set    FCMoglVMain_MapTex_Assign  FCMoglVM_MView_Upd
    - FCMuiSP_SurfaceEcosphere_Set
@@ -202,7 +223,21 @@ type TFCEduOrbitalObjectTypes=(
    );
 
 {:REFERENCES LIST
+   - FCMdF_DBstarSys_Process
+   - FCFuF_Ecosph_GetCurSeas
+}
+///<summary>
+///   orbital period types
+///</summary>
+type TFCEduOrbitalPeriodTypes=(
+   optClosest
+   ,optIntermediary
+   ,optFarest
+   );
+
+{:REFERENCES LIST
    - universe.xml
+   - FCMdF_DBstarSys_Process
 }
 ///<summary>
 ///   resource spot quality
@@ -219,6 +254,7 @@ type TFCEduResourceSpotQuality=(
 
 {:REFERENCES LIST
    - universe.xml
+   - FCMdF_DBstarSys_Process
 }
 ///<summary>
 ///   resource spot rarity
@@ -236,6 +272,8 @@ type TFCEduResourceSpotRarity=(
 {:REFERENCES LIST
    - infrastrucdb.xml
    - universe.xml
+   - FCMdF_DBInfra_Read
+   - FCMdF_DBstarSys_Process
 }
 ///<summary>
 ///   types of resource spot
@@ -327,6 +365,41 @@ type TFCRduAtmosphericComposition = record
    AC_gasPresenceSO2: TFCEduAtmosphericGasStatus;
 end;
 
+{:REFERENCES LIST
+   - FCMdF_DBstarSys_Process
+   - FCFuF_Ecosph_GetCurSeas
+   -
+   -
+   -
+   -
+   -
+}
+///<summary>
+///   season, relative to the orbital period
+///</summary>
+type TFCRduSeason = record
+   S_orbitalPeriodType: TFCEduOrbitalPeriodTypes;
+   S_dayStart: integer;
+   S_dayEnd: integer;
+   S_meanTemperature: extended;
+end;
+
+{:REFERENCES LIST
+   - FCMspuF_Orbits_Process
+   -
+   -
+   -
+   -
+   -
+}
+///<summary>
+///   space units in orbit
+///</summary>
+type TFCRduSpaceUnitInOrbit = record
+   SUIO_faction: integer;
+   SUIO_ownedSpaceUnitIndex: integer;
+end;
+
 //==END PUBLIC RECORDS======================================================================
 
    //==========subsection===================================================================
@@ -349,52 +422,10 @@ end;
 
 
 
-   {.sub datastructure about units in orbit (space units only)}
-   type TFCRorbitUnit = record
-      {.unit's faction id #}
-      OU_faction: integer;
-      {.unit's owned index}
-      OU_spUn: integer;
-   end;
-   {:DEV NOTES: ****you need to update FARC.main.odt when updating this data structure****}
-      {.orbital period types}
-   type TFCEorbPeriodTp=
-      (
-         optClosest
-         ,optInterm
-         ,optFarest
-      );
-   {:DEV NOTES: ****you need to update FARC.main.odt when updating this data structure****}
-      {sub datastructure about orbital period and mean surface temperature, following season}
-   type TFCRorbPeriod = record
-         {.orbital period type}
-      OP_type: TFCEorbPeriodTp;
-         {.starting day of the season/orbital period}
-      OP_dayStart: integer;
-         {.ending day of the season/orbital period}
-      OP_dayEnd: integer;
-         {.mean surface temperature during this season}
-      OP_meanTemp: extended;
-   end;
-   {:DEV NOTES: update}
-      {.hydrosphere types}
-   type TFCEhydroTp=
-      (
-            {.no water presence}
-         htNone
-            {.water presence under vapour}
-         ,htVapor
-            {.water presence under liquid form}
-         ,htLiquid
-            {.water presence under ice sheet form}
-         ,htIceSheet
-            {.water presence under crystal ice form}
-         ,htCrystal
-            {.water presence in a blend w/ ammonia}
-         ,htLiqNH3
-            {.water is replaced w/ liquid methane}
-         ,htLiqCH4
-      );
+   
+
+
+
       {.terrain relief types}
    type TFCEregRelief=
       (
@@ -469,6 +500,22 @@ end;
          RS_rarity: TFCEduResourceSpotRarity;
       end;
    end;
+
+   {:DEV NOTES: try to blend the oobj and sat data structure
+      do not update the SVN until it's tested and doable without blow all the structure
+
+      put bool in oobj=>  case isAsat of
+
+      false:
+         put # of sat
+         put index of sat #1
+
+
+      true:
+         put sat# in the order
+         put OOS_distFrmOOb
+
+   }
    {.satellite data structure, child of TFCRorbObj}
    {:DEV NOTE: don't forget to update farc_data_files / FCMdFiles_DBstarSys_Process.}
    type TFCRorbObjSat = record
@@ -477,7 +524,7 @@ end;
          {NOT LOADED DATA - counter of OOS_inOrbitList}
       OOS_inOrbitCnt: integer;
          {NOT LOADED DATA - list of units in orbit}
-      OOS_inOrbitList: array[0..FCDUorbits] of TFCRorbitUnit;
+      OOS_inOrbitList: array[0..FCDUorbits] of TFCRduSpaceUnitInOrbit;
       {.colonies settled on it [faction#]=owned colony id db #, 0= player}
       OOS_colonies: array [0..1] of integer;
          {kind of satellite}
@@ -517,9 +564,9 @@ end;
          {atmosphere detailed composition}
       OOS_atmosph: TFCRduAtmosphericComposition;
          {.orbital periods list, 2 intermediate 1 closest (summer) 1 farest (winter)}
-      OOS_orbPeriod: array[0..4] of TFCRorbPeriod;
+      OOS_orbPeriod: array[0..4] of TFCRduSeason;
          {.hydrosphere type}
-      OOS_hydrotp: TFCEhydroTp;
+      OOS_hydrotp: TFCEduHydrospheres;
          {.hydrosphere area}
       OOS_hydroArea: extended;
          {.regions}
@@ -537,7 +584,7 @@ end;
          {NOT LOADED DATA - counter of OO_inOrbitList}
       OO_inOrbitCnt: integer;
          {NOT LOADED DATA - list of units in orbit}
-      OO_inOrbitList: array[0..FCDUorbits] of TFCRorbitUnit;
+      OO_inOrbitList: array[0..FCDUorbits] of TFCRduSpaceUnitInOrbit;
          {NOT LOADED DATA - index of the first satellite object}
       OO_sat1stOb: integer;
       OO_satList: array of TFCRorbObjSat;
@@ -586,9 +633,9 @@ end;
          {atmosphere detailed composition}
       OO_atmosph: TFCRduAtmosphericComposition;
          {.orbital periods list, 2 intermediate 1 closest (summer) 1 farest (winter)}
-      OO_orbPeriod: array[0..4] of TFCRorbPeriod;
+      OO_orbPeriod: array[0..4] of TFCRduSeason;
          {.hydrosphere type}
-      OO_hydrotp: TFCEhydroTp;
+      OO_hydrotp: TFCEduHydrospheres;
          {.hydrosphere area}
       OO_hydroArea: extended;
          {.regions}

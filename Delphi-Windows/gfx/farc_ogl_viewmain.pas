@@ -615,7 +615,7 @@ procedure FCMoglVMain_MapTex_Assign(const MTAoobjIdx, MTAsatIdx, MTAsatObjIdx: i
 }
 var
    MTAdmpObjTp: TFCEduOrbitalObjectTypes;
-   MTAdmpHydroTp: TFCEhydroTp;
+   MTAdmpHydroTp: TFCEduHydrospheres;
    MTAdmpLibName
    ,MTAdmpOobjToken
    ,MTAdmpTexPath: string;
@@ -700,9 +700,9 @@ begin
          ootPlanet_Icy_EuropaH4: MTAdmpLibName:='Europa';
          ootPlanet_Icy_CallistoH3H4Atm0:
          begin
-            if  MTAdmpHydroTp=htIceSheet
+            if  MTAdmpHydroTp=hIceSheet
             then MTAdmpLibName:='CallistoH3'
-            else if  MTAdmpHydroTp=htCrystal
+            else if  MTAdmpHydroTp=hCrystalIce
             then MTAdmpLibName:='CallistoH4';
          end;
          ootSatellite_Telluric_Lunar:
@@ -718,9 +718,9 @@ begin
          ootSatellite_Icy_Callisto:
          begin
             MTAdmpLibName:='SatCallistoH3';
-            if  MTAdmpHydroTp=htIceSheet
+            if  MTAdmpHydroTp=hIceSheet
             then MTAdmpLibName:='SatCallistoH3'
-            else if  MTAdmpHydroTp=htCrystal
+            else if  MTAdmpHydroTp=hCrystalIce
             then MTAdmpLibName:='SatCallistoH4';
          end;
       end; {.case MTAdmpObjTp of}
@@ -1982,8 +1982,8 @@ begin
             OOSUIOspUnCnt:=1;
             while OOSUIOspUnCnt<=OOSUIOspUinOrb do
             begin
-               OOSUIOfac:=SDB_obobj[OOSUIOUoobjIdx].OO_inOrbitList[OOSUIOspUnCnt].OU_faction;
-               OOSUIOspUntOwnIdx:=SDB_obobj[OOSUIOUoobjIdx].OO_inOrbitList[OOSUIOspUnCnt].OU_spUn;
+               OOSUIOfac:=SDB_obobj[OOSUIOUoobjIdx].OO_inOrbitList[OOSUIOspUnCnt].SUIO_faction;
+               OOSUIOspUntOwnIdx:=SDB_obobj[OOSUIOUoobjIdx].OO_inOrbitList[OOSUIOspUnCnt].SUIO_ownedSpaceUnitIndex;
                if OOSUIOUmustGen
                then
                begin
@@ -2028,8 +2028,8 @@ begin
             OOSUIOspUnCnt:=1;
             while OOSUIOspUnCnt<=OOSUIOspUinOrb do
             begin
-               OOSUIOfac:=SDB_obobj[OOSUIOUoobjIdx].OO_satList[OOSUIOUsatIdx].OOS_inOrbitList[OOSUIOspUnCnt].OU_faction;
-               OOSUIOspUntOwnIdx:=SDB_obobj[OOSUIOUoobjIdx].OO_satList[OOSUIOUsatIdx].OOS_inOrbitList[OOSUIOspUnCnt].OU_spUn;
+               OOSUIOfac:=SDB_obobj[OOSUIOUoobjIdx].OO_satList[OOSUIOUsatIdx].OOS_inOrbitList[OOSUIOspUnCnt].SUIO_faction;
+               OOSUIOspUntOwnIdx:=SDB_obobj[OOSUIOUoobjIdx].OO_satList[OOSUIOUsatIdx].OOS_inOrbitList[OOSUIOspUnCnt].SUIO_ownedSpaceUnitIndex;
                if OOSUIOUmustGen
                then
                begin
