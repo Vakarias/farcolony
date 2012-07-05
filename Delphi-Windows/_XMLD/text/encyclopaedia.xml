@@ -301,23 +301,23 @@
       <SP></SP>
    </equipInflatGreen3>
    <equipInflatHab1>
-      <EN>Inflatable Habitat [level 1]</EN>
-      <FR>Inflatable Habitat [niveau 1]</FR>
+      <EN></EN>
+      <FR></FR>
       <SP></SP>
    </equipInflatHab1>
    <equipInflatHab2>
-      <EN>Inflatable Habitat [level 2]</EN>
-      <FR>Inflatable Habitat [niveau 2]</FR>
+      <EN></EN>
+      <FR></FR>
       <SP></SP>
    </equipInflatHab2>
    <equipInflatHab3>
-      <EN>Inflatable Habitat [level 3]</EN>
-      <FR>Inflatable Habitat [niveau 3]</FR>
+      <EN></EN>
+      <FR></FR>
       <SP></SP>
    </equipInflatHab3>
    <equipInflatHab4>
-      <EN>Inflatable Habitat [level 4]</EN>
-      <FR>Inflatable Habitat [niveau 4]</FR>
+      <EN></EN>
+      <FR></FR>
       <SP></SP>
    </equipInflatHab4>
    <equipMiningMachinery>
@@ -864,6 +864,7 @@
       <hintitem link="equipInflatHab1" title="Product: Inflatable Habitat [level 1]"/>
       <hintitem link="equipInflatHab2" title="Product: Inflatable Habitat [level 2]"/>
       <hintitem link="equipInflatHab3" title="Product: Inflatable Habitat [level 3]"/>
+      <hintitem link="equipInflatHab4" title="Product: Inflatable Habitat [level 4]"/>
       <hintitem link="equipMiningMachinery" title="Product: Mining Machinery"/>
       <hintitem link="matMWNT" title="Product: Multi-Walled Nanotubes (MWNT)"/>
       <hintitem link="equipMultiDepot1" title="Product: Multipurpose Depot [level 1]"/>
@@ -1010,6 +1011,7 @@
       <hintitem link="equipInflatHab1" title="Produit: Habitat Gonflable [niveau 1]"/>
       <hintitem link="equipInflatHab2" title="Produit: Habitat Gonflable [niveau 2]"/>
       <hintitem link="equipInflatHab3" title="Produit: Habitat Gonflable [niveau 3]"/>
+      <hintitem link="equipInflatHab4" title="Produit: Habitat Gonflable [niveau 4]"/>
       <hintitem link="equipMiningMachinery" title="Produit: Machinerie de Forage"/>
       <hintitem link="matNanocomposites" title="Produit: Nanocomposites"/>
       <hintitem link="matMWNT" title="Produit: Nanotubes Multi-Couches (MWNT)"/>
@@ -1153,6 +1155,7 @@
       <hintitem link="equipInflatHab1" title="Produit: Habitat Gonflable [niveau 1]"/>
       <hintitem link="equipInflatHab2" title="Produit: Habitat Gonflable [niveau 2]"/>
       <hintitem link="equipInflatHab3" title="Produit: Habitat Gonflable [niveau 3]"/>
+      <hintitem link="equipInflatHab4" title="Produit: Habitat Gonflable [niveau 4]"/>
       <hintitem link="equipMiningMachinery" title="Produit: Machinerie de Forage"/>
       <hintitem link="matNanocomposites" title="Produit: Nanocomposites"/>
       <hintitem link="matMWNT" title="Produit: Nanotubes Multi-Couches (MWNT)"/>

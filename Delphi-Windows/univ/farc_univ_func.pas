@@ -526,7 +526,7 @@ function FCFuF_Region_GetClim(const RGCooIdx, RGCsatIdx, RGCregIdx: integer): st
 }
 var
    RGCdmpRes: string;
-   RGCdmpClim: TFCEregClimate;
+   RGCdmpClim: TFCEduRegionClimates;
 begin
    RGCdmpRes:='';
    if RGCsatIdx=0
@@ -535,17 +535,17 @@ begin
    then RGCdmpClim
       :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[RGCooIdx].OO_satList[RGCsatIdx].OOS_regions[RGCregIdx].OOR_climate;
    case RGCdmpClim of
-      rc00void: RGCdmpRes:='climtpVoid';
-      rc01vhotHumid: RGCdmpRes:='climtpVHotH';
-      rc02vhotSemiHumid: RGCdmpRes:='climtpVHotSH';
-      rc03hotSemiArid: RGCdmpRes:='climtpHotSAr';
-      rc04hotArid: RGCdmpRes:='climtpHotAr';
-      rc05modHumid: RGCdmpRes:='climtpModH';
-      rc06modDry: RGCdmpRes:='climtpModD';
-      rc07coldArid: RGCdmpRes:='climtpColdAr';
-      rc08periarctic: RGCdmpRes:='climtpPeria';
-      rc09arctic: RGCdmpRes:='climtpArc';
-      rc10extreme: RGCdmpRes:='climtpExtr';
+      rc00VoidNoUse: RGCdmpRes:='climtpVoid';
+      rc01VeryHotHumid: RGCdmpRes:='climtpVHotH';
+      rc02VeryHotSemiHumid: RGCdmpRes:='climtpVHotSH';
+      rc03HotSemiArid: RGCdmpRes:='climtpHotSAr';
+      rc04HotArid: RGCdmpRes:='climtpHotAr';
+      rc05ModerateHumid: RGCdmpRes:='climtpModH';
+      rc06ModerateDry: RGCdmpRes:='climtpModD';
+      rc07ColdArid: RGCdmpRes:='climtpColdAr';
+      rc08Periarctic: RGCdmpRes:='climtpPeria';
+      rc09Arctic: RGCdmpRes:='climtpArc';
+      rc10Extreme: RGCdmpRes:='climtpExtr';
    end;
    Result:=RGCdmpRes;
 end;

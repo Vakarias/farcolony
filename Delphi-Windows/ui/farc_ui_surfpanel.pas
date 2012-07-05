@@ -525,8 +525,8 @@ var
    ,SERUseason
    ,SERUterrain: string;
 
-   SERUdmpRelief: TFCEregRelief;
-   SERUdmpTerrTp: TFCEregSoilTp;
+   SERUdmpRelief: TFCEduRegionReliefs;
+   SERUdmpTerrTp: TFCEduRegionSoilTypes;
 begin
    with FCWinMain do
    begin
@@ -573,289 +573,289 @@ begin
       SERUterrain:='';
       SERUrelief:='';
       case SERUdmpTerrTp of
-         rst01rockDes:
+         rst01RockyDesert:
          begin
             SERUterrain:='terrainRDes';
             case SERUdmpRelief of
-               rr1plain:
+               rr1Plain:
                begin
                   SERUrelief:='reliefPlain';
                   SERUtPic:=0;
                end;
-               rr4broken:
+               rr4Broken:
                begin
                   SERUrelief:='reliefBrok';
                   SERUtPic:=1;
                end;
-               rr9mountain:
+               rr9Mountain:
                begin
                   SERUrelief:='reliefMount';
                   SERUtPic:=2;
                end;
             end;
          end;
-         rst02sandDes:
+         rst02SandyDesert:
          begin
             SERUterrain:='terrainSDes';
-            if SERUdmpRelief=rr1plain
+            if SERUdmpRelief=rr1Plain
             then
             begin
                SERUrelief:='reliefPlain';
                SERUtPic:=3;
             end
-            else if SERUdmpRelief=rr4broken
+            else if SERUdmpRelief=rr4Broken
             then
             begin
                SERUrelief:='reliefBrok';
                SERUtPic:=4;
             end;
          end;
-         rst03volcanic:
+         rst03Volcanic:
          begin
             SERUterrain:='terrainVol';
             case SERUdmpRelief of
-               rr1plain:
+               rr1Plain:
                begin
                   SERUrelief:='reliefPlain';
                   SERUtPic:=5;
                end;
-               rr4broken:
+               rr4Broken:
                begin
                   SERUrelief:='reliefBrok';
                   SERUtPic:=6;
                end;
-               rr9mountain:
+               rr9Mountain:
                begin
                   SERUrelief:='reliefMount';
                   SERUtPic:=7;
                end;
             end;
          end;
-         rst04polar:
+         rst04Polar:
          begin
             SERUterrain:='terrainPol';
             case SERUdmpRelief of
-               rr1plain:
+               rr1Plain:
                begin
                   SERUrelief:='reliefPlain';
                   SERUtPic:=8;
                end;
-               rr4broken:
+               rr4Broken:
                begin
                   SERUrelief:='reliefBrok';
                   SERUtPic:=9;
                end;
-               rr9mountain:
+               rr9Mountain:
                begin
                   SERUrelief:='reliefMount';
                   SERUtPic:=10;
                end;
             end;
          end;
-         rst05arid:
+         rst05Arid:
          begin
             SERUterrain:='terrainArid';
             case SERUdmpRelief of
-               rr1plain:
+               rr1Plain:
                begin
                   SERUrelief:='reliefPlain';
                   SERUtPic:=11;
                end;
-               rr4broken:
+               rr4Broken:
                begin
                   SERUrelief:='reliefBrok';
                   SERUtPic:=12;
                end;
-               rr9mountain:
+               rr9Mountain:
                begin
                   SERUrelief:='reliefMount';
                   SERUtPic:=13;
                end;
             end;
          end;
-         rst06fertile:
+         rst06Fertile:
          begin
             SERUterrain:='terrainFert';
             case SERUdmpRelief of
-               rr1plain:
+               rr1Plain:
                begin
                   SERUrelief:='reliefPlain';
                   SERUtPic:=14;
                end;
-               rr4broken:
+               rr4Broken:
                begin
                   SERUrelief:='reliefBrok';
                   SERUtPic:=15;
                end;
-               rr9mountain:
+               rr9Mountain:
                begin
                   SERUrelief:='reliefMount';
                   SERUtPic:=16;
                end;
             end;
          end;
-         rst07oceanic:
+         rst07Oceanic:
          begin
             SERUterrain:='terrainOcean';
             SERUtPic:=17;
          end;
-         rst08coastRockDes:
+         rst08CoastalRockyDesert:
          begin
             SERUterrain:='terrainCoastRDes';
             case SERUdmpRelief of
-               rr1plain:
+               rr1Plain:
                begin
                   SERUrelief:='reliefPlain';
                   SERUtPic:=18;
                end;
-               rr4broken:
+               rr4Broken:
                begin
                   SERUrelief:='reliefBrok';
                   SERUtPic:=19;
                end;
-               rr9mountain:
+               rr9Mountain:
                begin
                   SERUrelief:='reliefMount';
                   SERUtPic:=20;
                end;
             end;
          end;
-         rst09coastSandDes:
+         rst09CoastalSandyDesert:
          begin
             SERUterrain:='terrainCoastSDes';
-            if SERUdmpRelief=rr1plain
+            if SERUdmpRelief=rr1Plain
             then
             begin
                SERUrelief:='reliefPlain';
                SERUtPic:=21;
             end
-            else if SERUdmpRelief=rr4broken
+            else if SERUdmpRelief=rr4Broken
             then
             begin
                SERUrelief:='reliefBrok';
                SERUtPic:=22;
             end;
          end;
-         rst10coastVolcanic:
+         rst10CoastalVolcanic:
          begin
             SERUterrain:='terrainCoastVol';
             case SERUdmpRelief of
-               rr1plain:
+               rr1Plain:
                begin
                   SERUrelief:='reliefPlain';
                   SERUtPic:=23;
                end;
-               rr4broken:
+               rr4Broken:
                begin
                   SERUrelief:='reliefBrok';
                   SERUtPic:=24;
                end;
-               rr9mountain:
+               rr9Mountain:
                begin
                   SERUrelief:='reliefMount';
                   SERUtPic:=25;
                end;
             end;
          end;
-         rst11coastPolar:
+         rst11CoastalPolar:
          begin
             SERUterrain:='terrainCoastPol';
             case SERUdmpRelief of
-               rr1plain:
+               rr1Plain:
                begin
                   SERUrelief:='reliefPlain';
                   SERUtPic:=26;
                end;
-               rr4broken:
+               rr4Broken:
                begin
                   SERUrelief:='reliefBrok';
                   SERUtPic:=27;
                end;
-               rr9mountain:
+               rr9Mountain:
                begin
                   SERUrelief:='reliefMount';
                   SERUtPic:=28;
                end;
             end;
          end;
-         rst12coastArid:
+         rst12CoastalArid:
          begin
             SERUterrain:='terrainCoastArid';
             case SERUdmpRelief of
-               rr1plain:
+               rr1Plain:
                begin
                   SERUrelief:='reliefPlain';
                   SERUtPic:=29;
                end;
-               rr4broken:
+               rr4Broken:
                begin
                   SERUrelief:='reliefBrok';
                   SERUtPic:=30;
                end;
-               rr9mountain:
+               rr9Mountain:
                begin
                   SERUrelief:='reliefMount';
                   SERUtPic:=31;
                end;
             end;
          end;
-         rst13coastFertile:
+         rst13CoastalFertile:
          begin
             SERUterrain:='terrainCoastFert';
             case SERUdmpRelief of
-               rr1plain:
+               rr1Plain:
                begin
                   SERUrelief:='reliefPlain';
                   SERUtPic:=32;
                end;
-               rr4broken:
+               rr4Broken:
                begin
                   SERUrelief:='reliefBrok';
                   SERUtPic:=33;
                end;
-               rr9mountain:
+               rr9Mountain:
                begin
                   SERUrelief:='reliefMount';
                   SERUtPic:=34;
                end;
             end;
          end;
-         rst14barren:
+         rst14Sterile:
          begin
             SERUterrain:='terrainSter';
             case SERUdmpRelief of
-               rr1plain:
+               rr1Plain:
                begin
                   SERUrelief:='reliefPlain';
                   SERUtPic:=35;
                end;
-               rr4broken:
+               rr4Broken:
                begin
                   SERUrelief:='reliefBrok';
                   SERUtPic:=36;
                end;
-               rr9mountain:
+               rr9Mountain:
                begin
                   SERUrelief:='reliefMount';
                   SERUtPic:=37;
                end;
             end;
          end;
-         rst15icyBarren:
+         rst15icySterile:
          begin
             SERUterrain:='terrainIcSter';
             case SERUdmpRelief of
-               rr1plain:
+               rr1Plain:
                begin
                   SERUrelief:='reliefPlain';
                   SERUtPic:=38;
                end;
-               rr4broken:
+               rr4Broken:
                begin
                   SERUrelief:='reliefBrok';
                   SERUtPic:=39;
                end;
-               rr9mountain:
+               rr9Mountain:
                begin
                   SERUrelief:='reliefMount';
                   SERUtPic:=40;

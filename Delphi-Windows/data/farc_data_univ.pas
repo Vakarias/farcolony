@@ -236,6 +236,66 @@ type TFCEduOrbitalPeriodTypes=(
    );
 
 {:REFERENCES LIST
+   - FCMdF_DBstarSys_Process
+   - FCFuF_Region_GetClim
+}
+///<summary>
+///   region's climates
+///</summary>
+type TFCEduRegionClimates=(
+   rc00VoidNoUse
+   ,rc01VeryHotHumid
+   ,rc02VeryHotSemiHumid
+   ,rc03HotSemiArid
+   ,rc04HotArid
+   ,rc05ModerateHumid
+   ,rc06ModerateDry
+   ,rc07ColdArid
+   ,rc08Periarctic
+   ,rc09Arctic
+   ,rc10Extreme
+   );
+
+{:REFERENCES LIST
+   - FCMdF_DBstarSys_Process
+   - FCMuiSP_RegionDataPicture_Update
+}
+///<summary>
+///   region's reliefs
+///</summary>
+type TFCEduRegionReliefs=(
+   rr1Plain
+   ,rr4Broken
+   ,rr9Mountain
+   );
+
+{:REFERENCES LIST
+   - TFCEdipRegionSoilReq
+   - FCMdF_DBstarSys_Process
+   - FCMuiSP_RegionDataPicture_Update
+}
+///<summary>
+///   -
+///</summary>
+type TFCEduRegionSoilTypes=(
+   rst01RockyDesert
+   ,rst02SandyDesert
+   ,rst03Volcanic
+   ,rst04Polar
+   ,rst05Arid
+   ,rst06Fertile
+   ,rst07Oceanic
+   ,rst08CoastalRockyDesert
+   ,rst09CoastalSandyDesert
+   ,rst10CoastalVolcanic
+   ,rst11CoastalPolar
+   ,rst12CoastalArid
+   ,rst13CoastalFertile
+   ,rst14Sterile
+   ,rst15icySterile
+   );
+
+{:REFERENCES LIST
    - universe.xml
    - FCMdF_DBstarSys_Process
 }
@@ -366,6 +426,47 @@ type TFCRduAtmosphericComposition = record
 end;
 
 {:REFERENCES LIST
+   -
+   -
+   -
+   -
+   -
+   -
+}
+{.region sub data structure}
+{:DEV NOTE: update FCMdF_DBstarSys_Process.}
+type TFCRduOObRegion = record
+   {.type of soil}
+   OOR_soilTp: TFCEduRegionSoilTypes;
+   {.type of relief}
+   OOR_relief: TFCEduRegionReliefs;
+   {.type of climate}
+   OOR_climate: TFCEduRegionClimates;
+   {.mean temperature at minimum orbital distance in kelvin}
+   OOR_meanTdMin: extended;
+   {.mean temperature at intermediate orbital distance in kelvin}
+   OOR_meanTdInt: extended;
+   {.mean temperature at maximum orbital distance in kelvin}
+   OOR_meanTdMax: extended;
+   {.mean windspeed in m/s}
+   OOR_windSpd: extended;
+   {.yearly precipitation in mm}
+   OOR_precip: Integer;
+   {.settlement data}
+   OOR_setEnt: integer;
+   OOR_setCol: integer;
+   OOR_setSet: integer;
+   {.environment modifier}
+   OOR_emo: extended;
+   {.resources data}
+   OOR_resourceSpot: array of record
+      RS_type: TFCEduResourceSpotTypes;
+      RS_quality: TFCEduResourceSpotQuality;
+      RS_rarity: TFCEduResourceSpotRarity;
+   end;
+end;
+
+{:REFERENCES LIST
    - FCMdF_DBstarSys_Process
    - FCFuF_Ecosph_GetCurSeas
    -
@@ -426,80 +527,10 @@ end;
 
 
 
-      {.terrain relief types}
-   type TFCEregRelief=
-      (
-         rr1plain
-         ,rr4broken
-         ,rr9mountain
-      );
-      {.soil types}
-      {:DEV NOTES: update TFCEdipRegionSoilReq if needed.}
-   type TFCEregSoilTp=
-      (
-         rst01rockDes
-         ,rst02sandDes
-         ,rst03volcanic
-         ,rst04polar
-         ,rst05arid
-         ,rst06fertile
-         ,rst07oceanic
-         ,rst08coastRockDes
-         ,rst09coastSandDes
-         ,rst10coastVolcanic
-         ,rst11coastPolar
-         ,rst12coastArid
-         ,rst13coastFertile
-         ,rst14barren
-         ,rst15icyBarren
-      );
-      {.climate types}
-   type TFCEregClimate=
-      (
-         rc00void
-         ,rc01vhotHumid
-         ,rc02vhotSemiHumid
-         ,rc03hotSemiArid
-         ,rc04hotArid
-         ,rc05modHumid
-         ,rc06modDry
-         ,rc07coldArid
-         ,rc08periarctic
-         ,rc09arctic
-         ,rc10extreme
-      );
-   {.region sub data structure}
-   {:DEV NOTE: update FCMdF_DBstarSys_Process.}
-   type TFCRduOObRegion = record
-      {.type of soil}
-      OOR_soilTp: TFCEregSoilTp;
-      {.type of relief}
-      OOR_relief: TFCEregRelief;
-      {.type of climate}
-      OOR_climate: TFCEregClimate;
-      {.mean temperature at minimum orbital distance in kelvin}
-      OOR_meanTdMin: extended;
-      {.mean temperature at intermediate orbital distance in kelvin}
-      OOR_meanTdInt: extended;
-      {.mean temperature at maximum orbital distance in kelvin}
-      OOR_meanTdMax: extended;
-      {.mean windspeed in m/s}
-      OOR_windSpd: extended;
-      {.yearly precipitation in mm}
-      OOR_precip: Integer;
-      {.settlement data}
-      OOR_setEnt: integer;
-      OOR_setCol: integer;
-      OOR_setSet: integer;
-      {.environment modifier}
-      OOR_emo: extended;
-      {.resources data}
-      OOR_resourceSpot: array of record
-         RS_type: TFCEduResourceSpotTypes;
-         RS_quality: TFCEduResourceSpotQuality;
-         RS_rarity: TFCEduResourceSpotRarity;
-      end;
-   end;
+
+
+
+
 
    {:DEV NOTES: try to blend the oobj and sat data structure
       do not update the SVN until it's tested and doable without blow all the structure
