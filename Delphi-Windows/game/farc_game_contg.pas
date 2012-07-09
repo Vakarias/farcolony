@@ -121,7 +121,7 @@ begin
    begin
       {.entities initialization loop}
       CPeCnt:=0;
-      while CPeCnt<=FCCfacMax do
+      while CPeCnt<=FCCdiFactionsMax do
       begin
          {.set space units in orbits, if there's any}
          CPttl:=length(FCentities[CPeCnt].E_spU)-1;

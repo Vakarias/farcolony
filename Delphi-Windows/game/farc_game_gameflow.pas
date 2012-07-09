@@ -112,7 +112,7 @@ begin
       begin
          CSMPPtickNew:=FCRplayer.P_timeTick+FCCwkTick;
          CSMPPfacCnt:=0;
-         while CSMPPfacCnt<FCCfacMax do
+         while CSMPPfacCnt<FCCdiFactionsMax do
          begin
             CSMPPsubMax:=length(FCGcsmPhList[CSMPPcnt].CSMT_col[CSMPPfacCnt])-1;
             if CSMPPsubMax>0
@@ -612,7 +612,7 @@ begin
                         GTPoobjDB:=round(FC3DobjSatGrp[FCGtskListInProc[GTPtaskIdx].TITP_destIdx].TagFloat);
                         FCentities[GTPfac].E_spU[GTPspuOwn].SUO_oobjLoc:=FCDBSsys[GTPssysDB].SS_star[GTPstarDB].SDB_obobj[GTPoobjDB].OO_dbTokenId;
                         FCentities[GTPfac].E_spU[GTPspuOwn].SUO_satLoc
-                           :=FCDBSsys[GTPssysDB].SS_star[GTPstarDB].SDB_obobj[GTPoobjDB].OO_satList[GTPsatDB].OO_dbTokenId;
+                           :=FCDBSsys[GTPssysDB].SS_star[GTPstarDB].SDB_obobj[GTPoobjDB].OO_satellitesList[GTPsatDB].OO_dbTokenId;
                         FCMspuF_Orbits_Process(
                            spufoioAddOrbit
                            ,GTPssysDB

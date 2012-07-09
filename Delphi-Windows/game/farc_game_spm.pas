@@ -1065,7 +1065,7 @@ begin
    FCWinMain.FCWM_UMIFac_TabShSPMpol.Enabled:=false;
    PPentCnt:=0;
    PPspmMax:=length(FCDBdgSPMi)-1;
-   while PPentCnt<=FCCfacMax do
+   while PPentCnt<=FCCdiFactionsMax do
    begin
       if PPentCnt>0
       then FCWinMain.FCGLScadencer.Enabled:=true;

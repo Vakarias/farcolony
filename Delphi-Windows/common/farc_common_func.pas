@@ -249,7 +249,7 @@ begin
 
          if ((dwFileVersionMS shr 16)=0)
 //            and ((dwFileVersionMS and $FFFF)<1)
-         then Result:='Alpha '+FCCalphaNumber+' '
+         then Result:='Alpha '+FCCdiAlphaNumber+' '
          else if ((dwFileVersionMS shr 16)=1)
            and ((dwFileVersionMS and $FFFF)=0)
          then Result:=Result+'Beta'

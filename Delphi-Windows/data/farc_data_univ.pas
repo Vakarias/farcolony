@@ -31,7 +31,8 @@ unit farc_data_univ;
 
 interface
 
-//uses
+uses
+   farc_data_init;
 
 const
    FCCduMaxSpaceUnitsInOrbit=100;
@@ -519,38 +520,46 @@ end;
    - FCMuiM_Message_Add
    - FCMuiSP_SurfaceEcosphere_Set
    - TFCRufAtmosphereGasesPercent.AtmosphereGases_CalculatePercents
-   -
 }
 ///<summary>
 ///   orbital object
 ///</summary>
 type TFCRduOrbitalObject = record
-   {.db token id}
+   ///<summary>
+   ///   db token id
+   ///</summary>
    OO_dbTokenId: string[20];
-      {NOT LOADED DATA - counter of OO_inOrbitList}
-   OO_inOrbitCnt: integer;
-      {NOT LOADED DATA - list of units in orbit}
-   OO_inOrbitList: array[0..FCCduMaxSpaceUnitsInOrbit] of TFCRduOObSpaceUnitInOrbit;
-    {NOT LOADED DATA - index of the first satellite object}
-   OO_satList: array of TFCRduOrbitalObject;
+   ///<summary>
+   ///   NOT DB DATA - counter of OO_inOrbitList
+   ///</summary>
+   OO_inOrbitCurrentNumber: integer;
+   ///<summary>
+   ///   NOT LOADED DATA - list of units in orbit
+   ///</summary>
+   OO_inOrbitSpaceUnitsList: array[0..FCCduMaxSpaceUnitsInOrbit] of TFCRduOObSpaceUnitInOrbit;
+   ///<summary>
+   ///   list of satellites the orbital object has
+   ///</summary>
+   OO_satellitesList: array of TFCRduOrbitalObject;
    {.colonies settled on it [faction#]=owned colony id db #, 0= player}
-   OO_colonies: array [0..1] of integer;
-      {kind of orbital object}
+   OO_colonies: array [0..FCCdiFactionsMax] of integer;
+   {.type of orbital object}
    OO_type: TFCEduOrbitalObjectTypes;
    {.environment type}
-   OO_envTp: TFCEduEnvironmentTypes;
-
-      {revolution period, in standard days, around it's star}
-   OO_revol: integer;
-      {starting day for revolution period}
-   OO_revolInit: integer;
-      {NOT LOADED DATA - value used for 3d display}
+   OO_environment: TFCEduEnvironmentTypes;
+   {.revolution period, in standard days, around it's star}
+   OO_revolutionPeriod: integer;
+   {.starting day for revolution period}
+   OO_revolutionPeriodInit: integer;
+   {.NOT LOADED DATA - value used for 3d display}
    OO_angle1stDay: extended;
-      {diameter in km RTO-1}
-   OO_diam: extended;
-      {density in kg/m3}
+   {.diameter in km RTO-1}
+   OO_diameter: extended;
+   {.density in kg/m3}
    OO_dens: extended;
-      {mass in Earth mass equivalent RTO-6}
+   ///<summary>
+   ///   mass in Earth mass equivalent RTO-6
+   ///</summary>
    OO_mass: extended;
       {gravity in gees RTO-3}
    OO_grav: extended;

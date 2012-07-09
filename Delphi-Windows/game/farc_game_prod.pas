@@ -98,6 +98,7 @@ uses
    farc_common_func
    ,farc_data_game
    ,farc_data_infrprod
+   ,farc_data_init
    ,farc_game_prodSeg1
    ,farc_game_prodSeg2
    ,farc_game_prodSeg3
@@ -255,7 +256,7 @@ procedure FCMgP_PhaseCore_Process( const isNewDay: boolean);
       ,PCPcolMax: integer;
 begin
    PCPfacCount:=0;
-   while PCPfacCount<=FCCfacMax do
+   while PCPfacCount<=FCCdiFactionsMax do
    begin
       PCPcolMax:=length(FCentities[PCPfacCount].E_col)-1;
       if PCPcolMax>0

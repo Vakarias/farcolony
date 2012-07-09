@@ -120,7 +120,7 @@ begin
    if FCentities[IPIRCentity].E_col[IPIRCcolony].COL_locSat=''
    then IPIRCtargetOobj:=FCDBSSys[ GPRSloc[1] ].SS_star[ GPRSloc[2] ].SDB_obobj[ GPRSloc[3] ].OO_dbTokenId
    else if FCentities[IPIRCentity].E_col[IPIRCcolony].COL_locSat<>''
-   then IPIRCtargetOobj:=FCDBSSys[ GPRSloc[1] ].SS_star[ GPRSloc[2] ].SDB_obobj[ GPRSloc[3] ].OO_satList[ GPRSloc[4] ].OO_dbTokenId;
+   then IPIRCtargetOobj:=FCDBSSys[ GPRSloc[1] ].SS_star[ GPRSloc[2] ].SDB_obobj[ GPRSloc[3] ].OO_satellitesList[ GPRSloc[4] ].OO_dbTokenId;
    IPIRCregion:=FCentities[IPIRCentity].E_col[IPIRCcolony].COL_settlements[IPIRCsettlement].CS_region;
    IPIRCspotMax:=length(FCRplayer.P_surveyedSpots)-1;
    if IPIRCspotMax>0 then

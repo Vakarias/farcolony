@@ -190,10 +190,10 @@ begin
          begin
             MBAMdestName:=FCFdTFiles_UIStr_Get(
                dtfscPrprName
-               ,FCDBSsys[MBAMssys].SS_star[MBAMstar].SDB_obobj[MBAMitm1Idx].OO_satList[MBAMitm2Idx].OO_dbTokenId
+               ,FCDBSsys[MBAMssys].SS_star[MBAMstar].SDB_obobj[MBAMitm1Idx].OO_satellitesList[MBAMitm2Idx].OO_dbTokenId
                );
             MBAMcolName
-               :=FCentities[MBAMfac].E_col[FCDBSsys[MBAMssys].SS_star[MBAMstar].SDB_obobj[MBAMitm1Idx].OO_satList[MBAMitm2Idx].OO_colonies[0]].COL_name;
+               :=FCentities[MBAMfac].E_col[FCDBSsys[MBAMssys].SS_star[MBAMstar].SDB_obobj[MBAMitm1Idx].OO_satellitesList[MBAMitm2Idx].OO_colonies[0]].COL_name;
          end;
          MBAMregLoc:=FCFuF_RegionLoc_Extract(
             MBAMssys
@@ -241,7 +241,7 @@ begin
          else if MBAMitm2Idx>0
          then MBAMdestName:=FCFdTFiles_UIStr_Get(
             dtfscPrprName
-            ,FCDBSsys[MBAMssys].SS_star[MBAMstar].SDB_obobj[MBAMitm1Idx].OO_satList[MBAMitm2Idx].OO_dbTokenId
+            ,FCDBSsys[MBAMssys].SS_star[MBAMstar].SDB_obobj[MBAMitm1Idx].OO_satellitesList[MBAMitm2Idx].OO_dbTokenId
             );
          FCVmsgStoMsg[FCVmsgCount]:=FCFdTFiles_UIStr_Get(uistrUI,'MSG_MissIT0')
             +FCFdTFiles_UIStr_Get(dtfscPrprName, FCentities[MBAMfac].E_spU[MBAMitm0Idx].SUO_nameToken)

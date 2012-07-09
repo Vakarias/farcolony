@@ -228,7 +228,15 @@ const
    ///<summary>
    ///   current alpha # for FARC
    ///</summary>
-   FCCalphaNumber='3';
+   FCCdiAlphaNumber='3';
+
+   ///<summary>
+   ///   maximum of factions in the game (player one is #0)
+   ///</summary>
+   FCCdiFactionsMax=1;
+
+
+   FCCdiMatrixItemsMax=20;
 
 //==END PUBLIC CONST========================================================================
 

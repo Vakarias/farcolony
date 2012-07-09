@@ -202,7 +202,7 @@ begin
                UIIPinfrastructure.I_volume[FCentities[0].E_col[UIIPcolony].COL_settlements[UIIPsettlement].CS_level]
                ,1
                ,UIIPiCWP
-               ,FCDBsSys[AIScurrLocation.CLI_starsys].SS_star[AIScurrLocation.CLI_star].SDB_obobj[AIScurrLocation.CLI_oobj].OO_satList[AIScurrLocation.CLI_sat].OO_regions[ FCentities[0].E_col[UIIPcolony].COL_settlements[UIIPcolony].CS_region ].OOR_emo
+               ,FCDBsSys[AIScurrLocation.CLI_starsys].SS_star[AIScurrLocation.CLI_star].SDB_obobj[AIScurrLocation.CLI_oobj].OO_satellitesList[AIScurrLocation.CLI_sat].OO_regions[ FCentities[0].E_col[UIIPcolony].COL_settlements[UIIPcolony].CS_region ].OOR_emo
                );
             AIStask:=FCFdTFiles_UIStr_Get(uistrUI, 'FCWMtaskBuild');
             AISicwpResult:=FCFdTFiles_UIStr_Get(uistrUI, 'FCWMtaskCWPbuild')+' <b>'+FloatToStr(UIIPiCWP)+'</b> ...';

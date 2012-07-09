@@ -33,13 +33,12 @@ interface
 
    uses
       farc_data_infrprod
+      ,farc_data_init
       ,farc_data_univ
       ,farc_game_cpsobjectives;
 
-   const
-      {:DEV NOTES: update FCMuiWin_MsgeBox_AddMsg/ FCMuiWin_MsgeBox_AddMsg.}
-      FCCfacMax=1;
-      FCCmatrixItems=20;
+//   const
+
 
    //=======================================================================================
    {.game system datastructures}
@@ -469,7 +468,7 @@ interface
                ///<summary>
                /// linked matrix items indexes
                ///</summary>
-               PF_linkedMatrixItemIndexes: array [0..FCCmatrixItems] of record
+               PF_linkedMatrixItemIndexes: array [0..FCCdiMatrixItemsMax] of record
                   LMII_matrixItmIndex: integer;
                   LMII_matrixProdModeIndex: integer;
                end;
@@ -698,7 +697,7 @@ interface
          /// y= test list index # (<>colony index #)
          ///</summary>
       ///</summary>
-      CSMT_col: array[0..FCCfacMax] of array of integer;
+      CSMT_col: array[0..FCCdiFactionsMax] of array of integer;
    end;
    TFCcsmPhaseL = array of TFCRdgCSMtest;
    {.SPMi influences sub-data structure}
@@ -805,7 +804,7 @@ interface
    end;
       {.factions dynamic array}
       {:DEV NOTES: also update the array of colonies for TFCRorbObj + TFCRorbObjSat + TFCRcsmTest.}
-      TFCDBfactions = array [0..FCCfacMax] of TFCRdgFaction;
+      TFCDBfactions = array [0..FCCdiFactionsMax] of TFCRdgFaction;
    {.player's data structure}
    {DEV NOTE: UPDATE NEW GAME SETUP + FCMdFSG_Game_Save + FCMdFSG_Game_Load}
    type TFCRdgPlayer = record
@@ -1017,7 +1016,7 @@ interface
       E_spmMBur: integer;
       E_spmMCorr: integer;
    end;
-      TFCentities= array [0..FCCfacMax] of TFCRdgEntity;
+      TFCentities= array [0..FCCdiFactionsMax] of TFCRdgEntity;
    {.task item data structure}
    {DEV NOTE: for TFCGtasklistToProc don't forget to update farc_game_missioncore /FCMgMCore_Mission_Commit.}
    {DEV NOTE: for TFCGtasklistInProc don't forget to update farc_game_gameflow /FCMgTFlow_GameTimer_Process + FCMgGFlow_Tasks_Process.}
@@ -1128,7 +1127,7 @@ var
    ECcnt: integer;
 begin
    ECcnt:=0;
-   while ECcnt<=FCCfacMax do
+   while ECcnt<=FCCdiFactionsMax do
    begin
       FCentities[ECcnt].E_token:='';
       FCentities[ECcnt].E_facLvl:=0;

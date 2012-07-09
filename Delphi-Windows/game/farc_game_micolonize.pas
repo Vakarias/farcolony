@@ -162,10 +162,10 @@ begin
    else if CPPsatIdx>0
    then
    begin
-      CPPcolIdx:=FCDBSsys[CPPssys].SS_star[CPPstar].SDB_obobj[CPPobjIdx].OO_satList[CPPsatIdx].OO_colonies[0];
+      CPPcolIdx:=FCDBSsys[CPPssys].SS_star[CPPstar].SDB_obobj[CPPobjIdx].OO_satellitesList[CPPsatIdx].OO_colonies[0];
       {:DEV NOTES: resource survey data, TO REMOVE WHEN REGION SURVEY IS IMPLEMENTED.}
-      regionttl:=length(FCDBSsys[CPPssys].SS_star[CPPstar].SDB_obobj[CPPobjIdx].OO_satList[CPPsatIdx].OO_regions);
-      FCRplayer.P_surveyedSpots[1].SS_oobjToken:=FCDBSsys[CPPssys].SS_star[CPPstar].SDB_obobj[CPPobjIdx].OO_satList[CPPsatIdx].OO_dbTokenId;
+      regionttl:=length(FCDBSsys[CPPssys].SS_star[CPPstar].SDB_obobj[CPPobjIdx].OO_satellitesList[CPPsatIdx].OO_regions);
+      FCRplayer.P_surveyedSpots[1].SS_oobjToken:=FCDBSsys[CPPssys].SS_star[CPPstar].SDB_obobj[CPPobjIdx].OO_satellitesList[CPPsatIdx].OO_dbTokenId;
       {:DEV NOTES: END HARCODED SURVEY DATA.}
    end;
    {.establish the colony if no one exist}
@@ -337,7 +337,7 @@ begin
             ,gmtltSat
             ,false
             );
-         CSentVel:=FCDBsSys[CSssys].SS_star[CSstar].SDB_obobj[CSoobjIdx].OO_satList[CSsatIdx].OO_escVel;
+         CSentVel:=FCDBsSys[CSssys].SS_star[CSstar].SDB_obobj[CSoobjIdx].OO_satellitesList[CSsatIdx].OO_escVel;
       end;
       {.distance conversion in m}
       CSdistDecel:=GMCbaseDist*CFC3dUnInKm*1000;

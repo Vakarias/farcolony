@@ -150,27 +150,27 @@ begin
    if not MCCisOrgAsat
    then MCCdepOrbVel:=(
       2*pi*FCDBsSys[GMCrootSsys].SS_star[GMCrootStar].SDB_obobj[GMCrootOObIdx].OO_distFrmStar*FCCdiKm_In_1AU
-      /FCDBsSys[GMCrootSsys].SS_star[GMCrootStar].SDB_obobj[GMCrootOObIdx].OO_revol
+      /FCDBsSys[GMCrootSsys].SS_star[GMCrootStar].SDB_obobj[GMCrootOObIdx].OO_revolutionPeriod
       )
       /86400
    else if MCCisOrgAsat
    then MCCdepOrbVel:=(
-      2*pi*FCDBsSys[GMCrootSsys].SS_star[GMCrootStar].SDB_obobj[MCCsatOrgPlanIdx].OO_satList[MCCsatOrgIdx].OOS_distFrmOOb*1000
-      /FCDBsSys[GMCrootSsys].SS_star[GMCrootStar].SDB_obobj[MCCsatOrgPlanIdx].OO_satList[MCCsatOrgIdx].OO_revol
+      2*pi*FCDBsSys[GMCrootSsys].SS_star[GMCrootStar].SDB_obobj[MCCsatOrgPlanIdx].OO_satellitesList[MCCsatOrgIdx].OOS_distFrmOOb*1000
+      /FCDBsSys[GMCrootSsys].SS_star[GMCrootStar].SDB_obobj[MCCsatOrgPlanIdx].OO_satellitesList[MCCsatOrgIdx].OO_revolutionPeriod
       )
       /86400;
    {.minreqDV.arrival orbital velocity}
    if not MCCisDestASat
    then MCCarrOrbVel:=(
       2*pi*FCDBsSys[GMCrootSsys].SS_star[GMCrootStar].SDB_obobj[FCV3DselOobj].OO_distFrmStar*FCCdiKm_In_1AU
-      /FCDBsSys[GMCrootSsys].SS_star[GMCrootStar].SDB_obobj[FCV3DselOobj].OO_revol
+      /FCDBsSys[GMCrootSsys].SS_star[GMCrootStar].SDB_obobj[FCV3DselOobj].OO_revolutionPeriod
       )
       /86400
    else if MCCisDestASat
    then MCCarrOrbVel:=(
-      2*pi*FCDBsSys[GMCrootSsys].SS_star[GMCrootStar].SDB_obobj[MCCsatDestPlanIdx].OO_satList[MCCsatDestIdx].OOS_distFrmOOb
+      2*pi*FCDBsSys[GMCrootSsys].SS_star[GMCrootStar].SDB_obobj[MCCsatDestPlanIdx].OO_satellitesList[MCCsatDestIdx].OOS_distFrmOOb
       *1000
-      /FCDBsSys[GMCrootSsys].SS_star[GMCrootStar].SDB_obobj[MCCsatDestPlanIdx].OO_satList[MCCsatDestIdx].OO_revol
+      /FCDBsSys[GMCrootSsys].SS_star[GMCrootStar].SDB_obobj[MCCsatDestPlanIdx].OO_satellitesList[MCCsatDestIdx].OO_revolutionPeriod
       )
       /86400;
    {.minreqDV.orbital velocities differences}
@@ -180,7 +180,7 @@ begin
    then GMCreqDV:=sqrt(sqr(MCCvh)+sqr(FCDBsSys[GMCrootSsys].SS_star[GMCrootStar].SDB_obobj[GMCrootOObIdx].OO_escVel))
    else if MCCisOrgAsat
    then GMCreqDV:=sqrt(
-      sqr(MCCvh)+sqr(FCDBsSys[GMCrootSsys].SS_star[GMCrootStar].SDB_obobj[MCCsatOrgPlanIdx].OO_satList[MCCsatOrgIdx].OO_escVel)
+      sqr(MCCvh)+sqr(FCDBsSys[GMCrootSsys].SS_star[GMCrootStar].SDB_obobj[MCCsatOrgPlanIdx].OO_satellitesList[MCCsatOrgIdx].OO_escVel)
       );
    //================(end) calculate minimal required deltaV================
 //====================(END) DATA INITIALIZATION=============================
@@ -402,7 +402,7 @@ begin
          OOILSCRsatPlanIdxOrg:=round(FC3DobjSatGrp[OOILSCRooIdxOrg].TagFloat);
          OOILSCRgravSphOrg:=FCFcFunc_ScaleConverter(
             cf3dctKmTo3dViewUnit
-            ,FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[OOILSCRsatPlanIdxOrg].OO_satList[OOILSCRsatIdxOrg].OO_gravSphRad
+            ,FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[OOILSCRsatPlanIdxOrg].OO_satellitesList[OOILSCRsatIdxOrg].OO_gravSphRad
             );
       end;
       gmtltSpUnit:
@@ -433,7 +433,7 @@ begin
          OOILSCRgravSphDes
             :=FCFcFunc_ScaleConverter(
                cf3dctKmTo3dViewUnit
-               ,FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[OOILSCRsatPlanIdxDest].OO_satList[OOILSCRsatIdxDest].OO_gravSphRad
+               ,FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[OOILSCRsatPlanIdxDest].OO_satellitesList[OOILSCRsatIdxDest].OO_gravSphRad
                );
       end;
       gmtltSpUnit:

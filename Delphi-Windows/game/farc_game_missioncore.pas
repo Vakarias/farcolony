@@ -559,7 +559,7 @@ begin
             {.current destination}
             MDUdmpTokenName:=FCFdTFiles_UIStr_Get(
                dtfscPrprName
-               ,FCDBsSys[GMCrootSsys].SS_star[GMCrootStar].SDB_obobj[MDUdmpPlanSatIdx].OO_satList[MDUdmpSatIdx].OO_dbTokenId
+               ,FCDBsSys[GMCrootSsys].SS_star[GMCrootStar].SDB_obobj[MDUdmpPlanSatIdx].OO_satellitesList[MDUdmpSatIdx].OO_dbTokenId
                );
             FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Insert(7, MDUdmpTokenName+'<br>');
             FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Delete(8);
@@ -696,14 +696,14 @@ begin
                ,GMCrootStar
                ,GMCrootOObIdx
                );
-            MScol:=FCDBsSys[GMCrootSsys].SS_star[GMCrootStar].SDB_obobj[GMCrootOObIdx].OO_satList[GMCrootSatObjIdx].OO_colonies[0];
-            MSenvironment:=FCDBsSys[GMCrootSsys].SS_star[GMCrootStar].SDB_obobj[GMCrootOObIdx].OO_satList[GMCrootSatObjIdx].OO_envTp;
+            MScol:=FCDBsSys[GMCrootSsys].SS_star[GMCrootStar].SDB_obobj[GMCrootOObIdx].OO_satellitesList[GMCrootSatObjIdx].OO_colonies[0];
+            MSenvironment:=FCDBsSys[GMCrootSsys].SS_star[GMCrootStar].SDB_obobj[GMCrootOObIdx].OO_satellitesList[GMCrootSatObjIdx].OO_environment;
          end
          else
          begin
             GMCrootSatIdx:=0;
             MScol:=FCDBsSys[GMCrootSsys].SS_star[GMCrootStar].SDB_obobj[GMCrootOObIdx].OO_colonies[0];
-            MSenvironment:=FCDBsSys[GMCrootSsys].SS_star[GMCrootStar].SDB_obobj[GMCrootOObIdx].OO_envTp;
+            MSenvironment:=FCDBsSys[GMCrootSsys].SS_star[GMCrootStar].SDB_obobj[GMCrootOObIdx].OO_environment;
          end;
          MSdockedNum:=FCFspuF_DockedSpU_GetNum(
             0

@@ -374,7 +374,7 @@ begin
    SetLength(FCRplayer.P_surveyedSpots, 1);
    {.entities main loop}
    CPent:=0;
-   while CPent<=FCCfacMax do
+   while CPent<=FCCdiFactionsMax do
    begin
       SetLength(FCentities[CPent].E_spU, 1);
       SetLength(FCentities[CPent].E_col, 1);
