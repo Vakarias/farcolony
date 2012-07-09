@@ -904,18 +904,18 @@ begin
             look in FC_OpenGL_DataDisp.pas of the ancient iteration of FARC.}
             FCWinMain.FCGLSHUDobobjDistLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIoobjDistFSt');
             FCWinMain.FCGLSHUDobobjDist.Text
-               :=FloatToStr(FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[FCV3DselOobj].OO_distFrmStar)
+               :=FloatToStr(FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[FCV3DselOobj].IAS_distanceFromStar)
                   +' '+FCFdTFiles_UIStr_Get(uistrUI, 'acronAU');
             {.orbit eccentricity}
             {DEV NOTE: add ecc for rings and protoplanetary disk later.
             look in FC_OpenGL_DataDisp.pas of the ancient iteration of FARC.}
             FCWinMain.FCGLSHUDobobjEccLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIoobjEcc');
             FCWinMain.FCGLSHUDobobjEcc.Text
-               :=FloatToStr(FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[FCV3DselOobj].OO_ecc);
+               :=FloatToStr(FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[FCV3DselOobj].IAS_eccentricity);
             {.orbital zone}
             {DEV NOTE: for sat use mother's planet zone.}
             FCWinMain.FCGLSHUDobobjZoneLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIoobjOrbZone');
-            case FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[FCV3DselOobj].OO_orbZone of
+            case FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[FCV3DselOobj].IAS_orbitalZone of
                hzInner: FCWinMain.FCGLSHUDobobjZone.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'zoneInner');
                hzIntermediary: FCWinMain.FCGLSHUDobobjZone.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'zoneInterm');
                hzOuter: FCWinMain.FCGLSHUDobobjZone.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'zoneOuter');

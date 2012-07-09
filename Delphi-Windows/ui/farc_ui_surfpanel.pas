@@ -1010,8 +1010,8 @@ begin
             SESdmpToken:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SESoobjIdx].OO_dbTokenId;
             SESdmpAtmPr:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SESoobjIdx].OO_atmosphericPressure;
             SESdmpCCov:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SESoobjIdx].OO_cloudsCover;
-            SESdmpHydr:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SESoobjIdx].OO_hydrotp;
-            SESdmpHCov:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SESoobjIdx].OO_hydroArea;
+            SESdmpHydr:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SESoobjIdx].OO_hydrosphere;
+            SESdmpHCov:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SESoobjIdx].OO_hydrosphereArea;
             SESenv:=FCFuF_Env_GetStr(
                FCV3DselSsys
                ,FCV3DselStar
@@ -1027,8 +1027,8 @@ begin
             SESdmpToken:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SESoobjIdx].OO_satellitesList[SESsatIdx].OO_dbTokenId;
             SESdmpAtmPr:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SESoobjIdx].OO_satellitesList[SESsatIdx].OO_atmosphericPressure;
             SESdmpCCov:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SESoobjIdx].OO_satellitesList[SESsatIdx].OO_cloudsCover;
-            SESdmpHydr:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SESoobjIdx].OO_satellitesList[SESsatIdx].OO_hydrotp;
-            SESdmpHCov:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SESoobjIdx].OO_satellitesList[SESsatIdx].OO_hydroArea;
+            SESdmpHydr:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SESoobjIdx].OO_satellitesList[SESsatIdx].OO_hydrosphere;
+            SESdmpHCov:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SESoobjIdx].OO_satellitesList[SESsatIdx].OO_hydrosphereArea;
             SPcurrentSatIndex:=SESsatIdx;
             SESenv:=FCFuF_Env_GetStr(
                FCV3DselSsys

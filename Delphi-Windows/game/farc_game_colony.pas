@@ -266,13 +266,13 @@ begin
    begin
       CEGTgravity:=FCDBSsys[ CEGToobjLoc[1] ].SS_star[ CEGToobjLoc[2] ].SDB_obobj[ CEGToobjLoc[3] ].OO_gravity;
       CEGTenv:=FCDBSsys[ CEGToobjLoc[1] ].SS_star[ CEGToobjLoc[2] ].SDB_obobj[ CEGToobjLoc[3] ].OO_environment;
-      CEGThydro:=FCDBSsys[ CEGToobjLoc[1] ].SS_star[ CEGToobjLoc[2] ].SDB_obobj[ CEGToobjLoc[3] ].OO_hydrotp;
+      CEGThydro:=FCDBSsys[ CEGToobjLoc[1] ].SS_star[ CEGToobjLoc[2] ].SDB_obobj[ CEGToobjLoc[3] ].OO_hydrosphere;
    end
    else if FCentities[CEGTfac].E_col[CEGTcol].COL_locSat<>'' then
    begin
       CEGTgravity:=FCDBSsys[ CEGToobjLoc[1] ].SS_star[ CEGToobjLoc[2] ].SDB_obobj[ CEGToobjLoc[3] ].OO_satellitesList[ CEGToobjLoc[4] ].OO_gravity;
       CEGTenv:=FCDBSsys[ CEGToobjLoc[1] ].SS_star[ CEGToobjLoc[2] ].SDB_obobj[ CEGToobjLoc[3] ].OO_satellitesList[ CEGToobjLoc[4] ].OO_environment;
-      CEGThydro:=FCDBSsys[ CEGToobjLoc[1] ].SS_star[ CEGToobjLoc[2] ].SDB_obobj[ CEGToobjLoc[3] ].OO_satellitesList[ CEGToobjLoc[4] ].OO_hydrotp;
+      CEGThydro:=FCDBSsys[ CEGToobjLoc[1] ].SS_star[ CEGToobjLoc[2] ].SDB_obobj[ CEGToobjLoc[3] ].OO_satellitesList[ CEGToobjLoc[4] ].OO_hydrosphere;
    end;
    Result.ENV_gravity:=CEGTgravity;
    Result.ENV_envType:=CEGTenv;

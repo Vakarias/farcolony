@@ -601,34 +601,49 @@ type TFCRduOrbitalObject = record
    ///   atmosphere detailed composition
    ///</summary>
    OO_atmosphere: TFCRduAtmosphericComposition;
-      {.orbital periods list, 2 intermediate 1 closest (summer) 1 farest (winter)}
-   OO_orbPeriod: array[0..4] of TFCRduOObSeason;
-      {.hydrosphere type}
-   OO_hydrotp: TFCEduHydrospheres;
-      {.hydrosphere area}
-   OO_hydroArea: extended;
-      {.regions}
+   ///<summary>
+   ///   orbital periods list, 2 intermediate 1 closest (summer) 1 farest (winter)
+   ///</summary>
+   OO_orbitalPeriods: array[0..4] of TFCRduOObSeason;
+   ///<summary>
+   ///   hydrosphere type
+   ///</summary>
+   OO_hydrosphere: TFCEduHydrospheres;
+   ///<summary>
+   ///   hydrosphere area
+   ///</summary>
+   OO_hydrosphereArea: extended;
+   ///<summary>
+   ///   regions list
+   ///</summary>
    OO_regions: array of TFCRduOObRegion;
-
-   case OO_isASatellite:boolean of
-
+   ///<summary>
+   ///   specific data if an orbital object is a satellite or not
+   ///</summary>
+   case OO_isASatellite: boolean of
       false:(
-         {NOT LOADED DATA - index of the first satellite object}
-   OO_sat1stOb: integer;
-    {distance from it's star in AU}
-   OO_distFrmStar: extended;
-      {orbit eccentricity in #.### format}
-   OO_ecc: extended;
-      {orbital zone type}
-   OO_orbZone: TFCEduHabitableZones;
-
-   );
+         ///<summary>
+         ///   NOT LOADED DATA - index of the first satellite 3d object
+         ///</summary>
+         IAS_1st3dObjectSatelliteIndex: integer;
+         ///<summary>
+         ///   distance from it's star in AU
+         ///</summary>
+         IAS_distanceFromStar: extended;
+         ///<summary>
+         ///   orbit eccentricity in #.### format
+         ///</summary>
+         IAS_eccentricity: extended;
+         ///<summary>
+         ///   orbital zone type
+         ///</summary>
+         IAS_orbitalZone: TFCEduHabitableZones;
+         );
 
       true: (
-      {distance from it's central planet in thousands of km}
-   OOS_distFrmOOb: extended;
-
-      );
+         {distance from it's central planet in thousands of km}
+         OOS_distFrmOOb: extended;
+         );
 end;
 
 

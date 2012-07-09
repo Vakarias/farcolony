@@ -149,7 +149,7 @@ begin
    {.minreqDV.departure orbital velocity}
    if not MCCisOrgAsat
    then MCCdepOrbVel:=(
-      2*pi*FCDBsSys[GMCrootSsys].SS_star[GMCrootStar].SDB_obobj[GMCrootOObIdx].OO_distFrmStar*FCCdiKm_In_1AU
+      2*pi*FCDBsSys[GMCrootSsys].SS_star[GMCrootStar].SDB_obobj[GMCrootOObIdx].IAS_distanceFromStar*FCCdiKm_In_1AU
       /FCDBsSys[GMCrootSsys].SS_star[GMCrootStar].SDB_obobj[GMCrootOObIdx].OO_revolutionPeriod
       )
       /86400
@@ -162,7 +162,7 @@ begin
    {.minreqDV.arrival orbital velocity}
    if not MCCisDestASat
    then MCCarrOrbVel:=(
-      2*pi*FCDBsSys[GMCrootSsys].SS_star[GMCrootStar].SDB_obobj[FCV3DselOobj].OO_distFrmStar*FCCdiKm_In_1AU
+      2*pi*FCDBsSys[GMCrootSsys].SS_star[GMCrootStar].SDB_obobj[FCV3DselOobj].IAS_distanceFromStar*FCCdiKm_In_1AU
       /FCDBsSys[GMCrootSsys].SS_star[GMCrootStar].SDB_obobj[FCV3DselOobj].OO_revolutionPeriod
       )
       /86400

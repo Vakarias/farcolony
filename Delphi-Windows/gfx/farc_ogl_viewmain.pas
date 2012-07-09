@@ -626,14 +626,14 @@ begin
    then
    begin
       MTAdmpObjTp:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[MTAoobjIdx].OO_type;
-      MTAdmpHydroTp:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[MTAoobjIdx].OO_hydrotp;
+      MTAdmpHydroTp:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[MTAoobjIdx].OO_hydrosphere;
       MTAdmpTemp:=FCFuF_OrbPeriod_GetMeanTemp(MTAoobjIdx, MTAsatIdx);
    end
    else if MTAsatIdx>0
    then
    begin
       MTAdmpObjTp:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[MTAoobjIdx].OO_satellitesList[MTAsatIdx].OO_type;
-      MTAdmpHydroTp:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[MTAoobjIdx].OO_satellitesList[MTAsatIdx].OO_hydrotp;
+      MTAdmpHydroTp:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[MTAoobjIdx].OO_satellitesList[MTAsatIdx].OO_hydrosphere;
       MTAdmpTemp:=FCFuF_OrbPeriod_GetMeanTemp(MTAoobjIdx, MTAsatIdx);
    end;
    {.for gaseous planets => standard textures}
@@ -1211,7 +1211,7 @@ begin
                FC3DobjAster[TDMVUorbObjCnt].scale.Y:=FC3DobjAster[TDMVUorbObjCnt].scale.X;
                FC3DobjAster[TDMVUorbObjCnt].scale.Z:=FC3DobjAster[TDMVUorbObjCnt].scale.X;
                {.set distance and location}
-               LSVUorbDistUnit:=FCFcFunc_ScaleConverter(cf3dctAUto3dViewUnit,SDB_obobj[TDMVUorbObjCnt].OO_distFrmStar);
+               LSVUorbDistUnit:=FCFcFunc_ScaleConverter(cf3dctAUto3dViewUnit,SDB_obobj[TDMVUorbObjCnt].IAS_distanceFromStar);
                FC3DobjGrp[TDMVUorbObjCnt].Position.X:=cos(LSVUangleRad)*LSVUorbDistUnit;
                FC3DobjGrp[TDMVUorbObjCnt].Position.Y:=0;
                FC3DobjGrp[TDMVUorbObjCnt].Position.Z:=sin(LSVUangleRad)*LSVUorbDistUnit;
@@ -1241,7 +1241,7 @@ begin
                FC3DobjPlan[TDMVUorbObjCnt].scale.Y:=FC3DobjPlan[TDMVUorbObjCnt].scale.X;
                FC3DobjPlan[TDMVUorbObjCnt].scale.Z:=FC3DobjPlan[TDMVUorbObjCnt].scale.X;
                {.set distance and location}
-               LSVUorbDistUnit:=FCFcFunc_ScaleConverter(cf3dctAUto3dViewUnit,SDB_obobj[TDMVUorbObjCnt].OO_distFrmStar);
+               LSVUorbDistUnit:=FCFcFunc_ScaleConverter(cf3dctAUto3dViewUnit,SDB_obobj[TDMVUorbObjCnt].IAS_distanceFromStar);
                FC3DobjGrp[TDMVUorbObjCnt].Position.X:=cos(LSVUangleRad)*LSVUorbDistUnit;
                FC3DobjGrp[TDMVUorbObjCnt].Position.Y:=0;
                FC3DobjGrp[TDMVUorbObjCnt].Position.Z:=sin(LSVUangleRad)*LSVUorbDistUnit;
@@ -1395,7 +1395,7 @@ begin
                         FC3DobjSatGrp[TDMVUsatCnt].TagFloat:=TDMVUorbObjCnt;
                      {.put index of the first sat object}
                      if TDMVUsatIdx=1
-                     then SDB_obobj[TDMVUorbObjCnt].OO_sat1stOb:=TDMVUsatCnt;
+                     then SDB_obobj[TDMVUorbObjCnt].IAS_1st3dObjectSatelliteIndex:=TDMVUsatCnt;
                      inc(TDMVUsatIdx);
                   end; //==END== while TDMVUsatIdx<=TDMVUsatTtlInDS ==//
                   FCV3DttlSat:=TDMVUsatCnt;
@@ -2077,7 +2077,7 @@ var
    ,SOScnt
    ,SOSttl: integer;
 begin
-   SOSdmpObjIdx:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SOSidxDBoob].OO_sat1stOb;
+   SOSdmpObjIdx:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SOSidxDBoob].IAS_1st3dObjectSatelliteIndex;
    SOScnt:=1;
    SOSttl:=length(FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SOSidxDBoob].OO_satellitesList)-1;
    Result:=0;

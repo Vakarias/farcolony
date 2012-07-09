@@ -170,7 +170,7 @@ begin
       PEOCalbedo:=FCDBsSys[PEOCstarLoc[1]].SS_star[PEOCstarLoc[2]].SDB_obobj[PEOCstarLoc[3]].OO_satellitesList[PEOCstarLoc[4]].OO_albedo;
       PEOCcloudsCover:=FCDBsSys[PEOCstarLoc[1]].SS_star[PEOCstarLoc[2]].SDB_obobj[PEOCstarLoc[3]].OO_satellitesList[PEOCstarLoc[4]].OO_cloudsCover;
    end;
-   PEOCspacePower:=FCFuF_StarLight_CalcPower(FCDBsSys[PEOCstarLoc[1]].SS_star[PEOCstarLoc[2]].SDB_lum, FCDBsSys[PEOCstarLoc[1]].SS_star[PEOCstarLoc[2]].SDB_obobj[PEOCstarLoc[3]].OO_distFrmStar);
+   PEOCspacePower:=FCFuF_StarLight_CalcPower(FCDBsSys[PEOCstarLoc[1]].SS_star[PEOCstarLoc[2]].SDB_lum, FCDBsSys[PEOCstarLoc[1]].SS_star[PEOCstarLoc[2]].SDB_obobj[PEOCstarLoc[3]].IAS_distanceFromStar);
    PEOCsurfPower:=( 1-(( PEOCalbedo+( PEOCcloudsCover*0.005 ))/1.721)) * PEOCspacePower;
    PEOCresult:=( PEOCsurfPower*PEOCphotonarea*(PEOCefficiency*0.01))*0.001;
    Result:=FCFcFunc_Rnd(rttPowerKw, PEOCresult);
