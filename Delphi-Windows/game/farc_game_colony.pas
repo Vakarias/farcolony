@@ -408,7 +408,7 @@ begin
       {.set the colony's location data}
       FCentities[CCfacId].E_col[CCcolIdx].COL_locSSys:=FCDBsSys[CClocSS].SS_token;
       FCentities[CCfacId].E_col[CCcolIdx].COL_locStar:=FCDBsSys[CClocSS].SS_star[CClocSt].SDB_token;
-      FCentities[CCfacId].E_col[CCcolIdx].COL_locOObj:=FCDBsSys[CClocSS].SS_star[CClocSt].SDB_obobj[CClocOObj].OO_token;
+      FCentities[CCfacId].E_col[CCcolIdx].COL_locOObj:=FCDBsSys[CClocSS].SS_star[CClocSt].SDB_obobj[CClocOObj].OO_dbTokenId;
       {.initialize colony's data}
       FCMgCSM_ColonyData_Init(0, CCcolIdx);
       {.update the orbital object colonies presence, and secondary, retrieve the environment}
@@ -422,7 +422,7 @@ begin
       else if CClocSat>0
       then
       begin
-         FCentities[CCfacId].E_col[CCcolIdx].COL_locSat:=FCDBsSys[CClocSS].SS_star[CClocSt].SDB_obobj[CClocOObj].OO_satList[CClocSat].OO_token;
+         FCentities[CCfacId].E_col[CCcolIdx].COL_locSat:=FCDBsSys[CClocSS].SS_star[CClocSt].SDB_obobj[CClocOObj].OO_satList[CClocSat].OO_dbTokenId;
          FCDBsSys[CClocSS].SS_star[CClocSt].SDB_obobj[CClocOObj].OO_satList[CClocSat].OO_colonies[CCfacId]:=CCcolIdx;
          ColonyEnvironment:=FCDBsSys[CClocSS].SS_star[CClocSt].SDB_obobj[CClocOObj].OO_satList[CClocSat].OO_envTp;
       end;
@@ -552,14 +552,14 @@ begin
    setlength( FCentities[ Entity ].E_col[ Colony ].COL_settlements[ Max ].CS_infra, 1 );
    if OobjLocation[4]>0 then
    begin
-      FCDBsSys[OobjLocation[1]].SS_star[OobjLocation[2]].SDB_obobj[OobjLocation[3]].OO_satList[OobjLocation[4]].OO_regions[ Region ].OOR_setEnt:=Entity;
-      FCDBsSys[OobjLocation[1]].SS_star[OobjLocation[2]].SDB_obobj[OobjLocation[3]].OO_satList[OobjLocation[4]].OO_regions[ Region ].OOR_setCol:=Colony;
-      FCDBsSys[OobjLocation[1]].SS_star[OobjLocation[2]].SDB_obobj[OobjLocation[3]].OO_satList[OobjLocation[4]].OO_regions[ Region ].OOR_setSet:=Max;
+      FCDBsSys[OobjLocation[1]].SS_star[OobjLocation[2]].SDB_obobj[OobjLocation[3]].OO_satList[OobjLocation[4]].OO_regions[ Region ].OOR_settlementEntity:=Entity;
+      FCDBsSys[OobjLocation[1]].SS_star[OobjLocation[2]].SDB_obobj[OobjLocation[3]].OO_satList[OobjLocation[4]].OO_regions[ Region ].OOR_settlementColony:=Colony;
+      FCDBsSys[OobjLocation[1]].SS_star[OobjLocation[2]].SDB_obobj[OobjLocation[3]].OO_satList[OobjLocation[4]].OO_regions[ Region ].OOR_settlementIndex:=Max;
    end
    else begin
-      FCDBsSys[OobjLocation[1]].SS_star[OobjLocation[2]].SDB_obobj[OobjLocation[3]].OO_regions[ Region ].OOR_setEnt:=Entity;
-      FCDBsSys[OobjLocation[1]].SS_star[OobjLocation[2]].SDB_obobj[OobjLocation[3]].OO_regions[ Region ].OOR_setCol:=Colony;
-      FCDBsSys[OobjLocation[1]].SS_star[OobjLocation[2]].SDB_obobj[OobjLocation[3]].OO_regions[ Region ].OOR_setSet:=Max;
+      FCDBsSys[OobjLocation[1]].SS_star[OobjLocation[2]].SDB_obobj[OobjLocation[3]].OO_regions[ Region ].OOR_settlementEntity:=Entity;
+      FCDBsSys[OobjLocation[1]].SS_star[OobjLocation[2]].SDB_obobj[OobjLocation[3]].OO_regions[ Region ].OOR_settlementColony:=Colony;
+      FCDBsSys[OobjLocation[1]].SS_star[OobjLocation[2]].SDB_obobj[OobjLocation[3]].OO_regions[ Region ].OOR_settlementIndex:=Max;
    end;
    {.update the colony's CAB queue}
    if length( FCentities[ Entity ].E_col[Colony].COL_cabQueue )<2

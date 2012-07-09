@@ -592,7 +592,7 @@ begin
                      begin
                         GTPoobjDB:=FCGtskListInProc[GTPtaskIdx].TITP_destIdx;
                         FCentities[GTPfac].E_spU[GTPspuOwn].SUO_oobjLoc
-                           :=FCDBSsys[GTPssysDB].SS_star[GTPstarDB].SDB_obobj[FCGtskListInProc[GTPtaskIdx].TITP_destIdx].OO_token;
+                           :=FCDBSsys[GTPssysDB].SS_star[GTPstarDB].SDB_obobj[FCGtskListInProc[GTPtaskIdx].TITP_destIdx].OO_dbTokenId;
                         FCentities[GTPfac].E_spU[FCGtskListInProc[GTPtaskIdx].TITP_ctldIdx].SUO_satLoc:='';
                         FCMspuF_Orbits_Process(
                            spufoioAddOrbit
@@ -610,9 +610,9 @@ begin
                      begin
                         GTPsatDB:=FC3DobjSatGrp[FCGtskListInProc[GTPtaskIdx].TITP_destIdx].Tag;
                         GTPoobjDB:=round(FC3DobjSatGrp[FCGtskListInProc[GTPtaskIdx].TITP_destIdx].TagFloat);
-                        FCentities[GTPfac].E_spU[GTPspuOwn].SUO_oobjLoc:=FCDBSsys[GTPssysDB].SS_star[GTPstarDB].SDB_obobj[GTPoobjDB].OO_token;
+                        FCentities[GTPfac].E_spU[GTPspuOwn].SUO_oobjLoc:=FCDBSsys[GTPssysDB].SS_star[GTPstarDB].SDB_obobj[GTPoobjDB].OO_dbTokenId;
                         FCentities[GTPfac].E_spU[GTPspuOwn].SUO_satLoc
-                           :=FCDBSsys[GTPssysDB].SS_star[GTPstarDB].SDB_obobj[GTPoobjDB].OO_satList[GTPsatDB].OO_token;
+                           :=FCDBSsys[GTPssysDB].SS_star[GTPstarDB].SDB_obobj[GTPoobjDB].OO_satList[GTPsatDB].OO_dbTokenId;
                         FCMspuF_Orbits_Process(
                            spufoioAddOrbit
                            ,GTPssysDB

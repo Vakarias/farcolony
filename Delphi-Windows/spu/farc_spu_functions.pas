@@ -484,7 +484,7 @@ var
    ,OPsatObj
    ,OPttl: integer;
 
-   OPcopyOrbArr: array[0..FCDUorbits] of TFCRduSpaceUnitInOrbit;
+   OPcopyOrbArr: array[0..FCCduMaxSpaceUnitsInOrbit] of TFCRduOObSpaceUnitInOrbit;
 begin
    {.add the space unit in orbit}
    if OPaction=spufoioAddOrbit
@@ -500,7 +500,7 @@ begin
          {.set the data}
          FCDBsSys[OPsSys].SS_star[OPstar].SDB_obobj[OPoobj].OO_inOrbitList[OPttl].SUIO_faction:=OPfac;
          FCDBsSys[OPsSys].SS_star[OPstar].SDB_obobj[OPoobj].OO_inOrbitList[OPttl].SUIO_ownedSpaceUnitIndex:=OPspuOwn;
-         FCentities[OPfac].E_spU[OPspuOwn].SUO_oobjLoc:=FCDBsSys[OPsSys].SS_star[OPstar].SDB_obobj[OPoobj].OO_token;
+         FCentities[OPfac].E_spU[OPspuOwn].SUO_oobjLoc:=FCDBsSys[OPsSys].SS_star[OPstar].SDB_obobj[OPoobj].OO_dbTokenId;
          {.update the 3d view}
          if opUpd3dView
          then FCMoglVM_OObjSpUn_inOrbit(
@@ -519,8 +519,8 @@ begin
          {.set the data}
          FCDBsSys[OPsSys].SS_star[OPstar].SDB_obobj[OPoobj].OO_satList[OPsat].OO_inOrbitList[OPttl].SUIO_faction:=OPfac;
          FCDBsSys[OPsSys].SS_star[OPstar].SDB_obobj[OPoobj].OO_satList[OPsat].OO_inOrbitList[OPttl].SUIO_ownedSpaceUnitIndex:=OPspuOwn;
-         FCentities[OPfac].E_spU[OPspuOwn].SUO_oobjLoc:=FCDBsSys[OPsSys].SS_star[OPstar].SDB_obobj[OPoobj].OO_token;
-         FCentities[OPfac].E_spU[OPspuOwn].SUO_satLoc:=FCDBsSys[OPsSys].SS_star[OPstar].SDB_obobj[OPoobj].OO_satList[OPsat].OO_token;
+         FCentities[OPfac].E_spU[OPspuOwn].SUO_oobjLoc:=FCDBsSys[OPsSys].SS_star[OPstar].SDB_obobj[OPoobj].OO_dbTokenId;
+         FCentities[OPfac].E_spU[OPspuOwn].SUO_satLoc:=FCDBsSys[OPsSys].SS_star[OPstar].SDB_obobj[OPoobj].OO_satList[OPsat].OO_dbTokenId;
          {.update the 3d view}
          if opUpd3dView
          then

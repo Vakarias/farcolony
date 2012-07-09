@@ -494,7 +494,7 @@ begin
             {.current destination}
             MDUdmpTokenName:=FCFdTFiles_UIStr_Get(
                dtfscPrprName
-               ,FCDBsSys[GMCrootSsys].SS_star[GMCrootStar].SDB_obobj[FCV3DselOobj].OO_token
+               ,FCDBsSys[GMCrootSsys].SS_star[GMCrootStar].SDB_obobj[FCV3DselOobj].OO_dbTokenId
                );
             FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Insert(7, MDUdmpTokenName+'<br>');
             FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Delete(8);
@@ -559,7 +559,7 @@ begin
             {.current destination}
             MDUdmpTokenName:=FCFdTFiles_UIStr_Get(
                dtfscPrprName
-               ,FCDBsSys[GMCrootSsys].SS_star[GMCrootStar].SDB_obobj[MDUdmpPlanSatIdx].OO_satList[MDUdmpSatIdx].OO_token
+               ,FCDBsSys[GMCrootSsys].SS_star[GMCrootStar].SDB_obobj[MDUdmpPlanSatIdx].OO_satList[MDUdmpSatIdx].OO_dbTokenId
                );
             FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Insert(7, MDUdmpTokenName+'<br>');
             FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Delete(8);

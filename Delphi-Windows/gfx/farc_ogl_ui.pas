@@ -749,7 +749,7 @@ begin
                :=FCFdTFiles_UIStr_Get(
                   dtfscPrprName
                   , FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[M3DVUIUsatPlanIdx]
-                     .OO_satList[M3DVUIUsatIdx].OO_token
+                     .OO_satList[M3DVUIUsatIdx].OO_dbTokenId
                   );
             {.orbital data header}
             FCWinMain.FCGLSHUDobobjOrbDatHLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIoobjOrbDatH');
@@ -895,7 +895,7 @@ begin
             FCWinMain.FCGLSHUDobjectFocused.Text
                :=FCFdTFiles_UIStr_Get(
                   dtfscPrprName
-                  ,FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[FCV3DselOobj].OO_token
+                  ,FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[FCV3DselOobj].OO_dbTokenId
                   );
             {.orbital data header}
             FCWinMain.FCGLSHUDobobjOrbDatHLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIoobjOrbDatH');

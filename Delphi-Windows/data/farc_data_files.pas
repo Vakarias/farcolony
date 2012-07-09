@@ -1816,7 +1816,7 @@ begin
                      SetLength(FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList, 1);
                      DBSSPsatCnt:=0;
                      {orbital object's id db token}
-                     FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_token:=DBSSPstarSubNode.Attributes['ootoken'];
+                     FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_dbTokenId:=DBSSPstarSubNode.Attributes['ootoken'];
                      FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_isASatellite:=false;
                      DBSSPorbObjNode:= DBSSPstarSubNode.ChildNodes.First;
                      while DBSSPorbObjNode<>nil do
@@ -1853,14 +1853,14 @@ begin
                               inc(DBSSPperOrbCnt);
                               DBSSPperOrbDmp:=DBSSPperOrbNode.Attributes['optype'];
                               if DBSSPperOrbDmp='optClosest'
-                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_orbPeriod[DBSSPperOrbCnt].S_orbitalPeriodType:=optClosest
+                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_orbPeriod[DBSSPperOrbCnt].OOS_orbitalPeriodType:=optClosest
                               else if DBSSPperOrbDmp='optInterm'
-                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_orbPeriod[DBSSPperOrbCnt].S_orbitalPeriodType:=optIntermediary
+                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_orbPeriod[DBSSPperOrbCnt].OOS_orbitalPeriodType:=optIntermediary
                               else if DBSSPperOrbDmp='optFarest'
-                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_orbPeriod[DBSSPperOrbCnt].S_orbitalPeriodType:=optFarest;
-                              FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_orbPeriod[DBSSPperOrbCnt].S_dayStart:=DBSSPperOrbNode.Attributes['opstrt'];
-                              FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_orbPeriod[DBSSPperOrbCnt].S_dayEnd:=DBSSPperOrbNode.Attributes['opend'];
-                              FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_orbPeriod[DBSSPperOrbCnt].S_meanTemperature:=DBSSPperOrbNode.Attributes['opmtemp'];
+                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_orbPeriod[DBSSPperOrbCnt].OOS_orbitalPeriodType:=optFarest;
+                              FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_orbPeriod[DBSSPperOrbCnt].OOS_dayStart:=DBSSPperOrbNode.Attributes['opstrt'];
+                              FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_orbPeriod[DBSSPperOrbCnt].OOS_dayEnd:=DBSSPperOrbNode.Attributes['opend'];
+                              FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_orbPeriod[DBSSPperOrbCnt].OOS_meanTemperature:=DBSSPperOrbNode.Attributes['opmtemp'];
                               DBSSPperOrbNode:= DBSSPperOrbNode.NextSibling;
                            end;
                         end //==END== else if DBSSPorbObjNode.NodeName='orbperlist' ==//
@@ -1951,35 +1951,35 @@ begin
                               {.region - soil type}
                               DBSSPregDmp:=DBSSPregNode.Attributes['soiltp'];
                               if DBSSPregDmp='rst01rockDes'
-                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_soilTp:=rst01RockyDesert
+                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst01RockyDesert
                               else if DBSSPregDmp='rst02sandDes'
-                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_soilTp:=rst02SandyDesert
+                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst02SandyDesert
                               else if DBSSPregDmp='rst03volcanic'
-                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_soilTp:=rst03Volcanic
+                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst03Volcanic
                               else if DBSSPregDmp='rst04polar'
-                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_soilTp:=rst04Polar
+                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst04Polar
                               else if DBSSPregDmp='rst05arid'
-                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_soilTp:=rst05Arid
+                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst05Arid
                               else if DBSSPregDmp='rst06fertile'
-                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_soilTp:=rst06Fertile
+                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst06Fertile
                               else if DBSSPregDmp='rst07oceanic'
-                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_soilTp:=rst07Oceanic
+                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst07Oceanic
                               else if DBSSPregDmp='rst08coastRockDes'
-                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_soilTp:=rst08CoastalRockyDesert
+                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst08CoastalRockyDesert
                               else if DBSSPregDmp='rst09coastSandDes'
-                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_soilTp:=rst09CoastalSandyDesert
+                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst09CoastalSandyDesert
                               else if DBSSPregDmp='rst10coastVolcanic'
-                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_soilTp:=rst10CoastalVolcanic
+                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst10CoastalVolcanic
                               else if DBSSPregDmp='rst11coastPolar'
-                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_soilTp:=rst11CoastalPolar
+                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst11CoastalPolar
                               else if DBSSPregDmp='rst12coastArid'
-                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_soilTp:=rst12CoastalArid
+                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst12CoastalArid
                               else if DBSSPregDmp='rst13coastFertile'
-                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_soilTp:=rst13CoastalFertile
+                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst13CoastalFertile
                               else if DBSSPregDmp='rst14barren'
-                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_soilTp:=rst14Sterile
+                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst14Sterile
                               else if DBSSPregDmp='rst15icyBarren'
-                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_soilTp:=rst15icySterile;
+                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst15icySterile;
                               {.region - relief}
                               DBSSPregDmp:=DBSSPregNode.Attributes['relief'];
                               if DBSSPregDmp='rr1plain'
@@ -2019,13 +2019,13 @@ begin
                               {.region - mean temperature at max distance}
                               FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_meanTdMax:=DBSSPregNode.Attributes['mtdmax'];
                               {.region - mean windspeed}
-                              FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_windSpd:=DBSSPregNode.Attributes['wndspd'];
+                              FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_windSpeed:=DBSSPregNode.Attributes['wndspd'];
                               {.region - yearly precipitations}
-                              FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_precip:=DBSSPregNode.Attributes['precip'];
+                              FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_precipitation:=DBSSPregNode.Attributes['precip'];
                               {.reset settlements data}
-                              FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_setEnt:=0;
-                              FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_setCol:=0;
-                              FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_setSet:=0;
+                              FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_settlementEntity:=0;
+                              FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_settlementColony:=0;
+                              FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_settlementIndex:=0;
                               {.environment modifier}
                               FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_emo:=DBSSPregNode.Attributes['emo'];
                               {.resources data}
@@ -2063,7 +2063,7 @@ begin
                            SetLength(FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList, length(FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList)+1);
                            inc(DBSSPsatCnt);
                            {satellite id db token}
-                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OO_token:=DBSSPorbObjNode.Attributes['sattoken'];
+                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OO_dbTokenId:=DBSSPorbObjNode.Attributes['sattoken'];
                            FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OO_isASatellite:=true;
                            DBSSPsatNode:= DBSSPorbObjNode.ChildNodes.First;
                            while DBSSPsatNode<>nil do
@@ -2090,14 +2090,14 @@ begin
                                     inc(DBSSPperOrbCnt);
                                     DBSSPperOrbDmp:=DBSSPperOrbNode.Attributes['optype'];
                                     if DBSSPperOrbDmp='optClosest'
-                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OO_orbPeriod[DBSSPperOrbCnt].S_orbitalPeriodType:=optClosest
+                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OO_orbPeriod[DBSSPperOrbCnt].OOS_orbitalPeriodType:=optClosest
                                     else if DBSSPperOrbDmp='optInterm'
-                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OO_orbPeriod[DBSSPperOrbCnt].S_orbitalPeriodType:=optIntermediary
+                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OO_orbPeriod[DBSSPperOrbCnt].OOS_orbitalPeriodType:=optIntermediary
                                     else if DBSSPperOrbDmp='optFarest'
-                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OO_orbPeriod[DBSSPperOrbCnt].S_orbitalPeriodType:=optFarest;
-                                    FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OO_orbPeriod[DBSSPperOrbCnt].S_dayStart:=DBSSPperOrbNode.Attributes['opstrt'];
-                                    FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OO_orbPeriod[DBSSPperOrbCnt].S_dayEnd:=DBSSPperOrbNode.Attributes['opend'];
-                                    FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OO_orbPeriod[DBSSPperOrbCnt].S_meanTemperature:=DBSSPperOrbNode.Attributes['opmtemp'];
+                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OO_orbPeriod[DBSSPperOrbCnt].OOS_orbitalPeriodType:=optFarest;
+                                    FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OO_orbPeriod[DBSSPperOrbCnt].OOS_dayStart:=DBSSPperOrbNode.Attributes['opstrt'];
+                                    FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OO_orbPeriod[DBSSPperOrbCnt].OOS_dayEnd:=DBSSPperOrbNode.Attributes['opend'];
+                                    FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OO_orbPeriod[DBSSPperOrbCnt].OOS_meanTemperature:=DBSSPperOrbNode.Attributes['opmtemp'];
                                     DBSSPperOrbNode:= DBSSPperOrbNode.NextSibling;
                                  end;
                               end //==END== else if DBSSPsatNode.NodeName='orbperlist' ==//
@@ -2184,35 +2184,35 @@ begin
                                     {.region - soil type}
                                     DBSSPregDmp:=DBSSPregNode.Attributes['soiltp'];
                                     if DBSSPregDmp='rst01rockDes'
-                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_soilTp:=rst01RockyDesert
+                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst01RockyDesert
                                     else if DBSSPregDmp='rst02sandDes'
-                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_soilTp:=rst02SandyDesert
+                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst02SandyDesert
                                     else if DBSSPregDmp='rst03volcanic'
-                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_soilTp:=rst03Volcanic
+                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst03Volcanic
                                     else if DBSSPregDmp='rst04polar'
-                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_soilTp:=rst04Polar
+                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst04Polar
                                     else if DBSSPregDmp='rst05arid'
-                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_soilTp:=rst05Arid
+                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst05Arid
                                     else if DBSSPregDmp='rst06fertile'
-                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_soilTp:=rst06Fertile
+                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst06Fertile
                                     else if DBSSPregDmp='rst07oceanic'
-                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_soilTp:=rst07Oceanic
+                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst07Oceanic
                                     else if DBSSPregDmp='rst08coastRockDes'
-                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_soilTp:=rst08CoastalRockyDesert
+                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst08CoastalRockyDesert
                                     else if DBSSPregDmp='rst09coastSandDes'
-                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_soilTp:=rst09CoastalSandyDesert
+                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst09CoastalSandyDesert
                                     else if DBSSPregDmp='rst10coastVolcanic'
-                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_soilTp:=rst10CoastalVolcanic
+                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst10CoastalVolcanic
                                     else if DBSSPregDmp='rst11coastPolar'
-                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_soilTp:=rst11CoastalPolar
+                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst11CoastalPolar
                                     else if DBSSPregDmp='rst12coastArid'
-                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_soilTp:=rst12CoastalArid
+                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst12CoastalArid
                                     else if DBSSPregDmp='rst13coastFertile'
-                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_soilTp:=rst13CoastalFertile
+                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst13CoastalFertile
                                     else if DBSSPregDmp='rst14barren'
-                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_soilTp:=rst14Sterile
+                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst14Sterile
                                     else if DBSSPregDmp='rst15icyBarren'
-                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_soilTp:=rst15icySterile;
+                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst15icySterile;
                                     {.region - relief}
                                     DBSSPregDmp:=DBSSPregNode.Attributes['relief'];
                                     if DBSSPregDmp='rr1plain'
@@ -2252,13 +2252,13 @@ begin
                                     {.region - mean temperature at max distance}
                                     FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_meanTdMax:=DBSSPregNode.Attributes['mtdmax'];
                                     {.region - mean windspeed}
-                                    FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_windSpd:=DBSSPregNode.Attributes['wndspd'];
+                                    FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_windSpeed:=DBSSPregNode.Attributes['wndspd'];
                                     {.region - yearly precipitations}
-                                    FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_precip:=DBSSPregNode.Attributes['precip'];
+                                    FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_precipitation:=DBSSPregNode.Attributes['precip'];
                                     {.reset settlements data}
-                                    FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_setEnt:=0;
-                                    FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_setCol:=0;
-                                    FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_setSet:=0;
+                                    FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_settlementEntity:=0;
+                                    FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_settlementColony:=0;
+                                    FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_settlementIndex:=0;
                                     {.environment modifier}
                                     FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_emo:=DBSSPregNode.Attributes['emo'];
                                     {.resources data}

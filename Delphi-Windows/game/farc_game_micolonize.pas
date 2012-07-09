@@ -156,7 +156,7 @@ begin
       CPPcolIdx:=FCDBSsys[CPPssys].SS_star[CPPstar].SDB_obobj[CPPobjIdx].OO_colonies[0];
       {:DEV NOTES: resource survey data, TO REMOVE WHEN REGION SURVEY IS IMPLEMENTED.}
       regionttl:=length(FCDBSsys[CPPssys].SS_star[CPPstar].SDB_obobj[CPPobjIdx].OO_regions);
-      FCRplayer.P_surveyedSpots[1].SS_oobjToken:=FCDBSsys[CPPssys].SS_star[CPPstar].SDB_obobj[CPPobjIdx].OO_token;
+      FCRplayer.P_surveyedSpots[1].SS_oobjToken:=FCDBSsys[CPPssys].SS_star[CPPstar].SDB_obobj[CPPobjIdx].OO_dbTokenId;
       {:DEV NOTES: END HARCODED SURVEY DATA.}
    end
    else if CPPsatIdx>0
@@ -165,7 +165,7 @@ begin
       CPPcolIdx:=FCDBSsys[CPPssys].SS_star[CPPstar].SDB_obobj[CPPobjIdx].OO_satList[CPPsatIdx].OO_colonies[0];
       {:DEV NOTES: resource survey data, TO REMOVE WHEN REGION SURVEY IS IMPLEMENTED.}
       regionttl:=length(FCDBSsys[CPPssys].SS_star[CPPstar].SDB_obobj[CPPobjIdx].OO_satList[CPPsatIdx].OO_regions);
-      FCRplayer.P_surveyedSpots[1].SS_oobjToken:=FCDBSsys[CPPssys].SS_star[CPPstar].SDB_obobj[CPPobjIdx].OO_satList[CPPsatIdx].OO_token;
+      FCRplayer.P_surveyedSpots[1].SS_oobjToken:=FCDBSsys[CPPssys].SS_star[CPPstar].SDB_obobj[CPPobjIdx].OO_satList[CPPsatIdx].OO_dbTokenId;
       {:DEV NOTES: END HARCODED SURVEY DATA.}
    end;
    {.establish the colony if no one exist}

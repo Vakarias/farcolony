@@ -33,6 +33,8 @@ interface
 
 //uses
 
+const
+   FCCduMaxSpaceUnitsInOrbit=100;
 
 {:REFERENCES LIST
    - FCMoglVMain_Atmosph_SetCol
@@ -437,7 +439,7 @@ end;
 {:DEV NOTE: update FCMdF_DBstarSys_Process.}
 type TFCRduOObRegion = record
    {.type of soil}
-   OOR_soilTp: TFCEduRegionSoilTypes;
+   OOR_soilType: TFCEduRegionSoilTypes;
    {.type of relief}
    OOR_relief: TFCEduRegionReliefs;
    {.type of climate}
@@ -449,13 +451,13 @@ type TFCRduOObRegion = record
    {.mean temperature at maximum orbital distance in kelvin}
    OOR_meanTdMax: extended;
    {.mean windspeed in m/s}
-   OOR_windSpd: extended;
+   OOR_windSpeed: extended;
    {.yearly precipitation in mm}
-   OOR_precip: Integer;
+   OOR_precipitation: Integer;
    {.settlement data}
-   OOR_setEnt: integer;
-   OOR_setCol: integer;
-   OOR_setSet: integer;
+   OOR_settlementEntity: integer;
+   OOR_settlementColony: integer;
+   OOR_settlementIndex: integer;
    {.environment modifier}
    OOR_emo: extended;
    {.resources data}
@@ -478,11 +480,11 @@ end;
 ///<summary>
 ///   season, relative to the orbital period
 ///</summary>
-type TFCRduSeason = record
-   S_orbitalPeriodType: TFCEduOrbitalPeriodTypes;
-   S_dayStart: integer;
-   S_dayEnd: integer;
-   S_meanTemperature: extended;
+type TFCRduOObSeason = record
+   OOS_orbitalPeriodType: TFCEduOrbitalPeriodTypes;
+   OOS_dayStart: integer;
+   OOS_dayEnd: integer;
+   OOS_meanTemperature: extended;
 end;
 
 {:REFERENCES LIST
@@ -496,10 +498,111 @@ end;
 ///<summary>
 ///   space units in orbit
 ///</summary>
-type TFCRduSpaceUnitInOrbit = record
+type TFCRduOObSpaceUnitInOrbit = record
    SUIO_faction: integer;
    SUIO_ownedSpaceUnitIndex: integer;
 end;
+
+{:REFERENCES LIST
+   - FCFgC_Colony_Core
+   - FCFgPRS_PresenceBySettlement_Check
+   - FCFgPRS_PresenceBySettlement_Check
+   - FCMdF_DBstarSys_Process
+   - FCMdFSG_Game_Load
+   - FCMgC_Colonize_PostProc
+   - FCMgGFlow_Tasks_Process
+   - FCMgMCore_Mission_DestUpd
+   - FCMoglUI_Main3DViewUI_Update
+   - FCMoglVM_CamMain_Target
+   - FCMoglVMain_MapTex_Assign
+   - FCMspuF_Orbits_Process
+   - FCMuiM_Message_Add
+   - FCMuiSP_SurfaceEcosphere_Set
+   - TFCRufAtmosphereGasesPercent.AtmosphereGases_CalculatePercents
+   -
+}
+///<summary>
+///   orbital object
+///</summary>
+type TFCRduOrbitalObject = record
+   {.db token id}
+   OO_dbTokenId: string[20];
+      {NOT LOADED DATA - counter of OO_inOrbitList}
+   OO_inOrbitCnt: integer;
+      {NOT LOADED DATA - list of units in orbit}
+   OO_inOrbitList: array[0..FCCduMaxSpaceUnitsInOrbit] of TFCRduOObSpaceUnitInOrbit;
+    {NOT LOADED DATA - index of the first satellite object}
+   OO_satList: array of TFCRduOrbitalObject;
+   {.colonies settled on it [faction#]=owned colony id db #, 0= player}
+   OO_colonies: array [0..1] of integer;
+      {kind of orbital object}
+   OO_type: TFCEduOrbitalObjectTypes;
+   {.environment type}
+   OO_envTp: TFCEduEnvironmentTypes;
+
+      {revolution period, in standard days, around it's star}
+   OO_revol: integer;
+      {starting day for revolution period}
+   OO_revolInit: integer;
+      {NOT LOADED DATA - value used for 3d display}
+   OO_angle1stDay: extended;
+      {diameter in km RTO-1}
+   OO_diam: extended;
+      {density in kg/m3}
+   OO_dens: extended;
+      {mass in Earth mass equivalent RTO-6}
+   OO_mass: extended;
+      {gravity in gees RTO-3}
+   OO_grav: extended;
+      {gravity sphere of influence radius  in km RTO-1}
+   OO_gravSphRad: extended;
+      {escape velocity in km/s RTO-2}
+   OO_escVel: extended;
+      {rotation period, around it's own axis, in hours RTO-2}
+   OO_rotPer: extended;
+      {inclination axis}
+   OO_inclAx: extended;
+      {magnetic field in gauss}
+   OO_magFld: extended;
+      {body albedo RTO-2}
+   OO_albedo: extended;
+      {atmosphere pressure in mbars, 1013 eq 1 atm eq 101.3kpa}
+   OO_atmPress: extended;
+      {cloud cover in %}
+   OO_cloudsCov: extended;
+      {atmosphere detailed composition}
+   OO_atmosph: TFCRduAtmosphericComposition;
+      {.orbital periods list, 2 intermediate 1 closest (summer) 1 farest (winter)}
+   OO_orbPeriod: array[0..4] of TFCRduOObSeason;
+      {.hydrosphere type}
+   OO_hydrotp: TFCEduHydrospheres;
+      {.hydrosphere area}
+   OO_hydroArea: extended;
+      {.regions}
+   OO_regions: array of TFCRduOObRegion;
+
+   case OO_isASatellite:boolean of
+
+      false:(
+         {NOT LOADED DATA - index of the first satellite object}
+   OO_sat1stOb: integer;
+    {distance from it's star in AU}
+   OO_distFrmStar: extended;
+      {orbit eccentricity in #.### format}
+   OO_ecc: extended;
+      {orbital zone type}
+   OO_orbZone: TFCEduHabitableZones;
+
+   );
+
+      true: (
+      {distance from it's central planet in thousands of km}
+   OOS_distFrmOOb: extended;
+
+      );
+end;
+
+
 
 //==END PUBLIC RECORDS======================================================================
 
@@ -513,8 +616,7 @@ end;
 //===========================END FUNCTIONS SECTION==========================================
 
 //============================OLD CODE==================================================================================
-   const
-      FCDUorbits=100;
+
 
    //=======================================================================================
    {.stars and orbital objects datastructures}
@@ -555,85 +657,7 @@ end;
    type TFCRduFUGstarOrb= array[0..3] of integer;
    {.FUG system type}
    type TFCRduFUGsysTp= array[0..3] of integer;
-   {.orbital object data structure, child of TFCRstar}
-   {:DEV NOTE: don't forget to update farc_data_files / FCMdFiles_DBstarSys_Process.}
-   type TFCRduOobj = record
-         {db token id}
-      OO_token: string[20];
-         {NOT LOADED DATA - counter of OO_inOrbitList}
-      OO_inOrbitCnt: integer;
-         {NOT LOADED DATA - list of units in orbit}
-      OO_inOrbitList: array[0..FCDUorbits] of TFCRduSpaceUnitInOrbit;
-       {NOT LOADED DATA - index of the first satellite object}
-      OO_satList: array of TFCRduOobj;
-      {.colonies settled on it [faction#]=owned colony id db #, 0= player}
-      OO_colonies: array [0..1] of integer;
-         {kind of orbital object}
-      OO_type: TFCEduOrbitalObjectTypes;
-      {.environment type}
-      OO_envTp: TFCEduEnvironmentTypes;
 
-         {revolution period, in standard days, around it's star}
-      OO_revol: integer;
-         {starting day for revolution period}
-      OO_revolInit: integer;
-         {NOT LOADED DATA - value used for 3d display}
-      OO_angle1stDay: extended;
-         {diameter in km RTO-1}
-      OO_diam: extended;
-         {density in kg/m3}
-      OO_dens: extended;
-         {mass in Earth mass equivalent RTO-6}
-      OO_mass: extended;
-         {gravity in gees RTO-3}
-      OO_grav: extended;
-         {gravity sphere of influence radius  in km RTO-1}
-      OO_gravSphRad: extended;
-         {escape velocity in km/s RTO-2}
-      OO_escVel: extended;
-         {rotation period, around it's own axis, in hours RTO-2}
-      OO_rotPer: extended;
-         {inclination axis}
-      OO_inclAx: extended;
-         {magnetic field in gauss}
-      OO_magFld: extended;
-         {body albedo RTO-2}
-      OO_albedo: extended;
-         {atmosphere pressure in mbars, 1013 eq 1 atm eq 101.3kpa}
-      OO_atmPress: extended;
-         {cloud cover in %}
-      OO_cloudsCov: extended;
-         {atmosphere detailed composition}
-      OO_atmosph: TFCRduAtmosphericComposition;
-         {.orbital periods list, 2 intermediate 1 closest (summer) 1 farest (winter)}
-      OO_orbPeriod: array[0..4] of TFCRduSeason;
-         {.hydrosphere type}
-      OO_hydrotp: TFCEduHydrospheres;
-         {.hydrosphere area}
-      OO_hydroArea: extended;
-         {.regions}
-      OO_regions: array of TFCRduOObRegion;
-
-      case OO_isASatellite:boolean of
-
-         false:(
-            {NOT LOADED DATA - index of the first satellite object}
-      OO_sat1stOb: integer;
-       {distance from it's star in AU}
-      OO_distFrmStar: extended;
-         {orbit eccentricity in #.### format}
-      OO_ecc: extended;
-         {orbital zone type}
-      OO_orbZone: TFCEduHabitableZones;
-
-      );
-
-         true: (
-         {distance from it's central planet in thousands of km}
-      OOS_distFrmOOb: extended;
-
-         );
-   end;
    {.star data structure, child of TFCRstarSys}
    type TFCRstar = record
       {db token id}
@@ -649,7 +673,7 @@ end;
       {luminosity, relative to Sun}
       SDB_lum: extended;
       {orbital object sub-datastructure}
-      SDB_obobj: array of TFCRduOobj;
+      SDB_obobj: array of TFCRduOrbitalObject;
       {.companion star - mean separation}
       SDB_meanSep: extended;
       {.companion star - minimal approach distance}

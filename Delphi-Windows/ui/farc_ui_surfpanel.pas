@@ -538,10 +538,10 @@ begin
       begin
          with FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SPcurrentOObjIndex].OO_regions[SERUregIdx] do
          begin
-            SERUdmpTerrTp:=OOR_soilTp;
+            SERUdmpTerrTp:=OOR_soilType;
             SERUdmpRelief:=OOR_relief;
-            SERUwndSpd:=OOR_windSpd;
-            SERUprecip:=OOR_precip;
+            SERUwndSpd:=OOR_windSpeed;
+            SERUprecip:=OOR_precipitation;
             if SERUseason='seasonMin'
             then SERUtemp:=OOR_meanTdMin
             else if SERUseason='seasonMid'
@@ -555,10 +555,10 @@ begin
       begin
          with FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SPcurrentOObjIndex].OO_satList[SPcurrentSatIndex] do
          begin
-            SERUdmpTerrTp:=OO_regions[SERUregIdx].OOR_soilTp;
+            SERUdmpTerrTp:=OO_regions[SERUregIdx].OOR_soilType;
             SERUdmpRelief:=OO_regions[SERUregIdx].OOR_relief;
-            SERUwndSpd:=OO_regions[SERUregIdx].OOR_windSpd;
-            SERUprecip:=OO_regions[SERUregIdx].OOR_precip;
+            SERUwndSpd:=OO_regions[SERUregIdx].OOR_windSpeed;
+            SERUprecip:=OO_regions[SERUregIdx].OOR_precipitation;
             if SERUseason='seasonMin'
             then SERUtemp:=OO_regions[SERUregIdx].OOR_meanTdMin
             else if SERUseason='seasonMid'
@@ -1007,7 +1007,7 @@ begin
          begin
             SESdmpTp:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SESoobjIdx].OO_type;
             SESdmpTtlReg:=length(FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SESoobjIdx].OO_regions)-1;
-            SESdmpToken:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SESoobjIdx].OO_token;
+            SESdmpToken:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SESoobjIdx].OO_dbTokenId;
             SESdmpAtmPr:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SESoobjIdx].OO_atmPress;
             SESdmpCCov:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SESoobjIdx].OO_cloudsCov;
             SESdmpHydr:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SESoobjIdx].OO_hydrotp;
@@ -1024,7 +1024,7 @@ begin
          begin
             SESdmpTp:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SESoobjIdx].OO_satList[SESsatIdx].OO_type;
             SESdmpTtlReg:=length(FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SESoobjIdx].OO_satList[SESsatIdx].OO_regions)-1;
-            SESdmpToken:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SESoobjIdx].OO_satList[SESsatIdx].OO_token;
+            SESdmpToken:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SESoobjIdx].OO_satList[SESsatIdx].OO_dbTokenId;
             SESdmpAtmPr:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SESoobjIdx].OO_satList[SESsatIdx].OO_atmPress;
             SESdmpCCov:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SESoobjIdx].OO_satList[SESsatIdx].OO_cloudsCov;
             SESdmpHydr:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SESoobjIdx].OO_satList[SESsatIdx].OO_hydrotp;
@@ -1490,8 +1490,8 @@ begin
 //                  FCRdiSettlementPic[SEScnt].Left:=FCWM_SP_Surface.HotSpots[SEShots].X+(FCWM_SP_Surface.HotSpots[SEShots].Width shr 1)-(FCRdiSettlementPic[SEScnt].Width shr 1);
 //                  FCRdiSettlementPic[SEScnt].Top:=FCWM_SP_Surface.HotSpots[SEShots].Y+4;
 
-                  if ((SESsatIdx=0) and (FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SESoobjIdx].OO_regions[SEScnt].OOR_setSet>0))
-                     or ((SESsatIdx>0) and (FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SESoobjIdx].OO_satList[SESsatIdx].OO_regions[SEScnt].OOR_setSet>0))
+                  if ((SESsatIdx=0) and (FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SESoobjIdx].OO_regions[SEScnt].OOR_settlementIndex>0))
+                     or ((SESsatIdx>0) and (FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SESoobjIdx].OO_satList[SESsatIdx].OO_regions[SEScnt].OOR_settlementIndex>0))
                   then FCMgfxC_Settlement_SwitchState(SEScnt);
                   inc(SEScnt);
                end; //==END== while SEScnt<=SESdmpTtlReg ==//;

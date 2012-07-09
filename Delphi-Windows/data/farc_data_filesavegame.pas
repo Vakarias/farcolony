@@ -391,7 +391,7 @@ begin
                (FCRplayer.P_surveyedSpots[GLcount].SS_satIndex=0)
                and ( FCDBsSys[FCRplayer.P_surveyedSpots[GLcount].SS_ssysIndex].
                         SS_star[FCRplayer.P_surveyedSpots[GLcount].SS_starIndex].
-                        SDB_obobj[FCRplayer.P_surveyedSpots[GLcount].SS_oobjIndex].OO_token=FCRplayer.P_surveyedSpots[GLcount].SS_oobjToken
+                        SDB_obobj[FCRplayer.P_surveyedSpots[GLcount].SS_oobjIndex].OO_dbTokenId=FCRplayer.P_surveyedSpots[GLcount].SS_oobjToken
                   )
                )
                or (
@@ -401,7 +401,7 @@ begin
                   and ( FCDBsSys[FCRplayer.P_surveyedSpots[GLcount].SS_ssysIndex].
                            SS_star[FCRplayer.P_surveyedSpots[GLcount].SS_starIndex].
                            SDB_obobj[FCRplayer.P_surveyedSpots[GLcount].SS_oobjIndex].
-                           OO_satList[FCRplayer.P_surveyedSpots[GLcount].SS_satIndex].OO_token=FCRplayer.P_surveyedSpots[GLcount].SS_oobjToken
+                           OO_satList[FCRplayer.P_surveyedSpots[GLcount].SS_satIndex].OO_dbTokenId=FCRplayer.P_surveyedSpots[GLcount].SS_oobjToken
                      )
                ) then
             begin
@@ -750,15 +750,15 @@ begin
                            GLregionIdx:=FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_region;
                            if GLoobjRow[4]=0 then
                            begin
-                              FCDBSsys[GLoobjRow[1]].SS_star[GLoobjRow[2]].SDB_obobj[GLoobjRow[3]].OO_regions[GLregionIdx].OOR_setEnt:=GLentCnt;
-                              FCDBSsys[GLoobjRow[1]].SS_star[GLoobjRow[2]].SDB_obobj[GLoobjRow[3]].OO_regions[GLregionIdx].OOR_setCol:=GLcount;
-                              FCDBSsys[GLoobjRow[1]].SS_star[GLoobjRow[2]].SDB_obobj[GLoobjRow[3]].OO_regions[GLregionIdx].OOR_setSet:=GLsettleCnt;
+                              FCDBSsys[GLoobjRow[1]].SS_star[GLoobjRow[2]].SDB_obobj[GLoobjRow[3]].OO_regions[GLregionIdx].OOR_settlementEntity:=GLentCnt;
+                              FCDBSsys[GLoobjRow[1]].SS_star[GLoobjRow[2]].SDB_obobj[GLoobjRow[3]].OO_regions[GLregionIdx].OOR_settlementColony:=GLcount;
+                              FCDBSsys[GLoobjRow[1]].SS_star[GLoobjRow[2]].SDB_obobj[GLoobjRow[3]].OO_regions[GLregionIdx].OOR_settlementIndex:=GLsettleCnt;
                            end
                            else if GLoobjRow[4]>0 then
                            begin
-                              FCDBSsys[GLoobjRow[1]].SS_star[GLoobjRow[2]].SDB_obobj[GLoobjRow[3]].OO_satList[GLoobjRow[4]].OO_regions[GLregionIdx].OOR_setEnt:=GLentCnt;
-                              FCDBSsys[GLoobjRow[1]].SS_star[GLoobjRow[2]].SDB_obobj[GLoobjRow[3]].OO_satList[GLoobjRow[4]].OO_regions[GLregionIdx].OOR_setCol:=GLcount;
-                              FCDBSsys[GLoobjRow[1]].SS_star[GLoobjRow[2]].SDB_obobj[GLoobjRow[3]].OO_satList[GLoobjRow[4]].OO_regions[GLregionIdx].OOR_setSet:=GLsettleCnt;
+                              FCDBSsys[GLoobjRow[1]].SS_star[GLoobjRow[2]].SDB_obobj[GLoobjRow[3]].OO_satList[GLoobjRow[4]].OO_regions[GLregionIdx].OOR_settlementEntity:=GLentCnt;
+                              FCDBSsys[GLoobjRow[1]].SS_star[GLoobjRow[2]].SDB_obobj[GLoobjRow[3]].OO_satList[GLoobjRow[4]].OO_regions[GLregionIdx].OOR_settlementColony:=GLcount;
+                              FCDBSsys[GLoobjRow[1]].SS_star[GLoobjRow[2]].SDB_obobj[GLoobjRow[3]].OO_satList[GLoobjRow[4]].OO_regions[GLregionIdx].OOR_settlementIndex:=GLsettleCnt;
                            end;
                            GLinfCnt:=0;
                            GLxmlInfra:=GLxmlColsub.ChildNodes.First;

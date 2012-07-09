@@ -541,7 +541,7 @@ begin
       if CMTisUpdPMenu
       then FCMuiW_FocusPopup_Upd(uiwpkOrbObj);
       {.store the player's location}
-      FCRplayer.P_oObjLoc:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[FCV3DselOobj].OO_token;
+      FCRplayer.P_oObjLoc:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[FCV3DselOobj].OO_dbTokenId;
    end
    {.satellite selected}
    else if CMTidxOfObj=100
@@ -580,7 +580,7 @@ begin
       CMTdmpSatIdx:=FC3DobjSatGrp[FCV3DselSat].Tag;
       CMTdmpSatPlanIdx:=round(FC3DobjSatGrp[FCV3DselSat].TagFloat);
       FCRplayer.P_satLoc
-         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[CMTdmpSatPlanIdx].OO_satList[CMTdmpSatIdx].OO_token;
+         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[CMTdmpSatPlanIdx].OO_satList[CMTdmpSatIdx].OO_dbTokenId;
    end;
 end;
 
@@ -685,10 +685,10 @@ begin
    then
    begin
       if MTAsatIdx=0
-      then MTAdmpOobjToken:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[MTAoobjIdx].OO_token
+      then MTAdmpOobjToken:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[MTAoobjIdx].OO_dbTokenId
       else if MTAsatIdx>0
       then MTAdmpOobjToken:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[MTAoobjIdx]
-         .OO_satList[MTAsatIdx].OO_token;
+         .OO_satList[MTAsatIdx].OO_dbTokenId;
    end
    {.for the rest of telluric/icy planets w/ standard textures}
    else begin
