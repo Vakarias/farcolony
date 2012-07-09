@@ -561,26 +561,46 @@ type TFCRduOrbitalObject = record
    ///   mass in Earth mass equivalent RTO-6
    ///</summary>
    OO_mass: extended;
-      {gravity in gees RTO-3}
-   OO_grav: extended;
-      {gravity sphere of influence radius  in km RTO-1}
-   OO_gravSphRad: extended;
-      {escape velocity in km/s RTO-2}
-   OO_escVel: extended;
-      {rotation period, around it's own axis, in hours RTO-2}
-   OO_rotPer: extended;
-      {inclination axis}
-   OO_inclAx: extended;
-      {magnetic field in gauss}
-   OO_magFld: extended;
-      {body albedo RTO-2}
+   ///<summary>
+   ///   gravity in gees RTO-3
+   ///</summary>
+   OO_gravity: extended;
+   ///<summary>
+   ///   gravitational sphere of influence radius  in km RTO-1
+   ///</summary>
+   OO_gravitationalSphereRadius: extended;
+   ///<summary>
+   ///   escape velocity in km/s RTO-2
+   ///</summary>
+   OO_escapeVelocity: extended;
+   ///<summary>
+   ///   rotation period, around it's own axis, in hours RTO-2
+   ///</summary>
+   OO_rotationPeriod: extended;
+   ///<summary>
+   ///   inclination axis
+   ///</summary>
+   OO_inclinationAxis: extended;
+   ///<summary>
+   ///   magnetic field in gauss
+   ///</summary>
+   OO_magneticField: extended;
+   ///<summary>
+   ///   body albedo RTO-2
+   ///</summary>
    OO_albedo: extended;
-      {atmosphere pressure in mbars, 1013 eq 1 atm eq 101.3kpa}
-   OO_atmPress: extended;
-      {cloud cover in %}
-   OO_cloudsCov: extended;
-      {atmosphere detailed composition}
-   OO_atmosph: TFCRduAtmosphericComposition;
+   ///<summary>
+   ///   atmospheric pressure in mbars, 1013mbars eq 1 atm eq 101.3kpa
+   ///</summary>
+   OO_atmosphericPressure: extended;
+   ///<summary>
+   ///   cloud cover in %
+   ///</summary>
+   OO_cloudsCover: extended;
+   ///<summary>
+   ///   atmosphere detailed composition
+   ///</summary>
+   OO_atmosphere: TFCRduAtmosphericComposition;
       {.orbital periods list, 2 intermediate 1 closest (summer) 1 farest (winter)}
    OO_orbPeriod: array[0..4] of TFCRduOObSeason;
       {.hydrosphere type}

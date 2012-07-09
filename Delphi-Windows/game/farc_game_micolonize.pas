@@ -324,7 +324,7 @@ begin
             ,gmtltOrbObj
             ,false
             );
-         CSentVel:=FCDBsSys[CSssys].SS_star[CSstar].SDB_obobj[CSoobjIdx].OO_escVel;
+         CSentVel:=FCDBsSys[CSssys].SS_star[CSstar].SDB_obobj[CSoobjIdx].OO_escapeVelocity;
       end
       else if CSsatIdx>0
       then
@@ -337,7 +337,7 @@ begin
             ,gmtltSat
             ,false
             );
-         CSentVel:=FCDBsSys[CSssys].SS_star[CSstar].SDB_obobj[CSoobjIdx].OO_satellitesList[CSsatIdx].OO_escVel;
+         CSentVel:=FCDBsSys[CSssys].SS_star[CSstar].SDB_obobj[CSoobjIdx].OO_satellitesList[CSsatIdx].OO_escapeVelocity;
       end;
       {.distance conversion in m}
       CSdistDecel:=GMCbaseDist*CFC3dUnInKm*1000;

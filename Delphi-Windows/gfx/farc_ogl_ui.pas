@@ -826,20 +826,20 @@ begin
             {.gravity}
             FCWinMain.FCGLSHUDobobjGravLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIoobjGrav');
             FCWinMain.FCGLSHUDobobjGrav.Text:=FloatToStr(FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar]
-               .SDB_obobj[M3DVUIUsatPlanIdx].OO_satellitesList[M3DVUIUsatIdx].OO_grav)+' G';
+               .SDB_obobj[M3DVUIUsatPlanIdx].OO_satellitesList[M3DVUIUsatIdx].OO_gravity)+' G';
             {.escape velocity}
             FCWinMain.FCGLSHUDobobjEVelLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIoobjEscVel');
             FCWinMain.FCGLSHUDobobjEVel.Text
                :=FloatToStr(FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[M3DVUIUsatPlanIdx]
-                  .OO_satellitesList[M3DVUIUsatIdx].OO_escVel)+' Km/s';
+                  .OO_satellitesList[M3DVUIUsatIdx].OO_escapeVelocity)+' Km/s';
             {.magnetic field}
             FCWinMain.FCGLSHUDobobjMagFLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIoobjMagF');
             FCWinMain.FCGLSHUDobobjMagF.Text:=FloatToStr(FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar]
-               .SDB_obobj[M3DVUIUsatPlanIdx].OO_satellitesList[M3DVUIUsatIdx].OO_magFld)+' Gauss';
+               .SDB_obobj[M3DVUIUsatPlanIdx].OO_satellitesList[M3DVUIUsatIdx].OO_magneticField)+' Gauss';
             {.axial tilt}
             FCWinMain.FCGLSHUDobobjAxTiltLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIoobjAxTilt');
             FCWinMain.FCGLSHUDobobjAxTilt.Text:=FloatToStr(FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar]
-                  .SDB_obobj[M3DVUIUsatPlanIdx].OO_satellitesList[M3DVUIUsatIdx].OO_inclAx)+chr(176);
+                  .SDB_obobj[M3DVUIUsatPlanIdx].OO_satellitesList[M3DVUIUsatIdx].OO_inclinationAxis)+chr(176);
             {.albedo}
             FCWinMain.FCGLSHUDobobjAlbeLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIoobjAlb');
             FCWinMain.FCGLSHUDobobjAlbe.Text:=FloatToStr(FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar]
@@ -930,13 +930,13 @@ begin
                   +' '+FCFdTFiles_UIStr_Get(uistrUI,'TimeFstdD');
             {.rotation period}
             FCWinMain.FCGLSHUDobobjRotPerLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIoobjRotPer');
-            if (FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[FCV3DselOobj].OO_rotPer=0)
+            if (FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[FCV3DselOobj].OO_rotationPeriod=0)
                and (FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[FCV3DselOobj].OO_type
                   >ootAsteroidsBelt_Icy)
                and (FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[FCV3DselOobj].OO_type
                   <ootRing_Metallic)
             then FCWinMain.FCGLSHUDobobjRotPer.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIoobjTidLckd')
-            else if (FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[FCV3DselOobj].OO_rotPer=0)
+            else if (FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[FCV3DselOobj].OO_rotationPeriod=0)
                and (
                      (FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[FCV3DselOobj].OO_type
                         <ootAsteroid_Metallic)
@@ -946,7 +946,7 @@ begin
                   )
             then FCWinMain.FCGLSHUDobobjRotPer.Text:='N/A'
             else FCWinMain.FCGLSHUDobobjRotPer.Text
-               :=FloatToStr(FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[FCV3DselOobj].OO_rotPer)
+               :=FloatToStr(FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[FCV3DselOobj].OO_rotationPeriod)
                   +' hrs';
             {.number of satellites}
             FCWinMain.FCGLSHUDobobjSatLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIoobjSat');
@@ -1025,19 +1025,19 @@ begin
             {.gravity}
             FCWinMain.FCGLSHUDobobjGravLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIoobjGrav');
             FCWinMain.FCGLSHUDobobjGrav.Text
-               :=FloatToStr(FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[FCV3DselOobj].OO_grav)+' G';
+               :=FloatToStr(FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[FCV3DselOobj].OO_gravity)+' G';
             {.escape velocity}
             FCWinMain.FCGLSHUDobobjEVelLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIoobjEscVel');
             FCWinMain.FCGLSHUDobobjEVel.Text
-               :=FloatToStr(FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[FCV3DselOobj].OO_escVel)+' Km/s';
+               :=FloatToStr(FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[FCV3DselOobj].OO_escapeVelocity)+' Km/s';
             {.magnetic field}
             FCWinMain.FCGLSHUDobobjMagFLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIoobjMagF');
             FCWinMain.FCGLSHUDobobjMagF.Text
-               :=FloatToStr(FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[FCV3DselOobj].OO_magFld)+' Gauss';
+               :=FloatToStr(FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[FCV3DselOobj].OO_magneticField)+' Gauss';
             {.axial tilt}
             FCWinMain.FCGLSHUDobobjAxTiltLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIoobjAxTilt');
             FCWinMain.FCGLSHUDobobjAxTilt.Text
-               :=FloatToStr(FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[FCV3DselOobj].OO_inclAx)+chr(176);
+               :=FloatToStr(FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[FCV3DselOobj].OO_inclinationAxis)+chr(176);
             {.albedo}
             FCWinMain.FCGLSHUDobobjAlbeLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIoobjAlb');
             FCWinMain.FCGLSHUDobobjAlbe.Text

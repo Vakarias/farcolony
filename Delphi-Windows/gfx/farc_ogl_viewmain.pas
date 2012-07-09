@@ -308,24 +308,24 @@ begin
    if ASCsatIdx=0
    then
    begin
-      ASCh2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASCoobjIdx].OO_atmosph.AC_gasPresenceH2;
-      ASChe:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASCoobjIdx].OO_atmosph.AC_gasPresenceHe;
-      ASCn2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASCoobjIdx].OO_atmosph.AC_gasPresenceN2;
-      ASCo2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASCoobjIdx].OO_atmosph.AC_gasPresenceO2;
-      ASCh2s:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASCoobjIdx].OO_atmosph.AC_gasPresenceH2S;
-      ASCco2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASCoobjIdx].OO_atmosph.AC_gasPresenceCO2;
-      ASCso2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASCoobjIdx].OO_atmosph.AC_gasPresenceSO2;
+      ASCh2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASCoobjIdx].OO_atmosphere.AC_gasPresenceH2;
+      ASChe:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASCoobjIdx].OO_atmosphere.AC_gasPresenceHe;
+      ASCn2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASCoobjIdx].OO_atmosphere.AC_gasPresenceN2;
+      ASCo2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASCoobjIdx].OO_atmosphere.AC_gasPresenceO2;
+      ASCh2s:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASCoobjIdx].OO_atmosphere.AC_gasPresenceH2S;
+      ASCco2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASCoobjIdx].OO_atmosphere.AC_gasPresenceCO2;
+      ASCso2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASCoobjIdx].OO_atmosphere.AC_gasPresenceSO2;
    end
    else if ASCsatIdx>0
    then
    begin
-      ASCh2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASCoobjIdx].OO_satellitesList[ASCsatIdx].OO_atmosph.AC_gasPresenceH2;
-      ASChe:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASCoobjIdx].OO_satellitesList[ASCsatIdx].OO_atmosph.AC_gasPresenceHe;
-      ASCn2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASCoobjIdx].OO_satellitesList[ASCsatIdx].OO_atmosph.AC_gasPresenceN2;
-      ASCo2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASCoobjIdx].OO_satellitesList[ASCsatIdx].OO_atmosph.AC_gasPresenceO2;
-      ASCh2s:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASCoobjIdx].OO_satellitesList[ASCsatIdx].OO_atmosph.AC_gasPresenceH2S;
-      ASCco2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASCoobjIdx].OO_satellitesList[ASCsatIdx].OO_atmosph.AC_gasPresenceCO2;
-      ASCso2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASCoobjIdx].OO_satellitesList[ASCsatIdx].OO_atmosph.AC_gasPresenceSO2;
+      ASCh2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASCoobjIdx].OO_satellitesList[ASCsatIdx].OO_atmosphere.AC_gasPresenceH2;
+      ASChe:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASCoobjIdx].OO_satellitesList[ASCsatIdx].OO_atmosphere.AC_gasPresenceHe;
+      ASCn2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASCoobjIdx].OO_satellitesList[ASCsatIdx].OO_atmosphere.AC_gasPresenceN2;
+      ASCo2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASCoobjIdx].OO_satellitesList[ASCsatIdx].OO_atmosphere.AC_gasPresenceO2;
+      ASCh2s:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASCoobjIdx].OO_satellitesList[ASCsatIdx].OO_atmosphere.AC_gasPresenceH2S;
+      ASCco2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASCoobjIdx].OO_satellitesList[ASCsatIdx].OO_atmosphere.AC_gasPresenceCO2;
+      ASCso2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASCoobjIdx].OO_satellitesList[ASCsatIdx].OO_atmosphere.AC_gasPresenceSO2;
    end;
    {.N2 atmosphere - titan like}
    if (ASCn2=agsMain)
@@ -1205,7 +1205,7 @@ begin
                {.set material}
                FC3DobjAster[TDMVUorbObjCnt].Material.FrontProperties:=FC3DobjAsterDmp.Material.FrontProperties;
                {.set common data}
-               FC3DobjAster[TDMVUorbObjCnt].TurnAngle:=SDB_obobj[TDMVUorbObjCnt].OO_inclAx;
+               FC3DobjAster[TDMVUorbObjCnt].TurnAngle:=SDB_obobj[TDMVUorbObjCnt].OO_inclinationAxis;
                FC3DobjAster[TDMVUorbObjCnt].scale.X
                   :=FCFcFunc_ScaleConverter(cf3dctAstDiamKmTo3dViewUnit, SDB_obobj[TDMVUorbObjCnt].OO_diameter);
                FC3DobjAster[TDMVUorbObjCnt].scale.Y:=FC3DobjAster[TDMVUorbObjCnt].scale.X;
@@ -1234,7 +1234,7 @@ begin
                {.initialize 3d structure}
                FCMoglVM_OObj_Gen(oglvmootNorm, TDMVUorbObjCnt);
                {.inclination}
-               FC3DobjPlan[TDMVUorbObjCnt].RollAngle:=SDB_obobj[TDMVUorbObjCnt].OO_inclAx;
+               FC3DobjPlan[TDMVUorbObjCnt].RollAngle:=SDB_obobj[TDMVUorbObjCnt].OO_inclinationAxis;
                {.set scale}
                FC3DobjPlan[TDMVUorbObjCnt].scale.X
                   :=FCFcFunc_ScaleConverter(cf3dctKmTo3dViewUnit,SDB_obobj[TDMVUorbObjCnt].OO_diameter);
@@ -1251,7 +1251,7 @@ begin
                if (
                      ((SDB_obobj[TDMVUorbObjCnt].OO_type in [ootPlanet_Telluric_EarthH0H1..ootPlanet_Icy_CallistoH3H4Atm0]))
                      and
-                     (SDB_obobj[TDMVUorbObjCnt].OO_atmPress>0)
+                     (SDB_obobj[TDMVUorbObjCnt].OO_atmosphericPressure>0)
                   )
                   or (SDB_obobj[TDMVUorbObjCnt].OO_type in [ootPlanet_Gaseous_Uranus..ootPlanet_Supergiant])
                then
@@ -1260,7 +1260,7 @@ begin
                   FC3DobjAtmosph[TDMVUorbObjCnt].Sun:=FCWinMain.FCGLSSM_Light;
                   if SDB_obobj[TDMVUorbObjCnt].OO_type<ootPlanet_Gaseous_Uranus
                   then FC3DobjAtmosph[TDMVUorbObjCnt].Opacity
-                     :=FCFoglVMain_CloudsCov_Conv2AtmOp(SDB_obobj[TDMVUorbObjCnt].OO_cloudsCov)
+                     :=FCFoglVMain_CloudsCov_Conv2AtmOp(SDB_obobj[TDMVUorbObjCnt].OO_cloudsCover)
                   else FC3DobjAtmosph[TDMVUorbObjCnt].Opacity:=FCFoglVMain_CloudsCov_Conv2AtmOp(-1);
                   FC3DobjAtmosph[TDMVUorbObjCnt].Visible:=true;
                end;
@@ -1298,7 +1298,7 @@ begin
                         {.set material}
                         FC3DobjSatAster[TDMVUsatCnt].Material.FrontProperties:=FC3DobjAsterDmp.Material.FrontProperties;
                         {.set axial tilt}
-                        FC3DobjSatAster[TDMVUsatCnt].TurnAngle:=SDB_obobj[TDMVUorbObjCnt].OO_satellitesList[TDMVUsatIdx].OO_inclAx;
+                        FC3DobjSatAster[TDMVUsatCnt].TurnAngle:=SDB_obobj[TDMVUorbObjCnt].OO_satellitesList[TDMVUsatIdx].OO_inclinationAxis;
                         {.set scale}
                         FC3DobjSatAster[TDMVUsatCnt].scale.X
                            :=FCFcFunc_ScaleConverter
@@ -1337,7 +1337,7 @@ begin
                         FCMoglVM_OObj_Gen(oglvmootSatNorm, TDMVUsatCnt);
                         {.axial tilt}
                         FC3DobjSat[TDMVUsatCnt].RollAngle
-                           :=SDB_obobj[TDMVUorbObjCnt].OO_satellitesList[TDMVUsatIdx].OO_inclAx;
+                           :=SDB_obobj[TDMVUorbObjCnt].OO_satellitesList[TDMVUsatIdx].OO_inclinationAxis;
                         {.set scale}
                         FC3DobjSat[TDMVUsatCnt].scale.X
                            :=FCFcFunc_ScaleConverter
@@ -1363,13 +1363,13 @@ begin
                         FC3DobjSatGrp[TDMVUsatCnt].CubeSize:=FC3DobjSat[TDMVUsatCnt].scale.X*2;
                         {.set atmosphere}
                         if (SDB_obobj[TDMVUorbObjCnt].OO_satellitesList[TDMVUsatIdx].OO_type in [ootSatellite_Telluric_Io..ootSatellite_Icy_Callisto])
-                           and (SDB_obobj[TDMVUorbObjCnt].OO_satellitesList[TDMVUsatIdx].OO_atmPress>0)
+                           and (SDB_obobj[TDMVUorbObjCnt].OO_satellitesList[TDMVUsatIdx].OO_atmosphericPressure>0)
                         then
                         begin
                            FCMoglVMain_Atmosph_SetCol(TDMVUorbObjCnt, TDMVUsatIdx, TDMVUsatCnt);
                            FC3DobjSatAtmosph[TDMVUsatCnt].Sun:=FCWinMain.FCGLSSM_Light;
                            FC3DobjSatAtmosph[TDMVUsatCnt].Opacity
-                              :=FCFoglVMain_CloudsCov_Conv2AtmOp(SDB_obobj[TDMVUorbObjCnt].OO_satellitesList[TDMVUsatIdx].OO_cloudsCov);
+                              :=FCFoglVMain_CloudsCov_Conv2AtmOp(SDB_obobj[TDMVUorbObjCnt].OO_satellitesList[TDMVUsatIdx].OO_cloudsCover);
                            FC3DobjSatAtmosph[TDMVUsatCnt].Visible:=true;
                         end;
                         {.texturing}
@@ -1561,7 +1561,7 @@ begin
       FC3DobjPlanGrav[OBobjIdx].SplineMode:=lsmCubicSpline;
       FC3DobjPlanGrav[OBobjIdx].Nodes.Clear;
       FC3DobjPlanGrav[OBobjIdx].Scale.X:=
-         (FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[OBobjIdx].OO_gravSphRad/(CFC3dUnInKm))*2;
+         (FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[OBobjIdx].OO_gravitationalSphereRadius/(CFC3dUnInKm))*2;
       if FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[OBobjIdx].OO_type
          in [ootAsteroid_Metallic..ootAsteroid_Icy]
       then FC3DobjPlanGrav[OBobjIdx].Scale.X:=FC3DobjPlanGrav[OBobjIdx].Scale.X*6.42;
@@ -1655,7 +1655,7 @@ begin
       FC3DobjSatGrav[OBsatCnt].SplineMode:=lsmCubicSpline;
       FC3DobjSatGrav[OBsatCnt].Nodes.Clear;
       FC3DobjSatGrav[OBsatCnt].Scale.X:=
-         (FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[OBobjIdx].OO_satellitesList[OBsatIdx].OO_gravSphRad/(CFC3dUnInKm))*2;
+         (FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[OBobjIdx].OO_satellitesList[OBsatIdx].OO_gravitationalSphereRadius/(CFC3dUnInKm))*2;
       if FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[OBobjIdx].OO_satellitesList[OBsatIdx].OO_type
          in [ootSatellite_Asteroid_Metallic..ootSatellite_Asteroid_Icy]
       then FC3DobjSatGrav[OBsatCnt].Scale.X:=FC3DobjSatGrav[OBsatCnt].Scale.X*6.42;

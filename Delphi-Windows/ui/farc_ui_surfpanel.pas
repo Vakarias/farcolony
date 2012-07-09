@@ -139,58 +139,58 @@ begin
    if SEAPsatIdx=0
    then
    begin
-      SEAPgasH2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_atmosph.AC_gasPresenceH2;
-      SEAPgasHe:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_atmosph.AC_gasPresenceHe;
-      SEAPgasCH4:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_atmosph.AC_gasPresenceCH4;
-      SEAPgasNH3:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_atmosph.AC_gasPresenceNH3;
-      SEAPgasH2O:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_atmosph.AC_gasPresenceH2O;
-      SEAPgasNe:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_atmosph.AC_gasPresenceNe;
-      SEAPgasN2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_atmosph.AC_gasPresenceN2;
-      SEAPgasCO:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_atmosph.AC_gasPresenceCO;
-      SEAPgasNO:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_atmosph.AC_gasPresenceNO;
-      SEAPgasO2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_atmosph.AC_gasPresenceO2;
-      SEAPgasH2S:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_atmosph.AC_gasPresenceH2S;
-      SEAPgasAr:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_atmosph.AC_gasPresenceAr;
-      SEAPgasCO2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_atmosph.AC_gasPresenceCO2;
-      SEAPgasNO2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_atmosph.AC_gasPresenceNO2;
-      SEAPgasO3:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_atmosph.AC_gasPresenceO3;
-      SEAPgasSO2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_atmosph.AC_gasPresenceSO2;
+      SEAPgasH2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_atmosphere.AC_gasPresenceH2;
+      SEAPgasHe:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_atmosphere.AC_gasPresenceHe;
+      SEAPgasCH4:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_atmosphere.AC_gasPresenceCH4;
+      SEAPgasNH3:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_atmosphere.AC_gasPresenceNH3;
+      SEAPgasH2O:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_atmosphere.AC_gasPresenceH2O;
+      SEAPgasNe:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_atmosphere.AC_gasPresenceNe;
+      SEAPgasN2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_atmosphere.AC_gasPresenceN2;
+      SEAPgasCO:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_atmosphere.AC_gasPresenceCO;
+      SEAPgasNO:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_atmosphere.AC_gasPresenceNO;
+      SEAPgasO2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_atmosphere.AC_gasPresenceO2;
+      SEAPgasH2S:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_atmosphere.AC_gasPresenceH2S;
+      SEAPgasAr:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_atmosphere.AC_gasPresenceAr;
+      SEAPgasCO2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_atmosphere.AC_gasPresenceCO2;
+      SEAPgasNO2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_atmosphere.AC_gasPresenceNO2;
+      SEAPgasO3:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_atmosphere.AC_gasPresenceO3;
+      SEAPgasSO2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_atmosphere.AC_gasPresenceSO2;
    end
    else if SEAPsatIdx>0
    then
    begin
       SEAPgasH2
-         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satellitesList[SEAPsatIdx].OO_atmosph.AC_gasPresenceH2;
+         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satellitesList[SEAPsatIdx].OO_atmosphere.AC_gasPresenceH2;
       SEAPgasHe
-         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satellitesList[SEAPsatIdx].OO_atmosph.AC_gasPresenceHe;
+         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satellitesList[SEAPsatIdx].OO_atmosphere.AC_gasPresenceHe;
       SEAPgasCH4
-         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satellitesList[SEAPsatIdx].OO_atmosph.AC_gasPresenceCH4;
+         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satellitesList[SEAPsatIdx].OO_atmosphere.AC_gasPresenceCH4;
       SEAPgasNH3
-         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satellitesList[SEAPsatIdx].OO_atmosph.AC_gasPresenceNH3;
+         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satellitesList[SEAPsatIdx].OO_atmosphere.AC_gasPresenceNH3;
       SEAPgasH2O
-         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satellitesList[SEAPsatIdx].OO_atmosph.AC_gasPresenceH2O;
+         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satellitesList[SEAPsatIdx].OO_atmosphere.AC_gasPresenceH2O;
       SEAPgasNe
-         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satellitesList[SEAPsatIdx].OO_atmosph.AC_gasPresenceNe;
+         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satellitesList[SEAPsatIdx].OO_atmosphere.AC_gasPresenceNe;
       SEAPgasN2
-         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satellitesList[SEAPsatIdx].OO_atmosph.AC_gasPresenceN2;
+         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satellitesList[SEAPsatIdx].OO_atmosphere.AC_gasPresenceN2;
       SEAPgasCO
-         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satellitesList[SEAPsatIdx].OO_atmosph.AC_gasPresenceCO;
+         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satellitesList[SEAPsatIdx].OO_atmosphere.AC_gasPresenceCO;
       SEAPgasNO
-         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satellitesList[SEAPsatIdx].OO_atmosph.AC_gasPresenceNO;
+         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satellitesList[SEAPsatIdx].OO_atmosphere.AC_gasPresenceNO;
       SEAPgasO2
-         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satellitesList[SEAPsatIdx].OO_atmosph.AC_gasPresenceO2;
+         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satellitesList[SEAPsatIdx].OO_atmosphere.AC_gasPresenceO2;
       SEAPgasH2S
-         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satellitesList[SEAPsatIdx].OO_atmosph.AC_gasPresenceH2S;
+         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satellitesList[SEAPsatIdx].OO_atmosphere.AC_gasPresenceH2S;
       SEAPgasAr
-         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satellitesList[SEAPsatIdx].OO_atmosph.AC_gasPresenceAr;
+         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satellitesList[SEAPsatIdx].OO_atmosphere.AC_gasPresenceAr;
       SEAPgasCO2
-         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satellitesList[SEAPsatIdx].OO_atmosph.AC_gasPresenceCO2;
+         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satellitesList[SEAPsatIdx].OO_atmosphere.AC_gasPresenceCO2;
       SEAPgasNO2
-         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satellitesList[SEAPsatIdx].OO_atmosph.AC_gasPresenceNO2;
+         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satellitesList[SEAPsatIdx].OO_atmosphere.AC_gasPresenceNO2;
       SEAPgasO3
-         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satellitesList[SEAPsatIdx].OO_atmosph.AC_gasPresenceO3;
+         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satellitesList[SEAPsatIdx].OO_atmosphere.AC_gasPresenceO3;
       SEAPgasSO2
-         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satellitesList[SEAPsatIdx].OO_atmosph.AC_gasPresenceSO2;
+         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satellitesList[SEAPsatIdx].OO_atmosphere.AC_gasPresenceSO2;
    end;
    {.for hydrogen}
    if SEAPgasH2=SEAPlist
@@ -1008,8 +1008,8 @@ begin
             SESdmpTp:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SESoobjIdx].OO_type;
             SESdmpTtlReg:=length(FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SESoobjIdx].OO_regions)-1;
             SESdmpToken:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SESoobjIdx].OO_dbTokenId;
-            SESdmpAtmPr:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SESoobjIdx].OO_atmPress;
-            SESdmpCCov:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SESoobjIdx].OO_cloudsCov;
+            SESdmpAtmPr:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SESoobjIdx].OO_atmosphericPressure;
+            SESdmpCCov:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SESoobjIdx].OO_cloudsCover;
             SESdmpHydr:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SESoobjIdx].OO_hydrotp;
             SESdmpHCov:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SESoobjIdx].OO_hydroArea;
             SESenv:=FCFuF_Env_GetStr(
@@ -1025,8 +1025,8 @@ begin
             SESdmpTp:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SESoobjIdx].OO_satellitesList[SESsatIdx].OO_type;
             SESdmpTtlReg:=length(FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SESoobjIdx].OO_satellitesList[SESsatIdx].OO_regions)-1;
             SESdmpToken:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SESoobjIdx].OO_satellitesList[SESsatIdx].OO_dbTokenId;
-            SESdmpAtmPr:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SESoobjIdx].OO_satellitesList[SESsatIdx].OO_atmPress;
-            SESdmpCCov:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SESoobjIdx].OO_satellitesList[SESsatIdx].OO_cloudsCov;
+            SESdmpAtmPr:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SESoobjIdx].OO_satellitesList[SESsatIdx].OO_atmosphericPressure;
+            SESdmpCCov:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SESoobjIdx].OO_satellitesList[SESsatIdx].OO_cloudsCover;
             SESdmpHydr:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SESoobjIdx].OO_satellitesList[SESsatIdx].OO_hydrotp;
             SESdmpHCov:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SESoobjIdx].OO_satellitesList[SESsatIdx].OO_hydroArea;
             SPcurrentSatIndex:=SESsatIdx;

@@ -177,10 +177,10 @@ begin
    MCCvh:=MCCarrOrbVel-MCCdepOrbVel;
    {.minreqDV.required deltav}
    if not MCCisOrgAsat
-   then GMCreqDV:=sqrt(sqr(MCCvh)+sqr(FCDBsSys[GMCrootSsys].SS_star[GMCrootStar].SDB_obobj[GMCrootOObIdx].OO_escVel))
+   then GMCreqDV:=sqrt(sqr(MCCvh)+sqr(FCDBsSys[GMCrootSsys].SS_star[GMCrootStar].SDB_obobj[GMCrootOObIdx].OO_escapeVelocity))
    else if MCCisOrgAsat
    then GMCreqDV:=sqrt(
-      sqr(MCCvh)+sqr(FCDBsSys[GMCrootSsys].SS_star[GMCrootStar].SDB_obobj[MCCsatOrgPlanIdx].OO_satellitesList[MCCsatOrgIdx].OO_escVel)
+      sqr(MCCvh)+sqr(FCDBsSys[GMCrootSsys].SS_star[GMCrootStar].SDB_obobj[MCCsatOrgPlanIdx].OO_satellitesList[MCCsatOrgIdx].OO_escapeVelocity)
       );
    //================(end) calculate minimal required deltaV================
 //====================(END) DATA INITIALIZATION=============================
@@ -391,7 +391,7 @@ begin
          OOILSCRzOrg:=FC3DobjGrp[OOILSCRooIdxOrg].Position.Z;
          OOILSCRgravSphOrg:=FCFcFunc_ScaleConverter(
             cf3dctKmTo3dViewUnit
-            ,FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[OOILSCRooIdxOrg].OO_gravSphRad
+            ,FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[OOILSCRooIdxOrg].OO_gravitationalSphereRadius
             );
       end;
       gmtltSat:
@@ -402,7 +402,7 @@ begin
          OOILSCRsatPlanIdxOrg:=round(FC3DobjSatGrp[OOILSCRooIdxOrg].TagFloat);
          OOILSCRgravSphOrg:=FCFcFunc_ScaleConverter(
             cf3dctKmTo3dViewUnit
-            ,FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[OOILSCRsatPlanIdxOrg].OO_satellitesList[OOILSCRsatIdxOrg].OO_gravSphRad
+            ,FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[OOILSCRsatPlanIdxOrg].OO_satellitesList[OOILSCRsatIdxOrg].OO_gravitationalSphereRadius
             );
       end;
       gmtltSpUnit:
@@ -421,7 +421,7 @@ begin
          OOILSCRgravSphDes
             :=FCFcFunc_ScaleConverter(
                cf3dctKmTo3dViewUnit
-               ,FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[OOILSCRooIdxDest].OO_gravSphRad
+               ,FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[OOILSCRooIdxDest].OO_gravitationalSphereRadius
                );
       end;
       gmtltSat:
@@ -433,7 +433,7 @@ begin
          OOILSCRgravSphDes
             :=FCFcFunc_ScaleConverter(
                cf3dctKmTo3dViewUnit
-               ,FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[OOILSCRsatPlanIdxDest].OO_satellitesList[OOILSCRsatIdxDest].OO_gravSphRad
+               ,FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[OOILSCRsatPlanIdxDest].OO_satellitesList[OOILSCRsatIdxDest].OO_gravitationalSphereRadius
                );
       end;
       gmtltSpUnit:
