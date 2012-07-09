@@ -612,7 +612,7 @@ begin
                         GTPoobjDB:=round(FC3DobjSatGrp[FCGtskListInProc[GTPtaskIdx].TITP_destIdx].TagFloat);
                         FCentities[GTPfac].E_spU[GTPspuOwn].SUO_oobjLoc:=FCDBSsys[GTPssysDB].SS_star[GTPstarDB].SDB_obobj[GTPoobjDB].OO_token;
                         FCentities[GTPfac].E_spU[GTPspuOwn].SUO_satLoc
-                           :=FCDBSsys[GTPssysDB].SS_star[GTPstarDB].SDB_obobj[GTPoobjDB].OO_satList[GTPsatDB].OOS_token;
+                           :=FCDBSsys[GTPssysDB].SS_star[GTPstarDB].SDB_obobj[GTPoobjDB].OO_satList[GTPsatDB].OO_token;
                         FCMspuF_Orbits_Process(
                            spufoioAddOrbit
                            ,GTPssysDB

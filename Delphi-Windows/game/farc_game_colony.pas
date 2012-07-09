@@ -270,9 +270,9 @@ begin
    end
    else if FCentities[CEGTfac].E_col[CEGTcol].COL_locSat<>'' then
    begin
-      CEGTgravity:=FCDBSsys[ CEGToobjLoc[1] ].SS_star[ CEGToobjLoc[2] ].SDB_obobj[ CEGToobjLoc[3] ].OO_satList[ CEGToobjLoc[4] ].OOS_grav;
-      CEGTenv:=FCDBSsys[ CEGToobjLoc[1] ].SS_star[ CEGToobjLoc[2] ].SDB_obobj[ CEGToobjLoc[3] ].OO_satList[ CEGToobjLoc[4] ].OOS_envTp;
-      CEGThydro:=FCDBSsys[ CEGToobjLoc[1] ].SS_star[ CEGToobjLoc[2] ].SDB_obobj[ CEGToobjLoc[3] ].OO_satList[ CEGToobjLoc[4] ].OOS_hydrotp;
+      CEGTgravity:=FCDBSsys[ CEGToobjLoc[1] ].SS_star[ CEGToobjLoc[2] ].SDB_obobj[ CEGToobjLoc[3] ].OO_satList[ CEGToobjLoc[4] ].OO_grav;
+      CEGTenv:=FCDBSsys[ CEGToobjLoc[1] ].SS_star[ CEGToobjLoc[2] ].SDB_obobj[ CEGToobjLoc[3] ].OO_satList[ CEGToobjLoc[4] ].OO_envTp;
+      CEGThydro:=FCDBSsys[ CEGToobjLoc[1] ].SS_star[ CEGToobjLoc[2] ].SDB_obobj[ CEGToobjLoc[3] ].OO_satList[ CEGToobjLoc[4] ].OO_hydrotp;
    end;
    Result.ENV_gravity:=CEGTgravity;
    Result.ENV_envType:=CEGTenv;
@@ -422,9 +422,9 @@ begin
       else if CClocSat>0
       then
       begin
-         FCentities[CCfacId].E_col[CCcolIdx].COL_locSat:=FCDBsSys[CClocSS].SS_star[CClocSt].SDB_obobj[CClocOObj].OO_satList[CClocSat].OOS_token;
-         FCDBsSys[CClocSS].SS_star[CClocSt].SDB_obobj[CClocOObj].OO_satList[CClocSat].OOS_colonies[CCfacId]:=CCcolIdx;
-         ColonyEnvironment:=FCDBsSys[CClocSS].SS_star[CClocSt].SDB_obobj[CClocOObj].OO_satList[CClocSat].OOS_envTp;
+         FCentities[CCfacId].E_col[CCcolIdx].COL_locSat:=FCDBsSys[CClocSS].SS_star[CClocSt].SDB_obobj[CClocOObj].OO_satList[CClocSat].OO_token;
+         FCDBsSys[CClocSS].SS_star[CClocSt].SDB_obobj[CClocOObj].OO_satList[CClocSat].OO_colonies[CCfacId]:=CCcolIdx;
+         ColonyEnvironment:=FCDBsSys[CClocSS].SS_star[CClocSt].SDB_obobj[CClocOObj].OO_satList[CClocSat].OO_envTp;
       end;
       if ColonyEnvironment=etFreeLiving
       then FCentities[CCfacId].E_col[CCcolIdx].COL_reserveOxygen:=-1;
@@ -552,9 +552,9 @@ begin
    setlength( FCentities[ Entity ].E_col[ Colony ].COL_settlements[ Max ].CS_infra, 1 );
    if OobjLocation[4]>0 then
    begin
-      FCDBsSys[OobjLocation[1]].SS_star[OobjLocation[2]].SDB_obobj[OobjLocation[3]].OO_satList[OobjLocation[4]].OOS_regions[ Region ].OOR_setEnt:=Entity;
-      FCDBsSys[OobjLocation[1]].SS_star[OobjLocation[2]].SDB_obobj[OobjLocation[3]].OO_satList[OobjLocation[4]].OOS_regions[ Region ].OOR_setCol:=Colony;
-      FCDBsSys[OobjLocation[1]].SS_star[OobjLocation[2]].SDB_obobj[OobjLocation[3]].OO_satList[OobjLocation[4]].OOS_regions[ Region ].OOR_setSet:=Max;
+      FCDBsSys[OobjLocation[1]].SS_star[OobjLocation[2]].SDB_obobj[OobjLocation[3]].OO_satList[OobjLocation[4]].OO_regions[ Region ].OOR_setEnt:=Entity;
+      FCDBsSys[OobjLocation[1]].SS_star[OobjLocation[2]].SDB_obobj[OobjLocation[3]].OO_satList[OobjLocation[4]].OO_regions[ Region ].OOR_setCol:=Colony;
+      FCDBsSys[OobjLocation[1]].SS_star[OobjLocation[2]].SDB_obobj[OobjLocation[3]].OO_satList[OobjLocation[4]].OO_regions[ Region ].OOR_setSet:=Max;
    end
    else begin
       FCDBsSys[OobjLocation[1]].SS_star[OobjLocation[2]].SDB_obobj[OobjLocation[3]].OO_regions[ Region ].OOR_setEnt:=Entity;

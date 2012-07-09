@@ -401,7 +401,7 @@ begin
                   and ( FCDBsSys[FCRplayer.P_surveyedSpots[GLcount].SS_ssysIndex].
                            SS_star[FCRplayer.P_surveyedSpots[GLcount].SS_starIndex].
                            SDB_obobj[FCRplayer.P_surveyedSpots[GLcount].SS_oobjIndex].
-                           OO_satList[FCRplayer.P_surveyedSpots[GLcount].SS_satIndex].OOS_token=FCRplayer.P_surveyedSpots[GLcount].SS_oobjToken
+                           OO_satList[FCRplayer.P_surveyedSpots[GLcount].SS_satIndex].OO_token=FCRplayer.P_surveyedSpots[GLcount].SS_oobjToken
                      )
                ) then
             begin
@@ -421,7 +421,7 @@ begin
                      FCDBsSys[FCRplayer.P_surveyedSpots[GLcount].SS_ssysIndex].
                         SS_star[FCRplayer.P_surveyedSpots[GLcount].SS_starIndex].
                         SDB_obobj[FCRplayer.P_surveyedSpots[GLcount].SS_oobjIndex].
-                        OO_satList[FCRplayer.P_surveyedSpots[GLcount].SS_satIndex].OOS_regions
+                        OO_satList[FCRplayer.P_surveyedSpots[GLcount].SS_satIndex].OO_regions
                      )+1
                   );
                GLxmlSurveyRegion:=GLxmlSurveyRsrc.ChildNodes.First;
@@ -595,7 +595,7 @@ begin
                      if GLoobjRow[4]=0
                      then FCDBSsys[GLoobjRow[1]].SS_star[GLoobjRow[2]].SDB_obobj[GLoobjRow[3]].OO_colonies[0]:=GLcount
                      else if GLoobjRow[4]>0
-                     then FCDBSsys[GLoobjRow[1]].SS_star[GLoobjRow[2]].SDB_obobj[GLoobjRow[3]].OO_satList[GLoobjRow[4]].OOS_colonies[0]:=GLcount;
+                     then FCDBSsys[GLoobjRow[1]].SS_star[GLoobjRow[2]].SDB_obobj[GLoobjRow[3]].OO_satList[GLoobjRow[4]].OO_colonies[0]:=GLcount;
                      FCentities[GLentCnt].E_col[GLcount].COL_level:=TFCEcolLvl(GLxmlCol.Attributes['collvl']-1);
                      FCentities[GLentCnt].E_col[GLcount].COL_hqPres:=GLxmlCol.Attributes['hqpresence'];
                      FCentities[GLentCnt].E_col[GLcount].COL_cohes:=GLxmlCol.Attributes['dcohes'];
@@ -756,9 +756,9 @@ begin
                            end
                            else if GLoobjRow[4]>0 then
                            begin
-                              FCDBSsys[GLoobjRow[1]].SS_star[GLoobjRow[2]].SDB_obobj[GLoobjRow[3]].OO_satList[GLoobjRow[4]].OOS_regions[GLregionIdx].OOR_setEnt:=GLentCnt;
-                              FCDBSsys[GLoobjRow[1]].SS_star[GLoobjRow[2]].SDB_obobj[GLoobjRow[3]].OO_satList[GLoobjRow[4]].OOS_regions[GLregionIdx].OOR_setCol:=GLcount;
-                              FCDBSsys[GLoobjRow[1]].SS_star[GLoobjRow[2]].SDB_obobj[GLoobjRow[3]].OO_satList[GLoobjRow[4]].OOS_regions[GLregionIdx].OOR_setSet:=GLsettleCnt;
+                              FCDBSsys[GLoobjRow[1]].SS_star[GLoobjRow[2]].SDB_obobj[GLoobjRow[3]].OO_satList[GLoobjRow[4]].OO_regions[GLregionIdx].OOR_setEnt:=GLentCnt;
+                              FCDBSsys[GLoobjRow[1]].SS_star[GLoobjRow[2]].SDB_obobj[GLoobjRow[3]].OO_satList[GLoobjRow[4]].OO_regions[GLregionIdx].OOR_setCol:=GLcount;
+                              FCDBSsys[GLoobjRow[1]].SS_star[GLoobjRow[2]].SDB_obobj[GLoobjRow[3]].OO_satList[GLoobjRow[4]].OO_regions[GLregionIdx].OOR_setSet:=GLsettleCnt;
                            end;
                            GLinfCnt:=0;
                            GLxmlInfra:=GLxmlColsub.ChildNodes.First;

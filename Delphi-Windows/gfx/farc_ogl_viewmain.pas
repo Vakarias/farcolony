@@ -202,7 +202,7 @@ begin
    end;
    {.get the object type}
    if ASisSat
-   then ASobjTp:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASoobjIdx].OO_satList[ASsatIdx].OOS_type
+   then ASobjTp:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASoobjIdx].OO_satList[ASsatIdx].OO_type
    else if not ASisSat
    then ASobjTp:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASoobjIdx].OO_type;
    {.determine the type of asteroid to load}
@@ -319,13 +319,13 @@ begin
    else if ASCsatIdx>0
    then
    begin
-      ASCh2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASCoobjIdx].OO_satList[ASCsatIdx].OOS_atmosph.AC_gasPresenceH2;
-      ASChe:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASCoobjIdx].OO_satList[ASCsatIdx].OOS_atmosph.AC_gasPresenceHe;
-      ASCn2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASCoobjIdx].OO_satList[ASCsatIdx].OOS_atmosph.AC_gasPresenceN2;
-      ASCo2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASCoobjIdx].OO_satList[ASCsatIdx].OOS_atmosph.AC_gasPresenceO2;
-      ASCh2s:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASCoobjIdx].OO_satList[ASCsatIdx].OOS_atmosph.AC_gasPresenceH2S;
-      ASCco2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASCoobjIdx].OO_satList[ASCsatIdx].OOS_atmosph.AC_gasPresenceCO2;
-      ASCso2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASCoobjIdx].OO_satList[ASCsatIdx].OOS_atmosph.AC_gasPresenceSO2;
+      ASCh2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASCoobjIdx].OO_satList[ASCsatIdx].OO_atmosph.AC_gasPresenceH2;
+      ASChe:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASCoobjIdx].OO_satList[ASCsatIdx].OO_atmosph.AC_gasPresenceHe;
+      ASCn2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASCoobjIdx].OO_satList[ASCsatIdx].OO_atmosph.AC_gasPresenceN2;
+      ASCo2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASCoobjIdx].OO_satList[ASCsatIdx].OO_atmosph.AC_gasPresenceO2;
+      ASCh2s:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASCoobjIdx].OO_satList[ASCsatIdx].OO_atmosph.AC_gasPresenceH2S;
+      ASCco2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASCoobjIdx].OO_satList[ASCsatIdx].OO_atmosph.AC_gasPresenceCO2;
+      ASCso2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[ASCoobjIdx].OO_satList[ASCsatIdx].OO_atmosph.AC_gasPresenceSO2;
    end;
    {.N2 atmosphere - titan like}
    if (ASCn2=agsMain)
@@ -580,7 +580,7 @@ begin
       CMTdmpSatIdx:=FC3DobjSatGrp[FCV3DselSat].Tag;
       CMTdmpSatPlanIdx:=round(FC3DobjSatGrp[FCV3DselSat].TagFloat);
       FCRplayer.P_satLoc
-         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[CMTdmpSatPlanIdx].OO_satList[CMTdmpSatIdx].OOS_token;
+         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[CMTdmpSatPlanIdx].OO_satList[CMTdmpSatIdx].OO_token;
    end;
 end;
 
@@ -632,8 +632,8 @@ begin
    else if MTAsatIdx>0
    then
    begin
-      MTAdmpObjTp:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[MTAoobjIdx].OO_satList[MTAsatIdx].OOS_type;
-      MTAdmpHydroTp:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[MTAoobjIdx].OO_satList[MTAsatIdx].OOS_hydrotp;
+      MTAdmpObjTp:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[MTAoobjIdx].OO_satList[MTAsatIdx].OO_type;
+      MTAdmpHydroTp:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[MTAoobjIdx].OO_satList[MTAsatIdx].OO_hydrotp;
       MTAdmpTemp:=FCFuF_OrbPeriod_GetMeanTemp(MTAoobjIdx, MTAsatIdx);
    end;
    {.for gaseous planets => standard textures}
@@ -688,7 +688,7 @@ begin
       then MTAdmpOobjToken:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[MTAoobjIdx].OO_token
       else if MTAsatIdx>0
       then MTAdmpOobjToken:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[MTAoobjIdx]
-         .OO_satList[MTAsatIdx].OOS_token;
+         .OO_satList[MTAsatIdx].OO_token;
    end
    {.for the rest of telluric/icy planets w/ standard textures}
    else begin
@@ -1285,9 +1285,9 @@ begin
                         SetLength(FC3DobjSatGrav, Length(FC3DobjSatGrav)+LSVUblocCnt);
                         SetLength(FC3DobjSatOrbit, Length(FC3DobjSatOrbit)+LSVUblocCnt);
                      end;
-                     LSVUangleRad:=SDB_obobj[TDMVUorbObjCnt].OO_satList[TDMVUsatIdx].OOS_angle1stDay*FCCdiDegrees_To_Radian;
+                     LSVUangleRad:=SDB_obobj[TDMVUorbObjCnt].OO_satList[TDMVUsatIdx].OO_angle1stDay*FCCdiDegrees_To_Radian;
                      {.for a satellite asteroid}
-                     if SDB_obobj[TDMVUorbObjCnt].OO_satList[TDMVUsatIdx].OOS_type<ootSatellite_Telluric_Lunar
+                     if SDB_obobj[TDMVUorbObjCnt].OO_satList[TDMVUsatIdx].OO_type<ootSatellite_Telluric_Lunar
                      then
                      begin
                         {.initialize 3d structure}
@@ -1298,14 +1298,14 @@ begin
                         {.set material}
                         FC3DobjSatAster[TDMVUsatCnt].Material.FrontProperties:=FC3DobjAsterDmp.Material.FrontProperties;
                         {.set axial tilt}
-                        FC3DobjSatAster[TDMVUsatCnt].TurnAngle:=SDB_obobj[TDMVUorbObjCnt].OO_satList[TDMVUsatIdx].OOS_inclAx;
+                        FC3DobjSatAster[TDMVUsatCnt].TurnAngle:=SDB_obobj[TDMVUorbObjCnt].OO_satList[TDMVUsatIdx].OO_inclAx;
                         {.set scale}
                         FC3DobjSatAster[TDMVUsatCnt].scale.X
                            :=FCFcFunc_ScaleConverter
                               (
                                  cf3dctAstDiamKmTo3dViewUnit
                                  , SDB_obobj[TDMVUorbObjCnt].OO_satList[TDMVUsatIdx]
-                                    .OOS_diam
+                                    .OO_diam
                               );
                         FC3DobjSatAster[TDMVUsatCnt].scale.Y:=FC3DobjSatAster[TDMVUsatCnt].scale.X;
                         FC3DobjSatAster[TDMVUsatCnt].scale.Z:=FC3DobjSatAster[TDMVUsatCnt].scale.X;
@@ -1329,21 +1329,21 @@ begin
                         FC3DobjSatAster[TDMVUsatCnt].Visible:=true;
                      end //==END== if ...OOS_type<oobtpSat_Tellu_Lunar ==//
                      {.for a satellite planetoid}
-                     else if (SDB_obobj[TDMVUorbObjCnt].OO_satList[TDMVUsatIdx].OOS_type>ootSatellite_Asteroid_Icy)
-                        and (SDB_obobj[TDMVUorbObjCnt].OO_satList[TDMVUsatIdx].OOS_type<ootRing_Metallic)
+                     else if (SDB_obobj[TDMVUorbObjCnt].OO_satList[TDMVUsatIdx].OO_type>ootSatellite_Asteroid_Icy)
+                        and (SDB_obobj[TDMVUorbObjCnt].OO_satList[TDMVUsatIdx].OO_type<ootRing_Metallic)
                      then
                      begin
                         {.initialize 3d structure}
                         FCMoglVM_OObj_Gen(oglvmootSatNorm, TDMVUsatCnt);
                         {.axial tilt}
                         FC3DobjSat[TDMVUsatCnt].RollAngle
-                           :=SDB_obobj[TDMVUorbObjCnt].OO_satList[TDMVUsatIdx].OOS_inclAx;
+                           :=SDB_obobj[TDMVUorbObjCnt].OO_satList[TDMVUsatIdx].OO_inclAx;
                         {.set scale}
                         FC3DobjSat[TDMVUsatCnt].scale.X
                            :=FCFcFunc_ScaleConverter
                               (
                                  cf3dctKmTo3dViewUnit
-                                 ,SDB_obobj[TDMVUorbObjCnt].OO_satList[TDMVUsatIdx].OOS_diam
+                                 ,SDB_obobj[TDMVUorbObjCnt].OO_satList[TDMVUsatIdx].OO_diam
                               );
                         FC3DobjSat[TDMVUsatCnt].scale.Y:=FC3DobjSat[TDMVUsatCnt].scale.X;
                         FC3DobjSat[TDMVUsatCnt].scale.Z:=FC3DobjSat[TDMVUsatCnt].scale.X;
@@ -1362,14 +1362,14 @@ begin
                         {.set group scale}
                         FC3DobjSatGrp[TDMVUsatCnt].CubeSize:=FC3DobjSat[TDMVUsatCnt].scale.X*2;
                         {.set atmosphere}
-                        if (SDB_obobj[TDMVUorbObjCnt].OO_satList[TDMVUsatIdx].OOS_type in [ootSatellite_Telluric_Io..ootSatellite_Icy_Callisto])
-                           and (SDB_obobj[TDMVUorbObjCnt].OO_satList[TDMVUsatIdx].OOS_atmPress>0)
+                        if (SDB_obobj[TDMVUorbObjCnt].OO_satList[TDMVUsatIdx].OO_type in [ootSatellite_Telluric_Io..ootSatellite_Icy_Callisto])
+                           and (SDB_obobj[TDMVUorbObjCnt].OO_satList[TDMVUsatIdx].OO_atmPress>0)
                         then
                         begin
                            FCMoglVMain_Atmosph_SetCol(TDMVUorbObjCnt, TDMVUsatIdx, TDMVUsatCnt);
                            FC3DobjSatAtmosph[TDMVUsatCnt].Sun:=FCWinMain.FCGLSSM_Light;
                            FC3DobjSatAtmosph[TDMVUsatCnt].Opacity
-                              :=FCFoglVMain_CloudsCov_Conv2AtmOp(SDB_obobj[TDMVUorbObjCnt].OO_satList[TDMVUsatIdx].OOS_cloudsCov);
+                              :=FCFoglVMain_CloudsCov_Conv2AtmOp(SDB_obobj[TDMVUorbObjCnt].OO_satList[TDMVUsatIdx].OO_cloudsCov);
                            FC3DobjSatAtmosph[TDMVUsatCnt].Visible:=true;
                         end;
                         {.texturing}
@@ -1615,7 +1615,7 @@ begin
       FC3DobjSatOrbit[OBsatCnt].Scale.Y:=FC3DobjSatOrbit[OBsatCnt].Scale.X;
       FC3DobjSatOrbit[OBsatCnt].Scale.Z:=FC3DobjSatOrbit[OBsatCnt].Scale.X;
       FC3DobjSatOrbit[OBsatCnt].TurnAngle
-         :=-FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[OBobjIdx].OO_satList[OBsatIdx].OOS_angle1stDay;
+         :=-FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[OBobjIdx].OO_satList[OBsatIdx].OO_angle1stDay;
       OBrotAngleCos:=cos(OBrotAngle);
       OBrotAngleSin:=sin(OBrotAngle);
       FC3DobjSatOrbit[OBsatCnt].Visible:=true;
@@ -1655,14 +1655,14 @@ begin
       FC3DobjSatGrav[OBsatCnt].SplineMode:=lsmCubicSpline;
       FC3DobjSatGrav[OBsatCnt].Nodes.Clear;
       FC3DobjSatGrav[OBsatCnt].Scale.X:=
-         (FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[OBobjIdx].OO_satList[OBsatIdx].OOS_gravSphRad/(CFC3dUnInKm))*2;
-      if FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[OBobjIdx].OO_satList[OBsatIdx].OOS_type
+         (FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[OBobjIdx].OO_satList[OBsatIdx].OO_gravSphRad/(CFC3dUnInKm))*2;
+      if FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[OBobjIdx].OO_satList[OBsatIdx].OO_type
          in [ootSatellite_Asteroid_Metallic..ootSatellite_Asteroid_Icy]
       then FC3DobjSatGrav[OBsatCnt].Scale.X:=FC3DobjSatGrav[OBsatCnt].Scale.X*6.42;
       FC3DobjSatGrav[OBsatCnt].Scale.Y:=FC3DobjSatGrav[OBsatCnt].Scale.X;
       FC3DobjSatGrav[OBsatCnt].Scale.Z:=FC3DobjSatGrav[OBsatCnt].Scale.X;
       FC3DobjSatGrav[OBsatCnt].TurnAngle
-         :=-FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[OBobjIdx].OO_satList[OBsatIdx].OOS_angle1stDay-0.25;
+         :=-FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[OBobjIdx].OO_satList[OBsatIdx].OO_angle1stDay-0.25;
       OBrotAngleCos:=cos(OBrotAngle);
       OBrotAngleSin:=sin(OBrotAngle);
       FC3DobjSatGrav[OBsatCnt].Visible:=true;
@@ -2021,15 +2021,15 @@ begin
       else if OOSUIOUsatIdx>0
       then
       begin
-         OOSUIOspUinOrb:=SDB_obobj[OOSUIOUoobjIdx].OO_satList[OOSUIOUsatIdx].OOS_inOrbitCnt;
+         OOSUIOspUinOrb:=SDB_obobj[OOSUIOUoobjIdx].OO_satList[OOSUIOUsatIdx].OO_inOrbitCnt;
          if OOSUIOspUinOrb>0
          then
          begin
             OOSUIOspUnCnt:=1;
             while OOSUIOspUnCnt<=OOSUIOspUinOrb do
             begin
-               OOSUIOfac:=SDB_obobj[OOSUIOUoobjIdx].OO_satList[OOSUIOUsatIdx].OOS_inOrbitList[OOSUIOspUnCnt].SUIO_faction;
-               OOSUIOspUntOwnIdx:=SDB_obobj[OOSUIOUoobjIdx].OO_satList[OOSUIOUsatIdx].OOS_inOrbitList[OOSUIOspUnCnt].SUIO_ownedSpaceUnitIndex;
+               OOSUIOfac:=SDB_obobj[OOSUIOUoobjIdx].OO_satList[OOSUIOUsatIdx].OO_inOrbitList[OOSUIOspUnCnt].SUIO_faction;
+               OOSUIOspUntOwnIdx:=SDB_obobj[OOSUIOUoobjIdx].OO_satList[OOSUIOUsatIdx].OO_inOrbitList[OOSUIOspUnCnt].SUIO_ownedSpaceUnitIndex;
                if OOSUIOUmustGen
                then
                begin

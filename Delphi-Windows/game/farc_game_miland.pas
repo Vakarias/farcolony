@@ -104,7 +104,7 @@ begin
    if LCsatIdx=0
    then LCplanApress:=FCDBsSys[LCssys].SS_star[LCstar].SDB_obobj[LCoobjIdx].OO_atmPress
    else if LCsatIdx>0
-   then LCplanApress:=FCDBsSys[LCssys].SS_star[LCstar].SDB_obobj[LCoobjIdx].OO_satList[LCsatIdx].OOS_atmPress;
+   then LCplanApress:=FCDBsSys[LCssys].SS_star[LCstar].SDB_obobj[LCoobjIdx].OO_satList[LCsatIdx].OO_atmPress;
    LCdesgn:=FCFspuF_Design_getDB(FCentities[LCfac].E_spU[LCownIdx].SUO_designId);
    {.calculate final acceleration in gees relative to loaded mass}
    GMCAccelG:=(MRMCDVCthrbyvol*MRMCDVCvolOfDrive)/MRMCDVCloadedMassInTons;

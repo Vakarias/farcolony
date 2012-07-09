@@ -160,37 +160,37 @@ begin
    then
    begin
       SEAPgasH2
-         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satList[SEAPsatIdx].OOS_atmosph.AC_gasPresenceH2;
+         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satList[SEAPsatIdx].OO_atmosph.AC_gasPresenceH2;
       SEAPgasHe
-         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satList[SEAPsatIdx].OOS_atmosph.AC_gasPresenceHe;
+         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satList[SEAPsatIdx].OO_atmosph.AC_gasPresenceHe;
       SEAPgasCH4
-         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satList[SEAPsatIdx].OOS_atmosph.AC_gasPresenceCH4;
+         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satList[SEAPsatIdx].OO_atmosph.AC_gasPresenceCH4;
       SEAPgasNH3
-         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satList[SEAPsatIdx].OOS_atmosph.AC_gasPresenceNH3;
+         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satList[SEAPsatIdx].OO_atmosph.AC_gasPresenceNH3;
       SEAPgasH2O
-         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satList[SEAPsatIdx].OOS_atmosph.AC_gasPresenceH2O;
+         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satList[SEAPsatIdx].OO_atmosph.AC_gasPresenceH2O;
       SEAPgasNe
-         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satList[SEAPsatIdx].OOS_atmosph.AC_gasPresenceNe;
+         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satList[SEAPsatIdx].OO_atmosph.AC_gasPresenceNe;
       SEAPgasN2
-         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satList[SEAPsatIdx].OOS_atmosph.AC_gasPresenceN2;
+         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satList[SEAPsatIdx].OO_atmosph.AC_gasPresenceN2;
       SEAPgasCO
-         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satList[SEAPsatIdx].OOS_atmosph.AC_gasPresenceCO;
+         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satList[SEAPsatIdx].OO_atmosph.AC_gasPresenceCO;
       SEAPgasNO
-         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satList[SEAPsatIdx].OOS_atmosph.AC_gasPresenceNO;
+         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satList[SEAPsatIdx].OO_atmosph.AC_gasPresenceNO;
       SEAPgasO2
-         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satList[SEAPsatIdx].OOS_atmosph.AC_gasPresenceO2;
+         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satList[SEAPsatIdx].OO_atmosph.AC_gasPresenceO2;
       SEAPgasH2S
-         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satList[SEAPsatIdx].OOS_atmosph.AC_gasPresenceH2S;
+         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satList[SEAPsatIdx].OO_atmosph.AC_gasPresenceH2S;
       SEAPgasAr
-         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satList[SEAPsatIdx].OOS_atmosph.AC_gasPresenceAr;
+         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satList[SEAPsatIdx].OO_atmosph.AC_gasPresenceAr;
       SEAPgasCO2
-         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satList[SEAPsatIdx].OOS_atmosph.AC_gasPresenceCO2;
+         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satList[SEAPsatIdx].OO_atmosph.AC_gasPresenceCO2;
       SEAPgasNO2
-         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satList[SEAPsatIdx].OOS_atmosph.AC_gasPresenceNO2;
+         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satList[SEAPsatIdx].OO_atmosph.AC_gasPresenceNO2;
       SEAPgasO3
-         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satList[SEAPsatIdx].OOS_atmosph.AC_gasPresenceO3;
+         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satList[SEAPsatIdx].OO_atmosph.AC_gasPresenceO3;
       SEAPgasSO2
-         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satList[SEAPsatIdx].OOS_atmosph.AC_gasPresenceSO2;
+         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SEAPoobjIdx].OO_satList[SEAPsatIdx].OO_atmosph.AC_gasPresenceSO2;
    end;
    {.for hydrogen}
    if SEAPgasH2=SEAPlist
@@ -555,16 +555,16 @@ begin
       begin
          with FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SPcurrentOObjIndex].OO_satList[SPcurrentSatIndex] do
          begin
-            SERUdmpTerrTp:=OOS_regions[SERUregIdx].OOR_soilTp;
-            SERUdmpRelief:=OOS_regions[SERUregIdx].OOR_relief;
-            SERUwndSpd:=OOS_regions[SERUregIdx].OOR_windSpd;
-            SERUprecip:=OOS_regions[SERUregIdx].OOR_precip;
+            SERUdmpTerrTp:=OO_regions[SERUregIdx].OOR_soilTp;
+            SERUdmpRelief:=OO_regions[SERUregIdx].OOR_relief;
+            SERUwndSpd:=OO_regions[SERUregIdx].OOR_windSpd;
+            SERUprecip:=OO_regions[SERUregIdx].OOR_precip;
             if SERUseason='seasonMin'
-            then SERUtemp:=OOS_regions[SERUregIdx].OOR_meanTdMin
+            then SERUtemp:=OO_regions[SERUregIdx].OOR_meanTdMin
             else if SERUseason='seasonMid'
-            then SERUtemp:=OOS_regions[SERUregIdx].OOR_meanTdInt
+            then SERUtemp:=OO_regions[SERUregIdx].OOR_meanTdInt
             else if SERUseason='seasonMax'
-            then SERUtemp:=OOS_regions[SERUregIdx].OOR_meanTdMax;
+            then SERUtemp:=OO_regions[SERUregIdx].OOR_meanTdMax;
          end;
       end;
       SERUidxTemp:=FCFuF_Index_Get(ufitTemp, SERUtemp);
@@ -1022,13 +1022,13 @@ begin
          else if SESsatIdx>0
          then
          begin
-            SESdmpTp:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SESoobjIdx].OO_satList[SESsatIdx].OOS_type;
-            SESdmpTtlReg:=length(FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SESoobjIdx].OO_satList[SESsatIdx].OOS_regions)-1;
-            SESdmpToken:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SESoobjIdx].OO_satList[SESsatIdx].OOS_token;
-            SESdmpAtmPr:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SESoobjIdx].OO_satList[SESsatIdx].OOS_atmPress;
-            SESdmpCCov:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SESoobjIdx].OO_satList[SESsatIdx].OOS_cloudsCov;
-            SESdmpHydr:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SESoobjIdx].OO_satList[SESsatIdx].OOS_hydrotp;
-            SESdmpHCov:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SESoobjIdx].OO_satList[SESsatIdx].OOS_hydroArea;
+            SESdmpTp:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SESoobjIdx].OO_satList[SESsatIdx].OO_type;
+            SESdmpTtlReg:=length(FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SESoobjIdx].OO_satList[SESsatIdx].OO_regions)-1;
+            SESdmpToken:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SESoobjIdx].OO_satList[SESsatIdx].OO_token;
+            SESdmpAtmPr:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SESoobjIdx].OO_satList[SESsatIdx].OO_atmPress;
+            SESdmpCCov:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SESoobjIdx].OO_satList[SESsatIdx].OO_cloudsCov;
+            SESdmpHydr:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SESoobjIdx].OO_satList[SESsatIdx].OO_hydrotp;
+            SESdmpHCov:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SESoobjIdx].OO_satList[SESsatIdx].OO_hydroArea;
             SPcurrentSatIndex:=SESsatIdx;
             SESenv:=FCFuF_Env_GetStr(
                FCV3DselSsys
@@ -1491,7 +1491,7 @@ begin
 //                  FCRdiSettlementPic[SEScnt].Top:=FCWM_SP_Surface.HotSpots[SEShots].Y+4;
 
                   if ((SESsatIdx=0) and (FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SESoobjIdx].OO_regions[SEScnt].OOR_setSet>0))
-                     or ((SESsatIdx>0) and (FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SESoobjIdx].OO_satList[SESsatIdx].OOS_regions[SEScnt].OOR_setSet>0))
+                     or ((SESsatIdx>0) and (FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[SESoobjIdx].OO_satList[SESsatIdx].OO_regions[SEScnt].OOR_setSet>0))
                   then FCMgfxC_Settlement_SwitchState(SEScnt);
                   inc(SEScnt);
                end; //==END== while SEScnt<=SESdmpTtlReg ==//;

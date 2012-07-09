@@ -1982,7 +1982,7 @@ begin
          ,SGISstar
          ,SGISoobj
          );
-      SGISenv:=FCDBsSys[SGISssys].SS_star[SGISstar].SDB_obobj[SGISoobj].OO_satList[SGISsat].OOS_envTp
+      SGISenv:=FCDBsSys[SGISssys].SS_star[SGISstar].SDB_obobj[SGISoobj].OO_satList[SGISsat].OO_envTp
    end
    else if FCentities[SGISfac].E_col[SGIScol].COL_locSat=''
    then SGISenv:=FCDBsSys[SGISssys].SS_star[SGISstar].SDB_obobj[SGISoobj].OO_envTp;
@@ -2266,7 +2266,7 @@ begin
          ,SPLGIMstar
          ,SPLGIMoobj
          );
-      SPLGIMenv:=FCDBsSys[SPLGIMssys].SS_star[SPLGIMstar].SDB_obobj[SPLGIMoobj].OO_satList[SPLGIMsat].OOS_envTp
+      SPLGIMenv:=FCDBsSys[SPLGIMssys].SS_star[SPLGIMstar].SDB_obobj[SPLGIMoobj].OO_satList[SPLGIMsat].OO_envTp
    end
    else if FCentities[SPLGIMfac].E_col[SPLGIMcol].COL_locSat=''
    then SPLGIMenv:=FCDBsSys[SPLGIMssys].SS_star[SPLGIMstar].SDB_obobj[SPLGIMoobj].OO_envTp;

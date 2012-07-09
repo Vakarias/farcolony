@@ -397,7 +397,7 @@ begin
          or
          (
          (FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3DobjSatGrp[FCV3DselOobj])
-         and (FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[FCV3DselOobj].OO_satList[FCV3DselSat].OOS_colonies[0]>0)
+         and (FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[FCV3DselOobj].OO_satList[FCV3DselSat].OO_colonies[0]>0)
          )
       then
       begin
@@ -494,7 +494,7 @@ begin
                      (
                         (FPUcolN=1)
                         and (FPUspUsat>0)
-                        and (FCDBsSys[FPUspUssys].SS_star[FPUspUstar].SDB_obobj[FPUspUoobj].OO_satList[FPUspUsat].OOS_colonies[0]>0)
+                        and (FCDBsSys[FPUspUssys].SS_star[FPUspUstar].SDB_obobj[FPUspUoobj].OO_satList[FPUspUsat].OO_colonies[0]>0)
                         )
                      )
                   )

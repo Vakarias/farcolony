@@ -549,60 +549,8 @@ end;
    }
    {.satellite data structure, child of TFCRorbObj}
    {:DEV NOTE: don't forget to update farc_data_files / FCMdFiles_DBstarSys_Process.}
-   type TFCRorbObjSat = record
-         {satellite db token id}
-      OOS_token: string[20];
-         {NOT LOADED DATA - counter of OOS_inOrbitList}
-      OOS_inOrbitCnt: integer;
-         {NOT LOADED DATA - list of units in orbit}
-      OOS_inOrbitList: array[0..FCDUorbits] of TFCRduSpaceUnitInOrbit;
-      {.colonies settled on it [faction#]=owned colony id db #, 0= player}
-      OOS_colonies: array [0..1] of integer;
-         {kind of satellite}
-      OOS_type: TFCEduOrbitalObjectTypes;
-      {.environment type}
-      OOS_envTp: TFCEduEnvironmentTypes;
-         {distance from it's central planet in thousands of km}
-      OOS_distFrmOOb: extended;
-         {revolution period, in standard days, around it's planet}
-      OOS_revol: integer;
-         {starting day for revolution period}
-      OOS_revolInit: integer;
-         {NOT LOADED DATA - value used for 3d display}
-      OOS_angle1stDay: extended;
-         {diameter in km RTO-1}
-      OOS_diam: extended;
-         {density in kg/m3}
-      OOS_dens: extended;
-         {mass in Earth mass equivalent RTO-6}
-      OOS_mass: extended;
-         {gravity in gees RTO-3}
-      OOS_grav: extended;
-         {gravity sphere of influence radius  in km RTO-1}
-      OOS_gravSphRad: extended;
-         {escape velocity in km/s RTO-2}
-      OOS_escVel: extended;
-         {inclination axis}
-      OOS_inclAx: extended;
-         {magnetic field in gauss}
-      OOS_magFld: extended;
-         {body albedo RTO-2}
-      OOS_albedo: extended;
-         {atmosphere pressure in mbars, 1013 eq 1 atm eq 101.3kpa}
-      OOS_atmPress: extended;
-         {cloud cover in %}
-      OOS_cloudsCov: extended;
-         {atmosphere detailed composition}
-      OOS_atmosph: TFCRduAtmosphericComposition;
-         {.orbital periods list, 2 intermediate 1 closest (summer) 1 farest (winter)}
-      OOS_orbPeriod: array[0..4] of TFCRduSeason;
-         {.hydrosphere type}
-      OOS_hydrotp: TFCEduHydrospheres;
-         {.hydrosphere area}
-      OOS_hydroArea: extended;
-         {.regions}
-      OOS_regions: array of TFCRduOObRegion;
-   end;
+
+
    {.FUG orbits to generate}
    type TFCRduFUGstarOrb= array[0..3] of integer;
    {.FUG system type}
@@ -616,21 +564,15 @@ end;
       OO_inOrbitCnt: integer;
          {NOT LOADED DATA - list of units in orbit}
       OO_inOrbitList: array[0..FCDUorbits] of TFCRduSpaceUnitInOrbit;
-         {NOT LOADED DATA - index of the first satellite object}
-      OO_sat1stOb: integer;
-      OO_satList: array of TFCRorbObjSat;
+       {NOT LOADED DATA - index of the first satellite object}
+      OO_satList: array of TFCRduOobj;
       {.colonies settled on it [faction#]=owned colony id db #, 0= player}
       OO_colonies: array [0..1] of integer;
          {kind of orbital object}
       OO_type: TFCEduOrbitalObjectTypes;
       {.environment type}
       OO_envTp: TFCEduEnvironmentTypes;
-         {distance from it's star in AU}
-      OO_distFrmStar: extended;
-         {orbit eccentricity in #.### format}
-      OO_ecc: extended;
-         {orbital zone type}
-      OO_orbZone: TFCEduHabitableZones;
+
          {revolution period, in standard days, around it's star}
       OO_revol: integer;
          {starting day for revolution period}
@@ -671,6 +613,26 @@ end;
       OO_hydroArea: extended;
          {.regions}
       OO_regions: array of TFCRduOObRegion;
+
+      case OO_isASatellite:boolean of
+
+         false:(
+            {NOT LOADED DATA - index of the first satellite object}
+      OO_sat1stOb: integer;
+       {distance from it's star in AU}
+      OO_distFrmStar: extended;
+         {orbit eccentricity in #.### format}
+      OO_ecc: extended;
+         {orbital zone type}
+      OO_orbZone: TFCEduHabitableZones;
+
+      );
+
+         true: (
+         {distance from it's central planet in thousands of km}
+      OOS_distFrmOOb: extended;
+
+         );
    end;
    {.star data structure, child of TFCRstarSys}
    type TFCRstar = record

@@ -167,8 +167,8 @@ begin
    else if PEOCstarLoc[4]>0
    then
    begin
-      PEOCalbedo:=FCDBsSys[PEOCstarLoc[1]].SS_star[PEOCstarLoc[2]].SDB_obobj[PEOCstarLoc[3]].OO_satList[PEOCstarLoc[4]].OOS_albedo;
-      PEOCcloudsCover:=FCDBsSys[PEOCstarLoc[1]].SS_star[PEOCstarLoc[2]].SDB_obobj[PEOCstarLoc[3]].OO_satList[PEOCstarLoc[4]].OOS_cloudsCov;
+      PEOCalbedo:=FCDBsSys[PEOCstarLoc[1]].SS_star[PEOCstarLoc[2]].SDB_obobj[PEOCstarLoc[3]].OO_satList[PEOCstarLoc[4]].OO_albedo;
+      PEOCcloudsCover:=FCDBsSys[PEOCstarLoc[1]].SS_star[PEOCstarLoc[2]].SDB_obobj[PEOCstarLoc[3]].OO_satList[PEOCstarLoc[4]].OO_cloudsCov;
    end;
    PEOCspacePower:=FCFuF_StarLight_CalcPower(FCDBsSys[PEOCstarLoc[1]].SS_star[PEOCstarLoc[2]].SDB_lum, FCDBsSys[PEOCstarLoc[1]].SS_star[PEOCstarLoc[2]].SDB_obobj[PEOCstarLoc[3]].OO_distFrmStar);
    PEOCsurfPower:=( 1-(( PEOCalbedo+( PEOCcloudsCover*0.005 ))/1.721)) * PEOCspacePower;

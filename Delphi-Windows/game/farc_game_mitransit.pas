@@ -156,7 +156,7 @@ begin
    else if MCCisOrgAsat
    then MCCdepOrbVel:=(
       2*pi*FCDBsSys[GMCrootSsys].SS_star[GMCrootStar].SDB_obobj[MCCsatOrgPlanIdx].OO_satList[MCCsatOrgIdx].OOS_distFrmOOb*1000
-      /FCDBsSys[GMCrootSsys].SS_star[GMCrootStar].SDB_obobj[MCCsatOrgPlanIdx].OO_satList[MCCsatOrgIdx].OOS_revol
+      /FCDBsSys[GMCrootSsys].SS_star[GMCrootStar].SDB_obobj[MCCsatOrgPlanIdx].OO_satList[MCCsatOrgIdx].OO_revol
       )
       /86400;
    {.minreqDV.arrival orbital velocity}
@@ -170,7 +170,7 @@ begin
    then MCCarrOrbVel:=(
       2*pi*FCDBsSys[GMCrootSsys].SS_star[GMCrootStar].SDB_obobj[MCCsatDestPlanIdx].OO_satList[MCCsatDestIdx].OOS_distFrmOOb
       *1000
-      /FCDBsSys[GMCrootSsys].SS_star[GMCrootStar].SDB_obobj[MCCsatDestPlanIdx].OO_satList[MCCsatDestIdx].OOS_revol
+      /FCDBsSys[GMCrootSsys].SS_star[GMCrootStar].SDB_obobj[MCCsatDestPlanIdx].OO_satList[MCCsatDestIdx].OO_revol
       )
       /86400;
    {.minreqDV.orbital velocities differences}
@@ -180,7 +180,7 @@ begin
    then GMCreqDV:=sqrt(sqr(MCCvh)+sqr(FCDBsSys[GMCrootSsys].SS_star[GMCrootStar].SDB_obobj[GMCrootOObIdx].OO_escVel))
    else if MCCisOrgAsat
    then GMCreqDV:=sqrt(
-      sqr(MCCvh)+sqr(FCDBsSys[GMCrootSsys].SS_star[GMCrootStar].SDB_obobj[MCCsatOrgPlanIdx].OO_satList[MCCsatOrgIdx].OOS_escVel)
+      sqr(MCCvh)+sqr(FCDBsSys[GMCrootSsys].SS_star[GMCrootStar].SDB_obobj[MCCsatOrgPlanIdx].OO_satList[MCCsatOrgIdx].OO_escVel)
       );
    //================(end) calculate minimal required deltaV================
 //====================(END) DATA INITIALIZATION=============================
@@ -402,7 +402,7 @@ begin
          OOILSCRsatPlanIdxOrg:=round(FC3DobjSatGrp[OOILSCRooIdxOrg].TagFloat);
          OOILSCRgravSphOrg:=FCFcFunc_ScaleConverter(
             cf3dctKmTo3dViewUnit
-            ,FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[OOILSCRsatPlanIdxOrg].OO_satList[OOILSCRsatIdxOrg].OOS_gravSphRad
+            ,FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[OOILSCRsatPlanIdxOrg].OO_satList[OOILSCRsatIdxOrg].OO_gravSphRad
             );
       end;
       gmtltSpUnit:
@@ -433,8 +433,7 @@ begin
          OOILSCRgravSphDes
             :=FCFcFunc_ScaleConverter(
                cf3dctKmTo3dViewUnit
-               ,FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[OOILSCRsatPlanIdxDest].OO_satList[OOILSCRsatIdxDest]
-                  .OOS_gravSphRad
+               ,FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[OOILSCRsatPlanIdxDest].OO_satList[OOILSCRsatIdxDest].OO_gravSphRad
                );
       end;
       gmtltSpUnit:
