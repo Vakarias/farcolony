@@ -38,8 +38,10 @@ interface
    - FCMdF_DBInfra_Read
    - FCFgIS_RequiredStaff_Test   FCMgIS_RequiredStaff_Recover
 }
-{.population types, used for all other data structures than colony's population}
-type TFCEdpgsPopulationType=(
+///<summary>
+///   population types, used for all other data structures than colony's population
+///</summary>
+type TFCEdpgsPopulationTypes=(
    ptColonist
    ,ptOfficer
    ,ptMissionSpecialist

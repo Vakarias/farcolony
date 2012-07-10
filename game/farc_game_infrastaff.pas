@@ -59,7 +59,7 @@ function FCFgIS_RequiredStaff_Test(
 ///   <param name="IBDRstaff">specified staff to find</param>
 ///   <param name="IBDRinfraData">infrastructure data</param>
 ///   <returns>staff index #, 0 if not found</returns>
-function FCFgIS_IndexByData_Retrieve( const IBDRstaff: TFCEdpgsPopulationType; const IBDRinfraData: TFCRdipInfrastructure): integer;
+function FCFgIS_IndexByData_Retrieve( const IBDRstaff: TFCEdpgsPopulationTypes; const IBDRinfraData: TFCRdipInfrastructure): integer;
 
 //===========================END FUNCTIONS SECTION==========================================
 
@@ -381,7 +381,7 @@ begin
    end;
 end;
 
-function FCFgIS_IndexByData_Retrieve( const IBDRstaff: TFCEdpgsPopulationType; const IBDRinfraData: TFCRdipInfrastructure): integer;
+function FCFgIS_IndexByData_Retrieve( const IBDRstaff: TFCEdpgsPopulationTypes; const IBDRinfraData: TFCRdipInfrastructure): integer;
 {:Purpose: retrieve the index # of a specified staff in a given infrastructure's data structure.
     Additions:
 }

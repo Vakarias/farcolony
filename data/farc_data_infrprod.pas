@@ -351,7 +351,7 @@ const
       I_customFx: array of TFCRdipInfraCustomFX;
       {.required staff}
       I_reqStaff: array of record
-         RS_type: TFCEdpgsPopulationType;
+         RS_type: TFCEdpgsPopulationTypes;
          RS_requiredByLv: array[0..7] of integer;
       end;
       {.function}
