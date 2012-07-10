@@ -92,9 +92,7 @@
 			<DCCReference Include="data\farc_data_game.pas"/>
 			<DCCReference Include="data\farc_data_infrprod.pas"/>
 			<DCCReference Include="univ\farc_fug_stars.pas"/>
-			<DCCReference Include="univ\farc_fug_dat.pas">
-				<ModuleName>farc_fug_data</ModuleName>
-			</DCCReference>
+			<DCCReference Include="univ\farc_fug_data.pas"/>
 			<DCCReference Include="game\farc_game_pgs.pas"/>
 			<DCCReference Include="game\farc_game_core.pas"/>
 			<DCCReference Include="game\farc_game_spmdata.pas"/>
@@ -166,7 +164,7 @@
 						<VersionInfo Name="MajorVer">0</VersionInfo>
 						<VersionInfo Name="MinorVer">5</VersionInfo>
 						<VersionInfo Name="Release">2</VersionInfo>
-						<VersionInfo Name="Build">869</VersionInfo>
+						<VersionInfo Name="Build">870</VersionInfo>
 						<VersionInfo Name="Debug">False</VersionInfo>
 						<VersionInfo Name="PreRelease">False</VersionInfo>
 						<VersionInfo Name="Special">False</VersionInfo>
@@ -178,7 +176,7 @@
 					<VersionInfoKeys>
 						<VersionInfoKeys Name="CompanyName"/>
 						<VersionInfoKeys Name="FileDescription"/>
-						<VersionInfoKeys Name="FileVersion">0.5.2.869</VersionInfoKeys>
+						<VersionInfoKeys Name="FileVersion">0.5.2.870</VersionInfoKeys>
 						<VersionInfoKeys Name="InternalName"/>
 						<VersionInfoKeys Name="LegalCopyright">2009-2012 - Jean-Francois Baconnet</VersionInfoKeys>
 						<VersionInfoKeys Name="LegalTrademarks"/>
