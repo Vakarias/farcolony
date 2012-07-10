@@ -427,9 +427,9 @@ function FCFcFunc_Star_GetClass(
       -2009Nov17- *completion.
 }
 begin
-   with FCDBsSys[SGCstsIdx].SS_star[SGCstIdx] do
+   with FCDduStarSystem[SGCstsIdx].SS_stars[SGCstIdx] do
    begin
-      case SDB_class of
+      case S_class of
          cB5:
          begin
             case SGCformat of

@@ -389,18 +389,18 @@ begin
                (FCRplayer.P_surveyedSpots[GLcount].SS_oobjToken<>'')
                and
                (FCRplayer.P_surveyedSpots[GLcount].SS_satIndex=0)
-               and ( FCDBsSys[FCRplayer.P_surveyedSpots[GLcount].SS_ssysIndex].
-                        SS_star[FCRplayer.P_surveyedSpots[GLcount].SS_starIndex].
-                        SDB_obobj[FCRplayer.P_surveyedSpots[GLcount].SS_oobjIndex].OO_dbTokenId=FCRplayer.P_surveyedSpots[GLcount].SS_oobjToken
+               and ( FCDduStarSystem[FCRplayer.P_surveyedSpots[GLcount].SS_ssysIndex].
+                        SS_stars[FCRplayer.P_surveyedSpots[GLcount].SS_starIndex].
+                        S_orbitalObjects[FCRplayer.P_surveyedSpots[GLcount].SS_oobjIndex].OO_dbTokenId=FCRplayer.P_surveyedSpots[GLcount].SS_oobjToken
                   )
                )
                or (
                   (FCRplayer.P_surveyedSpots[GLcount].SS_oobjToken<>'')
                   and
                   (FCRplayer.P_surveyedSpots[GLcount].SS_satIndex>0)
-                  and ( FCDBsSys[FCRplayer.P_surveyedSpots[GLcount].SS_ssysIndex].
-                           SS_star[FCRplayer.P_surveyedSpots[GLcount].SS_starIndex].
-                           SDB_obobj[FCRplayer.P_surveyedSpots[GLcount].SS_oobjIndex].
+                  and ( FCDduStarSystem[FCRplayer.P_surveyedSpots[GLcount].SS_ssysIndex].
+                           SS_stars[FCRplayer.P_surveyedSpots[GLcount].SS_starIndex].
+                           S_orbitalObjects[FCRplayer.P_surveyedSpots[GLcount].SS_oobjIndex].
                            OO_satellitesList[FCRplayer.P_surveyedSpots[GLcount].SS_satIndex].OO_dbTokenId=FCRplayer.P_surveyedSpots[GLcount].SS_oobjToken
                      )
                ) then
@@ -409,18 +409,18 @@ begin
                then SetLength(
                   FCRplayer.P_surveyedSpots[GLcount].SS_surveyedRegions
                   ,length(
-                     FCDBsSys[FCRplayer.P_surveyedSpots[GLcount].SS_ssysIndex].
-                        SS_star[FCRplayer.P_surveyedSpots[GLcount].SS_starIndex].
-                        SDB_obobj[FCRplayer.P_surveyedSpots[GLcount].SS_oobjIndex].OO_regions
+                     FCDduStarSystem[FCRplayer.P_surveyedSpots[GLcount].SS_ssysIndex].
+                        SS_stars[FCRplayer.P_surveyedSpots[GLcount].SS_starIndex].
+                        S_orbitalObjects[FCRplayer.P_surveyedSpots[GLcount].SS_oobjIndex].OO_regions
                      )+1
                   )
                else if FCRplayer.P_surveyedSpots[GLcount].SS_satIndex>0
                then SetLength(
                   FCRplayer.P_surveyedSpots[GLcount].SS_surveyedRegions
                   ,length(
-                     FCDBsSys[FCRplayer.P_surveyedSpots[GLcount].SS_ssysIndex].
-                        SS_star[FCRplayer.P_surveyedSpots[GLcount].SS_starIndex].
-                        SDB_obobj[FCRplayer.P_surveyedSpots[GLcount].SS_oobjIndex].
+                     FCDduStarSystem[FCRplayer.P_surveyedSpots[GLcount].SS_ssysIndex].
+                        SS_stars[FCRplayer.P_surveyedSpots[GLcount].SS_starIndex].
+                        S_orbitalObjects[FCRplayer.P_surveyedSpots[GLcount].SS_oobjIndex].
                         OO_satellitesList[FCRplayer.P_surveyedSpots[GLcount].SS_satIndex].OO_regions
                      )+1
                   );
@@ -593,9 +593,9 @@ begin
                         ,FCentities[GLentCnt].E_col[GLcount].COL_locOObj
                         );
                      if GLoobjRow[4]=0
-                     then FCDBSsys[GLoobjRow[1]].SS_star[GLoobjRow[2]].SDB_obobj[GLoobjRow[3]].OO_colonies[0]:=GLcount
+                     then FCDduStarSystem[GLoobjRow[1]].SS_stars[GLoobjRow[2]].S_orbitalObjects[GLoobjRow[3]].OO_colonies[0]:=GLcount
                      else if GLoobjRow[4]>0
-                     then FCDBSsys[GLoobjRow[1]].SS_star[GLoobjRow[2]].SDB_obobj[GLoobjRow[3]].OO_satellitesList[GLoobjRow[4]].OO_colonies[0]:=GLcount;
+                     then FCDduStarSystem[GLoobjRow[1]].SS_stars[GLoobjRow[2]].S_orbitalObjects[GLoobjRow[3]].OO_satellitesList[GLoobjRow[4]].OO_colonies[0]:=GLcount;
                      FCentities[GLentCnt].E_col[GLcount].COL_level:=TFCEcolLvl(GLxmlCol.Attributes['collvl']-1);
                      FCentities[GLentCnt].E_col[GLcount].COL_hqPres:=GLxmlCol.Attributes['hqpresence'];
                      FCentities[GLentCnt].E_col[GLcount].COL_cohes:=GLxmlCol.Attributes['dcohes'];
@@ -750,15 +750,15 @@ begin
                            GLregionIdx:=FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_region;
                            if GLoobjRow[4]=0 then
                            begin
-                              FCDBSsys[GLoobjRow[1]].SS_star[GLoobjRow[2]].SDB_obobj[GLoobjRow[3]].OO_regions[GLregionIdx].OOR_settlementEntity:=GLentCnt;
-                              FCDBSsys[GLoobjRow[1]].SS_star[GLoobjRow[2]].SDB_obobj[GLoobjRow[3]].OO_regions[GLregionIdx].OOR_settlementColony:=GLcount;
-                              FCDBSsys[GLoobjRow[1]].SS_star[GLoobjRow[2]].SDB_obobj[GLoobjRow[3]].OO_regions[GLregionIdx].OOR_settlementIndex:=GLsettleCnt;
+                              FCDduStarSystem[GLoobjRow[1]].SS_stars[GLoobjRow[2]].S_orbitalObjects[GLoobjRow[3]].OO_regions[GLregionIdx].OOR_settlementEntity:=GLentCnt;
+                              FCDduStarSystem[GLoobjRow[1]].SS_stars[GLoobjRow[2]].S_orbitalObjects[GLoobjRow[3]].OO_regions[GLregionIdx].OOR_settlementColony:=GLcount;
+                              FCDduStarSystem[GLoobjRow[1]].SS_stars[GLoobjRow[2]].S_orbitalObjects[GLoobjRow[3]].OO_regions[GLregionIdx].OOR_settlementIndex:=GLsettleCnt;
                            end
                            else if GLoobjRow[4]>0 then
                            begin
-                              FCDBSsys[GLoobjRow[1]].SS_star[GLoobjRow[2]].SDB_obobj[GLoobjRow[3]].OO_satellitesList[GLoobjRow[4]].OO_regions[GLregionIdx].OOR_settlementEntity:=GLentCnt;
-                              FCDBSsys[GLoobjRow[1]].SS_star[GLoobjRow[2]].SDB_obobj[GLoobjRow[3]].OO_satellitesList[GLoobjRow[4]].OO_regions[GLregionIdx].OOR_settlementColony:=GLcount;
-                              FCDBSsys[GLoobjRow[1]].SS_star[GLoobjRow[2]].SDB_obobj[GLoobjRow[3]].OO_satellitesList[GLoobjRow[4]].OO_regions[GLregionIdx].OOR_settlementIndex:=GLsettleCnt;
+                              FCDduStarSystem[GLoobjRow[1]].SS_stars[GLoobjRow[2]].S_orbitalObjects[GLoobjRow[3]].OO_satellitesList[GLoobjRow[4]].OO_regions[GLregionIdx].OOR_settlementEntity:=GLentCnt;
+                              FCDduStarSystem[GLoobjRow[1]].SS_stars[GLoobjRow[2]].S_orbitalObjects[GLoobjRow[3]].OO_satellitesList[GLoobjRow[4]].OO_regions[GLregionIdx].OOR_settlementColony:=GLcount;
+                              FCDduStarSystem[GLoobjRow[1]].SS_stars[GLoobjRow[2]].S_orbitalObjects[GLoobjRow[3]].OO_satellitesList[GLoobjRow[4]].OO_regions[GLregionIdx].OOR_settlementIndex:=GLsettleCnt;
                            end;
                            GLinfCnt:=0;
                            GLxmlInfra:=GLxmlColsub.ChildNodes.First;

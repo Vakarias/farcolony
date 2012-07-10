@@ -109,7 +109,7 @@ var
 begin
    if CECstIdx=2 then
    begin
-      CECcalc:=(FCDBsSys[0].SS_star[CECstIdx].SDB_meanSep-0.25)/FCDBsSys[0].SS_star[CECstIdx].SDB_meanSep;
+      CECcalc:=(FCDduStarSystem[0].SS_stars[CECstIdx].S_isCompMeanSeparation-0.25)/FCDduStarSystem[0].SS_stars[CECstIdx].S_isCompMeanSeparation;
       CECeccMax:=DecimalRound(CECcalc, 3, 0.0001);
       CECstat:=FCFcFunc_Rand_Int(99)+1;
       CECmod:=FCFcFunc_Rand_Int(9)+1;
@@ -164,27 +164,27 @@ begin
    else if CECstIdx=3
    then
    begin
-      if (FCDBsSys[0].SS_star[CECstIdx].SDB_comp2Orb=cotAroundMain_Companion1)
-         or (FCDBsSys[0].SS_star[CECstIdx].SDB_comp2Orb=cotAroundCompanion1)
+      if (FCDduStarSystem[0].SS_stars[CECstIdx].S_isCompStar2OrbitType=cotAroundMain_Companion1)
+         or (FCDduStarSystem[0].SS_stars[CECstIdx].S_isCompStar2OrbitType=cotAroundCompanion1)
       then
       begin
-         CECcalc:=(FCDBsSys[0].SS_star[CECstIdx].SDB_meanSep-0.25)/FCDBsSys[0].SS_star[CECstIdx].SDB_meanSep;
+         CECcalc:=(FCDduStarSystem[0].SS_stars[CECstIdx].S_isCompMeanSeparation-0.25)/FCDduStarSystem[0].SS_stars[CECstIdx].S_isCompMeanSeparation;
          CECeccMax:=DecimalRound(CECcalc, 3, 0.0001);
       end
-      else if FCDBsSys[0].SS_star[CECstIdx].SDB_comp2Orb=cotAroundMain_Companion1GravityCenter
+      else if FCDduStarSystem[0].SS_stars[CECstIdx].S_isCompStar2OrbitType=cotAroundMain_Companion1GravityCenter
       then
       begin
          CECcalc:=(
-            (FCDBsSys[0].SS_star[CECstIdx].SDB_meanSep-FCDBsSys[0].SS_star[2].SDB_minApD+0.25)
-            -(FCDBsSys[0].SS_star[2].SDB_meanSep+FCDBsSys[0].SS_star[2].SDB_minApD)
+            (FCDduStarSystem[0].SS_stars[CECstIdx].S_isCompMeanSeparation-FCDduStarSystem[0].SS_stars[2].S_isCompMinApproachDistance+0.25)
+            -(FCDduStarSystem[0].SS_stars[2].S_isCompMeanSeparation+FCDduStarSystem[0].SS_stars[2].S_isCompMinApproachDistance)
             )
-            /(FCDBsSys[0].SS_star[CECstIdx].SDB_meanSep - FCDBsSys[0].SS_star[2].SDB_minApD+0.25);
+            /(FCDduStarSystem[0].SS_stars[CECstIdx].S_isCompMeanSeparation - FCDduStarSystem[0].SS_stars[2].S_isCompMinApproachDistance+0.25);
          CECeccMax:=DecimalRound(CECcalc, 3, 0.0001);
       end;
       CECmod:=FCFcFunc_Rand_Int(99)+1;
       CECecc:=CECmod*(CECeccMax*0.01);
    end;
-   FCDBsSys[0].SS_star[CECstIdx].SDB_ecc:=DecimalRound(CECecc, 3, 0.0001);
+   FCDduStarSystem[0].SS_stars[CECstIdx].S_isCompEccentricity:=DecimalRound(CECecc, 3, 0.0001);
 end;
 
 procedure FCMfS_CompStar_Calc(const CSCstIdx: integer);
@@ -218,11 +218,11 @@ begin
             CSCmsep:=CSCstatsub*200;
          end;
       end;
-      FCDBsSys[0].SS_star[CSCstIdx].SDB_meanSep:=DecimalRound(CSCmsep, 2, 0.001);
+      FCDduStarSystem[0].SS_stars[CSCstIdx].S_isCompMeanSeparation:=DecimalRound(CSCmsep, 2, 0.001);
       {.eccentricity}
       FCMfS_CompEcc_Calc(CSCstIdx);
-      CSCmad:=FCDBsSys[0].SS_star[CSCstIdx].SDB_meanSep*(1-FCDBsSys[0].SS_star[CSCstIdx].SDB_ecc);
-      FCDBsSys[0].SS_star[CSCstIdx].SDB_minApD:=DecimalRound(CSCmad, 2, 0.001);
+      CSCmad:=FCDduStarSystem[0].SS_stars[CSCstIdx].S_isCompMeanSeparation*(1-FCDduStarSystem[0].SS_stars[CSCstIdx].S_isCompEccentricity);
+      FCDduStarSystem[0].SS_stars[CSCstIdx].S_isCompMinApproachDistance:=DecimalRound(CSCmad, 2, 0.001);
    end //==END== if CSCstIdx=2 ==//
    else if CSCstIdx=3
    then
@@ -232,37 +232,37 @@ begin
          0..6:
          begin
             if CSCstat<4
-            then FCDBsSys[0].SS_star[CSCstIdx].SDB_comp2Orb:=cotAroundMain_Companion1
-            else FCDBsSys[0].SS_star[CSCstIdx].SDB_comp2Orb:=cotAroundCompanion1;
+            then FCDduStarSystem[0].SS_stars[CSCstIdx].S_isCompStar2OrbitType:=cotAroundMain_Companion1
+            else FCDduStarSystem[0].SS_stars[CSCstIdx].S_isCompStar2OrbitType:=cotAroundCompanion1;
             CSCmod:=FCFcFunc_Rand_Int(9)+1;
-            CSCmsep:=(((FCDBsSys[0].SS_star[2].SDB_minApD*0.5)-(FCDBsSys[0].SS_star[2].SDB_minApD*0.1))*0.1)*CSCmod;
-            FCDBsSys[0].SS_star[CSCstIdx].SDB_meanSep:=DecimalRound(CSCmsep, 2, 0.001);
+            CSCmsep:=(((FCDduStarSystem[0].SS_stars[2].S_isCompMinApproachDistance*0.5)-(FCDduStarSystem[0].SS_stars[2].S_isCompMinApproachDistance*0.1))*0.1)*CSCmod;
+            FCDduStarSystem[0].SS_stars[CSCstIdx].S_isCompMeanSeparation:=DecimalRound(CSCmsep, 2, 0.001);
             FCMfS_CompEcc_Calc(CSCstIdx);
-            CSCmad:=FCDBsSys[0].SS_star[CSCstIdx].SDB_meanSep*(1-FCDBsSys[0].SS_star[CSCstIdx].SDB_ecc);
-            FCDBsSys[0].SS_star[CSCstIdx].SDB_minApD:=DecimalRound(CSCmad, 2, 0.001);
+            CSCmad:=FCDduStarSystem[0].SS_stars[CSCstIdx].S_isCompMeanSeparation*(1-FCDduStarSystem[0].SS_stars[CSCstIdx].S_isCompEccentricity);
+            FCDduStarSystem[0].SS_stars[CSCstIdx].S_isCompMinApproachDistance:=DecimalRound(CSCmad, 2, 0.001);
          end;
          7..10:
          begin
-            FCDBsSys[0].SS_star[CSCstIdx].SDB_comp2Orb:=cotAroundMain_Companion1GravityCenter;
+            FCDduStarSystem[0].SS_stars[CSCstIdx].S_isCompStar2OrbitType:=cotAroundMain_Companion1GravityCenter;
             CSCmod:=FCFcFunc_Rand_Int(100);
-            CSCmad:=(((FCDBsSys[0].SS_star[2].SDB_meanSep+FCDBsSys[0].SS_star[2].SDB_minApD)*0.5)+0.25)*(1+(CSCmod*0.1));
-            FCDBsSys[0].SS_star[CSCstIdx].SDB_minApD:=DecimalRound(CSCmad, 2, 0.001);
+            CSCmad:=(((FCDduStarSystem[0].SS_stars[2].S_isCompMeanSeparation+FCDduStarSystem[0].SS_stars[2].S_isCompMinApproachDistance)*0.5)+0.25)*(1+(CSCmod*0.1));
+            FCDduStarSystem[0].SS_stars[CSCstIdx].S_isCompMinApproachDistance:=DecimalRound(CSCmad, 2, 0.001);
             CSCstat:=FCFcFunc_Rand_Int(9)+1;
             CSCmod:=FCFcFunc_Rand_Int(9)+1;
             case CSCstat of
-               0..3: CSCmsep:=FCDBsSys[0].SS_star[CSCstIdx].SDB_minApD+(CSCmod*0.25);
-               4..6: CSCmsep:=FCDBsSys[0].SS_star[CSCstIdx].SDB_minApD+(CSCmod*2.5);
-               7..8: CSCmsep:=FCDBsSys[0].SS_star[CSCstIdx].SDB_minApD+(CSCmod*15);
-               9: CSCmsep:=FCDBsSys[0].SS_star[CSCstIdx].SDB_minApD+(CSCmod*100);
+               0..3: CSCmsep:=FCDduStarSystem[0].SS_stars[CSCstIdx].S_isCompMinApproachDistance+(CSCmod*0.25);
+               4..6: CSCmsep:=FCDduStarSystem[0].SS_stars[CSCstIdx].S_isCompMinApproachDistance+(CSCmod*2.5);
+               7..8: CSCmsep:=FCDduStarSystem[0].SS_stars[CSCstIdx].S_isCompMinApproachDistance+(CSCmod*15);
+               9: CSCmsep:=FCDduStarSystem[0].SS_stars[CSCstIdx].S_isCompMinApproachDistance+(CSCmod*100);
                10:
                begin
                   CSCmod:=FCFcFunc_Rand_Int(99)+1;
-                  CSCmsep:=FCDBsSys[0].SS_star[CSCstIdx].SDB_minApD+(CSCmod*200);
+                  CSCmsep:=FCDduStarSystem[0].SS_stars[CSCstIdx].S_isCompMinApproachDistance+(CSCmod*200);
                end;
             end;
-            FCDBsSys[0].SS_star[CSCstIdx].SDB_meanSep:=DecimalRound(CSCmsep, 2, 0.001);
-            CSCecc:=FCDBsSys[0].SS_star[CSCstIdx].SDB_minApD/FCDBsSys[0].SS_star[CSCstIdx].SDB_meanSep;
-            FCDBsSys[0].SS_star[CSCstIdx].SDB_ecc:=DecimalRound(CSCecc, 3, 0.0001);
+            FCDduStarSystem[0].SS_stars[CSCstIdx].S_isCompMeanSeparation:=DecimalRound(CSCmsep, 2, 0.001);
+            CSCecc:=FCDduStarSystem[0].SS_stars[CSCstIdx].S_isCompMinApproachDistance/FCDduStarSystem[0].SS_stars[CSCstIdx].S_isCompMeanSeparation;
+            FCDduStarSystem[0].SS_stars[CSCstIdx].S_isCompEccentricity:=DecimalRound(CSCecc, 3, 0.0001);
          end;
       end; //==END== case CSCstat of ==//
    end;
@@ -275,7 +275,7 @@ var
    DWDLlum: extended;
 begin
    Result:=0;
-   DWDLlum:=(sqr(FCDBsSys[0].SS_star[DWDLidx].SDB_diam*0.5)*power(FCDBsSys[0].SS_star[DWDLidx].SDB_temp,4))/power(5800,4);
+   DWDLlum:=(sqr(FCDduStarSystem[0].SS_stars[DWDLidx].S_diameter*0.5)*power(FCDduStarSystem[0].SS_stars[DWDLidx].S_temperature,4))/power(5800,4);
    Result:=DecimalRound(DWDLlum, 5, 0.000001);
    if Result<=0
    then Result:=0.00001;
@@ -288,7 +288,7 @@ procedure FCMfS_Data_Load(const DLstIdx: integer);
 var
    DLdiam: extended;
 begin
-   FSCD.FSCD_class:=FCDBsSys[0].SS_star[DLstIdx].SDB_class;
+   FSCD.FSCD_class:=FCDduStarSystem[0].SS_stars[DLstIdx].S_class;
    case FSCD.FSCD_class of
       cB5:
       begin
@@ -1295,7 +1295,7 @@ begin
       begin
          FSCD.FSCD_temp:=1;
          FSCD.FSCD_mass:=5+FCFcFunc_Rand_Int(5);
-         DLdiam:=((2*6.67e-11*(1.989e30*FCDBsSys[0].SS_star[DLstIdx].SDB_mass))/299792458)*(2/1390000);
+         DLdiam:=((2*6.67e-11*(1.989e30*FCDduStarSystem[0].SS_stars[DLstIdx].S_mass))/299792458)*(2/1390000);
          FSCD.FSCD_diam:=DecimalRound(DLdiam, 2, 0.001);
          if DLdiam<=0
          then DLdiam:=0.01;
@@ -1312,9 +1312,9 @@ var
    DCdiam: extended;
 begin
    Result:=0;
-   if FCDBsSys[0].SS_star[DCstar].SDB_class<>FSCD.FSCD_class
+   if FCDduStarSystem[0].SS_stars[DCstar].S_class<>FSCD.FSCD_class
    then FCMfS_Data_Load(DCstar);
-   if FCDBsSys[0].SS_star[DCstar].SDB_class<PSR
+   if FCDduStarSystem[0].SS_stars[DCstar].S_class<PSR
    then
    begin
       DCdiam:=randg(FSCD.FSCD_diam,0.007);
@@ -1333,9 +1333,9 @@ var
    DClum: extended;
 begin
    Result:=0;
-   if FCDBsSys[0].SS_star[LCstar].SDB_class<>FSCD.FSCD_class
+   if FCDduStarSystem[0].SS_stars[LCstar].S_class<>FSCD.FSCD_class
    then FCMfS_Data_Load(LCstar);
-   if FCDBsSys[0].SS_star[LCstar].SDB_class<PSR
+   if FCDduStarSystem[0].SS_stars[LCstar].S_class<PSR
    then
    begin
       DClum:=randg(FSCD.FSCD_lum,0.007);
@@ -1343,7 +1343,7 @@ begin
       if Result<=0
       then Result:=0.00001;
    end
-   else if FCDBsSys[0].SS_star[LCstar].SDB_class in [WD0..WD9]
+   else if FCDduStarSystem[0].SS_stars[LCstar].S_class in [WD0..WD9]
    then
    begin
       FSCD.FSCD_lum:=FCFfS_Data_WDLum(LCstar);
@@ -1360,7 +1360,7 @@ var
    TMmass: extended;
 begin
    Result:=0;
-   if FCDBsSys[0].SS_star[TMstar].SDB_class<>FSCD.FSCD_class
+   if FCDduStarSystem[0].SS_stars[TMstar].S_class<>FSCD.FSCD_class
    then FCMfS_Data_Load(TMstar);
    TMmass:=randg(FSCD.FSCD_mass,0.007);
    Result:=DecimalRound(TMmass, 2, 0.001);
@@ -1374,9 +1374,9 @@ function FCFfS_Temperature_Calc(const TCstar: integer): integer;
 }
 begin
    Result:=0;
-   if FCDBsSys[0].SS_star[TCstar].SDB_class<>FSCD.FSCD_class
+   if FCDduStarSystem[0].SS_stars[TCstar].S_class<>FSCD.FSCD_class
    then FCMfS_Data_Load(TCstar);
-   if FCDBsSys[0].SS_star[TCstar].SDB_class<PSR
+   if FCDduStarSystem[0].SS_stars[TCstar].S_class<PSR
    then Result:=round(randg(FSCD.FSCD_temp,50))
    else Result:=FSCD.FSCD_temp
 end;

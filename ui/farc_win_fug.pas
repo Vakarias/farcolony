@@ -113,6 +113,7 @@ implementation
 uses
    farc_common_func//to remove when FCFcFunc_Star_GetClass is moved
    ,farc_data_univ
+   ,farc_fug_data
    ,farc_fug_orbits
    ,farc_fug_stars;
 
@@ -135,106 +136,106 @@ begin
    then
    begin
       {.FUG start process}
-      FCDBsSys:=nil;
-      SetLength(FCDBsSys, 1);
-      FCDBsSys[0].SS_token:=FCWFssysToken.Text;
-      FCDBsSys[0].SS_gLocX:=StrToFloat(FCWFlocX.Text);
-      FCDBsSys[0].SS_gLocY:=StrToFloat(FCWFlocY.Text);
-      FCDBsSys[0].SS_gLocZ:=StrToFloat(FCWFlocZ.Text);
-      FUGstarOrb[1]:=-1;
-      FUGstarOrb[2]:=-1;
-      FUGstarOrb[3]:=-1;
-      FUGsysTp[1]:=0;
-      FUGsysTp[2]:=0;
-      FUGsysTp[3]:=0;
+      FCDduStarSystem:=nil;
+      SetLength(FCDduStarSystem, 1);
+      FCDduStarSystem[0].SS_token:=FCWFssysToken.Text;
+      FCDduStarSystem[0].SS_locationX:=StrToFloat(FCWFlocX.Text);
+      FCDduStarSystem[0].SS_locationY:=StrToFloat(FCWFlocY.Text);
+      FCDduStarSystem[0].SS_locationZ:=StrToFloat(FCWFlocZ.Text);
+      FCRfdStarOrbits[1]:=-1;
+      FCRfdStarOrbits[2]:=-1;
+      FCRfdStarOrbits[3]:=-1;
+      FCRfdSystemType[1]:=0;
+      FCRfdSystemType[2]:=0;
+      FCRfdSystemType[3]:=0;
       {.stars}
       FCMfS_Data_Load(1);
-      FCDBsSys[0].SS_star[1].SDB_token:=FUGmStartoken.Text;
-      FCDBsSys[0].SS_star[1].SDB_class:=TFCEduStarClasses(FUGmStarClass.ItemIndex);
+      FCDduStarSystem[0].SS_stars[1].S_token:=FUGmStartoken.Text;
+      FCDduStarSystem[0].SS_stars[1].S_class:=TFCEduStarClasses(FUGmStarClass.ItemIndex);
       if FUGmStarTemp.Text=''
-      then FCDBsSys[0].SS_star[1].SDB_temp:=FCFfS_Temperature_Calc(1)
+      then FCDduStarSystem[0].SS_stars[1].S_temperature:=FCFfS_Temperature_Calc(1)
       else if FUGmStarTemp.Text<>''
-      then FCDBsSys[0].SS_star[1].SDB_temp:=StrToInt(FUGmStarTemp.Text);
+      then FCDduStarSystem[0].SS_stars[1].S_temperature:=StrToInt(FUGmStarTemp.Text);
       if FUGmStarMass.Text=''
-      then FCDBsSys[0].SS_star[1].SDB_mass:=FCFfS_Mass_Calc(1)
+      then FCDduStarSystem[0].SS_stars[1].S_mass:=FCFfS_Mass_Calc(1)
       else if FUGmStarMass.Text<>''
-      then FCDBsSys[0].SS_star[1].SDB_mass:=StrToInt(FUGmStarMass.Text);
+      then FCDduStarSystem[0].SS_stars[1].S_mass:=StrToInt(FUGmStarMass.Text);
       if FUGmStarDiam.Text=''
-      then FCDBsSys[0].SS_star[1].SDB_diam:=FCFfS_Diameter_Calc(1)
+      then FCDduStarSystem[0].SS_stars[1].S_diameter:=FCFfS_Diameter_Calc(1)
       else if FUGmStarDiam.Text<>''
-      then FCDBsSys[0].SS_star[1].SDB_diam:=StrToFloat(FUGmStarDiam.Text);
+      then FCDduStarSystem[0].SS_stars[1].S_diameter:=StrToFloat(FUGmStarDiam.Text);
       if FUGmStarLum.Text=''
-      then FCDBsSys[0].SS_star[1].SDB_lum:=FCFfS_Luminosity_Calc(1)
+      then FCDduStarSystem[0].SS_stars[1].S_luminosity:=FCFfS_Luminosity_Calc(1)
       else if FUGmStarLum.Text<>''
-      then FCDBsSys[0].SS_star[1].SDB_lum:=StrToFloat(FUGmStarLum.Text);
-      FUGsysTp[1]:=FUGmSType.ItemIndex+1;
-      FUGstarOrb[1]:=FUGmStarOG.ItemIndex-1;
-      if FUGstarOrb[1]=1
-      then FUGstarOrb[1]:=StrToInt(FUGmStarNumOrb.Text);
+      then FCDduStarSystem[0].SS_stars[1].S_luminosity:=StrToFloat(FUGmStarLum.Text);
+      FCRfdSystemType[1]:=FUGmSType.ItemIndex+1;
+      FCRfdStarOrbits[1]:=FUGmStarOG.ItemIndex-1;
+      if FCRfdStarOrbits[1]=1
+      then FCRfdStarOrbits[1]:=StrToInt(FUGmStarNumOrb.Text);
       if (AdvGroupBox3.Visible)
          and (FUGcs1token.Text<>'star')
       then
       begin
-         FCDBsSys[0].SS_star[2].SDB_token:=FUGcs1token.Text;
-         FCDBsSys[0].SS_star[2].SDB_class:=TFCEduStarClasses(FUGcs1Class.ItemIndex);
+         FCDduStarSystem[0].SS_stars[2].S_token:=FUGcs1token.Text;
+         FCDduStarSystem[0].SS_stars[2].S_class:=TFCEduStarClasses(FUGcs1Class.ItemIndex);
          if FUGcs1Temp.Text=''
-         then FCDBsSys[0].SS_star[2].SDB_temp:=FCFfS_Temperature_Calc(2)
+         then FCDduStarSystem[0].SS_stars[2].S_temperature:=FCFfS_Temperature_Calc(2)
          else if FUGcs1Temp.Text<>''
-         then FCDBsSys[0].SS_star[2].SDB_temp:=StrToInt(FUGcs1Temp.Text);
+         then FCDduStarSystem[0].SS_stars[2].S_temperature:=StrToInt(FUGcs1Temp.Text);
          if FUGcs1Mass.Text=''
-         then FCDBsSys[0].SS_star[2].SDB_mass:=FCFfS_Mass_Calc(2)
+         then FCDduStarSystem[0].SS_stars[2].S_mass:=FCFfS_Mass_Calc(2)
          else if FUGcs1Mass.Text<>''
-         then FCDBsSys[0].SS_star[2].SDB_mass:=StrToInt(FUGcs1Mass.Text);
+         then FCDduStarSystem[0].SS_stars[2].S_mass:=StrToInt(FUGcs1Mass.Text);
          if FUGcs1Diam.Text=''
-         then FCDBsSys[0].SS_star[2].SDB_diam:=FCFfS_Diameter_Calc(2)
+         then FCDduStarSystem[0].SS_stars[2].S_diameter:=FCFfS_Diameter_Calc(2)
          else if FUGcs1Diam.Text<>''
-         then FCDBsSys[0].SS_star[2].SDB_diam:=StrToFloat(FUGcs1Diam.Text);
+         then FCDduStarSystem[0].SS_stars[2].S_diameter:=StrToFloat(FUGcs1Diam.Text);
          if FUGcs1Lum.Text=''
-         then FCDBsSys[0].SS_star[2].SDB_lum:=FCFfS_Luminosity_Calc(2)
+         then FCDduStarSystem[0].SS_stars[2].S_luminosity:=FCFfS_Luminosity_Calc(2)
          else if FUGcs1Lum.Text<>''
-         then FCDBsSys[0].SS_star[2].SDB_lum:=StrToFloat(FUGcs1Lum.Text);
+         then FCDduStarSystem[0].SS_stars[2].S_luminosity:=StrToFloat(FUGcs1Lum.Text);
          FCMfS_CompStar_Calc(2);
-         FUGsysTp[2]:=FUGcs1Type.ItemIndex+1;
-         FUGstarOrb[2]:=FUGcs1OG.ItemIndex-1;
-         if FUGstarOrb[2]=1
-         then FUGstarOrb[2]:=StrToInt(FUGcs1NumOrb.Text);
+         FCRfdSystemType[2]:=FUGcs1Type.ItemIndex+1;
+         FCRfdStarOrbits[2]:=FUGcs1OG.ItemIndex-1;
+         if FCRfdStarOrbits[2]=1
+         then FCRfdStarOrbits[2]:=StrToInt(FUGcs1NumOrb.Text);
          if (AdvGroupBox4.Visible)
             and (FUGcs2token.Text<>'star')
          then
          begin
-            FCDBsSys[0].SS_star[3].SDB_token:=FUGcs2token.Text;
-            FCDBsSys[0].SS_star[3].SDB_class:=TFCEduStarClasses(FUGcs2Class.ItemIndex);
+            FCDduStarSystem[0].SS_stars[3].S_token:=FUGcs2token.Text;
+            FCDduStarSystem[0].SS_stars[3].S_class:=TFCEduStarClasses(FUGcs2Class.ItemIndex);
             if FUGcs2Temp.Text=''
-            then FCDBsSys[0].SS_star[3].SDB_temp:=FCFfS_Temperature_Calc(3)
+            then FCDduStarSystem[0].SS_stars[3].S_temperature:=FCFfS_Temperature_Calc(3)
             else if FUGcs2Temp.Text<>''
-            then FCDBsSys[0].SS_star[3].SDB_temp:=StrToInt(FUGcs2Temp.Text);
+            then FCDduStarSystem[0].SS_stars[3].S_temperature:=StrToInt(FUGcs2Temp.Text);
             if FUGcs2Mass.Text=''
-            then FCDBsSys[0].SS_star[3].SDB_mass:=FCFfS_Mass_Calc(3)
+            then FCDduStarSystem[0].SS_stars[3].S_mass:=FCFfS_Mass_Calc(3)
             else if FUGcs2Mass.Text<>''
-            then FCDBsSys[0].SS_star[3].SDB_mass:=StrToInt(FUGcs2Mass.Text);
+            then FCDduStarSystem[0].SS_stars[3].S_mass:=StrToInt(FUGcs2Mass.Text);
             if FUGcs2Diam.Text=''
-            then FCDBsSys[0].SS_star[3].SDB_diam:=FCFfS_Diameter_Calc(3)
+            then FCDduStarSystem[0].SS_stars[3].S_diameter:=FCFfS_Diameter_Calc(3)
             else if FUGcs2Diam.Text<>''
-            then FCDBsSys[0].SS_star[3].SDB_diam:=StrToFloat(FUGcs2Diam.Text);
+            then FCDduStarSystem[0].SS_stars[3].S_diameter:=StrToFloat(FUGcs2Diam.Text);
             if FUGcs2Lum.Text=''
-            then FCDBsSys[0].SS_star[3].SDB_lum:=FCFfS_Luminosity_Calc(3)
+            then FCDduStarSystem[0].SS_stars[3].S_luminosity:=FCFfS_Luminosity_Calc(3)
             else if FUGcs2Lum.Text<>''
-            then FCDBsSys[0].SS_star[3].SDB_lum:=StrToFloat(FUGcs2Lum.Text);
+            then FCDduStarSystem[0].SS_stars[3].S_luminosity:=StrToFloat(FUGcs2Lum.Text);
             FCMfS_CompStar_Calc(3);
-            FUGsysTp[3]:=FUGcs2Type.ItemIndex+1;
-            FUGstarOrb[3]:=FUGcs1OG.ItemIndex-1;
-            if FUGstarOrb[3]=1
-            then FUGstarOrb[3]:=StrToInt(FUGcs1NumOrb.Text);
+            FCRfdSystemType[3]:=FUGcs2Type.ItemIndex+1;
+            FCRfdStarOrbits[3]:=FUGcs1OG.ItemIndex-1;
+            if FCRfdStarOrbits[3]=1
+            then FCRfdStarOrbits[3]:=StrToInt(FUGcs1NumOrb.Text);
 
          end;
       end;
-      if FUGsysTp[1]>-1
+      if FCRfdSystemType[1]>-1
       then FCMfO_Generate(1);
-      if (FCDBsSys[0].SS_star[2].SDB_token<>'')
-         and (FUGsysTp[2]>-1)
+      if (FCDduStarSystem[0].SS_stars[2].S_token<>'')
+         and (FCRfdSystemType[2]>-1)
       then FCMfO_Generate(2);
-      if (FCDBsSys[0].SS_star[3].SDB_token<>'')
-         and (FUGsysTp[3]>-1)
+      if (FCDduStarSystem[0].SS_stars[3].S_token<>'')
+         and (FCRfdSystemType[3]>-1)
       then FCMfO_Generate(3);
       {.generate ouput}
       FCWFoutput.Lines.Clear;
@@ -243,48 +244,48 @@ begin
       {.for stellar system}
       FCWFoutput.Lines.Add('<!-- -->');
       FCWFoutput.Lines.Add(
-         '<starsys sstoken="'+FCDBsSys[0].SS_token+'" steslocx="'
+         '<starsys sstoken="'+FCDduStarSystem[0].SS_token+'" steslocx="'
          +FCWFlocX.Text+'" steslocy="'+FCWFlocY.Text+'" steslocz="'+FCWFlocZ.Text+'">'
          );
       {.for stars}
       GCcnt:=1;
       while GCcnt<=3 do
       begin
-         if FCDBsSys[0].SS_star[GCcnt].SDB_token=''
+         if FCDduStarSystem[0].SS_stars[GCcnt].S_token=''
          then break
          else
          begin
             GCclassStr:=FCFcFunc_Star_GetClass(ufcfRaw, 0, GCcnt);
-            FCWFoutput.Lines.Add('   <star startoken="'+FCDBsSys[0].SS_star[GCcnt].SDB_token+'" starclass="'+GCclassStr+'">');
+            FCWFoutput.Lines.Add('   <star startoken="'+FCDduStarSystem[0].SS_stars[GCcnt].S_token+'" starclass="'+GCclassStr+'">');
             FCWFoutput.Lines.Add(
-               '      <starphysdata startemp="'+IntToStr(FCDBsSys[0].SS_star[GCcnt].SDB_temp)
-               +'" starmass="'+FloatToStr(FCDBsSys[0].SS_star[GCcnt].SDB_mass)
-               +'" stardiam="'+FloatToStr(FCDBsSys[0].SS_star[GCcnt].SDB_diam)
-               +'" starlum="'+FloatToStrF(FCDBsSys[0].SS_star[GCcnt].SDB_lum, ffFixed, 15, 5)+'"'
+               '      <starphysdata startemp="'+IntToStr(FCDduStarSystem[0].SS_stars[GCcnt].S_temperature)
+               +'" starmass="'+FloatToStr(FCDduStarSystem[0].SS_stars[GCcnt].S_mass)
+               +'" stardiam="'+FloatToStr(FCDduStarSystem[0].SS_stars[GCcnt].S_diameter)
+               +'" starlum="'+FloatToStrF(FCDduStarSystem[0].SS_stars[GCcnt].S_luminosity, ffFixed, 15, 5)+'"'
                +'/>'
                );
             if GCcnt=2
             then
             begin
                FCWFoutput.Lines.Add(
-                  '      <starcompdata compmsep="'+FloatToStr(FCDBsSys[0].SS_star[GCcnt].SDB_meanSep)
-                  +'" compminapd="'+FloatToStr(FCDBsSys[0].SS_star[GCcnt].SDB_minApD)
-                  +'" compecc="'+FloatToStr(FCDBsSys[0].SS_star[GCcnt].SDB_ecc)
+                  '      <starcompdata compmsep="'+FloatToStr(FCDduStarSystem[0].SS_stars[GCcnt].S_isCompMeanSeparation)
+                  +'" compminapd="'+FloatToStr(FCDduStarSystem[0].SS_stars[GCcnt].S_isCompMinApproachDistance)
+                  +'" compecc="'+FloatToStr(FCDduStarSystem[0].SS_stars[GCcnt].S_isCompEccentricity)
                   +'"/>'
                   );
             end
             else if GCcnt=3
             then
             begin
-               case FCDBsSys[0].SS_star[GCcnt].SDB_comp2Orb of
+               case FCDduStarSystem[0].SS_stars[GCcnt].S_isCompStar2OrbitType of
                   cotAroundMain_Companion1: GCorbStr:='coAroundCenter';
                   cotAroundCompanion1: GCorbStr:='coAroundComp';
                   cotAroundMain_Companion1GravityCenter: GCorbStr:='coAroundGravC';
                end;
                FCWFoutput.Lines.Add(
-                  '      <starcompdata compmsep="'+FloatToStr(FCDBsSys[0].SS_star[GCcnt].SDB_meanSep)
-                  +'" compminapd="'+FloatToStr(FCDBsSys[0].SS_star[GCcnt].SDB_minApD)
-                  +'" compecc="'+FloatToStr(FCDBsSys[0].SS_star[GCcnt].SDB_ecc)
+                  '      <starcompdata compmsep="'+FloatToStr(FCDduStarSystem[0].SS_stars[GCcnt].S_isCompMeanSeparation)
+                  +'" compminapd="'+FloatToStr(FCDduStarSystem[0].SS_stars[GCcnt].S_isCompMinApproachDistance)
+                  +'" compecc="'+FloatToStr(FCDduStarSystem[0].SS_stars[GCcnt].S_isCompEccentricity)
                   +'" comporb="'+GCorbStr+'"'
                   +'/>'
                   );

@@ -228,7 +228,7 @@ begin
    if GCSsatIdx=0
    then
    begin
-      with FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[GCSooIdx] do
+      with FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_orbitalObjects[GCSooIdx] do
       begin
          GCSrevolIni:=OO_revolutionPeriodInit;
          GCSorbP1s:=OO_orbitalPeriods[1].OOS_dayStart;
@@ -248,7 +248,7 @@ begin
    else if GCSsatIdx>0
    then
    begin
-      with FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[GCSooIdx].OO_satellitesList[GCSsatIdx] do
+      with FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_orbitalObjects[GCSooIdx].OO_satellitesList[GCSsatIdx] do
       begin
          GCSrevolIni:=OO_revolutionPeriodInit;
          GCSorbP1s:=OO_orbitalPeriods[1].OOS_dayStart;
@@ -297,9 +297,9 @@ function FCFuF_Env_Get(
 begin
    Result:=etFreeLiving;
    if EGsat=0
-   then Result:=FCDBsSys[EGssys].SS_star[EGstar].SDB_obobj[EGoobj].OO_environment
+   then Result:=FCDduStarSystem[EGssys].SS_stars[EGstar].S_orbitalObjects[EGoobj].OO_environment
    else if EGsat>0
-   then Result:=FCDBsSys[EGssys].SS_star[EGstar].SDB_obobj[EGoobj].OO_satellitesList[EGsat].OO_environment;
+   then Result:=FCDduStarSystem[EGssys].SS_stars[EGstar].S_orbitalObjects[EGoobj].OO_satellitesList[EGsat].OO_environment;
 end;
 
 function FCFuF_Env_Get(
@@ -326,9 +326,9 @@ begin
       ,EGsat
       );
    if EGsat=''
-   then Result:=FCDBsSys[EGrow[1]].SS_star[EGrow[2]].SDB_obobj[EGrow[3]].OO_environment
+   then Result:=FCDduStarSystem[EGrow[1]].SS_stars[EGrow[2]].S_orbitalObjects[EGrow[3]].OO_environment
    else if EGsat<>''
-   then Result:=FCDBsSys[EGrow[1]].SS_star[EGrow[2]].SDB_obobj[EGrow[3]].OO_satellitesList[EGrow[4]].OO_environment;
+   then Result:=FCDduStarSystem[EGrow[1]].SS_stars[EGrow[2]].S_orbitalObjects[EGrow[3]].OO_satellitesList[EGrow[4]].OO_environment;
 end;
 
 function FCFuF_Env_GetStr(
@@ -344,9 +344,9 @@ var
    EGSenv: TFCEduEnvironmentTypes;
 begin
    if EGSsat=0
-   then EGSenv:=FCDBsSys[EGSssys].SS_star[EGSstar].SDB_obobj[EGSoobj].OO_environment
+   then EGSenv:=FCDduStarSystem[EGSssys].SS_stars[EGSstar].S_orbitalObjects[EGSoobj].OO_environment
    else if EGSsat>0
-   then EGSenv:=FCDBsSys[EGSssys].SS_star[EGSstar].SDB_obobj[EGSoobj].OO_satellitesList[EGSsat].OO_environment;
+   then EGSenv:=FCDduStarSystem[EGSssys].SS_stars[EGSstar].S_orbitalObjects[EGSoobj].OO_satellitesList[EGSsat].OO_environment;
    Result:='';
    case EGSenv of
       etFreeLiving: Result:=FCFdTFiles_UIStr_Get(uistrUI, 'secpEnvFL');
@@ -380,9 +380,9 @@ begin
       ,EGSsat
       );
    if EGSrow[4]=0
-   then EGSenv:=FCDBsSys[EGSrow[1]].SS_star[EGSrow[2]].SDB_obobj[EGSrow[3]].OO_environment
+   then EGSenv:=FCDduStarSystem[EGSrow[1]].SS_stars[EGSrow[2]].S_orbitalObjects[EGSrow[3]].OO_environment
    else if EGSrow[4]>0
-   then EGSenv:=FCDBsSys[EGSrow[1]].SS_star[EGSrow[2]].SDB_obobj[EGSrow[3]].OO_satellitesList[EGSrow[4]].OO_environment;
+   then EGSenv:=FCDduStarSystem[EGSrow[1]].SS_stars[EGSrow[2]].S_orbitalObjects[EGSrow[3]].OO_satellitesList[EGSrow[4]].OO_environment;
    Result:='';
    case EGSenv of
       etFreeLiving: Result:=FCFdTFiles_UIStr_Get(uistrUI, 'secpEnvFL');
@@ -499,22 +499,22 @@ begin
    if OPGMTsatIdx=0
    then
    begin
-      OPGMTdmpT1:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[OPGMToobjIdx].OO_orbitalPeriods[1].OOS_meanTemperature;
-      OPGMTdmpT2:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[OPGMToobjIdx].OO_orbitalPeriods[2].OOS_meanTemperature;
-      OPGMTdmpT3:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[OPGMToobjIdx].OO_orbitalPeriods[3].OOS_meanTemperature;
-      OPGMTdmpT4:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[OPGMToobjIdx].OO_orbitalPeriods[4].OOS_meanTemperature;
+      OPGMTdmpT1:=FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_orbitalObjects[OPGMToobjIdx].OO_orbitalPeriods[1].OOS_meanTemperature;
+      OPGMTdmpT2:=FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_orbitalObjects[OPGMToobjIdx].OO_orbitalPeriods[2].OOS_meanTemperature;
+      OPGMTdmpT3:=FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_orbitalObjects[OPGMToobjIdx].OO_orbitalPeriods[3].OOS_meanTemperature;
+      OPGMTdmpT4:=FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_orbitalObjects[OPGMToobjIdx].OO_orbitalPeriods[4].OOS_meanTemperature;
    end
    else if OPGMTsatIdx>0
    then
    begin
       OPGMTdmpT1
-         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[OPGMToobjIdx].OO_satellitesList[OPGMTsatIdx].OO_orbitalPeriods[1].OOS_meanTemperature;
+         :=FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_orbitalObjects[OPGMToobjIdx].OO_satellitesList[OPGMTsatIdx].OO_orbitalPeriods[1].OOS_meanTemperature;
       OPGMTdmpT2
-         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[OPGMToobjIdx].OO_satellitesList[OPGMTsatIdx].OO_orbitalPeriods[2].OOS_meanTemperature;
+         :=FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_orbitalObjects[OPGMToobjIdx].OO_satellitesList[OPGMTsatIdx].OO_orbitalPeriods[2].OOS_meanTemperature;
       OPGMTdmpT3
-         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[OPGMToobjIdx].OO_satellitesList[OPGMTsatIdx].OO_orbitalPeriods[3].OOS_meanTemperature;
+         :=FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_orbitalObjects[OPGMToobjIdx].OO_satellitesList[OPGMTsatIdx].OO_orbitalPeriods[3].OOS_meanTemperature;
       OPGMTdmpT4
-         :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[OPGMToobjIdx].OO_satellitesList[OPGMTsatIdx].OO_orbitalPeriods[4].OOS_meanTemperature;
+         :=FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_orbitalObjects[OPGMToobjIdx].OO_satellitesList[OPGMTsatIdx].OO_orbitalPeriods[4].OOS_meanTemperature;
    end;
    OPGMTdmpRes:=(OPGMTdmpT1+OPGMTdmpT2+OPGMTdmpT3+OPGMTdmpT4)/4;
    Result:=OPGMTdmpRes;
@@ -530,10 +530,10 @@ var
 begin
    RGCdmpRes:='';
    if RGCsatIdx=0
-   then RGCdmpClim:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[RGCooIdx].OO_regions[RGCregIdx].OOR_climate
+   then RGCdmpClim:=FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_orbitalObjects[RGCooIdx].OO_regions[RGCregIdx].OOR_climate
    else if RGCsatIdx>0
    then RGCdmpClim
-      :=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[RGCooIdx].OO_satellitesList[RGCsatIdx].OO_regions[RGCregIdx].OOR_climate;
+      :=FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_orbitalObjects[RGCooIdx].OO_satellitesList[RGCsatIdx].OO_regions[RGCregIdx].OOR_climate;
    case RGCdmpClim of
       rc00VoidNoUse: RGCdmpRes:='climtpVoid';
       rc01VeryHotHumid: RGCdmpRes:='climtpVHotH';
@@ -567,12 +567,12 @@ begin
    if RLEsatIdx=0
    then
    begin
-      RLEmaxReg:=length(FCDBsSys[RLEssysIdx].SS_star[RLEstarIdx].SDB_obobj[RLEoobjIdx].OO_regions)-1;
+      RLEmaxReg:=length(FCDduStarSystem[RLEssysIdx].SS_stars[RLEstarIdx].S_orbitalObjects[RLEoobjIdx].OO_regions)-1;
    end
    else if RLEsatIdx>0
    then
    begin
-      RLEmaxReg:=length(FCDBsSys[RLEssysIdx].SS_star[RLEstarIdx].SDB_obobj[RLEoobjIdx].OO_satellitesList[RLEsatIdx].OO_regions)-1;
+      RLEmaxReg:=length(FCDduStarSystem[RLEssysIdx].SS_stars[RLEstarIdx].S_orbitalObjects[RLEoobjIdx].OO_satellitesList[RLEsatIdx].OO_regions)-1;
    end;
    case RLEmaxReg of
       4:
@@ -697,10 +697,10 @@ begin
       ufsoSsys:
       begin
          SOGDIcnt:=1;
-         SOGDImax:=Length(FCDBsSys)-1;
+         SOGDImax:=Length(FCDduStarSystem)-1;
          while SOGDIcnt<=SOGDImax do
          begin
-            if FCDBsSys[SOGDIcnt].SS_token=SOGDItokenId
+            if FCDduStarSystem[SOGDIcnt].SS_token=SOGDItokenId
             then
             begin
                SOGDIres:=SOGDIcnt;
@@ -714,9 +714,9 @@ begin
          SOGDIcnt:=1;
          while SOGDIcnt<=3 do
          begin
-            if FCDBsSys[SOGDIssys].SS_star[SOGDIcnt].SDB_token=''
+            if FCDduStarSystem[SOGDIssys].SS_stars[SOGDIcnt].S_token=''
             then break
-            else if FCDBsSys[SOGDIssys].SS_star[SOGDIcnt].SDB_token=SOGDItokenId
+            else if FCDduStarSystem[SOGDIssys].SS_stars[SOGDIcnt].S_token=SOGDItokenId
             then
             begin
                SOGDIres:=SOGDIcnt;
@@ -728,10 +728,10 @@ begin
       ufsoOObj:
       begin
          SOGDIcnt:=1;
-         SOGDImax:=Length(FCDBsSys[SOGDIssys].SS_star[SOGDIstar].SDB_obobj)-1;
+         SOGDImax:=Length(FCDduStarSystem[SOGDIssys].SS_stars[SOGDIstar].S_orbitalObjects)-1;
          while SOGDIcnt<=SOGDImax do
          begin
-            if FCDBsSys[SOGDIssys].SS_star[SOGDIstar].SDB_obobj[SOGDIcnt].OO_dbTokenId=SOGDItokenId
+            if FCDduStarSystem[SOGDIssys].SS_stars[SOGDIstar].S_orbitalObjects[SOGDIcnt].OO_dbTokenId=SOGDItokenId
             then
             begin
                SOGDIres:=SOGDIcnt;
@@ -743,10 +743,10 @@ begin
       ufsoSat:
       begin
          SOGDIcnt:=1;
-         SOGDImax:=Length(FCDBsSys[SOGDIssys].SS_star[SOGDIstar].SDB_obobj[SOGDIoobj].OO_satellitesList)-1;
+         SOGDImax:=Length(FCDduStarSystem[SOGDIssys].SS_stars[SOGDIstar].S_orbitalObjects[SOGDIoobj].OO_satellitesList)-1;
          while SOGDIcnt<=SOGDImax do
          begin
-            if FCDBsSys[SOGDIssys].SS_star[SOGDIstar].SDB_obobj[SOGDIoobj].OO_satellitesList[SOGDIcnt].OO_dbTokenId=SOGDItokenId
+            if FCDduStarSystem[SOGDIssys].SS_stars[SOGDIstar].S_orbitalObjects[SOGDIoobj].OO_satellitesList[SOGDIcnt].OO_dbTokenId=SOGDItokenId
             then
             begin
                SOGDIres:=SOGDIcnt;
@@ -836,140 +836,140 @@ begin
    AGP_atmosphericPressure:=0;
    if SatelliteObj=0 then
    begin
-      AGP_atmosphericPressure:=FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_atmosphericPressure;
-      AGP_primaryGasPercent:=FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_atmosphere.AC_primaryGasVolumePerc;
-      if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_atmosphere.AC_gasPresenceH2=agsTrace
+      AGP_atmosphericPressure:=FCDduStarSystem[ StarSytem ].SS_stars[ Star ].S_orbitalObjects[ OrbitalObj ].OO_atmosphericPressure;
+      AGP_primaryGasPercent:=FCDduStarSystem[ StarSytem ].SS_stars[ Star ].S_orbitalObjects[ OrbitalObj ].OO_atmosphere.AC_primaryGasVolumePerc;
+      if FCDduStarSystem[ StarSytem ].SS_stars[ Star ].S_orbitalObjects[ OrbitalObj ].OO_atmosphere.AC_gasPresenceH2=agsTrace
       then inc( TraceGasesCount )
-      else if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_atmosphere.AC_gasPresenceH2=agsSecondary
+      else if FCDduStarSystem[ StarSytem ].SS_stars[ Star ].S_orbitalObjects[ OrbitalObj ].OO_atmosphere.AC_gasPresenceH2=agsSecondary
       then inc( SecondaryGasesCount );
-      if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_atmosphere.AC_gasPresenceHe=agsTrace
+      if FCDduStarSystem[ StarSytem ].SS_stars[ Star ].S_orbitalObjects[ OrbitalObj ].OO_atmosphere.AC_gasPresenceHe=agsTrace
       then inc( TraceGasesCount )
-      else if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_atmosphere.AC_gasPresenceHe=agsSecondary
+      else if FCDduStarSystem[ StarSytem ].SS_stars[ Star ].S_orbitalObjects[ OrbitalObj ].OO_atmosphere.AC_gasPresenceHe=agsSecondary
       then inc( SecondaryGasesCount );
-      if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_atmosphere.AC_gasPresenceCH4=agsTrace
+      if FCDduStarSystem[ StarSytem ].SS_stars[ Star ].S_orbitalObjects[ OrbitalObj ].OO_atmosphere.AC_gasPresenceCH4=agsTrace
       then inc( TraceGasesCount )
-      else if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_atmosphere.AC_gasPresenceCH4=agsSecondary
+      else if FCDduStarSystem[ StarSytem ].SS_stars[ Star ].S_orbitalObjects[ OrbitalObj ].OO_atmosphere.AC_gasPresenceCH4=agsSecondary
       then inc( SecondaryGasesCount );
-      if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_atmosphere.AC_gasPresenceNH3=agsTrace
+      if FCDduStarSystem[ StarSytem ].SS_stars[ Star ].S_orbitalObjects[ OrbitalObj ].OO_atmosphere.AC_gasPresenceNH3=agsTrace
       then inc( TraceGasesCount )
-      else if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_atmosphere.AC_gasPresenceNH3=agsSecondary
+      else if FCDduStarSystem[ StarSytem ].SS_stars[ Star ].S_orbitalObjects[ OrbitalObj ].OO_atmosphere.AC_gasPresenceNH3=agsSecondary
       then inc( SecondaryGasesCount );
-      if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_atmosphere.AC_gasPresenceH2O=agsTrace
+      if FCDduStarSystem[ StarSytem ].SS_stars[ Star ].S_orbitalObjects[ OrbitalObj ].OO_atmosphere.AC_gasPresenceH2O=agsTrace
       then inc( TraceGasesCount )
-      else if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_atmosphere.AC_gasPresenceH2O=agsSecondary
+      else if FCDduStarSystem[ StarSytem ].SS_stars[ Star ].S_orbitalObjects[ OrbitalObj ].OO_atmosphere.AC_gasPresenceH2O=agsSecondary
       then inc( SecondaryGasesCount );
-      if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_atmosphere.AC_gasPresenceNe=agsTrace
+      if FCDduStarSystem[ StarSytem ].SS_stars[ Star ].S_orbitalObjects[ OrbitalObj ].OO_atmosphere.AC_gasPresenceNe=agsTrace
       then inc( TraceGasesCount )
-      else if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_atmosphere.AC_gasPresenceNe=agsSecondary
+      else if FCDduStarSystem[ StarSytem ].SS_stars[ Star ].S_orbitalObjects[ OrbitalObj ].OO_atmosphere.AC_gasPresenceNe=agsSecondary
       then inc( SecondaryGasesCount );
-      if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_atmosphere.AC_gasPresenceN2=agsTrace
+      if FCDduStarSystem[ StarSytem ].SS_stars[ Star ].S_orbitalObjects[ OrbitalObj ].OO_atmosphere.AC_gasPresenceN2=agsTrace
       then inc( TraceGasesCount )
-      else if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_atmosphere.AC_gasPresenceN2=agsSecondary
+      else if FCDduStarSystem[ StarSytem ].SS_stars[ Star ].S_orbitalObjects[ OrbitalObj ].OO_atmosphere.AC_gasPresenceN2=agsSecondary
       then inc( SecondaryGasesCount );
-      if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_atmosphere.AC_gasPresenceCO=agsTrace
+      if FCDduStarSystem[ StarSytem ].SS_stars[ Star ].S_orbitalObjects[ OrbitalObj ].OO_atmosphere.AC_gasPresenceCO=agsTrace
       then inc( TraceGasesCount )
-      else if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_atmosphere.AC_gasPresenceCO=agsSecondary
+      else if FCDduStarSystem[ StarSytem ].SS_stars[ Star ].S_orbitalObjects[ OrbitalObj ].OO_atmosphere.AC_gasPresenceCO=agsSecondary
       then inc( SecondaryGasesCount );
-      if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_atmosphere.AC_gasPresenceNO=agsTrace
+      if FCDduStarSystem[ StarSytem ].SS_stars[ Star ].S_orbitalObjects[ OrbitalObj ].OO_atmosphere.AC_gasPresenceNO=agsTrace
       then inc( TraceGasesCount )
-      else if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_atmosphere.AC_gasPresenceNO=agsSecondary
+      else if FCDduStarSystem[ StarSytem ].SS_stars[ Star ].S_orbitalObjects[ OrbitalObj ].OO_atmosphere.AC_gasPresenceNO=agsSecondary
       then inc( SecondaryGasesCount );
-      if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_atmosphere.AC_gasPresenceO2=agsTrace
+      if FCDduStarSystem[ StarSytem ].SS_stars[ Star ].S_orbitalObjects[ OrbitalObj ].OO_atmosphere.AC_gasPresenceO2=agsTrace
       then inc( TraceGasesCount )
-      else if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_atmosphere.AC_gasPresenceO2=agsSecondary
+      else if FCDduStarSystem[ StarSytem ].SS_stars[ Star ].S_orbitalObjects[ OrbitalObj ].OO_atmosphere.AC_gasPresenceO2=agsSecondary
       then inc( SecondaryGasesCount );
-      if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_atmosphere.AC_gasPresenceH2S=agsTrace
+      if FCDduStarSystem[ StarSytem ].SS_stars[ Star ].S_orbitalObjects[ OrbitalObj ].OO_atmosphere.AC_gasPresenceH2S=agsTrace
       then inc( TraceGasesCount )
-      else if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_atmosphere.AC_gasPresenceH2S=agsSecondary
+      else if FCDduStarSystem[ StarSytem ].SS_stars[ Star ].S_orbitalObjects[ OrbitalObj ].OO_atmosphere.AC_gasPresenceH2S=agsSecondary
       then inc( SecondaryGasesCount );
-      if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_atmosphere.AC_gasPresenceAr=agsTrace
+      if FCDduStarSystem[ StarSytem ].SS_stars[ Star ].S_orbitalObjects[ OrbitalObj ].OO_atmosphere.AC_gasPresenceAr=agsTrace
       then inc( TraceGasesCount )
-      else if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_atmosphere.AC_gasPresenceAr=agsSecondary
+      else if FCDduStarSystem[ StarSytem ].SS_stars[ Star ].S_orbitalObjects[ OrbitalObj ].OO_atmosphere.AC_gasPresenceAr=agsSecondary
       then inc( SecondaryGasesCount );
-      if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_atmosphere.AC_gasPresenceCO2=agsTrace
+      if FCDduStarSystem[ StarSytem ].SS_stars[ Star ].S_orbitalObjects[ OrbitalObj ].OO_atmosphere.AC_gasPresenceCO2=agsTrace
       then inc( TraceGasesCount )
-      else if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_atmosphere.AC_gasPresenceCO2=agsSecondary
+      else if FCDduStarSystem[ StarSytem ].SS_stars[ Star ].S_orbitalObjects[ OrbitalObj ].OO_atmosphere.AC_gasPresenceCO2=agsSecondary
       then inc( SecondaryGasesCount );
-      if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_atmosphere.AC_gasPresenceNO2=agsTrace
+      if FCDduStarSystem[ StarSytem ].SS_stars[ Star ].S_orbitalObjects[ OrbitalObj ].OO_atmosphere.AC_gasPresenceNO2=agsTrace
       then inc( TraceGasesCount )
-      else if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_atmosphere.AC_gasPresenceNO2=agsSecondary
+      else if FCDduStarSystem[ StarSytem ].SS_stars[ Star ].S_orbitalObjects[ OrbitalObj ].OO_atmosphere.AC_gasPresenceNO2=agsSecondary
       then inc( SecondaryGasesCount );
-      if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_atmosphere.AC_gasPresenceO3=agsTrace
+      if FCDduStarSystem[ StarSytem ].SS_stars[ Star ].S_orbitalObjects[ OrbitalObj ].OO_atmosphere.AC_gasPresenceO3=agsTrace
       then inc( TraceGasesCount )
-      else if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_atmosphere.AC_gasPresenceO3=agsSecondary
+      else if FCDduStarSystem[ StarSytem ].SS_stars[ Star ].S_orbitalObjects[ OrbitalObj ].OO_atmosphere.AC_gasPresenceO3=agsSecondary
       then inc( SecondaryGasesCount );
-      if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_atmosphere.AC_gasPresenceSO2=agsTrace
+      if FCDduStarSystem[ StarSytem ].SS_stars[ Star ].S_orbitalObjects[ OrbitalObj ].OO_atmosphere.AC_gasPresenceSO2=agsTrace
       then inc( TraceGasesCount )
-      else if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_atmosphere.AC_gasPresenceSO2=agsSecondary
+      else if FCDduStarSystem[ StarSytem ].SS_stars[ Star ].S_orbitalObjects[ OrbitalObj ].OO_atmosphere.AC_gasPresenceSO2=agsSecondary
       then inc( SecondaryGasesCount );
    end //==END== if SatelliteObj=0 then ==//
    else if SatelliteObj>0 then
    begin
-      AGP_atmosphericPressure:=FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_satellitesList[ SatelliteObj ].OO_atmosphericPressure;
-      AGP_primaryGasPercent:=FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_satellitesList[ SatelliteObj ].OO_atmosphere.AC_primaryGasVolumePerc;
-      if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_satellitesList[ SatelliteObj ].OO_atmosphere.AC_gasPresenceH2=agsTrace
+      AGP_atmosphericPressure:=FCDduStarSystem[ StarSytem ].SS_stars[ Star ].S_orbitalObjects[ OrbitalObj ].OO_satellitesList[ SatelliteObj ].OO_atmosphericPressure;
+      AGP_primaryGasPercent:=FCDduStarSystem[ StarSytem ].SS_stars[ Star ].S_orbitalObjects[ OrbitalObj ].OO_satellitesList[ SatelliteObj ].OO_atmosphere.AC_primaryGasVolumePerc;
+      if FCDduStarSystem[ StarSytem ].SS_stars[ Star ].S_orbitalObjects[ OrbitalObj ].OO_satellitesList[ SatelliteObj ].OO_atmosphere.AC_gasPresenceH2=agsTrace
       then inc( TraceGasesCount )
-      else if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_satellitesList[ SatelliteObj ].OO_atmosphere.AC_gasPresenceH2=agsSecondary
+      else if FCDduStarSystem[ StarSytem ].SS_stars[ Star ].S_orbitalObjects[ OrbitalObj ].OO_satellitesList[ SatelliteObj ].OO_atmosphere.AC_gasPresenceH2=agsSecondary
       then inc( SecondaryGasesCount );
-      if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_satellitesList[ SatelliteObj ].OO_atmosphere.AC_gasPresenceHe=agsTrace
+      if FCDduStarSystem[ StarSytem ].SS_stars[ Star ].S_orbitalObjects[ OrbitalObj ].OO_satellitesList[ SatelliteObj ].OO_atmosphere.AC_gasPresenceHe=agsTrace
       then inc( TraceGasesCount )
-      else if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_satellitesList[ SatelliteObj ].OO_atmosphere.AC_gasPresenceHe=agsSecondary
+      else if FCDduStarSystem[ StarSytem ].SS_stars[ Star ].S_orbitalObjects[ OrbitalObj ].OO_satellitesList[ SatelliteObj ].OO_atmosphere.AC_gasPresenceHe=agsSecondary
       then inc( SecondaryGasesCount );
-      if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_satellitesList[ SatelliteObj ].OO_atmosphere.AC_gasPresenceCH4=agsTrace
+      if FCDduStarSystem[ StarSytem ].SS_stars[ Star ].S_orbitalObjects[ OrbitalObj ].OO_satellitesList[ SatelliteObj ].OO_atmosphere.AC_gasPresenceCH4=agsTrace
       then inc( TraceGasesCount )
-      else if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_satellitesList[ SatelliteObj ].OO_atmosphere.AC_gasPresenceCH4=agsSecondary
+      else if FCDduStarSystem[ StarSytem ].SS_stars[ Star ].S_orbitalObjects[ OrbitalObj ].OO_satellitesList[ SatelliteObj ].OO_atmosphere.AC_gasPresenceCH4=agsSecondary
       then inc( SecondaryGasesCount );
-      if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_satellitesList[ SatelliteObj ].OO_atmosphere.AC_gasPresenceNH3=agsTrace
+      if FCDduStarSystem[ StarSytem ].SS_stars[ Star ].S_orbitalObjects[ OrbitalObj ].OO_satellitesList[ SatelliteObj ].OO_atmosphere.AC_gasPresenceNH3=agsTrace
       then inc( TraceGasesCount )
-      else if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_satellitesList[ SatelliteObj ].OO_atmosphere.AC_gasPresenceNH3=agsSecondary
+      else if FCDduStarSystem[ StarSytem ].SS_stars[ Star ].S_orbitalObjects[ OrbitalObj ].OO_satellitesList[ SatelliteObj ].OO_atmosphere.AC_gasPresenceNH3=agsSecondary
       then inc( SecondaryGasesCount );
-      if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_satellitesList[ SatelliteObj ].OO_atmosphere.AC_gasPresenceH2O=agsTrace
+      if FCDduStarSystem[ StarSytem ].SS_stars[ Star ].S_orbitalObjects[ OrbitalObj ].OO_satellitesList[ SatelliteObj ].OO_atmosphere.AC_gasPresenceH2O=agsTrace
       then inc( TraceGasesCount )
-      else if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_satellitesList[ SatelliteObj ].OO_atmosphere.AC_gasPresenceH2O=agsSecondary
+      else if FCDduStarSystem[ StarSytem ].SS_stars[ Star ].S_orbitalObjects[ OrbitalObj ].OO_satellitesList[ SatelliteObj ].OO_atmosphere.AC_gasPresenceH2O=agsSecondary
       then inc( SecondaryGasesCount );
-      if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_satellitesList[ SatelliteObj ].OO_atmosphere.AC_gasPresenceNe=agsTrace
+      if FCDduStarSystem[ StarSytem ].SS_stars[ Star ].S_orbitalObjects[ OrbitalObj ].OO_satellitesList[ SatelliteObj ].OO_atmosphere.AC_gasPresenceNe=agsTrace
       then inc( TraceGasesCount )
-      else if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_satellitesList[ SatelliteObj ].OO_atmosphere.AC_gasPresenceNe=agsSecondary
+      else if FCDduStarSystem[ StarSytem ].SS_stars[ Star ].S_orbitalObjects[ OrbitalObj ].OO_satellitesList[ SatelliteObj ].OO_atmosphere.AC_gasPresenceNe=agsSecondary
       then inc( SecondaryGasesCount );
-      if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_satellitesList[ SatelliteObj ].OO_atmosphere.AC_gasPresenceN2=agsTrace
+      if FCDduStarSystem[ StarSytem ].SS_stars[ Star ].S_orbitalObjects[ OrbitalObj ].OO_satellitesList[ SatelliteObj ].OO_atmosphere.AC_gasPresenceN2=agsTrace
       then inc( TraceGasesCount )
-      else if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_satellitesList[ SatelliteObj ].OO_atmosphere.AC_gasPresenceN2=agsSecondary
+      else if FCDduStarSystem[ StarSytem ].SS_stars[ Star ].S_orbitalObjects[ OrbitalObj ].OO_satellitesList[ SatelliteObj ].OO_atmosphere.AC_gasPresenceN2=agsSecondary
       then inc( SecondaryGasesCount );
-      if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_satellitesList[ SatelliteObj ].OO_atmosphere.AC_gasPresenceCO=agsTrace
+      if FCDduStarSystem[ StarSytem ].SS_stars[ Star ].S_orbitalObjects[ OrbitalObj ].OO_satellitesList[ SatelliteObj ].OO_atmosphere.AC_gasPresenceCO=agsTrace
       then inc( TraceGasesCount )
-      else if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_satellitesList[ SatelliteObj ].OO_atmosphere.AC_gasPresenceCO=agsSecondary
+      else if FCDduStarSystem[ StarSytem ].SS_stars[ Star ].S_orbitalObjects[ OrbitalObj ].OO_satellitesList[ SatelliteObj ].OO_atmosphere.AC_gasPresenceCO=agsSecondary
       then inc( SecondaryGasesCount );
-      if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_satellitesList[ SatelliteObj ].OO_atmosphere.AC_gasPresenceNO=agsTrace
+      if FCDduStarSystem[ StarSytem ].SS_stars[ Star ].S_orbitalObjects[ OrbitalObj ].OO_satellitesList[ SatelliteObj ].OO_atmosphere.AC_gasPresenceNO=agsTrace
       then inc( TraceGasesCount )
-      else if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_satellitesList[ SatelliteObj ].OO_atmosphere.AC_gasPresenceNO=agsSecondary
+      else if FCDduStarSystem[ StarSytem ].SS_stars[ Star ].S_orbitalObjects[ OrbitalObj ].OO_satellitesList[ SatelliteObj ].OO_atmosphere.AC_gasPresenceNO=agsSecondary
       then inc( SecondaryGasesCount );
-      if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_satellitesList[ SatelliteObj ].OO_atmosphere.AC_gasPresenceO2=agsTrace
+      if FCDduStarSystem[ StarSytem ].SS_stars[ Star ].S_orbitalObjects[ OrbitalObj ].OO_satellitesList[ SatelliteObj ].OO_atmosphere.AC_gasPresenceO2=agsTrace
       then inc( TraceGasesCount )
-      else if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_satellitesList[ SatelliteObj ].OO_atmosphere.AC_gasPresenceO2=agsSecondary
+      else if FCDduStarSystem[ StarSytem ].SS_stars[ Star ].S_orbitalObjects[ OrbitalObj ].OO_satellitesList[ SatelliteObj ].OO_atmosphere.AC_gasPresenceO2=agsSecondary
       then inc( SecondaryGasesCount );
-      if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_satellitesList[ SatelliteObj ].OO_atmosphere.AC_gasPresenceH2S=agsTrace
+      if FCDduStarSystem[ StarSytem ].SS_stars[ Star ].S_orbitalObjects[ OrbitalObj ].OO_satellitesList[ SatelliteObj ].OO_atmosphere.AC_gasPresenceH2S=agsTrace
       then inc( TraceGasesCount )
-      else if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_satellitesList[ SatelliteObj ].OO_atmosphere.AC_gasPresenceH2S=agsSecondary
+      else if FCDduStarSystem[ StarSytem ].SS_stars[ Star ].S_orbitalObjects[ OrbitalObj ].OO_satellitesList[ SatelliteObj ].OO_atmosphere.AC_gasPresenceH2S=agsSecondary
       then inc( SecondaryGasesCount );
-      if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_satellitesList[ SatelliteObj ].OO_atmosphere.AC_gasPresenceAr=agsTrace
+      if FCDduStarSystem[ StarSytem ].SS_stars[ Star ].S_orbitalObjects[ OrbitalObj ].OO_satellitesList[ SatelliteObj ].OO_atmosphere.AC_gasPresenceAr=agsTrace
       then inc( TraceGasesCount )
-      else if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_satellitesList[ SatelliteObj ].OO_atmosphere.AC_gasPresenceAr=agsSecondary
+      else if FCDduStarSystem[ StarSytem ].SS_stars[ Star ].S_orbitalObjects[ OrbitalObj ].OO_satellitesList[ SatelliteObj ].OO_atmosphere.AC_gasPresenceAr=agsSecondary
       then inc( SecondaryGasesCount );
-      if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_satellitesList[ SatelliteObj ].OO_atmosphere.AC_gasPresenceCO2=agsTrace
+      if FCDduStarSystem[ StarSytem ].SS_stars[ Star ].S_orbitalObjects[ OrbitalObj ].OO_satellitesList[ SatelliteObj ].OO_atmosphere.AC_gasPresenceCO2=agsTrace
       then inc( TraceGasesCount )
-      else if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_satellitesList[ SatelliteObj ].OO_atmosphere.AC_gasPresenceCO2=agsSecondary
+      else if FCDduStarSystem[ StarSytem ].SS_stars[ Star ].S_orbitalObjects[ OrbitalObj ].OO_satellitesList[ SatelliteObj ].OO_atmosphere.AC_gasPresenceCO2=agsSecondary
       then inc( SecondaryGasesCount );
-      if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_satellitesList[ SatelliteObj ].OO_atmosphere.AC_gasPresenceNO2=agsTrace
+      if FCDduStarSystem[ StarSytem ].SS_stars[ Star ].S_orbitalObjects[ OrbitalObj ].OO_satellitesList[ SatelliteObj ].OO_atmosphere.AC_gasPresenceNO2=agsTrace
       then inc( TraceGasesCount )
-      else if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_satellitesList[ SatelliteObj ].OO_atmosphere.AC_gasPresenceNO2=agsSecondary
+      else if FCDduStarSystem[ StarSytem ].SS_stars[ Star ].S_orbitalObjects[ OrbitalObj ].OO_satellitesList[ SatelliteObj ].OO_atmosphere.AC_gasPresenceNO2=agsSecondary
       then inc( SecondaryGasesCount );
-      if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_satellitesList[ SatelliteObj ].OO_atmosphere.AC_gasPresenceO3=agsTrace
+      if FCDduStarSystem[ StarSytem ].SS_stars[ Star ].S_orbitalObjects[ OrbitalObj ].OO_satellitesList[ SatelliteObj ].OO_atmosphere.AC_gasPresenceO3=agsTrace
       then inc( TraceGasesCount )
-      else if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_satellitesList[ SatelliteObj ].OO_atmosphere.AC_gasPresenceO3=agsSecondary
+      else if FCDduStarSystem[ StarSytem ].SS_stars[ Star ].S_orbitalObjects[ OrbitalObj ].OO_satellitesList[ SatelliteObj ].OO_atmosphere.AC_gasPresenceO3=agsSecondary
       then inc( SecondaryGasesCount );
-      if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_satellitesList[ SatelliteObj ].OO_atmosphere.AC_gasPresenceSO2=agsTrace
+      if FCDduStarSystem[ StarSytem ].SS_stars[ Star ].S_orbitalObjects[ OrbitalObj ].OO_satellitesList[ SatelliteObj ].OO_atmosphere.AC_gasPresenceSO2=agsTrace
       then inc( TraceGasesCount )
-      else if FCDBSSys[ StarSytem ].SS_star[ Star ].SDB_obobj[ OrbitalObj ].OO_satellitesList[ SatelliteObj ].OO_atmosphere.AC_gasPresenceSO2=agsSecondary
+      else if FCDduStarSystem[ StarSytem ].SS_stars[ Star ].S_orbitalObjects[ OrbitalObj ].OO_satellitesList[ SatelliteObj ].OO_atmosphere.AC_gasPresenceSO2=agsSecondary
       then inc( SecondaryGasesCount );
    end; //==END== else if SatelliteObj>0 then ==//
    AGP_secondaryGasPercent:=0;

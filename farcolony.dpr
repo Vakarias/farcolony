@@ -71,6 +71,7 @@ uses
   farc_data_game in 'data\farc_data_game.pas',
   farc_data_infrprod in 'data\farc_data_infrprod.pas',
   farc_fug_stars in 'univ\farc_fug_stars.pas',
+  farc_fug_data in 'univ\farc_fug_data.pas',
   farc_game_pgs in 'game\farc_game_pgs.pas',
   farc_game_core in 'game\farc_game_core.pas',
   farc_game_spmdata in 'game\farc_game_spmdata.pas',

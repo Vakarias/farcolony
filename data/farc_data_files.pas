@@ -1746,7 +1746,7 @@ begin
    if DBSSPaction=dfsspStarSys then
    begin
       {.clear the data structure}
-      SetLength(FCDBsSys,1);
+      SetLength(FCDduStarSystem,1);
       DBSSPstarSysCnt:=1;
       {.read the document}
       FCWinMain.FCXMLdbUniv.FileName:=FCVdiPathXML+'\univ\universe.xml';
@@ -1754,17 +1754,17 @@ begin
       DBSSPstarSysNode:= FCWinMain.FCXMLdbUniv.DocumentElement.ChildNodes.First;
       while DBSSPstarSysNode<>nil do
       begin
-         if DBSSPstarSysCnt >= Length(FCDBsSys)
-         then SetLength(FCDBsSys, Length(FCDBsSys)+DBSSblocCnt);
+         if DBSSPstarSysCnt >= Length(FCDduStarSystem)
+         then SetLength(FCDduStarSystem, Length(FCDduStarSystem)+DBSSblocCnt);
          if DBSSPstarSysNode.NodeName<>'#comment'
          then
          begin
             {.star system token + nb of stars it contains}
-            FCDBsSys[DBSSPstarSysCnt].SS_token:=DBSSPstarSysNode.Attributes['sstoken'];
+            FCDduStarSystem[DBSSPstarSysCnt].SS_token:=DBSSPstarSysNode.Attributes['sstoken'];
             {.star system location}
-            FCDBsSys[DBSSPstarSysCnt].SS_gLocX:= DBSSPstarSysNode.Attributes['steslocx'];
-            FCDBsSys[DBSSPstarSysCnt].SS_gLocY:= DBSSPstarSysNode.Attributes['steslocy'];
-            FCDBsSys[DBSSPstarSysCnt].SS_gLocZ:= DBSSPstarSysNode.Attributes['steslocz'];
+            FCDduStarSystem[DBSSPstarSysCnt].SS_locationX:= DBSSPstarSysNode.Attributes['steslocx'];
+            FCDduStarSystem[DBSSPstarSysCnt].SS_locationY:= DBSSPstarSysNode.Attributes['steslocy'];
+            FCDduStarSystem[DBSSPstarSysCnt].SS_locationZ:= DBSSPstarSysNode.Attributes['steslocz'];
             {.stars data processing loop}
             DBSSPstarCnt:=1;
             DBSSPstarNode:= DBSSPstarSysNode.ChildNodes.First;
@@ -1772,9 +1772,10 @@ begin
             begin
                DBSSPorbObjCnt:=0;
                {.star token id and class}
-               FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_token:=DBSSPstarNode.Attributes['startoken'] ;
+               FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_token:=DBSSPstarNode.Attributes['startoken'] ;
                DBSSPenumIndex:=GetEnumValue(TypeInfo(TFCEduStarClasses),DBSSPstarNode.Attributes['starclass']);
-               FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_class:=TFCEduStarClasses(DBSSPenumIndex) ;
+               FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_class:=TFCEduStarClasses(DBSSPenumIndex) ;
+               FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_isCompanion:=false;
                if DBSSPenumIndex=-1
                then raise Exception.Create('bad star class: '+DBSSPstarNode.Attributes['starclass']);
                {.star subdata processing loop}
@@ -1785,21 +1786,22 @@ begin
                   if DBSSPstarSubNode.NodeName='starphysdata'
                   then
                   begin
-                     FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_temp:=DBSSPstarSubNode.Attributes['startemp'];
-                     FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_mass:=DBSSPstarSubNode.Attributes['starmass'];
-                     FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_diam:=DBSSPstarSubNode.Attributes['stardiam'];
-                     FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_lum:=DBSSPstarSubNode.Attributes['starlum'];
+                     FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_temperature:=DBSSPstarSubNode.Attributes['startemp'];
+                     FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_mass:=DBSSPstarSubNode.Attributes['starmass'];
+                     FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_diameter:=DBSSPstarSubNode.Attributes['stardiam'];
+                     FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_luminosity:=DBSSPstarSubNode.Attributes['starlum'];
                   end
                   {.companion star's data}
                   else if DBSSPstarSubNode.NodeName='starcompdata' then
                   begin
-                     FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_meanSep:=DBSSPstarSubNode.Attributes['compmsep'];
-                     FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_minApD:=DBSSPstarSubNode.Attributes['compminapd'];
-                     FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_ecc:=DBSSPstarSubNode.Attributes['compecc'];
+                     FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_isCompanion:=true;
+                     FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_isCompMeanSeparation:=DBSSPstarSubNode.Attributes['compmsep'];
+                     FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_isCompMinApproachDistance:=DBSSPstarSubNode.Attributes['compminapd'];
+                     FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_isCompEccentricity:=DBSSPstarSubNode.Attributes['compecc'];
                      if DBSSPstarCnt=3 then
                      begin
                         DBSSPenumIndex:=GetEnumValue(TypeInfo(TFCEduCompanion2OrbitTypes), DBSSPstarSubNode.Attributes['comporb'] );
-                        FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_comp2Orb:=TFCEduCompanion2OrbitTypes(DBSSPenumIndex);
+                        FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_isCompStar2OrbitType:=TFCEduCompanion2OrbitTypes(DBSSPenumIndex);
                         if DBSSPenumIndex=-1
                         then raise Exception.Create('bad companion star orbit type: '+DBSSPstarSubNode.Attributes['comporb']);
                      end;
@@ -1807,17 +1809,17 @@ begin
                   else if DBSSPstarSubNode.NodeName='orbobj' then
                   begin
                      inc(DBSSPorbObjCnt);
-                     if DBSSPorbObjCnt>= Length(FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj)
+                     if DBSSPorbObjCnt>= Length(FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects)
                      then SetLength(
-                        FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj
-                        ,Length(FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj)+DBSSblocCnt
+                        FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects
+                        ,Length(FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects)+DBSSblocCnt
                         );
                      {.initialize satellite data}
-                     SetLength(FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList, 1);
+                     SetLength(FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList, 1);
                      DBSSPsatCnt:=0;
                      {orbital object's id db token}
-                     FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_dbTokenId:=DBSSPstarSubNode.Attributes['ootoken'];
-                     FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_isASatellite:=false;
+                     FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_dbTokenId:=DBSSPstarSubNode.Attributes['ootoken'];
+                     FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_isSatellite:=false;
                      DBSSPorbObjNode:= DBSSPstarSubNode.ChildNodes.First;
                      while DBSSPorbObjNode<>nil do
                      begin
@@ -1825,23 +1827,23 @@ begin
                         then
                         begin
                            {.distance from star}
-                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].IAS_distanceFromStar:=DBSSPorbObjNode.Attributes['oodist'];
+                           FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_isSatFdistanceFromStar:=DBSSPorbObjNode.Attributes['oodist'];
                            {.eccentricity}
-                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].IAS_eccentricity:=DBSSPorbObjNode.Attributes['ooecc'];
+                           FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_isSatFeccentricity:=DBSSPorbObjNode.Attributes['ooecc'];
                            {.orbital zone type}
                            DBSSPenumIndex:=GetEnumValue( TypeInfo( TFCEduHabitableZones ), DBSSPorbObjNode.Attributes['ooorbzne'] );
-                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].IAS_orbitalZone:=TFCEduHabitableZones(DBSSPenumIndex);
+                           FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_isSatForbitalZone:=TFCEduHabitableZones(DBSSPenumIndex);
                            if DBSSPenumIndex=-1
                            then raise Exception.Create( 'bad orbital zone: '+DBSSPorbObjNode.Attributes['ooorbzne'] );
                            {.revolution period}
-                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_revolutionPeriod:=DBSSPorbObjNode.Attributes['oorevol'];
+                           FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_revolutionPeriod:=DBSSPorbObjNode.Attributes['oorevol'];
                            {.revolution period init day}
-                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_revolutionPeriodInit:=DBSSPorbObjNode.Attributes['oorevevinit'];
-                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_angle1stDay:=roundto(
-                              FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_revolutionPeriodInit*360/FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_revolutionPeriod, -2
+                           FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_revolutionPeriodInit:=DBSSPorbObjNode.Attributes['oorevevinit'];
+                           FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_angle1stDay:=roundto(
+                              FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_revolutionPeriodInit*360/FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_revolutionPeriod, -2
                               );
                            {.gravity sphere of influence radius}
-                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_gravitationalSphereRadius:=DBSSPorbObjNode.Attributes['oogravsphrad'];
+                           FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_gravitationalSphereRadius:=DBSSPorbObjNode.Attributes['oogravsphrad'];
                         end //==END== if DBSSPorbObjNode.NodeName='orbobjorbdata' ==//
                         else if DBSSPorbObjNode.NodeName='orbperlist'
                         then
@@ -1853,14 +1855,14 @@ begin
                               inc(DBSSPperOrbCnt);
                               DBSSPperOrbDmp:=DBSSPperOrbNode.Attributes['optype'];
                               if DBSSPperOrbDmp='optClosest'
-                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_orbitalPeriods[DBSSPperOrbCnt].OOS_orbitalPeriodType:=optClosest
+                              then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_orbitalPeriods[DBSSPperOrbCnt].OOS_orbitalPeriodType:=optClosest
                               else if DBSSPperOrbDmp='optInterm'
-                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_orbitalPeriods[DBSSPperOrbCnt].OOS_orbitalPeriodType:=optIntermediary
+                              then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_orbitalPeriods[DBSSPperOrbCnt].OOS_orbitalPeriodType:=optIntermediary
                               else if DBSSPperOrbDmp='optFarest'
-                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_orbitalPeriods[DBSSPperOrbCnt].OOS_orbitalPeriodType:=optFarest;
-                              FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_orbitalPeriods[DBSSPperOrbCnt].OOS_dayStart:=DBSSPperOrbNode.Attributes['opstrt'];
-                              FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_orbitalPeriods[DBSSPperOrbCnt].OOS_dayEnd:=DBSSPperOrbNode.Attributes['opend'];
-                              FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_orbitalPeriods[DBSSPperOrbCnt].OOS_meanTemperature:=DBSSPperOrbNode.Attributes['opmtemp'];
+                              then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_orbitalPeriods[DBSSPperOrbCnt].OOS_orbitalPeriodType:=optFarest;
+                              FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_orbitalPeriods[DBSSPperOrbCnt].OOS_dayStart:=DBSSPperOrbNode.Attributes['opstrt'];
+                              FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_orbitalPeriods[DBSSPperOrbCnt].OOS_dayEnd:=DBSSPperOrbNode.Attributes['opend'];
+                              FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_orbitalPeriods[DBSSPperOrbCnt].OOS_meanTemperature:=DBSSPperOrbNode.Attributes['opmtemp'];
                               DBSSPperOrbNode:= DBSSPperOrbNode.NextSibling;
                            end;
                         end //==END== else if DBSSPorbObjNode.NodeName='orbperlist' ==//
@@ -1869,81 +1871,81 @@ begin
                         begin
                            {.orbital object type}
                            DBSSPenumIndex:=GetEnumValue( TypeInfo( TFCEduOrbitalObjectTypes ), DBSSPorbObjNode.Attributes['ootype'] );
-                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_type:=TFCEduOrbitalObjectTypes( DBSSPenumIndex );
+                           FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_type:=TFCEduOrbitalObjectTypes( DBSSPenumIndex );
                            if DBSSPenumIndex=-1
                            then raise Exception.Create( 'bad orbital object type: '+DBSSPorbObjNode.Attributes['ootype'] );
                            {.diameter}
-                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_diameter:=DBSSPorbObjNode.Attributes['oodiam'];
+                           FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_diameter:=DBSSPorbObjNode.Attributes['oodiam'];
                            {.density}
-                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_dens:=DBSSPorbObjNode.Attributes['oodens'];
+                           FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_dens:=DBSSPorbObjNode.Attributes['oodens'];
                            {.mass}
-                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_mass:=DBSSPorbObjNode.Attributes['oomass'];
+                           FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_mass:=DBSSPorbObjNode.Attributes['oomass'];
                            {.gravity}
-                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_gravity:=DBSSPorbObjNode.Attributes['oograv'];
+                           FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_gravity:=DBSSPorbObjNode.Attributes['oograv'];
                            {.escape velocity}
-                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_escapeVelocity:=DBSSPorbObjNode.Attributes['ooescvel'];
+                           FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_escapeVelocity:=DBSSPorbObjNode.Attributes['ooescvel'];
                            {.rotation period}
-                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_rotationPeriod:=DBSSPorbObjNode.Attributes['oorotper'];
+                           FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_rotationPeriod:=DBSSPorbObjNode.Attributes['oorotper'];
                            {.inclination axis}
-                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_inclinationAxis:=DBSSPorbObjNode.Attributes['ooinclax'];
+                           FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_inclinationAxis:=DBSSPorbObjNode.Attributes['ooinclax'];
                            {.magnetic field}
-                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_magneticField:=DBSSPorbObjNode.Attributes['oomagfld'];
+                           FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_magneticField:=DBSSPorbObjNode.Attributes['oomagfld'];
                            {.albedo}
-                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_albedo:=DBSSPorbObjNode.Attributes['ooalbe'];
+                           FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_albedo:=DBSSPorbObjNode.Attributes['ooalbe'];
                         end {.else if DBSSPorbObjNode.NodeName='orbobjgeophysdata'}
                         else if DBSSPorbObjNode.NodeName='orbobjecosdata'
                         then
                         begin
                            {.environment}
                            DBSSPenumIndex:=GetEnumValue( TypeInfo( TFCEduEnvironmentTypes ), DBSSPorbObjNode.Attributes['ooenvtype'] );
-                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_environment:=TFCEduEnvironmentTypes(DBSSPenumIndex);
+                           FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_environment:=TFCEduEnvironmentTypes(DBSSPenumIndex);
                            if DBSSPenumIndex=-1
                            then raise Exception.Create( 'bad environment type: '+DBSSPorbObjNode.Attributes['ooenvtype'] );
                            {.atmosphere pressure}
-                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_atmosphericPressure:=DBSSPorbObjNode.Attributes['ooatmpres'];
+                           FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_atmosphericPressure:=DBSSPorbObjNode.Attributes['ooatmpres'];
                            {.clouds cover}
-                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_cloudsCover:=DBSSPorbObjNode.Attributes['oocloudscov'];
+                           FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_cloudsCover:=DBSSPorbObjNode.Attributes['oocloudscov'];
                            {.primary gas volume}
-                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_atmosphere.AC_primaryGasVolumePerc:=DBSSPorbObjNode.Attributes['atmprimgasvol'];
+                           FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_atmosphere.AC_primaryGasVolumePerc:=DBSSPorbObjNode.Attributes['atmprimgasvol'];
                            {.atmospheric composition}
-                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_atmosphere.AC_gasPresenceH2:=DBSSPorbObjNode.Attributes['atmH2'];
-                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_atmosphere.AC_gasPresenceHe:=DBSSPorbObjNode.Attributes['atmHe'];
-                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_atmosphere.AC_gasPresenceCH4:=DBSSPorbObjNode.Attributes['atmCH4'];
-                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_atmosphere.AC_gasPresenceNH3:=DBSSPorbObjNode.Attributes['atmNH3'];
-                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_atmosphere.AC_gasPresenceH2O:=DBSSPorbObjNode.Attributes['atmH2O'];
-                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_atmosphere.AC_gasPresenceNe:=DBSSPorbObjNode.Attributes['atmNe'];
-                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_atmosphere.AC_gasPresenceN2:=DBSSPorbObjNode.Attributes['atmN2'];
-                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_atmosphere.AC_gasPresenceCO:=DBSSPorbObjNode.Attributes['atmCO'];
-                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_atmosphere.AC_gasPresenceNO:=DBSSPorbObjNode.Attributes['atmNO'];
-                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_atmosphere.AC_gasPresenceO2:=DBSSPorbObjNode.Attributes['atmO2'];
-                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_atmosphere.AC_gasPresenceH2S:=DBSSPorbObjNode.Attributes['atmH2S'];
-                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_atmosphere.AC_gasPresenceAr:=DBSSPorbObjNode.Attributes['atmAr'];
-                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_atmosphere.AC_gasPresenceCO2:=DBSSPorbObjNode.Attributes['atmCO2'];
-                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_atmosphere.AC_gasPresenceNO2:=DBSSPorbObjNode.Attributes['atmNO2'];
-                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_atmosphere.AC_gasPresenceO3:=DBSSPorbObjNode.Attributes['atmO3'];
-                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_atmosphere.AC_gasPresenceSO2:=DBSSPorbObjNode.Attributes['atmSO2'];
+                           FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_atmosphere.AC_gasPresenceH2:=DBSSPorbObjNode.Attributes['atmH2'];
+                           FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_atmosphere.AC_gasPresenceHe:=DBSSPorbObjNode.Attributes['atmHe'];
+                           FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_atmosphere.AC_gasPresenceCH4:=DBSSPorbObjNode.Attributes['atmCH4'];
+                           FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_atmosphere.AC_gasPresenceNH3:=DBSSPorbObjNode.Attributes['atmNH3'];
+                           FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_atmosphere.AC_gasPresenceH2O:=DBSSPorbObjNode.Attributes['atmH2O'];
+                           FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_atmosphere.AC_gasPresenceNe:=DBSSPorbObjNode.Attributes['atmNe'];
+                           FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_atmosphere.AC_gasPresenceN2:=DBSSPorbObjNode.Attributes['atmN2'];
+                           FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_atmosphere.AC_gasPresenceCO:=DBSSPorbObjNode.Attributes['atmCO'];
+                           FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_atmosphere.AC_gasPresenceNO:=DBSSPorbObjNode.Attributes['atmNO'];
+                           FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_atmosphere.AC_gasPresenceO2:=DBSSPorbObjNode.Attributes['atmO2'];
+                           FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_atmosphere.AC_gasPresenceH2S:=DBSSPorbObjNode.Attributes['atmH2S'];
+                           FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_atmosphere.AC_gasPresenceAr:=DBSSPorbObjNode.Attributes['atmAr'];
+                           FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_atmosphere.AC_gasPresenceCO2:=DBSSPorbObjNode.Attributes['atmCO2'];
+                           FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_atmosphere.AC_gasPresenceNO2:=DBSSPorbObjNode.Attributes['atmNO2'];
+                           FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_atmosphere.AC_gasPresenceO3:=DBSSPorbObjNode.Attributes['atmO3'];
+                           FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_atmosphere.AC_gasPresenceSO2:=DBSSPorbObjNode.Attributes['atmSO2'];
                            {.hydrosphere}
                            DBSSPhydroTp:=DBSSPorbObjNode.Attributes['hydroTp'];
                            if DBSSPhydroTp='htNone'
-                           then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_hydrosphere:=hNoH2O
+                           then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_hydrosphere:=hNoH2O
                            else if DBSSPhydroTp='htVapor'
-                           then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_hydrosphere:=hVaporH2O
+                           then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_hydrosphere:=hVaporH2O
                            else if DBSSPhydroTp='htLiquid'
-                           then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_hydrosphere:=hLiquidH2O
+                           then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_hydrosphere:=hLiquidH2O
                            else if DBSSPhydroTp='htIceSheet'
-                           then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_hydrosphere:=hIceSheet
+                           then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_hydrosphere:=hIceSheet
                            else if DBSSPhydroTp='htCrystal'
-                           then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_hydrosphere:=hCrystalIce
+                           then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_hydrosphere:=hCrystalIce
                            else if DBSSPhydroTp='htLiqNH3'
-                           then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_hydrosphere:=hLiquidH2O_blend_NH3
+                           then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_hydrosphere:=hLiquidH2O_blend_NH3
                            else if DBSSPhydroTp='htLiqCH4'
-                           then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_hydrosphere:=hLiquidCH4;
-                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_hydrosphereArea:=DBSSPorbObjNode.Attributes['hydroArea'];
+                           then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_hydrosphere:=hLiquidCH4;
+                           FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_hydrosphereArea:=DBSSPorbObjNode.Attributes['hydroArea'];
                         end {.else if DBSSPorbObjNode.NodeName='orbobjecosdata'}
                         else if DBSSPorbObjNode.NodeName='orbobjregions'
                         then
                         begin
-                           SetLength(FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions, 31);
+                           SetLength(FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_regions, 31);
                            DBSSPregCnt:=1;
                            DBSSPregNode:=DBSSPorbObjNode.ChildNodes.First;
                            while DBSSPregNode<>nil do
@@ -1951,100 +1953,100 @@ begin
                               {.region - soil type}
                               DBSSPregDmp:=DBSSPregNode.Attributes['soiltp'];
                               if DBSSPregDmp='rst01rockDes'
-                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst01RockyDesert
+                              then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst01RockyDesert
                               else if DBSSPregDmp='rst02sandDes'
-                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst02SandyDesert
+                              then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst02SandyDesert
                               else if DBSSPregDmp='rst03volcanic'
-                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst03Volcanic
+                              then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst03Volcanic
                               else if DBSSPregDmp='rst04polar'
-                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst04Polar
+                              then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst04Polar
                               else if DBSSPregDmp='rst05arid'
-                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst05Arid
+                              then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst05Arid
                               else if DBSSPregDmp='rst06fertile'
-                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst06Fertile
+                              then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst06Fertile
                               else if DBSSPregDmp='rst07oceanic'
-                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst07Oceanic
+                              then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst07Oceanic
                               else if DBSSPregDmp='rst08coastRockDes'
-                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst08CoastalRockyDesert
+                              then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst08CoastalRockyDesert
                               else if DBSSPregDmp='rst09coastSandDes'
-                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst09CoastalSandyDesert
+                              then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst09CoastalSandyDesert
                               else if DBSSPregDmp='rst10coastVolcanic'
-                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst10CoastalVolcanic
+                              then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst10CoastalVolcanic
                               else if DBSSPregDmp='rst11coastPolar'
-                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst11CoastalPolar
+                              then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst11CoastalPolar
                               else if DBSSPregDmp='rst12coastArid'
-                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst12CoastalArid
+                              then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst12CoastalArid
                               else if DBSSPregDmp='rst13coastFertile'
-                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst13CoastalFertile
+                              then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst13CoastalFertile
                               else if DBSSPregDmp='rst14barren'
-                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst14Sterile
+                              then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst14Sterile
                               else if DBSSPregDmp='rst15icyBarren'
-                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst15icySterile;
+                              then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst15icySterile;
                               {.region - relief}
                               DBSSPregDmp:=DBSSPregNode.Attributes['relief'];
                               if DBSSPregDmp='rr1plain'
-                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_relief:=rr1Plain
+                              then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_relief:=rr1Plain
                               else if DBSSPregDmp='rr4broken'
-                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_relief:=rr4Broken
+                              then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_relief:=rr4Broken
                               else if DBSSPregDmp='rr9mountain'
-                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_relief:=rr9Mountain;
+                              then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_relief:=rr9Mountain;
                               {.region - climate}
                               DBSSPregDmp:=DBSSPregNode.Attributes['climate'];
                               if DBSSPregDmp='rc00void'
-                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_climate:=rc00VoidNoUse
+                              then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_climate:=rc00VoidNoUse
                               else if DBSSPregDmp='rc01vhotHumid'
-                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_climate:=rc01VeryHotHumid
+                              then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_climate:=rc01VeryHotHumid
                               else if DBSSPregDmp='rc02vhotSemiHumid'
-                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_climate:=rc02VeryHotSemiHumid
+                              then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_climate:=rc02VeryHotSemiHumid
                               else if DBSSPregDmp='rc03hotSemiArid'
-                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_climate:=rc03HotSemiArid
+                              then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_climate:=rc03HotSemiArid
                               else if DBSSPregDmp='rc04hotArid'
-                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_climate:=rc04HotArid
+                              then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_climate:=rc04HotArid
                               else if DBSSPregDmp='rc05modHumid'
-                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_climate:=rc05ModerateHumid
+                              then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_climate:=rc05ModerateHumid
                               else if DBSSPregDmp='rc06modDry'
-                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_climate:=rc06ModerateDry
+                              then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_climate:=rc06ModerateDry
                               else if DBSSPregDmp='rc07coldArid'
-                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_climate:=rc07ColdArid
+                              then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_climate:=rc07ColdArid
                               else if DBSSPregDmp='rc08periarctic'
-                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_climate:=rc08Periarctic
+                              then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_climate:=rc08Periarctic
                               else if DBSSPregDmp='rc09arctic'
-                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_climate:=rc09Arctic
+                              then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_climate:=rc09Arctic
                               else if DBSSPregDmp='rc10extreme'
-                              then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_climate:=rc10Extreme;
+                              then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_climate:=rc10Extreme;
                               {.region - mean temperature at min distance}
-                              FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_meanTdMin:=DBSSPregNode.Attributes['mtdmin'];
+                              FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_meanTdMin:=DBSSPregNode.Attributes['mtdmin'];
                               {.region - mean temperature at intermediate distance}
-                              FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_meanTdInt:=DBSSPregNode.Attributes['mtdint'];
+                              FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_meanTdInt:=DBSSPregNode.Attributes['mtdint'];
                               {.region - mean temperature at max distance}
-                              FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_meanTdMax:=DBSSPregNode.Attributes['mtdmax'];
+                              FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_meanTdMax:=DBSSPregNode.Attributes['mtdmax'];
                               {.region - mean windspeed}
-                              FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_windSpeed:=DBSSPregNode.Attributes['wndspd'];
+                              FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_windSpeed:=DBSSPregNode.Attributes['wndspd'];
                               {.region - yearly precipitations}
-                              FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_precipitation:=DBSSPregNode.Attributes['precip'];
+                              FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_precipitation:=DBSSPregNode.Attributes['precip'];
                               {.reset settlements data}
-                              FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_settlementEntity:=0;
-                              FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_settlementColony:=0;
-                              FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_settlementIndex:=0;
+                              FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_settlementEntity:=0;
+                              FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_settlementColony:=0;
+                              FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_settlementIndex:=0;
                               {.environment modifier}
-                              FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_emo:=DBSSPregNode.Attributes['emo'];
+                              FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_emo:=DBSSPregNode.Attributes['emo'];
                               {.resources data}
-                              SetLength(FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_resourceSpot, 1);
+                              SetLength(FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_resourceSpot, 1);
                               DBSSPresourceCnt:=1;
                               DBSSPresourceNode:=DBSSPregNode.ChildNodes.First;
                               while DBSSPresourceNode<>nil do
                               begin
-                                 SetLength(FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_resourceSpot, DBSSPresourceCnt+1);
+                                 SetLength(FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_resourceSpot, DBSSPresourceCnt+1);
                                  DBSSPenumIndex:=GetEnumValue(TypeInfo(TFCEduResourceSpotTypes), DBSSPresourceNode.Attributes['type'] );
-                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_resourceSpot[DBSSPresourceCnt].RS_type:=TFCEduResourceSpotTypes(DBSSPenumIndex);
+                                 FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_resourceSpot[DBSSPresourceCnt].RS_type:=TFCEduResourceSpotTypes(DBSSPenumIndex);
                                  if DBSSPenumIndex=-1
                                  then raise Exception.Create('bad resource spot type: '+DBSSPresourceNode.Attributes['type']);
                                  DBSSPenumIndex:=GetEnumValue(TypeInfo(TFCEduResourceSpotQuality), DBSSPresourceNode.Attributes['quality'] );
-                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_resourceSpot[DBSSPresourceCnt].RS_quality:=TFCEduResourceSpotQuality(DBSSPenumIndex);
+                                 FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_resourceSpot[DBSSPresourceCnt].RS_quality:=TFCEduResourceSpotQuality(DBSSPenumIndex);
                                  if DBSSPenumIndex=-1
                                  then raise Exception.Create('bad resource spot quality: '+DBSSPresourceNode.Attributes['quality']);
                                  DBSSPenumIndex:=GetEnumValue(TypeInfo(TFCEduResourceSpotRarity), DBSSPresourceNode.Attributes['rarity'] );
-                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_resourceSpot[DBSSPresourceCnt].RS_rarity:=TFCEduResourceSpotRarity(DBSSPenumIndex);
+                                 FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_regions[DBSSPregCnt].OOR_resourceSpot[DBSSPresourceCnt].RS_rarity:=TFCEduResourceSpotRarity(DBSSPenumIndex);
                                  if DBSSPenumIndex=-1
                                  then raise Exception.Create('bad resource spot rarity: '+DBSSPresourceNode.Attributes['rarity']);
                                  inc(DBSSPresourceCnt);
@@ -2054,31 +2056,31 @@ begin
                               DBSSPregNode:= DBSSPregNode.NextSibling;
                            end; //==END== while DBSSPregNode<>nil ==//
                            {.set the right number of regions}
-                           SetLength(FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_regions, DBSSPregCnt);
+                           SetLength(FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_regions, DBSSPregCnt);
                         end //==END== else if NodeName='orbobjregions' ==//
                         else if DBSSPorbObjNode.NodeName='satobj'
                         then
                         begin
                            {.initialize satellite data}
-                           SetLength(FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList, length(FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList)+1);
+                           SetLength(FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList, length(FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList)+1);
                            inc(DBSSPsatCnt);
                            {satellite id db token}
-                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_dbTokenId:=DBSSPorbObjNode.Attributes['sattoken'];
-                           FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_isASatellite:=true;
+                           FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_dbTokenId:=DBSSPorbObjNode.Attributes['sattoken'];
+                           FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_isSatellite:=true;
                            DBSSPsatNode:= DBSSPorbObjNode.ChildNodes.First;
                            while DBSSPsatNode<>nil do
                            begin
                               if DBSSPsatNode.NodeName='satorbdata' then
                               begin
                                  {.distance from central planet}
-                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OOS_distFrmOOb:=DBSSPsatNode.Attributes['satdist'];
+                                 FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_isSatTdistFrmOOb:=DBSSPsatNode.Attributes['satdist'];
                                  {.revolution period}
-                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_revolutionPeriod:=DBSSPsatNode.Attributes['satrevol'];
+                                 FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_revolutionPeriod:=DBSSPsatNode.Attributes['satrevol'];
                                  {.revolution period init day}
-                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_revolutionPeriodInit:=DBSSPsatNode.Attributes['satrevinit'];
-                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_angle1stDay:=roundto(FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_revolutionPeriodInit*360/FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_revolutionPeriod, -2);
+                                 FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_revolutionPeriodInit:=DBSSPsatNode.Attributes['satrevinit'];
+                                 FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_angle1stDay:=roundto(FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_revolutionPeriodInit*360/FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_revolutionPeriod, -2);
                                  {.gravity sphere of influence radius}
-                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_gravitationalSphereRadius:=DBSSPsatNode.Attributes['satgravsphrad'];
+                                 FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_gravitationalSphereRadius:=DBSSPsatNode.Attributes['satgravsphrad'];
                               end
                               else if DBSSPsatNode.NodeName='orbperlist'
                               then
@@ -2090,14 +2092,14 @@ begin
                                     inc(DBSSPperOrbCnt);
                                     DBSSPperOrbDmp:=DBSSPperOrbNode.Attributes['optype'];
                                     if DBSSPperOrbDmp='optClosest'
-                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_orbitalPeriods[DBSSPperOrbCnt].OOS_orbitalPeriodType:=optClosest
+                                    then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_orbitalPeriods[DBSSPperOrbCnt].OOS_orbitalPeriodType:=optClosest
                                     else if DBSSPperOrbDmp='optInterm'
-                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_orbitalPeriods[DBSSPperOrbCnt].OOS_orbitalPeriodType:=optIntermediary
+                                    then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_orbitalPeriods[DBSSPperOrbCnt].OOS_orbitalPeriodType:=optIntermediary
                                     else if DBSSPperOrbDmp='optFarest'
-                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_orbitalPeriods[DBSSPperOrbCnt].OOS_orbitalPeriodType:=optFarest;
-                                    FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_orbitalPeriods[DBSSPperOrbCnt].OOS_dayStart:=DBSSPperOrbNode.Attributes['opstrt'];
-                                    FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_orbitalPeriods[DBSSPperOrbCnt].OOS_dayEnd:=DBSSPperOrbNode.Attributes['opend'];
-                                    FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_orbitalPeriods[DBSSPperOrbCnt].OOS_meanTemperature:=DBSSPperOrbNode.Attributes['opmtemp'];
+                                    then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_orbitalPeriods[DBSSPperOrbCnt].OOS_orbitalPeriodType:=optFarest;
+                                    FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_orbitalPeriods[DBSSPperOrbCnt].OOS_dayStart:=DBSSPperOrbNode.Attributes['opstrt'];
+                                    FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_orbitalPeriods[DBSSPperOrbCnt].OOS_dayEnd:=DBSSPperOrbNode.Attributes['opend'];
+                                    FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_orbitalPeriods[DBSSPperOrbCnt].OOS_meanTemperature:=DBSSPperOrbNode.Attributes['opmtemp'];
                                     DBSSPperOrbNode:= DBSSPperOrbNode.NextSibling;
                                  end;
                               end //==END== else if DBSSPsatNode.NodeName='orbperlist' ==//
@@ -2105,78 +2107,78 @@ begin
                               then
                               begin
                                  DBSSPenumIndex:=GetEnumValue( TypeInfo( TFCEduOrbitalObjectTypes ), DBSSPsatNode.Attributes['sattype'] );
-                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_type:=TFCEduOrbitalObjectTypes( DBSSPenumIndex );
+                                 FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_type:=TFCEduOrbitalObjectTypes( DBSSPenumIndex );
                                  if DBSSPenumIndex=-1
                                  then raise Exception.Create( 'bad (sat) orbital object type: '+DBSSPsatNode.Attributes['sattype'] );
                                  {.diameter}
-                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_diameter:=DBSSPsatNode.Attributes['satdiam'];
+                                 FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_diameter:=DBSSPsatNode.Attributes['satdiam'];
                                  {.density}
-                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_dens:=DBSSPsatNode.Attributes['satdens'];
+                                 FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_dens:=DBSSPsatNode.Attributes['satdens'];
                                  {.mass}
-                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_mass:=DBSSPsatNode.Attributes['satmass'];
+                                 FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_mass:=DBSSPsatNode.Attributes['satmass'];
                                  {.gravity}
-                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_gravity:=DBSSPsatNode.Attributes['satgrav'];
+                                 FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_gravity:=DBSSPsatNode.Attributes['satgrav'];
                                  {.escape velocity}
-                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_escapeVelocity:=DBSSPsatNode.Attributes['satescvel'];
+                                 FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_escapeVelocity:=DBSSPsatNode.Attributes['satescvel'];
                                  {.inclination axis}
-                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_inclinationAxis:=DBSSPsatNode.Attributes['satinclax'];
+                                 FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_inclinationAxis:=DBSSPsatNode.Attributes['satinclax'];
                                  {.magnetic field}
-                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_magneticField:=DBSSPsatNode.Attributes['satmagfld'];
+                                 FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_magneticField:=DBSSPsatNode.Attributes['satmagfld'];
                                  {.albedo}
-                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_albedo:=DBSSPsatNode.Attributes['satalbe'];
+                                 FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_albedo:=DBSSPsatNode.Attributes['satalbe'];
                               end {.else if DBSSPsatNode.NodeName='satgeophysdata'}
                               else if DBSSPsatNode.NodeName='satecosdata' then
                               begin
                                  {.environment}
                                  DBSSPenumIndex:=GetEnumValue( TypeInfo( TFCEduEnvironmentTypes ), DBSSPsatNode.Attributes['satenvtype'] );
-                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_environment:=TFCEduEnvironmentTypes( DBSSPenumIndex );
+                                 FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_environment:=TFCEduEnvironmentTypes( DBSSPenumIndex );
                                  if DBSSPenumIndex=-1
                                  then raise Exception.Create( 'bad (sat) environment type: '+DBSSPsatNode.Attributes['satenvtype'] );
                                  {.atmosphere pressure}
-                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_atmosphericPressure:=DBSSPsatNode.Attributes['satatmpres'];
+                                 FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_atmosphericPressure:=DBSSPsatNode.Attributes['satatmpres'];
                                  {.clouds cover}
-                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_cloudsCover:=DBSSPsatNode.Attributes['satcloudscov'];
+                                 FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_cloudsCover:=DBSSPsatNode.Attributes['satcloudscov'];
                                  {.primary gas volume}
-                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_atmosphere.AC_primaryGasVolumePerc:=DBSSPsatNode.Attributes['atmprimgasvol'];
+                                 FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_atmosphere.AC_primaryGasVolumePerc:=DBSSPsatNode.Attributes['atmprimgasvol'];
                                  {.atmospheric composition}
-                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_atmosphere.AC_gasPresenceH2:=DBSSPsatNode.Attributes['atmH2'];
-                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_atmosphere.AC_gasPresenceHe:=DBSSPsatNode.Attributes['atmHe'];
-                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_atmosphere.AC_gasPresenceCH4:=DBSSPsatNode.Attributes['atmCH4'];
-                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_atmosphere.AC_gasPresenceNH3:=DBSSPsatNode.Attributes['atmNH3'];
-                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_atmosphere.AC_gasPresenceH2O:=DBSSPsatNode.Attributes['atmH2O'];
-                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_atmosphere.AC_gasPresenceNe:=DBSSPsatNode.Attributes['atmNe'];
-                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_atmosphere.AC_gasPresenceN2:=DBSSPsatNode.Attributes['atmN2'];
-                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_atmosphere.AC_gasPresenceCO:=DBSSPsatNode.Attributes['atmCO'];
-                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_atmosphere.AC_gasPresenceNO:=DBSSPsatNode.Attributes['atmNO'];
-                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_atmosphere.AC_gasPresenceO2:=DBSSPsatNode.Attributes['atmO2'];
-                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_atmosphere.AC_gasPresenceH2S:=DBSSPsatNode.Attributes['atmH2S'];
-                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_atmosphere.AC_gasPresenceAr:=DBSSPsatNode.Attributes['atmAr'];
-                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_atmosphere.AC_gasPresenceCO2:=DBSSPsatNode.Attributes['atmCO2'];
-                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_atmosphere.AC_gasPresenceNO2:=DBSSPsatNode.Attributes['atmNO2'];
-                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_atmosphere.AC_gasPresenceO3:=DBSSPsatNode.Attributes['atmO3'];
-                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_atmosphere.AC_gasPresenceSO2:=DBSSPsatNode.Attributes['atmSO2'];
+                                 FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_atmosphere.AC_gasPresenceH2:=DBSSPsatNode.Attributes['atmH2'];
+                                 FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_atmosphere.AC_gasPresenceHe:=DBSSPsatNode.Attributes['atmHe'];
+                                 FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_atmosphere.AC_gasPresenceCH4:=DBSSPsatNode.Attributes['atmCH4'];
+                                 FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_atmosphere.AC_gasPresenceNH3:=DBSSPsatNode.Attributes['atmNH3'];
+                                 FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_atmosphere.AC_gasPresenceH2O:=DBSSPsatNode.Attributes['atmH2O'];
+                                 FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_atmosphere.AC_gasPresenceNe:=DBSSPsatNode.Attributes['atmNe'];
+                                 FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_atmosphere.AC_gasPresenceN2:=DBSSPsatNode.Attributes['atmN2'];
+                                 FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_atmosphere.AC_gasPresenceCO:=DBSSPsatNode.Attributes['atmCO'];
+                                 FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_atmosphere.AC_gasPresenceNO:=DBSSPsatNode.Attributes['atmNO'];
+                                 FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_atmosphere.AC_gasPresenceO2:=DBSSPsatNode.Attributes['atmO2'];
+                                 FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_atmosphere.AC_gasPresenceH2S:=DBSSPsatNode.Attributes['atmH2S'];
+                                 FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_atmosphere.AC_gasPresenceAr:=DBSSPsatNode.Attributes['atmAr'];
+                                 FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_atmosphere.AC_gasPresenceCO2:=DBSSPsatNode.Attributes['atmCO2'];
+                                 FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_atmosphere.AC_gasPresenceNO2:=DBSSPsatNode.Attributes['atmNO2'];
+                                 FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_atmosphere.AC_gasPresenceO3:=DBSSPsatNode.Attributes['atmO3'];
+                                 FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_atmosphere.AC_gasPresenceSO2:=DBSSPsatNode.Attributes['atmSO2'];
                                  {.hydrosphere}
                                  DBSSPhydroTp:=DBSSPsatNode.Attributes['hydroTp'];
                                  if DBSSPhydroTp='htNone'
-                                 then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_hydrosphere:=hNoH2O
+                                 then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_hydrosphere:=hNoH2O
                                  else if DBSSPhydroTp='htVapor'
-                                 then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_hydrosphere:=hVaporH2O
+                                 then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_hydrosphere:=hVaporH2O
                                  else if DBSSPhydroTp='htLiquid'
-                                 then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_hydrosphere:=hLiquidH2O
+                                 then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_hydrosphere:=hLiquidH2O
                                  else if DBSSPhydroTp='htIceSheet'
-                                 then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_hydrosphere:=hIceSheet
+                                 then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_hydrosphere:=hIceSheet
                                  else if DBSSPhydroTp='htCrystal'
-                                 then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_hydrosphere:=hCrystalIce
+                                 then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_hydrosphere:=hCrystalIce
                                  else if DBSSPhydroTp='htLiqNH3'
-                                 then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_hydrosphere:=hLiquidH2O_blend_NH3
+                                 then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_hydrosphere:=hLiquidH2O_blend_NH3
                                  else if DBSSPhydroTp='htLiqCH4'
-                                 then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_hydrosphere:=hLiquidCH4;
-                                 FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_hydrosphereArea:=DBSSPsatNode.Attributes['hydroArea'];
+                                 then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_hydrosphere:=hLiquidCH4;
+                                 FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_hydrosphereArea:=DBSSPsatNode.Attributes['hydroArea'];
                               end {.else if DBSSPsatNode.NodeName='satecosdata'}
                               else if DBSSPsatNode.NodeName='satregions'
                               then
                               begin
-                                 SetLength(FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions, 31);
+                                 SetLength(FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions, 31);
                                  DBSSPregCnt:=1;
                                  DBSSPregNode:=DBSSPsatNode.ChildNodes.First;
                                  while DBSSPregNode<>nil do
@@ -2184,100 +2186,100 @@ begin
                                     {.region - soil type}
                                     DBSSPregDmp:=DBSSPregNode.Attributes['soiltp'];
                                     if DBSSPregDmp='rst01rockDes'
-                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst01RockyDesert
+                                    then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst01RockyDesert
                                     else if DBSSPregDmp='rst02sandDes'
-                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst02SandyDesert
+                                    then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst02SandyDesert
                                     else if DBSSPregDmp='rst03volcanic'
-                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst03Volcanic
+                                    then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst03Volcanic
                                     else if DBSSPregDmp='rst04polar'
-                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst04Polar
+                                    then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst04Polar
                                     else if DBSSPregDmp='rst05arid'
-                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst05Arid
+                                    then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst05Arid
                                     else if DBSSPregDmp='rst06fertile'
-                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst06Fertile
+                                    then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst06Fertile
                                     else if DBSSPregDmp='rst07oceanic'
-                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst07Oceanic
+                                    then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst07Oceanic
                                     else if DBSSPregDmp='rst08coastRockDes'
-                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst08CoastalRockyDesert
+                                    then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst08CoastalRockyDesert
                                     else if DBSSPregDmp='rst09coastSandDes'
-                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst09CoastalSandyDesert
+                                    then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst09CoastalSandyDesert
                                     else if DBSSPregDmp='rst10coastVolcanic'
-                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst10CoastalVolcanic
+                                    then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst10CoastalVolcanic
                                     else if DBSSPregDmp='rst11coastPolar'
-                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst11CoastalPolar
+                                    then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst11CoastalPolar
                                     else if DBSSPregDmp='rst12coastArid'
-                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst12CoastalArid
+                                    then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst12CoastalArid
                                     else if DBSSPregDmp='rst13coastFertile'
-                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst13CoastalFertile
+                                    then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst13CoastalFertile
                                     else if DBSSPregDmp='rst14barren'
-                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst14Sterile
+                                    then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst14Sterile
                                     else if DBSSPregDmp='rst15icyBarren'
-                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst15icySterile;
+                                    then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_soilType:=rst15icySterile;
                                     {.region - relief}
                                     DBSSPregDmp:=DBSSPregNode.Attributes['relief'];
                                     if DBSSPregDmp='rr1plain'
-                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_relief:=rr1Plain
+                                    then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_relief:=rr1Plain
                                     else if DBSSPregDmp='rr4broken'
-                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_relief:=rr4Broken
+                                    then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_relief:=rr4Broken
                                     else if DBSSPregDmp='rr9mountain'
-                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_relief:=rr9Mountain;
+                                    then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_relief:=rr9Mountain;
                                     {.region - climate}
                                     DBSSPregDmp:=DBSSPregNode.Attributes['climate'];
                                     if DBSSPregDmp='rc00void'
-                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_climate:=rc00VoidNoUse
+                                    then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_climate:=rc00VoidNoUse
                                     else if DBSSPregDmp='rc01vhotHumid'
-                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_climate:=rc01VeryHotHumid
+                                    then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_climate:=rc01VeryHotHumid
                                     else if DBSSPregDmp='rc02vhotSemiHumid'
-                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_climate:=rc02VeryHotSemiHumid
+                                    then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_climate:=rc02VeryHotSemiHumid
                                     else if DBSSPregDmp='rc03hotSemiArid'
-                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_climate:=rc03HotSemiArid
+                                    then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_climate:=rc03HotSemiArid
                                     else if DBSSPregDmp='rc04hotArid'
-                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_climate:=rc04HotArid
+                                    then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_climate:=rc04HotArid
                                     else if DBSSPregDmp='rc05modHumid'
-                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_climate:=rc05ModerateHumid
+                                    then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_climate:=rc05ModerateHumid
                                     else if DBSSPregDmp='rc06modDry'
-                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_climate:=rc06ModerateDry
+                                    then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_climate:=rc06ModerateDry
                                     else if DBSSPregDmp='rc07coldArid'
-                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_climate:=rc07ColdArid
+                                    then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_climate:=rc07ColdArid
                                     else if DBSSPregDmp='rc08periarctic'
-                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_climate:=rc08Periarctic
+                                    then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_climate:=rc08Periarctic
                                     else if DBSSPregDmp='rc09arctic'
-                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_climate:=rc09Arctic
+                                    then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_climate:=rc09Arctic
                                     else if DBSSPregDmp='rc10extreme'
-                                    then FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_climate:=rc10Extreme;
+                                    then FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_climate:=rc10Extreme;
                                     {.region - mean temperature at min distance}
-                                    FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_meanTdMin:=DBSSPregNode.Attributes['mtdmin'];
+                                    FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_meanTdMin:=DBSSPregNode.Attributes['mtdmin'];
                                     {.region - mean temperature at intermediate distance}
-                                    FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_meanTdInt:=DBSSPregNode.Attributes['mtdint'];
+                                    FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_meanTdInt:=DBSSPregNode.Attributes['mtdint'];
                                     {.region - mean temperature at max distance}
-                                    FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_meanTdMax:=DBSSPregNode.Attributes['mtdmax'];
+                                    FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_meanTdMax:=DBSSPregNode.Attributes['mtdmax'];
                                     {.region - mean windspeed}
-                                    FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_windSpeed:=DBSSPregNode.Attributes['wndspd'];
+                                    FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_windSpeed:=DBSSPregNode.Attributes['wndspd'];
                                     {.region - yearly precipitations}
-                                    FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_precipitation:=DBSSPregNode.Attributes['precip'];
+                                    FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_precipitation:=DBSSPregNode.Attributes['precip'];
                                     {.reset settlements data}
-                                    FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_settlementEntity:=0;
-                                    FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_settlementColony:=0;
-                                    FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_settlementIndex:=0;
+                                    FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_settlementEntity:=0;
+                                    FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_settlementColony:=0;
+                                    FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_settlementIndex:=0;
                                     {.environment modifier}
-                                    FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_emo:=DBSSPregNode.Attributes['emo'];
+                                    FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_emo:=DBSSPregNode.Attributes['emo'];
                                     {.resources data}
-                                    SetLength(FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_resourceSpot, 1);
+                                    SetLength(FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_resourceSpot, 1);
                                     DBSSPresourceCnt:=1;
                                     DBSSPresourceNode:=DBSSPregNode.ChildNodes.First;
                                     while DBSSPresourceNode<>nil do
                                     begin
-                                       SetLength(FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_resourceSpot, DBSSPresourceCnt+1);
+                                       SetLength(FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_resourceSpot, DBSSPresourceCnt+1);
                                        DBSSPenumIndex:=GetEnumValue(TypeInfo(TFCEduResourceSpotTypes), DBSSPresourceNode.Attributes['type'] );
-                                       FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_resourceSpot[DBSSPresourceCnt].RS_type:=TFCEduResourceSpotTypes(DBSSPenumIndex);
+                                       FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_resourceSpot[DBSSPresourceCnt].RS_type:=TFCEduResourceSpotTypes(DBSSPenumIndex);
                                        if DBSSPenumIndex=-1
                                        then raise Exception.Create('bad resource spot type: '+DBSSPresourceNode.Attributes['type']);
                                        DBSSPenumIndex:=GetEnumValue(TypeInfo(TFCEduResourceSpotQuality), DBSSPresourceNode.Attributes['quality'] );
-                                       FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_resourceSpot[DBSSPresourceCnt].RS_quality:=TFCEduResourceSpotQuality(DBSSPenumIndex);
+                                       FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_resourceSpot[DBSSPresourceCnt].RS_quality:=TFCEduResourceSpotQuality(DBSSPenumIndex);
                                        if DBSSPenumIndex=-1
                                        then raise Exception.Create('bad resource spot quality: '+DBSSPresourceNode.Attributes['quality']);
                                        DBSSPenumIndex:=GetEnumValue(TypeInfo(TFCEduResourceSpotRarity), DBSSPresourceNode.Attributes['rarity'] );
-                                       FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_resourceSpot[DBSSPresourceCnt].RS_rarity:=TFCEduResourceSpotRarity(DBSSPenumIndex);
+                                       FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions[DBSSPregCnt].OOR_resourceSpot[DBSSPresourceCnt].RS_rarity:=TFCEduResourceSpotRarity(DBSSPenumIndex);
                                        if DBSSPenumIndex=-1
                                        then raise Exception.Create('bad resource spot rarity: '+DBSSPresourceNode.Attributes['rarity']);
                                        inc(DBSSPresourceCnt);
@@ -2287,7 +2289,7 @@ begin
                                     DBSSPregNode:= DBSSPregNode.NextSibling;
                                  end; //==END== while DBSSPregNode<>nil ==//
                                  {.set the right number of regions}
-                                 SetLength(FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions, DBSSPregCnt);
+                                 SetLength(FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects[DBSSPorbObjCnt].OO_satellitesList[DBSSPsatCnt].OO_regions, DBSSPregCnt);
                               end; //==END== else if DBSSPorbObjNode.NodeName='satregions' ==//
                               DBSSPsatNode:= DBSSPsatNode.NextSibling;
                            end; {.while DBSSPsatNode<>nil}
@@ -2298,7 +2300,7 @@ begin
                   DBSSPstarSubNode:=DBSSPstarSubNode.NextSibling;
                end; {.while DBSSPstarSubNode<>nil}
                {.resize to real table size for orbital objects}
-               SetLength(FCDBsSys[DBSSPstarSysCnt].SS_star[DBSSPstarCnt].SDB_obobj, DBSSPorbObjCnt+1);
+               SetLength(FCDduStarSystem[DBSSPstarSysCnt].SS_stars[DBSSPstarCnt].S_orbitalObjects, DBSSPorbObjCnt+1);
                inc(DBSSPstarCnt);
                DBSSPstarNode:= DBSSPstarNode.NextSibling;
             end; {.while DBSSPstarNode<>nil}
@@ -2307,7 +2309,7 @@ begin
          DBSSPstarSysNode := DBSSPstarSysNode.NextSibling;
       end; {.while DBSSPstarSys<>nil}
       {.resize to real table size}
-      SetLength(FCDBsSys, DBSSPstarSysCnt);
+      SetLength(FCDduStarSystem, DBSSPstarSysCnt);
    end; {.if DBSSPaction=sspStarSys}
    {.disable}
    FCWinMain.FCXMLdbUniv.Active:=false;

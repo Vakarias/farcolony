@@ -216,9 +216,9 @@ function FCFspuF_DeltaV_GetFromOrbit(
 }
 begin
    if DVGFOsat=0
-   then Result:=FCFcFunc_Rnd(cfrttpVelkms, FCDBsSys[DVGFOstarsys].SS_star[DVGFOstar].SDB_obobj[DVGFOobobj].OO_escapeVelocity*0.83)
+   then Result:=FCFcFunc_Rnd(cfrttpVelkms, FCDduStarSystem[DVGFOstarsys].SS_stars[DVGFOstar].S_orbitalObjects[DVGFOobobj].OO_escapeVelocity*0.83)
    else if DVGFOsat>0
-   then Result:=FCFcFunc_Rnd(cfrttpVelkms, FCDBsSys[DVGFOstarsys].SS_star[DVGFOstar].SDB_obobj[DVGFOobobj].OO_satellitesList[DVGFOsat].OO_escapeVelocity*0.83);
+   then Result:=FCFcFunc_Rnd(cfrttpVelkms, FCDduStarSystem[DVGFOstarsys].SS_stars[DVGFOstar].S_orbitalObjects[DVGFOobobj].OO_satellitesList[DVGFOsat].OO_escapeVelocity*0.83);
 end;
 
 function FCFspuF_Design_getDB(const DGDBdsgnToken: string): integer;
@@ -495,12 +495,12 @@ begin
       then
       begin
          {.increment the counter}
-         inc(FCDBsSys[OPsSys].SS_star[OPstar].SDB_obobj[OPoobj].OO_inOrbitCurrentNumber);
-         OPttl:=FCDBsSys[OPsSys].SS_star[OPstar].SDB_obobj[OPoobj].OO_inOrbitCurrentNumber;
+         inc(FCDduStarSystem[OPsSys].SS_stars[OPstar].S_orbitalObjects[OPoobj].OO_inOrbitCurrentNumber);
+         OPttl:=FCDduStarSystem[OPsSys].SS_stars[OPstar].S_orbitalObjects[OPoobj].OO_inOrbitCurrentNumber;
          {.set the data}
-         FCDBsSys[OPsSys].SS_star[OPstar].SDB_obobj[OPoobj].OO_inOrbitSpaceUnitsList[OPttl].SUIO_faction:=OPfac;
-         FCDBsSys[OPsSys].SS_star[OPstar].SDB_obobj[OPoobj].OO_inOrbitSpaceUnitsList[OPttl].SUIO_ownedSpaceUnitIndex:=OPspuOwn;
-         FCentities[OPfac].E_spU[OPspuOwn].SUO_oobjLoc:=FCDBsSys[OPsSys].SS_star[OPstar].SDB_obobj[OPoobj].OO_dbTokenId;
+         FCDduStarSystem[OPsSys].SS_stars[OPstar].S_orbitalObjects[OPoobj].OO_inOrbitSpaceUnitsList[OPttl].SUIO_faction:=OPfac;
+         FCDduStarSystem[OPsSys].SS_stars[OPstar].S_orbitalObjects[OPoobj].OO_inOrbitSpaceUnitsList[OPttl].SUIO_ownedSpaceUnitIndex:=OPspuOwn;
+         FCentities[OPfac].E_spU[OPspuOwn].SUO_oobjLoc:=FCDduStarSystem[OPsSys].SS_stars[OPstar].S_orbitalObjects[OPoobj].OO_dbTokenId;
          {.update the 3d view}
          if opUpd3dView
          then FCMoglVM_OObjSpUn_inOrbit(
@@ -514,13 +514,13 @@ begin
       then
       begin
          {.increment the counter}
-         inc(FCDBsSys[OPsSys].SS_star[OPstar].SDB_obobj[OPoobj].OO_satellitesList[OPsat].OO_inOrbitCurrentNumber);
-         OPttl:=FCDBsSys[OPsSys].SS_star[OPstar].SDB_obobj[OPoobj].OO_satellitesList[OPsat].OO_inOrbitCurrentNumber;
+         inc(FCDduStarSystem[OPsSys].SS_stars[OPstar].S_orbitalObjects[OPoobj].OO_satellitesList[OPsat].OO_inOrbitCurrentNumber);
+         OPttl:=FCDduStarSystem[OPsSys].SS_stars[OPstar].S_orbitalObjects[OPoobj].OO_satellitesList[OPsat].OO_inOrbitCurrentNumber;
          {.set the data}
-         FCDBsSys[OPsSys].SS_star[OPstar].SDB_obobj[OPoobj].OO_satellitesList[OPsat].OO_inOrbitSpaceUnitsList[OPttl].SUIO_faction:=OPfac;
-         FCDBsSys[OPsSys].SS_star[OPstar].SDB_obobj[OPoobj].OO_satellitesList[OPsat].OO_inOrbitSpaceUnitsList[OPttl].SUIO_ownedSpaceUnitIndex:=OPspuOwn;
-         FCentities[OPfac].E_spU[OPspuOwn].SUO_oobjLoc:=FCDBsSys[OPsSys].SS_star[OPstar].SDB_obobj[OPoobj].OO_dbTokenId;
-         FCentities[OPfac].E_spU[OPspuOwn].SUO_satLoc:=FCDBsSys[OPsSys].SS_star[OPstar].SDB_obobj[OPoobj].OO_satellitesList[OPsat].OO_dbTokenId;
+         FCDduStarSystem[OPsSys].SS_stars[OPstar].S_orbitalObjects[OPoobj].OO_satellitesList[OPsat].OO_inOrbitSpaceUnitsList[OPttl].SUIO_faction:=OPfac;
+         FCDduStarSystem[OPsSys].SS_stars[OPstar].S_orbitalObjects[OPoobj].OO_satellitesList[OPsat].OO_inOrbitSpaceUnitsList[OPttl].SUIO_ownedSpaceUnitIndex:=OPspuOwn;
+         FCentities[OPfac].E_spU[OPspuOwn].SUO_oobjLoc:=FCDduStarSystem[OPsSys].SS_stars[OPstar].S_orbitalObjects[OPoobj].OO_dbTokenId;
+         FCentities[OPfac].E_spU[OPspuOwn].SUO_satLoc:=FCDduStarSystem[OPsSys].SS_stars[OPstar].S_orbitalObjects[OPoobj].OO_satellitesList[OPsat].OO_dbTokenId;
          {.update the 3d view}
          if opUpd3dView
          then
@@ -543,13 +543,13 @@ begin
       if OPsat=0
       then
       begin
-         OPttl:=FCDBsSys[OPsSys].SS_star[OPstar].SDB_obobj[OPoobj].OO_inOrbitCurrentNumber;
+         OPttl:=FCDduStarSystem[OPsSys].SS_stars[OPstar].S_orbitalObjects[OPoobj].OO_inOrbitCurrentNumber;
          {.if the one to delete is the last item}
-         if FCDBsSys[OPsSys].SS_star[OPstar].SDB_obobj[OPoobj].OO_inOrbitSpaceUnitsList[OPttl].SUIO_ownedSpaceUnitIndex=OPspuOwn
+         if FCDduStarSystem[OPsSys].SS_stars[OPstar].S_orbitalObjects[OPoobj].OO_inOrbitSpaceUnitsList[OPttl].SUIO_ownedSpaceUnitIndex=OPspuOwn
          then
          begin
-            FCDBsSys[OPsSys].SS_star[OPstar].SDB_obobj[OPoobj].OO_inOrbitSpaceUnitsList[OPttl]:=FCDBsSys[OPsSys].SS_star[OPstar].SDB_obobj[OPoobj].OO_inOrbitSpaceUnitsList[0];
-            dec(FCDBsSys[OPsSys].SS_star[OPstar].SDB_obobj[OPoobj].OO_inOrbitCurrentNumber);
+            FCDduStarSystem[OPsSys].SS_stars[OPstar].S_orbitalObjects[OPoobj].OO_inOrbitSpaceUnitsList[OPttl]:=FCDduStarSystem[OPsSys].SS_stars[OPstar].S_orbitalObjects[OPoobj].OO_inOrbitSpaceUnitsList[0];
+            dec(FCDduStarSystem[OPsSys].SS_stars[OPstar].S_orbitalObjects[OPoobj].OO_inOrbitCurrentNumber);
             {.update the 3d view}
             if opUpd3dView
             then FCMoglVM_OObjSpUn_inOrbit(
@@ -565,23 +565,23 @@ begin
             OPcopyCnt:=1;
             while OPcnt<=OPttl do
             begin
-               if FCDBsSys[OPsSys].SS_star[OPstar].SDB_obobj[OPoobj].OO_inOrbitSpaceUnitsList[OPcnt].SUIO_ownedSpaceUnitIndex<>OPspuOwn
+               if FCDduStarSystem[OPsSys].SS_stars[OPstar].S_orbitalObjects[OPoobj].OO_inOrbitSpaceUnitsList[OPcnt].SUIO_ownedSpaceUnitIndex<>OPspuOwn
                then
                begin
-                  OPcopyOrbArr[OPcopyCnt]:=FCDBsSys[OPsSys].SS_star[OPstar].SDB_obobj[OPoobj].OO_inOrbitSpaceUnitsList[OPcnt];
+                  OPcopyOrbArr[OPcopyCnt]:=FCDduStarSystem[OPsSys].SS_stars[OPstar].S_orbitalObjects[OPoobj].OO_inOrbitSpaceUnitsList[OPcnt];
                   inc(OPcopyCnt);
                end;
                inc(OPcnt);
             end;
             {.set the new counter}
-            FCDBsSys[OPsSys].SS_star[OPstar].SDB_obobj[OPoobj].OO_inOrbitCurrentNumber:=OPcopyCnt;
+            FCDduStarSystem[OPsSys].SS_stars[OPstar].S_orbitalObjects[OPoobj].OO_inOrbitCurrentNumber:=OPcopyCnt;
             {.clear the last one of the list}
-            FCDBsSys[OPsSys].SS_star[OPstar].SDB_obobj[OPoobj].OO_inOrbitSpaceUnitsList[OPttl]:=FCDBsSys[OPsSys].SS_star[OPstar].SDB_obobj[OPoobj].OO_inOrbitSpaceUnitsList[0];
+            FCDduStarSystem[OPsSys].SS_stars[OPstar].S_orbitalObjects[OPoobj].OO_inOrbitSpaceUnitsList[OPttl]:=FCDduStarSystem[OPsSys].SS_stars[OPstar].S_orbitalObjects[OPoobj].OO_inOrbitSpaceUnitsList[0];
             {.paste the new array in the data structure}
             OPcnt:=1;
             while OPcnt<=OPcopyCnt do
             begin
-               FCDBsSys[OPsSys].SS_star[OPstar].SDB_obobj[OPoobj].OO_inOrbitSpaceUnitsList[OPcnt]:=OPcopyOrbArr[OPcnt];
+               FCDduStarSystem[OPsSys].SS_stars[OPstar].S_orbitalObjects[OPoobj].OO_inOrbitSpaceUnitsList[OPcnt]:=OPcopyOrbArr[OPcnt];
                inc(OPcnt);
             end;
             {.update the 3d view}
@@ -597,15 +597,15 @@ begin
       else if OPsat>0
       then
       begin
-         OPttl:=FCDBsSys[OPsSys].SS_star[OPstar].SDB_obobj[OPoobj].OO_satellitesList[OPsat].OO_inOrbitCurrentNumber;
+         OPttl:=FCDduStarSystem[OPsSys].SS_stars[OPstar].S_orbitalObjects[OPoobj].OO_satellitesList[OPsat].OO_inOrbitCurrentNumber;
          FCentities[OPfac].E_spU[OPspuOwn].SUO_satLoc:='';
          {.if the one to delete is the last item (more simple)}
-         if FCDBsSys[OPsSys].SS_star[OPstar].SDB_obobj[OPoobj].OO_satellitesList[OPsat].OO_inOrbitSpaceUnitsList[OPttl].SUIO_ownedSpaceUnitIndex=OPspuOwn
+         if FCDduStarSystem[OPsSys].SS_stars[OPstar].S_orbitalObjects[OPoobj].OO_satellitesList[OPsat].OO_inOrbitSpaceUnitsList[OPttl].SUIO_ownedSpaceUnitIndex=OPspuOwn
          then
          begin
-            FCDBsSys[OPsSys].SS_star[OPstar].SDB_obobj[OPoobj].OO_satellitesList[OPsat].OO_inOrbitSpaceUnitsList[OPttl]
-               :=FCDBsSys[OPsSys].SS_star[OPstar].SDB_obobj[OPoobj].OO_satellitesList[OPsat].OO_inOrbitSpaceUnitsList[0];
-            dec(FCDBsSys[OPsSys].SS_star[OPstar].SDB_obobj[OPoobj].OO_satellitesList[OPsat].OO_inOrbitCurrentNumber);
+            FCDduStarSystem[OPsSys].SS_stars[OPstar].S_orbitalObjects[OPoobj].OO_satellitesList[OPsat].OO_inOrbitSpaceUnitsList[OPttl]
+               :=FCDduStarSystem[OPsSys].SS_stars[OPstar].S_orbitalObjects[OPoobj].OO_satellitesList[OPsat].OO_inOrbitSpaceUnitsList[0];
+            dec(FCDduStarSystem[OPsSys].SS_stars[OPstar].S_orbitalObjects[OPoobj].OO_satellitesList[OPsat].OO_inOrbitCurrentNumber);
             {.update the 3d view}
             if opUpd3dView
             then
@@ -625,24 +625,24 @@ begin
             OPcopyCnt:=1;
             while OPcnt<=OPttl do
             begin
-               if FCDBsSys[OPsSys].SS_star[OPstar].SDB_obobj[OPoobj].OO_satellitesList[OPsat].OO_inOrbitSpaceUnitsList[OPcnt].SUIO_ownedSpaceUnitIndex<>OPspuOwn
+               if FCDduStarSystem[OPsSys].SS_stars[OPstar].S_orbitalObjects[OPoobj].OO_satellitesList[OPsat].OO_inOrbitSpaceUnitsList[OPcnt].SUIO_ownedSpaceUnitIndex<>OPspuOwn
                then
                begin
-                  OPcopyOrbArr[OPcopyCnt]:=FCDBsSys[OPsSys].SS_star[OPstar].SDB_obobj[OPoobj].OO_satellitesList[OPsat].OO_inOrbitSpaceUnitsList[OPcnt];
+                  OPcopyOrbArr[OPcopyCnt]:=FCDduStarSystem[OPsSys].SS_stars[OPstar].S_orbitalObjects[OPoobj].OO_satellitesList[OPsat].OO_inOrbitSpaceUnitsList[OPcnt];
                   inc(OPcopyCnt);
                end;
                inc(OPcnt);
             end;
             {.set the new counter}
-            FCDBsSys[OPsSys].SS_star[OPstar].SDB_obobj[OPoobj].OO_satellitesList[OPsat].OO_inOrbitCurrentNumber:=OPcopyCnt;
+            FCDduStarSystem[OPsSys].SS_stars[OPstar].S_orbitalObjects[OPoobj].OO_satellitesList[OPsat].OO_inOrbitCurrentNumber:=OPcopyCnt;
             {.clear the last one of the list}
-            FCDBsSys[OPsSys].SS_star[OPstar].SDB_obobj[OPoobj].OO_satellitesList[OPsat].OO_inOrbitSpaceUnitsList[OPttl]
-               :=FCDBsSys[OPsSys].SS_star[OPstar].SDB_obobj[OPoobj].OO_satellitesList[OPsat].OO_inOrbitSpaceUnitsList[0];
+            FCDduStarSystem[OPsSys].SS_stars[OPstar].S_orbitalObjects[OPoobj].OO_satellitesList[OPsat].OO_inOrbitSpaceUnitsList[OPttl]
+               :=FCDduStarSystem[OPsSys].SS_stars[OPstar].S_orbitalObjects[OPoobj].OO_satellitesList[OPsat].OO_inOrbitSpaceUnitsList[0];
             {.paste the new array in the data structure}
             OPcnt:=1;
             while OPcnt<=OPcopyCnt do
             begin
-               FCDBsSys[OPsSys].SS_star[OPstar].SDB_obobj[OPoobj].OO_satellitesList[OPsat].OO_inOrbitSpaceUnitsList[OPcnt]:=OPcopyOrbArr[OPcnt];
+               FCDduStarSystem[OPsSys].SS_stars[OPstar].S_orbitalObjects[OPoobj].OO_satellitesList[OPsat].OO_inOrbitSpaceUnitsList[OPcnt]:=OPcopyOrbArr[OPcnt];
                inc(OPcnt);
             end;
             {.update the 3d view}

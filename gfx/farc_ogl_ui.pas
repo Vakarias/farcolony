@@ -748,7 +748,7 @@ begin
             FCWinMain.FCGLSHUDobjectFocused.Text
                :=FCFdTFiles_UIStr_Get(
                   dtfscPrprName
-                  , FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[M3DVUIUsatPlanIdx]
+                  , FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_orbitalObjects[M3DVUIUsatPlanIdx]
                      .OO_satellitesList[M3DVUIUsatIdx].OO_dbTokenId
                   );
             {.orbital data header}
@@ -757,14 +757,14 @@ begin
             FCWinMain.FCGLSHUDobobjDistLAB.Text
                :=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIsatDistFCP');
             FCWinMain.FCGLSHUDobobjDist.Text
-               :=FloatToStrF(FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[M3DVUIUsatPlanIdx]
-                  .OO_satellitesList[M3DVUIUsatIdx].OOS_distFrmOOb*1000,ffNumber,35,0)
+               :=FloatToStrF(FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_orbitalObjects[M3DVUIUsatPlanIdx]
+                  .OO_satellitesList[M3DVUIUsatIdx].OO_isSatTdistFrmOOb*1000,ffNumber,35,0)
                   +' Km';
             {.revolution period}
             FCWinMain.FCGLSHUDobobjRevPerLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIoobjRevPer');
             FCWinMain.FCGLSHUDobobjRevPer.Text
-               :=IntToStr(FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar]
-                  .SDB_obobj[M3DVUIUsatPlanIdx].OO_satellitesList[M3DVUIUsatIdx].OO_revolutionPeriod)
+               :=IntToStr(FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar]
+                  .S_orbitalObjects[M3DVUIUsatPlanIdx].OO_satellitesList[M3DVUIUsatIdx].OO_revolutionPeriod)
                   +' '+FCFdTFiles_UIStr_Get(uistrUI,'TimeFstdD');
             {.geophysics data header}
             FCWinMain.FCGLSHUDobobjGeophyHLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIoobjGeophyDatH');
@@ -772,7 +772,7 @@ begin
             FCWinMain.FCGLSHUDobobjObjTpLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIoobjOOType');
             {.a reminder for complete types not implemented}
             FCWinMain.FCGLSHUDobobjObjTp.Text:='N/A';
-            case FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[M3DVUIUsatPlanIdx]
+            case FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_orbitalObjects[M3DVUIUsatPlanIdx]
                .OO_satellitesList[M3DVUIUsatIdx].OO_type
             of
                ootSatellite_Asteroid_Metallic:
@@ -796,54 +796,54 @@ begin
             {.diameter}
             FCWinMain.FCGLSHUDobobjDiamLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIoobjDiam');
             FCWinMain.FCGLSHUDobobjDiam.Text
-               :=FloatToStr(FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[M3DVUIUsatPlanIdx]
+               :=FloatToStr(FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_orbitalObjects[M3DVUIUsatPlanIdx]
                   .OO_satellitesList[M3DVUIUsatIdx].OO_diameter)+' Km';
             {.density}
             FCWinMain.FCGLSHUDobobjDensLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIoobjDens');
             FCWinMain.FCGLSHUDobobjDens.Text
-               :=FloatToStr(FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[M3DVUIUsatPlanIdx]
+               :=FloatToStr(FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_orbitalObjects[M3DVUIUsatPlanIdx]
                   .OO_satellitesList[M3DVUIUsatIdx].OO_dens)+' Kg';
             {.mass}
             FCWinMain.FCGLSHUDobobjMassLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIoobjMass');
-            if (FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[M3DVUIUsatPlanIdx]
+            if (FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_orbitalObjects[M3DVUIUsatPlanIdx]
                .OO_satellitesList[M3DVUIUsatIdx].OO_type>ootSatellite_Asteroid_Icy)
-            and (FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[M3DVUIUsatPlanIdx]
+            and (FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_orbitalObjects[M3DVUIUsatPlanIdx]
                .OO_satellitesList[M3DVUIUsatIdx].OO_type<ootRing_Metallic)
-            then FCWinMain.FCGLSHUDobobjMass.Text:=FloatToStr(FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar]
-               .SDB_obobj[M3DVUIUsatPlanIdx].OO_satellitesList[M3DVUIUsatIdx].OO_mass)
+            then FCWinMain.FCGLSHUDobobjMass.Text:=FloatToStr(FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar]
+               .S_orbitalObjects[M3DVUIUsatPlanIdx].OO_satellitesList[M3DVUIUsatIdx].OO_mass)
             else FCWinMain.FCGLSHUDobobjMass.Text
                :=FloatToStr
                   (
                      FCFcFunc_Rnd
                         (
                            cfrttpMassAster
-                           ,FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar]
-                              .SDB_obobj[M3DVUIUsatPlanIdx].OO_satellitesList[M3DVUIUsatIdx].OO_mass
+                           ,FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar]
+                              .S_orbitalObjects[M3DVUIUsatPlanIdx].OO_satellitesList[M3DVUIUsatIdx].OO_mass
                            *FCCdiMassEqAsteroid
                            /FCCdiMassEqEarth
                         )
                   );
             {.gravity}
             FCWinMain.FCGLSHUDobobjGravLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIoobjGrav');
-            FCWinMain.FCGLSHUDobobjGrav.Text:=FloatToStr(FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar]
-               .SDB_obobj[M3DVUIUsatPlanIdx].OO_satellitesList[M3DVUIUsatIdx].OO_gravity)+' G';
+            FCWinMain.FCGLSHUDobobjGrav.Text:=FloatToStr(FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar]
+               .S_orbitalObjects[M3DVUIUsatPlanIdx].OO_satellitesList[M3DVUIUsatIdx].OO_gravity)+' G';
             {.escape velocity}
             FCWinMain.FCGLSHUDobobjEVelLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIoobjEscVel');
             FCWinMain.FCGLSHUDobobjEVel.Text
-               :=FloatToStr(FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[M3DVUIUsatPlanIdx]
+               :=FloatToStr(FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_orbitalObjects[M3DVUIUsatPlanIdx]
                   .OO_satellitesList[M3DVUIUsatIdx].OO_escapeVelocity)+' Km/s';
             {.magnetic field}
             FCWinMain.FCGLSHUDobobjMagFLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIoobjMagF');
-            FCWinMain.FCGLSHUDobobjMagF.Text:=FloatToStr(FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar]
-               .SDB_obobj[M3DVUIUsatPlanIdx].OO_satellitesList[M3DVUIUsatIdx].OO_magneticField)+' Gauss';
+            FCWinMain.FCGLSHUDobobjMagF.Text:=FloatToStr(FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar]
+               .S_orbitalObjects[M3DVUIUsatPlanIdx].OO_satellitesList[M3DVUIUsatIdx].OO_magneticField)+' Gauss';
             {.axial tilt}
             FCWinMain.FCGLSHUDobobjAxTiltLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIoobjAxTilt');
-            FCWinMain.FCGLSHUDobobjAxTilt.Text:=FloatToStr(FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar]
-                  .SDB_obobj[M3DVUIUsatPlanIdx].OO_satellitesList[M3DVUIUsatIdx].OO_inclinationAxis)+chr(176);
+            FCWinMain.FCGLSHUDobobjAxTilt.Text:=FloatToStr(FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar]
+                  .S_orbitalObjects[M3DVUIUsatPlanIdx].OO_satellitesList[M3DVUIUsatIdx].OO_inclinationAxis)+chr(176);
             {.albedo}
             FCWinMain.FCGLSHUDobobjAlbeLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIoobjAlb');
-            FCWinMain.FCGLSHUDobobjAlbe.Text:=FloatToStr(FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar]
-               .SDB_obobj[M3DVUIUsatPlanIdx].OO_satellitesList[M3DVUIUsatIdx].OO_albedo);
+            FCWinMain.FCGLSHUDobobjAlbe.Text:=FloatToStr(FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar]
+               .S_orbitalObjects[M3DVUIUsatPlanIdx].OO_satellitesList[M3DVUIUsatIdx].OO_albedo);
          end //==END== else if (FCV3DsatTtl>0) and(Ghost.TargetObject=FC3DobjSatGrp[FCV3DsatSlctd]) ==//
          {.for a focused central star}
          else if FCV3DselOobj=0 then
@@ -852,23 +852,23 @@ begin
             FCMoglUI_FocusedObj_DDisp(ogluihdtStar);
             {.name}
             FCWinMain.FCGLSHUDobjectFocused.Text
-               :=FCFdTFiles_UIStr_Get(dtfscPrprName, FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_token);
+               :=FCFdTFiles_UIStr_Get(dtfscPrprName, FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_token);
             {.star class}
             FCWinMain.FCGLSHUDstarClassLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIstarClass');
             FCWinMain.FCGLSHUDstarClass.Text:=FCFcFunc_Star_GetClass(ufcfFull, FCV3DselSsys, FCV3DselStar);
             {.star temperature}
             FCWinMain.FCGLSHUDstarTempLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIstarTemp');
-            FCWinMain.FCGLSHUDstarTemp.Text:=inttostr(FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_temp)
+            FCWinMain.FCGLSHUDstarTemp.Text:=inttostr(FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_temperature)
                   +' Kelvin';
             {.star diameter}
             FCWinMain.FCGLSHUDstarDiamLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIstarDiam');
-            FCWinMain.FCGLSHUDstarDiam.Text:=FloatToStr(FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_diam);
+            FCWinMain.FCGLSHUDstarDiam.Text:=FloatToStr(FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_diameter);
             {.star mass}
             FCWinMain.FCGLSHUDstarMassLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIstarMass');
-            FCWinMain.FCGLSHUDstarMass.Text:=FloatToStr(FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_mass);
+            FCWinMain.FCGLSHUDstarMass.Text:=FloatToStr(FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_mass);
             {.star luminosity}
             FCWinMain.FCGLSHUDstarLumLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIstarLum');
-            FCWinMain.FCGLSHUDstarLum.Text:=FloatToStr(FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_lum);
+            FCWinMain.FCGLSHUDstarLum.Text:=FloatToStr(FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_luminosity);
          end {.else if FCV3dMVorbObjSlctd=0}
          {.for a focused orbital object}
          else if FCV3DselOobj>0
@@ -877,7 +877,7 @@ begin
             {.change data display}
             FCMoglUI_FocusedObj_DDisp(ogluihdtOObj);
             {.colony presence}
-            M3DVUIUcol:=FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[FCV3DselOobj].OO_colonies[0];
+            M3DVUIUcol:=FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_orbitalObjects[FCV3DselOobj].OO_colonies[0];
             if M3DVUIUcol>0
             then
             begin
@@ -895,7 +895,7 @@ begin
             FCWinMain.FCGLSHUDobjectFocused.Text
                :=FCFdTFiles_UIStr_Get(
                   dtfscPrprName
-                  ,FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[FCV3DselOobj].OO_dbTokenId
+                  ,FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_orbitalObjects[FCV3DselOobj].OO_dbTokenId
                   );
             {.orbital data header}
             FCWinMain.FCGLSHUDobobjOrbDatHLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIoobjOrbDatH');
@@ -904,18 +904,18 @@ begin
             look in FC_OpenGL_DataDisp.pas of the ancient iteration of FARC.}
             FCWinMain.FCGLSHUDobobjDistLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIoobjDistFSt');
             FCWinMain.FCGLSHUDobobjDist.Text
-               :=FloatToStr(FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[FCV3DselOobj].IAS_distanceFromStar)
+               :=FloatToStr(FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_orbitalObjects[FCV3DselOobj].OO_isSatFdistanceFromStar)
                   +' '+FCFdTFiles_UIStr_Get(uistrUI, 'acronAU');
             {.orbit eccentricity}
             {DEV NOTE: add ecc for rings and protoplanetary disk later.
             look in FC_OpenGL_DataDisp.pas of the ancient iteration of FARC.}
             FCWinMain.FCGLSHUDobobjEccLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIoobjEcc');
             FCWinMain.FCGLSHUDobobjEcc.Text
-               :=FloatToStr(FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[FCV3DselOobj].IAS_eccentricity);
+               :=FloatToStr(FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_orbitalObjects[FCV3DselOobj].OO_isSatFeccentricity);
             {.orbital zone}
             {DEV NOTE: for sat use mother's planet zone.}
             FCWinMain.FCGLSHUDobobjZoneLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIoobjOrbZone');
-            case FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[FCV3DselOobj].IAS_orbitalZone of
+            case FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_orbitalObjects[FCV3DselOobj].OO_isSatForbitalZone of
                hzInner: FCWinMain.FCGLSHUDobobjZone.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'zoneInner');
                hzIntermediary: FCWinMain.FCGLSHUDobobjZone.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'zoneInterm');
                hzOuter: FCWinMain.FCGLSHUDobobjZone.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'zoneOuter');
@@ -925,33 +925,33 @@ begin
             look in FC_OpenGL_DataDisp.pas of the ancient iteration of FARC.}
             FCWinMain.FCGLSHUDobobjRevPerLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIoobjRevPer');
             FCWinMain.FCGLSHUDobobjRevPer.Text
-               :=IntToStr(FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar]
-                  .SDB_obobj[FCV3DselOobj].OO_revolutionPeriod)
+               :=IntToStr(FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar]
+                  .S_orbitalObjects[FCV3DselOobj].OO_revolutionPeriod)
                   +' '+FCFdTFiles_UIStr_Get(uistrUI,'TimeFstdD');
             {.rotation period}
             FCWinMain.FCGLSHUDobobjRotPerLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIoobjRotPer');
-            if (FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[FCV3DselOobj].OO_rotationPeriod=0)
-               and (FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[FCV3DselOobj].OO_type
+            if (FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_orbitalObjects[FCV3DselOobj].OO_rotationPeriod=0)
+               and (FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_orbitalObjects[FCV3DselOobj].OO_type
                   >ootAsteroidsBelt_Icy)
-               and (FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[FCV3DselOobj].OO_type
+               and (FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_orbitalObjects[FCV3DselOobj].OO_type
                   <ootRing_Metallic)
             then FCWinMain.FCGLSHUDobobjRotPer.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIoobjTidLckd')
-            else if (FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[FCV3DselOobj].OO_rotationPeriod=0)
+            else if (FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_orbitalObjects[FCV3DselOobj].OO_rotationPeriod=0)
                and (
-                     (FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[FCV3DselOobj].OO_type
+                     (FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_orbitalObjects[FCV3DselOobj].OO_type
                         <ootAsteroid_Metallic)
                      or
-                     (FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[FCV3DselOobj].OO_type
+                     (FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_orbitalObjects[FCV3DselOobj].OO_type
                         >ootPlanet_Icy_CallistoH3H4Atm0)
                   )
             then FCWinMain.FCGLSHUDobobjRotPer.Text:='N/A'
             else FCWinMain.FCGLSHUDobobjRotPer.Text
-               :=FloatToStr(FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[FCV3DselOobj].OO_rotationPeriod)
+               :=FloatToStr(FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_orbitalObjects[FCV3DselOobj].OO_rotationPeriod)
                   +' hrs';
             {.number of satellites}
             FCWinMain.FCGLSHUDobobjSatLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIoobjSat');
             FCWinMain.FCGLSHUDobobjSat.Text
-               :=IntToStr(length(FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[FCV3DselOobj]
+               :=IntToStr(length(FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_orbitalObjects[FCV3DselOobj]
                   .OO_satellitesList)-1);
             {.geophysics data header}
             FCWinMain.FCGLSHUDobobjGeophyHLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIoobjGeophyDatH');
@@ -960,7 +960,7 @@ begin
             FCWinMain.FCGLSHUDobobjObjTpLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIoobjOOType');
             {.a reminder for complete types not implemented}
             FCWinMain.FCGLSHUDobobjObjTp.Text:='N/A';
-            case FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[FCV3DselOobj].OO_type of
+            case FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_orbitalObjects[FCV3DselOobj].OO_type of
                ootProtoplanetaryDisk: FCWinMain.FCGLSHUDobobjObjTp.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'oobtpProtoDisk');
                ootAsteroidsBelt_Metallic: FCWinMain.FCGLSHUDobobjObjTp.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'oobtpAsterBelt_Metall');
                ootAsteroidsBelt_Silicate: FCWinMain.FCGLSHUDobobjObjTp.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'oobtpAsterBelt_Sili');
@@ -999,25 +999,25 @@ begin
             {.diameter}
             FCWinMain.FCGLSHUDobobjDiamLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIoobjDiam');
             FCWinMain.FCGLSHUDobobjDiam.Text
-               :=FloatToStr(FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[FCV3DselOobj].OO_diameter)+' Km';
+               :=FloatToStr(FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_orbitalObjects[FCV3DselOobj].OO_diameter)+' Km';
             {.density}
             FCWinMain.FCGLSHUDobobjDensLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIoobjDens');
             FCWinMain.FCGLSHUDobobjDens.Text
-               :=FloatToStr(FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[FCV3DselOobj].OO_dens)+' Kg';
+               :=FloatToStr(FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_orbitalObjects[FCV3DselOobj].OO_dens)+' Kg';
             {.mass}
             FCWinMain.FCGLSHUDobobjMassLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIoobjMass');
-            if (FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[FCV3DselOobj].OO_type>ootAsteroid_Icy)
-               and (FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[FCV3DselOobj].OO_type<ootSatellite_Asteroid_Metallic)
-            then FCWinMain.FCGLSHUDobobjMass.Text:=FloatToStr(FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar]
-                  .SDB_obobj[FCV3DselOobj].OO_mass)
+            if (FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_orbitalObjects[FCV3DselOobj].OO_type>ootAsteroid_Icy)
+               and (FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_orbitalObjects[FCV3DselOobj].OO_type<ootSatellite_Asteroid_Metallic)
+            then FCWinMain.FCGLSHUDobobjMass.Text:=FloatToStr(FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar]
+                  .S_orbitalObjects[FCV3DselOobj].OO_mass)
             else FCWinMain.FCGLSHUDobobjMass.Text
                :=FloatToStr
                   (
                      FCFcFunc_Rnd
                         (
                            cfrttpMassAster
-                           ,FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar]
-                              .SDB_obobj[FCV3DselOobj].OO_mass
+                           ,FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar]
+                              .S_orbitalObjects[FCV3DselOobj].OO_mass
                            *FCCdiMassEqAsteroid
                            /FCCdiMassEqEarth
                            )
@@ -1025,23 +1025,23 @@ begin
             {.gravity}
             FCWinMain.FCGLSHUDobobjGravLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIoobjGrav');
             FCWinMain.FCGLSHUDobobjGrav.Text
-               :=FloatToStr(FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[FCV3DselOobj].OO_gravity)+' G';
+               :=FloatToStr(FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_orbitalObjects[FCV3DselOobj].OO_gravity)+' G';
             {.escape velocity}
             FCWinMain.FCGLSHUDobobjEVelLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIoobjEscVel');
             FCWinMain.FCGLSHUDobobjEVel.Text
-               :=FloatToStr(FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[FCV3DselOobj].OO_escapeVelocity)+' Km/s';
+               :=FloatToStr(FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_orbitalObjects[FCV3DselOobj].OO_escapeVelocity)+' Km/s';
             {.magnetic field}
             FCWinMain.FCGLSHUDobobjMagFLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIoobjMagF');
             FCWinMain.FCGLSHUDobobjMagF.Text
-               :=FloatToStr(FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[FCV3DselOobj].OO_magneticField)+' Gauss';
+               :=FloatToStr(FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_orbitalObjects[FCV3DselOobj].OO_magneticField)+' Gauss';
             {.axial tilt}
             FCWinMain.FCGLSHUDobobjAxTiltLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIoobjAxTilt');
             FCWinMain.FCGLSHUDobobjAxTilt.Text
-               :=FloatToStr(FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[FCV3DselOobj].OO_inclinationAxis)+chr(176);
+               :=FloatToStr(FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_orbitalObjects[FCV3DselOobj].OO_inclinationAxis)+chr(176);
             {.albedo}
             FCWinMain.FCGLSHUDobobjAlbeLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIoobjAlb');
             FCWinMain.FCGLSHUDobobjAlbe.Text
-               :=FloatToStr(FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[FCV3DselOobj].OO_albedo);
+               :=FloatToStr(FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_orbitalObjects[FCV3DselOobj].OO_albedo);
          end; {.else if FCV3dMVorbObjSlctd>0}
       end; //==END== if (M3DVUIUtype=oglupdtpAll) or (M3DVUIUtype=oglupdtpTxtOnly ==//
    end; //==END== if (M3DVUIUtarget=ogluiutAll) or (M3DVUIUtarget=ogluiutFocObj) ==//

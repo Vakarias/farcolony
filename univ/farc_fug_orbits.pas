@@ -7,7 +7,7 @@
         License: GPLv3
         Website: http://farcolony.sourceforge.net/
 
-        Unit: orbits generation unit
+        Unit: FUG - orbits generation unit
 
 ============================================================================================
 ********************************************************************************************
@@ -45,7 +45,8 @@ implementation
 
 uses
    farc_common_func
-   ,farc_data_univ;
+   ,farc_data_univ
+   ,farc_fug_data;
 
 //===================================================END OF INIT============================
 //===========================END FUNCTIONS SECTION==========================================
@@ -75,16 +76,16 @@ begin
    FOGdapmSC[1]:=100000;
    FOGdapmSC[2]:=100000;
    FOGisPassedBiTri:=true;
-   if FUGstarOrb[FOGstar]=0
+   if FCRfdStarOrbits[FOGstar]=0
    then
    begin
       {.binary/trinary orbits probability}
-      if FCDBsSys[0].SS_star[3].SDB_token<>''
-      then FOGdapmSC[2]:=FCDBsSys[0].SS_star[3].SDB_minApD;
-      if FCDBsSys[0].SS_star[2].SDB_token<>''
+      if FCDduStarSystem[0].SS_stars[3].S_token<>''
+      then FOGdapmSC[2]:=FCDduStarSystem[0].SS_stars[3].S_isCompMinApproachDistance;
+      if FCDduStarSystem[0].SS_stars[2].S_token<>''
       then
       begin
-         FOGdapmSC[1]:=FCDBsSys[0].SS_star[2].SDB_minApD;
+         FOGdapmSC[1]:=FCDduStarSystem[0].SS_stars[2].S_isCompMinApproachDistance;
          FOGdapmMin:=MinValue(FOGdapmSC);
          if (FOGdapmMin>=1)
             and (FOGdapmMin<7)
@@ -108,7 +109,7 @@ begin
       then
       begin
          {.orbits probability + number generation}
-         case FCDBsSys[0].SS_star[FOGstar].SDB_class of
+         case FCDduStarSystem[0].SS_stars[FOGstar].S_class of
             cB5..cM5:
             begin
                OrbitProbaRngMin:=5;
@@ -161,15 +162,15 @@ begin
          then
          begin
             FOGnbOrb:=round(0.2*OrbitProbaTest);
-            SetLength(FCDBsSys[0].SS_star[FOGstar].SDB_obobj, FOGnbOrb+1);
+            SetLength(FCDduStarSystem[0].SS_stars[FOGstar].S_orbitalObjects, FOGnbOrb+1);
          end;
       end; //==END== if FOGisPassedBiTri ==//
    end //==END== if FUGstarOrb[FOGstar]=0 ==//
-   else if FUGstarOrb[FOGstar]>0
+   else if FCRfdStarOrbits[FOGstar]>0
    then
    begin
-      FOGnbOrb:=FUGstarOrb[FOGstar];
-      SetLength(FCDBsSys[0].SS_star[FOGstar].SDB_obobj, FOGnbOrb+1);
+      FOGnbOrb:=FCRfdStarOrbits[FOGstar];
+      SetLength(FCDduStarSystem[0].SS_stars[FOGstar].S_orbitalObjects, FOGnbOrb+1);
    end;
    {.orbit generation}
    if FOGnbOrb>0

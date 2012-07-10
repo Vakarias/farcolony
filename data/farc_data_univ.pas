@@ -620,138 +620,152 @@ type TFCRduOrbitalObject = record
    ///<summary>
    ///   specific data if an orbital object is a satellite or not
    ///</summary>
-   case OO_isASatellite: boolean of
+   case OO_isSatellite: boolean of
       false:(
          ///<summary>
          ///   NOT LOADED DATA - index of the first satellite 3d object
          ///</summary>
-         IAS_1st3dObjectSatelliteIndex: integer;
+         OO_isSatF1st3dObjectSatelliteIndex: integer;
          ///<summary>
          ///   distance from it's star in AU
          ///</summary>
-         IAS_distanceFromStar: extended;
+         OO_isSatFdistanceFromStar: extended;
          ///<summary>
          ///   orbit eccentricity in #.### format
          ///</summary>
-         IAS_eccentricity: extended;
+         OO_isSatFeccentricity: extended;
          ///<summary>
          ///   orbital zone type
          ///</summary>
-         IAS_orbitalZone: TFCEduHabitableZones;
+         OO_isSatForbitalZone: TFCEduHabitableZones;
          );
 
       true: (
-         {distance from it's central planet in thousands of km}
-         OOS_distFrmOOb: extended;
+         ///<summary>
+         ///   distance from it's central planet in thousands of km
+         ///</summary>
+         OO_isSatTdistFrmOOb: extended;
          );
 end;
 
+{:REFERENCES LIST
+   - FCFgC_Colony_Core
+   - FCMdF_DBstarSys_Process
+   - FCMfO_Generate
+   - FCMoglUI_Main3DViewUI_Update
+   - FCMuiW_UI_Initialize
+   - TFCWinFUG.FCWFgenerateClick
+   -
+   -
+}
+///<summary>
+///   star
+///</summary>
+type TFCRduStar = record
+   ///<summary>
+   ///   db token id
+   ///</summary>
+   S_token: string[20];
+   ///<summary>
+   ///   class, like G2, K, PSR...
+   ///</summary>
+   S_class: TFCEduStarClasses;
+   ///<summary>
+   ///   temperature in degree Kelvin
+   ///</summary>
+   S_temperature: Integer;
+   ///<summary>
+   ///   mass, relative to Sun
+   ///</summary>
+   S_mass: extended;
+   ///<summary>
+   ///   diameter, relative to Sun
+   ///</summary>
+   S_diameter: extended;
+   ///<summary>
+   ///   luminosity, relative to Sun
+   ///</summary>
+   S_luminosity: extended;
+   ///<summary>
+   ///   list of orbital objects the star have
+   ///</summary>
+   S_orbitalObjects: array of TFCRduOrbitalObject;
+   case S_isCompanion: boolean of
+      false:();
 
+      true: (
+         ///<summary>
+         ///   companion star - mean separation
+         ///</summary>
+         S_isCompMeanSeparation: extended;
+         ///<summary>
+         ///   companion star - minimal approach distance
+         ///</summary>
+         S_isCompMinApproachDistance: extended;
+         ///<summary>
+         ///   companion star - eccentricity
+         ///</summary>
+         S_isCompEccentricity: extended;
+         ///<summary>
+         ///   companion star 2 - orbit type
+         ///</summary>
+         S_isCompStar2OrbitType: TFCEduCompanion2OrbitTypes;
+         );
+end;
+
+{:REFERENCES LIST
+   - FCMdFiles_DBstarSys_Process
+   -
+   -
+   -
+   -
+   -
+}
+///<summary>
+///   star system
+///</summary>
+type TFCRduStarSystem = record
+   ///<summary>
+   ///   db token id
+   ///</summary>
+   SS_token: string[20];
+   ///<summary>
+   ///   star system location on X axis, the unit is in AU and relative to Sol
+   ///</summary>
+   SS_locationX: extended;
+   ///<summary>
+   ///   star system location on Y axis, the unit is in AU and relative to Sol
+   ///</summary>
+   SS_locationY: extended;
+   ///<summary>
+   ///   star system location on Z axis, the unit is in AU and relative to Sol
+   ///</summary>
+   SS_locationZ: extended;
+   ///<summary>
+   ///   stars list, 1= main star 2/3= companion stars
+   ///</summary>
+   SS_stars: array [0..3] of TFCRduStar;
+end;
+   ///<summary>
+   ///   stars system dynamic array
+   ///</summary>
+   TFCDduStarSystems = array of TFCRduStarSystem;
 
 //==END PUBLIC RECORDS======================================================================
 
    //==========subsection===================================================================
-//var
-//==END PUBLIC VAR==========================================================================
+var
+   ///<summary>
+   ///   star systems database
+   ///</summary>
+   FCDduStarSystem: TFCDduStarSystems;
+
+   //==END PUBLIC VAR==========================================================================
 
 //const
 //==END PUBLIC CONST========================================================================
 
 //===========================END FUNCTIONS SECTION==========================================
-
-//============================OLD CODE==================================================================================
-
-
-   //=======================================================================================
-   {.stars and orbital objects datastructures}
-   //=======================================================================================
-   
-
-
-
-   
-
-
-
-
-
-
-
-
-   {:DEV NOTES: try to blend the oobj and sat data structure
-      do not update the SVN until it's tested and doable without blow all the structure
-
-      put bool in oobj=>  case isAsat of
-
-      false:
-         put # of sat
-         put index of sat #1
-
-
-      true:
-         put sat# in the order
-         put OOS_distFrmOOb
-
-   }
-   {.satellite data structure, child of TFCRorbObj}
-   {:DEV NOTE: don't forget to update farc_data_files / FCMdFiles_DBstarSys_Process.}
-
-
-   {.FUG orbits to generate}
-   type TFCRduFUGstarOrb= array[0..3] of integer;
-   {.FUG system type}
-   type TFCRduFUGsysTp= array[0..3] of integer;
-
-   {.star data structure, child of TFCRstarSys}
-   type TFCRstar = record
-      {db token id}
-      SDB_token: string[20];
-      {class, like G2, K, PSR...}
-      SDB_class: TFCEduStarClasses;
-      {temperature in degree Kelvin}
-      SDB_temp: Integer;
-      {mass, relative to Sun}
-      SDB_mass: extended;
-      {diameter, relative to Sun}
-      SDB_diam: extended;
-      {luminosity, relative to Sun}
-      SDB_lum: extended;
-      {orbital object sub-datastructure}
-      SDB_obobj: array of TFCRduOrbitalObject;
-      {.companion star - mean separation}
-      SDB_meanSep: extended;
-      {.companion star - minimal approach distance}
-      SDB_minApD: extended;
-      {.companion star - eccentricity}
-      SDB_ecc: extended;
-      {.companion star 2 - orbit type}
-      SDB_comp2Orb: TFCEduCompanion2OrbitTypes;
-   end;
-   {.unified star systems datastructure}
-   {:DEV NOTES : update universe.xml + FCMdFiles_DBstarSys_Process.}
-   type TFCRstarSys = record
-      {.star system db token id}
-      SS_token: string[20];
-      {.star system location on X axis, the unit is in AU and relative to Sol}
-      SS_gLocX: extended;
-      SS_gLocY: extended;                   {star system location on Y axis, the unit is in AU
-                                          and relative to Sol}
-      SS_gLocZ: extended;                   {star system location on Z axis, the unit is in AU
-                                          and relative to Sol}
-      SS_star: array [0..3] of TFCRstar;  {star's sub datastructure 1= main 2 and 3 =
-                                          compagnon ones}
-   end;
-      {.stellar systems dynamic array}
-      TFCDBstarSys = array of TFCRstarSys;
-   //=======================================================================================
-   {.global variables}
-   //=======================================================================================
-   var
-      FCDBsSys: TFCDBstarSys;
-      FUGstarOrb: TFCRduFUGstarOrb;
-      FUGsysTp: TFCRduFUGsysTp;
-//
-////=============================================END OF OLD CODE==================================
 
 implementation
 

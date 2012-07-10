@@ -264,15 +264,15 @@ begin
       );
    if FCentities[CEGTfac].E_col[CEGTcol].COL_locSat='' then
    begin
-      CEGTgravity:=FCDBSsys[ CEGToobjLoc[1] ].SS_star[ CEGToobjLoc[2] ].SDB_obobj[ CEGToobjLoc[3] ].OO_gravity;
-      CEGTenv:=FCDBSsys[ CEGToobjLoc[1] ].SS_star[ CEGToobjLoc[2] ].SDB_obobj[ CEGToobjLoc[3] ].OO_environment;
-      CEGThydro:=FCDBSsys[ CEGToobjLoc[1] ].SS_star[ CEGToobjLoc[2] ].SDB_obobj[ CEGToobjLoc[3] ].OO_hydrosphere;
+      CEGTgravity:=FCDduStarSystem[ CEGToobjLoc[1] ].SS_stars[ CEGToobjLoc[2] ].S_orbitalObjects[ CEGToobjLoc[3] ].OO_gravity;
+      CEGTenv:=FCDduStarSystem[ CEGToobjLoc[1] ].SS_stars[ CEGToobjLoc[2] ].S_orbitalObjects[ CEGToobjLoc[3] ].OO_environment;
+      CEGThydro:=FCDduStarSystem[ CEGToobjLoc[1] ].SS_stars[ CEGToobjLoc[2] ].S_orbitalObjects[ CEGToobjLoc[3] ].OO_hydrosphere;
    end
    else if FCentities[CEGTfac].E_col[CEGTcol].COL_locSat<>'' then
    begin
-      CEGTgravity:=FCDBSsys[ CEGToobjLoc[1] ].SS_star[ CEGToobjLoc[2] ].SDB_obobj[ CEGToobjLoc[3] ].OO_satellitesList[ CEGToobjLoc[4] ].OO_gravity;
-      CEGTenv:=FCDBSsys[ CEGToobjLoc[1] ].SS_star[ CEGToobjLoc[2] ].SDB_obobj[ CEGToobjLoc[3] ].OO_satellitesList[ CEGToobjLoc[4] ].OO_environment;
-      CEGThydro:=FCDBSsys[ CEGToobjLoc[1] ].SS_star[ CEGToobjLoc[2] ].SDB_obobj[ CEGToobjLoc[3] ].OO_satellitesList[ CEGToobjLoc[4] ].OO_hydrosphere;
+      CEGTgravity:=FCDduStarSystem[ CEGToobjLoc[1] ].SS_stars[ CEGToobjLoc[2] ].S_orbitalObjects[ CEGToobjLoc[3] ].OO_satellitesList[ CEGToobjLoc[4] ].OO_gravity;
+      CEGTenv:=FCDduStarSystem[ CEGToobjLoc[1] ].SS_stars[ CEGToobjLoc[2] ].S_orbitalObjects[ CEGToobjLoc[3] ].OO_satellitesList[ CEGToobjLoc[4] ].OO_environment;
+      CEGThydro:=FCDduStarSystem[ CEGToobjLoc[1] ].SS_stars[ CEGToobjLoc[2] ].S_orbitalObjects[ CEGToobjLoc[3] ].OO_satellitesList[ CEGToobjLoc[4] ].OO_hydrosphere;
    end;
    Result.ENV_gravity:=CEGTgravity;
    Result.ENV_envType:=CEGTenv;
@@ -406,9 +406,9 @@ begin
       FCentities[CCfacId].E_col[CCcolIdx].COL_csmtime:=FCRplayer.P_timeTick+FCCwkTick;
       FCMgCSM_PhaseList_Upd(0, CCcolIdx);
       {.set the colony's location data}
-      FCentities[CCfacId].E_col[CCcolIdx].COL_locSSys:=FCDBsSys[CClocSS].SS_token;
-      FCentities[CCfacId].E_col[CCcolIdx].COL_locStar:=FCDBsSys[CClocSS].SS_star[CClocSt].SDB_token;
-      FCentities[CCfacId].E_col[CCcolIdx].COL_locOObj:=FCDBsSys[CClocSS].SS_star[CClocSt].SDB_obobj[CClocOObj].OO_dbTokenId;
+      FCentities[CCfacId].E_col[CCcolIdx].COL_locSSys:=FCDduStarSystem[CClocSS].SS_token;
+      FCentities[CCfacId].E_col[CCcolIdx].COL_locStar:=FCDduStarSystem[CClocSS].SS_stars[CClocSt].S_token;
+      FCentities[CCfacId].E_col[CCcolIdx].COL_locOObj:=FCDduStarSystem[CClocSS].SS_stars[CClocSt].S_orbitalObjects[CClocOObj].OO_dbTokenId;
       {.initialize colony's data}
       FCMgCSM_ColonyData_Init(0, CCcolIdx);
       {.update the orbital object colonies presence, and secondary, retrieve the environment}
@@ -416,15 +416,15 @@ begin
       then
       begin
          FCentities[CCfacId].E_col[CCcolIdx].COL_locSat:='';
-         FCDBsSys[CClocSS].SS_star[CClocSt].SDB_obobj[CClocOObj].OO_colonies[CCfacId]:=CCcolIdx;
-         ColonyEnvironment:=FCDBsSys[CClocSS].SS_star[CClocSt].SDB_obobj[CClocOObj].OO_environment;
+         FCDduStarSystem[CClocSS].SS_stars[CClocSt].S_orbitalObjects[CClocOObj].OO_colonies[CCfacId]:=CCcolIdx;
+         ColonyEnvironment:=FCDduStarSystem[CClocSS].SS_stars[CClocSt].S_orbitalObjects[CClocOObj].OO_environment;
       end
       else if CClocSat>0
       then
       begin
-         FCentities[CCfacId].E_col[CCcolIdx].COL_locSat:=FCDBsSys[CClocSS].SS_star[CClocSt].SDB_obobj[CClocOObj].OO_satellitesList[CClocSat].OO_dbTokenId;
-         FCDBsSys[CClocSS].SS_star[CClocSt].SDB_obobj[CClocOObj].OO_satellitesList[CClocSat].OO_colonies[CCfacId]:=CCcolIdx;
-         ColonyEnvironment:=FCDBsSys[CClocSS].SS_star[CClocSt].SDB_obobj[CClocOObj].OO_satellitesList[CClocSat].OO_environment;
+         FCentities[CCfacId].E_col[CCcolIdx].COL_locSat:=FCDduStarSystem[CClocSS].SS_stars[CClocSt].S_orbitalObjects[CClocOObj].OO_satellitesList[CClocSat].OO_dbTokenId;
+         FCDduStarSystem[CClocSS].SS_stars[CClocSt].S_orbitalObjects[CClocOObj].OO_satellitesList[CClocSat].OO_colonies[CCfacId]:=CCcolIdx;
+         ColonyEnvironment:=FCDduStarSystem[CClocSS].SS_stars[CClocSt].S_orbitalObjects[CClocOObj].OO_satellitesList[CClocSat].OO_environment;
       end;
       if ColonyEnvironment=etFreeLiving
       then FCentities[CCfacId].E_col[CCcolIdx].COL_reserveOxygen:=-1;
@@ -552,14 +552,14 @@ begin
    setlength( FCentities[ Entity ].E_col[ Colony ].COL_settlements[ Max ].CS_infra, 1 );
    if OobjLocation[4]>0 then
    begin
-      FCDBsSys[OobjLocation[1]].SS_star[OobjLocation[2]].SDB_obobj[OobjLocation[3]].OO_satellitesList[OobjLocation[4]].OO_regions[ Region ].OOR_settlementEntity:=Entity;
-      FCDBsSys[OobjLocation[1]].SS_star[OobjLocation[2]].SDB_obobj[OobjLocation[3]].OO_satellitesList[OobjLocation[4]].OO_regions[ Region ].OOR_settlementColony:=Colony;
-      FCDBsSys[OobjLocation[1]].SS_star[OobjLocation[2]].SDB_obobj[OobjLocation[3]].OO_satellitesList[OobjLocation[4]].OO_regions[ Region ].OOR_settlementIndex:=Max;
+      FCDduStarSystem[OobjLocation[1]].SS_stars[OobjLocation[2]].S_orbitalObjects[OobjLocation[3]].OO_satellitesList[OobjLocation[4]].OO_regions[ Region ].OOR_settlementEntity:=Entity;
+      FCDduStarSystem[OobjLocation[1]].SS_stars[OobjLocation[2]].S_orbitalObjects[OobjLocation[3]].OO_satellitesList[OobjLocation[4]].OO_regions[ Region ].OOR_settlementColony:=Colony;
+      FCDduStarSystem[OobjLocation[1]].SS_stars[OobjLocation[2]].S_orbitalObjects[OobjLocation[3]].OO_satellitesList[OobjLocation[4]].OO_regions[ Region ].OOR_settlementIndex:=Max;
    end
    else begin
-      FCDBsSys[OobjLocation[1]].SS_star[OobjLocation[2]].SDB_obobj[OobjLocation[3]].OO_regions[ Region ].OOR_settlementEntity:=Entity;
-      FCDBsSys[OobjLocation[1]].SS_star[OobjLocation[2]].SDB_obobj[OobjLocation[3]].OO_regions[ Region ].OOR_settlementColony:=Colony;
-      FCDBsSys[OobjLocation[1]].SS_star[OobjLocation[2]].SDB_obobj[OobjLocation[3]].OO_regions[ Region ].OOR_settlementIndex:=Max;
+      FCDduStarSystem[OobjLocation[1]].SS_stars[OobjLocation[2]].S_orbitalObjects[OobjLocation[3]].OO_regions[ Region ].OOR_settlementEntity:=Entity;
+      FCDduStarSystem[OobjLocation[1]].SS_stars[OobjLocation[2]].S_orbitalObjects[OobjLocation[3]].OO_regions[ Region ].OOR_settlementColony:=Colony;
+      FCDduStarSystem[OobjLocation[1]].SS_stars[OobjLocation[2]].S_orbitalObjects[OobjLocation[3]].OO_regions[ Region ].OOR_settlementIndex:=Max;
    end;
    {.update the colony's CAB queue}
    if length( FCentities[ Entity ].E_col[Colony].COL_cabQueue )<2

@@ -1982,10 +1982,10 @@ begin
          ,SGISstar
          ,SGISoobj
          );
-      SGISenv:=FCDBsSys[SGISssys].SS_star[SGISstar].SDB_obobj[SGISoobj].OO_satellitesList[SGISsat].OO_environment
+      SGISenv:=FCDduStarSystem[SGISssys].SS_stars[SGISstar].S_orbitalObjects[SGISoobj].OO_satellitesList[SGISsat].OO_environment
    end
    else if FCentities[SGISfac].E_col[SGIScol].COL_locSat=''
-   then SGISenv:=FCDBsSys[SGISssys].SS_star[SGISstar].SDB_obobj[SGISoobj].OO_environment;
+   then SGISenv:=FCDduStarSystem[SGISssys].SS_stars[SGISstar].S_orbitalObjects[SGISoobj].OO_environment;
    SGIStens:=StrToInt(
       FCFgCSM_Tension_GetIdx(
          SGISfac
@@ -2266,10 +2266,10 @@ begin
          ,SPLGIMstar
          ,SPLGIMoobj
          );
-      SPLGIMenv:=FCDBsSys[SPLGIMssys].SS_star[SPLGIMstar].SDB_obobj[SPLGIMoobj].OO_satellitesList[SPLGIMsat].OO_environment
+      SPLGIMenv:=FCDduStarSystem[SPLGIMssys].SS_stars[SPLGIMstar].S_orbitalObjects[SPLGIMoobj].OO_satellitesList[SPLGIMsat].OO_environment
    end
    else if FCentities[SPLGIMfac].E_col[SPLGIMcol].COL_locSat=''
-   then SPLGIMenv:=FCDBsSys[SPLGIMssys].SS_star[SPLGIMstar].SDB_obobj[SPLGIMoobj].OO_environment;
+   then SPLGIMenv:=FCDduStarSystem[SPLGIMssys].SS_stars[SPLGIMstar].S_orbitalObjects[SPLGIMoobj].OO_environment;
    case SPLGIMenv of
       etFreeLiving:
       begin

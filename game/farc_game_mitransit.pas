@@ -149,38 +149,38 @@ begin
    {.minreqDV.departure orbital velocity}
    if not MCCisOrgAsat
    then MCCdepOrbVel:=(
-      2*pi*FCDBsSys[GMCrootSsys].SS_star[GMCrootStar].SDB_obobj[GMCrootOObIdx].IAS_distanceFromStar*FCCdiKm_In_1AU
-      /FCDBsSys[GMCrootSsys].SS_star[GMCrootStar].SDB_obobj[GMCrootOObIdx].OO_revolutionPeriod
+      2*pi*FCDduStarSystem[GMCrootSsys].SS_stars[GMCrootStar].S_orbitalObjects[GMCrootOObIdx].OO_isSatFdistanceFromStar*FCCdiKm_In_1AU
+      /FCDduStarSystem[GMCrootSsys].SS_stars[GMCrootStar].S_orbitalObjects[GMCrootOObIdx].OO_revolutionPeriod
       )
       /86400
    else if MCCisOrgAsat
    then MCCdepOrbVel:=(
-      2*pi*FCDBsSys[GMCrootSsys].SS_star[GMCrootStar].SDB_obobj[MCCsatOrgPlanIdx].OO_satellitesList[MCCsatOrgIdx].OOS_distFrmOOb*1000
-      /FCDBsSys[GMCrootSsys].SS_star[GMCrootStar].SDB_obobj[MCCsatOrgPlanIdx].OO_satellitesList[MCCsatOrgIdx].OO_revolutionPeriod
+      2*pi*FCDduStarSystem[GMCrootSsys].SS_stars[GMCrootStar].S_orbitalObjects[MCCsatOrgPlanIdx].OO_satellitesList[MCCsatOrgIdx].OO_isSatTdistFrmOOb*1000
+      /FCDduStarSystem[GMCrootSsys].SS_stars[GMCrootStar].S_orbitalObjects[MCCsatOrgPlanIdx].OO_satellitesList[MCCsatOrgIdx].OO_revolutionPeriod
       )
       /86400;
    {.minreqDV.arrival orbital velocity}
    if not MCCisDestASat
    then MCCarrOrbVel:=(
-      2*pi*FCDBsSys[GMCrootSsys].SS_star[GMCrootStar].SDB_obobj[FCV3DselOobj].IAS_distanceFromStar*FCCdiKm_In_1AU
-      /FCDBsSys[GMCrootSsys].SS_star[GMCrootStar].SDB_obobj[FCV3DselOobj].OO_revolutionPeriod
+      2*pi*FCDduStarSystem[GMCrootSsys].SS_stars[GMCrootStar].S_orbitalObjects[FCV3DselOobj].OO_isSatFdistanceFromStar*FCCdiKm_In_1AU
+      /FCDduStarSystem[GMCrootSsys].SS_stars[GMCrootStar].S_orbitalObjects[FCV3DselOobj].OO_revolutionPeriod
       )
       /86400
    else if MCCisDestASat
    then MCCarrOrbVel:=(
-      2*pi*FCDBsSys[GMCrootSsys].SS_star[GMCrootStar].SDB_obobj[MCCsatDestPlanIdx].OO_satellitesList[MCCsatDestIdx].OOS_distFrmOOb
+      2*pi*FCDduStarSystem[GMCrootSsys].SS_stars[GMCrootStar].S_orbitalObjects[MCCsatDestPlanIdx].OO_satellitesList[MCCsatDestIdx].OO_isSatTdistFrmOOb
       *1000
-      /FCDBsSys[GMCrootSsys].SS_star[GMCrootStar].SDB_obobj[MCCsatDestPlanIdx].OO_satellitesList[MCCsatDestIdx].OO_revolutionPeriod
+      /FCDduStarSystem[GMCrootSsys].SS_stars[GMCrootStar].S_orbitalObjects[MCCsatDestPlanIdx].OO_satellitesList[MCCsatDestIdx].OO_revolutionPeriod
       )
       /86400;
    {.minreqDV.orbital velocities differences}
    MCCvh:=MCCarrOrbVel-MCCdepOrbVel;
    {.minreqDV.required deltav}
    if not MCCisOrgAsat
-   then GMCreqDV:=sqrt(sqr(MCCvh)+sqr(FCDBsSys[GMCrootSsys].SS_star[GMCrootStar].SDB_obobj[GMCrootOObIdx].OO_escapeVelocity))
+   then GMCreqDV:=sqrt(sqr(MCCvh)+sqr(FCDduStarSystem[GMCrootSsys].SS_stars[GMCrootStar].S_orbitalObjects[GMCrootOObIdx].OO_escapeVelocity))
    else if MCCisOrgAsat
    then GMCreqDV:=sqrt(
-      sqr(MCCvh)+sqr(FCDBsSys[GMCrootSsys].SS_star[GMCrootStar].SDB_obobj[MCCsatOrgPlanIdx].OO_satellitesList[MCCsatOrgIdx].OO_escapeVelocity)
+      sqr(MCCvh)+sqr(FCDduStarSystem[GMCrootSsys].SS_stars[GMCrootStar].S_orbitalObjects[MCCsatOrgPlanIdx].OO_satellitesList[MCCsatOrgIdx].OO_escapeVelocity)
       );
    //================(end) calculate minimal required deltaV================
 //====================(END) DATA INITIALIZATION=============================
@@ -391,7 +391,7 @@ begin
          OOILSCRzOrg:=FC3DobjGrp[OOILSCRooIdxOrg].Position.Z;
          OOILSCRgravSphOrg:=FCFcFunc_ScaleConverter(
             cf3dctKmTo3dViewUnit
-            ,FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[OOILSCRooIdxOrg].OO_gravitationalSphereRadius
+            ,FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_orbitalObjects[OOILSCRooIdxOrg].OO_gravitationalSphereRadius
             );
       end;
       gmtltSat:
@@ -402,7 +402,7 @@ begin
          OOILSCRsatPlanIdxOrg:=round(FC3DobjSatGrp[OOILSCRooIdxOrg].TagFloat);
          OOILSCRgravSphOrg:=FCFcFunc_ScaleConverter(
             cf3dctKmTo3dViewUnit
-            ,FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[OOILSCRsatPlanIdxOrg].OO_satellitesList[OOILSCRsatIdxOrg].OO_gravitationalSphereRadius
+            ,FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_orbitalObjects[OOILSCRsatPlanIdxOrg].OO_satellitesList[OOILSCRsatIdxOrg].OO_gravitationalSphereRadius
             );
       end;
       gmtltSpUnit:
@@ -421,7 +421,7 @@ begin
          OOILSCRgravSphDes
             :=FCFcFunc_ScaleConverter(
                cf3dctKmTo3dViewUnit
-               ,FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[OOILSCRooIdxDest].OO_gravitationalSphereRadius
+               ,FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_orbitalObjects[OOILSCRooIdxDest].OO_gravitationalSphereRadius
                );
       end;
       gmtltSat:
@@ -433,7 +433,7 @@ begin
          OOILSCRgravSphDes
             :=FCFcFunc_ScaleConverter(
                cf3dctKmTo3dViewUnit
-               ,FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[OOILSCRsatPlanIdxDest].OO_satellitesList[OOILSCRsatIdxDest].OO_gravitationalSphereRadius
+               ,FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_orbitalObjects[OOILSCRsatPlanIdxDest].OO_satellitesList[OOILSCRsatIdxDest].OO_gravitationalSphereRadius
                );
       end;
       gmtltSpUnit:

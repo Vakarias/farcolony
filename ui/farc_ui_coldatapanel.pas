@@ -1736,7 +1736,7 @@ begin
          FCWinMain.FCWM_SP_SurfSel.Left:=0;
          FCWinMain.FCWM_SP_SurfSel.Top:=0;
       end;
-      CFDcol:=FCDBSsys[CFDssys].SS_star[CFDstar].SDB_obobj[CFDoobj].OO_colonies[0];
+      CFDcol:=FCDduStarSystem[CFDssys].SS_stars[CFDstar].S_orbitalObjects[CFDoobj].OO_colonies[0];
    end
    else if CFDsat>0
    then
@@ -1758,7 +1758,7 @@ begin
          FCWinMain.FCWM_SP_SurfSel.Left:=0;
          FCWinMain.FCWM_SP_SurfSel.Top:=0;
       end;
-      CFDcol:=FCDBSsys[CFDssys].SS_star[CFDstar].SDB_obobj[CFDoobj].OO_satellitesList[CFDsat].OO_colonies[0];
+      CFDcol:=FCDduStarSystem[CFDssys].SS_stars[CFDstar].S_orbitalObjects[CFDoobj].OO_satellitesList[CFDsat].OO_colonies[0];
    end;
    if FCWinMain.FCWM_SP_AutoUp.Checked
    then FCWinMain.FCWM_SP_AutoUp.Checked:=false;

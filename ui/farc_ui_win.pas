@@ -392,12 +392,12 @@ begin
       {.colony/faction data}
       if (
          (FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3DobjGrp[FCV3DselOobj])
-         and (FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[FCV3DselOobj].OO_colonies[0]>0)
+         and (FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_orbitalObjects[FCV3DselOobj].OO_colonies[0]>0)
          )
          or
          (
          (FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3DobjSatGrp[FCV3DselOobj])
-         and (FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[FCV3DselOobj].OO_satellitesList[FCV3DselSat].OO_colonies[0]>0)
+         and (FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_orbitalObjects[FCV3DselOobj].OO_satellitesList[FCV3DselSat].OO_colonies[0]>0)
          )
       then
       begin
@@ -488,13 +488,13 @@ begin
                      (
                         (FPUcolN=1)
                         and(FPUspUsat=0)
-                        and (FCDBsSys[FPUspUssys].SS_star[FPUspUstar].SDB_obobj[FPUspUoobj].OO_colonies[0]>0)
+                        and (FCDduStarSystem[FPUspUssys].SS_stars[FPUspUstar].S_orbitalObjects[FPUspUoobj].OO_colonies[0]>0)
                         )
                      or
                      (
                         (FPUcolN=1)
                         and (FPUspUsat>0)
-                        and (FCDBsSys[FPUspUssys].SS_star[FPUspUstar].SDB_obobj[FPUspUoobj].OO_satellitesList[FPUspUsat].OO_colonies[0]>0)
+                        and (FCDduStarSystem[FPUspUssys].SS_stars[FPUspUstar].S_orbitalObjects[FPUspUoobj].OO_satellitesList[FPUspUsat].OO_colonies[0]>0)
                         )
                      )
                   )
@@ -838,11 +838,11 @@ begin
       {.main 3d view frame}
       FCWinMain.FCWM_3dMainGrp.Caption
          :=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_3dMainGrp.SSys')
-            +' '+FCFdTFiles_UIStr_Get(dtfscPrprName,FCDBsSys[FCV3DselSsys].SS_token)
+            +' '+FCFdTFiles_UIStr_Get(dtfscPrprName,FCDduStarSystem[FCV3DselSsys].SS_token)
             +']  '
             +FCFdTFiles_UIStr_Get(uistrUI,'FCWM_3dMainGrp.Star')
             +' '
-            +FCFdTFiles_UIStr_Get(dtfscPrprName, FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_token)
+            +FCFdTFiles_UIStr_Get(dtfscPrprName, FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_token)
             +']';
       {.help panel}
       FCWinMain.FCWM_HelpPanel.Caption.Text:='<p align="center"><b>'+FCFdTFiles_UIStr_Get(uistrUI,'FCWM_HelpPanel')+'</b>';

@@ -1045,7 +1045,7 @@ begin
                (
                   (not FCWinMain.FCWM_MissionSettings.Visible)
                   and
-                  (length(FCDBsSys[FCV3DselSsys].SS_star[FCV3DselStar].SDB_obobj[FCV3DselOobj].OO_satellitesList)>1)
+                  (length(FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_orbitalObjects[FCV3DselOobj].OO_satellitesList)>1)
                )
                or
                (

@@ -92,6 +92,9 @@
 			<DCCReference Include="data\farc_data_game.pas"/>
 			<DCCReference Include="data\farc_data_infrprod.pas"/>
 			<DCCReference Include="univ\farc_fug_stars.pas"/>
+			<DCCReference Include="univ\farc_fug_dat.pas">
+				<ModuleName>farc_fug_data</ModuleName>
+			</DCCReference>
 			<DCCReference Include="game\farc_game_pgs.pas"/>
 			<DCCReference Include="game\farc_game_core.pas"/>
 			<DCCReference Include="game\farc_game_spmdata.pas"/>

@@ -102,9 +102,9 @@ const
    LCgeesInKmS=FCCdiMbySec_In_1G*0.001;
 begin
    if LCsatIdx=0
-   then LCplanApress:=FCDBsSys[LCssys].SS_star[LCstar].SDB_obobj[LCoobjIdx].OO_atmosphericPressure
+   then LCplanApress:=FCDduStarSystem[LCssys].SS_stars[LCstar].S_orbitalObjects[LCoobjIdx].OO_atmosphericPressure
    else if LCsatIdx>0
-   then LCplanApress:=FCDBsSys[LCssys].SS_star[LCstar].SDB_obobj[LCoobjIdx].OO_satellitesList[LCsatIdx].OO_atmosphericPressure;
+   then LCplanApress:=FCDduStarSystem[LCssys].SS_stars[LCstar].S_orbitalObjects[LCoobjIdx].OO_satellitesList[LCsatIdx].OO_atmosphericPressure;
    LCdesgn:=FCFspuF_Design_getDB(FCentities[LCfac].E_spU[LCownIdx].SUO_designId);
    {.calculate final acceleration in gees relative to loaded mass}
    GMCAccelG:=(MRMCDVCthrbyvol*MRMCDVCvolOfDrive)/MRMCDVCloadedMassInTons;

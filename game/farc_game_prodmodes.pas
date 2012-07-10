@@ -426,22 +426,22 @@ begin
                if OrbObjRow[ 4 ]=0 then
                begin
                   {.region's precipitations}
-                  ProdModeDataI2:=FCDBSSys[ OrbObjRow[ 1 ] ].SS_star[ OrbObjRow[ 2 ] ].SDB_obobj[ OrbObjRow[ 3 ] ].OO_regions[ ProdModeDataI1 ].OOR_precipitation;
+                  ProdModeDataI2:=FCDduStarSystem[ OrbObjRow[ 1 ] ].SS_stars[ OrbObjRow[ 2 ] ].S_orbitalObjects[ OrbObjRow[ 3 ] ].OO_regions[ ProdModeDataI1 ].OOR_precipitation;
                   {.region's windspeed}
-                  ProdModeDataF5:=FCDBSSys[ OrbObjRow[ 1 ] ].SS_star[ OrbObjRow[ 2 ] ].SDB_obobj[ OrbObjRow[ 3 ] ].OO_regions[ ProdModeDataI1 ].OOR_windSpeed;
+                  ProdModeDataF5:=FCDduStarSystem[ OrbObjRow[ 1 ] ].SS_stars[ OrbObjRow[ 2 ] ].S_orbitalObjects[ OrbObjRow[ 3 ] ].OO_regions[ ProdModeDataI1 ].OOR_windSpeed;
                   {.H2O gas status}
-                  ProdModeDataI3:=Integer(FCDBSSys[ OrbObjRow[ 1 ] ].SS_star[ OrbObjRow[ 2 ] ].SDB_obobj[ OrbObjRow[ 3 ] ].OO_atmosphere.AC_gasPresenceH2O);
+                  ProdModeDataI3:=Integer(FCDduStarSystem[ OrbObjRow[ 1 ] ].SS_stars[ OrbObjRow[ 2 ] ].S_orbitalObjects[ OrbObjRow[ 3 ] ].OO_atmosphere.AC_gasPresenceH2O);
                   if FCVdiDebugMode
                   then FCWinDebug.AdvMemo1.Lines.Add('H2O gas status='+inttostr(ProdModeDataI3));
                end
                else if OrbObjRow[ 4 ]>0 then
                begin
                   {.region's precipitations}
-                  ProdModeDataI2:=FCDBSSys[ OrbObjRow[ 1 ] ].SS_star[ OrbObjRow[ 2 ] ].SDB_obobj[ OrbObjRow[ 3 ] ].OO_satellitesList[ OrbObjRow[ 4 ] ].OO_regions[ ProdModeDataI1 ].OOR_precipitation;
+                  ProdModeDataI2:=FCDduStarSystem[ OrbObjRow[ 1 ] ].SS_stars[ OrbObjRow[ 2 ] ].S_orbitalObjects[ OrbObjRow[ 3 ] ].OO_satellitesList[ OrbObjRow[ 4 ] ].OO_regions[ ProdModeDataI1 ].OOR_precipitation;
                   {.region's windspeed}
-                  ProdModeDataF5:=FCDBSSys[ OrbObjRow[ 1 ] ].SS_star[ OrbObjRow[ 2 ] ].SDB_obobj[ OrbObjRow[ 3 ] ].OO_satellitesList[ OrbObjRow[ 4 ] ].OO_regions[ ProdModeDataI1 ].OOR_windSpeed;
+                  ProdModeDataF5:=FCDduStarSystem[ OrbObjRow[ 1 ] ].SS_stars[ OrbObjRow[ 2 ] ].S_orbitalObjects[ OrbObjRow[ 3 ] ].OO_satellitesList[ OrbObjRow[ 4 ] ].OO_regions[ ProdModeDataI1 ].OOR_windSpeed;
                   {.H2O gas status}
-                  ProdModeDataI3:=Integer(FCDBSSys[ OrbObjRow[ 1 ] ].SS_star[ OrbObjRow[ 2 ] ].SDB_obobj[ OrbObjRow[ 3 ] ].OO_satellitesList[ OrbObjRow[ 4 ] ].OO_atmosphere.AC_gasPresenceH2O);
+                  ProdModeDataI3:=Integer(FCDduStarSystem[ OrbObjRow[ 1 ] ].SS_stars[ OrbObjRow[ 2 ] ].S_orbitalObjects[ OrbObjRow[ 3 ] ].OO_satellitesList[ OrbObjRow[ 4 ] ].OO_atmosphere.AC_gasPresenceH2O);
                end;
                {.cmyr}
                ProdModeDataF1:=( ProdModeDataI2 / sqrt( ProdModeDataF5 ) )*0.1;
