@@ -1,7 +1,9 @@
 ﻿<!-- Spacecraft Internal Structures Database -->
 <!-- 
-	{list of internal structure general shapes}
-	[shape]
+   REMOVE THEM WHEN THE SUD IS DONE
+   
+   {list of internal structure general shapes}
+   [shape]
    {assembled: assembled parts with a central beam or not}
    stAssem
    {composed of modules of SEV shape}
@@ -19,8 +21,8 @@
    {toroidal shape}
    stTorus
       
-	{.architecture types}
-	[archtp]
+   {.architecture types}
+   [archtp]
    {Deep-Space Vehicle}
    scarchtpDSV
    {Heavy-Lift Vehicle}
@@ -50,7 +52,7 @@
    <scintstruc token="" shape="" archtp="" ctlmdl="" length="" wgspan="" height="" availvol="" availsur="" spdrvmaxvol="" spdrvmaxsur=""/>
 -->
 <scintstrucDB>
-	<scintstruc token="scis001" shape="stAssem" archtp="scarchtpDSV" ctlmdl="cmtBridge" length="208.9" wgspan="71.7" height="51.85" availvol="776616" availsur="33244.9" spdrvmaxvol="314120.9" spdrvmaxsur="3717.6"/>
-	<scintstruc token="scis002" shape="stAssem" archtp="scarchtpDSV" ctlmdl="cmtBridge" length="265.8" wgspan="104.9" height="104.9" availvol="2924865.9" availsur="77772.9" spdrvmaxvol="801802.2" spdrvmaxsur="11004"/>
-	<scintstruc token="scis003" shape="stCylin" archtp="scarchtpLV" ctlmdl="cmtCockpit" length="89.7" wgspan="32.2" height="32.2" availvol="73035.6" availsur="10702.7" spdrvmaxvol="33852" spdrvmaxsur="814.3"/>
+   <scintstruc token="scis001" shape="stAssem" archtp="scarchtpDSV" ctlmdl="cmtBridge" length="208.9" wgspan="71.7" height="51.85" availvol="776616" availsur="33244.9" spdrvmaxvol="314120.9" spdrvmaxsur="3717.6"/>
+   <scintstruc token="scis002" shape="stAssem" archtp="scarchtpDSV" ctlmdl="cmtBridge" length="265.8" wgspan="104.9" height="104.9" availvol="2924865.9" availsur="77772.9" spdrvmaxvol="801802.2" spdrvmaxsur="11004"/>
+   <scintstruc token="scis003" shape="stCylin" archtp="scarchtpLV" ctlmdl="cmtCockpit" length="89.7" wgspan="32.2" height="32.2" availvol="73035.6" availsur="10702.7" spdrvmaxvol="33852" spdrvmaxsur="814.3"/>
 </scintstrucDB>

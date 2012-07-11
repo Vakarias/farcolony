@@ -74,7 +74,7 @@ function FCFdTFiles_UIStr_Get(
 ///    <param name="UISGscArch">architecture type</param>
 function FCFdTFiles_UIStr_Get(
    const UISGcateg: TFCEdtfStCat;
-   const UISGscArch: TFCEscArchTp
+   const UISGscArch: TFCEdsuArchitectures
    ): string; overload;
 
 ///<summary>
@@ -370,7 +370,7 @@ end;
 
 function FCFdTFiles_UIStr_Get(
    const UISGcateg: TFCEdtfStCat;
-   const UISGscArch: TFCEscArchTp
+   const UISGscArch: TFCEdsuArchitectures
    ): string; overload;
 {:Purpose: retrieve text for space unit architecture.
    Additions:

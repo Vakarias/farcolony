@@ -32,26 +32,28 @@ interface
 
 //uses
 
-{.list of equipment modules classes}
-{:DEV NOTES: update scdesignsdb.xml + FCMdFiles_DBSpaceCrafts_Read.}
-type TFCEemClass=(
-   {compartment}
-   emcCompart
-   {control as bridge or cockpit}
-   ,emcCtrl
-   {hull modification as a spinning hull w/ it's mechanism}
-   ,emcHullMod
-   {powergrid (generators and capacitors)}
-   ,emcPwrGrid
-   {space drive}
-   ,emcSpDrive
-   {subsystem}
-   ,emcSubSys
-   {weapon system}
-   ,emcWeapSys
+{:REFERENCES LIST
+   - scdesignsdb.xml
+   - FCMdFiles_DBSpaceCrafts_Read
+   -
+   -
+   -
+   -
+}
+///<summary>
+///   equipment module classes
+///</summary>
+type TFCEdsuEquipmentModuleClasses=(
+   emcCompartment
+   ,emcControl
+   ,emcHullModification
+   ,emcPowerGrid
+   ,emcSpaceDrive
+   ,emcSubSystem
+   ,emcWeaponSystem
    );
 
-{.architecture types}
+
 {:REFERENCES LIST
    - scintstrucdb.xml
    - FCMdFiles_DBSpaceCrafts_Read
@@ -60,26 +62,31 @@ type TFCEemClass=(
    - FCFspuF_DockedSpU_GetNum
    - FCMuiW_FocusPopup_Upd
 }
-   type TFCEscArchTp=(
-      {.for internal use only, do not put it in xml}
-      scatNone
-      {Deep-Space Vehicle}
-      ,scarchtpDSV
-      {Heavy-Lift Vehicle}
-      ,scarchtpHLV
-      {Lander Vehicle}
-      ,scarchtpLV
-      {Lander/Ascent Vehicle}
-      ,scarchtpLAV
-      {Orbital Multipurpose Vehicle}
-      ,scarchtpOMV
-      {Stabilized Space Infrastructure}
-      ,scarchtpSSI
-      {Transatmospheric Vehicle}
-      ,scarchtpTAV
-      {Beam Sail Vehicle}
-      ,scarchtpBSV
-      );
+///<summary>
+///   list of architectures
+///</summary>
+type TFCEdsuArchitectures=(
+   ///<summary>
+   ///   for internal use only, do no put this entry in the XML file
+   ///</summary>
+   scatNone
+   {Deep-Space Vehicle}
+   ,scarchtpDSV
+   {Heavy-Lift Vehicle}
+   ,scarchtpHLV
+   {Lander Vehicle}
+   ,scarchtpLV
+   {Lander/Ascent Vehicle}
+   ,scarchtpLAV
+   {Orbital Multipurpose Vehicle}
+   ,scarchtpOMV
+   {Stabilized Space Infrastructure}
+   ,scarchtpSSI
+   {Transatmospheric Vehicle}
+   ,scarchtpTAV
+   {Beam Sail Vehicle}
+   ,scarchtpBSV
+   );
    {list of control module types}
    {:DEV NOTES: update scintstrucdb.xml + FCMdFiles_DBSpaceCrafts_Read.}
    type TFCEscCtlMdlTp=(
@@ -121,7 +128,7 @@ type TFCEemClass=(
       {overall shape of the structure}
       SCIS_shape: TFCEisShape;
       {architecture type}
-      SCIS_archTp: TFCEscArchTp;
+      SCIS_archTp: TFCEdsuArchitectures;
       {type of control module allowed for the internal structure}
       SCIS_contMdlAllwd: TFCEscCtlMdlTp;
       {overall length in meter [RTO-1]}
@@ -145,7 +152,7 @@ type TFCEemClass=(
       {:DEV NOTES: update FCMdFiles_DBSpaceCrafts_Read.}
    type TFCRscEqMdl = record
       SCEM_token: string[20];
-      SCEM_emClass: TFCEemClass;
+      SCEM_emClass: TFCEdsuEquipmentModuleClasses;
       //SCEM_subDriveData: Tlink to sub datastructure
 //       SCEM_thrPerf: double; //rto-1 thrust / cubicmeter of volume of drive
                              {DEV NOTE: will be replaced later by a more
