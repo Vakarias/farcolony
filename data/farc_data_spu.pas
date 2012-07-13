@@ -101,7 +101,7 @@ type TFCEdsuControlModules=(
 
 {:REFERENCES LIST
    - FCMdFiles_DBSpaceCrafts_Read
-   -
+   - TFCRdsuEquipmentModule case
    -
    -
    -
@@ -142,6 +142,50 @@ type TFCEdsuInternalStructureShapes=(
    );
 
 //==END PUBLIC ENUM=========================================================================
+
+{:REFERENCES LIST
+   - FCMdFiles_DBSpaceCrafts_Read
+   -
+   -
+   -
+   -
+   -
+}
+///<summary>
+///   equipment module
+///</summary>
+type TFCRdsuEquipmentModule = record
+   ///<summary>
+   ///   db token id
+   ///</summary>
+   EM_token: string[20];
+   ///<summary>
+   ///   class (basic function categorization)
+   ///</summary>
+   case EM_class: TFCEdsuEquipmentModuleClasses of
+      emcCompartment:();
+
+      emcControl:();
+
+      emcHullModification:();
+
+      emcPowerGrid:();
+
+      emcSpaceDrive:(
+         //EM_cSDsubDriveData: Tlink to sub datastructure
+         //       EM_cSDthrPerf: double; //rto-1 thrust / cubicmeter of volume of drive
+                          {DEV NOTE: will be replaced later by a more
+                          expanded structure (for taking in account R&D)}
+         );
+
+      emcSubSystem:();
+
+      emcWeaponSystem:();
+end;
+   ///<summary>
+   ///   equipment modules dynamic array
+   ///</summary>
+   TFCDdsuEquipmentModules = array of TFCRdsuEquipmentModule;
 
 {:REFERENCES LIST
    - FCMdFiles_DBSpaceCrafts_Read
@@ -206,24 +250,6 @@ end;
    ///</summary>
    TFCDdsuInternalStructures = array of TFCRdsuInternalStructure;
 
-
-
-
-
-      {:DEV NOTES: update FCMdFiles_DBSpaceCrafts_Read.}
-   type TFCRscEqMdl = record
-      SCEM_token: string[20];
-      SCEM_emClass: TFCEdsuEquipmentModuleClasses;
-      //SCEM_subDriveData: Tlink to sub datastructure
-//       SCEM_thrPerf: double; //rto-1 thrust / cubicmeter of volume of drive
-                             {DEV NOTE: will be replaced later by a more
-                             expanded structure (for taking in account R&D)}
-
-   end;
-      {.equipment modules dynamic array}
-      TFCDBscEqMdls = array of TFCRscEqMdl;
-
-   {datastructure of spacecraft's designs}
 {:REFERENCES LIST
    - FCFcFunc_ScaleConverter
    - FCMdFiles_DBSpaceCrafts_Read
@@ -235,43 +261,48 @@ end;
    - FCFspuF_Design_getDB
    - FCMuiWin_SpUnDck_Upd
 }
-   type TFCRspUdsgn = record
-      {design db token id}
-      SUD_token: string[20];
-      {data structure clone of the internal structure linked to the design}
-      SCD_intStrClone: TFCRdsuInternalStructure;
-      {used volume out the available volume, in cubic meter [RTO-1}
-      SCD_usedVol: extended;
-      {used surface out the available surface, in square meter [RTO-1}
-      SCD_usedSur: extended;
-      {empty mass of the spacecraft, w/o payload & crew [RTO-2]}
-      SCD_massEmp: extended;
-      {list of installed equipment modules}
-      SCD_eqMdlInst: array of TFCRscEqMdl;
-      {ISP of installed space drive}
-      SCD_spDriveISP: integer;
-      {maximum reaction mass volume the spacecraft can carry}
-      SCD_spDriveRMassMaxVol: extended;
-      {.capabilities. when updated, update too: farc_spu_functions/TFCEsufCapab}
-      SUD_capInterstel: boolean;
-      SUD_capColoniz: boolean;
-      SUD_capPassngr: boolean;
-      SUD_capCombat: boolean;
-      {DEV NOTE:
-         total mass
-         drive cloned: token / perf thr/vol of drive / rmass type product token
-         total drive thr
-      }
-  end;
-      {.spacecraft's designs dynamic array}
-      TFCDBscDesigns = array of TFCRspUdsgn;
+///<summary>
+///   space unit's design
+///</summary>
+type TFCRdsuSpaceUnitDesign = record
+   ///<summary>
+   ///   db token id
+   ///</summary>
+   SUD_token: string[20];
+   {data structure clone of the internal structure linked to the design}
+   SCD_intStrClone: TFCRdsuInternalStructure;
+   {used volume out the available volume, in cubic meter [RTO-1}
+   SCD_usedVol: extended;
+   {used surface out the available surface, in square meter [RTO-1}
+   SCD_usedSur: extended;
+   {empty mass of the spacecraft, w/o payload & crew [RTO-2]}
+   SCD_massEmp: extended;
+   {list of installed equipment modules}
+   SCD_eqMdlInst: array of TFCRdsuEquipmentModule;
+   {ISP of installed space drive}
+   SCD_spDriveISP: integer;
+   {maximum reaction mass volume the spacecraft can carry}
+   SCD_spDriveRMassMaxVol: extended;
+   {.capabilities. when updated, update too: farc_spu_functions/TFCEsufCapab}
+   SUD_capInterstel: boolean;
+   SUD_capColoniz: boolean;
+   SUD_capPassngr: boolean;
+   SUD_capCombat: boolean;
+   {DEV NOTE:
+      total mass
+      drive cloned: token / perf thr/vol of drive / rmass type product token
+      total drive thr
+   }
+end;
+   {.spacecraft's designs dynamic array}
+   TFCDBscDesigns = array of TFCRdsuSpaceUnitDesign;
 
 //==END PUBLIC RECORDS======================================================================
 
    //==========databases and other data structures pre-init=================================
 var
    FCDBscDesigns: TFCDBscDesigns;
-      FCDBscEqMdls: TFCDBscEqMdls;
+      FCDBscEqMdls: TFCDdsuEquipmentModules;
       FCDBscIntStruc: TFCDdsuInternalStructures;
 //==END PUBLIC VAR==========================================================================
 
