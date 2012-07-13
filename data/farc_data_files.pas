@@ -1333,56 +1333,56 @@ begin
       if DBSCRnode.NodeName<>'#comment' then
       begin
          {.internal structure token}
-         FCDBscintStruc[DBSCRcount].SCIS_token:=DBSCRnode.Attributes['token'];
+         FCDBscintStruc[DBSCRcount].IS_token:=DBSCRnode.Attributes['token'];
          {.internal structure shape}
          DBSCRdmpStr:=DBSCRnode.Attributes['shape'];
-         if DBSCRdmpStr='stAssem' then FCDBscintStruc[DBSCRcount].SCIS_shape:=issAssembled
-         else if DBSCRdmpStr='stModul' then FCDBscintStruc[DBSCRcount].SCIS_shape:=issModular
-         else if DBSCRdmpStr='stSpher' then FCDBscintStruc[DBSCRcount].SCIS_shape:=issSpherical
-         else if DBSCRdmpStr='stCylin' then FCDBscintStruc[DBSCRcount].SCIS_shape:=issCylindrical
-         else if DBSCRdmpStr='stCylSt' then FCDBscintStruc[DBSCRcount].SCIS_shape:=issStreamlinedCylindrical
-         else if DBSCRdmpStr='stDelta' then FCDBscintStruc[DBSCRcount].SCIS_shape:=issStreamlinedDelta
-         else if DBSCRdmpStr='stBox' then FCDBscintStruc[DBSCRcount].SCIS_shape:=issBox
-         else if DBSCRdmpStr='stTorus' then FCDBscintStruc[DBSCRcount].SCIS_shape:=issToroidal;
+         if DBSCRdmpStr='stAssem' then FCDBscintStruc[DBSCRcount].IS_shape:=issAssembled
+         else if DBSCRdmpStr='stModul' then FCDBscintStruc[DBSCRcount].IS_shape:=issModular
+         else if DBSCRdmpStr='stSpher' then FCDBscintStruc[DBSCRcount].IS_shape:=issSpherical
+         else if DBSCRdmpStr='stCylin' then FCDBscintStruc[DBSCRcount].IS_shape:=issCylindrical
+         else if DBSCRdmpStr='stCylSt' then FCDBscintStruc[DBSCRcount].IS_shape:=issStreamlinedCylindrical
+         else if DBSCRdmpStr='stDelta' then FCDBscintStruc[DBSCRcount].IS_shape:=issStreamlinedDelta
+         else if DBSCRdmpStr='stBox' then FCDBscintStruc[DBSCRcount].IS_shape:=issBox
+         else if DBSCRdmpStr='stTorus' then FCDBscintStruc[DBSCRcount].IS_shape:=issToroidal;
          {.internal structure architecture type}
          DBSCRdmpStr:=DBSCRnode.Attributes['archtp'];
          if DBSCRdmpStr='scarchtpDSV'
-         then FCDBscintStruc[DBSCRcount].SCIS_archTp:=aDSV
+         then FCDBscintStruc[DBSCRcount].IS_architecture:=aDSV
          else if DBSCRdmpStr='scarchtpHLV'
-         then FCDBscintStruc[DBSCRcount].SCIS_archTp:=aHLV
+         then FCDBscintStruc[DBSCRcount].IS_architecture:=aHLV
          else if DBSCRdmpStr='scarchtpLV'
-         then FCDBscintStruc[DBSCRcount].SCIS_archTp:=aLV
+         then FCDBscintStruc[DBSCRcount].IS_architecture:=aLV
          else if DBSCRdmpStr='scarchtpLAV'
-         then FCDBscintStruc[DBSCRcount].SCIS_archTp:=aLAV
+         then FCDBscintStruc[DBSCRcount].IS_architecture:=aLAV
          else if DBSCRdmpStr='scarchtpOMV'
-         then FCDBscintStruc[DBSCRcount].SCIS_archTp:=aOMV
+         then FCDBscintStruc[DBSCRcount].IS_architecture:=aOMV
          else if DBSCRdmpStr='scarchtpSSI'
-         then FCDBscintStruc[DBSCRcount].SCIS_archTp:=aSSI
+         then FCDBscintStruc[DBSCRcount].IS_architecture:=aSSI
          else if DBSCRdmpStr='scarchtpTAV'
-         then FCDBscintStruc[DBSCRcount].SCIS_archTp:=aTAV
+         then FCDBscintStruc[DBSCRcount].IS_architecture:=aTAV
          else if DBSCRdmpStr='scarchtpBSV'
-         then FCDBscintStruc[DBSCRcount].SCIS_archTp:=aBSV;
+         then FCDBscintStruc[DBSCRcount].IS_architecture:=aBSV;
          {.internal structure allowed control module}
          if DBSCRdmpStr='cmtCockpit'
-         then FCDBscintStruc[DBSCRcount].SCIS_contMdlAllwd:=cmCockpit
+         then FCDBscintStruc[DBSCRcount].IS_controlModuleAllowed:=cmCockpit
          else if DBSCRdmpStr='cmtBridge'
-         then FCDBscintStruc[DBSCRcount].SCIS_contMdlAllwd:=cmBridge
+         then FCDBscintStruc[DBSCRcount].IS_controlModuleAllowed:=cmBridge
          else if DBSCRdmpStr='cmtUnna'
-         then FCDBscintStruc[DBSCRcount].SCIS_contMdlAllwd:=cmUnmanned;
+         then FCDBscintStruc[DBSCRcount].IS_controlModuleAllowed:=cmUnmanned;
          {.internal structure length}
-         FCDBscintStruc[DBSCRcount].SCIS_length:=DBSCRnode.Attributes['length'];
+         FCDBscintStruc[DBSCRcount].IS_length:=DBSCRnode.Attributes['length'];
          {.internal structure wingspans}
-         FCDBscintStruc[DBSCRcount].SCIS_wingsp:=DBSCRnode.Attributes['wgspan'];
+         FCDBscintStruc[DBSCRcount].IS_wingspan:=DBSCRnode.Attributes['wgspan'];
          {.internal structure height}
-         FCDBscintStruc[DBSCRcount].SCIS_height:=DBSCRnode.Attributes['height'];
+         FCDBscintStruc[DBSCRcount].IS_height:=DBSCRnode.Attributes['height'];
          {.internal structure available volume}
-         FCDBscintStruc[DBSCRcount].SCIS_availStrVol:=DBSCRnode.Attributes['availvol'];
+         FCDBscintStruc[DBSCRcount].IS_availableVolume:=DBSCRnode.Attributes['availvol'];
          {.internal structure available surface}
-         FCDBscintStruc[DBSCRcount].SCIS_availStrSur:=DBSCRnode.Attributes['availsur'];
+         FCDBscintStruc[DBSCRcount].IS_availableSurface:=DBSCRnode.Attributes['availsur'];
          {.internal structure available spacedrive usable volume}
-         FCDBscintStruc[DBSCRcount].SCIS_driveMaxVol:=DBSCRnode.Attributes['spdrvmaxvol'];
+         FCDBscintStruc[DBSCRcount].IS_spaceDriveMaxVolume:=DBSCRnode.Attributes['spdrvmaxvol'];
          {.internal structure available spacedrive usable surface}
-         FCDBscintStruc[DBSCRcount].SCIS_driveMaxSur:=DBSCRnode.Attributes['spdrvmaxsur'];
+         FCDBscintStruc[DBSCRcount].IS_spaceDriveMaxSurface:=DBSCRnode.Attributes['spdrvmaxsur'];
          inc(DBSCRcount);
       end; {.if DBSCRnode.NodeName<>'#comment'}
       DBSCRnode:= DBSCRnode.NextSibling;
@@ -1411,7 +1411,7 @@ begin
          DBSCRiStrIdx:=0;
          while DBSCRiStrcnt<=Length(FCDBscIntStruc)-1 do
          begin
-            if FCDBscIntStruc[DBSCRiStrcnt].SCIS_token=DBSCRdmpStr
+            if FCDBscIntStruc[DBSCRiStrcnt].IS_token=DBSCRdmpStr
             then
             begin
                DBSCRiStrIdx:=DBSCRiStrcnt;

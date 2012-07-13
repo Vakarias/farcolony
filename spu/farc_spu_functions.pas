@@ -86,7 +86,7 @@ function FCFspuF_Design_getDB(const DGDBdsgnToken: string): integer;
 function FCFspuF_DockedSpU_GetNum(
    const DSUGNfac
          ,DSUGNidx: integer;
-   const DSUGNarch: TFCEscArchTp;
+   const DSUGNarch: TFCEdsuArchitectures;
    const DSUGNcapab: TFCEsufCapab
    ): integer;
 
@@ -262,7 +262,7 @@ end;
 function FCFspuF_DockedSpU_GetNum(
    const DSUGNfac
          ,DSUGNidx: integer;
-   const DSUGNarch: TFCEscArchTp;
+   const DSUGNarch: TFCEdsuArchitectures;
    const DSUGNcapab: TFCEsufCapab
    ): integer;
 {:Purpose: get the number of docked space units, of a specific architecture and/or capability.
@@ -300,7 +300,7 @@ begin
             or (
                (DSUGNarch>aNone)
                and
-               (FCDBscDesigns[DSUGNdesgn].SCD_intStrClone.SCIS_archTp=DSUGNarch)
+               (FCDBscDesigns[DSUGNdesgn].SCD_intStrClone.IS_architecture=DSUGNarch)
                )
          then
          begin

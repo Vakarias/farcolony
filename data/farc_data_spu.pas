@@ -143,34 +143,68 @@ type TFCEdsuInternalStructureShapes=(
 
 //==END PUBLIC ENUM=========================================================================
 
-{datastructure of spacecraft's internal structures}
-{:DEV NOTES: update FCMdFiles_DBSpaceCrafts_Read.}
-type TFCRscIntStr = record
-   {internal infrastructure db token id}
-   SCIS_token: string[20];
-   {overall shape of the structure}
-   SCIS_shape: TFCEdsuInternalStructureShapes;
-   {architecture type}
-   SCIS_archTp: TFCEdsuArchitectures;
-   {type of control module allowed for the internal structure}
-   SCIS_contMdlAllwd: TFCEdsuControlModules;
-   {overall length in meter [RTO-1]}
-   SCIS_length: extended;
-   {overall wingsapn in meter [RTO-1]}
-   SCIS_wingsp: extended;
-   {overall height in meter [RTO-1]}
-   SCIS_height: extended;
-   {available volume for the design in cubic meter [RTO-1]}
-   SCIS_availStrVol: extended;
-   {available surface for the design in square meter [RTO-1]}
-   SCIS_availStrSur: extended;
-   {max volume, of total available, that can be occupied by the spacedrive [RTO-1]}
-   SCIS_driveMaxVol: extended;
-   {max surface, of total available, that can be occupied by the spacedrive [RTO-1]}
-   SCIS_driveMaxSur: extended;
+{:REFERENCES LIST
+   - FCMdFiles_DBSpaceCrafts_Read
+   - FCMoglVM_SpUn_Gen
+   - FCMuiWin_SpUnDck_Upd
+   -
+   -
+   -
+   -
+}
+///<summary>
+///   space unit's internal structure
+///</summary>
+type TFCRdsuInternalStructure = record
+   ///<summary>
+   ///   db token id
+   ///</summary>
+   IS_token: string[20];
+   ///<summary>
+   ///   overall shape of the structure
+   ///</summary>
+   IS_shape: TFCEdsuInternalStructureShapes;
+   ///<summary>
+   ///   type of architecture
+   ///</summary>
+   IS_architecture: TFCEdsuArchitectures;
+   ///<summary>
+   ///   type of control module allowed
+   ///</summary>
+   IS_controlModuleAllowed: TFCEdsuControlModules;
+   ///<summary>
+   ///   overall length in meters [RTO-1]
+   ///</summary>
+   IS_length: extended;
+   ///<summary>
+   ///   overall wingspan in meters [RTO-1]
+   ///</summary>
+   IS_wingspan: extended;
+   ///<summary>
+   ///   overall height in meters [RTO-1]
+   ///</summary>
+   IS_height: extended;
+   ///<summary>
+   ///   available volume in cubic meters [RTO-1]
+   ///</summary>
+   IS_availableVolume: extended;
+   ///<summary>
+   ///   available surface in square meters [RTO-1]
+   ///</summary>
+   IS_availableSurface: extended;
+   ///<summary>
+   ///   max volume, of total available, that can be occupied by the spacedrive [RTO-1]
+   ///</summary>
+   IS_spaceDriveMaxVolume: extended;
+   ///<summary>
+   ///   max surface, of total available, that can be occupied by the spacedrive [RTO-1]
+   ///</summary>
+   IS_spaceDriveMaxSurface: extended;
 end;
-   {.spacecraft's internal structures dynamic array}
-   TFCDBscintStruc = array of TFCRscIntStr;
+   ///<summary>
+   ///   space unit's internal structures dynamic array
+   ///</summary>
+   TFCDdsuInternalStructures = array of TFCRdsuInternalStructure;
 
 
 
@@ -205,7 +239,7 @@ end;
       {design db token id}
       SUD_token: string[20];
       {data structure clone of the internal structure linked to the design}
-      SCD_intStrClone: TFCRscIntStr;
+      SCD_intStrClone: TFCRdsuInternalStructure;
       {used volume out the available volume, in cubic meter [RTO-1}
       SCD_usedVol: extended;
       {used surface out the available surface, in square meter [RTO-1}
@@ -238,7 +272,7 @@ end;
 var
    FCDBscDesigns: TFCDBscDesigns;
       FCDBscEqMdls: TFCDBscEqMdls;
-      FCDBscIntStruc: TFCDBscintStruc;
+      FCDBscIntStruc: TFCDdsuInternalStructures;
 //==END PUBLIC VAR==========================================================================
 
 //const

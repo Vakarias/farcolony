@@ -766,7 +766,7 @@ begin
          FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Add(
             FCFdTFiles_UIStr_Get(dtfscPrprName, FCentities[GMCfac].E_spU[MSownedIdx].SUO_nameToken)+
             ' '
-            +FCFdTFiles_UIStr_Get(dtfscSCarchShort, FCDBscDesigns[MSdesgn].SCD_intStrClone.SCIS_archTp)
+            +FCFdTFiles_UIStr_Get(dtfscSCarchShort, FCDBscDesigns[MSdesgn].SCD_intStrClone.IS_architecture)
             +' '+MSdmpStatus
             +'<br>'
             );
@@ -937,7 +937,7 @@ begin
          FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Add(
             FCFdTFiles_UIStr_Get(dtfscPrprName, FCentities[GMCfac].E_spU[MSownedIdx].SUO_nameToken)
             +' '
-            +FCFdTFiles_UIStr_Get(dtfscSCarchShort, FCDBscDesigns[MSdesgn].SCD_intStrClone.SCIS_archTp)
+            +FCFdTFiles_UIStr_Get(dtfscSCarchShort, FCDBscDesigns[MSdesgn].SCD_intStrClone.IS_architecture)
             +' '+MSdmpStatus
             +'<br>'
             );

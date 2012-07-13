@@ -2128,7 +2128,7 @@ begin
 
 
 
-      FC3DobjSpUnit[FCV3DttlSpU].Load3DSFileFrom(FCVdiPathResourceDir+'obj-3ds-scraft\'+FCDBscDesigns[SUGdesgn].SCD_intStrClone.SCIS_token+'.3ds');//Load3DSFileFrom(FCVpathRsrc+'obj-3ds-scraft\'+FCDBscDesigns[SUGdesgn].SCD_intStrClone.SCIS_token+'.3ds');
+      FC3DobjSpUnit[FCV3DttlSpU].Load3DSFileFrom(FCVdiPathResourceDir+'obj-3ds-scraft\'+FCDBscDesigns[SUGdesgn].SCD_intStrClone.IS_token+'.3ds');//Load3DSFileFrom(FCVpathRsrc+'obj-3ds-scraft\'+FCDBscDesigns[SUGdesgn].SCD_intStrClone.SCIS_token+'.3ds');
 //      FC3DobjSpUnit[FCV3DttlSpU].UseMeshMaterials:=true;
       {.set the space unit 3d scales}
       FC3DobjSpUnit[FCV3DttlSpU].Scale.X:=FCFcFunc_ScaleConverter(cf3dctMeterToSpUnitSize, SUGdesgn);

@@ -186,7 +186,7 @@ begin
                   +' "'
                   +FCFdTFiles_UIStr_Get(dtfscPrprName,FCDBfactions[CMUfac].F_facCmode[CMUcolMode].FCM_dotList[CMUcnt].FCMEI_spuProperNameToken)
                   +'" ('
-                  +FCFdTFiles_UIStr_Get(dtfscSCarchShort,FCDBscDesigns[CMUdesgn].SCD_intStrClone.SCIS_archTp)+')';
+                  +FCFdTFiles_UIStr_Get(dtfscSCarchShort,FCDBscDesigns[CMUdesgn].SCD_intStrClone.IS_architecture)+')';
                if CMUdockStatus=0
                then FCWinNewGSetup.FCWNGS_Frm_DPad_SDL_DotList.Items.AddChild(CMUnode, CMUstrSpU)
                else CMUnode:= FCWinNewGSetup.FCWNGS_Frm_DPad_SDL_DotList.Items.Add(nil, CMUstrSpU);

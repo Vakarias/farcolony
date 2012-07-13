@@ -348,7 +348,7 @@ begin
    TDSCdmpRes:=0;
    case SCconversion of
       {.unit (planet aera and oobj size) => 3d view unit. /20 for ua-unit *500}
-      cf3dctMeterToSpUnitSize: TDSCdmpRes:=(FCDBscDesigns[round(SCvalue)].SCD_intStrClone.SCIS_length*0.02)/CFC3dUnInKm;
+      cf3dctMeterToSpUnitSize: TDSCdmpRes:=(FCDBscDesigns[round(SCvalue)].SCD_intStrClone.IS_length*0.02)/CFC3dUnInKm;
       {.kilometers => 3d view unit}
       cf3dctKmTo3dViewUnit: TDSCdmpRes:=SCvalue/CFC3dUnInKm;
       {.astronomical units => 3d view unit}
