@@ -1336,39 +1336,39 @@ begin
          FCDBscintStruc[DBSCRcount].SCIS_token:=DBSCRnode.Attributes['token'];
          {.internal structure shape}
          DBSCRdmpStr:=DBSCRnode.Attributes['shape'];
-         if DBSCRdmpStr='stAssem' then FCDBscintStruc[DBSCRcount].SCIS_shape:=stAssem
-         else if DBSCRdmpStr='stModul' then FCDBscintStruc[DBSCRcount].SCIS_shape:=stModul
-         else if DBSCRdmpStr='stSpher' then FCDBscintStruc[DBSCRcount].SCIS_shape:=stSpher
-         else if DBSCRdmpStr='stCylin' then FCDBscintStruc[DBSCRcount].SCIS_shape:=stCylin
-         else if DBSCRdmpStr='stCylSt' then FCDBscintStruc[DBSCRcount].SCIS_shape:=stCylSt
-         else if DBSCRdmpStr='stDelta' then FCDBscintStruc[DBSCRcount].SCIS_shape:=stDelta
-         else if DBSCRdmpStr='stBox' then FCDBscintStruc[DBSCRcount].SCIS_shape:=stBox
-         else if DBSCRdmpStr='stTorus' then FCDBscintStruc[DBSCRcount].SCIS_shape:=stTorus;
+         if DBSCRdmpStr='stAssem' then FCDBscintStruc[DBSCRcount].SCIS_shape:=issAssembled
+         else if DBSCRdmpStr='stModul' then FCDBscintStruc[DBSCRcount].SCIS_shape:=issModular
+         else if DBSCRdmpStr='stSpher' then FCDBscintStruc[DBSCRcount].SCIS_shape:=issSpherical
+         else if DBSCRdmpStr='stCylin' then FCDBscintStruc[DBSCRcount].SCIS_shape:=issCylindrical
+         else if DBSCRdmpStr='stCylSt' then FCDBscintStruc[DBSCRcount].SCIS_shape:=issStreamlinedCylindrical
+         else if DBSCRdmpStr='stDelta' then FCDBscintStruc[DBSCRcount].SCIS_shape:=issStreamlinedDelta
+         else if DBSCRdmpStr='stBox' then FCDBscintStruc[DBSCRcount].SCIS_shape:=issBox
+         else if DBSCRdmpStr='stTorus' then FCDBscintStruc[DBSCRcount].SCIS_shape:=issToroidal;
          {.internal structure architecture type}
          DBSCRdmpStr:=DBSCRnode.Attributes['archtp'];
          if DBSCRdmpStr='scarchtpDSV'
-         then FCDBscintStruc[DBSCRcount].SCIS_archTp:=scarchtpDSV
+         then FCDBscintStruc[DBSCRcount].SCIS_archTp:=aDSV
          else if DBSCRdmpStr='scarchtpHLV'
-         then FCDBscintStruc[DBSCRcount].SCIS_archTp:=scarchtpHLV
+         then FCDBscintStruc[DBSCRcount].SCIS_archTp:=aHLV
          else if DBSCRdmpStr='scarchtpLV'
-         then FCDBscintStruc[DBSCRcount].SCIS_archTp:=scarchtpLV
+         then FCDBscintStruc[DBSCRcount].SCIS_archTp:=aLV
          else if DBSCRdmpStr='scarchtpLAV'
-         then FCDBscintStruc[DBSCRcount].SCIS_archTp:=scarchtpLAV
+         then FCDBscintStruc[DBSCRcount].SCIS_archTp:=aLAV
          else if DBSCRdmpStr='scarchtpOMV'
-         then FCDBscintStruc[DBSCRcount].SCIS_archTp:=scarchtpOMV
+         then FCDBscintStruc[DBSCRcount].SCIS_archTp:=aOMV
          else if DBSCRdmpStr='scarchtpSSI'
-         then FCDBscintStruc[DBSCRcount].SCIS_archTp:=scarchtpSSI
+         then FCDBscintStruc[DBSCRcount].SCIS_archTp:=aSSI
          else if DBSCRdmpStr='scarchtpTAV'
-         then FCDBscintStruc[DBSCRcount].SCIS_archTp:=scarchtpTAV
+         then FCDBscintStruc[DBSCRcount].SCIS_archTp:=aTAV
          else if DBSCRdmpStr='scarchtpBSV'
-         then FCDBscintStruc[DBSCRcount].SCIS_archTp:=scarchtpBSV;
+         then FCDBscintStruc[DBSCRcount].SCIS_archTp:=aBSV;
          {.internal structure allowed control module}
          if DBSCRdmpStr='cmtCockpit'
-         then FCDBscintStruc[DBSCRcount].SCIS_contMdlAllwd:=sccmtCockpit
+         then FCDBscintStruc[DBSCRcount].SCIS_contMdlAllwd:=cmCockpit
          else if DBSCRdmpStr='cmtBridge'
-         then FCDBscintStruc[DBSCRcount].SCIS_contMdlAllwd:=sccmtBridge
+         then FCDBscintStruc[DBSCRcount].SCIS_contMdlAllwd:=cmBridge
          else if DBSCRdmpStr='cmtUnna'
-         then FCDBscintStruc[DBSCRcount].SCIS_contMdlAllwd:=sccmtUnna;
+         then FCDBscintStruc[DBSCRcount].SCIS_contMdlAllwd:=cmUnmanned;
          {.internal structure length}
          FCDBscintStruc[DBSCRcount].SCIS_length:=DBSCRnode.Attributes['length'];
          {.internal structure wingspans}

@@ -708,7 +708,7 @@ begin
          MSdockedNum:=FCFspuF_DockedSpU_GetNum(
             0
             ,GMCmother
-            ,scatNone
+            ,aNone
             ,sufcColoniz
             );
          if GMCrootSatIdx>0

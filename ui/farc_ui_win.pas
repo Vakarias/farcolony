@@ -469,7 +469,7 @@ begin
       FPUlvNum:=FCFspuF_DockedSpU_GetNum(
          0
          ,FPUdmpIdx
-         ,scarchtpLV
+         ,aLV
          ,sufcAny
          );
       FPUcolN:=length(FCentities[0].E_col)-1;

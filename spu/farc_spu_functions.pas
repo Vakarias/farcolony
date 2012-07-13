@@ -296,9 +296,9 @@ begin
             ,FCentities[DSUGNfac].E_spU[DSUGNidx].SUO_dockedSU[DSUGNcnt].SUD_dckdToken
             );
          DSUGNdesgn:=FCFspuF_Design_getDB(FCentities[DSUGNfac].E_spU[DSGUNdockIdx].SUO_designId);
-         if (DSUGNarch=scatNone)
+         if (DSUGNarch=aNone)
             or (
-               (DSUGNarch>scatNone)
+               (DSUGNarch>aNone)
                and
                (FCDBscDesigns[DSUGNdesgn].SCD_intStrClone.SCIS_archTp=DSUGNarch)
                )

@@ -33,7 +33,73 @@ interface
 //uses
 
 {:REFERENCES LIST
-   - scdesignsdb.xml
+   - scintstrucdb.xml
+   - FCMdFiles_DBSpaceCrafts_Read
+   - FCFdTFiles_UIStr_Get
+   - FCMgMCore_Mission_Setup
+   - FCFspuF_DockedSpU_GetNum
+   - FCMuiW_FocusPopup_Upd
+}
+///<summary>
+///   list of architectures
+///</summary>
+type TFCEdsuArchitectures=(
+   ///<summary>
+   ///   for internal use only, do no put this entry in the XML file
+   ///</summary>
+   aNone
+   ///<summary>
+   ///   Deep-Space Vehicle
+   ///</summary>
+   ,aDSV
+   ///<summary>
+   ///   Heavy-Lift Vehicle
+   ///</summary>
+   ,aHLV
+   ///<summary>
+   ///   Lander Vehicle
+   ///</summary>
+   ,aLV
+   ///<summary>
+   ///   Lander/Ascent Vehicle
+   ///</summary>
+   ,aLAV
+   ///<summary>
+   ///   Orbital Multipurpose Vehicle
+   ///</summary>
+   ,aOMV
+   ///<summary>
+   ///   Stabilized Space Infrastructure
+   ///</summary>
+   ,aSSI
+   ///<summary>
+   ///   Transatmospheric Vehicle
+   ///</summary>
+   ,aTAV
+   ///<summary>
+   ///   Beam Sail Vehicle
+   ///</summary>
+   ,aBSV
+   );
+
+{:REFERENCES LIST
+   - scintstrucdb.xml
+   - FCMdFiles_DBSpaceCrafts_Read
+   -
+   -
+   -
+   -
+}
+///<summary>
+///   types of control module
+///</summary>
+type TFCEdsuControlModules=(
+   cmCockpit
+   ,cmBridge
+   ,cmUnmanned
+   );
+
+{:REFERENCES LIST
    - FCMdFiles_DBSpaceCrafts_Read
    -
    -
@@ -53,101 +119,62 @@ type TFCEdsuEquipmentModuleClasses=(
    ,emcWeaponSystem
    );
 
-
 {:REFERENCES LIST
    - scintstrucdb.xml
    - FCMdFiles_DBSpaceCrafts_Read
-   - FCFdTFiles_UIStr_Get
-   - FCMgMCore_Mission_Setup
-   - FCFspuF_DockedSpU_GetNum
-   - FCMuiW_FocusPopup_Upd
+   -
+   -
+   -
+   -
 }
 ///<summary>
-///   list of architectures
+///   internal structure shapes
 ///</summary>
-type TFCEdsuArchitectures=(
-   ///<summary>
-   ///   for internal use only, do no put this entry in the XML file
-   ///</summary>
-   scatNone
-   {Deep-Space Vehicle}
-   ,scarchtpDSV
-   {Heavy-Lift Vehicle}
-   ,scarchtpHLV
-   {Lander Vehicle}
-   ,scarchtpLV
-   {Lander/Ascent Vehicle}
-   ,scarchtpLAV
-   {Orbital Multipurpose Vehicle}
-   ,scarchtpOMV
-   {Stabilized Space Infrastructure}
-   ,scarchtpSSI
-   {Transatmospheric Vehicle}
-   ,scarchtpTAV
-   {Beam Sail Vehicle}
-   ,scarchtpBSV
+type TFCEdsuInternalStructureShapes=(
+   issAssembled
+   ,issModular
+   ,issSpherical
+   ,issCylindrical
+   ,issStreamlinedCylindrical
+   ,issStreamlinedDelta
+   ,issBox
+   ,issToroidal
    );
-   {list of control module types}
-   {:DEV NOTES: update scintstrucdb.xml + FCMdFiles_DBSpaceCrafts_Read.}
-   type TFCEscCtlMdlTp=(
-      {cockpit}
-      sccmtCockpit
-      {control bridge}
-      ,sccmtBridge
-      {unnamed controls - by an AI}
-      ,sccmtUnna
-      );
-   {list of internal structure general shapes}
-   {:DEV NOTE: UPDATE scintstrucdb.xml + FCMdFiles_DBSpaceCrafts_Read.}
-   type TFCEisShape=(
-      {assembled: assembled parts with a central beam or not}
-      stAssem
-      {composed of modules of SEV shape}
-      ,stModul
-      {spherical shape}
-      ,stSpher
-      {cylindrical shape}
-      ,stCylin
-      {streamlined cylindrical shape}
-      ,stCylSt
-      {streamlined delta shape}
-      ,stDelta
-      {box shape}
-      ,stBox
-      {toroidal shape}
-      ,stTorus
-      );
 
 //==END PUBLIC ENUM=========================================================================
 
 {datastructure of spacecraft's internal structures}
 {:DEV NOTES: update FCMdFiles_DBSpaceCrafts_Read.}
-   type TFCRscIntStr = record
-      {internal infrastructure db token id}
-      SCIS_token: string[20];
-      {overall shape of the structure}
-      SCIS_shape: TFCEisShape;
-      {architecture type}
-      SCIS_archTp: TFCEdsuArchitectures;
-      {type of control module allowed for the internal structure}
-      SCIS_contMdlAllwd: TFCEscCtlMdlTp;
-      {overall length in meter [RTO-1]}
-      SCIS_length: extended;
-      {overall wingsapn in meter [RTO-1]}
-      SCIS_wingsp: extended;
-      {overall height in meter [RTO-1]}
-      SCIS_height: extended;
-      {available volume for the design in cubic meter [RTO-1]}
-      SCIS_availStrVol: extended;
-      {available surface for the design in square meter [RTO-1]}
-      SCIS_availStrSur: extended;
-      {max volume, of total available, that can be occupied by the spacedrive [RTO-1]}
-      SCIS_driveMaxVol: extended;
-      {max surface, of total available, that can be occupied by the spacedrive [RTO-1]}
-      SCIS_driveMaxSur: extended;
-   end;
-      {.spacecraft's internal structures dynamic array}
-      TFCDBscintStruc = array of TFCRscIntStr;
+type TFCRscIntStr = record
+   {internal infrastructure db token id}
+   SCIS_token: string[20];
+   {overall shape of the structure}
+   SCIS_shape: TFCEdsuInternalStructureShapes;
+   {architecture type}
+   SCIS_archTp: TFCEdsuArchitectures;
+   {type of control module allowed for the internal structure}
+   SCIS_contMdlAllwd: TFCEdsuControlModules;
+   {overall length in meter [RTO-1]}
+   SCIS_length: extended;
+   {overall wingsapn in meter [RTO-1]}
+   SCIS_wingsp: extended;
+   {overall height in meter [RTO-1]}
+   SCIS_height: extended;
+   {available volume for the design in cubic meter [RTO-1]}
+   SCIS_availStrVol: extended;
+   {available surface for the design in square meter [RTO-1]}
+   SCIS_availStrSur: extended;
+   {max volume, of total available, that can be occupied by the spacedrive [RTO-1]}
+   SCIS_driveMaxVol: extended;
+   {max surface, of total available, that can be occupied by the spacedrive [RTO-1]}
+   SCIS_driveMaxSur: extended;
+end;
+   {.spacecraft's internal structures dynamic array}
+   TFCDBscintStruc = array of TFCRscIntStr;
+
+
+
+
 
       {:DEV NOTES: update FCMdFiles_DBSpaceCrafts_Read.}
    type TFCRscEqMdl = record

@@ -389,27 +389,27 @@ begin
       dtfscSCarchShort:
          begin
             case UISGscArch of
-               scarchtpDSV: UISGresDump:='DSV';
-               scarchtpHLV: UISGresDump:='HLV';
-               scarchtpLV: UISGresDump:='LV';
-               scarchtpLAV: UISGresDump:='LAV';
-               scarchtpOMV: UISGresDump:='OMV';
-               scarchtpSSI: UISGresDump:='SSI';
-               scarchtpTAV: UISGresDump:='TAV';
-               scarchtpBSV: UISGresDump:='BSV';
+               aDSV: UISGresDump:='DSV';
+               aHLV: UISGresDump:='HLV';
+               aLV: UISGresDump:='LV';
+               aLAV: UISGresDump:='LAV';
+               aOMV: UISGresDump:='OMV';
+               aSSI: UISGresDump:='SSI';
+               aTAV: UISGresDump:='TAV';
+               aBSV: UISGresDump:='BSV';
             end;
          end;
       dtfscSCarchFull:
          begin
             case UISGscArch of
-               scarchtpDSV: UISGarcStr:='scarchtpDSV';
-               scarchtpHLV: UISGarcStr:='scarchtpHLV';
-               scarchtpLV: UISGarcStr:='scarchtpLV';
-               scarchtpLAV: UISGarcStr:='scarchtpLAV';
-               scarchtpOMV: UISGarcStr:='scarchtpOMV';
-               scarchtpSSI: UISGarcStr:='scarchtpSSI';
-               scarchtpTAV: UISGarcStr:='scarchtpTAV';
-               scarchtpBSV: UISGarcStr:='scarchtpBSV';
+               aDSV: UISGarcStr:='scarchtpDSV';
+               aHLV: UISGarcStr:='scarchtpHLV';
+               aLV: UISGarcStr:='scarchtpLV';
+               aLAV: UISGarcStr:='scarchtpLAV';
+               aOMV: UISGarcStr:='scarchtpOMV';
+               aSSI: UISGarcStr:='scarchtpSSI';
+               aTAV: UISGarcStr:='scarchtpTAV';
+               aBSV: UISGarcStr:='scarchtpBSV';
             end;
 				UISGtxtItm:=FCWinMain.FCXMLtxtUI.DocumentElement.ChildNodes.FindNode(UISGarcStr);
          end;
