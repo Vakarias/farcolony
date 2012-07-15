@@ -144,7 +144,7 @@ begin
    {.calculate final acceleration in gees relative to loaded mass}
    GMCAccelG:=(MRMCDVCthrbyvol*MRMCDVCvolOfDrive)/MRMCDVCloadedMassInTons;
    {.get the space unit's ISP}
-   MCCisp:=FCDBscDesigns[MCCdsgn].SCD_spDriveISP;
+   MCCisp:=FCDdsuSpaceUnitDesigns[MCCdsgn].SUD_spaceDriveISP;
    //================calculate minimal required deltaV=====================
    {.minreqDV.departure orbital velocity}
    if not MCCisOrgAsat
@@ -301,7 +301,7 @@ begin
       {.caculate used reaction mass volume for acceleration}
       MTCusedRMvolAtAccel:=
          (MTCburnEndAtAccel)
-         *(GMCCthrN/(FCDBscDesigns[MTCdesgn].SCD_spDriveISP*FCCdiMbySec_In_1G))
+         *(GMCCthrN/(FCDdsuSpaceUnitDesigns[MTCdesgn].SUD_spaceDriveISP*FCCdiMbySec_In_1G))
          /(MRMCDVCrmMass*1000);
       {.calculate acceleration distance}
       MTCdistAtAccel:=(GMCAccelG*MTCgeesInKmS)*sqr(MTCburnEndAtAccel);
@@ -312,7 +312,7 @@ begin
       {.caculate used reaction mass volume for deceleration}
       MTCusedRMvolAtDecel:=
          (MTCburnEndAtDecel)
-         *(GMCCthrN/(FCDBscDesigns[MTCdesgn].SCD_spDriveISP*FCCdiMbySec_In_1G))
+         *(GMCCthrN/(FCDdsuSpaceUnitDesigns[MTCdesgn].SUD_spaceDriveISP*FCCdiMbySec_In_1G))
          /(MRMCDVCrmMass*1000);
       {.calculate deceleration distance}
       MTCdistAtDecel:=(GMCAccelG*MTCgeesInKmS)*sqr(MTCburnEndAtDecel);

@@ -1316,10 +1316,10 @@ var
    DBSCRnode: IXMLNode;
 begin
    {.clear the data structures}
-   FCDBscIntStruc:=nil;
-   FCDBscDesigns:=nil;
-   SetLength(FCDBscIntStruc, 1);
-   SetLength(FCDBscDesigns, 1);
+   FCDdsuInternalStructures:=nil;
+   FCDdsuSpaceUnitDesigns:=nil;
+   SetLength(FCDdsuInternalStructures, 1);
+   SetLength(FCDdsuSpaceUnitDesigns, 1);
    DBSCRcount:=1;
    {.INTERNAL STRUCTURES}
    {.read the document}
@@ -1328,67 +1328,67 @@ begin
    DBSCRnode:= FCWinMain.FCXMLdbSCraft.DocumentElement.ChildNodes.First;
    while DBSCRnode<>nil do
    begin
-      if DBSCRcount >= Length(FCDBscintStruc)
-      then SetLength(FCDBscintStruc, Length(FCDBscintStruc)+DBSCRblocCnt);
+      if DBSCRcount >= Length(FCDdsuInternalStructures)
+      then SetLength(FCDdsuInternalStructures, Length(FCDdsuInternalStructures)+DBSCRblocCnt);
       if DBSCRnode.NodeName<>'#comment' then
       begin
          {.internal structure token}
-         FCDBscintStruc[DBSCRcount].IS_token:=DBSCRnode.Attributes['token'];
+         FCDdsuInternalStructures[DBSCRcount].IS_token:=DBSCRnode.Attributes['token'];
          {.internal structure shape}
          DBSCRdmpStr:=DBSCRnode.Attributes['shape'];
-         if DBSCRdmpStr='stAssem' then FCDBscintStruc[DBSCRcount].IS_shape:=issAssembled
-         else if DBSCRdmpStr='stModul' then FCDBscintStruc[DBSCRcount].IS_shape:=issModular
-         else if DBSCRdmpStr='stSpher' then FCDBscintStruc[DBSCRcount].IS_shape:=issSpherical
-         else if DBSCRdmpStr='stCylin' then FCDBscintStruc[DBSCRcount].IS_shape:=issCylindrical
-         else if DBSCRdmpStr='stCylSt' then FCDBscintStruc[DBSCRcount].IS_shape:=issStreamlinedCylindrical
-         else if DBSCRdmpStr='stDelta' then FCDBscintStruc[DBSCRcount].IS_shape:=issStreamlinedDelta
-         else if DBSCRdmpStr='stBox' then FCDBscintStruc[DBSCRcount].IS_shape:=issBox
-         else if DBSCRdmpStr='stTorus' then FCDBscintStruc[DBSCRcount].IS_shape:=issToroidal;
+         if DBSCRdmpStr='stAssem' then FCDdsuInternalStructures[DBSCRcount].IS_shape:=issAssembled
+         else if DBSCRdmpStr='stModul' then FCDdsuInternalStructures[DBSCRcount].IS_shape:=issModular
+         else if DBSCRdmpStr='stSpher' then FCDdsuInternalStructures[DBSCRcount].IS_shape:=issSpherical
+         else if DBSCRdmpStr='stCylin' then FCDdsuInternalStructures[DBSCRcount].IS_shape:=issCylindrical
+         else if DBSCRdmpStr='stCylSt' then FCDdsuInternalStructures[DBSCRcount].IS_shape:=issStreamlinedCylindrical
+         else if DBSCRdmpStr='stDelta' then FCDdsuInternalStructures[DBSCRcount].IS_shape:=issStreamlinedDelta
+         else if DBSCRdmpStr='stBox' then FCDdsuInternalStructures[DBSCRcount].IS_shape:=issBox
+         else if DBSCRdmpStr='stTorus' then FCDdsuInternalStructures[DBSCRcount].IS_shape:=issToroidal;
          {.internal structure architecture type}
          DBSCRdmpStr:=DBSCRnode.Attributes['archtp'];
          if DBSCRdmpStr='scarchtpDSV'
-         then FCDBscintStruc[DBSCRcount].IS_architecture:=aDSV
+         then FCDdsuInternalStructures[DBSCRcount].IS_architecture:=aDSV
          else if DBSCRdmpStr='scarchtpHLV'
-         then FCDBscintStruc[DBSCRcount].IS_architecture:=aHLV
+         then FCDdsuInternalStructures[DBSCRcount].IS_architecture:=aHLV
          else if DBSCRdmpStr='scarchtpLV'
-         then FCDBscintStruc[DBSCRcount].IS_architecture:=aLV
+         then FCDdsuInternalStructures[DBSCRcount].IS_architecture:=aLV
          else if DBSCRdmpStr='scarchtpLAV'
-         then FCDBscintStruc[DBSCRcount].IS_architecture:=aLAV
+         then FCDdsuInternalStructures[DBSCRcount].IS_architecture:=aLAV
          else if DBSCRdmpStr='scarchtpOMV'
-         then FCDBscintStruc[DBSCRcount].IS_architecture:=aOMV
+         then FCDdsuInternalStructures[DBSCRcount].IS_architecture:=aOMV
          else if DBSCRdmpStr='scarchtpSSI'
-         then FCDBscintStruc[DBSCRcount].IS_architecture:=aSSI
+         then FCDdsuInternalStructures[DBSCRcount].IS_architecture:=aSSI
          else if DBSCRdmpStr='scarchtpTAV'
-         then FCDBscintStruc[DBSCRcount].IS_architecture:=aTAV
+         then FCDdsuInternalStructures[DBSCRcount].IS_architecture:=aTAV
          else if DBSCRdmpStr='scarchtpBSV'
-         then FCDBscintStruc[DBSCRcount].IS_architecture:=aBSV;
+         then FCDdsuInternalStructures[DBSCRcount].IS_architecture:=aBSV;
          {.internal structure allowed control module}
          if DBSCRdmpStr='cmtCockpit'
-         then FCDBscintStruc[DBSCRcount].IS_controlModuleAllowed:=cmCockpit
+         then FCDdsuInternalStructures[DBSCRcount].IS_controlModuleAllowed:=cmCockpit
          else if DBSCRdmpStr='cmtBridge'
-         then FCDBscintStruc[DBSCRcount].IS_controlModuleAllowed:=cmBridge
+         then FCDdsuInternalStructures[DBSCRcount].IS_controlModuleAllowed:=cmBridge
          else if DBSCRdmpStr='cmtUnna'
-         then FCDBscintStruc[DBSCRcount].IS_controlModuleAllowed:=cmUnmanned;
+         then FCDdsuInternalStructures[DBSCRcount].IS_controlModuleAllowed:=cmUnmanned;
          {.internal structure length}
-         FCDBscintStruc[DBSCRcount].IS_length:=DBSCRnode.Attributes['length'];
+         FCDdsuInternalStructures[DBSCRcount].IS_length:=DBSCRnode.Attributes['length'];
          {.internal structure wingspans}
-         FCDBscintStruc[DBSCRcount].IS_wingspan:=DBSCRnode.Attributes['wgspan'];
+         FCDdsuInternalStructures[DBSCRcount].IS_wingspan:=DBSCRnode.Attributes['wgspan'];
          {.internal structure height}
-         FCDBscintStruc[DBSCRcount].IS_height:=DBSCRnode.Attributes['height'];
+         FCDdsuInternalStructures[DBSCRcount].IS_height:=DBSCRnode.Attributes['height'];
          {.internal structure available volume}
-         FCDBscintStruc[DBSCRcount].IS_availableVolume:=DBSCRnode.Attributes['availvol'];
+         FCDdsuInternalStructures[DBSCRcount].IS_availableVolume:=DBSCRnode.Attributes['availvol'];
          {.internal structure available surface}
-         FCDBscintStruc[DBSCRcount].IS_availableSurface:=DBSCRnode.Attributes['availsur'];
+         FCDdsuInternalStructures[DBSCRcount].IS_availableSurface:=DBSCRnode.Attributes['availsur'];
          {.internal structure available spacedrive usable volume}
-         FCDBscintStruc[DBSCRcount].IS_spaceDriveMaxVolume:=DBSCRnode.Attributes['spdrvmaxvol'];
+         FCDdsuInternalStructures[DBSCRcount].IS_spaceDriveMaxVolume:=DBSCRnode.Attributes['spdrvmaxvol'];
          {.internal structure available spacedrive usable surface}
-         FCDBscintStruc[DBSCRcount].IS_spaceDriveMaxSurface:=DBSCRnode.Attributes['spdrvmaxsur'];
+         FCDdsuInternalStructures[DBSCRcount].IS_spaceDriveMaxSurface:=DBSCRnode.Attributes['spdrvmaxsur'];
          inc(DBSCRcount);
       end; {.if DBSCRnode.NodeName<>'#comment'}
       DBSCRnode:= DBSCRnode.NextSibling;
    end; {.while DBSCRnode<>nil}
    {.resize to real table size}
-   SetLength(FCDBscintStruc, DBSCRcount);
+   SetLength(FCDdsuInternalStructures, DBSCRcount);
    FCWinMain.FCXMLdbSCraft.Active:=false;
    DBSCRcount:=1;
    {.DESIGNS}
@@ -1398,20 +1398,20 @@ begin
    DBSCRnode:= FCWinMain.FCXMLdbSCraft.DocumentElement.ChildNodes.First;
    while DBSCRnode<>nil do
    begin
-      if DBSCRcount >= Length(FCDBscDesigns)
-      then SetLength(FCDBscDesigns, Length(FCDBscDesigns)+DBSCRblocCnt);
+      if DBSCRcount >= Length(FCDdsuSpaceUnitDesigns)
+      then SetLength(FCDdsuSpaceUnitDesigns, Length(FCDdsuSpaceUnitDesigns)+DBSCRblocCnt);
       if DBSCRnode.NodeName<>'#comment' then
       begin
          {.design token}
-         FCDBscDesigns[DBSCRcount].SUD_token:=DBSCRnode.Attributes['token'];
+         FCDdsuSpaceUnitDesigns[DBSCRcount].SUD_token:=DBSCRnode.Attributes['token'];
          {.internal structure token linked to the current design (datastructure is cloned)}
          DBSCRdmpStr:=DBSCRnode.Attributes['intstrtoken'];
          {.retrieve internal structure db}
          DBSCRiStrcnt:=1;
          DBSCRiStrIdx:=0;
-         while DBSCRiStrcnt<=Length(FCDBscIntStruc)-1 do
+         while DBSCRiStrcnt<=Length(FCDdsuInternalStructures)-1 do
          begin
-            if FCDBscIntStruc[DBSCRiStrcnt].IS_token=DBSCRdmpStr
+            if FCDdsuInternalStructures[DBSCRiStrcnt].IS_token=DBSCRdmpStr
             then
             begin
                DBSCRiStrIdx:=DBSCRiStrcnt;
@@ -1419,28 +1419,28 @@ begin
             end;
             inc(DBSCRiStrcnt);
          end;
-         FCDBscDesigns[DBSCRcount].SCD_intStrClone:=FCDBscIntStruc[DBSCRiStrIdx];
+         FCDdsuSpaceUnitDesigns[DBSCRcount].SUD_internalStructureClone:=FCDdsuInternalStructures[DBSCRiStrIdx];
          {.design used volume}
-         FCDBscDesigns[DBSCRcount].SCD_usedVol:=DBSCRnode.Attributes['usedvol'];
+         FCDdsuSpaceUnitDesigns[DBSCRcount].SUD_usedVolume:=DBSCRnode.Attributes['usedvol'];
          {.design used surface}
-         FCDBscDesigns[DBSCRcount].SCD_usedSur:=DBSCRnode.Attributes['usedsurf'];
+         FCDdsuSpaceUnitDesigns[DBSCRcount].SUD_usedSurface:=DBSCRnode.Attributes['usedsurf'];
          {.design empty mass}
-         FCDBscDesigns[DBSCRcount].SCD_massEmp:=DBSCRnode.Attributes['massempty'];
+         FCDdsuSpaceUnitDesigns[DBSCRcount].SUD_massEmpty:=DBSCRnode.Attributes['massempty'];
          {.design spacedrive isp}
-         FCDBscDesigns[DBSCRcount].SCD_spDriveISP:=DBSCRnode.Attributes['spdrvISP'];
+         FCDdsuSpaceUnitDesigns[DBSCRcount].SUD_spaceDriveISP:=DBSCRnode.Attributes['spdrvISP'];
          {.design maximum reaction mass volume}
-         FCDBscDesigns[DBSCRcount].SCD_spDriveRMassMaxVol:=DBSCRnode.Attributes['spdrvRMmax'];
+         FCDdsuSpaceUnitDesigns[DBSCRcount].SUD_spaceDriveReactionMassMaxVolume:=DBSCRnode.Attributes['spdrvRMmax'];
          {.design capabilities}
-         FCDBscDesigns[DBSCRcount].SUD_capInterstel:=DBSCRnode.Attributes['capInter'];
-         FCDBscDesigns[DBSCRcount].SUD_capColoniz:=DBSCRnode.Attributes['capColon'];
-         FCDBscDesigns[DBSCRcount].SUD_capPassngr:=DBSCRnode.Attributes['capPassgr'];
-         FCDBscDesigns[DBSCRcount].SUD_capCombat:=DBSCRnode.Attributes['capCombt'];
+         FCDdsuSpaceUnitDesigns[DBSCRcount].SUD_capabilityInterstellarTransit:=DBSCRnode.Attributes['capInter'];
+         FCDdsuSpaceUnitDesigns[DBSCRcount].SUD_capabilityColonization:=DBSCRnode.Attributes['capColon'];
+         FCDdsuSpaceUnitDesigns[DBSCRcount].SUD_capabilityPassengers:=DBSCRnode.Attributes['capPassgr'];
+         FCDdsuSpaceUnitDesigns[DBSCRcount].SUD_capabilityCombat:=DBSCRnode.Attributes['capCombt'];
          inc(DBSCRcount);
       end; {.if DBSCRnode.NodeName<>'#comment'}
       DBSCRnode := DBSCRnode.NextSibling;
    end; {.while DBSCRnode<>nil}
    {.resize to real table size}
-   SetLength(FCDBscDesigns, DBSCRcount);
+   SetLength(FCDdsuSpaceUnitDesigns, DBSCRcount);
    FCWinMain.FCXMLdbSCraft.Active:=false;
 end;
 

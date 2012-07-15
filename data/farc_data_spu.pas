@@ -269,41 +269,60 @@ type TFCRdsuSpaceUnitDesign = record
    ///   db token id
    ///</summary>
    SUD_token: string[20];
-   {data structure clone of the internal structure linked to the design}
-   SCD_intStrClone: TFCRdsuInternalStructure;
-   {used volume out the available volume, in cubic meter [RTO-1}
-   SCD_usedVol: extended;
-   {used surface out the available surface, in square meter [RTO-1}
-   SCD_usedSur: extended;
-   {empty mass of the spacecraft, w/o payload & crew [RTO-2]}
-   SCD_massEmp: extended;
-   {list of installed equipment modules}
-   SCD_eqMdlInst: array of TFCRdsuEquipmentModule;
-   {ISP of installed space drive}
-   SCD_spDriveISP: integer;
-   {maximum reaction mass volume the spacecraft can carry}
-   SCD_spDriveRMassMaxVol: extended;
-   {.capabilities. when updated, update too: farc_spu_functions/TFCEsufCapab}
-   SUD_capInterstel: boolean;
-   SUD_capColoniz: boolean;
-   SUD_capPassngr: boolean;
-   SUD_capCombat: boolean;
+   ///<summary>
+   ///   clone of the internal structure
+   ///</summary>
+   SUD_internalStructureClone: TFCRdsuInternalStructure;
+   ///<summary>
+   ///   used volume out the available volume, in cubic meters [RTO-1]
+   ///</summary>
+   SUD_usedVolume: extended;
+   ///<summary>
+   ///   used surface out the available surface, in square meters [RTO-1]
+   ///</summary>
+   SUD_usedSurface: extended;
+   ///<summary>
+   ///   empty mass of the spacecraft, w/o payload & crew [RTO-2]
+   ///</summary>
+   SUD_massEmpty: extended;
+   ///<summary>
+   ///   list of installed equipment modules
+   ///</summary>
+   SUD_equimentModules: array of TFCRdsuEquipmentModule;
+   ///<summary>
+   ///   ISP of installed space drive
+   ///</summary>
+   SUD_spaceDriveISP: integer;
+   ///<summary>
+   ///   maximum reaction mass volume the spacecraft can carry
+   ///</summary>
+   SUD_spaceDriveReactionMassMaxVolume: extended;
+   ///<summary>
+   ///   capabilities. when updated, update too: farc_spu_functions/TFCEsufCapab
+   ///</summary>
+   SUD_capabilityInterstellarTransit: boolean;
+   SUD_capabilityColonization: boolean;
+   SUD_capabilityPassengers: boolean;
+   SUD_capabilityCombat: boolean;
    {DEV NOTE:
       total mass
       drive cloned: token / perf thr/vol of drive / rmass type product token
       total drive thr
    }
 end;
-   {.spacecraft's designs dynamic array}
-   TFCDBscDesigns = array of TFCRdsuSpaceUnitDesign;
+   ///<summary>
+   ///   space unit's design dynamic array
+   ///</summary>
+   TFCDdsuSpaceUnitDesigns = array of TFCRdsuSpaceUnitDesign;
 
 //==END PUBLIC RECORDS======================================================================
 
    //==========databases and other data structures pre-init=================================
 var
-   FCDBscDesigns: TFCDBscDesigns;
-      FCDBscEqMdls: TFCDdsuEquipmentModules;
-      FCDBscIntStruc: TFCDdsuInternalStructures;
+   FCDdsuEquipmentModules: TFCDdsuEquipmentModules;
+   FCDdsuInternalStructures: TFCDdsuInternalStructures;
+   FCDdsuSpaceUnitDesigns: TFCDdsuSpaceUnitDesigns;
+
 //==END PUBLIC VAR==========================================================================
 
 //const

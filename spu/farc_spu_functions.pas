@@ -244,10 +244,10 @@ begin
    begin
       {.retrieve spacecraft design db}
       DGDBcnt:=1;
-      DGDBmax:=Length(FCDBscDesigns)-1;
+      DGDBmax:=Length(FCDdsuSpaceUnitDesigns)-1;
       while DGDBcnt<=DGDBmax do
       begin
-         if FCDBscDesigns[DGDBcnt].SUD_token=DGDBdsgnToken
+         if FCDdsuSpaceUnitDesigns[DGDBcnt].SUD_token=DGDBdsgnToken
          then
          begin
             DGDBres:=DGDBcnt;
@@ -300,23 +300,23 @@ begin
             or (
                (DSUGNarch>aNone)
                and
-               (FCDBscDesigns[DSUGNdesgn].SCD_intStrClone.IS_architecture=DSUGNarch)
+               (FCDdsuSpaceUnitDesigns[DSUGNdesgn].SUD_internalStructureClone.IS_architecture=DSUGNarch)
                )
          then
          begin
             case DSUGNcapab of
                sufcAny: inc(DSUGNresult);
                sufcInterstel:
-                  if FCDBscDesigns[DSUGNdesgn].SUD_capInterstel
+                  if FCDdsuSpaceUnitDesigns[DSUGNdesgn].SUD_capabilityInterstellarTransit
                   then inc(DSUGNresult);
                sufcColoniz:
-                  if FCDBscDesigns[DSUGNdesgn].SUD_capColoniz
+                  if FCDdsuSpaceUnitDesigns[DSUGNdesgn].SUD_capabilityColonization
                   then inc(DSUGNresult);
                sufcPassngr:
-                  if FCDBscDesigns[DSUGNdesgn].SUD_capPassngr
+                  if FCDdsuSpaceUnitDesigns[DSUGNdesgn].SUD_capabilityPassengers
                   then inc(DSUGNresult);
                sufcCombat:
-                  if FCDBscDesigns[DSUGNdesgn].SUD_capCombat
+                  if FCDdsuSpaceUnitDesigns[DSUGNdesgn].SUD_capabilityCombat
                   then inc(DSUGNresult);
             end;
          end; //==END== if DSUGNarch=scatNone ==//

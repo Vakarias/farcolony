@@ -109,7 +109,7 @@ begin
    {.calculate final acceleration in gees relative to loaded mass}
    GMCAccelG:=(MRMCDVCthrbyvol*MRMCDVCvolOfDrive)/MRMCDVCloadedMassInTons;
    {.get the space unit's ISP}
-   LCisp:=FCDBscDesigns[LCdesgn].SCD_spDriveISP;
+   LCisp:=FCDdsuSpaceUnitDesigns[LCdesgn].SUD_spaceDriveISP;
    {.velocities calculations}
    LCdepVel:=FCentities[LCfac].E_spU[LCownIdx].SUO_deltaV;
    {.calculate the burn endurance for deceleration}

@@ -576,7 +576,7 @@ begin
    SUDUttl:=length(FCentities[0].E_spU[SUDUsuIdx].SUO_dockedSU)-1;
    FCWinMain.FCWM_DLP_DockList.Items.Add(
       '<p align="center"><img src="file://'+FCVdiPathResourceDir+'pics-ui-scraft\'
-      +FCDBscDesigns[SUDUdsgn].SCD_intStrClone.IS_token+'_lst.jpg'
+      +FCDdsuSpaceUnitDesigns[SUDUdsgn].SUD_internalStructureClone.IS_token+'_lst.jpg'
       +'" align="middle">'
       );
    FCWinMain.FCWM_DLP_DockList.Items.Add(
@@ -590,7 +590,7 @@ begin
       SUDUdsgn:=FCFspuF_Design_getDB(FCentities[0].E_spU[SUDUdckIdx].SUO_designId);
       FCWinMain.FCWM_DLP_DockList.Items.Add(
          '<img src="file://'+FCVdiPathResourceDir+'pics-ui-scraft\'
-         +FCDBscDesigns[SUDUdsgn].SCD_intStrClone.IS_token+'_lst.jpg'
+         +FCDdsuSpaceUnitDesigns[SUDUdsgn].SUD_internalStructureClone.IS_token+'_lst.jpg'
          +'" align="middle">'
          +FCFdTFiles_UIStr_Get(dtfscPrprName, FCentities[0].E_spU[SUDUdckIdx].SUO_nameToken)
          );
