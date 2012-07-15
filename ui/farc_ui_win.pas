@@ -391,20 +391,20 @@ begin
       FCWinMain.FCWM_PMFO_Header_SpUnitOObj.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_PMFO_Header_SpUnitOObj.OObj');
       {.colony/faction data}
       if (
-         (FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3DobjGrp[FCV3DselOobj])
-         and (FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_orbitalObjects[FCV3DselOobj].OO_colonies[0]>0)
+         (FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglObjectsGroups[FC3doglSelectedPlanetAsteroid])
+         and (FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[FC3doglSelectedPlanetAsteroid].OO_colonies[0]>0)
          )
          or
          (
-         (FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3DobjSatGrp[FCV3DselOobj])
-         and (FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_orbitalObjects[FCV3DselOobj].OO_satellitesList[FCV3DselSat].OO_colonies[0]>0)
+         (FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglSatellitesObjectsGroups[FC3doglSelectedPlanetAsteroid])
+         and (FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[FC3doglSelectedPlanetAsteroid].OO_satellitesList[FC3doglSelectedSatellite].OO_colonies[0]>0)
          )
       then
       begin
          FCWinMain.FCWM_PMFOcolfacData.Visible:=true;
          FCWinMain.FCWM_PMFOoobjData.Visible:=false;
       end
-      else if FCV3DselOobj>0
+      else if FC3doglSelectedPlanetAsteroid>0
       then FCWinMain.FCWM_PMFOoobjData.Visible:=true;
    end {.if FPUkind= uiwpkOrbObj}
    {.space unit menu setup}
@@ -413,7 +413,7 @@ begin
    begin
       {.menu initialize and gather owned space unit data}
       FCMuiWin_FocusPopup_Reset;
-      FPUdmpIdx:=round(FC3DobjSpUnit[FCV3DselSpU].TagFloat);
+      FPUdmpIdx:=round(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].TagFloat);
       FPUdmpTaskId:=FCentities[0].E_spU[FPUdmpIdx].SUO_taskIdx;
       FPUdmpSpUnStatus:=FCentities[0].E_spU[FPUdmpIdx].SUO_status;
       FPUspUssys:=FCFuF_StelObj_GetDbIdx(
@@ -838,11 +838,11 @@ begin
       {.main 3d view frame}
       FCWinMain.FCWM_3dMainGrp.Caption
          :=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_3dMainGrp.SSys')
-            +' '+FCFdTFiles_UIStr_Get(dtfscPrprName,FCDduStarSystem[FCV3DselSsys].SS_token)
+            +' '+FCFdTFiles_UIStr_Get(dtfscPrprName,FCDduStarSystem[FC3doglCurrentStarSystem].SS_token)
             +']  '
             +FCFdTFiles_UIStr_Get(uistrUI,'FCWM_3dMainGrp.Star')
             +' '
-            +FCFdTFiles_UIStr_Get(dtfscPrprName, FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_token)
+            +FCFdTFiles_UIStr_Get(dtfscPrprName, FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_token)
             +']';
       {.help panel}
       FCWinMain.FCWM_HelpPanel.Caption.Text:='<p align="center"><b>'+FCFdTFiles_UIStr_Get(uistrUI,'FCWM_HelpPanel')+'</b>';
@@ -1341,13 +1341,13 @@ begin
    then
    begin
       {.check status of standard texture resolution submenu items}
-      if not FCV3DstdTresHR
+      if not FC3doglHRstandardTextures
       then
       begin
          FCWinMain.FCWM_MMenu_O_TR_1024.Checked:=true;
          FCWinMain.FCWM_MMenu_O_TR_2048.Checked:=false;
       end
-      else if FCV3DstdTresHR
+      else if FC3doglHRstandardTextures
       then
       begin
          FCWinMain.FCWM_MMenu_O_TR_1024.Checked:=false;

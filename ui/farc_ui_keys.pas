@@ -260,36 +260,36 @@ begin
          case BKSbk of
             uikbkNext:
             begin
-               if FCV3DselOobj<FCV3DttlOobj
+               if FC3doglSelectedPlanetAsteroid<FC3doglTotalOrbitalObjects
                then
                begin
-                  inc(FCV3DselOobj);
-                  FCMoglVM_CamMain_Target(FCV3DselOobj, true);
+                  inc(FC3doglSelectedPlanetAsteroid);
+                  FCMoglVM_CamMain_Target(FC3doglSelectedPlanetAsteroid, true);
                   if FCWinMain.FCWM_MissionSettings.Visible
                   then FCMgMCore_Mission_DestUpd(false)
                   else if (not FCWinMain.FCWM_MissionSettings.Visible)
                      and (FCWinMain.FCWM_SP_AutoUp.Checked)
-                  then FCMuiSP_SurfaceEcosphere_Set(FCV3DselOobj, 0, false);
+                  then FCMuiSP_SurfaceEcosphere_Set(FC3doglSelectedPlanetAsteroid, 0, false);
                end;
             end;
             uikbkPrev:
             begin
                if (FCWinMain.FCWM_MissionSettings.Visible)
-                  and (FCV3DselOobj>1)
+                  and (FC3doglSelectedPlanetAsteroid>1)
                then
                begin
-                  dec(FCV3DselOobj);
-                  FCMoglVM_CamMain_Target(FCV3DselOobj, true);
+                  dec(FC3doglSelectedPlanetAsteroid);
+                  FCMoglVM_CamMain_Target(FC3doglSelectedPlanetAsteroid, true);
                   FCMgMCore_Mission_DestUpd(false);
                end
                else if not FCWinMain.FCWM_MissionSettings.Visible
                then
                begin
-                  dec(FCV3DselOobj);
-                  FCMoglVM_CamMain_Target(FCV3DselOobj, true);
+                  dec(FC3doglSelectedPlanetAsteroid);
+                  FCMoglVM_CamMain_Target(FC3doglSelectedPlanetAsteroid, true);
                   if (FCWinMain.FCWM_SP_AutoUp.Checked)
-                     and (FCV3DselOobj>0)
-                  then FCMuiSP_SurfaceEcosphere_Set(FCV3DselOobj, 0, false);
+                     and (FC3doglSelectedPlanetAsteroid>0)
+                  then FCMuiSP_SurfaceEcosphere_Set(FC3doglSelectedPlanetAsteroid, 0, false);
                end;
             end;
             uikbkFirst:
@@ -297,29 +297,29 @@ begin
                if FCWinMain.FCWM_MissionSettings.Visible
                then
                begin
-                  FCV3DselOobj:=1;
-                  FCMoglVM_CamMain_Target(FCV3DselOobj, true);
+                  FC3doglSelectedPlanetAsteroid:=1;
+                  FCMoglVM_CamMain_Target(FC3doglSelectedPlanetAsteroid, true);
                   FCMgMCore_Mission_DestUpd(false);
                end
                else if not FCWinMain.FCWM_MissionSettings.Visible
                then
                begin
-                  FCV3DselOobj:=0;
-                  FCMoglVM_CamMain_Target(FCV3DselOobj, true);
+                  FC3doglSelectedPlanetAsteroid:=0;
+                  FCMoglVM_CamMain_Target(FC3doglSelectedPlanetAsteroid, true);
                end;
             end;
             uikbkLast:
             begin
-               if FCV3DselOobj<>FCV3DttlOobj
+               if FC3doglSelectedPlanetAsteroid<>FC3doglTotalOrbitalObjects
                then
                begin
-                  FCV3DselOobj:=FCV3DttlOobj;
-                  FCMoglVM_CamMain_Target(FCV3DselOobj, true);
+                  FC3doglSelectedPlanetAsteroid:=FC3doglTotalOrbitalObjects;
+                  FCMoglVM_CamMain_Target(FC3doglSelectedPlanetAsteroid, true);
                   if FCWinMain.FCWM_MissionSettings.Visible
                   then FCMgMCore_Mission_DestUpd(false)
                   else if (not FCWinMain.FCWM_MissionSettings.Visible)
                      and (FCWinMain.FCWM_SP_AutoUp.Checked)
-                  then FCMuiSP_SurfaceEcosphere_Set(FCV3DselOobj, 0, false);
+                  then FCMuiSP_SurfaceEcosphere_Set(FC3doglSelectedPlanetAsteroid, 0, false);
                end;
             end;
          end; //==END== case BKSbk of ==//
@@ -329,50 +329,50 @@ begin
          case BKSbk of
             uikbkNext:
             begin
-               if FCV3DselSat<FCV3DttlSat
+               if FC3doglSelectedSatellite<FC3doglTotalSatellites
                then
                begin
-                  BKSdmp:=round(FC3DobjSatGrp[FCV3DselSat+1].TagFloat);
-                  if (FC3DobjSatGrp[FCV3DselSat+1].Tag<=FC3DobjSatGrp[FCV3DselSat].Tag)
-                     or (FCV3DselOobj<>BKSdmp)
-                  then FCV3DselOobj:=BKSdmp;
-                  inc(FCV3DselSat);
+                  BKSdmp:=round(FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite+1].TagFloat);
+                  if (FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite+1].Tag<=FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].Tag)
+                     or (FC3doglSelectedPlanetAsteroid<>BKSdmp)
+                  then FC3doglSelectedPlanetAsteroid:=BKSdmp;
+                  inc(FC3doglSelectedSatellite);
                end;
             end;
             uikbkPrev:
             begin
-               if FCV3DselSat>1
+               if FC3doglSelectedSatellite>1
                then
                begin
-                  BKSdmp:=round(FC3DobjSatGrp[FCV3DselSat-1].TagFloat);
-                  if (FC3DobjSatGrp[FCV3DselSat-1].Tag>=FC3DobjSatGrp[FCV3DselSat].Tag)
-                     or (FCV3DselOobj<>BKSdmp)
-                  then FCV3DselOobj:=BKSdmp;
-                  dec(FCV3DselSat);
+                  BKSdmp:=round(FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite-1].TagFloat);
+                  if (FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite-1].Tag>=FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].Tag)
+                     or (FC3doglSelectedPlanetAsteroid<>BKSdmp)
+                  then FC3doglSelectedPlanetAsteroid:=BKSdmp;
+                  dec(FC3doglSelectedSatellite);
                end;
             end;
             uikbkFirst:
             begin
-               if FCV3DselSat>1
+               if FC3doglSelectedSatellite>1
                then
                begin
-                  BKSdmp:=round(FC3DobjSatGrp[1].TagFloat);
-                  if (BKSdmp<>FC3DobjSatGrp[FCV3DselSat].TagFloat)
-                     or (FCV3DselOobj<>BKSdmp)
-                  then FCV3DselOobj:=BKSdmp;
-                  FCV3DselSat:=1;
+                  BKSdmp:=round(FC3doglSatellitesObjectsGroups[1].TagFloat);
+                  if (BKSdmp<>FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].TagFloat)
+                     or (FC3doglSelectedPlanetAsteroid<>BKSdmp)
+                  then FC3doglSelectedPlanetAsteroid:=BKSdmp;
+                  FC3doglSelectedSatellite:=1;
                end;
             end;
             uikbkLast:
             begin
-               if FCV3DselSat<FCV3DttlSat
+               if FC3doglSelectedSatellite<FC3doglTotalSatellites
                then
                begin
-                  BKSdmp:=round(FC3DobjSatGrp[FCV3DttlSat].TagFloat);
-                  if (BKSdmp<>FC3DobjSatGrp[FCV3DselSat].TagFloat)
-                     or (FCV3DselOobj<>BKSdmp)
-                  then FCV3DselOobj:=BKSdmp;
-                  FCV3DselSat:=FCV3DttlSat;
+                  BKSdmp:=round(FC3doglSatellitesObjectsGroups[FC3doglTotalSatellites].TagFloat);
+                  if (BKSdmp<>FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].TagFloat)
+                     or (FC3doglSelectedPlanetAsteroid<>BKSdmp)
+                  then FC3doglSelectedPlanetAsteroid:=BKSdmp;
+                  FC3doglSelectedSatellite:=FC3doglTotalSatellites;
                end;
             end;
          end; //==END== case BKSbk of ==//
@@ -381,7 +381,7 @@ begin
          then FCMgMCore_Mission_DestUpd(false)
          else if (not FCWinMain.FCWM_MissionSettings.Visible)
             and (FCWinMain.FCWM_SP_AutoUp.Checked)
-         then FCMuiSP_SurfaceEcosphere_Set(FCV3DselOobj, FC3DobjSatGrp[FCV3DselSat].Tag, false);
+         then FCMuiSP_SurfaceEcosphere_Set(FC3doglSelectedPlanetAsteroid, FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].Tag, false);
       end; //==END== case - uikbtSat ==//
       uikbtSpU:
       begin
@@ -389,96 +389,96 @@ begin
          case BKSbk of
             uikbkNext:
             begin
-               if FCV3DselSpU<FCV3DttlSpU
+               if FC3doglSelectedSpaceUnit<FC3doglTotalSpaceUnits
                then
                begin
-                  if not FC3DobjSpUnit[FCV3DselSpU+1].Visible
+                  if not FC3doglSpaceUnits[FC3doglSelectedSpaceUnit+1].Visible
                   then
                   begin
-                     BKScnt:=FCV3DselSpU+2;
-                     while BKScnt<=FCV3DttlSpU do
+                     BKScnt:=FC3doglSelectedSpaceUnit+2;
+                     while BKScnt<=FC3doglTotalSpaceUnits do
                      begin
-                        if FC3DobjSpUnit[BKScnt].Visible
+                        if FC3doglSpaceUnits[BKScnt].Visible
                         then
                         begin
-                              FCV3DselSpU:=BKScnt;
+                              FC3doglSelectedSpaceUnit:=BKScnt;
                               break;
                         end
-                        else if not FC3DobjSpUnit[BKScnt].Visible
+                        else if not FC3doglSpaceUnits[BKScnt].Visible
                         then inc(BKScnt);
                      end;
                   end
-                  else if FC3DobjSpUnit[FCV3DselSpU+1].Visible
-                  then inc(FCV3DselSpU);
+                  else if FC3doglSpaceUnits[FC3doglSelectedSpaceUnit+1].Visible
+                  then inc(FC3doglSelectedSpaceUnit);
                end;
             end;
             uikbkPrev:
             begin
-               if FCV3DselSpU>1
+               if FC3doglSelectedSpaceUnit>1
                then
                begin
-                  if not FC3DobjSpUnit[FCV3DselSpU-1].Visible
+                  if not FC3doglSpaceUnits[FC3doglSelectedSpaceUnit-1].Visible
                   then
                   begin
-                     BKScnt:=FCV3DselSpU-2;
+                     BKScnt:=FC3doglSelectedSpaceUnit-2;
                      while BKScnt>=1 do
                      begin
-                        if FC3DobjSpUnit[BKScnt].Visible
+                        if FC3doglSpaceUnits[BKScnt].Visible
                         then
                         begin
-                           FCV3DselSpU:=BKScnt;
+                           FC3doglSelectedSpaceUnit:=BKScnt;
                            break;
                         end
-                        else if not FC3DobjSpUnit[BKScnt].Visible
+                        else if not FC3doglSpaceUnits[BKScnt].Visible
                         then dec(BKScnt);
                      end;
                   end
-                  else if FC3DobjSpUnit[FCV3DselSpU-1].Visible
-                  then dec(FCV3DselSpU);
+                  else if FC3doglSpaceUnits[FC3doglSelectedSpaceUnit-1].Visible
+                  then dec(FC3doglSelectedSpaceUnit);
                end;
             end;
             uikbkFirst:
             begin
-               if (FCV3DselSpU>1)
-                  and (FC3DobjSpUnit[1].Visible)
-               then FCV3DselSpU:=1
-               else if (FCV3DselSpU>2)
-                  and (not FC3DobjSpUnit[1].Visible)
+               if (FC3doglSelectedSpaceUnit>1)
+                  and (FC3doglSpaceUnits[1].Visible)
+               then FC3doglSelectedSpaceUnit:=1
+               else if (FC3doglSelectedSpaceUnit>2)
+                  and (not FC3doglSpaceUnits[1].Visible)
                then
                begin
                   BKScnt:=2;
-                  while BKScnt<FCV3DselSpU do
+                  while BKScnt<FC3doglSelectedSpaceUnit do
                   begin
-                     if FC3DobjSpUnit[BKScnt].Visible
+                     if FC3doglSpaceUnits[BKScnt].Visible
                      then
                      begin
-                        FCV3DselSpU:=BKScnt;
+                        FC3doglSelectedSpaceUnit:=BKScnt;
                         break;
                      end
-                     else if not FC3DobjSpUnit[BKScnt].Visible
+                     else if not FC3doglSpaceUnits[BKScnt].Visible
                      then inc(BKScnt);
                   end;
                end;
             end;
             uikbkLast:
             begin
-               if (FCV3DselSpU<FCV3DttlSpU)
-                  and (FC3DobjSpUnit[FCV3DttlSpU].Visible)
-               then FCV3DselSpU:=FCV3DttlSpU
-               else if (FCV3DselSpU<FCV3DttlSpU-1)
-                  and (not FC3DobjSpUnit[FCV3DttlSpU].Visible)
+               if (FC3doglSelectedSpaceUnit<FC3doglTotalSpaceUnits)
+                  and (FC3doglSpaceUnits[FC3doglTotalSpaceUnits].Visible)
+               then FC3doglSelectedSpaceUnit:=FC3doglTotalSpaceUnits
+               else if (FC3doglSelectedSpaceUnit<FC3doglTotalSpaceUnits-1)
+                  and (not FC3doglSpaceUnits[FC3doglTotalSpaceUnits].Visible)
                then
                begin
-                  BKScnt:=FCV3DttlSpU-2;
+                  BKScnt:=FC3doglTotalSpaceUnits-2;
                   while BKScnt>=1 do
                   begin
-                     if FC3DobjSpUnit[BKScnt].Visible
+                     if FC3doglSpaceUnits[BKScnt].Visible
                      then
                      begin
-                        FCV3DselSpU:=BKScnt;
+                        FC3doglSelectedSpaceUnit:=BKScnt;
                         break;
                      end
-                     else if not FC3DobjSpUnit[BKScnt].Visible
+                     else if not FC3doglSpaceUnits[BKScnt].Visible
                      then dec(BKScnt);
                   end;
                end;
@@ -1038,14 +1038,14 @@ begin
       {. A}
       {.switch satellite view <=> orbital object view}
       if (WMTkeyDump=65)
-         and (FCV3DttlSat>0)
-         and (FCWinMain.FCGLSCamMainViewGhost.TargetObject<>FC3DobjSatGrp[FCV3DselSat])
+         and (FC3doglTotalSatellites>0)
+         and (FCWinMain.FCGLSCamMainViewGhost.TargetObject<>FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite])
          and
             (
                (
                   (not FCWinMain.FCWM_MissionSettings.Visible)
                   and
-                  (length(FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_orbitalObjects[FCV3DselOobj].OO_satellitesList)>1)
+                  (length(FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[FC3doglSelectedPlanetAsteroid].OO_satellitesList)>1)
                )
                or
                (
@@ -1058,21 +1058,21 @@ begin
             )
       then
       begin
-         if round(FC3DobjSatGrp[FCV3DselSat].TagFloat)<>FCV3DselOobj
+         if round(FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].TagFloat)<>FC3doglSelectedPlanetAsteroid
          then
          begin
-            FCV3DselOobj:=round(FC3DobjSatGrp[FCV3DselSat].TagFloat);
+            FC3doglSelectedPlanetAsteroid:=round(FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].TagFloat);
          end;
          FCMoglVM_CamMain_Target(100, false);
          if FCWinMain.FCWM_MissionSettings.Visible
          then FCMgMCore_Mission_DestUpd(false);
       end
       else if (WMTkeyDump=65)
-         and (FCV3DttlSat>0)
-         and (FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3DobjSatGrp[FCV3DselSat])
+         and (FC3doglTotalSatellites>0)
+         and (FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite])
       then
       begin
-         FCMoglVM_CamMain_Target(FCV3DselOobj, true);
+         FCMoglVM_CamMain_Target(FC3doglSelectedPlanetAsteroid, true);
          if FCWinMain.FCWM_MissionSettings.Visible
          then FCMgMCore_Mission_DestUpd(false);
       end;
@@ -1129,15 +1129,15 @@ begin
       {. S}
       {.switch space unit view <=> orbital object view}
       if (WMTkeyDump=83)
-         and (FCV3DttlSpU>0)
-         and (FCWinMain.FCGLSCamMainViewGhost.TargetObject<>FC3DobjSpUnit[FCV3DselSpU])
+         and (FC3doglTotalSpaceUnits>0)
+         and (FCWinMain.FCGLSCamMainViewGhost.TargetObject<>FC3doglSpaceUnits[FC3doglSelectedSpaceUnit])
          and (not FCWinMain.FCWM_MissionSettings.Visible)
       then FCMoglVM_CamMain_Target(-1, true)
       else if (WMTkeyDump=83)
-         and (FCV3DttlSpU>0)
-         and (FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3DobjSpUnit[FCV3DselSpU])
+         and (FC3doglTotalSpaceUnits>0)
+         and (FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglSpaceUnits[FC3doglSelectedSpaceUnit])
          and (not FCWinMain.FCWM_MissionSettings.Visible)
-      then FCMoglVM_CamMain_Target(FCV3DselOobj, true);
+      then FCMoglVM_CamMain_Target(FC3doglSelectedPlanetAsteroid, true);
       {.X}
       if (WMTkeyDump=88)
          and (FCWinMain.FCWM_3dMainGrp.Visible)

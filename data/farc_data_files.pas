@@ -208,7 +208,7 @@ begin
    then
    begin
       FCVdiWinMainWideScreen:=CFRxmlCfgItm.Attributes['wide'];
-      FCV3DstdTresHR:=CFRxmlCfgItm.Attributes['hrstdt'];
+      FC3doglHRstandardTextures:=CFRxmlCfgItm.Attributes['hrstdt'];
    end;
    {.read the current game data}
 	CFRxmlCfgItm:=FCWinMain.FCXMLcfg.DocumentElement.ChildNodes.FindNode('currGame');
@@ -348,7 +348,7 @@ begin
    {.create the graphic setting}
    CFWxmlCfgItm:=CFWxmlRoot.AddChild('gfx');
    CFWxmlCfgItm.Attributes['wide']:=FCVdiWinMainWideScreen;
-   CFWxmlCfgItm.Attributes['hrstdt']:=FCV3DstdTresHR;
+   CFWxmlCfgItm.Attributes['hrstdt']:=FC3doglHRstandardTextures;
    {.create the current game data}
 	CFWxmlCfgItm:=CFWxmlRoot.AddChild('currGame');
 	CFWxmlCfgItm.Attributes['gname']:=FCRplayer.P_gameName;

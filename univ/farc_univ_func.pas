@@ -228,7 +228,7 @@ begin
    if GCSsatIdx=0
    then
    begin
-      with FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_orbitalObjects[GCSooIdx] do
+      with FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[GCSooIdx] do
       begin
          GCSrevolIni:=OO_revolutionPeriodInit;
          GCSorbP1s:=OO_orbitalPeriods[1].OOS_dayStart;
@@ -248,7 +248,7 @@ begin
    else if GCSsatIdx>0
    then
    begin
-      with FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_orbitalObjects[GCSooIdx].OO_satellitesList[GCSsatIdx] do
+      with FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[GCSooIdx].OO_satellitesList[GCSsatIdx] do
       begin
          GCSrevolIni:=OO_revolutionPeriodInit;
          GCSorbP1s:=OO_orbitalPeriods[1].OOS_dayStart;
@@ -499,22 +499,22 @@ begin
    if OPGMTsatIdx=0
    then
    begin
-      OPGMTdmpT1:=FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_orbitalObjects[OPGMToobjIdx].OO_orbitalPeriods[1].OOS_meanTemperature;
-      OPGMTdmpT2:=FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_orbitalObjects[OPGMToobjIdx].OO_orbitalPeriods[2].OOS_meanTemperature;
-      OPGMTdmpT3:=FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_orbitalObjects[OPGMToobjIdx].OO_orbitalPeriods[3].OOS_meanTemperature;
-      OPGMTdmpT4:=FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_orbitalObjects[OPGMToobjIdx].OO_orbitalPeriods[4].OOS_meanTemperature;
+      OPGMTdmpT1:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OPGMToobjIdx].OO_orbitalPeriods[1].OOS_meanTemperature;
+      OPGMTdmpT2:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OPGMToobjIdx].OO_orbitalPeriods[2].OOS_meanTemperature;
+      OPGMTdmpT3:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OPGMToobjIdx].OO_orbitalPeriods[3].OOS_meanTemperature;
+      OPGMTdmpT4:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OPGMToobjIdx].OO_orbitalPeriods[4].OOS_meanTemperature;
    end
    else if OPGMTsatIdx>0
    then
    begin
       OPGMTdmpT1
-         :=FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_orbitalObjects[OPGMToobjIdx].OO_satellitesList[OPGMTsatIdx].OO_orbitalPeriods[1].OOS_meanTemperature;
+         :=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OPGMToobjIdx].OO_satellitesList[OPGMTsatIdx].OO_orbitalPeriods[1].OOS_meanTemperature;
       OPGMTdmpT2
-         :=FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_orbitalObjects[OPGMToobjIdx].OO_satellitesList[OPGMTsatIdx].OO_orbitalPeriods[2].OOS_meanTemperature;
+         :=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OPGMToobjIdx].OO_satellitesList[OPGMTsatIdx].OO_orbitalPeriods[2].OOS_meanTemperature;
       OPGMTdmpT3
-         :=FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_orbitalObjects[OPGMToobjIdx].OO_satellitesList[OPGMTsatIdx].OO_orbitalPeriods[3].OOS_meanTemperature;
+         :=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OPGMToobjIdx].OO_satellitesList[OPGMTsatIdx].OO_orbitalPeriods[3].OOS_meanTemperature;
       OPGMTdmpT4
-         :=FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_orbitalObjects[OPGMToobjIdx].OO_satellitesList[OPGMTsatIdx].OO_orbitalPeriods[4].OOS_meanTemperature;
+         :=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OPGMToobjIdx].OO_satellitesList[OPGMTsatIdx].OO_orbitalPeriods[4].OOS_meanTemperature;
    end;
    OPGMTdmpRes:=(OPGMTdmpT1+OPGMTdmpT2+OPGMTdmpT3+OPGMTdmpT4)/4;
    Result:=OPGMTdmpRes;
@@ -530,10 +530,10 @@ var
 begin
    RGCdmpRes:='';
    if RGCsatIdx=0
-   then RGCdmpClim:=FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_orbitalObjects[RGCooIdx].OO_regions[RGCregIdx].OOR_climate
+   then RGCdmpClim:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[RGCooIdx].OO_regions[RGCregIdx].OOR_climate
    else if RGCsatIdx>0
    then RGCdmpClim
-      :=FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_orbitalObjects[RGCooIdx].OO_satellitesList[RGCsatIdx].OO_regions[RGCregIdx].OOR_climate;
+      :=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[RGCooIdx].OO_satellitesList[RGCsatIdx].OO_regions[RGCregIdx].OOR_climate;
    case RGCdmpClim of
       rc00VoidNoUse: RGCdmpRes:='climtpVoid';
       rc01VeryHotHumid: RGCdmpRes:='climtpVHotH';

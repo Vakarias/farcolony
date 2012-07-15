@@ -117,28 +117,28 @@ begin
    MCCisOrgAsat:=false;
    MCCisDestASat:=false;
    MCCsatOrgIdx:=0;
-   MCCfac:=FC3DobjSpUnit[FCV3DselSpU].Tag;
-   MCCowned:=round(FC3DobjSpUnit[FCV3DselSpU].TagFloat);
+   MCCfac:=FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].Tag;
+   MCCowned:=round(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].TagFloat);
    MCCdsgn:=FCFspuF_Design_getDB(FCentities[MCCfac].E_spU[MCCowned].SUO_designId);
    if GMCrootSatObjIdx>0
    then
    begin
       MCCisOrgAsat:=true;
-      MCCsatOrgIdx:=FC3DobjSatGrp[GMCrootSatObjIdx].Tag;
-      MCCsatOrgPlanIdx:=round(FC3DobjSatGrp[GMCrootSatObjIdx].TagFloat);
+      MCCsatOrgIdx:=FC3doglSatellitesObjectsGroups[GMCrootSatObjIdx].Tag;
+      MCCsatOrgPlanIdx:=round(FC3doglSatellitesObjectsGroups[GMCrootSatObjIdx].TagFloat);
    end;
-   if FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3DobjSatGrp[FCV3DselSat]
+   if FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite]
    then
    begin
       MCCisDestASat:=true;
-      MCCsatDestIdx:=FC3DobjSatGrp[FCV3DselSat].Tag;
-      MCCsatDestPlanIdx:=round(FC3DobjSatGrp[FCV3DselSat].TagFloat);
+      MCCsatDestIdx:=FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].Tag;
+      MCCsatDestPlanIdx:=round(FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].TagFloat);
    end;
    {.calculate base distance in AU}
    if not MCCisDestASat
-   then GMCbaseDist:=FCFgMTrans_ObObjInLStar_CalcRng(FCV3DselSpU, FCV3DselOobj, gmtltSpUnit, gmtltOrbObj, true)
+   then GMCbaseDist:=FCFgMTrans_ObObjInLStar_CalcRng(FC3doglSelectedSpaceUnit, FC3doglSelectedPlanetAsteroid, gmtltSpUnit, gmtltOrbObj, true)
    else if MCCisDestASat
-   then GMCbaseDist:=FCFgMTrans_ObObjInLStar_CalcRng(FCV3DselSpU, FCV3DselSat, gmtltSpUnit, gmtltSat, true);
+   then GMCbaseDist:=FCFgMTrans_ObObjInLStar_CalcRng(FC3doglSelectedSpaceUnit, FC3doglSelectedSatellite, gmtltSpUnit, gmtltSat, true);
    {.distance conversion in m}
    MCCdAccelM:=GMCbaseDist*FCCdiKm_In_1AU*500;
    {.calculate final acceleration in gees relative to loaded mass}
@@ -162,8 +162,8 @@ begin
    {.minreqDV.arrival orbital velocity}
    if not MCCisDestASat
    then MCCarrOrbVel:=(
-      2*pi*FCDduStarSystem[GMCrootSsys].SS_stars[GMCrootStar].S_orbitalObjects[FCV3DselOobj].OO_isSatFdistanceFromStar*FCCdiKm_In_1AU
-      /FCDduStarSystem[GMCrootSsys].SS_stars[GMCrootStar].S_orbitalObjects[FCV3DselOobj].OO_revolutionPeriod
+      2*pi*FCDduStarSystem[GMCrootSsys].SS_stars[GMCrootStar].S_orbitalObjects[FC3doglSelectedPlanetAsteroid].OO_isSatFdistanceFromStar*FCCdiKm_In_1AU
+      /FCDduStarSystem[GMCrootSsys].SS_stars[GMCrootStar].S_orbitalObjects[FC3doglSelectedPlanetAsteroid].OO_revolutionPeriod
       )
       /86400
    else if MCCisDestASat
@@ -207,7 +207,7 @@ begin
    then GMCfinalDV:=FCFspuF_DeltaV_GetFromOrbit(
       GMCrootSsys
       ,GMCrootStar
-      ,FCV3DselOobj
+      ,FC3doglSelectedPlanetAsteroid
       ,0
       )
    else if MCCisDestASat
@@ -253,7 +253,7 @@ begin
       1:
       begin
          GMCcruiseDV:=GMCreqDV;
-         if (FCV3DselOobj<>GMCrootOObIdx)
+         if (FC3doglSelectedPlanetAsteroid<>GMCrootOObIdx)
             and (GMCcruiseDV>GMCmaxDV)
          then
          begin
@@ -266,7 +266,7 @@ begin
       2:
       begin
          GMCcruiseDV:=GMCmaxDV-((GMCmaxDV-GMCreqDV)*0.5);
-         if (FCV3DselOobj<>GMCrootOObIdx)
+         if (FC3doglSelectedPlanetAsteroid<>GMCrootOObIdx)
             and (GMCcruiseDV>GMCmaxDV)
          then
          begin
@@ -279,7 +279,7 @@ begin
       3:
       begin
          GMCcruiseDV:=GMCmaxDV;
-         if (FCV3DselOobj<>GMCrootOObIdx)
+         if (FC3doglSelectedPlanetAsteroid<>GMCrootOObIdx)
             and (GMCreqDV>GMCmaxDV)
          then
          begin
@@ -293,8 +293,8 @@ begin
    if FCWinMain.FCWMS_Grp_MCG_RMassTrack.Enabled
    then
    begin
-      MTCfac:=FC3DobjSpUnit[FCV3DselSpU].Tag;
-      MTCowned:=round(FC3DobjSpUnit[FCV3DselSpU].TagFloat);
+      MTCfac:=FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].Tag;
+      MTCowned:=round(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].TagFloat);
       MTCdesgn:=FCFspuF_Design_getDB(FCentities[MTCfac].E_spU[MTCowned].SUO_designId);
       {.calculate the burn endurance for acceleration}
       MTCburnEndAtAccel:=(GMCcruiseDV-MTCcurDV)/(GMCAccelG*MTCgeesInKmS);
@@ -387,28 +387,28 @@ begin
    case OOILSCRorgTp of
       gmtltOrbObj:
       begin
-         OOILSCRxOrg:=FC3DobjGrp[OOILSCRooIdxOrg].Position.X;
-         OOILSCRzOrg:=FC3DobjGrp[OOILSCRooIdxOrg].Position.Z;
+         OOILSCRxOrg:=FC3doglObjectsGroups[OOILSCRooIdxOrg].Position.X;
+         OOILSCRzOrg:=FC3doglObjectsGroups[OOILSCRooIdxOrg].Position.Z;
          OOILSCRgravSphOrg:=FCFcFunc_ScaleConverter(
             cf3dctKmTo3dViewUnit
-            ,FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_orbitalObjects[OOILSCRooIdxOrg].OO_gravitationalSphereRadius
+            ,FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OOILSCRooIdxOrg].OO_gravitationalSphereRadius
             );
       end;
       gmtltSat:
       begin
-         OOILSCRxOrg:=FC3DobjSatGrp[OOILSCRooIdxOrg].Position.X;
-         OOILSCRzOrg:=FC3DobjSatGrp[OOILSCRooIdxOrg].Position.Z;
-         OOILSCRsatIdxOrg:=FC3DobjSatGrp[OOILSCRooIdxOrg].Tag;
-         OOILSCRsatPlanIdxOrg:=round(FC3DobjSatGrp[OOILSCRooIdxOrg].TagFloat);
+         OOILSCRxOrg:=FC3doglSatellitesObjectsGroups[OOILSCRooIdxOrg].Position.X;
+         OOILSCRzOrg:=FC3doglSatellitesObjectsGroups[OOILSCRooIdxOrg].Position.Z;
+         OOILSCRsatIdxOrg:=FC3doglSatellitesObjectsGroups[OOILSCRooIdxOrg].Tag;
+         OOILSCRsatPlanIdxOrg:=round(FC3doglSatellitesObjectsGroups[OOILSCRooIdxOrg].TagFloat);
          OOILSCRgravSphOrg:=FCFcFunc_ScaleConverter(
             cf3dctKmTo3dViewUnit
-            ,FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_orbitalObjects[OOILSCRsatPlanIdxOrg].OO_satellitesList[OOILSCRsatIdxOrg].OO_gravitationalSphereRadius
+            ,FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OOILSCRsatPlanIdxOrg].OO_satellitesList[OOILSCRsatIdxOrg].OO_gravitationalSphereRadius
             );
       end;
       gmtltSpUnit:
       begin
-         OOILSCRxOrg:=FC3DobjSpUnit[OOILSCRooIdxOrg].Position.X;
-         OOILSCRzOrg:=FC3DobjSpUnit[OOILSCRooIdxOrg].Position.Z;
+         OOILSCRxOrg:=FC3doglSpaceUnits[OOILSCRooIdxOrg].Position.X;
+         OOILSCRzOrg:=FC3doglSpaceUnits[OOILSCRooIdxOrg].Position.Z;
          OOILSCRgravSphOrg:=0;
       end;
    end; //==END== case OOILSCRorgTp of ==//
@@ -416,30 +416,30 @@ begin
    case OOILSCRdestTp of
       gmtltOrbObj:
       begin
-         OOILSCRxDest:=FC3DobjGrp[OOILSCRooIdxDest].Position.X;
-         OOILSCRzDest:=FC3DobjGrp[OOILSCRooIdxDest].Position.Z;
+         OOILSCRxDest:=FC3doglObjectsGroups[OOILSCRooIdxDest].Position.X;
+         OOILSCRzDest:=FC3doglObjectsGroups[OOILSCRooIdxDest].Position.Z;
          OOILSCRgravSphDes
             :=FCFcFunc_ScaleConverter(
                cf3dctKmTo3dViewUnit
-               ,FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_orbitalObjects[OOILSCRooIdxDest].OO_gravitationalSphereRadius
+               ,FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OOILSCRooIdxDest].OO_gravitationalSphereRadius
                );
       end;
       gmtltSat:
       begin
-         OOILSCRxDest:=FC3DobjSatGrp[OOILSCRooIdxDest].Position.X;
-         OOILSCRzDest:=FC3DobjSatGrp[OOILSCRooIdxDest].Position.Z;
-         OOILSCRsatIdxDest:=FC3DobjSatGrp[OOILSCRooIdxDest].Tag;
-         OOILSCRsatPlanIdxDest:=round(FC3DobjSatGrp[OOILSCRooIdxDest].TagFloat);
+         OOILSCRxDest:=FC3doglSatellitesObjectsGroups[OOILSCRooIdxDest].Position.X;
+         OOILSCRzDest:=FC3doglSatellitesObjectsGroups[OOILSCRooIdxDest].Position.Z;
+         OOILSCRsatIdxDest:=FC3doglSatellitesObjectsGroups[OOILSCRooIdxDest].Tag;
+         OOILSCRsatPlanIdxDest:=round(FC3doglSatellitesObjectsGroups[OOILSCRooIdxDest].TagFloat);
          OOILSCRgravSphDes
             :=FCFcFunc_ScaleConverter(
                cf3dctKmTo3dViewUnit
-               ,FCDduStarSystem[FCV3DselSsys].SS_stars[FCV3DselStar].S_orbitalObjects[OOILSCRsatPlanIdxDest].OO_satellitesList[OOILSCRsatIdxDest].OO_gravitationalSphereRadius
+               ,FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OOILSCRsatPlanIdxDest].OO_satellitesList[OOILSCRsatIdxDest].OO_gravitationalSphereRadius
                );
       end;
       gmtltSpUnit:
       begin
-         OOILSCRxDest:=FC3DobjSpUnit[OOILSCRooIdxDest].Position.X;
-         OOILSCRzDest:=FC3DobjSpUnit[OOILSCRooIdxDest].Position.Z;
+         OOILSCRxDest:=FC3doglSpaceUnits[OOILSCRooIdxDest].Position.X;
+         OOILSCRzDest:=FC3doglSpaceUnits[OOILSCRooIdxDest].Position.Z;
          OOILSCRgravSphDes:=0;
       end;
    end; //==END== case OOILSCRdestTp of ==//

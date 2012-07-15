@@ -556,7 +556,7 @@ begin
       FCWinMain.FCWM_3dMainGrp.Show;
       FCMoglInit_Initialize;
    finally
-      FCV3DselOobj:=CPoobj;
+      FC3doglSelectedPlanetAsteroid:=CPoobj;
       FCMoglVM_MView_Upd(
          FCRplayer.P_starSysLoc
          ,FCRplayer.P_starLoc
@@ -564,12 +564,12 @@ begin
          ,true
          );
       if CPsat>0
-      then FCV3DselSat:=FCFoglVM_SatObj_Search(CPoobj, CPsat)
+      then FC3doglSelectedSatellite:=FCFoglVM_SatObj_Search(CPoobj, CPsat)
       else if (CPsat=0)
-         and (FCV3DttlSat>0)
+         and (FC3doglTotalSatellites>0)
       then
       begin
-         FCV3DselSat:=1;
+         FC3doglSelectedSatellite:=1;
       end;
    end;
    {.cps initialization}

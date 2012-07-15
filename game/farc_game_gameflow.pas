@@ -292,14 +292,14 @@ begin
                      and(FCGtskListInProc[GTPtaskIdx].TITP_phaseTp=tpAtmEnt)
                   then
                   begin
-                     if FC3DobjSpUnit[FCentities[GTPfac].E_spU[GTPspuOwn].SUO_3dObjIdx].Visible
+                     if FC3doglSpaceUnits[FCentities[GTPfac].E_spU[GTPspuOwn].SUO_3dObjIdx].Visible
                      then
                      begin
-                        FC3DobjSpUnit[FCentities[GTPfac].E_spU[GTPspuOwn].SUO_3dObjIdx].Visible:=false;
+                        FC3doglSpaceUnits[FCentities[GTPfac].E_spU[GTPspuOwn].SUO_3dObjIdx].Visible:=false;
                         if FCGtskListInProc[GTPtaskIdx].TITP_orgType=tttSpaceUnit
                         then
                         begin
-                           FCV3DselSpU:=FCGtskListInProc[GTPtaskIdx].TITP_orgIdx;
+                           FC3doglSelectedSpaceUnit:=FCGtskListInProc[GTPtaskIdx].TITP_orgIdx;
                            FCMoglVM_CamMain_Target(-1, true);
                         end
                         else if FCGtskListInProc[GTPtaskIdx].TITP_orgType=tttSpace
@@ -310,7 +310,7 @@ begin
                            else if FCGtskListInProc[GTPtaskIdx].TITP_destType=tttSat
                            then
                            begin
-                              FCV3DselSat:=FC3DobjSatGrp[FCGtskListInProc[GTPtaskIdx].TITP_destIdx].Tag;
+                              FC3doglSelectedSatellite:=FC3doglSatellitesObjectsGroups[FCGtskListInProc[GTPtaskIdx].TITP_destIdx].Tag;
                               FCMoglVM_CamMain_Target(100, true);
                            end
                         end;
@@ -363,8 +363,8 @@ begin
                      else if FCGtskListInProc[GTPtaskIdx].TITP_destType=tttSat
                      then
                      begin
-                        GTPoobjDB:=round(FC3DobjSatGrp[FCGtskListInProc[GTPtaskIdx].TITP_destIdx].TagFloat);
-                        GTPsatDB:=FC3DobjSatGrp[FCGtskListInProc[GTPtaskIdx].TITP_destIdx].Tag;
+                        GTPoobjDB:=round(FC3doglSatellitesObjectsGroups[FCGtskListInProc[GTPtaskIdx].TITP_destIdx].TagFloat);
+                        GTPsatDB:=FC3doglSatellitesObjectsGroups[FCGtskListInProc[GTPtaskIdx].TITP_destIdx].Tag;
                         FCMgC_Colonize_PostProc(
                            FCGtskListInProc[GTPtaskIdx].TITP_ctldFac
                            ,GTPspuOwn
@@ -608,8 +608,8 @@ begin
                      else if FCGtskListInProc[GTPtaskIdx].TITP_destType=tttSat
                      then
                      begin
-                        GTPsatDB:=FC3DobjSatGrp[FCGtskListInProc[GTPtaskIdx].TITP_destIdx].Tag;
-                        GTPoobjDB:=round(FC3DobjSatGrp[FCGtskListInProc[GTPtaskIdx].TITP_destIdx].TagFloat);
+                        GTPsatDB:=FC3doglSatellitesObjectsGroups[FCGtskListInProc[GTPtaskIdx].TITP_destIdx].Tag;
+                        GTPoobjDB:=round(FC3doglSatellitesObjectsGroups[FCGtskListInProc[GTPtaskIdx].TITP_destIdx].TagFloat);
                         FCentities[GTPfac].E_spU[GTPspuOwn].SUO_oobjLoc:=FCDduStarSystem[GTPssysDB].SS_stars[GTPstarDB].S_orbitalObjects[GTPoobjDB].OO_dbTokenId;
                         FCentities[GTPfac].E_spU[GTPspuOwn].SUO_satLoc
                            :=FCDduStarSystem[GTPssysDB].SS_stars[GTPstarDB].S_orbitalObjects[GTPoobjDB].OO_satellitesList[GTPsatDB].OO_dbTokenId;
@@ -648,10 +648,10 @@ begin
                         ,GTPsatDB
                         ,0
                         );
-                     if FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3DobjSpUnit[FCentities[GTPfac].E_spU[GTPspuOwn].SUO_3dObjIdx]
+                     if FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglSpaceUnits[FCentities[GTPfac].E_spU[GTPspuOwn].SUO_3dObjIdx]
                      then
                      begin
-                        FCV3DselSpU:=FCentities[GTPfac].E_spU[GTPspuOwn].SUO_3dObjIdx;
+                        FC3doglSelectedSpaceUnit:=FCentities[GTPfac].E_spU[GTPspuOwn].SUO_3dObjIdx;
                         FCMoglVM_CamMain_Target(-1, true);
                      end;
                      FCGtskListInProc[GTPtaskIdx].TITP_phaseTp:=tpTerminated;
@@ -835,17 +835,17 @@ begin
                   FCentities[GTPfac].E_spU[GTPspUidx].SUO_locStarX:=FCentities[GTPfac].E_spU[FCGtskListInProc[GTPtaskIdx].TITP_orgIdx].SUO_locStarX;
                   FCentities[GTPfac].E_spU[GTPspUidx].SUO_locStarZ:=FCentities[GTPfac].E_spU[FCGtskListInProc[GTPtaskIdx].TITP_orgIdx].SUO_locStarZ;
                   GTPspUObjIdx:=FCentities[GTPfac].E_spU[GTPspUidx].SUO_3dObjIdx;
-                  FC3DobjSpUnit[GTPspUObjIdx].Position.X:=FCentities[GTPfac].E_spU[GTPspUidx].SUO_locStarX;
-                  FC3DobjSpUnit[GTPspUObjIdx].Position.Z:=FCentities[GTPfac].E_spU[GTPspUidx].SUO_locStarZ;
+                  FC3doglSpaceUnits[GTPspUObjIdx].Position.X:=FCentities[GTPfac].E_spU[GTPspUidx].SUO_locStarX;
+                  FC3doglSpaceUnits[GTPspUObjIdx].Position.Z:=FCentities[GTPfac].E_spU[GTPspUidx].SUO_locStarZ;
                   {.3d initialization}
-                  if not FC3DobjSpUnit[GTPspUObjIdx].Visible
-                  then FC3DobjSpUnit[GTPspUObjIdx].Visible:=true;
+                  if not FC3doglSpaceUnits[GTPspUObjIdx].Visible
+                  then FC3doglSpaceUnits[GTPspUObjIdx].Visible:=true;
                   if FCGtskListInProc[GTPtaskIdx].TITP_destType=tttOrbObj
-                  then FC3DobjSpUnit[GTPspUObjIdx].PointTo
-                     (FC3DobjGrp[FCGtskListInProc[GTPtaskIdx].TITP_destIdx],FC3DobjGrp[FCGtskListInProc[GTPtaskIdx].TITP_destIdx].Position.AsVector)
+                  then FC3doglSpaceUnits[GTPspUObjIdx].PointTo
+                     (FC3doglObjectsGroups[FCGtskListInProc[GTPtaskIdx].TITP_destIdx],FC3doglObjectsGroups[FCGtskListInProc[GTPtaskIdx].TITP_destIdx].Position.AsVector)
                   else if FCGtskListInProc[GTPtaskIdx].TITP_destType=tttSat
-                  then FC3DobjSpUnit[GTPspUObjIdx].PointTo
-                     (FC3DobjSatGrp[FCGtskListInProc[GTPtaskIdx].TITP_destIdx],FC3DobjSatGrp[FCGtskListInProc[GTPtaskIdx].TITP_destIdx].Position.AsVector);
+                  then FC3doglSpaceUnits[GTPspUObjIdx].PointTo
+                     (FC3doglSatellitesObjectsGroups[FCGtskListInProc[GTPtaskIdx].TITP_destIdx],FC3doglSatellitesObjectsGroups[FCGtskListInProc[GTPtaskIdx].TITP_destIdx].Position.AsVector);
                end; //==END== case: tatpMissColonize: ==//
                tatpMissItransit:
                begin
@@ -886,8 +886,8 @@ begin
                   else if FCGtskListInProc[GTPtaskIdx].TITP_orgType=tttSat
                   then
                   begin
-                     GTPoriginSatPlanIdx:=round(FC3DobjSatGrp[FCGtskListInProc[GTPtaskIdx].TITP_orgIdx].TagFloat);
-                     GTPoriginSatIdx:=FC3DobjSatGrp[FCGtskListInProc[GTPtaskIdx].TITP_orgIdx].Tag;
+                     GTPoriginSatPlanIdx:=round(FC3doglSatellitesObjectsGroups[FCGtskListInProc[GTPtaskIdx].TITP_orgIdx].TagFloat);
+                     GTPoriginSatIdx:=FC3doglSatellitesObjectsGroups[FCGtskListInProc[GTPtaskIdx].TITP_orgIdx].Tag;
                      FCMspuF_Orbits_Process(
                         spufoioRemOrbit
                         ,GTPssys
@@ -902,11 +902,11 @@ begin
                   FCMuiW_FocusPopup_Upd(uiwpkSpUnit);
                   GTPspUObjIdx:=FCentities[GTPfac].E_spU[GTPspUidx].SUO_3dObjIdx;
                   if FCGtskListInProc[GTPtaskIdx].TITP_destType=tttOrbObj
-                  then FC3DobjSpUnit[GTPspUObjIdx].PointTo
-                     (FC3DobjGrp[FCGtskListInProc[GTPtaskIdx].TITP_destIdx],FC3DobjGrp[FCGtskListInProc[GTPtaskIdx].TITP_destIdx].Position.AsVector)
+                  then FC3doglSpaceUnits[GTPspUObjIdx].PointTo
+                     (FC3doglObjectsGroups[FCGtskListInProc[GTPtaskIdx].TITP_destIdx],FC3doglObjectsGroups[FCGtskListInProc[GTPtaskIdx].TITP_destIdx].Position.AsVector)
                   else if FCGtskListInProc[GTPtaskIdx].TITP_destType=tttSat
-                  then FC3DobjSpUnit[GTPspUObjIdx].PointTo
-                     (FC3DobjSatGrp[FCGtskListInProc[GTPtaskIdx].TITP_destIdx],FC3DobjSatGrp[FCGtskListInProc[GTPtaskIdx].TITP_destIdx].Position.AsVector);
+                  then FC3doglSpaceUnits[GTPspUObjIdx].PointTo
+                     (FC3doglSatellitesObjectsGroups[FCGtskListInProc[GTPtaskIdx].TITP_destIdx],FC3doglSatellitesObjectsGroups[FCGtskListInProc[GTPtaskIdx].TITP_destIdx].Position.AsVector);
                end; //==END== tatpMissItransit ==//
             end; //==END== case FCGtskListInProc[GTPtaskIdx].TITP_actionTp ==//
             inc(GTPnumTTProcIdx);

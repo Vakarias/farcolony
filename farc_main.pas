@@ -554,12 +554,12 @@ begin
       then
       begin
          {.space unit zoom/unzoom}
-         if (FCGLSCamMainViewGhost.TargetObject=FC3DobjSpUnit[FCV3DselSpU])
-            and (FCV3DttlSpU>0)
+         if (FCGLSCamMainViewGhost.TargetObject=FC3doglSpaceUnits[FC3doglSelectedSpaceUnit])
+            and (FC3doglTotalSpaceUnits>0)
          then
          begin
-            FCGLSCPscaleCoef:=FCV3DspUnSiz*160;//*240;
-            FCGLSCPscaleCoef1:=FCV3DspUnSiz*360;//*400;
+            FCGLSCPscaleCoef:=FC3doglSpaceUnitSize*160;//*240;
+            FCGLSCPscaleCoef1:=FC3doglSpaceUnitSize*360;//*400;
             {.zoom}
             if FCGLSCamMainViewGhost.DistanceToTarget>FCGLSCPscaleCoef
             then FCGLSsmthNavMainV.AdjustDistanceToTarget(FCVwinMmousePosDumpY - FCVwinMmouseNewPosY, DelTaTime)
@@ -571,7 +571,7 @@ begin
                and (FCGLSCamMainViewGhost.DistanceToTarget>FCGLSCPscaleCoef)
             then FCMoglVM_SpUn_SetZoomScale;
             if (FCGLSCamMainViewGhost.DistanceToTarget>FCGLSCPscaleCoef1)
-               and (FC3DobjSpUnit[FCV3DselSpU].Scale.X<>FCV3DspUnSiz)
+               and (FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].Scale.X<>FC3doglSpaceUnitSize)
             then FCMoglVMain_SpUnits_SetInitSize(false);
          end
          {.star sprite zoom/unzoom}
@@ -586,10 +586,10 @@ begin
             then FCGLSsmthNavMainV.AdjustDistanceToTarget(FCVwinMmousePosDumpY - FCVwinMmouseNewPosY, DelTaTime);
          end
          {.satellites zoom/unzoom}
-         else if FCGLSCamMainViewGhost.TargetObject=FC3DobjSatGrp[FCV3DselSat]
+         else if FCGLSCamMainViewGhost.TargetObject=FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite]
          then
          begin
-            FCGLSCPscaleCoef:=FC3DobjSatGrp[FCV3DselSat].CubeSize*(78-sqrt(FC3DobjSatGrp[FCV3DselSat].CubeSize*10000));
+            FCGLSCPscaleCoef:=FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].CubeSize*(78-sqrt(FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].CubeSize*10000));
             if FCGLSCamMainViewGhost.DistanceToTarget>FCGLSCPscaleCoef
             then FCGLSsmthNavMainV.AdjustDistanceToTarget(FCVwinMmousePosDumpY - FCVwinMmouseNewPosY, DelTaTime)
             else if (FCGLSCamMainViewGhost.DistanceToTarget<FCGLSCPscaleCoef)
@@ -600,7 +600,7 @@ begin
          else if FCGLSCamMainViewGhost.TargetObject<>FCGLSStarMain
          then
          begin
-            FCGLSCPscaleCoef:=FC3DobjGrp[FCV3DselOobj].CubeSize*3;
+            FCGLSCPscaleCoef:=FC3doglObjectsGroups[FC3doglSelectedPlanetAsteroid].CubeSize*3;
             if FCGLSCamMainViewGhost.DistanceToTarget>FCGLSCPscaleCoef
             then FCGLSsmthNavMainV.AdjustDistanceToTarget(FCVwinMmousePosDumpY - FCVwinMmouseNewPosY, DelTaTime)
             else if (FCGLSCamMainViewGhost.DistanceToTarget<FCGLSCPscaleCoef)
@@ -661,14 +661,14 @@ begin
                         tphSTH: FCGLSCPcoefTimeAcc:=18.4;
                      end;
                      {.set camera focus}
-                     if FCGLSCamMainViewGhost.TargetObject=FC3DobjSpUnit[FCGLSCPobjIdx]
+                     if FCGLSCamMainViewGhost.TargetObject=FC3doglSpaceUnits[FCGLSCPobjIdx]
                      then
                      begin
                         {.move the space unit}
-                        FC3DobjSpUnit[FCGLSCPobjIdx].Move(FCentities[0].E_spU[FCGLSCPspUidx].SUO_3dmove*deltaTime*FCGLSCPcoefTimeAcc);
+                        FC3doglSpaceUnits[FCGLSCPobjIdx].Move(FCentities[0].E_spU[FCGLSCPspUidx].SUO_3dmove*deltaTime*FCGLSCPcoefTimeAcc);
                         {.put the location in owned space unit datastructure}
-                        FCentities[0].E_spU[FCGLSCPspUidx].SUO_locStarX:=FC3DobjSpUnit[FCGLSCPobjIdx].Position.X;
-                        FCentities[0].E_spU[FCGLSCPspUidx].SUO_locStarZ:=FC3DobjSpUnit[FCGLSCPobjIdx].Position.Z;
+                        FCentities[0].E_spU[FCGLSCPspUidx].SUO_locStarX:=FC3doglSpaceUnits[FCGLSCPobjIdx].Position.X;
+                        FCentities[0].E_spU[FCGLSCPspUidx].SUO_locStarZ:=FC3doglSpaceUnits[FCGLSCPobjIdx].Position.Z;
                         {.set the right camera location}
                         case FCRplayer.P_timePhse of
                            tphTac: FCGLSCamMainViewGhost.AdjustDistanceToTarget(0.982-(FCentities[0].E_spU[FCGLSCPspUidx].SUO_3dmove*0.1));
@@ -677,7 +677,7 @@ begin
                         end;
                         FCMoglUI_Main3DViewUI_Update(oglupdtpTxtOnly, ogluiutFocObj);
                      end {.if FCGLSCamMainViewGhost.TargetObject=FCV3dMVobjSpUnit[FCGLSCPobjIdx]}
-                     else FC3DobjSpUnit[FCGLSCPobjIdx].Move(FCentities[0].E_spU[FCGLSCPspUidx].SUO_3dmove*deltaTime*FCGLSCPcoefTimeAcc);
+                     else FC3doglSpaceUnits[FCGLSCPobjIdx].Move(FCentities[0].E_spU[FCGLSCPspUidx].SUO_3dmove*deltaTime*FCGLSCPcoefTimeAcc);
                      FCMoglVM_OObjSpUn_ChgeScale(FCGLSCPobjIdx);
                   end; {.if (FCGtskListInProc[i].TITP_actionTp=tatpMissItransit) and (FCGtskListInProc[i].TITP_enabled)}
                end; //==END== if FCGtskListInProc[i].TITP_phaseTp<>tpTerminated ==//
@@ -702,8 +702,8 @@ begin
                   planet 0.05 to 0.2 for aster and.}
                );
          finally
-            if (FCGLSCamMainViewGhost.TargetObject=FC3DobjSpUnit[FCV3DselSpU])
-               and (FCV3DttlSpU>0)
+            if (FCGLSCamMainViewGhost.TargetObject=FC3doglSpaceUnits[FC3doglSelectedSpaceUnit])
+               and (FC3doglTotalSpaceUnits>0)
             then FCV3DcamTimeSteps:=FCV3DcamTimeSteps-0.001
             else FCV3DcamTimeSteps:=FCV3DcamTimeSteps-0.005;
          end;
@@ -782,16 +782,16 @@ begin
       and
       (
          (
-            (FCV3DselSpU>0)
+            (FC3doglSelectedSpaceUnit>0)
             and
-            (FCGLSCamMainViewGhost.TargetObject=FC3DobjSpUnit[FCV3DselSpU])
+            (FCGLSCamMainViewGhost.TargetObject=FC3doglSpaceUnits[FC3doglSelectedSpaceUnit])
          )
          or (
-               (FCV3DselSat>0)
+               (FC3doglSelectedSatellite>0)
                and
-               (FCGLSCamMainViewGhost.TargetObject=FC3DobjSatGrp[FCV3DselSat])
+               (FCGLSCamMainViewGhost.TargetObject=FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite])
             )
-         or (FCGLSCamMainViewGhost.TargetObject=FC3DobjGrp[FCV3DselOobj])
+         or (FCGLSCamMainViewGhost.TargetObject=FC3doglObjectsGroups[FC3doglSelectedPlanetAsteroid])
          or (FCGLSCamMainViewGhost.TargetObject=FCGLSStarMain)
       )
       and (not FCWM_MissionSettings.Visible)
@@ -828,11 +828,11 @@ procedure TFCWinMain.FCGLSmainViewMouseUp(Sender: TObject; Button: TMouseButton;
 begin
    if (not FCVdiGameFlowTimer.Enabled)
       and (
-            (FCV3DselSpU>0)
+            (FC3doglSelectedSpaceUnit>0)
             and
-            (FCGLSCamMainViewGhost.TargetObject=FC3DobjSpUnit[FCV3DselSpU])
+            (FCGLSCamMainViewGhost.TargetObject=FC3doglSpaceUnits[FC3doglSelectedSpaceUnit])
             and
-            (FCentities[0].E_spU[round(FC3DobjSpUnit[FCV3DselSpU].TagFloat)].SUO_3dmove>0)
+            (FCentities[0].E_spU[round(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].TagFloat)].SUO_3dmove>0)
             )
    then FCVdiGameFlowTimer.Enabled:=true;
 end;
@@ -1442,19 +1442,19 @@ end;
 
 procedure TFCWinMain.FCWM_PMFOcolfacDataClick(Sender: TObject);
 begin
-   if FCGLSCamMainViewGhost.TargetObject=FC3DobjGrp[FCV3DselOobj]
+   if FCGLSCamMainViewGhost.TargetObject=FC3doglObjectsGroups[FC3doglSelectedPlanetAsteroid]
    then FCMuiCDP_Display_Set(
-      FCV3DselSsys
-      ,FCV3DselStar
-      ,FCV3DselOobj
+      FC3doglCurrentStarSystem
+      ,FC3doglCurrentStar
+      ,FC3doglSelectedPlanetAsteroid
       ,0
       )
-   else if FCGLSCamMainViewGhost.TargetObject=FC3DobjSatGrp[FCV3DselSat]
+   else if FCGLSCamMainViewGhost.TargetObject=FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite]
    then FCMuiCDP_Display_Set(
-      FCV3DselSsys
-      ,FCV3DselStar
-      ,round(FC3DobjSatGrp[FCV3DselSat].TagFloat)
-      ,FC3DobjSatGrp[FCV3DselSat].Tag
+      FC3doglCurrentStarSystem
+      ,FC3doglCurrentStar
+      ,round(FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].TagFloat)
+      ,FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].Tag
       );
 end;
 
@@ -1463,26 +1463,26 @@ var PMFODCdmpOobj: integer;
 begin
    if FCWM_ColDPanel.Visible
    then FCWM_ColDPanel.Hide;
-   if FCGLSCamMainViewGhost.TargetObject=FC3DobjGrp[FCV3DselOobj]
-   then FCMuiSP_SurfaceEcosphere_Set(FCV3DselOobj, 0, false)
-   else if FCGLSCamMainViewGhost.TargetObject=FC3DobjSatGrp[FCV3DselSat]
+   if FCGLSCamMainViewGhost.TargetObject=FC3doglObjectsGroups[FC3doglSelectedPlanetAsteroid]
+   then FCMuiSP_SurfaceEcosphere_Set(FC3doglSelectedPlanetAsteroid, 0, false)
+   else if FCGLSCamMainViewGhost.TargetObject=FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite]
    then
    begin
-      PMFODCdmpOobj:=round(FC3DobjSatGrp[FCV3DselSat].TagFloat);
-      FCMuiSP_SurfaceEcosphere_Set(PMFODCdmpOobj, FC3DobjSatGrp[FCV3DselSat].Tag, false);
+      PMFODCdmpOobj:=round(FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].TagFloat);
+      FCMuiSP_SurfaceEcosphere_Set(PMFODCdmpOobj, FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].Tag, false);
    end;
 end;
 
 procedure TFCWinMain.FCWM_PMFO_DListClick(Sender: TObject);
 begin
-   FCMuiWin_SpUnDck_Upd(round(FC3DobjSpUnit[FCV3DselSpU].TagFloat));
+   FCMuiWin_SpUnDck_Upd(round(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].TagFloat));
 end;
 
 procedure TFCWinMain.FCWM_PMFO_MissCancelClick(Sender: TObject);
 var
    PMFOMCCspUnIdx: integer;
 begin
-   PMFOMCCspUnIdx:=round(FC3DobjSpUnit[FCV3DselSpU].TagFloat);
+   PMFOMCCspUnIdx:=round(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].TagFloat);
    FCMgMCore_Mission_Cancel(PMFOMCCspUnIdx);
    FCMgTFlow_FlowState_Set(tphTac);
 end;
@@ -1757,19 +1757,19 @@ begin
    {.disable 3d}
    FCGLSmainView.Enabled:=false;
    FCV3DcamTimeSteps:=0;
-   SetLength(FC3DobjGrp,0);
-   SetLength(FC3DobjPlan,0);
-   SetLength(FC3DobjAtmosph,0);
-   SetLength(FC3DobjAster,0);
-   SetLength(FC3DobjSpUnit,0);
-   SetLength(FC3DobjSatGrp,0);
-   SetLength(FC3DobjSat,0);
-   SetLength(FC3DobjSatAtmosph,0);
-   SetLength(FC3DobjSatAster,0);
+   SetLength(FC3doglObjectsGroups,0);
+   SetLength(FC3doglPlanets,0);
+   SetLength(FC3doglAtmospheres,0);
+   SetLength(FC3doglAsteroids,0);
+   SetLength(FC3doglSpaceUnits,0);
+   SetLength(FC3doglSatellitesObjectsGroups,0);
+   SetLength(FC3doglSatellites,0);
+   SetLength(FC3doglSatellitesAtmospheres,0);
+   SetLength(FC3doglSatellitesAsteroids,0);
    FreeAndNil(FCGLSsmthNavMainV);
    FCGLSRootMain.Objects.DeleteChildren;
-   if assigned(FC3DmatLibSplanT)  //to remove, duplicate code with free()
-   then FC3DmatLibSplanT.Free;
+   if assigned(FC3doglMaterialLibraryStandardPlanetTextures)  //to remove, duplicate code with free()
+   then FC3doglMaterialLibraryStandardPlanetTextures.Free;
    {.disable XML components}
    FCXMLcfg.Active:=false;
    FCXMLdbFac.Active:=false;

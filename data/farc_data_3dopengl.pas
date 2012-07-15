@@ -36,62 +36,114 @@ uses
    ,GLObjects
 
    ,oxLib3dsMeshLoader;
+
 //==END PUBLIC ENUM=========================================================================
 
 //==END PUBLIC RECORDS======================================================================
 
 var
-   //==========3d related===================================================================
-   {.material library for standard planetary textures}
-   FC3DmatLibSplanT: TGLMaterialLibrary;
-   {.objects list for asteroids}
-   FC3DobjAster: array of TDGLib3dsStaMesh;
-   {.dump asteroid}
-   FC3DobjAsterDmp: TDGLib3dsStaMesh;
-   {.objects list for atmospheres}
-   FC3DobjAtmosph: array of TGLAtmosphere;
-   {.objects list for object groups}
-   FC3DobjGrp: array of TGLDummyCube;
-   {.objects list for gravity well}
-   FC3DobjPlanGrav: array of TGLLines;
-   {.objects list for orbits}
-   FC3DobjPlanOrbit: array of TGLLines;
-   {.objects list for planets}
-   FC3DobjPlan: array of TGLSphere;
-   {.objects list for satellite / asteroids}
-   FC3DobjSatAster: array of TDGLib3dsStaMesh;
-   {.objects list for satellite atmospheres}
-   FC3DobjSatAtmosph: array of TGLAtmosphere;
-   {.objects list for object satellite groups}
-   FC3DobjSatGrp: array of TGLDummyCube;
-   {.objects list for satellite gravity well}
-   FC3DobjSatGrav: array of TGLLines;
-   {.objects list for satellite orbits}
-   FC3DobjSatOrbit: array of TGLLines;
-   {.objects list for satellites}
-   FC3DobjSat: array of TGLSphere;
-   {.objects list for space units, tag= faction id#, tagfloat= owned index}
-   FC3DobjSpUnit: array of TDGLib3dsStaMesh;//TGLFile3DSFreeForm;
-   {.index which target selected object}
-   FCV3DselOobj: integer;
-   {.index which target selected satellite}
-   FCV3DselSat: integer;
-   {.index of targeted space unit}
-   FCV3DselSpU: integer;
-   {.selected stellar system for 3d view, related to FCRplayer}
-   FCV3DselSsys: integer;
-   {.selected star for 3d view, related to FCRplayer}
-   FCV3DselStar: integer;
-   {.total orbital object created in current 3d main view w/o count central star}
-   FCV3DttlOobj: integer;
-   {.total satellites the linked orbital object have}
-   FCV3DttlSat: integer;
-   {.total space units created in current 3d main view}
-   FCV3DttlSpU: integer;
-   {.HR standard map (2048*1024) switch, false= 1024*512}
-   FCV3DstdTresHR: boolean;
-   {.store data for intial size of a targeted space unit}
-   FCV3DspUnSiz: extended;
+   //==========3d objects and components====================================================
+   ///<summary>
+   ///   material library for standard planetary textures
+   ///</summary>
+   FC3doglMaterialLibraryStandardPlanetTextures: TGLMaterialLibrary;
+
+   ///<summary>
+   ///   objects list for asteroids
+   ///</summary>
+   FC3doglAsteroids: array of TDGLib3dsStaMesh;
+
+   ///<summary>
+   ///   objects list for atmospheres
+   ///</summary>
+   FC3doglAtmospheres: array of TGLAtmosphere;
+
+   ///<summary>
+   ///   objects list for object groups
+   ///</summary>
+   FC3doglObjectsGroups: array of TGLDummyCube;
+
+   ///<summary>
+   ///   objects list for planets
+   ///</summary>
+   FC3doglPlanets: array of TGLSphere;
+
+   ///<summary>
+   ///   objects list for satellites
+   ///</summary>
+   FC3doglSatellites: array of TGLSphere;
+
+   ///<summary>
+   ///   objects list for satellites asteroids
+   ///</summary>
+   FC3doglSatellitesAsteroids: array of TDGLib3dsStaMesh;
+
+   ///<summary>
+   ///   objects list for satellites atmospheres
+   ///</summary>
+   FC3doglSatellitesAtmospheres: array of TGLAtmosphere;
+
+   ///<summary>
+   ///   objects list for satellites object groups
+   ///</summary>
+   FC3doglSatellitesObjectsGroups: array of TGLDummyCube;
+
+   ///<summary>
+   ///   objects list for space units, tag= faction id#, tagfloat= owned index
+   ///</summary>
+   FC3doglSpaceUnits: array of TDGLib3dsStaMesh;
+
+   //==========3d data======================================================================
+   ///<summary>
+   ///   current star index of the 3d view
+   ///</summary>
+   FC3doglCurrentStar: integer;
+
+   ///<summary>
+   ///   current stellar system index of the 3d view
+   ///</summary>
+   FC3doglCurrentStarSystem: integer;
+
+   ///<summary>
+   ///   HR standard map (2048*1024) switch, false= 1024*512
+   ///</summary>
+   FC3doglHRstandardTextures: boolean;
+
+   ///<summary>
+   ///   3d object index of the selected main orbital object
+   ///</summary>
+   FC3doglSelectedPlanetAsteroid: integer;
+
+   ///<summary>
+   ///   3d object index of the selected satellite
+   ///</summary>
+   FC3doglSelectedSatellite: integer;
+
+   ///<summary>
+   ///   3d object index of the selected space unit
+   ///</summary>
+   FC3doglSelectedSpaceUnit: integer;
+
+   ///<summary>
+   ///   store data for initial size of the targeted space unit
+   ///</summary>
+   FC3doglSpaceUnitSize: extended;
+
+   ///<summary>
+   ///   total orbital objects created in the current 3d view w/o count central star and the satellites
+   ///</summary>
+   FC3doglTotalOrbitalObjects: integer;
+
+   ///<summary>
+   ///   total satellites created in the current 3d view
+   ///</summary>
+   FC3doglTotalSatellites: integer;
+
+   ///<summary>
+   ///   total space units created in the current 3d view
+   ///</summary>
+   FC3doglTotalSpaceUnits: integer;
+
 //==END PUBLIC VAR==========================================================================
 
 //const

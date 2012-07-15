@@ -403,13 +403,13 @@ begin
    if SUOSsyst=FCRplayer.P_starLoc
    then
    begin
-      while SUOScnt<=FCV3DttlSpU do
+      while SUOScnt<=FC3doglTotalSpaceUnits do
       begin
-         if (FC3DobjSpUnit[SUOScnt].Tag=SUOSfac)
-            and (FC3DobjSpUnit[SUOScnt].TagFloat=SUOSidx)
+         if (FC3doglSpaceUnits[SUOScnt].Tag=SUOSfac)
+            and (FC3doglSpaceUnits[SUOScnt].TagFloat=SUOSidx)
          then
          begin
-            SUOSret:=FC3DobjSpUnit[SUOScnt].TagFloat;
+            SUOSret:=FC3doglSpaceUnits[SUOScnt].TagFloat;
             break;
          end;
          inc(SUOScnt);
@@ -712,7 +712,7 @@ begin
                then
                begin
                   SURspuObj:=FCFspuF_SpUObject_Search(SURfac, SURspu);
-                  FC3DobjSpUnit[SURspuObj].TagFloat:=SURclone;
+                  FC3doglSpaceUnits[SURspuObj].TagFloat:=SURclone;
                end;
             end;
          end

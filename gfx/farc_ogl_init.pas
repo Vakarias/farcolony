@@ -187,52 +187,52 @@ begin
    {.main view user's interface}
    FCMoglUI_Main3DViewUI_Update(oglupdtpLocOnly,ogluiutAll);
    {.material library for standard planetary textures}
-   FC3DmatLibSplanT:=TGLMaterialLibrary.Create(FCWinMain);
-   FC3DmatLibSplanT.Name:='FCGLSmlibSPT';
+   FC3doglMaterialLibraryStandardPlanetTextures:=TGLMaterialLibrary.Create(FCWinMain);
+   FC3doglMaterialLibraryStandardPlanetTextures.Name:='FCGLSmlibSPT';
    OGLIIcnt:=0;
    while OGLIIcnt<=23 do
    begin
-      FC3DmatLibSplanT.Materials.Add;
+      FC3doglMaterialLibraryStandardPlanetTextures.Materials.Add;
       OGLIIname:=FCFoglInit_StdTexName_Get(OGLIIcnt);
-      FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Name:=OGLIIname;
-      FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.BackProperties.Ambient.Color:=clrGray20;
-      FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.BackProperties.Diffuse.Color:=clrGray80;
-      FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.BackProperties.Emission.Color:=clrBlack;
+      FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[OGLIIcnt].Name:=OGLIIname;
+      FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[OGLIIcnt].Material.BackProperties.Ambient.Color:=clrGray20;
+      FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[OGLIIcnt].Material.BackProperties.Diffuse.Color:=clrGray80;
+      FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[OGLIIcnt].Material.BackProperties.Emission.Color:=clrBlack;
 //      FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.PolygonMode:=pmFill;
-      FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.BackProperties.Shininess:=0;
-      FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.BackProperties.Specular.Color:=clrBlack;
-      FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.BlendingMode:=bmOpaque;
-      FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.FaceCulling:=fcBufferDefault;
-      FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.FrontProperties.Ambient:=FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.BackProperties.Ambient;
-      FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.FrontProperties.Diffuse:=FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.BackProperties.Diffuse;
-      FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.FrontProperties.Emission:=FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.BackProperties.Emission;
+      FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[OGLIIcnt].Material.BackProperties.Shininess:=0;
+      FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[OGLIIcnt].Material.BackProperties.Specular.Color:=clrBlack;
+      FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[OGLIIcnt].Material.BlendingMode:=bmOpaque;
+      FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[OGLIIcnt].Material.FaceCulling:=fcBufferDefault;
+      FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[OGLIIcnt].Material.FrontProperties.Ambient:=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[OGLIIcnt].Material.BackProperties.Ambient;
+      FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[OGLIIcnt].Material.FrontProperties.Diffuse:=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[OGLIIcnt].Material.BackProperties.Diffuse;
+      FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[OGLIIcnt].Material.FrontProperties.Emission:=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[OGLIIcnt].Material.BackProperties.Emission;
 //      FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.PolygonMode:=FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.PolygonMode;
-      FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.FrontProperties.Shininess:=FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.BackProperties.Shininess;
-      FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.FrontProperties.Specular:=FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.BackProperties.Specular;
-      FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.MaterialOptions:=[];
+      FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[OGLIIcnt].Material.FrontProperties.Shininess:=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[OGLIIcnt].Material.BackProperties.Shininess;
+      FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[OGLIIcnt].Material.FrontProperties.Specular:=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[OGLIIcnt].Material.BackProperties.Specular;
+      FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[OGLIIcnt].Material.MaterialOptions:=[];
 //      FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.Texture.BorderColor.Color:=clrTransparent;
-      FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.Texture.Compression:=tcNone;
+      FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[OGLIIcnt].Material.Texture.Compression:=tcNone;
 //      FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.Texture.DepthTextureMode:=dtmLuminance;
-      FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.Texture.Disabled:=false;
-      FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.Texture.EnvColor.Color:=clrTransparent;
-      FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.Texture.FilteringQuality:=tfIsotropic;
-      FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.Texture.ImageAlpha:=tiaDefault;
-      FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.Texture.ImageGamma:=1;
-      FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.Texture.MagFilter:=maLinear;
-      FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.Texture.MappingMode:=tmmUser;
-      FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.Texture.MinFilter:=miNearestMipmapLinear;
-      FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.Texture.NormalMapScale:=0.45;
+      FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[OGLIIcnt].Material.Texture.Disabled:=false;
+      FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[OGLIIcnt].Material.Texture.EnvColor.Color:=clrTransparent;
+      FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[OGLIIcnt].Material.Texture.FilteringQuality:=tfIsotropic;
+      FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[OGLIIcnt].Material.Texture.ImageAlpha:=tiaDefault;
+      FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[OGLIIcnt].Material.Texture.ImageGamma:=1;
+      FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[OGLIIcnt].Material.Texture.MagFilter:=maLinear;
+      FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[OGLIIcnt].Material.Texture.MappingMode:=tmmUser;
+      FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[OGLIIcnt].Material.Texture.MinFilter:=miNearestMipmapLinear;
+      FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[OGLIIcnt].Material.Texture.NormalMapScale:=0.45;
 //      FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.Texture.TextureCompareFunc:=cfEqual;
 //      FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.Texture.TextureCompareMode:=tcmNone;
-      FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.Texture.TextureFormat:=tfDefault;
-      FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.Texture.TextureMode:=tmModulate;
-      FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.Texture.TextureWrap:=twBoth;
+      FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[OGLIIcnt].Material.Texture.TextureFormat:=tfDefault;
+      FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[OGLIIcnt].Material.Texture.TextureMode:=tmModulate;
+      FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[OGLIIcnt].Material.Texture.TextureWrap:=twBoth;
 //      FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.Texture.TextureWrapS:=twRepeat;
 //      FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.Texture.TextureWrapT:=twRepeat;
 //      FC3DmatLibSplanT.Materials.Items[OGLIIcnt].Material.Texture.TextureWrapR:=twRepeat;
       inc(OGLIIcnt);
    end; //==END== while OGLIIcnt<=23 ==//
-   FCMoglInit_StdText_Set(FCV3DstdTresHR, true);
+   FCMoglInit_StdText_Set(FC3doglHRstandardTextures, true);
    {.tags}
    {:DEV NOTES: update also FCMoglUI_Elem_SelHelp.}
    {:DEV NOTES: orbital object data: 1-100, star data: 101-200, space unit data: 201-300, CPS data: 301-400.}
@@ -265,37 +265,37 @@ var
 begin
    STSisLoad:=false;
    if (STSisHR)
-      and (not FCV3DstdTresHR)
+      and (not FC3doglHRstandardTextures)
    then
    begin
-      FCV3DstdTresHR:=true;
+      FC3doglHRstandardTextures:=true;
       FCMuiW_UI_Initialize(mwupMenuStex);
       FCMdF_ConfigFile_Write(false);
       STSisLoad:=true;
    end
    else if (not STSisHR)
-      and (FCV3DstdTresHR)
+      and (FC3doglHRstandardTextures)
    then
    begin
-      FCV3DstdTresHR:=false;
+      FC3doglHRstandardTextures:=false;
       FCMuiW_UI_Initialize(mwupMenuStex);
       FCMdF_ConfigFile_Write(false);
       STSisLoad:=true;
    end;
    {.reload the choosen textures set if needed}
    if ((STSisLoad) or ((not STSisLoad) and (STSforceLoad)))
-      and (FC3DmatLibSplanT<>nil)
+      and (FC3doglMaterialLibraryStandardPlanetTextures<>nil)
    then
    begin
-      if FCV3DstdTresHR
+      if FC3doglHRstandardTextures
       then STSmatRes:='2048'
-      else if not FCV3DstdTresHR
+      else if not FC3doglHRstandardTextures
       then STSmatRes:='1024';
       STScnt:=0;
       while STScnt<=23 do
       begin
          STSmatStr:=FCFoglInit_StdTexName_Get(STScnt);
-         FC3DmatLibSplanT.Materials.Items[STScnt].Material.Texture.Image.LoadFromFile
+         FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[STScnt].Material.Texture.Image.LoadFromFile
             (FCVdiPathResourceDir+'pics-ogl-oobj-std\'+STSmatRes+'_'+STSmatStr+'.jpg');
          inc(STScnt)
       end;

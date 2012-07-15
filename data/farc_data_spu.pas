@@ -320,7 +320,9 @@ end;
    //==========databases and other data structures pre-init=================================
 var
    FCDdsuEquipmentModules: TFCDdsuEquipmentModules;
+
    FCDdsuInternalStructures: TFCDdsuInternalStructures;
+
    FCDdsuSpaceUnitDesigns: TFCDdsuSpaceUnitDesigns;
 
 //==END PUBLIC VAR==========================================================================

@@ -251,7 +251,7 @@ begin
             ,CPoobj
             )
          else CPsat:=0;
-         FCV3DselOobj:=CPoobj;
+         FC3doglSelectedPlanetAsteroid:=CPoobj;
          {.3d view initialization}
          FCMoglVM_MView_Upd(
             FCRplayer.P_starSysLoc,
@@ -260,10 +260,10 @@ begin
             true
             );
          if CPsat>0
-         then FCV3DselSat:=FCFoglVM_SatObj_Search(CPoobj, CPsat)
+         then FC3doglSelectedSatellite:=FCFoglVM_SatObj_Search(CPoobj, CPsat)
          else if (CPsat=0)
-            and (FCV3DttlSat>0)
-         then FCV3DselSat:=1;
+            and (FC3doglTotalSatellites>0)
+         then FC3doglSelectedSatellite:=1;
       end; //==END== 3d initialization try..finally ==//
       FCMuiSP_SurfaceEcosphere_Set(0, 0, true);
       FCWinMain.caption:=FCWinMain.caption+'   ['+FCFdTFiles_UIStr_Get(uistrUI,'comCurGame')+FCRplayer.P_gameName+']';
