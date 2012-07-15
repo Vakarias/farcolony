@@ -106,19 +106,19 @@ begin
    while EHQScfxCnt<=EHQScfxMax do
    begin
       case EHQSinfra.I_customFx[EHQScfxCnt].ICFX_customEffect of
-         cfxHQbasic:
+         ceHeadQuarterBasic:
          begin
             Result:=dgBasicHQ;
             Break;
          end;
 
-         cfxHQSecondary:
+         ceHeadQuarterSecondary:
          begin
             Result:=dgSecHQ;
             Break;
          end;
 
-         cfxHQPrimary:
+         ceHeadQuarterPrimary:
          begin
             Result:=dgPriUnHQ;
             Break;
@@ -141,7 +141,7 @@ begin
    Max:=Length( InfraData.I_customFx )-1;
    while Count<=Max do
    begin
-      if ( InfraData.I_customFx[ Count ].ICFX_customEffect=cfxProductStorage )
+      if ( InfraData.I_customFx[ Count ].ICFX_customEffect=ceProductStorage )
          and( InfraData.I_customFx[ Count ].ICFX_prodStorageLvl[ OwnedInfraLevel ].IPS_liquid>0) then
       begin
          Result:=InfraData.I_customFx[ Count ].ICFX_prodStorageLvl[ OwnedInfraLevel ].IPS_liquid;
@@ -184,7 +184,7 @@ begin
    while CfxCount<=EAmax do
    begin
       case EAinfraDat.I_customFx[CfxCount].ICFX_customEffect of
-         cfxEnergyGen:
+         ceEnergyGeneration:
          begin
             EAnergyOutput:=FCFgEM_OutputFromCustomFx_GetValue(
                EAent
@@ -205,7 +205,7 @@ begin
                );
          end;
 
-         cfxEnergyStor:
+         ceEnergyStorage:
          begin
             FCMgCSM_Energy_Update(
                EAent
@@ -218,25 +218,25 @@ begin
                );
          end;
 
-         cfxHQbasic: FCMgC_HQ_Set(
+         ceHeadQuarterBasic: FCMgC_HQ_Set(
             EAent
             ,EAcolony
             ,dgBasicHQ
             );
 
-         cfxHQSecondary: FCMgC_HQ_Set(
+         ceHeadQuarterSecondary: FCMgC_HQ_Set(
             EAent
             ,EAcolony
             ,dgSecHQ
             );
 
-         cfxHQPrimary: FCMgC_HQ_Set(
+         ceHeadQuarterPrimary: FCMgC_HQ_Set(
             EAent
             ,EAcolony
             ,dgPriUnHQ
             );
 
-         cfxProductStorage:
+         ceProductStorage:
          begin
             FCentities[EAent].E_col[EAcolony].COL_storCapacitySolidMax:=FCentities[EAent].E_col[EAcolony].COL_storCapacitySolidMax+EAinfraDat.I_customFx[CfxCount].ICFX_prodStorageLvl[LevelInfra].IPS_solid;
             FCentities[EAent].E_col[EAcolony].COL_storCapacityLiquidMax:=FCentities[EAent].E_col[EAcolony].COL_storCapacityLiquidMax+EAinfraDat.I_customFx[CfxCount].ICFX_prodStorageLvl[LevelInfra].IPS_liquid;
@@ -272,7 +272,7 @@ begin
    while ERcnt<=ERmax do
    begin
       case ERinfraDat.I_customFx[ERcnt].ICFX_customEffect of
-         cfxEnergyGen:
+         ceEnergyGeneration:
          begin
             FCMgCSM_Energy_Update(
                ERent
@@ -286,7 +286,7 @@ begin
             FCEntities[ ERent ].E_col[ ERcolony ].COL_settlements[ Settlement ].CS_infra[ OwnedInfra ].CI_powerGenFromCFx:=0;
          end;
 
-         cfxEnergyStor:
+         ceEnergyStorage:
          begin
             FCMgCSM_Energy_Update(
                ERent
@@ -299,9 +299,9 @@ begin
                );
          end;
 
-         cfxHQbasic, cfxHQSecondary, cfxHQPrimary: FCMgC_HQ_Remove( ERent, ERcolony );
+         ceHeadQuarterBasic, ceHeadQuarterSecondary, ceHeadQuarterPrimary: FCMgC_HQ_Remove( ERent, ERcolony );
 
-         cfxProductStorage:
+         ceProductStorage:
          begin
             FCentities[ERent].E_col[ERcolony].COL_storCapacitySolidMax:=FCentities[ERent].E_col[ERcolony].COL_storCapacitySolidMax-ERinfraDat.I_customFx[ERcnt].ICFX_prodStorageLvl[LevelInfra].IPS_solid;
             FCentities[ERent].E_col[ERcolony].COL_storCapacityLiquidMax:=FCentities[ERent].E_col[ERcolony].COL_storCapacityLiquidMax-ERinfraDat.I_customFx[ERcnt].ICFX_prodStorageLvl[LevelInfra].IPS_liquid;

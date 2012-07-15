@@ -426,7 +426,7 @@ interface
       ///</summary>
       CI_powerGenFromCFx: extended;
       {.function and dependent data}
-      case CI_function: TFCEdipFunction of
+      case CI_function: TFCEdipFunctions of
          fEnergy:
             {.energy output by hour in kW}
             (CI_fEnergOut: extended);
@@ -457,7 +457,7 @@ interface
             /// linked surveyed resource spot index, in the surveyed region, if needed
             ///</summary>
             CI_fprodResourceSpot: integer;
-            CI_fprodMode: array [0..FCCpModeMax] of record
+            CI_fprodMode: array [0..FCCdipProductionModesMax] of record
                PM_type: TFCEdipProductionModes;
                ///<summary>
                /// switch when the related production mode is disabled or not by the game or the player

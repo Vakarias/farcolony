@@ -45,7 +45,7 @@ uses
 ///</summary>
 ///   <param name="functionType">infrastructure type</param>
 ///   <returns>infrastructure function token string</returns>
-function FCFgI_Function_GetToken( const FunctionType: TFCEdipFunction ): string;
+function FCFgI_Function_GetToken( const FunctionType: TFCEdipFunctions ): string;
 
 ///<summary>
 ///   retrieve the index in a function list for an owned infrastructure
@@ -126,7 +126,7 @@ uses
 
 //===================================END OF INIT============================================
 
-function FCFgI_Function_GetToken( const FunctionType: TFCEdipFunction ): string;
+function FCFgI_Function_GetToken( const FunctionType: TFCEdipFunctions ): string;
 {:Purpose: get the infrastructure function token string.
    Additions:
       -2011Dec20- *code audit:
@@ -158,7 +158,7 @@ function FCFgI_IndexInFunction_Retrieve(
       ,Max
       ,SubIndex: integer;
 
-      FunctionToSearch: TFCEdipFunction;
+      FunctionToSearch: TFCEdipFunctions;
 begin
    Result:=0;
    Max:=length( FCEntities[ Entity ].E_col[ Colony ].COL_settlements[ Settlement ].CS_infra )-1;

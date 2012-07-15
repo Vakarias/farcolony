@@ -7,7 +7,7 @@
         License: GPLv3
         Website: http://farcolony.sourceforge.net/
 
-        Unit: infrastructures and production related data structures
+        Unit: infrastructures and production - data unit
 
 ============================================================================================
 ********************************************************************************************
@@ -26,70 +26,93 @@ Copyright (c) 2009-2012, Jean-Francois Baconnet
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *******************************************************************************************}
-
 unit farc_data_infrprod;
 
 interface
 
 uses
-   farc_data_init
-   ,farc_data_pgs
+   farc_data_pgs
    ,farc_data_research
    ,farc_data_univ;
 
 const
    ///<summary>
-   /// max number of production modes
+   ///   max number of production modes
    ///</summary>
-   FCCpModeMax=10;
+   FCCdipProductionModesMax=10;
 
-   ///<summary>
-   /// standard transition time (hours)
-   ///</summary>
-   FCCtransitionTime=2;
+{:REFERENCES LIST
+   - infrastrucdb.xml
+   - FCMdF_DBInfra_Read
+}
+///<summary>
+///   types of construct
+///</summary>
+type TFCEdipConstructs=(
+   cBuilt
+   ,cPrefab
+   ,cConverted
+   );
 
-   //=======================================================================================
-   {.infrastructures data}
-   //=======================================================================================
-   {.types of construct}
-   {:DEV NOTES: update infrastrucdb.xml.}
-   type TFCEdipConstruct=(
-      cBuilt
-      ,cPrefab
-      ,cConv
-      );
-   {.custom effects}
-   {:DEV NOTES: update TFCRdipInfraCustomFX + infrastrucdb.xml.}
-   type TFCEdipCustomFX=(
-      cfxEnergyGen
-      ,cfxEnergyStor
-      ,cfxHQbasic
-      ,cfxHQSecondary
-      ,cfxHQPrimary
-      ,cfxProductStorage
-      );
-   {.energy generation modes}
-   {:DEV NOTES: update infrastrucdb.xml + productsdb.xml + TFCRdipInfrastructure + FCMdF_DBInfra_Read + FCMdF_DBProducts_Read.}
-   type TFCEdipEnergyGenModes=(
-      egmNone
-		,egmAntimatter
-      ,egmFission
-      ,egmFusionDT
-		,egmFusionH2
-		,egmFusionHe3
-      ,egmPhoton
-      );
-   {.infrastructure functions}
-   {:DEV NOTES: update infrastrucdb.xml + FCMdF_DBInfra_Read + FCFgInf_InfFunc_GetStr + FCFgC_ColInfra_DReq.}
-   {:DEV NOTES: update TFCRdipInfrastructure.}
-   {:DEV NOTES: UPDATE FCMdFSG_Game_Save/Load.}
-   type TFCEdipFunction=(
-      fEnergy
-      ,fHousing
-      ,fIntelligence
-      ,fMiscellaneous
-      ,fProduction
-      );
+{:REFERENCES LIST
+   - infrastrucdb.xml
+   - FCMdF_DBInfra_Read
+   - FCMgICFX_Effects_Application
+   - FCMgICFX_Effects_Removing
+   - FCMgICS_Conversion_Process
+   - TFCRdipInfraCustomFX
+}
+///<summary>
+///   list of custom effects
+///</summary>
+type TFCEdipCustomEffects=(
+   ceEnergyGeneration
+   ,ceEnergyStorage
+   ,ceHeadQuarterBasic
+   ,ceHeadQuarterSecondary
+   ,ceHeadQuarterPrimary
+   ,ceProductStorage
+   );
+
+{:REFERENCES LIST
+   - infrastrucdb.xml
+   - productsdb.xml
+   - FCMdF_DBInfra_Read
+   - FCMdF_DBProducts_Read
+   - TFCRdipInfrastructure
+}
+///<summary>
+///   energy generation modes
+///</summary>
+type TFCEdipEnergyGenerationModes=(
+   egmNone
+   ,egmAntimatter
+   ,egmFission
+   ,egmFusionDT
+   ,egmFusionH2
+   ,egmFusionHe3
+   ,egmPhoton
+   );
+
+{:REFERENCES LIST
+   - infrastrucdb.xml
+   - FCMdF_DBInfra_Read
+   - FCMdFSG_Game_Save/Load
+   - FCFgC_ColInfra_DReq
+   - FCFgInf_InfFunc_GetStr
+   - TFCRdipInfrastructure
+}
+///<summary>
+///   functions list
+///</summary>
+type TFCEdipFunctions=(
+   fEnergy
+   ,fHousing
+   ,fIntelligence
+   ,fMiscellaneous
+   ,fProduction
+   );
+
    {.requirement - hydrosphere types}
    {:DEV NOTES: update infrastrucdb + FCMdF_DBInfra_Read.}
    type TFCEdipHydrosphereReq=(
@@ -173,12 +196,14 @@ const
       ,stGas
       ,stBiologic
       );
-   //==END ENUM=============================================================================
-   {.energy generation modes}
+
+//==END PUBLIC ENUM=========================================================================
+
+{.energy generation modes}
    {:DEV NOTES: update infrastrucdb.xml for energy function AND energy generation custom effect + FCMdF_DBInfra_Read.}
    {:DEV NOTES: update FCFgEM_OutputFromFunction_GetValue + FCFgEM_OutputFromCustomFx_GetValue.}
    type TFCRdipEnergyGenerationMode= record
-		case FEPM_productionModes: TFCEdipEnergyGenModes of
+		case FEPM_productionModes: TFCEdipEnergyGenerationModes of
 			egmAntimatter: ();
 
 			egmFission:
@@ -277,13 +302,13 @@ const
 	{.custom effects}
 	{:DEV NOTES: update infrastrucdb.xml + FCMdF_DBInfra_Read + FCMgICFX_Effects_Application + FCFgICFX_EffectHQ_Search.}
 	type TFCRdipInfraCustomFX= record
-      case ICFX_customEffect: TFCEdipCustomFX of
-         cfxEnergyGen: (ICFX_enGenMode: TFCRdipEnergyGenerationMode);
-         cfxEnergyStor: (ICFX_enStorLvl: array [0..7] of extended);
-         cfxHQbasic: ();
-         cfxHQSecondary: ();
-         cfxHQPrimary: ();
-         cfxProductStorage: (ICFX_prodStorageLvl: array[0..7] of TFCRdipInfraProdStorage);
+      case ICFX_customEffect: TFCEdipCustomEffects of
+         ceEnergyGeneration: (ICFX_enGenMode: TFCRdipEnergyGenerationMode);
+         ceEnergyStorage: (ICFX_enStorLvl: array [0..7] of extended);
+         ceHeadQuarterBasic: ();
+         ceHeadQuarterSecondary: ();
+         ceHeadQuarterPrimary: ();
+         ceProductStorage: (ICFX_prodStorageLvl: array[0..7] of TFCRdipInfraProdStorage);
 	end;
    {.production modes}
    {:DEV NOTES: update infrastrucdb.xml + FCMdF_DBInfra_Read + FCMgPM_ProductionModeDataFromFunction_Generate.}
@@ -319,7 +344,7 @@ const
       I_token: string[20];
       I_environment: TFCEduEnvironmentTypes;
       {.construct type}
-      I_constr: TFCEdipConstruct;
+      I_constr: TFCEdipConstructs;
       {.level range}
       I_minLevel: integer;
       I_maxLevel: integer;
@@ -355,7 +380,7 @@ const
          RS_requiredByLv: array[0..7] of integer;
       end;
       {.function}
-      case I_function: TFCEdipFunction of
+      case I_function: TFCEdipFunctions of
          fEnergy: (I_fEnergyPmode: TFCRdipEnergyGenerationMode);
 
          fHousing: (
@@ -367,19 +392,47 @@ const
 
          fMiscellaneous: ();
 
-         fProduction: (I_fProductionMode: array[0..FCCpModeMax] of TFCRdipInfraProdMode);
+         fProduction: (I_fProductionMode: array[0..FCCdipProductionModesMax] of TFCRdipInfraProdMode);
    end;
       {.infrastructures dynamic array}
       TFCDBinfra= array of TFCRdipInfrastructure;
-   //=======================================================================================
-   {.global variables}
-   //=======================================================================================
-   var
-      FCDBinfra: TFCDBinfra;
-      FCDBProducts: TFCDBProducts;
+
+//==END PUBLIC RECORDS======================================================================
+
+   //==========subsection===================================================================
+var
+   FCDBinfra: TFCDBinfra;
+   FCDBProducts: TFCDBProducts;
+
+//==END PUBLIC VAR==========================================================================
+
+const
+
+
+   ///<summary>
+   /// standard transition time (hours)
+   ///</summary>
+   FCCtransitionTime=2;
+//==END PUBLIC CONST========================================================================
+
+//===========================END FUNCTIONS SECTION==========================================
 
 implementation
 
-//=============================================END OF INIT==================================
+//uses
+
+//==END PRIVATE ENUM========================================================================
+
+//==END PRIVATE RECORDS=====================================================================
+
+   //==========subsection===================================================================
+//var
+//==END PRIVATE VAR=========================================================================
+
+//const
+//==END PRIVATE CONST=======================================================================
+
+//===================================================END OF INIT============================
+//===========================END FUNCTIONS SECTION==========================================
 
 end.

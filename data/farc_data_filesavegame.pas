@@ -776,8 +776,8 @@ begin
                               FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra[GLinfCnt].CI_cabWorked:=GLxmlInfra.Attributes['CABworked'];
                               FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra[GLinfCnt].CI_powerCons:=GLxmlInfra.Attributes['powerCons'];
                               FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra[GLinfCnt].CI_powerGenFromCFx:=GLxmlInfra.Attributes['powerGencFx'];
-                              GLenumIndex:=GetEnumValue(TypeInfo(TFCEdipFunction), GLxmlInfra.Attributes['Func'] );
-                              FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra[GLinfCnt].CI_function:=TFCEdipFunction(GLenumIndex);
+                              GLenumIndex:=GetEnumValue(TypeInfo(TFCEdipFunctions), GLxmlInfra.Attributes['Func'] );
+                              FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra[GLinfCnt].CI_function:=TFCEdipFunctions(GLenumIndex);
                               if GLenumIndex=-1
                               then raise Exception.Create('bad gamesave loading w/infra function: '+GLxmlInfra.Attributes['Func']);
                               case FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra[GLinfCnt].CI_function of
@@ -1669,7 +1669,7 @@ begin
                            GSxmlColInf.Attributes['surveyedRegion']:=FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_fprodSurveyedRegion;
                            GSxmlColInf.Attributes['resourceSpot']:=FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_fprodResourceSpot;
                            GSsubCount:=1;
-                           while GSsubCount<=FCCpModeMax do
+                           while GSsubCount<=FCCdipProductionModesMax do
                            begin
                               if FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_fprodMode[GSsubCount].PM_type>pmNone then
                               begin

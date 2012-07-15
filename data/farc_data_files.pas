@@ -763,7 +763,7 @@ begin
                else if DBIRstr='cPrefab'
                then FCDBinfra[DBIRcnt].I_constr:=cPrefab
                else if DBIRstr='cConv'
-               then FCDBinfra[DBIRcnt].I_constr:=cConv;
+               then FCDBinfra[DBIRcnt].I_constr:=cConverted;
                FCDBinfra[DBIRcnt].I_isSurfOnly:=DBIRsubN.Attributes['isSurfOnly'];
                FCDBinfra[DBIRcnt].I_minLevel:=DBIRsubN.Attributes['minlevel'];
                FCDBinfra[DBIRcnt].I_maxLevel:=DBIRsubN.Attributes['maxlevel'];
@@ -929,7 +929,7 @@ begin
                   if DBIRcustFX.NodeName='icfxEnergyGen'
                   then
                   begin
-                     FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_customEffect:=cfxEnergyGen;
+                     FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_customEffect:=ceEnergyGeneration;
                      DBIRstr:=DBIRsubN.Attributes['genMode'];
                      if DBIRstr='egmAntimatter'
                      then FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_enGenMode.FEPM_productionModes:=egmAntimatter
@@ -962,20 +962,20 @@ begin
                   else if DBIRcustFX.NodeName='cfxEnergyStor'
                   then
                   begin
-                     FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_customEffect:=cfxEnergyStor;
+                     FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_customEffect:=ceEnergyStorage;
                      DBIRlevel:=DBIRcustFX.Attributes['storlevel'];
                      FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_enStorLvl[DBIRlevel]:=DBIRcustFX.Attributes['storCapacity'];
                   end
                   else if DBIRcustFX.NodeName='icfxHQbasic'
-                  then FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_customEffect:=cfxHQPrimary
+                  then FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_customEffect:=ceHeadQuarterPrimary
                   else if DBIRcustFX.NodeName='icfxHQSecondary'
-                  then FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_customEffect:=cfxHQbasic
+                  then FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_customEffect:=ceHeadQuarterBasic
                   else if DBIRcustFX.NodeName='icfxHQPrimary'
-                  then FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_customEffect:=cfxHQSecondary
+                  then FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_customEffect:=ceHeadQuarterSecondary
                   else if DBIRcustFX.NodeName='cfxProductStorage'
                   then
                   begin
-                     FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_customEffect:=cfxProductStorage;
+                     FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_customEffect:=ceProductStorage;
                      DBIRlevel:=DBIRcustFX.Attributes['storlevel'];
                      FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_prodStorageLvl[DBIRlevel].IPS_solid:=DBIRcustFX.Attributes['storSolid'];
                      FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_prodStorageLvl[DBIRlevel].IPS_liquid:=DBIRcustFX.Attributes['storLiquid'];
@@ -1074,7 +1074,7 @@ begin
                then
                begin
                   FCDBinfra[DBIRcnt].I_function:=fHousing;
-                  if FCDBinfra[DBIRcnt].I_constr<cConv then
+                  if FCDBinfra[DBIRcnt].I_constr<cConverted then
                   begin
                      DBIRsizeCnt:=FCDBinfra[DBIRcnt].I_minLevel;
                      while DBIRsizeCnt<=FCDBinfra[DBIRcnt].I_maxLevel do
@@ -1117,7 +1117,7 @@ begin
                      end;
                      DBIRpmode:=DBIRpmode.NextSibling;
                   end; //==END== while DBIRpmode<>nil do ==//
-                  if DBIRpmodeCnt+1<=FCCpModeMax
+                  if DBIRpmodeCnt+1<=FCCdipProductionModesMax
                   then FCDBinfra[DBIRcnt].I_fProductionMode[ DBIRpmodeCnt+1 ].IPM_productionModes:=pmNone;
                end;
             end; //==END== else if DBIRsubN.NodeName='infFunc' ==//

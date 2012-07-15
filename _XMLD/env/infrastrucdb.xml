@@ -12,7 +12,7 @@
    [construct]
       cBuilt
       cPrefab
-      cConv
+      cConverted
       
    {.requirement - hydrosphere types}
    [hydrotype]
@@ -179,7 +179,7 @@
 <infrastructures>
    <!-- Colonization Shelter / Free Environment -->
    <infra token="infrColShelt" environment="FE">
-      <infBuild construct="cConv" isSurfOnly="False" minlevel="1" maxlevel="1">
+      <infBuild construct="cConverted" isSurfOnly="False" minlevel="1" maxlevel="1">
       </infBuild>
       <infCustFX>
          <icfxHQbasic/>
@@ -188,7 +188,7 @@
    </infra>
    <!-- Colonization Shelter / Restricted Environment -->
    <infra token="infrColShelt" environment="RE">
-      <infBuild construct="cConv" isSurfOnly="False" minlevel="1" maxlevel="1">
+      <infBuild construct="cConverted" isSurfOnly="False" minlevel="1" maxlevel="1">
       </infBuild>
       <infCustFX>
          <icfxHQbasic/>
@@ -197,7 +197,7 @@
    </infra>
    <!-- Colonization Shelter / Space Environment -->
    <infra token="infrColShelt" environment="SE">
-      <infBuild construct="cConv" isSurfOnly="False" minlevel="1" maxlevel="1">
+      <infBuild construct="cConverted" isSurfOnly="False" minlevel="1" maxlevel="1">
       </infBuild>
       <infCustFX>
          <icfxHQbasic/>

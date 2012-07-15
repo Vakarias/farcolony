@@ -230,7 +230,7 @@ procedure FCMgPM_EnableDisableAll_Process(
       EDAPpmodeCount: integer;
 begin
    EDAPpmodeCount:=1;
-   while EDAPpmodeCount<=FCCpModeMax do
+   while EDAPpmodeCount<=FCCdipProductionModesMax do
    begin
       if FCentities[ EDAPentity ].E_col[ EDAPcolony ].COL_settlements[ EDAPsettlement ].CS_infra[ EDAPownedInfra ].CI_fprodMode[ EDAPpmodeCount ].PM_type>pmNone
       then FCMgPM_EnableDisable_Process(
@@ -286,7 +286,7 @@ procedure FCMgPM_ProductionModeDataFromFunction_Generate(
       OrbObjRow: TFCRufStelObj;
 begin
    InfraProdModeCount:=1;
-   while InfraProdModeCount<=FCCpModeMax do
+   while InfraProdModeCount<=FCCdipProductionModesMax do
    begin
       if PMDFFGinfraData.I_fProductionMode[InfraProdModeCount].IPM_occupancy>0 then
       begin

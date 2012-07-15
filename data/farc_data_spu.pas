@@ -85,10 +85,6 @@ type TFCEdsuArchitectures=(
 {:REFERENCES LIST
    - scintstrucdb.xml
    - FCMdFiles_DBSpaceCrafts_Read
-   -
-   -
-   -
-   -
 }
 ///<summary>
 ///   types of control module
@@ -102,9 +98,6 @@ type TFCEdsuControlModules=(
 {:REFERENCES LIST
    - FCMdFiles_DBSpaceCrafts_Read
    - TFCRdsuEquipmentModule case
-   -
-   -
-   -
 }
 ///<summary>
 ///   equipment module classes
@@ -122,10 +115,6 @@ type TFCEdsuEquipmentModuleClasses=(
 {:REFERENCES LIST
    - scintstrucdb.xml
    - FCMdFiles_DBSpaceCrafts_Read
-   -
-   -
-   -
-   -
 }
 ///<summary>
 ///   internal structure shapes
@@ -145,11 +134,6 @@ type TFCEdsuInternalStructureShapes=(
 
 {:REFERENCES LIST
    - FCMdFiles_DBSpaceCrafts_Read
-   -
-   -
-   -
-   -
-   -
 }
 ///<summary>
 ///   equipment module
@@ -191,10 +175,6 @@ end;
    - FCMdFiles_DBSpaceCrafts_Read
    - FCMoglVM_SpUn_Gen
    - FCMuiWin_SpUnDck_Upd
-   -
-   -
-   -
-   -
 }
 ///<summary>
 ///   space unit's internal structure

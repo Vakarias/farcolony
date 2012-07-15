@@ -780,7 +780,7 @@ begin
    ICPeffectIdx:=0;
    setlength(ICPclonedInfra.I_customFx, length(ICPclonedInfra.I_customFx)+1);
    ICPeffectIdx:=length(ICPclonedInfra.I_customFx)-1;
-   ICPclonedInfra.I_customFx[ICPeffectIdx].ICFX_customEffect:=cfxProductStorage;
+   ICPclonedInfra.I_customFx[ICPeffectIdx].ICFX_customEffect:=ceProductStorage;
    ICPclonedInfra.I_customFx[ICPeffectIdx].ICFX_prodStorageLvl[FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra[ICPinfra].CI_level].IPS_solid:=200;
    ICPclonedInfra.I_customFx[ICPeffectIdx].ICFX_prodStorageLvl[FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra[ICPinfra].CI_level].IPS_liquid:=210;
    ICPclonedInfra.I_customFx[ICPeffectIdx].ICFX_prodStorageLvl[FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra[ICPinfra].CI_level].IPS_gas:=30;
@@ -788,13 +788,13 @@ begin
    setlength(ICPclonedInfra.I_customFx, length(ICPclonedInfra.I_customFx)+1);
    ICPeffectIdx:=length(ICPclonedInfra.I_customFx)-1;
    FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra[ICPinfra].CI_powerGenFromCFx:=0;
-   ICPclonedInfra.I_customFx[ICPeffectIdx].ICFX_customEffect:=cfxEnergyGen;
+   ICPclonedInfra.I_customFx[ICPeffectIdx].ICFX_customEffect:=ceEnergyGeneration;
    ICPclonedInfra.I_customFx[ICPeffectIdx].ICFX_enGenMode.FEPM_productionModes:=egmPhoton;
    ICPclonedInfra.I_customFx[ICPeffectIdx].ICFX_enGenMode.FEPM_photonArea:=10;
    ICPclonedInfra.I_customFx[ICPeffectIdx].ICFX_enGenMode.FEPM_photonEfficiency:=70;
    setlength(ICPclonedInfra.I_customFx, length(ICPclonedInfra.I_customFx)+1);
    ICPeffectIdx:=length(ICPclonedInfra.I_customFx)-1;
-   ICPclonedInfra.I_customFx[ICPeffectIdx].ICFX_customEffect:=cfxEnergyStor;
+   ICPclonedInfra.I_customFx[ICPeffectIdx].ICFX_customEffect:=ceEnergyStorage;
    ICPclonedInfra.I_customFx[ICPeffectIdx].ICFX_enStorLvl[1]:=20;
    FCMgICFX_Effects_Application(
       ICPent

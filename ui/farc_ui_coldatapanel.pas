@@ -92,7 +92,7 @@ function FCFuiCDP_DisplayLocation_Retrieve: CDPcurrentLocIndexes;
 ///   <param name="FunctionToCompare">function to compare</param>
 ///   <param name="FunctionText">tree node function text</param>
 ///   <returns>true= match function</returns>
-function FCFuiCDP_FunctionCateg_Compare( const FunctionToCompare: TFCEdipFunction; const FunctionText: string ): boolean;
+function FCFuiCDP_FunctionCateg_Compare( const FunctionToCompare: TFCEdipFunctions; const FunctionText: string ): boolean;
 
 ///<summary>
 ///   retrieve an infrastructure index of the current colony and settlement by using HTML tree view selected data
@@ -322,7 +322,7 @@ begin
    Result:=CDPdisplayLocation;
 end;
 
-function FCFuiCDP_FunctionCateg_Compare( const FunctionToCompare: TFCEdipFunction; const FunctionText: string ): boolean;
+function FCFuiCDP_FunctionCateg_Compare( const FunctionToCompare: TFCEdipFunctions; const FunctionText: string ): boolean;
 {:Purpose: compare a tree node function text with one specified enumeration.
     Additions:
 }
@@ -350,7 +350,7 @@ var
    ,LIRIcurrentCategoryIndex
    ,LIRImax: integer;
 
-   LIRIfunctionToSearch: TFCEdipFunction;
+   LIRIfunctionToSearch: TFCEdipFunctions;
 begin
    Result:=0;
    LIRImax:=0;
