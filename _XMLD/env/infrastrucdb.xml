@@ -25,6 +25,7 @@
       hrCrystal
       hrLiquidNH3
       hrCH4
+      hrLiquid_Vapour_Ice_Sheet
       
    {.requirement - region soil}
    [allowtype]

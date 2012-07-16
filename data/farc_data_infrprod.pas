@@ -113,33 +113,40 @@ type TFCEdipFunctions=(
    ,fProduction
    );
 
-   {.requirement - hydrosphere types}
-   {:DEV NOTES: update infrastrucdb + FCMdF_DBInfra_Read.}
-   type TFCEdipHydrosphereReq=(
-      hrAny
-      ,hrLiquid_LiquidNH3
-      ,hrNone
-      ,hrVapour
-      ,hrLiquid
-      ,hrIceSheet
-      ,hrCrystal
-      ,hrLiquidNH3
-      ,hrCH4
-      ,hrLiquid_Vapour_Ice_Sheet
-      );
-   {.product cargos}
+{:REFERENCES LIST
+   - infrastrucdb.xml
+   - FCMdF_DBInfra_Read
+}
+///<summary>
+///   requirement - hydrosphere types
+///</summary>
+type TFCEdipHydrosphereRequirements=(
+   hrAny
+   ,hrLiquid_LiquidNH3
+   ,hrNone
+   ,hrVapour
+   ,hrLiquid
+   ,hrIceSheet
+   ,hrCrystal
+   ,hrLiquidNH3
+   ,hrCH4
+   ,hrLiquid_Vapour_Ice_Sheet
+   );
+
+{.product cargos}
 //   type TFCEdipProductCargos=(
 //
 //      );
-   {.product classes}
-   {:DEV NOTES: update productsdb.xml + FCMdF_DBProducts_Read.}
-   type TFCEdipProductClasses=(
-      prclResource
-      ,prcEnergyRelItem
-      ,prcMaterial
-      ,prcBioproduct
-      ,prcEquipment
-      );
+{.product classes}
+{:DEV NOTES: update productsdb.xml + FCMdF_DBProducts_Read.}
+type TFCEdipProductClasses=(
+   prclResource
+   ,prcEnergyRelItem
+   ,prcMaterial
+   ,prcBioproduct
+   ,prcEquipment
+   );
+
    {.product corrosive classes}
 	{:DEV NOTES: update productsdb.xml + FCMdF_DBProducts_Read}
 	type TFCEdipProductCorrosiveClasses=(
@@ -361,7 +368,7 @@ type TFCEdipFunctions=(
       {.prerequisites}
       I_reqGravMin: extended;
       I_reqGravMax: extended;
-      I_reqHydro: TFCEdipHydrosphereReq;
+      I_reqHydro: TFCEdipHydrosphereRequirements;
       I_reqConstrMat: array of record
          RCM_token: string[20];
          RCM_percent: integer;
