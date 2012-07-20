@@ -234,7 +234,7 @@ begin
    begin
       ProdMatrixItemProduct:=FCentities[ Entity ].E_col[ Colony ].COL_productionMatrix[ ProdMatrixItemCount ].CPMI_productToken;
       ProductIndex:=FCFgP_Product_GetIndex( ProdMatrixItemProduct );
-      if FCDBProducts[ ProductIndex ].PROD_function=prfuFood then
+      if FCDBProducts[ ProductIndex ].PROD_function=pfFood then
       begin
          FoodPointCalculated:=FCFgCR_FoodToReserve_Convert( FCentities[ Entity ].E_col[ Colony ].COL_productionMatrix[ ProdMatrixItemCount ].CPMI_globalProdFlow, FCDBProducts[ ProductIndex ].PROD_massByUnit );
          TotalProductionRvePoints:=TotalProductionRvePoints+FoodPointCalculated;
@@ -711,7 +711,7 @@ begin
    VolumeFromReserve:=0;
    setlength( FoodDistribution, 0 );
    case TypeOfReserve of
-      prfuFood:
+      pfFood:
       begin
          FCentities[ Entity ].E_col[ Colony ].COL_reserveFood:=FCentities[ Entity ].E_col[ Colony ].COL_reserveFood+ReservePointsToXfer;
          if Entity=0
@@ -773,7 +773,7 @@ begin
          end;
       end; //==END== case: prfuFood ==//
 
-      prfuOxygen:
+      pfOxygen:
       begin
          FCentities[ Entity ].E_col[ Colony ].COL_reserveOxygen:=FCentities[ Entity ].E_col[ Colony ].COL_reserveOxygen+ReservePointsToXfer;
          if Entity=0
@@ -799,7 +799,7 @@ begin
          end;
       end;
 
-      prfuWater:
+      pfWater:
       begin
          FCentities[ Entity ].E_col[ Colony ].COL_reserveWater:=FCentities[ Entity ].E_col[ Colony ].COL_reserveWater+ReservePointsToXfer;
          if Entity=0
@@ -843,11 +843,11 @@ procedure FCMgCR_Reserve_UpdateByUnits(
 begin
    ConvertedModifier:=0;
    case TypeOfReserve of
-      prfuFood: ConvertedModifier:=FCFgCR_FoodToReserve_Convert( ValueModifier, FoodDensity );
+      pfFood: ConvertedModifier:=FCFgCR_FoodToReserve_Convert( ValueModifier, FoodDensity );
 
-      prfuOxygen: ConvertedModifier:=FCFgCR_OxygenToReserve_Convert( ValueModifier );
+      pfOxygen: ConvertedModifier:=FCFgCR_OxygenToReserve_Convert( ValueModifier );
 
-      prfuWater: ConvertedModifier:=FCFgCR_WaterToReserve_Convert( ValueModifier );
+      pfWater: ConvertedModifier:=FCFgCR_WaterToReserve_Convert( ValueModifier );
    end;
    if ConvertedModifier<>0
    then FCMgCR_Reserve_Update(

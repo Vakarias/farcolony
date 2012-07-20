@@ -598,7 +598,7 @@ begin
          while WCPRCstorCnt<=WCPRCmax do
          begin
             WCPRCdbCnt:=FCFgP_Product_GetIndex(FCentities[0].E_col[WCPRCcol].COL_storageList[WCPRCstorCnt].CPR_token);
-            if ( FCDBProducts[WCPRCdbCnt].PROD_function=prfuManConstruction )
+            if ( FCDBProducts[WCPRCdbCnt].PROD_function=pfManualConstruction )
                and ( FCentities[0].E_col[WCPRCcol].COL_storageList[WCPRCstorCnt].CPR_unit>0 )
             then
             begin
@@ -627,7 +627,7 @@ begin
          while WCPRCstorCnt<=WCPRCmax do
          begin
             WCPRCdbCnt:=FCFgP_Product_GetIndex(FCentities[0].E_col[WCPRCcol].COL_storageList[WCPRCstorCnt].CPR_token);
-            if ( FCDBProducts[WCPRCdbCnt].PROD_function=prfuMechConstruction )
+            if ( FCDBProducts[WCPRCdbCnt].PROD_function=pfMechanicalConstruction )
                and ( FCentities[0].E_col[WCPRCcol].COL_storageList[WCPRCstorCnt].CPR_unit>0 )
             then
             begin
@@ -1427,7 +1427,7 @@ begin
             while CPUcnt<=CPUmax do
             begin
                CPUintDump:=FCFgP_Product_GetIndex(FCentities[0].E_col[CDPcurrentColony].COL_storageList[CPUcnt].CPR_token);
-               if (FCDBProducts[CPUintDump].PROD_function=prfuInfraKit)
+               if (FCDBProducts[CPUintDump].PROD_function=pfInfrastructureKit)
                   and ( FCentities[0].E_col[CDPcurrentColony].COL_storageList[CPUcnt].CPR_unit>0 )
                   and ( (CPUinfKitroot='') or (FCDBProducts[CPUintDump].PROD_fInfKitToken<>CPUinfKitroot) ) then
                begin

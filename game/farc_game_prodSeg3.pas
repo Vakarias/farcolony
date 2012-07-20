@@ -227,7 +227,7 @@ begin
          FCMgCR_Reserve_Update(
             Entity
             ,Colony
-            ,prfuOxygen
+            ,pfOxygen
             ,-FCentities[ Entity ].E_col[ Colony ].COL_reserveOxygen
             ,true
             );
@@ -236,7 +236,7 @@ begin
       then FCMgCR_Reserve_Update(
          Entity
          ,Colony
-         ,prfuOxygen
+         ,pfOxygen
          ,-FCentities[ Entity ].E_col[ Colony ].COL_population.POP_total
          ,true
          );
@@ -390,7 +390,7 @@ begin
       FCMgCR_Reserve_Update(
          Entity
          ,Colony
-         ,prfuWater
+         ,pfWater
          ,-FCentities[ Entity ].E_col[ Colony ].COL_reserveWater
          ,true
          );
@@ -399,7 +399,7 @@ begin
    then FCMgCR_Reserve_Update(
       Entity
       ,Colony
-      ,prfuWater
+      ,pfWater
       ,-FCentities[ Entity ].E_col[ Colony ].COL_population.POP_total
       ,true
       );
@@ -552,7 +552,7 @@ begin
       FCMgCR_Reserve_Update(
          Entity
          ,Colony
-         ,prfuFood
+         ,pfFood
          ,-FCentities[ Entity ].E_col[ Colony ].COL_reserveFood
          ,true
          );
@@ -561,7 +561,7 @@ begin
    then FCMgCR_Reserve_Update(
       Entity
       ,Colony
-      ,prfuFood
+      ,pfFood
       ,-FCentities[ Entity ].E_col[ Colony ].COL_population.POP_total
       ,true
       );

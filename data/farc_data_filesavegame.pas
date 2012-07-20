@@ -865,8 +865,8 @@ begin
                               SetLength(FCentities[GLentCnt].E_col[GLcount].COL_productionMatrix, GLprodMatrixCnt+1);
                               FCentities[GLentCnt].E_col[GLcount].COL_productionMatrix[GLprodMatrixCnt].CPMI_productToken:=GLxmlProdMatrix.Attributes['token'];
                               FCentities[GLentCnt].E_col[GLcount].COL_productionMatrix[GLprodMatrixCnt].CPMI_storageIndex:=GLxmlProdMatrix.Attributes['storIdx'];
-                              GLenumIndex:=GetEnumValue(TypeInfo(TFCEdipStorageType), GLxmlProdMatrix.Attributes['storageType'] );
-                              FCentities[GLentCnt].E_col[GLcount].COL_productionMatrix[GLprodMatrixCnt].CPMI_storageType:=TFCEdipStorageType(GLenumIndex);
+                              GLenumIndex:=GetEnumValue(TypeInfo(TFCEdipStorageTypes), GLxmlProdMatrix.Attributes['storageType'] );
+                              FCentities[GLentCnt].E_col[GLcount].COL_productionMatrix[GLprodMatrixCnt].CPMI_storageType:=TFCEdipStorageTypes(GLenumIndex);
                               if GLenumIndex=-1
                               then raise Exception.Create('bad gamesave loading w/production matrix item storage type: '+GLxmlProdMatrix.Attributes['storageType']);
                               FCentities[GLentCnt].E_col[GLcount].COL_productionMatrix[GLprodMatrixCnt].CPMI_globalProdFlow:=GLxmlProdMatrix.Attributes['globalProdFlow'];

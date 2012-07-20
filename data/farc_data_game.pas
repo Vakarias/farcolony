@@ -486,7 +486,7 @@ interface
       ///<summary>
       /// indicate the storage type used by the product
       ///</summary>
-      CPMI_storageType: TFCEdipStorageType;
+      CPMI_storageType: TFCEdipStorageTypes;
       ///<summary>
       /// global production flow
       ///</summary>

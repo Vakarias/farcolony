@@ -1662,33 +1662,16 @@ var
    FClocalPath: widestring;
 //    Ch: char;
    FCwide: pWideChar;
-   DefLCID: LCID;
-Buffer: PWidechar;
+//   DefLCID: LCID;
+//Buffer: PWidechar;
 begin
    {.core settings}
    FCVisFARCclosing:=false;
-   ThousandSeparator:=',';
+//   FCVdiFormat.DecimalSeparator:='.';
    Randomize;
    {.set the paths}
    FCVdiPathGame:=ExtractFilePath(Application.ExeName);
    FCVdiPathConfigDir:=FCFcFunc_WinFolders_GetMyDocs(false);
-//   if DecimalSeparator=','
-//   then
-   //prevent unwanted re-setting of DefaultFormatsettings
-//  Application.UpdateFormatSettings := False;
-  //Now it is safe to set this for the lifetime of my app
-
-//   DecimalSeparator:='.';
-
-
-Application.UpdateFormatSettings := True;
-Buffer:='.';
-//StrPCopy(Buffer, Ch);
-DefLCID := GetThreadLocale;
-if SetLocaleInfo(DefLCID, LOCALE_SDecimal, Buffer) then
-DecimalSeparator := StrPas(Buffer)[1];
-Application.UpdateFormatSettings := False;
-
    RandSeed:=GetTickCount;
    FCVdiPathConfigFile:=FCVdiPathConfigDir+'config.xml';
    {.initialize some global data and acces to the configuration file}

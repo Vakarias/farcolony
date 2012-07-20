@@ -33,6 +33,7 @@ interface
 
 uses
    Classes
+   ,dialogs
    ,SysUtils
 
    ,o_GTTimer
@@ -52,6 +53,11 @@ var
    ///   settlements pictures - contains the settlement icons
    ///</summary>
    FCRdiSettlementPictures: TFCRdiSettlementPictures;
+
+   ///<summary>
+   ///   format setting for the internal decimal separator configuration
+   ///</summary>
+//   FCVdiFormat: TFormatSettings;
 
    //==========game core====================================================================
    ///<summary>
@@ -288,12 +294,6 @@ begin
    {.saved games directory initialization}
    if not DirectoryExists( FCVdiPathConfigDir+'SavedGames' )
    then MkDir( FCVdiPathConfigDir+'SavedGames' );
-   {.game databases loading}
-   FCMdF_DBProducts_Read;
-   FCMdF_DBSPMi_Read;
-   FCMdF_DBFactions_Read;
-   FCMdF_DBInfra_Read;
-   FCMdF_DBSpaceCrafts_Read;
    {.text localization init}
 	FCMdTfiles_UIString_Init;
 end;

@@ -2,11 +2,11 @@
 <!--
    {.product classes}
    [class]
-      prclResource
-      prcEnergyRelItem
-      prcMaterial
-      prcBioproduct
-      prcEquipment
+      pcResource
+      pcEnergyRelated
+      pcMaterial
+      pcBioproduct
+      pcEquipment
       
    {.storage type}
    [storage]
@@ -17,25 +17,25 @@
       
    {.product functions}
    [function]
-      prfuBuildingMat
-      prfuBuildingSupportEquip
-      prfuEnergyGeneration
-      prfuFood
-      prfuInfraKit
-      prfuManConstruction
-      prfuManufacturingMat
-      prfuMechConstruction
-      prfuMultipurposeMat
-      prfuOxygen
-      prfuSpaceMat
-      prfuWater
+      pfBuildingMaterial
+      pfBuildingSupportEquipment
+      pfEnergyGeneration
+      pfFood
+      pfInfrastructureKit
+      pfManualConstruction
+      pfManufacturingMaterial
+      pfMechanicalConstruction
+      pfMultipurposeMaterial
+      pfOxygen
+      pfSpaceMaterial
+      pfWater
       
    {.product corrosive classes}
    [corrosiveidx]
-      prciDpoor
-      prciCfair
-      prciBgood
-      prciAexcellent
+      ccD_Poor
+      ccC_Fair
+      ccB_Good
+      ccA_Excellent
       
    {.research sectors}
    [sector]
@@ -50,18 +50,18 @@
       
    <product token="" class="" storage="" cargo="" volbyunit="" massbyunit="">
       {case function specific data}
-      <function token="prfuBuildingMat" tensilestr="" tsbylevel="" youngmodulus="" ymbylevel="" thermalprot="" reflectivity="" corrosiveclass=""/>
-      <function token="prfuBuildingSupportEquip"/>
-      <function token="prfuEnergyGeneration"/>
-      <function token="prfuFood" foodpoint=""/>
-      <function token="prfuInfraKit" infratoken="" infralevel=""/>
-      <function token="prfuManConstruction" wcpcoef=""/>
-      <function token="prfuManufacturingMat"/>
-      <function token="prfuMechConstruction" wcp="" crew=""/>
-      <function token="prfuMultipurposeMat" tensilestr="" tsbylevel="" youngmodulus="" ymbylevel="" thermalprot="" reflectivity="" corrosiveclass=""/>
-      <function token="prfuOxygen" oxypoint=""/>
-      <function token="prfuSpaceMat" tensilestr="" tsbylevel="" youngmodulus="" ymbylevel="" thermalprot="" reflectivity="" corrosiveclass=""/>
-      <function token="prfuWater" waterpoint=""/>
+      <function token="pfBuildingMat" tensilestr="" tsbylevel="" youngmodulus="" ymbylevel="" thermalprot="" reflectivity="" corrosiveclass=""/>
+      <function token="pfBuildingSupportEquip"/>
+      <function token="pfEnergyGeneration"/>
+      <function token="pfFood" foodpoint=""/>
+      <function token="pfInfraKit" infratoken="" infralevel=""/>
+      <function token="pfManConstruction" wcpcoef=""/>
+      <function token="pfManufacturingMat"/>
+      <function token="pfMechConstruction" wcp="" crew=""/>
+      <function token="pfMultipurposeMat" tensilestr="" tsbylevel="" youngmodulus="" ymbylevel="" thermalprot="" reflectivity="" corrosiveclass=""/>
+      <function token="pfOxygen" oxypoint=""/>
+      <function token="pfSpaceMat" tensilestr="" tsbylevel="" youngmodulus="" ymbylevel="" thermalprot="" reflectivity="" corrosiveclass=""/>
+      <function token="pfWater" waterpoint=""/>
       <techsci sector="" token=""/>
       <tags>
          <hazEnv/>
@@ -73,321 +73,321 @@
 -->
 <productsDB>
    <!-- Ammonia (NH3) - Resource -->
-   <product token="resNH3" class="prclResource" storage="stLiquid" cargo="" volbyunit="1" massbyunit="0.676">
+   <product token="resNH3" class="pcResource" storage="stLiquid" cargo="" volbyunit="1" massbyunit="0.676">
       <tags>
          <hazToxic/>
       </tags>
    </product>
    <!-- Argon (Ar) - Resource -->
-   <product token="resAr" class="prclResource" storage="stGas" cargo="" volbyunit="1" massbyunit="1.449">
+   <product token="resAr" class="pcResource" storage="stGas" cargo="" volbyunit="1" massbyunit="1.449">
       <tags>
          <hazToxic/>
       </tags>
    </product>
    <!-- Carbonaceous Ore - Resource -->
-   <product token="resCarbOre" class="prclResource" storage="stSolid" cargo="" volbyunit="1" massbyunit="3">
+   <product token="resCarbOre" class="pcResource" storage="stSolid" cargo="" volbyunit="1" massbyunit="3">
    </product>
    <!-- Hydrogen (H2) - Resource -->
-   <product token="resH2" class="prclResource" storage="stGas" cargo="" volbyunit="1" massbyunit="0.071">
+   <product token="resH2" class="pcResource" storage="stGas" cargo="" volbyunit="1" massbyunit="0.071">
       <tags>
          <hazFire/>
          <hazToxic/>
       </tags>
    </product>
    <!-- Icy Ore - Resource -->
-   <product token="resIcyOre" class="prclResource" storage="stSolid" cargo="" volbyunit="1" massbyunit="0.927">
+   <product token="resIcyOre" class="pcResource" storage="stSolid" cargo="" volbyunit="1" massbyunit="0.927">
    </product>
    <!-- Live Animals - Resource -->
-   <product token="resLiveAni" class="prclResource" storage="stBiologic" cargo="" volbyunit="12" massbyunit="0.252">
+   <product token="resLiveAni" class="pcResource" storage="stBiologic" cargo="" volbyunit="12" massbyunit="0.252">
    </product>
    <!-- Metallic Ore - Resource -->
-   <product token="resMetalOre" class="prclResource" storage="stSolid" cargo="" volbyunit="1" massbyunit="2.5">
+   <product token="resMetalOre" class="pcResource" storage="stSolid" cargo="" volbyunit="1" massbyunit="2.5">
    </product>
    <!-- Methane (CH4) - Resource -->
-   <product token="resCH4" class="prclResource" storage="stGas" cargo="" volbyunit="1" massbyunit="0.464">
+   <product token="resCH4" class="pcResource" storage="stGas" cargo="" volbyunit="1" massbyunit="0.464">
       <tags>
          <hazFire/>
          <hazToxic/>
       </tags>
    </product>
    <!-- Nitrogen (N2) - Resource -->
-   <product token="resN2" class="prclResource" storage="stGas" cargo="" volbyunit="1" massbyunit="0.808">
+   <product token="resN2" class="pcResource" storage="stGas" cargo="" volbyunit="1" massbyunit="0.808">
       <tags>
          <hazToxic/>
       </tags>
    </product>
    <!-- Oxygen (O2) - Resource -->
-   <product token="resO2" class="prclResource" storage="stGas" cargo="" volbyunit="1" massbyunit="1.141">
-      <function token="prfuOxygen" oxypoint="1358"/>
+   <product token="resO2" class="pcResource" storage="stGas" cargo="" volbyunit="1" massbyunit="1.141">
+      <function token="pfOxygen" oxypoint="1358"/>
       <tags>
          <hazFire/>
       </tags>
    </product>
    <!-- Rare Metals Ore - Resource -->
-   <product token="resRareMetOre" class="prclResource" storage="stSolid" cargo="" volbyunit="1" massbyunit="16.405">
+   <product token="resRareMetOre" class="pcResource" storage="stSolid" cargo="" volbyunit="1" massbyunit="16.405">
    </product>
    <!-- Rock - Resource -->
-   <product token="resRock" class="prclResource" storage="stSolid" cargo="" volbyunit="1" massbyunit="1.602">
+   <product token="resRock" class="pcResource" storage="stSolid" cargo="" volbyunit="1" massbyunit="1.602">
    </product>
    <!-- Solid Wastes - Resource -->
-   <product token="resSolidWastes" class="prclResource" storage="stSolid" cargo="" volbyunit="1" massbyunit="2.114">
+   <product token="resSolidWastes" class="pcResource" storage="stSolid" cargo="" volbyunit="1" massbyunit="2.114">
       <tags>
          <hazEnv/>
          <hazToxic/>
       </tags>
    </product>
    <!-- Uranium Ore - Resource -->
-   <product token="resUrOre" class="prclResource" storage="stSolid" cargo="" volbyunit="1" massbyunit="5.145">
+   <product token="resUrOre" class="pcResource" storage="stSolid" cargo="" volbyunit="1" massbyunit="5.145">
       <tags>
          <hazRad/>
       </tags>
    </product>
    <!-- Water - Resource -->
-   <product token="resWater" class="prclResource" storage="stLiquid" cargo="" volbyunit="1" massbyunit="1">
-      <function token="prfuWater" waterpoint="55"/>
+   <product token="resWater" class="pcResource" storage="stLiquid" cargo="" volbyunit="1" massbyunit="1">
+      <function token="pfWater" waterpoint="55"/>
    </product>
    <!-- Nuclear Fission Reactor [level 1] - Energy -->
-   <product token="energNucFisReactor1" class="prcEnergyRelItem" storage="stSolid" cargo="" volbyunit="1.327" massbyunit="5.735">
-      <function token="prfuInfraKit" infratoken="infrNucFissReactor" infralevel="1"/>
+   <product token="energNucFisReactor1" class="pcEnergyRelated" storage="stSolid" cargo="" volbyunit="1.327" massbyunit="5.735">
+      <function token="pfInfrastructureKit" infratoken="infrNucFissReactor" infralevel="1"/>
       <techsci sector="rsPhysics" token="tsciNucFission"/>
       <tags>
          <hazRad/>
       </tags>
    </product>
    <!-- Nuclear Fission Reactor [level 2] - Energy -->
-   <product token="energNucFisReactor2"   class="prcEnergyRelItem" storage="stSolid" cargo="" volbyunit="2.806" massbyunit="12.656">
-      <function token="prfuInfraKit" infratoken="infrNucFissReactor" infralevel="2"/>
+   <product token="energNucFisReactor2"   class="pcEnergyRelated" storage="stSolid" cargo="" volbyunit="2.806" massbyunit="12.656">
+      <function token="pfInfrastructureKit" infratoken="infrNucFissReactor" infralevel="2"/>
       <techsci sector="rsPhysics" token="tsciNucFission"/>
       <tags>
          <hazRad/>
       </tags>
    </product>
    <!-- Nuclear Fission Reactor [level 3] - Energy -->
-   <product token="energNucFisReactor3" class="prcEnergyRelItem" storage="stSolid" cargo="" volbyunit="5.812" massbyunit="26.872">
-      <function token="prfuInfraKit" infratoken="infrNucFissReactor" infralevel="3"/>
+   <product token="energNucFisReactor3" class="pcEnergyRelated" storage="stSolid" cargo="" volbyunit="5.812" massbyunit="26.872">
+      <function token="pfInfrastructureKit" infratoken="infrNucFissReactor" infralevel="3"/>
       <techsci sector="rsPhysics" token="tsciNucFission"/>
       <tags>
          <hazRad/>
       </tags>
    </product>
    <!-- Nuclear Pellets - Energy -->
-   <product token="energNucPellets" class="prcEnergyRelItem" storage="stSolid" cargo="" volbyunit="1" massbyunit="19.050">
-      <function token="prfuEnergyGeneration"/>
+   <product token="energNucPellets" class="pcEnergyRelated" storage="stSolid" cargo="" volbyunit="1" massbyunit="19.050">
+      <function token="pfEnergyGeneration"/>
       <techsci sector="rsPhysics" token="tsciNucFission"/>
       <tags>
          <hazRad/>
       </tags>
    </product>
    <!-- Aluminium - Material -->
-   <product token="matAluminium" class="prcMaterial" storage="stSolid" cargo="" volbyunit="1" massbyunit="2.71">
-      <function token="prfuMultipurposeMat" tensilestr="0.195" tsbylevel="0.029" youngmodulus="63" ymbylevel="0.8" thermalprot="53.1" reflectivity="0.75" corrosiveclass="prciCfair"/>
+   <product token="matAluminium" class="pcMaterial" storage="stSolid" cargo="" volbyunit="1" massbyunit="2.71">
+      <function token="pfMultipurposeMaterial" tensilestr="0.195" tsbylevel="0.029" youngmodulus="63" ymbylevel="0.8" thermalprot="53.1" reflectivity="0.75" corrosiveclass="ccC_Fair"/>
       <techsci sector="rsIndustrialTech" token="tsciAlloys"/>
    </product>
    <!-- Carbon Composites - Material -->
-   <product token="matCarbComposites" class="prcMaterial" storage="stSolid" cargo="" volbyunit="1" massbyunit="1.44">
-      <function token="prfuMultipurposeMat" tensilestr="1.5" tsbylevel="0.461" youngmodulus="119" ymbylevel="3.44" thermalprot="44.4" reflectivity="0.4" corrosiveclass="prciCfair"/>
+   <product token="matCarbComposites" class="pcMaterial" storage="stSolid" cargo="" volbyunit="1" massbyunit="1.44">
+      <function token="pfMultipurposeMaterial" tensilestr="1.5" tsbylevel="0.461" youngmodulus="119" ymbylevel="3.44" thermalprot="44.4" reflectivity="0.4" corrosiveclass="ccC_Fair"/>
       <techsci sector="rsIndustrialTech" token="matCarbComposites"/>
    </product>
    <!-- Concrete - Material -->
-   <product token="matConcrete" class="prcMaterial" storage="stSolid" cargo="" volbyunit="1" massbyunit="2.371">
-      <function token="prfuBuildingMat" tensilestr="0.021" tsbylevel="0.001" youngmodulus="27" ymbylevel="0.333" thermalprot="0.2" reflectivity="0.3" corrosiveclass="prciCfair"/>
+   <product token="matConcrete" class="pcMaterial" storage="stSolid" cargo="" volbyunit="1" massbyunit="2.371">
+      <function token="pfBuildingMaterial" tensilestr="0.021" tsbylevel="0.001" youngmodulus="27" ymbylevel="0.333" thermalprot="0.2" reflectivity="0.3" corrosiveclass="ccC_Fair"/>
       <techsci sector="rsIndustrialTech" token="tsciChemEng"/>
    </product>
    <!-- Multi-Walled Nanotubes (MWNT) - Material -->
-   <product token="matMWNT" class="prcMaterial" storage="stSolid" cargo="" volbyunit="1" massbyunit="2.6">
-      <function token="prfuMultipurposeMat" tensilestr="63" tsbylevel="26.333" youngmodulus="450" ymbylevel="116.66" thermalprot="365.6" reflectivity="0.1" corrosiveclass="prciAexcellent"/>
+   <product token="matMWNT" class="pcMaterial" storage="stSolid" cargo="" volbyunit="1" massbyunit="2.6">
+      <function token="pfMultipurposeMaterial" tensilestr="63" tsbylevel="26.333" youngmodulus="450" ymbylevel="116.66" thermalprot="365.6" reflectivity="0.1" corrosiveclass="ccA_Excellent"/>
       <techsci sector="rsIndustrialTech" token="tsciSuperFabrics"/>
       <tags>
          <hazToxic/>
       </tags>
    </product>
    <!-- Nanocomposites - Material -->
-   <product token="matNanocomposites" class="prcMaterial" storage="stSolid" cargo="" volbyunit="1" massbyunit="1.5">
-      <function token="prfuMultipurposeMat" tensilestr="3.6" tsbylevel="0.335" youngmodulus="162" ymbylevel="57.55" thermalprot="185" reflectivity="0.2" corrosiveclass="prciAexcellent"/>
+   <product token="matNanocomposites" class="pcMaterial" storage="stSolid" cargo="" volbyunit="1" massbyunit="1.5">
+      <function token="pfMultipurposeMaterial" tensilestr="3.6" tsbylevel="0.335" youngmodulus="162" ymbylevel="57.55" thermalprot="185" reflectivity="0.2" corrosiveclass="ccA_Excellent"/>
       <techsci sector="rsIndustrialTech" token="tsciNanocomposites"/>
    </product>
    <!-- Plastics - Material -->
-   <product token="matPlastics" class="prcMaterial" storage="stSolid" cargo="" volbyunit="1" massbyunit="1.05">
-      <function token="prfuManufacturingMat"/>
+   <product token="matPlastics" class="pcMaterial" storage="stSolid" cargo="" volbyunit="1" massbyunit="1.05">
+      <function token="pfManufacturingMaterial"/>
       <techsci sector="rsIndustrialTech" token="tsciChemEng"/>
    </product>
    <!-- Silicon (Si) - Material -->
-   <product token="matSilicon" class="prcMaterial" storage="stSolid" cargo="" volbyunit="1" massbyunit="2.33">
-      <function token="prfuManufacturingMat"/>
+   <product token="matSilicon" class="pcMaterial" storage="stSolid" cargo="" volbyunit="1" massbyunit="2.33">
+      <function token="pfManufacturingMaterial"/>
       <techsci sector="rsIndustrialTech" token="tsciChemEng"/>
    </product>
    <!-- Silver - Material -->
-   <product token="matSilver" class="prcMaterial" storage="stSolid" cargo="" volbyunit="1" massbyunit="10.49">
-      <function token="prfuManufacturingMat"/>
+   <product token="matSilver" class="pcMaterial" storage="stSolid" cargo="" volbyunit="1" massbyunit="10.49">
+      <function token="pfManufacturingMaterial"/>
       <techsci sector="rsIndustrialTech" token="tsciAlloys"/>
    </product>
    <!-- Single-Walled Nanotubes (SWNT) - Material -->
-   <product token="matSWNT" class="prcMaterial" storage="stSolid" cargo="" volbyunit="1" massbyunit="1.3">
-      <function token="prfuMultipurposeMat" tensilestr="21" tsbylevel="14.333" youngmodulus="900" ymbylevel="17.11" thermalprot="675" reflectivity="0.1" corrosiveclass="prciAexcellent"/>
+   <product token="matSWNT" class="pcMaterial" storage="stSolid" cargo="" volbyunit="1" massbyunit="1.3">
+      <function token="pfMultipurposeMaterial" tensilestr="21" tsbylevel="14.333" youngmodulus="900" ymbylevel="17.11" thermalprot="675" reflectivity="0.1" corrosiveclass="ccA_Excellent"/>
       <techsci sector="rsIndustrialTech" token="tsciFullerProcess"/>
       <tags>
          <hazToxic/>
       </tags>
    </product>
    <!-- Steel - Material -->
-   <product token="matSteel" class="prcMaterial" storage="stSolid" cargo="" volbyunit="1" massbyunit="7.83">
-      <function token="prfuMultipurposeMat" tensilestr="0.4" tsbylevel="0.031" youngmodulus="190" ymbylevel="2" thermalprot="3.3" reflectivity="0.65" corrosiveclass="prciAexcellent"/>
+   <product token="matSteel" class="pcMaterial" storage="stSolid" cargo="" volbyunit="1" massbyunit="7.83">
+      <function token="pfMultipurposeMaterial" tensilestr="0.4" tsbylevel="0.031" youngmodulus="190" ymbylevel="2" thermalprot="3.3" reflectivity="0.65" corrosiveclass="ccA_Excellent"/>
       <techsci sector="rsIndustrialTech" token="tsciAlloys"/>
    </product>
    <!-- Titanium - Material -->
-   <product token="matTitanium" class="prcMaterial" storage="stSolid" cargo="" volbyunit="1" massbyunit="4.51">
-      <function token="prfuMultipurposeMat" tensilestr="0.9" tsbylevel="0" youngmodulus="105" ymbylevel="1.66" thermalprot="0.9" reflectivity="0.63" corrosiveclass="prciAexcellent"/>
+   <product token="matTitanium" class="pcMaterial" storage="stSolid" cargo="" volbyunit="1" massbyunit="4.51">
+      <function token="pfMultipurposeMaterial" tensilestr="0.9" tsbylevel="0" youngmodulus="105" ymbylevel="1.66" thermalprot="0.9" reflectivity="0.63" corrosiveclass="ccA_Excellent"/>
       <techsci sector="rsIndustrialTech" token="tsciAlloys"/>
    </product>
    <!-- Animal Food - Bioproduct -->
-   <product token="bioAnimalFood" class="prcBioproduct" storage="stBiologic" cargo="" volbyunit="1" massbyunit="1.042">
-      <function token="prfuFood" foodpoint="1686"/>
+   <product token="bioAnimalFood" class="pcBioproduct" storage="stBiologic" cargo="" volbyunit="1" massbyunit="1.042">
+      <function token="pfFood" foodpoint="1686"/>
       <techsci sector="rsNone" token=""/>
    </product>
    <!-- Fish - Bioproduct -->
-   <product token="bioFish" class="prcBioproduct" storage="stBiologic" cargo="" volbyunit="1" massbyunit="0.721">
-      <function token="prfuFood" foodpoint="1166"/>
+   <product token="bioFish" class="pcBioproduct" storage="stBiologic" cargo="" volbyunit="1" massbyunit="0.721">
+      <function token="pfFood" foodpoint="1166"/>
       <techsci sector="rsNone" token=""/>
    </product>
    <!-- Fruits & Vegetables - Bioproduct -->
-   <product token="bioFruitsVeg" class="prcBioproduct" storage="stBiologic" cargo="" volbyunit="1" massbyunit="0.641">
-      <function token="prfuFood" foodpoint="1037"/>
+   <product token="bioFruitsVeg" class="pcBioproduct" storage="stBiologic" cargo="" volbyunit="1" massbyunit="0.641">
+      <function token="pfFood" foodpoint="1037"/>
       <techsci sector="rsNone" token=""/>
    </product>
    <!-- Advanced Tools - Equipment -->
-   <product token="equipAdvTools" class="prcEquipment" storage="stSolid" cargo="" volbyunit="0.004" massbyunit="0.006">
-      <function token="prfuManConstruction" wcpcoef="1.25"/>
+   <product token="equipAdvTools" class="pcEquipment" storage="stSolid" cargo="" volbyunit="0.004" massbyunit="0.006">
+      <function token="pfManualConstruction" wcpcoef="1.25"/>
    </product>
    <!-- Construction Exowalkers - Equipment -->
-   <product token="equipConstrExo" class="prcEquipment" storage="stSolid" cargo="" volbyunit="3.2" massbyunit="4.054">
-      <function token="prfuMechConstruction" wcp="15" crew="4"/>
+   <product token="equipConstrExo" class="pcEquipment" storage="stSolid" cargo="" volbyunit="3.2" massbyunit="4.054">
+      <function token="pfMechanicalConstruction" wcp="15" crew="4"/>
    </product>
    <!-- Hand Tools -Equipment -->
-   <product token="equipHandTools" class="prcEquipment" storage="stSolid" cargo="" volbyunit="0.002" massbyunit="0.004">
-      <function token="prfuManConstruction" wcpcoef="0.67"/>
+   <product token="equipHandTools" class="pcEquipment" storage="stSolid" cargo="" volbyunit="0.002" massbyunit="0.004">
+      <function token="pfManualConstruction" wcpcoef="0.67"/>
    </product>
    <!-- Humidity Trap [level 1] - Equipment -->
-   <product token="equipHumidityTrap1" class="prcEquipment" storage="stSolid" cargo="" volbyunit="13.72" massbyunit="33.624">
-      <function token="prfuInfraKit" infratoken="infrHumidTrap" infralevel="1"/>
+   <product token="equipHumidityTrap1" class="pcEquipment" storage="stSolid" cargo="" volbyunit="13.72" massbyunit="33.624">
+      <function token="pfInfrastructureKit" infratoken="infrHumidTrap" infralevel="1"/>
    </product>
    <!-- Humidity Trap [level 2] - Equipment -->
-   <product token="equipHumidityTrap2" class="prcEquipment" storage="stSolid" cargo="" volbyunit="59.32" massbyunit="148.219">
-      <function token="prfuInfraKit" infratoken="infrHumidTrap" infralevel="2"/>
+   <product token="equipHumidityTrap2" class="pcEquipment" storage="stSolid" cargo="" volbyunit="59.32" massbyunit="148.219">
+      <function token="pfInfrastructureKit" infratoken="infrHumidTrap" infralevel="2"/>
    </product>
    <!-- Humidity Trap [level 3] - Equipment -->
-   <product token="equipHumidityTrap3" class="prcEquipment" storage="stSolid" cargo="" volbyunit="148.635" massbyunit="376.748">
-      <function token="prfuInfraKit" infratoken="infrHumidTrap" infralevel="3"/>
+   <product token="equipHumidityTrap3" class="pcEquipment" storage="stSolid" cargo="" volbyunit="148.635" massbyunit="376.748">
+      <function token="pfInfrastructureKit" infratoken="infrHumidTrap" infralevel="3"/>
    </product>
    <!-- Humidity Trap [level 4] - Equipment -->
-   <product token="equipHumidityTrap4" class="prcEquipment" storage="stSolid" cargo="" volbyunit="289.42" massbyunit="741.557">
-      <function token="prfuInfraKit" infratoken="infrHumidTrap" infralevel="4"/>
+   <product token="equipHumidityTrap4" class="pcEquipment" storage="stSolid" cargo="" volbyunit="289.42" massbyunit="741.557">
+      <function token="pfInfrastructureKit" infratoken="infrHumidTrap" infralevel="4"/>
    </product>
    <!-- Humidity Trap [level 5] - Equipment -->
-   <product token="equipHumidityTrap5" class="prcEquipment" storage="stSolid" cargo="" volbyunit="491.743" massbyunit="1274.12">
-      <function token="prfuInfraKit" infratoken="infrHumidTrap" infralevel="5"/>
+   <product token="equipHumidityTrap5" class="pcEquipment" storage="stSolid" cargo="" volbyunit="491.743" massbyunit="1274.12">
+      <function token="pfInfrastructureKit" infratoken="infrHumidTrap" infralevel="5"/>
    </product>
    <!-- Inflatable Greenhouse [level 1] - Equipment -->
-   <product token="equipInflatGreen1" class="prcEquipment" storage="stSolid" cargo="" volbyunit="6.75" massbyunit="10.665">
-      <function token="prfuInfraKit" infratoken="infrInflatGreen" infralevel="1"/>
+   <product token="equipInflatGreen1" class="pcEquipment" storage="stSolid" cargo="" volbyunit="6.75" massbyunit="10.665">
+      <function token="pfInfrastructureKit" infratoken="infrInflatGreen" infralevel="1"/>
       <techsci sector="rsAerospaceEngineering" token="tsciInflatHabitat"/>
    </product>
    <!-- Inflatable Greenhouse [level 2] - Equipment -->
-   <product token="equipInflatGreen2" class="prcEquipment" storage="stSolid" cargo="" volbyunit="24" massbyunit="37.92">
-      <function token="prfuInfraKit" infratoken="infrInflatGreen" infralevel="2"/>
+   <product token="equipInflatGreen2" class="pcEquipment" storage="stSolid" cargo="" volbyunit="24" massbyunit="37.92">
+      <function token="pfInfrastructureKit" infratoken="infrInflatGreen" infralevel="2"/>
       <techsci sector="rsAerospaceEngineering" token="tsciInflatHabitat"/>
    </product>
    <!-- Inflatable Greenhouse [level 3] - Equipment -->
-   <product token="equipInflatGreen3" class="prcEquipment" storage="stSolid" cargo=""   volbyunit="56.25" massbyunit="88.875">
-      <function token="prfuInfraKit" infratoken="infrInflatGreen" infralevel="3"/>
+   <product token="equipInflatGreen3" class="pcEquipment" storage="stSolid" cargo=""   volbyunit="56.25" massbyunit="88.875">
+      <function token="pfInfrastructureKit" infratoken="infrInflatGreen" infralevel="3"/>
       <techsci sector="rsAerospaceEngineering" token="tsciInflatHabitat"/>
    </product>
    <!-- Inflatable Habitat [level 1] - Equipment -->
-   <product token="equipInflatHab1" class="prcEquipment" storage="stSolid" cargo="" volbyunit="4.465" massbyunit="6.698">
-      <function token="prfuInfraKit" infratoken="infrInflatHab" infralevel="1"/>
+   <product token="equipInflatHab1" class="pcEquipment" storage="stSolid" cargo="" volbyunit="4.465" massbyunit="6.698">
+      <function token="pfInfrastructureKit" infratoken="infrInflatHab" infralevel="1"/>
       <techsci sector="rsAerospaceEngineering" token="tsciInflatHabitat"/>
    </product>
    <!-- Inflatable Habitat [level 2] - Equipment -->
-   <product token="equipInflatHab2" class="prcEquipment" storage="stSolid" cargo="" volbyunit="7.922" massbyunit="11.883">
-      <function token="prfuInfraKit" infratoken="infrInflatHab" infralevel="2"/>
+   <product token="equipInflatHab2" class="pcEquipment" storage="stSolid" cargo="" volbyunit="7.922" massbyunit="11.883">
+      <function token="pfInfrastructureKit" infratoken="infrInflatHab" infralevel="2"/>
       <techsci sector="rsAerospaceEngineering" token="tsciInflatHabitat"/>
    </product>
    <!-- Inflatable Habitat [level 3] - Equipment -->
-   <product token="equipInflatHab3" class="prcEquipment" storage="stSolid" cargo="" volbyunit="20.093" massbyunit="30.140">
-      <function token="prfuInfraKit" infratoken="infrInflatHab" infralevel="3"/>
+   <product token="equipInflatHab3" class="pcEquipment" storage="stSolid" cargo="" volbyunit="20.093" massbyunit="30.140">
+      <function token="pfInfrastructureKit" infratoken="infrInflatHab" infralevel="3"/>
       <techsci sector="rsAerospaceEngineering" token="tsciInflatHabitat"/>
    </product>
    <!-- Inflatable Habitat [level 4] - Equipment -->
-   <product token="equipInflatHab4" class="prcEquipment" storage="stSolid" cargo="" volbyunit="57.286" massbyunit="85.929">
-      <function token="prfuInfraKit" infratoken="infrInflatHab" infralevel="4"/>
+   <product token="equipInflatHab4" class="pcEquipment" storage="stSolid" cargo="" volbyunit="57.286" massbyunit="85.929">
+      <function token="pfInfrastructureKit" infratoken="infrInflatHab" infralevel="4"/>
       <techsci sector="rsAerospaceEngineering" token="tsciInflatHabitat"/>
    </product>
    <!-- Mining Machinery - Equipment -->
-   <product token="equipMiningMachinery" class="prcEquipment" storage="stSolid" cargo="" volbyunit="96" massbyunit="93.888">
-      <function token="prfuBuildingSupportEquip"/>
+   <product token="equipMiningMachinery" class="pcEquipment" storage="stSolid" cargo="" volbyunit="96" massbyunit="93.888">
+      <function token="pfBuildingSupportEquipment"/>
       <techsci sector="rsIndustrialTech" token="tsciBasicMiningRefin"/>
    </product>
    <!-- Multipurpose Depot [level 1] - Equipment -->
-   <product token="equipMultiDepot1" class="prcEquipment" storage="stSolid" cargo="" volbyunit="42" massbyunit="129.78">
-      <function token="prfuInfraKit" infratoken="infrMultiDepot" infralevel="1"/>
+   <product token="equipMultiDepot1" class="pcEquipment" storage="stSolid" cargo="" volbyunit="42" massbyunit="129.78">
+      <function token="pfInfrastructureKit" infratoken="infrMultiDepot" infralevel="1"/>
       <techsci sector="rsIndustrialTech" token="tsciAlloys"/>
    </product>
    <!-- Multipurpose Depot [level 2] - Equipment -->
-   <product token="equipMultiDepot2" class="prcEquipment" storage="stSolid" cargo="" volbyunit="138" massbyunit="426.420">
-      <function token="prfuInfraKit" infratoken="infrMultiDepot" infralevel="2"/>
+   <product token="equipMultiDepot2" class="pcEquipment" storage="stSolid" cargo="" volbyunit="138" massbyunit="426.420">
+      <function token="pfInfrastructureKit" infratoken="infrMultiDepot" infralevel="2"/>
       <techsci sector="rsIndustrialTech" token="tsciAlloys"/>
    </product>
    <!-- Multipurpose Depot [level 3] - Equipment -->
-   <product token="equipMultiDepot3" class="prcEquipment" storage="stSolid" cargo="" volbyunit="226.8" massbyunit="700.812">
-      <function token="prfuInfraKit" infratoken="infrMultiDepot" infralevel="3"/>
+   <product token="equipMultiDepot3" class="pcEquipment" storage="stSolid" cargo="" volbyunit="226.8" massbyunit="700.812">
+      <function token="pfInfrastructureKit" infratoken="infrMultiDepot" infralevel="3"/>
       <techsci sector="rsIndustrialTech" token="tsciAlloys"/>
    </product>
    <!-- Multipurpose Depot [level 4] - Equipment -->
-   <product token="equipMultiDepot4" class="prcEquipment" storage="stSolid" cargo="" volbyunit="362.4" massbyunit="1119.816">
-      <function token="prfuInfraKit" infratoken="infrMultiDepot" infralevel="4"/>
+   <product token="equipMultiDepot4" class="pcEquipment" storage="stSolid" cargo="" volbyunit="362.4" massbyunit="1119.816">
+      <function token="pfInfrastructureKit" infratoken="infrMultiDepot" infralevel="4"/>
       <techsci sector="rsIndustrialTech" token="tsciAlloys"/>
    </product>
    <!-- Multipurpose Depot [level 5] - Equipment -->
-   <product token="equipMultiDepot5" class="prcEquipment" storage="stSolid" cargo="" volbyunit="433.8" massbyunit="1340.442">
-      <function token="prfuInfraKit" infratoken="infrMultiDepot" infralevel="5"/>
+   <product token="equipMultiDepot5" class="pcEquipment" storage="stSolid" cargo="" volbyunit="433.8" massbyunit="1340.442">
+      <function token="pfInfrastructureKit" infratoken="infrMultiDepot" infralevel="5"/>
       <techsci sector="rsIndustrialTech" token="tsciAlloys"/>
    </product>
    <!-- Power Tools - Equipment -->
-   <product token="equipPowerTools" class="prcEquipment" storage="stSolid" cargo="" volbyunit="0.004" massbyunit="0.007">
-      <function token="prfuManConstruction" wcpcoef="1"/>
+   <product token="equipPowerTools" class="pcEquipment" storage="stSolid" cargo="" volbyunit="0.004" massbyunit="0.007">
+      <function token="pfManualConstruction" wcpcoef="1"/>
    </product>
    <!-- Pressurized Tanks Array [level 1] - Equipment -->
-   <product token="equipPressTanksArr1" class="prcEquipment" storage="stSolid" cargo="" volbyunit="3.656" massbyunit="13.125">
-      <function token="prfuInfraKit" infratoken="infrPressTanksArray" infralevel="1"/>
+   <product token="equipPressTanksArr1" class="pcEquipment" storage="stSolid" cargo="" volbyunit="3.656" massbyunit="13.125">
+      <function token="pfInfrastructureKit" infratoken="infrPressTanksArray" infralevel="1"/>
       <techsci sector="rsIndustrialTech" token="tsciCryogenics"/>
    </product>
    <!-- Pressurized Tanks Array [level 2] - Equipment -->
-   <product token="equipPressTanksArr2" class="prcEquipment" storage="stSolid" cargo="" volbyunit="4.776" massbyunit="17.146">
-      <function token="prfuInfraKit" infratoken="infrPressTanksArray" infralevel="2"/>
+   <product token="equipPressTanksArr2" class="pcEquipment" storage="stSolid" cargo="" volbyunit="4.776" massbyunit="17.146">
+      <function token="pfInfrastructureKit" infratoken="infrPressTanksArray" infralevel="2"/>
       <techsci sector="rsIndustrialTech" token="tsciCryogenics"/>
    </product>
    <!-- Pressurized Tanks Array [level 3] - Equipment -->
-   <product token="equipPressTanksArr3" class="prcEquipment" storage="stSolid" cargo="" volbyunit="5.546" massbyunit="19.910">
-      <function token="prfuInfraKit" infratoken="infrPressTanksArray" infralevel="3"/>
+   <product token="equipPressTanksArr3" class="pcEquipment" storage="stSolid" cargo="" volbyunit="5.546" massbyunit="19.910">
+      <function token="pfInfrastructureKit" infratoken="infrPressTanksArray" infralevel="3"/>
       <techsci sector="rsIndustrialTech" token="tsciCryogenics"/>
    </product>
    <!-- Pressurized Tanks Array [level 4] - Equipment -->
-   <product token="equipPressTanksArr4" class="prcEquipment" storage="stSolid" cargo="" volbyunit="7.235" massbyunit="25.974">
-      <function token="prfuInfraKit" infratoken="infrPressTanksArray" infralevel="4"/>
+   <product token="equipPressTanksArr4" class="pcEquipment" storage="stSolid" cargo="" volbyunit="7.235" massbyunit="25.974">
+      <function token="pfInfrastructureKit" infratoken="infrPressTanksArray" infralevel="4"/>
       <techsci sector="rsIndustrialTech" token="tsciCryogenics"/>
    </product>
    <!-- Pressurized Tanks Array [level 5] - Equipment -->
-   <product token="equipPressTanksArr5" class="prcEquipment" storage="stSolid" cargo="" volbyunit="9.166" massbyunit="32.906">
-      <function token="prfuInfraKit" infratoken="infrPressTanksArray" infralevel="5"/>
+   <product token="equipPressTanksArr5" class="pcEquipment" storage="stSolid" cargo="" volbyunit="9.166" massbyunit="32.906">
+      <function token="pfInfrastructureKit" infratoken="infrPressTanksArray" infralevel="5"/>
       <techsci sector="rsIndustrialTech" token="tsciCryogenics"/>
    </product>
    <!-- Pressurized Tanks Array [level 6] - Equipment -->
-   <product token="equipPressTanksArr6" class="prcEquipment" storage="stSolid" cargo="" volbyunit="12.474" massbyunit="44.782">
-      <function token="prfuInfraKit" infratoken="infrPressTanksArray" infralevel="6"/>
+   <product token="equipPressTanksArr6" class="pcEquipment" storage="stSolid" cargo="" volbyunit="12.474" massbyunit="44.782">
+      <function token="pfInfrastructureKit" infratoken="infrPressTanksArray" infralevel="6"/>
       <techsci sector="rsIndustrialTech" token="tsciCryogenics"/>
    </product>
    <!-- Pressurized Tanks Array [level 7] - Equipment -->
-   <product token="equipPressTanksArr7" class="prcEquipment" storage="stSolid" cargo="" volbyunit="17.676" massbyunit="63.457">
-      <function token="prfuInfraKit" infratoken="infrPressTanksArray" infralevel="7"/>
+   <product token="equipPressTanksArr7" class="pcEquipment" storage="stSolid" cargo="" volbyunit="17.676" massbyunit="63.457">
+      <function token="pfInfrastructureKit" infratoken="infrPressTanksArray" infralevel="7"/>
       <techsci sector="rsIndustrialTech" token="tsciCryogenics"/>
    </product>
 </productsDB>

@@ -490,7 +490,7 @@ begin
       while IKISRcnt<=IKISRmax do
       begin
          IKISRprodIndex:=FCFgP_Product_GetIndex(FCentities[IKISRent].E_col[IKISRcol].COL_storageList[IKISRcnt].CPR_token);
-         if (FCDBProducts[IKISRprodIndex].PROD_function=prfuInfraKit)
+         if (FCDBProducts[IKISRprodIndex].PROD_function=pfInfrastructureKit)
             and (FCDBProducts[IKISRprodIndex].PROD_fInfKitToken=IKISRinfraToken)
             and (FCentities[IKISRent].E_col[IKISRcol].COL_settlements[IKISRset].CS_level>=FCDBProducts[IKISRprodIndex].PROD_fInfKitLevel)
          then
@@ -697,7 +697,7 @@ begin
             SetLength(FCentities[Entity].E_col[Colony].COL_storageList, StorageIdxToUse+1);
             FCentities[Entity].E_col[Colony].COL_storageList[StorageIdxToUse].CPR_token:=ProductToken;
             {.specific code for reserves}
-            if FCDBProducts[ ProductIndex ].PROD_function=prfuFood then
+            if FCDBProducts[ ProductIndex ].PROD_function=pfFood then
             begin
                FoodReserveIndex:=Length( FCentities[Entity].E_col[Colony].COL_reserveFoodList );
                SetLength( FCentities[Entity].E_col[Colony].COL_reserveFoodList, FoodReserveIndex+1 );
@@ -853,9 +853,9 @@ begin
       {.specific code for reserves}
       if (isUpdateReserves)
          and (
-            ( FCDBProducts[ProductIndex].PROD_function=prfuFood )
-            or ( ( FCDBProducts[ProductIndex].PROD_function=prfuOxygen ) and ( FCentities[Entity].E_col[Colony].COL_reserveOxygen<>-1 ) )
-            or ( FCDBProducts[ProductIndex].PROD_function=prfuWater )
+            ( FCDBProducts[ProductIndex].PROD_function=pfFood )
+            or ( ( FCDBProducts[ProductIndex].PROD_function=pfOxygen ) and ( FCentities[Entity].E_col[Colony].COL_reserveOxygen<>-1 ) )
+            or ( FCDBProducts[ProductIndex].PROD_function=pfWater )
             ) then
       begin
          FCMgCR_Reserve_UpdateByUnits(
@@ -868,7 +868,7 @@ begin
          if Entity=0 then
          begin
             case FCDBProducts[ProductIndex].PROD_function of
-               prfuFood: FCMuiCDD_Colony_Update(
+               pfFood: FCMuiCDD_Colony_Update(
                   cdlReserveFood
                   ,Colony
                   ,0
@@ -878,7 +878,7 @@ begin
                   ,false
                   );
 
-               prfuOxygen: FCMuiCDD_Colony_Update(
+               pfOxygen: FCMuiCDD_Colony_Update(
                   cdlReserveOxy
                   ,Colony
                   ,0
@@ -888,7 +888,7 @@ begin
                   ,false
                   );
 
-               prfuWater: FCMuiCDD_Colony_Update(
+               pfWater: FCMuiCDD_Colony_Update(
                   cdlReserveWater
                   ,Colony
                   ,0

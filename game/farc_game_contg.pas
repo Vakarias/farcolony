@@ -100,6 +100,12 @@ begin
    FCWinMain.FCWM_MMenu_G_New.Enabled:=false;
 //   if FCWinMain.FCWM_MMenu_DebTools.Visible
 //   then FCWinMain.FCWM_MMenu_DebTools.Visible:=false;
+{:DEV NOTES: put the data loading in a proc and load it also for a new game setup (one time loading).}
+FCMdF_DBProducts_Read;
+   FCMdF_DBSPMi_Read;
+   FCMdF_DBFactions_Read;
+   FCMdF_DBInfra_Read;
+   FCMdF_DBSpaceCrafts_Read;
    FCMgfxC_TerrainsCollection_Init;
    if not Assigned(FCRdiSettlementPictures[1])
    then FCMgfxC_Settlements_Init;
