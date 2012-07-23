@@ -190,12 +190,12 @@ function FCFgEM_OutputFromCustomFx_GetValue(
 {:DEV NOTES: when an update is made in this function, don't forget to also update FCFgEM_OutputFromFunction_GetValue.}
 begin
    Result:=0;
-   case OFCFGVinfraData.I_customFx[OFCFGVcustomFxIndex].ICFX_enGenMode.FEPM_productionModes of
+   case OFCFGVinfraData.I_customFx[OFCFGVcustomFxIndex].ICFX_enGenMode.EGM_modes of
       egmAntimatter: ;
 
       egmFission: Result:=FCFgEM_NuclearFission_OutputCalculation(
-         OFCFGVinfraData.I_customFx[OFCFGVcustomFxIndex].ICFX_enGenMode.FEPM_fissionFPlvl[OFCFGVcurrentLevel]
-         ,OFCFGVinfraData.I_customFx[OFCFGVcustomFxIndex].ICFX_enGenMode.FEPM_fissionFPlvlByDL[OFCFGVcurrentLevel]
+         OFCFGVinfraData.I_customFx[OFCFGVcustomFxIndex].ICFX_enGenMode.EGM_mFfixedValues[OFCFGVcurrentLevel].FV_baseGeneration
+         ,OFCFGVinfraData.I_customFx[OFCFGVcustomFxIndex].ICFX_enGenMode.EGM_mFfixedValues[OFCFGVcurrentLevel].FV_generationByDevelopmentLevel
          );
 
       egmFusionDT:;
@@ -227,11 +227,11 @@ function FCFgEM_OutputFromFunction_GetValue(
 {:DEV NOTES: when an update is made in this function, don't forget to also update FCFgEM_OutputFromCustomFx_GetValue.}
 begin
    Result:=0;
-   case OFFGVinfraData.I_fEnergyPmode.FEPM_productionModes of
+   case OFFGVinfraData.I_fEnergyPmode.EGM_modes of
       egmAntimatter: ;
 
       egmFission: Result:=FCFgEM_NuclearFission_OutputCalculation(
-         OFFGVinfraData.I_fEnergyPmode.FEPM_fissionFPlvl[OFFGVcurrentLevel], OFFGVinfraData.I_fEnergyPmode.FEPM_fissionFPlvlByDL[OFFGVcurrentLevel]
+         OFFGVinfraData.I_fEnergyPmode.EGM_mFfixedValues[OFFGVcurrentLevel].FV_baseGeneration, OFFGVinfraData.I_fEnergyPmode.EGM_mFfixedValues[OFFGVcurrentLevel].FV_generationByDevelopmentLevel
          );
 
       egmFusionDT:;

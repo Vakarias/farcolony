@@ -932,29 +932,29 @@ begin
                      FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_customEffect:=ceEnergyGeneration;
                      DBIRstr:=DBIRsubN.Attributes['genMode'];
                      if DBIRstr='egmAntimatter'
-                     then FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_enGenMode.FEPM_productionModes:=egmAntimatter
+                     then FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_enGenMode.EGM_modes:=egmAntimatter
                      else if DBIRstr='egmFission'
                      then
                      begin
-                        FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_enGenMode.FEPM_productionModes:=egmFission;
+                        FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_enGenMode.EGM_modes:=egmFission;
                         DBIRsizeCnt:=FCDBinfra[DBIRcnt].I_minLevel;
                         while DBIRsizeCnt<=FCDBinfra[DBIRcnt].I_maxLevel do
                         begin
-                           FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_enGenMode.FEPM_fissionFPlvl[DBIRsizeCnt]:=DBIRsubN.Attributes['fixedprodlv'+IntToStr(DBIRsizeCnt)];
-                           FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_enGenMode.FEPM_fissionFPlvlByDL[DBIRsizeCnt]:=DBIRsubN.Attributes['fixedprodlv'+IntToStr(DBIRsizeCnt)+'byDL'];
+                           FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_enGenMode.EGM_mFfixedValues[DBIRsizeCnt].FV_baseGeneration:=DBIRsubN.Attributes['fixedprodlv'+IntToStr(DBIRsizeCnt)];
+                           FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_enGenMode.EGM_mFfixedValues[DBIRsizeCnt].FV_generationByDevelopmentLevel:=DBIRsubN.Attributes['fixedprodlv'+IntToStr(DBIRsizeCnt)+'byDL'];
                            inc(DBIRsizeCnt);
                         end;
                      end
                      else if DBIRstr='egmFusionDT'
-                     then FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_enGenMode.FEPM_productionModes:=egmFusionDT
+                     then FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_enGenMode.EGM_modes:=egmFusionDT
                      else if DBIRstr='egmFusionH2'
-                     then FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_enGenMode.FEPM_productionModes:=egmFusionH2
+                     then FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_enGenMode.EGM_modes:=egmFusionH2
                      else if DBIRstr='egmFusionHe3'
-                     then FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_enGenMode.FEPM_productionModes:=egmFusionHe3
+                     then FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_enGenMode.EGM_modes:=egmFusionHe3
                      else if DBIRstr='egmPhoton'
                      then
                      begin
-                        FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_enGenMode.FEPM_productionModes:=egmPhoton;
+                        FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_enGenMode.EGM_modes:=egmPhoton;
                         FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_enGenMode.FEPM_photonArea:=DBIRsubN.Attributes['area'];
                         FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_enGenMode.FEPM_photonEfficiency:=DBIRsubN.Attributes['efficiency'];
                      end;
@@ -1043,29 +1043,29 @@ begin
                   FCDBinfra[DBIRcnt].I_function:=fEnergy;
                   DBIRstr:=DBIRsubN.Attributes['emode'];
                   if DBIRstr='egmAntimatter'
-                  then FCDBinfra[DBIRcnt].I_fEnergyPmode.FEPM_productionModes:=egmAntimatter
+                  then FCDBinfra[DBIRcnt].I_fEnergyPmode.EGM_modes:=egmAntimatter
 						else if DBIRstr='egmFission'
                   then
                   begin
-                     FCDBinfra[DBIRcnt].I_fEnergyPmode.FEPM_productionModes:=egmFission;
+                     FCDBinfra[DBIRcnt].I_fEnergyPmode.EGM_modes:=egmFission;
                      DBIRsizeCnt:=FCDBinfra[DBIRcnt].I_minLevel;
                      while DBIRsizeCnt<=FCDBinfra[DBIRcnt].I_maxLevel do
                      begin
-                        FCDBinfra[DBIRcnt].I_fEnergyPmode.FEPM_fissionFPlvl[DBIRsizeCnt]:=DBIRsubN.Attributes['fixedprodlv'+IntToStr(DBIRsizeCnt)];
-                        FCDBinfra[DBIRcnt].I_fEnergyPmode.FEPM_fissionFPlvlByDL[DBIRsizeCnt]:=DBIRsubN.Attributes['fixedprodlv'+IntToStr(DBIRsizeCnt)+'byDL'];
+                        FCDBinfra[DBIRcnt].I_fEnergyPmode.EGM_mFfixedValues[DBIRsizeCnt].FV_baseGeneration:=DBIRsubN.Attributes['fixedprodlv'+IntToStr(DBIRsizeCnt)];
+                        FCDBinfra[DBIRcnt].I_fEnergyPmode.EGM_mFfixedValues[DBIRsizeCnt].FV_generationByDevelopmentLevel:=DBIRsubN.Attributes['fixedprodlv'+IntToStr(DBIRsizeCnt)+'byDL'];
                         inc(DBIRsizeCnt);
                      end;
                   end
 						else if DBIRstr='egmFusionDT'
-                  then FCDBinfra[DBIRcnt].I_fEnergyPmode.FEPM_productionModes:=egmFusionDT
+                  then FCDBinfra[DBIRcnt].I_fEnergyPmode.EGM_modes:=egmFusionDT
 						else if DBIRstr='egmFusionH2'
-                  then FCDBinfra[DBIRcnt].I_fEnergyPmode.FEPM_productionModes:=egmFusionH2
+                  then FCDBinfra[DBIRcnt].I_fEnergyPmode.EGM_modes:=egmFusionH2
 						else if DBIRstr='egmFusionHe3'
-                  then FCDBinfra[DBIRcnt].I_fEnergyPmode.FEPM_productionModes:=egmFusionHe3
+                  then FCDBinfra[DBIRcnt].I_fEnergyPmode.EGM_modes:=egmFusionHe3
                   else if DBIRstr='egmPhoton'
                   then
                   begin
-                     FCDBinfra[DBIRcnt].I_fEnergyPmode.FEPM_productionModes:=egmPhoton;
+                     FCDBinfra[DBIRcnt].I_fEnergyPmode.EGM_modes:=egmPhoton;
                      FCDBinfra[DBIRcnt].I_fEnergyPmode.FEPM_photonArea:=DBIRsubN.Attributes['area'];
                      FCDBinfra[DBIRcnt].I_fEnergyPmode.FEPM_photonEfficiency:=DBIRsubN.Attributes['efficiency'];
                   end;

@@ -789,7 +789,7 @@ begin
    ICPeffectIdx:=length(ICPclonedInfra.I_customFx)-1;
    FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra[ICPinfra].CI_powerGenFromCFx:=0;
    ICPclonedInfra.I_customFx[ICPeffectIdx].ICFX_customEffect:=ceEnergyGeneration;
-   ICPclonedInfra.I_customFx[ICPeffectIdx].ICFX_enGenMode.FEPM_productionModes:=egmPhoton;
+   ICPclonedInfra.I_customFx[ICPeffectIdx].ICFX_enGenMode.EGM_modes:=egmPhoton;
    ICPclonedInfra.I_customFx[ICPeffectIdx].ICFX_enGenMode.FEPM_photonArea:=10;
    ICPclonedInfra.I_customFx[ICPeffectIdx].ICFX_enGenMode.FEPM_photonEfficiency:=70;
    setlength(ICPclonedInfra.I_customFx, length(ICPclonedInfra.I_customFx)+1);

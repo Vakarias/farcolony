@@ -241,29 +241,40 @@ type TFCEdipStorageTypes=(
 
 //==END PUBLIC ENUM=========================================================================
 
-{.energy generation modes}
-{:DEV NOTES: update infrastrucdb.xml for energy function AND energy generation custom effect + FCMdF_DBInfra_Read.}
-{:DEV NOTES: update FCFgEM_OutputFromFunction_GetValue + FCFgEM_OutputFromCustomFx_GetValue.}
+{:REFERENCES LIST
+   - infrastrucdb.xml for energy function AND energy generation custom effect
+   - FCFgEM_OutputFromCustomFx_GetValue
+   - FCFgEM_OutputFromFunction_GetValue
+   - FCMdF_DBInfra_Read
+}
+///<summary>
+///   energy generation modes
+///</summary>
 type TFCRdipEnergyGenerationMode= record
-   case FEPM_productionModes: TFCEdipEnergyGenerationModes of
-      egmAntimatter: ();
+      case EGM_modes: TFCEdipEnergyGenerationModes of
+         egmAntimatter: ();
 
-      egmFission:
-         {.fixed production value, in kW, for each infrastructure levels}
-         (FEPM_fissionFPlvl: array [0..7] of extended;
-            FEPM_fissionFPlvlByDL: array [0..7] of extended
+         egmFission:(
+            ///<summary>
+            ///   fixed production value, in kW, for each infrastructure levels
+            ///   and also by development level > 1
+            ///</summary>
+            EGM_mFfixedValues: array [0..7] of record
+               FV_baseGeneration: extended;
+               FV_generationByDevelopmentLevel: extended;
+            end;
             );
 
-      egmFusionDT: ();
+         egmFusionDT: ();
 
-      egmFusionH2: ();
+         egmFusionH2: ();
 
-      egmFusionHe3: ();
+         egmFusionHe3: ();
 
-      egmPhoton:
-         (FEPM_photonArea: integer;
-            FEPM_photonEfficiency: integer
-            );
+         egmPhoton:
+            (FEPM_photonArea: integer;
+               FEPM_photonEfficiency: integer
+               );
 end;
 
    type TFCRdipInfraProdStorage= record
