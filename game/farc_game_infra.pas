@@ -207,14 +207,14 @@ function FCFgI_DataStructure_Get(
 begin
    Environment:=FCFgC_ColEnv_GetTp( Entity, Colony );
    Count:=1;
-   Max:=high( FCDBinfra );
+   Max:=high( FCDdipInfrastructures );
    Result.I_token:='ERROR';
    while Count<=Max do
    begin
-      if (FCDBinfra[ Count ].I_token=InfraToken )
-         and ( ( FCDBinfra[ Count ].I_environment=etAny ) or ( FCDBinfra[ Count ].I_environment=Environment.ENV_envType ) ) then
+      if (FCDdipInfrastructures[ Count ].I_token=InfraToken )
+         and ( ( FCDdipInfrastructures[ Count ].I_environment=etAny ) or ( FCDdipInfrastructures[ Count ].I_environment=Environment.ENV_envType ) ) then
       begin
-         Result:=FCDBinfra[ Count ];
+         Result:=FCDdipInfrastructures[ Count ];
          break;
       end;
       inc( Count );
@@ -267,7 +267,7 @@ begin
       DPent
       ,DPcol
       ,false
-      ,-DPinfraData.I_basePwr[ FCentities[DPent].E_col[DPcol].COL_settlements[DPset].CS_infra[DPinf].CI_level ]
+      ,-DPinfraData.I_basePower[ FCentities[DPent].E_col[DPcol].COL_settlements[DPset].CS_infra[DPinf].CI_level ]
       ,0
       ,0
       ,0

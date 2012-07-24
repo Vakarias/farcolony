@@ -422,7 +422,7 @@ begin
       ,APinfraIndex
       );
    {.update the resource spot data if the infrastructure's requirement have one}
-   if APclonedInfra.I_reqRsrcSpot>rstNone
+   if APclonedInfra.I_reqResourceSpot>rstNone
    then FCMgPRS_SurveyedRsrcSpot_AssignInfra(
       APent
       ,APcol
@@ -505,7 +505,7 @@ begin
       ,BPinfraIndex
       );
    {.update the resource spot data if the infrastructure's requirement have one}
-   if BPclonedInfra.I_reqRsrcSpot>rstNone
+   if BPclonedInfra.I_reqResourceSpot>rstNone
    then FCMgPRS_SurveyedRsrcSpot_AssignInfra(
       BPent
       ,BPcol
@@ -514,17 +514,17 @@ begin
       ,BPclonedInfra
       );
    {.remove the construction materials needed for the building}
-   BPcurrentMatVol:=BPclonedInfra.I_matVolume[ FCentities[BPent].E_col[BPcol].COL_settlements[BPsettlement].CS_infra[BPinfraIndex].CI_level ];
-   BPmax:=length( BPclonedInfra.I_reqConstrMat )-1;
+   BPcurrentMatVol:=BPclonedInfra.I_materialVolume[ FCentities[BPent].E_col[BPcol].COL_settlements[BPsettlement].CS_infra[BPinfraIndex].CI_level ];
+   BPmax:=length( BPclonedInfra.I_reqConstructionMaterials )-1;
    BPcount:=1;
    while BPcount<=BPmax do
    begin
-      BPtempMatVol:=BPclonedInfra.I_matVolume[ FCentities[BPent].E_col[BPcol].COL_settlements[BPsettlement].CS_infra[BPinfraIndex].CI_level ]*( BPclonedInfra.I_reqConstrMat[ BPcount ].RCM_percent*0.01 );
+      BPtempMatVol:=BPclonedInfra.I_materialVolume[ FCentities[BPent].E_col[BPcol].COL_settlements[BPsettlement].CS_infra[BPinfraIndex].CI_level ]*( BPclonedInfra.I_reqConstructionMaterials[ BPcount ].RCM_partOfMaterialVolume*0.01 );
       BPtempMatVol:=FCFcFunc_Rnd( cfrttpVolm3, BPtempMatVol );
-      BPresultUnits:=FCFgP_UnitFromVolume_Get( BPclonedInfra.I_reqConstrMat[ BPcount ].RCM_token, BPtempMatVol );
+      BPresultUnits:=FCFgP_UnitFromVolume_Get( BPclonedInfra.I_reqConstructionMaterials[ BPcount ].RCM_token, BPtempMatVol );
       BPcurrentMatVol:=BPcurrentMatVol-BPtempMatVol;
       FCFgC_Storage_Update(
-         BPclonedInfra.I_reqConstrMat[ BPcount ].RCM_token
+         BPclonedInfra.I_reqConstructionMaterials[ BPcount ].RCM_token
          ,-BPresultUnits
          ,BPent
          ,BPcol
@@ -778,24 +778,24 @@ begin
    hardcoded unit are used until equipment modules and designs are updated.}
    {:DEV NOTES: storage capacity, if there's any from the space unit, are loaded directly in the database item data, it's an another particularity for conversion only.}
    ICPeffectIdx:=0;
-   setlength(ICPclonedInfra.I_customFx, length(ICPclonedInfra.I_customFx)+1);
-   ICPeffectIdx:=length(ICPclonedInfra.I_customFx)-1;
-   ICPclonedInfra.I_customFx[ICPeffectIdx].ICFX_customEffect:=ceProductStorage;
-   ICPclonedInfra.I_customFx[ICPeffectIdx].ICFX_prodStorageLvl[FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra[ICPinfra].CI_level].IPS_solid:=200;
-   ICPclonedInfra.I_customFx[ICPeffectIdx].ICFX_prodStorageLvl[FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra[ICPinfra].CI_level].IPS_liquid:=210;
-   ICPclonedInfra.I_customFx[ICPeffectIdx].ICFX_prodStorageLvl[FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra[ICPinfra].CI_level].IPS_gas:=30;
-   ICPclonedInfra.I_customFx[ICPeffectIdx].ICFX_prodStorageLvl[FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra[ICPinfra].CI_level].IPS_biologic:=30;
-   setlength(ICPclonedInfra.I_customFx, length(ICPclonedInfra.I_customFx)+1);
-   ICPeffectIdx:=length(ICPclonedInfra.I_customFx)-1;
+   setlength(ICPclonedInfra.I_customEffectStructure, length(ICPclonedInfra.I_customEffectStructure)+1);
+   ICPeffectIdx:=length(ICPclonedInfra.I_customEffectStructure)-1;
+   ICPclonedInfra.I_customEffectStructure[ICPeffectIdx].ICFX_customEffect:=ceProductStorage;
+   ICPclonedInfra.I_customEffectStructure[ICPeffectIdx].ICFX_cePSstorageByLevel[FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra[ICPinfra].CI_level].SBL_solid:=200;
+   ICPclonedInfra.I_customEffectStructure[ICPeffectIdx].ICFX_cePSstorageByLevel[FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra[ICPinfra].CI_level].SBL_liquid:=210;
+   ICPclonedInfra.I_customEffectStructure[ICPeffectIdx].ICFX_cePSstorageByLevel[FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra[ICPinfra].CI_level].SBL_gas:=30;
+   ICPclonedInfra.I_customEffectStructure[ICPeffectIdx].ICFX_cePSstorageByLevel[FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra[ICPinfra].CI_level].SBL_biologic:=30;
+   setlength(ICPclonedInfra.I_customEffectStructure, length(ICPclonedInfra.I_customEffectStructure)+1);
+   ICPeffectIdx:=length(ICPclonedInfra.I_customEffectStructure)-1;
    FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra[ICPinfra].CI_powerGenFromCFx:=0;
-   ICPclonedInfra.I_customFx[ICPeffectIdx].ICFX_customEffect:=ceEnergyGeneration;
-   ICPclonedInfra.I_customFx[ICPeffectIdx].ICFX_enGenMode.EGM_modes:=egmPhoton;
-   ICPclonedInfra.I_customFx[ICPeffectIdx].ICFX_enGenMode.FEPM_photonArea:=10;
-   ICPclonedInfra.I_customFx[ICPeffectIdx].ICFX_enGenMode.FEPM_photonEfficiency:=70;
-   setlength(ICPclonedInfra.I_customFx, length(ICPclonedInfra.I_customFx)+1);
-   ICPeffectIdx:=length(ICPclonedInfra.I_customFx)-1;
-   ICPclonedInfra.I_customFx[ICPeffectIdx].ICFX_customEffect:=ceEnergyStorage;
-   ICPclonedInfra.I_customFx[ICPeffectIdx].ICFX_enStorLvl[1]:=20;
+   ICPclonedInfra.I_customEffectStructure[ICPeffectIdx].ICFX_customEffect:=ceEnergyGeneration;
+   ICPclonedInfra.I_customEffectStructure[ICPeffectIdx].ICFX_ceEGmode.EGM_modes:=egmPhoton;
+   ICPclonedInfra.I_customEffectStructure[ICPeffectIdx].ICFX_ceEGmode.EGM_mParea:=10;
+   ICPclonedInfra.I_customEffectStructure[ICPeffectIdx].ICFX_ceEGmode.EGM_mPefficiency:=70;
+   setlength(ICPclonedInfra.I_customEffectStructure, length(ICPclonedInfra.I_customEffectStructure)+1);
+   ICPeffectIdx:=length(ICPclonedInfra.I_customEffectStructure)-1;
+   ICPclonedInfra.I_customEffectStructure[ICPeffectIdx].ICFX_customEffect:=ceEnergyStorage;
+   ICPclonedInfra.I_customEffectStructure[ICPeffectIdx].ICFX_ceEScapacitiesByLevel[1]:=20;
    FCMgICFX_Effects_Application(
       ICPent
       ,ICPcol
@@ -935,7 +935,7 @@ procedure FCMgICS_TransitionRule_Process(
          and (FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_cabWorked>-1) then
       begin
          FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_status:=istInTransition;
-         FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_cabDuration:=FCCtransitionTime;
+         FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_cabDuration:=FCCdipTransitionTime;
          FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_cabWorked:=-1;
          if TRPcabIdx=0
          then FCMgICS_CAB_Add(
@@ -951,7 +951,7 @@ procedure FCMgICS_TransitionRule_Process(
          FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_cabDuration:=0;
          FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_cabWorked:=0;
          FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_powerCons
-            :=TRPinfraData.I_basePwr[FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_level];
+            :=TRPinfraData.I_basePower[FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_level];
          FCMgCSM_Energy_Update(
             TRPent
             ,TRPcol

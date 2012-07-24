@@ -463,7 +463,7 @@ begin
                ,CWPAKTcol
                ,false
                );
-            CWPAKTcwp:=FCFcFunc_Rnd( cfrttpSizem, CWPAKTvalue*FCDBproducts[ CDPmanEquipDB[CWPAKTequipIndex] ].PROD_fManConstWCPcoef );
+            CWPAKTcwp:=FCFcFunc_Rnd( cfrttpSizem, CWPAKTvalue*FCDdipProducts[ CDPmanEquipDB[CWPAKTequipIndex] ].P_fManCwcpCoef );
          end;
          FCEntities[0].E_col[CWPAKTcol].COL_population.POP_tpColonAssigned:=FCEntities[0].E_col[CWPAKTcol].COL_population.POP_tpColonAssigned+CWPAKTvalue;
          FCEntities[0].E_col[CWPAKTcol].COL_population.POP_wcpAssignedPeople:=FCEntities[0].E_col[CWPAKTcol].COL_population.POP_wcpAssignedPeople+CWPAKTvalue;
@@ -523,12 +523,12 @@ begin
          CWPAVKTvalue:=StrToInt64(FCWinMain.FCWM_CDPcwpAssignVeh.Text);
          if CWPAVKTvalue>FCEntities[0].E_col[CWPAVKTcol].COL_storageList[ CDPmanEquipStor[CWPAVKTequipIndex] ].CPR_unit
          then CWPAVKTvalue:=round(FCEntities[0].E_col[CWPAVKTcol].COL_storageList[ CDPmanEquipStor[CWPAVKTequipIndex] ].CPR_unit);
-         CWPAVKTcrew:=CWPAVKTvalue*FCDBproducts[ CDPmanEquipDB[CWPAVKTequipIndex] ].PROD_fMechConstCrew;
+         CWPAVKTcrew:=CWPAVKTvalue*FCDdipProducts[ CDPmanEquipDB[CWPAVKTequipIndex] ].P_fMechCcrew;
          if CWPAVKTcrew>(ColonistLeft)
          then
          begin
-            CWPAVKTvalue:=trunc( ColonistLeft / FCDBproducts[ CDPmanEquipDB[CWPAVKTequipIndex] ].PROD_fMechConstCrew );
-            CWPAVKTcrew:=CWPAVKTvalue*FCDBproducts[ CDPmanEquipDB[CWPAVKTequipIndex] ].PROD_fMechConstCrew;
+            CWPAVKTvalue:=trunc( ColonistLeft / FCDdipProducts[ CDPmanEquipDB[CWPAVKTequipIndex] ].P_fMechCcrew );
+            CWPAVKTcrew:=CWPAVKTvalue*FCDdipProducts[ CDPmanEquipDB[CWPAVKTequipIndex] ].P_fMechCcrew;
          end;
          FCFgC_Storage_Update(
             FCEntities[0].E_col[CWPAVKTcol].COL_storageList[ CDPmanEquipStor[CWPAVKTequipIndex] ].CPR_token
@@ -539,7 +539,7 @@ begin
             );
          FCEntities[0].E_col[CWPAVKTcol].COL_population.POP_tpColonAssigned:=FCEntities[0].E_col[CWPAVKTcol].COL_population.POP_tpColonAssigned+CWPAVKTcrew;
          FCEntities[0].E_col[CWPAVKTcol].COL_population.POP_wcpAssignedPeople:=FCEntities[0].E_col[CWPAVKTcol].COL_population.POP_wcpAssignedPeople+CWPAVKTcrew;
-         CWPAVKTcwp:=FCFcFunc_Rnd( cfrttpSizem, CWPAVKTvalue*FCDBproducts[ CDPmanEquipDB[CWPAVKTequipIndex] ].PROD_fManConstWCPcoef );
+         CWPAVKTcwp:=FCFcFunc_Rnd( cfrttpSizem, CWPAVKTvalue*FCDdipProducts[ CDPmanEquipDB[CWPAVKTequipIndex] ].P_fManCwcpCoef );
          FCEntities[0].E_col[CWPAVKTcol].COL_population.POP_wcpTotal:=FCEntities[0].E_col[CWPAVKTcol].COL_population.POP_wcpTotal+CWPAVKTcwp;
          FCMuiCDD_Colony_Update(
             cdlDataPopulation
@@ -598,7 +598,7 @@ begin
          while WCPRCstorCnt<=WCPRCmax do
          begin
             WCPRCdbCnt:=FCFgP_Product_GetIndex(FCentities[0].E_col[WCPRCcol].COL_storageList[WCPRCstorCnt].CPR_token);
-            if ( FCDBProducts[WCPRCdbCnt].PROD_function=pfManualConstruction )
+            if ( FCDdipProducts[WCPRCdbCnt].P_function=pfManualConstruction )
                and ( FCentities[0].E_col[WCPRCcol].COL_storageList[WCPRCstorCnt].CPR_unit>0 )
             then
             begin
@@ -607,7 +607,7 @@ begin
                setlength(CDPmanEquipStor, WCPRCindex+1);
                CDPmanEquipDB[WCPRCindex]:=WCPRCdbCnt;
                CDPmanEquipStor[WCPRCindex]:=WCPRCstorCnt;
-               FCWinMain.FCWM_CDPwcpEquip.Items.Add( FCFdTFiles_UIStr_Get( uistrUI, FCDBProducts[WCPRCdbCnt].PROD_token )+' (x '+floattostr( FCentities[0].E_col[WCPRCcol].COL_storageList[WCPRCstorCnt].CPR_unit )+')' );
+               FCWinMain.FCWM_CDPwcpEquip.Items.Add( FCFdTFiles_UIStr_Get( uistrUI, FCDdipProducts[WCPRCdbCnt].P_token )+' (x '+floattostr( FCentities[0].E_col[WCPRCcol].COL_storageList[WCPRCstorCnt].CPR_unit )+')' );
             end;
             inc(WCPRCstorCnt);
          end;
@@ -627,7 +627,7 @@ begin
          while WCPRCstorCnt<=WCPRCmax do
          begin
             WCPRCdbCnt:=FCFgP_Product_GetIndex(FCentities[0].E_col[WCPRCcol].COL_storageList[WCPRCstorCnt].CPR_token);
-            if ( FCDBProducts[WCPRCdbCnt].PROD_function=pfMechanicalConstruction )
+            if ( FCDdipProducts[WCPRCdbCnt].P_function=pfMechanicalConstruction )
                and ( FCentities[0].E_col[WCPRCcol].COL_storageList[WCPRCstorCnt].CPR_unit>0 )
             then
             begin
@@ -636,7 +636,7 @@ begin
                setlength(CDPmanEquipStor, WCPRCindex+1);
                CDPmanEquipDB[WCPRCindex]:=WCPRCdbCnt;
                CDPmanEquipStor[WCPRCindex]:=WCPRCstorCnt;
-               FCWinMain.FCWM_CDPwcpEquip.Items.Add(FCFdTFiles_UIStr_Get(uistrUI, FCDBProducts[WCPRCdbCnt].PROD_token)+' (x '+floattostr( FCentities[0].E_col[WCPRCcol].COL_storageList[WCPRCstorCnt].CPR_unit )+')' );
+               FCWinMain.FCWM_CDPwcpEquip.Items.Add(FCFdTFiles_UIStr_Get(uistrUI, FCDdipProducts[WCPRCdbCnt].P_token)+' (x '+floattostr( FCentities[0].E_col[WCPRCcol].COL_storageList[WCPRCstorCnt].CPR_unit )+')' );
             end;
             inc(WCPRCstorCnt);
          end;
@@ -1329,7 +1329,7 @@ begin
 
                   istInTransition:
                   begin
-                     if FCentities[0].E_col[CDPcurrentColony].COL_settlements[CDPcurrentSettlement].CS_infra[DataIndex1].CI_cabDuration=FCCtransitionTime
+                     if FCentities[0].E_col[CDPcurrentColony].COL_settlements[CDPcurrentSettlement].CS_infra[DataIndex1].CI_cabDuration=FCCdipTransitionTime
                      then CPUsubnode.Text:='<img src="file://'+FCVdiPathResourceDir+'pics-ui-colony\'+CPUinfStatus+'16.jpg" align="middle"> - '
                         +FCFdTFiles_UIStr_Get(uistrUI, FCentities[0].E_col[CDPcurrentColony].COL_settlements[CDPcurrentSettlement].CS_infra[DataIndex1].CI_dbToken)
                         +' '+UIHTMLencyBEGIN+FCentities[0].E_col[CDPcurrentColony].COL_settlements[CDPcurrentSettlement].CS_infra[DataIndex1].CI_dbToken+UIHTMLencyEND;
@@ -1363,7 +1363,7 @@ begin
          CPUrootnodeInfraMI:=FCWinMain.FCWM_CDPinfrAvail.Items.AddChild( CPUrootnodeInfra, '['+FCFdTFiles_UIStr_Get(uistrUI, 'infrafunc_Misc')+']' );
          CPUrootnodeInfraPR:=FCWinMain.FCWM_CDPinfrAvail.Items.AddChild( CPUrootnodeInfra, '['+FCFdTFiles_UIStr_Get(uistrUI, 'infrafunc_Prod')+']' );
          {:DEV NOTES: req to implement technosciences database + research status array for entities before to put the code for technoscience requirement.}
-         CPUmax:=length(FCDBinfra)-1;
+         CPUmax:=length(FCDdipInfrastructures)-1;
          CPUcnt:=1;
          CPUenvironment:=FCFgC_ColEnv_GetTp(0, CDPcurrentColony);
          CPUrspotIndex:=FCFgPRS_PresenceBySettlement_Check(
@@ -1381,35 +1381,35 @@ begin
                ,CDPcurrentColony
                ,CDPcurrentSettlement
                ,0
-               ,FCDBinfra[CPUcnt].I_reqRsrcSpot
+               ,FCDdipInfrastructures[CPUcnt].I_reqResourceSpot
                ,false
                );
-            if (FCDBinfra[CPUcnt].I_constr=cBuilt)
+            if (FCDdipInfrastructures[CPUcnt].I_construct=cBuilt)
                and (
-                  (FCentities[0].E_col[CDPcurrentColony].COL_settlements[CDPcurrentSettlement].CS_level>=FCDBinfra[CPUcnt].I_minLevel)
-                     and (FCentities[0].E_col[CDPcurrentColony].COL_settlements[CDPcurrentSettlement].CS_level<=FCDBinfra[CPUcnt].I_maxLevel)
+                  (FCentities[0].E_col[CDPcurrentColony].COL_settlements[CDPcurrentSettlement].CS_level>=FCDdipInfrastructures[CPUcnt].I_minLevel)
+                     and (FCentities[0].E_col[CDPcurrentColony].COL_settlements[CDPcurrentSettlement].CS_level<=FCDdipInfrastructures[CPUcnt].I_maxLevel)
                   )
-               and ( (FCDBinfra[CPUcnt].I_environment=etAny) or (FCDBinfra[CPUcnt].I_environment=CPUenvironment.ENV_envType) )
+               and ( (FCDdipInfrastructures[CPUcnt].I_environment=etAny) or (FCDdipInfrastructures[CPUcnt].I_environment=CPUenvironment.ENV_envType) )
                and (
-                  ( FCDBinfra[CPUcnt].I_reqGravMin<=CPUenvironment.ENV_gravity )
-                     and ( ( FCDBinfra[CPUcnt].I_reqGravMax=-1) or ( FCDBinfra[CPUcnt].I_reqGravMax>=CPUenvironment.ENV_gravity ) )
+                  ( FCDdipInfrastructures[CPUcnt].I_reqGravityMin<=CPUenvironment.ENV_gravity )
+                     and ( ( FCDdipInfrastructures[CPUcnt].I_reqGravityMax=-1) or ( FCDdipInfrastructures[CPUcnt].I_reqGravityMax>=CPUenvironment.ENV_gravity ) )
                   )
-               and ((FCDBinfra[CPUcnt].I_reqHydro=hrAny)
-                  or ((FCDBinfra[CPUcnt].I_reqHydro=hrLiquid_LiquidNH3) and ( (CPUenvironment.ENV_hydroTp=hLiquidH2O) or (CPUenvironment.ENV_hydroTp=hLiquidH2O_blend_NH3) ))
-                  or ((FCDBinfra[CPUcnt].I_reqHydro=hrNone) and (CPUenvironment.ENV_hydroTp=hNoH2O) )
-                  or ((FCDBinfra[CPUcnt].I_reqHydro=hrVapour) and (CPUenvironment.ENV_hydroTp=hVaporH2O) )
-                  or ((FCDBinfra[CPUcnt].I_reqHydro=hrLiquid) and (CPUenvironment.ENV_hydroTp=hLiquidH2O) )
-                  or ((FCDBinfra[CPUcnt].I_reqHydro=hrIceSheet) and (CPUenvironment.ENV_hydroTp=hIceSheet) )
-                  or ((FCDBinfra[CPUcnt].I_reqHydro=hrCrystal) and (CPUenvironment.ENV_hydroTp=hCrystalIce) )
-                  or ((FCDBinfra[CPUcnt].I_reqHydro=hrLiquidNH3) and (CPUenvironment.ENV_hydroTp=hLiquidH2O_blend_NH3) )
-                  or ((FCDBinfra[CPUcnt].I_reqHydro=hrCH4) and (CPUenvironment.ENV_hydroTp=hLiquidCH4) )
+               and ((FCDdipInfrastructures[CPUcnt].I_reqHydrosphere=hrAny)
+                  or ((FCDdipInfrastructures[CPUcnt].I_reqHydrosphere=hrLiquid_LiquidNH3) and ( (CPUenvironment.ENV_hydroTp=hLiquidH2O) or (CPUenvironment.ENV_hydroTp=hLiquidH2O_blend_NH3) ))
+                  or ((FCDdipInfrastructures[CPUcnt].I_reqHydrosphere=hrNone) and (CPUenvironment.ENV_hydroTp=hNoH2O) )
+                  or ((FCDdipInfrastructures[CPUcnt].I_reqHydrosphere=hrVapour) and (CPUenvironment.ENV_hydroTp=hVaporH2O) )
+                  or ((FCDdipInfrastructures[CPUcnt].I_reqHydrosphere=hrLiquid) and (CPUenvironment.ENV_hydroTp=hLiquidH2O) )
+                  or ((FCDdipInfrastructures[CPUcnt].I_reqHydrosphere=hrIceSheet) and (CPUenvironment.ENV_hydroTp=hIceSheet) )
+                  or ((FCDdipInfrastructures[CPUcnt].I_reqHydrosphere=hrCrystal) and (CPUenvironment.ENV_hydroTp=hCrystalIce) )
+                  or ((FCDdipInfrastructures[CPUcnt].I_reqHydrosphere=hrLiquidNH3) and (CPUenvironment.ENV_hydroTp=hLiquidH2O_blend_NH3) )
+                  or ((FCDdipInfrastructures[CPUcnt].I_reqHydrosphere=hrCH4) and (CPUenvironment.ENV_hydroTp=hLiquidCH4) )
                   )
-               and ( (FCDBinfra[CPUcnt].I_reqRsrcSpot=rstNone) or ( CPUrspotIndex>0 ) ) then
+               and ( (FCDdipInfrastructures[CPUcnt].I_reqResourceSpot=rstNone) or ( CPUrspotIndex>0 ) ) then
             begin
-               CPUinfDisplay:='<a href="'+FCDBInfra[CPUcnt].I_token+'">'
-                  +FCFdTFiles_UIStr_Get(uistrUI, FCDBInfra[CPUcnt].I_token)
+               CPUinfDisplay:='<a href="'+FCDdipInfrastructures[CPUcnt].I_token+'">'
+                  +FCFdTFiles_UIStr_Get(uistrUI, FCDdipInfrastructures[CPUcnt].I_token)
                   +'</a>';
-               case FCDBinfra[CPUcnt].I_function of
+               case FCDdipInfrastructures[CPUcnt].I_function of
                   fEnergy: CPUsubnode:=FCWinMain.FCWM_CDPinfrAvail.Items.AddChild(CPUrootnodeInfraEN, CPUinfDisplay);
                   fHousing: CPUsubnode:=FCWinMain.FCWM_CDPinfrAvail.Items.AddChild(CPUrootnodeInfraHO, CPUinfDisplay);
                   fIntelligence: CPUsubnode:=FCWinMain.FCWM_CDPinfrAvail.Items.AddChild(CPUrootnodeInfraIN, CPUinfDisplay);
@@ -1427,15 +1427,15 @@ begin
             while CPUcnt<=CPUmax do
             begin
                CPUintDump:=FCFgP_Product_GetIndex(FCentities[0].E_col[CDPcurrentColony].COL_storageList[CPUcnt].CPR_token);
-               if (FCDBProducts[CPUintDump].PROD_function=pfInfrastructureKit)
+               if (FCDdipProducts[CPUintDump].P_function=pfInfrastructureKit)
                   and ( FCentities[0].E_col[CDPcurrentColony].COL_storageList[CPUcnt].CPR_unit>0 )
-                  and ( (CPUinfKitroot='') or (FCDBProducts[CPUintDump].PROD_fInfKitToken<>CPUinfKitroot) ) then
+                  and ( (CPUinfKitroot='') or (FCDdipProducts[CPUintDump].P_fIKtoken<>CPUinfKitroot) ) then
                begin
-                  CPUinfKitroot:=FCDBProducts[CPUintDump].PROD_fInfKitToken;
+                  CPUinfKitroot:=FCDdipProducts[CPUintDump].P_fIKtoken;
                   CPUinfra:=FCFgI_DataStructure_Get(
                      0
                      ,CDPcurrentColony
-                     ,FCDBProducts[CPUintDump].PROD_fInfKitToken
+                     ,FCDdipProducts[CPUintDump].P_fIKtoken
                      );
                   if CPUinfra.I_token<>'ERROR'
                   then CPUrspotIndex:=FCFgPRS_PresenceBySettlement_Check(
@@ -1443,27 +1443,27 @@ begin
                      ,CDPcurrentColony
                      ,CDPcurrentSettlement
                      ,0
-                     ,CPUinfra.I_reqRsrcSpot
+                     ,CPUinfra.I_reqResourceSpot
                      ,false
                      )
-                  else raise Exception.Create( 'bad infratoken for infra available list/infrastructure kits: Col= '+intTostr(CDPcurrentColony)+'  product token= '+FCDBProducts[CPUintDump].PROD_fInfKitToken );
-                  if (FCentities[0].E_col[CDPcurrentColony].COL_settlements[CDPcurrentSettlement].CS_level>=FCDBProducts[CPUintDump].PROD_fInfKitLevel)
+                  else raise Exception.Create( 'bad infratoken for infra available list/infrastructure kits: Col= '+intTostr(CDPcurrentColony)+'  product token= '+FCDdipProducts[CPUintDump].P_fIKtoken );
+                  if (FCentities[0].E_col[CDPcurrentColony].COL_settlements[CDPcurrentSettlement].CS_level>=FCDdipProducts[CPUintDump].P_fIKlevel)
                      and ( (CPUinfra.I_environment=etAny) or (CPUinfra.I_environment=CPUenvironment.ENV_envType) )
                      and (
-                        ( CPUinfra.I_reqGravMin<=CPUenvironment.ENV_gravity )
-                           and ( ( CPUinfra.I_reqGravMax=-1 ) or ( CPUinfra.I_reqGravMax>=CPUenvironment.ENV_gravity ) )
+                        ( CPUinfra.I_reqGravityMin<=CPUenvironment.ENV_gravity )
+                           and ( ( CPUinfra.I_reqGravityMax=-1 ) or ( CPUinfra.I_reqGravityMax>=CPUenvironment.ENV_gravity ) )
                         )
-                     and ( (CPUinfra.I_reqHydro=hrAny)
-                        or ( (CPUinfra.I_reqHydro=hrLiquid_LiquidNH3) and ( (CPUenvironment.ENV_hydroTp=hLiquidH2O) or (CPUenvironment.ENV_hydroTp=hLiquidH2O_blend_NH3) ))
-                        or ( (CPUinfra.I_reqHydro=hrNone) and (CPUenvironment.ENV_hydroTp=hNoH2O) )
-                        or ( (CPUinfra.I_reqHydro=hrVapour) and (CPUenvironment.ENV_hydroTp=hVaporH2O) )
-                        or ( (CPUinfra.I_reqHydro=hrLiquid) and (CPUenvironment.ENV_hydroTp=hLiquidH2O) )
-                        or ( (CPUinfra.I_reqHydro=hrIceSheet) and (CPUenvironment.ENV_hydroTp=hIceSheet) )
-                        or ( (CPUinfra.I_reqHydro=hrCrystal) and (CPUenvironment.ENV_hydroTp=hCrystalIce) )
-                        or ( (CPUinfra.I_reqHydro=hrLiquidNH3) and (CPUenvironment.ENV_hydroTp=hLiquidH2O_blend_NH3) )
-                        or ( (CPUinfra.I_reqHydro=hrCH4) and (CPUenvironment.ENV_hydroTp=hLiquidCH4) )
+                     and ( (CPUinfra.I_reqHydrosphere=hrAny)
+                        or ( (CPUinfra.I_reqHydrosphere=hrLiquid_LiquidNH3) and ( (CPUenvironment.ENV_hydroTp=hLiquidH2O) or (CPUenvironment.ENV_hydroTp=hLiquidH2O_blend_NH3) ))
+                        or ( (CPUinfra.I_reqHydrosphere=hrNone) and (CPUenvironment.ENV_hydroTp=hNoH2O) )
+                        or ( (CPUinfra.I_reqHydrosphere=hrVapour) and (CPUenvironment.ENV_hydroTp=hVaporH2O) )
+                        or ( (CPUinfra.I_reqHydrosphere=hrLiquid) and (CPUenvironment.ENV_hydroTp=hLiquidH2O) )
+                        or ( (CPUinfra.I_reqHydrosphere=hrIceSheet) and (CPUenvironment.ENV_hydroTp=hIceSheet) )
+                        or ( (CPUinfra.I_reqHydrosphere=hrCrystal) and (CPUenvironment.ENV_hydroTp=hCrystalIce) )
+                        or ( (CPUinfra.I_reqHydrosphere=hrLiquidNH3) and (CPUenvironment.ENV_hydroTp=hLiquidH2O_blend_NH3) )
+                        or ( (CPUinfra.I_reqHydrosphere=hrCH4) and (CPUenvironment.ENV_hydroTp=hLiquidCH4) )
                         )
-                     and ( (CPUinfra.I_reqRsrcSpot=rstNone) or ( CPUrspotIndex>0 ) ) then
+                     and ( (CPUinfra.I_reqResourceSpot=rstNone) or ( CPUrspotIndex>0 ) ) then
                   begin
                      CPUinfDisplay:='<a href="'+CPUinfra.I_token+'">'+FCFdTFiles_UIStr_Get(uistrUI, CPUinfra.I_token)+'</a> x '+FloatToStr(FCentities[0].E_col[CDPcurrentColony].COL_storageList[CPUcnt].CPR_unit);
                      case CPUinfra.I_function of

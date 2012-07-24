@@ -490,17 +490,17 @@ begin
       while IKISRcnt<=IKISRmax do
       begin
          IKISRprodIndex:=FCFgP_Product_GetIndex(FCentities[IKISRent].E_col[IKISRcol].COL_storageList[IKISRcnt].CPR_token);
-         if (FCDBProducts[IKISRprodIndex].PROD_function=pfInfrastructureKit)
-            and (FCDBProducts[IKISRprodIndex].PROD_fInfKitToken=IKISRinfraToken)
-            and (FCentities[IKISRent].E_col[IKISRcol].COL_settlements[IKISRset].CS_level>=FCDBProducts[IKISRprodIndex].PROD_fInfKitLevel)
+         if (FCDdipProducts[IKISRprodIndex].P_function=pfInfrastructureKit)
+            and (FCDdipProducts[IKISRprodIndex].P_fIKtoken=IKISRinfraToken)
+            and (FCentities[IKISRent].E_col[IKISRcol].COL_settlements[IKISRset].CS_level>=FCDdipProducts[IKISRprodIndex].P_fIKlevel)
          then
          begin
             inc(IKISRresIndex);
             SetLength(Result, IKISRresIndex+1);
             Result[IKISRresIndex].IK_index:=IKISRcnt;
-            Result[IKISRresIndex].IK_token:=FCDBProducts[IKISRprodIndex].PROD_token;
+            Result[IKISRresIndex].IK_token:=FCDdipProducts[IKISRprodIndex].P_token;
             Result[IKISRresIndex].IK_unit:=round(FCentities[IKISRent].E_col[IKISRcol].COL_storageList[IKISRcnt].CPR_unit);
-            Result[IKISRresIndex].IK_infraLevel:=FCDBProducts[IKISRprodIndex].PROD_fInfKitLevel;
+            Result[IKISRresIndex].IK_infraLevel:=FCDdipProducts[IKISRprodIndex].P_fIKlevel;
          end;
          inc(IKISRcnt);
       end;
@@ -697,7 +697,7 @@ begin
             SetLength(FCentities[Entity].E_col[Colony].COL_storageList, StorageIdxToUse+1);
             FCentities[Entity].E_col[Colony].COL_storageList[StorageIdxToUse].CPR_token:=ProductToken;
             {.specific code for reserves}
-            if FCDBProducts[ ProductIndex ].PROD_function=pfFood then
+            if FCDdipProducts[ ProductIndex ].P_function=pfFood then
             begin
                FoodReserveIndex:=Length( FCentities[Entity].E_col[Colony].COL_reserveFoodList );
                SetLength( FCentities[Entity].E_col[Colony].COL_reserveFoodList, FoodReserveIndex+1 );
@@ -720,7 +720,7 @@ begin
       and (StorageIdxToUse>0) then
    begin
       TotalVolToTransfer:=FCFgP_VolumeFromUnit_Get( ProductIndex, UnitToTransfer );
-      case FCDBProducts[ProductIndex].PROD_storage of
+      case FCDdipProducts[ProductIndex].P_storage of
          stSolid:
          begin
             CapacityLoaded:=FCFcFunc_Rnd( cfrttpVolm3, FCentities[Entity].E_col[Colony].COL_storCapacitySolidCurr+TotalVolToTransfer );
@@ -853,21 +853,21 @@ begin
       {.specific code for reserves}
       if (isUpdateReserves)
          and (
-            ( FCDBProducts[ProductIndex].PROD_function=pfFood )
-            or ( ( FCDBProducts[ProductIndex].PROD_function=pfOxygen ) and ( FCentities[Entity].E_col[Colony].COL_reserveOxygen<>-1 ) )
-            or ( FCDBProducts[ProductIndex].PROD_function=pfWater )
+            ( FCDdipProducts[ProductIndex].P_function=pfFood )
+            or ( ( FCDdipProducts[ProductIndex].P_function=pfOxygen ) and ( FCentities[Entity].E_col[Colony].COL_reserveOxygen<>-1 ) )
+            or ( FCDdipProducts[ProductIndex].P_function=pfWater )
             ) then
       begin
          FCMgCR_Reserve_UpdateByUnits(
             Entity
             ,Colony
-            ,FCDBProducts[ProductIndex].PROD_function
+            ,FCDdipProducts[ProductIndex].P_function
             ,FinalTransferedUnits
-            ,FCDBProducts[ProductIndex].PROD_massByUnit
+            ,FCDdipProducts[ProductIndex].P_massByUnit
             );
          if Entity=0 then
          begin
-            case FCDBProducts[ProductIndex].PROD_function of
+            case FCDdipProducts[ProductIndex].P_function of
                pfFood: FCMuiCDD_Colony_Update(
                   cdlReserveFood
                   ,Colony

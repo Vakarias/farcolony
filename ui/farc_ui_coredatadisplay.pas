@@ -365,7 +365,7 @@ begin
                   ,SettlementStorageItemIndex
                   );
                ReturnInt1:=FCFgP_Product_GetIndex( FCEntities[ 0 ].E_col[ Colony ].COL_storageList[ SettlementStorageItemIndex ].CPR_token );
-               case FCDBProducts[ ReturnInt1 ].PROD_storage of
+               case FCDdipProducts[ ReturnInt1 ].P_storage of
                   stSolid: FCMuiCDP_Data_Update(
                      dtStorageCapSolid
                      ,Colony

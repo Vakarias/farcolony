@@ -288,9 +288,9 @@ begin
    InfraProdModeCount:=1;
    while InfraProdModeCount<=FCCdipProductionModesMax do
    begin
-      if PMDFFGinfraData.I_fProductionMode[InfraProdModeCount].IPM_occupancy>0 then
+      if PMDFFGinfraData.I_fPmodeStructure[InfraProdModeCount].MS_occupancy>0 then
       begin
-         case PMDFFGinfraData.I_fProductionMode[InfraProdModeCount].IPM_productionModes of
+         case PMDFFGinfraData.I_fPmodeStructure[InfraProdModeCount].MS_mode of
             pmNone: break;
 
             pmResourceMining:
@@ -312,7 +312,7 @@ begin
                {.staff colonists index}
                ProdModeDataI3:=0;
                {.calculations}
-               FCentities[PMDFFGent].E_col[PMDFFGcol].COL_settlements[PMDFFGsett].CS_infra[PMDFFGinfra].CI_fprodMode[InfraProdModeCount].PM_type:=PMDFFGinfraData.I_fProductionMode[InfraProdModeCount].IPM_productionModes;
+               FCentities[PMDFFGent].E_col[PMDFFGcol].COL_settlements[PMDFFGsett].CS_infra[PMDFFGinfra].CI_fprodMode[InfraProdModeCount].PM_type:=PMDFFGinfraData.I_fPmodeStructure[InfraProdModeCount].MS_mode;
                PMDFFGsurveyedSpot:=FCentities[PMDFFGent].E_col[PMDFFGcol].COL_settlements[PMDFFGsett].CS_infra[PMDFFGinfra].CI_fprodSurveyedSpot;
                {.surveyed region index}
                ProdModeDataI2:=FCentities[PMDFFGent].E_col[PMDFFGcol].COL_settlements[PMDFFGsett].CS_infra[PMDFFGinfra].CI_fprodSurveyedRegion;
@@ -321,8 +321,8 @@ begin
                {.resource mining production calculation}
                ProdModeDataF1:=( ( power( PMDFFGinfraData.I_surface[PMDFFGinfraLevel], 0.333 ) + power( PMDFFGinfraData.I_volume[PMDFFGinfraLevel], 0.111 ) )*0.5 )
                   * FCRplayer.P_surveyedSpots[PMDFFGsurveyedSpot].SS_surveyedRegions[ProdModeDataI2].SR_ResourceSpot[ProdModeDataI1].RS_MQC
-                  * (PMDFFGinfraData.I_fProductionMode[InfraProdModeCount].IPM_occupancy*0.01);
-               if PMDFFGinfraData.I_reqRsrcSpot=rstIcyOreField then
+                  * (PMDFFGinfraData.I_fPmodeStructure[InfraProdModeCount].MS_occupancy*0.01);
+               if PMDFFGinfraData.I_reqResourceSpot=rstIcyOreField then
                begin
                   ProdModeDataF1:=FCFcFunc_Rnd( cfrttpVolm3, ProdModeDataF1 );
                   FCMgPS2_ProductionMatrixItem_Add(
@@ -422,7 +422,7 @@ begin
                   ,FCentities[PMDFFGent].E_col[PMDFFGcol].COL_locSat
                   );
                {.calculations}
-               FCentities[PMDFFGent].E_col[PMDFFGcol].COL_settlements[PMDFFGsett].CS_infra[PMDFFGinfra].CI_fprodMode[InfraProdModeCount].PM_type:=PMDFFGinfraData.I_fProductionMode[InfraProdModeCount].IPM_productionModes;
+               FCentities[PMDFFGent].E_col[PMDFFGcol].COL_settlements[PMDFFGsett].CS_infra[PMDFFGinfra].CI_fprodMode[InfraProdModeCount].PM_type:=PMDFFGinfraData.I_fPmodeStructure[InfraProdModeCount].MS_mode;
                if OrbObjRow[ 4 ]=0 then
                begin
                   {.region's precipitations}
@@ -446,7 +446,7 @@ begin
                {.cmyr}
                ProdModeDataF1:=( ProdModeDataI2 / sqrt( ProdModeDataF5 ) )*0.1;
                {.precipitations calculations}
-               ProdModeDataF4:=( ProdModeDataF1 * PMDFFGinfraData.I_fProductionMode[InfraProdModeCount].WR_roofarea * ProdModeDataF2 * ProdModeDataF3 * 0.001 ) / 8760;
+               ProdModeDataF4:=( ProdModeDataF1 * PMDFFGinfraData.I_fPmodeStructure[InfraProdModeCount].MS_mWRroofArea * ProdModeDataF2 * ProdModeDataF3 * 0.001 ) / 8760;
                {.format and update the production matrix}
                ProdModeDataF4:=FCFcFunc_Rnd( cfrttpVolm3, ProdModeDataF4 );
                FCMgPS2_ProductionMatrixItem_Add(
@@ -475,7 +475,7 @@ begin
                then ProdModeDataF6:=AtmosphereGases.AGP_secondaryGasPercent * 0.01
                else if ProdModeDataI3=3
                then ProdModeDataF6:=AtmosphereGases.AGP_primaryGasPercent * 0.01;
-               ProdModeDataF6:=ProdModeDataF6 * ( AtmosphereGases.AGP_atmosphericPressure * 0.001 ) * PMDFFGinfraData.I_fProductionMode[InfraProdModeCount].WR_traparea;
+               ProdModeDataF6:=ProdModeDataF6 * ( AtmosphereGases.AGP_atmosphericPressure * 0.001 ) * PMDFFGinfraData.I_fPmodeStructure[InfraProdModeCount].MS_mWRtrapArea;
                {.energy consumption calculations}
                ProdModeDataF1:=FCFgICFX_EffectStorageLiquid_Search( PMDFFGinfraData, PMDFFGinfraLevel );
                ProdModeDataF1:=ProdModeDataF1 / 4.5 * 1.1;

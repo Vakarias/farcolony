@@ -119,8 +119,11 @@
          //only if >rssrN_A
          <irRsrcSpot spottype=""/>
          //for cBuild ONLY
-         <irTechSci sector="" token=""/>
       </infReq>
+      //remove useless levels + 1 line by staff type
+      <infReqStaff>
+         <rstaff type="" requiredNumLv1="" requiredNumLv2="" requiredNumLv3="" requiredNumLv4="" requiredNumLv5="" requiredNumLv6="" requiredNumLv7=""/>
+      </infReqStaff>
       <infCustFX>
          (
             //antimatter
@@ -143,10 +146,6 @@
          //ON LINE BY LEVEL
          <cfxProductStorage storlevel="" storSolid="" storLiquid="" storGas="" storBio=""/>
       </infCustFX>
-      //remove useless levels + 1 line by staff type
-      <infReqStaff>
-         <rstaff type="" requiredNumLv1="" requiredNumLv2="" requiredNumLv3="" requiredNumLv4="" requiredNumLv5="" requiredNumLv6="" requiredNumLv7=""/>
-      </infReqStaff>
       //ifEnergy
       //antimatter
       <infFunc infFunc="fEnergy" emode="egmAntimatter"/>
@@ -253,6 +252,9 @@
          <irHydro hydrotype="hrLiquid_Vapour_Ice Sheet"/>
          <irRegionSoil allowtype="rsrAnyNonVolcanic"/>
       </infReq>
+      <infReqStaff>
+         <rstaff type="ptTechnician" requiredNumLv1="1" requiredNumLv2="1" requiredNumLv3="2" requiredNumLv4="2" requiredNumLv5="3"/>
+      </infReqStaff>
       <infCustFX>
          <cfxProductStorage storlevel="1" storSolid="0" storLiquid="3.969" storGas="0" storBio="0"/>
          <cfxProductStorage storlevel="2" storSolid="0" storLiquid="30.027" storGas="0" storBio="0"/>
@@ -260,9 +262,6 @@
          <cfxProductStorage storlevel="4" storSolid="0" storLiquid="245.109" storGas="0" storBio="0"/>
          <cfxProductStorage storlevel="5" storSolid="0" storLiquid="471.466" storGas="0" storBio="0"/>
       </infCustFX>
-      <infReqStaff>
-         <rstaff type="ptTechnician" requiredNumLv1="1" requiredNumLv2="1" requiredNumLv3="2" requiredNumLv4="2" requiredNumLv5="3"/>
-      </infReqStaff>
       <infFunc infFunc="fProduction">
          <ifProdMode pmode="pmWaterRecovery" occupancy="100" roofArealv1="2.1" trapArealv1="1.99" roofArealv2="7.94" trapArealv2="7.77" roofArealv3="18.02" trapArealv3="17.62" roofArealv4="32.42" trapArealv4="31.45" roofArealv5="49.89" trapArealv5="48.79"/>
       </infFunc>
@@ -279,6 +278,9 @@
          <irHydro hydrotype="hrLiquid_Vapour_Ice Sheet"/>
          <irRegionSoil allowtype="rsrAnyNonVolcanic"/>
       </infReq>
+      <infReqStaff>
+         <rstaff type="ptTechnician" requiredNumLv1="1" requiredNumLv2="1" requiredNumLv3="2" requiredNumLv4="2" requiredNumLv5="3"/>
+      </infReqStaff>
       <infCustFX>
          <cfxProductStorage storlevel="1" storSolid="0" storLiquid="3.969" storGas="0" storBio="0"/>
          <cfxProductStorage storlevel="2" storSolid="0" storLiquid="30.027" storGas="0" storBio="0"/>
@@ -286,9 +288,6 @@
          <cfxProductStorage storlevel="4" storSolid="0" storLiquid="245.109" storGas="0" storBio="0"/>
          <cfxProductStorage storlevel="5" storSolid="0" storLiquid="471.466" storGas="0" storBio="0"/>
       </infCustFX>
-      <infReqStaff>
-         <rstaff type="ptTechnician" requiredNumLv1="1" requiredNumLv2="1" requiredNumLv3="2" requiredNumLv4="2" requiredNumLv5="3"/>
-      </infReqStaff>
       <infFunc infFunc="fProduction">
          <ifProdMode pmode="pmWaterRecovery" occupancy="100" roofArealv1="2.1" trapArealv1="1.99" roofArealv2="7.94" trapArealv2="7.77" roofArealv3="18.02" trapArealv3="17.62" roofArealv4="32.42" trapArealv4="31.45" roofArealv5="49.89" trapArealv5="48.79"/>
       </infFunc>
@@ -404,7 +403,6 @@
          </irConstrMat>
          <irRegionSoil allowtype="rsrAnyNonVolcanic"/>
          <irRsrcSpot spottype="rstOreField"/>
-         <irTechSci sector="rsIndustrialTech" token="tsciBasicMiningRefin"/>
       </infReq>
       <infReqStaff>
          <rstaff type="ptColonist" requiredNumLv1="9" requiredNumLv2="14" requiredNumLv3="22" requiredNumLv4="44" requiredNumLv5="69" requiredNumLv6="126" requiredNumLv7="199"/>
@@ -460,6 +458,9 @@
          <irGravity min="0" max="2"/>
          <irRegionSoil allowtype="rsrAnyNonVolcanic"/>
       </infReq>
+      <infReqStaff>
+         <rstaff type="ptTechnician" requiredNumLv1="1" requiredNumLv2="1" requiredNumLv3="1" requiredNumLv4="1" requiredNumLv5="1" requiredNumLv6="1" requiredNumLv7="1"/>
+      </infReqStaff>
       <infCustFX>
          <cfxProductStorage storlevel="1" storSolid="0" storLiquid="8.37" storGas="8.37" storBio="0"/>
          <cfxProductStorage storlevel="2" storSolid="0" storLiquid="12.033" storGas="12.033" storBio="0"/>
@@ -469,9 +470,6 @@
          <cfxProductStorage storlevel="6" storSolid="0" storLiquid="54.621" storGas="54.621" storBio="0"/>
          <cfxProductStorage storlevel="7" storSolid="0" storLiquid="93.808" storGas="93.808" storBio="0"/>
       </infCustFX>
-      <infReqStaff>
-         <rstaff type="ptTechnician" requiredNumLv1="1" requiredNumLv2="1" requiredNumLv3="1" requiredNumLv4="1" requiredNumLv5="1" requiredNumLv6="1" requiredNumLv7="1"/>
-      </infReqStaff>
       <infFunc infFunc="fMiscellaneous"/>
    </infra>
  </infrastructures>

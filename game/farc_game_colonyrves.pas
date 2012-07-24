@@ -234,9 +234,9 @@ begin
    begin
       ProdMatrixItemProduct:=FCentities[ Entity ].E_col[ Colony ].COL_productionMatrix[ ProdMatrixItemCount ].CPMI_productToken;
       ProductIndex:=FCFgP_Product_GetIndex( ProdMatrixItemProduct );
-      if FCDBProducts[ ProductIndex ].PROD_function=pfFood then
+      if FCDdipProducts[ ProductIndex ].P_function=pfFood then
       begin
-         FoodPointCalculated:=FCFgCR_FoodToReserve_Convert( FCentities[ Entity ].E_col[ Colony ].COL_productionMatrix[ ProdMatrixItemCount ].CPMI_globalProdFlow, FCDBProducts[ ProductIndex ].PROD_massByUnit );
+         FoodPointCalculated:=FCFgCR_FoodToReserve_Convert( FCentities[ Entity ].E_col[ Colony ].COL_productionMatrix[ ProdMatrixItemCount ].CPMI_globalProdFlow, FCDdipProducts[ ProductIndex ].P_massByUnit );
          TotalProductionRvePoints:=TotalProductionRvePoints+FoodPointCalculated;
       end;
       inc( ProdMatrixItemCount );
@@ -733,7 +733,7 @@ begin
             begin
                StorageIdx:=FCentities[ Entity ].E_col[ Colony ].COL_reserveFoodList[ Max ];
                ProductIdx:=FCFgP_Product_GetIndex( FCentities[ Entity ].E_col[ Colony ].COL_storageList[ StorageIdx ].CPR_token );
-               VolumeFromReserve:=FCFgCR_ReserveToFood_Convert( ReservePointsToXfer, FCDBProducts[ ProductIdx ].PROD_massByUnit );
+               VolumeFromReserve:=FCFgCR_ReserveToFood_Convert( ReservePointsToXfer, FCDdipProducts[ ProductIdx ].P_massByUnit );
                FCFgC_Storage_Update(
                   FCentities[ Entity ].E_col[ Colony ].COL_storageList[ StorageIdx ].CPR_token
                   ,VolumeFromReserve
@@ -759,7 +759,7 @@ begin
                   FoodDistribution[ Count ]:=FCentities[ Entity ].E_col[ Colony ].COL_storageList[ StorageIdx ].CPR_unit*100/SumOfStorageUnits;
                   FoodDistribution[ Count ]:=FCFcFunc_Rnd( cfrttp1dec, FoodDistribution[ Count ] );
                   ReservesCalc:=trunc( ReservePointsToXfer*( FoodDistribution[ Count ]*0.01 ) )+1;
-                  VolumeFromReserve:=FCFgCR_ReserveToFood_Convert( ReservesCalc, FCDBProducts[ ProductIdx ].PROD_massByUnit );
+                  VolumeFromReserve:=FCFgCR_ReserveToFood_Convert( ReservesCalc, FCDdipProducts[ ProductIdx ].P_massByUnit );
                   FCFgC_Storage_Update(
                      FCentities[ Entity ].E_col[ Colony ].COL_storageList[ StorageIdx ].CPR_token
                      ,VolumeFromReserve

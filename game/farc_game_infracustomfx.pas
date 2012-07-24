@@ -101,11 +101,11 @@ function FCFgICFX_EffectHQ_Search( const EHQSinfra: TFCRdipInfrastructure ): TFC
       ,EHQScfxMax: integer;
 begin
    Result:=dgNoHQ;
-   EHQScfxMax:=Length(EHQSinfra.I_customFx)-1;
+   EHQScfxMax:=Length(EHQSinfra.I_customEffectStructure)-1;
    EHQScfxCnt:=1;
    while EHQScfxCnt<=EHQScfxMax do
    begin
-      case EHQSinfra.I_customFx[EHQScfxCnt].ICFX_customEffect of
+      case EHQSinfra.I_customEffectStructure[EHQScfxCnt].ICFX_customEffect of
          ceHeadQuarterBasic:
          begin
             Result:=dgBasicHQ;
@@ -138,13 +138,13 @@ function FCFgICFX_EffectStorageLiquid_Search( const InfraData: TFCRdipInfrastruc
 begin
    Result:=0;
    Count:=1;
-   Max:=Length( InfraData.I_customFx )-1;
+   Max:=Length( InfraData.I_customEffectStructure )-1;
    while Count<=Max do
    begin
-      if ( InfraData.I_customFx[ Count ].ICFX_customEffect=ceProductStorage )
-         and( InfraData.I_customFx[ Count ].ICFX_prodStorageLvl[ OwnedInfraLevel ].IPS_liquid>0) then
+      if ( InfraData.I_customEffectStructure[ Count ].ICFX_customEffect=ceProductStorage )
+         and( InfraData.I_customEffectStructure[ Count ].ICFX_cePSstorageByLevel[ OwnedInfraLevel ].SBL_liquid>0) then
       begin
-         Result:=InfraData.I_customFx[ Count ].ICFX_prodStorageLvl[ OwnedInfraLevel ].IPS_liquid;
+         Result:=InfraData.I_customEffectStructure[ Count ].ICFX_cePSstorageByLevel[ OwnedInfraLevel ].SBL_liquid;
          break;
       end;
       inc( Count );
@@ -180,10 +180,10 @@ procedure FCMgICFX_Effects_Application(
 begin
    LevelInfra:=FCEntities[ EAent ].E_col[ EAcolony ].COL_settlements[ Settlement ].CS_infra[ OwnedInfrastructure ].CI_level;
    CfxCount:=1;
-   EAmax:=length(EAinfraDat.I_customFx)-1;
+   EAmax:=length(EAinfraDat.I_customEffectStructure)-1;
    while CfxCount<=EAmax do
    begin
-      case EAinfraDat.I_customFx[CfxCount].ICFX_customEffect of
+      case EAinfraDat.I_customEffectStructure[CfxCount].ICFX_customEffect of
          ceEnergyGeneration:
          begin
             EAnergyOutput:=FCFgEM_OutputFromCustomFx_GetValue(
@@ -214,7 +214,7 @@ begin
                ,0
                ,0
                ,0
-               ,EAinfraDat.I_customFx[CfxCount].ICFX_enStorLvl[ LevelInfra ]
+               ,EAinfraDat.I_customEffectStructure[CfxCount].ICFX_ceEScapacitiesByLevel[ LevelInfra ]
                );
          end;
 
@@ -238,10 +238,10 @@ begin
 
          ceProductStorage:
          begin
-            FCentities[EAent].E_col[EAcolony].COL_storCapacitySolidMax:=FCentities[EAent].E_col[EAcolony].COL_storCapacitySolidMax+EAinfraDat.I_customFx[CfxCount].ICFX_prodStorageLvl[LevelInfra].IPS_solid;
-            FCentities[EAent].E_col[EAcolony].COL_storCapacityLiquidMax:=FCentities[EAent].E_col[EAcolony].COL_storCapacityLiquidMax+EAinfraDat.I_customFx[CfxCount].ICFX_prodStorageLvl[LevelInfra].IPS_liquid;
-            FCentities[EAent].E_col[EAcolony].COL_storCapacityGasMax:=FCentities[EAent].E_col[EAcolony].COL_storCapacityGasMax+EAinfraDat.I_customFx[CfxCount].ICFX_prodStorageLvl[LevelInfra].IPS_gas;
-            FCentities[EAent].E_col[EAcolony].COL_storCapacityBioMax:=FCentities[EAent].E_col[EAcolony].COL_storCapacityBioMax+EAinfraDat.I_customFx[CfxCount].ICFX_prodStorageLvl[LevelInfra].IPS_biologic;
+            FCentities[EAent].E_col[EAcolony].COL_storCapacitySolidMax:=FCentities[EAent].E_col[EAcolony].COL_storCapacitySolidMax+EAinfraDat.I_customEffectStructure[CfxCount].ICFX_cePSstorageByLevel[LevelInfra].SBL_solid;
+            FCentities[EAent].E_col[EAcolony].COL_storCapacityLiquidMax:=FCentities[EAent].E_col[EAcolony].COL_storCapacityLiquidMax+EAinfraDat.I_customEffectStructure[CfxCount].ICFX_cePSstorageByLevel[LevelInfra].SBL_liquid;
+            FCentities[EAent].E_col[EAcolony].COL_storCapacityGasMax:=FCentities[EAent].E_col[EAcolony].COL_storCapacityGasMax+EAinfraDat.I_customEffectStructure[CfxCount].ICFX_cePSstorageByLevel[LevelInfra].SBL_gas;
+            FCentities[EAent].E_col[EAcolony].COL_storCapacityBioMax:=FCentities[EAent].E_col[EAcolony].COL_storCapacityBioMax+EAinfraDat.I_customEffectStructure[CfxCount].ICFX_cePSstorageByLevel[LevelInfra].SBL_biologic;
          end;
       end; //==END== case EAinfraDat.I_customFx[EAcnt].ICFX_customEffect of ==//
       inc(CfxCount);
@@ -268,10 +268,10 @@ procedure FCMgICFX_Effects_Removing(
       ,ERmax: integer;
 begin
    LevelInfra:=FCEntities[ ERent ].E_col[ ERcolony ].COL_settlements[ Settlement ].CS_infra[ OwnedInfra ].CI_level;
-   ERmax:=length(ERinfraDat.I_customFx)-1;
+   ERmax:=length(ERinfraDat.I_customEffectStructure)-1;
    while ERcnt<=ERmax do
    begin
-      case ERinfraDat.I_customFx[ERcnt].ICFX_customEffect of
+      case ERinfraDat.I_customEffectStructure[ERcnt].ICFX_customEffect of
          ceEnergyGeneration:
          begin
             FCMgCSM_Energy_Update(
@@ -295,7 +295,7 @@ begin
                ,0
                ,0
                ,0
-               ,-ERinfraDat.I_customFx[ERcnt].ICFX_enStorLvl[LevelInfra]
+               ,-ERinfraDat.I_customEffectStructure[ERcnt].ICFX_ceEScapacitiesByLevel[LevelInfra]
                );
          end;
 
@@ -303,10 +303,10 @@ begin
 
          ceProductStorage:
          begin
-            FCentities[ERent].E_col[ERcolony].COL_storCapacitySolidMax:=FCentities[ERent].E_col[ERcolony].COL_storCapacitySolidMax-ERinfraDat.I_customFx[ERcnt].ICFX_prodStorageLvl[LevelInfra].IPS_solid;
-            FCentities[ERent].E_col[ERcolony].COL_storCapacityLiquidMax:=FCentities[ERent].E_col[ERcolony].COL_storCapacityLiquidMax-ERinfraDat.I_customFx[ERcnt].ICFX_prodStorageLvl[LevelInfra].IPS_liquid;
-            FCentities[ERent].E_col[ERcolony].COL_storCapacityGasMax:=FCentities[ERent].E_col[ERcolony].COL_storCapacityGasMax-ERinfraDat.I_customFx[ERcnt].ICFX_prodStorageLvl[LevelInfra].IPS_gas;
-            FCentities[ERent].E_col[ERcolony].COL_storCapacityBioMax:=FCentities[ERent].E_col[ERcolony].COL_storCapacityBioMax-ERinfraDat.I_customFx[ERcnt].ICFX_prodStorageLvl[LevelInfra].IPS_biologic;
+            FCentities[ERent].E_col[ERcolony].COL_storCapacitySolidMax:=FCentities[ERent].E_col[ERcolony].COL_storCapacitySolidMax-ERinfraDat.I_customEffectStructure[ERcnt].ICFX_cePSstorageByLevel[LevelInfra].SBL_solid;
+            FCentities[ERent].E_col[ERcolony].COL_storCapacityLiquidMax:=FCentities[ERent].E_col[ERcolony].COL_storCapacityLiquidMax-ERinfraDat.I_customEffectStructure[ERcnt].ICFX_cePSstorageByLevel[LevelInfra].SBL_liquid;
+            FCentities[ERent].E_col[ERcolony].COL_storCapacityGasMax:=FCentities[ERent].E_col[ERcolony].COL_storCapacityGasMax-ERinfraDat.I_customEffectStructure[ERcnt].ICFX_cePSstorageByLevel[LevelInfra].SBL_gas;
+            FCentities[ERent].E_col[ERcolony].COL_storCapacityBioMax:=FCentities[ERent].E_col[ERcolony].COL_storCapacityBioMax-ERinfraDat.I_customEffectStructure[ERcnt].ICFX_cePSstorageByLevel[LevelInfra].SBL_biologic;
          end;
       end; //==END== case ERinfraDat.I_customFx[ERcnt].ICFX_customEffect of ==//
       inc(ERcnt);

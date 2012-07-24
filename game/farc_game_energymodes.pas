@@ -190,12 +190,12 @@ function FCFgEM_OutputFromCustomFx_GetValue(
 {:DEV NOTES: when an update is made in this function, don't forget to also update FCFgEM_OutputFromFunction_GetValue.}
 begin
    Result:=0;
-   case OFCFGVinfraData.I_customFx[OFCFGVcustomFxIndex].ICFX_enGenMode.EGM_modes of
+   case OFCFGVinfraData.I_customEffectStructure[OFCFGVcustomFxIndex].ICFX_ceEGmode.EGM_modes of
       egmAntimatter: ;
 
       egmFission: Result:=FCFgEM_NuclearFission_OutputCalculation(
-         OFCFGVinfraData.I_customFx[OFCFGVcustomFxIndex].ICFX_enGenMode.EGM_mFfixedValues[OFCFGVcurrentLevel].FV_baseGeneration
-         ,OFCFGVinfraData.I_customFx[OFCFGVcustomFxIndex].ICFX_enGenMode.EGM_mFfixedValues[OFCFGVcurrentLevel].FV_generationByDevelopmentLevel
+         OFCFGVinfraData.I_customEffectStructure[OFCFGVcustomFxIndex].ICFX_ceEGmode.EGM_mFfixedValues[OFCFGVcurrentLevel].FV_baseGeneration
+         ,OFCFGVinfraData.I_customEffectStructure[OFCFGVcustomFxIndex].ICFX_ceEGmode.EGM_mFfixedValues[OFCFGVcurrentLevel].FV_generationByDevLevel
          );
 
       egmFusionDT:;
@@ -207,8 +207,8 @@ begin
       egmPhoton: Result:=FCFgEM_PhotonEnergy_OutputCalculation(
          OFCFGVent
          ,OFCFGVcol
-         ,OFCFGVinfraData.I_customFx[OFCFGVcustomFxIndex].ICFX_enGenMode.FEPM_photonArea
-         ,OFCFGVinfraData.I_customFx[OFCFGVcustomFxIndex].ICFX_enGenMode.FEPM_photonEfficiency
+         ,OFCFGVinfraData.I_customEffectStructure[OFCFGVcustomFxIndex].ICFX_ceEGmode.EGM_mParea
+         ,OFCFGVinfraData.I_customEffectStructure[OFCFGVcustomFxIndex].ICFX_ceEGmode.EGM_mPefficiency
          );
    end;
 end;
@@ -227,11 +227,11 @@ function FCFgEM_OutputFromFunction_GetValue(
 {:DEV NOTES: when an update is made in this function, don't forget to also update FCFgEM_OutputFromCustomFx_GetValue.}
 begin
    Result:=0;
-   case OFFGVinfraData.I_fEnergyPmode.EGM_modes of
+   case OFFGVinfraData.I_fEmode.EGM_modes of
       egmAntimatter: ;
 
       egmFission: Result:=FCFgEM_NuclearFission_OutputCalculation(
-         OFFGVinfraData.I_fEnergyPmode.EGM_mFfixedValues[OFFGVcurrentLevel].FV_baseGeneration, OFFGVinfraData.I_fEnergyPmode.EGM_mFfixedValues[OFFGVcurrentLevel].FV_generationByDevelopmentLevel
+         OFFGVinfraData.I_fEmode.EGM_mFfixedValues[OFFGVcurrentLevel].FV_baseGeneration, OFFGVinfraData.I_fEmode.EGM_mFfixedValues[OFFGVcurrentLevel].FV_generationByDevLevel
          );
 
       egmFusionDT:;
@@ -243,8 +243,8 @@ begin
       egmPhoton: Result:=FCFgEM_PhotonEnergy_OutputCalculation(
          OFFGVent
          ,OFFGVcol
-         ,OFFGVinfraData.I_fEnergyPmode.FEPM_photonArea
-         ,OFFGVinfraData.I_fEnergyPmode.FEPM_photonEfficiency
+         ,OFFGVinfraData.I_fEmode.EGM_mParea
+         ,OFFGVinfraData.I_fEmode.EGM_mPefficiency
          );
    end;
 end;

@@ -203,7 +203,7 @@ begin
             );
          FCentities[ PIAent ].E_col[ PIAcol ].COL_productionMatrix[ PIAprodMatrixFound ].CPMI_storageIndex:=PIAstorageIndex;
          ProductIndex:=FCFgP_Product_GetIndex( FCentities[ PIAent ].E_col[ PIAcol ].COL_productionMatrix[ PIAprodMatrixFound ].CPMI_productToken );
-         FCentities[ PIAent ].E_col[ PIAcol ].COL_productionMatrix[ PIAprodMatrixFound ].CPMI_storageType:=FCDBProducts[ ProductIndex ].PROD_storage;
+         FCentities[ PIAent ].E_col[ PIAcol ].COL_productionMatrix[ PIAprodMatrixFound ].CPMI_storageType:=FCDdipProducts[ ProductIndex ].P_storage;
          SetLength( FCentities[ PIAent ].E_col[ PIAcol ].COL_productionMatrix[ PIAprodMatrixFound ].CPMI_productionModes, 1 );
          if PIAent=0
          then FCMuiCDD_Production_Update(

@@ -728,8 +728,8 @@ var
    ,DBIRsubN: IXMLnode;
 begin
    {.clear the data structure}
-   FCDBinfra:=nil;
-   SetLength(FCDBinfra, 1);
+   FCDdipInfrastructures:=nil;
+   SetLength(FCDdipInfrastructures, 1);
    DBIRcnt:=1;
    {.read the document}
 	FCWinMain.FCXMLdbInfra.FileName:=FCVdiPathXML+'\env\infrastrucdb.xml';
@@ -740,17 +740,17 @@ begin
       if DBIRnode.NodeName<>'#comment'
       then
       begin
-         SetLength(FCDBinfra, length(FCDBinfra)+1);
-         FCDBinfra[DBIRcnt].I_token:=DBIRnode.Attributes['token'];
+         SetLength(FCDdipInfrastructures, length(FCDdipInfrastructures)+1);
+         FCDdipInfrastructures[DBIRcnt].I_token:=DBIRnode.Attributes['token'];
          DBIRstr:=DBIRnode.Attributes['environment'];
          if DBIRstr='ANY'
-         then FCDBinfra[DBIRcnt].I_environment:=etAny
+         then FCDdipInfrastructures[DBIRcnt].I_environment:=etAny
          else if DBIRstr='FE'
-         then FCDBinfra[DBIRcnt].I_environment:=etFreeLiving
+         then FCDdipInfrastructures[DBIRcnt].I_environment:=etFreeLiving
          else if DBIRstr='RE'
-         then FCDBinfra[DBIRcnt].I_environment:=etRestricted
+         then FCDdipInfrastructures[DBIRcnt].I_environment:=etRestricted
          else if DBIRstr='SE'
-         then FCDBinfra[DBIRcnt].I_environment:=etSpace;
+         then FCDdipInfrastructures[DBIRcnt].I_environment:=etSpace;
          DBIRsubN:=DBIRnode.ChildNodes.First;
          while DBIRsubN<>nil do
          begin
@@ -759,54 +759,54 @@ begin
             begin
                DBIRstr:=DBIRsubN.Attributes['construct'];
                if DBIRstr='cBuilt'
-               then FCDBinfra[DBIRcnt].I_constr:=cBuilt
+               then FCDdipInfrastructures[DBIRcnt].I_construct:=cBuilt
                else if DBIRstr='cPrefab'
-               then FCDBinfra[DBIRcnt].I_constr:=cPrefab
+               then FCDdipInfrastructures[DBIRcnt].I_construct:=cPrefab
                else if DBIRstr='cConv'
-               then FCDBinfra[DBIRcnt].I_constr:=cConverted;
-               FCDBinfra[DBIRcnt].I_isSurfOnly:=DBIRsubN.Attributes['isSurfOnly'];
-               FCDBinfra[DBIRcnt].I_minLevel:=DBIRsubN.Attributes['minlevel'];
-               FCDBinfra[DBIRcnt].I_maxLevel:=DBIRsubN.Attributes['maxlevel'];
+               then FCDdipInfrastructures[DBIRcnt].I_construct:=cConverted;
+               FCDdipInfrastructures[DBIRcnt].I_isSurfaceOnly:=DBIRsubN.Attributes['isSurfOnly'];
+               FCDdipInfrastructures[DBIRcnt].I_minLevel:=DBIRsubN.Attributes['minlevel'];
+               FCDdipInfrastructures[DBIRcnt].I_maxLevel:=DBIRsubN.Attributes['maxlevel'];
                DBIRsizeN:=DBIRsubN.ChildNodes.First;
                while DBIRsizeN<>nil do
                begin
                   if DBIRsizeN.NodeName='ibSurf'
                   then
                   begin
-                     DBIRsizeCnt:=FCDBinfra[DBIRcnt].I_minLevel;
-                     while DBIRsizeCnt<=FCDBinfra[DBIRcnt].I_maxLevel do
+                     DBIRsizeCnt:=FCDdipInfrastructures[DBIRcnt].I_minLevel;
+                     while DBIRsizeCnt<=FCDdipInfrastructures[DBIRcnt].I_maxLevel do
                      begin
-                        FCDBinfra[DBIRcnt].I_surface[DBIRsizeCnt]:=DBIRsizeN.Attributes['surflv'+IntToStr(DBIRsizeCnt)];
+                        FCDdipInfrastructures[DBIRcnt].I_surface[DBIRsizeCnt]:=DBIRsizeN.Attributes['surflv'+IntToStr(DBIRsizeCnt)];
                         inc(DBIRsizeCnt);
                      end;
                   end
                   else if DBIRsizeN.NodeName='ibVol'
                   then
                   begin
-                     DBIRsizeCnt:=FCDBinfra[DBIRcnt].I_minLevel;
-                     while DBIRsizeCnt<=FCDBinfra[DBIRcnt].I_maxLevel do
+                     DBIRsizeCnt:=FCDdipInfrastructures[DBIRcnt].I_minLevel;
+                     while DBIRsizeCnt<=FCDdipInfrastructures[DBIRcnt].I_maxLevel do
                      begin
-                        FCDBinfra[DBIRcnt].I_volume[DBIRsizeCnt]:=DBIRsizeN.Attributes['vollv'+IntToStr(DBIRsizeCnt)];
+                        FCDdipInfrastructures[DBIRcnt].I_volume[DBIRsizeCnt]:=DBIRsizeN.Attributes['vollv'+IntToStr(DBIRsizeCnt)];
                         inc(DBIRsizeCnt);
                      end;
                   end
                   else if DBIRsizeN.NodeName='ibBasePwr'
                   then
                   begin
-                     DBIRsizeCnt:=FCDBinfra[DBIRcnt].I_minLevel;
-                     while DBIRsizeCnt<=FCDBinfra[DBIRcnt].I_maxLevel do
+                     DBIRsizeCnt:=FCDdipInfrastructures[DBIRcnt].I_minLevel;
+                     while DBIRsizeCnt<=FCDdipInfrastructures[DBIRcnt].I_maxLevel do
                      begin
-                        FCDBinfra[DBIRcnt].I_basePwr[DBIRsizeCnt]:=DBIRsizeN.Attributes['pwrlv'+IntToStr(DBIRsizeCnt)];
+                        FCDdipInfrastructures[DBIRcnt].I_basePower[DBIRsizeCnt]:=DBIRsizeN.Attributes['pwrlv'+IntToStr(DBIRsizeCnt)];
                         inc(DBIRsizeCnt);
                      end;
                   end
                   else if DBIRsizeN.NodeName='ibVolMat'
                   then
                   begin
-                     DBIRsizeCnt:=FCDBinfra[DBIRcnt].I_minLevel;
-                     while DBIRsizeCnt<=FCDBinfra[DBIRcnt].I_maxLevel do
+                     DBIRsizeCnt:=FCDdipInfrastructures[DBIRcnt].I_minLevel;
+                     while DBIRsizeCnt<=FCDdipInfrastructures[DBIRcnt].I_maxLevel do
                      begin
-                        FCDBinfra[DBIRcnt].I_matVolume[DBIRsizeCnt]:=DBIRsizeN.Attributes['volmatlv'+IntToStr(DBIRsizeCnt)];
+                        FCDdipInfrastructures[DBIRcnt].I_materialVolume[DBIRsizeCnt]:=DBIRsizeN.Attributes['volmatlv'+IntToStr(DBIRsizeCnt)];
                         inc(DBIRsizeCnt);
                      end;
                   end;
@@ -821,46 +821,46 @@ begin
                begin
                   if DBIRreqsub.NodeName='irGravity' then
                   begin
-                     FCDBinfra[DBIRcnt].I_reqGravMin:=DBIRreqsub.Attributes['min'];
-                     FCDBinfra[DBIRcnt].I_reqGravMax:=DBIRreqsub.Attributes['max'];
+                     FCDdipInfrastructures[DBIRcnt].I_reqGravityMin:=DBIRreqsub.Attributes['min'];
+                     FCDdipInfrastructures[DBIRcnt].I_reqGravityMax:=DBIRreqsub.Attributes['max'];
                   end
                   else if DBIRreqsub.NodeName='irHydro'
                   then
                   begin
                      DBIRstr:=DBIRreqsub.Attributes['hydrotype'];
                      if DBIRstr='hrAny'
-                     then FCDBinfra[DBIRcnt].I_reqHydro:=hrAny
+                     then FCDdipInfrastructures[DBIRcnt].I_reqHydrosphere:=hrAny
                      else if DBIRstr='hrLiquid_LiquidNH3'
-                     then FCDBinfra[DBIRcnt].I_reqHydro:=hrLiquid_LiquidNH3
+                     then FCDdipInfrastructures[DBIRcnt].I_reqHydrosphere:=hrLiquid_LiquidNH3
                      else if DBIRstr='hrNone'
-                     then FCDBinfra[DBIRcnt].I_reqHydro:=hrNone
+                     then FCDdipInfrastructures[DBIRcnt].I_reqHydrosphere:=hrNone
                      else if DBIRstr='hrVapour'
-                     then FCDBinfra[DBIRcnt].I_reqHydro:=hrVapour
+                     then FCDdipInfrastructures[DBIRcnt].I_reqHydrosphere:=hrVapour
                      else if DBIRstr='hrLiquid'
-                     then FCDBinfra[DBIRcnt].I_reqHydro:=hrLiquid
+                     then FCDdipInfrastructures[DBIRcnt].I_reqHydrosphere:=hrLiquid
                      else if DBIRstr='hrIceSheet'
-                     then FCDBinfra[DBIRcnt].I_reqHydro:=hrIceSheet
+                     then FCDdipInfrastructures[DBIRcnt].I_reqHydrosphere:=hrIceSheet
                      else if DBIRstr='hrCrystal'
-                     then FCDBinfra[DBIRcnt].I_reqHydro:=hrCrystal
+                     then FCDdipInfrastructures[DBIRcnt].I_reqHydrosphere:=hrCrystal
                      else if DBIRstr='hrLiquidNH3'
-                     then FCDBinfra[DBIRcnt].I_reqHydro:=hrLiquidNH3
+                     then FCDdipInfrastructures[DBIRcnt].I_reqHydrosphere:=hrLiquidNH3
                      else if DBIRstr='hrCH4'
-                     then FCDBinfra[DBIRcnt].I_reqHydro:=hrCH4
+                     then FCDdipInfrastructures[DBIRcnt].I_reqHydrosphere:=hrCH4
                      else if DBIRstr='hrLiquid_Vapour_Ice Sheet'
-                     then FCDBinfra[DBIRcnt].I_reqHydro:=hrLiquid_Vapour_Ice_Sheet;
+                     then FCDdipInfrastructures[DBIRcnt].I_reqHydrosphere:=hrLiquid_Vapour_Ice_Sheet;
                   end
                   else if DBIRreqsub.NodeName='irConstrMat'
                   then
                   begin
-                     SetLength(FCDBinfra[DBIRcnt].I_reqConstrMat, 1);
+                     SetLength(FCDdipInfrastructures[DBIRcnt].I_reqConstructionMaterials, 1);
                      DBIRreqCMatCnt:=0;
                      DBIRconstMat:=DBIRreqsub.ChildNodes.First;
                      while DBIRconstMat<>nil do
                      begin
                         inc(DBIRreqCMatCnt);
-                        SetLength(FCDBinfra[DBIRcnt].I_reqConstrMat, DBIRreqCMatCnt+1);
-                        FCDBinfra[DBIRcnt].I_reqConstrMat[DBIRreqCMatCnt].RCM_token:=DBIRconstMat.Attributes['token'];
-                        FCDBinfra[DBIRcnt].I_reqConstrMat[DBIRreqCMatCnt].RCM_percent:=DBIRconstMat.Attributes['percent'];
+                        SetLength(FCDdipInfrastructures[DBIRcnt].I_reqConstructionMaterials, DBIRreqCMatCnt+1);
+                        FCDdipInfrastructures[DBIRcnt].I_reqConstructionMaterials[DBIRreqCMatCnt].RCM_token:=DBIRconstMat.Attributes['token'];
+                        FCDdipInfrastructures[DBIRcnt].I_reqConstructionMaterials[DBIRreqCMatCnt].RCM_partOfMaterialVolume:=DBIRconstMat.Attributes['percent'];
                         DBIRconstMat:=DBIRconstMat.NextSibling;
                      end;
                   end
@@ -869,169 +869,147 @@ begin
                   begin
                      DBIRstr:=DBIRreqsub.Attributes['allowtype'];
                      if DBIRstr='rsrAny'
-                     then FCDBinfra[DBIRcnt].I_reqRegionSoil:=rsrAny
+                     then FCDdipInfrastructures[DBIRcnt].I_reqRegionSoil:=rsrAny
                      else if DBIRstr='rsrAnyNonVolcanic'
-                     then FCDBinfra[DBIRcnt].I_reqRegionSoil:=rsrAnyNonVolcanic
+                     then FCDdipInfrastructures[DBIRcnt].I_reqRegionSoil:=rsrAnyNonVolcanic
                      else if DBIRstr='rsrAnyCoastal'
-                     then FCDBinfra[DBIRcnt].I_reqRegionSoil:=rsrAnyCoastal
+                     then FCDdipInfrastructures[DBIRcnt].I_reqRegionSoil:=rsrAnyCoastal
                      else if DBIRstr='rsrAnyCoastalNonVolcanic'
-                     then FCDBinfra[DBIRcnt].I_reqRegionSoil:=rsrAnyCoastalNonVolcanic
+                     then FCDdipInfrastructures[DBIRcnt].I_reqRegionSoil:=rsrAnyCoastalNonVolcanic
                      else if DBIRstr='rsrAnySterile'
-                     then FCDBinfra[DBIRcnt].I_reqRegionSoil:=rsrAnySterile
+                     then FCDdipInfrastructures[DBIRcnt].I_reqRegionSoil:=rsrAnySterile
                      else if DBIRstr='rsrAnyFertile'
-                     then FCDBinfra[DBIRcnt].I_reqRegionSoil:=rsrAnyFertile
+                     then FCDdipInfrastructures[DBIRcnt].I_reqRegionSoil:=rsrAnyFertile
                      else if DBIRstr='rsOceanic'
-                     then FCDBinfra[DBIRcnt].I_reqRegionSoil:=rsOceanic;
+                     then FCDdipInfrastructures[DBIRcnt].I_reqRegionSoil:=rsOceanic;
                   end
                   else if DBIRreqsub.NodeName='irRsrcSpot'
                   then
                   begin
                      DBIRenumIndex:=GetEnumValue( TypeInfo( TFCEduResourceSpotTypes ), DBIRreqsub.Attributes['spottype'] );
-                     FCDBinfra[DBIRcnt].I_reqRsrcSpot:=TFCEduResourceSpotTypes(DBIRenumIndex);
+                     FCDdipInfrastructures[DBIRcnt].I_reqResourceSpot:=TFCEduResourceSpotTypes(DBIRenumIndex);
                      if DBIRenumIndex=-1
                      then raise Exception.Create('bad resource spot req: '+DBIRreqsub.Attributes['spottype'] );
-                  end
-                  else if DBIRreqsub.NodeName='irTechSci'
-                  then
-                  begin
-                     DBIRstr:=DBIRreqsub.Attributes['sector'];
-                     if DBIRstr='rsNone'
-                     then FCDBinfra[DBIRcnt].I_reqTechSci.RTS_sector:=rsNone
-                     else if DBIRstr='rsAerospaceEng'
-                     then FCDBinfra[DBIRcnt].I_reqTechSci.RTS_sector:=rsAerospaceEngineering
-                     else if DBIRstr='rsBiogenetics'
-                     then FCDBinfra[DBIRcnt].I_reqTechSci.RTS_sector:=rsBiogenetics
-                     else if DBIRstr='rsEcosciences'
-                     then FCDBinfra[DBIRcnt].I_reqTechSci.RTS_sector:=rsEcosciences
-                     else if DBIRstr='rsIndustrialTech'
-                     then FCDBinfra[DBIRcnt].I_reqTechSci.RTS_sector:=rsIndustrialTech
-                     else if DBIRstr='rsMedicine'
-                     then FCDBinfra[DBIRcnt].I_reqTechSci.RTS_sector:=rsMedicine
-                     else if DBIRstr='rsNanotech'
-                     then FCDBinfra[DBIRcnt].I_reqTechSci.RTS_sector:=rsNanotech
-                     else if DBIRstr='rsPhysics'
-                     then FCDBinfra[DBIRcnt].I_reqTechSci.RTS_sector:=rsPhysics;
-                     FCDBinfra[DBIRcnt].I_reqTechSci.RTS_token:=DBIRreqsub.Attributes['token'];
                   end;
                   DBIRreqsub:=DBIRreqsub.NextSibling;
                end; //==END== while DBIRreqsub<>nil do ==//
             end //==END== else if DBIRsubN.NodeName='infReq' ==//
-            else if DBIRsubN.NodeName='infCustFX'
-            then
-            begin
-               SetLength(FCDBinfra[DBIRcnt].I_customFx, 1);
-               DBIRcustFXcnt:=0;
-               DBIRcustFX:=DBIRsubN.ChildNodes.First;
-               while DBIRcustFX<>nil do
-               begin
-                  inc(DBIRcustFXcnt);
-                  SetLength(FCDBinfra[DBIRcnt].I_customFx, DBIRcustFXcnt+1);
-                  if DBIRcustFX.NodeName='icfxEnergyGen'
-                  then
-                  begin
-                     FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_customEffect:=ceEnergyGeneration;
-                     DBIRstr:=DBIRsubN.Attributes['genMode'];
-                     if DBIRstr='egmAntimatter'
-                     then FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_enGenMode.EGM_modes:=egmAntimatter
-                     else if DBIRstr='egmFission'
-                     then
-                     begin
-                        FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_enGenMode.EGM_modes:=egmFission;
-                        DBIRsizeCnt:=FCDBinfra[DBIRcnt].I_minLevel;
-                        while DBIRsizeCnt<=FCDBinfra[DBIRcnt].I_maxLevel do
-                        begin
-                           FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_enGenMode.EGM_mFfixedValues[DBIRsizeCnt].FV_baseGeneration:=DBIRsubN.Attributes['fixedprodlv'+IntToStr(DBIRsizeCnt)];
-                           FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_enGenMode.EGM_mFfixedValues[DBIRsizeCnt].FV_generationByDevelopmentLevel:=DBIRsubN.Attributes['fixedprodlv'+IntToStr(DBIRsizeCnt)+'byDL'];
-                           inc(DBIRsizeCnt);
-                        end;
-                     end
-                     else if DBIRstr='egmFusionDT'
-                     then FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_enGenMode.EGM_modes:=egmFusionDT
-                     else if DBIRstr='egmFusionH2'
-                     then FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_enGenMode.EGM_modes:=egmFusionH2
-                     else if DBIRstr='egmFusionHe3'
-                     then FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_enGenMode.EGM_modes:=egmFusionHe3
-                     else if DBIRstr='egmPhoton'
-                     then
-                     begin
-                        FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_enGenMode.EGM_modes:=egmPhoton;
-                        FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_enGenMode.FEPM_photonArea:=DBIRsubN.Attributes['area'];
-                        FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_enGenMode.FEPM_photonEfficiency:=DBIRsubN.Attributes['efficiency'];
-                     end;
-                  end
-                  else if DBIRcustFX.NodeName='cfxEnergyStor'
-                  then
-                  begin
-                     FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_customEffect:=ceEnergyStorage;
-                     DBIRlevel:=DBIRcustFX.Attributes['storlevel'];
-                     FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_enStorLvl[DBIRlevel]:=DBIRcustFX.Attributes['storCapacity'];
-                  end
-                  else if DBIRcustFX.NodeName='icfxHQbasic'
-                  then FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_customEffect:=ceHeadQuarterPrimary
-                  else if DBIRcustFX.NodeName='icfxHQSecondary'
-                  then FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_customEffect:=ceHeadQuarterBasic
-                  else if DBIRcustFX.NodeName='icfxHQPrimary'
-                  then FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_customEffect:=ceHeadQuarterSecondary
-                  else if DBIRcustFX.NodeName='cfxProductStorage'
-                  then
-                  begin
-                     FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_customEffect:=ceProductStorage;
-                     DBIRlevel:=DBIRcustFX.Attributes['storlevel'];
-                     FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_prodStorageLvl[DBIRlevel].IPS_solid:=DBIRcustFX.Attributes['storSolid'];
-                     FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_prodStorageLvl[DBIRlevel].IPS_liquid:=DBIRcustFX.Attributes['storLiquid'];
-                     FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_prodStorageLvl[DBIRlevel].IPS_gas:=DBIRcustFX.Attributes['storGas'];
-                     FCDBinfra[DBIRcnt].I_customFx[DBIRcustFXcnt].ICFX_prodStorageLvl[DBIRlevel].IPS_biologic:=DBIRcustFX.Attributes['storBio'];
-                  end;
-                  DBIRcustFX:=DBIRcustFX.NextSibling;
-               end; //==END== while DBIRcustFX<>nil do ==//
-            end //==END== else if DBIRsubN.NodeName='infCustFX' ==//
             else if DBIRsubN.NodeName='infReqStaff'
             then
             begin
-               SetLength(FCDBinfra[DBIRcnt].I_reqStaff, 1);
+               SetLength(FCDdipInfrastructures[DBIRcnt].I_reqStaff, 1);
                DBIRreqStaffCnt:=0;
                DBIRreqStaff:=DBIRsubN.ChildNodes.First;
                while DBIRreqStaff<>nil do
                begin
                   inc(DBIRreqStaffCnt);
-                  SetLength(FCDBinfra[DBIRcnt].I_reqStaff, DBIRreqStaffCnt+1);
+                  SetLength(FCDdipInfrastructures[DBIRcnt].I_reqStaff, DBIRreqStaffCnt+1);
                   DBIRstr:=DBIRreqStaff.Attributes['type'];
                   if DBIRstr='ptColonist'
-                  then FCDBinfra[DBIRcnt].I_reqStaff[DBIRreqStaffCnt].RS_type:=ptColonist
+                  then FCDdipInfrastructures[DBIRcnt].I_reqStaff[DBIRreqStaffCnt].RS_type:=ptColonist
                   else if DBIRstr='ptOfficer'
-                  then FCDBinfra[DBIRcnt].I_reqStaff[DBIRreqStaffCnt].RS_type:=ptOfficer
+                  then FCDdipInfrastructures[DBIRcnt].I_reqStaff[DBIRreqStaffCnt].RS_type:=ptOfficer
                   else if DBIRstr='ptMissSpe'
-                  then FCDBinfra[DBIRcnt].I_reqStaff[DBIRreqStaffCnt].RS_type:=ptMissionSpecialist
+                  then FCDdipInfrastructures[DBIRcnt].I_reqStaff[DBIRreqStaffCnt].RS_type:=ptMissionSpecialist
                   else if DBIRstr='ptBiolog'
-                  then FCDBinfra[DBIRcnt].I_reqStaff[DBIRreqStaffCnt].RS_type:=ptBiologist
+                  then FCDdipInfrastructures[DBIRcnt].I_reqStaff[DBIRreqStaffCnt].RS_type:=ptBiologist
                   else if DBIRstr='ptDoctor'
-                  then FCDBinfra[DBIRcnt].I_reqStaff[DBIRreqStaffCnt].RS_type:=ptDoctor
+                  then FCDdipInfrastructures[DBIRcnt].I_reqStaff[DBIRreqStaffCnt].RS_type:=ptDoctor
                   else if DBIRstr='ptTechnic'
-                  then FCDBinfra[DBIRcnt].I_reqStaff[DBIRreqStaffCnt].RS_type:=ptTechnician
+                  then FCDdipInfrastructures[DBIRcnt].I_reqStaff[DBIRreqStaffCnt].RS_type:=ptTechnician
                   else if DBIRstr='ptEngineer'
-                  then FCDBinfra[DBIRcnt].I_reqStaff[DBIRreqStaffCnt].RS_type:=ptEngineer
+                  then FCDdipInfrastructures[DBIRcnt].I_reqStaff[DBIRreqStaffCnt].RS_type:=ptEngineer
                   else if DBIRstr='ptSoldier'
-                  then FCDBinfra[DBIRcnt].I_reqStaff[DBIRreqStaffCnt].RS_type:=ptSoldier
+                  then FCDdipInfrastructures[DBIRcnt].I_reqStaff[DBIRreqStaffCnt].RS_type:=ptSoldier
                   else if DBIRstr='ptCommando'
-                  then FCDBinfra[DBIRcnt].I_reqStaff[DBIRreqStaffCnt].RS_type:=ptCommando
+                  then FCDdipInfrastructures[DBIRcnt].I_reqStaff[DBIRreqStaffCnt].RS_type:=ptCommando
                   else if DBIRstr='ptPhysic'
-                  then FCDBinfra[DBIRcnt].I_reqStaff[DBIRreqStaffCnt].RS_type:=ptPhysicist
+                  then FCDdipInfrastructures[DBIRcnt].I_reqStaff[DBIRreqStaffCnt].RS_type:=ptPhysicist
                   else if DBIRstr='ptAstroph'
-                  then FCDBinfra[DBIRcnt].I_reqStaff[DBIRreqStaffCnt].RS_type:=ptAstrophysicist
+                  then FCDdipInfrastructures[DBIRcnt].I_reqStaff[DBIRreqStaffCnt].RS_type:=ptAstrophysicist
                   else if DBIRstr='ptEcolog'
-                  then FCDBinfra[DBIRcnt].I_reqStaff[DBIRreqStaffCnt].RS_type:=ptEcologist
+                  then FCDdipInfrastructures[DBIRcnt].I_reqStaff[DBIRreqStaffCnt].RS_type:=ptEcologist
                   else if DBIRstr='ptEcoform'
-                  then FCDBinfra[DBIRcnt].I_reqStaff[DBIRreqStaffCnt].RS_type:=ptEcoformer
+                  then FCDdipInfrastructures[DBIRcnt].I_reqStaff[DBIRreqStaffCnt].RS_type:=ptEcoformer
                   else if DBIRstr='ptMedian'
-                  then FCDBinfra[DBIRcnt].I_reqStaff[DBIRreqStaffCnt].RS_type:=ptMedian;
-                  DBIRsizeCnt:=FCDBinfra[DBIRcnt].I_minLevel;
-                  while DBIRsizeCnt<=FCDBinfra[DBIRcnt].I_maxLevel do
+                  then FCDdipInfrastructures[DBIRcnt].I_reqStaff[DBIRreqStaffCnt].RS_type:=ptMedian;
+                  DBIRsizeCnt:=FCDdipInfrastructures[DBIRcnt].I_minLevel;
+                  while DBIRsizeCnt<=FCDdipInfrastructures[DBIRcnt].I_maxLevel do
                   begin
-                     FCDBinfra[DBIRcnt].I_reqStaff[DBIRreqStaffCnt].RS_requiredByLv[DBIRsizeCnt]:=DBIRreqStaff.Attributes['requiredNumLv'+IntToStr(DBIRsizeCnt)];
+                     FCDdipInfrastructures[DBIRcnt].I_reqStaff[DBIRreqStaffCnt].RS_requiredByLv[DBIRsizeCnt]:=DBIRreqStaff.Attributes['requiredNumLv'+IntToStr(DBIRsizeCnt)];
                      inc(DBIRsizeCnt);
                   end;
                   DBIRreqStaff:=DBIRreqStaff.NextSibling;
                end; //==END== while DBIRreqStaff<>nil do ==//
+            end //==END== else if DBIRsubN.NodeName='infReqStaff' ==//
+            else if DBIRsubN.NodeName='infCustFX'
+            then
+            begin
+               SetLength(FCDdipInfrastructures[DBIRcnt].I_customEffectStructure, 1);
+               DBIRcustFXcnt:=0;
+               DBIRcustFX:=DBIRsubN.ChildNodes.First;
+               while DBIRcustFX<>nil do
+               begin
+                  inc(DBIRcustFXcnt);
+                  SetLength(FCDdipInfrastructures[DBIRcnt].I_customEffectStructure, DBIRcustFXcnt+1);
+                  if DBIRcustFX.NodeName='icfxEnergyGen'
+                  then
+                  begin
+                     FCDdipInfrastructures[DBIRcnt].I_customEffectStructure[DBIRcustFXcnt].ICFX_customEffect:=ceEnergyGeneration;
+                     DBIRstr:=DBIRsubN.Attributes['genMode'];
+                     if DBIRstr='egmAntimatter'
+                     then FCDdipInfrastructures[DBIRcnt].I_customEffectStructure[DBIRcustFXcnt].ICFX_ceEGmode.EGM_modes:=egmAntimatter
+                     else if DBIRstr='egmFission'
+                     then
+                     begin
+                        FCDdipInfrastructures[DBIRcnt].I_customEffectStructure[DBIRcustFXcnt].ICFX_ceEGmode.EGM_modes:=egmFission;
+                        DBIRsizeCnt:=FCDdipInfrastructures[DBIRcnt].I_minLevel;
+                        while DBIRsizeCnt<=FCDdipInfrastructures[DBIRcnt].I_maxLevel do
+                        begin
+                           FCDdipInfrastructures[DBIRcnt].I_customEffectStructure[DBIRcustFXcnt].ICFX_ceEGmode.EGM_mFfixedValues[DBIRsizeCnt].FV_baseGeneration:=DBIRsubN.Attributes['fixedprodlv'+IntToStr(DBIRsizeCnt)];
+                           FCDdipInfrastructures[DBIRcnt].I_customEffectStructure[DBIRcustFXcnt].ICFX_ceEGmode.EGM_mFfixedValues[DBIRsizeCnt].FV_generationByDevLevel:=DBIRsubN.Attributes['fixedprodlv'+IntToStr(DBIRsizeCnt)+'byDL'];
+                           inc(DBIRsizeCnt);
+                        end;
+                     end
+                     else if DBIRstr='egmFusionDT'
+                     then FCDdipInfrastructures[DBIRcnt].I_customEffectStructure[DBIRcustFXcnt].ICFX_ceEGmode.EGM_modes:=egmFusionDT
+                     else if DBIRstr='egmFusionH2'
+                     then FCDdipInfrastructures[DBIRcnt].I_customEffectStructure[DBIRcustFXcnt].ICFX_ceEGmode.EGM_modes:=egmFusionH2
+                     else if DBIRstr='egmFusionHe3'
+                     then FCDdipInfrastructures[DBIRcnt].I_customEffectStructure[DBIRcustFXcnt].ICFX_ceEGmode.EGM_modes:=egmFusionHe3
+                     else if DBIRstr='egmPhoton'
+                     then
+                     begin
+                        FCDdipInfrastructures[DBIRcnt].I_customEffectStructure[DBIRcustFXcnt].ICFX_ceEGmode.EGM_modes:=egmPhoton;
+                        FCDdipInfrastructures[DBIRcnt].I_customEffectStructure[DBIRcustFXcnt].ICFX_ceEGmode.EGM_mParea:=DBIRsubN.Attributes['area'];
+                        FCDdipInfrastructures[DBIRcnt].I_customEffectStructure[DBIRcustFXcnt].ICFX_ceEGmode.EGM_mPefficiency:=DBIRsubN.Attributes['efficiency'];
+                     end;
+                  end
+                  else if DBIRcustFX.NodeName='cfxEnergyStor'
+                  then
+                  begin
+                     FCDdipInfrastructures[DBIRcnt].I_customEffectStructure[DBIRcustFXcnt].ICFX_customEffect:=ceEnergyStorage;
+                     DBIRlevel:=DBIRcustFX.Attributes['storlevel'];
+                     FCDdipInfrastructures[DBIRcnt].I_customEffectStructure[DBIRcustFXcnt].ICFX_ceEScapacitiesByLevel[DBIRlevel]:=DBIRcustFX.Attributes['storCapacity'];
+                  end
+                  else if DBIRcustFX.NodeName='icfxHQbasic'
+                  then FCDdipInfrastructures[DBIRcnt].I_customEffectStructure[DBIRcustFXcnt].ICFX_customEffect:=ceHeadQuarterPrimary
+                  else if DBIRcustFX.NodeName='icfxHQSecondary'
+                  then FCDdipInfrastructures[DBIRcnt].I_customEffectStructure[DBIRcustFXcnt].ICFX_customEffect:=ceHeadQuarterBasic
+                  else if DBIRcustFX.NodeName='icfxHQPrimary'
+                  then FCDdipInfrastructures[DBIRcnt].I_customEffectStructure[DBIRcustFXcnt].ICFX_customEffect:=ceHeadQuarterSecondary
+                  else if DBIRcustFX.NodeName='cfxProductStorage'
+                  then
+                  begin
+                     FCDdipInfrastructures[DBIRcnt].I_customEffectStructure[DBIRcustFXcnt].ICFX_customEffect:=ceProductStorage;
+                     DBIRlevel:=DBIRcustFX.Attributes['storlevel'];
+                     FCDdipInfrastructures[DBIRcnt].I_customEffectStructure[DBIRcustFXcnt].ICFX_cePSstorageByLevel[DBIRlevel].SBL_solid:=DBIRcustFX.Attributes['storSolid'];
+                     FCDdipInfrastructures[DBIRcnt].I_customEffectStructure[DBIRcustFXcnt].ICFX_cePSstorageByLevel[DBIRlevel].SBL_liquid:=DBIRcustFX.Attributes['storLiquid'];
+                     FCDdipInfrastructures[DBIRcnt].I_customEffectStructure[DBIRcustFXcnt].ICFX_cePSstorageByLevel[DBIRlevel].SBL_gas:=DBIRcustFX.Attributes['storGas'];
+                     FCDdipInfrastructures[DBIRcnt].I_customEffectStructure[DBIRcustFXcnt].ICFX_cePSstorageByLevel[DBIRlevel].SBL_biologic:=DBIRcustFX.Attributes['storBio'];
+                  end;
+                  DBIRcustFX:=DBIRcustFX.NextSibling;
+               end; //==END== while DBIRcustFX<>nil do ==//
             end //==END== else if DBIRsubN.NodeName='infCustFX' ==//
             else if DBIRsubN.NodeName='infFunc'
             then
@@ -1040,85 +1018,85 @@ begin
                if DBIRstr='fEnergy'
                then
                begin
-                  FCDBinfra[DBIRcnt].I_function:=fEnergy;
+                  FCDdipInfrastructures[DBIRcnt].I_function:=fEnergy;
                   DBIRstr:=DBIRsubN.Attributes['emode'];
                   if DBIRstr='egmAntimatter'
-                  then FCDBinfra[DBIRcnt].I_fEnergyPmode.EGM_modes:=egmAntimatter
+                  then FCDdipInfrastructures[DBIRcnt].I_fEmode.EGM_modes:=egmAntimatter
 						else if DBIRstr='egmFission'
                   then
                   begin
-                     FCDBinfra[DBIRcnt].I_fEnergyPmode.EGM_modes:=egmFission;
-                     DBIRsizeCnt:=FCDBinfra[DBIRcnt].I_minLevel;
-                     while DBIRsizeCnt<=FCDBinfra[DBIRcnt].I_maxLevel do
+                     FCDdipInfrastructures[DBIRcnt].I_fEmode.EGM_modes:=egmFission;
+                     DBIRsizeCnt:=FCDdipInfrastructures[DBIRcnt].I_minLevel;
+                     while DBIRsizeCnt<=FCDdipInfrastructures[DBIRcnt].I_maxLevel do
                      begin
-                        FCDBinfra[DBIRcnt].I_fEnergyPmode.EGM_mFfixedValues[DBIRsizeCnt].FV_baseGeneration:=DBIRsubN.Attributes['fixedprodlv'+IntToStr(DBIRsizeCnt)];
-                        FCDBinfra[DBIRcnt].I_fEnergyPmode.EGM_mFfixedValues[DBIRsizeCnt].FV_generationByDevelopmentLevel:=DBIRsubN.Attributes['fixedprodlv'+IntToStr(DBIRsizeCnt)+'byDL'];
+                        FCDdipInfrastructures[DBIRcnt].I_fEmode.EGM_mFfixedValues[DBIRsizeCnt].FV_baseGeneration:=DBIRsubN.Attributes['fixedprodlv'+IntToStr(DBIRsizeCnt)];
+                        FCDdipInfrastructures[DBIRcnt].I_fEmode.EGM_mFfixedValues[DBIRsizeCnt].FV_generationByDevLevel:=DBIRsubN.Attributes['fixedprodlv'+IntToStr(DBIRsizeCnt)+'byDL'];
                         inc(DBIRsizeCnt);
                      end;
                   end
 						else if DBIRstr='egmFusionDT'
-                  then FCDBinfra[DBIRcnt].I_fEnergyPmode.EGM_modes:=egmFusionDT
+                  then FCDdipInfrastructures[DBIRcnt].I_fEmode.EGM_modes:=egmFusionDT
 						else if DBIRstr='egmFusionH2'
-                  then FCDBinfra[DBIRcnt].I_fEnergyPmode.EGM_modes:=egmFusionH2
+                  then FCDdipInfrastructures[DBIRcnt].I_fEmode.EGM_modes:=egmFusionH2
 						else if DBIRstr='egmFusionHe3'
-                  then FCDBinfra[DBIRcnt].I_fEnergyPmode.EGM_modes:=egmFusionHe3
+                  then FCDdipInfrastructures[DBIRcnt].I_fEmode.EGM_modes:=egmFusionHe3
                   else if DBIRstr='egmPhoton'
                   then
                   begin
-                     FCDBinfra[DBIRcnt].I_fEnergyPmode.EGM_modes:=egmPhoton;
-                     FCDBinfra[DBIRcnt].I_fEnergyPmode.FEPM_photonArea:=DBIRsubN.Attributes['area'];
-                     FCDBinfra[DBIRcnt].I_fEnergyPmode.FEPM_photonEfficiency:=DBIRsubN.Attributes['efficiency'];
+                     FCDdipInfrastructures[DBIRcnt].I_fEmode.EGM_modes:=egmPhoton;
+                     FCDdipInfrastructures[DBIRcnt].I_fEmode.EGM_mParea:=DBIRsubN.Attributes['area'];
+                     FCDdipInfrastructures[DBIRcnt].I_fEmode.EGM_mPefficiency:=DBIRsubN.Attributes['efficiency'];
                   end;
                end
                else if DBIRstr='fHousing'
                then
                begin
-                  FCDBinfra[DBIRcnt].I_function:=fHousing;
-                  if FCDBinfra[DBIRcnt].I_constr<cConverted then
+                  FCDdipInfrastructures[DBIRcnt].I_function:=fHousing;
+                  if FCDdipInfrastructures[DBIRcnt].I_construct<cConverted then
                   begin
-                     DBIRsizeCnt:=FCDBinfra[DBIRcnt].I_minLevel;
-                     while DBIRsizeCnt<=FCDBinfra[DBIRcnt].I_maxLevel do
+                     DBIRsizeCnt:=FCDdipInfrastructures[DBIRcnt].I_minLevel;
+                     while DBIRsizeCnt<=FCDdipInfrastructures[DBIRcnt].I_maxLevel do
                      begin
-                        FCDBinfra[DBIRcnt].I_fHousPopulationCap[DBIRsizeCnt]:=DBIRsubN.Attributes['pcaplv'+IntToStr(DBIRsizeCnt)];
+                        FCDdipInfrastructures[DBIRcnt].I_fHpopulationCapacity[DBIRsizeCnt]:=DBIRsubN.Attributes['pcaplv'+IntToStr(DBIRsizeCnt)];
                         inc(DBIRsizeCnt);
                      end;
                   end;
-                  FCDBinfra[DBIRcnt].I_fHousQualityOfLife:=DBIRsubN.Attributes['qol'];
+                  FCDdipInfrastructures[DBIRcnt].I_fHqualityOfLife:=DBIRsubN.Attributes['qol'];
                end
                else if DBIRstr='fIntelligence'
-               then FCDBinfra[DBIRcnt].I_function:=fIntelligence
+               then FCDdipInfrastructures[DBIRcnt].I_function:=fIntelligence
                else if DBIRstr='fMiscellaneous'
-               then FCDBinfra[DBIRcnt].I_function:=fMiscellaneous
+               then FCDdipInfrastructures[DBIRcnt].I_function:=fMiscellaneous
                else if DBIRstr='fProduction'
                then
                begin
-                  FCDBinfra[DBIRcnt].I_function:=fProduction;
+                  FCDdipInfrastructures[DBIRcnt].I_function:=fProduction;
                   DBIRpmodeCnt:=0;
                   DBIRpmode:=DBIRsubN.ChildNodes.First;
                   while DBIRpmode<>nil do
                   begin
                      inc( DBIRpmodeCnt );
                      DBIRenumIndex:=GetEnumValue( TypeInfo( TFCEdipProductionModes ), DBIRpmode.Attributes['pmode'] );
-                     FCDBinfra[DBIRcnt].I_fProductionMode[ DBIRpmodeCnt ].IPM_productionModes:=TFCEdipProductionModes(DBIRenumIndex);
+                     FCDdipInfrastructures[DBIRcnt].I_fPmodeStructure[ DBIRpmodeCnt ].MS_mode:=TFCEdipProductionModes(DBIRenumIndex);
                      if DBIRenumIndex=-1
                      then raise Exception.Create('bad production mode: '+DBIRpmode.Attributes['pmode'] );
-                     FCDBinfra[DBIRcnt].I_fProductionMode[DBIRpmodeCnt].IPM_occupancy:=DBIRpmode.Attributes['occupancy'];
-                     if FCDBinfra[DBIRcnt].I_fProductionMode[ DBIRpmodeCnt ].IPM_productionModes=pmWaterRecovery
+                     FCDdipInfrastructures[DBIRcnt].I_fPmodeStructure[DBIRpmodeCnt].MS_occupancy:=DBIRpmode.Attributes['occupancy'];
+                     if FCDdipInfrastructures[DBIRcnt].I_fPmodeStructure[ DBIRpmodeCnt ].MS_mode=pmWaterRecovery
                      then
                      begin
-                        FCDBinfra[DBIRcnt].I_fProductionMode[DBIRpmodeCnt].IPM_productionModes:=pmWaterRecovery;
-                        DBIRsizeCnt:=FCDBinfra[DBIRcnt].I_minLevel;
-                        while DBIRsizeCnt<=FCDBinfra[DBIRcnt].I_maxLevel do
+                        FCDdipInfrastructures[DBIRcnt].I_fPmodeStructure[DBIRpmodeCnt].MS_mode:=pmWaterRecovery;
+                        DBIRsizeCnt:=FCDdipInfrastructures[DBIRcnt].I_minLevel;
+                        while DBIRsizeCnt<=FCDdipInfrastructures[DBIRcnt].I_maxLevel do
                         begin
-                           FCDBinfra[DBIRcnt].I_fProductionMode[DBIRpmodeCnt].WR_roofarea:=DBIRpmode.Attributes['roofArealv'+IntToStr(DBIRsizeCnt)];
-                           FCDBinfra[DBIRcnt].I_fProductionMode[DBIRpmodeCnt].WR_traparea:=DBIRpmode.Attributes['trapArealv'+IntToStr(DBIRsizeCnt)];
+                           FCDdipInfrastructures[DBIRcnt].I_fPmodeStructure[DBIRpmodeCnt].MS_mWRroofArea:=DBIRpmode.Attributes['roofArealv'+IntToStr(DBIRsizeCnt)];
+                           FCDdipInfrastructures[DBIRcnt].I_fPmodeStructure[DBIRpmodeCnt].MS_mWRtrapArea:=DBIRpmode.Attributes['trapArealv'+IntToStr(DBIRsizeCnt)];
                            inc(DBIRsizeCnt);
                         end;
                      end;
                      DBIRpmode:=DBIRpmode.NextSibling;
                   end; //==END== while DBIRpmode<>nil do ==//
                   if DBIRpmodeCnt+1<=FCCdipProductionModesMax
-                  then FCDBinfra[DBIRcnt].I_fProductionMode[ DBIRpmodeCnt+1 ].IPM_productionModes:=pmNone;
+                  then FCDdipInfrastructures[DBIRcnt].I_fPmodeStructure[ DBIRpmodeCnt+1 ].MS_mode:=pmNone;
                end;
             end; //==END== else if DBIRsubN.NodeName='infFunc' ==//
             DBIRsubN:=DBIRsubN.NextSibling;
@@ -1160,8 +1138,8 @@ var
 	,DBPRsub
 	,DBPRtag: IXMLNode;
 begin
-   FCDBProducts:=nil;
-   SetLength(FCDBProducts, 1);
+   FCDdipProducts:=nil;
+   SetLength(FCDdipProducts, 1);
    DBPRcnt:=0;
    {.read the document}
    FCWinMain.FCXMLdbProducts.FileName:=FCVdiPathXML+'\env\productsdb.xml';
@@ -1173,120 +1151,112 @@ begin
       then
       begin
          inc(DBPRcnt);
-         SetLength(FCDBProducts, DBPRcnt+1);
-         FCDBProducts[DBPRcnt].PROD_token:=DBPRnode.Attributes['token'];
+         SetLength(FCDdipProducts, DBPRcnt+1);
+         FCDdipProducts[DBPRcnt].P_token:=DBPRnode.Attributes['token'];
          DBPRenumIndex:=GetEnumValue( TypeInfo( TFCEdipProductClasses ), DBPRnode.Attributes['class'] );
-         FCDBProducts[DBPRcnt].PROD_class:=TFCEdipProductClasses( DBPRenumIndex );
+         FCDdipProducts[DBPRcnt].P_class:=TFCEdipProductClasses( DBPRenumIndex );
          if DBPRenumIndex=-1
          then raise Exception.Create( 'bad product class: '+DBPRnode.Attributes['class'] );
          DBPRenumIndex:=GetEnumValue( TypeInfo( TFCEdipStorageTypes ), DBPRnode.Attributes['storage'] );
-         FCDBProducts[DBPRcnt].PROD_storage:=TFCEdipStorageTypes( DBPRenumIndex );
+         FCDdipProducts[DBPRcnt].P_storage:=TFCEdipStorageTypes( DBPRenumIndex );
          if DBPRenumIndex=-1
          then raise Exception.Create( 'bad storage: '+DBPRnode.Attributes['storage'] );
          {:DEV NOTE: complete cargo type loading here}
 //         DBPRdumpStr:=DBPRnode.Attributes['cargo'];
-         FCDBProducts[DBPRcnt].PROD_volByUnit:=DBPRnode.Attributes['volbyunit'];
-         FCDBProducts[DBPRcnt].PROD_massByUnit:=DBPRnode.Attributes['massbyunit'];
+         FCDdipProducts[DBPRcnt].P_volumeByUnit:=DBPRnode.Attributes['volbyunit'];
+         FCDdipProducts[DBPRcnt].P_massByUnit:=DBPRnode.Attributes['massbyunit'];
          DBPRsub:=DBPRnode.ChildNodes.First;
          while DBPRsub<>nil do
          begin
             if DBPRsub.NodeName='function' then
             begin
                DBPRenumIndex:=GetEnumValue( TypeInfo( TFCEdipProductFunctions ), DBPRsub.Attributes['token'] );
-               FCDBProducts[DBPRcnt].PROD_function:=TFCEdipProductFunctions( DBPRenumIndex );
+               FCDdipProducts[DBPRcnt].P_function:=TFCEdipProductFunctions( DBPRenumIndex );
                if DBPRenumIndex=-1
                then raise Exception.Create( 'bad product function: '+DBPRsub.Attributes['token'] );
-               case FCDBProducts[DBPRcnt].PROD_function of
+               case FCDdipProducts[DBPRcnt].P_function of
                   pfBuildingMaterial:
                   begin
-                     FCDBProducts[DBPRcnt].PROD_fBmatTensileStr:=DBPRsub.Attributes['tensilestr'];
-                     FCDBProducts[DBPRcnt].PROD_fBmatTSbyLevel:=DBPRsub.Attributes['tsbylevel'];
-                     FCDBProducts[DBPRcnt].PROD_fBmatYoungModulus:=DBPRsub.Attributes['youngmodulus'];
-                     FCDBProducts[DBPRcnt].PROD_fBmatYMbyLevel:=DBPRsub.Attributes['ymbylevel'];
-                     FCDBProducts[DBPRcnt].PROD_fBmatThermalProt:=DBPRsub.Attributes['thermalprot'];
-                     FCDBProducts[DBPRcnt].PROD_fBmatReflectivity:=DBPRsub.Attributes['reflectivity'];
+                     FCDdipProducts[DBPRcnt].P_fBMtensileStrength:=DBPRsub.Attributes['tensilestr'];
+                     FCDdipProducts[DBPRcnt].P_fBMtensileStrengthByDevLevel:=DBPRsub.Attributes['tsbylevel'];
+                     FCDdipProducts[DBPRcnt].P_fBMyoungModulus:=DBPRsub.Attributes['youngmodulus'];
+                     FCDdipProducts[DBPRcnt].P_fBMyoungModulusByDevLevel:=DBPRsub.Attributes['ymbylevel'];
+                     FCDdipProducts[DBPRcnt].P_fBMthermalProtection:=DBPRsub.Attributes['thermalprot'];
+                     FCDdipProducts[DBPRcnt].P_fBMreflectivity:=DBPRsub.Attributes['reflectivity'];
                      DBPRenumIndex:=GetEnumValue( TypeInfo( TFCEdipCorrosiveClasses ), DBPRsub.Attributes['corrosiveclass'] );
-                     FCDBProducts[DBPRcnt].PROD_fBmatCorrosiveClass:=TFCEdipCorrosiveClasses( DBPRenumIndex );
+                     FCDdipProducts[DBPRcnt].P_fBMcorrosiveClass:=TFCEdipCorrosiveClasses( DBPRenumIndex );
                      if DBPRenumIndex=-1
                      then raise Exception.Create( 'bad corrosive class: '+DBPRsub.Attributes['corrosiveclass'] );
                   end;
 
-                  pfFood: FCDBProducts[DBPRcnt].PROD_fFoodPoint:=DBPRsub.Attributes['foodpoint'];
+                  pfFood: FCDdipProducts[DBPRcnt].P_fFpoints:=DBPRsub.Attributes['foodpoint'];
 
                   pfInfrastructureKit:
                   begin
-                     FCDBProducts[DBPRcnt].PROD_fInfKitToken:=DBPRsub.Attributes['infratoken'];
-                     FCDBProducts[DBPRcnt].PROD_fInfKitLevel:=DBPRsub.Attributes['infralevel'];
+                     FCDdipProducts[DBPRcnt].P_fIKtoken:=DBPRsub.Attributes['infratoken'];
+                     FCDdipProducts[DBPRcnt].P_fIKlevel:=DBPRsub.Attributes['infralevel'];
                   end;
 
-                  pfManualConstruction: FCDBProducts[DBPRcnt].PROD_fManConstWCPcoef:=DBPRsub.Attributes['wcpcoef'];
+                  pfManualConstruction: FCDdipProducts[DBPRcnt].P_fManCwcpCoef:=DBPRsub.Attributes['wcpcoef'];
 
                   pfMechanicalConstruction:
                   begin
-                     FCDBProducts[DBPRcnt].PROD_fMechConstWCP:=DBPRsub.Attributes['wcp'];
-                     FCDBProducts[DBPRcnt].PROD_fMechConstCrew:=DBPRsub.Attributes['crew'];
+                     FCDdipProducts[DBPRcnt].P_fMechCwcpCoef:=DBPRsub.Attributes['wcp'];
+                     FCDdipProducts[DBPRcnt].P_fMechCcrew:=DBPRsub.Attributes['crew'];
                   end;
 
                   pfMultipurposeMaterial:
                   begin
-                     FCDBProducts[DBPRcnt].PROD_fMmatTensileStr:=DBPRsub.Attributes['tensilestr'];
-                     FCDBProducts[DBPRcnt].PROD_fMmatTSbyLevel:=DBPRsub.Attributes['tsbylevel'];
-                     FCDBProducts[DBPRcnt].PROD_fMmatYoungModulus:=DBPRsub.Attributes['youngmodulus'];
-                     FCDBProducts[DBPRcnt].PROD_fMmatYMbyLevel:=DBPRsub.Attributes['ymbylevel'];
-                     FCDBProducts[DBPRcnt].PROD_fMmatThermalProt:=DBPRsub.Attributes['thermalprot'];
-                     FCDBProducts[DBPRcnt].PROD_fMmatReflectivity:=DBPRsub.Attributes['reflectivity'];
+                     FCDdipProducts[DBPRcnt].P_fMMtensileStrength:=DBPRsub.Attributes['tensilestr'];
+                     FCDdipProducts[DBPRcnt].P_fMMtensileStrengthByDevLevel:=DBPRsub.Attributes['tsbylevel'];
+                     FCDdipProducts[DBPRcnt].P_fMMyoungModulus:=DBPRsub.Attributes['youngmodulus'];
+                     FCDdipProducts[DBPRcnt].P_fMMyoungModulusByDevLevel:=DBPRsub.Attributes['ymbylevel'];
+                     FCDdipProducts[DBPRcnt].P_fMMthermalProtection:=DBPRsub.Attributes['thermalprot'];
+                     FCDdipProducts[DBPRcnt].P_fMMreflectivity:=DBPRsub.Attributes['reflectivity'];
                      DBPRenumIndex:=GetEnumValue( TypeInfo( TFCEdipCorrosiveClasses ), DBPRsub.Attributes['corrosiveclass'] );
-                     FCDBProducts[DBPRcnt].PROD_fMmatCorrosiveClass:=TFCEdipCorrosiveClasses( DBPRenumIndex );
+                     FCDdipProducts[DBPRcnt].P_fMMcorrosiveClass:=TFCEdipCorrosiveClasses( DBPRenumIndex );
                      if DBPRenumIndex=-1
                      then raise Exception.Create( 'bad corrosive class: '+DBPRsub.Attributes['corrosiveclass'] );
                   end;
 
-                  pfOxygen: FCDBProducts[DBPRcnt].PROD_fOxyPoint:=DBPRsub.Attributes['oxypoint'];
+                  pfOxygen: FCDdipProducts[DBPRcnt].P_fOpoints:=DBPRsub.Attributes['oxypoint'];
 
                   pfSpaceMaterial:
                   begin
-                     FCDBProducts[DBPRcnt].PROD_function:=pfSpaceMaterial;
-                     FCDBProducts[DBPRcnt].PROD_fSmatTensileStr:=DBPRsub.Attributes['tensilestr'];
-                     FCDBProducts[DBPRcnt].PROD_fSmatTSbyLevel:=DBPRsub.Attributes['tsbylevel'];
-                     FCDBProducts[DBPRcnt].PROD_fSmatYoungModulus:=DBPRsub.Attributes['youngmodulus'];
-                     FCDBProducts[DBPRcnt].PROD_fSmatYMbyLevel:=DBPRsub.Attributes['ymbylevel'];
-                     FCDBProducts[DBPRcnt].PROD_fSmatThermalProt:=DBPRsub.Attributes['thermalprot'];
-                     FCDBProducts[DBPRcnt].PROD_fSmatReflectivity:=DBPRsub.Attributes['reflectivity'];
+                     FCDdipProducts[DBPRcnt].P_function:=pfSpaceMaterial;
+                     FCDdipProducts[DBPRcnt].P_fSMtensileStrength:=DBPRsub.Attributes['tensilestr'];
+                     FCDdipProducts[DBPRcnt].P_fSMtensileStrengthByDevLevel:=DBPRsub.Attributes['tsbylevel'];
+                     FCDdipProducts[DBPRcnt].P_fSMyoungModulus:=DBPRsub.Attributes['youngmodulus'];
+                     FCDdipProducts[DBPRcnt].P_fSMyoungModulusByDevLevel:=DBPRsub.Attributes['ymbylevel'];
+                     FCDdipProducts[DBPRcnt].P_fSMthermalProtection:=DBPRsub.Attributes['thermalprot'];
+                     FCDdipProducts[DBPRcnt].P_fSMreflectivity:=DBPRsub.Attributes['reflectivity'];
                      DBPRenumIndex:=GetEnumValue( TypeInfo( TFCEdipCorrosiveClasses ), DBPRsub.Attributes['corrosiveclass'] );
-                     FCDBProducts[DBPRcnt].PROD_fSmatCorrosiveClass:=TFCEdipCorrosiveClasses( DBPRenumIndex );
+                     FCDdipProducts[DBPRcnt].P_fSMcorrosiveClass:=TFCEdipCorrosiveClasses( DBPRenumIndex );
                      if DBPRenumIndex=-1
                      then raise Exception.Create( 'bad corrosive class: '+DBPRsub.Attributes['corrosiveclass'] );
                   end;
 
-                  pfWater: FCDBProducts[DBPRcnt].PROD_fWaterPoint:=DBPRsub.Attributes['waterpoint'];
+                  pfWater: FCDdipProducts[DBPRcnt].P_fWpoints:=DBPRsub.Attributes['waterpoint'];
                end; //==END== case FCDBProducts[DBPRcnt].PROD_function of ==//
             end //==END== if DBPRsub.NodeName='function' ==//
-            else if DBPRsub.NodeName='techsci' then
-            begin
-               DBPRenumIndex:=GetEnumValue( TypeInfo( TFCEdrResearchSectors ), DBPRsub.Attributes['sector'] );
-               FCDBProducts[DBPRcnt].PROD_tsSector:=TFCEdrResearchSectors( DBPRenumIndex );
-               if DBPRenumIndex=-1
-               then raise Exception.Create( 'bad research sector: '+DBPRsub.Attributes['sector'] );
-               FCDBProducts[DBPRcnt].PROD_tsToken:=DBPRsub.Attributes['token'];
-            end //==END== if DBPRsub.NodeName='techsci' ==//
             else if DBPRsub.NodeName='tags'
             then
             begin
                DBPRtag:=DBPRsub.ChildNodes.First;
                while DBPRtag<>nil do
                begin
-                  FCDBProducts[DBPRcnt].PROD_tagHazEnv:=false;
-                  FCDBProducts[DBPRcnt].PROD_tagHazFire:=false;
-                  FCDBProducts[DBPRcnt].PROD_tagHazRad:=false;
-                  FCDBProducts[DBPRcnt].PROD_tagHazToxic:=false;
+                  FCDdipProducts[DBPRcnt].P_tagEnvironmentalHazard:=false;
+                  FCDdipProducts[DBPRcnt].P_tagFireHazard:=false;
+                  FCDdipProducts[DBPRcnt].P_tagRadiationsHazard:=false;
+                  FCDdipProducts[DBPRcnt].P_tagToxicHazard:=false;
                   if DBPRtag.NodeName='hazEnv'
-                  then FCDBProducts[DBPRcnt].PROD_tagHazEnv:=true
+                  then FCDdipProducts[DBPRcnt].P_tagEnvironmentalHazard:=true
                   else if DBPRtag.NodeName='hazFire'
-                  then FCDBProducts[DBPRcnt].PROD_tagHazFire:=true
+                  then FCDdipProducts[DBPRcnt].P_tagFireHazard:=true
                   else if DBPRtag.NodeName='hazRad'
-                  then FCDBProducts[DBPRcnt].PROD_tagHazRad:=true
+                  then FCDdipProducts[DBPRcnt].P_tagRadiationsHazard:=true
                   else if DBPRtag.NodeName='hazToxic'
-                  then FCDBProducts[DBPRcnt].PROD_tagHazToxic:=true;
+                  then FCDdipProducts[DBPRcnt].P_tagToxicHazard:=true;
                   DBPRtag:=DBPRtag.NextSibling;
                end; {.while DBPRtag<>nil}
             end; //==END== if DBPRsub.NodeName='tags' ==//

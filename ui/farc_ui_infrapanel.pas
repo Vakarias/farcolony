@@ -176,7 +176,7 @@ begin
          ,UIIPcolony
          ,AISinfraToken
          );
-      if UIIPinfrastructure.I_constr=cBuilt
+      if UIIPinfrastructure.I_construct=cBuilt
       then
       begin
          UIIPisAssembling:=false;
@@ -217,7 +217,7 @@ begin
             FCWinMain.FCWM_IPconfirmButton.Hide;
          end;
       end
-      else if UIIPinfrastructure.I_constr=cPrefab
+      else if UIIPinfrastructure.I_construct=cPrefab
       then
       begin
          UIIPisAssembling:=true;

@@ -118,11 +118,11 @@ var
 begin
    Result:=-1;
    if GPmaxProducts=0
-   then GPmaxProducts:=length(FCDBProducts)-1;
+   then GPmaxProducts:=length(FCDdipProducts)-1;
    PGIcnt:=1;
    while PGIcnt<=GPmaxProducts do
    begin
-      if FCDBProducts[PGIcnt].PROD_token=PGIproduct
+      if FCDdipProducts[PGIcnt].P_token=PGIproduct
       then
       begin
          Result:=PGIcnt;
@@ -169,9 +169,9 @@ begin
       and ( ProdUnits>0 )
    then SignString:='+';
    ProdIndex:=FCFgP_Product_GetIndex( Product );
-   if FCDBProducts[ ProdIndex ].PROD_volByUnit=1
+   if FCDdipProducts[ ProdIndex ].P_volumeByUnit=1
    then Result:=RelatedString+' '+SignString+BoldHTML+FCFcFunc_ThSep( ProdUnits, ',' )+BoldHTMLend+' m3'
-   else if FCDBProducts[ ProdIndex ].PROD_volByUnit<>1
+   else if FCDdipProducts[ ProdIndex ].P_volumeByUnit<>1
    then Result:=RelatedString+' '+SignString+BoldHTML+FCFcFunc_ThSep( ProdUnits, ',' )+BoldHTMLend;
 end;
 
@@ -185,11 +185,11 @@ function FCFgP_UnitFromVolume_Get( const UFVGdbproductIndex: integer; UFVGvolume
       UFVGworkingData: extended;
 begin
    Result:=0;
-   if FCDBProducts[ UFVGdbproductIndex ].PROD_volByUnit=1
+   if FCDdipProducts[ UFVGdbproductIndex ].P_volumeByUnit=1
    then Result:=FCFcFunc_Rnd( cfrttpVolm3, UFVGvolume )
-   else if FCDBProducts[ UFVGdbproductIndex ].PROD_volByUnit<>1 then
+   else if FCDdipProducts[ UFVGdbproductIndex ].P_volumeByUnit<>1 then
    begin
-      UFVGworkingData:=UFVGvolume / FCDBProducts[ UFVGdbproductIndex ].PROD_volByUnit;
+      UFVGworkingData:=UFVGvolume / FCDdipProducts[ UFVGdbproductIndex ].P_volumeByUnit;
       Result:=int( UFVGworkingData );
       if (Result=0)
          and (UFVGvolume<>0)
@@ -217,11 +217,11 @@ function FCFgP_VolumeFromUnit_Get( const DBProductIndex: integer; UnitsToConvert
       WorkingData: extended;
 begin
    Result:=0;
-   if FCDBProducts[ DBProductIndex ].PROD_volByUnit=1
+   if FCDdipProducts[ DBProductIndex ].P_volumeByUnit=1
    then Result:=FCFcFunc_Rnd( cfrttpVolm3, UnitsToConvert )
-   else if FCDBProducts[ DBProductIndex ].PROD_volByUnit<>1 then
+   else if FCDdipProducts[ DBProductIndex ].P_volumeByUnit<>1 then
    begin
-      WorkingData:=UnitsToConvert * FCDBProducts[ DBProductIndex ].PROD_volByUnit;
+      WorkingData:=UnitsToConvert * FCDdipProducts[ DBProductIndex ].P_volumeByUnit;
       Result:=FCFcFunc_Rnd( cfrttpVolm3, WorkingData );
    end;
 end;

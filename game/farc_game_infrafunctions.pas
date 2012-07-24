@@ -196,8 +196,8 @@ begin
 
       fHousing:
       begin
-         FCentities[FIent].E_col[FIcol].COL_settlements[FIsett].CS_infra[FIinfra].CI_fhousPCAP:=FIinfraData.I_fHousPopulationCap[FCentities[FIent].E_col[FIcol].COL_settlements[FIsett].CS_infra[FIinfra].CI_level];
-         FCentities[FIent].E_col[FIcol].COL_settlements[FIsett].CS_infra[FIinfra].CI_fhousQOL:=FIinfraData.I_fHousQualityOfLife;
+         FCentities[FIent].E_col[FIcol].COL_settlements[FIsett].CS_infra[FIinfra].CI_fhousPCAP:=FIinfraData.I_fHpopulationCapacity[FCentities[FIent].E_col[FIcol].COL_settlements[FIsett].CS_infra[FIinfra].CI_level];
+         FCentities[FIent].E_col[FIcol].COL_settlements[FIsett].CS_infra[FIinfra].CI_fhousQOL:=FIinfraData.I_fHqualityOfLife;
          FCentities[FIent].E_col[FIcol].COL_settlements[FIsett].CS_infra[FIinfra].CI_fhousVol:=0;
          FCentities[FIent].E_col[FIcol].COL_settlements[FIsett].CS_infra[FIinfra].CI_fhousSurf:=0;
       end;

@@ -175,7 +175,7 @@ begin
       ,SRSAIcolony
       ,SRSAIsettlement
       ,SRSAIownedInfra
-      ,SRSAIinfraData.I_reqRsrcSpot
+      ,SRSAIinfraData.I_reqResourceSpot
       ,true
       );
    SRSAIsurveyedSpot:=FCentities[ SRSAIentity ].E_col[ SRSAIcolony ].COL_settlements[ SRSAIsettlement ].CS_infra[ SRSAIownedInfra ].CI_fprodSurveyedSpot;
