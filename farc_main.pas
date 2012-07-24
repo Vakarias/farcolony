@@ -1667,7 +1667,7 @@ var
 begin
    {.core settings}
    FCVisFARCclosing:=false;
-//   FCVdiFormat.DecimalSeparator:='.';
+   FCVdiFormat.DecimalSeparator:='.';
    Randomize;
    {.set the paths}
    FCVdiPathGame:=ExtractFilePath(Application.ExeName);

@@ -57,7 +57,7 @@ var
    ///<summary>
    ///   format setting for the internal decimal separator configuration
    ///</summary>
-//   FCVdiFormat: TFormatSettings;
+   FCVdiFormat: TFormatSettings;
 
    //==========game core====================================================================
    ///<summary>

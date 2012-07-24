@@ -71,7 +71,7 @@ procedure FCMdF_ConfigFile_Write(const CFWupdGtime:boolean);
 ///<summary>
 ///   Read the factions database xml file.
 ///</summary>
-procedure FCMdF_DBFactions_Read;
+procedure FCMdF_DBFactions_Loading;
 
 ///<summary>
 ///   Read the infrastructure database xml file.
@@ -130,9 +130,7 @@ uses
    ,farc_data_univ
    ,farc_game_cps
    ,farc_game_cpsobjectives
-   ,farc_game_gameflow
    ,farc_main
-   ,farc_univ_func
    ,farc_win_debug;
 
 //==END PRIVATE ENUM========================================================================
@@ -413,49 +411,19 @@ begin
    FCWinMain.FCXMLcfg.Active:=false;
 end;
 
-function FCFdF_DBFactCred_FStr(const DBFCFScred: string): TFCEcrIntRg;
-{:Purpose: retrieve the TFCEcrIntRg / credit-interest range from the corresponding string.
-    Additions:
-}
-begin
-   Result:= crirPoor_Insign;
-   if DBFCFScred='crirPoor_Insign'
-   then Result:= crirPoor_Insign
-   else if DBFCFScred='crirUndFun_Low'
-   then Result:= crirUndFun_Low
-   else if DBFCFScred='crirBelAvg_Mod'
-   then Result:= crirBelAvg_Mod
-   else if DBFCFScred='crirAverage'
-   then Result:= crirAverage
-   else if DBFCFScred='crirAbAvg_Maj'
-   then Result:= crirAbAvg_Maj
-   else if DBFCFScred='crirRch_High'
-   then Result:= crirRch_High
-   else if DBFCFScred='crirOvrFun_Usu'
-   then Result:= crirOvrFun_Usu
-   else if DBFCFScred='crirUnl_Ins'
-   then Result:= crirUnl_Ins;
-end;
-
-function FCFdF_DBFactStat_FStr(const DBFSFSstatus: string): TFCEfacStat;
-{:Purpose: retrieve the TFCEfacStat from the corresponding string.
-    Additions:
-}
-begin
-   Result:= fs0NViable;
-   if DBFSFSstatus='fs0NViable'
-   then Result:= fs0NViable
-   else if DBFSFSstatus='fs1StabFDep'
-   then Result:= fs1StabFDep
-   else if DBFSFSstatus='fs2DepVar'
-   then Result:= fs2DepVar
-   else if DBFSFSstatus='fs3Indep'
-   then Result:= fs3Indep;
-end;
-
-procedure FCMdF_DBFactions_Read;
+procedure FCMdF_DBFactions_Loading;
 {:Purpose: read the factions database xml file.
    Additions:
+      -2012Jul23-*code audit (begin):
+                  (-)var formatting + refactoring     (-)if..then reformatting   (-)function/procedure refactoring
+                  (_)parameters refactoring           (-) ()reformatting         (-)code optimizations
+                  (-)float local variables=> extended (-)case..of reformatting   (-)local methods
+                  (-)summary completion               (-)protect all float add/sub w/ FCFcFunc_Rnd
+                  (-)standardize internal data + commenting them at each use as a result
+                  (-)put [format x.xx ] dans returns of summary, if required and if the function do formatting
+                  (-)if the procedure reset the same record's data or external data put:
+                     ///   <remarks>the procedure/function reset the /data/</remarks>
+                  *fix: apply code format to get rid of the decimal format bug.
       -2012May22- *rem: colonization mode - min/max status levels.
                   *add: colonization mode - economic, social and military viability thresholds.
       -2012Mar11- *mod: optimize the loading of the viability objectives.
@@ -495,7 +463,7 @@ var
    ,DBFRfacEquipItm
    ,DBFRspmItm: IXMLNode;
 
-   DBFRenumIndex
+   EnumIndex
    ,DBFRitmCnt
    ,DBFRequItmCnt
    ,DBFRstartLocCnt
@@ -503,9 +471,6 @@ var
    ,DBFRcolMdCnt
    ,DBFRdockRoot
    ,DBFRdockDmp: Integer;
-
-   DBFRdoItmDmpStr
-   ,DBFRspmiStr: string;
 begin
 	{.clear the data structure}
 	DBFRitmCnt:=1;
@@ -554,8 +519,15 @@ begin
                FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_cpsVthEconomic:=DBFRfacSubItem.Attributes['viabThrEco'];
                FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_cpsVthSocial:=DBFRfacSubItem.Attributes['viabThrSoc'];
                FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_cpsVthSpaceMilitary:=DBFRfacSubItem.Attributes['viabThrSpMil'];
-               FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_cpsCrRg:=FCFdF_DBFactCred_FStr(DBFRfacSubItem.Attributes['creditrng']);
-               FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_cpsIntRg:=FCFdF_DBFactCred_FStr(DBFRfacSubItem.Attributes['intrng']);
+               EnumIndex:=GetEnumValue( TypeInfo( TFCEcrIntRg ), DBFRfacSubItem.Attributes['creditrng'] );
+               FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_cpsCrRg:=TFCEcrIntRg( EnumIndex );
+               if EnumIndex=-1
+               then raise Exception.Create( 'bad faction XML loading w/ colonization mode credit range: '+DBFRfacSubItem.Attributes['creditrng'] );
+               EnumIndex:=GetEnumValue( TypeInfo( TFCEcrIntRg ), DBFRfacSubItem.Attributes['intrng'] );
+               FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_cpsIntRg:=TFCEcrIntRg( EnumIndex );
+               if EnumIndex=-1
+               then raise Exception.Create( 'bad faction XML loading w/ colonization mode interest range: '+DBFRfacSubItem.Attributes['intrng'] )
+               else if EnumIndex>0 then
                {.equipment list items}
                DBFRfacEquipItm:=DBFRfacSubItem.ChildNodes.First;
                while DBFRfacEquipItm<>nil do
@@ -567,14 +539,14 @@ begin
                      inc(DBFRviabObjCnt);
                      SetLength(FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_cpsViabObj, DBFRviabObjCnt+1);
                      {.viability type}
-                     DBFRenumIndex:=GetEnumValue( TypeInfo( TFCEcpsoObjectiveTypes ), DBFRfacEquipItm.Attributes['objTp'] );
-                     FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_cpsViabObj[DBFRviabObjCnt].FVO_objTp:=TFCEcpsoObjectiveTypes(DBFRenumIndex);
-                     if DBFRenumIndex=-1
+                     EnumIndex:=GetEnumValue( TypeInfo( TFCEcpsoObjectiveTypes ), DBFRfacEquipItm.Attributes['objTp'] );
+                     FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_cpsViabObj[DBFRviabObjCnt].FVO_objTp:=TFCEcpsoObjectiveTypes(EnumIndex);
+                     if EnumIndex=-1
                      then raise Exception.Create('bad faction viability objective: '+DBFRfacEquipItm.Attributes['objTp'] );
                      if FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_cpsViabObj[DBFRviabObjCnt].FVO_objTp=otEcoIndustrialForce then
                      begin
                         FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_cpsViabObj[DBFRviabObjCnt].FVO_ifProduct:=DBFRfacEquipItm.Attributes['product'];
-                        FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_cpsViabObj[DBFRviabObjCnt].FVO_ifThreshold:=DBFRfacEquipItm.Attributes['threshold'];
+                        FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_cpsViabObj[DBFRviabObjCnt].FVO_ifThreshold:=StrToFloat( DBFRfacEquipItm.Attributes['threshold'], FCVdiFormat );
                      end;
                   end
                   {.equipment items list}
@@ -588,8 +560,7 @@ begin
                            FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_dotList
                            , Length(FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_dotList)+DBFRblocCnt
                         );
-                     DBFRdoItmDmpStr:=DBFRfacEquipItm.Attributes['itemTp'];
-                     if DBFRdoItmDmpStr='feitProduct'
+                     if DBFRfacEquipItm.Attributes['itemTp']='feitProduct'
                      then
                      begin
                         //WATCH OUT COPY/PASTE
@@ -602,7 +573,7 @@ begin
                         FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_dotList[DBFRequItmCnt].FCMEI_prodCarriedBy:=DBFRfacEquipItm.Attributes['carriedBy'];
                      end
                      {.space unit}
-                     else if DBFRdoItmDmpStr='feitSpaceCraft'
+                     else if DBFRfacEquipItm.Attributes['itemTp']='feitSpaceCraft'
                      then
                      begin
                         FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_dotList[DBFRequItmCnt].FCMEI_itemType:=feitSpaceUnit;
@@ -615,7 +586,7 @@ begin
                         {.dock status}
                         FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_dotList[DBFRequItmCnt].FCMEI_spuDockInfo:=DBFRfacEquipItm.Attributes['spuDock'];
                         {.current available energy / reaction mass}
-                        FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_dotList[DBFRequItmCnt].FCMEI_spuAvailEnRM:=DBFRfacEquipItm.Attributes['availEnRM'];
+                        FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_dotList[DBFRequItmCnt].FCMEI_spuAvailEnRM:=StrToFloat( DBFRfacEquipItm.Attributes['availEnRM'], FCVdiFormat );
                      end;
                   end;
                   DBFRfacEquipItm:=DBFRfacEquipItm.NextSibling;
@@ -653,19 +624,10 @@ begin
                   then
                   begin
                      FCDBfactions[DBFRitmCnt].F_spm[DBFRspmiCnt].SPMS_isPolicy:=false;
-                     DBFRspmiStr:=DBFRspmItm.Attributes['belieflev'];
-                     if DBFRspmiStr='dgUnknown'
-                     then FCDBfactions[DBFRitmCnt].F_spm[DBFRspmiCnt].SPMS_bLvl:=dgUnknown
-                     else if DBFRspmiStr='dgFleeting'
-                     then FCDBfactions[DBFRitmCnt].F_spm[DBFRspmiCnt].SPMS_bLvl:=dgFleeting
-                     else if DBFRspmiStr='dgUncommon'
-                     then FCDBfactions[DBFRitmCnt].F_spm[DBFRspmiCnt].SPMS_bLvl:=dgUncommon
-                     else if DBFRspmiStr='dgCommon'
-                     then FCDBfactions[DBFRitmCnt].F_spm[DBFRspmiCnt].SPMS_bLvl:=dgCommon
-                     else if DBFRspmiStr='dgStrong'
-                     then FCDBfactions[DBFRitmCnt].F_spm[DBFRspmiCnt].SPMS_bLvl:=dgStrong
-                     else if DBFRspmiStr='dgKbyAll'
-                     then FCDBfactions[DBFRitmCnt].F_spm[DBFRspmiCnt].SPMS_bLvl:=dgKbyAll;
+                     EnumIndex:=GetEnumValue( TypeInfo( TFCEdgBelLvl ), DBFRspmItm.Attributes['belieflev'] );
+                     FCDBfactions[DBFRitmCnt].F_spm[DBFRspmiCnt].SPMS_bLvl:=TFCEdgBelLvl( EnumIndex );
+                     if EnumIndex=-1
+                     then raise Exception.Create( 'bad faction XML loading w/ meme belief level: '+DBFRspmItm.Attributes['belieflev'] );
                      FCDBfactions[DBFRitmCnt].F_spm[DBFRspmiCnt].SPMS_sprdVal:=DBFRspmItm.Attributes['spreadval'];
                   end;
                   DBFRspmItm:=DBFRspmItm.NextSibling;
