@@ -728,7 +728,7 @@ interface
                {.design token}
                FCMEI_spuDesignToken: string[20];
                {.current status}
-               FCMEI_spuStatus: string[20];
+               FCMEI_spuStatus: TFCEspUnStatus;
                {.dock info -1: not docked/mother vessel, 1: mother vessel (all subsequent w/ 0 are docked to this one), 0: docked vessel}
                FCMEI_spuDockInfo: integer;
                {.current available energy/reaction mass volume}

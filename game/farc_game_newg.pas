@@ -424,7 +424,7 @@ begin
                   FCentities[CPent].E_spU[CPowndSCidx].SUO_locStarZ:=0;
                   FCentities[CPent].E_spU[CPowndSCidx].SUO_taskIdx:=0 ;
                   {.status + current deltaV}
-                  if FCM_dotList[CPcount0].FCMEI_spuStatus='scstatInFreeSpace'
+                  if FCM_dotList[CPcount0].FCMEI_spuStatus=susInFreeSpace
                   then
                   begin
                      FCentities[CPent].E_spU[CPowndSCidx].SUO_status:=susInFreeSpace;
@@ -432,7 +432,7 @@ begin
                      if FCM_dotList[CPcount0].FCMEI_spuDockInfo=-1
                      then CPspUnMother:=0;
                   end
-                  else if FCM_dotList[CPcount0].FCMEI_spuStatus='scstatInOrbit'
+                  else if FCM_dotList[CPcount0].FCMEI_spuStatus=susInOrbit
                   then
                   begin
                      FCentities[CPent].E_spU[CPowndSCidx].SUO_status:=susInOrbit;
@@ -463,7 +463,7 @@ begin
                      else if FCM_dotList[CPcount0].FCMEI_spuDockInfo=-1
                      then CPspUnMother:=0;
                   end
-                  else if FCM_dotList[CPcount0].FCMEI_spuStatus='scstatLanded'
+                  else if FCM_dotList[CPcount0].FCMEI_spuStatus=susLanded
                   then
                   begin
                      FCentities[CPent].E_spU[CPowndSCidx].SUO_status:=susLanded;
@@ -471,7 +471,7 @@ begin
                      if FCM_dotList[CPcount0].FCMEI_spuDockInfo=-1
                      then CPspUnMother:=0;
                   end
-                  else if FCM_dotList[CPcount0].FCMEI_spuStatus='scstatDocked'
+                  else if FCM_dotList[CPcount0].FCMEI_spuStatus=susDocked
                   then
                   begin
                      FCentities[CPent].E_spU[CPowndSCidx].SUO_status:=susDocked;
@@ -611,6 +611,14 @@ procedure FCMgNG_Core_Setup;
 var
    CStestDmp: integer;
 begin
+{:DEV NOTES: put the data loading in a proc and load it also for a continue game(one time loading).}
+   if length( FCDdsuSpaceUnitDesigns )<=1 then begin
+FCMdF_DBProducts_Read;
+   FCMdF_DBSPMi_Read;
+   FCMdF_DBFactions_Loading;
+   FCMdF_DBInfra_Read;
+   FCMdF_DBSpaceCrafts_Read;
+   end;
 {.DEV NOTES: it's only in the case of a new game at the start of FAR Colony, there'll be some changes and
             in the case of a new game during a current one.}
    with FCWinNewGSetup do

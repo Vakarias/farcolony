@@ -582,7 +582,10 @@ begin
                         {.design token id}
                         FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_dotList[DBFRequItmCnt].FCMEI_spuDesignToken:=DBFRfacEquipItm.Attributes['designToken'];
                         {.status}
-                           FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_dotList[DBFRequItmCnt].FCMEI_spuStatus:=DBFRfacEquipItm.Attributes['status'];
+                        EnumIndex:=GetEnumValue( TypeInfo( TFCEspUnStatus ), DBFRfacEquipItm.Attributes['status'] );
+                        FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_dotList[DBFRequItmCnt].FCMEI_spuStatus:=TFCEspUnStatus( EnumIndex );
+                        if EnumIndex=-1
+                        then raise Exception.Create( 'bad faction equipment item loading w/ space unit status: '+DBFRfacEquipItm.Attributes['status'] );
                         {.dock status}
                         FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_dotList[DBFRequItmCnt].FCMEI_spuDockInfo:=DBFRfacEquipItm.Attributes['spuDock'];
                         {.current available energy / reaction mass}
@@ -1262,7 +1265,8 @@ var
    DBSCRcount
    ,DBSCRdmp
    ,DBSCRiStrcnt
-   ,DBSCRiStrIdx: integer;
+   ,DBSCRiStrIdx
+   ,EnumIndex: integer;
 
    DBSCRdmpStr: string;
 
@@ -1288,33 +1292,17 @@ begin
          {.internal structure token}
          FCDdsuInternalStructures[DBSCRcount].IS_token:=DBSCRnode.Attributes['token'];
          {.internal structure shape}
-         DBSCRdmpStr:=DBSCRnode.Attributes['shape'];
-         if DBSCRdmpStr='stAssem' then FCDdsuInternalStructures[DBSCRcount].IS_shape:=issAssembled
-         else if DBSCRdmpStr='stModul' then FCDdsuInternalStructures[DBSCRcount].IS_shape:=issModular
-         else if DBSCRdmpStr='stSpher' then FCDdsuInternalStructures[DBSCRcount].IS_shape:=issSpherical
-         else if DBSCRdmpStr='stCylin' then FCDdsuInternalStructures[DBSCRcount].IS_shape:=issCylindrical
-         else if DBSCRdmpStr='stCylSt' then FCDdsuInternalStructures[DBSCRcount].IS_shape:=issStreamlinedCylindrical
-         else if DBSCRdmpStr='stDelta' then FCDdsuInternalStructures[DBSCRcount].IS_shape:=issStreamlinedDelta
-         else if DBSCRdmpStr='stBox' then FCDdsuInternalStructures[DBSCRcount].IS_shape:=issBox
-         else if DBSCRdmpStr='stTorus' then FCDdsuInternalStructures[DBSCRcount].IS_shape:=issToroidal;
+
+         EnumIndex:=GetEnumValue( TypeInfo( TFCEdsuInternalStructureShapes ), DBSCRnode.Attributes['shape'] );
+         FCDdsuInternalStructures[DBSCRcount].IS_shape:=TFCEdsuInternalStructureShapes( EnumIndex );
+         if EnumIndex=-1
+         then raise Exception.Create( 'bad scintstrucdb loading w/ shape: '+DBSCRnode.Attributes['shape'] );
          {.internal structure architecture type}
-         DBSCRdmpStr:=DBSCRnode.Attributes['archtp'];
-         if DBSCRdmpStr='scarchtpDSV'
-         then FCDdsuInternalStructures[DBSCRcount].IS_architecture:=aDSV
-         else if DBSCRdmpStr='scarchtpHLV'
-         then FCDdsuInternalStructures[DBSCRcount].IS_architecture:=aHLV
-         else if DBSCRdmpStr='scarchtpLV'
-         then FCDdsuInternalStructures[DBSCRcount].IS_architecture:=aLV
-         else if DBSCRdmpStr='scarchtpLAV'
-         then FCDdsuInternalStructures[DBSCRcount].IS_architecture:=aLAV
-         else if DBSCRdmpStr='scarchtpOMV'
-         then FCDdsuInternalStructures[DBSCRcount].IS_architecture:=aOMV
-         else if DBSCRdmpStr='scarchtpSSI'
-         then FCDdsuInternalStructures[DBSCRcount].IS_architecture:=aSSI
-         else if DBSCRdmpStr='scarchtpTAV'
-         then FCDdsuInternalStructures[DBSCRcount].IS_architecture:=aTAV
-         else if DBSCRdmpStr='scarchtpBSV'
-         then FCDdsuInternalStructures[DBSCRcount].IS_architecture:=aBSV;
+
+         EnumIndex:=GetEnumValue( TypeInfo( TFCEdsuArchitectures ), DBSCRnode.Attributes['archtp'] );
+         FCDdsuInternalStructures[DBSCRcount].IS_architecture:=TFCEdsuArchitectures( EnumIndex );
+         if EnumIndex=-1
+         then raise Exception.Create( 'bad scintstrucdb loading w/ architecture type: '+DBSCRnode.Attributes['archtp'] );
          {.internal structure allowed control module}
          if DBSCRdmpStr='cmtCockpit'
          then FCDdsuInternalStructures[DBSCRcount].IS_controlModuleAllowed:=cmCockpit
