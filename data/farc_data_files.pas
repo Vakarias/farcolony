@@ -415,8 +415,8 @@ procedure FCMdF_DBFactions_Loading;
 {:Purpose: read the factions database xml file.
    Additions:
       -2012Jul23-*code audit (begin):
-                  (-)var formatting + refactoring     (-)if..then reformatting   (-)function/procedure refactoring
-                  (_)parameters refactoring           (-) ()reformatting         (-)code optimizations
+                  (x)var formatting + refactoring     (x)if..then reformatting   (-)function/procedure refactoring
+                  (_)parameters refactoring           (o) ()reformatting         (o)code optimizations
                   (-)float local variables=> extended (-)case..of reformatting   (-)local methods
                   (-)summary completion               (-)protect all float add/sub w/ FCFcFunc_Rnd
                   (-)standardize internal data + commenting them at each use as a result
@@ -454,198 +454,172 @@ procedure FCMdF_DBFactions_Loading;
       -2009Aug09- *clear faction data structure before loading.
                   *load data in the data structure.
 }
-const
-   DBFRblocCnt=512;
-var
-   DBFRviabObjCnt: integer;
-   DBFRfacItem
-   ,DBFRfacSubItem
-   ,DBFRfacEquipItm
-   ,DBFRspmItm: IXMLNode;
+   var
+      ColonizationModeCount
+      ,Count1
+      ,Count2
+      ,EnumIndex
+      ,FactionCount
+      ,StartingLocations: Integer;
 
-   EnumIndex
-   ,DBFRitmCnt
-   ,DBFRequItmCnt
-   ,DBFRstartLocCnt
-   ,DBFRspmiCnt
-   ,DBFRcolMdCnt
-   ,DBFRdockRoot
-   ,DBFRdockDmp: Integer;
+      XMLFaction
+      ,XMLFactionItem
+      ,XMLFactionSubItem: IXMLNode;
 begin
 	{.clear the data structure}
-	DBFRitmCnt:=1;
-	while DBFRitmCnt<= Length(FCDBfactions)-1 do
+	FactionCount:=1;
+	while FactionCount<=Length( FCDBfactions )-1 do
 	begin
-		FCDBfactions[DBFRitmCnt]:=FCDBfactions[0];
-      setlength(FCDBfactions[DBFRitmCnt].F_facCmode,0);
-      setlength(FCDBfactions[DBFRitmCnt].F_facStartLocList,0);
-      setlength(FCDBfactions[DBFRitmCnt].F_spm,0);
-		inc(DBFRitmCnt);
+		FCDBfactions[ FactionCount ]:=FCDBfactions[0];
+      setlength( FCDBfactions[ FactionCount ].F_facCmode, 0 );
+      setlength( FCDBfactions[ FactionCount ].F_facStartLocList, 0 );
+      setlength( FCDBfactions[ FactionCount ].F_spm, 0 );
+		inc( FactionCount );
 	end;
-	DBFRitmCnt:=1;
-   DBFRequItmCnt:=0;
+	FactionCount:=1;
 	{.read the document}
 	FCWinMain.FCXMLdbFac.FileName:=FCVdiPathXML+'\env\factionsdb.xml';
 	FCWinMain.FCXMLdbFac.Active:=true;
-	DBFRfacItem:= FCWinMain.FCXMLdbFac.DocumentElement.ChildNodes.First;
-	while DBFRfacItem<>nil do
+	XMLFaction:= FCWinMain.FCXMLdbFac.DocumentElement.ChildNodes.First;
+	while XMLFaction<>nil do
 	begin
-      if DBFRfacItem.NodeName<>'#comment'
-      then
+      if XMLFaction.NodeName<>'#comment' then
       begin
-         DBFRcolMdCnt:=0;
-         DBFRstartLocCnt:=0;
-         DBFRspmiCnt:=0;
-         setlength(FCDBfactions[DBFRitmCnt].F_facCmode, 1);
-         setlength(FCDBfactions[DBFRitmCnt].F_facStartLocList, 1);
-         setlength(FCDBfactions[DBFRitmCnt].F_spm,1);
+         ColonizationModeCount:=0;
+         StartingLocations:=0;
+         setlength( FCDBfactions[ FactionCount ].F_facCmode, 1 );
+         setlength( FCDBfactions[ FactionCount ].F_facStartLocList, 1 );
+         setlength( FCDBfactions[ FactionCount ].F_spm, 1 );
          {.faction token}
-         FCDBfactions[DBFRitmCnt].F_token:=DBFRfacItem.Attributes['token'];
-         FCDBfactions[DBFRitmCnt].F_lvl:=DBFRfacItem.Attributes['level'];
+         FCDBfactions[FactionCount].F_token:=XMLFaction.Attributes['token'];
+         FCDBfactions[FactionCount].F_lvl:=XMLFaction.Attributes['level'];
          {.faction data processing loop}
-         DBFRfacSubItem:= DBFRfacItem.ChildNodes.First;
-         while DBFRfacSubItem<>nil do
+         XMLFactionItem:= XMLFaction.ChildNodes.First;
+         while XMLFactionItem<>nil do
          begin
             {.colonization mode}
-            if DBFRfacSubItem.NodeName='facColMode'
-            then
+            if XMLFactionItem.NodeName='facColMode' then
             begin
-               DBFRdockRoot:=0;
-               DBFRviabObjCnt:=0;
-               DBFRequItmCnt:=0;
-               inc(DBFRcolMdCnt);
-               SetLength(FCDBfactions[DBFRitmCnt].F_facCmode, DBFRcolMdCnt+1);
-               FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_token:=DBFRfacSubItem.Attributes['token'];
-               FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_cpsVthEconomic:=DBFRfacSubItem.Attributes['viabThrEco'];
-               FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_cpsVthSocial:=DBFRfacSubItem.Attributes['viabThrSoc'];
-               FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_cpsVthSpaceMilitary:=DBFRfacSubItem.Attributes['viabThrSpMil'];
-               EnumIndex:=GetEnumValue( TypeInfo( TFCEcrIntRg ), DBFRfacSubItem.Attributes['creditrng'] );
-               FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_cpsCrRg:=TFCEcrIntRg( EnumIndex );
+               Count2:=0;
+               Count1:=0;
+               inc(ColonizationModeCount);
+               SetLength(FCDBfactions[FactionCount].F_facCmode, ColonizationModeCount+1);
+               FCDBfactions[FactionCount].F_facCmode[ColonizationModeCount].FCM_token:=XMLFactionItem.Attributes['token'];
+               FCDBfactions[FactionCount].F_facCmode[ColonizationModeCount].FCM_cpsVthEconomic:=XMLFactionItem.Attributes['viabThrEco'];
+               FCDBfactions[FactionCount].F_facCmode[ColonizationModeCount].FCM_cpsVthSocial:=XMLFactionItem.Attributes['viabThrSoc'];
+               FCDBfactions[FactionCount].F_facCmode[ColonizationModeCount].FCM_cpsVthSpaceMilitary:=XMLFactionItem.Attributes['viabThrSpMil'];
+               EnumIndex:=GetEnumValue( TypeInfo( TFCEcrIntRg ), XMLFactionItem.Attributes['creditrng'] );
+               FCDBfactions[FactionCount].F_facCmode[ColonizationModeCount].FCM_cpsCrRg:=TFCEcrIntRg( EnumIndex );
                if EnumIndex=-1
-               then raise Exception.Create( 'bad faction XML loading w/ colonization mode credit range: '+DBFRfacSubItem.Attributes['creditrng'] );
-               EnumIndex:=GetEnumValue( TypeInfo( TFCEcrIntRg ), DBFRfacSubItem.Attributes['intrng'] );
-               FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_cpsIntRg:=TFCEcrIntRg( EnumIndex );
+               then raise Exception.Create( 'bad faction XML loading w/ colonization mode credit range: '+XMLFactionItem.Attributes['creditrng'] );
+               EnumIndex:=GetEnumValue( TypeInfo( TFCEcrIntRg ), XMLFactionItem.Attributes['intrng'] );
+               FCDBfactions[FactionCount].F_facCmode[ColonizationModeCount].FCM_cpsIntRg:=TFCEcrIntRg( EnumIndex );
                if EnumIndex=-1
-               then raise Exception.Create( 'bad faction XML loading w/ colonization mode interest range: '+DBFRfacSubItem.Attributes['intrng'] )
-               else if EnumIndex>0 then
+               then raise Exception.Create( 'bad faction XML loading w/ colonization mode interest range: '+XMLFactionItem.Attributes['intrng'] );
                {.equipment list items}
-               DBFRfacEquipItm:=DBFRfacSubItem.ChildNodes.First;
-               while DBFRfacEquipItm<>nil do
+               XMLFactionSubItem:=XMLFactionItem.ChildNodes.First;
+               while XMLFactionSubItem<>nil do
                begin
                   {.viability objectives}
-                  if DBFRfacEquipItm.NodeName='facViabObj'
-                  then
+                  if XMLFactionSubItem.NodeName='facViabObj' then
                   begin
-                     inc(DBFRviabObjCnt);
-                     SetLength(FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_cpsViabObj, DBFRviabObjCnt+1);
+                     inc(Count2);
+                     SetLength(FCDBfactions[FactionCount].F_facCmode[ColonizationModeCount].FCM_cpsViabObj, Count2+1);
                      {.viability type}
-                     EnumIndex:=GetEnumValue( TypeInfo( TFCEcpsoObjectiveTypes ), DBFRfacEquipItm.Attributes['objTp'] );
-                     FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_cpsViabObj[DBFRviabObjCnt].FVO_objTp:=TFCEcpsoObjectiveTypes(EnumIndex);
+                     EnumIndex:=GetEnumValue( TypeInfo( TFCEcpsoObjectiveTypes ), XMLFactionSubItem.Attributes['objTp'] );
+                     FCDBfactions[FactionCount].F_facCmode[ColonizationModeCount].FCM_cpsViabObj[Count2].FVO_objTp:=TFCEcpsoObjectiveTypes(EnumIndex);
                      if EnumIndex=-1
-                     then raise Exception.Create('bad faction viability objective: '+DBFRfacEquipItm.Attributes['objTp'] );
-                     if FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_cpsViabObj[DBFRviabObjCnt].FVO_objTp=otEcoIndustrialForce then
+                     then raise Exception.Create('bad faction viability objective: '+XMLFactionSubItem.Attributes['objTp'] );
+                     if FCDBfactions[FactionCount].F_facCmode[ColonizationModeCount].FCM_cpsViabObj[Count2].FVO_objTp=otEcoIndustrialForce then
                      begin
-                        FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_cpsViabObj[DBFRviabObjCnt].FVO_ifProduct:=DBFRfacEquipItm.Attributes['product'];
-                        FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_cpsViabObj[DBFRviabObjCnt].FVO_ifThreshold:=StrToFloat( DBFRfacEquipItm.Attributes['threshold'], FCVdiFormat );
+                        FCDBfactions[FactionCount].F_facCmode[ColonizationModeCount].FCM_cpsViabObj[Count2].FVO_ifProduct:=XMLFactionSubItem.Attributes['product'];
+                        FCDBfactions[FactionCount].F_facCmode[ColonizationModeCount].FCM_cpsViabObj[Count2].FVO_ifThreshold:=StrToFloat( XMLFactionSubItem.Attributes['threshold'], FCVdiFormat );
                      end;
                   end
                   {.equipment items list}
-                  else if DBFRfacEquipItm.NodeName='facEqupItm'
-                  then
+                  else if XMLFactionSubItem.NodeName='facEqupItm' then
                   begin
-                     inc(DBFRequItmCnt);
-                     if DBFRequItmCnt >= Length(FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_dotList)
-                     then SetLength
-                        (
-                           FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_dotList
-                           , Length(FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_dotList)+DBFRblocCnt
-                        );
-                     if DBFRfacEquipItm.Attributes['itemTp']='feitProduct'
-                     then
+                     inc(Count1);
+                     SetLength( FCDBfactions[FactionCount].F_facCmode[ColonizationModeCount].FCM_dotList, Count1+1);
+                     if XMLFactionSubItem.Attributes['itemTp']='feitProduct' then
                      begin
                         //WATCH OUT COPY/PASTE
-                        FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_dotList[DBFRequItmCnt].FCMEI_itemType:=feitProduct;
+                        FCDBfactions[FactionCount].F_facCmode[ColonizationModeCount].FCM_dotList[Count1].FCMEI_itemType:=feitProduct;
                         {.product token}
-                        FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_dotList[DBFRequItmCnt].FCMEI_prodToken:=DBFRfacEquipItm.Attributes['prodToken'];
+                        FCDBfactions[FactionCount].F_facCmode[ColonizationModeCount].FCM_dotList[Count1].FCMEI_prodToken:=XMLFactionSubItem.Attributes['prodToken'];
                         {.number of unit}
-                        FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_dotList[DBFRequItmCnt].FCMEI_prodUnit:=DBFRfacEquipItm.Attributes['unit'];
+                        FCDBfactions[FactionCount].F_facCmode[ColonizationModeCount].FCM_dotList[Count1].FCMEI_prodUnit:=XMLFactionSubItem.Attributes['unit'];
                         {.carried by}
-                        FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_dotList[DBFRequItmCnt].FCMEI_prodCarriedBy:=DBFRfacEquipItm.Attributes['carriedBy'];
+                        FCDBfactions[FactionCount].F_facCmode[ColonizationModeCount].FCM_dotList[Count1].FCMEI_prodCarriedBy:=XMLFactionSubItem.Attributes['carriedBy'];
                      end
                      {.space unit}
-                     else if DBFRfacEquipItm.Attributes['itemTp']='feitSpaceCraft'
-                     then
+                     else if XMLFactionSubItem.Attributes['itemTp']='feitSpaceCraft' then
                      begin
-                        FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_dotList[DBFRequItmCnt].FCMEI_itemType:=feitSpaceUnit;
+                        FCDBfactions[FactionCount].F_facCmode[ColonizationModeCount].FCM_dotList[Count1].FCMEI_itemType:=feitSpaceUnit;
                         {.proper name token}
-                        FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_dotList[DBFRequItmCnt].FCMEI_spuProperNameToken:=DBFRfacEquipItm.Attributes['properName'];
+                        FCDBfactions[FactionCount].F_facCmode[ColonizationModeCount].FCM_dotList[Count1].FCMEI_spuProperNameToken:=XMLFactionSubItem.Attributes['properName'];
                         {.design token id}
-                        FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_dotList[DBFRequItmCnt].FCMEI_spuDesignToken:=DBFRfacEquipItm.Attributes['designToken'];
+                        FCDBfactions[FactionCount].F_facCmode[ColonizationModeCount].FCM_dotList[Count1].FCMEI_spuDesignToken:=XMLFactionSubItem.Attributes['designToken'];
                         {.status}
-                        EnumIndex:=GetEnumValue( TypeInfo( TFCEspUnStatus ), DBFRfacEquipItm.Attributes['status'] );
-                        FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_dotList[DBFRequItmCnt].FCMEI_spuStatus:=TFCEspUnStatus( EnumIndex );
+                        EnumIndex:=GetEnumValue( TypeInfo( TFCEspUnStatus ), XMLFactionSubItem.Attributes['status'] );
+                        FCDBfactions[FactionCount].F_facCmode[ColonizationModeCount].FCM_dotList[Count1].FCMEI_spuStatus:=TFCEspUnStatus( EnumIndex );
                         if EnumIndex=-1
-                        then raise Exception.Create( 'bad faction equipment item loading w/ space unit status: '+DBFRfacEquipItm.Attributes['status'] );
+                        then raise Exception.Create( 'bad faction equipment item loading w/ space unit status: '+XMLFactionSubItem.Attributes['status'] );
                         {.dock status}
-                        FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_dotList[DBFRequItmCnt].FCMEI_spuDockInfo:=DBFRfacEquipItm.Attributes['spuDock'];
+                        FCDBfactions[FactionCount].F_facCmode[ColonizationModeCount].FCM_dotList[Count1].FCMEI_spuDockInfo:=XMLFactionSubItem.Attributes['spuDock'];
                         {.current available energy / reaction mass}
-                        FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_dotList[DBFRequItmCnt].FCMEI_spuAvailEnRM:=StrToFloat( DBFRfacEquipItm.Attributes['availEnRM'], FCVdiFormat );
+                        FCDBfactions[FactionCount].F_facCmode[ColonizationModeCount].FCM_dotList[Count1].FCMEI_spuAvailEnRM:=StrToFloat( XMLFactionSubItem.Attributes['availEnRM'], FCVdiFormat );
                      end;
                   end;
-                  DBFRfacEquipItm:=DBFRfacEquipItm.NextSibling;
+                  XMLFactionSubItem:=XMLFactionSubItem.NextSibling;
                end; //==END== while DBFRfacDotItm<>nil ==//
-               SetLength(FCDBfactions[DBFRitmCnt].F_facCmode[DBFRcolMdCnt].FCM_dotList, DBFRequItmCnt+1);
+               SetLength(FCDBfactions[FactionCount].F_facCmode[ColonizationModeCount].FCM_dotList, Count1+1);
             end //==END== else if DBFRfacSubItem.NodeName='facColMode' ==//
-            else if DBFRfacSubItem.NodeName='facStartLoc'
-            then
+            else if XMLFactionItem.NodeName='facStartLoc' then
             begin
-               inc(DBFRstartLocCnt);
-               if DBFRstartLocCnt >= Length(FCDBfactions[DBFRitmCnt].F_facStartLocList)
-               then SetLength
-                  (FCDBfactions[DBFRitmCnt].F_facStartLocList, Length(FCDBfactions[DBFRitmCnt].F_facStartLocList)+DBFRblocCnt);
+               inc(StartingLocations);
+               SetLength(FCDBfactions[FactionCount].F_facStartLocList, StartingLocations+1);
                {.starting location - star system}
-               FCDBfactions[DBFRitmCnt].F_facStartLocList[DBFRstartLocCnt].FSL_locSSys:=DBFRfacSubItem.Attributes['locSSys'];
+               FCDBfactions[FactionCount].F_facStartLocList[StartingLocations].FSL_locSSys:=XMLFactionItem.Attributes['locSSys'];
                {.starting location - star}
-               FCDBfactions[DBFRitmCnt].F_facStartLocList[DBFRstartLocCnt].FSL_locStar:=DBFRfacSubItem.Attributes['locStar'];
+               FCDBfactions[FactionCount].F_facStartLocList[StartingLocations].FSL_locStar:=XMLFactionItem.Attributes['locStar'];
                {.dotation item location - orbital object}
-               FCDBfactions[DBFRitmCnt].F_facStartLocList[DBFRstartLocCnt].FSL_locObObj:=DBFRfacSubItem.Attributes['locObObj'];
+               FCDBfactions[FactionCount].F_facStartLocList[StartingLocations].FSL_locObObj:=XMLFactionItem.Attributes['locObObj'];
             end
-            else if DBFRfacSubItem.NodeName='facSPM'
-            then
+            else if XMLFactionItem.NodeName='facSPM' then
             begin
-               DBFRspmItm:=DBFRfacSubItem.ChildNodes.First;
-               while DBFRspmItm<>nil do
+               Count1:=0;
+               XMLFactionSubItem:=XMLFactionItem.ChildNodes.First;
+               while XMLFactionSubItem<>nil do
                begin
-                  SetLength(FCDBfactions[DBFRitmCnt].F_spm, length(FCDBfactions[DBFRitmCnt].F_spm)+1);
-                  inc(DBFRspmiCnt);
-                  FCDBfactions[DBFRitmCnt].F_spm[DBFRspmiCnt].SPMS_token:=DBFRspmItm.Attributes['token'];
-                  FCDBfactions[DBFRitmCnt].F_spm[DBFRspmiCnt].SPMS_duration:=DBFRspmItm.Attributes['duration'];
-                  FCDBfactions[DBFRitmCnt].F_spm[DBFRspmiCnt].SPMS_isPolicy:=true;
-                  FCDBfactions[DBFRitmCnt].F_spm[DBFRspmiCnt].SPMS_isSet:=DBFRspmItm.Attributes['isSet'];
-                  FCDBfactions[DBFRitmCnt].F_spm[DBFRspmiCnt].SPMS_aprob:=DBFRspmItm.Attributes['aprob'];
-                  if FCDBfactions[DBFRitmCnt].F_spm[DBFRspmiCnt].SPMS_aprob=-2
-                  then
+                  inc(Count1);
+                  SetLength(FCDBfactions[FactionCount].F_spm, Count1+1);
+                  FCDBfactions[FactionCount].F_spm[Count1].SPMS_token:=XMLFactionSubItem.Attributes['token'];
+                  FCDBfactions[FactionCount].F_spm[Count1].SPMS_duration:=XMLFactionSubItem.Attributes['duration'];
+                  FCDBfactions[FactionCount].F_spm[Count1].SPMS_isPolicy:=true;
+                  FCDBfactions[FactionCount].F_spm[Count1].SPMS_isSet:=XMLFactionSubItem.Attributes['isSet'];
+                  FCDBfactions[FactionCount].F_spm[Count1].SPMS_aprob:=XMLFactionSubItem.Attributes['aprob'];
+                  if FCDBfactions[FactionCount].F_spm[Count1].SPMS_aprob=-2 then
                   begin
-                     FCDBfactions[DBFRitmCnt].F_spm[DBFRspmiCnt].SPMS_isPolicy:=false;
-                     EnumIndex:=GetEnumValue( TypeInfo( TFCEdgBelLvl ), DBFRspmItm.Attributes['belieflev'] );
-                     FCDBfactions[DBFRitmCnt].F_spm[DBFRspmiCnt].SPMS_bLvl:=TFCEdgBelLvl( EnumIndex );
+                     FCDBfactions[FactionCount].F_spm[Count1].SPMS_isPolicy:=false;
+                     EnumIndex:=GetEnumValue( TypeInfo( TFCEdgBelLvl ), XMLFactionSubItem.Attributes['belieflev'] );
+                     FCDBfactions[FactionCount].F_spm[Count1].SPMS_bLvl:=TFCEdgBelLvl( EnumIndex );
                      if EnumIndex=-1
-                     then raise Exception.Create( 'bad faction XML loading w/ meme belief level: '+DBFRspmItm.Attributes['belieflev'] );
-                     FCDBfactions[DBFRitmCnt].F_spm[DBFRspmiCnt].SPMS_sprdVal:=DBFRspmItm.Attributes['spreadval'];
+                     then raise Exception.Create( 'bad faction XML loading w/ meme belief level: '+XMLFactionSubItem.Attributes['belieflev'] );
+                     FCDBfactions[FactionCount].F_spm[Count1].SPMS_sprdVal:=XMLFactionSubItem.Attributes['spreadval'];
                   end;
-                  DBFRspmItm:=DBFRspmItm.NextSibling;
+                  XMLFactionSubItem:=XMLFactionSubItem.NextSibling;
                end; //==END== while DBFRspmItm<>nil ==//
             end;
-            DBFRfacSubItem:= DBFRfacSubItem.NextSibling;
+            XMLFactionItem:= XMLFactionItem.NextSibling;
          end; //==END== while DBFRfacSubItem<>nil ==//
          {.resize to real table size}
-         SetLength(FCDBfactions[DBFRitmCnt].F_facCmode, DBFRcolMdCnt+1);
-         SetLength(FCDBfactions[DBFRitmCnt].F_facStartLocList, DBFRstartLocCnt+1);
-         inc(DBFRitmCnt);
+         SetLength(FCDBfactions[FactionCount].F_facCmode, ColonizationModeCount+1);
+         SetLength(FCDBfactions[FactionCount].F_facStartLocList, StartingLocations+1);
+         inc(FactionCount);
       end; //==END== if DBFRfacItem.NodeName<>'#comment' ==//
-      DBFRfacItem:= DBFRfacItem.NextSibling;
-	end;{.while DBFRfacitem<>nil}
-	{.disable}
+      XMLFaction:= XMLFaction.NextSibling;
+	end; //==END== while XMLFaction<>nil do ==//
 	FCWinMain.FCXMLdbFac.Active:=false;
 end;
 
