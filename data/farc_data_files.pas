@@ -69,7 +69,7 @@ procedure FCMdF_ConfigFile_Read(const CFRreadGtime: boolean);
 procedure FCMdF_ConfigFile_Write(const CFWupdGtime:boolean);
 
 ///<summary>
-///   Read the factions database xml file.
+///   load the factions database XML file
 ///</summary>
 procedure FCMdF_DBFactions_Loading;
 
@@ -412,17 +412,18 @@ begin
 end;
 
 procedure FCMdF_DBFactions_Loading;
-{:Purpose: read the factions database xml file.
+{:Purpose: load the factions database XML file.
    Additions:
-      -2012Jul23-*code audit (begin):
-                  (x)var formatting + refactoring     (x)if..then reformatting   (-)function/procedure refactoring
-                  (_)parameters refactoring           (o) ()reformatting         (o)code optimizations
-                  (-)float local variables=> extended (-)case..of reformatting   (-)local methods
-                  (-)summary completion               (-)protect all float add/sub w/ FCFcFunc_Rnd
-                  (-)standardize internal data + commenting them at each use as a result
-                  (-)put [format x.xx ] dans returns of summary, if required and if the function do formatting
-                  (-)if the procedure reset the same record's data or external data put:
-                     ///   <remarks>the procedure/function reset the /data/</remarks>
+      -2012Jul29- *code audit = COMPLETION.
+      -2012Jul23- *code audit (begin):
+                     (x)var formatting + refactoring     (x)if..then reformatting   (_)function/procedure refactoring
+                     (_)parameters refactoring           (x) ()reformatting         (o)code optimizations
+                     (_)float local variables=> extended (_)case..of reformatting   (_)local methods
+                     (x)summary completion               (_)protect all float add/sub w/ FCFcFunc_Rnd
+                     (x)standardize internal data + commenting them at each use as a result
+                     (_)put [format x.xx ] dans returns of summary, if required and if the function do formatting
+                     (_)if the procedure reset the same record's data or external data put:
+                        ///   <remarks>the procedure/function reset the /data/</remarks>
                   *fix: apply code format to get rid of the decimal format bug.
       -2012May22- *rem: colonization mode - min/max status levels.
                   *add: colonization mode - economic, social and military viability thresholds.
@@ -470,10 +471,10 @@ begin
 	FactionCount:=1;
 	while FactionCount<=Length( FCDBfactions )-1 do
 	begin
-		FCDBfactions[ FactionCount ]:=FCDBfactions[0];
-      setlength( FCDBfactions[ FactionCount ].F_facCmode, 0 );
-      setlength( FCDBfactions[ FactionCount ].F_facStartLocList, 0 );
-      setlength( FCDBfactions[ FactionCount ].F_spm, 0 );
+		FCDBfactions[FactionCount]:=FCDBfactions[0];
+      setlength( FCDBfactions[FactionCount].F_facCmode, 0 );
+      setlength( FCDBfactions[FactionCount].F_facStartLocList, 0 );
+      setlength( FCDBfactions[FactionCount].F_spm, 0 );
 		inc( FactionCount );
 	end;
 	FactionCount:=1;
@@ -487,23 +488,24 @@ begin
       begin
          ColonizationModeCount:=0;
          StartingLocations:=0;
-         setlength( FCDBfactions[ FactionCount ].F_facCmode, 1 );
-         setlength( FCDBfactions[ FactionCount ].F_facStartLocList, 1 );
-         setlength( FCDBfactions[ FactionCount ].F_spm, 1 );
-         {.faction token}
-         FCDBfactions[FactionCount].F_token:=XMLFaction.Attributes['token'];
-         FCDBfactions[FactionCount].F_lvl:=XMLFaction.Attributes['level'];
-         {.faction data processing loop}
+         setlength( FCDBfactions[FactionCount].F_facCmode, 1 );
+         setlength( FCDBfactions[FactionCount].F_facStartLocList, 1 );
+         setlength( FCDBfactions[FactionCount].F_spm, 1 );
+         FCDBfactions[FactionCount].F_token:=XMLFaction.Attributes[ 'token' ];
+         FCDBfactions[FactionCount].F_lvl:=XMLFaction.Attributes[ 'level' ];
+         {.faction items processing loop}
          XMLFactionItem:= XMLFaction.ChildNodes.First;
          while XMLFactionItem<>nil do
          begin
             {.colonization mode}
             if XMLFactionItem.NodeName='facColMode' then
             begin
-               Count2:=0;
+               {.equipment items count}
                Count1:=0;
-               inc(ColonizationModeCount);
-               SetLength(FCDBfactions[FactionCount].F_facCmode, ColonizationModeCount+1);
+               {.viability objectives count}
+               Count2:=0;
+               inc( ColonizationModeCount );
+               SetLength( FCDBfactions[FactionCount].F_facCmode, ColonizationModeCount+1 );
                FCDBfactions[FactionCount].F_facCmode[ColonizationModeCount].FCM_token:=XMLFactionItem.Attributes['token'];
                FCDBfactions[FactionCount].F_facCmode[ColonizationModeCount].FCM_cpsVthEconomic:=XMLFactionItem.Attributes['viabThrEco'];
                FCDBfactions[FactionCount].F_facCmode[ColonizationModeCount].FCM_cpsVthSocial:=XMLFactionItem.Attributes['viabThrSoc'];
@@ -524,12 +526,12 @@ begin
                   if XMLFactionSubItem.NodeName='facViabObj' then
                   begin
                      inc(Count2);
-                     SetLength(FCDBfactions[FactionCount].F_facCmode[ColonizationModeCount].FCM_cpsViabObj, Count2+1);
+                     SetLength( FCDBfactions[FactionCount].F_facCmode[ColonizationModeCount].FCM_cpsViabObj, Count2+1 );
                      {.viability type}
                      EnumIndex:=GetEnumValue( TypeInfo( TFCEcpsoObjectiveTypes ), XMLFactionSubItem.Attributes['objTp'] );
-                     FCDBfactions[FactionCount].F_facCmode[ColonizationModeCount].FCM_cpsViabObj[Count2].FVO_objTp:=TFCEcpsoObjectiveTypes(EnumIndex);
+                     FCDBfactions[FactionCount].F_facCmode[ColonizationModeCount].FCM_cpsViabObj[Count2].FVO_objTp:=TFCEcpsoObjectiveTypes( EnumIndex );
                      if EnumIndex=-1
-                     then raise Exception.Create('bad faction viability objective: '+XMLFactionSubItem.Attributes['objTp'] );
+                     then raise Exception.Create( 'bad faction viability objective: '+XMLFactionSubItem.Attributes['objTp'] );
                      if FCDBfactions[FactionCount].F_facCmode[ColonizationModeCount].FCM_cpsViabObj[Count2].FVO_objTp=otEcoIndustrialForce then
                      begin
                         FCDBfactions[FactionCount].F_facCmode[ColonizationModeCount].FCM_cpsViabObj[Count2].FVO_ifProduct:=XMLFactionSubItem.Attributes['product'];
@@ -540,60 +542,51 @@ begin
                   else if XMLFactionSubItem.NodeName='facEqupItm' then
                   begin
                      inc(Count1);
-                     SetLength( FCDBfactions[FactionCount].F_facCmode[ColonizationModeCount].FCM_dotList, Count1+1);
+                     SetLength( FCDBfactions[FactionCount].F_facCmode[ColonizationModeCount].FCM_dotList, Count1+1 );
                      if XMLFactionSubItem.Attributes['itemTp']='feitProduct' then
                      begin
-                        //WATCH OUT COPY/PASTE
                         FCDBfactions[FactionCount].F_facCmode[ColonizationModeCount].FCM_dotList[Count1].FCMEI_itemType:=feitProduct;
-                        {.product token}
                         FCDBfactions[FactionCount].F_facCmode[ColonizationModeCount].FCM_dotList[Count1].FCMEI_prodToken:=XMLFactionSubItem.Attributes['prodToken'];
-                        {.number of unit}
                         FCDBfactions[FactionCount].F_facCmode[ColonizationModeCount].FCM_dotList[Count1].FCMEI_prodUnit:=XMLFactionSubItem.Attributes['unit'];
-                        {.carried by}
                         FCDBfactions[FactionCount].F_facCmode[ColonizationModeCount].FCM_dotList[Count1].FCMEI_prodCarriedBy:=XMLFactionSubItem.Attributes['carriedBy'];
                      end
                      {.space unit}
                      else if XMLFactionSubItem.Attributes['itemTp']='feitSpaceCraft' then
                      begin
                         FCDBfactions[FactionCount].F_facCmode[ColonizationModeCount].FCM_dotList[Count1].FCMEI_itemType:=feitSpaceUnit;
-                        {.proper name token}
                         FCDBfactions[FactionCount].F_facCmode[ColonizationModeCount].FCM_dotList[Count1].FCMEI_spuProperNameToken:=XMLFactionSubItem.Attributes['properName'];
-                        {.design token id}
                         FCDBfactions[FactionCount].F_facCmode[ColonizationModeCount].FCM_dotList[Count1].FCMEI_spuDesignToken:=XMLFactionSubItem.Attributes['designToken'];
-                        {.status}
                         EnumIndex:=GetEnumValue( TypeInfo( TFCEspUnStatus ), XMLFactionSubItem.Attributes['status'] );
                         FCDBfactions[FactionCount].F_facCmode[ColonizationModeCount].FCM_dotList[Count1].FCMEI_spuStatus:=TFCEspUnStatus( EnumIndex );
                         if EnumIndex=-1
                         then raise Exception.Create( 'bad faction equipment item loading w/ space unit status: '+XMLFactionSubItem.Attributes['status'] );
-                        {.dock status}
                         FCDBfactions[FactionCount].F_facCmode[ColonizationModeCount].FCM_dotList[Count1].FCMEI_spuDockInfo:=XMLFactionSubItem.Attributes['spuDock'];
-                        {.current available energy / reaction mass}
                         FCDBfactions[FactionCount].F_facCmode[ColonizationModeCount].FCM_dotList[Count1].FCMEI_spuAvailEnRM:=StrToFloat( XMLFactionSubItem.Attributes['availEnRM'], FCVdiFormat );
                      end;
                   end;
                   XMLFactionSubItem:=XMLFactionSubItem.NextSibling;
                end; //==END== while DBFRfacDotItm<>nil ==//
-               SetLength(FCDBfactions[FactionCount].F_facCmode[ColonizationModeCount].FCM_dotList, Count1+1);
+               SetLength( FCDBfactions[FactionCount].F_facCmode[ColonizationModeCount].FCM_dotList, Count1+1 );
             end //==END== else if DBFRfacSubItem.NodeName='facColMode' ==//
+            {.starting location}
             else if XMLFactionItem.NodeName='facStartLoc' then
             begin
-               inc(StartingLocations);
-               SetLength(FCDBfactions[FactionCount].F_facStartLocList, StartingLocations+1);
-               {.starting location - star system}
+               inc( StartingLocations );
+               SetLength( FCDBfactions[FactionCount].F_facStartLocList, StartingLocations+1 );
                FCDBfactions[FactionCount].F_facStartLocList[StartingLocations].FSL_locSSys:=XMLFactionItem.Attributes['locSSys'];
-               {.starting location - star}
                FCDBfactions[FactionCount].F_facStartLocList[StartingLocations].FSL_locStar:=XMLFactionItem.Attributes['locStar'];
-               {.dotation item location - orbital object}
                FCDBfactions[FactionCount].F_facStartLocList[StartingLocations].FSL_locObObj:=XMLFactionItem.Attributes['locObObj'];
             end
+            {.SPM settings}
             else if XMLFactionItem.NodeName='facSPM' then
             begin
+               {.SPM items count}
                Count1:=0;
                XMLFactionSubItem:=XMLFactionItem.ChildNodes.First;
                while XMLFactionSubItem<>nil do
                begin
-                  inc(Count1);
-                  SetLength(FCDBfactions[FactionCount].F_spm, Count1+1);
+                  inc( Count1 );
+                  SetLength( FCDBfactions[FactionCount].F_spm, Count1+1 );
                   FCDBfactions[FactionCount].F_spm[Count1].SPMS_token:=XMLFactionSubItem.Attributes['token'];
                   FCDBfactions[FactionCount].F_spm[Count1].SPMS_duration:=XMLFactionSubItem.Attributes['duration'];
                   FCDBfactions[FactionCount].F_spm[Count1].SPMS_isPolicy:=true;
@@ -614,9 +607,9 @@ begin
             XMLFactionItem:= XMLFactionItem.NextSibling;
          end; //==END== while DBFRfacSubItem<>nil ==//
          {.resize to real table size}
-         SetLength(FCDBfactions[FactionCount].F_facCmode, ColonizationModeCount+1);
-         SetLength(FCDBfactions[FactionCount].F_facStartLocList, StartingLocations+1);
-         inc(FactionCount);
+         SetLength( FCDBfactions[FactionCount].F_facCmode, ColonizationModeCount+1 );
+         SetLength( FCDBfactions[FactionCount].F_facStartLocList, StartingLocations+1 ) ;
+         inc( FactionCount );
       end; //==END== if DBFRfacItem.NodeName<>'#comment' ==//
       XMLFaction:= XMLFaction.NextSibling;
 	end; //==END== while XMLFaction<>nil do ==//
