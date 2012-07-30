@@ -473,12 +473,6 @@ begin
          ,sufcColoniz
          );
       FPUcolN:=length(FCentities[0].E_col)-1;
-      if FCVdiDebugMode then
-      begin
-         FCWinDebug.AdvMemo1.Lines.Add('FPUdmpIdx= '+inttostr(FPUdmpIdx));
-         FCWinDebug.AdvMemo1.Lines.Add('docked= '+inttostr(FPUlvNum));
-         FCWinDebug.AdvMemo1.Lines.Add('col= '+inttostr(FPUcolN));
-      end;
       if (FPUdmpSpUnStatus=susInOrbit)
          and (FPUlvNum>0)
          {:DEV NOTES: when eq mdl done, change the line below for more complex code testing

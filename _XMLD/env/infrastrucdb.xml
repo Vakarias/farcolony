@@ -1,5 +1,12 @@
 ﻿<!-- Infrastructures Database -->
 <!-- 
+   {.environments}
+   [environment]
+      etAny
+      etFreeLiving
+      etRestricted
+      etSpace
+   
    {.functions}
    [infFunc]
       fEnergy
@@ -178,7 +185,7 @@
 
 <infrastructures>
    <!-- Colonization Shelter / Free Environment -->
-   <infra token="infrColShelt" environment="FE">
+   <infra token="infrColShelt" environment="etFreeLiving">
       <infBuild construct="cConverted" isSurfOnly="False" minlevel="1" maxlevel="1">
       </infBuild>
       <infCustFX>
@@ -187,7 +194,7 @@
       <infFunc infFunc="fHousing" pcaplv1="0" qol="0"/>
    </infra>
    <!-- Colonization Shelter / Restricted Environment -->
-   <infra token="infrColShelt" environment="RE">
+   <infra token="infrColShelt" environment="etRestricted">
       <infBuild construct="cConverted" isSurfOnly="False" minlevel="1" maxlevel="1">
       </infBuild>
       <infCustFX>
@@ -196,7 +203,7 @@
       <infFunc infFunc="fHousing" pcaplv1="0" qol="0"/>
    </infra>
    <!-- Colonization Shelter / Space Environment -->
-   <infra token="infrColShelt" environment="SE">
+   <infra token="infrColShelt" environment="etSpace">
       <infBuild construct="cConverted" isSurfOnly="False" minlevel="1" maxlevel="1">
       </infBuild>
       <infCustFX>
@@ -205,7 +212,7 @@
       <infFunc infFunc="fHousing" pcaplv1="0" qol="0"/>
    </infra>
    <!-- Houses Pack / Free Environment -->
-   <infra token="infrHousesPack" environment="FE">
+   <infra token="infrHousesPack" environment="etFreeLiving">
       <infBuild construct="cBuilt" isSurfOnly="True" minlevel="2" maxlevel="4">
          <ibSurf surflv2="276.36" surflv3="414.54" surflv4="690.9"/>
          <ibVol vollv2="900" vollv3="1350" vollv4="2250"/>
@@ -223,7 +230,7 @@
       <infFunc infFunc="fHousing" pcaplv2="2" pcaplv3="6" pcaplv4="15" qol="5"/>
    </infra>
    <!-- Houses Pack / Restricted Environment -->
-   <infra token="infrHousesPack" environment="RE">
+   <infra token="infrHousesPack" environment="etRestricted">
       <infBuild construct="cBuilt" isSurfOnly="True" minlevel="2" maxlevel="4">
          <ibSurf surflv2="261" surflv3="391.5" surflv4="652.5"/>
          <ibVol vollv2="900" vollv3="1350" vollv4="2250"/>
@@ -241,7 +248,7 @@
       <infFunc infFunc="fHousing" pcaplv2="2" pcaplv3="6" pcaplv4="15" qol="5"/>
    </infra>
    <!-- Humidity Trap / Free Environment -->
-   <infra token="infrHumidTrap" environment="FE">
+   <infra token="infrHumidTrap" environment="etFreeLiving">
       <infBuild construct="cPrefab" isSurfOnly="True" minlevel="1" maxlevel="5">
          <ibSurf surflv1="5.22" surflv2="44.84" surflv3="159.3" surflv4="390.4" surflv5="760"/>
          <ibVol vollv1="20.16" vollv2="152.52" vollv3="518.94" vollv4="1245" vollv5="2394.75"/>
@@ -249,7 +256,7 @@
       </infBuild>
       <infReq>
          <irGravity min="0.1" max="1.4"/>
-         <irHydro hydrotype="hrLiquid_Vapour_Ice Sheet"/>
+         <irHydro hydrotype="hrLiquid_Vapour_Ice_Sheet"/>
          <irRegionSoil allowtype="rsrAnyNonVolcanic"/>
       </infReq>
       <infReqStaff>
@@ -267,7 +274,7 @@
       </infFunc>
    </infra>
    <!-- Humidity Trap / Restricted Environment -->
-   <infra token="infrHumidTrap" environment="RE">
+   <infra token="infrHumidTrap" environment="etRestricted">
       <infBuild construct="cPrefab" isSurfOnly="True" minlevel="1" maxlevel="5">
          <ibSurf surflv1="4.32" surflv2="41.04" surflv3="150.48" surflv4="374.4" surflv5="735"/>
          <ibVol vollv1="20.16" vollv2="152.52" vollv3="518.94" vollv4="1245" vollv5="2394.75"/>
@@ -275,7 +282,7 @@
       </infBuild>
       <infReq>
          <irGravity min="0.1" max="1.4"/>
-         <irHydro hydrotype="hrLiquid_Vapour_Ice Sheet"/>
+         <irHydro hydrotype="hrLiquid_Vapour_Ice_Sheet"/>
          <irRegionSoil allowtype="rsrAnyNonVolcanic"/>
       </infReq>
       <infReqStaff>
@@ -293,7 +300,7 @@
       </infFunc>
    </infra>
    <!-- Inflatable Greenhouse / Free Environment -->
-   <infra token="infrInflatGreen" environment="FE">
+   <infra token="infrInflatGreen" environment="etFreeLiving">
       <infBuild construct="cPrefab" isSurfOnly="True" minlevel="1" maxlevel="3">
          <ibSurf surflv1="49.59" surflv2="180.18" surflv3="427.77"/>
          <ibVol vollv1="162" vollv2="576" vollv3="1350"/>
@@ -312,7 +319,7 @@
       </infFunc>
    </infra>
    <!-- Inflatable Greenhouse / Restricted Environment -->
-   <infra token="infrInflatGreen" environment="RE">
+   <infra token="infrInflatGreen" environment="etRestricted">
       <infBuild construct="cPrefab" isSurfOnly="True" minlevel="1" maxlevel="3">
          <ibSurf surflv1="42.75" surflv2="168.5" surflv3="409.25"/>
          <ibVol vollv1="162" vollv2="576" vollv3="1350"/>
@@ -331,7 +338,7 @@
       </infFunc>
    </infra>
    <!-- Inflatable Greenhouse / Space Environment -->
-   <infra token="infrInflatGreen" environment="SE">
+   <infra token="infrInflatGreen" environment="etSpace">
       <infBuild construct="cPrefab" isSurfOnly="True" minlevel="1" maxlevel="3">
          <ibSurf surflv1="39.99" surflv2="160.98" surflv3="394.97"/>
          <ibVol vollv1="162" vollv2="576" vollv3="1350"/>
@@ -350,7 +357,7 @@
       </infFunc>
    </infra>
    <!-- Inflatable Habitat / Free Environment -->
-   <infra token="infrInflatHab" environment="FE">
+   <infra token="infrInflatHab" environment="etFreeLiving">
       <infBuild construct="cPrefab" isSurfOnly="false" minlevel="1" maxlevel="4">
          <ibSurf surflv1="32.15" surflv2="58.59" surflv3="149.95" surflv4="435.85"/>
          <ibVol vollv1="107.165" vollv2="190.125" vollv3="482.242" vollv4="1374.863"/>
@@ -363,7 +370,7 @@
       <infFunc infFunc="fHousing" pcaplv1="3" pcaplv2="5" pcaplv3="12" pcaplv4="36" qol="1"/>
    </infra>
    <!-- Inflatable Habitat / Restricted Environment -->
-   <infra token="infrInflatHab" environment="RE">
+   <infra token="infrInflatHab" environment="etRestricted">
       <infBuild construct="cPrefab" isSurfOnly="false" minlevel="1" maxlevel="4">
          <ibSurf surflv1="25.87" surflv2="51.5" surflv3="138.95" surflv4="417.19"/>
          <ibVol vollv1="107.165" vollv2="190.125" vollv3="482.242" vollv4="1374.863"/>
@@ -376,7 +383,7 @@
       <infFunc infFunc="fHousing" pcaplv1="2" pcaplv2="4" pcaplv3="12" pcaplv4="35" qol="1"/>
    </infra>
    <!-- Inflatable Habitat / Space Environment -->
-   <infra token="infrInflatHab" environment="SE">
+   <infra token="infrInflatHab" environment="etSpace">
       <infBuild construct="cPrefab" isSurfOnly="false" minlevel="1" maxlevel="4">
          <ibSurf surflv1="23.67" surflv2="48.49" surflv3="132.11" surflv4="402.77"/>
          <ibVol vollv1="107.165" vollv2="190.125" vollv3="482.242" vollv4="1374.863"/>
@@ -389,7 +396,7 @@
       <infFunc infFunc="fHousing" pcaplv1="2" pcaplv2="4" pcaplv3="11" pcaplv4="34" qol="1"/>
    </infra>
    <!-- Mining Site / Any Environment -->
-   <infra token="infrMiningSite" environment="ANY">
+   <infra token="infrMiningSite" environment="etAny">
       <infBuild construct="cBuilt" isSurfOnly="true" minlevel="1" maxlevel="7">
          <ibSurf surflv1="100" surflv2="400" surflv3="1600" surflv4="6400" surflv5="25600" surflv6="102400" surflv7="270400"/>
          <ibVol vollv1="300" vollv2="1200" vollv3="4800" vollv4="38400" vollv5="153600" vollv6="921600" vollv7="2433600"/>
@@ -413,7 +420,7 @@
       </infFunc>
    </infra>
    <!-- Multipurpose Depot / Any Environment -->
-   <infra token="infrMultiDepot" environment="ANY">
+   <infra token="infrMultiDepot" environment="etAny">
       <infBuild construct="cPrefab" isSurfOnly="false" minlevel="1" maxlevel="5">
          <ibSurf surflv1="90.09" surflv2="289.59" surflv3="524.79" surflv4="939.69" surflv5="1165.29"/>
          <ibVol vollv1="288" vollv2="1800" vollv3="3240" vollv4="5760" vollv5="7128"/>
@@ -433,7 +440,7 @@
       <infFunc infFunc="fMiscellaneous"/>
    </infra>
    <!-- Nuclear Fission Reactor / Any Environment -->
-   <infra token="infrNucFissReactor" environment="ANY">
+   <infra token="infrNucFissReactor" environment="etAny">
       <infBuild construct="cPrefab" isSurfOnly="False" minlevel="1" maxlevel="3">
          <ibSurf surflv1="3" surflv2="6" surflv3="12"/>
          <ibVol vollv1="1.494" vollv2="5.994" vollv3="18"/>
@@ -448,7 +455,7 @@
       <infFunc infFunc="fEnergy" emode="egmFission" fixedprodlv1="50" fixedprodlv1byDL="4.4" fixedprodlv2="100" fixedprodlv2byDL="8.8" fixedprodlv3="200" fixedprodlv3byDL="17.6"/>
    </infra>
    <!-- Pressurized Tanks Array / Any Environment -->
-   <infra token="infrPressTanksArray" environment="ANY">
+   <infra token="infrPressTanksArray" environment="etAny">
       <infBuild construct="cPrefab" isSurfOnly="False" minlevel="1" maxlevel="7">
          <ibSurf surflv1="16.8" surflv2="22.2" surflv3="25.76" surflv4="33.64" surflv5="42.58" surflv6="57.96" surflv7="82.16"/>
          <ibVol vollv1="20.356" vollv2="28.842" vollv3="36.09" vollv4="53.778" vollv5="76.658" vollv6="121.716" vollv7="205.292"/>

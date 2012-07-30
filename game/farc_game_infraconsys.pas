@@ -819,7 +819,7 @@ begin
    if (ICPinfra=2)
       or (ICPinfra=4)
    then FCFgC_Storage_Update(
-      'energNucFisRsm'
+      'energNucFisReactor1'
       ,1
       ,0
       ,ICPcol

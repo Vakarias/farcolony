@@ -104,7 +104,7 @@ begin
 FCMdF_DBProducts_Read;
    FCMdF_DBSPMi_Read;
    FCMdF_DBFactions_Load;
-   FCMdF_DBInfra_Read;
+   FCMdF_DBInfrastructures_Load;
    FCMdF_DBSpaceCrafts_Read;
    FCMgfxC_TerrainsCollection_Init;
    if not Assigned(FCRdiSettlementPictures[1])

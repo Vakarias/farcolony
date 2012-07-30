@@ -323,6 +323,7 @@ begin
                   begin
                      {.unload the current task to the space unit}
                      FCentities[GTPfac].E_spU[GTPspuOwn].SUO_taskIdx:=0;
+                     FCentities[GTPfac].E_spU[GTPspuOwn].SUO_status:=susLanded;
                      {.set the remaining reaction mass}
                      FCentities[GTPfac].E_spU[GTPspuOwn].SUO_availRMass
                         :=FCentities[GTPfac].E_spU[GTPspuOwn].SUO_availRMass-FCGtskListInProc[GTPtaskIdx].TITP_usedRMassV;

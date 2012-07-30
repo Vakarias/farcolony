@@ -616,7 +616,7 @@ begin
 FCMdF_DBProducts_Read;
    FCMdF_DBSPMi_Read;
    FCMdF_DBFactions_Load;
-   FCMdF_DBInfra_Read;
+   FCMdF_DBInfrastructures_Load;
    FCMdF_DBSpaceCrafts_Read;
    end;
 {.DEV NOTES: it's only in the case of a new game at the start of FAR Colony, there'll be some changes and

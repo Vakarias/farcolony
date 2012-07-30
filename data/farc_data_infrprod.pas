@@ -245,7 +245,7 @@ type TFCEdipStorageTypes=(
    - infrastrucdb.xml for energy function AND energy generation custom effect
    - FCFgEM_OutputFromCustomFx_GetValue
    - FCFgEM_OutputFromFunction_GetValue
-   - FCMdF_DBInfra_Read
+   - FCMdF_DBInfrastructures_Load
 }
 ///<summary>
 ///   energy generation modes
