@@ -121,7 +121,7 @@ FCMdF_DBProducts_Read;
    begin
       DeleteFile(FCVdiPathConfigDir+'SavedGames\'+FCRplayer.P_gameName+'.xml');
       FCRplayer.P_gameName:='';
-      FCMdF_ConfigFile_Write(false);
+      FCMdF_ConfigurationFile_Save(false);
    end
    else
    begin

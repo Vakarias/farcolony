@@ -63,10 +63,10 @@ type TFCEdfstSysProc=(
 procedure FCMdF_ConfigurationFile_Load(const mustLoadCurrentGameTime: boolean);
 
 ///<summary>
-///   Write the data in the .xml configuration file.
+///   save the configuration data in the XML configuration file
 ///</summary>
-///   <param name="CFWupdGtime">true= save the current game time</param>
-procedure FCMdF_ConfigFile_Write(const CFWupdGtime:boolean);
+///   <param name="mustSaveCurrentGameTime">true= save the current game time</param>
+procedure FCMdF_ConfigurationFile_Save(const mustSaveCurrentGameTime:boolean);
 
 ///<summary>
 ///   load the factions database XML file
@@ -152,7 +152,7 @@ procedure FCMdF_ConfigurationFile_Load( const mustLoadCurrentGameTime: boolean )
    Additions:
       -2012Jul29- *code audit:
                      (x)var formatting + refactoring     (x)if..then reformatting   (x)function/procedure refactoring
-                     (x)parameters refactoring           (x) ()reformatting         (-)code optimizations
+                     (x)parameters refactoring           (x) ()reformatting         (_)code optimizations
                      (_)float local variables=> extended (_)case..of reformatting   (_)local methods
                      (x)summary completion               (_)protect all float add/sub w/ FCFcFunc_Rnd
                      (_)standardize internal data + commenting them at each use as a result
@@ -253,9 +253,18 @@ begin
 	FCWinMain.FCXMLcfg.FileName:='';
 end;
 
-procedure FCMdF_ConfigFile_Write(const CFWupdGtime:boolean);
-{:Purpose: write the data in the .xml configuration file.
+procedure FCMdF_ConfigurationFile_Save(const mustSaveCurrentGameTime:boolean);
+{:Purpose: save the configuration data in the XML configuration file.
    Additions:
+      -2012Jul29- *code audit:
+                     (x)var formatting + refactoring     (x)if..then reformatting   (x)function/procedure refactoring
+                     (x)parameters refactoring           (x) ()reformatting         (-)code optimizations
+                     (_)float local variables=> extended (_)case..of reformatting   (_)local methods
+                     (x)summary completion               (_)protect all float add/sub w/ FCFcFunc_Rnd
+                     (_)standardize internal data + commenting them at each use as a result
+                     (_)put [format x.xx ] in returns of summary, if required and if the function do formatting
+                     (_)if the procedure reset the same record's data or external data put:
+                        ///   <remarks>the procedure/function reset the /data/</remarks>
       -2010Sep07- *add: current game time frame is now in the configuration file.
                   *add: CFWupdGtime switch.
       -2010Jun14- *add: colony/faction panel location.
@@ -266,146 +275,126 @@ procedure FCMdF_ConfigFile_Write(const CFWupdGtime:boolean);
       -2009Nov18- *add wide screen option.
       -2009Nov08- *add current game game.
 }
-var
-   CFWtimeday
-   ,CFWtimeHr
-   ,CFWtimeMin
-   ,CFWtimeMth
-   ,CFWtimeTick
-   ,CFWtimeYr: integer;
+   var
+      OldTimeDay
+      ,OldTimeHour
+      ,OldTimeMinute
+      ,OldTimeMonth
+      ,OldTimeTick
+      ,OldTimeYear: integer;
 
-	CFWxmlRoot,
-	CFWxmlCfgItm: IXMLNode;
+      XMLConfiguration
+      ,XMLConfigurationItem: IXMLNode;
 begin
    {.clear the old file if it exists}
-   if FileExists(FCVdiPathConfigFile)
-   then
+   if FileExists( FCVdiPathConfigFile ) then
    begin
-      if FCRplayer.P_gameName<>''
-      then
+      if FCRplayer.P_gameName<>'' then
       begin
-         {.read the document}
          FCWinMain.FCXMLcfg.FileName:=FCVdiPathConfigFile;
          FCWinMain.FCXMLcfg.Active:=true;
-         CFWxmlCfgItm:=FCWinMain.FCXMLcfg.DocumentElement.ChildNodes.FindNode('currGame');
-         if CFWxmlCfgItm<>nil
-         then
+         XMLConfigurationItem:=FCWinMain.FCXMLcfg.DocumentElement.ChildNodes.FindNode( 'currGame' );
+         if XMLConfigurationItem<>nil then
          begin
-            CFWtimeTick:=CFWxmlCfgItm.Attributes['tfTick'];
-            CFWtimeMin:=CFWxmlCfgItm.Attributes['tfMin'];
-            CFWtimeHr:=CFWxmlCfgItm.Attributes['tfHr'];
-            CFWtimeday:=CFWxmlCfgItm.Attributes['tfDay'];
-            CFWtimeMth:=CFWxmlCfgItm.Attributes['tfMth'];
-            CFWtimeYr:=CFWxmlCfgItm.Attributes['tfYr'];
+            OldTimeTick:=XMLConfigurationItem.Attributes['tfTick'];
+            OldTimeMinute:=XMLConfigurationItem.Attributes['tfMin'];
+            OldTimeHour:=XMLConfigurationItem.Attributes['tfHr'];
+            OldTimeDay:=XMLConfigurationItem.Attributes['tfDay'];
+            OldTimeMonth:=XMLConfigurationItem.Attributes['tfMth'];
+            OldTimeYear:=XMLConfigurationItem.Attributes['tfYr'];
          end;
-         {.free the memory}
          FCWinMain.FCXMLcfg.Active:=false;
          FCWinMain.FCXMLcfg.FileName:='';
       end;
-      DeleteFile(pchar(FCVdiPathConfigFile));
+      DeleteFile( pchar( FCVdiPathConfigFile ) );
    end;
-   {.create the document}
    FCWinMain.FCXMLcfg.Active:=true;
-   {.create the root node of the configuration file}
-   CFWxmlRoot:=FCWinMain.FCXMLcfg.AddChild('configfile');
-   {.create the config item "locale"}
-   CFWxmlCfgItm:= CFWxmlRoot.AddChild('locale');
-   CFWxmlCfgItm.Attributes['lang']:= FCVdiLanguage;
-   {.create the config item "mainwin"}
-   CFWxmlCfgItm:= CFWxmlRoot.AddChild('mainwin');
-   CFWxmlCfgItm.Attributes['mwwidth']:= FCVdiWinMainWidth;
-   CFWxmlCfgItm.Attributes['mwheight']:= FCVdiWinMainHeight;
-   CFWxmlCfgItm.Attributes['mwlft']:= FCVdiWinMainLeft;
-   CFWxmlCfgItm.Attributes['mwtop']:= FCVdiWinMainTop;
-   {.create the config item "panels"}
-	CFWxmlCfgItm:=CFWxmlRoot.AddChild('panels');
-   CFWxmlCfgItm.Attributes['colfacStore']:=FCVdiLocStoreColonyPanel;
-   if FCVdiLocStoreColonyPanel
-   then begin
-      CFWxmlCfgItm.Attributes['cfacX']:=FCWinMain.FCWM_ColDPanel.Left;
-      CFWxmlCfgItm.Attributes['cfacY']:=FCWinMain.FCWM_ColDPanel.Top;
+   XMLConfiguration:=FCWinMain.FCXMLcfg.AddChild( 'configfile' );
+   XMLConfigurationItem:= XMLConfiguration.AddChild( 'locale' );
+   XMLConfigurationItem.Attributes['lang']:= FCVdiLanguage;
+   XMLConfigurationItem:= XMLConfiguration.AddChild( 'mainwin' );
+   XMLConfigurationItem.Attributes['mwwidth']:= FCVdiWinMainWidth;
+   XMLConfigurationItem.Attributes['mwheight']:= FCVdiWinMainHeight;
+   XMLConfigurationItem.Attributes['mwlft']:= FCVdiWinMainLeft;
+   XMLConfigurationItem.Attributes['mwtop']:= FCVdiWinMainTop;
+	XMLConfigurationItem:=XMLConfiguration.AddChild( 'panels' );
+   XMLConfigurationItem.Attributes['colfacStore']:=FCVdiLocStoreColonyPanel;
+   if FCVdiLocStoreColonyPanel then
+   begin
+      XMLConfigurationItem.Attributes['cfacX']:=FCWinMain.FCWM_ColDPanel.Left;
+      XMLConfigurationItem.Attributes['cfacY']:=FCWinMain.FCWM_ColDPanel.Top;
    end
    else
    begin
-      CFWxmlCfgItm.Attributes['cfacX']:=20;
-      CFWxmlCfgItm.Attributes['cfacY']:=80;
+      XMLConfigurationItem.Attributes['cfacX']:=20;
+      XMLConfigurationItem.Attributes['cfacY']:=80;
    end;
-   CFWxmlCfgItm.Attributes['cpsStore']:=FCVdiLocStoreCPSobjPanel;
-   if not FCVdiLocStoreCPSobjPanel
-   then
+   XMLConfigurationItem.Attributes['cpsStore']:=FCVdiLocStoreCPSobjPanel;
+   if not FCVdiLocStoreCPSobjPanel then
    begin
-      CFWxmlCfgItm.Attributes['cpsX']:=0;
-      CFWxmlCfgItm.Attributes['cpsY']:=0;
+      XMLConfigurationItem.Attributes['cpsX']:=0;
+      XMLConfigurationItem.Attributes['cpsY']:=0;
    end
-   else if assigned(FCcps)
-      and (FCVdiLocStoreCPSobjPanel)
-   then
+   else if assigned( FCcps )
+      and ( FCVdiLocStoreCPSobjPanel ) then
    begin
-      CFWxmlCfgItm.Attributes['cpsX']:=FCcps.CPSobjPanel.Left;
-      CFWxmlCfgItm.Attributes['cpsY']:=FCcps.CPSobjPanel.Top;
+      XMLConfigurationItem.Attributes['cpsX']:=FCcps.CPSobjPanel.Left;
+      XMLConfigurationItem.Attributes['cpsY']:=FCcps.CPSobjPanel.Top;
    end
-   else if not assigned(FCcps)
-      and (FCVdiLocStoreCPSobjPanel)
-   then
+   else if not assigned( FCcps )
+      and (FCVdiLocStoreCPSobjPanel ) then
    begin
-      CFWxmlCfgItm.Attributes['cpsX']:=2;
-      CFWxmlCfgItm.Attributes['cpsY']:=40;
+      XMLConfigurationItem.Attributes['cpsX']:=2;
+      XMLConfigurationItem.Attributes['cpsY']:=40;
    end;
-   CFWxmlCfgItm.Attributes['helpStore']:=FCVdiLocStoreHelpPanel;
-   if FCVdiLocStoreHelpPanel
-   then begin
-      CFWxmlCfgItm.Attributes['helpX']:=FCWinMain.FCWM_HelpPanel.Left;
-      CFWxmlCfgItm.Attributes['helpY']:=FCWinMain.FCWM_HelpPanel.Top;
+   XMLConfigurationItem.Attributes['helpStore']:=FCVdiLocStoreHelpPanel;
+   if FCVdiLocStoreHelpPanel then
+   begin
+      XMLConfigurationItem.Attributes['helpX']:=FCWinMain.FCWM_HelpPanel.Left;
+      XMLConfigurationItem.Attributes['helpY']:=FCWinMain.FCWM_HelpPanel.Top;
    end
    else
    begin
-      CFWxmlCfgItm.Attributes['helpX']:=0;
-      CFWxmlCfgItm.Attributes['helpY']:=0;
+      XMLConfigurationItem.Attributes['helpX']:=0;
+      XMLConfigurationItem.Attributes['helpY']:=0;
    end;
-   {.create the graphic setting}
-   CFWxmlCfgItm:=CFWxmlRoot.AddChild('gfx');
-   CFWxmlCfgItm.Attributes['wide']:=FCVdiWinMainWideScreen;
-   CFWxmlCfgItm.Attributes['hrstdt']:=FC3doglHRstandardTextures;
-   {.create the current game data}
-	CFWxmlCfgItm:=CFWxmlRoot.AddChild('currGame');
-	CFWxmlCfgItm.Attributes['gname']:=FCRplayer.P_gameName;
-   if (CFWupdGtime)
-      and (FCRplayer.P_gameName<>'')
-   then
+   XMLConfigurationItem:=XMLConfiguration.AddChild( 'gfx' );
+   XMLConfigurationItem.Attributes['wide']:=FCVdiWinMainWideScreen;
+   XMLConfigurationItem.Attributes['hrstdt']:=FC3doglHRstandardTextures;
+	XMLConfigurationItem:=XMLConfiguration.AddChild( 'currGame' );
+	XMLConfigurationItem.Attributes['gname']:=FCRplayer.P_gameName;
+   if ( mustSaveCurrentGameTime )
+      and ( FCRplayer.P_gameName<>'' ) then
    begin
-      CFWxmlCfgItm.Attributes['tfTick']:= FCRplayer.P_timeTick;
-      CFWxmlCfgItm.Attributes['tfMin']:= FCRplayer.P_timeMin;
-      CFWxmlCfgItm.Attributes['tfHr']:= FCRplayer.P_timeHr;
-      CFWxmlCfgItm.Attributes['tfDay']:= FCRplayer.P_timeday;
-      CFWxmlCfgItm.Attributes['tfMth']:= FCRplayer.P_timeMth;
-      CFWxmlCfgItm.Attributes['tfYr']:= FCRplayer.P_timeYr;
+      XMLConfigurationItem.Attributes['tfTick']:= FCRplayer.P_timeTick;
+      XMLConfigurationItem.Attributes['tfMin']:= FCRplayer.P_timeMin;
+      XMLConfigurationItem.Attributes['tfHr']:= FCRplayer.P_timeHr;
+      XMLConfigurationItem.Attributes['tfDay']:= FCRplayer.P_timeday;
+      XMLConfigurationItem.Attributes['tfMth']:= FCRplayer.P_timeMth;
+      XMLConfigurationItem.Attributes['tfYr']:= FCRplayer.P_timeYr;
    end
-   else if (CFWupdGtime)
-      and (FCRplayer.P_gameName='')
-   then
+   else if ( mustSaveCurrentGameTime )
+      and ( FCRplayer.P_gameName='' ) then
    begin
-      CFWxmlCfgItm.Attributes['tfTick']:=0;
-      CFWxmlCfgItm.Attributes['tfMin']:=0;
-      CFWxmlCfgItm.Attributes['tfHr']:=0;
-      CFWxmlCfgItm.Attributes['tfDay']:=0;
-      CFWxmlCfgItm.Attributes['tfMth']:=0;
-      CFWxmlCfgItm.Attributes['tfYr']:=0;
+      XMLConfigurationItem.Attributes['tfTick']:=0;
+      XMLConfigurationItem.Attributes['tfMin']:=0;
+      XMLConfigurationItem.Attributes['tfHr']:=0;
+      XMLConfigurationItem.Attributes['tfDay']:=0;
+      XMLConfigurationItem.Attributes['tfMth']:=0;
+      XMLConfigurationItem.Attributes['tfYr']:=0;
    end
-   else if not CFWupdGtime
-   then
+   else if not mustSaveCurrentGameTime then
    begin
-      CFWxmlCfgItm.Attributes['tfTick']:=CFWtimeTick;
-      CFWxmlCfgItm.Attributes['tfMin']:=CFWtimeMin;
-      CFWxmlCfgItm.Attributes['tfHr']:=CFWtimeHr;
-      CFWxmlCfgItm.Attributes['tfDay']:=CFWtimeday;
-      CFWxmlCfgItm.Attributes['tfMth']:=CFWtimeMth;
-      CFWxmlCfgItm.Attributes['tfYr']:=CFWtimeYr;
+      XMLConfigurationItem.Attributes['tfTick']:=OldTimeTick;
+      XMLConfigurationItem.Attributes['tfMin']:=OldTimeMinute;
+      XMLConfigurationItem.Attributes['tfHr']:=OldTimeHour;
+      XMLConfigurationItem.Attributes['tfDay']:=OldTimeDay;
+      XMLConfigurationItem.Attributes['tfMth']:=OldTimeMonth;
+      XMLConfigurationItem.Attributes['tfYr']:=OldTimeYear;
    end;
-   {.create the debug info}
-	CFWxmlCfgItm:=CFWxmlRoot.AddChild('debug');
-	CFWxmlCfgItm.Attributes['dswitch']:=FCVdiDebugMode;
-   {.write the file and free the memory}
-   FCWinMain.FCXMLcfg.SaveToFile(FCVdiPathConfigFile);
+	XMLConfigurationItem:=XMLConfiguration.AddChild( 'debug' );
+	XMLConfigurationItem.Attributes['dswitch']:=FCVdiDebugMode;
+   FCWinMain.FCXMLcfg.SaveToFile( FCVdiPathConfigFile );
    FCWinMain.FCXMLcfg.Active:=false;
 end;
 

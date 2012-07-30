@@ -270,7 +270,7 @@ begin
    begin
       FC3doglHRstandardTextures:=true;
       FCMuiW_UI_Initialize(mwupMenuStex);
-      FCMdF_ConfigFile_Write(false);
+      FCMdF_ConfigurationFile_Save(false);
       STSisLoad:=true;
    end
    else if (not STSisHR)
@@ -279,7 +279,7 @@ begin
    begin
       FC3doglHRstandardTextures:=false;
       FCMuiW_UI_Initialize(mwupMenuStex);
-      FCMdF_ConfigFile_Write(false);
+      FCMdF_ConfigurationFile_Save(false);
       STSisLoad:=true;
    end;
    {.reload the choosen textures set if needed}

@@ -287,7 +287,7 @@ begin
       FCVdiWinMainHeight:= FCWinMain.Height;
       FCVdiWinMainLeft:= FCWinMain.Left;
       FCVdiWinMainTop:= FCWinMain.Top;
-      FCMdF_ConfigFile_Write(false);
+      FCMdF_ConfigurationFile_Save(false);
    end
    else if FileExists( FCVdiPathConfigFile )
    then FCMdF_ConfigurationFile_Load( false );

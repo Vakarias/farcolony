@@ -1175,7 +1175,7 @@ begin
    {.clear the old file if it exists}
    if FileExists(GScurrDir+'\'+GScurrG)
    then DeleteFile(pchar(GScurrDir+'\'+GScurrG));
-   FCMdF_ConfigFile_Write(true);
+   FCMdF_ConfigurationFile_Save(true);
    {.link and activate TXMLDocument}
    FCWinMain.FCXMLsave.Active:=true;
    {.create the root node of the saved game file}

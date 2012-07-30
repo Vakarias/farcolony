@@ -329,7 +329,7 @@ begin
    FCVdiWinMainWidth:=FCWinMain.Width;
    FCVdiWinMainLeft:=FCWinMain.Left;
    FCVdiWinMainTop:=FCWinMain.Top;
-	FCMdF_ConfigFile_Write(false);
+	FCMdF_ConfigurationFile_Save(false);
 end;
 
 procedure FCMuiWin_FocusPopup_Reset;
@@ -624,7 +624,7 @@ procedure FCMuiWin_UI_LangUpd;
       -2009Oct10- *add mission setup window.
 }
 begin
-   FCMdF_ConfigFile_Write(false);
+   FCMdF_ConfigurationFile_Save(false);
    FCMuiW_UI_Initialize(mwupTextWinMain);
    FCMuiW_UI_Initialize(mwupTextWinAb);
    FCMuiW_UI_Initialize(mwupTextWinNGS);

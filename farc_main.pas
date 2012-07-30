@@ -1349,7 +1349,7 @@ begin
    then FCVdiLocStoreHelpPanel:=false
    else if not FCVdiLocStoreHelpPanel
    then FCVdiLocStoreHelpPanel:=true;
-   FCMdF_ConfigFile_Write(false);
+   FCMdF_ConfigurationFile_Save(false);
    FCMuiW_UI_Initialize(mwupMenuLoc);
 end;
 
@@ -1359,7 +1359,7 @@ begin
    then FCVdiLocStoreCPSobjPanel:=false
    else if not FCVdiLocStoreCPSobjPanel
    then FCVdiLocStoreCPSobjPanel:=true;
-   FCMdF_ConfigFile_Write(false);
+   FCMdF_ConfigurationFile_Save(false);
    FCMuiW_UI_Initialize(mwupMenuLoc);
 end;
 
