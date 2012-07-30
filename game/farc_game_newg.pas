@@ -615,7 +615,7 @@ begin
    if length( FCDdsuSpaceUnitDesigns )<=1 then begin
 FCMdF_DBProducts_Read;
    FCMdF_DBSPMi_Read;
-   FCMdF_DBFactions_Loading;
+   FCMdF_DBFactions_Load;
    FCMdF_DBInfra_Read;
    FCMdF_DBSpaceCrafts_Read;
    end;

@@ -103,7 +103,7 @@ begin
 {:DEV NOTES: put the data loading in a proc and load it also for a new game setup (one time loading).}
 FCMdF_DBProducts_Read;
    FCMdF_DBSPMi_Read;
-   FCMdF_DBFactions_Loading;
+   FCMdF_DBFactions_Load;
    FCMdF_DBInfra_Read;
    FCMdF_DBSpaceCrafts_Read;
    FCMgfxC_TerrainsCollection_Init;

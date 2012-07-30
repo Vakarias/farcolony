@@ -290,7 +290,7 @@ begin
       FCMdF_ConfigFile_Write(false);
    end
    else if FileExists( FCVdiPathConfigFile )
-   then FCMdF_ConfigFile_Read( false );
+   then FCMdF_ConfigurationFile_Load( false );
    {.saved games directory initialization}
    if not DirectoryExists( FCVdiPathConfigDir+'SavedGames' )
    then MkDir( FCVdiPathConfigDir+'SavedGames' );

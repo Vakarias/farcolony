@@ -238,7 +238,7 @@ var
 
    GLoobjRow: TFCRufStelObj;
 begin
-   FCMdF_ConfigFile_Read(true);
+   FCMdF_ConfigurationFile_Load(true);
    GLcurrDir:=FCVdiPathConfigDir+'SavedGames\'+FCRplayer.P_gameName;
    GLcurrG:=IntToStr(FCRplayer.P_timeYr)
       +'-'+IntToStr(FCRplayer.P_timeMth)

@@ -57,10 +57,10 @@ type TFCEdfstSysProc=(
 //===========================END FUNCTIONS SECTION==========================================
 
 ///<summary>
-///   Read the data in the .xml configuration file.
+///   load the configuration data in the XML configuration file
 ///</summary>
-///   <param name="CFRreadGtime">true= load the current game time</param>
-procedure FCMdF_ConfigFile_Read(const CFRreadGtime: boolean);
+///   <param name="mustLoadCurrentGameTime">true= load the current game time</param>
+procedure FCMdF_ConfigurationFile_Load(const mustLoadCurrentGameTime: boolean);
 
 ///<summary>
 ///   Write the data in the .xml configuration file.
@@ -71,7 +71,7 @@ procedure FCMdF_ConfigFile_Write(const CFWupdGtime:boolean);
 ///<summary>
 ///   load the factions database XML file
 ///</summary>
-procedure FCMdF_DBFactions_Loading;
+procedure FCMdF_DBFactions_Load;
 
 ///<summary>
 ///   Read the infrastructure database xml file.
@@ -147,9 +147,18 @@ uses
 //===================================================END OF INIT============================
 //===========================END FUNCTIONS SECTION==========================================
 
-procedure FCMdF_ConfigFile_Read(const CFRreadGtime: boolean);
-{:Purpose: read the data in the .xml configuration file.
+procedure FCMdF_ConfigurationFile_Load( const mustLoadCurrentGameTime: boolean );
+{:Purpose: load the configuration data in the XML configuration file.
    Additions:
+      -2012Jul29- *code audit:
+                     (x)var formatting + refactoring     (x)if..then reformatting   (x)function/procedure refactoring
+                     (x)parameters refactoring           (x) ()reformatting         (-)code optimizations
+                     (_)float local variables=> extended (_)case..of reformatting   (_)local methods
+                     (x)summary completion               (_)protect all float add/sub w/ FCFcFunc_Rnd
+                     (_)standardize internal data + commenting them at each use as a result
+                     (_)put [format x.xx ] in returns of summary, if required and if the function do formatting
+                     (_)if the procedure reset the same record's data or external data put:
+                        ///   <remarks>the procedure/function reset the /data/</remarks>
       -2010Sep07- *add: current time frame is now in the configuration file.
                   *add: CFRreadGtime switch.
       -2010Jun14- *add: colony/faction panel location.
@@ -160,97 +169,86 @@ procedure FCMdF_ConfigFile_Read(const CFRreadGtime: boolean);
       -2009Nov18- *add wide screen option.
       -2009Nov08- *add current game game.
 }
-var
-	CFRxmlCfgItm: IXMLNode;
+   var
+      XMLConfiguration: IXMLNode;
 begin
 	{.read the document}
 	FCWinMain.FCXMLcfg.FileName:=FCVdiPathConfigFile;
 	FCWinMain.FCXMLcfg.Active:=true;
 	{.read the locale setting}
-   CFRxmlCfgItm:=FCWinMain.FCXMLcfg.DocumentElement.ChildNodes.FindNode('locale');
-   if CFRxmlCfgItm<>nil
-   then FCVdiLanguage:=CFRxmlCfgItm.Attributes['lang'];
+   XMLConfiguration:=FCWinMain.FCXMLcfg.DocumentElement.ChildNodes.FindNode( 'locale' );
+   if XMLConfiguration<>nil
+   then FCVdiLanguage:=XMLConfiguration.Attributes['lang'];
    {.read the main window data}
-	CFRxmlCfgItm:=FCWinMain.FCXMLcfg.DocumentElement.ChildNodes.FindNode('mainwin');
-	if CFRxmlCfgItm<>nil
-   then
+	XMLConfiguration:=FCWinMain.FCXMLcfg.DocumentElement.ChildNodes.FindNode( 'mainwin' );
+	if XMLConfiguration<>nil then
 	begin
-		FCVdiWinMainWidth:=CFRxmlCfgItm.Attributes['mwwidth'];
-		FCVdiWinMainHeight:=CFRxmlCfgItm.Attributes['mwheight'];
-		FCVdiWinMainLeft:=CFRxmlCfgItm.Attributes['mwlft'];
-		FCVdiWinMainTop:=CFRxmlCfgItm.Attributes['mwtop'];
+		FCVdiWinMainWidth:=XMLConfiguration.Attributes['mwwidth'];
+		FCVdiWinMainHeight:=XMLConfiguration.Attributes['mwheight'];
+		FCVdiWinMainLeft:=XMLConfiguration.Attributes['mwlft'];
+		FCVdiWinMainTop:=XMLConfiguration.Attributes['mwtop'];
 	end;
    {.read the panels data}
-	CFRxmlCfgItm:=FCWinMain.FCXMLcfg.DocumentElement.ChildNodes.FindNode('panels');
-	if CFRxmlCfgItm<>nil
-   then
+	XMLConfiguration:=FCWinMain.FCXMLcfg.DocumentElement.ChildNodes.FindNode( 'panels' );
+	if XMLConfiguration<>nil then
 	begin
-      FCVdiLocStoreColonyPanel:=CFRxmlCfgItm.Attributes['colfacStore'];
-      if FCVdiLocStoreColonyPanel
-      then
+      FCVdiLocStoreColonyPanel:=XMLConfiguration.Attributes['colfacStore'];
+      if FCVdiLocStoreColonyPanel then
       begin
-         FCWinMain.FCWM_ColDPanel.Left:=CFRxmlCfgItm.Attributes['cfacX'];
-         FCWinMain.FCWM_ColDPanel.Top:=CFRxmlCfgItm.Attributes['cfacY'];
+         FCWinMain.FCWM_ColDPanel.Left:=XMLConfiguration.Attributes['cfacX'];
+         FCWinMain.FCWM_ColDPanel.Top:=XMLConfiguration.Attributes['cfacY'];
       end
-      else if not FCVdiLocStoreColonyPanel
-      then
+      else if not FCVdiLocStoreColonyPanel then
       begin
          FCWinMain.FCWM_ColDPanel.Left:=20;
          FCWinMain.FCWM_ColDPanel.Top:=80;
       end;
-      FCVdiLocStoreCPSobjPanel:=CFRxmlCfgItm.Attributes['cpsStore'];
-      if assigned(FCcps)
-         and (FCVdiLocStoreCPSobjPanel)
-      then
+      FCVdiLocStoreCPSobjPanel:=XMLConfiguration.Attributes['cpsStore'];
+      if assigned( FCcps )
+         and ( FCVdiLocStoreCPSobjPanel ) then
       begin
-         FCcps.CPSpX:=CFRxmlCfgItm.Attributes['cpsX'];
-         FCcps.CPSpY:=CFRxmlCfgItm.Attributes['cpsY'];
+         FCcps.CPSpX:=XMLConfiguration.Attributes['cpsX'];
+         FCcps.CPSpY:=XMLConfiguration.Attributes['cpsY'];
       end
-      else if not assigned(FCcps)
-         and (FCVdiLocStoreCPSobjPanel)
-      then
+      else if not assigned( FCcps )
+         and ( FCVdiLocStoreCPSobjPanel ) then
       begin
-         FCWinMain.FCGLSHUDcpsCredL.Tag:=CFRxmlCfgItm.Attributes['cpsX'];
-         FCWinMain.FCGLSHUDcpsTlft.Tag:=CFRxmlCfgItm.Attributes['cpsY'];
+         FCWinMain.FCGLSHUDcpsCredL.Tag:=XMLConfiguration.Attributes['cpsX'];
+         FCWinMain.FCGLSHUDcpsTlft.Tag:=XMLConfiguration.Attributes['cpsY'];
       end;
-		FCVdiLocStoreHelpPanel:=CFRxmlCfgItm.Attributes['helpStore'];
-      if FCVdiLocStoreHelpPanel
-      then
+		FCVdiLocStoreHelpPanel:=XMLConfiguration.Attributes['helpStore'];
+      if FCVdiLocStoreHelpPanel then
       begin
-         FCWinMain.FCWM_HelpPanel.Left:=CFRxmlCfgItm.Attributes['helpX'];
-         FCWinMain.FCWM_HelpPanel.Top:=CFRxmlCfgItm.Attributes['helpY'];
+         FCWinMain.FCWM_HelpPanel.Left:=XMLConfiguration.Attributes['helpX'];
+         FCWinMain.FCWM_HelpPanel.Top:=XMLConfiguration.Attributes['helpY'];
       end;
 	end;
    {.read the graphic setting}
-   CFRxmlCfgItm:=FCWinMain.FCXMLcfg.DocumentElement.ChildNodes.FindNode('gfx');
-   if CFRxmlCfgItm<>nil
-   then
+   XMLConfiguration:=FCWinMain.FCXMLcfg.DocumentElement.ChildNodes.FindNode('gfx');
+   if XMLConfiguration<>nil then
    begin
-      FCVdiWinMainWideScreen:=CFRxmlCfgItm.Attributes['wide'];
-      FC3doglHRstandardTextures:=CFRxmlCfgItm.Attributes['hrstdt'];
+      FCVdiWinMainWideScreen:=XMLConfiguration.Attributes['wide'];
+      FC3doglHRstandardTextures:=XMLConfiguration.Attributes['hrstdt'];
    end;
    {.read the current game data}
-	CFRxmlCfgItm:=FCWinMain.FCXMLcfg.DocumentElement.ChildNodes.FindNode('currGame');
-	if CFRxmlCfgItm<>nil
-   then
+	XMLConfiguration:=FCWinMain.FCXMLcfg.DocumentElement.ChildNodes.FindNode('currGame');
+	if XMLConfiguration<>nil then
    begin
-      FCRplayer.P_gameName:=CFRxmlCfgItm.Attributes['gname'];
-      if CFRreadGtime
-      then
+      FCRplayer.P_gameName:=XMLConfiguration.Attributes['gname'];
+      if mustLoadCurrentGameTime then
       begin
-         FCRplayer.P_timeTick:=CFRxmlCfgItm.Attributes['tfTick'];
-         FCRplayer.P_timeMin:=CFRxmlCfgItm.Attributes['tfMin'];
-         FCRplayer.P_timeHr:=CFRxmlCfgItm.Attributes['tfHr'];
-         FCRplayer.P_timeday:=CFRxmlCfgItm.Attributes['tfDay'];
-         FCRplayer.P_timeMth:=CFRxmlCfgItm.Attributes['tfMth'];
-         FCRplayer.P_timeYr:=CFRxmlCfgItm.Attributes['tfYr'];
+         FCRplayer.P_timeTick:=XMLConfiguration.Attributes['tfTick'];
+         FCRplayer.P_timeMin:=XMLConfiguration.Attributes['tfMin'];
+         FCRplayer.P_timeHr:=XMLConfiguration.Attributes['tfHr'];
+         FCRplayer.P_timeday:=XMLConfiguration.Attributes['tfDay'];
+         FCRplayer.P_timeMth:=XMLConfiguration.Attributes['tfMth'];
+         FCRplayer.P_timeYr:=XMLConfiguration.Attributes['tfYr'];
       end;
    end;
    {.read the debug info}
-	CFRxmlCfgItm:=FCWinMain.FCXMLcfg.DocumentElement.ChildNodes.FindNode('debug');
-	if CFRxmlCfgItm<>nil
-   then FCVdiDebugMode:=CFRxmlCfgItm.Attributes['dswitch'];
-	{.free the memory}
+	XMLConfiguration:=FCWinMain.FCXMLcfg.DocumentElement.ChildNodes.FindNode('debug');
+	if XMLConfiguration<>nil
+   then FCVdiDebugMode:=XMLConfiguration.Attributes['dswitch'];
 	FCWinMain.FCXMLcfg.Active:=false;
 	FCWinMain.FCXMLcfg.FileName:='';
 end;
@@ -411,7 +409,7 @@ begin
    FCWinMain.FCXMLcfg.Active:=false;
 end;
 
-procedure FCMdF_DBFactions_Loading;
+procedure FCMdF_DBFactions_Load;
 {:Purpose: load the factions database XML file.
    Additions:
       -2012Jul29- *code audit = COMPLETION.
