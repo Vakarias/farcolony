@@ -210,8 +210,8 @@ procedure FCMuiW_About_Close;
       -2010Apr06- *add: release the game if needed.
 }
 begin
-   FCWinAbout.Hide;
-   FCWinAbout.Enabled:=false;
+   FreeAndNil(FCWinAbout);
+//   FCWinAbout.Enabled:=false;
    if FCWinMain.FCWM_3dMainGrp.Tag=1 then
    begin
       FCMgTFlow_FlowState_Set(tphTac);
@@ -229,7 +229,15 @@ procedure FCMuiW_About_Raise;
                   window.
 }
 begin
-   FCMuiW_UI_Initialize(mwupSecwinAbout);
+   if FCWinAbout=nil
+   then  begin
+   FCWinAbout:=TFCWinAbout.Create(Application);
+      FCMuiW_UI_Initialize(mwupSecwinAbout);
+   FCMuiW_UI_Initialize(mwupFontWinAb);
+   FCMuiW_UI_Initialize(mwupTextWinAb);
+   end;
+
+//   FCMuiW_UI_Initialize(mwupSecwinAbout);
    FCWinMain.Enabled:=false;
    if FCWinMain.FCWM_3dMainGrp.Visible then
    begin

@@ -165,17 +165,15 @@ end;
 
 procedure TFCWinNewGSetup.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-   FCWinNewGSetup.Hide;
-   FCWinNewGSetup.Enabled:= false;
    FCWinMain.Enabled:= true;
+   FreeAndNil(FCWinNewGSetup);
+//   FCWinNewGSetup.Enabled:= false;
+
 end;
 
 procedure TFCWinNewGSetup.FormCreate(Sender: TObject);
 begin
    FCVdiWinNewGameAllowUpdate:=true;
-   FCMuiW_UI_Initialize(mwupSecWinNewGSetup);
-   FCMuiW_UI_Initialize(mwupFontWinNGS);
-   FCMuiW_UI_Initialize(mwupTextWinNGS);
 end;
 
 procedure TFCWinNewGSetup.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);

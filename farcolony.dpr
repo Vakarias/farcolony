@@ -118,8 +118,5 @@ begin
   Application.Initialize;
   Application.Title := 'FAR Colony';
   Application.CreateForm(TFCWinMain, FCWinMain);
-  Application.CreateForm(TFCWinNewGSetup, FCWinNewGSetup);
-  Application.CreateForm(TFCWinAbout, FCWinAbout);
-  Application.CreateForm(TFCWinFUG, FCWinFUG);
   Application.Run;
 end.

@@ -113,15 +113,12 @@ end;
 procedure TFCWinAbout.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
    FCMuiW_About_Close;
-   FCWA_Frm_Creds.AutoScroll:=false;
+//   FCWA_Frm_Creds.AutoScroll:=false;
 end;
 
 procedure TFCWinAbout.FormCreate(Sender: TObject);
 begin
    FCVdiWinAboutAllowUpdate:=true;
-   FCMuiW_UI_Initialize(mwupSecwinAbout);
-   FCMuiW_UI_Initialize(mwupFontWinAb);
-   FCMuiW_UI_Initialize(mwupTextWinAb);
 end;
 
 procedure TFCWinAbout.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);

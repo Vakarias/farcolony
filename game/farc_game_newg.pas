@@ -33,6 +33,7 @@ interface
 
 uses
   ComCtrls
+  ,Forms
   ,Graphics
   ,SysUtils;
 
@@ -86,6 +87,7 @@ uses
    ,farc_spu_functions
    ,farc_ui_msges
    ,farc_ui_surfpanel
+   ,farc_ui_win
    ,farc_univ_func
    ,farc_win_debug
    ,farc_win_newgset;
@@ -619,13 +621,22 @@ FCMdF_DBProducts_Read;
    FCMdF_DBInfrastructures_Load;
    FCMdF_DBSpaceCrafts_Read;
    end;
+   try
+   if FCWinNewGSetup=nil
+   then  begin
+   FCWinNewGSetup:=TFCWinNewGSetup.Create(Application);
+      FCMuiW_UI_Initialize(mwupSecWinNewGSetup);
+   FCMuiW_UI_Initialize(mwupFontWinNGS);
+   FCMuiW_UI_Initialize(mwupTextWinNGS);
+   end;
+   finally
 {.DEV NOTES: it's only in the case of a new game at the start of FAR Colony, there'll be some changes and
             in the case of a new game during a current one.}
-   with FCWinNewGSetup do
-   begin
+//   with FCWinNewGSetup do
+//   begin
       FCWinMain.Enabled:= false;
       FCWinNewGSetup.Enabled:= true;
-      FCWNGS_Frm_ButtProceed.Enabled:= false;
+      FCWinNewGSetup.FCWNGS_Frm_ButtProceed.Enabled:= false;
       CStestDmp:=FCWinMain.Left+(FCWinMain.Width shr 1)-(FCWinNewGSetup.Width shr 1);
       if FCWinNewGSetup.Left<>CStestDmp
       then FCWinNewGSetup.Left:=CStestDmp;
@@ -634,11 +645,12 @@ FCMdF_DBProducts_Read;
       then FCWinNewGSetup.Top:=CStestDmp;
       FCWinNewGSetup.Show;
       FCWinNewGSetup.BringToFront;
-      FCWNGS_Frm_GNameEdit.EditLabel.Font.Color:=clRed;
-      FCWNGS_Frm_GNameEdit.Text:= '';
-      if FCWNGS_Frm_FactionList.Count=0
+      FCWinNewGSetup.FCWNGS_Frm_GNameEdit.EditLabel.Font.Color:=clRed;
+      FCWinNewGSetup.FCWNGS_Frm_GNameEdit.Text:= '';
+      if FCWinNewGSetup.FCWNGS_Frm_FactionList.Count=0
       then FCMgNG_FactionList_Multipurpose(flacInitSlct,0);
-   end; {.with FCWinNewGSetup}
+//   end; {.with FCWinNewGSetup}
+   end;
 end;
 
 

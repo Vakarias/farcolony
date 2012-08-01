@@ -30,6 +30,9 @@ unit farc_fug_com;
 
 interface
 
+uses
+   forms;
+
 procedure FCMfC_Initialize;
 
 implementation
@@ -49,6 +52,10 @@ procedure FCMfC_Initialize;
       -2010Jul04- *add: main star init.
 }
 begin
+   if FCWinFUG=nil
+   then
+   FCWinFUG:=TFCWinFUG.Create(Application);
+
    FCWinFUG.Width:=FCWinMain.Width;
    FCWinFUG.Height:=FCWinMain.Height;
    FCWinFUG.Left:=FCWinMain.Left;
