@@ -74,7 +74,7 @@ procedure FCMdF_ConfigurationFile_Save(const mustSaveCurrentGameTime:boolean);
 procedure FCMdF_DBFactions_Load;
 
 ///<summary>
-///   Read the infrastructure database xml file.
+///   load the infrastructure database XML file
 ///</summary>
 procedure FCMdF_DBInfrastructures_Load;
 
@@ -604,17 +604,18 @@ begin
 end;
 
 procedure FCMdF_DBInfrastructures_Load;
-{:Purpose: Read the infrastructure database xml file.
+{:Purpose: load the infrastructure database XML file.
     Additions:
+      -2012Aug01- *completion of code audit.
       -2012Jul29- *code audit:
-                     (o)var formatting + refactoring     (x)if..then reformatting   (x)function/procedure refactoring
-                     (-)parameters refactoring           (x) ()reformatting         (o)code optimizations
-                     (-)float local variables=> extended (_)case..of reformatting   (_)local methods
-                     (-)summary completion               (-)protect all float add/sub w/ FCFcFunc_Rnd
-                     (-)standardize internal data + commenting them at each use as a result
-                     (-)put [format x.xx ] in returns of summary, if required and if the function do formatting
-                     (x)use of enumindex                 (-)use of StrToFloat( x, FCVdiFormat ) for all float data
-                     (-)if the procedure reset the same record's data or external data put:
+                     (x)var formatting + refactoring     (x)if..then reformatting   (x)function/procedure refactoring
+                     (_)parameters refactoring           (x) ()reformatting         (o)code optimizations
+                     (_)float local variables=> extended (_)case..of reformatting   (_)local methods
+                     (x)summary completion               (_)protect all float add/sub w/ FCFcFunc_Rnd
+                     (x)standardize internal data + commenting them at each use as a result
+                     (x)put [format x.xx ] in returns of summary, if required and if the function do formatting
+                     (x)use of enumindex                 (x)use of StrToFloat( x, FCVdiFormat ) for all float data
+                     (_)if the procedure reset the same record's data or external data put:
                         ///   <remarks>the procedure/function reset the /data/</remarks>
       -2012Jun27- *add: hydro requirement - hrLiquid_Vapour_Ice Sheet.
                   *mod: production mode - water recovery: roofarea and traparea are now by level.
@@ -657,14 +658,10 @@ procedure FCMdF_DBInfrastructures_Load;
       -2011Feb07- *add: complete functions.
 }
    var
-      DBIRcnt
-      ,DBIRcustFXcnt
-      ,EnumIndex
-      ,DBIRlevel
-      ,DBIRpmodeCnt
-      ,DBIRreqCMatCnt
-      ,DBIRreqStaffCnt
-      ,DBIRsizeCnt: integer;
+      Count
+      ,Count1
+      ,Count2
+      ,EnumIndex: integer;
 
       XMLInfrastructure
       ,XMLInfrastructureItem
@@ -674,7 +671,7 @@ begin
    {.clear the data structure}
    FCDdipInfrastructures:=nil;
    SetLength( FCDdipInfrastructures, 1 );
-   DBIRcnt:=1;
+   Count:=1;
    {.read the document}
 	FCWinMain.FCXMLdbInfra.FileName:=FCVdiPathXML+'\env\infrastrucdb.xml';
 	FCWinMain.FCXMLdbInfra.Active:=true;
@@ -683,10 +680,10 @@ begin
 	begin
       if XMLInfrastructure.NodeName<>'#comment' then
       begin
-         SetLength( FCDdipInfrastructures, DBIRcnt+1 );
-         FCDdipInfrastructures[DBIRcnt].I_token:=XMLInfrastructure.Attributes['token'];
+         SetLength( FCDdipInfrastructures, Count+1 );
+         FCDdipInfrastructures[Count].I_token:=XMLInfrastructure.Attributes['token'];
          EnumIndex:=GetEnumValue( TypeInfo( TFCEduEnvironmentTypes ), XMLInfrastructure.Attributes['environment'] );
-         FCDdipInfrastructures[DBIRcnt].I_environment:=TFCEduEnvironmentTypes( EnumIndex );
+         FCDdipInfrastructures[Count].I_environment:=TFCEduEnvironmentTypes( EnumIndex );
          if EnumIndex=-1
          then raise Exception.Create( 'bad environment loading w/ infrastructure: '+XMLInfrastructure.Attributes['environment'] );
          XMLInfrastructureItem:=XMLInfrastructure.ChildNodes.First;
@@ -695,49 +692,46 @@ begin
             if XMLInfrastructureItem.NodeName='infBuild' then
             begin
                EnumIndex:=GetEnumValue( TypeInfo( TFCEdipConstructs ), XMLInfrastructureItem.Attributes['construct'] );
-               FCDdipInfrastructures[DBIRcnt].I_construct:=TFCEdipConstructs( EnumIndex );
+               FCDdipInfrastructures[Count].I_construct:=TFCEdipConstructs( EnumIndex );
                if EnumIndex=-1
                then raise Exception.Create( 'bad construct loading w/ infrastructure: '+XMLInfrastructureItem.Attributes['construct'] );
-               FCDdipInfrastructures[DBIRcnt].I_isSurfaceOnly:=XMLInfrastructureItem.Attributes['isSurfOnly'];
-               FCDdipInfrastructures[DBIRcnt].I_minLevel:=XMLInfrastructureItem.Attributes['minlevel'];
-               FCDdipInfrastructures[DBIRcnt].I_maxLevel:=XMLInfrastructureItem.Attributes['maxlevel'];
+               FCDdipInfrastructures[Count].I_isSurfaceOnly:=XMLInfrastructureItem.Attributes['isSurfOnly'];
+               FCDdipInfrastructures[Count].I_minLevel:=XMLInfrastructureItem.Attributes['minlevel'];
+               FCDdipInfrastructures[Count].I_maxLevel:=XMLInfrastructureItem.Attributes['maxlevel'];
                XMLInfrastructureItemSub:=XMLInfrastructureItem.ChildNodes.First;
                while XMLInfrastructureItemSub<>nil do
                begin
+                  Count1:=FCDdipInfrastructures[Count].I_minLevel;
                   if XMLInfrastructureItemSub.NodeName='ibSurf' then
                   begin
-                     DBIRsizeCnt:=FCDdipInfrastructures[DBIRcnt].I_minLevel;
-                     while DBIRsizeCnt<=FCDdipInfrastructures[DBIRcnt].I_maxLevel do
+                     while Count1<=FCDdipInfrastructures[Count].I_maxLevel do
                      begin
-                        FCDdipInfrastructures[DBIRcnt].I_surface[DBIRsizeCnt]:=XMLInfrastructureItemSub.Attributes['surflv'+IntToStr( DBIRsizeCnt )];
-                        inc( DBIRsizeCnt );
+                        FCDdipInfrastructures[Count].I_surface[Count1]:=StrToFloat( XMLInfrastructureItemSub.Attributes['surflv'+IntToStr( Count1 )], FCVdiFormat );
+                        inc( Count1 );
                      end;
                   end
                   else if XMLInfrastructureItemSub.NodeName='ibVol' then
                   begin
-                     DBIRsizeCnt:=FCDdipInfrastructures[DBIRcnt].I_minLevel;
-                     while DBIRsizeCnt<=FCDdipInfrastructures[DBIRcnt].I_maxLevel do
+                     while Count1<=FCDdipInfrastructures[Count].I_maxLevel do
                      begin
-                        FCDdipInfrastructures[DBIRcnt].I_volume[DBIRsizeCnt]:=XMLInfrastructureItemSub.Attributes['vollv'+IntToStr( DBIRsizeCnt )];
-                        inc( DBIRsizeCnt );
+                        FCDdipInfrastructures[Count].I_volume[Count1]:=StrToFloat( XMLInfrastructureItemSub.Attributes['vollv'+IntToStr( Count1 )], FCVdiFormat );
+                        inc( Count1 );
                      end;
                   end
                   else if XMLInfrastructureItemSub.NodeName='ibBasePwr' then
                   begin
-                     DBIRsizeCnt:=FCDdipInfrastructures[DBIRcnt].I_minLevel;
-                     while DBIRsizeCnt<=FCDdipInfrastructures[DBIRcnt].I_maxLevel do
+                     while Count1<=FCDdipInfrastructures[Count].I_maxLevel do
                      begin
-                        FCDdipInfrastructures[DBIRcnt].I_basePower[DBIRsizeCnt]:=XMLInfrastructureItemSub.Attributes['pwrlv'+IntToStr( DBIRsizeCnt )];
-                        inc( DBIRsizeCnt );
+                        FCDdipInfrastructures[Count].I_basePower[Count1]:=StrToFloat( XMLInfrastructureItemSub.Attributes['pwrlv'+IntToStr( Count1 )], FCVdiFormat );
+                        inc( Count1 );
                      end;
                   end
                   else if XMLInfrastructureItemSub.NodeName='ibVolMat' then
                   begin
-                     DBIRsizeCnt:=FCDdipInfrastructures[DBIRcnt].I_minLevel;
-                     while DBIRsizeCnt<=FCDdipInfrastructures[DBIRcnt].I_maxLevel do
+                     while Count1<=FCDdipInfrastructures[Count].I_maxLevel do
                      begin
-                        FCDdipInfrastructures[DBIRcnt].I_materialVolume[DBIRsizeCnt]:=XMLInfrastructureItemSub.Attributes['volmatlv'+IntToStr( DBIRsizeCnt )];
-                        inc( DBIRsizeCnt );
+                        FCDdipInfrastructures[Count].I_materialVolume[Count1]:=StrToFloat( XMLInfrastructureItemSub.Attributes['volmatlv'+IntToStr( Count1 )], FCVdiFormat );
+                        inc( Count1 );
                      end;
                   end;
                   XMLInfrastructureItemSub:=XMLInfrastructureItemSub.NextSibling;
@@ -750,41 +744,41 @@ begin
                begin
                   if XMLInfrastructureItemSub.NodeName='irGravity' then
                   begin
-                     FCDdipInfrastructures[DBIRcnt].I_reqGravityMin:=XMLInfrastructureItemSub.Attributes['min'];
-                     FCDdipInfrastructures[DBIRcnt].I_reqGravityMax:=XMLInfrastructureItemSub.Attributes['max'];
+                     FCDdipInfrastructures[Count].I_reqGravityMin:=StrToFloat( XMLInfrastructureItemSub.Attributes['min'], FCVdiFormat );
+                     FCDdipInfrastructures[Count].I_reqGravityMax:=StrToFloat( XMLInfrastructureItemSub.Attributes['max'], FCVdiFormat );
                   end
                   else if XMLInfrastructureItemSub.NodeName='irHydro' then
                   begin
                      EnumIndex:=GetEnumValue( TypeInfo( TFCEdipHydrosphereRequirements ), XMLInfrastructureItemSub.Attributes['hydrotype'] );
-                     FCDdipInfrastructures[DBIRcnt].I_reqHydrosphere:=TFCEdipHydrosphereRequirements( EnumIndex );
+                     FCDdipInfrastructures[Count].I_reqHydrosphere:=TFCEdipHydrosphereRequirements( EnumIndex );
                      if EnumIndex=-1
                      then raise Exception.Create( 'bad hydrosphere requirement loading w/ infrastructure: '+XMLInfrastructureItemSub.Attributes['hydrotype'] );
                   end
                   else if XMLInfrastructureItemSub.NodeName='irConstrMat' then
                   begin
-                     SetLength( FCDdipInfrastructures[DBIRcnt].I_reqConstructionMaterials, 1 );
-                     DBIRreqCMatCnt:=0;
+                     SetLength( FCDdipInfrastructures[Count].I_reqConstructionMaterials, 1 );
+                     Count1:=0;
                      XMLInfrastructureItemSubSub:=XMLInfrastructureItemSub.ChildNodes.First;
                      while XMLInfrastructureItemSubSub<>nil do
                      begin
-                        inc( DBIRreqCMatCnt );
-                        SetLength( FCDdipInfrastructures[DBIRcnt].I_reqConstructionMaterials, DBIRreqCMatCnt+1 );
-                        FCDdipInfrastructures[DBIRcnt].I_reqConstructionMaterials[DBIRreqCMatCnt].RCM_token:=XMLInfrastructureItemSubSub.Attributes['token'];
-                        FCDdipInfrastructures[DBIRcnt].I_reqConstructionMaterials[DBIRreqCMatCnt].RCM_partOfMaterialVolume:=XMLInfrastructureItemSubSub.Attributes['percent'];
+                        inc( Count1 );
+                        SetLength( FCDdipInfrastructures[Count].I_reqConstructionMaterials, Count1+1 );
+                        FCDdipInfrastructures[Count].I_reqConstructionMaterials[Count1].RCM_token:=XMLInfrastructureItemSubSub.Attributes['token'];
+                        FCDdipInfrastructures[Count].I_reqConstructionMaterials[Count1].RCM_partOfMaterialVolume:=XMLInfrastructureItemSubSub.Attributes['percent'];
                         XMLInfrastructureItemSubSub:=XMLInfrastructureItemSubSub.NextSibling;
                      end;
                   end
                   else if XMLInfrastructureItemSub.NodeName='irRegionSoil' then
                   begin
                      EnumIndex:=GetEnumValue( TypeInfo( TFCEdipRegionSoilRequirements ), XMLInfrastructureItemSub.Attributes['allowtype'] );
-                     FCDdipInfrastructures[DBIRcnt].I_reqRegionSoil:=TFCEdipRegionSoilRequirements( EnumIndex );
+                     FCDdipInfrastructures[Count].I_reqRegionSoil:=TFCEdipRegionSoilRequirements( EnumIndex );
                      if EnumIndex=-1
                      then raise Exception.Create( 'bad region soil requirement loading w/ infrastructure: '+XMLInfrastructureItemSub.Attributes['allowtype'] );
                   end
                   else if XMLInfrastructureItemSub.NodeName='irRsrcSpot' then
                   begin
                      EnumIndex:=GetEnumValue( TypeInfo( TFCEduResourceSpotTypes ), XMLInfrastructureItemSub.Attributes['spottype'] );
-                     FCDdipInfrastructures[DBIRcnt].I_reqResourceSpot:=TFCEduResourceSpotTypes( EnumIndex );
+                     FCDdipInfrastructures[Count].I_reqResourceSpot:=TFCEduResourceSpotTypes( EnumIndex );
                      if EnumIndex=-1
                      then raise Exception.Create( 'bad resource spot requirement w/ infrastructure: '+XMLInfrastructureItemSub.Attributes['spottype'] );
                   end;
@@ -793,85 +787,85 @@ begin
             end //==END== else if DBIRsubN.NodeName='infReq' ==//
             else if XMLInfrastructureItem.NodeName='infReqStaff' then
             begin
-               SetLength( FCDdipInfrastructures[DBIRcnt].I_reqStaff, 1 );
-               DBIRreqStaffCnt:=0;
+               SetLength( FCDdipInfrastructures[Count].I_reqStaff, 1 );
+               Count1:=0;
                XMLInfrastructureItemSub:=XMLInfrastructureItem.ChildNodes.First;
                while XMLInfrastructureItemSub<>nil do
                begin
-                  inc( DBIRreqStaffCnt );
-                  SetLength( FCDdipInfrastructures[DBIRcnt].I_reqStaff, DBIRreqStaffCnt+1 );
+                  inc( Count1 );
+                  SetLength( FCDdipInfrastructures[Count].I_reqStaff, Count1+1 );
                   EnumIndex:=GetEnumValue( TypeInfo( TFCEdpgsPopulationTypes ), XMLInfrastructureItemSub.Attributes['type'] );
-                  FCDdipInfrastructures[DBIRcnt].I_reqStaff[DBIRreqStaffCnt].RS_type:=TFCEdpgsPopulationTypes( EnumIndex );
+                  FCDdipInfrastructures[Count].I_reqStaff[Count1].RS_type:=TFCEdpgsPopulationTypes( EnumIndex );
                   if EnumIndex=-1
                   then raise Exception.Create( 'bad staff requirement loading w/ infrastructure: '+XMLInfrastructureItemSub.Attributes['type'] );
-                  DBIRsizeCnt:=FCDdipInfrastructures[DBIRcnt].I_minLevel;
-                  while DBIRsizeCnt<=FCDdipInfrastructures[DBIRcnt].I_maxLevel do
+                  Count1:=FCDdipInfrastructures[Count].I_minLevel;
+                  while Count1<=FCDdipInfrastructures[Count].I_maxLevel do
                   begin
-                     FCDdipInfrastructures[DBIRcnt].I_reqStaff[DBIRreqStaffCnt].RS_requiredByLv[DBIRsizeCnt]:=XMLInfrastructureItemSub.Attributes['requiredNumLv'+IntToStr( DBIRsizeCnt )];
-                     inc( DBIRsizeCnt );
+                     FCDdipInfrastructures[Count].I_reqStaff[Count1].RS_requiredByLv[Count1]:=XMLInfrastructureItemSub.Attributes['requiredNumLv'+IntToStr( Count1 )];
+                     inc( Count1 );
                   end;
                   XMLInfrastructureItemSub:=XMLInfrastructureItemSub.NextSibling;
                end; //==END== while DBIRreqStaff<>nil do ==//
             end //==END== else if DBIRsubN.NodeName='infReqStaff' ==//
             else if XMLInfrastructureItem.NodeName='infCustFX' then
             begin
-               SetLength( FCDdipInfrastructures[DBIRcnt].I_customEffectStructure, 1 );
-               DBIRcustFXcnt:=0;
+               SetLength( FCDdipInfrastructures[Count].I_customEffectStructure, 1 );
+               Count1:=0;
                XMLInfrastructureItemSub:=XMLInfrastructureItem.ChildNodes.First;
                while XMLInfrastructureItemSub<>nil do
                begin
-                  inc( DBIRcustFXcnt );
-                  SetLength( FCDdipInfrastructures[DBIRcnt].I_customEffectStructure, DBIRcustFXcnt+1 );
+                  inc( Count1 );
+                  SetLength( FCDdipInfrastructures[Count].I_customEffectStructure, Count1+1 );
                   if XMLInfrastructureItemSub.NodeName='icfxEnergyGen' then
                   begin
-                     FCDdipInfrastructures[DBIRcnt].I_customEffectStructure[DBIRcustFXcnt].ICFX_customEffect:=ceEnergyGeneration;
+                     FCDdipInfrastructures[Count].I_customEffectStructure[Count1].ICFX_customEffect:=ceEnergyGeneration;
                      EnumIndex:=GetEnumValue( TypeInfo( TFCEdipEnergyGenerationModes ), XMLInfrastructureItem.Attributes['genMode'] );
-                     FCDdipInfrastructures[DBIRcnt].I_customEffectStructure[DBIRcustFXcnt].ICFX_ceEGmode.EGM_modes:=TFCEdipEnergyGenerationModes( EnumIndex );
+                     FCDdipInfrastructures[Count].I_customEffectStructure[Count1].ICFX_ceEGmode.EGM_modes:=TFCEdipEnergyGenerationModes( EnumIndex );
                      if EnumIndex=-1
                      then raise Exception.Create( 'bad energy generation mode loading w/ infrastructure: '+XMLInfrastructureItem.Attributes['genMode'] );
-                     case FCDdipInfrastructures[DBIRcnt].I_customEffectStructure[DBIRcustFXcnt].ICFX_ceEGmode.EGM_modes of
+                     case FCDdipInfrastructures[Count].I_customEffectStructure[Count1].ICFX_ceEGmode.EGM_modes of
                         egmAntimatter:;
 
                         egmFission:
                         begin
-                           DBIRsizeCnt:=FCDdipInfrastructures[DBIRcnt].I_minLevel;
-                           while DBIRsizeCnt<=FCDdipInfrastructures[DBIRcnt].I_maxLevel do
+                           Count1:=FCDdipInfrastructures[Count].I_minLevel;
+                           while Count1<=FCDdipInfrastructures[Count].I_maxLevel do
                            begin
-                              FCDdipInfrastructures[DBIRcnt].I_customEffectStructure[DBIRcustFXcnt].ICFX_ceEGmode.EGM_mFfixedValues[DBIRsizeCnt].FV_baseGeneration:=
-                                 XMLInfrastructureItem.Attributes['fixedprodlv'+IntToStr( DBIRsizeCnt )];
-                              FCDdipInfrastructures[DBIRcnt].I_customEffectStructure[DBIRcustFXcnt].ICFX_ceEGmode.EGM_mFfixedValues[DBIRsizeCnt].FV_generationByDevLevel:=
-                                 XMLInfrastructureItem.Attributes['fixedprodlv'+IntToStr( DBIRsizeCnt )+'byDL'];
-                              inc( DBIRsizeCnt );
+                              FCDdipInfrastructures[Count].I_customEffectStructure[Count1].ICFX_ceEGmode.EGM_mFfixedValues[Count1].FV_baseGeneration:=
+                                 StrToFloat( XMLInfrastructureItem.Attributes['fixedprodlv'+IntToStr( Count1 )], FCVdiFormat );
+                              FCDdipInfrastructures[Count].I_customEffectStructure[Count1].ICFX_ceEGmode.EGM_mFfixedValues[Count1].FV_generationByDevLevel:=
+                                 StrToFloat( XMLInfrastructureItem.Attributes['fixedprodlv'+IntToStr( Count1 )+'byDL'], FCVdiFormat );
+                              inc( Count1 );
                            end;
                         end;
 
                         egmPhoton:
                         begin
-                           FCDdipInfrastructures[DBIRcnt].I_customEffectStructure[DBIRcustFXcnt].ICFX_ceEGmode.EGM_mParea:=XMLInfrastructureItem.Attributes['area'];
-                           FCDdipInfrastructures[DBIRcnt].I_customEffectStructure[DBIRcustFXcnt].ICFX_ceEGmode.EGM_mPefficiency:=XMLInfrastructureItem.Attributes['efficiency'];
+                           FCDdipInfrastructures[Count].I_customEffectStructure[Count1].ICFX_ceEGmode.EGM_mParea:=XMLInfrastructureItem.Attributes['area'];
+                           FCDdipInfrastructures[Count].I_customEffectStructure[Count1].ICFX_ceEGmode.EGM_mPefficiency:=XMLInfrastructureItem.Attributes['efficiency'];
                         end;
                      end;
                   end
                   else if XMLInfrastructureItemSub.NodeName='cfxEnergyStor' then
                   begin
-                     FCDdipInfrastructures[DBIRcnt].I_customEffectStructure[DBIRcustFXcnt].ICFX_customEffect:=ceEnergyStorage;
-                     DBIRlevel:=XMLInfrastructureItemSub.Attributes['storlevel'];
-                     FCDdipInfrastructures[DBIRcnt].I_customEffectStructure[DBIRcustFXcnt].ICFX_ceEScapacitiesByLevel[DBIRlevel]:=XMLInfrastructureItemSub.Attributes['storCapacity'];
+                     FCDdipInfrastructures[Count].I_customEffectStructure[Count1].ICFX_customEffect:=ceEnergyStorage;
+                     Count2:=XMLInfrastructureItemSub.Attributes['storlevel'];
+                     FCDdipInfrastructures[Count].I_customEffectStructure[Count1].ICFX_ceEScapacitiesByLevel[Count2]:=StrToFloat( XMLInfrastructureItemSub.Attributes['storCapacity'], FCVdiFormat );
                   end
                   else if XMLInfrastructureItemSub.NodeName='icfxHQbasic'
-                  then FCDdipInfrastructures[DBIRcnt].I_customEffectStructure[DBIRcustFXcnt].ICFX_customEffect:=ceHeadQuarterPrimary
+                  then FCDdipInfrastructures[Count].I_customEffectStructure[Count1].ICFX_customEffect:=ceHeadQuarterPrimary
                   else if XMLInfrastructureItemSub.NodeName='icfxHQSecondary'
-                  then FCDdipInfrastructures[DBIRcnt].I_customEffectStructure[DBIRcustFXcnt].ICFX_customEffect:=ceHeadQuarterBasic
+                  then FCDdipInfrastructures[Count].I_customEffectStructure[Count1].ICFX_customEffect:=ceHeadQuarterBasic
                   else if XMLInfrastructureItemSub.NodeName='icfxHQPrimary'
-                  then FCDdipInfrastructures[DBIRcnt].I_customEffectStructure[DBIRcustFXcnt].ICFX_customEffect:=ceHeadQuarterSecondary
+                  then FCDdipInfrastructures[Count].I_customEffectStructure[Count1].ICFX_customEffect:=ceHeadQuarterSecondary
                   else if XMLInfrastructureItemSub.NodeName='cfxProductStorage' then
                   begin
-                     FCDdipInfrastructures[DBIRcnt].I_customEffectStructure[DBIRcustFXcnt].ICFX_customEffect:=ceProductStorage;
-                     DBIRlevel:=XMLInfrastructureItemSub.Attributes['storlevel'];
-                     FCDdipInfrastructures[DBIRcnt].I_customEffectStructure[DBIRcustFXcnt].ICFX_cePSstorageByLevel[DBIRlevel].SBL_solid:=XMLInfrastructureItemSub.Attributes['storSolid'];
-                     FCDdipInfrastructures[DBIRcnt].I_customEffectStructure[DBIRcustFXcnt].ICFX_cePSstorageByLevel[DBIRlevel].SBL_liquid:=XMLInfrastructureItemSub.Attributes['storLiquid'];
-                     FCDdipInfrastructures[DBIRcnt].I_customEffectStructure[DBIRcustFXcnt].ICFX_cePSstorageByLevel[DBIRlevel].SBL_gas:=XMLInfrastructureItemSub.Attributes['storGas'];
-                     FCDdipInfrastructures[DBIRcnt].I_customEffectStructure[DBIRcustFXcnt].ICFX_cePSstorageByLevel[DBIRlevel].SBL_biologic:=XMLInfrastructureItemSub.Attributes['storBio'];
+                     FCDdipInfrastructures[Count].I_customEffectStructure[Count1].ICFX_customEffect:=ceProductStorage;
+                     Count2:=XMLInfrastructureItemSub.Attributes['storlevel'];
+                     FCDdipInfrastructures[Count].I_customEffectStructure[Count1].ICFX_cePSstorageByLevel[Count2].SBL_solid:=StrToFloat( XMLInfrastructureItemSub.Attributes['storSolid'], FCVdiFormat );
+                     FCDdipInfrastructures[Count].I_customEffectStructure[Count1].ICFX_cePSstorageByLevel[Count2].SBL_liquid:=StrToFloat( XMLInfrastructureItemSub.Attributes['storLiquid'], FCVdiFormat );
+                     FCDdipInfrastructures[Count].I_customEffectStructure[Count1].ICFX_cePSstorageByLevel[Count2].SBL_gas:=StrToFloat( XMLInfrastructureItemSub.Attributes['storGas'], FCVdiFormat );
+                     FCDdipInfrastructures[Count].I_customEffectStructure[Count1].ICFX_cePSstorageByLevel[Count2].SBL_biologic:=StrToFloat( XMLInfrastructureItemSub.Attributes['storBio'], FCVdiFormat );
                   end;
                   XMLInfrastructureItemSub:=XMLInfrastructureItemSub.NextSibling;
                end; //==END== while DBIRcustFX<>nil do ==//
@@ -879,83 +873,83 @@ begin
             else if XMLInfrastructureItem.NodeName='infFunc' then
             begin
                EnumIndex:=GetEnumValue( TypeInfo( TFCEdipFunctions ), XMLInfrastructureItem.Attributes['infFunc'] );
-               FCDdipInfrastructures[DBIRcnt].I_function:=TFCEdipFunctions( EnumIndex );
+               FCDdipInfrastructures[Count].I_function:=TFCEdipFunctions( EnumIndex );
                if EnumIndex=-1
                then raise Exception.Create( 'bad function loading w/ infrastructure: '+XMLInfrastructureItem.Attributes['infFunc'] );
-               case FCDdipInfrastructures[DBIRcnt].I_function of
+               case FCDdipInfrastructures[Count].I_function of
                   fEnergy:
                   begin
                      EnumIndex:=GetEnumValue( TypeInfo( TFCEdipEnergyGenerationModes ), XMLInfrastructureItem.Attributes['emode'] );
-                     FCDdipInfrastructures[DBIRcnt].I_fEmode.EGM_modes:=TFCEdipEnergyGenerationModes( EnumIndex );
+                     FCDdipInfrastructures[Count].I_fEmode.EGM_modes:=TFCEdipEnergyGenerationModes( EnumIndex );
                      if EnumIndex=-1
                      then raise Exception.Create( 'bad energy generation mode loading w/ infrastructure: '+XMLInfrastructureItem.Attributes['emode'] );
-                     case FCDdipInfrastructures[DBIRcnt].I_fEmode.EGM_modes of
+                     case FCDdipInfrastructures[Count].I_fEmode.EGM_modes of
                         egmFission:
                         begin
-                           DBIRsizeCnt:=FCDdipInfrastructures[DBIRcnt].I_minLevel;
-                           while DBIRsizeCnt<=FCDdipInfrastructures[DBIRcnt].I_maxLevel do
+                           Count1:=FCDdipInfrastructures[Count].I_minLevel;
+                           while Count1<=FCDdipInfrastructures[Count].I_maxLevel do
                            begin
-                              FCDdipInfrastructures[DBIRcnt].I_fEmode.EGM_mFfixedValues[DBIRsizeCnt].FV_baseGeneration:=XMLInfrastructureItem.Attributes['fixedprodlv'+IntToStr( DBIRsizeCnt )];
-                              FCDdipInfrastructures[DBIRcnt].I_fEmode.EGM_mFfixedValues[DBIRsizeCnt].FV_generationByDevLevel:=XMLInfrastructureItem.Attributes['fixedprodlv'+IntToStr( DBIRsizeCnt )+'byDL'];
-                              inc( DBIRsizeCnt );
+                              FCDdipInfrastructures[Count].I_fEmode.EGM_mFfixedValues[Count1].FV_baseGeneration:=StrToFloat( XMLInfrastructureItem.Attributes['fixedprodlv'+IntToStr( Count1 )], FCVdiFormat );
+                              FCDdipInfrastructures[Count].I_fEmode.EGM_mFfixedValues[Count1].FV_generationByDevLevel:=StrToFloat( XMLInfrastructureItem.Attributes['fixedprodlv'+IntToStr( Count1 )+'byDL'], FCVdiFormat );
+                              inc( Count1 );
                            end;
                         end;
 
                         egmPhoton:
                         begin
-                           FCDdipInfrastructures[DBIRcnt].I_fEmode.EGM_mParea:=XMLInfrastructureItem.Attributes['area'];
-                           FCDdipInfrastructures[DBIRcnt].I_fEmode.EGM_mPefficiency:=XMLInfrastructureItem.Attributes['efficiency'];
+                           FCDdipInfrastructures[Count].I_fEmode.EGM_mParea:=XMLInfrastructureItem.Attributes['area'];
+                           FCDdipInfrastructures[Count].I_fEmode.EGM_mPefficiency:=XMLInfrastructureItem.Attributes['efficiency'];
                         end;
                      end;
                   end;
 
                   fHousing:
                   begin
-                     if FCDdipInfrastructures[DBIRcnt].I_construct<cConverted then
+                     if FCDdipInfrastructures[Count].I_construct<cConverted then
                      begin
-                        DBIRsizeCnt:=FCDdipInfrastructures[DBIRcnt].I_minLevel;
-                        while DBIRsizeCnt<=FCDdipInfrastructures[DBIRcnt].I_maxLevel do
+                        Count1:=FCDdipInfrastructures[Count].I_minLevel;
+                        while Count1<=FCDdipInfrastructures[Count].I_maxLevel do
                         begin
-                           FCDdipInfrastructures[DBIRcnt].I_fHpopulationCapacity[DBIRsizeCnt]:=XMLInfrastructureItem.Attributes['pcaplv'+IntToStr( DBIRsizeCnt )];
-                           inc( DBIRsizeCnt );
+                           FCDdipInfrastructures[Count].I_fHpopulationCapacity[Count1]:=XMLInfrastructureItem.Attributes['pcaplv'+IntToStr( Count1 )];
+                           inc( Count1 );
                         end;
                      end;
-                     FCDdipInfrastructures[DBIRcnt].I_fHqualityOfLife:=XMLInfrastructureItem.Attributes['qol'];
+                     FCDdipInfrastructures[Count].I_fHqualityOfLife:=XMLInfrastructureItem.Attributes['qol'];
                   end;
 
                   fProduction:
                   begin
-                     DBIRpmodeCnt:=0;
+                     Count1:=0;
                      XMLInfrastructureItemSub:=XMLInfrastructureItem.ChildNodes.First;
                      while XMLInfrastructureItemSub<>nil do
                      begin
-                        inc( DBIRpmodeCnt );
+                        inc( Count1 );
                         EnumIndex:=GetEnumValue( TypeInfo( TFCEdipProductionModes ), XMLInfrastructureItemSub.Attributes['pmode'] );
-                        FCDdipInfrastructures[DBIRcnt].I_fPmodeStructure[ DBIRpmodeCnt ].MS_mode:=TFCEdipProductionModes(EnumIndex);
+                        FCDdipInfrastructures[Count].I_fPmodeStructure[ Count1 ].MS_mode:=TFCEdipProductionModes(EnumIndex);
                         if EnumIndex=-1
                         then raise Exception.Create('bad production mode: '+XMLInfrastructureItemSub.Attributes['pmode'] );
-                        FCDdipInfrastructures[DBIRcnt].I_fPmodeStructure[DBIRpmodeCnt].MS_occupancy:=XMLInfrastructureItemSub.Attributes['occupancy'];
-                        if FCDdipInfrastructures[DBIRcnt].I_fPmodeStructure[ DBIRpmodeCnt ].MS_mode=pmWaterRecovery then
+                        FCDdipInfrastructures[Count].I_fPmodeStructure[Count1].MS_occupancy:=XMLInfrastructureItemSub.Attributes['occupancy'];
+                        if FCDdipInfrastructures[Count].I_fPmodeStructure[ Count1 ].MS_mode=pmWaterRecovery then
                         begin
-                           FCDdipInfrastructures[DBIRcnt].I_fPmodeStructure[DBIRpmodeCnt].MS_mode:=pmWaterRecovery;
-                           DBIRsizeCnt:=FCDdipInfrastructures[DBIRcnt].I_minLevel;
-                           while DBIRsizeCnt<=FCDdipInfrastructures[DBIRcnt].I_maxLevel do
+                           FCDdipInfrastructures[Count].I_fPmodeStructure[Count1].MS_mode:=pmWaterRecovery;
+                           Count1:=FCDdipInfrastructures[Count].I_minLevel;
+                           while Count1<=FCDdipInfrastructures[Count].I_maxLevel do
                            begin
-                              FCDdipInfrastructures[DBIRcnt].I_fPmodeStructure[DBIRpmodeCnt].MS_mWRroofArea:=XMLInfrastructureItemSub.Attributes['roofArealv'+IntToStr( DBIRsizeCnt )];
-                              FCDdipInfrastructures[DBIRcnt].I_fPmodeStructure[DBIRpmodeCnt].MS_mWRtrapArea:=XMLInfrastructureItemSub.Attributes['trapArealv'+IntToStr( DBIRsizeCnt )];
-                              inc( DBIRsizeCnt );
+                              FCDdipInfrastructures[Count].I_fPmodeStructure[Count1].MS_mWRroofArea:=StrToFloat( XMLInfrastructureItemSub.Attributes['roofArealv'+IntToStr( Count1 )], FCVdiFormat );
+                              FCDdipInfrastructures[Count].I_fPmodeStructure[Count1].MS_mWRtrapArea:=StrToFloat( XMLInfrastructureItemSub.Attributes['trapArealv'+IntToStr( Count1 )], FCVdiFormat );
+                              inc( Count1 );
                            end;
                         end;
                         XMLInfrastructureItemSub:=XMLInfrastructureItemSub.NextSibling;
                      end; //==END== while DBIRpmode<>nil do ==//
-                     if DBIRpmodeCnt+1<=FCCdipProductionModesMax
-                     then FCDdipInfrastructures[DBIRcnt].I_fPmodeStructure[ DBIRpmodeCnt+1 ].MS_mode:=pmNone;
+                     if Count1+1<=FCCdipProductionModesMax
+                     then FCDdipInfrastructures[Count].I_fPmodeStructure[ Count1+1 ].MS_mode:=pmNone;
                   end;
                end; //==END== case FCDdipInfrastructures[DBIRcnt].I_function of ==//
             end; //==END== else if DBIRsubN.NodeName='infFunc' ==//
             XMLInfrastructureItem:=XMLInfrastructureItem.NextSibling;
          end; //==END== while DBIRsubN<>nil do ==//
-         inc( DBIRcnt );
+         inc( Count );
       end; //==END== if DBIRnode.NodeName<>'#comment' ==//
       XMLInfrastructure:=XMLInfrastructure.NextSibling;
    end; //==END== while DBIRnode<>nil ==//
