@@ -798,11 +798,11 @@ begin
                   FCDdipInfrastructures[Count].I_reqStaff[Count1].RS_type:=TFCEdpgsPopulationTypes( EnumIndex );
                   if EnumIndex=-1
                   then raise Exception.Create( 'bad staff requirement loading w/ infrastructure: '+XMLInfrastructureItemSub.Attributes['type'] );
-                  Count1:=FCDdipInfrastructures[Count].I_minLevel;
-                  while Count1<=FCDdipInfrastructures[Count].I_maxLevel do
+                  Count2:=FCDdipInfrastructures[Count].I_minLevel;
+                  while Count2<=FCDdipInfrastructures[Count].I_maxLevel do
                   begin
-                     FCDdipInfrastructures[Count].I_reqStaff[Count1].RS_requiredByLv[Count1]:=XMLInfrastructureItemSub.Attributes['requiredNumLv'+IntToStr( Count1 )];
-                     inc( Count1 );
+                     FCDdipInfrastructures[Count].I_reqStaff[Count1].RS_requiredByLv[Count2]:=XMLInfrastructureItemSub.Attributes['requiredNumLv'+IntToStr( Count2 )];
+                     inc( Count2 );
                   end;
                   XMLInfrastructureItemSub:=XMLInfrastructureItemSub.NextSibling;
                end; //==END== while DBIRreqStaff<>nil do ==//
