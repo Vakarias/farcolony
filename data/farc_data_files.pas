@@ -79,9 +79,9 @@ procedure FCMdF_DBFactions_Load;
 procedure FCMdF_DBInfrastructures_Load;
 
 ///<summary>
-///   Read the products database xml file
+///   load the products database XML file
 ///</summary>
-procedure FCMdF_DBProducts_Read;
+procedure FCMdF_DBProducts_Load;
 
 ///<summary>
 ///   read database concerning space units (internal structures and designs)
@@ -956,9 +956,19 @@ begin
 	FCWinMain.FCXMLdbInfra.Active:=false;
 end;
 
-procedure FCMdF_DBProducts_Read;
-{:Purpose: Read the products database xml file.
+procedure FCMdF_DBProducts_Load;
+{:Purpose: load the products database XML file.
    Additions:
+      -2012Aug01- *code audit:
+                     (x)var formatting + refactoring     (x)if..then reformatting   (x)function/procedure refactoring
+                     (_)parameters refactoring           (x) ()reformatting         (_)code optimizations
+                     (_)float local variables=> extended (_)case..of reformatting   (_)local methods
+                     (x)summary completion               (_)protect all float add/sub w/ FCFcFunc_Rnd
+                     (x)standardize internal data + commenting them at each use as a result (like Count1 / Count2 ...)
+                     (_)put [format x.xx ] in returns of summary, if required and if the function do formatting
+                     (_)use of enumindex                 (x)use of StrToFloat( x, FCVdiFormat ) for all float data
+                     (_)if the procedure reset the same record's data or external data put:
+                        ///   <remarks>the procedure/function reset the /data/</remarks>
       -2011Oct25  *add: new function: Building Support Equipment.
                   *mod: class + storage + function + corrosive class + research sector loading.
       -2011Aug28- *add: energy generation function.
@@ -976,141 +986,139 @@ procedure FCMdF_DBProducts_Read;
                   *add: volume/unit and mass/unit
       -2011Mar14-	*add: prfuBuildingMat + prfuEnergyGeneration + prfuFood + prfuMultipurposeMat + prfuSpaceMat functions.
 }
-{:DEV NOTES: WARNING: when updating one material function, update all the other ones too.}
-var
-	DBPRcnt
-   ,DBPRenumIndex: integer;
+{:DEV NOTES: WARNING: when updating one material function data, update all the other ones too with the same data if required.}
+   var
+      Count
+      ,EnumIndex: integer;
 
-	DBPRnode
-	,DBPRsub
-	,DBPRtag: IXMLNode;
+      XMLProduct
+      ,XMLProductItem
+      ,XMLProductItemSub: IXMLNode;
 begin
    FCDdipProducts:=nil;
-   SetLength(FCDdipProducts, 1);
-   DBPRcnt:=0;
+   SetLength( FCDdipProducts, 1 );
+   Count:=0;
    {.read the document}
    FCWinMain.FCXMLdbProducts.FileName:=FCVdiPathXML+'\env\productsdb.xml';
    FCWinMain.FCXMLdbProducts.Active:=true;
-   DBPRnode:= FCWinMain.FCXMLdbProducts.DocumentElement.ChildNodes.First;
-   while DBPRnode<>nil do
+   XMLProduct:= FCWinMain.FCXMLdbProducts.DocumentElement.ChildNodes.First;
+   while XMLProduct<>nil do
    begin
-      if DBPRnode.NodeName<>'#comment'
-      then
+      if XMLProduct.NodeName<>'#comment' then
       begin
-         inc(DBPRcnt);
-         SetLength(FCDdipProducts, DBPRcnt+1);
-         FCDdipProducts[DBPRcnt].P_token:=DBPRnode.Attributes['token'];
-         DBPRenumIndex:=GetEnumValue( TypeInfo( TFCEdipProductClasses ), DBPRnode.Attributes['class'] );
-         FCDdipProducts[DBPRcnt].P_class:=TFCEdipProductClasses( DBPRenumIndex );
-         if DBPRenumIndex=-1
-         then raise Exception.Create( 'bad product class: '+DBPRnode.Attributes['class'] );
-         DBPRenumIndex:=GetEnumValue( TypeInfo( TFCEdipStorageTypes ), DBPRnode.Attributes['storage'] );
-         FCDdipProducts[DBPRcnt].P_storage:=TFCEdipStorageTypes( DBPRenumIndex );
-         if DBPRenumIndex=-1
-         then raise Exception.Create( 'bad storage: '+DBPRnode.Attributes['storage'] );
+         inc( Count );
+         SetLength( FCDdipProducts, Count+1 );
+         FCDdipProducts[Count].P_token:=XMLProduct.Attributes['token'];
+         EnumIndex:=GetEnumValue( TypeInfo( TFCEdipProductClasses ), XMLProduct.Attributes['class'] );
+         FCDdipProducts[Count].P_class:=TFCEdipProductClasses( EnumIndex );
+         if EnumIndex=-1
+         then raise Exception.Create( 'bad product class: '+XMLProduct.Attributes['class'] );
+         EnumIndex:=GetEnumValue( TypeInfo( TFCEdipStorageTypes ), XMLProduct.Attributes['storage'] );
+         FCDdipProducts[Count].P_storage:=TFCEdipStorageTypes( EnumIndex );
+         if EnumIndex=-1
+         then raise Exception.Create( 'bad product storage: '+XMLProduct.Attributes['storage'] );
          {:DEV NOTE: complete cargo type loading here}
 //         DBPRdumpStr:=DBPRnode.Attributes['cargo'];
-         FCDdipProducts[DBPRcnt].P_volumeByUnit:=DBPRnode.Attributes['volbyunit'];
-         FCDdipProducts[DBPRcnt].P_massByUnit:=DBPRnode.Attributes['massbyunit'];
-         DBPRsub:=DBPRnode.ChildNodes.First;
-         while DBPRsub<>nil do
+         FCDdipProducts[Count].P_volumeByUnit:=StrToFloat( XMLProduct.Attributes['volbyunit'], FCVdiFormat );
+         FCDdipProducts[Count].P_massByUnit:=StrToFloat( XMLProduct.Attributes['massbyunit'], FCVdiFormat );
+         XMLProductItem:=XMLProduct.ChildNodes.First;
+         while XMLProductItem<>nil do
          begin
-            if DBPRsub.NodeName='function' then
+            if XMLProductItem.NodeName='function' then
             begin
-               DBPRenumIndex:=GetEnumValue( TypeInfo( TFCEdipProductFunctions ), DBPRsub.Attributes['token'] );
-               FCDdipProducts[DBPRcnt].P_function:=TFCEdipProductFunctions( DBPRenumIndex );
-               if DBPRenumIndex=-1
-               then raise Exception.Create( 'bad product function: '+DBPRsub.Attributes['token'] );
-               case FCDdipProducts[DBPRcnt].P_function of
+               EnumIndex:=GetEnumValue( TypeInfo( TFCEdipProductFunctions ), XMLProductItem.Attributes['token'] );
+               FCDdipProducts[Count].P_function:=TFCEdipProductFunctions( EnumIndex );
+               if EnumIndex=-1
+               then raise Exception.Create( 'bad product function: '+XMLProductItem.Attributes['token'] );
+               case FCDdipProducts[Count].P_function of
                   pfBuildingMaterial:
                   begin
-                     FCDdipProducts[DBPRcnt].P_fBMtensileStrength:=DBPRsub.Attributes['tensilestr'];
-                     FCDdipProducts[DBPRcnt].P_fBMtensileStrengthByDevLevel:=DBPRsub.Attributes['tsbylevel'];
-                     FCDdipProducts[DBPRcnt].P_fBMyoungModulus:=DBPRsub.Attributes['youngmodulus'];
-                     FCDdipProducts[DBPRcnt].P_fBMyoungModulusByDevLevel:=DBPRsub.Attributes['ymbylevel'];
-                     FCDdipProducts[DBPRcnt].P_fBMthermalProtection:=DBPRsub.Attributes['thermalprot'];
-                     FCDdipProducts[DBPRcnt].P_fBMreflectivity:=DBPRsub.Attributes['reflectivity'];
-                     DBPRenumIndex:=GetEnumValue( TypeInfo( TFCEdipCorrosiveClasses ), DBPRsub.Attributes['corrosiveclass'] );
-                     FCDdipProducts[DBPRcnt].P_fBMcorrosiveClass:=TFCEdipCorrosiveClasses( DBPRenumIndex );
-                     if DBPRenumIndex=-1
-                     then raise Exception.Create( 'bad corrosive class: '+DBPRsub.Attributes['corrosiveclass'] );
+                     FCDdipProducts[Count].P_fBMtensileStrength:=StrToFloat( XMLProductItem.Attributes['tensilestr'], FCVdiFormat );
+                     FCDdipProducts[Count].P_fBMtensileStrengthByDevLevel:=StrToFloat( XMLProductItem.Attributes['tsbylevel'], FCVdiFormat );
+                     FCDdipProducts[Count].P_fBMyoungModulus:=StrToFloat( XMLProductItem.Attributes['youngmodulus'], FCVdiFormat );
+                     FCDdipProducts[Count].P_fBMyoungModulusByDevLevel:=StrToFloat( XMLProductItem.Attributes['ymbylevel'], FCVdiFormat );
+                     FCDdipProducts[Count].P_fBMthermalProtection:=StrToFloat( XMLProductItem.Attributes['thermalprot'], FCVdiFormat );
+                     FCDdipProducts[Count].P_fBMreflectivity:=StrToFloat( XMLProductItem.Attributes['reflectivity'], FCVdiFormat );
+                     EnumIndex:=GetEnumValue( TypeInfo( TFCEdipCorrosiveClasses ), XMLProductItem.Attributes['corrosiveclass'] );
+                     FCDdipProducts[Count].P_fBMcorrosiveClass:=TFCEdipCorrosiveClasses( EnumIndex );
+                     if EnumIndex=-1
+                     then raise Exception.Create( 'bad corrosive class: '+XMLProductItem.Attributes['corrosiveclass'] );
                   end;
 
-                  pfFood: FCDdipProducts[DBPRcnt].P_fFpoints:=DBPRsub.Attributes['foodpoint'];
+                  pfFood: FCDdipProducts[Count].P_fFpoints:=XMLProductItem.Attributes['foodpoint'];
 
                   pfInfrastructureKit:
                   begin
-                     FCDdipProducts[DBPRcnt].P_fIKtoken:=DBPRsub.Attributes['infratoken'];
-                     FCDdipProducts[DBPRcnt].P_fIKlevel:=DBPRsub.Attributes['infralevel'];
+                     FCDdipProducts[Count].P_fIKtoken:=XMLProductItem.Attributes['infratoken'];
+                     FCDdipProducts[Count].P_fIKlevel:=XMLProductItem.Attributes['infralevel'];
                   end;
 
-                  pfManualConstruction: FCDdipProducts[DBPRcnt].P_fManCwcpCoef:=DBPRsub.Attributes['wcpcoef'];
+                  pfManualConstruction: FCDdipProducts[Count].P_fManCwcpCoef:=StrToFloat( XMLProductItem.Attributes['wcpcoef'], FCVdiFormat );
 
                   pfMechanicalConstruction:
                   begin
-                     FCDdipProducts[DBPRcnt].P_fMechCwcpCoef:=DBPRsub.Attributes['wcp'];
-                     FCDdipProducts[DBPRcnt].P_fMechCcrew:=DBPRsub.Attributes['crew'];
+                     FCDdipProducts[Count].P_fMechCwcpCoef:=StrToFloat( XMLProductItem.Attributes['wcp'], FCVdiFormat );
+                     FCDdipProducts[Count].P_fMechCcrew:=XMLProductItem.Attributes['crew'];
                   end;
 
                   pfMultipurposeMaterial:
                   begin
-                     FCDdipProducts[DBPRcnt].P_fMMtensileStrength:=DBPRsub.Attributes['tensilestr'];
-                     FCDdipProducts[DBPRcnt].P_fMMtensileStrengthByDevLevel:=DBPRsub.Attributes['tsbylevel'];
-                     FCDdipProducts[DBPRcnt].P_fMMyoungModulus:=DBPRsub.Attributes['youngmodulus'];
-                     FCDdipProducts[DBPRcnt].P_fMMyoungModulusByDevLevel:=DBPRsub.Attributes['ymbylevel'];
-                     FCDdipProducts[DBPRcnt].P_fMMthermalProtection:=DBPRsub.Attributes['thermalprot'];
-                     FCDdipProducts[DBPRcnt].P_fMMreflectivity:=DBPRsub.Attributes['reflectivity'];
-                     DBPRenumIndex:=GetEnumValue( TypeInfo( TFCEdipCorrosiveClasses ), DBPRsub.Attributes['corrosiveclass'] );
-                     FCDdipProducts[DBPRcnt].P_fMMcorrosiveClass:=TFCEdipCorrosiveClasses( DBPRenumIndex );
-                     if DBPRenumIndex=-1
-                     then raise Exception.Create( 'bad corrosive class: '+DBPRsub.Attributes['corrosiveclass'] );
+                     FCDdipProducts[Count].P_fMMtensileStrength:=StrToFloat( XMLProductItem.Attributes['tensilestr'], FCVdiFormat );
+                     FCDdipProducts[Count].P_fMMtensileStrengthByDevLevel:=StrToFloat( XMLProductItem.Attributes['tsbylevel'], FCVdiFormat );
+                     FCDdipProducts[Count].P_fMMyoungModulus:=StrToFloat( XMLProductItem.Attributes['youngmodulus'], FCVdiFormat );
+                     FCDdipProducts[Count].P_fMMyoungModulusByDevLevel:=StrToFloat( XMLProductItem.Attributes['ymbylevel'], FCVdiFormat );
+                     FCDdipProducts[Count].P_fMMthermalProtection:=StrToFloat( XMLProductItem.Attributes['thermalprot'], FCVdiFormat );
+                     FCDdipProducts[Count].P_fMMreflectivity:=StrToFloat( XMLProductItem.Attributes['reflectivity'], FCVdiFormat );
+                     EnumIndex:=GetEnumValue( TypeInfo( TFCEdipCorrosiveClasses ), XMLProductItem.Attributes['corrosiveclass'] );
+                     FCDdipProducts[Count].P_fMMcorrosiveClass:=TFCEdipCorrosiveClasses( EnumIndex );
+                     if EnumIndex=-1
+                     then raise Exception.Create( 'bad corrosive class: '+XMLProductItem.Attributes['corrosiveclass'] );
                   end;
 
-                  pfOxygen: FCDdipProducts[DBPRcnt].P_fOpoints:=DBPRsub.Attributes['oxypoint'];
+                  pfOxygen: FCDdipProducts[Count].P_fOpoints:=XMLProductItem.Attributes['oxypoint'];
 
                   pfSpaceMaterial:
                   begin
-                     FCDdipProducts[DBPRcnt].P_function:=pfSpaceMaterial;
-                     FCDdipProducts[DBPRcnt].P_fSMtensileStrength:=DBPRsub.Attributes['tensilestr'];
-                     FCDdipProducts[DBPRcnt].P_fSMtensileStrengthByDevLevel:=DBPRsub.Attributes['tsbylevel'];
-                     FCDdipProducts[DBPRcnt].P_fSMyoungModulus:=DBPRsub.Attributes['youngmodulus'];
-                     FCDdipProducts[DBPRcnt].P_fSMyoungModulusByDevLevel:=DBPRsub.Attributes['ymbylevel'];
-                     FCDdipProducts[DBPRcnt].P_fSMthermalProtection:=DBPRsub.Attributes['thermalprot'];
-                     FCDdipProducts[DBPRcnt].P_fSMreflectivity:=DBPRsub.Attributes['reflectivity'];
-                     DBPRenumIndex:=GetEnumValue( TypeInfo( TFCEdipCorrosiveClasses ), DBPRsub.Attributes['corrosiveclass'] );
-                     FCDdipProducts[DBPRcnt].P_fSMcorrosiveClass:=TFCEdipCorrosiveClasses( DBPRenumIndex );
-                     if DBPRenumIndex=-1
-                     then raise Exception.Create( 'bad corrosive class: '+DBPRsub.Attributes['corrosiveclass'] );
+                     FCDdipProducts[Count].P_function:=pfSpaceMaterial;
+                     FCDdipProducts[Count].P_fSMtensileStrength:=StrToFloat( XMLProductItem.Attributes['tensilestr'], FCVdiFormat );
+                     FCDdipProducts[Count].P_fSMtensileStrengthByDevLevel:=StrToFloat( XMLProductItem.Attributes['tsbylevel'], FCVdiFormat );
+                     FCDdipProducts[Count].P_fSMyoungModulus:=StrToFloat( XMLProductItem.Attributes['youngmodulus'], FCVdiFormat );
+                     FCDdipProducts[Count].P_fSMyoungModulusByDevLevel:=StrToFloat( XMLProductItem.Attributes['ymbylevel'], FCVdiFormat );
+                     FCDdipProducts[Count].P_fSMthermalProtection:=StrToFloat( XMLProductItem.Attributes['thermalprot'], FCVdiFormat );
+                     FCDdipProducts[Count].P_fSMreflectivity:=StrToFloat( XMLProductItem.Attributes['reflectivity'], FCVdiFormat );
+                     EnumIndex:=GetEnumValue( TypeInfo( TFCEdipCorrosiveClasses ), XMLProductItem.Attributes['corrosiveclass'] );
+                     FCDdipProducts[Count].P_fSMcorrosiveClass:=TFCEdipCorrosiveClasses( EnumIndex );
+                     if EnumIndex=-1
+                     then raise Exception.Create( 'bad corrosive class: '+XMLProductItem.Attributes['corrosiveclass'] );
                   end;
 
-                  pfWater: FCDdipProducts[DBPRcnt].P_fWpoints:=DBPRsub.Attributes['waterpoint'];
+                  pfWater: FCDdipProducts[Count].P_fWpoints:=XMLProductItem.Attributes['waterpoint'];
                end; //==END== case FCDBProducts[DBPRcnt].PROD_function of ==//
             end //==END== if DBPRsub.NodeName='function' ==//
-            else if DBPRsub.NodeName='tags'
-            then
+            else if XMLProductItem.NodeName='tags' then
             begin
-               DBPRtag:=DBPRsub.ChildNodes.First;
-               while DBPRtag<>nil do
+               XMLProductItemSub:=XMLProductItem.ChildNodes.First;
+               while XMLProductItemSub<>nil do
                begin
-                  FCDdipProducts[DBPRcnt].P_tagEnvironmentalHazard:=false;
-                  FCDdipProducts[DBPRcnt].P_tagFireHazard:=false;
-                  FCDdipProducts[DBPRcnt].P_tagRadiationsHazard:=false;
-                  FCDdipProducts[DBPRcnt].P_tagToxicHazard:=false;
-                  if DBPRtag.NodeName='hazEnv'
-                  then FCDdipProducts[DBPRcnt].P_tagEnvironmentalHazard:=true
-                  else if DBPRtag.NodeName='hazFire'
-                  then FCDdipProducts[DBPRcnt].P_tagFireHazard:=true
-                  else if DBPRtag.NodeName='hazRad'
-                  then FCDdipProducts[DBPRcnt].P_tagRadiationsHazard:=true
-                  else if DBPRtag.NodeName='hazToxic'
-                  then FCDdipProducts[DBPRcnt].P_tagToxicHazard:=true;
-                  DBPRtag:=DBPRtag.NextSibling;
+                  FCDdipProducts[Count].P_tagEnvironmentalHazard:=false;
+                  FCDdipProducts[Count].P_tagFireHazard:=false;
+                  FCDdipProducts[Count].P_tagRadiationsHazard:=false;
+                  FCDdipProducts[Count].P_tagToxicHazard:=false;
+                  if XMLProductItemSub.NodeName='hazEnv'
+                  then FCDdipProducts[Count].P_tagEnvironmentalHazard:=true
+                  else if XMLProductItemSub.NodeName='hazFire'
+                  then FCDdipProducts[Count].P_tagFireHazard:=true
+                  else if XMLProductItemSub.NodeName='hazRad'
+                  then FCDdipProducts[Count].P_tagRadiationsHazard:=true
+                  else if XMLProductItemSub.NodeName='hazToxic'
+                  then FCDdipProducts[Count].P_tagToxicHazard:=true;
+                  XMLProductItemSub:=XMLProductItemSub.NextSibling;
                end; {.while DBPRtag<>nil}
             end; //==END== if DBPRsub.NodeName='tags' ==//
-            DBPRsub:= DBPRsub.NextSibling;
+            XMLProductItem:= XMLProductItem.NextSibling;
          end; //==END== while DBPRsub<>nil ==//
       end; //==END== if DBPRnode.NodeName<>'#comment' ==//
-		DBPRnode:=DBPRnode.NextSibling;
+		XMLProduct:=XMLProduct.NextSibling;
 	end; //==END== while (DBPRnode<>nil) and (DBPRnode.NodeName<>'#comment') do ==//
 end;
 
