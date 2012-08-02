@@ -619,7 +619,7 @@ FCMdF_DBProducts_Load;
    FCMdF_DBSPMi_Read;
    FCMdF_DBFactions_Load;
    FCMdF_DBInfrastructures_Load;
-   FCMdF_DBSpaceCrafts_Read;
+   FCMdF_DBSpaceUnits_Load;
    end;
    try
    if FCWinNewGSetup=nil

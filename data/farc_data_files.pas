@@ -84,9 +84,9 @@ procedure FCMdF_DBInfrastructures_Load;
 procedure FCMdF_DBProducts_Load;
 
 ///<summary>
-///   read database concerning space units (internal structures and designs)
+///   load the databases XML files concerning space units (internal structures and designs)
 ///</summary>
-procedure FCMdF_DBSpaceCrafts_Read;
+procedure FCMdF_DBSpaceUnits_Load;
 
 ///<summary>
 ///   read SPM items database
@@ -1122,135 +1122,105 @@ begin
 	end; //==END== while (DBPRnode<>nil) and (DBPRnode.NodeName<>'#comment') do ==//
 end;
 
-procedure FCMdF_DBSpaceCrafts_Read;
-{:Purpose: read databases concerning space units (internal structures and designs).
+procedure FCMdF_DBSpaceUnits_Load;
+{:Purpose: load the databases XML files concerning space units (internal structures and designs).
     Additions:
+      -2012Aug01- *code audit:
+                     (x)var formatting + refactoring     (x)if..then reformatting   (x)function/procedure refactoring
+                     (_)parameters refactoring           (x) ()reformatting         (x)code optimizations
+                     (_)float local variables=> extended (_)case..of reformatting   (_)local methods
+                     (x)summary completion               (_)protect all float add/sub w/ FCFcFunc_Rnd
+                     (x)standardize internal data + commenting them at each use as a result (like Count1 / Count2 ...)
+                     (_)put [format x.xx ] in returns of summary, if required and if the function do formatting
+                     (_)use of enumindex                 (x)use of StrToFloat( x, FCVdiFormat ) for all float data
+                     (x)if the procedure reset the same record's data or external data put:
+                        ///   <remarks>the procedure/function reset the /data/</remarks>
       -2010Apr10- *add: design capabilities.
       -2009Sep13- *fix final setlength.
 }
-const
-   DBSCRblocCnt=1024;
-var
-   DBSCRcount
-   ,DBSCRdmp
-   ,DBSCRiStrcnt
-   ,DBSCRiStrIdx
-   ,EnumIndex: integer;
+   var
+      Count
+      ,Count1
+      ,EnumIndex: integer;
 
-   DBSCRdmpStr: string;
-
-   DBSCRnode: IXMLNode;
+      XMLSpaceUnit: IXMLNode;
 begin
    {.clear the data structures}
    FCDdsuInternalStructures:=nil;
    FCDdsuSpaceUnitDesigns:=nil;
-   SetLength(FCDdsuInternalStructures, 1);
-   SetLength(FCDdsuSpaceUnitDesigns, 1);
-   DBSCRcount:=1;
+   SetLength( FCDdsuInternalStructures, 1 );
+   SetLength( FCDdsuSpaceUnitDesigns, 1 );
+   Count:=1;
    {.INTERNAL STRUCTURES}
    {.read the document}
    FCWinMain.FCXMLdbSCraft.FileName:=FCVdiPathXML+'\env\scintstrucdb.xml';
    FCWinMain.FCXMLdbSCraft.Active:=true;
-   DBSCRnode:= FCWinMain.FCXMLdbSCraft.DocumentElement.ChildNodes.First;
-   while DBSCRnode<>nil do
+   XMLSpaceUnit:= FCWinMain.FCXMLdbSCraft.DocumentElement.ChildNodes.First;
+   while XMLSpaceUnit<>nil do
    begin
-      if DBSCRcount >= Length(FCDdsuInternalStructures)
-      then SetLength(FCDdsuInternalStructures, Length(FCDdsuInternalStructures)+DBSCRblocCnt);
-      if DBSCRnode.NodeName<>'#comment' then
+      SetLength( FCDdsuInternalStructures, Count+1 );
+      if XMLSpaceUnit.NodeName<>'#comment' then
       begin
-         {.internal structure token}
-         FCDdsuInternalStructures[DBSCRcount].IS_token:=DBSCRnode.Attributes['token'];
-         {.internal structure shape}
-
-         EnumIndex:=GetEnumValue( TypeInfo( TFCEdsuInternalStructureShapes ), DBSCRnode.Attributes['shape'] );
-         FCDdsuInternalStructures[DBSCRcount].IS_shape:=TFCEdsuInternalStructureShapes( EnumIndex );
+         FCDdsuInternalStructures[Count].IS_token:=XMLSpaceUnit.Attributes['token'];
+         EnumIndex:=GetEnumValue( TypeInfo( TFCEdsuInternalStructureShapes ), XMLSpaceUnit.Attributes['shape'] );
+         FCDdsuInternalStructures[Count].IS_shape:=TFCEdsuInternalStructureShapes( EnumIndex );
          if EnumIndex=-1
-         then raise Exception.Create( 'bad scintstrucdb loading w/ shape: '+DBSCRnode.Attributes['shape'] );
-         {.internal structure architecture type}
-
-         EnumIndex:=GetEnumValue( TypeInfo( TFCEdsuArchitectures ), DBSCRnode.Attributes['archtp'] );
-         FCDdsuInternalStructures[DBSCRcount].IS_architecture:=TFCEdsuArchitectures( EnumIndex );
+         then raise Exception.Create( 'bad scintstrucdb loading w/ shape: '+XMLSpaceUnit.Attributes['shape'] );
+         EnumIndex:=GetEnumValue( TypeInfo( TFCEdsuArchitectures ), XMLSpaceUnit.Attributes['archtp'] );
+         FCDdsuInternalStructures[Count].IS_architecture:=TFCEdsuArchitectures( EnumIndex );
          if EnumIndex=-1
-         then raise Exception.Create( 'bad scintstrucdb loading w/ architecture type: '+DBSCRnode.Attributes['archtp'] );
-         {.internal structure allowed control module}
-         if DBSCRdmpStr='cmtCockpit'
-         then FCDdsuInternalStructures[DBSCRcount].IS_controlModuleAllowed:=cmCockpit
-         else if DBSCRdmpStr='cmtBridge'
-         then FCDdsuInternalStructures[DBSCRcount].IS_controlModuleAllowed:=cmBridge
-         else if DBSCRdmpStr='cmtUnna'
-         then FCDdsuInternalStructures[DBSCRcount].IS_controlModuleAllowed:=cmUnmanned;
-         {.internal structure length}
-         FCDdsuInternalStructures[DBSCRcount].IS_length:=DBSCRnode.Attributes['length'];
-         {.internal structure wingspans}
-         FCDdsuInternalStructures[DBSCRcount].IS_wingspan:=DBSCRnode.Attributes['wgspan'];
-         {.internal structure height}
-         FCDdsuInternalStructures[DBSCRcount].IS_height:=DBSCRnode.Attributes['height'];
-         {.internal structure available volume}
-         FCDdsuInternalStructures[DBSCRcount].IS_availableVolume:=DBSCRnode.Attributes['availvol'];
-         {.internal structure available surface}
-         FCDdsuInternalStructures[DBSCRcount].IS_availableSurface:=DBSCRnode.Attributes['availsur'];
-         {.internal structure available spacedrive usable volume}
-         FCDdsuInternalStructures[DBSCRcount].IS_spaceDriveMaxVolume:=DBSCRnode.Attributes['spdrvmaxvol'];
-         {.internal structure available spacedrive usable surface}
-         FCDdsuInternalStructures[DBSCRcount].IS_spaceDriveMaxSurface:=DBSCRnode.Attributes['spdrvmaxsur'];
-         inc(DBSCRcount);
+         then raise Exception.Create( 'bad scintstrucdb loading w/ architecture type: '+XMLSpaceUnit.Attributes['archtp'] );
+         EnumIndex:=GetEnumValue( TypeInfo( TFCEdsuControlModules ), XMLSpaceUnit.Attributes['ctlmdl'] );
+         FCDdsuInternalStructures[Count].IS_controlModuleAllowed:=TFCEdsuControlModules( EnumIndex );
+         if EnumIndex=-1
+         then raise Exception.Create( 'bad internal structure allowed control module: '+XMLSpaceUnit.Attributes['ctlmdl'] );
+         FCDdsuInternalStructures[Count].IS_length:=StrToFloat( XMLSpaceUnit.Attributes['length'], FCVdiFormat );
+         FCDdsuInternalStructures[Count].IS_wingspan:=StrToFloat( XMLSpaceUnit.Attributes['wgspan'], FCVdiFormat );
+         FCDdsuInternalStructures[Count].IS_height:=StrToFloat( XMLSpaceUnit.Attributes['height'], FCVdiFormat );
+         FCDdsuInternalStructures[Count].IS_availableVolume:=StrToFloat( XMLSpaceUnit.Attributes['availvol'], FCVdiFormat );
+         FCDdsuInternalStructures[Count].IS_availableSurface:=StrToFloat( XMLSpaceUnit.Attributes['availsur'], FCVdiFormat );
+         FCDdsuInternalStructures[Count].IS_spaceDriveMaxVolume:=StrToFloat( XMLSpaceUnit.Attributes['spdrvmaxvol'], FCVdiFormat );
+         FCDdsuInternalStructures[Count].IS_spaceDriveMaxSurface:=StrToFloat( XMLSpaceUnit.Attributes['spdrvmaxsur'], FCVdiFormat );
+         inc(Count);
       end; {.if DBSCRnode.NodeName<>'#comment'}
-      DBSCRnode:= DBSCRnode.NextSibling;
+      XMLSpaceUnit:= XMLSpaceUnit.NextSibling;
    end; {.while DBSCRnode<>nil}
-   {.resize to real table size}
-   SetLength(FCDdsuInternalStructures, DBSCRcount);
    FCWinMain.FCXMLdbSCraft.Active:=false;
-   DBSCRcount:=1;
+   Count:=1;
    {.DESIGNS}
    {.read the document}
    FCWinMain.FCXMLdbSCraft.FileName:=FCVdiPathXML+'\env\scdesignsdb.xml';
    FCWinMain.FCXMLdbSCraft.Active:=true;
-   DBSCRnode:= FCWinMain.FCXMLdbSCraft.DocumentElement.ChildNodes.First;
-   while DBSCRnode<>nil do
+   XMLSpaceUnit:= FCWinMain.FCXMLdbSCraft.DocumentElement.ChildNodes.First;
+   while XMLSpaceUnit<>nil do
    begin
-      if DBSCRcount >= Length(FCDdsuSpaceUnitDesigns)
-      then SetLength(FCDdsuSpaceUnitDesigns, Length(FCDdsuSpaceUnitDesigns)+DBSCRblocCnt);
-      if DBSCRnode.NodeName<>'#comment' then
+      SetLength( FCDdsuSpaceUnitDesigns, Count+1 );
+      if XMLSpaceUnit.NodeName<>'#comment' then
       begin
-         {.design token}
-         FCDdsuSpaceUnitDesigns[DBSCRcount].SUD_token:=DBSCRnode.Attributes['token'];
-         {.internal structure token linked to the current design (datastructure is cloned)}
-         DBSCRdmpStr:=DBSCRnode.Attributes['intstrtoken'];
-         {.retrieve internal structure db}
-         DBSCRiStrcnt:=1;
-         DBSCRiStrIdx:=0;
-         while DBSCRiStrcnt<=Length(FCDdsuInternalStructures)-1 do
+         FCDdsuSpaceUnitDesigns[Count].SUD_token:=XMLSpaceUnit.Attributes['token'];
+         Count1:=1;
+         while Count1<=Length( FCDdsuInternalStructures )-1 do
          begin
-            if FCDdsuInternalStructures[DBSCRiStrcnt].IS_token=DBSCRdmpStr
-            then
+            if FCDdsuInternalStructures[Count1].IS_token=XMLSpaceUnit.Attributes['intstrtoken'] then
             begin
-               DBSCRiStrIdx:=DBSCRiStrcnt;
+               FCDdsuSpaceUnitDesigns[Count].SUD_internalStructureClone:=FCDdsuInternalStructures[Count1];
                Break;
             end;
-            inc(DBSCRiStrcnt);
+            inc(Count1);
          end;
-         FCDdsuSpaceUnitDesigns[DBSCRcount].SUD_internalStructureClone:=FCDdsuInternalStructures[DBSCRiStrIdx];
-         {.design used volume}
-         FCDdsuSpaceUnitDesigns[DBSCRcount].SUD_usedVolume:=DBSCRnode.Attributes['usedvol'];
-         {.design used surface}
-         FCDdsuSpaceUnitDesigns[DBSCRcount].SUD_usedSurface:=DBSCRnode.Attributes['usedsurf'];
-         {.design empty mass}
-         FCDdsuSpaceUnitDesigns[DBSCRcount].SUD_massEmpty:=DBSCRnode.Attributes['massempty'];
-         {.design spacedrive isp}
-         FCDdsuSpaceUnitDesigns[DBSCRcount].SUD_spaceDriveISP:=DBSCRnode.Attributes['spdrvISP'];
-         {.design maximum reaction mass volume}
-         FCDdsuSpaceUnitDesigns[DBSCRcount].SUD_spaceDriveReactionMassMaxVolume:=DBSCRnode.Attributes['spdrvRMmax'];
-         {.design capabilities}
-         FCDdsuSpaceUnitDesigns[DBSCRcount].SUD_capabilityInterstellarTransit:=DBSCRnode.Attributes['capInter'];
-         FCDdsuSpaceUnitDesigns[DBSCRcount].SUD_capabilityColonization:=DBSCRnode.Attributes['capColon'];
-         FCDdsuSpaceUnitDesigns[DBSCRcount].SUD_capabilityPassengers:=DBSCRnode.Attributes['capPassgr'];
-         FCDdsuSpaceUnitDesigns[DBSCRcount].SUD_capabilityCombat:=DBSCRnode.Attributes['capCombt'];
-         inc(DBSCRcount);
+         FCDdsuSpaceUnitDesigns[Count].SUD_usedVolume:=StrToFloat( XMLSpaceUnit.Attributes['usedvol'], FCVdiFormat );
+         FCDdsuSpaceUnitDesigns[Count].SUD_usedSurface:=StrToFloat( XMLSpaceUnit.Attributes['usedsurf'], FCVdiFormat );
+         FCDdsuSpaceUnitDesigns[Count].SUD_massEmpty:=StrToFloat( XMLSpaceUnit.Attributes['massempty'], FCVdiFormat );
+         FCDdsuSpaceUnitDesigns[Count].SUD_spaceDriveISP:=XMLSpaceUnit.Attributes['spdrvISP'];
+         FCDdsuSpaceUnitDesigns[Count].SUD_spaceDriveReactionMassMaxVolume:=StrToFloat( XMLSpaceUnit.Attributes['spdrvRMmax'], FCVdiFormat );
+         FCDdsuSpaceUnitDesigns[Count].SUD_capabilityInterstellarTransit:=XMLSpaceUnit.Attributes['capInter'];
+         FCDdsuSpaceUnitDesigns[Count].SUD_capabilityColonization:=XMLSpaceUnit.Attributes['capColon'];
+         FCDdsuSpaceUnitDesigns[Count].SUD_capabilityPassengers:=XMLSpaceUnit.Attributes['capPassgr'];
+         FCDdsuSpaceUnitDesigns[Count].SUD_capabilityCombat:=XMLSpaceUnit.Attributes['capCombt'];
+         inc(Count);
       end; {.if DBSCRnode.NodeName<>'#comment'}
-      DBSCRnode := DBSCRnode.NextSibling;
+      XMLSpaceUnit := XMLSpaceUnit.NextSibling;
    end; {.while DBSCRnode<>nil}
-   {.resize to real table size}
-   SetLength(FCDdsuSpaceUnitDesigns, DBSCRcount);
    FCWinMain.FCXMLdbSCraft.Active:=false;
 end;
 
