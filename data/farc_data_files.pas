@@ -99,7 +99,7 @@ procedure FCMdF_DBSPMitems_Load;
 ///    <param name="DBSSPaction">switch wich indicate either to process all star systems
 ///    w/o orbital objects and satellites or to process orbital objects and satellites of a
 ///   designed star</param>
-procedure FCMdF_DBstarSys_Process(
+procedure FCMdF_DBStarSystems_Load(
    const DBSSPaction: TFCEdfstSysProc;
    const DBSSPstarSysID
          ,DBSSPstarID: string
@@ -1400,14 +1400,25 @@ begin
 	FCWinMain.FCXMLdbSPMi.Active:=false;
 end;
 
-procedure FCMdF_DBstarSys_Process(
+procedure FCMdF_DBStarSystems_Load(
    const DBSSPaction: TFCEdfstSysProc;
    const DBSSPstarSysID
          ,DBSSPstarID: string
    );
-{:DEV NOTES: init: TFCRduSpaceUnitInOrbit for security, put that in a separate method (will be used for new game / load game=> put a dev note in these respective methods.}
+{:DEV NOTES: .}
 {:Purpose: read the universe database xml file.
    Additions:
+      -2012Aug02- *code audit:
+                     (-)var formatting + refactoring     (-)if..then reformatting   (x)function/procedure refactoring
+                     (-)parameters refactoring           (-) ()reformatting         (-)code optimizations
+                     (-)float local variables=> extended (-)case..of reformatting   (-)local methods
+                     (-)summary completion               (-)protect all float add/sub w/ FCFcFunc_Rnd
+                     (-)standardize internal data + commenting them at each use as a result (like Count1 / Count2 ...)
+                     (-)put [format x.xx ] in returns of summary, if required and if the function do formatting
+                     (-)use of enumindex                 (-)use of StrToFloat( x, FCVdiFormat ) for all float data
+                     (-)if the procedure reset the same record's data or external data put:
+                        ///   <remarks>the procedure/function reset the /data/</remarks>
+                  (*add: init: TFCRduOObSpaceUnitInOrbit for security, put that in a separate method (will be used for new game / load game=> put a dev note in these respective methods)
       -2012Jun02- *add: primary gas volume.
       -2011Oct09- *mod: optimize how the star class is loaded, many lines of code removed.
                   *mod: optimize how the companion star's orbit type is loaded, some lines of code removed.

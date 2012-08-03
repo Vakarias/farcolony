@@ -111,7 +111,7 @@ FCMdF_DBProducts_Load;
    then FCMgfxC_Settlements_Init;
    {.data initialization}
    SetLength(FCGtskLstToProc,1);
-   FCMdF_DBstarSys_Process(dfsspStarSys,'','');
+   FCMdF_DBStarSystems_Load(dfsspStarSys,'','');
    FCMuiM_Messages_Reset;
    {.load current game}
    FCMdFSG_Game_Load;
