@@ -89,9 +89,9 @@ procedure FCMdF_DBProducts_Load;
 procedure FCMdF_DBSpaceUnits_Load;
 
 ///<summary>
-///   read SPM items database
+///   load SPM items database XML file
 ///</summary>
-procedure FCMdF_DBSPMi_Read;
+procedure FCMdF_DBSPMitems_Load;
 
 ///<summary>
 ///   read the universe database xml file.
@@ -1224,9 +1224,19 @@ begin
    FCWinMain.FCXMLdbSCraft.Active:=false;
 end;
 
-procedure FCMdF_DBSPMi_Read;
-{:Purpose: read SPM items database.
+procedure FCMdF_DBSPMitems_Load;
+{:Purpose: load SPM items database XML file.
     Additions:
+      -2012Aug02- *code audit:
+                     (x)var formatting + refactoring     (x)if..then reformatting   (x)function/procedure refactoring
+                     (_)parameters refactoring           (x) ()reformatting         (x)code optimizations
+                     (_)float local variables=> extended (_)case..of reformatting   (_)local methods
+                     (x)summary completion               (_)protect all float add/sub w/ FCFcFunc_Rnd
+                     (x)standardize internal data + commenting them at each use as a result (like Count1 / Count2 ...)
+                     (_)put [format x.xx ] in returns of summary, if required and if the function do formatting
+                     (x)use of enumindex                 (x)use of StrToFloat( x, FCVdiFormat ) for all float data
+                     (_)if the procedure reset the same record's data or external data put:
+                        ///   <remarks>the procedure/function reset the /data/</remarks>
       -2011Aug14- *add: custom effects - complete EIOUT and REVTX.
       -2011Aug12- *add: custom effects.
       -2010Dec27- *rem: HQ structure: dgMirrNet removed.
@@ -1240,215 +1250,153 @@ procedure FCMdF_DBSPMi_Read;
       -2010Sep28- *add: clusters and federative HQ structures.
                   *add: SPMI_isPolicy, forgot it when implemented the basic data structure.
 }
-const
-   DBFRblocCnt=512;
-var
-   DBSPMIcnt
-   ,DBSPMIcntCustomFx
-   ,DBSPMIcntInfl
-   ,DBSPMIcntReq: Integer;
+   var
+      Count
+      ,EnumIndex
+      ,Count1: Integer;
 
-   DBSPMIstr
-   ,DBSPMIstr1: string;
-
-   DBSPMIcustomFx
-   ,DBSPMIinfl
-   ,DBSPMIitm
-   ,DBSPMIitmSub
-   ,DBSPMIreq: IXMLNode;
+      XMLSPMitem
+      ,XMLSPMitemSub
+      ,XMLSPMitemSubSub: IXMLNode;
 begin
-   SetLength(FCDBdgSPMi, 1);
-   DBSPMIcnt:=0;
+   SetLength( FCDBdgSPMi, 1 );
+   Count:=0;
 	{.read the document}
 	FCWinMain.FCXMLdbSPMi.FileName:=FCVdiPathXML+'\env\spmdb.xml';
 	FCWinMain.FCXMLdbSPMi.Active:=true;
-	DBSPMIitm:= FCWinMain.FCXMLdbSPMi.DocumentElement.ChildNodes.First;
-	while DBSPMIitm<>nil do
+	XMLSPMitem:= FCWinMain.FCXMLdbSPMi.DocumentElement.ChildNodes.First;
+	while XMLSPMitem<>nil do
 	begin
-      if DBSPMIitm.NodeName<>'#comment'
-      then
+      if XMLSPMitem.NodeName<>'#comment' then
       begin
-         inc(DBSPMIcnt);
-         SetLength(FCDBdgSPMi, DBSPMIcnt+1);
-         SetLength(FCDBdgSPMi[DBSPMIcnt].SPMI_req, 1);
-         SetLength(FCDBdgSPMi[DBSPMIcnt].SPMI_infl, 1);
-         SetLength(FCDBdgSPMi[DBSPMIcnt].SPMI_customFxList, 1);
-         DBSPMIcntReq:=0;
-         DBSPMIcntInfl:=0;
-         DBSPMIcntCustomFx:=0;
-         FCDBdgSPMi[DBSPMIcnt].SPMI_token:=DBSPMIitm.Attributes['token'];
-         DBSPMIstr:=DBSPMIitm.Attributes['area'];
-         if DBSPMIstr='dgADMIN'
-         then FCDBdgSPMi[DBSPMIcnt].SPMI_area:=dgADMIN
-         else if DBSPMIstr='dgECON'
-         then FCDBdgSPMi[DBSPMIcnt].SPMI_area:=dgECON
-         else if DBSPMIstr='dgMEDCA'
-         then FCDBdgSPMi[DBSPMIcnt].SPMI_area:=dgMEDCA
-         else if DBSPMIstr='dgSOC'
-         then FCDBdgSPMi[DBSPMIcnt].SPMI_area:=dgSOC
-         else if DBSPMIstr='dgSPOL'
-         then FCDBdgSPMi[DBSPMIcnt].SPMI_area:=dgSPOL
-         else if DBSPMIstr='dgSPI'
-         then FCDBdgSPMi[DBSPMIcnt].SPMI_area:=dgSPI;
-         FCDBdgSPMi[DBSPMIcnt].SPMI_isUnique2set:=DBSPMIitm.Attributes['isunique'];
-         FCDBdgSPMi[DBSPMIcnt].SPMI_isPolicy:=DBSPMIitm.Attributes['ispolicy'];
+         inc( Count );
+         SetLength( FCDBdgSPMi, Count+1 );
+         SetLength( FCDBdgSPMi[Count].SPMI_req, 1 );
+         SetLength( FCDBdgSPMi[Count].SPMI_infl, 1 );
+         SetLength( FCDBdgSPMi[Count].SPMI_customFxList, 1 );
+         FCDBdgSPMi[Count].SPMI_token:=XMLSPMitem.Attributes['token'];
+         EnumIndex:=GetEnumValue( TypeInfo( TFCEdgSPMarea ), XMLSPMitem.Attributes['area'] );
+         FCDBdgSPMi[Count].SPMI_area:=TFCEdgSPMarea( EnumIndex );
+         if EnumIndex=-1
+         then raise Exception.Create( 'bad spm item area: '+XMLSPMitem.Attributes['area'] );
+         FCDBdgSPMi[Count].SPMI_isUnique2set:=XMLSPMitem.Attributes['isunique'];
+         FCDBdgSPMi[Count].SPMI_isPolicy:=XMLSPMitem.Attributes['ispolicy'];
          {.SPMi sub data}
-         DBSPMIitmSub:=DBSPMIitm.ChildNodes.First;
-         while DBSPMIitmSub<>nil do
+         XMLSPMitemSub:=XMLSPMitem.ChildNodes.First;
+         while XMLSPMitemSub<>nil do
          begin
             {.SPMi modifiers}
-            if DBSPMIitmSub.NodeName='spmmod'
-            then
+            if XMLSPMitemSub.NodeName='spmmod' then
             begin
-               FCDBdgSPMi[DBSPMIcnt].SPMI_modCohes:=DBSPMIitmSub.Attributes['mcohes'];
-               FCDBdgSPMi[DBSPMIcnt].SPMI_modTens:=DBSPMIitmSub.Attributes['mtens'];
-               FCDBdgSPMi[DBSPMIcnt].SPMI_modSec:=DBSPMIitmSub.Attributes['msec'];
-               FCDBdgSPMi[DBSPMIcnt].SPMI_modEdu:=DBSPMIitmSub.Attributes['medu'];
-               FCDBdgSPMi[DBSPMIcnt].SPMI_modNat:=DBSPMIitmSub.Attributes['mnat'];
-               FCDBdgSPMi[DBSPMIcnt].SPMI_modHeal:=DBSPMIitmSub.Attributes['mhealth'];
-               FCDBdgSPMi[DBSPMIcnt].SPMI_modBur:=DBSPMIitmSub.Attributes['mbur'];
-               FCDBdgSPMi[DBSPMIcnt].SPMI_modCorr:=DBSPMIitmSub.Attributes['mcorr'];
+               FCDBdgSPMi[Count].SPMI_modCohes:=XMLSPMitemSub.Attributes['mcohes'];
+               FCDBdgSPMi[Count].SPMI_modTens:=XMLSPMitemSub.Attributes['mtens'];
+               FCDBdgSPMi[Count].SPMI_modSec:=XMLSPMitemSub.Attributes['msec'];
+               FCDBdgSPMi[Count].SPMI_modEdu:=XMLSPMitemSub.Attributes['medu'];
+               FCDBdgSPMi[Count].SPMI_modNat:=XMLSPMitemSub.Attributes['mnat'];
+               FCDBdgSPMi[Count].SPMI_modHeal:=XMLSPMitemSub.Attributes['mhealth'];
+               FCDBdgSPMi[Count].SPMI_modBur:=XMLSPMitemSub.Attributes['mbur'];
+               FCDBdgSPMi[Count].SPMI_modCorr:=XMLSPMitemSub.Attributes['mcorr'];
             end
             {.SPMI requirements}
-            else if DBSPMIitmSub.NodeName='spmreq'
-            then
+            else if XMLSPMitemSub.NodeName='spmreq' then
             begin
-               DBSPMIreq:=DBSPMIitmSub.ChildNodes.First;
-               while DBSPMIreq<>nil do
+               XMLSPMitemSubSub:=XMLSPMitemSub.ChildNodes.First;
+               Count1:=0;
+               while XMLSPMitemSubSub<>nil do
                begin
-                  SetLength(FCDBdgSPMi[DBSPMIcnt].SPMI_req, length(FCDBdgSPMi[DBSPMIcnt].SPMI_req)+1);
-                  inc(DBSPMIcntReq);
-                  DBSPMIstr:=DBSPMIreq.Attributes['token'];
-                  if DBSPMIstr='dgBuilding'
-                  then
-                  begin
-                     FCDBdgSPMi[DBSPMIcnt].SPMI_req[DBSPMIcntReq].SPMIR_type:=dgBuilding;
-                     FCDBdgSPMi[DBSPMIcnt].SPMI_req[DBSPMIcntReq].SPMIR_infToken:=DBSPMIreq.Attributes['buildtoken'];
-                     FCDBdgSPMi[DBSPMIcnt].SPMI_req[DBSPMIcntReq].SPMIR_percCol:=DBSPMIreq.Attributes['buildperc'];
-                  end
-                  else if DBSPMIstr='dgFacData'
-                  then
-                  begin
-                     FCDBdgSPMi[DBSPMIcnt].SPMI_req[DBSPMIcntReq].SPMIR_type:=dgFacData;
-                     DBSPMIstr:=DBSPMIreq.Attributes['fdatType'];
-                     if DBSPMIstr='rfdFacLv1'
-                     then FCDBdgSPMi[DBSPMIcnt].SPMI_req[DBSPMIcntReq].SPMIR_datTp:=rfdFacLv1
-                     else if DBSPMIstr='rfdFacLv2'
-                     then FCDBdgSPMi[DBSPMIcnt].SPMI_req[DBSPMIcntReq].SPMIR_datTp:=rfdFacLv2
-                     else if DBSPMIstr='rfdFacLv3'
-                     then FCDBdgSPMi[DBSPMIcnt].SPMI_req[DBSPMIcntReq].SPMIR_datTp:=rfdFacLv3
-                     else if DBSPMIstr='rfdFacLv4'
-                     then FCDBdgSPMi[DBSPMIcnt].SPMI_req[DBSPMIcntReq].SPMIR_datTp:=rfdFacLv4
-                     else if DBSPMIstr='rfdFacLv5'
-                     then FCDBdgSPMi[DBSPMIcnt].SPMI_req[DBSPMIcntReq].SPMIR_datTp:=rfdFacLv5
-                     else if DBSPMIstr='rfdFacLv6'
-                     then FCDBdgSPMi[DBSPMIcnt].SPMI_req[DBSPMIcntReq].SPMIR_datTp:=rfdFacLv6
-                     else if DBSPMIstr='rfdFacLv7'
-                     then FCDBdgSPMi[DBSPMIcnt].SPMI_req[DBSPMIcntReq].SPMIR_datTp:=rfdFacLv7
-                     else if DBSPMIstr='rfdFacLv8'
-                     then FCDBdgSPMi[DBSPMIcnt].SPMI_req[DBSPMIcntReq].SPMIR_datTp:=rfdFacLv8
-                     else if DBSPMIstr='rfdFacLv9'
-                     then FCDBdgSPMi[DBSPMIcnt].SPMI_req[DBSPMIcntReq].SPMIR_datTp:=rfdFacLv9
-                     else if DBSPMIstr='rfdFacStab'
-                     then FCDBdgSPMi[DBSPMIcnt].SPMI_req[DBSPMIcntReq].SPMIR_datTp:=rfdFacStab
-                     else if DBSPMIstr='rfdInstrLv'
-                     then FCDBdgSPMi[DBSPMIcnt].SPMI_req[DBSPMIcntReq].SPMIR_datTp:=rfdInstrLv
-                     else if DBSPMIstr='rfdLifeQ'
-                     then FCDBdgSPMi[DBSPMIcnt].SPMI_req[DBSPMIcntReq].SPMIR_datTp:=rfdLifeQ
-                     else if DBSPMIstr='rfdEquil'
-                     then FCDBdgSPMi[DBSPMIcnt].SPMI_req[DBSPMIcntReq].SPMIR_datTp:=rfdEquil;
-                     FCDBdgSPMi[DBSPMIcnt].SPMI_req[DBSPMIcntReq].SPMIR_datValue:=DBSPMIreq.Attributes['fdatValue'];
-                  end
-                  else if DBSPMIstr='dgTechSci'
-                  then
-                  begin
-                     FCDBdgSPMi[DBSPMIcnt].SPMI_req[DBSPMIcntReq].SPMIR_type:=dgTechSci;
-                     FCDBdgSPMi[DBSPMIcnt].SPMI_req[DBSPMIcntReq].SPMIR_tsToken:=DBSPMIreq.Attributes['tstoken'];
-                     FCDBdgSPMi[DBSPMIcnt].SPMI_req[DBSPMIcntReq].SPMIR_masterLvl:=DBSPMIreq.Attributes['tsmastlvl'];
-                  end
-                  else if DBSPMIstr='dgUC'
-                  then
-                  begin
-                     FCDBdgSPMi[DBSPMIcnt].SPMI_req[DBSPMIcntReq].SPMIR_type:=dgUC;
-                     DBSPMIstr:=DBSPMIreq.Attributes['ucmethod'];
-                     if DBSPMIstr='dgFixed'
-                     then FCDBdgSPMi[DBSPMIcnt].SPMI_req[DBSPMIcntReq].SPMIR_ucMethod:=dgFixed
-                     else if DBSPMIstr='dgFixed_yr'
-                     then FCDBdgSPMi[DBSPMIcnt].SPMI_req[DBSPMIcntReq].SPMIR_ucMethod:=dgFixed_yr
-                     else if DBSPMIstr='dgCalcPop'
-                     then FCDBdgSPMi[DBSPMIcnt].SPMI_req[DBSPMIcntReq].SPMIR_ucMethod:=dgCalcPop
-                     else if DBSPMIstr='dgCalcPop_yr'
-                     then FCDBdgSPMi[DBSPMIcnt].SPMI_req[DBSPMIcntReq].SPMIR_ucMethod:=dgCalcPop_yr
-                     else if DBSPMIstr='dgCalcCol'
-                     then FCDBdgSPMi[DBSPMIcnt].SPMI_req[DBSPMIcntReq].SPMIR_ucMethod:=dgCalcCol
-                     else if DBSPMIstr='dgCalcCol_yr'
-                     then FCDBdgSPMi[DBSPMIcnt].SPMI_req[DBSPMIcntReq].SPMIR_ucMethod:=dgCalcCol_yr;
-                     FCDBdgSPMi[DBSPMIcnt].SPMI_req[DBSPMIcntReq].SPMIR_ucVal:=DBSPMIreq.Attributes['ucval'];
+                  inc( Count1 );
+                  SetLength( FCDBdgSPMi[Count].SPMI_req, Count1+1 );
+                  EnumIndex:=GetEnumValue( TypeInfo( TFCEdgSPMiReq ), XMLSPMitemSubSub.Attributes['token'] );
+                  FCDBdgSPMi[Count].SPMI_req[Count1].SPMIR_type:=TFCEdgSPMiReq( EnumIndex );
+                  if EnumIndex=-1
+                  then raise Exception.Create( 'bad spm item requirement type: '+XMLSPMitemSubSub.Attributes['token'] );
+                  case FCDBdgSPMi[Count].SPMI_req[Count1].SPMIR_type of
+                     dgBuilding:
+                     begin
+                        FCDBdgSPMi[Count].SPMI_req[Count1].SPMIR_infToken:=XMLSPMitemSubSub.Attributes['buildtoken'];
+                        FCDBdgSPMi[Count].SPMI_req[Count1].SPMIR_percCol:=XMLSPMitemSubSub.Attributes['buildperc'];
+                     end;
+
+                     dgFacData:
+                     begin
+                        EnumIndex:=GetEnumValue( TypeInfo( TFCEdgSPMiReqFDat ), XMLSPMitemSubSub.Attributes['fdatType'] );
+                        FCDBdgSPMi[Count].SPMI_req[Count1].SPMIR_datTp:=TFCEdgSPMiReqFDat( EnumIndex );
+                        if EnumIndex=-1
+                        then raise Exception.Create( 'bad spm item requirement-faction data: '+XMLSPMitemSubSub.Attributes['fdatType'] );
+                        FCDBdgSPMi[Count].SPMI_req[Count1].SPMIR_datValue:=XMLSPMitemSubSub.Attributes['fdatValue'];
+                     end;
+
+                     dgTechSci:
+                     begin
+                        FCDBdgSPMi[Count].SPMI_req[Count1].SPMIR_tsToken:=XMLSPMitemSubSub.Attributes['tstoken'];
+                        FCDBdgSPMi[Count].SPMI_req[Count1].SPMIR_masterLvl:=XMLSPMitemSubSub.Attributes['tsmastlvl'];
+                     end;
+
+                     dgUC:
+                     begin
+                        EnumIndex:=GetEnumValue( TypeInfo( TFCEdgSPMiReqUC ), XMLSPMitemSubSub.Attributes['ucmethod'] );
+                        FCDBdgSPMi[Count].SPMI_req[Count1].SPMIR_ucMethod:=TFCEdgSPMiReqUC( EnumIndex );
+                        if EnumIndex=-1
+                        then raise Exception.Create( 'bad spm item requirement-UC method: '+XMLSPMitemSubSub.Attributes['ucmethod'] );
+                        FCDBdgSPMi[Count].SPMI_req[Count1].SPMIR_ucVal:=StrToFloat( XMLSPMitemSubSub.Attributes['ucval'], FCVdiFormat );
+                     end;
                   end;
-                  DBSPMIreq:=DBSPMIreq.NextSibling;
+                  XMLSPMitemSubSub:=XMLSPMitemSubSub.NextSibling;
                end; //==END== while DBSPMIreq<>nil do ==//
             end //==END== else if DBSPMIitmSub.NodeName='spmreq' ==//
             {.HeadQuarter data}
-            else if DBSPMIitmSub.NodeName='spmHQ'
-            then
+            else if XMLSPMitemSub.NodeName='spmHQ' then
             begin
-               DBSPMIstr:=DBSPMIitmSub.Attributes['hqstruc'];
-               if DBSPMIstr='dgCentral'
-               then FCDBdgSPMi[DBSPMIcnt].SPMI_hqStruc:=dgCentral
-               else if DBSPMIstr='dgClust'
-               then FCDBdgSPMi[DBSPMIcnt].SPMI_hqStruc:=dgClust
-               else if DBSPMIstr='dgCorpo'
-               then FCDBdgSPMi[DBSPMIcnt].SPMI_hqStruc:=dgCorpo
-               else if DBSPMIstr='dgFed'
-               then FCDBdgSPMi[DBSPMIcnt].SPMI_hqStruc:=dgFed;
-               FCDBdgSPMi[DBSPMIcnt].SPMI_hqRTM:=DBSPMIitmSub.Attributes['hqrtm'];
+               EnumIndex:=GetEnumValue( TypeInfo( TFCEdgSPMhqStr ), XMLSPMitemSub.Attributes['hqstruc'] );
+               FCDBdgSPMi[Count].SPMI_hqStruc:=TFCEdgSPMhqStr( EnumIndex );
+               if EnumIndex=-1
+               then raise Exception.Create( 'bad spm item HQ: '+XMLSPMitemSub.Attributes['hqstruc'] );
+               FCDBdgSPMi[Count].SPMI_hqRTM:=XMLSPMitemSub.Attributes['hqrtm'];
             end
             {.custom effects}
-            else if DBSPMIitmsub.NodeName='spmfx'
-            then
+            else if XMLSPMitemSub.NodeName='spmfx' then
             begin
-               DBSPMIcustomFx:=DBSPMIitmSub.ChildNodes.First;
-               while DBSPMIcustomFx<>nil do
+               XMLSPMitemSubSub:=XMLSPMitemSub.ChildNodes.First;
+               Count1:=0;
+               while XMLSPMitemSubSub<>nil do
                begin
-                  inc(DBSPMIcntCustomFx);
-                  SetLength(FCDBdgSPMi[DBSPMIcnt].SPMI_customFxList, DBSPMIcntCustomFx+1);
-                  DBSPMIstr:=DBSPMIcustomFx.Attributes['code'];
-                  if DBSPMIstr='EIOUT'
-                  then
-                  begin
-                     FCDBdgSPMi[DBSPMIcnt].SPMI_customFxList[DBSPMIcntCustomFx].CFX_code:=cfxEIOUT;
-                     FCDBdgSPMi[DBSPMIcnt].SPMI_customFxList[DBSPMIcntCustomFx].CFX_eioutMod:=DBSPMIcustomFx.Attributes['modifier'];
-                     FCDBdgSPMi[DBSPMIcnt].SPMI_customFxList[DBSPMIcntCustomFx].CFX_eioutIsBurMod:=DBSPMIcustomFx.Attributes['isburmod'];
-                  end
-                  else if DBSPMIstr='REVTX'
-                  then
-                  begin
-                     FCDBdgSPMi[DBSPMIcnt].SPMI_customFxList[DBSPMIcntCustomFx].CFX_code:=cfxREVTX;
-                     FCDBdgSPMi[DBSPMIcnt].SPMI_customFxList[DBSPMIcntCustomFx].CFX_revtxCoef:=DBSPMIcustomFx.Attributes['coef'];
+                  inc( Count1 );
+                  SetLength( FCDBdgSPMi[Count].SPMI_customFxList, Count1+1 );
+                  EnumIndex:=GetEnumValue( TypeInfo( TFCEdgCustomFX ), XMLSPMitemSubSub.Attributes['code'] );
+                  FCDBdgSPMi[Count].SPMI_customFxList[Count1].CFX_code:=TFCEdgCustomFX( EnumIndex );
+                  if EnumIndex=-1
+                  then raise Exception.Create( 'bad spm item custom effect: '+XMLSPMitemSubSub.Attributes['code'] );
+                  case FCDBdgSPMi[Count].SPMI_customFxList[Count1].CFX_code of
+                     cfxEIOUT:
+                     begin
+                        FCDBdgSPMi[Count].SPMI_customFxList[Count1].CFX_eioutMod:=XMLSPMitemSubSub.Attributes['modifier'];
+                        FCDBdgSPMi[Count].SPMI_customFxList[Count1].CFX_eioutIsBurMod:=XMLSPMitemSubSub.Attributes['isburmod'];
+                     end;
+
+                     cfxREVTX: FCDBdgSPMi[Count].SPMI_customFxList[Count1].CFX_revtxCoef:=StrToFloat( XMLSPMitemSubSub.Attributes['coef'], FCVdiFormat );
                   end;
-                  DBSPMIcustomFx:=DBSPMIcustomFx.NextSibling;
+                  XMLSPMitemSubSub:=XMLSPMitemSubSub.NextSibling;
                end;
             end
             {.influence matrix}
-            else if DBSPMIitmSub.NodeName='spminfluences'
-            then
+            else if XMLSPMitemSub.NodeName='spminfluences' then
             begin
-               DBSPMIinfl:=DBSPMIitmSub.ChildNodes.First;
-               while DBSPMIinfl<>nil do
+               XMLSPMitemSubSub:=XMLSPMitemSub.ChildNodes.First;
+               Count1:=0;
+               while XMLSPMitemSubSub<>nil do
                begin
-                  inc(DBSPMIcntInfl);
-                  SetLength(FCDBdgSPMi[DBSPMIcnt].SPMI_infl, DBSPMIcntInfl+1);
-                  FCDBdgSPMi[DBSPMIcnt].SPMI_infl[DBSPMIcntInfl].SPMII_token:=DBSPMIinfl.Attributes['vstoken'];
-                  FCDBdgSPMi[DBSPMIcnt].SPMI_infl[DBSPMIcntInfl].SPMII_influence:=DBSPMIinfl.Attributes['vsmod'];
-                  DBSPMIinfl:=DBSPMIinfl.NextSibling;
+                  inc( Count1 );
+                  SetLength( FCDBdgSPMi[Count].SPMI_infl, Count1+1 );
+                  FCDBdgSPMi[Count].SPMI_infl[Count1].SPMII_token:=XMLSPMitemSubSub.Attributes['vstoken'];
+                  FCDBdgSPMi[Count].SPMI_infl[Count1].SPMII_influence:=XMLSPMitemSubSub.Attributes['vsmod'];
+                  XMLSPMitemSubSub:=XMLSPMitemSubSub.NextSibling;
                end; //==END== while DBSPMIinfl<>nil do ==//
             end;
-            DBSPMIitmSub:=DBSPMIitmSub.NextSibling;
+            XMLSPMitemSub:=XMLSPMitemSub.NextSibling;
          end; //==END== while DBSPMIitmSub<>nil do ==//
       end; //==END== if DBSPMIitm.NodeName<>'#comment' ==//
-      DBSPMIitm:= DBSPMIitm.NextSibling;
+      XMLSPMitem:= XMLSPMitem.NextSibling;
 	end;{.while DBSPMIitm<>nil}
-	{.disable}
 	FCWinMain.FCXMLdbSPMi.Active:=false;
 end;
 

@@ -102,7 +102,7 @@ begin
 //   then FCWinMain.FCWM_MMenu_DebTools.Visible:=false;
 {:DEV NOTES: put the data loading in a proc and load it also for a new game setup (one time loading).}
 FCMdF_DBProducts_Load;
-   FCMdF_DBSPMi_Read;
+   FCMdF_DBSPMitems_Load;
    FCMdF_DBFactions_Load;
    FCMdF_DBInfrastructures_Load;
    FCMdF_DBSpaceUnits_Load;

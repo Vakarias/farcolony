@@ -85,7 +85,7 @@ interface
       ,crirUnl_Ins
       );
    {.SPMi custom effects}
-   {:DEV: update TFCRdgCustomEffect}
+   {:DEV: update TFCRdgCustomEffect + the spmdb xml !}
    type TFCEdgCustomFX=(
       cfxEIOUT
       ,cfxREVTX

@@ -616,7 +616,7 @@ begin
 {:DEV NOTES: put the data loading in a proc and load it also for a continue game(one time loading).}
    if length( FCDdsuSpaceUnitDesigns )<=1 then begin
 FCMdF_DBProducts_Load;
-   FCMdF_DBSPMi_Read;
+   FCMdF_DBSPMitems_Load;
    FCMdF_DBFactions_Load;
    FCMdF_DBInfrastructures_Load;
    FCMdF_DBSpaceUnits_Load;

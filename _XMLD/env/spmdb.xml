@@ -71,9 +71,9 @@
       <spmHQ hqstruc="" hqrtm=""/>}
       <spmfx>
          {economic & industrial output}
-         <ceffect code="EIOUT" modifier="" isburmod=""/> 
+         <ceffect code="cfxEIOUT" modifier="" isburmod=""/> 
          {revenues & taxes}
-         <ceffect code="REVTX" coef=""/> 
+         <ceffect code="cfxREVTX" coef=""/> 
       </spmfx>
       <spminfluences>
          <influence vstoken="SPMi_AIchitect" vsmod="0"/>
