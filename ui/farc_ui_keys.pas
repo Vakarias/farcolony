@@ -1081,7 +1081,7 @@ begin
          and (FCWinMain.FCWM_3dMainGrp.Visible)
          and (FCWinMain.FCGLScadencer.Enabled)
          and (FCVdiGameFlowTimer.Enabled)
-         and (not FCWinNewGSetup.Visible)
+         and ( (FCWinNewGSetup=nil) or ( (FCWinNewGSetup<>nil) and (  not FCWinNewGSetup.Visible) ) )
          and (not FCWinMain.FCWM_MissionSettings.Visible)
       then
       begin
@@ -1143,7 +1143,7 @@ begin
          and (FCWinMain.FCWM_3dMainGrp.Visible)
          and (FCWinMain.FCGLScadencer.Enabled)
          and (FCVdiGameFlowTimer.Enabled)
-         and (not FCWinNewGSetup.Visible)
+         and ( (FCWinNewGSetup=nil) or ( (FCWinNewGSetup<>nil) and (  not FCWinNewGSetup.Visible) ) )
          and (not FCWinMain.FCWM_MissionSettings.Visible)
       then
       begin
@@ -1155,7 +1155,7 @@ begin
          and (FCWinMain.FCWM_3dMainGrp.Visible)
          and (FCWinMain.FCGLScadencer.Enabled)
          and (FCVdiGameFlowTimer.Enabled)
-         and (not FCWinNewGSetup.Visible)
+         and ( (FCWinNewGSetup=nil) or ( (FCWinNewGSetup<>nil) and (  not FCWinNewGSetup.Visible) ) )
          and (not FCWinMain.FCWM_MissionSettings.Visible)
       then
       begin

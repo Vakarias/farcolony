@@ -145,6 +145,7 @@ begin
       if FCWNGS_Frm_ButtProceed.Enabled
       then FCWNGS_Frm_ButtProceed.Enabled:= false;
    end;
+   FCMgNG_GameName_Update(FCWNGS_Frm_GNameEdit.Text);
 end;
 
 procedure TFCWinNewGSetup.FCWNGS_Frm_GNameEditKeyDown(Sender: TObject; var Key: Word;
@@ -166,9 +167,6 @@ end;
 procedure TFCWinNewGSetup.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
    FCWinMain.Enabled:= true;
-   FreeAndNil(FCWinNewGSetup);
-//   FCWinNewGSetup.Enabled:= false;
-
 end;
 
 procedure TFCWinNewGSetup.FormCreate(Sender: TObject);

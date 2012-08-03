@@ -543,10 +543,6 @@ object FCWinMain: TFCWinMain
           TabColor = clBlack
           TabColorTo = clGray
           TextColor = 14803425
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
           object HTMLabel1: THTMLabel
             Left = 0
             Top = 0
@@ -1477,10 +1473,6 @@ object FCWinMain: TFCWinMain
           TabColor = clBlack
           TabColorTo = clGray
           TextColor = 14803425
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
         end
         object FCWM_UMI_TabShProd: TAdvTabSheet
           Caption = 'FCWM_UMI_TabShProd'
@@ -1525,10 +1517,6 @@ object FCWinMain: TFCWinMain
           TabColor = clBlack
           TabColorTo = clGray
           TextColor = 14803425
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
         end
       end
     end
