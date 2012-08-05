@@ -263,6 +263,7 @@ begin
          FCRplayer.P_starLoc:=GLxmlItm.Attributes['plyrsStLoc'];
          FCRplayer.P_oObjLoc:=GLxmlItm.Attributes['plyrsOObjLoc'];
          FCRplayer.P_satLoc:=GLxmlItm.Attributes['plyrsatLoc'];
+         FCMdF_DBStarOrbitalObjects_Load( FCRplayer.P_starSysLoc, FCRplayer.P_starLoc );
       end;
       {.read the "timeframe" section}
       GLxmlItm:=FCWinMain.FCXMLsave.DocumentElement.ChildNodes.FindNode('gfTimeFr');

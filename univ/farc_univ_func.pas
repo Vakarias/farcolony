@@ -73,6 +73,9 @@ type TFCRufAtmosphereGasesPercent=record
       );
 end;
 
+///<summary>
+///   [1]= star system index, [2]= star index, [3]= orbital object index, [4]= satellite index
+///</summary>
 type TFCRufStelObj = array[0..4] of integer;
 
 ///<summary>
@@ -187,6 +190,16 @@ function FCFuF_StelObj_GetFullRow(
          ,SOGFRoobj
          ,SOGFRsat: string
    ): TFCRufStelObj;
+
+function FCFuF_StelObj_GetStarSystemStar(
+   const SOGFRssys
+         ,SOGFRstar: string
+   ): TFCRufStelObj;
+{:Purpose: retrieve db index numbers of the star system and star.
+    Additions:
+}
+
+function FCFuF_StarMatrix_Null: TFCRufStelObj;
 
 //===========================END FUNCTIONS SECTION==========================================
 
@@ -773,10 +786,7 @@ var
    SOGFRcnt
    ,SOGFRmax: integer;
 begin
-   Result[1]:=0;
-   Result[2]:=0;
-   Result[3]:=0;
-   Result[4]:=0;
+   Result:=FCFuF_StarMatrix_Null;
    Result[1]:=FCFuF_StelObj_GetDbIdx(
       ufsoSsys
       ,SOGFRssys
@@ -807,6 +817,45 @@ begin
       ,Result[3]
       )
    else Result[4]:=0;
+end;
+
+function FCFuF_StelObj_GetStarSystemStar(
+   const SOGFRssys
+         ,SOGFRstar: string
+   ): TFCRufStelObj;
+{:Purpose: retrieve db index numbers of the star system and star.
+    Additions:
+}
+var
+   SOGFRcnt
+   ,SOGFRmax: integer;
+begin
+   Result:=FCFuF_StarMatrix_Null;
+   Result[1]:=FCFuF_StelObj_GetDbIdx(
+      ufsoSsys
+      ,SOGFRssys
+      ,0
+      ,0
+      ,0
+      );
+   Result[2]:=FCFuF_StelObj_GetDbIdx(
+      ufsoStar
+      ,SOGFRstar
+      ,Result[1]
+      ,0
+      ,0
+      );
+end;
+
+function FCFuF_StarMatrix_Null: TFCRufStelObj;
+{:Purpose: provide an empty star matrix.
+    Additions:
+}
+begin
+   Result[1]:=0;
+   Result[2]:=0;
+   Result[3]:=0;
+   Result[4]:=0;
 end;
 
 //===========================END FUNCTIONS SECTION==========================================

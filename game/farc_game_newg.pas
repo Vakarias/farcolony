@@ -318,7 +318,7 @@ FCWinNewGSetup.Close;
    SetLength(FCGtskLstToProc, 1);
    SetLength(FCGtskListInProc, 1);
    FCMdG_Entities_Clear;
-   FCMdF_DBStarSystems_Load(dfsspStarSys,'','');
+   FCMdF_DBStarSystems_Load;
    {.initialize player's data structure}
    FCRplayer.P_gameName:=SetGameName;// FCWinNewGSetup.FCWNGS_Frm_GNameEdit.Text;
    FCRplayer.P_facAlleg:=FCDBFactions[SelectedFactionIndex].F_token;
@@ -352,6 +352,8 @@ FCWinNewGSetup.Close;
       FCRplayer.P_oObjLoc:='orbobjAcentA2';
       FCRplayer.P_satLoc:='';
    end;
+   {:DEV NOTES: load the planetary system here.}
+   FCMdF_DBStarOrbitalObjects_Load( FCRplayer.P_starSysLoc, FCRplayer.P_starLoc );
    CPsSys:=FCFuF_StelObj_GetDbIdx(
       ufsoSsys
       ,FCRplayer.P_starSysLoc
