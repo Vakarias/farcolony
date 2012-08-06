@@ -32,8 +32,8 @@ interface
 
 uses
    SysUtils
-   ,XMLIntf
-   ,TypInfo;
+   ,TypInfo
+   ,XMLIntf;
 
 ///<summary>
 ///   list of switch for FCMdF_DBStarSystems_Load
@@ -106,10 +106,10 @@ procedure FCMdF_DBStarOrbitalObjects_Load( const StarSystemToken, StarToken: str
 ///</summary>
 procedure FCMdF_DBStarSystems_Load;
 
-///<summary>
-///   load the technosciences database
-///</summary>
-procedure FCMdF_DBTechnosciences_Load;
+/////<summary>
+/////   load the technosciences database
+/////</summary>
+//procedure FCMdF_DBTechnosciences_Load;
 
 ///<summary>
 ///   load the topics-definitions
@@ -1988,95 +1988,103 @@ begin
    FCWinMain.FCXMLdbUniv.Active:=false;
 end;
 
-procedure FCMdF_DBTechnosciences_Load;
-{:DEV NOTES: WARNING NOT USED IN ANY PART OF THE CODE, PUT IT IN FARC_DATA_INIT.}
-{:Purpose: load the technosciences database.
-    Additions:
-}
-   var
-      DBTLcnt: integer;
-
-      DBTLstr: string;
-
-      DBTLnode: IXMLnode;
-begin
-   {.clear the data structure}
-   FCDBtechsci:=nil;
-   SetLength(FCDBtechsci, 1);
-   DBTLcnt:=0;
-   {.read the document}
-   FCWinMain.FCXMLdbTechnosciences.FileName:=FCVdiPathXML+'\env\technosciencesdb.xml';
-   FCWinMain.FCXMLdbTechnosciences.Active:=true;
-   DBTLnode:=FCWinMain.FCXMLdbTechnosciences.DocumentElement.ChildNodes.First;
-   while DBTLnode<>nil do
-   begin
-      if DBTLnode.NodeName<>'#comment'
-      then
-      begin
-         inc(DBTLcnt);
-         SetLength(FCDBtechsci, DBTLcnt+1);
-         FCDBtechsci[DBTLcnt].T_token:=DBTLnode.Attributes['token'];
-         DBTLstr:=DBTLnode.Attributes['rsector'];
-         if DBTLstr='rsNone'
-         then FCDBtechsci[DBTLcnt].T_researchSector:=rsNone
-         else if DBTLstr='rsAerospaceEng'
-         then FCDBtechsci[DBTLcnt].T_researchSector:=rsAerospaceEngineering
-         else if DBTLstr='rsBiogenetics'
-         then FCDBtechsci[DBTLcnt].T_researchSector:=rsBiogenetics
-         else if DBTLstr='rsEcosciences'
-         then FCDBtechsci[DBTLcnt].T_researchSector:=rsEcosciences
-         else if DBTLstr='rsIndustrialTech'
-         then FCDBtechsci[DBTLcnt].T_researchSector:=rsIndustrialTech
-         else if DBTLstr='rsMedicine'
-         then FCDBtechsci[DBTLcnt].T_researchSector:=rsMedicine
-         else if DBTLstr='rsNanotech'
-         then FCDBtechsci[DBTLcnt].T_researchSector:=rsNanotech
-         else if DBTLstr='rsPhysics'
-         then FCDBtechsci[DBTLcnt].T_researchSector:=rsPhysics;
-         FCDBtechsci[DBTLcnt].T_level:=DBTLnode.Attributes['level'];
-         DBTLstr:=DBTLnode.Attributes['type'];
-         if DBTLstr='rtBasicTech'
-         then FCDBtechsci[DBTLcnt].T_type:=rtBasicTech
-         else if DBTLstr='rtPureTheory'
-         then FCDBtechsci[DBTLcnt].T_type:=rtPureTheory
-         else if DBTLstr='rtExpResearch'
-         then FCDBtechsci[DBTLcnt].T_type:=rtExpResearch
-         else if DBTLstr='rtCompleteResearch'
-         then FCDBtechsci[DBTLcnt].T_type:=rtCompleteResearch;
-         FCDBtechsci[DBTLcnt].T_difficulty:=DBTLnode.Attributes['difficulty'];
-      end; //== END == if DBTLnode.NodeName<>'#comment' ==//
-      DBTLnode:=DBTLnode.NextSibling;
-   end; //== END == while DBTLnode<>nil do ==//
-end;
+{:DEV NOTES: re-enable for 0.6.0.}
+//procedure FCMdF_DBTechnosciences_Load;
+//{:DEV NOTES: WARNING NOT USED IN ANY PART OF THE CODE, PUT IT IN FARC_DATA_INIT.}
+//{:Purpose: load the technosciences database.
+//    Additions:
+//}
+//   var
+//      DBTLcnt: integer;
+//
+//      DBTLstr: string;
+//
+//      DBTLnode: IXMLnode;
+//begin
+//   {.clear the data structure}
+//   FCDBtechsci:=nil;
+//   SetLength(FCDBtechsci, 1);
+//   DBTLcnt:=0;
+//   {.read the document}
+//   FCWinMain.FCXMLdbTechnosciences.FileName:=FCVdiPathXML+'\env\technosciencesdb.xml';
+//   FCWinMain.FCXMLdbTechnosciences.Active:=true;
+//   DBTLnode:=FCWinMain.FCXMLdbTechnosciences.DocumentElement.ChildNodes.First;
+//   while DBTLnode<>nil do
+//   begin
+//      if DBTLnode.NodeName<>'#comment'
+//      then
+//      begin
+//         inc(DBTLcnt);
+//         SetLength(FCDBtechsci, DBTLcnt+1);
+//         FCDBtechsci[DBTLcnt].T_token:=DBTLnode.Attributes['token'];
+//         DBTLstr:=DBTLnode.Attributes['rsector'];
+//         if DBTLstr='rsNone'
+//         then FCDBtechsci[DBTLcnt].T_researchSector:=rsNone
+//         else if DBTLstr='rsAerospaceEng'
+//         then FCDBtechsci[DBTLcnt].T_researchSector:=rsAerospaceEngineering
+//         else if DBTLstr='rsBiogenetics'
+//         then FCDBtechsci[DBTLcnt].T_researchSector:=rsBiogenetics
+//         else if DBTLstr='rsEcosciences'
+//         then FCDBtechsci[DBTLcnt].T_researchSector:=rsEcosciences
+//         else if DBTLstr='rsIndustrialTech'
+//         then FCDBtechsci[DBTLcnt].T_researchSector:=rsIndustrialTech
+//         else if DBTLstr='rsMedicine'
+//         then FCDBtechsci[DBTLcnt].T_researchSector:=rsMedicine
+//         else if DBTLstr='rsNanotech'
+//         then FCDBtechsci[DBTLcnt].T_researchSector:=rsNanotech
+//         else if DBTLstr='rsPhysics'
+//         then FCDBtechsci[DBTLcnt].T_researchSector:=rsPhysics;
+//         FCDBtechsci[DBTLcnt].T_level:=DBTLnode.Attributes['level'];
+//         DBTLstr:=DBTLnode.Attributes['type'];
+//         if DBTLstr='rtBasicTech'
+//         then FCDBtechsci[DBTLcnt].T_type:=rtBasicTech
+//         else if DBTLstr='rtPureTheory'
+//         then FCDBtechsci[DBTLcnt].T_type:=rtPureTheory
+//         else if DBTLstr='rtExpResearch'
+//         then FCDBtechsci[DBTLcnt].T_type:=rtExpResearch
+//         else if DBTLstr='rtCompleteResearch'
+//         then FCDBtechsci[DBTLcnt].T_type:=rtCompleteResearch;
+//         FCDBtechsci[DBTLcnt].T_difficulty:=DBTLnode.Attributes['difficulty'];
+//      end; //== END == if DBTLnode.NodeName<>'#comment' ==//
+//      DBTLnode:=DBTLnode.NextSibling;
+//   end; //== END == while DBTLnode<>nil do ==//
+//end;
 
 procedure FCMdF_HelpTDef_Load;
 {:Purpose: load the topics-definitions.
    Additions:
+      -2012Aug05- *code audit:
+                     (x)var formatting + refactoring     (x)if..then reformatting   (_)function/procedure refactoring
+                     (_)parameters refactoring           (x) ()reformatting         (x)code optimizations
+                     (_)float local variables=> extended (_)case..of reformatting   (_)local methods
+                     (x)summary completion               (_)protect all float add/sub w/ FCFcFunc_Rnd
+                     (_)standardize internal data + commenting them at each use as a result (like Count1 / Count2 ...)
+                     (_)put [format x.xx ] in returns of summary, if required and if the function do formatting
+                     (_)use of enumindex                 (_)use of StrToFloat( x, FCVdiFormat ) for all float data
+                     (_)if the procedure reset the same record's data or external data put:
+                        ///   <remarks>the procedure/function reset the /data/</remarks>
       -2010Sep05- *add: hintlists are separated by language for proper sorting.
 }
-var
-   HTDLcnt: integer;
+   var
+      Count: integer;
 
-   HTDLitm
-   ,HTDLlang
-   ,HTDLroot: IXMLNode;
+      XMLHelpItem
+      ,XMLHelpRoot: IXMLNode;
 begin
-   HTDLroot:=FCWinMain.FCXMLtxtEncy.DocumentElement.ChildNodes.FindNode('hintlist'+FCVdiLanguage);
-   if HTDLroot<>nil
-   then
+   XMLHelpRoot:=FCWinMain.FCXMLtxtEncy.DocumentElement.ChildNodes.FindNode( 'hintlist'+FCVdiLanguage );
+   if XMLHelpRoot<>nil then
    begin
-      setlength(FCDBhelpTdef, 500);
-      HTDLcnt:=0;
-      HTDLitm:=HTDLroot.ChildNodes.First;
-      while HTDLitm<>nil do
+      Count:=0;
+      XMLHelpItem:=XMLHelpRoot.ChildNodes.First;
+      while XMLHelpItem<>nil do
       begin
-         inc(HTDLcnt);
-         FCDBhelpTdef[HTDLcnt].TD_link:=HTDLitm.Attributes['link'];
-         FCDBhelpTdef[HTDLcnt].TD_str:=HTDLitm.Attributes['title'];
-         HTDLitm:=HTDLitm.NextSibling;
+         inc( Count );
+         setlength( FCDBhelpTdef, Count+1 );
+         FCDBhelpTdef[Count].TD_link:=XMLHelpItem.Attributes['link'];
+         FCDBhelpTdef[Count].TD_str:=XMLHelpItem.Attributes['title'];
+         XMLHelpItem:=XMLHelpItem.NextSibling;
       end;
    end;
-   setlength(FCDBhelpTdef, HTDLcnt+1);
 end;
 
 end.
