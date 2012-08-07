@@ -94,6 +94,7 @@ uses
    farc_data_game
    ,farc_data_init
    ,farc_data_html
+   ,farc_data_spm
    ,farc_data_textfiles
    ,farc_game_colony
    ,farc_game_cps
@@ -543,7 +544,7 @@ begin
          else if not FCentities[0].E_spm[UMIUFcnt].SPMS_isPolicy
          then
          begin
-            if FCentities[0].E_spm[UMIUFcnt].SPMS_bLvl>dgUnknown then
+            if FCentities[0].E_spm[UMIUFcnt].SPMS_bLvl>blUnknown then
             begin
                 UMIUFpolSet:=FCCFcolBlueL+FCFdTFiles_UIStr_Get(uistrUI, 'UMImemeSet')+FCCFcolEND;
                 UMIUFformat:=FCCFcolBlueL;

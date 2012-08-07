@@ -7,7 +7,7 @@
         License: GPLv3
         Website: http://farcolony.sourceforge.net/
 
-        Unit: general game system related datastructures
+        Unit: misc game systems - data unit
 
 ============================================================================================
 ********************************************************************************************
@@ -26,114 +26,105 @@ Copyright (c) 2009-2012, Jean-Francois Baconnet
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *******************************************************************************************}
-
 unit farc_data_game;
 
 interface
 
-   uses
-      farc_data_infrprod
-      ,farc_data_init
-      ,farc_data_univ
-      ,farc_game_cpsobjectives;
+uses
+   farc_data_infrprod
+   ,farc_data_init
+   ,farc_data_spm
+   ,farc_data_univ
+   ,farc_game_cpsobjectives;
 
-//   const
+///<summary>
+///   colony levels
+///</summary>
+type TFCEdgColonyLevels=(
+   cl1Outpost
+   ,cl2Base
+   ,cl3Community
+   ,cl4Settlement
+   ,cl5MajorColony
+   ,cl6LocalState
+   ,cl7RegionalState
+   ,cl8FederatedStates
+   ,cl9ContinentalState
+   ,cl10UnifiedWorld
+   );
+
+///<summary>
+///   credit and interest range
+///</summary>
+type TFCEdgCreditInterestRanges=(
+   cirPoor_Insignificant
+   ,cirUnderfunded_Low
+   ,cirBelowAverage_Moderate
+   ,cirAverage
+   ,cirAboveAverage
+   ,cirRich_High
+   ,cirOverFunded_Usurious
+   ,cirUnlimited_Insane
+   );
+
+{:REFERENCES LIST
+   - FCFgCSME_Event_GetStr
+}
+///<summary>
+///   colony events
+///</summary>
+type TFCEdgColonyEvents=(
+   ceColonyEstablished
+   ,ceUnrest
+   ,ceUnrest_Recovering
+   ,ceSocialDisorder
+   ,ceSocialDisorder_Recovering
+   ,ceUprising
+   ,ceUprising_Recovering
+   ,ceDissidentColony
+   ,ceHealthEducationRelation
+   ,ceGovernmentDestabilization
+   ,ceGovernmentDestabilization_Recovering
+   ,ceOxygenProductionOverload
+   ,ceOxygenShortage
+   ,ceOxygenShortage_Recovering
+   ,ceWaterProductionOverload
+   ,ceWaterShortage
+   ,ceWaterShortage_Recovering
+   ,ceFoodProductionOverload
+   ,ceFoodShortage
+   ,ceFoodShortage_Recovering
+   );
+
+{:REFERENCES LIST
+   - spmdb.xml
+   - TFCRdgCustomEffect
+}
+///<summary>
+///   SPMi custom effects
+///</summary>
+type TFCEdgSPMiCustomEffects=(
+   sceEIOUT
+   ,sceREVTX
+   );
+
+//==END PUBLIC ENUM=========================================================================
+
+//==END PUBLIC RECORDS======================================================================
+
+   //==========subsection===================================================================
+//var
+//==END PUBLIC VAR==========================================================================
+
+//const
+//==END PUBLIC CONST========================================================================
+
+//===========================END FUNCTIONS SECTION==========================================
 
 
-   //=======================================================================================
-   {.game system datastructures}
-   //=======================================================================================
 
-   {.meme belief levels}
-   {:DEV NOTES: update factionsdb.xml + FCMdF_DBFactions_Read + FCFgSPM_Meme_GetSVRange.}
-   type TFCEdgBelLvl=(
-      dgUnknown
-      ,dgFleeting
-      ,dgUncommon
-      ,dgCommon
-      ,dgStrong
-      ,dgKbyAll
-      );
 
-   {.colony levels}
-   type TFCEcolLvl=(
-      cl1Outpost
-      ,cl2Base
-      {.community}
-      ,cl3Comm
-      ,cl4Settl
-      ,cl5MajCol
-      {.local state}
-      ,cl6LocSt
-      {.regional state}
-      ,cl7RegSt
-      {.federated states}
-      ,cl8FedSt
-      {.continental state}
-      ,cl9ContSt
-      ,cl10UniWrld
-      );
-   {.credit and interest range}
-   type TFCEcrIntRg=(
-      crirPoor_Insign
-      ,crirUndFun_Low
-      ,crirBelAvg_Mod
-      ,crirAverage
-      ,crirAbAvg_Maj
-      ,crirRch_High
-      ,crirOvrFun_Usu
-      ,crirUnl_Ins
-      );
-   {.SPMi custom effects}
-   {:DEV: update TFCRdgCustomEffect + the spmdb xml !}
-   type TFCEdgCustomFX=(
-      cfxEIOUT
-      ,cfxREVTX
-      );
-   {.colony event type list}
-   {:DEV NOTES: update FCFgCSME_Event_GetStr. WARNING: deprecate any previous save game files if an event is INSERTED}
-   type TFCEdgEventTypes=(
-      {.colony established}
-      etColEstab
-      {.unrest}
-      ,etUnrest
-      {.unrest - recovering}
-      ,etUnrestRec
-      {.social disorder}
-      ,etSocdis
-      {.social disorder - recovering}
-      ,etSocdisRec
-      {.uprising}
-      ,etUprising
-      {.uprising - recovering}
-      ,etUprisingRec
-      {.dissident colony}
-      ,etColDissident
-      {.health-education relation}
-      ,etHealthEduRel
-      {.government destabilization}
-      ,etGovDestab
-      {.government destabilization - recovering}
-      ,etGovDestabRec
-      {.Oxygen Production Overload}
-      ,etRveOxygenOverload
-      {.Oxygen Shortage}
-      ,etRveOxygenShortage
-      {.Oxygen Shortage - recovering}
-      ,etRveOxygenShortageRec
-      {.Water Production Overload}
-      ,etRveWaterOverload
-      {.Water Shortage}
-      ,etRveWaterShortage
-      {.Water Shortage - recovering}
-      ,etRveWaterShortageRec
-      {.Food Production Overload}
-      ,etRveFoodOverload
-      {.Food Shortage}
-      ,etRveFoodShortage
-      {.Food Shortage - recovering}
-      ,etRveFoodShortageRec
-      );
+
    {.list of faction equipment item types}
    {:DEV NOTES: update factionsdbxml + FCMdF_DBFactions_Read + FCMgNG_Core_Proceed}
    type TFCEdgFactionEquipItemType=(
@@ -339,37 +330,37 @@ interface
       {.optional level data - this data is never displayed to the player}
       CSMEV_lvl: integer;
       {.event types with linked data}
-      case CSMEV_token: TFCEdgEventTypes of
-         etColEstab:(
+      case CSMEV_token: TFCEdgColonyEvents of
+         ceColonyEstablished:(
             CE_tensionMod: integer;
             CE_securityMod: integer
             );
 
-         etUnrest, etUnrestRec:(
+         ceUnrest, ceUnrest_Recovering:(
             UN_ecoindMod: integer;
             UN_tensionMod: integer
             );
 
-         etSocdis, etSocdisRec:(
+         ceSocialDisorder, ceSocialDisorder_Recovering:(
             SD_ecoindMod: integer;
             SD_tensionMod: integer
             );
 
          {:DEV NOTES: add rebels and fighting results.}
-         etUprising, etUprisingRec:(
+         ceUprising, ceUprising_Recovering:(
             UP_ecoindMod: integer;
             UP_tensionMod: integer
             );
 
-         etColDissident:();
+         ceDissidentColony:();
 
-         etHealthEduRel:( HER_educationMod: integer );
+         ceHealthEducationRelation:( HER_educationMod: integer );
 
-         etGovDestab, etGovDestabRec:( GD_cohesionMod: integer );
+         ceGovernmentDestabilization, ceGovernmentDestabilization_Recovering:( GD_cohesionMod: integer );
 
-         etRveOxygenOverload:( ROO_percPopNotSupported: integer );
+         ceOxygenProductionOverload:( ROO_percPopNotSupported: integer );
 
-         etRveOxygenShortage, etRveOxygenShortageRec:(
+         ceOxygenShortage, ceOxygenShortage_Recovering:(
             ///<summary>
             /// percent of population not supported at time of SF calculation
             ///</summary>
@@ -379,9 +370,9 @@ interface
             ROS_healthMod: integer
             );
 
-         etRveWaterOverload:( RWO_percPopNotSupported: integer );
+         ceWaterProductionOverload:( RWO_percPopNotSupported: integer );
 
-         etRveWaterShortage, etRveWaterShortageRec:(
+         ceWaterShortage, ceWaterShortage_Recovering:(
             ///<summary>
             /// percent of population not supported at time of SF calculation
             ///</summary>
@@ -391,9 +382,9 @@ interface
             RWS_healthMod: integer
             );
 
-         etRveFoodOverload:( RFO_percPopNotSupported: integer );
+         ceFoodProductionOverload:( RFO_percPopNotSupported: integer );
 
-         etRveFoodShortage, etRveFoodShortageRec:(
+         ceFoodShortage, ceFoodShortage_Recovering:(
             ///<summary>
             /// percent of population not supported at time of SF calculation
             ///</summary>
@@ -618,7 +609,7 @@ interface
       {.location - satellite}
       COL_locSat: string[20];
       {.colony level}
-      COL_level: TFCEcolLvl;
+      COL_level: TFCEdgColonyLevels;
       {.HQ presence}
       COL_hqPres: TFCEdgHQstatus;
       {.cohesion}
@@ -753,9 +744,9 @@ interface
       ///</summary>
       FCM_cpsVthSpaceMilitary: integer;
       {.CPS data - credit range}
-      FCM_cpsCrRg: TFCEcrIntRg;
+      FCM_cpsCrRg: TFCEdgCreditInterestRanges;
       {.CPS data - interest range}
-      FCM_cpsIntRg: TFCEcrIntRg;
+      FCM_cpsIntRg: TFCEdgCreditInterestRanges;
       {.CPS data - viability objectives}
       FCM_cpsViabObj: array of TFCRcpsoViabilityObjective;
       {.dotation list sub datastructure}
@@ -775,7 +766,7 @@ interface
             {.acceptance value}
             SPMS_aprob: integer);
          false:
-            (SPMS_bLvl: TFCEdgBelLvl;
+            (SPMS_bLvl: TFCEdspmBeliefLevels;
             SPMS_sprdVal: integer);
    end;
    {starting location item}
@@ -898,12 +889,12 @@ interface
    {.SPMi custom effects data structure}
    {:DEV NOTES: update spmdb.xml + FCMdF_DBSPMi_Read + FCMgSPMCFX_Core_Setup and related subroutines}
    type TFCRdgCustomEffect= record
-      case CFX_code: TFCEdgCustomFX of
-         cfxEIOUT: (
+      case CFX_code: TFCEdgSPMiCustomEffects of
+         sceEIOUT: (
             CFX_eioutMod: integer;
             CFX_eioutIsBurMod: boolean
             );
-         cfxREVTX: (CFX_revtxCoef: extended);
+         sceREVTX: (CFX_revtxCoef: extended);
    end;
    {.SPM items}
    {:DEV NOTES: update FCMdF_DBSPMi_Read.}
@@ -1112,9 +1103,25 @@ interface
    const
       FCCwkTick=1008;
 
+
+
 implementation
 
-//=============================================END OF INIT==================================
+//uses
+
+//==END PRIVATE ENUM========================================================================
+
+//==END PRIVATE RECORDS=====================================================================
+
+   //==========subsection===================================================================
+//var
+//==END PRIVATE VAR=========================================================================
+
+//const
+//==END PRIVATE CONST=======================================================================
+
+//===================================================END OF INIT============================
+//===========================END FUNCTIONS SECTION==========================================
 
 procedure FCMdG_Entities_Clear;
 {:Purpose: clear the entities data.

@@ -67,7 +67,7 @@ procedure FCMgCSME_Event_Cancel(
    const ECfacIdx
          ,ECcolIdx
          ,EventIndex: integer;
-   const NewEventType: TFCEdgEventTypes;
+   const NewEventType: TFCEdgColonyEvents;
    const ECnewLvl: integer
    );
 
@@ -75,7 +75,7 @@ procedure FCMgCSME_Event_Cancel(
 ///   get the event token string
 ///</summary>
 ///    <param name="EGSevent">type of event</param>
-function FCFgCSME_Event_GetStr(const EGSevent: TFCEdgEventTypes): string;
+function FCFgCSME_Event_GetStr(const EGSevent: TFCEdgColonyEvents): string;
 
 ///<summary>
 ///   apply one time the recover rule on a specified event
@@ -96,7 +96,7 @@ procedure FCMgCSME_Recovering_Process(
 ///    <param name="ETfacIdx">faction index #</param>
 ///    <param name="ETcolIdx">colony index #</param>
 function FCFgCSME_Search_ByType(
-   const ESevent: TFCEdgEventTypes;
+   const ESevent: TFCEdgColonyEvents;
    const ESfacIdx
          ,EScolIdx: integer
    ): integer;
@@ -109,7 +109,7 @@ function FCFgCSME_Search_ByType(
 ///    <param name="ETcolIdx">colony index #</param>
 ///    <param name="ETlvl">[optional] level. For etRveOxygenOverload, etRveWaterOverload and etRveFoodOverload it's the PPS which is loaded in this parameter</param>
 procedure FCMgCSME_Event_Trigger(
-   const ETevent: TFCEdgEventTypes;
+   const ETevent: TFCEdgColonyEvents;
    const Entity
          ,Colony
          ,EventLevel: integer;
@@ -145,7 +145,7 @@ function FCFgCSME_Mod_Sum(
 function FCFgCSME_UnSup_Find(
    const USFfac
          ,USFcol: integer
-   ): TFCEdgEventTypes;
+   ): TFCEdgColonyEvents;
 
 ///<summary>
 ///   over time processing for events of a colony
@@ -168,7 +168,7 @@ procedure FCMgCSME_OT_Proc(
 procedure FCMgCSME_UnSup_FindRepl(
    const USFRfac
          ,USFRcol: integer;
-   const USFRevent: TFCEdgEventTypes;
+   const USFRevent: TFCEdgColonyEvents;
    const USFRevLvl: integer;
    const USFRevCancel: TFCEcsmeEvCan;
    const USFRtriggerIfEmpty: boolean
@@ -199,7 +199,7 @@ procedure FCMgCSME_Event_Cancel(
    const ECfacIdx
          ,ECcolIdx
          ,EventIndex: integer;
-   const NewEventType: TFCEdgEventTypes;
+   const NewEventType: TFCEdgColonyEvents;
    const ECnewLvl: integer
    );
 {:Purpose: cancel a specified event.
@@ -253,37 +253,37 @@ begin
    ModHealth:=0;
    {.retrieve the CSM modifiers, if the event have any, or apply special rule to non modifier data}
    case FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ EventIndex ].CSMEV_token of
-      etColEstab:
+      ceColonyEstablished:
       begin
          ModTension:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ EventIndex ].CE_tensionMod;
          ModSecurity:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ EventIndex ].CE_securityMod;
       end;
 
-      etUnrest, etUnrestRec:
+      ceUnrest, ceUnrest_Recovering:
       begin
          ModEcoIndOut:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ EventIndex ].UN_ecoindMod;
          ModTension:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ EventIndex ].UN_tensionMod;
       end;
 
-      etSocdis, etSocdisRec:
+      ceSocialDisorder, ceSocialDisorder_Recovering:
       begin
          ModEcoIndOut:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ EventIndex ].SD_ecoindMod;
          ModTension:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ EventIndex ].SD_tensionMod;
       end;
 
-      etUprising, etUprisingRec:
+      ceUprising, ceUprising_Recovering:
       begin
          ModEcoIndOut:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ EventIndex ].UP_ecoindMod;
          ModTension:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ EventIndex ].UP_tensionMod;
       end;
 
-      etHealthEduRel: ModInstruction:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ EventIndex ].HER_educationMod;
+      ceHealthEducationRelation: ModInstruction:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ EventIndex ].HER_educationMod;
 
-      etGovDestab, etGovDestabRec: ModCohesion:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ EventIndex ].GD_cohesionMod;
+      ceGovernmentDestabilization, ceGovernmentDestabilization_Recovering: ModCohesion:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ EventIndex ].GD_cohesionMod;
 
-      etRveOxygenOverload: FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ EventIndex ].ROO_percPopNotSupported:=0;
+      ceOxygenProductionOverload: FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ EventIndex ].ROO_percPopNotSupported:=0;
 
-      etRveOxygenShortage, etRveOxygenShortageRec:
+      ceOxygenShortage, ceOxygenShortage_Recovering:
       begin
          FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ EventIndex ].ROS_percPopNotSupAtCalc:=0;
          ModEcoIndOut:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ EventIndex ].ROS_ecoindMod;
@@ -291,9 +291,9 @@ begin
          ModHealth:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ EventIndex ].ROS_healthMod;
       end;
 
-      etRveWaterOverload: FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ EventIndex ].RWO_percPopNotSupported:=0;
+      ceWaterProductionOverload: FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ EventIndex ].RWO_percPopNotSupported:=0;
 
-      etRveWaterShortage, etRveWaterShortageRec:
+      ceWaterShortage, ceWaterShortage_Recovering:
       begin
          FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ EventIndex ].RWS_percPopNotSupAtCalc:=0;
          ModEcoIndOut:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ EventIndex ].RWS_ecoindMod;
@@ -301,9 +301,9 @@ begin
          ModHealth:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ EventIndex ].RWS_healthMod;
       end;
 
-      etRveFoodOverload: FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ EventIndex ].RFO_percPopNotSupported:=0;
+      ceFoodProductionOverload: FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ EventIndex ].RFO_percPopNotSupported:=0;
 
-      etRveFoodShortage, etRveFoodShortageRec:
+      ceFoodShortage, ceFoodShortage_Recovering:
       begin
          FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ EventIndex ].RFS_percPopNotSupAtCalc:=0;
          ModEcoIndOut:=FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ EventIndex ].RFS_ecoindMod;
@@ -357,7 +357,7 @@ begin
             else if ModSecurity>0
             then FinalCSMvalue:=-ModSecurity;
             case FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ EventIndex ].CSMEV_token of
-               etColEstab: FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ EventIndex ].CE_securityMod:=FinalCSMvalue;
+               ceColonyEstablished: FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ EventIndex ].CE_securityMod:=FinalCSMvalue;
             end;
             FCMgCSM_ColonyData_Upd(
                dSecurity
@@ -455,23 +455,23 @@ begin
       csmeecRecover:
       begin
          case FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[EventIndex].CSMEV_token of
-            etUnrest: FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[EventIndex].CSMEV_token:=etUnrestRec;
+            ceUnrest: FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[EventIndex].CSMEV_token:=ceUnrest_Recovering;
 
-            etSocdis: FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[EventIndex].CSMEV_token:=etSocdisRec;
+            ceSocialDisorder: FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[EventIndex].CSMEV_token:=ceSocialDisorder_Recovering;
 
-            etUprising: FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[EventIndex].CSMEV_token:=etUprisingRec;
+            ceUprising: FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[EventIndex].CSMEV_token:=ceUprising_Recovering;
 
-            etGovDestab:
+            ceGovernmentDestabilization:
             begin
-               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[EventIndex].CSMEV_token:=etGovDestabRec;
+               FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[EventIndex].CSMEV_token:=ceGovernmentDestabilization_Recovering;
                FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[EventIndex].CSMEV_duration:=-1;
             end;
 
-            etRveOxygenShortage: FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[EventIndex].CSMEV_token:=etRveOxygenShortageRec;
+            ceOxygenShortage: FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[EventIndex].CSMEV_token:=ceOxygenShortage_Recovering;
 
-            etRveWaterShortage: FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[EventIndex].CSMEV_token:=etRveWaterShortageRec;
+            ceWaterShortage: FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[EventIndex].CSMEV_token:=ceWaterShortage_Recovering;
 
-            etRveFoodShortage: FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[EventIndex].CSMEV_token:=etRveFoodShortageRec;
+            ceFoodShortage: FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[EventIndex].CSMEV_token:=ceFoodShortage_Recovering;
          end;
       end;
 
@@ -487,7 +487,7 @@ begin
          FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[EventIndex].CSMEV_token:=NewEventType;
          FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[EventIndex].CSMEV_duration:=FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].CSMEV_duration;
          case FCentities[ ECfacIdx ].E_col[ ECcolIdx].COL_evList[ EventIndex ].CSMEV_token of
-            etUnrest:
+            ceUnrest:
             begin
                FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[EventIndex].CSMEV_lvl:=ECnewLvl;
                MeanEcoIndOut:=round( ( ModEcoIndOut+FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].UN_ecoindMod )*0.5 );
@@ -496,7 +496,7 @@ begin
                FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[EventIndex].UN_tensionMod:=MeanTension;
             end;
 
-            etSocdis:
+            ceSocialDisorder:
             begin
                FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[EventIndex].CSMEV_lvl:=ECnewLvl;
                MeanEcoIndOut:=round( ( ModEcoIndOut+FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].SD_ecoindMod )*0.5 );
@@ -505,7 +505,7 @@ begin
                FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[EventIndex].SD_tensionMod:=MeanTension;
             end;
 
-            etUprising:
+            ceUprising:
             begin
                FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[EventIndex].CSMEV_lvl:=ECnewLvl;
                MeanEcoIndOut:=round( ( ModEcoIndOut+FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].UP_ecoindMod )*0.5 );
@@ -514,14 +514,14 @@ begin
                FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[EventIndex].UP_tensionMod:=MeanTension;
             end;
 
-            etGovDestab:
+            ceGovernmentDestabilization:
             begin
                FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[EventIndex].CSMEV_lvl:=ECnewLvl;
                MeanCohesion:=round( ( ModCohesion+FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].GD_cohesionMod )*0.5 );
                FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[EventIndex].GD_cohesionMod:=MeanCohesion;
             end;
 
-            etRveOxygenShortage:
+            ceOxygenShortage:
             begin
                FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[EventIndex].ROS_percPopNotSupAtCalc:=FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].ROS_percPopNotSupAtCalc;
                MeanEcoIndOut:=round( ( ModEcoIndOut + FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].ROS_ecoindMod )*0.5 );
@@ -532,7 +532,7 @@ begin
                FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[EventIndex].ROS_healthMod:=MeanHealth;
             end;
 
-            etRveWaterShortage:
+            ceWaterShortage:
             begin
                FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[EventIndex].RWS_percPopNotSupAtCalc:=FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].RWS_percPopNotSupAtCalc;
                MeanEcoIndOut:=round( ( ModEcoIndOut + FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].RWS_ecoindMod )*0.5 );
@@ -543,7 +543,7 @@ begin
                FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[EventIndex].RWS_healthMod:=MeanHealth;
             end;
 
-            etRveFoodShortage:
+            ceFoodShortage:
             begin
                FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[EventIndex].RFS_percPopNotSupAtCalc:=FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].RFS_percPopNotSupAtCalc;
                MeanEcoIndOut:=round( ( ModEcoIndOut + FCentities[ECfacIdx].E_col[ECcolIdx].COL_evList[0].RFS_ecoindMod )*0.5 );
@@ -561,7 +561,7 @@ begin
    end; //==END== case ECcancelTp of ==//
 end;
 
-function FCFgCSME_Event_GetStr(const EGSevent: TFCEdgEventTypes): string;
+function FCFgCSME_Event_GetStr(const EGSevent: TFCEdgColonyEvents): string;
 {:Purpose: get the event token string.
    Additions:
       -2012May12- *add: etRveOxygenShortage, etRveWaterShortageRec, etRveWaterOverload, etRveWaterShortage, etRveFoodOverload and etRveFoodShortage.
@@ -576,50 +576,50 @@ function FCFgCSME_Event_GetStr(const EGSevent: TFCEdgEventTypes): string;
 }
 begin
    case EGSevent of
-      etColEstab: result:='csmevColEst';
+      ceColonyEstablished: result:='csmevColEst';
 
-      etUnrest: result:='csmevUnrest';
+      ceUnrest: result:='csmevUnrest';
 
-      etUnrestRec: result:='csmevUnrestRec';
+      ceUnrest_Recovering: result:='csmevUnrestRec';
 
-      etSocdis: result:='csmevSocDis';
+      ceSocialDisorder: result:='csmevSocDis';
 
-      etSocdisRec: result:='csmevSocDisRec';
+      ceSocialDisorder_Recovering: result:='csmevSocDisRec';
 
-      etUprising: result:='csmevUprising';
+      ceUprising: result:='csmevUprising';
 
-      etUprisingRec: result:='csmevUprisingRec';
+      ceUprising_Recovering: result:='csmevUprisingRec';
 
-      etColDissident: result:='csmevColDissident';
+      ceDissidentColony: result:='csmevColDissident';
 
-      etHealthEduRel: result:='csmevHealthEduRel';
+      ceHealthEducationRelation: result:='csmevHealthEduRel';
 
-      etGovDestab: result:='csmevGovDestab';
+      ceGovernmentDestabilization: result:='csmevGovDestab';
 
-      etGovDestabRec: result:= 'csmevGovDestabRec';
+      ceGovernmentDestabilization_Recovering: result:= 'csmevGovDestabRec';
 
-      etRveOxygenOverload: result:='csmevRveOxygenOverload';
+      ceOxygenProductionOverload: result:='csmevRveOxygenOverload';
 
-      etRveOxygenShortage: result:='csmevRveOxygenShortage';
+      ceOxygenShortage: result:='csmevRveOxygenShortage';
 
-      etRveOxygenShortageRec: result:='csmevRveOxygenShortageRec';
+      ceOxygenShortage_Recovering: result:='csmevRveOxygenShortageRec';
 
-      etRveWaterOverload: result:='csmevRveWaterOverload';
+      ceWaterProductionOverload: result:='csmevRveWaterOverload';
 
-      etRveWaterShortage: result:='csmevRveWaterShortage';
+      ceWaterShortage: result:='csmevRveWaterShortage';
 
-      etRveWaterShortageRec: result:='csmevRveWaterShortageRec';
+      ceWaterShortage_Recovering: result:='csmevRveWaterShortageRec';
 
-      etRveFoodOverload: result:='csmevRveFoodOverload';
+      ceFoodProductionOverload: result:='csmevRveFoodOverload';
 
-      etRveFoodShortage: result:='csmevRveFoodShortage';
+      ceFoodShortage: result:='csmevRveFoodShortage';
 
-      etRveFoodShortageRec: result:='csmevRveFoodShortageRec';
+      ceFoodShortage_Recovering: result:='csmevRveFoodShortageRec';
    end;
 end;
 
 function FCFgCSME_Search_ByType(
-   const ESevent: TFCEdgEventTypes;
+   const ESevent: TFCEdgColonyEvents;
    const ESfacIdx
          ,EScolIdx: integer
    ): integer;
@@ -647,7 +647,7 @@ begin
 end;
 
 procedure FCMgCSME_Event_Trigger(
-   const ETevent: TFCEdgEventTypes;
+   const ETevent: TFCEdgColonyEvents;
    const Entity
          ,Colony
          ,EventLevel: integer;
@@ -725,7 +725,7 @@ begin
       FCentities[Entity].E_col[Colony].COL_evList[0].CSMEV_isRes:=false;
       FCentities[Entity].E_col[Colony].COL_evList[0].CSMEV_duration:=0;
       FCentities[Entity].E_col[Colony].COL_evList[0].CSMEV_lvl:=0;
-      FCentities[Entity].E_col[Colony].COL_evList[0].CSMEV_token:=etColEstab;
+      FCentities[Entity].E_col[Colony].COL_evList[0].CSMEV_token:=ceColonyEstablished;
       FCentities[Entity].E_col[Colony].COL_evList[0].CE_tensionMod:=0;
       FCentities[Entity].E_col[Colony].COL_evList[0].CE_securityMod:=0;
    end
@@ -737,9 +737,9 @@ begin
       CurrentEventIndex:=length(FCentities[Entity].E_col[Colony].COL_evList)-1;
    end;
    case ETevent of
-      etColEstab:
+      ceColonyEstablished:
       begin
-         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_token:=etColEstab;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_token:=ceColonyEstablished;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_isRes:=true;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_duration:=5;
          ColonyEnvironment:=FCFgC_ColEnv_GetTp(Entity, Colony);
@@ -789,9 +789,9 @@ begin
          end;
       end; //==END== case: csmeeColEstablished ==//
 
-      etUnrest:
+      ceUnrest:
       begin
-         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_token:=etUnrest;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_token:=ceUnrest;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_isRes:=true;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_duration:=-1;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_lvl:=EventLevel;
@@ -867,9 +867,9 @@ begin
          end;
       end; //==END== case: etUnrest ==//
 
-      etSocdis:
+      ceSocialDisorder:
       begin
-         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_token:=etSocdis;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_token:=ceSocialDisorder;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_isRes:=true;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_duration:=-1;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_lvl:=EventLevel;
@@ -945,9 +945,9 @@ begin
          end;
       end; //==END== case: etSocdis ==//
 
-      etUprising:
+      ceUprising:
       begin
-         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_token:=etUprising;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_token:=ceUprising;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_isRes:=true;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_duration:=0;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_lvl:=EventLevel;
@@ -1042,9 +1042,9 @@ begin
          end;
       end; //==END== case: etUprising ==//
 
-      etColDissident:
+      ceDissidentColony:
       begin
-         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_token:=etColDissident;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_token:=ceDissidentColony;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_isRes:=true;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_lvl:=EventLevel;
          ETrnd:=FCFcFunc_Rand_Int(100);
@@ -1135,9 +1135,9 @@ begin
          end; //==END== case ETintEv of ==//
       end; //==END== case: etColDissident ==//
 
-      etHealthEduRel:
+      ceHealthEducationRelation:
       begin
-         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_token:=etHealthEduRel;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_token:=ceHealthEducationRelation;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_isRes:=true;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_duration:=-1;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_lvl:=0;
@@ -1155,9 +1155,9 @@ begin
             );
       end; //==END== case: etHealthEduRel ==//
 
-      etGovDestab:
+      ceGovernmentDestabilization:
       begin
-         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_token:=etGovDestab;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_token:=ceGovernmentDestabilization;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_isRes:=true;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_duration:=-1;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_lvl:=EventLevel;
@@ -1178,26 +1178,26 @@ begin
             );
       end; //==END== case: etGovDestab ==//
 
-      etRveOxygenOverload:
+      ceOxygenProductionOverload:
       begin
-         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_token:=etRveOxygenOverload;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_token:=ceOxygenProductionOverload;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_isRes:=true;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_duration:=-1;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_lvl:=0;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].ROO_percPopNotSupported:=FCFgCR_OxygenOverload_Calc( Entity, Colony );;
       end; //==END== case: etRveOxygenOverload ==//
 
-      etRveOxygenShortage:
+      ceOxygenShortage:
       begin
          {.EventDataI1 = index # for Oxygen Production Overload event}
          EventDataI1:=FCFgCSME_Search_ByType(
-            etRveOxygenOverload
+            ceOxygenProductionOverload
             ,Entity
             ,Colony
             );
          if EventDataI1=0
          then raise Exception.Create('there is no Oxygen Production Overload event created, prior to Oxygen Shortage, check the reserves consumption rule.');
-         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_token:=etRveOxygenShortage;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_token:=ceOxygenShortage;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_isRes:=true;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_duration:=-1;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_lvl:=0;
@@ -1212,26 +1212,26 @@ begin
             );
       end; //==END== case: etRveOxygenShortage ==//
 
-      etRveWaterOverload:
+      ceWaterProductionOverload:
       begin
-         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_token:=etRveWaterOverload;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_token:=ceWaterProductionOverload;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_isRes:=true;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_duration:=-1;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_lvl:=0;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].RWO_percPopNotSupported:=FCFgCR_WaterOverload_Calc( Entity, Colony );
       end;
 
-      etRveWaterShortage:
+      ceWaterShortage:
       begin
          {.EventDataI1 = index # for Water Production Overload event}
          EventDataI1:=FCFgCSME_Search_ByType(
-            etRveWaterOverload
+            ceWaterProductionOverload
             ,Entity
             ,Colony
             );
          if EventDataI1=0
          then raise Exception.Create('there is no Water Production Overload event created, prior to Water Shortage, check the reserves consumption rule.');
-         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_token:=etRveWaterShortage;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_token:=ceWaterShortage;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_isRes:=true;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_duration:=-1;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_lvl:=0;
@@ -1246,26 +1246,26 @@ begin
             );
       end; //==END== case: etRveWaterShortage ==//
 
-      etRveFoodOverload:
+      ceFoodProductionOverload:
       begin
-         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_token:=etRveFoodOverload;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_token:=ceFoodProductionOverload;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_isRes:=true;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_duration:=-1;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_lvl:=0;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].RFO_percPopNotSupported:=FCFgCR_FoodOverload_Calc( Entity, Colony );
       end;
 
-      etRveFoodShortage:
+      ceFoodShortage:
       begin
          {.EventDataI1 = index # for Food Production Overload event}
          EventDataI1:=FCFgCSME_Search_ByType(
-            etRveFoodOverload
+            ceFoodProductionOverload
             ,Entity
             ,Colony
             );
          if EventDataI1=0
          then raise Exception.Create('there is no Food Production Overload event created, prior to Food Shortage, check the reserves consumption rule.');
-         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_token:=etRveFoodShortage;
+         FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_token:=ceFoodShortage;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_isRes:=true;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_duration:=-1;
          FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CSMEV_lvl:=0;
@@ -1355,68 +1355,68 @@ begin
             mtCohesion:
             begin
                case FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].CSMEV_token of
-                  etGovDestab, etGovDestabRec: MSdmp:=MSdmp+FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].GD_cohesionMod;
+                  ceGovernmentDestabilization, ceGovernmentDestabilization_Recovering: MSdmp:=MSdmp+FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].GD_cohesionMod;
                end;
             end;
 
             mtTension:
             begin
                case FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].CSMEV_token of
-                  etColEstab: MSdmp:=MSdmp+FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].CE_tensionMod;
+                  ceColonyEstablished: MSdmp:=MSdmp+FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].CE_tensionMod;
 
-                  etUnrest, etUnrestRec: MSdmp:=MSdmp+FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].UN_tensionMod;
+                  ceUnrest, ceUnrest_Recovering: MSdmp:=MSdmp+FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].UN_tensionMod;
 
-                  etSocdis, etSocdisRec: MSdmp:=MSdmp+FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].SD_tensionMod;
+                  ceSocialDisorder, ceSocialDisorder_Recovering: MSdmp:=MSdmp+FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].SD_tensionMod;
 
-                  etUprising, etUprisingRec: MSdmp:=MSdmp+FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].UP_tensionMod;
+                  ceUprising, ceUprising_Recovering: MSdmp:=MSdmp+FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].UP_tensionMod;
 
-                  etRveOxygenShortage, etRveOxygenShortageRec: MSdmp:=MSdmp+FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].ROS_tensionMod;
+                  ceOxygenShortage, ceOxygenShortage_Recovering: MSdmp:=MSdmp+FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].ROS_tensionMod;
 
-                  etRveWaterShortage, etRveWaterShortageRec: MSdmp:=MSdmp+FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].RWS_tensionMod;
+                  ceWaterShortage, ceWaterShortage_Recovering: MSdmp:=MSdmp+FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].RWS_tensionMod;
 
-                  etRveFoodShortage, etRveFoodShortageRec: MSdmp:=MSdmp+FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].RFS_tensionMod;
+                  ceFoodShortage, ceFoodShortage_Recovering: MSdmp:=MSdmp+FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].RFS_tensionMod;
                end;
             end;
 
             mtSecurity:
             begin
                case FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].CSMEV_token of
-                  etColEstab: MSdmp:=MSdmp+FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].CE_securityMod;
+                  ceColonyEstablished: MSdmp:=MSdmp+FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].CE_securityMod;
                end;
             end;
 
             mtInstruction:
             begin
                case FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].CSMEV_token of
-                  etHealthEduRel: MSdmp:=MSdmp+FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].HER_educationMod;
+                  ceHealthEducationRelation: MSdmp:=MSdmp+FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].HER_educationMod;
                end;
             end;
 
             mtEcoIndOutput:
             begin
                case FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].CSMEV_token of
-                  etUnrest, etUnrestRec: MSdmp:=MSdmp+FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].UN_ecoindMod;
+                  ceUnrest, ceUnrest_Recovering: MSdmp:=MSdmp+FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].UN_ecoindMod;
 
-                  etSocdis, etSocdisRec: MSdmp:=MSdmp+FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].SD_ecoindMod;
+                  ceSocialDisorder, ceSocialDisorder_Recovering: MSdmp:=MSdmp+FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].SD_ecoindMod;
 
-                  etUprising, etUprisingRec: MSdmp:=MSdmp+FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].UP_ecoindMod;
+                  ceUprising, ceUprising_Recovering: MSdmp:=MSdmp+FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].UP_ecoindMod;
 
-                  etRveOxygenShortage, etRveOxygenShortageRec: MSdmp:=MSdmp+FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].ROS_ecoindMod;
+                  ceOxygenShortage, ceOxygenShortage_Recovering: MSdmp:=MSdmp+FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].ROS_ecoindMod;
 
-                  etRveWaterShortage, etRveWaterShortageRec: MSdmp:=MSdmp+FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].RWS_ecoindMod;
+                  ceWaterShortage, ceWaterShortage_Recovering: MSdmp:=MSdmp+FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].RWS_ecoindMod;
 
-                  etRveFoodShortage, etRveFoodShortageRec: MSdmp:=MSdmp+FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].RFS_ecoindMod;
+                  ceFoodShortage, ceFoodShortage_Recovering: MSdmp:=MSdmp+FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].RFS_ecoindMod;
                end;
             end;
 
             mtHealth:
             begin
                case FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].CSMEV_token of
-                  etRveOxygenShortage, etRveOxygenShortageRec: MSdmp:=MSdmp+FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].ROS_healthMod;
+                  ceOxygenShortage, ceOxygenShortage_Recovering: MSdmp:=MSdmp+FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].ROS_healthMod;
 
-                  etRveWaterShortage, etRveWaterShortageRec: MSdmp:=MSdmp+FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].RWS_healthMod;
+                  ceWaterShortage, ceWaterShortage_Recovering: MSdmp:=MSdmp+FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].RWS_healthMod;
 
-                  etRveFoodShortage, etRveFoodShortageRec: MSdmp:=MSdmp+FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].RFS_healthMod;
+                  ceFoodShortage, ceFoodShortage_Recovering: MSdmp:=MSdmp+FCentities[MSfac].E_col[MScolIDx].COL_evList[MScnt].RFS_healthMod;
                end;
             end;
          end; //==END== case MStype of ==//
@@ -1429,7 +1429,7 @@ end;
 function FCFgCSME_UnSup_Find(
    const USFfac
          ,USFcol: integer
-   ): TFCEdgEventTypes;
+   ): TFCEdgColonyEvents;
 {:Purpose: find if any Unrest, Social Disorder, Uprising or Dissident Colony event is set, and return the type.
     Additions:
       -2010Sep14- *add: entities code.
@@ -1438,7 +1438,7 @@ var
    USFcnt
    ,USFmax: integer;
 begin
-   Result:=etColEstab;
+   Result:=ceColonyEstablished;
    USFmax:=length(FCentities[USFfac].E_col[USFcol].COL_evList)-1;
    if USFmax>1
    then
@@ -1447,13 +1447,13 @@ begin
       while USFcnt<=USFmax do
       begin
          if (
-               (FCentities[USFfac].E_col[USFcol].COL_evList[USFcnt].CSMEV_token=etUnrest)
-                  or (FCentities[USFfac].E_col[USFcol].COL_evList[USFcnt].CSMEV_token=etUnrestRec)
-                  or (FCentities[USFfac].E_col[USFcol].COL_evList[USFcnt].CSMEV_token=etSocdis)
-                  or (FCentities[USFfac].E_col[USFcol].COL_evList[USFcnt].CSMEV_token=etSocdisRec)
-                  or (FCentities[USFfac].E_col[USFcol].COL_evList[USFcnt].CSMEV_token=etUprising)
-                  or (FCentities[USFfac].E_col[USFcol].COL_evList[USFcnt].CSMEV_token=etUprisingRec)
-                  or (FCentities[USFfac].E_col[USFcol].COL_evList[USFcnt].CSMEV_token=etColDissident)
+               (FCentities[USFfac].E_col[USFcol].COL_evList[USFcnt].CSMEV_token=ceUnrest)
+                  or (FCentities[USFfac].E_col[USFcol].COL_evList[USFcnt].CSMEV_token=ceUnrest_Recovering)
+                  or (FCentities[USFfac].E_col[USFcol].COL_evList[USFcnt].CSMEV_token=ceSocialDisorder)
+                  or (FCentities[USFfac].E_col[USFcol].COL_evList[USFcnt].CSMEV_token=ceSocialDisorder_Recovering)
+                  or (FCentities[USFfac].E_col[USFcol].COL_evList[USFcnt].CSMEV_token=ceUprising)
+                  or (FCentities[USFfac].E_col[USFcol].COL_evList[USFcnt].CSMEV_token=ceUprising_Recovering)
+                  or (FCentities[USFfac].E_col[USFcol].COL_evList[USFcnt].CSMEV_token=ceDissidentColony)
                   )
          then
          begin
@@ -1498,41 +1498,41 @@ begin
    NewHealth:=0;
    {.we retrieve the specific data}
    case FCentities[ Entity ].E_col[ Colony ].COL_evList[ Event ].CSMEV_token of
-      etUnrestRec:
+      ceUnrest_Recovering:
       begin
          ModEcoIndOutput:=FCentities[ Entity ].E_col[ Colony ].COL_evList[ Event ].UN_ecoindMod;
          ModTension:=FCentities[ Entity ].E_col[ Colony ].COL_evList[ Event ].UN_tensionMod;
       end;
 
-      etSocdisRec:
+      ceSocialDisorder_Recovering:
       begin
          ModEcoIndOutput:=FCentities[ Entity ].E_col[ Colony ].COL_evList[ Event ].SD_ecoindMod;
          ModTension:=FCentities[ Entity ].E_col[ Colony ].COL_evList[ Event ].SD_tensionMod;
       end;
 
-      etUprisingRec:
+      ceUprising_Recovering:
       begin
          ModEcoIndOutput:=FCentities[ Entity ].E_col[ Colony ].COL_evList[ Event ].UP_ecoindMod;
          ModTension:=FCentities[ Entity ].E_col[ Colony ].COL_evList[ Event ].UP_tensionMod;
       end;
 
-      etGovDestabRec: ModCohesion:=FCentities[ Entity ].E_col[ Colony ].COL_evList[ Event ].GD_cohesionMod;
+      ceGovernmentDestabilization_Recovering: ModCohesion:=FCentities[ Entity ].E_col[ Colony ].COL_evList[ Event ].GD_cohesionMod;
 
-      etRveOxygenShortageRec:
+      ceOxygenShortage_Recovering:
       begin
          ModEcoIndOutput:=FCentities[ Entity ].E_col[ Colony ].COL_evList[ Event ].ROS_ecoindMod;
          ModTension:=FCentities[ Entity ].E_col[ Colony ].COL_evList[ Event ].ROS_tensionMod;
          ModHealth:=FCentities[ Entity ].E_col[ Colony ].COL_evList[ Event ].ROS_healthMod;
       end;
 
-      etRveWaterShortageRec:
+      ceWaterShortage_Recovering:
       begin
          ModEcoIndOutput:=FCentities[ Entity ].E_col[ Colony ].COL_evList[ Event ].RWS_ecoindMod;
          ModTension:=FCentities[ Entity ].E_col[ Colony ].COL_evList[ Event ].RWS_tensionMod;
          ModHealth:=FCentities[ Entity ].E_col[ Colony ].COL_evList[ Event ].RWS_healthMod;
       end;
 
-      etRveFoodShortageRec:
+      ceFoodShortage_Recovering:
       begin
          ModEcoIndOutput:=FCentities[ Entity ].E_col[ Colony ].COL_evList[ Event ].RFS_ecoindMod;
          ModTension:=FCentities[ Entity ].E_col[ Colony ].COL_evList[ Event ].RFS_tensionMod;
@@ -1598,7 +1598,7 @@ begin
    NewHealth:=ModHealth+AbsoluteCoefficient;
    {.determine if the recovering is finished + whatever the case, update the CSM}
    case FCentities[ Entity ].E_col[ Colony ].COL_evList[ Event ].CSMEV_token of
-      etUnrestRec:
+      ceUnrest_Recovering:
       begin
          if ( NewEcoIndOutput=0 )
             and ( NewTension=0 )
@@ -1625,7 +1625,7 @@ begin
             );
       end; //==END== case: etUnrestRec ==//
 
-      etSocdisRec:
+      ceSocialDisorder_Recovering:
       begin
          if ( NewEcoIndOutput=0 )
             and ( NewTension=0 )
@@ -1652,7 +1652,7 @@ begin
             );
       end; //==END== case: etSocdisRec ==//
 
-      etUprisingRec:
+      ceUprising_Recovering:
       begin
          if ( NewEcoIndOutput=0 )
             and ( NewTension=0 )
@@ -1679,7 +1679,7 @@ begin
             );
       end; //==END== case: etUprisingRec ==//
 
-      etGovDestabRec:
+      ceGovernmentDestabilization_Recovering:
       begin
          if NewCohesion=0
          then FCentities[ Entity ].E_col[ Colony ].COL_evList[ Event ].CSMEV_duration:=-2;
@@ -1695,7 +1695,7 @@ begin
             );
       end; //==END== case: etGovDestabRec ==//
 
-      etRveOxygenShortageRec:
+      ceOxygenShortage_Recovering:
       begin
          if ( NewEcoIndOutput=0 )
             and ( NewTension=0 )
@@ -1733,7 +1733,7 @@ begin
             );
       end; //==END== case: etRveOxygenShortageRec ==//
 
-      etRveWaterShortageRec:
+      ceWaterShortage_Recovering:
       begin
          if ( NewEcoIndOutput=0 )
             and ( NewTension=0 )
@@ -1771,7 +1771,7 @@ begin
             );
       end; //==END== case: etRveWaterShortageRec ==//
 
-      etRveFoodShortageRec:
+      ceFoodShortage_Recovering:
       begin
          if ( NewEcoIndOutput=0 )
             and ( NewTension=0 )
@@ -1879,7 +1879,7 @@ begin
       while OTPcnt<=OTPmax do
       begin
          case FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].CSMEV_token of
-            etColEstab:
+            ceColonyEstablished:
             begin
                OTPmodTens:=FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].CE_tensionMod;
                OTPmodSec:=FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].CE_securityMod;
@@ -1925,7 +1925,7 @@ begin
                then FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].CSMEV_duration:=-2;
             end; //==END== case: etColEstab ==//
 
-            etUnrest:
+            ceUnrest:
             begin
                OTPmodEiO:=FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].UN_ecoindMod;
                OTPmodTens:=FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].UN_tensionMod;
@@ -1995,13 +1995,13 @@ begin
 
             end; //==END== case: etUnrest ==//
 
-            etUnrestRec: FCMgCSME_Recovering_Process(
+            ceUnrest_Recovering: FCMgCSME_Recovering_Process(
                Entity
                ,Colony
                ,OTPcnt
                );
 
-            etSocdis:
+            ceSocialDisorder:
             begin
                OTPmodEiO:=FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].SD_ecoindMod;
                OTPmodTens:=FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].SD_tensionMod;
@@ -2069,13 +2069,13 @@ begin
                   );
             end; //==END== case: etSocdis ==//
 
-            etSocdisRec: FCMgCSME_Recovering_Process(
+            ceSocialDisorder_Recovering: FCMgCSME_Recovering_Process(
                Entity
                ,Colony
                ,OTPcnt
                );
 
-            etUprising:
+            ceUprising:
             begin
                OTPmodEiO:=FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].UP_ecoindMod;
                OTPmodTens:=FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].UP_tensionMod;
@@ -2694,13 +2694,13 @@ begin
                end;
             end; //==END== case: etUprising ==//
 
-            etUprisingRec: FCMgCSME_Recovering_Process(
+            ceUprising_Recovering: FCMgCSME_Recovering_Process(
                Entity
                ,Colony
                ,OTPcnt
                );
 
-            etColDissident:
+            ceDissidentColony:
             begin
                case FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].CSMEV_lvl of
                   {.unrest}
@@ -3277,7 +3277,7 @@ begin
                then FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].CSMEV_duration:=-2;
             end; //==END== case: etColDissident: ==//
 
-            etGovDestab:
+            ceGovernmentDestabilization:
             begin
                OTPmodCoh:=FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].GD_cohesionMod;
                OTPmod1:=0;
@@ -3310,13 +3310,13 @@ begin
                end;
             end;
 
-            etGovDestabRec: FCMgCSME_Recovering_Process(
+            ceGovernmentDestabilization_Recovering: FCMgCSME_Recovering_Process(
                Entity
                ,Colony
                ,OTPcnt
                );
 
-            etRveFoodShortage:
+            ceFoodShortage:
             begin
                dec( FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].RFS_directDeathPeriod);
                if FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].RFS_directDeathPeriod=0 then
@@ -3350,7 +3350,7 @@ begin
          if OTPevArr[OTPcnt].CSMEV_duration<=-2 then
          begin
             case OTPevArr[OTPcnt].CSMEV_token of
-               etColEstab, etUnrestRec, etSocdisRec:
+               ceColonyEstablished, ceUnrest_Recovering, ceSocialDisorder_Recovering:
                begin
                   if OTPcnt=OTPmax
                   then FCMgCSME_Event_Cancel(
@@ -3358,7 +3358,7 @@ begin
                      ,Entity
                      ,Colony
                      ,OTPcnt
-                     ,etColEstab
+                     ,ceColonyEstablished
                      ,0
                      )
                   else FCMgCSME_Event_Cancel(
@@ -3366,12 +3366,12 @@ begin
                      ,Entity
                      ,Colony
                      ,OTPcnt
-                     ,etColEstab
+                     ,ceColonyEstablished
                      ,0
                      );
                end;
 
-               etUprising:
+               ceUprising:
                begin
                   if (OTPevArr[OTPcnt].CSMEV_duration=-2)
                      or (OTPevArr[OTPcnt].CSMEV_duration=-3)
@@ -3382,7 +3382,7 @@ begin
                         ,Entity
                         ,Colony
                         ,OTPcnt
-                        ,etSocdis
+                        ,ceSocialDisorder
                         ,OTPevArr[OTPcnt].CSMEV_lvl
                         );
                      FCentities[Entity].E_col[Colony].COL_population.POP_tpRebels:=0;
@@ -3391,7 +3391,7 @@ begin
                   then FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].CSMEV_duration:=round(sqrt(FCentities[Entity].E_col[Colony].COL_population.POP_tpRebels));
                end;
 
-               etUprisingRec:
+               ceUprising_Recovering:
                begin
                   if OTPcnt=OTPmax
                   then FCMgCSME_Event_Cancel(
@@ -3399,7 +3399,7 @@ begin
                      ,Entity
                      ,Colony
                      ,OTPcnt
-                     ,etColEstab
+                     ,ceColonyEstablished
                      ,0
                      )
                   else FCMgCSME_Event_Cancel(
@@ -3407,12 +3407,12 @@ begin
                      ,Entity
                      ,Colony
                      ,OTPcnt
-                     ,etColEstab
+                     ,ceColonyEstablished
                      ,0
                      );
                end;
 
-               etColDissident:
+               ceDissidentColony:
                begin
                   if OTPevArr[OTPcnt].CSMEV_duration=-2
                   then
@@ -3423,7 +3423,7 @@ begin
                         ,Entity
                         ,Colony
                         ,OTPcnt
-                        ,etColEstab
+                        ,ceColonyEstablished
                         ,0
                         )
                      else FCMgCSME_Event_Cancel(
@@ -3431,7 +3431,7 @@ begin
                         ,Entity
                         ,Colony
                         ,OTPcnt
-                        ,etColEstab
+                        ,ceColonyEstablished
                         ,0
                         );
                   end
@@ -3467,7 +3467,7 @@ begin
                         ,Entity
                         ,Colony
                         ,OTPcnt
-                        ,etUprising
+                        ,ceUprising
                         ,FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].CSMEV_lvl*2
                         );
                      FCMgCSM_ColonyData_Upd(
@@ -3484,19 +3484,19 @@ begin
                   end;
                end; //==END== case: etColDissident ==//
 
-               etGovDestab:
+               ceGovernmentDestabilization:
                begin
                   FCMgCSME_Event_Cancel(
                      csmeecRecover
                      ,Entity
                      ,Colony
                      ,OTPcnt
-                     ,etColEstab
+                     ,ceColonyEstablished
                      ,0
                      );
                end;
 
-               etGovDestabRec:
+               ceGovernmentDestabilization_Recovering:
                begin
                   if OTPcnt=OTPmax
                   then FCMgCSME_Event_Cancel(
@@ -3504,7 +3504,7 @@ begin
                      ,Entity
                      ,Colony
                      ,OTPcnt
-                     ,etColEstab
+                     ,ceColonyEstablished
                      ,0
                      )
                   else FCMgCSME_Event_Cancel(
@@ -3512,7 +3512,7 @@ begin
                      ,Entity
                      ,Colony
                      ,OTPcnt
-                     ,etColEstab
+                     ,ceColonyEstablished
                      ,0
                      );
                end;
@@ -3536,7 +3536,7 @@ end;
 procedure FCMgCSME_UnSup_FindRepl(
    const USFRfac
          ,USFRcol: integer;
-   const USFRevent: TFCEdgEventTypes;
+   const USFRevent: TFCEdgColonyEvents;
    const USFRevLvl: integer;
    const USFRevCancel: TFCEcsmeEvCan;
    const USFRtriggerIfEmpty: boolean
@@ -3573,20 +3573,20 @@ begin
       while USFRcnt<=USFRmax do
       begin
          if (
-               (FCentities[USFRfac].E_col[USFRcol].COL_evList[USFRcnt].CSMEV_token=etUnrest)
-                  or (FCentities[USFRfac].E_col[USFRcol].COL_evList[USFRcnt].CSMEV_token=etUnrestRec)
-                  or (FCentities[USFRfac].E_col[USFRcol].COL_evList[USFRcnt].CSMEV_token=etSocdis)
-                  or (FCentities[USFRfac].E_col[USFRcol].COL_evList[USFRcnt].CSMEV_token=etSocdisRec)
-                  or (FCentities[USFRfac].E_col[USFRcol].COL_evList[USFRcnt].CSMEV_token=etUprising)
-                  or (FCentities[USFRfac].E_col[USFRcol].COL_evList[USFRcnt].CSMEV_token=etUprisingRec)
+               (FCentities[USFRfac].E_col[USFRcol].COL_evList[USFRcnt].CSMEV_token=ceUnrest)
+                  or (FCentities[USFRfac].E_col[USFRcol].COL_evList[USFRcnt].CSMEV_token=ceUnrest_Recovering)
+                  or (FCentities[USFRfac].E_col[USFRcol].COL_evList[USFRcnt].CSMEV_token=ceSocialDisorder)
+                  or (FCentities[USFRfac].E_col[USFRcol].COL_evList[USFRcnt].CSMEV_token=ceSocialDisorder_Recovering)
+                  or (FCentities[USFRfac].E_col[USFRcol].COL_evList[USFRcnt].CSMEV_token=ceUprising)
+                  or (FCentities[USFRfac].E_col[USFRcol].COL_evList[USFRcnt].CSMEV_token=ceUprising_Recovering)
                   )
             and (USFRevent<>FCentities[USFRfac].E_col[USFRcol].COL_evList[USFRcnt].CSMEV_token)
          then
          begin
             if (USFRevCancel=csmeecRecover)
-               and ((FCentities[USFRfac].E_col[USFRcol].COL_evList[USFRcnt].CSMEV_token=etUnrestRec)
-                  or (FCentities[USFRfac].E_col[USFRcol].COL_evList[USFRcnt].CSMEV_token=etSocdisRec)
-                  or (FCentities[USFRfac].E_col[USFRcol].COL_evList[USFRcnt].CSMEV_token=etUprisingRec)
+               and ((FCentities[USFRfac].E_col[USFRcol].COL_evList[USFRcnt].CSMEV_token=ceUnrest_Recovering)
+                  or (FCentities[USFRfac].E_col[USFRcol].COL_evList[USFRcnt].CSMEV_token=ceSocialDisorder_Recovering)
+                  or (FCentities[USFRfac].E_col[USFRcol].COL_evList[USFRcnt].CSMEV_token=ceUprising_Recovering)
                   )
             then
             begin
@@ -3601,12 +3601,12 @@ begin
             end;
          end
          else if (
-            (FCentities[USFRfac].E_col[USFRcol].COL_evList[USFRcnt].CSMEV_token=etUnrest)
-               or (FCentities[USFRfac].E_col[USFRcol].COL_evList[USFRcnt].CSMEV_token=etUnrestRec)
-               or (FCentities[USFRfac].E_col[USFRcol].COL_evList[USFRcnt].CSMEV_token=etSocdis)
-               or (FCentities[USFRfac].E_col[USFRcol].COL_evList[USFRcnt].CSMEV_token=etSocdisRec)
-               or (FCentities[USFRfac].E_col[USFRcol].COL_evList[USFRcnt].CSMEV_token=etUprising)
-               or (FCentities[USFRfac].E_col[USFRcol].COL_evList[USFRcnt].CSMEV_token=etUprisingRec)
+            (FCentities[USFRfac].E_col[USFRcol].COL_evList[USFRcnt].CSMEV_token=ceUnrest)
+               or (FCentities[USFRfac].E_col[USFRcol].COL_evList[USFRcnt].CSMEV_token=ceUnrest_Recovering)
+               or (FCentities[USFRfac].E_col[USFRcol].COL_evList[USFRcnt].CSMEV_token=ceSocialDisorder)
+               or (FCentities[USFRfac].E_col[USFRcol].COL_evList[USFRcnt].CSMEV_token=ceSocialDisorder_Recovering)
+               or (FCentities[USFRfac].E_col[USFRcol].COL_evList[USFRcnt].CSMEV_token=ceUprising)
+               or (FCentities[USFRfac].E_col[USFRcol].COL_evList[USFRcnt].CSMEV_token=ceUprising_Recovering)
                )
             and (USFRevent=FCentities[USFRfac].E_col[USFRcol].COL_evList[USFRcnt].CSMEV_token)
          then
@@ -3627,7 +3627,7 @@ begin
                   ,USFRfac
                   ,USFRcol
                   ,USFRcnt
-                  ,etColEstab
+                  ,ceColonyEstablished
                   ,0
                   );
                FCMgCSME_Event_Trigger(
@@ -3643,7 +3643,7 @@ begin
                ,USFRfac
                ,USFRcol
                ,USFRcnt
-               ,etColEstab
+               ,ceColonyEstablished
                ,0
                );
             csmeecOverride:
@@ -3661,7 +3661,7 @@ begin
       end //==END== if USFRchge ==//
       else if (not USFRchge)
          and (not USFRsameEv)
-         and (USFRevent<>etColEstab)
+         and (USFRevent<>ceColonyEstablished)
       then FCMgCSME_Event_Trigger(
          USFRevent
          ,USFRfac

@@ -98,14 +98,14 @@ begin
       while CScount<=CSmax do
       begin
          case FCDBdgSPMi[CSspmiIndex].SPMI_customFxList[CScount].CFX_code of
-            cfxEIOUT: FCMgSPMCFX_EIOUT_Apply(
+            sceEIOUT: FCMgSPMCFX_EIOUT_Apply(
                CSent
                ,CSspmiIndex
                ,CScount
                ,false
                );
 
-            cfxREVTX: FCMgSPMCFX_REVTX_Apply(
+            sceREVTX: FCMgSPMCFX_REVTX_Apply(
                CSent
                ,CSspmiIndex
                ,CScount

@@ -81,7 +81,7 @@ begin
    if FCentities[ Entity ].E_col[ Colony ].COL_reserveOxygen<>-1 then
    begin
       ReturnedOverloadEvent:=FCFgCSME_Search_ByType(
-         etRveOxygenOverload
+         ceOxygenProductionOverload
          ,Entity
          ,Colony
          );
@@ -90,7 +90,7 @@ begin
       if ( ReturnedOverloadEvent=0 )
          and ( PPS>0 )
       then FCMgCSME_Event_Trigger(
-         etRveOxygenOverload
+         ceOxygenProductionOverload
          ,Entity
          ,Colony
          ,PPS
@@ -105,11 +105,11 @@ begin
                ,Entity
                ,Colony
                ,ReturnedOverloadEvent
-               ,etColEstab
+               ,ceColonyEstablished
                ,0
                );
             ReturnedShortageEvent:=FCFgCSME_Search_ByType(
-               etRveOxygenShortage
+               ceOxygenShortage
                ,Entity
                ,Colony
                );
@@ -119,7 +119,7 @@ begin
                ,Entity
                ,Colony
                ,ReturnedShortageEvent
-               ,etColEstab
+               ,ceColonyEstablished
                ,0
                );
             doNotProcessShortageEvent:=true;
@@ -130,14 +130,14 @@ begin
       if not doNotProcessShortageEvent then
       begin
          ReturnedShortageEvent:=FCFgCSME_Search_ByType(
-            etRveOxygenShortage
+            ceOxygenShortage
             ,Entity
             ,Colony
             );
          if ReturnedShortageEvent=0 then
          begin
             ReturnedShortageEvent:=FCFgCSME_Search_ByType(
-               etRveOxygenShortageRec
+               ceOxygenShortage_Recovering
                ,Entity
                ,Colony
                );
@@ -154,7 +154,7 @@ begin
                   ,Entity
                   ,Colony
                   ,ReturnedShortageEvent
-                  ,etColEstab
+                  ,ceColonyEstablished
                   ,0
                   );
             end;
@@ -178,7 +178,7 @@ begin
                ,Entity
                ,Colony
                ,ReturnedShortageEvent
-               ,etColEstab
+               ,ceColonyEstablished
                ,0
                )
             {.in any other case, do the over time process, if it's required}
@@ -195,20 +195,20 @@ begin
       if FCentities[ Entity ].E_col[ Colony ].COL_reserveOxygen<FCentities[ Entity ].E_col[ Colony ].COL_population.POP_total then
       begin
          ReturnedShortageEvent:=FCFgCSME_Search_ByType(
-            etRveOxygenShortageRec
+            ceOxygenShortage_Recovering
             ,Entity
             ,Colony
             );
          if ReturnedShortageEvent=0 then
          begin
             ReturnedShortageEvent:=FCFgCSME_Search_ByType(
-               etRveOxygenShortage
+               ceOxygenShortage
                ,Entity
                ,Colony
                );
             if ReturnedShortageEvent=0
             then FCMgCSME_Event_Trigger(
-               etRveOxygenShortage
+               ceOxygenShortage
                ,Entity
                ,Colony
                ,0
@@ -221,7 +221,7 @@ begin
             ,Entity
             ,Colony
             ,ReturnedShortageEvent
-            ,etRveOxygenShortage
+            ,ceOxygenShortage
             ,0
             );
          FCMgCR_Reserve_Update(
@@ -244,7 +244,7 @@ begin
    {.water consumption}
    doNotProcessShortageEvent:=false;
    ReturnedOverloadEvent:=FCFgCSME_Search_ByType(
-      etRveWaterOverload
+      ceWaterProductionOverload
       ,Entity
       ,Colony
       );
@@ -253,7 +253,7 @@ begin
    if ( ReturnedOverloadEvent=0 )
       and ( PPS>0 )
    then FCMgCSME_Event_Trigger(
-      etRveWaterOverload
+      ceWaterProductionOverload
       ,Entity
       ,Colony
       ,PPS
@@ -268,11 +268,11 @@ begin
             ,Entity
             ,Colony
             ,ReturnedOverloadEvent
-            ,etColEstab
+            ,ceColonyEstablished
             ,0
             );
          ReturnedShortageEvent:=FCFgCSME_Search_ByType(
-            etRveWaterShortage
+            ceWaterShortage
             ,Entity
             ,Colony
             );
@@ -282,7 +282,7 @@ begin
             ,Entity
             ,Colony
             ,ReturnedShortageEvent
-            ,etColEstab
+            ,ceColonyEstablished
             ,0
             );
          doNotProcessShortageEvent:=true;
@@ -293,14 +293,14 @@ begin
    if not doNotProcessShortageEvent then
    begin
       ReturnedShortageEvent:=FCFgCSME_Search_ByType(
-         etRveWaterShortage
+         ceWaterShortage
          ,Entity
          ,Colony
          );
       if ReturnedShortageEvent=0 then
       begin
          ReturnedShortageEvent:=FCFgCSME_Search_ByType(
-            etRveWaterShortageRec
+            ceWaterShortage_Recovering
             ,Entity
             ,Colony
             );
@@ -317,7 +317,7 @@ begin
                ,Entity
                ,Colony
                ,ReturnedShortageEvent
-               ,etColEstab
+               ,ceColonyEstablished
                ,0
                );
          end;
@@ -341,7 +341,7 @@ begin
             ,Entity
             ,Colony
             ,ReturnedShortageEvent
-            ,etColEstab
+            ,ceColonyEstablished
             ,0
             )
          {.in any other case, do the over time process, if it's required}
@@ -358,20 +358,20 @@ begin
    if FCentities[ Entity ].E_col[ Colony ].COL_reserveWater<FCentities[ Entity ].E_col[ Colony ].COL_population.POP_total then
    begin
       ReturnedShortageEvent:=FCFgCSME_Search_ByType(
-         etRveWaterShortageRec
+         ceWaterShortage_Recovering
          ,Entity
          ,Colony
          );
       if ReturnedShortageEvent=0 then
       begin
          ReturnedShortageEvent:=FCFgCSME_Search_ByType(
-            etRveWaterShortage
+            ceWaterShortage
             ,Entity
             ,Colony
             );
          if ReturnedShortageEvent=0
          then FCMgCSME_Event_Trigger(
-            etRveWaterShortage
+            ceWaterShortage
             ,Entity
             ,Colony
             ,0
@@ -384,7 +384,7 @@ begin
          ,Entity
          ,Colony
          ,ReturnedShortageEvent
-         ,etRveWaterShortage
+         ,ceWaterShortage
          ,0
          );
       FCMgCR_Reserve_Update(
@@ -406,7 +406,7 @@ begin
    {.food consumption}
    doNotProcessShortageEvent:=false;
    ReturnedOverloadEvent:=FCFgCSME_Search_ByType(
-      etRveFoodOverload
+      ceFoodProductionOverload
       ,Entity
       ,Colony
       );
@@ -415,7 +415,7 @@ begin
    if ( ReturnedOverloadEvent=0 )
       and ( PPS>0 )
    then FCMgCSME_Event_Trigger(
-      etRveFoodOverload
+      ceFoodProductionOverload
       ,Entity
       ,Colony
       ,PPS
@@ -430,11 +430,11 @@ begin
             ,Entity
             ,Colony
             ,ReturnedOverloadEvent
-            ,etColEstab
+            ,ceColonyEstablished
             ,0
             );
          ReturnedShortageEvent:=FCFgCSME_Search_ByType(
-            etRveFoodShortage
+            ceFoodShortage
             ,Entity
             ,Colony
             );
@@ -444,7 +444,7 @@ begin
             ,Entity
             ,Colony
             ,ReturnedShortageEvent
-            ,etColEstab
+            ,ceColonyEstablished
             ,0
             );
          doNotProcessShortageEvent:=true;
@@ -455,14 +455,14 @@ begin
    if not doNotProcessShortageEvent then
    begin
       ReturnedShortageEvent:=FCFgCSME_Search_ByType(
-         etRveFoodShortage
+         ceFoodShortage
          ,Entity
          ,Colony
          );
       if ReturnedShortageEvent=0 then
       begin
          ReturnedShortageEvent:=FCFgCSME_Search_ByType(
-            etRveFoodShortageRec
+            ceFoodShortage_Recovering
             ,Entity
             ,Colony
             );
@@ -479,7 +479,7 @@ begin
                ,Entity
                ,Colony
                ,ReturnedShortageEvent
-               ,etColEstab
+               ,ceColonyEstablished
                ,0
                );
          end;
@@ -503,7 +503,7 @@ begin
             ,Entity
             ,Colony
             ,ReturnedShortageEvent
-            ,etColEstab
+            ,ceColonyEstablished
             ,0
             )
          {.in any other case, do the over time process, if it's required}
@@ -520,20 +520,20 @@ begin
    if FCentities[ Entity ].E_col[ Colony ].COL_reserveFood<FCentities[ Entity ].E_col[ Colony ].COL_population.POP_total then
    begin
       ReturnedShortageEvent:=FCFgCSME_Search_ByType(
-         etRveFoodShortageRec
+         ceFoodShortage_Recovering
          ,Entity
          ,Colony
          );
       if ReturnedShortageEvent=0 then
       begin
          ReturnedShortageEvent:=FCFgCSME_Search_ByType(
-            etRveFoodShortage
+            ceFoodShortage
             ,Entity
             ,Colony
             );
          if ReturnedShortageEvent=0
          then FCMgCSME_Event_Trigger(
-            etRveFoodShortage
+            ceFoodShortage
             ,Entity
             ,Colony
             ,0
@@ -546,7 +546,7 @@ begin
          ,Entity
          ,Colony
          ,ReturnedShortageEvent
-         ,etRveFoodShortage
+         ,ceFoodShortage
          ,0
          );
       FCMgCR_Reserve_Update(

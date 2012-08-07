@@ -74,6 +74,7 @@ uses
    ,farc_data_game
    ,farc_data_html
    ,farc_data_init
+   ,farc_data_spm
    ,farc_data_spu
    ,farc_data_textfiles
    ,farc_data_univ
@@ -546,7 +547,7 @@ FCWinNewGSetup.Close;
          begin
             FCentities[CPent].E_spm[CPspmCnt].SPMS_bLvl:=FCDBfactions[CPfacLd].F_spm[CPspmCnt].SPMS_bLvl;
             FCentities[CPent].E_spm[CPspmCnt].SPMS_sprdVal:=FCDBfactions[CPfacLd].F_spm[CPspmCnt].SPMS_sprdVal;
-            if FCentities[CPent].E_spm[CPspmCnt].SPMS_bLvl>=dgFleeting
+            if FCentities[CPent].E_spm[CPspmCnt].SPMS_bLvl>=blFleeting
             then
             begin
                CPsv:=FCentities[CPent].E_spm[CPspmCnt].SPMS_sprdVal*0.01;

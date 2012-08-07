@@ -43,12 +43,12 @@
     
    {.meme belief levels} 
    [belieflev]
-      dgUnknown
-      dgFleeting
-      dgUncommon
-      dgCommon
-      dgStrong
-      dgKbyAll
+      blUnknown
+      blFleeting
+      blUncommon
+      blCommon
+      blStrong
+      blKnownByAll
       
    spuDock
    -1: not docked/mother vessel
@@ -177,43 +177,43 @@
          <facSPMi token="SPMi_CorpOrg" duration="0" isSet="False" aprob="-1" belieflev="0" spreadval="0"/>
          <facSPMi token="SPMi_Cyberdemo" duration="0" isSet="False" aprob="-1" belieflev="0" spreadval="0"/>
          <facSPMi token="SPMi_ElecGov" duration="0" isSet="False" aprob="-1" belieflev="0" spreadval="0"/>
-         <facSPMi token="SPMi_RiggElec" duration="0" isSet="false" aprob="-2" belieflev="dgUnknown" spreadval="0"/>
+         <facSPMi token="SPMi_RiggElec" duration="0" isSet="false" aprob="-2" belieflev="blUnknown" spreadval="0"/>
          <facSPMi token="SPMi_StatePol" duration="0" isSet="False" aprob="-1" belieflev="0" spreadval="0"/>
          <facSPMi token="SPMi_ZeroTol" duration="0" isSet="False" aprob="-1" belieflev="0" spreadval="0"/>
-         <facSPMi token="SPMi_Decel" duration="0" isSet="false" aprob="-2" belieflev="dgUnknown" spreadval="0"/>
+         <facSPMi token="SPMi_Decel" duration="0" isSet="false" aprob="-2" belieflev="blUnknown" spreadval="0"/>
          <facSPMi token="SPMi_FreeMark" duration="0" isSet="false" aprob="-1" belieflev="0" spreadval="0"/>
          <facSPMi token="SPMi_GreenEco" duration="0" isSet="false" aprob="-1" belieflev="0" spreadval="0"/>
          <facSPMi token="SPMi_ParticipEcon" duration="0" isSet="False" aprob="-1" belieflev="0" spreadval="0"/>
          <facSPMi token="SPMi_PlanEcon" duration="0" isSet="True" aprob="60" belieflev="0" spreadval="0"/>
          <facSPMi token="SPMi_ProacCitiz" duration="0" isSet="False" aprob="-1" belieflev="0" spreadval="0"/>
          <facSPMi token="SPMi_ProfTechno" duration="0" isSet="False" aprob="-1" belieflev="0" spreadval="0"/>
-         <facSPMi token="SPMi_Amortalism" duration="0" isSet="false" aprob="-2" belieflev="dgUnknown" spreadval="0"/>
-         <facSPMi token="SPMi_BioroidsAdopt" duration="0" isSet="false" aprob="-2" belieflev="dgStrong" spreadval="80"/>
+         <facSPMi token="SPMi_Amortalism" duration="0" isSet="false" aprob="-2" belieflev="blUnknown" spreadval="0"/>
+         <facSPMi token="SPMi_BioroidsAdopt" duration="0" isSet="false" aprob="-2" belieflev="blStrong" spreadval="80"/>
          <facSPMi token="SPMi_BirthsCtl" duration="0" isSet="True" aprob="60" belieflev="0" spreadval="0"/>
          <facSPMi token="SPMi_Eugenics" duration="0" isSet="false" aprob="-1" belieflev="0" spreadval="0"/>
-         <facSPMi token="SPMi_Immortalism" duration="0" isSet="false" aprob="-2" belieflev="dgFleeting" spreadval="15"/>
+         <facSPMi token="SPMi_Immortalism" duration="0" isSet="false" aprob="-2" belieflev="blFleeting" spreadval="15"/>
          <facSPMi token="SPMi_SocSystem" duration="0" isSet="True" aprob="75" belieflev="0" spreadval="0"/>
          <facSPMi token="SPMi_Abolition" duration="0" isSet="True" aprob="95" belieflev="0" spreadval="0"/>
-         <facSPMi token="SPMi_Cryptosurv" duration="0" isSet="false" aprob="-2" belieflev="dgUnknown" spreadval="0"/>
-         <facSPMi token="SPMi_HomoSoc" duration="0" isSet="false" aprob="-2" belieflev="dgUnknown" spreadval="0"/>
-         <facSPMi token="SPMi_HumRetire" duration="0" isSet="false" aprob="-2" belieflev="dgUnknown" spreadval="0"/>
+         <facSPMi token="SPMi_Cryptosurv" duration="0" isSet="false" aprob="-2" belieflev="blUnknown" spreadval="0"/>
+         <facSPMi token="SPMi_HomoSoc" duration="0" isSet="false" aprob="-2" belieflev="blUnknown" spreadval="0"/>
+         <facSPMi token="SPMi_HumRetire" duration="0" isSet="false" aprob="-2" belieflev="blUnknown" spreadval="0"/>
          <facSPMi token="SPMi_MilSoc" duration="0" isSet="False" aprob="-1" belieflev="0" spreadval="0"/>
          <facSPMi token="SPMi_Slavery" duration="0" isSet="false" aprob="-1" belieflev="0" spreadval="0"/>
-         <facSPMi token="SPMi_Xenophobia" duration="0" isSet="false" aprob="-2" belieflev="dgUnknown" spreadval="0"/>
+         <facSPMi token="SPMi_Xenophobia" duration="0" isSet="false" aprob="-2" belieflev="blUnknown" spreadval="0"/>
          <facSPMi token="SPMi_AntiHumSpacef" duration="0" isSet="false" aprob="-1" belieflev="0" spreadval="0"/>
-         <facSPMi token="SPMi_Colonialism" duration="0" isSet="false" aprob="-2" belieflev="dgUncommon" spreadval="30"/>
-         <facSPMi token="SPMi_CosmosPreserv" duration="0" isSet="false" aprob="-2" belieflev="dgUnknown" spreadval="0"/>
-         <facSPMi token="SPMi_Environmental" duration="0" isSet="false" aprob="-2" belieflev="dgFleeting" spreadval="10"/>
+         <facSPMi token="SPMi_Colonialism" duration="0" isSet="false" aprob="-2" belieflev="blUnknown" spreadval="30"/>
+         <facSPMi token="SPMi_CosmosPreserv" duration="0" isSet="false" aprob="-2" belieflev="blUnknown" spreadval="0"/>
+         <facSPMi token="SPMi_Environmental" duration="0" isSet="false" aprob="-2" belieflev="blFleeting" spreadval="10"/>
          <facSPMi token="SPMi_NatTranpSpFleet" duration="0" isSet="false" aprob="-1" belieflev="0" spreadval="0"/>
          <facSPMi token="SPMi_OneWorldCom" duration="0" isSet="false" aprob="-1" belieflev="0" spreadval="0"/>
          <facSPMi token="SPMi_SpDebMClean" duration="0" isSet="False" aprob="-1" belieflev="0" spreadval="0"/>
-         <facSPMi token="SPMi_CultOfAtheism" duration="0" isSet="false" aprob="-2" belieflev="dgUnknown" spreadval="0"/>
-         <facSPMi token="SPMi_Cybergnosticism" duration="0" isSet="false" aprob="-2" belieflev="dgUnknown" spreadval="0"/>
-         <facSPMi token="SPMi_Infotranscend" duration="0" isSet="false" aprob="-2" belieflev="dgUncommon" spreadval="25"/>
-         <facSPMi token="SPMi_Pacifism" duration="0" isSet="false" aprob="-2" belieflev="dgUnknown" spreadval="0"/>
+         <facSPMi token="SPMi_CultOfAtheism" duration="0" isSet="false" aprob="-2" belieflev="blUnknown" spreadval="0"/>
+         <facSPMi token="SPMi_Cybergnosticism" duration="0" isSet="false" aprob="-2" belieflev="blUnknown" spreadval="0"/>
+         <facSPMi token="SPMi_Infotranscend" duration="0" isSet="false" aprob="-2" belieflev="blUnknown" spreadval="25"/>
+         <facSPMi token="SPMi_Pacifism" duration="0" isSet="false" aprob="-2" belieflev="blUnknown" spreadval="0"/>
          <facSPMi token="SPMi_ReligiousFree" duration="0" isSet="true" aprob="70" belieflev="0" spreadval="0"/>
          <facSPMi token="SPMi_StateRel" duration="0" isSet="False" aprob="-1" belieflev="0" spreadval="0"/>
-         <facSPMi token="SPMi_TheFreeUnion" duration="0" isSet="false" aprob="-2" belieflev="dgUnknown" spreadval="0"/>
+         <facSPMi token="SPMi_TheFreeUnion" duration="0" isSet="false" aprob="-2" belieflev="blUnknown" spreadval="0"/>
       </facSPM>
    </faction>      
 </factionsDB>

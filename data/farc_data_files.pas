@@ -127,6 +127,7 @@ uses
    ,farc_data_init
    ,farc_data_pgs
    ,farc_data_research
+   ,farc_data_spm
    ,farc_data_spu
    ,farc_data_univ
    ,farc_game_cps
@@ -499,12 +500,12 @@ begin
                FCDBfactions[FactionCount].F_facCmode[ColonizationModeCount].FCM_cpsVthEconomic:=XMLFactionItem.Attributes['viabThrEco'];
                FCDBfactions[FactionCount].F_facCmode[ColonizationModeCount].FCM_cpsVthSocial:=XMLFactionItem.Attributes['viabThrSoc'];
                FCDBfactions[FactionCount].F_facCmode[ColonizationModeCount].FCM_cpsVthSpaceMilitary:=XMLFactionItem.Attributes['viabThrSpMil'];
-               EnumIndex:=GetEnumValue( TypeInfo( TFCEcrIntRg ), XMLFactionItem.Attributes['creditrng'] );
-               FCDBfactions[FactionCount].F_facCmode[ColonizationModeCount].FCM_cpsCrRg:=TFCEcrIntRg( EnumIndex );
+               EnumIndex:=GetEnumValue( TypeInfo( TFCEdgCreditInterestRanges ), XMLFactionItem.Attributes['creditrng'] );
+               FCDBfactions[FactionCount].F_facCmode[ColonizationModeCount].FCM_cpsCrRg:=TFCEdgCreditInterestRanges( EnumIndex );
                if EnumIndex=-1
                then raise Exception.Create( 'bad faction XML loading w/ colonization mode credit range: '+XMLFactionItem.Attributes['creditrng'] );
-               EnumIndex:=GetEnumValue( TypeInfo( TFCEcrIntRg ), XMLFactionItem.Attributes['intrng'] );
-               FCDBfactions[FactionCount].F_facCmode[ColonizationModeCount].FCM_cpsIntRg:=TFCEcrIntRg( EnumIndex );
+               EnumIndex:=GetEnumValue( TypeInfo( TFCEdgCreditInterestRanges ), XMLFactionItem.Attributes['intrng'] );
+               FCDBfactions[FactionCount].F_facCmode[ColonizationModeCount].FCM_cpsIntRg:=TFCEdgCreditInterestRanges( EnumIndex );
                if EnumIndex=-1
                then raise Exception.Create( 'bad faction XML loading w/ colonization mode interest range: '+XMLFactionItem.Attributes['intrng'] );
                {.equipment list items}
@@ -584,8 +585,8 @@ begin
                   if FCDBfactions[FactionCount].F_spm[Count1].SPMS_aprob=-2 then
                   begin
                      FCDBfactions[FactionCount].F_spm[Count1].SPMS_isPolicy:=false;
-                     EnumIndex:=GetEnumValue( TypeInfo( TFCEdgBelLvl ), XMLFactionSubItem.Attributes['belieflev'] );
-                     FCDBfactions[FactionCount].F_spm[Count1].SPMS_bLvl:=TFCEdgBelLvl( EnumIndex );
+                     EnumIndex:=GetEnumValue( TypeInfo( TFCEdspmBeliefLevels ), XMLFactionSubItem.Attributes['belieflev'] );
+                     FCDBfactions[FactionCount].F_spm[Count1].SPMS_bLvl:=TFCEdspmBeliefLevels( EnumIndex );
                      if EnumIndex=-1
                      then raise Exception.Create( 'bad faction XML loading w/ meme belief level: '+XMLFactionSubItem.Attributes['belieflev'] );
                      FCDBfactions[FactionCount].F_spm[Count1].SPMS_sprdVal:=XMLFactionSubItem.Attributes['spreadval'];
@@ -1364,18 +1365,18 @@ begin
                begin
                   inc( Count1 );
                   SetLength( FCDBdgSPMi[Count].SPMI_customFxList, Count1+1 );
-                  EnumIndex:=GetEnumValue( TypeInfo( TFCEdgCustomFX ), XMLSPMitemSubSub.Attributes['code'] );
-                  FCDBdgSPMi[Count].SPMI_customFxList[Count1].CFX_code:=TFCEdgCustomFX( EnumIndex );
+                  EnumIndex:=GetEnumValue( TypeInfo( TFCEdgSPMiCustomEffects ), XMLSPMitemSubSub.Attributes['code'] );
+                  FCDBdgSPMi[Count].SPMI_customFxList[Count1].CFX_code:=TFCEdgSPMiCustomEffects( EnumIndex );
                   if EnumIndex=-1
                   then raise Exception.Create( 'bad spm item custom effect: '+XMLSPMitemSubSub.Attributes['code'] );
                   case FCDBdgSPMi[Count].SPMI_customFxList[Count1].CFX_code of
-                     cfxEIOUT:
+                     sceEIOUT:
                      begin
                         FCDBdgSPMi[Count].SPMI_customFxList[Count1].CFX_eioutMod:=XMLSPMitemSubSub.Attributes['modifier'];
                         FCDBdgSPMi[Count].SPMI_customFxList[Count1].CFX_eioutIsBurMod:=XMLSPMitemSubSub.Attributes['isburmod'];
                      end;
 
-                     cfxREVTX: FCDBdgSPMi[Count].SPMI_customFxList[Count1].CFX_revtxCoef:=StrToFloat( XMLSPMitemSubSub.Attributes['coef'], FCVdiFormat );
+                     sceREVTX: FCDBdgSPMi[Count].SPMI_customFxList[Count1].CFX_revtxCoef:=StrToFloat( XMLSPMitemSubSub.Attributes['coef'], FCVdiFormat );
                   end;
                   XMLSPMitemSubSub:=XMLSPMitemSubSub.NextSibling;
                end;

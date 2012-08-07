@@ -352,14 +352,14 @@ begin
    case FCentities[CLGIfac].E_col[CLGIcol].COL_level of
       cl1Outpost: Result:=1;
       cl2Base: Result:=2;
-      cl3Comm: Result:=3;
-      cl4Settl: Result:=4;
-      cl5MajCol: Result:=5;
-      cl6LocSt: Result:=6;
-      cl7RegSt: Result:=7;
-      cl8FedSt: Result:=8;
-      cl9ContSt: Result:=9;
-      cl10UniWrld: Result:=10;
+      cl3Community: Result:=3;
+      cl4Settlement: Result:=4;
+      cl5MajorColony: Result:=5;
+      cl6LocalState: Result:=6;
+      cl7RegionalState: Result:=7;
+      cl8FederatedStates: Result:=8;
+      cl9ContinentalState: Result:=9;
+      cl10UnifiedWorld: Result:=10;
    end;
 end;
 
@@ -430,14 +430,14 @@ begin
       then FCentities[CCfacId].E_col[CCcolIdx].COL_reserveOxygen:=-1;
       {.trigger basic CSM events}
       FCMgCSME_Event_Trigger(
-         etHealthEduRel
+         ceHealthEducationRelation
          ,CCfacId
          ,CCcolIdx
          ,0
          ,false
          );
       FCMgCSME_Event_Trigger(
-         etColEstab
+         ceColonyEstablished
          ,CCfacId
          ,CCcolIdx
          ,0

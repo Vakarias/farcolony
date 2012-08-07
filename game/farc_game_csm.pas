@@ -881,18 +881,18 @@ begin
          then FCentities[CDUfac].E_col[CDUcol].COL_level:=cl2Base
          else if (FCentities[CDUfac].E_col[CDUcol].COL_population.POP_total>=101)
             and (FCentities[CDUfac].E_col[CDUcol].COL_population.POP_total<1001)
-         then FCentities[CDUfac].E_col[CDUcol].COL_level:=cl3Comm
+         then FCentities[CDUfac].E_col[CDUcol].COL_level:=cl3Community
          else if (FCentities[CDUfac].E_col[CDUcol].COL_population.POP_total>=1001)
             and (FCentities[CDUfac].E_col[CDUcol].COL_population.POP_total<10001)
-         then FCentities[CDUfac].E_col[CDUcol].COL_level:=cl4Settl
+         then FCentities[CDUfac].E_col[CDUcol].COL_level:=cl4Settlement
          else if (FCentities[CDUfac].E_col[CDUcol].COL_population.POP_total>=10001)
             and (FCentities[CDUfac].E_col[CDUcol].COL_population.POP_total<100001)
-         then FCentities[CDUfac].E_col[CDUcol].COL_level:=cl5MajCol
+         then FCentities[CDUfac].E_col[CDUcol].COL_level:=cl5MajorColony
          else if (FCentities[CDUfac].E_col[CDUcol].COL_population.POP_total>=100001)
             and (FCentities[CDUfac].E_col[CDUcol].COL_population.POP_total<1000001)
-         then FCentities[CDUfac].E_col[CDUcol].COL_level:=cl6LocSt
+         then FCentities[CDUfac].E_col[CDUcol].COL_level:=cl6LocalState
          else if (FCentities[CDUfac].E_col[CDUcol].COL_population.POP_total>=1000001)
-         then FCentities[CDUfac].E_col[CDUcol].COL_level:=cl7RegSt;
+         then FCentities[CDUfac].E_col[CDUcol].COL_level:=cl7RegionalState;
          {.csm events trigger}
          {.update dependencies}
       end;
@@ -947,7 +947,7 @@ begin
          CDUdatI1:=0;
          CDUdatI2:=0;
          CDUdatI:=FCFgCSME_Search_ByType(
-            etHealthEduRel
+            ceHealthEducationRelation
             ,CDUfac
             ,CDUcol
             );
@@ -1390,7 +1390,7 @@ var
 
    PPstr: string;
 
-   PPev: TFCEdgEventTypes;
+   PPev: TFCEdgColonyEvents;
 begin
    {.retrieve colony's data}
    PPcohes:=FCentities[PPfac].E_col[PPcol].COL_cohes;
@@ -1410,7 +1410,7 @@ begin
          FCMgCSME_UnSup_FindRepl(
             PPfac
             ,PPcol
-            ,etColDissident
+            ,ceDissidentColony
             ,PPclvl
             ,csmeecImmediate
             ,true
@@ -1445,7 +1445,7 @@ begin
                   0..19: FCMgCSME_UnSup_FindRepl(
                      PPfac
                      ,PPcol
-                     ,etColEstab
+                     ,ceColonyEstablished
                      ,0
                      ,csmeecRecover
                      ,false
@@ -1453,7 +1453,7 @@ begin
                   20..25: FCMgCSME_UnSup_FindRepl(
                      PPfac
                      ,PPcol
-                     ,etUnrest
+                     ,ceUnrest
                      ,PPclvl
                      ,csmeecOverride
                      ,true
@@ -1461,7 +1461,7 @@ begin
                   26..51: FCMgCSME_UnSup_FindRepl(
                      PPfac
                      ,PPcol
-                     ,etSocdis
+                     ,ceSocialDisorder
                      ,PPclvl
                      ,csmeecOverride
                      ,true
@@ -1469,7 +1469,7 @@ begin
                   52..100: FCMgCSME_UnSup_FindRepl(
                      PPfac
                      ,PPcol
-                     ,etUprising
+                     ,ceUprising
                      ,PPclvl
                      ,csmeecOverride
                      ,true
@@ -1483,7 +1483,7 @@ begin
                   0..35: FCMgCSME_UnSup_FindRepl(
                      PPfac
                      ,PPcol
-                     ,etColEstab
+                     ,ceColonyEstablished
                      ,0
                      ,csmeecRecover
                      ,false
@@ -1491,7 +1491,7 @@ begin
                   36..44: FCMgCSME_UnSup_FindRepl(
                      PPfac
                      ,PPcol
-                     ,etUnrest
+                     ,ceUnrest
                      ,PPclvl
                      ,csmeecOverride
                      ,true
@@ -1499,7 +1499,7 @@ begin
                   45..70: FCMgCSME_UnSup_FindRepl(
                      PPfac
                      ,PPcol
-                     ,etSocdis
+                     ,ceSocialDisorder
                      ,PPclvl
                      ,csmeecOverride
                      ,true
@@ -1507,7 +1507,7 @@ begin
                   71..100: FCMgCSME_UnSup_FindRepl(
                      PPfac
                      ,PPcol
-                     ,etUprising
+                     ,ceUprising
                      ,PPclvl
                      ,csmeecOverride
                      ,true
@@ -1521,7 +1521,7 @@ begin
                   0..44: FCMgCSME_UnSup_FindRepl(
                      PPfac
                      ,PPcol
-                     ,etColEstab
+                     ,ceColonyEstablished
                      ,0
                      ,csmeecRecover
                      ,false
@@ -1529,7 +1529,7 @@ begin
                   45..54: FCMgCSME_UnSup_FindRepl(
                      PPfac
                      ,PPcol
-                     ,etUnrest
+                     ,ceUnrest
                      ,PPclvl
                      ,csmeecOverride
                      ,true
@@ -1537,7 +1537,7 @@ begin
                   55..72: FCMgCSME_UnSup_FindRepl(
                      PPfac
                      ,PPcol
-                     ,etSocdis
+                     ,ceSocialDisorder
                      ,PPclvl
                      ,csmeecOverride
                      ,true
@@ -1545,7 +1545,7 @@ begin
                   73..100: FCMgCSME_UnSup_FindRepl(
                      PPfac
                      ,PPcol
-                     ,etUprising
+                     ,ceUprising
                      ,PPclvl
                      ,csmeecOverride
                      ,true
@@ -1559,7 +1559,7 @@ begin
                   0..56: FCMgCSME_UnSup_FindRepl(
                      PPfac
                      ,PPcol
-                     ,etColEstab
+                     ,ceColonyEstablished
                      ,0
                      ,csmeecRecover
                      ,false
@@ -1567,7 +1567,7 @@ begin
                   57..67: FCMgCSME_UnSup_FindRepl(
                      PPfac
                      ,PPcol
-                     ,etUnrest
+                     ,ceUnrest
                      ,PPclvl
                      ,csmeecOverride
                      ,true
@@ -1575,7 +1575,7 @@ begin
                   68..85: FCMgCSME_UnSup_FindRepl(
                      PPfac
                      ,PPcol
-                     ,etSocdis
+                     ,ceSocialDisorder
                      ,PPclvl
                      ,csmeecOverride
                      ,true
@@ -1583,7 +1583,7 @@ begin
                   86..100: FCMgCSME_UnSup_FindRepl(
                      PPfac
                      ,PPcol
-                     ,etUprising
+                     ,ceUprising
                      ,PPclvl
                      ,csmeecOverride
                      ,true
@@ -1597,7 +1597,7 @@ begin
                   0..66: FCMgCSME_UnSup_FindRepl(
                      PPfac
                      ,PPcol
-                     ,etColEstab
+                     ,ceColonyEstablished
                      ,0
                      ,csmeecRecover
                      ,false
@@ -1605,7 +1605,7 @@ begin
                   67..76: FCMgCSME_UnSup_FindRepl(
                      PPfac
                      ,PPcol
-                     ,etUnrest
+                     ,ceUnrest
                      ,PPclvl
                      ,csmeecOverride
                      ,true
@@ -1613,7 +1613,7 @@ begin
                   77..91: FCMgCSME_UnSup_FindRepl(
                      PPfac
                      ,PPcol
-                     ,etSocdis
+                     ,ceSocialDisorder
                      ,PPclvl
                      ,csmeecOverride
                      ,true
@@ -1621,7 +1621,7 @@ begin
                   92..100: FCMgCSME_UnSup_FindRepl(
                      PPfac
                      ,PPcol
-                     ,etUprising
+                     ,ceUprising
                      ,PPclvl
                      ,csmeecOverride
                      ,true
@@ -1635,7 +1635,7 @@ begin
                   0..76: FCMgCSME_UnSup_FindRepl(
                      PPfac
                      ,PPcol
-                     ,etColEstab
+                     ,ceColonyEstablished
                      ,0
                      ,csmeecRecover
                      ,false
@@ -1643,7 +1643,7 @@ begin
                   77..86: FCMgCSME_UnSup_FindRepl(
                      PPfac
                      ,PPcol
-                     ,etUnrest
+                     ,ceUnrest
                      ,PPclvl
                      ,csmeecOverride
                      ,true
@@ -1651,7 +1651,7 @@ begin
                   87..100: FCMgCSME_UnSup_FindRepl(
                      PPfac
                      ,PPcol
-                     ,etSocdis
+                     ,ceSocialDisorder
                      ,PPclvl
                      ,csmeecOverride
                      ,true
@@ -1665,7 +1665,7 @@ begin
                   0..82: FCMgCSME_UnSup_FindRepl(
                      PPfac
                      ,PPcol
-                     ,etColEstab
+                     ,ceColonyEstablished
                      ,0
                      ,csmeecRecover
                      ,false
@@ -1673,7 +1673,7 @@ begin
                   83..91: FCMgCSME_UnSup_FindRepl(
                      PPfac
                      ,PPcol
-                     ,etUnrest
+                     ,ceUnrest
                      ,PPclvl
                      ,csmeecOverride
                      ,true
@@ -1681,7 +1681,7 @@ begin
                   92..100: FCMgCSME_UnSup_FindRepl(
                      PPfac
                      ,PPcol
-                     ,etSocdis
+                     ,ceSocialDisorder
                      ,PPclvl
                      ,csmeecOverride
                      ,true
@@ -1695,7 +1695,7 @@ begin
                   0..86: FCMgCSME_UnSup_FindRepl(
                      PPfac
                      ,PPcol
-                     ,etColEstab
+                     ,ceColonyEstablished
                      ,0
                      ,csmeecRecover
                      ,false
@@ -1703,7 +1703,7 @@ begin
                   87..94: FCMgCSME_UnSup_FindRepl(
                      PPfac
                      ,PPcol
-                     ,etUnrest
+                     ,ceUnrest
                      ,PPclvl
                      ,csmeecOverride
                      ,true
@@ -1711,7 +1711,7 @@ begin
                   95..100: FCMgCSME_UnSup_FindRepl(
                      PPfac
                      ,PPcol
-                     ,etSocdis
+                     ,ceSocialDisorder
                      ,PPclvl
                      ,csmeecOverride
                      ,true
@@ -1725,7 +1725,7 @@ begin
                   0..91: FCMgCSME_UnSup_FindRepl(
                      PPfac
                      ,PPcol
-                     ,etColEstab
+                     ,ceColonyEstablished
                      ,0
                      ,csmeecRecover
                      ,false
@@ -1733,7 +1733,7 @@ begin
                   92..97: FCMgCSME_UnSup_FindRepl(
                      PPfac
                      ,PPcol
-                     ,etUnrest
+                     ,ceUnrest
                      ,PPclvl
                      ,csmeecOverride
                      ,true
@@ -1741,7 +1741,7 @@ begin
                   98..100: FCMgCSME_UnSup_FindRepl(
                      PPfac
                      ,PPcol
-                     ,etSocdis
+                     ,ceSocialDisorder
                      ,PPclvl
                      ,csmeecOverride
                      ,true
@@ -1753,7 +1753,7 @@ begin
       95..100: FCMgCSME_UnSup_FindRepl(
          PPfac
          ,PPcol
-         ,etColEstab
+         ,ceColonyEstablished
          ,0
          ,csmeecRecover
          ,false
@@ -1762,7 +1762,7 @@ begin
    {.cohesion progression}
    PPev:=FCFgCSME_UnSup_Find(PPfac, PPcol);
    PPtest:=0;
-   if PPev<>etColDissident
+   if PPev<>ceDissidentColony
    then
    begin
       PPrand:=FCFcFunc_Rand_Int(100);
@@ -1773,12 +1773,12 @@ begin
       then
       begin
          case PPev of
-            etUnrest: PPmodF:=0.75;
-            etUnrestRec: PPmodF:=1;
-            etSocdis: PPmodF:=0.5;
-            etSocdisRec: PPmodF:=0.75;
-            etUprising: PPmodF:=0;
-            etUprisingRec: PPmodF:=0.5;
+            ceUnrest: PPmodF:=0.75;
+            ceUnrest_Recovering: PPmodF:=1;
+            ceSocialDisorder: PPmodF:=0.5;
+            ceSocialDisorder_Recovering: PPmodF:=0.75;
+            ceUprising: PPmodF:=0;
+            ceUprising_Recovering: PPmodF:=0.5;
             else PPmodF:=1;
          end;
          PPtest:=round(PPcohes+(PPx*PPmodF));
@@ -1787,12 +1787,12 @@ begin
       then
       begin
          case PPev of
-            etUnrest: PPmodF:=1;
-            etUnrestRec: PPmodF:=0.75;
-            etSocdis: PPmodF:=1.25;
-            etSocdisRec: PPmodF:=1;
-            etUprising: PPmodF:=1.5;
-            etUprisingRec: PPmodF:=1.25;
+            ceUnrest: PPmodF:=1;
+            ceUnrest_Recovering: PPmodF:=0.75;
+            ceSocialDisorder: PPmodF:=1.25;
+            ceSocialDisorder_Recovering: PPmodF:=1;
+            ceUprising: PPmodF:=1.5;
+            ceUprising_Recovering: PPmodF:=1.25;
             else PPmodF:=0.75;
          end;
          PPtest:=round(PPcohes-(PPx*PPmodF));
@@ -1812,7 +1812,7 @@ begin
    end;
    {.tension progression}
    if (PPTens>0)
-      and ((PPev<=etColEstab) or (PPev>etColDissident))
+      and ((PPev<=ceColonyEstablished) or (PPev>ceDissidentColony))
    then FCMgCSM_ColonyData_Upd(
       dTension
       ,PPfac

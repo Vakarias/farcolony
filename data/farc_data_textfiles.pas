@@ -92,7 +92,7 @@ function FCFdTFiles_UIStr_Get(
 ///    <param name="UISGcred">range level</param>
 function FCFdTFiles_UIStr_Get(
    const UISGcateg: TFCEdtfStCat;
-   const UISGcred: TFCEcrIntRg
+   const UISGcred: TFCEdgCreditInterestRanges
    ): string; overload;
 
 ///<summary>
@@ -457,7 +457,7 @@ end;
 
 function FCFdTFiles_UIStr_Get(
    const UISGcateg: TFCEdtfStCat;
-   const UISGcred: TFCEcrIntRg
+   const UISGcred: TFCEdgCreditInterestRanges
    ): string; overload;
 {:Purpose: retrieve credit line data text.
     Additions:
@@ -471,27 +471,27 @@ begin
       uistrCrRg:
       begin
          case UISGcred of
-            crirPoor_Insign: UISGresDump:=FCFcFunc_ThSep(TFCcps.CRmiPoor, ',')+' - '+FCFcFunc_ThSep(TFCcps.CRmaPoor, ',');
-            crirUndFun_Low: UISGresDump:=FCFcFunc_ThSep(TFCcps.CRmiUnde, ',')+' - '+FCFcFunc_ThSep(TFCcps.CRmaUnde, ',');
-            crirBelAvg_Mod: UISGresDump:=FCFcFunc_ThSep(TFCcps.CRmiBAvg, ',')+' - '+FCFcFunc_ThSep(TFCcps.CRmaBAvg, ',');
-            crirAverage: UISGresDump:=FCFcFunc_ThSep(TFCcps.CRmiAvge, ',')+' - '+FCFcFunc_ThSep(TFCcps.CRmaAvge, ',');
-            crirAbAvg_Maj: UISGresDump:=FCFcFunc_ThSep(TFCcps.CRmiAbAv, ',')+' - '+FCFcFunc_ThSep(TFCcps.CRmaAbAv, ',');
-            crirRch_High: UISGresDump:=FCFcFunc_ThSep(TFCcps.CRmiRich, ',')+' - '+FCFcFunc_ThSep(TFCcps.CRmaRich, ',');
-            crirOvrFun_Usu: UISGresDump:=FCFcFunc_ThSep(TFCcps.CRmiOvFu, ',')+' - '+FCFcFunc_ThSep(TFCcps.CRmaOvFu, ',');
-            crirUnl_Ins: UISGresDump:=FCFcFunc_ThSep(TFCcps.CRmiUnli, ',')+' - '+FCFcFunc_ThSep(TFCcps.CRmaUnli, ',');
+            cirPoor_Insignificant: UISGresDump:=FCFcFunc_ThSep(TFCcps.CRmiPoor, ',')+' - '+FCFcFunc_ThSep(TFCcps.CRmaPoor, ',');
+            cirUnderfunded_Low: UISGresDump:=FCFcFunc_ThSep(TFCcps.CRmiUnde, ',')+' - '+FCFcFunc_ThSep(TFCcps.CRmaUnde, ',');
+            cirBelowAverage_Moderate: UISGresDump:=FCFcFunc_ThSep(TFCcps.CRmiBAvg, ',')+' - '+FCFcFunc_ThSep(TFCcps.CRmaBAvg, ',');
+            cirAverage: UISGresDump:=FCFcFunc_ThSep(TFCcps.CRmiAvge, ',')+' - '+FCFcFunc_ThSep(TFCcps.CRmaAvge, ',');
+            cirAboveAverage: UISGresDump:=FCFcFunc_ThSep(TFCcps.CRmiAbAv, ',')+' - '+FCFcFunc_ThSep(TFCcps.CRmaAbAv, ',');
+            cirRich_High: UISGresDump:=FCFcFunc_ThSep(TFCcps.CRmiRich, ',')+' - '+FCFcFunc_ThSep(TFCcps.CRmaRich, ',');
+            cirOverFunded_Usurious: UISGresDump:=FCFcFunc_ThSep(TFCcps.CRmiOvFu, ',')+' - '+FCFcFunc_ThSep(TFCcps.CRmaOvFu, ',');
+            cirUnlimited_Insane: UISGresDump:=FCFcFunc_ThSep(TFCcps.CRmiUnli, ',')+' - '+FCFcFunc_ThSep(TFCcps.CRmaUnli, ',');
          end;
       end;
       uistrIntRg:
       begin
          case UISGcred of
-            crirPoor_Insign: UISGresDump:=FloatToStr(TFCcps.IRmiPoor)+' - '+FloatToStr(TFCcps.IRmaPoor);
-            crirUndFun_Low: UISGresDump:=FloatToStr(TFCcps.IRmiUnde)+' - '+FloatToStr(TFCcps.IRmaUnde);
-            crirBelAvg_Mod: UISGresDump:=FloatToStr(TFCcps.IRmiBAvg)+' - '+FloatToStr(TFCcps.IRmaBAvg);
-            crirAverage: UISGresDump:=FloatToStr(TFCcps.IRmiAvge)+' - '+FloatToStr(TFCcps.IRmaAvge);
-            crirAbAvg_Maj: UISGresDump:=FloatToStr(TFCcps.IRmiAbAv)+' - '+FloatToStr(TFCcps.IRmaAbAv);
-            crirRch_High: UISGresDump:=FloatToStr(TFCcps.IRmiRich)+' - '+FloatToStr(TFCcps.IRmaRich);
-            crirOvrFun_Usu: UISGresDump:=FloatToStr(TFCcps.IRmiOvFu)+' - '+FloatToStr(TFCcps.IRmaOvFu);
-            crirUnl_Ins: UISGresDump:=FloatToStr(TFCcps.IRmiUnli)+' - '+FloatToStr(TFCcps.IRmaUnli);
+            cirPoor_Insignificant: UISGresDump:=FloatToStr(TFCcps.IRmiPoor)+' - '+FloatToStr(TFCcps.IRmaPoor);
+            cirUnderfunded_Low: UISGresDump:=FloatToStr(TFCcps.IRmiUnde)+' - '+FloatToStr(TFCcps.IRmaUnde);
+            cirBelowAverage_Moderate: UISGresDump:=FloatToStr(TFCcps.IRmiBAvg)+' - '+FloatToStr(TFCcps.IRmaBAvg);
+            cirAverage: UISGresDump:=FloatToStr(TFCcps.IRmiAvge)+' - '+FloatToStr(TFCcps.IRmaAvge);
+            cirAboveAverage: UISGresDump:=FloatToStr(TFCcps.IRmiAbAv)+' - '+FloatToStr(TFCcps.IRmaAbAv);
+            cirRich_High: UISGresDump:=FloatToStr(TFCcps.IRmiRich)+' - '+FloatToStr(TFCcps.IRmaRich);
+            cirOverFunded_Usurious: UISGresDump:=FloatToStr(TFCcps.IRmiOvFu)+' - '+FloatToStr(TFCcps.IRmaOvFu);
+            cirUnlimited_Insane: UISGresDump:=FloatToStr(TFCcps.IRmiUnli)+' - '+FloatToStr(TFCcps.IRmaUnli);
          end;
       end;
 	end; {.case UISGcateg of}

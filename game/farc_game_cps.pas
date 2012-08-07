@@ -94,7 +94,7 @@ uses
          {.routines}
          constructor Create(
             const CPSCcredRng
-                  ,CPSCintRng: TFCEcrIntRg;
+                  ,CPSCintRng: TFCEdgCreditInterestRanges;
             const CPSCobjList: array of TFCRcpsoViabilityObjective
             ); overload;
          constructor Create(
@@ -237,7 +237,7 @@ uses
 
 constructor TFCcps.Create(
             const CPSCcredRng
-                  ,CPSCintRng: TFCEcrIntRg;
+                  ,CPSCintRng: TFCEdgCreditInterestRanges;
             const CPSCobjList: array of TFCRcpsoViabilityObjective
             );
 {:Purpose: CPS creation and initialization.
@@ -259,25 +259,25 @@ begin
    {.set credit line}
    case CPSCcredRng of
       {.add a function randomrng that use the custom random function}
-      crirPoor_Insign: CPScrLineM:=RandomRange(CRmiPoor, CRmaPoor);
-      crirUndFun_Low: CPScrLineM:=RandomRange(CRmiUnde, CRmaUnde);
-      crirBelAvg_Mod: CPScrLineM:=RandomRange(CRmiBAvg, CRmaBAvg);
-      crirAverage: CPScrLineM:=RandomRange(CRmiAvge, CRmaAvge);
-      crirAbAvg_Maj: CPScrLineM:=RandomRange(CRmiAbAv, CRmaAbAv);
-      crirRch_High: CPScrLineM:=RandomRange(CRmiRich, CRmaRich);
-      crirOvrFun_Usu: CPScrLineM:=RandomRange(CRmiOvFu, CRmaOvFu);
-      crirUnl_Ins: CPScrLineM:=RandomRange(CRmiUnli, CRmaUnli);
+      cirPoor_Insignificant: CPScrLineM:=RandomRange(CRmiPoor, CRmaPoor);
+      cirUnderfunded_Low: CPScrLineM:=RandomRange(CRmiUnde, CRmaUnde);
+      cirBelowAverage_Moderate: CPScrLineM:=RandomRange(CRmiBAvg, CRmaBAvg);
+      cirAverage: CPScrLineM:=RandomRange(CRmiAvge, CRmaAvge);
+      cirAboveAverage: CPScrLineM:=RandomRange(CRmiAbAv, CRmaAbAv);
+      cirRich_High: CPScrLineM:=RandomRange(CRmiRich, CRmaRich);
+      cirOverFunded_Usurious: CPScrLineM:=RandomRange(CRmiOvFu, CRmaOvFu);
+      cirUnlimited_Insane: CPScrLineM:=RandomRange(CRmiUnli, CRmaUnli);
    end;
    CPScrLineU:=0;
    case CPSCintRng of
-      crirPoor_Insign: CPSCint:=IRmiPoor+( (FCFcFunc_Rand_Int(100)+1)*(IRmaPoor-IRmiPoor)*0.01 );
-      crirUndFun_Low: CPSCint:=IRmiUnde+( (FCFcFunc_Rand_Int(100)+1)*(IRmaUnde-IRmiUnde)*0.01 );
-      crirBelAvg_Mod: CPSCint:=IRmiBAvg+( (FCFcFunc_Rand_Int(100)+1)*(IRmaBAvg-IRmiBAvg)*0.01 );
-      crirAverage: CPSCint:=IRmiAvge+( (FCFcFunc_Rand_Int(100)+1)*(IRmaAvge-IRmiAvge)*0.01 );
-      crirAbAvg_Maj: CPSCint:=IRmiAbAv+( (FCFcFunc_Rand_Int(100)+1)*(IRmaAbAv-IRmiAbAv)*0.01 );
-      crirRch_High: CPSCint:=IRmiRich+( (FCFcFunc_Rand_Int(100)+1)*(IRmaRich-IRmiRich)*0.01 );
-      crirOvrFun_Usu: CPSCint:=IRmiOvFu+( (FCFcFunc_Rand_Int(100)+1)*(IRmaOvFu-IRmiOvFu)*0.01 );
-      crirUnl_Ins: CPSCint:=IRmiUnli+( (FCFcFunc_Rand_Int(100)+1)*(IRmaUnli-IRmiUnli)*0.01 );
+      cirPoor_Insignificant: CPSCint:=IRmiPoor+( (FCFcFunc_Rand_Int(100)+1)*(IRmaPoor-IRmiPoor)*0.01 );
+      cirUnderfunded_Low: CPSCint:=IRmiUnde+( (FCFcFunc_Rand_Int(100)+1)*(IRmaUnde-IRmiUnde)*0.01 );
+      cirBelowAverage_Moderate: CPSCint:=IRmiBAvg+( (FCFcFunc_Rand_Int(100)+1)*(IRmaBAvg-IRmiBAvg)*0.01 );
+      cirAverage: CPSCint:=IRmiAvge+( (FCFcFunc_Rand_Int(100)+1)*(IRmaAvge-IRmiAvge)*0.01 );
+      cirAboveAverage: CPSCint:=IRmiAbAv+( (FCFcFunc_Rand_Int(100)+1)*(IRmaAbAv-IRmiAbAv)*0.01 );
+      cirRich_High: CPSCint:=IRmiRich+( (FCFcFunc_Rand_Int(100)+1)*(IRmaRich-IRmiRich)*0.01 );
+      cirOverFunded_Usurious: CPSCint:=IRmiOvFu+( (FCFcFunc_Rand_Int(100)+1)*(IRmaOvFu-IRmiOvFu)*0.01 );
+      cirUnlimited_Insane: CPSCint:=IRmiUnli+( (FCFcFunc_Rand_Int(100)+1)*(IRmaUnli-IRmiUnli)*0.01 );
    end;
    CPSint:=DecimalRound(CPSCint, 1, 0.01);
    {.set viability objectives}

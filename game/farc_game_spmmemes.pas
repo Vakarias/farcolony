@@ -31,7 +31,8 @@ unit farc_game_spmmemes;
 interface
 
 uses
-   farc_data_game;
+   farc_data_game
+   ,farc_data_spm;
 
 type
    GSPMMret= array[0..2] of integer;
@@ -40,7 +41,7 @@ type
 ///   returns the BL modifier regarding the given belief level
 ///</summary>
 ///   <param name="BLMGbl">belief level</param>
-function FCFgSPMM_BLMod_Get(const BLMGbl: TFCEdgBelLvl): extended;
+function FCFgSPMM_BLMod_Get(const BLMGbl: TFCEdspmBeliefLevels): extended;
 
 ///<summary>
 ///   returns requirements margin modifier value
@@ -61,7 +62,7 @@ function FCFgSPMM_Req_DoTest(
 ///   returns min and max SV values regarding the given belief level
 ///</summary>
 ///   <param name="SVRGbl">belief level</param>
-function FCFgSPMM_SVRange_Get(const SVRGbl: TFCEdgBelLvl): GSPMMret;
+function FCFgSPMM_SVRange_Get(const SVRGbl: TFCEdspmBeliefLevels): GSPMMret;
 
 //===========================END FUNCTIONS SECTION==========================================
 ///<summary>
@@ -88,18 +89,18 @@ var
    GSPMMmarginMod: integer;
 
 //===================================================END OF INIT============================
-function FCFgSPMM_BLMod_Get(const BLMGbl: TFCEdgBelLvl): extended;
+function FCFgSPMM_BLMod_Get(const BLMGbl: TFCEdspmBeliefLevels): extended;
 {:Purpose: returns the BL modifier regarding the given belief level.
     Additions:
 }
 begin
    Result:=0;
    case BLMGbl of
-      dgFleeting: Result:=0.5;
-      dgUncommon: Result:=0.7;
-      dgCommon: Result:=0.9;
-      dgStrong: Result:=1.1;
-      dgKbyAll: Result:=1.3;
+      blFleeting: Result:=0.5;
+      blUncommon: Result:=0.7;
+      blCommon: Result:=0.9;
+      blStrong: Result:=1.1;
+      blKnownByAll: Result:=1.3;
    end;
 end;
 
@@ -285,7 +286,7 @@ begin
    Result:=RDTreqPassed;
 end;
 
-function FCFgSPMM_SVRange_Get(const SVRGbl: TFCEdgBelLvl): GSPMMret;
+function FCFgSPMM_SVRange_Get(const SVRGbl: TFCEdspmBeliefLevels): GSPMMret;
 {:Purpose: returns min and max SV values regarding the given belief level.
     Additions:
 }
@@ -293,27 +294,27 @@ begin
    Result[1]:=Result[0];
    Result[2]:=Result[0];
    case SVRGbl of
-      dgFleeting:
+      blFleeting:
       begin
          Result[1]:=1;
          Result[2]:=20;
       end;
-      dgUncommon:
+      blUncommon:
       begin
          Result[1]:=21;
          Result[2]:=40;
       end;
-      dgCommon:
+      blCommon:
       begin
          Result[1]:=41;
          Result[2]:=60;
       end;
-      dgStrong:
+      blStrong:
       begin
          Result[1]:=61;
          Result[2]:=80;
       end;
-      dgKbyAll:
+      blKnownByAll:
       begin
          Result[1]:=81;
          Result[2]:=100;

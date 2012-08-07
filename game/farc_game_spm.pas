@@ -194,6 +194,7 @@ uses
    ,farc_data_html
    ,farc_data_init
    ,farc_data_infrprod
+   ,farc_data_spm
    ,farc_data_textfiles
    ,farc_game_colony
    ,farc_game_csm
@@ -417,7 +418,7 @@ begin
          and ( FCentities[SPMIIGent].E_spm[SPMIIGcnt].SPMS_duration=0 )
       then SPMIIGres:=SPMIIGres+SPMIIGspmi.SPMI_infl[SPMIIGcnt].SPMII_influence
       else if ( not FCentities[SPMIIGent].E_spm[SPMIIGcnt].SPMS_isPolicy )
-         and ( FCentities[SPMIIGent].E_spm[SPMIIGcnt].SPMS_bLvl>dgUnknown ) then
+         and ( FCentities[SPMIIGent].E_spm[SPMIIGcnt].SPMS_bLvl>blUnknown ) then
       begin
          SPMIIGsv:=FCFgSPMM_SVRange_Get( FCentities[SPMIIGent].E_spm[SPMIIGcnt].SPMS_bLvl );
          SPMIIGres:=SPMIIGres+round( SPMIIGspmi.SPMI_infl[SPMIIGcnt].SPMII_influence* ( SPMIIGsv[2]*0.01 ) );
@@ -1133,7 +1134,7 @@ begin
                      PPfAPtest:=FCFcFunc_Rand_Int(99)+1;
                      if PPfAPtest<=FCentities[PPentCnt].E_spm[PPspmCnt].SPMS_aprob
                      then FCMgCSME_Event_Trigger(
-                        etGovDestab
+                        ceGovernmentDestabilization
                         ,PPentCnt
                         ,PPcolCnt
                         ,1
@@ -1152,7 +1153,7 @@ begin
             PPmiSV:=PPsvRng[1];
             PPmaSV:=PPsvRng[2];
             {.SV evolution before BL calculations}
-            if FCentities[PPentCnt].E_spm[PPspmCnt].SPMS_bLvl>dgUnknown
+            if FCentities[PPentCnt].E_spm[PPspmCnt].SPMS_bLvl>blUnknown
             then
             begin
                if PPcSV<PPmaSV
@@ -1176,7 +1177,7 @@ begin
             {.meme requirements}
             PPreResult:=FCFgSPMM_Req_DoTest(PPentCnt, FCentities[PPentCnt].E_spm[PPspmCnt].SPMS_token);
             if (not PPreResult)
-               and (FCentities[PPentCnt].E_spm[PPspmCnt].SPMS_bLvl>dgUnknown)
+               and (FCentities[PPentCnt].E_spm[PPspmCnt].SPMS_bLvl>blUnknown)
                and (PPcSV<=PPmaSV)
             then
             begin
@@ -1185,7 +1186,7 @@ begin
             end
             else if (
                (not PPreResult)
-                  and (FCentities[PPentCnt].E_spm[PPspmCnt].SPMS_bLvl>dgUnknown)
+                  and (FCentities[PPentCnt].E_spm[PPspmCnt].SPMS_bLvl>blUnknown)
                   and (PPcSV>PPmaSV)
                )
                or (PPreResult)
@@ -1205,7 +1206,7 @@ begin
                if PPrand<PPt2
                then inc(FCentities[PPentCnt].E_spm[PPspmCnt].SPMS_bLvl)
                else if (PPrand>PPt4)
-                  and (FCentities[PPentCnt].E_spm[PPspmCnt].SPMS_bLvl>dgUnknown)
+                  and (FCentities[PPentCnt].E_spm[PPspmCnt].SPMS_bLvl>blUnknown)
                then
                begin
                   dec(FCentities[PPentCnt].E_spm[PPspmCnt].SPMS_bLvl);
@@ -1224,16 +1225,16 @@ begin
             else if not PPpostSVoverride
             then
             begin
-               if (FCentities[PPentCnt].E_spm[PPspmCnt].SPMS_bLvl=dgUnknown)
+               if (FCentities[PPentCnt].E_spm[PPspmCnt].SPMS_bLvl=blUnknown)
                   and (PPcSV>0)
                   and (PPnSV=0)
                then PPnSV:=PPcSV-round(PPcSV*0.1)
-               else if (FCentities[PPentCnt].E_spm[PPspmCnt].SPMS_bLvl=dgUnknown)
+               else if (FCentities[PPentCnt].E_spm[PPspmCnt].SPMS_bLvl=blUnknown)
                   and (PPcSV>0)
                   and (PPnSV<>0)
                then PPnSV:=PPnSV-round(PPcSV*0.1)
                else if (PPcSV=0)
-                  and (FCentities[PPentCnt].E_spm[PPspmCnt].SPMS_bLvl>dgUnknown)
+                  and (FCentities[PPentCnt].E_spm[PPspmCnt].SPMS_bLvl>blUnknown)
                   and (PPnSV=0)
                then PPnSV:=1;
             end;
