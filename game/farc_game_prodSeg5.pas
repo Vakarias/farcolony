@@ -88,7 +88,7 @@ begin
          begin
             CABTSPinfraIdx:=FCentities[CABTSPent].E_col[CABTSPcol].COL_cabQueue[CABTSPcntSet, CABTSPcntIdx];
             case FCentities[CABTSPent].E_col[CABTSPcol].COL_settlements[CABTSPcntSet].CS_infra[CABTSPinfraIdx].CI_status of
-               istInConversion:
+               isInConversion:
                begin
                   inc(FCentities[CABTSPent].E_col[CABTSPcol].COL_settlements[CABTSPcntSet].CS_infra[CABTSPinfraIdx].CI_cabWorked);
                   if FCentities[CABTSPent].E_col[CABTSPcol].COL_settlements[CABTSPcntSet].CS_infra[CABTSPinfraIdx].CI_cabWorked
@@ -102,7 +102,7 @@ begin
                      );
                end;
 
-               istInAssembling:
+               isInAssembling:
                begin
                   inc(FCentities[CABTSPent].E_col[CABTSPcol].COL_settlements[CABTSPcntSet].CS_infra[CABTSPinfraIdx].CI_cabWorked);
                   if FCentities[CABTSPent].E_col[CABTSPcol].COL_settlements[CABTSPcntSet].CS_infra[CABTSPinfraIdx].CI_cabWorked
@@ -117,7 +117,7 @@ begin
                      );
                end;
 
-               istInBldSite:
+               isInBluidingSite:
                begin
                   inc(FCentities[CABTSPent].E_col[CABTSPcol].COL_settlements[CABTSPcntSet].CS_infra[CABTSPinfraIdx].CI_cabWorked);
                   if FCentities[CABTSPent].E_col[CABTSPcol].COL_settlements[CABTSPcntSet].CS_infra[CABTSPinfraIdx].CI_cabWorked
@@ -132,7 +132,7 @@ begin
                      );
                end;
 
-               istInTransition:
+               isInTransition:
                begin
                   if FCentities[CABTSPent].E_col[CABTSPcol].COL_settlements[CABTSPcntSet].CS_infra[CABTSPinfraIdx].CI_cabDuration=-1
                   then FCMgICS_TransitionRule_Process(

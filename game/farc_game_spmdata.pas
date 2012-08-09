@@ -79,7 +79,7 @@ function FCFgSPMD_GlobalData_Get(
 ///   retrieve the status level token
 ///</summary>
 ///   <param name="LGTlevel">status level</param>
-function FCFgSPMD_Level_GetToken(const LGTlevel: TFCEfacStat): string;
+function FCFgSPMD_Level_GetToken(const LGTlevel: TFCEdgPlayerFactionStatus): string;
 
 ///<summary>
 ///   centralize all player's faction status rules, return true/false in response of a rule
@@ -213,17 +213,17 @@ begin
    end; //==END== if GDGmax>0 ==//
 end;
 
-function FCFgSPMD_Level_GetToken(const LGTlevel: TFCEfacStat): string;
+function FCFgSPMD_Level_GetToken(const LGTlevel: TFCEdgPlayerFactionStatus): string;
 {:Purpose: retrieve the status level token.
     Additions:
 }
 begin
    Result:='';
    case LGTlevel of
-      fs0NViable: Result:='cpsStatNV';
-      fs1StabFDep: Result:='cpsStatFD';
-      fs2DepVar: Result:='cpsStatSD';
-      fs3Indep: Result:='cpsStatFI';
+      pfs0_NotViable: Result:='cpsStatNV';
+      pfs1_FullyDependent: Result:='cpsStatFD';
+      pfs2_SemiDependent: Result:='cpsStatSD';
+      pfs3_Independent: Result:='cpsStatFI';
    end;
 end;
 
@@ -239,17 +239,17 @@ begin
    case PSARaskIf of
       gmspmdCanChangeEcoSys:
       begin
-         if FCRplayer.P_ecoStat=fs3Indep
+         if FCRplayer.P_ecoStat=pfs3_Independent
          then PSARres:=true;
       end;
       gmspmdCanChangeGvt, gmspmdCanChangeHealth, gmspmdCanChangeRelig:
       begin
-         if FCRplayer.P_socStat=fs3Indep
+         if FCRplayer.P_socStat=pfs3_Independent
          then PSARres:=true;
       end;
       gmspmdCanEnfPolicies:
       begin
-         if FCRplayer.P_socStat>=fs2DepVar
+         if FCRplayer.P_socStat>=pfs2_SemiDependent
          then PSARres:=true;
       end;
    end;

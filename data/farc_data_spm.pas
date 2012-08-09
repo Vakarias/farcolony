@@ -32,24 +32,176 @@ interface
 
 //use
 
-{:REFERENCES LIST
-   - factionsdb.xml
-   - FCMdF_DBFactions_Read
-   - FCFgSPM_Meme_GetSVRange
+{.SPM areas list}
+   {:DEV NOTES: update spmdb.xml + FCMdF_DBSPMi_Read.}
+   type TFCEdgSPMarea=(
+      {.Administration (or ADMIN)}
+      dgADMIN
+      {.Economy (ECON)}
+      ,dgECON
+      {.Medical Care (MEDCA)}
+      ,dgMEDCA
+      {.Society (SOC)}
+      ,dgSOC
+      {.Space Politics (SPOL)}
+      ,dgSPOL
+      {.Spirituality (SPI)}
+      ,dgSPI
+      );
+
+       {.SPMi requirements}
+   {:DEV NOTES: update spmdb.xml + FCMdF_DBSPMi_Read.}
+   type TFCEdgSPMiReq=(
+      dgBuilding
+      ,dgFacData
+      ,dgTechSci
+      ,dgUC
+      );
+
+       {.SPMi requirement types for faction data requirement}
+   {:DEV NOTES: update spmdb.xml + FCMdF_DBSPMi_Read.}
+   type TFCEdgSPMiReqFDat=(
+      rfdFacLv1
+      ,rfdFacLv2
+      ,rfdFacLv3
+      ,rfdFacLv4
+      ,rfdFacLv5
+      ,rfdFacLv6
+      ,rfdFacLv7
+      ,rfdFacLv8
+      ,rfdFacLv9
+      ,rfdFacStab
+      ,rfdInstrLv
+      ,rfdLifeQ
+      ,rfdEquil
+      );
+
+      {.SPMi requirement types for UC requirement}
+   {:DEV NOTES: update spmdb.xml + FCMdF_DBSPMi_Read.}
+   type TFCEdgSPMiReqUC=(
+      {.fixed value}
+      dgFixed
+      ,dgFixed_yr
+      {.calculation - population}
+      ,dgCalcPop
+      ,dgCalcPop_yr
+      {.calculation - colonies}
+      ,dgCalcCol
+      ,dgCalcCol_yr
+      );
+
+      {:REFERENCES LIST
+   - spmdb.xml
+   - TFCRdgCustomEffect
 }
 ///<summary>
-///   meme's belief levels
+///   SPMi custom effects
 ///</summary>
-type TFCEdspmBeliefLevels=(
-   blUnknown
-   ,blFleeting
-   ,blUncommon
-   ,blCommon
-   ,blStrong
-   ,blKnownByAll
+type TFCEdgSPMiCustomEffects=(
+   sceEIOUT
+   ,sceREVTX
    );
 
 //==END PUBLIC ENUM=========================================================================
+
+{.SPMi influences sub-data structure}
+   type TFCRdgSPMiInfl= record
+      {.token of the SPMi}
+      SPMII_token: string[20];
+      {.influence factor}
+      SPMII_influence: integer;
+   end;
+
+{.SPMi requirements sub-data structure}
+   {:DEV NOTES: update spmdb.xml + FCMdF_DBSPMi_Read.}
+   type TFCRdgSPMiReq= record
+      case SPMIR_type: TFCEdgSPMiReq of
+         {.building requirement}
+         dgBuilding:
+            {.infrastructure token}
+            (SPMIR_infToken: string[20];
+            {.percent of colonies which have one}
+            SPMIR_percCol: integer);
+         {.faction data requirement}
+         dgFacData:
+            (SPMIR_datTp: TFCEdgSPMiReqFDat;
+            SPMIR_datValue: integer);
+         {.technoscience requirement}
+         dgTechSci:
+            {.technoscience token}
+            (SPMIR_tsToken: string[20];
+            {.mastered level}
+            SPMIR_masterLvl: integer);
+         {.UC requirement}
+         dgUC:
+            {.technoscience token}
+            (SPMIR_ucMethod: TFCEdgSPMiReqUC;
+            {.mastered level}
+            SPMIR_ucVal: extended);
+   end;
+   {.SPMi custom effects data structure}
+   {:DEV NOTES: update spmdb.xml + FCMdF_DBSPMi_Read + FCMgSPMCFX_Core_Setup and related subroutines}
+   type TFCRdgCustomEffect= record
+      case CFX_code: TFCEdgSPMiCustomEffects of
+         sceEIOUT: (
+            CFX_eioutMod: integer;
+            CFX_eioutIsBurMod: boolean
+            );
+         sceREVTX: (CFX_revtxCoef: extended);
+   end;
+
+    {.SPM HQ structures}
+   {:DEV NOTES: update spmdb.xml + FCMdF_DBSPMi_Read.}
+   type TFCEdgSPMhqStr=(
+      {.centralized}
+      dgCentral
+      {.clustered}
+      ,dgClust
+      {.corporative}
+      ,dgCorpo
+      {.federative}
+      ,dgFed
+      );
+   {.SPM items}
+   {:DEV NOTES: update FCMdF_DBSPMi_Read.}
+   type TFCRdgSPMi= record
+      {.unique token}
+      SPMI_token: string[20];
+      {.area in which the item is linked to}
+      SPMI_area: TFCEdgSPMarea;
+      {.true= unique: only one of this kind can be set in the area}
+      SPMI_isUnique2set: boolean;
+      {.requirements}
+      SPMI_req: array of TFCRdgSPMiReq;
+      {.influences}
+      SPMI_infl: array of TFCRdgSPMiInfl;
+      {.mod-cohesion}
+      SPMI_modCohes: integer;
+      {.mod-tension}
+      SPMI_modTens: integer;
+      {.mod-security}
+      SPMI_modSec: integer;
+      {.mod-education}
+      SPMI_modEdu: integer;
+      {.mod-natality}
+      SPMI_modNat: integer;
+      {.mod-health}
+      SPMI_modHeal: integer;
+      {.mod-bureaucracy}
+      SPMI_modBur: integer;
+      {.mod-corruption}
+      SPMI_modCorr: integer;
+      {.custom effects}
+      SPMI_customFxList: array of TFCRdgCustomEffect;
+      {.policy sub datastructure}
+      case SPMI_isPolicy: boolean of
+         true:
+            {.HQ structure}
+            (SPMI_hqStruc: TFCEdgSPMhqStr;
+            SPMI_hqRTM: integer);
+   end;
+      {.SPMi dynamic array}
+      TFCDBdgSPMi = array of TFCRdgSPMi;
 
 //==END PUBLIC RECORDS======================================================================
 

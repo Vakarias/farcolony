@@ -769,8 +769,8 @@ begin
                               inc(GLinfCnt);
                               FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra[GLinfCnt].CI_dbToken:=GLxmlInfra.Attributes['token'];
                               FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra[GLinfCnt].CI_level:=GLxmlInfra.Attributes['level'];
-                              GLenumIndex:=GetEnumValue(TypeInfo(TFCEdgInfStatTp), GLxmlInfra.Attributes['status'] );
-                              FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra[GLinfCnt].CI_status:=TFCEdgInfStatTp(GLenumIndex);
+                              GLenumIndex:=GetEnumValue(TypeInfo(TFCEdgInfrastructureStatus), GLxmlInfra.Attributes['status'] );
+                              FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra[GLinfCnt].CI_status:=TFCEdgInfrastructureStatus(GLenumIndex);
                               if GLenumIndex=-1
                               then raise Exception.Create('bad gamesave loading w/infra status: '+GLxmlInfra.Attributes['status']);
                               FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra[GLinfCnt].CI_cabDuration:=GLxmlInfra.Attributes['CABduration'];
@@ -1628,15 +1628,14 @@ begin
                      GSxmlColInf.Attributes['token']:=FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_dbToken;
                      GSxmlColInf.Attributes['level']:=FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_level;
                      case FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_status of
-                        istInKit: GSstringStore:='istInKit';
-                        istInConversion: GSstringStore:='istInConversion';
-                        istInAssembling: GSstringStore:='istInAssembling';
-                        istInBldSite: GSstringStore:='istInBldSite';
-                        istDisabled: GSstringStore:='istDisabled';
-                        istDisabledByEE: GSstringStore:='istDisabledByEE';
-                        istInTransition: GSstringStore:='istInTransition';
-                        istOperational: GSstringStore:='istOperational';
-                        istDestroyed: GSstringStore:='istDestroyed';
+                        isInKit: GSstringStore:='istInKit';
+                        isInConversion: GSstringStore:='istInConversion';
+                        isInAssembling: GSstringStore:='istInAssembling';
+                        isInBluidingSite: GSstringStore:='istInBldSite';
+                        isDisabled: GSstringStore:='istDisabled';
+                        isDisabledByEnergyEquilibrium: GSstringStore:='istDisabledByEE';
+                        isInTransition: GSstringStore:='istInTransition';
+                        isOperational: GSstringStore:='istOperational';
                      end;
                      GSxmlColInf.Attributes['status']:=GSstringStore;
                      GSxmlColInf.Attributes['CABduration']:=FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_cabDuration;

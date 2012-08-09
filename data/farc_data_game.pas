@@ -37,6 +37,23 @@ uses
    ,farc_data_univ
    ,farc_game_cpsobjectives;
 
+{:REFERENCES LIST
+   - factionsdb.xml
+   - FCMdF_DBFactions_Read
+   - FCFgSPM_Meme_GetSVRange
+}
+///<summary>
+///   meme's belief levels
+///</summary>
+type TFCEdgBeliefLevels=(
+   blUnknown
+   ,blFleeting
+   ,blUncommon
+   ,blCommon
+   ,blStrong
+   ,blKnownByAll
+   );
+
 ///<summary>
 ///   colony levels
 ///</summary>
@@ -97,16 +114,66 @@ type TFCEdgColonyEvents=(
    );
 
 {:REFERENCES LIST
-   - spmdb.xml
-   - TFCRdgCustomEffect
+   - factionsdb.xml
+   - FCMdF_DBFactions_Read
+   - FCMgNG_Core_Proceed
 }
 ///<summary>
-///   SPMi custom effects
+///   list of faction's equipment item types
 ///</summary>
-type TFCEdgSPMiCustomEffects=(
-   sceEIOUT
-   ,sceREVTX
+type TFCEdgFactionEquipItemTypes=(
+   feitProduct
+   ,feitSpaceUnit
    );
+
+{:REFERENCES LIST
+   - FCFgC_HQ_GetStr
+}
+///<summary>
+///   HQ status list
+///</summary>
+type TFCEdgHeadQuarterStatus=(
+   hqsNoHQPresent
+   ,hqsBasicHQ
+   ,hqsSecondaryHQ
+   ,hqsPrimaryUniqueHQ
+   );
+
+{:REFERENCES LIST
+   - FCFgInf_Status_GetToken
+   - FCMdF_Game_Load
+   - FCMdF_Game_Save
+   - FCMuiCDP_Data_Update / dtInfra
+}
+///<summary>
+///   owned infrastructure status list
+///</summary>
+type TFCEdgInfrastructureStatus=(
+   isInKit
+   ,isInConversion
+   ,isInAssembling
+   ,isInBluidingSite
+   ,isDisabled
+   ,isDisabledByEnergyEquilibrium
+   ,isInTransition
+   ,isOperational
+   );
+
+{:REFERENCES LIST
+   - FCFgSPMD_Level_GetToken
+}
+///<summary>
+///   player's faction status
+///</summary>
+type TFCEdgPlayerFactionStatus=(
+   pfs0_NotViable
+   ,pfs1_FullyDependent
+   ,pfs2_SemiDependent
+   ,pfs3_Independent
+   );
+
+
+
 
 //==END PUBLIC ENUM=========================================================================
 
@@ -125,54 +192,10 @@ type TFCEdgSPMiCustomEffects=(
 
 
 
-   {.list of faction equipment item types}
-   {:DEV NOTES: update factionsdbxml + FCMdF_DBFactions_Read + FCMgNG_Core_Proceed}
-   type TFCEdgFactionEquipItemType=(
-      {.product equipment item}
-      feitProduct
-      {.spacecraft equipment item}
-      ,feitSpaceUnit
-      );
-   {.player's faction status}
-   {:DEV NOTES: update FCFgSPMD_Level_GetToken.}
-   type TFCEfacStat=(
-      fs0NViable
-      ,fs1StabFDep
-      ,fs2DepVar
-      ,fs3Indep
-      );
-   {.hq status list}
-   {:DEV NOTES: update ui.xml + game_colony/FCFgC_HQ_GetStr.}
-   type TFCEdgHQstatus=(
-      {.no HQ present}
-      dgNoHQ
-      {.basic HQ, as for Colonization Shelter, present}
-      ,dgBasicHQ
-      {.secondary HQ present}
-      ,dgSecHQ
-      {.primary/unique HQ present}
-      ,dgPriUnHQ
-      );
-   {.owned infrastructure status list}
-   {:DEV NOTES: update FCMdF_Game_Save/FCMdF_Game_Load + FCFgInf_Status_GetToken + FCMuiCDP_Data_Update / dtInfra.}
-   type TFCEdgInfStatTp=(
-      {.in kit}
-      istInKit
-      {.in conversion, for LV space unit}
-      ,istInConversion
-      {.assembling, for construction kits infra}
-      ,istInAssembling
-      {.in building site, for standard infra}
-      ,istInBldSite
-      {.disabled, the infrastructure is ok but disabled by the player or events}
-      ,istDisabled
-      {.disabled by the energy equilibrium rule}
-      ,istDisabledByEE
-      {.in transition to operational state}
-      ,istInTransition
-      ,istOperational
-      ,istDestroyed
-      );
+
+
+
+
    {.settlement types}
    {:DEV NOTES: update FCMdF_Game_Save/FCMdF_Game_Load + FCMuiWin_UI_Upd w/FCWMS_Grp_MCG_SetType + FCFgICS_InfraLevel_Setup.}
    type TFCEdgSettleType=(
@@ -181,72 +204,11 @@ type TFCEdgSPMiCustomEffects=(
       ,stSubterranean
       ,stSpaceBased
       );
-   {.SPM areas list}
-   {:DEV NOTES: update spmdb.xml + FCMdF_DBSPMi_Read.}
-   type TFCEdgSPMarea=(
-      {.Administration (or ADMIN)}
-      dgADMIN
-      {.Economy (ECON)}
-      ,dgECON
-      {.Medical Care (MEDCA)}
-      ,dgMEDCA
-      {.Society (SOC)}
-      ,dgSOC
-      {.Space Politics (SPOL)}
-      ,dgSPOL
-      {.Spirituality (SPI)}
-      ,dgSPI
-      );
-   {.SPM HQ structures}
-   {:DEV NOTES: update spmdb.xml + FCMdF_DBSPMi_Read.}
-   type TFCEdgSPMhqStr=(
-      {.centralized}
-      dgCentral
-      {.clustered}
-      ,dgClust
-      {.corporative}
-      ,dgCorpo
-      {.federative}
-      ,dgFed
-      );
-   {.SPMi requirements}
-   {:DEV NOTES: update spmdb.xml + FCMdF_DBSPMi_Read.}
-   type TFCEdgSPMiReq=(
-      dgBuilding
-      ,dgFacData
-      ,dgTechSci
-      ,dgUC
-      );
-   {.SPMi requirement types for faction data requirement}
-   {:DEV NOTES: update spmdb.xml + FCMdF_DBSPMi_Read.}
-   type TFCEdgSPMiReqFDat=(
-      rfdFacLv1
-      ,rfdFacLv2
-      ,rfdFacLv3
-      ,rfdFacLv4
-      ,rfdFacLv5
-      ,rfdFacLv6
-      ,rfdFacLv7
-      ,rfdFacLv8
-      ,rfdFacLv9
-      ,rfdFacStab
-      ,rfdInstrLv
-      ,rfdLifeQ
-      ,rfdEquil
-      );
-   {.SPMi requirement types for UC requirement}
-   {:DEV NOTES: update spmdb.xml + FCMdF_DBSPMi_Read.}
-   type TFCEdgSPMiReqUC=(
-      {.fixed value}
-      dgFixed
-      ,dgFixed_yr
-      {.calculation - population}
-      ,dgCalcPop
-      ,dgCalcPop_yr
-      {.calculation - colonies}
-      ,dgCalcCol
-      ,dgCalcCol_yr
-      );
+   
+  
+
+
+   
    {.space unit attitude status}
    {:DEV NOTES: update factionsdb.xml}
    {:DEV NOTES: update TFCRfacDotationItem w/ status comment.}
@@ -406,7 +368,7 @@ type TFCEdgSPMiCustomEffects=(
       {.current level}
       CI_level: integer;
       {.current status}
-      CI_status: TFCEdgInfStatTp;
+      CI_status: TFCEdgInfrastructureStatus;
       {.CAB duration and worked}
       CI_cabDuration: integer;
       CI_cabWorked: integer;
@@ -611,7 +573,7 @@ type TFCEdgSPMiCustomEffects=(
       {.colony level}
       COL_level: TFCEdgColonyLevels;
       {.HQ presence}
-      COL_hqPres: TFCEdgHQstatus;
+      COL_hqPres: TFCEdgHeadQuarterStatus;
       {.cohesion}
       COL_cohes: integer;
       {.security}
@@ -691,18 +653,12 @@ type TFCEdgSPMiCustomEffects=(
       CSMT_col: array[0..FCCdiFactionsMax] of array of integer;
    end;
    TFCcsmPhaseL = array of TFCRdgCSMtest;
-   {.SPMi influences sub-data structure}
-   type TFCRdgSPMiInfl= record
-      {.token of the SPMi}
-      SPMII_token: string[20];
-      {.influence factor}
-      SPMII_influence: integer;
-   end;
+
    {equipment list item datastructure}
    {:DEV NOTE: update FCMdFiles_DBFactions_Read + FCMgNG_ColMode_Upd.}
    type TFCRdgFactCMEquipItm = record
       {type of dotation item}
-      case FCMEI_itemType: TFCEdgFactionEquipItemType of
+      case FCMEI_itemType: TFCEdgFactionEquipItemTypes of
          feitProduct:
             (
                {.product token related to the item}
@@ -766,7 +722,7 @@ type TFCEdgSPMiCustomEffects=(
             {.acceptance value}
             SPMS_aprob: integer);
          false:
-            (SPMS_bLvl: TFCEdspmBeliefLevels;
+            (SPMS_bLvl: TFCEdgBeliefLevels;
             SPMS_sprdVal: integer);
    end;
    {starting location item}
@@ -804,13 +760,13 @@ type TFCEdgSPMiCustomEffects=(
       {.token id of faction the player belongs to, if fullInd then = 'null'}
       P_facAlleg: string[20];
       {.economic status}
-      P_ecoStat: TFCEfacStat;
+      P_ecoStat: TFCEdgPlayerFactionStatus;
       P_viabThrEco: integer;
       {.social status}
-      P_socStat: TFCEfacStat;
+      P_socStat: TFCEdgPlayerFactionStatus;
       P_viabThrSoc: integer;
       {.military status}
-      P_milStat: TFCEfacStat;
+      P_milStat: TFCEdgPlayerFactionStatus;
       P_viabThrSpMil: integer;
       {.3d view focus location - star system token id}
       P_starSysLoc: string[20];
@@ -859,83 +815,7 @@ type TFCEdgSPMiCustomEffects=(
          end;
       end;
    end;
-   {.SPMi requirements sub-data structure}
-   {:DEV NOTES: update spmdb.xml + FCMdF_DBSPMi_Read.}
-   type TFCRdgSPMiReq= record
-      case SPMIR_type: TFCEdgSPMiReq of
-         {.building requirement}
-         dgBuilding:
-            {.infrastructure token}
-            (SPMIR_infToken: string[20];
-            {.percent of colonies which have one}
-            SPMIR_percCol: integer);
-         {.faction data requirement}
-         dgFacData:
-            (SPMIR_datTp: TFCEdgSPMiReqFDat;
-            SPMIR_datValue: integer);
-         {.technoscience requirement}
-         dgTechSci:
-            {.technoscience token}
-            (SPMIR_tsToken: string[20];
-            {.mastered level}
-            SPMIR_masterLvl: integer);
-         {.UC requirement}
-         dgUC:
-            {.technoscience token}
-            (SPMIR_ucMethod: TFCEdgSPMiReqUC;
-            {.mastered level}
-            SPMIR_ucVal: extended);
-   end;
-   {.SPMi custom effects data structure}
-   {:DEV NOTES: update spmdb.xml + FCMdF_DBSPMi_Read + FCMgSPMCFX_Core_Setup and related subroutines}
-   type TFCRdgCustomEffect= record
-      case CFX_code: TFCEdgSPMiCustomEffects of
-         sceEIOUT: (
-            CFX_eioutMod: integer;
-            CFX_eioutIsBurMod: boolean
-            );
-         sceREVTX: (CFX_revtxCoef: extended);
-   end;
-   {.SPM items}
-   {:DEV NOTES: update FCMdF_DBSPMi_Read.}
-   type TFCRdgSPMi= record
-      {.unique token}
-      SPMI_token: string[20];
-      {.area in which the item is linked to}
-      SPMI_area: TFCEdgSPMarea;
-      {.true= unique: only one of this kind can be set in the area}
-      SPMI_isUnique2set: boolean;
-      {.requirements}
-      SPMI_req: array of TFCRdgSPMiReq;
-      {.influences}
-      SPMI_infl: array of TFCRdgSPMiInfl;
-      {.mod-cohesion}
-      SPMI_modCohes: integer;
-      {.mod-tension}
-      SPMI_modTens: integer;
-      {.mod-security}
-      SPMI_modSec: integer;
-      {.mod-education}
-      SPMI_modEdu: integer;
-      {.mod-natality}
-      SPMI_modNat: integer;
-      {.mod-health}
-      SPMI_modHeal: integer;
-      {.mod-bureaucracy}
-      SPMI_modBur: integer;
-      {.mod-corruption}
-      SPMI_modCorr: integer;
-      {.custom effects}
-      SPMI_customFxList: array of TFCRdgCustomEffect;
-      {.policy sub datastructure}
-      case SPMI_isPolicy: boolean of
-         true:
-            {.HQ structure}
-            (SPMI_hqStruc: TFCEdgSPMhqStr;
-            SPMI_hqRTM: integer);
-   end;
-      {.SPMi dynamic array}
-      TFCDBdgSPMi = array of TFCRdgSPMi;
+   
    type TFCRdgSPUdocked = record
       {.unique token id of the docked space unit}
       SUD_dckdToken: string[20];
@@ -989,7 +869,7 @@ type TFCEdgSPMiCustomEffects=(
       E_bureau: integer;
       E_corrupt: integer;
       {.higher hq level present in the faction}
-      E_hqHigherLvl: TFCEdgHQstatus;
+      E_hqHigherLvl: TFCEdgHeadQuarterStatus;
       E_uc: extended;
       {.owned space units sub data structure}
       E_spU: array of TFCRdgSPUowned;
@@ -1140,7 +1020,7 @@ begin
       FCentities[ECcnt].E_facLvl:=0;
       FCentities[ECcnt].E_bureau:=0;
       FCentities[ECcnt].E_corrupt:=0;
-      FCentities[ECcnt].E_hqHigherLvl:=dgNoHQ;
+      FCentities[ECcnt].E_hqHigherLvl:=hqsNoHQPresent;
       FCentities[ECcnt].E_uc:=0;
       SetLength(FCentities[ECcnt].E_spU, 0);
       SetLength(FCentities[ECcnt].E_col, 0);

@@ -108,8 +108,8 @@ begin
       EERLLinfraCnt:=1;
       while EERLLinfraCnt<=EERLLinfraMax do
       begin
-         if  ( ( EERLLisShortageMode ) and ( FCentities[EERLLent].E_col[EERLLcol].COL_settlements[EERLLSetCnt].CS_infra[EERLLinfraCnt].CI_status=istOperational ) )
-            or ( ( not EERLLisShortageMode ) and ( FCentities[EERLLent].E_col[EERLLcol].COL_settlements[EERLLSetCnt].CS_infra[EERLLinfraCnt].CI_status=istDisabledByEE ) ) then
+         if  ( ( EERLLisShortageMode ) and ( FCentities[EERLLent].E_col[EERLLcol].COL_settlements[EERLLSetCnt].CS_infra[EERLLinfraCnt].CI_status=isOperational ) )
+            or ( ( not EERLLisShortageMode ) and ( FCentities[EERLLent].E_col[EERLLcol].COL_settlements[EERLLSetCnt].CS_infra[EERLLinfraCnt].CI_status=isDisabledByEnergyEquilibrium ) ) then
          begin
             if FCentities[EERLLent].E_col[EERLLcol].COL_settlements[EERLLSetCnt].CS_infra[EERLLinfraCnt].CI_function=fProduction
             then

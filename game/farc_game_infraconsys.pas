@@ -312,7 +312,7 @@ begin
          while ICWPCsettIdxCnt<=ICWPCsettIdxMax do
          begin
             ICWPCinfraIndex:=FCentities[ICWPCent].E_col[ICWPCcol].COL_cabQueue[ICWPCsettCnt, ICWPCsettIdxCnt];
-            if FCentities[ICWPCent].E_col[ICWPCcol].COL_settlements[ICWPCsettCnt].CS_infra[ICWPCinfraIndex].CI_status<>istInConversion
+            if FCentities[ICWPCent].E_col[ICWPCcol].COL_settlements[ICWPCsettCnt].CS_infra[ICWPCinfraIndex].CI_status<>isInConversion
             then ICWPCsumLvl:=ICWPCsumLvl+FCentities[ICWPCent].E_col[ICWPCcol].COL_settlements[ICWPCsettCnt].CS_infra[ICWPCinfraIndex].CI_level;
             inc( ICWPCsettIdxCnt );
          end;
@@ -409,7 +409,7 @@ begin
       ,APclonedInfra.I_maxLevel
       ,FCentities[APent].E_col[APcol].COL_settlements[APsettlement].CS_level
       );
-   FCentities[APent].E_col[APcol].COL_settlements[APsettlement].CS_infra[APinfraIndex].CI_status:=istInAssembling;
+   FCentities[APent].E_col[APcol].COL_settlements[APsettlement].CS_infra[APinfraIndex].CI_status:=isInAssembling;
    FCentities[APent].E_col[APcol].COL_settlements[APsettlement].CS_infra[APinfraIndex].CI_function:=APclonedInfra.I_function;
 	FCentities[APent].E_col[APcol].COL_settlements[APsettlement].CS_infra[APinfraIndex].CI_cabDuration:=APduration;
    FCentities[APent].E_col[APcol].COL_settlements[APsettlement].CS_infra[APinfraIndex].CI_cabWorked:=0;
@@ -492,7 +492,7 @@ begin
       ,BPclonedInfra.I_maxLevel
       ,FCentities[BPent].E_col[BPcol].COL_settlements[BPsettlement].CS_level
       );
-   FCentities[BPent].E_col[BPcol].COL_settlements[BPsettlement].CS_infra[BPinfraIndex].CI_status:=istInBldSite;
+   FCentities[BPent].E_col[BPcol].COL_settlements[BPsettlement].CS_infra[BPinfraIndex].CI_status:=isInBluidingSite;
    FCentities[BPent].E_col[BPcol].COL_settlements[BPsettlement].CS_infra[BPinfraIndex].CI_function:=BPclonedInfra.I_function;
    FCentities[BPent].E_col[BPcol].COL_settlements[BPsettlement].CS_infra[BPinfraIndex].CI_cabDuration:=BPduration;
    FCentities[BPent].E_col[BPcol].COL_settlements[BPsettlement].CS_infra[BPinfraIndex].CI_cabWorked:=0;
@@ -630,7 +630,7 @@ procedure FCMgICS_Conversion_PostProcess(
       -2011Sep09- *add: routine completion.
 }
 begin
-   FCentities[ICPPent].E_col[ICPPcol].COL_settlements[ICPPsettlement].CS_infra[ICPPinfra].CI_status:=istOperational;
+   FCentities[ICPPent].E_col[ICPPcol].COL_settlements[ICPPsettlement].CS_infra[ICPPinfra].CI_status:=isOperational;
    FCentities[ICPPent].E_col[ICPPcol].COL_cabQueue[ICPPsettlement, ICPPcabQueueIndex]:=0;
 end;
 
@@ -708,7 +708,7 @@ begin
    ICPvol:=12867;
    ICPsurf:=round(sqr(power(ICPvol,0.333)));
    FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra[ICPinfra].CI_level:=1;
-   FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra[ICPinfra].CI_status:=istInConversion;
+   FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra[ICPinfra].CI_status:=isInConversion;
    FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra[ICPinfra].CI_function:=fHousing;
    {:DEV NOTES: hardcoded value for population capacity and quality of life data, will be dynamic in the future.}
    FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra[ICPinfra].CI_fhousPCAP:=30;
@@ -934,7 +934,7 @@ procedure FCMgICS_TransitionRule_Process(
       if (TRPinfraData.I_function=fProduction)
          and (FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_cabWorked>-1) then
       begin
-         FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_status:=istInTransition;
+         FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_status:=isInTransition;
          FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_cabDuration:=FCCdipTransitionTime;
          FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_cabWorked:=-1;
          if TRPcabIdx=0
@@ -947,7 +947,7 @@ procedure FCMgICS_TransitionRule_Process(
       end
       else
       begin
-         FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_status:=istOperational;
+         FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_status:=isOperational;
          FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_cabDuration:=0;
          FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_cabWorked:=0;
          FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_powerCons
@@ -1001,7 +1001,7 @@ begin
       then TRP_ProductionDelay_Process
       else if TRPstaff.POP_total>0 then
       begin
-         FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_status:=istInTransition;
+         FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_status:=isInTransition;
          FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_cabDuration:=-1;
          if TRPcabIdx=0
          then FCMgICS_CAB_Add(

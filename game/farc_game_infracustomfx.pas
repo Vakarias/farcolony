@@ -39,7 +39,7 @@ uses
 ///   search if a given infrastructure has an HeadQuarter custom effect and return the level if there's any
 ///</summary>
 ///   <param name="EHQSinfra">infrastructure to examine</param>
-function FCFgICFX_EffectHQ_Search( const EHQSinfra: TFCRdipInfrastructure ): TFCEdgHQstatus;
+function FCFgICFX_EffectHQ_Search( const EHQSinfra: TFCRdipInfrastructure ): TFCEdgHeadQuarterStatus;
 
 ///<summary>
 ///   search if a given infrastructure has a custom effect Product Storage that contain liquid storage
@@ -92,7 +92,7 @@ uses
 
 //===================================================END OF INIT============================
 
-function FCFgICFX_EffectHQ_Search( const EHQSinfra: TFCRdipInfrastructure ): TFCEdgHQstatus;
+function FCFgICFX_EffectHQ_Search( const EHQSinfra: TFCRdipInfrastructure ): TFCEdgHeadQuarterStatus;
 {:Purpose: search if a given infrastructure has an HeadQuarter custom effect and return the level if there's any.
     Additions:
 }
@@ -100,7 +100,7 @@ function FCFgICFX_EffectHQ_Search( const EHQSinfra: TFCRdipInfrastructure ): TFC
       EHQScfxCnt
       ,EHQScfxMax: integer;
 begin
-   Result:=dgNoHQ;
+   Result:=hqsNoHQPresent;
    EHQScfxMax:=Length(EHQSinfra.I_customEffectStructure)-1;
    EHQScfxCnt:=1;
    while EHQScfxCnt<=EHQScfxMax do
@@ -108,19 +108,19 @@ begin
       case EHQSinfra.I_customEffectStructure[EHQScfxCnt].ICFX_customEffect of
          ceHeadQuarterBasic:
          begin
-            Result:=dgBasicHQ;
+            Result:=hqsBasicHQ;
             Break;
          end;
 
          ceHeadQuarterSecondary:
          begin
-            Result:=dgSecHQ;
+            Result:=hqsSecondaryHQ;
             Break;
          end;
 
          ceHeadQuarterPrimary:
          begin
-            Result:=dgPriUnHQ;
+            Result:=hqsPrimaryUniqueHQ;
             Break;
          end;
       end;
@@ -221,19 +221,19 @@ begin
          ceHeadQuarterBasic: FCMgC_HQ_Set(
             EAent
             ,EAcolony
-            ,dgBasicHQ
+            ,hqsBasicHQ
             );
 
          ceHeadQuarterSecondary: FCMgC_HQ_Set(
             EAent
             ,EAcolony
-            ,dgSecHQ
+            ,hqsSecondaryHQ
             );
 
          ceHeadQuarterPrimary: FCMgC_HQ_Set(
             EAent
             ,EAcolony
-            ,dgPriUnHQ
+            ,hqsPrimaryUniqueHQ
             );
 
          ceProductStorage:

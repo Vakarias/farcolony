@@ -31,8 +31,7 @@ unit farc_game_spmmemes;
 interface
 
 uses
-   farc_data_game
-   ,farc_data_spm;
+   farc_data_game;
 
 type
    GSPMMret= array[0..2] of integer;
@@ -41,7 +40,7 @@ type
 ///   returns the BL modifier regarding the given belief level
 ///</summary>
 ///   <param name="BLMGbl">belief level</param>
-function FCFgSPMM_BLMod_Get(const BLMGbl: TFCEdspmBeliefLevels): extended;
+function FCFgSPMM_BLMod_Get(const BLMGbl: TFCEdgBeliefLevels): extended;
 
 ///<summary>
 ///   returns requirements margin modifier value
@@ -62,7 +61,7 @@ function FCFgSPMM_Req_DoTest(
 ///   returns min and max SV values regarding the given belief level
 ///</summary>
 ///   <param name="SVRGbl">belief level</param>
-function FCFgSPMM_SVRange_Get(const SVRGbl: TFCEdspmBeliefLevels): GSPMMret;
+function FCFgSPMM_SVRange_Get(const SVRGbl: TFCEdgBeliefLevels): GSPMMret;
 
 //===========================END FUNCTIONS SECTION==========================================
 ///<summary>
@@ -80,7 +79,8 @@ procedure FCMgSPMM_ModifCustFx_Upd(
 implementation
 
 uses
-   farc_game_colony
+   farc_data_spm
+   ,farc_game_colony
    ,farc_game_csm
    ,farc_game_spm
    ,farc_game_spmdata;
@@ -89,7 +89,7 @@ var
    GSPMMmarginMod: integer;
 
 //===================================================END OF INIT============================
-function FCFgSPMM_BLMod_Get(const BLMGbl: TFCEdspmBeliefLevels): extended;
+function FCFgSPMM_BLMod_Get(const BLMGbl: TFCEdgBeliefLevels): extended;
 {:Purpose: returns the BL modifier regarding the given belief level.
     Additions:
 }
@@ -286,7 +286,7 @@ begin
    Result:=RDTreqPassed;
 end;
 
-function FCFgSPMM_SVRange_Get(const SVRGbl: TFCEdspmBeliefLevels): GSPMMret;
+function FCFgSPMM_SVRange_Get(const SVRGbl: TFCEdgBeliefLevels): GSPMMret;
 {:Purpose: returns min and max SV values regarding the given belief level.
     Additions:
 }

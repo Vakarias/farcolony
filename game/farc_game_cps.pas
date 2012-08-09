@@ -425,28 +425,28 @@ begin
       inc( Count );
    end;
    if StatusEconCount=0
-   then FCRplayer.P_ecoStat:=fs1StabFDep
+   then FCRplayer.P_ecoStat:=pfs1_FullyDependent
    else if StatusEconCount>0 then
    begin
       StatusEconMean:=StatusEconMean div StatusEconCount;
       Outcome:=FCMgCPSO_Outcome_Process( FCRplayer.P_viabThrEco, StatusEconMean);
-      FCRplayer.P_ecoStat:=TFCEfacStat( Outcome );
+      FCRplayer.P_ecoStat:=TFCEdgPlayerFactionStatus( Outcome );
    end;
    if StatusSocCount=0
-   then FCRplayer.P_socStat:=fs1StabFDep
+   then FCRplayer.P_socStat:=pfs1_FullyDependent
    else if StatusSocCount>0 then
    begin
       StatusSocMean:=StatusSocMean div StatusEconCount;
       Outcome:=FCMgCPSO_Outcome_Process( FCRplayer.P_viabThrSoc, StatusSocMean);
-      FCRplayer.P_socStat:=TFCEfacStat( Outcome );
+      FCRplayer.P_socStat:=TFCEdgPlayerFactionStatus( Outcome );
    end;
    if StatusSpMilCount=0
-   then FCRplayer.P_milStat:=fs1StabFDep
+   then FCRplayer.P_milStat:=pfs1_FullyDependent
    else if StatusSpMilCount>0 then
    begin
       StatusSpMilMean:=StatusSpMilMean div StatusSpMilCount;
       Outcome:=FCMgCPSO_Outcome_Process( FCRplayer.P_viabThrSpMil, StatusSpMilMean);
-      FCRplayer.P_milStat:=TFCEfacStat( Outcome );
+      FCRplayer.P_milStat:=TFCEdgPlayerFactionStatus( Outcome );
    end;
    FCVdiGameFlowTimer.Enabled:=false;
    FCWinMain.FCGLScadencer.Enabled:=false;

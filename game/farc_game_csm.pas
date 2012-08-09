@@ -602,7 +602,7 @@ begin
    CDIcol.COL_level:=cl1Outpost;
    {.transfert colony's data and initialize the non calculated data}
    FCentities[CDIfac].E_col[CDIcolIdx].COL_level:=CDIcol.COL_level;
-   FCentities[CDIfac].E_col[CDIcolIdx].COL_hqPres:=dgNoHQ;
+   FCentities[CDIfac].E_col[CDIcolIdx].COL_hqPres:=hqsNoHQPresent;
    FCentities[CDIfac].E_col[CDIcolIdx].COL_cohes:=CDIcol.COL_cohes;
    FCentities[CDIfac].E_col[CDIcolIdx].COL_secu:=0;
    FCentities[CDIfac].E_col[CDIcolIdx].COL_tens:=CDIcol.COL_tens;
@@ -1050,8 +1050,8 @@ begin
                      begin
                         if (FCentities[CDUfac].E_col[CDUcol].COL_settlements[CDUsettleCnt].CS_infra[CDUcnt].CI_function=fHousing)
                            and (
-                              (FCentities[CDUfac].E_col[CDUcol].COL_settlements[CDUsettleCnt].CS_infra[CDUcnt].CI_status=istInConversion)
-                                 or (FCentities[CDUfac].E_col[CDUcol].COL_settlements[CDUsettleCnt].CS_infra[CDUcnt].CI_status=istOperational)
+                              (FCentities[CDUfac].E_col[CDUcol].COL_settlements[CDUsettleCnt].CS_infra[CDUcnt].CI_status=isInConversion)
+                                 or (FCentities[CDUfac].E_col[CDUcol].COL_settlements[CDUsettleCnt].CS_infra[CDUcnt].CI_status=isOperational)
                               )
                         then CDUdatI:=CDUdatI+FCentities[CDUfac].E_col[CDUcol].COL_settlements[CDUsettleCnt].CS_infra[CDUcnt].CI_fhousPCAP;
                         inc(CDUcnt);
@@ -1096,8 +1096,8 @@ begin
                   begin
                      if (FCentities[CDUfac].E_col[CDUcol].COL_settlements[CDUsettleCnt].CS_infra[CDUcnt].CI_function=fHousing)
                         and (
-                           (FCentities[CDUfac].E_col[CDUcol].COL_settlements[CDUsettleCnt].CS_infra[CDUcnt].CI_status=istInConversion)
-                              or (FCentities[CDUfac].E_col[CDUcol].COL_settlements[CDUsettleCnt].CS_infra[CDUcnt].CI_status=istOperational)
+                           (FCentities[CDUfac].E_col[CDUcol].COL_settlements[CDUsettleCnt].CS_infra[CDUcnt].CI_status=isInConversion)
+                              or (FCentities[CDUfac].E_col[CDUcol].COL_settlements[CDUsettleCnt].CS_infra[CDUcnt].CI_status=isOperational)
                            )
                      then
                      begin
@@ -1270,11 +1270,9 @@ begin
          while InfraCount<=InfraMax do
          begin
             if (
-               ( FCentities[ Entity ].E_col[ Colony ].COL_settlements[ SettlementCount ].CS_infra[ InfraCount ].CI_status=istInConversion )
-               or (
-                  ( FCentities[ Entity ].E_col[ Colony ].COL_settlements[ SettlementCount ].CS_infra[ InfraCount ].CI_status>istDisabled )
-                     and ( FCentities[ Entity ].E_col[ Colony ].COL_settlements[ SettlementCount ].CS_infra[ InfraCount ].CI_status<istDestroyed )
-                  )
+               ( FCentities[ Entity ].E_col[ Colony ].COL_settlements[ SettlementCount ].CS_infra[ InfraCount ].CI_status=isInConversion )
+               or ( FCentities[ Entity ].E_col[ Colony ].COL_settlements[ SettlementCount ].CS_infra[ InfraCount ].CI_status=isOperational)
+
                ) then
             begin
                FCentities[ Entity ].E_col[ Colony ].COL_csmENcons

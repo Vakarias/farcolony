@@ -682,13 +682,13 @@ begin
       FCWinMain.FCWM_UMIFSh_AFlist.Items.Clear;
       FCWinMain.FCWM_UMIFSh_AFlist.Enabled:=true;
       UMIUFisFSok:=FCFgSPMD_PlyrStatus_ApplyRules(gmspmdCanEnfPolicies);
-      if FCentities[0].E_hqHigherLvl=dgNoHQ
+      if FCentities[0].E_hqHigherLvl=hqsNoHQPresent
       then
       begin
          FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Clear;
          FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI, 'UMIhqNoMsg'));
       end
-      else if (FCentities[0].E_hqHigherLvl>=dgBasicHQ)
+      else if (FCentities[0].E_hqHigherLvl>=hqsBasicHQ)
          and (UMIUFisFSok)
       then
       begin
@@ -718,7 +718,7 @@ begin
          FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add(
             FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolenfRuleNoEnf1')
             +'[<b>'+IntToStr(Integer(FCRplayer.P_socStat))+'</b>]-<b>'+FCFdTFiles_UIStr_Get(uistrUI, UMIUFstatus)+'</b>, '+FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolenfRuleNoEnf2')
-            +'[<b>'+IntToStr(Integer(TFCEfacStat.fs2DepVar))+'</b>]-<b>'+FCFdTFiles_UIStr_Get(uistrUI, 'cpsStatSD')+'</b>.<br>'
+            +'[<b>'+IntToStr(Integer(TFCEdgPlayerFactionStatus.pfs2_SemiDependent))+'</b>]-<b>'+FCFdTFiles_UIStr_Get(uistrUI, 'cpsStatSD')+'</b>.<br>'
             );
          if Assigned(FCcps)
          then FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add( FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolenfRuleNoEnf3') )

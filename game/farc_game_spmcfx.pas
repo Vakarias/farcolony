@@ -76,6 +76,7 @@ implementation
 
 uses
    farc_data_game
+   ,farc_data_spm
    ,farc_game_csm
    ,farc_game_spm
    ,farc_game_spmdata;

@@ -324,11 +324,11 @@ FCWinNewGSetup.Close;
    FCRplayer.P_gameName:=SetGameName;// FCWinNewGSetup.FCWNGS_Frm_GNameEdit.Text;
    FCRplayer.P_facAlleg:=FCDBFactions[SelectedFactionIndex].F_token;
 //   CPcolMidx:=FCWinNewGSetup.FCWNGS_Frm_ColMode.ItemIndex+1;
-   FCRplayer.P_ecoStat:=fs1StabFDep;
+   FCRplayer.P_ecoStat:=pfs1_FullyDependent;
    FCRplayer.P_viabThrEco:=FCDBFactions[SelectedFactionIndex].F_facCmode[ SelectedColonizationModeIndex ].FCM_cpsVthEconomic;
-   FCRplayer.P_socStat:=fs1StabFDep;
+   FCRplayer.P_socStat:=pfs1_FullyDependent;
    FCRplayer.P_viabThrSoc:=FCDBFactions[SelectedFactionIndex].F_facCmode[ SelectedColonizationModeIndex ].FCM_cpsVthSocial;
-   FCRplayer.P_milStat:=fs1StabFDep;
+   FCRplayer.P_milStat:=pfs1_FullyDependent;
    FCRplayer.P_viabThrSpMil:=FCDBFactions[SelectedFactionIndex].F_facCmode[ SelectedColonizationModeIndex ].FCM_cpsVthSpaceMilitary;
    {DEV NOTE: the following code will be changed later with choice of planet following choosen faction.}
    {.determine starting location, regarding starting location list}
@@ -568,9 +568,9 @@ FCWinNewGSetup.Close;
       FCentities[CPent].E_bureau:=FCFgSPMD_Bureaucracy_Init(CPent);
       FCentities[CPent].E_corrupt:=FCFgSPMD_Corruption_Init(CPent);
       if CPent=0
-      then FCentities[CPent].E_hqHigherLvl:=dgNoHQ
+      then FCentities[CPent].E_hqHigherLvl:=hqsNoHQPresent
       else if CPent>0
-      then FCentities[CPent].E_hqHigherLvl:=dgPriUnHQ;
+      then FCentities[CPent].E_hqHigherLvl:=hqsPrimaryUniqueHQ;
       inc(CPent);
    end; //==END== while CPent<=FCCfacMax do ==//
    {.set the game user's interface}

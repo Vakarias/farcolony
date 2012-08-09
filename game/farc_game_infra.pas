@@ -79,7 +79,7 @@ function FCFgI_DataStructure_Get(
 ///   return the token of a given infrastructure status
 ///</summary>
 ///   <param name="SGTstatus">infrastructure status</param>
-function FCFgInf_Status_GetToken(const SGTstatus: TFCEdgInfStatTp): string;
+function FCFgInf_Status_GetToken(const SGTstatus: TFCEdgInfrastructureStatus): string;
 
 //===========================END FUNCTIONS SECTION==========================================
 
@@ -221,7 +221,7 @@ begin
    end;
 end;
 
-function FCFgInf_Status_GetToken(const SGTstatus: TFCEdgInfStatTp): string;
+function FCFgInf_Status_GetToken(const SGTstatus: TFCEdgInfrastructureStatus): string;
 {:Purpose: return the token of a given infrastructure status.
     Additions:
       -2011Jul31- *add: istDisabledByEE.
@@ -230,15 +230,14 @@ function FCFgInf_Status_GetToken(const SGTstatus: TFCEdgInfStatTp): string;
 begin
    Result:='';
    case SGTstatus of
-      istInKit: Result:='infrastatus_inKit';
-      istInConversion: Result:='infrastatus_inConversion';
-      istInAssembling: Result:='infrastatus_inAssembling';
-      istInBldSite: Result:='infrastatus_inBuilding';
-      istDisabled: Result:='infrastatus_disabled';
-      istDisabledByEE: Result:='infrastatus_disabledbyee';
-      istInTransition: Result:='infrastatus_inTransition';
-      istOperational: Result:='infrastatus_operational';
-      istDestroyed: Result:='infrastatus_destroyed';
+      isInKit: Result:='infrastatus_inKit';
+      isInConversion: Result:='infrastatus_inConversion';
+      isInAssembling: Result:='infrastatus_inAssembling';
+      isInBluidingSite: Result:='infrastatus_inBuilding';
+      isDisabled: Result:='infrastatus_disabled';
+      isDisabledByEnergyEquilibrium: Result:='infrastatus_disabledbyee';
+      isInTransition: Result:='infrastatus_inTransition';
+      isOperational: Result:='infrastatus_operational';
    end;
 end;
 
@@ -288,7 +287,7 @@ begin
       );
    if not DPisByEnergyEq then
    begin
-      FCentities[DPent].E_col[DPcol].COL_settlements[DPset].CS_infra[DPinf].CI_status:=istDisabled;
+      FCentities[DPent].E_col[DPcol].COL_settlements[DPset].CS_infra[DPinf].CI_status:=isDisabled;
       FCMgIS_RequiredStaff_Recover(
          DPent
          ,DPcol
@@ -296,7 +295,7 @@ begin
          ,DPinf
          );
    end
-   else FCentities[DPent].E_col[DPcol].COL_settlements[DPset].CS_infra[DPinf].CI_status:=istDisabledByEE;
+   else FCentities[DPent].E_col[DPcol].COL_settlements[DPset].CS_infra[DPinf].CI_status:=isDisabledByEnergyEquilibrium;
 end;
 
 procedure FCMgInf_Enabling_Process(
@@ -311,7 +310,7 @@ procedure FCMgInf_Enabling_Process(
       -2011Sep12- *add: infrastructure function data are applied in case of a istDisabledByEE.
 }
 begin
-   if FCentities[EPent].E_col[EPcol].COL_settlements[EPset].CS_infra[EPinf].CI_status=istDisabled
+   if FCentities[EPent].E_col[EPcol].COL_settlements[EPset].CS_infra[EPinf].CI_status=isDisabled
    then FCMgICS_TransitionRule_Process(
       EPent
       ,EPcol
@@ -320,7 +319,7 @@ begin
       ,0
       ,true
       )
-   else if FCentities[EPent].E_col[EPcol].COL_settlements[EPset].CS_infra[EPinf].CI_status=istDisabledByEE
+   else if FCentities[EPent].E_col[EPcol].COL_settlements[EPset].CS_infra[EPinf].CI_status=isDisabledByEnergyEquilibrium
    then FCMgICS_TransitionRule_Process(
       EPent
       ,EPcol

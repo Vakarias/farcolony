@@ -199,7 +199,7 @@ procedure FCMgC_HQ_Remove( const HQRent, HQRcol: integer );
 procedure FCMgC_HQ_Set(
    const HQSent
          ,HQScol: integer;
-         HQShqLevel: TFCEdgHQstatus
+         HQShqLevel: TFCEdgHeadQuarterStatus
    );
 
 implementation
@@ -454,10 +454,10 @@ function FCFgC_HQ_GetStr(const HQGSent, HQGScol: integer): string;
 begin
    Result:='';
    case FCentities[HQGSent].E_col[HQGScol].COL_hqPres of
-      dgNoHQ: Result:='UMIhqNo';
-      dgBasicHQ: Result:='UMIhqBasic';
-      dgSecHQ: Result:='UMIhqSec';
-      dgPriUnHQ: Result:='UMIhqPrim';
+      hqsNoHQPresent: Result:='UMIhqNo';
+      hqsBasicHQ: Result:='UMIhqBasic';
+      hqsSecondaryHQ: Result:='UMIhqSec';
+      hqsPrimaryUniqueHQ: Result:='UMIhqPrim';
    end;
 end;
 
@@ -928,12 +928,12 @@ procedure FCMgC_HQ_Remove( const HQRent, HQRcol: integer );
       ,HQRsetMax: integer;
 
       HQRhigherHQfound
-      ,HQRsearchResult: TFCEdgHQstatus;
+      ,HQRsearchResult: TFCEdgHeadQuarterStatus;
 
       HQRinfraData: TFCRdipInfrastructure;
 
 begin
-   HQRhigherHQfound:=dgNoHQ;
+   HQRhigherHQfound:=hqsNoHQPresent;
    HQRsetMax:=Length(FCentities[HQRent].E_col[HQRcol].COL_settlements)-1;
    HQRsetCnt:=1;
    while HQRsetCnt<=HQRsetMax do
@@ -973,7 +973,7 @@ end;
 procedure FCMgC_HQ_Set(
    const HQSent
          ,HQScol: integer;
-         HQShqLevel: TFCEdgHQstatus
+         HQShqLevel: TFCEdgHeadQuarterStatus
    );
 {:Purpose: set the HQ of a designated colony to a new level.
     Additions:

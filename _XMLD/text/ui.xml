@@ -1472,11 +1472,6 @@
       <FR>Production</FR>
       <SP>Produccion</SP>
    </infrafunc_Prod>
-   <infrastatus_destroyed>
-      <EN>Destroyed</EN>
-      <FR>Détruite</FR>
-      <SP>Destruido</SP>
-   </infrastatus_destroyed>
    <infrastatus_disabled>
       <EN>Disabled</EN>
       <FR>Hors Service</FR>

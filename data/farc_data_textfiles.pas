@@ -82,7 +82,7 @@ function FCFdTFiles_UIStr_Get(
 ///</summary>
 ///    <param name="UISGstatus">status</param>
 function FCFdTFiles_UIStr_Get(
-   const UISGstatus: TFCEfacStat
+   const UISGstatus: TFCEdgPlayerFactionStatus
    ): string; overload;
 
 ///<summary>
@@ -116,6 +116,7 @@ implementation
 uses
    farc_common_func
    ,farc_data_html
+   ,farc_data_spm
 	,farc_main
    ,farc_game_cps
    ,farc_game_spm
@@ -426,7 +427,7 @@ begin
 end;
 
 function FCFdTFiles_UIStr_Get(
-   const UISGstatus: TFCEfacStat
+   const UISGstatus: TFCEdgPlayerFactionStatus
    ): string; overload;
 {:Purpose: retrieve text faction's status.
     Additions:
@@ -439,10 +440,10 @@ var
 begin
 	UISGresDump:='';
    case UISGstatus of
-      fs0NViable: UISGstatStr:='cpsStatNV';
-      fs1StabFDep: UISGstatStr:='cpsStatFD';
-      fs2DepVar: UISGstatStr:='cpsStatSD';
-      fs3Indep: UISGstatStr:='cpsStatFI';
+      pfs0_NotViable: UISGstatStr:='cpsStatNV';
+      pfs1_FullyDependent: UISGstatStr:='cpsStatFD';
+      pfs2_SemiDependent: UISGstatStr:='cpsStatSD';
+      pfs3_Independent: UISGstatStr:='cpsStatFI';
    end;
    UISGtxtItm:=FCWinMain.FCXMLtxtUI.DocumentElement.ChildNodes.FindNode(UISGstatStr);
 	if UISGtxtItm<>nil

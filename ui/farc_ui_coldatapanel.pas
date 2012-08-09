@@ -1276,7 +1276,7 @@ begin
                fProduction: CPUsubnode:=FCWinMain.FCWM_CDPinfrList.Items.AddChild(CPUrootnodeInfraPR, CPUinfDisplay);
             end; //==END== case FCentities[0].E_col[CDPcurrentColony].COL_settlements[CDPcurrentSettlement].CS_infra[CPUcnt].IO_func of ==//
             case FCentities[0].E_col[CDPcurrentColony].COL_settlements[CDPcurrentSettlement].CS_infra[CPUcnt].CI_status of
-               istInConversion, istInAssembling, istInBldSite: FCWinMain.FCWM_CDPinfrList.Items.AddChild(
+               isInConversion, isInAssembling, isInBluidingSite: FCWinMain.FCWM_CDPinfrList.Items.AddChild(
                   CPUsubnode
                   ,FCFdTFiles_UIStr_Get(uistrUI, CPUinfStatus)+': '+IntToStr(
                      FCentities[0].E_col[CDPcurrentColony].COL_settlements[CDPcurrentSettlement].CS_infra[CPUcnt].CI_cabDuration
@@ -1284,7 +1284,7 @@ begin
                      )+' hr(s)'
                   );
 
-               istInTransition: FCWinMain.FCWM_CDPinfrList.Items.AddChild(
+               isInTransition: FCWinMain.FCWM_CDPinfrList.Items.AddChild(
                   CPUsubnode
                   ,FCFdTFiles_UIStr_Get(uistrUI, CPUinfStatus)+': '+IntToStr( FCentities[0].E_col[CDPcurrentColony].COL_settlements[CDPcurrentSettlement].CS_infra[CPUcnt].CI_cabDuration )+' hr(s)'
                   );
@@ -1321,13 +1321,13 @@ begin
                end;
                CPUsubnodeTp:=CPUsubnode.getFirstChild;
                case FCentities[0].E_col[CDPcurrentColony].COL_settlements[CDPcurrentSettlement].CS_infra[DataIndex1].CI_status of
-                  istInConversion, istInAssembling, istInBldSite: CPUsubnodetp.Text:=
+                  isInConversion, isInAssembling, isInBluidingSite: CPUsubnodetp.Text:=
                      FCFdTFiles_UIStr_Get(uistrUI, CPUinfStatus)+': '+IntToStr(
                         FCentities[0].E_col[CDPcurrentColony].COL_settlements[CDPcurrentSettlement].CS_infra[DataIndex1].CI_cabDuration
                         -FCentities[0].E_col[CDPcurrentColony].COL_settlements[CDPcurrentSettlement].CS_infra[DataIndex1].CI_cabWorked
                         )+' hr(s)';
 
-                  istInTransition:
+                  isInTransition:
                   begin
                      if FCentities[0].E_col[CDPcurrentColony].COL_settlements[CDPcurrentSettlement].CS_infra[DataIndex1].CI_cabDuration=FCCdipTransitionTime
                      then CPUsubnode.Text:='<img src="file://'+FCVdiPathResourceDir+'pics-ui-colony\'+CPUinfStatus+'16.jpg" align="middle"> - '
@@ -1338,7 +1338,7 @@ begin
                         ;
                   end;
 
-                  istOperational:
+                  isOperational:
                   begin
                      CPUsubnode.Text:='<img src="file://'+FCVdiPathResourceDir+'pics-ui-colony\'+CPUinfStatus+'16.jpg" align="middle"> - '
                         +FCFdTFiles_UIStr_Get(uistrUI, FCentities[0].E_col[CDPcurrentColony].COL_settlements[CDPcurrentSettlement].CS_infra[DataIndex1].CI_dbToken)
