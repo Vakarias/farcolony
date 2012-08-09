@@ -87,6 +87,7 @@ uses
    ,farc_data_textfiles
    ,farc_data_univ
    ,farc_game_cps
+   ,farc_game_gameflow
    ,farc_main
    ,farc_spu_functions
    ,farc_ui_win;

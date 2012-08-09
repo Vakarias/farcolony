@@ -36,7 +36,8 @@ uses
    ,SysUtils
 
    ,farc_data_game
-   ,farc_data_init;
+   ,farc_data_init
+   ,farc_data_missionstasks;
 
 type TFCRgmcDckd=record
    GMCD_index: integer;

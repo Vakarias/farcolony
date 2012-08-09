@@ -62,6 +62,7 @@ uses
    ,farc_data_infrprod
    ,farc_data_init
    ,farc_data_messages
+   ,farc_data_missionstasks
    ,farc_data_univ
    ,farc_game_cps
    ,farc_game_cpsobjectives
@@ -742,8 +743,8 @@ begin
                            SetLength(FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra, 1);
                            SetLength( FCentities[GLentCnt].E_col[GLcount].COL_cabQueue, length( FCentities[GLentCnt].E_col[GLcount].COL_cabQueue )+1 );
                            FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_name:=GLxmlColsub.Attributes['name'];
-                           GLenumIndex:=GetEnumValue(TypeInfo(TFCEdgSettleType), GLxmlColsub.Attributes['type'] );
-                           FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_type:=TFCEdgSettleType(GLenumIndex);
+                           GLenumIndex:=GetEnumValue(TypeInfo(TFCEdgSettlements), GLxmlColsub.Attributes['type'] );
+                           FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_type:=TFCEdgSettlements(GLenumIndex);
                            if GLenumIndex=-1
                            then raise Exception.Create('bad gamesave loading w/settlement type: '+GLxmlColsub.Attributes['type']) ;
                            FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_level:=GLxmlColsub.Attributes['level'];
@@ -1612,10 +1613,10 @@ begin
                   GSxmlSettle:=GSxmlCol.AddChild('colSettlement');
                   GSxmlSettle.Attributes['name']:=FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_name;
                   case FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_type of
-                     stSurface: GSenumString:='stSurface';
-                     stSpaceSurf: GSenumString:='stSpaceSurf';
-                     stSubterranean: GSenumString:='stSubterranean';
-                     stSpaceBased: GSenumString:='stSpaceBased';
+                     sSurface: GSenumString:='stSurface';
+                     sSpaceSurface: GSenumString:='stSpaceSurf';
+                     sSubterranean: GSenumString:='stSubterranean';
+                     sSpaceBased: GSenumString:='stSpaceBased';
                   end;
                   GSxmlSettle.Attributes['type']:=GSenumString;
                   GSxmlSettle.Attributes['level']:=FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_level;

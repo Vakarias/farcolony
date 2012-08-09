@@ -546,7 +546,7 @@ begin
    then Max:=1;
    setlength( FCentities[ Entity ].E_col[ Colony ].COL_settlements, Max+1 );
    FCentities[ Entity ].E_col[ Colony ].COL_settlements[ Max ].CS_name:=SettlementName;
-   FCentities[ Entity ].E_col[ Colony ].COL_settlements[ Max ].CS_type:=TFCEdgSettleType( SettlementType );
+   FCentities[ Entity ].E_col[ Colony ].COL_settlements[ Max ].CS_type:=TFCEdgSettlements( SettlementType );
    FCentities[ Entity ].E_col[ Colony ].COL_settlements[ Max ].CS_level:=1;
    FCentities[ Entity ].E_col[ Colony ].COL_settlements[ Max ].CS_region:=Region;
    setlength( FCentities[ Entity ].E_col[ Colony ].COL_settlements[ Max ].CS_infra, 1 );

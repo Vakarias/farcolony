@@ -469,6 +469,7 @@ uses
    ,farc_data_game
    ,farc_data_html
    ,farc_data_init
+   ,farc_data_missionstasks
    ,farc_data_textfiles
    ,farc_game_colony
    ,farc_fug_com

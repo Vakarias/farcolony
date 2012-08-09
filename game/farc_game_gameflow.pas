@@ -32,9 +32,25 @@ unit farc_game_gameflow;
 interface
 
 uses
-   SysUtils
+   SysUtils;
 
-   ,farc_data_game;
+    {time phases}
+   type TFCEtimePhases=(
+      {.null data}
+      tphNull
+      {.reset the time flow}
+//      ,tphRESET
+      {tactical, 1secRT eq 10minGT}
+      ,tphTac
+      {management, time accelerated by 2}
+      ,tphMan
+      {strategical/historical, time accelerated by 10}
+      ,tphSTH
+      {game paused}
+      ,tphPAUSE
+      {.game paused w/o interface}
+      ,tphPAUSEwo
+      );
 
 ///<summary>
 ///   process the space units tasks. Replace the multiple threads creation.
@@ -58,13 +74,17 @@ var
 
 implementation
 
+
+
 uses
    farc_common_func
    ,farc_data_3dopengl
    ,farc_data_init
+   ,farc_data_missionstasks
    ,farc_data_univ
    ,farc_game_cps
    ,farc_game_csm
+   ,farc_data_game
    ,farc_game_micolonize
    ,farc_game_prod
    ,farc_game_spm
@@ -78,11 +98,15 @@ uses
    ,farc_univ_func
    ,farc_win_debug;
 
+
+
 var
    {:DEV NOTES: put these in method's data.}
 //   GGFisProdPhaseSwitch
 //   ,
    GGFisSPMphasePassed: boolean;
+
+
 
 //=============================================END OF INIT==================================
 

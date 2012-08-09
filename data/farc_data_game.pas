@@ -35,7 +35,8 @@ uses
    ,farc_data_init
    ,farc_data_spm
    ,farc_data_univ
-   ,farc_game_cpsobjectives;
+   ,farc_game_cpsobjectives
+   ,farc_game_gameflow;
 
 {:REFERENCES LIST
    - factionsdb.xml
@@ -172,8 +173,43 @@ type TFCEdgPlayerFactionStatus=(
    ,pfs3_Independent
    );
 
+{:REFERENCES LIST
+   - FCFgICS_InfraLevel_Setup
+   - FCMdF_Game_Load
+   - FCMdF_Game_Save
+   - FCMuiWin_UI_Upd w/FCWMS_Grp_MCG_SetType
+}
+///<summary>
+///   settlement types
+///</summary>
+type TFCEdgSettlements=(
+   sSurface
+   ,sSpaceSurface
+   ,sSubterranean
+   ,sSpaceBased
+   );
 
-
+{.space unit attitude status}
+{:DEV NOTES: update factionsdb.xml}
+{:DEV NOTES: update TFCRfacDotationItem w/ status comment.}
+{:DEV NOTES: update spu_functions / FCFspuF_AttStatus_Get.}
+type TFCEspUnStatus=(
+   {in free space w/ a transit or not}
+   susInFreeSpace
+   {in orbit of an orbital object}
+   ,susInOrbit
+   {in an atmospheric flight, landing or taking off}
+   ,susInAtmosph
+   {landed on an orbital object}
+   ,susLanded
+   {docked on/in an another space unit}
+   ,susDocked
+   {is out of control ie there's no more maneuver and main propulsion and naturally considered in free space}
+   ,susOutOfCtl
+   {is a dead wreck}
+   ,susDeadWreck
+//    scstatInLagrange    look to add this more later in development
+   );
 
 //==END PUBLIC ENUM=========================================================================
 
@@ -196,88 +232,15 @@ type TFCEdgPlayerFactionStatus=(
 
 
 
-   {.settlement types}
-   {:DEV NOTES: update FCMdF_Game_Save/FCMdF_Game_Load + FCMuiWin_UI_Upd w/FCWMS_Grp_MCG_SetType + FCFgICS_InfraLevel_Setup.}
-   type TFCEdgSettleType=(
-      stSurface
-      ,stSpaceSurf
-      ,stSubterranean
-      ,stSpaceBased
-      );
+
    
   
 
 
    
-   {.space unit attitude status}
-   {:DEV NOTES: update factionsdb.xml}
-   {:DEV NOTES: update TFCRfacDotationItem w/ status comment.}
-   {:DEV NOTES: update spu_functions / FCFspuF_AttStatus_Get.}
-   type TFCEspUnStatus=(
-      {in free space w/ a transit or not}
-      susInFreeSpace
-      {in orbit of an orbital object}
-      ,susInOrbit
-      {in an atmospheric flight, landing or taking off}
-      ,susInAtmosph
-      {landed on an orbital object}
-      ,susLanded
-      {docked on/in an another space unit}
-      ,susDocked
-      {is out of control ie there's no more maneuver and main propulsion and naturally considered in free space}
-      ,susOutOfCtl
-      {is a dead wreck}
-      ,susDeadWreck
-//    scstatInLagrange    look to add this more later in development
-      );
-   {task action type list}
-   {:DEV NOTES: update: FCMgMCore_Mission_Setup + FCMgMCore_Mission_Commit + FCMgMCore_Mission_TrackUpd + FCMspuF_SpUnit_Remove.}
-   {:DEV NOTES: update: FCFspuF_Mission_GetMissName.}
-   type TFCEtaskActionTp=(
-      {space unit - mission - colonization}
-      tatpMissColonize
-      {space unit - mission - interplanetary transit}
-      ,tatpMissItransit
-      ,tatpDummy
-      );
-   {.task phases}
-   {:DEV NOTES: update: FCFspuF_Mission_GetPhaseName.}
-   type TFCEtaskPhase=(
-      tpAccel
-      ,tpCruise
-      ,tpDecel
-      ,tpAtmEnt
-      ,tpDone
-      ,tpTerminated
-      );
-   {task target type list}
-   type TFCEtaskTargetTp=(
-      {infrastructure}
-      tttInfrast
-      {space unit}
-      ,tttSpaceUnit
-      {orbital object}
-      ,tttOrbObj
-      ,tttSat
-      ,tttSpace
-      );
-   {time phases}
-   type TFCEtimePhases=(
-      {.null data}
-      tphNull
-      {.reset the time flow}
-//      ,tphRESET
-      {tactical, 1secRT eq 10minGT}
-      ,tphTac
-      {management, time accelerated by 2}
-      ,tphMan
-      {strategical/historical, time accelerated by 10}
-      ,tphSTH
-      {game paused}
-      ,tphPAUSE
-      {.game paused w/o interface}
-      ,tphPAUSEwo
-      );
+
+   
+  
    //==END ENUM=============================================================================
    {.colony event data structure}
    {:DEV NOTES: UPDATE FCMdFiles_Game_Load + FCMdFiles_Game_Save + FCMuiCDP_Data_Update}
@@ -468,7 +431,7 @@ type TFCEdgPlayerFactionStatus=(
       {.personalized name}
       CS_name: string[20];
       {.settlement type}
-      CS_type: TFCEdgSettleType;
+      CS_type: TFCEdgSettlements;
       {.settlement current level}
       CS_level: integer;
       {.location w/ region #}
@@ -888,75 +851,6 @@ type TFCEdgPlayerFactionStatus=(
       E_spmMCorr: integer;
    end;
       TFCentities= array [0..FCCdiFactionsMax] of TFCRdgEntity;
-   {.task item data structure}
-   {DEV NOTE: for TFCGtasklistToProc don't forget to update farc_game_missioncore /FCMgMCore_Mission_Commit.}
-   {DEV NOTE: for TFCGtasklistInProc don't forget to update farc_game_gameflow /FCMgTFlow_GameTimer_Process + FCMgGFlow_Tasks_Process.}
-   {DEV NOTE: don't forget to update farc_data_files / FCMdFiles_Game_Save/Load.}
-   type TFCRdgTask = record
-      {indicate that the task is in processing }
-      {:DEV NOTES: TO DEL.}
-      TITP_enabled: boolean;
-      {type of action}
-      TITP_actionTp: TFCEtaskActionTp;
-      {current phase}
-      TITP_phaseTp: TFCEtaskPhase;
-      {controlled target type}
-      TITP_ctldType: TFCEtaskTargetTp;
-      {controlled target's faction number, 0=player}
-      TITP_ctldFac: integer;
-      {controlled target's index in subdata structure}
-      TITP_ctldIdx: integer;
-      {.timer tick at start of the mission}
-      {:DEV NOTES: taskinprocONLY.}
-      TITP_timeOrg: integer;
-      {task duration in ticks, 0= infinite}
-      TITP_duration: integer;
-      {interval, in clock tick, between 2 running processes in same thread}
-      TITP_interval: integer;
-      {kind of origin}
-      TITP_orgType: TFCEtaskTargetTp;
-      {origin index (OBJECT)}
-      TITP_orgIdx: integer;
-      {kind of destination}
-      TITP_destType: TFCEtaskTargetTp;
-      {destination index (OBJECT)}
-      TITP_destIdx: integer;
-      {.targeted region #}
-      TITP_regIdx: integer;
-      {cruise velocity to reach , if 0 then =current deltav}
-      TITP_velCruise: extended;
-      {acceleration time in ticks}
-      TITP_timeToCruise: integer;
-      {.time in tick for deceleration}
-      {:DEV NOTES: taskinprocONLY.}
-      TITP_timeDecel: integer;
-      {.time to transfert}
-      {:DEV NOTES: taskinprocONLY.}
-      TITP_time2xfert: integer;
-      {.time to transfert to decel}
-      {:DEV NOTES: taskinprocONLY.}
-      TITP_time2xfert2decel: integer;
-      {final velocity, if 0 then = cruise vel}
-      TITP_velFinal: extended;
-      {deceleration time in ticks}
-      TITP_timeToFinal: integer;
-      {.acceleration by tick for the current mission}
-      {:DEV NOTES: taskinprocONLY.}
-      TITP_accelbyTick: extended;
-      {used reaction mass volume for the complete task}
-      TITP_usedRMassV: extended;
-      {.data string 1 for needed data transferts}
-      TITP_str1: string;
-      {.data string 2 for needed data transferts}
-      TITP_str2: string;
-      {.data integer 1 for needed data transferts}
-      TITP_int1: integer;
-   end; //==END== type TFCRtaskItem = record ==//
-      {.tasklist to process dynamic array}
-      TFCGtasklistToProc = array of TFCRdgTask;
-      {.current tasklit dynamic array}
-      TFCGtasklistInProc = array of TFCRdgTask;
-   {.owned space unit docked unit}
    ///<summary>
    ///   clear the entities data
    ///</summary>
@@ -972,10 +866,7 @@ type TFCEdgPlayerFactionStatus=(
       FCGcsmPhList: TFCcsmPhaseL;
       {.game timer phase dump}
       FCGtimePhase: TFCEtimePhases =tphNull;
-      {.tasklist in process}
-      FCGtskListInProc: TFCGtasklistInProc;
-      {.tasklist to process}
-      FCGtskLstToProc: TFCGtaskListToProc;
+
       FCRplayer: TFCRdgPlayer;
    //=======================================================================================
    {.constants}
