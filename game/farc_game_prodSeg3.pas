@@ -172,7 +172,7 @@ begin
                {:DEV NOTES: if not trigger a colony unbearable, see the cancellation rule of the Oxygen Shortage event.}
             end
             {.case if there's enough oxygen reserve for at least 1 tick}
-            else if FCentities[ Entity ].E_col[ Colony ].COL_reserveOxygen>=FCentities[ Entity ].E_col[ Colony ].COL_population.POP_total
+            else if FCentities[ Entity ].E_col[ Colony ].COL_reserveOxygen>=FCentities[ Entity ].E_col[ Colony ].COL_population.CP_total
             then FCMgCSME_Event_Cancel(
                csmeecRecover
                ,Entity
@@ -192,7 +192,7 @@ begin
          end;
       end; //==END== if not doNotProcessShortageEvent ==//
       {.process the oxygen consumption}
-      if FCentities[ Entity ].E_col[ Colony ].COL_reserveOxygen<FCentities[ Entity ].E_col[ Colony ].COL_population.POP_total then
+      if FCentities[ Entity ].E_col[ Colony ].COL_reserveOxygen<FCentities[ Entity ].E_col[ Colony ].COL_population.CP_total then
       begin
          ReturnedShortageEvent:=FCFgCSME_Search_ByType(
             ceOxygenShortage_Recovering
@@ -232,12 +232,12 @@ begin
             ,true
             );
       end
-      else if FCentities[ Entity ].E_col[ Colony ].COL_reserveOxygen>=FCentities[ Entity ].E_col[ Colony ].COL_population.POP_total
+      else if FCentities[ Entity ].E_col[ Colony ].COL_reserveOxygen>=FCentities[ Entity ].E_col[ Colony ].COL_population.CP_total
       then FCMgCR_Reserve_Update(
          Entity
          ,Colony
          ,pfOxygen
-         ,-FCentities[ Entity ].E_col[ Colony ].COL_population.POP_total
+         ,-FCentities[ Entity ].E_col[ Colony ].COL_population.CP_total
          ,true
          );
    end; //==END== if FCentities[ Entity ].E_col[ Colony ].COL_reserveOxygen<>-1 ==//
@@ -335,7 +335,7 @@ begin
             {:DEV NOTES: if not trigger a colony unbearable, see the cancellation rule of the Water Shortage event.}
          end
          {.case if there's enough water reserve for at least 1 tick}
-         else if FCentities[ Entity ].E_col[ Colony ].COL_reserveWater>=FCentities[ Entity ].E_col[ Colony ].COL_population.POP_total
+         else if FCentities[ Entity ].E_col[ Colony ].COL_reserveWater>=FCentities[ Entity ].E_col[ Colony ].COL_population.CP_total
          then FCMgCSME_Event_Cancel(
             csmeecRecover
             ,Entity
@@ -355,7 +355,7 @@ begin
       end;
    end; //==END== if not doNotProcessShortageEvent ==//
    {.process the water consumption}
-   if FCentities[ Entity ].E_col[ Colony ].COL_reserveWater<FCentities[ Entity ].E_col[ Colony ].COL_population.POP_total then
+   if FCentities[ Entity ].E_col[ Colony ].COL_reserveWater<FCentities[ Entity ].E_col[ Colony ].COL_population.CP_total then
    begin
       ReturnedShortageEvent:=FCFgCSME_Search_ByType(
          ceWaterShortage_Recovering
@@ -395,12 +395,12 @@ begin
          ,true
          );
    end
-   else if FCentities[ Entity ].E_col[ Colony ].COL_reserveWater>=FCentities[ Entity ].E_col[ Colony ].COL_population.POP_total
+   else if FCentities[ Entity ].E_col[ Colony ].COL_reserveWater>=FCentities[ Entity ].E_col[ Colony ].COL_population.CP_total
    then FCMgCR_Reserve_Update(
       Entity
       ,Colony
       ,pfWater
-      ,-FCentities[ Entity ].E_col[ Colony ].COL_population.POP_total
+      ,-FCentities[ Entity ].E_col[ Colony ].COL_population.CP_total
       ,true
       );
    {.food consumption}
@@ -497,7 +497,7 @@ begin
             {:DEV NOTES: if not trigger a colony unbearable, see the cancellation rule of the Food Shortage event.}
          end
          {.case if there's enough food reserve for at least 1 tick}
-         else if FCentities[ Entity ].E_col[ Colony ].COL_reserveFood>=FCentities[ Entity ].E_col[ Colony ].COL_population.POP_total
+         else if FCentities[ Entity ].E_col[ Colony ].COL_reserveFood>=FCentities[ Entity ].E_col[ Colony ].COL_population.CP_total
          then FCMgCSME_Event_Cancel(
             csmeecRecover
             ,Entity
@@ -517,7 +517,7 @@ begin
       end;
    end; //==END== if not doNotProcessShortageEvent ==//
    {.process the food consumption}
-   if FCentities[ Entity ].E_col[ Colony ].COL_reserveFood<FCentities[ Entity ].E_col[ Colony ].COL_population.POP_total then
+   if FCentities[ Entity ].E_col[ Colony ].COL_reserveFood<FCentities[ Entity ].E_col[ Colony ].COL_population.CP_total then
    begin
       ReturnedShortageEvent:=FCFgCSME_Search_ByType(
          ceFoodShortage_Recovering
@@ -557,12 +557,12 @@ begin
          ,true
          );
    end
-   else if FCentities[ Entity ].E_col[ Colony ].COL_reserveFood>=FCentities[ Entity ].E_col[ Colony ].COL_population.POP_total
+   else if FCentities[ Entity ].E_col[ Colony ].COL_reserveFood>=FCentities[ Entity ].E_col[ Colony ].COL_population.CP_total
    then FCMgCR_Reserve_Update(
       Entity
       ,Colony
       ,pfFood
-      ,-FCentities[ Entity ].E_col[ Colony ].COL_population.POP_total
+      ,-FCentities[ Entity ].E_col[ Colony ].COL_population.CP_total
       ,true
       );
    {.update the interface for CSM events list is required}

@@ -320,11 +320,11 @@ begin
       inc( ICWPCsettCnt );
    end;
    if ICWPCsumLvl=0
-   then ICWPCicwp:=FCentities[ICWPCent].E_col[ICWPCcol].COL_population.POP_wcpTotal
+   then ICWPCicwp:=FCentities[ICWPCent].E_col[ICWPCcol].COL_population.CP_CWPtotal
    else if ICWPCsumLvl>0 then
    begin
       ICWPCdivider:=ln( ICWPCsumLvl+1 ) / ln( ICWPCinfraLevel+1 );
-      ICWPCicwp:=FCFcFunc_Rnd( cfrttp1dec, FCentities[ICWPCent].E_col[ICWPCcol].COL_population.POP_wcpTotal/ICWPCdivider );
+      ICWPCicwp:=FCFcFunc_Rnd( cfrttp1dec, FCentities[ICWPCent].E_col[ICWPCcol].COL_population.CP_CWPtotal/ICWPCdivider );
    end;
    Result:=ICWPCicwp;
 end;
@@ -920,7 +920,7 @@ procedure FCMgICS_TransitionRule_Process(
       -2011Oct03- *add: add the possibility to call the routine with the cabIdx at 0. Used for re-enabling infrastructures.
 }
    var
-      TRPstaff: TFCRdgColonPopulation;
+      TRPstaff: TFCRdgColonyPopulation;
 
       TRPinfraData: TFCRdipInfrastructure;
 
@@ -997,9 +997,9 @@ begin
          ,TRPownInfra
          ,true
          );
-      if TRPstaff.POP_total=0
+      if TRPstaff.CP_total=0
       then TRP_ProductionDelay_Process
-      else if TRPstaff.POP_total>0 then
+      else if TRPstaff.CP_total>0 then
       begin
          FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_status:=isInTransition;
          FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_cabDuration:=-1;

@@ -51,7 +51,7 @@ function FCFgIS_RequiredStaff_Test(
          ,RSTsett
          ,RSTinfra: integer;
    const RTSapplyAssignment: boolean
-   ): TFCRdgColonPopulation;
+   ): TFCRdgColonyPopulation;
 
 ///<summary>
 ///   retrieve the index # of a specified staff in a given infrastructure's data structure
@@ -90,7 +90,7 @@ function FCFgIS_RequiredStaff_Test(
          ,RSTsett
          ,RSTinfra: integer;
    const RTSapplyAssignment: boolean
-   ): TFCRdgColonPopulation;
+   ): TFCRdgColonyPopulation;
 {:Purpose: test if a colony can support the required staff of a given owned infrastructure.
     Additions:
       -2011Oct26- *add: apply staff requirement by level.
@@ -104,37 +104,37 @@ function FCFgIS_RequiredStaff_Test(
       RSTinfraData: TFCRdipInfrastructure;
 begin
    {.POP_Total store the total population the infrastructure lack before to be operational, so it's >0 if the test fail}
-   Result.POP_total:=0;
+   Result.CP_total:=0;
    {.these data store the total population, by type of population, the infrastructure lack before to be operational, so it's >0 if the test fail}
-   Result.POP_tpColon:=0;
-   Result.POP_tpASoff:=0;
-   Result.POP_tpASmiSp:=0;
-   Result.POP_tpBSbio:=0;
-   Result.POP_tpBSdoc:=0;
-   Result.POP_tpIStech:=0;
-   Result.POP_tpISeng:=0;
-   Result.POP_tpMSsold:=0;
-   Result.POP_tpMScomm:=0;
-   Result.POP_tpPSphys:=0;
-   Result.POP_tpPSastr:=0;
-   Result.POP_tpESecol:=0;
-   Result.POP_tpESecof:=0;
-   Result.POP_tpAmedian:=0;
+   Result.CP_classColonist:=0;
+   Result.CP_classAerOfficer:=0;
+   Result.CP_classAerMissionSpecialist:=0;
+   Result.CP_classBioBiologist:=0;
+   Result.CP_classBioDoctor:=0;
+   Result.CP_classIndTechnician:=0;
+   Result.CP_classIndEngineer:=0;
+   Result.CP_classMilSoldier:=0;
+   Result.CP_classMilCommando:=0;
+   Result.CP_classPhyPhysicist:=0;
+   Result.CP_classPhyAstrophysicist:=0;
+   Result.CP_classEcoEcologist:=0;
+   Result.CP_classEcoEcoformer:=0;
+   Result.CP_classAdmMedian:=0;
    {.these data store the total population, by type of population, that are assigned to the infrastructure, not used for result itself}
-   Result.POP_tpColonAssigned:=0;
-   Result.POP_tpASoffAssigned:=0;
-   Result.POP_tpASmiSpAssigned:=0;
-   Result.POP_tpBSbioAssigned:=0;
-   Result.POP_tpBSdocAssigned:=0;
-   Result.POP_tpIStechAssigned:=0;
-   Result.POP_tpISengAssigned:=0;
-   Result.POP_tpMSsoldAssigned:=0;
-   Result.POP_tpMScommAssigned:=0;
-   Result.POP_tpPSphysAssigned:=0;
-   Result.POP_tpPSastrAssigned:=0;
-   Result.POP_tpESecolAssigned:=0;
-   Result.POP_tpESecofAssigned:=0;
-   Result.POP_tpAmedianAssigned:=0;
+   Result.CP_classColonistAssigned:=0;
+   Result.CP_classAerOfficerAssigned:=0;
+   Result.CP_classAerMissionSpecialistAssigned:=0;
+   Result.CP_classBioBiologistAssigned:=0;
+   Result.CP_classBioDoctorAssigned:=0;
+   Result.CP_classIndTechnicianAssigned:=0;
+   Result.CP_classIndEngineerAssigned:=0;
+   Result.CP_classMilSoldierAssigned:=0;
+   Result.CP_classMilCommandoAssigned:=0;
+   Result.CP_classPhyPhysicistAssigned:=0;
+   Result.CP_classPhyAstrophysicistAssigned:=0;
+   Result.CP_classEcoEcologistAssigned:=0;
+   Result.CP_classEcoEcoformerAssigned:=0;
+   Result.CP_classAdmMedianAssigned:=0;
    RSTinfraData:=FCFgI_DataStructure_Get(
       RSTent
       ,RSTcol
@@ -151,232 +151,232 @@ begin
          case RSTinfraData.I_reqStaff[RSTstaffCnt].RS_type of
             ptColonist:
             begin
-               if RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl]<=( FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpColon-FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpColonAssigned ) then
+               if RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl]<=( FCentities[RSTent].E_col[RSTcol].COL_population.CP_classColonist-FCentities[RSTent].E_col[RSTcol].COL_population.CP_classColonistAssigned ) then
                begin
-                  Result.POP_tpColonAssigned:=RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl];
-                  FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpColonAssigned:=FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpColonAssigned+Result.POP_tpColonAssigned;
+                  Result.CP_classColonistAssigned:=RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl];
+                  FCentities[RSTent].E_col[RSTcol].COL_population.CP_classColonistAssigned:=FCentities[RSTent].E_col[RSTcol].COL_population.CP_classColonistAssigned+Result.CP_classColonistAssigned;
                end
-               else if RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl]>( FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpColon-FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpColonAssigned ) then
+               else if RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl]>( FCentities[RSTent].E_col[RSTcol].COL_population.CP_classColonist-FCentities[RSTent].E_col[RSTcol].COL_population.CP_classColonistAssigned ) then
                begin
-                  Result.POP_tpColon:=RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl];
-                  Result.POP_total:=Result.POP_total+Result.POP_tpColon;
+                  Result.CP_classColonist:=RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl];
+                  Result.CP_total:=Result.CP_total+Result.CP_classColonist;
                end;
             end;
 
             ptOfficer:
             begin
-               if RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl]<=( FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpASoff-FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpASoffAssigned ) then
+               if RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl]<=( FCentities[RSTent].E_col[RSTcol].COL_population.CP_classAerOfficer-FCentities[RSTent].E_col[RSTcol].COL_population.CP_classAerOfficerAssigned ) then
                begin
-                  Result.POP_tpASoffAssigned:=RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl];
-                  FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpASoffAssigned:=FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpASoffAssigned+Result.POP_tpASoffAssigned;
+                  Result.CP_classAerOfficerAssigned:=RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl];
+                  FCentities[RSTent].E_col[RSTcol].COL_population.CP_classAerOfficerAssigned:=FCentities[RSTent].E_col[RSTcol].COL_population.CP_classAerOfficerAssigned+Result.CP_classAerOfficerAssigned;
                end
-               else if RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl]>( FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpASoff-FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpASoffAssigned ) then
+               else if RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl]>( FCentities[RSTent].E_col[RSTcol].COL_population.CP_classAerOfficer-FCentities[RSTent].E_col[RSTcol].COL_population.CP_classAerOfficerAssigned ) then
                begin
-                  Result.POP_tpASoff:=RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl];
-                  Result.POP_total:=Result.POP_total+Result.POP_tpASoff;
+                  Result.CP_classAerOfficer:=RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl];
+                  Result.CP_total:=Result.CP_total+Result.CP_classAerOfficer;
                end;
             end;
 
             ptMissionSpecialist:
             begin
-               if RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl]<=( FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpASmiSp-FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpASmiSpAssigned ) then
+               if RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl]<=( FCentities[RSTent].E_col[RSTcol].COL_population.CP_classAerMissionSpecialist-FCentities[RSTent].E_col[RSTcol].COL_population.CP_classAerMissionSpecialistAssigned ) then
                begin
-                  Result.POP_tpASmiSpAssigned:=RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl];
-                  FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpASmiSpAssigned:=FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpASmiSpAssigned+Result.POP_tpASmiSpAssigned;
+                  Result.CP_classAerMissionSpecialistAssigned:=RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl];
+                  FCentities[RSTent].E_col[RSTcol].COL_population.CP_classAerMissionSpecialistAssigned:=FCentities[RSTent].E_col[RSTcol].COL_population.CP_classAerMissionSpecialistAssigned+Result.CP_classAerMissionSpecialistAssigned;
                end
-               else if RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl]>( FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpASmiSp-FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpASmiSpAssigned ) then
+               else if RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl]>( FCentities[RSTent].E_col[RSTcol].COL_population.CP_classAerMissionSpecialist-FCentities[RSTent].E_col[RSTcol].COL_population.CP_classAerMissionSpecialistAssigned ) then
                begin
-                  Result.POP_tpASmiSp:=RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl];
-                  Result.POP_total:=Result.POP_total+Result.POP_tpASmiSp;
+                  Result.CP_classAerMissionSpecialist:=RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl];
+                  Result.CP_total:=Result.CP_total+Result.CP_classAerMissionSpecialist;
                end;
             end;
 
             ptBiologist:
             begin
-               if RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl]<=( FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpBSbio-FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpBSbioAssigned ) then
+               if RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl]<=( FCentities[RSTent].E_col[RSTcol].COL_population.CP_classBioBiologist-FCentities[RSTent].E_col[RSTcol].COL_population.CP_classBioBiologistAssigned ) then
                begin
-                  Result.POP_tpBSbioAssigned:=RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl];
-                  FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpBSbioAssigned:=FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpBSbioAssigned+Result.POP_tpBSbioAssigned;
+                  Result.CP_classBioBiologistAssigned:=RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl];
+                  FCentities[RSTent].E_col[RSTcol].COL_population.CP_classBioBiologistAssigned:=FCentities[RSTent].E_col[RSTcol].COL_population.CP_classBioBiologistAssigned+Result.CP_classBioBiologistAssigned;
                end
-               else if RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl]>( FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpBSbio-FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpBSbioAssigned ) then
+               else if RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl]>( FCentities[RSTent].E_col[RSTcol].COL_population.CP_classBioBiologist-FCentities[RSTent].E_col[RSTcol].COL_population.CP_classBioBiologistAssigned ) then
                begin
-                  Result.POP_tpBSbio:=RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl];
-                  Result.POP_total:=Result.POP_total+Result.POP_tpBSbio;
+                  Result.CP_classBioBiologist:=RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl];
+                  Result.CP_total:=Result.CP_total+Result.CP_classBioBiologist;
                end;
             end;
 
             ptDoctor:
             begin
-               if RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl]<=( FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpBSdoc-FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpBSdocAssigned ) then
+               if RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl]<=( FCentities[RSTent].E_col[RSTcol].COL_population.CP_classBioDoctor-FCentities[RSTent].E_col[RSTcol].COL_population.CP_classBioDoctorAssigned ) then
                begin
-                  Result.POP_tpBSdocAssigned:=RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl];
-                  FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpBSdocAssigned:=FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpBSdocAssigned+Result.POP_tpBSdocAssigned;
+                  Result.CP_classBioDoctorAssigned:=RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl];
+                  FCentities[RSTent].E_col[RSTcol].COL_population.CP_classBioDoctorAssigned:=FCentities[RSTent].E_col[RSTcol].COL_population.CP_classBioDoctorAssigned+Result.CP_classBioDoctorAssigned;
                end
-               else if RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl]>( FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpBSdoc-FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpBSdocAssigned ) then
+               else if RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl]>( FCentities[RSTent].E_col[RSTcol].COL_population.CP_classBioDoctor-FCentities[RSTent].E_col[RSTcol].COL_population.CP_classBioDoctorAssigned ) then
                begin
-                  Result.POP_tpBSdoc:=RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl];
-                  Result.POP_total:=Result.POP_total+Result.POP_tpBSdoc;
+                  Result.CP_classBioDoctor:=RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl];
+                  Result.CP_total:=Result.CP_total+Result.CP_classBioDoctor;
                end;
             end;
 
             ptTechnician:
             begin
-               if RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl]<=( FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpIStech-FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpIStechAssigned ) then
+               if RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl]<=( FCentities[RSTent].E_col[RSTcol].COL_population.CP_classIndTechnician-FCentities[RSTent].E_col[RSTcol].COL_population.CP_classIndTechnicianAssigned ) then
                begin
-                  Result.POP_tpIStechAssigned:=RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl];
-                  FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpIStechAssigned:=FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpIStechAssigned+Result.POP_tpIStechAssigned;
+                  Result.CP_classIndTechnicianAssigned:=RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl];
+                  FCentities[RSTent].E_col[RSTcol].COL_population.CP_classIndTechnicianAssigned:=FCentities[RSTent].E_col[RSTcol].COL_population.CP_classIndTechnicianAssigned+Result.CP_classIndTechnicianAssigned;
                end
-               else if RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl]>( FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpIStech-FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpIStechAssigned ) then
+               else if RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl]>( FCentities[RSTent].E_col[RSTcol].COL_population.CP_classIndTechnician-FCentities[RSTent].E_col[RSTcol].COL_population.CP_classIndTechnicianAssigned ) then
                begin
-                  Result.POP_tpIStech:=RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl];
-                  Result.POP_total:=Result.POP_total+Result.POP_tpIStech;
+                  Result.CP_classIndTechnician:=RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl];
+                  Result.CP_total:=Result.CP_total+Result.CP_classIndTechnician;
                end;
             end;
 
             ptEngineer:
             begin
-               if RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl]<=( FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpISeng-FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpISengAssigned ) then
+               if RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl]<=( FCentities[RSTent].E_col[RSTcol].COL_population.CP_classIndEngineer-FCentities[RSTent].E_col[RSTcol].COL_population.CP_classIndEngineerAssigned ) then
                begin
-                  Result.POP_tpISengAssigned:=RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl];
-                  FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpISengAssigned:=FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpISengAssigned+Result.POP_tpISengAssigned;
+                  Result.CP_classIndEngineerAssigned:=RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl];
+                  FCentities[RSTent].E_col[RSTcol].COL_population.CP_classIndEngineerAssigned:=FCentities[RSTent].E_col[RSTcol].COL_population.CP_classIndEngineerAssigned+Result.CP_classIndEngineerAssigned;
                end
-               else if RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl]>( FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpISeng-FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpISengAssigned ) then
+               else if RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl]>( FCentities[RSTent].E_col[RSTcol].COL_population.CP_classIndEngineer-FCentities[RSTent].E_col[RSTcol].COL_population.CP_classIndEngineerAssigned ) then
                begin
-                  Result.POP_tpISeng:=RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl];
-                  Result.POP_total:=Result.POP_total+Result.POP_tpISeng;
+                  Result.CP_classIndEngineer:=RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl];
+                  Result.CP_total:=Result.CP_total+Result.CP_classIndEngineer;
                end;
             end;
 
             ptSoldier:
             begin
-               if RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl]<=( FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpMSsold-FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpMSsoldAssigned ) then
+               if RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl]<=( FCentities[RSTent].E_col[RSTcol].COL_population.CP_classMilSoldier-FCentities[RSTent].E_col[RSTcol].COL_population.CP_classMilSoldierAssigned ) then
                begin
-                  Result.POP_tpMSsoldAssigned:=RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl];
-                  FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpMSsoldAssigned:=FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpMSsoldAssigned+Result.POP_tpMSsoldAssigned;
+                  Result.CP_classMilSoldierAssigned:=RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl];
+                  FCentities[RSTent].E_col[RSTcol].COL_population.CP_classMilSoldierAssigned:=FCentities[RSTent].E_col[RSTcol].COL_population.CP_classMilSoldierAssigned+Result.CP_classMilSoldierAssigned;
                end
-               else if RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl]>( FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpMSsold-FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpMSsoldAssigned ) then
+               else if RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl]>( FCentities[RSTent].E_col[RSTcol].COL_population.CP_classMilSoldier-FCentities[RSTent].E_col[RSTcol].COL_population.CP_classMilSoldierAssigned ) then
                begin
-                  Result.POP_tpMSsold:=RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl];
-                  Result.POP_total:=Result.POP_total+Result.POP_tpMSsold;
+                  Result.CP_classMilSoldier:=RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl];
+                  Result.CP_total:=Result.CP_total+Result.CP_classMilSoldier;
                end;
             end;
 
             ptCommando:
             begin
-               if RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl]<=( FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpMScomm-FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpMScommAssigned ) then
+               if RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl]<=( FCentities[RSTent].E_col[RSTcol].COL_population.CP_classMilCommando-FCentities[RSTent].E_col[RSTcol].COL_population.CP_classMilCommandoAssigned ) then
                begin
-                  Result.POP_tpMScommAssigned:=RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl];
-                  FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpMScommAssigned:=FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpMScommAssigned+Result.POP_tpMScommAssigned;
+                  Result.CP_classMilCommandoAssigned:=RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl];
+                  FCentities[RSTent].E_col[RSTcol].COL_population.CP_classMilCommandoAssigned:=FCentities[RSTent].E_col[RSTcol].COL_population.CP_classMilCommandoAssigned+Result.CP_classMilCommandoAssigned;
                end
-               else if RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl]>( FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpMScomm-FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpMScommAssigned ) then
+               else if RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl]>( FCentities[RSTent].E_col[RSTcol].COL_population.CP_classMilCommando-FCentities[RSTent].E_col[RSTcol].COL_population.CP_classMilCommandoAssigned ) then
                begin
-                  Result.POP_tpMScomm:=RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl];
-                  Result.POP_total:=Result.POP_total+Result.POP_tpMScomm;
+                  Result.CP_classMilCommando:=RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl];
+                  Result.CP_total:=Result.CP_total+Result.CP_classMilCommando;
                end;
             end;
 
             ptPhysicist:
             begin
-               if RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl]<=( FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpPSphys-FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpPSphysAssigned ) then
+               if RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl]<=( FCentities[RSTent].E_col[RSTcol].COL_population.CP_classPhyPhysicist-FCentities[RSTent].E_col[RSTcol].COL_population.CP_classPhyPhysicistAssigned ) then
                begin
-                  Result.POP_tpPSphysAssigned:=RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl];
-                  FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpPSphysAssigned:=FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpPSphysAssigned+Result.POP_tpPSphysAssigned;
+                  Result.CP_classPhyPhysicistAssigned:=RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl];
+                  FCentities[RSTent].E_col[RSTcol].COL_population.CP_classPhyPhysicistAssigned:=FCentities[RSTent].E_col[RSTcol].COL_population.CP_classPhyPhysicistAssigned+Result.CP_classPhyPhysicistAssigned;
                end
-               else if RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl]>( FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpPSphys-FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpPSphysAssigned ) then
+               else if RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl]>( FCentities[RSTent].E_col[RSTcol].COL_population.CP_classPhyPhysicist-FCentities[RSTent].E_col[RSTcol].COL_population.CP_classPhyPhysicistAssigned ) then
                begin
-                  Result.POP_tpPSphys:=RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl];
-                  Result.POP_total:=Result.POP_total+Result.POP_tpPSphys;
+                  Result.CP_classPhyPhysicist:=RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl];
+                  Result.CP_total:=Result.CP_total+Result.CP_classPhyPhysicist;
                end;
             end;
 
             ptAstrophysicist:
             begin
-               if RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl]<=( FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpPSastr-FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpPSastrAssigned ) then
+               if RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl]<=( FCentities[RSTent].E_col[RSTcol].COL_population.CP_classPhyAstrophysicist-FCentities[RSTent].E_col[RSTcol].COL_population.CP_classPhyAstrophysicistAssigned ) then
                begin
-                  Result.POP_tpPSastrAssigned:=RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl];
-                  FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpPSastrAssigned:=FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpPSastrAssigned+Result.POP_tpPSastrAssigned;
+                  Result.CP_classPhyAstrophysicistAssigned:=RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl];
+                  FCentities[RSTent].E_col[RSTcol].COL_population.CP_classPhyAstrophysicistAssigned:=FCentities[RSTent].E_col[RSTcol].COL_population.CP_classPhyAstrophysicistAssigned+Result.CP_classPhyAstrophysicistAssigned;
                end
-               else if RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl]>( FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpPSastr-FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpPSastrAssigned ) then
+               else if RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl]>( FCentities[RSTent].E_col[RSTcol].COL_population.CP_classPhyAstrophysicist-FCentities[RSTent].E_col[RSTcol].COL_population.CP_classPhyAstrophysicistAssigned ) then
                begin
-                  Result.POP_tpPSastr:=RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl];
-                  Result.POP_total:=Result.POP_total+Result.POP_tpPSastr;
+                  Result.CP_classPhyAstrophysicist:=RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl];
+                  Result.CP_total:=Result.CP_total+Result.CP_classPhyAstrophysicist;
                end;
             end;
 
             ptEcologist:
             begin
-               if RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl]<=( FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpESecol-FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpESecolAssigned ) then
+               if RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl]<=( FCentities[RSTent].E_col[RSTcol].COL_population.CP_classEcoEcologist-FCentities[RSTent].E_col[RSTcol].COL_population.CP_classEcoEcologistAssigned ) then
                begin
-                  Result.POP_tpESecolAssigned:=RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl];
-                  FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpESecolAssigned:=FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpESecolAssigned+Result.POP_tpESecolAssigned;
+                  Result.CP_classEcoEcologistAssigned:=RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl];
+                  FCentities[RSTent].E_col[RSTcol].COL_population.CP_classEcoEcologistAssigned:=FCentities[RSTent].E_col[RSTcol].COL_population.CP_classEcoEcologistAssigned+Result.CP_classEcoEcologistAssigned;
                end
-               else if RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl]>( FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpESecol-FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpESecolAssigned ) then
+               else if RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl]>( FCentities[RSTent].E_col[RSTcol].COL_population.CP_classEcoEcologist-FCentities[RSTent].E_col[RSTcol].COL_population.CP_classEcoEcologistAssigned ) then
                begin
-                  Result.POP_tpESecol:=RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl];
-                  Result.POP_total:=Result.POP_total+Result.POP_tpESecol;
+                  Result.CP_classEcoEcologist:=RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl];
+                  Result.CP_total:=Result.CP_total+Result.CP_classEcoEcologist;
                end;
             end;
 
             ptEcoformer:
             begin
-               if RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl]<=( FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpESecof-FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpESecofAssigned ) then
+               if RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl]<=( FCentities[RSTent].E_col[RSTcol].COL_population.CP_classEcoEcoformer-FCentities[RSTent].E_col[RSTcol].COL_population.CP_classEcoEcoformerAssigned ) then
                begin
-                  Result.POP_tpESecofAssigned:=RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl];
-                  FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpESecofAssigned:=FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpESecofAssigned+Result.POP_tpESecofAssigned;
+                  Result.CP_classEcoEcoformerAssigned:=RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl];
+                  FCentities[RSTent].E_col[RSTcol].COL_population.CP_classEcoEcoformerAssigned:=FCentities[RSTent].E_col[RSTcol].COL_population.CP_classEcoEcoformerAssigned+Result.CP_classEcoEcoformerAssigned;
                end
-               else if RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl]>( FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpESecof-FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpESecofAssigned ) then
+               else if RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl]>( FCentities[RSTent].E_col[RSTcol].COL_population.CP_classEcoEcoformer-FCentities[RSTent].E_col[RSTcol].COL_population.CP_classEcoEcoformerAssigned ) then
                begin
-                  Result.POP_tpESecof:=RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl];
-                  Result.POP_total:=Result.POP_total+Result.POP_tpESecof;
+                  Result.CP_classEcoEcoformer:=RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl];
+                  Result.CP_total:=Result.CP_total+Result.CP_classEcoEcoformer;
                end;
             end;
 
             ptMedian:
             begin
-               if RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl]<=( FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpAmedian-FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpAmedianAssigned ) then
+               if RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl]<=( FCentities[RSTent].E_col[RSTcol].COL_population.CP_classAdmMedian-FCentities[RSTent].E_col[RSTcol].COL_population.CP_classAdmMedianAssigned ) then
                begin
-                  Result.POP_tpAmedianAssigned:=RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl];
-                  FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpAmedianAssigned:=FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpAmedianAssigned+Result.POP_tpAmedianAssigned;
+                  Result.CP_classAdmMedianAssigned:=RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl];
+                  FCentities[RSTent].E_col[RSTcol].COL_population.CP_classAdmMedianAssigned:=FCentities[RSTent].E_col[RSTcol].COL_population.CP_classAdmMedianAssigned+Result.CP_classAdmMedianAssigned;
                end
-               else if RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl]>( FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpAmedian-FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpAmedianAssigned ) then
+               else if RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl]>( FCentities[RSTent].E_col[RSTcol].COL_population.CP_classAdmMedian-FCentities[RSTent].E_col[RSTcol].COL_population.CP_classAdmMedianAssigned ) then
                begin
-                  Result.POP_tpAmedian:=RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl];
-                  Result.POP_total:=Result.POP_total+Result.POP_tpAmedian;
+                  Result.CP_classAdmMedian:=RSTinfraData.I_reqStaff[RSTstaffCnt].RS_requiredByLv[RSTownInfraLvl];
+                  Result.CP_total:=Result.CP_total+Result.CP_classAdmMedian;
                end;
             end;
          end;
          inc( RSTstaffCnt );
       end;
-      if Result.POP_total>0 then
+      if Result.CP_total>0 then
       begin
-         if Result.POP_tpColonAssigned>0
-         then FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpColonAssigned:=FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpColonAssigned-Result.POP_tpColonAssigned;
-         if Result.POP_tpASoffAssigned>0
-         then FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpASoffAssigned:=FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpASoffAssigned-Result.POP_tpASoffAssigned;
-         if Result.POP_tpASmiSpAssigned>0
-         then FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpASmiSpAssigned:=FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpASmiSpAssigned-Result.POP_tpASmiSpAssigned;
-         if Result.POP_tpBSbioAssigned>0
-         then FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpBSbioAssigned:=FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpBSbioAssigned-Result.POP_tpBSbioAssigned;
-         if Result.POP_tpBSdocAssigned>0
-         then FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpBSdocAssigned:=FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpBSdocAssigned-Result.POP_tpBSdocAssigned;
-         if Result.POP_tpIStechAssigned>0
-         then FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpIStechAssigned:=FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpIStechAssigned-Result.POP_tpIStechAssigned;
-         if Result.POP_tpISengAssigned>0
-         then FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpISengAssigned:=FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpISengAssigned-Result.POP_tpISengAssigned;
-         if Result.POP_tpMSsoldAssigned>0
-         then FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpMSsoldAssigned:=FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpMSsoldAssigned-Result.POP_tpMSsoldAssigned;
-         if Result.POP_tpMScommAssigned>0
-         then FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpMScommAssigned:=FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpMScommAssigned-Result.POP_tpMScommAssigned;
-         if Result.POP_tpPSphysAssigned>0
-         then FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpPSphysAssigned:=FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpPSphysAssigned-Result.POP_tpPSphysAssigned;
-         if Result.POP_tpPSastrAssigned>0
-         then FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpPSastrAssigned:=FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpPSastrAssigned-Result.POP_tpPSastrAssigned;
-         if Result.POP_tpESecolAssigned>0
-         then FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpESecolAssigned:=FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpESecolAssigned-Result.POP_tpESecolAssigned;
-         if Result.POP_tpESecofAssigned>0
-         then FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpESecofAssigned:=FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpESecofAssigned-Result.POP_tpESecofAssigned;
-         if Result.POP_tpAmedianAssigned>0
-         then FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpAmedianAssigned:=FCentities[RSTent].E_col[RSTcol].COL_population.POP_tpAmedianAssigned-Result.POP_tpAmedianAssigned;
+         if Result.CP_classColonistAssigned>0
+         then FCentities[RSTent].E_col[RSTcol].COL_population.CP_classColonistAssigned:=FCentities[RSTent].E_col[RSTcol].COL_population.CP_classColonistAssigned-Result.CP_classColonistAssigned;
+         if Result.CP_classAerOfficerAssigned>0
+         then FCentities[RSTent].E_col[RSTcol].COL_population.CP_classAerOfficerAssigned:=FCentities[RSTent].E_col[RSTcol].COL_population.CP_classAerOfficerAssigned-Result.CP_classAerOfficerAssigned;
+         if Result.CP_classAerMissionSpecialistAssigned>0
+         then FCentities[RSTent].E_col[RSTcol].COL_population.CP_classAerMissionSpecialistAssigned:=FCentities[RSTent].E_col[RSTcol].COL_population.CP_classAerMissionSpecialistAssigned-Result.CP_classAerMissionSpecialistAssigned;
+         if Result.CP_classBioBiologistAssigned>0
+         then FCentities[RSTent].E_col[RSTcol].COL_population.CP_classBioBiologistAssigned:=FCentities[RSTent].E_col[RSTcol].COL_population.CP_classBioBiologistAssigned-Result.CP_classBioBiologistAssigned;
+         if Result.CP_classBioDoctorAssigned>0
+         then FCentities[RSTent].E_col[RSTcol].COL_population.CP_classBioDoctorAssigned:=FCentities[RSTent].E_col[RSTcol].COL_population.CP_classBioDoctorAssigned-Result.CP_classBioDoctorAssigned;
+         if Result.CP_classIndTechnicianAssigned>0
+         then FCentities[RSTent].E_col[RSTcol].COL_population.CP_classIndTechnicianAssigned:=FCentities[RSTent].E_col[RSTcol].COL_population.CP_classIndTechnicianAssigned-Result.CP_classIndTechnicianAssigned;
+         if Result.CP_classIndEngineerAssigned>0
+         then FCentities[RSTent].E_col[RSTcol].COL_population.CP_classIndEngineerAssigned:=FCentities[RSTent].E_col[RSTcol].COL_population.CP_classIndEngineerAssigned-Result.CP_classIndEngineerAssigned;
+         if Result.CP_classMilSoldierAssigned>0
+         then FCentities[RSTent].E_col[RSTcol].COL_population.CP_classMilSoldierAssigned:=FCentities[RSTent].E_col[RSTcol].COL_population.CP_classMilSoldierAssigned-Result.CP_classMilSoldierAssigned;
+         if Result.CP_classMilCommandoAssigned>0
+         then FCentities[RSTent].E_col[RSTcol].COL_population.CP_classMilCommandoAssigned:=FCentities[RSTent].E_col[RSTcol].COL_population.CP_classMilCommandoAssigned-Result.CP_classMilCommandoAssigned;
+         if Result.CP_classPhyPhysicistAssigned>0
+         then FCentities[RSTent].E_col[RSTcol].COL_population.CP_classPhyPhysicistAssigned:=FCentities[RSTent].E_col[RSTcol].COL_population.CP_classPhyPhysicistAssigned-Result.CP_classPhyPhysicistAssigned;
+         if Result.CP_classPhyAstrophysicistAssigned>0
+         then FCentities[RSTent].E_col[RSTcol].COL_population.CP_classPhyAstrophysicistAssigned:=FCentities[RSTent].E_col[RSTcol].COL_population.CP_classPhyAstrophysicistAssigned-Result.CP_classPhyAstrophysicistAssigned;
+         if Result.CP_classEcoEcologistAssigned>0
+         then FCentities[RSTent].E_col[RSTcol].COL_population.CP_classEcoEcologistAssigned:=FCentities[RSTent].E_col[RSTcol].COL_population.CP_classEcoEcologistAssigned-Result.CP_classEcoEcologistAssigned;
+         if Result.CP_classEcoEcoformerAssigned>0
+         then FCentities[RSTent].E_col[RSTcol].COL_population.CP_classEcoEcoformerAssigned:=FCentities[RSTent].E_col[RSTcol].COL_population.CP_classEcoEcoformerAssigned-Result.CP_classEcoEcoformerAssigned;
+         if Result.CP_classAdmMedianAssigned>0
+         then FCentities[RSTent].E_col[RSTcol].COL_population.CP_classAdmMedianAssigned:=FCentities[RSTent].E_col[RSTcol].COL_population.CP_classAdmMedianAssigned-Result.CP_classAdmMedianAssigned;
       end;
    end;
 end;
@@ -435,33 +435,33 @@ begin
       while RSRcnt<=RSRmax do
       begin
          case RSRinfraData.I_reqStaff[RSRcnt].RS_type of
-            ptColonist: FCentities[RSRent].E_col[RSRcol].COL_population.POP_tpColonAssigned:=FCentities[RSRent].E_col[RSRcol].COL_population.POP_tpColonAssigned-RSRinfraData.I_reqStaff[RSRcnt].RS_requiredByLv[RSRownInfraLvl];
+            ptColonist: FCentities[RSRent].E_col[RSRcol].COL_population.CP_classColonistAssigned:=FCentities[RSRent].E_col[RSRcol].COL_population.CP_classColonistAssigned-RSRinfraData.I_reqStaff[RSRcnt].RS_requiredByLv[RSRownInfraLvl];
 
-            ptOfficer: FCentities[RSRent].E_col[RSRcol].COL_population.POP_tpASoffAssigned:=FCentities[RSRent].E_col[RSRcol].COL_population.POP_tpASoffAssigned-RSRinfraData.I_reqStaff[RSRcnt].RS_requiredByLv[RSRownInfraLvl];
+            ptOfficer: FCentities[RSRent].E_col[RSRcol].COL_population.CP_classAerOfficerAssigned:=FCentities[RSRent].E_col[RSRcol].COL_population.CP_classAerOfficerAssigned-RSRinfraData.I_reqStaff[RSRcnt].RS_requiredByLv[RSRownInfraLvl];
 
-            ptMissionSpecialist: FCentities[RSRent].E_col[RSRcol].COL_population.POP_tpASmiSpAssigned:=FCentities[RSRent].E_col[RSRcol].COL_population.POP_tpASmiSpAssigned-RSRinfraData.I_reqStaff[RSRcnt].RS_requiredByLv[RSRownInfraLvl];
+            ptMissionSpecialist: FCentities[RSRent].E_col[RSRcol].COL_population.CP_classAerMissionSpecialistAssigned:=FCentities[RSRent].E_col[RSRcol].COL_population.CP_classAerMissionSpecialistAssigned-RSRinfraData.I_reqStaff[RSRcnt].RS_requiredByLv[RSRownInfraLvl];
 
-            ptBiologist: FCentities[RSRent].E_col[RSRcol].COL_population.POP_tpBSbioAssigned:=FCentities[RSRent].E_col[RSRcol].COL_population.POP_tpBSbioAssigned-RSRinfraData.I_reqStaff[RSRcnt].RS_requiredByLv[RSRownInfraLvl];
+            ptBiologist: FCentities[RSRent].E_col[RSRcol].COL_population.CP_classBioBiologistAssigned:=FCentities[RSRent].E_col[RSRcol].COL_population.CP_classBioBiologistAssigned-RSRinfraData.I_reqStaff[RSRcnt].RS_requiredByLv[RSRownInfraLvl];
 
-            ptDoctor: FCentities[RSRent].E_col[RSRcol].COL_population.POP_tpBSdocAssigned:=FCentities[RSRent].E_col[RSRcol].COL_population.POP_tpBSdocAssigned-RSRinfraData.I_reqStaff[RSRcnt].RS_requiredByLv[RSRownInfraLvl];
+            ptDoctor: FCentities[RSRent].E_col[RSRcol].COL_population.CP_classBioDoctorAssigned:=FCentities[RSRent].E_col[RSRcol].COL_population.CP_classBioDoctorAssigned-RSRinfraData.I_reqStaff[RSRcnt].RS_requiredByLv[RSRownInfraLvl];
 
-            ptTechnician: FCentities[RSRent].E_col[RSRcol].COL_population.POP_tpIStechAssigned:=FCentities[RSRent].E_col[RSRcol].COL_population.POP_tpIStechAssigned-RSRinfraData.I_reqStaff[RSRcnt].RS_requiredByLv[RSRownInfraLvl];
+            ptTechnician: FCentities[RSRent].E_col[RSRcol].COL_population.CP_classIndTechnicianAssigned:=FCentities[RSRent].E_col[RSRcol].COL_population.CP_classIndTechnicianAssigned-RSRinfraData.I_reqStaff[RSRcnt].RS_requiredByLv[RSRownInfraLvl];
 
-            ptEngineer: FCentities[RSRent].E_col[RSRcol].COL_population.POP_tpISengAssigned:=FCentities[RSRent].E_col[RSRcol].COL_population.POP_tpISengAssigned-RSRinfraData.I_reqStaff[RSRcnt].RS_requiredByLv[RSRownInfraLvl];
+            ptEngineer: FCentities[RSRent].E_col[RSRcol].COL_population.CP_classIndEngineerAssigned:=FCentities[RSRent].E_col[RSRcol].COL_population.CP_classIndEngineerAssigned-RSRinfraData.I_reqStaff[RSRcnt].RS_requiredByLv[RSRownInfraLvl];
 
-            ptSoldier: FCentities[RSRent].E_col[RSRcol].COL_population.POP_tpMSsoldAssigned:=FCentities[RSRent].E_col[RSRcol].COL_population.POP_tpMSsoldAssigned-RSRinfraData.I_reqStaff[RSRcnt].RS_requiredByLv[RSRownInfraLvl];
+            ptSoldier: FCentities[RSRent].E_col[RSRcol].COL_population.CP_classMilSoldierAssigned:=FCentities[RSRent].E_col[RSRcol].COL_population.CP_classMilSoldierAssigned-RSRinfraData.I_reqStaff[RSRcnt].RS_requiredByLv[RSRownInfraLvl];
 
-            ptCommando: FCentities[RSRent].E_col[RSRcol].COL_population.POP_tpMScommAssigned:=FCentities[RSRent].E_col[RSRcol].COL_population.POP_tpMScommAssigned-RSRinfraData.I_reqStaff[RSRcnt].RS_requiredByLv[RSRownInfraLvl];
+            ptCommando: FCentities[RSRent].E_col[RSRcol].COL_population.CP_classMilCommandoAssigned:=FCentities[RSRent].E_col[RSRcol].COL_population.CP_classMilCommandoAssigned-RSRinfraData.I_reqStaff[RSRcnt].RS_requiredByLv[RSRownInfraLvl];
 
-            ptPhysicist: FCentities[RSRent].E_col[RSRcol].COL_population.POP_tpPSphysAssigned:=FCentities[RSRent].E_col[RSRcol].COL_population.POP_tpPSphysAssigned-RSRinfraData.I_reqStaff[RSRcnt].RS_requiredByLv[RSRownInfraLvl];
+            ptPhysicist: FCentities[RSRent].E_col[RSRcol].COL_population.CP_classPhyPhysicistAssigned:=FCentities[RSRent].E_col[RSRcol].COL_population.CP_classPhyPhysicistAssigned-RSRinfraData.I_reqStaff[RSRcnt].RS_requiredByLv[RSRownInfraLvl];
 
-            ptAstrophysicist: FCentities[RSRent].E_col[RSRcol].COL_population.POP_tpPSastrAssigned:=FCentities[RSRent].E_col[RSRcol].COL_population.POP_tpPSastrAssigned-RSRinfraData.I_reqStaff[RSRcnt].RS_requiredByLv[RSRownInfraLvl];
+            ptAstrophysicist: FCentities[RSRent].E_col[RSRcol].COL_population.CP_classPhyAstrophysicistAssigned:=FCentities[RSRent].E_col[RSRcol].COL_population.CP_classPhyAstrophysicistAssigned-RSRinfraData.I_reqStaff[RSRcnt].RS_requiredByLv[RSRownInfraLvl];
 
-            ptEcologist: FCentities[RSRent].E_col[RSRcol].COL_population.POP_tpESecolAssigned:=FCentities[RSRent].E_col[RSRcol].COL_population.POP_tpESecolAssigned-RSRinfraData.I_reqStaff[RSRcnt].RS_requiredByLv[RSRownInfraLvl];
+            ptEcologist: FCentities[RSRent].E_col[RSRcol].COL_population.CP_classEcoEcologistAssigned:=FCentities[RSRent].E_col[RSRcol].COL_population.CP_classEcoEcologistAssigned-RSRinfraData.I_reqStaff[RSRcnt].RS_requiredByLv[RSRownInfraLvl];
 
-            ptEcoformer: FCentities[RSRent].E_col[RSRcol].COL_population.POP_tpESecofAssigned:=FCentities[RSRent].E_col[RSRcol].COL_population.POP_tpESecofAssigned-RSRinfraData.I_reqStaff[RSRcnt].RS_requiredByLv[RSRownInfraLvl];
+            ptEcoformer: FCentities[RSRent].E_col[RSRcol].COL_population.CP_classEcoEcoformerAssigned:=FCentities[RSRent].E_col[RSRcol].COL_population.CP_classEcoEcoformerAssigned-RSRinfraData.I_reqStaff[RSRcnt].RS_requiredByLv[RSRownInfraLvl];
 
-            ptMedian: FCentities[RSRent].E_col[RSRcol].COL_population.POP_tpAmedianAssigned:=FCentities[RSRent].E_col[RSRcol].COL_population.POP_tpAmedianAssigned-RSRinfraData.I_reqStaff[RSRcnt].RS_requiredByLv[RSRownInfraLvl];
+            ptMedian: FCentities[RSRent].E_col[RSRcol].COL_population.CP_classAdmMedianAssigned:=FCentities[RSRent].E_col[RSRcol].COL_population.CP_classAdmMedianAssigned-RSRinfraData.I_reqStaff[RSRcnt].RS_requiredByLv[RSRownInfraLvl];
          end;
          inc(RSRcnt);
       end;

@@ -955,9 +955,9 @@ begin
             1:
             begin
                ETuprRebAmnt:=80;
-               if FCentities[Entity].E_col[Colony].COL_population.POP_tpMSsold>0
+               if FCentities[Entity].E_col[Colony].COL_population.CP_classMilSoldier>0
                then FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CCSME_durationWeeks:=-1
-               else if FCentities[Entity].E_col[Colony].COL_population.POP_tpMSsold=0
+               else if FCentities[Entity].E_col[Colony].COL_population.CP_classMilSoldier=0
                then ETuprDurCoef:=5;
                FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CCSME_tUpEconomicIndustrialOutputMod:=-65;
                FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CCSME_tUpTensionMod:=43;
@@ -966,9 +966,9 @@ begin
             2:
             begin
                ETuprRebAmnt:=50;
-               if FCentities[Entity].E_col[Colony].COL_population.POP_tpMSsold>0
+               if FCentities[Entity].E_col[Colony].COL_population.CP_classMilSoldier>0
                then FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CCSME_durationWeeks:=-1
-               else if FCentities[Entity].E_col[Colony].COL_population.POP_tpMSsold=0
+               else if FCentities[Entity].E_col[Colony].COL_population.CP_classMilSoldier=0
                then ETuprDurCoef:=4;
                FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CCSME_tUpEconomicIndustrialOutputMod:=-52;
                FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CCSME_tUpTensionMod:=34;
@@ -977,9 +977,9 @@ begin
             3:
             begin
                ETuprRebAmnt:=30;
-               if FCentities[Entity].E_col[Colony].COL_population.POP_tpMSsold>0
+               if FCentities[Entity].E_col[Colony].COL_population.CP_classMilSoldier>0
                then FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CCSME_durationWeeks:=-1
-               else if FCentities[Entity].E_col[Colony].COL_population.POP_tpMSsold=0
+               else if FCentities[Entity].E_col[Colony].COL_population.CP_classMilSoldier=0
                then ETuprDurCoef:=2;
                FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CCSME_tUpEconomicIndustrialOutputMod:=-39;
                FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CCSME_tUpTensionMod:=26;
@@ -988,9 +988,9 @@ begin
             4:
             begin
                ETuprRebAmnt:=20;
-               if FCentities[Entity].E_col[Colony].COL_population.POP_tpMSsold>0
+               if FCentities[Entity].E_col[Colony].COL_population.CP_classMilSoldier>0
                then FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CCSME_durationWeeks:=-1
-               else if FCentities[Entity].E_col[Colony].COL_population.POP_tpMSsold=0
+               else if FCentities[Entity].E_col[Colony].COL_population.CP_classMilSoldier=0
                then ETuprDurCoef:=1.5;
                FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CCSME_tUpEconomicIndustrialOutputMod:=-23;
                FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CCSME_tUpTensionMod:=19;
@@ -999,9 +999,9 @@ begin
             5:
             begin
                ETuprRebAmnt:=10;
-               if FCentities[Entity].E_col[Colony].COL_population.POP_tpMSsold>0
+               if FCentities[Entity].E_col[Colony].COL_population.CP_classMilSoldier>0
                then FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CCSME_durationWeeks:=-1
-               else if FCentities[Entity].E_col[Colony].COL_population.POP_tpMSsold=0
+               else if FCentities[Entity].E_col[Colony].COL_population.CP_classMilSoldier=0
                then ETuprDurCoef:=1;
                FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CCSME_tUpEconomicIndustrialOutputMod:=-15;
                FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CCSME_tUpTensionMod:=15;
@@ -1009,16 +1009,16 @@ begin
          end; //==END== case ETlvl of ==//
          if FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CCSME_durationWeeks=-1
          then ETuprRebels:=round(
-            ( FCentities[Entity].E_col[Colony].COL_population.POP_total-FCentities[Entity].E_col[Colony].COL_population.POP_tpMSsold )*( 1+( ETuprRebAmnt/100 ) )
+            ( FCentities[Entity].E_col[Colony].COL_population.CP_total-FCentities[Entity].E_col[Colony].COL_population.CP_classMilSoldier )*( 1+( ETuprRebAmnt/100 ) )
             )
          else if FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CCSME_durationWeeks=0
          then
          begin
-            ETuprRebels:=round(FCentities[Entity].E_col[Colony].COL_population.POP_total*(1+(ETuprRebAmnt/100)));
+            ETuprRebels:=round(FCentities[Entity].E_col[Colony].COL_population.CP_total*(1+(ETuprRebAmnt/100)));
             ETdur:=sqrt(ETuprRebels)*ETuprDurCoef;
             FCentities[Entity].E_col[Colony].COL_evList[CurrentEventIndex].CCSME_durationWeeks:=round(ETdur);
          end;
-         FCentities[Entity].E_col[Colony].COL_population.POP_tpRebels:=ETuprRebels;
+         FCentities[Entity].E_col[Colony].COL_population.CP_classRebels:=ETuprRebels;
          if not LoadToIndex0 then
          begin
             FCMgCSM_ColonyData_Upd(
@@ -1114,23 +1114,23 @@ begin
             end;
             1..3:
             begin
-               if FCentities[Entity].E_col[Colony].COL_population.POP_tpMSsold=0
+               if FCentities[Entity].E_col[Colony].COL_population.CP_classMilSoldier=0
                then
                begin
-                  ETuprRebels:=round(FCentities[Entity].E_col[Colony].COL_population.POP_total*(1+(ETuprRebAmnt/100)));
-                  ETloyalCalc:=round((FCentities[Entity].E_col[Colony].COL_population.POP_total-ETuprRebels)*(1+(ETloyal/100)));
+                  ETuprRebels:=round(FCentities[Entity].E_col[Colony].COL_population.CP_total*(1+(ETuprRebAmnt/100)));
+                  ETloyalCalc:=round((FCentities[Entity].E_col[Colony].COL_population.CP_total-ETuprRebels)*(1+(ETloyal/100)));
                end
-               else if FCentities[Entity].E_col[Colony].COL_population.POP_tpMSsold>0
+               else if FCentities[Entity].E_col[Colony].COL_population.CP_classMilSoldier>0
                then
                begin
                   ETuprRebels:=round(
-                     (FCentities[Entity].E_col[Colony].COL_population.POP_total-FCentities[Entity].E_col[Colony].COL_population.POP_tpMSsold)
+                     (FCentities[Entity].E_col[Colony].COL_population.CP_total-FCentities[Entity].E_col[Colony].COL_population.CP_classMilSoldier)
                      *(1+(ETuprRebAmnt/100))
                      );
                   ETloyalCalc:=0;
                end;
-               FCentities[Entity].E_col[Colony].COL_population.POP_tpRebels:=ETuprRebels;
-               FCentities[Entity].E_col[Colony].COL_population.POP_tpMilitia:=ETloyalCalc;
+               FCentities[Entity].E_col[Colony].COL_population.CP_classRebels:=ETuprRebels;
+               FCentities[Entity].E_col[Colony].COL_population.CP_classMilitia:=ETloyalCalc;
             end;
          end; //==END== case ETintEv of ==//
       end; //==END== case: etColDissident ==//
@@ -2132,8 +2132,8 @@ begin
                   ,false
                   );
                {.fighting system}
-               OTPsold:=FCentities[Entity].E_col[Colony].COL_population.POP_tpMSsold;
-               OTPreb:=FCentities[Entity].E_col[Colony].COL_population.POP_tpRebels;
+               OTPsold:=FCentities[Entity].E_col[Colony].COL_population.CP_classMilSoldier;
+               OTPreb:=FCentities[Entity].E_col[Colony].COL_population.CP_classRebels;
                if OTPsold>0
                then
                begin
@@ -2166,7 +2166,7 @@ begin
                   then OTPcasSold:=OTPsold;
                   {.population losses are calculated proportionally on each population classes}
                   OTPcurr:=OTPcasPop;
-                  OTPpopTtl:=FCentities[Entity].E_col[Colony].COL_population.POP_total-OTPsold;
+                  OTPpopTtl:=FCentities[Entity].E_col[Colony].COL_population.CP_total-OTPsold;
                   OTPpCnt:=1;
                   while OTPcurr>0 do
                   begin
@@ -2174,10 +2174,10 @@ begin
                         {.colonists}
                         1:
                         begin
-                           if FCentities[Entity].E_col[Colony].COL_population.POP_tpColon>0
+                           if FCentities[Entity].E_col[Colony].COL_population.CP_classColonist>0
                            then
                            begin
-                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.POP_tpColon*OTPcasPop/OTPpopTtl);
+                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.CP_classColonist*OTPcasPop/OTPpopTtl);
                               if OTPrem>=OTPcurr
                               then
                               begin
@@ -2211,10 +2211,10 @@ begin
                         {.aerospace officers}
                         2:
                         begin
-                           if FCentities[Entity].E_col[Colony].COL_population.POP_tpASoff>0
+                           if FCentities[Entity].E_col[Colony].COL_population.CP_classAerOfficer>0
                            then
                            begin
-                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.POP_tpASoff*OTPcasPop/OTPpopTtl);
+                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.CP_classAerOfficer*OTPcasPop/OTPpopTtl);
                               if OTPrem>=OTPcurr
                               then
                               begin
@@ -2248,10 +2248,10 @@ begin
                         {.mission specialists}
                         3:
                         begin
-                           if FCentities[Entity].E_col[Colony].COL_population.POP_tpASmiSp>0
+                           if FCentities[Entity].E_col[Colony].COL_population.CP_classAerMissionSpecialist>0
                            then
                            begin
-                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.POP_tpASmiSp*OTPcasPop/OTPpopTtl);
+                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.CP_classAerMissionSpecialist*OTPcasPop/OTPpopTtl);
                               if OTPrem>=OTPcurr
                               then
                               begin
@@ -2285,10 +2285,10 @@ begin
                         {.biologists}
                         4:
                         begin
-                           if FCentities[Entity].E_col[Colony].COL_population.POP_tpBSbio>0
+                           if FCentities[Entity].E_col[Colony].COL_population.CP_classBioBiologist>0
                            then
                            begin
-                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.POP_tpBSbio*OTPcasPop/OTPpopTtl);
+                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.CP_classBioBiologist*OTPcasPop/OTPpopTtl);
                               if OTPrem>=OTPcurr
                               then
                               begin
@@ -2322,10 +2322,10 @@ begin
                         {.doctors}
                         5:
                         begin
-                           if FCentities[Entity].E_col[Colony].COL_population.POP_tpBSdoc>0
+                           if FCentities[Entity].E_col[Colony].COL_population.CP_classBioDoctor>0
                            then
                            begin
-                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.POP_tpBSdoc*OTPcasPop/OTPpopTtl);
+                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.CP_classBioDoctor*OTPcasPop/OTPpopTtl);
                               if OTPrem>=OTPcurr
                               then
                               begin
@@ -2359,10 +2359,10 @@ begin
                         {.technicians}
                         6:
                         begin
-                           if FCentities[Entity].E_col[Colony].COL_population.POP_tpIStech>0
+                           if FCentities[Entity].E_col[Colony].COL_population.CP_classIndTechnician>0
                            then
                            begin
-                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.POP_tpIStech*OTPcasPop/OTPpopTtl);
+                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.CP_classIndTechnician*OTPcasPop/OTPpopTtl);
                               if OTPrem>=OTPcurr
                               then
                               begin
@@ -2396,10 +2396,10 @@ begin
                         {.engineers}
                         7:
                         begin
-                           if FCentities[Entity].E_col[Colony].COL_population.POP_tpISeng>0
+                           if FCentities[Entity].E_col[Colony].COL_population.CP_classIndEngineer>0
                            then
                            begin
-                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.POP_tpISeng*OTPcasPop/OTPpopTtl);
+                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.CP_classIndEngineer*OTPcasPop/OTPpopTtl);
                               if OTPrem>=OTPcurr
                               then
                               begin
@@ -2433,10 +2433,10 @@ begin
                         {.commandos}
                         8:
                         begin
-                           if FCentities[Entity].E_col[Colony].COL_population.POP_tpMScomm>0
+                           if FCentities[Entity].E_col[Colony].COL_population.CP_classMilCommando>0
                            then
                            begin
-                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.POP_tpMScomm*OTPcasPop/OTPpopTtl);
+                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.CP_classMilCommando*OTPcasPop/OTPpopTtl);
                               if OTPrem>=OTPcurr
                               then
                               begin
@@ -2470,10 +2470,10 @@ begin
                         {.physicists}
                         9:
                         begin
-                           if FCentities[Entity].E_col[Colony].COL_population.POP_tpPSphys>0
+                           if FCentities[Entity].E_col[Colony].COL_population.CP_classPhyPhysicist>0
                            then
                            begin
-                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.POP_tpPSphys*OTPcasPop/OTPpopTtl);
+                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.CP_classPhyPhysicist*OTPcasPop/OTPpopTtl);
                               if OTPrem>=OTPcurr
                               then
                               begin
@@ -2507,10 +2507,10 @@ begin
                         {.astrophysicists}
                         10:
                         begin
-                           if FCentities[Entity].E_col[Colony].COL_population.POP_tpPSastr>0
+                           if FCentities[Entity].E_col[Colony].COL_population.CP_classPhyAstrophysicist>0
                            then
                            begin
-                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.POP_tpPSastr*OTPcasPop/OTPpopTtl);
+                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.CP_classPhyAstrophysicist*OTPcasPop/OTPpopTtl);
                               if OTPrem>=OTPcurr
                               then
                               begin
@@ -2544,10 +2544,10 @@ begin
                         {.ecologists}
                         11:
                         begin
-                           if FCentities[Entity].E_col[Colony].COL_population.POP_tpESecol>0
+                           if FCentities[Entity].E_col[Colony].COL_population.CP_classEcoEcologist>0
                            then
                            begin
-                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.POP_tpESecol*OTPcasPop/OTPpopTtl);
+                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.CP_classEcoEcologist*OTPcasPop/OTPpopTtl);
                               if OTPrem>=OTPcurr
                               then
                               begin
@@ -2581,10 +2581,10 @@ begin
                         {.ecoformers}
                         12:
                         begin
-                           if FCentities[Entity].E_col[Colony].COL_population.POP_tpESecof>0
+                           if FCentities[Entity].E_col[Colony].COL_population.CP_classEcoEcoformer>0
                            then
                            begin
-                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.POP_tpESecof*OTPcasPop/OTPpopTtl);
+                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.CP_classEcoEcoformer*OTPcasPop/OTPpopTtl);
                               if OTPrem>=OTPcurr
                               then
                               begin
@@ -2618,10 +2618,10 @@ begin
                         {.medians}
                         13:
                         begin
-                           if FCentities[Entity].E_col[Colony].COL_population.POP_tpAmedian>0
+                           if FCentities[Entity].E_col[Colony].COL_population.CP_classAdmMedian>0
                            then
                            begin
-                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.POP_tpAmedian*OTPcasPop/OTPpopTtl);
+                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.CP_classAdmMedian*OTPcasPop/OTPpopTtl);
                               if OTPrem>=OTPcurr
                               then
                               begin
@@ -2658,7 +2658,7 @@ begin
                      then break;
                   end; //==END== while OTPcurr>0 do ==//
                   {.final data changes}
-                  FCentities[Entity].E_col[Colony].COL_population.POP_tpRebels:=OTPreb-OTPcasPop;
+                  FCentities[Entity].E_col[Colony].COL_population.CP_classRebels:=OTPreb-OTPcasPop;
                   FCMgCSM_ColonyData_Upd(
                      dPopulation
                      ,Entity
@@ -2678,9 +2678,9 @@ begin
                      ,false
                      );
                   {.event resolving rules}
-                  if FCentities[Entity].E_col[Colony].COL_population.POP_tpRebels=0
+                  if FCentities[Entity].E_col[Colony].COL_population.CP_classRebels=0
                   then FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].CCSME_durationWeeks:=-3
-                  else if FCentities[Entity].E_col[Colony].COL_population.POP_tpMSsold=0
+                  else if FCentities[Entity].E_col[Colony].COL_population.CP_classMilSoldier=0
                   then FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].CCSME_durationWeeks:=-4;
                end //==END== if OTPsold>0 ==//
                else if (OTPsold=0)
@@ -2711,9 +2711,9 @@ begin
                   3: OTPrebEqup:=3;
                end;
                {.fighting system}
-               OTPsold:=FCentities[Entity].E_col[Colony].COL_population.POP_tpMSsold;
-               OTPreb:=FCentities[Entity].E_col[Colony].COL_population.POP_tpRebels;
-               OTPmili:=FCentities[Entity].E_col[Colony].COL_population.POP_tpMilitia;
+               OTPsold:=FCentities[Entity].E_col[Colony].COL_population.CP_classMilSoldier;
+               OTPreb:=FCentities[Entity].E_col[Colony].COL_population.CP_classRebels;
+               OTPmili:=FCentities[Entity].E_col[Colony].COL_population.CP_classMilitia;
                if (OTPsold>0)
                   or (OTPmili>0)
                then
@@ -2751,7 +2751,7 @@ begin
                   else if OTPmili=0
                   then OTPcurr:=OTPcasPop;
                   OTPcivil:=OTPcurr;
-                  OTPpopTtl:=FCentities[Entity].E_col[Colony].COL_population.POP_total-OTPsold;
+                  OTPpopTtl:=FCentities[Entity].E_col[Colony].COL_population.CP_total-OTPsold;
                   OTPpCnt:=1;
                   while OTPcurr>0 do
                   begin
@@ -2759,10 +2759,10 @@ begin
                         {.colonists}
                         1:
                         begin
-                           if FCentities[Entity].E_col[Colony].COL_population.POP_tpColon>0
+                           if FCentities[Entity].E_col[Colony].COL_population.CP_classColonist>0
                            then
                            begin
-                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.POP_tpColon*OTPcivil/OTPpopTtl);
+                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.CP_classColonist*OTPcivil/OTPpopTtl);
                               if OTPrem>=OTPcurr
                               then
                               begin
@@ -2796,10 +2796,10 @@ begin
                         {.aerospace officers}
                         2:
                         begin
-                           if FCentities[Entity].E_col[Colony].COL_population.POP_tpASoff>0
+                           if FCentities[Entity].E_col[Colony].COL_population.CP_classAerOfficer>0
                            then
                            begin
-                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.POP_tpASoff*OTPcivil/OTPpopTtl);
+                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.CP_classAerOfficer*OTPcivil/OTPpopTtl);
                               if OTPrem>=OTPcurr
                               then
                               begin
@@ -2833,10 +2833,10 @@ begin
                         {.mission specialists}
                         3:
                         begin
-                           if FCentities[Entity].E_col[Colony].COL_population.POP_tpASmiSp>0
+                           if FCentities[Entity].E_col[Colony].COL_population.CP_classAerMissionSpecialist>0
                            then
                            begin
-                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.POP_tpASmiSp*OTPcivil/OTPpopTtl);
+                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.CP_classAerMissionSpecialist*OTPcivil/OTPpopTtl);
                               if OTPrem>=OTPcurr
                               then
                               begin
@@ -2870,10 +2870,10 @@ begin
                         {.biologists}
                         4:
                         begin
-                           if FCentities[Entity].E_col[Colony].COL_population.POP_tpBSbio>0
+                           if FCentities[Entity].E_col[Colony].COL_population.CP_classBioBiologist>0
                            then
                            begin
-                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.POP_tpBSbio*OTPcivil/OTPpopTtl);
+                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.CP_classBioBiologist*OTPcivil/OTPpopTtl);
                               if OTPrem>=OTPcurr
                               then
                               begin
@@ -2907,10 +2907,10 @@ begin
                         {.doctors}
                         5:
                         begin
-                           if FCentities[Entity].E_col[Colony].COL_population.POP_tpBSdoc>0
+                           if FCentities[Entity].E_col[Colony].COL_population.CP_classBioDoctor>0
                            then
                            begin
-                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.POP_tpBSdoc*OTPcivil/OTPpopTtl);
+                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.CP_classBioDoctor*OTPcivil/OTPpopTtl);
                               if OTPrem>=OTPcurr
                               then
                               begin
@@ -2944,10 +2944,10 @@ begin
                         {.technicians}
                         6:
                         begin
-                           if FCentities[Entity].E_col[Colony].COL_population.POP_tpIStech>0
+                           if FCentities[Entity].E_col[Colony].COL_population.CP_classIndTechnician>0
                            then
                            begin
-                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.POP_tpIStech*OTPcivil/OTPpopTtl);
+                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.CP_classIndTechnician*OTPcivil/OTPpopTtl);
                               if OTPrem>=OTPcurr
                               then
                               begin
@@ -2981,10 +2981,10 @@ begin
                         {.engineers}
                         7:
                         begin
-                           if FCentities[Entity].E_col[Colony].COL_population.POP_tpISeng>0
+                           if FCentities[Entity].E_col[Colony].COL_population.CP_classIndEngineer>0
                            then
                            begin
-                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.POP_tpISeng*OTPcivil/OTPpopTtl);
+                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.CP_classIndEngineer*OTPcivil/OTPpopTtl);
                               if OTPrem>=OTPcurr
                               then
                               begin
@@ -3018,10 +3018,10 @@ begin
                         {.commandos}
                         8:
                         begin
-                           if FCentities[Entity].E_col[Colony].COL_population.POP_tpMScomm>0
+                           if FCentities[Entity].E_col[Colony].COL_population.CP_classMilCommando>0
                            then
                            begin
-                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.POP_tpMScomm*OTPcivil/OTPpopTtl);
+                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.CP_classMilCommando*OTPcivil/OTPpopTtl);
                               if OTPrem>=OTPcurr
                               then
                               begin
@@ -3055,10 +3055,10 @@ begin
                         {.physicists}
                         9:
                         begin
-                           if FCentities[Entity].E_col[Colony].COL_population.POP_tpPSphys>0
+                           if FCentities[Entity].E_col[Colony].COL_population.CP_classPhyPhysicist>0
                            then
                            begin
-                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.POP_tpPSphys*OTPcivil/OTPpopTtl);
+                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.CP_classPhyPhysicist*OTPcivil/OTPpopTtl);
                               if OTPrem>=OTPcurr
                               then
                               begin
@@ -3092,10 +3092,10 @@ begin
                         {.astrophysicists}
                         10:
                         begin
-                           if FCentities[Entity].E_col[Colony].COL_population.POP_tpPSastr>0
+                           if FCentities[Entity].E_col[Colony].COL_population.CP_classPhyAstrophysicist>0
                            then
                            begin
-                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.POP_tpPSastr*OTPcivil/OTPpopTtl);
+                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.CP_classPhyAstrophysicist*OTPcivil/OTPpopTtl);
                               if OTPrem>=OTPcurr
                               then
                               begin
@@ -3129,10 +3129,10 @@ begin
                         {.ecologists}
                         11:
                         begin
-                           if FCentities[Entity].E_col[Colony].COL_population.POP_tpESecol>0
+                           if FCentities[Entity].E_col[Colony].COL_population.CP_classEcoEcologist>0
                            then
                            begin
-                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.POP_tpESecol*OTPcivil/OTPpopTtl);
+                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.CP_classEcoEcologist*OTPcivil/OTPpopTtl);
                               if OTPrem>=OTPcurr
                               then
                               begin
@@ -3166,10 +3166,10 @@ begin
                         {.ecoformers}
                         12:
                         begin
-                           if FCentities[Entity].E_col[Colony].COL_population.POP_tpESecof>0
+                           if FCentities[Entity].E_col[Colony].COL_population.CP_classEcoEcoformer>0
                            then
                            begin
-                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.POP_tpESecof*OTPcivil/OTPpopTtl);
+                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.CP_classEcoEcoformer*OTPcivil/OTPpopTtl);
                               if OTPrem>=OTPcurr
                               then
                               begin
@@ -3203,10 +3203,10 @@ begin
                         {.medians}
                         13:
                         begin
-                           if FCentities[Entity].E_col[Colony].COL_population.POP_tpAmedian>0
+                           if FCentities[Entity].E_col[Colony].COL_population.CP_classAdmMedian>0
                            then
                            begin
-                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.POP_tpAmedian*OTPcivil/OTPpopTtl);
+                              OTPrem:=round(FCentities[Entity].E_col[Colony].COL_population.CP_classAdmMedian*OTPcivil/OTPpopTtl);
                               if OTPrem>=OTPcurr
                               then
                               begin
@@ -3243,9 +3243,9 @@ begin
                      then break;
                   end; //==END== while OTPcurr>0 do ==//
                   {.final data changes}
-                  FCentities[Entity].E_col[Colony].COL_population.POP_tpRebels:=OTPreb-OTPcasPop;
+                  FCentities[Entity].E_col[Colony].COL_population.CP_classRebels:=OTPreb-OTPcasPop;
                   if OTPmili>0
-                  then FCentities[Entity].E_col[Colony].COL_population.POP_tpMilitia:=OTPmili-OTPcasSold
+                  then FCentities[Entity].E_col[Colony].COL_population.CP_classMilitia:=OTPmili-OTPcasSold
                   else if OTPsold>0
                   then FCMgCSM_ColonyData_Upd(
                      dPopulation
@@ -3266,10 +3266,10 @@ begin
                      ,false
                      );
                   {.event resolving rules}
-                  if FCentities[Entity].E_col[Colony].COL_population.POP_tpRebels=0
+                  if FCentities[Entity].E_col[Colony].COL_population.CP_classRebels=0
                   then FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].CCSME_durationWeeks:=-3
-                  else if (FCentities[Entity].E_col[Colony].COL_population.POP_tpMSsold=0)
-                     and (FCentities[Entity].E_col[Colony].COL_population.POP_tpMilitia=0)
+                  else if (FCentities[Entity].E_col[Colony].COL_population.CP_classMilSoldier=0)
+                     and (FCentities[Entity].E_col[Colony].COL_population.CP_classMilitia=0)
                   then FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].CCSME_durationWeeks:=-4;
                end //==END== if OTPsold>0 or OTPmili>0 ==//
                else if (OTPsold=0)
@@ -3385,10 +3385,10 @@ begin
                         ,ceSocialDisorder
                         ,OTPevArr[OTPcnt].CCSME_level
                         );
-                     FCentities[Entity].E_col[Colony].COL_population.POP_tpRebels:=0;
+                     FCentities[Entity].E_col[Colony].COL_population.CP_classRebels:=0;
                   end
                   else if OTPevArr[OTPcnt].CCSME_durationWeeks=-4
-                  then FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].CCSME_durationWeeks:=round(sqrt(FCentities[Entity].E_col[Colony].COL_population.POP_tpRebels));
+                  then FCentities[Entity].E_col[Colony].COL_evList[OTPcnt].CCSME_durationWeeks:=round(sqrt(FCentities[Entity].E_col[Colony].COL_population.CP_classRebels));
                end;
 
                ceUprising_Recovering:
@@ -3479,8 +3479,8 @@ begin
                         ,gcsmptNone
                         ,false
                         );
-                     FCentities[Entity].E_col[Colony].COL_population.POP_tpRebels:=0;
-                     FCentities[Entity].E_col[Colony].COL_population.POP_tpMilitia:=0;
+                     FCentities[Entity].E_col[Colony].COL_population.CP_classRebels:=0;
+                     FCentities[Entity].E_col[Colony].COL_population.CP_classMilitia:=0;
                   end;
                end; //==END== case: etColDissident ==//
 

@@ -442,7 +442,7 @@ begin
    begin
       CWPAKTcwp:=0;
       CWPAKTcol:=FCFuiCDP_VarCurrentColony_Get;
-      ColonistLeft:=FCEntities[0].E_col[CWPAKTcol].COL_population.POP_tpColon-FCEntities[0].E_col[CWPAKTcol].COL_population.POP_tpColonAssigned;
+      ColonistLeft:=FCEntities[0].E_col[CWPAKTcol].COL_population.CP_classColonist-FCEntities[0].E_col[CWPAKTcol].COL_population.CP_classColonistAssigned;
       if ColonistLeft>0 then
       begin
          CWPAKTvalue:=StrToInt64(FCWinMain.FCWM_CDPwcpAssign.Text);
@@ -465,9 +465,9 @@ begin
                );
             CWPAKTcwp:=FCFcFunc_Rnd( cfrttpSizem, CWPAKTvalue*FCDdipProducts[ CDPmanEquipDB[CWPAKTequipIndex] ].P_fManCwcpCoef );
          end;
-         FCEntities[0].E_col[CWPAKTcol].COL_population.POP_tpColonAssigned:=FCEntities[0].E_col[CWPAKTcol].COL_population.POP_tpColonAssigned+CWPAKTvalue;
-         FCEntities[0].E_col[CWPAKTcol].COL_population.POP_wcpAssignedPeople:=FCEntities[0].E_col[CWPAKTcol].COL_population.POP_wcpAssignedPeople+CWPAKTvalue;
-         FCEntities[0].E_col[CWPAKTcol].COL_population.POP_wcpTotal:=FCEntities[0].E_col[CWPAKTcol].COL_population.POP_wcpTotal+CWPAKTcwp;
+         FCEntities[0].E_col[CWPAKTcol].COL_population.CP_classColonistAssigned:=FCEntities[0].E_col[CWPAKTcol].COL_population.CP_classColonistAssigned+CWPAKTvalue;
+         FCEntities[0].E_col[CWPAKTcol].COL_population.CP_CWPassignedPeople:=FCEntities[0].E_col[CWPAKTcol].COL_population.CP_CWPassignedPeople+CWPAKTvalue;
+         FCEntities[0].E_col[CWPAKTcol].COL_population.CP_CWPtotal:=FCEntities[0].E_col[CWPAKTcol].COL_population.CP_CWPtotal+CWPAKTcwp;
          FCMuiCDD_Colony_Update(
             cdlDataPopulation
             ,0
@@ -515,7 +515,7 @@ begin
       CWPAVKTcwp:=0;
       CWPAVKTequipIndex:=FCWinMain.FCWM_CDPwcpEquip.ItemIndex+1;
       CWPAVKTcol:=FCFuiCDP_VarCurrentColony_Get;
-      ColonistLeft:=FCEntities[0].E_col[CWPAVKTcol].COL_population.POP_tpColon-FCEntities[0].E_col[CWPAVKTcol].COL_population.POP_tpColonAssigned;
+      ColonistLeft:=FCEntities[0].E_col[CWPAVKTcol].COL_population.CP_classColonist-FCEntities[0].E_col[CWPAVKTcol].COL_population.CP_classColonistAssigned;
       if (ColonistLeft>0)
          and (CWPAVKTequipIndex>0)
       then
@@ -537,10 +537,10 @@ begin
             ,CWPAVKTcol
             ,false
             );
-         FCEntities[0].E_col[CWPAVKTcol].COL_population.POP_tpColonAssigned:=FCEntities[0].E_col[CWPAVKTcol].COL_population.POP_tpColonAssigned+CWPAVKTcrew;
-         FCEntities[0].E_col[CWPAVKTcol].COL_population.POP_wcpAssignedPeople:=FCEntities[0].E_col[CWPAVKTcol].COL_population.POP_wcpAssignedPeople+CWPAVKTcrew;
+         FCEntities[0].E_col[CWPAVKTcol].COL_population.CP_classColonistAssigned:=FCEntities[0].E_col[CWPAVKTcol].COL_population.CP_classColonistAssigned+CWPAVKTcrew;
+         FCEntities[0].E_col[CWPAVKTcol].COL_population.CP_CWPassignedPeople:=FCEntities[0].E_col[CWPAVKTcol].COL_population.CP_CWPassignedPeople+CWPAVKTcrew;
          CWPAVKTcwp:=FCFcFunc_Rnd( cfrttpSizem, CWPAVKTvalue*FCDdipProducts[ CDPmanEquipDB[CWPAVKTequipIndex] ].P_fManCwcpCoef );
-         FCEntities[0].E_col[CWPAVKTcol].COL_population.POP_wcpTotal:=FCEntities[0].E_col[CWPAVKTcol].COL_population.POP_wcpTotal+CWPAVKTcwp;
+         FCEntities[0].E_col[CWPAVKTcol].COL_population.CP_CWPtotal:=FCEntities[0].E_col[CWPAVKTcol].COL_population.CP_CWPtotal+CWPAVKTcwp;
          FCMuiCDD_Colony_Update(
             cdlDataPopulation
             ,0
@@ -997,7 +997,7 @@ begin
          {population display}
          FCWinMain.FCWM_CDPpopList.Items.Clear;
          FCWinMain.FCWM_CDPpopType.Items.Clear;
-         CPUstrDump1:=FCFcFunc_ThSep(FCentities[0].E_col[CDPcurrentColony].COL_population.POP_total,',');
+         CPUstrDump1:=FCFcFunc_ThSep(FCentities[0].E_col[CDPcurrentColony].COL_population.CP_total,',');
          CPUpopMaxOrAssigned:=FCFcFunc_ThSep(FCentities[0].E_col[CDPcurrentColony].COL_csmHOpcap,',');
          CPUdataIndex:=FCFgCSM_SPL_GetIdxMod(
             indexstr
@@ -1009,23 +1009,23 @@ begin
          CPUsubnode:=FCWinMain.FCWM_CDPpopList.Items.AddChild( CPUrootnode, FCFdTFiles_UIStr_Get(uistrUI, 'colPopSPL')+' [ <b>'+CPUdataIndex+'</b> ]');
          FCWinMain.FCWM_CDPpopList.Items.AddChild(
             CPUrootnode
-            ,FCFdTFiles_UIStr_Get(uistrUI, 'colPopMAge')+' [ <b>'+floattostr(FCentities[0].E_col[CDPcurrentColony].COL_population.POP_meanA)+'</b> '+FCFdTFiles_UIStr_Get(uistrUI, 'TimeFstdY')+' ]'
+            ,FCFdTFiles_UIStr_Get(uistrUI, 'colPopMAge')+' [ <b>'+floattostr(FCentities[0].E_col[CDPcurrentColony].COL_population.CP_meanAge)+'</b> '+FCFdTFiles_UIStr_Get(uistrUI, 'TimeFstdY')+' ]'
             );
          FCWinMain.FCWM_CDPpopList.Items.AddChild(
             CPUrootnode
-            ,FCFdTFiles_UIStr_Get(uistrUI, 'colDdrate')+' [ <b>'+floattostr(FCentities[0].E_col[CDPcurrentColony].COL_population.POP_dRate)+'</b> '+FCFdTFiles_UIStr_Get(uistrUI, 'colPopBDR')
+            ,FCFdTFiles_UIStr_Get(uistrUI, 'colDdrate')+' [ <b>'+floattostr(FCentities[0].E_col[CDPcurrentColony].COL_population.CP_deathRate)+'</b> '+FCFdTFiles_UIStr_Get(uistrUI, 'colPopBDR')
                +'/'+FCFdTFiles_UIStr_Get(uistrUI, 'TimeFstdY')+']'
             );
          FCWinMain.FCWM_CDPpopList.Items.AddChild(
             CPUrootnode
-            ,FCFdTFiles_UIStr_Get(uistrUI, 'colDbrate')+' [ <b>'+floattostr(FCentities[0].E_col[CDPcurrentColony].COL_population.POP_bRate)+'</b> '+FCFdTFiles_UIStr_Get(uistrUI, 'colPopBDR')
+            ,FCFdTFiles_UIStr_Get(uistrUI, 'colDbrate')+' [ <b>'+floattostr(FCentities[0].E_col[CDPcurrentColony].COL_population.CP_birthRate)+'</b> '+FCFdTFiles_UIStr_Get(uistrUI, 'colPopBDR')
                +'/'+FCFdTFiles_UIStr_Get(uistrUI, 'TimeFstdY')+']'
             );
          CDPconstNode:=FCWinMain.FCWM_CDPpopList.Items.AddChild(nil, FCFdTFiles_UIStr_Get(uistrUI, 'cwpTitle'));
          FCWinMain.FCWM_CDPpopList.Items.AddChild(CDPconstNode, FCFdTFiles_UIStr_Get(
-            uistrUI, 'cwpAssigned')+' [ <b>'+IntToStr(FCentities[0].E_col[CDPcurrentColony].COL_population.POP_wcpAssignedPeople)+'</b> ]'
+            uistrUI, 'cwpAssigned')+' [ <b>'+IntToStr(FCentities[0].E_col[CDPcurrentColony].COL_population.CP_CWPassignedPeople)+'</b> ]'
             );
-         FCWinMain.FCWM_CDPpopList.Items.AddChild(CDPconstNode, 'Total <a href="cwpRoot">CWP</a> [ <b>'+FloatToStr(FCentities[0].E_col[CDPcurrentColony].COL_population.POP_wcpTotal)+'</b> ]');
+         FCWinMain.FCWM_CDPpopList.Items.AddChild(CDPconstNode, 'Total <a href="cwpRoot">CWP</a> [ <b>'+FloatToStr(FCentities[0].E_col[CDPcurrentColony].COL_population.CP_CWPtotal)+'</b> ]');
          FCWinMain.FCWM_CDPpopList.Items.AddChild(CDPconstNode, FCFdTFiles_UIStr_Get(uistrUI, 'cwpColonAdd'));
          FCWinMain.FCWM_CDPpopList.SetRadioButton(CDPconstNode[2], CPUradioIdx=1);
          FCWinMain.FCWM_CDPpopList.SetRadioButton(CDPconstNode[2], true);
@@ -1034,99 +1034,99 @@ begin
          FCWinMain.FCWM_CDPpopList.Items.AddChild(CDPconstNode, FCFdTFiles_UIStr_Get(uistrUI, 'cwpAssignConfirm'));
          FCWinMain.FCWM_CDPpopList.Items.AddChild(CDPconstNode, FCFdTFiles_UIStr_Get(uistrUI, 'cwpAvailEquip'));
          FCMuiCDP_WCPradio_Click(true);
-         CPUstrDump1:=FCFcFunc_ThSep( FCentities[0].E_col[CDPcurrentColony].COL_population.POP_tpColon, ',' );
-         CPUpopMaxOrAssigned:=FCFcFunc_ThSep( FCentities[0].E_col[CDPcurrentColony].COL_population.POP_tpColonAssigned, ',' );
+         CPUstrDump1:=FCFcFunc_ThSep( FCentities[0].E_col[CDPcurrentColony].COL_population.CP_classColonist, ',' );
+         CPUpopMaxOrAssigned:=FCFcFunc_ThSep( FCentities[0].E_col[CDPcurrentColony].COL_population.CP_classColonistAssigned, ',' );
          FCWinMain.FCWM_CDPpopType.Items.Add(
             nil
             ,FCFdTFiles_UIStr_Get(uistrUI, 'colPTcol')+' [ <b>'+CPUpopMaxOrAssigned+'</b> / <b>'+CPUstrDump1+'</b> ]'
             );
          CPUnodeTp:=FCWinMain.FCWM_CDPpopType.Items.Add(nil, FCFdTFiles_UIStr_Get(uistrUI, 'colPTspe'));
-         CPUstrDump1:=FCFcFunc_ThSep( FCentities[0].E_col[CDPcurrentColony].COL_population.POP_tpASoff, ',' );
-         CPUpopMaxOrAssigned:=FCFcFunc_ThSep( FCentities[0].E_col[CDPcurrentColony].COL_population.POP_tpASoffAssigned, ',' );
+         CPUstrDump1:=FCFcFunc_ThSep( FCentities[0].E_col[CDPcurrentColony].COL_population.CP_classAerOfficer, ',' );
+         CPUpopMaxOrAssigned:=FCFcFunc_ThSep( FCentities[0].E_col[CDPcurrentColony].COL_population.CP_classAerOfficerAssigned, ',' );
          FCWinMain.FCWM_CDPpopType.Items.AddChild(
             CPUnodeTp
             ,'<u>'+FCFdTFiles_UIStr_Get(uistrUI, 'colPTaero')+'</u>  '+FCFdTFiles_UIStr_Get(uistrUI, 'colPToff')
                +' [ <b>'+CPUpopMaxOrAssigned+'</b> / <b>'+CPUstrDump1+'</b> ]'
             );
-         CPUstrDump1:=FCFcFunc_ThSep( FCentities[0].E_col[CDPcurrentColony].COL_population.POP_tpASmiSp, ',' );
-         CPUpopMaxOrAssigned:=FCFcFunc_ThSep( FCentities[0].E_col[CDPcurrentColony].COL_population.POP_tpASmiSpAssigned, ',' );
+         CPUstrDump1:=FCFcFunc_ThSep( FCentities[0].E_col[CDPcurrentColony].COL_population.CP_classAerMissionSpecialist, ',' );
+         CPUpopMaxOrAssigned:=FCFcFunc_ThSep( FCentities[0].E_col[CDPcurrentColony].COL_population.CP_classAerMissionSpecialistAssigned, ',' );
          FCWinMain.FCWM_CDPpopType.Items.AddChild(
             CPUnodeTp
             ,'<u>'+FCFdTFiles_UIStr_Get(uistrUI, 'colPTaero')+'</u>  '+FCFdTFiles_UIStr_Get(uistrUI, 'colPTmisss')
                +' [ <b>'+CPUpopMaxOrAssigned+'</b> / <b>'+CPUstrDump1+'</b> ]'
             );
-         CPUstrDump1:=FCFcFunc_ThSep( FCentities[0].E_col[CDPcurrentColony].COL_population.POP_tpBSbio, ',' );
-         CPUpopMaxOrAssigned:=FCFcFunc_ThSep( FCentities[0].E_col[CDPcurrentColony].COL_population.POP_tpBSbioAssigned, ',' );
+         CPUstrDump1:=FCFcFunc_ThSep( FCentities[0].E_col[CDPcurrentColony].COL_population.CP_classBioBiologist, ',' );
+         CPUpopMaxOrAssigned:=FCFcFunc_ThSep( FCentities[0].E_col[CDPcurrentColony].COL_population.CP_classBioBiologistAssigned, ',' );
          FCWinMain.FCWM_CDPpopType.Items.AddChild(
             CPUnodeTp
             ,'<u>'+FCFdTFiles_UIStr_Get(uistrUI, 'colPTbio')+'</u>  '+FCFdTFiles_UIStr_Get(uistrUI, 'colPTbios')
                +' [ <b>'+CPUpopMaxOrAssigned+'</b> / <b>'+CPUstrDump1+'</b> ]'
             );
-         CPUstrDump1:=FCFcFunc_ThSep( FCentities[0].E_col[CDPcurrentColony].COL_population.POP_tpBSdoc, ',' );
-         CPUpopMaxOrAssigned:=FCFcFunc_ThSep( FCentities[0].E_col[CDPcurrentColony].COL_population.POP_tpBSdocAssigned, ',' );
+         CPUstrDump1:=FCFcFunc_ThSep( FCentities[0].E_col[CDPcurrentColony].COL_population.CP_classBioDoctor, ',' );
+         CPUpopMaxOrAssigned:=FCFcFunc_ThSep( FCentities[0].E_col[CDPcurrentColony].COL_population.CP_classBioDoctorAssigned, ',' );
          FCWinMain.FCWM_CDPpopType.Items.AddChild(
             CPUnodeTp
             ,'<u>'+FCFdTFiles_UIStr_Get(uistrUI, 'colPTbio')+'</u>  '+FCFdTFiles_UIStr_Get(uistrUI, 'colPTdoc')
                +' [ <b>'+CPUpopMaxOrAssigned+'</b> / <b>'+CPUstrDump1+'</b> ]'
             );
-         CPUstrDump1:=FCFcFunc_ThSep( FCentities[0].E_col[CDPcurrentColony].COL_population.POP_tpIStech, ',' );
-         CPUpopMaxOrAssigned:=FCFcFunc_ThSep( FCentities[0].E_col[CDPcurrentColony].COL_population.POP_tpIStechAssigned, ',' );
+         CPUstrDump1:=FCFcFunc_ThSep( FCentities[0].E_col[CDPcurrentColony].COL_population.CP_classIndTechnician, ',' );
+         CPUpopMaxOrAssigned:=FCFcFunc_ThSep( FCentities[0].E_col[CDPcurrentColony].COL_population.CP_classIndTechnicianAssigned, ',' );
          FCWinMain.FCWM_CDPpopType.Items.AddChild(
             CPUnodeTp
             ,'<u>'+FCFdTFiles_UIStr_Get(uistrUI, 'colPTindus')+'</u>  '+FCFdTFiles_UIStr_Get(uistrUI, 'colPTtech')
                +' [ <b>'+CPUpopMaxOrAssigned+'</b> / <b>'+CPUstrDump1+'</b> ]'
             );
-         CPUstrDump1:=FCFcFunc_ThSep( FCentities[0].E_col[CDPcurrentColony].COL_population.POP_tpISeng, ',' );
-         CPUpopMaxOrAssigned:=FCFcFunc_ThSep( FCentities[0].E_col[CDPcurrentColony].COL_population.POP_tpISengAssigned, ',' );
+         CPUstrDump1:=FCFcFunc_ThSep( FCentities[0].E_col[CDPcurrentColony].COL_population.CP_classIndEngineer, ',' );
+         CPUpopMaxOrAssigned:=FCFcFunc_ThSep( FCentities[0].E_col[CDPcurrentColony].COL_population.CP_classIndEngineerAssigned, ',' );
          FCWinMain.FCWM_CDPpopType.Items.AddChild(
             CPUnodeTp
             ,'<u>'+FCFdTFiles_UIStr_Get(uistrUI, 'colPTindus')+'</u>  '+FCFdTFiles_UIStr_Get(uistrUI, 'colPTeng')
                +' [ <b>'+CPUpopMaxOrAssigned+'</b> / <b>'+CPUstrDump1+'</b> ]'
             );
-         CPUstrDump1:=FCFcFunc_ThSep( FCentities[0].E_col[CDPcurrentColony].COL_population.POP_tpMSsold, ',' );
-         CPUpopMaxOrAssigned:=FCFcFunc_ThSep( FCentities[0].E_col[CDPcurrentColony].COL_population.POP_tpMSsoldAssigned, ',' );
+         CPUstrDump1:=FCFcFunc_ThSep( FCentities[0].E_col[CDPcurrentColony].COL_population.CP_classMilSoldier, ',' );
+         CPUpopMaxOrAssigned:=FCFcFunc_ThSep( FCentities[0].E_col[CDPcurrentColony].COL_population.CP_classMilSoldierAssigned, ',' );
          FCWinMain.FCWM_CDPpopType.Items.AddChild(
             CPUnodeTp
             ,'<u>'+FCFdTFiles_UIStr_Get(uistrUI, 'colPTarmy')+'</u>  '+FCFdTFiles_UIStr_Get(uistrUI, 'colPTsold')
                +' [ <b>'+CPUpopMaxOrAssigned+'</b> / <b>'+CPUstrDump1+'</b> ]'
             );
-         CPUstrDump1:=FCFcFunc_ThSep( FCentities[0].E_col[CDPcurrentColony].COL_population.POP_tpMScomm, ',' );
-         CPUpopMaxOrAssigned:=FCFcFunc_ThSep( FCentities[0].E_col[CDPcurrentColony].COL_population.POP_tpMScommAssigned, ',' );
+         CPUstrDump1:=FCFcFunc_ThSep( FCentities[0].E_col[CDPcurrentColony].COL_population.CP_classMilCommando, ',' );
+         CPUpopMaxOrAssigned:=FCFcFunc_ThSep( FCentities[0].E_col[CDPcurrentColony].COL_population.CP_classMilCommandoAssigned, ',' );
          FCWinMain.FCWM_CDPpopType.Items.AddChild(
             CPUnodeTp
             ,'<u>'+FCFdTFiles_UIStr_Get(uistrUI, 'colPTarmy')+'</u>  '+FCFdTFiles_UIStr_Get(uistrUI, 'colPTcom')
                +' [ <b>'+CPUpopMaxOrAssigned+'</b> / <b>'+CPUstrDump1+'</b> ]'
             );
-         CPUstrDump1:=FCFcFunc_ThSep( FCentities[0].E_col[CDPcurrentColony].COL_population.POP_tpPSphys, ',' );
-         CPUpopMaxOrAssigned:=FCFcFunc_ThSep( FCentities[0].E_col[CDPcurrentColony].COL_population.POP_tpPSphysAssigned, ',' );
+         CPUstrDump1:=FCFcFunc_ThSep( FCentities[0].E_col[CDPcurrentColony].COL_population.CP_classPhyPhysicist, ',' );
+         CPUpopMaxOrAssigned:=FCFcFunc_ThSep( FCentities[0].E_col[CDPcurrentColony].COL_population.CP_classPhyPhysicistAssigned, ',' );
          FCWinMain.FCWM_CDPpopType.Items.AddChild(
             CPUnodeTp
             ,'<u>'+FCFdTFiles_UIStr_Get(uistrUI, 'colPTphy')+'</u>  '+FCFdTFiles_UIStr_Get(uistrUI, 'colPTphys')
                +' [ <b>'+CPUpopMaxOrAssigned+'</b> / <b>'+CPUstrDump1+'</b> ]'
             );
-         CPUstrDump1:=FCFcFunc_ThSep( FCentities[0].E_col[CDPcurrentColony].COL_population.POP_tpPSastr, ',' );
-         CPUpopMaxOrAssigned:=FCFcFunc_ThSep( FCentities[0].E_col[CDPcurrentColony].COL_population.POP_tpPSastrAssigned, ',' );
+         CPUstrDump1:=FCFcFunc_ThSep( FCentities[0].E_col[CDPcurrentColony].COL_population.CP_classPhyAstrophysicist, ',' );
+         CPUpopMaxOrAssigned:=FCFcFunc_ThSep( FCentities[0].E_col[CDPcurrentColony].COL_population.CP_classPhyAstrophysicistAssigned, ',' );
          FCWinMain.FCWM_CDPpopType.Items.AddChild(
             CPUnodeTp
             ,'<u>'+FCFdTFiles_UIStr_Get(uistrUI, 'colPTphy')+'</u>  '+FCFdTFiles_UIStr_Get(uistrUI, 'colPTastrop')
                +' [ <b>'+CPUpopMaxOrAssigned+'</b> / <b>'+CPUstrDump1+'</b> ]'
             );
-         CPUstrDump1:=FCFcFunc_ThSep( FCentities[0].E_col[CDPcurrentColony].COL_population.POP_tpESecol, ',' );
-         CPUpopMaxOrAssigned:=FCFcFunc_ThSep( FCentities[0].E_col[CDPcurrentColony].COL_population.POP_tpESecolAssigned, ',' );
+         CPUstrDump1:=FCFcFunc_ThSep( FCentities[0].E_col[CDPcurrentColony].COL_population.CP_classEcoEcologist, ',' );
+         CPUpopMaxOrAssigned:=FCFcFunc_ThSep( FCentities[0].E_col[CDPcurrentColony].COL_population.CP_classEcoEcologistAssigned, ',' );
          FCWinMain.FCWM_CDPpopType.Items.AddChild(
             CPUnodeTp
             ,'<u>'+FCFdTFiles_UIStr_Get(uistrUI, 'colPTeco')+'</u>  '+FCFdTFiles_UIStr_Get(uistrUI, 'colPTecol')
                +' [ <b>'+CPUpopMaxOrAssigned+'</b> / <b>'+CPUstrDump1+'</b> ]'
             );
-         CPUstrDump1:=FCFcFunc_ThSep( FCentities[0].E_col[CDPcurrentColony].COL_population.POP_tpESecof, ',' );
-         CPUpopMaxOrAssigned:=FCFcFunc_ThSep( FCentities[0].E_col[CDPcurrentColony].COL_population.POP_tpESecofAssigned, ',' );
+         CPUstrDump1:=FCFcFunc_ThSep( FCentities[0].E_col[CDPcurrentColony].COL_population.CP_classEcoEcoformer, ',' );
+         CPUpopMaxOrAssigned:=FCFcFunc_ThSep( FCentities[0].E_col[CDPcurrentColony].COL_population.CP_classEcoEcoformerAssigned, ',' );
          FCWinMain.FCWM_CDPpopType.Items.AddChild(
             CPUnodeTp
             ,'<u>'+FCFdTFiles_UIStr_Get(uistrUI, 'colPTeco')+'</u>  '+FCFdTFiles_UIStr_Get(uistrUI, 'colPTecof')
                +' [ <b>'+CPUpopMaxOrAssigned+'</b> / <b>'+CPUstrDump1+'</b> ]'
             );
-         CPUstrDump1:=FCFcFunc_ThSep( FCentities[0].E_col[CDPcurrentColony].COL_population.POP_tpAmedian, ',' );
-         CPUpopMaxOrAssigned:=FCFcFunc_ThSep( FCentities[0].E_col[CDPcurrentColony].COL_population.POP_tpAmedianAssigned, ',' );
+         CPUstrDump1:=FCFcFunc_ThSep( FCentities[0].E_col[CDPcurrentColony].COL_population.CP_classAdmMedian, ',' );
+         CPUpopMaxOrAssigned:=FCFcFunc_ThSep( FCentities[0].E_col[CDPcurrentColony].COL_population.CP_classAdmMedianAssigned, ',' );
          FCWinMain.FCWM_CDPpopType.Items.AddChild(
             CPUnodeTp
             ,'<u>'+FCFdTFiles_UIStr_Get(uistrUI, 'colPTadmin')+'</u>  '+FCFdTFiles_UIStr_Get(uistrUI, 'colPTmedian')

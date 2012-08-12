@@ -241,7 +241,7 @@ begin
       end;
       inc( ProdMatrixItemCount );
    end;
-   PPS:=round( 100- ( TotalProductionRvePoints / FCentities[ Entity ].E_col[ Colony ].COL_population.POP_total *100 ) );
+   PPS:=round( 100- ( TotalProductionRvePoints / FCentities[ Entity ].E_col[ Colony ].COL_population.CP_total *100 ) );
    Result:=PPS;
 end;
 
@@ -278,7 +278,7 @@ begin
    then IntCalc3:=100
    else begin
       IntCalc2:=FCFgCR_OxygenToReserve_Convert( FCentities[ Entity ].E_col[ Colony ].COL_productionMatrix[ ProdMatrixIdx ].CPMI_globalProdFlow );
-      IntCalc3:=round( 100-( IntCalc2 / FCentities[ Entity ].E_col[ Colony ].COL_population.POP_total *100 ) );
+      IntCalc3:=round( 100-( IntCalc2 / FCentities[ Entity ].E_col[ Colony ].COL_population.CP_total *100 ) );
    end;
    Result:=IntCalc3;
 end;
@@ -347,7 +347,7 @@ begin
    then IntCalc3:=100
    else begin
       IntCalc2:=FCFgCR_WaterToReserve_Convert( FCentities[ Entity ].E_col[ Colony ].COL_productionMatrix[ IntCalc1 ].CPMI_globalProdFlow );
-      IntCalc3:=round( 100- (IntCalc2 / FCentities[ Entity ].E_col[ Colony ].COL_population.POP_total *100 ) );
+      IntCalc3:=round( 100- (IntCalc2 / FCentities[ Entity ].E_col[ Colony ].COL_population.CP_total *100 ) );
    end;
    Result:=IntCalc3;
 end;
@@ -629,8 +629,8 @@ begin
       ,false
       );
    PPScalc:=NewPPS * 0.01;
-   SubSFcalc:=round( FCentities[ Entity ].E_col[ Colony ].COL_population.POP_total * PPScalc );
-   SFcalc:=FCentities[ Entity ].E_col[ Colony ].COL_population.POP_total / ( FCentities[ Entity ].E_col[ Colony ].COL_population.POP_total - SubSFcalc );
+   SubSFcalc:=round( FCentities[ Entity ].E_col[ Colony ].COL_population.CP_total * PPScalc );
+   SFcalc:=FCentities[ Entity ].E_col[ Colony ].COL_population.CP_total / ( FCentities[ Entity ].E_col[ Colony ].COL_population.CP_total - SubSFcalc );
    SFcalc:=FCFcFunc_Rnd( cfrttp2dec, SFcalc );
    if SFcalc<2.5 then
    begin

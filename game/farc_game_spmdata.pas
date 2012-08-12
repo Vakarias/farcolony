@@ -204,7 +204,7 @@ begin
          begin
             while GDGcnt<=GDGmax do
             begin
-               GDGdmpRes:=GDGdmpRes+FCentities[GDGfacIdx].E_col[GDGcnt].COL_population.POP_total;
+               GDGdmpRes:=GDGdmpRes+FCentities[GDGfacIdx].E_col[GDGcnt].COL_population.CP_total;
                inc(GDGcnt);
             end;
          end;

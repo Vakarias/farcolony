@@ -74,7 +74,7 @@ procedure FCMgPS5_CABTransitionSegment_Process(
       ,CABTSPmaxIdx
       ,CABTSPmaxSet: integer;
       
-      CABTSPpopResult: TFCRdgColonPopulation;
+      CABTSPpopResult: TFCRdgColonyPopulation;
 begin
    CABTSPmaxSet:=length( FCentities[CABTSPent].E_col[CABTSPcol].COL_cabQueue )-1;
    if CABTSPmaxSet>0 then

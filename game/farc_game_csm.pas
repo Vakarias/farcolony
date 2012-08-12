@@ -309,7 +309,7 @@ function FCFgCSM_AgeCoefficient_Retrieve( const Entity, Colony: integer ): exten
 begin
    Result:=0;
    HealthIndex:=FCFgCSM_Health_GetIdx( Entity, Colony );
-   MeanAge:=trunc( FCEntities[ Entity ].E_col[ Colony ].COL_population.POP_meanA );
+   MeanAge:=trunc( FCEntities[ Entity ].E_col[ Colony ].COL_population.CP_meanAge );
    case HealthIndex of
       1:
       begin
@@ -616,44 +616,44 @@ begin
    FCentities[CDIfac].E_col[CDIcolIdx].COL_csmENstorCurr:=0;
    FCentities[CDIfac].E_col[CDIcolIdx].COL_csmENstorMax:=0;
    FCentities[CDIfac].E_col[CDIcolIdx].COL_eiOut:=100;
-   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.POP_total:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.POP_meanA:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.POP_dRate:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.POP_dStack:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.POP_bRate:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.POP_bStack:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.POP_tpColon:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.POP_tpColonAssigned:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.POP_tpASoff:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.POP_tpASoffAssigned:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.POP_tpASmiSp:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.POP_tpASmiSpAssigned:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.POP_tpBSbio:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.POP_tpBSbioAssigned:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.POP_tpBSdoc:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.POP_tpBSdocAssigned:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.POP_tpIStech:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.POP_tpIStechAssigned:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.POP_tpISeng:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.POP_tpISengAssigned:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.POP_tpMSsold:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.POP_tpMSsoldAssigned:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.POP_tpMScomm:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.POP_tpMScommAssigned:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.POP_tpPSphys:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.POP_tpPSphysAssigned:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.POP_tpPSastr:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.POP_tpPSastrAssigned:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.POP_tpESecol:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.POP_tpESecolAssigned:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.POP_tpESecof:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.POP_tpESecofAssigned:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.POP_tpAmedian:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.POP_tpAmedianAssigned:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.POP_tpRebels:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.POP_tpMilitia:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.POP_wcpTotal:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.POP_wcpAssignedPeople:=0;
+   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.CP_total:=0;
+   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.CP_meanAge:=0;
+   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.CP_deathRate:=0;
+   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.CP_deathStack:=0;
+   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.CP_birthRate:=0;
+   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.CP_birthStack:=0;
+   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.CP_classColonist:=0;
+   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.CP_classColonistAssigned:=0;
+   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.CP_classAerOfficer:=0;
+   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.CP_classAerOfficerAssigned:=0;
+   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.CP_classAerMissionSpecialist:=0;
+   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.CP_classAerMissionSpecialistAssigned:=0;
+   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.CP_classBioBiologist:=0;
+   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.CP_classBioBiologistAssigned:=0;
+   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.CP_classBioDoctor:=0;
+   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.CP_classBioDoctorAssigned:=0;
+   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.CP_classIndTechnician:=0;
+   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.CP_classIndTechnicianAssigned:=0;
+   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.CP_classIndEngineer:=0;
+   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.CP_classIndEngineerAssigned:=0;
+   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.CP_classMilSoldier:=0;
+   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.CP_classMilSoldierAssigned:=0;
+   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.CP_classMilCommando:=0;
+   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.CP_classMilCommandoAssigned:=0;
+   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.CP_classPhyPhysicist:=0;
+   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.CP_classPhyPhysicistAssigned:=0;
+   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.CP_classPhyAstrophysicist:=0;
+   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.CP_classPhyAstrophysicistAssigned:=0;
+   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.CP_classEcoEcologist:=0;
+   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.CP_classEcoEcologistAssigned:=0;
+   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.CP_classEcoEcoformer:=0;
+   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.CP_classEcoEcoformerAssigned:=0;
+   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.CP_classAdmMedian:=0;
+   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.CP_classAdmMedianAssigned:=0;
+   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.CP_classRebels:=0;
+   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.CP_classMilitia:=0;
+   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.CP_CWPtotal:=0;
+   FCentities[CDIfac].E_col[CDIcolIdx].COL_population.CP_CWPassignedPeople:=0;
    setlength(FCentities[CDIfac].E_col[CDIcolIdx].COL_evList, 1);
    setlength(FCentities[CDIfac].E_col[CDIcolIdx].COL_settlements, 1);
    setlength(FCentities[CDIfac].E_col[CDIcolIdx].COL_cabQueue, 1);
@@ -740,79 +740,79 @@ begin
       {.population addition}
       dPopulation:
       begin
-         CDUdatI:=FCentities[CDUfac].E_col[CDUcol].COL_population.POP_total;
+         CDUdatI:=FCentities[CDUfac].E_col[CDUcol].COL_population.CP_total;
          CDUdatI1:=round(CDUvalue);
-         FCentities[CDUfac].E_col[CDUcol].COL_population.POP_total:=CDUdatI+CDUdatI1;
+         FCentities[CDUfac].E_col[CDUcol].COL_population.CP_total:=CDUdatI+CDUdatI1;
          case CDUpopType of
             gcsmptColon:
             begin
-               CDUdatI:=FCentities[CDUfac].E_col[CDUcol].COL_population.POP_tpColon;
-               FCentities[CDUfac].E_col[CDUcol].COL_population.POP_tpColon:=CDUdatI+CDUdatI1;
+               CDUdatI:=FCentities[CDUfac].E_col[CDUcol].COL_population.CP_classColonist;
+               FCentities[CDUfac].E_col[CDUcol].COL_population.CP_classColonist:=CDUdatI+CDUdatI1;
             end;
             gcsmptASoff:
             begin
-               CDUdatI:=FCentities[CDUfac].E_col[CDUcol].COL_population.POP_tpASoff;
-               FCentities[CDUfac].E_col[CDUcol].COL_population.POP_tpASoff:=CDUdatI+CDUdatI1;
+               CDUdatI:=FCentities[CDUfac].E_col[CDUcol].COL_population.CP_classAerOfficer;
+               FCentities[CDUfac].E_col[CDUcol].COL_population.CP_classAerOfficer:=CDUdatI+CDUdatI1;
             end;
             gcsmptASmiSp:
             begin
-               CDUdatI:=FCentities[CDUfac].E_col[CDUcol].COL_population.POP_tpASmiSp;
-               FCentities[CDUfac].E_col[CDUcol].COL_population.POP_tpASmiSp:=CDUdatI+CDUdatI1;
+               CDUdatI:=FCentities[CDUfac].E_col[CDUcol].COL_population.CP_classAerMissionSpecialist;
+               FCentities[CDUfac].E_col[CDUcol].COL_population.CP_classAerMissionSpecialist:=CDUdatI+CDUdatI1;
             end;
             gcsmptBSbio:
             begin
-               CDUdatI:=FCentities[CDUfac].E_col[CDUcol].COL_population.POP_tpBSbio;
-               FCentities[CDUfac].E_col[CDUcol].COL_population.POP_tpBSbio:=CDUdatI+CDUdatI1;
+               CDUdatI:=FCentities[CDUfac].E_col[CDUcol].COL_population.CP_classBioBiologist;
+               FCentities[CDUfac].E_col[CDUcol].COL_population.CP_classBioBiologist:=CDUdatI+CDUdatI1;
             end;
             gcsmptBSdoc:
             begin
-               CDUdatI:=FCentities[CDUfac].E_col[CDUcol].COL_population.POP_tpBSdoc;
-               FCentities[CDUfac].E_col[CDUcol].COL_population.POP_tpBSdoc:=CDUdatI+CDUdatI1;
+               CDUdatI:=FCentities[CDUfac].E_col[CDUcol].COL_population.CP_classBioDoctor;
+               FCentities[CDUfac].E_col[CDUcol].COL_population.CP_classBioDoctor:=CDUdatI+CDUdatI1;
             end;
             gcsmptIStech:
             begin
-               CDUdatI:=FCentities[CDUfac].E_col[CDUcol].COL_population.POP_tpIStech;
-               FCentities[CDUfac].E_col[CDUcol].COL_population.POP_tpIStech:=CDUdatI+CDUdatI1;
+               CDUdatI:=FCentities[CDUfac].E_col[CDUcol].COL_population.CP_classIndTechnician;
+               FCentities[CDUfac].E_col[CDUcol].COL_population.CP_classIndTechnician:=CDUdatI+CDUdatI1;
             end;
             gcsmptISeng:
             begin
-               CDUdatI:=FCentities[CDUfac].E_col[CDUcol].COL_population.POP_tpISeng;
-               FCentities[CDUfac].E_col[CDUcol].COL_population.POP_tpISeng:=CDUdatI+CDUdatI1;
+               CDUdatI:=FCentities[CDUfac].E_col[CDUcol].COL_population.CP_classIndEngineer;
+               FCentities[CDUfac].E_col[CDUcol].COL_population.CP_classIndEngineer:=CDUdatI+CDUdatI1;
             end;
             gcsmptMSsold:
             begin
-               CDUdatI:=FCentities[CDUfac].E_col[CDUcol].COL_population.POP_tpMSsold;
-               FCentities[CDUfac].E_col[CDUcol].COL_population.POP_tpMSsold:=CDUdatI+CDUdatI1;
+               CDUdatI:=FCentities[CDUfac].E_col[CDUcol].COL_population.CP_classMilSoldier;
+               FCentities[CDUfac].E_col[CDUcol].COL_population.CP_classMilSoldier:=CDUdatI+CDUdatI1;
             end;
             gcsmptMScomm:
             begin
-               CDUdatI:=FCentities[CDUfac].E_col[CDUcol].COL_population.POP_tpMScomm;
-               FCentities[CDUfac].E_col[CDUcol].COL_population.POP_tpMScomm:=CDUdatI+CDUdatI1;
+               CDUdatI:=FCentities[CDUfac].E_col[CDUcol].COL_population.CP_classMilCommando;
+               FCentities[CDUfac].E_col[CDUcol].COL_population.CP_classMilCommando:=CDUdatI+CDUdatI1;
             end;
             gcsmptPSphys:
             begin
-               CDUdatI:=FCentities[CDUfac].E_col[CDUcol].COL_population.POP_tpPSphys;
-               FCentities[CDUfac].E_col[CDUcol].COL_population.POP_tpPSphys:=CDUdatI+CDUdatI1;
+               CDUdatI:=FCentities[CDUfac].E_col[CDUcol].COL_population.CP_classPhyPhysicist;
+               FCentities[CDUfac].E_col[CDUcol].COL_population.CP_classPhyPhysicist:=CDUdatI+CDUdatI1;
             end;
             gcsmptPSastr:
             begin
-               CDUdatI:=FCentities[CDUfac].E_col[CDUcol].COL_population.POP_tpPSastr;
-               FCentities[CDUfac].E_col[CDUcol].COL_population.POP_tpPSastr:=CDUdatI+CDUdatI1;
+               CDUdatI:=FCentities[CDUfac].E_col[CDUcol].COL_population.CP_classPhyAstrophysicist;
+               FCentities[CDUfac].E_col[CDUcol].COL_population.CP_classPhyAstrophysicist:=CDUdatI+CDUdatI1;
             end;
             gcsmptESecol:
             begin
-               CDUdatI:=FCentities[CDUfac].E_col[CDUcol].COL_population.POP_tpESecol;
-               FCentities[CDUfac].E_col[CDUcol].COL_population.POP_tpESecol:=CDUdatI+CDUdatI1;
+               CDUdatI:=FCentities[CDUfac].E_col[CDUcol].COL_population.CP_classEcoEcologist;
+               FCentities[CDUfac].E_col[CDUcol].COL_population.CP_classEcoEcologist:=CDUdatI+CDUdatI1;
             end;
             gcsmptESecof:
             begin
-               CDUdatI:=FCentities[CDUfac].E_col[CDUcol].COL_population.POP_tpESecof;
-               FCentities[CDUfac].E_col[CDUcol].COL_population.POP_tpESecof:=CDUdatI+CDUdatI1;
+               CDUdatI:=FCentities[CDUfac].E_col[CDUcol].COL_population.CP_classEcoEcoformer;
+               FCentities[CDUfac].E_col[CDUcol].COL_population.CP_classEcoEcoformer:=CDUdatI+CDUdatI1;
             end;
             gcsmptAmedian:
             begin
-               CDUdatI:=FCentities[CDUfac].E_col[CDUcol].COL_population.POP_tpAmedian;
-               FCentities[CDUfac].E_col[CDUcol].COL_population.POP_tpAmedian:=CDUdatI+CDUdatI1;
+               CDUdatI:=FCentities[CDUfac].E_col[CDUcol].COL_population.CP_classAdmMedian;
+               FCentities[CDUfac].E_col[CDUcol].COL_population.CP_classAdmMedian:=CDUdatI+CDUdatI1;
             end;
          end; //==END== case CDUpopType of ==//
          {.csm events trigger}
@@ -860,7 +860,7 @@ begin
       end; //==END== case: gcsmdPopulation ==//
       dBirthRate:
       begin
-         if FCentities[CDUfac].E_col[CDUcol].COL_population.POP_total>0
+         if FCentities[CDUfac].E_col[CDUcol].COL_population.CP_total>0
          then FCMgPGS_BR_Calc(CDUfac, CDUcol);
          {.update dependencies}
       end;
@@ -873,32 +873,32 @@ begin
       dColonyLvl:
       begin
          {:DEV NOTES: don't forget to also put the region control test.}
-         if (FCentities[CDUfac].E_col[CDUcol].COL_population.POP_total>=1)
-            and (FCentities[CDUfac].E_col[CDUcol].COL_population.POP_total<11)
+         if (FCentities[CDUfac].E_col[CDUcol].COL_population.CP_total>=1)
+            and (FCentities[CDUfac].E_col[CDUcol].COL_population.CP_total<11)
          then FCentities[CDUfac].E_col[CDUcol].COL_level:=cl1Outpost
-         else if (FCentities[CDUfac].E_col[CDUcol].COL_population.POP_total>=11)
-            and (FCentities[CDUfac].E_col[CDUcol].COL_population.POP_total<101)
+         else if (FCentities[CDUfac].E_col[CDUcol].COL_population.CP_total>=11)
+            and (FCentities[CDUfac].E_col[CDUcol].COL_population.CP_total<101)
          then FCentities[CDUfac].E_col[CDUcol].COL_level:=cl2Base
-         else if (FCentities[CDUfac].E_col[CDUcol].COL_population.POP_total>=101)
-            and (FCentities[CDUfac].E_col[CDUcol].COL_population.POP_total<1001)
+         else if (FCentities[CDUfac].E_col[CDUcol].COL_population.CP_total>=101)
+            and (FCentities[CDUfac].E_col[CDUcol].COL_population.CP_total<1001)
          then FCentities[CDUfac].E_col[CDUcol].COL_level:=cl3Community
-         else if (FCentities[CDUfac].E_col[CDUcol].COL_population.POP_total>=1001)
-            and (FCentities[CDUfac].E_col[CDUcol].COL_population.POP_total<10001)
+         else if (FCentities[CDUfac].E_col[CDUcol].COL_population.CP_total>=1001)
+            and (FCentities[CDUfac].E_col[CDUcol].COL_population.CP_total<10001)
          then FCentities[CDUfac].E_col[CDUcol].COL_level:=cl4Settlement
-         else if (FCentities[CDUfac].E_col[CDUcol].COL_population.POP_total>=10001)
-            and (FCentities[CDUfac].E_col[CDUcol].COL_population.POP_total<100001)
+         else if (FCentities[CDUfac].E_col[CDUcol].COL_population.CP_total>=10001)
+            and (FCentities[CDUfac].E_col[CDUcol].COL_population.CP_total<100001)
          then FCentities[CDUfac].E_col[CDUcol].COL_level:=cl5MajorColony
-         else if (FCentities[CDUfac].E_col[CDUcol].COL_population.POP_total>=100001)
-            and (FCentities[CDUfac].E_col[CDUcol].COL_population.POP_total<1000001)
+         else if (FCentities[CDUfac].E_col[CDUcol].COL_population.CP_total>=100001)
+            and (FCentities[CDUfac].E_col[CDUcol].COL_population.CP_total<1000001)
          then FCentities[CDUfac].E_col[CDUcol].COL_level:=cl6LocalState
-         else if (FCentities[CDUfac].E_col[CDUcol].COL_population.POP_total>=1000001)
+         else if (FCentities[CDUfac].E_col[CDUcol].COL_population.CP_total>=1000001)
          then FCentities[CDUfac].E_col[CDUcol].COL_level:=cl7RegionalState;
          {.csm events trigger}
          {.update dependencies}
       end;
       dDeathRate:
       begin
-         if FCentities[CDUfac].E_col[CDUcol].COL_population.POP_total>0
+         if FCentities[CDUfac].E_col[CDUcol].COL_population.CP_total>0
          then FCMgPGS_DR_Calc(CDUfac, CDUcol);
          {.update dependencies}
       end;
@@ -1141,14 +1141,14 @@ begin
          CDUdatF:=0;
          CDUdatF1:=0;
          {.current population number/soldier force}
-         if FCentities[CDUfac].E_col[CDUcol].COL_population.POP_tpMSsold=0
-         then FCentities[CDUfac].E_col[CDUcol].COL_secu:=FCentities[CDUfac].E_col[CDUcol].COL_population.POP_total
-         else if FCentities[CDUfac].E_col[CDUcol].COL_population.POP_tpMSsold>0
+         if FCentities[CDUfac].E_col[CDUcol].COL_population.CP_classMilSoldier=0
+         then FCentities[CDUfac].E_col[CDUcol].COL_secu:=FCentities[CDUfac].E_col[CDUcol].COL_population.CP_total
+         else if FCentities[CDUfac].E_col[CDUcol].COL_population.CP_classMilSoldier>0
          then
          begin
             CDUdatF:=
-               (FCentities[CDUfac].E_col[CDUcol].COL_population.POP_total-FCentities[CDUfac].E_col[CDUcol].COL_population.POP_tpMSsold)
-               /FCentities[CDUfac].E_col[CDUcol].COL_population.POP_tpMSsold;
+               (FCentities[CDUfac].E_col[CDUcol].COL_population.CP_total-FCentities[CDUfac].E_col[CDUcol].COL_population.CP_classMilSoldier)
+               /FCentities[CDUfac].E_col[CDUcol].COL_population.CP_classMilSoldier;
             CDUdatI:=round(CDUdatF);
             CDUdatI1:=FCFgCSME_Mod_Sum(
                mtSecurity
@@ -1166,7 +1166,7 @@ begin
       end;
       dSPL:
       begin
-         CDUdatF:=FCentities[CDUfac].E_col[CDUcol].COL_csmHOpcap/FCentities[CDUfac].E_col[CDUcol].COL_population.POP_total;
+         CDUdatF:=FCentities[CDUfac].E_col[CDUcol].COL_csmHOpcap/FCentities[CDUfac].E_col[CDUcol].COL_population.CP_total;
          FCentities[CDUfac].E_col[CDUcol].COL_csmHOspl:=DecimalRound(CDUdatF, 2, 0.001);
          {.csm events trigger}
          {.update dependencies}
@@ -1885,36 +1885,36 @@ procedure FCMgCSM_Pop_Xfert(
 }
 begin
    case PXfrom of
-      gcsmptColon: FCentities[PXfac].E_col[PXcol].COL_population.POP_tpColon:=FCentities[PXfac].E_col[PXcol].COL_population.POP_tpColon-PXamount;
-      gcsmptASoff: FCentities[PXfac].E_col[PXcol].COL_population.POP_tpASoff:=FCentities[PXfac].E_col[PXcol].COL_population.POP_tpASoff-PXamount;
-      gcsmptASmiSp: FCentities[PXfac].E_col[PXcol].COL_population.POP_tpASmiSp:=FCentities[PXfac].E_col[PXcol].COL_population.POP_tpASmiSp-PXamount;
-      gcsmptBSbio: FCentities[PXfac].E_col[PXcol].COL_population.POP_tpBSbio:=FCentities[PXfac].E_col[PXcol].COL_population.POP_tpBSbio-PXamount;
-      gcsmptBSdoc: FCentities[PXfac].E_col[PXcol].COL_population.POP_tpBSdoc:=FCentities[PXfac].E_col[PXcol].COL_population.POP_tpBSdoc-PXamount;
-      gcsmptIStech: FCentities[PXfac].E_col[PXcol].COL_population.POP_tpIStech:=FCentities[PXfac].E_col[PXcol].COL_population.POP_tpIStech-PXamount;
-      gcsmptISeng: FCentities[PXfac].E_col[PXcol].COL_population.POP_tpISeng:=FCentities[PXfac].E_col[PXcol].COL_population.POP_tpISeng-PXamount;
-      gcsmptMSsold: FCentities[PXfac].E_col[PXcol].COL_population.POP_tpMSsold:=FCentities[PXfac].E_col[PXcol].COL_population.POP_tpMSsold-PXamount;
-      gcsmptMScomm: FCentities[PXfac].E_col[PXcol].COL_population.POP_tpMScomm:=FCentities[PXfac].E_col[PXcol].COL_population.POP_tpMScomm-PXamount;
-      gcsmptPSphys: FCentities[PXfac].E_col[PXcol].COL_population.POP_tpPSphys:=FCentities[PXfac].E_col[PXcol].COL_population.POP_tpPSphys-PXamount;
-      gcsmptPSastr: FCentities[PXfac].E_col[PXcol].COL_population.POP_tpPSastr:=FCentities[PXfac].E_col[PXcol].COL_population.POP_tpPSastr-PXamount;
-      gcsmptESecol: FCentities[PXfac].E_col[PXcol].COL_population.POP_tpESecol:=FCentities[PXfac].E_col[PXcol].COL_population.POP_tpESecol-PXamount;
-      gcsmptESecof: FCentities[PXfac].E_col[PXcol].COL_population.POP_tpESecof:=FCentities[PXfac].E_col[PXcol].COL_population.POP_tpESecof-PXamount;
-      gcsmptAmedian: FCentities[PXfac].E_col[PXcol].COL_population.POP_tpAmedian:=FCentities[PXfac].E_col[PXcol].COL_population.POP_tpAmedian-PXamount;
+      gcsmptColon: FCentities[PXfac].E_col[PXcol].COL_population.CP_classColonist:=FCentities[PXfac].E_col[PXcol].COL_population.CP_classColonist-PXamount;
+      gcsmptASoff: FCentities[PXfac].E_col[PXcol].COL_population.CP_classAerOfficer:=FCentities[PXfac].E_col[PXcol].COL_population.CP_classAerOfficer-PXamount;
+      gcsmptASmiSp: FCentities[PXfac].E_col[PXcol].COL_population.CP_classAerMissionSpecialist:=FCentities[PXfac].E_col[PXcol].COL_population.CP_classAerMissionSpecialist-PXamount;
+      gcsmptBSbio: FCentities[PXfac].E_col[PXcol].COL_population.CP_classBioBiologist:=FCentities[PXfac].E_col[PXcol].COL_population.CP_classBioBiologist-PXamount;
+      gcsmptBSdoc: FCentities[PXfac].E_col[PXcol].COL_population.CP_classBioDoctor:=FCentities[PXfac].E_col[PXcol].COL_population.CP_classBioDoctor-PXamount;
+      gcsmptIStech: FCentities[PXfac].E_col[PXcol].COL_population.CP_classIndTechnician:=FCentities[PXfac].E_col[PXcol].COL_population.CP_classIndTechnician-PXamount;
+      gcsmptISeng: FCentities[PXfac].E_col[PXcol].COL_population.CP_classIndEngineer:=FCentities[PXfac].E_col[PXcol].COL_population.CP_classIndEngineer-PXamount;
+      gcsmptMSsold: FCentities[PXfac].E_col[PXcol].COL_population.CP_classMilSoldier:=FCentities[PXfac].E_col[PXcol].COL_population.CP_classMilSoldier-PXamount;
+      gcsmptMScomm: FCentities[PXfac].E_col[PXcol].COL_population.CP_classMilCommando:=FCentities[PXfac].E_col[PXcol].COL_population.CP_classMilCommando-PXamount;
+      gcsmptPSphys: FCentities[PXfac].E_col[PXcol].COL_population.CP_classPhyPhysicist:=FCentities[PXfac].E_col[PXcol].COL_population.CP_classPhyPhysicist-PXamount;
+      gcsmptPSastr: FCentities[PXfac].E_col[PXcol].COL_population.CP_classPhyAstrophysicist:=FCentities[PXfac].E_col[PXcol].COL_population.CP_classPhyAstrophysicist-PXamount;
+      gcsmptESecol: FCentities[PXfac].E_col[PXcol].COL_population.CP_classEcoEcologist:=FCentities[PXfac].E_col[PXcol].COL_population.CP_classEcoEcologist-PXamount;
+      gcsmptESecof: FCentities[PXfac].E_col[PXcol].COL_population.CP_classEcoEcoformer:=FCentities[PXfac].E_col[PXcol].COL_population.CP_classEcoEcoformer-PXamount;
+      gcsmptAmedian: FCentities[PXfac].E_col[PXcol].COL_population.CP_classAdmMedian:=FCentities[PXfac].E_col[PXcol].COL_population.CP_classAdmMedian-PXamount;
    end;
    case PXto of
-      gcsmptColon: FCentities[PXfac].E_col[PXcol].COL_population.POP_tpColon:=FCentities[PXfac].E_col[PXcol].COL_population.POP_tpColon+PXamount;
-      gcsmptASoff: FCentities[PXfac].E_col[PXcol].COL_population.POP_tpASoff:=FCentities[PXfac].E_col[PXcol].COL_population.POP_tpASoff+PXamount;
-      gcsmptASmiSp: FCentities[PXfac].E_col[PXcol].COL_population.POP_tpASmiSp:=FCentities[PXfac].E_col[PXcol].COL_population.POP_tpASmiSp+PXamount;
-      gcsmptBSbio: FCentities[PXfac].E_col[PXcol].COL_population.POP_tpBSbio:=FCentities[PXfac].E_col[PXcol].COL_population.POP_tpBSbio+PXamount;
-      gcsmptBSdoc: FCentities[PXfac].E_col[PXcol].COL_population.POP_tpBSdoc:=FCentities[PXfac].E_col[PXcol].COL_population.POP_tpBSdoc+PXamount;
-      gcsmptIStech: FCentities[PXfac].E_col[PXcol].COL_population.POP_tpIStech:=FCentities[PXfac].E_col[PXcol].COL_population.POP_tpIStech+PXamount;
-      gcsmptISeng: FCentities[PXfac].E_col[PXcol].COL_population.POP_tpISeng:=FCentities[PXfac].E_col[PXcol].COL_population.POP_tpISeng+PXamount;
-      gcsmptMSsold: FCentities[PXfac].E_col[PXcol].COL_population.POP_tpMSsold:=FCentities[PXfac].E_col[PXcol].COL_population.POP_tpMSsold+PXamount;
-      gcsmptMScomm: FCentities[PXfac].E_col[PXcol].COL_population.POP_tpMScomm:=FCentities[PXfac].E_col[PXcol].COL_population.POP_tpMScomm+PXamount;
-      gcsmptPSphys: FCentities[PXfac].E_col[PXcol].COL_population.POP_tpPSphys:=FCentities[PXfac].E_col[PXcol].COL_population.POP_tpPSphys+PXamount;
-      gcsmptPSastr: FCentities[PXfac].E_col[PXcol].COL_population.POP_tpPSastr:=FCentities[PXfac].E_col[PXcol].COL_population.POP_tpPSastr+PXamount;
-      gcsmptESecol: FCentities[PXfac].E_col[PXcol].COL_population.POP_tpESecol:=FCentities[PXfac].E_col[PXcol].COL_population.POP_tpESecol+PXamount;
-      gcsmptESecof: FCentities[PXfac].E_col[PXcol].COL_population.POP_tpESecof:=FCentities[PXfac].E_col[PXcol].COL_population.POP_tpESecof+PXamount;
-      gcsmptAmedian: FCentities[PXfac].E_col[PXcol].COL_population.POP_tpAmedian:=FCentities[PXfac].E_col[PXcol].COL_population.POP_tpAmedian+PXamount;
+      gcsmptColon: FCentities[PXfac].E_col[PXcol].COL_population.CP_classColonist:=FCentities[PXfac].E_col[PXcol].COL_population.CP_classColonist+PXamount;
+      gcsmptASoff: FCentities[PXfac].E_col[PXcol].COL_population.CP_classAerOfficer:=FCentities[PXfac].E_col[PXcol].COL_population.CP_classAerOfficer+PXamount;
+      gcsmptASmiSp: FCentities[PXfac].E_col[PXcol].COL_population.CP_classAerMissionSpecialist:=FCentities[PXfac].E_col[PXcol].COL_population.CP_classAerMissionSpecialist+PXamount;
+      gcsmptBSbio: FCentities[PXfac].E_col[PXcol].COL_population.CP_classBioBiologist:=FCentities[PXfac].E_col[PXcol].COL_population.CP_classBioBiologist+PXamount;
+      gcsmptBSdoc: FCentities[PXfac].E_col[PXcol].COL_population.CP_classBioDoctor:=FCentities[PXfac].E_col[PXcol].COL_population.CP_classBioDoctor+PXamount;
+      gcsmptIStech: FCentities[PXfac].E_col[PXcol].COL_population.CP_classIndTechnician:=FCentities[PXfac].E_col[PXcol].COL_population.CP_classIndTechnician+PXamount;
+      gcsmptISeng: FCentities[PXfac].E_col[PXcol].COL_population.CP_classIndEngineer:=FCentities[PXfac].E_col[PXcol].COL_population.CP_classIndEngineer+PXamount;
+      gcsmptMSsold: FCentities[PXfac].E_col[PXcol].COL_population.CP_classMilSoldier:=FCentities[PXfac].E_col[PXcol].COL_population.CP_classMilSoldier+PXamount;
+      gcsmptMScomm: FCentities[PXfac].E_col[PXcol].COL_population.CP_classMilCommando:=FCentities[PXfac].E_col[PXcol].COL_population.CP_classMilCommando+PXamount;
+      gcsmptPSphys: FCentities[PXfac].E_col[PXcol].COL_population.CP_classPhyPhysicist:=FCentities[PXfac].E_col[PXcol].COL_population.CP_classPhyPhysicist+PXamount;
+      gcsmptPSastr: FCentities[PXfac].E_col[PXcol].COL_population.CP_classPhyAstrophysicist:=FCentities[PXfac].E_col[PXcol].COL_population.CP_classPhyAstrophysicist+PXamount;
+      gcsmptESecol: FCentities[PXfac].E_col[PXcol].COL_population.CP_classEcoEcologist:=FCentities[PXfac].E_col[PXcol].COL_population.CP_classEcoEcologist+PXamount;
+      gcsmptESecof: FCentities[PXfac].E_col[PXcol].COL_population.CP_classEcoEcoformer:=FCentities[PXfac].E_col[PXcol].COL_population.CP_classEcoEcoformer+PXamount;
+      gcsmptAmedian: FCentities[PXfac].E_col[PXcol].COL_population.CP_classAdmMedian:=FCentities[PXfac].E_col[PXcol].COL_population.CP_classAdmMedian+PXamount;
    end;
 end;
 
