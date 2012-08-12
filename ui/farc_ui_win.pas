@@ -387,7 +387,7 @@ var
    ,FPUspUssys
    ,FPUspUstar: integer;
 
-   FPUdmpSpUnStatus: TFCEspUnStatus;
+   FPUdmpSpUnStatus: TFCEdgSpaceUnitStatus;
 begin
    {.orbital object menu setup}
    if PPOFUtp=uiwpkOrbObj

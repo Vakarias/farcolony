@@ -181,7 +181,7 @@ var
    ASGoobj
    ,ASGsat: string;
 
-   ASGsatus: TFCEspUnStatus;
+   ASGsatus: TFCEdgSpaceUnitStatus;
 begin
    ASGoobj:=FCentities[ASGfac].E_spU[ASGidxOwn].SUO_oobjLoc;
    ASGsat:=FCentities[ASGfac].E_spU[ASGidxOwn].SUO_satLoc;
@@ -195,10 +195,10 @@ begin
          else if ASGsat<>''
          then result:=FCFdTFiles_UIStr_Get(uistrUI,'susInOrbit')+' '+FCFdTFiles_UIStr_Get(dtfscPrprName, ASGsat);
       end;
-      susInAtmosph: result:=FCFdTFiles_UIStr_Get(uistrUI,'susInAtmosph');
+      susInAtmosphericFlightLandingTakeoff: result:=FCFdTFiles_UIStr_Get(uistrUI,'susInAtmosph');
       susLanded: result:=FCFdTFiles_UIStr_Get(uistrUI,'susLanded');
       susDocked: result:=FCFdTFiles_UIStr_Get(uistrUI,'susDocked');
-      susOutOfCtl: result:=FCFdTFiles_UIStr_Get(uistrUI,'susOutOfCtl');
+      susOutOfControl: result:=FCFdTFiles_UIStr_Get(uistrUI,'susOutOfCtl');
       susDeadWreck: result:=FCFdTFiles_UIStr_Get(uistrUI,'susDeadWreck');
    end; //==END== case ASGsatus ==//
 end;

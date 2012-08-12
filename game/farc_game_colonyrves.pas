@@ -380,64 +380,64 @@ procedure FCMgCR_FoodShortage_Calc(
 
       ColonyEnvironment: TFCRgcEnvironment;
 begin
-   FCentities[Entity].E_col[Colony].COL_evList[Event].RFS_percPopNotSupAtCalc:=NewPPS;
+   FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tFShPercentPopulationNotSupportedAtCalculation:=NewPPS;
    {.reset the modifiers in the colony's data, if required}
-   if FCentities[Entity].E_col[Colony].COL_evList[Event].RFS_ecoindMod<0
+   if FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tFShEconomicIndustrialOutputMod<0
    then FCMgCSM_ColonyData_Upd(
       dEcoIndusOut
       ,Entity
       ,Colony
-      ,abs( FCentities[Entity].E_col[Colony].COL_evList[Event].RFS_ecoindMod )
+      ,abs( FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tFShEconomicIndustrialOutputMod )
       ,0
       ,gcsmptNone
       ,false
       )
-   else if FCentities[Entity].E_col[Colony].COL_evList[Event].RFS_ecoindMod>0
+   else if FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tFShEconomicIndustrialOutputMod>0
    then FCMgCSM_ColonyData_Upd(
       dEcoIndusOut
       ,Entity
       ,Colony
-      ,-FCentities[Entity].E_col[Colony].COL_evList[Event].RFS_ecoindMod
+      ,-FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tFShEconomicIndustrialOutputMod
       ,0
       ,gcsmptNone
       ,false
       );
-   if FCentities[Entity].E_col[Colony].COL_evList[Event].RFS_tensionMod<0
+   if FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tFShTensionMod<0
    then FCMgCSM_ColonyData_Upd(
       dTension
       ,Entity
       ,Colony
-      ,abs( FCentities[Entity].E_col[Colony].COL_evList[Event].RFS_tensionMod )
+      ,abs( FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tFShTensionMod )
       ,0
       ,gcsmptNone
       ,false
       )
-   else if FCentities[Entity].E_col[Colony].COL_evList[Event].RFS_tensionMod>0
+   else if FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tFShTensionMod>0
    then FCMgCSM_ColonyData_Upd(
       dTension
       ,Entity
       ,Colony
-      ,-FCentities[Entity].E_col[Colony].COL_evList[Event].RFS_tensionMod
+      ,-FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tFShTensionMod
       ,0
       ,gcsmptNone
       ,false
       );
-   if FCentities[Entity].E_col[Colony].COL_evList[Event].RFS_healthMod<0
+   if FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tFShHealthMod<0
    then FCMgCSM_ColonyData_Upd(
       dHealth
       ,Entity
       ,Colony
-      ,abs( FCentities[Entity].E_col[Colony].COL_evList[Event].RFS_healthMod )
+      ,abs( FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tFShHealthMod )
       ,0
       ,gcsmptNone
       ,false
       )
-   else if FCentities[Entity].E_col[Colony].COL_evList[Event].RFS_healthMod>0
+   else if FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tFShHealthMod>0
    then FCMgCSM_ColonyData_Upd(
       dHealth
       ,Entity
       ,Colony
-      ,-FCentities[Entity].E_col[Colony].COL_evList[Event].RFS_healthMod
+      ,-FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tFShHealthMod
       ,0
       ,gcsmptNone
       ,false
@@ -448,7 +448,7 @@ begin
       if NewPPS>10 then
       begin
          ModifierCalc:=SQR( NewPPS ) * ( 0.05 * AgeCoefficient );
-         FCentities[Entity].E_col[Colony].COL_evList[Event].RFS_ecoindMod:=- round( ModifierCalc );
+         FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tFShEconomicIndustrialOutputMod:=- round( ModifierCalc );
          ColonyEnvironment:=FCFgC_ColEnv_GetTp( Entity, Colony );
          case ColonyEnvironment.ENV_envType of
             etFreeLiving: EnvCoefFracValue:=1;
@@ -458,14 +458,14 @@ begin
             etSpace: EnvCoefFracValue:=1.7;
          end;
          ModifierCalc:=SQRT( NewPPS ) * ( 5 * EnvCoefFracValue );
-         FCentities[Entity].E_col[Colony].COL_evList[Event].RFS_tensionMod:=round( ModifierCalc );
+         FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tFShTensionMod:=round( ModifierCalc );
          if Event>0 then
          begin
             FCMgCSM_ColonyData_Upd(
                dEcoIndusOut
                ,Entity
                ,Colony
-               ,FCentities[Entity].E_col[Colony].COL_evList[Event].RFS_ecoindMod
+               ,FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tFShEconomicIndustrialOutputMod
                ,0
                ,gcsmptNone
                ,false
@@ -474,7 +474,7 @@ begin
                dTension
                ,Entity
                ,Colony
-               ,FCentities[Entity].E_col[Colony].COL_evList[Event].RFS_tensionMod
+               ,FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tFShTensionMod
                ,0
                ,gcsmptNone
                ,false
@@ -484,35 +484,35 @@ begin
    end
    else if NewPPS>40 then
    begin
-      FCentities[Entity].E_col[Colony].COL_evList[Event].RFS_ecoindMod:=-100;
+      FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tFShEconomicIndustrialOutputMod:=-100;
       if Event>0
       then FCMgCSM_ColonyData_Upd(
          dEcoIndusOut
          ,Entity
          ,Colony
-         ,FCentities[Entity].E_col[Colony].COL_evList[Event].RFS_ecoindMod
+         ,FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tFShEconomicIndustrialOutputMod
          ,0
          ,gcsmptNone
          ,false
          );
    end;
    if NewPPS=100
-   then else FCentities[Entity].E_col[Colony].COL_evList[Event].CSMEV_duration:=-3;
+   then else FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_durationWeeks:=-3;
    ModifierCalc:=SQRT( NewPPS ) * ( 10 * AgeCoefficient );
-   FCentities[Entity].E_col[Colony].COL_evList[Event].RFS_healthMod:=- round( ModifierCalc );
+   FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tFShHealthMod:=- round( ModifierCalc );
    if Event>0
    then FCMgCSM_ColonyData_Upd(
       dHealth
       ,Entity
       ,Colony
-      ,FCentities[Entity].E_col[Colony].COL_evList[Event].RFS_healthMod
+      ,FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tFShHealthMod
       ,0
       ,gcsmptNone
       ,false
       );
    {.direct death}
    if (NewPPS>10)
-      and ( FCentities[Entity].E_col[Colony].COL_evList[Event].RFS_directDeathPeriod=0)
+      and ( FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tFShDirectDeathPeriod=0)
    then FCMgCR_FoodShortage_DirectDeath(
       Entity
       ,Colony
@@ -540,13 +540,13 @@ begin
    if AgeCoef=0
    then AgeCoefficient:=FCFgCSM_AgeCoefficient_Retrieve( Entity, Colony )
    else AgeCoefficient:=AgeCoef;
-   ModifierCalc:=( SQRT( FCentities[Entity].E_col[Colony].COL_evList[Event].RFS_percPopNotSupAtCalc - 10 ) * ( 4 * AgeCoefficient ) )+FCentities[Entity].E_col[Colony].COL_evList[Event].RFS_deathFracValue;
+   ModifierCalc:=( SQRT( FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tFShPercentPopulationNotSupportedAtCalculation - 10 ) * ( 4 * AgeCoefficient ) )+FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tFShDeathFractionalValue;
    ModifierCalc:=FCFcFunc_Rnd( cfrttp2dec, ModifierCalc );
    DeadToApply:=trunc( ModifierCalc );
    {:DEV NOTES: apply the direct death here, create a method in farc_game_pgs.}
    FracValue:=frac( ModifierCalc );
-   FCentities[Entity].E_col[Colony].COL_evList[Event].RFS_directDeathPeriod:=4;
-   FCentities[Entity].E_col[Colony].COL_evList[Event].RFS_deathFracValue:=FracValue;
+   FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tFShDirectDeathPeriod:=4;
+   FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tFShDeathFractionalValue:=FracValue;
 end;
 
 procedure FCMgCR_OxygenShortage_Calc(
@@ -566,64 +566,64 @@ procedure FCMgCR_OxygenShortage_Calc(
       ,SFcalc
       ,PPScalc: extended;
 begin
-   FCentities[Entity].E_col[Colony].COL_evList[Event].ROS_percPopNotSupAtCalc:=NewPPS;
+   FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tOShPercentPopulationNotSupportedAtCalculation:=NewPPS;
    {.reset the modifiers in the colony's data, if required}
-   if FCentities[Entity].E_col[Colony].COL_evList[Event].ROS_ecoindMod<0
+   if FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tOShEconomicIndustrialOutputMod<0
    then FCMgCSM_ColonyData_Upd(
       dEcoIndusOut
       ,Entity
       ,Colony
-      ,abs( FCentities[Entity].E_col[Colony].COL_evList[Event].ROS_ecoindMod )
+      ,abs( FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tOShEconomicIndustrialOutputMod )
       ,0
       ,gcsmptNone
       ,false
       )
-   else if FCentities[Entity].E_col[Colony].COL_evList[Event].ROS_ecoindMod>0
+   else if FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tOShEconomicIndustrialOutputMod>0
    then FCMgCSM_ColonyData_Upd(
       dEcoIndusOut
       ,Entity
       ,Colony
-      ,-FCentities[Entity].E_col[Colony].COL_evList[Event].ROS_ecoindMod
+      ,-FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tOShEconomicIndustrialOutputMod
       ,0
       ,gcsmptNone
       ,false
       );
-   if FCentities[Entity].E_col[Colony].COL_evList[Event].ROS_tensionMod<0
+   if FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tOShTensionMod<0
    then FCMgCSM_ColonyData_Upd(
       dTension
       ,Entity
       ,Colony
-      ,abs( FCentities[Entity].E_col[Colony].COL_evList[Event].ROS_tensionMod )
+      ,abs( FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tOShTensionMod )
       ,0
       ,gcsmptNone
       ,false
       )
-   else if FCentities[Entity].E_col[Colony].COL_evList[Event].ROS_tensionMod>0
+   else if FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tOShTensionMod>0
    then FCMgCSM_ColonyData_Upd(
       dTension
       ,Entity
       ,Colony
-      ,-FCentities[Entity].E_col[Colony].COL_evList[Event].ROS_tensionMod
+      ,-FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tOShTensionMod
       ,0
       ,gcsmptNone
       ,false
       );
-   if FCentities[Entity].E_col[Colony].COL_evList[Event].ROS_healthMod<0
+   if FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tOShHealthMod<0
    then FCMgCSM_ColonyData_Upd(
       dHealth
       ,Entity
       ,Colony
-      ,abs( FCentities[Entity].E_col[Colony].COL_evList[Event].ROS_healthMod )
+      ,abs( FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tOShHealthMod )
       ,0
       ,gcsmptNone
       ,false
       )
-   else if FCentities[Entity].E_col[Colony].COL_evList[Event].ROS_healthMod>0
+   else if FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tOShHealthMod>0
    then FCMgCSM_ColonyData_Upd(
       dHealth
       ,Entity
       ,Colony
-      ,-FCentities[Entity].E_col[Colony].COL_evList[Event].ROS_healthMod
+      ,-FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tOShHealthMod
       ,0
       ,gcsmptNone
       ,false
@@ -636,18 +636,18 @@ begin
    begin
       AgeCoefficient:=FCFgCSM_AgeCoefficient_Retrieve( Entity, Colony );
       ModifierCalc:=( 1 - ( 1 / SFcalc ) ) * ( 140 * AgeCoefficient );
-      FCentities[Entity].E_col[Colony].COL_evList[Event].ROS_ecoindMod:=-round( ModifierCalc );
+      FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tOShEconomicIndustrialOutputMod:=-round( ModifierCalc );
       ModifierCalc:=SQR( SFcalc - 1 ) * 20;
-      FCentities[Entity].E_col[Colony].COL_evList[Event].ROS_tensionMod:=round( ModifierCalc );
+      FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tOShTensionMod:=round( ModifierCalc );
       ModifierCalc:=( SFcalc - 1 ) * ( 40 * AgeCoefficient );
-      FCentities[Entity].E_col[Colony].COL_evList[Event].ROS_healthMod:=-round( ModifierCalc );
+      FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tOShHealthMod:=-round( ModifierCalc );
       if Event>0 then
       begin
          FCMgCSM_ColonyData_Upd(
             dEcoIndusOut
             ,Entity
             ,Colony
-            ,FCentities[Entity].E_col[Colony].COL_evList[Event].ROS_ecoindMod
+            ,FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tOShEconomicIndustrialOutputMod
             ,0
             ,gcsmptNone
             ,false
@@ -656,7 +656,7 @@ begin
             dTension
             ,Entity
             ,Colony
-            ,FCentities[Entity].E_col[Colony].COL_evList[Event].ROS_tensionMod
+            ,FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tOShTensionMod
             ,0
             ,gcsmptNone
             ,false
@@ -665,7 +665,7 @@ begin
             dHealth
             ,Entity
             ,Colony
-            ,FCentities[Entity].E_col[Colony].COL_evList[Event].ROS_healthMod
+            ,FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tOShHealthMod
             ,0
             ,gcsmptNone
             ,false
@@ -673,7 +673,7 @@ begin
       end;
    end
    {.case if the entire population die}
-   else FCentities[Entity].E_col[Colony].COL_evList[Event].CSMEV_duration:=-3;
+   else FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_durationWeeks:=-3;
 end;
 
 procedure FCMgCR_Reserve_Update(
@@ -876,64 +876,64 @@ procedure FCMgCR_WaterShortage_Calc(
 
          ColonyEnvironment: TFCRgcEnvironment;
 begin
-   FCentities[Entity].E_col[Colony].COL_evList[Event].RWS_percPopNotSupAtCalc:=NewPPS;
+   FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tWShPercentPopulationNotSupportedAtCalculation:=NewPPS;
    {.reset the modifiers in the colony's data, if required}
-   if FCentities[Entity].E_col[Colony].COL_evList[Event].RWS_ecoindMod<0
+   if FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tWShEconomicIndustrialOutputMod<0
    then FCMgCSM_ColonyData_Upd(
       dEcoIndusOut
       ,Entity
       ,Colony
-      ,abs( FCentities[Entity].E_col[Colony].COL_evList[Event].RWS_ecoindMod )
+      ,abs( FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tWShEconomicIndustrialOutputMod )
       ,0
       ,gcsmptNone
       ,false
       )
-   else if FCentities[Entity].E_col[Colony].COL_evList[Event].RWS_ecoindMod>0
+   else if FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tWShEconomicIndustrialOutputMod>0
    then FCMgCSM_ColonyData_Upd(
       dEcoIndusOut
       ,Entity
       ,Colony
-      ,-FCentities[Entity].E_col[Colony].COL_evList[Event].RWS_ecoindMod
+      ,-FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tWShEconomicIndustrialOutputMod
       ,0
       ,gcsmptNone
       ,false
       );
-   if FCentities[Entity].E_col[Colony].COL_evList[Event].RWS_tensionMod<0
+   if FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tWShTensionMod<0
    then FCMgCSM_ColonyData_Upd(
       dTension
       ,Entity
       ,Colony
-      ,abs( FCentities[Entity].E_col[Colony].COL_evList[Event].RWS_tensionMod )
+      ,abs( FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tWShTensionMod )
       ,0
       ,gcsmptNone
       ,false
       )
-   else if FCentities[Entity].E_col[Colony].COL_evList[Event].RWS_tensionMod>0
+   else if FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tWShTensionMod>0
    then FCMgCSM_ColonyData_Upd(
       dTension
       ,Entity
       ,Colony
-      ,-FCentities[Entity].E_col[Colony].COL_evList[Event].RWS_tensionMod
+      ,-FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tWShTensionMod
       ,0
       ,gcsmptNone
       ,false
       );
-   if FCentities[Entity].E_col[Colony].COL_evList[Event].RWS_healthMod<0
+   if FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tWShHealthMod<0
    then FCMgCSM_ColonyData_Upd(
       dHealth
       ,Entity
       ,Colony
-      ,abs( FCentities[Entity].E_col[Colony].COL_evList[Event].RWS_healthMod )
+      ,abs( FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tWShHealthMod )
       ,0
       ,gcsmptNone
       ,false
       )
-   else if FCentities[Entity].E_col[Colony].COL_evList[Event].RWS_healthMod>0
+   else if FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tWShHealthMod>0
    then FCMgCSM_ColonyData_Upd(
       dHealth
       ,Entity
       ,Colony
-      ,-FCentities[Entity].E_col[Colony].COL_evList[Event].RWS_healthMod
+      ,-FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tWShHealthMod
       ,0
       ,gcsmptNone
       ,false
@@ -945,13 +945,13 @@ begin
       if NewPPS>6 then
       begin
          ModifierCalc:=( NewPPS - 6 ) * ( 5 * AgeCoefficient );
-         FCentities[Entity].E_col[Colony].COL_evList[Event].RWS_ecoindMod:=-round( ModifierCalc );
+         FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tWShEconomicIndustrialOutputMod:=-round( ModifierCalc );
          if Event>0
          then FCMgCSM_ColonyData_Upd(
             dEcoIndusOut
             ,Entity
             ,Colony
-            ,FCentities[Entity].E_col[Colony].COL_evList[Event].RWS_ecoindMod
+            ,FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tWShEconomicIndustrialOutputMod
             ,0
             ,gcsmptNone
             ,false
@@ -973,16 +973,16 @@ begin
             else EnvCoef:=1;
       end;
       ModifierCalc:=( NewPPS * 1.7 ) * EnvCoef;
-      FCentities[Entity].E_col[Colony].COL_evList[Event].RWS_tensionMod:=round( ModifierCalc );
+      FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tWShTensionMod:=round( ModifierCalc );
       ModifierCalc:=( NewPPS - 1 ) * AgeCoefficient;
-      FCentities[Entity].E_col[Colony].COL_evList[Event].RWS_healthMod:=-round( ModifierCalc );
+      FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tWShHealthMod:=-round( ModifierCalc );
       if Event>0 then
       begin
          FCMgCSM_ColonyData_Upd(
             dTension
             ,Entity
             ,Colony
-            ,FCentities[Entity].E_col[Colony].COL_evList[Event].RWS_tensionMod
+            ,FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tWShTensionMod
             ,0
             ,gcsmptNone
             ,false
@@ -991,7 +991,7 @@ begin
             dHealth
             ,Entity
             ,Colony
-            ,FCentities[Entity].E_col[Colony].COL_evList[Event].RWS_healthMod
+            ,FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tWShHealthMod
             ,0
             ,gcsmptNone
             ,false
@@ -1000,7 +1000,7 @@ begin
    end //==END==  if ( NewPPS>2 ) and ( NewPPS<=15 ) ==//
    {.case if the entire population die}
    else if NewPPS>15
-   then FCentities[Entity].E_col[Colony].COL_evList[Event].CSMEV_duration:=-3;
+   then FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_durationWeeks:=-3;
 end;
 
 end.

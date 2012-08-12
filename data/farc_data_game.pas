@@ -189,29 +189,115 @@ type TFCEdgSettlements=(
    ,sSpaceBased
    );
 
-{.space unit attitude status}
-{:DEV NOTES: update factionsdb.xml}
-{:DEV NOTES: update TFCRfacDotationItem w/ status comment.}
-{:DEV NOTES: update spu_functions / FCFspuF_AttStatus_Get.}
-type TFCEspUnStatus=(
-   {in free space w/ a transit or not}
+{:REFERENCES LIST
+   - factionsdb.xml
+   - FCFspuF_AttStatus_Get
+   - TFCRfacDotationItem w/ status comment
+}
+///<summary>
+///   space unit attitude status
+///</summary>
+type TFCEdgSpaceUnitStatus=(
    susInFreeSpace
-   {in orbit of an orbital object}
    ,susInOrbit
-   {in an atmospheric flight, landing or taking off}
-   ,susInAtmosph
-   {landed on an orbital object}
+   ,susInAtmosphericFlightLandingTakeoff
    ,susLanded
-   {docked on/in an another space unit}
    ,susDocked
-   {is out of control ie there's no more maneuver and main propulsion and naturally considered in free space}
-   ,susOutOfCtl
-   {is a dead wreck}
+   ,susOutOfControl
    ,susDeadWreck
-//    scstatInLagrange    look to add this more later in development
    );
 
 //==END PUBLIC ENUM=========================================================================
+
+{:REFERENCES LIST
+   - FCMdFiles_Game_Load
+   - FCMdFiles_Game_Save
+   - FCMgCSME_Event_Cancel
+   - FCMgCSME_Event_Trigger
+   - FCFgCSME_Mod_Sum
+   - FCMgCSME_OT_Proc
+   - FCMgCSME_Recovering_Process
+   - FCMuiCDP_Data_Update
+   - farc_game_csmevents/TFCEcsmeModTp
+   - FCMuiCDP_Data_Update/dtCSMev if any modifier is modified / added
+}
+///<summary>
+///   colony event
+///</summary>
+type TFCRdgColonyCSMEvent = record
+   ///<summary>
+   ///   define if the event is resident or (=false =>) occasional (w/ a duration of 24hrs}
+   ///</summary>
+   CCSME_isResident: boolean;
+   CCSME_durationWeeks: integer;
+   CCSME_level: integer;
+   case CCSME_type: TFCEdgColonyEvents of
+      ceColonyEstablished:(
+         CCSME_tCEstTensionMod: integer;
+         CCSME_tCEstSecurityMod: integer
+         );
+
+      ceUnrest, ceUnrest_Recovering:(
+         CCSME_tCUnEconomicIndustrialOutputMod: integer;
+         CCSME_tCUnTensionMod: integer
+         );
+
+      ceSocialDisorder, ceSocialDisorder_Recovering:(
+         CCSME_tSDisEconomicIndustrialOutputMod: integer;
+         CCSME_tSDisTensionMod: integer
+         );
+
+      {:DEV NOTES: add rebels and fighting results.}
+      ceUprising, ceUprising_Recovering:(
+         CCSME_tUpEconomicIndustrialOutputMod: integer;
+         CCSME_tUpTensionMod: integer
+         );
+
+      ceDissidentColony:();
+
+      ceHealthEducationRelation:( CCSME_tHERelEducationMod: integer );
+
+      ceGovernmentDestabilization, ceGovernmentDestabilization_Recovering:( CCSME_tGDestCohesionMod: integer );
+
+      ceOxygenProductionOverload:( CCSME_tOPOvPercentPopulationNotSupported: integer );
+
+      ceOxygenShortage, ceOxygenShortage_Recovering:(
+         ///<summary>
+         /// percent of population not supported at time of SF calculation
+         ///</summary>
+         CCSME_tOShPercentPopulationNotSupportedAtCalculation: integer;
+         CCSME_tOShEconomicIndustrialOutputMod: integer;
+         CCSME_tOShTensionMod: integer;
+         CCSME_tOShHealthMod: integer
+         );
+
+      ceWaterProductionOverload:( CCSME_tWPOvPercentPopulationNotSupported: integer );
+
+      ceWaterShortage, ceWaterShortage_Recovering:(
+         ///<summary>
+         /// percent of population not supported at time of SF calculation
+         ///</summary>
+         CCSME_tWShPercentPopulationNotSupportedAtCalculation: integer;
+         CCSME_tWShEconomicIndustrialOutputMod: integer;
+         CCSME_tWShTensionMod: integer;
+         CCSME_tWShHealthMod: integer
+         );
+
+      ceFoodProductionOverload:( CCSME_tFPOvPercentPopulationNotSupported: integer );
+
+      ceFoodShortage, ceFoodShortage_Recovering:(
+         ///<summary>
+         /// percent of population not supported at time of SF calculation
+         ///</summary>
+         CCSME_tFShPercentPopulationNotSupportedAtCalculation: integer;
+         CCSME_tFShEconomicIndustrialOutputMod: integer;
+         CCSME_tFShTensionMod: integer;
+         CCSME_tFShHealthMod: integer;
+         CCSME_tFShDirectDeathPeriod: integer;
+         CCSME_tFShDeathFractionalValue: extended
+         );
+      //==END== case CSMEV_token: TFCEdgEventTypes of ==//
+end;
 
 //==END PUBLIC RECORDS======================================================================
 
@@ -233,95 +319,15 @@ type TFCEspUnStatus=(
 
 
 
-   
-  
 
 
-   
 
-   
-  
-   //==END ENUM=============================================================================
-   {.colony event data structure}
-   {:DEV NOTES: UPDATE FCMdFiles_Game_Load + FCMdFiles_Game_Save + FCMuiCDP_Data_Update}
-   {:DEV NOTES: UPDATE FCMgCSME_Event_Trigger + FCMgCSME_Event_Cancel + FCMgCSME_OT_Proc.}
-   {:DEV NOTES: update farc_game_csmevents/TFCEcsmeModTp + FCFgCSME_Mod_Sum + FCMuiCDP_Data_Update/dtCSMev if any modifier is modified / added.}
-   {:DEV NOTES: update FCMgCSME_Recovering_Process.}
-   type TFCRdgColonCSMev = record
-      {.define if the event is resident or (=false =>) occasional (w/ a duration of 24hrs}
-      CSMEV_isRes: boolean;
-      {.duration in # of full weeks (or # of CSM phases)}
-      CSMEV_duration: integer;
-      {.optional level data - this data is never displayed to the player}
-      CSMEV_lvl: integer;
-      {.event types with linked data}
-      case CSMEV_token: TFCEdgColonyEvents of
-         ceColonyEstablished:(
-            CE_tensionMod: integer;
-            CE_securityMod: integer
-            );
 
-         ceUnrest, ceUnrest_Recovering:(
-            UN_ecoindMod: integer;
-            UN_tensionMod: integer
-            );
 
-         ceSocialDisorder, ceSocialDisorder_Recovering:(
-            SD_ecoindMod: integer;
-            SD_tensionMod: integer
-            );
 
-         {:DEV NOTES: add rebels and fighting results.}
-         ceUprising, ceUprising_Recovering:(
-            UP_ecoindMod: integer;
-            UP_tensionMod: integer
-            );
 
-         ceDissidentColony:();
 
-         ceHealthEducationRelation:( HER_educationMod: integer );
 
-         ceGovernmentDestabilization, ceGovernmentDestabilization_Recovering:( GD_cohesionMod: integer );
-
-         ceOxygenProductionOverload:( ROO_percPopNotSupported: integer );
-
-         ceOxygenShortage, ceOxygenShortage_Recovering:(
-            ///<summary>
-            /// percent of population not supported at time of SF calculation
-            ///</summary>
-            ROS_percPopNotSupAtCalc: integer;
-            ROS_ecoindMod: integer;
-            ROS_tensionMod: integer;
-            ROS_healthMod: integer
-            );
-
-         ceWaterProductionOverload:( RWO_percPopNotSupported: integer );
-
-         ceWaterShortage, ceWaterShortage_Recovering:(
-            ///<summary>
-            /// percent of population not supported at time of SF calculation
-            ///</summary>
-            RWS_percPopNotSupAtCalc: integer;
-            RWS_ecoindMod: integer;
-            RWS_tensionMod: integer;
-            RWS_healthMod: integer
-            );
-
-         ceFoodProductionOverload:( RFO_percPopNotSupported: integer );
-
-         ceFoodShortage, ceFoodShortage_Recovering:(
-            ///<summary>
-            /// percent of population not supported at time of SF calculation
-            ///</summary>
-            RFS_percPopNotSupAtCalc: integer;
-            RFS_ecoindMod: integer;
-            RFS_tensionMod: integer;
-            RFS_healthMod: integer;
-            RFS_directDeathPeriod: integer;
-            RFS_deathFracValue: extended
-            );
-         //==END== case CSMEV_token: TFCEdgEventTypes of ==//
-   end;
    {.owned infrastructure data structure}
    {:DEV NOTES: update FCMdFiles_Game_Save/Load + FCMgICS_Conversion_Process + FCMgICS_Assembling_Process + FCMgICS_Building_Process + FCMuiCDP_Data_Update/dtInfra.}
    {:DEV NOTES: for functions: update FCMgIF_Functions_Initialize + FCMgIF_Functions_ApplicationRemove.}
@@ -565,7 +571,7 @@ type TFCEspUnStatus=(
       {.population}
       COL_population: TFCRdgColonPopulation;
       {.events list}
-      COL_evList: array of TFCRdgColonCSMev;
+      COL_evList: array of TFCRdgColonyCSMEvent;
       {.colony's settlements}
       COL_settlements: array of TFCRdgColonSettlements;
       ///<summary>
@@ -638,7 +644,7 @@ type TFCEspUnStatus=(
                {.design token}
                FCMEI_spuDesignToken: string[20];
                {.current status}
-               FCMEI_spuStatus: TFCEspUnStatus;
+               FCMEI_spuStatus: TFCEdgSpaceUnitStatus;
                {.dock info -1: not docked/mother vessel, 1: mother vessel (all subsequent w/ 0 are docked to this one), 0: docked vessel}
                FCMEI_spuDockInfo: integer;
                {.current available energy/reaction mass volume}
@@ -778,7 +784,7 @@ type TFCEspUnStatus=(
          end;
       end;
    end;
-   
+
    type TFCRdgSPUdocked = record
       {.unique token id of the docked space unit}
       SUD_dckdToken: string[20];
@@ -810,7 +816,7 @@ type TFCEspUnStatus=(
       {assigned task index, 0= none}
       SUO_taskIdx: integer;
       {space unit attitude status}
-      SUO_status: TFCEspUnStatus;
+      SUO_status: TFCEdgSpaceUnitStatus;
       {.docked space units}
       SUO_dockedSU: array of TFCRdgSPUdocked;
       {current velocity (deltaV) in km/s}

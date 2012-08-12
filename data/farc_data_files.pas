@@ -546,8 +546,8 @@ begin
                         FCDBfactions[FactionCount].F_facCmode[ColonizationModeCount].FCM_dotList[Count1].FCMEI_itemType:=feitSpaceUnit;
                         FCDBfactions[FactionCount].F_facCmode[ColonizationModeCount].FCM_dotList[Count1].FCMEI_spuProperNameToken:=XMLFactionSubItem.Attributes['properName'];
                         FCDBfactions[FactionCount].F_facCmode[ColonizationModeCount].FCM_dotList[Count1].FCMEI_spuDesignToken:=XMLFactionSubItem.Attributes['designToken'];
-                        EnumIndex:=GetEnumValue( TypeInfo( TFCEspUnStatus ), XMLFactionSubItem.Attributes['status'] );
-                        FCDBfactions[FactionCount].F_facCmode[ColonizationModeCount].FCM_dotList[Count1].FCMEI_spuStatus:=TFCEspUnStatus( EnumIndex );
+                        EnumIndex:=GetEnumValue( TypeInfo( TFCEdgSpaceUnitStatus ), XMLFactionSubItem.Attributes['status'] );
+                        FCDBfactions[FactionCount].F_facCmode[ColonizationModeCount].FCM_dotList[Count1].FCMEI_spuStatus:=TFCEdgSpaceUnitStatus( EnumIndex );
                         if EnumIndex=-1
                         then raise Exception.Create( 'bad faction equipment item loading w/ space unit status: '+XMLFactionSubItem.Attributes['status'] );
                         FCDBfactions[FactionCount].F_facCmode[ColonizationModeCount].FCM_dotList[Count1].FCMEI_spuDockInfo:=XMLFactionSubItem.Attributes['spuDock'];

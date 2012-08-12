@@ -1146,93 +1146,93 @@ begin
          CPUcnt:=1;
          while CPUcnt<=CPUmax do
          begin
-            CPUevN:=FCFgCSME_Event_GetStr(FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CSMEV_token);
+            CPUevN:=FCFgCSME_Event_GetStr(FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CCSME_type);
             CPUdataIndex:='';
             CPUrootnode:=FCWinMain.FCWM_CDPcsmeList.Items.Add(nil, FCFdTFiles_UIStr_Get(uistrUI, CPUevN)+UIHTMLencyBEGIN+CPUevN+UIHTMLencyEND );
-            if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CSMEV_duration>0
-            then FCWinMain.FCWM_CDPpopList.Items.AddChild( CPUrootnode, FCFdTFiles_UIStr_Get(uistrUI, 'csmdur')+': <b>'+IntToStr(FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CSMEV_duration)
+            if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CCSME_durationWeeks>0
+            then FCWinMain.FCWM_CDPpopList.Items.AddChild( CPUrootnode, FCFdTFiles_UIStr_Get(uistrUI, 'csmdur')+': <b>'+IntToStr(FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CCSME_durationWeeks)
                   +' </b>'+FCFdTFiles_UIStr_Get(uistrUI, 'TimeFwks') );
             {.order to display modifiers is: cohesion, tension, security, education, economic and industrial output, health}
             {.the special data are always displayed after the modifiers}
-            case FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CSMEV_token of
+            case FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CCSME_type of
                ceColonyEstablished:
                begin
-                  if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CE_tensionMod<>0
-                  then CPUdataIndex:=CPUdataIndex+FCFdTFiles_UIStr_Get(uistrUI, 'colDtens')+' <b>'+FCFuiHTML_Modifier_GetFormat( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CE_tensionMod, true )+'</b>  ';
-                  if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CE_securityMod<>0
-                  then CPUdataIndex:=CPUdataIndex+FCFdTFiles_UIStr_Get(uistrUI, 'colDsec')+' <b>'+FCFuiHTML_Modifier_GetFormat( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CE_securityMod, true )+'</b>  ';
+                  if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CCSME_tCEstTensionMod<>0
+                  then CPUdataIndex:=CPUdataIndex+FCFdTFiles_UIStr_Get(uistrUI, 'colDtens')+' <b>'+FCFuiHTML_Modifier_GetFormat( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CCSME_tCEstTensionMod, true )+'</b>  ';
+                  if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CCSME_tCEstSecurityMod<>0
+                  then CPUdataIndex:=CPUdataIndex+FCFdTFiles_UIStr_Get(uistrUI, 'colDsec')+' <b>'+FCFuiHTML_Modifier_GetFormat( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CCSME_tCEstSecurityMod, true )+'</b>  ';
                end;
 
                ceUnrest, ceUnrest_Recovering:
                begin
-                  if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].UN_ecoindMod<>0
-                  then CPUdataIndex:=CPUdataIndex+FCFdTFiles_UIStr_Get(uistrUI, 'csmieco')+' <b>'+FCFuiHTML_Modifier_GetFormat( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].UN_ecoindMod, true )+'</b>  ';
-                  if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].UN_tensionMod<>0
-                  then CPUdataIndex:=CPUdataIndex+FCFdTFiles_UIStr_Get(uistrUI, 'colDtens')+' <b>'+FCFuiHTML_Modifier_GetFormat( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].UN_tensionMod, true )+'</b>  ';
+                  if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CCSME_tCUnEconomicIndustrialOutputMod<>0
+                  then CPUdataIndex:=CPUdataIndex+FCFdTFiles_UIStr_Get(uistrUI, 'csmieco')+' <b>'+FCFuiHTML_Modifier_GetFormat( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CCSME_tCUnEconomicIndustrialOutputMod, true )+'</b>  ';
+                  if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CCSME_tCUnTensionMod<>0
+                  then CPUdataIndex:=CPUdataIndex+FCFdTFiles_UIStr_Get(uistrUI, 'colDtens')+' <b>'+FCFuiHTML_Modifier_GetFormat( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CCSME_tCUnTensionMod, true )+'</b>  ';
                end;
 
                ceSocialDisorder, ceSocialDisorder_Recovering:
                begin
-                  if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].SD_ecoindMod<>0
-                  then CPUdataIndex:=CPUdataIndex+FCFdTFiles_UIStr_Get(uistrUI, 'csmieco')+' <b>'+FCFuiHTML_Modifier_GetFormat( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].SD_ecoindMod, true )+'</b>  ';
-                  if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].SD_tensionMod<>0
-                  then CPUdataIndex:=CPUdataIndex+FCFdTFiles_UIStr_Get(uistrUI, 'colDtens')+' <b>'+FCFuiHTML_Modifier_GetFormat( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].SD_tensionMod, true )+'</b>  ';
+                  if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CCSME_tSDisEconomicIndustrialOutputMod<>0
+                  then CPUdataIndex:=CPUdataIndex+FCFdTFiles_UIStr_Get(uistrUI, 'csmieco')+' <b>'+FCFuiHTML_Modifier_GetFormat( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CCSME_tSDisEconomicIndustrialOutputMod, true )+'</b>  ';
+                  if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CCSME_tSDisTensionMod<>0
+                  then CPUdataIndex:=CPUdataIndex+FCFdTFiles_UIStr_Get(uistrUI, 'colDtens')+' <b>'+FCFuiHTML_Modifier_GetFormat( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CCSME_tSDisTensionMod, true )+'</b>  ';
                end;
 
                ceUprising, ceUprising_Recovering:
                begin
-                  if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].UP_ecoindMod<>0
-                  then CPUdataIndex:=CPUdataIndex+FCFdTFiles_UIStr_Get(uistrUI, 'csmieco')+' <b>'+FCFuiHTML_Modifier_GetFormat( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].UP_ecoindMod, true )+'</b>  ';
-                  if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].UP_tensionMod<>0
-                  then CPUdataIndex:=CPUdataIndex+FCFdTFiles_UIStr_Get(uistrUI, 'colDtens')+' <b>'+FCFuiHTML_Modifier_GetFormat( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].UP_tensionMod, true )+'</b>  ';
+                  if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CCSME_tUpEconomicIndustrialOutputMod<>0
+                  then CPUdataIndex:=CPUdataIndex+FCFdTFiles_UIStr_Get(uistrUI, 'csmieco')+' <b>'+FCFuiHTML_Modifier_GetFormat( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CCSME_tUpEconomicIndustrialOutputMod, true )+'</b>  ';
+                  if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CCSME_tUpTensionMod<>0
+                  then CPUdataIndex:=CPUdataIndex+FCFdTFiles_UIStr_Get(uistrUI, 'colDtens')+' <b>'+FCFuiHTML_Modifier_GetFormat( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CCSME_tUpTensionMod, true )+'</b>  ';
                end;
 
                ceHealthEducationRelation:
                begin
-                  if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].HER_educationMod<>0
-                  then CPUdataIndex:=CPUdataIndex+FCFdTFiles_UIStr_Get(uistrUI, 'colDedu')+' <b>'+FCFuiHTML_Modifier_GetFormat( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].HER_educationMod, true )+'</b>  ';
+                  if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CCSME_tHERelEducationMod<>0
+                  then CPUdataIndex:=CPUdataIndex+FCFdTFiles_UIStr_Get(uistrUI, 'colDedu')+' <b>'+FCFuiHTML_Modifier_GetFormat( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CCSME_tHERelEducationMod, true )+'</b>  ';
                end;
 
                ceGovernmentDestabilization, ceGovernmentDestabilization_Recovering:
                begin
-                  if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].GD_cohesionMod<>0
-                  then CPUdataIndex:=FCFdTFiles_UIStr_Get(uistrUI, 'colDcohes')+' <b>'+FCFuiHTML_Modifier_GetFormat( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].GD_cohesionMod, true )+'</b>  ';
+                  if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CCSME_tGDestCohesionMod<>0
+                  then CPUdataIndex:=FCFdTFiles_UIStr_Get(uistrUI, 'colDcohes')+' <b>'+FCFuiHTML_Modifier_GetFormat( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CCSME_tGDestCohesionMod, true )+'</b>  ';
                end;
 
-               ceOxygenProductionOverload: CPUdataIndex:=FCFdTFiles_UIStr_Get(uistrUI, 'csmPercPopNotSupported')+'<b>'+IntToStr( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].ROO_percPopNotSupported )+'</b>  ';
+               ceOxygenProductionOverload: CPUdataIndex:=FCFdTFiles_UIStr_Get(uistrUI, 'csmPercPopNotSupported')+'<b>'+IntToStr( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CCSME_tOPOvPercentPopulationNotSupported )+'</b>  ';
 
                ceOxygenShortage, ceOxygenShortage_Recovering:
                begin
-                  if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].ROS_ecoindMod<>0
-                  then CPUdataIndex:=CPUdataIndex+FCFdTFiles_UIStr_Get(uistrUI, 'csmieco')+' <b>'+FCFuiHTML_Modifier_GetFormat( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].ROS_ecoindMod, true )+'</b>  ';
-                  if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].ROS_tensionMod<>0
-                  then CPUdataIndex:=CPUdataIndex+FCFdTFiles_UIStr_Get(uistrUI, 'colDtens')+' <b>'+FCFuiHTML_Modifier_GetFormat( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].ROS_tensionMod, true )+'</b>  ';
-                  if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].ROS_healthMod<>0
-                  then CPUdataIndex:=CPUdataIndex+FCFdTFiles_UIStr_Get(uistrUI, 'colDheal')+' <b>'+FCFuiHTML_Modifier_GetFormat( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].ROS_healthMod, true )+'</b>  ';
+                  if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CCSME_tOShEconomicIndustrialOutputMod<>0
+                  then CPUdataIndex:=CPUdataIndex+FCFdTFiles_UIStr_Get(uistrUI, 'csmieco')+' <b>'+FCFuiHTML_Modifier_GetFormat( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CCSME_tOShEconomicIndustrialOutputMod, true )+'</b>  ';
+                  if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CCSME_tOShTensionMod<>0
+                  then CPUdataIndex:=CPUdataIndex+FCFdTFiles_UIStr_Get(uistrUI, 'colDtens')+' <b>'+FCFuiHTML_Modifier_GetFormat( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CCSME_tOShTensionMod, true )+'</b>  ';
+                  if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CCSME_tOShHealthMod<>0
+                  then CPUdataIndex:=CPUdataIndex+FCFdTFiles_UIStr_Get(uistrUI, 'colDheal')+' <b>'+FCFuiHTML_Modifier_GetFormat( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CCSME_tOShHealthMod, true )+'</b>  ';
                end;
 
-               ceWaterProductionOverload: CPUdataIndex:=FCFdTFiles_UIStr_Get(uistrUI, 'csmPercPopNotSupported')+'<b>'+IntToStr( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].RWO_percPopNotSupported )+'</b>  ';
+               ceWaterProductionOverload: CPUdataIndex:=FCFdTFiles_UIStr_Get(uistrUI, 'csmPercPopNotSupported')+'<b>'+IntToStr( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CCSME_tWPOvPercentPopulationNotSupported )+'</b>  ';
 
                ceWaterShortage, ceWaterShortage_Recovering:
                begin
-                  if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].RWS_ecoindMod<>0
-                  then CPUdataIndex:=CPUdataIndex+FCFdTFiles_UIStr_Get(uistrUI, 'csmieco')+' <b>'+FCFuiHTML_Modifier_GetFormat( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].RWS_ecoindMod, true )+'</b>  ';
-                  if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].RWS_tensionMod<>0
-                  then CPUdataIndex:=CPUdataIndex+FCFdTFiles_UIStr_Get(uistrUI, 'colDtens')+' <b>'+FCFuiHTML_Modifier_GetFormat( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].RWS_tensionMod, true )+'</b>  ';
-                  if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].RWS_healthMod<>0
-                  then CPUdataIndex:=CPUdataIndex+FCFdTFiles_UIStr_Get(uistrUI, 'colDheal')+' <b>'+FCFuiHTML_Modifier_GetFormat( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].RWS_healthMod, true )+'</b>  ';
+                  if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CCSME_tWShEconomicIndustrialOutputMod<>0
+                  then CPUdataIndex:=CPUdataIndex+FCFdTFiles_UIStr_Get(uistrUI, 'csmieco')+' <b>'+FCFuiHTML_Modifier_GetFormat( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CCSME_tWShEconomicIndustrialOutputMod, true )+'</b>  ';
+                  if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CCSME_tWShTensionMod<>0
+                  then CPUdataIndex:=CPUdataIndex+FCFdTFiles_UIStr_Get(uistrUI, 'colDtens')+' <b>'+FCFuiHTML_Modifier_GetFormat( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CCSME_tWShTensionMod, true )+'</b>  ';
+                  if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CCSME_tWShHealthMod<>0
+                  then CPUdataIndex:=CPUdataIndex+FCFdTFiles_UIStr_Get(uistrUI, 'colDheal')+' <b>'+FCFuiHTML_Modifier_GetFormat( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CCSME_tWShHealthMod, true )+'</b>  ';
                end;
 
-               ceFoodProductionOverload: CPUdataIndex:=FCFdTFiles_UIStr_Get(uistrUI, 'csmPercPopNotSupported')+'<b>'+IntToStr( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].RFO_percPopNotSupported )+'</b>  ';
+               ceFoodProductionOverload: CPUdataIndex:=FCFdTFiles_UIStr_Get(uistrUI, 'csmPercPopNotSupported')+'<b>'+IntToStr( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CCSME_tFPOvPercentPopulationNotSupported )+'</b>  ';
 
                ceFoodShortage, ceFoodShortage_Recovering:
                begin
-                  if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].RFS_ecoindMod<>0
-                  then CPUdataIndex:=CPUdataIndex+FCFdTFiles_UIStr_Get(uistrUI, 'csmieco')+' <b>'+FCFuiHTML_Modifier_GetFormat( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].RFS_ecoindMod, true )+'</b>  ';
-                  if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].RFS_tensionMod<>0
-                  then CPUdataIndex:=CPUdataIndex+FCFdTFiles_UIStr_Get(uistrUI, 'colDtens')+' <b>'+FCFuiHTML_Modifier_GetFormat( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].RFS_tensionMod, true )+'</b>  ';
-                  if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].RFS_healthMod<>0
-                  then CPUdataIndex:=CPUdataIndex+FCFdTFiles_UIStr_Get(uistrUI, 'colDheal')+' <b>'+FCFuiHTML_Modifier_GetFormat( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].RFS_healthMod, true )+'</b>  ';
+                  if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CCSME_tFShEconomicIndustrialOutputMod<>0
+                  then CPUdataIndex:=CPUdataIndex+FCFdTFiles_UIStr_Get(uistrUI, 'csmieco')+' <b>'+FCFuiHTML_Modifier_GetFormat( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CCSME_tFShEconomicIndustrialOutputMod, true )+'</b>  ';
+                  if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CCSME_tFShTensionMod<>0
+                  then CPUdataIndex:=CPUdataIndex+FCFdTFiles_UIStr_Get(uistrUI, 'colDtens')+' <b>'+FCFuiHTML_Modifier_GetFormat( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CCSME_tFShTensionMod, true )+'</b>  ';
+                  if FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CCSME_tFShHealthMod<>0
+                  then CPUdataIndex:=CPUdataIndex+FCFdTFiles_UIStr_Get(uistrUI, 'colDheal')+' <b>'+FCFuiHTML_Modifier_GetFormat( FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CCSME_tFShHealthMod, true )+'</b>  ';
                end;
             end; //==END== case FCentities[0].E_col[CDPcurrentColony].COL_evList[CPUcnt].CSMEV_token of ==//
             FCWinMain.FCWM_CDPpopList.Items.AddChild(

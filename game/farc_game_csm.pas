@@ -951,11 +951,11 @@ begin
             ,CDUfac
             ,CDUcol
             );
-         if FCentities[CDUfac].E_col[CDUcol].COL_evList[CDUdatI].HER_educationMod>0
-         then CDUdatI1:=-FCentities[CDUfac].E_col[CDUcol].COL_evList[CDUdatI].HER_educationMod
-         else if FCentities[CDUfac].E_col[CDUcol].COL_evList[CDUdatI].HER_educationMod<0
-         then CDUdatI1:=abs(FCentities[CDUfac].E_col[CDUcol].COL_evList[CDUdatI].HER_educationMod);
-         FCentities[CDUfac].E_col[CDUcol].COL_evList[CDUdatI].HER_educationMod:=CDUdatI1;
+         if FCentities[CDUfac].E_col[CDUcol].COL_evList[CDUdatI].CCSME_tHERelEducationMod>0
+         then CDUdatI1:=-FCentities[CDUfac].E_col[CDUcol].COL_evList[CDUdatI].CCSME_tHERelEducationMod
+         else if FCentities[CDUfac].E_col[CDUcol].COL_evList[CDUdatI].CCSME_tHERelEducationMod<0
+         then CDUdatI1:=abs(FCentities[CDUfac].E_col[CDUcol].COL_evList[CDUdatI].CCSME_tHERelEducationMod);
+         FCentities[CDUfac].E_col[CDUcol].COL_evList[CDUdatI].CCSME_tHERelEducationMod:=CDUdatI1;
          FCMgCSM_ColonyData_Upd(
             dInstruction
             ,CDUfac
@@ -966,7 +966,7 @@ begin
             ,false
             );
          CDUdatI2:=FCFgCSME_HealEdu_GetMod(CDUfac, CDUcol);
-         FCentities[CDUfac].E_col[CDUcol].COL_evList[CDUdatI].HER_educationMod:=CDUdatI2;
+         FCentities[CDUfac].E_col[CDUcol].COL_evList[CDUdatI].CCSME_tHERelEducationMod:=CDUdatI2;
          FCMgCSM_ColonyData_Upd(
             dInstruction
             ,CDUfac
