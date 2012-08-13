@@ -131,21 +131,21 @@ begin
    CSMPPcnt:=1;
    while CSMPPcnt<=CSMPPmax do
    begin
-      if FCGcsmPhList[CSMPPcnt].CSMT_tick=FCRplayer.P_timeTick
+      if FCGcsmPhList[CSMPPcnt].CSMPS_ProcessAtTick=FCRplayer.P_timeTick
       then
       begin
          CSMPPtickNew:=FCRplayer.P_timeTick+FCCwkTick;
          CSMPPfacCnt:=0;
          while CSMPPfacCnt<FCCdiFactionsMax do
          begin
-            CSMPPsubMax:=length(FCGcsmPhList[CSMPPcnt].CSMT_col[CSMPPfacCnt])-1;
+            CSMPPsubMax:=length(FCGcsmPhList[CSMPPcnt].CSMPS_colonies[CSMPPfacCnt])-1;
             if CSMPPsubMax>0
             then
             begin
                CSMPPsubcnt:=1;
                while CSMPPsubCnt<=CSMPPsubmax do
                begin
-                  CSMPPcol:=FCGcsmPhList[CSMPPcnt].CSMT_col[CSMPPfacCnt, CSMPPsubcnt];
+                  CSMPPcol:=FCGcsmPhList[CSMPPcnt].CSMPS_colonies[CSMPPfacCnt, CSMPPsubcnt];
                   FCMgCSM_Phase_Proc(CSMPPfacCnt, CSMPPcol);
                   FCentities[CSMPPfacCnt].E_col[CSMPPcol].C_nextCSMsessionInTick:=CSMPPtickNew;
                   inc(CSMPPsubcnt);
@@ -153,7 +153,7 @@ begin
             end;
             inc(CSMPPfacCnt);
          end;
-         FCGcsmPhList[CSMPPcnt].CSMT_tick:=CSMPPtickNew;
+         FCGcsmPhList[CSMPPcnt].CSMPS_ProcessAtTick:=CSMPPtickNew;
          break;
       end //==END== if FCGcsmPhList[CSMPPcnt].CSMT_tick=FCRplayer.P_timeTick ==//
       else inc(CSMPPcnt);

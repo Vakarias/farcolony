@@ -474,7 +474,7 @@ begin
          begin
             SetLength(FCGcsmPhList, length(FCGcsmPhList)+1);
             inc(GLcount);
-            FCGcsmPhList[GLcount].CSMT_tick:=GLxmlCSMpL.Attributes['csmTick'];
+            FCGcsmPhList[GLcount].CSMPS_ProcessAtTick:=GLxmlCSMpL.Attributes['csmTick'];
             GLphFac:=0;
             GLphFacOld:=-1;
             GLxmlCSMpLsub:=GLxmlCSMpL.ChildNodes.First;
@@ -485,12 +485,12 @@ begin
                then
                begin
                   GLphFacOld:=GLphFac;
-                  SetLength(FCGcsmPhList[GLcount].CSMT_col[GLphFac], 1);
+                  SetLength(FCGcsmPhList[GLcount].CSMPS_colonies[GLphFac], 1);
                   GLphItm:=0;
                end;
-               SetLength(FCGcsmPhList[GLcount].CSMT_col[GLphFac], length(FCGcsmPhList[GLcount].CSMT_col[GLphFac])+1);
+               SetLength(FCGcsmPhList[GLcount].CSMPS_colonies[GLphFac], length(FCGcsmPhList[GLcount].CSMPS_colonies[GLphFac])+1);
                inc(GLphItm);
-               FCGcsmPhList[GLcount].CSMT_col[GLphFac, GLphItm]:=GLxmlCSMpLsub.Attributes['colony'];
+               FCGcsmPhList[GLcount].CSMPS_colonies[GLphFac, GLphItm]:=GLxmlCSMpLsub.Attributes['colony'];
                GLxmlCSMpLsub:=GLxmlCSMpLsub.NextSibling;
             end;
             GLxmlCSMpL:=GLxmlCSMpL.NextSibling;
@@ -1328,11 +1328,11 @@ begin
       while GScount<=GSlength-1 do
       begin
          GSxmlCSMpL:=GSxmlItm.AddChild('csmPhList');
-         GSxmlCSMpL.Attributes['csmTick']:=FCGcsmPhList[GScount].CSMT_tick;
+         GSxmlCSMpL.Attributes['csmTick']:=FCGcsmPhList[GScount].CSMPS_ProcessAtTick;
          GSphFac:=0;
          while GSphFac<=1 do
          begin
-            GSsubL:=length(FCGcsmPhList[GScount].CSMT_col[GSphFac])-1;
+            GSsubL:=length(FCGcsmPhList[GScount].CSMPS_colonies[GSphFac])-1;
             GSsubC:=1;
             if GSsubL>0
             then
@@ -1341,7 +1341,7 @@ begin
                begin
                   GSxmlCSMpLsub:=GSxmlCSMpL.AddChild('csmPhase');
                   GSxmlCSMpLsub.Attributes['fac']:=GSphFac;
-                  GSxmlCSMpLsub.Attributes['colony']:=FCGcsmPhList[GScount].CSMT_col[GSphFac, GSsubL];
+                  GSxmlCSMpLsub.Attributes['colony']:=FCGcsmPhList[GScount].CSMPS_colonies[GSphFac, GSsubL];
                   inc(GSsubC);
                end;
             end;

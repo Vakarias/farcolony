@@ -1845,9 +1845,9 @@ begin
    then
    begin
       SetLength(FCGcsmPhList, 2);
-      SetLength(FCGcsmPhList[1].CSMT_col[PLUfac], 2);
-      FCGcsmPhList[1].CSMT_tick:=PLUtick;
-      FCGcsmPhList[1].CSMT_col[PLUfac, 1]:=PLUcol;
+      SetLength(FCGcsmPhList[1].CSMPS_colonies[PLUfac], 2);
+      FCGcsmPhList[1].CSMPS_ProcessAtTick:=PLUtick;
+      FCGcsmPhList[1].CSMPS_colonies[PLUfac, 1]:=PLUcol;
    end
    else
    begin
@@ -1855,15 +1855,15 @@ begin
       PLUmax:=length(FCGcsmPhList)-1;
       while PLUcnt<=PLUmax do
       begin
-         if FCGcsmPhList[PLUcnt].CSMT_tick=PLUtick
+         if FCGcsmPhList[PLUcnt].CSMPS_ProcessAtTick=PLUtick
          then
          begin
-            PLUmaxSub:=length(FCGcsmPhList[PLUcnt].CSMT_col[PLUfac]);
+            PLUmaxSub:=length(FCGcsmPhList[PLUcnt].CSMPS_colonies[PLUfac]);
             if PLUmaxSub<2
-            then SetLength(FCGcsmPhList[PLUcnt].CSMT_col[PLUfac], 2)
-            else SetLength(FCGcsmPhList[PLUcnt].CSMT_col[PLUfac], PLUmaxSub+1);
-            PLUcntSub:=Length(FCGcsmPhList[PLUcnt].CSMT_col[PLUfac])-1;
-            FCGcsmPhList[PLUcnt].CSMT_col[PLUfac, PLUcntSub]:=PLUcol;
+            then SetLength(FCGcsmPhList[PLUcnt].CSMPS_colonies[PLUfac], 2)
+            else SetLength(FCGcsmPhList[PLUcnt].CSMPS_colonies[PLUfac], PLUmaxSub+1);
+            PLUcntSub:=Length(FCGcsmPhList[PLUcnt].CSMPS_colonies[PLUfac])-1;
+            FCGcsmPhList[PLUcnt].CSMPS_colonies[PLUfac, PLUcntSub]:=PLUcol;
             break;
          end;
          inc(PLUcnt);

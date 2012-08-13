@@ -1,4 +1,4 @@
-﻿{======(C) Copyright Aug.2009-2012 Jean-Francois Baconnet All rights reserved==============
+{======(C) Copyright Aug.2009-2012 Jean-Francois Baconnet All rights reserved==============
 
         Title:  FAR Colony
         Author: Jean-Francois Baconnet
@@ -519,8 +519,34 @@ type TFCRdgColony = record
    /// store the storage indexes for each food product
    ///</summary>
    C_reserveFoodProductsIndex: array of integer;
-   COL_reserveWater: integer;
+   C_reserveWater: integer;
 end;
+
+{:REFERENCES LIST
+   - FCMdFiles_Game_Load
+   - FCMdFiles_Game_Save
+   - FCMgTFlow_CSMphase_Proc
+}
+///<summary>
+///   CSM phase schedule
+///</summary>
+type TFCRdgCSMPhaseSchedule= record
+   CSMPS_ProcessAtTick: integer;
+   ///<summary>
+   /// colonies to test [x,y] = colony index #
+      ///<summary>
+      /// x= faction index #
+      ///</summary>
+      ///<summary>
+      /// y= test list index # (<>colony index #)
+      ///</summary>
+   ///</summary>
+   CSMPS_colonies: array[0..FCCdiFactionsMax] of array of integer;
+end;
+   ///<summary>
+   ///   CSM phase schedule dynamic array
+   ///</summary>
+   TFCDdgCSMPhaseSchedule = array of TFCRdgCSMPhaseSchedule;
 
 //==END PUBLIC RECORDS======================================================================
 
@@ -537,98 +563,7 @@ end;
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   {.CSM test list}
-   {:DEV NOTES: update FCMdFiles_Game_Load/Save + FCMgTFlow_CSMphase_Proc.}
-   type TFCRdgCSMtest= record
-      CSMT_tick: integer;
-      ///<summary>
-      /// colonies to test [x,y] = colony index #
-         ///<summary>
-         /// x= faction index #
-         ///</summary>
-         ///<summary>
-         /// y= test list index # (<>colony index #)
-         ///</summary>
-      ///</summary>
-      CSMT_col: array[0..FCCdiFactionsMax] of array of integer;
-   end;
-   TFCcsmPhaseL = array of TFCRdgCSMtest;
-
-   {equipment list item datastructure}
-   {:DEV NOTE: update FCMdFiles_DBFactions_Read + FCMgNG_ColMode_Upd.}
-   type TFCRdgFactCMEquipItm = record
-      {type of dotation item}
-      case FCMEI_itemType: TFCEdgFactionEquipItemTypes of
-         feitProduct:
-            (
-               {.product token related to the item}
-               FCMEI_prodToken: string[20];
-               {.units of this product}
-               FCMEI_prodUnit: integer;
-               {.indicate which space unit carries this product, use the owned index #, since the unique id tokens are generated during game setup}
-               FCMEI_prodCarriedBy: integer;
-               );
-         feitSpaceUnit:
-            (
-               {.space unit proper name token}
-               FCMEI_spuProperNameToken: string[20];
-               {.design token}
-               FCMEI_spuDesignToken: string[20];
-               {.current status}
-               FCMEI_spuStatus: TFCEdgSpaceUnitStatus;
-               {.dock info -1: not docked/mother vessel, 1: mother vessel (all subsequent w/ 0 are docked to this one), 0: docked vessel}
-               FCMEI_spuDockInfo: integer;
-               {.current available energy/reaction mass volume}
-               FCMEI_spuAvailEnRM: extended
-               );
-   end;
-   {.colonization mode data structure}
-   {:DEV NOTE: update FCMdFiles_DBFactions_Read + FCMgNG_ColMode_Upd + FCMgNG_Core_Proceed.}
-   type TFCRdgFactColMode = record
-      {.token}
-      FCM_token: string[20];
-      ///<summary>
-      /// CPS - economic viability threshold
-      ///</summary>
-      FCM_cpsVthEconomic: integer;
-      ///<summary>
-      /// CPS - social viability threshold
-      ///</summary>
-      FCM_cpsVthSocial: integer;
-      ///<summary>
-      /// CPS - space & military viability threshold
-      ///</summary>
-      FCM_cpsVthSpaceMilitary: integer;
-      {.CPS data - credit range}
-      FCM_cpsCrRg: TFCEdgCreditInterestRanges;
-      {.CPS data - interest range}
-      FCM_cpsIntRg: TFCEdgCreditInterestRanges;
-      {.CPS data - viability objectives}
-      FCM_cpsViabObj: array of TFCRcpsoViabilityObjective;
-      {.dotation list sub datastructure}
-      FCM_dotList: array of TFCRdgFactCMEquipItm;
-   end;
+   
    {.SPM settings for entities}
    {:DEV NOTES: update FCMdF_Game_Load / FCMdF_Game_Save + FCMdF_DBFactions_Read + FCMgNG_Core_Proceed.}
    {:DEV NOTES: put custom effects current set values.}
@@ -646,15 +581,7 @@ end;
             (SPMS_bLvl: TFCEdgBeliefLevels;
             SPMS_sprdVal: integer);
    end;
-   {starting location item}
-   type TFCRdgFactStartLoc = record
-      {star system location}
-      FSL_locSSys: string[20];
-      {local star location}
-      FSL_locStar: string[20];
-      {orbital object location}
-      FSL_locObObj: string[20];
-   end;
+
    {faction's data structure}
    {:DEV NOTE: don't forget to update FCMdFiles_DBFactions_Read.}
    type TFCRdgFaction = record
@@ -664,15 +591,81 @@ end;
       {:DEV NOTES: remove it and replace by faction level (FL).}
       F_lvl: integer;
       {.colonization modes}
-      F_facCmode: array of TFCRdgFactColMode;
+      F_facCmode: array of record
+
+      {.colonization mode data structure}
+      {:DEV NOTE: update FCMdFiles_DBFactions_Read + FCMgNG_ColMode_Upd + FCMgNG_Core_Proceed.}
+         {.token}
+         FCM_token: string[20];
+         ///<summary>
+         /// CPS - economic viability threshold
+         ///</summary>
+         FCM_cpsVthEconomic: integer;
+         ///<summary>
+         /// CPS - social viability threshold
+         ///</summary>
+         FCM_cpsVthSocial: integer;
+         ///<summary>
+         /// CPS - space & military viability threshold
+         ///</summary>
+         FCM_cpsVthSpaceMilitary: integer;
+         {.CPS data - credit range}
+         FCM_cpsCrRg: TFCEdgCreditInterestRanges;
+         {.CPS data - interest range}
+         FCM_cpsIntRg: TFCEdgCreditInterestRanges;
+         {.CPS data - viability objectives}
+         FCM_cpsViabObj: array of TFCRcpsoViabilityObjective;
+         {.dotation list sub datastructure}
+         FCM_dotList: array of record
+            {equipment list item datastructure}
+            {:DEV NOTE: update FCMdFiles_DBFactions_Read + FCMgNG_ColMode_Upd.}
+               {type of dotation item}
+               case FCMEI_itemType: TFCEdgFactionEquipItemTypes of
+                  feitProduct:
+                     (
+                        {.product token related to the item}
+                        FCMEI_prodToken: string[20];
+                        {.units of this product}
+                        FCMEI_prodUnit: integer;
+                        {.indicate which space unit carries this product, use the owned index #, since the unique id tokens are generated during game setup}
+                        FCMEI_prodCarriedBy: integer;
+                        );
+                  feitSpaceUnit:
+                     (
+                        {.space unit proper name token}
+                        FCMEI_spuProperNameToken: string[20];
+                        {.design token}
+                        FCMEI_spuDesignToken: string[20];
+                        {.current status}
+                        FCMEI_spuStatus: TFCEdgSpaceUnitStatus;
+                        {.dock info -1: not docked/mother vessel, 1: mother vessel (all subsequent w/ 0 are docked to this one), 0: docked vessel}
+                        FCMEI_spuDockInfo: integer;
+                        {.current available energy/reaction mass volume}
+                        FCMEI_spuAvailEnRM: extended
+                        );
+            end;
+      end;
+
       {.starting locations list}
-      F_facStartLocList: array of TFCRdgFactStartLoc;
+      F_facStartLocList: array of record
+
+         {starting location item}
+            {star system location}
+            FSL_locSSys: string[20];
+            {local star location}
+            FSL_locStar: string[20];
+            {orbital object location}
+            FSL_locObObj: string[20];
+         end;
+
       {.SPM setting}
       F_spm: array of TFCRdgFactSPMset;
    end;
       {.factions dynamic array}
       {:DEV NOTES: also update the array of colonies for TFCRorbObj + TFCRorbObjSat + TFCRcsmTest.}
       TFCDBfactions = array [0..FCCdiFactionsMax] of TFCRdgFaction;
+
+
    {.player's data structure}
    {DEV NOTE: UPDATE NEW GAME SETUP + FCMdFSG_Game_Save + FCMdFSG_Game_Load}
    type TFCRdgPlayer = record
@@ -821,7 +814,7 @@ end;
       FCDBdgSPMi: TFCDBdgSPMi;
       FCentities: TFCentities;
       {.CSM test list}
-      FCGcsmPhList: TFCcsmPhaseL;
+      FCGcsmPhList: TFCDdgCSMPhaseSchedule;
       {.game timer phase dump}
       FCGtimePhase: TFCEtimePhases =tphNull;
 
