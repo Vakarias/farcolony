@@ -229,19 +229,19 @@ begin
    ProductIndex:=0;
    TotalProductionRvePoints:=0;
    ProdMatrixItemCount:=1;
-   ProdMatrixItemMax:=length( FCentities[ Entity ].E_col[ Colony ].COL_productionMatrix )-1;
+   ProdMatrixItemMax:=length( FCentities[ Entity ].E_col[ Colony ].C_productionMatrix )-1;
    while ProdMatrixItemCount<=ProdMatrixItemMax do
    begin
-      ProdMatrixItemProduct:=FCentities[ Entity ].E_col[ Colony ].COL_productionMatrix[ ProdMatrixItemCount ].CPMI_productToken;
+      ProdMatrixItemProduct:=FCentities[ Entity ].E_col[ Colony ].C_productionMatrix[ ProdMatrixItemCount ].PM_productToken;
       ProductIndex:=FCFgP_Product_GetIndex( ProdMatrixItemProduct );
       if FCDdipProducts[ ProductIndex ].P_function=pfFood then
       begin
-         FoodPointCalculated:=FCFgCR_FoodToReserve_Convert( FCentities[ Entity ].E_col[ Colony ].COL_productionMatrix[ ProdMatrixItemCount ].CPMI_globalProdFlow, FCDdipProducts[ ProductIndex ].P_massByUnit );
+         FoodPointCalculated:=FCFgCR_FoodToReserve_Convert( FCentities[ Entity ].E_col[ Colony ].C_productionMatrix[ ProdMatrixItemCount ].PM_globalProductionFlow, FCDdipProducts[ ProductIndex ].P_massByUnit );
          TotalProductionRvePoints:=TotalProductionRvePoints+FoodPointCalculated;
       end;
       inc( ProdMatrixItemCount );
    end;
-   PPS:=round( 100- ( TotalProductionRvePoints / FCentities[ Entity ].E_col[ Colony ].COL_population.CP_total *100 ) );
+   PPS:=round( 100- ( TotalProductionRvePoints / FCentities[ Entity ].E_col[ Colony ].C_population.CP_total *100 ) );
    Result:=PPS;
 end;
 
@@ -277,8 +277,8 @@ begin
    if ProdMatrixIdx=0
    then IntCalc3:=100
    else begin
-      IntCalc2:=FCFgCR_OxygenToReserve_Convert( FCentities[ Entity ].E_col[ Colony ].COL_productionMatrix[ ProdMatrixIdx ].CPMI_globalProdFlow );
-      IntCalc3:=round( 100-( IntCalc2 / FCentities[ Entity ].E_col[ Colony ].COL_population.CP_total *100 ) );
+      IntCalc2:=FCFgCR_OxygenToReserve_Convert( FCentities[ Entity ].E_col[ Colony ].C_productionMatrix[ ProdMatrixIdx ].PM_globalProductionFlow );
+      IntCalc3:=round( 100-( IntCalc2 / FCentities[ Entity ].E_col[ Colony ].C_population.CP_total *100 ) );
    end;
    Result:=IntCalc3;
 end;
@@ -346,8 +346,8 @@ begin
    if IntCalc1=0
    then IntCalc3:=100
    else begin
-      IntCalc2:=FCFgCR_WaterToReserve_Convert( FCentities[ Entity ].E_col[ Colony ].COL_productionMatrix[ IntCalc1 ].CPMI_globalProdFlow );
-      IntCalc3:=round( 100- (IntCalc2 / FCentities[ Entity ].E_col[ Colony ].COL_population.CP_total *100 ) );
+      IntCalc2:=FCFgCR_WaterToReserve_Convert( FCentities[ Entity ].E_col[ Colony ].C_productionMatrix[ IntCalc1 ].PM_globalProductionFlow );
+      IntCalc3:=round( 100- (IntCalc2 / FCentities[ Entity ].E_col[ Colony ].C_population.CP_total *100 ) );
    end;
    Result:=IntCalc3;
 end;
@@ -380,64 +380,64 @@ procedure FCMgCR_FoodShortage_Calc(
 
       ColonyEnvironment: TFCRgcEnvironment;
 begin
-   FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tFShPercentPopulationNotSupportedAtCalculation:=NewPPS;
+   FCentities[Entity].E_col[Colony].C_events[Event].CCSME_tFShPercentPopulationNotSupportedAtCalculation:=NewPPS;
    {.reset the modifiers in the colony's data, if required}
-   if FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tFShEconomicIndustrialOutputMod<0
+   if FCentities[Entity].E_col[Colony].C_events[Event].CCSME_tFShEconomicIndustrialOutputMod<0
    then FCMgCSM_ColonyData_Upd(
       dEcoIndusOut
       ,Entity
       ,Colony
-      ,abs( FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tFShEconomicIndustrialOutputMod )
+      ,abs( FCentities[Entity].E_col[Colony].C_events[Event].CCSME_tFShEconomicIndustrialOutputMod )
       ,0
       ,gcsmptNone
       ,false
       )
-   else if FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tFShEconomicIndustrialOutputMod>0
+   else if FCentities[Entity].E_col[Colony].C_events[Event].CCSME_tFShEconomicIndustrialOutputMod>0
    then FCMgCSM_ColonyData_Upd(
       dEcoIndusOut
       ,Entity
       ,Colony
-      ,-FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tFShEconomicIndustrialOutputMod
+      ,-FCentities[Entity].E_col[Colony].C_events[Event].CCSME_tFShEconomicIndustrialOutputMod
       ,0
       ,gcsmptNone
       ,false
       );
-   if FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tFShTensionMod<0
+   if FCentities[Entity].E_col[Colony].C_events[Event].CCSME_tFShTensionMod<0
    then FCMgCSM_ColonyData_Upd(
       dTension
       ,Entity
       ,Colony
-      ,abs( FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tFShTensionMod )
+      ,abs( FCentities[Entity].E_col[Colony].C_events[Event].CCSME_tFShTensionMod )
       ,0
       ,gcsmptNone
       ,false
       )
-   else if FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tFShTensionMod>0
+   else if FCentities[Entity].E_col[Colony].C_events[Event].CCSME_tFShTensionMod>0
    then FCMgCSM_ColonyData_Upd(
       dTension
       ,Entity
       ,Colony
-      ,-FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tFShTensionMod
+      ,-FCentities[Entity].E_col[Colony].C_events[Event].CCSME_tFShTensionMod
       ,0
       ,gcsmptNone
       ,false
       );
-   if FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tFShHealthMod<0
+   if FCentities[Entity].E_col[Colony].C_events[Event].CCSME_tFShHealthMod<0
    then FCMgCSM_ColonyData_Upd(
       dHealth
       ,Entity
       ,Colony
-      ,abs( FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tFShHealthMod )
+      ,abs( FCentities[Entity].E_col[Colony].C_events[Event].CCSME_tFShHealthMod )
       ,0
       ,gcsmptNone
       ,false
       )
-   else if FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tFShHealthMod>0
+   else if FCentities[Entity].E_col[Colony].C_events[Event].CCSME_tFShHealthMod>0
    then FCMgCSM_ColonyData_Upd(
       dHealth
       ,Entity
       ,Colony
-      ,-FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tFShHealthMod
+      ,-FCentities[Entity].E_col[Colony].C_events[Event].CCSME_tFShHealthMod
       ,0
       ,gcsmptNone
       ,false
@@ -448,7 +448,7 @@ begin
       if NewPPS>10 then
       begin
          ModifierCalc:=SQR( NewPPS ) * ( 0.05 * AgeCoefficient );
-         FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tFShEconomicIndustrialOutputMod:=- round( ModifierCalc );
+         FCentities[Entity].E_col[Colony].C_events[Event].CCSME_tFShEconomicIndustrialOutputMod:=- round( ModifierCalc );
          ColonyEnvironment:=FCFgC_ColEnv_GetTp( Entity, Colony );
          case ColonyEnvironment.ENV_envType of
             etFreeLiving: EnvCoefFracValue:=1;
@@ -458,14 +458,14 @@ begin
             etSpace: EnvCoefFracValue:=1.7;
          end;
          ModifierCalc:=SQRT( NewPPS ) * ( 5 * EnvCoefFracValue );
-         FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tFShTensionMod:=round( ModifierCalc );
+         FCentities[Entity].E_col[Colony].C_events[Event].CCSME_tFShTensionMod:=round( ModifierCalc );
          if Event>0 then
          begin
             FCMgCSM_ColonyData_Upd(
                dEcoIndusOut
                ,Entity
                ,Colony
-               ,FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tFShEconomicIndustrialOutputMod
+               ,FCentities[Entity].E_col[Colony].C_events[Event].CCSME_tFShEconomicIndustrialOutputMod
                ,0
                ,gcsmptNone
                ,false
@@ -474,7 +474,7 @@ begin
                dTension
                ,Entity
                ,Colony
-               ,FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tFShTensionMod
+               ,FCentities[Entity].E_col[Colony].C_events[Event].CCSME_tFShTensionMod
                ,0
                ,gcsmptNone
                ,false
@@ -484,35 +484,35 @@ begin
    end
    else if NewPPS>40 then
    begin
-      FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tFShEconomicIndustrialOutputMod:=-100;
+      FCentities[Entity].E_col[Colony].C_events[Event].CCSME_tFShEconomicIndustrialOutputMod:=-100;
       if Event>0
       then FCMgCSM_ColonyData_Upd(
          dEcoIndusOut
          ,Entity
          ,Colony
-         ,FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tFShEconomicIndustrialOutputMod
+         ,FCentities[Entity].E_col[Colony].C_events[Event].CCSME_tFShEconomicIndustrialOutputMod
          ,0
          ,gcsmptNone
          ,false
          );
    end;
    if NewPPS=100
-   then else FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_durationWeeks:=-3;
+   then else FCentities[Entity].E_col[Colony].C_events[Event].CCSME_durationWeeks:=-3;
    ModifierCalc:=SQRT( NewPPS ) * ( 10 * AgeCoefficient );
-   FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tFShHealthMod:=- round( ModifierCalc );
+   FCentities[Entity].E_col[Colony].C_events[Event].CCSME_tFShHealthMod:=- round( ModifierCalc );
    if Event>0
    then FCMgCSM_ColonyData_Upd(
       dHealth
       ,Entity
       ,Colony
-      ,FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tFShHealthMod
+      ,FCentities[Entity].E_col[Colony].C_events[Event].CCSME_tFShHealthMod
       ,0
       ,gcsmptNone
       ,false
       );
    {.direct death}
    if (NewPPS>10)
-      and ( FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tFShDirectDeathPeriod=0)
+      and ( FCentities[Entity].E_col[Colony].C_events[Event].CCSME_tFShDirectDeathPeriod=0)
    then FCMgCR_FoodShortage_DirectDeath(
       Entity
       ,Colony
@@ -540,13 +540,13 @@ begin
    if AgeCoef=0
    then AgeCoefficient:=FCFgCSM_AgeCoefficient_Retrieve( Entity, Colony )
    else AgeCoefficient:=AgeCoef;
-   ModifierCalc:=( SQRT( FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tFShPercentPopulationNotSupportedAtCalculation - 10 ) * ( 4 * AgeCoefficient ) )+FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tFShDeathFractionalValue;
+   ModifierCalc:=( SQRT( FCentities[Entity].E_col[Colony].C_events[Event].CCSME_tFShPercentPopulationNotSupportedAtCalculation - 10 ) * ( 4 * AgeCoefficient ) )+FCentities[Entity].E_col[Colony].C_events[Event].CCSME_tFShDeathFractionalValue;
    ModifierCalc:=FCFcFunc_Rnd( cfrttp2dec, ModifierCalc );
    DeadToApply:=trunc( ModifierCalc );
    {:DEV NOTES: apply the direct death here, create a method in farc_game_pgs.}
    FracValue:=frac( ModifierCalc );
-   FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tFShDirectDeathPeriod:=4;
-   FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tFShDeathFractionalValue:=FracValue;
+   FCentities[Entity].E_col[Colony].C_events[Event].CCSME_tFShDirectDeathPeriod:=4;
+   FCentities[Entity].E_col[Colony].C_events[Event].CCSME_tFShDeathFractionalValue:=FracValue;
 end;
 
 procedure FCMgCR_OxygenShortage_Calc(
@@ -566,88 +566,88 @@ procedure FCMgCR_OxygenShortage_Calc(
       ,SFcalc
       ,PPScalc: extended;
 begin
-   FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tOShPercentPopulationNotSupportedAtCalculation:=NewPPS;
+   FCentities[Entity].E_col[Colony].C_events[Event].CCSME_tOShPercentPopulationNotSupportedAtCalculation:=NewPPS;
    {.reset the modifiers in the colony's data, if required}
-   if FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tOShEconomicIndustrialOutputMod<0
+   if FCentities[Entity].E_col[Colony].C_events[Event].CCSME_tOShEconomicIndustrialOutputMod<0
    then FCMgCSM_ColonyData_Upd(
       dEcoIndusOut
       ,Entity
       ,Colony
-      ,abs( FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tOShEconomicIndustrialOutputMod )
+      ,abs( FCentities[Entity].E_col[Colony].C_events[Event].CCSME_tOShEconomicIndustrialOutputMod )
       ,0
       ,gcsmptNone
       ,false
       )
-   else if FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tOShEconomicIndustrialOutputMod>0
+   else if FCentities[Entity].E_col[Colony].C_events[Event].CCSME_tOShEconomicIndustrialOutputMod>0
    then FCMgCSM_ColonyData_Upd(
       dEcoIndusOut
       ,Entity
       ,Colony
-      ,-FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tOShEconomicIndustrialOutputMod
+      ,-FCentities[Entity].E_col[Colony].C_events[Event].CCSME_tOShEconomicIndustrialOutputMod
       ,0
       ,gcsmptNone
       ,false
       );
-   if FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tOShTensionMod<0
+   if FCentities[Entity].E_col[Colony].C_events[Event].CCSME_tOShTensionMod<0
    then FCMgCSM_ColonyData_Upd(
       dTension
       ,Entity
       ,Colony
-      ,abs( FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tOShTensionMod )
+      ,abs( FCentities[Entity].E_col[Colony].C_events[Event].CCSME_tOShTensionMod )
       ,0
       ,gcsmptNone
       ,false
       )
-   else if FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tOShTensionMod>0
+   else if FCentities[Entity].E_col[Colony].C_events[Event].CCSME_tOShTensionMod>0
    then FCMgCSM_ColonyData_Upd(
       dTension
       ,Entity
       ,Colony
-      ,-FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tOShTensionMod
+      ,-FCentities[Entity].E_col[Colony].C_events[Event].CCSME_tOShTensionMod
       ,0
       ,gcsmptNone
       ,false
       );
-   if FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tOShHealthMod<0
+   if FCentities[Entity].E_col[Colony].C_events[Event].CCSME_tOShHealthMod<0
    then FCMgCSM_ColonyData_Upd(
       dHealth
       ,Entity
       ,Colony
-      ,abs( FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tOShHealthMod )
+      ,abs( FCentities[Entity].E_col[Colony].C_events[Event].CCSME_tOShHealthMod )
       ,0
       ,gcsmptNone
       ,false
       )
-   else if FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tOShHealthMod>0
+   else if FCentities[Entity].E_col[Colony].C_events[Event].CCSME_tOShHealthMod>0
    then FCMgCSM_ColonyData_Upd(
       dHealth
       ,Entity
       ,Colony
-      ,-FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tOShHealthMod
+      ,-FCentities[Entity].E_col[Colony].C_events[Event].CCSME_tOShHealthMod
       ,0
       ,gcsmptNone
       ,false
       );
    PPScalc:=NewPPS * 0.01;
-   SubSFcalc:=round( FCentities[ Entity ].E_col[ Colony ].COL_population.CP_total * PPScalc );
-   SFcalc:=FCentities[ Entity ].E_col[ Colony ].COL_population.CP_total / ( FCentities[ Entity ].E_col[ Colony ].COL_population.CP_total - SubSFcalc );
+   SubSFcalc:=round( FCentities[ Entity ].E_col[ Colony ].C_population.CP_total * PPScalc );
+   SFcalc:=FCentities[ Entity ].E_col[ Colony ].C_population.CP_total / ( FCentities[ Entity ].E_col[ Colony ].C_population.CP_total - SubSFcalc );
    SFcalc:=FCFcFunc_Rnd( cfrttp2dec, SFcalc );
    if SFcalc<2.5 then
    begin
       AgeCoefficient:=FCFgCSM_AgeCoefficient_Retrieve( Entity, Colony );
       ModifierCalc:=( 1 - ( 1 / SFcalc ) ) * ( 140 * AgeCoefficient );
-      FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tOShEconomicIndustrialOutputMod:=-round( ModifierCalc );
+      FCentities[Entity].E_col[Colony].C_events[Event].CCSME_tOShEconomicIndustrialOutputMod:=-round( ModifierCalc );
       ModifierCalc:=SQR( SFcalc - 1 ) * 20;
-      FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tOShTensionMod:=round( ModifierCalc );
+      FCentities[Entity].E_col[Colony].C_events[Event].CCSME_tOShTensionMod:=round( ModifierCalc );
       ModifierCalc:=( SFcalc - 1 ) * ( 40 * AgeCoefficient );
-      FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tOShHealthMod:=-round( ModifierCalc );
+      FCentities[Entity].E_col[Colony].C_events[Event].CCSME_tOShHealthMod:=-round( ModifierCalc );
       if Event>0 then
       begin
          FCMgCSM_ColonyData_Upd(
             dEcoIndusOut
             ,Entity
             ,Colony
-            ,FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tOShEconomicIndustrialOutputMod
+            ,FCentities[Entity].E_col[Colony].C_events[Event].CCSME_tOShEconomicIndustrialOutputMod
             ,0
             ,gcsmptNone
             ,false
@@ -656,7 +656,7 @@ begin
             dTension
             ,Entity
             ,Colony
-            ,FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tOShTensionMod
+            ,FCentities[Entity].E_col[Colony].C_events[Event].CCSME_tOShTensionMod
             ,0
             ,gcsmptNone
             ,false
@@ -665,7 +665,7 @@ begin
             dHealth
             ,Entity
             ,Colony
-            ,FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tOShHealthMod
+            ,FCentities[Entity].E_col[Colony].C_events[Event].CCSME_tOShHealthMod
             ,0
             ,gcsmptNone
             ,false
@@ -673,7 +673,7 @@ begin
       end;
    end
    {.case if the entire population die}
-   else FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_durationWeeks:=-3;
+   else FCentities[Entity].E_col[Colony].C_events[Event].CCSME_durationWeeks:=-3;
 end;
 
 procedure FCMgCR_Reserve_Update(
@@ -713,7 +713,7 @@ begin
    case TypeOfReserve of
       pfFood:
       begin
-         FCentities[ Entity ].E_col[ Colony ].COL_reserveFood:=FCentities[ Entity ].E_col[ Colony ].COL_reserveFood+ReservePointsToXfer;
+         FCentities[ Entity ].E_col[ Colony ].C_reserveFood:=FCentities[ Entity ].E_col[ Colony ].C_reserveFood+ReservePointsToXfer;
          if Entity=0
          then FCMuiCDD_Colony_Update(
             cdlReserveFood
@@ -726,16 +726,16 @@ begin
             );
          if updateStorage then
          begin
-            Max:=length( FCentities[ Entity ].E_col[ Colony ].COL_reserveFoodList )-1;
+            Max:=length( FCentities[ Entity ].E_col[ Colony ].C_reserveFoodProductsIndex )-1;
             if length( FoodDistribution )<>Max+1
             then SetLength( FoodDistribution, Max+1 );
             if Max=1 then
             begin
-               StorageIdx:=FCentities[ Entity ].E_col[ Colony ].COL_reserveFoodList[ Max ];
-               ProductIdx:=FCFgP_Product_GetIndex( FCentities[ Entity ].E_col[ Colony ].COL_storageList[ StorageIdx ].CPR_token );
+               StorageIdx:=FCentities[ Entity ].E_col[ Colony ].C_reserveFoodProductsIndex[ Max ];
+               ProductIdx:=FCFgP_Product_GetIndex( FCentities[ Entity ].E_col[ Colony ].C_storedProducts[ StorageIdx ].SP_token );
                VolumeFromReserve:=FCFgCR_ReserveToFood_Convert( ReservePointsToXfer, FCDdipProducts[ ProductIdx ].P_massByUnit );
                FCFgC_Storage_Update(
-                  FCentities[ Entity ].E_col[ Colony ].COL_storageList[ StorageIdx ].CPR_token
+                  FCentities[ Entity ].E_col[ Colony ].C_storedProducts[ StorageIdx ].SP_token
                   ,VolumeFromReserve
                   ,Entity
                   ,Colony
@@ -747,21 +747,21 @@ begin
                count:=1;
                while Count<=Max do
                begin
-                  StorageIdx:=FCentities[ Entity ].E_col[ Colony ].COL_reserveFoodList[ Count ];
-                  SumOfStorageUnits:=SumOfStorageUnits+FCentities[ Entity ].E_col[ Colony ].COL_storageList[ StorageIdx ].CPR_unit;
+                  StorageIdx:=FCentities[ Entity ].E_col[ Colony ].C_reserveFoodProductsIndex[ Count ];
+                  SumOfStorageUnits:=SumOfStorageUnits+FCentities[ Entity ].E_col[ Colony ].C_storedProducts[ StorageIdx ].SP_unit;
                   inc( Count );
                end;
                Count:=1;
                while Count<=Max do
                begin
-                  StorageIdx:=FCentities[ Entity ].E_col[ Colony ].COL_reserveFoodList[ Count ];
-                  ProductIdx:=FCFgP_Product_GetIndex( FCentities[ Entity ].E_col[ Colony ].COL_storageList[ StorageIdx ].CPR_token );
-                  FoodDistribution[ Count ]:=FCentities[ Entity ].E_col[ Colony ].COL_storageList[ StorageIdx ].CPR_unit*100/SumOfStorageUnits;
+                  StorageIdx:=FCentities[ Entity ].E_col[ Colony ].C_reserveFoodProductsIndex[ Count ];
+                  ProductIdx:=FCFgP_Product_GetIndex( FCentities[ Entity ].E_col[ Colony ].C_storedProducts[ StorageIdx ].SP_token );
+                  FoodDistribution[ Count ]:=FCentities[ Entity ].E_col[ Colony ].C_storedProducts[ StorageIdx ].SP_unit*100/SumOfStorageUnits;
                   FoodDistribution[ Count ]:=FCFcFunc_Rnd( cfrttp1dec, FoodDistribution[ Count ] );
                   ReservesCalc:=trunc( ReservePointsToXfer*( FoodDistribution[ Count ]*0.01 ) )+1;
                   VolumeFromReserve:=FCFgCR_ReserveToFood_Convert( ReservesCalc, FCDdipProducts[ ProductIdx ].P_massByUnit );
                   FCFgC_Storage_Update(
-                     FCentities[ Entity ].E_col[ Colony ].COL_storageList[ StorageIdx ].CPR_token
+                     FCentities[ Entity ].E_col[ Colony ].C_storedProducts[ StorageIdx ].SP_token
                      ,VolumeFromReserve
                      ,Entity
                      ,Colony
@@ -775,7 +775,7 @@ begin
 
       pfOxygen:
       begin
-         FCentities[ Entity ].E_col[ Colony ].COL_reserveOxygen:=FCentities[ Entity ].E_col[ Colony ].COL_reserveOxygen+ReservePointsToXfer;
+         FCentities[ Entity ].E_col[ Colony ].C_reserveOxygen:=FCentities[ Entity ].E_col[ Colony ].C_reserveOxygen+ReservePointsToXfer;
          if Entity=0
          then FCMuiCDD_Colony_Update(
             cdlReserveOxy
@@ -801,7 +801,7 @@ begin
 
       pfWater:
       begin
-         FCentities[ Entity ].E_col[ Colony ].COL_reserveWater:=FCentities[ Entity ].E_col[ Colony ].COL_reserveWater+ReservePointsToXfer;
+         FCentities[ Entity ].E_col[ Colony ].C_reserveWater:=FCentities[ Entity ].E_col[ Colony ].C_reserveWater+ReservePointsToXfer;
          if Entity=0
          then FCMuiCDD_Colony_Update(
             cdlReserveWater
@@ -876,64 +876,64 @@ procedure FCMgCR_WaterShortage_Calc(
 
          ColonyEnvironment: TFCRgcEnvironment;
 begin
-   FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tWShPercentPopulationNotSupportedAtCalculation:=NewPPS;
+   FCentities[Entity].E_col[Colony].C_events[Event].CCSME_tWShPercentPopulationNotSupportedAtCalculation:=NewPPS;
    {.reset the modifiers in the colony's data, if required}
-   if FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tWShEconomicIndustrialOutputMod<0
+   if FCentities[Entity].E_col[Colony].C_events[Event].CCSME_tWShEconomicIndustrialOutputMod<0
    then FCMgCSM_ColonyData_Upd(
       dEcoIndusOut
       ,Entity
       ,Colony
-      ,abs( FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tWShEconomicIndustrialOutputMod )
+      ,abs( FCentities[Entity].E_col[Colony].C_events[Event].CCSME_tWShEconomicIndustrialOutputMod )
       ,0
       ,gcsmptNone
       ,false
       )
-   else if FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tWShEconomicIndustrialOutputMod>0
+   else if FCentities[Entity].E_col[Colony].C_events[Event].CCSME_tWShEconomicIndustrialOutputMod>0
    then FCMgCSM_ColonyData_Upd(
       dEcoIndusOut
       ,Entity
       ,Colony
-      ,-FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tWShEconomicIndustrialOutputMod
+      ,-FCentities[Entity].E_col[Colony].C_events[Event].CCSME_tWShEconomicIndustrialOutputMod
       ,0
       ,gcsmptNone
       ,false
       );
-   if FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tWShTensionMod<0
+   if FCentities[Entity].E_col[Colony].C_events[Event].CCSME_tWShTensionMod<0
    then FCMgCSM_ColonyData_Upd(
       dTension
       ,Entity
       ,Colony
-      ,abs( FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tWShTensionMod )
+      ,abs( FCentities[Entity].E_col[Colony].C_events[Event].CCSME_tWShTensionMod )
       ,0
       ,gcsmptNone
       ,false
       )
-   else if FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tWShTensionMod>0
+   else if FCentities[Entity].E_col[Colony].C_events[Event].CCSME_tWShTensionMod>0
    then FCMgCSM_ColonyData_Upd(
       dTension
       ,Entity
       ,Colony
-      ,-FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tWShTensionMod
+      ,-FCentities[Entity].E_col[Colony].C_events[Event].CCSME_tWShTensionMod
       ,0
       ,gcsmptNone
       ,false
       );
-   if FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tWShHealthMod<0
+   if FCentities[Entity].E_col[Colony].C_events[Event].CCSME_tWShHealthMod<0
    then FCMgCSM_ColonyData_Upd(
       dHealth
       ,Entity
       ,Colony
-      ,abs( FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tWShHealthMod )
+      ,abs( FCentities[Entity].E_col[Colony].C_events[Event].CCSME_tWShHealthMod )
       ,0
       ,gcsmptNone
       ,false
       )
-   else if FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tWShHealthMod>0
+   else if FCentities[Entity].E_col[Colony].C_events[Event].CCSME_tWShHealthMod>0
    then FCMgCSM_ColonyData_Upd(
       dHealth
       ,Entity
       ,Colony
-      ,-FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tWShHealthMod
+      ,-FCentities[Entity].E_col[Colony].C_events[Event].CCSME_tWShHealthMod
       ,0
       ,gcsmptNone
       ,false
@@ -945,13 +945,13 @@ begin
       if NewPPS>6 then
       begin
          ModifierCalc:=( NewPPS - 6 ) * ( 5 * AgeCoefficient );
-         FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tWShEconomicIndustrialOutputMod:=-round( ModifierCalc );
+         FCentities[Entity].E_col[Colony].C_events[Event].CCSME_tWShEconomicIndustrialOutputMod:=-round( ModifierCalc );
          if Event>0
          then FCMgCSM_ColonyData_Upd(
             dEcoIndusOut
             ,Entity
             ,Colony
-            ,FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tWShEconomicIndustrialOutputMod
+            ,FCentities[Entity].E_col[Colony].C_events[Event].CCSME_tWShEconomicIndustrialOutputMod
             ,0
             ,gcsmptNone
             ,false
@@ -973,16 +973,16 @@ begin
             else EnvCoef:=1;
       end;
       ModifierCalc:=( NewPPS * 1.7 ) * EnvCoef;
-      FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tWShTensionMod:=round( ModifierCalc );
+      FCentities[Entity].E_col[Colony].C_events[Event].CCSME_tWShTensionMod:=round( ModifierCalc );
       ModifierCalc:=( NewPPS - 1 ) * AgeCoefficient;
-      FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tWShHealthMod:=-round( ModifierCalc );
+      FCentities[Entity].E_col[Colony].C_events[Event].CCSME_tWShHealthMod:=-round( ModifierCalc );
       if Event>0 then
       begin
          FCMgCSM_ColonyData_Upd(
             dTension
             ,Entity
             ,Colony
-            ,FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tWShTensionMod
+            ,FCentities[Entity].E_col[Colony].C_events[Event].CCSME_tWShTensionMod
             ,0
             ,gcsmptNone
             ,false
@@ -991,7 +991,7 @@ begin
             dHealth
             ,Entity
             ,Colony
-            ,FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_tWShHealthMod
+            ,FCentities[Entity].E_col[Colony].C_events[Event].CCSME_tWShHealthMod
             ,0
             ,gcsmptNone
             ,false
@@ -1000,7 +1000,7 @@ begin
    end //==END==  if ( NewPPS>2 ) and ( NewPPS<=15 ) ==//
    {.case if the entire population die}
    else if NewPPS>15
-   then FCentities[Entity].E_col[Colony].COL_evList[Event].CCSME_durationWeeks:=-3;
+   then FCentities[Entity].E_col[Colony].C_events[Event].CCSME_durationWeeks:=-3;
 end;
 
 end.

@@ -78,7 +78,7 @@ procedure FCMgPS3_ReservesSegment_Process(
 begin
    {.oxygen consumption}
    doNotProcessShortageEvent:=false;
-   if FCentities[ Entity ].E_col[ Colony ].COL_reserveOxygen<>-1 then
+   if FCentities[ Entity ].E_col[ Colony ].C_reserveOxygen<>-1 then
    begin
       ReturnedOverloadEvent:=FCFgCSME_Search_ByType(
          ceOxygenProductionOverload
@@ -124,7 +124,7 @@ begin
                );
             doNotProcessShortageEvent:=true;
          end //==END== if PPS<=0 ==//
-         else FCentities[ Entity ].E_col[ Colony ].COL_evList[ ReturnedOverloadEvent ].CCSME_tOPOvPercentPopulationNotSupported:=PPS;
+         else FCentities[ Entity ].E_col[ Colony ].C_events[ ReturnedOverloadEvent ].CCSME_tOPOvPercentPopulationNotSupported:=PPS;
       end; //==END== else if ReturnedOverloadEvent>0 ==//
       {.process the Oxygen Shortage event}
       if not doNotProcessShortageEvent then
@@ -148,7 +148,7 @@ begin
                   ,Colony
                   ,ReturnedShortageEvent
                   );
-               if FCentities[ Entity ].E_col[ Colony ].COL_evList[ ReturnedShortageEvent ].CCSME_durationWeeks=-2
+               if FCentities[ Entity ].E_col[ Colony ].C_events[ ReturnedShortageEvent ].CCSME_durationWeeks=-2
                then FCMgCSME_Event_Cancel(
                   csmeecImmediate
                   ,Entity
@@ -162,7 +162,7 @@ begin
          else if ReturnedShortageEvent>0 then
          begin
             {.case when all the population die of asphyxia}
-            if FCentities[ Entity ].E_col[ Colony ].COL_evList[ ReturnedShortageEvent ].CCSME_durationWeeks=-3 then
+            if FCentities[ Entity ].E_col[ Colony ].C_events[ ReturnedShortageEvent ].CCSME_durationWeeks=-3 then
             begin
                if ( Entity=0 )
                   and ( Assigned( FCcps ) )
@@ -172,7 +172,7 @@ begin
                {:DEV NOTES: if not trigger a colony unbearable, see the cancellation rule of the Oxygen Shortage event.}
             end
             {.case if there's enough oxygen reserve for at least 1 tick}
-            else if FCentities[ Entity ].E_col[ Colony ].COL_reserveOxygen>=FCentities[ Entity ].E_col[ Colony ].COL_population.CP_total
+            else if FCentities[ Entity ].E_col[ Colony ].C_reserveOxygen>=FCentities[ Entity ].E_col[ Colony ].C_population.CP_total
             then FCMgCSME_Event_Cancel(
                csmeecRecover
                ,Entity
@@ -182,7 +182,7 @@ begin
                ,0
                )
             {.in any other case, do the over time process, if it's required}
-            else if PPS<>FCentities[ Entity ].E_col[ Colony ].COL_evList[ ReturnedShortageEvent ].CCSME_tOShPercentPopulationNotSupportedAtCalculation
+            else if PPS<>FCentities[ Entity ].E_col[ Colony ].C_events[ ReturnedShortageEvent ].CCSME_tOShPercentPopulationNotSupportedAtCalculation
             then FCMgCR_OxygenShortage_Calc(
                Entity
                ,Colony
@@ -192,7 +192,7 @@ begin
          end;
       end; //==END== if not doNotProcessShortageEvent ==//
       {.process the oxygen consumption}
-      if FCentities[ Entity ].E_col[ Colony ].COL_reserveOxygen<FCentities[ Entity ].E_col[ Colony ].COL_population.CP_total then
+      if FCentities[ Entity ].E_col[ Colony ].C_reserveOxygen<FCentities[ Entity ].E_col[ Colony ].C_population.CP_total then
       begin
          ReturnedShortageEvent:=FCFgCSME_Search_ByType(
             ceOxygenShortage_Recovering
@@ -228,16 +228,16 @@ begin
             Entity
             ,Colony
             ,pfOxygen
-            ,-FCentities[ Entity ].E_col[ Colony ].COL_reserveOxygen
+            ,-FCentities[ Entity ].E_col[ Colony ].C_reserveOxygen
             ,true
             );
       end
-      else if FCentities[ Entity ].E_col[ Colony ].COL_reserveOxygen>=FCentities[ Entity ].E_col[ Colony ].COL_population.CP_total
+      else if FCentities[ Entity ].E_col[ Colony ].C_reserveOxygen>=FCentities[ Entity ].E_col[ Colony ].C_population.CP_total
       then FCMgCR_Reserve_Update(
          Entity
          ,Colony
          ,pfOxygen
-         ,-FCentities[ Entity ].E_col[ Colony ].COL_population.CP_total
+         ,-FCentities[ Entity ].E_col[ Colony ].C_population.CP_total
          ,true
          );
    end; //==END== if FCentities[ Entity ].E_col[ Colony ].COL_reserveOxygen<>-1 ==//
@@ -287,7 +287,7 @@ begin
             );
          doNotProcessShortageEvent:=true;
       end //==END== if PPS<=0 ==//
-      else FCentities[ Entity ].E_col[ Colony ].COL_evList[ ReturnedOverloadEvent ].CCSME_tWPOvPercentPopulationNotSupported:=PPS;
+      else FCentities[ Entity ].E_col[ Colony ].C_events[ ReturnedOverloadEvent ].CCSME_tWPOvPercentPopulationNotSupported:=PPS;
    end; //==END== else if ReturnedOverloadEvent>0 ==//
    {.process the Water Shortage event}
    if not doNotProcessShortageEvent then
@@ -311,7 +311,7 @@ begin
                ,Colony
                ,ReturnedShortageEvent
                );
-            if FCentities[ Entity ].E_col[ Colony ].COL_evList[ ReturnedShortageEvent ].CCSME_durationWeeks=-2
+            if FCentities[ Entity ].E_col[ Colony ].C_events[ ReturnedShortageEvent ].CCSME_durationWeeks=-2
             then FCMgCSME_Event_Cancel(
                csmeecImmediate
                ,Entity
@@ -325,7 +325,7 @@ begin
       else if ReturnedShortageEvent>0 then
       begin
          {.case when all the population die of dehydratation}
-         if FCentities[ Entity ].E_col[ Colony ].COL_evList[ ReturnedShortageEvent ].CCSME_durationWeeks=-3 then
+         if FCentities[ Entity ].E_col[ Colony ].C_events[ ReturnedShortageEvent ].CCSME_durationWeeks=-3 then
          begin
             if ( Entity=0 )
                and ( Assigned( FCcps ) )
@@ -335,7 +335,7 @@ begin
             {:DEV NOTES: if not trigger a colony unbearable, see the cancellation rule of the Water Shortage event.}
          end
          {.case if there's enough water reserve for at least 1 tick}
-         else if FCentities[ Entity ].E_col[ Colony ].COL_reserveWater>=FCentities[ Entity ].E_col[ Colony ].COL_population.CP_total
+         else if FCentities[ Entity ].E_col[ Colony ].C_reserveWater>=FCentities[ Entity ].E_col[ Colony ].C_population.CP_total
          then FCMgCSME_Event_Cancel(
             csmeecRecover
             ,Entity
@@ -345,7 +345,7 @@ begin
             ,0
             )
          {.in any other case, do the over time process, if it's required}
-         else if PPS<>FCentities[ Entity ].E_col[ Colony ].COL_evList[ ReturnedShortageEvent ].CCSME_tWShPercentPopulationNotSupportedAtCalculation
+         else if PPS<>FCentities[ Entity ].E_col[ Colony ].C_events[ ReturnedShortageEvent ].CCSME_tWShPercentPopulationNotSupportedAtCalculation
          then FCMgCR_WaterShortage_Calc(
             Entity
             ,Colony
@@ -355,7 +355,7 @@ begin
       end;
    end; //==END== if not doNotProcessShortageEvent ==//
    {.process the water consumption}
-   if FCentities[ Entity ].E_col[ Colony ].COL_reserveWater<FCentities[ Entity ].E_col[ Colony ].COL_population.CP_total then
+   if FCentities[ Entity ].E_col[ Colony ].C_reserveWater<FCentities[ Entity ].E_col[ Colony ].C_population.CP_total then
    begin
       ReturnedShortageEvent:=FCFgCSME_Search_ByType(
          ceWaterShortage_Recovering
@@ -391,16 +391,16 @@ begin
          Entity
          ,Colony
          ,pfWater
-         ,-FCentities[ Entity ].E_col[ Colony ].COL_reserveWater
+         ,-FCentities[ Entity ].E_col[ Colony ].C_reserveWater
          ,true
          );
    end
-   else if FCentities[ Entity ].E_col[ Colony ].COL_reserveWater>=FCentities[ Entity ].E_col[ Colony ].COL_population.CP_total
+   else if FCentities[ Entity ].E_col[ Colony ].C_reserveWater>=FCentities[ Entity ].E_col[ Colony ].C_population.CP_total
    then FCMgCR_Reserve_Update(
       Entity
       ,Colony
       ,pfWater
-      ,-FCentities[ Entity ].E_col[ Colony ].COL_population.CP_total
+      ,-FCentities[ Entity ].E_col[ Colony ].C_population.CP_total
       ,true
       );
    {.food consumption}
@@ -449,7 +449,7 @@ begin
             );
          doNotProcessShortageEvent:=true;
       end //==END== if PPS<=0 ==//
-      else FCentities[ Entity ].E_col[ Colony ].COL_evList[ ReturnedOverloadEvent ].CCSME_tFPOvPercentPopulationNotSupported:=PPS;
+      else FCentities[ Entity ].E_col[ Colony ].C_events[ ReturnedOverloadEvent ].CCSME_tFPOvPercentPopulationNotSupported:=PPS;
    end; //==END== else if ReturnedOverloadEvent>0 ==//
    {.process the Food Shortage event}
    if not doNotProcessShortageEvent then
@@ -473,7 +473,7 @@ begin
                ,Colony
                ,ReturnedShortageEvent
                );
-            if FCentities[ Entity ].E_col[ Colony ].COL_evList[ ReturnedShortageEvent ].CCSME_durationWeeks=-2
+            if FCentities[ Entity ].E_col[ Colony ].C_events[ ReturnedShortageEvent ].CCSME_durationWeeks=-2
             then FCMgCSME_Event_Cancel(
                csmeecImmediate
                ,Entity
@@ -487,7 +487,7 @@ begin
       else if ReturnedShortageEvent>0 then
       begin
          {.case when all the population die of starvation}
-         if FCentities[ Entity ].E_col[ Colony ].COL_evList[ ReturnedShortageEvent ].CCSME_durationWeeks=-3 then
+         if FCentities[ Entity ].E_col[ Colony ].C_events[ ReturnedShortageEvent ].CCSME_durationWeeks=-3 then
          begin
             if ( Entity=0 )
                and ( Assigned( FCcps ) )
@@ -497,7 +497,7 @@ begin
             {:DEV NOTES: if not trigger a colony unbearable, see the cancellation rule of the Food Shortage event.}
          end
          {.case if there's enough food reserve for at least 1 tick}
-         else if FCentities[ Entity ].E_col[ Colony ].COL_reserveFood>=FCentities[ Entity ].E_col[ Colony ].COL_population.CP_total
+         else if FCentities[ Entity ].E_col[ Colony ].C_reserveFood>=FCentities[ Entity ].E_col[ Colony ].C_population.CP_total
          then FCMgCSME_Event_Cancel(
             csmeecRecover
             ,Entity
@@ -507,7 +507,7 @@ begin
             ,0
             )
          {.in any other case, do the over time process, if it's required}
-         else if PPS<>FCentities[ Entity ].E_col[ Colony ].COL_evList[ ReturnedShortageEvent ].CCSME_tFShPercentPopulationNotSupportedAtCalculation
+         else if PPS<>FCentities[ Entity ].E_col[ Colony ].C_events[ ReturnedShortageEvent ].CCSME_tFShPercentPopulationNotSupportedAtCalculation
          then FCMgCR_FoodShortage_Calc(
             Entity
             ,Colony
@@ -517,7 +517,7 @@ begin
       end;
    end; //==END== if not doNotProcessShortageEvent ==//
    {.process the food consumption}
-   if FCentities[ Entity ].E_col[ Colony ].COL_reserveFood<FCentities[ Entity ].E_col[ Colony ].COL_population.CP_total then
+   if FCentities[ Entity ].E_col[ Colony ].C_reserveFood<FCentities[ Entity ].E_col[ Colony ].C_population.CP_total then
    begin
       ReturnedShortageEvent:=FCFgCSME_Search_ByType(
          ceFoodShortage_Recovering
@@ -553,16 +553,16 @@ begin
          Entity
          ,Colony
          ,pfFood
-         ,-FCentities[ Entity ].E_col[ Colony ].COL_reserveFood
+         ,-FCentities[ Entity ].E_col[ Colony ].C_reserveFood
          ,true
          );
    end
-   else if FCentities[ Entity ].E_col[ Colony ].COL_reserveFood>=FCentities[ Entity ].E_col[ Colony ].COL_population.CP_total
+   else if FCentities[ Entity ].E_col[ Colony ].C_reserveFood>=FCentities[ Entity ].E_col[ Colony ].C_population.CP_total
    then FCMgCR_Reserve_Update(
       Entity
       ,Colony
       ,pfFood
-      ,-FCentities[ Entity ].E_col[ Colony ].COL_population.CP_total
+      ,-FCentities[ Entity ].E_col[ Colony ].C_population.CP_total
       ,true
       );
    {.update the interface for CSM events list is required}

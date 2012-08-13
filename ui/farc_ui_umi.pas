@@ -476,14 +476,14 @@ begin
          UMIUFcnt:=1;
          while UMIUFcnt<=UMIUFmax do
          begin
-            if FCentities[0].E_col[UMIUFcnt].COL_locSat<>''
-            then UMIUFoobj:=FCentities[0].E_col[UMIUFcnt].COL_locSat
-            else UMIUFoobj:=FCentities[0].E_col[UMIUFcnt].COL_locOObj;
-            UMIUFnodeRoot:=FCWinMain.FCWM_UMIFac_Colonies.Items.Add(nil, FCentities[0].E_col[UMIUFcnt].COL_name
+            if FCentities[0].E_col[UMIUFcnt].C_locationSatellite<>''
+            then UMIUFoobj:=FCentities[0].E_col[UMIUFcnt].C_locationSatellite
+            else UMIUFoobj:=FCentities[0].E_col[UMIUFcnt].C_locationOrbitalObject;
+            UMIUFnodeRoot:=FCWinMain.FCWM_UMIFac_Colonies.Items.Add(nil, FCentities[0].E_col[UMIUFcnt].C_name
                +';<p align="center">'+FCFdTFiles_UIStr_Get(dtfscPrprName, UMIUFoobj)
-               +'  -(<b>'+FCFdTFiles_UIStr_Get(dtfscPrprName, FCentities[0].E_col[UMIUFcnt].COL_locStar)+'</b>)-'
+               +'  -(<b>'+FCFdTFiles_UIStr_Get(dtfscPrprName, FCentities[0].E_col[UMIUFcnt].C_locationStar)+'</b>)-'
                +';<p align="center">'+FCFdTFiles_UIStr_Get(uistrUI, FCFgC_HQ_GetStr(0,UMIUFcnt))
-               +';<p align="center">'+IntToStr(FCentities[0].E_col[UMIUFcnt].COL_cohes)+' %'
+               +';<p align="center">'+IntToStr(FCentities[0].E_col[UMIUFcnt].C_cohesion)+' %'
                );
             inc(UMIUFcnt);
          end;

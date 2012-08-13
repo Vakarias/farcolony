@@ -300,31 +300,31 @@ function FCFgICS_iCWP_Calculation(
       ,ICWPCicwp: extended;
 begin
 	Result:=0;
-   ICWPCsettMax:=length( FCentities[ICWPCent].E_col[ICWPCcol].COL_cabQueue )-1;
+   ICWPCsettMax:=length( FCentities[ICWPCent].E_col[ICWPCcol].C_cabQueue )-1;
    ICWPCsettCnt:=1;
    ICWPCsumLvl:=0;
    while ICWPCsettCnt<=ICWPCsettMax do
    begin
-      ICWPCsettIdxMax:=Length( FCentities[ICWPCent].E_col[ICWPCcol].COL_cabQueue[ICWPCsettCnt] )-1;
+      ICWPCsettIdxMax:=Length( FCentities[ICWPCent].E_col[ICWPCcol].C_cabQueue[ICWPCsettCnt] )-1;
       if ICWPCsettIdxMax>0 then
       begin
          ICWPCsettIdxCnt:=1;
          while ICWPCsettIdxCnt<=ICWPCsettIdxMax do
          begin
-            ICWPCinfraIndex:=FCentities[ICWPCent].E_col[ICWPCcol].COL_cabQueue[ICWPCsettCnt, ICWPCsettIdxCnt];
-            if FCentities[ICWPCent].E_col[ICWPCcol].COL_settlements[ICWPCsettCnt].CS_infra[ICWPCinfraIndex].CI_status<>isInConversion
-            then ICWPCsumLvl:=ICWPCsumLvl+FCentities[ICWPCent].E_col[ICWPCcol].COL_settlements[ICWPCsettCnt].CS_infra[ICWPCinfraIndex].CI_level;
+            ICWPCinfraIndex:=FCentities[ICWPCent].E_col[ICWPCcol].C_cabQueue[ICWPCsettCnt, ICWPCsettIdxCnt];
+            if FCentities[ICWPCent].E_col[ICWPCcol].C_settlements[ICWPCsettCnt].S_infrastructures[ICWPCinfraIndex].I_status<>isInConversion
+            then ICWPCsumLvl:=ICWPCsumLvl+FCentities[ICWPCent].E_col[ICWPCcol].C_settlements[ICWPCsettCnt].S_infrastructures[ICWPCinfraIndex].I_level;
             inc( ICWPCsettIdxCnt );
          end;
       end;
       inc( ICWPCsettCnt );
    end;
    if ICWPCsumLvl=0
-   then ICWPCicwp:=FCentities[ICWPCent].E_col[ICWPCcol].COL_population.CP_CWPtotal
+   then ICWPCicwp:=FCentities[ICWPCent].E_col[ICWPCcol].C_population.CP_CWPtotal
    else if ICWPCsumLvl>0 then
    begin
       ICWPCdivider:=ln( ICWPCsumLvl+1 ) / ln( ICWPCinfraLevel+1 );
-      ICWPCicwp:=FCFcFunc_Rnd( cfrttp1dec, FCentities[ICWPCent].E_col[ICWPCcol].COL_population.CP_CWPtotal/ICWPCdivider );
+      ICWPCicwp:=FCFcFunc_Rnd( cfrttp1dec, FCentities[ICWPCent].E_col[ICWPCcol].C_population.CP_CWPtotal/ICWPCdivider );
    end;
    Result:=ICWPCicwp;
 end;
@@ -396,25 +396,25 @@ procedure FCMgICS_Assembling_Process(
 
       APclonedInfra: TFCRdipInfrastructure;
 begin
-   APinfraIndex:=length(FCentities[APent].E_col[APcol].COL_settlements[APsettlement].CS_infra);
-   SetLength(FCentities[APent].E_col[APcol].COL_settlements[APsettlement].CS_infra, APinfraIndex+1);
+   APinfraIndex:=length(FCentities[APent].E_col[APcol].C_settlements[APsettlement].S_infrastructures);
+   SetLength(FCentities[APent].E_col[APcol].C_settlements[APsettlement].S_infrastructures, APinfraIndex+1);
    APclonedInfra:=FCFgI_DataStructure_Get(
       APent
       ,APcol
       ,APinfraToken
       );
-   FCentities[APent].E_col[APcol].COL_settlements[APsettlement].CS_infra[APinfraIndex].CI_dbToken:=APclonedInfra.I_token;
-	FCentities[APent].E_col[APcol].COL_settlements[APsettlement].CS_infra[APinfraIndex].CI_level:=FCFgICS_InfraLevel_Setup(
+   FCentities[APent].E_col[APcol].C_settlements[APsettlement].S_infrastructures[APinfraIndex].I_token:=APclonedInfra.I_token;
+	FCentities[APent].E_col[APcol].C_settlements[APsettlement].S_infrastructures[APinfraIndex].I_level:=FCFgICS_InfraLevel_Setup(
    	APclonedInfra.I_minLevel
       ,APclonedInfra.I_maxLevel
-      ,FCentities[APent].E_col[APcol].COL_settlements[APsettlement].CS_level
+      ,FCentities[APent].E_col[APcol].C_settlements[APsettlement].S_level
       );
-   FCentities[APent].E_col[APcol].COL_settlements[APsettlement].CS_infra[APinfraIndex].CI_status:=isInAssembling;
-   FCentities[APent].E_col[APcol].COL_settlements[APsettlement].CS_infra[APinfraIndex].CI_function:=APclonedInfra.I_function;
-	FCentities[APent].E_col[APcol].COL_settlements[APsettlement].CS_infra[APinfraIndex].CI_cabDuration:=APduration;
-   FCentities[APent].E_col[APcol].COL_settlements[APsettlement].CS_infra[APinfraIndex].CI_cabWorked:=0;
-   FCentities[APent].E_col[APcol].COL_settlements[APsettlement].CS_infra[APinfraIndex].CI_powerCons:=0;
-   FCentities[APent].E_col[APcol].COL_settlements[APsettlement].CS_infra[APinfraIndex].CI_powerGenFromCFx:=0;
+   FCentities[APent].E_col[APcol].C_settlements[APsettlement].S_infrastructures[APinfraIndex].I_status:=isInAssembling;
+   FCentities[APent].E_col[APcol].C_settlements[APsettlement].S_infrastructures[APinfraIndex].I_function:=APclonedInfra.I_function;
+	FCentities[APent].E_col[APcol].C_settlements[APsettlement].S_infrastructures[APinfraIndex].I_cabDuration:=APduration;
+   FCentities[APent].E_col[APcol].C_settlements[APsettlement].S_infrastructures[APinfraIndex].I_cabWorked:=0;
+   FCentities[APent].E_col[APcol].C_settlements[APsettlement].S_infrastructures[APinfraIndex].I_powerConsumption:=0;
+   FCentities[APent].E_col[APcol].C_settlements[APsettlement].S_infrastructures[APinfraIndex].I_powerGeneratedFromCustomEffect:=0;
    FCMgICS_CAB_Add(
       APent
       ,APcol
@@ -432,7 +432,7 @@ begin
       );
    {.remove the infrastructure kit which correspond to the infrastructure}
    FCFgC_Storage_Update(
-      FCEntities[APent].E_col[APcol].COL_storageList[APinfraKitInStorage].CPR_token
+      FCEntities[APent].E_col[APcol].C_storedProducts[APinfraKitInStorage].SP_token
       ,-1
       ,APent
       ,APcol
@@ -477,27 +477,27 @@ procedure FCMgICS_Building_Process(
 
       BPclonedInfra: TFCRdipInfrastructure;
 begin
-   if Length(FCentities[BPent].E_col[BPcol].COL_settlements[BPsettlement].CS_infra)<2
-   then setLength(FCentities[BPent].E_col[BPcol].COL_settlements[BPsettlement].CS_infra, 2)
-   else SetLength(FCentities[BPent].E_col[BPcol].COL_settlements[BPsettlement].CS_infra, length(FCentities[BPent].E_col[BPcol].COL_settlements[BPsettlement].CS_infra)+1);
-   BPinfraIndex:=length(FCentities[BPent].E_col[BPcol].COL_settlements[BPsettlement].CS_infra)-1;
+   if Length(FCentities[BPent].E_col[BPcol].C_settlements[BPsettlement].S_infrastructures)<2
+   then setLength(FCentities[BPent].E_col[BPcol].C_settlements[BPsettlement].S_infrastructures, 2)
+   else SetLength(FCentities[BPent].E_col[BPcol].C_settlements[BPsettlement].S_infrastructures, length(FCentities[BPent].E_col[BPcol].C_settlements[BPsettlement].S_infrastructures)+1);
+   BPinfraIndex:=length(FCentities[BPent].E_col[BPcol].C_settlements[BPsettlement].S_infrastructures)-1;
    BPclonedInfra:=FCFgI_DataStructure_Get(
       BPent
       ,BPcol
       ,BPinfraToken
       );
-   FCentities[BPent].E_col[BPcol].COL_settlements[BPsettlement].CS_infra[BPinfraIndex].CI_dbToken:=BPclonedInfra.I_token;
-   FCentities[BPent].E_col[BPcol].COL_settlements[BPsettlement].CS_infra[BPinfraIndex].CI_level:=FCFgICS_InfraLevel_Setup(
+   FCentities[BPent].E_col[BPcol].C_settlements[BPsettlement].S_infrastructures[BPinfraIndex].I_token:=BPclonedInfra.I_token;
+   FCentities[BPent].E_col[BPcol].C_settlements[BPsettlement].S_infrastructures[BPinfraIndex].I_level:=FCFgICS_InfraLevel_Setup(
       BPclonedInfra.I_minLevel
       ,BPclonedInfra.I_maxLevel
-      ,FCentities[BPent].E_col[BPcol].COL_settlements[BPsettlement].CS_level
+      ,FCentities[BPent].E_col[BPcol].C_settlements[BPsettlement].S_level
       );
-   FCentities[BPent].E_col[BPcol].COL_settlements[BPsettlement].CS_infra[BPinfraIndex].CI_status:=isInBluidingSite;
-   FCentities[BPent].E_col[BPcol].COL_settlements[BPsettlement].CS_infra[BPinfraIndex].CI_function:=BPclonedInfra.I_function;
-   FCentities[BPent].E_col[BPcol].COL_settlements[BPsettlement].CS_infra[BPinfraIndex].CI_cabDuration:=BPduration;
-   FCentities[BPent].E_col[BPcol].COL_settlements[BPsettlement].CS_infra[BPinfraIndex].CI_cabWorked:=0;
-   FCentities[BPent].E_col[BPcol].COL_settlements[BPsettlement].CS_infra[BPinfraIndex].CI_powerCons:=0;
-   FCentities[BPent].E_col[BPcol].COL_settlements[BPsettlement].CS_infra[BPinfraIndex].CI_powerGenFromCFx:=0;
+   FCentities[BPent].E_col[BPcol].C_settlements[BPsettlement].S_infrastructures[BPinfraIndex].I_status:=isInBluidingSite;
+   FCentities[BPent].E_col[BPcol].C_settlements[BPsettlement].S_infrastructures[BPinfraIndex].I_function:=BPclonedInfra.I_function;
+   FCentities[BPent].E_col[BPcol].C_settlements[BPsettlement].S_infrastructures[BPinfraIndex].I_cabDuration:=BPduration;
+   FCentities[BPent].E_col[BPcol].C_settlements[BPsettlement].S_infrastructures[BPinfraIndex].I_cabWorked:=0;
+   FCentities[BPent].E_col[BPcol].C_settlements[BPsettlement].S_infrastructures[BPinfraIndex].I_powerConsumption:=0;
+   FCentities[BPent].E_col[BPcol].C_settlements[BPsettlement].S_infrastructures[BPinfraIndex].I_powerGeneratedFromCustomEffect:=0;
    FCMgICS_CAB_Add(
       BPent
       ,BPcol
@@ -514,12 +514,12 @@ begin
       ,BPclonedInfra
       );
    {.remove the construction materials needed for the building}
-   BPcurrentMatVol:=BPclonedInfra.I_materialVolume[ FCentities[BPent].E_col[BPcol].COL_settlements[BPsettlement].CS_infra[BPinfraIndex].CI_level ];
+   BPcurrentMatVol:=BPclonedInfra.I_materialVolume[ FCentities[BPent].E_col[BPcol].C_settlements[BPsettlement].S_infrastructures[BPinfraIndex].I_level ];
    BPmax:=length( BPclonedInfra.I_reqConstructionMaterials )-1;
    BPcount:=1;
    while BPcount<=BPmax do
    begin
-      BPtempMatVol:=BPclonedInfra.I_materialVolume[ FCentities[BPent].E_col[BPcol].COL_settlements[BPsettlement].CS_infra[BPinfraIndex].CI_level ]*( BPclonedInfra.I_reqConstructionMaterials[ BPcount ].RCM_partOfMaterialVolume*0.01 );
+      BPtempMatVol:=BPclonedInfra.I_materialVolume[ FCentities[BPent].E_col[BPcol].C_settlements[BPsettlement].S_infrastructures[BPinfraIndex].I_level ]*( BPclonedInfra.I_reqConstructionMaterials[ BPcount ].RCM_partOfMaterialVolume*0.01 );
       BPtempMatVol:=FCFcFunc_Rnd( cfrttpVolm3, BPtempMatVol );
       BPresultUnits:=FCFgP_UnitFromVolume_Get( BPclonedInfra.I_reqConstructionMaterials[ BPcount ].RCM_token, BPtempMatVol );
       BPcurrentMatVol:=BPcurrentMatVol-BPtempMatVol;
@@ -555,17 +555,17 @@ var
    CABAcnt
    ,CABAlen: integer;
 begin
-   CABAlen:=length(FCentities[CABAent].E_col[CABAcol].COL_cabQueue[CABAsettlement]);
+   CABAlen:=length(FCentities[CABAent].E_col[CABAcol].C_cabQueue[CABAsettlement]);
    if CABAlen<1
    then
    begin
-      SetLength(FCentities[CABAent].E_col[CABAcol].COL_cabQueue[CABAsettlement], 2);
+      SetLength(FCentities[CABAent].E_col[CABAcol].C_cabQueue[CABAsettlement], 2);
       CABAlen:=1;
    end
    else if CABAlen>=1
-   then SetLength(FCentities[CABAent].E_col[CABAcol].COL_cabQueue[CABAsettlement], CABAlen+1);
+   then SetLength(FCentities[CABAent].E_col[CABAcol].C_cabQueue[CABAsettlement], CABAlen+1);
    CABAcnt:=CABAlen;
-   FCentities[CABAent].E_col[CABAcol].COL_cabQueue[CABAsettlement, CABAcnt]:=CABAinfra;
+   FCentities[CABAent].E_col[CABAcol].C_cabQueue[CABAsettlement, CABAcnt]:=CABAinfra;
 end;
 
 procedure FCMgICS_CAB_Cleanup(
@@ -586,27 +586,27 @@ procedure FCMgICS_CAB_Cleanup(
       CABCcabQueueClone: TFCRdgColony;
 
 begin
-   CABCcabQueueClone.COL_cabQueue:=nil;
-   CABCsettleMax:=length( FCentities[CABCent].E_col[CABCcol].COL_cabQueue )-1;
-   setlength( CABCcabQueueClone.COL_cabQueue, CABCsettleMax+1 );
+   CABCcabQueueClone.C_cabQueue:=nil;
+   CABCsettleMax:=length( FCentities[CABCent].E_col[CABCcol].C_cabQueue )-1;
+   setlength( CABCcabQueueClone.C_cabQueue, CABCsettleMax+1 );
    if CABCsettleMax>0 then
    begin
       CABCsettleCnt:=1;
       while CABCsettleCnt<=CABCsettleMax do
       begin
-         CABCidxMax:=length( FCentities[CABCent].E_col[CABCcol].COL_cabQueue[CABCsettleCnt] )-1;
+         CABCidxMax:=length( FCentities[CABCent].E_col[CABCcol].C_cabQueue[CABCsettleCnt] )-1;
          if CABCidxMax>0 then
          begin
-            setlength( CABCcabQueueClone.COL_cabQueue[CABCsettleCnt], 1 );
+            setlength( CABCcabQueueClone.C_cabQueue[CABCsettleCnt], 1 );
             CABCindexClone:=0;
             CABCidxCnt:=1;
             while CABCidxCnt<=CABCidxMax do
             begin
-               if FCentities[CABCent].E_col[CABCcol].COL_cabQueue[CABCsettleCnt, CABCidxCnt]>0 then
+               if FCentities[CABCent].E_col[CABCcol].C_cabQueue[CABCsettleCnt, CABCidxCnt]>0 then
                begin
                   inc(CABCindexClone);
-                  setlength( CABCcabQueueClone.COL_cabQueue[CABCsettleCnt], CABCindexClone+1 );
-                  CABCcabQueueClone.COL_cabQueue[CABCsettleCnt, CABCindexClone]:=FCentities[CABCent].E_col[CABCcol].COL_cabQueue[CABCsettleCnt, CABCidxCnt];
+                  setlength( CABCcabQueueClone.C_cabQueue[CABCsettleCnt], CABCindexClone+1 );
+                  CABCcabQueueClone.C_cabQueue[CABCsettleCnt, CABCindexClone]:=FCentities[CABCent].E_col[CABCcol].C_cabQueue[CABCsettleCnt, CABCidxCnt];
                end;
                inc( CABCidxCnt );
             end;
@@ -614,8 +614,8 @@ begin
          inc( CABCsettleCnt );
       end;
    end;
-   SetLength(FCentities[CABCent].E_col[CABCcol].COL_cabQueue, 0);
-   FCentities[CABCent].E_col[CABCcol].COL_cabQueue:=CABCcabQueueClone.COL_cabQueue;
+   SetLength(FCentities[CABCent].E_col[CABCcol].C_cabQueue, 0);
+   FCentities[CABCent].E_col[CABCcol].C_cabQueue:=CABCcabQueueClone.C_cabQueue;
 end;
 
 procedure FCMgICS_Conversion_PostProcess(
@@ -630,8 +630,8 @@ procedure FCMgICS_Conversion_PostProcess(
       -2011Sep09- *add: routine completion.
 }
 begin
-   FCentities[ICPPent].E_col[ICPPcol].COL_settlements[ICPPsettlement].CS_infra[ICPPinfra].CI_status:=isOperational;
-   FCentities[ICPPent].E_col[ICPPcol].COL_cabQueue[ICPPsettlement, ICPPcabQueueIndex]:=0;
+   FCentities[ICPPent].E_col[ICPPcol].C_settlements[ICPPsettlement].S_infrastructures[ICPPinfra].I_status:=isOperational;
+   FCentities[ICPPent].E_col[ICPPcol].C_cabQueue[ICPPsettlement, ICPPcabQueueIndex]:=0;
 end;
 
 procedure FCMgICS_Conversion_Process(
@@ -691,14 +691,14 @@ var
    ICPclonedInfra: TFCRdipInfrastructure;
 begin
    {:DEV NOTES: colonization equipment module will be taken in consideration in the future, for now i use hardcoded data.}
-   SetLength(FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra, length(FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra)+1);
-   ICPinfra:=length(FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra)-1;
+   SetLength(FCentities[ICPent].E_col[ICPcol].C_settlements[ICPsettlement].S_infrastructures, length(FCentities[ICPent].E_col[ICPcol].C_settlements[ICPsettlement].S_infrastructures)+1);
+   ICPinfra:=length(FCentities[ICPent].E_col[ICPcol].C_settlements[ICPsettlement].S_infrastructures)-1;
    ICPclonedInfra:=FCFgI_DataStructure_Get(
       ICPent
       ,ICPcol
       ,'infrColShelt'
       );
-   FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra[ICPinfra].CI_dbToken:=ICPclonedInfra.I_token;
+   FCentities[ICPent].E_col[ICPcol].C_settlements[ICPsettlement].S_infrastructures[ICPinfra].I_token:=ICPclonedInfra.I_token;
 
    {:DEV NOTES: transfer the colonization equipment module volume to the prive variable infra volume.
       surface is equals to power(EMvolume; 0.333)^2
@@ -707,20 +707,20 @@ begin
    }
    ICPvol:=12867;
    ICPsurf:=round(sqr(power(ICPvol,0.333)));
-   FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra[ICPinfra].CI_level:=1;
-   FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra[ICPinfra].CI_status:=isInConversion;
-   FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra[ICPinfra].CI_function:=fHousing;
+   FCentities[ICPent].E_col[ICPcol].C_settlements[ICPsettlement].S_infrastructures[ICPinfra].I_level:=1;
+   FCentities[ICPent].E_col[ICPcol].C_settlements[ICPsettlement].S_infrastructures[ICPinfra].I_status:=isInConversion;
+   FCentities[ICPent].E_col[ICPcol].C_settlements[ICPsettlement].S_infrastructures[ICPinfra].I_function:=fHousing;
    {:DEV NOTES: hardcoded value for population capacity and quality of life data, will be dynamic in the future.}
-   FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra[ICPinfra].CI_fhousPCAP:=30;
-   FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra[ICPinfra].CI_fhousQOL:=1;
-   FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra[ICPinfra].CI_fhousVol:=ICPvol;
-   FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra[ICPinfra].CI_fhousSurf:=ICPsurf;
+   FCentities[ICPent].E_col[ICPcol].C_settlements[ICPsettlement].S_infrastructures[ICPinfra].I_fHousPopulationCapacity:=30;
+   FCentities[ICPent].E_col[ICPcol].C_settlements[ICPsettlement].S_infrastructures[ICPinfra].I_fHousQualityOfLife:=1;
+   FCentities[ICPent].E_col[ICPcol].C_settlements[ICPsettlement].S_infrastructures[ICPinfra].I_fHousCalculatedVolume:=ICPvol;
+   FCentities[ICPent].E_col[ICPcol].C_settlements[ICPsettlement].S_infrastructures[ICPinfra].I_fHousCalculatedSurface:=ICPsurf;
    {:DEV NOTES: for pcap, don'T forget to update the different types according to the population of the colonization module and also the crew.}
    FCMgCSM_ColonyData_Upd(
       dPCAP
       ,ICPent
       ,ICPcol
-      ,FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra[ICPinfra].CI_fhousPCAP
+      ,FCentities[ICPent].E_col[ICPcol].C_settlements[ICPsettlement].S_infrastructures[ICPinfra].I_fHousPopulationCapacity
       ,0
       ,gcsmptNone
       ,false
@@ -766,8 +766,8 @@ begin
    ICPduration:=round(power(ICPx, 2.5)*0.5)+1;//duration (in hrs) = (x^2.5)/2 rounded
    if ICPduration=1
    then ICPduration:=2;
-   FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra[ICPinfra].CI_cabDuration:=ICPduration;
-   FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra[ICPinfra].CI_cabWorked:=0;
+   FCentities[ICPent].E_col[ICPcol].C_settlements[ICPsettlement].S_infrastructures[ICPinfra].I_cabDuration:=ICPduration;
+   FCentities[ICPent].E_col[ICPcol].C_settlements[ICPsettlement].S_infrastructures[ICPinfra].I_cabWorked:=0;
    FCMgICS_CAB_Add(
       ICPent
       ,ICPcol
@@ -781,13 +781,13 @@ begin
    setlength(ICPclonedInfra.I_customEffectStructure, length(ICPclonedInfra.I_customEffectStructure)+1);
    ICPeffectIdx:=length(ICPclonedInfra.I_customEffectStructure)-1;
    ICPclonedInfra.I_customEffectStructure[ICPeffectIdx].ICFX_customEffect:=ceProductStorage;
-   ICPclonedInfra.I_customEffectStructure[ICPeffectIdx].ICFX_cePSstorageByLevel[FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra[ICPinfra].CI_level].SBL_solid:=200;
-   ICPclonedInfra.I_customEffectStructure[ICPeffectIdx].ICFX_cePSstorageByLevel[FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra[ICPinfra].CI_level].SBL_liquid:=210;
-   ICPclonedInfra.I_customEffectStructure[ICPeffectIdx].ICFX_cePSstorageByLevel[FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra[ICPinfra].CI_level].SBL_gas:=30;
-   ICPclonedInfra.I_customEffectStructure[ICPeffectIdx].ICFX_cePSstorageByLevel[FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra[ICPinfra].CI_level].SBL_biologic:=30;
+   ICPclonedInfra.I_customEffectStructure[ICPeffectIdx].ICFX_cePSstorageByLevel[FCentities[ICPent].E_col[ICPcol].C_settlements[ICPsettlement].S_infrastructures[ICPinfra].I_level].SBL_solid:=200;
+   ICPclonedInfra.I_customEffectStructure[ICPeffectIdx].ICFX_cePSstorageByLevel[FCentities[ICPent].E_col[ICPcol].C_settlements[ICPsettlement].S_infrastructures[ICPinfra].I_level].SBL_liquid:=210;
+   ICPclonedInfra.I_customEffectStructure[ICPeffectIdx].ICFX_cePSstorageByLevel[FCentities[ICPent].E_col[ICPcol].C_settlements[ICPsettlement].S_infrastructures[ICPinfra].I_level].SBL_gas:=30;
+   ICPclonedInfra.I_customEffectStructure[ICPeffectIdx].ICFX_cePSstorageByLevel[FCentities[ICPent].E_col[ICPcol].C_settlements[ICPsettlement].S_infrastructures[ICPinfra].I_level].SBL_biologic:=30;
    setlength(ICPclonedInfra.I_customEffectStructure, length(ICPclonedInfra.I_customEffectStructure)+1);
    ICPeffectIdx:=length(ICPclonedInfra.I_customEffectStructure)-1;
-   FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra[ICPinfra].CI_powerGenFromCFx:=0;
+   FCentities[ICPent].E_col[ICPcol].C_settlements[ICPsettlement].S_infrastructures[ICPinfra].I_powerGeneratedFromCustomEffect:=0;
    ICPclonedInfra.I_customEffectStructure[ICPeffectIdx].ICFX_customEffect:=ceEnergyGeneration;
    ICPclonedInfra.I_customEffectStructure[ICPeffectIdx].ICFX_ceEGmode.EGM_modes:=egmPhoton;
    ICPclonedInfra.I_customEffectStructure[ICPeffectIdx].ICFX_ceEGmode.EGM_mParea:=10;
@@ -806,12 +806,12 @@ begin
 //   FCMspuF_SpUnit_Remove(ICPent, ICPspu);
    {:DEV NOTES: energy consumption-generation-storage data will be calculated from the space unit's design.}
    {:DEV NOTES: for now it's simply hardcoded.}
-   FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra[ICPinfra].CI_powerCons:=5;
+   FCentities[ICPent].E_col[ICPcol].C_settlements[ICPsettlement].S_infrastructures[ICPinfra].I_powerConsumption:=5;
    FCMgCSM_Energy_Update(
       ICPent
       ,ICPcol
       ,false
-      ,FCentities[ICPent].E_col[ICPcol].COL_settlements[ICPsettlement].CS_infra[ICPinfra].CI_powerCons
+      ,FCentities[ICPent].E_col[ICPcol].C_settlements[ICPsettlement].S_infrastructures[ICPinfra].I_powerConsumption
       ,0
       ,0
       ,0
@@ -929,14 +929,14 @@ procedure FCMgICS_TransitionRule_Process(
       TRPinfraData:=FCFgI_DataStructure_Get(
          TRPent
          ,TRPcol
-         ,FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_dbToken
+         ,FCentities[TRPent].E_col[TRPcol].C_settlements[TRPsettlement].S_infrastructures[TRPownInfra].I_token
          );
       if (TRPinfraData.I_function=fProduction)
-         and (FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_cabWorked>-1) then
+         and (FCentities[TRPent].E_col[TRPcol].C_settlements[TRPsettlement].S_infrastructures[TRPownInfra].I_cabWorked>-1) then
       begin
-         FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_status:=isInTransition;
-         FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_cabDuration:=FCCdipTransitionTime;
-         FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_cabWorked:=-1;
+         FCentities[TRPent].E_col[TRPcol].C_settlements[TRPsettlement].S_infrastructures[TRPownInfra].I_status:=isInTransition;
+         FCentities[TRPent].E_col[TRPcol].C_settlements[TRPsettlement].S_infrastructures[TRPownInfra].I_cabDuration:=FCCdipTransitionTime;
+         FCentities[TRPent].E_col[TRPcol].C_settlements[TRPsettlement].S_infrastructures[TRPownInfra].I_cabWorked:=-1;
          if TRPcabIdx=0
          then FCMgICS_CAB_Add(
             TRPent
@@ -947,22 +947,22 @@ procedure FCMgICS_TransitionRule_Process(
       end
       else
       begin
-         FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_status:=isOperational;
-         FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_cabDuration:=0;
-         FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_cabWorked:=0;
-         FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_powerCons
-            :=TRPinfraData.I_basePower[FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_level];
+         FCentities[TRPent].E_col[TRPcol].C_settlements[TRPsettlement].S_infrastructures[TRPownInfra].I_status:=isOperational;
+         FCentities[TRPent].E_col[TRPcol].C_settlements[TRPsettlement].S_infrastructures[TRPownInfra].I_cabDuration:=0;
+         FCentities[TRPent].E_col[TRPcol].C_settlements[TRPsettlement].S_infrastructures[TRPownInfra].I_cabWorked:=0;
+         FCentities[TRPent].E_col[TRPcol].C_settlements[TRPsettlement].S_infrastructures[TRPownInfra].I_powerConsumption
+            :=TRPinfraData.I_basePower[FCentities[TRPent].E_col[TRPcol].C_settlements[TRPsettlement].S_infrastructures[TRPownInfra].I_level];
          FCMgCSM_Energy_Update(
             TRPent
             ,TRPcol
             ,false
-            ,FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_powerCons
+            ,FCentities[TRPent].E_col[TRPcol].C_settlements[TRPsettlement].S_infrastructures[TRPownInfra].I_powerConsumption
             ,0
             ,0
             ,0
             );
          if TRPcabIdx>0
-         then FCentities[TRPent].E_col[TRPcol].COL_cabQueue[TRPsettlement, TRPcabIdx]:=0;
+         then FCentities[TRPent].E_col[TRPcol].C_cabQueue[TRPsettlement, TRPcabIdx]:=0;
          FCMgIF_Functions_Initialize(
             TRPent
             ,TRPcol
@@ -1001,8 +1001,8 @@ begin
       then TRP_ProductionDelay_Process
       else if TRPstaff.CP_total>0 then
       begin
-         FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_status:=isInTransition;
-         FCentities[TRPent].E_col[TRPcol].COL_settlements[TRPsettlement].CS_infra[TRPownInfra].CI_cabDuration:=-1;
+         FCentities[TRPent].E_col[TRPcol].C_settlements[TRPsettlement].S_infrastructures[TRPownInfra].I_status:=isInTransition;
+         FCentities[TRPent].E_col[TRPcol].C_settlements[TRPsettlement].S_infrastructures[TRPownInfra].I_cabDuration:=-1;
          if TRPcabIdx=0
          then FCMgICS_CAB_Add(
             TRPent

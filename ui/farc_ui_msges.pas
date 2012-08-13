@@ -183,7 +183,7 @@ begin
                dtfscPrprName
                ,FCDduStarSystem[MBAMssys].SS_stars[MBAMstar].S_orbitalObjects[MBAMitm1Idx].OO_dbTokenId
                );
-            MBAMcolName:=FCentities[MBAMfac].E_col[FCDduStarSystem[MBAMssys].SS_stars[MBAMstar].S_orbitalObjects[MBAMitm1Idx].OO_colonies[0]].COL_name;
+            MBAMcolName:=FCentities[MBAMfac].E_col[FCDduStarSystem[MBAMssys].SS_stars[MBAMstar].S_orbitalObjects[MBAMitm1Idx].OO_colonies[0]].C_name;
          end
          else if MBAMitm2Idx>0
          then
@@ -193,7 +193,7 @@ begin
                ,FCDduStarSystem[MBAMssys].SS_stars[MBAMstar].S_orbitalObjects[MBAMitm1Idx].OO_satellitesList[MBAMitm2Idx].OO_dbTokenId
                );
             MBAMcolName
-               :=FCentities[MBAMfac].E_col[FCDduStarSystem[MBAMssys].SS_stars[MBAMstar].S_orbitalObjects[MBAMitm1Idx].OO_satellitesList[MBAMitm2Idx].OO_colonies[0]].COL_name;
+               :=FCentities[MBAMfac].E_col[FCDduStarSystem[MBAMssys].SS_stars[MBAMstar].S_orbitalObjects[MBAMitm1Idx].OO_satellitesList[MBAMitm2Idx].OO_colonies[0]].C_name;
          end;
          MBAMregLoc:=FCFuF_RegionLoc_Extract(
             MBAMssys

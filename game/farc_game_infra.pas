@@ -161,13 +161,13 @@ function FCFgI_IndexInFunction_Retrieve(
       FunctionToSearch: TFCEdipFunctions;
 begin
    Result:=0;
-   Max:=length( FCEntities[ Entity ].E_col[ Colony ].COL_settlements[ Settlement ].CS_infra )-1;
+   Max:=length( FCEntities[ Entity ].E_col[ Colony ].C_settlements[ Settlement ].S_infrastructures )-1;
    SubIndex:=0;
-   FunctionToSearch:=FCEntities[ Entity ].E_col[ Colony ].COL_settlements[ Settlement ].CS_infra[ OwnedInfra ].CI_function;
+   FunctionToSearch:=FCEntities[ Entity ].E_col[ Colony ].C_settlements[ Settlement ].S_infrastructures[ OwnedInfra ].I_function;
    Count:=1;
    while Count<=Max do
    begin
-      if FCEntities[ Entity ].E_col[ Colony ].COL_settlements[ Settlement ].CS_infra[ Count ].CI_function=FunctionToSearch then
+      if FCEntities[ Entity ].E_col[ Colony ].C_settlements[ Settlement ].S_infrastructures[ Count ].I_function=FunctionToSearch then
       begin
          inc( SubIndex );
          if Count=OwnedInfra then
@@ -260,13 +260,13 @@ begin
    DPinfraData:=FCFgI_DataStructure_Get(
       DPent
       ,DPcol
-      ,FCentities[DPent].E_col[DPcol].COL_settlements[DPset].CS_infra[DPinf].CI_dbToken
+      ,FCentities[DPent].E_col[DPcol].C_settlements[DPset].S_infrastructures[DPinf].I_token
       );
    FCMgCSM_Energy_Update(
       DPent
       ,DPcol
       ,false
-      ,-DPinfraData.I_basePower[ FCentities[DPent].E_col[DPcol].COL_settlements[DPset].CS_infra[DPinf].CI_level ]
+      ,-DPinfraData.I_basePower[ FCentities[DPent].E_col[DPcol].C_settlements[DPset].S_infrastructures[DPinf].I_level ]
       ,0
       ,0
       ,0
@@ -287,7 +287,7 @@ begin
       );
    if not DPisByEnergyEq then
    begin
-      FCentities[DPent].E_col[DPcol].COL_settlements[DPset].CS_infra[DPinf].CI_status:=isDisabled;
+      FCentities[DPent].E_col[DPcol].C_settlements[DPset].S_infrastructures[DPinf].I_status:=isDisabled;
       FCMgIS_RequiredStaff_Recover(
          DPent
          ,DPcol
@@ -295,7 +295,7 @@ begin
          ,DPinf
          );
    end
-   else FCentities[DPent].E_col[DPcol].COL_settlements[DPset].CS_infra[DPinf].CI_status:=isDisabledByEnergyEquilibrium;
+   else FCentities[DPent].E_col[DPcol].C_settlements[DPset].S_infrastructures[DPinf].I_status:=isDisabledByEnergyEquilibrium;
 end;
 
 procedure FCMgInf_Enabling_Process(
@@ -310,7 +310,7 @@ procedure FCMgInf_Enabling_Process(
       -2011Sep12- *add: infrastructure function data are applied in case of a istDisabledByEE.
 }
 begin
-   if FCentities[EPent].E_col[EPcol].COL_settlements[EPset].CS_infra[EPinf].CI_status=isDisabled
+   if FCentities[EPent].E_col[EPcol].C_settlements[EPset].S_infrastructures[EPinf].I_status=isDisabled
    then FCMgICS_TransitionRule_Process(
       EPent
       ,EPcol
@@ -319,7 +319,7 @@ begin
       ,0
       ,true
       )
-   else if FCentities[EPent].E_col[EPcol].COL_settlements[EPset].CS_infra[EPinf].CI_status=isDisabledByEnergyEquilibrium
+   else if FCentities[EPent].E_col[EPcol].C_settlements[EPset].S_infrastructures[EPinf].I_status=isDisabledByEnergyEquilibrium
    then FCMgICS_TransitionRule_Process(
       EPent
       ,EPcol

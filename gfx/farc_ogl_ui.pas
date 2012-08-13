@@ -883,7 +883,7 @@ begin
             then
             begin
                FCWinMain.FCGLSHUDcolplyr.Visible:=true;
-               FCWinMain.FCGLSHUDcolplyrName.Text:=FCentities[0].E_col[M3DVUIUcol].COL_name;
+               FCWinMain.FCGLSHUDcolplyrName.Text:=FCentities[0].E_col[M3DVUIUcol].C_name;
                FCWinMain.FCGLSHUDcolplyrName.Visible:=true
             end
             else if M3DVUIUcol=0

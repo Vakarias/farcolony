@@ -147,7 +147,7 @@ begin
                begin
                   CSMPPcol:=FCGcsmPhList[CSMPPcnt].CSMT_col[CSMPPfacCnt, CSMPPsubcnt];
                   FCMgCSM_Phase_Proc(CSMPPfacCnt, CSMPPcol);
-                  FCentities[CSMPPfacCnt].E_col[CSMPPcol].COL_csmtime:=CSMPPtickNew;
+                  FCentities[CSMPPfacCnt].E_col[CSMPPcol].C_nextCSMsessionInTick:=CSMPPtickNew;
                   inc(CSMPPsubcnt);
                end;
             end;

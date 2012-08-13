@@ -257,18 +257,18 @@ begin
    GCoobj:=0;
    GCsat:=0;
    CEGToobjLoc:=FCFuF_StelObj_GetFullRow(
-      FCentities[CEGTfac].E_col[CEGTcol].COL_locSSys
-      ,FCentities[CEGTfac].E_col[CEGTcol].COL_locStar
-      ,FCentities[CEGTfac].E_col[CEGTcol].COL_locOObj
-      ,FCentities[CEGTfac].E_col[CEGTcol].COL_locSat
+      FCentities[CEGTfac].E_col[CEGTcol].C_locationStarSystem
+      ,FCentities[CEGTfac].E_col[CEGTcol].C_locationStar
+      ,FCentities[CEGTfac].E_col[CEGTcol].C_locationOrbitalObject
+      ,FCentities[CEGTfac].E_col[CEGTcol].C_locationSatellite
       );
-   if FCentities[CEGTfac].E_col[CEGTcol].COL_locSat='' then
+   if FCentities[CEGTfac].E_col[CEGTcol].C_locationSatellite='' then
    begin
       CEGTgravity:=FCDduStarSystem[ CEGToobjLoc[1] ].SS_stars[ CEGToobjLoc[2] ].S_orbitalObjects[ CEGToobjLoc[3] ].OO_gravity;
       CEGTenv:=FCDduStarSystem[ CEGToobjLoc[1] ].SS_stars[ CEGToobjLoc[2] ].S_orbitalObjects[ CEGToobjLoc[3] ].OO_environment;
       CEGThydro:=FCDduStarSystem[ CEGToobjLoc[1] ].SS_stars[ CEGToobjLoc[2] ].S_orbitalObjects[ CEGToobjLoc[3] ].OO_hydrosphere;
    end
-   else if FCentities[CEGTfac].E_col[CEGTcol].COL_locSat<>'' then
+   else if FCentities[CEGTfac].E_col[CEGTcol].C_locationSatellite<>'' then
    begin
       CEGTgravity:=FCDduStarSystem[ CEGToobjLoc[1] ].SS_stars[ CEGToobjLoc[2] ].S_orbitalObjects[ CEGToobjLoc[3] ].OO_satellitesList[ CEGToobjLoc[4] ].OO_gravity;
       CEGTenv:=FCDduStarSystem[ CEGToobjLoc[1] ].SS_stars[ CEGToobjLoc[2] ].S_orbitalObjects[ CEGToobjLoc[3] ].OO_satellitesList[ CEGToobjLoc[4] ].OO_environment;
@@ -304,14 +304,14 @@ var
    CIDRinfr: TFCRdipInfrastructure;
 begin
    CIDRres:=0;
-   CIDRsettleMax:=Length(FCentities[CIDRfac].E_col[CIDRcol].COL_settlements)-1;
+   CIDRsettleMax:=Length(FCentities[CIDRfac].E_col[CIDRcol].C_settlements)-1;
    if CIDRsettleMax>0
    then
    begin
       CIDRsettleCnt:=1;
       while CIDRsettleCnt<=CIDRsettleMax do
       begin
-         CIDRinfraMax:=length(FCentities[CIDRfac].E_col[CIDRcol].COL_settlements[CIDRsettleCnt].CS_infra)-1;
+         CIDRinfraMax:=length(FCentities[CIDRfac].E_col[CIDRcol].C_settlements[CIDRsettleCnt].S_infrastructures)-1;
          CIDRinfraCnt:=1;
          while CIDRinfraCnt<=CIDRinfraMax do
          begin
@@ -322,7 +322,7 @@ begin
                   CIDRinfr:=FCFgI_DataStructure_Get(
                      CIDRfac
                      ,CIDRcol
-                     ,FCentities[CIDRfac].E_col[CIDRcol].COL_settlements[CIDRsettleCnt].CS_infra[CIDRinfraCnt].CI_dbToken
+                     ,FCentities[CIDRfac].E_col[CIDRcol].C_settlements[CIDRsettleCnt].S_infrastructures[CIDRinfraCnt].I_token
                      );
                   if CIDRinfr.I_function=fHousing
                   then inc(CIDRres);
@@ -330,7 +330,7 @@ begin
                {.return the number of infrastructures of a specified type token}
                gcSpecToken:
                begin
-                  if FCentities[CIDRfac].E_col[CIDRcol].COL_settlements[CIDRsettleCnt].CS_infra[CIDRinfraCnt].CI_dbToken=CIDRtoken
+                  if FCentities[CIDRfac].E_col[CIDRcol].C_settlements[CIDRsettleCnt].S_infrastructures[CIDRinfraCnt].I_token=CIDRtoken
                   then inc(CIDRres);
                end;
             end;
@@ -349,7 +349,7 @@ function FCFgC_ColLvl_GetIdx(const CLGIfac, CLGIcol: integer): integer;
                   *add: entities code.
 }
 begin
-   case FCentities[CLGIfac].E_col[CLGIcol].COL_level of
+   case FCentities[CLGIfac].E_col[CLGIcol].C_level of
       cl1Outpost: Result:=1;
       cl2Base: Result:=2;
       cl3Community: Result:=3;
@@ -399,35 +399,35 @@ begin
    begin
       setlength(FCentities[CCfacId].E_col, length(FCentities[CCfacId].E_col)+1);
       CCcolIdx:=length(FCentities[CCfacId].E_col)-1;
-      FCentities[CCfacId].E_col[CCcolIdx].COL_name:='';
-      FCentities[CCfacId].E_col[CCcolIdx].COL_fndYr:=FCRplayer.P_timeYr;
-      FCentities[CCfacId].E_col[CCcolIdx].COL_fndMth:=FCRplayer.P_timeMth;
-      FCentities[CCfacId].E_col[CCcolIdx].COL_fndDy:=FCRplayer.P_timeday;
-      FCentities[CCfacId].E_col[CCcolIdx].COL_csmtime:=FCRplayer.P_timeTick+FCCwkTick;
+      FCentities[CCfacId].E_col[CCcolIdx].C_name:='';
+      FCentities[CCfacId].E_col[CCcolIdx].C_foundationDateYear:=FCRplayer.P_timeYr;
+      FCentities[CCfacId].E_col[CCcolIdx].C_foundationDateMonth:=FCRplayer.P_timeMth;
+      FCentities[CCfacId].E_col[CCcolIdx].C_foundationDateDay:=FCRplayer.P_timeday;
+      FCentities[CCfacId].E_col[CCcolIdx].C_nextCSMsessionInTick:=FCRplayer.P_timeTick+FCCwkTick;
       FCMgCSM_PhaseList_Upd(0, CCcolIdx);
       {.set the colony's location data}
-      FCentities[CCfacId].E_col[CCcolIdx].COL_locSSys:=FCDduStarSystem[CClocSS].SS_token;
-      FCentities[CCfacId].E_col[CCcolIdx].COL_locStar:=FCDduStarSystem[CClocSS].SS_stars[CClocSt].S_token;
-      FCentities[CCfacId].E_col[CCcolIdx].COL_locOObj:=FCDduStarSystem[CClocSS].SS_stars[CClocSt].S_orbitalObjects[CClocOObj].OO_dbTokenId;
+      FCentities[CCfacId].E_col[CCcolIdx].C_locationStarSystem:=FCDduStarSystem[CClocSS].SS_token;
+      FCentities[CCfacId].E_col[CCcolIdx].C_locationStar:=FCDduStarSystem[CClocSS].SS_stars[CClocSt].S_token;
+      FCentities[CCfacId].E_col[CCcolIdx].C_locationOrbitalObject:=FCDduStarSystem[CClocSS].SS_stars[CClocSt].S_orbitalObjects[CClocOObj].OO_dbTokenId;
       {.initialize colony's data}
       FCMgCSM_ColonyData_Init(0, CCcolIdx);
       {.update the orbital object colonies presence, and secondary, retrieve the environment}
       if CClocSat=0
       then
       begin
-         FCentities[CCfacId].E_col[CCcolIdx].COL_locSat:='';
+         FCentities[CCfacId].E_col[CCcolIdx].C_locationSatellite:='';
          FCDduStarSystem[CClocSS].SS_stars[CClocSt].S_orbitalObjects[CClocOObj].OO_colonies[CCfacId]:=CCcolIdx;
          ColonyEnvironment:=FCDduStarSystem[CClocSS].SS_stars[CClocSt].S_orbitalObjects[CClocOObj].OO_environment;
       end
       else if CClocSat>0
       then
       begin
-         FCentities[CCfacId].E_col[CCcolIdx].COL_locSat:=FCDduStarSystem[CClocSS].SS_stars[CClocSt].S_orbitalObjects[CClocOObj].OO_satellitesList[CClocSat].OO_dbTokenId;
+         FCentities[CCfacId].E_col[CCcolIdx].C_locationSatellite:=FCDduStarSystem[CClocSS].SS_stars[CClocSt].S_orbitalObjects[CClocOObj].OO_satellitesList[CClocSat].OO_dbTokenId;
          FCDduStarSystem[CClocSS].SS_stars[CClocSt].S_orbitalObjects[CClocOObj].OO_satellitesList[CClocSat].OO_colonies[CCfacId]:=CCcolIdx;
          ColonyEnvironment:=FCDduStarSystem[CClocSS].SS_stars[CClocSt].S_orbitalObjects[CClocOObj].OO_satellitesList[CClocSat].OO_environment;
       end;
       if ColonyEnvironment=etFreeLiving
-      then FCentities[CCfacId].E_col[CCcolIdx].COL_reserveOxygen:=-1;
+      then FCentities[CCfacId].E_col[CCcolIdx].C_reserveOxygen:=-1;
       {.trigger basic CSM events}
       FCMgCSME_Event_Trigger(
          ceHealthEducationRelation
@@ -453,7 +453,7 @@ function FCFgC_HQ_GetStr(const HQGSent, HQGScol: integer): string;
 }
 begin
    Result:='';
-   case FCentities[HQGSent].E_col[HQGScol].COL_hqPres of
+   case FCentities[HQGSent].E_col[HQGScol].C_hqPresence of
       hqsNoHQPresent: Result:='UMIhqNo';
       hqsBasicHQ: Result:='UMIhqBasic';
       hqsSecondaryHQ: Result:='UMIhqSec';
@@ -482,24 +482,24 @@ function FCFgC_InfraKitsInStorage_Retrieve(
 begin
    SetLength(Result, 1);
    IKISRresIndex:=0;
-   IKISRmax:=Length(FCentities[IKISRent].E_col[IKISRcol].COL_storageList)-1;
+   IKISRmax:=Length(FCentities[IKISRent].E_col[IKISRcol].C_storedProducts)-1;
    if IKISRmax>0
    then
    begin
       IKISRcnt:=1;
       while IKISRcnt<=IKISRmax do
       begin
-         IKISRprodIndex:=FCFgP_Product_GetIndex(FCentities[IKISRent].E_col[IKISRcol].COL_storageList[IKISRcnt].CPR_token);
+         IKISRprodIndex:=FCFgP_Product_GetIndex(FCentities[IKISRent].E_col[IKISRcol].C_storedProducts[IKISRcnt].SP_token);
          if (FCDdipProducts[IKISRprodIndex].P_function=pfInfrastructureKit)
             and (FCDdipProducts[IKISRprodIndex].P_fIKtoken=IKISRinfraToken)
-            and (FCentities[IKISRent].E_col[IKISRcol].COL_settlements[IKISRset].CS_level>=FCDdipProducts[IKISRprodIndex].P_fIKlevel)
+            and (FCentities[IKISRent].E_col[IKISRcol].C_settlements[IKISRset].S_level>=FCDdipProducts[IKISRprodIndex].P_fIKlevel)
          then
          begin
             inc(IKISRresIndex);
             SetLength(Result, IKISRresIndex+1);
             Result[IKISRresIndex].IK_index:=IKISRcnt;
             Result[IKISRresIndex].IK_token:=FCDdipProducts[IKISRprodIndex].P_token;
-            Result[IKISRresIndex].IK_unit:=round(FCentities[IKISRent].E_col[IKISRcol].COL_storageList[IKISRcnt].CPR_unit);
+            Result[IKISRresIndex].IK_unit:=round(FCentities[IKISRent].E_col[IKISRcol].C_storedProducts[IKISRcnt].SP_unit);
             Result[IKISRresIndex].IK_infraLevel:=FCDdipProducts[IKISRprodIndex].P_fIKlevel;
          end;
          inc(IKISRcnt);
@@ -536,20 +536,20 @@ begin
    OobjLocation[3]:=OobjLocation[0];
    OobjLocation[4]:=OobjLocation[0];
    OobjLocation:=FCFuF_StelObj_GetFullRow(
-      FCentities[ Entity ].E_col[ Colony ].COL_locSSys
-      ,FCentities[ Entity ].E_col[ Colony ].COL_locStar
-      ,FCentities[ Entity ].E_col[ Colony ].COL_locOObj
-      ,FCentities[ Entity ].E_col[ Colony ].COL_locSat
+      FCentities[ Entity ].E_col[ Colony ].C_locationStarSystem
+      ,FCentities[ Entity ].E_col[ Colony ].C_locationStar
+      ,FCentities[ Entity ].E_col[ Colony ].C_locationOrbitalObject
+      ,FCentities[ Entity ].E_col[ Colony ].C_locationSatellite
       );
-   Max:=length( FCentities[ Entity ].E_col[ Colony ].COL_settlements );
+   Max:=length( FCentities[ Entity ].E_col[ Colony ].C_settlements );
    if Max<1
    then Max:=1;
-   setlength( FCentities[ Entity ].E_col[ Colony ].COL_settlements, Max+1 );
-   FCentities[ Entity ].E_col[ Colony ].COL_settlements[ Max ].CS_name:=SettlementName;
-   FCentities[ Entity ].E_col[ Colony ].COL_settlements[ Max ].CS_type:=TFCEdgSettlements( SettlementType );
-   FCentities[ Entity ].E_col[ Colony ].COL_settlements[ Max ].CS_level:=1;
-   FCentities[ Entity ].E_col[ Colony ].COL_settlements[ Max ].CS_region:=Region;
-   setlength( FCentities[ Entity ].E_col[ Colony ].COL_settlements[ Max ].CS_infra, 1 );
+   setlength( FCentities[ Entity ].E_col[ Colony ].C_settlements, Max+1 );
+   FCentities[ Entity ].E_col[ Colony ].C_settlements[ Max ].S_name:=SettlementName;
+   FCentities[ Entity ].E_col[ Colony ].C_settlements[ Max ].S_settlement:=TFCEdgSettlements( SettlementType );
+   FCentities[ Entity ].E_col[ Colony ].C_settlements[ Max ].S_level:=1;
+   FCentities[ Entity ].E_col[ Colony ].C_settlements[ Max ].S_locationRegion:=Region;
+   setlength( FCentities[ Entity ].E_col[ Colony ].C_settlements[ Max ].S_infrastructures, 1 );
    if OobjLocation[4]>0 then
    begin
       FCDduStarSystem[OobjLocation[1]].SS_stars[OobjLocation[2]].S_orbitalObjects[OobjLocation[3]].OO_satellitesList[OobjLocation[4]].OO_regions[ Region ].OOR_settlementEntity:=Entity;
@@ -562,9 +562,9 @@ begin
       FCDduStarSystem[OobjLocation[1]].SS_stars[OobjLocation[2]].S_orbitalObjects[OobjLocation[3]].OO_regions[ Region ].OOR_settlementIndex:=Max;
    end;
    {.update the colony's CAB queue}
-   if length( FCentities[ Entity ].E_col[Colony].COL_cabQueue )<2
-   then SetLength( FCentities[ Entity ].E_col[ Colony ].COL_cabQueue, 2 )
-   else SetLength( FCentities[ Entity ].E_col[ Colony ].COL_cabQueue, length( FCentities[ Entity ].E_col[ Colony ].COL_cabQueue )+1 );
+   if length( FCentities[ Entity ].E_col[Colony].C_cabQueue )<2
+   then SetLength( FCentities[ Entity ].E_col[ Colony ].C_cabQueue, 2 )
+   else SetLength( FCentities[ Entity ].E_col[ Colony ].C_cabQueue, length( FCentities[ Entity ].E_col[ Colony ].C_cabQueue )+1 );
    Result:=Max;
 end;
 
@@ -588,11 +588,11 @@ function FCFgC_Settlement_GetIndexFromRegion(
       ,Max: integer;
 begin
    Result:=0;
-   Max:=length( FCentities[ Entity ].E_col[ Colony ].COL_settlements )-1;
+   Max:=length( FCentities[ Entity ].E_col[ Colony ].C_settlements )-1;
    Count:=1;
    while Count<=Max do
    begin
-      if FCentities[ Entity ].E_col[ Colony ].COL_settlements[ Count ].CS_region=Region then
+      if FCentities[ Entity ].E_col[ Colony ].C_settlements[ Count ].S_locationRegion=Region then
       begin
          Result:=Count;
          break;
@@ -615,11 +615,11 @@ function FCFgC_Storage_RetrieveIndex(
       ,SRImax: integer;
 begin
    Result:=0;
-   SRImax:=Length( FCentities[ SRIentity ].E_col[ SRIcolony ].COL_storageList )-1;
+   SRImax:=Length( FCentities[ SRIentity ].E_col[ SRIcolony ].C_storedProducts )-1;
    SRIcount:=1;
    while SRIcount<=SRImax do
    begin
-      if FCentities[ SRIentity ].E_col[ SRIcolony ].COL_storageList[ SRIcount ].CPR_token=SRItoken then
+      if FCentities[ SRIentity ].E_col[ SRIcolony ].C_storedProducts[ SRIcount ].SP_token=SRItoken then
       begin
          Result:=SRIcount;
          Break;
@@ -682,26 +682,26 @@ var
 begin
    Result:=0;
    ProductIndex:=FCFgP_Product_GetIndex(ProductToken);
-   MaxStorageIndex:=length(FCentities[Entity].E_col[Colony].COL_storageList)-1;
+   MaxStorageIndex:=length(FCentities[Entity].E_col[Colony].C_storedProducts)-1;
    StorageIdxToUse:=1;
    {.the asked storage index is retrieved, if it doesn't exist, it'S automatically created}
    if MaxStorageIndex>0 then
    begin
       while StorageIdxToUse<=MaxStorageIndex do
       begin
-         if FCentities[Entity].E_col[Colony].COL_storageList[StorageIdxToUse].CPR_token=ProductToken
+         if FCentities[Entity].E_col[Colony].C_storedProducts[StorageIdxToUse].SP_token=ProductToken
          then break
          else if StorageIdxToUse=MaxStorageIndex then
          begin
             inc(StorageIdxToUse);
-            SetLength(FCentities[Entity].E_col[Colony].COL_storageList, StorageIdxToUse+1);
-            FCentities[Entity].E_col[Colony].COL_storageList[StorageIdxToUse].CPR_token:=ProductToken;
+            SetLength(FCentities[Entity].E_col[Colony].C_storedProducts, StorageIdxToUse+1);
+            FCentities[Entity].E_col[Colony].C_storedProducts[StorageIdxToUse].SP_token:=ProductToken;
             {.specific code for reserves}
             if FCDdipProducts[ ProductIndex ].P_function=pfFood then
             begin
-               FoodReserveIndex:=Length( FCentities[Entity].E_col[Colony].COL_reserveFoodList );
-               SetLength( FCentities[Entity].E_col[Colony].COL_reserveFoodList, FoodReserveIndex+1 );
-               FCentities[Entity].E_col[Colony].COL_reserveFoodList[ FoodReserveIndex ]:=StorageIdxToUse;
+               FoodReserveIndex:=Length( FCentities[Entity].E_col[Colony].C_reserveFoodProductsIndex );
+               SetLength( FCentities[Entity].E_col[Colony].C_reserveFoodProductsIndex, FoodReserveIndex+1 );
+               FCentities[Entity].E_col[Colony].C_reserveFoodProductsIndex[ FoodReserveIndex ]:=StorageIdxToUse;
             end;
             {.END specific code for reserves}
             break;
@@ -712,8 +712,8 @@ begin
    else if MaxStorageIndex<=0 then
    begin
       StorageIdxToUse:=1;
-      SetLength(FCentities[Entity].E_col[Colony].COL_storageList, StorageIdxToUse+1);
-      FCentities[Entity].E_col[Colony].COL_storageList[StorageIdxToUse].CPR_token:=ProductToken;
+      SetLength(FCentities[Entity].E_col[Colony].C_storedProducts, StorageIdxToUse+1);
+      FCentities[Entity].E_col[Colony].C_storedProducts[StorageIdxToUse].SP_token:=ProductToken;
    end;
    {.transfer process}
    if (UnitToTransfer<>0)
@@ -723,31 +723,31 @@ begin
       case FCDdipProducts[ProductIndex].P_storage of
          stSolid:
          begin
-            CapacityLoaded:=FCFcFunc_Rnd( cfrttpVolm3, FCentities[Entity].E_col[Colony].COL_storCapacitySolidCurr+TotalVolToTransfer );
+            CapacityLoaded:=FCFcFunc_Rnd( cfrttpVolm3, FCentities[Entity].E_col[Colony].C_storageCapacitySolidCurrent+TotalVolToTransfer );
             {.normally a case that shouldn't happen...}
             if CapacityLoaded<0 then
             begin
                CapacityLoaded:=0;
-               FinalTransferedUnits:=FCFgP_UnitFromVolume_Get( ProductIndex, FCentities[Entity].E_col[Colony].COL_storCapacitySolidCurr );
-               FCentities[Entity].E_col[Colony].COL_storCapacitySolidCurr:=0;
-               FCentities[Entity].E_col[Colony].COL_storageList[StorageIdxToUse].CPR_unit:=0;
+               FinalTransferedUnits:=FCFgP_UnitFromVolume_Get( ProductIndex, FCentities[Entity].E_col[Colony].C_storageCapacitySolidCurrent );
+               FCentities[Entity].E_col[Colony].C_storageCapacitySolidCurrent:=0;
+               FCentities[Entity].E_col[Colony].C_storedProducts[StorageIdxToUse].SP_unit:=0;
                Result:=FCFcFunc_Rnd( cfrttpVolm3, UnitToTransfer-FinalTransferedUnits );
             end
-            else if CapacityLoaded<=FCentities[Entity].E_col[Colony].COL_storCapacitySolidMax then
+            else if CapacityLoaded<=FCentities[Entity].E_col[Colony].C_storageCapacitySolidMax then
             begin
                FinalTransferedUnits:=UnitToTransfer;
-               FCentities[Entity].E_col[Colony].COL_storCapacitySolidCurr:=CapacityLoaded;
-               FCentities[Entity].E_col[Colony].COL_storageList[StorageIdxToUse].CPR_unit:=FCFcFunc_Rnd( cfrttpVolm3, FCentities[Entity].E_col[Colony].COL_storageList[StorageIdxToUse].CPR_unit+FinalTransferedUnits );
+               FCentities[Entity].E_col[Colony].C_storageCapacitySolidCurrent:=CapacityLoaded;
+               FCentities[Entity].E_col[Colony].C_storedProducts[StorageIdxToUse].SP_unit:=FCFcFunc_Rnd( cfrttpVolm3, FCentities[Entity].E_col[Colony].C_storedProducts[StorageIdxToUse].SP_unit+FinalTransferedUnits );
                Result:=0;
             end
-            else if CapacityLoaded>FCentities[Entity].E_col[Colony].COL_storCapacitySolidMax then
+            else if CapacityLoaded>FCentities[Entity].E_col[Colony].C_storageCapacitySolidMax then
             begin
-               FinalTransferedUnits:=FCFgP_UnitFromVolume_Get( ProductIndex, FCentities[Entity].E_col[Colony].COL_storCapacitySolidMax-FCentities[Entity].E_col[Colony].COL_storCapacitySolidCurr );
+               FinalTransferedUnits:=FCFgP_UnitFromVolume_Get( ProductIndex, FCentities[Entity].E_col[Colony].C_storageCapacitySolidMax-FCentities[Entity].E_col[Colony].C_storageCapacitySolidCurrent );
                if FinalTransferedUnits=0
                then Result:=UnitToTransfer
                else begin
-                  FCentities[Entity].E_col[Colony].COL_storCapacitySolidCurr:=FCentities[Entity].E_col[Colony].COL_storCapacitySolidMax;
-                  FCentities[Entity].E_col[Colony].COL_storageList[StorageIdxToUse].CPR_unit:=FCFcFunc_Rnd( cfrttpVolm3, FCentities[Entity].E_col[Colony].COL_storageList[StorageIdxToUse].CPR_unit+FinalTransferedUnits );
+                  FCentities[Entity].E_col[Colony].C_storageCapacitySolidCurrent:=FCentities[Entity].E_col[Colony].C_storageCapacitySolidMax;
+                  FCentities[Entity].E_col[Colony].C_storedProducts[StorageIdxToUse].SP_unit:=FCFcFunc_Rnd( cfrttpVolm3, FCentities[Entity].E_col[Colony].C_storedProducts[StorageIdxToUse].SP_unit+FinalTransferedUnits );
                   Result:=FCFcFunc_Rnd( cfrttpVolm3, UnitToTransfer-FinalTransferedUnits );
                end;
             end;
@@ -755,31 +755,31 @@ begin
 
          stLiquid:
          begin
-            CapacityLoaded:=FCFcFunc_Rnd(cfrttpVolm3, FCentities[Entity].E_col[Colony].COL_storCapacityLiquidCurr+TotalVolToTransfer);
+            CapacityLoaded:=FCFcFunc_Rnd(cfrttpVolm3, FCentities[Entity].E_col[Colony].C_storageCapacityLiquidCurrent+TotalVolToTransfer);
             {.normally a case that shouldn't happen...}
             if CapacityLoaded<0 then
             begin
                CapacityLoaded:=0;
-               FinalTransferedUnits:=FCFgP_UnitFromVolume_Get( ProductIndex, FCentities[Entity].E_col[Colony].COL_storCapacityLiquidCurr );
-               FCentities[Entity].E_col[Colony].COL_storCapacityLiquidCurr:=0;
-               FCentities[Entity].E_col[Colony].COL_storageList[StorageIdxToUse].CPR_unit:=0;
+               FinalTransferedUnits:=FCFgP_UnitFromVolume_Get( ProductIndex, FCentities[Entity].E_col[Colony].C_storageCapacityLiquidCurrent );
+               FCentities[Entity].E_col[Colony].C_storageCapacityLiquidCurrent:=0;
+               FCentities[Entity].E_col[Colony].C_storedProducts[StorageIdxToUse].SP_unit:=0;
                Result:=FCFcFunc_Rnd( cfrttpVolm3, UnitToTransfer-FinalTransferedUnits );
             end
-            else if CapacityLoaded<=FCentities[Entity].E_col[Colony].COL_storCapacityLiquidMax then
+            else if CapacityLoaded<=FCentities[Entity].E_col[Colony].C_storageCapacityLiquidMax then
             begin
                FinalTransferedUnits:=UnitToTransfer;
-               FCentities[Entity].E_col[Colony].COL_storCapacityLiquidCurr:=CapacityLoaded;
-               FCentities[Entity].E_col[Colony].COL_storageList[StorageIdxToUse].CPR_unit:=FCFcFunc_Rnd( cfrttpVolm3, FCentities[Entity].E_col[Colony].COL_storageList[StorageIdxToUse].CPR_unit+FinalTransferedUnits );
+               FCentities[Entity].E_col[Colony].C_storageCapacityLiquidCurrent:=CapacityLoaded;
+               FCentities[Entity].E_col[Colony].C_storedProducts[StorageIdxToUse].SP_unit:=FCFcFunc_Rnd( cfrttpVolm3, FCentities[Entity].E_col[Colony].C_storedProducts[StorageIdxToUse].SP_unit+FinalTransferedUnits );
                Result:=0;
             end
-            else if CapacityLoaded>FCentities[Entity].E_col[Colony].COL_storCapacityLiquidMax then
+            else if CapacityLoaded>FCentities[Entity].E_col[Colony].C_storageCapacityLiquidMax then
             begin
-               FinalTransferedUnits:=FCFgP_UnitFromVolume_Get( ProductIndex, FCentities[Entity].E_col[Colony].COL_storCapacityLiquidMax-FCentities[Entity].E_col[Colony].COL_storCapacityLiquidCurr );
+               FinalTransferedUnits:=FCFgP_UnitFromVolume_Get( ProductIndex, FCentities[Entity].E_col[Colony].C_storageCapacityLiquidMax-FCentities[Entity].E_col[Colony].C_storageCapacityLiquidCurrent );
                if FinalTransferedUnits=0
                then Result:=UnitToTransfer
                else begin
-                  FCentities[Entity].E_col[Colony].COL_storCapacityLiquidCurr:=FCentities[Entity].E_col[Colony].COL_storCapacityLiquidMax;
-                  FCentities[Entity].E_col[Colony].COL_storageList[StorageIdxToUse].CPR_unit:=FCFcFunc_Rnd( cfrttpVolm3, FCentities[Entity].E_col[Colony].COL_storageList[StorageIdxToUse].CPR_unit+FinalTransferedUnits );
+                  FCentities[Entity].E_col[Colony].C_storageCapacityLiquidCurrent:=FCentities[Entity].E_col[Colony].C_storageCapacityLiquidMax;
+                  FCentities[Entity].E_col[Colony].C_storedProducts[StorageIdxToUse].SP_unit:=FCFcFunc_Rnd( cfrttpVolm3, FCentities[Entity].E_col[Colony].C_storedProducts[StorageIdxToUse].SP_unit+FinalTransferedUnits );
                   Result:=FCFcFunc_Rnd( cfrttpVolm3, UnitToTransfer-FinalTransferedUnits );
                end;
             end;
@@ -787,31 +787,31 @@ begin
 
          stGas:
          begin
-            CapacityLoaded:=FCFcFunc_Rnd( cfrttpVolm3, FCentities[Entity].E_col[Colony].COL_storCapacityGasCurr+TotalVolToTransfer);
+            CapacityLoaded:=FCFcFunc_Rnd( cfrttpVolm3, FCentities[Entity].E_col[Colony].C_storageCapacityGasCurrent+TotalVolToTransfer);
             {.normally a case that shouldn't happen...}
             if CapacityLoaded<0 then
             begin
                CapacityLoaded:=0;
-               FinalTransferedUnits:=FCFgP_UnitFromVolume_Get( ProductIndex, FCentities[Entity].E_col[Colony].COL_storCapacityGasCurr );
-               FCentities[Entity].E_col[Colony].COL_storCapacityGasCurr:=0;
-               FCentities[Entity].E_col[Colony].COL_storageList[StorageIdxToUse].CPR_unit:=0;
+               FinalTransferedUnits:=FCFgP_UnitFromVolume_Get( ProductIndex, FCentities[Entity].E_col[Colony].C_storageCapacityGasCurrent );
+               FCentities[Entity].E_col[Colony].C_storageCapacityGasCurrent:=0;
+               FCentities[Entity].E_col[Colony].C_storedProducts[StorageIdxToUse].SP_unit:=0;
                Result:=FCFcFunc_Rnd( cfrttpVolm3, UnitToTransfer-FinalTransferedUnits );
             end
-            else if CapacityLoaded<=FCentities[Entity].E_col[Colony].COL_storCapacityGasMax then
+            else if CapacityLoaded<=FCentities[Entity].E_col[Colony].C_storageCapacityGasMax then
             begin
                FinalTransferedUnits:=UnitToTransfer;
-               FCentities[Entity].E_col[Colony].COL_storCapacityGasCurr:=CapacityLoaded;
-               FCentities[Entity].E_col[Colony].COL_storageList[StorageIdxToUse].CPR_unit:=FCFcFunc_Rnd( cfrttpVolm3, FCentities[Entity].E_col[Colony].COL_storageList[StorageIdxToUse].CPR_unit+FinalTransferedUnits );
+               FCentities[Entity].E_col[Colony].C_storageCapacityGasCurrent:=CapacityLoaded;
+               FCentities[Entity].E_col[Colony].C_storedProducts[StorageIdxToUse].SP_unit:=FCFcFunc_Rnd( cfrttpVolm3, FCentities[Entity].E_col[Colony].C_storedProducts[StorageIdxToUse].SP_unit+FinalTransferedUnits );
                Result:=0;
             end
-            else if CapacityLoaded>FCentities[Entity].E_col[Colony].COL_storCapacityGasMax then
+            else if CapacityLoaded>FCentities[Entity].E_col[Colony].C_storageCapacityGasMax then
             begin
-               FinalTransferedUnits:=FCFgP_UnitFromVolume_Get( ProductIndex, FCentities[Entity].E_col[Colony].COL_storCapacityGasMax-FCentities[Entity].E_col[Colony].COL_storCapacityGasCurr );
+               FinalTransferedUnits:=FCFgP_UnitFromVolume_Get( ProductIndex, FCentities[Entity].E_col[Colony].C_storageCapacityGasMax-FCentities[Entity].E_col[Colony].C_storageCapacityGasCurrent );
                if FinalTransferedUnits=0
                then Result:=UnitToTransfer
                else begin
-                  FCentities[Entity].E_col[Colony].COL_storCapacityGasCurr:=FCentities[Entity].E_col[Colony].COL_storCapacityGasMax;
-                  FCentities[Entity].E_col[Colony].COL_storageList[StorageIdxToUse].CPR_unit:=FCFcFunc_Rnd( cfrttpVolm3, FCentities[Entity].E_col[Colony].COL_storageList[StorageIdxToUse].CPR_unit+FinalTransferedUnits );
+                  FCentities[Entity].E_col[Colony].C_storageCapacityGasCurrent:=FCentities[Entity].E_col[Colony].C_storageCapacityGasMax;
+                  FCentities[Entity].E_col[Colony].C_storedProducts[StorageIdxToUse].SP_unit:=FCFcFunc_Rnd( cfrttpVolm3, FCentities[Entity].E_col[Colony].C_storedProducts[StorageIdxToUse].SP_unit+FinalTransferedUnits );
                   Result:=FCFcFunc_Rnd( cfrttpVolm3, UnitToTransfer-FinalTransferedUnits );
                end;
             end;
@@ -819,32 +819,32 @@ begin
 
          stBiologic:
          begin
-            CapacityLoaded:=FCFcFunc_Rnd( cfrttpVolm3, FCentities[Entity].E_col[Colony].COL_storCapacityBioCurr+TotalVolToTransfer );
+            CapacityLoaded:=FCFcFunc_Rnd( cfrttpVolm3, FCentities[Entity].E_col[Colony].C_storageCapacityBioCurrent+TotalVolToTransfer );
             {.normally a case that shouldn't happen...}
             if CapacityLoaded<0 then
             begin
                CapacityLoaded:=0;
-               FinalTransferedUnits:=FCFgP_UnitFromVolume_Get( ProductIndex, FCentities[Entity].E_col[Colony].COL_storCapacityBioCurr );
-               FCentities[Entity].E_col[Colony].COL_storCapacityBioCurr:=0;
-               FCentities[Entity].E_col[Colony].COL_storageList[StorageIdxToUse].CPR_unit:=0;
+               FinalTransferedUnits:=FCFgP_UnitFromVolume_Get( ProductIndex, FCentities[Entity].E_col[Colony].C_storageCapacityBioCurrent );
+               FCentities[Entity].E_col[Colony].C_storageCapacityBioCurrent:=0;
+               FCentities[Entity].E_col[Colony].C_storedProducts[StorageIdxToUse].SP_unit:=0;
                Result:=FCFcFunc_Rnd( cfrttpVolm3, UnitToTransfer-FinalTransferedUnits );
             end
-            else if CapacityLoaded<=FCentities[Entity].E_col[Colony].COL_storCapacityBioMax then
+            else if CapacityLoaded<=FCentities[Entity].E_col[Colony].C_storageCapacityBioMax then
             begin
                FinalTransferedUnits:=UnitToTransfer;
-               FCentities[Entity].E_col[Colony].COL_storCapacityBioCurr:=CapacityLoaded;
-               FCentities[Entity].E_col[Colony].COL_storageList[StorageIdxToUse].CPR_unit:=FCFcFunc_Rnd( cfrttpVolm3, FCentities[Entity].E_col[Colony].COL_storageList[StorageIdxToUse].CPR_unit+FinalTransferedUnits );
+               FCentities[Entity].E_col[Colony].C_storageCapacityBioCurrent:=CapacityLoaded;
+               FCentities[Entity].E_col[Colony].C_storedProducts[StorageIdxToUse].SP_unit:=FCFcFunc_Rnd( cfrttpVolm3, FCentities[Entity].E_col[Colony].C_storedProducts[StorageIdxToUse].SP_unit+FinalTransferedUnits );
                Result:=0;
             end
-            else if CapacityLoaded>FCentities[Entity].E_col[Colony].COL_storCapacityBioMax then
+            else if CapacityLoaded>FCentities[Entity].E_col[Colony].C_storageCapacityBioMax then
             begin
-               FinalTransferedUnits:=FCFgP_UnitFromVolume_Get( ProductIndex, FCentities[Entity].E_col[Colony].COL_storCapacityBioMax-FCentities[Entity].E_col[Colony].COL_storCapacityBioCurr );
+               FinalTransferedUnits:=FCFgP_UnitFromVolume_Get( ProductIndex, FCentities[Entity].E_col[Colony].C_storageCapacityBioMax-FCentities[Entity].E_col[Colony].C_storageCapacityBioCurrent );
                if FinalTransferedUnits=0
                then Result:=UnitToTransfer
                else
                begin
-                  FCentities[Entity].E_col[Colony].COL_storCapacityBioCurr:=FCentities[Entity].E_col[Colony].COL_storCapacityBioMax;
-                  FCentities[Entity].E_col[Colony].COL_storageList[StorageIdxToUse].CPR_unit:=FCFcFunc_Rnd( cfrttpVolm3, FCentities[Entity].E_col[Colony].COL_storageList[StorageIdxToUse].CPR_unit+FinalTransferedUnits );
+                  FCentities[Entity].E_col[Colony].C_storageCapacityBioCurrent:=FCentities[Entity].E_col[Colony].C_storageCapacityBioMax;
+                  FCentities[Entity].E_col[Colony].C_storedProducts[StorageIdxToUse].SP_unit:=FCFcFunc_Rnd( cfrttpVolm3, FCentities[Entity].E_col[Colony].C_storedProducts[StorageIdxToUse].SP_unit+FinalTransferedUnits );
                   Result:=FCFcFunc_Rnd( cfrttpVolm3, UnitToTransfer-FinalTransferedUnits );
                end;
             end;
@@ -854,7 +854,7 @@ begin
       if (isUpdateReserves)
          and (
             ( FCDdipProducts[ProductIndex].P_function=pfFood )
-            or ( ( FCDdipProducts[ProductIndex].P_function=pfOxygen ) and ( FCentities[Entity].E_col[Colony].COL_reserveOxygen<>-1 ) )
+            or ( ( FCDdipProducts[ProductIndex].P_function=pfOxygen ) and ( FCentities[Entity].E_col[Colony].C_reserveOxygen<>-1 ) )
             or ( FCDdipProducts[ProductIndex].P_function=pfWater )
             ) then
       begin
@@ -934,22 +934,22 @@ procedure FCMgC_HQ_Remove( const HQRent, HQRcol: integer );
 
 begin
    HQRhigherHQfound:=hqsNoHQPresent;
-   HQRsetMax:=Length(FCentities[HQRent].E_col[HQRcol].COL_settlements)-1;
+   HQRsetMax:=Length(FCentities[HQRent].E_col[HQRcol].C_settlements)-1;
    HQRsetCnt:=1;
    while HQRsetCnt<=HQRsetMax do
    begin
-      HQRinfraMax:=Length(FCentities[HQRent].E_col[HQRcol].COL_settlements[HQRsetCnt].CS_infra)-1;
+      HQRinfraMax:=Length(FCentities[HQRent].E_col[HQRcol].C_settlements[HQRsetCnt].S_infrastructures)-1;
       HQRinfraCnt:=1;
       while HQRinfraCnt<=HQRinfraMax do
       begin
-         if (FCentities[HQRent].E_col[HQRcol].COL_settlements[HQRsetCnt].CS_infra[HQRinfraCnt].CI_function=fHousing)
-            or (FCentities[HQRent].E_col[HQRcol].COL_settlements[HQRsetCnt].CS_infra[HQRinfraCnt].CI_function=fMiscellaneous)
+         if (FCentities[HQRent].E_col[HQRcol].C_settlements[HQRsetCnt].S_infrastructures[HQRinfraCnt].I_function=fHousing)
+            or (FCentities[HQRent].E_col[HQRcol].C_settlements[HQRsetCnt].S_infrastructures[HQRinfraCnt].I_function=fMiscellaneous)
          then
          begin
             HQRinfraData:=FCFgI_DataStructure_Get(
                HQRent
                ,HQRcol
-               ,FCentities[HQRent].E_col[HQRcol].COL_settlements[HQRsetCnt].CS_infra[HQRinfraCnt].CI_dbToken
+               ,FCentities[HQRent].E_col[HQRcol].C_settlements[HQRsetCnt].S_infrastructures[HQRinfraCnt].I_token
                );
             HQRsearchResult:=FCFgICFX_EffectHQ_Search( HQRinfraData );
             if HQRsearchResult>HQRhigherHQfound
@@ -959,13 +959,13 @@ begin
       end;
       inc(HQRsetCnt);
    end;
-   FCentities[HQRent].E_col[HQRcol].COL_hqPres:=HQRhigherHQfound;
+   FCentities[HQRent].E_col[HQRcol].C_hqPresence:=HQRhigherHQfound;
    HQRcolMax:=Length(FCentities[HQRent].E_col)-1;
    HQRcolCnt:=1;
    while HQRcolCnt<=HQRcolMax do
    begin
-      if FCentities[HQRent].E_col[HQRcolCnt].COL_hqPres>FCentities[HQRent].E_hqHigherLvl
-      then FCentities[HQRent].E_col[HQRcolCnt].COL_hqPres:=FCentities[HQRent].E_hqHigherLvl;
+      if FCentities[HQRent].E_col[HQRcolCnt].C_hqPresence>FCentities[HQRent].E_hqHigherLvl
+      then FCentities[HQRent].E_col[HQRcolCnt].C_hqPresence:=FCentities[HQRent].E_hqHigherLvl;
       inc(HQRcolCnt);
    end;
 end;
@@ -980,8 +980,8 @@ procedure FCMgC_HQ_Set(
       -2011Aug09- *fix: set the COL_hqPres only if the current one < HQShqLevel.
 }
 begin
-   if FCentities[HQSent].E_col[HQScol].COL_hqPres<HQShqLevel
-   then FCentities[HQSent].E_col[HQScol].COL_hqPres:=HQShqLevel;
+   if FCentities[HQSent].E_col[HQScol].C_hqPresence<HQShqLevel
+   then FCentities[HQSent].E_col[HQScol].C_hqPresence:=HQShqLevel;
    if FCentities[HQSent].E_hqHigherLvl<HQShqLevel
    then FCentities[HQSent].E_hqHigherLvl:=HQShqLevel;
 end;

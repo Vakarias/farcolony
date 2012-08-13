@@ -570,49 +570,49 @@ begin
                   begin
                      SetLength(FCentities[GLentCnt].E_col, length(FCentities[GLentCnt].E_col)+1);
                      inc(GLcount);
-                     SetLength(FCentities[GLentCnt].E_col[GLcount].COL_evList, 1);
-                     SetLength(FCentities[GLentCnt].E_col[GLcount].COL_settlements, 1);
-                     SetLength( FCentities[GLentCnt].E_col[GLcount].COL_cabQueue, 1);
+                     SetLength(FCentities[GLentCnt].E_col[GLcount].C_events, 1);
+                     SetLength(FCentities[GLentCnt].E_col[GLcount].C_settlements, 1);
+                     SetLength( FCentities[GLentCnt].E_col[GLcount].C_cabQueue, 1);
                      GLevCnt:=0;
                      GLsettleCnt:=0;
-                     FCentities[GLentCnt].E_col[GLcount].COL_name:=GLxmlCol.Attributes['prname'];
-                     FCentities[GLentCnt].E_col[GLcount].COL_fndYr:=GLxmlCol.Attributes['fndyr'];
-                     FCentities[GLentCnt].E_col[GLcount].COL_fndMth:=GLxmlCol.Attributes['fndmth'];
-                     FCentities[GLentCnt].E_col[GLcount].COL_fndDy:=GLxmlCol.Attributes['fnddy'];
-                     FCentities[GLentCnt].E_col[GLcount].COL_csmtime:=GLxmlCol.Attributes['csmtime'];
-                     FCentities[GLentCnt].E_col[GLcount].COL_locSSys:=GLxmlCol.Attributes['locssys'];
-                     FCentities[GLentCnt].E_col[GLcount].COL_locStar:=GLxmlCol.Attributes['locstar'];
-                     FCentities[GLentCnt].E_col[GLcount].COL_locOObj:=GLxmlCol.Attributes['locoobj'];
-                     FCentities[GLentCnt].E_col[GLcount].COL_locSat:=GLxmlCol.Attributes['locsat'];
+                     FCentities[GLentCnt].E_col[GLcount].C_name:=GLxmlCol.Attributes['prname'];
+                     FCentities[GLentCnt].E_col[GLcount].C_foundationDateYear:=GLxmlCol.Attributes['fndyr'];
+                     FCentities[GLentCnt].E_col[GLcount].C_foundationDateMonth:=GLxmlCol.Attributes['fndmth'];
+                     FCentities[GLentCnt].E_col[GLcount].C_foundationDateDay:=GLxmlCol.Attributes['fnddy'];
+                     FCentities[GLentCnt].E_col[GLcount].C_nextCSMsessionInTick:=GLxmlCol.Attributes['csmtime'];
+                     FCentities[GLentCnt].E_col[GLcount].C_locationStarSystem:=GLxmlCol.Attributes['locssys'];
+                     FCentities[GLentCnt].E_col[GLcount].C_locationStar:=GLxmlCol.Attributes['locstar'];
+                     FCentities[GLentCnt].E_col[GLcount].C_locationOrbitalObject:=GLxmlCol.Attributes['locoobj'];
+                     FCentities[GLentCnt].E_col[GLcount].C_locationSatellite:=GLxmlCol.Attributes['locsat'];
                      GLoobjRow[1]:=GLoobjRow[0];
                      GLoobjRow[2]:=GLoobjRow[0];
                      GLoobjRow[3]:=GLoobjRow[0];
                      GLoobjRow[4]:=GLoobjRow[0];
                      GLoobjRow:=FCFuF_StelObj_GetFullRow(
-                        FCentities[GLentCnt].E_col[GLcount].COL_locSSys
-                        ,FCentities[GLentCnt].E_col[GLcount].COL_locStar
-                        ,FCentities[GLentCnt].E_col[GLcount].COL_locOObj
-                        ,FCentities[GLentCnt].E_col[GLcount].COL_locOObj
+                        FCentities[GLentCnt].E_col[GLcount].C_locationStarSystem
+                        ,FCentities[GLentCnt].E_col[GLcount].C_locationStar
+                        ,FCentities[GLentCnt].E_col[GLcount].C_locationOrbitalObject
+                        ,FCentities[GLentCnt].E_col[GLcount].C_locationOrbitalObject
                         );
                      if GLoobjRow[4]=0
                      then FCDduStarSystem[GLoobjRow[1]].SS_stars[GLoobjRow[2]].S_orbitalObjects[GLoobjRow[3]].OO_colonies[0]:=GLcount
                      else if GLoobjRow[4]>0
                      then FCDduStarSystem[GLoobjRow[1]].SS_stars[GLoobjRow[2]].S_orbitalObjects[GLoobjRow[3]].OO_satellitesList[GLoobjRow[4]].OO_colonies[0]:=GLcount;
-                     FCentities[GLentCnt].E_col[GLcount].COL_level:=TFCEdgColonyLevels(GLxmlCol.Attributes['collvl']-1);
-                     FCentities[GLentCnt].E_col[GLcount].COL_hqPres:=GLxmlCol.Attributes['hqpresence'];
-                     FCentities[GLentCnt].E_col[GLcount].COL_cohes:=GLxmlCol.Attributes['dcohes'];
-                     FCentities[GLentCnt].E_col[GLcount].COL_secu:=GLxmlCol.Attributes['dsecu'];
-                     FCentities[GLentCnt].E_col[GLcount].COL_tens:=GLxmlCol.Attributes['dtens'];
-                     FCentities[GLentCnt].E_col[GLcount].COL_edu:=GLxmlCol.Attributes['dedu'];
-                     FCentities[GLentCnt].E_col[GLcount].COL_csmHOpcap:=GLxmlCol.Attributes['csmPCAP'];
-                     FCentities[GLentCnt].E_col[GLcount].COL_csmHOspl:=GLxmlCol.Attributes['csmSPL'];
-                     FCentities[GLentCnt].E_col[GLcount].COL_csmHOqol:=GLxmlCol.Attributes['csmQOL'];
-                     FCentities[GLentCnt].E_col[GLcount].COL_csmHEheal:=GLxmlCol.Attributes['csmHEAL'];
-                     FCentities[GLentCnt].E_col[GLcount].COL_csmENcons:=GLxmlCol.Attributes['csmEnCons'];
-                     FCentities[GLentCnt].E_col[GLcount].COL_csmENgen:=GLxmlCol.Attributes['csmEnGen'];
-                     FCentities[GLentCnt].E_col[GLcount].COL_csmENstorCurr:=GLxmlCol.Attributes['csmEnStorCurr'];
-                     FCentities[GLentCnt].E_col[GLcount].COL_csmENstorMax:=GLxmlCol.Attributes['csmEnStorMax'];
-                     FCentities[GLentCnt].E_col[GLcount].COL_eiOut:=GLxmlCol.Attributes['eiOut'];
+                     FCentities[GLentCnt].E_col[GLcount].C_level:=TFCEdgColonyLevels(GLxmlCol.Attributes['collvl']-1);
+                     FCentities[GLentCnt].E_col[GLcount].C_hqPresence:=GLxmlCol.Attributes['hqpresence'];
+                     FCentities[GLentCnt].E_col[GLcount].C_cohesion:=GLxmlCol.Attributes['dcohes'];
+                     FCentities[GLentCnt].E_col[GLcount].C_security:=GLxmlCol.Attributes['dsecu'];
+                     FCentities[GLentCnt].E_col[GLcount].C_tension:=GLxmlCol.Attributes['dtens'];
+                     FCentities[GLentCnt].E_col[GLcount].C_instruction:=GLxmlCol.Attributes['dedu'];
+                     FCentities[GLentCnt].E_col[GLcount].C_csmHousing_PopulationCapacity:=GLxmlCol.Attributes['csmPCAP'];
+                     FCentities[GLentCnt].E_col[GLcount].C_csmHousing_SpaceLevel:=GLxmlCol.Attributes['csmSPL'];
+                     FCentities[GLentCnt].E_col[GLcount].C_csmHousing_QualityOfLife:=GLxmlCol.Attributes['csmQOL'];
+                     FCentities[GLentCnt].E_col[GLcount].C_csmHealth_healthLevel:=GLxmlCol.Attributes['csmHEAL'];
+                     FCentities[GLentCnt].E_col[GLcount].C_csmEnergy_consumption:=GLxmlCol.Attributes['csmEnCons'];
+                     FCentities[GLentCnt].E_col[GLcount].C_csmEnergy_generation:=GLxmlCol.Attributes['csmEnGen'];
+                     FCentities[GLentCnt].E_col[GLcount].C_csmEnergy_StorageCurrent:=GLxmlCol.Attributes['csmEnStorCurr'];
+                     FCentities[GLentCnt].E_col[GLcount].C_csmEnergy_StorageMax:=GLxmlCol.Attributes['csmEnStorMax'];
+                     FCentities[GLentCnt].E_col[GLcount].C_economicIndustrialOutput:=GLxmlCol.Attributes['eiOut'];
                      GLxmlColsub:=GLxmlCol.ChildNodes.First;
                      while GLxmlColsub<>nil do
                      begin
@@ -620,118 +620,118 @@ begin
                         if GLxmlColsub.NodeName='colPopulation'
                         then
                         begin
-                           FCentities[GLentCnt].E_col[GLcount].COL_population.CP_total:=GLxmlColsub.Attributes['popTtl'];
-                           FCentities[GLentCnt].E_col[GLcount].COL_population.CP_meanAge:=GLxmlColsub.Attributes['popMeanAge'];
-                           FCentities[GLentCnt].E_col[GLcount].COL_population.CP_deathRate:=GLxmlColsub.Attributes['popDRate'];
-                           FCentities[GLentCnt].E_col[GLcount].COL_population.CP_deathStack:=GLxmlColsub.Attributes['popDStack'];
-                           FCentities[GLentCnt].E_col[GLcount].COL_population.CP_birthRate:=GLxmlColsub.Attributes['popBRate'];
-                           FCentities[GLentCnt].E_col[GLcount].COL_population.CP_birthStack:=GLxmlColsub.Attributes['popBStack'];
-                           FCentities[GLentCnt].E_col[GLcount].COL_population.CP_classColonist:=GLxmlColsub.Attributes['popColon'];
-                           FCentities[GLentCnt].E_col[GLcount].COL_population.CP_classColonistAssigned:=GLxmlColsub.Attributes['popColonAssign'];
-                           FCentities[GLentCnt].E_col[GLcount].COL_population.CP_classAerOfficer:=GLxmlColsub.Attributes['popOff'];
-                           FCentities[GLentCnt].E_col[GLcount].COL_population.CP_classAerOfficerAssigned:=GLxmlColsub.Attributes['popOffAssign'];
-                           FCentities[GLentCnt].E_col[GLcount].COL_population.CP_classAerMissionSpecialist:=GLxmlColsub.Attributes['popMisSpe'];
-                           FCentities[GLentCnt].E_col[GLcount].COL_population.CP_classAerMissionSpecialistAssigned:=GLxmlColsub.Attributes['popMisSpeAssign'];
-                           FCentities[GLentCnt].E_col[GLcount].COL_population.CP_classBioBiologist:=GLxmlColsub.Attributes['popBiol'];
-                           FCentities[GLentCnt].E_col[GLcount].COL_population.CP_classBioBiologistAssigned:=GLxmlColsub.Attributes['popBiolAssign'];
-                           FCentities[GLentCnt].E_col[GLcount].COL_population.CP_classBioDoctor:=GLxmlColsub.Attributes['popDoc'];
-                           FCentities[GLentCnt].E_col[GLcount].COL_population.CP_classBioDoctorAssigned:=GLxmlColsub.Attributes['popDocAssign'];
-                           FCentities[GLentCnt].E_col[GLcount].COL_population.CP_classIndTechnician:=GLxmlColsub.Attributes['popTech'];
-                           FCentities[GLentCnt].E_col[GLcount].COL_population.CP_classIndTechnicianAssigned:=GLxmlColsub.Attributes['popTechAssign'];
-                           FCentities[GLentCnt].E_col[GLcount].COL_population.CP_classIndEngineer:=GLxmlColsub.Attributes['popEng'];
-                           FCentities[GLentCnt].E_col[GLcount].COL_population.CP_classIndEngineerAssigned:=GLxmlColsub.Attributes['popEngAssign'];
-                           FCentities[GLentCnt].E_col[GLcount].COL_population.CP_classMilSoldier:=GLxmlColsub.Attributes['popSold'];
-                           FCentities[GLentCnt].E_col[GLcount].COL_population.CP_classMilSoldierAssigned:=GLxmlColsub.Attributes['popSoldAssign'];
-                           FCentities[GLentCnt].E_col[GLcount].COL_population.CP_classMilCommando:=GLxmlColsub.Attributes['popComm'];
-                           FCentities[GLentCnt].E_col[GLcount].COL_population.CP_classMilCommandoAssigned:=GLxmlColsub.Attributes['popCommAssign'];
-                           FCentities[GLentCnt].E_col[GLcount].COL_population.CP_classPhyPhysicist:=GLxmlColsub.Attributes['popPhys'];
-                           FCentities[GLentCnt].E_col[GLcount].COL_population.CP_classPhyPhysicistAssigned:=GLxmlColsub.Attributes['popPhysAssign'];
-                           FCentities[GLentCnt].E_col[GLcount].COL_population.CP_classPhyAstrophysicist:=GLxmlColsub.Attributes['popAstro'];
-                           FCentities[GLentCnt].E_col[GLcount].COL_population.CP_classPhyAstrophysicistAssigned:=GLxmlColsub.Attributes['popAstroAssign'];
-                           FCentities[GLentCnt].E_col[GLcount].COL_population.CP_classEcoEcologist:=GLxmlColsub.Attributes['popEcol'];
-                           FCentities[GLentCnt].E_col[GLcount].COL_population.CP_classEcoEcologistAssigned:=GLxmlColsub.Attributes['popEcolAssign'];
-                           FCentities[GLentCnt].E_col[GLcount].COL_population.CP_classEcoEcoformer:=GLxmlColsub.Attributes['popEcof'];
-                           FCentities[GLentCnt].E_col[GLcount].COL_population.CP_classEcoEcoformerAssigned:=GLxmlColsub.Attributes['popEcofAssign'];
-                           FCentities[GLentCnt].E_col[GLcount].COL_population.CP_classAdmMedian:=GLxmlColsub.Attributes['popMedian'];
-                           FCentities[GLentCnt].E_col[GLcount].COL_population.CP_classAdmMedianAssigned:=GLxmlColsub.Attributes['popMedianAssign'];
-                           FCentities[GLentCnt].E_col[GLcount].COL_population.CP_classRebels:=GLxmlColsub.Attributes['popRebels'];
-                           FCentities[GLentCnt].E_col[GLcount].COL_population.CP_classMilitia:=GLxmlColsub.Attributes['popMilitia'];
-                           FCentities[GLentCnt].E_col[GLcount].COL_population.CP_CWPtotal:=GLxmlColsub.Attributes['wcpTotal'];
-                           FCentities[GLentCnt].E_col[GLcount].COL_population.CP_CWPassignedPeople:=GLxmlColsub.Attributes['wcpAssignPpl'];
+                           FCentities[GLentCnt].E_col[GLcount].C_population.CP_total:=GLxmlColsub.Attributes['popTtl'];
+                           FCentities[GLentCnt].E_col[GLcount].C_population.CP_meanAge:=GLxmlColsub.Attributes['popMeanAge'];
+                           FCentities[GLentCnt].E_col[GLcount].C_population.CP_deathRate:=GLxmlColsub.Attributes['popDRate'];
+                           FCentities[GLentCnt].E_col[GLcount].C_population.CP_deathStack:=GLxmlColsub.Attributes['popDStack'];
+                           FCentities[GLentCnt].E_col[GLcount].C_population.CP_birthRate:=GLxmlColsub.Attributes['popBRate'];
+                           FCentities[GLentCnt].E_col[GLcount].C_population.CP_birthStack:=GLxmlColsub.Attributes['popBStack'];
+                           FCentities[GLentCnt].E_col[GLcount].C_population.CP_classColonist:=GLxmlColsub.Attributes['popColon'];
+                           FCentities[GLentCnt].E_col[GLcount].C_population.CP_classColonistAssigned:=GLxmlColsub.Attributes['popColonAssign'];
+                           FCentities[GLentCnt].E_col[GLcount].C_population.CP_classAerOfficer:=GLxmlColsub.Attributes['popOff'];
+                           FCentities[GLentCnt].E_col[GLcount].C_population.CP_classAerOfficerAssigned:=GLxmlColsub.Attributes['popOffAssign'];
+                           FCentities[GLentCnt].E_col[GLcount].C_population.CP_classAerMissionSpecialist:=GLxmlColsub.Attributes['popMisSpe'];
+                           FCentities[GLentCnt].E_col[GLcount].C_population.CP_classAerMissionSpecialistAssigned:=GLxmlColsub.Attributes['popMisSpeAssign'];
+                           FCentities[GLentCnt].E_col[GLcount].C_population.CP_classBioBiologist:=GLxmlColsub.Attributes['popBiol'];
+                           FCentities[GLentCnt].E_col[GLcount].C_population.CP_classBioBiologistAssigned:=GLxmlColsub.Attributes['popBiolAssign'];
+                           FCentities[GLentCnt].E_col[GLcount].C_population.CP_classBioDoctor:=GLxmlColsub.Attributes['popDoc'];
+                           FCentities[GLentCnt].E_col[GLcount].C_population.CP_classBioDoctorAssigned:=GLxmlColsub.Attributes['popDocAssign'];
+                           FCentities[GLentCnt].E_col[GLcount].C_population.CP_classIndTechnician:=GLxmlColsub.Attributes['popTech'];
+                           FCentities[GLentCnt].E_col[GLcount].C_population.CP_classIndTechnicianAssigned:=GLxmlColsub.Attributes['popTechAssign'];
+                           FCentities[GLentCnt].E_col[GLcount].C_population.CP_classIndEngineer:=GLxmlColsub.Attributes['popEng'];
+                           FCentities[GLentCnt].E_col[GLcount].C_population.CP_classIndEngineerAssigned:=GLxmlColsub.Attributes['popEngAssign'];
+                           FCentities[GLentCnt].E_col[GLcount].C_population.CP_classMilSoldier:=GLxmlColsub.Attributes['popSold'];
+                           FCentities[GLentCnt].E_col[GLcount].C_population.CP_classMilSoldierAssigned:=GLxmlColsub.Attributes['popSoldAssign'];
+                           FCentities[GLentCnt].E_col[GLcount].C_population.CP_classMilCommando:=GLxmlColsub.Attributes['popComm'];
+                           FCentities[GLentCnt].E_col[GLcount].C_population.CP_classMilCommandoAssigned:=GLxmlColsub.Attributes['popCommAssign'];
+                           FCentities[GLentCnt].E_col[GLcount].C_population.CP_classPhyPhysicist:=GLxmlColsub.Attributes['popPhys'];
+                           FCentities[GLentCnt].E_col[GLcount].C_population.CP_classPhyPhysicistAssigned:=GLxmlColsub.Attributes['popPhysAssign'];
+                           FCentities[GLentCnt].E_col[GLcount].C_population.CP_classPhyAstrophysicist:=GLxmlColsub.Attributes['popAstro'];
+                           FCentities[GLentCnt].E_col[GLcount].C_population.CP_classPhyAstrophysicistAssigned:=GLxmlColsub.Attributes['popAstroAssign'];
+                           FCentities[GLentCnt].E_col[GLcount].C_population.CP_classEcoEcologist:=GLxmlColsub.Attributes['popEcol'];
+                           FCentities[GLentCnt].E_col[GLcount].C_population.CP_classEcoEcologistAssigned:=GLxmlColsub.Attributes['popEcolAssign'];
+                           FCentities[GLentCnt].E_col[GLcount].C_population.CP_classEcoEcoformer:=GLxmlColsub.Attributes['popEcof'];
+                           FCentities[GLentCnt].E_col[GLcount].C_population.CP_classEcoEcoformerAssigned:=GLxmlColsub.Attributes['popEcofAssign'];
+                           FCentities[GLentCnt].E_col[GLcount].C_population.CP_classAdmMedian:=GLxmlColsub.Attributes['popMedian'];
+                           FCentities[GLentCnt].E_col[GLcount].C_population.CP_classAdmMedianAssigned:=GLxmlColsub.Attributes['popMedianAssign'];
+                           FCentities[GLentCnt].E_col[GLcount].C_population.CP_classRebels:=GLxmlColsub.Attributes['popRebels'];
+                           FCentities[GLentCnt].E_col[GLcount].C_population.CP_classMilitia:=GLxmlColsub.Attributes['popMilitia'];
+                           FCentities[GLentCnt].E_col[GLcount].C_population.CP_CWPtotal:=GLxmlColsub.Attributes['wcpTotal'];
+                           FCentities[GLentCnt].E_col[GLcount].C_population.CP_CWPassignedPeople:=GLxmlColsub.Attributes['wcpAssignPpl'];
                         end
                         {.colony events}
                         else if GLxmlColsub.NodeName='colEvent' then
                         begin
-                           SetLength(FCentities[GLentCnt].E_col[GLcount].COL_evList, length(FCentities[GLentCnt].E_col[GLcount].COL_evList)+1);
+                           SetLength(FCentities[GLentCnt].E_col[GLcount].C_events, length(FCentities[GLentCnt].E_col[GLcount].C_events)+1);
                            inc(GLevCnt);
                            GLenumIndex:=GetEnumValue(TypeInfo(TFCEdgColonyEvents), GLxmlColsub.Attributes['token'] );
-                           FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].CCSME_type:=TFCEdgColonyEvents(GLenumIndex);
+                           FCentities[GLentCnt].E_col[GLcount].C_events[GLevCnt].CCSME_type:=TFCEdgColonyEvents(GLenumIndex);
                            if GLenumIndex=-1
                            then raise Exception.Create('bad gamesave loading w/CSM event type: '+GLxmlColsub.Attributes['token']) ;
-                           FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].CCSME_isResident:=GLxmlColsub.Attributes['isres'];
-                           FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].CCSME_durationWeeks:=GLxmlColsub.Attributes['duration'];
-                           FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].CCSME_level:=GLxmlColsub.Attributes['level'];
-                           case FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].CCSME_type of
+                           FCentities[GLentCnt].E_col[GLcount].C_events[GLevCnt].CCSME_isResident:=GLxmlColsub.Attributes['isres'];
+                           FCentities[GLentCnt].E_col[GLcount].C_events[GLevCnt].CCSME_durationWeeks:=GLxmlColsub.Attributes['duration'];
+                           FCentities[GLentCnt].E_col[GLcount].C_events[GLevCnt].CCSME_level:=GLxmlColsub.Attributes['level'];
+                           case FCentities[GLentCnt].E_col[GLcount].C_events[GLevCnt].CCSME_type of
                               ceColonyEstablished:
                               begin
-                                 FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].CCSME_tCEstTensionMod:=GLxmlColsub.Attributes['modTension'];
-                                 FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].CCSME_tCEstSecurityMod:=GLxmlColsub.Attributes['modSecurity'];
+                                 FCentities[GLentCnt].E_col[GLcount].C_events[GLevCnt].CCSME_tCEstTensionMod:=GLxmlColsub.Attributes['modTension'];
+                                 FCentities[GLentCnt].E_col[GLcount].C_events[GLevCnt].CCSME_tCEstSecurityMod:=GLxmlColsub.Attributes['modSecurity'];
                               end;
 
                               ceUnrest, ceUnrest_Recovering:
                               begin
-                                 FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].CCSME_tCUnEconomicIndustrialOutputMod:=GLxmlColsub.Attributes['modEcoInd'];
-                                 FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].CCSME_tCUnTensionMod:=GLxmlColsub.Attributes['modTension'];
+                                 FCentities[GLentCnt].E_col[GLcount].C_events[GLevCnt].CCSME_tCUnEconomicIndustrialOutputMod:=GLxmlColsub.Attributes['modEcoInd'];
+                                 FCentities[GLentCnt].E_col[GLcount].C_events[GLevCnt].CCSME_tCUnTensionMod:=GLxmlColsub.Attributes['modTension'];
                               end;
 
                               ceSocialDisorder, ceSocialDisorder_Recovering:
                               begin
-                                 FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].CCSME_tSDisEconomicIndustrialOutputMod:=GLxmlColsub.Attributes['modEcoInd'];
-                                 FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].CCSME_tSDisTensionMod:=GLxmlColsub.Attributes['modTension'];
+                                 FCentities[GLentCnt].E_col[GLcount].C_events[GLevCnt].CCSME_tSDisEconomicIndustrialOutputMod:=GLxmlColsub.Attributes['modEcoInd'];
+                                 FCentities[GLentCnt].E_col[GLcount].C_events[GLevCnt].CCSME_tSDisTensionMod:=GLxmlColsub.Attributes['modTension'];
                               end;
 
                               ceUprising, ceUprising_Recovering:
                               begin
-                                 FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].CCSME_tUpEconomicIndustrialOutputMod:=GLxmlColsub.Attributes['modEcoInd'];
-                                 FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].CCSME_tUpTensionMod:=GLxmlColsub.Attributes['modTension'];
+                                 FCentities[GLentCnt].E_col[GLcount].C_events[GLevCnt].CCSME_tUpEconomicIndustrialOutputMod:=GLxmlColsub.Attributes['modEcoInd'];
+                                 FCentities[GLentCnt].E_col[GLcount].C_events[GLevCnt].CCSME_tUpTensionMod:=GLxmlColsub.Attributes['modTension'];
                               end;
 
                               ceDissidentColony: ;
 
-                              ceHealthEducationRelation: FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].CCSME_tHERelEducationMod:=GLxmlColsub.Attributes['modInstruction'];
+                              ceHealthEducationRelation: FCentities[GLentCnt].E_col[GLcount].C_events[GLevCnt].CCSME_tHERelEducationMod:=GLxmlColsub.Attributes['modInstruction'];
 
-                              ceGovernmentDestabilization, ceGovernmentDestabilization_Recovering: FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].CCSME_tGDestCohesionMod:=GLxmlColsub.Attributes['modCohesion'];
+                              ceGovernmentDestabilization, ceGovernmentDestabilization_Recovering: FCentities[GLentCnt].E_col[GLcount].C_events[GLevCnt].CCSME_tGDestCohesionMod:=GLxmlColsub.Attributes['modCohesion'];
 
-                              ceOxygenProductionOverload: FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].CCSME_tOPOvPercentPopulationNotSupported:=GLxmlColsub.Attributes['percPopNotSupported'];
+                              ceOxygenProductionOverload: FCentities[GLentCnt].E_col[GLcount].C_events[GLevCnt].CCSME_tOPOvPercentPopulationNotSupported:=GLxmlColsub.Attributes['percPopNotSupported'];
 
                               ceOxygenShortage, ceOxygenShortage_Recovering:
                               begin
-                                 FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].CCSME_tOShPercentPopulationNotSupportedAtCalculation:=GLxmlColsub.Attributes['percPopNotSupAtCalc'];
-                                 FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].CCSME_tOShEconomicIndustrialOutputMod:=GLxmlColsub.Attributes['modEcoInd'];
-                                 FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].CCSME_tOShTensionMod:=GLxmlColsub.Attributes['modTension'];
-                                 FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].CCSME_tOShHealthMod:=GLxmlColsub.Attributes['modHealth'];
+                                 FCentities[GLentCnt].E_col[GLcount].C_events[GLevCnt].CCSME_tOShPercentPopulationNotSupportedAtCalculation:=GLxmlColsub.Attributes['percPopNotSupAtCalc'];
+                                 FCentities[GLentCnt].E_col[GLcount].C_events[GLevCnt].CCSME_tOShEconomicIndustrialOutputMod:=GLxmlColsub.Attributes['modEcoInd'];
+                                 FCentities[GLentCnt].E_col[GLcount].C_events[GLevCnt].CCSME_tOShTensionMod:=GLxmlColsub.Attributes['modTension'];
+                                 FCentities[GLentCnt].E_col[GLcount].C_events[GLevCnt].CCSME_tOShHealthMod:=GLxmlColsub.Attributes['modHealth'];
                               end;
 
-                              ceWaterProductionOverload: FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].CCSME_tWPOvPercentPopulationNotSupported:=GLxmlColsub.Attributes['percPopNotSupported'];
+                              ceWaterProductionOverload: FCentities[GLentCnt].E_col[GLcount].C_events[GLevCnt].CCSME_tWPOvPercentPopulationNotSupported:=GLxmlColsub.Attributes['percPopNotSupported'];
 
                               ceWaterShortage, ceWaterShortage_Recovering:
                               begin
-                                 FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].CCSME_tWShPercentPopulationNotSupportedAtCalculation:=GLxmlColsub.Attributes['percPopNotSupAtCalc'];
-                                 FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].CCSME_tWShEconomicIndustrialOutputMod:=GLxmlColsub.Attributes['modEcoInd'];
-                                 FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].CCSME_tWShTensionMod:=GLxmlColsub.Attributes['modTension'];
-                                 FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].CCSME_tWShHealthMod:=GLxmlColsub.Attributes['modHealth'];
+                                 FCentities[GLentCnt].E_col[GLcount].C_events[GLevCnt].CCSME_tWShPercentPopulationNotSupportedAtCalculation:=GLxmlColsub.Attributes['percPopNotSupAtCalc'];
+                                 FCentities[GLentCnt].E_col[GLcount].C_events[GLevCnt].CCSME_tWShEconomicIndustrialOutputMod:=GLxmlColsub.Attributes['modEcoInd'];
+                                 FCentities[GLentCnt].E_col[GLcount].C_events[GLevCnt].CCSME_tWShTensionMod:=GLxmlColsub.Attributes['modTension'];
+                                 FCentities[GLentCnt].E_col[GLcount].C_events[GLevCnt].CCSME_tWShHealthMod:=GLxmlColsub.Attributes['modHealth'];
                               end;
 
-                              ceFoodProductionOverload: FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].CCSME_tFPOvPercentPopulationNotSupported:=GLxmlColsub.Attributes['percPopNotSupported'];
+                              ceFoodProductionOverload: FCentities[GLentCnt].E_col[GLcount].C_events[GLevCnt].CCSME_tFPOvPercentPopulationNotSupported:=GLxmlColsub.Attributes['percPopNotSupported'];
 
                               ceFoodShortage, ceFoodShortage_Recovering:
                               begin
-                                 FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].CCSME_tFShPercentPopulationNotSupportedAtCalculation:=GLxmlColsub.Attributes['percPopNotSupAtCalc'];
-                                 FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].CCSME_tFShEconomicIndustrialOutputMod:=GLxmlColsub.Attributes['modEcoInd'];
-                                 FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].CCSME_tFShTensionMod:=GLxmlColsub.Attributes['modTension'];
-                                 FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].CCSME_tFShHealthMod:=GLxmlColsub.Attributes['modHealth'];
-                                 FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].CCSME_tFShDirectDeathPeriod:=GLxmlColsub.Attributes['directDeathPeriod'];
-                                 FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].CCSME_tFShDeathFractionalValue:=GLxmlColsub.Attributes['deathFracValue'];
+                                 FCentities[GLentCnt].E_col[GLcount].C_events[GLevCnt].CCSME_tFShPercentPopulationNotSupportedAtCalculation:=GLxmlColsub.Attributes['percPopNotSupAtCalc'];
+                                 FCentities[GLentCnt].E_col[GLcount].C_events[GLevCnt].CCSME_tFShEconomicIndustrialOutputMod:=GLxmlColsub.Attributes['modEcoInd'];
+                                 FCentities[GLentCnt].E_col[GLcount].C_events[GLevCnt].CCSME_tFShTensionMod:=GLxmlColsub.Attributes['modTension'];
+                                 FCentities[GLentCnt].E_col[GLcount].C_events[GLevCnt].CCSME_tFShHealthMod:=GLxmlColsub.Attributes['modHealth'];
+                                 FCentities[GLentCnt].E_col[GLcount].C_events[GLevCnt].CCSME_tFShDirectDeathPeriod:=GLxmlColsub.Attributes['directDeathPeriod'];
+                                 FCentities[GLentCnt].E_col[GLcount].C_events[GLevCnt].CCSME_tFShDeathFractionalValue:=GLxmlColsub.Attributes['deathFracValue'];
                               end;
                            end; //==END== case FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].CSMEV_token of ==//
                         end
@@ -739,17 +739,17 @@ begin
                         else if GLxmlColsub.NodeName='colSettlement' then
                         begin
                            inc(GLsettleCnt);
-                           SetLength(FCentities[GLentCnt].E_col[GLcount].COL_settlements, GLsettleCnt+1);
-                           SetLength(FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra, 1);
-                           SetLength( FCentities[GLentCnt].E_col[GLcount].COL_cabQueue, length( FCentities[GLentCnt].E_col[GLcount].COL_cabQueue )+1 );
-                           FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_name:=GLxmlColsub.Attributes['name'];
+                           SetLength(FCentities[GLentCnt].E_col[GLcount].C_settlements, GLsettleCnt+1);
+                           SetLength(FCentities[GLentCnt].E_col[GLcount].C_settlements[GLsettleCnt].S_infrastructures, 1);
+                           SetLength( FCentities[GLentCnt].E_col[GLcount].C_cabQueue, length( FCentities[GLentCnt].E_col[GLcount].C_cabQueue )+1 );
+                           FCentities[GLentCnt].E_col[GLcount].C_settlements[GLsettleCnt].S_name:=GLxmlColsub.Attributes['name'];
                            GLenumIndex:=GetEnumValue(TypeInfo(TFCEdgSettlements), GLxmlColsub.Attributes['type'] );
-                           FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_type:=TFCEdgSettlements(GLenumIndex);
+                           FCentities[GLentCnt].E_col[GLcount].C_settlements[GLsettleCnt].S_settlement:=TFCEdgSettlements(GLenumIndex);
                            if GLenumIndex=-1
                            then raise Exception.Create('bad gamesave loading w/settlement type: '+GLxmlColsub.Attributes['type']) ;
-                           FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_level:=GLxmlColsub.Attributes['level'];
-                           FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_region:=GLxmlColsub.Attributes['region'];
-                           GLregionIdx:=FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_region;
+                           FCentities[GLentCnt].E_col[GLcount].C_settlements[GLsettleCnt].S_level:=GLxmlColsub.Attributes['level'];
+                           FCentities[GLentCnt].E_col[GLcount].C_settlements[GLsettleCnt].S_locationRegion:=GLxmlColsub.Attributes['region'];
+                           GLregionIdx:=FCentities[GLentCnt].E_col[GLcount].C_settlements[GLsettleCnt].S_locationRegion;
                            if GLoobjRow[4]=0 then
                            begin
                               FCDduStarSystem[GLoobjRow[1]].SS_stars[GLoobjRow[2]].S_orbitalObjects[GLoobjRow[3]].OO_regions[GLregionIdx].OOR_settlementEntity:=GLentCnt;
@@ -766,31 +766,31 @@ begin
                            GLxmlInfra:=GLxmlColsub.ChildNodes.First;
                            while GLxmlInfra<>nil do
                            begin
-                              SetLength( FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra, length( FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra )+1 );
+                              SetLength( FCentities[GLentCnt].E_col[GLcount].C_settlements[GLsettleCnt].S_infrastructures, length( FCentities[GLentCnt].E_col[GLcount].C_settlements[GLsettleCnt].S_infrastructures )+1 );
                               inc(GLinfCnt);
-                              FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra[GLinfCnt].CI_dbToken:=GLxmlInfra.Attributes['token'];
-                              FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra[GLinfCnt].CI_level:=GLxmlInfra.Attributes['level'];
+                              FCentities[GLentCnt].E_col[GLcount].C_settlements[GLsettleCnt].S_infrastructures[GLinfCnt].I_token:=GLxmlInfra.Attributes['token'];
+                              FCentities[GLentCnt].E_col[GLcount].C_settlements[GLsettleCnt].S_infrastructures[GLinfCnt].I_level:=GLxmlInfra.Attributes['level'];
                               GLenumIndex:=GetEnumValue(TypeInfo(TFCEdgInfrastructureStatus), GLxmlInfra.Attributes['status'] );
-                              FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra[GLinfCnt].CI_status:=TFCEdgInfrastructureStatus(GLenumIndex);
+                              FCentities[GLentCnt].E_col[GLcount].C_settlements[GLsettleCnt].S_infrastructures[GLinfCnt].I_status:=TFCEdgInfrastructureStatus(GLenumIndex);
                               if GLenumIndex=-1
                               then raise Exception.Create('bad gamesave loading w/infra status: '+GLxmlInfra.Attributes['status']);
-                              FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra[GLinfCnt].CI_cabDuration:=GLxmlInfra.Attributes['CABduration'];
-                              FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra[GLinfCnt].CI_cabWorked:=GLxmlInfra.Attributes['CABworked'];
-                              FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra[GLinfCnt].CI_powerCons:=GLxmlInfra.Attributes['powerCons'];
-                              FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra[GLinfCnt].CI_powerGenFromCFx:=GLxmlInfra.Attributes['powerGencFx'];
+                              FCentities[GLentCnt].E_col[GLcount].C_settlements[GLsettleCnt].S_infrastructures[GLinfCnt].I_cabDuration:=GLxmlInfra.Attributes['CABduration'];
+                              FCentities[GLentCnt].E_col[GLcount].C_settlements[GLsettleCnt].S_infrastructures[GLinfCnt].I_cabWorked:=GLxmlInfra.Attributes['CABworked'];
+                              FCentities[GLentCnt].E_col[GLcount].C_settlements[GLsettleCnt].S_infrastructures[GLinfCnt].I_powerConsumption:=GLxmlInfra.Attributes['powerCons'];
+                              FCentities[GLentCnt].E_col[GLcount].C_settlements[GLsettleCnt].S_infrastructures[GLinfCnt].I_powerGeneratedFromCustomEffect:=GLxmlInfra.Attributes['powerGencFx'];
                               GLenumIndex:=GetEnumValue(TypeInfo(TFCEdipFunctions), GLxmlInfra.Attributes['Func'] );
-                              FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra[GLinfCnt].CI_function:=TFCEdipFunctions(GLenumIndex);
+                              FCentities[GLentCnt].E_col[GLcount].C_settlements[GLsettleCnt].S_infrastructures[GLinfCnt].I_function:=TFCEdipFunctions(GLenumIndex);
                               if GLenumIndex=-1
                               then raise Exception.Create('bad gamesave loading w/infra function: '+GLxmlInfra.Attributes['Func']);
-                              case FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra[GLinfCnt].CI_function of
-                                 fEnergy: FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra[GLinfCnt].CI_fEnergOut:=GLxmlInfra.Attributes['energyOut'];
+                              case FCentities[GLentCnt].E_col[GLcount].C_settlements[GLsettleCnt].S_infrastructures[GLinfCnt].I_function of
+                                 fEnergy: FCentities[GLentCnt].E_col[GLcount].C_settlements[GLsettleCnt].S_infrastructures[GLinfCnt].I_fEnOutput:=GLxmlInfra.Attributes['energyOut'];
 
                                  fHousing:
                                  begin
-                                    FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra[GLinfCnt].CI_fhousPCAP:=GLxmlInfra.Attributes['PCAP'];
-                                    FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra[GLinfCnt].CI_fhousQOL:=GLxmlInfra.Attributes['QOL'];
-                                    FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra[GLinfCnt].CI_fhousVol:=GLxmlInfra.Attributes['vol'];
-                                    FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra[GLinfCnt].CI_fhousSurf:=GLxmlInfra.Attributes['surf'];
+                                    FCentities[GLentCnt].E_col[GLcount].C_settlements[GLsettleCnt].S_infrastructures[GLinfCnt].I_fHousPopulationCapacity:=GLxmlInfra.Attributes['PCAP'];
+                                    FCentities[GLentCnt].E_col[GLcount].C_settlements[GLsettleCnt].S_infrastructures[GLinfCnt].I_fHousQualityOfLife:=GLxmlInfra.Attributes['QOL'];
+                                    FCentities[GLentCnt].E_col[GLcount].C_settlements[GLsettleCnt].S_infrastructures[GLinfCnt].I_fHousCalculatedVolume:=GLxmlInfra.Attributes['vol'];
+                                    FCentities[GLentCnt].E_col[GLcount].C_settlements[GLsettleCnt].S_infrastructures[GLinfCnt].I_fHousCalculatedSurface:=GLxmlInfra.Attributes['surf'];
                                  end;
 
                                  fIntelligence:;
@@ -799,29 +799,29 @@ begin
 
                                  fProduction:
                                  begin
-                                    FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra[GLinfCnt].CI_fprodSurveyedSpot:=GLxmlInfra.Attributes['surveyedSpot'];
-                                    FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra[GLinfCnt].CI_fprodSurveyedRegion:=GLxmlInfra.Attributes['surveyedRegion'];
-                                    FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra[GLinfCnt].CI_fprodResourceSpot:=GLxmlInfra.Attributes['resourceSpot'];
+                                    FCentities[GLentCnt].E_col[GLcount].C_settlements[GLsettleCnt].S_infrastructures[GLinfCnt].I_fProdSurveyedSpot:=GLxmlInfra.Attributes['surveyedSpot'];
+                                    FCentities[GLentCnt].E_col[GLcount].C_settlements[GLsettleCnt].S_infrastructures[GLinfCnt].I_fProdSurveyedRegion:=GLxmlInfra.Attributes['surveyedRegion'];
+                                    FCentities[GLentCnt].E_col[GLcount].C_settlements[GLsettleCnt].S_infrastructures[GLinfCnt].I_fProdResourceSpot:=GLxmlInfra.Attributes['resourceSpot'];
                                     GLsubCnt:=0;
                                     GLxmlProdMode:=GLxmlInfra.ChildNodes.First;
                                     while GLxmlProdMode<>nil do
                                     begin
                                        inc(GLsubCnt);
                                        GLenumIndex:=GetEnumValue(TypeInfo(TFCEdipProductionModes), GLxmlProdMode.Attributes['prodModeType'] );
-                                       FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra[GLinfCnt].CI_fprodMode[GLsubCnt].PM_type:=TFCEdipProductionModes(GLenumIndex);
+                                       FCentities[GLentCnt].E_col[GLcount].C_settlements[GLsettleCnt].S_infrastructures[GLinfCnt].I_fProdProductionMode[GLsubCnt].PM_type:=TFCEdipProductionModes(GLenumIndex);
                                        if GLenumIndex=-1
                                        then raise Exception.Create('bad gamesave loading w/infra prod mode type: '+GLxmlProdMode.Attributes['prodModeType']);
-                                       FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra[GLinfCnt].CI_fprodMode[GLsubCnt].PM_isDisabled:=GLxmlProdMode.Attributes['isDisabled'];
-                                       FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra[GLinfCnt].CI_fprodMode[GLsubCnt].PM_energyCons:=GLxmlProdMode.Attributes['energyCons'];
-                                       FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra[GLinfCnt].CI_fprodMode[GLsubCnt].PM_matrixItemMax:=GLxmlProdMode.Attributes['matrixItemMax'];
+                                       FCentities[GLentCnt].E_col[GLcount].C_settlements[GLsettleCnt].S_infrastructures[GLinfCnt].I_fProdProductionMode[GLsubCnt].PM_isDisabled:=GLxmlProdMode.Attributes['isDisabled'];
+                                       FCentities[GLentCnt].E_col[GLcount].C_settlements[GLsettleCnt].S_infrastructures[GLinfCnt].I_fProdProductionMode[GLsubCnt].PM_energyConsumption:=GLxmlProdMode.Attributes['energyCons'];
+                                       FCentities[GLentCnt].E_col[GLcount].C_settlements[GLsettleCnt].S_infrastructures[GLinfCnt].I_fProdProductionMode[GLsubCnt].PM_matrixItemMax:=GLxmlProdMode.Attributes['matrixItemMax'];
                                        GLsubCnt1:=0;
                                        GLxmlMatrixItem:=GLxmlProdMode.ChildNodes.First;
                                        while GLxmlMatrixItem<>nil do
                                        begin
                                           inc(GLsubCnt1);
-                                          FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra[GLinfCnt].CI_fprodMode[GLsubCnt].PF_linkedMatrixItemIndexes[GLsubCnt1].LMII_matrixItmIndex
+                                          FCentities[GLentCnt].E_col[GLcount].C_settlements[GLsettleCnt].S_infrastructures[GLinfCnt].I_fProdProductionMode[GLsubCnt].PM_linkedColonyMatrixItems[GLsubCnt1].LMII_matrixItemIndex
                                              :=GLxmlMatrixItem.Attributes['pmitmIndex'];
-                                          FCentities[GLentCnt].E_col[GLcount].COL_settlements[GLsettleCnt].CS_infra[GLinfCnt].CI_fprodMode[GLsubCnt].PF_linkedMatrixItemIndexes[GLsubCnt1].LMII_matrixProdModeIndex
+                                          FCentities[GLentCnt].E_col[GLcount].C_settlements[GLsettleCnt].S_infrastructures[GLinfCnt].I_fProdProductionMode[GLsubCnt].PM_linkedColonyMatrixItems[GLsubCnt1].LMII_matrixItem_ProductionModeIndex
                                              :=GLxmlMatrixItem.Attributes['pmIndex'];
                                           GLxmlMatrixItem:=GLxmlMatrixItem.NextSibling;
                                        end;
@@ -839,7 +839,7 @@ begin
                            GLsettleCnt:=1;
                            while GLsettleCnt<=GLsettleMax do
                            begin
-                              SetLength(FCentities[GLentCnt].E_col[GLcount].COL_cabQueue[GLsettleCnt], 1);
+                              SetLength(FCentities[GLentCnt].E_col[GLcount].C_cabQueue[GLsettleCnt], 1);
                               inc(GLsettleCnt);
                            end;
                            GLxmlCAB:=GLxmlColsub.ChildNodes.First;
@@ -848,9 +848,9 @@ begin
                            begin
                               inc(GLcabCnt);
                               GLsettleCnt:=GLxmlCAB.Attributes['settlement'];
-                              SetLength(FCentities[GLentCnt].E_col[GLcount].COL_cabQueue[GLsettleCnt], GLcabCnt+1);
+                              SetLength(FCentities[GLentCnt].E_col[GLcount].C_cabQueue[GLsettleCnt], GLcabCnt+1);
                               GLcabValue:=GLxmlCAB.Attributes['infraIdx'];
-                              FCentities[GLentCnt].E_col[GLcount].COL_cabQueue[GLsettleCnt, GLcabCnt]:=GLcabValue;
+                              FCentities[GLentCnt].E_col[GLcount].C_cabQueue[GLsettleCnt, GLcabCnt]:=GLcabValue;
                               GLxmlCAB:=GLxmlCAB.NextSibling;
                            end;
                         end
@@ -858,32 +858,32 @@ begin
                         else if GLxmlColsub.NodeName='colProdMatrix'
                         then
                         begin
-                           SetLength(FCentities[GLentCnt].E_col[GLcount].COL_productionMatrix, 1);
+                           SetLength(FCentities[GLentCnt].E_col[GLcount].C_productionMatrix, 1);
                            GLprodMatrixCnt:=0;
                            GLxmlProdMatrix:=GLxmlColsub.ChildNodes.First;
                            while GLxmlProdMatrix<>nil do
                            begin
                               inc(GLprodMatrixCnt);
-                              SetLength(FCentities[GLentCnt].E_col[GLcount].COL_productionMatrix, GLprodMatrixCnt+1);
-                              FCentities[GLentCnt].E_col[GLcount].COL_productionMatrix[GLprodMatrixCnt].CPMI_productToken:=GLxmlProdMatrix.Attributes['token'];
-                              FCentities[GLentCnt].E_col[GLcount].COL_productionMatrix[GLprodMatrixCnt].CPMI_storageIndex:=GLxmlProdMatrix.Attributes['storIdx'];
+                              SetLength(FCentities[GLentCnt].E_col[GLcount].C_productionMatrix, GLprodMatrixCnt+1);
+                              FCentities[GLentCnt].E_col[GLcount].C_productionMatrix[GLprodMatrixCnt].PM_productToken:=GLxmlProdMatrix.Attributes['token'];
+                              FCentities[GLentCnt].E_col[GLcount].C_productionMatrix[GLprodMatrixCnt].PM_storageIndex:=GLxmlProdMatrix.Attributes['storIdx'];
                               GLenumIndex:=GetEnumValue(TypeInfo(TFCEdipStorageTypes), GLxmlProdMatrix.Attributes['storageType'] );
-                              FCentities[GLentCnt].E_col[GLcount].COL_productionMatrix[GLprodMatrixCnt].CPMI_storageType:=TFCEdipStorageTypes(GLenumIndex);
+                              FCentities[GLentCnt].E_col[GLcount].C_productionMatrix[GLprodMatrixCnt].PM_storage:=TFCEdipStorageTypes(GLenumIndex);
                               if GLenumIndex=-1
                               then raise Exception.Create('bad gamesave loading w/production matrix item storage type: '+GLxmlProdMatrix.Attributes['storageType']);
-                              FCentities[GLentCnt].E_col[GLcount].COL_productionMatrix[GLprodMatrixCnt].CPMI_globalProdFlow:=GLxmlProdMatrix.Attributes['globalProdFlow'];
-                              SetLength(FCentities[GLentCnt].E_col[GLcount].COL_productionMatrix[GLprodMatrixCnt].CPMI_productionModes, 1);
+                              FCentities[GLentCnt].E_col[GLcount].C_productionMatrix[GLprodMatrixCnt].PM_globalProductionFlow:=GLxmlProdMatrix.Attributes['globalProdFlow'];
+                              SetLength(FCentities[GLentCnt].E_col[GLcount].C_productionMatrix[GLprodMatrixCnt].PM_productionModes, 1);
                               GLsubCnt:=0;
                               GLxmlProdMatrixSource:=GLxmlProdMatrix.ChildNodes.First;
                               while GLxmlProdMatrixSource<>nil do
                               begin
                                  inc(GLsubCnt);
-                                 SetLength(FCentities[GLentCnt].E_col[GLcount].COL_productionMatrix[GLprodMatrixCnt].CPMI_productionModes, GLsubCnt+1);
-                                 FCentities[GLentCnt].E_col[GLcount].COL_productionMatrix[GLprodMatrixCnt].CPMI_productionModes[GLsubCnt].PF_locSettlement:=GLxmlProdMatrixSource.Attributes['locSettle'];
-                                 FCentities[GLentCnt].E_col[GLcount].COL_productionMatrix[GLprodMatrixCnt].CPMI_productionModes[GLsubCnt].PF_locInfra:=GLxmlProdMatrixSource.Attributes['locInfra'];
-                                 FCentities[GLentCnt].E_col[GLcount].COL_productionMatrix[GLprodMatrixCnt].CPMI_productionModes[GLsubCnt].PF_locProdModeIndex:=GLxmlProdMatrixSource.Attributes['locPModeIndex'];
-                                 FCentities[GLentCnt].E_col[GLcount].COL_productionMatrix[GLprodMatrixCnt].CPMI_productionModes[GLsubCnt].PF_isDisabledByProdSegment:=GLxmlProdMatrixSource.Attributes['isDisabledPS'];
-                                 FCentities[GLentCnt].E_col[GLcount].COL_productionMatrix[GLprodMatrixCnt].CPMI_productionModes[GLsubCnt].PF_productionFlow:=GLxmlProdMatrixSource.Attributes['prodFlow'];
+                                 SetLength(FCentities[GLentCnt].E_col[GLcount].C_productionMatrix[GLprodMatrixCnt].PM_productionModes, GLsubCnt+1);
+                                 FCentities[GLentCnt].E_col[GLcount].C_productionMatrix[GLprodMatrixCnt].PM_productionModes[GLsubCnt].PM_locationSettlement:=GLxmlProdMatrixSource.Attributes['locSettle'];
+                                 FCentities[GLentCnt].E_col[GLcount].C_productionMatrix[GLprodMatrixCnt].PM_productionModes[GLsubCnt].PM_locationInfrastructure:=GLxmlProdMatrixSource.Attributes['locInfra'];
+                                 FCentities[GLentCnt].E_col[GLcount].C_productionMatrix[GLprodMatrixCnt].PM_productionModes[GLsubCnt].PM_locationProductionModeIndex:=GLxmlProdMatrixSource.Attributes['locPModeIndex'];
+                                 FCentities[GLentCnt].E_col[GLcount].C_productionMatrix[GLprodMatrixCnt].PM_productionModes[GLsubCnt].PM_isDisabledByProductionSegment:=GLxmlProdMatrixSource.Attributes['isDisabledPS'];
+                                 FCentities[GLentCnt].E_col[GLcount].C_productionMatrix[GLprodMatrixCnt].PM_productionModes[GLsubCnt].PM_productionFlow:=GLxmlProdMatrixSource.Attributes['prodFlow'];
                                  GLxmlProdMatrixSource:=GLxmlProdMatrixSource.NextSibling;
                               end;
                               GLxmlProdMatrix:=GLxmlProdMatrix.NextSibling;
@@ -893,42 +893,42 @@ begin
                         else if GLxmlColsub.NodeName='colStorage'
                         then
                         begin
-                           FCentities[GLentCnt].E_col[GLcount].COL_storCapacitySolidCurr:=GLxmlColsub.Attributes['capSolidCur'];
-                           FCentities[GLentCnt].E_col[GLcount].COL_storCapacitySolidMax:=GLxmlColsub.Attributes['capSolidMax'];
-                           FCentities[GLentCnt].E_col[GLcount].COL_storCapacityLiquidCurr:=GLxmlColsub.Attributes['capLiquidCur'];
-                           FCentities[GLentCnt].E_col[GLcount].COL_storCapacityLiquidMax:=GLxmlColsub.Attributes['capLiquidMax'];
-                           FCentities[GLentCnt].E_col[GLcount].COL_storCapacityGasCurr:=GLxmlColsub.Attributes['capGasCur'];
-                           FCentities[GLentCnt].E_col[GLcount].COL_storCapacityGasMax:=GLxmlColsub.Attributes['capGasMax'];
-                           FCentities[GLentCnt].E_col[GLcount].COL_storCapacityBioCurr:=GLxmlColsub.Attributes['capBioCur'];
-                           FCentities[GLentCnt].E_col[GLcount].COL_storCapacityBioMax:=GLxmlColsub.Attributes['capBioMax'];
-                           SetLength(FCentities[GLentCnt].E_col[GLcount].COL_storageList, 1);
+                           FCentities[GLentCnt].E_col[GLcount].C_storageCapacitySolidCurrent:=GLxmlColsub.Attributes['capSolidCur'];
+                           FCentities[GLentCnt].E_col[GLcount].C_storageCapacitySolidMax:=GLxmlColsub.Attributes['capSolidMax'];
+                           FCentities[GLentCnt].E_col[GLcount].C_storageCapacityLiquidCurrent:=GLxmlColsub.Attributes['capLiquidCur'];
+                           FCentities[GLentCnt].E_col[GLcount].C_storageCapacityLiquidMax:=GLxmlColsub.Attributes['capLiquidMax'];
+                           FCentities[GLentCnt].E_col[GLcount].C_storageCapacityGasCurrent:=GLxmlColsub.Attributes['capGasCur'];
+                           FCentities[GLentCnt].E_col[GLcount].C_storageCapacityGasMax:=GLxmlColsub.Attributes['capGasMax'];
+                           FCentities[GLentCnt].E_col[GLcount].C_storageCapacityBioCurrent:=GLxmlColsub.Attributes['capBioCur'];
+                           FCentities[GLentCnt].E_col[GLcount].C_storageCapacityBioMax:=GLxmlColsub.Attributes['capBioMax'];
+                           SetLength(FCentities[GLentCnt].E_col[GLcount].C_storedProducts, 1);
                            GLstorageCnt:=0;
                            GLxmlColsub1:=GLxmlColsub.ChildNodes.First;
                            while GLxmlColsub1<>nil do
                            begin
                               inc(GLstorageCnt);
-                              SetLength(FCentities[GLentCnt].E_col[GLcount].COL_storageList, GLstorageCnt+1);
-                              FCentities[GLentCnt].E_col[GLcount].COL_storageList[GLstorageCnt].CPR_token:=GLxmlColsub1.Attributes['token'];
-                              FCentities[GLentCnt].E_col[GLcount].COL_storageList[GLstorageCnt].CPR_unit:=GLxmlColsub1.Attributes['unit'];
+                              SetLength(FCentities[GLentCnt].E_col[GLcount].C_storedProducts, GLstorageCnt+1);
+                              FCentities[GLentCnt].E_col[GLcount].C_storedProducts[GLstorageCnt].SP_token:=GLxmlColsub1.Attributes['token'];
+                              FCentities[GLentCnt].E_col[GLcount].C_storedProducts[GLstorageCnt].SP_unit:=GLxmlColsub1.Attributes['unit'];
                               GLxmlColsub1:=GLxmlColsub1.NextSibling;
                            end;
                         end
                         else if GLxmlColsub.NodeName='colReserves'
                         then
                         begin
-                           FCentities[GLentCnt].E_col[GLcount].COL_reserveOxygen:=GLxmlColsub.Attributes['oxygen'];
-                           FCentities[GLentCnt].E_col[GLcount].COL_reserveFood:=GLxmlColsub.Attributes['food'];
-                           SetLength( FCentities[ GLentCnt ].E_col[ GLcount ].COL_reserveFoodList, 1 );
+                           FCentities[GLentCnt].E_col[GLcount].C_reserveOxygen:=GLxmlColsub.Attributes['oxygen'];
+                           FCentities[GLentCnt].E_col[GLcount].C_reserveFood:=GLxmlColsub.Attributes['food'];
+                           SetLength( FCentities[ GLentCnt ].E_col[ GLcount ].C_reserveFoodProductsIndex, 1 );
                            GLstorageCnt:=0;
                            GLxmlColsub1:=GLxmlColsub.ChildNodes.First;
                            while GLxmlColsub1<>nil do
                            begin
                               inc(GLstorageCnt);
-                              SetLength( FCentities[ GLentCnt ].E_col[ GLcount ].COL_reserveFoodList, GLstorageCnt+1 );
-                              FCentities[ GLentCnt ].E_col[ GLcount ].COL_reserveFoodList[ GLstorageCnt ]:=GLxmlColsub1.Attributes['index'];
+                              SetLength( FCentities[ GLentCnt ].E_col[ GLcount ].C_reserveFoodProductsIndex, GLstorageCnt+1 );
+                              FCentities[ GLentCnt ].E_col[ GLcount ].C_reserveFoodProductsIndex[ GLstorageCnt ]:=GLxmlColsub1.Attributes['index'];
                               GLxmlColsub1:=GLxmlColsub1.NextSibling;
                            end;
-                           FCentities[GLentCnt].E_col[GLcount].COL_reserveWater:=GLxmlColsub.Attributes['water'];
+                           FCentities[GLentCnt].E_col[GLcount].C_reserveWater:=GLxmlColsub.Attributes['water'];
 								end;
                         GLxmlColsub:=GLxmlColsub.NextSibling;
                      end; //==END== while GLxmlColsub<>nil do ==//
@@ -1407,117 +1407,117 @@ begin
          while GScolCnt<=GScolMax do
          begin
             GSxmlCol:=GSxmlItm.AddChild('entColony');
-            GSxmlCol.Attributes['prname']:=FCentities[GScount].E_col[GScolCnt].COL_name;
-            GSxmlCol.Attributes['fndyr']:=FCentities[GScount].E_col[GScolCnt].COL_fndYr;
-            GSxmlCol.Attributes['fndmth']:=FCentities[GScount].E_col[GScolCnt].COL_fndMth;
-            GSxmlCol.Attributes['fnddy']:=FCentities[GScount].E_col[GScolCnt].COL_fndDy;
-            GSxmlCol.Attributes['csmtime']:=FCentities[GScount].E_col[GScolCnt].COL_csmtime;
-            GSxmlCol.Attributes['locssys']:=FCentities[GScount].E_col[GScolCnt].COL_locSSys;
-            GSxmlCol.Attributes['locstar']:=FCentities[GScount].E_col[GScolCnt].COL_locStar;
-            GSxmlCol.Attributes['locoobj']:=FCentities[GScount].E_col[GScolCnt].COL_locOObj;
-            GSxmlCol.Attributes['locsat']:=FCentities[GScount].E_col[GScolCnt].COL_locSat;
-            GSxmlCol.Attributes['collvl']:=FCentities[GScount].E_col[GScolCnt].COL_level;
-            GSxmlCol.Attributes['hqpresence']:=FCentities[GScount].E_col[GScolCnt].COL_hqPres;
-            GSxmlCol.Attributes['dcohes']:=FCentities[GScount].E_col[GScolCnt].COL_cohes;
-            GSxmlCol.Attributes['dsecu']:=FCentities[GScount].E_col[GScolCnt].COL_secu;
-            GSxmlCol.Attributes['dtens']:=FCentities[GScount].E_col[GScolCnt].COL_tens;
-            GSxmlCol.Attributes['dedu']:=FCentities[GScount].E_col[GScolCnt].COL_edu;
-            GSxmlCol.Attributes['csmPCAP']:=FCentities[GScount].E_col[GScolCnt].COL_csmHOpcap;
-            GSxmlCol.Attributes['csmSPL']:=FCentities[GScount].E_col[GScolCnt].COL_csmHOspl;
-            GSxmlCol.Attributes['csmQOL']:=FCentities[GScount].E_col[GScolCnt].COL_csmHOqol;
-            GSxmlCol.Attributes['csmHEAL']:=FCentities[GScount].E_col[GScolCnt].COL_csmHEheal;
-            GSxmlCol.Attributes['csmEnCons']:=FCentities[GScount].E_col[GScolCnt].COL_csmENcons;
-            GSxmlCol.Attributes['csmEnGen']:=FCentities[GScount].E_col[GScolCnt].COL_csmENgen;
-            GSxmlCol.Attributes['csmEnStorCurr']:=FCentities[GScount].E_col[GScolCnt].COL_csmENstorCurr;
-            GSxmlCol.Attributes['csmEnStorMax']:=FCentities[GScount].E_col[GScolCnt].COL_csmENstorMax;
-            GSxmlCol.Attributes['eiOut']:=FCentities[GScount].E_col[GScolCnt].COL_eiOut;
+            GSxmlCol.Attributes['prname']:=FCentities[GScount].E_col[GScolCnt].C_name;
+            GSxmlCol.Attributes['fndyr']:=FCentities[GScount].E_col[GScolCnt].C_foundationDateYear;
+            GSxmlCol.Attributes['fndmth']:=FCentities[GScount].E_col[GScolCnt].C_foundationDateMonth;
+            GSxmlCol.Attributes['fnddy']:=FCentities[GScount].E_col[GScolCnt].C_foundationDateDay;
+            GSxmlCol.Attributes['csmtime']:=FCentities[GScount].E_col[GScolCnt].C_nextCSMsessionInTick;
+            GSxmlCol.Attributes['locssys']:=FCentities[GScount].E_col[GScolCnt].C_locationStarSystem;
+            GSxmlCol.Attributes['locstar']:=FCentities[GScount].E_col[GScolCnt].C_locationStar;
+            GSxmlCol.Attributes['locoobj']:=FCentities[GScount].E_col[GScolCnt].C_locationOrbitalObject;
+            GSxmlCol.Attributes['locsat']:=FCentities[GScount].E_col[GScolCnt].C_locationSatellite;
+            GSxmlCol.Attributes['collvl']:=FCentities[GScount].E_col[GScolCnt].C_level;
+            GSxmlCol.Attributes['hqpresence']:=FCentities[GScount].E_col[GScolCnt].C_hqPresence;
+            GSxmlCol.Attributes['dcohes']:=FCentities[GScount].E_col[GScolCnt].C_cohesion;
+            GSxmlCol.Attributes['dsecu']:=FCentities[GScount].E_col[GScolCnt].C_security;
+            GSxmlCol.Attributes['dtens']:=FCentities[GScount].E_col[GScolCnt].C_tension;
+            GSxmlCol.Attributes['dedu']:=FCentities[GScount].E_col[GScolCnt].C_instruction;
+            GSxmlCol.Attributes['csmPCAP']:=FCentities[GScount].E_col[GScolCnt].C_csmHousing_PopulationCapacity;
+            GSxmlCol.Attributes['csmSPL']:=FCentities[GScount].E_col[GScolCnt].C_csmHousing_SpaceLevel;
+            GSxmlCol.Attributes['csmQOL']:=FCentities[GScount].E_col[GScolCnt].C_csmHousing_QualityOfLife;
+            GSxmlCol.Attributes['csmHEAL']:=FCentities[GScount].E_col[GScolCnt].C_csmHealth_healthLevel;
+            GSxmlCol.Attributes['csmEnCons']:=FCentities[GScount].E_col[GScolCnt].C_csmEnergy_consumption;
+            GSxmlCol.Attributes['csmEnGen']:=FCentities[GScount].E_col[GScolCnt].C_csmEnergy_generation;
+            GSxmlCol.Attributes['csmEnStorCurr']:=FCentities[GScount].E_col[GScolCnt].C_csmEnergy_StorageCurrent;
+            GSxmlCol.Attributes['csmEnStorMax']:=FCentities[GScount].E_col[GScolCnt].C_csmEnergy_StorageMax;
+            GSxmlCol.Attributes['eiOut']:=FCentities[GScount].E_col[GScolCnt].C_economicIndustrialOutput;
             {.colony population}
             GSxmlPop:=GSxmlCol.AddChild('colPopulation');
-            GSxmlPop.Attributes['popTtl']:=FCentities[GScount].E_col[GScolCnt].COL_population.CP_total;
-            GSxmlPop.Attributes['popMeanAge']:=FCentities[GScount].E_col[GScolCnt].COL_population.CP_meanAge;
-            GSxmlPop.Attributes['popDRate']:=FCentities[GScount].E_col[GScolCnt].COL_population.CP_deathRate;
-            GSxmlPop.Attributes['popDStack']:=FCentities[GScount].E_col[GScolCnt].COL_population.CP_deathStack;
-            GSxmlPop.Attributes['popBRate']:=FCentities[GScount].E_col[GScolCnt].COL_population.CP_birthRate;
-            GSxmlPop.Attributes['popBStack']:=FCentities[GScount].E_col[GScolCnt].COL_population.CP_birthStack;
-            GSxmlPop.Attributes['popColon']:=FCentities[GScount].E_col[GScolCnt].COL_population.CP_classColonist;
-            GSxmlPop.Attributes['popColonAssign']:=FCentities[GScount].E_col[GScolCnt].COL_population.CP_classColonistAssigned;
-            GSxmlPop.Attributes['popOff']:=FCentities[GScount].E_col[GScolCnt].COL_population.CP_classAerOfficer;
-            GSxmlPop.Attributes['popOffAssign']:=FCentities[GScount].E_col[GScolCnt].COL_population.CP_classAerOfficerAssigned;
-            GSxmlPop.Attributes['popMisSpe']:=FCentities[GScount].E_col[GScolCnt].COL_population.CP_classAerMissionSpecialist;
-            GSxmlPop.Attributes['popMisSpeAssign']:=FCentities[GScount].E_col[GScolCnt].COL_population.CP_classAerMissionSpecialistAssigned;
-            GSxmlPop.Attributes['popBiol']:=FCentities[GScount].E_col[GScolCnt].COL_population.CP_classBioBiologist;
-            GSxmlPop.Attributes['popBiolAssign']:=FCentities[GScount].E_col[GScolCnt].COL_population.CP_classBioBiologistAssigned;
-            GSxmlPop.Attributes['popDoc']:=FCentities[GScount].E_col[GScolCnt].COL_population.CP_classBioDoctor;
-            GSxmlPop.Attributes['popDocAssign']:=FCentities[GScount].E_col[GScolCnt].COL_population.CP_classBioDoctorAssigned;
-            GSxmlPop.Attributes['popTech']:=FCentities[GScount].E_col[GScolCnt].COL_population.CP_classIndTechnician;
-            GSxmlPop.Attributes['popTechAssign']:=FCentities[GScount].E_col[GScolCnt].COL_population.CP_classIndTechnicianAssigned;
-            GSxmlPop.Attributes['popEng']:=FCentities[GScount].E_col[GScolCnt].COL_population.CP_classIndEngineer;
-            GSxmlPop.Attributes['popEngAssign']:=FCentities[GScount].E_col[GScolCnt].COL_population.CP_classIndEngineerAssigned;
-            GSxmlPop.Attributes['popSold']:=FCentities[GScount].E_col[GScolCnt].COL_population.CP_classMilSoldier;
-            GSxmlPop.Attributes['popSoldAssign']:=FCentities[GScount].E_col[GScolCnt].COL_population.CP_classMilSoldierAssigned;
-            GSxmlPop.Attributes['popComm']:=FCentities[GScount].E_col[GScolCnt].COL_population.CP_classMilCommando;
-            GSxmlPop.Attributes['popCommAssign']:=FCentities[GScount].E_col[GScolCnt].COL_population.CP_classMilCommandoAssigned;
-            GSxmlPop.Attributes['popPhys']:=FCentities[GScount].E_col[GScolCnt].COL_population.CP_classPhyPhysicist;
-            GSxmlPop.Attributes['popPhysAssign']:=FCentities[GScount].E_col[GScolCnt].COL_population.CP_classPhyPhysicistAssigned;
-            GSxmlPop.Attributes['popAstro']:=FCentities[GScount].E_col[GScolCnt].COL_population.CP_classPhyAstrophysicist;
-            GSxmlPop.Attributes['popAstroAssign']:=FCentities[GScount].E_col[GScolCnt].COL_population.CP_classPhyAstrophysicistAssigned;
-            GSxmlPop.Attributes['popEcol']:=FCentities[GScount].E_col[GScolCnt].COL_population.CP_classEcoEcologist;
-            GSxmlPop.Attributes['popEcolAssign']:=FCentities[GScount].E_col[GScolCnt].COL_population.CP_classEcoEcologistAssigned;
-            GSxmlPop.Attributes['popEcof']:=FCentities[GScount].E_col[GScolCnt].COL_population.CP_classEcoEcoformer;
-            GSxmlPop.Attributes['popEcofAssign']:=FCentities[GScount].E_col[GScolCnt].COL_population.CP_classEcoEcoformerAssigned;
-            GSxmlPop.Attributes['popMedian']:=FCentities[GScount].E_col[GScolCnt].COL_population.CP_classAdmMedian;
-            GSxmlPop.Attributes['popMedianAssign']:=FCentities[GScount].E_col[GScolCnt].COL_population.CP_classAdmMedianAssigned;
-            GSxmlPop.Attributes['popRebels']:=FCentities[GScount].E_col[GScolCnt].COL_population.CP_classRebels;
-            GSxmlPop.Attributes['popMilitia']:=FCentities[GScount].E_col[GScolCnt].COL_population.CP_classMilitia;
-            GSxmlPop.Attributes['wcpTotal']:=FCentities[GScount].E_col[GScolCnt].COL_population.CP_CWPtotal;
-            GSxmlPop.Attributes['wcpAssignPpl']:=FCentities[GScount].E_col[GScolCnt].COL_population.CP_CWPassignedPeople;
+            GSxmlPop.Attributes['popTtl']:=FCentities[GScount].E_col[GScolCnt].C_population.CP_total;
+            GSxmlPop.Attributes['popMeanAge']:=FCentities[GScount].E_col[GScolCnt].C_population.CP_meanAge;
+            GSxmlPop.Attributes['popDRate']:=FCentities[GScount].E_col[GScolCnt].C_population.CP_deathRate;
+            GSxmlPop.Attributes['popDStack']:=FCentities[GScount].E_col[GScolCnt].C_population.CP_deathStack;
+            GSxmlPop.Attributes['popBRate']:=FCentities[GScount].E_col[GScolCnt].C_population.CP_birthRate;
+            GSxmlPop.Attributes['popBStack']:=FCentities[GScount].E_col[GScolCnt].C_population.CP_birthStack;
+            GSxmlPop.Attributes['popColon']:=FCentities[GScount].E_col[GScolCnt].C_population.CP_classColonist;
+            GSxmlPop.Attributes['popColonAssign']:=FCentities[GScount].E_col[GScolCnt].C_population.CP_classColonistAssigned;
+            GSxmlPop.Attributes['popOff']:=FCentities[GScount].E_col[GScolCnt].C_population.CP_classAerOfficer;
+            GSxmlPop.Attributes['popOffAssign']:=FCentities[GScount].E_col[GScolCnt].C_population.CP_classAerOfficerAssigned;
+            GSxmlPop.Attributes['popMisSpe']:=FCentities[GScount].E_col[GScolCnt].C_population.CP_classAerMissionSpecialist;
+            GSxmlPop.Attributes['popMisSpeAssign']:=FCentities[GScount].E_col[GScolCnt].C_population.CP_classAerMissionSpecialistAssigned;
+            GSxmlPop.Attributes['popBiol']:=FCentities[GScount].E_col[GScolCnt].C_population.CP_classBioBiologist;
+            GSxmlPop.Attributes['popBiolAssign']:=FCentities[GScount].E_col[GScolCnt].C_population.CP_classBioBiologistAssigned;
+            GSxmlPop.Attributes['popDoc']:=FCentities[GScount].E_col[GScolCnt].C_population.CP_classBioDoctor;
+            GSxmlPop.Attributes['popDocAssign']:=FCentities[GScount].E_col[GScolCnt].C_population.CP_classBioDoctorAssigned;
+            GSxmlPop.Attributes['popTech']:=FCentities[GScount].E_col[GScolCnt].C_population.CP_classIndTechnician;
+            GSxmlPop.Attributes['popTechAssign']:=FCentities[GScount].E_col[GScolCnt].C_population.CP_classIndTechnicianAssigned;
+            GSxmlPop.Attributes['popEng']:=FCentities[GScount].E_col[GScolCnt].C_population.CP_classIndEngineer;
+            GSxmlPop.Attributes['popEngAssign']:=FCentities[GScount].E_col[GScolCnt].C_population.CP_classIndEngineerAssigned;
+            GSxmlPop.Attributes['popSold']:=FCentities[GScount].E_col[GScolCnt].C_population.CP_classMilSoldier;
+            GSxmlPop.Attributes['popSoldAssign']:=FCentities[GScount].E_col[GScolCnt].C_population.CP_classMilSoldierAssigned;
+            GSxmlPop.Attributes['popComm']:=FCentities[GScount].E_col[GScolCnt].C_population.CP_classMilCommando;
+            GSxmlPop.Attributes['popCommAssign']:=FCentities[GScount].E_col[GScolCnt].C_population.CP_classMilCommandoAssigned;
+            GSxmlPop.Attributes['popPhys']:=FCentities[GScount].E_col[GScolCnt].C_population.CP_classPhyPhysicist;
+            GSxmlPop.Attributes['popPhysAssign']:=FCentities[GScount].E_col[GScolCnt].C_population.CP_classPhyPhysicistAssigned;
+            GSxmlPop.Attributes['popAstro']:=FCentities[GScount].E_col[GScolCnt].C_population.CP_classPhyAstrophysicist;
+            GSxmlPop.Attributes['popAstroAssign']:=FCentities[GScount].E_col[GScolCnt].C_population.CP_classPhyAstrophysicistAssigned;
+            GSxmlPop.Attributes['popEcol']:=FCentities[GScount].E_col[GScolCnt].C_population.CP_classEcoEcologist;
+            GSxmlPop.Attributes['popEcolAssign']:=FCentities[GScount].E_col[GScolCnt].C_population.CP_classEcoEcologistAssigned;
+            GSxmlPop.Attributes['popEcof']:=FCentities[GScount].E_col[GScolCnt].C_population.CP_classEcoEcoformer;
+            GSxmlPop.Attributes['popEcofAssign']:=FCentities[GScount].E_col[GScolCnt].C_population.CP_classEcoEcoformerAssigned;
+            GSxmlPop.Attributes['popMedian']:=FCentities[GScount].E_col[GScolCnt].C_population.CP_classAdmMedian;
+            GSxmlPop.Attributes['popMedianAssign']:=FCentities[GScount].E_col[GScolCnt].C_population.CP_classAdmMedianAssigned;
+            GSxmlPop.Attributes['popRebels']:=FCentities[GScount].E_col[GScolCnt].C_population.CP_classRebels;
+            GSxmlPop.Attributes['popMilitia']:=FCentities[GScount].E_col[GScolCnt].C_population.CP_classMilitia;
+            GSxmlPop.Attributes['wcpTotal']:=FCentities[GScount].E_col[GScolCnt].C_population.CP_CWPtotal;
+            GSxmlPop.Attributes['wcpAssignPpl']:=FCentities[GScount].E_col[GScolCnt].C_population.CP_CWPassignedPeople;
             {.colony events}
-            GSsubL:=length(FCentities[GScount].E_col[GScolCnt].COL_evList);
+            GSsubL:=length(FCentities[GScount].E_col[GScolCnt].C_events);
             if GSsubL>1 then
             begin
                GSsubC:=1;
                while GSsubC<=GSsubL-1 do
                begin
                   GSxmlColEv:=GSxmlCol.AddChild('colEvent');
-                  case FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].CCSME_type of
+                  case FCentities[GScount].E_col[GScolCnt].C_events[GSsubC].CCSME_type of
                      ceColonyEstablished:
                      begin
                         GSxmlColEv.Attributes['token']:='etColEstab';
-                        GSxmlColEv.Attributes['modTension']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].CCSME_tCEstTensionMod;
-                        GSxmlColEv.Attributes['modSecurity']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].CCSME_tCEstSecurityMod;
+                        GSxmlColEv.Attributes['modTension']:=FCentities[GScount].E_col[GScolCnt].C_events[GSsubC].CCSME_tCEstTensionMod;
+                        GSxmlColEv.Attributes['modSecurity']:=FCentities[GScount].E_col[GScolCnt].C_events[GSsubC].CCSME_tCEstSecurityMod;
                      end;
 
                      ceUnrest, ceUnrest_Recovering:
                      begin
-                        case FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].CCSME_type of
+                        case FCentities[GScount].E_col[GScolCnt].C_events[GSsubC].CCSME_type of
                            ceUnrest: GSxmlColEv.Attributes['token']:='etUnrest';
 
                            ceUnrest_Recovering: GSxmlColEv.Attributes['token']:='etUnrestRec';
                         end;
-                        GSxmlColEv.Attributes['modEcoInd']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].CCSME_tCUnEconomicIndustrialOutputMod;
-                        GSxmlColEv.Attributes['modTension']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].CCSME_tCUnTensionMod;
+                        GSxmlColEv.Attributes['modEcoInd']:=FCentities[GScount].E_col[GScolCnt].C_events[GSsubC].CCSME_tCUnEconomicIndustrialOutputMod;
+                        GSxmlColEv.Attributes['modTension']:=FCentities[GScount].E_col[GScolCnt].C_events[GSsubC].CCSME_tCUnTensionMod;
                      end;
 
                      ceSocialDisorder, ceSocialDisorder_Recovering:
                      begin
-                        case FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].CCSME_type of
+                        case FCentities[GScount].E_col[GScolCnt].C_events[GSsubC].CCSME_type of
                            ceSocialDisorder: GSxmlColEv.Attributes['token']:='etSocdis';
 
                            ceSocialDisorder_Recovering: GSxmlColEv.Attributes['token']:='etSocdisRec';
                         end;
-                        GSxmlColEv.Attributes['modEcoInd']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].CCSME_tSDisEconomicIndustrialOutputMod;
-                        GSxmlColEv.Attributes['modTension']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].CCSME_tSDisTensionMod;
+                        GSxmlColEv.Attributes['modEcoInd']:=FCentities[GScount].E_col[GScolCnt].C_events[GSsubC].CCSME_tSDisEconomicIndustrialOutputMod;
+                        GSxmlColEv.Attributes['modTension']:=FCentities[GScount].E_col[GScolCnt].C_events[GSsubC].CCSME_tSDisTensionMod;
                      end;
 
                      ceUprising, ceUprising_Recovering:
                      begin
-                        case FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].CCSME_type of
+                        case FCentities[GScount].E_col[GScolCnt].C_events[GSsubC].CCSME_type of
                            ceUprising: GSxmlColEv.Attributes['token']:='etUprising';
 
                            ceUprising_Recovering: GSxmlColEv.Attributes['token']:='etUprisingRec';
                         end;
-                        GSxmlColEv.Attributes['modEcoInd']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].CCSME_tUpEconomicIndustrialOutputMod;
-                        GSxmlColEv.Attributes['modTension']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].CCSME_tUpTensionMod;
+                        GSxmlColEv.Attributes['modEcoInd']:=FCentities[GScount].E_col[GScolCnt].C_events[GSsubC].CCSME_tUpEconomicIndustrialOutputMod;
+                        GSxmlColEv.Attributes['modTension']:=FCentities[GScount].E_col[GScolCnt].C_events[GSsubC].CCSME_tUpTensionMod;
                      end;
 
                      ceDissidentColony: GSxmlColEv.Attributes['token']:='etColDissident';
@@ -1525,85 +1525,85 @@ begin
                      ceHealthEducationRelation:
                      begin
                         GSxmlColEv.Attributes['token']:='etHealthEduRel';
-                        GSxmlColEv.Attributes['modInstruction']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].CCSME_tHERelEducationMod;
+                        GSxmlColEv.Attributes['modInstruction']:=FCentities[GScount].E_col[GScolCnt].C_events[GSsubC].CCSME_tHERelEducationMod;
                      end;
 
                      ceGovernmentDestabilization, ceGovernmentDestabilization_Recovering:
                      begin
-                        case FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].CCSME_type of
+                        case FCentities[GScount].E_col[GScolCnt].C_events[GSsubC].CCSME_type of
                            ceGovernmentDestabilization: GSxmlColEv.Attributes['token']:='etGovDestab';
                            ceGovernmentDestabilization_Recovering: GSxmlColEv.Attributes['token']:='etGovDestabRec';
                         end;
-                        GSxmlColEv.Attributes['modCohesion']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].CCSME_tGDestCohesionMod;
+                        GSxmlColEv.Attributes['modCohesion']:=FCentities[GScount].E_col[GScolCnt].C_events[GSsubC].CCSME_tGDestCohesionMod;
                      end;
 
                      ceOxygenProductionOverload:
                      begin
                         GSxmlColEv.Attributes['token']:='etRveOxygenOverload';
-                        GSxmlColEv.Attributes['percPopNotSupported']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].CCSME_tOPOvPercentPopulationNotSupported;
+                        GSxmlColEv.Attributes['percPopNotSupported']:=FCentities[GScount].E_col[GScolCnt].C_events[GSsubC].CCSME_tOPOvPercentPopulationNotSupported;
                      end;
 
                      ceOxygenShortage, ceWaterShortage_Recovering:
                      begin
-                        case FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].CCSME_type of
+                        case FCentities[GScount].E_col[GScolCnt].C_events[GSsubC].CCSME_type of
                            ceOxygenShortage: GSxmlColEv.Attributes['token']:='etRveOxygenShortage';
 
                            ceWaterShortage_Recovering: GSxmlColEv.Attributes['token']:='etRveOxygenShortageRec';
                         end;
-                        GSxmlColEv.Attributes['percPopNotSupAtCalc']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].CCSME_tOShPercentPopulationNotSupportedAtCalculation;
-                        GSxmlColEv.Attributes['modEcoInd']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].CCSME_tOShEconomicIndustrialOutputMod;
-                        GSxmlColEv.Attributes['modTension']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].CCSME_tOShTensionMod;
-                        GSxmlColEv.Attributes['modHealth']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].CCSME_tOShHealthMod;
+                        GSxmlColEv.Attributes['percPopNotSupAtCalc']:=FCentities[GScount].E_col[GScolCnt].C_events[GSsubC].CCSME_tOShPercentPopulationNotSupportedAtCalculation;
+                        GSxmlColEv.Attributes['modEcoInd']:=FCentities[GScount].E_col[GScolCnt].C_events[GSsubC].CCSME_tOShEconomicIndustrialOutputMod;
+                        GSxmlColEv.Attributes['modTension']:=FCentities[GScount].E_col[GScolCnt].C_events[GSsubC].CCSME_tOShTensionMod;
+                        GSxmlColEv.Attributes['modHealth']:=FCentities[GScount].E_col[GScolCnt].C_events[GSsubC].CCSME_tOShHealthMod;
                      end;
 
                      ceWaterProductionOverload:
                      begin
                         GSxmlColEv.Attributes['token']:='etRveWaterOverload';
-                        GSxmlColEv.Attributes['percPopNotSupported']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].CCSME_tWPOvPercentPopulationNotSupported;
+                        GSxmlColEv.Attributes['percPopNotSupported']:=FCentities[GScount].E_col[GScolCnt].C_events[GSsubC].CCSME_tWPOvPercentPopulationNotSupported;
                      end;
 
                      ceWaterShortage:
                      begin
-                        case FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].CCSME_type of
+                        case FCentities[GScount].E_col[GScolCnt].C_events[GSsubC].CCSME_type of
                            ceWaterShortage: GSxmlColEv.Attributes['token']:='etRveWaterShortage';
 
                            ceWaterShortage_Recovering: GSxmlColEv.Attributes['token']:='etRveWaterShortageRec';
                         end;
-                        GSxmlColEv.Attributes['percPopNotSupAtCalc']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].CCSME_tWShPercentPopulationNotSupportedAtCalculation;
-                        GSxmlColEv.Attributes['modEcoInd']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].CCSME_tWShEconomicIndustrialOutputMod;
-                        GSxmlColEv.Attributes['modTension']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].CCSME_tWShTensionMod;
-                        GSxmlColEv.Attributes['modHealth']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].CCSME_tWShHealthMod;
+                        GSxmlColEv.Attributes['percPopNotSupAtCalc']:=FCentities[GScount].E_col[GScolCnt].C_events[GSsubC].CCSME_tWShPercentPopulationNotSupportedAtCalculation;
+                        GSxmlColEv.Attributes['modEcoInd']:=FCentities[GScount].E_col[GScolCnt].C_events[GSsubC].CCSME_tWShEconomicIndustrialOutputMod;
+                        GSxmlColEv.Attributes['modTension']:=FCentities[GScount].E_col[GScolCnt].C_events[GSsubC].CCSME_tWShTensionMod;
+                        GSxmlColEv.Attributes['modHealth']:=FCentities[GScount].E_col[GScolCnt].C_events[GSsubC].CCSME_tWShHealthMod;
                      end;
 
                      ceFoodProductionOverload:
                      begin
                         GSxmlColEv.Attributes['token']:='etRveFoodOverload';
-                        GSxmlColEv.Attributes['percPopNotSupported']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].CCSME_tFPOvPercentPopulationNotSupported;
+                        GSxmlColEv.Attributes['percPopNotSupported']:=FCentities[GScount].E_col[GScolCnt].C_events[GSsubC].CCSME_tFPOvPercentPopulationNotSupported;
                      end;
 
                      ceFoodShortage:
                      begin
-                        case FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].CCSME_type of
+                        case FCentities[GScount].E_col[GScolCnt].C_events[GSsubC].CCSME_type of
                            ceFoodShortage: GSxmlColEv.Attributes['token']:='etRveFoodShortage';
 
                            ceFoodShortage_Recovering: GSxmlColEv.Attributes['token']:='etRveFoodShortageRec';
                         end;
-                        GSxmlColEv.Attributes['percPopNotSupAtCalc']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].CCSME_tFShPercentPopulationNotSupportedAtCalculation;
-                        GSxmlColEv.Attributes['modEcoInd']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].CCSME_tFShEconomicIndustrialOutputMod;
-                        GSxmlColEv.Attributes['modTension']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].CCSME_tFShTensionMod;
-                        GSxmlColEv.Attributes['modHealth']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].CCSME_tFShHealthMod;
-                        GSxmlColEv.Attributes['directDeathPeriod']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].CCSME_tFShDirectDeathPeriod;
-                        GSxmlColEv.Attributes['deathFracValue']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].CCSME_tFShDeathFractionalValue;
+                        GSxmlColEv.Attributes['percPopNotSupAtCalc']:=FCentities[GScount].E_col[GScolCnt].C_events[GSsubC].CCSME_tFShPercentPopulationNotSupportedAtCalculation;
+                        GSxmlColEv.Attributes['modEcoInd']:=FCentities[GScount].E_col[GScolCnt].C_events[GSsubC].CCSME_tFShEconomicIndustrialOutputMod;
+                        GSxmlColEv.Attributes['modTension']:=FCentities[GScount].E_col[GScolCnt].C_events[GSsubC].CCSME_tFShTensionMod;
+                        GSxmlColEv.Attributes['modHealth']:=FCentities[GScount].E_col[GScolCnt].C_events[GSsubC].CCSME_tFShHealthMod;
+                        GSxmlColEv.Attributes['directDeathPeriod']:=FCentities[GScount].E_col[GScolCnt].C_events[GSsubC].CCSME_tFShDirectDeathPeriod;
+                        GSxmlColEv.Attributes['deathFracValue']:=FCentities[GScount].E_col[GScolCnt].C_events[GSsubC].CCSME_tFShDeathFractionalValue;
                      end;
                   end; //==END== case FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].CSMEV_token of ==//
-                  GSxmlColEv.Attributes['isres']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].CCSME_isResident;
-                  GSxmlColEv.Attributes['duration']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].CCSME_durationWeeks;
-                  GSxmlColEv.Attributes['level']:=FCentities[GScount].E_col[GScolCnt].COL_evList[GSsubC].CCSME_level;
+                  GSxmlColEv.Attributes['isres']:=FCentities[GScount].E_col[GScolCnt].C_events[GSsubC].CCSME_isResident;
+                  GSxmlColEv.Attributes['duration']:=FCentities[GScount].E_col[GScolCnt].C_events[GSsubC].CCSME_durationWeeks;
+                  GSxmlColEv.Attributes['level']:=FCentities[GScount].E_col[GScolCnt].C_events[GSsubC].CCSME_level;
                   inc(GSsubC);
                end; //==END== while GSsubC<=GSsubL-1 do ==//
             end; //==END== if GSsubL>1 ==//
             {.colony settlements}
-            GSsettleMax:=length(FCentities[GScount].E_col[GScolCnt].COL_settlements)-1;
+            GSsettleMax:=length(FCentities[GScount].E_col[GScolCnt].C_settlements)-1;
             if GSsettleMax>0 then
             begin
                GSxmlCABroot:=nil;
@@ -1611,24 +1611,24 @@ begin
                while GSsettleCnt<=GSsettleMax do
                begin
                   GSxmlSettle:=GSxmlCol.AddChild('colSettlement');
-                  GSxmlSettle.Attributes['name']:=FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_name;
-                  case FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_type of
+                  GSxmlSettle.Attributes['name']:=FCentities[GScount].E_col[GScolCnt].C_settlements[GSsettleCnt].S_name;
+                  case FCentities[GScount].E_col[GScolCnt].C_settlements[GSsettleCnt].S_settlement of
                      sSurface: GSenumString:='stSurface';
                      sSpaceSurface: GSenumString:='stSpaceSurf';
                      sSubterranean: GSenumString:='stSubterranean';
                      sSpaceBased: GSenumString:='stSpaceBased';
                   end;
                   GSxmlSettle.Attributes['type']:=GSenumString;
-                  GSxmlSettle.Attributes['level']:=FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_level;
-                  GSxmlSettle.Attributes['region']:=FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_region;
-                  GSsubL:=length(FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra)-1;
+                  GSxmlSettle.Attributes['level']:=FCentities[GScount].E_col[GScolCnt].C_settlements[GSsettleCnt].S_level;
+                  GSxmlSettle.Attributes['region']:=FCentities[GScount].E_col[GScolCnt].C_settlements[GSsettleCnt].S_locationRegion;
+                  GSsubL:=length(FCentities[GScount].E_col[GScolCnt].C_settlements[GSsettleCnt].S_infrastructures)-1;
                   GSsubC:=1;
                   while GSsubC<=GSsubL do
                   begin
                      GSxmlColInf:=GSxmlSettle.AddChild('setInfra');
-                     GSxmlColInf.Attributes['token']:=FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_dbToken;
-                     GSxmlColInf.Attributes['level']:=FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_level;
-                     case FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_status of
+                     GSxmlColInf.Attributes['token']:=FCentities[GScount].E_col[GScolCnt].C_settlements[GSsettleCnt].S_infrastructures[GSsubC].I_token;
+                     GSxmlColInf.Attributes['level']:=FCentities[GScount].E_col[GScolCnt].C_settlements[GSsettleCnt].S_infrastructures[GSsubC].I_level;
+                     case FCentities[GScount].E_col[GScolCnt].C_settlements[GSsettleCnt].S_infrastructures[GSsubC].I_status of
                         isInKit: GSstringStore:='istInKit';
                         isInConversion: GSstringStore:='istInConversion';
                         isInAssembling: GSstringStore:='istInAssembling';
@@ -1639,24 +1639,24 @@ begin
                         isOperational: GSstringStore:='istOperational';
                      end;
                      GSxmlColInf.Attributes['status']:=GSstringStore;
-                     GSxmlColInf.Attributes['CABduration']:=FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_cabDuration;
-                     GSxmlColInf.Attributes['CABworked']:=FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_cabWorked;
-                     GSxmlColInf.Attributes['powerCons']:=FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_powerCons;
-                     GSxmlColInf.Attributes['powerGencFx']:=FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_powerGenFromCFx;
-                     case FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_function of
+                     GSxmlColInf.Attributes['CABduration']:=FCentities[GScount].E_col[GScolCnt].C_settlements[GSsettleCnt].S_infrastructures[GSsubC].I_cabDuration;
+                     GSxmlColInf.Attributes['CABworked']:=FCentities[GScount].E_col[GScolCnt].C_settlements[GSsettleCnt].S_infrastructures[GSsubC].I_cabWorked;
+                     GSxmlColInf.Attributes['powerCons']:=FCentities[GScount].E_col[GScolCnt].C_settlements[GSsettleCnt].S_infrastructures[GSsubC].I_powerConsumption;
+                     GSxmlColInf.Attributes['powerGencFx']:=FCentities[GScount].E_col[GScolCnt].C_settlements[GSsettleCnt].S_infrastructures[GSsubC].I_powerGeneratedFromCustomEffect;
+                     case FCentities[GScount].E_col[GScolCnt].C_settlements[GSsettleCnt].S_infrastructures[GSsubC].I_function of
                         fEnergy:
                         begin
                            GSxmlColInf.Attributes['Func']:='fEnergy';
-                           GSxmlColInf.Attributes['energyOut']:=FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_fEnergOut;
+                           GSxmlColInf.Attributes['energyOut']:=FCentities[GScount].E_col[GScolCnt].C_settlements[GSsettleCnt].S_infrastructures[GSsubC].I_fEnOutput;
                         end;
 
                         fHousing:
                         begin
                            GSxmlColInf.Attributes['Func']:='fHousing';
-                           GSxmlColInf.Attributes['PCAP']:=FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_fhousPCAP;
-                           GSxmlColInf.Attributes['QOL']:=FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_fhousQOL;
-                           GSxmlColInf.Attributes['vol']:=FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_fhousVol;
-                           GSxmlColInf.Attributes['surf']:=FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_fhousSurf;
+                           GSxmlColInf.Attributes['PCAP']:=FCentities[GScount].E_col[GScolCnt].C_settlements[GSsettleCnt].S_infrastructures[GSsubC].I_fHousPopulationCapacity;
+                           GSxmlColInf.Attributes['QOL']:=FCentities[GScount].E_col[GScolCnt].C_settlements[GSsettleCnt].S_infrastructures[GSsubC].I_fHousQualityOfLife;
+                           GSxmlColInf.Attributes['vol']:=FCentities[GScount].E_col[GScolCnt].C_settlements[GSsettleCnt].S_infrastructures[GSsubC].I_fHousCalculatedVolume;
+                           GSxmlColInf.Attributes['surf']:=FCentities[GScount].E_col[GScolCnt].C_settlements[GSsettleCnt].S_infrastructures[GSsubC].I_fHousCalculatedSurface;
                         end;
 
                         fIntelligence: GSxmlColInf.Attributes['Func']:='fIntelligence';
@@ -1666,30 +1666,30 @@ begin
                         fProduction:
                         begin
                            GSxmlColInf.Attributes['Func']:='fProduction';
-                           GSxmlColInf.Attributes['surveyedSpot']:=FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_fprodSurveyedSpot;
-                           GSxmlColInf.Attributes['surveyedRegion']:=FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_fprodSurveyedRegion;
-                           GSxmlColInf.Attributes['resourceSpot']:=FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_fprodResourceSpot;
+                           GSxmlColInf.Attributes['surveyedSpot']:=FCentities[GScount].E_col[GScolCnt].C_settlements[GSsettleCnt].S_infrastructures[GSsubC].I_fProdSurveyedSpot;
+                           GSxmlColInf.Attributes['surveyedRegion']:=FCentities[GScount].E_col[GScolCnt].C_settlements[GSsettleCnt].S_infrastructures[GSsubC].I_fProdSurveyedRegion;
+                           GSxmlColInf.Attributes['resourceSpot']:=FCentities[GScount].E_col[GScolCnt].C_settlements[GSsettleCnt].S_infrastructures[GSsubC].I_fProdResourceSpot;
                            GSsubCount:=1;
                            while GSsubCount<=FCCdipProductionModesMax do
                            begin
-                              if FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_fprodMode[GSsubCount].PM_type>pmNone then
+                              if FCentities[GScount].E_col[GScolCnt].C_settlements[GSsettleCnt].S_infrastructures[GSsubC].I_fProdProductionMode[GSsubCount].PM_type>pmNone then
                               begin
                                  GSxmlProdMode:=GSxmlColInf.AddChild('prodmode');
-                                 case FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_fprodMode[GSsubCount].PM_type of
+                                 case FCentities[GScount].E_col[GScolCnt].C_settlements[GSsettleCnt].S_infrastructures[GSsubC].I_fProdProductionMode[GSsubCount].PM_type of
                                     pmResourceMining: GSstringStore:='pmResourceMining';
                                  end;
                                  GSxmlProdMode.Attributes['prodModeType']:=GSstringStore;
-                                 GSxmlProdMode.Attributes['isDisabled']:=FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_fprodMode[GSsubCount].PM_isDisabled;
-                                 GSxmlProdMode.Attributes['energyCons']:=FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_fprodMode[GSsubCount].PM_energyCons;
-                                 GSxmlProdMode.Attributes['matrixItemMax']:=FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_fprodMode[GSsubCount].PM_matrixItemMax;
+                                 GSxmlProdMode.Attributes['isDisabled']:=FCentities[GScount].E_col[GScolCnt].C_settlements[GSsettleCnt].S_infrastructures[GSsubC].I_fProdProductionMode[GSsubCount].PM_isDisabled;
+                                 GSxmlProdMode.Attributes['energyCons']:=FCentities[GScount].E_col[GScolCnt].C_settlements[GSsettleCnt].S_infrastructures[GSsubC].I_fProdProductionMode[GSsubCount].PM_energyConsumption;
+                                 GSxmlProdMode.Attributes['matrixItemMax']:=FCentities[GScount].E_col[GScolCnt].C_settlements[GSsettleCnt].S_infrastructures[GSsubC].I_fProdProductionMode[GSsubCount].PM_matrixItemMax;
                                  GSsubCount1:=1;
-                                 while GSsubCount1<=FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_fprodMode[GSsubCount].PM_matrixItemMax do
+                                 while GSsubCount1<=FCentities[GScount].E_col[GScolCnt].C_settlements[GSsettleCnt].S_infrastructures[GSsubC].I_fProdProductionMode[GSsubCount].PM_matrixItemMax do
                                  begin
                                     GSxmlMatrixItem:=GSxmlProdMode.AddChild('linkedMatrixItem');
                                     GSxmlMatrixItem.Attributes['pmitmIndex']
-                                       :=FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_fprodMode[GSsubCount].PF_linkedMatrixItemIndexes[GSsubCount1].LMII_matrixItmIndex;
+                                       :=FCentities[GScount].E_col[GScolCnt].C_settlements[GSsettleCnt].S_infrastructures[GSsubC].I_fProdProductionMode[GSsubCount].PM_linkedColonyMatrixItems[GSsubCount1].LMII_matrixItemIndex;
                                     GSxmlMatrixItem.Attributes['pmIndex']
-                                       :=FCentities[GScount].E_col[GScolCnt].COL_settlements[GSsettleCnt].CS_infra[GSsubC].CI_fprodMode[GSsubCount].PF_linkedMatrixItemIndexes[GSsubCount1].LMII_matrixProdModeIndex;
+                                       :=FCentities[GScount].E_col[GScolCnt].C_settlements[GSsettleCnt].S_infrastructures[GSsubC].I_fProdProductionMode[GSsubCount].PM_linkedColonyMatrixItems[GSsubCount1].LMII_matrixItem_ProductionModeIndex;
                                     inc(GSsubCount1);
                                  end;
                               end
@@ -1706,7 +1706,7 @@ begin
                GSsettleCnt:=1;
                while GSsettleCnt<=GSsettleMax do
                begin
-                  GScabMax:=length(FCentities[GScount].E_col[GScolCnt].COL_cabQueue[GSsettleCnt])-1;
+                  GScabMax:=length(FCentities[GScount].E_col[GScolCnt].C_cabQueue[GSsettleCnt])-1;
                   if GScabMax>0 then
                   begin
                      if GSxmlCABroot=nil
@@ -1716,14 +1716,14 @@ begin
                      begin
                         GSxmlCAB:=GSxmlCABroot.AddChild('cabItem');
                         GSxmlCAB.Attributes['settlement']:=GSsettleCnt;
-                        GSxmlCAB.Attributes['infraIdx']:=FCentities[GScount].E_col[GScolCnt].COL_cabQueue[GSsettleCnt, GScabCount];
+                        GSxmlCAB.Attributes['infraIdx']:=FCentities[GScount].E_col[GScolCnt].C_cabQueue[GSsettleCnt, GScabCount];
                         inc(GScabCount);
                      end;
                   end; //==END== if GScabMax>0 ==//
                   inc(GSsettleCnt);
                end;
                {.production matrix}
-               GSprodMatrixMax:=Length(FCentities[GScount].E_col[GScolCnt].COL_productionMatrix)-1;
+               GSprodMatrixMax:=Length(FCentities[GScount].E_col[GScolCnt].C_productionMatrix)-1;
                if GSprodMatrixMax>0 then
                begin
                   GSxmlProdMatrixRoot:=GSxmlCol.AddChild('colProdMatrix');
@@ -1731,28 +1731,28 @@ begin
                   while GSprodMatrixCnt<=GSprodMatrixMax do
                   begin
                      GSxmlProdMatrix:=GSxmlProdMatrixRoot.AddChild('prodItem');
-                     GSxmlProdMatrix.Attributes['token']:=FCentities[GScount].E_col[GScolCnt].COL_productionMatrix[GSprodMatrixCnt].CPMI_productToken;
-                     GSxmlProdMatrix.Attributes['storIdx']:=FCentities[GScount].E_col[GScolCnt].COL_productionMatrix[GSprodMatrixCnt].CPMI_storageIndex;
-                     case FCentities[GScount].E_col[GScolCnt].COL_productionMatrix[GSprodMatrixCnt].CPMI_storageType of
+                     GSxmlProdMatrix.Attributes['token']:=FCentities[GScount].E_col[GScolCnt].C_productionMatrix[GSprodMatrixCnt].PM_productToken;
+                     GSxmlProdMatrix.Attributes['storIdx']:=FCentities[GScount].E_col[GScolCnt].C_productionMatrix[GSprodMatrixCnt].PM_storageIndex;
+                     case FCentities[GScount].E_col[GScolCnt].C_productionMatrix[GSprodMatrixCnt].PM_storage of
                         stSolid: GSstringStore:='stSolid';
                         stLiquid: GSstringStore:='stLiquid';
                         stGas: GSstringStore:='stGas';
                         stBiologic: GSstringStore:='stBiologic';
                      end;
                      GSxmlProdMatrix.Attributes['storageType']:=GSstringStore;
-                     GSxmlProdMatrix.Attributes['globalProdFlow']:=FCentities[GScount].E_col[GScolCnt].COL_productionMatrix[GSprodMatrixCnt].CPMI_globalProdFlow;
-                     GSsubMax:=length(FCentities[GScount].E_col[GScolCnt].COL_productionMatrix[GSprodMatrixCnt].CPMI_productionModes)-1;
+                     GSxmlProdMatrix.Attributes['globalProdFlow']:=FCentities[GScount].E_col[GScolCnt].C_productionMatrix[GSprodMatrixCnt].PM_globalProductionFlow;
+                     GSsubMax:=length(FCentities[GScount].E_col[GScolCnt].C_productionMatrix[GSprodMatrixCnt].PM_productionModes)-1;
                      if GSsubMax>0 then
                      begin
                         GSsubCount:=1;
                         while GSsubCount<=GSsubMax do
                         begin
                            GSxmlProdMatrixSource:=GSxmlProdMatrix.AddChild('prodMode');
-                           GSxmlProdMatrixSource.Attributes['locSettle']:=FCentities[GScount].E_col[GScolCnt].COL_productionMatrix[GSprodMatrixCnt].CPMI_productionModes[GSsubCount].PF_locSettlement;
-                           GSxmlProdMatrixSource.Attributes['locInfra']:=FCentities[GScount].E_col[GScolCnt].COL_productionMatrix[GSprodMatrixCnt].CPMI_productionModes[GSsubCount].PF_locInfra;
-                           GSxmlProdMatrixSource.Attributes['locPModeIndex']:=FCentities[GScount].E_col[GScolCnt].COL_productionMatrix[GSprodMatrixCnt].CPMI_productionModes[GSsubCount].PF_locProdModeIndex;
-                           GSxmlProdMatrixSource.Attributes['isDisabledPS']:=FCentities[GScount].E_col[GScolCnt].COL_productionMatrix[GSprodMatrixCnt].CPMI_productionModes[GSsubCount].PF_isDisabledByProdSegment;
-                           GSxmlProdMatrixSource.Attributes['prodFlow']:=FCentities[GScount].E_col[GScolCnt].COL_productionMatrix[GSprodMatrixCnt].CPMI_productionModes[GSsubCount].PF_productionFlow;
+                           GSxmlProdMatrixSource.Attributes['locSettle']:=FCentities[GScount].E_col[GScolCnt].C_productionMatrix[GSprodMatrixCnt].PM_productionModes[GSsubCount].PM_locationSettlement;
+                           GSxmlProdMatrixSource.Attributes['locInfra']:=FCentities[GScount].E_col[GScolCnt].C_productionMatrix[GSprodMatrixCnt].PM_productionModes[GSsubCount].PM_locationInfrastructure;
+                           GSxmlProdMatrixSource.Attributes['locPModeIndex']:=FCentities[GScount].E_col[GScolCnt].C_productionMatrix[GSprodMatrixCnt].PM_productionModes[GSsubCount].PM_locationProductionModeIndex;
+                           GSxmlProdMatrixSource.Attributes['isDisabledPS']:=FCentities[GScount].E_col[GScolCnt].C_productionMatrix[GSprodMatrixCnt].PM_productionModes[GSsubCount].PM_isDisabledByProductionSegment;
+                           GSxmlProdMatrixSource.Attributes['prodFlow']:=FCentities[GScount].E_col[GScolCnt].C_productionMatrix[GSprodMatrixCnt].PM_productionModes[GSsubCount].PM_productionFlow;
                            inc(GSsubCount);
                         end;
                      end;
@@ -1761,39 +1761,39 @@ begin
                end;
                {.storage}
                GSxmlstorageRoot:=GSxmlCol.AddChild('colStorage');
-               GSxmlstorageRoot.Attributes['capSolidCur']:=FCentities[GScount].E_col[GScolCnt].COL_storCapacitySolidCurr;
-               GSxmlstorageRoot.Attributes['capSolidMax']:=FCentities[GScount].E_col[GScolCnt].COL_storCapacitySolidMax;
-               GSxmlstorageRoot.Attributes['capLiquidCur']:=FCentities[GScount].E_col[GScolCnt].COL_storCapacityLiquidCurr;
-               GSxmlstorageRoot.Attributes['capLiquidMax']:=FCentities[GScount].E_col[GScolCnt].COL_storCapacityLiquidMax;
-               GSxmlstorageRoot.Attributes['capGasCur']:=FCentities[GScount].E_col[GScolCnt].COL_storCapacityGasCurr;
-               GSxmlstorageRoot.Attributes['capGasMax']:=FCentities[GScount].E_col[GScolCnt].COL_storCapacityGasMax;
-               GSxmlstorageRoot.Attributes['capBioCur']:=FCentities[GScount].E_col[GScolCnt].COL_storCapacityBioCurr;
-               GSxmlstorageRoot.Attributes['capBioMax']:=FCentities[GScount].E_col[GScolCnt].COL_storCapacityBioMax;
-					GSstorageMax:=length(FCentities[GScount].E_col[GScolCnt].COL_storageList)-1;
+               GSxmlstorageRoot.Attributes['capSolidCur']:=FCentities[GScount].E_col[GScolCnt].C_storageCapacitySolidCurrent;
+               GSxmlstorageRoot.Attributes['capSolidMax']:=FCentities[GScount].E_col[GScolCnt].C_storageCapacitySolidMax;
+               GSxmlstorageRoot.Attributes['capLiquidCur']:=FCentities[GScount].E_col[GScolCnt].C_storageCapacityLiquidCurrent;
+               GSxmlstorageRoot.Attributes['capLiquidMax']:=FCentities[GScount].E_col[GScolCnt].C_storageCapacityLiquidMax;
+               GSxmlstorageRoot.Attributes['capGasCur']:=FCentities[GScount].E_col[GScolCnt].C_storageCapacityGasCurrent;
+               GSxmlstorageRoot.Attributes['capGasMax']:=FCentities[GScount].E_col[GScolCnt].C_storageCapacityGasMax;
+               GSxmlstorageRoot.Attributes['capBioCur']:=FCentities[GScount].E_col[GScolCnt].C_storageCapacityBioCurrent;
+               GSxmlstorageRoot.Attributes['capBioMax']:=FCentities[GScount].E_col[GScolCnt].C_storageCapacityBioMax;
+					GSstorageMax:=length(FCentities[GScount].E_col[GScolCnt].C_storedProducts)-1;
                if GSstorageMax>0 then
                begin
                   GSstorageCnt:=1;
                   while GSstorageCnt<=GSstorageMax do
                   begin
                      GSxmlstorage:=GSxmlstorageRoot.AddChild('storItem'+IntToStr(GSstorageCnt));
-                     GSxmlstorage.Attributes['token']:=FCentities[GScount].E_col[GScolCnt].COL_storageList[GSstorageCnt].CPR_token;
-                     GSxmlstorage.Attributes['unit']:=FCentities[GScount].E_col[GScolCnt].COL_storageList[GSstorageCnt].CPR_unit;
+                     GSxmlstorage.Attributes['token']:=FCentities[GScount].E_col[GScolCnt].C_storedProducts[GSstorageCnt].SP_token;
+                     GSxmlstorage.Attributes['unit']:=FCentities[GScount].E_col[GScolCnt].C_storedProducts[GSstorageCnt].SP_unit;
                      inc(GSstorageCnt);
                   end;
                end;
                {.reserves}
                GSxmlReservesRoot:=GSxmlCol.AddChild('colReserves');
-               GSxmlReservesRoot.Attributes['oxygen']:=FCentities[GScount].E_col[GScolCnt].COL_reserveOxygen;
-               GSxmlReservesRoot.Attributes['food']:=FCentities[GScount].E_col[GScolCnt].COL_reserveFood;
-               GSstorageMax:=length(FCentities[GScount].E_col[GScolCnt].COL_reserveFoodList)-1;
+               GSxmlReservesRoot.Attributes['oxygen']:=FCentities[GScount].E_col[GScolCnt].C_reserveOxygen;
+               GSxmlReservesRoot.Attributes['food']:=FCentities[GScount].E_col[GScolCnt].C_reserveFood;
+               GSstorageMax:=length(FCentities[GScount].E_col[GScolCnt].C_reserveFoodProductsIndex)-1;
                GSstorageCnt:=1;
                while GSstorageCnt<=GSstorageMax do
                begin
                   GSxmlReserves:=GSxmlReservesRoot.AddChild( 'foodRve'+IntToStr( GSstorageCnt ) );
-                  GSxmlReserves.Attributes['index']:=FCentities[GScount].E_col[GScolCnt].COL_reserveFoodList[ GSstorageCnt ];
+                  GSxmlReserves.Attributes['index']:=FCentities[GScount].E_col[GScolCnt].C_reserveFoodProductsIndex[ GSstorageCnt ];
                   inc(GSstorageCnt);
                end;
-               GSxmlReservesRoot.Attributes['water']:=FCentities[GScount].E_col[GScolCnt].COL_reserveWater;
+               GSxmlReservesRoot.Attributes['water']:=FCentities[GScount].E_col[GScolCnt].C_reserveWater;
             end; //==END== if GSsettleMax>0 ==//
             inc(GScolCnt);
          end; //==END== while GScolCnt<=GScolMax do ==//

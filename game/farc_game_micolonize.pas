@@ -180,7 +180,7 @@ begin
          ,CPPobjIdx
          ,CPPsatIdx
          );
-      FCentities[CPPfac].E_col[CPPcolIdx].COL_name:=CPPname;
+      FCentities[CPPfac].E_col[CPPcolIdx].C_name:=CPPname;
       CPPsettlement:=FCFgC_Settlement_Add(
          CPPfac
          ,CPPcolIdx

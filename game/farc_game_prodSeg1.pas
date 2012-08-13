@@ -100,18 +100,18 @@ begin
    GPS1infraOindex:=0;
    SetLength( GPS1infraProduction, 1 );
    GPS1infraPindex:=0;
-   EERLLsetMax:=Length( FCentities[EERLLent].E_col[EERLLcol].COL_settlements )-1;
+   EERLLsetMax:=Length( FCentities[EERLLent].E_col[EERLLcol].C_settlements )-1;
    EERLLsetCnt:=1;
    while EERLLSetCnt<=EERLLSetMax do
    begin
-      EERLLinfraMax:=Length( FCentities[EERLLent].E_col[EERLLcol].COL_settlements[EERLLSetCnt].CS_infra )-1;
+      EERLLinfraMax:=Length( FCentities[EERLLent].E_col[EERLLcol].C_settlements[EERLLSetCnt].S_infrastructures )-1;
       EERLLinfraCnt:=1;
       while EERLLinfraCnt<=EERLLinfraMax do
       begin
-         if  ( ( EERLLisShortageMode ) and ( FCentities[EERLLent].E_col[EERLLcol].COL_settlements[EERLLSetCnt].CS_infra[EERLLinfraCnt].CI_status=isOperational ) )
-            or ( ( not EERLLisShortageMode ) and ( FCentities[EERLLent].E_col[EERLLcol].COL_settlements[EERLLSetCnt].CS_infra[EERLLinfraCnt].CI_status=isDisabledByEnergyEquilibrium ) ) then
+         if  ( ( EERLLisShortageMode ) and ( FCentities[EERLLent].E_col[EERLLcol].C_settlements[EERLLSetCnt].S_infrastructures[EERLLinfraCnt].I_status=isOperational ) )
+            or ( ( not EERLLisShortageMode ) and ( FCentities[EERLLent].E_col[EERLLcol].C_settlements[EERLLSetCnt].S_infrastructures[EERLLinfraCnt].I_status=isDisabledByEnergyEquilibrium ) ) then
          begin
-            if FCentities[EERLLent].E_col[EERLLcol].COL_settlements[EERLLSetCnt].CS_infra[EERLLinfraCnt].CI_function=fProduction
+            if FCentities[EERLLent].E_col[EERLLcol].C_settlements[EERLLSetCnt].S_infrastructures[EERLLinfraCnt].I_function=fProduction
             then
             begin
                inc(GPS1infraPindex);
@@ -119,7 +119,7 @@ begin
                GPS1infraProduction[GPS1infraPindex].IL_settlement:=EERLLSetCnt;
                GPS1infraProduction[GPS1infraPindex].IL_index:=EERLLinfraCnt;
             end
-            else if FCentities[EERLLent].E_col[EERLLcol].COL_settlements[EERLLSetCnt].CS_infra[EERLLinfraCnt].CI_function=fHousing
+            else if FCentities[EERLLent].E_col[EERLLcol].C_settlements[EERLLSetCnt].S_infrastructures[EERLLinfraCnt].I_function=fHousing
             then
             begin
                inc(GPS1infraHindex);
@@ -127,7 +127,7 @@ begin
                GPS1infraHousing[GPS1infraHindex].IL_settlement:=EERLLSetCnt;
                GPS1infraHousing[GPS1infraHindex].IL_index:=EERLLinfraCnt;
             end
-            else if FCentities[EERLLent].E_col[EERLLcol].COL_settlements[EERLLSetCnt].CS_infra[EERLLinfraCnt].CI_function<>fEnergy
+            else if FCentities[EERLLent].E_col[EERLLcol].C_settlements[EERLLSetCnt].S_infrastructures[EERLLinfraCnt].I_function<>fEnergy
             then
             begin
                inc(GPS1infraOindex);
@@ -197,7 +197,7 @@ begin
                ,GPS1infraHousing[EERPinfraCnt].IL_settlement
                ,GPS1infraHousing[EERPinfraCnt].IL_index
                );
-            if FCentities[EERPent].E_col[EERPcol].COL_csmENgen-FCentities[EERPent].E_col[EERPcol].COL_csmENcons<0
+            if FCentities[EERPent].E_col[EERPcol].C_csmEnergy_generation-FCentities[EERPent].E_col[EERPcol].C_csmEnergy_consumption<0
             then
             begin
                FCMgInf_Disabling_Process(
@@ -210,7 +210,7 @@ begin
                EERPdone:=true;
                Break;
             end
-            else if FCentities[EERPent].E_col[EERPcol].COL_csmENgen-FCentities[EERPent].E_col[EERPcol].COL_csmENcons=0
+            else if FCentities[EERPent].E_col[EERPcol].C_csmEnergy_generation-FCentities[EERPent].E_col[EERPcol].C_csmEnergy_consumption=0
             then
             begin
                EERPdone:=true;
@@ -234,7 +234,7 @@ begin
                ,GPS1infraProduction[EERPinfraCnt].IL_settlement
                ,GPS1infraProduction[EERPinfraCnt].IL_index
                );
-            if FCentities[EERPent].E_col[EERPcol].COL_csmENgen-FCentities[EERPent].E_col[EERPcol].COL_csmENcons<0
+            if FCentities[EERPent].E_col[EERPcol].C_csmEnergy_generation-FCentities[EERPent].E_col[EERPcol].C_csmEnergy_consumption<0
             then
             begin
                FCMgInf_Disabling_Process(
@@ -247,7 +247,7 @@ begin
                EERPdone:=true;
                Break;
             end
-            else if FCentities[EERPent].E_col[EERPcol].COL_csmENgen-FCentities[EERPent].E_col[EERPcol].COL_csmENcons=0
+            else if FCentities[EERPent].E_col[EERPcol].C_csmEnergy_generation-FCentities[EERPent].E_col[EERPcol].C_csmEnergy_consumption=0
             then
             begin
                EERPdone:=true;
@@ -270,7 +270,7 @@ begin
                ,GPS1infraOther[EERPinfraCnt].IL_settlement
                ,GPS1infraOther[EERPinfraCnt].IL_index
                );
-            if FCentities[EERPent].E_col[EERPcol].COL_csmENgen-FCentities[EERPent].E_col[EERPcol].COL_csmENcons<0
+            if FCentities[EERPent].E_col[EERPcol].C_csmEnergy_generation-FCentities[EERPent].E_col[EERPcol].C_csmEnergy_consumption<0
             then
             begin
                FCMgInf_Disabling_Process(
@@ -283,7 +283,7 @@ begin
                EERPdone:=true;
                Break;
             end
-            else if FCentities[EERPent].E_col[EERPcol].COL_csmENgen-FCentities[EERPent].E_col[EERPcol].COL_csmENcons=0
+            else if FCentities[EERPent].E_col[EERPcol].C_csmEnergy_generation-FCentities[EERPent].E_col[EERPcol].C_csmEnergy_consumption=0
             then
             begin
                EERPdone:=true;
@@ -292,14 +292,14 @@ begin
             inc(EERPinfraCnt);
          end;
       end;
-      if FCentities[EERPent].E_col[EERPcol].COL_csmENgen>FCentities[EERPent].E_col[EERPcol].COL_csmENcons
+      if FCentities[EERPent].E_col[EERPcol].C_csmEnergy_generation>FCentities[EERPent].E_col[EERPcol].C_csmEnergy_consumption
       then FCMgCSM_Energy_Update(
          EERPent
          ,EERPcol
          ,false
          ,0
          ,0
-         ,FCentities[EERPent].E_col[EERPcol].COL_csmENgen-FCentities[EERPent].E_col[EERPcol].COL_csmENcons
+         ,FCentities[EERPent].E_col[EERPcol].C_csmEnergy_generation-FCentities[EERPent].E_col[EERPcol].C_csmEnergy_consumption
          ,0
          );
    end //==END== if not EERPisShortageMode ==//
@@ -319,7 +319,7 @@ begin
                ,GPS1infraOther[EERPinfraCnt].IL_index
                ,true
                );
-            if FCentities[EERPent].E_col[EERPcol].COL_csmENcons-FCentities[EERPent].E_col[EERPcol].COL_csmENgen<=0
+            if FCentities[EERPent].E_col[EERPcol].C_csmEnergy_consumption-FCentities[EERPent].E_col[EERPcol].C_csmEnergy_generation<=0
             then
             begin
                EERPdone:=true;
@@ -344,7 +344,7 @@ begin
                ,GPS1infraProduction[EERPinfraCnt].IL_index
                ,true
                );
-            if FCentities[EERPent].E_col[EERPcol].COL_csmENcons-FCentities[EERPent].E_col[EERPcol].COL_csmENgen<=0
+            if FCentities[EERPent].E_col[EERPcol].C_csmEnergy_consumption-FCentities[EERPent].E_col[EERPcol].C_csmEnergy_generation<=0
             then
             begin
                EERPdone:=true;
@@ -369,7 +369,7 @@ begin
                ,GPS1infraHousing[EERPinfraCnt].IL_index
                ,true
                );
-            if FCentities[EERPent].E_col[EERPcol].COL_csmENcons-FCentities[EERPent].E_col[EERPcol].COL_csmENgen<=0
+            if FCentities[EERPent].E_col[EERPcol].C_csmEnergy_consumption-FCentities[EERPent].E_col[EERPcol].C_csmEnergy_generation<=0
             then
             begin
                EERPdone:=true;
@@ -393,22 +393,22 @@ procedure FCMgPS1_EnergySegment_Process(
       -2011Jul25- *add: segment WIP.
 }
 begin
-   if FCentities[ESPent].E_col[ESPcol].COL_csmENgen<FCentities[ESPent].E_col[ESPcol].COL_csmENcons
+   if FCentities[ESPent].E_col[ESPcol].C_csmEnergy_generation<FCentities[ESPent].E_col[ESPcol].C_csmEnergy_consumption
    then
    begin
-      if (FCentities[ESPent].E_col[ESPcol].COL_csmENstorCurr>0)
-         and (FCentities[ESPent].E_col[ESPcol].COL_csmENgen+FCentities[ESPent].E_col[ESPcol].COL_csmENstorCurr>=FCentities[ESPent].E_col[ESPcol].COL_csmENcons)
+      if (FCentities[ESPent].E_col[ESPcol].C_csmEnergy_StorageCurrent>0)
+         and (FCentities[ESPent].E_col[ESPcol].C_csmEnergy_generation+FCentities[ESPent].E_col[ESPcol].C_csmEnergy_StorageCurrent>=FCentities[ESPent].E_col[ESPcol].C_csmEnergy_consumption)
       then FCMgCSM_Energy_Update(
          ESPent
          ,ESPcol
          ,false
          ,0
          ,0
-         ,-(FCentities[ESPent].E_col[ESPcol].COL_csmENcons-FCentities[ESPent].E_col[ESPcol].COL_csmENgen)
+         ,-(FCentities[ESPent].E_col[ESPcol].C_csmEnergy_consumption-FCentities[ESPent].E_col[ESPcol].C_csmEnergy_generation)
          ,0
          )
-      else if (FCentities[ESPent].E_col[ESPcol].COL_csmENstorCurr>0)
-         and (FCentities[ESPent].E_col[ESPcol].COL_csmENgen+FCentities[ESPent].E_col[ESPcol].COL_csmENstorCurr<FCentities[ESPent].E_col[ESPcol].COL_csmENcons)
+      else if (FCentities[ESPent].E_col[ESPcol].C_csmEnergy_StorageCurrent>0)
+         and (FCentities[ESPent].E_col[ESPcol].C_csmEnergy_generation+FCentities[ESPent].E_col[ESPcol].C_csmEnergy_StorageCurrent<FCentities[ESPent].E_col[ESPcol].C_csmEnergy_consumption)
       then
       begin
          FCMgCSM_Energy_Update(
@@ -417,7 +417,7 @@ begin
             ,false
             ,0
             ,0
-            ,-(FCentities[ESPent].E_col[ESPcol].COL_csmENstorCurr)
+            ,-(FCentities[ESPent].E_col[ESPcol].C_csmEnergy_StorageCurrent)
             ,0
             );
          FCMgSP1_EnergyEqRule_Process(
@@ -426,7 +426,7 @@ begin
             ,ESPcol
             );
       end
-      else if FCentities[ESPent].E_col[ESPcol].COL_csmENstorCurr=0
+      else if FCentities[ESPent].E_col[ESPcol].C_csmEnergy_StorageCurrent=0
       then FCMgSP1_EnergyEqRule_Process(
          true
          ,ESPent
@@ -435,7 +435,7 @@ begin
    end //==END== if FCentities[ESPent].E_col[ESPcol].COL_csmENgen<FCentities[ESPent].E_col[ESPcol].COL_csmENcons ==//
 //   else if FCentities[ESPent].E_col[ESPcol].COL_csmENgen=FCentities[ESPent].E_col[ESPcol].COL_csmENcons
 //   then pass to production segment 2
-   else if FCentities[ESPent].E_col[ESPcol].COL_csmENgen>FCentities[ESPent].E_col[ESPcol].COL_csmENcons
+   else if FCentities[ESPent].E_col[ESPcol].C_csmEnergy_generation>FCentities[ESPent].E_col[ESPcol].C_csmEnergy_consumption
    then FCMgSP1_EnergyEqRule_Process(
       false
       ,ESPent

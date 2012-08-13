@@ -526,7 +526,7 @@ begin
    {.ENTER}
    {.proceed setup if allowed}
    if CNTkeyDump=13
-   then FCentities[0].E_col[FCFuiCDP_VarCurrentColony_Get].COL_name:=FCWinMain.FCWM_CDPcolName.Text;
+   then FCentities[0].E_col[FCFuiCDP_VarCurrentColony_Get].C_name:=FCWinMain.FCWM_CDPcolName.Text;
 end;
 
 procedure FCMuiK_MissionColonyName_Test(

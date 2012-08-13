@@ -3,14 +3,14 @@
 
    {.credit and interest range}
    creditrng / intrng
-      crirPoor_Insign
-      crirUndFun_Low
-      crirBelAvg_Mod
-      crirAverage
-      crirAbAvg_Maj
-      crirRch_High
-      crirOvrFun_Usu
-      crirUnl_Ins
+      cirPoor_Insignificant
+      cirUnderfunded_Low
+      cirBelowAverage_Moderate
+      cirAverage
+      cirAboveAverage
+      cirRich_High
+      cirOverFunded_Usurious
+      cirUnlimited_Insane
     
    {.player's faction status}
    sstateco / sstatsoc / sstatmil / mstateco / mstatsoc / mstatmil
@@ -158,7 +158,7 @@
 <factionsDB>
    <!-- Magellan Unity -->
    <faction token="factkMagelUni" level="4">
-      <facColMode token="munCmodARC" viabThrEco="85" viabThrSoc="120" viabThrSpMil="110" creditrng="crirRch_High" intrng="crirBelAvg_Mod">
+      <facColMode token="munCmodARC" viabThrEco="85" viabThrSoc="120" viabThrSpMil="110" creditrng="cirRich_High" intrng="cirBelowAverage_Moderate">
          <facViabObj objTp="otEcoEnEff"/>
          <facViabObj objTp="otEcoIndustrialForce" product="resCarbOre" threshold="1.5"/>
          <facViabObj objTp="otEcoLowCr"/>

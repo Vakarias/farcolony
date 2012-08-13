@@ -153,10 +153,10 @@ begin
    PEOCstarLoc[3]:=0;
    PEOCstarLoc[4]:=0;
    PEOCstarLoc:=FCFuF_StelObj_GetFullRow(
-      FCentities[PEOCent].E_col[PEOCcol].COL_locSSys
-      ,FCentities[PEOCent].E_col[PEOCcol].COL_locStar
-      ,FCentities[PEOCent].E_col[PEOCcol].COL_locOObj
-      ,FCentities[PEOCent].E_col[PEOCcol].COL_locSat
+      FCentities[PEOCent].E_col[PEOCcol].C_locationStarSystem
+      ,FCentities[PEOCent].E_col[PEOCcol].C_locationStar
+      ,FCentities[PEOCent].E_col[PEOCcol].C_locationOrbitalObject
+      ,FCentities[PEOCent].E_col[PEOCcol].C_locationSatellite
       );
    if PEOCstarLoc[4]=0
    then

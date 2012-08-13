@@ -157,7 +157,7 @@ begin
          begin
             while GDGcnt<=GDGmax do
             begin
-               GDGdmpRes:=GDGdmpRes+FCentities[GDGfacIdx].E_col[GDGcnt].COL_cohes;
+               GDGdmpRes:=GDGdmpRes+FCentities[GDGfacIdx].E_col[GDGcnt].C_cohesion;
                inc(GDGcnt);
             end;
          end;
@@ -166,7 +166,7 @@ begin
          begin
             while GDGcnt<=GDGmax do
             begin
-               GDGdmpRes:=GDGdmpRes+FCentities[GDGfacIdx].E_col[GDGcnt].COL_edu;
+               GDGdmpRes:=GDGdmpRes+FCentities[GDGfacIdx].E_col[GDGcnt].C_instruction;
                inc(GDGcnt);
             end;
          end;
@@ -175,7 +175,7 @@ begin
          begin
             while GDGcnt<=GDGmax do
             begin
-               GDGdmpRes:=GDGdmpRes+round(FCentities[GDGfacIdx].E_col[GDGcnt].COL_csmHOqol*FCentities[GDGfacIdx].E_col[GDGcnt].COL_csmHOspl);
+               GDGdmpRes:=GDGdmpRes+round(FCentities[GDGfacIdx].E_col[GDGcnt].C_csmHousing_QualityOfLife*FCentities[GDGfacIdx].E_col[GDGcnt].C_csmHousing_SpaceLevel);
                inc(GDGcnt);
             end;
          end;
@@ -184,7 +184,7 @@ begin
          begin
             while GDGcnt<=GDGmax do
             begin
-               GDGdmpRes:=GDGdmpRes+FCentities[GDGfacIdx].E_col[GDGcnt].COL_eiOut;
+               GDGdmpRes:=GDGdmpRes+FCentities[GDGfacIdx].E_col[GDGcnt].C_economicIndustrialOutput;
                inc( GDGcnt );
             end;
          end;
@@ -204,7 +204,7 @@ begin
          begin
             while GDGcnt<=GDGmax do
             begin
-               GDGdmpRes:=GDGdmpRes+FCentities[GDGfacIdx].E_col[GDGcnt].COL_population.CP_total;
+               GDGdmpRes:=GDGdmpRes+FCentities[GDGfacIdx].E_col[GDGcnt].C_population.CP_total;
                inc(GDGcnt);
             end;
          end;
@@ -289,11 +289,11 @@ begin
          while LUcnt<LUmax do
          begin
             if LUcnt=1
-            then LUrootSS:=FCentities[LUent].E_col[LUcnt].COL_locStar
+            then LUrootSS:=FCentities[LUent].E_col[LUcnt].C_locationStar
             else
             begin
                if (not LUisScattered)
-                  and (FCentities[LUent].E_col[LUcnt].COL_locStar<>LUrootSS)
+                  and (FCentities[LUent].E_col[LUcnt].C_locationStar<>LUrootSS)
                then
                begin
                   LUisScattered:=true;
