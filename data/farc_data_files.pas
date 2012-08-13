@@ -580,16 +580,16 @@ begin
                   FCDBfactions[FactionCount].F_spm[Count1].SPMS_token:=XMLFactionSubItem.Attributes['token'];
                   FCDBfactions[FactionCount].F_spm[Count1].SPMS_duration:=XMLFactionSubItem.Attributes['duration'];
                   FCDBfactions[FactionCount].F_spm[Count1].SPMS_isPolicy:=true;
-                  FCDBfactions[FactionCount].F_spm[Count1].SPMS_isSet:=XMLFactionSubItem.Attributes['isSet'];
-                  FCDBfactions[FactionCount].F_spm[Count1].SPMS_aprob:=XMLFactionSubItem.Attributes['aprob'];
-                  if FCDBfactions[FactionCount].F_spm[Count1].SPMS_aprob=-2 then
+                  FCDBfactions[FactionCount].F_spm[Count1].SPMS_iPtIsSet:=XMLFactionSubItem.Attributes['isSet'];
+                  FCDBfactions[FactionCount].F_spm[Count1].SPMS_iPtAcceptanceProbability:=XMLFactionSubItem.Attributes['aprob'];
+                  if FCDBfactions[FactionCount].F_spm[Count1].SPMS_iPtAcceptanceProbability=-2 then
                   begin
                      FCDBfactions[FactionCount].F_spm[Count1].SPMS_isPolicy:=false;
                      EnumIndex:=GetEnumValue( TypeInfo( TFCEdgBeliefLevels ), XMLFactionSubItem.Attributes['belieflev'] );
-                     FCDBfactions[FactionCount].F_spm[Count1].SPMS_bLvl:=TFCEdgBeliefLevels( EnumIndex );
+                     FCDBfactions[FactionCount].F_spm[Count1].SPMS_iPtBeliefLevel:=TFCEdgBeliefLevels( EnumIndex );
                      if EnumIndex=-1
                      then raise Exception.Create( 'bad faction XML loading w/ meme belief level: '+XMLFactionSubItem.Attributes['belieflev'] );
-                     FCDBfactions[FactionCount].F_spm[Count1].SPMS_sprdVal:=XMLFactionSubItem.Attributes['spreadval'];
+                     FCDBfactions[FactionCount].F_spm[Count1].SPMS_iPtSpreadValue:=XMLFactionSubItem.Attributes['spreadval'];
                   end;
                   XMLFactionSubItem:=XMLFactionSubItem.NextSibling;
                end; //==END== while DBFRspmItm<>nil ==//

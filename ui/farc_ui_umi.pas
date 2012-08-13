@@ -518,15 +518,15 @@ begin
          if FCentities[0].E_spm[UMIUFcnt].SPMS_isPolicy
          then
          begin
-            if FCentities[0].E_spm[UMIUFcnt].SPMS_isSet then
+            if FCentities[0].E_spm[UMIUFcnt].SPMS_iPtIsSet then
             begin
-               UMIUFpolSet:='  ['+FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolSet')+' <b>'+IntToStr(FCentities[0].E_spm[UMIUFcnt].SPMS_aprob)+'</b> %]';
+               UMIUFpolSet:='  ['+FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolSet')+' <b>'+IntToStr(FCentities[0].E_spm[UMIUFcnt].SPMS_iPtAcceptanceProbability)+'</b> %]';
                UMIUFformat:=FCCFcolGreen+FCFdTFiles_UIStr_Get( uistrUI, FCentities[0].E_spm[UMIUFcnt].SPMS_token)+UIHTMLencyBEGIN+FCentities[0].E_spm[UMIUFcnt].SPMS_token+UIHTMLencyEND+FCCFcolGreen+UMIUFpolSet+FCCFcolEND;
                if not UMIUFspmi.SPMI_isUnique2set
                then UMIUFspmiDur:=FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolicyDur')+' [<b>'+IntToStr(FCentities[0].E_spm[UMIUFcnt].SPMS_duration)+'</b> '
                   +FCFdTFiles_UIStr_Get(uistrUI,'TimeFmonth')+']';
             end
-            else if not FCentities[0].E_spm[UMIUFcnt].SPMS_isSet then
+            else if not FCentities[0].E_spm[UMIUFcnt].SPMS_iPtIsSet then
             begin
 
                if FCentities[0].E_spm[UMIUFcnt].SPMS_duration>0 then
@@ -544,14 +544,14 @@ begin
          else if not FCentities[0].E_spm[UMIUFcnt].SPMS_isPolicy
          then
          begin
-            if FCentities[0].E_spm[UMIUFcnt].SPMS_bLvl>blUnknown then
+            if FCentities[0].E_spm[UMIUFcnt].SPMS_iPtBeliefLevel>blUnknown then
             begin
                 UMIUFpolSet:=FCCFcolBlueL+FCFdTFiles_UIStr_Get(uistrUI, 'UMImemeSet')+FCCFcolEND;
                 UMIUFformat:=FCCFcolBlueL;
             end;
             UMIUFformat:=UMIUFformat+FCFdTFiles_UIStr_Get(uistrUI, FCentities[0].E_spm[UMIUFcnt].SPMS_token)+UIHTMLencyBEGIN+FCentities[0].E_spm[UMIUFcnt].SPMS_token+UIHTMLencyEND+UMIUFpolSet;
-            UMIUFspmiDesc:='  [<a href="SPMiBL">BL</a>: <b>'+FCFdTFiles_UIStr_Get(uistrUI, 'SPMiBL'+IntToStr( Integer( FCentities[0].E_spm[UMIUFcnt].SPMS_bLvl ) ) )
-               +'</b> / <a href="SPMiSV">SV</a>: <b>'+IntToStr(FCentities[0].E_spm[UMIUFcnt].SPMS_sprdVal)+'</b> %]';
+            UMIUFspmiDesc:='  [<a href="SPMiBL">BL</a>: <b>'+FCFdTFiles_UIStr_Get(uistrUI, 'SPMiBL'+IntToStr( Integer( FCentities[0].E_spm[UMIUFcnt].SPMS_iPtBeliefLevel ) ) )
+               +'</b> / <a href="SPMiSV">SV</a>: <b>'+IntToStr(FCentities[0].E_spm[UMIUFcnt].SPMS_iPtSpreadValue)+'</b> %]';
          end;
          case UMIUFspmi.SPMI_area of
             dgADMIN:
@@ -698,7 +698,7 @@ begin
          while UMIUFcnt<=UMIUFmax do
          begin
             if (FCentities[0].E_spm[UMIUFcnt].SPMS_isPolicy)
-               and (not FCentities[0].E_spm[UMIUFcnt].SPMS_isSet)
+               and (not FCentities[0].E_spm[UMIUFcnt].SPMS_iPtIsSet)
                and (FCentities[0].E_spm[UMIUFcnt].SPMS_duration=0)
             then FCWinMain.FCWM_UMIFSh_AFlist.Items.Add(
                '<a href="'+FCentities[0].E_spm[UMIUFcnt].SPMS_token+'">'+FCFdTFiles_UIStr_Get(uistrUI, FCentities[0].E_spm[UMIUFcnt].SPMS_token)+'</a>'

@@ -959,14 +959,14 @@ begin
                      if FCentities[GLentCnt].E_spm[GLcount].SPMS_isPolicy
                      then
                      begin
-                        FCentities[GLentCnt].E_spm[GLcount].SPMS_isSet:=GLxmlSPMset.Attributes['isSet'];
-                        FCentities[GLentCnt].E_spm[GLcount].SPMS_aprob:=GLxmlSPMset.Attributes['aprob'];
+                        FCentities[GLentCnt].E_spm[GLcount].SPMS_iPtIsSet:=GLxmlSPMset.Attributes['isSet'];
+                        FCentities[GLentCnt].E_spm[GLcount].SPMS_iPtAcceptanceProbability:=GLxmlSPMset.Attributes['aprob'];
                      end
                      else if not FCentities[GLentCnt].E_spm[GLcount].SPMS_isPolicy
                      then
                      begin
-                        FCentities[GLentCnt].E_spm[GLcount].SPMS_bLvl:=GLxmlSPMset.Attributes['belieflvl'];
-                        FCentities[GLentCnt].E_spm[GLcount].SPMS_sprdVal:=GLxmlSPMset.Attributes['spreadval'];
+                        FCentities[GLentCnt].E_spm[GLcount].SPMS_iPtBeliefLevel:=GLxmlSPMset.Attributes['belieflvl'];
+                        FCentities[GLentCnt].E_spm[GLcount].SPMS_iPtSpreadValue:=GLxmlSPMset.Attributes['spreadval'];
                      end;
                      GLxmlSPMset:=GLxmlSPMset.NextSibling;
                   end;
@@ -1822,14 +1822,14 @@ begin
             if FCentities[GScount].E_spm[GSspmCnt].SPMS_isPolicy
             then
             begin
-               GSxmlSPM.Attributes['isSet']:=FCentities[GScount].E_spm[GSspmCnt].SPMS_isSet;
-               GSxmlSPM.Attributes['aprob']:=FCentities[GScount].E_spm[GSspmCnt].SPMS_aprob;
+               GSxmlSPM.Attributes['isSet']:=FCentities[GScount].E_spm[GSspmCnt].SPMS_iPtIsSet;
+               GSxmlSPM.Attributes['aprob']:=FCentities[GScount].E_spm[GSspmCnt].SPMS_iPtAcceptanceProbability;
             end
             else if not FCentities[GScount].E_spm[GSspmCnt].SPMS_isPolicy
             then
             begin
-               GSxmlSPM.Attributes['belieflvl']:=FCentities[GScount].E_spm[GSspmCnt].SPMS_bLvl;
-               GSxmlSPM.Attributes['spreadval']:=FCentities[GScount].E_spm[GSspmCnt].SPMS_aprob;
+               GSxmlSPM.Attributes['belieflvl']:=FCentities[GScount].E_spm[GSspmCnt].SPMS_iPtBeliefLevel;
+               GSxmlSPM.Attributes['spreadval']:=FCentities[GScount].E_spm[GSspmCnt].SPMS_iPtAcceptanceProbability;
             end;
             inc(GSspmCnt);
          end;

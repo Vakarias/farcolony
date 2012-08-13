@@ -548,6 +548,31 @@ end;
    ///</summary>
    TFCDdgCSMPhaseSchedule = array of TFCRdgCSMPhaseSchedule;
 
+{:REFERENCES LIST
+   - FCMdF_DBFactions_Read
+   - FCMdF_Game_Load
+   - FCMdF_Game_Save
+   - FCMgNG_Core_Proceed
+}
+///<summary>
+///   SPM settings for factions and entities
+///</summary>
+{:DEV NOTES: put custom effects current set values.}
+type TFCRdgSPMSettings= record
+   SPMS_token: string[20];
+   SPMS_duration: integer;
+   SPMS_ucCost: integer;
+   case SPMS_isPolicy: boolean of
+      true:(
+         SPMS_iPtIsSet: boolean;
+         SPMS_iPtAcceptanceProbability: integer
+         );
+      false:(
+         SPMS_iPtBeliefLevel: TFCEdgBeliefLevels;
+         SPMS_iPtSpreadValue: integer
+         );
+end;
+
 //==END PUBLIC RECORDS======================================================================
 
    //==========subsection===================================================================
@@ -564,23 +589,7 @@ end;
 
 
    
-   {.SPM settings for entities}
-   {:DEV NOTES: update FCMdF_Game_Load / FCMdF_Game_Save + FCMdF_DBFactions_Read + FCMgNG_Core_Proceed.}
-   {:DEV NOTES: put custom effects current set values.}
-   type TFCRdgFactSPMset= record
-      SPMS_token: string[20];
-      SPMS_duration: integer;
-      {.cost storage}
-      SPMS_ucCost: integer;
-      case SPMS_isPolicy: boolean of
-         true:
-            (SPMS_isSet: boolean;
-            {.acceptance value}
-            SPMS_aprob: integer);
-         false:
-            (SPMS_bLvl: TFCEdgBeliefLevels;
-            SPMS_sprdVal: integer);
-   end;
+
 
    {faction's data structure}
    {:DEV NOTE: don't forget to update FCMdFiles_DBFactions_Read.}
@@ -659,7 +668,7 @@ end;
          end;
 
       {.SPM setting}
-      F_spm: array of TFCRdgFactSPMset;
+      F_spm: array of TFCRdgSPMSettings;
    end;
       {.factions dynamic array}
       {:DEV NOTES: also update the array of colonies for TFCRorbObj + TFCRorbObjSat + TFCRcsmTest.}
@@ -790,7 +799,7 @@ end;
       {.owned colonies}
       E_col: array of TFCRdgColony;
       {.SPM settings}
-      E_spm: array of TFCRdgFactSPMset;
+      E_spm: array of TFCRdgSPMSettings;
       {.centralized modifiers of all SPMi currently set}
       E_spmMcohes: integer;
       E_spmMtens: integer;

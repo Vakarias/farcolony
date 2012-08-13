@@ -526,9 +526,9 @@ FCWinNewGSetup.Close;
          if FCentities[CPent].E_spm[CPspmCnt].SPMS_isPolicy
          then
          begin
-            FCentities[CPent].E_spm[CPspmCnt].SPMS_isSet:=FCDBfactions[CPfacLd].F_spm[CPspmCnt].SPMS_isSet;
-            FCentities[CPent].E_spm[CPspmCnt].SPMS_aprob:=FCDBfactions[CPfacLd].F_spm[CPspmCnt].SPMS_aprob;
-            if FCentities[CPent].E_spm[CPspmCnt].SPMS_isSet
+            FCentities[CPent].E_spm[CPspmCnt].SPMS_iPtIsSet:=FCDBfactions[CPfacLd].F_spm[CPspmCnt].SPMS_iPtIsSet;
+            FCentities[CPent].E_spm[CPspmCnt].SPMS_iPtAcceptanceProbability:=FCDBfactions[CPfacLd].F_spm[CPspmCnt].SPMS_iPtAcceptanceProbability;
+            if FCentities[CPent].E_spm[CPspmCnt].SPMS_iPtIsSet
             then
             begin
                CPspmI:=FCFgSPM_SPMIData_Get(FCentities[CPent].E_spm[CPspmCnt].SPMS_token);
@@ -546,12 +546,12 @@ FCWinNewGSetup.Close;
          else if not FCentities[CPent].E_spm[CPspmCnt].SPMS_isPolicy
          then
          begin
-            FCentities[CPent].E_spm[CPspmCnt].SPMS_bLvl:=FCDBfactions[CPfacLd].F_spm[CPspmCnt].SPMS_bLvl;
-            FCentities[CPent].E_spm[CPspmCnt].SPMS_sprdVal:=FCDBfactions[CPfacLd].F_spm[CPspmCnt].SPMS_sprdVal;
-            if FCentities[CPent].E_spm[CPspmCnt].SPMS_bLvl>=blFleeting
+            FCentities[CPent].E_spm[CPspmCnt].SPMS_iPtBeliefLevel:=FCDBfactions[CPfacLd].F_spm[CPspmCnt].SPMS_iPtBeliefLevel;
+            FCentities[CPent].E_spm[CPspmCnt].SPMS_iPtSpreadValue:=FCDBfactions[CPfacLd].F_spm[CPspmCnt].SPMS_iPtSpreadValue;
+            if FCentities[CPent].E_spm[CPspmCnt].SPMS_iPtBeliefLevel>=blFleeting
             then
             begin
-               CPsv:=FCentities[CPent].E_spm[CPspmCnt].SPMS_sprdVal*0.01;
+               CPsv:=FCentities[CPent].E_spm[CPspmCnt].SPMS_iPtSpreadValue*0.01;
                CPspmI:=FCFgSPM_SPMIData_Get(FCentities[CPent].E_spm[CPspmCnt].SPMS_token);
                FCentities[CPent].E_spmMcohes:=FCentities[CPent].E_spmMcohes+round(CPspmI.SPMI_modCohes*CPsv);
                FCentities[CPent].E_spmMtens:=FCentities[CPent].E_spmMtens+round(CPspmI.SPMI_modTens*CPsv);
@@ -749,10 +749,10 @@ begin
             FLMspmi:=FCFgSPM_SPMIData_Get(FCDBfactions[SelectedFactionIndex].F_spm[FLMcnt].SPMS_token);
             FLMspmStr:=FCFdTFiles_UIStr_Get(uistrUI, FCDBfactions[SelectedFactionIndex].F_spm[FLMcnt].SPMS_token);
             if not FLMspmi.SPMI_isPolicy
-            then FLMspmStr:=FLMspmStr+' ['+IntToStr(FCDBfactions[SelectedFactionIndex].F_spm[FLMcnt].SPMS_aprob)+' %]';
-            if FCDBfactions[SelectedFactionIndex].F_spm[FLMcnt].SPMS_isSet
+            then FLMspmStr:=FLMspmStr+' ['+IntToStr(FCDBfactions[SelectedFactionIndex].F_spm[FLMcnt].SPMS_iPtAcceptanceProbability)+' %]';
+            if FCDBfactions[SelectedFactionIndex].F_spm[FLMcnt].SPMS_iPtIsSet
             then FCWinNewGSetup.FCWNGS_FDPad_ShSPM_SPMList.Items.AddChild(FLMsetNode, FLMspmStr)
-            else if not FCDBfactions[SelectedFactionIndex].F_spm[FLMcnt].SPMS_isSet
+            else if not FCDBfactions[SelectedFactionIndex].F_spm[FLMcnt].SPMS_iPtIsSet
             then FCWinNewGSetup.FCWNGS_FDPad_ShSPM_SPMList.Items.AddChild(FLMnsetNode, FLMspmStr);
             inc(FLMcnt);
          end;

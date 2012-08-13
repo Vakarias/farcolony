@@ -364,7 +364,7 @@ var
    MCFUspmi: TFCRdgSPMi;
 
 begin
-   MCFUoldSV:=FCentities[MCFUent].E_spm[MCFUmeme].SPMS_sprdVal;
+   MCFUoldSV:=FCentities[MCFUent].E_spm[MCFUmeme].SPMS_iPtSpreadValue;
    MCFUspmi:=FCFgSPM_SPMIData_Get(FCentities[MCFUent].E_spm[MCFUmeme].SPMS_token);
    if MCFUoldSV=0
    then
@@ -521,7 +521,7 @@ begin
    end; //==END== if MCFUmax>0 ==// }
    {.custom effects adjustements}
    {:extreme END}
-   FCentities[MCFUent].E_spm[MCFUmeme].SPMS_sprdVal:=MCFUnewSV;
+   FCentities[MCFUent].E_spm[MCFUmeme].SPMS_iPtSpreadValue:=MCFUnewSV;
 end;
 
 end.
