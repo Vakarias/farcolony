@@ -400,10 +400,10 @@ begin
       setlength(FCentities[CCfacId].E_col, length(FCentities[CCfacId].E_col)+1);
       CCcolIdx:=length(FCentities[CCfacId].E_col)-1;
       FCentities[CCfacId].E_col[CCcolIdx].C_name:='';
-      FCentities[CCfacId].E_col[CCcolIdx].C_foundationDateYear:=FCRplayer.P_timeYr;
-      FCentities[CCfacId].E_col[CCcolIdx].C_foundationDateMonth:=FCRplayer.P_timeMth;
-      FCentities[CCfacId].E_col[CCcolIdx].C_foundationDateDay:=FCRplayer.P_timeday;
-      FCentities[CCfacId].E_col[CCcolIdx].C_nextCSMsessionInTick:=FCRplayer.P_timeTick+FCCwkTick;
+      FCentities[CCfacId].E_col[CCcolIdx].C_foundationDateYear:=FCRplayer.P_currentTimeYear;
+      FCentities[CCfacId].E_col[CCcolIdx].C_foundationDateMonth:=FCRplayer.P_currentTimeMonth;
+      FCentities[CCfacId].E_col[CCcolIdx].C_foundationDateDay:=FCRplayer.P_currentTimeDay;
+      FCentities[CCfacId].E_col[CCcolIdx].C_nextCSMsessionInTick:=FCRplayer.P_currentTimeTick+FCCwkTick;
       FCMgCSM_PhaseList_Upd(0, CCcolIdx);
       {.set the colony's location data}
       FCentities[CCfacId].E_col[CCcolIdx].C_locationStarSystem:=FCDduStarSystem[CClocSS].SS_token;

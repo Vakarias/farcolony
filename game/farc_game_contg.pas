@@ -119,7 +119,7 @@ FCMdF_DBProducts_Load;
    FCMdFSG_Game_Load;
 
    {.prevent a file error}
-   if FCRplayer.P_starSysLoc=''
+   if FCRplayer.P_viewStarSystem=''
    then
    begin
       DeleteFile(FCVdiPathConfigDir+'SavedGames\'+FCRplayer.P_gameName+'.xml');
@@ -232,29 +232,29 @@ FCMdF_DBProducts_Load;
          LAUNCHED.}
          CPssys:=FCFuF_StelObj_GetDbIdx(
             ufsoSsys
-            ,FCRplayer.P_starSysLoc
+            ,FCRplayer.P_viewStarSystem
             ,0
             ,0
             ,0
             );
          CPstar:=FCFuF_StelObj_GetDbIdx(
             ufsoStar
-            ,FCRplayer.P_starLoc
+            ,FCRplayer.P_viewStar
             ,CPssys
             ,0
             ,0
             );
          CPoobj:=FCFuF_StelObj_GetDbIdx(
             ufsoOObj
-            ,FCRplayer.P_oObjLoc
+            ,FCRplayer.P_viewOrbitalObject
             ,CPssys
             ,CPstar
             ,0
             );
-         if FCRplayer.P_satLoc<>''
+         if FCRplayer.P_viewSatellite<>''
          then CPsat:=FCFuF_StelObj_GetDbIdx(
             ufsoSat
-            ,FCRplayer.P_satLoc
+            ,FCRplayer.P_viewSatellite
             ,CPssys
             ,CPstar
             ,CPoobj
@@ -263,8 +263,8 @@ FCMdF_DBProducts_Load;
          FC3doglSelectedPlanetAsteroid:=CPoobj;
          {.3d view initialization}
          FCMoglVM_MView_Upd(
-            FCRplayer.P_starSysLoc,
-            FCRplayer.P_starLoc,
+            FCRplayer.P_viewStarSystem,
+            FCRplayer.P_viewStar,
             false,
             true
             );

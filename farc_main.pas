@@ -656,7 +656,7 @@ begin
                   then
                   begin
                      {.set time acceleration}
-                     case FCRplayer.P_timePhse of
+                     case FCRplayer.P_currentTimePhase of
                         tphTac: FCGLSCPcoefTimeAcc:=1.84;
                         tphMan: FCGLSCPcoefTimeAcc:=3.68;
                         tphSTH: FCGLSCPcoefTimeAcc:=18.4;
@@ -671,7 +671,7 @@ begin
                         FCentities[0].E_spU[FCGLSCPspUidx].SUO_locStarX:=FC3doglSpaceUnits[FCGLSCPobjIdx].Position.X;
                         FCentities[0].E_spU[FCGLSCPspUidx].SUO_locStarZ:=FC3doglSpaceUnits[FCGLSCPobjIdx].Position.Z;
                         {.set the right camera location}
-                        case FCRplayer.P_timePhse of
+                        case FCRplayer.P_currentTimePhase of
                            tphTac: FCGLSCamMainViewGhost.AdjustDistanceToTarget(0.982-(FCentities[0].E_spU[FCGLSCPspUidx].SUO_3dmove*0.1));
                            tphMan: FCGLSCamMainViewGhost.AdjustDistanceToTarget(0.851-(FCentities[0].E_spU[FCGLSCPspUidx].SUO_3dmove*0.1));
                            tphSTH: FCGLSCamMainViewGhost.AdjustDistanceToTarget(0.72-(FCentities[0].E_spU[FCGLSCPspUidx].SUO_3dmove*0.1));
@@ -778,7 +778,7 @@ begin
 //   end
 //   else if (Button=mb_Right)
 //      and (FCWM_PopMenFocusedObj.Tag=0)
-      and (FCRplayer.P_timePhse<>tphPAUSE)
+      and (FCRplayer.P_currentTimePhase<>tphPAUSE)
       and (not FCWinMain.FCWM_CPSreportSet.Visible)
       and
       (

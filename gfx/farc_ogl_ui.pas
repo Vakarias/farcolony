@@ -432,10 +432,10 @@ begin
       then
       begin
          FCWinMain.FCGLSHUDgameDate.Text
-            :=IntToStr(FCRplayer.P_timeday)+'/'+IntToStr(FCRplayer.P_timeMth)+'/'+IntToStr(FCRplayer.P_timeYr);
+            :=IntToStr(FCRplayer.P_currentTimeDay)+'/'+IntToStr(FCRplayer.P_currentTimeMonth)+'/'+IntToStr(FCRplayer.P_currentTimeYear);
          FCWinMain.FCGLSHUDgameTime.Text
-            :=IntToStr(FCRplayer.P_timeHr)+'hr '+IntToStr(FCRplayer.P_timeMin)+'mn ';
-         case FCRplayer.P_timePhse of
+            :=IntToStr(FCRplayer.P_currentTimeHour)+'hr '+IntToStr(FCRplayer.P_currentTimeMinut)+'mn ';
+         case FCRplayer.P_currentTimePhase of
             tphTac: M3DVUIUdmpPhase:=FCFdTFiles_UIStr_Get(uistrUI,'TimeFphaseTac');
             tphMan: M3DVUIUdmpPhase:=FCFdTFiles_UIStr_Get(uistrUI,'TimeFphaseMan');
             tphSTH: M3DVUIUdmpPhase:=FCFdTFiles_UIStr_Get(uistrUI,'TimeFphaseStH');

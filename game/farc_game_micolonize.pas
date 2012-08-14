@@ -148,7 +148,7 @@ var
 begin
    CPPsettlement:=0;
    {:DEV NOTES: resource survey data, TO REMOVE WHEN REGION SURVEY IS IMPLEMENTED.}
-   SetLength(FCRplayer.P_surveyedSpots, 2);
+   SetLength(FCRplayer.P_surveyedResourceSpots, 2);
    {:DEV NOTES: END HARCODED SURVEY DATA.}
    if CPPsatIdx=0
    then
@@ -156,7 +156,7 @@ begin
       CPPcolIdx:=FCDduStarSystem[CPPssys].SS_stars[CPPstar].S_orbitalObjects[CPPobjIdx].OO_colonies[0];
       {:DEV NOTES: resource survey data, TO REMOVE WHEN REGION SURVEY IS IMPLEMENTED.}
       regionttl:=length(FCDduStarSystem[CPPssys].SS_stars[CPPstar].S_orbitalObjects[CPPobjIdx].OO_regions);
-      FCRplayer.P_surveyedSpots[1].SS_oobjToken:=FCDduStarSystem[CPPssys].SS_stars[CPPstar].S_orbitalObjects[CPPobjIdx].OO_dbTokenId;
+      FCRplayer.P_surveyedResourceSpots[1].SRS_orbitalObject_SatelliteToken:=FCDduStarSystem[CPPssys].SS_stars[CPPstar].S_orbitalObjects[CPPobjIdx].OO_dbTokenId;
       {:DEV NOTES: END HARCODED SURVEY DATA.}
    end
    else if CPPsatIdx>0
@@ -165,7 +165,7 @@ begin
       CPPcolIdx:=FCDduStarSystem[CPPssys].SS_stars[CPPstar].S_orbitalObjects[CPPobjIdx].OO_satellitesList[CPPsatIdx].OO_colonies[0];
       {:DEV NOTES: resource survey data, TO REMOVE WHEN REGION SURVEY IS IMPLEMENTED.}
       regionttl:=length(FCDduStarSystem[CPPssys].SS_stars[CPPstar].S_orbitalObjects[CPPobjIdx].OO_satellitesList[CPPsatIdx].OO_regions);
-      FCRplayer.P_surveyedSpots[1].SS_oobjToken:=FCDduStarSystem[CPPssys].SS_stars[CPPstar].S_orbitalObjects[CPPobjIdx].OO_satellitesList[CPPsatIdx].OO_dbTokenId;
+      FCRplayer.P_surveyedResourceSpots[1].SRS_orbitalObject_SatelliteToken:=FCDduStarSystem[CPPssys].SS_stars[CPPstar].S_orbitalObjects[CPPobjIdx].OO_satellitesList[CPPsatIdx].OO_dbTokenId;
       {:DEV NOTES: END HARCODED SURVEY DATA.}
    end;
    {.establish the colony if no one exist}
@@ -195,20 +195,20 @@ begin
          and (CPPfac=0)
       then FCMgfxC_Settlement_SwitchState(CPPregion);
       {:DEV NOTES: resource survey data, TO REMOVE WHEN REGION SURVEY IS IMPLEMENTED.}
-      FCRplayer.P_surveyedSpots[1].SS_ssysIndex:=CPPssys;
-      FCRplayer.P_surveyedSpots[1].SS_starIndex:=CPPstar;
-      FCRplayer.P_surveyedSpots[1].SS_oobjIndex:=CPPobjIdx;
-      FCRplayer.P_surveyedSpots[1].SS_satIndex:=CPPsatIdx;
-      setlength(FCRplayer.P_surveyedSpots[1].SS_surveyedRegions, regionttl);
-      setlength(FCRplayer.P_surveyedSpots[1].SS_surveyedRegions[CPPregion].SR_ResourceSpot, 2 );
-      FCRplayer.P_surveyedSpots[1].SS_surveyedRegions[CPPregion].SR_ResourceSpot[1].RS_MQC:=0.7;
-      FCRplayer.P_surveyedSpots[1].SS_surveyedRegions[CPPregion].SR_ResourceSpot[1].RS_SpotSizeCur:=0;
-      FCRplayer.P_surveyedSpots[1].SS_surveyedRegions[CPPregion].SR_ResourceSpot[1].RS_SpotSizeMax:=50;
-      FCRplayer.P_surveyedSpots[1].SS_surveyedRegions[CPPregion].SR_ResourceSpot[1].RS_type:=rstOreField;
-      FCRplayer.P_surveyedSpots[1].SS_surveyedRegions[CPPregion].SR_ResourceSpot[1].RS_oreCarbonaceous:=25;
-      FCRplayer.P_surveyedSpots[1].SS_surveyedRegions[CPPregion].SR_ResourceSpot[1].RS_oreMetallic:=25;
-      FCRplayer.P_surveyedSpots[1].SS_surveyedRegions[CPPregion].SR_ResourceSpot[1].RS_oreRare:=25;
-      FCRplayer.P_surveyedSpots[1].SS_surveyedRegions[CPPregion].SR_ResourceSpot[1].RS_oreUranium:=25;
+      FCRplayer.P_surveyedResourceSpots[1].SRS_starSystem:=CPPssys;
+      FCRplayer.P_surveyedResourceSpots[1].SRS_star:=CPPstar;
+      FCRplayer.P_surveyedResourceSpots[1].SRS_orbitalObject:=CPPobjIdx;
+      FCRplayer.P_surveyedResourceSpots[1].SRS_satellite:=CPPsatIdx;
+      setlength(FCRplayer.P_surveyedResourceSpots[1].SRS_surveyedRegions, regionttl);
+      setlength(FCRplayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots, 2 );
+      FCRplayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots[1].RS_meanQualityCoefficient:=0.7;
+      FCRplayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots[1].RS_spotSizeCurrent:=0;
+      FCRplayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots[1].RS_spotSizeMax:=50;
+      FCRplayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots[1].RS_type:=rstOreField;
+      FCRplayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots[1].RS_tOFiCarbonaceous:=25;
+      FCRplayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots[1].RS_tOFiMetallic:=25;
+      FCRplayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots[1].RS_tOFiRare:=25;
+      FCRplayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots[1].RS_tOFiUranium:=25;
       {:DEV NOTES: END HARCODED SURVEY DATA.}
       FCMuiM_Message_Add(
          mtColonizeWset

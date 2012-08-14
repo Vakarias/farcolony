@@ -170,13 +170,13 @@ begin
    FCWinMain.FCWM_CPSRSIGscores.HTMLText.Add( FCFdTFiles_UIStr_Get( uistrUI, 'cpsSLmil' )+'  [ '+IntToStr(ScoreSpMil)+'% ]' );
    FCWinMain.FCWM_CPSRSinfogroup.Caption:=FCFdTFiles_UIStr_Get( uistrUI, 'CPSreport' );
    FCWinMain.FCWM_CPSRSIGreport.HTMLText.Clear;
-   if ( FCRplayer.P_ecoStat=pfs0_NotViable )
-      xor ( FCRplayer.P_socStat=pfs0_NotViable )
-      xor ( FCRplayer.P_milStat=pfs0_NotViable )
+   if ( FCRplayer.P_economicStatus=pfs0_NotViable )
+      xor ( FCRplayer.P_socialStatus=pfs0_NotViable )
+      xor ( FCRplayer.P_militaryStatus=pfs0_NotViable )
    then FCWinMain.FCWM_CPSRSIGreport.HTMLText.Add( 'Your colony didnt achieved to be viable on long term')
-   else if ( FCRplayer.P_ecoStat=pfs3_Independent )
-      and ( FCRplayer.P_socStat=pfs3_Independent )
-      and ( FCRplayer.P_milStat=pfs3_Independent )
+   else if ( FCRplayer.P_economicStatus=pfs3_Independent )
+      and ( FCRplayer.P_socialStatus=pfs3_Independent )
+      and ( FCRplayer.P_militaryStatus=pfs3_Independent )
    then FCWinMain.FCWM_CPSRSIGreport.HTMLText.Add(
       'Congratulation ! Your colony achieved to be fully independent !'
       )
@@ -184,7 +184,7 @@ begin
       FCWinMain.FCWM_CPSRSIGreport.HTMLText.Add(
          'Congratulation ! Your colony is viable on long term, but not completely independent:<br>'
          );
-      case FCRplayer.P_ecoStat of
+      case FCRplayer.P_economicStatus of
          pfs1_FullyDependent: FCWinMain.FCWM_CPSRSIGreport.HTMLText.Add(
             FCCFidxL6+'- Economically, your colony will stay dependent'//, that mean that you cant '
             );
@@ -194,7 +194,7 @@ begin
             );
       end;
       FCWinMain.FCWM_CPSRSIGreport.HTMLText.Add('<br>');
-      case FCRplayer.P_socStat of
+      case FCRplayer.P_socialStatus of
          pfs1_FullyDependent: FCWinMain.FCWM_CPSRSIGreport.HTMLText.Add(
             FCCFidxL6+'- Socially, your colony will stay dependent'//, that mean that you cant '
             );
@@ -204,7 +204,7 @@ begin
             );
       end;
       FCWinMain.FCWM_CPSRSIGreport.HTMLText.Add('<br>');
-      case FCRplayer.P_milStat of
+      case FCRplayer.P_militaryStatus of
          pfs1_FullyDependent: FCWinMain.FCWM_CPSRSIGreport.HTMLText.Add(
             FCCFidxL6+'- For the Space and the Army, your colony will stay dependent'//, that mean that you cant '
             );

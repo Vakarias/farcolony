@@ -618,6 +618,60 @@ end;
    ///</summary>
    TFCDdgFactions = array [0..FCCdiFactionsMax] of TFCRdgFaction;
 
+{:REFERENCES LIST
+   - FCMdFSG_Game_Load
+   - FCMdFSG_Game_Save
+   - FCMgNG_Core_Proceed
+   - FCMgNG_Core_Setup
+}
+///<summary>
+///   player's own data
+///</summary>
+type TFCRdgPlayer = record
+   P_gameName: string;
+   P_allegianceFaction: string[20];
+   P_economicStatus: TFCEdgPlayerFactionStatus;
+   P_economicViabilityThreshold: integer;
+   P_socialStatus: TFCEdgPlayerFactionStatus;
+   P_socialViabilityThreshold: integer;
+   P_militaryStatus: TFCEdgPlayerFactionStatus;
+   P_militaryViabilityThreshold: integer;
+   P_viewStarSystem: string[20];
+   P_viewStar: string[20];
+   P_viewOrbitalObject: string[20];
+   P_viewSatellite: string[20];
+   P_currentTimeTick: integer;
+   P_currentTimeMinut: integer;
+   P_currentTimeHour: integer;
+   P_currentTimeDay: integer;
+   P_currentTimeMonth: integer;
+   P_currentTimeYear: integer;
+   P_currentTimePhase: TFCEtimePhases;
+   P_surveyedResourceSpots: array of record
+      SRS_orbitalObject_SatelliteToken: string[20];
+      SRS_starSystem: integer;
+      SRS_star: integer;
+      SRS_orbitalObject: integer;
+      SRS_satellite: integer;
+      SRS_surveyedRegions: array of record
+         SR_ResourceSpots: array of record
+            RS_meanQualityCoefficient: extended;
+            RS_spotSizeCurrent: integer;
+            RS_spotSizeMax: integer;
+            case RS_type: TFCEduResourceSpotTypes of
+               rstIcyOreField:();
+
+               rstOreField:(
+                  RS_tOFiCarbonaceous: integer;
+                  RS_tOFiMetallic: integer;
+                  RS_tOFiRare: integer;
+                  RS_tOFiUranium: integer;
+                  );
+         end; //==END== record: SR_ResourceSpots ==//
+      end; //==END== record: SRS_surveyedRegions ==//
+   end; //==END== record: P_surveyedResourceSpots ==//
+end;
+
 //==END PUBLIC RECORDS======================================================================
 
    //==========subsection===================================================================
@@ -639,69 +693,7 @@ end;
 
 
 
-   {.player's data structure}
-   {DEV NOTE: UPDATE NEW GAME SETUP + FCMdFSG_Game_Save + FCMdFSG_Game_Load}
-   type TFCRdgPlayer = record
-      {.game name, used for save game name}
-      P_gameName: string;
-      {.token id of faction the player belongs to, if fullInd then = 'null'}
-      P_facAlleg: string[20];
-      {.economic status}
-      P_ecoStat: TFCEdgPlayerFactionStatus;
-      P_viabThrEco: integer;
-      {.social status}
-      P_socStat: TFCEdgPlayerFactionStatus;
-      P_viabThrSoc: integer;
-      {.military status}
-      P_milStat: TFCEdgPlayerFactionStatus;
-      P_viabThrSpMil: integer;
-      {.3d view focus location - star system token id}
-      P_starSysLoc: string[20];
-      {.3d view focus location - star token id}
-      P_starLoc: string[20];
-      {.3d view focus location - orbital object token id}
-      P_oObjLoc: string[20];
-      {.3d view focus location - satellite token id}
-      P_satLoc: string[20];
-      {.timer tick, 1 = 1sec RT}
-      P_timeTick: integer;
-      {.current game time - minutes}
-      P_timeMin: integer;
-      {.current game time - hour}
-      P_timeHr: integer;
-      {.current game time - day}
-      P_timeday: integer;
-      {.current game time - month}
-      P_timeMth: integer;
-      {.current game time - year}
-      P_timeYr: integer;
-      {.time phases}
-      P_timePhse: TFCEtimePhases;
-      {surveyed resources}
-      P_surveyedSpots: array of record
-         SS_oobjToken: string[20];
-         SS_ssysIndex: integer;
-         SS_starIndex: integer;
-         SS_oobjIndex: integer;
-         SS_satIndex: integer;
-         SS_surveyedRegions: array of record
-            SR_ResourceSpot: array of record
-               RS_MQC: extended;
-               RS_SpotSizeCur: integer;
-               RS_SpotSizeMax: integer;
-               case RS_type: TFCEduResourceSpotTypes of
-                  rstIcyOreField: ();
 
-                  rstOreField: (
-                     RS_oreCarbonaceous: integer;
-                     RS_oreMetallic: integer;
-                     RS_oreRare: integer;
-                     RS_oreUranium: integer;
-                     );
-            end;
-         end;
-      end;
-   end;
 
    type TFCRdgSPUdocked = record
       {.unique token id of the docked space unit}

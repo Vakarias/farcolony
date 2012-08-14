@@ -131,10 +131,10 @@ begin
    CSMPPcnt:=1;
    while CSMPPcnt<=CSMPPmax do
    begin
-      if FCGcsmPhList[CSMPPcnt].CSMPS_ProcessAtTick=FCRplayer.P_timeTick
+      if FCGcsmPhList[CSMPPcnt].CSMPS_ProcessAtTick=FCRplayer.P_currentTimeTick
       then
       begin
-         CSMPPtickNew:=FCRplayer.P_timeTick+FCCwkTick;
+         CSMPPtickNew:=FCRplayer.P_currentTimeTick+FCCwkTick;
          CSMPPfacCnt:=0;
          while CSMPPfacCnt<FCCdiFactionsMax do
          begin
@@ -182,8 +182,8 @@ begin
    begin
       FCVdiGameFlowTimer.Enabled:=false;
       FCWinMain.FCGLScadencer.Enabled:=false;
-      FCGtimePhase:=FCRplayer.P_timePhse;
-      FCRplayer.P_timePhse:=FSSstate;
+      FCGtimePhase:=FCRplayer.P_currentTimePhase;
+      FCRplayer.P_currentTimePhase:=FSSstate;
    end
    else
    begin
@@ -192,11 +192,11 @@ begin
       begin
          FCVdiGameFlowTimer.Enabled:=true;
          FCWinMain.FCGLScadencer.Enabled:=true;
-         FCRplayer.P_timePhse:=FCGtimePhase;
+         FCRplayer.P_currentTimePhase:=FCGtimePhase;
       end
       else
       begin
-         FCRplayer.P_timePhse:=FSSstate;
+         FCRplayer.P_currentTimePhase:=FSSstate;
          case FSSstate of
             tphTac: FCVdiGameFlowTimer.Interval:=1000;
             tphMan: FCVdiGameFlowTimer.Interval:=500;
@@ -211,7 +211,7 @@ function FCFgTFlow_GameTimer_DayMthGet: integer;
     Additions:
 }
 begin
-   case FCRplayer.P_timeMth of
+   case FCRplayer.P_currentTimeMonth of
       1: Result:=31;
       2: Result:=28;
       3: Result:=31;
@@ -748,33 +748,33 @@ begin
    isProdPhaseSwitch:=false;
    isSegment3Switch:=false;
    {.time updating}
-   inc(FCRplayer.P_timeTick);
-   GGFnewTick:=FCRplayer.P_timeTick;
-   if FCRplayer.P_timeMin<50
-   then FCRplayer.P_timeMin:=FCRplayer.P_timeMin+10
-   else if FCRplayer.P_timeMin>=50
+   inc(FCRplayer.P_currentTimeTick);
+   GGFnewTick:=FCRplayer.P_currentTimeTick;
+   if FCRplayer.P_currentTimeMinut<50
+   then FCRplayer.P_currentTimeMinut:=FCRplayer.P_currentTimeMinut+10
+   else if FCRplayer.P_currentTimeMinut>=50
    then
    begin
-      FCRplayer.P_timeMin:=0;
+      FCRplayer.P_currentTimeMinut:=0;
       isProdPhaseSwitch:=true;
-      if FCRplayer.P_timeHr<23
-      then inc(FCRplayer.P_timeHr)
+      if FCRplayer.P_currentTimeHour<23
+      then inc(FCRplayer.P_currentTimeHour)
       else
       begin
-         FCRplayer.P_timeHr:=0;
+         FCRplayer.P_currentTimeHour:=0;
          isSegment3Switch:=true;
          GTPmaxDayMonth:=FCFgTFlow_GameTimer_DayMthGet;
-         if FCRplayer.P_timeday<GTPmaxDayMonth
-         then inc(FCRplayer.P_timeday)
+         if FCRplayer.P_currentTimeDay<GTPmaxDayMonth
+         then inc(FCRplayer.P_currentTimeDay)
          else
          begin
-            FCRplayer.P_timeday:=1;
-            if FCRplayer.P_timeMth<11
-            then inc(FCRplayer.P_timeMth)
+            FCRplayer.P_currentTimeDay:=1;
+            if FCRplayer.P_currentTimeMonth<11
+            then inc(FCRplayer.P_currentTimeMonth)
             else
             begin
-               FCRplayer.P_timeMth:=1;
-               inc(FCRplayer.P_timeYr);
+               FCRplayer.P_currentTimeMonth:=1;
+               inc(FCRplayer.P_currentTimeYear);
             end;
          end;
       end;
@@ -792,15 +792,15 @@ begin
    if GTPphLmax>0
    then FCMgTFlow_CSMphase_Proc(GTPphLmax);
    {.SPM phase}
-   if (FCRplayer.P_timeday=1)
-      and (FCRplayer.P_timeTick>144)
+   if (FCRplayer.P_currentTimeDay=1)
+      and (FCRplayer.P_currentTimeTick>144)
       and (not GGFisSPMphasePassed)
    then
    begin
       FCMgSPM_Phase_Proc;
       GGFisSPMphasePassed:=true;
    end
-   else if (FCRplayer.P_timeday>1)
+   else if (FCRplayer.P_currentTimeDay>1)
       and (GGFisSPMphasePassed)
    then GGFisSPMphasePassed:=false;
    {.update CPS time left and process the end of colonization phase if needed}

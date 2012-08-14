@@ -323,79 +323,79 @@ FCWinNewGSetup.Close;
    FCMdF_DBStarSystems_Load;
    {.initialize player's data structure}
    FCRplayer.P_gameName:=SetGameName;// FCWinNewGSetup.FCWNGS_Frm_GNameEdit.Text;
-   FCRplayer.P_facAlleg:=FCDBFactions[SelectedFactionIndex].F_token;
+   FCRplayer.P_allegianceFaction:=FCDBFactions[SelectedFactionIndex].F_token;
 //   CPcolMidx:=FCWinNewGSetup.FCWNGS_Frm_ColMode.ItemIndex+1;
-   FCRplayer.P_ecoStat:=pfs1_FullyDependent;
-   FCRplayer.P_viabThrEco:=FCDBFactions[SelectedFactionIndex].F_colonizationModes[ SelectedColonizationModeIndex ].CM_cpsViabilityThreshold_Economic;
-   FCRplayer.P_socStat:=pfs1_FullyDependent;
-   FCRplayer.P_viabThrSoc:=FCDBFactions[SelectedFactionIndex].F_colonizationModes[ SelectedColonizationModeIndex ].CM_cpsViabilityThreshold_Social;
-   FCRplayer.P_milStat:=pfs1_FullyDependent;
-   FCRplayer.P_viabThrSpMil:=FCDBFactions[SelectedFactionIndex].F_colonizationModes[ SelectedColonizationModeIndex ].CM_cpsViabilityThreshold_SpaceMilitary;
+   FCRplayer.P_economicStatus:=pfs1_FullyDependent;
+   FCRplayer.P_economicViabilityThreshold:=FCDBFactions[SelectedFactionIndex].F_colonizationModes[ SelectedColonizationModeIndex ].CM_cpsViabilityThreshold_Economic;
+   FCRplayer.P_socialStatus:=pfs1_FullyDependent;
+   FCRplayer.P_socialViabilityThreshold:=FCDBFactions[SelectedFactionIndex].F_colonizationModes[ SelectedColonizationModeIndex ].CM_cpsViabilityThreshold_Social;
+   FCRplayer.P_militaryStatus:=pfs1_FullyDependent;
+   FCRplayer.P_militaryViabilityThreshold:=FCDBFactions[SelectedFactionIndex].F_colonizationModes[ SelectedColonizationModeIndex ].CM_cpsViabilityThreshold_SpaceMilitary;
    {DEV NOTE: the following code will be changed later with choice of planet following choosen faction.}
    {.determine starting location, regarding starting location list}
    CPcount1:=length(FCDBFactions[SelectedFactionIndex].F_startingLocations)-1;
    if CPcount1=1 then
    begin
-      FCRplayer.P_starSysLoc:=FCDBFactions[SelectedFactionIndex].F_startingLocations[1].SL_stellarSystem;
-      FCRplayer.P_starLoc:=FCDBFactions[SelectedFactionIndex].F_startingLocations[1].SL_star;
-      FCRplayer.P_oObjLoc:=FCDBFactions[SelectedFactionIndex].F_startingLocations[1].SL_orbitalObject;
+      FCRplayer.P_viewStarSystem:=FCDBFactions[SelectedFactionIndex].F_startingLocations[1].SL_stellarSystem;
+      FCRplayer.P_viewStar:=FCDBFactions[SelectedFactionIndex].F_startingLocations[1].SL_star;
+      FCRplayer.P_viewOrbitalObject:=FCDBFactions[SelectedFactionIndex].F_startingLocations[1].SL_orbitalObject;
    end
    else if CPcount1>1 then
    begin
       CPcount0:=Random(CPcount1)+1;
-      FCRplayer.P_starSysLoc:=FCDBFactions[SelectedFactionIndex].F_startingLocations[CPcount0].SL_stellarSystem;
-      FCRplayer.P_starLoc:=FCDBFactions[SelectedFactionIndex].F_startingLocations[CPcount0].SL_star;
-      FCRplayer.P_oObjLoc:=FCDBFactions[SelectedFactionIndex].F_startingLocations[CPcount0].SL_orbitalObject;
+      FCRplayer.P_viewStarSystem:=FCDBFactions[SelectedFactionIndex].F_startingLocations[CPcount0].SL_stellarSystem;
+      FCRplayer.P_viewStar:=FCDBFactions[SelectedFactionIndex].F_startingLocations[CPcount0].SL_star;
+      FCRplayer.P_viewOrbitalObject:=FCDBFactions[SelectedFactionIndex].F_startingLocations[CPcount0].SL_orbitalObject;
    end
    else
    begin
-      FCRplayer.P_starSysLoc:='stelsysACent';
-      FCRplayer.P_starLoc:='starACentA';
-      FCRplayer.P_oObjLoc:='orbobjAcentA2';
-      FCRplayer.P_satLoc:='';
+      FCRplayer.P_viewStarSystem:='stelsysACent';
+      FCRplayer.P_viewStar:='starACentA';
+      FCRplayer.P_viewOrbitalObject:='orbobjAcentA2';
+      FCRplayer.P_viewSatellite:='';
    end;
    {:DEV NOTES: load the planetary system here.}
-   FCMdF_DBStarOrbitalObjects_Load( FCRplayer.P_starSysLoc, FCRplayer.P_starLoc );
+   FCMdF_DBStarOrbitalObjects_Load( FCRplayer.P_viewStarSystem, FCRplayer.P_viewStar );
    CPsSys:=FCFuF_StelObj_GetDbIdx(
       ufsoSsys
-      ,FCRplayer.P_starSysLoc
+      ,FCRplayer.P_viewStarSystem
       ,0
       ,0
       ,0
       );
    CPstar:=FCFuF_StelObj_GetDbIdx(
       ufsoStar
-      ,FCRplayer.P_starLoc
+      ,FCRplayer.P_viewStar
       ,CPsSys
       ,0
       ,0
       );
    CPoobj:=FCFuF_StelObj_GetDbIdx(
       ufsoOObj
-      ,FCRplayer.P_oObjLoc
+      ,FCRplayer.P_viewOrbitalObject
       ,CPsSys
       ,CPstar
       ,0
       );
-   if FCRplayer.P_satLoc<>''
+   if FCRplayer.P_viewSatellite<>''
    then CPsat:=FCFuF_StelObj_GetDbIdx(
       ufsoSat
-      ,FCRplayer.P_satLoc
+      ,FCRplayer.P_viewSatellite
       ,CPsSys
       ,CPstar
       ,CPoobj
       )
    else CPsat:=0;
    {.set the time frame}
-   FCRplayer.P_timeTick:=0;
-   FCRplayer.P_timeMin:=0;
-   FCRplayer.P_timeHr:=0;
-   FCRplayer.P_timeday:=1;
-   FCRplayer.P_timeMth:=1;
-   FCRplayer.P_timeYr:=2250;
+   FCRplayer.P_currentTimeTick:=0;
+   FCRplayer.P_currentTimeMinut:=0;
+   FCRplayer.P_currentTimeHour:=0;
+   FCRplayer.P_currentTimeDay:=1;
+   FCRplayer.P_currentTimeMonth:=1;
+   FCRplayer.P_currentTimeYear:=2250;
    {.surveyed region initialization}
    {:DEV NOTES: it's important to put it BEFORE the entities main loop, because future faction's data will include already surveyed regions data.}
-   SetLength(FCRplayer.P_surveyedSpots, 1);
+   SetLength(FCRplayer.P_surveyedResourceSpots, 1);
    {.entities main loop}
    CPent:=0;
    while CPent<=FCCdiFactionsMax do
@@ -441,9 +441,9 @@ FCWinNewGSetup.Close;
                   {.link the vessel design}
                   FCentities[CPent].E_spU[CPowndSCidx].SUO_designId:=CM_equipmentList[CPcount0].EL_eiSUnDesignToken;
                   {.location}
-                  FCentities[CPent].E_spU[CPowndSCidx].SUO_starSysLoc:=FCRplayer.P_starSysLoc;
-                  FCentities[CPent].E_spU[CPowndSCidx].SUO_starLoc:=FCRplayer.P_starLoc;
-                  FCentities[CPent].E_spU[CPowndSCidx].SUO_satLoc:=FCRplayer.P_satLoc;
+                  FCentities[CPent].E_spU[CPowndSCidx].SUO_starSysLoc:=FCRplayer.P_viewStarSystem;
+                  FCentities[CPent].E_spU[CPowndSCidx].SUO_starLoc:=FCRplayer.P_viewStar;
+                  FCentities[CPent].E_spU[CPowndSCidx].SUO_satLoc:=FCRplayer.P_viewSatellite;
                   FCentities[CPent].E_spU[CPowndSCidx].SUO_locStarX:=0;
                   FCentities[CPent].E_spU[CPowndSCidx].SUO_locStarZ:=0;
                   FCentities[CPent].E_spU[CPowndSCidx].SUO_taskIdx:=0 ;
@@ -582,8 +582,8 @@ FCWinNewGSetup.Close;
    finally
       FC3doglSelectedPlanetAsteroid:=CPoobj;
       FCMoglVM_MView_Upd(
-         FCRplayer.P_starSysLoc
-         ,FCRplayer.P_starLoc
+         FCRplayer.P_viewStarSystem
+         ,FCRplayer.P_viewStar
          ,false
          ,true
          );

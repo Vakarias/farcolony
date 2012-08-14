@@ -310,9 +310,9 @@ begin
    begin
       {.economic status, idx=3}
       FCWinMain.FCWM_UMI_FacEcon.Left:=UMIUFecon;
-      FCWinMain.FCWM_UMI_FacEcon.Position:=Integer(FCRplayer.P_ecoStat);
+      FCWinMain.FCWM_UMI_FacEcon.Position:=Integer(FCRplayer.P_economicStatus);
       UMIUFeconPos:=IntToStr(FCWinMain.FCWM_UMI_FacEcon.Position);
-      UMIUFeconLvl:=FCFgSPMD_Level_GetToken(FCRplayer.P_ecoStat);
+      UMIUFeconLvl:=FCFgSPMD_Level_GetToken(FCRplayer.P_economicStatus);
       if (UMIUFsec=uiwAllSection)
          or (UMIUFsec=uiwAllMain)
          or ((UMIUFsec=uiwNone) and (UMIUFrelocRetVal))
@@ -339,9 +339,9 @@ begin
    begin
       {.social status, idx=4}
       FCWinMain.FCWM_UMI_FacSoc.Left:=UMIUFsoc;
-      FCWinMain.FCWM_UMI_FacSoc.Position:=Integer(FCRplayer.P_socStat);
+      FCWinMain.FCWM_UMI_FacSoc.Position:=Integer(FCRplayer.P_socialStatus);
       UMIUFsocPos:=IntToStr(FCWinMain.FCWM_UMI_FacSoc.Position);
-      UMIUFsocLvl:=FCFgSPMD_Level_GetToken(FCRplayer.P_socStat);
+      UMIUFsocLvl:=FCFgSPMD_Level_GetToken(FCRplayer.P_socialStatus);
       if (UMIUFsec=uiwAllSection)
          or (UMIUFsec=uiwAllMain)
          or ((UMIUFsec=uiwNone) and (UMIUFrelocRetVal))
@@ -368,9 +368,9 @@ begin
    begin
       {.military status, idx=5}
       FCWinMain.FCWM_UMI_FacMil.Left:=UMIUFmil;
-      FCWinMain.FCWM_UMI_FacMil.Position:=Integer(FCRplayer.P_milStat);
+      FCWinMain.FCWM_UMI_FacMil.Position:=Integer(FCRplayer.P_militaryStatus);
       UMIUFmilPos:=IntToStr(FCWinMain.FCWM_UMI_FacMil.Position);
-      UMIUFmilLvl:=FCFgSPMD_Level_GetToken(FCRplayer.P_milStat);
+      UMIUFmilLvl:=FCFgSPMD_Level_GetToken(FCRplayer.P_militaryStatus);
       if (UMIUFsec=uiwAllSection)
          or (UMIUFsec=uiwAllMain)
          or ((UMIUFsec=uiwNone) and (UMIUFrelocRetVal))
@@ -713,11 +713,11 @@ begin
       end
       else
       begin
-         UMIUFstatus:=FCFgSPMD_Level_GetToken(FCRplayer.P_socStat);
+         UMIUFstatus:=FCFgSPMD_Level_GetToken(FCRplayer.P_socialStatus);
          FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Clear;
          FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add(
             FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolenfRuleNoEnf1')
-            +'[<b>'+IntToStr(Integer(FCRplayer.P_socStat))+'</b>]-<b>'+FCFdTFiles_UIStr_Get(uistrUI, UMIUFstatus)+'</b>, '+FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolenfRuleNoEnf2')
+            +'[<b>'+IntToStr(Integer(FCRplayer.P_socialStatus))+'</b>]-<b>'+FCFdTFiles_UIStr_Get(uistrUI, UMIUFstatus)+'</b>, '+FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolenfRuleNoEnf2')
             +'[<b>'+IntToStr(Integer(TFCEdgPlayerFactionStatus.pfs2_SemiDependent))+'</b>]-<b>'+FCFdTFiles_UIStr_Get(uistrUI, 'cpsStatSD')+'</b>.<br>'
             );
          if Assigned(FCcps)

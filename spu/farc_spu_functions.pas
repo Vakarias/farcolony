@@ -400,7 +400,7 @@ begin
    SUOSret:=0;
    SUOScnt:=1;
    SUOSsyst:=FCentities[SUOSfac].E_spU[SUOSidx].SUO_starLoc;
-   if SUOSsyst=FCRplayer.P_starLoc
+   if SUOSsyst=FCRplayer.P_viewStar
    then
    begin
       while SUOScnt<=FC3doglTotalSpaceUnits do
@@ -708,7 +708,7 @@ begin
                   SURtask:=SURown[SURclone].SUO_taskIdx;
                   FCGtskListInProc[SURtask].TITP_ctldIdx:=SURclone;
                end;
-               if SURown[SURclone].SUO_starLoc=FCRplayer.P_starLoc
+               if SURown[SURclone].SUO_starLoc=FCRplayer.P_viewStar
                then
                begin
                   SURspuObj:=FCFspuF_SpUObject_Search(SURfac, SURspu);

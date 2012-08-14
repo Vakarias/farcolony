@@ -558,7 +558,7 @@ begin
       if CMTisUpdPMenu
       then FCMuiW_FocusPopup_Upd(uiwpkOrbObj);
       {.store the player's location}
-      FCRplayer.P_oObjLoc:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[FC3doglSelectedPlanetAsteroid].OO_dbTokenId;
+      FCRplayer.P_viewOrbitalObject:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[FC3doglSelectedPlanetAsteroid].OO_dbTokenId;
    end
    {.satellite selected}
    else if CMTidxOfObj=100
@@ -596,7 +596,7 @@ begin
       {.store the player's location}
       CMTdmpSatIdx:=FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].Tag;
       CMTdmpSatPlanIdx:=round(FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].TagFloat);
-      FCRplayer.P_satLoc
+      FCRplayer.P_viewSatellite
          :=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[CMTdmpSatPlanIdx].OO_satellitesList[CMTdmpSatIdx].OO_dbTokenId;
    end;
 end;

@@ -241,11 +241,11 @@ var
 begin
    FCMdF_ConfigurationFile_Load(true);
    GLcurrDir:=FCVdiPathConfigDir+'SavedGames\'+FCRplayer.P_gameName;
-   GLcurrG:=IntToStr(FCRplayer.P_timeYr)
-      +'-'+IntToStr(FCRplayer.P_timeMth)
-      +'-'+IntToStr(FCRplayer.P_timeday)
-      +'-'+IntToStr(FCRplayer.P_timeHr)
-      +'-'+IntToStr(FCRplayer.P_timeMin)
+   GLcurrG:=IntToStr(FCRplayer.P_currentTimeYear)
+      +'-'+IntToStr(FCRplayer.P_currentTimeMonth)
+      +'-'+IntToStr(FCRplayer.P_currentTimeDay)
+      +'-'+IntToStr(FCRplayer.P_currentTimeHour)
+      +'-'+IntToStr(FCRplayer.P_currentTimeMinut)
       +'.xml';
    if (DirectoryExists(GLcurrDir))
       and (FileExists(GLcurrDir+'\'+GLcurrG))
@@ -259,36 +259,36 @@ begin
       if GLxmlItm<>nil
       then
       begin
-         FCRplayer.P_facAlleg:=GLxmlItm.Attributes['facAlleg'];
-         FCRplayer.P_starSysLoc:=GLxmlItm.Attributes['plyrsSSLoc'];
-         FCRplayer.P_starLoc:=GLxmlItm.Attributes['plyrsStLoc'];
-         FCRplayer.P_oObjLoc:=GLxmlItm.Attributes['plyrsOObjLoc'];
-         FCRplayer.P_satLoc:=GLxmlItm.Attributes['plyrsatLoc'];
-         FCMdF_DBStarOrbitalObjects_Load( FCRplayer.P_starSysLoc, FCRplayer.P_starLoc );
+         FCRplayer.P_allegianceFaction:=GLxmlItm.Attributes['facAlleg'];
+         FCRplayer.P_viewStarSystem:=GLxmlItm.Attributes['plyrsSSLoc'];
+         FCRplayer.P_viewStar:=GLxmlItm.Attributes['plyrsStLoc'];
+         FCRplayer.P_viewOrbitalObject:=GLxmlItm.Attributes['plyrsOObjLoc'];
+         FCRplayer.P_viewSatellite:=GLxmlItm.Attributes['plyrsatLoc'];
+         FCMdF_DBStarOrbitalObjects_Load( FCRplayer.P_viewStarSystem, FCRplayer.P_viewStar );
       end;
       {.read the "timeframe" section}
       GLxmlItm:=FCWinMain.FCXMLsave.DocumentElement.ChildNodes.FindNode('gfTimeFr');
       if GLxmlItm<>nil
       then
       begin
-         FCRplayer.P_timeTick:=GLxmlItm.Attributes['tfTick'];
-         FCRplayer.P_timeMin:=GLxmlItm.Attributes['tfMin'];
-         FCRplayer.P_timeHr:=GLxmlItm.Attributes['tfHr'];
-         FCRplayer.P_timeday:=GLxmlItm.Attributes['tfDay'];
-         FCRplayer.P_timeMth:=GLxmlItm.Attributes['tfMth'];
-         FCRplayer.P_timeYr:=GLxmlItm.Attributes['tfYr'];
+         FCRplayer.P_currentTimeTick:=GLxmlItm.Attributes['tfTick'];
+         FCRplayer.P_currentTimeMinut:=GLxmlItm.Attributes['tfMin'];
+         FCRplayer.P_currentTimeHour:=GLxmlItm.Attributes['tfHr'];
+         FCRplayer.P_currentTimeDay:=GLxmlItm.Attributes['tfDay'];
+         FCRplayer.P_currentTimeMonth:=GLxmlItm.Attributes['tfMth'];
+         FCRplayer.P_currentTimeYear:=GLxmlItm.Attributes['tfYr'];
       end;
       {.read the "status" section}
       GLxmlItm:=FCWinMain.FCXMLsave.DocumentElement.ChildNodes.FindNode('gfStatus');
       if GLxmlItm<>nil
       then
       begin
-         FCRplayer.P_ecoStat:=GLxmlItm.Attributes['statEco'];
-         FCRplayer.P_viabThrEco:=GLxmlItm.Attributes['statEcoThr'];
-         FCRplayer.P_socStat:=GLxmlItm.Attributes['statSoc'];
-         FCRplayer.P_viabThrSoc:=GLxmlItm.Attributes['statSocThr'];
-         FCRplayer.P_milStat:=GLxmlItm.Attributes['statSpMil'];
-         FCRplayer.P_viabThrSpMil:=GLxmlItm.Attributes['statSpMilThr'];
+         FCRplayer.P_economicStatus:=GLxmlItm.Attributes['statEco'];
+         FCRplayer.P_economicViabilityThreshold:=GLxmlItm.Attributes['statEcoThr'];
+         FCRplayer.P_socialStatus:=GLxmlItm.Attributes['statSoc'];
+         FCRplayer.P_socialViabilityThreshold:=GLxmlItm.Attributes['statSocThr'];
+         FCRplayer.P_militaryStatus:=GLxmlItm.Attributes['statSpMil'];
+         FCRplayer.P_militaryViabilityThreshold:=GLxmlItm.Attributes['statSpMilThr'];
       end;
       {.read "cps" section}
       GLxmlItm:=FCWinMain.FCXMLsave.DocumentElement.ChildNodes.FindNode('gfCPS');
@@ -372,7 +372,7 @@ begin
          end; {.while GLxmlGamItmTskInPr<>nil}
       end; {.if GLxmlGamItmTskInPr<>nil}
       {.read all surveyed resources}
-      setlength(FCRplayer.P_surveyedSpots, 1);
+      setlength(FCRplayer.P_surveyedResourceSpots, 1);
       GLxmlItm:=FCWinMain.FCXMLsave.DocumentElement.ChildNodes.FindNode('gfSurveyedResourceSpots');
       if GLxmlItm<>nil then
       begin
@@ -381,49 +381,49 @@ begin
          while GLxmlSurveyRsrc<>nil do
          begin
             inc(GLcount);
-            SetLength(FCRplayer.P_surveyedSpots, GLcount+1);
-            FCRplayer.P_surveyedSpots[GLcount].SS_oobjToken:=GLxmlSurveyRsrc.Attributes['oobj'];
-            FCRplayer.P_surveyedSpots[GLcount].SS_ssysIndex:=GLxmlSurveyRsrc.Attributes['ssysIdx'];
-            FCRplayer.P_surveyedSpots[GLcount].SS_starIndex:=GLxmlSurveyRsrc.Attributes['starIdx'];
-            FCRplayer.P_surveyedSpots[GLcount].SS_oobjIndex:=GLxmlSurveyRsrc.Attributes['oobjIdx'];
-            FCRplayer.P_surveyedSpots[GLcount].SS_satIndex:=GLxmlSurveyRsrc.Attributes['satIdx'];
+            SetLength(FCRplayer.P_surveyedResourceSpots, GLcount+1);
+            FCRplayer.P_surveyedResourceSpots[GLcount].SRS_orbitalObject_SatelliteToken:=GLxmlSurveyRsrc.Attributes['oobj'];
+            FCRplayer.P_surveyedResourceSpots[GLcount].SRS_starSystem:=GLxmlSurveyRsrc.Attributes['ssysIdx'];
+            FCRplayer.P_surveyedResourceSpots[GLcount].SRS_star:=GLxmlSurveyRsrc.Attributes['starIdx'];
+            FCRplayer.P_surveyedResourceSpots[GLcount].SRS_orbitalObject:=GLxmlSurveyRsrc.Attributes['oobjIdx'];
+            FCRplayer.P_surveyedResourceSpots[GLcount].SRS_satellite:=GLxmlSurveyRsrc.Attributes['satIdx'];
             if (
-               (FCRplayer.P_surveyedSpots[GLcount].SS_oobjToken<>'')
+               (FCRplayer.P_surveyedResourceSpots[GLcount].SRS_orbitalObject_SatelliteToken<>'')
                and
-               (FCRplayer.P_surveyedSpots[GLcount].SS_satIndex=0)
-               and ( FCDduStarSystem[FCRplayer.P_surveyedSpots[GLcount].SS_ssysIndex].
-                        SS_stars[FCRplayer.P_surveyedSpots[GLcount].SS_starIndex].
-                        S_orbitalObjects[FCRplayer.P_surveyedSpots[GLcount].SS_oobjIndex].OO_dbTokenId=FCRplayer.P_surveyedSpots[GLcount].SS_oobjToken
+               (FCRplayer.P_surveyedResourceSpots[GLcount].SRS_satellite=0)
+               and ( FCDduStarSystem[FCRplayer.P_surveyedResourceSpots[GLcount].SRS_starSystem].
+                        SS_stars[FCRplayer.P_surveyedResourceSpots[GLcount].SRS_star].
+                        S_orbitalObjects[FCRplayer.P_surveyedResourceSpots[GLcount].SRS_orbitalObject].OO_dbTokenId=FCRplayer.P_surveyedResourceSpots[GLcount].SRS_orbitalObject_SatelliteToken
                   )
                )
                or (
-                  (FCRplayer.P_surveyedSpots[GLcount].SS_oobjToken<>'')
+                  (FCRplayer.P_surveyedResourceSpots[GLcount].SRS_orbitalObject_SatelliteToken<>'')
                   and
-                  (FCRplayer.P_surveyedSpots[GLcount].SS_satIndex>0)
-                  and ( FCDduStarSystem[FCRplayer.P_surveyedSpots[GLcount].SS_ssysIndex].
-                           SS_stars[FCRplayer.P_surveyedSpots[GLcount].SS_starIndex].
-                           S_orbitalObjects[FCRplayer.P_surveyedSpots[GLcount].SS_oobjIndex].
-                           OO_satellitesList[FCRplayer.P_surveyedSpots[GLcount].SS_satIndex].OO_dbTokenId=FCRplayer.P_surveyedSpots[GLcount].SS_oobjToken
+                  (FCRplayer.P_surveyedResourceSpots[GLcount].SRS_satellite>0)
+                  and ( FCDduStarSystem[FCRplayer.P_surveyedResourceSpots[GLcount].SRS_starSystem].
+                           SS_stars[FCRplayer.P_surveyedResourceSpots[GLcount].SRS_star].
+                           S_orbitalObjects[FCRplayer.P_surveyedResourceSpots[GLcount].SRS_orbitalObject].
+                           OO_satellitesList[FCRplayer.P_surveyedResourceSpots[GLcount].SRS_satellite].OO_dbTokenId=FCRplayer.P_surveyedResourceSpots[GLcount].SRS_orbitalObject_SatelliteToken
                      )
                ) then
             begin
-               if FCRplayer.P_surveyedSpots[GLcount].SS_satIndex=0
+               if FCRplayer.P_surveyedResourceSpots[GLcount].SRS_satellite=0
                then SetLength(
-                  FCRplayer.P_surveyedSpots[GLcount].SS_surveyedRegions
+                  FCRplayer.P_surveyedResourceSpots[GLcount].SRS_surveyedRegions
                   ,length(
-                     FCDduStarSystem[FCRplayer.P_surveyedSpots[GLcount].SS_ssysIndex].
-                        SS_stars[FCRplayer.P_surveyedSpots[GLcount].SS_starIndex].
-                        S_orbitalObjects[FCRplayer.P_surveyedSpots[GLcount].SS_oobjIndex].OO_regions
+                     FCDduStarSystem[FCRplayer.P_surveyedResourceSpots[GLcount].SRS_starSystem].
+                        SS_stars[FCRplayer.P_surveyedResourceSpots[GLcount].SRS_star].
+                        S_orbitalObjects[FCRplayer.P_surveyedResourceSpots[GLcount].SRS_orbitalObject].OO_regions
                      )+1
                   )
-               else if FCRplayer.P_surveyedSpots[GLcount].SS_satIndex>0
+               else if FCRplayer.P_surveyedResourceSpots[GLcount].SRS_satellite>0
                then SetLength(
-                  FCRplayer.P_surveyedSpots[GLcount].SS_surveyedRegions
+                  FCRplayer.P_surveyedResourceSpots[GLcount].SRS_surveyedRegions
                   ,length(
-                     FCDduStarSystem[FCRplayer.P_surveyedSpots[GLcount].SS_ssysIndex].
-                        SS_stars[FCRplayer.P_surveyedSpots[GLcount].SS_starIndex].
-                        S_orbitalObjects[FCRplayer.P_surveyedSpots[GLcount].SS_oobjIndex].
-                        OO_satellitesList[FCRplayer.P_surveyedSpots[GLcount].SS_satIndex].OO_regions
+                     FCDduStarSystem[FCRplayer.P_surveyedResourceSpots[GLcount].SRS_starSystem].
+                        SS_stars[FCRplayer.P_surveyedResourceSpots[GLcount].SRS_star].
+                        S_orbitalObjects[FCRplayer.P_surveyedResourceSpots[GLcount].SRS_orbitalObject].
+                        OO_satellitesList[FCRplayer.P_surveyedResourceSpots[GLcount].SRS_satellite].OO_regions
                      )+1
                   );
                GLxmlSurveyRegion:=GLxmlSurveyRsrc.ChildNodes.First;
@@ -435,22 +435,22 @@ begin
                   while GLxmlSurveyRSpot<>nil do
                   begin
                      inc(GLsubCnt1);
-                     SetLength(FCRplayer.P_surveyedSpots[GLcount].SS_surveyedRegions[GLsubCnt].SR_ResourceSpot, GLsubCnt1+1);
+                     SetLength(FCRplayer.P_surveyedResourceSpots[GLcount].SRS_surveyedRegions[GLsubCnt].SR_ResourceSpots, GLsubCnt1+1);
                      GLenumIndex:=GetEnumValue(TypeInfo(TFCEduResourceSpotTypes), GLxmlSurveyRSpot.Attributes['spotType'] );
-                     FCRplayer.P_surveyedSpots[GLcount].SS_surveyedRegions[GLsubCnt].SR_ResourceSpot[GLsubCnt1].RS_type:=TFCEduResourceSpotTypes(GLenumIndex);
+                     FCRplayer.P_surveyedResourceSpots[GLcount].SRS_surveyedRegions[GLsubCnt].SR_ResourceSpots[GLsubCnt1].RS_type:=TFCEduResourceSpotTypes(GLenumIndex);
                      if GLenumIndex=-1
                      then raise Exception.Create('bad gamesave loading w/rsrc spot type: '+GLxmlSurveyRSpot.Attributes['spotType'])
                      else if GLenumIndex>0 then
                      begin
-                        FCRplayer.P_surveyedSpots[GLcount].SS_surveyedRegions[GLsubCnt].SR_ResourceSpot[GLsubCnt1].RS_MQC:=GLxmlSurveyRSpot.Attributes['meanQualCoef'];
-                        FCRplayer.P_surveyedSpots[GLcount].SS_surveyedRegions[GLsubCnt].SR_ResourceSpot[GLsubCnt1].RS_SpotSizeCur:=GLxmlSurveyRSpot.Attributes['spotSizCurr'];
-                        FCRplayer.P_surveyedSpots[GLcount].SS_surveyedRegions[GLsubCnt].SR_ResourceSpot[GLsubCnt1].RS_SpotSizeMax:=GLxmlSurveyRSpot.Attributes['spotSizeMax'];
-                        if FCRplayer.P_surveyedSpots[GLcount].SS_surveyedRegions[GLsubCnt].SR_ResourceSpot[GLsubCnt1].RS_type=rstOreField then
+                        FCRplayer.P_surveyedResourceSpots[GLcount].SRS_surveyedRegions[GLsubCnt].SR_ResourceSpots[GLsubCnt1].RS_meanQualityCoefficient:=GLxmlSurveyRSpot.Attributes['meanQualCoef'];
+                        FCRplayer.P_surveyedResourceSpots[GLcount].SRS_surveyedRegions[GLsubCnt].SR_ResourceSpots[GLsubCnt1].RS_spotSizeCurrent:=GLxmlSurveyRSpot.Attributes['spotSizCurr'];
+                        FCRplayer.P_surveyedResourceSpots[GLcount].SRS_surveyedRegions[GLsubCnt].SR_ResourceSpots[GLsubCnt1].RS_spotSizeMax:=GLxmlSurveyRSpot.Attributes['spotSizeMax'];
+                        if FCRplayer.P_surveyedResourceSpots[GLcount].SRS_surveyedRegions[GLsubCnt].SR_ResourceSpots[GLsubCnt1].RS_type=rstOreField then
                         begin
-                           FCRplayer.P_surveyedSpots[GLcount].SS_surveyedRegions[GLsubCnt].SR_ResourceSpot[GLsubCnt1].RS_oreCarbonaceous:=GLxmlSurveyRSpot.Attributes['oreCarbo'];
-                           FCRplayer.P_surveyedSpots[GLcount].SS_surveyedRegions[GLsubCnt].SR_ResourceSpot[GLsubCnt1].RS_oreMetallic:=GLxmlSurveyRSpot.Attributes['oreMetal'];
-                           FCRplayer.P_surveyedSpots[GLcount].SS_surveyedRegions[GLsubCnt].SR_ResourceSpot[GLsubCnt1].RS_oreRare:=GLxmlSurveyRSpot.Attributes['oreRare'];
-                           FCRplayer.P_surveyedSpots[GLcount].SS_surveyedRegions[GLsubCnt].SR_ResourceSpot[GLsubCnt1].RS_oreUranium:=GLxmlSurveyRSpot.Attributes['oreUra'];
+                           FCRplayer.P_surveyedResourceSpots[GLcount].SRS_surveyedRegions[GLsubCnt].SR_ResourceSpots[GLsubCnt1].RS_tOFiCarbonaceous:=GLxmlSurveyRSpot.Attributes['oreCarbo'];
+                           FCRplayer.P_surveyedResourceSpots[GLcount].SRS_surveyedRegions[GLsubCnt].SR_ResourceSpots[GLsubCnt1].RS_tOFiMetallic:=GLxmlSurveyRSpot.Attributes['oreMetal'];
+                           FCRplayer.P_surveyedResourceSpots[GLcount].SRS_surveyedRegions[GLsubCnt].SR_ResourceSpots[GLsubCnt1].RS_tOFiRare:=GLxmlSurveyRSpot.Attributes['oreRare'];
+                           FCRplayer.P_surveyedResourceSpots[GLcount].SRS_surveyedRegions[GLsubCnt].SR_ResourceSpots[GLsubCnt1].RS_tOFiUranium:=GLxmlSurveyRSpot.Attributes['oreUra'];
                         end;
                      end;
                      GLxmlSurveyRSpot:=GLxmlSurveyRSpot.NextSibling;
@@ -997,7 +997,7 @@ begin
          end;
       end; {.if GLxmlGamItm<>nil}
    end //==END== if (DirectoryExists(GLcurrDir)) and (FileExists(GLcurrDir+'\'+GLcurrG)) ==//
-   else FCRplayer.P_starSysLoc:='';
+   else FCRplayer.P_viewStarSystem:='';
    {.free the memory}
    FCWinMain.FCXMLsave.Active:=false;
    FCWinMain.FCXMLsave.FileName:='';
@@ -1165,11 +1165,11 @@ begin
    if not FCWinMain.CloseQuery
    then FCMgTFlow_FlowState_Set(tphPAUSE);
    GScurrDir:=FCVdiPathConfigDir+'SavedGames\'+FCRplayer.P_gameName;
-   GScurrG:=IntToStr(FCRplayer.P_timeYr)
-      +'-'+IntToStr(FCRplayer.P_timeMth)
-      +'-'+IntToStr(FCRplayer.P_timeday)
-      +'-'+IntToStr(FCRplayer.P_timeHr)
-      +'-'+IntToStr(FCRplayer.P_timeMin)
+   GScurrG:=IntToStr(FCRplayer.P_currentTimeYear)
+      +'-'+IntToStr(FCRplayer.P_currentTimeMonth)
+      +'-'+IntToStr(FCRplayer.P_currentTimeDay)
+      +'-'+IntToStr(FCRplayer.P_currentTimeHour)
+      +'-'+IntToStr(FCRplayer.P_currentTimeMinut)
       +'.xml';
    {.create the save directory if needed}
    if not DirectoryExists(GScurrDir)
@@ -1185,27 +1185,27 @@ begin
    {.create "main" item}
    GSxmlItm:=GSxmlRoot.AddChild('gfMain');
    GSxmlItm.Attributes['gName']:= FCRplayer.P_gameName;
-   GSxmlItm.Attributes['facAlleg']:= FCRplayer.P_facAlleg;
-   GSxmlItm.Attributes['plyrsSSLoc']:= FCRplayer.P_starSysLoc;
-   GSxmlItm.Attributes['plyrsStLoc']:= FCRplayer.P_starLoc;
-   GSxmlItm.Attributes['plyrsOObjLoc']:= FCRplayer.P_oObjLoc;
-   GSxmlItm.Attributes['plyrsatLoc']:=FCRplayer.P_satLoc;
+   GSxmlItm.Attributes['facAlleg']:= FCRplayer.P_allegianceFaction;
+   GSxmlItm.Attributes['plyrsSSLoc']:= FCRplayer.P_viewStarSystem;
+   GSxmlItm.Attributes['plyrsStLoc']:= FCRplayer.P_viewStar;
+   GSxmlItm.Attributes['plyrsOObjLoc']:= FCRplayer.P_viewOrbitalObject;
+   GSxmlItm.Attributes['plyrsatLoc']:=FCRplayer.P_viewSatellite;
    {.create "timeframe" item}
    GSxmlItm:=GSxmlRoot.AddChild('gfTimeFr');
-   GSxmlItm.Attributes['tfTick']:= FCRplayer.P_timeTick;
-   GSxmlItm.Attributes['tfMin']:= FCRplayer.P_timeMin;
-   GSxmlItm.Attributes['tfHr']:= FCRplayer.P_timeHr;
-   GSxmlItm.Attributes['tfDay']:= FCRplayer.P_timeday;
-   GSxmlItm.Attributes['tfMth']:= FCRplayer.P_timeMth;
-   GSxmlItm.Attributes['tfYr']:= FCRplayer.P_timeYr;
+   GSxmlItm.Attributes['tfTick']:= FCRplayer.P_currentTimeTick;
+   GSxmlItm.Attributes['tfMin']:= FCRplayer.P_currentTimeMinut;
+   GSxmlItm.Attributes['tfHr']:= FCRplayer.P_currentTimeHour;
+   GSxmlItm.Attributes['tfDay']:= FCRplayer.P_currentTimeDay;
+   GSxmlItm.Attributes['tfMth']:= FCRplayer.P_currentTimeMonth;
+   GSxmlItm.Attributes['tfYr']:= FCRplayer.P_currentTimeYear;
    {.create "status" item}
    GSxmlItm:=GSxmlRoot.AddChild('gfStatus');
-   GSxmlItm.Attributes['statEco']:=FCRplayer.P_ecoStat;
-   GSxmlItm.Attributes['statEcoThr']:=FCRplayer.P_viabThrEco;
-   GSxmlItm.Attributes['statSoc']:=FCRplayer.P_socStat;
-   GSxmlItm.Attributes['statSocThr']:=FCRplayer.P_viabThrSoc;
-   GSxmlItm.Attributes['statSpMil']:=FCRplayer.P_milStat;
-   GSxmlItm.Attributes['statSpMilThr']:=FCRplayer.P_viabThrSpMil;
+   GSxmlItm.Attributes['statEco']:=FCRplayer.P_economicStatus;
+   GSxmlItm.Attributes['statEcoThr']:=FCRplayer.P_economicViabilityThreshold;
+   GSxmlItm.Attributes['statSoc']:=FCRplayer.P_socialStatus;
+   GSxmlItm.Attributes['statSocThr']:=FCRplayer.P_socialViabilityThreshold;
+   GSxmlItm.Attributes['statSpMil']:=FCRplayer.P_militaryStatus;
+   GSxmlItm.Attributes['statSpMilThr']:=FCRplayer.P_militaryViabilityThreshold;
    {.create "cps" saved game item}
    if FCcps<>nil
    then
@@ -1272,7 +1272,7 @@ begin
       end; {.while GScount<=GSlength-1}
    end; {.if GSlength>1 then... for taskinprocess}
    {.all surveyed resources}
-   GSlength:=length(FCRplayer.P_surveyedSpots);
+   GSlength:=length(FCRplayer.P_surveyedResourceSpots);
    if GSlength>1 then
    begin
       GSxmlItm:=GSxmlRoot.AddChild('gfSurveyedResourceSpots');
@@ -1280,16 +1280,16 @@ begin
       while GScount<=GSlength-1 do
       begin
          GSxmlSurveyRsrc:=GSxmlItm.AddChild('gfSpotLocation');
-         GSxmlSurveyRsrc.Attributes['oobj']:=FCRplayer.P_surveyedSpots[GScount].SS_oobjToken;
-         GSxmlSurveyRsrc.Attributes['ssysIdx']:=FCRplayer.P_surveyedSpots[GScount].SS_ssysIndex;
-         GSxmlSurveyRsrc.Attributes['starIdx']:=FCRplayer.P_surveyedSpots[GScount].SS_starIndex;
-         GSxmlSurveyRsrc.Attributes['oobjIdx']:=FCRplayer.P_surveyedSpots[GScount].SS_oobjIndex;
-         GSxmlSurveyRsrc.Attributes['satIdx']:=FCRplayer.P_surveyedSpots[GScount].SS_satIndex;
-         GSsubMax:=length(FCRplayer.P_surveyedSpots[GScount].SS_surveyedRegions)-1;
+         GSxmlSurveyRsrc.Attributes['oobj']:=FCRplayer.P_surveyedResourceSpots[GScount].SRS_orbitalObject_SatelliteToken;
+         GSxmlSurveyRsrc.Attributes['ssysIdx']:=FCRplayer.P_surveyedResourceSpots[GScount].SRS_starSystem;
+         GSxmlSurveyRsrc.Attributes['starIdx']:=FCRplayer.P_surveyedResourceSpots[GScount].SRS_star;
+         GSxmlSurveyRsrc.Attributes['oobjIdx']:=FCRplayer.P_surveyedResourceSpots[GScount].SRS_orbitalObject;
+         GSxmlSurveyRsrc.Attributes['satIdx']:=FCRplayer.P_surveyedResourceSpots[GScount].SRS_satellite;
+         GSsubMax:=length(FCRplayer.P_surveyedResourceSpots[GScount].SRS_surveyedRegions)-1;
          GSsubCount:=1;
          while GSsubCount<=GSsubMax do
          begin
-            GSsubMax1:=length(FCRplayer.P_surveyedSpots[GScount].SS_surveyedRegions[GSsubCount].SR_ResourceSpot)-1;
+            GSsubMax1:=length(FCRplayer.P_surveyedResourceSpots[GScount].SRS_surveyedRegions[GSsubCount].SR_ResourceSpots)-1;
             if GSsubMax1>0 then
             begin
                GSxmlSurveyRegion:=GSxmlSurveyRsrc.AddChild('gfSpotRegion');
@@ -1299,16 +1299,16 @@ begin
                begin
                   GSxmlSurveyRSpot:=GSxmlSurveyRegion.AddChild('gfRsrcSpot');
                   GSxmlSurveyRSpot.Attributes['spotType']
-                     :=GetEnumName(TypeInfo(TFCEduResourceSpotTypes), Integer(FCRplayer.P_surveyedSpots[GScount].SS_surveyedRegions[GSsubCount].SR_ResourceSpot[GSsubCount1].RS_type));
-                  GSxmlSurveyRSpot.Attributes['meanQualCoef']:=FCRplayer.P_surveyedSpots[GScount].SS_surveyedRegions[GSsubCount].SR_ResourceSpot[GSsubCount1].RS_MQC;
-                  GSxmlSurveyRSpot.Attributes['spotSizCurr']:=FCRplayer.P_surveyedSpots[GScount].SS_surveyedRegions[GSsubCount].SR_ResourceSpot[GSsubCount1].RS_SpotSizeCur;
-                  GSxmlSurveyRSpot.Attributes['spotSizeMax']:=FCRplayer.P_surveyedSpots[GScount].SS_surveyedRegions[GSsubCount].SR_ResourceSpot[GSsubCount1].RS_SpotSizeMax;
-                  if FCRplayer.P_surveyedSpots[GScount].SS_surveyedRegions[GSsubCount].SR_ResourceSpot[GSsubCount1].RS_type=rstOreField then
+                     :=GetEnumName(TypeInfo(TFCEduResourceSpotTypes), Integer(FCRplayer.P_surveyedResourceSpots[GScount].SRS_surveyedRegions[GSsubCount].SR_ResourceSpots[GSsubCount1].RS_type));
+                  GSxmlSurveyRSpot.Attributes['meanQualCoef']:=FCRplayer.P_surveyedResourceSpots[GScount].SRS_surveyedRegions[GSsubCount].SR_ResourceSpots[GSsubCount1].RS_meanQualityCoefficient;
+                  GSxmlSurveyRSpot.Attributes['spotSizCurr']:=FCRplayer.P_surveyedResourceSpots[GScount].SRS_surveyedRegions[GSsubCount].SR_ResourceSpots[GSsubCount1].RS_spotSizeCurrent;
+                  GSxmlSurveyRSpot.Attributes['spotSizeMax']:=FCRplayer.P_surveyedResourceSpots[GScount].SRS_surveyedRegions[GSsubCount].SR_ResourceSpots[GSsubCount1].RS_spotSizeMax;
+                  if FCRplayer.P_surveyedResourceSpots[GScount].SRS_surveyedRegions[GSsubCount].SR_ResourceSpots[GSsubCount1].RS_type=rstOreField then
                   begin
-                     GSxmlSurveyRSpot.Attributes['oreCarbo']:=FCRplayer.P_surveyedSpots[GScount].SS_surveyedRegions[GSsubCount].SR_ResourceSpot[GSsubCount1].RS_oreCarbonaceous;
-                     GSxmlSurveyRSpot.Attributes['oreMetal']:=FCRplayer.P_surveyedSpots[GScount].SS_surveyedRegions[GSsubCount].SR_ResourceSpot[GSsubCount1].RS_oreMetallic;
-                     GSxmlSurveyRSpot.Attributes['oreRare']:=FCRplayer.P_surveyedSpots[GScount].SS_surveyedRegions[GSsubCount].SR_ResourceSpot[GSsubCount1].RS_oreRare;
-                     GSxmlSurveyRSpot.Attributes['oreUra']:=FCRplayer.P_surveyedSpots[GScount].SS_surveyedRegions[GSsubCount].SR_ResourceSpot[GSsubCount1].RS_oreUranium;
+                     GSxmlSurveyRSpot.Attributes['oreCarbo']:=FCRplayer.P_surveyedResourceSpots[GScount].SRS_surveyedRegions[GSsubCount].SR_ResourceSpots[GSsubCount1].RS_tOFiCarbonaceous;
+                     GSxmlSurveyRSpot.Attributes['oreMetal']:=FCRplayer.P_surveyedResourceSpots[GScount].SRS_surveyedRegions[GSsubCount].SR_ResourceSpots[GSsubCount1].RS_tOFiMetallic;
+                     GSxmlSurveyRSpot.Attributes['oreRare']:=FCRplayer.P_surveyedResourceSpots[GScount].SRS_surveyedRegions[GSsubCount].SR_ResourceSpots[GSsubCount1].RS_tOFiRare;
+                     GSxmlSurveyRSpot.Attributes['oreUra']:=FCRplayer.P_surveyedResourceSpots[GScount].SRS_surveyedRegions[GSsubCount].SR_ResourceSpots[GSsubCount1].RS_tOFiUranium;
                   end;
                   inc(GSsubCount1);
                end;

@@ -239,17 +239,17 @@ begin
    case PSARaskIf of
       gmspmdCanChangeEcoSys:
       begin
-         if FCRplayer.P_ecoStat=pfs3_Independent
+         if FCRplayer.P_economicStatus=pfs3_Independent
          then PSARres:=true;
       end;
       gmspmdCanChangeGvt, gmspmdCanChangeHealth, gmspmdCanChangeRelig:
       begin
-         if FCRplayer.P_socStat=pfs3_Independent
+         if FCRplayer.P_socialStatus=pfs3_Independent
          then PSARres:=true;
       end;
       gmspmdCanEnfPolicies:
       begin
-         if FCRplayer.P_socStat>=pfs2_SemiDependent
+         if FCRplayer.P_socialStatus>=pfs2_SemiDependent
          then PSARres:=true;
       end;
    end;

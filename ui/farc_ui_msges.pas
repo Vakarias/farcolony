@@ -166,7 +166,7 @@ begin
    inc(FCVmsgCount);
    SetLength(FCVmsgStoTtl,FCVmsgCount+1);
    SetLength(FCVmsgStoMsg,FCVmsgCount+1);
-   MBAMdmpHeader:='('+inttostr(FCRplayer.P_timeday)+'/'+FCFdTFiles_UIStr_Get(uistrUI, 'TimeFM'+inttostr(FCRplayer.P_timeMth))+'/'+inttostr(FCRplayer.P_timeYr)+'): ';
+   MBAMdmpHeader:='('+inttostr(FCRplayer.P_currentTimeDay)+'/'+FCFdTFiles_UIStr_Get(uistrUI, 'TimeFM'+inttostr(FCRplayer.P_currentTimeMonth))+'/'+inttostr(FCRplayer.P_currentTimeYear)+'): ';
    case MBAMmsgeTp of
       {.mission - colonization
       MBAMitm0Idx= owned space unit MBAMitm1Idx= destination orbital object MBAMitm2Idx= destination satellite MBAMitm3Idx= destination region}
@@ -275,13 +275,13 @@ begin
    //      end;
          FCVmsgStoMsg[FCVmsgCount]
             :=FCFdTFiles_UIStr_Get(uistrUI,'MSG_Intro1')
-               +FCFdTFiles_UIStr_Get(uistrUI,FCRplayer.P_facAlleg+'Wart')
+               +FCFdTFiles_UIStr_Get(uistrUI,FCRplayer.P_allegianceFaction+'Wart')
                +FCFdTFiles_UIStr_Get(uistrUI,'MSG_Intro2')
-               +FCFdTFiles_UIStr_Get(dtfscPrprName,FCRplayer.P_oObjLoc)
+               +FCFdTFiles_UIStr_Get(dtfscPrprName,FCRplayer.P_viewOrbitalObject)
                +FCFdTFiles_UIStr_Get(uistrUI,'MSG_Intro3')
-               +FCFdTFiles_UIStr_Get(dtfscPrprName,FCRplayer.P_starLoc)
+               +FCFdTFiles_UIStr_Get(dtfscPrprName,FCRplayer.P_viewStar)
                +FCFdTFiles_UIStr_Get(uistrUI,'MSG_Intro4')
-               +FCFdTFiles_UIStr_Get(dtfscPrprName,FCRplayer.P_starSysLoc)
+               +FCFdTFiles_UIStr_Get(dtfscPrprName,FCRplayer.P_viewStarSystem)
                +FCFdTFiles_UIStr_Get(uistrUI,'MSG_Intro5')
                +'<br>'
                +MBAMcmode

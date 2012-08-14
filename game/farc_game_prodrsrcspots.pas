@@ -122,19 +122,19 @@ begin
    else if FCentities[IPIRCentity].E_col[IPIRCcolony].C_locationSatellite<>''
    then IPIRCtargetOobj:=FCDduStarSystem[ GPRSloc[1] ].SS_stars[ GPRSloc[2] ].S_orbitalObjects[ GPRSloc[3] ].OO_satellitesList[ GPRSloc[4] ].OO_dbTokenId;
    IPIRCregion:=FCentities[IPIRCentity].E_col[IPIRCcolony].C_settlements[IPIRCsettlement].S_locationRegion;
-   IPIRCspotMax:=length(FCRplayer.P_surveyedSpots)-1;
+   IPIRCspotMax:=length(FCRplayer.P_surveyedResourceSpots)-1;
    if IPIRCspotMax>0 then
    begin
       IPIRCspotCount:=1;
       while IPIRCspotCount<=IPIRCspotMax do
       begin
-         if FCRplayer.P_surveyedSpots[IPIRCspotCount].SS_oobjToken=IPIRCtargetOobj then
+         if FCRplayer.P_surveyedResourceSpots[IPIRCspotCount].SRS_orbitalObject_SatelliteToken=IPIRCtargetOobj then
          begin
-            IPIRCspotSubMax:=length( FCRplayer.P_surveyedSpots[IPIRCspotCount].SS_surveyedRegions[IPIRCregion].SR_ResourceSpot )-1;
+            IPIRCspotSubMax:=length( FCRplayer.P_surveyedResourceSpots[IPIRCspotCount].SRS_surveyedRegions[IPIRCregion].SR_ResourceSpots )-1;
             IPIRCspotSubCount:=1;
             while IPIRCspotSubCount<=IPIRCspotSubMax do
             begin
-               if FCRplayer.P_surveyedSpots[IPIRCspotCount].SS_surveyedRegions[IPIRCregion].SR_ResourceSpot[IPIRCspotSubCount].RS_type=IPIRCrsrcSpot then
+               if FCRplayer.P_surveyedResourceSpots[IPIRCspotCount].SRS_surveyedRegions[IPIRCregion].SR_ResourceSpots[IPIRCspotSubCount].RS_type=IPIRCrsrcSpot then
                begin
                   Result:=IPIRCspotCount;
                   if IPIRCownedInfra>0 then
@@ -181,8 +181,8 @@ begin
    SRSAIsurveyedSpot:=FCentities[ SRSAIentity ].E_col[ SRSAIcolony ].C_settlements[ SRSAIsettlement ].S_infrastructures[ SRSAIownedInfra ].I_fProdSurveyedSpot;
    SRSAIsurveyedRegion:=FCentities[ SRSAIentity ].E_col[ SRSAIcolony ].C_settlements[ SRSAIsettlement ].S_infrastructures[ SRSAIownedInfra ].I_fProdSurveyedRegion;
    SRSAIresourceSpot:=FCentities[ SRSAIentity ].E_col[ SRSAIcolony ].C_settlements[ SRSAIsettlement ].S_infrastructures[ SRSAIownedInfra ].I_fProdResourceSpot;
-   FCRplayer.P_surveyedSpots[ SRSAIsurveyedSpot ].SS_surveyedRegions[ SRSAIsurveyedRegion ].SR_ResourceSpot[ SRSAIresourceSpot ].RS_SpotSizeCur:=
-      FCRplayer.P_surveyedSpots[ SRSAIsurveyedSpot ].SS_surveyedRegions[ SRSAIsurveyedRegion ].SR_ResourceSpot[ SRSAIresourceSpot ].RS_SpotSizeCur
+   FCRplayer.P_surveyedResourceSpots[ SRSAIsurveyedSpot ].SRS_surveyedRegions[ SRSAIsurveyedRegion ].SR_ResourceSpots[ SRSAIresourceSpot ].RS_spotSizeCurrent:=
+      FCRplayer.P_surveyedResourceSpots[ SRSAIsurveyedSpot ].SRS_surveyedRegions[ SRSAIsurveyedRegion ].SR_ResourceSpots[ SRSAIresourceSpot ].RS_spotSizeCurrent
       +FCentities[ SRSAIentity ].E_col[ SRSAIcolony ].C_settlements[ SRSAIsettlement ].S_infrastructures[ SRSAIownedInfra ].I_level;
 end;
 

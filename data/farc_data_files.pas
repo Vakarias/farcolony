@@ -243,12 +243,12 @@ begin
       FCRplayer.P_gameName:=XMLConfiguration.Attributes['gname'];
       if mustLoadCurrentGameTime then
       begin
-         FCRplayer.P_timeTick:=XMLConfiguration.Attributes['tfTick'];
-         FCRplayer.P_timeMin:=XMLConfiguration.Attributes['tfMin'];
-         FCRplayer.P_timeHr:=XMLConfiguration.Attributes['tfHr'];
-         FCRplayer.P_timeday:=XMLConfiguration.Attributes['tfDay'];
-         FCRplayer.P_timeMth:=XMLConfiguration.Attributes['tfMth'];
-         FCRplayer.P_timeYr:=XMLConfiguration.Attributes['tfYr'];
+         FCRplayer.P_currentTimeTick:=XMLConfiguration.Attributes['tfTick'];
+         FCRplayer.P_currentTimeMinut:=XMLConfiguration.Attributes['tfMin'];
+         FCRplayer.P_currentTimeHour:=XMLConfiguration.Attributes['tfHr'];
+         FCRplayer.P_currentTimeDay:=XMLConfiguration.Attributes['tfDay'];
+         FCRplayer.P_currentTimeMonth:=XMLConfiguration.Attributes['tfMth'];
+         FCRplayer.P_currentTimeYear:=XMLConfiguration.Attributes['tfYr'];
       end;
    end;
    {.read the debug info}
@@ -372,12 +372,12 @@ begin
    if ( mustSaveCurrentGameTime )
       and ( FCRplayer.P_gameName<>'' ) then
    begin
-      XMLConfigurationItem.Attributes['tfTick']:= FCRplayer.P_timeTick;
-      XMLConfigurationItem.Attributes['tfMin']:= FCRplayer.P_timeMin;
-      XMLConfigurationItem.Attributes['tfHr']:= FCRplayer.P_timeHr;
-      XMLConfigurationItem.Attributes['tfDay']:= FCRplayer.P_timeday;
-      XMLConfigurationItem.Attributes['tfMth']:= FCRplayer.P_timeMth;
-      XMLConfigurationItem.Attributes['tfYr']:= FCRplayer.P_timeYr;
+      XMLConfigurationItem.Attributes['tfTick']:= FCRplayer.P_currentTimeTick;
+      XMLConfigurationItem.Attributes['tfMin']:= FCRplayer.P_currentTimeMinut;
+      XMLConfigurationItem.Attributes['tfHr']:= FCRplayer.P_currentTimeHour;
+      XMLConfigurationItem.Attributes['tfDay']:= FCRplayer.P_currentTimeDay;
+      XMLConfigurationItem.Attributes['tfMth']:= FCRplayer.P_currentTimeMonth;
+      XMLConfigurationItem.Attributes['tfYr']:= FCRplayer.P_currentTimeYear;
    end
    else if ( mustSaveCurrentGameTime )
       and ( FCRplayer.P_gameName='' ) then
