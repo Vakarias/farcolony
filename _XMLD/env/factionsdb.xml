@@ -51,9 +51,9 @@
       blKnownByAll
       
    spuDock
-   -1: not docked/mother vessel
+   0 not docked/mother vessel
    1: mother vessel
-   0: docked vessel
+   2: docked vessel
    
    Policies:
    duration="" isSet="" aprob="-1" belieflev="0" spreadval="0"/>
@@ -163,12 +163,12 @@
          <facViabObj objTp="otEcoIndustrialForce" product="resCarbOre" threshold="1.5"/>
          <facViabObj objTp="otEcoLowCr"/>
          <facEqupItm itemTp="feitSpaceCraft" properName="wrdMUNmov" designToken="scdesTaurus" status="susInOrbit" spuDock="1" availEnRM="1650"/>
-         <facEqupItm itemTp="feitSpaceCraft" properName="wrdMUNcp1" designToken="scdesFCP80" status="susDocked" spuDock="0" availEnRM="800"/>
-         <facEqupItm itemTp="feitSpaceCraft" properName="wrdMUNcp2" designToken="scdesFCP80" status="susDocked" spuDock="0" availEnRM="800"/>
-         <facEqupItm itemTp="feitSpaceCraft" properName="wrdMUNcp3" designToken="scdesFCP80" status="susDocked" spuDock="0" availEnRM="800"/>
-         <facEqupItm itemTp="feitSpaceCraft" properName="wrdMUNcp4" designToken="scdesFCP80" status="susDocked" spuDock="0" availEnRM="800"/>
-         <facEqupItm itemTp="feitSpaceCraft" properName="wrdMUNburt" designToken="scdesAspen2" status="susInOrbit" spuDock="-1" availEnRM="4320"/>
-         <facEqupItm itemTp="feitSpaceCraft" properName="wrdMUNkevRey" designToken="scdesAspen2" status="susInOrbit" spuDock="-1" availEnRM="4320"/>
+         <facEqupItm itemTp="feitSpaceCraft" properName="wrdMUNcp1" designToken="scdesFCP80" status="susDocked" spuDock="2" availEnRM="800"/>
+         <facEqupItm itemTp="feitSpaceCraft" properName="wrdMUNcp2" designToken="scdesFCP80" status="susDocked" spuDock="2" availEnRM="800"/>
+         <facEqupItm itemTp="feitSpaceCraft" properName="wrdMUNcp3" designToken="scdesFCP80" status="susDocked" spuDock="2" availEnRM="800"/>
+         <facEqupItm itemTp="feitSpaceCraft" properName="wrdMUNcp4" designToken="scdesFCP80" status="susDocked" spuDock="2" availEnRM="800"/>
+         <facEqupItm itemTp="feitSpaceCraft" properName="wrdMUNburt" designToken="scdesAspen2" status="susInOrbit" spuDock="0" availEnRM="4320"/>
+         <facEqupItm itemTp="feitSpaceCraft" properName="wrdMUNkevRey" designToken="scdesAspen2" status="susInOrbit" spuDock="0" availEnRM="4320"/>
       </facColMode>
       <facStartLoc locSSys="stelsysACent" locStar="starACentA" locObObj="orbobjAcentA3"/>
       <facSPM>

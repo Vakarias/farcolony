@@ -194,10 +194,10 @@ FCMdF_DBProducts_Load;
       while CPcount<=1 do
       begin
          setlength(
-            FCDBfactions[CPcount].F_facCmode
+            FCDBfactions[CPcount].F_colonizationModes
             ,0
             );
-         setlength(FCDBfactions[CPcount].F_facStartLocList,0);
+         setlength(FCDBfactions[CPcount].F_startingLocations,0);
          inc(CPcount);
       end;
       {.set the game user's interface}

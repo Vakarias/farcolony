@@ -573,6 +573,51 @@ type TFCRdgSPMSettings= record
          );
 end;
 
+{:REFERENCES LIST
+   - FCMdFiles_DBFactions_Read
+   - FCMgNG_ColMode_Upd
+   - FCMgNG_Core_Proceed
+}
+type TFCRdgFaction = record
+   F_token: string[20];
+   F_level: integer;
+   F_colonizationModes: array of record
+      CM_token: string[20];
+      CM_cpsViabilityThreshold_Economic: integer;
+      CM_cpsViabilityThreshold_Social: integer;
+      CM_cpsViabilityThreshold_SpaceMilitary: integer;
+      CM_cpsCreditRange: TFCEdgCreditInterestRanges;
+      CM_cpsInterestRange: TFCEdgCreditInterestRanges;
+      CM_cpsViabilityObjectives: array of TFCRcpsoViabilityObjective;
+      CM_equipmentList: array of record
+         case EL_equipmentItem: TFCEdgFactionEquipItemTypes of
+            feitProduct:(
+               EL_eiProdToken: string[20];
+               EL_eiProdUnit: integer;
+               EL_eiProdCarriedBy: integer;
+               );
+
+            feitSpaceUnit:(
+               EL_eiSUnNameToken: string[20];
+               EL_eiSUnDesignToken: string[20];
+               EL_eiSUnStatus: TFCEdgSpaceUnitStatus;
+               EL_eiSUnDockStatus: ( diNotDocked, diMotherVessel, diDockedVessel );
+               EL_eiSUnReactionMass: extended
+               );
+      end; //==END== record: CM_equipmentList ==//
+   end; //==END== record: F_colonizationModes ==//
+   F_startingLocations: array of record
+      SL_stellarSystem: string[20];
+      SL_star: string[20];
+      SL_orbitalObject: string[20];
+   end; //==END== record: F_startingLocations ==//
+   F_spm: array of TFCRdgSPMSettings;
+end;
+   ///<summary>
+   ///   factions dynamic array
+   ///</summary>
+   TFCDdgFactions = array [0..FCCdiFactionsMax] of TFCRdgFaction;
+
 //==END PUBLIC RECORDS======================================================================
 
    //==========subsection===================================================================
@@ -591,88 +636,7 @@ end;
    
 
 
-   {faction's data structure}
-   {:DEV NOTE: don't forget to update FCMdFiles_DBFactions_Read.}
-   type TFCRdgFaction = record
-      {.db token id}
-      F_token: string[20];
-      {.type}
-      {:DEV NOTES: remove it and replace by faction level (FL).}
-      F_lvl: integer;
-      {.colonization modes}
-      F_facCmode: array of record
 
-      {.colonization mode data structure}
-      {:DEV NOTE: update FCMdFiles_DBFactions_Read + FCMgNG_ColMode_Upd + FCMgNG_Core_Proceed.}
-         {.token}
-         FCM_token: string[20];
-         ///<summary>
-         /// CPS - economic viability threshold
-         ///</summary>
-         FCM_cpsVthEconomic: integer;
-         ///<summary>
-         /// CPS - social viability threshold
-         ///</summary>
-         FCM_cpsVthSocial: integer;
-         ///<summary>
-         /// CPS - space & military viability threshold
-         ///</summary>
-         FCM_cpsVthSpaceMilitary: integer;
-         {.CPS data - credit range}
-         FCM_cpsCrRg: TFCEdgCreditInterestRanges;
-         {.CPS data - interest range}
-         FCM_cpsIntRg: TFCEdgCreditInterestRanges;
-         {.CPS data - viability objectives}
-         FCM_cpsViabObj: array of TFCRcpsoViabilityObjective;
-         {.dotation list sub datastructure}
-         FCM_dotList: array of record
-            {equipment list item datastructure}
-            {:DEV NOTE: update FCMdFiles_DBFactions_Read + FCMgNG_ColMode_Upd.}
-               {type of dotation item}
-               case FCMEI_itemType: TFCEdgFactionEquipItemTypes of
-                  feitProduct:
-                     (
-                        {.product token related to the item}
-                        FCMEI_prodToken: string[20];
-                        {.units of this product}
-                        FCMEI_prodUnit: integer;
-                        {.indicate which space unit carries this product, use the owned index #, since the unique id tokens are generated during game setup}
-                        FCMEI_prodCarriedBy: integer;
-                        );
-                  feitSpaceUnit:
-                     (
-                        {.space unit proper name token}
-                        FCMEI_spuProperNameToken: string[20];
-                        {.design token}
-                        FCMEI_spuDesignToken: string[20];
-                        {.current status}
-                        FCMEI_spuStatus: TFCEdgSpaceUnitStatus;
-                        {.dock info -1: not docked/mother vessel, 1: mother vessel (all subsequent w/ 0 are docked to this one), 0: docked vessel}
-                        FCMEI_spuDockInfo: integer;
-                        {.current available energy/reaction mass volume}
-                        FCMEI_spuAvailEnRM: extended
-                        );
-            end;
-      end;
-
-      {.starting locations list}
-      F_facStartLocList: array of record
-
-         {starting location item}
-            {star system location}
-            FSL_locSSys: string[20];
-            {local star location}
-            FSL_locStar: string[20];
-            {orbital object location}
-            FSL_locObObj: string[20];
-         end;
-
-      {.SPM setting}
-      F_spm: array of TFCRdgSPMSettings;
-   end;
-      {.factions dynamic array}
-      {:DEV NOTES: also update the array of colonies for TFCRorbObj + TFCRorbObjSat + TFCRcsmTest.}
-      TFCDBfactions = array [0..FCCdiFactionsMax] of TFCRdgFaction;
 
 
    {.player's data structure}
@@ -819,7 +783,7 @@ end;
    {.global variables}
    //=======================================================================================
    var
-      FCDBfactions: TFCDBfactions;
+      FCDBfactions: TFCDdgFactions;
       FCDBdgSPMi: TFCDBdgSPMi;
       FCentities: TFCentities;
       {.CSM test list}
