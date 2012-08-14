@@ -345,6 +345,7 @@ procedure FCMoglUI_Main3DViewUI_Update(
    );
 {:Purpose: update user's interface of the main3d view.
     Additions:
+      -2012Aug13- *fix: bug fix for the one that display the CPS HUD informations during a resizing of the main window when the CPS isn't enabled.
       -2011Apr20- *fix: update the interface only if the CPS is enabled.
       -2010Sep15- *add: entities code - only the player's entity is concerned in this routine (index= 0).
       -2010Jul04- *add: player's colony icon + label, if the focused orbital object has one.
@@ -1047,8 +1048,8 @@ begin
       end; //==END== if (M3DVUIUtype=oglupdtpAll) or (M3DVUIUtype=oglupdtpTxtOnly ==//
    end; //==END== if (M3DVUIUtarget=ogluiutAll) or (M3DVUIUtarget=ogluiutFocObj) ==//
    {.CPS data}
-   if (M3DVUIUtarget=ogluiutAll)
-      or (M3DVUIUtarget=ogluiutCPS)
+   if ( (M3DVUIUtarget=ogluiutAll) or (M3DVUIUtarget=ogluiutCPS) )
+      and ( FCcps<>nil )
    then
    begin
       if (FCcps<>nil)
@@ -1076,16 +1077,16 @@ begin
          or (M3DVUIUtype=oglupdtpLocOnly)
       then
       begin
-         FCWinMain.FCGLSHUDcpsCVSLAB.Visible:=true;
+//         FCWinMain.FCGLSHUDcpsCVSLAB.Visible:=true;
          FCWinMain.FCGLSHUDcpsCVSLAB.Position.X:=FCWinMain.Width shr 1;
          FCWinMain.FCGLSHUDcpsCVSLAB.Position.Y:=0;
-         FCWinMain.FCGLSHUDcpsCVS.Visible:=true;
+//         FCWinMain.FCGLSHUDcpsCVS.Visible:=true;
          FCWinMain.FCGLSHUDcpsCVS.Position.X:=FCWinMain.FCGLSHUDcpsCVSLAB.Position.X+10;
          FCWinMain.FCGLSHUDcpsCVS.Position.Y:=FCWinMain.FCGLSHUDcpsCVSLAB.Position.Y+16;
-         FCWinMain.FCGLSHUDcpsCredL.Visible:=true;
+//         FCWinMain.FCGLSHUDcpsCredL.Visible:=true;
          FCWinMain.FCGLSHUDcpsCredL.Position.X:=FCWinMain.FCGLSHUDcpsCVS.Position.X-40;
          FCWinMain.FCGLSHUDcpsCredL.Position.Y:=FCWinMain.FCGLSHUDcpsCVS.Position.Y;
-         FCWinMain.FCGLSHUDcpsTlft.Visible:=true;
+//         FCWinMain.FCGLSHUDcpsTlft.Visible:=true;
          FCWinMain.FCGLSHUDcpsTlft.Position.X:=FCWinMain.FCGLSHUDcpsCVS.Position.X+40;
          FCWinMain.FCGLSHUDcpsTlft.Position.Y:=FCWinMain.FCGLSHUDcpsCVS.Position.Y;
          {.fonts}
