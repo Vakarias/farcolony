@@ -700,7 +700,7 @@ begin
             begin
                M3DVUIUownSpU:=round(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].TagFloat);
                {.name}
-               FCWinMain.FCGLSHUDobjectFocused.Text:=FCFdTFiles_UIStr_Get(dtfscPrprName, FCentities[0].E_spU[M3DVUIUownSpU].SUO_nameToken);
+               FCWinMain.FCGLSHUDobjectFocused.Text:=FCFdTFiles_UIStr_Get(dtfscPrprName, FCentities[0].E_spU[M3DVUIUownSpU].SU_name);
                {.attitude status}
                FCWinMain.FCGLSHUDspunSTATUSLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIspunAttStat');
                M3DVUIUdmpStatus:=FCFspuF_AttStatus_Get(0, M3DVUIUownSpU);

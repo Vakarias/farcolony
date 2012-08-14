@@ -292,7 +292,7 @@ begin
       while DSUGNcnt<=DSUGNmax do
       begin
          DSGUNdockIdx:=FCentities[DSUGNfac].E_spU[DSUGNidx].SUO_dockedSU[DSUGNcnt].SUDL_index;
-         DSUGNdesgn:=FCFspuF_Design_getDB(FCentities[DSUGNfac].E_spU[DSGUNdockIdx].SUO_designId);
+         DSUGNdesgn:=FCFspuF_Design_getDB(FCentities[DSUGNfac].E_spU[DSGUNdockIdx].SU_designToken);
          if (DSUGNarch=aNone)
             or (
                (DSUGNarch>aNone)
@@ -676,7 +676,7 @@ var
 
    SURisTgtDeleted: boolean;
 
-   SURown: array of TFCRdgSPUowned;
+   SURown: array of TFCRdgSpaceUnit;
 begin
    SetLength(SURown, 1);
    SURisTgtDeleted:=false;

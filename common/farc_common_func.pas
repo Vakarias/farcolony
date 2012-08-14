@@ -406,7 +406,7 @@ begin
       SUGODBcnt:=1;
       while SUGODBcnt<=SUGODBttl do
       begin
-         if FCentities[SUGODBentity].E_spU[SUGODBcnt].SUO_spUnToken=SUGODBtokenId
+         if FCentities[SUGODBentity].E_spU[SUGODBcnt].SU_token=SUGODBtokenId
          then
          begin
             Result:=SUGODBcnt;

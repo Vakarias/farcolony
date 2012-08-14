@@ -655,7 +655,7 @@ begin
    {.universal data initialization for all missions}
    GMCmissTp:=MSmissType;
    MSownedIdx:=round(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].TagFloat);
-   MSdesgn:=FCFspuF_Design_getDB(FCentities[GMCfac].E_spU[MSownedIdx].SUO_designId);
+   MSdesgn:=FCFspuF_Design_getDB(FCentities[GMCfac].E_spU[MSownedIdx].SU_designToken);
    MSdispIdx:='<ind x="'+IntToStr(FCWinMain.FCWMS_Grp_MSDG.Width shr 1)+'">';
    {.missions specific settings}
    case MSmissType of
@@ -668,7 +668,7 @@ begin
          MSdmpStatus:=FCFspuF_AttStatus_Get(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].Tag, GMCmother);
          GMCrootSsys:=FCFuF_StelObj_GetDbIdx(
             ufsoSsys
-            ,FCentities[GMCfac].E_spU[GMCmother].SUO_starSysLoc
+            ,FCentities[GMCfac].E_spU[GMCmother].SU_locationStarSystem
             ,0
             ,0
             ,0
@@ -765,7 +765,7 @@ begin
             );
          {.idx=1}
          FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Add(
-            FCFdTFiles_UIStr_Get(dtfscPrprName, FCentities[GMCfac].E_spU[MSownedIdx].SUO_nameToken)+
+            FCFdTFiles_UIStr_Get(dtfscPrprName, FCentities[GMCfac].E_spU[MSownedIdx].SU_name)+
             ' '
             +FCFdTFiles_UIStr_Get(dtfscSCarchShort, FCDdsuSpaceUnitDesigns[MSdesgn].SUD_internalStructureClone.IS_architecture)
             +' '+MSdmpStatus
@@ -879,7 +879,7 @@ begin
          MSdmpStatus:=FCFspuF_AttStatus_Get(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].Tag, MSownedIdx);
          GMCrootSsys:=FCFuF_StelObj_GetDbIdx(
             ufsoSsys
-            ,FCentities[GMCfac].E_spU[MSownedIdx].SUO_starSysLoc
+            ,FCentities[GMCfac].E_spU[MSownedIdx].SU_locationStarSystem
             ,0
             ,0
             ,0
@@ -936,7 +936,7 @@ begin
             );
          {.idx=1}
          FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Add(
-            FCFdTFiles_UIStr_Get(dtfscPrprName, FCentities[GMCfac].E_spU[MSownedIdx].SUO_nameToken)
+            FCFdTFiles_UIStr_Get(dtfscPrprName, FCentities[GMCfac].E_spU[MSownedIdx].SU_name)
             +' '
             +FCFdTFiles_UIStr_Get(dtfscSCarchShort, FCDdsuSpaceUnitDesigns[MSdesgn].SUD_internalStructureClone.IS_architecture)
             +' '+MSdmpStatus

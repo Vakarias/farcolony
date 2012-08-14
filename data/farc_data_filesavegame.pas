@@ -527,10 +527,10 @@ begin
                   begin
                      SetLength(FCentities[GLentCnt].E_spU, length(FCentities[GLentCnt].E_spU)+1);
                      inc(GLcount);
-                     FCentities[GLentCnt].E_spU[GLcount].SUO_spUnToken:=GLxmlSpOwn.Attributes['tokenId'];
-                     FCentities[GLentCnt].E_spU[GLcount].SUO_nameToken:=GLxmlSpOwn.Attributes['tokenName'];
-                     FCentities[GLentCnt].E_spU[GLcount].SUO_designId:=GLxmlSpOwn.Attributes['desgnId'];
-                     FCentities[GLentCnt].E_spU[GLcount].SUO_starSysLoc:=GLxmlSpOwn.Attributes['ssLoc'];
+                     FCentities[GLentCnt].E_spU[GLcount].SU_token:=GLxmlSpOwn.Attributes['tokenId'];
+                     FCentities[GLentCnt].E_spU[GLcount].SU_name:=GLxmlSpOwn.Attributes['tokenName'];
+                     FCentities[GLentCnt].E_spU[GLcount].SU_designToken:=GLxmlSpOwn.Attributes['desgnId'];
+                     FCentities[GLentCnt].E_spU[GLcount].SU_locationStarSystem:=GLxmlSpOwn.Attributes['ssLoc'];
                      FCentities[GLentCnt].E_spU[GLcount].SUO_starLoc:=GLxmlSpOwn.Attributes['stLoc'];
                      FCentities[GLentCnt].E_spU[GLcount].SUO_oobjLoc:=GLxmlSpOwn.Attributes['oobjLoc'];
                      FCentities[GLentCnt].E_spU[GLcount].SUO_satLoc:=GLxmlSpOwn.Attributes['satLoc'];
@@ -1372,10 +1372,10 @@ begin
          begin
             GSdock:=length(FCentities[GScount].E_spU[GSspuCnt].SUO_dockedSU)-1;
             GSxmlSpOwn:=GSxmlItm.AddChild('entSpU');
-            GSxmlSpOwn.Attributes['tokenId']:=FCentities[GScount].E_spU[GSspuCnt].SUO_spUnToken;
-            GSxmlSpOwn.Attributes['tokenName']:=FCentities[GScount].E_spU[GSspuCnt].SUO_nameToken;
-            GSxmlSpOwn.Attributes['desgnId']:=FCentities[GScount].E_spU[GSspuCnt].SUO_designId;
-            GSxmlSpOwn.Attributes['ssLoc']:=FCentities[GScount].E_spU[GSspuCnt].SUO_starSysLoc;
+            GSxmlSpOwn.Attributes['tokenId']:=FCentities[GScount].E_spU[GSspuCnt].SU_token;
+            GSxmlSpOwn.Attributes['tokenName']:=FCentities[GScount].E_spU[GSspuCnt].SU_name;
+            GSxmlSpOwn.Attributes['desgnId']:=FCentities[GScount].E_spU[GSspuCnt].SU_designToken;
+            GSxmlSpOwn.Attributes['ssLoc']:=FCentities[GScount].E_spU[GSspuCnt].SU_locationStarSystem;
             GSxmlSpOwn.Attributes['stLoc']:=FCentities[GScount].E_spU[GSspuCnt].SUO_starLoc;
             GSxmlSpOwn.Attributes['oobjLoc']:=FCentities[GScount].E_spU[GSspuCnt].SUO_oobjLoc;
             GSxmlSpOwn.Attributes['satLoc']:=FCentities[GScount].E_spU[GSspuCnt].SUO_satLoc;

@@ -354,7 +354,7 @@ begin
                      {.colonize mission post-process}
                      GTPssysDB:=FCFuF_StelObj_GetDbIdx(
                            ufsoSsys
-                           ,FCentities[GTPfac].E_spU[GTPspuOwn].SUO_starSysLoc
+                           ,FCentities[GTPfac].E_spU[GTPspuOwn].SU_locationStarSystem
                            ,0
                            ,0
                            ,0
@@ -596,7 +596,7 @@ begin
                      {.interplanetary transit mission post-process}
                      GTPssysDB:=FCFuF_StelObj_GetDbIdx(
                            ufsoSsys
-                           ,FCentities[GTPfac].E_spU[GTPspuOwn].SUO_starSysLoc
+                           ,FCentities[GTPfac].E_spU[GTPspuOwn].SU_locationStarSystem
                            ,0
                            ,0
                            ,0
@@ -882,7 +882,7 @@ begin
                   FCentities[GTPfac].E_spU[GTPspUidx].SUO_status:=susInFreeSpace;
                   GTPssys:=FCFuF_StelObj_GetDbIdx(
                      ufsoSsys
-                     ,FCentities[GTPfac].E_spU[GTPspUidx].SUO_starSysLoc
+                     ,FCentities[GTPfac].E_spU[GTPspUidx].SU_locationStarSystem
                      ,0
                      ,0
                      ,0

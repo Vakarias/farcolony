@@ -426,7 +426,7 @@ begin
       FPUdmpSpUnStatus:=FCentities[0].E_spU[FPUdmpIdx].SUO_status;
       FPUspUssys:=FCFuF_StelObj_GetDbIdx(
          ufsoSsys
-         ,FCentities[0].E_spU[FPUdmpIdx].SUO_starSysLoc
+         ,FCentities[0].E_spU[FPUdmpIdx].SU_locationStarSystem
          ,0
          ,0
          ,0
@@ -485,7 +485,7 @@ begin
          and (FPUlvNum>0)
          {:DEV NOTES: when eq mdl done, change the line below for more complex code testing
       colonization equipment module and/or have docked colonization pods.}
-         and (FCentities[0].E_spU[FPUdmpIdx].SUO_nameToken='wrdMUNmov')
+         and (FCentities[0].E_spU[FPUdmpIdx].SU_name='wrdMUNmov')
          and (
             not assigned(FCcps)
             or (
@@ -580,7 +580,7 @@ var
    ,SUDUdckDes: integer;
 begin
    FCWinMain.FCWM_DLP_DockList.Items.Clear;
-   SUDUdsgn:=FCFspuF_Design_getDB(FCentities[0].E_spU[SUDUsuIdx].SUO_designId);
+   SUDUdsgn:=FCFspuF_Design_getDB(FCentities[0].E_spU[SUDUsuIdx].SU_designToken);
    SUDUttl:=length(FCentities[0].E_spU[SUDUsuIdx].SUO_dockedSU)-1;
    FCWinMain.FCWM_DLP_DockList.Items.Add(
       '<p align="center"><img src="file://'+FCVdiPathResourceDir+'pics-ui-scraft\'
@@ -595,17 +595,17 @@ begin
    while SUDUcnt<=SUDUttl do
    begin
       SUDUdckIdx:=FCentities[0].E_spU[SUDUsuIdx].SUO_dockedSU[SUDUcnt].SUDL_index;
-      SUDUdsgn:=FCFspuF_Design_getDB(FCentities[0].E_spU[SUDUdckIdx].SUO_designId);
+      SUDUdsgn:=FCFspuF_Design_getDB(FCentities[0].E_spU[SUDUdckIdx].SU_designToken);
       FCWinMain.FCWM_DLP_DockList.Items.Add(
          '<img src="file://'+FCVdiPathResourceDir+'pics-ui-scraft\'
          +FCDdsuSpaceUnitDesigns[SUDUdsgn].SUD_internalStructureClone.IS_token+'_lst.jpg'
          +'" align="middle">'
-         +FCFdTFiles_UIStr_Get(dtfscPrprName, FCentities[0].E_spU[SUDUdckIdx].SUO_nameToken)
+         +FCFdTFiles_UIStr_Get(dtfscPrprName, FCentities[0].E_spU[SUDUdckIdx].SU_name)
          );
       inc(SUDUcnt);
    end;
    FCWinMain.FCWM_DockLstPanel.Caption.Text
-      :=FCFdTFiles_UIStr_Get(uistrUI, 'spUnDock')+FCFdTFiles_UIStr_Get(dtfscPrprName, FCentities[0].E_spU[SUDUsuIdx].SUO_nameToken);
+      :=FCFdTFiles_UIStr_Get(uistrUI, 'spUnDock')+FCFdTFiles_UIStr_Get(dtfscPrprName, FCentities[0].E_spU[SUDUsuIdx].SU_name);
    FCWinMain.FCWM_DLP_DockList.ItemIndex:=2;
    FCWinMain.FCWM_DLP_DockList.Selected[2]:=true;
    if not FCWinMain.FCWM_DockLstPanel.Visible

@@ -148,7 +148,7 @@ var
    begin
       MBAMssys:=FCFuF_StelObj_GetDbIdx(
       ufsoSsys
-      ,FCentities[MBAMfac].E_spU[MBAMitm0Idx].SUO_starSysLoc
+      ,FCentities[MBAMfac].E_spU[MBAMitm0Idx].SU_locationStarSystem
       ,0
       ,0
       ,0
@@ -205,7 +205,7 @@ begin
          if MBAMmsgeTp=mtColonize
          then FCVmsgStoMsg[FCVmsgCount]
             :=FCFdTFiles_UIStr_Get(uistrUI,'MSG_MissCol0')
-               +FCFdTFiles_UIStr_Get(dtfscPrprName, FCentities[MBAMfac].E_spU[MBAMitm0Idx].SUO_nameToken)
+               +FCFdTFiles_UIStr_Get(dtfscPrprName, FCentities[MBAMfac].E_spU[MBAMitm0Idx].SU_name)
                +FCFdTFiles_UIStr_Get(uistrUI,'MSG_MissCol1')
                +MBAMdestName
                +FCFdTFiles_UIStr_Get(uistrUI,'MSG_MissCol2')
@@ -216,7 +216,7 @@ begin
          else if MBAMmsgeTp=mtColonizeWset
          then FCVmsgStoMsg[FCVmsgCount]
             :=FCFdTFiles_UIStr_Get(uistrUI,'MSG_MissCol0')
-               +FCFdTFiles_UIStr_Get(dtfscPrprName, FCentities[MBAMfac].E_spU[MBAMitm0Idx].SUO_nameToken)
+               +FCFdTFiles_UIStr_Get(dtfscPrprName, FCentities[MBAMfac].E_spU[MBAMitm0Idx].SU_name)
                +FCFdTFiles_UIStr_Get(uistrUI,'MSG_MissCol1')
                +MBAMdestName
                +FCFdTFiles_UIStr_Get(uistrUI,'MSG_MissCol2')
@@ -244,7 +244,7 @@ begin
             ,FCDduStarSystem[MBAMssys].SS_stars[MBAMstar].S_orbitalObjects[MBAMitm1Idx].OO_satellitesList[MBAMitm2Idx].OO_dbTokenId
             );
          FCVmsgStoMsg[FCVmsgCount]:=FCFdTFiles_UIStr_Get(uistrUI,'MSG_MissIT0')
-            +FCFdTFiles_UIStr_Get(dtfscPrprName, FCentities[MBAMfac].E_spU[MBAMitm0Idx].SUO_nameToken)
+            +FCFdTFiles_UIStr_Get(dtfscPrprName, FCentities[MBAMfac].E_spU[MBAMitm0Idx].SU_name)
             +FCFdTFiles_UIStr_Get(uistrUI,'MSG_MissIT1')
             +MBAMdestName+'</b>.';
       end;

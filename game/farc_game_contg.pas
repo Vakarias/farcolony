@@ -145,7 +145,7 @@ FCMdF_DBProducts_Load;
                begin
                   CPssys:=FCFuF_StelObj_GetDbIdx(
                      ufsoSsys
-                     ,FCentities[CPeCnt].E_spU[CPcount].SUO_starSysLoc
+                     ,FCentities[CPeCnt].E_spU[CPcount].SU_locationStarSystem
                      ,0
                      ,0
                      ,0

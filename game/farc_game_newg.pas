@@ -433,15 +433,15 @@ FCWinNewGSetup.Close;
                   SetLength(FCentities[CPent].E_spU, length(FCentities[CPent].E_spU)+1);
                   CPowndSCidx:=length(FCentities[CPent].E_spU)-1;
                   {.unique item name for internal identification}
-                  FCentities[CPent].E_spU[CPowndSCidx].SUO_spUnToken:='plyrSpUn'+IntToStr(CPowndSCidx);
+                  FCentities[CPent].E_spU[CPowndSCidx].SU_token:='plyrSpUn'+IntToStr(CPowndSCidx);
                   {.determine proper name of the item if it's a space unit}
                   if CM_equipmentList[CPcount0].EL_eiSUnNameToken<>''
-                  then FCentities[CPent].E_spU[CPowndSCidx].SUO_nameToken:=CM_equipmentList[CPcount0].EL_eiSUnNameToken
-                  else FCentities[CPent].E_spU[CPowndSCidx].SUO_nameToken:='*'+FCFdTFiles_UIStr_Get(uistrUI, 'spUnOvGenName')+' #'+IntToStr(CPowndSCidx);
+                  then FCentities[CPent].E_spU[CPowndSCidx].SU_name:=CM_equipmentList[CPcount0].EL_eiSUnNameToken
+                  else FCentities[CPent].E_spU[CPowndSCidx].SU_name:='*'+FCFdTFiles_UIStr_Get(uistrUI, 'spUnOvGenName')+' #'+IntToStr(CPowndSCidx);
                   {.link the vessel design}
-                  FCentities[CPent].E_spU[CPowndSCidx].SUO_designId:=CM_equipmentList[CPcount0].EL_eiSUnDesignToken;
+                  FCentities[CPent].E_spU[CPowndSCidx].SU_designToken:=CM_equipmentList[CPcount0].EL_eiSUnDesignToken;
                   {.location}
-                  FCentities[CPent].E_spU[CPowndSCidx].SUO_starSysLoc:=FCRplayer.P_viewStarSystem;
+                  FCentities[CPent].E_spU[CPowndSCidx].SU_locationStarSystem:=FCRplayer.P_viewStarSystem;
                   FCentities[CPent].E_spU[CPowndSCidx].SUO_starLoc:=FCRplayer.P_viewStar;
                   FCentities[CPent].E_spU[CPowndSCidx].SUO_satLoc:=FCRplayer.P_viewSatellite;
                   FCentities[CPent].E_spU[CPowndSCidx].SUO_locStarX:=0;

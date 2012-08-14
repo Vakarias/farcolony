@@ -119,7 +119,7 @@ begin
    MCCsatOrgIdx:=0;
    MCCfac:=FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].Tag;
    MCCowned:=round(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].TagFloat);
-   MCCdsgn:=FCFspuF_Design_getDB(FCentities[MCCfac].E_spU[MCCowned].SUO_designId);
+   MCCdsgn:=FCFspuF_Design_getDB(FCentities[MCCfac].E_spU[MCCowned].SU_designToken);
    if GMCrootSatObjIdx>0
    then
    begin
@@ -295,7 +295,7 @@ begin
    begin
       MTCfac:=FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].Tag;
       MTCowned:=round(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].TagFloat);
-      MTCdesgn:=FCFspuF_Design_getDB(FCentities[MTCfac].E_spU[MTCowned].SUO_designId);
+      MTCdesgn:=FCFspuF_Design_getDB(FCentities[MTCfac].E_spU[MTCowned].SU_designToken);
       {.calculate the burn endurance for acceleration}
       MTCburnEndAtAccel:=(GMCcruiseDV-MTCcurDV)/(GMCAccelG*MTCgeesInKmS);
       {.caculate used reaction mass volume for acceleration}

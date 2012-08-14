@@ -2138,7 +2138,7 @@ begin
    begin
       inc(FC3doglTotalSpaceUnits);
       SetLength(FC3doglSpaceUnits, FC3doglTotalSpaceUnits+1);
-      SUGdesgn:=FCFspuF_Design_getDB(FCentities[SUGfac].E_spU[SUGspUnOwnIdx].SUO_designId);
+      SUGdesgn:=FCFspuF_Design_getDB(FCentities[SUGfac].E_spU[SUGspUnOwnIdx].SU_designToken);
       {.create the object and set some basic data}
       FC3doglSpaceUnits[FC3doglTotalSpaceUnits]:=TDGLib3dsStaMesh(FCWinMain.FCGLSRootMain.Objects.AddNewChild(TDGLib3dsStaMesh));
 //      TGLFile3DSFreeForm(FCWinMain.FCGLSRootMain.Objects.AddNewChild(TGLFile3DSFreeForm));

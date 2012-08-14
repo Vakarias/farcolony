@@ -604,6 +604,7 @@ type TFCRdgFaction = record
                EL_eiSUnDockStatus: ( diNotDocked, diMotherVessel, diDockedVessel );
                EL_eiSUnReactionMass: extended
                );
+            {:DEV NOTES: add population.}
       end; //==END== record: CM_equipmentList ==//
    end; //==END== record: F_colonizationModes ==//
    F_startingLocations: array of record
@@ -672,8 +673,53 @@ type TFCRdgPlayer = record
    end; //==END== record: P_surveyedResourceSpots ==//
 end;
 
+///<summary>
+///   list of docked space units
+///</summary>
 type TFCRdgSpaceUnitDockList = record
    SUDL_index: integer;
+end;
+
+{:REFERENCES LIST
+   - FCMdF_DBFactions_Load
+   - FCMdFiles_Game_Load
+   - FCMdFiles_Game_Save
+   - FCMgNG_ColMode_Upd
+   - FCMgNG_Core_Proceed
+   - FCMgNG_FactionList_Multipurpose
+}
+///<summary>
+///   owned space units
+///</summary>
+type TFCRdgSpaceUnit = record
+   SU_token: string[20];
+   SU_name: string[20];
+   SU_designToken: string[20];
+   SU_locationStarSystem: string[20];
+   {unit location - star token id}
+   SUO_starLoc: string[20];
+   {unit location - orbital object}
+   SUO_oobjLoc: string[20];
+   {unit location - satellite}
+   SUO_satLoc: string[20];
+   {linked 3d object index}
+   SUO_3dObjIdx: integer;
+   {unit location in local star view - x axis}
+   SUO_locStarX: extended;
+   {unit location in local star view - z axis}
+   SUO_locStarZ: extended;
+   {assigned task index, 0= none}
+   SUO_taskIdx: integer;
+   {space unit attitude status}
+   SUO_status: TFCEdgSpaceUnitStatus;
+   {.docked space units}
+   SUO_dockedSU: array of TFCRdgSpaceUnitDockList;
+   {current velocity (deltaV) in km/s}
+   SUO_deltaV: extended;
+   {current velocity (deltaV) in km/s}
+   SUO_3dmove: extended;
+   {available volume of reaction mass}
+   SUO_availRMass: extended;
 end;
 
 //==END PUBLIC RECORDS======================================================================
@@ -700,43 +746,7 @@ end;
 
 
 
-   {.owned space units (space unit and infrastructures) for factions and player}
-   {:DEV NOTES: UPDATE DBFACTION DOTATION LIST LOAD AND/OR NEW GAME SETUP.}
-   {:DEV NOTES: UPDATE FCMdFiles_Game_Load + FCMdFiles_Game_Save}
-   type TFCRdgSPUowned = record
-      {space unit unique db token id}
-      SUO_spUnToken: string[20];
-      {space unit proper name, only have display purposes}
-      SUO_nameToken: string[20];
-      {linked design db token id}
-      SUO_designId: string[20];
-      {unit location - star system token id}
-      SUO_starSysLoc: string[20];
-      {unit location - star token id}
-      SUO_starLoc: string[20];
-      {unit location - orbital object}
-      SUO_oobjLoc: string[20];
-      {unit location - satellite}
-      SUO_satLoc: string[20];
-      {linked 3d object index}
-      SUO_3dObjIdx: integer;
-      {unit location in local star view - x axis}
-      SUO_locStarX: extended;
-      {unit location in local star view - z axis}
-      SUO_locStarZ: extended;
-      {assigned task index, 0= none}
-      SUO_taskIdx: integer;
-      {space unit attitude status}
-      SUO_status: TFCEdgSpaceUnitStatus;
-      {.docked space units}
-      SUO_dockedSU: array of TFCRdgSpaceUnitDockList;
-      {current velocity (deltaV) in km/s}
-      SUO_deltaV: extended;
-      {current velocity (deltaV) in km/s}
-      SUO_3dmove: extended;
-      {available volume of reaction mass}
-      SUO_availRMass: extended;
-   end;
+
    {.faction's entity data structure}
    {:DEV NOTES: entity [0] is always the player's faction entity.}
    {:DEV NOTES: update FCMdG_Entities_Clear / FCMdF_Game_Load / FCMdF_Game_Save / FCMgNG_Core_Proceed.}
@@ -752,7 +762,7 @@ end;
       E_hqHigherLvl: TFCEdgHeadQuarterStatus;
       E_uc: extended;
       {.owned space units sub data structure}
-      E_spU: array of TFCRdgSPUowned;
+      E_spU: array of TFCRdgSpaceUnit;
       {.owned colonies}
       E_col: array of TFCRdgColony;
       {.SPM settings}
