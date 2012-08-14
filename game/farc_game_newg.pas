@@ -504,7 +504,7 @@ FCWinNewGSetup.Close;
                         ,length(FCentities[CPent].E_spU[CPspUnMother].SUO_dockedSU)+1
                         );
                      FCentities[CPent].E_spU[CPspUnMother].SUO_dockedSU[length(FCentities[CPent].E_spU[CPspUnMother].SUO_dockedSU)-1]
-                        .SUD_dckdToken:=FCentities[CPent].E_spU[CPowndSCidx].SUO_spUnToken;
+                        .SUDL_index:=CPowndSCidx;
                      FCentities[CPent].E_spU[CPowndSCidx].SUO_deltaV:=FCentities[CPent].E_spU[CPspUnMother].SUO_deltaV;
                   end;
                   {.available reaction mass}

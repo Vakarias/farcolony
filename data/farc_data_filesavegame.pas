@@ -546,7 +546,7 @@ begin
                         GLxmlDock:=GLxmlSpOwn.ChildNodes.First;
                         while GLsubCnt<=GLdock do
                         begin
-                           FCentities[GLentCnt].E_spU[GLcount].SUO_dockedSU[GLsubCnt].SUD_dckdToken:=GLxmlDock.Attributes['token'];
+                           FCentities[GLentCnt].E_spU[GLcount].SUO_dockedSU[GLsubCnt].SUDL_index:=GLxmlDock.Attributes['index'];
                            inc(GLsubCnt);
                            GLxmlDock:=GLxmlDock.NextSibling;
                         end;
@@ -1387,7 +1387,7 @@ begin
             while GSsubC<=GSdock do
             begin
                GSxmlDock:=GSxmlSpOwn.AddChild('entSpUdckd');
-               GSxmlDock.Attributes['token']:=FCentities[GScount].E_spU[GSspuCnt].SUO_dockedSU[GSsubC].SUD_dckdToken;
+               GSxmlDock.Attributes['index']:=FCentities[GScount].E_spU[GSspuCnt].SUO_dockedSU[GSsubC].SUDL_index;
                inc(GSsubC);
             end;
             GSxmlSpOwn.Attributes['taskId']:=FCentities[GScount].E_spU[GSspuCnt].SUO_taskIdx;

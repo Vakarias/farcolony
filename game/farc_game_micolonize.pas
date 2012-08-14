@@ -350,10 +350,7 @@ begin
       CScnt:=1;
       while CScnt<=CSmax do
       begin
-         CSspuIdx:=FCFcFunc_SpUnit_getOwnDB(
-            GMCfac
-            ,FCentities[GMCfac].E_spU[CSowndMother].SUO_dockedSU[CScnt].SUD_dckdToken
-            );
+         CSspuIdx:=FCentities[GMCfac].E_spU[CSowndMother].SUO_dockedSU[CScnt].SUDL_index;
          if (CScnt=1)
             and (GMCfinalDV=0)
          then

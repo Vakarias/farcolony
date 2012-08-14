@@ -117,8 +117,8 @@ function FCFspuF_SpUObject_Search(const SUOSfac, SUOSidx: integer): integer;
 ///   <param name="DSURdToken">docked token</param>
 procedure FCMspuF_DockedSpU_Rem(
    const DSURfac
-         ,DSURmotherIdx: integer;
-   const DSURdToken: string
+         ,DSURmotherIdx
+         ,DSURdToken: integer
    );
 
 ///<summary>
@@ -291,10 +291,7 @@ begin
    begin
       while DSUGNcnt<=DSUGNmax do
       begin
-         DSGUNdockIdx:=FCFcFunc_SpUnit_getOwnDB(
-            DSUGNfac
-            ,FCentities[DSUGNfac].E_spU[DSUGNidx].SUO_dockedSU[DSUGNcnt].SUD_dckdToken
-            );
+         DSGUNdockIdx:=FCentities[DSUGNfac].E_spU[DSUGNidx].SUO_dockedSU[DSUGNcnt].SUDL_index;
          DSUGNdesgn:=FCFspuF_Design_getDB(FCentities[DSUGNfac].E_spU[DSGUNdockIdx].SUO_designId);
          if (DSUGNarch=aNone)
             or (
@@ -420,8 +417,8 @@ end;
 
 procedure FCMspuF_DockedSpU_Rem(
    const DSURfac
-         ,DSURmotherIdx: integer;
-   const DSURdToken: string
+         ,DSURmotherIdx
+         ,DSURdToken: integer
    );
 {:Purpose: remove the docked space unit specified by it's owned index #.
     Additions:
@@ -434,7 +431,7 @@ var
    ,DSURnewCnt
    ,DSURoldCnt: integer;
 
-   DSURdckdClone: array of TFCRdgSPUdocked;
+   DSURdckdClone: array of TFCRdgSpaceUnitDockList;
 begin
    DSURmax:=length(FCentities[DSURfac].E_spU[DSURmotherIdx].SUO_dockedSU);
    SetLength(DSURdckdClone, DSURmax-1);
@@ -442,11 +439,11 @@ begin
    DSURnewCnt:=0;
    while DSURoldCnt<=DSURmax-1 do
    begin
-      if FCentities[DSURfac].E_spU[DSURmotherIdx].SUO_dockedSU[DSURoldCnt].SUD_dckdToken<>DSURdToken
+      if FCentities[DSURfac].E_spU[DSURmotherIdx].SUO_dockedSU[DSURoldCnt].SUDL_index<>DSURdToken
       then
       begin
          inc(DSURnewCnt);
-         DSURdckdClone[DSURnewCnt].SUD_dckdToken:=FCentities[DSURfac].E_spU[DSURmotherIdx].SUO_dockedSU[DSURoldCnt].SUD_dckdToken;
+         DSURdckdClone[DSURnewCnt].SUDL_index:=FCentities[DSURfac].E_spU[DSURmotherIdx].SUO_dockedSU[DSURoldCnt].SUDL_index;
       end;
       inc(DSURoldCnt);
    end;

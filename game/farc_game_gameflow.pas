@@ -656,10 +656,7 @@ begin
                         GTPdkcdCnt:=1;
                         while GTPdkcdCnt<=GTPdckdVslMax-1 do
                         begin
-                           GTPdckdIdx:=FCFcFunc_SpUnit_getOwnDB(
-                              GTPfac
-                              ,FCentities[GTPfac].E_spU[GTPspuOwn].SUO_dockedSU[GTPdkcdCnt].SUD_dckdToken
-                              );
+                           GTPdckdIdx:=FCentities[GTPfac].E_spU[GTPspuOwn].SUO_dockedSU[GTPdkcdCnt].SUDL_index;
                            FCentities[GTPfac].E_spU[GTPdckdIdx].SUO_deltaV:=FCentities[GTPfac].E_spU[GTPspuOwn].SUO_deltaV;
                            inc(GTPdkcdCnt);
                         end;

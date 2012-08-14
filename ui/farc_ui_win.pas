@@ -594,7 +594,7 @@ begin
    SUDUcnt:=1;
    while SUDUcnt<=SUDUttl do
    begin
-      SUDUdckIdx:=FCFcFunc_SpUnit_getOwnDB(0, FCentities[0].E_spU[SUDUsuIdx].SUO_dockedSU[SUDUcnt].SUD_dckdToken);
+      SUDUdckIdx:=FCentities[0].E_spU[SUDUsuIdx].SUO_dockedSU[SUDUcnt].SUDL_index;
       SUDUdsgn:=FCFspuF_Design_getDB(FCentities[0].E_spU[SUDUdckIdx].SUO_designId);
       FCWinMain.FCWM_DLP_DockList.Items.Add(
          '<img src="file://'+FCVdiPathResourceDir+'pics-ui-scraft\'

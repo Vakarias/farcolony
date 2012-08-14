@@ -672,6 +672,10 @@ type TFCRdgPlayer = record
    end; //==END== record: P_surveyedResourceSpots ==//
 end;
 
+type TFCRdgSpaceUnitDockList = record
+   SUDL_index: integer;
+end;
+
 //==END PUBLIC RECORDS======================================================================
 
    //==========subsection===================================================================
@@ -695,10 +699,7 @@ end;
 
 
 
-   type TFCRdgSPUdocked = record
-      {.unique token id of the docked space unit}
-      SUD_dckdToken: string[20];
-   end;
+
    {.owned space units (space unit and infrastructures) for factions and player}
    {:DEV NOTES: UPDATE DBFACTION DOTATION LIST LOAD AND/OR NEW GAME SETUP.}
    {:DEV NOTES: UPDATE FCMdFiles_Game_Load + FCMdFiles_Game_Save}
@@ -728,7 +729,7 @@ end;
       {space unit attitude status}
       SUO_status: TFCEdgSpaceUnitStatus;
       {.docked space units}
-      SUO_dockedSU: array of TFCRdgSPUdocked;
+      SUO_dockedSU: array of TFCRdgSpaceUnitDockList;
       {current velocity (deltaV) in km/s}
       SUO_deltaV: extended;
       {current velocity (deltaV) in km/s}

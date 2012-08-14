@@ -294,7 +294,7 @@ begin
             FCMspuF_DockedSpU_Rem(
                GMCfac
                ,GMCmother
-               ,FCentities[GMCfac].E_spU[GMCdckd[MCcnt].GMCD_index].SUO_spUnToken
+               ,GMCdckd[MCcnt].GMCD_index
                );
             inc(MCcnt);
          end; //==END== while MCcnt<=MCmax ==//
