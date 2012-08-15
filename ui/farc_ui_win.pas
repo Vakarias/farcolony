@@ -422,8 +422,8 @@ begin
       {.menu initialize and gather owned space unit data}
       FCMuiWin_FocusPopup_Reset;
       FPUdmpIdx:=round(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].TagFloat);
-      FPUdmpTaskId:=FCentities[0].E_spU[FPUdmpIdx].SUO_taskIdx;
-      FPUdmpSpUnStatus:=FCentities[0].E_spU[FPUdmpIdx].SUO_status;
+      FPUdmpTaskId:=FCentities[0].E_spU[FPUdmpIdx].SU_assignedTask;
+      FPUdmpSpUnStatus:=FCentities[0].E_spU[FPUdmpIdx].SU_status;
       FPUspUssys:=FCFuF_StelObj_GetDbIdx(
          ufsoSsys
          ,FCentities[0].E_spU[FPUdmpIdx].SU_locationStarSystem
@@ -433,22 +433,22 @@ begin
          );
       FPUspUstar:=FCFuF_StelObj_GetDbIdx(
          ufsoStar
-         ,FCentities[0].E_spU[FPUdmpIdx].SUO_starLoc
+         ,FCentities[0].E_spU[FPUdmpIdx].SU_locationStar
          ,FPUspUssys
          ,0
          ,0
          );
       FPUspUoobj:=FCFuF_StelObj_GetDbIdx(
          ufsoOObj
-         ,FCentities[0].E_spU[FPUdmpIdx].SUO_oobjLoc
+         ,FCentities[0].E_spU[FPUdmpIdx].SU_locationOrbitalObject
          ,FPUspUssys
          ,FPUspUstar
          ,0
          );
-      if FCentities[0].E_spU[FPUdmpIdx].SUO_satLoc<>''
+      if FCentities[0].E_spU[FPUdmpIdx].SU_locationSatellite<>''
       then FPUspUsat:=FCFuF_StelObj_GetDbIdx(
          ufsoSat
-         ,FCentities[0].E_spU[FPUdmpIdx].SUO_satLoc
+         ,FCentities[0].E_spU[FPUdmpIdx].SU_locationSatellite
          ,FPUspUssys
          ,FPUspUstar
          ,FPUspUoobj
@@ -456,7 +456,7 @@ begin
       {.menu main header}
       FCWinMain.FCWM_PMFO_Header_SpUnitOObj.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_PMFO_Header_SpUnitOObj.SpUnit');
       {.docking list}
-      if length(FCentities[0].E_spU[FPUdmpIdx].SUO_dockedSU)>1
+      if length(FCentities[0].E_spU[FPUdmpIdx].SU_dockedSpaceUnits)>1
       then FCWinMain.FCWM_PMFO_DList.Visible:=true;
       {.detailed data subitem}
       {DEV NOTE: to add when i'll implement a detailed data panel.}
@@ -581,7 +581,7 @@ var
 begin
    FCWinMain.FCWM_DLP_DockList.Items.Clear;
    SUDUdsgn:=FCFspuF_Design_getDB(FCentities[0].E_spU[SUDUsuIdx].SU_designToken);
-   SUDUttl:=length(FCentities[0].E_spU[SUDUsuIdx].SUO_dockedSU)-1;
+   SUDUttl:=length(FCentities[0].E_spU[SUDUsuIdx].SU_dockedSpaceUnits)-1;
    FCWinMain.FCWM_DLP_DockList.Items.Add(
       '<p align="center"><img src="file://'+FCVdiPathResourceDir+'pics-ui-scraft\'
       +FCDdsuSpaceUnitDesigns[SUDUdsgn].SUD_internalStructureClone.IS_token+'_lst.jpg'
@@ -594,7 +594,7 @@ begin
    SUDUcnt:=1;
    while SUDUcnt<=SUDUttl do
    begin
-      SUDUdckIdx:=FCentities[0].E_spU[SUDUsuIdx].SUO_dockedSU[SUDUcnt].SUDL_index;
+      SUDUdckIdx:=FCentities[0].E_spU[SUDUsuIdx].SU_dockedSpaceUnits[SUDUcnt].SUDL_index;
       SUDUdsgn:=FCFspuF_Design_getDB(FCentities[0].E_spU[SUDUdckIdx].SU_designToken);
       FCWinMain.FCWM_DLP_DockList.Items.Add(
          '<img src="file://'+FCVdiPathResourceDir+'pics-ui-scraft\'

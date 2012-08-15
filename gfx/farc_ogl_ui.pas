@@ -708,10 +708,10 @@ begin
                FCWinMain.FCGLSHUDspunSTATUS.Text:=M3DVUIUdmpStatus;
                {.current DV}
                FCWinMain.FCGLSHUDspunDvLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIspunDV');
-               FCWinMain.FCGLSHUDspunDV.Text:=FloatToStr(FCentities[0].E_spU[M3DVUIUownSpU].SUO_deltaV)+' Km/s';
+               FCWinMain.FCGLSHUDspunDV.Text:=FloatToStr(FCentities[0].E_spU[M3DVUIUownSpU].SU_deltaV)+' Km/s';
                {.current reaction mass}
                FCWinMain.FCGLSHUDspunRMassLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIspunRMass');
-               FCWinMain.FCGLSHUDspunRMass.Text:=FloatToStr(FCentities[0].E_spU[M3DVUIUownSpU].SUO_availRMass)+' m3';
+               FCWinMain.FCGLSHUDspunRMass.Text:=FloatToStr(FCentities[0].E_spU[M3DVUIUownSpU].SU_reactionMass)+' m3';
                {.current mission}
                FCWinMain.FCGLSHUDspunMissLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'spUnMissCurr');
                FCWinMain.FCGLSHUDspunMiss.Text:=FCFspuF_Mission_GetMissName(0, M3DVUIUownSpU);
@@ -719,7 +719,7 @@ begin
                FCWinMain.FCGLSHUDspunTaskLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'spUnPhaseCurr');
                FCWinMain.FCGLSHUDspunTask.Text:=FCFspuF_Mission_GetPhaseName(0, M3DVUIUownSpU);
                {.docked status}
-               M3DVUIUdock:=length(FCentities[0].E_spU[M3DVUIUownSpU].SUO_dockedSU);
+               M3DVUIUdock:=length(FCentities[0].E_spU[M3DVUIUownSpU].SU_dockedSpaceUnits);
                if M3DVUIUdock>1
                then
                begin

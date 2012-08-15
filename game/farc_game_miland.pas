@@ -111,7 +111,7 @@ begin
    {.get the space unit's ISP}
    LCisp:=FCDdsuSpaceUnitDesigns[LCdesgn].SUD_spaceDriveISP;
    {.velocities calculations}
-   LCdepVel:=FCentities[LCfac].E_spU[LCownIdx].SUO_deltaV;
+   LCdepVel:=FCentities[LCfac].E_spU[LCownIdx].SU_deltaV;
    {.calculate the burn endurance for deceleration}
    LCburnEnd:=(LCdepVel-LCentrVel)/(GMCAccelG*LCgeesInKmS);
    {.caculate used reaction mass volume for deceleration}

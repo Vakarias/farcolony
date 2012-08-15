@@ -318,7 +318,7 @@ begin
       begin
          if GMCbaseDist=0
          then GMCbaseDist:=FCFgMTrans_ObObjInLStar_CalcRng(
-            FCentities[GMCfac].E_spU[CSowndMother].SUO_3dObjIdx
+            FCentities[GMCfac].E_spU[CSowndMother].SU_linked3dObject
             ,CSoobjIdx
             ,gmtltSpUnit
             ,gmtltOrbObj
@@ -331,7 +331,7 @@ begin
       begin
          if GMCbaseDist=0
          then GMCbaseDist:=FCFgMTrans_ObObjInLStar_CalcRng(
-            FCentities[GMCfac].E_spU[CSowndMother].SUO_3dObjIdx
+            FCentities[GMCfac].E_spU[CSowndMother].SU_linked3dObject
             ,CSsatObjIdx
             ,gmtltSpUnit
             ,gmtltSat
@@ -350,7 +350,7 @@ begin
       CScnt:=1;
       while CScnt<=CSmax do
       begin
-         CSspuIdx:=FCentities[GMCfac].E_spU[CSowndMother].SUO_dockedSU[CScnt].SUDL_index;
+         CSspuIdx:=FCentities[GMCfac].E_spU[CSowndMother].SU_dockedSpaceUnits[CScnt].SUDL_index;
          if (CScnt=1)
             and (GMCfinalDV=0)
          then

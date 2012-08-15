@@ -190,10 +190,10 @@ begin
    GMCmaxDV:=(GMCAccelG*FCCdiMbySec_In_1G*0.001)*(MCCmaxBurnEndSec);
    {.calculate maximum reaction mass volume which can be used}
    GMCrmMaxVol:=MCCmaxBurnEndSec*(GMCCthrN/(MCCisp*FCCdiMbySec_In_1G))/(MRMCDVCrmMass*1000);
-   if GMCrmMaxVol>(FCentities[MCCfac].E_spU[MCCowned].SUO_availRMass*0.5)
+   if GMCrmMaxVol>(FCentities[MCCfac].E_spU[MCCowned].SU_reactionMass*0.5)
    then
    begin
-      GMCrmMaxVol:=(FCentities[MCCfac].E_spU[MCCowned].SUO_availRMass*0.5);
+      GMCrmMaxVol:=(FCentities[MCCfac].E_spU[MCCowned].SU_reactionMass*0.5);
       MCCmaxBurnEndSec:=GMCrmMaxVol/(GMCCthrN/(MCCisp*FCCdiMbySec_In_1G))*(MRMCDVCrmMass*1000);
       GMCmaxDV:=(GMCAccelG*FCCdiMbySec_In_1G*0.001)*(MCCmaxBurnEndSec);
    end;
@@ -326,7 +326,7 @@ begin
       GMCtripTime:=round(MTCtimeAtAccel+MTCtimeAtDecel+MTCtimeAtCruise);
       {.calculate reaction mass volume used}
       GMCusedRMvol:=MTCusedRMvolAtAccel+MTCusedRMvolAtDecel;
-      if GMCusedRMvol>FCentities[MTCfac].E_spU[MTCowned].SUO_availRMass
+      if GMCusedRMvol>FCentities[MTCfac].E_spU[MTCowned].SU_reactionMass
       then
       begin
          case MTCflightTp of

@@ -1447,15 +1447,15 @@ begin
          LSVUspUnCnt:=1;
          while LSVUspUnCnt<=LSVUspUnFacTtl do
          begin
-            if (FCentities[MVUentCnt].E_spU[LSVUspUnCnt].SUO_status=susInFreeSpace)
-               and (FCentities[MVUentCnt].E_spU[LSVUspUnCnt].SUO_starLoc=LSVUstarId)
+            if (FCentities[MVUentCnt].E_spU[LSVUspUnCnt].SU_status=susInFreeSpace)
+               and (FCentities[MVUentCnt].E_spU[LSVUspUnCnt].SU_locationStar=LSVUstarId)
             then FCMoglVM_SpUn_Gen(
                scfInSpace
                ,MVUentCnt
                ,LSVUspUnCnt
                )
-            else if (FCentities[MVUentCnt].E_spU[LSVUspUnCnt].SUO_status=susDocked)
-               and (FCentities[MVUentCnt].E_spU[LSVUspUnCnt].SUO_starLoc=LSVUstarId)
+            else if (FCentities[MVUentCnt].E_spU[LSVUspUnCnt].SU_status=susDocked)
+               and (FCentities[MVUentCnt].E_spU[LSVUspUnCnt].SU_locationStar=LSVUstarId)
             then FCMoglVM_SpUn_Gen(
                scfDocked
                ,MVUentCnt
@@ -2012,7 +2012,7 @@ begin
                   OOSUIOspUnObjIdx:=FC3doglTotalSpaceUnits;
                end
                else if not OOSUIOUmustGen
-               then OOSUIOspUnObjIdx:=FCentities[OOSUIOfac].E_spU[OOSUIOspUntOwnIdx].SUO_3dObjIdx;
+               then OOSUIOspUnObjIdx:=FCentities[OOSUIOfac].E_spU[OOSUIOspUntOwnIdx].SU_linked3dObject;
                if FC3doglObjectsGroups[OOSUIOUoobjIdx].Position.X>0
                then FC3doglSpaceUnits[OOSUIOspUnObjIdx].Position.X
                   :=FC3doglObjectsGroups[OOSUIOUoobjIdx].Position.X-(0.9*cos(8*OOSUIOspUnCnt*FCCdiDegrees_To_Radian)*FC3oglvmGravityWells[OOSUIOUoobjIdx].Scale.X)
@@ -2029,8 +2029,8 @@ begin
                   FC3doglObjectsGroups[OOSUIOUoobjIdx]
                   ,FC3doglObjectsGroups[OOSUIOUoobjIdx].Position.AsVector
                   );
-               FCentities[OOSUIOfac].E_spU[OOSUIOspUntOwnIdx].SUO_locStarX:=FC3doglSpaceUnits[OOSUIOspUnObjIdx].Position.X;
-               FCentities[OOSUIOfac].E_spU[OOSUIOspUntOwnIdx].SUO_locStarZ:=FC3doglSpaceUnits[OOSUIOspUnObjIdx].Position.Z;
+               FCentities[OOSUIOfac].E_spU[OOSUIOspUntOwnIdx].SU_locationViewX:=FC3doglSpaceUnits[OOSUIOspUnObjIdx].Position.X;
+               FCentities[OOSUIOfac].E_spU[OOSUIOspUntOwnIdx].SU_locationViewZ:=FC3doglSpaceUnits[OOSUIOspUnObjIdx].Position.Z;
                inc(OOSUIOspUnCnt);
             end; //==END== while OOSUIOUspUnCnt<=OOSUIOUspUinOrb ==//
          end; //==END== if OOSUIOUspUinOrb>0 ==//
@@ -2058,7 +2058,7 @@ begin
                   OOSUIOspUnObjIdx:=FC3doglTotalSpaceUnits;
                end
                else if not OOSUIOUmustGen
-               then OOSUIOspUnObjIdx:=FCentities[OOSUIOfac].E_spU[OOSUIOspUntOwnIdx].SUO_3dObjIdx;
+               then OOSUIOspUnObjIdx:=FCentities[OOSUIOfac].E_spU[OOSUIOspUntOwnIdx].SU_linked3dObject;
                if FC3doglSatellitesObjectsGroups[OOSUIOUsatObjIdx].Position.X>0
                then FC3doglSpaceUnits[OOSUIOspUnObjIdx].Position.X
                   :=FC3doglSatellitesObjectsGroups[OOSUIOUsatObjIdx].Position.X-(0.9*cos(8*OOSUIOspUnCnt*FCCdiDegrees_To_Radian)*FC3oglvmSatellitesGravityWells[OOSUIOUsatObjIdx].Scale.X)
@@ -2075,8 +2075,8 @@ begin
                   FC3doglSatellitesObjectsGroups[OOSUIOUsatObjIdx]
                   ,FC3doglSatellitesObjectsGroups[OOSUIOUsatObjIdx].Position.AsVector
                   );
-               FCentities[OOSUIOfac].E_spU[OOSUIOspUntOwnIdx].SUO_locStarX:=FC3doglSpaceUnits[OOSUIOspUnObjIdx].Position.X;
-               FCentities[OOSUIOfac].E_spU[OOSUIOspUntOwnIdx].SUO_locStarZ:=FC3doglSpaceUnits[OOSUIOspUnObjIdx].Position.Z;
+               FCentities[OOSUIOfac].E_spU[OOSUIOspUntOwnIdx].SU_locationViewX:=FC3doglSpaceUnits[OOSUIOspUnObjIdx].Position.X;
+               FCentities[OOSUIOfac].E_spU[OOSUIOspUntOwnIdx].SU_locationViewZ:=FC3doglSpaceUnits[OOSUIOspUnObjIdx].Position.Z;
                inc(OOSUIOspUnCnt);
             end; //==END== while OOSUIOUspUnCnt<=OOSUIOUspUnFacTtl ==//
          end; //==END== if OOSUIOUspUnFacTtl>0 ==//
@@ -2155,14 +2155,14 @@ begin
       if SUGstatus=scfInSpace
       then
       begin
-         FC3doglSpaceUnits[FC3doglTotalSpaceUnits].Position.X:=FCentities[SUGfac].E_spU[SUGspUnOwnIdx].SUO_locStarX;
-         FC3doglSpaceUnits[FC3doglTotalSpaceUnits].Position.Z:=FCentities[SUGfac].E_spU[SUGspUnOwnIdx].SUO_locStarZ;
+         FC3doglSpaceUnits[FC3doglTotalSpaceUnits].Position.X:=FCentities[SUGfac].E_spU[SUGspUnOwnIdx].SU_locationViewX;
+         FC3doglSpaceUnits[FC3doglTotalSpaceUnits].Position.Z:=FCentities[SUGfac].E_spU[SUGspUnOwnIdx].SU_locationViewZ;
       end;
       {.add faction id#}
       FC3doglSpaceUnits[FC3doglTotalSpaceUnits].Tag:=SUGfac;
       {.add owned space unit index}
       FC3doglSpaceUnits[FC3doglTotalSpaceUnits].TagFloat:=SUGspUnOwnIdx;
-      FCentities[SUGfac].E_spU[SUGspUnOwnIdx].SUO_3dObjIdx:=FC3doglTotalSpaceUnits;
+      FCentities[SUGfac].E_spU[SUGspUnOwnIdx].SU_linked3dObject:=FC3doglTotalSpaceUnits;
       {.finalization}
       FC3doglSpaceUnits[FC3doglTotalSpaceUnits].UseMeshMaterials:=true;
       FC3doglSpaceUnits[FC3doglTotalSpaceUnits].Material.Texture.Disabled:=false;

@@ -299,16 +299,16 @@ begin
                      then
                      begin
                         GTPspUnVel
-                           :=FCentities[GTPfac].E_spU[GTPspuOwn].SUO_deltaV-(FCGtskListInProc[GTPtaskIdx].TITP_accelbyTick*(GGFnewTick-GGFoldTick));
-                        FCentities[GTPfac].E_spU[GTPspuOwn].SUO_deltaV:=FCFcFunc_Rnd(
+                           :=FCentities[GTPfac].E_spU[GTPspuOwn].SU_deltaV-(FCGtskListInProc[GTPtaskIdx].TITP_accelbyTick*(GGFnewTick-GGFoldTick));
+                        FCentities[GTPfac].E_spU[GTPspuOwn].SU_deltaV:=FCFcFunc_Rnd(
                            cfrttpVelkms
                            ,GTPspUnVel
                            );
                         GTPmove:=FCFcFunc_ScaleConverter(
                            cf3dctVelkmSecTo3dViewUnit
-                           ,FCentities[GTPfac].E_spU[GTPspuOwn].SUO_deltaV
+                           ,FCentities[GTPfac].E_spU[GTPspuOwn].SU_deltaV
                            );
-                        FCentities[GTPfac].E_spU[GTPspuOwn].SUO_3dmove:=GTPmove;
+                        FCentities[GTPfac].E_spU[GTPspuOwn].SU_3dVelocity:=GTPmove;
                      end;
                   end; //==END== if (GGFnewTick>GGFoldTick) and(FCGtskListInProc[GTPtaskIdx].TITP_phaseTp=tpDecel) ==//
                   {.atmospheric entry phase}
@@ -316,10 +316,10 @@ begin
                      and(FCGtskListInProc[GTPtaskIdx].TITP_phaseTp=tpAtmEnt)
                   then
                   begin
-                     if FC3doglSpaceUnits[FCentities[GTPfac].E_spU[GTPspuOwn].SUO_3dObjIdx].Visible
+                     if FC3doglSpaceUnits[FCentities[GTPfac].E_spU[GTPspuOwn].SU_linked3dObject].Visible
                      then
                      begin
-                        FC3doglSpaceUnits[FCentities[GTPfac].E_spU[GTPspuOwn].SUO_3dObjIdx].Visible:=false;
+                        FC3doglSpaceUnits[FCentities[GTPfac].E_spU[GTPspuOwn].SU_linked3dObject].Visible:=false;
                         if FCGtskListInProc[GTPtaskIdx].TITP_orgType=tttSpaceUnit
                         then
                         begin
@@ -346,11 +346,11 @@ begin
                   then
                   begin
                      {.unload the current task to the space unit}
-                     FCentities[GTPfac].E_spU[GTPspuOwn].SUO_taskIdx:=0;
-                     FCentities[GTPfac].E_spU[GTPspuOwn].SUO_status:=susLanded;
+                     FCentities[GTPfac].E_spU[GTPspuOwn].SU_assignedTask:=0;
+                     FCentities[GTPfac].E_spU[GTPspuOwn].SU_status:=susLanded;
                      {.set the remaining reaction mass}
-                     FCentities[GTPfac].E_spU[GTPspuOwn].SUO_availRMass
-                        :=FCentities[GTPfac].E_spU[GTPspuOwn].SUO_availRMass-FCGtskListInProc[GTPtaskIdx].TITP_usedRMassV;
+                     FCentities[GTPfac].E_spU[GTPspuOwn].SU_reactionMass
+                        :=FCentities[GTPfac].E_spU[GTPspuOwn].SU_reactionMass-FCGtskListInProc[GTPtaskIdx].TITP_usedRMassV;
                      {.colonize mission post-process}
                      GTPssysDB:=FCFuF_StelObj_GetDbIdx(
                            ufsoSsys
@@ -361,7 +361,7 @@ begin
                            );
                      GTPstarDB:=FCFuF_StelObj_GetDbIdx(
                         ufsoStar
-                        ,FCentities[GTPfac].E_spU[GTPspuOwn].SUO_starLoc
+                        ,FCentities[GTPfac].E_spU[GTPspuOwn].SU_locationStar
                         ,GTPssysDB
                         ,0
                         ,0
@@ -421,39 +421,39 @@ begin
                         FCGtskListInProc[GTPtaskIdx].TITP_time2xfert
                            :=GGFnewTick-(FCGtskListInProc[GTPtaskIdx].TITP_timeOrg+FCGtskListInProc[GTPtaskIdx].TITP_timeToCruise);
                         GTPspUnVel
-                           :=FCentities[GTPfac].E_spU[GTPspuOwn].SUO_deltaV
+                           :=FCentities[GTPfac].E_spU[GTPspuOwn].SU_deltaV
                                  +(
                                     FCGtskListInProc[GTPtaskIdx].TITP_accelbyTick
                                     *(GGFnewTick-GGFoldTick-FCGtskListInProc[GTPtaskIdx].TITP_time2xfert)
                                     );
-                        FCentities[GTPfac].E_spU[GTPspuOwn].SUO_deltaV
+                        FCentities[GTPfac].E_spU[GTPspuOwn].SU_deltaV
                            :=FCFcFunc_Rnd(
                               cfrttpVelkms
                               ,GTPspUnVel
                               );
                         GTPmove:=FCFcFunc_ScaleConverter(
                            cf3dctVelkmSecTo3dViewUnit
-                           ,FCentities[GTPfac].E_spU[GTPspuOwn].SUO_deltaV
+                           ,FCentities[GTPfac].E_spU[GTPspuOwn].SU_deltaV
                            );
-                        FCentities[GTPfac].E_spU[GTPspuOwn].SUO_3dmove:=GTPmove;
+                        FCentities[GTPfac].E_spU[GTPspuOwn].SU_3dVelocity:=GTPmove;
                         FCGtskListInProc[GTPtaskIdx].TITP_phaseTp:=tpCruise;
                      end
                      else if GGFnewTick<FCGtskListInProc[GTPtaskIdx].TITP_timeOrg+FCGtskListInProc[GTPtaskIdx].TITP_timeToCruise
                      then
                      begin
                         GTPspUnVel
-                           :=FCentities[GTPfac].E_spU[GTPspuOwn].SUO_deltaV
+                           :=FCentities[GTPfac].E_spU[GTPspuOwn].SU_deltaV
                               +(FCGtskListInProc[GTPtaskIdx].TITP_accelbyTick*(GGFnewTick-GGFoldTick));
-                        FCentities[GTPfac].E_spU[GTPspuOwn].SUO_deltaV
+                        FCentities[GTPfac].E_spU[GTPspuOwn].SU_deltaV
                            :=FCFcFunc_Rnd(
                               cfrttpVelkms
                               ,GTPspUnVel
                               );
                         GTPmove:=FCFcFunc_ScaleConverter(
                            cf3dctVelkmSecTo3dViewUnit
-                           ,FCentities[GTPfac].E_spU[GTPspuOwn].SUO_deltaV
+                           ,FCentities[GTPfac].E_spU[GTPspuOwn].SU_deltaV
                            );
-                        FCentities[GTPfac].E_spU[GTPspuOwn].SUO_3dmove:=GTPmove;
+                        FCentities[GTPfac].E_spU[GTPspuOwn].SU_3dVelocity:=GTPmove;
                      end;
                   end; //==END== if (GGFnewTick>GGFoldTick) and(FCGtskListInProc[GTPtaskIdx].TITP_phaseTp=tpAccel) ==//
                   if (GGFnewTick>GGFoldTick)
@@ -515,16 +515,16 @@ begin
                            GTPspUnVel:=FCGtskListInProc[GTPtaskIdx].TITP_velFinal;
                            FCGtskListInProc[GTPtaskIdx].TITP_time2xfert2decel:=0;
                            {.update data structure}
-                           FCentities[GTPfac].E_spU[GTPspuOwn].SUO_deltaV
+                           FCentities[GTPfac].E_spU[GTPspuOwn].SU_deltaV
                               :=FCFcFunc_Rnd(
                                  cfrttpVelkms
                                  ,GTPspUnVel
                                  );
                            GTPmove:=FCFcFunc_ScaleConverter(
                               cf3dctVelkmSecTo3dViewUnit
-                              ,FCentities[GTPfac].E_spU[GTPspuOwn].SUO_deltaV
+                              ,FCentities[GTPfac].E_spU[GTPspuOwn].SU_deltaV
                               );
-                           FCentities[GTPfac].E_spU[GTPspuOwn].SUO_3dmove:=GTPmove;
+                           FCentities[GTPfac].E_spU[GTPspuOwn].SU_3dVelocity:=GTPmove;
                            FCGtskListInProc[GTPtaskIdx].TITP_phaseTp:=tpDone;
                         end
                         else if FCGtskListInProc[GTPtaskIdx].TITP_time2xfert2decel+GGFoldTick
@@ -532,18 +532,18 @@ begin
                         then
                         begin
                            GTPspUnVel
-                              :=FCentities[GTPfac].E_spU[GTPspuOwn].SUO_deltaV
+                              :=FCentities[GTPfac].E_spU[GTPspuOwn].SU_deltaV
                                  -(FCGtskListInProc[GTPtaskIdx].TITP_accelbyTick*(FCGtskListInProc[GTPtaskIdx].TITP_time2xfert2decel));
-                           FCentities[GTPfac].E_spU[GTPspuOwn].SUO_deltaV
+                           FCentities[GTPfac].E_spU[GTPspuOwn].SU_deltaV
                               :=FCFcFunc_Rnd(
                                  cfrttpVelkms
                                  ,GTPspUnVel
                                  );
                            GTPmove:=FCFcFunc_ScaleConverter(
                               cf3dctVelkmSecTo3dViewUnit
-                              ,FCentities[GTPfac].E_spU[GTPspuOwn].SUO_deltaV
+                              ,FCentities[GTPfac].E_spU[GTPspuOwn].SU_deltaV
                               );
-                           FCentities[GTPfac].E_spU[GTPspuOwn].SUO_3dmove:=GTPmove;
+                           FCentities[GTPfac].E_spU[GTPspuOwn].SU_3dVelocity:=GTPmove;
                            FCGtskListInProc[GTPtaskIdx].TITP_time2xfert2decel:=0;
                         end;
                      end
@@ -554,34 +554,34 @@ begin
                         then
                         begin
                            GTPspUnVel:=FCGtskListInProc[GTPtaskIdx].TITP_velFinal;
-                           FCentities[GTPfac].E_spU[GTPspuOwn].SUO_deltaV
+                           FCentities[GTPfac].E_spU[GTPspuOwn].SU_deltaV
                               :=FCFcFunc_Rnd(
                                  cfrttpVelkms
                                  ,GTPspUnVel
                                  );
                            GTPmove:=FCFcFunc_ScaleConverter(
                               cf3dctVelkmSecTo3dViewUnit
-                              ,FCentities[GTPfac].E_spU[GTPspuOwn].SUO_deltaV
+                              ,FCentities[GTPfac].E_spU[GTPspuOwn].SU_deltaV
                               );
-                           FCentities[GTPfac].E_spU[GTPspuOwn].SUO_3dmove:=GTPmove;
+                           FCentities[GTPfac].E_spU[GTPspuOwn].SU_3dVelocity:=GTPmove;
                            FCGtskListInProc[GTPtaskIdx].TITP_phaseTp:=tpDone;
                         end
                         else if GGFnewTick<FCGtskListInProc[GTPtaskIdx].TITP_timeOrg+FCGtskListInProc[GTPtaskIdx].TITP_duration
                         then
                         begin
                            GTPspUnVel
-                              :=FCentities[GTPfac].E_spU[GTPspuOwn].SUO_deltaV
+                              :=FCentities[GTPfac].E_spU[GTPspuOwn].SU_deltaV
                                  -(FCGtskListInProc[GTPtaskIdx].TITP_accelbyTick*(GGFnewTick-GGFoldTick));
-                           FCentities[GTPfac].E_spU[GTPspuOwn].SUO_deltaV
+                           FCentities[GTPfac].E_spU[GTPspuOwn].SU_deltaV
                            :=FCFcFunc_Rnd(
                               cfrttpVelkms
                               ,GTPspUnVel
                               );
                            GTPmove:=FCFcFunc_ScaleConverter(
                               cf3dctVelkmSecTo3dViewUnit
-                              ,FCentities[GTPfac].E_spU[GTPspuOwn].SUO_deltaV
+                              ,FCentities[GTPfac].E_spU[GTPspuOwn].SU_deltaV
                               );
-                           FCentities[GTPfac].E_spU[GTPspuOwn].SUO_3dmove:=GTPmove;
+                           FCentities[GTPfac].E_spU[GTPspuOwn].SU_3dVelocity:=GTPmove;
                         end;
                      end;
                   end; //==END== if (GGFnewTick>GGFoldTick) and(FCGtskListInProc[GTPtaskIdx].TITP_phaseTp=tpDecel) ==//
@@ -589,10 +589,10 @@ begin
                   then
                   begin
                      {.unload the current task to the space unit}
-                     FCentities[GTPfac].E_spU[GTPspuOwn].SUO_taskIdx:=0;
+                     FCentities[GTPfac].E_spU[GTPspuOwn].SU_assignedTask:=0;
                      {.set the remaining reaction mass}
-                     FCentities[GTPfac].E_spU[GTPspuOwn].SUO_availRMass
-                        :=FCentities[GTPfac].E_spU[GTPspuOwn].SUO_availRMass-FCGtskListInProc[GTPtaskIdx].TITP_usedRMassV;
+                     FCentities[GTPfac].E_spU[GTPspuOwn].SU_reactionMass
+                        :=FCentities[GTPfac].E_spU[GTPspuOwn].SU_reactionMass-FCGtskListInProc[GTPtaskIdx].TITP_usedRMassV;
                      {.interplanetary transit mission post-process}
                      GTPssysDB:=FCFuF_StelObj_GetDbIdx(
                            ufsoSsys
@@ -603,7 +603,7 @@ begin
                            );
                      GTPstarDB:=FCFuF_StelObj_GetDbIdx(
                         ufsoStar
-                        ,FCentities[GTPfac].E_spU[GTPspuOwn].SUO_starLoc
+                        ,FCentities[GTPfac].E_spU[GTPspuOwn].SU_locationStar
                         ,GTPssysDB
                         ,0
                         ,0
@@ -611,14 +611,14 @@ begin
                      GTPoobjDB:=0;
                      GTPsatDB:=0;
                      {.set orbit data for destination}
-                     FCentities[GTPfac].E_spU[GTPspuOwn].SUO_status:=susInOrbit;
+                     FCentities[GTPfac].E_spU[GTPspuOwn].SU_status:=susInOrbit;
                      if FCGtskListInProc[GTPtaskIdx].TITP_destType=tttOrbObj
                      then
                      begin
                         GTPoobjDB:=FCGtskListInProc[GTPtaskIdx].TITP_destIdx;
-                        FCentities[GTPfac].E_spU[GTPspuOwn].SUO_oobjLoc
+                        FCentities[GTPfac].E_spU[GTPspuOwn].SU_locationOrbitalObject
                            :=FCDduStarSystem[GTPssysDB].SS_stars[GTPstarDB].S_orbitalObjects[FCGtskListInProc[GTPtaskIdx].TITP_destIdx].OO_dbTokenId;
-                        FCentities[GTPfac].E_spU[FCGtskListInProc[GTPtaskIdx].TITP_ctldIdx].SUO_satLoc:='';
+                        FCentities[GTPfac].E_spU[FCGtskListInProc[GTPtaskIdx].TITP_ctldIdx].SU_locationSatellite:='';
                         FCMspuF_Orbits_Process(
                            spufoioAddOrbit
                            ,GTPssysDB
@@ -635,8 +635,8 @@ begin
                      begin
                         GTPsatDB:=FC3doglSatellitesObjectsGroups[FCGtskListInProc[GTPtaskIdx].TITP_destIdx].Tag;
                         GTPoobjDB:=round(FC3doglSatellitesObjectsGroups[FCGtskListInProc[GTPtaskIdx].TITP_destIdx].TagFloat);
-                        FCentities[GTPfac].E_spU[GTPspuOwn].SUO_oobjLoc:=FCDduStarSystem[GTPssysDB].SS_stars[GTPstarDB].S_orbitalObjects[GTPoobjDB].OO_dbTokenId;
-                        FCentities[GTPfac].E_spU[GTPspuOwn].SUO_satLoc
+                        FCentities[GTPfac].E_spU[GTPspuOwn].SU_locationOrbitalObject:=FCDduStarSystem[GTPssysDB].SS_stars[GTPstarDB].S_orbitalObjects[GTPoobjDB].OO_dbTokenId;
+                        FCentities[GTPfac].E_spU[GTPspuOwn].SU_locationSatellite
                            :=FCDduStarSystem[GTPssysDB].SS_stars[GTPstarDB].S_orbitalObjects[GTPoobjDB].OO_satellitesList[GTPsatDB].OO_dbTokenId;
                         FCMspuF_Orbits_Process(
                            spufoioAddOrbit
@@ -649,19 +649,19 @@ begin
                            ,true
                            );
                      end;
-                     GTPdckdVslMax:=length(FCentities[GTPfac].E_spU[GTPspuOwn].SUO_dockedSU);
+                     GTPdckdVslMax:=length(FCentities[GTPfac].E_spU[GTPspuOwn].SU_dockedSpaceUnits);
                      if GTPdckdVslMax>1
                      then
                      begin
                         GTPdkcdCnt:=1;
                         while GTPdkcdCnt<=GTPdckdVslMax-1 do
                         begin
-                           GTPdckdIdx:=FCentities[GTPfac].E_spU[GTPspuOwn].SUO_dockedSU[GTPdkcdCnt].SUDL_index;
-                           FCentities[GTPfac].E_spU[GTPdckdIdx].SUO_deltaV:=FCentities[GTPfac].E_spU[GTPspuOwn].SUO_deltaV;
+                           GTPdckdIdx:=FCentities[GTPfac].E_spU[GTPspuOwn].SU_dockedSpaceUnits[GTPdkcdCnt].SUDL_index;
+                           FCentities[GTPfac].E_spU[GTPdckdIdx].SU_deltaV:=FCentities[GTPfac].E_spU[GTPspuOwn].SU_deltaV;
                            inc(GTPdkcdCnt);
                         end;
                      end;
-                     FCentities[GTPfac].E_spU[GTPspuOwn].SUO_3dmove:=0;
+                     FCentities[GTPfac].E_spU[GTPspuOwn].SU_3dVelocity:=0;
                      FCMuiM_Message_Add(
                         mtInterplanTransit
                         ,0
@@ -670,10 +670,10 @@ begin
                         ,GTPsatDB
                         ,0
                         );
-                     if FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglSpaceUnits[FCentities[GTPfac].E_spU[GTPspuOwn].SUO_3dObjIdx]
+                     if FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglSpaceUnits[FCentities[GTPfac].E_spU[GTPspuOwn].SU_linked3dObject]
                      then
                      begin
-                        FC3doglSelectedSpaceUnit:=FCentities[GTPfac].E_spU[GTPspuOwn].SUO_3dObjIdx;
+                        FC3doglSelectedSpaceUnit:=FCentities[GTPfac].E_spU[GTPspuOwn].SU_linked3dObject;
                         FCMoglVM_CamMain_Target(-1, true);
                      end;
                      FCGtskListInProc[GTPtaskIdx].TITP_phaseTp:=tpTerminated;
@@ -841,7 +841,7 @@ begin
             GTPspUidx:=FCGtskListInProc[GTPtaskIdx].TITP_ctldIdx;
             {.update the tasklist in process index inside the owned space unit data structure}
             GTPfac:=FCGtskListInProc[GTPtaskIdx].TITP_ctldFac;
-            FCentities[GTPfac].E_spU[FCGtskListInProc[GTPtaskIdx].TITP_ctldIdx].SUO_taskIdx:=GTPtaskIdx;
+            FCentities[GTPfac].E_spU[FCGtskListInProc[GTPtaskIdx].TITP_ctldIdx].SU_assignedTask:=GTPtaskIdx;
             {.mission related data init}
             case FCGtskListInProc[GTPtaskIdx].TITP_actionTp of
                tatpMissColonize:
@@ -849,16 +849,16 @@ begin
                   FCGtskListInProc[GTPtaskIdx].TITP_phaseTp:=tpDecel;
                   FCGtskListInProc[GTPtaskIdx].TITP_timeDecel:=FCGtskListInProc[GTPtaskIdx].TITP_duration-FCGtskListInProc[GTPtaskIdx].TITP_timeToFinal;
                   FCGtskListInProc[GTPtaskIdx].TITP_accelbyTick
-                     :=(FCentities[GTPfac].E_spU[FCGtskListInProc[GTPtaskIdx].TITP_orgIdx].SUO_deltaV-FCGtskListInProc[GTPtaskIdx].TITP_velFinal)
+                     :=(FCentities[GTPfac].E_spU[FCGtskListInProc[GTPtaskIdx].TITP_orgIdx].SU_deltaV-FCGtskListInProc[GTPtaskIdx].TITP_velFinal)
                         /FCGtskListInProc[GTPtaskIdx].TITP_timeDecel;
-                  FCentities[GTPfac].E_spU[GTPspUidx].SUO_oobjLoc:='';
-                  FCentities[GTPfac].E_spU[GTPspUidx].SUO_satLoc:='';
-                  FCentities[GTPfac].E_spU[GTPspUidx].SUO_status:=susInFreeSpace;
-                  FCentities[GTPfac].E_spU[GTPspUidx].SUO_locStarX:=FCentities[GTPfac].E_spU[FCGtskListInProc[GTPtaskIdx].TITP_orgIdx].SUO_locStarX;
-                  FCentities[GTPfac].E_spU[GTPspUidx].SUO_locStarZ:=FCentities[GTPfac].E_spU[FCGtskListInProc[GTPtaskIdx].TITP_orgIdx].SUO_locStarZ;
-                  GTPspUObjIdx:=FCentities[GTPfac].E_spU[GTPspUidx].SUO_3dObjIdx;
-                  FC3doglSpaceUnits[GTPspUObjIdx].Position.X:=FCentities[GTPfac].E_spU[GTPspUidx].SUO_locStarX;
-                  FC3doglSpaceUnits[GTPspUObjIdx].Position.Z:=FCentities[GTPfac].E_spU[GTPspUidx].SUO_locStarZ;
+                  FCentities[GTPfac].E_spU[GTPspUidx].SU_locationOrbitalObject:='';
+                  FCentities[GTPfac].E_spU[GTPspUidx].SU_locationSatellite:='';
+                  FCentities[GTPfac].E_spU[GTPspUidx].SU_status:=susInFreeSpace;
+                  FCentities[GTPfac].E_spU[GTPspUidx].SU_locationViewX:=FCentities[GTPfac].E_spU[FCGtskListInProc[GTPtaskIdx].TITP_orgIdx].SU_locationViewX;
+                  FCentities[GTPfac].E_spU[GTPspUidx].SU_locationViewZ:=FCentities[GTPfac].E_spU[FCGtskListInProc[GTPtaskIdx].TITP_orgIdx].SU_locationViewZ;
+                  GTPspUObjIdx:=FCentities[GTPfac].E_spU[GTPspUidx].SU_linked3dObject;
+                  FC3doglSpaceUnits[GTPspUObjIdx].Position.X:=FCentities[GTPfac].E_spU[GTPspUidx].SU_locationViewX;
+                  FC3doglSpaceUnits[GTPspUObjIdx].Position.Z:=FCentities[GTPfac].E_spU[GTPspUidx].SU_locationViewZ;
                   {.3d initialization}
                   if not FC3doglSpaceUnits[GTPspUObjIdx].Visible
                   then FC3doglSpaceUnits[GTPspUObjIdx].Visible:=true;
@@ -875,11 +875,11 @@ begin
                   FCGtskListInProc[GTPtaskIdx].TITP_timeDecel
                      :=FCGtskListInProc[GTPtaskIdx].TITP_duration-(FCGtskListInProc[GTPtaskIdx].TITP_timeToCruise+FCGtskListInProc[GTPtaskIdx].TITP_timeToFinal);
                   FCGtskListInProc[GTPtaskIdx].TITP_accelbyTick
-                     :=(FCGtskListInProc[GTPtaskIdx].TITP_velCruise-FCentities[GTPfac].E_spU[FCGtskListInProc[GTPtaskIdx].TITP_orgIdx].SUO_deltaV)
+                     :=(FCGtskListInProc[GTPtaskIdx].TITP_velCruise-FCentities[GTPfac].E_spU[FCGtskListInProc[GTPtaskIdx].TITP_orgIdx].SU_deltaV)
                         /FCGtskListInProc[GTPtaskIdx].TITP_timeToCruise;
-                  FCentities[GTPfac].E_spU[GTPspUidx].SUO_oobjLoc:='';
-                  FCentities[GTPfac].E_spU[GTPspUidx].SUO_satLoc:='';
-                  FCentities[GTPfac].E_spU[GTPspUidx].SUO_status:=susInFreeSpace;
+                  FCentities[GTPfac].E_spU[GTPspUidx].SU_locationOrbitalObject:='';
+                  FCentities[GTPfac].E_spU[GTPspUidx].SU_locationSatellite:='';
+                  FCentities[GTPfac].E_spU[GTPspUidx].SU_status:=susInFreeSpace;
                   GTPssys:=FCFuF_StelObj_GetDbIdx(
                      ufsoSsys
                      ,FCentities[GTPfac].E_spU[GTPspUidx].SU_locationStarSystem
@@ -889,7 +889,7 @@ begin
                      );
                   GTPstar:=FCFuF_StelObj_GetDbIdx(
                      ufsoStar
-                     ,FCentities[GTPfac].E_spU[GTPspUidx].SUO_starLoc
+                     ,FCentities[GTPfac].E_spU[GTPspUidx].SU_locationStar
                      ,GTPssys
                      ,0
                      ,0
@@ -922,7 +922,7 @@ begin
                         );
                   end;
                   FCMuiW_FocusPopup_Upd(uiwpkSpUnit);
-                  GTPspUObjIdx:=FCentities[GTPfac].E_spU[GTPspUidx].SUO_3dObjIdx;
+                  GTPspUObjIdx:=FCentities[GTPfac].E_spU[GTPspUidx].SU_linked3dObject;
                   if FCGtskListInProc[GTPtaskIdx].TITP_destType=tttOrbObj
                   then FC3doglSpaceUnits[GTPspUObjIdx].PointTo
                      (FC3doglObjectsGroups[FCGtskListInProc[GTPtaskIdx].TITP_destIdx],FC3doglObjectsGroups[FCGtskListInProc[GTPtaskIdx].TITP_destIdx].Position.AsVector)

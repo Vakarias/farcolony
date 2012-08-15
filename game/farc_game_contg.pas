@@ -140,7 +140,7 @@ FCMdF_DBProducts_Load;
             CPcount:=1;
             while CPcount<=CPttl do
             begin
-               if FCentities[CPeCnt].E_spU[CPcount].SUO_status=susInOrbit
+               if FCentities[CPeCnt].E_spU[CPcount].SU_status=susInOrbit
                then
                begin
                   CPssys:=FCFuF_StelObj_GetDbIdx(
@@ -152,22 +152,22 @@ FCMdF_DBProducts_Load;
                      );
                   CPstar:=FCFuF_StelObj_GetDbIdx(
                      ufsoStar
-                     ,FCentities[CPeCnt].E_spU[CPcount].SUO_starLoc
+                     ,FCentities[CPeCnt].E_spU[CPcount].SU_locationStar
                      ,CPssys
                      ,0
                      ,0
                      );
                   CPoobj:=FCFuF_StelObj_GetDbIdx(
                      ufsoOObj
-                     ,FCentities[CPeCnt].E_spU[CPcount].SUO_oobjLoc
+                     ,FCentities[CPeCnt].E_spU[CPcount].SU_locationOrbitalObject
                      ,CPssys
                      ,CPstar
                      ,0
                      );
-                  if FCentities[CPeCnt].E_spU[CPcount].SUO_satLoc<>''
+                  if FCentities[CPeCnt].E_spU[CPcount].SU_locationSatellite<>''
                   then CPsat:=FCFuF_StelObj_GetDbIdx(
                      ufsoSat
-                     ,FCentities[CPeCnt].E_spU[CPcount].SUO_satLoc
+                     ,FCentities[CPeCnt].E_spU[CPcount].SU_locationSatellite
                      ,CPssys
                      ,CPstar
                      ,CPoobj

@@ -632,7 +632,7 @@ begin
                then
                begin
                   FCGLSCPspUidx:=FCGtskListInProc[i].TITP_ctldIdx;
-                  FCGLSCPobjIdx:=FCentities[0].E_spU[FCGLSCPspUidx].SUO_3dObjIdx;
+                  FCGLSCPobjIdx:=FCentities[0].E_spU[FCGLSCPspUidx].SU_linked3dObject;
                   if
                      (
                         (
@@ -650,7 +650,7 @@ begin
                         (
                            (FCGtskListInProc[i].TITP_actionTp=tatpMissColonize)
                               and (FCGtskListInProc[i].TITP_phaseTp=tpDecel)
-                              and (FCentities[0].E_spU[FCGLSCPspUidx].SUO_3dObjIdx>0)
+                              and (FCentities[0].E_spU[FCGLSCPspUidx].SU_linked3dObject>0)
                         )
                      )
                   then
@@ -666,19 +666,19 @@ begin
                      then
                      begin
                         {.move the space unit}
-                        FC3doglSpaceUnits[FCGLSCPobjIdx].Move(FCentities[0].E_spU[FCGLSCPspUidx].SUO_3dmove*deltaTime*FCGLSCPcoefTimeAcc);
+                        FC3doglSpaceUnits[FCGLSCPobjIdx].Move(FCentities[0].E_spU[FCGLSCPspUidx].SU_3dVelocity*deltaTime*FCGLSCPcoefTimeAcc);
                         {.put the location in owned space unit datastructure}
-                        FCentities[0].E_spU[FCGLSCPspUidx].SUO_locStarX:=FC3doglSpaceUnits[FCGLSCPobjIdx].Position.X;
-                        FCentities[0].E_spU[FCGLSCPspUidx].SUO_locStarZ:=FC3doglSpaceUnits[FCGLSCPobjIdx].Position.Z;
+                        FCentities[0].E_spU[FCGLSCPspUidx].SU_locationViewX:=FC3doglSpaceUnits[FCGLSCPobjIdx].Position.X;
+                        FCentities[0].E_spU[FCGLSCPspUidx].SU_locationViewZ:=FC3doglSpaceUnits[FCGLSCPobjIdx].Position.Z;
                         {.set the right camera location}
                         case FCRplayer.P_currentTimePhase of
-                           tphTac: FCGLSCamMainViewGhost.AdjustDistanceToTarget(0.982-(FCentities[0].E_spU[FCGLSCPspUidx].SUO_3dmove*0.1));
-                           tphMan: FCGLSCamMainViewGhost.AdjustDistanceToTarget(0.851-(FCentities[0].E_spU[FCGLSCPspUidx].SUO_3dmove*0.1));
-                           tphSTH: FCGLSCamMainViewGhost.AdjustDistanceToTarget(0.72-(FCentities[0].E_spU[FCGLSCPspUidx].SUO_3dmove*0.1));
+                           tphTac: FCGLSCamMainViewGhost.AdjustDistanceToTarget(0.982-(FCentities[0].E_spU[FCGLSCPspUidx].SU_3dVelocity*0.1));
+                           tphMan: FCGLSCamMainViewGhost.AdjustDistanceToTarget(0.851-(FCentities[0].E_spU[FCGLSCPspUidx].SU_3dVelocity*0.1));
+                           tphSTH: FCGLSCamMainViewGhost.AdjustDistanceToTarget(0.72-(FCentities[0].E_spU[FCGLSCPspUidx].SU_3dVelocity*0.1));
                         end;
                         FCMoglUI_Main3DViewUI_Update(oglupdtpTxtOnly, ogluiutFocObj);
                      end {.if FCGLSCamMainViewGhost.TargetObject=FCV3dMVobjSpUnit[FCGLSCPobjIdx]}
-                     else FC3doglSpaceUnits[FCGLSCPobjIdx].Move(FCentities[0].E_spU[FCGLSCPspUidx].SUO_3dmove*deltaTime*FCGLSCPcoefTimeAcc);
+                     else FC3doglSpaceUnits[FCGLSCPobjIdx].Move(FCentities[0].E_spU[FCGLSCPspUidx].SU_3dVelocity*deltaTime*FCGLSCPcoefTimeAcc);
                      FCMoglVM_OObjSpUn_ChgeScale(FCGLSCPobjIdx);
                   end; {.if (FCGtskListInProc[i].TITP_actionTp=tatpMissItransit) and (FCGtskListInProc[i].TITP_enabled)}
                end; //==END== if FCGtskListInProc[i].TITP_phaseTp<>tpTerminated ==//
@@ -833,7 +833,7 @@ begin
             and
             (FCGLSCamMainViewGhost.TargetObject=FC3doglSpaceUnits[FC3doglSelectedSpaceUnit])
             and
-            (FCentities[0].E_spU[round(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].TagFloat)].SUO_3dmove>0)
+            (FCentities[0].E_spU[round(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].TagFloat)].SU_3dVelocity>0)
             )
    then FCVdiGameFlowTimer.Enabled:=true;
 end;

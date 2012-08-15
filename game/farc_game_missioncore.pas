@@ -391,7 +391,7 @@ begin
                      round
                         (
                            GMCusedRMvol*100
-                           /FCentities[GMCfac].E_spU[round(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].TagFloat)].SUO_availRMass
+                           /FCentities[GMCfac].E_spU[round(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].TagFloat)].SU_reactionMass
                         )
                   )
             +' %<br>'
@@ -451,7 +451,7 @@ begin
       FCMgMiT_MissionTrip_Calc
          (
             FCWinMain.FCWMS_Grp_MCG_RMassTrack.Position
-            ,FCentities[GMCfac].E_spU[round(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].TagFloat)].SUO_deltaV
+            ,FCentities[GMCfac].E_spU[round(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].TagFloat)].SU_deltaV
          );
    end;
    {.current destination for orbital object}
@@ -675,24 +675,24 @@ begin
             );
          GMCrootStar:=FCFuF_StelObj_GetDbIdx(
             ufsoStar
-            ,FCentities[GMCfac].E_spU[GMCmother].SUO_starLoc
+            ,FCentities[GMCfac].E_spU[GMCmother].SU_locationStar
             ,GMCrootSsys
             ,0
             ,0
             );
          GMCrootOObIdx:=FCFuF_StelObj_GetDbIdx(
             ufsoOObj
-            ,FCentities[GMCfac].E_spU[GMCmother].SUO_oobjLoc
+            ,FCentities[GMCfac].E_spU[GMCmother].SU_locationOrbitalObject
             ,GMCrootSsys
             ,GMCrootStar
             ,0
             );
-         if FCentities[GMCfac].E_spU[GMCmother].SUO_satLoc<>''
+         if FCentities[GMCfac].E_spU[GMCmother].SU_locationSatellite<>''
          then
          begin
             GMCrootSatIdx:=FCFuF_StelObj_GetDbIdx(
                ufsoSat
-               ,FCentities[GMCfac].E_spU[GMCmother].SUO_satLoc
+               ,FCentities[GMCfac].E_spU[GMCmother].SU_locationSatellite
                ,GMCrootSsys
                ,GMCrootStar
                ,GMCrootOObIdx
@@ -886,22 +886,22 @@ begin
             );
          GMCrootStar:=FCFuF_StelObj_GetDbIdx(
             ufsoStar
-            ,FCentities[GMCfac].E_spU[MSownedIdx].SUO_starLoc
+            ,FCentities[GMCfac].E_spU[MSownedIdx].SU_locationStar
             ,GMCrootSsys
             ,0
             ,0
             );
          GMCrootOObIdx:=FCFuF_StelObj_GetDbIdx(
             ufsoOObj
-            ,FCentities[GMCfac].E_spU[MSownedIdx].SUO_oobjLoc
+            ,FCentities[GMCfac].E_spU[MSownedIdx].SU_locationOrbitalObject
             ,GMCrootSsys
             ,GMCrootStar
             ,0
             );
-         if FCentities[GMCfac].E_spU[MSownedIdx].SUO_satLoc<>''
+         if FCentities[GMCfac].E_spU[MSownedIdx].SU_locationSatellite<>''
          then GMCrootSatIdx:=FCFuF_StelObj_GetDbIdx(
             ufsoSat
-            ,FCentities[GMCfac].E_spU[MSownedIdx].SUO_satLoc
+            ,FCentities[GMCfac].E_spU[MSownedIdx].SU_locationSatellite
             ,GMCrootSsys
             ,GMCrootStar
             ,GMCrootOObIdx
@@ -952,9 +952,9 @@ begin
             );
          {.idx=3}
          FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Add(
-            FloatToStr(FCentities[GMCfac].E_spU[MSownedIdx].SUO_deltaV)+' km/s'
+            FloatToStr(FCentities[GMCfac].E_spU[MSownedIdx].SU_deltaV)+' km/s'
             +MSdispIdx
-            +FloatToStr(FCentities[GMCfac].E_spU[MSownedIdx].SUO_availRMass)+' m<sup>3</sup>'
+            +FloatToStr(FCentities[GMCfac].E_spU[MSownedIdx].SU_reactionMass)+' m<sup>3</sup>'
             +'<br>'
             );
          {.space drive type and isp, idx=4}

@@ -442,25 +442,25 @@ FCWinNewGSetup.Close;
                   FCentities[CPent].E_spU[CPowndSCidx].SU_designToken:=CM_equipmentList[CPcount0].EL_eiSUnDesignToken;
                   {.location}
                   FCentities[CPent].E_spU[CPowndSCidx].SU_locationStarSystem:=FCRplayer.P_viewStarSystem;
-                  FCentities[CPent].E_spU[CPowndSCidx].SUO_starLoc:=FCRplayer.P_viewStar;
-                  FCentities[CPent].E_spU[CPowndSCidx].SUO_satLoc:=FCRplayer.P_viewSatellite;
-                  FCentities[CPent].E_spU[CPowndSCidx].SUO_locStarX:=0;
-                  FCentities[CPent].E_spU[CPowndSCidx].SUO_locStarZ:=0;
-                  FCentities[CPent].E_spU[CPowndSCidx].SUO_taskIdx:=0 ;
+                  FCentities[CPent].E_spU[CPowndSCidx].SU_locationStar:=FCRplayer.P_viewStar;
+                  FCentities[CPent].E_spU[CPowndSCidx].SU_locationSatellite:=FCRplayer.P_viewSatellite;
+                  FCentities[CPent].E_spU[CPowndSCidx].SU_locationViewX:=0;
+                  FCentities[CPent].E_spU[CPowndSCidx].SU_locationViewZ:=0;
+                  FCentities[CPent].E_spU[CPowndSCidx].SU_assignedTask:=0 ;
                   {.status + current deltaV}
                   if CM_equipmentList[CPcount0].EL_eiSUnStatus=susInFreeSpace
                   then
                   begin
-                     FCentities[CPent].E_spU[CPowndSCidx].SUO_status:=susInFreeSpace;
-                     FCentities[CPent].E_spU[CPowndSCidx].SUO_deltaV:=0;
+                     FCentities[CPent].E_spU[CPowndSCidx].SU_status:=susInFreeSpace;
+                     FCentities[CPent].E_spU[CPowndSCidx].SU_deltaV:=0;
                      if CM_equipmentList[CPcount0].EL_eiSUnDockStatus=diNotDocked
                      then CPspUnMother:=0;
                   end
                   else if CM_equipmentList[CPcount0].EL_eiSUnStatus=susInOrbit
                   then
                   begin
-                     FCentities[CPent].E_spU[CPowndSCidx].SUO_status:=susInOrbit;
-                     FCentities[CPent].E_spU[CPowndSCidx].SUO_deltaV
+                     FCentities[CPent].E_spU[CPowndSCidx].SU_status:=susInOrbit;
+                     FCentities[CPent].E_spU[CPowndSCidx].SU_deltaV
                         :=FCFspuF_DeltaV_GetFromOrbit(
                            CPsSys
                            ,CPstar
@@ -482,7 +482,7 @@ FCWinNewGSetup.Close;
                      then
                      begin
                         CPspUnMother:=CPowndSCidx;
-                        setlength(FCentities[CPent].E_spU[CPowndSCidx].SUO_dockedSU, 1);
+                        setlength(FCentities[CPent].E_spU[CPowndSCidx].SU_dockedSpaceUnits, 1);
                      end
                      else if CM_equipmentList[CPcount0].EL_eiSUnDockStatus=diNotDocked
                      then CPspUnMother:=0;
@@ -490,25 +490,25 @@ FCWinNewGSetup.Close;
                   else if CM_equipmentList[CPcount0].EL_eiSUnStatus=susLanded
                   then
                   begin
-                     FCentities[CPent].E_spU[CPowndSCidx].SUO_status:=susLanded;
-                     FCentities[CPent].E_spU[CPowndSCidx].SUO_deltaV:=0;
+                     FCentities[CPent].E_spU[CPowndSCidx].SU_status:=susLanded;
+                     FCentities[CPent].E_spU[CPowndSCidx].SU_deltaV:=0;
                      if CM_equipmentList[CPcount0].EL_eiSUnDockStatus=diNotDocked
                      then CPspUnMother:=0;
                   end
                   else if CM_equipmentList[CPcount0].EL_eiSUnStatus=susDocked
                   then
                   begin
-                     FCentities[CPent].E_spU[CPowndSCidx].SUO_status:=susDocked;
+                     FCentities[CPent].E_spU[CPowndSCidx].SU_status:=susDocked;
                      setlength(
-                        FCentities[CPent].E_spU[CPspUnMother].SUO_dockedSU
-                        ,length(FCentities[CPent].E_spU[CPspUnMother].SUO_dockedSU)+1
+                        FCentities[CPent].E_spU[CPspUnMother].SU_dockedSpaceUnits
+                        ,length(FCentities[CPent].E_spU[CPspUnMother].SU_dockedSpaceUnits)+1
                         );
-                     FCentities[CPent].E_spU[CPspUnMother].SUO_dockedSU[length(FCentities[CPent].E_spU[CPspUnMother].SUO_dockedSU)-1]
+                     FCentities[CPent].E_spU[CPspUnMother].SU_dockedSpaceUnits[length(FCentities[CPent].E_spU[CPspUnMother].SU_dockedSpaceUnits)-1]
                         .SUDL_index:=CPowndSCidx;
-                     FCentities[CPent].E_spU[CPowndSCidx].SUO_deltaV:=FCentities[CPent].E_spU[CPspUnMother].SUO_deltaV;
+                     FCentities[CPent].E_spU[CPowndSCidx].SU_deltaV:=FCentities[CPent].E_spU[CPspUnMother].SU_deltaV;
                   end;
                   {.available reaction mass}
-                  FCentities[CPent].E_spU[CPowndSCidx].SUO_availRMass:=CM_equipmentList[CPcount0].EL_eiSUnReactionMass;
+                  FCentities[CPent].E_spU[CPowndSCidx].SU_reactionMass:=CM_equipmentList[CPcount0].EL_eiSUnReactionMass;
                end; //==END== if FCM_dotList[CPcount0].FDI_itemTp=facdtpSpaceCraft ==//
                inc(CPcount0);
             end; //==END== while CPcount0<= length(FCM_dotList)-1 ==//

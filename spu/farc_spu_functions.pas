@@ -183,9 +183,9 @@ var
 
    ASGsatus: TFCEdgSpaceUnitStatus;
 begin
-   ASGoobj:=FCentities[ASGfac].E_spU[ASGidxOwn].SUO_oobjLoc;
-   ASGsat:=FCentities[ASGfac].E_spU[ASGidxOwn].SUO_satLoc;
-   ASGsatus:=FCentities[ASGfac].E_spU[ASGidxOwn].SUO_status;
+   ASGoobj:=FCentities[ASGfac].E_spU[ASGidxOwn].SU_locationOrbitalObject;
+   ASGsat:=FCentities[ASGfac].E_spU[ASGidxOwn].SU_locationSatellite;
+   ASGsatus:=FCentities[ASGfac].E_spU[ASGidxOwn].SU_status;
    case ASGsatus of
       susInFreeSpace: result:=FCFdTFiles_UIStr_Get(uistrUI,'susInFreeSpace');
       susInOrbit:
@@ -285,13 +285,13 @@ begin
    DSUGNresult:=0;
    DSUGNdesgn:=0;
    DSUGNcnt:=1;
-   DSUGNmax:=length(FCentities[DSUGNfac].E_spU[DSUGNidx].SUO_dockedSU)-1;
+   DSUGNmax:=length(FCentities[DSUGNfac].E_spU[DSUGNidx].SU_dockedSpaceUnits)-1;
    if DSUGNmax>0
    then
    begin
       while DSUGNcnt<=DSUGNmax do
       begin
-         DSGUNdockIdx:=FCentities[DSUGNfac].E_spU[DSUGNidx].SUO_dockedSU[DSUGNcnt].SUDL_index;
+         DSGUNdockIdx:=FCentities[DSUGNfac].E_spU[DSUGNidx].SU_dockedSpaceUnits[DSUGNcnt].SUDL_index;
          DSUGNdesgn:=FCFspuF_Design_getDB(FCentities[DSUGNfac].E_spU[DSGUNdockIdx].SU_designToken);
          if (DSUGNarch=aNone)
             or (
@@ -336,7 +336,7 @@ var
 begin
    MNGtask:=0;
    Result:='';
-   MNGtask:=FCentities[MNGfac].E_spU[MNGidxOwn].SUO_taskIdx;
+   MNGtask:=FCentities[MNGfac].E_spU[MNGidxOwn].SU_assignedTask;
    if MNGtask=0
    then Result:=FCFdTFiles_UIStr_Get(uistrUI,'spUnMissNone')
    else if MNGtask>0
@@ -363,7 +363,7 @@ var
 begin
    MGPNtask:=0;
    Result:='';
-   MGPNtask:=FCentities[MGPNfac].E_spU[MGPNspU].SUO_taskIdx;
+   MGPNtask:=FCentities[MGPNfac].E_spU[MGPNspU].SU_assignedTask;
    if MGPNtask=0
    then Result:=FCFdTFiles_UIStr_Get(uistrUI,'spUnMissNone')
    else if MGPNtask>0
@@ -396,7 +396,7 @@ var
 begin
    SUOSret:=0;
    SUOScnt:=1;
-   SUOSsyst:=FCentities[SUOSfac].E_spU[SUOSidx].SUO_starLoc;
+   SUOSsyst:=FCentities[SUOSfac].E_spU[SUOSidx].SU_locationStar;
    if SUOSsyst=FCRplayer.P_viewStar
    then
    begin
@@ -433,25 +433,25 @@ var
 
    DSURdckdClone: array of TFCRdgSpaceUnitDockList;
 begin
-   DSURmax:=length(FCentities[DSURfac].E_spU[DSURmotherIdx].SUO_dockedSU);
+   DSURmax:=length(FCentities[DSURfac].E_spU[DSURmotherIdx].SU_dockedSpaceUnits);
    SetLength(DSURdckdClone, DSURmax-1);
    DSURoldCnt:=1;
    DSURnewCnt:=0;
    while DSURoldCnt<=DSURmax-1 do
    begin
-      if FCentities[DSURfac].E_spU[DSURmotherIdx].SUO_dockedSU[DSURoldCnt].SUDL_index<>DSURdToken
+      if FCentities[DSURfac].E_spU[DSURmotherIdx].SU_dockedSpaceUnits[DSURoldCnt].SUDL_index<>DSURdToken
       then
       begin
          inc(DSURnewCnt);
-         DSURdckdClone[DSURnewCnt].SUDL_index:=FCentities[DSURfac].E_spU[DSURmotherIdx].SUO_dockedSU[DSURoldCnt].SUDL_index;
+         DSURdckdClone[DSURnewCnt].SUDL_index:=FCentities[DSURfac].E_spU[DSURmotherIdx].SU_dockedSpaceUnits[DSURoldCnt].SUDL_index;
       end;
       inc(DSURoldCnt);
    end;
-   SetLength(FCentities[DSURfac].E_spU[DSURmotherIdx].SUO_dockedSU, length(DSURdckdClone));
+   SetLength(FCentities[DSURfac].E_spU[DSURmotherIdx].SU_dockedSpaceUnits, length(DSURdckdClone));
    DSURnewCnt:=1;
    while DSURnewCnt<=DSURmax-2 do
    begin
-      FCentities[DSURfac].E_spU[DSURmotherIdx].SUO_dockedSU[DSURnewCnt]:=DSURdckdClone[DSURnewCnt];
+      FCentities[DSURfac].E_spU[DSURmotherIdx].SU_dockedSpaceUnits[DSURnewCnt]:=DSURdckdClone[DSURnewCnt];
       inc(DSURnewCnt);
    end;
    SetLength(DSURdckdClone, 0);
@@ -487,7 +487,7 @@ begin
    if OPaction=spufoioAddOrbit
    then
    begin
-      FCentities[OPfac].E_spU[OPspuOwn].SUO_status:=susInOrbit;
+      FCentities[OPfac].E_spU[OPspuOwn].SU_status:=susInOrbit;
       if OPsat=0
       then
       begin
@@ -497,7 +497,7 @@ begin
          {.set the data}
          FCDduStarSystem[OPsSys].SS_stars[OPstar].S_orbitalObjects[OPoobj].OO_inOrbitSpaceUnitsList[OPttl].SUIO_faction:=OPfac;
          FCDduStarSystem[OPsSys].SS_stars[OPstar].S_orbitalObjects[OPoobj].OO_inOrbitSpaceUnitsList[OPttl].SUIO_ownedSpaceUnitIndex:=OPspuOwn;
-         FCentities[OPfac].E_spU[OPspuOwn].SUO_oobjLoc:=FCDduStarSystem[OPsSys].SS_stars[OPstar].S_orbitalObjects[OPoobj].OO_dbTokenId;
+         FCentities[OPfac].E_spU[OPspuOwn].SU_locationOrbitalObject:=FCDduStarSystem[OPsSys].SS_stars[OPstar].S_orbitalObjects[OPoobj].OO_dbTokenId;
          {.update the 3d view}
          if opUpd3dView
          then FCMoglVM_OObjSpUn_inOrbit(
@@ -516,8 +516,8 @@ begin
          {.set the data}
          FCDduStarSystem[OPsSys].SS_stars[OPstar].S_orbitalObjects[OPoobj].OO_satellitesList[OPsat].OO_inOrbitSpaceUnitsList[OPttl].SUIO_faction:=OPfac;
          FCDduStarSystem[OPsSys].SS_stars[OPstar].S_orbitalObjects[OPoobj].OO_satellitesList[OPsat].OO_inOrbitSpaceUnitsList[OPttl].SUIO_ownedSpaceUnitIndex:=OPspuOwn;
-         FCentities[OPfac].E_spU[OPspuOwn].SUO_oobjLoc:=FCDduStarSystem[OPsSys].SS_stars[OPstar].S_orbitalObjects[OPoobj].OO_dbTokenId;
-         FCentities[OPfac].E_spU[OPspuOwn].SUO_satLoc:=FCDduStarSystem[OPsSys].SS_stars[OPstar].S_orbitalObjects[OPoobj].OO_satellitesList[OPsat].OO_dbTokenId;
+         FCentities[OPfac].E_spU[OPspuOwn].SU_locationOrbitalObject:=FCDduStarSystem[OPsSys].SS_stars[OPstar].S_orbitalObjects[OPoobj].OO_dbTokenId;
+         FCentities[OPfac].E_spU[OPspuOwn].SU_locationSatellite:=FCDduStarSystem[OPsSys].SS_stars[OPstar].S_orbitalObjects[OPoobj].OO_satellitesList[OPsat].OO_dbTokenId;
          {.update the 3d view}
          if opUpd3dView
          then
@@ -535,8 +535,8 @@ begin
    else if OPaction=spufoioRemOrbit
    then
    begin
-      FCentities[OPfac].E_spU[OPspuOwn].SUO_oobjLoc:='';
-      FCentities[OPfac].E_spU[OPspuOwn].SUO_status:=susInFreeSpace;
+      FCentities[OPfac].E_spU[OPspuOwn].SU_locationOrbitalObject:='';
+      FCentities[OPfac].E_spU[OPspuOwn].SU_status:=susInFreeSpace;
       if OPsat=0
       then
       begin
@@ -595,7 +595,7 @@ begin
       then
       begin
          OPttl:=FCDduStarSystem[OPsSys].SS_stars[OPstar].S_orbitalObjects[OPoobj].OO_satellitesList[OPsat].OO_inOrbitCurrentNumber;
-         FCentities[OPfac].E_spU[OPspuOwn].SUO_satLoc:='';
+         FCentities[OPfac].E_spU[OPspuOwn].SU_locationSatellite:='';
          {.if the one to delete is the last item (more simple)}
          if FCDduStarSystem[OPsSys].SS_stars[OPstar].S_orbitalObjects[OPoobj].OO_satellitesList[OPsat].OO_inOrbitSpaceUnitsList[OPttl].SUIO_ownedSpaceUnitIndex=OPspuOwn
          then
@@ -699,13 +699,13 @@ begin
             if SURisTgtDeleted
             then
             begin
-               if SURown[SURclone].SUO_taskIdx>0
+               if SURown[SURclone].SU_assignedTask>0
                then
                begin
-                  SURtask:=SURown[SURclone].SUO_taskIdx;
+                  SURtask:=SURown[SURclone].SU_assignedTask;
                   FCGtskListInProc[SURtask].TITP_ctldIdx:=SURclone;
                end;
-               if SURown[SURclone].SUO_starLoc=FCRplayer.P_viewStar
+               if SURown[SURclone].SU_locationStar=FCRplayer.P_viewStar
                then
                begin
                   SURspuObj:=FCFspuF_SpUObject_Search(SURfac, SURspu);

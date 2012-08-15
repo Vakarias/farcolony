@@ -531,31 +531,31 @@ begin
                      FCentities[GLentCnt].E_spU[GLcount].SU_name:=GLxmlSpOwn.Attributes['tokenName'];
                      FCentities[GLentCnt].E_spU[GLcount].SU_designToken:=GLxmlSpOwn.Attributes['desgnId'];
                      FCentities[GLentCnt].E_spU[GLcount].SU_locationStarSystem:=GLxmlSpOwn.Attributes['ssLoc'];
-                     FCentities[GLentCnt].E_spU[GLcount].SUO_starLoc:=GLxmlSpOwn.Attributes['stLoc'];
-                     FCentities[GLentCnt].E_spU[GLcount].SUO_oobjLoc:=GLxmlSpOwn.Attributes['oobjLoc'];
-                     FCentities[GLentCnt].E_spU[GLcount].SUO_satLoc:=GLxmlSpOwn.Attributes['satLoc'];
-                     FCentities[GLentCnt].E_spU[GLcount].SUO_3dObjIdx:=GLxmlSpOwn.Attributes['TdObjIdx'];
-                     FCentities[GLentCnt].E_spU[GLcount].SUO_locStarX:=GLxmlSpOwn.Attributes['xLoc'];
-                     FCentities[GLentCnt].E_spU[GLcount].SUO_locStarZ:=GLxmlSpOwn.Attributes['zLoc'];
+                     FCentities[GLentCnt].E_spU[GLcount].SU_locationStar:=GLxmlSpOwn.Attributes['stLoc'];
+                     FCentities[GLentCnt].E_spU[GLcount].SU_locationOrbitalObject:=GLxmlSpOwn.Attributes['oobjLoc'];
+                     FCentities[GLentCnt].E_spU[GLcount].SU_locationSatellite:=GLxmlSpOwn.Attributes['satLoc'];
+                     FCentities[GLentCnt].E_spU[GLcount].SU_linked3dObject:=GLxmlSpOwn.Attributes['TdObjIdx'];
+                     FCentities[GLentCnt].E_spU[GLcount].SU_locationViewX:=GLxmlSpOwn.Attributes['xLoc'];
+                     FCentities[GLentCnt].E_spU[GLcount].SU_locationViewZ:=GLxmlSpOwn.Attributes['zLoc'];
                      GLdock:=GLxmlSpOwn.Attributes['docked'];
                      if GLdock>0
                      then
                      begin
-                        SetLength(FCentities[GLentCnt].E_spU[GLcount].SUO_dockedSU, GLdock+1);
+                        SetLength(FCentities[GLentCnt].E_spU[GLcount].SU_dockedSpaceUnits, GLdock+1);
                         GLsubCnt:=1;
                         GLxmlDock:=GLxmlSpOwn.ChildNodes.First;
                         while GLsubCnt<=GLdock do
                         begin
-                           FCentities[GLentCnt].E_spU[GLcount].SUO_dockedSU[GLsubCnt].SUDL_index:=GLxmlDock.Attributes['index'];
+                           FCentities[GLentCnt].E_spU[GLcount].SU_dockedSpaceUnits[GLsubCnt].SUDL_index:=GLxmlDock.Attributes['index'];
                            inc(GLsubCnt);
                            GLxmlDock:=GLxmlDock.NextSibling;
                         end;
                      end;
-                     FCentities[GLentCnt].E_spU[GLcount].SUO_taskIdx:=GLxmlSpOwn.Attributes['taskId'];
-                     FCentities[GLentCnt].E_spU[GLcount].SUO_status:=GLxmlSpOwn.Attributes['status'];
-                     FCentities[GLentCnt].E_spU[GLcount].SUO_deltaV:=GLxmlSpOwn.Attributes['dV'];
-                     FCentities[GLentCnt].E_spU[GLcount].SUO_3dmove:=GLxmlSpOwn.Attributes['TdMov'];
-                     FCentities[GLentCnt].E_spU[GLcount].SUO_availRMass:=GLxmlSpOwn.Attributes['availRMass'];
+                     FCentities[GLentCnt].E_spU[GLcount].SU_assignedTask:=GLxmlSpOwn.Attributes['taskId'];
+                     FCentities[GLentCnt].E_spU[GLcount].SU_status:=GLxmlSpOwn.Attributes['status'];
+                     FCentities[GLentCnt].E_spU[GLcount].SU_deltaV:=GLxmlSpOwn.Attributes['dV'];
+                     FCentities[GLentCnt].E_spU[GLcount].SU_3dVelocity:=GLxmlSpOwn.Attributes['TdMov'];
+                     FCentities[GLentCnt].E_spU[GLcount].SU_reactionMass:=GLxmlSpOwn.Attributes['availRMass'];
                      GLxmlSpOwn:=GLxmlSpOwn.NextSibling;
                   end;
                end //==END== if GLxmlEntSubRoot.NodeName='entOwnSpU' ==//
@@ -1370,31 +1370,31 @@ begin
          GSspuCnt:=1;
          while GSspuCnt<=GSspuMax do
          begin
-            GSdock:=length(FCentities[GScount].E_spU[GSspuCnt].SUO_dockedSU)-1;
+            GSdock:=length(FCentities[GScount].E_spU[GSspuCnt].SU_dockedSpaceUnits)-1;
             GSxmlSpOwn:=GSxmlItm.AddChild('entSpU');
             GSxmlSpOwn.Attributes['tokenId']:=FCentities[GScount].E_spU[GSspuCnt].SU_token;
             GSxmlSpOwn.Attributes['tokenName']:=FCentities[GScount].E_spU[GSspuCnt].SU_name;
             GSxmlSpOwn.Attributes['desgnId']:=FCentities[GScount].E_spU[GSspuCnt].SU_designToken;
             GSxmlSpOwn.Attributes['ssLoc']:=FCentities[GScount].E_spU[GSspuCnt].SU_locationStarSystem;
-            GSxmlSpOwn.Attributes['stLoc']:=FCentities[GScount].E_spU[GSspuCnt].SUO_starLoc;
-            GSxmlSpOwn.Attributes['oobjLoc']:=FCentities[GScount].E_spU[GSspuCnt].SUO_oobjLoc;
-            GSxmlSpOwn.Attributes['satLoc']:=FCentities[GScount].E_spU[GSspuCnt].SUO_satLoc;
-            GSxmlSpOwn.Attributes['TdObjIdx']:=FCentities[GScount].E_spU[GSspuCnt].SUO_3dObjIdx;
-            GSxmlSpOwn.Attributes['xLoc']:=FCentities[GScount].E_spU[GSspuCnt].SUO_locStarX;
-            GSxmlSpOwn.Attributes['zLoc']:=FCentities[GScount].E_spU[GSspuCnt].SUO_locStarZ;
+            GSxmlSpOwn.Attributes['stLoc']:=FCentities[GScount].E_spU[GSspuCnt].SU_locationStar;
+            GSxmlSpOwn.Attributes['oobjLoc']:=FCentities[GScount].E_spU[GSspuCnt].SU_locationOrbitalObject;
+            GSxmlSpOwn.Attributes['satLoc']:=FCentities[GScount].E_spU[GSspuCnt].SU_locationSatellite;
+            GSxmlSpOwn.Attributes['TdObjIdx']:=FCentities[GScount].E_spU[GSspuCnt].SU_linked3dObject;
+            GSxmlSpOwn.Attributes['xLoc']:=FCentities[GScount].E_spU[GSspuCnt].SU_locationViewX;
+            GSxmlSpOwn.Attributes['zLoc']:=FCentities[GScount].E_spU[GSspuCnt].SU_locationViewZ;
             GSxmlSpOwn.Attributes['docked']:=GSdock;
             GSsubC:=1;
             while GSsubC<=GSdock do
             begin
                GSxmlDock:=GSxmlSpOwn.AddChild('entSpUdckd');
-               GSxmlDock.Attributes['index']:=FCentities[GScount].E_spU[GSspuCnt].SUO_dockedSU[GSsubC].SUDL_index;
+               GSxmlDock.Attributes['index']:=FCentities[GScount].E_spU[GSspuCnt].SU_dockedSpaceUnits[GSsubC].SUDL_index;
                inc(GSsubC);
             end;
-            GSxmlSpOwn.Attributes['taskId']:=FCentities[GScount].E_spU[GSspuCnt].SUO_taskIdx;
-            GSxmlSpOwn.Attributes['status']:=FCentities[GScount].E_spU[GSspuCnt].SUO_status;
-            GSxmlSpOwn.Attributes['dV']:=FCentities[GScount].E_spU[GSspuCnt].SUO_deltaV;
-            GSxmlSpOwn.Attributes['TdMov']:=FCentities[GScount].E_spU[GSspuCnt].SUO_3dmove;
-            GSxmlSpOwn.Attributes['availRMass']:=FCentities[GScount].E_spU[GSspuCnt].SUO_availRMass;
+            GSxmlSpOwn.Attributes['taskId']:=FCentities[GScount].E_spU[GSspuCnt].SU_assignedTask;
+            GSxmlSpOwn.Attributes['status']:=FCentities[GScount].E_spU[GSspuCnt].SU_status;
+            GSxmlSpOwn.Attributes['dV']:=FCentities[GScount].E_spU[GSspuCnt].SU_deltaV;
+            GSxmlSpOwn.Attributes['TdMov']:=FCentities[GScount].E_spU[GSspuCnt].SU_3dVelocity;
+            GSxmlSpOwn.Attributes['availRMass']:=FCentities[GScount].E_spU[GSspuCnt].SU_reactionMass;
             inc(GSspuCnt);
          end; {.while GSspuCnt<=GSspuMax}
       end; //==END== if GSspuMax>0 ==//

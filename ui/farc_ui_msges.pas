@@ -155,7 +155,7 @@ var
       );
    MBAMstar:=FCFuF_StelObj_GetDbIdx(
       ufsoStar
-      ,FCentities[MBAMfac].E_spU[MBAMitm0Idx].SUO_starLoc
+      ,FCentities[MBAMfac].E_spU[MBAMitm0Idx].SU_locationStar
       ,MBAMssys
       ,0
       ,0

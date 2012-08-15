@@ -1,4 +1,4 @@
-{======(C) Copyright Aug.2009-2012 Jean-Francois Baconnet All rights reserved==============
+﻿{======(C) Copyright Aug.2009-2012 Jean-Francois Baconnet All rights reserved==============
 
         Title:  FAR Colony
         Author: Jean-Francois Baconnet
@@ -696,29 +696,17 @@ type TFCRdgSpaceUnit = record
    SU_name: string[20];
    SU_designToken: string[20];
    SU_locationStarSystem: string[20];
-   {unit location - star token id}
-   SUO_starLoc: string[20];
-   {unit location - orbital object}
-   SUO_oobjLoc: string[20];
-   {unit location - satellite}
-   SUO_satLoc: string[20];
-   {linked 3d object index}
-   SUO_3dObjIdx: integer;
-   {unit location in local star view - x axis}
-   SUO_locStarX: extended;
-   {unit location in local star view - z axis}
-   SUO_locStarZ: extended;
-   {assigned task index, 0= none}
-   SUO_taskIdx: integer;
-   {space unit attitude status}
-   SUO_status: TFCEdgSpaceUnitStatus;
-   {.docked space units}
-   SUO_dockedSU: array of TFCRdgSpaceUnitDockList;
-   {current velocity (deltaV) in km/s}
-   SUO_deltaV: extended;
-   {current velocity (deltaV) in km/s}
-   SUO_3dmove: extended;
-   {available volume of reaction mass}
+   SU_locationStar: string[20];
+   SU_locationOrbitalObject: string[20];
+   SU_locationSatellite: string[20];
+   SU_linked3dObject: integer;
+   SU_locationViewX: extended;
+   SU_locationViewZ: extended;
+   SU_assignedTask: integer;
+   SU_status: TFCEdgSpaceUnitStatus;
+   SU_dockedSpaceUnits: array of TFCRdgSpaceUnitDockList;
+   SU_deltaV: extended;
+   SU_3dVelocity: extended;
    SUO_availRMass: extended;
 end;
 
