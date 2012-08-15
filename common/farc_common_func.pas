@@ -397,7 +397,7 @@ var
 begin
    SUGODBcnt:=0;
    SUGODBttl:=0;
-   SUGODBttl:=length(FCentities[SUGODBentity].E_spU)-1;
+   SUGODBttl:=length(FCDdgEntities[SUGODBentity].E_spaceUnits)-1;
    if SUGODBttl<=0
    then result:=-1
    else if SUGODBttl>0
@@ -406,7 +406,7 @@ begin
       SUGODBcnt:=1;
       while SUGODBcnt<=SUGODBttl do
       begin
-         if FCentities[SUGODBentity].E_spU[SUGODBcnt].SU_token=SUGODBtokenId
+         if FCDdgEntities[SUGODBentity].E_spaceUnits[SUGODBcnt].SU_token=SUGODBtokenId
          then
          begin
             Result:=SUGODBcnt;

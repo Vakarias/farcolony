@@ -159,7 +159,7 @@ begin
                   RDTreqRes:=0;
                   RDTcolCnt:=0;
                   RDTcolMax:=0;
-                  RDTcolMax:=length(FCentities[RDTent].E_col)-1;
+                  RDTcolMax:=length(FCDdgEntities[RDTent].E_colonies)-1;
                   if RDTcolMax>0
                   then
                   begin
@@ -192,67 +192,67 @@ begin
                   case RDTspmi.SPMI_req[RDTreqCnt].SPMIR_datTp of
                      rfdFacLv1:
                      begin
-                        if FCentities[RDTent].E_facLvl=0
+                        if FCDdgEntities[RDTent].E_factionLevel=0
                         then RDTreqPassed:=false;
                      end;
                      rfdFacLv2:
                      begin
-                        if FCentities[RDTent].E_facLvl<=1
+                        if FCDdgEntities[RDTent].E_factionLevel<=1
                         then RDTreqPassed:=false;
                      end;
                      rfdFacLv3:
                      begin
-                        if FCentities[RDTent].E_facLvl<=1
+                        if FCDdgEntities[RDTent].E_factionLevel<=1
                         then RDTreqPassed:=false
-                        else if FCentities[RDTent].E_facLvl=2
+                        else if FCDdgEntities[RDTent].E_factionLevel=2
                         then GSPMMmarginMod:=GSPMMmarginMod-10;
                      end;
                      rfdFacLv4:
                      begin
-                        if FCentities[RDTent].E_facLvl<=2
+                        if FCDdgEntities[RDTent].E_factionLevel<=2
                         then RDTreqPassed:=false
-                        else if FCentities[RDTent].E_facLvl=3
+                        else if FCDdgEntities[RDTent].E_factionLevel=3
                         then GSPMMmarginMod:=GSPMMmarginMod-10;
                      end;
                      rfdFacLv5:
                      begin
-                        if FCentities[RDTent].E_facLvl<=3
+                        if FCDdgEntities[RDTent].E_factionLevel<=3
                         then RDTreqPassed:=false
-                        else if FCentities[RDTent].E_facLvl=4
+                        else if FCDdgEntities[RDTent].E_factionLevel=4
                         then GSPMMmarginMod:=GSPMMmarginMod-10;
                      end;
                      rfdFacLv6:
                      begin
-                        if FCentities[RDTent].E_facLvl<=4
+                        if FCDdgEntities[RDTent].E_factionLevel<=4
                         then RDTreqPassed:=false
-                        else if FCentities[RDTent].E_facLvl=5
+                        else if FCDdgEntities[RDTent].E_factionLevel=5
                         then GSPMMmarginMod:=GSPMMmarginMod-10;
                      end;
                      rfdFacLv7:
                      begin
-                        if FCentities[RDTent].E_facLvl<=4
+                        if FCDdgEntities[RDTent].E_factionLevel<=4
                         then RDTreqPassed:=false
-                        else if FCentities[RDTent].E_facLvl=5
+                        else if FCDdgEntities[RDTent].E_factionLevel=5
                         then GSPMMmarginMod:=GSPMMmarginMod-20
-                        else if FCentities[RDTent].E_facLvl=6
+                        else if FCDdgEntities[RDTent].E_factionLevel=6
                         then GSPMMmarginMod:=GSPMMmarginMod-10;
                      end;
                      rfdFacLv8:
                      begin
-                        if FCentities[RDTent].E_facLvl<=5
+                        if FCDdgEntities[RDTent].E_factionLevel<=5
                         then RDTreqPassed:=false
-                        else if FCentities[RDTent].E_facLvl=6
+                        else if FCDdgEntities[RDTent].E_factionLevel=6
                         then GSPMMmarginMod:=GSPMMmarginMod-20
-                        else if FCentities[RDTent].E_facLvl=7
+                        else if FCDdgEntities[RDTent].E_factionLevel=7
                         then GSPMMmarginMod:=GSPMMmarginMod-10;
                      end;
                      rfdFacLv9:
                      begin
-                        if FCentities[RDTent].E_facLvl<=6
+                        if FCDdgEntities[RDTent].E_factionLevel<=6
                         then RDTreqPassed:=false
-                        else if FCentities[RDTent].E_facLvl=7
+                        else if FCDdgEntities[RDTent].E_factionLevel=7
                         then GSPMMmarginMod:=GSPMMmarginMod-20
-                        else if FCentities[RDTent].E_facLvl=8
+                        else if FCDdgEntities[RDTent].E_factionLevel=8
                         then GSPMMmarginMod:=GSPMMmarginMod-10;
                      end;
                      rfdFacStab..rfdEquil:
@@ -364,8 +364,8 @@ var
    MCFUspmi: TFCRdgSPMi;
 
 begin
-   MCFUoldSV:=FCentities[MCFUent].E_spm[MCFUmeme].SPMS_iPtSpreadValue;
-   MCFUspmi:=FCFgSPM_SPMIData_Get(FCentities[MCFUent].E_spm[MCFUmeme].SPMS_token);
+   MCFUoldSV:=FCDdgEntities[MCFUent].E_spmSettings[MCFUmeme].SPMS_iPtSpreadValue;
+   MCFUspmi:=FCFgSPM_SPMIData_Get(FCDdgEntities[MCFUent].E_spmSettings[MCFUmeme].SPMS_token);
    if MCFUoldSV=0
    then
    begin
@@ -391,16 +391,16 @@ begin
       MCFUoldNat:=round(MCFUspmi.SPMI_modNat*MCFUoldSVmod);
       MCFUoldSec:=round(MCFUspmi.SPMI_modSec*MCFUoldSVmod);
       MCFUoldTens:=round(MCFUspmi.SPMI_modTens*MCFUoldSVmod);
-      FCentities[MCFUent].E_spmMcohes:=FCentities[MCFUent].E_spmMcohes-MCFUoldCoh;
-      FCentities[MCFUent].E_spmMtens:=FCentities[MCFUent].E_spmMtens-MCFUoldTens;
-      FCentities[MCFUent].E_spmMsec:=FCentities[MCFUent].E_spmMsec-MCFUoldSec;
-      FCentities[MCFUent].E_spmMedu:=FCentities[MCFUent].E_spmMedu-MCFUoldEdu;
-      FCentities[MCFUent].E_spmMnat:=FCentities[MCFUent].E_spmMnat-MCFUoldNat;
-      FCentities[MCFUent].E_spmMhealth:=FCentities[MCFUent].E_spmMhealth-MCFUoldHealth;
-      FCentities[MCFUent].E_spmMbur:=FCentities[MCFUent].E_spmMbur-MCFUoldBur;
-      FCentities[MCFUent].E_bureau:=FCentities[MCFUent].E_bureau-MCFUoldBur;
-      FCentities[MCFUent].E_spmMcorr:=FCentities[MCFUent].E_spmMcorr-MCFUoldCorr;
-      FCentities[MCFUent].E_corrupt:=FCentities[MCFUent].E_corrupt-MCFUoldCorr;
+      FCDdgEntities[MCFUent].E_spmMod_Cohesion:=FCDdgEntities[MCFUent].E_spmMod_Cohesion-MCFUoldCoh;
+      FCDdgEntities[MCFUent].E_spmMod_Tension:=FCDdgEntities[MCFUent].E_spmMod_Tension-MCFUoldTens;
+      FCDdgEntities[MCFUent].E_spmMod_Security:=FCDdgEntities[MCFUent].E_spmMod_Security-MCFUoldSec;
+      FCDdgEntities[MCFUent].E_spmMod_Education:=FCDdgEntities[MCFUent].E_spmMod_Education-MCFUoldEdu;
+      FCDdgEntities[MCFUent].E_spmMod_Natality:=FCDdgEntities[MCFUent].E_spmMod_Natality-MCFUoldNat;
+      FCDdgEntities[MCFUent].E_spmMod_Health:=FCDdgEntities[MCFUent].E_spmMod_Health-MCFUoldHealth;
+      FCDdgEntities[MCFUent].E_spmMod_Bureaucracy:=FCDdgEntities[MCFUent].E_spmMod_Bureaucracy-MCFUoldBur;
+      FCDdgEntities[MCFUent].E_bureaucracy:=FCDdgEntities[MCFUent].E_bureaucracy-MCFUoldBur;
+      FCDdgEntities[MCFUent].E_spmMod_Corruption:=FCDdgEntities[MCFUent].E_spmMod_Corruption-MCFUoldCorr;
+      FCDdgEntities[MCFUent].E_corruption:=FCDdgEntities[MCFUent].E_corruption-MCFUoldCorr;
    end;
    if MCFUnewSV=0
    then
@@ -427,16 +427,16 @@ begin
       MCFUnewNat:=round(MCFUspmi.SPMI_modNat*MCFUnewSVmod);
       MCFUnewSec:=round(MCFUspmi.SPMI_modSec*MCFUnewSVmod);
       MCFUnewTens:=round(MCFUspmi.SPMI_modTens*MCFUnewSVmod);
-      FCentities[MCFUent].E_spmMcohes:=FCentities[MCFUent].E_spmMcohes+MCFUnewCoh;
-      FCentities[MCFUent].E_spmMtens:=FCentities[MCFUent].E_spmMtens+MCFUnewTens;
-      FCentities[MCFUent].E_spmMsec:=FCentities[MCFUent].E_spmMsec+MCFUnewSec;
-      FCentities[MCFUent].E_spmMedu:=FCentities[MCFUent].E_spmMedu+MCFUnewEdu;
-      FCentities[MCFUent].E_spmMnat:=FCentities[MCFUent].E_spmMnat+MCFUnewNat;
-      FCentities[MCFUent].E_spmMhealth:=FCentities[MCFUent].E_spmMhealth+MCFUnewHealth;
-      FCentities[MCFUent].E_spmMbur:=FCentities[MCFUent].E_spmMbur+MCFUnewBur;
-      FCentities[MCFUent].E_bureau:=FCentities[MCFUent].E_bureau+MCFUnewBur;
-      FCentities[MCFUent].E_spmMcorr:=FCentities[MCFUent].E_spmMcorr+MCFUnewCorr;
-      FCentities[MCFUent].E_corrupt:=FCentities[MCFUent].E_corrupt+MCFUnewCorr;
+      FCDdgEntities[MCFUent].E_spmMod_Cohesion:=FCDdgEntities[MCFUent].E_spmMod_Cohesion+MCFUnewCoh;
+      FCDdgEntities[MCFUent].E_spmMod_Tension:=FCDdgEntities[MCFUent].E_spmMod_Tension+MCFUnewTens;
+      FCDdgEntities[MCFUent].E_spmMod_Security:=FCDdgEntities[MCFUent].E_spmMod_Security+MCFUnewSec;
+      FCDdgEntities[MCFUent].E_spmMod_Education:=FCDdgEntities[MCFUent].E_spmMod_Education+MCFUnewEdu;
+      FCDdgEntities[MCFUent].E_spmMod_Natality:=FCDdgEntities[MCFUent].E_spmMod_Natality+MCFUnewNat;
+      FCDdgEntities[MCFUent].E_spmMod_Health:=FCDdgEntities[MCFUent].E_spmMod_Health+MCFUnewHealth;
+      FCDdgEntities[MCFUent].E_spmMod_Bureaucracy:=FCDdgEntities[MCFUent].E_spmMod_Bureaucracy+MCFUnewBur;
+      FCDdgEntities[MCFUent].E_bureaucracy:=FCDdgEntities[MCFUent].E_bureaucracy+MCFUnewBur;
+      FCDdgEntities[MCFUent].E_spmMod_Corruption:=FCDdgEntities[MCFUent].E_spmMod_Corruption+MCFUnewCorr;
+      FCDdgEntities[MCFUent].E_corruption:=FCDdgEntities[MCFUent].E_corruption+MCFUnewCorr;
    end;
    MCFUfinalBur:=MCFUnewBur-MCFUoldBur;
    MCFUfinalCoh:=MCFUnewCoh-MCFUoldCoh;
@@ -447,7 +447,7 @@ begin
    MCFUfinalSec:=MCFUnewSec-MCFUoldSec;
    MCFUfinalTens:=MCFUnewTens-MCFUoldTens;
    {.update colonies' data with updated meme modifiers}
-   MCFUmax:=length(FCentities[MCFUent].E_col)-1;
+   MCFUmax:=length(FCDdgEntities[MCFUent].E_colonies)-1;
    if MCFUmax>0
    then
    begin
@@ -521,7 +521,7 @@ begin
    end; //==END== if MCFUmax>0 ==// }
    {.custom effects adjustements}
    {:extreme END}
-   FCentities[MCFUent].E_spm[MCFUmeme].SPMS_iPtSpreadValue:=MCFUnewSV;
+   FCDdgEntities[MCFUent].E_spmSettings[MCFUmeme].SPMS_iPtSpreadValue:=MCFUnewSV;
 end;
 
 end.

@@ -184,7 +184,7 @@ begin
          UIIPiCWP:=FCFgICS_iCWP_Calculation(
             0
             ,UIIPcolony
-            ,FCentities[0].E_col[UIIPcolony].C_settlements[UIIPcolony].S_level
+            ,FCDdgEntities[0].E_colonies[UIIPcolony].C_settlements[UIIPcolony].S_level
             );
          if UIIPiCWP>0
          then
@@ -192,17 +192,17 @@ begin
 
             if AIScurrLocation.CLI_sat=0
             then UIIPduration:=FCFgICS_BuildingDuration_Calculation(
-               UIIPinfrastructure.I_volume[FCentities[0].E_col[UIIPcolony].C_settlements[UIIPsettlement].S_level]
+               UIIPinfrastructure.I_volume[FCDdgEntities[0].E_colonies[UIIPcolony].C_settlements[UIIPsettlement].S_level]
                ,1
                ,UIIPiCWP
-               ,FCDduStarSystem[AIScurrLocation.CLI_starsys].SS_stars[AIScurrLocation.CLI_star].S_orbitalObjects[AIScurrLocation.CLI_oobj].OO_regions[ FCentities[0].E_col[UIIPcolony].C_settlements[UIIPcolony].S_locationRegion ].OOR_emo
+               ,FCDduStarSystem[AIScurrLocation.CLI_starsys].SS_stars[AIScurrLocation.CLI_star].S_orbitalObjects[AIScurrLocation.CLI_oobj].OO_regions[ FCDdgEntities[0].E_colonies[UIIPcolony].C_settlements[UIIPcolony].S_locationRegion ].OOR_emo
                )
             else if AIScurrLocation.CLI_sat<>0
             then UIIPduration:=FCFgICS_BuildingDuration_Calculation(
-               UIIPinfrastructure.I_volume[FCentities[0].E_col[UIIPcolony].C_settlements[UIIPsettlement].S_level]
+               UIIPinfrastructure.I_volume[FCDdgEntities[0].E_colonies[UIIPcolony].C_settlements[UIIPsettlement].S_level]
                ,1
                ,UIIPiCWP
-               ,FCDduStarSystem[AIScurrLocation.CLI_starsys].SS_stars[AIScurrLocation.CLI_star].S_orbitalObjects[AIScurrLocation.CLI_oobj].OO_satellitesList[AIScurrLocation.CLI_sat].OO_regions[ FCentities[0].E_col[UIIPcolony].C_settlements[UIIPcolony].S_locationRegion ].OOR_emo
+               ,FCDduStarSystem[AIScurrLocation.CLI_starsys].SS_stars[AIScurrLocation.CLI_star].S_orbitalObjects[AIScurrLocation.CLI_oobj].OO_satellitesList[AIScurrLocation.CLI_sat].OO_regions[ FCDdgEntities[0].E_colonies[UIIPcolony].C_settlements[UIIPcolony].S_locationRegion ].OOR_emo
                );
             AIStask:=FCFdTFiles_UIStr_Get(uistrUI, 'FCWMtaskBuild');
             AISicwpResult:=FCFdTFiles_UIStr_Get(uistrUI, 'FCWMtaskCWPbuild')+' <b>'+FloatToStr(UIIPiCWP)+'</b> ...';
@@ -404,9 +404,9 @@ begin
       ILScolony:=FCFuiCDP_VarCurrentColony_Get;
       ILSsettlement:=FCFuiCDP_VarCurrentSettlement_Get;
       FCWinMain.FCWM_IPlabel.HTMLText.Add(
-         FCCFidxL+'<font size="10"><b>'+FCFdTFiles_UIStr_Get(uistrUI, FCentities[0].E_col[ILScolony].C_settlements[ILSsettlement].S_infrastructures[ILSinfraIndex].I_token)
+         FCCFidxL+'<font size="10"><b>'+FCFdTFiles_UIStr_Get(uistrUI, FCDdgEntities[0].E_colonies[ILScolony].C_settlements[ILSsettlement].S_infrastructures[ILSinfraIndex].I_token)
             +'</b></font><ind x="'+inttostr(FCWinMain.FCWM_InfraPanel.Width shr 4 *14)
-            +'"><a href="'+FCentities[0].E_col[ILScolony].C_settlements[ILSsettlement].S_infrastructures[ILSinfraIndex].I_token+'">Details</a>'
+            +'"><a href="'+FCDdgEntities[0].E_colonies[ILScolony].C_settlements[ILSsettlement].S_infrastructures[ILSinfraIndex].I_token+'">Details</a>'
          );
       FCWinMain.FCWM_InfraPanel.Left:=FCWinMain.FCWM_ColDPanel.Left+ILSmouseX+(FCWinMain.FCWM_InfraPanel.Width shr 1);
       FCWinMain.FCWM_InfraPanel.Top:=FCWinMain.FCWM_ColDPanel.Top+ILSmouseY+18;

@@ -422,33 +422,33 @@ begin
       {.menu initialize and gather owned space unit data}
       FCMuiWin_FocusPopup_Reset;
       FPUdmpIdx:=round(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].TagFloat);
-      FPUdmpTaskId:=FCentities[0].E_spU[FPUdmpIdx].SU_assignedTask;
-      FPUdmpSpUnStatus:=FCentities[0].E_spU[FPUdmpIdx].SU_status;
+      FPUdmpTaskId:=FCDdgEntities[0].E_spaceUnits[FPUdmpIdx].SU_assignedTask;
+      FPUdmpSpUnStatus:=FCDdgEntities[0].E_spaceUnits[FPUdmpIdx].SU_status;
       FPUspUssys:=FCFuF_StelObj_GetDbIdx(
          ufsoSsys
-         ,FCentities[0].E_spU[FPUdmpIdx].SU_locationStarSystem
+         ,FCDdgEntities[0].E_spaceUnits[FPUdmpIdx].SU_locationStarSystem
          ,0
          ,0
          ,0
          );
       FPUspUstar:=FCFuF_StelObj_GetDbIdx(
          ufsoStar
-         ,FCentities[0].E_spU[FPUdmpIdx].SU_locationStar
+         ,FCDdgEntities[0].E_spaceUnits[FPUdmpIdx].SU_locationStar
          ,FPUspUssys
          ,0
          ,0
          );
       FPUspUoobj:=FCFuF_StelObj_GetDbIdx(
          ufsoOObj
-         ,FCentities[0].E_spU[FPUdmpIdx].SU_locationOrbitalObject
+         ,FCDdgEntities[0].E_spaceUnits[FPUdmpIdx].SU_locationOrbitalObject
          ,FPUspUssys
          ,FPUspUstar
          ,0
          );
-      if FCentities[0].E_spU[FPUdmpIdx].SU_locationSatellite<>''
+      if FCDdgEntities[0].E_spaceUnits[FPUdmpIdx].SU_locationSatellite<>''
       then FPUspUsat:=FCFuF_StelObj_GetDbIdx(
          ufsoSat
-         ,FCentities[0].E_spU[FPUdmpIdx].SU_locationSatellite
+         ,FCDdgEntities[0].E_spaceUnits[FPUdmpIdx].SU_locationSatellite
          ,FPUspUssys
          ,FPUspUstar
          ,FPUspUoobj
@@ -456,7 +456,7 @@ begin
       {.menu main header}
       FCWinMain.FCWM_PMFO_Header_SpUnitOObj.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_PMFO_Header_SpUnitOObj.SpUnit');
       {.docking list}
-      if length(FCentities[0].E_spU[FPUdmpIdx].SU_dockedSpaceUnits)>1
+      if length(FCDdgEntities[0].E_spaceUnits[FPUdmpIdx].SU_dockedSpaceUnits)>1
       then FCWinMain.FCWM_PMFO_DList.Visible:=true;
       {.detailed data subitem}
       {DEV NOTE: to add when i'll implement a detailed data panel.}
@@ -480,12 +480,12 @@ begin
          ,aLV
          ,sufcColoniz
          );
-      FPUcolN:=length(FCentities[0].E_col)-1;
+      FPUcolN:=length(FCDdgEntities[0].E_colonies)-1;
       if (FPUdmpSpUnStatus=susInOrbit)
          and (FPUlvNum>0)
          {:DEV NOTES: when eq mdl done, change the line below for more complex code testing
       colonization equipment module and/or have docked colonization pods.}
-         and (FCentities[0].E_spU[FPUdmpIdx].SU_name='wrdMUNmov')
+         and (FCDdgEntities[0].E_spaceUnits[FPUdmpIdx].SU_name='wrdMUNmov')
          and (
             not assigned(FCcps)
             or (
@@ -580,8 +580,8 @@ var
    ,SUDUdckDes: integer;
 begin
    FCWinMain.FCWM_DLP_DockList.Items.Clear;
-   SUDUdsgn:=FCFspuF_Design_getDB(FCentities[0].E_spU[SUDUsuIdx].SU_designToken);
-   SUDUttl:=length(FCentities[0].E_spU[SUDUsuIdx].SU_dockedSpaceUnits)-1;
+   SUDUdsgn:=FCFspuF_Design_getDB(FCDdgEntities[0].E_spaceUnits[SUDUsuIdx].SU_designToken);
+   SUDUttl:=length(FCDdgEntities[0].E_spaceUnits[SUDUsuIdx].SU_dockedSpaceUnits)-1;
    FCWinMain.FCWM_DLP_DockList.Items.Add(
       '<p align="center"><img src="file://'+FCVdiPathResourceDir+'pics-ui-scraft\'
       +FCDdsuSpaceUnitDesigns[SUDUdsgn].SUD_internalStructureClone.IS_token+'_lst.jpg'
@@ -594,18 +594,18 @@ begin
    SUDUcnt:=1;
    while SUDUcnt<=SUDUttl do
    begin
-      SUDUdckIdx:=FCentities[0].E_spU[SUDUsuIdx].SU_dockedSpaceUnits[SUDUcnt].SUDL_index;
-      SUDUdsgn:=FCFspuF_Design_getDB(FCentities[0].E_spU[SUDUdckIdx].SU_designToken);
+      SUDUdckIdx:=FCDdgEntities[0].E_spaceUnits[SUDUsuIdx].SU_dockedSpaceUnits[SUDUcnt].SUDL_index;
+      SUDUdsgn:=FCFspuF_Design_getDB(FCDdgEntities[0].E_spaceUnits[SUDUdckIdx].SU_designToken);
       FCWinMain.FCWM_DLP_DockList.Items.Add(
          '<img src="file://'+FCVdiPathResourceDir+'pics-ui-scraft\'
          +FCDdsuSpaceUnitDesigns[SUDUdsgn].SUD_internalStructureClone.IS_token+'_lst.jpg'
          +'" align="middle">'
-         +FCFdTFiles_UIStr_Get(dtfscPrprName, FCentities[0].E_spU[SUDUdckIdx].SU_name)
+         +FCFdTFiles_UIStr_Get(dtfscPrprName, FCDdgEntities[0].E_spaceUnits[SUDUdckIdx].SU_name)
          );
       inc(SUDUcnt);
    end;
    FCWinMain.FCWM_DockLstPanel.Caption.Text
-      :=FCFdTFiles_UIStr_Get(uistrUI, 'spUnDock')+FCFdTFiles_UIStr_Get(dtfscPrprName, FCentities[0].E_spU[SUDUsuIdx].SU_name);
+      :=FCFdTFiles_UIStr_Get(uistrUI, 'spUnDock')+FCFdTFiles_UIStr_Get(dtfscPrprName, FCDdgEntities[0].E_spaceUnits[SUDUsuIdx].SU_name);
    FCWinMain.FCWM_DLP_DockList.ItemIndex:=2;
    FCWinMain.FCWM_DLP_DockList.Selected[2]:=true;
    if not FCWinMain.FCWM_DockLstPanel.Visible
@@ -989,7 +989,7 @@ begin
       {.background image}
       FCMuiW_BackgroundPicture_Update;
       {.continue game menu item}
-      if FCRplayer.P_gameName=''
+      if FCVdgPlayer.P_gameName=''
       then FCWinMain.FCWM_MMenu_G_Cont.Enabled:=false
       else FCWinMain.FCWM_MMenu_G_Cont.Enabled:=true;
       {.save game menu item}

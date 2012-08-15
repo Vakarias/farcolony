@@ -258,7 +258,7 @@ begin
    PCPfacCount:=0;
    while PCPfacCount<=FCCdiFactionsMax do
    begin
-      PCPcolMax:=length(FCentities[PCPfacCount].E_col)-1;
+      PCPcolMax:=length(FCDdgEntities[PCPfacCount].E_colonies)-1;
       if PCPcolMax>0
       then
       begin

@@ -138,33 +138,33 @@ begin
    if EDPisToEnable then
    begin
       if not EDPifFromProd
-      then FCentities[ EDPentity ].E_col[ EDPcolony ].C_settlements[ EDPsettlement ].S_infrastructures[ EDPownedInfra ].I_fProdProductionMode[ EDPproductionMode ].PM_isDisabled:=false;
-      FCentities[ EDPentity ].E_col[ EDPcolony ].C_settlements[ EDPsettlement ].S_infrastructures[ EDPownedInfra ].I_powerConsumption:=
-         FCentities[ EDPentity ].E_col[ EDPcolony ].C_settlements[ EDPsettlement ].S_infrastructures[ EDPownedInfra ].I_powerConsumption
-         +FCentities[ EDPentity ].E_col[ EDPcolony ].C_settlements[ EDPsettlement ].S_infrastructures[ EDPownedInfra ].I_fProdProductionMode[ EDPproductionMode ].PM_energyConsumption
+      then FCDdgEntities[ EDPentity ].E_colonies[ EDPcolony ].C_settlements[ EDPsettlement ].S_infrastructures[ EDPownedInfra ].I_fProdProductionMode[ EDPproductionMode ].PM_isDisabled:=false;
+      FCDdgEntities[ EDPentity ].E_colonies[ EDPcolony ].C_settlements[ EDPsettlement ].S_infrastructures[ EDPownedInfra ].I_powerConsumption:=
+         FCDdgEntities[ EDPentity ].E_colonies[ EDPcolony ].C_settlements[ EDPsettlement ].S_infrastructures[ EDPownedInfra ].I_powerConsumption
+         +FCDdgEntities[ EDPentity ].E_colonies[ EDPcolony ].C_settlements[ EDPsettlement ].S_infrastructures[ EDPownedInfra ].I_fProdProductionMode[ EDPproductionMode ].PM_energyConsumption
          ;
       FCMgCSM_Energy_Update(
          EDPentity
          ,EDPcolony
          ,false
-         ,FCentities[ EDPentity ].E_col[ EDPcolony ].C_settlements[ EDPsettlement ].S_infrastructures[ EDPownedInfra ].I_fProdProductionMode[ EDPproductionMode ].PM_energyConsumption
+         ,FCDdgEntities[ EDPentity ].E_colonies[ EDPcolony ].C_settlements[ EDPsettlement ].S_infrastructures[ EDPownedInfra ].I_fProdProductionMode[ EDPproductionMode ].PM_energyConsumption
          ,0
          ,0
          ,0
          );
       EDPpmiCount:=1;
-      while EDPpmiCount<=FCentities[ EDPentity ].E_col[ EDPcolony ].C_settlements[ EDPsettlement ].S_infrastructures[ EDPownedInfra ].I_fProdProductionMode[ EDPproductionMode ].PM_matrixItemMax do
+      while EDPpmiCount<=FCDdgEntities[ EDPentity ].E_colonies[ EDPcolony ].C_settlements[ EDPsettlement ].S_infrastructures[ EDPownedInfra ].I_fProdProductionMode[ EDPproductionMode ].PM_matrixItemMax do
       begin
          EDPprodMatrixIndex:=
-            FCentities[ EDPentity ].E_col[ EDPcolony ].C_settlements[ EDPsettlement ].S_infrastructures[ EDPownedInfra ].I_fProdProductionMode[ EDPproductionMode ].PM_linkedColonyMatrixItems[ EDPpmiCount ].LMII_matrixItemIndex;
+            FCDdgEntities[ EDPentity ].E_colonies[ EDPcolony ].C_settlements[ EDPsettlement ].S_infrastructures[ EDPownedInfra ].I_fProdProductionMode[ EDPproductionMode ].PM_linkedColonyMatrixItems[ EDPpmiCount ].LMII_matrixItemIndex;
          EDPprodModeIndex:=
-            FCentities[ EDPentity ].E_col[ EDPcolony ].C_settlements[ EDPsettlement ].S_infrastructures[ EDPownedInfra ].I_fProdProductionMode[ EDPproductionMode ].PM_linkedColonyMatrixItems[ EDPpmiCount ].LMII_matrixItem_ProductionModeIndex;
-         FCentities[ EDPentity ].E_col[ EDPcolony ].C_productionMatrix[ EDPprodMatrixIndex ].PM_globalProductionFlow:=
-            FCentities[ EDPentity ].E_col[ EDPcolony ].C_productionMatrix[ EDPprodMatrixIndex ].PM_globalProductionFlow
-            +FCentities[ EDPentity ].E_col[ EDPcolony ].C_productionMatrix[ EDPprodMatrixIndex ].PM_productionModes[ EDPprodModeIndex ].PM_productionFlow
+            FCDdgEntities[ EDPentity ].E_colonies[ EDPcolony ].C_settlements[ EDPsettlement ].S_infrastructures[ EDPownedInfra ].I_fProdProductionMode[ EDPproductionMode ].PM_linkedColonyMatrixItems[ EDPpmiCount ].LMII_matrixItem_ProductionModeIndex;
+         FCDdgEntities[ EDPentity ].E_colonies[ EDPcolony ].C_productionMatrix[ EDPprodMatrixIndex ].PM_globalProductionFlow:=
+            FCDdgEntities[ EDPentity ].E_colonies[ EDPcolony ].C_productionMatrix[ EDPprodMatrixIndex ].PM_globalProductionFlow
+            +FCDdgEntities[ EDPentity ].E_colonies[ EDPcolony ].C_productionMatrix[ EDPprodMatrixIndex ].PM_productionModes[ EDPprodModeIndex ].PM_productionFlow
             ;
          if EDPifFromProd
-         then FCEntities[ EDPentity ].E_col[ EDPcolony ].C_productionMatrix[ EDPprodMatrixIndex ].PM_productionModes[ EDPprodModeIndex ].PM_isDisabledByProductionSegment:=false;
+         then FCDdgEntities[ EDPentity ].E_colonies[ EDPcolony ].C_productionMatrix[ EDPprodMatrixIndex ].PM_productionModes[ EDPprodModeIndex ].PM_isDisabledByProductionSegment:=false;
          if EDPentity=0
          then FCMuiCDD_Production_Update(
             plProdMatrixItem
@@ -177,33 +177,33 @@ begin
    end
    else begin
       if not EDPifFromProd
-      then FCentities[ EDPentity ].E_col[ EDPcolony ].C_settlements[ EDPsettlement ].S_infrastructures[ EDPownedInfra ].I_fProdProductionMode[ EDPproductionMode ].PM_isDisabled:=true;
-      FCentities[ EDPentity ].E_col[ EDPcolony ].C_settlements[ EDPsettlement ].S_infrastructures[ EDPownedInfra ].I_powerConsumption:=
-         FCentities[ EDPentity ].E_col[ EDPcolony ].C_settlements[ EDPsettlement ].S_infrastructures[ EDPownedInfra ].I_powerConsumption
-         -FCentities[ EDPentity ].E_col[ EDPcolony ].C_settlements[ EDPsettlement ].S_infrastructures[ EDPownedInfra ].I_fProdProductionMode[ EDPproductionMode ].PM_energyConsumption
+      then FCDdgEntities[ EDPentity ].E_colonies[ EDPcolony ].C_settlements[ EDPsettlement ].S_infrastructures[ EDPownedInfra ].I_fProdProductionMode[ EDPproductionMode ].PM_isDisabled:=true;
+      FCDdgEntities[ EDPentity ].E_colonies[ EDPcolony ].C_settlements[ EDPsettlement ].S_infrastructures[ EDPownedInfra ].I_powerConsumption:=
+         FCDdgEntities[ EDPentity ].E_colonies[ EDPcolony ].C_settlements[ EDPsettlement ].S_infrastructures[ EDPownedInfra ].I_powerConsumption
+         -FCDdgEntities[ EDPentity ].E_colonies[ EDPcolony ].C_settlements[ EDPsettlement ].S_infrastructures[ EDPownedInfra ].I_fProdProductionMode[ EDPproductionMode ].PM_energyConsumption
          ;
       FCMgCSM_Energy_Update(
          EDPentity
          ,EDPcolony
          ,false
-         ,-FCentities[ EDPentity ].E_col[ EDPcolony ].C_settlements[ EDPsettlement ].S_infrastructures[ EDPownedInfra ].I_fProdProductionMode[ EDPproductionMode ].PM_energyConsumption
+         ,-FCDdgEntities[ EDPentity ].E_colonies[ EDPcolony ].C_settlements[ EDPsettlement ].S_infrastructures[ EDPownedInfra ].I_fProdProductionMode[ EDPproductionMode ].PM_energyConsumption
          ,0
          ,0
          ,0
          );
       EDPpmiCount:=1;
-      while EDPpmiCount<=FCentities[ EDPentity ].E_col[ EDPcolony ].C_settlements[ EDPsettlement ].S_infrastructures[ EDPownedInfra ].I_fProdProductionMode[ EDPproductionMode ].PM_matrixItemMax do
+      while EDPpmiCount<=FCDdgEntities[ EDPentity ].E_colonies[ EDPcolony ].C_settlements[ EDPsettlement ].S_infrastructures[ EDPownedInfra ].I_fProdProductionMode[ EDPproductionMode ].PM_matrixItemMax do
       begin
          EDPprodMatrixIndex:=
-            FCentities[ EDPentity ].E_col[ EDPcolony ].C_settlements[ EDPsettlement ].S_infrastructures[ EDPownedInfra ].I_fProdProductionMode[ EDPproductionMode ].PM_linkedColonyMatrixItems[ EDPpmiCount ].LMII_matrixItemIndex;
+            FCDdgEntities[ EDPentity ].E_colonies[ EDPcolony ].C_settlements[ EDPsettlement ].S_infrastructures[ EDPownedInfra ].I_fProdProductionMode[ EDPproductionMode ].PM_linkedColonyMatrixItems[ EDPpmiCount ].LMII_matrixItemIndex;
          EDPprodModeIndex:=
-            FCentities[ EDPentity ].E_col[ EDPcolony ].C_settlements[ EDPsettlement ].S_infrastructures[ EDPownedInfra ].I_fProdProductionMode[ EDPproductionMode ].PM_linkedColonyMatrixItems[ EDPpmiCount ].LMII_matrixItem_ProductionModeIndex;
-         FCentities[ EDPentity ].E_col[ EDPcolony ].C_productionMatrix[ EDPprodMatrixIndex ].PM_globalProductionFlow:=
-            FCentities[ EDPentity ].E_col[ EDPcolony ].C_productionMatrix[ EDPprodMatrixIndex ].PM_globalProductionFlow
-            -FCentities[ EDPentity ].E_col[ EDPcolony ].C_productionMatrix[ EDPprodMatrixIndex ].PM_productionModes[ EDPprodModeIndex ].PM_productionFlow
+            FCDdgEntities[ EDPentity ].E_colonies[ EDPcolony ].C_settlements[ EDPsettlement ].S_infrastructures[ EDPownedInfra ].I_fProdProductionMode[ EDPproductionMode ].PM_linkedColonyMatrixItems[ EDPpmiCount ].LMII_matrixItem_ProductionModeIndex;
+         FCDdgEntities[ EDPentity ].E_colonies[ EDPcolony ].C_productionMatrix[ EDPprodMatrixIndex ].PM_globalProductionFlow:=
+            FCDdgEntities[ EDPentity ].E_colonies[ EDPcolony ].C_productionMatrix[ EDPprodMatrixIndex ].PM_globalProductionFlow
+            -FCDdgEntities[ EDPentity ].E_colonies[ EDPcolony ].C_productionMatrix[ EDPprodMatrixIndex ].PM_productionModes[ EDPprodModeIndex ].PM_productionFlow
             ;
          if EDPifFromProd
-         then FCEntities[ EDPentity ].E_col[ EDPcolony ].C_productionMatrix[ EDPprodMatrixIndex ].PM_productionModes[ EDPprodModeIndex ].PM_isDisabledByProductionSegment:=true;
+         then FCDdgEntities[ EDPentity ].E_colonies[ EDPcolony ].C_productionMatrix[ EDPprodMatrixIndex ].PM_productionModes[ EDPprodModeIndex ].PM_isDisabledByProductionSegment:=true;
          if EDPentity=0
          then FCMuiCDD_Production_Update(
             plProdMatrixItem
@@ -232,7 +232,7 @@ begin
    EDAPpmodeCount:=1;
    while EDAPpmodeCount<=FCCdipProductionModesMax do
    begin
-      if FCentities[ EDAPentity ].E_col[ EDAPcolony ].C_settlements[ EDAPsettlement ].S_infrastructures[ EDAPownedInfra ].I_fProdProductionMode[ EDAPpmodeCount ].PM_type>pmNone
+      if FCDdgEntities[ EDAPentity ].E_colonies[ EDAPcolony ].C_settlements[ EDAPsettlement ].S_infrastructures[ EDAPownedInfra ].I_fProdProductionMode[ EDAPpmodeCount ].PM_type>pmNone
       then FCMgPM_EnableDisable_Process(
          EDAPentity
          ,EDAPcolony
@@ -312,15 +312,15 @@ begin
                {.staff colonists index}
                ProdModeDataI3:=0;
                {.calculations}
-               FCentities[PMDFFGent].E_col[PMDFFGcol].C_settlements[PMDFFGsett].S_infrastructures[PMDFFGinfra].I_fProdProductionMode[InfraProdModeCount].PM_type:=PMDFFGinfraData.I_fPmodeStructure[InfraProdModeCount].MS_mode;
-               PMDFFGsurveyedSpot:=FCentities[PMDFFGent].E_col[PMDFFGcol].C_settlements[PMDFFGsett].S_infrastructures[PMDFFGinfra].I_fProdSurveyedSpot;
+               FCDdgEntities[PMDFFGent].E_colonies[PMDFFGcol].C_settlements[PMDFFGsett].S_infrastructures[PMDFFGinfra].I_fProdProductionMode[InfraProdModeCount].PM_type:=PMDFFGinfraData.I_fPmodeStructure[InfraProdModeCount].MS_mode;
+               PMDFFGsurveyedSpot:=FCDdgEntities[PMDFFGent].E_colonies[PMDFFGcol].C_settlements[PMDFFGsett].S_infrastructures[PMDFFGinfra].I_fProdSurveyedSpot;
                {.surveyed region index}
-               ProdModeDataI2:=FCentities[PMDFFGent].E_col[PMDFFGcol].C_settlements[PMDFFGsett].S_infrastructures[PMDFFGinfra].I_fProdSurveyedRegion;
+               ProdModeDataI2:=FCDdgEntities[PMDFFGent].E_colonies[PMDFFGcol].C_settlements[PMDFFGsett].S_infrastructures[PMDFFGinfra].I_fProdSurveyedRegion;
                {.resource spot index}
-               ProdModeDataI1:=FCentities[PMDFFGent].E_col[PMDFFGcol].C_settlements[PMDFFGsett].S_infrastructures[PMDFFGinfra].I_fProdResourceSpot;
+               ProdModeDataI1:=FCDdgEntities[PMDFFGent].E_colonies[PMDFFGcol].C_settlements[PMDFFGsett].S_infrastructures[PMDFFGinfra].I_fProdResourceSpot;
                {.resource mining production calculation}
                ProdModeDataF1:=( ( power( PMDFFGinfraData.I_surface[PMDFFGinfraLevel], 0.333 ) + power( PMDFFGinfraData.I_volume[PMDFFGinfraLevel], 0.111 ) )*0.5 )
-                  * FCRplayer.P_surveyedResourceSpots[PMDFFGsurveyedSpot].SRS_surveyedRegions[ProdModeDataI2].SR_ResourceSpots[ProdModeDataI1].RS_meanQualityCoefficient
+                  * FCVdgPlayer.P_surveyedResourceSpots[PMDFFGsurveyedSpot].SRS_surveyedRegions[ProdModeDataI2].SR_ResourceSpots[ProdModeDataI1].RS_meanQualityCoefficient
                   * (PMDFFGinfraData.I_fPmodeStructure[InfraProdModeCount].MS_occupancy*0.01);
                if PMDFFGinfraData.I_reqResourceSpot=rstIcyOreField then
                begin
@@ -336,7 +336,7 @@ begin
                      );
                end
                else begin
-                  ProdModeDataF2:=ProdModeDataF1*( FCRplayer.P_surveyedResourceSpots[PMDFFGsurveyedSpot].SRS_surveyedRegions[ProdModeDataI2].SR_ResourceSpots[ProdModeDataI1].RS_tOFiCarbonaceous*0.01 );
+                  ProdModeDataF2:=ProdModeDataF1*( FCVdgPlayer.P_surveyedResourceSpots[PMDFFGsurveyedSpot].SRS_surveyedRegions[ProdModeDataI2].SR_ResourceSpots[ProdModeDataI1].RS_tOFiCarbonaceous*0.01 );
                   ProdModeDataF2:=FCFcFunc_Rnd( cfrttpVolm3, ProdModeDataF2 );
                   FCMgPS2_ProductionMatrixItem_Add(
                      PMDFFGent
@@ -347,7 +347,7 @@ begin
                      ,'resCarbOre'
                      ,ProdModeDataF2
                      );
-                  ProdModeDataF3:=ProdModeDataF1*( FCRplayer.P_surveyedResourceSpots[PMDFFGsurveyedSpot].SRS_surveyedRegions[ProdModeDataI2].SR_ResourceSpots[ProdModeDataI1].RS_tOFiMetallic*0.01 );
+                  ProdModeDataF3:=ProdModeDataF1*( FCVdgPlayer.P_surveyedResourceSpots[PMDFFGsurveyedSpot].SRS_surveyedRegions[ProdModeDataI2].SR_ResourceSpots[ProdModeDataI1].RS_tOFiMetallic*0.01 );
                   ProdModeDataF3:=FCFcFunc_Rnd( cfrttpVolm3, ProdModeDataF3 );
                   FCMgPS2_ProductionMatrixItem_Add(
                      PMDFFGent
@@ -358,7 +358,7 @@ begin
                      ,'resMetalOre'
                      ,ProdModeDataF3
                      );
-                  ProdModeDataF4:=ProdModeDataF1*( FCRplayer.P_surveyedResourceSpots[PMDFFGsurveyedSpot].SRS_surveyedRegions[ProdModeDataI2].SR_ResourceSpots[ProdModeDataI1].RS_tOFiRare*0.01 );
+                  ProdModeDataF4:=ProdModeDataF1*( FCVdgPlayer.P_surveyedResourceSpots[PMDFFGsurveyedSpot].SRS_surveyedRegions[ProdModeDataI2].SR_ResourceSpots[ProdModeDataI1].RS_tOFiRare*0.01 );
                   ProdModeDataF4:=FCFcFunc_Rnd( cfrttpVolm3, ProdModeDataF4 );
                   FCMgPS2_ProductionMatrixItem_Add(
                      PMDFFGent
@@ -369,7 +369,7 @@ begin
                      ,'resRareMetOre'
                      ,ProdModeDataF4
                      );
-                  ProdModeDataF5:=ProdModeDataF1*( FCRplayer.P_surveyedResourceSpots[PMDFFGsurveyedSpot].SRS_surveyedRegions[ProdModeDataI2].SR_ResourceSpots[ProdModeDataI1].RS_tOFiUranium*0.01 );
+                  ProdModeDataF5:=ProdModeDataF1*( FCVdgPlayer.P_surveyedResourceSpots[PMDFFGsurveyedSpot].SRS_surveyedRegions[ProdModeDataI2].SR_ResourceSpots[ProdModeDataI1].RS_tOFiUranium*0.01 );
                   ProdModeDataF5:=FCFcFunc_Rnd( cfrttpVolm3, ProdModeDataF5 );
                   FCMgPS2_ProductionMatrixItem_Add(
                      PMDFFGent
@@ -391,7 +391,7 @@ begin
                   +( int( PMDFFGinfraData.I_reqStaff[PMDFFGstaffTechIndex].RS_requiredByLv[ PMDFFGinfraLevel ] /3 )*354 )
                   )
                   *( 1-( 1-ColonyEnvironment.ENV_gravity ) );
-               FCentities[PMDFFGent].E_col[PMDFFGcol].C_settlements[PMDFFGsett].S_infrastructures[PMDFFGinfra].I_fProdProductionMode[InfraProdModeCount].PM_energyConsumption:=FCFcFunc_Rnd( rttPowerKw, ProdModeDataF1 );
+               FCDdgEntities[PMDFFGent].E_colonies[PMDFFGcol].C_settlements[PMDFFGsett].S_infrastructures[PMDFFGinfra].I_fProdProductionMode[InfraProdModeCount].PM_energyConsumption:=FCFcFunc_Rnd( rttPowerKw, ProdModeDataF1 );
             end; //==END== case of: pmResourceMining ==//
 
             pmWaterRecovery:
@@ -409,20 +409,20 @@ begin
                {.atmospheric humidity calculations}
                ProdModeDataF6:=0;
                {.settlement's region number}
-               ProdModeDataI1:=FCentities[PMDFFGent].E_col[PMDFFGcol].C_settlements[PMDFFGsett].S_locationRegion;
+               ProdModeDataI1:=FCDdgEntities[PMDFFGent].E_colonies[PMDFFGcol].C_settlements[PMDFFGsett].S_locationRegion;
                {.region's precipitations}
                ProdModeDataI2:=0;
                {.H2O gas status}
                ProdModeDataI3:=0;
                {.we retrieve the colony's orbital object indexes}
                OrbObjRow:=FCFuF_StelObj_GetFullRow(
-                  FCentities[PMDFFGent].E_col[PMDFFGcol].C_locationStarSystem
-                  ,FCentities[PMDFFGent].E_col[PMDFFGcol].C_locationStar
-                  ,FCentities[PMDFFGent].E_col[PMDFFGcol].C_locationOrbitalObject
-                  ,FCentities[PMDFFGent].E_col[PMDFFGcol].C_locationSatellite
+                  FCDdgEntities[PMDFFGent].E_colonies[PMDFFGcol].C_locationStarSystem
+                  ,FCDdgEntities[PMDFFGent].E_colonies[PMDFFGcol].C_locationStar
+                  ,FCDdgEntities[PMDFFGent].E_colonies[PMDFFGcol].C_locationOrbitalObject
+                  ,FCDdgEntities[PMDFFGent].E_colonies[PMDFFGcol].C_locationSatellite
                   );
                {.calculations}
-               FCentities[PMDFFGent].E_col[PMDFFGcol].C_settlements[PMDFFGsett].S_infrastructures[PMDFFGinfra].I_fProdProductionMode[InfraProdModeCount].PM_type:=PMDFFGinfraData.I_fPmodeStructure[InfraProdModeCount].MS_mode;
+               FCDdgEntities[PMDFFGent].E_colonies[PMDFFGcol].C_settlements[PMDFFGsett].S_infrastructures[PMDFFGinfra].I_fProdProductionMode[InfraProdModeCount].PM_type:=PMDFFGinfraData.I_fPmodeStructure[InfraProdModeCount].MS_mode;
                if OrbObjRow[ 4 ]=0 then
                begin
                   {.region's precipitations}
@@ -479,7 +479,7 @@ begin
                {.energy consumption calculations}
                ProdModeDataF1:=FCFgICFX_EffectStorageLiquid_Search( PMDFFGinfraData, PMDFFGinfraLevel );
                ProdModeDataF1:=ProdModeDataF1 / 4.5 * 1.1;
-               FCentities[PMDFFGent].E_col[PMDFFGcol].C_settlements[PMDFFGsett].S_infrastructures[PMDFFGinfra].I_fProdProductionMode[InfraProdModeCount].PM_energyConsumption:=FCFcFunc_Rnd( rttPowerKw, ProdModeDataF1 );
+               FCDdgEntities[PMDFFGent].E_colonies[PMDFFGcol].C_settlements[PMDFFGsett].S_infrastructures[PMDFFGinfra].I_fProdProductionMode[InfraProdModeCount].PM_energyConsumption:=FCFcFunc_Rnd( rttPowerKw, ProdModeDataF1 );
             end; //==END== case of: pmWaterRecovery ==//
          end; //==END== case PMDFFGinfraData.I_fProductionMode[PMDFFGcnt].IPM_productionModes of ==//
       end //==END== if PMDFFGinfraData.I_fProductionMode[PMDFFGcnt].IPM_occupancy>0 then ==//

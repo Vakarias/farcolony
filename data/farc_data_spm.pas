@@ -201,7 +201,7 @@ type TFCEdgSPMiCustomEffects=(
             SPMI_hqRTM: integer);
    end;
       {.SPMi dynamic array}
-      TFCDBdgSPMi = array of TFCRdgSPMi;
+      TFCDdgSPMi = array of TFCRdgSPMi;
 
 //==END PUBLIC RECORDS======================================================================
 

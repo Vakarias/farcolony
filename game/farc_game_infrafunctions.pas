@@ -96,12 +96,12 @@ procedure FCMgIF_Functions_ApplicationRemove(
 
       FARfloat: extended;
 begin
-   case FCentities[FARent].E_col[FARcol].C_settlements[FARsett].S_infrastructures[FARinfra].I_function of
+   case FCDdgEntities[FARent].E_colonies[FARcol].C_settlements[FARsett].S_infrastructures[FARinfra].I_function of
       fEnergy:
       begin
          if not FARisApply
-         then FARfloat:=-FCentities[FARent].E_col[FARcol].C_settlements[FARsett].S_infrastructures[FARinfra].I_fEnOutput
-         else FARfloat:=FCentities[FARent].E_col[FARcol].C_settlements[FARsett].S_infrastructures[FARinfra].I_fEnOutput;
+         then FARfloat:=-FCDdgEntities[FARent].E_colonies[FARcol].C_settlements[FARsett].S_infrastructures[FARinfra].I_fEnOutput
+         else FARfloat:=FCDdgEntities[FARent].E_colonies[FARcol].C_settlements[FARsett].S_infrastructures[FARinfra].I_fEnOutput;
          FCMgCSM_Energy_Update(
             FARent
             ,FARcol
@@ -116,8 +116,8 @@ begin
       fHousing:
       begin
          if not FARisApply
-         then FARint:=-FCentities[FARent].E_col[FARcol].C_settlements[FARsett].S_infrastructures[FARinfra].I_fHousPopulationCapacity
-         else FARint:=FCentities[FARent].E_col[FARcol].C_settlements[FARsett].S_infrastructures[FARinfra].I_fHousPopulationCapacity;
+         then FARint:=-FCDdgEntities[FARent].E_colonies[FARcol].C_settlements[FARsett].S_infrastructures[FARinfra].I_fHousPopulationCapacity
+         else FARint:=FCDdgEntities[FARent].E_colonies[FARcol].C_settlements[FARsett].S_infrastructures[FARinfra].I_fHousPopulationCapacity;
          FCMgCSM_ColonyData_Upd(
             dPCAP
             ,FARent
@@ -182,24 +182,24 @@ procedure FCMgIF_Functions_Initialize(
    var
       FIenergyOutput: extended;
 begin
-   case FCentities[FIent].E_col[FIcol].C_settlements[FIsett].S_infrastructures[FIinfra].I_function of
+   case FCDdgEntities[FIent].E_colonies[FIcol].C_settlements[FIsett].S_infrastructures[FIinfra].I_function of
       fEnergy:
       begin
          FIenergyOutput:=FCFgEM_OutputFromFunction_GetValue(
             FIent
             ,FIcol
-            ,FCentities[FIent].E_col[FIcol].C_settlements[FIsett].S_infrastructures[FIinfra].I_level
+            ,FCDdgEntities[FIent].E_colonies[FIcol].C_settlements[FIsett].S_infrastructures[FIinfra].I_level
             ,FIinfraData
             );
-         FCentities[FIent].E_col[FIcol].C_settlements[FIsett].S_infrastructures[FIinfra].I_fEnOutput:=FIenergyOutput;
+         FCDdgEntities[FIent].E_colonies[FIcol].C_settlements[FIsett].S_infrastructures[FIinfra].I_fEnOutput:=FIenergyOutput;
       end;
 
       fHousing:
       begin
-         FCentities[FIent].E_col[FIcol].C_settlements[FIsett].S_infrastructures[FIinfra].I_fHousPopulationCapacity:=FIinfraData.I_fHpopulationCapacity[FCentities[FIent].E_col[FIcol].C_settlements[FIsett].S_infrastructures[FIinfra].I_level];
-         FCentities[FIent].E_col[FIcol].C_settlements[FIsett].S_infrastructures[FIinfra].I_fHousQualityOfLife:=FIinfraData.I_fHqualityOfLife;
-         FCentities[FIent].E_col[FIcol].C_settlements[FIsett].S_infrastructures[FIinfra].I_fHousCalculatedVolume:=0;
-         FCentities[FIent].E_col[FIcol].C_settlements[FIsett].S_infrastructures[FIinfra].I_fHousCalculatedSurface:=0;
+         FCDdgEntities[FIent].E_colonies[FIcol].C_settlements[FIsett].S_infrastructures[FIinfra].I_fHousPopulationCapacity:=FIinfraData.I_fHpopulationCapacity[FCDdgEntities[FIent].E_colonies[FIcol].C_settlements[FIsett].S_infrastructures[FIinfra].I_level];
+         FCDdgEntities[FIent].E_colonies[FIcol].C_settlements[FIsett].S_infrastructures[FIinfra].I_fHousQualityOfLife:=FIinfraData.I_fHqualityOfLife;
+         FCDdgEntities[FIent].E_colonies[FIcol].C_settlements[FIsett].S_infrastructures[FIinfra].I_fHousCalculatedVolume:=0;
+         FCDdgEntities[FIent].E_colonies[FIcol].C_settlements[FIsett].S_infrastructures[FIinfra].I_fHousCalculatedSurface:=0;
       end;
 
       fIntelligence:
@@ -219,7 +219,7 @@ begin
             ,FIcol
             ,FIsett
             ,FIinfra
-            ,FCentities[FIent].E_col[FIcol].C_settlements[FIsett].S_infrastructures[FIinfra].I_level
+            ,FCDdgEntities[FIent].E_colonies[FIcol].C_settlements[FIsett].S_infrastructures[FIinfra].I_level
             ,FIinfraData
             );
       end;

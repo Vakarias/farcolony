@@ -309,7 +309,7 @@ function FCFgCSM_AgeCoefficient_Retrieve( const Entity, Colony: integer ): exten
 begin
    Result:=0;
    HealthIndex:=FCFgCSM_Health_GetIdx( Entity, Colony );
-   MeanAge:=trunc( FCEntities[ Entity ].E_col[ Colony ].C_population.CP_meanAge );
+   MeanAge:=trunc( FCDdgEntities[ Entity ].E_colonies[ Colony ].C_population.CP_meanAge );
    case HealthIndex of
       1:
       begin
@@ -429,48 +429,48 @@ var
    CGISclr
    ,CGISidx: string;
 begin
-   if FCentities[CGISfac].E_col[CGIScol].C_cohesion<20
+   if FCDdgEntities[CGISfac].E_colonies[CGIScol].C_cohesion<20
    then
    begin
       CGISidx:='1';
       CGISclr:=FCCFcolRed;
    end
-   else if (FCentities[CGISfac].E_col[CGIScol].C_cohesion>=20)
-      and (FCentities[CGISfac].E_col[CGIScol].C_cohesion<35)
+   else if (FCDdgEntities[CGISfac].E_colonies[CGIScol].C_cohesion>=20)
+      and (FCDdgEntities[CGISfac].E_colonies[CGIScol].C_cohesion<35)
    then
    begin
       CGISidx:='2';
       CGISclr:=FCCFcolRed;
    end
-   else if (FCentities[CGISfac].E_col[CGIScol].C_cohesion>=35)
-      and (FCentities[CGISfac].E_col[CGIScol].C_cohesion<50)
+   else if (FCDdgEntities[CGISfac].E_colonies[CGIScol].C_cohesion>=35)
+      and (FCDdgEntities[CGISfac].E_colonies[CGIScol].C_cohesion<50)
    then
    begin
       CGISidx:='3';
       CGISclr:=FCCFcolOrge;
    end
-   else if (FCentities[CGISfac].E_col[CGIScol].C_cohesion>=50)
-      and (FCentities[CGISfac].E_col[CGIScol].C_cohesion<65)
+   else if (FCDdgEntities[CGISfac].E_colonies[CGIScol].C_cohesion>=50)
+      and (FCDdgEntities[CGISfac].E_colonies[CGIScol].C_cohesion<65)
    then
    begin
       CGISidx:='4';
       CGISclr:=FCCFcolYel;
    end
-   else if (FCentities[CGISfac].E_col[CGIScol].C_cohesion>=65)
-      and (FCentities[CGISfac].E_col[CGIScol].C_cohesion<80)
+   else if (FCDdgEntities[CGISfac].E_colonies[CGIScol].C_cohesion>=65)
+      and (FCDdgEntities[CGISfac].E_colonies[CGIScol].C_cohesion<80)
    then
    begin
       CGISidx:='5';
       CGISclr:=FCCFcolBlueL;
    end
-   else if (FCentities[CGISfac].E_col[CGIScol].C_cohesion>=80)
-      and (FCentities[CGISfac].E_col[CGIScol].C_cohesion<95)
+   else if (FCDdgEntities[CGISfac].E_colonies[CGIScol].C_cohesion>=80)
+      and (FCDdgEntities[CGISfac].E_colonies[CGIScol].C_cohesion<95)
    then
    begin
        CGISidx:='6';
        CGISclr:=FCCFcolGreen;
    end
-   else if FCentities[CGISfac].E_col[CGIScol].C_cohesion>=95
+   else if FCDdgEntities[CGISfac].E_colonies[CGIScol].C_cohesion>=95
    then
    begin
       CGISidx:='7';
@@ -488,24 +488,24 @@ function FCFgCSM_Health_GetIdx( const Entity, Colony: integer ): integer;
 begin
    Result:=0;
    HealthIndex:=0;
-   if FCentities[Entity].E_col[Colony].C_csmHealth_healthLevel<=0
+   if FCDdgEntities[Entity].E_colonies[Colony].C_csmHealth_HealthLevel<=0
    then HealthIndex:=1
-   else if (FCentities[Entity].E_col[Colony].C_csmHealth_healthLevel>=1)
-      and (FCentities[Entity].E_col[Colony].C_csmHealth_healthLevel<51)
+   else if (FCDdgEntities[Entity].E_colonies[Colony].C_csmHealth_HealthLevel>=1)
+      and (FCDdgEntities[Entity].E_colonies[Colony].C_csmHealth_HealthLevel<51)
    then HealthIndex:=2
-   else if (FCentities[Entity].E_col[Colony].C_csmHealth_healthLevel>=51)
-      and (FCentities[Entity].E_col[Colony].C_csmHealth_healthLevel<91)
+   else if (FCDdgEntities[Entity].E_colonies[Colony].C_csmHealth_HealthLevel>=51)
+      and (FCDdgEntities[Entity].E_colonies[Colony].C_csmHealth_HealthLevel<91)
    then HealthIndex:=3
-   else if (FCentities[Entity].E_col[Colony].C_csmHealth_healthLevel>=91)
-      and (FCentities[Entity].E_col[Colony].C_csmHealth_healthLevel<111)
+   else if (FCDdgEntities[Entity].E_colonies[Colony].C_csmHealth_HealthLevel>=91)
+      and (FCDdgEntities[Entity].E_colonies[Colony].C_csmHealth_HealthLevel<111)
    then HealthIndex:=4
-   else if (FCentities[Entity].E_col[Colony].C_csmHealth_healthLevel>=111)
-      and (FCentities[Entity].E_col[Colony].C_csmHealth_healthLevel<126)
+   else if (FCDdgEntities[Entity].E_colonies[Colony].C_csmHealth_HealthLevel>=111)
+      and (FCDdgEntities[Entity].E_colonies[Colony].C_csmHealth_HealthLevel<126)
    then HealthIndex:=5
-   else if (FCentities[Entity].E_col[Colony].C_csmHealth_healthLevel>=126)
-      and (FCentities[Entity].E_col[Colony].C_csmHealth_healthLevel<141)
+   else if (FCDdgEntities[Entity].E_colonies[Colony].C_csmHealth_HealthLevel>=126)
+      and (FCDdgEntities[Entity].E_colonies[Colony].C_csmHealth_HealthLevel<141)
    then HealthIndex:=6
-   else if FCentities[Entity].E_col[Colony].C_csmHealth_healthLevel>=141
+   else if FCDdgEntities[Entity].E_colonies[Colony].C_csmHealth_HealthLevel>=141
    then HealthIndex:=7;
    Result:=HealthIndex;
 end;
@@ -584,93 +584,93 @@ var
    CDIcolTtl: integer;
 begin
    {.retrieve colony data}
-   CDIcolTtl:=length(FCentities[CDIfac].E_col)-1;
-   CDIcol:=FCentities[CDIfac].E_col[CDIcolIdx];
+   CDIcolTtl:=length(FCDdgEntities[CDIfac].E_colonies)-1;
+   CDIcol:=FCDdgEntities[CDIfac].E_colonies[CDIcolIdx];
    {.init cohesion data}
    if CDIcolTtl=1
-   then CDIcol.C_cohesion:=85+FCentities[CDIfac].E_spmMcohes
+   then CDIcol.C_cohesion:=85+FCDdgEntities[CDIfac].E_spmMod_Cohesion
    else if CDIcolTtl>1
    then CDIcol.C_cohesion:=FCFgSPMD_GlobalData_Get(gspmdStability, 0);
    {.init tension data}
-   CDIcol.C_tension:=10+FCentities[CDIfac].E_spmMtens;
+   CDIcol.C_tension:=10+FCDdgEntities[CDIfac].E_spmMod_Tension;
    {.init education data}
    if CDIcolTtl=1
-   then CDIcol.C_instruction:=80+FCentities[CDIfac].E_spmMedu
+   then CDIcol.C_instruction:=80+FCDdgEntities[CDIfac].E_spmMod_Education
    else if CDIcolTtl>1
    then CDIcol.C_instruction:=FCFgSPMD_GlobalData_Get(gspmdInstruction, 0);
    {.init colony level, it's 1 by default, the value is updated when population is added and/or region control has changed}
    CDIcol.C_level:=cl1Outpost;
    {.transfert colony's data and initialize the non calculated data}
-   FCentities[CDIfac].E_col[CDIcolIdx].C_level:=CDIcol.C_level;
-   FCentities[CDIfac].E_col[CDIcolIdx].C_hqPresence:=hqsNoHQPresent;
-   FCentities[CDIfac].E_col[CDIcolIdx].C_cohesion:=CDIcol.C_cohesion;
-   FCentities[CDIfac].E_col[CDIcolIdx].C_security:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].C_tension:=CDIcol.C_tension;
-   FCentities[CDIfac].E_col[CDIcolIdx].C_instruction:=CDIcol.C_instruction;
-   FCentities[CDIfac].E_col[CDIcolIdx].C_csmHousing_PopulationCapacity:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].C_csmHousing_SpaceLevel:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].C_csmHousing_QualityOfLife:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].C_csmHealth_healthLevel:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].C_csmEnergy_consumption:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].C_csmEnergy_generation:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].C_csmEnergy_StorageCurrent:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].C_csmEnergy_StorageMax:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].C_economicIndustrialOutput:=100;
-   FCentities[CDIfac].E_col[CDIcolIdx].C_population.CP_total:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].C_population.CP_meanAge:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].C_population.CP_deathRate:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].C_population.CP_deathStack:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].C_population.CP_birthRate:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].C_population.CP_birthStack:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].C_population.CP_classColonist:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].C_population.CP_classColonistAssigned:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].C_population.CP_classAerOfficer:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].C_population.CP_classAerOfficerAssigned:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].C_population.CP_classAerMissionSpecialist:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].C_population.CP_classAerMissionSpecialistAssigned:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].C_population.CP_classBioBiologist:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].C_population.CP_classBioBiologistAssigned:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].C_population.CP_classBioDoctor:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].C_population.CP_classBioDoctorAssigned:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].C_population.CP_classIndTechnician:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].C_population.CP_classIndTechnicianAssigned:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].C_population.CP_classIndEngineer:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].C_population.CP_classIndEngineerAssigned:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].C_population.CP_classMilSoldier:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].C_population.CP_classMilSoldierAssigned:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].C_population.CP_classMilCommando:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].C_population.CP_classMilCommandoAssigned:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].C_population.CP_classPhyPhysicist:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].C_population.CP_classPhyPhysicistAssigned:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].C_population.CP_classPhyAstrophysicist:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].C_population.CP_classPhyAstrophysicistAssigned:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].C_population.CP_classEcoEcologist:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].C_population.CP_classEcoEcologistAssigned:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].C_population.CP_classEcoEcoformer:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].C_population.CP_classEcoEcoformerAssigned:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].C_population.CP_classAdmMedian:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].C_population.CP_classAdmMedianAssigned:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].C_population.CP_classRebels:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].C_population.CP_classMilitia:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].C_population.CP_CWPtotal:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].C_population.CP_CWPassignedPeople:=0;
-   setlength(FCentities[CDIfac].E_col[CDIcolIdx].C_events, 1);
-   setlength(FCentities[CDIfac].E_col[CDIcolIdx].C_settlements, 1);
-   setlength(FCentities[CDIfac].E_col[CDIcolIdx].C_cabQueue, 1);
-   setlength(FCentities[CDIfac].E_col[CDIcolIdx].C_productionMatrix, 1);
-   FCentities[CDIfac].E_col[CDIcolIdx].C_storageCapacitySolidCurrent:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].C_storageCapacitySolidMax:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].C_storageCapacityLiquidCurrent:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].C_storageCapacityLiquidMax:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].C_storageCapacityGasCurrent:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].C_storageCapacityGasMax:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].C_storageCapacityBioCurrent:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].C_storageCapacityBioMax:=0;
-   setlength(FCentities[CDIfac].E_col[CDIcolIdx].C_storedProducts, 1);
-   FCentities[CDIfac].E_col[CDIcolIdx].C_reserveOxygen:=0;
-   FCentities[CDIfac].E_col[CDIcolIdx].C_reserveFood:=0;
-   SetLength( FCentities[CDIfac].E_col[CDIcolIdx].C_reserveFoodProductsIndex, 1 );
-   FCentities[CDIfac].E_col[CDIcolIdx].C_reserveWater:=0;
+   FCDdgEntities[CDIfac].E_colonies[CDIcolIdx].C_level:=CDIcol.C_level;
+   FCDdgEntities[CDIfac].E_colonies[CDIcolIdx].C_hqPresence:=hqsNoHQPresent;
+   FCDdgEntities[CDIfac].E_colonies[CDIcolIdx].C_cohesion:=CDIcol.C_cohesion;
+   FCDdgEntities[CDIfac].E_colonies[CDIcolIdx].C_security:=0;
+   FCDdgEntities[CDIfac].E_colonies[CDIcolIdx].C_tension:=CDIcol.C_tension;
+   FCDdgEntities[CDIfac].E_colonies[CDIcolIdx].C_instruction:=CDIcol.C_instruction;
+   FCDdgEntities[CDIfac].E_colonies[CDIcolIdx].C_csmHousing_PopulationCapacity:=0;
+   FCDdgEntities[CDIfac].E_colonies[CDIcolIdx].C_csmHousing_SpaceLevel:=0;
+   FCDdgEntities[CDIfac].E_colonies[CDIcolIdx].C_csmHousing_QualityOfLife:=0;
+   FCDdgEntities[CDIfac].E_colonies[CDIcolIdx].C_csmHealth_HealthLevel:=0;
+   FCDdgEntities[CDIfac].E_colonies[CDIcolIdx].C_csmEnergy_Consumption:=0;
+   FCDdgEntities[CDIfac].E_colonies[CDIcolIdx].C_csmEnergy_Generation:=0;
+   FCDdgEntities[CDIfac].E_colonies[CDIcolIdx].C_csmEnergy_StorageCurrent:=0;
+   FCDdgEntities[CDIfac].E_colonies[CDIcolIdx].C_csmEnergy_StorageMax:=0;
+   FCDdgEntities[CDIfac].E_colonies[CDIcolIdx].C_economicIndustrialOutput:=100;
+   FCDdgEntities[CDIfac].E_colonies[CDIcolIdx].C_population.CP_total:=0;
+   FCDdgEntities[CDIfac].E_colonies[CDIcolIdx].C_population.CP_meanAge:=0;
+   FCDdgEntities[CDIfac].E_colonies[CDIcolIdx].C_population.CP_deathRate:=0;
+   FCDdgEntities[CDIfac].E_colonies[CDIcolIdx].C_population.CP_deathStack:=0;
+   FCDdgEntities[CDIfac].E_colonies[CDIcolIdx].C_population.CP_birthRate:=0;
+   FCDdgEntities[CDIfac].E_colonies[CDIcolIdx].C_population.CP_birthStack:=0;
+   FCDdgEntities[CDIfac].E_colonies[CDIcolIdx].C_population.CP_classColonist:=0;
+   FCDdgEntities[CDIfac].E_colonies[CDIcolIdx].C_population.CP_classColonistAssigned:=0;
+   FCDdgEntities[CDIfac].E_colonies[CDIcolIdx].C_population.CP_classAerOfficer:=0;
+   FCDdgEntities[CDIfac].E_colonies[CDIcolIdx].C_population.CP_classAerOfficerAssigned:=0;
+   FCDdgEntities[CDIfac].E_colonies[CDIcolIdx].C_population.CP_classAerMissionSpecialist:=0;
+   FCDdgEntities[CDIfac].E_colonies[CDIcolIdx].C_population.CP_classAerMissionSpecialistAssigned:=0;
+   FCDdgEntities[CDIfac].E_colonies[CDIcolIdx].C_population.CP_classBioBiologist:=0;
+   FCDdgEntities[CDIfac].E_colonies[CDIcolIdx].C_population.CP_classBioBiologistAssigned:=0;
+   FCDdgEntities[CDIfac].E_colonies[CDIcolIdx].C_population.CP_classBioDoctor:=0;
+   FCDdgEntities[CDIfac].E_colonies[CDIcolIdx].C_population.CP_classBioDoctorAssigned:=0;
+   FCDdgEntities[CDIfac].E_colonies[CDIcolIdx].C_population.CP_classIndTechnician:=0;
+   FCDdgEntities[CDIfac].E_colonies[CDIcolIdx].C_population.CP_classIndTechnicianAssigned:=0;
+   FCDdgEntities[CDIfac].E_colonies[CDIcolIdx].C_population.CP_classIndEngineer:=0;
+   FCDdgEntities[CDIfac].E_colonies[CDIcolIdx].C_population.CP_classIndEngineerAssigned:=0;
+   FCDdgEntities[CDIfac].E_colonies[CDIcolIdx].C_population.CP_classMilSoldier:=0;
+   FCDdgEntities[CDIfac].E_colonies[CDIcolIdx].C_population.CP_classMilSoldierAssigned:=0;
+   FCDdgEntities[CDIfac].E_colonies[CDIcolIdx].C_population.CP_classMilCommando:=0;
+   FCDdgEntities[CDIfac].E_colonies[CDIcolIdx].C_population.CP_classMilCommandoAssigned:=0;
+   FCDdgEntities[CDIfac].E_colonies[CDIcolIdx].C_population.CP_classPhyPhysicist:=0;
+   FCDdgEntities[CDIfac].E_colonies[CDIcolIdx].C_population.CP_classPhyPhysicistAssigned:=0;
+   FCDdgEntities[CDIfac].E_colonies[CDIcolIdx].C_population.CP_classPhyAstrophysicist:=0;
+   FCDdgEntities[CDIfac].E_colonies[CDIcolIdx].C_population.CP_classPhyAstrophysicistAssigned:=0;
+   FCDdgEntities[CDIfac].E_colonies[CDIcolIdx].C_population.CP_classEcoEcologist:=0;
+   FCDdgEntities[CDIfac].E_colonies[CDIcolIdx].C_population.CP_classEcoEcologistAssigned:=0;
+   FCDdgEntities[CDIfac].E_colonies[CDIcolIdx].C_population.CP_classEcoEcoformer:=0;
+   FCDdgEntities[CDIfac].E_colonies[CDIcolIdx].C_population.CP_classEcoEcoformerAssigned:=0;
+   FCDdgEntities[CDIfac].E_colonies[CDIcolIdx].C_population.CP_classAdmMedian:=0;
+   FCDdgEntities[CDIfac].E_colonies[CDIcolIdx].C_population.CP_classAdmMedianAssigned:=0;
+   FCDdgEntities[CDIfac].E_colonies[CDIcolIdx].C_population.CP_classRebels:=0;
+   FCDdgEntities[CDIfac].E_colonies[CDIcolIdx].C_population.CP_classMilitia:=0;
+   FCDdgEntities[CDIfac].E_colonies[CDIcolIdx].C_population.CP_CWPtotal:=0;
+   FCDdgEntities[CDIfac].E_colonies[CDIcolIdx].C_population.CP_CWPassignedPeople:=0;
+   setlength(FCDdgEntities[CDIfac].E_colonies[CDIcolIdx].C_events, 1);
+   setlength(FCDdgEntities[CDIfac].E_colonies[CDIcolIdx].C_settlements, 1);
+   setlength(FCDdgEntities[CDIfac].E_colonies[CDIcolIdx].C_cabQueue, 1);
+   setlength(FCDdgEntities[CDIfac].E_colonies[CDIcolIdx].C_productionMatrix, 1);
+   FCDdgEntities[CDIfac].E_colonies[CDIcolIdx].C_storageCapacitySolidCurrent:=0;
+   FCDdgEntities[CDIfac].E_colonies[CDIcolIdx].C_storageCapacitySolidMax:=0;
+   FCDdgEntities[CDIfac].E_colonies[CDIcolIdx].C_storageCapacityLiquidCurrent:=0;
+   FCDdgEntities[CDIfac].E_colonies[CDIcolIdx].C_storageCapacityLiquidMax:=0;
+   FCDdgEntities[CDIfac].E_colonies[CDIcolIdx].C_storageCapacityGasCurrent:=0;
+   FCDdgEntities[CDIfac].E_colonies[CDIcolIdx].C_storageCapacityGasMax:=0;
+   FCDdgEntities[CDIfac].E_colonies[CDIcolIdx].C_storageCapacityBioCurrent:=0;
+   FCDdgEntities[CDIfac].E_colonies[CDIcolIdx].C_storageCapacityBioMax:=0;
+   setlength(FCDdgEntities[CDIfac].E_colonies[CDIcolIdx].C_storedProducts, 1);
+   FCDdgEntities[CDIfac].E_colonies[CDIcolIdx].C_reserveOxygen:=0;
+   FCDdgEntities[CDIfac].E_colonies[CDIcolIdx].C_reserveFood:=0;
+   SetLength( FCDdgEntities[CDIfac].E_colonies[CDIcolIdx].C_reserveFoodProductsIndex, 1 );
+   FCDdgEntities[CDIfac].E_colonies[CDIcolIdx].C_reserveWater:=0;
 end;
 
 procedure FCMgCSM_ColonyData_Upd(
@@ -740,79 +740,79 @@ begin
       {.population addition}
       dPopulation:
       begin
-         CDUdatI:=FCentities[CDUfac].E_col[CDUcol].C_population.CP_total;
+         CDUdatI:=FCDdgEntities[CDUfac].E_colonies[CDUcol].C_population.CP_total;
          CDUdatI1:=round(CDUvalue);
-         FCentities[CDUfac].E_col[CDUcol].C_population.CP_total:=CDUdatI+CDUdatI1;
+         FCDdgEntities[CDUfac].E_colonies[CDUcol].C_population.CP_total:=CDUdatI+CDUdatI1;
          case CDUpopType of
             gcsmptColon:
             begin
-               CDUdatI:=FCentities[CDUfac].E_col[CDUcol].C_population.CP_classColonist;
-               FCentities[CDUfac].E_col[CDUcol].C_population.CP_classColonist:=CDUdatI+CDUdatI1;
+               CDUdatI:=FCDdgEntities[CDUfac].E_colonies[CDUcol].C_population.CP_classColonist;
+               FCDdgEntities[CDUfac].E_colonies[CDUcol].C_population.CP_classColonist:=CDUdatI+CDUdatI1;
             end;
             gcsmptASoff:
             begin
-               CDUdatI:=FCentities[CDUfac].E_col[CDUcol].C_population.CP_classAerOfficer;
-               FCentities[CDUfac].E_col[CDUcol].C_population.CP_classAerOfficer:=CDUdatI+CDUdatI1;
+               CDUdatI:=FCDdgEntities[CDUfac].E_colonies[CDUcol].C_population.CP_classAerOfficer;
+               FCDdgEntities[CDUfac].E_colonies[CDUcol].C_population.CP_classAerOfficer:=CDUdatI+CDUdatI1;
             end;
             gcsmptASmiSp:
             begin
-               CDUdatI:=FCentities[CDUfac].E_col[CDUcol].C_population.CP_classAerMissionSpecialist;
-               FCentities[CDUfac].E_col[CDUcol].C_population.CP_classAerMissionSpecialist:=CDUdatI+CDUdatI1;
+               CDUdatI:=FCDdgEntities[CDUfac].E_colonies[CDUcol].C_population.CP_classAerMissionSpecialist;
+               FCDdgEntities[CDUfac].E_colonies[CDUcol].C_population.CP_classAerMissionSpecialist:=CDUdatI+CDUdatI1;
             end;
             gcsmptBSbio:
             begin
-               CDUdatI:=FCentities[CDUfac].E_col[CDUcol].C_population.CP_classBioBiologist;
-               FCentities[CDUfac].E_col[CDUcol].C_population.CP_classBioBiologist:=CDUdatI+CDUdatI1;
+               CDUdatI:=FCDdgEntities[CDUfac].E_colonies[CDUcol].C_population.CP_classBioBiologist;
+               FCDdgEntities[CDUfac].E_colonies[CDUcol].C_population.CP_classBioBiologist:=CDUdatI+CDUdatI1;
             end;
             gcsmptBSdoc:
             begin
-               CDUdatI:=FCentities[CDUfac].E_col[CDUcol].C_population.CP_classBioDoctor;
-               FCentities[CDUfac].E_col[CDUcol].C_population.CP_classBioDoctor:=CDUdatI+CDUdatI1;
+               CDUdatI:=FCDdgEntities[CDUfac].E_colonies[CDUcol].C_population.CP_classBioDoctor;
+               FCDdgEntities[CDUfac].E_colonies[CDUcol].C_population.CP_classBioDoctor:=CDUdatI+CDUdatI1;
             end;
             gcsmptIStech:
             begin
-               CDUdatI:=FCentities[CDUfac].E_col[CDUcol].C_population.CP_classIndTechnician;
-               FCentities[CDUfac].E_col[CDUcol].C_population.CP_classIndTechnician:=CDUdatI+CDUdatI1;
+               CDUdatI:=FCDdgEntities[CDUfac].E_colonies[CDUcol].C_population.CP_classIndTechnician;
+               FCDdgEntities[CDUfac].E_colonies[CDUcol].C_population.CP_classIndTechnician:=CDUdatI+CDUdatI1;
             end;
             gcsmptISeng:
             begin
-               CDUdatI:=FCentities[CDUfac].E_col[CDUcol].C_population.CP_classIndEngineer;
-               FCentities[CDUfac].E_col[CDUcol].C_population.CP_classIndEngineer:=CDUdatI+CDUdatI1;
+               CDUdatI:=FCDdgEntities[CDUfac].E_colonies[CDUcol].C_population.CP_classIndEngineer;
+               FCDdgEntities[CDUfac].E_colonies[CDUcol].C_population.CP_classIndEngineer:=CDUdatI+CDUdatI1;
             end;
             gcsmptMSsold:
             begin
-               CDUdatI:=FCentities[CDUfac].E_col[CDUcol].C_population.CP_classMilSoldier;
-               FCentities[CDUfac].E_col[CDUcol].C_population.CP_classMilSoldier:=CDUdatI+CDUdatI1;
+               CDUdatI:=FCDdgEntities[CDUfac].E_colonies[CDUcol].C_population.CP_classMilSoldier;
+               FCDdgEntities[CDUfac].E_colonies[CDUcol].C_population.CP_classMilSoldier:=CDUdatI+CDUdatI1;
             end;
             gcsmptMScomm:
             begin
-               CDUdatI:=FCentities[CDUfac].E_col[CDUcol].C_population.CP_classMilCommando;
-               FCentities[CDUfac].E_col[CDUcol].C_population.CP_classMilCommando:=CDUdatI+CDUdatI1;
+               CDUdatI:=FCDdgEntities[CDUfac].E_colonies[CDUcol].C_population.CP_classMilCommando;
+               FCDdgEntities[CDUfac].E_colonies[CDUcol].C_population.CP_classMilCommando:=CDUdatI+CDUdatI1;
             end;
             gcsmptPSphys:
             begin
-               CDUdatI:=FCentities[CDUfac].E_col[CDUcol].C_population.CP_classPhyPhysicist;
-               FCentities[CDUfac].E_col[CDUcol].C_population.CP_classPhyPhysicist:=CDUdatI+CDUdatI1;
+               CDUdatI:=FCDdgEntities[CDUfac].E_colonies[CDUcol].C_population.CP_classPhyPhysicist;
+               FCDdgEntities[CDUfac].E_colonies[CDUcol].C_population.CP_classPhyPhysicist:=CDUdatI+CDUdatI1;
             end;
             gcsmptPSastr:
             begin
-               CDUdatI:=FCentities[CDUfac].E_col[CDUcol].C_population.CP_classPhyAstrophysicist;
-               FCentities[CDUfac].E_col[CDUcol].C_population.CP_classPhyAstrophysicist:=CDUdatI+CDUdatI1;
+               CDUdatI:=FCDdgEntities[CDUfac].E_colonies[CDUcol].C_population.CP_classPhyAstrophysicist;
+               FCDdgEntities[CDUfac].E_colonies[CDUcol].C_population.CP_classPhyAstrophysicist:=CDUdatI+CDUdatI1;
             end;
             gcsmptESecol:
             begin
-               CDUdatI:=FCentities[CDUfac].E_col[CDUcol].C_population.CP_classEcoEcologist;
-               FCentities[CDUfac].E_col[CDUcol].C_population.CP_classEcoEcologist:=CDUdatI+CDUdatI1;
+               CDUdatI:=FCDdgEntities[CDUfac].E_colonies[CDUcol].C_population.CP_classEcoEcologist;
+               FCDdgEntities[CDUfac].E_colonies[CDUcol].C_population.CP_classEcoEcologist:=CDUdatI+CDUdatI1;
             end;
             gcsmptESecof:
             begin
-               CDUdatI:=FCentities[CDUfac].E_col[CDUcol].C_population.CP_classEcoEcoformer;
-               FCentities[CDUfac].E_col[CDUcol].C_population.CP_classEcoEcoformer:=CDUdatI+CDUdatI1;
+               CDUdatI:=FCDdgEntities[CDUfac].E_colonies[CDUcol].C_population.CP_classEcoEcoformer;
+               FCDdgEntities[CDUfac].E_colonies[CDUcol].C_population.CP_classEcoEcoformer:=CDUdatI+CDUdatI1;
             end;
             gcsmptAmedian:
             begin
-               CDUdatI:=FCentities[CDUfac].E_col[CDUcol].C_population.CP_classAdmMedian;
-               FCentities[CDUfac].E_col[CDUcol].C_population.CP_classAdmMedian:=CDUdatI+CDUdatI1;
+               CDUdatI:=FCDdgEntities[CDUfac].E_colonies[CDUcol].C_population.CP_classAdmMedian;
+               FCDdgEntities[CDUfac].E_colonies[CDUcol].C_population.CP_classAdmMedian:=CDUdatI+CDUdatI1;
             end;
          end; //==END== case CDUpopType of ==//
          {.csm events trigger}
@@ -860,45 +860,45 @@ begin
       end; //==END== case: gcsmdPopulation ==//
       dBirthRate:
       begin
-         if FCentities[CDUfac].E_col[CDUcol].C_population.CP_total>0
+         if FCDdgEntities[CDUfac].E_colonies[CDUcol].C_population.CP_total>0
          then FCMgPGS_BR_Calc(CDUfac, CDUcol);
          {.update dependencies}
       end;
       dCohesion:
       begin
-         CDUdatI:=FCentities[CDUfac].E_col[CDUcol].C_cohesion;
-         FCentities[CDUfac].E_col[CDUcol].C_cohesion:=CDUdatI+round(CDUvalue);
+         CDUdatI:=FCDdgEntities[CDUfac].E_colonies[CDUcol].C_cohesion;
+         FCDdgEntities[CDUfac].E_colonies[CDUcol].C_cohesion:=CDUdatI+round(CDUvalue);
          {.update dependencies}
       end;
       dColonyLvl:
       begin
          {:DEV NOTES: don't forget to also put the region control test.}
-         if (FCentities[CDUfac].E_col[CDUcol].C_population.CP_total>=1)
-            and (FCentities[CDUfac].E_col[CDUcol].C_population.CP_total<11)
-         then FCentities[CDUfac].E_col[CDUcol].C_level:=cl1Outpost
-         else if (FCentities[CDUfac].E_col[CDUcol].C_population.CP_total>=11)
-            and (FCentities[CDUfac].E_col[CDUcol].C_population.CP_total<101)
-         then FCentities[CDUfac].E_col[CDUcol].C_level:=cl2Base
-         else if (FCentities[CDUfac].E_col[CDUcol].C_population.CP_total>=101)
-            and (FCentities[CDUfac].E_col[CDUcol].C_population.CP_total<1001)
-         then FCentities[CDUfac].E_col[CDUcol].C_level:=cl3Community
-         else if (FCentities[CDUfac].E_col[CDUcol].C_population.CP_total>=1001)
-            and (FCentities[CDUfac].E_col[CDUcol].C_population.CP_total<10001)
-         then FCentities[CDUfac].E_col[CDUcol].C_level:=cl4Settlement
-         else if (FCentities[CDUfac].E_col[CDUcol].C_population.CP_total>=10001)
-            and (FCentities[CDUfac].E_col[CDUcol].C_population.CP_total<100001)
-         then FCentities[CDUfac].E_col[CDUcol].C_level:=cl5MajorColony
-         else if (FCentities[CDUfac].E_col[CDUcol].C_population.CP_total>=100001)
-            and (FCentities[CDUfac].E_col[CDUcol].C_population.CP_total<1000001)
-         then FCentities[CDUfac].E_col[CDUcol].C_level:=cl6LocalState
-         else if (FCentities[CDUfac].E_col[CDUcol].C_population.CP_total>=1000001)
-         then FCentities[CDUfac].E_col[CDUcol].C_level:=cl7RegionalState;
+         if (FCDdgEntities[CDUfac].E_colonies[CDUcol].C_population.CP_total>=1)
+            and (FCDdgEntities[CDUfac].E_colonies[CDUcol].C_population.CP_total<11)
+         then FCDdgEntities[CDUfac].E_colonies[CDUcol].C_level:=cl1Outpost
+         else if (FCDdgEntities[CDUfac].E_colonies[CDUcol].C_population.CP_total>=11)
+            and (FCDdgEntities[CDUfac].E_colonies[CDUcol].C_population.CP_total<101)
+         then FCDdgEntities[CDUfac].E_colonies[CDUcol].C_level:=cl2Base
+         else if (FCDdgEntities[CDUfac].E_colonies[CDUcol].C_population.CP_total>=101)
+            and (FCDdgEntities[CDUfac].E_colonies[CDUcol].C_population.CP_total<1001)
+         then FCDdgEntities[CDUfac].E_colonies[CDUcol].C_level:=cl3Community
+         else if (FCDdgEntities[CDUfac].E_colonies[CDUcol].C_population.CP_total>=1001)
+            and (FCDdgEntities[CDUfac].E_colonies[CDUcol].C_population.CP_total<10001)
+         then FCDdgEntities[CDUfac].E_colonies[CDUcol].C_level:=cl4Settlement
+         else if (FCDdgEntities[CDUfac].E_colonies[CDUcol].C_population.CP_total>=10001)
+            and (FCDdgEntities[CDUfac].E_colonies[CDUcol].C_population.CP_total<100001)
+         then FCDdgEntities[CDUfac].E_colonies[CDUcol].C_level:=cl5MajorColony
+         else if (FCDdgEntities[CDUfac].E_colonies[CDUcol].C_population.CP_total>=100001)
+            and (FCDdgEntities[CDUfac].E_colonies[CDUcol].C_population.CP_total<1000001)
+         then FCDdgEntities[CDUfac].E_colonies[CDUcol].C_level:=cl6LocalState
+         else if (FCDdgEntities[CDUfac].E_colonies[CDUcol].C_population.CP_total>=1000001)
+         then FCDdgEntities[CDUfac].E_colonies[CDUcol].C_level:=cl7RegionalState;
          {.csm events trigger}
          {.update dependencies}
       end;
       dDeathRate:
       begin
-         if FCentities[CDUfac].E_col[CDUcol].C_population.CP_total>0
+         if FCDdgEntities[CDUfac].E_colonies[CDUcol].C_population.CP_total>0
          then FCMgPGS_DR_Calc(CDUfac, CDUcol);
          {.update dependencies}
       end;
@@ -907,8 +907,8 @@ begin
          if not CDUfullUpd
          then
          begin
-            CDUdatI:=FCentities[CDUfac].E_col[CDUcol].C_csmHealth_healthLevel;
-            FCentities[CDUfac].E_col[CDUcol].C_csmHealth_healthLevel:=CDUdatI+round(CDUvalue);
+            CDUdatI:=FCDdgEntities[CDUfac].E_colonies[CDUcol].C_csmHealth_HealthLevel;
+            FCDdgEntities[CDUfac].E_colonies[CDUcol].C_csmHealth_HealthLevel:=CDUdatI+round(CDUvalue);
          end
          else if CDUfullUpd
          then
@@ -939,8 +939,8 @@ begin
                4: CDUdatI2:=-25;
                5: CDUdatI2:=-40;
             end; //==END== case CDUdatI of ==//
-            CDUdatI3:=(FCentities[CDUfac].E_col[CDUcol].C_csmHousing_QualityOfLife*10)+FCentities[CDUfac].E_spmMhealth+CDUdatI2+CDUdatI1;
-            FCentities[CDUfac].E_col[CDUcol].C_csmHealth_healthLevel:=CDUdatI3;
+            CDUdatI3:=(FCDdgEntities[CDUfac].E_colonies[CDUcol].C_csmHousing_QualityOfLife*10)+FCDdgEntities[CDUfac].E_spmMod_Health+CDUdatI2+CDUdatI1;
+            FCDdgEntities[CDUfac].E_colonies[CDUcol].C_csmHealth_HealthLevel:=CDUdatI3;
          end;
          {.update dependencies}
          CDUdatI:=0;
@@ -951,11 +951,11 @@ begin
             ,CDUfac
             ,CDUcol
             );
-         if FCentities[CDUfac].E_col[CDUcol].C_events[CDUdatI].CCSME_tHERelEducationMod>0
-         then CDUdatI1:=-FCentities[CDUfac].E_col[CDUcol].C_events[CDUdatI].CCSME_tHERelEducationMod
-         else if FCentities[CDUfac].E_col[CDUcol].C_events[CDUdatI].CCSME_tHERelEducationMod<0
-         then CDUdatI1:=abs(FCentities[CDUfac].E_col[CDUcol].C_events[CDUdatI].CCSME_tHERelEducationMod);
-         FCentities[CDUfac].E_col[CDUcol].C_events[CDUdatI].CCSME_tHERelEducationMod:=CDUdatI1;
+         if FCDdgEntities[CDUfac].E_colonies[CDUcol].C_events[CDUdatI].CCSME_tHERelEducationMod>0
+         then CDUdatI1:=-FCDdgEntities[CDUfac].E_colonies[CDUcol].C_events[CDUdatI].CCSME_tHERelEducationMod
+         else if FCDdgEntities[CDUfac].E_colonies[CDUcol].C_events[CDUdatI].CCSME_tHERelEducationMod<0
+         then CDUdatI1:=abs(FCDdgEntities[CDUfac].E_colonies[CDUcol].C_events[CDUdatI].CCSME_tHERelEducationMod);
+         FCDdgEntities[CDUfac].E_colonies[CDUcol].C_events[CDUdatI].CCSME_tHERelEducationMod:=CDUdatI1;
          FCMgCSM_ColonyData_Upd(
             dInstruction
             ,CDUfac
@@ -966,7 +966,7 @@ begin
             ,false
             );
          CDUdatI2:=FCFgCSME_HealEdu_GetMod(CDUfac, CDUcol);
-         FCentities[CDUfac].E_col[CDUcol].C_events[CDUdatI].CCSME_tHERelEducationMod:=CDUdatI2;
+         FCDdgEntities[CDUfac].E_colonies[CDUcol].C_events[CDUdatI].CCSME_tHERelEducationMod:=CDUdatI2;
          FCMgCSM_ColonyData_Upd(
             dInstruction
             ,CDUfac
@@ -997,8 +997,8 @@ begin
       end;
       dInstruction:
       begin
-         CDUdatI:=FCentities[CDUfac].E_col[CDUcol].C_instruction;
-         FCentities[CDUfac].E_col[CDUcol].C_instruction:=CDUdatI+round(CDUvalue);
+         CDUdatI:=FCDdgEntities[CDUfac].E_colonies[CDUcol].C_instruction;
+         FCDdgEntities[CDUfac].E_colonies[CDUcol].C_instruction:=CDUdatI+round(CDUvalue);
          {.update dependencies}
       end;
       {.population mean age}
@@ -1027,14 +1027,14 @@ begin
          if not CDUfullUpd
          then
          begin
-            CDUdatI:=FCentities[CDUfac].E_col[CDUcol].C_csmHousing_PopulationCapacity;
-            FCentities[CDUfac].E_col[CDUcol].C_csmHousing_PopulationCapacity:=CDUdatI+round(CDUvalue);
+            CDUdatI:=FCDdgEntities[CDUfac].E_colonies[CDUcol].C_csmHousing_PopulationCapacity;
+            FCDdgEntities[CDUfac].E_colonies[CDUcol].C_csmHousing_PopulationCapacity:=CDUdatI+round(CDUvalue);
          end
          else if CDUfullUpd
          then
          begin
             CDUdatI:=0;
-            CDUsettleMax:=length(FCentities[CDUfac].E_col[CDUcol].C_settlements)-1;
+            CDUsettleMax:=length(FCDdgEntities[CDUfac].E_colonies[CDUcol].C_settlements)-1;
             if CDUsettleMax>0
             then
             begin
@@ -1042,25 +1042,25 @@ begin
                while CDUsettleCnt<=CDUsettleMax do
                begin
                   CDUcnt:=1;
-                  CDUmax:=length(FCentities[CDUfac].E_col[CDUcol].C_settlements[CDUsettleCnt].S_infrastructures)-1;
+                  CDUmax:=length(FCDdgEntities[CDUfac].E_colonies[CDUcol].C_settlements[CDUsettleCnt].S_infrastructures)-1;
                   if CDUmax>0
                   then
                   begin
                      while CDUcnt<=CDUmax do
                      begin
-                        if (FCentities[CDUfac].E_col[CDUcol].C_settlements[CDUsettleCnt].S_infrastructures[CDUcnt].I_function=fHousing)
+                        if (FCDdgEntities[CDUfac].E_colonies[CDUcol].C_settlements[CDUsettleCnt].S_infrastructures[CDUcnt].I_function=fHousing)
                            and (
-                              (FCentities[CDUfac].E_col[CDUcol].C_settlements[CDUsettleCnt].S_infrastructures[CDUcnt].I_status=isInConversion)
-                                 or (FCentities[CDUfac].E_col[CDUcol].C_settlements[CDUsettleCnt].S_infrastructures[CDUcnt].I_status=isOperational)
+                              (FCDdgEntities[CDUfac].E_colonies[CDUcol].C_settlements[CDUsettleCnt].S_infrastructures[CDUcnt].I_status=isInConversion)
+                                 or (FCDdgEntities[CDUfac].E_colonies[CDUcol].C_settlements[CDUsettleCnt].S_infrastructures[CDUcnt].I_status=isOperational)
                               )
-                        then CDUdatI:=CDUdatI+FCentities[CDUfac].E_col[CDUcol].C_settlements[CDUsettleCnt].S_infrastructures[CDUcnt].I_fHousPopulationCapacity;
+                        then CDUdatI:=CDUdatI+FCDdgEntities[CDUfac].E_colonies[CDUcol].C_settlements[CDUsettleCnt].S_infrastructures[CDUcnt].I_fHousPopulationCapacity;
                         inc(CDUcnt);
                      end;
                   end;
                   inc(CDUsettleCnt);
                end;
             end;
-            FCentities[CDUfac].E_col[CDUcol].C_csmHousing_PopulationCapacity:=CDUdatI;
+            FCDdgEntities[CDUfac].E_colonies[CDUcol].C_csmHousing_PopulationCapacity:=CDUdatI;
          end; //==END== else if CDUfullUpd ==//
          {.csm events trigger}
          {.update dependencies}
@@ -1080,7 +1080,7 @@ begin
          CDUdatI:=0;
          CDUdatI1:=0;
          CDUdatF:=0;
-         CDUsettleMax:=length(FCentities[CDUfac].E_col[CDUcol].C_settlements)-1;
+         CDUsettleMax:=length(FCDdgEntities[CDUfac].E_colonies[CDUcol].C_settlements)-1;
          if CDUsettleMax>0
          then
          begin
@@ -1088,20 +1088,20 @@ begin
             while CDUsettleCnt<=CDUsettleMax do
             begin
                CDUcnt:=1;
-               CDUmax:=length(FCentities[CDUfac].E_col[CDUcol].C_settlements[CDUsettleCnt].S_infrastructures)-1;
+               CDUmax:=length(FCDdgEntities[CDUfac].E_colonies[CDUcol].C_settlements[CDUsettleCnt].S_infrastructures)-1;
                if CDUmax>0
                then
                begin
                   while CDUcnt<=CDUmax do
                   begin
-                     if (FCentities[CDUfac].E_col[CDUcol].C_settlements[CDUsettleCnt].S_infrastructures[CDUcnt].I_function=fHousing)
+                     if (FCDdgEntities[CDUfac].E_colonies[CDUcol].C_settlements[CDUsettleCnt].S_infrastructures[CDUcnt].I_function=fHousing)
                         and (
-                           (FCentities[CDUfac].E_col[CDUcol].C_settlements[CDUsettleCnt].S_infrastructures[CDUcnt].I_status=isInConversion)
-                              or (FCentities[CDUfac].E_col[CDUcol].C_settlements[CDUsettleCnt].S_infrastructures[CDUcnt].I_status=isOperational)
+                           (FCDdgEntities[CDUfac].E_colonies[CDUcol].C_settlements[CDUsettleCnt].S_infrastructures[CDUcnt].I_status=isInConversion)
+                              or (FCDdgEntities[CDUfac].E_colonies[CDUcol].C_settlements[CDUsettleCnt].S_infrastructures[CDUcnt].I_status=isOperational)
                            )
                      then
                      begin
-                        CDUdatI:=CDUdatI+FCentities[CDUfac].E_col[CDUcol].C_settlements[CDUsettleCnt].S_infrastructures[CDUcnt].I_fHousQualityOfLife;
+                        CDUdatI:=CDUdatI+FCDdgEntities[CDUfac].E_colonies[CDUcol].C_settlements[CDUsettleCnt].S_infrastructures[CDUcnt].I_fHousQualityOfLife;
                         inc(CDUdatI1);
                      end;
                      inc(CDUcnt);
@@ -1117,11 +1117,11 @@ begin
             );
          CDUqolMod:=StrToInt(CDUqolModstr);
          if CDUdatI1=0
-         then FCentities[CDUfac].E_col[CDUcol].C_csmHousing_QualityOfLife:=CDUqolMod
+         then FCDdgEntities[CDUfac].E_colonies[CDUcol].C_csmHousing_QualityOfLife:=CDUqolMod
          else if CDUdatI1>0
-         then FCentities[CDUfac].E_col[CDUcol].C_csmHousing_QualityOfLife:=round(CDUdatI/CDUdatI1)+CDUqolMod;
-         if FCentities[CDUfac].E_col[CDUcol].C_csmHousing_QualityOfLife<1
-         then FCentities[CDUfac].E_col[CDUcol].C_csmHousing_QualityOfLife:=1;
+         then FCDdgEntities[CDUfac].E_colonies[CDUcol].C_csmHousing_QualityOfLife:=round(CDUdatI/CDUdatI1)+CDUqolMod;
+         if FCDdgEntities[CDUfac].E_colonies[CDUcol].C_csmHousing_QualityOfLife<1
+         then FCDdgEntities[CDUfac].E_colonies[CDUcol].C_csmHousing_QualityOfLife:=1;
          {.update dependencies}
          FCMgCSM_ColonyData_Upd(
             dHealth
@@ -1141,33 +1141,33 @@ begin
          CDUdatF:=0;
          CDUdatF1:=0;
          {.current population number/soldier force}
-         if FCentities[CDUfac].E_col[CDUcol].C_population.CP_classMilSoldier=0
-         then FCentities[CDUfac].E_col[CDUcol].C_security:=FCentities[CDUfac].E_col[CDUcol].C_population.CP_total
-         else if FCentities[CDUfac].E_col[CDUcol].C_population.CP_classMilSoldier>0
+         if FCDdgEntities[CDUfac].E_colonies[CDUcol].C_population.CP_classMilSoldier=0
+         then FCDdgEntities[CDUfac].E_colonies[CDUcol].C_security:=FCDdgEntities[CDUfac].E_colonies[CDUcol].C_population.CP_total
+         else if FCDdgEntities[CDUfac].E_colonies[CDUcol].C_population.CP_classMilSoldier>0
          then
          begin
             CDUdatF:=
-               (FCentities[CDUfac].E_col[CDUcol].C_population.CP_total-FCentities[CDUfac].E_col[CDUcol].C_population.CP_classMilSoldier)
-               /FCentities[CDUfac].E_col[CDUcol].C_population.CP_classMilSoldier;
+               (FCDdgEntities[CDUfac].E_colonies[CDUcol].C_population.CP_total-FCDdgEntities[CDUfac].E_colonies[CDUcol].C_population.CP_classMilSoldier)
+               /FCDdgEntities[CDUfac].E_colonies[CDUcol].C_population.CP_classMilSoldier;
             CDUdatI:=round(CDUdatF);
             CDUdatI1:=FCFgCSME_Mod_Sum(
                mtSecurity
                ,CDUfac
                ,CDUcol
                );
-            CDUdatI2:=FCentities[CDUfac].E_spmMsec;
+            CDUdatI2:=FCDdgEntities[CDUfac].E_spmMod_Security;
             CDUdatF:=1+((CDUdatI1+CDUdatI2)/100);
             if CDUdatF<0
             then CDUdatF:=0;
             CDUdatF1:=CDUdatI*CDUdatF;
-            FCentities[CDUfac].E_col[CDUcol].C_security:=round(CDUdatF1);
+            FCDdgEntities[CDUfac].E_colonies[CDUcol].C_security:=round(CDUdatF1);
          end;
          {.update dependencies}
       end;
       dSPL:
       begin
-         CDUdatF:=FCentities[CDUfac].E_col[CDUcol].C_csmHousing_PopulationCapacity/FCentities[CDUfac].E_col[CDUcol].C_population.CP_total;
-         FCentities[CDUfac].E_col[CDUcol].C_csmHousing_SpaceLevel:=DecimalRound(CDUdatF, 2, 0.001);
+         CDUdatF:=FCDdgEntities[CDUfac].E_colonies[CDUcol].C_csmHousing_PopulationCapacity/FCDdgEntities[CDUfac].E_colonies[CDUcol].C_population.CP_total;
+         FCDdgEntities[CDUfac].E_colonies[CDUcol].C_csmHousing_SpaceLevel:=DecimalRound(CDUdatF, 2, 0.001);
          {.csm events trigger}
          {.update dependencies}
          FCMgCSM_ColonyData_Upd(
@@ -1184,8 +1184,8 @@ begin
       {.tension}
       dTension:
       begin
-         CDUdatI:=FCentities[CDUfac].E_col[CDUcol].C_tension;
-         FCentities[CDUfac].E_col[CDUcol].C_tension:=CDUdatI+round(CDUvalue);
+         CDUdatI:=FCDdgEntities[CDUfac].E_colonies[CDUcol].C_tension;
+         FCDdgEntities[CDUfac].E_colonies[CDUcol].C_tension:=CDUdatI+round(CDUvalue);
          {.update dependencies}
          FCMgCSM_ColonyData_Upd(
             dHealth
@@ -1201,8 +1201,8 @@ begin
       {.economic - industrial output}
       dEcoIndusOut:
       begin
-         CDUdatI:=FCentities[CDUfac].E_col[CDUcol].C_economicIndustrialOutput;
-         FCentities[CDUfac].E_col[CDUcol].C_economicIndustrialOutput:=CDUdatI+round(CDUvalue);
+         CDUdatI:=FCDdgEntities[CDUfac].E_colonies[CDUcol].C_economicIndustrialOutput;
+         FCDdgEntities[CDUfac].E_colonies[CDUcol].C_economicIndustrialOutput:=CDUdatI+round(CDUvalue);
       end;
    end; //==END== case CDUdata of ==//
 end;
@@ -1244,51 +1244,51 @@ begin
    if not isFullCalculation then
    begin
       if ConsumptionMod<>0
-      then FCentities[ Entity ].E_col[ Colony ].C_csmEnergy_consumption:=FCentities[ Entity ].E_col[ Colony ].C_csmEnergy_consumption+ConsumptionMod;
+      then FCDdgEntities[ Entity ].E_colonies[ Colony ].C_csmEnergy_Consumption:=FCDdgEntities[ Entity ].E_colonies[ Colony ].C_csmEnergy_Consumption+ConsumptionMod;
       if GenerationMod<>0
-      then FCentities[ Entity ].E_col[ Colony ].C_csmEnergy_generation:=FCentities[ Entity ].E_col[ Colony ].C_csmEnergy_generation+GenerationMod;
+      then FCDdgEntities[ Entity ].E_colonies[ Colony ].C_csmEnergy_Generation:=FCDdgEntities[ Entity ].E_colonies[ Colony ].C_csmEnergy_Generation+GenerationMod;
       if StorageCurrentMod<>0 then
       begin
-         FCentities[ Entity ].E_col[ Colony ].C_csmEnergy_StorageCurrent:=FCentities[ Entity ].E_col[ Colony ].C_csmEnergy_StorageCurrent+StorageCurrentMod;
-         if FCentities[ Entity ].E_col[ Colony ].C_csmEnergy_StorageCurrent>FCentities[ Entity ].E_col[ Colony ].C_csmEnergy_StorageMax
-         then FCentities[ Entity ].E_col[ Colony ].C_csmEnergy_StorageCurrent:=FCentities[ Entity ].E_col[ Colony ].C_csmEnergy_StorageMax;
+         FCDdgEntities[ Entity ].E_colonies[ Colony ].C_csmEnergy_StorageCurrent:=FCDdgEntities[ Entity ].E_colonies[ Colony ].C_csmEnergy_StorageCurrent+StorageCurrentMod;
+         if FCDdgEntities[ Entity ].E_colonies[ Colony ].C_csmEnergy_StorageCurrent>FCDdgEntities[ Entity ].E_colonies[ Colony ].C_csmEnergy_StorageMax
+         then FCDdgEntities[ Entity ].E_colonies[ Colony ].C_csmEnergy_StorageCurrent:=FCDdgEntities[ Entity ].E_colonies[ Colony ].C_csmEnergy_StorageMax;
       end;
       if StorageMaxMod<>0
-      then FCentities[ Entity ].E_col[ Colony ].C_csmEnergy_StorageMax:=FCentities[ Entity ].E_col[ Colony ].C_csmEnergy_StorageMax+StorageMaxMod;
+      then FCDdgEntities[ Entity ].E_colonies[ Colony ].C_csmEnergy_StorageMax:=FCDdgEntities[ Entity ].E_colonies[ Colony ].C_csmEnergy_StorageMax+StorageMaxMod;
    end
    else if isFullCalculation then
    begin
-      FCentities[ Entity ].E_col[ Colony ].C_csmEnergy_consumption:=0;
-      FCentities[ Entity ].E_col[ Colony ].C_csmEnergy_generation:=0;
-      FCentities[ Entity ].E_col[ Colony ].C_csmEnergy_StorageMax:=0;
-      SettlementMax:=length( FCentities[ Entity ].E_col[ Colony ].C_settlements )-1;
+      FCDdgEntities[ Entity ].E_colonies[ Colony ].C_csmEnergy_Consumption:=0;
+      FCDdgEntities[ Entity ].E_colonies[ Colony ].C_csmEnergy_Generation:=0;
+      FCDdgEntities[ Entity ].E_colonies[ Colony ].C_csmEnergy_StorageMax:=0;
+      SettlementMax:=length( FCDdgEntities[ Entity ].E_colonies[ Colony ].C_settlements )-1;
       SettlementCount:=1;
       while SettlementCount<=SettlementMax do
       begin
-         InfraMax:=Length( FCentities[ Entity ].E_col[ Colony ].C_settlements[ SettlementCount ].S_infrastructures )-1;
+         InfraMax:=Length( FCDdgEntities[ Entity ].E_colonies[ Colony ].C_settlements[ SettlementCount ].S_infrastructures )-1;
          InfraCount:=1;
          while InfraCount<=InfraMax do
          begin
             if (
-               ( FCentities[ Entity ].E_col[ Colony ].C_settlements[ SettlementCount ].S_infrastructures[ InfraCount ].I_status=isInConversion )
-               or ( FCentities[ Entity ].E_col[ Colony ].C_settlements[ SettlementCount ].S_infrastructures[ InfraCount ].I_status=isOperational)
+               ( FCDdgEntities[ Entity ].E_colonies[ Colony ].C_settlements[ SettlementCount ].S_infrastructures[ InfraCount ].I_status=isInConversion )
+               or ( FCDdgEntities[ Entity ].E_colonies[ Colony ].C_settlements[ SettlementCount ].S_infrastructures[ InfraCount ].I_status=isOperational)
 
                ) then
             begin
-               FCentities[ Entity ].E_col[ Colony ].C_csmEnergy_consumption
-                  :=FCentities[ Entity ].E_col[ Colony ].C_csmEnergy_consumption+FCentities[ Entity ].E_col[ Colony ].C_settlements[ SettlementCount ].S_infrastructures[ InfraCount ].I_powerConsumption;
-               if FCentities[ Entity ].E_col[ Colony ].C_settlements[ SettlementCount ].S_infrastructures[ InfraCount ].I_function=fEnergy
-               then FCentities[ Entity ].E_col[ Colony ].C_csmEnergy_generation:=
-                  FCentities[ Entity ].E_col[ Colony ].C_csmEnergy_generation+FCentities[ Entity ].E_col[ Colony ].C_settlements[ SettlementCount ].S_infrastructures[ InfraCount ].I_fEnOutput
-                  +FCentities[ Entity ].E_col[ Colony ].C_settlements[ SettlementCount ].S_infrastructures[ InfraCount ].I_powerGeneratedFromCustomEffect;
+               FCDdgEntities[ Entity ].E_colonies[ Colony ].C_csmEnergy_Consumption
+                  :=FCDdgEntities[ Entity ].E_colonies[ Colony ].C_csmEnergy_Consumption+FCDdgEntities[ Entity ].E_colonies[ Colony ].C_settlements[ SettlementCount ].S_infrastructures[ InfraCount ].I_powerConsumption;
+               if FCDdgEntities[ Entity ].E_colonies[ Colony ].C_settlements[ SettlementCount ].S_infrastructures[ InfraCount ].I_function=fEnergy
+               then FCDdgEntities[ Entity ].E_colonies[ Colony ].C_csmEnergy_Generation:=
+                  FCDdgEntities[ Entity ].E_colonies[ Colony ].C_csmEnergy_Generation+FCDdgEntities[ Entity ].E_colonies[ Colony ].C_settlements[ SettlementCount ].S_infrastructures[ InfraCount ].I_fEnOutput
+                  +FCDdgEntities[ Entity ].E_colonies[ Colony ].C_settlements[ SettlementCount ].S_infrastructures[ InfraCount ].I_powerGeneratedFromCustomEffect;
                {:DEV NOTES: add custom effect energy storage.}
             end;
             inc( InfraCount );
          end;
          inc( SettlementCount );
       end; //==END== while CSMEUsettleCnt<=CSMEUsettleMax do ==//
-      if FCentities[ Entity ].E_col[ Colony ].C_csmEnergy_StorageCurrent>FCentities[ Entity ].E_col[ Colony ].C_csmEnergy_StorageMax
-      then FCentities[ Entity ].E_col[ Colony ].C_csmEnergy_StorageCurrent:=FCentities[ Entity ].E_col[ Colony ].C_csmEnergy_StorageMax;
+      if FCDdgEntities[ Entity ].E_colonies[ Colony ].C_csmEnergy_StorageCurrent>FCDdgEntities[ Entity ].E_colonies[ Colony ].C_csmEnergy_StorageMax
+      then FCDdgEntities[ Entity ].E_colonies[ Colony ].C_csmEnergy_StorageCurrent:=FCDdgEntities[ Entity ].E_colonies[ Colony ].C_csmEnergy_StorageMax;
    end; //==END== else if CSMEUisFullCalculation ==//
    if Entity=0
    then FCMuiCDD_Colony_Update(
@@ -1312,42 +1312,42 @@ var
    EGISclr
    ,EGISidx: string;
 begin
-   if (FCentities[EGISfac].E_col[EGIScol].C_instruction>=0)
-      and (FCentities[EGISfac].E_col[EGIScol].C_instruction<61)
+   if (FCDdgEntities[EGISfac].E_colonies[EGIScol].C_instruction>=0)
+      and (FCDdgEntities[EGISfac].E_colonies[EGIScol].C_instruction<61)
    then
    begin
       EGISidx:='1';
       EGISclr:=FCCFcolRed;
    end
-   else if (FCentities[EGISfac].E_col[EGIScol].C_instruction>=61)
-      and (FCentities[EGISfac].E_col[EGIScol].C_instruction<71)
+   else if (FCDdgEntities[EGISfac].E_colonies[EGIScol].C_instruction>=61)
+      and (FCDdgEntities[EGISfac].E_colonies[EGIScol].C_instruction<71)
    then
    begin
       EGISidx:='2';
       EGISclr:=FCCFcolOrge;
    end
-   else if (FCentities[EGISfac].E_col[EGIScol].C_instruction>=71)
-      and (FCentities[EGISfac].E_col[EGIScol].C_instruction<86)
+   else if (FCDdgEntities[EGISfac].E_colonies[EGIScol].C_instruction>=71)
+      and (FCDdgEntities[EGISfac].E_colonies[EGIScol].C_instruction<86)
    then
    begin
       EGISidx:='3';
       EGISclr:=FCCFcolYel;
    end
-   else if (FCentities[EGISfac].E_col[EGIScol].C_instruction>=86)
-      and (FCentities[EGISfac].E_col[EGIScol].C_instruction<116)
+   else if (FCDdgEntities[EGISfac].E_colonies[EGIScol].C_instruction>=86)
+      and (FCDdgEntities[EGISfac].E_colonies[EGIScol].C_instruction<116)
    then
    begin
       EGISidx:='4';
       EGISclr:=FCCFcolYel;
    end
-   else if (FCentities[EGISfac].E_col[EGIScol].C_instruction>=116)
-      and (FCentities[EGISfac].E_col[EGIScol].C_instruction<131)
+   else if (FCDdgEntities[EGISfac].E_colonies[EGIScol].C_instruction>=116)
+      and (FCDdgEntities[EGISfac].E_colonies[EGIScol].C_instruction<131)
    then
    begin
       EGISidx:='5';
       EGISclr:=FCCFcolBlueL;
    end
-   else if FCentities[EGISfac].E_col[EGIScol].C_instruction>=131
+   else if FCDdgEntities[EGISfac].E_colonies[EGIScol].C_instruction>=131
    then
    begin
       EGISidx:='6';
@@ -1391,10 +1391,10 @@ var
    PPev: TFCEdgColonyEvents;
 begin
    {.retrieve colony's data}
-   PPcohes:=FCentities[PPfac].E_col[PPcol].C_cohesion;
-   PPsec:=FCentities[PPfac].E_col[PPcol].C_security;
-   PPtens:=FCentities[PPfac].E_col[PPcol].C_tension;
-   PPedu:=FCentities[PPfac].E_col[PPcol].C_instruction;
+   PPcohes:=FCDdgEntities[PPfac].E_colonies[PPcol].C_cohesion;
+   PPsec:=FCDdgEntities[PPfac].E_colonies[PPcol].C_security;
+   PPtens:=FCDdgEntities[PPfac].E_colonies[PPcol].C_tension;
+   PPedu:=FCDdgEntities[PPfac].E_colonies[PPcol].C_instruction;
    {.cohesion test}
    case PPcohes of
       0..19:
@@ -1801,7 +1801,7 @@ begin
    then
    begin
       if PPfac=0
-      then FCentities[PPfac].E_col[PPcol].C_cohesion:=PPtest
+      then FCDdgEntities[PPfac].E_colonies[PPcol].C_cohesion:=PPtest
       else if PPfac>0
       then
       begin
@@ -1839,31 +1839,31 @@ var
    ,PLUmaxSub
    ,PLUtick: integer;
 begin
-   PLUtick:=FCentities[PLUfac].E_col[PLUcol].C_nextCSMsessionInTick;
-   PLUmax:=length(FCGcsmPhList);
+   PLUtick:=FCDdgEntities[PLUfac].E_colonies[PLUcol].C_nextCSMsessionInTick;
+   PLUmax:=length(FCDdgCSMPhaseSchedule);
    if PLUmax<2
    then
    begin
-      SetLength(FCGcsmPhList, 2);
-      SetLength(FCGcsmPhList[1].CSMPS_colonies[PLUfac], 2);
-      FCGcsmPhList[1].CSMPS_ProcessAtTick:=PLUtick;
-      FCGcsmPhList[1].CSMPS_colonies[PLUfac, 1]:=PLUcol;
+      SetLength(FCDdgCSMPhaseSchedule, 2);
+      SetLength(FCDdgCSMPhaseSchedule[1].CSMPS_colonies[PLUfac], 2);
+      FCDdgCSMPhaseSchedule[1].CSMPS_ProcessAtTick:=PLUtick;
+      FCDdgCSMPhaseSchedule[1].CSMPS_colonies[PLUfac, 1]:=PLUcol;
    end
    else
    begin
       PLUcnt:=1;
-      PLUmax:=length(FCGcsmPhList)-1;
+      PLUmax:=length(FCDdgCSMPhaseSchedule)-1;
       while PLUcnt<=PLUmax do
       begin
-         if FCGcsmPhList[PLUcnt].CSMPS_ProcessAtTick=PLUtick
+         if FCDdgCSMPhaseSchedule[PLUcnt].CSMPS_ProcessAtTick=PLUtick
          then
          begin
-            PLUmaxSub:=length(FCGcsmPhList[PLUcnt].CSMPS_colonies[PLUfac]);
+            PLUmaxSub:=length(FCDdgCSMPhaseSchedule[PLUcnt].CSMPS_colonies[PLUfac]);
             if PLUmaxSub<2
-            then SetLength(FCGcsmPhList[PLUcnt].CSMPS_colonies[PLUfac], 2)
-            else SetLength(FCGcsmPhList[PLUcnt].CSMPS_colonies[PLUfac], PLUmaxSub+1);
-            PLUcntSub:=Length(FCGcsmPhList[PLUcnt].CSMPS_colonies[PLUfac])-1;
-            FCGcsmPhList[PLUcnt].CSMPS_colonies[PLUfac, PLUcntSub]:=PLUcol;
+            then SetLength(FCDdgCSMPhaseSchedule[PLUcnt].CSMPS_colonies[PLUfac], 2)
+            else SetLength(FCDdgCSMPhaseSchedule[PLUcnt].CSMPS_colonies[PLUfac], PLUmaxSub+1);
+            PLUcntSub:=Length(FCDdgCSMPhaseSchedule[PLUcnt].CSMPS_colonies[PLUfac])-1;
+            FCDdgCSMPhaseSchedule[PLUcnt].CSMPS_colonies[PLUfac, PLUcntSub]:=PLUcol;
             break;
          end;
          inc(PLUcnt);
@@ -1885,36 +1885,36 @@ procedure FCMgCSM_Pop_Xfert(
 }
 begin
    case PXfrom of
-      gcsmptColon: FCentities[PXfac].E_col[PXcol].C_population.CP_classColonist:=FCentities[PXfac].E_col[PXcol].C_population.CP_classColonist-PXamount;
-      gcsmptASoff: FCentities[PXfac].E_col[PXcol].C_population.CP_classAerOfficer:=FCentities[PXfac].E_col[PXcol].C_population.CP_classAerOfficer-PXamount;
-      gcsmptASmiSp: FCentities[PXfac].E_col[PXcol].C_population.CP_classAerMissionSpecialist:=FCentities[PXfac].E_col[PXcol].C_population.CP_classAerMissionSpecialist-PXamount;
-      gcsmptBSbio: FCentities[PXfac].E_col[PXcol].C_population.CP_classBioBiologist:=FCentities[PXfac].E_col[PXcol].C_population.CP_classBioBiologist-PXamount;
-      gcsmptBSdoc: FCentities[PXfac].E_col[PXcol].C_population.CP_classBioDoctor:=FCentities[PXfac].E_col[PXcol].C_population.CP_classBioDoctor-PXamount;
-      gcsmptIStech: FCentities[PXfac].E_col[PXcol].C_population.CP_classIndTechnician:=FCentities[PXfac].E_col[PXcol].C_population.CP_classIndTechnician-PXamount;
-      gcsmptISeng: FCentities[PXfac].E_col[PXcol].C_population.CP_classIndEngineer:=FCentities[PXfac].E_col[PXcol].C_population.CP_classIndEngineer-PXamount;
-      gcsmptMSsold: FCentities[PXfac].E_col[PXcol].C_population.CP_classMilSoldier:=FCentities[PXfac].E_col[PXcol].C_population.CP_classMilSoldier-PXamount;
-      gcsmptMScomm: FCentities[PXfac].E_col[PXcol].C_population.CP_classMilCommando:=FCentities[PXfac].E_col[PXcol].C_population.CP_classMilCommando-PXamount;
-      gcsmptPSphys: FCentities[PXfac].E_col[PXcol].C_population.CP_classPhyPhysicist:=FCentities[PXfac].E_col[PXcol].C_population.CP_classPhyPhysicist-PXamount;
-      gcsmptPSastr: FCentities[PXfac].E_col[PXcol].C_population.CP_classPhyAstrophysicist:=FCentities[PXfac].E_col[PXcol].C_population.CP_classPhyAstrophysicist-PXamount;
-      gcsmptESecol: FCentities[PXfac].E_col[PXcol].C_population.CP_classEcoEcologist:=FCentities[PXfac].E_col[PXcol].C_population.CP_classEcoEcologist-PXamount;
-      gcsmptESecof: FCentities[PXfac].E_col[PXcol].C_population.CP_classEcoEcoformer:=FCentities[PXfac].E_col[PXcol].C_population.CP_classEcoEcoformer-PXamount;
-      gcsmptAmedian: FCentities[PXfac].E_col[PXcol].C_population.CP_classAdmMedian:=FCentities[PXfac].E_col[PXcol].C_population.CP_classAdmMedian-PXamount;
+      gcsmptColon: FCDdgEntities[PXfac].E_colonies[PXcol].C_population.CP_classColonist:=FCDdgEntities[PXfac].E_colonies[PXcol].C_population.CP_classColonist-PXamount;
+      gcsmptASoff: FCDdgEntities[PXfac].E_colonies[PXcol].C_population.CP_classAerOfficer:=FCDdgEntities[PXfac].E_colonies[PXcol].C_population.CP_classAerOfficer-PXamount;
+      gcsmptASmiSp: FCDdgEntities[PXfac].E_colonies[PXcol].C_population.CP_classAerMissionSpecialist:=FCDdgEntities[PXfac].E_colonies[PXcol].C_population.CP_classAerMissionSpecialist-PXamount;
+      gcsmptBSbio: FCDdgEntities[PXfac].E_colonies[PXcol].C_population.CP_classBioBiologist:=FCDdgEntities[PXfac].E_colonies[PXcol].C_population.CP_classBioBiologist-PXamount;
+      gcsmptBSdoc: FCDdgEntities[PXfac].E_colonies[PXcol].C_population.CP_classBioDoctor:=FCDdgEntities[PXfac].E_colonies[PXcol].C_population.CP_classBioDoctor-PXamount;
+      gcsmptIStech: FCDdgEntities[PXfac].E_colonies[PXcol].C_population.CP_classIndTechnician:=FCDdgEntities[PXfac].E_colonies[PXcol].C_population.CP_classIndTechnician-PXamount;
+      gcsmptISeng: FCDdgEntities[PXfac].E_colonies[PXcol].C_population.CP_classIndEngineer:=FCDdgEntities[PXfac].E_colonies[PXcol].C_population.CP_classIndEngineer-PXamount;
+      gcsmptMSsold: FCDdgEntities[PXfac].E_colonies[PXcol].C_population.CP_classMilSoldier:=FCDdgEntities[PXfac].E_colonies[PXcol].C_population.CP_classMilSoldier-PXamount;
+      gcsmptMScomm: FCDdgEntities[PXfac].E_colonies[PXcol].C_population.CP_classMilCommando:=FCDdgEntities[PXfac].E_colonies[PXcol].C_population.CP_classMilCommando-PXamount;
+      gcsmptPSphys: FCDdgEntities[PXfac].E_colonies[PXcol].C_population.CP_classPhyPhysicist:=FCDdgEntities[PXfac].E_colonies[PXcol].C_population.CP_classPhyPhysicist-PXamount;
+      gcsmptPSastr: FCDdgEntities[PXfac].E_colonies[PXcol].C_population.CP_classPhyAstrophysicist:=FCDdgEntities[PXfac].E_colonies[PXcol].C_population.CP_classPhyAstrophysicist-PXamount;
+      gcsmptESecol: FCDdgEntities[PXfac].E_colonies[PXcol].C_population.CP_classEcoEcologist:=FCDdgEntities[PXfac].E_colonies[PXcol].C_population.CP_classEcoEcologist-PXamount;
+      gcsmptESecof: FCDdgEntities[PXfac].E_colonies[PXcol].C_population.CP_classEcoEcoformer:=FCDdgEntities[PXfac].E_colonies[PXcol].C_population.CP_classEcoEcoformer-PXamount;
+      gcsmptAmedian: FCDdgEntities[PXfac].E_colonies[PXcol].C_population.CP_classAdmMedian:=FCDdgEntities[PXfac].E_colonies[PXcol].C_population.CP_classAdmMedian-PXamount;
    end;
    case PXto of
-      gcsmptColon: FCentities[PXfac].E_col[PXcol].C_population.CP_classColonist:=FCentities[PXfac].E_col[PXcol].C_population.CP_classColonist+PXamount;
-      gcsmptASoff: FCentities[PXfac].E_col[PXcol].C_population.CP_classAerOfficer:=FCentities[PXfac].E_col[PXcol].C_population.CP_classAerOfficer+PXamount;
-      gcsmptASmiSp: FCentities[PXfac].E_col[PXcol].C_population.CP_classAerMissionSpecialist:=FCentities[PXfac].E_col[PXcol].C_population.CP_classAerMissionSpecialist+PXamount;
-      gcsmptBSbio: FCentities[PXfac].E_col[PXcol].C_population.CP_classBioBiologist:=FCentities[PXfac].E_col[PXcol].C_population.CP_classBioBiologist+PXamount;
-      gcsmptBSdoc: FCentities[PXfac].E_col[PXcol].C_population.CP_classBioDoctor:=FCentities[PXfac].E_col[PXcol].C_population.CP_classBioDoctor+PXamount;
-      gcsmptIStech: FCentities[PXfac].E_col[PXcol].C_population.CP_classIndTechnician:=FCentities[PXfac].E_col[PXcol].C_population.CP_classIndTechnician+PXamount;
-      gcsmptISeng: FCentities[PXfac].E_col[PXcol].C_population.CP_classIndEngineer:=FCentities[PXfac].E_col[PXcol].C_population.CP_classIndEngineer+PXamount;
-      gcsmptMSsold: FCentities[PXfac].E_col[PXcol].C_population.CP_classMilSoldier:=FCentities[PXfac].E_col[PXcol].C_population.CP_classMilSoldier+PXamount;
-      gcsmptMScomm: FCentities[PXfac].E_col[PXcol].C_population.CP_classMilCommando:=FCentities[PXfac].E_col[PXcol].C_population.CP_classMilCommando+PXamount;
-      gcsmptPSphys: FCentities[PXfac].E_col[PXcol].C_population.CP_classPhyPhysicist:=FCentities[PXfac].E_col[PXcol].C_population.CP_classPhyPhysicist+PXamount;
-      gcsmptPSastr: FCentities[PXfac].E_col[PXcol].C_population.CP_classPhyAstrophysicist:=FCentities[PXfac].E_col[PXcol].C_population.CP_classPhyAstrophysicist+PXamount;
-      gcsmptESecol: FCentities[PXfac].E_col[PXcol].C_population.CP_classEcoEcologist:=FCentities[PXfac].E_col[PXcol].C_population.CP_classEcoEcologist+PXamount;
-      gcsmptESecof: FCentities[PXfac].E_col[PXcol].C_population.CP_classEcoEcoformer:=FCentities[PXfac].E_col[PXcol].C_population.CP_classEcoEcoformer+PXamount;
-      gcsmptAmedian: FCentities[PXfac].E_col[PXcol].C_population.CP_classAdmMedian:=FCentities[PXfac].E_col[PXcol].C_population.CP_classAdmMedian+PXamount;
+      gcsmptColon: FCDdgEntities[PXfac].E_colonies[PXcol].C_population.CP_classColonist:=FCDdgEntities[PXfac].E_colonies[PXcol].C_population.CP_classColonist+PXamount;
+      gcsmptASoff: FCDdgEntities[PXfac].E_colonies[PXcol].C_population.CP_classAerOfficer:=FCDdgEntities[PXfac].E_colonies[PXcol].C_population.CP_classAerOfficer+PXamount;
+      gcsmptASmiSp: FCDdgEntities[PXfac].E_colonies[PXcol].C_population.CP_classAerMissionSpecialist:=FCDdgEntities[PXfac].E_colonies[PXcol].C_population.CP_classAerMissionSpecialist+PXamount;
+      gcsmptBSbio: FCDdgEntities[PXfac].E_colonies[PXcol].C_population.CP_classBioBiologist:=FCDdgEntities[PXfac].E_colonies[PXcol].C_population.CP_classBioBiologist+PXamount;
+      gcsmptBSdoc: FCDdgEntities[PXfac].E_colonies[PXcol].C_population.CP_classBioDoctor:=FCDdgEntities[PXfac].E_colonies[PXcol].C_population.CP_classBioDoctor+PXamount;
+      gcsmptIStech: FCDdgEntities[PXfac].E_colonies[PXcol].C_population.CP_classIndTechnician:=FCDdgEntities[PXfac].E_colonies[PXcol].C_population.CP_classIndTechnician+PXamount;
+      gcsmptISeng: FCDdgEntities[PXfac].E_colonies[PXcol].C_population.CP_classIndEngineer:=FCDdgEntities[PXfac].E_colonies[PXcol].C_population.CP_classIndEngineer+PXamount;
+      gcsmptMSsold: FCDdgEntities[PXfac].E_colonies[PXcol].C_population.CP_classMilSoldier:=FCDdgEntities[PXfac].E_colonies[PXcol].C_population.CP_classMilSoldier+PXamount;
+      gcsmptMScomm: FCDdgEntities[PXfac].E_colonies[PXcol].C_population.CP_classMilCommando:=FCDdgEntities[PXfac].E_colonies[PXcol].C_population.CP_classMilCommando+PXamount;
+      gcsmptPSphys: FCDdgEntities[PXfac].E_colonies[PXcol].C_population.CP_classPhyPhysicist:=FCDdgEntities[PXfac].E_colonies[PXcol].C_population.CP_classPhyPhysicist+PXamount;
+      gcsmptPSastr: FCDdgEntities[PXfac].E_colonies[PXcol].C_population.CP_classPhyAstrophysicist:=FCDdgEntities[PXfac].E_colonies[PXcol].C_population.CP_classPhyAstrophysicist+PXamount;
+      gcsmptESecol: FCDdgEntities[PXfac].E_colonies[PXcol].C_population.CP_classEcoEcologist:=FCDdgEntities[PXfac].E_colonies[PXcol].C_population.CP_classEcoEcologist+PXamount;
+      gcsmptESecof: FCDdgEntities[PXfac].E_colonies[PXcol].C_population.CP_classEcoEcoformer:=FCDdgEntities[PXfac].E_colonies[PXcol].C_population.CP_classEcoEcoformer+PXamount;
+      gcsmptAmedian: FCDdgEntities[PXfac].E_colonies[PXcol].C_population.CP_classAdmMedian:=FCDdgEntities[PXfac].E_colonies[PXcol].C_population.CP_classAdmMedian+PXamount;
    end;
 end;
 
@@ -1951,38 +1951,38 @@ var
 begin
    SGISssys:=FCFuF_StelObj_GetDbIdx(
       ufsoSsys
-      ,FCentities[SGISfac].E_col[SGIScol].C_locationStarSystem
+      ,FCDdgEntities[SGISfac].E_colonies[SGIScol].C_locationStarSystem
       ,0
       ,0
       ,0
       );
    SGISstar:=FCFuF_StelObj_GetDbIdx(
       ufsoStar
-      ,FCentities[SGISfac].E_col[SGIScol].C_locationStar
+      ,FCDdgEntities[SGISfac].E_colonies[SGIScol].C_locationStar
       ,SGISssys
       ,0
       ,0
       );
    SGISoobj:=FCFuF_StelObj_GetDbIdx(
       ufsoOObj
-      ,FCentities[SGISfac].E_col[SGIScol].C_locationOrbitalObject
+      ,FCDdgEntities[SGISfac].E_colonies[SGIScol].C_locationOrbitalObject
       ,SGISssys
       ,SGISstar
       ,0
       );
-   if FCentities[SGISfac].E_col[SGIScol].C_locationSatellite<>''
+   if FCDdgEntities[SGISfac].E_colonies[SGIScol].C_locationSatellite<>''
    then
    begin
       SGISsat:=FCFuF_StelObj_GetDbIdx(
          ufsoSsys
-         ,FCentities[SGISfac].E_col[SGIScol].C_locationSatellite
+         ,FCDdgEntities[SGISfac].E_colonies[SGIScol].C_locationSatellite
          ,SGISssys
          ,SGISstar
          ,SGISoobj
          );
       SGISenv:=FCDduStarSystem[SGISssys].SS_stars[SGISstar].S_orbitalObjects[SGISoobj].OO_satellitesList[SGISsat].OO_environment
    end
-   else if FCentities[SGISfac].E_col[SGIScol].C_locationSatellite=''
+   else if FCDdgEntities[SGISfac].E_colonies[SGIScol].C_locationSatellite=''
    then SGISenv:=FCDduStarSystem[SGISssys].SS_stars[SGISstar].S_orbitalObjects[SGISoobj].OO_environment;
    SGIStens:=StrToInt(
       FCFgCSM_Tension_GetIdx(
@@ -2173,34 +2173,34 @@ begin
          end; //==END== case SGIStens of ==//
       end; //==END== case: space ==//
    end; //==END== case SGISenv of ==//
-   if FCentities[SGISfac].E_col[SGIScol].C_security>=SGISd1
+   if FCDdgEntities[SGISfac].E_colonies[SGIScol].C_security>=SGISd1
    then
    begin
       SGISidx:='1';
       SGISclr:=FCCFcolRed;
    end
-   else if (FCentities[SGISfac].E_col[SGIScol].C_security<=SGISd2)
-      and (FCentities[SGISfac].E_col[SGIScol].C_security>=SGISd3)
+   else if (FCDdgEntities[SGISfac].E_colonies[SGIScol].C_security<=SGISd2)
+      and (FCDdgEntities[SGISfac].E_colonies[SGIScol].C_security>=SGISd3)
    then
    begin
       SGISidx:='2';
       SGISclr:=FCCFcolOrge;
    end
-   else if (FCentities[SGISfac].E_col[SGIScol].C_security<=SGISd4)
-      and (FCentities[SGISfac].E_col[SGIScol].C_security>=SGISd5)
+   else if (FCDdgEntities[SGISfac].E_colonies[SGIScol].C_security<=SGISd4)
+      and (FCDdgEntities[SGISfac].E_colonies[SGIScol].C_security>=SGISd5)
    then
    begin
       SGISidx:='3';
       SGISclr:=FCCFcolYel;
    end
-   else if (FCentities[SGISfac].E_col[SGIScol].C_security<=SGISd6)
-      and (FCentities[SGISfac].E_col[SGIScol].C_security>=SGISd7)
+   else if (FCDdgEntities[SGISfac].E_colonies[SGIScol].C_security<=SGISd6)
+      and (FCDdgEntities[SGISfac].E_colonies[SGIScol].C_security>=SGISd7)
    then
    begin
       SGISidx:='4';
       SGISclr:=FCCFcolBlueL;
    end
-   else if FCentities[SGISfac].E_col[SGIScol].C_security<=SGISd8
+   else if FCDdgEntities[SGISfac].E_colonies[SGIScol].C_security<=SGISd8
    then
    begin
       SGISidx:='5';
@@ -2235,43 +2235,43 @@ var
 begin
    SPLGIMssys:=FCFuF_StelObj_GetDbIdx(
       ufsoSsys
-      ,FCentities[SPLGIMfac].E_col[SPLGIMcol].C_locationStarSystem
+      ,FCDdgEntities[SPLGIMfac].E_colonies[SPLGIMcol].C_locationStarSystem
       ,0
       ,0
       ,0
       );
    SPLGIMstar:=FCFuF_StelObj_GetDbIdx(
       ufsoStar
-      ,FCentities[SPLGIMfac].E_col[SPLGIMcol].C_locationStar
+      ,FCDdgEntities[SPLGIMfac].E_colonies[SPLGIMcol].C_locationStar
       ,SPLGIMssys
       ,0
       ,0
       );
    SPLGIMoobj:=FCFuF_StelObj_GetDbIdx(
       ufsoOObj
-      ,FCentities[SPLGIMfac].E_col[SPLGIMcol].C_locationOrbitalObject
+      ,FCDdgEntities[SPLGIMfac].E_colonies[SPLGIMcol].C_locationOrbitalObject
       ,SPLGIMssys
       ,SPLGIMstar
       ,0
       );
-   if FCentities[SPLGIMfac].E_col[SPLGIMcol].C_locationSatellite<>''
+   if FCDdgEntities[SPLGIMfac].E_colonies[SPLGIMcol].C_locationSatellite<>''
    then
    begin
       SPLGIMsat:=FCFuF_StelObj_GetDbIdx(
          ufsoSsys
-         ,FCentities[SPLGIMfac].E_col[SPLGIMcol].C_locationSatellite
+         ,FCDdgEntities[SPLGIMfac].E_colonies[SPLGIMcol].C_locationSatellite
          ,SPLGIMssys
          ,SPLGIMstar
          ,SPLGIMoobj
          );
       SPLGIMenv:=FCDduStarSystem[SPLGIMssys].SS_stars[SPLGIMstar].S_orbitalObjects[SPLGIMoobj].OO_satellitesList[SPLGIMsat].OO_environment
    end
-   else if FCentities[SPLGIMfac].E_col[SPLGIMcol].C_locationSatellite=''
+   else if FCDdgEntities[SPLGIMfac].E_colonies[SPLGIMcol].C_locationSatellite=''
    then SPLGIMenv:=FCDduStarSystem[SPLGIMssys].SS_stars[SPLGIMstar].S_orbitalObjects[SPLGIMoobj].OO_environment;
    case SPLGIMenv of
       etFreeLiving:
       begin
-         if FCentities[SPLGIMfac].E_col[SPLGIMcol].C_csmHousing_SpaceLevel<0.5
+         if FCDdgEntities[SPLGIMfac].E_colonies[SPLGIMcol].C_csmHousing_SpaceLevel<0.5
          then
          begin
             case SPLGIMgetMod of
@@ -2283,8 +2283,8 @@ begin
                QOLmod: SPLGIMres:='-3';
             end;
          end
-         else if (FCentities[SPLGIMfac].E_col[SPLGIMcol].C_csmHousing_SpaceLevel>=0.5)
-            and (FCentities[SPLGIMfac].E_col[SPLGIMcol].C_csmHousing_SpaceLevel<0.6)
+         else if (FCDdgEntities[SPLGIMfac].E_colonies[SPLGIMcol].C_csmHousing_SpaceLevel>=0.5)
+            and (FCDdgEntities[SPLGIMfac].E_colonies[SPLGIMcol].C_csmHousing_SpaceLevel<0.6)
          then
          begin
             case SPLGIMgetMod of
@@ -2296,8 +2296,8 @@ begin
                QOLmod: SPLGIMres:='-2';
             end;
          end
-         else if (FCentities[SPLGIMfac].E_col[SPLGIMcol].C_csmHousing_SpaceLevel>=0.6)
-            and (FCentities[SPLGIMfac].E_col[SPLGIMcol].C_csmHousing_SpaceLevel<0.8)
+         else if (FCDdgEntities[SPLGIMfac].E_colonies[SPLGIMcol].C_csmHousing_SpaceLevel>=0.6)
+            and (FCDdgEntities[SPLGIMfac].E_colonies[SPLGIMcol].C_csmHousing_SpaceLevel<0.8)
          then
          begin
             case SPLGIMgetMod of
@@ -2309,8 +2309,8 @@ begin
                QOLmod: SPLGIMres:='-1';
             end;
          end
-         else if (FCentities[SPLGIMfac].E_col[SPLGIMcol].C_csmHousing_SpaceLevel>=0.8)
-            and (FCentities[SPLGIMfac].E_col[SPLGIMcol].C_csmHousing_SpaceLevel<0.9)
+         else if (FCDdgEntities[SPLGIMfac].E_colonies[SPLGIMcol].C_csmHousing_SpaceLevel>=0.8)
+            and (FCDdgEntities[SPLGIMfac].E_colonies[SPLGIMcol].C_csmHousing_SpaceLevel<0.9)
          then
          begin
             case SPLGIMgetMod of
@@ -2322,8 +2322,8 @@ begin
                QOLmod: SPLGIMres:='0';
             end;
          end
-         else if (FCentities[SPLGIMfac].E_col[SPLGIMcol].C_csmHousing_SpaceLevel>=0.9)
-            and (FCentities[SPLGIMfac].E_col[SPLGIMcol].C_csmHousing_SpaceLevel<1.05)
+         else if (FCDdgEntities[SPLGIMfac].E_colonies[SPLGIMcol].C_csmHousing_SpaceLevel>=0.9)
+            and (FCDdgEntities[SPLGIMfac].E_colonies[SPLGIMcol].C_csmHousing_SpaceLevel<1.05)
          then
          begin
             case SPLGIMgetMod of
@@ -2335,8 +2335,8 @@ begin
                QOLmod: SPLGIMres:='0';
             end;
          end
-         else if (FCentities[SPLGIMfac].E_col[SPLGIMcol].C_csmHousing_SpaceLevel>=1.05)
-            and (FCentities[SPLGIMfac].E_col[SPLGIMcol].C_csmHousing_SpaceLevel<1.2)
+         else if (FCDdgEntities[SPLGIMfac].E_colonies[SPLGIMcol].C_csmHousing_SpaceLevel>=1.05)
+            and (FCDdgEntities[SPLGIMfac].E_colonies[SPLGIMcol].C_csmHousing_SpaceLevel<1.2)
          then
          begin
             case SPLGIMgetMod of
@@ -2348,8 +2348,8 @@ begin
                QOLmod: SPLGIMres:='0';
             end;
          end
-         else if (FCentities[SPLGIMfac].E_col[SPLGIMcol].C_csmHousing_SpaceLevel>=1.2)
-            and (FCentities[SPLGIMfac].E_col[SPLGIMcol].C_csmHousing_SpaceLevel<1.45)
+         else if (FCDdgEntities[SPLGIMfac].E_colonies[SPLGIMcol].C_csmHousing_SpaceLevel>=1.2)
+            and (FCDdgEntities[SPLGIMfac].E_colonies[SPLGIMcol].C_csmHousing_SpaceLevel<1.45)
          then
          begin
             case SPLGIMgetMod of
@@ -2361,8 +2361,8 @@ begin
                QOLmod: SPLGIMres:='1';
             end;
          end
-         else if (FCentities[SPLGIMfac].E_col[SPLGIMcol].C_csmHousing_SpaceLevel>=1.45)
-            and (FCentities[SPLGIMfac].E_col[SPLGIMcol].C_csmHousing_SpaceLevel<1.7)
+         else if (FCDdgEntities[SPLGIMfac].E_colonies[SPLGIMcol].C_csmHousing_SpaceLevel>=1.45)
+            and (FCDdgEntities[SPLGIMfac].E_colonies[SPLGIMcol].C_csmHousing_SpaceLevel<1.7)
          then
          begin
             case SPLGIMgetMod of
@@ -2374,7 +2374,7 @@ begin
                QOLmod: SPLGIMres:='2';
             end;
          end
-         else if FCentities[SPLGIMfac].E_col[SPLGIMcol].C_csmHousing_SpaceLevel>=1.7
+         else if FCDdgEntities[SPLGIMfac].E_colonies[SPLGIMcol].C_csmHousing_SpaceLevel>=1.7
          then
          begin
             case SPLGIMgetMod of
@@ -2389,7 +2389,7 @@ begin
       end; //==END== case: freeliving ==//
       etRestricted:
       begin
-         if FCentities[SPLGIMfac].E_col[SPLGIMcol].C_csmHousing_SpaceLevel<0.65
+         if FCDdgEntities[SPLGIMfac].E_colonies[SPLGIMcol].C_csmHousing_SpaceLevel<0.65
          then
          begin
             case SPLGIMgetMod of
@@ -2401,8 +2401,8 @@ begin
                QOLmod: SPLGIMres:='-4';
             end;
          end
-         else if (FCentities[SPLGIMfac].E_col[SPLGIMcol].C_csmHousing_SpaceLevel>=0.65)
-            and (FCentities[SPLGIMfac].E_col[SPLGIMcol].C_csmHousing_SpaceLevel<0.75)
+         else if (FCDdgEntities[SPLGIMfac].E_colonies[SPLGIMcol].C_csmHousing_SpaceLevel>=0.65)
+            and (FCDdgEntities[SPLGIMfac].E_colonies[SPLGIMcol].C_csmHousing_SpaceLevel<0.75)
          then
          begin
             case SPLGIMgetMod of
@@ -2414,8 +2414,8 @@ begin
                QOLmod: SPLGIMres:='-3';
             end;
          end
-         else if (FCentities[SPLGIMfac].E_col[SPLGIMcol].C_csmHousing_SpaceLevel>=0.75)
-            and (FCentities[SPLGIMfac].E_col[SPLGIMcol].C_csmHousing_SpaceLevel<0.85)
+         else if (FCDdgEntities[SPLGIMfac].E_colonies[SPLGIMcol].C_csmHousing_SpaceLevel>=0.75)
+            and (FCDdgEntities[SPLGIMfac].E_colonies[SPLGIMcol].C_csmHousing_SpaceLevel<0.85)
          then
          begin
             case SPLGIMgetMod of
@@ -2427,8 +2427,8 @@ begin
                QOLmod: SPLGIMres:='-2';
             end;
          end
-         else if (FCentities[SPLGIMfac].E_col[SPLGIMcol].C_csmHousing_SpaceLevel>=0.85)
-            and (FCentities[SPLGIMfac].E_col[SPLGIMcol].C_csmHousing_SpaceLevel<1)
+         else if (FCDdgEntities[SPLGIMfac].E_colonies[SPLGIMcol].C_csmHousing_SpaceLevel>=0.85)
+            and (FCDdgEntities[SPLGIMfac].E_colonies[SPLGIMcol].C_csmHousing_SpaceLevel<1)
          then
          begin
             case SPLGIMgetMod of
@@ -2440,8 +2440,8 @@ begin
                QOLmod: SPLGIMres:='0';
             end;
          end
-         else if (FCentities[SPLGIMfac].E_col[SPLGIMcol].C_csmHousing_SpaceLevel>=1)
-            and (FCentities[SPLGIMfac].E_col[SPLGIMcol].C_csmHousing_SpaceLevel<1.15)
+         else if (FCDdgEntities[SPLGIMfac].E_colonies[SPLGIMcol].C_csmHousing_SpaceLevel>=1)
+            and (FCDdgEntities[SPLGIMfac].E_colonies[SPLGIMcol].C_csmHousing_SpaceLevel<1.15)
          then
          begin
             case SPLGIMgetMod of
@@ -2453,8 +2453,8 @@ begin
                QOLmod: SPLGIMres:='0';
             end;
          end
-         else if (FCentities[SPLGIMfac].E_col[SPLGIMcol].C_csmHousing_SpaceLevel>=1.15)
-            and (FCentities[SPLGIMfac].E_col[SPLGIMcol].C_csmHousing_SpaceLevel<1.3)
+         else if (FCDdgEntities[SPLGIMfac].E_colonies[SPLGIMcol].C_csmHousing_SpaceLevel>=1.15)
+            and (FCDdgEntities[SPLGIMfac].E_colonies[SPLGIMcol].C_csmHousing_SpaceLevel<1.3)
          then
          begin
             case SPLGIMgetMod of
@@ -2466,8 +2466,8 @@ begin
                QOLmod: SPLGIMres:='0';
             end;
          end
-         else if (FCentities[SPLGIMfac].E_col[SPLGIMcol].C_csmHousing_SpaceLevel>=1.3)
-            and (FCentities[SPLGIMfac].E_col[SPLGIMcol].C_csmHousing_SpaceLevel<1.6)
+         else if (FCDdgEntities[SPLGIMfac].E_colonies[SPLGIMcol].C_csmHousing_SpaceLevel>=1.3)
+            and (FCDdgEntities[SPLGIMfac].E_colonies[SPLGIMcol].C_csmHousing_SpaceLevel<1.6)
          then
          begin
             case SPLGIMgetMod of
@@ -2479,8 +2479,8 @@ begin
                QOLmod: SPLGIMres:='1';
             end;
          end
-         else if (FCentities[SPLGIMfac].E_col[SPLGIMcol].C_csmHousing_SpaceLevel>=1.6)
-            and (FCentities[SPLGIMfac].E_col[SPLGIMcol].C_csmHousing_SpaceLevel<1.9)
+         else if (FCDdgEntities[SPLGIMfac].E_colonies[SPLGIMcol].C_csmHousing_SpaceLevel>=1.6)
+            and (FCDdgEntities[SPLGIMfac].E_colonies[SPLGIMcol].C_csmHousing_SpaceLevel<1.9)
          then
          begin
             case SPLGIMgetMod of
@@ -2492,7 +2492,7 @@ begin
                QOLmod: SPLGIMres:='2';
             end;
          end
-         else if FCentities[SPLGIMfac].E_col[SPLGIMcol].C_csmHousing_SpaceLevel>=1.9
+         else if FCDdgEntities[SPLGIMfac].E_colonies[SPLGIMcol].C_csmHousing_SpaceLevel>=1.9
          then
          begin
             case SPLGIMgetMod of
@@ -2507,7 +2507,7 @@ begin
       end; //==END== case: restrict ==//
       etSpace:
       begin
-         if FCentities[SPLGIMfac].E_col[SPLGIMcol].C_csmHousing_SpaceLevel<0.75
+         if FCDdgEntities[SPLGIMfac].E_colonies[SPLGIMcol].C_csmHousing_SpaceLevel<0.75
          then
          begin
             case SPLGIMgetMod of
@@ -2519,8 +2519,8 @@ begin
                QOLmod: SPLGIMres:='-4';
             end;
          end
-         else if (FCentities[SPLGIMfac].E_col[SPLGIMcol].C_csmHousing_SpaceLevel>=0.75)
-            and (FCentities[SPLGIMfac].E_col[SPLGIMcol].C_csmHousing_SpaceLevel<0.8)
+         else if (FCDdgEntities[SPLGIMfac].E_colonies[SPLGIMcol].C_csmHousing_SpaceLevel>=0.75)
+            and (FCDdgEntities[SPLGIMfac].E_colonies[SPLGIMcol].C_csmHousing_SpaceLevel<0.8)
          then
          begin
             case SPLGIMgetMod of
@@ -2532,8 +2532,8 @@ begin
                QOLmod: SPLGIMres:='-3';
             end;
          end
-         else if (FCentities[SPLGIMfac].E_col[SPLGIMcol].C_csmHousing_SpaceLevel>=0.8)
-            and (FCentities[SPLGIMfac].E_col[SPLGIMcol].C_csmHousing_SpaceLevel<0.9)
+         else if (FCDdgEntities[SPLGIMfac].E_colonies[SPLGIMcol].C_csmHousing_SpaceLevel>=0.8)
+            and (FCDdgEntities[SPLGIMfac].E_colonies[SPLGIMcol].C_csmHousing_SpaceLevel<0.9)
          then
          begin
             case SPLGIMgetMod of
@@ -2545,8 +2545,8 @@ begin
                QOLmod: SPLGIMres:='-2';
             end;
          end
-         else if (FCentities[SPLGIMfac].E_col[SPLGIMcol].C_csmHousing_SpaceLevel>=0.9)
-            and (FCentities[SPLGIMfac].E_col[SPLGIMcol].C_csmHousing_SpaceLevel<1.1)
+         else if (FCDdgEntities[SPLGIMfac].E_colonies[SPLGIMcol].C_csmHousing_SpaceLevel>=0.9)
+            and (FCDdgEntities[SPLGIMfac].E_colonies[SPLGIMcol].C_csmHousing_SpaceLevel<1.1)
          then
          begin
             case SPLGIMgetMod of
@@ -2558,8 +2558,8 @@ begin
                QOLmod: SPLGIMres:='-1';
             end;
          end
-         else if (FCentities[SPLGIMfac].E_col[SPLGIMcol].C_csmHousing_SpaceLevel>=1.1)
-            and (FCentities[SPLGIMfac].E_col[SPLGIMcol].C_csmHousing_SpaceLevel<1.25)
+         else if (FCDdgEntities[SPLGIMfac].E_colonies[SPLGIMcol].C_csmHousing_SpaceLevel>=1.1)
+            and (FCDdgEntities[SPLGIMfac].E_colonies[SPLGIMcol].C_csmHousing_SpaceLevel<1.25)
          then
          begin
             case SPLGIMgetMod of
@@ -2571,8 +2571,8 @@ begin
                QOLmod: SPLGIMres:='0';
             end;
          end
-         else if (FCentities[SPLGIMfac].E_col[SPLGIMcol].C_csmHousing_SpaceLevel>=1.25)
-            and (FCentities[SPLGIMfac].E_col[SPLGIMcol].C_csmHousing_SpaceLevel<1.45)
+         else if (FCDdgEntities[SPLGIMfac].E_colonies[SPLGIMcol].C_csmHousing_SpaceLevel>=1.25)
+            and (FCDdgEntities[SPLGIMfac].E_colonies[SPLGIMcol].C_csmHousing_SpaceLevel<1.45)
          then
          begin
             case SPLGIMgetMod of
@@ -2584,8 +2584,8 @@ begin
                QOLmod: SPLGIMres:='0';
             end;
          end
-         else if (FCentities[SPLGIMfac].E_col[SPLGIMcol].C_csmHousing_SpaceLevel>=1.45)
-            and (FCentities[SPLGIMfac].E_col[SPLGIMcol].C_csmHousing_SpaceLevel<1.7)
+         else if (FCDdgEntities[SPLGIMfac].E_colonies[SPLGIMcol].C_csmHousing_SpaceLevel>=1.45)
+            and (FCDdgEntities[SPLGIMfac].E_colonies[SPLGIMcol].C_csmHousing_SpaceLevel<1.7)
          then
          begin
             case SPLGIMgetMod of
@@ -2597,8 +2597,8 @@ begin
                QOLmod: SPLGIMres:='1';
             end;
          end
-         else if (FCentities[SPLGIMfac].E_col[SPLGIMcol].C_csmHousing_SpaceLevel>=1.7)
-            and (FCentities[SPLGIMfac].E_col[SPLGIMcol].C_csmHousing_SpaceLevel<2)
+         else if (FCDdgEntities[SPLGIMfac].E_colonies[SPLGIMcol].C_csmHousing_SpaceLevel>=1.7)
+            and (FCDdgEntities[SPLGIMfac].E_colonies[SPLGIMcol].C_csmHousing_SpaceLevel<2)
          then
          begin
             case SPLGIMgetMod of
@@ -2610,7 +2610,7 @@ begin
                QOLmod: SPLGIMres:='2';
             end;
          end
-         else if FCentities[SPLGIMfac].E_col[SPLGIMcol].C_csmHousing_SpaceLevel>=2
+         else if FCDdgEntities[SPLGIMfac].E_colonies[SPLGIMcol].C_csmHousing_SpaceLevel>=2
          then
          begin
             case SPLGIMgetMod of
@@ -2649,38 +2649,38 @@ var
    CGISclr
    ,CGISidx: string;
 begin
-   if FCentities[TGISfac].E_col[TGIScol].C_tension<16
+   if FCDdgEntities[TGISfac].E_colonies[TGIScol].C_tension<16
    then
    begin
       CGISidx:='1';
       if not TGISraw
       then CGISclr:=FCCFcolGreen;
    end
-   else if (FCentities[TGISfac].E_col[TGIScol].C_tension>=16)
-      and (FCentities[TGISfac].E_col[TGIScol].C_tension<41)
+   else if (FCDdgEntities[TGISfac].E_colonies[TGIScol].C_tension>=16)
+      and (FCDdgEntities[TGISfac].E_colonies[TGIScol].C_tension<41)
    then
    begin
       CGISidx:='2';
       if not TGISraw
       then CGISclr:=FCCFcolBlueL;
    end
-   else if (FCentities[TGISfac].E_col[TGIScol].C_tension>=41)
-      and (FCentities[TGISfac].E_col[TGIScol].C_tension<66)
+   else if (FCDdgEntities[TGISfac].E_colonies[TGIScol].C_tension>=41)
+      and (FCDdgEntities[TGISfac].E_colonies[TGIScol].C_tension<66)
    then
    begin
       CGISidx:='3';
       if not TGISraw
       then CGISclr:=FCCFcolYel;
    end
-   else if (FCentities[TGISfac].E_col[TGIScol].C_tension>=66)
-      and (FCentities[TGISfac].E_col[TGIScol].C_tension<86)
+   else if (FCDdgEntities[TGISfac].E_colonies[TGIScol].C_tension>=66)
+      and (FCDdgEntities[TGISfac].E_colonies[TGIScol].C_tension<86)
    then
    begin
       CGISidx:='4';
       if not TGISraw
       then CGISclr:=FCCFcolOrge;
    end
-   else if FCentities[TGISfac].E_col[TGIScol].C_tension>=86
+   else if FCDdgEntities[TGISfac].E_colonies[TGIScol].C_tension>=86
    then
    begin
       CGISidx:='5';

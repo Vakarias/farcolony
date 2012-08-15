@@ -56,10 +56,10 @@ function FCFgEF_FactionToken_GetIndex( const FactionToken: string): integer;
 begin
    Result:=0;
    Count:=1;
-   Max:=length( FCDBfactions )-1;
+   Max:=length( FCDdgFactions )-1;
    while Count<=Max do
    begin
-      if FCDBfactions[ Count ].F_token=FactionToken then
+      if FCDdgFactions[ Count ].F_token=FactionToken then
       begin
          Result:=Count;
          Break;

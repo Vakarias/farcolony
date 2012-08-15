@@ -433,10 +433,10 @@ begin
       then
       begin
          FCWinMain.FCGLSHUDgameDate.Text
-            :=IntToStr(FCRplayer.P_currentTimeDay)+'/'+IntToStr(FCRplayer.P_currentTimeMonth)+'/'+IntToStr(FCRplayer.P_currentTimeYear);
+            :=IntToStr(FCVdgPlayer.P_currentTimeDay)+'/'+IntToStr(FCVdgPlayer.P_currentTimeMonth)+'/'+IntToStr(FCVdgPlayer.P_currentTimeYear);
          FCWinMain.FCGLSHUDgameTime.Text
-            :=IntToStr(FCRplayer.P_currentTimeHour)+'hr '+IntToStr(FCRplayer.P_currentTimeMinut)+'mn ';
-         case FCRplayer.P_currentTimePhase of
+            :=IntToStr(FCVdgPlayer.P_currentTimeHour)+'hr '+IntToStr(FCVdgPlayer.P_currentTimeMinut)+'mn ';
+         case FCVdgPlayer.P_currentTimePhase of
             tphTac: M3DVUIUdmpPhase:=FCFdTFiles_UIStr_Get(uistrUI,'TimeFphaseTac');
             tphMan: M3DVUIUdmpPhase:=FCFdTFiles_UIStr_Get(uistrUI,'TimeFphaseMan');
             tphSTH: M3DVUIUdmpPhase:=FCFdTFiles_UIStr_Get(uistrUI,'TimeFphaseStH');
@@ -701,17 +701,17 @@ begin
             begin
                M3DVUIUownSpU:=round(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].TagFloat);
                {.name}
-               FCWinMain.FCGLSHUDobjectFocused.Text:=FCFdTFiles_UIStr_Get(dtfscPrprName, FCentities[0].E_spU[M3DVUIUownSpU].SU_name);
+               FCWinMain.FCGLSHUDobjectFocused.Text:=FCFdTFiles_UIStr_Get(dtfscPrprName, FCDdgEntities[0].E_spaceUnits[M3DVUIUownSpU].SU_name);
                {.attitude status}
                FCWinMain.FCGLSHUDspunSTATUSLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIspunAttStat');
                M3DVUIUdmpStatus:=FCFspuF_AttStatus_Get(0, M3DVUIUownSpU);
                FCWinMain.FCGLSHUDspunSTATUS.Text:=M3DVUIUdmpStatus;
                {.current DV}
                FCWinMain.FCGLSHUDspunDvLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIspunDV');
-               FCWinMain.FCGLSHUDspunDV.Text:=FloatToStr(FCentities[0].E_spU[M3DVUIUownSpU].SU_deltaV)+' Km/s';
+               FCWinMain.FCGLSHUDspunDV.Text:=FloatToStr(FCDdgEntities[0].E_spaceUnits[M3DVUIUownSpU].SU_deltaV)+' Km/s';
                {.current reaction mass}
                FCWinMain.FCGLSHUDspunRMassLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIspunRMass');
-               FCWinMain.FCGLSHUDspunRMass.Text:=FloatToStr(FCentities[0].E_spU[M3DVUIUownSpU].SU_reactionMass)+' m3';
+               FCWinMain.FCGLSHUDspunRMass.Text:=FloatToStr(FCDdgEntities[0].E_spaceUnits[M3DVUIUownSpU].SU_reactionMass)+' m3';
                {.current mission}
                FCWinMain.FCGLSHUDspunMissLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'spUnMissCurr');
                FCWinMain.FCGLSHUDspunMiss.Text:=FCFspuF_Mission_GetMissName(0, M3DVUIUownSpU);
@@ -719,7 +719,7 @@ begin
                FCWinMain.FCGLSHUDspunTaskLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'spUnPhaseCurr');
                FCWinMain.FCGLSHUDspunTask.Text:=FCFspuF_Mission_GetPhaseName(0, M3DVUIUownSpU);
                {.docked status}
-               M3DVUIUdock:=length(FCentities[0].E_spU[M3DVUIUownSpU].SU_dockedSpaceUnits);
+               M3DVUIUdock:=length(FCDdgEntities[0].E_spaceUnits[M3DVUIUownSpU].SU_dockedSpaceUnits);
                if M3DVUIUdock>1
                then
                begin
@@ -884,7 +884,7 @@ begin
             then
             begin
                FCWinMain.FCGLSHUDcolplyr.Visible:=true;
-               FCWinMain.FCGLSHUDcolplyrName.Text:=FCentities[0].E_col[M3DVUIUcol].C_name;
+               FCWinMain.FCGLSHUDcolplyrName.Text:=FCDdgEntities[0].E_colonies[M3DVUIUcol].C_name;
                FCWinMain.FCGLSHUDcolplyrName.Visible:=true
             end
             else if M3DVUIUcol=0

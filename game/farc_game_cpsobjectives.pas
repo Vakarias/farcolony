@@ -225,11 +225,11 @@ begin
    case FCcps.CPSviabObj[ ObjectiveToUpdateIndex ].CPSO_type of
       otEcoEnEff:
       begin
-         if FCentities[ 0 ].E_col[ 1 ].C_csmEnergy_consumption=0
+         if FCDdgEntities[ 0 ].E_colonies[ 1 ].C_csmEnergy_Consumption=0
          then FCcps.CPSviabObj[ ObjectiveToUpdateIndex ].CPSO_score:=100
          else FCcps.CPSviabObj[ ObjectiveToUpdateIndex ].CPSO_score:=round(
             power(
-               FCFcF_Ln_Protected( FCentities[ 0 ].E_col[ 1 ].C_csmEnergy_generation ) + FCFcF_Ln_Protected( FCentities[ 0 ].E_col[ 1 ].C_csmEnergy_StorageCurrent ) - FCFcF_Ln_Protected( FCentities[ 0 ].E_col[ 1 ].C_csmEnergy_consumption )
+               FCFcF_Ln_Protected( FCDdgEntities[ 0 ].E_colonies[ 1 ].C_csmEnergy_Generation ) + FCFcF_Ln_Protected( FCDdgEntities[ 0 ].E_colonies[ 1 ].C_csmEnergy_StorageCurrent ) - FCFcF_Ln_Protected( FCDdgEntities[ 0 ].E_colonies[ 1 ].C_csmEnergy_Consumption )
                ,0.333
                )*60
             );
@@ -243,10 +243,10 @@ begin
             ,FCcps.CPSviabObj[ ObjectiveToUpdateIndex ].CPSO_ifProduct
             );
          if (CVStempo=0)
-            or ( FCentities[ 0 ].E_col[ 1 ].C_productionMatrix[ CVStempo ].PM_globalProductionFlow<=0 )
+            or ( FCDdgEntities[ 0 ].E_colonies[ 1 ].C_productionMatrix[ CVStempo ].PM_globalProductionFlow<=0 )
          then FCcps.CPSviabObj[ ObjectiveToUpdateIndex ].CPSO_score:=0
          else FCcps.CPSviabObj[ ObjectiveToUpdateIndex ].CPSO_score:=round(
-            ( FCentities[ 0 ].E_col[ 1 ].C_productionMatrix[ CVStempo ].PM_globalProductionFlow / FCcps.CPSviabObj[ ObjectiveToUpdateIndex ].CPSO_ifThreshold )*100
+            ( FCDdgEntities[ 0 ].E_colonies[ 1 ].C_productionMatrix[ CVStempo ].PM_globalProductionFlow / FCcps.CPSviabObj[ ObjectiveToUpdateIndex ].CPSO_ifThreshold )*100
             );
       end;
 

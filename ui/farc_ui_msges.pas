@@ -148,14 +148,14 @@ var
    begin
       MBAMssys:=FCFuF_StelObj_GetDbIdx(
       ufsoSsys
-      ,FCentities[MBAMfac].E_spU[MBAMitm0Idx].SU_locationStarSystem
+      ,FCDdgEntities[MBAMfac].E_spaceUnits[MBAMitm0Idx].SU_locationStarSystem
       ,0
       ,0
       ,0
       );
    MBAMstar:=FCFuF_StelObj_GetDbIdx(
       ufsoStar
-      ,FCentities[MBAMfac].E_spU[MBAMitm0Idx].SU_locationStar
+      ,FCDdgEntities[MBAMfac].E_spaceUnits[MBAMitm0Idx].SU_locationStar
       ,MBAMssys
       ,0
       ,0
@@ -166,7 +166,7 @@ begin
    inc(FCVmsgCount);
    SetLength(FCVmsgStoTtl,FCVmsgCount+1);
    SetLength(FCVmsgStoMsg,FCVmsgCount+1);
-   MBAMdmpHeader:='('+inttostr(FCRplayer.P_currentTimeDay)+'/'+FCFdTFiles_UIStr_Get(uistrUI, 'TimeFM'+inttostr(FCRplayer.P_currentTimeMonth))+'/'+inttostr(FCRplayer.P_currentTimeYear)+'): ';
+   MBAMdmpHeader:='('+inttostr(FCVdgPlayer.P_currentTimeDay)+'/'+FCFdTFiles_UIStr_Get(uistrUI, 'TimeFM'+inttostr(FCVdgPlayer.P_currentTimeMonth))+'/'+inttostr(FCVdgPlayer.P_currentTimeYear)+'): ';
    case MBAMmsgeTp of
       {.mission - colonization
       MBAMitm0Idx= owned space unit MBAMitm1Idx= destination orbital object MBAMitm2Idx= destination satellite MBAMitm3Idx= destination region}
@@ -183,7 +183,7 @@ begin
                dtfscPrprName
                ,FCDduStarSystem[MBAMssys].SS_stars[MBAMstar].S_orbitalObjects[MBAMitm1Idx].OO_dbTokenId
                );
-            MBAMcolName:=FCentities[MBAMfac].E_col[FCDduStarSystem[MBAMssys].SS_stars[MBAMstar].S_orbitalObjects[MBAMitm1Idx].OO_colonies[0]].C_name;
+            MBAMcolName:=FCDdgEntities[MBAMfac].E_colonies[FCDduStarSystem[MBAMssys].SS_stars[MBAMstar].S_orbitalObjects[MBAMitm1Idx].OO_colonies[0]].C_name;
          end
          else if MBAMitm2Idx>0
          then
@@ -193,7 +193,7 @@ begin
                ,FCDduStarSystem[MBAMssys].SS_stars[MBAMstar].S_orbitalObjects[MBAMitm1Idx].OO_satellitesList[MBAMitm2Idx].OO_dbTokenId
                );
             MBAMcolName
-               :=FCentities[MBAMfac].E_col[FCDduStarSystem[MBAMssys].SS_stars[MBAMstar].S_orbitalObjects[MBAMitm1Idx].OO_satellitesList[MBAMitm2Idx].OO_colonies[0]].C_name;
+               :=FCDdgEntities[MBAMfac].E_colonies[FCDduStarSystem[MBAMssys].SS_stars[MBAMstar].S_orbitalObjects[MBAMitm1Idx].OO_satellitesList[MBAMitm2Idx].OO_colonies[0]].C_name;
          end;
          MBAMregLoc:=FCFuF_RegionLoc_Extract(
             MBAMssys
@@ -205,7 +205,7 @@ begin
          if MBAMmsgeTp=mtColonize
          then FCVmsgStoMsg[FCVmsgCount]
             :=FCFdTFiles_UIStr_Get(uistrUI,'MSG_MissCol0')
-               +FCFdTFiles_UIStr_Get(dtfscPrprName, FCentities[MBAMfac].E_spU[MBAMitm0Idx].SU_name)
+               +FCFdTFiles_UIStr_Get(dtfscPrprName, FCDdgEntities[MBAMfac].E_spaceUnits[MBAMitm0Idx].SU_name)
                +FCFdTFiles_UIStr_Get(uistrUI,'MSG_MissCol1')
                +MBAMdestName
                +FCFdTFiles_UIStr_Get(uistrUI,'MSG_MissCol2')
@@ -216,7 +216,7 @@ begin
          else if MBAMmsgeTp=mtColonizeWset
          then FCVmsgStoMsg[FCVmsgCount]
             :=FCFdTFiles_UIStr_Get(uistrUI,'MSG_MissCol0')
-               +FCFdTFiles_UIStr_Get(dtfscPrprName, FCentities[MBAMfac].E_spU[MBAMitm0Idx].SU_name)
+               +FCFdTFiles_UIStr_Get(dtfscPrprName, FCDdgEntities[MBAMfac].E_spaceUnits[MBAMitm0Idx].SU_name)
                +FCFdTFiles_UIStr_Get(uistrUI,'MSG_MissCol1')
                +MBAMdestName
                +FCFdTFiles_UIStr_Get(uistrUI,'MSG_MissCol2')
@@ -244,7 +244,7 @@ begin
             ,FCDduStarSystem[MBAMssys].SS_stars[MBAMstar].S_orbitalObjects[MBAMitm1Idx].OO_satellitesList[MBAMitm2Idx].OO_dbTokenId
             );
          FCVmsgStoMsg[FCVmsgCount]:=FCFdTFiles_UIStr_Get(uistrUI,'MSG_MissIT0')
-            +FCFdTFiles_UIStr_Get(dtfscPrprName, FCentities[MBAMfac].E_spU[MBAMitm0Idx].SU_name)
+            +FCFdTFiles_UIStr_Get(dtfscPrprName, FCDdgEntities[MBAMfac].E_spaceUnits[MBAMitm0Idx].SU_name)
             +FCFdTFiles_UIStr_Get(uistrUI,'MSG_MissIT1')
             +MBAMdestName+'</b>.';
       end;
@@ -259,7 +259,7 @@ begin
          FCVmsgStoTtl[FCVmsgCount]:=MBAMdmpHeader+FCFdTFiles_UIStr_Get(uistrUI, 'MSG_SPMreqHead');
          {.message}
          FCVmsgStoMsg[FCVmsgCount]:=FCFdTFiles_UIStr_Get( uistrUI, 'MSG_SPMreq'+IntToStr(MBAMitm1Idx) )
-            +'<b>'+FCFdTFiles_UIStr_Get(uistrUI, FCentities[MBAMfac].E_spm[MBAMitm0Idx].SPMS_token)+'</b> '
+            +'<b>'+FCFdTFiles_UIStr_Get(uistrUI, FCDdgEntities[MBAMfac].E_spmSettings[MBAMitm0Idx].SPMS_token)+'</b> '
             +FCFdTFiles_UIStr_Get(uistrUI, 'MSG_SPMreq2');
       end;
       {.welcome message
@@ -275,13 +275,13 @@ begin
    //      end;
          FCVmsgStoMsg[FCVmsgCount]
             :=FCFdTFiles_UIStr_Get(uistrUI,'MSG_Intro1')
-               +FCFdTFiles_UIStr_Get(uistrUI,FCRplayer.P_allegianceFaction+'Wart')
+               +FCFdTFiles_UIStr_Get(uistrUI,FCVdgPlayer.P_allegianceFaction+'Wart')
                +FCFdTFiles_UIStr_Get(uistrUI,'MSG_Intro2')
-               +FCFdTFiles_UIStr_Get(dtfscPrprName,FCRplayer.P_viewOrbitalObject)
+               +FCFdTFiles_UIStr_Get(dtfscPrprName,FCVdgPlayer.P_viewOrbitalObject)
                +FCFdTFiles_UIStr_Get(uistrUI,'MSG_Intro3')
-               +FCFdTFiles_UIStr_Get(dtfscPrprName,FCRplayer.P_viewStar)
+               +FCFdTFiles_UIStr_Get(dtfscPrprName,FCVdgPlayer.P_viewStar)
                +FCFdTFiles_UIStr_Get(uistrUI,'MSG_Intro4')
-               +FCFdTFiles_UIStr_Get(dtfscPrprName,FCRplayer.P_viewStarSystem)
+               +FCFdTFiles_UIStr_Get(dtfscPrprName,FCVdgPlayer.P_viewStarSystem)
                +FCFdTFiles_UIStr_Get(uistrUI,'MSG_Intro5')
                +'<br>'
                +MBAMcmode

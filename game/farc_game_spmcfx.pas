@@ -92,13 +92,13 @@ procedure FCMgSPMCFX_Core_Setup( const CSent, CSspmiIndex: integer );
       CScount
       ,CSmax: integer;
 begin
-   CSmax:=length( FCDBdgSPMi[CSspmiIndex].SPMI_customFxList )-1;
+   CSmax:=length( FCDdgSPMi[CSspmiIndex].SPMI_customFxList )-1;
    if CSmax>0 then
    begin
       CScount:=1;
       while CScount<=CSmax do
       begin
-         case FCDBdgSPMi[CSspmiIndex].SPMI_customFxList[CScount].CFX_code of
+         case FCDdgSPMi[CSspmiIndex].SPMI_customFxList[CScount].CFX_code of
             sceEIOUT: FCMgSPMCFX_EIOUT_Apply(
                CSent
                ,CSspmiIndex
@@ -133,22 +133,22 @@ procedure FCMgSPMCFX_EIOUT_Apply(
       ,EIOUTAmax
       ,EIOUTAmod: integer;
 begin
-   EIOUTAmod:=FCDBdgSPMi[EIOUTAindex].SPMI_customFxList[EIOUTAcfxIndex].CFX_eioutMod;
-   if FCDBdgSPMi[EIOUTAindex].SPMI_customFxList[EIOUTAcfxIndex].CFX_eioutIsBurMod then
+   EIOUTAmod:=FCDdgSPMi[EIOUTAindex].SPMI_customFxList[EIOUTAcfxIndex].CFX_eioutMod;
+   if FCDdgSPMi[EIOUTAindex].SPMI_customFxList[EIOUTAcfxIndex].CFX_eioutIsBurMod then
    begin
-      if FCentities[EIOUTAent].E_spmMBur<=30
+      if FCDdgEntities[EIOUTAent].E_spmMod_Bureaucracy<=30
       then EIOUTAburMod:=-20
-      else if ( FCentities[EIOUTAent].E_spmMBur>30 )
-         and ( FCentities[EIOUTAent].E_spmMBur<61 )
+      else if ( FCDdgEntities[EIOUTAent].E_spmMod_Bureaucracy>30 )
+         and ( FCDdgEntities[EIOUTAent].E_spmMod_Bureaucracy<61 )
       then EIOUTAburMod:=-10
-      else if ( FCentities[EIOUTAent].E_spmMBur>60 )
-         and ( FCentities[EIOUTAent].E_spmMBur<91 )
+      else if ( FCDdgEntities[EIOUTAent].E_spmMod_Bureaucracy>60 )
+         and ( FCDdgEntities[EIOUTAent].E_spmMod_Bureaucracy<91 )
       then EIOUTAburMod:=0
-      else if FCentities[EIOUTAent].E_spmMBur>90
+      else if FCDdgEntities[EIOUTAent].E_spmMod_Bureaucracy>90
       then EIOUTAburMod:=5;
       EIOUTAmod:=EIOUTAmod+EIOUTAburMod;
    end; 
-   EIOUTAmax:=length( FCentities[EIOUTAent].E_col )-1;
+   EIOUTAmax:=length( FCDdgEntities[EIOUTAent].E_colonies )-1;
    EIOUTAcount:=1;
    while EIOUTAcount<=EIOUTAmax do
    begin
@@ -184,7 +184,7 @@ begin
    begin
       REVTXAfactionEIO:=FCFgSPMD_GlobalData_Get( gspmdEconIndusOutput, REVTXAent );
       REVTXAfactionPopulation:=FCFgSPMD_GlobalData_Get( gmspmdPopulation, REVTXAent );
-      REVTXAgenUCfloat:=sqrt( REVTXAfactionPopulation )*REVTXAfactionEIO*FCDBdgSPMi[REVTXAindex].SPMI_customFxList[REVTXAcfxIndex].CFX_revtxCoef;
+      REVTXAgenUCfloat:=sqrt( REVTXAfactionPopulation )*REVTXAfactionEIO*FCDdgSPMi[REVTXAindex].SPMI_customFxList[REVTXAcfxIndex].CFX_revtxCoef;
       REVTXAgenUC:=round( REVTXAgenUCfloat );
 //      FCentities[REVTXAent].E_ucGen:=FCentities[EIOUTAent].E_ucGen+REVTXAgenUC;
       //FCentities[EIOUTAent].spmdata.storedUCgen:=FCentities[EIOUTAent].spmdata.storedUCgen+REVTXAgenUC;

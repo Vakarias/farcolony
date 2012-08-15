@@ -178,7 +178,7 @@ procedure FCMgICFX_Effects_Application(
 
       EAnergyOutput: extended;
 begin
-   LevelInfra:=FCEntities[ EAent ].E_col[ EAcolony ].C_settlements[ Settlement ].S_infrastructures[ OwnedInfrastructure ].I_level;
+   LevelInfra:=FCDdgEntities[ EAent ].E_colonies[ EAcolony ].C_settlements[ Settlement ].S_infrastructures[ OwnedInfrastructure ].I_level;
    CfxCount:=1;
    EAmax:=length(EAinfraDat.I_customEffectStructure)-1;
    while CfxCount<=EAmax do
@@ -193,7 +193,7 @@ begin
                ,LevelInfra
                ,EAinfraDat
                );
-            FCEntities[ EAent ].E_col[ EAcolony ].C_settlements[ Settlement ].S_infrastructures[ OwnedInfrastructure ].I_powerGeneratedFromCustomEffect:=EAnergyOutput;
+            FCDdgEntities[ EAent ].E_colonies[ EAcolony ].C_settlements[ Settlement ].S_infrastructures[ OwnedInfrastructure ].I_powerGeneratedFromCustomEffect:=EAnergyOutput;
             FCMgCSM_Energy_Update(
                EAent
                ,EAcolony
@@ -238,10 +238,10 @@ begin
 
          ceProductStorage:
          begin
-            FCentities[EAent].E_col[EAcolony].C_storageCapacitySolidMax:=FCentities[EAent].E_col[EAcolony].C_storageCapacitySolidMax+EAinfraDat.I_customEffectStructure[CfxCount].ICFX_cePSstorageByLevel[LevelInfra].SBL_solid;
-            FCentities[EAent].E_col[EAcolony].C_storageCapacityLiquidMax:=FCentities[EAent].E_col[EAcolony].C_storageCapacityLiquidMax+EAinfraDat.I_customEffectStructure[CfxCount].ICFX_cePSstorageByLevel[LevelInfra].SBL_liquid;
-            FCentities[EAent].E_col[EAcolony].C_storageCapacityGasMax:=FCentities[EAent].E_col[EAcolony].C_storageCapacityGasMax+EAinfraDat.I_customEffectStructure[CfxCount].ICFX_cePSstorageByLevel[LevelInfra].SBL_gas;
-            FCentities[EAent].E_col[EAcolony].C_storageCapacityBioMax:=FCentities[EAent].E_col[EAcolony].C_storageCapacityBioMax+EAinfraDat.I_customEffectStructure[CfxCount].ICFX_cePSstorageByLevel[LevelInfra].SBL_biologic;
+            FCDdgEntities[EAent].E_colonies[EAcolony].C_storageCapacitySolidMax:=FCDdgEntities[EAent].E_colonies[EAcolony].C_storageCapacitySolidMax+EAinfraDat.I_customEffectStructure[CfxCount].ICFX_cePSstorageByLevel[LevelInfra].SBL_solid;
+            FCDdgEntities[EAent].E_colonies[EAcolony].C_storageCapacityLiquidMax:=FCDdgEntities[EAent].E_colonies[EAcolony].C_storageCapacityLiquidMax+EAinfraDat.I_customEffectStructure[CfxCount].ICFX_cePSstorageByLevel[LevelInfra].SBL_liquid;
+            FCDdgEntities[EAent].E_colonies[EAcolony].C_storageCapacityGasMax:=FCDdgEntities[EAent].E_colonies[EAcolony].C_storageCapacityGasMax+EAinfraDat.I_customEffectStructure[CfxCount].ICFX_cePSstorageByLevel[LevelInfra].SBL_gas;
+            FCDdgEntities[EAent].E_colonies[EAcolony].C_storageCapacityBioMax:=FCDdgEntities[EAent].E_colonies[EAcolony].C_storageCapacityBioMax+EAinfraDat.I_customEffectStructure[CfxCount].ICFX_cePSstorageByLevel[LevelInfra].SBL_biologic;
          end;
       end; //==END== case EAinfraDat.I_customFx[EAcnt].ICFX_customEffect of ==//
       inc(CfxCount);
@@ -267,7 +267,7 @@ procedure FCMgICFX_Effects_Removing(
       ,LevelInfra
       ,ERmax: integer;
 begin
-   LevelInfra:=FCEntities[ ERent ].E_col[ ERcolony ].C_settlements[ Settlement ].S_infrastructures[ OwnedInfra ].I_level;
+   LevelInfra:=FCDdgEntities[ ERent ].E_colonies[ ERcolony ].C_settlements[ Settlement ].S_infrastructures[ OwnedInfra ].I_level;
    ERmax:=length(ERinfraDat.I_customEffectStructure)-1;
    while ERcnt<=ERmax do
    begin
@@ -279,11 +279,11 @@ begin
                ,ERcolony
                ,false
                ,0
-               ,-FCEntities[ ERent ].E_col[ ERcolony ].C_settlements[ Settlement ].S_infrastructures[ OwnedInfra ].I_powerGeneratedFromCustomEffect
+               ,-FCDdgEntities[ ERent ].E_colonies[ ERcolony ].C_settlements[ Settlement ].S_infrastructures[ OwnedInfra ].I_powerGeneratedFromCustomEffect
                ,0
                ,0
                );
-            FCEntities[ ERent ].E_col[ ERcolony ].C_settlements[ Settlement ].S_infrastructures[ OwnedInfra ].I_powerGeneratedFromCustomEffect:=0;
+            FCDdgEntities[ ERent ].E_colonies[ ERcolony ].C_settlements[ Settlement ].S_infrastructures[ OwnedInfra ].I_powerGeneratedFromCustomEffect:=0;
          end;
 
          ceEnergyStorage:
@@ -303,10 +303,10 @@ begin
 
          ceProductStorage:
          begin
-            FCentities[ERent].E_col[ERcolony].C_storageCapacitySolidMax:=FCentities[ERent].E_col[ERcolony].C_storageCapacitySolidMax-ERinfraDat.I_customEffectStructure[ERcnt].ICFX_cePSstorageByLevel[LevelInfra].SBL_solid;
-            FCentities[ERent].E_col[ERcolony].C_storageCapacityLiquidMax:=FCentities[ERent].E_col[ERcolony].C_storageCapacityLiquidMax-ERinfraDat.I_customEffectStructure[ERcnt].ICFX_cePSstorageByLevel[LevelInfra].SBL_liquid;
-            FCentities[ERent].E_col[ERcolony].C_storageCapacityGasMax:=FCentities[ERent].E_col[ERcolony].C_storageCapacityGasMax-ERinfraDat.I_customEffectStructure[ERcnt].ICFX_cePSstorageByLevel[LevelInfra].SBL_gas;
-            FCentities[ERent].E_col[ERcolony].C_storageCapacityBioMax:=FCentities[ERent].E_col[ERcolony].C_storageCapacityBioMax-ERinfraDat.I_customEffectStructure[ERcnt].ICFX_cePSstorageByLevel[LevelInfra].SBL_biologic;
+            FCDdgEntities[ERent].E_colonies[ERcolony].C_storageCapacitySolidMax:=FCDdgEntities[ERent].E_colonies[ERcolony].C_storageCapacitySolidMax-ERinfraDat.I_customEffectStructure[ERcnt].ICFX_cePSstorageByLevel[LevelInfra].SBL_solid;
+            FCDdgEntities[ERent].E_colonies[ERcolony].C_storageCapacityLiquidMax:=FCDdgEntities[ERent].E_colonies[ERcolony].C_storageCapacityLiquidMax-ERinfraDat.I_customEffectStructure[ERcnt].ICFX_cePSstorageByLevel[LevelInfra].SBL_liquid;
+            FCDdgEntities[ERent].E_colonies[ERcolony].C_storageCapacityGasMax:=FCDdgEntities[ERent].E_colonies[ERcolony].C_storageCapacityGasMax-ERinfraDat.I_customEffectStructure[ERcnt].ICFX_cePSstorageByLevel[LevelInfra].SBL_gas;
+            FCDdgEntities[ERent].E_colonies[ERcolony].C_storageCapacityBioMax:=FCDdgEntities[ERent].E_colonies[ERcolony].C_storageCapacityBioMax-ERinfraDat.I_customEffectStructure[ERcnt].ICFX_cePSstorageByLevel[LevelInfra].SBL_biologic;
          end;
       end; //==END== case ERinfraDat.I_customFx[ERcnt].ICFX_customEffect of ==//
       inc(ERcnt);

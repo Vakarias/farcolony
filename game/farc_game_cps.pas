@@ -425,28 +425,28 @@ begin
       inc( Count );
    end;
    if StatusEconCount=0
-   then FCRplayer.P_economicStatus:=pfs1_FullyDependent
+   then FCVdgPlayer.P_economicStatus:=pfs1_FullyDependent
    else if StatusEconCount>0 then
    begin
       StatusEconMean:=StatusEconMean div StatusEconCount;
-      Outcome:=FCMgCPSO_Outcome_Process( FCRplayer.P_economicViabilityThreshold, StatusEconMean);
-      FCRplayer.P_economicStatus:=TFCEdgPlayerFactionStatus( Outcome );
+      Outcome:=FCMgCPSO_Outcome_Process( FCVdgPlayer.P_economicViabilityThreshold, StatusEconMean);
+      FCVdgPlayer.P_economicStatus:=TFCEdgPlayerFactionStatus( Outcome );
    end;
    if StatusSocCount=0
-   then FCRplayer.P_socialStatus:=pfs1_FullyDependent
+   then FCVdgPlayer.P_socialStatus:=pfs1_FullyDependent
    else if StatusSocCount>0 then
    begin
       StatusSocMean:=StatusSocMean div StatusEconCount;
-      Outcome:=FCMgCPSO_Outcome_Process( FCRplayer.P_socialViabilityThreshold, StatusSocMean);
-      FCRplayer.P_socialStatus:=TFCEdgPlayerFactionStatus( Outcome );
+      Outcome:=FCMgCPSO_Outcome_Process( FCVdgPlayer.P_socialViabilityThreshold, StatusSocMean);
+      FCVdgPlayer.P_socialStatus:=TFCEdgPlayerFactionStatus( Outcome );
    end;
    if StatusSpMilCount=0
-   then FCRplayer.P_militaryStatus:=pfs1_FullyDependent
+   then FCVdgPlayer.P_militaryStatus:=pfs1_FullyDependent
    else if StatusSpMilCount>0 then
    begin
       StatusSpMilMean:=StatusSpMilMean div StatusSpMilCount;
-      Outcome:=FCMgCPSO_Outcome_Process( FCRplayer.P_militaryViabilityThreshold, StatusSpMilMean);
-      FCRplayer.P_militaryStatus:=TFCEdgPlayerFactionStatus( Outcome );
+      Outcome:=FCMgCPSO_Outcome_Process( FCVdgPlayer.P_militaryViabilityThreshold, StatusSpMilMean);
+      FCVdgPlayer.P_militaryStatus:=TFCEdgPlayerFactionStatus( Outcome );
    end;
    FCVdiGameFlowTimer.Enabled:=false;
    FCWinMain.FCGLScadencer.Enabled:=false;

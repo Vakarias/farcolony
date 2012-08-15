@@ -137,13 +137,13 @@ begin
    FCWinNewGSetup.FCWNGS_Frm_DPad_SCol_Text.HTMLText.Clear;
    FCWinNewGSetup.FCWNGS_Frm_DPad_SDL_DotList.Items.Clear;
    {.update colonization politics}
-   FCWinNewGSetup.FCWNGS_Frm_DPad_SCol_Text.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrEncyl, FCDBfactions[SelectedFactionIndex].F_token+'.ColPol'));
+   FCWinNewGSetup.FCWNGS_Frm_DPad_SCol_Text.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrEncyl, FCDdgFactions[SelectedFactionIndex].F_token+'.ColPol'));
    FCWinNewGSetup.FCWNGS_Frm_DPad_SCol_Text.HTMLText.Add('<br>----------<br>');
    FCWinNewGSetup.FCWNGS_Frm_DPad_SCol_Text.HTMLText.Add(
-      FCFdTFiles_UIStr_Get(uistrUI,'FCWNGS_Frm_ColMode')+': <b>'+FCFdTFiles_UIStr_Get(uistrUI,FCDBfactions[SelectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_token)+'</b><br>'
+      FCFdTFiles_UIStr_Get(uistrUI,'FCWNGS_Frm_ColMode')+': <b>'+FCFdTFiles_UIStr_Get(uistrUI,FCDdgFactions[SelectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_token)+'</b><br>'
       );
    FCWinNewGSetup.FCWNGS_Frm_DPad_SCol_Text.HTMLText.Add(
-      FCFdTFiles_UIStr_Get(uistrEncyl, FCDBfactions[SelectedFactionIndex].F_token+'.'+FCDBfactions[SelectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_token)+'<br><br>'
+      FCFdTFiles_UIStr_Get(uistrEncyl, FCDdgFactions[SelectedFactionIndex].F_token+'.'+FCDdgFactions[SelectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_token)+'<br><br>'
       );
    FCWinNewGSetup.FCWNGS_Frm_DPad_SCol_Text.HTMLText.Add(
       FCCFdHeadC+FCFdTFiles_UIStr_Get(uistrUI, 'cpsStatus')+FCCFdHeadEnd
@@ -153,56 +153,56 @@ begin
          +FCCFidxRRRR+FCFdTFiles_UIStr_Get(uistrUI, 'cpsThr')
          +FCCFdHeadEnd
          +FCCFidxL+'<b>'+FCFdTFiles_UIStr_Get(uistrUI, 'cpsSLecon')+'</b>'
-         +FCCFidxRi+FCcps.FCF_Threshold_GetString( FCDBfactions[SelectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_cpsViabilityThreshold_Economic)
-         +FCCFidxRRRR+IntToStr( FCDBfactions[SelectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_cpsViabilityThreshold_Economic )+' %'
+         +FCCFidxRi+FCcps.FCF_Threshold_GetString( FCDdgFactions[SelectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_cpsViabilityThreshold_Economic)
+         +FCCFidxRRRR+IntToStr( FCDdgFactions[SelectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_cpsViabilityThreshold_Economic )+' %'
          +'<br>'
          +FCCFidxL+'<b>'+FCFdTFiles_UIStr_Get(uistrUI, 'cpsSLsoc')+'</b>'
-         +FCCFidxRi+FCcps.FCF_Threshold_GetString( FCDBfactions[SelectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_cpsViabilityThreshold_Social)
-         +FCCFidxRRRR+IntToStr( FCDBfactions[SelectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_cpsViabilityThreshold_Social )+' %'
+         +FCCFidxRi+FCcps.FCF_Threshold_GetString( FCDdgFactions[SelectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_cpsViabilityThreshold_Social)
+         +FCCFidxRRRR+IntToStr( FCDdgFactions[SelectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_cpsViabilityThreshold_Social )+' %'
          +'<br>'
          +'<b>'+FCCFidxL+FCFdTFiles_UIStr_Get(uistrUI, 'cpsSLmil')+'</b>'
-         +FCCFidxRi+FCcps.FCF_Threshold_GetString( FCDBfactions[SelectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_cpsViabilityThreshold_SpaceMilitary)
-         +FCCFidxRRRR+IntToStr( FCDBfactions[SelectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_cpsViabilityThreshold_Economic )+' %'
+         +FCCFidxRi+FCcps.FCF_Threshold_GetString( FCDdgFactions[SelectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_cpsViabilityThreshold_SpaceMilitary)
+         +FCCFidxRRRR+IntToStr( FCDdgFactions[SelectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_cpsViabilityThreshold_Economic )+' %'
          +'<br><br>'
       );
    FCWinNewGSetup.FCWNGS_Frm_DPad_SCol_Text.HTMLText.Add(
       FCCFdHeadC+FCFdTFiles_UIStr_Get(uistrUI, 'cpsCr')+FCCFdHeadEnd
          +'<b>'+FCCFidxL+FCFdTFiles_UIStr_Get(uistrUI, 'cpsCrR')+'</b>'
          +FCCFidxRR
-         +FCFdTFiles_UIStr_Get(uistrCrRg, FCDBfactions[SelectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_cpsCreditRange)
+         +FCFdTFiles_UIStr_Get(uistrCrRg, FCDdgFactions[SelectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_cpsCreditRange)
          +' '+FCFdTFiles_UIStr_Get(uistrUI, 'acronUC')
          +'<br>'
          +'<b>'+FCCFidxL+FCFdTFiles_UIStr_Get(uistrUI, 'cpsCrIR')+'</b>'
          +FCCFidxRR
-         +FCFdTFiles_UIStr_Get(uistrIntRg, FCDBfactions[SelectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_cpsCreditRange)
+         +FCFdTFiles_UIStr_Get(uistrIntRg, FCDdgFactions[SelectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_cpsCreditRange)
          +' %'
       );
    {.equipment list}
    FCWinNewGSetup.FCWNGS_Frm_DPad_SDL_DotList.FullExpand;
-   if Length(FCDBfactions[SelectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_equipmentList)>1
+   if Length(FCDdgFactions[SelectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_equipmentList)>1
    then
    begin
 //      CMUdockStatus:=0;
       CMUcnt:=1;
-      while CMUcnt<= length(FCDBfactions[SelectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_equipmentList)-1 do
+      while CMUcnt<= length(FCDdgFactions[SelectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_equipmentList)-1 do
       begin
-         case FCDBfactions[SelectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_equipmentList[CMUcnt].EL_equipmentItem of
+         case FCDdgFactions[SelectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_equipmentList[CMUcnt].EL_equipmentItem of
             feitProduct:
             begin
                {:DEV NOTES: will be implemented when equipment modules w/ cargo will be be also implemented...}
             end;
             feitSpaceUnit:
             begin
-               CMUdesgn:=FCFspuF_Design_getDB(FCDBfactions[SelectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_equipmentList[CMUcnt].EL_eiSUnDesignToken);
+               CMUdesgn:=FCFspuF_Design_getDB(FCDdgFactions[SelectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_equipmentList[CMUcnt].EL_eiSUnDesignToken);
                CMUstrSpU:='1x '
                   {.space unit design type}
-                  +FCFdTFiles_UIStr_Get(dtfscPrprName,FCDBfactions[SelectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_equipmentList[CMUcnt].EL_eiSUnDesignToken)
+                  +FCFdTFiles_UIStr_Get(dtfscPrprName,FCDdgFactions[SelectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_equipmentList[CMUcnt].EL_eiSUnDesignToken)
                   {.space unit own name}
                   +' "'
-                  +FCFdTFiles_UIStr_Get(dtfscPrprName,FCDBfactions[SelectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_equipmentList[CMUcnt].EL_eiSUnNameToken)
+                  +FCFdTFiles_UIStr_Get(dtfscPrprName,FCDdgFactions[SelectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_equipmentList[CMUcnt].EL_eiSUnNameToken)
                   +'" ('
                   +FCFdTFiles_UIStr_Get(dtfscSCarchShort,FCDdsuSpaceUnitDesigns[CMUdesgn].SUD_internalStructureClone.IS_architecture)+')';
-               if FCDBfactions[SelectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_equipmentList[CMUcnt].EL_eiSUnDockStatus=diDockedVessel
+               if FCDdgFactions[SelectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_equipmentList[CMUcnt].EL_eiSUnDockStatus=diDockedVessel
                then FCWinNewGSetup.FCWNGS_Frm_DPad_SDL_DotList.Items.AddChild(CMUnode, CMUstrSpU)
                else CMUnode:= FCWinNewGSetup.FCWNGS_Frm_DPad_SDL_DotList.Items.Add(nil, CMUstrSpU);
             end;
@@ -322,105 +322,105 @@ FCWinNewGSetup.Close;
    FCMdG_Entities_Clear;
    FCMdF_DBStarSystems_Load;
    {.initialize player's data structure}
-   FCRplayer.P_gameName:=SetGameName;// FCWinNewGSetup.FCWNGS_Frm_GNameEdit.Text;
-   FCRplayer.P_allegianceFaction:=FCDBFactions[SelectedFactionIndex].F_token;
+   FCVdgPlayer.P_gameName:=SetGameName;// FCWinNewGSetup.FCWNGS_Frm_GNameEdit.Text;
+   FCVdgPlayer.P_allegianceFaction:=FCDdgFactions[SelectedFactionIndex].F_token;
 //   CPcolMidx:=FCWinNewGSetup.FCWNGS_Frm_ColMode.ItemIndex+1;
-   FCRplayer.P_economicStatus:=pfs1_FullyDependent;
-   FCRplayer.P_economicViabilityThreshold:=FCDBFactions[SelectedFactionIndex].F_colonizationModes[ SelectedColonizationModeIndex ].CM_cpsViabilityThreshold_Economic;
-   FCRplayer.P_socialStatus:=pfs1_FullyDependent;
-   FCRplayer.P_socialViabilityThreshold:=FCDBFactions[SelectedFactionIndex].F_colonizationModes[ SelectedColonizationModeIndex ].CM_cpsViabilityThreshold_Social;
-   FCRplayer.P_militaryStatus:=pfs1_FullyDependent;
-   FCRplayer.P_militaryViabilityThreshold:=FCDBFactions[SelectedFactionIndex].F_colonizationModes[ SelectedColonizationModeIndex ].CM_cpsViabilityThreshold_SpaceMilitary;
+   FCVdgPlayer.P_economicStatus:=pfs1_FullyDependent;
+   FCVdgPlayer.P_economicViabilityThreshold:=FCDdgFactions[SelectedFactionIndex].F_colonizationModes[ SelectedColonizationModeIndex ].CM_cpsViabilityThreshold_Economic;
+   FCVdgPlayer.P_socialStatus:=pfs1_FullyDependent;
+   FCVdgPlayer.P_socialViabilityThreshold:=FCDdgFactions[SelectedFactionIndex].F_colonizationModes[ SelectedColonizationModeIndex ].CM_cpsViabilityThreshold_Social;
+   FCVdgPlayer.P_militaryStatus:=pfs1_FullyDependent;
+   FCVdgPlayer.P_militaryViabilityThreshold:=FCDdgFactions[SelectedFactionIndex].F_colonizationModes[ SelectedColonizationModeIndex ].CM_cpsViabilityThreshold_SpaceMilitary;
    {DEV NOTE: the following code will be changed later with choice of planet following choosen faction.}
    {.determine starting location, regarding starting location list}
-   CPcount1:=length(FCDBFactions[SelectedFactionIndex].F_startingLocations)-1;
+   CPcount1:=length(FCDdgFactions[SelectedFactionIndex].F_startingLocations)-1;
    if CPcount1=1 then
    begin
-      FCRplayer.P_viewStarSystem:=FCDBFactions[SelectedFactionIndex].F_startingLocations[1].SL_stellarSystem;
-      FCRplayer.P_viewStar:=FCDBFactions[SelectedFactionIndex].F_startingLocations[1].SL_star;
-      FCRplayer.P_viewOrbitalObject:=FCDBFactions[SelectedFactionIndex].F_startingLocations[1].SL_orbitalObject;
+      FCVdgPlayer.P_viewStarSystem:=FCDdgFactions[SelectedFactionIndex].F_startingLocations[1].SL_stellarSystem;
+      FCVdgPlayer.P_viewStar:=FCDdgFactions[SelectedFactionIndex].F_startingLocations[1].SL_star;
+      FCVdgPlayer.P_viewOrbitalObject:=FCDdgFactions[SelectedFactionIndex].F_startingLocations[1].SL_orbitalObject;
    end
    else if CPcount1>1 then
    begin
       CPcount0:=Random(CPcount1)+1;
-      FCRplayer.P_viewStarSystem:=FCDBFactions[SelectedFactionIndex].F_startingLocations[CPcount0].SL_stellarSystem;
-      FCRplayer.P_viewStar:=FCDBFactions[SelectedFactionIndex].F_startingLocations[CPcount0].SL_star;
-      FCRplayer.P_viewOrbitalObject:=FCDBFactions[SelectedFactionIndex].F_startingLocations[CPcount0].SL_orbitalObject;
+      FCVdgPlayer.P_viewStarSystem:=FCDdgFactions[SelectedFactionIndex].F_startingLocations[CPcount0].SL_stellarSystem;
+      FCVdgPlayer.P_viewStar:=FCDdgFactions[SelectedFactionIndex].F_startingLocations[CPcount0].SL_star;
+      FCVdgPlayer.P_viewOrbitalObject:=FCDdgFactions[SelectedFactionIndex].F_startingLocations[CPcount0].SL_orbitalObject;
    end
    else
    begin
-      FCRplayer.P_viewStarSystem:='stelsysACent';
-      FCRplayer.P_viewStar:='starACentA';
-      FCRplayer.P_viewOrbitalObject:='orbobjAcentA2';
-      FCRplayer.P_viewSatellite:='';
+      FCVdgPlayer.P_viewStarSystem:='stelsysACent';
+      FCVdgPlayer.P_viewStar:='starACentA';
+      FCVdgPlayer.P_viewOrbitalObject:='orbobjAcentA2';
+      FCVdgPlayer.P_viewSatellite:='';
    end;
    {:DEV NOTES: load the planetary system here.}
-   FCMdF_DBStarOrbitalObjects_Load( FCRplayer.P_viewStarSystem, FCRplayer.P_viewStar );
+   FCMdF_DBStarOrbitalObjects_Load( FCVdgPlayer.P_viewStarSystem, FCVdgPlayer.P_viewStar );
    CPsSys:=FCFuF_StelObj_GetDbIdx(
       ufsoSsys
-      ,FCRplayer.P_viewStarSystem
+      ,FCVdgPlayer.P_viewStarSystem
       ,0
       ,0
       ,0
       );
    CPstar:=FCFuF_StelObj_GetDbIdx(
       ufsoStar
-      ,FCRplayer.P_viewStar
+      ,FCVdgPlayer.P_viewStar
       ,CPsSys
       ,0
       ,0
       );
    CPoobj:=FCFuF_StelObj_GetDbIdx(
       ufsoOObj
-      ,FCRplayer.P_viewOrbitalObject
+      ,FCVdgPlayer.P_viewOrbitalObject
       ,CPsSys
       ,CPstar
       ,0
       );
-   if FCRplayer.P_viewSatellite<>''
+   if FCVdgPlayer.P_viewSatellite<>''
    then CPsat:=FCFuF_StelObj_GetDbIdx(
       ufsoSat
-      ,FCRplayer.P_viewSatellite
+      ,FCVdgPlayer.P_viewSatellite
       ,CPsSys
       ,CPstar
       ,CPoobj
       )
    else CPsat:=0;
    {.set the time frame}
-   FCRplayer.P_currentTimeTick:=0;
-   FCRplayer.P_currentTimeMinut:=0;
-   FCRplayer.P_currentTimeHour:=0;
-   FCRplayer.P_currentTimeDay:=1;
-   FCRplayer.P_currentTimeMonth:=1;
-   FCRplayer.P_currentTimeYear:=2250;
+   FCVdgPlayer.P_currentTimeTick:=0;
+   FCVdgPlayer.P_currentTimeMinut:=0;
+   FCVdgPlayer.P_currentTimeHour:=0;
+   FCVdgPlayer.P_currentTimeDay:=1;
+   FCVdgPlayer.P_currentTimeMonth:=1;
+   FCVdgPlayer.P_currentTimeYear:=2250;
    {.surveyed region initialization}
    {:DEV NOTES: it's important to put it BEFORE the entities main loop, because future faction's data will include already surveyed regions data.}
-   SetLength(FCRplayer.P_surveyedResourceSpots, 1);
+   SetLength(FCVdgPlayer.P_surveyedResourceSpots, 1);
    {.entities main loop}
    CPent:=0;
    while CPent<=FCCdiFactionsMax do
    begin
-      SetLength(FCentities[CPent].E_spU, 1);
-      SetLength(FCentities[CPent].E_col, 1);
-      SetLength(FCentities[CPent].E_spm, 1);
+      SetLength(FCDdgEntities[CPent].E_spaceUnits, 1);
+      SetLength(FCDdgEntities[CPent].E_colonies, 1);
+      SetLength(FCDdgEntities[CPent].E_spmSettings, 1);
       if CPent>0
       then
       begin
          CPfacLd:=CPent;
-         FCentities[CPent].E_token:=FCDBfactions[CPfacLd].F_token;
-         FCentities[CPent].E_facLvl:=FCDBfactions[CPfacLd].F_level;
+         FCDdgEntities[CPent].E_token:=FCDdgFactions[CPfacLd].F_token;
+         FCDdgEntities[CPent].E_factionLevel:=FCDdgFactions[CPfacLd].F_level;
          {:DEV NOTES: add space unit and colonies initialization for AI under this line.}
       end
       else if CPent=0
       then
       begin
          CPfacLd:=SelectedFactionIndex;
-         FCentities[CPent].E_token:='';
-         FCentities[CPent].E_facLvl:=0;
+         FCDdgEntities[CPent].E_token:='';
+         FCDdgEntities[CPent].E_factionLevel:=0;
          {.apply faction's equipment list}
          CPspUnMother:=0;
          CPcount0:=1;
-         with FCDBfactions[SelectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex] do
+         with FCDdgFactions[SelectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex] do
          begin
             CPeqlistMax:=length(CM_equipmentList)-1;
             while CPcount0<=CPeqlistMax do
@@ -430,37 +430,37 @@ FCWinNewGSetup.Close;
                then
                begin
                   {.init}
-                  SetLength(FCentities[CPent].E_spU, length(FCentities[CPent].E_spU)+1);
-                  CPowndSCidx:=length(FCentities[CPent].E_spU)-1;
+                  SetLength(FCDdgEntities[CPent].E_spaceUnits, length(FCDdgEntities[CPent].E_spaceUnits)+1);
+                  CPowndSCidx:=length(FCDdgEntities[CPent].E_spaceUnits)-1;
                   {.unique item name for internal identification}
-                  FCentities[CPent].E_spU[CPowndSCidx].SU_token:='plyrSpUn'+IntToStr(CPowndSCidx);
+                  FCDdgEntities[CPent].E_spaceUnits[CPowndSCidx].SU_token:='plyrSpUn'+IntToStr(CPowndSCidx);
                   {.determine proper name of the item if it's a space unit}
                   if CM_equipmentList[CPcount0].EL_eiSUnNameToken<>''
-                  then FCentities[CPent].E_spU[CPowndSCidx].SU_name:=CM_equipmentList[CPcount0].EL_eiSUnNameToken
-                  else FCentities[CPent].E_spU[CPowndSCidx].SU_name:='*'+FCFdTFiles_UIStr_Get(uistrUI, 'spUnOvGenName')+' #'+IntToStr(CPowndSCidx);
+                  then FCDdgEntities[CPent].E_spaceUnits[CPowndSCidx].SU_name:=CM_equipmentList[CPcount0].EL_eiSUnNameToken
+                  else FCDdgEntities[CPent].E_spaceUnits[CPowndSCidx].SU_name:='*'+FCFdTFiles_UIStr_Get(uistrUI, 'spUnOvGenName')+' #'+IntToStr(CPowndSCidx);
                   {.link the vessel design}
-                  FCentities[CPent].E_spU[CPowndSCidx].SU_designToken:=CM_equipmentList[CPcount0].EL_eiSUnDesignToken;
+                  FCDdgEntities[CPent].E_spaceUnits[CPowndSCidx].SU_designToken:=CM_equipmentList[CPcount0].EL_eiSUnDesignToken;
                   {.location}
-                  FCentities[CPent].E_spU[CPowndSCidx].SU_locationStarSystem:=FCRplayer.P_viewStarSystem;
-                  FCentities[CPent].E_spU[CPowndSCidx].SU_locationStar:=FCRplayer.P_viewStar;
-                  FCentities[CPent].E_spU[CPowndSCidx].SU_locationSatellite:=FCRplayer.P_viewSatellite;
-                  FCentities[CPent].E_spU[CPowndSCidx].SU_locationViewX:=0;
-                  FCentities[CPent].E_spU[CPowndSCidx].SU_locationViewZ:=0;
-                  FCentities[CPent].E_spU[CPowndSCidx].SU_assignedTask:=0 ;
+                  FCDdgEntities[CPent].E_spaceUnits[CPowndSCidx].SU_locationStarSystem:=FCVdgPlayer.P_viewStarSystem;
+                  FCDdgEntities[CPent].E_spaceUnits[CPowndSCidx].SU_locationStar:=FCVdgPlayer.P_viewStar;
+                  FCDdgEntities[CPent].E_spaceUnits[CPowndSCidx].SU_locationSatellite:=FCVdgPlayer.P_viewSatellite;
+                  FCDdgEntities[CPent].E_spaceUnits[CPowndSCidx].SU_locationViewX:=0;
+                  FCDdgEntities[CPent].E_spaceUnits[CPowndSCidx].SU_locationViewZ:=0;
+                  FCDdgEntities[CPent].E_spaceUnits[CPowndSCidx].SU_assignedTask:=0 ;
                   {.status + current deltaV}
                   if CM_equipmentList[CPcount0].EL_eiSUnStatus=susInFreeSpace
                   then
                   begin
-                     FCentities[CPent].E_spU[CPowndSCidx].SU_status:=susInFreeSpace;
-                     FCentities[CPent].E_spU[CPowndSCidx].SU_deltaV:=0;
+                     FCDdgEntities[CPent].E_spaceUnits[CPowndSCidx].SU_status:=susInFreeSpace;
+                     FCDdgEntities[CPent].E_spaceUnits[CPowndSCidx].SU_deltaV:=0;
                      if CM_equipmentList[CPcount0].EL_eiSUnDockStatus=diNotDocked
                      then CPspUnMother:=0;
                   end
                   else if CM_equipmentList[CPcount0].EL_eiSUnStatus=susInOrbit
                   then
                   begin
-                     FCentities[CPent].E_spU[CPowndSCidx].SU_status:=susInOrbit;
-                     FCentities[CPent].E_spU[CPowndSCidx].SU_deltaV
+                     FCDdgEntities[CPent].E_spaceUnits[CPowndSCidx].SU_status:=susInOrbit;
+                     FCDdgEntities[CPent].E_spaceUnits[CPowndSCidx].SU_deltaV
                         :=FCFspuF_DeltaV_GetFromOrbit(
                            CPsSys
                            ,CPstar
@@ -482,7 +482,7 @@ FCWinNewGSetup.Close;
                      then
                      begin
                         CPspUnMother:=CPowndSCidx;
-                        setlength(FCentities[CPent].E_spU[CPowndSCidx].SU_dockedSpaceUnits, 1);
+                        setlength(FCDdgEntities[CPent].E_spaceUnits[CPowndSCidx].SU_dockedSpaceUnits, 1);
                      end
                      else if CM_equipmentList[CPcount0].EL_eiSUnDockStatus=diNotDocked
                      then CPspUnMother:=0;
@@ -490,88 +490,88 @@ FCWinNewGSetup.Close;
                   else if CM_equipmentList[CPcount0].EL_eiSUnStatus=susLanded
                   then
                   begin
-                     FCentities[CPent].E_spU[CPowndSCidx].SU_status:=susLanded;
-                     FCentities[CPent].E_spU[CPowndSCidx].SU_deltaV:=0;
+                     FCDdgEntities[CPent].E_spaceUnits[CPowndSCidx].SU_status:=susLanded;
+                     FCDdgEntities[CPent].E_spaceUnits[CPowndSCidx].SU_deltaV:=0;
                      if CM_equipmentList[CPcount0].EL_eiSUnDockStatus=diNotDocked
                      then CPspUnMother:=0;
                   end
                   else if CM_equipmentList[CPcount0].EL_eiSUnStatus=susDocked
                   then
                   begin
-                     FCentities[CPent].E_spU[CPowndSCidx].SU_status:=susDocked;
+                     FCDdgEntities[CPent].E_spaceUnits[CPowndSCidx].SU_status:=susDocked;
                      setlength(
-                        FCentities[CPent].E_spU[CPspUnMother].SU_dockedSpaceUnits
-                        ,length(FCentities[CPent].E_spU[CPspUnMother].SU_dockedSpaceUnits)+1
+                        FCDdgEntities[CPent].E_spaceUnits[CPspUnMother].SU_dockedSpaceUnits
+                        ,length(FCDdgEntities[CPent].E_spaceUnits[CPspUnMother].SU_dockedSpaceUnits)+1
                         );
-                     FCentities[CPent].E_spU[CPspUnMother].SU_dockedSpaceUnits[length(FCentities[CPent].E_spU[CPspUnMother].SU_dockedSpaceUnits)-1]
+                     FCDdgEntities[CPent].E_spaceUnits[CPspUnMother].SU_dockedSpaceUnits[length(FCDdgEntities[CPent].E_spaceUnits[CPspUnMother].SU_dockedSpaceUnits)-1]
                         .SUDL_index:=CPowndSCidx;
-                     FCentities[CPent].E_spU[CPowndSCidx].SU_deltaV:=FCentities[CPent].E_spU[CPspUnMother].SU_deltaV;
+                     FCDdgEntities[CPent].E_spaceUnits[CPowndSCidx].SU_deltaV:=FCDdgEntities[CPent].E_spaceUnits[CPspUnMother].SU_deltaV;
                   end;
                   {.available reaction mass}
-                  FCentities[CPent].E_spU[CPowndSCidx].SU_reactionMass:=CM_equipmentList[CPcount0].EL_eiSUnReactionMass;
+                  FCDdgEntities[CPent].E_spaceUnits[CPowndSCidx].SU_reactionMass:=CM_equipmentList[CPcount0].EL_eiSUnReactionMass;
                end; //==END== if FCM_dotList[CPcount0].FDI_itemTp=facdtpSpaceCraft ==//
                inc(CPcount0);
             end; //==END== while CPcount0<= length(FCM_dotList)-1 ==//
          end; //==END== with FCDBfactions[CPfacIdx].F_facCmode[CPcolMidx] ==//
       end; //==END== else if CPent=0 ==//
-      CPspmMax:=length(FCDBdgSPMi);
-      SetLength(FCentities[CPent].E_spm, CPspmMax);
+      CPspmMax:=length(FCDdgSPMi);
+      SetLength(FCDdgEntities[CPent].E_spmSettings, CPspmMax);
       CPspmCnt:=1;
       while CPspmCnt<=CPspmMax-1 do
       begin
-         FCentities[CPent].E_spm[CPspmCnt].SPMS_token:=FCDBdgSPMi[CPspmCnt].SPMI_token;
-         FCentities[CPent].E_spm[CPspmCnt].SPMS_duration:=FCDBfactions[CPfacLd].F_spm[CPspmCnt].SPMS_duration;
-         FCentities[CPent].E_spm[CPspmCnt].SPMS_ucCost:=0;
-         FCentities[CPent].E_spm[CPspmCnt].SPMS_isPolicy:=FCDBdgSPMi[CPspmCnt].SPMI_isPolicy;
-         if FCentities[CPent].E_spm[CPspmCnt].SPMS_isPolicy
+         FCDdgEntities[CPent].E_spmSettings[CPspmCnt].SPMS_token:=FCDdgSPMi[CPspmCnt].SPMI_token;
+         FCDdgEntities[CPent].E_spmSettings[CPspmCnt].SPMS_duration:=FCDdgFactions[CPfacLd].F_spm[CPspmCnt].SPMS_duration;
+         FCDdgEntities[CPent].E_spmSettings[CPspmCnt].SPMS_ucCost:=0;
+         FCDdgEntities[CPent].E_spmSettings[CPspmCnt].SPMS_isPolicy:=FCDdgSPMi[CPspmCnt].SPMI_isPolicy;
+         if FCDdgEntities[CPent].E_spmSettings[CPspmCnt].SPMS_isPolicy
          then
          begin
-            FCentities[CPent].E_spm[CPspmCnt].SPMS_iPtIsSet:=FCDBfactions[CPfacLd].F_spm[CPspmCnt].SPMS_iPtIsSet;
-            FCentities[CPent].E_spm[CPspmCnt].SPMS_iPtAcceptanceProbability:=FCDBfactions[CPfacLd].F_spm[CPspmCnt].SPMS_iPtAcceptanceProbability;
-            if FCentities[CPent].E_spm[CPspmCnt].SPMS_iPtIsSet
+            FCDdgEntities[CPent].E_spmSettings[CPspmCnt].SPMS_iPtIsSet:=FCDdgFactions[CPfacLd].F_spm[CPspmCnt].SPMS_iPtIsSet;
+            FCDdgEntities[CPent].E_spmSettings[CPspmCnt].SPMS_iPtAcceptanceProbability:=FCDdgFactions[CPfacLd].F_spm[CPspmCnt].SPMS_iPtAcceptanceProbability;
+            if FCDdgEntities[CPent].E_spmSettings[CPspmCnt].SPMS_iPtIsSet
             then
             begin
-               CPspmI:=FCFgSPM_SPMIData_Get(FCentities[CPent].E_spm[CPspmCnt].SPMS_token);
-               FCentities[CPent].E_spmMcohes:=FCentities[CPent].E_spmMcohes+CPspmI.SPMI_modCohes;
-               FCentities[CPent].E_spmMtens:=FCentities[CPent].E_spmMtens+CPspmI.SPMI_modTens;
-               FCentities[CPent].E_spmMsec:=FCentities[CPent].E_spmMsec+CPspmI.SPMI_modSec;
-               FCentities[CPent].E_spmMedu:=FCentities[CPent].E_spmMedu+CPspmI.SPMI_modEdu;
-               FCentities[CPent].E_spmMnat:=FCentities[CPent].E_spmMnat+CPspmI.SPMI_modNat;
-               FCentities[CPent].E_spmMhealth:=FCentities[CPent].E_spmMhealth+CPspmI.SPMI_modHeal;
-               FCentities[CPent].E_spmMBur:=FCentities[CPent].E_spmMBur+CPspmI.SPMI_modBur;
-               FCentities[CPent].E_spmMCorr:=FCentities[CPent].E_spmMCorr+CPspmI.SPMI_modCorr;
+               CPspmI:=FCFgSPM_SPMIData_Get(FCDdgEntities[CPent].E_spmSettings[CPspmCnt].SPMS_token);
+               FCDdgEntities[CPent].E_spmMod_Cohesion:=FCDdgEntities[CPent].E_spmMod_Cohesion+CPspmI.SPMI_modCohes;
+               FCDdgEntities[CPent].E_spmMod_Tension:=FCDdgEntities[CPent].E_spmMod_Tension+CPspmI.SPMI_modTens;
+               FCDdgEntities[CPent].E_spmMod_Security:=FCDdgEntities[CPent].E_spmMod_Security+CPspmI.SPMI_modSec;
+               FCDdgEntities[CPent].E_spmMod_Education:=FCDdgEntities[CPent].E_spmMod_Education+CPspmI.SPMI_modEdu;
+               FCDdgEntities[CPent].E_spmMod_Natality:=FCDdgEntities[CPent].E_spmMod_Natality+CPspmI.SPMI_modNat;
+               FCDdgEntities[CPent].E_spmMod_Health:=FCDdgEntities[CPent].E_spmMod_Health+CPspmI.SPMI_modHeal;
+               FCDdgEntities[CPent].E_spmMod_Bureaucracy:=FCDdgEntities[CPent].E_spmMod_Bureaucracy+CPspmI.SPMI_modBur;
+               FCDdgEntities[CPent].E_spmMod_Corruption:=FCDdgEntities[CPent].E_spmMod_Corruption+CPspmI.SPMI_modCorr;
                {:DEV NOTES: add SPMi custom effects application here.}
             end;
          end
-         else if not FCentities[CPent].E_spm[CPspmCnt].SPMS_isPolicy
+         else if not FCDdgEntities[CPent].E_spmSettings[CPspmCnt].SPMS_isPolicy
          then
          begin
-            FCentities[CPent].E_spm[CPspmCnt].SPMS_iPtBeliefLevel:=FCDBfactions[CPfacLd].F_spm[CPspmCnt].SPMS_iPtBeliefLevel;
-            FCentities[CPent].E_spm[CPspmCnt].SPMS_iPtSpreadValue:=FCDBfactions[CPfacLd].F_spm[CPspmCnt].SPMS_iPtSpreadValue;
-            if FCentities[CPent].E_spm[CPspmCnt].SPMS_iPtBeliefLevel>=blFleeting
+            FCDdgEntities[CPent].E_spmSettings[CPspmCnt].SPMS_iPtBeliefLevel:=FCDdgFactions[CPfacLd].F_spm[CPspmCnt].SPMS_iPtBeliefLevel;
+            FCDdgEntities[CPent].E_spmSettings[CPspmCnt].SPMS_iPtSpreadValue:=FCDdgFactions[CPfacLd].F_spm[CPspmCnt].SPMS_iPtSpreadValue;
+            if FCDdgEntities[CPent].E_spmSettings[CPspmCnt].SPMS_iPtBeliefLevel>=blFleeting
             then
             begin
-               CPsv:=FCentities[CPent].E_spm[CPspmCnt].SPMS_iPtSpreadValue*0.01;
-               CPspmI:=FCFgSPM_SPMIData_Get(FCentities[CPent].E_spm[CPspmCnt].SPMS_token);
-               FCentities[CPent].E_spmMcohes:=FCentities[CPent].E_spmMcohes+round(CPspmI.SPMI_modCohes*CPsv);
-               FCentities[CPent].E_spmMtens:=FCentities[CPent].E_spmMtens+round(CPspmI.SPMI_modTens*CPsv);
-               FCentities[CPent].E_spmMsec:=FCentities[CPent].E_spmMsec+round(CPspmI.SPMI_modSec*CPsv);
-               FCentities[CPent].E_spmMedu:=FCentities[CPent].E_spmMedu+round(CPspmI.SPMI_modEdu*CPsv);
-               FCentities[CPent].E_spmMnat:=FCentities[CPent].E_spmMnat+round(CPspmI.SPMI_modNat*CPsv);
-               FCentities[CPent].E_spmMhealth:=FCentities[CPent].E_spmMhealth+round(CPspmI.SPMI_modHeal*CPsv);
-               FCentities[CPent].E_spmMBur:=FCentities[CPent].E_spmMBur+round(CPspmI.SPMI_modBur*CPsv);
-               FCentities[CPent].E_spmMCorr:=FCentities[CPent].E_spmMCorr+round(CPspmI.SPMI_modCorr*CPsv);
+               CPsv:=FCDdgEntities[CPent].E_spmSettings[CPspmCnt].SPMS_iPtSpreadValue*0.01;
+               CPspmI:=FCFgSPM_SPMIData_Get(FCDdgEntities[CPent].E_spmSettings[CPspmCnt].SPMS_token);
+               FCDdgEntities[CPent].E_spmMod_Cohesion:=FCDdgEntities[CPent].E_spmMod_Cohesion+round(CPspmI.SPMI_modCohes*CPsv);
+               FCDdgEntities[CPent].E_spmMod_Tension:=FCDdgEntities[CPent].E_spmMod_Tension+round(CPspmI.SPMI_modTens*CPsv);
+               FCDdgEntities[CPent].E_spmMod_Security:=FCDdgEntities[CPent].E_spmMod_Security+round(CPspmI.SPMI_modSec*CPsv);
+               FCDdgEntities[CPent].E_spmMod_Education:=FCDdgEntities[CPent].E_spmMod_Education+round(CPspmI.SPMI_modEdu*CPsv);
+               FCDdgEntities[CPent].E_spmMod_Natality:=FCDdgEntities[CPent].E_spmMod_Natality+round(CPspmI.SPMI_modNat*CPsv);
+               FCDdgEntities[CPent].E_spmMod_Health:=FCDdgEntities[CPent].E_spmMod_Health+round(CPspmI.SPMI_modHeal*CPsv);
+               FCDdgEntities[CPent].E_spmMod_Bureaucracy:=FCDdgEntities[CPent].E_spmMod_Bureaucracy+round(CPspmI.SPMI_modBur*CPsv);
+               FCDdgEntities[CPent].E_spmMod_Corruption:=FCDdgEntities[CPent].E_spmMod_Corruption+round(CPspmI.SPMI_modCorr*CPsv);
                {:DEV NOTES: add SPMi custom effects application here.}
             end;
          end;
          inc(CPspmCnt);
       end;
-      FCentities[CPent].E_bureau:=FCFgSPMD_Bureaucracy_Init(CPent);
-      FCentities[CPent].E_corrupt:=FCFgSPMD_Corruption_Init(CPent);
+      FCDdgEntities[CPent].E_bureaucracy:=FCFgSPMD_Bureaucracy_Init(CPent);
+      FCDdgEntities[CPent].E_corruption:=FCFgSPMD_Corruption_Init(CPent);
       if CPent=0
-      then FCentities[CPent].E_hqHigherLvl:=hqsNoHQPresent
+      then FCDdgEntities[CPent].E_hqHigherLevel:=hqsNoHQPresent
       else if CPent>0
-      then FCentities[CPent].E_hqHigherLvl:=hqsPrimaryUniqueHQ;
+      then FCDdgEntities[CPent].E_hqHigherLevel:=hqsPrimaryUniqueHQ;
       inc(CPent);
    end; //==END== while CPent<=FCCfacMax do ==//
    {.set the game user's interface}
@@ -582,8 +582,8 @@ FCWinNewGSetup.Close;
    finally
       FC3doglSelectedPlanetAsteroid:=CPoobj;
       FCMoglVM_MView_Upd(
-         FCRplayer.P_viewStarSystem
-         ,FCRplayer.P_viewStar
+         FCVdgPlayer.P_viewStarSystem
+         ,FCVdgPlayer.P_viewStar
          ,false
          ,true
          );
@@ -598,9 +598,9 @@ FCWinNewGSetup.Close;
    end;
    {.cps initialization}
    FCcps:=TFCcps.Create(
-      FCDBfactions[SelectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_cpsCreditRange
-      ,FCDBfactions[SelectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_cpsInterestRange
-      ,FCDBfactions[SelectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_cpsViabilityObjectives
+      FCDdgFactions[SelectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_cpsCreditRange
+      ,FCDdgFactions[SelectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_cpsInterestRange
+      ,FCDdgFactions[SelectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_cpsViabilityObjectives
       );
    {.set the messages}
    FCMuiM_Messages_Reset;
@@ -616,12 +616,12 @@ FCWinNewGSetup.Close;
    CPcount0:=1;
    while CPcount0<=1 do
    begin
-      setlength(FCDBfactions[CPcount0].F_colonizationModes,1);
-      setlength(FCDBfactions[CPcount0].F_startingLocations,1);
+      setlength(FCDdgFactions[CPcount0].F_colonizationModes,1);
+      setlength(FCDdgFactions[CPcount0].F_startingLocations,1);
       inc(CPcount0);
    end;
    FCMuiSP_SurfaceEcosphere_Set(0, 0, true);
-   FCWinMain.caption:=FCWinMain.caption+'   ['+FCFdTFiles_UIStr_Get(uistrUI,'comCurGame')+FCRplayer.P_gameName+']';
+   FCWinMain.caption:=FCWinMain.caption+'   ['+FCFdTFiles_UIStr_Get(uistrUI,'comCurGame')+FCVdgPlayer.P_gameName+']';
    FCMoglUI_Main3DViewUI_Update(oglupdtpTxtOnly, ogluiutCPS);
 end;
 
@@ -715,9 +715,9 @@ begin
       FCWinNewGSetup.FCWNGS_Frm_FactionList.Items.Clear;
       FCWinNewGSetup.FCWNGS_Frm_DPad_SDL_DotList.Items.Clear;
       SelectedFactionIndex:=1;
-      while FLMcnt<= Length(FCDBfactions)-1 do
+      while FLMcnt<= Length(FCDdgFactions)-1 do
       begin
-         FCWinNewGSetup.FCWNGS_Frm_FactionList.Items.Add(FCFdTFiles_UIStr_Get(uistrUI,FCDBfactions[FLMcnt].F_token));
+         FCWinNewGSetup.FCWNGS_Frm_FactionList.Items.Add(FCFdTFiles_UIStr_Get(uistrUI,FCDdgFactions[FLMcnt].F_token));
          inc(FLMcnt);
       end;
    end;
@@ -730,12 +730,12 @@ begin
       SelectedFactionIndex:=FLMtgtIdx+1;
       {.update description}
       FCWinNewGSetup.FCWNGS_Frm_DPad_SHisto_Text.HTMLText.Clear;
-      FCWinNewGSetup.FCWNGS_Frm_DPad_SHisto_Text.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrEncyl, FCDBfactions[SelectedFactionIndex].F_token+'.Hist'));
+      FCWinNewGSetup.FCWNGS_Frm_DPad_SHisto_Text.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrEncyl, FCDdgFactions[SelectedFactionIndex].F_token+'.Hist'));
       FCWinNewGSetup.FCWNGS_Frm_DPad_SHisto_Text.HTMLText.Add('<br><br>');
-      FCWinNewGSetup.FCWNGS_Frm_DPad_SHisto_Text.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrEncyl, FCDBfactions[SelectedFactionIndex].F_token+'.Soc'));
+      FCWinNewGSetup.FCWNGS_Frm_DPad_SHisto_Text.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrEncyl, FCDdgFactions[SelectedFactionIndex].F_token+'.Soc'));
       {.SPMi list}
       FCWinNewGSetup.FCWNGS_Frm_DPad_SDL_DotList.FullExpand;
-      FLMmax:=Length(FCDBfactions[SelectedFactionIndex].F_spm)-1;
+      FLMmax:=Length(FCDdgFactions[SelectedFactionIndex].F_spm)-1;
       if FLMmax>0
       then
       begin
@@ -745,24 +745,24 @@ begin
          FLMnsetNode:=FCWinNewGSetup.FCWNGS_FDPad_ShSPM_SPMList.Items.AddChild(nil, '<b>SPMi not set</b>');
          while FLMcnt<=FLMmax do
          begin
-            FLMspmi:=FCDBdgSPMi[0];
-            FLMspmi:=FCFgSPM_SPMIData_Get(FCDBfactions[SelectedFactionIndex].F_spm[FLMcnt].SPMS_token);
-            FLMspmStr:=FCFdTFiles_UIStr_Get(uistrUI, FCDBfactions[SelectedFactionIndex].F_spm[FLMcnt].SPMS_token);
+            FLMspmi:=FCDdgSPMi[0];
+            FLMspmi:=FCFgSPM_SPMIData_Get(FCDdgFactions[SelectedFactionIndex].F_spm[FLMcnt].SPMS_token);
+            FLMspmStr:=FCFdTFiles_UIStr_Get(uistrUI, FCDdgFactions[SelectedFactionIndex].F_spm[FLMcnt].SPMS_token);
             if not FLMspmi.SPMI_isPolicy
-            then FLMspmStr:=FLMspmStr+' ['+IntToStr(FCDBfactions[SelectedFactionIndex].F_spm[FLMcnt].SPMS_iPtAcceptanceProbability)+' %]';
-            if FCDBfactions[SelectedFactionIndex].F_spm[FLMcnt].SPMS_iPtIsSet
+            then FLMspmStr:=FLMspmStr+' ['+IntToStr(FCDdgFactions[SelectedFactionIndex].F_spm[FLMcnt].SPMS_iPtAcceptanceProbability)+' %]';
+            if FCDdgFactions[SelectedFactionIndex].F_spm[FLMcnt].SPMS_iPtIsSet
             then FCWinNewGSetup.FCWNGS_FDPad_ShSPM_SPMList.Items.AddChild(FLMsetNode, FLMspmStr)
-            else if not FCDBfactions[SelectedFactionIndex].F_spm[FLMcnt].SPMS_iPtIsSet
+            else if not FCDdgFactions[SelectedFactionIndex].F_spm[FLMcnt].SPMS_iPtIsSet
             then FCWinNewGSetup.FCWNGS_FDPad_ShSPM_SPMList.Items.AddChild(FLMnsetNode, FLMspmStr);
             inc(FLMcnt);
          end;
          FCWinNewGSetup.FCWNGS_FDPad_ShSPM_SPMList.FullExpand;
       end;
       {.display the faction's flag}
-      FCWinNewGSetup.FCWNGS_Frm_FactionFlag.Bitmap.LoadFromFile(FCVdiPathResourceDir+'pics-ui-faction\FAC_'+FCDBfactions[SelectedFactionIndex].F_token+'_flag.jpg');
+      FCWinNewGSetup.FCWNGS_Frm_FactionFlag.Bitmap.LoadFromFile(FCVdiPathResourceDir+'pics-ui-faction\FAC_'+FCDdgFactions[SelectedFactionIndex].F_token+'_flag.jpg');
       {.set colonization modes}
       FCWinNewGSetup.FCWNGS_Frm_ColMode.Items.Clear;
-      FLMmax:=length(FCDBfactions[SelectedFactionIndex].F_colonizationModes)-1;
+      FLMmax:=length(FCDdgFactions[SelectedFactionIndex].F_colonizationModes)-1;
       FLMcnt:=1;
       while FLMcnt<=FLMmax do
       begin

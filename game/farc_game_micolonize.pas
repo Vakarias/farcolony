@@ -148,7 +148,7 @@ var
 begin
    CPPsettlement:=0;
    {:DEV NOTES: resource survey data, TO REMOVE WHEN REGION SURVEY IS IMPLEMENTED.}
-   SetLength(FCRplayer.P_surveyedResourceSpots, 2);
+   SetLength(FCVdgPlayer.P_surveyedResourceSpots, 2);
    {:DEV NOTES: END HARCODED SURVEY DATA.}
    if CPPsatIdx=0
    then
@@ -156,7 +156,7 @@ begin
       CPPcolIdx:=FCDduStarSystem[CPPssys].SS_stars[CPPstar].S_orbitalObjects[CPPobjIdx].OO_colonies[0];
       {:DEV NOTES: resource survey data, TO REMOVE WHEN REGION SURVEY IS IMPLEMENTED.}
       regionttl:=length(FCDduStarSystem[CPPssys].SS_stars[CPPstar].S_orbitalObjects[CPPobjIdx].OO_regions);
-      FCRplayer.P_surveyedResourceSpots[1].SRS_orbitalObject_SatelliteToken:=FCDduStarSystem[CPPssys].SS_stars[CPPstar].S_orbitalObjects[CPPobjIdx].OO_dbTokenId;
+      FCVdgPlayer.P_surveyedResourceSpots[1].SRS_orbitalObject_SatelliteToken:=FCDduStarSystem[CPPssys].SS_stars[CPPstar].S_orbitalObjects[CPPobjIdx].OO_dbTokenId;
       {:DEV NOTES: END HARCODED SURVEY DATA.}
    end
    else if CPPsatIdx>0
@@ -165,7 +165,7 @@ begin
       CPPcolIdx:=FCDduStarSystem[CPPssys].SS_stars[CPPstar].S_orbitalObjects[CPPobjIdx].OO_satellitesList[CPPsatIdx].OO_colonies[0];
       {:DEV NOTES: resource survey data, TO REMOVE WHEN REGION SURVEY IS IMPLEMENTED.}
       regionttl:=length(FCDduStarSystem[CPPssys].SS_stars[CPPstar].S_orbitalObjects[CPPobjIdx].OO_satellitesList[CPPsatIdx].OO_regions);
-      FCRplayer.P_surveyedResourceSpots[1].SRS_orbitalObject_SatelliteToken:=FCDduStarSystem[CPPssys].SS_stars[CPPstar].S_orbitalObjects[CPPobjIdx].OO_satellitesList[CPPsatIdx].OO_dbTokenId;
+      FCVdgPlayer.P_surveyedResourceSpots[1].SRS_orbitalObject_SatelliteToken:=FCDduStarSystem[CPPssys].SS_stars[CPPstar].S_orbitalObjects[CPPobjIdx].OO_satellitesList[CPPsatIdx].OO_dbTokenId;
       {:DEV NOTES: END HARCODED SURVEY DATA.}
    end;
    {.establish the colony if no one exist}
@@ -180,7 +180,7 @@ begin
          ,CPPobjIdx
          ,CPPsatIdx
          );
-      FCentities[CPPfac].E_col[CPPcolIdx].C_name:=CPPname;
+      FCDdgEntities[CPPfac].E_colonies[CPPcolIdx].C_name:=CPPname;
       CPPsettlement:=FCFgC_Settlement_Add(
          CPPfac
          ,CPPcolIdx
@@ -195,20 +195,20 @@ begin
          and (CPPfac=0)
       then FCMgfxC_Settlement_SwitchState(CPPregion);
       {:DEV NOTES: resource survey data, TO REMOVE WHEN REGION SURVEY IS IMPLEMENTED.}
-      FCRplayer.P_surveyedResourceSpots[1].SRS_starSystem:=CPPssys;
-      FCRplayer.P_surveyedResourceSpots[1].SRS_star:=CPPstar;
-      FCRplayer.P_surveyedResourceSpots[1].SRS_orbitalObject:=CPPobjIdx;
-      FCRplayer.P_surveyedResourceSpots[1].SRS_satellite:=CPPsatIdx;
-      setlength(FCRplayer.P_surveyedResourceSpots[1].SRS_surveyedRegions, regionttl);
-      setlength(FCRplayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots, 2 );
-      FCRplayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots[1].RS_meanQualityCoefficient:=0.7;
-      FCRplayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots[1].RS_spotSizeCurrent:=0;
-      FCRplayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots[1].RS_spotSizeMax:=50;
-      FCRplayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots[1].RS_type:=rstOreField;
-      FCRplayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots[1].RS_tOFiCarbonaceous:=25;
-      FCRplayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots[1].RS_tOFiMetallic:=25;
-      FCRplayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots[1].RS_tOFiRare:=25;
-      FCRplayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots[1].RS_tOFiUranium:=25;
+      FCVdgPlayer.P_surveyedResourceSpots[1].SRS_starSystem:=CPPssys;
+      FCVdgPlayer.P_surveyedResourceSpots[1].SRS_star:=CPPstar;
+      FCVdgPlayer.P_surveyedResourceSpots[1].SRS_orbitalObject:=CPPobjIdx;
+      FCVdgPlayer.P_surveyedResourceSpots[1].SRS_satellite:=CPPsatIdx;
+      setlength(FCVdgPlayer.P_surveyedResourceSpots[1].SRS_surveyedRegions, regionttl);
+      setlength(FCVdgPlayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots, 2 );
+      FCVdgPlayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots[1].RS_meanQualityCoefficient:=0.7;
+      FCVdgPlayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots[1].RS_spotSizeCurrent:=0;
+      FCVdgPlayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots[1].RS_spotSizeMax:=50;
+      FCVdgPlayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots[1].RS_type:=rstOreField;
+      FCVdgPlayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots[1].RS_tOFiCarbonaceous:=25;
+      FCVdgPlayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots[1].RS_tOFiMetallic:=25;
+      FCVdgPlayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots[1].RS_tOFiRare:=25;
+      FCVdgPlayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots[1].RS_tOFiUranium:=25;
       {:DEV NOTES: END HARCODED SURVEY DATA.}
       FCMuiM_Message_Add(
          mtColonizeWset
@@ -318,7 +318,7 @@ begin
       begin
          if GMCbaseDist=0
          then GMCbaseDist:=FCFgMTrans_ObObjInLStar_CalcRng(
-            FCentities[GMCfac].E_spU[CSowndMother].SU_linked3dObject
+            FCDdgEntities[GMCfac].E_spaceUnits[CSowndMother].SU_linked3dObject
             ,CSoobjIdx
             ,gmtltSpUnit
             ,gmtltOrbObj
@@ -331,7 +331,7 @@ begin
       begin
          if GMCbaseDist=0
          then GMCbaseDist:=FCFgMTrans_ObObjInLStar_CalcRng(
-            FCentities[GMCfac].E_spU[CSowndMother].SU_linked3dObject
+            FCDdgEntities[GMCfac].E_spaceUnits[CSowndMother].SU_linked3dObject
             ,CSsatObjIdx
             ,gmtltSpUnit
             ,gmtltSat
@@ -350,7 +350,7 @@ begin
       CScnt:=1;
       while CScnt<=CSmax do
       begin
-         CSspuIdx:=FCentities[GMCfac].E_spU[CSowndMother].SU_dockedSpaceUnits[CScnt].SUDL_index;
+         CSspuIdx:=FCDdgEntities[GMCfac].E_spaceUnits[CSowndMother].SU_dockedSpaceUnits[CScnt].SUDL_index;
          if (CScnt=1)
             and (GMCfinalDV=0)
          then

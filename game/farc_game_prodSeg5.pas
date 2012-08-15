@@ -76,23 +76,23 @@ procedure FCMgPS5_CABTransitionSegment_Process(
       
       CABTSPpopResult: TFCRdgColonyPopulation;
 begin
-   CABTSPmaxSet:=length( FCentities[CABTSPent].E_col[CABTSPcol].C_cabQueue )-1;
+   CABTSPmaxSet:=length( FCDdgEntities[CABTSPent].E_colonies[CABTSPcol].C_cabQueue )-1;
    if CABTSPmaxSet>0 then
    begin
       CABTSPcntSet:=1;
       while CABTSPcntSet<=CABTSPmaxSet do
       begin
-         CABTSPmaxIdx:=length(FCentities[CABTSPent].E_col[CABTSPcol].C_cabQueue[CABTSPcntSet])-1;
+         CABTSPmaxIdx:=length(FCDdgEntities[CABTSPent].E_colonies[CABTSPcol].C_cabQueue[CABTSPcntSet])-1;
          CABTSPcntIdx:=1;
          while CABTSPcntIdx<=CABTSPmaxIdx do
          begin
-            CABTSPinfraIdx:=FCentities[CABTSPent].E_col[CABTSPcol].C_cabQueue[CABTSPcntSet, CABTSPcntIdx];
-            case FCentities[CABTSPent].E_col[CABTSPcol].C_settlements[CABTSPcntSet].S_infrastructures[CABTSPinfraIdx].I_status of
+            CABTSPinfraIdx:=FCDdgEntities[CABTSPent].E_colonies[CABTSPcol].C_cabQueue[CABTSPcntSet, CABTSPcntIdx];
+            case FCDdgEntities[CABTSPent].E_colonies[CABTSPcol].C_settlements[CABTSPcntSet].S_infrastructures[CABTSPinfraIdx].I_status of
                isInConversion:
                begin
-                  inc(FCentities[CABTSPent].E_col[CABTSPcol].C_settlements[CABTSPcntSet].S_infrastructures[CABTSPinfraIdx].I_cabWorked);
-                  if FCentities[CABTSPent].E_col[CABTSPcol].C_settlements[CABTSPcntSet].S_infrastructures[CABTSPinfraIdx].I_cabWorked
-                     =FCentities[CABTSPent].E_col[CABTSPcol].C_settlements[CABTSPcntSet].S_infrastructures[CABTSPinfraIdx].I_cabDuration
+                  inc(FCDdgEntities[CABTSPent].E_colonies[CABTSPcol].C_settlements[CABTSPcntSet].S_infrastructures[CABTSPinfraIdx].I_cabWorked);
+                  if FCDdgEntities[CABTSPent].E_colonies[CABTSPcol].C_settlements[CABTSPcntSet].S_infrastructures[CABTSPinfraIdx].I_cabWorked
+                     =FCDdgEntities[CABTSPent].E_colonies[CABTSPcol].C_settlements[CABTSPcntSet].S_infrastructures[CABTSPinfraIdx].I_cabDuration
                   then FCMgICS_Conversion_PostProcess(
                      CABTSPent
                      ,CABTSPcol
@@ -104,9 +104,9 @@ begin
 
                isInAssembling:
                begin
-                  inc(FCentities[CABTSPent].E_col[CABTSPcol].C_settlements[CABTSPcntSet].S_infrastructures[CABTSPinfraIdx].I_cabWorked);
-                  if FCentities[CABTSPent].E_col[CABTSPcol].C_settlements[CABTSPcntSet].S_infrastructures[CABTSPinfraIdx].I_cabWorked
-                     =FCentities[CABTSPent].E_col[CABTSPcol].C_settlements[CABTSPcntSet].S_infrastructures[CABTSPinfraIdx].I_cabDuration
+                  inc(FCDdgEntities[CABTSPent].E_colonies[CABTSPcol].C_settlements[CABTSPcntSet].S_infrastructures[CABTSPinfraIdx].I_cabWorked);
+                  if FCDdgEntities[CABTSPent].E_colonies[CABTSPcol].C_settlements[CABTSPcntSet].S_infrastructures[CABTSPinfraIdx].I_cabWorked
+                     =FCDdgEntities[CABTSPent].E_colonies[CABTSPcol].C_settlements[CABTSPcntSet].S_infrastructures[CABTSPinfraIdx].I_cabDuration
                   then FCMgICS_TransitionRule_Process(
                      CABTSPent
                      ,CABTSPcol
@@ -119,9 +119,9 @@ begin
 
                isInBluidingSite:
                begin
-                  inc(FCentities[CABTSPent].E_col[CABTSPcol].C_settlements[CABTSPcntSet].S_infrastructures[CABTSPinfraIdx].I_cabWorked);
-                  if FCentities[CABTSPent].E_col[CABTSPcol].C_settlements[CABTSPcntSet].S_infrastructures[CABTSPinfraIdx].I_cabWorked
-                     =FCentities[CABTSPent].E_col[CABTSPcol].C_settlements[CABTSPcntSet].S_infrastructures[CABTSPinfraIdx].I_cabDuration
+                  inc(FCDdgEntities[CABTSPent].E_colonies[CABTSPcol].C_settlements[CABTSPcntSet].S_infrastructures[CABTSPinfraIdx].I_cabWorked);
+                  if FCDdgEntities[CABTSPent].E_colonies[CABTSPcol].C_settlements[CABTSPcntSet].S_infrastructures[CABTSPinfraIdx].I_cabWorked
+                     =FCDdgEntities[CABTSPent].E_colonies[CABTSPcol].C_settlements[CABTSPcntSet].S_infrastructures[CABTSPinfraIdx].I_cabDuration
                   then FCMgICS_TransitionRule_Process(
                      CABTSPent
                      ,CABTSPcol
@@ -134,7 +134,7 @@ begin
 
                isInTransition:
                begin
-                  if FCentities[CABTSPent].E_col[CABTSPcol].C_settlements[CABTSPcntSet].S_infrastructures[CABTSPinfraIdx].I_cabDuration=-1
+                  if FCDdgEntities[CABTSPent].E_colonies[CABTSPcol].C_settlements[CABTSPcntSet].S_infrastructures[CABTSPinfraIdx].I_cabDuration=-1
                   then FCMgICS_TransitionRule_Process(
                      CABTSPent
                      ,CABTSPcol
@@ -143,10 +143,10 @@ begin
                      ,CABTSPcntIdx
                      ,true
                      )
-                  else if FCentities[CABTSPent].E_col[CABTSPcol].C_settlements[CABTSPcntSet].S_infrastructures[CABTSPinfraIdx].I_cabDuration>0 then
+                  else if FCDdgEntities[CABTSPent].E_colonies[CABTSPcol].C_settlements[CABTSPcntSet].S_infrastructures[CABTSPinfraIdx].I_cabDuration>0 then
                   begin
-                     dec( FCentities[CABTSPent].E_col[CABTSPcol].C_settlements[CABTSPcntSet].S_infrastructures[CABTSPinfraIdx].I_cabDuration );
-                     if FCentities[CABTSPent].E_col[CABTSPcol].C_settlements[CABTSPcntSet].S_infrastructures[CABTSPinfraIdx].I_cabDuration=0
+                     dec( FCDdgEntities[CABTSPent].E_colonies[CABTSPcol].C_settlements[CABTSPcntSet].S_infrastructures[CABTSPinfraIdx].I_cabDuration );
+                     if FCDdgEntities[CABTSPent].E_colonies[CABTSPcol].C_settlements[CABTSPcntSet].S_infrastructures[CABTSPinfraIdx].I_cabDuration=0
                      then FCMgICS_TransitionRule_Process(
                         CABTSPent
                         ,CABTSPcol

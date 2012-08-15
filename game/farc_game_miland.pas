@@ -105,13 +105,13 @@ begin
    then LCplanApress:=FCDduStarSystem[LCssys].SS_stars[LCstar].S_orbitalObjects[LCoobjIdx].OO_atmosphericPressure
    else if LCsatIdx>0
    then LCplanApress:=FCDduStarSystem[LCssys].SS_stars[LCstar].S_orbitalObjects[LCoobjIdx].OO_satellitesList[LCsatIdx].OO_atmosphericPressure;
-   LCdesgn:=FCFspuF_Design_getDB(FCentities[LCfac].E_spU[LCownIdx].SU_designToken);
+   LCdesgn:=FCFspuF_Design_getDB(FCDdgEntities[LCfac].E_spaceUnits[LCownIdx].SU_designToken);
    {.calculate final acceleration in gees relative to loaded mass}
    GMCAccelG:=(MRMCDVCthrbyvol*MRMCDVCvolOfDrive)/MRMCDVCloadedMassInTons;
    {.get the space unit's ISP}
    LCisp:=FCDdsuSpaceUnitDesigns[LCdesgn].SUD_spaceDriveISP;
    {.velocities calculations}
-   LCdepVel:=FCentities[LCfac].E_spU[LCownIdx].SU_deltaV;
+   LCdepVel:=FCDdgEntities[LCfac].E_spaceUnits[LCownIdx].SU_deltaV;
    {.calculate the burn endurance for deceleration}
    LCburnEnd:=(LCdepVel-LCentrVel)/(GMCAccelG*LCgeesInKmS);
    {.caculate used reaction mass volume for deceleration}

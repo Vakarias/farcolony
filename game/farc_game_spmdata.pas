@@ -108,7 +108,7 @@ function FCFgSPMD_Bureaucracy_Init(const BIent: integer): integer;
     Additions:
 }
 begin
-   Result:=50+FCentities[BIent].E_spmMBur;
+   Result:=50+FCDdgEntities[BIent].E_spmMod_Bureaucracy;
 end;
 
 function FCFgSPMD_Corruption_Init(const CIent: integer): integer;
@@ -116,7 +116,7 @@ function FCFgSPMD_Corruption_Init(const CIent: integer): integer;
     Additions:
 }
 begin
-   Result:=FCentities[CIent].E_spmMCorr;
+   Result:=FCDdgEntities[CIent].E_spmMod_Corruption;
 end;
 
 function FCFgSPMD_GlobalData_Get(
@@ -147,7 +147,7 @@ begin
    GDGdmpRes:=0;
    GDGsec:=0;
    GDGtens:=0;
-   GDGmax:=length(FCentities[GDGfacIdx].E_col)-1;
+   GDGmax:=length(FCDdgEntities[GDGfacIdx].E_colonies)-1;
    if GDGmax>0
    then
    begin
@@ -157,7 +157,7 @@ begin
          begin
             while GDGcnt<=GDGmax do
             begin
-               GDGdmpRes:=GDGdmpRes+FCentities[GDGfacIdx].E_col[GDGcnt].C_cohesion;
+               GDGdmpRes:=GDGdmpRes+FCDdgEntities[GDGfacIdx].E_colonies[GDGcnt].C_cohesion;
                inc(GDGcnt);
             end;
          end;
@@ -166,7 +166,7 @@ begin
          begin
             while GDGcnt<=GDGmax do
             begin
-               GDGdmpRes:=GDGdmpRes+FCentities[GDGfacIdx].E_col[GDGcnt].C_instruction;
+               GDGdmpRes:=GDGdmpRes+FCDdgEntities[GDGfacIdx].E_colonies[GDGcnt].C_instruction;
                inc(GDGcnt);
             end;
          end;
@@ -175,7 +175,7 @@ begin
          begin
             while GDGcnt<=GDGmax do
             begin
-               GDGdmpRes:=GDGdmpRes+round(FCentities[GDGfacIdx].E_col[GDGcnt].C_csmHousing_QualityOfLife*FCentities[GDGfacIdx].E_col[GDGcnt].C_csmHousing_SpaceLevel);
+               GDGdmpRes:=GDGdmpRes+round(FCDdgEntities[GDGfacIdx].E_colonies[GDGcnt].C_csmHousing_QualityOfLife*FCDdgEntities[GDGfacIdx].E_colonies[GDGcnt].C_csmHousing_SpaceLevel);
                inc(GDGcnt);
             end;
          end;
@@ -184,7 +184,7 @@ begin
          begin
             while GDGcnt<=GDGmax do
             begin
-               GDGdmpRes:=GDGdmpRes+FCentities[GDGfacIdx].E_col[GDGcnt].C_economicIndustrialOutput;
+               GDGdmpRes:=GDGdmpRes+FCDdgEntities[GDGfacIdx].E_colonies[GDGcnt].C_economicIndustrialOutput;
                inc( GDGcnt );
             end;
          end;
@@ -204,7 +204,7 @@ begin
          begin
             while GDGcnt<=GDGmax do
             begin
-               GDGdmpRes:=GDGdmpRes+FCentities[GDGfacIdx].E_col[GDGcnt].C_population.CP_total;
+               GDGdmpRes:=GDGdmpRes+FCDdgEntities[GDGfacIdx].E_colonies[GDGcnt].C_population.CP_total;
                inc(GDGcnt);
             end;
          end;
@@ -239,17 +239,17 @@ begin
    case PSARaskIf of
       gmspmdCanChangeEcoSys:
       begin
-         if FCRplayer.P_economicStatus=pfs3_Independent
+         if FCVdgPlayer.P_economicStatus=pfs3_Independent
          then PSARres:=true;
       end;
       gmspmdCanChangeGvt, gmspmdCanChangeHealth, gmspmdCanChangeRelig:
       begin
-         if FCRplayer.P_socialStatus=pfs3_Independent
+         if FCVdgPlayer.P_socialStatus=pfs3_Independent
          then PSARres:=true;
       end;
       gmspmdCanEnfPolicies:
       begin
-         if FCRplayer.P_socialStatus>=pfs2_SemiDependent
+         if FCVdgPlayer.P_socialStatus>=pfs2_SemiDependent
          then PSARres:=true;
       end;
    end;
@@ -277,7 +277,7 @@ begin
    LUrootSS:='';
    {:DEV NOTES: here will be implemented the control test subroutine for know how much star system are controlled, if there's any.}
    {.no star system control}
-   LUmax:=length(FCentities[LUent].E_col)-1;
+   LUmax:=length(FCDdgEntities[LUent].E_colonies)-1;
    if LUmax>0
    then
    begin
@@ -289,11 +289,11 @@ begin
          while LUcnt<LUmax do
          begin
             if LUcnt=1
-            then LUrootSS:=FCentities[LUent].E_col[LUcnt].C_locationStar
+            then LUrootSS:=FCDdgEntities[LUent].E_colonies[LUcnt].C_locationStar
             else
             begin
                if (not LUisScattered)
-                  and (FCentities[LUent].E_col[LUcnt].C_locationStar<>LUrootSS)
+                  and (FCDdgEntities[LUent].E_colonies[LUcnt].C_locationStar<>LUrootSS)
                then
                begin
                   LUisScattered:=true;
@@ -307,7 +307,7 @@ begin
          else LUlevel:=2;
       end;
    end;
-   FCentities[LUent].E_facLvl:=LUlevel;
+   FCDdgEntities[LUent].E_factionLevel:=LUlevel;
    FCMumi_Main_Upd;
 end;
 

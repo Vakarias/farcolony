@@ -526,7 +526,7 @@ begin
    {.ENTER}
    {.proceed setup if allowed}
    if CNTkeyDump=13
-   then FCentities[0].E_col[FCFuiCDP_VarCurrentColony_Get].C_name:=FCWinMain.FCWM_CDPcolName.Text;
+   then FCDdgEntities[0].E_colonies[FCFuiCDP_VarCurrentColony_Get].C_name:=FCWinMain.FCWM_CDPcolName.Text;
 end;
 
 procedure FCMuiK_MissionColonyName_Test(
@@ -936,7 +936,7 @@ begin
       {.previous focused object}
       if (WMTkeyDump=100)
          and (FCWinMain.FCWM_3dMainGrp.Visible)
-         and (FCRplayer.P_currentTimePhase<>tphPAUSE)
+         and (FCVdgPlayer.P_currentTimePhase<>tphPAUSE)
       then
       begin
          WMTfocus:=FCFoglVM_Focused_Get;
@@ -970,7 +970,7 @@ begin
       {.next focused object}
       if (WMTkeyDump=102)
          and (FCWinMain.FCWM_3dMainGrp.Visible)
-         and (FCRplayer.P_currentTimePhase<>tphPAUSE)
+         and (FCVdgPlayer.P_currentTimePhase<>tphPAUSE)
       then
       begin
          WMTfocus:=FCFoglVM_Focused_Get;
@@ -1005,7 +1005,7 @@ begin
       {.first focused object}
       if (WMTkeyDump=103)
          and (FCWinMain.FCWM_3dMainGrp.Visible)
-         and (FCRplayer.P_currentTimePhase<>tphPAUSE)
+         and (FCVdgPlayer.P_currentTimePhase<>tphPAUSE)
       then
       begin
          WMTfocus:=FCFoglVM_Focused_Get;
@@ -1085,7 +1085,7 @@ begin
          and (not FCWinMain.FCWM_MissionSettings.Visible)
       then
       begin
-         if FCRplayer.P_currentTimePhase<>tphSTH
+         if FCVdgPlayer.P_currentTimePhase<>tphSTH
          then FCMgTFlow_FlowState_Set(tphSTH);
       end;
       {.M}
@@ -1114,8 +1114,8 @@ begin
       {.P}
       {.pause / unpause the game}
       if (WMTkeyDump=80)
-         and (FCRplayer.P_currentTimePhase<>tphPAUSE)
-         and (FCRplayer.P_currentTimePhase<>tphPAUSEwo)
+         and (FCVdgPlayer.P_currentTimePhase<>tphPAUSE)
+         and (FCVdgPlayer.P_currentTimePhase<>tphPAUSEwo)
          and (FCVdiGameFlowTimer.Enabled)
          and (FCWinMain.FCGLScadencer.Enabled)
       then
@@ -1124,7 +1124,7 @@ begin
          FCMoglUI_Main3DViewUI_Update(oglupdtpTxtOnly, ogluiutTime);
       end
       else if (WMTkeyDump=80)
-         and ((FCRplayer.P_currentTimePhase=tphPAUSE) or (FCRplayer.P_currentTimePhase=tphPAUSEwo))
+         and ((FCVdgPlayer.P_currentTimePhase=tphPAUSE) or (FCVdgPlayer.P_currentTimePhase=tphPAUSEwo))
       then FCMgTFlow_FlowState_Set(tphTac);
       {. S}
       {.switch space unit view <=> orbital object view}
@@ -1147,7 +1147,7 @@ begin
          and (not FCWinMain.FCWM_MissionSettings.Visible)
       then
       begin
-         if FCRplayer.P_currentTimePhase<>tphMan
+         if FCVdgPlayer.P_currentTimePhase<>tphMan
          then FCMgTFlow_FlowState_Set(tphMan);
       end;
       {.Z}
@@ -1159,7 +1159,7 @@ begin
          and (not FCWinMain.FCWM_MissionSettings.Visible)
       then
       begin
-         if FCRplayer.P_currentTimePhase<>tphTac
+         if FCVdgPlayer.P_currentTimePhase<>tphTac
          then FCMgTFlow_FlowState_Set(tphTac);
       end;
    end;

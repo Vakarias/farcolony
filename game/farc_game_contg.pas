@@ -119,11 +119,11 @@ FCMdF_DBProducts_Load;
    FCMdFSG_Game_Load;
 
    {.prevent a file error}
-   if FCRplayer.P_viewStarSystem=''
+   if FCVdgPlayer.P_viewStarSystem=''
    then
    begin
-      DeleteFile(FCVdiPathConfigDir+'SavedGames\'+FCRplayer.P_gameName+'.xml');
-      FCRplayer.P_gameName:='';
+      DeleteFile(FCVdiPathConfigDir+'SavedGames\'+FCVdgPlayer.P_gameName+'.xml');
+      FCVdgPlayer.P_gameName:='';
       FCMdF_ConfigurationFile_Save(false);
    end
    else
@@ -133,41 +133,41 @@ FCMdF_DBProducts_Load;
       while CPeCnt<=FCCdiFactionsMax do
       begin
          {.set space units in orbits, if there's any}
-         CPttl:=length(FCentities[CPeCnt].E_spU)-1;
+         CPttl:=length(FCDdgEntities[CPeCnt].E_spaceUnits)-1;
          if CPttl>0
          then
          begin
             CPcount:=1;
             while CPcount<=CPttl do
             begin
-               if FCentities[CPeCnt].E_spU[CPcount].SU_status=susInOrbit
+               if FCDdgEntities[CPeCnt].E_spaceUnits[CPcount].SU_status=susInOrbit
                then
                begin
                   CPssys:=FCFuF_StelObj_GetDbIdx(
                      ufsoSsys
-                     ,FCentities[CPeCnt].E_spU[CPcount].SU_locationStarSystem
+                     ,FCDdgEntities[CPeCnt].E_spaceUnits[CPcount].SU_locationStarSystem
                      ,0
                      ,0
                      ,0
                      );
                   CPstar:=FCFuF_StelObj_GetDbIdx(
                      ufsoStar
-                     ,FCentities[CPeCnt].E_spU[CPcount].SU_locationStar
+                     ,FCDdgEntities[CPeCnt].E_spaceUnits[CPcount].SU_locationStar
                      ,CPssys
                      ,0
                      ,0
                      );
                   CPoobj:=FCFuF_StelObj_GetDbIdx(
                      ufsoOObj
-                     ,FCentities[CPeCnt].E_spU[CPcount].SU_locationOrbitalObject
+                     ,FCDdgEntities[CPeCnt].E_spaceUnits[CPcount].SU_locationOrbitalObject
                      ,CPssys
                      ,CPstar
                      ,0
                      );
-                  if FCentities[CPeCnt].E_spU[CPcount].SU_locationSatellite<>''
+                  if FCDdgEntities[CPeCnt].E_spaceUnits[CPcount].SU_locationSatellite<>''
                   then CPsat:=FCFuF_StelObj_GetDbIdx(
                      ufsoSat
-                     ,FCentities[CPeCnt].E_spU[CPcount].SU_locationSatellite
+                     ,FCDdgEntities[CPeCnt].E_spaceUnits[CPcount].SU_locationSatellite
                      ,CPssys
                      ,CPstar
                      ,CPoobj
@@ -194,10 +194,10 @@ FCMdF_DBProducts_Load;
       while CPcount<=1 do
       begin
          setlength(
-            FCDBfactions[CPcount].F_colonizationModes
+            FCDdgFactions[CPcount].F_colonizationModes
             ,0
             );
-         setlength(FCDBfactions[CPcount].F_startingLocations,0);
+         setlength(FCDdgFactions[CPcount].F_startingLocations,0);
          inc(CPcount);
       end;
       {.set the game user's interface}
@@ -232,29 +232,29 @@ FCMdF_DBProducts_Load;
          LAUNCHED.}
          CPssys:=FCFuF_StelObj_GetDbIdx(
             ufsoSsys
-            ,FCRplayer.P_viewStarSystem
+            ,FCVdgPlayer.P_viewStarSystem
             ,0
             ,0
             ,0
             );
          CPstar:=FCFuF_StelObj_GetDbIdx(
             ufsoStar
-            ,FCRplayer.P_viewStar
+            ,FCVdgPlayer.P_viewStar
             ,CPssys
             ,0
             ,0
             );
          CPoobj:=FCFuF_StelObj_GetDbIdx(
             ufsoOObj
-            ,FCRplayer.P_viewOrbitalObject
+            ,FCVdgPlayer.P_viewOrbitalObject
             ,CPssys
             ,CPstar
             ,0
             );
-         if FCRplayer.P_viewSatellite<>''
+         if FCVdgPlayer.P_viewSatellite<>''
          then CPsat:=FCFuF_StelObj_GetDbIdx(
             ufsoSat
-            ,FCRplayer.P_viewSatellite
+            ,FCVdgPlayer.P_viewSatellite
             ,CPssys
             ,CPstar
             ,CPoobj
@@ -263,8 +263,8 @@ FCMdF_DBProducts_Load;
          FC3doglSelectedPlanetAsteroid:=CPoobj;
          {.3d view initialization}
          FCMoglVM_MView_Upd(
-            FCRplayer.P_viewStarSystem,
-            FCRplayer.P_viewStar,
+            FCVdgPlayer.P_viewStarSystem,
+            FCVdgPlayer.P_viewStar,
             false,
             true
             );
@@ -275,7 +275,7 @@ FCMdF_DBProducts_Load;
          then FC3doglSelectedSatellite:=1;
       end; //==END== 3d initialization try..finally ==//
       FCMuiSP_SurfaceEcosphere_Set(0, 0, true);
-      FCWinMain.caption:=FCWinMain.caption+'   ['+FCFdTFiles_UIStr_Get(uistrUI,'comCurGame')+FCRplayer.P_gameName+']';
+      FCWinMain.caption:=FCWinMain.caption+'   ['+FCFdTFiles_UIStr_Get(uistrUI,'comCurGame')+FCVdgPlayer.P_gameName+']';
       FCMoglUI_Main3DViewUI_Update(oglupdtpTxtOnly, ogluiutCPS);
    end; //==END== else of if FCRplayer.Play_starSysLoc='' ==//
 end;

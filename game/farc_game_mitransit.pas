@@ -119,7 +119,7 @@ begin
    MCCsatOrgIdx:=0;
    MCCfac:=FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].Tag;
    MCCowned:=round(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].TagFloat);
-   MCCdsgn:=FCFspuF_Design_getDB(FCentities[MCCfac].E_spU[MCCowned].SU_designToken);
+   MCCdsgn:=FCFspuF_Design_getDB(FCDdgEntities[MCCfac].E_spaceUnits[MCCowned].SU_designToken);
    if GMCrootSatObjIdx>0
    then
    begin
@@ -190,10 +190,10 @@ begin
    GMCmaxDV:=(GMCAccelG*FCCdiMbySec_In_1G*0.001)*(MCCmaxBurnEndSec);
    {.calculate maximum reaction mass volume which can be used}
    GMCrmMaxVol:=MCCmaxBurnEndSec*(GMCCthrN/(MCCisp*FCCdiMbySec_In_1G))/(MRMCDVCrmMass*1000);
-   if GMCrmMaxVol>(FCentities[MCCfac].E_spU[MCCowned].SU_reactionMass*0.5)
+   if GMCrmMaxVol>(FCDdgEntities[MCCfac].E_spaceUnits[MCCowned].SU_reactionMass*0.5)
    then
    begin
-      GMCrmMaxVol:=(FCentities[MCCfac].E_spU[MCCowned].SU_reactionMass*0.5);
+      GMCrmMaxVol:=(FCDdgEntities[MCCfac].E_spaceUnits[MCCowned].SU_reactionMass*0.5);
       MCCmaxBurnEndSec:=GMCrmMaxVol/(GMCCthrN/(MCCisp*FCCdiMbySec_In_1G))*(MRMCDVCrmMass*1000);
       GMCmaxDV:=(GMCAccelG*FCCdiMbySec_In_1G*0.001)*(MCCmaxBurnEndSec);
    end;
@@ -295,7 +295,7 @@ begin
    begin
       MTCfac:=FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].Tag;
       MTCowned:=round(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].TagFloat);
-      MTCdesgn:=FCFspuF_Design_getDB(FCentities[MTCfac].E_spU[MTCowned].SU_designToken);
+      MTCdesgn:=FCFspuF_Design_getDB(FCDdgEntities[MTCfac].E_spaceUnits[MTCowned].SU_designToken);
       {.calculate the burn endurance for acceleration}
       MTCburnEndAtAccel:=(GMCcruiseDV-MTCcurDV)/(GMCAccelG*MTCgeesInKmS);
       {.caculate used reaction mass volume for acceleration}
@@ -326,7 +326,7 @@ begin
       GMCtripTime:=round(MTCtimeAtAccel+MTCtimeAtDecel+MTCtimeAtCruise);
       {.calculate reaction mass volume used}
       GMCusedRMvol:=MTCusedRMvolAtAccel+MTCusedRMvolAtDecel;
-      if GMCusedRMvol>FCentities[MTCfac].E_spU[MTCowned].SU_reactionMass
+      if GMCusedRMvol>FCDdgEntities[MTCfac].E_spaceUnits[MTCowned].SU_reactionMass
       then
       begin
          case MTCflightTp of

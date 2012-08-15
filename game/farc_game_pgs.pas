@@ -160,9 +160,9 @@ begin
    BRCfertMS:=0;
    BRCfertPS:=0;
    BRCfinal:=0;
-   BRCpop:=FCentities[BRCfac].E_col[BRCcol].C_population.CP_total;
+   BRCpop:=FCDdgEntities[BRCfac].E_colonies[BRCcol].C_population.CP_total;
    BRChealth:=FCFgCSM_Health_GetIdx( BRCfac, BRCcol );
-   BRCqol:=FCentities[BRCfac].E_col[BRCcol].C_csmHousing_QualityOfLife;
+   BRCqol:=FCDdgEntities[BRCfac].E_colonies[BRCcol].C_csmHousing_QualityOfLife;
    BRCtension:=StrToInt(
       FCFgCSM_Tension_GetIdx(
          BRCfac
@@ -170,20 +170,20 @@ begin
          ,true
          )
       );
-   BRCpopAmedian:=FCentities[BRCfac].E_col[BRCcol].C_population.CP_classAdmMedian;
-   BRCpopASmiSp:=FCentities[BRCfac].E_col[BRCcol].C_population.CP_classAerMissionSpecialist;
-   BRCpopASoff:=FCentities[BRCfac].E_col[BRCcol].C_population.CP_classAerOfficer;
-   BRCpopBSbio:=FCentities[BRCfac].E_col[BRCcol].C_population.CP_classBioBiologist;
-   BRCpopBSdoc:=FCentities[BRCfac].E_col[BRCcol].C_population.CP_classBioDoctor;
-   BRCpopCol:=FCentities[BRCfac].E_col[BRCcol].C_population.CP_classColonist;
-   BRCpopESecof:=FCentities[BRCfac].E_col[BRCcol].C_population.CP_classEcoEcoformer;
-   BRCpopESecol:=FCentities[BRCfac].E_col[BRCcol].C_population.CP_classEcoEcologist;
-   BRCpopISeng:=FCentities[BRCfac].E_col[BRCcol].C_population.CP_classIndEngineer;
-   BRCpopIStech:=FCentities[BRCfac].E_col[BRCcol].C_population.CP_classIndTechnician;
-   BRCpopMScomm:=FCentities[BRCfac].E_col[BRCcol].C_population.CP_classMilCommando;
-   BRCpopMSsold:=FCentities[BRCfac].E_col[BRCcol].C_population.CP_classMilSoldier;
-   BRCpopPSastr:=FCentities[BRCfac].E_col[BRCcol].C_population.CP_classPhyAstrophysicist;
-   BRCpopPSphys:=FCentities[BRCfac].E_col[BRCcol].C_population.CP_classPhyPhysicist;
+   BRCpopAmedian:=FCDdgEntities[BRCfac].E_colonies[BRCcol].C_population.CP_classAdmMedian;
+   BRCpopASmiSp:=FCDdgEntities[BRCfac].E_colonies[BRCcol].C_population.CP_classAerMissionSpecialist;
+   BRCpopASoff:=FCDdgEntities[BRCfac].E_colonies[BRCcol].C_population.CP_classAerOfficer;
+   BRCpopBSbio:=FCDdgEntities[BRCfac].E_colonies[BRCcol].C_population.CP_classBioBiologist;
+   BRCpopBSdoc:=FCDdgEntities[BRCfac].E_colonies[BRCcol].C_population.CP_classBioDoctor;
+   BRCpopCol:=FCDdgEntities[BRCfac].E_colonies[BRCcol].C_population.CP_classColonist;
+   BRCpopESecof:=FCDdgEntities[BRCfac].E_colonies[BRCcol].C_population.CP_classEcoEcoformer;
+   BRCpopESecol:=FCDdgEntities[BRCfac].E_colonies[BRCcol].C_population.CP_classEcoEcologist;
+   BRCpopISeng:=FCDdgEntities[BRCfac].E_colonies[BRCcol].C_population.CP_classIndEngineer;
+   BRCpopIStech:=FCDdgEntities[BRCfac].E_colonies[BRCcol].C_population.CP_classIndTechnician;
+   BRCpopMScomm:=FCDdgEntities[BRCfac].E_colonies[BRCcol].C_population.CP_classMilCommando;
+   BRCpopMSsold:=FCDdgEntities[BRCfac].E_colonies[BRCcol].C_population.CP_classMilSoldier;
+   BRCpopPSastr:=FCDdgEntities[BRCfac].E_colonies[BRCcol].C_population.CP_classPhyAstrophysicist;
+   BRCpopPSphys:=FCDdgEntities[BRCfac].E_colonies[BRCcol].C_population.CP_classPhyPhysicist;
    case BRCtension of
       1:
       begin
@@ -571,12 +571,12 @@ begin
    then BRCpopPSphysFert:=(BRCpopPSphys/BRCpop)*BRCfertPS;
    BRCbrCateg:=(BRCpopAmedianFert+BRCpopASmiSpFert+BRCpopASoffFert+BRCpopBSbioFert+BRCpopBSdocFert+BRCpopColFert+BRCpopESecofFert
       +BRCpopESecolFert+BRCpopISengFert+BRCpopIStechFert+BRCpopMScommFert+BRCpopMSsoldFert+BRCpopPSastrFert+BRCpopPSphysFert);
-   BRCspmNat:=FCentities[BRCfac].E_spmMnat;
+   BRCspmNat:=FCDdgEntities[BRCfac].E_spmMod_Natality;
    if BRCspmNat<-100
    then BRCspmNat:=-100;
    BRCspm:=BRCbrCateg*((100+BRCspmNat)*0.01);
    BRCfinal:=(BRCspm*(BRCpop*0.5))/(75-((BRCspm*1.664)+0.68));
-   FCentities[BRCfac].E_col[BRCcol].C_population.CP_birthRate:=DecimalRound(BRCfinal, 4, 0.00001);
+   FCDdgEntities[BRCfac].E_colonies[BRCcol].C_population.CP_birthRate:=DecimalRound(BRCfinal, 4, 0.00001);
 end;
 
 
@@ -674,22 +674,22 @@ begin
    DRCfinalDR:=0;
    DRCmodDR:=0;
    DRChealth:=FCFgCSM_Health_GetIdx( DRCfac, DRCcol );
-   DRCpop:=FCentities[DRCfac].E_col[DRCcol].C_population.CP_total;
-   DRCmA:=FCentities[DRCfac].E_col[DRCcol].C_population.CP_meanAge;
-   DRCpopAmedian:=FCentities[DRCfac].E_col[DRCcol].C_population.CP_classAdmMedian;
-   DRCpopASmiSp:=FCentities[DRCfac].E_col[DRCcol].C_population.CP_classAerMissionSpecialist;
-   DRCpopASoff:=FCentities[DRCfac].E_col[DRCcol].C_population.CP_classAerOfficer;
-   DRCpopBSbio:=FCentities[DRCfac].E_col[DRCcol].C_population.CP_classBioBiologist;
-   DRCpopBSdoc:=FCentities[DRCfac].E_col[DRCcol].C_population.CP_classBioDoctor;
-   DRCpopCol:=FCentities[DRCfac].E_col[DRCcol].C_population.CP_classColonist;
-   DRCpopESecof:=FCentities[DRCfac].E_col[DRCcol].C_population.CP_classEcoEcoformer;
-   DRCpopESecol:=FCentities[DRCfac].E_col[DRCcol].C_population.CP_classEcoEcologist;
-   DRCpopISeng:=FCentities[DRCfac].E_col[DRCcol].C_population.CP_classIndEngineer;
-   DRCpopIStech:=FCentities[DRCfac].E_col[DRCcol].C_population.CP_classIndTechnician;
-   DRCpopMScomm:=FCentities[DRCfac].E_col[DRCcol].C_population.CP_classMilCommando;
-   DRCpopMSsold:=FCentities[DRCfac].E_col[DRCcol].C_population.CP_classMilSoldier;
-   DRCpopPSastr:=FCentities[DRCfac].E_col[DRCcol].C_population.CP_classPhyAstrophysicist;
-   DRCpopPSphys:=FCentities[DRCfac].E_col[DRCcol].C_population.CP_classPhyPhysicist;
+   DRCpop:=FCDdgEntities[DRCfac].E_colonies[DRCcol].C_population.CP_total;
+   DRCmA:=FCDdgEntities[DRCfac].E_colonies[DRCcol].C_population.CP_meanAge;
+   DRCpopAmedian:=FCDdgEntities[DRCfac].E_colonies[DRCcol].C_population.CP_classAdmMedian;
+   DRCpopASmiSp:=FCDdgEntities[DRCfac].E_colonies[DRCcol].C_population.CP_classAerMissionSpecialist;
+   DRCpopASoff:=FCDdgEntities[DRCfac].E_colonies[DRCcol].C_population.CP_classAerOfficer;
+   DRCpopBSbio:=FCDdgEntities[DRCfac].E_colonies[DRCcol].C_population.CP_classBioBiologist;
+   DRCpopBSdoc:=FCDdgEntities[DRCfac].E_colonies[DRCcol].C_population.CP_classBioDoctor;
+   DRCpopCol:=FCDdgEntities[DRCfac].E_colonies[DRCcol].C_population.CP_classColonist;
+   DRCpopESecof:=FCDdgEntities[DRCfac].E_colonies[DRCcol].C_population.CP_classEcoEcoformer;
+   DRCpopESecol:=FCDdgEntities[DRCfac].E_colonies[DRCcol].C_population.CP_classEcoEcologist;
+   DRCpopISeng:=FCDdgEntities[DRCfac].E_colonies[DRCcol].C_population.CP_classIndEngineer;
+   DRCpopIStech:=FCDdgEntities[DRCfac].E_colonies[DRCcol].C_population.CP_classIndTechnician;
+   DRCpopMScomm:=FCDdgEntities[DRCfac].E_colonies[DRCcol].C_population.CP_classMilCommando;
+   DRCpopMSsold:=FCDdgEntities[DRCfac].E_colonies[DRCcol].C_population.CP_classMilSoldier;
+   DRCpopPSastr:=FCDdgEntities[DRCfac].E_colonies[DRCcol].C_population.CP_classPhyAstrophysicist;
+   DRCpopPSphys:=FCDdgEntities[DRCfac].E_colonies[DRCcol].C_population.CP_classPhyPhysicist;
    DRCbasicDR:=(DRCmA*0.07)/25.3;
    case DRChealth of
       1:
@@ -773,7 +773,7 @@ begin
       +DRCpopESecolrsk+DRCpopISengRsk+DRCpopIStechRsk+DRCpopMScommRsk+DRCpopMSsoldRsk+DRCpopPSastrRsk+DRCpopPSphysRsk;
    DRCmodDR:=DRCbasicDR*(DRCtRiskF*0.01);
    DRCfinalDR:=DRCmodDR*(DRCpop*0.1);
-   FCentities[DRCfac].E_col[DRCcol].C_population.CP_deathRate:=DecimalRound(DRCfinalDR, 4, 0.00001);
+   FCDdgEntities[DRCfac].E_colonies[DRCcol].C_population.CP_deathRate:=DecimalRound(DRCfinalDR, 4, 0.00001);
 end;
 
 procedure FCMgPGS_MeanAge_UpdXfert(
@@ -790,12 +790,12 @@ var
    MAUXmeanA: extended;
 begin
    MAUXmeanA
-      :=FCentities[MAUXfac].E_col[MAUXcol].C_population.CP_meanAge
+      :=FCDdgEntities[MAUXfac].E_colonies[MAUXcol].C_population.CP_meanAge
          -(
-            (FCentities[MAUXfac].E_col[MAUXcol].C_population.CP_meanAge-MAUXsendMA)
-            *(MAUXsendPop/FCentities[MAUXfac].E_col[MAUXcol].C_population.CP_total)
+            (FCDdgEntities[MAUXfac].E_colonies[MAUXcol].C_population.CP_meanAge-MAUXsendMA)
+            *(MAUXsendPop/FCDdgEntities[MAUXfac].E_colonies[MAUXcol].C_population.CP_total)
             );
-   FCentities[MAUXfac].E_col[MAUXcol].C_population.CP_meanAge:=DecimalRound(MAUXmeanA, 1, 0.01);
+   FCDdgEntities[MAUXfac].E_colonies[MAUXcol].C_population.CP_meanAge:=DecimalRound(MAUXmeanA, 1, 0.01);
 end;
 
 end.

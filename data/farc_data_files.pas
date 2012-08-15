@@ -240,15 +240,15 @@ begin
 	XMLConfiguration:=FCWinMain.FCXMLcfg.DocumentElement.ChildNodes.FindNode('currGame');
 	if XMLConfiguration<>nil then
    begin
-      FCRplayer.P_gameName:=XMLConfiguration.Attributes['gname'];
+      FCVdgPlayer.P_gameName:=XMLConfiguration.Attributes['gname'];
       if mustLoadCurrentGameTime then
       begin
-         FCRplayer.P_currentTimeTick:=XMLConfiguration.Attributes['tfTick'];
-         FCRplayer.P_currentTimeMinut:=XMLConfiguration.Attributes['tfMin'];
-         FCRplayer.P_currentTimeHour:=XMLConfiguration.Attributes['tfHr'];
-         FCRplayer.P_currentTimeDay:=XMLConfiguration.Attributes['tfDay'];
-         FCRplayer.P_currentTimeMonth:=XMLConfiguration.Attributes['tfMth'];
-         FCRplayer.P_currentTimeYear:=XMLConfiguration.Attributes['tfYr'];
+         FCVdgPlayer.P_currentTimeTick:=XMLConfiguration.Attributes['tfTick'];
+         FCVdgPlayer.P_currentTimeMinut:=XMLConfiguration.Attributes['tfMin'];
+         FCVdgPlayer.P_currentTimeHour:=XMLConfiguration.Attributes['tfHr'];
+         FCVdgPlayer.P_currentTimeDay:=XMLConfiguration.Attributes['tfDay'];
+         FCVdgPlayer.P_currentTimeMonth:=XMLConfiguration.Attributes['tfMth'];
+         FCVdgPlayer.P_currentTimeYear:=XMLConfiguration.Attributes['tfYr'];
       end;
    end;
    {.read the debug info}
@@ -295,7 +295,7 @@ begin
    {.clear the old file if it exists}
    if FileExists( FCVdiPathConfigFile ) then
    begin
-      if FCRplayer.P_gameName<>'' then
+      if FCVdgPlayer.P_gameName<>'' then
       begin
          FCWinMain.FCXMLcfg.FileName:=FCVdiPathConfigFile;
          FCWinMain.FCXMLcfg.Active:=true;
@@ -368,19 +368,19 @@ begin
    XMLConfigurationItem.Attributes['wide']:=FCVdiWinMainWideScreen;
    XMLConfigurationItem.Attributes['hrstdt']:=FC3doglHRstandardTextures;
 	XMLConfigurationItem:=XMLConfiguration.AddChild( 'currGame' );
-	XMLConfigurationItem.Attributes['gname']:=FCRplayer.P_gameName;
+	XMLConfigurationItem.Attributes['gname']:=FCVdgPlayer.P_gameName;
    if ( mustSaveCurrentGameTime )
-      and ( FCRplayer.P_gameName<>'' ) then
+      and ( FCVdgPlayer.P_gameName<>'' ) then
    begin
-      XMLConfigurationItem.Attributes['tfTick']:= FCRplayer.P_currentTimeTick;
-      XMLConfigurationItem.Attributes['tfMin']:= FCRplayer.P_currentTimeMinut;
-      XMLConfigurationItem.Attributes['tfHr']:= FCRplayer.P_currentTimeHour;
-      XMLConfigurationItem.Attributes['tfDay']:= FCRplayer.P_currentTimeDay;
-      XMLConfigurationItem.Attributes['tfMth']:= FCRplayer.P_currentTimeMonth;
-      XMLConfigurationItem.Attributes['tfYr']:= FCRplayer.P_currentTimeYear;
+      XMLConfigurationItem.Attributes['tfTick']:= FCVdgPlayer.P_currentTimeTick;
+      XMLConfigurationItem.Attributes['tfMin']:= FCVdgPlayer.P_currentTimeMinut;
+      XMLConfigurationItem.Attributes['tfHr']:= FCVdgPlayer.P_currentTimeHour;
+      XMLConfigurationItem.Attributes['tfDay']:= FCVdgPlayer.P_currentTimeDay;
+      XMLConfigurationItem.Attributes['tfMth']:= FCVdgPlayer.P_currentTimeMonth;
+      XMLConfigurationItem.Attributes['tfYr']:= FCVdgPlayer.P_currentTimeYear;
    end
    else if ( mustSaveCurrentGameTime )
-      and ( FCRplayer.P_gameName='' ) then
+      and ( FCVdgPlayer.P_gameName='' ) then
    begin
       XMLConfigurationItem.Attributes['tfTick']:=0;
       XMLConfigurationItem.Attributes['tfMin']:=0;
@@ -463,12 +463,12 @@ procedure FCMdF_DBFactions_Load;
 begin
 	{.clear the data structure}
 	FactionCount:=1;
-	while FactionCount<=Length( FCDBfactions )-1 do
+	while FactionCount<=Length( FCDdgFactions )-1 do
 	begin
-		FCDBfactions[FactionCount]:=FCDBfactions[0];
-      setlength( FCDBfactions[FactionCount].F_colonizationModes, 0 );
-      setlength( FCDBfactions[FactionCount].F_startingLocations, 0 );
-      setlength( FCDBfactions[FactionCount].F_spm, 0 );
+		FCDdgFactions[FactionCount]:=FCDdgFactions[0];
+      setlength( FCDdgFactions[FactionCount].F_colonizationModes, 0 );
+      setlength( FCDdgFactions[FactionCount].F_startingLocations, 0 );
+      setlength( FCDdgFactions[FactionCount].F_spm, 0 );
 		inc( FactionCount );
 	end;
 	FactionCount:=1;
@@ -482,11 +482,11 @@ begin
       begin
          ColonizationModeCount:=0;
          StartingLocations:=0;
-         setlength( FCDBfactions[FactionCount].F_colonizationModes, 1 );
-         setlength( FCDBfactions[FactionCount].F_startingLocations, 1 );
-         setlength( FCDBfactions[FactionCount].F_spm, 1 );
-         FCDBfactions[FactionCount].F_token:=XMLFaction.Attributes[ 'token' ];
-         FCDBfactions[FactionCount].F_level:=XMLFaction.Attributes[ 'level' ];
+         setlength( FCDdgFactions[FactionCount].F_colonizationModes, 1 );
+         setlength( FCDdgFactions[FactionCount].F_startingLocations, 1 );
+         setlength( FCDdgFactions[FactionCount].F_spm, 1 );
+         FCDdgFactions[FactionCount].F_token:=XMLFaction.Attributes[ 'token' ];
+         FCDdgFactions[FactionCount].F_level:=XMLFaction.Attributes[ 'level' ];
          {.faction items processing loop}
          XMLFactionItem:= XMLFaction.ChildNodes.First;
          while XMLFactionItem<>nil do
@@ -499,17 +499,17 @@ begin
                {.viability objectives count}
                Count2:=0;
                inc( ColonizationModeCount );
-               SetLength( FCDBfactions[FactionCount].F_colonizationModes, ColonizationModeCount+1 );
-               FCDBfactions[FactionCount].F_colonizationModes[ColonizationModeCount].CM_token:=XMLFactionItem.Attributes['token'];
-               FCDBfactions[FactionCount].F_colonizationModes[ColonizationModeCount].CM_cpsViabilityThreshold_Economic:=XMLFactionItem.Attributes['viabThrEco'];
-               FCDBfactions[FactionCount].F_colonizationModes[ColonizationModeCount].CM_cpsViabilityThreshold_Social:=XMLFactionItem.Attributes['viabThrSoc'];
-               FCDBfactions[FactionCount].F_colonizationModes[ColonizationModeCount].CM_cpsViabilityThreshold_SpaceMilitary:=XMLFactionItem.Attributes['viabThrSpMil'];
+               SetLength( FCDdgFactions[FactionCount].F_colonizationModes, ColonizationModeCount+1 );
+               FCDdgFactions[FactionCount].F_colonizationModes[ColonizationModeCount].CM_token:=XMLFactionItem.Attributes['token'];
+               FCDdgFactions[FactionCount].F_colonizationModes[ColonizationModeCount].CM_cpsViabilityThreshold_Economic:=XMLFactionItem.Attributes['viabThrEco'];
+               FCDdgFactions[FactionCount].F_colonizationModes[ColonizationModeCount].CM_cpsViabilityThreshold_Social:=XMLFactionItem.Attributes['viabThrSoc'];
+               FCDdgFactions[FactionCount].F_colonizationModes[ColonizationModeCount].CM_cpsViabilityThreshold_SpaceMilitary:=XMLFactionItem.Attributes['viabThrSpMil'];
                EnumIndex:=GetEnumValue( TypeInfo( TFCEdgCreditInterestRanges ), XMLFactionItem.Attributes['creditrng'] );
-               FCDBfactions[FactionCount].F_colonizationModes[ColonizationModeCount].CM_cpsCreditRange:=TFCEdgCreditInterestRanges( EnumIndex );
+               FCDdgFactions[FactionCount].F_colonizationModes[ColonizationModeCount].CM_cpsCreditRange:=TFCEdgCreditInterestRanges( EnumIndex );
                if EnumIndex=-1
                then raise Exception.Create( 'bad faction XML loading w/ colonization mode credit range: '+XMLFactionItem.Attributes['creditrng'] );
                EnumIndex:=GetEnumValue( TypeInfo( TFCEdgCreditInterestRanges ), XMLFactionItem.Attributes['intrng'] );
-               FCDBfactions[FactionCount].F_colonizationModes[ColonizationModeCount].CM_cpsInterestRange:=TFCEdgCreditInterestRanges( EnumIndex );
+               FCDdgFactions[FactionCount].F_colonizationModes[ColonizationModeCount].CM_cpsInterestRange:=TFCEdgCreditInterestRanges( EnumIndex );
                if EnumIndex=-1
                then raise Exception.Create( 'bad faction XML loading w/ colonization mode interest range: '+XMLFactionItem.Attributes['intrng'] );
                {.equipment list items}
@@ -520,56 +520,56 @@ begin
                   if XMLFactionSubItem.NodeName='facViabObj' then
                   begin
                      inc(Count2);
-                     SetLength( FCDBfactions[FactionCount].F_colonizationModes[ColonizationModeCount].CM_cpsViabilityObjectives, Count2+1 );
+                     SetLength( FCDdgFactions[FactionCount].F_colonizationModes[ColonizationModeCount].CM_cpsViabilityObjectives, Count2+1 );
                      {.viability type}
                      EnumIndex:=GetEnumValue( TypeInfo( TFCEcpsoObjectiveTypes ), XMLFactionSubItem.Attributes['objTp'] );
-                     FCDBfactions[FactionCount].F_colonizationModes[ColonizationModeCount].CM_cpsViabilityObjectives[Count2].FVO_objTp:=TFCEcpsoObjectiveTypes( EnumIndex );
+                     FCDdgFactions[FactionCount].F_colonizationModes[ColonizationModeCount].CM_cpsViabilityObjectives[Count2].FVO_objTp:=TFCEcpsoObjectiveTypes( EnumIndex );
                      if EnumIndex=-1
                      then raise Exception.Create( 'bad faction viability objective: '+XMLFactionSubItem.Attributes['objTp'] );
-                     if FCDBfactions[FactionCount].F_colonizationModes[ColonizationModeCount].CM_cpsViabilityObjectives[Count2].FVO_objTp=otEcoIndustrialForce then
+                     if FCDdgFactions[FactionCount].F_colonizationModes[ColonizationModeCount].CM_cpsViabilityObjectives[Count2].FVO_objTp=otEcoIndustrialForce then
                      begin
-                        FCDBfactions[FactionCount].F_colonizationModes[ColonizationModeCount].CM_cpsViabilityObjectives[Count2].FVO_ifProduct:=XMLFactionSubItem.Attributes['product'];
-                        FCDBfactions[FactionCount].F_colonizationModes[ColonizationModeCount].CM_cpsViabilityObjectives[Count2].FVO_ifThreshold:=StrToFloat( XMLFactionSubItem.Attributes['threshold'], FCVdiFormat );
+                        FCDdgFactions[FactionCount].F_colonizationModes[ColonizationModeCount].CM_cpsViabilityObjectives[Count2].FVO_ifProduct:=XMLFactionSubItem.Attributes['product'];
+                        FCDdgFactions[FactionCount].F_colonizationModes[ColonizationModeCount].CM_cpsViabilityObjectives[Count2].FVO_ifThreshold:=StrToFloat( XMLFactionSubItem.Attributes['threshold'], FCVdiFormat );
                      end;
                   end
                   {.equipment items list}
                   else if XMLFactionSubItem.NodeName='facEqupItm' then
                   begin
                      inc(Count1);
-                     SetLength( FCDBfactions[FactionCount].F_colonizationModes[ColonizationModeCount].CM_equipmentList, Count1+1 );
+                     SetLength( FCDdgFactions[FactionCount].F_colonizationModes[ColonizationModeCount].CM_equipmentList, Count1+1 );
                      if XMLFactionSubItem.Attributes['itemTp']='feitProduct' then
                      begin
-                        FCDBfactions[FactionCount].F_colonizationModes[ColonizationModeCount].CM_equipmentList[Count1].EL_equipmentItem:=feitProduct;
-                        FCDBfactions[FactionCount].F_colonizationModes[ColonizationModeCount].CM_equipmentList[Count1].EL_eiProdToken:=XMLFactionSubItem.Attributes['prodToken'];
-                        FCDBfactions[FactionCount].F_colonizationModes[ColonizationModeCount].CM_equipmentList[Count1].EL_eiProdUnit:=XMLFactionSubItem.Attributes['unit'];
-                        FCDBfactions[FactionCount].F_colonizationModes[ColonizationModeCount].CM_equipmentList[Count1].EL_eiProdCarriedBy:=XMLFactionSubItem.Attributes['carriedBy'];
+                        FCDdgFactions[FactionCount].F_colonizationModes[ColonizationModeCount].CM_equipmentList[Count1].EL_equipmentItem:=feitProduct;
+                        FCDdgFactions[FactionCount].F_colonizationModes[ColonizationModeCount].CM_equipmentList[Count1].EL_eiProdToken:=XMLFactionSubItem.Attributes['prodToken'];
+                        FCDdgFactions[FactionCount].F_colonizationModes[ColonizationModeCount].CM_equipmentList[Count1].EL_eiProdUnit:=XMLFactionSubItem.Attributes['unit'];
+                        FCDdgFactions[FactionCount].F_colonizationModes[ColonizationModeCount].CM_equipmentList[Count1].EL_eiProdCarriedBy:=XMLFactionSubItem.Attributes['carriedBy'];
                      end
                      {.space unit}
                      else if XMLFactionSubItem.Attributes['itemTp']='feitSpaceCraft' then
                      begin
-                        FCDBfactions[FactionCount].F_colonizationModes[ColonizationModeCount].CM_equipmentList[Count1].EL_equipmentItem:=feitSpaceUnit;
-                        FCDBfactions[FactionCount].F_colonizationModes[ColonizationModeCount].CM_equipmentList[Count1].EL_eiSUnNameToken:=XMLFactionSubItem.Attributes['properName'];
-                        FCDBfactions[FactionCount].F_colonizationModes[ColonizationModeCount].CM_equipmentList[Count1].EL_eiSUnDesignToken:=XMLFactionSubItem.Attributes['designToken'];
+                        FCDdgFactions[FactionCount].F_colonizationModes[ColonizationModeCount].CM_equipmentList[Count1].EL_equipmentItem:=feitSpaceUnit;
+                        FCDdgFactions[FactionCount].F_colonizationModes[ColonizationModeCount].CM_equipmentList[Count1].EL_eiSUnNameToken:=XMLFactionSubItem.Attributes['properName'];
+                        FCDdgFactions[FactionCount].F_colonizationModes[ColonizationModeCount].CM_equipmentList[Count1].EL_eiSUnDesignToken:=XMLFactionSubItem.Attributes['designToken'];
                         EnumIndex:=GetEnumValue( TypeInfo( TFCEdgSpaceUnitStatus ), XMLFactionSubItem.Attributes['status'] );
-                        FCDBfactions[FactionCount].F_colonizationModes[ColonizationModeCount].CM_equipmentList[Count1].EL_eiSUnStatus:=TFCEdgSpaceUnitStatus( EnumIndex );
+                        FCDdgFactions[FactionCount].F_colonizationModes[ColonizationModeCount].CM_equipmentList[Count1].EL_eiSUnStatus:=TFCEdgSpaceUnitStatus( EnumIndex );
                         if EnumIndex=-1
                         then raise Exception.Create( 'bad faction equipment item loading w/ space unit status: '+XMLFactionSubItem.Attributes['status'] );
-                        FCDBfactions[FactionCount].F_colonizationModes[ColonizationModeCount].CM_equipmentList[Count1].EL_eiSUnDockStatus:=XMLFactionSubItem.Attributes['spuDock'];
-                        FCDBfactions[FactionCount].F_colonizationModes[ColonizationModeCount].CM_equipmentList[Count1].EL_eiSUnReactionMass:=StrToFloat( XMLFactionSubItem.Attributes['availEnRM'], FCVdiFormat );
+                        FCDdgFactions[FactionCount].F_colonizationModes[ColonizationModeCount].CM_equipmentList[Count1].EL_eiSUnDockStatus:=XMLFactionSubItem.Attributes['spuDock'];
+                        FCDdgFactions[FactionCount].F_colonizationModes[ColonizationModeCount].CM_equipmentList[Count1].EL_eiSUnReactionMass:=StrToFloat( XMLFactionSubItem.Attributes['availEnRM'], FCVdiFormat );
                      end;
                   end;
                   XMLFactionSubItem:=XMLFactionSubItem.NextSibling;
                end; //==END== while DBFRfacDotItm<>nil ==//
-               SetLength( FCDBfactions[FactionCount].F_colonizationModes[ColonizationModeCount].CM_equipmentList, Count1+1 );
+               SetLength( FCDdgFactions[FactionCount].F_colonizationModes[ColonizationModeCount].CM_equipmentList, Count1+1 );
             end //==END== else if DBFRfacSubItem.NodeName='facColMode' ==//
             {.starting location}
             else if XMLFactionItem.NodeName='facStartLoc' then
             begin
                inc( StartingLocations );
-               SetLength( FCDBfactions[FactionCount].F_startingLocations, StartingLocations+1 );
-               FCDBfactions[FactionCount].F_startingLocations[StartingLocations].SL_stellarSystem:=XMLFactionItem.Attributes['locSSys'];
-               FCDBfactions[FactionCount].F_startingLocations[StartingLocations].SL_star:=XMLFactionItem.Attributes['locStar'];
-               FCDBfactions[FactionCount].F_startingLocations[StartingLocations].SL_orbitalObject:=XMLFactionItem.Attributes['locObObj'];
+               SetLength( FCDdgFactions[FactionCount].F_startingLocations, StartingLocations+1 );
+               FCDdgFactions[FactionCount].F_startingLocations[StartingLocations].SL_stellarSystem:=XMLFactionItem.Attributes['locSSys'];
+               FCDdgFactions[FactionCount].F_startingLocations[StartingLocations].SL_star:=XMLFactionItem.Attributes['locStar'];
+               FCDdgFactions[FactionCount].F_startingLocations[StartingLocations].SL_orbitalObject:=XMLFactionItem.Attributes['locObObj'];
             end
             {.SPM settings}
             else if XMLFactionItem.NodeName='facSPM' then
@@ -580,20 +580,20 @@ begin
                while XMLFactionSubItem<>nil do
                begin
                   inc( Count1 );
-                  SetLength( FCDBfactions[FactionCount].F_spm, Count1+1 );
-                  FCDBfactions[FactionCount].F_spm[Count1].SPMS_token:=XMLFactionSubItem.Attributes['token'];
-                  FCDBfactions[FactionCount].F_spm[Count1].SPMS_duration:=XMLFactionSubItem.Attributes['duration'];
-                  FCDBfactions[FactionCount].F_spm[Count1].SPMS_isPolicy:=true;
-                  FCDBfactions[FactionCount].F_spm[Count1].SPMS_iPtIsSet:=XMLFactionSubItem.Attributes['isSet'];
-                  FCDBfactions[FactionCount].F_spm[Count1].SPMS_iPtAcceptanceProbability:=XMLFactionSubItem.Attributes['aprob'];
-                  if FCDBfactions[FactionCount].F_spm[Count1].SPMS_iPtAcceptanceProbability=-2 then
+                  SetLength( FCDdgFactions[FactionCount].F_spm, Count1+1 );
+                  FCDdgFactions[FactionCount].F_spm[Count1].SPMS_token:=XMLFactionSubItem.Attributes['token'];
+                  FCDdgFactions[FactionCount].F_spm[Count1].SPMS_duration:=XMLFactionSubItem.Attributes['duration'];
+                  FCDdgFactions[FactionCount].F_spm[Count1].SPMS_isPolicy:=true;
+                  FCDdgFactions[FactionCount].F_spm[Count1].SPMS_iPtIsSet:=XMLFactionSubItem.Attributes['isSet'];
+                  FCDdgFactions[FactionCount].F_spm[Count1].SPMS_iPtAcceptanceProbability:=XMLFactionSubItem.Attributes['aprob'];
+                  if FCDdgFactions[FactionCount].F_spm[Count1].SPMS_iPtAcceptanceProbability=-2 then
                   begin
-                     FCDBfactions[FactionCount].F_spm[Count1].SPMS_isPolicy:=false;
+                     FCDdgFactions[FactionCount].F_spm[Count1].SPMS_isPolicy:=false;
                      EnumIndex:=GetEnumValue( TypeInfo( TFCEdgBeliefLevels ), XMLFactionSubItem.Attributes['belieflev'] );
-                     FCDBfactions[FactionCount].F_spm[Count1].SPMS_iPtBeliefLevel:=TFCEdgBeliefLevels( EnumIndex );
+                     FCDdgFactions[FactionCount].F_spm[Count1].SPMS_iPtBeliefLevel:=TFCEdgBeliefLevels( EnumIndex );
                      if EnumIndex=-1
                      then raise Exception.Create( 'bad faction XML loading w/ meme belief level: '+XMLFactionSubItem.Attributes['belieflev'] );
-                     FCDBfactions[FactionCount].F_spm[Count1].SPMS_iPtSpreadValue:=XMLFactionSubItem.Attributes['spreadval'];
+                     FCDdgFactions[FactionCount].F_spm[Count1].SPMS_iPtSpreadValue:=XMLFactionSubItem.Attributes['spreadval'];
                   end;
                   XMLFactionSubItem:=XMLFactionSubItem.NextSibling;
                end; //==END== while DBFRspmItm<>nil ==//
@@ -601,8 +601,8 @@ begin
             XMLFactionItem:= XMLFactionItem.NextSibling;
          end; //==END== while DBFRfacSubItem<>nil ==//
          {.resize to real table size}
-         SetLength( FCDBfactions[FactionCount].F_colonizationModes, ColonizationModeCount+1 );
-         SetLength( FCDBfactions[FactionCount].F_startingLocations, StartingLocations+1 ) ;
+         SetLength( FCDdgFactions[FactionCount].F_colonizationModes, ColonizationModeCount+1 );
+         SetLength( FCDdgFactions[FactionCount].F_startingLocations, StartingLocations+1 ) ;
          inc( FactionCount );
       end; //==END== if DBFRfacItem.NodeName<>'#comment' ==//
       XMLFaction:= XMLFaction.NextSibling;
@@ -1266,7 +1266,7 @@ procedure FCMdF_DBSPMitems_Load;
       ,XMLSPMitemSub
       ,XMLSPMitemSubSub: IXMLNode;
 begin
-   SetLength( FCDBdgSPMi, 1 );
+   SetLength( FCDdgSPMi, 1 );
    Count:=0;
 	{.read the document}
 	FCWinMain.FCXMLdbSPMi.FileName:=FCVdiPathXML+'\env\spmdb.xml';
@@ -1277,17 +1277,17 @@ begin
       if XMLSPMitem.NodeName<>'#comment' then
       begin
          inc( Count );
-         SetLength( FCDBdgSPMi, Count+1 );
-         SetLength( FCDBdgSPMi[Count].SPMI_req, 1 );
-         SetLength( FCDBdgSPMi[Count].SPMI_infl, 1 );
-         SetLength( FCDBdgSPMi[Count].SPMI_customFxList, 1 );
-         FCDBdgSPMi[Count].SPMI_token:=XMLSPMitem.Attributes['token'];
+         SetLength( FCDdgSPMi, Count+1 );
+         SetLength( FCDdgSPMi[Count].SPMI_req, 1 );
+         SetLength( FCDdgSPMi[Count].SPMI_infl, 1 );
+         SetLength( FCDdgSPMi[Count].SPMI_customFxList, 1 );
+         FCDdgSPMi[Count].SPMI_token:=XMLSPMitem.Attributes['token'];
          EnumIndex:=GetEnumValue( TypeInfo( TFCEdgSPMarea ), XMLSPMitem.Attributes['area'] );
-         FCDBdgSPMi[Count].SPMI_area:=TFCEdgSPMarea( EnumIndex );
+         FCDdgSPMi[Count].SPMI_area:=TFCEdgSPMarea( EnumIndex );
          if EnumIndex=-1
          then raise Exception.Create( 'bad spm item area: '+XMLSPMitem.Attributes['area'] );
-         FCDBdgSPMi[Count].SPMI_isUnique2set:=XMLSPMitem.Attributes['isunique'];
-         FCDBdgSPMi[Count].SPMI_isPolicy:=XMLSPMitem.Attributes['ispolicy'];
+         FCDdgSPMi[Count].SPMI_isUnique2set:=XMLSPMitem.Attributes['isunique'];
+         FCDdgSPMi[Count].SPMI_isPolicy:=XMLSPMitem.Attributes['ispolicy'];
          {.SPMi sub data}
          XMLSPMitemSub:=XMLSPMitem.ChildNodes.First;
          while XMLSPMitemSub<>nil do
@@ -1295,14 +1295,14 @@ begin
             {.SPMi modifiers}
             if XMLSPMitemSub.NodeName='spmmod' then
             begin
-               FCDBdgSPMi[Count].SPMI_modCohes:=XMLSPMitemSub.Attributes['mcohes'];
-               FCDBdgSPMi[Count].SPMI_modTens:=XMLSPMitemSub.Attributes['mtens'];
-               FCDBdgSPMi[Count].SPMI_modSec:=XMLSPMitemSub.Attributes['msec'];
-               FCDBdgSPMi[Count].SPMI_modEdu:=XMLSPMitemSub.Attributes['medu'];
-               FCDBdgSPMi[Count].SPMI_modNat:=XMLSPMitemSub.Attributes['mnat'];
-               FCDBdgSPMi[Count].SPMI_modHeal:=XMLSPMitemSub.Attributes['mhealth'];
-               FCDBdgSPMi[Count].SPMI_modBur:=XMLSPMitemSub.Attributes['mbur'];
-               FCDBdgSPMi[Count].SPMI_modCorr:=XMLSPMitemSub.Attributes['mcorr'];
+               FCDdgSPMi[Count].SPMI_modCohes:=XMLSPMitemSub.Attributes['mcohes'];
+               FCDdgSPMi[Count].SPMI_modTens:=XMLSPMitemSub.Attributes['mtens'];
+               FCDdgSPMi[Count].SPMI_modSec:=XMLSPMitemSub.Attributes['msec'];
+               FCDdgSPMi[Count].SPMI_modEdu:=XMLSPMitemSub.Attributes['medu'];
+               FCDdgSPMi[Count].SPMI_modNat:=XMLSPMitemSub.Attributes['mnat'];
+               FCDdgSPMi[Count].SPMI_modHeal:=XMLSPMitemSub.Attributes['mhealth'];
+               FCDdgSPMi[Count].SPMI_modBur:=XMLSPMitemSub.Attributes['mbur'];
+               FCDdgSPMi[Count].SPMI_modCorr:=XMLSPMitemSub.Attributes['mcorr'];
             end
             {.SPMI requirements}
             else if XMLSPMitemSub.NodeName='spmreq' then
@@ -1312,40 +1312,40 @@ begin
                while XMLSPMitemSubSub<>nil do
                begin
                   inc( Count1 );
-                  SetLength( FCDBdgSPMi[Count].SPMI_req, Count1+1 );
+                  SetLength( FCDdgSPMi[Count].SPMI_req, Count1+1 );
                   EnumIndex:=GetEnumValue( TypeInfo( TFCEdgSPMiReq ), XMLSPMitemSubSub.Attributes['token'] );
-                  FCDBdgSPMi[Count].SPMI_req[Count1].SPMIR_type:=TFCEdgSPMiReq( EnumIndex );
+                  FCDdgSPMi[Count].SPMI_req[Count1].SPMIR_type:=TFCEdgSPMiReq( EnumIndex );
                   if EnumIndex=-1
                   then raise Exception.Create( 'bad spm item requirement type: '+XMLSPMitemSubSub.Attributes['token'] );
-                  case FCDBdgSPMi[Count].SPMI_req[Count1].SPMIR_type of
+                  case FCDdgSPMi[Count].SPMI_req[Count1].SPMIR_type of
                      dgBuilding:
                      begin
-                        FCDBdgSPMi[Count].SPMI_req[Count1].SPMIR_infToken:=XMLSPMitemSubSub.Attributes['buildtoken'];
-                        FCDBdgSPMi[Count].SPMI_req[Count1].SPMIR_percCol:=XMLSPMitemSubSub.Attributes['buildperc'];
+                        FCDdgSPMi[Count].SPMI_req[Count1].SPMIR_infToken:=XMLSPMitemSubSub.Attributes['buildtoken'];
+                        FCDdgSPMi[Count].SPMI_req[Count1].SPMIR_percCol:=XMLSPMitemSubSub.Attributes['buildperc'];
                      end;
 
                      dgFacData:
                      begin
                         EnumIndex:=GetEnumValue( TypeInfo( TFCEdgSPMiReqFDat ), XMLSPMitemSubSub.Attributes['fdatType'] );
-                        FCDBdgSPMi[Count].SPMI_req[Count1].SPMIR_datTp:=TFCEdgSPMiReqFDat( EnumIndex );
+                        FCDdgSPMi[Count].SPMI_req[Count1].SPMIR_datTp:=TFCEdgSPMiReqFDat( EnumIndex );
                         if EnumIndex=-1
                         then raise Exception.Create( 'bad spm item requirement-faction data: '+XMLSPMitemSubSub.Attributes['fdatType'] );
-                        FCDBdgSPMi[Count].SPMI_req[Count1].SPMIR_datValue:=XMLSPMitemSubSub.Attributes['fdatValue'];
+                        FCDdgSPMi[Count].SPMI_req[Count1].SPMIR_datValue:=XMLSPMitemSubSub.Attributes['fdatValue'];
                      end;
 
                      dgTechSci:
                      begin
-                        FCDBdgSPMi[Count].SPMI_req[Count1].SPMIR_tsToken:=XMLSPMitemSubSub.Attributes['tstoken'];
-                        FCDBdgSPMi[Count].SPMI_req[Count1].SPMIR_masterLvl:=XMLSPMitemSubSub.Attributes['tsmastlvl'];
+                        FCDdgSPMi[Count].SPMI_req[Count1].SPMIR_tsToken:=XMLSPMitemSubSub.Attributes['tstoken'];
+                        FCDdgSPMi[Count].SPMI_req[Count1].SPMIR_masterLvl:=XMLSPMitemSubSub.Attributes['tsmastlvl'];
                      end;
 
                      dgUC:
                      begin
                         EnumIndex:=GetEnumValue( TypeInfo( TFCEdgSPMiReqUC ), XMLSPMitemSubSub.Attributes['ucmethod'] );
-                        FCDBdgSPMi[Count].SPMI_req[Count1].SPMIR_ucMethod:=TFCEdgSPMiReqUC( EnumIndex );
+                        FCDdgSPMi[Count].SPMI_req[Count1].SPMIR_ucMethod:=TFCEdgSPMiReqUC( EnumIndex );
                         if EnumIndex=-1
                         then raise Exception.Create( 'bad spm item requirement-UC method: '+XMLSPMitemSubSub.Attributes['ucmethod'] );
-                        FCDBdgSPMi[Count].SPMI_req[Count1].SPMIR_ucVal:=StrToFloat( XMLSPMitemSubSub.Attributes['ucval'], FCVdiFormat );
+                        FCDdgSPMi[Count].SPMI_req[Count1].SPMIR_ucVal:=StrToFloat( XMLSPMitemSubSub.Attributes['ucval'], FCVdiFormat );
                      end;
                   end;
                   XMLSPMitemSubSub:=XMLSPMitemSubSub.NextSibling;
@@ -1355,10 +1355,10 @@ begin
             else if XMLSPMitemSub.NodeName='spmHQ' then
             begin
                EnumIndex:=GetEnumValue( TypeInfo( TFCEdgSPMhqStr ), XMLSPMitemSub.Attributes['hqstruc'] );
-               FCDBdgSPMi[Count].SPMI_hqStruc:=TFCEdgSPMhqStr( EnumIndex );
+               FCDdgSPMi[Count].SPMI_hqStruc:=TFCEdgSPMhqStr( EnumIndex );
                if EnumIndex=-1
                then raise Exception.Create( 'bad spm item HQ: '+XMLSPMitemSub.Attributes['hqstruc'] );
-               FCDBdgSPMi[Count].SPMI_hqRTM:=XMLSPMitemSub.Attributes['hqrtm'];
+               FCDdgSPMi[Count].SPMI_hqRTM:=XMLSPMitemSub.Attributes['hqrtm'];
             end
             {.custom effects}
             else if XMLSPMitemSub.NodeName='spmfx' then
@@ -1368,19 +1368,19 @@ begin
                while XMLSPMitemSubSub<>nil do
                begin
                   inc( Count1 );
-                  SetLength( FCDBdgSPMi[Count].SPMI_customFxList, Count1+1 );
+                  SetLength( FCDdgSPMi[Count].SPMI_customFxList, Count1+1 );
                   EnumIndex:=GetEnumValue( TypeInfo( TFCEdgSPMiCustomEffects ), XMLSPMitemSubSub.Attributes['code'] );
-                  FCDBdgSPMi[Count].SPMI_customFxList[Count1].CFX_code:=TFCEdgSPMiCustomEffects( EnumIndex );
+                  FCDdgSPMi[Count].SPMI_customFxList[Count1].CFX_code:=TFCEdgSPMiCustomEffects( EnumIndex );
                   if EnumIndex=-1
                   then raise Exception.Create( 'bad spm item custom effect: '+XMLSPMitemSubSub.Attributes['code'] );
-                  case FCDBdgSPMi[Count].SPMI_customFxList[Count1].CFX_code of
+                  case FCDdgSPMi[Count].SPMI_customFxList[Count1].CFX_code of
                      sceEIOUT:
                      begin
-                        FCDBdgSPMi[Count].SPMI_customFxList[Count1].CFX_eioutMod:=XMLSPMitemSubSub.Attributes['modifier'];
-                        FCDBdgSPMi[Count].SPMI_customFxList[Count1].CFX_eioutIsBurMod:=XMLSPMitemSubSub.Attributes['isburmod'];
+                        FCDdgSPMi[Count].SPMI_customFxList[Count1].CFX_eioutMod:=XMLSPMitemSubSub.Attributes['modifier'];
+                        FCDdgSPMi[Count].SPMI_customFxList[Count1].CFX_eioutIsBurMod:=XMLSPMitemSubSub.Attributes['isburmod'];
                      end;
 
-                     sceREVTX: FCDBdgSPMi[Count].SPMI_customFxList[Count1].CFX_revtxCoef:=StrToFloat( XMLSPMitemSubSub.Attributes['coef'], FCVdiFormat );
+                     sceREVTX: FCDdgSPMi[Count].SPMI_customFxList[Count1].CFX_revtxCoef:=StrToFloat( XMLSPMitemSubSub.Attributes['coef'], FCVdiFormat );
                   end;
                   XMLSPMitemSubSub:=XMLSPMitemSubSub.NextSibling;
                end;
@@ -1393,9 +1393,9 @@ begin
                while XMLSPMitemSubSub<>nil do
                begin
                   inc( Count1 );
-                  SetLength( FCDBdgSPMi[Count].SPMI_infl, Count1+1 );
-                  FCDBdgSPMi[Count].SPMI_infl[Count1].SPMII_token:=XMLSPMitemSubSub.Attributes['vstoken'];
-                  FCDBdgSPMi[Count].SPMI_infl[Count1].SPMII_influence:=XMLSPMitemSubSub.Attributes['vsmod'];
+                  SetLength( FCDdgSPMi[Count].SPMI_infl, Count1+1 );
+                  FCDdgSPMi[Count].SPMI_infl[Count1].SPMII_token:=XMLSPMitemSubSub.Attributes['vstoken'];
+                  FCDdgSPMi[Count].SPMI_infl[Count1].SPMII_influence:=XMLSPMitemSubSub.Attributes['vsmod'];
                   XMLSPMitemSubSub:=XMLSPMitemSubSub.NextSibling;
                end; //==END== while DBSPMIinfl<>nil do ==//
             end;

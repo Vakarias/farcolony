@@ -1,4 +1,4 @@
-﻿{======(C) Copyright Aug.2009-2012 Jean-Francois Baconnet All rights reserved==============
+{======(C) Copyright Aug.2009-2012 Jean-Francois Baconnet All rights reserved==============
 
         Title:  FAR Colony
         Author: Jean-Francois Baconnet
@@ -393,9 +393,9 @@ type TFCRdgColony = record
    C_csmHousing_PopulationCapacity: int64;
    C_csmHousing_SpaceLevel: extended;
    C_csmHousing_QualityOfLife: integer;
-   C_csmHealth_healthLevel: integer;
-   C_csmEnergy_consumption: extended;
-   C_csmEnergy_generation: extended;
+   C_csmHealth_HealthLevel: integer;
+   C_csmEnergy_Consumption: extended;
+   C_csmEnergy_Generation: extended;
    C_csmEnergy_StorageCurrent: extended;
    C_csmEnergy_StorageMax: extended;
    C_economicIndustrialOutput: integer;
@@ -707,89 +707,71 @@ type TFCRdgSpaceUnit = record
    SU_dockedSpaceUnits: array of TFCRdgSpaceUnitDockList;
    SU_deltaV: extended;
    SU_3dVelocity: extended;
-   SUO_availRMass: extended;
+   SU_reactionMass: extended;
 end;
+
+{:REFERENCES LIST
+   - FCMdF_Game_Load
+   - FCMdF_Game_Save
+   - FCMdG_Entities_Clear
+   - FCMgNG_Core_Proceed
+   - if centralized SPMi mod ad/rem/update and/or bureaucracy/corruption: FCMgSPM_SPMI_Set
+}
+///<summary>
+///   entities
+///</summary>
+type TFCRdgEntity= record
+   E_token: string[20];
+   E_factionLevel: integer;
+   E_bureaucracy: integer;
+   E_corruption: integer;
+   E_hqHigherLevel: TFCEdgHeadQuarterStatus;
+   E_ucInAccount: extended;
+   E_spaceUnits: array of TFCRdgSpaceUnit;
+   E_colonies: array of TFCRdgColony;
+   E_spmSettings: array of TFCRdgSPMSettings;
+   E_spmMod_Cohesion: integer;
+   E_spmMod_Tension: integer;
+   E_spmMod_Security: integer;
+   E_spmMod_Education: integer;
+   E_spmMod_Natality: integer;
+   E_spmMod_Health: integer;
+   E_spmMod_Bureaucracy: integer;
+   E_spmMod_Corruption: integer;
+end;
+   TFCDdgEntities= array [0..FCCdiFactionsMax] of TFCRdgEntity;
 
 //==END PUBLIC RECORDS======================================================================
 
-   //==========subsection===================================================================
-//var
+
+var
+   //==========databases and other data structures pre-init=================================
+   FCDdgCSMPhaseSchedule: TFCDdgCSMPhaseSchedule;
+
+   FCDdgEntities: TFCDdgEntities;
+
+   FCDdgFactions: TFCDdgFactions;
+
+   FCDdgSPMi: TFCDdgSPMi;
+
+   //==========core game data===============================================================
+   FCVdgPlayer: TFCRdgPlayer;
+
+   FCVdgTimePhase: TFCEtimePhases =tphNull;
+
 //==END PUBLIC VAR==========================================================================
 
-//const
+const
+   FCCdgWeekInTicks=1008;
+
 //==END PUBLIC CONST========================================================================
 
 //===========================END FUNCTIONS SECTION==========================================
 
-
-
-
-
-   
-
-
-
-
-
-
-
-
-
-   {.faction's entity data structure}
-   {:DEV NOTES: entity [0] is always the player's faction entity.}
-   {:DEV NOTES: update FCMdG_Entities_Clear / FCMdF_Game_Load / FCMdF_Game_Save / FCMgNG_Core_Proceed.}
-   {:DEV NOTES: if centralized SPMi mod ad/rem/update and/or bureaucracy/corruption: update FCMgSPM_SPMI_Set.}
-   type TFCRdgEntity= record
-      {.corresponding faction's token}
-      E_token: string[20];
-      {.faction level}
-      E_facLvl: integer;
-      E_bureau: integer;
-      E_corrupt: integer;
-      {.higher hq level present in the faction}
-      E_hqHigherLvl: TFCEdgHeadQuarterStatus;
-      E_uc: extended;
-      {.owned space units sub data structure}
-      E_spU: array of TFCRdgSpaceUnit;
-      {.owned colonies}
-      E_col: array of TFCRdgColony;
-      {.SPM settings}
-      E_spm: array of TFCRdgSPMSettings;
-      {.centralized modifiers of all SPMi currently set}
-      E_spmMcohes: integer;
-      E_spmMtens: integer;
-      E_spmMsec: integer;
-      E_spmMedu: integer;
-      E_spmMnat: integer;
-      E_spmMhealth: integer;
-      E_spmMBur: integer;
-      E_spmMCorr: integer;
-   end;
-      TFCentities= array [0..FCCdiFactionsMax] of TFCRdgEntity;
-   ///<summary>
-   ///   clear the entities data
-   ///</summary>
-   procedure FCMdG_Entities_Clear;
-   //=======================================================================================
-   {.global variables}
-   //=======================================================================================
-   var
-      FCDBfactions: TFCDdgFactions;
-      FCDBdgSPMi: TFCDBdgSPMi;
-      FCentities: TFCentities;
-      {.CSM test list}
-      FCGcsmPhList: TFCDdgCSMPhaseSchedule;
-      {.game timer phase dump}
-      FCGtimePhase: TFCEtimePhases =tphNull;
-
-      FCRplayer: TFCRdgPlayer;
-   //=======================================================================================
-   {.constants}
-   //=======================================================================================
-   const
-      FCCwkTick=1008;
-
-
+///<summary>
+///   clear the entities data
+///</summary>
+procedure FCMdG_Entities_Clear;
 
 implementation
 
@@ -822,23 +804,23 @@ begin
    ECcnt:=0;
    while ECcnt<=FCCdiFactionsMax do
    begin
-      FCentities[ECcnt].E_token:='';
-      FCentities[ECcnt].E_facLvl:=0;
-      FCentities[ECcnt].E_bureau:=0;
-      FCentities[ECcnt].E_corrupt:=0;
-      FCentities[ECcnt].E_hqHigherLvl:=hqsNoHQPresent;
-      FCentities[ECcnt].E_uc:=0;
-      SetLength(FCentities[ECcnt].E_spU, 0);
-      SetLength(FCentities[ECcnt].E_col, 0);
-      SetLength(FCentities[ECcnt].E_spm, 0);
-      FCentities[ECcnt].E_spmMcohes:=0;
-      FCentities[ECcnt].E_spmMtens:=0;
-      FCentities[ECcnt].E_spmMsec:=0;
-      FCentities[ECcnt].E_spmMedu:=0;
-      FCentities[ECcnt].E_spmMnat:=0;
-      FCentities[ECcnt].E_spmMhealth:=0;
-      FCentities[ECcnt].E_spmMBur:=0;
-      FCentities[ECcnt].E_spmMCorr:=0;
+      FCDdgEntities[ECcnt].E_token:='';
+      FCDdgEntities[ECcnt].E_factionLevel:=0;
+      FCDdgEntities[ECcnt].E_bureaucracy:=0;
+      FCDdgEntities[ECcnt].E_corruption:=0;
+      FCDdgEntities[ECcnt].E_hqHigherLevel:=hqsNoHQPresent;
+      FCDdgEntities[ECcnt].E_ucInAccount:=0;
+      SetLength(FCDdgEntities[ECcnt].E_spaceUnits, 0);
+      SetLength(FCDdgEntities[ECcnt].E_colonies, 0);
+      SetLength(FCDdgEntities[ECcnt].E_spmSettings, 0);
+      FCDdgEntities[ECcnt].E_spmMod_Cohesion:=0;
+      FCDdgEntities[ECcnt].E_spmMod_Tension:=0;
+      FCDdgEntities[ECcnt].E_spmMod_Security:=0;
+      FCDdgEntities[ECcnt].E_spmMod_Education:=0;
+      FCDdgEntities[ECcnt].E_spmMod_Natality:=0;
+      FCDdgEntities[ECcnt].E_spmMod_Health:=0;
+      FCDdgEntities[ECcnt].E_spmMod_Bureaucracy:=0;
+      FCDdgEntities[ECcnt].E_spmMod_Corruption:=0;
       inc(ECcnt);
    end;
 end;
