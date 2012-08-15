@@ -371,10 +371,10 @@ begin
    begin
       result:='error';
       case FCGtskListInProc[MGPNtask].T_tMColCurrentPhase of
-         tpAccel: result:=FCFdTFiles_UIStr_Get(uistrUI,'ggfptAccel');
-         tpCruise: result:=FCFdTFiles_UIStr_Get(uistrUI,'ggfptCruise');
-         tpDecel: result:=FCFdTFiles_UIStr_Get(uistrUI,'ggfptDecel');
-         tpAtmEnt: result:=FCFdTFiles_UIStr_Get(uistrUI,'ggftpAtmEnt');
+         ccpAcceleration: result:=FCFdTFiles_UIStr_Get(uistrUI,'ggfptAccel');
+         ccpCruise: result:=FCFdTFiles_UIStr_Get(uistrUI,'ggfptCruise');
+         ccpDeceleration: result:=FCFdTFiles_UIStr_Get(uistrUI,'ggfptDecel');
+         ccpAtmosphericEntry: result:=FCFdTFiles_UIStr_Get(uistrUI,'ggftpAtmEnt');
       end;
    end;
 end;

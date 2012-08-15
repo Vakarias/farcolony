@@ -275,7 +275,7 @@ begin
       GTPtaskIdx:=1;
       while GTPtaskIdx<=GTPnumTaskInProc do
       begin
-         if (FCGtskListInProc[GTPtaskIdx].T_tMColCurrentPhase<>tpTerminated)
+         if (FCGtskListInProc[GTPtaskIdx].T_tMColCurrentPhase<>ccpTerminated)
          then
          begin
             GTPfac:=FCGtskListInProc[GTPtaskIdx].TITP_ctldFac;
@@ -286,14 +286,14 @@ begin
                begin
                   {.deceleration phase}
                   if (GGFnewTick>GGFoldTick)
-                     and(FCGtskListInProc[GTPtaskIdx].T_tMColCurrentPhase=tpDecel)
+                     and(FCGtskListInProc[GTPtaskIdx].T_tMColCurrentPhase=ccpDeceleration)
                   then
                   begin
                      if GGFnewTick>=FCGtskListInProc[GTPtaskIdx].TITP_timeOrg+FCGtskListInProc[GTPtaskIdx].TITP_timeDecel
                      then
                      begin
                         GTPspUnVel:=FCGtskListInProc[GTPtaskIdx].TITP_velFinal;
-                        FCGtskListInProc[GTPtaskIdx].T_tMColCurrentPhase:=tpAtmEnt;
+                        FCGtskListInProc[GTPtaskIdx].T_tMColCurrentPhase:=ccpAtmosphericEntry;
                      end
                      else if GGFnewTick<FCGtskListInProc[GTPtaskIdx].TITP_timeOrg+FCGtskListInProc[GTPtaskIdx].TITP_timeDecel
                      then
@@ -313,7 +313,7 @@ begin
                   end; //==END== if (GGFnewTick>GGFoldTick) and(FCGtskListInProc[GTPtaskIdx].TITP_phaseTp=tpDecel) ==//
                   {.atmospheric entry phase}
                   if (GGFnewTick>GGFoldTick)
-                     and(FCGtskListInProc[GTPtaskIdx].T_tMColCurrentPhase=tpAtmEnt)
+                     and(FCGtskListInProc[GTPtaskIdx].T_tMColCurrentPhase=ccpAtmosphericEntry)
                   then
                   begin
                      if FC3doglSpaceUnits[FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_linked3dObject].Visible
@@ -340,9 +340,9 @@ begin
                         end;
                      end;
                      if GGFnewTick>=FCGtskListInProc[GTPtaskIdx].TITP_timeOrg+FCGtskListInProc[GTPtaskIdx].TITP_duration
-                     then FCGtskListInProc[GTPtaskIdx].T_tMColCurrentPhase:=tpDone;
+                     then FCGtskListInProc[GTPtaskIdx].T_tMColCurrentPhase:=ccpDone;
                   end;
-                  if FCGtskListInProc[GTPtaskIdx].T_tMColCurrentPhase=tpDone
+                  if FCGtskListInProc[GTPtaskIdx].T_tMColCurrentPhase=ccpDone
                   then
                   begin
                      {.unload the current task to the space unit}
@@ -403,18 +403,18 @@ begin
                            ,FCGtskListInProc[GTPtaskIdx].TITP_str2
                            );
                      end;
-                     FCGtskListInProc[GTPtaskIdx].T_tMColCurrentPhase:=tpTerminated;
+                     FCGtskListInProc[GTPtaskIdx].T_tMColCurrentPhase:=ccpTerminated;
                   end;
                end; //==END== case: tatpMissColonize ==//
                {.mission - interplanetary transit}
                tMissionInterplanetaryTransit:
                begin
                   if (GGFnewTick>GGFoldTick)
-                     and(FCGtskListInProc[GTPtaskIdx].T_tMColCurrentPhase=tpAccel)
+                     and(FCGtskListInProc[GTPtaskIdx].T_tMColCurrentPhase=ccpAcceleration)
                   then
                   begin
                      if GGFnewTick=FCGtskListInProc[GTPtaskIdx].TITP_timeOrg+FCGtskListInProc[GTPtaskIdx].TITP_timeToCruise
-                     then FCGtskListInProc[GTPtaskIdx].T_tMColCurrentPhase:=tpCruise
+                     then FCGtskListInProc[GTPtaskIdx].T_tMColCurrentPhase:=ccpCruise
                      else if GGFnewTick>FCGtskListInProc[GTPtaskIdx].TITP_timeOrg+FCGtskListInProc[GTPtaskIdx].TITP_timeToCruise
                      then
                      begin
@@ -436,7 +436,7 @@ begin
                            ,FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_deltaV
                            );
                         FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_3dVelocity:=GTPmove;
-                        FCGtskListInProc[GTPtaskIdx].T_tMColCurrentPhase:=tpCruise;
+                        FCGtskListInProc[GTPtaskIdx].T_tMColCurrentPhase:=ccpCruise;
                      end
                      else if GGFnewTick<FCGtskListInProc[GTPtaskIdx].TITP_timeOrg+FCGtskListInProc[GTPtaskIdx].TITP_timeToCruise
                      then
@@ -457,7 +457,7 @@ begin
                      end;
                   end; //==END== if (GGFnewTick>GGFoldTick) and(FCGtskListInProc[GTPtaskIdx].TITP_phaseTp=tpAccel) ==//
                   if (GGFnewTick>GGFoldTick)
-                     and(FCGtskListInProc[GTPtaskIdx].T_tMColCurrentPhase=tpCruise)
+                     and(FCGtskListInProc[GTPtaskIdx].T_tMColCurrentPhase=ccpCruise)
                   then
                   begin
                      if FCGtskListInProc[GTPtaskIdx].TITP_time2xfert>0 then
@@ -469,7 +469,7 @@ begin
                         then
                         begin
                            FCGtskListInProc[GTPtaskIdx].TITP_time2xfert:=0;
-                           FCGtskListInProc[GTPtaskIdx].T_tMColCurrentPhase:=tpDecel;
+                           FCGtskListInProc[GTPtaskIdx].T_tMColCurrentPhase:=ccpDeceleration;
                         end
                         else if FCGtskListInProc[GTPtaskIdx].TITP_time2xfert+GGFoldTick
                            >FCGtskListInProc[GTPtaskIdx].TITP_timeOrg+FCGtskListInProc[GTPtaskIdx].TITP_timeToCruise
@@ -481,7 +481,7 @@ begin
                                  -(FCGtskListInProc[GTPtaskIdx].TITP_timeOrg+FCGtskListInProc[GTPtaskIdx].TITP_timeToCruise
                               +FCGtskListInProc[GTPtaskIdx].TITP_timeDecel);
                            FCGtskListInProc[GTPtaskIdx].TITP_time2xfert:=0;
-                           FCGtskListInProc[GTPtaskIdx].T_tMColCurrentPhase:=tpDecel;
+                           FCGtskListInProc[GTPtaskIdx].T_tMColCurrentPhase:=ccpDeceleration;
                         end;
                      end
                      else if FCGtskListInProc[GTPtaskIdx].TITP_time2xfert=0
@@ -489,7 +489,7 @@ begin
                      begin
                         if GGFnewTick=FCGtskListInProc[GTPtaskIdx].TITP_timeOrg+FCGtskListInProc[GTPtaskIdx].TITP_timeToCruise
                               +FCGtskListInProc[GTPtaskIdx].TITP_timeDecel
-                        then FCGtskListInProc[GTPtaskIdx].T_tMColCurrentPhase:=tpDecel
+                        then FCGtskListInProc[GTPtaskIdx].T_tMColCurrentPhase:=ccpDeceleration
                         else if GGFnewTick>FCGtskListInProc[GTPtaskIdx].TITP_timeOrg+FCGtskListInProc[GTPtaskIdx].TITP_timeToCruise
                               +FCGtskListInProc[GTPtaskIdx].TITP_timeDecel
                         then
@@ -497,12 +497,12 @@ begin
                            FCGtskListInProc[GTPtaskIdx].TITP_time2xfert2decel
                               :=GGFnewTick-(FCGtskListInProc[GTPtaskIdx].TITP_timeOrg+FCGtskListInProc[GTPtaskIdx].TITP_timeToCruise
                               +FCGtskListInProc[GTPtaskIdx].TITP_timeDecel);
-                           FCGtskListInProc[GTPtaskIdx].T_tMColCurrentPhase:=tpDecel;
+                           FCGtskListInProc[GTPtaskIdx].T_tMColCurrentPhase:=ccpDeceleration;
                         end;
                      end;
                   end; //==END== if (GGFnewTick>GGFoldTick) and(FCGtskListInProc[GTPtaskIdx].TITP_phaseTp=tpCruise) ==//
                   if (GGFnewTick>GGFoldTick)
-                     and(FCGtskListInProc[GTPtaskIdx].T_tMColCurrentPhase=tpDecel)
+                     and(FCGtskListInProc[GTPtaskIdx].T_tMColCurrentPhase=ccpDeceleration)
                   then
                   begin
                      if FCGtskListInProc[GTPtaskIdx].TITP_time2xfert2decel>0
@@ -525,7 +525,7 @@ begin
                               ,FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_deltaV
                               );
                            FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_3dVelocity:=GTPmove;
-                           FCGtskListInProc[GTPtaskIdx].T_tMColCurrentPhase:=tpDone;
+                           FCGtskListInProc[GTPtaskIdx].T_tMColCurrentPhase:=ccpDone;
                         end
                         else if FCGtskListInProc[GTPtaskIdx].TITP_time2xfert2decel+GGFoldTick
                            <FCGtskListInProc[GTPtaskIdx].TITP_timeOrg+FCGtskListInProc[GTPtaskIdx].TITP_duration
@@ -564,7 +564,7 @@ begin
                               ,FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_deltaV
                               );
                            FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_3dVelocity:=GTPmove;
-                           FCGtskListInProc[GTPtaskIdx].T_tMColCurrentPhase:=tpDone;
+                           FCGtskListInProc[GTPtaskIdx].T_tMColCurrentPhase:=ccpDone;
                         end
                         else if GGFnewTick<FCGtskListInProc[GTPtaskIdx].TITP_timeOrg+FCGtskListInProc[GTPtaskIdx].TITP_duration
                         then
@@ -585,7 +585,7 @@ begin
                         end;
                      end;
                   end; //==END== if (GGFnewTick>GGFoldTick) and(FCGtskListInProc[GTPtaskIdx].TITP_phaseTp=tpDecel) ==//
-                  if FCGtskListInProc[GTPtaskIdx].T_tMColCurrentPhase=tpDone
+                  if FCGtskListInProc[GTPtaskIdx].T_tMColCurrentPhase=ccpDone
                   then
                   begin
                      {.unload the current task to the space unit}
@@ -676,7 +676,7 @@ begin
                         FC3doglSelectedSpaceUnit:=FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_linked3dObject;
                         FCMoglVM_CamMain_Target(-1, true);
                      end;
-                     FCGtskListInProc[GTPtaskIdx].T_tMColCurrentPhase:=tpTerminated;
+                     FCGtskListInProc[GTPtaskIdx].T_tMColCurrentPhase:=ccpTerminated;
                   end; //==END== if FCGtskListInProc[GTPtaskIdx].TITP_phaseTp=tpDone ==//
                   FCGtskListInProc[GTPtaskIdx].TITP_time2xfert:=0;
                end; //==END== case: tatpMissItransit ==//
@@ -814,7 +814,7 @@ begin
    GTPcnt:=length(FCGtskListInProc)-1;
    while GTPcnt>0 do
    begin
-      if FCGtskListInProc[GTPcnt].T_tMColCurrentPhase=tpTerminated
+      if FCGtskListInProc[GTPcnt].T_tMColCurrentPhase=ccpTerminated
       then
       begin
          setlength(FCGtskListInProc, length(FCGtskListInProc)-1);
@@ -846,7 +846,7 @@ begin
             case FCGtskListInProc[GTPtaskIdx].T_type of
                tMissionColonization:
                begin
-                  FCGtskListInProc[GTPtaskIdx].T_tMColCurrentPhase:=tpDecel;
+                  FCGtskListInProc[GTPtaskIdx].T_tMColCurrentPhase:=ccpDeceleration;
                   FCGtskListInProc[GTPtaskIdx].TITP_timeDecel:=FCGtskListInProc[GTPtaskIdx].TITP_duration-FCGtskListInProc[GTPtaskIdx].TITP_timeToFinal;
                   FCGtskListInProc[GTPtaskIdx].TITP_accelbyTick
                      :=(FCDdgEntities[GTPfac].E_spaceUnits[FCGtskListInProc[GTPtaskIdx].TITP_orgIdx].SU_deltaV-FCGtskListInProc[GTPtaskIdx].TITP_velFinal)
@@ -871,7 +871,7 @@ begin
                end; //==END== case: tatpMissColonize: ==//
                tMissionInterplanetaryTransit:
                begin
-                  FCGtskListInProc[GTPtaskIdx].T_tMColCurrentPhase:=tpAccel;
+                  FCGtskListInProc[GTPtaskIdx].T_tMColCurrentPhase:=ccpAcceleration;
                   FCGtskListInProc[GTPtaskIdx].TITP_timeDecel
                      :=FCGtskListInProc[GTPtaskIdx].TITP_duration-(FCGtskListInProc[GTPtaskIdx].TITP_timeToCruise+FCGtskListInProc[GTPtaskIdx].TITP_timeToFinal);
                   FCGtskListInProc[GTPtaskIdx].TITP_accelbyTick

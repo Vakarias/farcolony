@@ -628,7 +628,7 @@ begin
             i:=1;
             while i<=FCGLSCPtaskL-1 do
             begin
-               if FCGtskListInProc[i].T_tMColCurrentPhase<>tpTerminated
+               if FCGtskListInProc[i].T_tMColCurrentPhase<>ccpTerminated
                then
                begin
                   FCGLSCPspUidx:=FCGtskListInProc[i].TITP_ctldIdx;
@@ -639,17 +639,17 @@ begin
                            (FCGtskListInProc[i].T_type=tMissionInterplanetaryTransit)
                            and
                               (
-                                 (FCGtskListInProc[i].T_tMColCurrentPhase=tpAccel)
+                                 (FCGtskListInProc[i].T_tMColCurrentPhase=ccpAcceleration)
                                  or
-                                 (FCGtskListInProc[i].T_tMColCurrentPhase=tpCruise)
+                                 (FCGtskListInProc[i].T_tMColCurrentPhase=ccpCruise)
                                  or
-                                 (FCGtskListInProc[i].T_tMColCurrentPhase=tpDecel)
+                                 (FCGtskListInProc[i].T_tMColCurrentPhase=ccpDeceleration)
                               )
                         )
                         or
                         (
                            (FCGtskListInProc[i].T_type=tMissionColonization)
-                              and (FCGtskListInProc[i].T_tMColCurrentPhase=tpDecel)
+                              and (FCGtskListInProc[i].T_tMColCurrentPhase=ccpDeceleration)
                               and (FCDdgEntities[0].E_spaceUnits[FCGLSCPspUidx].SU_linked3dObject>0)
                         )
                      )

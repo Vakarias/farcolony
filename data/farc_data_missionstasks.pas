@@ -73,12 +73,12 @@ type TFCEdmtTaskTargets=(
 type TFCRdmtTask = record
    T_type: TFCEdmtTasks;
    T_tMColCurrentPhase: (
-      tpAccel
-      ,tpCruise
-      ,tpDecel
-      ,tpAtmEnt
-      ,tpDone
-      ,tpTerminated
+      ccpAcceleration
+      ,ccpCruise
+      ,ccpDeceleration
+      ,ccpAtmosphericEntry
+      ,ccpDone
+      ,ccpTerminated
       );
    {controlled target type}
    TITP_ctldType: TFCEdmtTaskTargets;
