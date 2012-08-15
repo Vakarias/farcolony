@@ -85,14 +85,14 @@ procedure FCMgMCore_Mission_DestUpd(const MDUtripOnly: boolean);
 ///</summary>
 procedure FCMgMCore_Mission_Setup(
    const MSfac: integer;
-   const MSmissType: TFCEtaskActionTp
+   const MSmissType: TFCEdmtTasks
    );
 
 ///<summary>
 ///   update the trackbar.
 ///</summary>
 ///   <param name="MTUmission">current mission type</param>
-procedure FCMgMCore_Mission_TrackUpd(const MTUmission: TFCEtaskActionTp);
+procedure FCMgMCore_Mission_TrackUpd(const MTUmission: TFCEdmtTasks);
 
 var
    GMCfac
@@ -154,7 +154,7 @@ uses
 var
    GMCmother: integer;
 
-   GMCmissTp: TFCEtaskActionTp;
+   GMCmissTp: TFCEdmtTasks;
 
 //===================================END OF INIT============================================
 
@@ -207,7 +207,7 @@ begin
 //                  :=FCRplayer.Play_suOwned[TPUownedIdx].SUO_availRMass
 //                     -FCGtskListInProc[TPUtaskIdx].TITP_usedRMassV;
       {.disable the task and delete it if it's the last in the list}
-      FCGtskListInProc[MCtaskId].TITP_enabled:=false;
+//      FCGtskListInProc[MCtaskId].T_enabled:=false;
       if MCtaskId=length(FCGtskListInProc)-1
       then SetLength(FCGtskListInProc, length(FCGtskListInProc)-1);
    end;
@@ -241,7 +241,7 @@ var
    ,MCtskL: integer;
 begin
    case GMCmissTp of
-      tatpMissColonize:
+      tMissionColonization:
       begin
          {:DEV NOTES: add code if the LV are selected by the docking list or directly.}
          MCmax:=length(GMCdckd)-1;
@@ -250,25 +250,24 @@ begin
          begin
             setlength(FCGtskLstToProc, length(FCGtskLstToProc)+1);
             MCtskL:=length(FCGtskLstToProc)-1;
-            FCGtskLstToProc[MCtskL].TITP_actionTp:=tatpMissColonize;
-            FCGtskLstToProc[MCtskL].TITP_enabled:=false;
-            FCGtskLstToProc[MCtskL].TITP_ctldType:=tttSpaceUnit;
+            FCGtskLstToProc[MCtskL].T_type:=tMissionColonization;
+            FCGtskLstToProc[MCtskL].TITP_ctldType:=ttSpaceUnit;
             FCGtskLstToProc[MCtskL].TITP_ctldFac:=GMCfac;
             FCGtskLstToProc[MCtskL].TITP_ctldIdx:=GMCdckd[MCcnt].GMCD_index;
             FCGtskLstToProc[MCtskL].TITP_duration:=GMCdckd[MCcnt].GMCD_tripTime;
             FCGtskLstToProc[MCtskL].TITP_interval:=1;
-            FCGtskLstToProc[MCtskL].TITP_orgType:=tttSpaceUnit;
+            FCGtskLstToProc[MCtskL].TITP_orgType:=ttSpaceUnit;
             FCGtskLstToProc[MCtskL].TITP_orgIdx:=GMCmother;
             if GMCrootSatIdx=0
             then
             begin
-               FCGtskLstToProc[MCtskL].TITP_destType:=tttOrbObj;
+               FCGtskLstToProc[MCtskL].TITP_destType:=ttOrbitalObject;
                FCGtskLstToProc[MCtskL].TITP_destIdx:=GMCrootOObIdx;
             end
             else if GMCrootSatIdx>0
             then
             begin
-               FCGtskLstToProc[MCtskL].TITP_destType:=tttSat;
+               FCGtskLstToProc[MCtskL].TITP_destType:=ttSatellite;
                FCGtskLstToProc[MCtskL].TITP_destIdx:=GMCrootSatObjIdx;
             end;
             FCGtskLstToProc[MCtskL].TITP_regIdx:=GMCregion;
@@ -307,13 +306,12 @@ begin
             FCMuiW_FocusPopup_Upd(uiwpkSpUnit);
          end;
       end; //==END== case: gmcmnColoniz ==//
-      tatpMissItransit:
+      tMissionInterplanetaryTransit:
       begin
          setlength(FCGtskLstToProc, length(FCGtskLstToProc)+1);
          MCtskL:=length(FCGtskLstToProc)-1;
-         FCGtskLstToProc[MCtskL].TITP_actionTp:=tatpMissItransit;
-         FCGtskLstToProc[MCtskL].TITP_enabled:=false;
-         FCGtskLstToProc[MCtskL].TITP_ctldType:=tttSpaceUnit;
+         FCGtskLstToProc[MCtskL].T_type:=tMissionInterplanetaryTransit;
+         FCGtskLstToProc[MCtskL].TITP_ctldType:=ttSpaceUnit;
          FCGtskLstToProc[MCtskL].TITP_ctldFac:=FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].Tag;
          FCGtskLstToProc[MCtskL].TITP_ctldIdx:=round(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].TagFloat);
          FCGtskLstToProc[MCtskL].TITP_duration:=round(GMCtripTime);
@@ -321,25 +319,25 @@ begin
          if GMCrootSatIdx=0
          then
          begin
-            FCGtskLstToProc[MCtskL].TITP_orgType:=tttOrbObj;
+            FCGtskLstToProc[MCtskL].TITP_orgType:=ttOrbitalObject;
             FCGtskLstToProc[MCtskL].TITP_orgIdx:=GMCrootOObIdx;
          end
          else if GMCrootSatIdx>0
          then
          begin
-            FCGtskLstToProc[MCtskL].TITP_orgType:=tttSat;
+            FCGtskLstToProc[MCtskL].TITP_orgType:=ttSatellite;
             FCGtskLstToProc[MCtskL].TITP_orgIdx:=GMCrootSatObjIdx;
          end;
          if FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglObjectsGroups[FC3doglSelectedPlanetAsteroid]
          then
          begin
-            FCGtskLstToProc[MCtskL].TITP_destType:=tttOrbObj;
+            FCGtskLstToProc[MCtskL].TITP_destType:=ttOrbitalObject;
             FCGtskLstToProc[MCtskL].TITP_destIdx:=FC3doglSelectedPlanetAsteroid;
          end
          else if FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite]
          then
          begin
-            FCGtskLstToProc[MCtskL].TITP_destType:=tttSat;
+            FCGtskLstToProc[MCtskL].TITP_destType:=ttSatellite;
             FCGtskLstToProc[MCtskL].TITP_destIdx:=FC3doglSelectedSatellite;
          end;
          FCGtskLstToProc[MCtskL].TITP_regIdx:=0;
@@ -582,7 +580,7 @@ end;
 
 procedure FCMgMCore_Mission_Setup(
    const MSfac: integer;
-   const MSmissType: TFCEtaskActionTp
+   const MSmissType: TFCEdmtTasks
    );
 {:Purpose: Interplanetary transit mission setup.
     Additions:
@@ -659,7 +657,7 @@ begin
    MSdispIdx:='<ind x="'+IntToStr(FCWinMain.FCWMS_Grp_MSDG.Width shr 1)+'">';
    {.missions specific settings}
    case MSmissType of
-      tatpMissColonize:
+      tMissionColonization:
       begin
          {.set the mission name}
          FCWinMain.FCWM_MissionSettings.Caption.Text:=FCFdTFiles_UIStr_Get(uistrUI,'FCWinMissSet')+FCFdTFiles_UIStr_Get(uistrUI,'Mission.coloniz');
@@ -873,7 +871,7 @@ begin
          {.mission configuration proceed button}
          FCWinMain.FCWMS_ButProceed.Enabled:=false;
       end; //==END== case: gmcmnColoniz ==//
-      tatpMissItransit:
+      tMissionInterplanetaryTransit:
       begin
          {.initialize mission data}
          MSdmpStatus:=FCFspuF_AttStatus_Get(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].Tag, MSownedIdx);
@@ -1004,7 +1002,7 @@ begin
          FCWinMain.FCWMS_Grp_MCG_RMassTrack.Max:=3;
          FCWinMain.FCWMS_Grp_MCG_RMassTrack.Min:=1;
          FCWinMain.FCWMS_Grp_MCG_RMassTrack.Position:=1;
-         FCMgMCore_Mission_TrackUpd( tatpMissItransit );
+         FCMgMCore_Mission_TrackUpd( tMissionInterplanetaryTransit );
          FCWinMain.FCWMS_Grp_MCG_RMassTrack.Enabled:=false;
          {.initialize the 2 mission configuration panels}
          FCWinMain.FCWMS_Grp_MCG_DatDisp.HTMLText.Clear;
@@ -1028,7 +1026,7 @@ begin
    FCWinMain.FCWM_MissionSettings.BringToFront;
 end;
 
-procedure FCMgMCore_Mission_TrackUpd(const MTUmission: TFCEtaskActionTp);
+procedure FCMgMCore_Mission_TrackUpd(const MTUmission: TFCEdmtTasks);
 {:Purpose: update the trackbar.
     Additions:
       -2010Apr26- *fix: stop the bug of updating for a colonize mission when the trackbar is resetted.
@@ -1043,7 +1041,7 @@ var
    MTUsatObj: integer;
 begin
    case MTUmission of
-      tatpMissColonize:
+      tMissionColonization:
       begin
          FCWinMain.FCWMS_Grp_MCG_RMassTrack.TrackLabel.Format:=IntToStr(FCWinMain.FCWMS_Grp_MCG_RMassTrack.Position);
          if FCWinMain.FCWMS_Grp_MCG_RMassTrack.Tag=0
@@ -1066,7 +1064,7 @@ begin
          else if FCWinMain.FCWMS_Grp_MCG_RMassTrack.Tag=1
          then FCWinMain.FCWMS_Grp_MCG_RMassTrack.Tag:=0;
       end;
-      tatpMissItransit:
+      tMissionInterplanetaryTransit:
       begin
          case FCWinMain.FCWMS_Grp_MCG_RMassTrack.Position of
             1: FCWinMain.FCWMS_Grp_MCG_RMassTrack.TrackLabel.Format

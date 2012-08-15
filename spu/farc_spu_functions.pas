@@ -343,9 +343,9 @@ begin
    then
    begin
       result:='error';
-      case FCGtskListInProc[MNGtask].TITP_actionTp of
-         tatpMissColonize: Result:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_PMFO_MissColoniz');
-         tatpMissItransit: Result:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_PMFO_MissITransit');
+      case FCGtskListInProc[MNGtask].T_type of
+         tMissionColonization: Result:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_PMFO_MissColoniz');
+         tMissionInterplanetaryTransit: Result:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_PMFO_MissITransit');
       end;
    end;
 end;
@@ -370,7 +370,7 @@ begin
    then
    begin
       result:='error';
-      case FCGtskListInProc[MGPNtask].TITP_phaseTp of
+      case FCGtskListInProc[MGPNtask].T_tMColCurrentPhase of
          tpAccel: result:=FCFdTFiles_UIStr_Get(uistrUI,'ggfptAccel');
          tpCruise: result:=FCFdTFiles_UIStr_Get(uistrUI,'ggfptCruise');
          tpDecel: result:=FCFdTFiles_UIStr_Get(uistrUI,'ggfptDecel');

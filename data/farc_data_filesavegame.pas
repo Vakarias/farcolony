@@ -342,9 +342,9 @@ begin
          begin
             SetLength(FCGtskListInProc, length(FCGtskListInProc)+1);
             inc(GLcount);
-            FCGtskListInProc[GLCount].TITP_enabled:=GLxmlTskInPr.Attributes['tipEna'];
-            FCGtskListInProc[GLCount].TITP_actionTp:=GLxmlTskInPr.Attributes['tipActTp'];
-            FCGtskListInProc[GLCount].TITP_phaseTp:=GLxmlTskInPr.Attributes['tipPhase'];
+//            FCGtskListInProc[GLCount].T_enabled:=GLxmlTskInPr.Attributes['tipEna'];
+            FCGtskListInProc[GLCount].T_type:=GLxmlTskInPr.Attributes['tipActTp'];
+            FCGtskListInProc[GLCount].T_tMColCurrentPhase:=GLxmlTskInPr.Attributes['tipPhase'];
             FCGtskListInProc[GLCount].TITP_ctldType:=GLxmlTskInPr.Attributes['tipTgtTp'];
             FCGtskListInProc[GLCount].TITP_ctldFac:=GLxmlTskInPr.Attributes['tipTgtFac'];
             FCGtskListInProc[GLCount].TITP_ctldIdx:=GLxmlTskInPr.Attributes['tipTgtIdx'];
@@ -1242,9 +1242,9 @@ begin
       while GScount<=GSlength-1 do
       begin
          GSxmlTskInPr:=GSxmlItm.AddChild('gfTskInProc');
-         GSxmlTskInPr.Attributes['tipEna']:=FCGtskListInProc[GScount].TITP_enabled;
-         GSxmlTskInPr.Attributes['tipActTp']:=FCGtskListInProc[GScount].TITP_actionTp;
-         GSxmlTskInPr.Attributes['tipPhase']:=FCGtskListInProc[GScount].TITP_phaseTp;
+//         GSxmlTskInPr.Attributes['tipEna']:=FCGtskListInProc[GScount].T_enabled;
+         GSxmlTskInPr.Attributes['tipActTp']:=FCGtskListInProc[GScount].T_type;
+         GSxmlTskInPr.Attributes['tipPhase']:=FCGtskListInProc[GScount].T_tMColCurrentPhase;
          GSxmlTskInPr.Attributes['tipTgtTp']:=FCGtskListInProc[GScount].TITP_ctldType;
          GSxmlTskInPr.Attributes['tipTgtFac']:=FCGtskListInProc[GScount].TITP_ctldFac;
          GSxmlTskInPr.Attributes['tipTgtIdx']:=FCGtskListInProc[GScount].TITP_ctldIdx;

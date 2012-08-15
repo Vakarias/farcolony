@@ -628,7 +628,7 @@ begin
             i:=1;
             while i<=FCGLSCPtaskL-1 do
             begin
-               if FCGtskListInProc[i].TITP_phaseTp<>tpTerminated
+               if FCGtskListInProc[i].T_tMColCurrentPhase<>tpTerminated
                then
                begin
                   FCGLSCPspUidx:=FCGtskListInProc[i].TITP_ctldIdx;
@@ -636,20 +636,20 @@ begin
                   if
                      (
                         (
-                           (FCGtskListInProc[i].TITP_actionTp=tatpMissItransit)
+                           (FCGtskListInProc[i].T_type=tMissionInterplanetaryTransit)
                            and
                               (
-                                 (FCGtskListInProc[i].TITP_phaseTp=tpAccel)
+                                 (FCGtskListInProc[i].T_tMColCurrentPhase=tpAccel)
                                  or
-                                 (FCGtskListInProc[i].TITP_phaseTp=tpCruise)
+                                 (FCGtskListInProc[i].T_tMColCurrentPhase=tpCruise)
                                  or
-                                 (FCGtskListInProc[i].TITP_phaseTp=tpDecel)
+                                 (FCGtskListInProc[i].T_tMColCurrentPhase=tpDecel)
                               )
                         )
                         or
                         (
-                           (FCGtskListInProc[i].TITP_actionTp=tatpMissColonize)
-                              and (FCGtskListInProc[i].TITP_phaseTp=tpDecel)
+                           (FCGtskListInProc[i].T_type=tMissionColonization)
+                              and (FCGtskListInProc[i].T_tMColCurrentPhase=tpDecel)
                               and (FCDdgEntities[0].E_spaceUnits[FCGLSCPspUidx].SU_linked3dObject>0)
                         )
                      )
@@ -887,9 +887,9 @@ begin
    begin
       RMTCmiss:=FCFdTFiles_UIStr_Get(uistrUI,'FCWinMissSet');
       if FCWinMain.FCWM_MissionSettings.Caption.Text=RMTCmiss+FCFdTFiles_UIStr_Get(uistrUI,'Mission.itransit')
-      then FCMgMCore_Mission_TrackUpd(tatpMissItransit)
+      then FCMgMCore_Mission_TrackUpd(tMissionInterplanetaryTransit)
       else if FCWinMain.FCWM_MissionSettings.Caption.Text=RMTCmiss+FCFdTFiles_UIStr_Get(uistrUI,'Mission.coloniz')
-      then FCMgMCore_Mission_TrackUpd(tatpMissColonize);
+      then FCMgMCore_Mission_TrackUpd(tMissionColonization);
    end
    else if (FCWinMain.FCWM_MissionSettings.Visible)
       and (FCWMS_Grp_MCG_RMassTrack.Tag=1)
@@ -1490,12 +1490,12 @@ end;
 
 procedure TFCWinMain.FCWM_PMFO_MissColonizClick(Sender: TObject);
 begin
-   FCMgMCore_Mission_Setup(0, tatpMissColonize);
+   FCMgMCore_Mission_Setup(0, tMissionColonization);
 end;
 
 procedure TFCWinMain.FCWM_PMFO_MissITransitClick(Sender: TObject);
 begin
-   FCMgMCore_Mission_Setup(0, tatpMissItransit);
+   FCMgMCore_Mission_Setup(0, tMissionInterplanetaryTransit);
 end;
 
 procedure TFCWinMain.FCWM_PopMenFocusedObjPopup(Sender: TObject);

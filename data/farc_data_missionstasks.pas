@@ -32,19 +32,47 @@ interface
 
 //uses
 
-{task action type list}
-   {:DEV NOTES: update: FCMgMCore_Mission_Setup + FCMgMCore_Mission_Commit + FCMgMCore_Mission_TrackUpd + FCMspuF_SpUnit_Remove.}
-   {:DEV NOTES: update: FCFspuF_Mission_GetMissName.}
-   type TFCEtaskActionTp=(
-      {space unit - mission - colonization}
-      tatpMissColonize
-      {space unit - mission - interplanetary transit}
-      ,tatpMissItransit
-      ,tatpDummy
-      );
-   {.task phases}
-   {:DEV NOTES: update: FCFspuF_Mission_GetPhaseName.}
-   type TFCEtaskPhase=(
+{:REFERENCES LIST
+   - FCMgMCore_Mission_Commit
+   - FCMgMCore_Mission_Setup
+   - FCMgMCore_Mission_TrackUpd
+   - FCFspuF_Mission_GetMissName
+   - FCMspuF_SpUnit_Remove
+}
+///<summary>
+///   tasks
+///</summary>
+type TFCEdmtTasks=(
+   tMissionColonization
+   ,tMissionInterplanetaryTransit
+   ,tDummy
+   );
+
+///<summary>
+///   targets
+///</summary>
+type TFCEdmtTaskTargets=(
+   ttInfrastructure
+   ,ttSpaceUnit
+   ,ttOrbitalObject
+   ,ttSatellite
+   ,ttSpace
+   );
+
+//==END PUBLIC ENUM=========================================================================
+
+{:REFERENCES LIST
+   - FCMdFiles_Game_Load
+   - FCMdFiles_Game_Save
+   - TFCGtasklistToProc: farc_game_missioncore /FCMgMCore_Mission_Commit
+   - TFCGtasklistInProc: farc_game_gameflow /FCMgTFlow_GameTimer_Process + FCMgGFlow_Tasks_Process
+}
+///<summary>
+///   task
+///</summary>
+type TFCRdmtTask = record
+   T_type: TFCEdmtTasks;
+   T_tMColCurrentPhase: (
       tpAccel
       ,tpCruise
       ,tpDecel
@@ -52,88 +80,62 @@ interface
       ,tpDone
       ,tpTerminated
       );
-   {task target type list}
-   type TFCEtaskTargetTp=(
-      {infrastructure}
-      tttInfrast
-      {space unit}
-      ,tttSpaceUnit
-      {orbital object}
-      ,tttOrbObj
-      ,tttSat
-      ,tttSpace
-      );
-
-//==END PUBLIC ENUM=========================================================================
-
-{.task item data structure}
-   {DEV NOTE: for TFCGtasklistToProc don't forget to update farc_game_missioncore /FCMgMCore_Mission_Commit.}
-   {DEV NOTE: for TFCGtasklistInProc don't forget to update farc_game_gameflow /FCMgTFlow_GameTimer_Process + FCMgGFlow_Tasks_Process.}
-   {DEV NOTE: don't forget to update farc_data_files / FCMdFiles_Game_Save/Load.}
-   type TFCRdgTask = record
-      {indicate that the task is in processing }
-      {:DEV NOTES: TO DEL.}
-      TITP_enabled: boolean;
-      {type of action}
-      TITP_actionTp: TFCEtaskActionTp;
-      {current phase}
-      TITP_phaseTp: TFCEtaskPhase;
-      {controlled target type}
-      TITP_ctldType: TFCEtaskTargetTp;
-      {controlled target's faction number, 0=player}
-      TITP_ctldFac: integer;
-      {controlled target's index in subdata structure}
-      TITP_ctldIdx: integer;
-      {.timer tick at start of the mission}
-      {:DEV NOTES: taskinprocONLY.}
-      TITP_timeOrg: integer;
-      {task duration in ticks, 0= infinite}
-      TITP_duration: integer;
-      {interval, in clock tick, between 2 running processes in same thread}
-      TITP_interval: integer;
-      {kind of origin}
-      TITP_orgType: TFCEtaskTargetTp;
-      {origin index (OBJECT)}
-      TITP_orgIdx: integer;
-      {kind of destination}
-      TITP_destType: TFCEtaskTargetTp;
-      {destination index (OBJECT)}
-      TITP_destIdx: integer;
-      {.targeted region #}
-      TITP_regIdx: integer;
-      {cruise velocity to reach , if 0 then =current deltav}
-      TITP_velCruise: extended;
-      {acceleration time in ticks}
-      TITP_timeToCruise: integer;
-      {.time in tick for deceleration}
-      {:DEV NOTES: taskinprocONLY.}
-      TITP_timeDecel: integer;
-      {.time to transfert}
-      {:DEV NOTES: taskinprocONLY.}
-      TITP_time2xfert: integer;
-      {.time to transfert to decel}
-      {:DEV NOTES: taskinprocONLY.}
-      TITP_time2xfert2decel: integer;
-      {final velocity, if 0 then = cruise vel}
-      TITP_velFinal: extended;
-      {deceleration time in ticks}
-      TITP_timeToFinal: integer;
-      {.acceleration by tick for the current mission}
-      {:DEV NOTES: taskinprocONLY.}
-      TITP_accelbyTick: extended;
-      {used reaction mass volume for the complete task}
-      TITP_usedRMassV: extended;
-      {.data string 1 for needed data transferts}
-      TITP_str1: string;
-      {.data string 2 for needed data transferts}
-      TITP_str2: string;
-      {.data integer 1 for needed data transferts}
-      TITP_int1: integer;
-   end; //==END== type TFCRtaskItem = record ==//
-      {.tasklist to process dynamic array}
-      TFCGtasklistToProc = array of TFCRdgTask;
-      {.current tasklit dynamic array}
-      TFCGtasklistInProc = array of TFCRdgTask;
+   {controlled target type}
+   TITP_ctldType: TFCEdmtTaskTargets;
+   {controlled target's faction number, 0=player}
+   TITP_ctldFac: integer;
+   {controlled target's index in subdata structure}
+   TITP_ctldIdx: integer;
+   {.timer tick at start of the mission}
+   {:DEV NOTES: taskinprocONLY.}
+   TITP_timeOrg: integer;
+   {task duration in ticks, 0= infinite}
+   TITP_duration: integer;
+   {interval, in clock tick, between 2 running processes in same thread}
+   TITP_interval: integer;
+   {kind of origin}
+   TITP_orgType: TFCEdmtTaskTargets;
+   {origin index (OBJECT)}
+   TITP_orgIdx: integer;
+   {kind of destination}
+   TITP_destType: TFCEdmtTaskTargets;
+   {destination index (OBJECT)}
+   TITP_destIdx: integer;
+   {.targeted region #}
+   TITP_regIdx: integer;
+   {cruise velocity to reach , if 0 then =current deltav}
+   TITP_velCruise: extended;
+   {acceleration time in ticks}
+   TITP_timeToCruise: integer;
+   {.time in tick for deceleration}
+   {:DEV NOTES: taskinprocONLY.}
+   TITP_timeDecel: integer;
+   {.time to transfert}
+   {:DEV NOTES: taskinprocONLY.}
+   TITP_time2xfert: integer;
+   {.time to transfert to decel}
+   {:DEV NOTES: taskinprocONLY.}
+   TITP_time2xfert2decel: integer;
+   {final velocity, if 0 then = cruise vel}
+   TITP_velFinal: extended;
+   {deceleration time in ticks}
+   TITP_timeToFinal: integer;
+   {.acceleration by tick for the current mission}
+   {:DEV NOTES: taskinprocONLY.}
+   TITP_accelbyTick: extended;
+   {used reaction mass volume for the complete task}
+   TITP_usedRMassV: extended;
+   {.data string 1 for needed data transferts}
+   TITP_str1: string;
+   {.data string 2 for needed data transferts}
+   TITP_str2: string;
+   {.data integer 1 for needed data transferts}
+   TITP_int1: integer;
+end; //==END== type TFCRtaskItem = record ==//
+   {.tasklist to process dynamic array}
+   TFCGtasklistToProc = array of TFCRdmtTask;
+   {.current tasklit dynamic array}
+   TFCGtasklistInProc = array of TFCRdmtTask;
 
 //==END PUBLIC RECORDS======================================================================
 
