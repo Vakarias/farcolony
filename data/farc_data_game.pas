@@ -769,7 +769,7 @@ const
 //===========================END FUNCTIONS SECTION==========================================
 
 ///<summary>
-///   clear the entities data
+///   clear the entities' data
 ///</summary>
 procedure FCMdG_Entities_Clear;
 
@@ -792,36 +792,46 @@ implementation
 //===========================END FUNCTIONS SECTION==========================================
 
 procedure FCMdG_Entities_Clear;
-{:Purpose: clear the entities data.
+{:Purpose: clear the entities' data.
     Additions:
+      -2012Aug14- *code audit:
+                     (x)var formatting + refactoring     (_)if..then reformatting   (_)function/procedure refactoring
+                     (_)parameters refactoring           (x) ()reformatting         (_)code optimizations
+                     (_)float local variables=> extended (_)case..of reformatting   (_)local methods
+                     (x)summary completion               (_)protect all float add/sub w/ FCFcFunc_Rnd
+                     (_)standardize internal data + commenting them at each use as a result (like Count1 / Count2 ...)
+                     (_)put [format x.xx ] in returns of summary, if required and if the function do formatting
+                     (_)use of enumindex                 (_)use of StrToFloat( x, FCVdiFormat ) for all float data
+                     (_)if the procedure reset the same record's data or external data put:
+                        ///   <remarks>the procedure/function reset the /data/</remarks>
       -2010Nov08- *add: forgot to add bureaucracy, corruption and the SPM modifiers.
                   *add: UC.
       -2010Sep20- *add: SPM settings.
 }
-var
-   ECcnt: integer;
+   var
+      Count: integer;
 begin
-   ECcnt:=0;
-   while ECcnt<=FCCdiFactionsMax do
+   Count:=0;
+   while Count<=FCCdiFactionsMax do
    begin
-      FCDdgEntities[ECcnt].E_token:='';
-      FCDdgEntities[ECcnt].E_factionLevel:=0;
-      FCDdgEntities[ECcnt].E_bureaucracy:=0;
-      FCDdgEntities[ECcnt].E_corruption:=0;
-      FCDdgEntities[ECcnt].E_hqHigherLevel:=hqsNoHQPresent;
-      FCDdgEntities[ECcnt].E_ucInAccount:=0;
-      SetLength(FCDdgEntities[ECcnt].E_spaceUnits, 0);
-      SetLength(FCDdgEntities[ECcnt].E_colonies, 0);
-      SetLength(FCDdgEntities[ECcnt].E_spmSettings, 0);
-      FCDdgEntities[ECcnt].E_spmMod_Cohesion:=0;
-      FCDdgEntities[ECcnt].E_spmMod_Tension:=0;
-      FCDdgEntities[ECcnt].E_spmMod_Security:=0;
-      FCDdgEntities[ECcnt].E_spmMod_Education:=0;
-      FCDdgEntities[ECcnt].E_spmMod_Natality:=0;
-      FCDdgEntities[ECcnt].E_spmMod_Health:=0;
-      FCDdgEntities[ECcnt].E_spmMod_Bureaucracy:=0;
-      FCDdgEntities[ECcnt].E_spmMod_Corruption:=0;
-      inc(ECcnt);
+      FCDdgEntities[Count].E_token:='';
+      FCDdgEntities[Count].E_factionLevel:=0;
+      FCDdgEntities[Count].E_bureaucracy:=0;
+      FCDdgEntities[Count].E_corruption:=0;
+      FCDdgEntities[Count].E_hqHigherLevel:=hqsNoHQPresent;
+      FCDdgEntities[Count].E_ucInAccount:=0;
+      SetLength( FCDdgEntities[Count].E_spaceUnits, 0 );
+      SetLength( FCDdgEntities[Count].E_colonies, 0 );
+      SetLength( FCDdgEntities[Count].E_spmSettings, 0 );
+      FCDdgEntities[Count].E_spmMod_Cohesion:=0;
+      FCDdgEntities[Count].E_spmMod_Tension:=0;
+      FCDdgEntities[Count].E_spmMod_Security:=0;
+      FCDdgEntities[Count].E_spmMod_Education:=0;
+      FCDdgEntities[Count].E_spmMod_Natality:=0;
+      FCDdgEntities[Count].E_spmMod_Health:=0;
+      FCDdgEntities[Count].E_spmMod_Bureaucracy:=0;
+      FCDdgEntities[Count].E_spmMod_Corruption:=0;
+      inc(Count);
    end;
 end;
 
