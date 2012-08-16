@@ -7,7 +7,7 @@
         License: GPLv3
         Website: http://farcolony.sourceforge.net/
 
-        Unit: savegame file management
+        Unit: saved game file - management unit
 
 ============================================================================================
 ********************************************************************************************
@@ -36,6 +36,19 @@ uses
    ,Windows
    ,XMLIntf;
 
+//==END PUBLIC ENUM=========================================================================
+
+//==END PUBLIC RECORDS======================================================================
+
+   //==========subsection===================================================================
+//var
+//==END PUBLIC VAR==========================================================================
+
+//const
+//==END PUBLIC CONST========================================================================
+
+//===========================END FUNCTIONS SECTION==========================================
+
 ///<summary>
 ///   load the current game
 ///</summary>
@@ -50,8 +63,6 @@ procedure FCMdFSG_Game_Save;
 ///   save the current game and flush all other save game files than the current one
 ///</summary>
 procedure FCMdFSG_Game_SaveAndFlushOther;
-
-//===========================END FUNCTIONS SECTION==========================================
 
 implementation
 
@@ -70,12 +81,33 @@ uses
    ,farc_univ_func
    ,farc_main;
 
+//==END PRIVATE ENUM========================================================================
+
+//==END PRIVATE RECORDS=====================================================================
+
+   //==========subsection===================================================================
+//var
+//==END PRIVATE VAR=========================================================================
+
+//const
+//==END PRIVATE CONST=======================================================================
+
 //===================================================END OF INIT============================
 //===========================END FUNCTIONS SECTION==========================================
 
 procedure FCMdFSG_Game_Load;
 {:Purpose: load the current game.
    Additions:
+      -2012Aug15- *code audit:
+                     (o)var formatting + refactoring     (-)if..then reformatting   (-)function/procedure refactoring
+                     (-)parameters refactoring           (-) ()reformatting         (o)code optimizations
+                     (-)float local variables=> extended (-)case..of reformatting   (-)local methods
+                     (-)summary completion               (-)protect all float add/sub w/ FCFcFunc_Rnd
+                     (o)standardize internal data + commenting them at each use as a result (like Count1 / Count2 ...)
+                     (-)put [format x.xx ] in returns of summary, if required and if the function do formatting
+                     (-)use of enumindex                 (-)use of StrToFloat( x, FCVdiFormat ) for all float data
+                     (-)if the procedure reset the same record's data or external data put:
+                        ///   <remarks>the procedure/function reset the /data/</remarks>
       -2012May24- *add: CPS - Viability thresholds.
       -2012May13- *add: CSM event: etRveFoodShortage, addition of the direct death period + death fractional value.
       -2012May12- *add: CSM event: etRveOxygenShortage, etRveWaterOverload, etRveWaterShortage, etRveFoodOverload and etRveFoodShortage.
@@ -174,825 +206,842 @@ procedure FCMdFSG_Game_Load;
       -2009Nov10- *add tasklist in process.
       -2009Nov08- *add owned space units.
 }
-var
-   GLxmlCAB
-   ,GLxmlCol
-   ,GLxmlColsub
-   ,GLxmlColsub1
-   ,GLxmlDock
-   ,GLxmlEntRoot
-   ,GLxmlEntSubRoot
-   ,GLxmlEnt
-   ,GLxmlInfra
-   ,GLxmlItm
-   ,GLxmlMsg
-   ,GLxmlCSMpL
-   ,GLxmlCSMpLsub
-   ,GLxmlProdMode
-   ,GLxmlMatrixItem
-   ,GLxmlProdMatrix
-   ,GLxmlProdMatrixSource
-   ,GLxmlSPMset
-   ,GLxmlSpOwn
-   ,GLxmlTskInPr
-   ,GLxmlViaObj
-   ,GLxmlSurveyRsrc
-   ,GLxmlSurveyRegion
-   ,GLxmlSurveyRSpot: IXMLNode;
+   var
+      GLxmlCAB
+//      ,GLxmlCol
+//      ,GLxmlColsub
+      ,GLxmlColsub1
+      ,XMLSavedGameItemSub2
+//      ,GLxmlEntRoot
+//      ,GLxmlEntSubRoot
+//      ,GLxmlEnt
+      ,XMLSavedGameItemSub4
+      ,XMLSavedGame
+      ,GLxmlMsg
+//      ,GLxmlCSMpL
+//      ,GLxmlCSMpLsub
+      ,GLxmlProdMode
+      ,GLxmlMatrixItem
+      ,GLxmlProdMatrix
+      ,GLxmlProdMatrixSource
+//      ,GLxmlSPMset
+//      ,GLxmlSpOwn
+//      ,GLxmlTskInPr
+      ,XMLSavedGameItem
+//      ,GLxmlSurveyRsrc
+      ,XMLSavedGameItemSub
+      ,XMLSavedGameItemSub1
+      ,XMLSavedGameItemSub3: IXMLNode;
 
-   GLcabCnt
-   ,GLcabValue
-   ,GLcolMax
-   ,GLentCnt
-   ,GLspuMax
-   ,GLspuCnt
-   ,GLcount
-   ,GLcrLineM
-   ,GLcvs
-   ,GLdock
-   ,GLevCnt
-   ,GLinfCnt
-   ,GLphItm
-   ,GLphFac
-   ,GLphFacOld
-   ,GLprodMatrixCnt
-   ,GLregionIdx
-   ,GLsettleCnt
-   ,GLsettleMax
-   ,GLstorageCnt
-   ,GLsubCnt
-   ,GLsubCnt1
-   ,GLtLft
-   ,GLenumIndex
-   ,GLregionTtl: integer;
+      GLcabCnt
+      ,GLcabValue
+      ,GLcolMax
+//      ,GLentCnt
+      ,GLspuMax
+      ,GLspuCnt
+      ,Count
+//      ,GLcrLineM
+//      ,GLcvs
+      ,GLdock
+//      ,GLevCnt
+//      ,GLinfCnt
+      ,Count3
+//      ,GLphFac
+//      ,GLphFacOld
+      ,GLprodMatrixCnt
+//      ,GLregionIdx
+//      ,GLsettleCnt
+      ,GLsettleMax
+      ,GLstorageCnt
+      ,Count1
+      ,Count2
+      ,Count4
+//      ,GLtLft
+      ,EnumIndex
+      ,GLregionTtl: integer;
 
-   GLcrInt
-   ,GLcrLineU: extended;
+//      GLcrInt
+//      ,GLcrLineU: extended;
 
-   GLisCPSenabled: boolean;
+//      GLisCPSenabled: boolean;
 
-   GLcurrDir
-   ,GLcurrG
-   ,GLsettleType: string;
+      CurrentDirectory
+      ,CurrentSavedGameFile
+      ,GLsettleType: string;
 
-   GLvObjList: array of TFCRcpsObj;
+      ViabilityObjectives: array of TFCRcpsObj;
 
-   GLoobjRow: TFCRufStelObj;
+      GLoobjRow: TFCRufStelObj;
 begin
    FCMdF_ConfigurationFile_Load(true);
-   GLcurrDir:=FCVdiPathConfigDir+'SavedGames\'+FCVdgPlayer.P_gameName;
-   GLcurrG:=IntToStr(FCVdgPlayer.P_currentTimeYear)
+   CurrentDirectory:=FCVdiPathConfigDir+'SavedGames\'+FCVdgPlayer.P_gameName;
+   CurrentSavedGameFile:=IntToStr(FCVdgPlayer.P_currentTimeYear)
       +'-'+IntToStr(FCVdgPlayer.P_currentTimeMonth)
       +'-'+IntToStr(FCVdgPlayer.P_currentTimeDay)
       +'-'+IntToStr(FCVdgPlayer.P_currentTimeHour)
       +'-'+IntToStr(FCVdgPlayer.P_currentTimeMinut)
       +'.xml';
-   if (DirectoryExists(GLcurrDir))
-      and (FileExists(GLcurrDir+'\'+GLcurrG))
+   if (DirectoryExists(CurrentDirectory))
+      and (FileExists(CurrentDirectory+'\'+CurrentSavedGameFile))
    then
    begin
       {.read the document}
-      FCWinMain.FCXMLsave.FileName:=GLcurrDir+'\'+GLcurrG;
+      FCWinMain.FCXMLsave.FileName:=CurrentDirectory+'\'+CurrentSavedGameFile;
       FCWinMain.FCXMLsave.Active:=true;
       {.read the main section}
-      GLxmlItm:=FCWinMain.FCXMLsave.DocumentElement.ChildNodes.FindNode('gfMain');
-      if GLxmlItm<>nil
+      XMLSavedGame:=FCWinMain.FCXMLsave.DocumentElement.ChildNodes.FindNode('gfMain');
+      if XMLSavedGame<>nil
       then
       begin
-         FCVdgPlayer.P_allegianceFaction:=GLxmlItm.Attributes['facAlleg'];
-         FCVdgPlayer.P_viewStarSystem:=GLxmlItm.Attributes['plyrsSSLoc'];
-         FCVdgPlayer.P_viewStar:=GLxmlItm.Attributes['plyrsStLoc'];
-         FCVdgPlayer.P_viewOrbitalObject:=GLxmlItm.Attributes['plyrsOObjLoc'];
-         FCVdgPlayer.P_viewSatellite:=GLxmlItm.Attributes['plyrsatLoc'];
+         FCVdgPlayer.P_allegianceFaction:=XMLSavedGame.Attributes['facAlleg'];
+         FCVdgPlayer.P_viewStarSystem:=XMLSavedGame.Attributes['plyrsSSLoc'];
+         FCVdgPlayer.P_viewStar:=XMLSavedGame.Attributes['plyrsStLoc'];
+         FCVdgPlayer.P_viewOrbitalObject:=XMLSavedGame.Attributes['plyrsOObjLoc'];
+         FCVdgPlayer.P_viewSatellite:=XMLSavedGame.Attributes['plyrsatLoc'];
          FCMdF_DBStarOrbitalObjects_Load( FCVdgPlayer.P_viewStarSystem, FCVdgPlayer.P_viewStar );
       end;
       {.read the "timeframe" section}
-      GLxmlItm:=FCWinMain.FCXMLsave.DocumentElement.ChildNodes.FindNode('gfTimeFr');
-      if GLxmlItm<>nil
+      XMLSavedGame:=FCWinMain.FCXMLsave.DocumentElement.ChildNodes.FindNode('gfTimeFr');
+      if XMLSavedGame<>nil
       then
       begin
-         FCVdgPlayer.P_currentTimeTick:=GLxmlItm.Attributes['tfTick'];
-         FCVdgPlayer.P_currentTimeMinut:=GLxmlItm.Attributes['tfMin'];
-         FCVdgPlayer.P_currentTimeHour:=GLxmlItm.Attributes['tfHr'];
-         FCVdgPlayer.P_currentTimeDay:=GLxmlItm.Attributes['tfDay'];
-         FCVdgPlayer.P_currentTimeMonth:=GLxmlItm.Attributes['tfMth'];
-         FCVdgPlayer.P_currentTimeYear:=GLxmlItm.Attributes['tfYr'];
+         FCVdgPlayer.P_currentTimeTick:=XMLSavedGame.Attributes['tfTick'];
+         FCVdgPlayer.P_currentTimeMinut:=XMLSavedGame.Attributes['tfMin'];
+         FCVdgPlayer.P_currentTimeHour:=XMLSavedGame.Attributes['tfHr'];
+         FCVdgPlayer.P_currentTimeDay:=XMLSavedGame.Attributes['tfDay'];
+         FCVdgPlayer.P_currentTimeMonth:=XMLSavedGame.Attributes['tfMth'];
+         FCVdgPlayer.P_currentTimeYear:=XMLSavedGame.Attributes['tfYr'];
       end;
       {.read the "status" section}
-      GLxmlItm:=FCWinMain.FCXMLsave.DocumentElement.ChildNodes.FindNode('gfStatus');
-      if GLxmlItm<>nil
+      XMLSavedGame:=FCWinMain.FCXMLsave.DocumentElement.ChildNodes.FindNode('gfStatus');
+      if XMLSavedGame<>nil
       then
       begin
-         FCVdgPlayer.P_economicStatus:=GLxmlItm.Attributes['statEco'];
-         FCVdgPlayer.P_economicViabilityThreshold:=GLxmlItm.Attributes['statEcoThr'];
-         FCVdgPlayer.P_socialStatus:=GLxmlItm.Attributes['statSoc'];
-         FCVdgPlayer.P_socialViabilityThreshold:=GLxmlItm.Attributes['statSocThr'];
-         FCVdgPlayer.P_militaryStatus:=GLxmlItm.Attributes['statSpMil'];
-         FCVdgPlayer.P_militaryViabilityThreshold:=GLxmlItm.Attributes['statSpMilThr'];
+         FCVdgPlayer.P_economicStatus:=XMLSavedGame.Attributes['statEco'];
+         FCVdgPlayer.P_economicViabilityThreshold:=XMLSavedGame.Attributes['statEcoThr'];
+         FCVdgPlayer.P_socialStatus:=XMLSavedGame.Attributes['statSoc'];
+         FCVdgPlayer.P_socialViabilityThreshold:=XMLSavedGame.Attributes['statSocThr'];
+         FCVdgPlayer.P_militaryStatus:=XMLSavedGame.Attributes['statSpMil'];
+         FCVdgPlayer.P_militaryViabilityThreshold:=XMLSavedGame.Attributes['statSpMilThr'];
       end;
       {.read "cps" section}
-      GLxmlItm:=FCWinMain.FCXMLsave.DocumentElement.ChildNodes.FindNode('gfCPS');
-      if GLxmlItm<>nil
+      XMLSavedGame:=FCWinMain.FCXMLsave.DocumentElement.ChildNodes.FindNode('gfCPS');
+      if XMLSavedGame<>nil
       then
       begin
-         GLisCPSenabled:=GLxmlItm.Attributes['cpsEnabled'];
-         GLcvs:=GLxmlItm.Attributes['cpsCVS'];
-         GLtLft:=GLxmlItm.Attributes['cpsTlft'];
-         GLcrInt:=GLxmlItm.Attributes['cpsInt'];
-         GLcrLineU:=GLxmlItm.Attributes['cpsCredU'];
-         GLcrLineM:=GLxmlItm.Attributes['cpsCredM'];
-         GLcount:=0;
-         GLxmlViaObj:=GLxmlItm.ChildNodes.First;
-         SetLength(GLvObjList, 1);
-         while GLxmlViaObj<>nil do
+//         GLisCPSenabled:=;
+//         GLcvs:=XMLSavedGame.Attributes['cpsCVS'];
+//         GLtLft:=XMLSavedGame.Attributes['cpsTlft'];
+//         GLcrInt:=XMLSavedGame.Attributes['cpsInt'];
+//         GLcrLineU:=XMLSavedGame.Attributes['cpsCredU'];
+//         GLcrLineM:=XMLSavedGame.Attributes['cpsCredM'];
+         Count:=0;
+         XMLSavedGameItem:=XMLSavedGame.ChildNodes.First;
+         SetLength(ViabilityObjectives, 1);
+         while XMLSavedGameItem<>nil do
          begin
-            SetLength(GLvObjList, length(GLvObjList)+1);
-            inc(GLcount);
-            GLenumIndex:=GetEnumValue(TypeInfo(TFCEcpsoObjectiveTypes), GLxmlViaObj.Attributes['objTp'] );
-            GLvObjList[GLcount].CPSO_type:=TFCEcpsoObjectiveTypes(GLenumIndex);
-            if GLenumIndex=-1
-            then raise Exception.Create('bad gamesave loading w/CPS objective: '+GLxmlViaObj.Attributes['objTp']);
-            GLvObjList[GLcount].CPSO_score:=GLxmlViaObj.Attributes['score'];
-            if GLvObjList[GLcount].CPSO_type=otEcoIndustrialForce then
+            inc(Count);
+            SetLength( ViabilityObjectives, Count+1);
+
+            EnumIndex:=GetEnumValue(TypeInfo(TFCEcpsoObjectiveTypes), XMLSavedGameItem.Attributes['objTp'] );
+            ViabilityObjectives[Count].CPSO_type:=TFCEcpsoObjectiveTypes(EnumIndex);
+            if EnumIndex=-1
+            then raise Exception.Create('bad gamesave loading w/CPS objective: '+XMLSavedGameItem.Attributes['objTp']);
+            ViabilityObjectives[Count].CPSO_score:=XMLSavedGameItem.Attributes['score'];
+            if ViabilityObjectives[Count].CPSO_type=otEcoIndustrialForce then
             begin
-               GLvObjList[GLcount].CPSO_ifProduct:=GLxmlViaObj.Attributes['product'];
-               GLvObjList[GLcount].CPSO_ifThreshold:=GLxmlViaObj.Attributes['threshold'];
+               ViabilityObjectives[Count].CPSO_ifProduct:=XMLSavedGameItem.Attributes['product'];
+               ViabilityObjectives[Count].CPSO_ifThreshold:=XMLSavedGameItem.Attributes['threshold'];
             end;
-            GLxmlViaObj:=GLxmlViaObj.NextSibling;
+            XMLSavedGameItem:=XMLSavedGameItem.NextSibling;
          end; //==END== GLxmlViaObj<>nil ==//
          FCcps:=TFCcps.Create(
-            GLcvs
-            ,GLtLft
-            ,GLcrLineM
-            ,GLcrInt
-            ,GLcrLineU
-            ,GLvObjList
-            ,GLisCPSenabled
+            XMLSavedGame.Attributes['cpsCVS']
+            ,XMLSavedGame.Attributes['cpsTlft']
+            ,XMLSavedGame.Attributes['cpsCredM']
+            ,XMLSavedGame.Attributes['cpsInt']
+            ,XMLSavedGame.Attributes['cpsCredU']
+            ,ViabilityObjectives
+            ,XMLSavedGame.Attributes['cpsEnabled']
             );
       end; //==END== if GLxmlItm<>nil for CPS ==//
       {.read "taskinprocess" saved game item}
       SetLength(FCGtskListInProc, 1);
-      GLxmlItm:=FCWinMain.FCXMLsave.DocumentElement.ChildNodes.FindNode('gfTskLstinProc');
-      if GLxmlItm<>nil
+      XMLSavedGame:=FCWinMain.FCXMLsave.DocumentElement.ChildNodes.FindNode('gfTskLstinProc');
+      if XMLSavedGame<>nil
       then
       begin
-         GLcount:=0;
-         GLxmlTskInPr:=GLxmlItm.ChildNodes.First;
-         while GLxmlTskInPr<>nil do
+         Count:=0;
+         XMLSavedGameItem:=XMLSavedGame.ChildNodes.First;
+         while XMLSavedGameItem<>nil do
          begin
-            SetLength(FCGtskListInProc, length(FCGtskListInProc)+1);
-            inc(GLcount);
+            inc(Count);
+            SetLength(FCGtskListInProc, Count+1);
+
 //            FCGtskListInProc[GLCount].T_enabled:=GLxmlTskInPr.Attributes['tipEna'];
-            FCGtskListInProc[GLCount].T_type:=GLxmlTskInPr.Attributes['tipActTp'];
-            FCGtskListInProc[GLCount].T_tMColCurrentPhase:=GLxmlTskInPr.Attributes['tipPhase'];
-            FCGtskListInProc[GLCount].TITP_ctldType:=GLxmlTskInPr.Attributes['tipTgtTp'];
-            FCGtskListInProc[GLCount].TITP_ctldFac:=GLxmlTskInPr.Attributes['tipTgtFac'];
-            FCGtskListInProc[GLCount].TITP_ctldIdx:=GLxmlTskInPr.Attributes['tipTgtIdx'];
-            FCGtskListInProc[GLcount].TITP_timeOrg:=GLxmlTskInPr.Attributes['tipTimeOrg'];
-            FCGtskListInProc[GLCount].TITP_duration:=GLxmlTskInPr.Attributes['tipDura'];
-            FCGtskListInProc[GLCount].TITP_interval:=GLxmlTskInPr.Attributes['tipInterv'];
-            FCGtskListInProc[GLCount].TITP_orgType:=GLxmlTskInPr.Attributes['tipOrgTp'];
-            FCGtskListInProc[GLCount].TITP_orgIdx:=GLxmlTskInPr.Attributes['tipOrgIdx'];
-            FCGtskListInProc[GLCount].TITP_destType:=GLxmlTskInPr.Attributes['tipDestTp'];
-            FCGtskListInProc[GLCount].TITP_destIdx:=GLxmlTskInPr.Attributes['tipDestIdx'];
-            FCGtskListInProc[GLCount].TITP_regIdx:=GLxmlTskInPr.Attributes['tipRegIdx'];
-            FCGtskListInProc[GLCount].TITP_velCruise:=GLxmlTskInPr.Attributes['tipVelCr'];
-            FCGtskListInProc[GLCount].TITP_timeToCruise:=GLxmlTskInPr.Attributes['tipTimeTcr'];
-            FCGtskListInProc[GLCount].TITP_timeDecel:=GLxmlTskInPr.Attributes['tipTimeTdec'];
-            FCGtskListInProc[GLCount].TITP_time2xfert:=GLxmlTskInPr.Attributes['tipTime2Xfrt'];
-            FCGtskListInProc[GLCount].TITP_time2xfert2decel:=GLxmlTskInPr.Attributes['tipTime2XfrtDec'];
-            FCGtskListInProc[GLCount].TITP_velFinal:=GLxmlTskInPr.Attributes['tipVelFin'];
-            FCGtskListInProc[GLCount].TITP_timeToFinal:=GLxmlTskInPr.Attributes['tipTimeTfin'];
-            FCGtskListInProc[GLCount].TITP_accelbyTick:=GLxmlTskInPr.Attributes['tipAccelBtick'];
-            FCGtskListInProc[GLcount].TITP_usedRMassV:=GLxmlTskInPr.Attributes['tipUsedRM'];
-            FCGtskListInProc[GLcount].TITP_str1:=GLxmlTskInPr.Attributes['tipStr1'];
-            FCGtskListInProc[GLcount].TITP_str2:=GLxmlTskInPr.Attributes['tipStr2'];
-            FCGtskListInProc[GLcount].TITP_int1:=GLxmlTskInPr.Attributes['tipInt1'];
-            GLxmlTskInPr:=GLxmlTskInPr.NextSibling;
+            FCGtskListInProc[Count].T_type:=XMLSavedGameItem.Attributes['tipActTp'];
+            FCGtskListInProc[Count].T_tMColCurrentPhase:=XMLSavedGameItem.Attributes['tipPhase'];
+            FCGtskListInProc[Count].TITP_ctldType:=XMLSavedGameItem.Attributes['tipTgtTp'];
+            FCGtskListInProc[Count].TITP_ctldFac:=XMLSavedGameItem.Attributes['tipTgtFac'];
+            FCGtskListInProc[Count].TITP_ctldIdx:=XMLSavedGameItem.Attributes['tipTgtIdx'];
+            FCGtskListInProc[Count].TITP_timeOrg:=XMLSavedGameItem.Attributes['tipTimeOrg'];
+            FCGtskListInProc[Count].TITP_duration:=XMLSavedGameItem.Attributes['tipDura'];
+            FCGtskListInProc[Count].TITP_interval:=XMLSavedGameItem.Attributes['tipInterv'];
+            FCGtskListInProc[Count].TITP_orgType:=XMLSavedGameItem.Attributes['tipOrgTp'];
+            FCGtskListInProc[Count].TITP_orgIdx:=XMLSavedGameItem.Attributes['tipOrgIdx'];
+            FCGtskListInProc[Count].TITP_destType:=XMLSavedGameItem.Attributes['tipDestTp'];
+            FCGtskListInProc[Count].TITP_destIdx:=XMLSavedGameItem.Attributes['tipDestIdx'];
+            FCGtskListInProc[Count].TITP_regIdx:=XMLSavedGameItem.Attributes['tipRegIdx'];
+            FCGtskListInProc[Count].TITP_velCruise:=XMLSavedGameItem.Attributes['tipVelCr'];
+            FCGtskListInProc[Count].TITP_timeToCruise:=XMLSavedGameItem.Attributes['tipTimeTcr'];
+            FCGtskListInProc[Count].TITP_timeDecel:=XMLSavedGameItem.Attributes['tipTimeTdec'];
+            FCGtskListInProc[Count].TITP_time2xfert:=XMLSavedGameItem.Attributes['tipTime2Xfrt'];
+            FCGtskListInProc[Count].TITP_time2xfert2decel:=XMLSavedGameItem.Attributes['tipTime2XfrtDec'];
+            FCGtskListInProc[Count].TITP_velFinal:=XMLSavedGameItem.Attributes['tipVelFin'];
+            FCGtskListInProc[Count].TITP_timeToFinal:=XMLSavedGameItem.Attributes['tipTimeTfin'];
+            FCGtskListInProc[Count].TITP_accelbyTick:=XMLSavedGameItem.Attributes['tipAccelBtick'];
+            FCGtskListInProc[Count].TITP_usedRMassV:=XMLSavedGameItem.Attributes['tipUsedRM'];
+            FCGtskListInProc[Count].TITP_str1:=XMLSavedGameItem.Attributes['tipStr1'];
+            FCGtskListInProc[Count].TITP_str2:=XMLSavedGameItem.Attributes['tipStr2'];
+            FCGtskListInProc[Count].TITP_int1:=XMLSavedGameItem.Attributes['tipInt1'];
+            XMLSavedGameItem:=XMLSavedGameItem.NextSibling;
          end; {.while GLxmlGamItmTskInPr<>nil}
       end; {.if GLxmlGamItmTskInPr<>nil}
       {.read all surveyed resources}
       setlength(FCVdgPlayer.P_surveyedResourceSpots, 1);
-      GLxmlItm:=FCWinMain.FCXMLsave.DocumentElement.ChildNodes.FindNode('gfSurveyedResourceSpots');
-      if GLxmlItm<>nil then
+      XMLSavedGame:=FCWinMain.FCXMLsave.DocumentElement.ChildNodes.FindNode('gfSurveyedResourceSpots');
+      if XMLSavedGame<>nil then
       begin
-         GLcount:=0;
-         GLxmlSurveyRsrc:=GLxmlItm.ChildNodes.First;
-         while GLxmlSurveyRsrc<>nil do
+         Count:=0;
+         XMLSavedGameItem:=XMLSavedGame.ChildNodes.First;
+         while XMLSavedGameItem<>nil do
          begin
-            inc(GLcount);
-            SetLength(FCVdgPlayer.P_surveyedResourceSpots, GLcount+1);
-            FCVdgPlayer.P_surveyedResourceSpots[GLcount].SRS_orbitalObject_SatelliteToken:=GLxmlSurveyRsrc.Attributes['oobj'];
-            FCVdgPlayer.P_surveyedResourceSpots[GLcount].SRS_starSystem:=GLxmlSurveyRsrc.Attributes['ssysIdx'];
-            FCVdgPlayer.P_surveyedResourceSpots[GLcount].SRS_star:=GLxmlSurveyRsrc.Attributes['starIdx'];
-            FCVdgPlayer.P_surveyedResourceSpots[GLcount].SRS_orbitalObject:=GLxmlSurveyRsrc.Attributes['oobjIdx'];
-            FCVdgPlayer.P_surveyedResourceSpots[GLcount].SRS_satellite:=GLxmlSurveyRsrc.Attributes['satIdx'];
+            inc(Count);
+            SetLength(FCVdgPlayer.P_surveyedResourceSpots, Count+1);
+            FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_orbitalObject_SatelliteToken:=XMLSavedGameItem.Attributes['oobj'];
+            FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_starSystem:=XMLSavedGameItem.Attributes['ssysIdx'];
+            FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_star:=XMLSavedGameItem.Attributes['starIdx'];
+            FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_orbitalObject:=XMLSavedGameItem.Attributes['oobjIdx'];
+            FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_satellite:=XMLSavedGameItem.Attributes['satIdx'];
             if (
-               (FCVdgPlayer.P_surveyedResourceSpots[GLcount].SRS_orbitalObject_SatelliteToken<>'')
+               (FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_orbitalObject_SatelliteToken<>'')
                and
-               (FCVdgPlayer.P_surveyedResourceSpots[GLcount].SRS_satellite=0)
-               and ( FCDduStarSystem[FCVdgPlayer.P_surveyedResourceSpots[GLcount].SRS_starSystem].
-                        SS_stars[FCVdgPlayer.P_surveyedResourceSpots[GLcount].SRS_star].
-                        S_orbitalObjects[FCVdgPlayer.P_surveyedResourceSpots[GLcount].SRS_orbitalObject].OO_dbTokenId=FCVdgPlayer.P_surveyedResourceSpots[GLcount].SRS_orbitalObject_SatelliteToken
+               (FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_satellite=0)
+               and ( FCDduStarSystem[FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_starSystem].
+                        SS_stars[FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_star].
+                        S_orbitalObjects[FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_orbitalObject].OO_dbTokenId=FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_orbitalObject_SatelliteToken
                   )
                )
                or (
-                  (FCVdgPlayer.P_surveyedResourceSpots[GLcount].SRS_orbitalObject_SatelliteToken<>'')
+                  (FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_orbitalObject_SatelliteToken<>'')
                   and
-                  (FCVdgPlayer.P_surveyedResourceSpots[GLcount].SRS_satellite>0)
-                  and ( FCDduStarSystem[FCVdgPlayer.P_surveyedResourceSpots[GLcount].SRS_starSystem].
-                           SS_stars[FCVdgPlayer.P_surveyedResourceSpots[GLcount].SRS_star].
-                           S_orbitalObjects[FCVdgPlayer.P_surveyedResourceSpots[GLcount].SRS_orbitalObject].
-                           OO_satellitesList[FCVdgPlayer.P_surveyedResourceSpots[GLcount].SRS_satellite].OO_dbTokenId=FCVdgPlayer.P_surveyedResourceSpots[GLcount].SRS_orbitalObject_SatelliteToken
+                  (FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_satellite>0)
+                  and ( FCDduStarSystem[FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_starSystem].
+                           SS_stars[FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_star].
+                           S_orbitalObjects[FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_orbitalObject].
+                           OO_satellitesList[FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_satellite].OO_dbTokenId=FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_orbitalObject_SatelliteToken
                      )
                ) then
             begin
-               if FCVdgPlayer.P_surveyedResourceSpots[GLcount].SRS_satellite=0
+               if FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_satellite=0
                then SetLength(
-                  FCVdgPlayer.P_surveyedResourceSpots[GLcount].SRS_surveyedRegions
+                  FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_surveyedRegions
                   ,length(
-                     FCDduStarSystem[FCVdgPlayer.P_surveyedResourceSpots[GLcount].SRS_starSystem].
-                        SS_stars[FCVdgPlayer.P_surveyedResourceSpots[GLcount].SRS_star].
-                        S_orbitalObjects[FCVdgPlayer.P_surveyedResourceSpots[GLcount].SRS_orbitalObject].OO_regions
+                     FCDduStarSystem[FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_starSystem].
+                        SS_stars[FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_star].
+                        S_orbitalObjects[FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_orbitalObject].OO_regions
                      )+1
                   )
-               else if FCVdgPlayer.P_surveyedResourceSpots[GLcount].SRS_satellite>0
+               else if FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_satellite>0
                then SetLength(
-                  FCVdgPlayer.P_surveyedResourceSpots[GLcount].SRS_surveyedRegions
+                  FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_surveyedRegions
                   ,length(
-                     FCDduStarSystem[FCVdgPlayer.P_surveyedResourceSpots[GLcount].SRS_starSystem].
-                        SS_stars[FCVdgPlayer.P_surveyedResourceSpots[GLcount].SRS_star].
-                        S_orbitalObjects[FCVdgPlayer.P_surveyedResourceSpots[GLcount].SRS_orbitalObject].
-                        OO_satellitesList[FCVdgPlayer.P_surveyedResourceSpots[GLcount].SRS_satellite].OO_regions
+                     FCDduStarSystem[FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_starSystem].
+                        SS_stars[FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_star].
+                        S_orbitalObjects[FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_orbitalObject].
+                        OO_satellitesList[FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_satellite].OO_regions
                      )+1
                   );
-               GLxmlSurveyRegion:=GLxmlSurveyRsrc.ChildNodes.First;
-               while GLxmlSurveyRegion<>nil do
+               XMLSavedGameItemSub:=XMLSavedGameItem.ChildNodes.First;
+               while XMLSavedGameItemSub<>nil do
                begin
-                  GLsubCnt:=GLxmlSurveyRegion.Attributes['regionIdx'];
-                  GLsubCnt1:=0;
-                  GLxmlSurveyRSpot:=GLxmlSurveyRegion.ChildNodes.First;
-                  while GLxmlSurveyRSpot<>nil do
+                  Count1:=XMLSavedGameItemSub.Attributes['regionIdx'];
+                  Count2:=0;
+                  XMLSavedGameItemSub1:=XMLSavedGameItemSub.ChildNodes.First;
+                  while XMLSavedGameItemSub1<>nil do
                   begin
-                     inc(GLsubCnt1);
-                     SetLength(FCVdgPlayer.P_surveyedResourceSpots[GLcount].SRS_surveyedRegions[GLsubCnt].SR_ResourceSpots, GLsubCnt1+1);
-                     GLenumIndex:=GetEnumValue(TypeInfo(TFCEduResourceSpotTypes), GLxmlSurveyRSpot.Attributes['spotType'] );
-                     FCVdgPlayer.P_surveyedResourceSpots[GLcount].SRS_surveyedRegions[GLsubCnt].SR_ResourceSpots[GLsubCnt1].RS_type:=TFCEduResourceSpotTypes(GLenumIndex);
-                     if GLenumIndex=-1
-                     then raise Exception.Create('bad gamesave loading w/rsrc spot type: '+GLxmlSurveyRSpot.Attributes['spotType'])
-                     else if GLenumIndex>0 then
+                     inc(Count2);
+                     SetLength(FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_surveyedRegions[Count1].SR_ResourceSpots, Count2+1);
+                     EnumIndex:=GetEnumValue(TypeInfo(TFCEduResourceSpotTypes), XMLSavedGameItemSub1.Attributes['spotType'] );
+                     FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_surveyedRegions[Count1].SR_ResourceSpots[Count2].RS_type:=TFCEduResourceSpotTypes(EnumIndex);
+                     if EnumIndex=-1
+                     then raise Exception.Create('bad gamesave loading w/rsrc spot type: '+XMLSavedGameItemSub1.Attributes['spotType'])
+                     else if EnumIndex>0 then
                      begin
-                        FCVdgPlayer.P_surveyedResourceSpots[GLcount].SRS_surveyedRegions[GLsubCnt].SR_ResourceSpots[GLsubCnt1].RS_meanQualityCoefficient:=GLxmlSurveyRSpot.Attributes['meanQualCoef'];
-                        FCVdgPlayer.P_surveyedResourceSpots[GLcount].SRS_surveyedRegions[GLsubCnt].SR_ResourceSpots[GLsubCnt1].RS_spotSizeCurrent:=GLxmlSurveyRSpot.Attributes['spotSizCurr'];
-                        FCVdgPlayer.P_surveyedResourceSpots[GLcount].SRS_surveyedRegions[GLsubCnt].SR_ResourceSpots[GLsubCnt1].RS_spotSizeMax:=GLxmlSurveyRSpot.Attributes['spotSizeMax'];
-                        if FCVdgPlayer.P_surveyedResourceSpots[GLcount].SRS_surveyedRegions[GLsubCnt].SR_ResourceSpots[GLsubCnt1].RS_type=rstOreField then
+                        FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_surveyedRegions[Count1].SR_ResourceSpots[Count2].RS_meanQualityCoefficient:=XMLSavedGameItemSub1.Attributes['meanQualCoef'];
+                        FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_surveyedRegions[Count1].SR_ResourceSpots[Count2].RS_spotSizeCurrent:=XMLSavedGameItemSub1.Attributes['spotSizCurr'];
+                        FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_surveyedRegions[Count1].SR_ResourceSpots[Count2].RS_spotSizeMax:=XMLSavedGameItemSub1.Attributes['spotSizeMax'];
+                        if FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_surveyedRegions[Count1].SR_ResourceSpots[Count2].RS_type=rstOreField then
                         begin
-                           FCVdgPlayer.P_surveyedResourceSpots[GLcount].SRS_surveyedRegions[GLsubCnt].SR_ResourceSpots[GLsubCnt1].RS_tOFiCarbonaceous:=GLxmlSurveyRSpot.Attributes['oreCarbo'];
-                           FCVdgPlayer.P_surveyedResourceSpots[GLcount].SRS_surveyedRegions[GLsubCnt].SR_ResourceSpots[GLsubCnt1].RS_tOFiMetallic:=GLxmlSurveyRSpot.Attributes['oreMetal'];
-                           FCVdgPlayer.P_surveyedResourceSpots[GLcount].SRS_surveyedRegions[GLsubCnt].SR_ResourceSpots[GLsubCnt1].RS_tOFiRare:=GLxmlSurveyRSpot.Attributes['oreRare'];
-                           FCVdgPlayer.P_surveyedResourceSpots[GLcount].SRS_surveyedRegions[GLsubCnt].SR_ResourceSpots[GLsubCnt1].RS_tOFiUranium:=GLxmlSurveyRSpot.Attributes['oreUra'];
+                           FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_surveyedRegions[Count1].SR_ResourceSpots[Count2].RS_tOFiCarbonaceous:=XMLSavedGameItemSub1.Attributes['oreCarbo'];
+                           FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_surveyedRegions[Count1].SR_ResourceSpots[Count2].RS_tOFiMetallic:=XMLSavedGameItemSub1.Attributes['oreMetal'];
+                           FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_surveyedRegions[Count1].SR_ResourceSpots[Count2].RS_tOFiRare:=XMLSavedGameItemSub1.Attributes['oreRare'];
+                           FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_surveyedRegions[Count1].SR_ResourceSpots[Count2].RS_tOFiUranium:=XMLSavedGameItemSub1.Attributes['oreUra'];
                         end;
                      end;
-                     GLxmlSurveyRSpot:=GLxmlSurveyRSpot.NextSibling;
+                     XMLSavedGameItemSub1:=XMLSavedGameItemSub1.NextSibling;
                   end;
-                  GLxmlSurveyRegion:=GLxmlSurveyRegion.NextSibling;
+                  XMLSavedGameItemSub:=XMLSavedGameItemSub.NextSibling;
                end;
             end
             else raise Exception.Create('universe database is not compatible with the current save game file');
-            GLxmlSurveyRsrc:=GLxmlSurveyRsrc.NextSibling;
+            XMLSavedGameItem:=XMLSavedGameItem.NextSibling;
          end;
       end; //==END== if GLxmlItm<>nil then... for surveyed resources ==//
       {.read "CSM" section}
-      GLxmlItm:=FCWinMain.FCXMLsave.DocumentElement.ChildNodes.FindNode('gfCSM');
-      if GLxmlItm<>nil
+      XMLSavedGame:=FCWinMain.FCXMLsave.DocumentElement.ChildNodes.FindNode('gfCSM');
+      if XMLSavedGame<>nil
       then
       begin
-         GLcount:=0;
-         GLxmlCSMpL:=GLxmlItm.ChildNodes.First;
+         Count:=0;
+         XMLSavedGameItem:=XMLSavedGame.ChildNodes.First;
          SetLength(FCDdgCSMPhaseSchedule, 1);
-         while GLxmlCSMpL<>nil do
+         while XMLSavedGameItem<>nil do
          begin
-            SetLength(FCDdgCSMPhaseSchedule, length(FCDdgCSMPhaseSchedule)+1);
-            inc(GLcount);
-            FCDdgCSMPhaseSchedule[GLcount].CSMPS_ProcessAtTick:=GLxmlCSMpL.Attributes['csmTick'];
-            GLphFac:=0;
-            GLphFacOld:=-1;
-            GLxmlCSMpLsub:=GLxmlCSMpL.ChildNodes.First;
-            while GLxmlCSMpLsub<>nil do
+            inc(Count);
+            SetLength(FCDdgCSMPhaseSchedule, Count+1);
+
+            FCDdgCSMPhaseSchedule[Count].CSMPS_ProcessAtTick:=XMLSavedGameItem.Attributes['csmTick'];
+            Count1:=0;
+            Count2:=-1;
+            XMLSavedGameItemSub:=XMLSavedGameItem.ChildNodes.First;
+            while XMLSavedGameItemSub<>nil do
             begin
-               GLphFac:=GLxmlCSMpLsub.Attributes['fac'];
-               if GLphFac<>GLphFacOld
+               Count1:=XMLSavedGameItemSub.Attributes['fac'];
+               if Count1<>Count2
                then
                begin
-                  GLphFacOld:=GLphFac;
-                  SetLength(FCDdgCSMPhaseSchedule[GLcount].CSMPS_colonies[GLphFac], 1);
-                  GLphItm:=0;
+                  Count2:=Count1;
+                  SetLength(FCDdgCSMPhaseSchedule[Count].CSMPS_colonies[Count1], 1);
+                  Count3:=0;
                end;
-               SetLength(FCDdgCSMPhaseSchedule[GLcount].CSMPS_colonies[GLphFac], length(FCDdgCSMPhaseSchedule[GLcount].CSMPS_colonies[GLphFac])+1);
-               inc(GLphItm);
-               FCDdgCSMPhaseSchedule[GLcount].CSMPS_colonies[GLphFac, GLphItm]:=GLxmlCSMpLsub.Attributes['colony'];
-               GLxmlCSMpLsub:=GLxmlCSMpLsub.NextSibling;
+               inc(Count3);
+               SetLength(FCDdgCSMPhaseSchedule[Count].CSMPS_colonies[Count1], inc(Count3)+1);
+
+               FCDdgCSMPhaseSchedule[Count].CSMPS_colonies[Count1, Count3]:=XMLSavedGameItemSub.Attributes['colony'];
+               XMLSavedGameItemSub:=XMLSavedGameItemSub.NextSibling;
             end;
-            GLxmlCSMpL:=GLxmlCSMpL.NextSibling;
+            XMLSavedGameItem:=XMLSavedGameItem.NextSibling;
          end; //==END== GLxmlCSMpL<>nil ==//
       end; //==END== if GLxmlItm<>nil for CSM ==//
       {.entities section}
       FCMdG_Entities_Clear;
-      GLxmlEntRoot:=FCWinMain.FCXMLsave.DocumentElement.ChildNodes.FindNode('gfEntities');
-      if GLxmlEntRoot<>nil
+      XMLSavedGame:=FCWinMain.FCXMLsave.DocumentElement.ChildNodes.FindNode('gfEntities');
+      if XMLSavedGame<>nil
       then
       begin
-         GLentCnt:=0;
-         GLxmlEnt:=GLxmlEntRoot.ChildNodes.First;
-         while GLxmlEnt<>nil do
+         Count:=0;
+         XMLSavedGameItem:=XMLSavedGame.ChildNodes.First;
+         while XMLSavedGameItem<>nil do
          begin
-            FCDdgEntities[GLentCnt].E_token:=GLxmlEnt.Attributes['token'];
-            FCDdgEntities[GLentCnt].E_factionLevel:=GLxmlEnt.Attributes['lvl'];
-            FCDdgEntities[GLentCnt].E_bureaucracy:=GLxmlEnt.Attributes['bur'];
-            FCDdgEntities[GLentCnt].E_corruption:=GLxmlEnt.Attributes['corr'];
-            FCDdgEntities[GLentCnt].E_hqHigherLevel:=GLxmlEnt.Attributes['hqHlvl'];
-            FCDdgEntities[GLentCnt].E_ucInAccount:=GLxmlEnt.Attributes['UCrve'];
-            GLxmlEntSubRoot:=GLxmlEnt.ChildNodes.First;
-            SetLength(FCDdgEntities[GLentCnt].E_spaceUnits, 1);
-            SetLength(FCDdgEntities[GLentCnt].E_colonies,1);
-            SetLength(FCDdgEntities[GLentCnt].E_spmSettings,1);
-            while GLxmlEntSubRoot<>nil do
+            FCDdgEntities[Count].E_token:=XMLSavedGameItem.Attributes['token'];
+            FCDdgEntities[Count].E_factionLevel:=XMLSavedGameItem.Attributes['lvl'];
+            FCDdgEntities[Count].E_bureaucracy:=XMLSavedGameItem.Attributes['bur'];
+            FCDdgEntities[Count].E_corruption:=XMLSavedGameItem.Attributes['corr'];
+            FCDdgEntities[Count].E_hqHigherLevel:=XMLSavedGameItem.Attributes['hqHlvl'];
+            FCDdgEntities[Count].E_ucInAccount:=XMLSavedGameItem.Attributes['UCrve'];
+            XMLSavedGameItemSub:=XMLSavedGameItem.ChildNodes.First;
+            SetLength(FCDdgEntities[Count].E_spaceUnits, 1);
+            SetLength(FCDdgEntities[Count].E_colonies,1);
+            SetLength(FCDdgEntities[Count].E_spmSettings,1);
+            while XMLSavedGameItemSub<>nil do
             begin
-               if GLxmlEntSubRoot.NodeName='entOwnSpU'
+               if XMLSavedGameItemSub.NodeName='entOwnSpU'
                then
                begin
-                  GLcount:=0;
-                  GLxmlSpOwn:=GLxmlEntSubRoot.ChildNodes.First;
-                  while GLxmlSpOwn<>nil do
+                  Count1:=0;
+                  XMLSavedGameItemSub1:=XMLSavedGameItemSub.ChildNodes.First;
+                  while XMLSavedGameItemSub1<>nil do
                   begin
-                     SetLength(FCDdgEntities[GLentCnt].E_spaceUnits, length(FCDdgEntities[GLentCnt].E_spaceUnits)+1);
-                     inc(GLcount);
-                     FCDdgEntities[GLentCnt].E_spaceUnits[GLcount].SU_token:=GLxmlSpOwn.Attributes['tokenId'];
-                     FCDdgEntities[GLentCnt].E_spaceUnits[GLcount].SU_name:=GLxmlSpOwn.Attributes['tokenName'];
-                     FCDdgEntities[GLentCnt].E_spaceUnits[GLcount].SU_designToken:=GLxmlSpOwn.Attributes['desgnId'];
-                     FCDdgEntities[GLentCnt].E_spaceUnits[GLcount].SU_locationStarSystem:=GLxmlSpOwn.Attributes['ssLoc'];
-                     FCDdgEntities[GLentCnt].E_spaceUnits[GLcount].SU_locationStar:=GLxmlSpOwn.Attributes['stLoc'];
-                     FCDdgEntities[GLentCnt].E_spaceUnits[GLcount].SU_locationOrbitalObject:=GLxmlSpOwn.Attributes['oobjLoc'];
-                     FCDdgEntities[GLentCnt].E_spaceUnits[GLcount].SU_locationSatellite:=GLxmlSpOwn.Attributes['satLoc'];
-                     FCDdgEntities[GLentCnt].E_spaceUnits[GLcount].SU_linked3dObject:=GLxmlSpOwn.Attributes['TdObjIdx'];
-                     FCDdgEntities[GLentCnt].E_spaceUnits[GLcount].SU_locationViewX:=GLxmlSpOwn.Attributes['xLoc'];
-                     FCDdgEntities[GLentCnt].E_spaceUnits[GLcount].SU_locationViewZ:=GLxmlSpOwn.Attributes['zLoc'];
-                     GLdock:=GLxmlSpOwn.Attributes['docked'];
+                     inc(Count1);
+                     SetLength(FCDdgEntities[Count].E_spaceUnits, Count1+1);
+                     FCDdgEntities[Count].E_spaceUnits[Count1].SU_token:=XMLSavedGameItemSub1.Attributes['tokenId'];
+                     FCDdgEntities[Count].E_spaceUnits[Count1].SU_name:=XMLSavedGameItemSub1.Attributes['tokenName'];
+                     FCDdgEntities[Count].E_spaceUnits[Count1].SU_designToken:=XMLSavedGameItemSub1.Attributes['desgnId'];
+                     FCDdgEntities[Count].E_spaceUnits[Count1].SU_locationStarSystem:=XMLSavedGameItemSub1.Attributes['ssLoc'];
+                     FCDdgEntities[Count].E_spaceUnits[Count1].SU_locationStar:=XMLSavedGameItemSub1.Attributes['stLoc'];
+                     FCDdgEntities[Count].E_spaceUnits[Count1].SU_locationOrbitalObject:=XMLSavedGameItemSub1.Attributes['oobjLoc'];
+                     FCDdgEntities[Count].E_spaceUnits[Count1].SU_locationSatellite:=XMLSavedGameItemSub1.Attributes['satLoc'];
+                     FCDdgEntities[Count].E_spaceUnits[Count1].SU_linked3dObject:=XMLSavedGameItemSub1.Attributes['TdObjIdx'];
+                     FCDdgEntities[Count].E_spaceUnits[Count1].SU_locationViewX:=XMLSavedGameItemSub1.Attributes['xLoc'];
+                     FCDdgEntities[Count].E_spaceUnits[Count1].SU_locationViewZ:=XMLSavedGameItemSub1.Attributes['zLoc'];
+                     GLdock:=XMLSavedGameItemSub1.Attributes['docked'];
                      if GLdock>0
                      then
                      begin
-                        SetLength(FCDdgEntities[GLentCnt].E_spaceUnits[GLcount].SU_dockedSpaceUnits, GLdock+1);
-                        GLsubCnt:=1;
-                        GLxmlDock:=GLxmlSpOwn.ChildNodes.First;
-                        while GLsubCnt<=GLdock do
+                        SetLength(FCDdgEntities[Count].E_spaceUnits[Count1].SU_dockedSpaceUnits, GLdock+1);
+                        Count2:=1;
+                        XMLSavedGameItemSub2:=XMLSavedGameItemSub1.ChildNodes.First;
+                        while Count2<=GLdock do
                         begin
-                           FCDdgEntities[GLentCnt].E_spaceUnits[GLcount].SU_dockedSpaceUnits[GLsubCnt].SUDL_index:=GLxmlDock.Attributes['index'];
-                           inc(GLsubCnt);
-                           GLxmlDock:=GLxmlDock.NextSibling;
+                           FCDdgEntities[Count].E_spaceUnits[Count1].SU_dockedSpaceUnits[Count2].SUDL_index:=XMLSavedGameItemSub2.Attributes['index'];
+                           inc(Count2);
+                           XMLSavedGameItemSub2:=XMLSavedGameItemSub2.NextSibling;
                         end;
                      end;
-                     FCDdgEntities[GLentCnt].E_spaceUnits[GLcount].SU_assignedTask:=GLxmlSpOwn.Attributes['taskId'];
-                     FCDdgEntities[GLentCnt].E_spaceUnits[GLcount].SU_status:=GLxmlSpOwn.Attributes['status'];
-                     FCDdgEntities[GLentCnt].E_spaceUnits[GLcount].SU_deltaV:=GLxmlSpOwn.Attributes['dV'];
-                     FCDdgEntities[GLentCnt].E_spaceUnits[GLcount].SU_3dVelocity:=GLxmlSpOwn.Attributes['TdMov'];
-                     FCDdgEntities[GLentCnt].E_spaceUnits[GLcount].SU_reactionMass:=GLxmlSpOwn.Attributes['availRMass'];
-                     GLxmlSpOwn:=GLxmlSpOwn.NextSibling;
+                     FCDdgEntities[Count].E_spaceUnits[Count1].SU_assignedTask:=XMLSavedGameItemSub1.Attributes['taskId'];
+                     FCDdgEntities[Count].E_spaceUnits[Count1].SU_status:=XMLSavedGameItemSub1.Attributes['status'];
+                     FCDdgEntities[Count].E_spaceUnits[Count1].SU_deltaV:=XMLSavedGameItemSub1.Attributes['dV'];
+                     FCDdgEntities[Count].E_spaceUnits[Count1].SU_3dVelocity:=XMLSavedGameItemSub1.Attributes['TdMov'];
+                     FCDdgEntities[Count].E_spaceUnits[Count1].SU_reactionMass:=XMLSavedGameItemSub1.Attributes['availRMass'];
+                     XMLSavedGameItemSub1:=XMLSavedGameItemSub1.NextSibling;
                   end;
                end //==END== if GLxmlEntSubRoot.NodeName='entOwnSpU' ==//
-               else if GLxmlEntSubRoot.NodeName='entColonies'
+               else if XMLSavedGameItemSub.NodeName='entColonies'
                then
                begin
-                  GLcount:=0;
+                  Count1:=0;
                   if assigned(FCcps)
                   then FCcps.FCM_ViabObj_Init(false);
-                  GLxmlCol:=GLxmlEntSubRoot.ChildNodes.First;
-                  while GLxmlCol<>nil do
+                  XMLSavedGameItemSub1:=XMLSavedGameItemSub.ChildNodes.First;
+                  while XMLSavedGameItemSub1<>nil do
                   begin
-                     SetLength(FCDdgEntities[GLentCnt].E_colonies, length(FCDdgEntities[GLentCnt].E_colonies)+1);
-                     inc(GLcount);
-                     SetLength(FCDdgEntities[GLentCnt].E_colonies[GLcount].C_events, 1);
-                     SetLength(FCDdgEntities[GLentCnt].E_colonies[GLcount].C_settlements, 1);
-                     SetLength( FCDdgEntities[GLentCnt].E_colonies[GLcount].C_cabQueue, 1);
-                     GLevCnt:=0;
-                     GLsettleCnt:=0;
-                     FCDdgEntities[GLentCnt].E_colonies[GLcount].C_name:=GLxmlCol.Attributes['prname'];
-                     FCDdgEntities[GLentCnt].E_colonies[GLcount].C_foundationDateYear:=GLxmlCol.Attributes['fndyr'];
-                     FCDdgEntities[GLentCnt].E_colonies[GLcount].C_foundationDateMonth:=GLxmlCol.Attributes['fndmth'];
-                     FCDdgEntities[GLentCnt].E_colonies[GLcount].C_foundationDateDay:=GLxmlCol.Attributes['fnddy'];
-                     FCDdgEntities[GLentCnt].E_colonies[GLcount].C_nextCSMsessionInTick:=GLxmlCol.Attributes['csmtime'];
-                     FCDdgEntities[GLentCnt].E_colonies[GLcount].C_locationStarSystem:=GLxmlCol.Attributes['locssys'];
-                     FCDdgEntities[GLentCnt].E_colonies[GLcount].C_locationStar:=GLxmlCol.Attributes['locstar'];
-                     FCDdgEntities[GLentCnt].E_colonies[GLcount].C_locationOrbitalObject:=GLxmlCol.Attributes['locoobj'];
-                     FCDdgEntities[GLentCnt].E_colonies[GLcount].C_locationSatellite:=GLxmlCol.Attributes['locsat'];
+                     inc(Count1);
+                     SetLength(FCDdgEntities[Count].E_colonies, Count1+1);
+
+                     SetLength(FCDdgEntities[Count].E_colonies[Count1].C_events, 1);
+                     SetLength(FCDdgEntities[Count].E_colonies[Count1].C_settlements, 1);
+                     SetLength( FCDdgEntities[Count].E_colonies[Count1].C_cabQueue, 1);
+                     FCDdgEntities[Count].E_colonies[Count1].C_name:=XMLSavedGameItemSub1.Attributes['prname'];
+                     FCDdgEntities[Count].E_colonies[Count1].C_foundationDateYear:=XMLSavedGameItemSub1.Attributes['fndyr'];
+                     FCDdgEntities[Count].E_colonies[Count1].C_foundationDateMonth:=XMLSavedGameItemSub1.Attributes['fndmth'];
+                     FCDdgEntities[Count].E_colonies[Count1].C_foundationDateDay:=XMLSavedGameItemSub1.Attributes['fnddy'];
+                     FCDdgEntities[Count].E_colonies[Count1].C_nextCSMsessionInTick:=XMLSavedGameItemSub1.Attributes['csmtime'];
+                     FCDdgEntities[Count].E_colonies[Count1].C_locationStarSystem:=XMLSavedGameItemSub1.Attributes['locssys'];
+                     FCDdgEntities[Count].E_colonies[Count1].C_locationStar:=XMLSavedGameItemSub1.Attributes['locstar'];
+                     FCDdgEntities[Count].E_colonies[Count1].C_locationOrbitalObject:=XMLSavedGameItemSub1.Attributes['locoobj'];
+                     FCDdgEntities[Count].E_colonies[Count1].C_locationSatellite:=XMLSavedGameItemSub1.Attributes['locsat'];
                      GLoobjRow[1]:=GLoobjRow[0];
                      GLoobjRow[2]:=GLoobjRow[0];
                      GLoobjRow[3]:=GLoobjRow[0];
                      GLoobjRow[4]:=GLoobjRow[0];
                      GLoobjRow:=FCFuF_StelObj_GetFullRow(
-                        FCDdgEntities[GLentCnt].E_colonies[GLcount].C_locationStarSystem
-                        ,FCDdgEntities[GLentCnt].E_colonies[GLcount].C_locationStar
-                        ,FCDdgEntities[GLentCnt].E_colonies[GLcount].C_locationOrbitalObject
-                        ,FCDdgEntities[GLentCnt].E_colonies[GLcount].C_locationOrbitalObject
+                        FCDdgEntities[Count].E_colonies[Count1].C_locationStarSystem
+                        ,FCDdgEntities[Count].E_colonies[Count1].C_locationStar
+                        ,FCDdgEntities[Count].E_colonies[Count1].C_locationOrbitalObject
+                        ,FCDdgEntities[Count].E_colonies[Count1].C_locationOrbitalObject
                         );
                      if GLoobjRow[4]=0
-                     then FCDduStarSystem[GLoobjRow[1]].SS_stars[GLoobjRow[2]].S_orbitalObjects[GLoobjRow[3]].OO_colonies[0]:=GLcount
+                     then FCDduStarSystem[GLoobjRow[1]].SS_stars[GLoobjRow[2]].S_orbitalObjects[GLoobjRow[3]].OO_colonies[0]:=Count1
                      else if GLoobjRow[4]>0
-                     then FCDduStarSystem[GLoobjRow[1]].SS_stars[GLoobjRow[2]].S_orbitalObjects[GLoobjRow[3]].OO_satellitesList[GLoobjRow[4]].OO_colonies[0]:=GLcount;
-                     FCDdgEntities[GLentCnt].E_colonies[GLcount].C_level:=TFCEdgColonyLevels(GLxmlCol.Attributes['collvl']-1);
-                     FCDdgEntities[GLentCnt].E_colonies[GLcount].C_hqPresence:=GLxmlCol.Attributes['hqpresence'];
-                     FCDdgEntities[GLentCnt].E_colonies[GLcount].C_cohesion:=GLxmlCol.Attributes['dcohes'];
-                     FCDdgEntities[GLentCnt].E_colonies[GLcount].C_security:=GLxmlCol.Attributes['dsecu'];
-                     FCDdgEntities[GLentCnt].E_colonies[GLcount].C_tension:=GLxmlCol.Attributes['dtens'];
-                     FCDdgEntities[GLentCnt].E_colonies[GLcount].C_instruction:=GLxmlCol.Attributes['dedu'];
-                     FCDdgEntities[GLentCnt].E_colonies[GLcount].C_csmHousing_PopulationCapacity:=GLxmlCol.Attributes['csmPCAP'];
-                     FCDdgEntities[GLentCnt].E_colonies[GLcount].C_csmHousing_SpaceLevel:=GLxmlCol.Attributes['csmSPL'];
-                     FCDdgEntities[GLentCnt].E_colonies[GLcount].C_csmHousing_QualityOfLife:=GLxmlCol.Attributes['csmQOL'];
-                     FCDdgEntities[GLentCnt].E_colonies[GLcount].C_csmHealth_HealthLevel:=GLxmlCol.Attributes['csmHEAL'];
-                     FCDdgEntities[GLentCnt].E_colonies[GLcount].C_csmEnergy_Consumption:=GLxmlCol.Attributes['csmEnCons'];
-                     FCDdgEntities[GLentCnt].E_colonies[GLcount].C_csmEnergy_Generation:=GLxmlCol.Attributes['csmEnGen'];
-                     FCDdgEntities[GLentCnt].E_colonies[GLcount].C_csmEnergy_StorageCurrent:=GLxmlCol.Attributes['csmEnStorCurr'];
-                     FCDdgEntities[GLentCnt].E_colonies[GLcount].C_csmEnergy_StorageMax:=GLxmlCol.Attributes['csmEnStorMax'];
-                     FCDdgEntities[GLentCnt].E_colonies[GLcount].C_economicIndustrialOutput:=GLxmlCol.Attributes['eiOut'];
-                     GLxmlColsub:=GLxmlCol.ChildNodes.First;
-                     while GLxmlColsub<>nil do
+                     then FCDduStarSystem[GLoobjRow[1]].SS_stars[GLoobjRow[2]].S_orbitalObjects[GLoobjRow[3]].OO_satellitesList[GLoobjRow[4]].OO_colonies[0]:=Count1;
+                     FCDdgEntities[Count].E_colonies[Count1].C_level:=TFCEdgColonyLevels(XMLSavedGameItemSub1.Attributes['collvl']-1);
+                     FCDdgEntities[Count].E_colonies[Count1].C_hqPresence:=XMLSavedGameItemSub1.Attributes['hqpresence'];
+                     FCDdgEntities[Count].E_colonies[Count1].C_cohesion:=XMLSavedGameItemSub1.Attributes['dcohes'];
+                     FCDdgEntities[Count].E_colonies[Count1].C_security:=XMLSavedGameItemSub1.Attributes['dsecu'];
+                     FCDdgEntities[Count].E_colonies[Count1].C_tension:=XMLSavedGameItemSub1.Attributes['dtens'];
+                     FCDdgEntities[Count].E_colonies[Count1].C_instruction:=XMLSavedGameItemSub1.Attributes['dedu'];
+                     FCDdgEntities[Count].E_colonies[Count1].C_csmHousing_PopulationCapacity:=XMLSavedGameItemSub1.Attributes['csmPCAP'];
+                     FCDdgEntities[Count].E_colonies[Count1].C_csmHousing_SpaceLevel:=XMLSavedGameItemSub1.Attributes['csmSPL'];
+                     FCDdgEntities[Count].E_colonies[Count1].C_csmHousing_QualityOfLife:=XMLSavedGameItemSub1.Attributes['csmQOL'];
+                     FCDdgEntities[Count].E_colonies[Count1].C_csmHealth_HealthLevel:=XMLSavedGameItemSub1.Attributes['csmHEAL'];
+                     FCDdgEntities[Count].E_colonies[Count1].C_csmEnergy_Consumption:=XMLSavedGameItemSub1.Attributes['csmEnCons'];
+                     FCDdgEntities[Count].E_colonies[Count1].C_csmEnergy_Generation:=XMLSavedGameItemSub1.Attributes['csmEnGen'];
+                     FCDdgEntities[Count].E_colonies[Count1].C_csmEnergy_StorageCurrent:=XMLSavedGameItemSub1.Attributes['csmEnStorCurr'];
+                     FCDdgEntities[Count].E_colonies[Count1].C_csmEnergy_StorageMax:=XMLSavedGameItemSub1.Attributes['csmEnStorMax'];
+                     FCDdgEntities[Count].E_colonies[Count1].C_economicIndustrialOutput:=XMLSavedGameItemSub1.Attributes['eiOut'];
+                     XMLSavedGameItemSub2:=XMLSavedGameItemSub1.ChildNodes.First;
+                     while XMLSavedGameItemSub2<>nil do
                      begin
                         {.colony population}
-                        if GLxmlColsub.NodeName='colPopulation'
+                        if XMLSavedGameItemSub2.NodeName='colPopulation'
                         then
                         begin
-                           FCDdgEntities[GLentCnt].E_colonies[GLcount].C_population.CP_total:=GLxmlColsub.Attributes['popTtl'];
-                           FCDdgEntities[GLentCnt].E_colonies[GLcount].C_population.CP_meanAge:=GLxmlColsub.Attributes['popMeanAge'];
-                           FCDdgEntities[GLentCnt].E_colonies[GLcount].C_population.CP_deathRate:=GLxmlColsub.Attributes['popDRate'];
-                           FCDdgEntities[GLentCnt].E_colonies[GLcount].C_population.CP_deathStack:=GLxmlColsub.Attributes['popDStack'];
-                           FCDdgEntities[GLentCnt].E_colonies[GLcount].C_population.CP_birthRate:=GLxmlColsub.Attributes['popBRate'];
-                           FCDdgEntities[GLentCnt].E_colonies[GLcount].C_population.CP_birthStack:=GLxmlColsub.Attributes['popBStack'];
-                           FCDdgEntities[GLentCnt].E_colonies[GLcount].C_population.CP_classColonist:=GLxmlColsub.Attributes['popColon'];
-                           FCDdgEntities[GLentCnt].E_colonies[GLcount].C_population.CP_classColonistAssigned:=GLxmlColsub.Attributes['popColonAssign'];
-                           FCDdgEntities[GLentCnt].E_colonies[GLcount].C_population.CP_classAerOfficer:=GLxmlColsub.Attributes['popOff'];
-                           FCDdgEntities[GLentCnt].E_colonies[GLcount].C_population.CP_classAerOfficerAssigned:=GLxmlColsub.Attributes['popOffAssign'];
-                           FCDdgEntities[GLentCnt].E_colonies[GLcount].C_population.CP_classAerMissionSpecialist:=GLxmlColsub.Attributes['popMisSpe'];
-                           FCDdgEntities[GLentCnt].E_colonies[GLcount].C_population.CP_classAerMissionSpecialistAssigned:=GLxmlColsub.Attributes['popMisSpeAssign'];
-                           FCDdgEntities[GLentCnt].E_colonies[GLcount].C_population.CP_classBioBiologist:=GLxmlColsub.Attributes['popBiol'];
-                           FCDdgEntities[GLentCnt].E_colonies[GLcount].C_population.CP_classBioBiologistAssigned:=GLxmlColsub.Attributes['popBiolAssign'];
-                           FCDdgEntities[GLentCnt].E_colonies[GLcount].C_population.CP_classBioDoctor:=GLxmlColsub.Attributes['popDoc'];
-                           FCDdgEntities[GLentCnt].E_colonies[GLcount].C_population.CP_classBioDoctorAssigned:=GLxmlColsub.Attributes['popDocAssign'];
-                           FCDdgEntities[GLentCnt].E_colonies[GLcount].C_population.CP_classIndTechnician:=GLxmlColsub.Attributes['popTech'];
-                           FCDdgEntities[GLentCnt].E_colonies[GLcount].C_population.CP_classIndTechnicianAssigned:=GLxmlColsub.Attributes['popTechAssign'];
-                           FCDdgEntities[GLentCnt].E_colonies[GLcount].C_population.CP_classIndEngineer:=GLxmlColsub.Attributes['popEng'];
-                           FCDdgEntities[GLentCnt].E_colonies[GLcount].C_population.CP_classIndEngineerAssigned:=GLxmlColsub.Attributes['popEngAssign'];
-                           FCDdgEntities[GLentCnt].E_colonies[GLcount].C_population.CP_classMilSoldier:=GLxmlColsub.Attributes['popSold'];
-                           FCDdgEntities[GLentCnt].E_colonies[GLcount].C_population.CP_classMilSoldierAssigned:=GLxmlColsub.Attributes['popSoldAssign'];
-                           FCDdgEntities[GLentCnt].E_colonies[GLcount].C_population.CP_classMilCommando:=GLxmlColsub.Attributes['popComm'];
-                           FCDdgEntities[GLentCnt].E_colonies[GLcount].C_population.CP_classMilCommandoAssigned:=GLxmlColsub.Attributes['popCommAssign'];
-                           FCDdgEntities[GLentCnt].E_colonies[GLcount].C_population.CP_classPhyPhysicist:=GLxmlColsub.Attributes['popPhys'];
-                           FCDdgEntities[GLentCnt].E_colonies[GLcount].C_population.CP_classPhyPhysicistAssigned:=GLxmlColsub.Attributes['popPhysAssign'];
-                           FCDdgEntities[GLentCnt].E_colonies[GLcount].C_population.CP_classPhyAstrophysicist:=GLxmlColsub.Attributes['popAstro'];
-                           FCDdgEntities[GLentCnt].E_colonies[GLcount].C_population.CP_classPhyAstrophysicistAssigned:=GLxmlColsub.Attributes['popAstroAssign'];
-                           FCDdgEntities[GLentCnt].E_colonies[GLcount].C_population.CP_classEcoEcologist:=GLxmlColsub.Attributes['popEcol'];
-                           FCDdgEntities[GLentCnt].E_colonies[GLcount].C_population.CP_classEcoEcologistAssigned:=GLxmlColsub.Attributes['popEcolAssign'];
-                           FCDdgEntities[GLentCnt].E_colonies[GLcount].C_population.CP_classEcoEcoformer:=GLxmlColsub.Attributes['popEcof'];
-                           FCDdgEntities[GLentCnt].E_colonies[GLcount].C_population.CP_classEcoEcoformerAssigned:=GLxmlColsub.Attributes['popEcofAssign'];
-                           FCDdgEntities[GLentCnt].E_colonies[GLcount].C_population.CP_classAdmMedian:=GLxmlColsub.Attributes['popMedian'];
-                           FCDdgEntities[GLentCnt].E_colonies[GLcount].C_population.CP_classAdmMedianAssigned:=GLxmlColsub.Attributes['popMedianAssign'];
-                           FCDdgEntities[GLentCnt].E_colonies[GLcount].C_population.CP_classRebels:=GLxmlColsub.Attributes['popRebels'];
-                           FCDdgEntities[GLentCnt].E_colonies[GLcount].C_population.CP_classMilitia:=GLxmlColsub.Attributes['popMilitia'];
-                           FCDdgEntities[GLentCnt].E_colonies[GLcount].C_population.CP_CWPtotal:=GLxmlColsub.Attributes['wcpTotal'];
-                           FCDdgEntities[GLentCnt].E_colonies[GLcount].C_population.CP_CWPassignedPeople:=GLxmlColsub.Attributes['wcpAssignPpl'];
-                        end
+                           FCDdgEntities[Count].E_colonies[Count1].C_population.CP_total:=XMLSavedGameItemSub2.Attributes['popTtl'];
+                           FCDdgEntities[Count].E_colonies[Count1].C_population.CP_meanAge:=XMLSavedGameItemSub2.Attributes['popMeanAge'];
+                           FCDdgEntities[Count].E_colonies[Count1].C_population.CP_deathRate:=XMLSavedGameItemSub2.Attributes['popDRate'];
+                           FCDdgEntities[Count].E_colonies[Count1].C_population.CP_deathStack:=XMLSavedGameItemSub2.Attributes['popDStack'];
+                           FCDdgEntities[Count].E_colonies[Count1].C_population.CP_birthRate:=XMLSavedGameItemSub2.Attributes['popBRate'];
+                           FCDdgEntities[Count].E_colonies[Count1].C_population.CP_birthStack:=XMLSavedGameItemSub2.Attributes['popBStack'];
+                           FCDdgEntities[Count].E_colonies[Count1].C_population.CP_classColonist:=XMLSavedGameItemSub2.Attributes['popColon'];
+                           FCDdgEntities[Count].E_colonies[Count1].C_population.CP_classColonistAssigned:=XMLSavedGameItemSub2.Attributes['popColonAssign'];
+                           FCDdgEntities[Count].E_colonies[Count1].C_population.CP_classAerOfficer:=XMLSavedGameItemSub2.Attributes['popOff'];
+                           FCDdgEntities[Count].E_colonies[Count1].C_population.CP_classAerOfficerAssigned:=XMLSavedGameItemSub2.Attributes['popOffAssign'];
+                           FCDdgEntities[Count].E_colonies[Count1].C_population.CP_classAerMissionSpecialist:=XMLSavedGameItemSub2.Attributes['popMisSpe'];
+                           FCDdgEntities[Count].E_colonies[Count1].C_population.CP_classAerMissionSpecialistAssigned:=XMLSavedGameItemSub2.Attributes['popMisSpeAssign'];
+                           FCDdgEntities[Count].E_colonies[Count1].C_population.CP_classBioBiologist:=XMLSavedGameItemSub2.Attributes['popBiol'];
+                           FCDdgEntities[Count].E_colonies[Count1].C_population.CP_classBioBiologistAssigned:=XMLSavedGameItemSub2.Attributes['popBiolAssign'];
+                           FCDdgEntities[Count].E_colonies[Count1].C_population.CP_classBioDoctor:=XMLSavedGameItemSub2.Attributes['popDoc'];
+                           FCDdgEntities[Count].E_colonies[Count1].C_population.CP_classBioDoctorAssigned:=XMLSavedGameItemSub2.Attributes['popDocAssign'];
+                           FCDdgEntities[Count].E_colonies[Count1].C_population.CP_classIndTechnician:=XMLSavedGameItemSub2.Attributes['popTech'];
+                           FCDdgEntities[Count].E_colonies[Count1].C_population.CP_classIndTechnicianAssigned:=XMLSavedGameItemSub2.Attributes['popTechAssign'];
+                           FCDdgEntities[Count].E_colonies[Count1].C_population.CP_classIndEngineer:=XMLSavedGameItemSub2.Attributes['popEng'];
+                           FCDdgEntities[Count].E_colonies[Count1].C_population.CP_classIndEngineerAssigned:=XMLSavedGameItemSub2.Attributes['popEngAssign'];
+                           FCDdgEntities[Count].E_colonies[Count1].C_population.CP_classMilSoldier:=XMLSavedGameItemSub2.Attributes['popSold'];
+                           FCDdgEntities[Count].E_colonies[Count1].C_population.CP_classMilSoldierAssigned:=XMLSavedGameItemSub2.Attributes['popSoldAssign'];
+                           FCDdgEntities[Count].E_colonies[Count1].C_population.CP_classMilCommando:=XMLSavedGameItemSub2.Attributes['popComm'];
+                           FCDdgEntities[Count].E_colonies[Count1].C_population.CP_classMilCommandoAssigned:=XMLSavedGameItemSub2.Attributes['popCommAssign'];
+                           FCDdgEntities[Count].E_colonies[Count1].C_population.CP_classPhyPhysicist:=XMLSavedGameItemSub2.Attributes['popPhys'];
+                           FCDdgEntities[Count].E_colonies[Count1].C_population.CP_classPhyPhysicistAssigned:=XMLSavedGameItemSub2.Attributes['popPhysAssign'];
+                           FCDdgEntities[Count].E_colonies[Count1].C_population.CP_classPhyAstrophysicist:=XMLSavedGameItemSub2.Attributes['popAstro'];
+                           FCDdgEntities[Count].E_colonies[Count1].C_population.CP_classPhyAstrophysicistAssigned:=XMLSavedGameItemSub2.Attributes['popAstroAssign'];
+                           FCDdgEntities[Count].E_colonies[Count1].C_population.CP_classEcoEcologist:=XMLSavedGameItemSub2.Attributes['popEcol'];
+                           FCDdgEntities[Count].E_colonies[Count1].C_population.CP_classEcoEcologistAssigned:=XMLSavedGameItemSub2.Attributes['popEcolAssign'];
+                           FCDdgEntities[Count].E_colonies[Count1].C_population.CP_classEcoEcoformer:=XMLSavedGameItemSub2.Attributes['popEcof'];
+                           FCDdgEntities[Count].E_colonies[Count1].C_population.CP_classEcoEcoformerAssigned:=XMLSavedGameItemSub2.Attributes['popEcofAssign'];
+                           FCDdgEntities[Count].E_colonies[Count1].C_population.CP_classAdmMedian:=XMLSavedGameItemSub2.Attributes['popMedian'];
+                           FCDdgEntities[Count].E_colonies[Count1].C_population.CP_classAdmMedianAssigned:=XMLSavedGameItemSub2.Attributes['popMedianAssign'];
+                           FCDdgEntities[Count].E_colonies[Count1].C_population.CP_classRebels:=XMLSavedGameItemSub2.Attributes['popRebels'];
+                           FCDdgEntities[Count].E_colonies[Count1].C_population.CP_classMilitia:=XMLSavedGameItemSub2.Attributes['popMilitia'];
+                           FCDdgEntities[Count].E_colonies[Count1].C_population.CP_CWPtotal:=XMLSavedGameItemSub2.Attributes['wcpTotal'];
+                           FCDdgEntities[Count].E_colonies[Count1].C_population.CP_CWPassignedPeople:=XMLSavedGameItemSub2.Attributes['wcpAssignPpl'];
+                        end //==END== if XMLSavedGameItemSub2.NodeName='colPopulation' ==//
                         {.colony events}
-                        else if GLxmlColsub.NodeName='colEvent' then
+                        else if XMLSavedGameItemSub2.NodeName='colEvent' then
                         begin
-                           SetLength(FCDdgEntities[GLentCnt].E_colonies[GLcount].C_events, length(FCDdgEntities[GLentCnt].E_colonies[GLcount].C_events)+1);
-                           inc(GLevCnt);
-                           GLenumIndex:=GetEnumValue(TypeInfo(TFCEdgColonyEvents), GLxmlColsub.Attributes['token'] );
-                           FCDdgEntities[GLentCnt].E_colonies[GLcount].C_events[GLevCnt].CCSME_type:=TFCEdgColonyEvents(GLenumIndex);
-                           if GLenumIndex=-1
-                           then raise Exception.Create('bad gamesave loading w/CSM event type: '+GLxmlColsub.Attributes['token']) ;
-                           FCDdgEntities[GLentCnt].E_colonies[GLcount].C_events[GLevCnt].CCSME_isResident:=GLxmlColsub.Attributes['isres'];
-                           FCDdgEntities[GLentCnt].E_colonies[GLcount].C_events[GLevCnt].CCSME_durationWeeks:=GLxmlColsub.Attributes['duration'];
-                           FCDdgEntities[GLentCnt].E_colonies[GLcount].C_events[GLevCnt].CCSME_level:=GLxmlColsub.Attributes['level'];
-                           case FCDdgEntities[GLentCnt].E_colonies[GLcount].C_events[GLevCnt].CCSME_type of
-                              ceColonyEstablished:
-                              begin
-                                 FCDdgEntities[GLentCnt].E_colonies[GLcount].C_events[GLevCnt].CCSME_tCEstTensionMod:=GLxmlColsub.Attributes['modTension'];
-                                 FCDdgEntities[GLentCnt].E_colonies[GLcount].C_events[GLevCnt].CCSME_tCEstSecurityMod:=GLxmlColsub.Attributes['modSecurity'];
-                              end;
-
-                              ceUnrest, ceUnrest_Recovering:
-                              begin
-                                 FCDdgEntities[GLentCnt].E_colonies[GLcount].C_events[GLevCnt].CCSME_tCUnEconomicIndustrialOutputMod:=GLxmlColsub.Attributes['modEcoInd'];
-                                 FCDdgEntities[GLentCnt].E_colonies[GLcount].C_events[GLevCnt].CCSME_tCUnTensionMod:=GLxmlColsub.Attributes['modTension'];
-                              end;
-
-                              ceSocialDisorder, ceSocialDisorder_Recovering:
-                              begin
-                                 FCDdgEntities[GLentCnt].E_colonies[GLcount].C_events[GLevCnt].CCSME_tSDisEconomicIndustrialOutputMod:=GLxmlColsub.Attributes['modEcoInd'];
-                                 FCDdgEntities[GLentCnt].E_colonies[GLcount].C_events[GLevCnt].CCSME_tSDisTensionMod:=GLxmlColsub.Attributes['modTension'];
-                              end;
-
-                              ceUprising, ceUprising_Recovering:
-                              begin
-                                 FCDdgEntities[GLentCnt].E_colonies[GLcount].C_events[GLevCnt].CCSME_tUpEconomicIndustrialOutputMod:=GLxmlColsub.Attributes['modEcoInd'];
-                                 FCDdgEntities[GLentCnt].E_colonies[GLcount].C_events[GLevCnt].CCSME_tUpTensionMod:=GLxmlColsub.Attributes['modTension'];
-                              end;
-
-                              ceDissidentColony: ;
-
-                              ceHealthEducationRelation: FCDdgEntities[GLentCnt].E_colonies[GLcount].C_events[GLevCnt].CCSME_tHERelEducationMod:=GLxmlColsub.Attributes['modInstruction'];
-
-                              ceGovernmentDestabilization, ceGovernmentDestabilization_Recovering: FCDdgEntities[GLentCnt].E_colonies[GLcount].C_events[GLevCnt].CCSME_tGDestCohesionMod:=GLxmlColsub.Attributes['modCohesion'];
-
-                              ceOxygenProductionOverload: FCDdgEntities[GLentCnt].E_colonies[GLcount].C_events[GLevCnt].CCSME_tOPOvPercentPopulationNotSupported:=GLxmlColsub.Attributes['percPopNotSupported'];
-
-                              ceOxygenShortage, ceOxygenShortage_Recovering:
-                              begin
-                                 FCDdgEntities[GLentCnt].E_colonies[GLcount].C_events[GLevCnt].CCSME_tOShPercentPopulationNotSupportedAtCalculation:=GLxmlColsub.Attributes['percPopNotSupAtCalc'];
-                                 FCDdgEntities[GLentCnt].E_colonies[GLcount].C_events[GLevCnt].CCSME_tOShEconomicIndustrialOutputMod:=GLxmlColsub.Attributes['modEcoInd'];
-                                 FCDdgEntities[GLentCnt].E_colonies[GLcount].C_events[GLevCnt].CCSME_tOShTensionMod:=GLxmlColsub.Attributes['modTension'];
-                                 FCDdgEntities[GLentCnt].E_colonies[GLcount].C_events[GLevCnt].CCSME_tOShHealthMod:=GLxmlColsub.Attributes['modHealth'];
-                              end;
-
-                              ceWaterProductionOverload: FCDdgEntities[GLentCnt].E_colonies[GLcount].C_events[GLevCnt].CCSME_tWPOvPercentPopulationNotSupported:=GLxmlColsub.Attributes['percPopNotSupported'];
-
-                              ceWaterShortage, ceWaterShortage_Recovering:
-                              begin
-                                 FCDdgEntities[GLentCnt].E_colonies[GLcount].C_events[GLevCnt].CCSME_tWShPercentPopulationNotSupportedAtCalculation:=GLxmlColsub.Attributes['percPopNotSupAtCalc'];
-                                 FCDdgEntities[GLentCnt].E_colonies[GLcount].C_events[GLevCnt].CCSME_tWShEconomicIndustrialOutputMod:=GLxmlColsub.Attributes['modEcoInd'];
-                                 FCDdgEntities[GLentCnt].E_colonies[GLcount].C_events[GLevCnt].CCSME_tWShTensionMod:=GLxmlColsub.Attributes['modTension'];
-                                 FCDdgEntities[GLentCnt].E_colonies[GLcount].C_events[GLevCnt].CCSME_tWShHealthMod:=GLxmlColsub.Attributes['modHealth'];
-                              end;
-
-                              ceFoodProductionOverload: FCDdgEntities[GLentCnt].E_colonies[GLcount].C_events[GLevCnt].CCSME_tFPOvPercentPopulationNotSupported:=GLxmlColsub.Attributes['percPopNotSupported'];
-
-                              ceFoodShortage, ceFoodShortage_Recovering:
-                              begin
-                                 FCDdgEntities[GLentCnt].E_colonies[GLcount].C_events[GLevCnt].CCSME_tFShPercentPopulationNotSupportedAtCalculation:=GLxmlColsub.Attributes['percPopNotSupAtCalc'];
-                                 FCDdgEntities[GLentCnt].E_colonies[GLcount].C_events[GLevCnt].CCSME_tFShEconomicIndustrialOutputMod:=GLxmlColsub.Attributes['modEcoInd'];
-                                 FCDdgEntities[GLentCnt].E_colonies[GLcount].C_events[GLevCnt].CCSME_tFShTensionMod:=GLxmlColsub.Attributes['modTension'];
-                                 FCDdgEntities[GLentCnt].E_colonies[GLcount].C_events[GLevCnt].CCSME_tFShHealthMod:=GLxmlColsub.Attributes['modHealth'];
-                                 FCDdgEntities[GLentCnt].E_colonies[GLcount].C_events[GLevCnt].CCSME_tFShDirectDeathPeriod:=GLxmlColsub.Attributes['directDeathPeriod'];
-                                 FCDdgEntities[GLentCnt].E_colonies[GLcount].C_events[GLevCnt].CCSME_tFShDeathFractionalValue:=GLxmlColsub.Attributes['deathFracValue'];
-                              end;
-                           end; //==END== case FCentities[GLentCnt].E_col[GLcount].COL_evList[GLevCnt].CSMEV_token of ==//
-                        end
-                        {.colony settlements}
-                        else if GLxmlColsub.NodeName='colSettlement' then
-                        begin
-                           inc(GLsettleCnt);
-                           SetLength(FCDdgEntities[GLentCnt].E_colonies[GLcount].C_settlements, GLsettleCnt+1);
-                           SetLength(FCDdgEntities[GLentCnt].E_colonies[GLcount].C_settlements[GLsettleCnt].S_infrastructures, 1);
-                           SetLength( FCDdgEntities[GLentCnt].E_colonies[GLcount].C_cabQueue, length( FCDdgEntities[GLentCnt].E_colonies[GLcount].C_cabQueue )+1 );
-                           FCDdgEntities[GLentCnt].E_colonies[GLcount].C_settlements[GLsettleCnt].S_name:=GLxmlColsub.Attributes['name'];
-                           GLenumIndex:=GetEnumValue(TypeInfo(TFCEdgSettlements), GLxmlColsub.Attributes['type'] );
-                           FCDdgEntities[GLentCnt].E_colonies[GLcount].C_settlements[GLsettleCnt].S_settlement:=TFCEdgSettlements(GLenumIndex);
-                           if GLenumIndex=-1
-                           then raise Exception.Create('bad gamesave loading w/settlement type: '+GLxmlColsub.Attributes['type']) ;
-                           FCDdgEntities[GLentCnt].E_colonies[GLcount].C_settlements[GLsettleCnt].S_level:=GLxmlColsub.Attributes['level'];
-                           FCDdgEntities[GLentCnt].E_colonies[GLcount].C_settlements[GLsettleCnt].S_locationRegion:=GLxmlColsub.Attributes['region'];
-                           GLregionIdx:=FCDdgEntities[GLentCnt].E_colonies[GLcount].C_settlements[GLsettleCnt].S_locationRegion;
-                           if GLoobjRow[4]=0 then
+                           Count2:=0;
+                           XMLSavedGameItemSub3:=XMLSavedGameItemSub2.ChildNodes.First;
+                           while XMLSavedGameItemSub3<>nil do
                            begin
-                              FCDduStarSystem[GLoobjRow[1]].SS_stars[GLoobjRow[2]].S_orbitalObjects[GLoobjRow[3]].OO_regions[GLregionIdx].OOR_settlementEntity:=GLentCnt;
-                              FCDduStarSystem[GLoobjRow[1]].SS_stars[GLoobjRow[2]].S_orbitalObjects[GLoobjRow[3]].OO_regions[GLregionIdx].OOR_settlementColony:=GLcount;
-                              FCDduStarSystem[GLoobjRow[1]].SS_stars[GLoobjRow[2]].S_orbitalObjects[GLoobjRow[3]].OO_regions[GLregionIdx].OOR_settlementIndex:=GLsettleCnt;
-                           end
-                           else if GLoobjRow[4]>0 then
-                           begin
-                              FCDduStarSystem[GLoobjRow[1]].SS_stars[GLoobjRow[2]].S_orbitalObjects[GLoobjRow[3]].OO_satellitesList[GLoobjRow[4]].OO_regions[GLregionIdx].OOR_settlementEntity:=GLentCnt;
-                              FCDduStarSystem[GLoobjRow[1]].SS_stars[GLoobjRow[2]].S_orbitalObjects[GLoobjRow[3]].OO_satellitesList[GLoobjRow[4]].OO_regions[GLregionIdx].OOR_settlementColony:=GLcount;
-                              FCDduStarSystem[GLoobjRow[1]].SS_stars[GLoobjRow[2]].S_orbitalObjects[GLoobjRow[3]].OO_satellitesList[GLoobjRow[4]].OO_regions[GLregionIdx].OOR_settlementIndex:=GLsettleCnt;
-                           end;
-                           GLinfCnt:=0;
-                           GLxmlInfra:=GLxmlColsub.ChildNodes.First;
-                           while GLxmlInfra<>nil do
-                           begin
-                              SetLength( FCDdgEntities[GLentCnt].E_colonies[GLcount].C_settlements[GLsettleCnt].S_infrastructures, length( FCDdgEntities[GLentCnt].E_colonies[GLcount].C_settlements[GLsettleCnt].S_infrastructures )+1 );
-                              inc(GLinfCnt);
-                              FCDdgEntities[GLentCnt].E_colonies[GLcount].C_settlements[GLsettleCnt].S_infrastructures[GLinfCnt].I_token:=GLxmlInfra.Attributes['token'];
-                              FCDdgEntities[GLentCnt].E_colonies[GLcount].C_settlements[GLsettleCnt].S_infrastructures[GLinfCnt].I_level:=GLxmlInfra.Attributes['level'];
-                              GLenumIndex:=GetEnumValue(TypeInfo(TFCEdgInfrastructureStatus), GLxmlInfra.Attributes['status'] );
-                              FCDdgEntities[GLentCnt].E_colonies[GLcount].C_settlements[GLsettleCnt].S_infrastructures[GLinfCnt].I_status:=TFCEdgInfrastructureStatus(GLenumIndex);
-                              if GLenumIndex=-1
-                              then raise Exception.Create('bad gamesave loading w/infra status: '+GLxmlInfra.Attributes['status']);
-                              FCDdgEntities[GLentCnt].E_colonies[GLcount].C_settlements[GLsettleCnt].S_infrastructures[GLinfCnt].I_cabDuration:=GLxmlInfra.Attributes['CABduration'];
-                              FCDdgEntities[GLentCnt].E_colonies[GLcount].C_settlements[GLsettleCnt].S_infrastructures[GLinfCnt].I_cabWorked:=GLxmlInfra.Attributes['CABworked'];
-                              FCDdgEntities[GLentCnt].E_colonies[GLcount].C_settlements[GLsettleCnt].S_infrastructures[GLinfCnt].I_powerConsumption:=GLxmlInfra.Attributes['powerCons'];
-                              FCDdgEntities[GLentCnt].E_colonies[GLcount].C_settlements[GLsettleCnt].S_infrastructures[GLinfCnt].I_powerGeneratedFromCustomEffect:=GLxmlInfra.Attributes['powerGencFx'];
-                              GLenumIndex:=GetEnumValue(TypeInfo(TFCEdipFunctions), GLxmlInfra.Attributes['Func'] );
-                              FCDdgEntities[GLentCnt].E_colonies[GLcount].C_settlements[GLsettleCnt].S_infrastructures[GLinfCnt].I_function:=TFCEdipFunctions(GLenumIndex);
-                              if GLenumIndex=-1
-                              then raise Exception.Create('bad gamesave loading w/infra function: '+GLxmlInfra.Attributes['Func']);
-                              case FCDdgEntities[GLentCnt].E_colonies[GLcount].C_settlements[GLsettleCnt].S_infrastructures[GLinfCnt].I_function of
-                                 fEnergy: FCDdgEntities[GLentCnt].E_colonies[GLcount].C_settlements[GLsettleCnt].S_infrastructures[GLinfCnt].I_fEnOutput:=GLxmlInfra.Attributes['energyOut'];
-
-                                 fHousing:
+                              inc(Count2);
+                              SetLength(FCDdgEntities[Count].E_colonies[Count1].C_events, Count2+1);
+                              EnumIndex:=GetEnumValue(TypeInfo(TFCEdgColonyEvents), XMLSavedGameItemSub3.Attributes['token'] );
+                              FCDdgEntities[Count].E_colonies[Count1].C_events[Count2].CCSME_type:=TFCEdgColonyEvents(EnumIndex);
+                              if EnumIndex=-1
+                              then raise Exception.Create('bad gamesave loading w/CSM event type: '+XMLSavedGameItemSub3.Attributes['token']) ;
+                              FCDdgEntities[Count].E_colonies[Count1].C_events[Count2].CCSME_isResident:=XMLSavedGameItemSub3.Attributes['isres'];
+                              FCDdgEntities[Count].E_colonies[Count1].C_events[Count2].CCSME_durationWeeks:=XMLSavedGameItemSub3.Attributes['duration'];
+                              FCDdgEntities[Count].E_colonies[Count1].C_events[Count2].CCSME_level:=XMLSavedGameItemSub3.Attributes['level'];
+                              case FCDdgEntities[Count].E_colonies[Count1].C_events[Count2].CCSME_type of
+                                 ceColonyEstablished:
                                  begin
-                                    FCDdgEntities[GLentCnt].E_colonies[GLcount].C_settlements[GLsettleCnt].S_infrastructures[GLinfCnt].I_fHousPopulationCapacity:=GLxmlInfra.Attributes['PCAP'];
-                                    FCDdgEntities[GLentCnt].E_colonies[GLcount].C_settlements[GLsettleCnt].S_infrastructures[GLinfCnt].I_fHousQualityOfLife:=GLxmlInfra.Attributes['QOL'];
-                                    FCDdgEntities[GLentCnt].E_colonies[GLcount].C_settlements[GLsettleCnt].S_infrastructures[GLinfCnt].I_fHousCalculatedVolume:=GLxmlInfra.Attributes['vol'];
-                                    FCDdgEntities[GLentCnt].E_colonies[GLcount].C_settlements[GLsettleCnt].S_infrastructures[GLinfCnt].I_fHousCalculatedSurface:=GLxmlInfra.Attributes['surf'];
+                                    FCDdgEntities[Count].E_colonies[Count1].C_events[Count2].CCSME_tCEstTensionMod:=XMLSavedGameItemSub3.Attributes['modTension'];
+                                    FCDdgEntities[Count].E_colonies[Count1].C_events[Count2].CCSME_tCEstSecurityMod:=XMLSavedGameItemSub3.Attributes['modSecurity'];
                                  end;
 
-                                 fIntelligence:;
-
-                                 fMiscellaneous:;
-
-                                 fProduction:
+                                 ceUnrest, ceUnrest_Recovering:
                                  begin
-                                    FCDdgEntities[GLentCnt].E_colonies[GLcount].C_settlements[GLsettleCnt].S_infrastructures[GLinfCnt].I_fProdSurveyedSpot:=GLxmlInfra.Attributes['surveyedSpot'];
-                                    FCDdgEntities[GLentCnt].E_colonies[GLcount].C_settlements[GLsettleCnt].S_infrastructures[GLinfCnt].I_fProdSurveyedRegion:=GLxmlInfra.Attributes['surveyedRegion'];
-                                    FCDdgEntities[GLentCnt].E_colonies[GLcount].C_settlements[GLsettleCnt].S_infrastructures[GLinfCnt].I_fProdResourceSpot:=GLxmlInfra.Attributes['resourceSpot'];
-                                    GLsubCnt:=0;
-                                    GLxmlProdMode:=GLxmlInfra.ChildNodes.First;
-                                    while GLxmlProdMode<>nil do
+                                    FCDdgEntities[Count].E_colonies[Count1].C_events[Count2].CCSME_tCUnEconomicIndustrialOutputMod:=XMLSavedGameItemSub3.Attributes['modEcoInd'];
+                                    FCDdgEntities[Count].E_colonies[Count1].C_events[Count2].CCSME_tCUnTensionMod:=XMLSavedGameItemSub3.Attributes['modTension'];
+                                 end;
+
+                                 ceSocialDisorder, ceSocialDisorder_Recovering:
+                                 begin
+                                    FCDdgEntities[Count].E_colonies[Count1].C_events[Count2].CCSME_tSDisEconomicIndustrialOutputMod:=XMLSavedGameItemSub3.Attributes['modEcoInd'];
+                                    FCDdgEntities[Count].E_colonies[Count1].C_events[Count2].CCSME_tSDisTensionMod:=XMLSavedGameItemSub3.Attributes['modTension'];
+                                 end;
+
+                                 ceUprising, ceUprising_Recovering:
+                                 begin
+                                    FCDdgEntities[Count].E_colonies[Count1].C_events[Count2].CCSME_tUpEconomicIndustrialOutputMod:=XMLSavedGameItemSub3.Attributes['modEcoInd'];
+                                    FCDdgEntities[Count].E_colonies[Count1].C_events[Count2].CCSME_tUpTensionMod:=XMLSavedGameItemSub3.Attributes['modTension'];
+                                 end;
+
+                                 ceDissidentColony: ;
+
+                                 ceHealthEducationRelation: FCDdgEntities[Count].E_colonies[Count1].C_events[Count2].CCSME_tHERelEducationMod:=XMLSavedGameItemSub3.Attributes['modInstruction'];
+
+                                 ceGovernmentDestabilization, ceGovernmentDestabilization_Recovering: FCDdgEntities[Count].E_colonies[Count1].C_events[Count2].CCSME_tGDestCohesionMod:=XMLSavedGameItemSub3.Attributes['modCohesion'];
+
+                                 ceOxygenProductionOverload: FCDdgEntities[Count].E_colonies[Count1].C_events[Count2].CCSME_tOPOvPercentPopulationNotSupported:=XMLSavedGameItemSub3.Attributes['percPopNotSupported'];
+
+                                 ceOxygenShortage, ceOxygenShortage_Recovering:
+                                 begin
+                                    FCDdgEntities[Count].E_colonies[Count1].C_events[Count2].CCSME_tOShPercentPopulationNotSupportedAtCalculation:=XMLSavedGameItemSub3.Attributes['percPopNotSupAtCalc'];
+                                    FCDdgEntities[Count].E_colonies[Count1].C_events[Count2].CCSME_tOShEconomicIndustrialOutputMod:=XMLSavedGameItemSub3.Attributes['modEcoInd'];
+                                    FCDdgEntities[Count].E_colonies[Count1].C_events[Count2].CCSME_tOShTensionMod:=XMLSavedGameItemSub3.Attributes['modTension'];
+                                    FCDdgEntities[Count].E_colonies[Count1].C_events[Count2].CCSME_tOShHealthMod:=XMLSavedGameItemSub3.Attributes['modHealth'];
+                                 end;
+
+                                 ceWaterProductionOverload: FCDdgEntities[Count].E_colonies[Count1].C_events[Count2].CCSME_tWPOvPercentPopulationNotSupported:=XMLSavedGameItemSub3.Attributes['percPopNotSupported'];
+
+                                 ceWaterShortage, ceWaterShortage_Recovering:
+                                 begin
+                                    FCDdgEntities[Count].E_colonies[Count1].C_events[Count2].CCSME_tWShPercentPopulationNotSupportedAtCalculation:=XMLSavedGameItemSub3.Attributes['percPopNotSupAtCalc'];
+                                    FCDdgEntities[Count].E_colonies[Count1].C_events[Count2].CCSME_tWShEconomicIndustrialOutputMod:=XMLSavedGameItemSub3.Attributes['modEcoInd'];
+                                    FCDdgEntities[Count].E_colonies[Count1].C_events[Count2].CCSME_tWShTensionMod:=XMLSavedGameItemSub3.Attributes['modTension'];
+                                    FCDdgEntities[Count].E_colonies[Count1].C_events[Count2].CCSME_tWShHealthMod:=XMLSavedGameItemSub3.Attributes['modHealth'];
+                                 end;
+
+                                 ceFoodProductionOverload: FCDdgEntities[Count].E_colonies[Count1].C_events[Count2].CCSME_tFPOvPercentPopulationNotSupported:=XMLSavedGameItemSub3.Attributes['percPopNotSupported'];
+
+                                 ceFoodShortage, ceFoodShortage_Recovering:
+                                 begin
+                                    FCDdgEntities[Count].E_colonies[Count1].C_events[Count2].CCSME_tFShPercentPopulationNotSupportedAtCalculation:=XMLSavedGameItemSub3.Attributes['percPopNotSupAtCalc'];
+                                    FCDdgEntities[Count].E_colonies[Count1].C_events[Count2].CCSME_tFShEconomicIndustrialOutputMod:=XMLSavedGameItemSub3.Attributes['modEcoInd'];
+                                    FCDdgEntities[Count].E_colonies[Count1].C_events[Count2].CCSME_tFShTensionMod:=XMLSavedGameItemSub3.Attributes['modTension'];
+                                    FCDdgEntities[Count].E_colonies[Count1].C_events[Count2].CCSME_tFShHealthMod:=XMLSavedGameItemSub3.Attributes['modHealth'];
+                                    FCDdgEntities[Count].E_colonies[Count1].C_events[Count2].CCSME_tFShDirectDeathPeriod:=XMLSavedGameItemSub3.Attributes['directDeathPeriod'];
+                                    FCDdgEntities[Count].E_colonies[Count1].C_events[Count2].CCSME_tFShDeathFractionalValue:=XMLSavedGameItemSub3.Attributes['deathFracValue'];
+                                 end;
+                              end; //==END== case FCentities[GLentCnt].E_col[GLcount].COL_evList[Count2].CSMEV_token of ==//
+                              XMLSavedGameItemSub3:=XMLSavedGameItemSub3.NextSibling;
+                           end; //==END== while XMLSavedGameItemSub3<>nil ==//
+                        end //==END== else if XMLSavedGameItemSub2.NodeName='colEvent' ==//
+                        {.colony settlements}
+                        else if XMLSavedGameItemSub2.NodeName='colSettlement' then
+                        begin
+                           Count2:=0;
+                           XMLSavedGameItemSub3:=XMLSavedGameItemSub2.ChildNodes.First;
+                           while XMLSavedGameItemSub3<>nil do
+                           begin
+                              inc(Count2);
+                              SetLength(FCDdgEntities[Count].E_colonies[Count1].C_settlements, Count2+1);
+                              SetLength(FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_infrastructures, 1);
+                              SetLength( FCDdgEntities[Count].E_colonies[Count1].C_cabQueue, Count2+1 );
+                              FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_name:=XMLSavedGameItemSub3.Attributes['name'];
+                              EnumIndex:=GetEnumValue(TypeInfo(TFCEdgSettlements), XMLSavedGameItemSub3.Attributes['type'] );
+                              FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_settlement:=TFCEdgSettlements(EnumIndex);
+                              if EnumIndex=-1
+                              then raise Exception.Create('bad gamesave loading w/settlement type: '+XMLSavedGameItemSub3.Attributes['type']) ;
+                              FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_level:=XMLSavedGameItemSub3.Attributes['level'];
+                              FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_locationRegion:=XMLSavedGameItemSub3.Attributes['region'];
+                              Count3:=FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_locationRegion;
+                              if GLoobjRow[4]=0 then
+                              begin
+                                 FCDduStarSystem[GLoobjRow[1]].SS_stars[GLoobjRow[2]].S_orbitalObjects[GLoobjRow[3]].OO_regions[Count3].OOR_settlementEntity:=Count;
+                                 FCDduStarSystem[GLoobjRow[1]].SS_stars[GLoobjRow[2]].S_orbitalObjects[GLoobjRow[3]].OO_regions[Count3].OOR_settlementColony:=Count1;
+                                 FCDduStarSystem[GLoobjRow[1]].SS_stars[GLoobjRow[2]].S_orbitalObjects[GLoobjRow[3]].OO_regions[Count3].OOR_settlementIndex:=Count2;
+                              end
+                              else if GLoobjRow[4]>0 then
+                              begin
+                                 FCDduStarSystem[GLoobjRow[1]].SS_stars[GLoobjRow[2]].S_orbitalObjects[GLoobjRow[3]].OO_satellitesList[GLoobjRow[4]].OO_regions[Count3].OOR_settlementEntity:=Count;
+                                 FCDduStarSystem[GLoobjRow[1]].SS_stars[GLoobjRow[2]].S_orbitalObjects[GLoobjRow[3]].OO_satellitesList[GLoobjRow[4]].OO_regions[Count3].OOR_settlementColony:=Count1;
+                                 FCDduStarSystem[GLoobjRow[1]].SS_stars[GLoobjRow[2]].S_orbitalObjects[GLoobjRow[3]].OO_satellitesList[GLoobjRow[4]].OO_regions[Count3].OOR_settlementIndex:=Count2;
+                              end;
+                              Count3:=0;
+                              XMLSavedGameItemSub4:=XMLSavedGameItemSub3.ChildNodes.First;
+                              while XMLSavedGameItemSub4<>nil do
+                              begin
+                                 SetLength( FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count3].S_infrastructures, length( FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count3].S_infrastructures )+1 );
+                                 inc(Count3);
+                                 FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count3].S_infrastructures[Count3].I_token:=XMLSavedGameItemSub4.Attributes['token'];
+                                 FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count3].S_infrastructures[Count3].I_level:=XMLSavedGameItemSub4.Attributes['level'];
+                                 EnumIndex:=GetEnumValue(TypeInfo(TFCEdgInfrastructureStatus), XMLSavedGameItemSub4.Attributes['status'] );
+                                 FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count3].S_infrastructures[Count3].I_status:=TFCEdgInfrastructureStatus(EnumIndex);
+                                 if EnumIndex=-1
+                                 then raise Exception.Create('bad gamesave loading w/infra status: '+XMLSavedGameItemSub4.Attributes['status']);
+                                 FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count3].S_infrastructures[Count3].I_cabDuration:=XMLSavedGameItemSub4.Attributes['CABduration'];
+                                 FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count3].S_infrastructures[Count3].I_cabWorked:=XMLSavedGameItemSub4.Attributes['CABworked'];
+                                 FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count3].S_infrastructures[Count3].I_powerConsumption:=XMLSavedGameItemSub4.Attributes['powerCons'];
+                                 FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count3].S_infrastructures[Count3].I_powerGeneratedFromCustomEffect:=XMLSavedGameItemSub4.Attributes['powerGencFx'];
+                                 EnumIndex:=GetEnumValue(TypeInfo(TFCEdipFunctions), XMLSavedGameItemSub4.Attributes['Func'] );
+                                 FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count3].S_infrastructures[Count3].I_function:=TFCEdipFunctions(EnumIndex);
+                                 if EnumIndex=-1
+                                 then raise Exception.Create('bad gamesave loading w/infra function: '+XMLSavedGameItemSub4.Attributes['Func']);
+                                 case FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count3].S_infrastructures[Count3].I_function of
+                                    fEnergy: FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count3].S_infrastructures[Count3].I_fEnOutput:=XMLSavedGameItemSub4.Attributes['energyOut'];
+
+                                    fHousing:
                                     begin
-                                       inc(GLsubCnt);
-                                       GLenumIndex:=GetEnumValue(TypeInfo(TFCEdipProductionModes), GLxmlProdMode.Attributes['prodModeType'] );
-                                       FCDdgEntities[GLentCnt].E_colonies[GLcount].C_settlements[GLsettleCnt].S_infrastructures[GLinfCnt].I_fProdProductionMode[GLsubCnt].PM_type:=TFCEdipProductionModes(GLenumIndex);
-                                       if GLenumIndex=-1
-                                       then raise Exception.Create('bad gamesave loading w/infra prod mode type: '+GLxmlProdMode.Attributes['prodModeType']);
-                                       FCDdgEntities[GLentCnt].E_colonies[GLcount].C_settlements[GLsettleCnt].S_infrastructures[GLinfCnt].I_fProdProductionMode[GLsubCnt].PM_isDisabled:=GLxmlProdMode.Attributes['isDisabled'];
-                                       FCDdgEntities[GLentCnt].E_colonies[GLcount].C_settlements[GLsettleCnt].S_infrastructures[GLinfCnt].I_fProdProductionMode[GLsubCnt].PM_energyConsumption:=GLxmlProdMode.Attributes['energyCons'];
-                                       FCDdgEntities[GLentCnt].E_colonies[GLcount].C_settlements[GLsettleCnt].S_infrastructures[GLinfCnt].I_fProdProductionMode[GLsubCnt].PM_matrixItemMax:=GLxmlProdMode.Attributes['matrixItemMax'];
-                                       GLsubCnt1:=0;
-                                       GLxmlMatrixItem:=GLxmlProdMode.ChildNodes.First;
-                                       while GLxmlMatrixItem<>nil do
+                                       FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count3].S_infrastructures[Count3].I_fHousPopulationCapacity:=XMLSavedGameItemSub4.Attributes['PCAP'];
+                                       FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count3].S_infrastructures[Count3].I_fHousQualityOfLife:=XMLSavedGameItemSub4.Attributes['QOL'];
+                                       FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count3].S_infrastructures[Count3].I_fHousCalculatedVolume:=XMLSavedGameItemSub4.Attributes['vol'];
+                                       FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count3].S_infrastructures[Count3].I_fHousCalculatedSurface:=XMLSavedGameItemSub4.Attributes['surf'];
+                                    end;
+
+                                    fIntelligence:;
+
+                                    fMiscellaneous:;
+
+                                    fProduction:
+                                    begin
+                                       FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count3].S_infrastructures[Count3].I_fProdSurveyedSpot:=XMLSavedGameItemSub4.Attributes['surveyedSpot'];
+                                       FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count3].S_infrastructures[Count3].I_fProdSurveyedRegion:=XMLSavedGameItemSub4.Attributes['surveyedRegion'];
+                                       FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count3].S_infrastructures[Count3].I_fProdResourceSpot:=XMLSavedGameItemSub4.Attributes['resourceSpot'];
+                                       Count4:=0;
+                                       GLxmlProdMode:=XMLSavedGameItemSub4.ChildNodes.First;
+                                       while GLxmlProdMode<>nil do
                                        begin
-                                          inc(GLsubCnt1);
-                                          FCDdgEntities[GLentCnt].E_colonies[GLcount].C_settlements[GLsettleCnt].S_infrastructures[GLinfCnt].I_fProdProductionMode[GLsubCnt].PM_linkedColonyMatrixItems[GLsubCnt1].LMII_matrixItemIndex
-                                             :=GLxmlMatrixItem.Attributes['pmitmIndex'];
-                                          FCDdgEntities[GLentCnt].E_colonies[GLcount].C_settlements[GLsettleCnt].S_infrastructures[GLinfCnt].I_fProdProductionMode[GLsubCnt].PM_linkedColonyMatrixItems[GLsubCnt1].LMII_matrixItem_ProductionModeIndex
-                                             :=GLxmlMatrixItem.Attributes['pmIndex'];
-                                          GLxmlMatrixItem:=GLxmlMatrixItem.NextSibling;
+                                          inc(Count4);
+                                          EnumIndex:=GetEnumValue(TypeInfo(TFCEdipProductionModes), GLxmlProdMode.Attributes['prodModeType'] );
+                                          FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count3].S_infrastructures[Count3].I_fProdProductionMode[Count4].PM_type:=TFCEdipProductionModes(EnumIndex);
+                                          if EnumIndex=-1
+                                          then raise Exception.Create('bad gamesave loading w/infra prod mode type: '+GLxmlProdMode.Attributes['prodModeType']);
+                                          FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count3].S_infrastructures[Count3].I_fProdProductionMode[Count4].PM_isDisabled:=GLxmlProdMode.Attributes['isDisabled'];
+                                          FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count3].S_infrastructures[Count3].I_fProdProductionMode[Count4].PM_energyConsumption:=GLxmlProdMode.Attributes['energyCons'];
+                                          FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count3].S_infrastructures[Count3].I_fProdProductionMode[Count4].PM_matrixItemMax:=GLxmlProdMode.Attributes['matrixItemMax'];
+                                          Count2:=0;
+                                          GLxmlMatrixItem:=GLxmlProdMode.ChildNodes.First;
+                                          while GLxmlMatrixItem<>nil do
+                                          begin
+                                             inc(Count2);
+                                             FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count3].S_infrastructures[Count3].I_fProdProductionMode[Count4].PM_linkedColonyMatrixItems[Count2].LMII_matrixItemIndex
+                                                :=GLxmlMatrixItem.Attributes['pmitmIndex'];
+                                             FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count3].S_infrastructures[Count3].I_fProdProductionMode[Count4].PM_linkedColonyMatrixItems[Count2].LMII_matrixItem_ProductionModeIndex
+                                                :=GLxmlMatrixItem.Attributes['pmIndex'];
+                                             GLxmlMatrixItem:=GLxmlMatrixItem.NextSibling;
+                                          end;
+                                          GLxmlProdMode:=GLxmlProdMode.NextSibling;
                                        end;
-                                       GLxmlProdMode:=GLxmlProdMode.NextSibling;
                                     end;
                                  end;
-                              end;
-                              GLxmlInfra:=GLxmlInfra.NextSibling;
-                           end; //==END== while GLxmlInfra<>nil do ==//
-                        end //==END== else if GLxmlColsub.NodeName='colSettlement' ==//
+                                 XMLSavedGameItemSub4:=XMLSavedGameItemSub4.NextSibling;
+                              end; //==END== while GLxmlInfra<>nil do ==//
+                              XMLSavedGameItemSub3:=XMLSavedGameItemSub3.NextSibling;
+                           end; //==END== while XMLSavedGameItemSub3<>nil ==//
+                        end //==END== else if XMLSavedGameItemSub2.NodeName='colSettlement' ==//
                         {.colony's CAB queue}
-                        else if GLxmlColsub.NodeName='colCAB'
+                        else if XMLSavedGameItemSub2.NodeName='colCAB'
                         then
                         begin
                            GLsettleCnt:=1;
                            while GLsettleCnt<=GLsettleMax do
                            begin
-                              SetLength(FCDdgEntities[GLentCnt].E_colonies[GLcount].C_cabQueue[GLsettleCnt], 1);
+                              SetLength(FCDdgEntities[GLentCnt].E_colonies[Count].C_cabQueue[GLsettleCnt], 1);
                               inc(GLsettleCnt);
                            end;
-                           GLxmlCAB:=GLxmlColsub.ChildNodes.First;
+                           GLxmlCAB:=XMLSavedGameItemSub2.ChildNodes.First;
                            GLcabCnt:=0;
                            while GLxmlCAB<>nil do
                            begin
                               inc(GLcabCnt);
                               GLsettleCnt:=GLxmlCAB.Attributes['settlement'];
-                              SetLength(FCDdgEntities[GLentCnt].E_colonies[GLcount].C_cabQueue[GLsettleCnt], GLcabCnt+1);
+                              SetLength(FCDdgEntities[GLentCnt].E_colonies[Count].C_cabQueue[GLsettleCnt], GLcabCnt+1);
                               GLcabValue:=GLxmlCAB.Attributes['infraIdx'];
-                              FCDdgEntities[GLentCnt].E_colonies[GLcount].C_cabQueue[GLsettleCnt, GLcabCnt]:=GLcabValue;
+                              FCDdgEntities[GLentCnt].E_colonies[Count].C_cabQueue[GLsettleCnt, GLcabCnt]:=GLcabValue;
                               GLxmlCAB:=GLxmlCAB.NextSibling;
                            end;
                         end
                         {.colony's production matrix}
-                        else if GLxmlColsub.NodeName='colProdMatrix'
+                        else if XMLSavedGameItemSub2.NodeName='colProdMatrix'
                         then
                         begin
-                           SetLength(FCDdgEntities[GLentCnt].E_colonies[GLcount].C_productionMatrix, 1);
+                           SetLength(FCDdgEntities[GLentCnt].E_colonies[Count].C_productionMatrix, 1);
                            GLprodMatrixCnt:=0;
                            GLxmlProdMatrix:=GLxmlColsub.ChildNodes.First;
                            while GLxmlProdMatrix<>nil do
                            begin
                               inc(GLprodMatrixCnt);
-                              SetLength(FCDdgEntities[GLentCnt].E_colonies[GLcount].C_productionMatrix, GLprodMatrixCnt+1);
-                              FCDdgEntities[GLentCnt].E_colonies[GLcount].C_productionMatrix[GLprodMatrixCnt].PM_productToken:=GLxmlProdMatrix.Attributes['token'];
-                              FCDdgEntities[GLentCnt].E_colonies[GLcount].C_productionMatrix[GLprodMatrixCnt].PM_storageIndex:=GLxmlProdMatrix.Attributes['storIdx'];
-                              GLenumIndex:=GetEnumValue(TypeInfo(TFCEdipStorageTypes), GLxmlProdMatrix.Attributes['storageType'] );
-                              FCDdgEntities[GLentCnt].E_colonies[GLcount].C_productionMatrix[GLprodMatrixCnt].PM_storage:=TFCEdipStorageTypes(GLenumIndex);
-                              if GLenumIndex=-1
+                              SetLength(FCDdgEntities[GLentCnt].E_colonies[Count].C_productionMatrix, GLprodMatrixCnt+1);
+                              FCDdgEntities[GLentCnt].E_colonies[Count].C_productionMatrix[GLprodMatrixCnt].PM_productToken:=GLxmlProdMatrix.Attributes['token'];
+                              FCDdgEntities[GLentCnt].E_colonies[Count].C_productionMatrix[GLprodMatrixCnt].PM_storageIndex:=GLxmlProdMatrix.Attributes['storIdx'];
+                              EnumIndex:=GetEnumValue(TypeInfo(TFCEdipStorageTypes), GLxmlProdMatrix.Attributes['storageType'] );
+                              FCDdgEntities[GLentCnt].E_colonies[Count].C_productionMatrix[GLprodMatrixCnt].PM_storage:=TFCEdipStorageTypes(EnumIndex);
+                              if EnumIndex=-1
                               then raise Exception.Create('bad gamesave loading w/production matrix item storage type: '+GLxmlProdMatrix.Attributes['storageType']);
-                              FCDdgEntities[GLentCnt].E_colonies[GLcount].C_productionMatrix[GLprodMatrixCnt].PM_globalProductionFlow:=GLxmlProdMatrix.Attributes['globalProdFlow'];
-                              SetLength(FCDdgEntities[GLentCnt].E_colonies[GLcount].C_productionMatrix[GLprodMatrixCnt].PM_productionModes, 1);
-                              GLsubCnt:=0;
+                              FCDdgEntities[GLentCnt].E_colonies[Count].C_productionMatrix[GLprodMatrixCnt].PM_globalProductionFlow:=GLxmlProdMatrix.Attributes['globalProdFlow'];
+                              SetLength(FCDdgEntities[GLentCnt].E_colonies[Count].C_productionMatrix[GLprodMatrixCnt].PM_productionModes, 1);
+                              Count1:=0;
                               GLxmlProdMatrixSource:=GLxmlProdMatrix.ChildNodes.First;
                               while GLxmlProdMatrixSource<>nil do
                               begin
-                                 inc(GLsubCnt);
-                                 SetLength(FCDdgEntities[GLentCnt].E_colonies[GLcount].C_productionMatrix[GLprodMatrixCnt].PM_productionModes, GLsubCnt+1);
-                                 FCDdgEntities[GLentCnt].E_colonies[GLcount].C_productionMatrix[GLprodMatrixCnt].PM_productionModes[GLsubCnt].PM_locationSettlement:=GLxmlProdMatrixSource.Attributes['locSettle'];
-                                 FCDdgEntities[GLentCnt].E_colonies[GLcount].C_productionMatrix[GLprodMatrixCnt].PM_productionModes[GLsubCnt].PM_locationInfrastructure:=GLxmlProdMatrixSource.Attributes['locInfra'];
-                                 FCDdgEntities[GLentCnt].E_colonies[GLcount].C_productionMatrix[GLprodMatrixCnt].PM_productionModes[GLsubCnt].PM_locationProductionModeIndex:=GLxmlProdMatrixSource.Attributes['locPModeIndex'];
-                                 FCDdgEntities[GLentCnt].E_colonies[GLcount].C_productionMatrix[GLprodMatrixCnt].PM_productionModes[GLsubCnt].PM_isDisabledByProductionSegment:=GLxmlProdMatrixSource.Attributes['isDisabledPS'];
-                                 FCDdgEntities[GLentCnt].E_colonies[GLcount].C_productionMatrix[GLprodMatrixCnt].PM_productionModes[GLsubCnt].PM_productionFlow:=GLxmlProdMatrixSource.Attributes['prodFlow'];
+                                 inc(Count1);
+                                 SetLength(FCDdgEntities[GLentCnt].E_colonies[Count].C_productionMatrix[GLprodMatrixCnt].PM_productionModes, Count1+1);
+                                 FCDdgEntities[GLentCnt].E_colonies[Count].C_productionMatrix[GLprodMatrixCnt].PM_productionModes[Count1].PM_locationSettlement:=GLxmlProdMatrixSource.Attributes['locSettle'];
+                                 FCDdgEntities[GLentCnt].E_colonies[Count].C_productionMatrix[GLprodMatrixCnt].PM_productionModes[Count1].PM_locationInfrastructure:=GLxmlProdMatrixSource.Attributes['locInfra'];
+                                 FCDdgEntities[GLentCnt].E_colonies[Count].C_productionMatrix[GLprodMatrixCnt].PM_productionModes[Count1].PM_locationProductionModeIndex:=GLxmlProdMatrixSource.Attributes['locPModeIndex'];
+                                 FCDdgEntities[GLentCnt].E_colonies[Count].C_productionMatrix[GLprodMatrixCnt].PM_productionModes[Count1].PM_isDisabledByProductionSegment:=GLxmlProdMatrixSource.Attributes['isDisabledPS'];
+                                 FCDdgEntities[GLentCnt].E_colonies[Count].C_productionMatrix[GLprodMatrixCnt].PM_productionModes[Count1].PM_productionFlow:=GLxmlProdMatrixSource.Attributes['prodFlow'];
                                  GLxmlProdMatrixSource:=GLxmlProdMatrixSource.NextSibling;
                               end;
                               GLxmlProdMatrix:=GLxmlProdMatrix.NextSibling;
                            end;
                         end
                         {.colony's storage}
-                        else if GLxmlColsub.NodeName='colStorage'
+                        else if XMLSavedGameItemSub2.NodeName='colStorage'
                         then
                         begin
-                           FCDdgEntities[GLentCnt].E_colonies[GLcount].C_storageCapacitySolidCurrent:=GLxmlColsub.Attributes['capSolidCur'];
-                           FCDdgEntities[GLentCnt].E_colonies[GLcount].C_storageCapacitySolidMax:=GLxmlColsub.Attributes['capSolidMax'];
-                           FCDdgEntities[GLentCnt].E_colonies[GLcount].C_storageCapacityLiquidCurrent:=GLxmlColsub.Attributes['capLiquidCur'];
-                           FCDdgEntities[GLentCnt].E_colonies[GLcount].C_storageCapacityLiquidMax:=GLxmlColsub.Attributes['capLiquidMax'];
-                           FCDdgEntities[GLentCnt].E_colonies[GLcount].C_storageCapacityGasCurrent:=GLxmlColsub.Attributes['capGasCur'];
-                           FCDdgEntities[GLentCnt].E_colonies[GLcount].C_storageCapacityGasMax:=GLxmlColsub.Attributes['capGasMax'];
-                           FCDdgEntities[GLentCnt].E_colonies[GLcount].C_storageCapacityBioCurrent:=GLxmlColsub.Attributes['capBioCur'];
-                           FCDdgEntities[GLentCnt].E_colonies[GLcount].C_storageCapacityBioMax:=GLxmlColsub.Attributes['capBioMax'];
-                           SetLength(FCDdgEntities[GLentCnt].E_colonies[GLcount].C_storedProducts, 1);
+                           FCDdgEntities[GLentCnt].E_colonies[Count].C_storageCapacitySolidCurrent:=GLxmlColsub.Attributes['capSolidCur'];
+                           FCDdgEntities[GLentCnt].E_colonies[Count].C_storageCapacitySolidMax:=GLxmlColsub.Attributes['capSolidMax'];
+                           FCDdgEntities[GLentCnt].E_colonies[Count].C_storageCapacityLiquidCurrent:=GLxmlColsub.Attributes['capLiquidCur'];
+                           FCDdgEntities[GLentCnt].E_colonies[Count].C_storageCapacityLiquidMax:=GLxmlColsub.Attributes['capLiquidMax'];
+                           FCDdgEntities[GLentCnt].E_colonies[Count].C_storageCapacityGasCurrent:=GLxmlColsub.Attributes['capGasCur'];
+                           FCDdgEntities[GLentCnt].E_colonies[Count].C_storageCapacityGasMax:=GLxmlColsub.Attributes['capGasMax'];
+                           FCDdgEntities[GLentCnt].E_colonies[Count].C_storageCapacityBioCurrent:=GLxmlColsub.Attributes['capBioCur'];
+                           FCDdgEntities[GLentCnt].E_colonies[Count].C_storageCapacityBioMax:=GLxmlColsub.Attributes['capBioMax'];
+                           SetLength(FCDdgEntities[GLentCnt].E_colonies[Count].C_storedProducts, 1);
                            GLstorageCnt:=0;
                            GLxmlColsub1:=GLxmlColsub.ChildNodes.First;
                            while GLxmlColsub1<>nil do
                            begin
                               inc(GLstorageCnt);
-                              SetLength(FCDdgEntities[GLentCnt].E_colonies[GLcount].C_storedProducts, GLstorageCnt+1);
-                              FCDdgEntities[GLentCnt].E_colonies[GLcount].C_storedProducts[GLstorageCnt].SP_token:=GLxmlColsub1.Attributes['token'];
-                              FCDdgEntities[GLentCnt].E_colonies[GLcount].C_storedProducts[GLstorageCnt].SP_unit:=GLxmlColsub1.Attributes['unit'];
+                              SetLength(FCDdgEntities[GLentCnt].E_colonies[Count].C_storedProducts, GLstorageCnt+1);
+                              FCDdgEntities[GLentCnt].E_colonies[Count].C_storedProducts[GLstorageCnt].SP_token:=GLxmlColsub1.Attributes['token'];
+                              FCDdgEntities[GLentCnt].E_colonies[Count].C_storedProducts[GLstorageCnt].SP_unit:=GLxmlColsub1.Attributes['unit'];
                               GLxmlColsub1:=GLxmlColsub1.NextSibling;
                            end;
                         end
-                        else if GLxmlColsub.NodeName='colReserves'
+                        else if XMLSavedGameItemSub2.NodeName='colReserves'
                         then
                         begin
-                           FCDdgEntities[GLentCnt].E_colonies[GLcount].C_reserveOxygen:=GLxmlColsub.Attributes['oxygen'];
-                           FCDdgEntities[GLentCnt].E_colonies[GLcount].C_reserveFood:=GLxmlColsub.Attributes['food'];
-                           SetLength( FCDdgEntities[ GLentCnt ].E_colonies[ GLcount ].C_reserveFoodProductsIndex, 1 );
+                           FCDdgEntities[GLentCnt].E_colonies[Count].C_reserveOxygen:=GLxmlColsub.Attributes['oxygen'];
+                           FCDdgEntities[GLentCnt].E_colonies[Count].C_reserveFood:=GLxmlColsub.Attributes['food'];
+                           SetLength( FCDdgEntities[ GLentCnt ].E_colonies[ Count ].C_reserveFoodProductsIndex, 1 );
                            GLstorageCnt:=0;
                            GLxmlColsub1:=GLxmlColsub.ChildNodes.First;
                            while GLxmlColsub1<>nil do
                            begin
                               inc(GLstorageCnt);
-                              SetLength( FCDdgEntities[ GLentCnt ].E_colonies[ GLcount ].C_reserveFoodProductsIndex, GLstorageCnt+1 );
-                              FCDdgEntities[ GLentCnt ].E_colonies[ GLcount ].C_reserveFoodProductsIndex[ GLstorageCnt ]:=GLxmlColsub1.Attributes['index'];
+                              SetLength( FCDdgEntities[ GLentCnt ].E_colonies[ Count ].C_reserveFoodProductsIndex, GLstorageCnt+1 );
+                              FCDdgEntities[ GLentCnt ].E_colonies[ Count ].C_reserveFoodProductsIndex[ GLstorageCnt ]:=GLxmlColsub1.Attributes['index'];
                               GLxmlColsub1:=GLxmlColsub1.NextSibling;
                            end;
-                           FCDdgEntities[GLentCnt].E_colonies[GLcount].C_reserveWater:=GLxmlColsub.Attributes['water'];
+                           FCDdgEntities[GLentCnt].E_colonies[Count].C_reserveWater:=GLxmlColsub.Attributes['water'];
 								end;
-                        GLxmlColsub:=GLxmlColsub.NextSibling;
-                     end; //==END== while GLxmlColsub<>nil do ==//
-                     GLxmlCol:=GLxmlCol.NextSibling;
+                        XMLSavedGameItemSub2:=XMLSavedGameItemSub2.NextSibling;
+                     end; //==END== while XMLSavedGameItemSub2<>nil do ==//
+                     XMLSavedGameItemSub1:=XMLSavedGameItemSub1.NextSibling;
                   end; //==END== while GLxmlCol<>nil do ==//
                end //==END== else if GLxmlEntSubRoot.NodeName='entColonies' ==//
-               else if GLxmlEntSubRoot.NodeName='entSPMset'
+               else if XMLSavedGameItemSub.NodeName='entSPMset'
                then
                begin
-                  FCDdgEntities[GLentCnt].E_spmMod_Cohesion:=GLxmlEntSubRoot.Attributes['modCoh'];
-                  FCDdgEntities[GLentCnt].E_spmMod_Tension:=GLxmlEntSubRoot.Attributes['modTens'];
-                  FCDdgEntities[GLentCnt].E_spmMod_Security:=GLxmlEntSubRoot.Attributes['modSec'];
-                  FCDdgEntities[GLentCnt].E_spmMod_Education:=GLxmlEntSubRoot.Attributes['modEdu'];
-                  FCDdgEntities[GLentCnt].E_spmMod_Natality:=GLxmlEntSubRoot.Attributes['modNat'];
-                  FCDdgEntities[GLentCnt].E_spmMod_Health:=GLxmlEntSubRoot.Attributes['modHeal'];
-                  FCDdgEntities[GLentCnt].E_spmMod_Bureaucracy:=GLxmlEntSubRoot.Attributes['modBur'];
-                  FCDdgEntities[GLentCnt].E_spmMod_Corruption:=GLxmlEntSubRoot.Attributes['modCorr'];
-                  GLcount:=0;
-                  GLxmlSPMset:=GLxmlEntSubRoot.ChildNodes.First;
-                  while GLxmlSPMset<>nil do
+                  FCDdgEntities[GLentCnt].E_spmMod_Cohesion:=XMLSavedGameItemSub.Attributes['modCoh'];
+                  FCDdgEntities[GLentCnt].E_spmMod_Tension:=XMLSavedGameItemSub.Attributes['modTens'];
+                  FCDdgEntities[GLentCnt].E_spmMod_Security:=XMLSavedGameItemSub.Attributes['modSec'];
+                  FCDdgEntities[GLentCnt].E_spmMod_Education:=XMLSavedGameItemSub.Attributes['modEdu'];
+                  FCDdgEntities[GLentCnt].E_spmMod_Natality:=XMLSavedGameItemSub.Attributes['modNat'];
+                  FCDdgEntities[GLentCnt].E_spmMod_Health:=XMLSavedGameItemSub.Attributes['modHeal'];
+                  FCDdgEntities[GLentCnt].E_spmMod_Bureaucracy:=XMLSavedGameItemSub.Attributes['modBur'];
+                  FCDdgEntities[GLentCnt].E_spmMod_Corruption:=XMLSavedGameItemSub.Attributes['modCorr'];
+                  Count:=0;
+                  XMLSavedGameItemSub1:=XMLSavedGameItemSub.ChildNodes.First;
+                  while XMLSavedGameItemSub1<>nil do
                   begin
                      SetLength(FCDdgEntities[GLentCnt].E_spmSettings, length(FCDdgEntities[GLentCnt].E_spmSettings)+1);
-                     inc(GLcount);
-                     FCDdgEntities[GLentCnt].E_spmSettings[GLcount].SPMS_token:=GLxmlSPMset.Attributes['token'];
-                     FCDdgEntities[GLentCnt].E_spmSettings[GLcount].SPMS_duration:=GLxmlSPMset.Attributes['duration'];
-                     FCDdgEntities[GLentCnt].E_spmSettings[GLcount].SPMS_ucCost:=GLxmlSPMset.Attributes['ucCost'];
-                     FCDdgEntities[GLentCnt].E_spmSettings[GLcount].SPMS_isPolicy:=GLxmlSPMset.Attributes['ispolicy'];
-                     if FCDdgEntities[GLentCnt].E_spmSettings[GLcount].SPMS_isPolicy
+                     inc(Count);
+                     FCDdgEntities[GLentCnt].E_spmSettings[Count].SPMS_token:=XMLSavedGameItemSub1.Attributes['token'];
+                     FCDdgEntities[GLentCnt].E_spmSettings[Count].SPMS_duration:=XMLSavedGameItemSub1.Attributes['duration'];
+                     FCDdgEntities[GLentCnt].E_spmSettings[Count].SPMS_ucCost:=XMLSavedGameItemSub1.Attributes['ucCost'];
+                     FCDdgEntities[GLentCnt].E_spmSettings[Count].SPMS_isPolicy:=XMLSavedGameItemSub1.Attributes['ispolicy'];
+                     if FCDdgEntities[GLentCnt].E_spmSettings[Count].SPMS_isPolicy
                      then
                      begin
-                        FCDdgEntities[GLentCnt].E_spmSettings[GLcount].SPMS_iPtIsSet:=GLxmlSPMset.Attributes['isSet'];
-                        FCDdgEntities[GLentCnt].E_spmSettings[GLcount].SPMS_iPtAcceptanceProbability:=GLxmlSPMset.Attributes['aprob'];
+                        FCDdgEntities[GLentCnt].E_spmSettings[Count].SPMS_iPtIsSet:=XMLSavedGameItemSub1.Attributes['isSet'];
+                        FCDdgEntities[GLentCnt].E_spmSettings[Count].SPMS_iPtAcceptanceProbability:=XMLSavedGameItemSub1.Attributes['aprob'];
                      end
-                     else if not FCDdgEntities[GLentCnt].E_spmSettings[GLcount].SPMS_isPolicy
+                     else if not FCDdgEntities[GLentCnt].E_spmSettings[Count].SPMS_isPolicy
                      then
                      begin
-                        FCDdgEntities[GLentCnt].E_spmSettings[GLcount].SPMS_iPtBeliefLevel:=GLxmlSPMset.Attributes['belieflvl'];
-                        FCDdgEntities[GLentCnt].E_spmSettings[GLcount].SPMS_iPtSpreadValue:=GLxmlSPMset.Attributes['spreadval'];
+                        FCDdgEntities[GLentCnt].E_spmSettings[Count].SPMS_iPtBeliefLevel:=XMLSavedGameItemSub1.Attributes['belieflvl'];
+                        FCDdgEntities[GLentCnt].E_spmSettings[Count].SPMS_iPtSpreadValue:=XMLSavedGameItemSub1.Attributes['spreadval'];
                      end;
-                     GLxmlSPMset:=GLxmlSPMset.NextSibling;
+                     XMLSavedGameItemSub1:=XMLSavedGameItemSub1.NextSibling;
                   end;
                end; //==END== if GLxmlEntSubRoot.NodeName='entSPMset' ==//
-               GLxmlEntSubRoot:=GLxmlEntSubRoot.NextSibling;
+               XMLSavedGameItemSub:=XMLSavedGameItemSub.NextSibling;
             end; //==END== while GLxmlEntSubRoot<>nil do ==//
             inc(GLentCnt);
-            GLxmlEnt:=GLxmlEnt.NextSibling;
+            XMLSavedGameItem:=XMLSavedGameItem.NextSibling;
          end; //==END== while GLxmlEnt<>nil do ==//
       end; //==END== if GLxmlEntRoot<>nil FOR COLONIES==//
       {.read "msgqueue" saved game item}
       setlength(FCVmsgStoTtl,1);
       setlength(FCVmsgStoMsg,1);
-      GLxmlItm:=FCWinMain.FCXMLsave.DocumentElement.ChildNodes.FindNode('gfMsgQueue');
-      if GLxmlItm<>nil
+      XMLSavedGame:=FCWinMain.FCXMLsave.DocumentElement.ChildNodes.FindNode('gfMsgQueue');
+      if XMLSavedGame<>nil
       then
       begin
-         GLcount:=0;
-         GLxmlMsg:=GLxmlItm.ChildNodes.First;
+         Count:=0;
+         GLxmlMsg:=XMLSavedGame.ChildNodes.First;
          while GLxmlMsg<>nil do
          begin
             SetLength(FCVmsgStoTtl, length(FCVmsgStoTtl)+1);
             SetLength(FCVmsgStoMsg, length(FCVmsgStoMsg)+1);
-            inc(GLcount);
-            FCVmsgStoTtl[GLcount]:=GLxmlMsg.Attributes['msgTitle'];
-            FCVmsgStoMsg[GLcount]:=GLxmlMsg.Attributes['msgMain'];
+            inc(Count);
+            FCVmsgStoTtl[Count]:=GLxmlMsg.Attributes['msgTitle'];
+            FCVmsgStoMsg[Count]:=GLxmlMsg.Attributes['msgMain'];
             GLxmlMsg:=GLxmlMsg.NextSibling;
          end;
       end; {.if GLxmlGamItm<>nil}
@@ -1475,6 +1524,20 @@ begin
             GSsubL:=length(FCDdgEntities[GScount].E_colonies[GScolCnt].C_events);
             if GSsubL>1 then
             begin
+               {:DEV NOTES:
+                  put colony event in
+                   <colEvent>
+                     <Event>
+                   </colEvent>
+
+                   Loading already modified for
+
+                   GSxmlColEv:=GSxmlCol.AddChild('colEvent');
+                   while
+                     GSxmlColEvSUB:=GSxmlColEv.AddChild('Event');
+                     + change the to the corresponding XML link
+
+               .}
                GSsubC:=1;
                while GSsubC<=GSsubL-1 do
                begin
@@ -1606,6 +1669,25 @@ begin
             GSsettleMax:=length(FCDdgEntities[GScount].E_colonies[GScolCnt].C_settlements)-1;
             if GSsettleMax>0 then
             begin
+
+               {:DEV NOTES:
+                  put settlements in
+                   <colSettlement>
+                     <Settlement>
+                        <setInfra/>
+                     </Settlement>
+                   </colSettlement>
+
+                   Loading already modified for
+
+                   GSxmlSettle:=GSxmlCol.AddChild('colSettlement');
+                   while
+                     GSxmlSettle1:=GSxmlSettle.AddChild('Settlement');
+                     + change the to the corresponding XML link
+
+               .}
+
+
                GSxmlCABroot:=nil;
                GSsettleCnt:=1;
                while GSsettleCnt<=GSsettleMax do
