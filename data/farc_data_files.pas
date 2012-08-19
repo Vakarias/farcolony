@@ -1612,7 +1612,6 @@ begin
             end {.else if DBSSPorbObjNode.NodeName='orbobjecosdata'}
             else if XMLOrbitalObject.NodeName='orbobjregions' then
             begin
-               SetLength( FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_regions, 31 );
                Count1:=1;
                XMLOObjSub1:=XMLOrbitalObject.ChildNodes.First;
                while XMLOObjSub1<>nil do
@@ -1639,7 +1638,6 @@ begin
                   FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_regions[Count1].OOR_settlementColony:=0;
                   FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_regions[Count1].OOR_settlementIndex:=0;
                   FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_regions[Count1].OOR_emo:=StrToFloat( XMLOObjSub1.Attributes['emo'], FCVdiFormat );
-                  SetLength( FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_regions[Count1].OOR_resourceSpot, 1 );
                   Count2:=1;
                   XMLOObjSub2:=XMLOObjSub1.ChildNodes.First;
                   while XMLOObjSub2<>nil do
@@ -1826,7 +1824,6 @@ begin
                         FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_regions[Count1].OOR_settlementColony:=0;
                         FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_regions[Count1].OOR_settlementIndex:=0;
                         FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_regions[Count1].OOR_emo:=StrToFloat( XMLOObjSub1.Attributes['emo'], FCVdiFormat );
-                        SetLength(FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_regions[Count1].OOR_resourceSpot, 1);
                         Count2:=1;
                         XMLOObjSub2:=XMLOObjSub1.ChildNodes.First;
                         while XMLOObjSub2<>nil do

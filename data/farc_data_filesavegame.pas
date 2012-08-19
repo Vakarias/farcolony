@@ -704,15 +704,15 @@ begin
                            XMLSavedGameItemSub3:=XMLSavedGameItemSub2.ChildNodes.First;
                            while XMLSavedGameItemSub3<>nil do
                            begin
-                              inc(Count2);
-                              SetLength(FCDdgEntities[Count].E_colonies[Count1].C_settlements, Count2+1);
-                              SetLength(FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_infrastructures, 1);
+                              inc( Count2 );
+                              SetLength( FCDdgEntities[Count].E_colonies[Count1].C_settlements, Count2+1 );
+                              SetLength( FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_infrastructures, 1 );
                               SetLength( FCDdgEntities[Count].E_colonies[Count1].C_cabQueue, Count2+1 );
                               FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_name:=XMLSavedGameItemSub3.Attributes['name'];
-                              EnumIndex:=GetEnumValue(TypeInfo(TFCEdgSettlements), XMLSavedGameItemSub3.Attributes['type'] );
-                              FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_settlement:=TFCEdgSettlements(EnumIndex);
+                              EnumIndex:=GetEnumValue( TypeInfo( TFCEdgSettlements ), XMLSavedGameItemSub3.Attributes['type'] );
+                              FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_settlement:=TFCEdgSettlements( EnumIndex );
                               if EnumIndex=-1
-                              then raise Exception.Create('bad gamesave loading w/settlement type: '+XMLSavedGameItemSub3.Attributes['type']) ;
+                              then raise Exception.Create( 'bad gamesave loading w/settlement type: '+XMLSavedGameItemSub3.Attributes['type'] );
                               FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_level:=XMLSavedGameItemSub3.Attributes['level'];
                               FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_locationRegion:=XMLSavedGameItemSub3.Attributes['region'];
                               Count3:=FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_locationRegion;
@@ -732,14 +732,14 @@ begin
                               XMLSavedGameItemSub4:=XMLSavedGameItemSub3.ChildNodes.First;
                               while XMLSavedGameItemSub4<>nil do
                               begin
-                                 inc(Count3);
+                                 inc( Count3 );
                                  SetLength( FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_infrastructures, Count3+1 );
                                  FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_infrastructures[Count3].I_token:=XMLSavedGameItemSub4.Attributes['token'];
                                  FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_infrastructures[Count3].I_level:=XMLSavedGameItemSub4.Attributes['level'];
-                                 EnumIndex:=GetEnumValue(TypeInfo(TFCEdgInfrastructureStatus), XMLSavedGameItemSub4.Attributes['status'] );
-                                 FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_infrastructures[Count3].I_status:=TFCEdgInfrastructureStatus(EnumIndex);
+                                 EnumIndex:=GetEnumValue( TypeInfo( TFCEdgInfrastructureStatus ), XMLSavedGameItemSub4.Attributes['status'] );
+                                 FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_infrastructures[Count3].I_status:=TFCEdgInfrastructureStatus( EnumIndex );
                                  if EnumIndex=-1
-                                 then raise Exception.Create('bad gamesave loading w/infra status: '+XMLSavedGameItemSub4.Attributes['status']);
+                                 then raise Exception.Create( 'bad gamesave loading w/infra status: '+XMLSavedGameItemSub4.Attributes['status'] );
                                  FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_infrastructures[Count3].I_cabDuration:=XMLSavedGameItemSub4.Attributes['CABduration'];
                                  FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_infrastructures[Count3].I_cabWorked:=XMLSavedGameItemSub4.Attributes['CABworked'];
                                  FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_infrastructures[Count3].I_powerConsumption:=XMLSavedGameItemSub4.Attributes['powerCons'];
@@ -747,7 +747,7 @@ begin
                                  EnumIndex:=GetEnumValue(TypeInfo(TFCEdipFunctions), XMLSavedGameItemSub4.Attributes['Func'] );
                                  FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_infrastructures[Count3].I_function:=TFCEdipFunctions(EnumIndex);
                                  if EnumIndex=-1
-                                 then raise Exception.Create('bad gamesave loading w/infra function: '+XMLSavedGameItemSub4.Attributes['Func']);
+                                 then raise Exception.Create( 'bad gamesave loading w/infra function: '+XMLSavedGameItemSub4.Attributes['Func'] );
                                  case FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_infrastructures[Count3].I_function of
                                     fEnergy: FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_infrastructures[Count3].I_fEnOutput:=XMLSavedGameItemSub4.Attributes['energyOut'];
 
@@ -772,11 +772,11 @@ begin
                                        XMLSavedGameItemSub5:=XMLSavedGameItemSub4.ChildNodes.First;
                                        while XMLSavedGameItemSub5<>nil do
                                        begin
-                                          inc(Count4);
-                                          EnumIndex:=GetEnumValue(TypeInfo(TFCEdipProductionModes), XMLSavedGameItemSub5.Attributes['prodModeType'] );
-                                          FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_infrastructures[Count3].I_fProdProductionMode[Count4].PM_type:=TFCEdipProductionModes(EnumIndex);
+                                          inc( Count4 );
+                                          EnumIndex:=GetEnumValue( TypeInfo( TFCEdipProductionModes ), XMLSavedGameItemSub5.Attributes['prodModeType'] );
+                                          FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_infrastructures[Count3].I_fProdProductionMode[Count4].PM_type:=TFCEdipProductionModes( EnumIndex );
                                           if EnumIndex=-1
-                                          then raise Exception.Create('bad gamesave loading w/infra prod mode type: '+XMLSavedGameItemSub5.Attributes['prodModeType']);
+                                          then raise Exception.Create( 'bad gamesave loading w/infra prod mode type: '+XMLSavedGameItemSub5.Attributes['prodModeType'] );
                                           FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_infrastructures[Count3].I_fProdProductionMode[Count4].PM_isDisabled:=XMLSavedGameItemSub5.Attributes['isDisabled'];
                                           FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_infrastructures[Count3].I_fProdProductionMode[Count4].PM_energyConsumption:=XMLSavedGameItemSub5.Attributes['energyCons'];
                                           FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_infrastructures[Count3].I_fProdProductionMode[Count4].PM_matrixItemMax:=XMLSavedGameItemSub5.Attributes['matrixItemMax'];
@@ -784,7 +784,7 @@ begin
                                           XMLSavedGameItemSub6:=XMLSavedGameItemSub5.ChildNodes.First;
                                           while XMLSavedGameItemSub6<>nil do
                                           begin
-                                             inc(Count5);
+                                             inc( Count5 );
                                              FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_infrastructures[Count3].I_fProdProductionMode[Count4].PM_linkedColonyMatrixItems[Count5].LMII_matrixItemIndex
                                                 :=XMLSavedGameItemSub6.Attributes['pmitmIndex'];
                                              FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_infrastructures[Count3].I_fProdProductionMode[Count4].PM_linkedColonyMatrixItems[Count5].LMII_matrixItem_ProductionModeIndex
@@ -796,59 +796,55 @@ begin
                                     end;
                                  end; //==END== case FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_infrastructures[Count3].I_function ==//
                                  XMLSavedGameItemSub4:=XMLSavedGameItemSub4.NextSibling;
-                              end; //==END== while GLxmlInfra<>nil do ==//
+                              end; //==END== while XMLSavedGameItemSub4<>nil do ==//
                               XMLSavedGameItemSub3:=XMLSavedGameItemSub3.NextSibling;
                            end; //==END== while XMLSavedGameItemSub3<>nil ==//
                         end //==END== else if XMLSavedGameItemSub2.NodeName='colSettlement' ==//
                         {.colony's CAB queue}
-                        else if XMLSavedGameItemSub2.NodeName='colCAB'
-                        then
+                        else if XMLSavedGameItemSub2.NodeName='colCAB' then
                         begin
                            Count2:=1;
-                           Count3:=Length(FCDdgEntities[Count].E_colonies[Count1].C_cabQueue)-1;
+                           Count3:=Length( FCDdgEntities[Count].E_colonies[Count1].C_cabQueue )-1;
                            while Count2<=Count3 do
                            begin
-                              SetLength(FCDdgEntities[Count].E_colonies[Count1].C_cabQueue[Count2], 1);
-                              inc(Count2);
+                              SetLength( FCDdgEntities[Count].E_colonies[Count1].C_cabQueue[Count2], 1 );
+                              inc( Count2 );
                            end;
                            Count2:=0;
                            Count3:=0;
                            XMLSavedGameItemSub3:=XMLSavedGameItemSub2.ChildNodes.First;
                            while XMLSavedGameItemSub3<>nil do
                            begin
-                              inc(Count3);
+                              inc( Count3 );
                               Count2:=XMLSavedGameItemSub3.Attributes['settlement'];
-                              SetLength(FCDdgEntities[Count].E_colonies[Count1].C_cabQueue[Count2], Count3+1);
+                              SetLength( FCDdgEntities[Count].E_colonies[Count1].C_cabQueue[Count2], Count3+1 );
                               Count4:=XMLSavedGameItemSub3.Attributes['infraIdx'];
                               FCDdgEntities[Count].E_colonies[Count1].C_cabQueue[Count2, Count3]:=Count4;
                               XMLSavedGameItemSub3:=XMLSavedGameItemSub3.NextSibling;
                            end;
                         end
                         {.colony's production matrix}
-                        else if XMLSavedGameItemSub2.NodeName='colProdMatrix'
-                        then
+                        else if XMLSavedGameItemSub2.NodeName='colProdMatrix' then
                         begin
-                           SetLength(FCDdgEntities[Count].E_colonies[Count].C_productionMatrix, 1);
                            Count2:=0;
                            XMLSavedGameItemSub3:=XMLSavedGameItemSub2.ChildNodes.First;
                            while XMLSavedGameItemSub3<>nil do
                            begin
-                              inc(Count2);
-                              SetLength(FCDdgEntities[Count].E_colonies[Count1].C_productionMatrix, Count2+1);
+                              inc( Count2 );
+                              SetLength( FCDdgEntities[Count].E_colonies[Count1].C_productionMatrix, Count2+1 );
                               FCDdgEntities[Count].E_colonies[Count1].C_productionMatrix[Count2].PM_productToken:=XMLSavedGameItemSub3.Attributes['token'];
                               FCDdgEntities[Count].E_colonies[Count1].C_productionMatrix[Count2].PM_storageIndex:=XMLSavedGameItemSub3.Attributes['storIdx'];
-                              EnumIndex:=GetEnumValue(TypeInfo(TFCEdipStorageTypes), XMLSavedGameItemSub3.Attributes['storageType'] );
+                              EnumIndex:=GetEnumValue( TypeInfo( TFCEdipStorageTypes ), XMLSavedGameItemSub3.Attributes['storageType'] );
                               FCDdgEntities[Count].E_colonies[Count1].C_productionMatrix[Count2].PM_storage:=TFCEdipStorageTypes(EnumIndex);
                               if EnumIndex=-1
-                              then raise Exception.Create('bad gamesave loading w/production matrix item storage type: '+XMLSavedGameItemSub3.Attributes['storageType']);
+                              then raise Exception.Create( 'bad gamesave loading w/production matrix item storage type: '+XMLSavedGameItemSub3.Attributes['storageType'] );
                               FCDdgEntities[Count].E_colonies[Count1].C_productionMatrix[Count2].PM_globalProductionFlow:=XMLSavedGameItemSub3.Attributes['globalProdFlow'];
-                              SetLength(FCDdgEntities[Count].E_colonies[Count1].C_productionMatrix[Count2].PM_productionModes, 1);
                               Count3:=0;
                               XMLSavedGameItemSub4:=XMLSavedGameItemSub3.ChildNodes.First;
                               while XMLSavedGameItemSub4<>nil do
                               begin
-                                 inc(Count3);
-                                 SetLength(FCDdgEntities[Count].E_colonies[Count1].C_productionMatrix[Count2].PM_productionModes, Count3+1);
+                                 inc( Count3 );
+                                 SetLength( FCDdgEntities[Count].E_colonies[Count1].C_productionMatrix[Count2].PM_productionModes, Count3+1 );
                                  FCDdgEntities[Count].E_colonies[Count1].C_productionMatrix[Count2].PM_productionModes[Count3].PM_locationSettlement:=XMLSavedGameItemSub4.Attributes['locSettle'];
                                  FCDdgEntities[Count].E_colonies[Count1].C_productionMatrix[Count2].PM_productionModes[Count3].PM_locationInfrastructure:=XMLSavedGameItemSub4.Attributes['locInfra'];
                                  FCDdgEntities[Count].E_colonies[Count1].C_productionMatrix[Count2].PM_productionModes[Count3].PM_locationProductionModeIndex:=XMLSavedGameItemSub4.Attributes['locPModeIndex'];
@@ -871,29 +867,26 @@ begin
                            FCDdgEntities[Count].E_colonies[Count1].C_storageCapacityGasMax:=XMLSavedGameItemSub2.Attributes['capGasMax'];
                            FCDdgEntities[Count].E_colonies[Count1].C_storageCapacityBioCurrent:=XMLSavedGameItemSub2.Attributes['capBioCur'];
                            FCDdgEntities[Count].E_colonies[Count1].C_storageCapacityBioMax:=XMLSavedGameItemSub2.Attributes['capBioMax'];
-                           SetLength(FCDdgEntities[Count].E_colonies[Count1].C_storedProducts, 1);
                            Count2:=0;
                            XMLSavedGameItemSub3:=XMLSavedGameItemSub2.ChildNodes.First;
                            while XMLSavedGameItemSub3<>nil do
                            begin
-                              inc(Count2);
-                              SetLength(FCDdgEntities[Count].E_colonies[Count1].C_storedProducts, Count2+1);
+                              inc( Count2 );
+                              SetLength( FCDdgEntities[Count].E_colonies[Count1].C_storedProducts, Count2+1 );
                               FCDdgEntities[Count].E_colonies[Count1].C_storedProducts[Count2].SP_token:=XMLSavedGameItemSub3.Attributes['token'];
                               FCDdgEntities[Count].E_colonies[Count1].C_storedProducts[Count2].SP_unit:=XMLSavedGameItemSub3.Attributes['unit'];
                               XMLSavedGameItemSub3:=XMLSavedGameItemSub3.NextSibling;
                            end;
                         end
-                        else if XMLSavedGameItemSub2.NodeName='colReserves'
-                        then
+                        else if XMLSavedGameItemSub2.NodeName='colReserves' then
                         begin
                            FCDdgEntities[Count].E_colonies[Count1].C_reserveOxygen:=XMLSavedGameItemSub2.Attributes['oxygen'];
                            FCDdgEntities[Count].E_colonies[Count1].C_reserveFood:=XMLSavedGameItemSub2.Attributes['food'];
-                           SetLength( FCDdgEntities[Count].E_colonies[Count1].C_reserveFoodProductsIndex, 1 );
                            Count2:=0;
                            XMLSavedGameItemSub3:=XMLSavedGameItemSub2.ChildNodes.First;
                            while XMLSavedGameItemSub3<>nil do
                            begin
-                              inc(Count2);
+                              inc( Count2 );
                               SetLength( FCDdgEntities[Count].E_colonies[Count1].C_reserveFoodProductsIndex, Count2+1 );
                               FCDdgEntities[Count].E_colonies[Count1].C_reserveFoodProductsIndex[Count2]:=XMLSavedGameItemSub3.Attributes['index'];
                               XMLSavedGameItemSub3:=XMLSavedGameItemSub3.NextSibling;
@@ -905,8 +898,7 @@ begin
                      XMLSavedGameItemSub1:=XMLSavedGameItemSub1.NextSibling;
                   end; //==END== while GLxmlCol<>nil do ==//
                end //==END== else if GLxmlEntSubRoot.NodeName='entColonies' ==//
-               else if XMLSavedGameItemSub.NodeName='entSPMset'
-               then
+               else if XMLSavedGameItemSub.NodeName='entSPMset' then
                begin
                   FCDdgEntities[Count].E_spmMod_Cohesion:=XMLSavedGameItemSub.Attributes['modCoh'];
                   FCDdgEntities[Count].E_spmMod_Tension:=XMLSavedGameItemSub.Attributes['modTens'];
@@ -920,20 +912,18 @@ begin
                   XMLSavedGameItemSub1:=XMLSavedGameItemSub.ChildNodes.First;
                   while XMLSavedGameItemSub1<>nil do
                   begin
-                     inc(Count1);
-                     SetLength(FCDdgEntities[Count].E_spmSettings, Count1+1);
+                     inc( Count1 );
+                     SetLength( FCDdgEntities[Count].E_spmSettings, Count1+1 );
                      FCDdgEntities[Count].E_spmSettings[Count1].SPMS_token:=XMLSavedGameItemSub1.Attributes['token'];
                      FCDdgEntities[Count].E_spmSettings[Count1].SPMS_duration:=XMLSavedGameItemSub1.Attributes['duration'];
                      FCDdgEntities[Count].E_spmSettings[Count1].SPMS_ucCost:=XMLSavedGameItemSub1.Attributes['ucCost'];
                      FCDdgEntities[Count].E_spmSettings[Count1].SPMS_isPolicy:=XMLSavedGameItemSub1.Attributes['ispolicy'];
-                     if FCDdgEntities[Count].E_spmSettings[Count1].SPMS_isPolicy
-                     then
+                     if FCDdgEntities[Count].E_spmSettings[Count1].SPMS_isPolicy then
                      begin
                         FCDdgEntities[Count].E_spmSettings[Count1].SPMS_iPtIsSet:=XMLSavedGameItemSub1.Attributes['isSet'];
                         FCDdgEntities[Count].E_spmSettings[Count1].SPMS_iPtAcceptanceProbability:=XMLSavedGameItemSub1.Attributes['aprob'];
                      end
-                     else if not FCDdgEntities[Count].E_spmSettings[Count1].SPMS_isPolicy
-                     then
+                     else if not FCDdgEntities[Count].E_spmSettings[Count1].SPMS_isPolicy then
                      begin
                         FCDdgEntities[Count].E_spmSettings[Count1].SPMS_iPtBeliefLevel:=XMLSavedGameItemSub1.Attributes['belieflvl'];
                         FCDdgEntities[Count].E_spmSettings[Count1].SPMS_iPtSpreadValue:=XMLSavedGameItemSub1.Attributes['spreadval'];
@@ -943,24 +933,23 @@ begin
                end; //==END== if GLxmlEntSubRoot.NodeName='entSPMset' ==//
                XMLSavedGameItemSub:=XMLSavedGameItemSub.NextSibling;
             end; //==END== while GLxmlEntSubRoot<>nil do ==//
-            inc(Count);
+            inc( Count );
             XMLSavedGameItem:=XMLSavedGameItem.NextSibling;
          end; //==END== while GLxmlEnt<>nil do ==//
       end; //==END== if GLxmlEntRoot<>nil FOR COLONIES==//
       {.read "msgqueue" saved game item}
-      setlength(FCVmsgStoTtl,1);
-      setlength(FCVmsgStoMsg,1);
+      setlength( FCVmsgStoTtl, 1 );
+      setlength( FCVmsgStoMsg, 1 );
       XMLSavedGame:=FCWinMain.FCXMLsave.DocumentElement.ChildNodes.FindNode('gfMsgQueue');
-      if XMLSavedGame<>nil
-      then
+      if XMLSavedGame<>nil then
       begin
          Count:=0;
          XMLSavedGameItem:=XMLSavedGame.ChildNodes.First;
          while XMLSavedGameItem<>nil do
          begin
-            SetLength(FCVmsgStoTtl, length(FCVmsgStoTtl)+1);
-            SetLength(FCVmsgStoMsg, length(FCVmsgStoMsg)+1);
             inc(Count);
+            SetLength( FCVmsgStoTtl, Count+1 );
+            SetLength( FCVmsgStoMsg, Count+1 );
             FCVmsgStoTtl[Count]:=XMLSavedGameItem.Attributes['msgTitle'];
             FCVmsgStoMsg[Count]:=XMLSavedGameItem.Attributes['msgMain'];
             XMLSavedGameItem:=XMLSavedGameItem.NextSibling;

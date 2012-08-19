@@ -744,7 +744,7 @@ type TFCRduStarSystem = record
    ///<summary>
    ///   stars list, 1= main star 2/3= companion stars
    ///</summary>
-   SS_stars: array [0..3] of TFCRduStar;
+   SS_stars: array[0..3] of TFCRduStar;
 end;
    ///<summary>
    ///   stars system dynamic array
