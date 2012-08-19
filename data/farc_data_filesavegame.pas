@@ -99,14 +99,14 @@ procedure FCMdFSG_Game_Load;
 {:Purpose: load the current game.
    Additions:
       -2012Aug15- *code audit:
-                     (x)var formatting + refactoring     (o)if..then reformatting   (-)function/procedure refactoring
-                     (_)parameters refactoring           (o) ()reformatting         (o)code optimizations
-                     (_)float local variables=> extended (o)case..of reformatting   (-)local methods
-                     (_)summary completion               (-)protect all float add/sub w/ FCFcFunc_Rnd
+                     (x)var formatting + refactoring     (x)if..then reformatting   (_)function/procedure refactoring
+                     (_)parameters refactoring           (x) ()reformatting         (x)code optimizations
+                     (_)float local variables=> extended (x)case..of reformatting   (_)local methods
+                     (_)summary completion               (_)protect all float add/sub w/ FCFcFunc_Rnd
                      (x)standardize internal data + commenting them at each use as a result (like Count1 / Count2 ...)
-                     (-)put [format x.xx ] in returns of summary, if required and if the function do formatting
-                     (-)use of enumindex                 (-)use of StrToFloat( x, FCVdiFormat ) for all float data
-                     (-)if the procedure reset the same record's data or external data put:
+                     (_)put [format x.xx ] in returns of summary, if required and if the function do formatting
+                     (x)use of enumindex                 (x)use of StrToFloat( x, FCVdiFormat ) for all float data
+                     (_)if the procedure reset the same record's data or external data put:
                         ///   <remarks>the procedure/function reset the /data/</remarks>
       -2012May24- *add: CPS - Viability thresholds.
       -2012May13- *add: CSM event: etRveFoodShortage, addition of the direct death period + death fractional value.
@@ -272,11 +272,20 @@ begin
       XMLSavedGame:=FCWinMain.FCXMLsave.DocumentElement.ChildNodes.FindNode( 'gfStatus' );
       if XMLSavedGame<>nil then
       begin
-         FCVdgPlayer.P_economicStatus:=XMLSavedGame.Attributes['statEco'];
+         EnumIndex:=GetEnumValue( TypeInfo( TFCEdgPlayerFactionStatus ), XMLSavedGame.Attributes['statEco'] );
+         FCVdgPlayer.P_economicStatus:=TFCEdgPlayerFactionStatus( EnumIndex );
+         if EnumIndex=-1
+         then raise Exception.Create( 'bad gamesave loading w/ economic status: '+XMLSavedGame.Attributes['statEco'] );
          FCVdgPlayer.P_economicViabilityThreshold:=XMLSavedGame.Attributes['statEcoThr'];
-         FCVdgPlayer.P_socialStatus:=XMLSavedGame.Attributes['statSoc'];
+         EnumIndex:=GetEnumValue( TypeInfo( TFCEdgPlayerFactionStatus ), XMLSavedGame.Attributes['statSoc'] );
+         FCVdgPlayer.P_socialStatus:=TFCEdgPlayerFactionStatus( EnumIndex );
+         if EnumIndex=-1
+         then raise Exception.Create( 'bad gamesave loading w/ social status: '+XMLSavedGame.Attributes['statSoc'] );
          FCVdgPlayer.P_socialViabilityThreshold:=XMLSavedGame.Attributes['statSocThr'];
-         FCVdgPlayer.P_militaryStatus:=XMLSavedGame.Attributes['statSpMil'];
+         EnumIndex:=GetEnumValue( TypeInfo( TFCEdgPlayerFactionStatus ), XMLSavedGame.Attributes['statSpMil'] );
+         FCVdgPlayer.P_militaryStatus:=TFCEdgPlayerFactionStatus( EnumIndex );
+         if EnumIndex=-1
+         then raise Exception.Create( 'bad gamesave loading w/ military status: '+XMLSavedGame.Attributes['statSpMil'] );
          FCVdgPlayer.P_militaryViabilityThreshold:=XMLSavedGame.Attributes['statSpMilThr'];
       end;
       {.read "cps" section}
@@ -298,7 +307,7 @@ begin
             if ViabilityObjectives[Count].CPSO_type=otEcoIndustrialForce then
             begin
                ViabilityObjectives[Count].CPSO_ifProduct:=XMLSavedGameItem.Attributes['product'];
-               ViabilityObjectives[Count].CPSO_ifThreshold:=XMLSavedGameItem.Attributes['threshold'];
+               ViabilityObjectives[Count].CPSO_ifThreshold:=StrToFloat( XMLSavedGameItem.Attributes['threshold'], FCVdiFormat );
             end;
             XMLSavedGameItem:=XMLSavedGameItem.NextSibling;
          end; //==END== XMLSavedGameItem<>nil ==//
@@ -313,7 +322,6 @@ begin
             );
       end; //==END== if XMLSavedGame<>nil for CPS ==//
       {.read "taskinprocess" saved game item}
-      SetLength( FCGtskListInProc, 1 );
       XMLSavedGame:=FCWinMain.FCXMLsave.DocumentElement.ChildNodes.FindNode( 'gfTskLstinProc' );
       if XMLSavedGame<>nil then
       begin
@@ -323,28 +331,40 @@ begin
          begin
             inc( Count );
             SetLength( FCGtskListInProc, Count+1 );
-            FCGtskListInProc[Count].T_type:=XMLSavedGameItem.Attributes['tipActTp'];
+            EnumIndex:=GetEnumValue( TypeInfo( TFCEdmtTasks ), XMLSavedGameItem.Attributes['tipActTp'] );
+            FCGtskListInProc[Count].T_type:=TFCEdmtTasks( EnumIndex );
+            if EnumIndex=-1
+            then raise Exception.Create( 'bad gamesave loading w/task type: '+XMLSavedGameItem.Attributes['tipActTp'] );
             FCGtskListInProc[Count].T_tMColCurrentPhase:=XMLSavedGameItem.Attributes['tipPhase'];
-            FCGtskListInProc[Count].TITP_ctldType:=XMLSavedGameItem.Attributes['tipTgtTp'];
+            EnumIndex:=GetEnumValue( TypeInfo( TFCEdmtTaskTargets ), XMLSavedGameItem.Attributes['tipTgtTp'] );
+            FCGtskListInProc[Count].TITP_ctldType:=TFCEdmtTaskTargets( EnumIndex );
+            if EnumIndex=-1
+            then raise Exception.Create( 'bad gamesave loading w/ task target type: '+XMLSavedGameItem.Attributes['tipTgtTp'] );
             FCGtskListInProc[Count].TITP_ctldFac:=XMLSavedGameItem.Attributes['tipTgtFac'];
             FCGtskListInProc[Count].TITP_ctldIdx:=XMLSavedGameItem.Attributes['tipTgtIdx'];
             FCGtskListInProc[Count].TITP_timeOrg:=XMLSavedGameItem.Attributes['tipTimeOrg'];
             FCGtskListInProc[Count].TITP_duration:=XMLSavedGameItem.Attributes['tipDura'];
             FCGtskListInProc[Count].TITP_interval:=XMLSavedGameItem.Attributes['tipInterv'];
-            FCGtskListInProc[Count].TITP_orgType:=XMLSavedGameItem.Attributes['tipOrgTp'];
+            EnumIndex:=GetEnumValue( TypeInfo( TFCEdmtTaskTargets ), XMLSavedGameItem.Attributes['tipOrgTp'] );
+            FCGtskListInProc[Count].TITP_orgType:=TFCEdmtTaskTargets( EnumIndex );
+            if EnumIndex=-1
+            then raise Exception.Create( 'bad gamesave loading w/ origin type: '+XMLSavedGameItem.Attributes['tipOrgTp'] );
             FCGtskListInProc[Count].TITP_orgIdx:=XMLSavedGameItem.Attributes['tipOrgIdx'];
-            FCGtskListInProc[Count].TITP_destType:=XMLSavedGameItem.Attributes['tipDestTp'];
+            EnumIndex:=GetEnumValue( TypeInfo( TFCEdmtTaskTargets ), XMLSavedGameItem.Attributes['tipDestTp'] );
+            FCGtskListInProc[Count].TITP_destType:=TFCEdmtTaskTargets( EnumIndex );
+            if EnumIndex=-1
+            then raise Exception.Create( 'bad gamesave loading w/ destination type: '+XMLSavedGameItem.Attributes['tipDestTp'] );
             FCGtskListInProc[Count].TITP_destIdx:=XMLSavedGameItem.Attributes['tipDestIdx'];
             FCGtskListInProc[Count].TITP_regIdx:=XMLSavedGameItem.Attributes['tipRegIdx'];
-            FCGtskListInProc[Count].TITP_velCruise:=XMLSavedGameItem.Attributes['tipVelCr'];
+            FCGtskListInProc[Count].TITP_velCruise:=StrToFloat( XMLSavedGameItem.Attributes['tipVelCr'], FCVdiFormat );
             FCGtskListInProc[Count].TITP_timeToCruise:=XMLSavedGameItem.Attributes['tipTimeTcr'];
             FCGtskListInProc[Count].TITP_timeDecel:=XMLSavedGameItem.Attributes['tipTimeTdec'];
             FCGtskListInProc[Count].TITP_time2xfert:=XMLSavedGameItem.Attributes['tipTime2Xfrt'];
             FCGtskListInProc[Count].TITP_time2xfert2decel:=XMLSavedGameItem.Attributes['tipTime2XfrtDec'];
-            FCGtskListInProc[Count].TITP_velFinal:=XMLSavedGameItem.Attributes['tipVelFin'];
+            FCGtskListInProc[Count].TITP_velFinal:=StrToFloat( XMLSavedGameItem.Attributes['tipVelFin'], FCVdiFormat );
             FCGtskListInProc[Count].TITP_timeToFinal:=XMLSavedGameItem.Attributes['tipTimeTfin'];
-            FCGtskListInProc[Count].TITP_accelbyTick:=XMLSavedGameItem.Attributes['tipAccelBtick'];
-            FCGtskListInProc[Count].TITP_usedRMassV:=XMLSavedGameItem.Attributes['tipUsedRM'];
+            FCGtskListInProc[Count].TITP_accelbyTick:=StrToFloat( XMLSavedGameItem.Attributes['tipAccelBtick'], FCVdiFormat );
+            FCGtskListInProc[Count].TITP_usedRMassV:=StrToFloat( XMLSavedGameItem.Attributes['tipUsedRM'], FCVdiFormat );
             FCGtskListInProc[Count].TITP_str1:=XMLSavedGameItem.Attributes['tipStr1'];
             FCGtskListInProc[Count].TITP_str2:=XMLSavedGameItem.Attributes['tipStr2'];
             FCGtskListInProc[Count].TITP_int1:=XMLSavedGameItem.Attributes['tipInt1'];
@@ -411,7 +431,7 @@ begin
                      then raise Exception.Create( 'bad gamesave loading w/rsrc spot type: '+XMLSavedGameItemSub1.Attributes['spotType'] )
                      else if EnumIndex>0 then
                      begin
-                        FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_surveyedRegions[Count1].SR_ResourceSpots[Count2].RS_meanQualityCoefficient:=XMLSavedGameItemSub1.Attributes['meanQualCoef'];
+                        FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_surveyedRegions[Count1].SR_ResourceSpots[Count2].RS_meanQualityCoefficient:=StrToFloat( XMLSavedGameItemSub1.Attributes['meanQualCoef'], FCVdiFormat );
                         FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_surveyedRegions[Count1].SR_ResourceSpots[Count2].RS_spotSizeCurrent:=XMLSavedGameItemSub1.Attributes['spotSizCurr'];
                         FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_surveyedRegions[Count1].SR_ResourceSpots[Count2].RS_spotSizeMax:=XMLSavedGameItemSub1.Attributes['spotSizeMax'];
                         if FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_surveyedRegions[Count1].SR_ResourceSpots[Count2].RS_type=rstOreField then
@@ -476,8 +496,11 @@ begin
             FCDdgEntities[Count].E_factionLevel:=XMLSavedGameItem.Attributes['lvl'];
             FCDdgEntities[Count].E_bureaucracy:=XMLSavedGameItem.Attributes['bur'];
             FCDdgEntities[Count].E_corruption:=XMLSavedGameItem.Attributes['corr'];
-            FCDdgEntities[Count].E_hqHigherLevel:=XMLSavedGameItem.Attributes['hqHlvl'];
-            FCDdgEntities[Count].E_ucInAccount:=XMLSavedGameItem.Attributes['UCrve'];
+            EnumIndex:=GetEnumValue( TypeInfo( TFCEdgHeadQuarterStatus ), XMLSavedGameItem.Attributes['hqHlvl'] );
+            FCDdgEntities[Count].E_hqHigherLevel:=TFCEdgHeadQuarterStatus( EnumIndex );
+            if EnumIndex=-1
+            then raise Exception.Create( 'bad gamesave loading w/HQ higher level: '+XMLSavedGameItem.Attributes['hqHlvl'] );
+            FCDdgEntities[Count].E_ucInAccount:=StrToFloat( XMLSavedGameItem.Attributes['UCrve'], FCVdiFormat );
             XMLSavedGameItemSub:=XMLSavedGameItem.ChildNodes.First;
             SetLength( FCDdgEntities[Count].E_spaceUnits, 1 );
             SetLength( FCDdgEntities[Count].E_colonies, 1 );
@@ -500,8 +523,8 @@ begin
                      FCDdgEntities[Count].E_spaceUnits[Count1].SU_locationOrbitalObject:=XMLSavedGameItemSub1.Attributes['oobjLoc'];
                      FCDdgEntities[Count].E_spaceUnits[Count1].SU_locationSatellite:=XMLSavedGameItemSub1.Attributes['satLoc'];
                      FCDdgEntities[Count].E_spaceUnits[Count1].SU_linked3dObject:=XMLSavedGameItemSub1.Attributes['TdObjIdx'];
-                     FCDdgEntities[Count].E_spaceUnits[Count1].SU_locationViewX:=XMLSavedGameItemSub1.Attributes['xLoc'];
-                     FCDdgEntities[Count].E_spaceUnits[Count1].SU_locationViewZ:=XMLSavedGameItemSub1.Attributes['zLoc'];
+                     FCDdgEntities[Count].E_spaceUnits[Count1].SU_locationViewX:=StrToFloat( XMLSavedGameItemSub1.Attributes['xLoc'], FCVdiFormat );
+                     FCDdgEntities[Count].E_spaceUnits[Count1].SU_locationViewZ:=StrToFloat( XMLSavedGameItemSub1.Attributes['zLoc'], FCVdiFormat );
                      Count3:=XMLSavedGameItemSub1.Attributes['docked'];
                      if Count3>0 then
                      begin
@@ -516,10 +539,13 @@ begin
                         end;
                      end;
                      FCDdgEntities[Count].E_spaceUnits[Count1].SU_assignedTask:=XMLSavedGameItemSub1.Attributes['taskId'];
-                     FCDdgEntities[Count].E_spaceUnits[Count1].SU_status:=XMLSavedGameItemSub1.Attributes['status'];
-                     FCDdgEntities[Count].E_spaceUnits[Count1].SU_deltaV:=XMLSavedGameItemSub1.Attributes['dV'];
-                     FCDdgEntities[Count].E_spaceUnits[Count1].SU_3dVelocity:=XMLSavedGameItemSub1.Attributes['TdMov'];
-                     FCDdgEntities[Count].E_spaceUnits[Count1].SU_reactionMass:=XMLSavedGameItemSub1.Attributes['availRMass'];
+                     EnumIndex:=GetEnumValue( TypeInfo( TFCEdgSpaceUnitStatus ), XMLSavedGameItemSub1.Attributes['status'] );
+                     FCDdgEntities[Count].E_spaceUnits[Count1].SU_status:=TFCEdgSpaceUnitStatus( EnumIndex );
+                     if EnumIndex=-1
+                     then raise Exception.Create( 'bad gamesave loading w/ space unit status: '+XMLSavedGameItemSub1.Attributes['status'] );
+                     FCDdgEntities[Count].E_spaceUnits[Count1].SU_deltaV:=StrToFloat( XMLSavedGameItemSub1.Attributes['dV'], FCVdiFormat );
+                     FCDdgEntities[Count].E_spaceUnits[Count1].SU_3dVelocity:=StrToFloat( XMLSavedGameItemSub1.Attributes['TdMov'], FCVdiFormat );
+                     FCDdgEntities[Count].E_spaceUnits[Count1].SU_reactionMass:=StrToFloat( XMLSavedGameItemSub1.Attributes['availRMass'], FCVdiFormat );
                      XMLSavedGameItemSub1:=XMLSavedGameItemSub1.NextSibling;
                   end;
                end //==END== if GLxmlEntSubRoot.NodeName='entOwnSpU' ==//
@@ -555,20 +581,26 @@ begin
                      then FCDduStarSystem[StellarMatrix[1]].SS_stars[StellarMatrix[2]].S_orbitalObjects[StellarMatrix[3]].OO_colonies[0]:=Count1
                      else if StellarMatrix[4]>0
                      then FCDduStarSystem[StellarMatrix[1]].SS_stars[StellarMatrix[2]].S_orbitalObjects[StellarMatrix[3]].OO_satellitesList[StellarMatrix[4]].OO_colonies[0]:=Count1;
-                     FCDdgEntities[Count].E_colonies[Count1].C_level:=TFCEdgColonyLevels( XMLSavedGameItemSub1.Attributes['collvl']-1 );
-                     FCDdgEntities[Count].E_colonies[Count1].C_hqPresence:=XMLSavedGameItemSub1.Attributes['hqpresence'];
+                     EnumIndex:=GetEnumValue( TypeInfo( TFCEdgColonyLevels ), XMLSavedGameItemSub1.Attributes['collvl'] );
+                     FCDdgEntities[Count].E_colonies[Count1].C_level:=TFCEdgColonyLevels( EnumIndex );
+                     if EnumIndex=-1
+                     then raise Exception.Create( 'bad gamesave loading w/colony level: '+XMLSavedGameItemSub1.Attributes['collvl'] );
+                     EnumIndex:=GetEnumValue( TypeInfo( TFCEdgHeadQuarterStatus ), XMLSavedGameItemSub1.Attributes['hqpresence'] );
+                     FCDdgEntities[Count].E_colonies[Count1].C_hqPresence:=TFCEdgHeadQuarterStatus( EnumIndex );
+                     if EnumIndex=-1
+                     then raise Exception.Create( 'bad gamesave loading w/HQ presence: '+XMLSavedGameItemSub1.Attributes['hqpresence'] );
                      FCDdgEntities[Count].E_colonies[Count1].C_cohesion:=XMLSavedGameItemSub1.Attributes['dcohes'];
                      FCDdgEntities[Count].E_colonies[Count1].C_security:=XMLSavedGameItemSub1.Attributes['dsecu'];
                      FCDdgEntities[Count].E_colonies[Count1].C_tension:=XMLSavedGameItemSub1.Attributes['dtens'];
                      FCDdgEntities[Count].E_colonies[Count1].C_instruction:=XMLSavedGameItemSub1.Attributes['dedu'];
                      FCDdgEntities[Count].E_colonies[Count1].C_csmHousing_PopulationCapacity:=XMLSavedGameItemSub1.Attributes['csmPCAP'];
-                     FCDdgEntities[Count].E_colonies[Count1].C_csmHousing_SpaceLevel:=XMLSavedGameItemSub1.Attributes['csmSPL'];
+                     FCDdgEntities[Count].E_colonies[Count1].C_csmHousing_SpaceLevel:=StrToFloat( XMLSavedGameItemSub1.Attributes['csmSPL'], FCVdiFormat );
                      FCDdgEntities[Count].E_colonies[Count1].C_csmHousing_QualityOfLife:=XMLSavedGameItemSub1.Attributes['csmQOL'];
                      FCDdgEntities[Count].E_colonies[Count1].C_csmHealth_HealthLevel:=XMLSavedGameItemSub1.Attributes['csmHEAL'];
-                     FCDdgEntities[Count].E_colonies[Count1].C_csmEnergy_Consumption:=XMLSavedGameItemSub1.Attributes['csmEnCons'];
-                     FCDdgEntities[Count].E_colonies[Count1].C_csmEnergy_Generation:=XMLSavedGameItemSub1.Attributes['csmEnGen'];
-                     FCDdgEntities[Count].E_colonies[Count1].C_csmEnergy_StorageCurrent:=XMLSavedGameItemSub1.Attributes['csmEnStorCurr'];
-                     FCDdgEntities[Count].E_colonies[Count1].C_csmEnergy_StorageMax:=XMLSavedGameItemSub1.Attributes['csmEnStorMax'];
+                     FCDdgEntities[Count].E_colonies[Count1].C_csmEnergy_Consumption:= StrToFloat( XMLSavedGameItemSub1.Attributes['csmEnCons'], FCVdiFormat );
+                     FCDdgEntities[Count].E_colonies[Count1].C_csmEnergy_Generation:=StrToFloat( XMLSavedGameItemSub1.Attributes['csmEnGen'], FCVdiFormat );
+                     FCDdgEntities[Count].E_colonies[Count1].C_csmEnergy_StorageCurrent:=StrToFloat( XMLSavedGameItemSub1.Attributes['csmEnStorCurr'], FCVdiFormat );
+                     FCDdgEntities[Count].E_colonies[Count1].C_csmEnergy_StorageMax:=StrToFloat( XMLSavedGameItemSub1.Attributes['csmEnStorMax'], FCVdiFormat );
                      FCDdgEntities[Count].E_colonies[Count1].C_economicIndustrialOutput:=XMLSavedGameItemSub1.Attributes['eiOut'];
                      XMLSavedGameItemSub2:=XMLSavedGameItemSub1.ChildNodes.First;
                      while XMLSavedGameItemSub2<>nil do
@@ -577,11 +609,11 @@ begin
                         if XMLSavedGameItemSub2.NodeName='colPopulation' then
                         begin
                            FCDdgEntities[Count].E_colonies[Count1].C_population.CP_total:=XMLSavedGameItemSub2.Attributes['popTtl'];
-                           FCDdgEntities[Count].E_colonies[Count1].C_population.CP_meanAge:=XMLSavedGameItemSub2.Attributes['popMeanAge'];
-                           FCDdgEntities[Count].E_colonies[Count1].C_population.CP_deathRate:=XMLSavedGameItemSub2.Attributes['popDRate'];
-                           FCDdgEntities[Count].E_colonies[Count1].C_population.CP_deathStack:=XMLSavedGameItemSub2.Attributes['popDStack'];
-                           FCDdgEntities[Count].E_colonies[Count1].C_population.CP_birthRate:=XMLSavedGameItemSub2.Attributes['popBRate'];
-                           FCDdgEntities[Count].E_colonies[Count1].C_population.CP_birthStack:=XMLSavedGameItemSub2.Attributes['popBStack'];
+                           FCDdgEntities[Count].E_colonies[Count1].C_population.CP_meanAge:=StrToFloat( XMLSavedGameItemSub2.Attributes['popMeanAge'], FCVdiFormat );
+                           FCDdgEntities[Count].E_colonies[Count1].C_population.CP_deathRate:=StrToFloat( XMLSavedGameItemSub2.Attributes['popDRate'], FCVdiFormat );
+                           FCDdgEntities[Count].E_colonies[Count1].C_population.CP_deathStack:=StrToFloat( XMLSavedGameItemSub2.Attributes['popDStack'], FCVdiFormat );
+                           FCDdgEntities[Count].E_colonies[Count1].C_population.CP_birthRate:=StrToFloat( XMLSavedGameItemSub2.Attributes['popBRate'], FCVdiFormat );
+                           FCDdgEntities[Count].E_colonies[Count1].C_population.CP_birthStack:=StrToFloat( XMLSavedGameItemSub2.Attributes['popBStack'], FCVdiFormat );
                            FCDdgEntities[Count].E_colonies[Count1].C_population.CP_classColonist:=XMLSavedGameItemSub2.Attributes['popColon'];
                            FCDdgEntities[Count].E_colonies[Count1].C_population.CP_classColonistAssigned:=XMLSavedGameItemSub2.Attributes['popColonAssign'];
                            FCDdgEntities[Count].E_colonies[Count1].C_population.CP_classAerOfficer:=XMLSavedGameItemSub2.Attributes['popOff'];
@@ -612,7 +644,7 @@ begin
                            FCDdgEntities[Count].E_colonies[Count1].C_population.CP_classAdmMedianAssigned:=XMLSavedGameItemSub2.Attributes['popMedianAssign'];
                            FCDdgEntities[Count].E_colonies[Count1].C_population.CP_classRebels:=XMLSavedGameItemSub2.Attributes['popRebels'];
                            FCDdgEntities[Count].E_colonies[Count1].C_population.CP_classMilitia:=XMLSavedGameItemSub2.Attributes['popMilitia'];
-                           FCDdgEntities[Count].E_colonies[Count1].C_population.CP_CWPtotal:=XMLSavedGameItemSub2.Attributes['wcpTotal'];
+                           FCDdgEntities[Count].E_colonies[Count1].C_population.CP_CWPtotal:=StrToFloat( XMLSavedGameItemSub2.Attributes['wcpTotal'], FCVdiFormat );
                            FCDdgEntities[Count].E_colonies[Count1].C_population.CP_CWPassignedPeople:=XMLSavedGameItemSub2.Attributes['wcpAssignPpl'];
                         end //==END== if XMLSavedGameItemSub2.NodeName='colPopulation' ==//
                         {.colony events}
@@ -691,7 +723,7 @@ begin
                                     FCDdgEntities[Count].E_colonies[Count1].C_events[Count2].CCSME_tFShTensionMod:=XMLSavedGameItemSub3.Attributes['modTension'];
                                     FCDdgEntities[Count].E_colonies[Count1].C_events[Count2].CCSME_tFShHealthMod:=XMLSavedGameItemSub3.Attributes['modHealth'];
                                     FCDdgEntities[Count].E_colonies[Count1].C_events[Count2].CCSME_tFShDirectDeathPeriod:=XMLSavedGameItemSub3.Attributes['directDeathPeriod'];
-                                    FCDdgEntities[Count].E_colonies[Count1].C_events[Count2].CCSME_tFShDeathFractionalValue:=XMLSavedGameItemSub3.Attributes['deathFracValue'];
+                                    FCDdgEntities[Count].E_colonies[Count1].C_events[Count2].CCSME_tFShDeathFractionalValue:=StrToFloat( XMLSavedGameItemSub3.Attributes['deathFracValue'], FCVdiFormat );
                                  end;
                               end; //==END== case FCentities[GLentCnt].E_col[GLcount].COL_evList[Count2].CSMEV_token of ==//
                               XMLSavedGameItemSub3:=XMLSavedGameItemSub3.NextSibling;
@@ -742,14 +774,15 @@ begin
                                  then raise Exception.Create( 'bad gamesave loading w/infra status: '+XMLSavedGameItemSub4.Attributes['status'] );
                                  FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_infrastructures[Count3].I_cabDuration:=XMLSavedGameItemSub4.Attributes['CABduration'];
                                  FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_infrastructures[Count3].I_cabWorked:=XMLSavedGameItemSub4.Attributes['CABworked'];
-                                 FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_infrastructures[Count3].I_powerConsumption:=XMLSavedGameItemSub4.Attributes['powerCons'];
-                                 FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_infrastructures[Count3].I_powerGeneratedFromCustomEffect:=XMLSavedGameItemSub4.Attributes['powerGencFx'];
+                                 FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_infrastructures[Count3].I_powerConsumption:=StrToFloat( XMLSavedGameItemSub4.Attributes['powerCons'], FCVdiFormat );
+                                 FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_infrastructures[Count3].I_powerGeneratedFromCustomEffect:=
+                                    StrToFloat( XMLSavedGameItemSub4.Attributes['powerGencFx'], FCVdiFormat );
                                  EnumIndex:=GetEnumValue(TypeInfo(TFCEdipFunctions), XMLSavedGameItemSub4.Attributes['Func'] );
                                  FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_infrastructures[Count3].I_function:=TFCEdipFunctions(EnumIndex);
                                  if EnumIndex=-1
                                  then raise Exception.Create( 'bad gamesave loading w/infra function: '+XMLSavedGameItemSub4.Attributes['Func'] );
                                  case FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_infrastructures[Count3].I_function of
-                                    fEnergy: FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_infrastructures[Count3].I_fEnOutput:=XMLSavedGameItemSub4.Attributes['energyOut'];
+                                    fEnergy: FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_infrastructures[Count3].I_fEnOutput:=StrToFloat( XMLSavedGameItemSub4.Attributes['energyOut'], FCVdiFormat );
 
                                     fHousing:
                                     begin
@@ -778,7 +811,7 @@ begin
                                           if EnumIndex=-1
                                           then raise Exception.Create( 'bad gamesave loading w/infra prod mode type: '+XMLSavedGameItemSub5.Attributes['prodModeType'] );
                                           FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_infrastructures[Count3].I_fProdProductionMode[Count4].PM_isDisabled:=XMLSavedGameItemSub5.Attributes['isDisabled'];
-                                          FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_infrastructures[Count3].I_fProdProductionMode[Count4].PM_energyConsumption:=XMLSavedGameItemSub5.Attributes['energyCons'];
+                                          FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_infrastructures[Count3].I_fProdProductionMode[Count4].PM_energyConsumption:=StrToFloat( XMLSavedGameItemSub5.Attributes['energyCons'], FCVdiFormat );
                                           FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_infrastructures[Count3].I_fProdProductionMode[Count4].PM_matrixItemMax:=XMLSavedGameItemSub5.Attributes['matrixItemMax'];
                                           Count5:=0;
                                           XMLSavedGameItemSub6:=XMLSavedGameItemSub5.ChildNodes.First;
@@ -838,7 +871,7 @@ begin
                               FCDdgEntities[Count].E_colonies[Count1].C_productionMatrix[Count2].PM_storage:=TFCEdipStorageTypes(EnumIndex);
                               if EnumIndex=-1
                               then raise Exception.Create( 'bad gamesave loading w/production matrix item storage type: '+XMLSavedGameItemSub3.Attributes['storageType'] );
-                              FCDdgEntities[Count].E_colonies[Count1].C_productionMatrix[Count2].PM_globalProductionFlow:=XMLSavedGameItemSub3.Attributes['globalProdFlow'];
+                              FCDdgEntities[Count].E_colonies[Count1].C_productionMatrix[Count2].PM_globalProductionFlow:=StrToFloat( XMLSavedGameItemSub3.Attributes['globalProdFlow'], FCVdiFormat );
                               Count3:=0;
                               XMLSavedGameItemSub4:=XMLSavedGameItemSub3.ChildNodes.First;
                               while XMLSavedGameItemSub4<>nil do
@@ -849,7 +882,7 @@ begin
                                  FCDdgEntities[Count].E_colonies[Count1].C_productionMatrix[Count2].PM_productionModes[Count3].PM_locationInfrastructure:=XMLSavedGameItemSub4.Attributes['locInfra'];
                                  FCDdgEntities[Count].E_colonies[Count1].C_productionMatrix[Count2].PM_productionModes[Count3].PM_locationProductionModeIndex:=XMLSavedGameItemSub4.Attributes['locPModeIndex'];
                                  FCDdgEntities[Count].E_colonies[Count1].C_productionMatrix[Count2].PM_productionModes[Count3].PM_isDisabledByProductionSegment:=XMLSavedGameItemSub4.Attributes['isDisabledPS'];
-                                 FCDdgEntities[Count].E_colonies[Count1].C_productionMatrix[Count2].PM_productionModes[Count3].PM_productionFlow:=XMLSavedGameItemSub4.Attributes['prodFlow'];
+                                 FCDdgEntities[Count].E_colonies[Count1].C_productionMatrix[Count2].PM_productionModes[Count3].PM_productionFlow:=StrToFloat( XMLSavedGameItemSub4.Attributes['prodFlow'], FCVdiFormat );
                                  XMLSavedGameItemSub4:=XMLSavedGameItemSub4.NextSibling;
                               end;
                               XMLSavedGameItemSub3:=XMLSavedGameItemSub3.NextSibling;
@@ -859,14 +892,14 @@ begin
                         else if XMLSavedGameItemSub2.NodeName='colStorage'
                         then
                         begin
-                           FCDdgEntities[Count].E_colonies[Count1].C_storageCapacitySolidCurrent:=XMLSavedGameItemSub2.Attributes['capSolidCur'];
-                           FCDdgEntities[Count].E_colonies[Count1].C_storageCapacitySolidMax:=XMLSavedGameItemSub2.Attributes['capSolidMax'];
-                           FCDdgEntities[Count].E_colonies[Count1].C_storageCapacityLiquidCurrent:=XMLSavedGameItemSub2.Attributes['capLiquidCur'];
-                           FCDdgEntities[Count].E_colonies[Count1].C_storageCapacityLiquidMax:=XMLSavedGameItemSub2.Attributes['capLiquidMax'];
-                           FCDdgEntities[Count].E_colonies[Count1].C_storageCapacityGasCurrent:=XMLSavedGameItemSub2.Attributes['capGasCur'];
-                           FCDdgEntities[Count].E_colonies[Count1].C_storageCapacityGasMax:=XMLSavedGameItemSub2.Attributes['capGasMax'];
-                           FCDdgEntities[Count].E_colonies[Count1].C_storageCapacityBioCurrent:=XMLSavedGameItemSub2.Attributes['capBioCur'];
-                           FCDdgEntities[Count].E_colonies[Count1].C_storageCapacityBioMax:=XMLSavedGameItemSub2.Attributes['capBioMax'];
+                           FCDdgEntities[Count].E_colonies[Count1].C_storageCapacitySolidCurrent:=StrToFloat( XMLSavedGameItemSub2.Attributes['capSolidCur'], FCVdiFormat );
+                           FCDdgEntities[Count].E_colonies[Count1].C_storageCapacitySolidMax:=StrToFloat( XMLSavedGameItemSub2.Attributes['capSolidMax'], FCVdiFormat );
+                           FCDdgEntities[Count].E_colonies[Count1].C_storageCapacityLiquidCurrent:=StrToFloat( XMLSavedGameItemSub2.Attributes['capLiquidCur'], FCVdiFormat );
+                           FCDdgEntities[Count].E_colonies[Count1].C_storageCapacityLiquidMax:=StrToFloat( XMLSavedGameItemSub2.Attributes['capLiquidMax'], FCVdiFormat );
+                           FCDdgEntities[Count].E_colonies[Count1].C_storageCapacityGasCurrent:=StrToFloat( XMLSavedGameItemSub2.Attributes['capGasCur'], FCVdiFormat );
+                           FCDdgEntities[Count].E_colonies[Count1].C_storageCapacityGasMax:=StrToFloat( XMLSavedGameItemSub2.Attributes['capGasMax'], FCVdiFormat );
+                           FCDdgEntities[Count].E_colonies[Count1].C_storageCapacityBioCurrent:=StrToFloat( XMLSavedGameItemSub2.Attributes['capBioCur'], FCVdiFormat );
+                           FCDdgEntities[Count].E_colonies[Count1].C_storageCapacityBioMax:=StrToFloat( XMLSavedGameItemSub2.Attributes['capBioMax'], FCVdiFormat );
                            Count2:=0;
                            XMLSavedGameItemSub3:=XMLSavedGameItemSub2.ChildNodes.First;
                            while XMLSavedGameItemSub3<>nil do
@@ -874,7 +907,7 @@ begin
                               inc( Count2 );
                               SetLength( FCDdgEntities[Count].E_colonies[Count1].C_storedProducts, Count2+1 );
                               FCDdgEntities[Count].E_colonies[Count1].C_storedProducts[Count2].SP_token:=XMLSavedGameItemSub3.Attributes['token'];
-                              FCDdgEntities[Count].E_colonies[Count1].C_storedProducts[Count2].SP_unit:=XMLSavedGameItemSub3.Attributes['unit'];
+                              FCDdgEntities[Count].E_colonies[Count1].C_storedProducts[Count2].SP_unit:=StrToFloat( XMLSavedGameItemSub3.Attributes['unit'], FCVdiFormat );
                               XMLSavedGameItemSub3:=XMLSavedGameItemSub3.NextSibling;
                            end;
                         end
@@ -925,7 +958,10 @@ begin
                      end
                      else if not FCDdgEntities[Count].E_spmSettings[Count1].SPMS_isPolicy then
                      begin
-                        FCDdgEntities[Count].E_spmSettings[Count1].SPMS_iPtBeliefLevel:=XMLSavedGameItemSub1.Attributes['belieflvl'];
+                        EnumIndex:=GetEnumValue( TypeInfo( TFCEdgBeliefLevels ), XMLSavedGameItemSub1.Attributes['belieflvl'] );
+                        FCDdgEntities[Count].E_spmSettings[Count1].SPMS_iPtBeliefLevel:=TFCEdgBeliefLevels( EnumIndex );
+                        if EnumIndex=-1
+                        then raise Exception.Create( 'bad gamesave loading w/meme belief level: '+XMLSavedGameItemSub1.Attributes['belieflvl'] );
                         FCDdgEntities[Count].E_spmSettings[Count1].SPMS_iPtSpreadValue:=XMLSavedGameItemSub1.Attributes['spreadval'];
                      end;
                      XMLSavedGameItemSub1:=XMLSavedGameItemSub1.NextSibling;
