@@ -239,6 +239,7 @@ begin
       +'-'+IntToStr( FCVdgPlayer.P_currentTimeDay )
       +'-'+IntToStr( FCVdgPlayer.P_currentTimeHour )
       +'-'+IntToStr( FCVdgPlayer.P_currentTimeMinut )
+      +'-'+IntToStr( FCVdgPlayer.P_currentTimeTick )
       +'.xml';
    if ( DirectoryExists( CurrentDirectory ) )
       and ( FileExists( CurrentDirectory+'\'+CurrentSavedGameFile ) ) then
@@ -1137,6 +1138,7 @@ begin
       +'-'+IntToStr( FCVdgPlayer.P_currentTimeDay )
       +'-'+IntToStr( FCVdgPlayer.P_currentTimeHour )
       +'-'+IntToStr( FCVdgPlayer.P_currentTimeMinut )
+      +'-'+IntToStr( FCVdgPlayer.P_currentTimeTick )
       +'.xml';
    {.create the save directory if needed}
    if not DirectoryExists( CurrentDirectory )
@@ -1756,26 +1758,19 @@ procedure FCMdFSG_Game_SaveAndFlushOther;
 {:Purpose: save the current game and flush all other save game files than the current one.
     Additions:
       -2012Aug19- *code audit:
-                     (o)var formatting + refactoring     (-)if..then reformatting   (-)function/procedure refactoring
-                     (-)parameters refactoring           (-) ()reformatting         (-)code optimizations
-                     (-)float local variables=> extended (-)case..of reformatting   (-)local methods
-                     (-)summary completion               (-)protect all float add/sub w/ FCFcFunc_Rnd
-                     (-)standardize internal data + commenting them at each use as a result (like Count1 / Count2 ...)
-                     (-)put [format x.xx ] in returns of summary, if required and if the function do formatting
-                     (-)use of enumindex                 (-)use of StrToFloat( x, FCVdiFormat ) for all float data
-                     (-)if the procedure reset the same record's data or external data put:
+                     (x)var formatting + refactoring     (x)if..then reformatting   (_)function/procedure refactoring
+                     (_)parameters refactoring           (x) ()reformatting         (x)code optimizations
+                     (_)float local variables=> extended (_)case..of reformatting   (_)local methods
+                     (_)summary completion               (_)protect all float add/sub w/ FCFcFunc_Rnd
+                     (_)standardize internal data + commenting them at each use as a result (like Count1 / Count2 ...)
+                     (_)put [format x.xx ] in returns of summary, if required and if the function do formatting
+                     (_)use of enumindex                 (_)use of StrToFloat( x, FCVdiFormat ) for all float data
+                     (_)if the procedure reset the same record's data or external data put:
                      ///   <remarks>the procedure/function reset the /data/</remarks>
 }
    var
-      SFOtimeDay
-      ,SFOtimeHr
-      ,SFOtimeMin
-      ,SFOtimeMth
-      ,SFOtimeTick
-      ,SFOtimeYr: integer;
-
-      SFOcurrDir
-      ,SFOcurrG: string;
+      CurrentDirectory
+      ,CurrentGameFile: string;
 
       XMLCurrentGame: IXMLNode;
 begin
@@ -1785,34 +1780,36 @@ begin
       {.read the document}
       FCWinMain.FCXMLcfg.FileName:=FCVdiPathConfigFile;
       FCWinMain.FCXMLcfg.Active:=true;
+      CurrentGameFile:='';
       XMLCurrentGame:=FCWinMain.FCXMLcfg.DocumentElement.ChildNodes.FindNode('currGame');
-      if XMLCurrentGame<>nil
-      then
+      if XMLCurrentGame<>nil then
       begin
-         SFOtimeTick:=XMLCurrentGame.Attributes['tfTick'];
-         SFOtimeMin:=XMLCurrentGame.Attributes['tfMin'];
-         SFOtimeHr:=XMLCurrentGame.Attributes['tfHr'];
-         SFOtimeDay:=XMLCurrentGame.Attributes['tfDay'];
-         SFOtimeMth:=XMLCurrentGame.Attributes['tfMth'];
-         SFOtimeYr:=XMLCurrentGame.Attributes['tfYr'];
+         CurrentGameFile:=IntToStr( XMLCurrentGame.Attributes['tfYr'] )
+            +'-'+IntToStr( XMLCurrentGame.Attributes['tfMth'] )
+            +'-'+IntToStr( XMLCurrentGame.Attributes['tfDay'] )
+            +'-'+IntToStr( XMLCurrentGame.Attributes['tfHr'] )
+            +'-'+IntToStr( XMLCurrentGame.Attributes['tfMin'] )
+            +'-'+IntToStr( XMLCurrentGame.Attributes['tfTick'] )
+            +'.xml';
       end;
       {.free the memory}
       FCWinMain.FCXMLcfg.Active:=false;
       FCWinMain.FCXMLcfg.FileName:='';
-      SFOcurrDir:=FCVdiPathConfigDir+'SavedGames\'+FCVdgPlayer.P_gameName;
-      SFOcurrG:=IntToStr(SFOtimeYr)
-         +'-'+IntToStr(SFOtimeMth)
-         +'-'+IntToStr(SFOtimeDay)
-         +'-'+IntToStr(SFOtimeHr)
-         +'-'+IntToStr(SFOtimeMin)
-         +'.xml';
-      if FileExists(SFOcurrDir+'\'+SFOcurrG)
-      then
+      CurrentDirectory:=FCVdiPathConfigDir+'SavedGames\'+FCVdgPlayer.P_gameName;
+      if FileExists( CurrentDirectory+'\'+CurrentGameFile ) then
       begin
-         CopyFile(pchar(SFOcurrDir+'\'+SFOcurrG),pchar(FCVdiPathConfigDir+SFOcurrG),false);
-         FCMcF_Files_Del(SFOcurrDir+'\','*.*');
-         CopyFile(pchar(FCVdiPathConfigDir+SFOcurrG),pchar(SFOcurrDir+'\'+SFOcurrG),false);
-         DeleteFile(pchar(FCVdiPathConfigDir+SFOcurrG));
+         CopyFile(
+            pchar( CurrentDirectory+'\'+CurrentGameFile )
+            ,pchar( FCVdiPathConfigDir+CurrentGameFile )
+            ,false
+            );
+         FCMcF_Files_Del( CurrentDirectory+'\', '*.*' );
+         CopyFile(
+            pchar( FCVdiPathConfigDir+CurrentGameFile )
+            ,pchar( CurrentDirectory+'\'+CurrentGameFile )
+            ,false
+            );
+         DeleteFile( pchar( FCVdiPathConfigDir+CurrentGameFile ) );
       end;
    end;
 end;
