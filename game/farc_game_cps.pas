@@ -323,8 +323,8 @@ function TFCcps.FCF_CredLineInterest_Get( const isUseARawValue: boolean): string
 begin
    Result:='';
    if not isUseARawValue
-   then Result:=FloatToStr(CPSint)+' %'
-   else Result:=FloatToStr(CPSint);
+   then Result:=FloatToStr( CPSint, FCVdiFormat )+' %'
+   else Result:=FloatToStr( CPSint, FCVdiFormat );
 end;
 
 function TFCcps.FCF_CredLineInterest_Get: extended;
