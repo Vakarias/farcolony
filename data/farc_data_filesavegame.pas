@@ -1613,8 +1613,7 @@ begin
                   Max3:=length( FCDdgEntities[Count].E_colonies[Count1].C_cabQueue[Count2] )-1;
                   if Max3>0 then
                   begin
-                     if XMLSavedGameItemSub3=nil
-                     then XMLSavedGameItemSub3:=XMLSavedGameItemSub2.AddChild( 'colCAB' );
+                     XMLSavedGameItemSub3:=XMLSavedGameItemSub2.AddChild( 'colCAB' );
                      Count3:=1;
                      while Count3<=Max3 do
                      begin
@@ -1739,9 +1738,9 @@ begin
       Count:=1;
       while Count<=Max-1 do
       begin
-         XMLSavedGameItem:=XMLSavedGameItem.AddChild( 'gfMsg' );
-         XMLSavedGameItem.Attributes['msgTitle']:=FCVmsgStoTtl[Count];
-         XMLSavedGameItem.Attributes['msgMain']:=FCVmsgStoMsg[Count];
+         XMLSavedGameItemSub:=XMLSavedGameItem.AddChild( 'gfMsg' );
+         XMLSavedGameItemSub.Attributes['msgTitle']:=FCVmsgStoTtl[Count];
+         XMLSavedGameItemSub.Attributes['msgMain']:=FCVmsgStoMsg[Count];
          inc( Count );
       end; {.while GScount<=GSlength-1}
    end; {.if GSlength>1 then}
