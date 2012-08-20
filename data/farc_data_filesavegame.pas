@@ -1008,7 +1008,7 @@ procedure FCMdFSG_Game_Save;
                      (_)summary completion               (_)protect all float add/sub w/ FCFcFunc_Rnd
                      (_)standardize internal data + commenting them at each use as a result (like Count1 / Count2 ...)
                      (_)put [format x.xx ] in returns of summary, if required and if the function do formatting
-                     (x)use of enumindex                 (_)use of StrToFloat( x, FCVdiFormat ) for all float data
+                     (x)use of enumindex                 (o)use of StrToFloat( x, FCVdiFormat ) for all float data
                      (_)if the procedure reset the same record's data or external data put:
                         ///   <remarks>the procedure/function reset the /data/</remarks>
       -2012May24- *add: CPS - Viability thresholds.
@@ -1193,7 +1193,7 @@ begin
          if FCcps.CPSviabObj[Count].CPSO_type=otEcoIndustrialForce then
          begin
             XMLSavedGameItemSub.Attributes['product']:=FCcps.CPSviabObj[Count].CPSO_ifProduct;
-            XMLSavedGameItemSub.Attributes['threshold']:=FCcps.CPSviabObj[Count].CPSO_ifThreshold;
+            XMLSavedGameItemSub.Attributes['threshold']:=FloatToStr( FCcps.CPSviabObj[Count].CPSO_ifThreshold, FCVdiFormat );
          end;
          inc( Count );
       end;
@@ -1220,15 +1220,15 @@ begin
          XMLSavedGameItemSub.Attributes['tipDestTp']:=GetEnumName( TypeInfo( TFCEdmtTaskTargets ), Integer( FCGtskListInProc[Count].TITP_destType ) );
          XMLSavedGameItemSub.Attributes['tipDestIdx']:=FCGtskListInProc[Count].TITP_destIdx;
          XMLSavedGameItemSub.Attributes['tipRegIdx']:=FCGtskListInProc[Count].TITP_regIdx;
-         XMLSavedGameItemSub.Attributes['tipVelCr']:=FCGtskListInProc[Count].TITP_velCruise;
+         XMLSavedGameItemSub.Attributes['tipVelCr']:=FloatToStr( FCGtskListInProc[Count].TITP_velCruise, FCVdiFormat );
          XMLSavedGameItemSub.Attributes['tipTimeTcr']:=FCGtskListInProc[Count].TITP_timeToCruise;
          XMLSavedGameItemSub.Attributes['tipTimeTdec']:=FCGtskListInProc[Count].TITP_timeDecel;
          XMLSavedGameItemSub.Attributes['tipTime2Xfrt']:=FCGtskListInProc[Count].TITP_time2xfert;
          XMLSavedGameItemSub.Attributes['tipTime2XfrtDec']:=FCGtskListInProc[Count].TITP_time2xfert2decel;
-         XMLSavedGameItemSub.Attributes['tipVelFin']:=FCGtskListInProc[Count].TITP_velFinal;
+         XMLSavedGameItemSub.Attributes['tipVelFin']:=FloatToStr( FCGtskListInProc[Count].TITP_velFinal, FCVdiFormat );
          XMLSavedGameItemSub.Attributes['tipTimeTfin']:=FCGtskListInProc[Count].TITP_timeToFinal;
-         XMLSavedGameItemSub.Attributes['tipAccelBtick']:=FCGtskListInProc[Count].TITP_accelbyTick;
-         XMLSavedGameItemSub.Attributes['tipUsedRM']:=FCGtskListInProc[Count].TITP_usedRMassV;
+         XMLSavedGameItemSub.Attributes['tipAccelBtick']:=FloatToStr( FCGtskListInProc[Count].TITP_accelbyTick, FCVdiFormat );
+         XMLSavedGameItemSub.Attributes['tipUsedRM']:=FloatToStr( FCGtskListInProc[Count].TITP_usedRMassV, FCVdiFormat );
          XMLSavedGameItemSub.Attributes['tipStr1']:=FCGtskListInProc[Count].TITP_str1;
          XMLSavedGameItemSub.Attributes['tipStr2']:=FCGtskListInProc[Count].TITP_str1;
          XMLSavedGameItemSub.Attributes['tipInt1']:=FCGtskListInProc[Count].TITP_int1;
@@ -1263,7 +1263,7 @@ begin
                begin
                   XMLSavedGameItemSub2:=XMLSavedGameItemSub1.AddChild( 'gfRsrcSpot' );
                   XMLSavedGameItemSub2.Attributes['spotType']:=GetEnumName(TypeInfo(TFCEduResourceSpotTypes), Integer(FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_surveyedRegions[Count1].SR_ResourceSpots[Count2].RS_type));
-                  XMLSavedGameItemSub2.Attributes['meanQualCoef']:=FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_surveyedRegions[Count1].SR_ResourceSpots[Count2].RS_meanQualityCoefficient;
+                  XMLSavedGameItemSub2.Attributes['meanQualCoef']:=FloatToStr( FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_surveyedRegions[Count1].SR_ResourceSpots[Count2].RS_meanQualityCoefficient, FCVdiFormat );
                   XMLSavedGameItemSub2.Attributes['spotSizCurr']:=FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_surveyedRegions[Count1].SR_ResourceSpots[Count2].RS_spotSizeCurrent;
                   XMLSavedGameItemSub2.Attributes['spotSizeMax']:=FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_surveyedRegions[Count1].SR_ResourceSpots[Count2].RS_spotSizeMax;
                   if FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_surveyedRegions[Count1].SR_ResourceSpots[Count2].RS_type=rstOreField then
@@ -1322,7 +1322,7 @@ begin
       XMLSavedGameItemSub.Attributes['bur']:=FCDdgEntities[Count].E_bureaucracy;
       XMLSavedGameItemSub.Attributes['corr']:=FCDdgEntities[Count].E_corruption;
       XMLSavedGameItemSub.Attributes['hqHlvl']:=GetEnumName( TypeInfo( TFCEdgHeadQuarterStatus ), Integer( FCDdgEntities[Count].E_hqHigherLevel ) );
-      XMLSavedGameItemSub.Attributes['UCrve']:=FCDdgEntities[Count].E_ucInAccount;
+      XMLSavedGameItemSub.Attributes['UCrve']:=FloatToStr( FCDdgEntities[Count].E_ucInAccount, FCVdiFormat );
       Max1:=Length( FCDdgEntities[Count].E_spaceUnits )-1;
       if Max1>0 then
       begin
@@ -1339,8 +1339,8 @@ begin
             XMLSavedGameItemSub2.Attributes['oobjLoc']:=FCDdgEntities[Count].E_spaceUnits[Count1].SU_locationOrbitalObject;
             XMLSavedGameItemSub2.Attributes['satLoc']:=FCDdgEntities[Count].E_spaceUnits[Count1].SU_locationSatellite;
             XMLSavedGameItemSub2.Attributes['TdObjIdx']:=FCDdgEntities[Count].E_spaceUnits[Count1].SU_linked3dObject;
-            XMLSavedGameItemSub2.Attributes['xLoc']:=FCDdgEntities[Count].E_spaceUnits[Count1].SU_locationViewX;
-            XMLSavedGameItemSub2.Attributes['zLoc']:=FCDdgEntities[Count].E_spaceUnits[Count1].SU_locationViewZ;
+            XMLSavedGameItemSub2.Attributes['xLoc']:=FloatToStr( FCDdgEntities[Count].E_spaceUnits[Count1].SU_locationViewX, FCVdiFormat );
+            XMLSavedGameItemSub2.Attributes['zLoc']:=FloatToStr( FCDdgEntities[Count].E_spaceUnits[Count1].SU_locationViewZ, FCVdiFormat );
             Max2:=length( FCDdgEntities[Count].E_spaceUnits[Count1].SU_dockedSpaceUnits )-1;
             XMLSavedGameItemSub2.Attributes['docked']:=Max2;
             Count2:=1;
@@ -1352,9 +1352,9 @@ begin
             end;
             XMLSavedGameItemSub2.Attributes['taskId']:=FCDdgEntities[Count].E_spaceUnits[Count1].SU_assignedTask;
             XMLSavedGameItemSub2.Attributes['status']:=GetEnumName( TypeInfo( TFCEdgSpaceUnitStatus ), Integer( FCDdgEntities[Count].E_spaceUnits[Count1].SU_status ) );
-            XMLSavedGameItemSub2.Attributes['dV']:=FCDdgEntities[Count].E_spaceUnits[Count1].SU_deltaV;
-            XMLSavedGameItemSub2.Attributes['TdMov']:=FCDdgEntities[Count].E_spaceUnits[Count1].SU_3dVelocity;
-            XMLSavedGameItemSub2.Attributes['availRMass']:=FCDdgEntities[Count].E_spaceUnits[Count1].SU_reactionMass;
+            XMLSavedGameItemSub2.Attributes['dV']:=FloatToStr( FCDdgEntities[Count].E_spaceUnits[Count1].SU_deltaV, FCVdiFormat );
+            XMLSavedGameItemSub2.Attributes['TdMov']:=FloatToStr( FCDdgEntities[Count].E_spaceUnits[Count1].SU_3dVelocity, FCVdiFormat );
+            XMLSavedGameItemSub2.Attributes['availRMass']:=FloatToStr( FCDdgEntities[Count].E_spaceUnits[Count1].SU_reactionMass, FCVdiFormat );
             inc( Count1 );
          end; {.while Count1<=GSspuMax}
       end; //==END== if GSspuMax>0 ==//
@@ -1382,22 +1382,22 @@ begin
             XMLSavedGameItemSub2.Attributes['dtens']:=FCDdgEntities[Count].E_colonies[Count1].C_tension;
             XMLSavedGameItemSub2.Attributes['dedu']:=FCDdgEntities[Count].E_colonies[Count1].C_instruction;
             XMLSavedGameItemSub2.Attributes['csmPCAP']:=FCDdgEntities[Count].E_colonies[Count1].C_csmHousing_PopulationCapacity;
-            XMLSavedGameItemSub2.Attributes['csmSPL']:=FCDdgEntities[Count].E_colonies[Count1].C_csmHousing_SpaceLevel;
+            XMLSavedGameItemSub2.Attributes['csmSPL']:=FloatToStr( FCDdgEntities[Count].E_colonies[Count1].C_csmHousing_SpaceLevel, FCVdiFormat );
             XMLSavedGameItemSub2.Attributes['csmQOL']:=FCDdgEntities[Count].E_colonies[Count1].C_csmHousing_QualityOfLife;
             XMLSavedGameItemSub2.Attributes['csmHEAL']:=FCDdgEntities[Count].E_colonies[Count1].C_csmHealth_HealthLevel;
-            XMLSavedGameItemSub2.Attributes['csmEnCons']:=FCDdgEntities[Count].E_colonies[Count1].C_csmEnergy_Consumption;
-            XMLSavedGameItemSub2.Attributes['csmEnGen']:=FCDdgEntities[Count].E_colonies[Count1].C_csmEnergy_Generation;
-            XMLSavedGameItemSub2.Attributes['csmEnStorCurr']:=FCDdgEntities[Count].E_colonies[Count1].C_csmEnergy_StorageCurrent;
-            XMLSavedGameItemSub2.Attributes['csmEnStorMax']:=FCDdgEntities[Count].E_colonies[Count1].C_csmEnergy_StorageMax;
+            XMLSavedGameItemSub2.Attributes['csmEnCons']:=FloatToStr( FCDdgEntities[Count].E_colonies[Count1].C_csmEnergy_Consumption, FCVdiFormat );
+            XMLSavedGameItemSub2.Attributes['csmEnGen']:=FloatToStr( FCDdgEntities[Count].E_colonies[Count1].C_csmEnergy_Generation, FCVdiFormat );
+            XMLSavedGameItemSub2.Attributes['csmEnStorCurr']:=FloatToStr( FCDdgEntities[Count].E_colonies[Count1].C_csmEnergy_StorageCurrent, FCVdiFormat );
+            XMLSavedGameItemSub2.Attributes['csmEnStorMax']:=FloatToStr( FCDdgEntities[Count].E_colonies[Count1].C_csmEnergy_StorageMax, FCVdiFormat );
             XMLSavedGameItemSub2.Attributes['eiOut']:=FCDdgEntities[Count].E_colonies[Count1].C_economicIndustrialOutput;
             {.colony population}
             XMLSavedGameItemSub3:=XMLSavedGameItemSub2.AddChild( 'colPopulation' );
             XMLSavedGameItemSub3.Attributes['popTtl']:=FCDdgEntities[Count].E_colonies[Count1].C_population.CP_total;
-            XMLSavedGameItemSub3.Attributes['popMeanAge']:=FCDdgEntities[Count].E_colonies[Count1].C_population.CP_meanAge;
-            XMLSavedGameItemSub3.Attributes['popDRate']:=FCDdgEntities[Count].E_colonies[Count1].C_population.CP_deathRate;
-            XMLSavedGameItemSub3.Attributes['popDStack']:=FCDdgEntities[Count].E_colonies[Count1].C_population.CP_deathStack;
-            XMLSavedGameItemSub3.Attributes['popBRate']:=FCDdgEntities[Count].E_colonies[Count1].C_population.CP_birthRate;
-            XMLSavedGameItemSub3.Attributes['popBStack']:=FCDdgEntities[Count].E_colonies[Count1].C_population.CP_birthStack;
+            XMLSavedGameItemSub3.Attributes['popMeanAge']:=FloatToStr( FCDdgEntities[Count].E_colonies[Count1].C_population.CP_meanAge, FCVdiFormat );
+            XMLSavedGameItemSub3.Attributes['popDRate']:=FloatToStr( FCDdgEntities[Count].E_colonies[Count1].C_population.CP_deathRate, FCVdiFormat );
+            XMLSavedGameItemSub3.Attributes['popDStack']:=FloatToStr( FCDdgEntities[Count].E_colonies[Count1].C_population.CP_deathStack, FCVdiFormat );
+            XMLSavedGameItemSub3.Attributes['popBRate']:=FloatToStr( FCDdgEntities[Count].E_colonies[Count1].C_population.CP_birthRate, FCVdiFormat );
+            XMLSavedGameItemSub3.Attributes['popBStack']:=FloatToStr( FCDdgEntities[Count].E_colonies[Count1].C_population.CP_birthStack, FCVdiFormat );
             XMLSavedGameItemSub3.Attributes['popColon']:=FCDdgEntities[Count].E_colonies[Count1].C_population.CP_classColonist;
             XMLSavedGameItemSub3.Attributes['popColonAssign']:=FCDdgEntities[Count].E_colonies[Count1].C_population.CP_classColonistAssigned;
             XMLSavedGameItemSub3.Attributes['popOff']:=FCDdgEntities[Count].E_colonies[Count1].C_population.CP_classAerOfficer;
@@ -1428,7 +1428,7 @@ begin
             XMLSavedGameItemSub3.Attributes['popMedianAssign']:=FCDdgEntities[Count].E_colonies[Count1].C_population.CP_classAdmMedianAssigned;
             XMLSavedGameItemSub3.Attributes['popRebels']:=FCDdgEntities[Count].E_colonies[Count1].C_population.CP_classRebels;
             XMLSavedGameItemSub3.Attributes['popMilitia']:=FCDdgEntities[Count].E_colonies[Count1].C_population.CP_classMilitia;
-            XMLSavedGameItemSub3.Attributes['wcpTotal']:=FCDdgEntities[Count].E_colonies[Count1].C_population.CP_CWPtotal;
+            XMLSavedGameItemSub3.Attributes['wcpTotal']:=FloatToStr( FCDdgEntities[Count].E_colonies[Count1].C_population.CP_CWPtotal, FCVdiFormat );
             XMLSavedGameItemSub3.Attributes['wcpAssignPpl']:=FCDdgEntities[Count].E_colonies[Count1].C_population.CP_CWPassignedPeople;
             {.colony events}
             Max2:=length( FCDdgEntities[Count].E_colonies[Count1].C_events );
@@ -1515,7 +1515,7 @@ begin
                         XMLSavedGameItemSub4.Attributes['modTension']:=FCDdgEntities[Count].E_colonies[Count1].C_events[Count2].CCSME_tFShTensionMod;
                         XMLSavedGameItemSub4.Attributes['modHealth']:=FCDdgEntities[Count].E_colonies[Count1].C_events[Count2].CCSME_tFShHealthMod;
                         XMLSavedGameItemSub4.Attributes['directDeathPeriod']:=FCDdgEntities[Count].E_colonies[Count1].C_events[Count2].CCSME_tFShDirectDeathPeriod;
-                        XMLSavedGameItemSub4.Attributes['deathFracValue']:=FCDdgEntities[Count].E_colonies[Count1].C_events[Count2].CCSME_tFShDeathFractionalValue;
+                        XMLSavedGameItemSub4.Attributes['deathFracValue']:=FloatToStr( FCDdgEntities[Count].E_colonies[Count1].C_events[Count2].CCSME_tFShDeathFractionalValue, FCVdiFormat );
                      end;
                   end; //==END== case FCentities[GScount].E_col[Count1].COL_evList[Count2].CSMEV_token of ==//
                   XMLSavedGameItemSub4.Attributes['isres']:=FCDdgEntities[Count].E_colonies[Count1].C_events[Count2].CCSME_isResident;
@@ -1548,13 +1548,13 @@ begin
                         GetEnumName( TypeInfo( TFCEdgInfrastructureStatus ), Integer( FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_infrastructures[Count3].I_status ) );
                      XMLSavedGameItemSub5.Attributes['CABduration']:=FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_infrastructures[Count3].I_cabDuration;
                      XMLSavedGameItemSub5.Attributes['CABworked']:=FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_infrastructures[Count3].I_cabWorked;
-                     XMLSavedGameItemSub5.Attributes['powerCons']:=FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_infrastructures[Count3].I_powerConsumption;
-                     XMLSavedGameItemSub5.Attributes['powerGencFx']:=FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_infrastructures[Count3].I_powerGeneratedFromCustomEffect;
+                     XMLSavedGameItemSub5.Attributes['powerCons']:=FloatToStr( FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_infrastructures[Count3].I_powerConsumption, FCVdiFormat );
+                     XMLSavedGameItemSub5.Attributes['powerGencFx']:=FloatToStr( FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_infrastructures[Count3].I_powerGeneratedFromCustomEffect, FCVdiFormat );
                      XMLSavedGameItemSub5.Attributes['Func']:= GetEnumName( TypeInfo( TFCEdipFunctions ), Integer( FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_infrastructures[Count3].I_function ) );
                      case FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_infrastructures[Count3].I_function of
                         fEnergy:
                         begin
-                           XMLSavedGameItemSub5.Attributes['energyOut']:=FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_infrastructures[Count3].I_fEnOutput;
+                           XMLSavedGameItemSub5.Attributes['energyOut']:=FloatToStr( FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_infrastructures[Count3].I_fEnOutput, FCVdiFormat );
                         end;
 
                         fHousing:
@@ -1584,7 +1584,7 @@ begin
                                     FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_infrastructures[Count3].I_fProdProductionMode[Count4].PM_type
                                     ) );
                                  XMLSavedGameItemSub6.Attributes['isDisabled']:=FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_infrastructures[Count3].I_fProdProductionMode[Count4].PM_isDisabled;
-                                 XMLSavedGameItemSub6.Attributes['energyCons']:=FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_infrastructures[Count3].I_fProdProductionMode[Count4].PM_energyConsumption;
+                                 XMLSavedGameItemSub6.Attributes['energyCons']:=FloatToStr( FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_infrastructures[Count3].I_fProdProductionMode[Count4].PM_energyConsumption, FCVdiFormat );
                                  XMLSavedGameItemSub6.Attributes['matrixItemMax']:=FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_infrastructures[Count3].I_fProdProductionMode[Count4].PM_matrixItemMax;
                                  Count5:=1;
                                  while Count5<=FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_infrastructures[Count3].I_fProdProductionMode[Count4].PM_matrixItemMax do
@@ -1637,7 +1637,7 @@ begin
                      XMLSavedGameItemSub4.Attributes['token']:=FCDdgEntities[Count].E_colonies[Count1].C_productionMatrix[Count2].PM_productToken;
                      XMLSavedGameItemSub4.Attributes['storIdx']:=FCDdgEntities[Count].E_colonies[Count1].C_productionMatrix[Count2].PM_storageIndex;
                      XMLSavedGameItemSub4.Attributes['storageType']:=GetEnumName( TypeInfo( TFCEdipStorageTypes ), Integer( FCDdgEntities[Count].E_colonies[Count1].C_productionMatrix[Count2].PM_storage ) );
-                     XMLSavedGameItemSub4.Attributes['globalProdFlow']:=FCDdgEntities[Count].E_colonies[Count1].C_productionMatrix[Count2].PM_globalProductionFlow;
+                     XMLSavedGameItemSub4.Attributes['globalProdFlow']:=FloatToStr( FCDdgEntities[Count].E_colonies[Count1].C_productionMatrix[Count2].PM_globalProductionFlow, FCVdiFormat );
                      Max3:=length(FCDdgEntities[Count].E_colonies[Count1].C_productionMatrix[Count2].PM_productionModes)-1;
                      if Max3>0 then
                      begin
@@ -1649,7 +1649,7 @@ begin
                            XMLSavedGameItemSub5.Attributes['locInfra']:=FCDdgEntities[Count].E_colonies[Count1].C_productionMatrix[Count2].PM_productionModes[Count3].PM_locationInfrastructure;
                            XMLSavedGameItemSub5.Attributes['locPModeIndex']:=FCDdgEntities[Count].E_colonies[Count1].C_productionMatrix[Count2].PM_productionModes[Count3].PM_locationProductionModeIndex;
                            XMLSavedGameItemSub5.Attributes['isDisabledPS']:=FCDdgEntities[Count].E_colonies[Count1].C_productionMatrix[Count2].PM_productionModes[Count3].PM_isDisabledByProductionSegment;
-                           XMLSavedGameItemSub5.Attributes['prodFlow']:=FCDdgEntities[Count].E_colonies[Count1].C_productionMatrix[Count2].PM_productionModes[Count3].PM_productionFlow;
+                           XMLSavedGameItemSub5.Attributes['prodFlow']:=FloatToStr( FCDdgEntities[Count].E_colonies[Count1].C_productionMatrix[Count2].PM_productionModes[Count3].PM_productionFlow, FCVdiFormat );
                            inc( Count3 );
                         end;
                      end;
@@ -1658,14 +1658,14 @@ begin
                end;
                {.storage}
                XMLSavedGameItemSub3:=XMLSavedGameItemSub2.AddChild( 'colStorage' );
-               XMLSavedGameItemSub3.Attributes['capSolidCur']:=FCDdgEntities[Count].E_colonies[Count1].C_storageCapacitySolidCurrent;
-               XMLSavedGameItemSub3.Attributes['capSolidMax']:=FCDdgEntities[Count].E_colonies[Count1].C_storageCapacitySolidMax;
-               XMLSavedGameItemSub3.Attributes['capLiquidCur']:=FCDdgEntities[Count].E_colonies[Count1].C_storageCapacityLiquidCurrent;
-               XMLSavedGameItemSub3.Attributes['capLiquidMax']:=FCDdgEntities[Count].E_colonies[Count1].C_storageCapacityLiquidMax;
-               XMLSavedGameItemSub3.Attributes['capGasCur']:=FCDdgEntities[Count].E_colonies[Count1].C_storageCapacityGasCurrent;
-               XMLSavedGameItemSub3.Attributes['capGasMax']:=FCDdgEntities[Count].E_colonies[Count1].C_storageCapacityGasMax;
-               XMLSavedGameItemSub3.Attributes['capBioCur']:=FCDdgEntities[Count].E_colonies[Count1].C_storageCapacityBioCurrent;
-               XMLSavedGameItemSub3.Attributes['capBioMax']:=FCDdgEntities[Count].E_colonies[Count1].C_storageCapacityBioMax;
+               XMLSavedGameItemSub3.Attributes['capSolidCur']:=FloatToStr( FCDdgEntities[Count].E_colonies[Count1].C_storageCapacitySolidCurrent, FCVdiFormat );
+               XMLSavedGameItemSub3.Attributes['capSolidMax']:=FloatToStr( FCDdgEntities[Count].E_colonies[Count1].C_storageCapacitySolidMax, FCVdiFormat );
+               XMLSavedGameItemSub3.Attributes['capLiquidCur']:=FloatToStr( FCDdgEntities[Count].E_colonies[Count1].C_storageCapacityLiquidCurrent, FCVdiFormat );
+               XMLSavedGameItemSub3.Attributes['capLiquidMax']:=FloatToStr( FCDdgEntities[Count].E_colonies[Count1].C_storageCapacityLiquidMax, FCVdiFormat );
+               XMLSavedGameItemSub3.Attributes['capGasCur']:=FloatToStr( FCDdgEntities[Count].E_colonies[Count1].C_storageCapacityGasCurrent, FCVdiFormat );
+               XMLSavedGameItemSub3.Attributes['capGasMax']:=FloatToStr( FCDdgEntities[Count].E_colonies[Count1].C_storageCapacityGasMax, FCVdiFormat );
+               XMLSavedGameItemSub3.Attributes['capBioCur']:=FloatToStr( FCDdgEntities[Count].E_colonies[Count1].C_storageCapacityBioCurrent, FCVdiFormat );
+               XMLSavedGameItemSub3.Attributes['capBioMax']:=FloatToStr( FCDdgEntities[Count].E_colonies[Count1].C_storageCapacityBioMax, FCVdiFormat );
                Max2:=length( FCDdgEntities[Count].E_colonies[Count1].C_storedProducts )-1;
                if Max2>0 then
                begin
@@ -1674,7 +1674,7 @@ begin
                   begin
                      XMLSavedGameItemSub4:=XMLSavedGameItemSub3.AddChild( 'storItem'+IntToStr( Count2 ) );
                      XMLSavedGameItemSub4.Attributes['token']:=FCDdgEntities[Count].E_colonies[Count1].C_storedProducts[Count2].SP_token;
-                     XMLSavedGameItemSub4.Attributes['unit']:=FCDdgEntities[Count].E_colonies[Count1].C_storedProducts[Count2].SP_unit;
+                     XMLSavedGameItemSub4.Attributes['unit']:=FloatToStr( FCDdgEntities[Count].E_colonies[Count1].C_storedProducts[Count2].SP_unit, FCVdiFormat );
                      inc( Count2 );
                   end;
                end;
@@ -1755,19 +1755,29 @@ end;
 procedure FCMdFSG_Game_SaveAndFlushOther;
 {:Purpose: save the current game and flush all other save game files than the current one.
     Additions:
+      -2012Aug19- *code audit:
+                     (o)var formatting + refactoring     (-)if..then reformatting   (-)function/procedure refactoring
+                     (-)parameters refactoring           (-) ()reformatting         (-)code optimizations
+                     (-)float local variables=> extended (-)case..of reformatting   (-)local methods
+                     (-)summary completion               (-)protect all float add/sub w/ FCFcFunc_Rnd
+                     (-)standardize internal data + commenting them at each use as a result (like Count1 / Count2 ...)
+                     (-)put [format x.xx ] in returns of summary, if required and if the function do formatting
+                     (-)use of enumindex                 (-)use of StrToFloat( x, FCVdiFormat ) for all float data
+                     (-)if the procedure reset the same record's data or external data put:
+                     ///   <remarks>the procedure/function reset the /data/</remarks>
 }
-var
-   SFOtimeDay
-   ,SFOtimeHr
-   ,SFOtimeMin
-   ,SFOtimeMth
-   ,SFOtimeTick
-   ,SFOtimeYr: integer;
+   var
+      SFOtimeDay
+      ,SFOtimeHr
+      ,SFOtimeMin
+      ,SFOtimeMth
+      ,SFOtimeTick
+      ,SFOtimeYr: integer;
 
-   SFOcurrDir
-   ,SFOcurrG: string;
+      SFOcurrDir
+      ,SFOcurrG: string;
 
-   SFOxmlCurrGame: IXMLNode;
+      XMLCurrentGame: IXMLNode;
 begin
    try
       FCMdFSG_Game_Save;
@@ -1775,16 +1785,16 @@ begin
       {.read the document}
       FCWinMain.FCXMLcfg.FileName:=FCVdiPathConfigFile;
       FCWinMain.FCXMLcfg.Active:=true;
-      SFOxmlCurrGame:=FCWinMain.FCXMLcfg.DocumentElement.ChildNodes.FindNode('currGame');
-      if SFOxmlCurrGame<>nil
+      XMLCurrentGame:=FCWinMain.FCXMLcfg.DocumentElement.ChildNodes.FindNode('currGame');
+      if XMLCurrentGame<>nil
       then
       begin
-         SFOtimeTick:=SFOxmlCurrGame.Attributes['tfTick'];
-         SFOtimeMin:=SFOxmlCurrGame.Attributes['tfMin'];
-         SFOtimeHr:=SFOxmlCurrGame.Attributes['tfHr'];
-         SFOtimeDay:=SFOxmlCurrGame.Attributes['tfDay'];
-         SFOtimeMth:=SFOxmlCurrGame.Attributes['tfMth'];
-         SFOtimeYr:=SFOxmlCurrGame.Attributes['tfYr'];
+         SFOtimeTick:=XMLCurrentGame.Attributes['tfTick'];
+         SFOtimeMin:=XMLCurrentGame.Attributes['tfMin'];
+         SFOtimeHr:=XMLCurrentGame.Attributes['tfHr'];
+         SFOtimeDay:=XMLCurrentGame.Attributes['tfDay'];
+         SFOtimeMth:=XMLCurrentGame.Attributes['tfMth'];
+         SFOtimeYr:=XMLCurrentGame.Attributes['tfYr'];
       end;
       {.free the memory}
       FCWinMain.FCXMLcfg.Active:=false;
