@@ -1002,14 +1002,14 @@ procedure FCMdFSG_Game_Save;
 {:Purpose: save the current game.
     Additions:
       -2012Aug19- *code audit:
-                     (o)var formatting + refactoring     (-)if..then reformatting   (-)function/procedure refactoring
-                     (-)parameters refactoring           (-) ()reformatting         (o)code optimizations
-                     (-)float local variables=> extended (-)case..of reformatting   (-)local methods
-                     (-)summary completion               (-)protect all float add/sub w/ FCFcFunc_Rnd
-                     (-)standardize internal data + commenting them at each use as a result (like Count1 / Count2 ...)
-                     (-)put [format x.xx ] in returns of summary, if required and if the function do formatting
-                     (o)use of enumindex                 (-)use of StrToFloat( x, FCVdiFormat ) for all float data
-                     (-)if the procedure reset the same record's data or external data put:
+                     (x)var formatting + refactoring     (x)if..then reformatting   (_)function/procedure refactoring
+                     (_)parameters refactoring           (x) ()reformatting         (o)code optimizations
+                     (_)float local variables=> extended (x)case..of reformatting   (_)local methods
+                     (_)summary completion               (_)protect all float add/sub w/ FCFcFunc_Rnd
+                     (_)standardize internal data + commenting them at each use as a result (like Count1 / Count2 ...)
+                     (_)put [format x.xx ] in returns of summary, if required and if the function do formatting
+                     (x)use of enumindex                 (_)use of StrToFloat( x, FCVdiFormat ) for all float data
+                     (_)if the procedure reset the same record's data or external data put:
                         ///   <remarks>the procedure/function reset the /data/</remarks>
       -2012May24- *add: CPS - Viability thresholds.
       -2012May13- *add: CSM event: etRveFoodShortage, addition of the direct death period + death fractional value.
@@ -1104,60 +1104,53 @@ procedure FCMdFSG_Game_Save;
       -2009Nov08- *add owned space units.
 }
    var
-      GSxmlCSMpLsub
+      XMLSavedGame
+      ,XMLSavedGameItem
       ,XMLSavedGameItemSub
       ,XMLSavedGameItemSub1
       ,XMLSavedGameItemSub2
       ,XMLSavedGameItemSub3
       ,XMLSavedGameItemSub4
       ,XMLSavedGameItemSub5
-      ,XMLSavedGameItem
       ,XMLSavedGameItemSub6
-      ,XMLSavedGameItemSub7
-      ,GSxmlMsg
-      ,XMLSavedGame
-      ,GSxmlstorage
-      : IXMLNode;
+      ,XMLSavedGameItemSub7: IXMLNode;
 
       Count
       ,Count1
-      ,Max1
-      ,Max2
-      ,Max3
       ,Count2
       ,Count3
       ,Count4
       ,Count5
       ,Max
-      ,GSphItm
-      : integer;
+      ,Max1
+      ,Max2
+      ,Max3: integer;
 
       CurrentDirectory
-      ,CurrentSavedGameFile
-      : string;
+      ,CurrentSavedGameFile: string;
 begin
    if not FCWinMain.CloseQuery
-   then FCMgTFlow_FlowState_Set(tphPAUSE);
+   then FCMgTFlow_FlowState_Set( tphPAUSE );
    CurrentDirectory:=FCVdiPathConfigDir+'SavedGames\'+FCVdgPlayer.P_gameName;
-   CurrentSavedGameFile:=IntToStr(FCVdgPlayer.P_currentTimeYear)
-      +'-'+IntToStr(FCVdgPlayer.P_currentTimeMonth)
-      +'-'+IntToStr(FCVdgPlayer.P_currentTimeDay)
-      +'-'+IntToStr(FCVdgPlayer.P_currentTimeHour)
-      +'-'+IntToStr(FCVdgPlayer.P_currentTimeMinut)
+   CurrentSavedGameFile:=IntToStr( FCVdgPlayer.P_currentTimeYear )
+      +'-'+IntToStr( FCVdgPlayer.P_currentTimeMonth )
+      +'-'+IntToStr( FCVdgPlayer.P_currentTimeDay )
+      +'-'+IntToStr( FCVdgPlayer.P_currentTimeHour )
+      +'-'+IntToStr( FCVdgPlayer.P_currentTimeMinut )
       +'.xml';
    {.create the save directory if needed}
-   if not DirectoryExists(CurrentDirectory)
-   then MkDir(CurrentDirectory);
+   if not DirectoryExists( CurrentDirectory )
+   then MkDir( CurrentDirectory );
    {.clear the old file if it exists}
-   if FileExists(CurrentDirectory+'\'+CurrentSavedGameFile)
-   then DeleteFile(pchar(CurrentDirectory+'\'+CurrentSavedGameFile));
+   if FileExists( CurrentDirectory+'\'+CurrentSavedGameFile )
+   then DeleteFile( pchar( CurrentDirectory+'\'+CurrentSavedGameFile ) );
    FCMdF_ConfigurationFile_Save(true);
    {.link and activate TXMLDocument}
    FCWinMain.FCXMLsave.Active:=true;
    {.create the root node of the saved game file}
    XMLSavedGame:=FCWinMain.FCXMLsave.AddChild('savedgfile');
    {.create "main" item}
-   XMLSavedGameItem:=XMLSavedGame.AddChild('gfMain');
+   XMLSavedGameItem:=XMLSavedGame.AddChild( 'gfMain' );
    XMLSavedGameItem.Attributes['gName']:= FCVdgPlayer.P_gameName;
    XMLSavedGameItem.Attributes['facAlleg']:= FCVdgPlayer.P_allegianceFaction;
    XMLSavedGameItem.Attributes['plyrsSSLoc']:= FCVdgPlayer.P_viewStarSystem;
@@ -1165,7 +1158,7 @@ begin
    XMLSavedGameItem.Attributes['plyrsOObjLoc']:= FCVdgPlayer.P_viewOrbitalObject;
    XMLSavedGameItem.Attributes['plyrsatLoc']:=FCVdgPlayer.P_viewSatellite;
    {.create "timeframe" item}
-   XMLSavedGameItem:=XMLSavedGame.AddChild('gfTimeFr');
+   XMLSavedGameItem:=XMLSavedGame.AddChild( 'gfTimeFr' );
    XMLSavedGameItem.Attributes['tfTick']:= FCVdgPlayer.P_currentTimeTick;
    XMLSavedGameItem.Attributes['tfMin']:= FCVdgPlayer.P_currentTimeMinut;
    XMLSavedGameItem.Attributes['tfHr']:= FCVdgPlayer.P_currentTimeHour;
@@ -1173,7 +1166,7 @@ begin
    XMLSavedGameItem.Attributes['tfMth']:= FCVdgPlayer.P_currentTimeMonth;
    XMLSavedGameItem.Attributes['tfYr']:= FCVdgPlayer.P_currentTimeYear;
    {.create "status" item}
-   XMLSavedGameItem:=XMLSavedGame.AddChild('gfStatus');
+   XMLSavedGameItem:=XMLSavedGame.AddChild( 'gfStatus' );
    XMLSavedGameItem.Attributes['statEco']:=GetEnumName( TypeInfo( TFCEdgPlayerFactionStatus ), Integer( FCVdgPlayer.P_economicStatus ) );
    XMLSavedGameItem.Attributes['statEcoThr']:=FCVdgPlayer.P_economicViabilityThreshold;
    XMLSavedGameItem.Attributes['statSoc']:=GetEnumName( TypeInfo( TFCEdgPlayerFactionStatus ), Integer( FCVdgPlayer.P_socialStatus ) );
@@ -1181,21 +1174,20 @@ begin
    XMLSavedGameItem.Attributes['statSpMil']:=GetEnumName( TypeInfo( TFCEdgPlayerFactionStatus ), Integer( FCVdgPlayer.P_militaryStatus ) );
    XMLSavedGameItem.Attributes['statSpMilThr']:=FCVdgPlayer.P_militaryViabilityThreshold;
    {.create "cps" saved game item}
-   if FCcps<>nil
-   then
+   if FCcps<>nil then
    begin
-      Max:=length(FCcps.CPSviabObj);
-      XMLSavedGameItem:=XMLSavedGame.AddChild('gfCPS');
+      Max:=length( FCcps.CPSviabObj );
+      XMLSavedGameItem:=XMLSavedGame.AddChild( 'gfCPS' );
       XMLSavedGameItem.Attributes['cpsEnabled']:=FCcps.CPSisEnabled;
       XMLSavedGameItem.Attributes['cpsCVS']:=FCcps.FCF_CVS_Get;
-      XMLSavedGameItem.Attributes['cpsTlft']:=FCcps.FCF_TimeLeft_Get(true);
+      XMLSavedGameItem.Attributes['cpsTlft']:=FCcps.FCF_TimeLeft_Get( true );
       XMLSavedGameItem.Attributes['cpsInt']:=FCcps.FCF_CredLineInterest_Get;
-      XMLSavedGameItem.Attributes['cpsCredU']:=FCcps.FCF_CredLine_Get(true, true);
-      XMLSavedGameItem.Attributes['cpsCredM']:=FCcps.FCF_CredLine_Get(false, true);
+      XMLSavedGameItem.Attributes['cpsCredU']:=FCcps.FCF_CredLine_Get( true, true );
+      XMLSavedGameItem.Attributes['cpsCredM']:=FCcps.FCF_CredLine_Get( false, true );
       Count:=1;
       while Count<=Max-1 do
       begin
-         XMLSavedGameItemSub:=XMLSavedGameItem.AddChild('gfViabObj');
+         XMLSavedGameItemSub:=XMLSavedGameItem.AddChild( 'gfViabObj' );
          XMLSavedGameItemSub.Attributes['objTp']:=GetEnumName( TypeInfo( TFCEcpsoObjectiveTypes ), Integer( FCcps.CPSviabObj[Count].CPSO_type ) );
          XMLSavedGameItemSub.Attributes['score']:=FCcps.CPSviabObj[Count].CPSO_score;
          if FCcps.CPSviabObj[Count].CPSO_type=otEcoIndustrialForce then
@@ -1203,15 +1195,14 @@ begin
             XMLSavedGameItemSub.Attributes['product']:=FCcps.CPSviabObj[Count].CPSO_ifProduct;
             XMLSavedGameItemSub.Attributes['threshold']:=FCcps.CPSviabObj[Count].CPSO_ifThreshold;
          end;
-         inc(Count);
+         inc( Count );
       end;
    end; //==END== if FCcps<>nil ==//
    {.create "taskinprocess" saved game item}
    Max:=length(FCGtskListInProc);
-   if Max>1
-   then
+   if Max>1 then
    begin
-      XMLSavedGameItem:=XMLSavedGame.AddChild('gfTskLstinProc');
+      XMLSavedGameItem:=XMLSavedGame.AddChild( 'gfTskLstinProc' );
       Count:=1;
       while Count<=Max-1 do
       begin
@@ -1245,32 +1236,32 @@ begin
       end; {.while GScount<=GSlength-1}
    end; {.if GSlength>1 then... for taskinprocess}
    {.all surveyed resources}
-   Max:=length(FCVdgPlayer.P_surveyedResourceSpots);
+   Max:=length( FCVdgPlayer.P_surveyedResourceSpots );
    if Max>1 then
    begin
-      XMLSavedGameItem:=XMLSavedGame.AddChild('gfSurveyedResourceSpots');
+      XMLSavedGameItem:=XMLSavedGame.AddChild( 'gfSurveyedResourceSpots' );
       Count:=1;
       while Count<=Max-1 do
       begin
-         XMLSavedGameItemSub:=XMLSavedGameItem.AddChild('gfSpotLocation');
+         XMLSavedGameItemSub:=XMLSavedGameItem.AddChild( 'gfSpotLocation' );
          XMLSavedGameItemSub.Attributes['oobj']:=FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_orbitalObject_SatelliteToken;
          XMLSavedGameItemSub.Attributes['ssysIdx']:=FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_starSystem;
          XMLSavedGameItemSub.Attributes['starIdx']:=FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_star;
          XMLSavedGameItemSub.Attributes['oobjIdx']:=FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_orbitalObject;
          XMLSavedGameItemSub.Attributes['satIdx']:=FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_satellite;
-         Max1:=length(FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_surveyedRegions)-1;
+         Max1:=length( FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_surveyedRegions )-1;
          Count1:=1;
          while Count1<=Max1 do
          begin
-            Max2:=length(FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_surveyedRegions[Count1].SR_ResourceSpots)-1;
+            Max2:=length( FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_surveyedRegions[Count1].SR_ResourceSpots )-1;
             if Max2>0 then
             begin
-               XMLSavedGameItemSub1:=XMLSavedGameItemSub.AddChild('gfSpotRegion');
+               XMLSavedGameItemSub1:=XMLSavedGameItemSub.AddChild( 'gfSpotRegion' );
                XMLSavedGameItemSub1.Attributes['regionIdx']:=Count1;
                Count2:=1;
                while Count2<=Max2 do
                begin
-                  XMLSavedGameItemSub2:=XMLSavedGameItemSub1.AddChild('gfRsrcSpot');
+                  XMLSavedGameItemSub2:=XMLSavedGameItemSub1.AddChild( 'gfRsrcSpot' );
                   XMLSavedGameItemSub2.Attributes['spotType']:=GetEnumName(TypeInfo(TFCEduResourceSpotTypes), Integer(FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_surveyedRegions[Count1].SR_ResourceSpots[Count2].RS_type));
                   XMLSavedGameItemSub2.Attributes['meanQualCoef']:=FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_surveyedRegions[Count1].SR_ResourceSpots[Count2].RS_meanQualityCoefficient;
                   XMLSavedGameItemSub2.Attributes['spotSizCurr']:=FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_surveyedRegions[Count1].SR_ResourceSpots[Count2].RS_spotSizeCurrent;
@@ -1285,64 +1276,61 @@ begin
                   inc(Count2);
                end;
             end;
-            inc(Count1);
+            inc( Count1 );
          end;
-         inc(Count);
+         inc( Count );
       end; //==END== while Count<=Count1-1 do ==//
    end; //==END== if Count1>1 then... for surveyed resource spots ==//
    {.create "CSM" saved game item}
-   Max:=length(FCDdgCSMPhaseSchedule);
-   if Max>1
-   then
+   Max:=length( FCDdgCSMPhaseSchedule );
+   if Max>1 then
    begin
-      XMLSavedGameItem:=XMLSavedGame.AddChild('gfCSM');
+      XMLSavedGameItem:=XMLSavedGame.AddChild( 'gfCSM' );
       Count:=1;
       while Count<=Max-1 do
       begin
-         XMLSavedGameItemSub:=XMLSavedGameItem.AddChild('csmPhList');
+         XMLSavedGameItemSub:=XMLSavedGameItem.AddChild( 'csmPhList' );
          XMLSavedGameItemSub.Attributes['csmTick']:=FCDdgCSMPhaseSchedule[Count].CSMPS_ProcessAtTick;
          Count1:=0;
          while Count1<=FCCdiFactionsMax do
          begin
-            Max2:=length(FCDdgCSMPhaseSchedule[Count].CSMPS_colonies[Count1])-1;
+            Max2:=length( FCDdgCSMPhaseSchedule[Count].CSMPS_colonies[Count1] )-1;
             Count2:=1;
-            if Max2>0
-            then
+            if Max2>0 then
             begin
                while Count2<=Max2 do
                begin
-                  GSxmlCSMpLsub:=XMLSavedGameItemSub.AddChild('csmPhase');
-                  GSxmlCSMpLsub.Attributes['fac']:=Count1;
-                  GSxmlCSMpLsub.Attributes['colony']:=FCDdgCSMPhaseSchedule[Count].CSMPS_colonies[Count1, Count2];
-                  inc(Count2);
+                  XMLSavedGameItemSub1:=XMLSavedGameItemSub.AddChild( 'csmPhase' );
+                  XMLSavedGameItemSub1.Attributes['fac']:=Count1;
+                  XMLSavedGameItemSub1.Attributes['colony']:=FCDdgCSMPhaseSchedule[Count].CSMPS_colonies[Count1, Count2];
+                  inc( Count2 );
                end;
             end;
-            inc(Count1);
+            inc( Count1 );
          end;
-         inc(Count);
+         inc( Count );
       end; //==END== while GScount<=GSlength-1 ==//
    end; //==END== if GSlength>1 for CSM ==//
    {.create entities section}
-   XMLSavedGameItem:=XMLSavedGame.AddChild('gfEntities');
+   XMLSavedGameItem:=XMLSavedGame.AddChild( 'gfEntities' );
    Count:=0;
    while Count<=FCCdiFactionsMax do
    begin
-      XMLSavedGameItemSub:=XMLSavedGameItem.AddChild('entity');
+      XMLSavedGameItemSub:=XMLSavedGameItem.AddChild( 'entity' );
       XMLSavedGameItemSub.Attributes['token']:=FCDdgEntities[Count].E_token;
       XMLSavedGameItemSub.Attributes['lvl']:=FCDdgEntities[Count].E_factionLevel;
       XMLSavedGameItemSub.Attributes['bur']:=FCDdgEntities[Count].E_bureaucracy;
       XMLSavedGameItemSub.Attributes['corr']:=FCDdgEntities[Count].E_corruption;
       XMLSavedGameItemSub.Attributes['hqHlvl']:=GetEnumName( TypeInfo( TFCEdgHeadQuarterStatus ), Integer( FCDdgEntities[Count].E_hqHigherLevel ) );
       XMLSavedGameItemSub.Attributes['UCrve']:=FCDdgEntities[Count].E_ucInAccount;
-      Max1:=Length(FCDdgEntities[Count].E_spaceUnits)-1;
-      if Max1>0
-      then
+      Max1:=Length( FCDdgEntities[Count].E_spaceUnits )-1;
+      if Max1>0 then
       begin
-         XMLSavedGameItemSub1:=XMLSavedGameItemSub.AddChild('entOwnSpU');
+         XMLSavedGameItemSub1:=XMLSavedGameItemSub.AddChild( 'entOwnSpU' );
          Count1:=1;
          while Count1<=Max1 do
          begin
-            XMLSavedGameItemSub2:=XMLSavedGameItemSub1.AddChild('entSpU');
+            XMLSavedGameItemSub2:=XMLSavedGameItemSub1.AddChild( 'entSpU' );
             XMLSavedGameItemSub2.Attributes['tokenId']:=FCDdgEntities[Count].E_spaceUnits[Count1].SU_token;
             XMLSavedGameItemSub2.Attributes['tokenName']:=FCDdgEntities[Count].E_spaceUnits[Count1].SU_name;
             XMLSavedGameItemSub2.Attributes['desgnId']:=FCDdgEntities[Count].E_spaceUnits[Count1].SU_designToken;
@@ -1353,32 +1341,31 @@ begin
             XMLSavedGameItemSub2.Attributes['TdObjIdx']:=FCDdgEntities[Count].E_spaceUnits[Count1].SU_linked3dObject;
             XMLSavedGameItemSub2.Attributes['xLoc']:=FCDdgEntities[Count].E_spaceUnits[Count1].SU_locationViewX;
             XMLSavedGameItemSub2.Attributes['zLoc']:=FCDdgEntities[Count].E_spaceUnits[Count1].SU_locationViewZ;
-            Max2:=length(FCDdgEntities[Count].E_spaceUnits[Count1].SU_dockedSpaceUnits)-1;
+            Max2:=length( FCDdgEntities[Count].E_spaceUnits[Count1].SU_dockedSpaceUnits )-1;
             XMLSavedGameItemSub2.Attributes['docked']:=Max2;
             Count2:=1;
             while Count2<=Max2 do
             begin
-               XMLSavedGameItemSub3:=XMLSavedGameItemSub2.AddChild('entSpUdckd');
+               XMLSavedGameItemSub3:=XMLSavedGameItemSub2.AddChild( 'entSpUdckd' );
                XMLSavedGameItemSub3.Attributes['index']:=FCDdgEntities[Count].E_spaceUnits[Count1].SU_dockedSpaceUnits[Count2].SUDL_index;
-               inc(Count2);
+               inc( Count2 );
             end;
             XMLSavedGameItemSub2.Attributes['taskId']:=FCDdgEntities[Count].E_spaceUnits[Count1].SU_assignedTask;
             XMLSavedGameItemSub2.Attributes['status']:=GetEnumName( TypeInfo( TFCEdgSpaceUnitStatus ), Integer( FCDdgEntities[Count].E_spaceUnits[Count1].SU_status ) );
             XMLSavedGameItemSub2.Attributes['dV']:=FCDdgEntities[Count].E_spaceUnits[Count1].SU_deltaV;
             XMLSavedGameItemSub2.Attributes['TdMov']:=FCDdgEntities[Count].E_spaceUnits[Count1].SU_3dVelocity;
             XMLSavedGameItemSub2.Attributes['availRMass']:=FCDdgEntities[Count].E_spaceUnits[Count1].SU_reactionMass;
-            inc(Count1);
+            inc( Count1 );
          end; {.while Count1<=GSspuMax}
       end; //==END== if GSspuMax>0 ==//
-      Max1:=Length(FCDdgEntities[Count].E_colonies)-1;
-      if Max1>0
-      then
+      Max1:=Length( FCDdgEntities[Count].E_colonies )-1;
+      if Max1>0 then
       begin
-         XMLSavedGameItemSub1:=XMLSavedGameItemSub.AddChild('entColonies');
+         XMLSavedGameItemSub1:=XMLSavedGameItemSub.AddChild( 'entColonies' );
          Count1:=1;
          while Count1<=Max1 do
          begin
-            XMLSavedGameItemSub2:=XMLSavedGameItemSub1.AddChild('entColony');
+            XMLSavedGameItemSub2:=XMLSavedGameItemSub1.AddChild( 'entColony' );
             XMLSavedGameItemSub2.Attributes['prname']:=FCDdgEntities[Count].E_colonies[Count1].C_name;
             XMLSavedGameItemSub2.Attributes['fndyr']:=FCDdgEntities[Count].E_colonies[Count1].C_foundationDateYear;
             XMLSavedGameItemSub2.Attributes['fndmth']:=FCDdgEntities[Count].E_colonies[Count1].C_foundationDateMonth;
@@ -1404,7 +1391,7 @@ begin
             XMLSavedGameItemSub2.Attributes['csmEnStorMax']:=FCDdgEntities[Count].E_colonies[Count1].C_csmEnergy_StorageMax;
             XMLSavedGameItemSub2.Attributes['eiOut']:=FCDdgEntities[Count].E_colonies[Count1].C_economicIndustrialOutput;
             {.colony population}
-            XMLSavedGameItemSub3:=XMLSavedGameItemSub2.AddChild('colPopulation');
+            XMLSavedGameItemSub3:=XMLSavedGameItemSub2.AddChild( 'colPopulation' );
             XMLSavedGameItemSub3.Attributes['popTtl']:=FCDdgEntities[Count].E_colonies[Count1].C_population.CP_total;
             XMLSavedGameItemSub3.Attributes['popMeanAge']:=FCDdgEntities[Count].E_colonies[Count1].C_population.CP_meanAge;
             XMLSavedGameItemSub3.Attributes['popDRate']:=FCDdgEntities[Count].E_colonies[Count1].C_population.CP_deathRate;
@@ -1444,14 +1431,14 @@ begin
             XMLSavedGameItemSub3.Attributes['wcpTotal']:=FCDdgEntities[Count].E_colonies[Count1].C_population.CP_CWPtotal;
             XMLSavedGameItemSub3.Attributes['wcpAssignPpl']:=FCDdgEntities[Count].E_colonies[Count1].C_population.CP_CWPassignedPeople;
             {.colony events}
-            Max2:=length(FCDdgEntities[Count].E_colonies[Count1].C_events);
+            Max2:=length( FCDdgEntities[Count].E_colonies[Count1].C_events );
             if Max2>1 then
             begin
-               XMLSavedGameItemSub3:=XMLSavedGameItemSub2.AddChild('colEvents');
+               XMLSavedGameItemSub3:=XMLSavedGameItemSub2.AddChild( 'colEvents' );
                Count2:=1;
                while Count2<=Max2-1 do
                begin
-                  XMLSavedGameItemSub4:=XMLSavedGameItemSub3.AddChild('Event');
+                  XMLSavedGameItemSub4:=XMLSavedGameItemSub3.AddChild( 'Event' );
                   XMLSavedGameItemSub4.Attributes['token']:=GetEnumName( TypeInfo( TFCEdgColonyEvents ), Integer( FCDdgEntities[Count].E_colonies[Count1].C_events[Count2].CCSME_type ) );
                   case FCDdgEntities[Count].E_colonies[Count1].C_events[Count2].CCSME_type of
                      ceColonyEstablished:
@@ -1534,27 +1521,27 @@ begin
                   XMLSavedGameItemSub4.Attributes['isres']:=FCDdgEntities[Count].E_colonies[Count1].C_events[Count2].CCSME_isResident;
                   XMLSavedGameItemSub4.Attributes['duration']:=FCDdgEntities[Count].E_colonies[Count1].C_events[Count2].CCSME_durationWeeks;
                   XMLSavedGameItemSub4.Attributes['level']:=FCDdgEntities[Count].E_colonies[Count1].C_events[Count2].CCSME_level;
-                  inc(Count2);
+                  inc( Count2 );
                end; //==END== while Count2<=GSsubL-1 do ==//
             end; //==END== if GSsubL>1 ==//
             {.colony settlements}
-            Max2:=length(FCDdgEntities[Count].E_colonies[Count1].C_settlements)-1;
+            Max2:=length( FCDdgEntities[Count].E_colonies[Count1].C_settlements )-1;
             if Max2>0 then
             begin
-               XMLSavedGameItemSub3:=XMLSavedGameItemSub2.AddChild('colSettlement');
+               XMLSavedGameItemSub3:=XMLSavedGameItemSub2.AddChild( 'colSettlement' );
                Count2:=1;
                while Count2<=Max2 do
                begin
-                  XMLSavedGameItemSub4:=XMLSavedGameItemSub3.AddChild('Settlement');
+                  XMLSavedGameItemSub4:=XMLSavedGameItemSub3.AddChild( 'Settlement' );
                   XMLSavedGameItemSub4.Attributes['name']:=FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_name;
                   XMLSavedGameItemSub4.Attributes['type']:=GetEnumName( TypeInfo( TFCEdgSettlements ), Integer( FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_settlement ) );
                   XMLSavedGameItemSub4.Attributes['level']:=FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_level;
                   XMLSavedGameItemSub4.Attributes['region']:=FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_locationRegion;
-                  Max3:=length(FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_infrastructures)-1;
+                  Max3:=length( FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_infrastructures )-1;
                   Count3:=1;
                   while Count3<=Max3 do
                   begin
-                     XMLSavedGameItemSub5:=XMLSavedGameItemSub4.AddChild('setInfra');
+                     XMLSavedGameItemSub5:=XMLSavedGameItemSub4.AddChild( 'setInfra' );
                      XMLSavedGameItemSub5.Attributes['token']:=FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_infrastructures[Count3].I_token;
                      XMLSavedGameItemSub5.Attributes['level']:=FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_infrastructures[Count3].I_level;
                      XMLSavedGameItemSub5.Attributes['status']:=
@@ -1607,47 +1594,47 @@ begin
                                        :=FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_infrastructures[Count3].I_fProdProductionMode[Count4].PM_linkedColonyMatrixItems[Count5].LMII_matrixItemIndex;
                                     XMLSavedGameItemSub7.Attributes['pmIndex']
                                        :=FCDdgEntities[Count].E_colonies[Count1].C_settlements[Count2].S_infrastructures[Count3].I_fProdProductionMode[Count4].PM_linkedColonyMatrixItems[Count5].LMII_matrixItem_ProductionModeIndex;
-                                    inc(Count5);
+                                    inc( Count5 );
                                  end;
                               end
                               else Break;
-                              inc(Count4);
+                              inc( Count4 );
                            end;
                         end;
                      end; //==END== case FCentities[GScount].E_col[Count1].COL_settlements[Count2].CS_infra[Count3].CI_function of ==//
-                     inc(Count3);
+                     inc( Count3 );
                   end; //==END== while Count3<=Max3 do ==//
-                  inc(Count2);
+                  inc( Count2 );
                end; //==END== while Count2<=Max2 do ==//
                {.CAB queue}
                Count2:=1;
                while Count2<=Max2 do
                begin
-                  Max3:=length(FCDdgEntities[Count].E_colonies[Count1].C_cabQueue[Count2])-1;
+                  Max3:=length( FCDdgEntities[Count].E_colonies[Count1].C_cabQueue[Count2] )-1;
                   if Max3>0 then
                   begin
                      if XMLSavedGameItemSub3=nil
-                     then XMLSavedGameItemSub3:=XMLSavedGameItemSub2.AddChild('colCAB');
+                     then XMLSavedGameItemSub3:=XMLSavedGameItemSub2.AddChild( 'colCAB' );
                      Count3:=1;
                      while Count3<=Max3 do
                      begin
-                        XMLSavedGameItemSub4:=XMLSavedGameItemSub3.AddChild('cabItem');
+                        XMLSavedGameItemSub4:=XMLSavedGameItemSub3.AddChild( 'cabItem' );
                         XMLSavedGameItemSub4.Attributes['settlement']:=Count2;
                         XMLSavedGameItemSub4.Attributes['infraIdx']:=FCDdgEntities[Count].E_colonies[Count1].C_cabQueue[Count2, Count3];
-                        inc(Count3);
+                        inc( Count3 );
                      end;
                   end; //==END== if GScabMax>0 ==//
-                  inc(Count2);
+                  inc( Count2 );
                end;
                {.production matrix}
-               Max2:=Length(FCDdgEntities[Count].E_colonies[Count1].C_productionMatrix)-1;
+               Max2:=Length( FCDdgEntities[Count].E_colonies[Count1].C_productionMatrix )-1;
                if Max2>0 then
                begin
-                  XMLSavedGameItemSub3:=XMLSavedGameItemSub2.AddChild('colProdMatrix');
+                  XMLSavedGameItemSub3:=XMLSavedGameItemSub2.AddChild( 'colProdMatrix' );
                   Count2:=1;
                   while Count2<=Max2 do
                   begin
-                     XMLSavedGameItemSub4:=XMLSavedGameItemSub3.AddChild('prodItem');
+                     XMLSavedGameItemSub4:=XMLSavedGameItemSub3.AddChild( 'prodItem' );
                      XMLSavedGameItemSub4.Attributes['token']:=FCDdgEntities[Count].E_colonies[Count1].C_productionMatrix[Count2].PM_productToken;
                      XMLSavedGameItemSub4.Attributes['storIdx']:=FCDdgEntities[Count].E_colonies[Count1].C_productionMatrix[Count2].PM_storageIndex;
                      XMLSavedGameItemSub4.Attributes['storageType']:=GetEnumName( TypeInfo( TFCEdipStorageTypes ), Integer( FCDdgEntities[Count].E_colonies[Count1].C_productionMatrix[Count2].PM_storage ) );
@@ -1658,20 +1645,20 @@ begin
                         Count3:=1;
                         while Count1<=Max3 do
                         begin
-                           XMLSavedGameItemSub5:=XMLSavedGameItemSub4.AddChild('prodMode');
+                           XMLSavedGameItemSub5:=XMLSavedGameItemSub4.AddChild( 'prodMode' );
                            XMLSavedGameItemSub5.Attributes['locSettle']:=FCDdgEntities[Count].E_colonies[Count1].C_productionMatrix[Count2].PM_productionModes[Count3].PM_locationSettlement;
                            XMLSavedGameItemSub5.Attributes['locInfra']:=FCDdgEntities[Count].E_colonies[Count1].C_productionMatrix[Count2].PM_productionModes[Count3].PM_locationInfrastructure;
                            XMLSavedGameItemSub5.Attributes['locPModeIndex']:=FCDdgEntities[Count].E_colonies[Count1].C_productionMatrix[Count2].PM_productionModes[Count3].PM_locationProductionModeIndex;
                            XMLSavedGameItemSub5.Attributes['isDisabledPS']:=FCDdgEntities[Count].E_colonies[Count1].C_productionMatrix[Count2].PM_productionModes[Count3].PM_isDisabledByProductionSegment;
                            XMLSavedGameItemSub5.Attributes['prodFlow']:=FCDdgEntities[Count].E_colonies[Count1].C_productionMatrix[Count2].PM_productionModes[Count3].PM_productionFlow;
-                           inc(Count3);
+                           inc( Count3 );
                         end;
                      end;
-                     inc(Count2);
+                     inc( Count2 );
                   end;
                end;
                {.storage}
-               XMLSavedGameItemSub3:=XMLSavedGameItemSub2.AddChild('colStorage');
+               XMLSavedGameItemSub3:=XMLSavedGameItemSub2.AddChild( 'colStorage' );
                XMLSavedGameItemSub3.Attributes['capSolidCur']:=FCDdgEntities[Count].E_colonies[Count1].C_storageCapacitySolidCurrent;
                XMLSavedGameItemSub3.Attributes['capSolidMax']:=FCDdgEntities[Count].E_colonies[Count1].C_storageCapacitySolidMax;
                XMLSavedGameItemSub3.Attributes['capLiquidCur']:=FCDdgEntities[Count].E_colonies[Count1].C_storageCapacityLiquidCurrent;
@@ -1680,23 +1667,23 @@ begin
                XMLSavedGameItemSub3.Attributes['capGasMax']:=FCDdgEntities[Count].E_colonies[Count1].C_storageCapacityGasMax;
                XMLSavedGameItemSub3.Attributes['capBioCur']:=FCDdgEntities[Count].E_colonies[Count1].C_storageCapacityBioCurrent;
                XMLSavedGameItemSub3.Attributes['capBioMax']:=FCDdgEntities[Count].E_colonies[Count1].C_storageCapacityBioMax;
-               Max2:=length(FCDdgEntities[Count].E_colonies[Count1].C_storedProducts)-1;
+               Max2:=length( FCDdgEntities[Count].E_colonies[Count1].C_storedProducts )-1;
                if Max2>0 then
                begin
                   Count2:=1;
                   while Count2<=Max2 do
                   begin
-                     GSxmlstorage:=XMLSavedGameItemSub3.AddChild('storItem'+IntToStr(Count2));
-                     GSxmlstorage.Attributes['token']:=FCDdgEntities[Count].E_colonies[Count1].C_storedProducts[Count2].SP_token;
-                     GSxmlstorage.Attributes['unit']:=FCDdgEntities[Count].E_colonies[Count1].C_storedProducts[Count2].SP_unit;
-                     inc(Count2);
+                     XMLSavedGameItemSub4:=XMLSavedGameItemSub3.AddChild( 'storItem'+IntToStr( Count2 ) );
+                     XMLSavedGameItemSub4.Attributes['token']:=FCDdgEntities[Count].E_colonies[Count1].C_storedProducts[Count2].SP_token;
+                     XMLSavedGameItemSub4.Attributes['unit']:=FCDdgEntities[Count].E_colonies[Count1].C_storedProducts[Count2].SP_unit;
+                     inc( Count2 );
                   end;
                end;
                {.reserves}
-               XMLSavedGameItemSub3:=XMLSavedGameItemSub2.AddChild('colReserves');
+               XMLSavedGameItemSub3:=XMLSavedGameItemSub2.AddChild( 'colReserves' );
                XMLSavedGameItemSub3.Attributes['oxygen']:=FCDdgEntities[Count].E_colonies[Count1].C_reserveOxygen;
                XMLSavedGameItemSub3.Attributes['food']:=FCDdgEntities[Count].E_colonies[Count1].C_reserveFood;
-               Max2:=length(FCDdgEntities[Count].E_colonies[Count1].C_reserveFoodProductsIndex)-1;
+               Max2:=length( FCDdgEntities[Count].E_colonies[Count1].C_reserveFoodProductsIndex )-1;
                Count2:=1;
                while Count2<=Max2 do
                begin
@@ -1709,11 +1696,10 @@ begin
             inc(Count1);
          end; //==END== while Count1<=GScolMax do ==//
       end; //==END== if Max1>0 ==//
-      Max1:=Length(FCDdgEntities[Count].E_spmSettings)-1;
-      if Max1>0
-      then
+      Max1:=Length( FCDdgEntities[Count].E_spmSettings )-1;
+      if Max1>0 then
       begin
-         XMLSavedGameItemSub1:=XMLSavedGameItemSub.AddChild('entSPMset');
+         XMLSavedGameItemSub1:=XMLSavedGameItemSub.AddChild( 'entSPMset' );
          XMLSavedGameItemSub1.Attributes['modCoh']:=FCDdgEntities[Count].E_spmMod_Cohesion;
          XMLSavedGameItemSub1.Attributes['modTens']:=FCDdgEntities[Count].E_spmMod_Tension;
          XMLSavedGameItemSub1.Attributes['modSec']:=FCDdgEntities[Count].E_spmMod_Security;
@@ -1725,49 +1711,46 @@ begin
          Count1:=1;
          while Count1<=Max1 do
          begin
-            XMLSavedGameItemSub2:=XMLSavedGameItemSub1.AddChild('entSPM');
+            XMLSavedGameItemSub2:=XMLSavedGameItemSub1.AddChild( 'entSPM' );
             XMLSavedGameItemSub2.Attributes['token']:=FCDdgEntities[Count].E_spmSettings[Count1].SPMS_token;
             XMLSavedGameItemSub2.Attributes['duration']:=FCDdgEntities[Count].E_spmSettings[Count1].SPMS_duration;
             XMLSavedGameItemSub2.Attributes['ucCost']:=FCDdgEntities[Count].E_spmSettings[Count1].SPMS_ucCost;
             XMLSavedGameItemSub2.Attributes['ispolicy']:=FCDdgEntities[Count].E_spmSettings[Count1].SPMS_isPolicy;
-            if FCDdgEntities[Count].E_spmSettings[Count1].SPMS_isPolicy
-            then
+            if FCDdgEntities[Count].E_spmSettings[Count1].SPMS_isPolicy then
             begin
                XMLSavedGameItemSub2.Attributes['isSet']:=FCDdgEntities[Count].E_spmSettings[Count1].SPMS_iPtIsSet;
                XMLSavedGameItemSub2.Attributes['aprob']:=FCDdgEntities[Count].E_spmSettings[Count1].SPMS_iPtAcceptanceProbability;
             end
-            else if not FCDdgEntities[Count].E_spmSettings[Count1].SPMS_isPolicy
-            then
+            else if not FCDdgEntities[Count].E_spmSettings[Count1].SPMS_isPolicy then
             begin
                XMLSavedGameItemSub2.Attributes['belieflvl']:=GetEnumName( TypeInfo( TFCEdgBeliefLevels ), Integer( FCDdgEntities[Count].E_spmSettings[Count1].SPMS_iPtBeliefLevel ) );
                XMLSavedGameItemSub2.Attributes['spreadval']:=FCDdgEntities[Count].E_spmSettings[Count1].SPMS_iPtAcceptanceProbability;
             end;
-            inc(Count1);
+            inc( Count1 );
          end;
       end;
-      inc(Count);
+      inc( Count );
    end; //==END== while GScount<=FCCfacMax do ==//
    {.create "msgqueue" saved game item}
-   Max:=length(FCVmsgStoMsg);
-   if Max>1
-   then
+   Max:=length( FCVmsgStoMsg );
+   if Max>1 then
    begin
-      XMLSavedGameItem:=XMLSavedGame.AddChild('gfMsgQueue');
+      XMLSavedGameItem:=XMLSavedGame.AddChild( 'gfMsgQueue' );
       Count:=1;
       while Count<=Max-1 do
       begin
-         GSxmlMsg:=XMLSavedGameItem.AddChild('gfMsg');
-         GSxmlMsg.Attributes['msgTitle']:=FCVmsgStoTtl[Count];
-         GSxmlMsg.Attributes['msgMain']:=FCVmsgStoMsg[Count];
-         inc(Count);
+         XMLSavedGameItem:=XMLSavedGameItem.AddChild( 'gfMsg' );
+         XMLSavedGameItem.Attributes['msgTitle']:=FCVmsgStoTtl[Count];
+         XMLSavedGameItem.Attributes['msgMain']:=FCVmsgStoMsg[Count];
+         inc( Count );
       end; {.while GScount<=GSlength-1}
    end; {.if GSlength>1 then}
    FCWinMain.FCGLSHUDgameTime.Text:='Game Saved';
    {.write the file and free the memory}
-   FCWinMain.FCXMLsave.SaveToFile(CurrentDirectory+'\'+CurrentSavedGameFile);
+   FCWinMain.FCXMLsave.SaveToFile( CurrentDirectory+'\'+CurrentSavedGameFile );
    FCWinMain.FCXMLsave.Active:=false;
    if not FCWinMain.CloseQuery
-   then FCMgTFlow_FlowState_Set(tphTac);
+   then FCMgTFlow_FlowState_Set( tphTac );
 end;
 
 procedure FCMdFSG_Game_SaveAndFlushOther;
