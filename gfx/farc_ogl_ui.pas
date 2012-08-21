@@ -1048,30 +1048,8 @@ begin
       end; //==END== if (M3DVUIUtype=oglupdtpAll) or (M3DVUIUtype=oglupdtpTxtOnly ==//
    end; //==END== if (M3DVUIUtarget=ogluiutAll) or (M3DVUIUtarget=ogluiutFocObj) ==//
    {.CPS data}
-   if ( (M3DVUIUtarget=ogluiutAll) or (M3DVUIUtarget=ogluiutCPS) )
-      and ( FCcps<>nil )
-   then
+   if (M3DVUIUtarget=ogluiutAll) or (M3DVUIUtarget=ogluiutCPS) then
    begin
-      if (FCcps<>nil)
-         and (FCcps.CPSisEnabled)
-         and (FCWinMain.FCGLSHUDcpsCVSLAB.Visible=false)
-      then
-      begin
-         FCWinMain.FCGLSHUDcpsCVSLAB.Visible:=true;
-         FCWinMain.FCGLSHUDcpsCVS.Visible:=true;
-         FCWinMain.FCGLSHUDcpsCredL.Visible:=true;
-         FCWinMain.FCGLSHUDcpsTlft.Visible:=true;
-      end
-      else if ( (FCcps<>nil) and (not FCcps.CPSisEnabled) )
-         or (FCcps=nil)
-         and (FCWinMain.FCGLSHUDcpsCVSLAB.Visible=true)
-      then
-      begin
-         FCWinMain.FCGLSHUDcpsCVSLAB.Visible:=false;
-         FCWinMain.FCGLSHUDcpsCVS.Visible:=false;
-         FCWinMain.FCGLSHUDcpsCredL.Visible:=false;
-         FCWinMain.FCGLSHUDcpsTlft.Visible:=false;
-      end;
       {.user's interface initialization}
       if (M3DVUIUtype=oglupdtpAll)
          or (M3DVUIUtype=oglupdtpLocOnly)
@@ -1095,6 +1073,24 @@ begin
          then FCWinMain.FCGLSFontCPSData.Font.Size:=11
          else FCWinMain.FCGLSFontCPSData.Font.Size:=10;
       end;
+      if (FCcps<>nil)
+         and (FCcps.CPSisEnabled)
+         and (FCWinMain.FCGLSHUDcpsCVSLAB.Visible=false)
+      then
+      begin
+         FCWinMain.FCGLSHUDcpsCVSLAB.Visible:=true;
+         FCWinMain.FCGLSHUDcpsCVS.Visible:=true;
+         FCWinMain.FCGLSHUDcpsCredL.Visible:=true;
+         FCWinMain.FCGLSHUDcpsTlft.Visible:=true;
+      end
+      else  if (FCcps=nil)
+         or (not FCcps.CPSisEnabled) then
+      begin
+         FCWinMain.FCGLSHUDcpsCVSLAB.Visible:=false;
+         FCWinMain.FCGLSHUDcpsCVS.Visible:=false;
+         FCWinMain.FCGLSHUDcpsCredL.Visible:=false;
+         FCWinMain.FCGLSHUDcpsTlft.Visible:=false;
+      end;
       {.text display}
       if ((M3DVUIUtype=oglupdtpAll) or (M3DVUIUtype=oglupdtpTxtOnly))
          and (FCcps<>nil)
@@ -1110,7 +1106,7 @@ begin
                +' '+FCFdTFiles_UIStr_Get(uistrUI, 'acronUC');
          FCWinMain.FCGLSHUDcpsTlft.Text:=FCcps.FCF_TimeLeft_Get(false);
       end;
-   end; //==END== if (M3DVUIUtarget=ogluiutAll) or (M3DVUIUtarget=ogluiutCPS) ==//
+   end;
 end;
 
 end.
