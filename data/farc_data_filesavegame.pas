@@ -223,7 +223,8 @@ procedure FCMdFSG_Game_Load;
       ,Count3
       ,Count4
       ,Count5
-      ,EnumIndex: integer;
+      ,EnumIndex
+      ,Max: integer;
 
       CurrentDirectory
       ,CurrentSavedGameFile: string;
@@ -323,6 +324,7 @@ begin
             );
       end; //==END== if XMLSavedGame<>nil for CPS ==//
       {.read "taskinprocess" saved game item}
+      SetLength(FCGtskListInProc, 1);
       XMLSavedGame:=FCWinMain.FCXMLsave.DocumentElement.ChildNodes.FindNode( 'gfTskLstinProc' );
       if XMLSavedGame<>nil then
       begin
@@ -526,13 +528,13 @@ begin
                      FCDdgEntities[Count].E_spaceUnits[Count1].SU_linked3dObject:=XMLSavedGameItemSub1.Attributes['TdObjIdx'];
                      FCDdgEntities[Count].E_spaceUnits[Count1].SU_locationViewX:=StrToFloat( XMLSavedGameItemSub1.Attributes['xLoc'], FCVdiFormat );
                      FCDdgEntities[Count].E_spaceUnits[Count1].SU_locationViewZ:=StrToFloat( XMLSavedGameItemSub1.Attributes['zLoc'], FCVdiFormat );
-                     Count3:=XMLSavedGameItemSub1.Attributes['docked'];
-                     if Count3>0 then
+                     Max:=XMLSavedGameItemSub1.Attributes['docked'];
+                     if Max>0 then
                      begin
-                        SetLength( FCDdgEntities[Count].E_spaceUnits[Count1].SU_dockedSpaceUnits, Count3+1 );
+                        SetLength( FCDdgEntities[Count].E_spaceUnits[Count1].SU_dockedSpaceUnits, Max+1 );
                         Count2:=1;
                         XMLSavedGameItemSub2:=XMLSavedGameItemSub1.ChildNodes.First;
-                        while Count2<=Count3 do
+                        while Count2<=Max do
                         begin
                            FCDdgEntities[Count].E_spaceUnits[Count1].SU_dockedSpaceUnits[Count2].SUDL_index:=XMLSavedGameItemSub2.Attributes['index'];
                            inc( Count2 );
@@ -860,6 +862,7 @@ begin
                         {.colony's production matrix}
                         else if XMLSavedGameItemSub2.NodeName='colProdMatrix' then
                         begin
+                           SetLength(FCDdgEntities[Count].E_colonies[Count].C_productionMatrix, 1);
                            Count2:=0;
                            XMLSavedGameItemSub3:=XMLSavedGameItemSub2.ChildNodes.First;
                            while XMLSavedGameItemSub3<>nil do
@@ -873,6 +876,7 @@ begin
                               if EnumIndex=-1
                               then raise Exception.Create( 'bad gamesave loading w/production matrix item storage type: '+XMLSavedGameItemSub3.Attributes['storageType'] );
                               FCDdgEntities[Count].E_colonies[Count1].C_productionMatrix[Count2].PM_globalProductionFlow:=StrToFloat( XMLSavedGameItemSub3.Attributes['globalProdFlow'], FCVdiFormat );
+                              SetLength(FCDdgEntities[Count].E_colonies[Count1].C_productionMatrix[Count2].PM_productionModes, 1);
                               Count3:=0;
                               XMLSavedGameItemSub4:=XMLSavedGameItemSub3.ChildNodes.First;
                               while XMLSavedGameItemSub4<>nil do
@@ -901,6 +905,7 @@ begin
                            FCDdgEntities[Count].E_colonies[Count1].C_storageCapacityGasMax:=StrToFloat( XMLSavedGameItemSub2.Attributes['capGasMax'], FCVdiFormat );
                            FCDdgEntities[Count].E_colonies[Count1].C_storageCapacityBioCurrent:=StrToFloat( XMLSavedGameItemSub2.Attributes['capBioCur'], FCVdiFormat );
                            FCDdgEntities[Count].E_colonies[Count1].C_storageCapacityBioMax:=StrToFloat( XMLSavedGameItemSub2.Attributes['capBioMax'], FCVdiFormat );
+                           SetLength(FCDdgEntities[Count].E_colonies[Count1].C_storedProducts, 1);
                            Count2:=0;
                            XMLSavedGameItemSub3:=XMLSavedGameItemSub2.ChildNodes.First;
                            while XMLSavedGameItemSub3<>nil do
@@ -916,6 +921,7 @@ begin
                         begin
                            FCDdgEntities[Count].E_colonies[Count1].C_reserveOxygen:=XMLSavedGameItemSub2.Attributes['oxygen'];
                            FCDdgEntities[Count].E_colonies[Count1].C_reserveFood:=XMLSavedGameItemSub2.Attributes['food'];
+                           SetLength( FCDdgEntities[Count].E_colonies[Count1].C_reserveFoodProductsIndex, 1 );
                            Count2:=0;
                            XMLSavedGameItemSub3:=XMLSavedGameItemSub2.ChildNodes.First;
                            while XMLSavedGameItemSub3<>nil do
@@ -1201,7 +1207,7 @@ begin
       end;
    end; //==END== if FCcps<>nil ==//
    {.create "taskinprocess" saved game item}
-   Max:=length(FCGtskListInProc);
+   Max:=length( FCGtskListInProc );
    if Max>1 then
    begin
       XMLSavedGameItem:=XMLSavedGame.AddChild( 'gfTskLstinProc' );

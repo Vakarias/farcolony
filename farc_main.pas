@@ -770,6 +770,7 @@ begin
    end;
    {.right mouse button}
    if (Button=mb_Right)
+//
 //      and (FCWM_PopMenFocusedObj.Tag=1)
 //   then
 //   begin
@@ -778,6 +779,7 @@ begin
 //   end
 //   else if (Button=mb_Right)
 //      and (FCWM_PopMenFocusedObj.Tag=0)
+//
       and (FCVdgPlayer.P_currentTimePhase<>tphPAUSE)
       and (not FCWinMain.FCWM_CPSreportSet.Visible)
       and
