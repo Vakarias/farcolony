@@ -628,6 +628,7 @@ end;
 procedure FCMgNG_Core_Setup;
 {:Purpose: setup a new game, core routine.
    Additions:
+      -2012Aug21- *fix: update the windows texts each time to reflect the case of a change in the language.
       -2009Oct05- *relocate correctly the new game setup window in the case of the main window has moved.
       -2009Aug10- *initialize proceed button state.
                   *populate the faction list.
@@ -648,14 +649,16 @@ FCMdF_DBProducts_Load;
    then  begin
    FCWinNewGSetup:=TFCWinNewGSetup.Create(Application);
       FCMuiW_UI_Initialize(mwupSecWinNewGSetup);
-   FCMuiW_UI_Initialize(mwupFontWinNGS);
-   FCMuiW_UI_Initialize(mwupTextWinNGS);
+      FCMuiW_UI_Initialize(mwupFontWinNGS);
+
    end;
    finally
 {.DEV NOTES: it's only in the case of a new game at the start of FAR Colony, there'll be some changes and
             in the case of a new game during a current one.}
 //   with FCWinNewGSetup do
 //   begin
+
+FCMuiW_UI_Initialize(mwupTextWinNGS);
       SetGameName:='';
       FCWinMain.Enabled:= false;
       FCWinNewGSetup.Enabled:= true;

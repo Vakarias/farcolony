@@ -615,6 +615,7 @@ end;
 procedure FCMuiWin_UI_LangUpd;
 {:Purpose: update interface for new language.
     Additions:
+      -2012Aug21- *fix: bugfixes due to the modification of windows initialization.
       -2011Dec21- *mod: integrate the new method to call the colony data panel.
       -2011Jul20- *add: update the Colony Data Panel, especially the data display itself, if needed.
       -2011May24- *add: colony data panel / infrastructure functions private variables initialization.
@@ -625,29 +626,41 @@ procedure FCMuiWin_UI_LangUpd;
       -2009Nov17- *update also the opengl display if needed.
       -2009Oct10- *add mission setup window.
 }
+var
+   colMax: integer;
 begin
    FCMdF_ConfigurationFile_Save(false);
-   FCMuiW_UI_Initialize(mwupTextWinMain);
-   FCMuiW_UI_Initialize(mwupTextWinAb);
-   FCMuiW_UI_Initialize(mwupTextWinNGS);
    FCMuiW_UI_Initialize(mwupMenuLang);
-   if FCWinMain.FCWM_3dMainGrp.Visible
-   then FCMoglUI_Main3DViewUI_Update(oglupdtpTxtOnly, ogluiutAll);
-   if assigned(FCcps)
-      and (FCcps.CPSisEnabled)
-//      and (Length(FCentities[0].E_col)>1)
-   then FCcps.FCM_ViabObj_Init(false);
-   FCMumi_Faction_Upd(uiwAllSection, true);
-   FCMuiCDP_FunctionCateg_Initialize;
-   FCMuiCDD_Colony_Update(
-      cdlAll
-      ,0
-      ,0
-      ,0
-      ,false
-      ,false
-      ,true
-      );
+   FCMuiW_UI_Initialize(mwupTextWinMain);
+
+   if not FCWinMain.FCWM_MMenu_G_Cont.Enabled then
+   begin
+      colMax:=Length(FCDdgEntities[0].E_colonies)-1;
+      if FCWinMain.FCWM_3dMainGrp.Visible
+      then FCMoglUI_Main3DViewUI_Update(oglupdtpTxtOnly, ogluiutAll);
+      if colMax>0 then
+      begin
+         if assigned(FCcps)
+         and (FCcps.CPSisEnabled)
+         then FCcps.FCM_ViabObj_Init(false);
+      end;
+      if FCWinMain.FCWM_ColDPanel.Visible
+      then FCMuiCDD_Colony_Update(
+         cdlAll
+         ,0
+         ,0
+         ,0
+         ,false
+         ,false
+         ,true
+         );
+      FCMumi_Main_Upd;
+   end;
+
+
+
+//   FCMumi_Faction_Upd(uiwAllSection, true);
+//   FCMuiCDP_FunctionCateg_Initialize;
 end;
 
 procedure FCMuiW_UI_Initialize(const UIUtp: TFCEmwinUpdTp);

@@ -1368,20 +1368,29 @@ end;
 
 procedure TFCWinMain.FCWM_MMenu_O_L_ENClick(Sender: TObject);
 begin
-   FCMdTfiles_Lang_Switch('EN');
-   FCMuiWin_UI_LangUpd;
+   if FCVdiLanguage<>'EN' then
+   begin
+      FCVdiLanguage:='EN';
+      FCMuiWin_UI_LangUpd;
+   end;
 end;
 
 procedure TFCWinMain.FCWM_MMenu_O_L_FRClick(Sender: TObject);
 begin
-   FCMdTfiles_Lang_Switch('FR');
-   FCMuiWin_UI_LangUpd;
+   if FCVdiLanguage<>'FR' then
+   begin
+      FCVdiLanguage:='FR';
+      FCMuiWin_UI_LangUpd;
+   end;
 end;
 
 procedure TFCWinMain.FCWM_MMenu_O_L_SPClick(Sender: TObject);
 begin
-   FCMdTfiles_Lang_Switch('SP');
-   FCMuiWin_UI_LangUpd;
+   if FCVdiLanguage<>'SP' then
+   begin
+      FCVdiLanguage:='SP';
+      FCMuiWin_UI_LangUpd;
+   end;
 end;
 
 procedure TFCWinMain.FCWM_MMenu_O_TR_1024Click(Sender: TObject);

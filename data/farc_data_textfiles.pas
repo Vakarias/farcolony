@@ -96,12 +96,6 @@ function FCFdTFiles_UIStr_Get(
    ): string; overload;
 
 ///<summary>
-///   switch the language.
-///</summary>
-///<param name="LSlang">string[2] of language asked</param>
-procedure FCMdTfiles_Lang_Switch(const LSlang: string);
-
-///<summary>
 ///   initialize the text files.
 ///</summary>
 procedure FCMdTfiles_UIString_Init;
@@ -120,7 +114,8 @@ uses
 	,farc_main
    ,farc_game_cps
    ,farc_game_spm
-   ,farc_ui_html;
+   ,farc_ui_html
+   ,farc_win_debug;
 
 var
 {.memory stream for encyclopaedia.xml}
@@ -497,23 +492,6 @@ begin
       end;
 	end; {.case UISGcateg of}
 	Result:=UISGresDump;
-end;
-
-procedure FCMdTfiles_Lang_Switch(const LSlang: string);
-{:Purpose: switch the language.
-   Additions:
-      -2012Jan29- *add: spanish language.
-}
-begin
-   if (LSlang='EN')
-      and (FCVdiLanguage<>'EN')
-   then FCVdiLanguage:='EN'
-   else if (FCVdiLanguage='FR')
-      and (FCVdiLanguage<>'FR')
-   then FCVdiLanguage:='FR'
-   else if (FCVdiLanguage='SP')
-      and (FCVdiLanguage<>'SP')
-   then FCVdiLanguage:='SP';
 end;
 
 procedure FCMdTfiles_UIString_Init;

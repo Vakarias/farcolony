@@ -152,6 +152,7 @@ procedure FCMumi_Faction_Upd(
    const UMIUFsec: TFCEuiwUMIfacUpd;
    const UMIUFrelocRetVal: boolean
    );
+{:DEV NOTES: redo it completely all is fucked + status location are fucked and require to be consolidated + look the dev notes in this routine + the ones in FCMumi_Main_Upd.}
 {:Purpose: update the UMI/Faction section.
     Additions:
       -2012Apr25- *add: apply the new format for encyclopaedia links in the SPM setting and policies enforcement.
@@ -233,9 +234,9 @@ var
 
    UMIUFspmi: TFCRdgSPMi;
 begin
-   if (UMIUFsec=uiwAllSection)
+   if (UMIUFsec=uiwAllSection)   {:DEV NOTES: remove all sections....}
       or (UMIUFsec=uiwAllMain)
-      or ((UMIUFsec=uiwNone) and (UMIUFrelocRetVal))
+      or ((UMIUFsec=uiwNone) and (UMIUFrelocRetVal))      {:DEV NOTES: remove these two and replace them by LocationOnly parameter.}
    then
    begin
       UMIUFstat:=(FCWinMain.FCWM_UMI.Width shr 5)*17;
@@ -855,6 +856,8 @@ end;
 procedure FCMumi_Main_Upd;
 {:Purpose: update, if necessary, the UMI.
     Additions:
+      -2012Aug21  *add: faction tab - the dependence status are updated.
+                  *add: faction tab - page 0 - the government details are also updated.
       -2010Dec16- *add: update the enforcement list only if it's enabled.
       -2010Dec02- *add: enable the Policy Enforcement update for the faction tab.
       -2010Nov16- *add: enable the SPMi settings update for the faction tab.
@@ -872,9 +875,26 @@ begin
          {.faction}
          1:
          begin
+
+            {:DEV NOTES: do the same with the dependence status !!!!.}
+            FCMumi_Faction_Upd(uiwStatEco, false);
+            FCMumi_Faction_Upd(uiwStatSoc, false);
+            FCMumi_Faction_Upd(uiwStatMil, false);
             FCMumi_Faction_Upd(uiwNone, true);
             case FCWinMain.FCWM_UMIFac_TabSh.ActivePageIndex of
-               0: FCMumi_Faction_Upd(uiwColonies, false);
+               0:
+               begin
+                  {:DEV NOTES: put a new paramt PoliticalStructureALL !!! and remove the useless calls.}
+                  FCMumi_Faction_Upd(uiwPolStruc_gvt, false);
+                  FCMumi_Faction_Upd(uiwPolStruc_bur, false);
+                  FCMumi_Faction_Upd(uiwPolStruc_cor, false);
+                  FCMumi_Faction_Upd(uiwPolStruc_eco, false);
+                  FCMumi_Faction_Upd(uiwPolStruc_hcare, false);
+                  FCMumi_Faction_Upd(uiwPolStruc_spi, false);
+
+                  FCMumi_Faction_Upd(uiwColonies, false);
+               end;
+
                1: FCMumi_Faction_Upd(uiwSPMset, false);
                2:
                begin

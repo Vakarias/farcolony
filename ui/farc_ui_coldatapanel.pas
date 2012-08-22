@@ -802,10 +802,11 @@ begin
             ,FCDdgEntities[0].E_colonies[CDPcurrentColony].C_foundationDateMonth
             ,FCDdgEntities[0].E_colonies[CDPcurrentColony].C_foundationDateYear
             );
+         {:DEV NOTES: add also for satellite...}
          FCWinMain.FCWM_CDPinfoText.HTMLText.Add(
             FCCFdHeadC+FCFdTFiles_UIStr_Get( uistrUI, 'colFndD' )+FCCFdHeadEnd+CPUfnd+'<br>'
             +FCCFdHeadC+FCFdTFiles_UIStr_Get( uistrUI, 'colLoc' )+FCCFdHeadEnd
-            +FCFdTFiles_UIStr_Get( dtfscPrprName, FCDdgEntities[0].E_colonies[CDPcurrentColony].C_locationOrbitalObject )+'<br>'
+            +FCFdTFiles_UIStr_Get( dtfscPrprName, FCDdgEntities[0].E_colonies[CDPcurrentColony].C_locationOrbitalObject )+'<br>'  //here...
             );
          {.idx=1}
          FCWinMain.FCWM_CDPinfoText.HTMLText.Add( FCCFdHeadC+FCFdTFiles_UIStr_Get( uistrUI, 'colDat' )+FCCFdHeadEnd) ;
