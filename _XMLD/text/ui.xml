@@ -272,7 +272,7 @@
    <acronAUwDes>
       <EN>Astronomical Unit(s) [AU]</EN>
       <FR>Unité(s) Astronomique(s) [UA]</FR>
-      <SP>Unidad(es)  Astronomica(s) [UA]</SP>
+      <SP>Unidad(es)  Astronómica(s) [UA]</SP>
    </acronAUwDes>
    <acronUC>
       <EN>UC</EN>
@@ -282,7 +282,7 @@
    <acronUCwDes>
       <EN>Universal Credit</EN>
       <FR>Crédit Universel</FR>
-      <SP>Credito Universal</SP>
+      <SP>Crédito Universal</SP>
    </acronUCwDes>
    <acronYr>
       <EN>yrs</EN>
@@ -303,17 +303,17 @@
    <gasCO>
       <EN>Carbone Monoxide</EN>
       <FR>Monoxyde de Carbone</FR>
-      <SP>Monoxido de Carbono</SP>
+      <SP>Monóxido de Carbono</SP>
    </gasCO>   
    <gasCO2>
       <EN>Carbon Dioxide</EN>
       <FR>Dioxyde de Carbone</FR>
-      <SP>Dioxido de Carbono</SP>
+      <SP>Dióxido de Carbono</SP>
    </gasCO2>
    <gasH2>
       <EN>Hydrogen</EN>
       <FR>Hydrogène</FR>
-      <SP>Hydrogeno</SP>
+      <SP>Hidrógeno</SP>
    </gasH2>
    <gasH2O>
       <EN>Water Vapor</EN>
@@ -323,7 +323,7 @@
    <gasH2S>
       <EN>Hydrogen Sulfide</EN>
       <FR>Sulfure d'Hydrogène</FR>
-      <SP>Sulfuro de hydrogeno</SP>
+      <SP>Sulfuro de Hydrógeno</SP>
    </gasH2S>
    <gasHe>
       <EN>Helium</EN>
@@ -333,12 +333,12 @@
    <gasN2>
       <EN>Nitrogen</EN>
       <FR>Nitrogène</FR>
-      <SP>Nitrogeno</SP>
+      <SP>Nitrógeno</SP>
    </gasN2>
    <gasNe>
       <EN>Neon</EN>
       <FR>Néon</FR>
-      <SP>Neon</SP>
+      <SP>Neón</SP>
    </gasNe>
    <gasNH3>
       <EN>Ammonia</EN>
@@ -348,17 +348,17 @@
    <gasNO>
       <EN>Nitrogen Oxide</EN>
       <FR>Oxyde de Nitrogène</FR>
-      <SP>Oxido de Nitrogeno</SP>
+      <SP>Óxido de Nitrógeno</SP>
    </gasNO>
    <gasNO2>
       <EN>Nitrogen Dioxide</EN>
       <FR>Dioxyde de Nitrogène</FR>
-      <SP>Dioxido de Nitrogeno</SP>
+      <SP>Dióxido de Nitrógeno</SP>
    </gasNO2>
    <gasO2>
       <EN>Oxygen</EN>
       <FR>Oxygène</FR>
-      <SP>Oxigeno</SP>
+      <SP>Oxígeno</SP>
    </gasO2>
    <gasO3>
       <EN>Ozone</EN>
@@ -368,7 +368,7 @@
    <gasSO2>
       <EN>Sulfur Dioxide</EN>
       <FR>Dioxyde de Soufre</FR>
-      <SP>Dioxido de Sulfuro</SP>
+      <SP>Dióxido de Sulfuro</SP>
    </gasSO2>
    <!-- ********** BUTTONS CAPTIONS ********** -->
    <ButtCancel>
@@ -395,7 +395,7 @@
    <FCWM_CDPstorage>
       <EN>Storage/Production Matrix</EN>
       <FR>Stockage/Matrice de Production</FR>
-      <SP>Almacen/Matriz de Produccion</SP>
+      <SP>Almacén/Matriz de Producción</SP>
    </FCWM_CDPstorage>
    <colDat>
       <EN>Colony Data</EN>
@@ -405,12 +405,12 @@
    <colDbrate>
       <EN>Birth Rate</EN>
       <FR>Taux de Natalité</FR>
-      <SP>Indice de Natalidad</SP>
+      <SP>Índice de Natalidad</SP>
    </colDbrate>
    <colDcohes>
       <EN>Cohesion</EN>
       <FR>Cohésion</FR>
-      <SP>Cohesion</SP>
+      <SP>Cohesión</SP>
    </colDcohes>
    <colDcohesI1>
       <EN>Dissident Colony</EN>
@@ -425,7 +425,7 @@
    <colDcohesI3>
       <EN>Weak</EN>
       <FR>Faible</FR>
-      <SP>Debil</SP>
+      <SP>Débil</SP>
    </colDcohesI3>
    <colDcohesI4>
       <EN>Wavering</EN>
@@ -440,7 +440,7 @@
    <colDcohesI6>
       <EN>Strong</EN>
       <FR>Solide</FR>
-      <SP>Solido</SP>
+      <SP>Sólido</SP>
    </colDcohesI6>
    <colDcohesI7>
       <EN>Unified</EN>
@@ -460,17 +460,17 @@
    <colDCSMEnergTitle>
       <EN>Energy</EN>
       <FR>Energie</FR>
-      <SP>Energia</SP>
+      <SP>Energía</SP>
    </colDCSMEnergTitle>
    <colDdrate>
       <EN>Death Rate</EN>
       <FR>Taux de Mortalité</FR>
-      <SP>Indice de Mortalidad</SP>
+      <SP>Índice de Mortalidad</SP>
    </colDdrate>
    <colDedu>
       <EN>Education</EN>
       <FR>Education</FR>
-      <SP>Educacion</SP>
+      <SP>Educación</SP>
    </colDedu>
    <colDeduI1>
       <EN>F Grade</EN>
@@ -520,7 +520,7 @@
    <colDhealI3>
       <EN>Basic</EN>
       <FR>Basique</FR>
-      <SP>Basica</SP>
+      <SP>Básica</SP>
    </colDhealI3>
    <colDhealI4>
       <EN>Adequate</EN>
@@ -535,7 +535,7 @@
    <colDhealI6>
       <EN>Superior</EN>
       <FR>Supérieure</FR>
-      <SP></SP>
+      <SP>Superior</SP>
    </colDhealI6>
    <colDhealI7>
       <EN>Perfect</EN>
@@ -565,7 +565,7 @@
    <colDsecI2>
       <EN>Minimal</EN>
       <FR>Minimale</FR>
-      <SP>Minima</SP>
+      <SP>Mínima</SP>
    </colDsecI2>
    <colDsecI3>
       <EN>Fair</EN>
@@ -580,7 +580,7 @@
    <colDsecI5>
       <EN>Overkill</EN>
       <FR>En Excès</FR>
-      <SP>En Exceso</SP>
+      <SP>Excesiva</SP>
    </colDsecI5>
    <colDsplI1>
       <EN>Impossible to Live In</EN>
@@ -605,7 +605,7 @@
    <colDsplI5>
       <EN>Minimal Extra Space</EN>
       <FR>Espace Minimal en Extra</FR>
-      <SP>Espacio Suplementario Minimo</SP>
+      <SP>Espacio Suplementario Mínimo</SP>
    </colDsplI5>
    <colDsplI6>
       <EN>Acceptable Extra Space</EN>
@@ -630,7 +630,7 @@
    <colDtens>
       <EN>Tension</EN>
       <FR>Tension</FR>
-      <SP>Tension</SP>
+      <SP>Tensión</SP>
    </colDtens>
    <colDtensI1>
       <EN>Not Perceptible</EN>
@@ -655,17 +655,17 @@
    <colDtensI5>
       <EN>Critical</EN>
       <FR>Critique</FR>
-      <SP>Critico</SP>
+      <SP>Crítico</SP>
    </colDtensI5>
    <colFndD>
       <EN>Foundation Date</EN>
       <FR>Date de Fondation</FR>
-      <SP>Fecha de Fundacion</SP>
+      <SP>Fecha de Fundación</SP>
    </colFndD>
    <colLoc>
       <EN>Location</EN>
       <FR>Localisation</FR>
-      <SP>Localizacion</SP>
+      <SP>Localización</SP>
    </colLoc>
    <colLvl>
       <EN>Level</EN>
@@ -705,7 +705,7 @@
    <colLvl7>
       <EN>Regional State</EN>
       <FR>Etat Régional</FR>
-      <SP>Estado regional</SP>
+      <SP>Estado Regional</SP>
    </colLvl7>
    <colLvl8>
       <EN>Federated States</EN>
@@ -720,12 +720,12 @@
    <colLvl10>
       <EN>Unified World</EN>
       <FR>Monde Unifié</FR>
-      <SP>mundo Unificado</SP>
+      <SP>Mundo Unificado</SP>
    </colLvl10>
    <colMsgNotEst>
       <EN>There's No Established Colony Yet</EN>
       <FR>Il N'y a Encore Aucune Colonie Fondée</FR>
-      <SP>No se ha Establecido una Colonia</SP>
+      <SP>No se ha establecido una Colonia</SP>
    </colMsgNotEst>
    <colPopBDR>
       <EN>person(s)</EN>
@@ -755,12 +755,12 @@
    <colProdMatrix>
       <EN>Production Matrix</EN>
       <FR>Matrix de Production</FR>
-      <SP>Matriz de Produccion</SP>
+      <SP>Matriz de Producción</SP>
    </colProdMatrix>
    <colPTadmin>
       <EN>Administration</EN>
       <FR>Administration</FR>
-      <SP>Administracion</SP>
+      <SP>Administración</SP>
    </colPTadmin>
    <colPTaero>
       <EN>Aerospace</EN>
@@ -775,17 +775,17 @@
    <colPTastrop>
       <EN>Astrophysicists</EN>
       <FR>Astrophysiciens</FR>
-      <SP>Astrofisicos</SP>
+      <SP>Astrofísicos</SP>
    </colPTastrop>
    <colPTbio>
       <EN>Biology</EN>
       <FR>Biologie</FR>
-      <SP>Biologia</SP>
+      <SP>Biología</SP>
    </colPTbio>
    <colPTbios>
       <EN>Biologists</EN>
       <FR>Biologistes</FR>
-      <SP>Biologos</SP>
+      <SP>Biólogos</SP>
    </colPTbios>
    <colPTcol>
       <EN>Colonists</EN>
@@ -805,7 +805,7 @@
    <colPTeco>
       <EN>Ecology</EN>
       <FR>Ecologie</FR>
-      <SP>Ecologia</SP>
+      <SP>Ecología</SP>
    </colPTeco>
    <colPTecof>
       <EN>Ecoformers</EN>
@@ -835,7 +835,7 @@
    <colPTmisss>
       <EN>Mission Specialists</EN>
       <FR>Spécialistes de Mission</FR>
-      <SP>Especialistas de Mision</SP>
+      <SP>Especialistas de Misión</SP>
    </colPTmisss>
    <colPToff>
       <EN>Officers</EN>
@@ -845,12 +845,12 @@
    <colPTphy>
       <EN>Physics</EN>
       <FR>Physique</FR>
-      <SP>Fisica</SP>
+      <SP>Física</SP>
    </colPTphy>
    <colPTphys>
       <EN>Physicists</EN>
       <FR>Physiciens</FR>
-      <SP>Fisicos</SP>
+      <SP>Físicos</SP>
    </colPTphys>
    <colPTsold>
       <EN>Soldiers</EN>
@@ -865,42 +865,42 @@
    <colPTtech>
       <EN>Technicians</EN>
       <FR>Techniciens</FR>
-      <SP>Tecnicos</SP>
+      <SP>Técnicos</SP>
    </colPTtech>
    <colReserves>
       <EN>Reserves</EN>
       <FR>Réserves</FR>
-      <SP>Reserves</SP>
+      <SP>Reservas</SP>
    </colReserves>
    <colReserveOxygen>
       <EN>Oxygen</EN>
       <FR>Oxygène</FR>
-      <SP>Oxygen</SP>
+      <SP>Oxígeno</SP>
    </colReserveOxygen>
    <colReserveFood>
       <EN>Food</EN>
       <FR>Nourriture</FR>
-      <SP>Food</SP>
+      <SP>Comida</SP>
    </colReserveFood>
    <colReserveWater>
       <EN>Water</EN>
       <FR>Eau</FR>
-      <SP>Water</SP>
+      <SP>Agua</SP>
    </colReserveWater>
    <colStorage>
       <EN>Storage</EN>
       <FR>Stockage</FR>
-      <SP>Almacen</SP>
+      <SP>Almacén</SP>
    </colStorage>
    <colStorageCapBio>
       <EN>Biologic</EN>
       <FR>Biologique</FR>
-      <SP>Biologia</SP>
+      <SP>Biología</SP>
    </colStorageCapBio>
    <colStorageCapGas>
       <EN>Gas</EN>
       <FR>Gaz</FR>
-      <SP>Gas</SP>
+      <SP>Gases</SP>
    </colStorageCapGas>
    <colStorageCapHead>
       <EN>Capacities</EN>
@@ -910,12 +910,12 @@
    <colStorageCapLiquid>
       <EN>Liquid</EN>
       <FR>Liquide</FR>
-      <SP>Liquidos</SP>
+      <SP>Líquidos</SP>
    </colStorageCapLiquid>
    <colStorageCapSolid>
       <EN>Solid</EN>
       <FR>Solide</FR>
-      <SP>Sólido</SP>
+      <SP>Sólidos</SP>
    </colStorageCapSolid>
    <facstat>
       <EN>Current Dependence Status</EN>
@@ -945,7 +945,7 @@
    <FCWM_CDPpopul>
       <EN>Population</EN>
       <FR>Population</FR>
-      <SP>Poblacion</SP>
+      <SP>Población</SP>
    </FCWM_CDPpopul>
    <FCWM_ColDPanel>
       <EN>Colony Panel</EN>
@@ -956,17 +956,17 @@
    <cpsCr>
       <EN>Line of Credit</EN>
       <FR>Marge de Crédit</FR>
-      <SP>Linea de Credito</SP>
+      <SP>Línea de Crédito</SP>
    </cpsCr>
    <cpsCrR>
       <EN>Credit Range</EN>
       <FR>Ecart de Crédit</FR>
-      <SP>Rango de Credito</SP>
+      <SP>Rango de Crédito</SP>
    </cpsCrR>
    <cpsCrIR>
       <EN>Interest Rates Range</EN>
       <FR>Gamme de Taux d'intérêts</FR>
-      <SP>Rango de Tasas de Interes</SP>
+      <SP>Rango de Tasas de Interés</SP>
    </cpsCrIR>
    <CPSobjPanel>
       <EN>Viability Objectives Status</EN>
@@ -976,27 +976,27 @@
    <CPSreport>
       <EN>Colonization Report</EN>
       <FR>Rapport de Colonisation</FR>
-      <SP></SP>
+      <SP>Reporte de Colonización</SP>
    </CPSreport>
    <CPSrepScoreTitle>
       <EN>Final Scores</EN>
       <FR>Scores Finaux</FR>
-      <SP></SP>
+      <SP>Puntuación Final</SP>
    </CPSrepScoreTitle>
    <CPSrepSetTitle>
       <EN>Colonization Phase - End Report and Settings</EN>
       <FR>Phase de Colonisation - Rapport de Fin et Règlages</FR>
-      <SP></SP>
+      <SP>Fase de Colonización - Reporte Final y Ajustes</SP>
    </CPSrepSetTitle>
    <cpsSLcateg>
       <EN>Category</EN>
       <FR>Catégorie</FR>
-      <SP>Categoria</SP>
+      <SP>Categoría</SP>
    </cpsSLcateg>
    <cpsSLecon>
       <EN>Economic</EN>
       <FR>Economique</FR>
-      <SP>Economica</SP>
+      <SP>Económica</SP>
    </cpsSLecon>
    <cpsSLmil>
       <EN>Space &amp; Military</EN>
@@ -1031,62 +1031,62 @@
    <cpsStatus>
       <EN>Viability Thresholds</EN>
       <FR>Seuils de Viabilité</FR>
-      <SP></SP>
+      <SP>Umbral de Viabilidad</SP>
    </cpsStatus>
    <cpsThr>
       <EN>Threshold</EN>
       <FR>Seuil</FR>
-      <SP></SP>
+      <SP>Umbral</SP>
    </cpsThr>
    <cpsThr1>
       <EN>Childishly Simple (Permissive)</EN>
       <FR>Enfantin (Permissif)</FR>
-      <SP></SP>
+      <SP>Infantil (Permisivo)</SP>
    </cpsThr1>
    <cpsThr2>
       <EN>Easy (Open to change)</EN>
       <FR>Facile (ouvert au changement)</FR>
-      <SP></SP>
+      <SP>Fácil (Abierto al Cambio)</SP>
    </cpsThr2>
    <cpsThr3>
       <EN>Fair (Neutral / Balanced)</EN>
       <FR>Juste (Neutre / Balancé)</FR>
-      <SP></SP>
+      <SP>Justo (Neutral / Balanceado)</SP>
    </cpsThr3>
    <cpsThr4>
       <EN>Uneasy (Nationalism)</EN>
       <FR>Difficile (Nationalisme)</FR>
-      <SP></SP>
+      <SP>Difícil (Nacionalismo)</SP>
    </cpsThr4>
    <cpsThr5>
       <EN>Difficult (Protectionism)</EN>
       <FR>Trés Difficile (Protectionisme)</FR>
-      <SP></SP>
+      <SP>Muy Difícil (Proteccionismo)</SP>
    </cpsThr5>
    <cpsThr6>
       <EN>Hard (Dictatorship)</EN>
       <FR>Ardu (Dictature)</FR>
-      <SP></SP>
+      <SP>Duro (Dictadura)</SP>
    </cpsThr6>
    <cpsThrDiff>
       <EN>Threshold Difficulty (Ideology)</EN>
       <FR>Difficulté de Seuil (Idéologie)</FR>
-      <SP></SP>
+      <SP>Umbral de Dificultad (Ideología)</SP>
    </cpsThrDiff>
    <cpsVOotEcoEnEff>
       <EN>Energy Efficient</EN>
       <FR>Efficacité Energétique</FR>
-      <SP>Eficiencia Energetica</SP>
+      <SP>Eficiencia Energética</SP>
    </cpsVOotEcoEnEff>
    <cpsVOotEcoIndustrialForce>
       <EN>Industrial Force</EN>
       <FR>Force Industrielle</FR>
-      <SP>Industrial Force</SP>
+      <SP>Fuerza Industrial</SP>
    </cpsVOotEcoIndustrialForce>
    <cpsVOotEcoLowCr>
       <EN>Low Credit Line Use</EN>
       <FR>Faible Utilisation de la Marge de Crédit</FR>
-      <SP>Utilizacion de la Linea de Credito Bajo</SP>
+      <SP>Utilización de la Línea de Crédito Bajo</SP>
    </cpsVOotEcoLowCr>
    <cpsVOotEcoSustCol>
       <EN>Sustainable Colony</EN>
@@ -1096,7 +1096,7 @@
    <cpsVOotSocSecPop>
       <EN>Secure Population</EN>
       <FR>Population Protégée</FR>
-      <SP>Poblacion Protegida</SP>
+      <SP>Población Protegida</SP>
    </cpsVOotSocSecPop>
    <munCmodARC>
       <EN>Autonomous Remote Colony (ARC)</EN>
@@ -1118,22 +1118,22 @@
    <csmdesc>
       <EN>Event Description</EN>
       <FR>Description de l'Évènement</FR>
-      <SP>Descripcion del Evento</SP>
+      <SP>Descripción del Evento</SP>
    </csmdesc>
    <csmdur>
       <EN>Duration</EN>
       <FR>Durée</FR>
-      <SP>Duracion</SP>
+      <SP>Duración</SP>
    </csmdur>
    <csmieco>
       <EN>Economic and Industrial Output</EN>
       <FR>Performance Economique et Industrielle</FR>
-      <SP>Rendimiento Economico y Industrial</SP>
+      <SP>Rendimiento Económico y Industrial</SP>
    </csmieco>
    <csmPercPopNotSupported>
       <EN>Percent of Total Population not Supported: </EN>
       <FR>Pourcent de la Population Totale Non Supportée:</FR>
-      <SP></SP>
+      <SP>Porcentaje de la Población Total No Soportado:</SP>
    </csmPercPopNotSupported>
    <csmevColDissident>
       <EN>Dissident Colony</EN>
@@ -1143,72 +1143,72 @@
    <csmevColEst>
       <EN>Colony Established</EN>
       <FR>Colonie Etablie</FR>
-      <SP>Colonia Establecido</SP>
+      <SP>Colonia Establecida</SP>
    </csmevColEst>
    <csmevColRogue>
       <EN>Rogue Colony</EN>
       <FR>Colonie Voyou</FR>
-      <SP>Colonia .</SP>
+      <SP>Colonia Jóven</SP>
    </csmevColRogue>
    <csmevGovDestab>
       <EN>Governmental Destabilization</EN>
       <FR>Destabilisation du Gouvernement</FR>
-      <SP>Desestabilizacion del Gobierno</SP>
+      <SP>Desestabilización del Gobierno</SP>
    </csmevGovDestab>
    <csmevGovDestabRec>
       <EN>Governmental Destabilization (Recovering)</EN>
       <FR>Destabilisation du Gouvernement (Récupèration)</FR>
-      <SP>Desestabilizacion del Gobierno (Recuperacion)</SP>
+      <SP>Desestabilización del Gobierno (Recuperación)</SP>
    </csmevGovDestabRec>
    <csmevHealthEduRel>
       <EN>Health-Education Relation</EN>
       <FR>Relation Santé-Education</FR>
-      <SP>Relacion Sanidad-Educacion</SP>
+      <SP>Relación Sanidad-Educación</SP>
    </csmevHealthEduRel>
    <csmevRveOxygenOverload>
       <EN>Oxygen Production Overload</EN>
       <FR>Surcharge de Production d'Oxygène</FR>
-      <SP></SP>
+      <SP>Sobrecarga de Producción de Oxígeno</SP>
    </csmevRveOxygenOverload>
    <csmevRveOxygenShortage>
       <EN>Oxygen Shortage</EN>
       <FR>Pénurie d'Oxygène</FR>
-      <SP></SP>
+      <SP>Falta de Oxígeno</SP>
    </csmevRveOxygenShortage>
    <csmevRveOxygenShortageRec>
       <EN>Oxygen Shortage (Recovering)</EN>
       <FR>Pénurie d'Oxygène (Récupèration)</FR>
-      <SP></SP>
+      <SP>Falta de Oxígeno (Recuperación)</SP>
    </csmevRveOxygenShortageRec>
    <csmevRveFoodOverload>
       <EN>Food Production Overload</EN>
       <FR>Surcharge de Production de Nourriture</FR>
-      <SP></SP>
+      <SP>Sobrecarga de Producción de Nutrientes</SP>
    </csmevRveFoodOverload>
    <csmevRveFoodShortage>
       <EN>Food Shortage</EN>
       <FR>Pénurie de Nourriture</FR>
-      <SP></SP>
+      <SP>Falta de Nutrientes</SP>
    </csmevRveFoodShortage>
    <csmevRveFoodShortageRec>
       <EN>Food Shortage (Recovering)</EN>
       <FR>Pénurie de Nourriture (Récupèration)</FR>
-      <SP></SP>
+      <SP>Falta de Nutrientes (Recuperación)</SP>
    </csmevRveFoodShortageRec>
    <csmevRveWaterOverload>
       <EN>Water Production Overload</EN>
       <FR>Surcharge de Production d'Eau</FR>
-      <SP></SP>
+      <SP>Sobrecarga de Producción de Agua</SP>
    </csmevRveWaterOverload>
    <csmevRveWaterShortage>
       <EN>Water Shortage</EN>
       <FR>Pénurie d'Eau</FR>
-      <SP></SP>
+      <SP>Falta de Agua</SP>
    </csmevRveWaterShortage>
    <csmevRveWaterShortageRec>
       <EN>Water Shortage (Recovering)</EN>
       <FR>Pénurie d'Eau (Récupèration)</FR>
-      <SP></SP>
+      <SP>Falta de Agua (Recuperación)</SP>
    </csmevRveWaterShortageRec>
    <csmevSocDis>
       <EN>Social Disorder</EN>
@@ -1218,7 +1218,7 @@
    <csmevSocDisRec>
       <EN>Social Disorder (Recovering)</EN>
       <FR>Désordre Social (Récupèration)</FR>
-      <SP>Desorden Social (Recuperacion)</SP>
+      <SP>Desorden Social (Recuperación)</SP>
    </csmevSocDisRec>
    <csmevUnrest>
       <EN>Unrest</EN>
@@ -1228,7 +1228,7 @@
    <csmevUnrestRec>
       <EN>Unrest (Recovering)</EN>
       <FR>Troubles (Récupèration)</FR>
-      <SP>Disturbios (Recuperacion)</SP>
+      <SP>Disturbios (Recuperación)</SP>
    </csmevUnrestRec>
    <csmevUprising>
       <EN>Uprising</EN>
@@ -1238,7 +1238,7 @@
    <csmevUprisingRec>
       <EN>Uprising (Recovering)</EN>
       <FR>Révolte (Récupèration)</FR>
-      <SP>Revueltas (Recuperacion)</SP>
+      <SP>Revueltas (Recuperación)</SP>
    </csmevUprisingRec>
    <!-- ********** FACTION NAMES ********** -->
    <factkMagelUni>
@@ -1318,25 +1318,25 @@
       &#60;br&#62;&#60;b&#62;ESC: &#60;/b&#62;minimise la boite de message</FR>
       <SP>
      &#60;br&#62;&#60;b&#62;&#60;u&#62;Vista 3D - Examinar Objeto Enfocado&#60;/u&#62;&#60;/b&#62;
-      &lt;ind x="361"&gt;&#60;b&#62;&#60;u&#62;Interfaz de Macrogestion Unificada (UMI)&#60;/u&#62;&#60;/b&#62;
+      &lt;ind x="361"&gt;&#60;b&#62;&#60;u&#62;Interfaz de Macrogestión Unificada (UMI)&#60;/u&#62;&#60;/b&#62;
       &#60;br&#62;&#60;b&#62;TECLA NUMÉRICA 4: &#60;/b&#62;Enfocar Objeto Anterior
       &lt;ind x="361"&gt;&#60;b&#62;F2: &#60;/b&#62;Universo
       &#60;br&#62;&#60;b&#62;TECLA NUMÉRICA 6: &#60;/b&#62;Enfocar Objeto Siguiente
-      &lt;ind x="361"&gt;&#60;b&#62;F3: &#60;/b&#62;Faccion/Estructura Politica
+      &lt;ind x="361"&gt;&#60;b&#62;F3: &#60;/b&#62;Faccion/Estructura Política
       &#60;br&#62;&#60;b&#62;TECLA NUMÉRICA 7: &#60;/b&#62;Enfocar en el Primer Objeto
-      &lt;ind x="361"&gt;&#60;b&#62;F4: &#60;/b&#62;Marco Faccion Socio/politica (SPM)
-      &#60;br&#62;&#60;b&#62;TECLA NUMÉRICA 1: &#60;/b&#62;Enfocar en el Ultimo Objeto
-      &lt;ind x="361"&gt;&#60;b&#62;F5: &#60;/b&#62;onglet Faccion/politicas de aplicacion
-      &#60;br&#62;&#60;b&#62;A: &#60;/b&#62;Cambiar Entre el Satelite y la Visualizacion de Objetos Orbitales
+      &lt;ind x="361"&gt;&#60;b&#62;F4: &#60;/b&#62;Marco Facción Socio/política (SPM)
+      &#60;br&#62;&#60;b&#62;TECLA NUMÉRICA 1: &#60;/b&#62;Enfocar en el Último Objeto
+      &lt;ind x="361"&gt;&#60;b&#62;F5: &#60;/b&#62;onglet Facción/políticas de aplicación
+      &#60;br&#62;&#60;b&#62;A: &#60;/b&#62;Cambiar Entre el Satélite y la Visualización de Objetos Orbitales
       &lt;ind x="361"&gt;&#60;b&#62;F6: &#60;/b&#62;Ficha Unidades Espaciales
-      &#60;br&#62;&#60;b&#62;S: &#60;/b&#62;Cambiar entre la Unidad del Espacio y los Objetos de Visualizacion Orbital
+      &#60;br&#62;&#60;b&#62;S: &#60;/b&#62;Cambiar entre la Unidad del Espacio y los Objetos de Visualización Orbital
       &lt;ind x="361"&gt;&#60;b&#62;F7: &#60;/b&#62;Ficha Produccion&lt;br&gt;
-      &lt;ind x="361"&gt;&#60;b&#62;F8: &#60;/b&#62;Ficha Investigacion y Desarrollo
+      &lt;ind x="361"&gt;&#60;b&#62;F8: &#60;/b&#62;Ficha Investigación y Desarrollo
       &#60;br&#62;&#60;b&#62;&#60;u&#62;Vista 3D - Tiempos&#60;/u&#62;&#60;/b&#62;
       &#60;br&#62;&#60;b&#62;P: &#60;/b&#62;juego en pausa
-      &#60;br&#62;&#60;b&#62;Z: &#60;/b&#62;tiempos tacticos (1seg TR ~ 10min TJ)
-      &#60;br&#62;&#60;b&#62;X: &#60;/b&#62;tiempos de gestion (1seg TR ~ 20min TJ)
-      &#60;br&#62;&#60;b&#62;C: &#60;/b&#62;tiempos estrategicos/historicos (1seg TR ~ 100min TJ)
+      &#60;br&#62;&#60;b&#62;Z: &#60;/b&#62;tiempos tácticos (1seg TR ~ 10min TJ)
+      &#60;br&#62;&#60;b&#62;X: &#60;/b&#62;tiempos de gestión (1seg TR ~ 20min TJ)
+      &#60;br&#62;&#60;b&#62;C: &#60;/b&#62;tiempos estratégicos/históricos (1seg TR ~ 100min TJ)
       &#60;br&#62;&#60;br&#62;&#60;b&#62;&#60;u&#62;Ventana de mensajes
       &#60;br&#62;&#60;b&#62;M: &#60;/b&#62;=&#62; maximizar =&#62; minimizar la ventana de mensajes
       &#60;br&#62;&#60;b&#62;ESC: &#60;/b&#62;minimizar la ventana de mensajes</SP>
@@ -1385,47 +1385,47 @@
    <FCWMinfraKit2>
       <EN>the assembling duration will be automatically calculated.</EN>
       <FR>la durée d'Assemblage sera automatiquement calculé.</FR>
-      <SP>La Duracion del Montaje sera Calculado Automaticamente.</SP>
+      <SP>La Duración del Montaje será Calculado Automáticamente.</SP>
    </FCWMinfraKit2>
    <FCWMtaskAssemble>
       <EN>This infrastructure is ready to be assembled, one infrastructure kit will be taken from the colony's storage.</EN>
       <FR>Cette infrastructure est prête à être assemblée, un kit d'infrastructure sera pris du stockage de la colonie.</FR>
-      <SP>Esta Infraestructura esta Lista para ser Montada, un kit de Infraestructura sera Utilizado de el almacen de la Colonia.</SP>
+      <SP>Esta Infraestructura está Lista para ser Montada, un kit de Infraestructura será Utilizado del almacén de la Colonia.</SP>
    </FCWMtaskAssemble>
    <FCWMtaskBuild>
       <EN>This infrastructure is ready to be build, required materials will be taken from the colony's storage.</EN>
       <FR>Cette infrastructure est prête à être construite, les materiaux requis serons pris du stockage de la colonie.</FR>
-      <SP>Esta Infraestructura esta Lista para ser Montada,los Materiales Requeridos seran Recojidos de el Almacen de la Colonia.</SP>
+      <SP>Esta Infraestructura está Lista para ser Montada,los Materiales Requeridos serán Recogidos del Almacén de la Colonia.</SP>
    </FCWMtaskBuild>
    <FCWMtaskCannotAssemble1>
       <EN>This infrastructure cannot be assembled, there's no more available Workforce Construction Points for it.</EN>
       <FR>Cette infrastructure ne peut être assemblée, il n'y a plus de Points de Force de Construction disponible pour.</FR>
-      <SP>Esta Infraestructura no puede ser Montada,no hay Puntos de Construccion de Mano de obra.</SP>
+      <SP>Esta Infraestructura no puede ser Montada,no hay Puntos de Construcción de Mano de obra.</SP>
    </FCWMtaskCannotAssemble1>
    <FCWMtaskCannotAssemble2>
       <EN>You need to assign more Construction Workforce Points in the Population section.</EN>
       <FR>Vous avez besoin d'assigner plus de Points de Force de Construction dans la section Population.</FR>
-      <SP>Es Necesario Asignar mas Puntos de Construccion de Mano de Obra en la Seccion de Poblacion.</SP>
+      <SP>Es Necesario Asignar más Puntos de Construcción de Mano de Obra en la Sección de Población.</SP>
    </FCWMtaskCannotAssemble2>
    <FCWMtaskCannotBuild>
       <EN>This infrastructure cannot be built, there's no more available Workforce Construction Points for it.</EN>
       <FR>Cette infrastructure ne peut être construite, il n'y a plus de Points de Force de Construction disponible pour.</FR>
-      <SP>Esta Infraestructura no Puede ser Construida,no hay Puntos de Construccion de Mano de Obra Disponibles.</SP>
+      <SP>Esta Infraestructura no Puede ser Construida,no hay Puntos de Construcción de Mano de Obra Disponibles.</SP>
    </FCWMtaskCannotBuild>
    <FCWMtaskCWPassemble>
       <EN>The &#60;a href="cwpRoot"&#62;CWP&#60;/a&#62; assigned to this assembling will be equal to</EN>
       <FR>Le &#60;a href="cwpRoot"&#62;CWP&#60;/a&#62; assigné à cet assemblage sera égal à</FR>
-      <SP>El &#60;a href="cwpRoot"&#62;CWP&#60;/a&#62; asignado a este montaje sera igual a</SP>
+      <SP>El &#60;a href="cwpRoot"&#62;CWP&#60;/a&#62; asignado a este montaje será igual a</SP>
    </FCWMtaskCWPassemble>
    <FCWMtaskCWPbuild>
       <EN>The &#60;a href="cwpRoot"&#62;CWP&#60;/a&#62; assigned to this building will be equal to</EN>
       <FR>Le &#60;a href="cwpRoot"&#62;CWP&#60;/a&#62; assigné à cette construction sera égal à</FR>
-      <SP>El &#60;a href="cwpRoot"&#62;CWP&#60;/a&#62; asignado a este edificio sera igual a</SP>
+      <SP>El &#60;a href="cwpRoot"&#62;CWP&#60;/a&#62; asignado a este edificio será igual a</SP>
    </FCWMtaskCWPbuild>
    <FCWMtaskDuration1>
       <EN>and will take</EN>
       <FR>et prendra</FR>
-      <SP>y llevara </SP>
+      <SP>y llevará </SP>
    </FCWMtaskDuration1>
    <FCWMtaskDuration2>
       <EN>hours to be completed.</EN>
@@ -1435,22 +1435,22 @@
    <FCWMtitleAssemble>
       <EN>Assembling Configuration</EN>
       <FR>Configuration d'Assemblage</FR>
-      <SP>Configuracion de Montaje</SP>
+      <SP>Configuración de Montaje</SP>
    </FCWMtitleAssemble>
    <FCWMtitleBuild>
       <EN>Building Configuration</EN>
       <FR>Configuration de Construction</FR>
-      <SP>Configuracion de Construccion</SP>
+      <SP>Configuración de Construcción</SP>
    </FCWMtitleBuild>
    <cwpTitle>
       <EN>Construction Workforce</EN>
       <FR>Force de Construction</FR>
-      <SP>Mano de Obra Construccion</SP>
+      <SP>Mano de Obra Construcción</SP>
    </cwpTitle>
    <infrafunc_Energy>
       <EN>Energy</EN>
       <FR>Energie</FR>
-      <SP>Energia</SP>
+      <SP>Energía</SP>
    </infrafunc_Energy>
    <infrafunc_Housing>
       <EN>Housing</EN>
@@ -1465,12 +1465,12 @@
    <infrafunc_Misc>
       <EN>Miscellaneous</EN>
       <FR>Divers</FR>
-      <SP>Miscelanea</SP>
+      <SP>Miscelánea</SP>
    </infrafunc_Misc>
    <infrafunc_Prod>
       <EN>Production</EN>
       <FR>Production</FR>
-      <SP>Produccion</SP>
+      <SP>Producción</SP>
    </infrafunc_Prod>
    <infrastatus_disabled>
       <EN>Disabled</EN>
@@ -1500,7 +1500,7 @@
    <infrastatus_inTransition>
       <EN>Transition Time</EN>
       <FR>Temps de Transition</FR>
-      <SP>Tiempo de Transicion</SP>
+      <SP>Tiempo de Transición</SP>
    </infrastatus_inTransition>
    <infrastatus_operational>
       <EN>Operational</EN>
@@ -1520,7 +1520,7 @@
    <infrColShelt>
       <EN>Colonization Shelter</EN>
       <FR>Abris de Colonisation</FR>
-      <SP>Albergue de Colonizacion</SP>
+      <SP>Albergue de Colonización</SP>
    </infrColShelt>
    <infrHousesPack>
       <EN>Houses Pack</EN>
@@ -1540,27 +1540,27 @@
    <infrInflatHab>
       <EN>Inflatable Habitat</EN>
       <FR>Habitat Gonflable</FR>
-      <SP>Habitat Inflable</SP>
+      <SP>Hábitat Inflable</SP>
    </infrInflatHab>
    <infrMiningSite>
       <EN>Mining Site</EN>
       <FR>Site de Minage</FR>
-      <SP>Emplazamiento de Mineria</SP>
+      <SP>Emplazamiento de Minería</SP>
    </infrMiningSite>
    <infrMultiDepot>
       <EN>Multipurpose Depot</EN>
       <FR>Entrepôt Multifonction</FR>
-      <SP>Almacen Multifuncion</SP>
+      <SP>Almacén Multifunción</SP>
    </infrMultiDepot>
    <infrNucFissReactor>
       <EN>Nuclear Fission Reactor</EN>
       <FR>Réacteur à Fission Nucléaire</FR>
-      <SP>Reactor de Fision Nuclear</SP>
+      <SP>Reactor de Fisión Nuclear</SP>
    </infrNucFissReactor>
    <infrPressTanksArray>
       <EN>Pressurized Tanks Array</EN>
       <FR>Grille de Réservoirs Préssurisés</FR>
-      <SP>Pressurized Tanks Array</SP>
+      <SP>Malla de Tanques Presurizados</SP>
    </infrPressTanksArray>
    <!-- ********** MAIN 3D VIEW FRAME ******* -->
    <FCWM_3dMainGrp.Upd>
@@ -1582,7 +1582,7 @@
    <MVUIcpsCVS>
       <EN>Credit Line               CVS               Time Left</EN>
       <FR>Ligne de Crédit            CVS          Temps Restant</FR>
-      <SP>Linea de Credito           CVS       Tiempo Restante</SP>
+      <SP>Línea de Crédito           CVS       Tiempo Restante</SP>
    </MVUIcpsCVS>
    <MVUIoobjAlb>
       <EN>Albedo</EN>
@@ -1592,7 +1592,7 @@
    <MVUIoobjAxTilt>
       <EN>Axial Tilt</EN>
       <FR>Inclinaison d'Axe</FR>
-      <SP>Inclinacion del Eje</SP>
+      <SP>Inclinación del Eje</SP>
    </MVUIoobjAxTilt>
    <MVUIoobjDens>
       <EN>Density</EN>
@@ -1602,17 +1602,17 @@
    <MVUIoobjDiam>
       <EN>Diameter</EN>
       <FR>Diamètre</FR>
-      <SP>Diametro</SP>
+      <SP>Diámetro</SP>
    </MVUIoobjDiam>
    <MVUIoobjDistFSt>
       <EN>Distance From Star</EN>
       <FR>Distance de l'Étoile</FR>
-      <SP>Distancia de el Sol</SP>
+      <SP>Distancia del Sol</SP>
    </MVUIoobjDistFSt>
    <MVUIoobjEcc>
       <EN>Orbit Eccentricity</EN>
       <FR>Eccentricité d'Orbite</FR>
-      <SP>Ecentricidad de la Orbita</SP>
+      <SP>Ecentricidad de la Órbita</SP>
    </MVUIoobjEcc>
    <MVUIoobjEscVel>
       <EN>Escape Velocity</EN>
@@ -1622,7 +1622,7 @@
    <MVUIoobjGeophyDatH>
       <EN>Geophysical Data</EN>
       <FR>Données Géophysiques</FR>
-      <SP>Datos Geofisicos</SP>
+      <SP>Datos Geofísicos</SP>
    </MVUIoobjGeophyDatH>
    <MVUIoobjGrav>
       <EN>Gravity</EN>
@@ -1632,7 +1632,7 @@
    <MVUIoobjMagF>
       <EN>Magnetic Field</EN>
       <FR>Champs Magnétique</FR>
-      <SP>Campos Magneticos</SP>
+      <SP>Campos Magnéticos</SP>
    </MVUIoobjMagF>
    <MVUIoobjMass>
       <EN>Mass (Rel. to Earth)</EN>
@@ -1657,17 +1657,17 @@
    <MVUIoobjRevPer>
       <EN>Revolution Period</EN>
       <FR>Période de Révolution</FR>
-      <SP>Periodo de revolucion</SP>
+      <SP>Periodo de Revolución</SP>
    </MVUIoobjRevPer>
    <MVUIoobjRotPer>
       <EN>Rotation Period</EN>
       <FR>Période de Rotation</FR>
-      <SP>Periodo de Rotacion</SP>
+      <SP>Periodo de Rotación</SP>
    </MVUIoobjRotPer>
    <MVUIoobjSat>
       <EN>Number of Satellites</EN>
       <FR>Nombre de Satellites</FR>
-      <SP>Numero de Satelites</SP>
+      <SP>Número de Satélites</SP>
    </MVUIoobjSat>
    <MVUIoobjTidLckd>
       <EN>Tidally Locked</EN>
@@ -1692,7 +1692,7 @@
    <MVUIspunRMass>
       <EN>Reaction Mass</EN>
       <FR>Masse de Réaction</FR>
-      <SP>Masa de Reaccion</SP>
+      <SP>Masa de Reacción</SP>
    </MVUIspunRMass>
    <MVUIstarClass>
       <EN>Star Class</EN>
@@ -1702,7 +1702,7 @@
    <MVUIstarDiam>
       <EN>Diameter (Sun=1)</EN>
       <FR>Diamètre (Soleil=1)</FR>
-      <SP>Diametro (Sol=1)</SP>
+      <SP>Diámetro (Sol=1)</SP>
    </MVUIstarDiam>
    <MVUIstarLum>
       <EN>Luminosity (Sun=1)</EN>
@@ -1807,7 +1807,7 @@
          <FCWM_MMenu_O_Loc>
             <EN>Panels Locations Saving</EN>
             <FR>Sauvegarde des Placements des Panneaux</FR>
-            <SP>Guardar Localizacion de los Paneles</SP>
+            <SP>Guardar Localización de los Paneles</SP>
          </FCWM_MMenu_O_Loc>
          <!-- Main Menu / Options / Help -->
          <FCWM_MMenu_O_LocHelp>
@@ -1831,13 +1831,13 @@
          <FCWM_MMenu_O_TexR>
             <EN>Standard Textures Resolution</EN>
             <FR>Résolution des Textures Standard</FR>
-            <SP>Resolucion de Texturas Standard</SP>
+            <SP>Resolución de Texturas Standard</SP>
          </FCWM_MMenu_O_TexR>
    <!-- Main Menu / Debug Tools -->
    <FCWM_MMenu_DebTools>
       <EN>Debug Tools</EN>
       <FR>Outils de Debug</FR>
-      <SP>herramientas de depuracion</SP>
+      <SP>Herramientas de depuración</SP>
    </FCWM_MMenu_DebTools>
       <!-- Main Menu / Debug Tools / FUG -->
       <FCWM_MMenu_DTFUG>
@@ -1889,52 +1889,52 @@
    <MSG_IntroHead>
       <EN>New Game Introduction and Goals</EN>
       <FR>Introduction de Nouvelle Partie et Objectifs</FR>
-      <SP>Introduccion y Metas Partida Nueva</SP>
+      <SP>Introducción y Metas Partida Nueva</SP>
    </MSG_IntroHead>
    <MSG_Intro1>
       <EN>Welcome to FAR Colony.&#60;br&#62;After a long travel, the expedition set by </EN>
       <FR>Bienvenue à FAR Colony.&#60;br&#62;Après un long voyage, l'expédition mise en place par </FR>
-      <SP>Bienvenido a FAR Colony.&#60;br&#62;Despues de un Viaje Largo, la Expedicion comienza en</SP>
+      <SP>Bienvenido a FAR Colony.&#60;br&#62;Después de un viaje muy largo, la expedición comienza en </SP>
    </MSG_Intro1>
    <MSG_Intro2>
       <EN> arrives in orbit of the planet &#60;b&#62;</EN>
       <FR> arrive en orbite de la planète &#60;b&#62;</FR>
-      <SP>Cerca de la Orbita del Planeta</SP>
+      <SP> cerca de la órbita del planeta &#60;b&#62;</SP>
    </MSG_Intro2>
    <MSG_Intro3>
       <EN>&#60;/b&#62; located in orbit of the star &#60;b&#62;</EN>
       <FR>&#60;/b&#62; située en orbite de l'étoile &#60;b&#62;</FR>
-      <SP>&#60;/b&#62; Localizado en la orbita del Sol &#60;b&#62;</SP>
+      <SP>&#60;/b&#62; localizado en la órbita del Sol &#60;b&#62;</SP>
    </MSG_Intro3>
    <MSG_Intro4>
       <EN>&#60;/b&#62; , in the &#60;b&#62;</EN>
       <FR>&#60;/b&#62; , dans le système stellaire &#60;b&#62;</FR>
-      <SP>&#60;/b&#62; , en el &#60;b&#62;</SP>
+      <SP>&#60;/b&#62; , en el sistema solar &#60;b&#62;</SP>
    </MSG_Intro4>
    <MSG_Intro5>
       <EN>&#60;/b&#62; star system.</EN>
       <FR>&#60;/b&#62; .</FR>
-      <SP>&#60;/b&#62; Sistema Solar.</SP>
+      <SP>&#60;/b&#62; .</SP>
    </MSG_Intro5>
    <MSG_IntroCMend>
       <EN>As a player you'll have to obtain the best viability score, during the colonization phase of the first colony, by trying to complete the different colonization objectives. The different status of these objectives are described in the second message.&#60;br&#62;The Colonization Phase itself have a duration of 1 standard year (365 standard days).&#60;br&#62;Good luck !</EN>
       <FR>En tant que joueur vous devrez obtenir le meilleur score de viabilité, pendant la phase de colonisation de la première colonie, en essayant de complèter les différents objectifs de colonisation. Les différents statut de ces objectifs sont décrits dans le deuxième message.&#60;br&#62;Le Colonization Phase elle-même a une durée de 1 année standard (365 jours standard).&#60;br&#62;Bonne chance !</FR>
-      <SP>Como jugador tendra que tener la mejor puntuacion de viabilidad, durante la fase de colonizacion de la primera colonia, al tratar de cumplir los objetivos de colonizacion diferentes. Las diferentes condiciones de los objetivos se describen en el segundo mensaje.&#60;br&#62;La fase de colonizacion tendra una duracion de 1 año standard (365 dias standard).&#60;br&#62;Buena Suerte !</SP>
+      <SP>Como jugador tendrá que tener la mejor puntuación de viabilidad, durante la fase de colonización de la primera colonia, al tratar de cumplir los objetivos de colonización diferentes. Las diferentes condiciones de los objetivos se describen en el segundo mensaje.&#60;br&#62;La fase de colonización tendrá una duración de 1 año terrestre (365 dias terrestres).&#60;br&#62;Buena Suerte !</SP>
    </MSG_IntroCMend>
    <MSG_IntroCMmun>
       <EN>The future &#60;b&#62;Autonomous Remote Colony (ARC)&#60;/b&#62;, such an extension of the Unity, will have to stay sustainable on long term, and even if it can't become completely independent, the range of allowed actions is wide.</EN>
       <FR>La future &#60;b&#62;Colonie Autonome Lointaine (ARC)&#60;/b&#62;, telle une extension de l'Unité, devra rester durable sur le long terme, et même si elle ne peut pas devenir complètement indépendante, la gamme des actions permises est large.</FR>
-      <SP>El futuro &#60;b&#62;Colonia Remota Autonoma (ARC)&#60;/b&#62;, como una extension de la unidad,tendra que permanecer sostenible a largo plazo, e incluso si no pueden llegar a ser completamente independientes, el rango de acciones permitidas se amplia.</SP>
+      <SP>El futuro &#60;b&#62;ARC (Colonia Remota Autonoma) &#60;/b&#62;, será como una extensión de la Unidad,tendra que permanecer sostenible a largo plazo, e incluso si no puede llegar a ser completamente independiente, el rango de acciones permitidas se ampliará para su futura evolución.</SP>
    </MSG_IntroCMmun>
    <MSG_MissColHead>
       <EN>End of Colonization Mission</EN>
       <FR>Fin de Mission de Colonisation</FR>
-      <SP>Fin de la Mision de Colonizacion</SP>
+      <SP>Fin de la Misión de Colonización</SP>
    </MSG_MissColHead>
    <MSG_MissCol0>
       <EN>The Lander Vehicle (LV) &lt;b&gt;</EN>
       <FR>Le Véhicule Atterrisseur (LV) &lt;b&gt;</FR>
-      <SP>El Vehiculo Aterrizador (LV)</SP>
+      <SP>El Vehículo Aterrizador (LV)</SP>
    </MSG_MissCol0>
    <MSG_MissCol1>
       <EN>&lt;/b&gt; has landed on the surface of &lt;b&gt;</EN>
@@ -1944,7 +1944,7 @@
    <MSG_MissCol2>
       <EN>&lt;/b&gt; in the region [</EN>
       <FR>&lt;/b&gt; dans la région [</FR>
-      <SP>&lt;/b&gt; en la region [</SP>
+      <SP>&lt;/b&gt; en la región [</SP>
    </MSG_MissCol2>
    <MSG_MissCol3>
       <EN>], and the colonist founded the "</EN>
@@ -1969,7 +1969,7 @@
    <MSG_MissITHead>
       <EN>End of Interplanetary Transit</EN>
       <FR>Fin de Transit Interplanétaire</FR>
-      <SP>Fin de el Transito Interplanetario</SP>
+      <SP>Fin del Tránsito Interplanetario</SP>
    </MSG_MissITHead>
    <MSG_MissIT0>
       <EN>The space unit &lt;b&gt;</EN>
@@ -1979,7 +1979,7 @@
    <MSG_MissIT1>
       <EN>&lt;/b&gt; is arrived in orbit of &lt;b&gt;</EN>
       <FR>&lt;/b&gt; est arrivée en orbite de &lt;b&gt;</FR>
-      <SP>&lt;/b&gt; ha llegado a la orbita de &lt;b&gt;</SP>
+      <SP>&lt;/b&gt; ha llegado a la órbita de &lt;b&gt;</SP>
    </MSG_MissIT1>
    <MSG_SPMreqHead>
       <EN>SPM Phase: Requirements Problem</EN>
@@ -1994,7 +1994,7 @@
    <MSG_SPMreq1>
       <EN>The policy </EN>
       <FR>La politique </FR>
-      <SP>La politica</SP>
+      <SP>La política</SP>
    </MSG_SPMreq1>
    <MSG_SPMreq2>
       <EN>doesn't meet anymore at least one requirement, and is no more enforced now.&lt;br&gt;Please refer yourself to the UMI/Faction tab/Policy Enforcement sub-tab for see what requirement isn't met.</EN>
@@ -2005,39 +2005,39 @@
    <FCWinMissSet>
       <EN>&lt;p align="center"&gt;&lt;b&gt;Mission Setup: </EN>
       <FR>Mise en Place de Mission: </FR>
-      <SP>Ajustes de Mision: </SP>
+      <SP>Ajustes de Misión: </SP>
    </FCWinMissSet>
       <!-- Mission Setup Window / Mission Configuration GroupBox -->
       <FCWMS_Grp_MCG>
          <EN>Mission Configuration</EN>
          <FR>Configuration de Mission</FR>
-         <SP>Configuracion de Mision</SP>
+         <SP>Configuración de Misión</SP>
       </FCWMS_Grp_MCG>
          <MCGColCVSel>
             <EN>Colonization LV Used</EN>
             <FR>LV de Colonisation Utilisés</FR>
-            <SP>LV de Colonizacion Usados</SP>
+            <SP>LV de Colonización Usados</SP>
          </MCGColCVSel>
          <MCGtransSpd>
             <EN>Transit Flight Selector</EN>
             <FR>Selecteur de Vol de Transit</FR>
-            <SP>Selector de Transito de Vuelo</SP>
+            <SP>Selector de Tránsito de Vuelo</SP>
          </MCGtransSpd>
          <!-- Mission Setup Window / Mission Configuration GroupBox / Trackbar -->
          <FCWMS_Grp_MCG_RMassTrackITransEco>
             <EN>Economic Transit Flight</EN>
             <FR>Vol de Transit Economique</FR>
-            <SP>Transito de Vuelo Economico</SP>
+            <SP>Tránsito de Vuelo Económico</SP>
          </FCWMS_Grp_MCG_RMassTrackITransEco>
          <FCWMS_Grp_MCG_RMassTrackITransSlow>
             <EN>Slow Transit Flight</EN>
             <FR>Vol de Transit Lent</FR>
-            <SP>Transito de Vuelo Lento</SP>
+            <SP>Tránsito de Vuelo Lento</SP>
          </FCWMS_Grp_MCG_RMassTrackITransSlow>
          <FCWMS_Grp_MCG_RMassTrackITransFast>
             <EN>Fast Transit Flight</EN>
             <FR>Vol de Transit Rapide</FR>
-            <SP>Transito de Vuelo Rapido</SP>
+            <SP>Tránsito de Vuelo Rápido</SP>
          </FCWMS_Grp_MCG_RMassTrackITransFast>
          <!-- Mission Setup Window / Mission Configuration GroupBox / Settlements -->
          <FCWMS_Grp_MCG_SetName>
@@ -2070,13 +2070,13 @@
          <MCGDatHead>
             <EN>Configuration Results</EN>
             <FR>Résultats de Configuration</FR>
-            <SP>resultados de Configuracion</SP>
+            <SP>Asentamiento Espacial Básico</SP>
          </MCGDatHead>
          <!-- Mission Configuration Data -->
          <MCGDatAccel>
             <EN>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Acceleration&#60;/b&#62;&#60;/font&#62;</EN>
             <FR>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Accelération&#60;/b&#62;&#60;/font&#62;</FR>
-            <SP>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Acceleracion&#60;/b&#62;&#60;/font&#62;</SP>
+            <SP>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Aceleracion&#60;/b&#62;&#60;/font&#62;</SP>
          </MCGDatAccel>
          <MCGatmEntDV>
             <EN>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Atmosphere Entry &#60;font face=&#34;symbol&#34;&#62;D&#60;/font&#62;V&#60;/b&#62;&#60;/font&#62;</EN>
@@ -2101,12 +2101,12 @@
          <MCGDatMaxTime>
             <EN>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Max. ETA&#60;/b&#62;&#60;/font&#62;</EN>
             <FR>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Max. TEA&#60;/b&#62;&#60;/font&#62;</FR>
-            <SP>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Max. TEL&#60;/b&#62;&#60;/font&#62;</SP>
+            <SP>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Max. TELL&#60;/b&#62;&#60;/font&#62;</SP>
          </MCGDatMaxTime>
          <MCGDatMinTime>
             <EN>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Min. ETA&#60;/b&#62;&#60;/font&#62;</EN>
             <FR>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Min. TEA&#60;/b&#62;&#60;/font&#62;</FR>
-            <SP>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Min. ETA&#60;/b&#62;&#60;/font&#62;</SP>
+            <SP>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Min. TER&#60;/b&#62;&#60;/font&#62;</SP>
          </MCGDatMinTime>
          <MCGDatTripTime>
             <EN>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Trip Time&#60;/b&#62;&#60;/font&#62;</EN>
@@ -2121,18 +2121,18 @@
       <Mission.coloniz>
          <EN>Colonization</EN>
          <FR>Colonisation</FR>
-         <SP>Colonizacion</SP>
+         <SP>Colonización</SP>
       </Mission.coloniz>
       <Mission.itransit>
          <EN>Interplanetary Transit</EN>
          <FR>Transit Interplanétaire</FR>
-         <SP>Transito Interplanetario</SP>
+         <SP>Tránsito Interplanetario</SP>
       </Mission.itransit>
       <!-- Mission Setup Window / Mission Data GroupBox -->
       <FCWMS_Grp_MSDG>
          <EN>Mission Data</EN>
          <FR>Données de Mission</FR>
-         <SP>Datos Mision</SP>
+         <SP>Datos Misión</SP>
       </FCWMS_Grp_MSDG>
          <!-- Mission Setup Window / Mission Data / Space unit id and status -->
          <MSDGspUnIdStat>
@@ -2143,7 +2143,7 @@
          <MSDGmotherSpUnIdStat>
             <EN>Mother-Vessel Id. And Status</EN>
             <FR>Id. et Status du Vaisseau-Mère</FR>
-            <SP>ID. y Estado de Buque Nodriza</SP>
+            <SP>Id. y Estado de Buque Nodriza</SP>
          </MSDGmotherSpUnIdStat>
          <!-- Mission Setup Window / Mission Data / Current DeltaV and Remaining RMass -->
          <MSDGcurDV>
@@ -2154,7 +2154,7 @@
          <MSDGremRMass>
             <EN>Remaining Reaction Mass</EN>
             <FR>Masse de Réaction Restante</FR>
-            <SP>Masa de Reaccion Restante</SP>
+            <SP>Masa de Reacción Restante</SP>
          </MSDGremRMass>
          <!-- Mission Setup Window / Mission Data / Current Destination -->
          <MSDGcurDest>
@@ -2165,28 +2165,28 @@
          <MSDGcurDestNone>
             <EN>None (destination same as origin)</EN>
             <FR>Aucune (destination identique à l'origine)</FR>
-            <SP>Nada (destino identico a el origen)</SP>
+            <SP>Nada (destino idéntico al origen)</SP>
          </MSDGcurDestNone>
          <MSDGcurRegDestNone>
             <EN>None (please select a region)</EN>
             <FR>Aucune (svp veuillez sélectionner une région)</FR>
-            <SP>Nada (por favor seleccion una region)</SP>
+            <SP>Nada (por favor selecciona una región)</SP>
          </MSDGcurRegDestNone>
          <MSDGdistAtm>
             <EN>Distance to Atmosphere Entry</EN>
             <FR>Distance vers l'Entrée Atmosphèrique</FR>
-            <SP>distancia a la Reentrada Atmosferica</SP>
+            <SP>Distancia a la Reentrada Atmosférica</SP>
          </MSDGdistAtm>
          <!-- Mission Setup Window / Mission Data / Destination Intercept Course -->
          <MSDGdesIntC>
             <EN>Destination Intercept Course</EN>
             <FR>Route d'Interception de la Destination</FR>
-            <SP>Ruta de Interceptacion de el Destino</SP>
+            <SP>Ruta de Interceptación de el Destino</SP>
          </MSDGdesIntC>
          <MSDGdesIntCdist>
             <EN>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Distance&#60;/b&#62;&#60;/font&#62;</EN>
             <FR>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Distance&#60;/b&#62;&#60;/font&#62;</FR>
-            <SP>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Distance&#60;/b&#62;&#60;/font&#62;</SP>
+            <SP>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Distancia&#60;/b&#62;&#60;/font&#62;</SP>
          </MSDGdesIntCdist>
          <MSDGdestIntCminDV>
             <EN>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Min. Required&#60;font face=&#34;symbol&#34;&#62;D&#60;/font&#62;V&#60;/b&#62;&#60;/font&#62;</EN>
@@ -2197,17 +2197,17 @@
    <FCWNGS_Frame>
     <EN>New Game Setup [Esc.: quit  Enter: proceed]</EN>
     <FR>Configuration de Nouvelle Partie [Esc.: quitter  Entrée: procéder]</FR>
-    <SP>Ajustes Nueva partida [Esc.: salir  Enter: proceder]</SP>
+    <SP>Ajustes Nueva partida              [Esc.: salir  Enter: proceder]</SP>
    </FCWNGS_Frame>
       <FCWNGS_Frm_ColMode>
          <EN>Colonization Mode</EN>
          <FR>Mode de Colonisation</FR>
-         <SP>Modo de Colonizacion</SP>
+         <SP>Modo de Colonización</SP>
       </FCWNGS_Frm_ColMode>
       <FCWNGS_Frm_DPad_SheetCol>
          <EN>Colonization Politics</EN>
          <FR>Politique de Colonisation</FR>
-         <SP>Politicas de Colonizacion</SP>
+         <SP>Políticas de Colonización</SP>
       </FCWNGS_Frm_DPad_SheetCol>
       <FCWNGS_Frm_DPad_SheetDotList>
          <EN>Equipment List</EN>
@@ -2217,23 +2217,23 @@
       <FCWNGS_Frm_DPad_SheetHisto>
          <EN>Description</EN>
          <FR>Description</FR>
-         <SP>Descripcion</SP>
+         <SP>Descripción</SP>
       </FCWNGS_Frm_DPad_SheetHisto>
       <FCWNGS_Frm_DPad_SheetSPM>
          <EN>Socio-Policital Matrix</EN>
          <FR>Matrice Socio-Politique</FR>
-         <SP>Matriz Socio-Politica</SP>
+         <SP>Matriz Socio-Política</SP>
       </FCWNGS_Frm_DPad_SheetSPM>
       <FCWNGS_Frm_GNameEditEditLabel>
          <EN>Enter a Game Name (5 characters min.)</EN>
          <FR>Entrez un Nom de Partie (5 caractères min)</FR>
-         <SP>Ingresa un nombre de partida (5 caracteres min)</SP>
+         <SP>            Ingresa un nombre de partida (5 caracteres mínimo)</SP>
       </FCWNGS_Frm_GNameEditEditLabel>
    <!-- ********** ORBITAL OBJECTS TYPES ********** -->
    <oobtpAster_Carbo>
       <EN>Carbonaceous Asteroid</EN>
       <FR>Astéroïde Carbonifère</FR>
-      <SP>Ateroide Carbonifero</SP>
+      <SP>Ateroide Carbonífero</SP>
    </oobtpAster_Carbo>
    <oobtpAster_Icy>
       <EN>Icy Asteroid</EN>
@@ -2243,7 +2243,7 @@
    <oobtpAster_Metall>
       <EN>Metallic Asteroid </EN>
       <FR>Astéroïde Metallique</FR>
-      <SP>Asteroide Metalico</SP>
+      <SP>Asteroide Metálico</SP>
    </oobtpAster_Metall>
    <oobtpAster_Sili>
       <EN>Silicate Asteroid </EN>
@@ -2253,22 +2253,22 @@
    <oobtpAsterBelt_Carbo>
       <EN>Asteroids Belt (Carbonaceous)</EN>
       <FR>Ceinture d'Astéroïdes (Carbonifères)</FR>
-      <SP>Cinturon de Asteroides (Carboniferos)</SP>
+      <SP>Cinturón de Asteroides (Carboníferos)</SP>
    </oobtpAsterBelt_Carbo>
    <oobtpAsterBelt_Icy>
       <EN>Asteroids Belt (Icy)</EN>
       <FR>Ceinture d'Astéroïdes (Glaciaires)</FR>
-      <SP>Cinturon de Asteroides (Glaciares)</SP>
+      <SP>Cinturón de Asteroides (Glaciares)</SP>
    </oobtpAsterBelt_Icy>
    <oobtpAsterBelt_Metall>
       <EN>Asteroids Belt (Métallics)</EN>
       <FR>Ceinture d'Astéroïdes (Métalliques)</FR>
-      <SP>Cinturon de Asteroides (Metalicos)</SP>
+      <SP>Cinturón de Asteroides (Metálicos)</SP>
    </oobtpAsterBelt_Metall>
    <oobtpAsterBelt_Sili>
       <EN>Asteroids Belt (Silicates)</EN>
       <FR>Ceinture d'Astéroïdes (Silicates)</FR>
-      <SP>Cinturon de Asteroides (Silicio)</SP>
+      <SP>Cinturón de Asteroides (Silicio)</SP>
    </oobtpAsterBelt_Sili>
    <oobtpPlan_Gas>
       <EN>Gaseous Planet</EN>
@@ -2288,7 +2288,7 @@
    <oobtpPlan_Jovian>
       <EN>Jovian Planet</EN>
       <FR>Planète Jovienne</FR>
-      <SP>Planeta Joven</SP>
+      <SP>Planeta Jóven</SP>
    </oobtpPlan_Jovian>
    <oobtpPlan_SuperGiant>
       <EN>Gaseous SuperGiant</EN>
@@ -2298,7 +2298,7 @@
    <oobtpPlan_Tellu>
       <EN>Telluric Planet</EN>
       <FR>Planète Tellurique</FR>
-      <SP>Planeta Telurico</SP>
+      <SP>Planeta Telúrico</SP>
    </oobtpPlan_Tellu>
    <oobtpProtoDisk>
       <EN>Protoplanetary Disk</EN>
@@ -2309,17 +2309,17 @@
    <FCWM_PMFOcolfacData>
       <EN>Colony/Faction Data</EN>
       <FR>Données de la Colonie/Faction</FR>
-      <SP>Datos de la Colonia/Faccion</SP>
+      <SP>Datos de la Colonia/Facción</SP>
    </FCWM_PMFOcolfacData>
    <FCWM_PMFO_Header_SpUnitOObj.OObj>
       <EN>Orbital Object Menu</EN>
       <FR>Menu de l'Objet Orbital</FR>
-      <SP>Menu del Objeto Orbital</SP>
+      <SP>Menú del Objeto Orbital</SP>
    </FCWM_PMFO_Header_SpUnitOObj.OObj>
    <FCWM_PMFO_Header_SpUnitOObj.SpUnit>
       <EN>Space Unit Menu</EN>
       <FR>Menu de l'Unité Spatiale</FR>
-      <SP>Menu de la Unidad Espacial</SP>
+      <SP>Menú de la Unidad Espacial</SP>
    </FCWM_PMFO_Header_SpUnitOObj.SpUnit>
       <FCWM_PMFO_DList>
          <EN>|__Docking List</EN>
@@ -2339,7 +2339,7 @@
       <FCWM_PMFO_MissCancel>
          <EN>---Cancel Current Mission</EN>
          <FR>---Annule la Mission en Cours</FR>
-         <SP>---Cancelar la Mision en Curso</SP>
+         <SP>---Cancelar la Misión en Curso</SP>
       </FCWM_PMFO_MissCancel>
    <FCWM_PMFO_Header_Travel>
       <EN>Travel Missions</EN>
@@ -2349,17 +2349,17 @@
       <FCWM_PMFO_MissITransit>
          <EN>|__Interplanetary Transit</EN>
          <FR>|__Transit Interplanétaire</FR>
-         <SP>|__Transito Interplanetario</SP>
+         <SP>|__Tránsito Interplanetario</SP>
       </FCWM_PMFO_MissITransit>
    <FCWM_PMFO_HeaderSpecMiss>
       <EN>Specific Missions</EN>
       <FR>Missions Spécifiques</FR>
-      <SP>Misiones Especificas</SP>
+      <SP>Misiones Específicas</SP>
    </FCWM_PMFO_HeaderSpecMiss>
       <FCWM_PMFO_MissColoniz>
          <EN>|__Colonization</EN>
          <FR>|__Colonisation</FR>
-         <SP>|__Colonizacion</SP>
+         <SP>|__Colonización</SP>
       </FCWM_PMFO_MissColoniz>
    <!-- ********** PRODUCTS ******* -->
    <bioAnimalFood>
@@ -2380,22 +2380,22 @@
    <energNucFisReactor1>
       <EN>Nuclear Fission Reactor [level 1]</EN>
       <FR>Réacteur à Fission Nucléaire [niveau 1]</FR>
-      <SP>Reactor de Fision Nuclear [nivel 1]</SP>
+      <SP>Reactor de Fisión Nuclear [nivel 1]</SP>
    </energNucFisReactor1>
    <energNucFisReactor2>
       <EN>Nuclear Fission Reactor [level 2]</EN>
       <FR>Réacteur à Fission Nucléaire [niveau 2]</FR>
-      <SP>Reactor de Fision Nuclear [nivel 2]</SP>
+      <SP>Reactor de Fisión Nuclear [nivel 2]</SP>
    </energNucFisReactor2>
    <energNucFisReactor3>
       <EN>Nuclear Fission Reactor [level 3]</EN>
       <FR>Réacteur à Fission Nucléaire [niveau 3]</FR>
-      <SP>Reactor de Fision Nuclear [nivel 3]</SP>
+      <SP>Reactor de Fisión Nuclear [nivel 3]</SP>
    </energNucFisReactor3>
    <energNucPellets>
       <EN>Nuclear Pellets</EN>
       <FR>Granules Nucléaires</FR>
-      <SP>Granulos Nucleares</SP>
+      <SP>Gránulos Nucleares</SP>
    </energNucPellets>
    <equipAdvTools>
       <EN>Avanced Tools</EN>
@@ -2405,7 +2405,7 @@
    <equipConstrExo>
       <EN>Construction Exowalkers</EN>
       <FR>Exowalkers de Construction</FR>
-      <SP>Exowalkers de Construccion</SP>
+      <SP>Exowalkers de Construcción</SP>
    </equipConstrExo>
    <equipHandTools>
       <EN>Hand Tools</EN>
@@ -2475,22 +2475,22 @@
    <equipMiningMachinery>
       <EN>Mining Machinery</EN>
       <FR>Machinerie de Forage</FR>
-      <SP>Maquinaria de Mineria</SP>
+      <SP>Maquinaria de Minería</SP>
    </equipMiningMachinery>
    <equipMultiDepot1>
       <EN>Multipurpose Depot [level 1]</EN>
       <FR>Entrepôt Multifonction [niveau 1]</FR>
-      <SP>Almacen multiproposito [nivel 1]</SP>
+      <SP>Almacén multipropósito [nivel 1]</SP>
    </equipMultiDepot1>
    <equipMultiDepot2>
       <EN>Multipurpose Depot [level 2]</EN>
       <FR>Entrepôt Multifonction [niveau 2]</FR>
-      <SP>Almacen multiproposito [nivel 2]</SP>
+      <SP>Almacén multipropósito [nivel 2]</SP>
    </equipMultiDepot2>
    <equipMultiDepot3>
       <EN>Multipurpose Depot [level 3]</EN>
       <FR>Entrepôt Multifonction [niveau 3]</FR>
-      <SP>Almacen multiproposito [nivel 3]</SP>
+      <SP>Almacén multipropósito [nivel 3]</SP>
    </equipMultiDepot3>
    <equipMultiDepot4>
       <EN>Multipurpose Depot [level 4]</EN>
@@ -2505,7 +2505,7 @@
    <equipPowerTools>
       <EN>Power Tools</EN>
       <FR>Outils Electriques</FR>
-      <SP>Herramientas Electricas</SP>
+      <SP>Herramientas Eléctricas</SP>
    </equipPowerTools>
    <equipPressTanksArr1>
       <EN>Pressurized Tanks Array [level 1</EN>
@@ -2555,12 +2555,12 @@
    <matConcrete>
       <EN>Concrete</EN>
       <FR>Béton</FR>
-      <SP>Hormigon</SP>
+      <SP>Hormigón</SP>
    </matConcrete>
    <matMWNT>
       <EN>Multi-Walled Nanotubes (MWNT)</EN>
       <FR>Nanotubes Multi-Couches (MWNT)</FR>
-      <SP>Nanotubos Multi-proposito (MWNT)</SP>
+      <SP>Nanotubos Multi-propósito (MWNT)</SP>
    </matMWNT>
    <matNanocomposites>
       <EN>Nanocomposites</EN>
@@ -2570,7 +2570,7 @@
    <matPlastics>
       <EN>Plastics</EN>
       <FR>Plastiques</FR>
-      <SP>plasticos</SP>
+      <SP>Plásticos</SP>
    </matPlastics>
    <matSilicon>
       <EN>Silicon (Si)</EN>
@@ -2590,7 +2590,7 @@
    <matSWNT>
       <EN>Single-Walled Nanotubes (SWNT)</EN>
       <FR>Nanotubes Simple-Couche (SWNT)</FR>
-      <SP>Nanotubos Mono-proposito (SWNT)</SP>
+      <SP>Nanotubos Mono-propósito (SWNT)</SP>
    </matSWNT>
    <matTitanium>
       <EN>Titanium</EN>
@@ -2610,12 +2610,12 @@
    <resCarbOre>
       <EN>Carbonaceous Ore</EN>
       <FR>Minerais Carbonifère</FR>
-      <SP>Minerales Carboniferos</SP>
+      <SP>Minerales Carboníferos</SP>
    </resCarbOre>
    <resH2>
       <EN>Hydrogen</EN>
       <FR>Hydrogène</FR>
-      <SP>Hydrogenos</SP>
+      <SP>Hidrógenos</SP>
    </resH2>
    <resIcyOre>
       <EN>Icy Ore</EN>
@@ -2630,7 +2630,7 @@
    <resMetalOre>
       <EN>Metallic Ore</EN>
       <FR>Minerais Métallique</FR>
-      <SP>Minerales Metalicos</SP>
+      <SP>Minerales Metálicos</SP>
    </resMetalOre>
    <resCH4>
       <EN>Methane</EN>
