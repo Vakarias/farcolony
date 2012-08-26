@@ -2898,12 +2898,12 @@
    <SPMiAreaECON>
       <EN>Economy</EN>
       <FR>Economie</FR>
-      <SP>Economia</SP>
+      <SP>Economía</SP>
    </SPMiAreaECON>
    <SPMiAreaMEDCA>
       <EN>Medical Care</EN>
       <FR>Soins Medicaux</FR>
-      <SP>Atencion Medica</SP>
+      <SP>Atención Médica</SP>
    </SPMiAreaMEDCA>
    <SPMiAreaSOC>
       <EN>Society</EN>
@@ -2913,7 +2913,7 @@
    <SPMiAreaSPOL>
       <EN>Space Politics</EN>
       <FR>Politique Spatiale</FR>
-      <SP>Politica Espacial</SP>
+      <SP>Política Espacial</SP>
    </SPMiAreaSPOL>
    <SPMiAreaSPI>
       <EN>Spirituality</EN>
@@ -2943,7 +2943,7 @@
    <SPMi_BioroidsAdopt>
       <EN>Bioroids Adoption</EN>
       <FR>(Adoption de Bioroïdes)</FR>
-      <SP>Adopcion de niños</SP>
+      <SP>Adopción de Bioroids</SP>
    </SPMi_BioroidsAdopt>
    <SPMi_BirthsCtl>
       <EN>Births Control</EN>
@@ -2963,17 +2963,17 @@
    <SPMi_CorpOrg>
       <EN>Corporate Organization</EN>
       <FR>Organisation Corporative</FR>
-      <SP>Organizacion Corporativa</SP>
+      <SP>Organización Corporativa</SP>
    </SPMi_CorpOrg>
    <SPMi_CosmosPreserv>
       <EN>Cosmos Preservation</EN>
       <FR>Préservation du Cosmos</FR>
-      <SP>Preservacion del Cosmos</SP>
+      <SP>Preservación del Cosmos</SP>
    </SPMi_CosmosPreserv>
    <SPMi_Cryptosurv>
       <EN>Cryptosurvivalism</EN>
-      <FR>(Cryptosurvivalisme)</FR>
-      <SP>Cryptosupervivencia</SP>
+      <FR>Cryptosurvivalisme</FR>
+      <SP>Criptosupervivencia</SP>
    </SPMi_Cryptosurv>
    <SPMi_CultOfAtheism>
       <EN>Cult of Atheism</EN>
@@ -3018,7 +3018,7 @@
    <SPMi_GreenEco>
       <EN>Green Economy</EN>
       <FR>Economie Verte</FR>
-      <SP>Economia Verde</SP>
+      <SP>Economía Verde</SP>
    </SPMi_GreenEco>
    <SPMi_HomoSoc>
       <EN>Homo-Society</EN>
@@ -3053,7 +3053,7 @@
    <SPMi_OneWorldCom>
       <EN>One-World Community</EN>
       <FR>Communeauté à Monde Unique</FR>
-      <SP>Comunidad de Mundo Unico</SP>
+      <SP>Comunidad de Mundo Único</SP>
    </SPMi_OneWorldCom>
    <SPMi_Pacifism>
       <EN>Pacifism</EN>
@@ -3063,17 +3063,17 @@
    <SPMi_ParticipEcon>
       <EN>Participatory Economy</EN>
       <FR>Economie Participative</FR>
-      <SP>Economia Participativa</SP>
+      <SP>Economía Participativa</SP>
    </SPMi_ParticipEcon>
    <SPMi_PlanEcon>
       <EN>Planned Economy</EN>
       <FR>Economie Planifiée</FR>
-      <SP>Economia Planificada</SP>
+      <SP>Economía Planificada</SP>
    </SPMi_PlanEcon>
    <SPMi_ProacCitiz>
       <EN>Proactive Citizenship</EN>
       <FR>Citoyenneté Proactive</FR>
-      <SP>Ciudadania Proactiva</SP>
+      <SP>Ciudadanía Proactiva</SP>
    </SPMi_ProacCitiz>
    <SPMi_ProfTechno>
       <EN>Profitable Technocracy</EN>
@@ -3108,17 +3108,17 @@
    <SPMi_StatePol>
       <EN>State Police</EN>
       <FR>Police d'Etat</FR>
-      <SP>Policia de Estado</SP>
+      <SP>Policía de Estado</SP>
    </SPMi_StatePol>
    <SPMi_StateRel>
       <EN>State Religion</EN>
       <FR>Religion d'État</FR>
-      <SP>Religion de Estado</SP>
+      <SP>Religión de Estado</SP>
    </SPMi_StateRel>
    <SPMi_TheFreeUnion>
       <EN>The Freedom Union</EN>
       <FR>l'Union de la Liberté</FR>
-      <SP>La Union de la Libertad</SP>
+      <SP>La Unión de la Libertad</SP>
    </SPMi_TheFreeUnion>
    <SPMi_Xenophobia>
       <EN>Xenophobia</EN>
@@ -3148,12 +3148,12 @@
    <SPMiBL2>
       <EN>Uncommon</EN>
       <FR>Peu Commun</FR>
-      <SP>Poco Comun</SP>
+      <SP>Poco Común</SP>
    </SPMiBL2>
    <SPMiBL3>
       <EN>Common</EN>
       <FR>Courant</FR>
-      <SP>Comun</SP>
+      <SP>Común</SP>
    </SPMiBL3>
    <SPMiBL4>
       <EN>Strong</EN>
@@ -3173,17 +3173,17 @@
    <SPMiFormat_BasMod>
       <EN>Basic Modifiers</EN>
       <FR>Modificateurs de Base</FR>
-      <SP>Modificadores Basicos</SP>
+      <SP>Modificadores Básicos</SP>
    </SPMiFormat_BasMod>
    <SPMiFormat_Description>
       <EN>Description</EN>
       <FR>Description</FR>
-      <SP>Descripcion</SP>
+      <SP>Descripción</SP>
    </SPMiFormat_Description>
    <SPMiFormat_Notice>
       <EN>This policy is a </EN>
       <FR>Cette politique est un </FR>
-      <SP>Esta Politica es un </SP>
+      <SP>Esta Política es un </SP>
    </SPMiFormat_Notice>
    <SPMiFormat_Prereq>
       <EN>Prerequisites</EN>
@@ -3208,12 +3208,12 @@
    <SPMiFormat_TypePolicy>
       <EN>Policy</EN>
       <FR>Politique</FR>
-      <SP>Politica</SP>
+      <SP>Política</SP>
    </SPMiFormat_TypePolicy>
    <SPMiSV>
       <EN>Spread Value</EN>
       <FR>Valeur de Propagation</FR>
-      <SP>Valor de Propagacion</SP>
+      <SP>Valor de Propagación</SP>
    </SPMiSV>
    <!-- ********** STAR CLASSES ********** -->
    <stclBH>
@@ -3229,7 +3229,7 @@
    <stclCB>
       <EN>Blue Super Giant</EN>
       <FR>Super Géante Bleue</FR>
-      <SP>Super Gigante Azul</SP>
+      <SP>Super Gigante Azúl</SP>
    </stclCB>
    <stclCK>
       <EN>Orange Super Giant</EN>
@@ -3239,7 +3239,7 @@
    <stclCM>
       <EN>Red Super Giant</EN>
       <FR>Super Géante Rouge</FR>
-      <SP>Super Gigante Roja</SP>
+      <SP>Super Gigante Rojo</SP>
    </stclCM>
    <stclGF>
       <EN>Yellow-White Giant</EN>
@@ -3294,7 +3294,7 @@
    <stclO>
       <EN>Blue Main Sequence</EN>
       <FR>Séquence Principale Bleue</FR>
-      <SP>Secuencia Principal Azul</SP>
+      <SP>Secuencia Principal Azúl</SP>
    </stclO>
    <stclPSR>
       <EN>Pulsar</EN>
@@ -3315,7 +3315,7 @@
    <FCWM_SP_ShReg>
       <EN>Region</EN>
       <FR>Région</FR>
-      <SP>Region</SP>
+      <SP>Región</SP>
    </FCWM_SP_ShReg>
    <FCWM_SurfPanel>
       <EN>Surface of </EN>
@@ -3340,7 +3340,7 @@
    <climtpColdAr>
       <EN>Cold Arid</EN>
       <FR>Aride Froid</FR>
-      <SP>Arido Frio</SP>
+      <SP>Arido Frío</SP>
    </climtpColdAr>
    <climtpExtr>
       <EN>Extreme</EN>
@@ -3355,7 +3355,7 @@
    <climtpHotSAr>
       <EN>Hot Semi-Arid</EN>
       <FR>Semi-Aride Chaud</FR>
-      <SP>Semi-Arido Caliente</SP>
+      <SP>Semi-Árido Caliente</SP>
    </climtpHotSAr>
    <climtpModD>
       <EN>Moderate Dry</EN>
@@ -3365,7 +3365,7 @@
    <climtpModH>
       <EN>Moderate Humid</EN>
       <FR>Tempéré Humide</FR>
-      <SP>Moderado Humedo</SP>
+      <SP>Moderado Húmedo</SP>
    </climtpModH>
    <climtpPeria>
       <EN>Periarctic</EN>
@@ -3375,12 +3375,12 @@
    <climtpVHotH>
       <EN>Very Hot Humid</EN>
       <FR>Humide Trés Chaud</FR>
-      <SP>Muy Caliente Humedo</SP>
+      <SP>Muy Caliente Húmedo</SP>
    </climtpVHotH>
    <climtpVHotSH>
       <EN>Very Hot Semi-Humid</EN>
       <FR>Semi-Humide Trés Chaud</FR>
-      <SP>Muy caliente Semi-Humedo</SP>
+      <SP>Muy caliente Semi-Húmedo</SP>
    </climtpVHotSH>
    <climtpVoid>
       <EN>None (Space Void)</EN>
@@ -3405,7 +3405,7 @@
    <reliefBrok>
       <EN>Broken</EN>
       <FR>Accidenté</FR>
-      <SP>Acidentado</SP>
+      <SP>Accidentado</SP>
    </reliefBrok>
    <reliefMount>
       <EN>Mountainous</EN>
@@ -3420,7 +3420,7 @@
    <season>
       <EN>Current Season</EN>
       <FR>Saison Actuelle</FR>
-      <SP>Sesion Actual</SP>
+      <SP>Sesión Actual</SP>
    </season>
    <seasonMax>
       <EN>Winter</EN>
@@ -3435,7 +3435,7 @@
    <seasonMin>
       <EN>Summer</EN>
       <FR>Eté</FR>
-      <SP>verano</SP>
+      <SP>Verano</SP>
    </seasonMin>
    <secpAtm>
       <EN>&#60;b&#62;Atmosphere&#60;/b&#62;</EN>
@@ -3460,7 +3460,7 @@
    <secpEnvR>
       <EN>Restricted</EN>
       <FR>Restreint</FR>
-      <SP>restringido</SP>
+      <SP>Restringido</SP>
    </secpEnvR>
    <secpEnvS>
       <EN>Space / 0 Atmosphere</EN>
@@ -3480,7 +3480,7 @@
    <secpGasT>
       <EN>&#60;ul&#62;&#60;li&#62;&#60;u&#62;Trace Gases&#60;/u&#62;&#60;/ul&#62;</EN>
       <FR>&#60;ul&#62;&#60;li&#62;&#60;u&#62;Gaz Rares&#60;/u&#62;&#60;/ul&#62;</FR>
-      <SP>&#60;ul&#62;&#60;li&#62;&#60;u&#62;Gases raros&#60;/u&#62;&#60;/ul&#62;</SP>
+      <SP>&#60;ul&#62;&#60;li&#62;&#60;u&#62;Gases Raros&#60;/u&#62;&#60;/ul&#62;</SP>
    </secpGasT>
    <specpHtpCryst>
       <EN>Crystal Ice</EN>
@@ -3495,17 +3495,17 @@
    <specpHtpLiq>
       <EN>Liquid Water</EN>
       <FR>Eau Liquide</FR>
-      <SP>Agua Liquida</SP>
+      <SP>Agua Líquida</SP>
    </specpHtpLiq>
    <specpHtpLiqNH3>
       <EN>Liquid Water/Ammonia</EN>
       <FR>Eau/Ammoniaque Liquide</FR>
-      <SP>Agua/Amoniaco Liquido</SP>
+      <SP>Agua/Amoniaco Líquido</SP>
    </specpHtpLiqNH3>
    <specpHtpLiqCH4>
       <EN>Liquid Methane</EN>
       <FR>Méthane Liquide</FR>
-      <SP>Metano Liquido</SP>
+      <SP>Metano Líquido</SP>
    </specpHtpLiqCH4>
    <specpHtpVap>
       <EN>Water Vapor</EN>
@@ -3540,27 +3540,27 @@
    <tempIdx1>
       <EN>Stasis Cold</EN>
       <FR>Froid de Stase</FR>
-      <SP>Extasis de Frio</SP>
+      <SP>Éxtasis de Frío</SP>
    </tempIdx1>
    <tempIdx2>
       <EN>Extreme Cold</EN>
       <FR>Froid Extrême</FR>
-      <SP>Frio Extremo</SP>
+      <SP>Frío Extremo</SP>
    </tempIdx2>
    <tempIdx3>
       <EN>Freeze Cold</EN>
       <FR>Froid Glacé</FR>
-      <SP>Frio Glacial</SP>
+      <SP>Frío Glacial</SP>
    </tempIdx3>
    <tempIdx4>
       <EN>Nordic</EN>
       <FR>Nordique</FR>
-      <SP>Nordico</SP>
+      <SP>Nórdico</SP>
    </tempIdx4>
    <tempIdx5>
       <EN>Moderate Cold</EN>
       <FR>Tempéré Froid</FR>
-      <SP>Frio Moderado</SP>
+      <SP>Frío Moderado</SP>
    </tempIdx5>
    <tempIdx6>
       <EN>Moderate</EN>
@@ -3580,7 +3580,7 @@
    <tempIdx9>
       <EN>Desert Warm</EN>
       <FR>Chaleur de Désert</FR>
-      <SP>Calor Desertico</SP>
+      <SP>Calor Desértico</SP>
    </tempIdx9>
    <tempIdx10>
       <EN>Hot Oven</EN>
@@ -3595,17 +3595,17 @@
    <terrainArid>
       <EN>Arid</EN>
       <FR>Aride</FR>
-      <SP>Arido</SP>
+      <SP>Árido</SP>
    </terrainArid>
    <terrainCoastArid>
       <EN>Coastal Arid</EN>
       <FR>Aride Côtier</FR>
-      <SP>Arido Costero</SP>
+      <SP>Árido Costero</SP>
    </terrainCoastArid>
    <terrainCoastFert>
       <EN>Coastal Fertile</EN>
       <FR>Fertile Côtier</FR>
-      <SP>Fertil Costero</SP>
+      <SP>Fértil Costero</SP>
    </terrainCoastFert>
    <terrainCoastPol>
       <EN>Coastal Polar</EN>
@@ -3620,27 +3620,27 @@
    <terrainCoastSDes>
       <EN>Coastal Sandy Desert</EN>
       <FR>Désertique Sablonneux Côtier</FR>
-      <SP>Costero de Arena Desertica</SP>
+      <SP>Costero de Arena Desértica</SP>
    </terrainCoastSDes>
    <terrainCoastVol>
       <EN>Coastal Volcanic</EN>
       <FR>Volcanique Côtier</FR>
-      <SP>Costero Volcanico</SP>
+      <SP>Costero Volcánico</SP>
    </terrainCoastVol>
    <terrainFert>
       <EN>Fertile</EN>
       <FR>Fertile</FR>
-      <SP>Fertil</SP>
+      <SP>Fértil</SP>
    </terrainFert>
    <terrainIcSter>
       <EN>Icy Sterile</EN>
       <FR>Stérile Glacé</FR>
-      <SP>Esteril Glacial</SP>
+      <SP>Estéril Glacial</SP>
    </terrainIcSter>
    <terrainOcean>
       <EN>Oceanic</EN>
       <FR>Océanique</FR>
-      <SP>Oceanico</SP>
+      <SP>Oceánico</SP>
    </terrainOcean>
    <terrainPol>
       <EN>Polar</EN>
@@ -3660,12 +3660,12 @@
    <terrainSter>
       <EN>Sterile</EN>
       <FR>Stérile</FR>
-      <SP>Esteril</SP>
+      <SP>Estéril</SP>
    </terrainSter>
    <terrainVol>
       <EN>Volcanic</EN>
       <FR>Volcanique</FR>
-      <SP>Volcanico</SP>
+      <SP>Volcánico</SP>
    </terrainVol>
    <wndspd>
       <EN>Wind Speed</EN>
@@ -3721,7 +3721,7 @@
    <tsciChemEng>
       <EN>Chemical Engineering</EN>
       <FR>Ingénieurie Chimique</FR>
-      <SP>Ingeneria Quimica</SP>
+      <SP>Ingenería Química</SP>
    </tsciChemEng>
    <tsciComposMat>
       <EN>Composite Materials</EN>
@@ -3731,17 +3731,17 @@
    <tsciInflatHabitat>
       <EN>Inflatable Habitats</EN>
       <FR>Habitats Gonflables</FR>
-      <SP>Habitats Inflables</SP>
+      <SP>Hábitats Inflables</SP>
    </tsciInflatHabitat>
    <tsciLabel>
       <EN>Technoscience</EN>
       <FR>Technoscience</FR>
-      <SP>.</SP>
+      <SP>Tecnociencia</SP>
    </tsciLabel>
    <tsciNucFission>
       <EN>Nuclear Fission</EN>
       <FR>Fission Nucléaire</FR>
-      <SP>Fision Nueclear</SP>
+      <SP>Fisión Nuclear</SP>
    </tsciNucFission>
    <!-- ********** TIME FRAME ********** -->
    <TimeF1st>
@@ -3817,12 +3817,12 @@
    <TimeFphaseTac>
       <EN>Tactical Time Phase</EN>
       <FR>Phase de Temps Tactique</FR>
-      <SP>Fase Temporal Tactica</SP>
+      <SP>Fase Temporal Táctica</SP>
    </TimeFphaseTac>
    <TimeFphaseMan>
       <EN>Management Time Phase</EN>
       <FR>Phase de Temps de Gestion</FR>
-      <SP>Fase de Gestion del Tiempo</SP>
+      <SP>Fase de Gestión del Tiempo</SP>
    </TimeFphaseMan>
    <TimeFphasePAUSE>
       <EN>Game Paused ...</EN>
@@ -3832,7 +3832,7 @@
    <TimeFphaseStH>
       <EN>Historical Time Phase</EN>
       <FR>Phase de Temps Historique</FR>
-      <SP>Fase de Tiempo Historico</SP>
+      <SP>Fase de Tiempo Histórico</SP>
    </TimeFphaseStH>
    <TimeFstdD>
       <EN>std d</EN>
@@ -3863,7 +3863,7 @@
    <FCWM_UMI>
       <EN>Unified Macromanagement Interface (UMI)</EN>
       <FR>Interface de Macrogestion Unifiée (UMI)</FR>
-      <SP>Interfaz de Macrogestion Unificada (UMI)</SP>
+      <SP>Interfaz de Macrogestión Unificada (UMI)</SP>
    </FCWM_UMI>
    <FCWM_UMI_FacDatG>
       <EN>Government Status</EN>
@@ -3873,17 +3873,17 @@
    <FCWM_UMI_TabShFac>
       <EN>Faction {Government [F3]-SPM [F4]-Policies [F5]}</EN>
       <FR>Faction {Gouvernement [F3]-SPM [F4]-Politiques [F5]}</FR>
-      <SP>Faccion {Gobierno [F3]-SPM [SPM]-Politicas [F5]}</SP>
+      <SP>Facción {Gobierno [F3]-SPM [SPM]-Políticas [F5]}</SP>
    </FCWM_UMI_TabShFac>
    <FCWM_UMI_TabShProd>
       <EN>Production [F7]</EN>
       <FR>Production [F7]</FR>
-      <SP>Produccion [F7]</SP>
+      <SP>Producción [F7]</SP>
    </FCWM_UMI_TabShProd>
    <FCWM_UMI_TabShRDS>
       <EN>Research and Development [F8]</EN>
       <FR>Recherche et Dévelopement [F8]</FR>
-      <SP>Investigacion y Desarrollo [F8]</SP>
+      <SP>Investigación y Desarrollo [F8]</SP>
    </FCWM_UMI_TabShRDS>
    <FCWM_UMI_TabShSpU>
       <EN>Space Units [F6]</EN>
@@ -3903,7 +3903,7 @@
    <FCWM_UMIFac_Colonies1>
       <EN>Location</EN>
       <FR>Localisation</FR>
-      <SP>Localizacion</SP>
+      <SP>Localización</SP>
    </FCWM_UMIFac_Colonies1>
    <FCWM_UMIFac_Colonies2>
       <EN>HQ Status</EN>
@@ -3913,7 +3913,7 @@
    <FCWM_UMIFac_TabShPol>
       <EN>Political Structure [F3]</EN>
       <FR>Structure Politique [F3]</FR>
-      <SP>Estructura Politica [F3]</SP>
+      <SP>Estructura Política [F3]</SP>
    </FCWM_UMIFac_TabShPol>
    <FCWM_UMIFac_PolGvtDetails>
       <EN>Government Details</EN>
@@ -3923,22 +3923,22 @@
    <FCWM_UMIFac_TabShSPM>
       <EN>Socio-Political Matrix (SPM) Setting [F4]</EN>
       <FR>Disposition de la Matrice Socio-Politique (SPM) [F4]</FR>
-      <SP>Disposicion de la Matriz Socio_Politica (SPM) [F4]</SP>
+      <SP>Disposición de la Matriz Socio_Política (SPM) [F4]</SP>
    </FCWM_UMIFac_TabShSPM>
    <FCWM_UMIFac_TabShSPMpol>
       <EN>Policies Enforcement [F5]</EN>
       <FR>Application de Politiques [F5]</FR>
-      <SP>Aplicacion de Politicas [F5]</SP>
+      <SP>Aplicación de Políticas [F5]</SP>
    </FCWM_UMIFac_TabShSPMpol>
    <FCWM_UMISh_CEFcommit>
       <EN>Confirm Policy</EN>
       <FR>Confirmer la Politique</FR>
-      <SP>Confirmar la Politica</SP>
+      <SP>Confirmar la Política</SP>
    </FCWM_UMISh_CEFcommit>
    <FCWM_UMISh_CEFenforce>
       <EN>Enforce Policy</EN>
       <FR>Appliquer la Politique</FR>
-      <SP>Aplicar la Politica</SP>
+      <SP>Aplicar la Política</SP>
    </FCWM_UMISh_CEFenforce>
    <FCWM_UMISh_CEFenforceNreq>
       <EN>Req. Not Fulfilled</EN>
@@ -3948,102 +3948,102 @@
    <FCWM_UMISh_CEFretire>
       <EN>Retire Policy</EN>
       <FR>Retirer la Politique</FR>
-      <SP>Retirar la Politica</SP>
+      <SP>Retirar la Política</SP>
    </FCWM_UMISh_CEFretire>
    <FCWM_UMISh_CEnfF>
       <EN>Enforcement Decisions</EN>
       <FR>Décisions d'Application</FR>
-      <SP>Decisiones de la Aplicacion</SP>
+      <SP>Decisiones de la Aplicación</SP>
    </FCWM_UMISh_CEnfF>
    <UMIenfEnforced>
       <EN>The enforcement of this policy result in </EN>
       <FR>L'application de cette politique résulte en </FR>
-      <SP>La Aplicacion de esta Politica resulta en </SP>
+      <SP>La Aplicación de esta Política resulta en </SP>
    </UMIenfEnforced>
    <UMIenfEnforcedCAcc>
       <EN>of this one by the population.&lt;br&gt;You can now enforce it or retire it without penalties:&lt;br&gt;If you enforce it, the policy duration will be of </EN>
       <FR>de celle-ci par la population.&lt;br&gt;Vous pouvez maintenant la mettre en vigueur ou la retirer sans pénalités.&lt;br&gt;Si vous la mettez en vigueur, la durée de la politique sera de </FR>
-      <SP>de este por la poblacion.&lt;br&gt;Ahora se puede hacer cumplir o retirarlo sin sanciones:&lt;br&gt;Sin ponerla en practica, la duracion de la politica sera de </SP>
+      <SP>de éste por la población.&lt;br&gt;Ahora se puede hacer cumplir o retirarlo sin sanciones:&lt;br&gt;Sin ponerla en práctica, la duración de la política será de </SP>
    </UMIenfEnforcedCAcc>
    <UMIenfEnforcedCAcc1>
       <EN>month(s) before that's evaluated again.&lt;br&gt;If you retire it, you can enforce it again at any time.</EN>
       <FR>mois avant qu'elle soit à nouveau évaluée.&lt;br&gt;Si vous la retirez, vous pouvez l'appliquer encore à n'importe quel moment.</FR>
-      <SP>mes(es) antes de que se evalue de nuevo.&lt;br&gt;Si lo retira, se puede aplicar en cualquier momento.</SP>
+      <SP>mes(es) antes de que se evalúe de nuevo.&lt;br&gt;Si lo retira, se puede aplicar en cualquier momento.</SP>
    </UMIenfEnforcedCAcc1>
    <UMIenfEnforcedFift>
       <EN>of this one by the population.&lt;br&gt;You can now enforce it, with a cohesion penalty, or retire it:&lt;br&gt;If you enforce it, the policy duration will be of </EN>
       <FR>de celle-ci par la population.&lt;br&gt;Vous pouvez maintenant la mettre en vigueur, avec une pénalité de cohésion, ou la retirer:&lt;br&gt;Si vous la mettez en vigueur, la durée de la politique sera de </FR>
-      <SP>de este por la poblacion.&lt;br&gt;Ahora se puede hacer cumplir, con una pena de cohesion, o puede retirarla:&lt;br&gt;Si la pone en practica, la duracion de la politica sera de </SP>
+      <SP>de éste por la población.&lt;br&gt;Ahora se puede hacer cumplir, con una pena de cohesión, o puede retirarla:&lt;br&gt;Si la pone en práctica, la duración de la política será de </SP>
    </UMIenfEnforcedFift>
    <UMIenfEnforcedFift1>
       <EN>month(s) before that's evaluated again, and a direct Cohesion modifier of </EN>
       <FR>mois avant qu'elle soit à nouveau évaluée, et un modificateur direct de Cohésion de </FR>
-      <SP>mes(es) antes de que se evalue de nuevo, y un modificador directo de cohesion </SP>
+      <SP>mes(es) antes de que se evalúe de nuevo, y un modificador directo de cohesión </SP>
    </UMIenfEnforcedFift1>
    <UMIenfEnforcedFift2>
       <EN>will be applied on all you colonies.&lt;br&gt;If you retire it, you can enforce it again after a &lt;b&gt;3&lt;/b&gt; months delay.</EN>
       <FR>sera appliqué pour sur toutes vos colonies.&lt;br&gt;Si vous la retirez, vous pouvez encore l'appliquer après &lt;b&gt;3&lt;/b&gt; mois de délai.</FR>
-      <SP>se aplicara en todas tus colonias.&lt;br&gt;Si lo retiras, se puede aplicar de nuevo despues de &lt;b&gt;3&lt;/b&gt; meses de espera.</SP>
+      <SP>se aplicara en todas tus colonias.&lt;br&gt;Si lo retiras, se puede aplicar de nuevo después de &lt;b&gt;3&lt;/b&gt; meses de espera.</SP>
    </UMIenfEnforcedFift2>
    <UMIenfEnforcedMReject>
       <EN>of this one by the population.&lt;br&gt;You can now enforce it or retire it, with a cohesion penalty.:&lt;br&gt;If you enforce it, the policy duration will be of </EN>
       <FR>de celle-ci par la population.&lt;br&gt;Vous pouvez maintenant la mettre en vigueur ou la retirer, avec une pénalité de cohésion:&lt;br&gt;Si vous la mettez en vigueur, la durée de la politique sera de </FR>
-      <SP>de este por la poblacion.&lt;br&gt;Ahora se puede hacer cumplir o retirarla, con una pena de cohesion.:&lt;br&gt;Si la pone en practica, la duracion de la politica sera de </SP>
+      <SP>de éste por la población.&lt;br&gt;Ahora se puede hacer cumplir o retirarla, con una pena de cohesión.:&lt;br&gt;Si la pone en práctica, la duración de la política será de </SP>
    </UMIenfEnforcedMReject>
    <UMIenfEnforcedMReject1>
       <EN>month(s) before that's evaluated again, and a direct Cohesion modifier of </EN>
       <FR>mois avant qu'elle soit à nouveau évaluée, et un modificateur direct de Cohésion de </FR>
-      <SP>mes(es) antes de que se evalue de nuevo, y un modificador directo de cohesion </SP>
+      <SP>mes(es) antes de que se evalúe de nuevo, y un modificador directo de cohesión </SP>
    </UMIenfEnforcedMReject1>
    <UMIenfEnforcedMReject2>
       <EN>will be applied on all you colonies. A Cohesion test will be also processed.&lt;br&gt;If you retire it, you can enforce it again after a &lt;b&gt;6&lt;/b&gt; months delay and a direct Cohesion modifier of </EN>
       <FR>sera appliqué pour sur toutes vos colonies. Un test de Cohésion sera aussi effectué.&lt;br&gt;Si vous la retirez, vous pouvez encore l'appliquer après &lt;b&gt;12&lt;/b&gt; mois de délai et un modificateur de Cohésion de </FR>
-      <SP>sera aplicado en todas tus colonias. Una prueba de cohesion tambien sera procesada.&lt;br&gt;Si la retiras, se puede aplicar de nuevo despues de &lt;b&gt;6&lt;/b&gt; meses de espera y un modificador directo de cohesion </SP>
+      <SP>será aplicado en todas tus colonias. Una prueba de cohesión también será procesada.&lt;br&gt;Si la retiras, se puede aplicar de nuevo después de &lt;b&gt;6&lt;/b&gt; meses de espera y un modificador directo de cohesión </SP>
    </UMIenfEnforcedMReject2>
    <UMIenfEnforcedMReject3>
       <EN>will be applied on all you colonies. A Cohesion test will be also processed.</EN>
       <FR>sera appliqué sur toutes vos colonies. Un test de Cohésion sera aussi effectué.</FR>
-      <SP>sera aplicado en todas tus colonias. Una prueba de cohesion sera tambien procesada.</SP>
+      <SP>será aplicado en todas tus colonias. Una prueba de cohesión será también procesada.</SP>
    </UMIenfEnforcedMReject3>
    <UMIenfEnforcedReject>
       <EN>of this one by the population.&lt;br&gt;You can now enforce it or retire it, with a cohesion penalty.:&lt;br&gt;If you enforce it, the policy duration will be of </EN>
       <FR>de celle-ci par la population.&lt;br&gt;Vous pouvez maintenant la mettre en vigueur ou la retirer, avec une pénalité de cohésion:&lt;br&gt;Si vous la mettez en vigueur, la durée de la politique sera de </FR>
-      <SP>de este por la poblacion.&lt;br&gt;Ahora se puede hacer cumplir o retirarla, con una pena de cohesion.:&lt;br&gt;Si la pone en practica, la duracion de la politica sera de </SP>
+      <SP>de éste por la población.&lt;br&gt;Ahora se puede hacer cumplir o retirarla, con una pena de cohesión.:&lt;br&gt;Si la pone en práctica, la duración de la política será de </SP>
    </UMIenfEnforcedReject>
    <UMIenfEnforcedReject1>
       <EN>month(s) before that's evaluated again, and a direct Cohesion modifier of </EN>
       <FR>mois avant qu'elle soit à nouveau évaluée, et un modificateur direct de Cohésion de </FR>
-      <SP>mes(es) antes de ser evaluado de nuevo, y un modificador directo de cohesion </SP>
+      <SP>mes(es) antes de ser evaluado de nuevo, y un modificador directo de cohesión </SP>
    </UMIenfEnforcedReject1>
    <UMIenfEnforcedReject2>
       <EN>will be applied on all you colonies. A Cohesion test will be also processed.&lt;br&gt;If you retire it, you can enforce it again after a &lt;b&gt;6&lt;/b&gt; months delay and a direct Cohesion modifier of </EN>
       <FR>sera appliqué pour sur toutes vos colonies. Un test de Cohésion sera aussi effectué.&lt;br&gt;Si vous la retirez, vous pouvez encore l'appliquer après &lt;b&gt;6&lt;/b&gt; mois de délai et un modificateur de Cohésion de </FR>
-      <SP>sera aplicado en todas tus colonias. una prueba de cohesion sera tambien procesada.&lt;br&gt;Si la retiras, se puede aplicar de nuevo despues de &lt;b&gt;6&lt;/b&gt; meses de espera y un modificador directo de cohesion  </SP>
+      <SP>será aplicado en todas tus colonias. una prueba de cohesón será también procesada.&lt;br&gt;Si la retiras, se puede aplicar de nuevo después de &lt;b&gt;6&lt;/b&gt; meses de espera y un modificador directo de cohesión  </SP>
    </UMIenfEnforcedReject2>
    <UMIenfEnforcedReject3>
       <EN>will be applied on all you colonies.</EN>
       <FR>sera appliqué sur toutes vos colonies.</FR>
-      <SP>Sera aplicado en todas tus colonias.</SP>
+      <SP>Será aplicado en todas tus colonias.</SP>
    </UMIenfEnforcedReject3>
    <UMIenfNReq>
       <EN>A prerequisite of this policy isn't fulfilled.&lt;br&gt;It's impossible for this moment to enforce it.</EN>
       <FR>Un prérequis de cette politique n'est pas rempli.&lt;br&gt;C'est impossible pour le moment de la mettre en vigueur.</FR>
-      <SP>A prerequisite of this policy isn't fulfilled.&lt;br&gt;It's impossible for this moment to enforce it.</SP>
+      <SP>Uno de los prerequisitos de esta política no se cumple.&lt;br&gt;Es imposible que entre en vigor en este momento.</SP>
    </UMIenfNReq>
    <UMIenfYReq1>
       <EN>You can now enforce the policy. According to statistics, the policy enforcement will gives </EN>
       <FR>Vous pouvez maintenant mettre en vigueur la politique. Par rapport aux statistiques, l'application de la politique donnera</FR>
-      <SP>You can now enforce the policy. According to statistics, the policy enforcement will gives</SP>
+      <SP>Ahora se puede entrar en vigor la política. En comparación con las estadisticas, la aplicación de la política será de</SP>
    </UMIenfYReq1>
    <UMIenfYReq2>
       <EN>, from the population, with a probability of &lt;b&gt;50%&lt;/b&gt;.&lt;br&gt;By knowing this, it's up to you to enforce it or not.</EN>
       <FR>, de la part de la population, avec une probabilité de &lt;b&gt;50%&lt;/b&gt;.&lt;br&gt;En sachant cela, c'est à vous de voir si vous l'appliquez ou non.</FR>
-      <SP>, from the population, with a probability of &lt;b&gt;50%&lt;/b&gt;.&lt;br&gt;By knowing this, it's up to you to enforce it or not.</SP>
+      <SP>, de la población, con una probabilidad de &lt;b&gt;50%&lt;/b&gt;.&lt;br&gt;Sabiendo ésto, debes decidir si se aplica o no.</SP>
    </UMIenfYReq2>
    <UMIenfRsltComplAcc>
       <EN>&lt;b&gt;a complete acceptance&lt;/b&gt;</EN>
       <FR>&lt;b&gt;une acceptation complète&lt;/b&gt;</FR>
-      <SP>&lt;b&gt;una aceptacion completa&lt;/b&gt;</SP>
+      <SP>&lt;b&gt;una aceptación completa&lt;/b&gt;</SP>
    </UMIenfRsltComplAcc>
    <UMIenfRsltMassRej>
       <EN>&lt;b&gt;a massive reject&lt;/b&gt;</EN>
@@ -4053,7 +4053,7 @@
    <UMIenfRsltMitig>
       <EN>&lt;b&gt;a mitigated acceptance&lt;/b&gt;</EN>
       <FR>&lt;b&gt;une acceptation mitigée&lt;/b&gt;</FR>
-      <SP>&lt;b&gt;una aceptacion aceptable&lt;/b&gt;</SP>
+      <SP>&lt;b&gt;una aceptación aceptable&lt;/b&gt;</SP>
    </UMIenfRsltMitig>
    <UMIenfRsltReject>
       <EN>&lt;b&gt;a reject&lt;/b&gt;</EN>
@@ -4063,12 +4063,12 @@
    <UMIenfUnique>
       <EN>This policy is unique and replace the </EN>
       <FR>Cette politique remplace le </FR>
-      <SP>Esta Politica Reemplaza la </SP>
+      <SP>Esta Política Reemplaza la </SP>
    </UMIenfUnique>
    <UMIgvtEcoSys>
       <EN>Economic System</EN>
       <FR>Système Economique</FR>
-      <SP>Sistema Economico</SP>
+      <SP>Sistema Económico</SP>
    </UMIgvtEcoSys>
    <UMIgvtHcareSys>
       <EN>Healthcare System</EN>
@@ -4078,7 +4078,7 @@
    <UMIgvtPolSys>
       <EN>Political System</EN>
       <FR>Système Politique</FR>
-      <SP>Sistema Politico</SP>
+      <SP>Sistema Político</SP>
    </UMIgvtPolSys>
    <UMIgvtRelSys>
       <EN>Religious System</EN>
@@ -4088,7 +4088,7 @@
    <UMIhqBasic>
       <EN>Basic HQ</EN>
       <FR>QG Basique</FR>
-      <SP>CG Basico</SP>
+      <SP>CG Básico</SP>
    </UMIhqBasic>
    <UMIhqNo>
       <EN>No HQ</EN>
@@ -4098,12 +4098,12 @@
    <UMIhqNoMsg>
       <EN>Your faction doesn't have any headquarter to enforce policies.&lt;br&gt;Set a colony or build an HQ infrastructure.</EN>
       <FR>Votre faction n'a pas de quartier général pour appliquer des politiques.&lt;br&gt;Mettez en place une colony ou construisez une infrastructure QG.</FR>
-      <SP>Tu faccion no tiene ningun cuartel general para aplicar las politicas.&lt;br&gt;Selecciona otra colonia o construye un Cuartel General.</SP>
+      <SP>Tu facción no tiene ningún cuartel general para aplicar las políticas.&lt;br&gt;Selecciona otra colonia o construye un Cuartel General.</SP>
    </UMIhqNoMsg>
    <UMIhqPrim>
       <EN>Primary/Unique HQ</EN>
       <FR>QG Primaire/Unique</FR>
-      <SP>CG Primario/Unico</SP>
+      <SP>CG Primario/Único</SP>
    </UMIhqPrim>
    <UMIhqSec>
       <EN>Secondary HQ</EN>
@@ -4123,12 +4123,12 @@
    <UMIpolenfAProb>
       <EN>Acceptance Probability (AP)</EN>
       <FR>Probabilité d'Acceptation (AP)</FR>
-      <SP>Probabilidad de Aceptacion</SP>
+      <SP>Probabilidad de Aceptación</SP>
    </UMIpolenfAProb>
    <UMIpolenfAvail>
       <EN>Available Policies</EN>
       <FR>Politiques Disponibles</FR>
-      <SP>Politicas Disponibles</SP>
+      <SP>Políticas Disponibles</SP>
    </UMIpolenfAvail>
    <UMIpolenfInflTtl>
       <EN>Total Influence</EN>
@@ -4138,7 +4138,7 @@
    <UMIpolenfReq>
       <EN>Required:</EN>
       <FR>Requis:</FR>
-      <SP>requerida:</SP>
+      <SP>Requerida:</SP>
    </UMIpolenfReq>
    <UMIpolenfReqCurr>
       <EN>You currently have</EN>
@@ -4173,7 +4173,7 @@
    <UMIpolenfReqPen>
       <EN>Requirements Penalty</EN>
       <FR>Pénalité des Conditions Requises</FR>
-      <SP>Penalizacion de Requisitos</SP>
+      <SP>Penalización de Requisitos</SP>
    </UMIpolenfReqPen>
    <UMIpolenfReqUC1>
       <EN>for</EN>
@@ -4188,37 +4188,37 @@
    <UMIpolenfRuleNoEnf1>
       <EN>Your faction doesn't have a sufficient &lt;a href="cpsStatusSoc"&gt;social status level&lt;/a&gt; to enforce policies.&lt;br&gt;The current social status level is </EN>
       <FR>Votre faction n'a pas de quartier général pour appliquer des politiques.&lt;br&gt;Mettez en place une colony ou construisez une infrastructure QG.</FR>
-      <SP>Tu faccion no tiene suficiente &lt;a href="cpsStatusSoc"&gt;nivel de estatus social&lt;/a&gt; para aplicar las politicas.&lt;br&gt;El nivel de estatus actual es </SP>
+      <SP>Tu facción no tiene suficiente &lt;a href="cpsStatusSoc"&gt;nivel de estatus social&lt;/a&gt; para aplicar las políticas.&lt;br&gt;El nivel de estatus actual es </SP>
    </UMIpolenfRuleNoEnf1>
    <UMIpolenfRuleNoEnf2>
       <EN>and the minimum required level is </EN>
       <FR>et le niveau minimum requis est </FR>
-      <SP>y el minimo requerido es </SP>
+      <SP>y el mínimo requerido es </SP>
    </UMIpolenfRuleNoEnf2>
    <UMIpolenfRuleNoEnf3>
       <EN>Since you're in the &lt;a href="cpsRoot"&gt;Colonization Phase&lt;/a&gt; of the game, try to get the better &lt;a href="cpsCVS"&gt;Colonization Viability Score(CVS)&lt;/a&gt; to reach the best status levels at the end of the phase, if the colonization mode you have choosen allows an enough social level.</EN>
       <FR>Depuis que vous êtes dans la &lt;a href="cpsRoot"&gt;Phase de Colonisation&lt;/a&gt; du jeu, essayez d'obtenir le meilleur &lt;a href="cpsCVS"&gt;Score de Viabilité de Colonisation (CVS)&lt;/a&gt; pour atteindre les meilleurs niveaux de statut à la fin de la phase, si le mode de colonisation vous avez choisi permet un niveau social suffisant.</FR>
-      <SP>Puesto que tu estas en la &lt;a href="cpsRoot"&gt;Fase de Colonizacion&lt;/a&gt; del juego, trata de conseguir la mejor &lt;a href="cpsCVS"&gt;Puntuacion de Viabilidad de Colonizacion(CVS)&lt;/a&gt; para alcanzar los mejores niveles de estado al final de la fase, si el modo de colonizacion que has escogido permite un nivel social diferente.</SP>
+      <SP>Puesto que tu estás en la &lt;a href="cpsRoot"&gt;Fase de Colonización&lt;/a&gt; del juego, trata de conseguir la mejor &lt;a href="cpsCVS"&gt;Puntuación de Viabilidad de Colonización(CVS)&lt;/a&gt; para alcanzar los mejores niveles de estado al final de la fase, si el modo de colonización que has escogido permite un nivel social diferente.</SP>
    </UMIpolenfRuleNoEnf3>
    <UMIpolenfRuleNoEnf4>
       <EN>Since the &lt;a href="cpsRoot"&gt;Colonization Phase&lt;/a&gt; is finished, you can't enforce policies for the rest of your current game.&lt;br&gt;If you want to be allowed to enforce policies, try a new game.</EN>
       <FR>Depuis que la &lt;a href="cpsRoot"&gt;Phase de Colonisation&lt;/a&gt; est finie, vous ne pouvez appliquer des politiques pour le reste de votre partie actuelle.&lt;br&gt;Si vous voulez avoir la permission d'en appliquer, commencez une nouvelle partie.</FR>
-      <SP>Desde la &lt;a href="cpsRoot"&gt;Fase de Colonizacion&lt;/a&gt; ha terminado, no se puede hacer cumplir las politicas para el resto del juego actual.&lt;br&gt;Si desea que se le permita hacer cumplir esas politicas, comienza una nueva partida.</SP>
+      <SP>Desde la &lt;a href="cpsRoot"&gt;Fase de Colonización&lt;/a&gt; ha terminado, no se puede hacer cumplir las políticas para el resto del juego actual.&lt;br&gt;Si desea que se le permita hacer cumplir esas políticas, comienza una nueva partida.</SP>
    </UMIpolenfRuleNoEnf4>
    <UMIpolenfRuleNoUnique>
       <EN>Due to your faction's status level you can't change of governmental, economical, healthcare and religious system.&lt;br&gt;Try to get the better &lt;a href="cpsCVS"&gt;Colonization Viability Score(CVS)&lt;/a&gt; to reach the best status levels at the end of the phase.</EN>
       <FR>Vu votre niveau de statut de faction vous ne pouvez changer de système gouvernemental, economique, de santé et religieux.&lt;br&gt;Essayez d'avoir le meilleur &lt;a href="cpsCVS"&gt;Score de Viabilité de Colonisation(CVS)&lt;/a&gt; pour atteindre les meilleurs niveaux de statut à la fin de la phase.</FR>
-      <SP>Debido al nivel de estado de tu faccion no puede cambiar de govierno, modo economico, cuidados medicos y sistema religioso.&lt;br&gt;Trate de obtener la mejor &lt;a href="cpsCVS"&gt;Puntuacion de Viabilidad de Colonizacion(CVS)&lt;/a&gt; para alcanzar los mejores niveles de estado en la final de la fase.</SP>
+      <SP>Debido al nivel de estado de tu facción no puede cambiar de gobierno, modo económico, cuidados médicos y sistema religioso.&lt;br&gt;Trate de obtener la mejor &lt;a href="cpsCVS"&gt;Puntuación de Viabilidad de Colonización(CVS)&lt;/a&gt; para alcanzar los mejores niveles de estado en la final de la fase.</SP>
    </UMIpolenfRuleNoUnique>
    <UMIpolicy>
       <EN>Policy</EN>
       <FR>Politique</FR>
-      <SP>Politica</SP>
+      <SP>Política</SP>
    </UMIpolicy>
    <UMIpolicyDur>
       <EN>Enforcement Duration</EN>
       <FR>Durée d'Application</FR>
-      <SP>Duracion de la Aplicacion</SP>
+      <SP>Duración de la Aplicación</SP>
    </UMIpolicyDur>
    <UMIpolicyDurFail>
       <EN>Next Enforcement After</EN>
