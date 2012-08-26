@@ -2070,7 +2070,7 @@
          <MCGDatHead>
             <EN>Configuration Results</EN>
             <FR>Résultats de Configuration</FR>
-            <SP>Asentamiento Espacial Básico</SP>
+            <SP>Resultados de Configuración</SP>
          </MCGDatHead>
          <!-- Mission Configuration Data -->
          <MCGDatAccel>
@@ -2640,12 +2640,12 @@
    <resN2>
       <EN>Nitrogen</EN>
       <FR>Nitrogène</FR>
-      <SP>Nitrogeno</SP>
+      <SP>Nitrógeno</SP>
    </resN2>
    <resO2>
       <EN>Oxygen</EN>
       <FR>Oxygène</FR>
-      <SP>Oxigeno</SP>
+      <SP>Oxígeno</SP>
    </resO2>
    <resRareMetOre>
       <EN>Rare Metals Ore</EN>
@@ -2660,7 +2660,7 @@
    <resSolidWastes>
       <EN>Solid Wastes</EN>
       <FR>Déchets Solides</FR>
-      <SP>Desechos Solidos</SP>
+      <SP>Desechos Sólidos</SP>
    </resSolidWastes>
    <resUrOre>
       <EN>Uranium Ore</EN>
@@ -2676,27 +2676,27 @@
    <scarchtpDSV>
       <EN>Deep-Space Vehicle (DSV)</EN>
       <FR>Véhicule en Espace Profond (DSV)</FR>
-      <SP>Vehiculo de Espacio Profundo (DSV)</SP>
+      <SP>Vehículo de Espacio Profundo (DSV)</SP>
    </scarchtpDSV>
    <scarchtpHLV>
       <EN>Heavy Launch Vehicle (HLV)</EN>
       <FR>Véhicule de Lancement Lourd (HLV)</FR>
-      <SP>Vehiculo de Lanzamiento Grande (HLV)</SP>
+      <SP>Vehículo de Lanzamiento Grande (HLV)</SP>
    </scarchtpHLV>
    <scarchtpLV>
       <EN>Lander Vehicle (LV)</EN>
       <FR>Véhicule Atterrisseur (LV)</FR>
-      <SP>Vehiculo Aterrizador (LV)</SP>
+      <SP>Vehículo Aterrizador (LV)</SP>
    </scarchtpLV>
    <scarchtpLAV>
       <EN>Lander/Ascent Vehicle (LAV)</EN>
       <FR>Véhicule Atterrisseur/d'Ascension (LAV)</FR>
-      <SP>Vehiculo Aterrizador de scension (LAV)</SP>
+      <SP>Vehículo Aterrizador de Ascensión (LAV)</SP>
    </scarchtpLAV>
    <scarchtpOMV>
       <EN>Orbital Multipurpose Vehicle (OMV)</EN>
       <FR>Véhicule Orbital Multifonction (OMV)</FR>
-      <SP>Vehiculo Orbital Multifuncion (OMV)</SP>
+      <SP>Vehículo Orbital Multifunción (OMV)</SP>
    </scarchtpOMV>
    <scarchtpSSI>
       <EN>Stabilized Space Infrastructure (SSI)</EN>
@@ -2706,23 +2706,23 @@
    <scarchtpTAV>
       <EN>Transatmospheric Vehicle (TAV)</EN>
       <FR>Véhicule Transatmosphèrique (TAV)</FR>
-      <SP>Vehiculo Transatmosferico (TAV)</SP>
+      <SP>Vehículo Transatmosférico (TAV)</SP>
    </scarchtpTAV>
    <scarchtpBSV>
       <EN>Beam Sail Vehicle (BSV)</EN>
       <FR>Véhicle à Voile à Rayonnement (BSV)</FR>
-      <SP>Vehiculo a Vela (BSV)</SP>
+      <SP>Vehículo a Vela (BSV)</SP>
    </scarchtpBSV>
    <!-- ********** SPACE UNIT OVERALL ********** -->
    <ggfptAccel>
       <EN>Acceleration Flight</EN>
       <FR>Vol d'Accelération</FR>
-      <SP>Vuelo de Aceleracion</SP>
+      <SP>Vuelo de Aceleración</SP>
    </ggfptAccel>
    <ggftpAtmEnt>
       <EN>Atmospheric Entry</EN>
       <FR>Entrée Atmosphèrique</FR>
-      <SP>Entrada Atmosferica</SP>
+      <SP>Entrada Atmosférica</SP>
    </ggftpAtmEnt>
    <ggfptCruise>
       <EN>Cruise Flight</EN>
@@ -2732,7 +2732,7 @@
    <ggfptDecel>
       <EN>Deceleration Flight</EN>
       <FR>Vol de Deceleration</FR>
-      <SP>Vuelo de Deceleracion</SP>
+      <SP>Vuelo de Deceleración</SP>
    </ggfptDecel>
    <spUnDock>
       <EN>Docking List of </EN>
@@ -2742,12 +2742,12 @@
    <spUnDrvTp>
       <EN>Drive Type</EN>
       <FR>Type de Propulsion</FR>
-      <SP>Tipo de Propulsion</SP>
+      <SP>Tipo de Propulsión</SP>
    </spUnDrvTp>
    <spUnISPfull>
       <EN>Specific Impulse (I&#60;sub&#62;sp&#60;/sub&#62;)</EN>
       <FR>Impulsion Spécifique (I&#60;sub&#62;sp&#60;/sub&#62;)</FR>
-      <SP>Impulso Especifico (I&#60;sub&#62;sp&#60;/sub&#62;)</SP>
+      <SP>Impulso Específico (I&#60;sub&#62;sp&#60;/sub&#62;)</SP>
    </spUnISPfull>
    <spUnOvGenName>
       <EN>Player's Space Unit</EN>
@@ -2757,7 +2757,7 @@
    <spUnMissCurr>
       <EN>Current Mission</EN>
       <FR>Mission Actuelle</FR>
-      <SP>Mision Actual</SP>
+      <SP>Misión Actual</SP>
    </spUnMissCurr>
    <spUnMissNone>
       <EN>None Allocated</EN>
@@ -2782,7 +2782,7 @@
    <susInAtmosph>
       <EN>In Atmospheric Flight at </EN>
       <FR>En Vol Atmophèrique à </FR>
-      <SP>En Vuelo Atmosferico a </SP>
+      <SP>En Vuelo Atmosférico a </SP>
    </susInAtmosph>
    <susInFreeSpace>
       <EN>In Free Space</EN>
@@ -2792,7 +2792,7 @@
    <susInOrbit>
       <EN>In Orbit of </EN>
       <FR>En Orbite de </FR>
-      <SP>En orbita de </SP>
+      <SP>En órbita de </SP>
    </susInOrbit>
    <susLanded>
       <EN>Landed on </EN>
@@ -2802,13 +2802,13 @@
    <susOutOfCtl>
       <EN>is Out of Control</EN>
       <FR>est Hors de Contrôle</FR>
-      <SP>esta Fuera de Control</SP>
+      <SP>está Fuera de Control</SP>
    </susOutOfCtl>
    <!-- ******* SPM ********** -->
    <faclvl>
       <EN>Faction's Level</EN>
       <FR>Niveau de la Faction</FR>
-      <SP>Nivel de la Faccion</SP>     
+      <SP>Nivel de la Facción</SP>     
    </faclvl>
    <faclvl0>
       <EN>No Settled Colony</EN>
@@ -2823,12 +2823,12 @@
    <faclvl2>
       <EN>Space Nation</EN>
       <FR>Nation Spatiale</FR>
-      <SP>Nacion Espacial</SP>
+      <SP>Nación Espacial</SP>
    </faclvl2>
    <faclvl3>
       <EN>Micro-Federation</EN>
       <FR>Micro-Fédération</FR>
-      <SP>Micro-Federacion</SP>
+      <SP>Micro-Federación</SP>
    </faclvl3>
    <faclvl4>
       <EN>Minor Space Power</EN>
@@ -2848,12 +2848,12 @@
    <faclvl7>
       <EN>Federation</EN>
       <FR>Fédération</FR>
-      <SP>Federacion</SP>
+      <SP>Federación</SP>
    </faclvl7>
    <faclvl8>
       <EN>Macro-Federation</EN>
       <FR>Macro-Fédération</FR>
-      <SP>Macro-Federacion</SP>
+      <SP>Macro-Federación</SP>
    </faclvl8>
    <faclvl9>
       <EN>Empire</EN>
@@ -2868,7 +2868,7 @@
    <SPMdatCorr>
       <EN>Corruption</EN>
       <FR>Corruption</FR>
-      <SP>Corrupcion</SP>
+      <SP>Corrupción</SP>
    </SPMdatCorr>
    <SPMdatEquil>
       <EN>Equilibrium</EN>
@@ -2878,12 +2878,12 @@
    <SPMdatFacStab>
       <EN>Faction's Stability</EN>
       <FR>Stabilité de la Faction</FR>
-      <SP>Estabilidad de la faccion</SP>
+      <SP>Estabilidad de la facción</SP>
    </SPMdatFacStab>
    <SPMdatInstLvl>
       <EN>Instruction Level</EN>
       <FR>Niveau d'Instruction</FR>
-      <SP>nivel de Instruccion</SP>
+      <SP>Nivel de Instrucción</SP>
    </SPMdatInstLvl>
    <SPMdatLifeQ>
       <EN>Life Quality</EN>
@@ -2893,7 +2893,7 @@
    <SPMiAreaADMIN>
       <EN>Administration</EN>
       <FR>Administration</FR>
-      <SP>Administracion</SP>
+      <SP>Administración</SP>
    </SPMiAreaADMIN>
    <SPMiAreaECON>
       <EN>Economy</EN>
