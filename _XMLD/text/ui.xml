@@ -246,15 +246,15 @@
          &#60;/ul&#62;</FR>
       <SP>
          &#60;br&#62;&#60;ul&#62;&#60;u&#62;Origenes de Inspiracion&#60;/u&#62;&#60;br&#62;
-         &#60;li&#62;2001 A Space Odyssey  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Film&#60;/b&#62;&#60;/font&#62;)
-         &#60;li&#62;Advanced Automation for Space Missions  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Livre&#60;/b&#62;&#60;/font&#62;)
-         &#60;li&#62;Islands in the Sky  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Livre&#60;/b&#62;&#60;/font&#62;)
-         &#60;li&#62;Planètes &#38; Satellites  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Livre&#60;/b&#62;&#60;/font&#62;)
-         &#60;li&#62;SpaceMaster  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;JDR&#60;/b&#62;&#60;/font&#62;)
-         &#60;li&#62;The High Frontier  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Livre&#60;/b&#62;&#60;/font&#62;)
-         &#60;li&#62;The Hydrogen Economy  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Livre&#60;/b&#62;&#60;/font&#62;)
-         &#60;li&#62;Transhuman Space  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;JDR&#60;/b&#62;&#60;/font&#62;)
-         &#60;li&#62;Traveller, MegaTraveller  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;JDR&#60;/b&#62;&#60;/font&#62;)
+         &#60;li&#62;2001 A Space Odyssey  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Pelicula&#60;/b&#62;&#60;/font&#62;)
+         &#60;li&#62;Advanced Automation for Space Missions  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Libro&#60;/b&#62;&#60;/font&#62;)
+         &#60;li&#62;Islands in the Sky  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Libro&#60;/b&#62;&#60;/font&#62;)
+         &#60;li&#62;Planètes &#38; Satellites  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Libro&#60;/b&#62;&#60;/font&#62;)
+         &#60;li&#62;SpaceMaster  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Revista&#60;/b&#62;&#60;/font&#62;)
+         &#60;li&#62;The High Frontier  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Libro&#60;/b&#62;&#60;/font&#62;)
+         &#60;li&#62;The Hydrogen Economy  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Libro&#60;/b&#62;&#60;/font&#62;)
+         &#60;li&#62;Transhuman Space  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Revista&#60;/b&#62;&#60;/font&#62;)
+         &#60;li&#62;Traveller, MegaTraveller  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Revista&#60;/b&#62;&#60;/font&#62;)
          &#60;/ul&#62;</SP>
    </FCWA_Frm_CredsInspSrc>
    <FCWA_Frm_Header>
@@ -272,7 +272,7 @@
    <acronAUwDes>
       <EN>Astronomical Unit(s) [AU]</EN>
       <FR>Unité(s) Astronomique(s) [UA]</FR>
-      <SP>Unidad(es)  Astronómica(s) [UA]</SP>
+      <SP>Unidad(es)  Astronomica(s) [UA]</SP>
    </acronAUwDes>
    <acronUC>
       <EN>UC</EN>
@@ -282,7 +282,7 @@
    <acronUCwDes>
       <EN>Universal Credit</EN>
       <FR>Crédit Universel</FR>
-      <SP>Crédito Universal</SP>
+      <SP>Credito Universal</SP>
    </acronUCwDes>
    <acronYr>
       <EN>yrs</EN>
@@ -580,7 +580,7 @@
    <colDsecI5>
       <EN>Overkill</EN>
       <FR>En Excès</FR>
-      <SP>Excesiva</SP>
+      <SP>En Exceso</SP>
    </colDsecI5>
    <colDsplI1>
       <EN>Impossible to Live In</EN>
@@ -725,7 +725,7 @@
    <colMsgNotEst>
       <EN>There's No Established Colony Yet</EN>
       <FR>Il N'y a Encore Aucune Colonie Fondée</FR>
-      <SP>No se ha establecido una Colonia</SP>
+      <SP>No se ha Establecido una Colonia</SP>
    </colMsgNotEst>
    <colPopBDR>
       <EN>person(s)</EN>
@@ -976,17 +976,17 @@
    <CPSreport>
       <EN>Colonization Report</EN>
       <FR>Rapport de Colonisation</FR>
-      <SP>Reporte de Colonización</SP>
+      <SP>Informe de Colonización</SP>
    </CPSreport>
    <CPSrepScoreTitle>
       <EN>Final Scores</EN>
       <FR>Scores Finaux</FR>
-      <SP>Puntuación Final</SP>
+      <SP>Puntuaciones Finales</SP>
    </CPSrepScoreTitle>
    <CPSrepSetTitle>
       <EN>Colonization Phase - End Report and Settings</EN>
       <FR>Phase de Colonisation - Rapport de Fin et Règlages</FR>
-      <SP>Fase de Colonización - Reporte Final y Ajustes</SP>
+      <SP>Fase de Colonización - Informe Final y Detalles</SP>
    </CPSrepSetTitle>
    <cpsSLcateg>
       <EN>Category</EN>
@@ -1031,7 +1031,7 @@
    <cpsStatus>
       <EN>Viability Thresholds</EN>
       <FR>Seuils de Viabilité</FR>
-      <SP>Umbral de Viabilidad</SP>
+      <SP>Umbrales de Viabilidad</SP>
    </cpsStatus>
    <cpsThr>
       <EN>Threshold</EN>
@@ -1837,7 +1837,7 @@
    <FCWM_MMenu_DebTools>
       <EN>Debug Tools</EN>
       <FR>Outils de Debug</FR>
-      <SP>Herramientas de depuración</SP>
+      <SP>Herramientas de Depuración</SP>
    </FCWM_MMenu_DebTools>
       <!-- Main Menu / Debug Tools / FUG -->
       <FCWM_MMenu_DTFUG>
@@ -2076,7 +2076,7 @@
          <MCGDatAccel>
             <EN>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Acceleration&#60;/b&#62;&#60;/font&#62;</EN>
             <FR>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Accelération&#60;/b&#62;&#60;/font&#62;</FR>
-            <SP>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Aceleracion&#60;/b&#62;&#60;/font&#62;</SP>
+            <SP>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Acceleracion&#60;/b&#62;&#60;/font&#62;</SP>
          </MCGDatAccel>
          <MCGatmEntDV>
             <EN>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Atmosphere Entry &#60;font face=&#34;symbol&#34;&#62;D&#60;/font&#62;V&#60;/b&#62;&#60;/font&#62;</EN>
@@ -2510,37 +2510,37 @@
    <equipPressTanksArr1>
       <EN>Pressurized Tanks Array [level 1</EN>
       <FR>Grille de Réservoirs Préssurisés [niveau 1]</FR>
-      <SP></SP>
+      <SP>Matriz de Tanques Presurizados [nivel 1]</SP>
    </equipPressTanksArr1>
    <equipPressTanksArr2>
       <EN>Pressurized Tanks Array [level 2</EN>
       <FR>Grille de Réservoirs Préssurisés [niveau 2]</FR>
-      <SP></SP>
+      <SP>Matriz de Tanques Presurizados [nivel 2]</SP>
    </equipPressTanksArr2>
    <equipPressTanksArr3>
       <EN>Pressurized Tanks Array [level 3</EN>
       <FR>Grille de Réservoirs Préssurisés [niveau 3]</FR>
-      <SP></SP>
+      <SP>Matriz de Tanques Presurizados [nivel 3]</SP>
    </equipPressTanksArr3>
    <equipPressTanksArr4>
       <EN>Pressurized Tanks Array [level 4</EN>
       <FR>Grille de Réservoirs Préssurisés [niveau 4]</FR>
-      <SP></SP>
+      <SP>Matriz de Tanques Presurizados [nivel 4]</SP>
    </equipPressTanksArr4>
    <equipPressTanksArr5>
       <EN>Pressurized Tanks Array [level 5</EN>
       <FR>Grille de Réservoirs Préssurisés [niveau 5]</FR>
-      <SP></SP>
+      <SP>Matriz de Tanques Presurizados [nivel 5]</SP>
    </equipPressTanksArr5>
    <equipPressTanksArr6>
       <EN>Pressurized Tanks Array [level 6</EN>
       <FR>Grille de Réservoirs Préssurisés [niveau 6]</FR>
-      <SP></SP>
+      <SP>Matriz de Tanques Presurizados [nivel 6]</SP>
    </equipPressTanksArr6>
    <equipPressTanksArr7>
       <EN>Pressurized Tanks Array [level 7</EN>
       <FR>Grille de Réservoirs Préssurisés [niveau 7]</FR>
-      <SP></SP>
+      <SP>Matriz de Tanques Presurizados [nivel 7]</SP>
    </equipPressTanksArr7>
    <matAluminium>
       <EN>Aluminium</EN>
@@ -2691,7 +2691,7 @@
    <scarchtpLAV>
       <EN>Lander/Ascent Vehicle (LAV)</EN>
       <FR>Véhicule Atterrisseur/d'Ascension (LAV)</FR>
-      <SP>Vehículo Aterrizador de Ascensión (LAV)</SP>
+      <SP>Vehículo Aterrizador/de Ascensión (LAV)</SP>
    </scarchtpLAV>
    <scarchtpOMV>
       <EN>Orbital Multipurpose Vehicle (OMV)</EN>
@@ -2711,7 +2711,7 @@
    <scarchtpBSV>
       <EN>Beam Sail Vehicle (BSV)</EN>
       <FR>Véhicle à Voile à Rayonnement (BSV)</FR>
-      <SP>Vehículo a Vela (BSV)</SP>
+      <SP>Vehículo a Vela a Rayo (BSV)</SP>
    </scarchtpBSV>
    <!-- ********** SPACE UNIT OVERALL ********** -->
    <ggfptAccel>
@@ -3077,7 +3077,7 @@
    </SPMi_ProacCitiz>
    <SPMi_ProfTechno>
       <EN>Profitable Technocracy</EN>
-      <FR>(Technocracie Profitable)</FR>
+      <FR>Technocracie Profitable</FR>
       <SP>Tecnocracia Rentable</SP>
    </SPMi_ProfTechno>
    <SPMi_ReligiousFree>
@@ -3741,7 +3741,7 @@
    <tsciNucFission>
       <EN>Nuclear Fission</EN>
       <FR>Fission Nucléaire</FR>
-      <SP>Fisión Nuclear</SP>
+      <SP>Fisión Nueclear</SP>
    </tsciNucFission>
    <!-- ********** TIME FRAME ********** -->
    <TimeF1st>
@@ -3817,12 +3817,12 @@
    <TimeFphaseTac>
       <EN>Tactical Time Phase</EN>
       <FR>Phase de Temps Tactique</FR>
-      <SP>Fase Temporal Táctica</SP>
+      <SP>Fase de Tiempo Táctica</SP>
    </TimeFphaseTac>
    <TimeFphaseMan>
       <EN>Management Time Phase</EN>
       <FR>Phase de Temps de Gestion</FR>
-      <SP>Fase de Gestión del Tiempo</SP>
+      <SP>Fase de Tiempo de Gestión</SP>
    </TimeFphaseMan>
    <TimeFphasePAUSE>
       <EN>Game Paused ...</EN>
@@ -4223,27 +4223,27 @@
    <UMIpolicyDurFail>
       <EN>Next Enforcement After</EN>
       <FR>Prochaine Application Après</FR>
-      <SP>Proxima Aplicacion</SP>
+      <SP>Próxima Aplicación</SP>
    </UMIpolicyDurFail>
    <UMIpolicy0>
       <EN>Policy [Political System]</EN>
       <FR>Politique [Système Politique]</FR>
-      <SP>Politica [Sistema Politico]</SP>
+      <SP>Política [Sistema Político]</SP>
    </UMIpolicy0>
    <UMIpolicy1>
       <EN>Policy [Economy Type]</EN>
       <FR>Politique [Type d'Economie]</FR>
-      <SP>Politica [Tipo de Politica]</SP>
+      <SP>Política [Tipo de Política]</SP>
    </UMIpolicy1>
    <UMIpolicy2>
       <EN>Policy [Healthcare System]</EN>
       <FR>Politique [Système de Santé]</FR>
-      <SP>Politica [Sistema de Sanidad]</SP>
+      <SP>Política [Sistema de Sanidad]</SP>
    </UMIpolicy2>
    <UMIpolicy5>
       <EN>Policy [Religious System]</EN>
       <FR>Politique [Système Religieux]</FR>
-      <SP>Politica [Sistema Religioso]</SP>
+      <SP>Política [Sistema Religioso]</SP>
    </UMIpolicy5>
    <UMIpolSet>
       <EN>set at</EN>
