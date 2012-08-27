@@ -345,6 +345,7 @@ procedure FCMoglUI_Main3DViewUI_Update(
    );
 {:Purpose: update user's interface of the main3d view.
     Additions:
+      -2012Aug26- *add: specific conditions for the Spanish language.
       -2012Aug13- *fix: bug fix for the one that display the CPS HUD informations during a resizing of the main window when the CPS isn't enabled.
       -2011Apr20- *fix: update the interface only if the CPS is enabled.
       -2010Sep15- *add: entities code - only the player's entity is concerned in this routine (index= 0).
@@ -416,7 +417,9 @@ begin
          or (M3DVUIUtype=oglupdtpLocOnly)
       then
       begin
-         FCWinMain.FCGLSHUDgameDate.Position.X:=FCWinMain.Width-102;
+         if FCVdiLanguage='SP'
+         then FCWinMain.FCGLSHUDgameDate.Position.X:=FCWinMain.Width-110
+         else FCWinMain.FCGLSHUDgameDate.Position.X:=FCWinMain.Width-102;
          FCWinMain.FCGLSHUDgameDate.Position.Y:=0;
          FCWinMain.FCGLSHUDgameTime.Position.X:=FCWinMain.FCGLSHUDgameDate.Position.X;
          FCWinMain.FCGLSHUDgameTime.Position.Y:=FCWinMain.FCGLSHUDgameDate.Position.Y+16;
@@ -560,10 +563,14 @@ begin
          else FCWinMain.FCGLSHUDobobjOrbDatHLAB.Position.Y:=(FCWinMain.FCWM_3dMainGrp.Height shr 4*4);
          {.distance from star}
             {.label}
-         FCWinMain.FCGLSHUDobobjDistLAB.Position.X:=FCWinMain.FCGLSHUDobobjOrbDatHLAB.Position.X-40;
+         if FCVdiLanguage='SP'
+         then FCWinMain.FCGLSHUDobobjDistLAB.Position.X:=FCWinMain.FCGLSHUDobobjOrbDatHLAB.Position.X-50
+         else FCWinMain.FCGLSHUDobobjDistLAB.Position.X:=FCWinMain.FCGLSHUDobobjOrbDatHLAB.Position.X-40;
          FCWinMain.FCGLSHUDobobjDistLAB.Position.Y:=FCWinMain.FCGLSHUDobobjOrbDatHLAB.Position.Y+20;
             {.data display}
-         FCWinMain.FCGLSHUDobobjDist.Position.X:=FCWinMain.FCGLSHUDobobjDistLAB.Position.X+150;
+         if FCVdiLanguage='SP'
+         then FCWinMain.FCGLSHUDobobjDist.Position.X:=FCWinMain.FCGLSHUDobobjDistLAB.Position.X+160
+         else FCWinMain.FCGLSHUDobobjDist.Position.X:=FCWinMain.FCGLSHUDobobjDistLAB.Position.X+150;
          FCWinMain.FCGLSHUDobobjDist.Position.Y:=FCWinMain.FCGLSHUDobobjDistLAB.Position.Y;
          {.eccentricity}
             {.label}
