@@ -569,7 +569,7 @@ begin
          FCWinMain.FCGLSHUDobobjDistLAB.Position.Y:=FCWinMain.FCGLSHUDobobjOrbDatHLAB.Position.Y+20;
             {.data display}
          if FCVdiLanguage='SP'
-         then FCWinMain.FCGLSHUDobobjDist.Position.X:=FCWinMain.FCGLSHUDobobjDistLAB.Position.X+160
+         then FCWinMain.FCGLSHUDobobjDist.Position.X:=FCWinMain.FCGLSHUDobobjDistLAB.Position.X+175
          else FCWinMain.FCGLSHUDobobjDist.Position.X:=FCWinMain.FCGLSHUDobobjDistLAB.Position.X+150;
          FCWinMain.FCGLSHUDobobjDist.Position.Y:=FCWinMain.FCGLSHUDobobjDistLAB.Position.Y;
          {.eccentricity}
