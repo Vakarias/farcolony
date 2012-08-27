@@ -637,7 +637,7 @@ begin
    begin
       colMax:=Length(FCDdgEntities[0].E_colonies)-1;
       if FCWinMain.FCWM_3dMainGrp.Visible
-      then FCMoglUI_Main3DViewUI_Update(oglupdtpTxtOnly, ogluiutAll);
+      then FCMoglUI_Main3DViewUI_Update(oglupdtpAll, ogluiutAll);
       if colMax>0 then
       begin
          if assigned(FCcps)
