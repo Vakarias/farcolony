@@ -4081,9 +4081,9 @@
       <SP>Sistema Político</SP>
    </UMIgvtPolSys>
    <UMIgvtRelSys>
-      <EN>Religious System</EN>
-      <FR>Système Religieux</FR>
-      <SP>Sistema Religioso</SP>
+      <EN>Spiritual System</EN>
+      <FR>Système Spirituel</FR>
+      <SP>Sistema Espiritual</SP>
    </UMIgvtRelSys>
    <UMIhqBasic>
       <EN>Basic HQ</EN>
@@ -4206,9 +4206,9 @@
       <SP>Desde la &lt;a href="cpsRoot"&gt;Fase de Colonización&lt;/a&gt; ha terminado, no se puede hacer cumplir las políticas para el resto del juego actual.&lt;br&gt;Si desea que se le permita hacer cumplir esas políticas, comienza una nueva partida.</SP>
    </UMIpolenfRuleNoEnf4>
    <UMIpolenfRuleNoUnique>
-      <EN>Due to your faction's status level you can't change of governmental, economical, healthcare and religious system.&lt;br&gt;Try to get the better &lt;a href="cpsCVS"&gt;Colonization Viability Score(CVS)&lt;/a&gt; to reach the best status levels at the end of the phase.</EN>
-      <FR>Vu votre niveau de statut de faction vous ne pouvez changer de système gouvernemental, economique, de santé et religieux.&lt;br&gt;Essayez d'avoir le meilleur &lt;a href="cpsCVS"&gt;Score de Viabilité de Colonisation(CVS)&lt;/a&gt; pour atteindre les meilleurs niveaux de statut à la fin de la phase.</FR>
-      <SP>Debido al nivel de estado de tu facción no puede cambiar de gobierno, modo económico, cuidados médicos y sistema religioso.&lt;br&gt;Trate de obtener la mejor &lt;a href="cpsCVS"&gt;Puntuación de Viabilidad de Colonización(CVS)&lt;/a&gt; para alcanzar los mejores niveles de estado en la final de la fase.</SP>
+      <EN>Due to your faction's status level you can't change of governmental, economical, healthcare and spiritual system.&lt;br&gt;Try to get the better &lt;a href="cpsCVS"&gt;Colonization Viability Score(CVS)&lt;/a&gt; to reach the best status levels at the end of the phase.</EN>
+      <FR>Vu votre niveau de statut de faction vous ne pouvez changer de système gouvernemental, economique, de santé et spirituel.&lt;br&gt;Essayez d'avoir le meilleur &lt;a href="cpsCVS"&gt;Score de Viabilité de Colonisation(CVS)&lt;/a&gt; pour atteindre les meilleurs niveaux de statut à la fin de la phase.</FR>
+      <SP>Debido al nivel de estado de tu facción no puede cambiar de gobierno, modo económico, cuidados médicos y sistema espiritual.&lt;br&gt;Trate de obtener la mejor &lt;a href="cpsCVS"&gt;Puntuación de Viabilidad de Colonización(CVS)&lt;/a&gt; para alcanzar los mejores niveles de estado en la final de la fase.</SP>
    </UMIpolenfRuleNoUnique>
    <UMIpolicy>
       <EN>Policy</EN>
