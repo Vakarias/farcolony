@@ -56,11 +56,6 @@ type TFCEuiwUMIfacUpd=(
    ,uiwSPMpolEnfRes
    );
 
-///<summary>
-///   return the policy token selected in the available policies list
-///</summary>
-function FCFumi_AvailPolList_GetSelToken: string;
-
 //===========================END FUNCTIONS SECTION==========================================
 
 ///<summary>
@@ -101,34 +96,26 @@ uses
    ,farc_game_spm
    ,farc_game_spmdata
    ,farc_main
-   ,farc_ui_html;
+   ,farc_ui_html
+   ,farc_win_debug;
 
 //===================================END OF INIT============================================
-
-function FCFumi_AvailPolList_GetSelToken: string;
-{:Purpose: return the policy token selected in the available policies list.
-    Additions:
-}
-var
-   APLGSTlen
-   ,APLGSTpos: integer;
-
-   APLGSTres: string;
-begin
-   result:='';
-   APLGSTres:=FCWinMain.FCWM_UMIFSh_AFlist.Items.ValueFromIndex[FCWinMain.FCWM_UMIFSh_AFlist.ItemIndex];
-   APLGSTlen:= Length(APLGSTres);
-   Delete(APLGSTres, 1, 1);
-   APLGSTpos:=pos('"', APLGSTres);
-   Delete(APLGSTres, APLGSTpos, APLGSTlen);
-   Result:=APLGSTres;
-end;
 
 //===========================END FUNCTIONS SECTION==========================================
 
 procedure FCMumi_AvailPolList_UpdClick;
 {:Purpose: update the display regarding the selection in the available policies list.
     Additions:
+      -2012Aug27- *code audit:
+                     (-)var formatting + refactoring     (-)if..then reformatting   (-)function/procedure refactoring
+                     (-)parameters refactoring           (-) ()reformatting         (o)code optimizations
+                     (-)float local variables=> extended (-)case..of reformatting   (-)local methods
+                     (-)summary completion               (-)protect all float add/sub w/ FCFcFunc_Rnd
+                     (-)standardize internal data + commenting them at each use as a result (like Count1 / Count2 ...)
+                     (-)put [format x.xx ] in returns of summary, if required and if the function do formatting
+                     (-)use of enumindex                 (-)use of StrToFloat( x, FCVdiFormat ) for all float data
+                     (-)if the procedure reset the same record's data or external data put:
+                        ///   <remarks>the procedure/function reset the /data/</remarks>
 }
 var
    TokenRes: string;
@@ -142,7 +129,7 @@ begin
    then
    begin
       RetVal:=false;
-      TokenRes:=FCFumi_AvailPolList_GetSelToken;
+      TokenRes:=FCFuiHTML_AnchorInAhrefFromQuestionMarkItem_Extract( FCWinMain.FCWM_UMIFSh_AFlist.Items.ValueFromIndex[FCWinMain.FCWM_UMIFSh_AFlist.ItemIndex] );
       RetVal:=FCFgSPM_PolicyEnf_Preproc(0, TokenRes);
       FCMumi_Faction_Upd(uiwSPMpolEnfRAP, RetVal);
    end;
@@ -702,8 +689,11 @@ begin
                and (not FCDdgEntities[0].E_spmSettings[UMIUFcnt].SPMS_iPtIsSet)
                and (FCDdgEntities[0].E_spmSettings[UMIUFcnt].SPMS_duration=0)
             then FCWinMain.FCWM_UMIFSh_AFlist.Items.Add(
-               '<a href="'+FCDdgEntities[0].E_spmSettings[UMIUFcnt].SPMS_token+'">'+FCFdTFiles_UIStr_Get(uistrUI, FCDdgEntities[0].E_spmSettings[UMIUFcnt].SPMS_token)+'</a>'
-//               FCFdTFiles_UIStr_Get(uistrUI, FCentities[0].E_spm[UMIUFcnt].SPMS_token)+UIHTMLencyBEGIN+FCentities[0].E_spm[UMIUFcnt].SPMS_token+UIHTMLencyEND
+//               '<a href="'+FCDdgEntities[0].E_spmSettings[UMIUFcnt].SPMS_token+'">'+
+               FCFdTFiles_UIStr_Get(uistrUI, FCDdgEntities[0].E_spmSettings[UMIUFcnt].SPMS_token)+
+//               '</a>'
+//               FCFdTFiles_UIStr_Get(uistrUI, FCDdgEntities[0].E_spmSettings[UMIUFcnt].SPMS_token)+
+               UIHTMLencyBEGIN+FCDdgEntities[0].E_spmSettings[UMIUFcnt].SPMS_token+UIHTMLencyEND
                );
             inc(UMIUFcnt)
          end;

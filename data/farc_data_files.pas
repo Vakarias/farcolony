@@ -332,8 +332,8 @@ begin
    end
    else
    begin
-      XMLConfigurationItem.Attributes['cfacX']:=20;
-      XMLConfigurationItem.Attributes['cfacY']:=80;
+      XMLConfigurationItem.Attributes['cfacX']:=0;
+      XMLConfigurationItem.Attributes['cfacY']:=0;
    end;
    XMLConfigurationItem.Attributes['cpsStore']:=FCVdiLocStoreCPSobjPanel;
    if not FCVdiLocStoreCPSobjPanel then
