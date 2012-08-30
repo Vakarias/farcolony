@@ -172,6 +172,7 @@ procedure FCMuiUMI_FactionTabComponents_SetSize;
     Additions:
 }
 begin
+   {:DEV NOTES: routine's private variable.}
    UMIUFstat:=(FCWinMain.FCWM_UMI.Width shr 5)*17;
    UMIUFecon:=(UMIUFstat shr 1)+16;
    UMIUFsoc:=UMIUFstat;
@@ -234,14 +235,14 @@ procedure FCMumi_Faction_Upd(
 }
 var
    UMIUFcnt
-   ,UMIUFecon
+//   ,UMIUFecon
    ,UMIUFinfl
    ,UMIUFmargPen
    ,UMIUFmax
-   ,UMIUFmil
-   ,UMIUFsoc
+//   ,UMIUFmil
+//   ,UMIUFsoc
    ,UMIUFspmTreeW
-   ,UMIUFstat
+//   ,UMIUFstat
    ,UMIUFwd: integer;
 
    UMIUFeconLvl
@@ -775,6 +776,7 @@ begin
       then
       begin
          {.section update}
+         {:DEV NOTES: replace by a normalized variable.}
          UMIUFstat:=round(FCFgSPM_EnforcData_Get(gspmAccProbability));
          UMIUFinfl:=round(FCFgSPM_EnforcData_Get(gspmInfl));
          UMIUFmargPen:=round(FCFgSPM_EnforcData_Get(gspmMargMod));
