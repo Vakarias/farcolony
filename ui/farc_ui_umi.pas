@@ -7,7 +7,7 @@
         License: GPLv3
         Website: http://farcolony.sourceforge.net/
 
-        Unit: Unified Management Interface
+        Unit: Unified Management Interface (UMI) - core unit
 
 ============================================================================================
 ********************************************************************************************
@@ -26,7 +26,6 @@ Copyright (c) 2009-2012, Jean-Francois Baconnet
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *******************************************************************************************}
-
 unit farc_ui_umi;
 
 interface
@@ -35,26 +34,44 @@ uses
    ComCtrls
    ,SysUtils;
 
-type TFCEuiwUMIfacUpd=(
-   uiwAllSection
-   ,uiwAllMain
-   ,uiwNone
-   ,uiwfacLvl
-   ,uiwStatEco
-   ,uiwStatSoc
-   ,uiwStatMil
-   ,uiwPolStruc_gvt
-   ,uiwPolStruc_bur
-   ,uiwPolStruc_cor
-   ,uiwPolStruc_eco
-   ,uiwPolStruc_hcare
-   ,uiwPolStruc_spi
-   ,uiwColonies
-   ,uiwSPMset
-   ,uiwSPMpolEnfList
-   ,uiwSPMpolEnfRAP
-   ,uiwSPMpolEnfRes
+type TFCEuiwUMItabFactionActions=(
+   tfaPoliticalStructureAll
+   ,tfaPoliticalStructureGovernment
+   ,tfaPoliticalStructureBureaucracy
+   ,tfaPoliticalStructureCorruption
+   ,tfaPoliticalStructureEconomy
+   ,tfaPoliticalStructureHealthcare
+   ,tfaPoliticalStructureSpiritual
+//   uiwAllSection
+//   ,uiwAllMain
+//   ,uiwNone
+//   ,uiwfacLvl
+//   ,uiwStatEco
+//   ,uiwStatSoc
+//   ,uiwStatMil
+//   ,uiwPolStruc_gvt
+//   ,uiwPolStruc_bur
+//   ,uiwPolStruc_cor
+//   ,uiwPolStruc_eco
+//   ,uiwPolStruc_hcare
+//   ,uiwPolStruc_spi
+//   ,uiwColonies
+//   ,uiwSPMset
+//   ,uiwSPMpolEnfList
+//   ,uiwSPMpolEnfRAP
+//   ,uiwSPMpolEnfRes
    );
+
+//==END PUBLIC ENUM=========================================================================
+
+//==END PUBLIC RECORDS======================================================================
+
+   //==========subsection===================================================================
+//var
+//==END PUBLIC VAR==========================================================================
+
+//const
+//==END PUBLIC CONST========================================================================
 
 //===========================END FUNCTIONS SECTION==========================================
 
@@ -64,24 +81,24 @@ type TFCEuiwUMIfacUpd=(
 procedure FCMumi_AvailPolList_UpdClick;
 
 ///<summary>
+///   recalculate and update the size of all the Faction tab components that require to be resized
+///</summary>
+procedure FCMuiUMI_FactionTabComponents_SetSize;
+
+///<summary>
 ///   update the UMI/Faction section
 ///</summary>
 ///   <param="UMIUFsec">section to update.</param>
 ///   <param="UMIUFrelocRetVal">relocation switch OR policy preprocessing result.</param>
 procedure FCMumi_Faction_Upd(
-   const UMIUFsec: TFCEuiwUMIfacUpd;
+   const UMIUFsec: TFCEuiwUMItabFactionActions;
    const UMIUFrelocRetVal: boolean=false
    );
 
 ///<summary>
-///   set default/min UMI size regarding the selected section
-///</summary>
-procedure FCMumi_Main_TabSetSize;
-
-///<summary>
 ///   update, if necessary, the UMI
 ///</summary>
-procedure FCMumi_Main_Upd;
+procedure FCMuiUMI_CurrentTab_Update( const SetConstraints: boolean );
 
 implementation
 
@@ -99,8 +116,23 @@ uses
    ,farc_ui_html
    ,farc_win_debug;
 
-//===================================END OF INIT============================================
+//==END PRIVATE ENUM========================================================================
 
+//==END PRIVATE RECORDS=====================================================================
+
+var
+   //==========faction tab variables========================================================
+   UMIUFecon: integer;
+   UMIUFsoc: integer;
+   UMIUFmil:integer;
+   UMIUFwd:integer;
+
+//==END PRIVATE VAR=========================================================================
+
+//const
+//==END PRIVATE CONST=======================================================================
+
+//===================================================END OF INIT============================
 //===========================END FUNCTIONS SECTION==========================================
 
 procedure FCMumi_AvailPolList_UpdClick;
@@ -135,8 +167,32 @@ begin
    end;
 end;
 
+procedure FCMuiUMI_FactionTabComponents_SetSize;
+{:Purpose: recalculate and update the size of all the Faction tab components that require to be resized.
+    Additions:
+}
+begin
+   UMIUFstat:=(FCWinMain.FCWM_UMI.Width shr 5)*17;
+   UMIUFecon:=(UMIUFstat shr 1)+16;
+   UMIUFsoc:=UMIUFstat;
+   UMIUFmil:=UMIUFsoc+(UMIUFsoc-UMIUFecon);
+   UMIUFwd:=FCWinMain.FCWM_UMIFac_Colonies.Width shr 4;
+   FCWinMain.FCWM_UMIFac_Colonies.Columns[0].Width:=UMIUFwd*4;
+   FCWinMain.FCWM_UMIFac_Colonies.Columns[1].Width:=UMIUFwd*7;
+   FCWinMain.FCWM_UMIFac_Colonies.Columns[2].Width:=UMIUFwd*3;
+   FCWinMain.FCWM_UMIFac_Colonies.Columns[3].Width:=UMIUFwd*2;
+   UMIUFspmTreeW:=FCWinMain.FCWM_UMIFSh_SPMlistTop.Width div 3;
+   FCWinMain.FCWM_UMIFSh_SPMadmin.Width:=UMIUFspmTreeW;
+   FCWinMain.FCWM_UMIFSh_SPMecon.Width:=UMIUFspmTreeW;
+   FCWinMain.FCWM_UMIFSh_SPMmedca.Width:=UMIUFspmTreeW;
+   FCWinMain.FCWM_UMIFSh_SPMsoc.Width:=UMIUFspmTreeW;
+   FCWinMain.FCWM_UMIFSh_SPMspol.Width:=UMIUFspmTreeW;
+   FCWinMain.FCWM_UMIFSh_SPMspi.Width:=UMIUFspmTreeW;
+   FCWinMain.FCWM_UMIFSh_SPMlistBottom.Height:=FCWinMain.FCWM_UMIFac_TabSh.Height shr 1;
+end;
+
 procedure FCMumi_Faction_Upd(
-   const UMIUFsec: TFCEuiwUMIfacUpd;
+   const UMIUFsec: TFCEuiwUMItabFactionActions;
    const UMIUFrelocRetVal: boolean
    );
 {:DEV NOTES: redo it completely all is fucked + status location are fucked and require to be consolidated + look the dev notes in this routine + the ones in FCMumi_Main_Upd.}
@@ -226,23 +282,7 @@ begin
       or ((UMIUFsec=uiwNone) and (UMIUFrelocRetVal))      {:DEV NOTES: remove these two and replace them by LocationOnly parameter.}
    then
    begin
-      UMIUFstat:=(FCWinMain.FCWM_UMI.Width shr 5)*17;
-      UMIUFecon:=(UMIUFstat shr 1)+16;
-      UMIUFsoc:=UMIUFstat;
-      UMIUFmil:=UMIUFsoc+(UMIUFsoc-UMIUFecon);
-      UMIUFwd:=FCWinMain.FCWM_UMIFac_Colonies.Width shr 4;
-      FCWinMain.FCWM_UMIFac_Colonies.Columns[0].Width:=UMIUFwd*4;
-      FCWinMain.FCWM_UMIFac_Colonies.Columns[1].Width:=UMIUFwd*7;
-      FCWinMain.FCWM_UMIFac_Colonies.Columns[2].Width:=UMIUFwd*3;
-      FCWinMain.FCWM_UMIFac_Colonies.Columns[3].Width:=UMIUFwd*2;
-      UMIUFspmTreeW:=FCWinMain.FCWM_UMIFSh_SPMlistTop.Width div 3;
-      FCWinMain.FCWM_UMIFSh_SPMadmin.Width:=UMIUFspmTreeW;
-      FCWinMain.FCWM_UMIFSh_SPMecon.Width:=UMIUFspmTreeW;
-      FCWinMain.FCWM_UMIFSh_SPMmedca.Width:=UMIUFspmTreeW;
-      FCWinMain.FCWM_UMIFSh_SPMsoc.Width:=UMIUFspmTreeW;
-      FCWinMain.FCWM_UMIFSh_SPMspol.Width:=UMIUFspmTreeW;
-      FCWinMain.FCWM_UMIFSh_SPMspi.Width:=UMIUFspmTreeW;
-      FCWinMain.FCWM_UMIFSh_SPMlistBottom.Height:=FCWinMain.FCWM_UMIFac_TabSh.Height shr 1;
+
       FCWinMain.FCWM_UMI_FacData.HTMLText.Clear;
       FCWinMain.FCWM_UMI_FacData.HTMLText.Add(
          FCCFdHeadC
@@ -794,47 +834,25 @@ begin
    end; //==END== if UMIUFsec=uiwSPMpolEnfRAP ==//
 end;
 
-procedure FCMumi_Main_TabSetSize;
+procedure FCMuiUMI_MainPanel_SetConstraints;
 {:Purpose: set default/min UMI size regarding the selected section.
     Additions:
+      -2012Aug28- *code audit:
+                     (-)var formatting + refactoring     (-)if..then reformatting   (x)function/procedure refactoring
+                     (-)parameters refactoring           (-) ()reformatting         (o)code optimizations
+                     (-)float local variables=> extended (-)case..of reformatting   (-)local methods
+                     (-)summary completion               (-)protect all float add/sub w/ FCFcFunc_Rnd
+                     (-)standardize internal data + commenting them at each use as a result (like Count1 / Count2 ...)
+                     (-)put [format x.xx ] in returns of summary, if required and if the function do formatting
+                     (-)use of enumindex                 (-)use of StrToFloat( x, FCVdiFormat ) for all float data
+                     (-)if the procedure reset the same record's data or external data put:
+                        ///   <remarks>the procedure/function reset the /data/</remarks>
       -2010Nov28- *fix: correctly resize the UMI by puting the constraints before width and height loading.
                   *add: only resize the panel if it's dimensions are < to the minimal values.
       -2010Nov15- *add: min size constraints.
       -2010Oct25- *add: include also height.
 }
 begin
-   case FCWinMain.FCWM_UMI_TabSh.ActivePageIndex of
-      {.universe tab}
-      0:
-      begin
-         FCVdiUMIconstraintWidth:=810;
-         FCVdiUMIconstraintHeight:=540;
-      end;
-      {.faction tab}
-      1:
-      begin
-         FCVdiUMIconstraintWidth:=901;
-         FCVdiUMIconstraintHeight:=580;
-      end;
-      {.space units tab}
-      2:
-      begin
-         FCVdiUMIconstraintWidth:=810;
-         FCVdiUMIconstraintHeight:=540;
-      end;
-      {.production tab}
-      3:
-      begin
-         FCVdiUMIconstraintWidth:=810;
-         FCVdiUMIconstraintHeight:=540;
-      end;
-      {.research & development tab}
-      4:
-      begin
-         FCVdiUMIconstraintWidth:=1000;
-         FCVdiUMIconstraintHeight:=540;
-      end;
-   end;
    FCWinMain.FCWM_UMI.Constraints.MinWidth:=FCVdiUMIconstraintWidth;
    if FCWinMain.FCWM_UMI.Width<FCVdiUMIconstraintWidth
    then FCWinMain.FCWM_UMI.Width:=FCVdiUMIconstraintWidth;
@@ -843,29 +861,48 @@ begin
    then FCWinMain.FCWM_UMI.Height:=FCVdiUMIconstraintHeight;
 end;
 
-procedure FCMumi_Main_Upd;
+procedure FCMuiUMI_CurrentTab_Update( const SetConstraints: boolean );
 {:Purpose: update, if necessary, the UMI.
     Additions:
-      -2012Aug21  *add: faction tab - the dependence status are updated.
+      -2012Aug28- *code audit:
+                     (-)var formatting + refactoring     (-)if..then reformatting   (x)function/procedure refactoring
+                     (o)parameters refactoring           (-) ()reformatting         (-)code optimizations
+                     (-)float local variables=> extended (-)case..of reformatting   (-)local methods
+                     (-)summary completion               (-)protect all float add/sub w/ FCFcFunc_Rnd
+                     (-)standardize internal data + commenting them at each use as a result (like Count1 / Count2 ...)
+                     (-)put [format x.xx ] in returns of summary, if required and if the function do formatting
+                     (-)use of enumindex                 (-)use of StrToFloat( x, FCVdiFormat ) for all float data
+                     (-)if the procedure reset the same record's data or external data put:
+                        ///   <remarks>the procedure/function reset the /data/</remarks>
+      -2012Aug21- *add: faction tab - the dependence status are updated.
                   *add: faction tab - page 0 - the government details are also updated.
       -2010Dec16- *add: update the enforcement list only if it's enabled.
       -2010Dec02- *add: enable the Policy Enforcement update for the faction tab.
       -2010Nov16- *add: enable the SPMi settings update for the faction tab.
 }
 begin
-   if FCWinMain.FCWM_UMI.Visible
-   then
+   if FCWinMain.FCWM_UMI.Visible then
    begin
       case FCWinMain.FCWM_UMI_TabSh.ActivePageIndex of
          {.universe}
          0:
          begin
-
+            if SetConstraints then
+            begin
+               FCVdiUMIconstraintWidth:=810;
+               FCVdiUMIconstraintHeight:=540;
+               FCMuiUMI_MainPanel_SetConstraints;
+            end;
          end;
          {.faction}
          1:
          begin
-
+            if SetConstraints then
+            begin
+               FCVdiUMIconstraintWidth:=901;
+               FCVdiUMIconstraintHeight:=580;
+               FCMuiUMI_MainPanel_SetConstraints;
+            end;
             {:DEV NOTES: do the same with the dependence status !!!!.}
             FCMumi_Faction_Upd(uiwStatEco, false);
             FCMumi_Faction_Upd(uiwStatSoc, false);
@@ -895,18 +932,33 @@ begin
          end;
          2:
          begin
-
+            if SetConstraints then
+            begin
+               FCVdiUMIconstraintWidth:=810;
+               FCVdiUMIconstraintHeight:=540;
+               FCMuiUMI_MainPanel_SetConstraints;
+            end;
          end;
          3:
          begin
-
+            if SetConstraints then
+            begin
+               FCVdiUMIconstraintWidth:=810;
+               FCVdiUMIconstraintHeight:=540;
+               FCMuiUMI_MainPanel_SetConstraints;
+            end;
          end;
          4:
          begin
-
+            if SetConstraints then
+            begin
+               FCVdiUMIconstraintWidth:=1000;
+               FCVdiUMIconstraintHeight:=540;
+               FCMuiUMI_MainPanel_SetConstraints;
+            end;
          end;
-      end;
-   end;
+      end; //==END== case FCWinMain.FCWM_UMI_TabSh.ActivePageIndex of ==//
+   end; //==END== if FCWinMain.FCWM_UMI.Visible  ==//
 end;
 
 end.

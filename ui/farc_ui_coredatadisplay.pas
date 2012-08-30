@@ -97,6 +97,8 @@ procedure FCMuiCDD_Production_Update(
          ,Index1: integer
    );
 
+
+
 implementation
 
 uses
@@ -159,7 +161,7 @@ begin
          or ( ( isMustBeTheSameSettlement ) and ( SettlementStorageItemIndex=ColonyDataPanelSettlement ) )
          )
    then begin
-      if not (FCWinMain.FCWM_ColDPanel.Visible)
+      if (not FCWinMain.FCWM_ColDPanel.Visible)
          and (FCWinMain.FCWM_SurfPanel.Visible)
       then FCWinMain.FCWM_ColDPanel.Show;
 //   isColonyDataPanelShown:=true;

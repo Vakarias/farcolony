@@ -729,7 +729,7 @@ begin
       FCWM_MMenu_G_FlushOld.Enabled:=true;
       FCWM_MMenu_H_HPanel.Enabled:=true;
       FCMuiM_MessageBox_ResetState(true);
-      FCMumi_Faction_Upd(uiwAllSection, true);
+//      FCMumi_Faction_Upd(uiwAllSection, true);
       FCMgTFlow_FlowState_Set(tphTac);
    end;
 end;
@@ -1597,7 +1597,7 @@ end;
 
 procedure TFCWinMain.FCWM_UMIFac_TabShChange(Sender: TObject);
 begin
-   FCMumi_Main_Upd;
+   FCMuiUMI_CurrentTab_Update( true );
 end;
 
 procedure TFCWinMain.FCWM_UMIFSh_AFlistAnchorClick(Sender: TObject; index: Integer;
@@ -1643,9 +1643,9 @@ end;
 
 procedure TFCWinMain.FCWM_UMIResize(Sender: TObject);
 begin
-   if (FCWM_UMI.Visible)
-      and (not FCWM_UMI.Collaps)
-   then FCMumi_Faction_Upd(uiwNone, true);
+//   if (FCWM_UMI.Visible)
+//      and (not FCWM_UMI.Collaps)
+//   then FCMumi_Faction_Upd(uiwNone, true);
 end;
 
 procedure TFCWinMain.FCWM_UMISh_CEFcommitClick(Sender: TObject);
@@ -1665,8 +1665,8 @@ end;
 
 procedure TFCWinMain.FCWM_UMI_TabShChange(Sender: TObject);
 begin
-   FCMumi_Main_TabSetSize;
-   FCMumi_Main_Upd;
+//   FCMumi_Main_TabSetSize;
+   FCMuiUMI_CurrentTab_Update( true );
 end;
 
 procedure TFCWinMain.FormCreate(Sender: TObject);

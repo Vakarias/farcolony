@@ -308,7 +308,8 @@ begin
       end;
    end;
    FCDdgEntities[LUent].E_factionLevel:=LUlevel;
-   FCMumi_Main_Upd;
+   {:DEV NOTES: add a SPM section in core data display and replace the line below w/ the corresponding link.}
+//   FCMuiUMI_CurrentTab_Update;
 end;
 
 end.

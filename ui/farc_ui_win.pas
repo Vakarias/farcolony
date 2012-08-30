@@ -654,7 +654,8 @@ begin
          ,false
          ,true
          );
-      FCMumi_Main_Upd;
+
+      FCMuiUMI_CurrentTab_Update( false );
    end;
 
 

@@ -1323,11 +1323,11 @@ begin
       PECmodBur:=FCDdgEntities[0].E_spmMod_Bureaucracy;
       FCDdgEntities[0].E_spmMod_Bureaucracy:=PECmodBur-PEColdPol.SPMI_modBur+GSPMspmi.SPMI_modBur;
       FCDdgEntities[0].E_bureaucracy:=FCDdgEntities[0].E_bureaucracy-PEColdPol.SPMI_modBur+GSPMspmi.SPMI_modBur;
-      FCMumi_Faction_Upd(uiwPolStruc_bur, false);
+//      FCMumi_Faction_Upd(uiwPolStruc_bur, false);
       PECmodCor:=FCDdgEntities[0].E_spmMod_Corruption;
       FCDdgEntities[0].E_spmMod_Corruption:=PECmodCor-PEColdPol.SPMI_modCorr+GSPMspmi.SPMI_modCorr;
       FCDdgEntities[0].E_corruption:=FCDdgEntities[0].E_corruption-PEColdPol.SPMI_modCorr+GSPMspmi.SPMI_modCorr;
-      FCMumi_Faction_Upd(uiwPolStruc_cor, false);
+//      FCMumi_Faction_Upd(uiwPolStruc_cor, false);
       {.update the old policy's data}
       FCDdgEntities[0].E_spmSettings[PEColdPolIdx].SPMS_iPtIsSet:=false;
       FCDdgEntities[0].E_spmSettings[PEColdPolIdx].SPMS_iPtAcceptanceProbability:=-1;
@@ -1455,7 +1455,7 @@ begin
    end; //==END== else if not GSPMspmi.SPMI_isUnique2set ==//
    if FCDdgEntities[0].E_spmSettings[GSPMitmIdx].SPMS_ucCost>0
    then FCDdgEntities[0].E_ucInAccount:=FCDdgEntities[0].E_ucInAccount-FCDdgEntities[0].E_spmSettings[GSPMitmIdx].SPMS_ucCost;
-   FCMumi_Faction_Upd(uiwSPMpolEnfList);
+//   FCMumi_Faction_Upd(uiwSPMpolEnfList);
 end;
 
 procedure FCMgSPM_PolicyEnf_Process(const PEPent: integer);
@@ -1556,7 +1556,7 @@ begin
       gspmResAccept:
       begin
          FCWinMain.FCWM_UMIFSh_AFlist.Enabled:=true;
-         FCMumi_Faction_Upd(uiwSPMpolEnfRAP, true);
+//         FCMumi_Faction_Upd(uiwSPMpolEnfRAP, true);
       end;
    end; //==END== case GSPMrslt of ==//
    if PERapplyCohMod<>0
@@ -1583,8 +1583,8 @@ begin
       end; //==END== if PERmax>0 ==//
 
    end; //==END== if PERapplyCohMod>0 ==//
-   if FCDdgEntities[0].E_spmSettings[GSPMitmIdx].SPMS_duration>0
-   then FCMumi_Faction_Upd(uiwSPMpolEnfList);
+//   if FCDdgEntities[0].E_spmSettings[GSPMitmIdx].SPMS_duration>0
+//   then FCMumi_Faction_Upd(uiwSPMpolEnfList);
 end;
 
 procedure FCMgSPM_SPMI_Retire(

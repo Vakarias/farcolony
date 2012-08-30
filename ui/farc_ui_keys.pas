@@ -874,7 +874,7 @@ begin
          then
          begin
             FCWinMain.FCWM_UMI_TabSh.ActivePageIndex:=0;
-            FCMumi_Main_TabSetSize;
+//            FCMumi_Main_TabSetSize;
          end
          else if (WMTkeyDump>113)
             and (WMTkeyDump<117)
@@ -884,7 +884,7 @@ begin
             then
             begin
                FCWinMain.FCWM_UMI_TabSh.ActivePageIndex:=1;
-               FCMumi_Main_TabSetSize;
+//               FCMumi_Main_TabSetSize;
             end;
             FCWinMain.FCWM_UMIFac_TabSh.ActivePageIndex:=WMTkeyDump-114;
          end
@@ -893,9 +893,9 @@ begin
          then
          begin
             FCWinMain.FCWM_UMI_TabSh.ActivePageIndex:=WMTkeyDump-115;
-            FCMumi_Main_TabSetSize;
+//            FCMumi_Main_TabSetSize;
          end;
-         FCMumi_Main_Upd;
+         FCMuiUMI_CurrentTab_Update( true );
       end;
       {.=====================================}
       {NUMPAD1}
