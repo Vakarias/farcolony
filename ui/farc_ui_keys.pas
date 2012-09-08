@@ -895,7 +895,7 @@ begin
             FCWinMain.FCWM_UMI_TabSh.ActivePageIndex:=WMTkeyDump-115;
 //            FCMumi_Main_TabSetSize;
          end;
-         FCMuiUMI_CurrentTab_Update( true );
+         FCMuiUMI_CurrentTab_Update( true, ResizingWupdating );
       end;
       {.=====================================}
       {NUMPAD1}

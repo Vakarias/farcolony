@@ -1597,7 +1597,7 @@ end;
 
 procedure TFCWinMain.FCWM_UMIFac_TabShChange(Sender: TObject);
 begin
-   FCMuiUMI_CurrentTab_Update( true );
+   FCMuiUMI_CurrentTab_Update( true, ResizingWupdating );
 end;
 
 procedure TFCWinMain.FCWM_UMIFSh_AFlistAnchorClick(Sender: TObject; index: Integer;
@@ -1643,9 +1643,9 @@ end;
 
 procedure TFCWinMain.FCWM_UMIResize(Sender: TObject);
 begin
-//   if (FCWM_UMI.Visible)
-//      and (not FCWM_UMI.Collaps)
-//   then FCMumi_Faction_Upd(uiwNone, true);
+   if ( FCWM_UMI.Visible )
+      and ( not FCWM_UMI.Collaps )
+   then FCMuiUMI_CurrentTab_Update( false, ResizingWOupdating );
 end;
 
 procedure TFCWinMain.FCWM_UMISh_CEFcommitClick(Sender: TObject);
@@ -1665,8 +1665,7 @@ end;
 
 procedure TFCWinMain.FCWM_UMI_TabShChange(Sender: TObject);
 begin
-//   FCMumi_Main_TabSetSize;
-   FCMuiUMI_CurrentTab_Update( true );
+   FCMuiUMI_CurrentTab_Update( true, ResizingWupdating );
 end;
 
 procedure TFCWinMain.FormCreate(Sender: TObject);

@@ -655,7 +655,7 @@ begin
          ,true
          );
 
-      FCMuiUMI_CurrentTab_Update( false );
+      FCMuiUMI_CurrentTab_Update( false, roNoResizing );
    end;
 
 

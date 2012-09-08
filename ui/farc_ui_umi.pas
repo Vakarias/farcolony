@@ -34,6 +34,12 @@ uses
    ComCtrls
    ,SysUtils;
 
+type TFCEuiwUMIresizingOptions=(
+   roNoResizing
+   ,ResizingWupdating
+   ,ResizingWOupdating
+   );
+
 type TFCEuiwUMItabFactionActions=(
    tfaAll
    ,tfaLocations
@@ -85,22 +91,18 @@ procedure FCMumi_AvailPolList_UpdClick;
 ///<summary>
 ///   recalculate and update the size of all the Faction tab components that require to be resized
 ///</summary>
-procedure FCMuiUMI_FactionTabComponents_SetSize;
+procedure FCMuiUMI_FactionComponents_SetSize;
 
 ///<summary>
 ///   update the UMI/Faction section
 ///</summary>
 ///   <param="UMIUFsec">section to update.</param>
-///   <param="UMIUFrelocRetVal">relocation switch OR policy preprocessing result.</param>
-procedure FCMumi_Faction_Upd(
-   const UMIUFsec: TFCEuiwUMItabFactionActions;
-   const UMIUFrelocRetVal: boolean=false
-   );
+procedure FCMuiUMI_Faction_Update( const Section: TFCEuiwUMItabFactionActions );
 
 ///<summary>
 ///   update, if necessary, the UMI
 ///</summary>
-procedure FCMuiUMI_CurrentTab_Update( const SetConstraints: boolean );
+procedure FCMuiUMI_CurrentTab_Update( const SetConstraints: boolean; ResizingOption: TFCEuiwUMIresizingOptions );
 
 implementation
 
@@ -169,7 +171,7 @@ begin
    end;
 end;
 
-procedure FCMuiUMI_FactionTabComponents_SetSize;
+procedure FCMuiUMI_FactionComponents_SetSize;
 {:Purpose: recalculate and update the size of all the Faction tab components that require to be resized.
     Additions:
       -2012Sep08- *code audit:
@@ -206,16 +208,13 @@ begin
    FCWinMain.FCWM_UMIFSh_SPMlistBottom.Height:=FCWinMain.FCWM_UMIFac_TabSh.Height shr 1;
 end;
 
-procedure FCMumi_Faction_Upd(
-   const UMIUFsec: TFCEuiwUMItabFactionActions;
-   const UMIUFrelocRetVal: boolean
-   );
-{:DEV NOTES: redo it completely all is fucked + status location are fucked and require to be consolidated + look the dev notes in this routine + the ones in FCMumi_Main_Upd.}
+procedure FCMuiUMI_Faction_Update( const Section: TFCEuiwUMItabFactionActions );
+{:DEV NOTES: look the dev notes in this routine + the ones in FCMumi_Main_Upd.}
 {:Purpose: update the UMI/Faction section.
     Additions:
       -2012Sep08- *code audit:
-                     (-)var formatting + refactoring     (-)if..then reformatting   (-)function/procedure refactoring
-                     (-)parameters refactoring           (-) ()reformatting         (-)code optimizations
+                     (o)var formatting + refactoring     (-)if..then reformatting   (x)function/procedure refactoring
+                     (x)parameters refactoring           (-) ()reformatting         (-)code optimizations
                      (-)float local variables=> extended (-)case..of reformatting   (-)local methods
                      (-)summary completion               (-)protect all float add/sub w/ FCFcFunc_Rnd
                      (-)standardize internal data + commenting them at each use as a result (like Count1 / Count2 ...)
@@ -302,6 +301,17 @@ procedure FCMumi_Faction_Upd(
 //
 //   UMIUFspmi: TFCRdgSPMi;
 begin
+//   case Section of
+//      tfaAll
+//      ,tfaLocations
+//      ,tfaPoliticalStructureAll
+//      ,tfaPoliticalStructureGovernment
+//      ,tfaPoliticalStructureBureaucracy
+//      ,tfaPoliticalStructureCorruption
+//      ,tfaPoliticalStructureEconomy
+//      ,tfaPoliticalStructureHealthcare
+//      ,tfaPoliticalStructureSpiritual
+//   end;
 //   if (UMIUFsec=uiwAllSection)   {:DEV NOTES: remove all sections....}
 //      or (UMIUFsec=uiwAllMain)
 //      or ((UMIUFsec=uiwNone) and (UMIUFrelocRetVal))      {:DEV NOTES: remove these two and replace them by LocationOnly parameter.}
@@ -887,7 +897,7 @@ begin
    then FCWinMain.FCWM_UMI.Height:=FCVdiUMIconstraintHeight;
 end;
 
-procedure FCMuiUMI_CurrentTab_Update( const SetConstraints: boolean );
+procedure FCMuiUMI_CurrentTab_Update( const SetConstraints: boolean; ResizingOption: TFCEuiwUMIresizingOptions );
 {:Purpose: update, if necessary, the UMI.
     Additions:
       -2012Aug28- *code audit:
@@ -919,6 +929,13 @@ begin
                FCVdiUMIconstraintHeight:=540;
                FCMuiUMI_MainPanel_SetConstraints;
             end;
+            case ResizingOption of
+               roNoResizing:;
+
+               ResizingWupdating:;
+
+               ResizingWOupdating:;
+            end;
          end;
          {.faction}
          1:
@@ -928,6 +945,16 @@ begin
                FCVdiUMIconstraintWidth:=901;
                FCVdiUMIconstraintHeight:=580;
                FCMuiUMI_MainPanel_SetConstraints;
+            end;
+            case ResizingOption of
+               roNoResizing:;
+
+               ResizingWupdating:
+               begin
+                  FCMuiUMI_FactionComponents_SetSize;
+               end;
+
+               ResizingWOupdating: FCMuiUMI_FactionComponents_SetSize;
             end;
             {:DEV NOTES: do the same with the dependence status !!!!.}
 //            FCMumi_Faction_Upd(uiwStatEco, false);
