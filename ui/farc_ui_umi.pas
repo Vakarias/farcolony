@@ -41,8 +41,7 @@ type TFCEuiwUMIresizingOptions=(
    );
 
 type TFCEuiwUMItabFactionActions=(
-   tfaAll
-   ,tfaLocations
+   tfaDependenceStatus
    ,tfaPoliticalStructureAll
    ,tfaPoliticalStructureGovernment
    ,tfaPoliticalStructureBureaucracy
@@ -174,7 +173,8 @@ end;
 procedure FCMuiUMI_FactionComponents_SetSize;
 {:Purpose: recalculate and update the size of all the Faction tab components that require to be resized.
     Additions:
-      -2012Sep08- *code audit:
+      -2012Sep08- *add: policies enforcement interface components.
+                  *code audit:
                      (_)var formatting + refactoring     (_)if..then reformatting   (_)function/procedure refactoring
                      (_)parameters refactoring           (x) ()reformatting         (_)code optimizations
                      (_)float local variables=> extended (_)case..of reformatting   (_)local methods
@@ -206,6 +206,10 @@ begin
    FCWinMain.FCWM_UMIFSh_SPMspol.Width:=SPMtreesWidth;
    FCWinMain.FCWM_UMIFSh_SPMspi.Width:=SPMtreesWidth;
    FCWinMain.FCWM_UMIFSh_SPMlistBottom.Height:=FCWinMain.FCWM_UMIFac_TabSh.Height shr 1;
+   FCWinMain.FCWM_UMISh_CEFenforce.Left:=(FCWinMain.FCWM_UMISh_CEnfF.Width shr 1)-(FCWinMain.FCWM_UMISh_CEFenforce.Width shr 1);
+   FCWinMain.FCWM_UMISh_CEFretire.Top:=FCWinMain.FCWM_UMISh_CEnfF.Height-(FCWinMain.FCWM_UMISh_CEFretire.Height+2);
+   FCWinMain.FCWM_UMISh_CEFcommit.Left:=FCWinMain.FCWM_UMISh_CEnfF.Width-FCWinMain.FCWM_UMISh_CEFcommit.Width-2;
+   FCWinMain.FCWM_UMISh_CEFcommit.Top:=FCWinMain.FCWM_UMISh_CEFretire.Top;
 end;
 
 procedure FCMuiUMI_Faction_Update( const Section: TFCEuiwUMItabFactionActions );
@@ -301,43 +305,28 @@ procedure FCMuiUMI_Faction_Update( const Section: TFCEuiwUMItabFactionActions );
 //
 //   UMIUFspmi: TFCRdgSPMi;
 begin
-//   case Section of
-//      tfaAll
-//      ,tfaLocations
-//      ,tfaPoliticalStructureAll
-//      ,tfaPoliticalStructureGovernment
-//      ,tfaPoliticalStructureBureaucracy
-//      ,tfaPoliticalStructureCorruption
-//      ,tfaPoliticalStructureEconomy
-//      ,tfaPoliticalStructureHealthcare
-//      ,tfaPoliticalStructureSpiritual
-//   end;
-//   if (UMIUFsec=uiwAllSection)   {:DEV NOTES: remove all sections....}
-//      or (UMIUFsec=uiwAllMain)
-//      or ((UMIUFsec=uiwNone) and (UMIUFrelocRetVal))      {:DEV NOTES: remove these two and replace them by LocationOnly parameter.}
-//   then
-//   begin
-//
-//      FCWinMain.FCWM_UMI_FacData.HTMLText.Clear;
-//      FCWinMain.FCWM_UMI_FacData.HTMLText.Add(
-//         FCCFdHeadC
-//         +'<ind x="'+IntToStr(UMIUFsoc-( ( UMIUFsoc-UMIUFecon ) shr 1 ) )+'">'+FCFdTFiles_UIStr_Get(uistrUI, 'facstat')
-//         +FCCFdHeadEnd
-//         );
-//      {.header, idx=1}
-//      FCWinMain.FCWM_UMI_FacData.HTMLText.Add(
-//         FCCFdHeadC
-//         +'<ind x="'+IntToStr(FCWinMain.FCWM_UMI_FacLvl.Left)+'">'+FCFdTFiles_UIStr_Get(uistrUI, 'faclvl')
-//         +'<ind x="'+IntToStr(UMIUFecon)+'">'+FCFdTFiles_UIStr_Get(uistrUI, 'cpsSLecon')
-//         +'<ind x="'+IntToStr(UMIUFsoc)+'">'+FCFdTFiles_UIStr_Get(uistrUI, 'cpsSLsoc')
-//         +'<ind x="'+IntToStr(UMIUFmil)+'">'+FCFdTFiles_UIStr_Get(uistrUI, 'cpsSLmil')
-//         +FCCFdHeadEnd
-//         );
-//      FCWinMain.FCWM_UMISh_CEFenforce.Left:=(FCWinMain.FCWM_UMISh_CEnfF.Width shr 1)-(FCWinMain.FCWM_UMISh_CEFenforce.Width shr 1);
-//      FCWinMain.FCWM_UMISh_CEFretire.Top:=FCWinMain.FCWM_UMISh_CEnfF.Height-(FCWinMain.FCWM_UMISh_CEFretire.Height+2);
-//      FCWinMain.FCWM_UMISh_CEFcommit.Left:=FCWinMain.FCWM_UMISh_CEnfF.Width-FCWinMain.FCWM_UMISh_CEFcommit.Width-2;
-//      FCWinMain.FCWM_UMISh_CEFcommit.Top:=FCWinMain.FCWM_UMISh_CEFretire.Top;
-//   end;
+   case Section of
+      tfaDependenceStatus:
+      begin
+         FCWinMain.FCWM_UMI_FacData.HTMLText.Clear;
+         FCWinMain.FCWM_UMI_FacData.HTMLText.Add(
+            FCCFdHeadC
+            +'<ind x="'+IntToStr(UMIUFsoc-( ( UMIUFsoc-UMIUFecon ) shr 1 ) )+'">'+FCFdTFiles_UIStr_Get(uistrUI, 'facstat')
+            +FCCFdHeadEnd
+            );
+         {.header, idx=1}
+         FCWinMain.FCWM_UMI_FacData.HTMLText.Add(
+            FCCFdHeadC
+            +'<ind x="'+IntToStr(FCWinMain.FCWM_UMI_FacLvl.Left)+'">'+FCFdTFiles_UIStr_Get(uistrUI, 'faclvl')
+            +'<ind x="'+IntToStr(UMIUFecon)+'">'+FCFdTFiles_UIStr_Get(uistrUI, 'cpsSLecon')
+            +'<ind x="'+IntToStr(UMIUFsoc)+'">'+FCFdTFiles_UIStr_Get(uistrUI, 'cpsSLsoc')
+            +'<ind x="'+IntToStr(UMIUFmil)+'">'+FCFdTFiles_UIStr_Get(uistrUI, 'cpsSLmil')
+            +FCCFdHeadEnd
+            );
+      end;
+
+      tfaPoliticalStructureAll:;
+   end;
 //   if (UMIUFsec=uiwAllSection)
 //      or (UMIUFsec=uiwAllMain)
 //      or (UMIUFsec=uiwfacLvl)
@@ -952,18 +941,15 @@ begin
                ResizingWupdating:
                begin
                   FCMuiUMI_FactionComponents_SetSize;
+                  FCMuiUMI_Faction_Update( tfaDependenceStatus );
                end;
 
                ResizingWOupdating: FCMuiUMI_FactionComponents_SetSize;
             end;
-            {:DEV NOTES: do the same with the dependence status !!!!.}
-//            FCMumi_Faction_Upd(uiwStatEco, false);
-//            FCMumi_Faction_Upd(uiwStatSoc, false);
-//            FCMumi_Faction_Upd(uiwStatMil, false);
-//            FCMumi_Faction_Upd(uiwNone, true);
             case FCWinMain.FCWM_UMIFac_TabSh.ActivePageIndex of
                0:
                begin
+                  FCMuiUMI_Faction_Update( tfaPoliticalStructureAll );
                   {:DEV NOTES: put a new paramt PoliticalStructureALL !!! and remove the useless calls.}
 //                  FCMumi_Faction_Upd(uiwPolStruc_gvt, false);
 //                  FCMumi_Faction_Upd(uiwPolStruc_bur, false);

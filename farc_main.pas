@@ -244,7 +244,7 @@ type
     FCWM_UMI_TabShUniv: TAdvTabSheet;
     HTMLabel1: THTMLabel;
     FCWM_UMI_TabShFac: TAdvTabSheet;
-    FCWM_UMI_FacData: THTMLabel;
+    FCWM_UMI_FDEconVal: THTMLabel;
     HTMListBox1: THTMListBox;
     FCWM_UMI_TabShSpU: TAdvTabSheet;
     FCWM_UMI_TabShProd: TAdvTabSheet;
@@ -318,6 +318,10 @@ type
     FCWM_CPSRSbuttonConfirm: TAdvGlowButton;
     FCWM_CPSRSinfogroup: TAdvGroupBox;
     FCWM_CPSRSIGreport: THTMLabel;
+    FCWM_UMI_FDLvlVal: THTMLabel;
+    FCWM_UMI_FDMilVal: THTMLabel;
+    FCWM_UMI_FDSocVal: THTMLabel;
+    FCWM_UMI_FacData: THTMLabel;
       procedure FormCreate(Sender: TObject);
       procedure FormResize(Sender: TObject);
       procedure FCWM_MMenu_G_QuitClick(Sender: TObject);

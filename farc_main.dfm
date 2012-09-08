@@ -593,12 +593,12 @@ object FCWinMain: TFCWinMain
             Font.Style = []
             ParentFont = False
             TabOrder = 0
-            object FCWM_UMI_FacData: THTMLabel
+            object FCWM_UMI_FDEconVal: THTMLabel
               Left = 2
               Top = 16
               Width = 796
               Height = 79
-              Align = alClient
+              Align = alCustom
               Color = clBlack
               GradientType = gtFullVertical
               Font.Charset = ANSI_CHARSET
@@ -683,6 +683,104 @@ object FCWinMain: TFCWinMain
               Appearance.ProgressSegmentColor = 4194432
               Interval = 0
             end
+            object FCWM_UMI_FDLvlVal: THTMLabel
+              Left = 4
+              Top = 18
+              Width = 796
+              Height = 79
+              Align = alCustom
+              Color = clBlack
+              GradientType = gtFullVertical
+              Font.Charset = ANSI_CHARSET
+              Font.Color = 14803425
+              Font.Height = -12
+              Font.Name = 'FrancophilSans'
+              Font.Style = []
+              Hover = True
+              HoverColor = clBlack
+              HoverFontColor = clSkyBlue
+              HTMLText.Strings = (
+                'TMS <b>HTML</b> label ')
+              ParentColor = False
+              ParentFont = False
+              URLColor = 13869987
+              OnAnchorClick = FCWM_HDPhintsTextAnchorClick
+              Version = '1.8.1.0'
+            end
+            object FCWM_UMI_FDMilVal: THTMLabel
+              Left = 4
+              Top = 18
+              Width = 796
+              Height = 79
+              Align = alCustom
+              Color = clBlack
+              GradientType = gtFullVertical
+              Font.Charset = ANSI_CHARSET
+              Font.Color = 14803425
+              Font.Height = -12
+              Font.Name = 'FrancophilSans'
+              Font.Style = []
+              Hover = True
+              HoverColor = clBlack
+              HoverFontColor = clSkyBlue
+              HTMLText.Strings = (
+                'TMS <b>HTML</b> label ')
+              ParentColor = False
+              ParentFont = False
+              URLColor = 13869987
+              OnAnchorClick = FCWM_HDPhintsTextAnchorClick
+              Version = '1.8.1.0'
+            end
+            object FCWM_UMI_FDSocVal: THTMLabel
+              Left = 4
+              Top = 18
+              Width = 796
+              Height = 79
+              Align = alCustom
+              Color = clBlack
+              GradientType = gtFullVertical
+              Font.Charset = ANSI_CHARSET
+              Font.Color = 14803425
+              Font.Height = -12
+              Font.Name = 'FrancophilSans'
+              Font.Style = []
+              Hover = True
+              HoverColor = clBlack
+              HoverFontColor = clSkyBlue
+              HTMLText.Strings = (
+                'TMS <b>HTML</b> label ')
+              ParentColor = False
+              ParentFont = False
+              URLColor = 13869987
+              OnAnchorClick = FCWM_HDPhintsTextAnchorClick
+              Version = '1.8.1.0'
+            end
+            object FCWM_UMI_FacData: THTMLabel
+              Left = 2
+              Top = 16
+              Width = 796
+              Height = 79
+              Align = alClient
+              Color = clBlack
+              GradientType = gtFullVertical
+              Font.Charset = ANSI_CHARSET
+              Font.Color = 14803425
+              Font.Height = -12
+              Font.Name = 'FrancophilSans'
+              Font.Style = []
+              Hover = True
+              HoverColor = clBlack
+              HoverFontColor = clSkyBlue
+              HTMLText.Strings = (
+                'TMS <b>HTML</b> label ')
+              ParentColor = False
+              ParentFont = False
+              URLColor = 13869987
+              OnAnchorClick = FCWM_HDPhintsTextAnchorClick
+              Version = '1.8.1.0'
+              ExplicitLeft = 4
+              ExplicitTop = 18
+            end
           end
           object FCWM_UMIFac_TabSh: TAdvPageControl
             Left = 0
@@ -728,10 +826,6 @@ object FCWinMain: TFCWinMain
               TabColor = clBlack
               TabColorTo = clGray
               TextColor = 14803425
-              ExplicitLeft = 0
-              ExplicitTop = 0
-              ExplicitWidth = 0
-              ExplicitHeight = 0
               object FCWM_UMIFac_PolGvtDetails: TAdvGroupBox
                 Left = 0
                 Top = 0
@@ -865,10 +959,6 @@ object FCWinMain: TFCWinMain
               TabColor = clBlack
               TabColorTo = clGray
               TextColor = 14803425
-              ExplicitLeft = 0
-              ExplicitTop = 0
-              ExplicitWidth = 0
-              ExplicitHeight = 0
               object FCWM_UMIFSh_SPMlistTop: TAdvPanel
                 Left = 0
                 Top = 0
@@ -2086,10 +2176,6 @@ object FCWinMain: TFCWinMain
           TabColor = clBlack
           TabColorTo = clGray
           TextColor = 14803425
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
           object FCWM_CDPpopList: THTMLTreeview
             Left = 0
             Top = 0
@@ -2274,10 +2360,6 @@ object FCWinMain: TFCWinMain
           TabColor = clBlack
           TabColorTo = clGray
           TextColor = 14803425
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
           object CDPstorageCapacity: THTMLabel
             Left = 53
             Top = 0
@@ -2379,10 +2461,6 @@ object FCWinMain: TFCWinMain
           TabColor = clBlack
           TabColorTo = clGray
           TextColor = 14803425
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
           object FCWM_CDPinfrList: THTMLTreeview
             Left = 0
             Top = 0
