@@ -170,25 +170,37 @@ end;
 procedure FCMuiUMI_FactionTabComponents_SetSize;
 {:Purpose: recalculate and update the size of all the Faction tab components that require to be resized.
     Additions:
+      -2012Sep08- *code audit:
+                     (_)var formatting + refactoring     (_)if..then reformatting   (_)function/procedure refactoring
+                     (_)parameters refactoring           (x) ()reformatting         (_)code optimizations
+                     (_)float local variables=> extended (_)case..of reformatting   (_)local methods
+                     (_)summary completion               (_)protect all float add/sub w/ FCFcFunc_Rnd
+                     (_)standardize internal data + commenting them at each use as a result (like Count1 / Count2 ...)
+                     (_)put [format x.xx ] in returns of summary, if required and if the function do formatting
+                     (_)use of enumindex                 (_)use of StrToFloat( x, FCVdiFormat ) for all float data
+                     (_)if the procedure reset the same record's data or external data put:
+                     ///   <remarks>the procedure/function reset the /data/</remarks>
 }
+   var
+      BaseCalculation: integer;
+      SPMtreesWidth: integer;
 begin
-   {:DEV NOTES: routine's private variable.}
-   UMIUFstat:=(FCWinMain.FCWM_UMI.Width shr 5)*17;
-   UMIUFecon:=(UMIUFstat shr 1)+16;
-   UMIUFsoc:=UMIUFstat;
-   UMIUFmil:=UMIUFsoc+(UMIUFsoc-UMIUFecon);
+   BaseCalculation:=( FCWinMain.FCWM_UMI.Width shr 5 )*17;
+   UMIUFecon:=( BaseCalculation shr 1 )+16;
+   UMIUFsoc:=BaseCalculation;
+   UMIUFmil:=UMIUFsoc+( UMIUFsoc-UMIUFecon );
    UMIUFwd:=FCWinMain.FCWM_UMIFac_Colonies.Width shr 4;
    FCWinMain.FCWM_UMIFac_Colonies.Columns[0].Width:=UMIUFwd*4;
    FCWinMain.FCWM_UMIFac_Colonies.Columns[1].Width:=UMIUFwd*7;
    FCWinMain.FCWM_UMIFac_Colonies.Columns[2].Width:=UMIUFwd*3;
    FCWinMain.FCWM_UMIFac_Colonies.Columns[3].Width:=UMIUFwd*2;
-   UMIUFspmTreeW:=FCWinMain.FCWM_UMIFSh_SPMlistTop.Width div 3;
-   FCWinMain.FCWM_UMIFSh_SPMadmin.Width:=UMIUFspmTreeW;
-   FCWinMain.FCWM_UMIFSh_SPMecon.Width:=UMIUFspmTreeW;
-   FCWinMain.FCWM_UMIFSh_SPMmedca.Width:=UMIUFspmTreeW;
-   FCWinMain.FCWM_UMIFSh_SPMsoc.Width:=UMIUFspmTreeW;
-   FCWinMain.FCWM_UMIFSh_SPMspol.Width:=UMIUFspmTreeW;
-   FCWinMain.FCWM_UMIFSh_SPMspi.Width:=UMIUFspmTreeW;
+   SPMtreesWidth:=FCWinMain.FCWM_UMIFSh_SPMlistTop.Width div 3;
+   FCWinMain.FCWM_UMIFSh_SPMadmin.Width:=SPMtreesWidth;
+   FCWinMain.FCWM_UMIFSh_SPMecon.Width:=SPMtreesWidth;
+   FCWinMain.FCWM_UMIFSh_SPMmedca.Width:=SPMtreesWidth;
+   FCWinMain.FCWM_UMIFSh_SPMsoc.Width:=SPMtreesWidth;
+   FCWinMain.FCWM_UMIFSh_SPMspol.Width:=SPMtreesWidth;
+   FCWinMain.FCWM_UMIFSh_SPMspi.Width:=SPMtreesWidth;
    FCWinMain.FCWM_UMIFSh_SPMlistBottom.Height:=FCWinMain.FCWM_UMIFac_TabSh.Height shr 1;
 end;
 
