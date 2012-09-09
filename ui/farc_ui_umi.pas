@@ -350,32 +350,6 @@ begin
    end;
 //   if (UMIUFsec=uiwAllSection)
 //      or (UMIUFsec=uiwAllMain)
-//      or (UMIUFsec=uiwfacLvl)
-//      or ((UMIUFsec=uiwNone) and (UMIUFrelocRetVal))
-//   then
-//   begin
-//      {.faction's level, idx=2}
-
-//      if (UMIUFsec=uiwAllSection)
-//         or (UMIUFsec=uiwAllMain)
-//         or ((UMIUFsec=uiwNone) and (UMIUFrelocRetVal))
-//      then FCWinMain.FCWM_UMI_FacData.HTMLText.Add(
-//         '<br><ind x="'+IntToStr(FCWinMain.FCWM_UMI_FacLvl.Left+11)+'"><b>'+UMIUFlvl
-//            +'</b><ind x="'+IntToStr(FCWinMain.FCWM_UMI_FacLvl.Left+32)+'">'+FCFdTFiles_UIStr_Get(uistrUI,'faclvl'+UMIUFlvl)
-//         )
-//      else if UMIUFsec=uiwfacLvl
-//      then
-//      begin
-//         FCWinMain.FCWM_UMI_FacData.HTMLText.Insert(
-//            2
-//            ,'<br><ind x="'+IntToStr(FCWinMain.FCWM_UMI_FacLvl.Left+11)+'"><b>'+UMIUFlvl
-//               +'</b><ind x="'+IntToStr(FCWinMain.FCWM_UMI_FacLvl.Left+32)+'">'+FCFdTFiles_UIStr_Get(uistrUI,'faclvl'+UMIUFlvl)
-//            );
-//         FCWinMain.FCWM_UMI_FacData.HTMLText.Delete(3);
-//      end;
-//   end;
-//   if (UMIUFsec=uiwAllSection)
-//      or (UMIUFsec=uiwAllMain)
 //      or (UMIUFsec=uiwStatEco)
 //      or ((UMIUFsec=uiwNone) and (UMIUFrelocRetVal))
 //   then

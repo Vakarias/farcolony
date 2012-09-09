@@ -83,6 +83,14 @@ procedure FCMuiCDD_Colony_Update(
          ,isSurfacePanelUpdate: boolean
    );
 
+//procedure FCMuiCDD_OwnedInfrastructures
+//   CDD
+//   UMI
+
+//procedure FCMuiCDD_OwnedSpaceUnits
+//   3D
+//   UMI
+
 ///<summary>
 ///   core data display refresh for production data. Update the Colony Data Panel and the related UMI tabs if required
 ///</summary>
@@ -96,8 +104,6 @@ procedure FCMuiCDD_Production_Update(
          ,Settlement
          ,Index1: integer
    );
-
-
 
 implementation
 

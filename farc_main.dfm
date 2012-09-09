@@ -2213,7 +2213,7 @@ object FCWinMain: TFCWinMain
               Width = 796
               Height = 79
               Align = alCustom
-              Color = clMaroon
+              Color = clBlack
               GradientType = gtFullVertical
               Font.Charset = ANSI_CHARSET
               Font.Color = 14803425
@@ -2236,7 +2236,7 @@ object FCWinMain: TFCWinMain
               Width = 796
               Height = 79
               Align = alCustom
-              Color = clMaroon
+              Color = clBlack
               GradientType = gtFullVertical
               Font.Charset = ANSI_CHARSET
               Font.Color = 14803425
@@ -2259,7 +2259,7 @@ object FCWinMain: TFCWinMain
               Width = 796
               Height = 79
               Align = alCustom
-              Color = clMaroon
+              Color = clBlack
               GradientType = gtFullVertical
               Font.Charset = ANSI_CHARSET
               Font.Color = 14803425
@@ -2374,7 +2374,7 @@ object FCWinMain: TFCWinMain
               Width = 44
               Height = 23
               Align = alCustom
-              Color = clMaroon
+              Color = clBlack
               GradientType = gtFullVertical
               Font.Charset = ANSI_CHARSET
               Font.Color = 14803425
