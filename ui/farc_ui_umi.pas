@@ -34,12 +34,6 @@ uses
    ComCtrls
    ,SysUtils;
 
-type TFCEuiwUMIresizingOptions=(
-   roNoResizing
-   ,ResizingWupdating
-   ,ResizingWOupdating
-   );
-
 type TFCEuiwUMItabFactionActions=(
    tfaDependenceStatus
    ,tfaPoliticalStructureAll
@@ -101,7 +95,7 @@ procedure FCMuiUMI_Faction_Update( const Section: TFCEuiwUMItabFactionActions );
 ///<summary>
 ///   update, if necessary, the UMI
 ///</summary>
-procedure FCMuiUMI_CurrentTab_Update( const SetConstraints: boolean; ResizingOption: TFCEuiwUMIresizingOptions );
+procedure FCMuiUMI_CurrentTab_Update( const SetConstraints, Resize: boolean );
 
 implementation
 
@@ -124,11 +118,12 @@ uses
 //==END PRIVATE RECORDS=====================================================================
 
 var
-   //==========faction tab variables========================================================
    UMIUFecon: integer;
    UMIUFsoc: integer;
    UMIUFmil:integer;
    UMIUFwd:integer;
+   //==========faction tab variables========================================================
+
 
 //==END PRIVATE VAR=========================================================================
 
@@ -189,10 +184,19 @@ procedure FCMuiUMI_FactionComponents_SetSize;
       BaseCalculation: integer;
       SPMtreesWidth: integer;
 begin
+   FCWinMain.FCWM_UMI_FacData.Height:=( FCWinMain.FCWM_UMI_FacDatG.Height shr 1 )-8;
    BaseCalculation:=( FCWinMain.FCWM_UMI.Width shr 5 )*17;
    UMIUFecon:=( BaseCalculation shr 1 )+16;
    UMIUFsoc:=BaseCalculation;
    UMIUFmil:=UMIUFsoc+( UMIUFsoc-UMIUFecon );
+   FCWinMain.FCWM_UMI_FacLvl.Left:=16;
+   FCWinMain.FCWM_UMI_FDLvlVal.Left:=FCWinMain.FCWM_UMI_FacLvl.Left+( FCWinMain.FCWM_UMI_FacLvl.Width shr 1)-( FCWinMain.FCWM_UMI_FDLvlVal.Width shr 1);
+   FCWinMain.FCWM_UMI_FacEcon.Left:=UMIUFecon;
+   FCWinMain.FCWM_UMI_FDEconVal.Left:=FCWinMain.FCWM_UMI_FacEcon.Left+( FCWinMain.FCWM_UMI_FacEcon.Width shr 1)-( FCWinMain.FCWM_UMI_FDEconVal.Width shr 1);
+   FCWinMain.FCWM_UMI_FacSoc.Left:=UMIUFsoc;
+   FCWinMain.FCWM_UMI_FDSocVal.Left:=FCWinMain.FCWM_UMI_FacSoc.Left+( FCWinMain.FCWM_UMI_FacSoc.Width shr 1)-( FCWinMain.FCWM_UMI_FDSocVal.Width shr 1);
+   FCWinMain.FCWM_UMI_FacMil.Left:=UMIUFmil;
+   FCWinMain.FCWM_UMI_FDMilVal.Left:=FCWinMain.FCWM_UMI_FacMil.Left+( FCWinMain.FCWM_UMI_FacMil.Width shr 1)-( FCWinMain.FCWM_UMI_FDMilVal.Width shr 1);
    UMIUFwd:=FCWinMain.FCWM_UMIFac_Colonies.Width shr 4;
    FCWinMain.FCWM_UMIFac_Colonies.Columns[0].Width:=UMIUFwd*4;
    FCWinMain.FCWM_UMIFac_Colonies.Columns[1].Width:=UMIUFwd*7;
@@ -210,6 +214,16 @@ begin
    FCWinMain.FCWM_UMISh_CEFretire.Top:=FCWinMain.FCWM_UMISh_CEnfF.Height-(FCWinMain.FCWM_UMISh_CEFretire.Height+2);
    FCWinMain.FCWM_UMISh_CEFcommit.Left:=FCWinMain.FCWM_UMISh_CEnfF.Width-FCWinMain.FCWM_UMISh_CEFcommit.Width-2;
    FCWinMain.FCWM_UMISh_CEFcommit.Top:=FCWinMain.FCWM_UMISh_CEFretire.Top;
+end;
+
+procedure FCMuiUMI_FactionLevel_Update;
+{:Purpose: update the faction's level circular progress and its associated label.
+    Additions:
+}
+begin
+   FCWinMain.FCWM_UMI_FacLvl.Position:=FCDdgEntities[0].E_factionLevel;
+   FCWinMain.FCWM_UMI_FDLvlVal.HTMLText.Clear;
+   FCWinMain.FCWM_UMI_FDLvlVal.HTMLText.Add('<b>'+IntToStr( FCDdgEntities[0].E_factionLevel )+'</b>');
 end;
 
 procedure FCMuiUMI_Faction_Update( const Section: TFCEuiwUMItabFactionActions );
@@ -323,6 +337,13 @@ begin
             +'<ind x="'+IntToStr(UMIUFmil)+'">'+FCFdTFiles_UIStr_Get(uistrUI, 'cpsSLmil')
             +FCCFdHeadEnd
             );
+
+            FCWinMain.FCWM_UMI_FDEconVal.HTMLText.Clear;
+            FCWinMain.FCWM_UMI_FDEconVal.HTMLText.Add('<b>9</b>');
+            FCWinMain.FCWM_UMI_FDMilVal.HTMLText.Clear;
+            FCWinMain.FCWM_UMI_FDMilVal.HTMLText.Add('<b>9</b>');
+            FCWinMain.FCWM_UMI_FDSocVal.HTMLText.Clear;
+            FCWinMain.FCWM_UMI_FDSocVal.HTMLText.Add('<b>9</b>');
       end;
 
       tfaPoliticalStructureAll:;
@@ -334,8 +355,7 @@ begin
 //   then
 //   begin
 //      {.faction's level, idx=2}
-//      FCWinMain.FCWM_UMI_FacLvl.Position:=FCDdgEntities[0].E_factionLevel;
-//      UMIUFlvl:=IntToStr(FCDdgEntities[0].E_factionLevel);
+
 //      if (UMIUFsec=uiwAllSection)
 //         or (UMIUFsec=uiwAllMain)
 //         or ((UMIUFsec=uiwNone) and (UMIUFrelocRetVal))
@@ -361,7 +381,7 @@ begin
 //   then
 //   begin
 //      {.economic status, idx=3}
-//      FCWinMain.FCWM_UMI_FacEcon.Left:=UMIUFecon;
+
 //      FCWinMain.FCWM_UMI_FacEcon.Position:=Integer(FCVdgPlayer.P_economicStatus);
 //      UMIUFeconPos:=IntToStr(FCWinMain.FCWM_UMI_FacEcon.Position);
 //      UMIUFeconLvl:=FCFgSPMD_Level_GetToken(FCVdgPlayer.P_economicStatus);
@@ -390,7 +410,7 @@ begin
 //   then
 //   begin
 //      {.social status, idx=4}
-//      FCWinMain.FCWM_UMI_FacSoc.Left:=UMIUFsoc;
+
 //      FCWinMain.FCWM_UMI_FacSoc.Position:=Integer(FCVdgPlayer.P_socialStatus);
 //      UMIUFsocPos:=IntToStr(FCWinMain.FCWM_UMI_FacSoc.Position);
 //      UMIUFsocLvl:=FCFgSPMD_Level_GetToken(FCVdgPlayer.P_socialStatus);
@@ -419,7 +439,7 @@ begin
 //   then
 //   begin
 //      {.military status, idx=5}
-//      FCWinMain.FCWM_UMI_FacMil.Left:=UMIUFmil;
+
 //      FCWinMain.FCWM_UMI_FacMil.Position:=Integer(FCVdgPlayer.P_militaryStatus);
 //      UMIUFmilPos:=IntToStr(FCWinMain.FCWM_UMI_FacMil.Position);
 //      UMIUFmilLvl:=FCFgSPMD_Level_GetToken(FCVdgPlayer.P_militaryStatus);
@@ -886,7 +906,7 @@ begin
    then FCWinMain.FCWM_UMI.Height:=FCVdiUMIconstraintHeight;
 end;
 
-procedure FCMuiUMI_CurrentTab_Update( const SetConstraints: boolean; ResizingOption: TFCEuiwUMIresizingOptions );
+procedure FCMuiUMI_CurrentTab_Update( const SetConstraints, Resize: boolean );
 {:Purpose: update, if necessary, the UMI.
     Additions:
       -2012Aug28- *code audit:
@@ -918,14 +938,10 @@ begin
                FCVdiUMIconstraintHeight:=540;
                FCMuiUMI_MainPanel_SetConstraints;
             end;
-            case ResizingOption of
-               roNoResizing:;
-
-               ResizingWupdating:;
-
-               ResizingWOupdating:;
-            end;
+//            if Resize
+//            then FCMuiUMI_FactionComponents_SetSize;
          end;
+
          {.faction}
          1:
          begin
@@ -935,17 +951,11 @@ begin
                FCVdiUMIconstraintHeight:=580;
                FCMuiUMI_MainPanel_SetConstraints;
             end;
-            case ResizingOption of
-               roNoResizing:;
-
-               ResizingWupdating:
-               begin
-                  FCMuiUMI_FactionComponents_SetSize;
-                  FCMuiUMI_Faction_Update( tfaDependenceStatus );
-               end;
-
-               ResizingWOupdating: FCMuiUMI_FactionComponents_SetSize;
-            end;
+            if Resize
+            then FCMuiUMI_FactionComponents_SetSize;
+            FCMuiUMI_Faction_Update( tfaDependenceStatus );
+            {:DEV NOTES: make internal procedures for update each circular progress and its associated label.}
+            FCMuiUMI_FactionLevel_Update;
             case FCWinMain.FCWM_UMIFac_TabSh.ActivePageIndex of
                0:
                begin
@@ -969,6 +979,7 @@ begin
                end;
             end;
          end;
+
          2:
          begin
             if SetConstraints then
@@ -977,7 +988,10 @@ begin
                FCVdiUMIconstraintHeight:=540;
                FCMuiUMI_MainPanel_SetConstraints;
             end;
+//            if Resize
+//            then FCMuiUMI_FactionComponents_SetSize;
          end;
+
          3:
          begin
             if SetConstraints then
@@ -986,7 +1000,10 @@ begin
                FCVdiUMIconstraintHeight:=540;
                FCMuiUMI_MainPanel_SetConstraints;
             end;
+//            if Resize
+//            then FCMuiUMI_FactionComponents_SetSize;
          end;
+
          4:
          begin
             if SetConstraints then
@@ -995,6 +1012,8 @@ begin
                FCVdiUMIconstraintHeight:=540;
                FCMuiUMI_MainPanel_SetConstraints;
             end;
+//            if Resize
+//            then FCMuiUMI_FactionComponents_SetSize;
          end;
       end; //==END== case FCWinMain.FCWM_UMI_TabSh.ActivePageIndex of ==//
    end; //==END== if FCWinMain.FCWM_UMI.Visible  ==//

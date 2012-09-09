@@ -655,7 +655,7 @@ begin
          ,true
          );
 
-      FCMuiUMI_CurrentTab_Update( false, roNoResizing );
+      FCMuiUMI_CurrentTab_Update( false, false );
    end;
 
 
@@ -1114,29 +1114,40 @@ begin
       FCWinMain.FCWM_UMI_FacDatG.Height:=96;
       FCWinMain.FCWM_UMI_FacLvl.Width:=32;
       FCWinMain.FCWM_UMI_FacLvl.Height:=32;
-      FCWinMain.FCWM_UMI_FacLvl.Left:=14;
       FCWinMain.FCWM_UMI_FacLvl.Top:=56;
       FCWinMain.FCWM_UMI_FacLvl.Max:=10;
       FCWinMain.FCWM_UMI_FacLvl.Segments:=10;
       FCWinMain.FCWM_UMI_FacLvl.Position:=0;
+      FCWinMain.FCWM_UMI_FDLvlVal.Width:=( FCWinMain.FCWM_UMI_FacLvl.Width shr 4 * 5 )-3;
+      FCWinMain.FCWM_UMI_FDLvlVal.Height:=FCWinMain.FCWM_UMI_FacLvl.Height shr 4 * 5;
+      FCWinMain.FCWM_UMI_FDLvlVal.Top:=FCWinMain.FCWM_UMI_FacLvl.Top+( FCWinMain.FCWM_UMI_FacLvl.Height shr 1)-( FCWinMain.FCWM_UMI_FDLvlVal.Height shr 1);
       FCWinMain.FCWM_UMI_FacEcon.Width:=FCWinMain.FCWM_UMI_FacLvl.Width;
       FCWinMain.FCWM_UMI_FacEcon.Height:=FCWinMain.FCWM_UMI_FacLvl.Height;
       FCWinMain.FCWM_UMI_FacEcon.Top:=FCWinMain.FCWM_UMI_FacLvl.Top;
       FCWinMain.FCWM_UMI_FacEcon.Max:=3;
       FCWinMain.FCWM_UMI_FacEcon.Segments:=3;
       FCWinMain.FCWM_UMI_FacEcon.Position:=0;
+      FCWinMain.FCWM_UMI_FDEconVal.Width:=FCWinMain.FCWM_UMI_FDLvlVal.Width;
+      FCWinMain.FCWM_UMI_FDEconVal.Height:=FCWinMain.FCWM_UMI_FDLvlVal.Height;
+      FCWinMain.FCWM_UMI_FDEconVal.Top:=FCWinMain.FCWM_UMI_FDLvlVal.Top;
       FCWinMain.FCWM_UMI_FacSoc.Width:=FCWinMain.FCWM_UMI_FacLvl.Width;
       FCWinMain.FCWM_UMI_FacSoc.Height:=FCWinMain.FCWM_UMI_FacLvl.Height;
       FCWinMain.FCWM_UMI_FacSoc.Top:=FCWinMain.FCWM_UMI_FacLvl.Top;
       FCWinMain.FCWM_UMI_FacSoc.Max:=3;//FCWinMain.FCWM_UMI_FacEcon.Max;
       FCWinMain.FCWM_UMI_FacSoc.Segments:=3;//FCWinMain.FCWM_UMI_FacEcon.Segments;
       FCWinMain.FCWM_UMI_FacSoc.Position:=FCWinMain.FCWM_UMI_FacEcon.Position;
+      FCWinMain.FCWM_UMI_FDSocVal.Width:=FCWinMain.FCWM_UMI_FDLvlVal.Width;
+      FCWinMain.FCWM_UMI_FDSocVal.Height:=FCWinMain.FCWM_UMI_FDLvlVal.Height;
+      FCWinMain.FCWM_UMI_FDSocVal.Top:=FCWinMain.FCWM_UMI_FDLvlVal.Top;
       FCWinMain.FCWM_UMI_FacMil.Width:=FCWinMain.FCWM_UMI_FacLvl.Width;
       FCWinMain.FCWM_UMI_FacMil.Height:=FCWinMain.FCWM_UMI_FacLvl.Height;
       FCWinMain.FCWM_UMI_FacMil.Top:=FCWinMain.FCWM_UMI_FacLvl.Top;
       FCWinMain.FCWM_UMI_FacMil.Max:=3;//FCWinMain.FCWM_UMI_FacEcon.Max;
       FCWinMain.FCWM_UMI_FacMil.Segments:=3;//FCWinMain.FCWM_UMI_FacEcon.Segments;
       FCWinMain.FCWM_UMI_FacMil.Position:=FCWinMain.FCWM_UMI_FacEcon.Position;
+      FCWinMain.FCWM_UMI_FDMilVal.Width:=FCWinMain.FCWM_UMI_FDLvlVal.Width;
+      FCWinMain.FCWM_UMI_FDMilVal.Height:=FCWinMain.FCWM_UMI_FDLvlVal.Height;
+      FCWinMain.FCWM_UMI_FDMilVal.Top:=FCWinMain.FCWM_UMI_FDLvlVal.Top;
       FCWinMain.FCWM_UMIFac_TabSh.Height:=FCWinMain.FCWM_UMI_TabShFac.Height-FCWinMain.FCWM_UMI_FacDatG.Height-8;
       FCWinMain.FCWM_UMIFac_TabSh.ActivePage:=FCWinMain.FCWM_UMIFac_TabShPol;
       FCWinMain.FCWM_UMIFac_PolGvtDetails.Width:=150;
