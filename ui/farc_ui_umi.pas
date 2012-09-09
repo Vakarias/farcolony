@@ -191,12 +191,20 @@ begin
    UMIUFmil:=UMIUFsoc+( UMIUFsoc-UMIUFecon );
    FCWinMain.FCWM_UMI_FacLvl.Left:=16;
    FCWinMain.FCWM_UMI_FDLvlVal.Left:=FCWinMain.FCWM_UMI_FacLvl.Left+( FCWinMain.FCWM_UMI_FacLvl.Width shr 1)-( FCWinMain.FCWM_UMI_FDLvlVal.Width shr 1);
+   FCWinMain.FCWM_UMI_FDLvlValDesc.Left:=FCWinMain.FCWM_UMI_FacLvl.Left+FCWinMain.FCWM_UMI_FacLvl.Width+4;
    FCWinMain.FCWM_UMI_FacEcon.Left:=UMIUFecon;
    FCWinMain.FCWM_UMI_FDEconVal.Left:=FCWinMain.FCWM_UMI_FacEcon.Left+( FCWinMain.FCWM_UMI_FacEcon.Width shr 1)-( FCWinMain.FCWM_UMI_FDEconVal.Width shr 1);
+   FCWinMain.FCWM_UMI_FDEconValDesc.Left:=FCWinMain.FCWM_UMI_FacEcon.Left+FCWinMain.FCWM_UMI_FacEcon.Width+4;
    FCWinMain.FCWM_UMI_FacSoc.Left:=UMIUFsoc;
    FCWinMain.FCWM_UMI_FDSocVal.Left:=FCWinMain.FCWM_UMI_FacSoc.Left+( FCWinMain.FCWM_UMI_FacSoc.Width shr 1)-( FCWinMain.FCWM_UMI_FDSocVal.Width shr 1);
+   FCWinMain.FCWM_UMI_FDSocValDesc.Left:=FCWinMain.FCWM_UMI_FacSoc.Left+FCWinMain.FCWM_UMI_FacSoc.Width+4;
    FCWinMain.FCWM_UMI_FacMil.Left:=UMIUFmil;
    FCWinMain.FCWM_UMI_FDMilVal.Left:=FCWinMain.FCWM_UMI_FacMil.Left+( FCWinMain.FCWM_UMI_FacMil.Width shr 1)-( FCWinMain.FCWM_UMI_FDMilVal.Width shr 1);
+   FCWinMain.FCWM_UMI_FDMilValDesc.Left:=FCWinMain.FCWM_UMI_FacMil.Left+FCWinMain.FCWM_UMI_FacMil.Width+4;
+   FCWinMain.FCWM_UMI_FDLvlValDesc.Width:=FCWinMain.FCWM_UMI_FacEcon.Left-FCWinMain.FCWM_UMI_FDLvlValDesc.Left;
+   FCWinMain.FCWM_UMI_FDEconValDesc.Width:=FCWinMain.FCWM_UMI_FacSoc.Left-FCWinMain.FCWM_UMI_FDEconValDesc.Left;
+   FCWinMain.FCWM_UMI_FDSocValDesc.Width:=FCWinMain.FCWM_UMI_FacMil.Left-FCWinMain.FCWM_UMI_FDSocValDesc.Left;
+   FCWinMain.FCWM_UMI_FDMilValDesc.Width:=FCWinMain.FCWM_UMI_FacDatG.Width-FCWinMain.FCWM_UMI_FDMilValDesc.Left-8;
    UMIUFwd:=FCWinMain.FCWM_UMIFac_Colonies.Width shr 4;
    FCWinMain.FCWM_UMIFac_Colonies.Columns[0].Width:=UMIUFwd*4;
    FCWinMain.FCWM_UMIFac_Colonies.Columns[1].Width:=UMIUFwd*7;
@@ -216,14 +224,56 @@ begin
    FCWinMain.FCWM_UMISh_CEFcommit.Top:=FCWinMain.FCWM_UMISh_CEFretire.Top;
 end;
 
+procedure FCMuiUMI_FactionDependencyEconomic_Update;
+{:Purpose: update the faction's economic dependency circular progress and its associated label.
+    Additions:
+}
+begin
+   FCWinMain.FCWM_UMI_FacEcon.Position:=Integer( FCVdgPlayer.P_economicStatus );
+   FCWinMain.FCWM_UMI_FDEconVal.HTMLText.Clear;
+   FCWinMain.FCWM_UMI_FDEconVal.HTMLText.Add('<b>'+IntToStr( Integer( FCVdgPlayer.P_economicStatus ) )+'</b>');
+   FCWinMain.FCWM_UMI_FDEconValDesc.HTMLText.Clear;
+   FCWinMain.FCWM_UMI_FDEconValDesc.HTMLText.Add( FCFdTFiles_UIStr_Get(uistrUI, FCFgSPMD_Level_GetToken( FCVdgPlayer.P_economicStatus ) ) );
+end;
+
+procedure FCMuiUMI_FactionDependencyMilitary_Update;
+{:Purpose: update the faction's military dependency circular progress and its associated label.
+    Additions:
+}
+begin
+   FCWinMain.FCWM_UMI_FacMil.Position:=Integer( FCVdgPlayer.P_militaryStatus );
+   FCWinMain.FCWM_UMI_FDMilVal.HTMLText.Clear;
+   FCWinMain.FCWM_UMI_FDMilVal.HTMLText.Add('<b>'+IntToStr( Integer( FCVdgPlayer.P_militaryStatus ) )+'</b>');
+   FCWinMain.FCWM_UMI_FDMilValDesc.HTMLText.Clear;
+   FCWinMain.FCWM_UMI_FDMilValDesc.HTMLText.Add( FCFdTFiles_UIStr_Get(uistrUI, FCFgSPMD_Level_GetToken( FCVdgPlayer.P_militaryStatus ) ) );
+end;
+
+procedure FCMuiUMI_FactionDependencySocial_Update;
+{:Purpose: update the faction's social dependency circular progress and its associated label.
+    Additions:
+}
+begin
+   FCWinMain.FCWM_UMI_FacSoc.Position:=Integer( FCVdgPlayer.P_socialStatus );
+   FCWinMain.FCWM_UMI_FDSocVal.HTMLText.Clear;
+   FCWinMain.FCWM_UMI_FDSocVal.HTMLText.Add('<b>'+IntToStr( Integer( FCVdgPlayer.P_socialStatus ) )+'</b>');
+   FCWinMain.FCWM_UMI_FDSocValDesc.HTMLText.Clear;
+   FCWinMain.FCWM_UMI_FDSocValDesc.HTMLText.Add( FCFdTFiles_UIStr_Get(uistrUI, FCFgSPMD_Level_GetToken( FCVdgPlayer.P_socialStatus ) ) );
+end;
+
 procedure FCMuiUMI_FactionLevel_Update;
 {:Purpose: update the faction's level circular progress and its associated label.
     Additions:
 }
+   var
+      LevelString: string;
 begin
+   LevelString:='';
+   LevelString:=IntToStr( FCDdgEntities[0].E_factionLevel );
    FCWinMain.FCWM_UMI_FacLvl.Position:=FCDdgEntities[0].E_factionLevel;
    FCWinMain.FCWM_UMI_FDLvlVal.HTMLText.Clear;
-   FCWinMain.FCWM_UMI_FDLvlVal.HTMLText.Add('<b>'+IntToStr( FCDdgEntities[0].E_factionLevel )+'</b>');
+   FCWinMain.FCWM_UMI_FDLvlVal.HTMLText.Add('<b>'+LevelString+'</b>');
+   FCWinMain.FCWM_UMI_FDLvlValDesc.HTMLText.Clear;
+   FCWinMain.FCWM_UMI_FDLvlValDesc.HTMLText.Add( FCFdTFiles_UIStr_Get( uistrUI,'faclvl'+LevelString ) );
 end;
 
 procedure FCMuiUMI_Faction_Update( const Section: TFCEuiwUMItabFactionActions );
@@ -337,104 +387,14 @@ begin
             +'<ind x="'+IntToStr(UMIUFmil)+'">'+FCFdTFiles_UIStr_Get(uistrUI, 'cpsSLmil')
             +FCCFdHeadEnd
             );
-
-            FCWinMain.FCWM_UMI_FDEconVal.HTMLText.Clear;
-            FCWinMain.FCWM_UMI_FDEconVal.HTMLText.Add('<b>9</b>');
-            FCWinMain.FCWM_UMI_FDMilVal.HTMLText.Clear;
-            FCWinMain.FCWM_UMI_FDMilVal.HTMLText.Add('<b>9</b>');
-            FCWinMain.FCWM_UMI_FDSocVal.HTMLText.Clear;
-            FCWinMain.FCWM_UMI_FDSocVal.HTMLText.Add('<b>9</b>');
       end;
 
-      tfaPoliticalStructureAll:;
+      tfaPoliticalStructureAll:
+      begin
+      end;
+
+
    end;
-//   if (UMIUFsec=uiwAllSection)
-//      or (UMIUFsec=uiwAllMain)
-//      or (UMIUFsec=uiwStatEco)
-//      or ((UMIUFsec=uiwNone) and (UMIUFrelocRetVal))
-//   then
-//   begin
-//      {.economic status, idx=3}
-
-//      FCWinMain.FCWM_UMI_FacEcon.Position:=Integer(FCVdgPlayer.P_economicStatus);
-//      UMIUFeconPos:=IntToStr(FCWinMain.FCWM_UMI_FacEcon.Position);
-//      UMIUFeconLvl:=FCFgSPMD_Level_GetToken(FCVdgPlayer.P_economicStatus);
-//      if (UMIUFsec=uiwAllSection)
-//         or (UMIUFsec=uiwAllMain)
-//         or ((UMIUFsec=uiwNone) and (UMIUFrelocRetVal))
-//      then FCWinMain.FCWM_UMI_FacData.HTMLText.Add(
-//         '<ind x="'+IntToStr(UMIUFecon+11)+'"><b>'+UMIUFeconPos
-//            +'</b><ind x="'+IntToStr(UMIUFecon+32)+'">'+FCFdTFiles_UIStr_Get(uistrUI, UMIUFeconLvl)
-//         )
-//      else if UMIUFsec=uiwStatEco
-//      then
-//      begin
-//         FCWinMain.FCWM_UMI_FacData.HTMLText.Insert(
-//            3
-//            ,'<ind x="'+IntToStr(UMIUFecon+11)+'"><b>'+UMIUFeconPos
-//               +'</b><ind x="'+IntToStr(UMIUFecon+32)+'">'+FCFdTFiles_UIStr_Get(uistrUI, UMIUFeconLvl)
-//            );
-//         FCWinMain.FCWM_UMI_FacData.HTMLText.Delete(4);
-//      end;
-//   end;
-//   if (UMIUFsec=uiwAllSection)
-//      or (UMIUFsec=uiwAllMain)
-//      or (UMIUFsec=uiwStatSoc)
-//      or ((UMIUFsec=uiwNone) and (UMIUFrelocRetVal))
-//   then
-//   begin
-//      {.social status, idx=4}
-
-//      FCWinMain.FCWM_UMI_FacSoc.Position:=Integer(FCVdgPlayer.P_socialStatus);
-//      UMIUFsocPos:=IntToStr(FCWinMain.FCWM_UMI_FacSoc.Position);
-//      UMIUFsocLvl:=FCFgSPMD_Level_GetToken(FCVdgPlayer.P_socialStatus);
-//      if (UMIUFsec=uiwAllSection)
-//         or (UMIUFsec=uiwAllMain)
-//         or ((UMIUFsec=uiwNone) and (UMIUFrelocRetVal))
-//      then FCWinMain.FCWM_UMI_FacData.HTMLText.Add(
-//         '<ind x="'+IntToStr(UMIUFsoc+11)+'"><b>'+UMIUFsocPos
-//            +'</b><ind x="'+IntToStr(FCWinMain.FCWM_UMI_FacSoc.Left+32)+'">'+FCFdTFiles_UIStr_Get(uistrUI,UMIUFsocLvl)
-//         )
-//      else if UMIUFsec=uiwStatSoc
-//      then
-//      begin
-//         FCWinMain.FCWM_UMI_FacData.HTMLText.Insert(
-//            4
-//            ,'<ind x="'+IntToStr(UMIUFsoc+11)+'"><b>'+UMIUFsocPos
-//               +'</b><ind x="'+IntToStr(FCWinMain.FCWM_UMI_FacSoc.Left+32)+'">'+FCFdTFiles_UIStr_Get(uistrUI,UMIUFsocLvl)
-//            );
-//         FCWinMain.FCWM_UMI_FacData.HTMLText.Delete(5);
-//      end;
-//   end;
-//   if (UMIUFsec=uiwAllSection)
-//      or (UMIUFsec=uiwAllMain)
-//      or (UMIUFsec=uiwStatMil)
-//      or ((UMIUFsec=uiwNone) and (UMIUFrelocRetVal))
-//   then
-//   begin
-//      {.military status, idx=5}
-
-//      FCWinMain.FCWM_UMI_FacMil.Position:=Integer(FCVdgPlayer.P_militaryStatus);
-//      UMIUFmilPos:=IntToStr(FCWinMain.FCWM_UMI_FacMil.Position);
-//      UMIUFmilLvl:=FCFgSPMD_Level_GetToken(FCVdgPlayer.P_militaryStatus);
-//      if (UMIUFsec=uiwAllSection)
-//         or (UMIUFsec=uiwAllMain)
-//         or ((UMIUFsec=uiwNone) and (UMIUFrelocRetVal))
-//      then FCWinMain.FCWM_UMI_FacData.HTMLText.Add(
-//         '<ind x="'+IntToStr(UMIUFmil+11)+'"><b>'+UMIUFmilPos
-//            +'</b><ind x="'+IntToStr(FCWinMain.FCWM_UMI_FacMil.Left+32)+'">'+FCFdTFiles_UIStr_Get(uistrUI,UMIUFmilLvl)
-//         )
-//      else if UMIUFsec=uiwStatMil
-//      then
-//      begin
-//         FCWinMain.FCWM_UMI_FacData.HTMLText.Insert(
-//            5
-//            ,'<ind x="'+IntToStr(UMIUFmil+11)+'"><b>'+UMIUFmilPos
-//               +'</b><ind x="'+IntToStr(FCWinMain.FCWM_UMI_FacMil.Left+32)+'">'+FCFdTFiles_UIStr_Get(uistrUI,UMIUFmilLvl)
-//            );
-//         FCWinMain.FCWM_UMI_FacData.HTMLText.Delete(6);
-//      end;
-//   end;
 //   {.political structure data}
 //   if (UMIUFsec=uiwAllSection)
 //      or (UMIUFsec=uiwAllMain)
@@ -928,8 +888,10 @@ begin
             if Resize
             then FCMuiUMI_FactionComponents_SetSize;
             FCMuiUMI_Faction_Update( tfaDependenceStatus );
-            {:DEV NOTES: make internal procedures for update each circular progress and its associated label.}
             FCMuiUMI_FactionLevel_Update;
+            FCMuiUMI_FactionDependencyEconomic_Update;
+            FCMuiUMI_FactionDependencyMilitary_Update;
+            FCMuiUMI_FactionDependencySocial_Update;
             case FCWinMain.FCWM_UMIFac_TabSh.ActivePageIndex of
                0:
                begin

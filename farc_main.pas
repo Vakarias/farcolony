@@ -322,6 +322,10 @@ type
     FCWM_UMI_FDMilVal: THTMLabel;
     FCWM_UMI_FDSocVal: THTMLabel;
     FCWM_UMI_FacData: THTMLabel;
+    FCWM_UMI_FDEconValDesc: THTMLabel;
+    FCWM_UMI_FDLvlValDesc: THTMLabel;
+    FCWM_UMI_FDMilValDesc: THTMLabel;
+    FCWM_UMI_FDSocValDesc: THTMLabel;
       procedure FormCreate(Sender: TObject);
       procedure FormResize(Sender: TObject);
       procedure FCWM_MMenu_G_QuitClick(Sender: TObject);

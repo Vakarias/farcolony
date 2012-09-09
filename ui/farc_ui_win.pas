@@ -667,6 +667,8 @@ end;
 procedure FCMuiW_UI_Initialize(const UIUtp: TFCEmwinUpdTp);
 {:Purpose: update and initialize all user's interface elements of the game.
    Additions:
+      -2012Sep09- *add: UMI - Faction - Dependencies Circular Progress - linked description label.
+      -2012Sep08- *add: UMI - Faction - Dependencies Circular Progress - linked label.
       -2012May27- *add: FCWM_CPSreport.
                   *fix: infrastructure panel - forgot to size correctly the text of FCWM_IPconfirmButton.
       -2012Mar13- *fix: clear the FCWM_IPconfirmButton's caption text with the useless anchors.
@@ -1121,6 +1123,10 @@ begin
       FCWinMain.FCWM_UMI_FDLvlVal.Width:=( FCWinMain.FCWM_UMI_FacLvl.Width shr 4 * 5 )-3;
       FCWinMain.FCWM_UMI_FDLvlVal.Height:=FCWinMain.FCWM_UMI_FacLvl.Height shr 4 * 5;
       FCWinMain.FCWM_UMI_FDLvlVal.Top:=FCWinMain.FCWM_UMI_FacLvl.Top+( FCWinMain.FCWM_UMI_FacLvl.Height shr 1)-( FCWinMain.FCWM_UMI_FDLvlVal.Height shr 1);
+      FCWinMain.FCWM_UMI_FDLvlValDesc.Width:=FCWinMain.FCWM_UMI_FDLvlVal.Width;
+      FCWinMain.FCWM_UMI_FDLvlValDesc.Height:=FCWinMain.FCWM_UMI_FacLvl.Height shr 1;
+      FCWinMain.FCWM_UMI_FDLvlValDesc.Top:=FCWinMain.FCWM_UMI_FacLvl.Top+( FCWinMain.FCWM_UMI_FacLvl.Height shr 1)-( FCWinMain.FCWM_UMI_FDLvlValDesc.Height shr 1);
+
       FCWinMain.FCWM_UMI_FacEcon.Width:=FCWinMain.FCWM_UMI_FacLvl.Width;
       FCWinMain.FCWM_UMI_FacEcon.Height:=FCWinMain.FCWM_UMI_FacLvl.Height;
       FCWinMain.FCWM_UMI_FacEcon.Top:=FCWinMain.FCWM_UMI_FacLvl.Top;
@@ -1130,6 +1136,10 @@ begin
       FCWinMain.FCWM_UMI_FDEconVal.Width:=FCWinMain.FCWM_UMI_FDLvlVal.Width;
       FCWinMain.FCWM_UMI_FDEconVal.Height:=FCWinMain.FCWM_UMI_FDLvlVal.Height;
       FCWinMain.FCWM_UMI_FDEconVal.Top:=FCWinMain.FCWM_UMI_FDLvlVal.Top;
+      FCWinMain.FCWM_UMI_FDEconValDesc.Width:=FCWinMain.FCWM_UMI_FDLvlVal.Width;
+      FCWinMain.FCWM_UMI_FDEconValDesc.Height:=FCWinMain.FCWM_UMI_FDLvlValDesc.Height;
+      FCWinMain.FCWM_UMI_FDEconValDesc.Top:=FCWinMain.FCWM_UMI_FDLvlValDesc.Top;
+
       FCWinMain.FCWM_UMI_FacSoc.Width:=FCWinMain.FCWM_UMI_FacLvl.Width;
       FCWinMain.FCWM_UMI_FacSoc.Height:=FCWinMain.FCWM_UMI_FacLvl.Height;
       FCWinMain.FCWM_UMI_FacSoc.Top:=FCWinMain.FCWM_UMI_FacLvl.Top;
@@ -1139,6 +1149,10 @@ begin
       FCWinMain.FCWM_UMI_FDSocVal.Width:=FCWinMain.FCWM_UMI_FDLvlVal.Width;
       FCWinMain.FCWM_UMI_FDSocVal.Height:=FCWinMain.FCWM_UMI_FDLvlVal.Height;
       FCWinMain.FCWM_UMI_FDSocVal.Top:=FCWinMain.FCWM_UMI_FDLvlVal.Top;
+      FCWinMain.FCWM_UMI_FDSocValDesc.Width:=FCWinMain.FCWM_UMI_FDLvlVal.Width;
+      FCWinMain.FCWM_UMI_FDSocValDesc.Height:=FCWinMain.FCWM_UMI_FDLvlValDesc.Height;
+      FCWinMain.FCWM_UMI_FDSocValDesc.Top:=FCWinMain.FCWM_UMI_FDLvlValDesc.Top;
+
       FCWinMain.FCWM_UMI_FacMil.Width:=FCWinMain.FCWM_UMI_FacLvl.Width;
       FCWinMain.FCWM_UMI_FacMil.Height:=FCWinMain.FCWM_UMI_FacLvl.Height;
       FCWinMain.FCWM_UMI_FacMil.Top:=FCWinMain.FCWM_UMI_FacLvl.Top;
@@ -1148,6 +1162,10 @@ begin
       FCWinMain.FCWM_UMI_FDMilVal.Width:=FCWinMain.FCWM_UMI_FDLvlVal.Width;
       FCWinMain.FCWM_UMI_FDMilVal.Height:=FCWinMain.FCWM_UMI_FDLvlVal.Height;
       FCWinMain.FCWM_UMI_FDMilVal.Top:=FCWinMain.FCWM_UMI_FDLvlVal.Top;
+      FCWinMain.FCWM_UMI_FDMilValDesc.Width:=FCWinMain.FCWM_UMI_FDLvlVal.Width;
+      FCWinMain.FCWM_UMI_FDMilValDesc.Height:=FCWinMain.FCWM_UMI_FDLvlValDesc.Height;
+      FCWinMain.FCWM_UMI_FDMilValDesc.Top:=FCWinMain.FCWM_UMI_FDLvlValDesc.Top;
+
       FCWinMain.FCWM_UMIFac_TabSh.Height:=FCWinMain.FCWM_UMI_TabShFac.Height-FCWinMain.FCWM_UMI_FacDatG.Height-8;
       FCWinMain.FCWM_UMIFac_TabSh.ActivePage:=FCWinMain.FCWM_UMIFac_TabShPol;
       FCWinMain.FCWM_UMIFac_PolGvtDetails.Width:=150;
@@ -1489,6 +1507,14 @@ begin
       FCWinMain.FCWM_UMISh_CEFcommit.Font.Size:=FCFuiW_Font_GetSize(uiwButton);
       FCWinMain.FCWM_UMISh_CEFenforce.Font.Size:=FCFuiW_Font_GetSize(uiwButton);
       FCWinMain.FCWM_UMISh_CEFretire.Font.Size:=FCFuiW_Font_GetSize(uiwButton);
+      FCWinMain.FCWM_UMI_FDLvlVal.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+      FCWinMain.FCWM_UMI_FDLvlValDesc.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+      FCWinMain.FCWM_UMI_FDEconVal.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+      FCWinMain.FCWM_UMI_FDEconValDesc.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+      FCWinMain.FCWM_UMI_FDMilVal.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+      FCWinMain.FCWM_UMI_FDMilValDesc.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+      FCWinMain.FCWM_UMI_FDSocVal.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+      FCWinMain.FCWM_UMI_FDSocValDesc.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
       {.infrastructure panel}
       FCWinMain.FCWM_InfraPanel.Caption.Font.Size:=FCFuiW_Font_GetSize(uiwPanelTitle);
       FCWinMain.FCWM_IPlabel.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);

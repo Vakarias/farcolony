@@ -2391,6 +2391,97 @@ object FCWinMain: TFCWinMain
               OnAnchorClick = FCWM_HDPhintsTextAnchorClick
               Version = '1.8.1.0'
             end
+            object FCWM_UMI_FDEconValDesc: THTMLabel
+              Left = 4
+              Top = 18
+              Width = 796
+              Height = 79
+              Align = alCustom
+              AutoSizing = True
+              Color = clBlack
+              GradientType = gtFullVertical
+              Font.Charset = ANSI_CHARSET
+              Font.Color = 14803425
+              Font.Height = -12
+              Font.Name = 'FrancophilSans'
+              Font.Style = []
+              Hover = True
+              HoverColor = clBlack
+              HoverFontColor = clSkyBlue
+              ParentColor = False
+              ParentFont = False
+              URLColor = 13869987
+              OnAnchorClick = FCWM_HDPhintsTextAnchorClick
+              Version = '1.8.1.0'
+            end
+            object FCWM_UMI_FDLvlValDesc: THTMLabel
+              Left = 4
+              Top = 18
+              Width = 796
+              Height = 79
+              Align = alCustom
+              AutoSizing = True
+              Color = clBlack
+              GradientType = gtFullVertical
+              Font.Charset = ANSI_CHARSET
+              Font.Color = 14803425
+              Font.Height = -12
+              Font.Name = 'FrancophilSans'
+              Font.Style = []
+              Hover = True
+              HoverColor = clBlack
+              HoverFontColor = clSkyBlue
+              ParentColor = False
+              ParentFont = False
+              URLColor = 13869987
+              OnAnchorClick = FCWM_HDPhintsTextAnchorClick
+              Version = '1.8.1.0'
+            end
+            object FCWM_UMI_FDMilValDesc: THTMLabel
+              Left = 4
+              Top = 18
+              Width = 796
+              Height = 79
+              Align = alCustom
+              AutoSizing = True
+              Color = clBlack
+              GradientType = gtFullVertical
+              Font.Charset = ANSI_CHARSET
+              Font.Color = 14803425
+              Font.Height = -12
+              Font.Name = 'FrancophilSans'
+              Font.Style = []
+              Hover = True
+              HoverColor = clBlack
+              HoverFontColor = clSkyBlue
+              ParentColor = False
+              ParentFont = False
+              URLColor = 13869987
+              OnAnchorClick = FCWM_HDPhintsTextAnchorClick
+              Version = '1.8.1.0'
+            end
+            object FCWM_UMI_FDSocValDesc: THTMLabel
+              Left = 4
+              Top = 18
+              Width = 796
+              Height = 79
+              Align = alCustom
+              Color = clBlack
+              GradientType = gtFullVertical
+              Font.Charset = ANSI_CHARSET
+              Font.Color = 14803425
+              Font.Height = -12
+              Font.Name = 'FrancophilSans'
+              Font.Style = []
+              Hover = True
+              HoverColor = clBlack
+              HoverFontColor = clSkyBlue
+              ParentColor = False
+              ParentFont = False
+              URLColor = 13869987
+              OnAnchorClick = FCWM_HDPhintsTextAnchorClick
+              Version = '1.8.1.0'
+            end
           end
           object FCWM_UMIFac_TabSh: TAdvPageControl
             Left = 0
