@@ -134,15 +134,16 @@
 			<DCCReference Include="data\farc_data_messages.pas"/>
 			<DCCReference Include="data\farc_data_spm.pas"/>
 			<DCCReference Include="data\farc_data_missionstasks.pas"/>
+			<DCCReference Include="ui\farc_ui_umifaction.pas"/>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>
-			<BuildConfiguration Include="Release">
-				<Key>Cfg_1</Key>
-				<CfgParent>Base</CfgParent>
-			</BuildConfiguration>
 			<BuildConfiguration Include="Debug">
 				<Key>Cfg_2</Key>
+				<CfgParent>Base</CfgParent>
+			</BuildConfiguration>
+			<BuildConfiguration Include="Release">
+				<Key>Cfg_1</Key>
 				<CfgParent>Base</CfgParent>
 			</BuildConfiguration>
 		</ItemGroup>

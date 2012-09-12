@@ -112,7 +112,8 @@ uses
   farc_data_html in 'data\farc_data_html.pas',
   farc_data_messages in 'data\farc_data_messages.pas',
   farc_data_spm in 'data\farc_data_spm.pas',
-  farc_data_missionstasks in 'data\farc_data_missionstasks.pas';
+  farc_data_missionstasks in 'data\farc_data_missionstasks.pas',
+  farc_ui_umifaction in 'ui\farc_ui_umifaction.pas';
 
 {$R *.res}
 

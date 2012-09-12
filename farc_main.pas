@@ -501,6 +501,7 @@ uses
    ,farc_ui_msges
    ,farc_ui_surfpanel
    ,farc_ui_umi
+   ,farc_ui_umifaction
    ,farc_ui_win;
 
 const

@@ -276,6 +276,7 @@ function FCFgSPM_GvtEconMedcaSpiSystems_GetToken(
    ): string;
 {:Purpose: get the system token according to the gvt/economic/medical care/spiritual system chosen.
     Additions:
+      -2012Sep09- *fix: any SPM item > dgADMIN couldn't be retrieved, due to a logical error.
       -2011Sep10- *add: test if the SPMi duration = 0, because if set and duration>0 indicate that the SPMi is a reject/cancellation.
                   *code audit:
                   (+)var formatting + refactoring     (+)if..then reformatting   (+)function/procedure refactoring   
@@ -288,9 +289,12 @@ function FCFgSPM_GvtEconMedcaSpiSystems_GetToken(
       GEMSSGTspmiCnt
       ,GEMSSGTspmiMax: integer;
 
+      isAreaFound: boolean;
+
       GEMSSGTspmi: TFCRdgSPMi;
 begin
    Result:='';
+   isAreaFound:=false;
    GEMSSGTspmiMax:=length( FCDdgEntities[GEMSSGTent].E_spmSettings )-1;
    if GEMSSGTspmiMax>0 then
    begin
@@ -303,10 +307,13 @@ begin
             and ( FCDdgEntities[GEMSSGTent].E_spmSettings[GEMSSGTspmiCnt].SPMS_iPtIsSet )
             and ( FCDdgEntities[GEMSSGTent].E_spmSettings[GEMSSGTspmiCnt].SPMS_duration=0 ) then
          begin
+            if not isAreaFound
+            then isAreaFound:=true;
             Result:=FCDdgEntities[GEMSSGTent].E_spmSettings[GEMSSGTspmiCnt].SPMS_token;
             break;
          end
-         else if GEMSSGTspmi.SPMI_area<>GEMSSGTarea
+         else if ( isAreaFound )
+         and ( GEMSSGTspmi.SPMI_area<>GEMSSGTarea )
          then break;
          inc( GEMSSGTspmiCnt );
       end;
