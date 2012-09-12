@@ -31,8 +31,7 @@ unit farc_ui_umi;
 interface
 
 uses
-   ComCtrls
-   ,SysUtils;
+   SysUtils;
 
 //==END PUBLIC ENUM=========================================================================
 
@@ -55,17 +54,9 @@ procedure FCMuiUMI_CurrentTab_Update( const SetConstraints, Resize: boolean );
 implementation
 
 uses
-   farc_data_game
-   ,farc_data_init
-   ,farc_data_html
-   ,farc_data_spm
+   farc_data_init
    ,farc_data_textfiles
-   ,farc_game_colony
-   ,farc_game_cps
-   ,farc_game_spm
-   ,farc_game_spmdata
    ,farc_main
-   ,farc_ui_html
    ,farc_ui_umifaction
    ,farc_win_debug;
 
@@ -164,7 +155,8 @@ begin
                   FCMuiUMIF_Colonies_Update( 0 );
                end;
 
-//               1: FCMumi_Faction_Upd(uiwSPMset, false);
+               1: FCMuiUMIF_SPMSettings_Update;
+
                2:
                begin
 //                  if FCWinMain.FCWM_UMIFSh_AFlist.Enabled
