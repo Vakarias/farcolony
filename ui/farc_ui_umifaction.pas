@@ -31,7 +31,8 @@ unit farc_ui_umifaction;
 interface
 
 uses
-   SysUtils;
+   ComCtrls
+   ,SysUtils;
 
 type TFCEuiUMIFpoliticalActions=(
    paPoliticalStructureAll
@@ -430,16 +431,35 @@ procedure FCMuiUMIF_SPMSettings_Update;
       Count
       ,Max: integer;
 
+      StrPolicySetMemePresent
+      ,StrFormat
+      ,StrMemeProgressUniquePolicy
+      ,StrDuration: string;
+
+      NodeRootSPMadministration
+      ,NodeSPMitem
+      ,NodeRootSPMeconomy
+      ,NodeRootSPMmedicalCare
+      ,NodeRootSPMsociety
+      ,NodeRootSPMspacePolicy
+      ,NodeRootSPMspirituality: TTreenode;
+
       UMIUFspmi: TFCRdgSPMi;
 begin
    Count:=1;
    Max:=length( FCDdgEntities[0].E_spmSettings )-1;
    FCWinMain.FCWM_UMIFSh_SPMadmin.Items.Clear;
+   NodeRootSPMadministration:=FCWinMain.FCWM_UMIFSh_SPMadmin.Items.Add( nil, '<b>'+FCFdTFiles_UIStr_Get(uistrUI,'SPMiAreaADMIN')+'</b>' );
    FCWinMain.FCWM_UMIFSh_SPMecon.Items.Clear;
+   NodeRootSPMeconomy:=FCWinMain.FCWM_UMIFSh_SPMecon.Items.Add( nil, '<b>'+FCFdTFiles_UIStr_Get(uistrUI,'SPMiAreaECON')+'</b>' );
    FCWinMain.FCWM_UMIFSh_SPMmedca.Items.Clear;
+   NodeRootSPMmedicalCare:=FCWinMain.FCWM_UMIFSh_SPMmedca.Items.Add( nil, '<b>'+FCFdTFiles_UIStr_Get(uistrUI,'SPMiAreaMEDCA')+'</b>' );
    FCWinMain.FCWM_UMIFSh_SPMsoc.Items.Clear;
+   NodeRootSPMsociety:=FCWinMain.FCWM_UMIFSh_SPMsoc.Items.Add( nil, '<b>'+FCFdTFiles_UIStr_Get(uistrUI,'SPMiAreaSOC')+'</b>' );
    FCWinMain.FCWM_UMIFSh_SPMspol.Items.Clear;
+   NodeRootSPMspacePolicy:=FCWinMain.FCWM_UMIFSh_SPMspol.Items.Add( nil, '<b>'+FCFdTFiles_UIStr_Get(uistrUI,'SPMiAreaSPOL')+'</b>' );
    FCWinMain.FCWM_UMIFSh_SPMspi.Items.Clear;
+   NodeRootSPMspirituality:=FCWinMain.FCWM_UMIFSh_SPMspi.Items.Add( nil, '<b>'+FCFdTFiles_UIStr_Get(uistrUI,'SPMiAreaSPI')+'</b>' );
    FCWinMain.FCWM_UMIFSh_SPMadmin.FullExpand;
    FCWinMain.FCWM_UMIFSh_SPMecon.FullExpand;
    FCWinMain.FCWM_UMIFSh_SPMmedca.FullExpand;
@@ -448,20 +468,20 @@ begin
    FCWinMain.FCWM_UMIFSh_SPMspi.FullExpand;
    while Count<=Max do
    begin
-      UMIUFformat:='';
-      UMIUFpolSet:='';
-      UMIUFspmiDesc:='';
-      UMIUFspmiDur:='';
+      StrFormat:='';
+      StrPolicySetMemePresent:='';
+      StrMemeProgressUniquePolicy:='';
+      StrDuration:='';
       UMIUFspmi:=FCFgSPM_SPMIData_Get(FCDdgEntities[0].E_spmSettings[Count].SPMS_token);
       if FCDdgEntities[0].E_spmSettings[Count].SPMS_isPolicy
       then
       begin
          if FCDdgEntities[0].E_spmSettings[Count].SPMS_iPtIsSet then
          begin
-            UMIUFpolSet:='  ['+FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolSet')+' <b>'+IntToStr(FCDdgEntities[0].E_spmSettings[Count].SPMS_iPtAcceptanceProbability)+'</b> %]';
-            UMIUFformat:=FCCFcolGreen+FCFdTFiles_UIStr_Get( uistrUI, FCDdgEntities[0].E_spmSettings[Count].SPMS_token)+UIHTMLencyBEGIN+FCDdgEntities[0].E_spmSettings[Count].SPMS_token+UIHTMLencyEND+FCCFcolGreen+UMIUFpolSet+FCCFcolEND;
+            StrPolicySetMemePresent:='  ['+FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolSet')+' <b>'+IntToStr(FCDdgEntities[0].E_spmSettings[Count].SPMS_iPtAcceptanceProbability)+'</b> %]';
+            StrFormat:=FCCFcolGreen+FCFdTFiles_UIStr_Get( uistrUI, FCDdgEntities[0].E_spmSettings[Count].SPMS_token)+UIHTMLencyBEGIN+FCDdgEntities[0].E_spmSettings[Count].SPMS_token+UIHTMLencyEND+FCCFcolGreen+StrPolicySetMemePresent+FCCFcolEND;
             if not UMIUFspmi.SPMI_isUnique2set
-            then UMIUFspmiDur:=FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolicyDur')+' [<b>'+IntToStr(FCDdgEntities[0].E_spmSettings[Count].SPMS_duration)+'</b> '
+            then StrDuration:=FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolicyDur')+' [<b>'+IntToStr(FCDdgEntities[0].E_spmSettings[Count].SPMS_duration)+'</b> '
                +FCFdTFiles_UIStr_Get(uistrUI,'TimeFmonth')+']';
          end
          else if not FCDdgEntities[0].E_spmSettings[Count].SPMS_iPtIsSet then
@@ -469,147 +489,143 @@ begin
 
             if FCDdgEntities[0].E_spmSettings[Count].SPMS_duration>0 then
             begin
-               UMIUFspmiDur:=FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolicyDurFail')+' [<b>'+IntToStr(FCDdgEntities[0].E_spmSettings[Count].SPMS_duration)+'</b> '+FCFdTFiles_UIStr_Get(uistrUI,'TimeFmonth')+']';
-               UMIUFformat:=FCCFcolRed;
+               StrDuration:=FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolicyDurFail')+' [<b>'+IntToStr(FCDdgEntities[0].E_spmSettings[Count].SPMS_duration)+'</b> '+FCFdTFiles_UIStr_Get(uistrUI,'TimeFmonth')+']';
+               StrFormat:=FCCFcolRed;
             end;
-            UMIUFformat:=UMIUFformat+FCFdTFiles_UIStr_Get(uistrUI, FCDdgEntities[0].E_spmSettings[Count].SPMS_token)+UIHTMLencyBEGIN+FCDdgEntities[0].E_spmSettings[Count].SPMS_token+UIHTMLencyEND;
+            StrFormat:=StrFormat+FCFdTFiles_UIStr_Get(uistrUI, FCDdgEntities[0].E_spmSettings[Count].SPMS_token)+UIHTMLencyBEGIN+FCDdgEntities[0].E_spmSettings[Count].SPMS_token+UIHTMLencyEND;
          end;
          if UMIUFspmi.SPMI_isUnique2set
-         then UMIUFspmiDesc:=FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolicy'+IntToStr(Integer(UMIUFspmi.SPMI_area)))
+         then StrMemeProgressUniquePolicy:=FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolicy'+IntToStr(Integer(UMIUFspmi.SPMI_area)))
          else if not UMIUFspmi.SPMI_isUnique2set
-         then UMIUFspmiDesc:=FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolicy');
+         then StrMemeProgressUniquePolicy:=FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolicy');
       end
       else if not FCDdgEntities[0].E_spmSettings[Count].SPMS_isPolicy
       then
       begin
          if FCDdgEntities[0].E_spmSettings[Count].SPMS_iPtBeliefLevel>blUnknown then
          begin
-             UMIUFpolSet:=FCCFcolBlueL+FCFdTFiles_UIStr_Get(uistrUI, 'UMImemeSet')+FCCFcolEND;
-             UMIUFformat:=FCCFcolBlueL;
+             StrPolicySetMemePresent:=FCCFcolBlueL+FCFdTFiles_UIStr_Get(uistrUI, 'UMImemeSet')+FCCFcolEND;
+             StrFormat:=FCCFcolBlueL;
          end;
-         UMIUFformat:=UMIUFformat+FCFdTFiles_UIStr_Get(uistrUI, FCDdgEntities[0].E_spmSettings[Count].SPMS_token)+UIHTMLencyBEGIN+FCDdgEntities[0].E_spmSettings[Count].SPMS_token+UIHTMLencyEND+UMIUFpolSet;
-         UMIUFspmiDesc:='  [<a href="SPMiBL">BL</a>: <b>'+FCFdTFiles_UIStr_Get(uistrUI, 'SPMiBL'+IntToStr( Integer( FCDdgEntities[0].E_spmSettings[Count].SPMS_iPtBeliefLevel ) ) )
+         StrFormat:=StrFormat+FCFdTFiles_UIStr_Get(uistrUI, FCDdgEntities[0].E_spmSettings[Count].SPMS_token)+UIHTMLencyBEGIN+FCDdgEntities[0].E_spmSettings[Count].SPMS_token+UIHTMLencyEND+StrPolicySetMemePresent;
+         StrMemeProgressUniquePolicy:='  [<a href="SPMiBL">BL</a>: <b>'+FCFdTFiles_UIStr_Get(uistrUI, 'SPMiBL'+IntToStr( Integer( FCDdgEntities[0].E_spmSettings[Count].SPMS_iPtBeliefLevel ) ) )
             +'</b> / <a href="SPMiSV">SV</a>: <b>'+IntToStr(FCDdgEntities[0].E_spmSettings[Count].SPMS_iPtSpreadValue)+'</b> %]';
       end;
       case UMIUFspmi.SPMI_area of
          dgADMIN:
          begin
-            if FCWinMain.FCWM_UMIFSh_SPMadmin.Items.Count=0
-            then UMIUFnodeSPMadmin:=FCWinMain.FCWM_UMIFSh_SPMadmin.Items.Add( nil, '<b>'+FCFdTFiles_UIStr_Get(uistrUI,'SPMiAreaADMIN')+'</b>' );
-            UMIUFnodeSub:=FCWinMain.FCWM_UMIFSh_SPMadmin.Items.AddChild(
-               UMIUFnodeSPMadmin
-               , UMIUFformat
+            NodeSPMitem:=FCWinMain.FCWM_UMIFSh_SPMadmin.Items.AddChild(
+               NodeRootSPMadministration
+               , StrFormat
                );
-            UMIUFnodeSPMadmin.Expand(false);
-            UMIUFnodeSPMadmin.Selected:=true;
+
             FCWinMain.FCWM_UMIFSh_SPMadmin.Items.AddChild(
-               UMIUFnodeSub
-               ,UMIUFspmiDesc
+               NodeSPMitem
+               ,StrMemeProgressUniquePolicy
                );
-            if UMIUFspmiDur<>''
+            if StrDuration<>''
             then FCWinMain.FCWM_UMIFSh_SPMadmin.Items.AddChild(
-               UMIUFnodeSub
-               ,UMIUFspmiDur
+               NodeSPMitem
+               ,StrDuration
                );
          end;
          dgECON:
          begin
-            if FCWinMain.FCWM_UMIFSh_SPMecon.Items.Count=0
-            then UMIUFnodeSPMecon:=FCWinMain.FCWM_UMIFSh_SPMecon.Items.Add( nil, '<b>'+FCFdTFiles_UIStr_Get(uistrUI,'SPMiAreaECON')+'</b>' );
-            UMIUFnodeSub:=FCWinMain.FCWM_UMIFSh_SPMecon.Items.AddChild(
-               UMIUFnodeSPMecon
-               ,UMIUFformat
+            NodeSPMitem:=FCWinMain.FCWM_UMIFSh_SPMecon.Items.AddChild(
+               NodeRootSPMeconomy
+               ,StrFormat
                );
-            UMIUFnodeSPMecon.Expand(false);
+
              FCWinMain.FCWM_UMIFSh_SPMecon.Items.AddChild(
-               UMIUFnodeSub
-               ,UMIUFspmiDesc
+               NodeSPMitem
+               ,StrMemeProgressUniquePolicy
                );
-            if UMIUFspmiDur<>''
+            if StrDuration<>''
             then FCWinMain.FCWM_UMIFSh_SPMecon.Items.AddChild(
-               UMIUFnodeSub
-               ,UMIUFspmiDur
+               NodeSPMitem
+               ,StrDuration
                );
          end;
          dgMEDCA:
          begin
-            if FCWinMain.FCWM_UMIFSh_SPMmedca.Items.Count=0
-            then UMIUFnodeSPMmedca:=FCWinMain.FCWM_UMIFSh_SPMmedca.Items.Add( nil, '<b>'+FCFdTFiles_UIStr_Get(uistrUI,'SPMiAreaMEDCA')+'</b>' );
-            UMIUFnodeSub:=FCWinMain.FCWM_UMIFSh_SPMmedca.Items.AddChild(
-               UMIUFnodeSPMmedca
-               ,UMIUFformat
+            NodeSPMitem:=FCWinMain.FCWM_UMIFSh_SPMmedca.Items.AddChild(
+               NodeRootSPMmedicalCare
+               ,StrFormat
                );
-            UMIUFnodeSPMmedca.Expand(false);
+
              FCWinMain.FCWM_UMIFSh_SPMmedca.Items.AddChild(
-               UMIUFnodeSub
-               ,UMIUFspmiDesc
+               NodeSPMitem
+               ,StrMemeProgressUniquePolicy
                );
-            if UMIUFspmiDur<>''
+            if StrDuration<>''
             then FCWinMain.FCWM_UMIFSh_SPMmedca.Items.AddChild(
-               UMIUFnodeSub
-               ,UMIUFspmiDur
+               NodeSPMitem
+               ,StrDuration
                );
          end;
          dgSOC:
          begin
-            if FCWinMain.FCWM_UMIFSh_SPMsoc.Items.Count=0
-            then UMIUFnodeSPMsoc:=FCWinMain.FCWM_UMIFSh_SPMsoc.Items.Add( nil, '<b>'+FCFdTFiles_UIStr_Get(uistrUI,'SPMiAreaSOC')+'</b>' );
-            UMIUFnodeSub:=FCWinMain.FCWM_UMIFSh_SPMsoc.Items.AddChild(
-               UMIUFnodeSPMsoc
-               ,UMIUFformat
+            NodeSPMitem:=FCWinMain.FCWM_UMIFSh_SPMsoc.Items.AddChild(
+               NodeRootSPMsociety
+               ,StrFormat
                );
-            UMIUFnodeSPMsoc.Expand(false);
+
              FCWinMain.FCWM_UMIFSh_SPMsoc.Items.AddChild(
-               UMIUFnodeSub
-               ,UMIUFspmiDesc
+               NodeSPMitem
+               ,StrMemeProgressUniquePolicy
                );
-            if UMIUFspmiDur<>''
+            if StrDuration<>''
             then FCWinMain.FCWM_UMIFSh_SPMsoc.Items.AddChild(
-               UMIUFnodeSub
-               ,UMIUFspmiDur
+               NodeSPMitem
+               ,StrDuration
                );
          end;
          dgSPOL:
          begin
-            if FCWinMain.FCWM_UMIFSh_SPMspol.Items.Count=0
-            then UMIUFnodeSPMspol:=FCWinMain.FCWM_UMIFSh_SPMspol.Items.Add( nil, '<b>'+FCFdTFiles_UIStr_Get(uistrUI,'SPMiAreaSPOL')+'</b>' );
-            UMIUFnodeSub:=FCWinMain.FCWM_UMIFSh_SPMspol.Items.AddChild(
-               UMIUFnodeSPMspol
-               ,UMIUFformat
+
+            NodeSPMitem:=FCWinMain.FCWM_UMIFSh_SPMspol.Items.AddChild(
+               NodeRootSPMspacePolicy
+               ,StrFormat
                );
-            UMIUFnodeSPMspol.Expand(false);
+
              FCWinMain.FCWM_UMIFSh_SPMspol.Items.AddChild(
-               UMIUFnodeSub
-               ,UMIUFspmiDesc
+               NodeSPMitem
+               ,StrMemeProgressUniquePolicy
                );
-            if UMIUFspmiDur<>''
+            if StrDuration<>''
             then FCWinMain.FCWM_UMIFSh_SPMspol.Items.AddChild(
-               UMIUFnodeSub
-               ,UMIUFspmiDur
+               NodeSPMitem
+               ,StrDuration
                );
          end;
          dgSPI:
          begin
-            if FCWinMain.FCWM_UMIFSh_SPMspi.Items.Count=0
-            then UMIUFnodeSPMspi:=FCWinMain.FCWM_UMIFSh_SPMspi.Items.Add( nil, '<b>'+FCFdTFiles_UIStr_Get(uistrUI,'SPMiAreaSPI')+'</b>' );
-            UMIUFnodeSub:=FCWinMain.FCWM_UMIFSh_SPMspi.Items.AddChild(
-               UMIUFnodeSPMspi
-               ,UMIUFformat
+
+            NodeSPMitem:=FCWinMain.FCWM_UMIFSh_SPMspi.Items.AddChild(
+               NodeRootSPMspirituality
+               ,StrFormat
                );
-            UMIUFnodeSPMspi.Expand(false);
+
              FCWinMain.FCWM_UMIFSh_SPMspi.Items.AddChild(
-               UMIUFnodeSub
-               ,UMIUFspmiDesc
+               NodeSPMitem
+               ,StrMemeProgressUniquePolicy
                );
-            if UMIUFspmiDur<>''
+            if StrDuration<>''
             then FCWinMain.FCWM_UMIFSh_SPMspi.Items.AddChild(
-               UMIUFnodeSub
-               ,UMIUFspmiDur
+               NodeSPMitem
+               ,StrDuration
                );
          end;
       end; //==END== case UMIUFspmi.SPMI_area of ==//
       inc(Count);
    end; //==END== while Count<=Max do ==//
+   NodeRootSPMadministration.Expand(false);
+   NodeRootSPMadministration.Selected:=true;
+   NodeRootSPMeconomy.Expand(false);
+   NodeRootSPMmedicalCare.Expand(false);
+   NodeRootSPMsociety.Expand(false);
+   NodeRootSPMspacePolicy.Expand(false);
+   NodeRootSPMspirituality.Expand(false);
 end;
 
 //   {.policy enforcement}
