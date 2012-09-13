@@ -97,6 +97,16 @@ procedure FCMuiUMIF_Components_SetSize;
 procedure FCMuiUMIF_FactionLevel_Update;
 
 ///<summary>
+///   update the acceptance probability and enforcement subsection
+///</summary>
+procedure FCMuiUMIF_PolicyEnforcement_Update;
+
+///<summary>
+///   update the policy enforcement sub-tab
+///</summary>
+procedure FCMuiUMIF_PolicyEnforcement_UpdateAll;
+
+///<summary>
 ///   update the political structure
 ///</summary>
 ///   <param name="UpdateTarget">determine which section to update</param>
@@ -348,6 +358,142 @@ begin
    FCWinMain.FCWM_UMI_FDLvlVal.HTMLText.Add('<b>'+LevelString+'</b>');
    FCWinMain.FCWM_UMI_FDLvlValDesc.HTMLText.Clear;
    FCWinMain.FCWM_UMI_FDLvlValDesc.HTMLText.Add( FCFdTFiles_UIStr_Get( uistrUI,'faclvl'+LevelString ) );
+end;
+
+procedure FCMuiUMIF_PolicyEnforcement_Update;
+{:Purpose: update the acceptance probability and enforcement subsection.
+    Additions:
+}
+   var
+      HTMLFormat: string;
+
+      isUniquePolicy: boolean;
+begin
+   {:DEV NOTES: COMPLETE THE DOC W/ POLICIES ENFORCEMENT LIMITATIONS ACCORDING TO THE STATUS LEVELS + UPDATE FCFgSPMD_PlyrStatus_ApplyRules (w/o make an audit yet).}
+   FCWinMain.FCWM_UMIFSh_CAPFlab.HTMLText.Clear;
+   HTMLFormat:='';
+   FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Clear;
+   FCWinMain.FCWM_UMISh_CEFcommit.Enabled:=false;
+   FCWinMain.FCWM_UMISh_CEFretire.Enabled:=false;
+   UMIUFpolArea:=FCFgSPM_EnforcPol_GetArea;
+   isUniquePolicy:=FCFgSPM_EnforcPol_GetUnique;
+   if isUniquePolicy
+   then UMIUFisFSok:=FCFgSPMD_PlyrStatus_ApplyRules(gmspmdCanChangeGvt)
+   else UMIUFisFSok:=true;
+   if UMIUFisFSok
+   then
+   begin
+      UMIUFstat:=round(FCFgSPM_EnforcData_Get(gspmAccProbability));
+      UMIUFinfl:=round(FCFgSPM_EnforcData_Get(gspmInfl));
+      UMIUFmargPen:=round(FCFgSPM_EnforcData_Get(gspmMargMod));
+      if UMIUFinfl<0
+      then HTMLFormat:=FCCFcolRed
+      else if UMIUFinfl>0
+      then HTMLFormat:=FCCFcolGreen+'+';
+      FCWinMain.FCWM_UMIFSh_CAPFlab.HTMLText.Add(
+         '<p align="center" valign="center"><font size="20">'+IntToStr(UMIUFstat)+' %</font></p><p align="left"><sub>'
+            +FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolenfInflTtl')+' <b>'+HTMLFormat+IntToStr(UMIUFinfl)+FCCFcolEND+'</b>   '+FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolenfReqPen')
+         );
+      if UMIUFmargPen<0
+      then HTMLFormat:=FCCFcolRed
+      else HTMLFormat:='';
+      FCWinMain.FCWM_UMIFSh_CAPFlab.HTMLText.Add(' <b>'+HTMLFormat+IntToStr(UMIUFmargPen)+'</b></sub></p>');
+      FCWinMain.FCWM_UMISh_CEFenforce.Visible:=true;
+   end
+   else FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolenfRuleNoUnique'));
+   if not UMIUFrelocRetVal
+   then
+   begin
+      FCWinMain.FCWM_UMISh_CEFenforce.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_UMISh_CEFenforceNreq');
+      FCWinMain.FCWM_UMISh_CEFenforce.Enabled:=false;
+      FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI, 'UMIenfNReq'));
+   end
+   else if (UMIUFrelocRetVal)
+      and (UMIUFisFSok)
+   then
+   begin
+      FCWinMain.FCWM_UMISh_CEFenforce.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_UMISh_CEFenforce');
+      FCWinMain.FCWM_UMISh_CEFenforce.Enabled:=true;
+      UMIUFcalc:=FCFgSPM_PolicyProc_DoTest(50);
+      FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI, 'UMIenfYReq1'));
+      case UMIUFcalc of
+         gspmResMassRjct: FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add(FCCFcolRed+FCFdTFiles_UIStr_Get(uistrUI, 'UMIenfRsltMassRej')+FCCFcolEND);
+         gspmResReject: FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add(FCCFcolOrge+FCFdTFiles_UIStr_Get(uistrUI, 'UMIenfRsltReject')+FCCFcolEND);
+         gspmResFifFifty: FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add(FCCFcolYel+FCFdTFiles_UIStr_Get(uistrUI, 'UMIenfRsltMitig')+FCCFcolEND);
+         gspmResAccept: FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add(FCCFcolGreen+FCFdTFiles_UIStr_Get(uistrUI, 'UMIenfRsltComplAcc')+FCCFcolEND);
+      end;
+      FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI, 'UMIenfYReq2'));
+      UMIUFpolToken:=FCFgSPM_GvtEconMedcaSpiSystems_GetToken(0, UMIUFpolArea);
+      if (UMIUFisUnique)
+         and (UMIUFpolToken<>'')
+      then
+      begin
+         FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add('<br>'+FCCFcolWhBL+FCFdTFiles_UIStr_Get(uistrUI, 'UMIenfUnique')+'<b>'+FCFdTFiles_UIStr_Get(uistrUI, UMIUFpolToken)+'</b> ');
+         case UMIUFpolArea of
+            dgADMIN: FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add( FCFdTFiles_UIStr_Get( uistrUI, 'UMIgvtPolSys' ) );
+            dgECON: FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add( FCFdTFiles_UIStr_Get( uistrUI, 'UMIgvtEcoSys' ) );
+            dgMEDCA: FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add( FCFdTFiles_UIStr_Get( uistrUI, 'UMIgvtHcareSys' ) );
+            dgSPI: FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add( FCFdTFiles_UIStr_Get( uistrUI, 'UMIgvtRelSys' ) );
+         end;
+         FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add('.'+FCCFcolEND);
+      end;
+   end
+   else FCWinMain.FCWM_UMISh_CEFenforce.Enabled:=false;
+end;
+
+procedure FCMuiUMIF_PolicyEnforcement_UpdateAll;
+{:Purpose: update the policy enforcement sub-tab.
+    Additions:
+}
+begin
+//      FCWinMain.FCWM_UMIFSh_AFlist.Items.Clear;
+//      FCWinMain.FCWM_UMIFSh_AFlist.Enabled:=true;
+//      UMIUFisFSok:=FCFgSPMD_PlyrStatus_ApplyRules(gmspmdCanEnfPolicies);
+//      if FCDdgEntities[0].E_hqHigherLevel=hqsNoHQPresent
+//      then
+//      begin
+//         FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Clear;
+//         FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI, 'UMIhqNoMsg'));
+//      end
+//      else if (FCDdgEntities[0].E_hqHigherLevel>=hqsBasicHQ)
+//         and (UMIUFisFSok)
+//      then
+//      begin
+//         {.section update}
+//         UMIUFmax:=length(FCDdgEntities[0].E_spmSettings)-1;
+//         UMIUFcnt:=1;
+//         while UMIUFcnt<=UMIUFmax do
+//         begin
+//            if (FCDdgEntities[0].E_spmSettings[UMIUFcnt].SPMS_isPolicy)
+//               and (not FCDdgEntities[0].E_spmSettings[UMIUFcnt].SPMS_iPtIsSet)
+//               and (FCDdgEntities[0].E_spmSettings[UMIUFcnt].SPMS_duration=0)
+//            then FCWinMain.FCWM_UMIFSh_AFlist.Items.Add(
+////               '<a href="'+FCDdgEntities[0].E_spmSettings[UMIUFcnt].SPMS_token+'">'+
+//               FCFdTFiles_UIStr_Get(uistrUI, FCDdgEntities[0].E_spmSettings[UMIUFcnt].SPMS_token)+
+////               '</a>'
+////               FCFdTFiles_UIStr_Get(uistrUI, FCDdgEntities[0].E_spmSettings[UMIUFcnt].SPMS_token)+
+//               UIHTMLencyBEGIN+FCDdgEntities[0].E_spmSettings[UMIUFcnt].SPMS_token+UIHTMLencyEND
+//               );
+//            inc(UMIUFcnt)
+//         end;
+//         FCWinMain.FCWM_UMIFSh_AFlist.Sorted:=true;
+//         FCWinMain.FCWM_UMIFSh_AFlist.SortWithHTML:=true;
+//         FCWinMain.FCWM_UMIFSh_AFlist.ItemIndex:=0;
+//         FCMumi_AvailPolList_UpdClick;
+//      end
+//      else
+//      begin
+//         UMIUFstatus:=FCFgSPMD_Level_GetToken(FCVdgPlayer.P_socialStatus);
+//         FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Clear;
+//         FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add(
+//            FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolenfRuleNoEnf1')
+//            +'[<b>'+IntToStr(Integer(FCVdgPlayer.P_socialStatus))+'</b>]-<b>'+FCFdTFiles_UIStr_Get(uistrUI, UMIUFstatus)+'</b>, '+FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolenfRuleNoEnf2')
+//            +'[<b>'+IntToStr(Integer(TFCEdgPlayerFactionStatus.pfs2_SemiDependent))+'</b>]-<b>'+FCFdTFiles_UIStr_Get(uistrUI, 'cpsStatSD')+'</b>.<br>'
+//            );
+//         if Assigned(FCcps)
+//         then FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add( FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolenfRuleNoEnf3') )
+//         else FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add( FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolenfRuleNoEnf4') );
+//      end;
 end;
 
 procedure FCMuiUMIF_PoliticalStructure_Update( const UpdateTarget: TFCEuiUMIFpoliticalActions );
@@ -627,138 +773,5 @@ begin
    NodeRootSPMspacePolicy.Expand(false);
    NodeRootSPMspirituality.Expand(false);
 end;
-
-//   {.policy enforcement}
-//   if (UMIUFsec=uiwAllSection)
-//      or (UMIUFsec=uiwSPMpolEnfList)
-//   then
-//   begin
-//      {.section initialization}
-//      FCWinMain.FCWM_UMIFSh_AFlist.Items.Clear;
-//      FCWinMain.FCWM_UMIFSh_AFlist.Enabled:=true;
-//      UMIUFisFSok:=FCFgSPMD_PlyrStatus_ApplyRules(gmspmdCanEnfPolicies);
-//      if FCDdgEntities[0].E_hqHigherLevel=hqsNoHQPresent
-//      then
-//      begin
-//         FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Clear;
-//         FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI, 'UMIhqNoMsg'));
-//      end
-//      else if (FCDdgEntities[0].E_hqHigherLevel>=hqsBasicHQ)
-//         and (UMIUFisFSok)
-//      then
-//      begin
-//         {.section update}
-//         UMIUFmax:=length(FCDdgEntities[0].E_spmSettings)-1;
-//         UMIUFcnt:=1;
-//         while UMIUFcnt<=UMIUFmax do
-//         begin
-//            if (FCDdgEntities[0].E_spmSettings[UMIUFcnt].SPMS_isPolicy)
-//               and (not FCDdgEntities[0].E_spmSettings[UMIUFcnt].SPMS_iPtIsSet)
-//               and (FCDdgEntities[0].E_spmSettings[UMIUFcnt].SPMS_duration=0)
-//            then FCWinMain.FCWM_UMIFSh_AFlist.Items.Add(
-////               '<a href="'+FCDdgEntities[0].E_spmSettings[UMIUFcnt].SPMS_token+'">'+
-//               FCFdTFiles_UIStr_Get(uistrUI, FCDdgEntities[0].E_spmSettings[UMIUFcnt].SPMS_token)+
-////               '</a>'
-////               FCFdTFiles_UIStr_Get(uistrUI, FCDdgEntities[0].E_spmSettings[UMIUFcnt].SPMS_token)+
-//               UIHTMLencyBEGIN+FCDdgEntities[0].E_spmSettings[UMIUFcnt].SPMS_token+UIHTMLencyEND
-//               );
-//            inc(UMIUFcnt)
-//         end;
-//         FCWinMain.FCWM_UMIFSh_AFlist.Sorted:=true;
-//         FCWinMain.FCWM_UMIFSh_AFlist.SortWithHTML:=true;
-//         FCWinMain.FCWM_UMIFSh_AFlist.ItemIndex:=0;
-//         FCMumi_AvailPolList_UpdClick;
-//      end
-//      else
-//      begin
-//         UMIUFstatus:=FCFgSPMD_Level_GetToken(FCVdgPlayer.P_socialStatus);
-//         FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Clear;
-//         FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add(
-//            FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolenfRuleNoEnf1')
-//            +'[<b>'+IntToStr(Integer(FCVdgPlayer.P_socialStatus))+'</b>]-<b>'+FCFdTFiles_UIStr_Get(uistrUI, UMIUFstatus)+'</b>, '+FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolenfRuleNoEnf2')
-//            +'[<b>'+IntToStr(Integer(TFCEdgPlayerFactionStatus.pfs2_SemiDependent))+'</b>]-<b>'+FCFdTFiles_UIStr_Get(uistrUI, 'cpsStatSD')+'</b>.<br>'
-//            );
-//         if Assigned(FCcps)
-//         then FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add( FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolenfRuleNoEnf3') )
-//         else FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add( FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolenfRuleNoEnf4') );
-//      end;
-//   end; //==END== if (UMIUFsec=uiwAllSection) or (UMIUFsec=uiwSPMpolEnf) ==//
-//   {.policy enforcement acceptance probability and enforcement subsection}
-//   if UMIUFsec=uiwSPMpolEnfRAP
-//   then
-//   begin
-//      {.section initialization}
-//      FCWinMain.FCWM_UMIFSh_CAPFlab.HTMLText.Clear;
-//      UMIUFformat:='';
-//      FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Clear;
-//      FCWinMain.FCWM_UMISh_CEFcommit.Enabled:=false;
-//      FCWinMain.FCWM_UMISh_CEFretire.Enabled:=false;
-//      UMIUFpolArea:=FCFgSPM_EnforcPol_GetArea;
-//      UMIUFisUnique:=FCFgSPM_EnforcPol_GetUnique;
-//      if UMIUFisUnique
-//      then UMIUFisFSok:=FCFgSPMD_PlyrStatus_ApplyRules(gmspmdCanChangeGvt)
-//      else UMIUFisFSok:=true;
-//      if UMIUFisFSok
-//      then
-//      begin
-//         {.section update}
-//         {:DEV NOTES: replace by a normalized variable.}
-//         UMIUFstat:=round(FCFgSPM_EnforcData_Get(gspmAccProbability));
-//         UMIUFinfl:=round(FCFgSPM_EnforcData_Get(gspmInfl));
-//         UMIUFmargPen:=round(FCFgSPM_EnforcData_Get(gspmMargMod));
-//         if UMIUFinfl<0
-//         then UMIUFformat:=FCCFcolRed
-//         else if UMIUFinfl>0
-//         then UMIUFformat:=FCCFcolGreen+'+';
-//         FCWinMain.FCWM_UMIFSh_CAPFlab.HTMLText.Add(
-//            '<p align="center" valign="center"><font size="20">'+IntToStr(UMIUFstat)+' %</font></p><p align="left"><sub>'
-//               +FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolenfInflTtl')+' <b>'+UMIUFformat+IntToStr(UMIUFinfl)+FCCFcolEND+'</b>   '+FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolenfReqPen')
-//            );
-//         if UMIUFmargPen<0
-//         then UMIUFformat:=FCCFcolRed
-//         else UMIUFformat:='';
-//         FCWinMain.FCWM_UMIFSh_CAPFlab.HTMLText.Add(' <b>'+UMIUFformat+IntToStr(UMIUFmargPen)+'</b></sub></p>');
-//         FCWinMain.FCWM_UMISh_CEFenforce.Visible:=true;
-//      end
-//      else FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolenfRuleNoUnique'));
-//      if not UMIUFrelocRetVal
-//      then
-//      begin
-//         FCWinMain.FCWM_UMISh_CEFenforce.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_UMISh_CEFenforceNreq');
-//         FCWinMain.FCWM_UMISh_CEFenforce.Enabled:=false;
-//         FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI, 'UMIenfNReq'));
-//      end
-//      else if (UMIUFrelocRetVal)
-//         and (UMIUFisFSok)
-//      then
-//      begin
-//         FCWinMain.FCWM_UMISh_CEFenforce.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_UMISh_CEFenforce');
-//         FCWinMain.FCWM_UMISh_CEFenforce.Enabled:=true;
-//         UMIUFcalc:=FCFgSPM_PolicyProc_DoTest(50);
-//         FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI, 'UMIenfYReq1'));
-//         case UMIUFcalc of
-//            gspmResMassRjct: FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add(FCCFcolRed+FCFdTFiles_UIStr_Get(uistrUI, 'UMIenfRsltMassRej')+FCCFcolEND);
-//            gspmResReject: FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add(FCCFcolOrge+FCFdTFiles_UIStr_Get(uistrUI, 'UMIenfRsltReject')+FCCFcolEND);
-//            gspmResFifFifty: FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add(FCCFcolYel+FCFdTFiles_UIStr_Get(uistrUI, 'UMIenfRsltMitig')+FCCFcolEND);
-//            gspmResAccept: FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add(FCCFcolGreen+FCFdTFiles_UIStr_Get(uistrUI, 'UMIenfRsltComplAcc')+FCCFcolEND);
-//         end;
-//         FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI, 'UMIenfYReq2'));
-//         UMIUFpolToken:=FCFgSPM_GvtEconMedcaSpiSystems_GetToken(0, UMIUFpolArea);
-//         if (UMIUFisUnique)
-//            and (UMIUFpolToken<>'')
-//         then
-//         begin
-//            FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add('<br>'+FCCFcolWhBL+FCFdTFiles_UIStr_Get(uistrUI, 'UMIenfUnique')+'<b>'+FCFdTFiles_UIStr_Get(uistrUI, UMIUFpolToken)+'</b> ');
-//            case UMIUFpolArea of
-//               dgADMIN: FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add( FCFdTFiles_UIStr_Get( uistrUI, 'UMIgvtPolSys' ) );
-//               dgECON: FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add( FCFdTFiles_UIStr_Get( uistrUI, 'UMIgvtEcoSys' ) );
-//               dgMEDCA: FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add( FCFdTFiles_UIStr_Get( uistrUI, 'UMIgvtHcareSys' ) );
-//               dgSPI: FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add( FCFdTFiles_UIStr_Get( uistrUI, 'UMIgvtRelSys' ) );
-//            end;
-//            FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add('.'+FCCFcolEND);
-//         end;
-//      end
-//      else FCWinMain.FCWM_UMISh_CEFenforce.Enabled:=false;
-//   end; //==END== if UMIUFsec=uiwSPMpolEnfRAP ==//
 
 end.
