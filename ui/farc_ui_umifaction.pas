@@ -363,11 +363,14 @@ end;
 procedure FCMuiUMIF_PolicyEnforcement_Update;
 {:Purpose: update the acceptance probability and enforcement subsection.
     Additions:
+      -2012Sep13- *add: apply the last update of the status rules for conditions.
 }
    var
       HTMLFormat: string;
 
       isUniquePolicy: boolean;
+
+      UMIUFpolArea: TFCEdgSPMarea;
 begin
    {:DEV NOTES: COMPLETE THE DOC W/ POLICIES ENFORCEMENT LIMITATIONS ACCORDING TO THE STATUS LEVELS + UPDATE FCFgSPMD_PlyrStatus_ApplyRules (w/o make an audit yet).}
    FCWinMain.FCWM_UMIFSh_CAPFlab.HTMLText.Clear;

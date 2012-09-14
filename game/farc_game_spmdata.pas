@@ -46,11 +46,36 @@ type TFCEgspmdDatTp=(
    );
 
 type TFCEgspmdRules=(
-   gmspmdCanChangeEcoSys
-   ,gmspmdCanChangeGvt
-   ,gmspmdCanChangeHealth
-   ,gmspmdCanChangeRelig
-   ,gmspmdCanEnfPolicies
+   rCanAccesMissionFromAnyFaction
+   ,rCanBuildAndUseMilitarySpaceUnits
+   ,rCanChangeEconomicalSystem
+   ,rCanChangePoliciesAdminMedcaSocSpi
+   ,rCanChangePoliciesEcon
+   ,rCanChangePoliciesMilSpol
+   ,rCanChangePoliticalHealthCareSpiritualSystems
+   ,rCanMemesAdminMedcaSocSpiEvolveDifferently
+   ,rCanMemesEconEvolveDifferently
+   ,rCanMemesMilSpolEvolveDifferently
+   ,rCanTradeToWhich
+   ,rCanUseMemeticEngineering
+   ,rCanUseMemeticWar
+   ,rCanUseMilitaryUnits
+   ,rTechnosciencesAccesAreFrom
+   );
+
+type TFCEgspmdRulesResult=(
+   rrFromAllegianceFaction
+   ,rrFromPlayerFaction
+   ,rrMilNoButSecurityOnly
+   ,rrmilYesButDefenceOnly50_50
+   ,rrNo
+   ,rrTradeFree
+   ,rrTradeOnlyWithAllegianceFaction_CantFreeTraders
+   ,rrTradeWithAllegianceAndAlliedFaction_CanFreeTraders
+   ,rrYes
+   ,rrYes50_50NoSystem
+   ,rrYes50Penalty
+   ,rrYesPrereqByAllegianceFaction
    );
 
 ///<summary>
@@ -85,7 +110,7 @@ function FCFgSPMD_Level_GetToken(const LGTlevel: TFCEdgPlayerFactionStatus): str
 ///   centralize all player's faction status rules, return true/false in response of a rule
 ///</summary>
 ///   <param name="PSARaskIf">gmspmdCanChangeGvt: if the player can change gvt, gmspmdCanEnfPolicies: if the player can enforce policies</param>
-function FCFgSPMD_PlyrStatus_ApplyRules(const PSARaskIf: TFCEgspmdRules): boolean;
+function FCFgSPMD_PlyrStatus_ApplyRules(const PSARaskIf: TFCEgspmdRules): TFCEgspmdRulesResult;
 
 //===========================END FUNCTIONS SECTION==========================================
 
@@ -227,30 +252,122 @@ begin
    end;
 end;
 
-function FCFgSPMD_PlyrStatus_ApplyRules(const PSARaskIf: TFCEgspmdRules): boolean;
+function FCFgSPMD_PlyrStatus_ApplyRules(const PSARaskIf: TFCEgspmdRules): TFCEgspmdRulesResult;
 {:Purpose: centralize all player's faction status rules, return true/false in response of a rule.
     Additions:
+      -2012Sep13- *add/mod: apply the update of the status rules and complete the implementation of all of them.
       -2011Jan10- *add: CanChangeEcoSys, CanChangeGvt, CanChangeHealth, CanChangeRelig, CanEnfPolicies rules.
 }
 var
-   PSARres: boolean;
+   PSARres: TFCEgspmdRulesResult;
 begin
-   PSARres:=false;
+   PSARres:=rrNo;
    case PSARaskIf of
-      gmspmdCanChangeEcoSys:
-      begin
-         if FCVdgPlayer.P_economicStatus=pfs3_Independent
-         then PSARres:=true;
-      end;
-      gmspmdCanChangeGvt, gmspmdCanChangeHealth, gmspmdCanChangeRelig:
+      rCanAccesMissionFromAnyFaction:
       begin
          if FCVdgPlayer.P_socialStatus=pfs3_Independent
-         then PSARres:=true;
+         then PSARres:=rrYes;
       end;
-      gmspmdCanEnfPolicies:
+
+      rCanBuildAndUseMilitarySpaceUnits, rCanUseMilitaryUnits:
       begin
-         if FCVdgPlayer.P_socialStatus>=pfs2_SemiDependent
-         then PSARres:=true;
+         case FCVdgPlayer.P_militaryStatus of
+            pfs1_FullyDependent: PSARres:=rrMilNoButSecurityOnly;
+
+            pfs2_SemiDependent: PSARres:=rrmilYesButDefenceOnly50_50;
+
+            pfs3_Independent: PSARres:=rrYes;
+         end;
+      end;
+
+      rCanChangeEconomicalSystem:
+      begin
+         if FCVdgPlayer.P_economicStatus=pfs3_Independent
+         then PSARres:=rrYes;
+      end;
+
+      rCanChangePoliciesAdminMedcaSocSpi:
+      begin
+         if FCVdgPlayer.P_socialStatus=pfs2_SemiDependent
+         then PSARres:=rrYes50_50NoSystem
+         else if FCVdgPlayer.P_socialStatus=pfs3_Independent
+         then PSARres:=rrYes;
+      end;
+
+      rCanChangePoliciesEcon:
+      begin
+         if FCVdgPlayer.P_economicStatus=pfs2_SemiDependent
+         then PSARres:=rrYes50_50NoSystem
+         else if FCVdgPlayer.P_economicStatus=pfs3_Independent
+         then PSARres:=rrYes;
+      end;
+
+      rCanChangePoliciesMilSpol:
+      begin
+         if FCVdgPlayer.P_militaryStatus=pfs3_Independent
+         then PSARres:=rrYes;
+      end;
+
+      rCanChangePoliticalHealthCareSpiritualSystems:
+      begin
+         if FCVdgPlayer.P_socialStatus=pfs3_Independent
+         then PSARres:=rrYes;
+      end;
+
+      rCanMemesAdminMedcaSocSpiEvolveDifferently:
+      begin
+         if FCVdgPlayer.P_socialStatus=pfs2_SemiDependent
+         then PSARres:=rrYesPrereqByAllegianceFaction
+         else if FCVdgPlayer.P_socialStatus=pfs3_Independent
+         then PSARres:=rrYes;
+      end;
+
+      rCanMemesEconEvolveDifferently:
+      begin
+         if FCVdgPlayer.P_economicStatus=pfs2_SemiDependent
+         then PSARres:=rrYesPrereqByAllegianceFaction
+         else if FCVdgPlayer.P_economicStatus=pfs3_Independent
+         then PSARres:=rrYes;
+      end;
+
+      rCanMemesMilSpolEvolveDifferently:
+      begin
+         if FCVdgPlayer.P_militaryStatus=pfs2_SemiDependent
+         then PSARres:=rrYesPrereqByAllegianceFaction
+         else if FCVdgPlayer.P_militaryStatus=pfs3_Independent
+         then PSARres:=rrYes;
+      end;
+
+      rCanTradeToWhich:
+      begin
+         case FCVdgPlayer.P_economicStatus of
+            pfs1_FullyDependent: PSARres:=rrTradeOnlyWithAllegianceFaction_CantFreeTraders;
+
+            pfs2_SemiDependent: PSARres:=rrTradeWithAllegianceAndAlliedFaction_CanFreeTraders;
+
+            pfs3_Independent: PSARres:=rrTradeFree;
+         end;
+      end;
+
+      rCanUseMemeticEngineering:
+      begin
+         if FCVdgPlayer.P_socialStatus=pfs2_SemiDependent
+         then PSARres:=rrYes50Penalty
+         else if FCVdgPlayer.P_socialStatus=pfs3_Independent
+         then PSARres:=rrYes;
+      end;
+
+      rCanUseMemeticWar:
+      begin
+         if FCVdgPlayer.P_militaryStatus=pfs3_Independent
+         then PSARres:=rrYes;
+      end;
+
+      rTechnosciencesAccesAreFrom:
+      begin
+         if FCVdgPlayer.P_economicStatus<pfs3_Independent
+         then PSARres:=rrFromAllegianceFaction
+         else  PSARres:=rrFromPlayerFaction;
       end;
    end;
    Result:=PSARres;

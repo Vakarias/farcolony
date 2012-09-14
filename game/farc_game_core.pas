@@ -81,6 +81,13 @@ begin
 //         FCVwMcpsPstore:=false;
 //         FCcps.CPSobjP_List.Free;
 //         FCcps.CPSobjPanel.Free;
+         {:DEV NOTES: *The Policies (including unique ones) must be adjusted by testing their requirements,
+         if the requirement fail, the policy is retired (w/o any cohesion penalty). Memes are also adjusted according w/ proper memes rules.
+         All without waiting a SPM phase. Unique policies (political system, economic system, healthcare system and religious system) must be changed if the requirement doesn't fit,
+         since a system must be set the SPM gives the player's the possible choices (update policies list only with corresponding systems, one after the others).
+         A natural short government destabilization occurs, w/o any fix than time
+            *of course all SPM requirements are assured by the player's faction
+            *and after the player is free to set policies he/she wants, since his/her faction is fully independent.}
       end;
    end; //==END== case GameOverReason of ==//
 end;
