@@ -57,7 +57,7 @@ function FCFgSPM_Area_GetString(const SPMarea: TFCEdgSPMarea): string;
 ///   return the private calculated enforcement data
 ///</summary>
 ///   <param name="CDGdata">type of data to retrieve</param>
-function FCFgSPM_EnforcData_Get(const CDGdata: TFCEgspmData): extended;
+function FCFgSPM_EnforcData_Get(const CDGdata: TFCEgspmData): integer;
 
 ///<summary>
 ///   return the state of the unique data of the current policy to enforce
@@ -240,9 +240,10 @@ begin
    end;
 end;
 
-function FCFgSPM_EnforcData_Get(const CDGdata: TFCEgspmData): extended;
+function FCFgSPM_EnforcData_Get(const CDGdata: TFCEgspmData): integer;
 {:Purpose: return the private calculated enforcement data.
     Additions:
+      -2012Sep13- *mod: change the result format to integer.
       -2010Dec07- *add: influence.
 }
 begin

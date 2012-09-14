@@ -159,8 +159,8 @@ begin
 
                2:
                begin
-//                  if FCWinMain.FCWM_UMIFSh_AFlist.Enabled
-//                  then FCMumi_Faction_Upd(uiwSPMpolEnfList, false);
+                  if FCWinMain.FCWM_UMIFSh_AFlist.Enabled
+                  then FCMuiUMIF_PolicyEnforcement_UpdateAll;
                end;
             end;
          end;

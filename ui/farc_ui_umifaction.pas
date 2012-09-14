@@ -58,7 +58,7 @@ type TFCEuiUMIFpoliticalActions=(
 ///<summary>
 ///   update the display regarding the selection in the available policies list
 ///</summary>
-procedure FCMumi_AvailPolList_UpdClick;
+//procedure FCMumi_AvailPolList_UpdClick;
 
 ///<summary>
 ///   update the colonies list
@@ -142,6 +142,8 @@ var
    StatusSocBaseSize: integer;
    StatusMilBaseSize:integer;
 
+   UMIUFpolArea: TFCEdgSPMarea;
+
 //==END PRIVATE VAR=========================================================================
 
 //const
@@ -150,7 +152,7 @@ var
 //===================================================END OF INIT============================
 //===========================END FUNCTIONS SECTION==========================================
 
-procedure FCMumi_AvailPolList_UpdClick;
+//procedure FCMumi_AvailPolList_UpdClick;
 {:Purpose: update the display regarding the selection in the available policies list.
     Additions:
       -2012Aug27- *code audit:
@@ -164,23 +166,23 @@ procedure FCMumi_AvailPolList_UpdClick;
                      (-)if the procedure reset the same record's data or external data put:
                         ///   <remarks>the procedure/function reset the /data/</remarks>
 }
-var
-   TokenRes: string;
-
-   RetVal: boolean;
-begin
-   if (FCWinMain.FCWM_UMI.Visible)
-      and (not FCWinMain.FCWM_UMI.Collaps)
-      and (FCWinMain.FCWM_UMI_TabSh.ActivePage=FCWinMain.FCWM_UMI_TabShFac)
-      and (FCWinMain.FCWM_UMIFac_TabSh.ActivePage=FCWinMain.FCWM_UMIFac_TabShSPMpol)
-   then
-   begin
-      RetVal:=false;
-      TokenRes:=FCFuiHTML_AnchorInAhrefFromQuestionMarkItem_Extract( FCWinMain.FCWM_UMIFSh_AFlist.Items.ValueFromIndex[FCWinMain.FCWM_UMIFSh_AFlist.ItemIndex] );
-      RetVal:=FCFgSPM_PolicyEnf_Preproc(0, TokenRes);
-//      FCMumi_Faction_Upd(uiwSPMpolEnfRAP, RetVal);
-   end;
-end;
+//var
+//   TokenRes: string;
+//
+//   RetVal: boolean;
+//begin
+//   if (FCWinMain.FCWM_UMI.Visible)
+//      and (not FCWinMain.FCWM_UMI.Collaps)
+//      and (FCWinMain.FCWM_UMI_TabSh.ActivePage=FCWinMain.FCWM_UMI_TabShFac)
+//      and (FCWinMain.FCWM_UMIFac_TabSh.ActivePage=FCWinMain.FCWM_UMIFac_TabShSPMpol)
+//   then
+//   begin
+//      RetVal:=false;
+//      TokenRes:=FCFuiHTML_AnchorInAhrefFromQuestionMarkItem_Extract( FCWinMain.FCWM_UMIFSh_AFlist.Items.ValueFromIndex[FCWinMain.FCWM_UMIFSh_AFlist.ItemIndex] );
+//      RetVal:=FCFgSPM_PolicyEnf_Preproc(0, TokenRes);
+////      FCMumi_Faction_Upd(uiwSPMpolEnfRAP, RetVal);
+//   end;
+//end;
 
 procedure FCMuiUMIF_Colonies_Update( const Colony: integer);
 {:Purpose: update the colonies list.
@@ -366,89 +368,119 @@ procedure FCMuiUMIF_PolicyEnforcement_Update;
       -2012Sep13- *add: apply the last update of the status rules for conditions.
 }
    var
-      HTMLFormat: string;
+      AcceptanceProbability
+      ,MarginPenalty
+      ,SPMInfluence: integer;
 
-      isUniquePolicy: boolean;
+      HTMLResult: string;
 
-      UMIUFpolArea: TFCEdgSPMarea;
+      isUniquePolicy
+      ,isPolicyRequirementsMet: boolean;
+
+      SystemChangeRule: TFCEgspmdRulesResult;
 begin
-   {:DEV NOTES: COMPLETE THE DOC W/ POLICIES ENFORCEMENT LIMITATIONS ACCORDING TO THE STATUS LEVELS + UPDATE FCFgSPMD_PlyrStatus_ApplyRules (w/o make an audit yet).}
+   AcceptanceProbability:=0;
+   MarginPenalty:=0;
+   SPMInfluence:=0;
+   HTMLResult:='';
+   isUniquePolicy:=false;
+   isPolicyRequirementsMet:=false;
+   SystemChangeRule:=rrNo;
+   HTMLResult:=FCFuiHTML_AnchorInAhrefFromQuestionMarkItem_Extract( FCWinMain.FCWM_UMIFSh_AFlist.Items.ValueFromIndex[FCWinMain.FCWM_UMIFSh_AFlist.ItemIndex] );
+   isPolicyRequirementsMet:=FCFgSPM_PolicyEnf_Preproc(0, HTMLResult);
    FCWinMain.FCWM_UMIFSh_CAPFlab.HTMLText.Clear;
-   HTMLFormat:='';
+   HTMLResult:='';
    FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Clear;
    FCWinMain.FCWM_UMISh_CEFcommit.Enabled:=false;
    FCWinMain.FCWM_UMISh_CEFretire.Enabled:=false;
-   UMIUFpolArea:=FCFgSPM_EnforcPol_GetArea;
-   isUniquePolicy:=FCFgSPM_EnforcPol_GetUnique;
-   if isUniquePolicy
-   then UMIUFisFSok:=FCFgSPMD_PlyrStatus_ApplyRules(gmspmdCanChangeGvt)
-   else UMIUFisFSok:=true;
-   if UMIUFisFSok
-   then
-   begin
-      UMIUFstat:=round(FCFgSPM_EnforcData_Get(gspmAccProbability));
-      UMIUFinfl:=round(FCFgSPM_EnforcData_Get(gspmInfl));
-      UMIUFmargPen:=round(FCFgSPM_EnforcData_Get(gspmMargMod));
-      if UMIUFinfl<0
-      then HTMLFormat:=FCCFcolRed
-      else if UMIUFinfl>0
-      then HTMLFormat:=FCCFcolGreen+'+';
-      FCWinMain.FCWM_UMIFSh_CAPFlab.HTMLText.Add(
-         '<p align="center" valign="center"><font size="20">'+IntToStr(UMIUFstat)+' %</font></p><p align="left"><sub>'
-            +FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolenfInflTtl')+' <b>'+HTMLFormat+IntToStr(UMIUFinfl)+FCCFcolEND+'</b>   '+FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolenfReqPen')
-         );
-      if UMIUFmargPen<0
-      then HTMLFormat:=FCCFcolRed
-      else HTMLFormat:='';
-      FCWinMain.FCWM_UMIFSh_CAPFlab.HTMLText.Add(' <b>'+HTMLFormat+IntToStr(UMIUFmargPen)+'</b></sub></p>');
-      FCWinMain.FCWM_UMISh_CEFenforce.Visible:=true;
-   end
-   else FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolenfRuleNoUnique'));
-   if not UMIUFrelocRetVal
-   then
+   if not isPolicyRequirementsMet then
    begin
       FCWinMain.FCWM_UMISh_CEFenforce.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_UMISh_CEFenforceNreq');
       FCWinMain.FCWM_UMISh_CEFenforce.Enabled:=false;
       FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI, 'UMIenfNReq'));
-   end
-   else if (UMIUFrelocRetVal)
-      and (UMIUFisFSok)
-   then
-   begin
-      FCWinMain.FCWM_UMISh_CEFenforce.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_UMISh_CEFenforce');
-      FCWinMain.FCWM_UMISh_CEFenforce.Enabled:=true;
-      UMIUFcalc:=FCFgSPM_PolicyProc_DoTest(50);
-      FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI, 'UMIenfYReq1'));
-      case UMIUFcalc of
-         gspmResMassRjct: FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add(FCCFcolRed+FCFdTFiles_UIStr_Get(uistrUI, 'UMIenfRsltMassRej')+FCCFcolEND);
-         gspmResReject: FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add(FCCFcolOrge+FCFdTFiles_UIStr_Get(uistrUI, 'UMIenfRsltReject')+FCCFcolEND);
-         gspmResFifFifty: FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add(FCCFcolYel+FCFdTFiles_UIStr_Get(uistrUI, 'UMIenfRsltMitig')+FCCFcolEND);
-         gspmResAccept: FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add(FCCFcolGreen+FCFdTFiles_UIStr_Get(uistrUI, 'UMIenfRsltComplAcc')+FCCFcolEND);
-      end;
-      FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI, 'UMIenfYReq2'));
-      UMIUFpolToken:=FCFgSPM_GvtEconMedcaSpiSystems_GetToken(0, UMIUFpolArea);
-      if (UMIUFisUnique)
-         and (UMIUFpolToken<>'')
-      then
+   end //==END== if not isPolicyRequirementsMet then ==//
+   else begin
+      isUniquePolicy:=FCFgSPM_EnforcPol_GetUnique;
+      if isUniquePolicy then
       begin
-         FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add('<br>'+FCCFcolWhBL+FCFdTFiles_UIStr_Get(uistrUI, 'UMIenfUnique')+'<b>'+FCFdTFiles_UIStr_Get(uistrUI, UMIUFpolToken)+'</b> ');
          case UMIUFpolArea of
-            dgADMIN: FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add( FCFdTFiles_UIStr_Get( uistrUI, 'UMIgvtPolSys' ) );
-            dgECON: FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add( FCFdTFiles_UIStr_Get( uistrUI, 'UMIgvtEcoSys' ) );
-            dgMEDCA: FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add( FCFdTFiles_UIStr_Get( uistrUI, 'UMIgvtHcareSys' ) );
-            dgSPI: FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add( FCFdTFiles_UIStr_Get( uistrUI, 'UMIgvtRelSys' ) );
+            dgADMIN, dgMEDCA, dgSPI: SystemChangeRule:=FCFgSPMD_PlyrStatus_ApplyRules( rCanChangePoliticalHealthCareSpiritualSystems );
+            dgECON: SystemChangeRule:=FCFgSPMD_PlyrStatus_ApplyRules( rCanChangeEconomicalSystem );
          end;
-         FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add('.'+FCCFcolEND);
-      end;
-   end
-   else FCWinMain.FCWM_UMISh_CEFenforce.Enabled:=false;
+      end
+      else SystemChangeRule:=rrYes;
+      if SystemChangeRule=rrYes then
+      begin
+         AcceptanceProbability:=FCFgSPM_EnforcData_Get(gspmAccProbability);
+         SPMInfluence:=round(FCFgSPM_EnforcData_Get(gspmInfl));
+         MarginPenalty:=round(FCFgSPM_EnforcData_Get(gspmMargMod));
+         if SPMInfluence<0
+         then HTMLResult:=FCCFcolRed
+         else if SPMInfluence>0
+         then HTMLResult:=FCCFcolGreen+'+';
+         FCWinMain.FCWM_UMIFSh_CAPFlab.HTMLText.Add(
+            '<p align="center" valign="center"><font size="20">'+IntToStr(AcceptanceProbability)+' %</font></p><p align="left"><sub>'
+               +FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolenfInflTtl')+' <b>'+HTMLResult+IntToStr(SPMInfluence)+FCCFcolEND+'</b>   '+FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolenfReqPen')
+            );
+         if MarginPenalty<0
+         then HTMLResult:=FCCFcolRed
+         else HTMLResult:='';
+         FCWinMain.FCWM_UMIFSh_CAPFlab.HTMLText.Add(' <b>'+HTMLResult+IntToStr(MarginPenalty)+'</b></sub></p>');
+         FCWinMain.FCWM_UMISh_CEFenforce.Visible:=true;
+      end
+      {.because it concern only unique policies. If a non unique policy cannot be set (out of the requirements) it's not displayed in the list}
+      else FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolenfRuleNoUnique'));
+   end; //==END== !if not isPolicyRequirementsMet then ==//
+
+
+
+
+
+
+//   if not UMIUFrelocRetVal
+//   then
+//   begin
+
+//   end
+//   else if (UMIUFrelocRetVal)
+//      and (SystemChangeRule=yes)
+//   then
+//   begin
+//      FCWinMain.FCWM_UMISh_CEFenforce.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_UMISh_CEFenforce');
+//      FCWinMain.FCWM_UMISh_CEFenforce.Enabled:=true;
+//      UMIUFcalc:=FCFgSPM_PolicyProc_DoTest(50);
+//      FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI, 'UMIenfYReq1'));
+//      case UMIUFcalc of
+//         gspmResMassRjct: FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add(FCCFcolRed+FCFdTFiles_UIStr_Get(uistrUI, 'UMIenfRsltMassRej')+FCCFcolEND);
+//         gspmResReject: FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add(FCCFcolOrge+FCFdTFiles_UIStr_Get(uistrUI, 'UMIenfRsltReject')+FCCFcolEND);
+//         gspmResFifFifty: FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add(FCCFcolYel+FCFdTFiles_UIStr_Get(uistrUI, 'UMIenfRsltMitig')+FCCFcolEND);
+//         gspmResAccept: FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add(FCCFcolGreen+FCFdTFiles_UIStr_Get(uistrUI, 'UMIenfRsltComplAcc')+FCCFcolEND);
+//      end;
+//      FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI, 'UMIenfYReq2'));
+//      UMIUFpolToken:=FCFgSPM_GvtEconMedcaSpiSystems_GetToken(0, UMIUFpolArea);
+//      if (UMIUFisUnique)
+//         and (UMIUFpolToken<>'')
+//      then
+//      begin
+//         FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add('<br>'+FCCFcolWhBL+FCFdTFiles_UIStr_Get(uistrUI, 'UMIenfUnique')+'<b>'+FCFdTFiles_UIStr_Get(uistrUI, UMIUFpolToken)+'</b> ');
+//         case UMIUFpolArea of
+//            dgADMIN: FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add( FCFdTFiles_UIStr_Get( uistrUI, 'UMIgvtPolSys' ) );
+//            dgECON: FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add( FCFdTFiles_UIStr_Get( uistrUI, 'UMIgvtEcoSys' ) );
+//            dgMEDCA: FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add( FCFdTFiles_UIStr_Get( uistrUI, 'UMIgvtHcareSys' ) );
+//            dgSPI: FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add( FCFdTFiles_UIStr_Get( uistrUI, 'UMIgvtRelSys' ) );
+//         end;
+//         FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add('.'+FCCFcolEND);
+//      end;
+//   end
+//   else FCWinMain.FCWM_UMISh_CEFenforce.Enabled:=false;
 end;
 
 procedure FCMuiUMIF_PolicyEnforcement_UpdateAll;
 {:Purpose: update the policy enforcement sub-tab.
     Additions:
-}
+}         {:DEV NOTES: use priv variable FCVuiumifPolicyArea for applyrules test (expand w/ diff area rules ).}
 begin
+//UMIUFpolArea:=FCFgSPM_EnforcPol_GetArea;
 //      FCWinMain.FCWM_UMIFSh_AFlist.Items.Clear;
 //      FCWinMain.FCWM_UMIFSh_AFlist.Enabled:=true;
 //      UMIUFisFSok:=FCFgSPMD_PlyrStatus_ApplyRules(gmspmdCanEnfPolicies);
