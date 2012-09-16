@@ -56,6 +56,7 @@ type TFCEgspmdRules=(
    ,rCanMemesAdminMedcaSocSpiEvolveDifferently
    ,rCanMemesEconEvolveDifferently
    ,rCanMemesMilSpolEvolveDifferently
+   ,rCanSettleOtherColonies
    ,rCanTradeToWhich
    ,rCanUseMemeticEngineering
    ,rCanUseMemeticWar
@@ -255,6 +256,7 @@ end;
 function FCFgSPMD_PlyrStatus_ApplyRules(const PSARaskIf: TFCEgspmdRules): TFCEgspmdRulesResult;
 {:Purpose: centralize all player's faction status rules, return true/false in response of a rule.
     Additions:
+      -2012Sep16- *add: space & military status - new rule concerning the possibility or not to set other colonies.
       -2012Sep13- *add/mod: apply the update of the status rules and complete the implementation of all of them.
       -2011Jan10- *add: CanChangeEcoSys, CanChangeGvt, CanChangeHealth, CanChangeRelig, CanEnfPolicies rules.
 }
@@ -335,6 +337,12 @@ begin
          if FCVdgPlayer.P_militaryStatus=pfs2_SemiDependent
          then PSARres:=rrYesPrereqByAllegianceFaction
          else if FCVdgPlayer.P_militaryStatus=pfs3_Independent
+         then PSARres:=rrYes;
+      end;
+
+      rCanSettleOtherColonies:
+      begin
+         if FCVdgPlayer.P_militaryStatus=pfs3_Independent
          then PSARres:=rrYes;
       end;
 
