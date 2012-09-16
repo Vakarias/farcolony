@@ -1840,15 +1840,13 @@ end;
 
 procedure TFCWinMain.WMExitSizeMove(var Message: TMessage) ;
 begin
-   if not FCVisFARCclosing
-   then UpdUI(true);
+   if not FCVisFARCclosing then UpdUI(false);
+//   if not FCVisFARCclosing
+//   then UpdUI(true);
 end;
 
 procedure TFCWinMain.WMMaximized(var Message: TMessage) ;
 begin
-   if (not FCVisFARCclosing)
-      and (FCWM_3dMainGrp.Visible)
-   then UpdUI(false);
 end;
 
 procedure TFCWinMain.UpdUI(UUIwinOnly: boolean);
@@ -1857,20 +1855,21 @@ begin
    if FCVdiWinMainAllowUpdate
    then FCMuiW_MainWindow_StoreLocSiz;
    {.update about window}
-   FCMuiW_UI_Initialize(mwupSecwinAbout);
+//   FCMuiW_UI_Initialize(mwupSecwinAbout);
    {.update new game setting window}
-   FCMuiW_UI_Initialize(mwupSecWinNewGSetup);
+//   FCMuiW_UI_Initialize(mwupSecWinNewGSetup);
    if not UUIwinOnly
    then
    begin
       {.update font sizes if needed}
       FCMuiW_UI_Initialize(mwupFontAll);
-      {.relocate and/or resize the message box}
-      FCMuiW_UI_Initialize(mwupMsgeBox);
+
       {.update 3d main view frame and all childs}
       if FCWM_3dMainGrp.Visible
       then
       begin
+         {.relocate and/or resize the message box}
+      FCMuiW_UI_Initialize(mwupMsgeBox);
          {.set main camera}
          gluPerspective(FCGLSCamMainViewGhost.FocalLength, width/height, 0.001, FCGLSCamMainViewGhost.DepthOfView);
          {.relocate and change font size of all hud user's interface objects}
