@@ -1618,11 +1618,11 @@ end;
 procedure TFCWinMain.FCWM_UMIFSh_AFlistClick(Sender: TObject);
 begin
    {.these conditions are only for additional security and avoid to trigger calculations when it's not required}
-   if (FCWinMain.FCWM_UMI.Visible)
-      and (not FCWinMain.FCWM_UMI.Collaps)
-      and (FCWinMain.FCWM_UMI_TabSh.ActivePage=FCWinMain.FCWM_UMI_TabShFac)
-      and (FCWinMain.FCWM_UMIFac_TabSh.ActivePage=FCWinMain.FCWM_UMIFac_TabShSPMpol)
-   then FCMuiUMIF_PolicyEnforcement_Update;
+//   if (FCWinMain.FCWM_UMI.Visible)
+//      and (not FCWinMain.FCWM_UMI.Collaps)
+//      and (FCWinMain.FCWM_UMI_TabSh.ActivePage=FCWinMain.FCWM_UMI_TabShFac)
+//      and (FCWinMain.FCWM_UMIFac_TabSh.ActivePage=FCWinMain.FCWM_UMIFac_TabShSPMpol)
+//   then FCMuiUMIF_PolicyEnforcement_Update;
 end;
 
 procedure TFCWinMain.FCWM_UMIFSh_AFlistKeyDown(Sender: TObject; var Key: Word;

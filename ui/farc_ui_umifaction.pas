@@ -125,12 +125,15 @@ uses
    farc_data_textfiles
    ,farc_data_game
    ,farc_data_html
+   ,farc_data_init
    ,farc_data_spm
    ,farc_game_colony
+   ,farc_game_cps
    ,farc_game_spm
    ,farc_game_spmdata
    ,farc_main
-   ,farc_ui_html;
+   ,farc_ui_html
+   ,farc_win_debug;
 
 //==END PRIVATE ENUM========================================================================
 
@@ -142,6 +145,7 @@ var
    StatusSocBaseSize: integer;
    StatusMilBaseSize:integer;
 
+   FCVuiumifCanChangePolicy: TFCEgspmdRulesResult;
    FCVuiumifPolicyArea: TFCEdgSPMarea;
 
 //==END PRIVATE VAR=========================================================================
@@ -282,6 +286,7 @@ begin
    FCWinMain.FCWM_UMISh_CEFretire.Top:=FCWinMain.FCWM_UMISh_CEnfF.Height-(FCWinMain.FCWM_UMISh_CEFretire.Height+2);
    FCWinMain.FCWM_UMISh_CEFcommit.Left:=FCWinMain.FCWM_UMISh_CEnfF.Width-FCWinMain.FCWM_UMISh_CEFcommit.Width-2;
    FCWinMain.FCWM_UMISh_CEFcommit.Top:=FCWinMain.FCWM_UMISh_CEFretire.Top;
+   FCWinMain.FCWM_UMISh_CEFenforce.Top:=FCWinMain.FCWM_UMISh_CEFretire.Top-FCWinMain.FCWM_UMISh_CEFenforce.Height-8;
 end;
 
 procedure FCMuiUMIF_DependenceEconomic_Update;
@@ -365,10 +370,14 @@ end;
 procedure FCMuiUMIF_PolicyEnforcement_Update;
 {:Purpose: update the acceptance probability and enforcement subsection.
     Additions:
+      -2012Sep16- *add: take the HQ in account for unique policies.
+      -2012Sep15- *add: complete the rule by adding the case where the player's faction can enforce policies and the requirements are fully supported. Including the SPOL case (the player cannot set any SPOL policy).
+                  *add: if a prerequisite isn't fulilled, and the status rule stipulate that these are supported by the allegiance faction, an additional text is displayed to inform the player of that.
       -2012Sep13- *add: apply the last update of the status rules for conditions.
 }
    var
       AcceptanceProbability
+      ,AllegianceFaction
       ,MarginPenalty
       ,SPMInfluence: integer;
 
@@ -376,18 +385,21 @@ procedure FCMuiUMIF_PolicyEnforcement_Update;
 
       isUniquePolicy
       ,isPolicyRequirementsMet: boolean;
-
-      SystemChangeRule: TFCEgspmdRulesResult;
 begin
    AcceptanceProbability:=0;
+   AllegianceFaction:=0;
    MarginPenalty:=0;
    SPMInfluence:=0;
    SecondaryResult:='';
    isUniquePolicy:=false;
    isPolicyRequirementsMet:=false;
-   SystemChangeRule:=rrNo;
    SecondaryResult:=FCFuiHTML_AnchorInAhrefFromQuestionMarkItem_Extract( FCWinMain.FCWM_UMIFSh_AFlist.Items.ValueFromIndex[FCWinMain.FCWM_UMIFSh_AFlist.ItemIndex] );
-   isPolicyRequirementsMet:=FCFgSPM_PolicyEnf_Preproc(0, SecondaryResult);
+   if FCVuiumifCanChangePolicy=rrYes50_50NoSystem then
+   begin
+      AllegianceFaction:=FCFgCPS_AllegianceFaction_RetrieveIndex;
+      isPolicyRequirementsMet:=FCFgSPM_PolicyEnf_Preproc( AllegianceFaction, SecondaryResult );
+   end
+   else isPolicyRequirementsMet:=FCFgSPM_PolicyEnf_Preproc( 0, SecondaryResult );
    FCWinMain.FCWM_UMIFSh_CAPFlab.HTMLText.Clear;
    SecondaryResult:='';
    FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Clear;
@@ -397,19 +409,16 @@ begin
    begin
       FCWinMain.FCWM_UMISh_CEFenforce.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_UMISh_CEFenforceNreq');
       FCWinMain.FCWM_UMISh_CEFenforce.Enabled:=false;
+      {."A prerequisite of this policy isn't fulfilled. It's impossible for this moment to enforce it."}
       FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI, 'UMIenfNReq'));
+      {.if the rejected prerequisite(s) were supported by the allegiance faction, due to the player's faction status rules, an additional text is displayed}
+      if FCVuiumifCanChangePolicy=rrYes50_50NoSystem
+      then FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add( '<br>'+FCFdTFiles_UIStr_Get( uistrUI, 'UMIenfNReq3' ) );
    end //==END== if not isPolicyRequirementsMet then ==//
    else begin
       isUniquePolicy:=FCFgSPM_EnforcPol_GetUnique;
-      if isUniquePolicy then
-      begin
-         case FCVuiumifPolicyArea of
-            dgADMIN, dgMEDCA, dgSPI: SystemChangeRule:=FCFgSPMD_PlyrStatus_ApplyRules( rCanChangePoliticalHealthCareSpiritualSystems );
-            dgECON: SystemChangeRule:=FCFgSPMD_PlyrStatus_ApplyRules( rCanChangeEconomicalSystem );
-         end;
-      end;
       if ( not isUniquePolicy )
-         or ( ( isUniquePolicy ) and (SystemChangeRule=rrYes) ) then
+         or ( ( isUniquePolicy ) and (FCVuiumifCanChangePolicy=rrYes) and ( FCDdgEntities[0].E_hqHigherLevel=hqsPrimaryUniqueHQ ) ) then
       begin
          AcceptanceProbability:=FCFgSPM_EnforcData_Get(gspmAccProbability);
          SPMInfluence:=round(FCFgSPM_EnforcData_Get(gspmInfl));
@@ -453,7 +462,9 @@ begin
          end;
       end
       else begin
-         FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolenfRuleNoUnique'));
+         if FCDdgEntities[0].E_hqHigherLevel<hqsPrimaryUniqueHQ
+         then FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI, 'UMIhqNoMsg2'))
+         else FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolenfRuleNoUnique'));
          FCWinMain.FCWM_UMISh_CEFenforce.Enabled:=false;
       end;
    end; //==END== !if not isPolicyRequirementsMet then ==//
@@ -463,56 +474,64 @@ procedure FCMuiUMIF_PolicyEnforcement_UpdateAll;
 {:Purpose: update the policy enforcement sub-tab.
     Additions:
 }
+   var
+      Count
+      ,Max: integer;
 begin
-   FCVuiumifPolicyArea:=FCFgSPM_EnforcPol_GetArea;
+   {:DEV NOTES: all // must be moved to FCMuiUMIF_PolicyEnforcement_Update.}
+   Count:=0;
+   Max:=0;
+//   FCVuiumifPolicyArea:=FCFgSPM_EnforcPol_GetArea;
+//   case FCVuiumifPolicyArea of
+//      dgADMIN, dgMEDCA, dgSPI: FCVuiumifCanChangePolicy:=FCFgSPMD_PlyrStatus_ApplyRules( rCanChangePoliciesAdminMedcaSocSpi );
+//      dgECON: FCVuiumifCanChangePolicy:=FCFgSPMD_PlyrStatus_ApplyRules( rCanChangePoliciesEcon );
+//      dgSPOL: FCVuiumifCanChangePolicy:=FCFgSPMD_PlyrStatus_ApplyRules( rCanChangePoliciesMilSpol );
+//   end;
    FCWinMain.FCWM_UMIFSh_AFlist.Items.Clear;
-   FCWinMain.FCWM_UMIFSh_AFlist.Enabled:=true;
-//      UMIUFisFSok:=FCFgSPMD_PlyrStatus_ApplyRules(gmspmdCanEnfPolicies);
-//      if FCDdgEntities[0].E_hqHigherLevel=hqsNoHQPresent
-//      then
-//      begin
-//         FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Clear;
-//         FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI, 'UMIhqNoMsg'));
-//      end
-//      else if (FCDdgEntities[0].E_hqHigherLevel>=hqsBasicHQ)
-//         and (UMIUFisFSok)
-//      then
-//      begin
-//         {.section update}
-//         UMIUFmax:=length(FCDdgEntities[0].E_spmSettings)-1;
-//         UMIUFcnt:=1;
-//         while UMIUFcnt<=UMIUFmax do
-//         begin
-//            if (FCDdgEntities[0].E_spmSettings[UMIUFcnt].SPMS_isPolicy)
-//               and (not FCDdgEntities[0].E_spmSettings[UMIUFcnt].SPMS_iPtIsSet)
-//               and (FCDdgEntities[0].E_spmSettings[UMIUFcnt].SPMS_duration=0)
-//            then FCWinMain.FCWM_UMIFSh_AFlist.Items.Add(
-////               '<a href="'+FCDdgEntities[0].E_spmSettings[UMIUFcnt].SPMS_token+'">'+
-//               FCFdTFiles_UIStr_Get(uistrUI, FCDdgEntities[0].E_spmSettings[UMIUFcnt].SPMS_token)+
-////               '</a>'
-////               FCFdTFiles_UIStr_Get(uistrUI, FCDdgEntities[0].E_spmSettings[UMIUFcnt].SPMS_token)+
-//               UIHTMLencyBEGIN+FCDdgEntities[0].E_spmSettings[UMIUFcnt].SPMS_token+UIHTMLencyEND
-//               );
-//            inc(UMIUFcnt)
-//         end;
-//         FCWinMain.FCWM_UMIFSh_AFlist.Sorted:=true;
-//         FCWinMain.FCWM_UMIFSh_AFlist.SortWithHTML:=true;
-//         FCWinMain.FCWM_UMIFSh_AFlist.ItemIndex:=0;
-//         FCMumi_AvailPolList_UpdClick;
-//      end
-//      else
-//      begin
-//         UMIUFstatus:=FCFgSPMD_Level_GetToken(FCVdgPlayer.P_socialStatus);
-//         FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Clear;
-//         FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add(
-//            FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolenfRuleNoEnf1')
-//            +'[<b>'+IntToStr(Integer(FCVdgPlayer.P_socialStatus))+'</b>]-<b>'+FCFdTFiles_UIStr_Get(uistrUI, UMIUFstatus)+'</b>, '+FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolenfRuleNoEnf2')
-//            +'[<b>'+IntToStr(Integer(TFCEdgPlayerFactionStatus.pfs2_SemiDependent))+'</b>]-<b>'+FCFdTFiles_UIStr_Get(uistrUI, 'cpsStatSD')+'</b>.<br>'
-//            );
-//         if Assigned(FCcps)
-//         then FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add( FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolenfRuleNoEnf3') )
-//         else FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add( FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolenfRuleNoEnf4') );
-//      end;
+   FCWinMain.FCWM_UMIFSh_AFlist.Enabled:=false;
+   FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Clear;
+   case FCDdgEntities[0].E_hqHigherLevel of
+      hqsNoHQPresent: FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI, 'UMIhqNoMsg'));
+
+      hqsBasicHQ: FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI, 'UMIhqNoMsg1'));
+
+      hqsSecondaryHQ, hqsPrimaryUniqueHQ:
+      begin
+         FCWinMain.FCWM_UMIFSh_AFlist.Enabled:=true;
+         Max:=length(FCDdgEntities[0].E_spmSettings)-1;
+         Count:=1;
+         while Count<=Max do
+         begin
+            if (FCDdgEntities[0].E_spmSettings[Count].SPMS_isPolicy)
+               and (not FCDdgEntities[0].E_spmSettings[Count].SPMS_iPtIsSet)
+               and (FCDdgEntities[0].E_spmSettings[Count].SPMS_duration=0)
+            then FCWinMain.FCWM_UMIFSh_AFlist.Items.Add(
+               FCFdTFiles_UIStr_Get(uistrUI, FCDdgEntities[0].E_spmSettings[Count].SPMS_token)+
+               UIHTMLencyBEGIN+FCDdgEntities[0].E_spmSettings[Count].SPMS_token+UIHTMLencyEND
+               );
+            inc(Count)
+         end;
+         FCWinMain.FCWM_UMIFSh_AFlist.Sorted:=true;
+         FCWinMain.FCWM_UMIFSh_AFlist.SortWithHTML:=true;
+         FCWinMain.FCWM_UMIFSh_AFlist.ItemIndex:=0;
+   //      FCMuiUMIF_PolicyEnforcement_Update;
+      end;
+   end;
+
+//   else if (FCDdgEntities[0].E_hqHigherLevel>=hqsBasicHQ) then
+//      and ( ( FCVuiumifCanChangePolicy=rrYes50_50NoSystem ) or ( FCVuiumifCanChangePolicy=rrYes ) ) then
+
+//   else begin
+//      FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Clear;
+//      FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add(
+//         FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolenfRuleNoEnf1Soc')
+//         +'[<b>'+IntToStr(Integer(FCVdgPlayer.P_socialStatus))+'</b>]-<b>'+FCFdTFiles_UIStr_Get(uistrUI, FCFgSPMD_Level_GetToken(FCVdgPlayer.P_socialStatus))+'</b>, '+FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolenfRuleNoEnf2')
+//         +'[<b>'+IntToStr(Integer(TFCEdgPlayerFactionStatus.pfs2_SemiDependent))+'</b>]-<b>'+FCFdTFiles_UIStr_Get(uistrUI, 'cpsStatSD')+'</b>.<br>'
+//         );
+//      if Assigned(FCcps)
+//      then FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add( FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolenfRuleNoEnf3') )
+//      else FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add( FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolenfRuleNoEnf4') );
+//   end; //==END== else if (FCDdgEntities[0].E_hqHigherLevel>=hqsBasicHQ) and can apply policy enforcement ==//
 end;
 
 procedure FCMuiUMIF_PoliticalStructure_Update( const UpdateTarget: TFCEuiUMIFpoliticalActions );

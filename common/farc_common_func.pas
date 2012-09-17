@@ -1663,6 +1663,7 @@ function FCFcFunc_ThSep( const TSval: extended ): string; overload;
 {:Purpose: format the value in a thousand separator format.
     Additions:
 }
+{:DEV NOTES: put this one at the right place, above.}
 begin
    Result:=FCFcFunc_ThSep( TSval, ',' );
 end;

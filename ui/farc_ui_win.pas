@@ -1126,7 +1126,6 @@ begin
       FCWinMain.FCWM_UMI_FDLvlValDesc.Width:=FCWinMain.FCWM_UMI_FDLvlVal.Width;
       FCWinMain.FCWM_UMI_FDLvlValDesc.Height:=FCWinMain.FCWM_UMI_FacLvl.Height shr 1;
       FCWinMain.FCWM_UMI_FDLvlValDesc.Top:=FCWinMain.FCWM_UMI_FacLvl.Top+( FCWinMain.FCWM_UMI_FacLvl.Height shr 1)-( FCWinMain.FCWM_UMI_FDLvlValDesc.Height shr 1);
-
       FCWinMain.FCWM_UMI_FacEcon.Width:=FCWinMain.FCWM_UMI_FacLvl.Width;
       FCWinMain.FCWM_UMI_FacEcon.Height:=FCWinMain.FCWM_UMI_FacLvl.Height;
       FCWinMain.FCWM_UMI_FacEcon.Top:=FCWinMain.FCWM_UMI_FacLvl.Top;
@@ -1139,7 +1138,6 @@ begin
       FCWinMain.FCWM_UMI_FDEconValDesc.Width:=FCWinMain.FCWM_UMI_FDLvlVal.Width;
       FCWinMain.FCWM_UMI_FDEconValDesc.Height:=FCWinMain.FCWM_UMI_FDLvlValDesc.Height;
       FCWinMain.FCWM_UMI_FDEconValDesc.Top:=FCWinMain.FCWM_UMI_FDLvlValDesc.Top;
-
       FCWinMain.FCWM_UMI_FacSoc.Width:=FCWinMain.FCWM_UMI_FacLvl.Width;
       FCWinMain.FCWM_UMI_FacSoc.Height:=FCWinMain.FCWM_UMI_FacLvl.Height;
       FCWinMain.FCWM_UMI_FacSoc.Top:=FCWinMain.FCWM_UMI_FacLvl.Top;
@@ -1152,7 +1150,6 @@ begin
       FCWinMain.FCWM_UMI_FDSocValDesc.Width:=FCWinMain.FCWM_UMI_FDLvlVal.Width;
       FCWinMain.FCWM_UMI_FDSocValDesc.Height:=FCWinMain.FCWM_UMI_FDLvlValDesc.Height;
       FCWinMain.FCWM_UMI_FDSocValDesc.Top:=FCWinMain.FCWM_UMI_FDLvlValDesc.Top;
-
       FCWinMain.FCWM_UMI_FacMil.Width:=FCWinMain.FCWM_UMI_FacLvl.Width;
       FCWinMain.FCWM_UMI_FacMil.Height:=FCWinMain.FCWM_UMI_FacLvl.Height;
       FCWinMain.FCWM_UMI_FacMil.Top:=FCWinMain.FCWM_UMI_FacLvl.Top;
@@ -1165,7 +1162,6 @@ begin
       FCWinMain.FCWM_UMI_FDMilValDesc.Width:=FCWinMain.FCWM_UMI_FDLvlVal.Width;
       FCWinMain.FCWM_UMI_FDMilValDesc.Height:=FCWinMain.FCWM_UMI_FDLvlValDesc.Height;
       FCWinMain.FCWM_UMI_FDMilValDesc.Top:=FCWinMain.FCWM_UMI_FDLvlValDesc.Top;
-
       FCWinMain.FCWM_UMIFac_TabSh.Height:=FCWinMain.FCWM_UMI_TabShFac.Height-FCWinMain.FCWM_UMI_FacDatG.Height-8;
       FCWinMain.FCWM_UMIFac_TabSh.ActivePage:=FCWinMain.FCWM_UMIFac_TabShPol;
       FCWinMain.FCWM_UMIFac_PolGvtDetails.Width:=150;
@@ -1174,7 +1170,6 @@ begin
       FCWinMain.FCWM_UMISh_CEFcommit.Enabled:=false;
       FCWinMain.FCWM_UMISh_CEFenforce.Width:=FCWinMain.FCWM_UMISh_CEFcommit.Width;
       FCWinMain.FCWM_UMISh_CEFenforce.Height:=FCWinMain.FCWM_UMISh_CEFcommit.Height;
-      FCWinMain.FCWM_UMISh_CEFenforce.Top:=(FCWinMain.FCWM_UMISh_CEnfF.Height shr 3*4);
       FCWinMain.FCWM_UMISh_CEFenforce.Enabled:=false;
       FCWinMain.FCWM_UMISh_CEFretire.Width:=FCWinMain.FCWM_UMISh_CEFcommit.Width;
       FCWinMain.FCWM_UMISh_CEFretire.Height:=FCWinMain.FCWM_UMISh_CEFcommit.Height;

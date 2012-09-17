@@ -111,6 +111,7 @@ function FCFgSPMD_Level_GetToken(const LGTlevel: TFCEdgPlayerFactionStatus): str
 ///   centralize all player's faction status rules, return true/false in response of a rule
 ///</summary>
 ///   <param name="PSARaskIf">gmspmdCanChangeGvt: if the player can change gvt, gmspmdCanEnfPolicies: if the player can enforce policies</param>
+///   <remarks>reset the TFCEgspmdRulesResult at rrNo automatically</remarks>
 function FCFgSPMD_PlyrStatus_ApplyRules(const PSARaskIf: TFCEgspmdRules): TFCEgspmdRulesResult;
 
 //===========================END FUNCTIONS SECTION==========================================

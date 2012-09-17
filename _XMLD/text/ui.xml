@@ -4032,14 +4032,19 @@
    </UMIenfNReq>
    <UMIenfYReq1>
       <EN>You can now enforce the policy. According to statistics, the policy enforcement will gives </EN>
-      <FR>Vous pouvez maintenant mettre en vigueur la politique. Par rapport aux statistiques, l'application de la politique donnera</FR>
-      <SP>Ahora se puede entrar en vigor la política. En comparación con las estadisticas, la aplicación de la política será de</SP>
+      <FR>Vous pouvez maintenant mettre en vigueur la politique. Par rapport aux statistiques, l'application de la politique donnera </FR>
+      <SP>Ahora se puede entrar en vigor la política. En comparación con las estadisticas, la aplicación de la política será de </SP>
    </UMIenfYReq1>
    <UMIenfYReq2>
       <EN>, from the population, with a probability of &lt;b&gt;50%&lt;/b&gt;.&lt;br&gt;By knowing this, it's up to you to enforce it or not.</EN>
       <FR>, de la part de la population, avec une probabilité de &lt;b&gt;50%&lt;/b&gt;.&lt;br&gt;En sachant cela, c'est à vous de voir si vous l'appliquez ou non.</FR>
       <SP>, de la población, con una probabilidad de &lt;b&gt;50%&lt;/b&gt;.&lt;br&gt;Sabiendo ésto, debes decidir si se aplica o no.</SP>
    </UMIenfYReq2>
+   <UMIenfNReq3>
+      <EN>Due to your faction's status, the policy's prerequisite is assumed by your allegiance faction.</EN>
+      <FR>Au vu du status de votre faction, le prérequis de la politique est assumé par votre faction d'allégeance.</FR>
+      <SP>-!not translated!-</SP>
+   </UMIenfNReq3>
    <UMIenfRsltComplAcc>
       <EN>&lt;b&gt;a complete acceptance&lt;/b&gt;</EN>
       <FR>&lt;b&gt;une acceptation complète&lt;/b&gt;</FR>
@@ -4096,10 +4101,20 @@
       <SP>No hay CG</SP>
    </UMIhqNo>
    <UMIhqNoMsg>
-      <EN>Your faction doesn't have any headquarter to enforce policies.&lt;br&gt;Set a colony or build an HQ infrastructure.</EN>
-      <FR>Votre faction n'a pas de quartier général pour appliquer des politiques.&lt;br&gt;Mettez en place une colony ou construisez une infrastructure QG.</FR>
-      <SP>Tu facción no tiene ningún cuartel general para aplicar las políticas.&lt;br&gt;Selecciona otra colonia o construye un Cuartel General.</SP>
+      <EN>Your faction doesn't have any headquarter to enforce policies.&lt;br&gt;Set a colony or build an infrastructure that have this effect.&lt;br&gt;Please refer to the infrastructure's custom effects section located in the encyclopaedia.</EN>
+      <FR>Votre faction n'a pas de quartier général pour appliquer des politiques.&lt;br&gt;Mettez en place une colony ou construisez une infrastructure qui possède cet effet.&lt;br&gt;SVP réfèrez-vous à la section effets custom d'infrastructure située dans l'encyclopédie.</FR>
+      <SP>!--Translation To Update--!  Tu facción no tiene ningún cuartel general para aplicar las políticas.&lt;br&gt;Selecciona otra colonia o construye un Cuartel General.</SP>
    </UMIhqNoMsg>
+   <UMIhqNoMsg1>
+      <EN>Your faction has only a &lt;b&gt;basic headquarter&lt;/b&gt; so you cannot enforce any policy.&lt;br&gt;You need to build a &lt;b&gt;secondary headquarter&lt;/b&gt; to be able to enforce any policy, or a &lt;b&gt;primary headquarter&lt;/b&gt; to be able to enforce any policy and also to change of political, economical, healthcare and spiritual system.&lt;br&gt;Please refer to the infrastructure's custom effects section located in the encyclopaedia.</EN>
+      <FR>Votre faction ne dispose que d'un &lt;b&gt;quartier général de base&lt;/b&gt; de sorte que vous ne pouvez pas appliquer une politique.&lt;br&gt;Vous devez construire un &lt;b&gt;quartier général secondaire&lt;/b&gt; pour être en mesure d'appliquer une politique ou d'un &lt;b&gt;quartier général principal&lt;/b&gt; pour être en mesure d'appliquer une politique et aussi de changer de système politique, économique, de santé et spirituel.&lt;br&gt;SVP réfèrez-vous à la section effets custom d'infrastructure située dans l'encyclopédie.</FR>
+      <SP>!--not translated--!</SP>
+   </UMIhqNoMsg1>
+   <UMIhqNoMsg2>
+      <EN>Your faction hasn't a &lt;b&gt;primary headquarter&lt;/b&gt; so you cannot change of political, economical, healthcare and spiritual system.</EN>
+      <FR>Votre faction na pas de &lt;b&gt;quartier général principal&lt;/b&gt; pour être en mesure de changer de système politique, économique, de santé et spirituel.</FR>
+      <SP>!--not translated--!</SP>
+   </UMIhqNoMsg2>
    <UMIhqPrim>
       <EN>Primary/Unique HQ</EN>
       <FR>QG Primaire/Unique</FR>
@@ -4185,11 +4200,11 @@
       <FR>mois de cycle</FR>
       <SP>mes(es) de ciclo</SP>
    </UMIpolenfReqUC2>
-   <UMIpolenfRuleNoEnf1>
+   <UMIpolenfRuleNoEnf1Soc>
       <EN>Your faction doesn't have a sufficient &lt;a href="cpsStatusSoc"&gt;social status level&lt;/a&gt; to enforce policies.&lt;br&gt;The current social status level is </EN>
       <FR>Votre faction n'a pas de quartier général pour appliquer des politiques.&lt;br&gt;Mettez en place une colony ou construisez une infrastructure QG.</FR>
       <SP>Tu facción no tiene suficiente &lt;a href="cpsStatusSoc"&gt;nivel de estatus social&lt;/a&gt; para aplicar las políticas.&lt;br&gt;El nivel de estatus actual es </SP>
-   </UMIpolenfRuleNoEnf1>
+   </UMIpolenfRuleNoEnf1Soc>
    <UMIpolenfRuleNoEnf2>
       <EN>and the minimum required level is </EN>
       <FR>et le niveau minimum requis est </FR>

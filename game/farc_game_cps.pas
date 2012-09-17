@@ -218,6 +218,13 @@ uses
             IRmaUnli=33;
    end;
 
+
+///<summary>
+///   retrieve the current player's allegiance faction index
+///</summary>
+///   <returns>allegiance faction's entity index #</returns>
+function FCFgCPS_AllegianceFaction_RetrieveIndex: integer;
+
 var
    FCcps: TFCcps;
    FCcpsObjectivesLines: integer;
@@ -691,6 +698,26 @@ begin
       ObjectivePanelIndex:=CPSobjCount-1;
       FCcps.CPSobjP_List.HTMLText.Insert( ObjectivePanelIndex,  FCFuiCPS_Objective_GetFormat( CPSobjCount ) );
       FCcps.CPSobjP_List.HTMLText.Delete( CPSobjCount );
+   end;
+end;
+
+function FCFgCPS_AllegianceFaction_RetrieveIndex: integer;
+{:Purpose: retrieve the current player's allegiance faction index.
+    Additions:
+}
+   var
+      Count: integer;
+begin
+   Count:=1;
+   Result:=0;
+   while Count<=FCCdiFactionsMax do
+   begin
+      if FCDdgEntities[Count].E_token=FCVdgPlayer.P_allegianceFaction then
+      begin
+         Result:=Count;
+         break;
+      end;
+      inc( Count );
    end;
 end;
 
