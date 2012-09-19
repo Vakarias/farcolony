@@ -156,6 +156,7 @@ type
 procedure FCMdF_ConfigurationFile_Load( const mustLoadCurrentGameTime: boolean );
 {:Purpose: load the configuration data in the XML configuration file.
    Additions:
+      -2012Sep18- *add: override rules state.
       -2012Jul29- *code audit:
                      (x)var formatting + refactoring     (x)if..then reformatting   (x)function/procedure refactoring
                      (x)parameters refactoring           (x) ()reformatting         (_)code optimizations
@@ -253,8 +254,11 @@ begin
    end;
    {.read the debug info}
 	XMLConfiguration:=FCWinMain.FCXMLcfg.DocumentElement.ChildNodes.FindNode('debug');
-	if XMLConfiguration<>nil
-   then FCVdiDebugMode:=XMLConfiguration.Attributes['dswitch'];
+	if XMLConfiguration<>nil then
+   begin
+      FCVdiDebugMode:=XMLConfiguration.Attributes['dswitch'];
+      FCVdiOverrideRules:=XMLConfiguration.Attributes['overriderules'];
+   end;
 	FCWinMain.FCXMLcfg.Active:=false;
 	FCWinMain.FCXMLcfg.FileName:='';
 end;
@@ -262,6 +266,7 @@ end;
 procedure FCMdF_ConfigurationFile_Save(const mustSaveCurrentGameTime:boolean);
 {:Purpose: save the configuration data in the XML configuration file.
    Additions:
+      -2012Sep18- *add: override rules state.
       -2012Jul29- *code audit:
                      (x)var formatting + refactoring     (x)if..then reformatting   (x)function/procedure refactoring
                      (x)parameters refactoring           (x) ()reformatting         (-)code optimizations
@@ -400,6 +405,7 @@ begin
    end;
 	XMLConfigurationItem:=XMLConfiguration.AddChild( 'debug' );
 	XMLConfigurationItem.Attributes['dswitch']:=FCVdiDebugMode;
+   XMLConfigurationItem.Attributes['overriderules']:=FCVdiOverrideRules;
    FCWinMain.FCXMLcfg.SaveToFile( FCVdiPathConfigFile );
    FCWinMain.FCXMLcfg.Active:=false;
 end;

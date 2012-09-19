@@ -75,6 +75,11 @@ var
    ///</summary>
    FCVdiLanguage: string;
 
+   ///<summary>
+   ///   [true=]override any limitation rules in FARC
+   ///</summary>
+   FCVdiOverrideRules: boolean =false;
+
    //==========panels location storing switch===============================================
    ///<summary>
    ///   [true=]store colony panel location
