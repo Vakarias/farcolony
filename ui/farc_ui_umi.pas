@@ -75,15 +75,16 @@ uses
 procedure FCMuiUMI_MainPanel_SetConstraints;
 {:Purpose: set default/min UMI size regarding the selected section.
     Additions:
+      -2012Sep18- *code audit: completion.
       -2012Aug28- *code audit:
-                     (-)var formatting + refactoring     (-)if..then reformatting   (x)function/procedure refactoring
-                     (-)parameters refactoring           (-) ()reformatting         (o)code optimizations
-                     (-)float local variables=> extended (-)case..of reformatting   (-)local methods
-                     (-)summary completion               (-)protect all float add/sub w/ FCFcFunc_Rnd
-                     (-)standardize internal data + commenting them at each use as a result (like Count1 / Count2 ...)
-                     (-)put [format x.xx ] in returns of summary, if required and if the function do formatting
-                     (-)use of enumindex                 (-)use of StrToFloat( x, FCVdiFormat ) for all float data
-                     (-)if the procedure reset the same record's data or external data put:
+                     (_)var formatting + refactoring     (_)if..then reformatting   (x)function/procedure refactoring
+                     (_)parameters refactoring           (_) ()reformatting         (x)code optimizations
+                     (_)float local variables=> extended (_)case..of reformatting   (_)local methods
+                     (_)summary completion               (_)protect all float add/sub w/ FCFcFunc_Rnd
+                     (_)standardize internal data + commenting them at each use as a result (like Count1 / Count2 ...)
+                     (_)put [format x.xx ] in returns of summary, if required and if the function do formatting
+                     (_)use of enumindex                 (_)use of StrToFloat( x, FCVdiFormat ) for all float data w/ XML
+                     (_)if the procedure reset the same record's data or external data put:
                         ///   <remarks>the procedure/function reset the /data/</remarks>
       -2010Nov28- *fix: correctly resize the UMI by puting the constraints before width and height loading.
                   *add: only resize the panel if it's dimensions are < to the minimal values.
@@ -102,15 +103,16 @@ end;
 procedure FCMuiUMI_CurrentTab_Update( const SetConstraints, Resize: boolean );
 {:Purpose: update, if necessary, the UMI.
     Additions:
+      -2012Sep18- *code audit: completion.
       -2012Aug28- *code audit:
-                     (-)var formatting + refactoring     (-)if..then reformatting   (x)function/procedure refactoring
-                     (x)parameters refactoring           (-) ()reformatting         (-)code optimizations
-                     (-)float local variables=> extended (-)case..of reformatting   (-)local methods
-                     (-)summary completion               (-)protect all float add/sub w/ FCFcFunc_Rnd
-                     (-)standardize internal data + commenting them at each use as a result (like Count1 / Count2 ...)
-                     (-)put [format x.xx ] in returns of summary, if required and if the function do formatting
-                     (-)use of enumindex                 (-)use of StrToFloat( x, FCVdiFormat ) for all float data
-                     (-)if the procedure reset the same record's data or external data put:
+                     (_)var formatting + refactoring     (_)if..then reformatting   (x)function/procedure refactoring
+                     (x)parameters refactoring           (_) ()reformatting         (_)code optimizations
+                     (_)float local variables=> extended (_)case..of reformatting   (x)local methods
+                     (_)summary completion               (_)protect all float add/sub w/ FCFcFunc_Rnd
+                     (_)standardize internal data + commenting them at each use as a result (like Count1 / Count2 ...)
+                     (_)put [format x.xx ] in returns of summary, if required and if the function do formatting
+                     (_)use of enumindex                 (_)use of StrToFloat( x, FCVdiFormat ) for all float data w/ XML
+                     (_)if the procedure reset the same record's data or external data put:
                         ///   <remarks>the procedure/function reset the /data/</remarks>
       -2012Aug21- *add: faction tab - the dependence status are updated.
                   *add: faction tab - page 0 - the government details are also updated.
@@ -122,7 +124,7 @@ begin
    if FCWinMain.FCWM_UMI.Visible then
    begin
       case FCWinMain.FCWM_UMI_TabSh.ActivePageIndex of
-         {.universe}
+         {.universe tab}
          0:
          begin
             if SetConstraints then
@@ -135,7 +137,7 @@ begin
 //            then FCMuiUMI_FactionComponents_SetSize;
          end;
 
-         {.faction}
+         {.faction tab}
          1:
          begin
             if SetConstraints then
@@ -146,7 +148,6 @@ begin
             end;
             if Resize
             then FCMuiUMIF_Components_SetSize;
-
             FCMuiUMIF_DependenceStatus_UpdateAll;
             case FCWinMain.FCWM_UMIFac_TabSh.ActivePageIndex of
                0:

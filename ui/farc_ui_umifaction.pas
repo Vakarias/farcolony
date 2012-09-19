@@ -56,20 +56,10 @@ type TFCEuiUMIFpoliticalActions=(
 //==END PUBLIC CONST========================================================================
 
 ///<summary>
-///   update the display regarding the selection in the available policies list
-///</summary>
-//procedure FCMumi_AvailPolList_UpdClick;
-
-///<summary>
 ///   update the colonies list
 ///</summary>
 ///   <param name="Colony">entity[0]'s colony index, if = 0, the complete list is updated, if>0, only a particular colony is updated</param>
 procedure FCMuiUMIF_Colonies_Update( const Colony: integer);
-
-///<summary>
-///   update all the dependence status components
-///</summary>
-procedure FCMuiUMIF_DependenceStatus_UpdateAll;
 
 ///<summary>
 ///   update the faction's economic dependency circular progress and its associated label
@@ -77,14 +67,19 @@ procedure FCMuiUMIF_DependenceStatus_UpdateAll;
 procedure FCMuiUMIF_DependenceEconomic_Update;
 
 ///<summary>
-///   update the faction's military dependency circular progress and its associated label
-///</summary>
-procedure FCMuiUMIF_DependenceMilitary_Update;
-
-///<summary>
 ///   update the faction's social dependency circular progress and its associated label
 ///</summary>
 procedure FCMuiUMIF_DependenceSocial_Update;
+
+///<summary>
+///   update the faction's military dependency circular progress and its associated label
+///</summary>
+procedure FCMuiUMIF_DependenceSpaceMilitary_Update;
+
+///<summary>
+///   update all the dependence status components
+///</summary>
+procedure FCMuiUMIF_DependenceStatus_UpdateAll;
 
 ///<summary>
 ///   recalculate and update the size of all the Faction tab components that require to be resized
@@ -141,9 +136,9 @@ uses
 
 var
    //==========faction tab variables========================================================
-   StatusEconBaseSize: integer;
-   StatusSocBaseSize: integer;
-   StatusMilBaseSize:integer;
+   FCVuiumifStatusEconBaseSize: integer;
+   FCVuiumifStatusSocBaseSize: integer;
+   FCVuiumifStatusSpaceMilBaseSize:integer;
 
    FCVuiumifCanChangePolicy: TFCEgspmdRulesResult;
    FCVuiumifPolicyArea: TFCEdgSPMarea;
@@ -156,45 +151,24 @@ var
 //===================================================END OF INIT============================
 //===========================END FUNCTIONS SECTION==========================================
 
-//procedure FCMumi_AvailPolList_UpdClick;
-{:Purpose: update the display regarding the selection in the available policies list.
-    Additions:
-      -2012Aug27- *code audit:
-                     (-)var formatting + refactoring     (-)if..then reformatting   (-)function/procedure refactoring
-                     (-)parameters refactoring           (-) ()reformatting         (o)code optimizations
-                     (-)float local variables=> extended (-)case..of reformatting   (-)local methods
-                     (-)summary completion               (-)protect all float add/sub w/ FCFcFunc_Rnd
-                     (-)standardize internal data + commenting them at each use as a result (like Count1 / Count2 ...)
-                     (-)put [format x.xx ] in returns of summary, if required and if the function do formatting
-                     (-)use of enumindex                 (-)use of StrToFloat( x, FCVdiFormat ) for all float data
-                     (-)if the procedure reset the same record's data or external data put:
-                        ///   <remarks>the procedure/function reset the /data/</remarks>
-}
-//var
-//   TokenRes: string;
-//
-//   RetVal: boolean;
-//begin
-//   if (FCWinMain.FCWM_UMI.Visible)
-//      and (not FCWinMain.FCWM_UMI.Collaps)
-//      and (FCWinMain.FCWM_UMI_TabSh.ActivePage=FCWinMain.FCWM_UMI_TabShFac)
-//      and (FCWinMain.FCWM_UMIFac_TabSh.ActivePage=FCWinMain.FCWM_UMIFac_TabShSPMpol)
-//   then
-//   begin
-//      RetVal:=false;
-//      TokenRes:=FCFuiHTML_AnchorInAhrefFromQuestionMarkItem_Extract( FCWinMain.FCWM_UMIFSh_AFlist.Items.ValueFromIndex[FCWinMain.FCWM_UMIFSh_AFlist.ItemIndex] );
-//      RetVal:=FCFgSPM_PolicyEnf_Preproc(0, TokenRes);
-////      FCMumi_Faction_Upd(uiwSPMpolEnfRAP, RetVal);
-//   end;
-//end;
-
 procedure FCMuiUMIF_Colonies_Update( const Colony: integer);
 {:Purpose: update the colonies list.
     Additions:
+      -2012Sep18- *code audit:
+                     (x)var formatting + refactoring     (-)if..then reformatting   (-)function/procedure refactoring
+                     (_)parameters refactoring           (-) ()reformatting         (-)code optimizations
+                     (_)float local variables=> extended (-)case..of reformatting   (-)local methods
+                     (_)summary completion               (-)protect all float add/sub w/ FCFcFunc_Rnd
+                     (_)standardize internal data + commenting them at each use as a result (like Count1 / Count2 ...)
+                     (_)put [format x.xx ] in returns of summary, if required and if the function do formatting
+                     (_)use of enumindex                 (-)use of StrToFloat( x, FCVdiFormat ) for all float data w/ XML
+                     (_)if the procedure reset the same record's data or external data put:
+                        ///   <remarks>the procedure/function reset the /data/</remarks>
+                  *add: code completion for the case if Colony>0.
 }
    var
       Count
-      , Max: integer;
+      ,Max: integer;
 
       Str: String;
 begin
@@ -225,6 +199,15 @@ begin
    end
    else if Colony>0 then
    begin
+      Count:=Colony-1;
+      if FCDdgEntities[0].E_colonies[Colony].C_locationSatellite<>''
+      then Str:=FCDdgEntities[0].E_colonies[Colony].C_locationSatellite
+      else Str:=FCDdgEntities[0].E_colonies[Colony].C_locationOrbitalObject;
+      FCWinMain.FCWM_UMIFac_Colonies.Items.Item[Count].Text:=
+         FCDdgEntities[0].E_colonies[Count].C_name
+            +';<p align="center">'+FCFdTFiles_UIStr_Get(dtfscPrprName, Str)+'  -(<b>'+FCFdTFiles_UIStr_Get(dtfscPrprName, FCDdgEntities[0].E_colonies[Count].C_locationStar)+'</b>)-'
+            +';<p align="center">'+FCFdTFiles_UIStr_Get(uistrUI, FCFgC_HQ_GetStr(0,Count))
+            +';<p align="center">'+IntToStr(FCDdgEntities[0].E_colonies[Count].C_cohesion)+' %';
    end;
 end;
 
@@ -250,19 +233,19 @@ procedure FCMuiUMIF_Components_SetSize;
 begin
    FCWinMain.FCWM_UMI_FacData.Height:=( FCWinMain.FCWM_UMI_FacDatG.Height shr 1 )-8;
    BaseCalculation:=( FCWinMain.FCWM_UMI.Width shr 5 )*17;
-   StatusEconBaseSize:=( BaseCalculation shr 1 )+16;
-   StatusSocBaseSize:=BaseCalculation;
-   StatusMilBaseSize:=StatusSocBaseSize+( StatusSocBaseSize-StatusEconBaseSize );
+   FCVuiumifStatusEconBaseSize:=( BaseCalculation shr 1 )+16;
+   FCVuiumifStatusSocBaseSize:=BaseCalculation;
+   FCVuiumifStatusSpaceMilBaseSize:=FCVuiumifStatusSocBaseSize+( FCVuiumifStatusSocBaseSize-FCVuiumifStatusEconBaseSize );
    FCWinMain.FCWM_UMI_FacLvl.Left:=16;
    FCWinMain.FCWM_UMI_FDLvlVal.Left:=FCWinMain.FCWM_UMI_FacLvl.Left+( FCWinMain.FCWM_UMI_FacLvl.Width shr 1)-( FCWinMain.FCWM_UMI_FDLvlVal.Width shr 1);
    FCWinMain.FCWM_UMI_FDLvlValDesc.Left:=FCWinMain.FCWM_UMI_FacLvl.Left+FCWinMain.FCWM_UMI_FacLvl.Width+4;
-   FCWinMain.FCWM_UMI_FacEcon.Left:=StatusEconBaseSize;
+   FCWinMain.FCWM_UMI_FacEcon.Left:=FCVuiumifStatusEconBaseSize;
    FCWinMain.FCWM_UMI_FDEconVal.Left:=FCWinMain.FCWM_UMI_FacEcon.Left+( FCWinMain.FCWM_UMI_FacEcon.Width shr 1)-( FCWinMain.FCWM_UMI_FDEconVal.Width shr 1);
    FCWinMain.FCWM_UMI_FDEconValDesc.Left:=FCWinMain.FCWM_UMI_FacEcon.Left+FCWinMain.FCWM_UMI_FacEcon.Width+4;
-   FCWinMain.FCWM_UMI_FacSoc.Left:=StatusSocBaseSize;
+   FCWinMain.FCWM_UMI_FacSoc.Left:=FCVuiumifStatusSocBaseSize;
    FCWinMain.FCWM_UMI_FDSocVal.Left:=FCWinMain.FCWM_UMI_FacSoc.Left+( FCWinMain.FCWM_UMI_FacSoc.Width shr 1)-( FCWinMain.FCWM_UMI_FDSocVal.Width shr 1);
    FCWinMain.FCWM_UMI_FDSocValDesc.Left:=FCWinMain.FCWM_UMI_FacSoc.Left+FCWinMain.FCWM_UMI_FacSoc.Width+4;
-   FCWinMain.FCWM_UMI_FacMil.Left:=StatusMilBaseSize;
+   FCWinMain.FCWM_UMI_FacMil.Left:=FCVuiumifStatusSpaceMilBaseSize;
    FCWinMain.FCWM_UMI_FDMilVal.Left:=FCWinMain.FCWM_UMI_FacMil.Left+( FCWinMain.FCWM_UMI_FacMil.Width shr 1)-( FCWinMain.FCWM_UMI_FDMilVal.Width shr 1);
    FCWinMain.FCWM_UMI_FDMilValDesc.Left:=FCWinMain.FCWM_UMI_FacMil.Left+FCWinMain.FCWM_UMI_FacMil.Width+4;
    FCWinMain.FCWM_UMI_FDLvlValDesc.Width:=FCWinMain.FCWM_UMI_FacEcon.Left-FCWinMain.FCWM_UMI_FDLvlValDesc.Left;
@@ -301,18 +284,6 @@ begin
    FCWinMain.FCWM_UMI_FDEconValDesc.HTMLText.Add( FCFdTFiles_UIStr_Get(uistrUI, FCFgSPMD_Level_GetToken( FCVdgPlayer.P_economicStatus ) ) );
 end;
 
-procedure FCMuiUMIF_DependenceMilitary_Update;
-{:Purpose: update the faction's military dependency circular progress and its associated label.
-    Additions:
-}
-begin
-   FCWinMain.FCWM_UMI_FacMil.Position:=Integer( FCVdgPlayer.P_militaryStatus );
-   FCWinMain.FCWM_UMI_FDMilVal.HTMLText.Clear;
-   FCWinMain.FCWM_UMI_FDMilVal.HTMLText.Add('<b>'+IntToStr( Integer( FCVdgPlayer.P_militaryStatus ) )+'</b>');
-   FCWinMain.FCWM_UMI_FDMilValDesc.HTMLText.Clear;
-   FCWinMain.FCWM_UMI_FDMilValDesc.HTMLText.Add( FCFdTFiles_UIStr_Get(uistrUI, FCFgSPMD_Level_GetToken( FCVdgPlayer.P_militaryStatus ) ) );
-end;
-
 procedure FCMuiUMIF_DependenceSocial_Update;
 {:Purpose: update the faction's social dependency circular progress and its associated label.
     Additions:
@@ -325,6 +296,18 @@ begin
    FCWinMain.FCWM_UMI_FDSocValDesc.HTMLText.Add( FCFdTFiles_UIStr_Get(uistrUI, FCFgSPMD_Level_GetToken( FCVdgPlayer.P_socialStatus ) ) );
 end;
 
+procedure FCMuiUMIF_DependenceSpaceMilitary_Update;
+{:Purpose: update the faction's military dependency circular progress and its associated label.
+    Additions:
+}
+begin
+   FCWinMain.FCWM_UMI_FacMil.Position:=Integer( FCVdgPlayer.P_militaryStatus );
+   FCWinMain.FCWM_UMI_FDMilVal.HTMLText.Clear;
+   FCWinMain.FCWM_UMI_FDMilVal.HTMLText.Add('<b>'+IntToStr( Integer( FCVdgPlayer.P_militaryStatus ) )+'</b>');
+   FCWinMain.FCWM_UMI_FDMilValDesc.HTMLText.Clear;
+   FCWinMain.FCWM_UMI_FDMilValDesc.HTMLText.Add( FCFdTFiles_UIStr_Get(uistrUI, FCFgSPMD_Level_GetToken( FCVdgPlayer.P_militaryStatus ) ) );
+end;
+
 procedure FCMuiUMIF_DependenceStatus_UpdateAll;
 {:Purpose: update all the dependence status components.
     Additions:
@@ -333,22 +316,22 @@ begin
    FCWinMain.FCWM_UMI_FacData.HTMLText.Clear;
    FCWinMain.FCWM_UMI_FacData.HTMLText.Add(
       FCCFdHeadC
-      +'<ind x="'+IntToStr(StatusSocBaseSize-( ( StatusSocBaseSize-StatusEconBaseSize ) shr 1 ) )+'">'+FCFdTFiles_UIStr_Get(uistrUI, 'facstat')
+      +'<ind x="'+IntToStr(FCVuiumifStatusSocBaseSize-( ( FCVuiumifStatusSocBaseSize-FCVuiumifStatusEconBaseSize ) shr 1 ) )+'">'+FCFdTFiles_UIStr_Get(uistrUI, 'facstat')
       +FCCFdHeadEnd
       );
    {.header, idx=1}
    FCWinMain.FCWM_UMI_FacData.HTMLText.Add(
       FCCFdHeadC
       +'<ind x="'+IntToStr(FCWinMain.FCWM_UMI_FacLvl.Left)+'">'+FCFdTFiles_UIStr_Get(uistrUI, 'faclvl')
-      +'<ind x="'+IntToStr(StatusEconBaseSize)+'">'+FCFdTFiles_UIStr_Get(uistrUI, 'cpsSLecon')
-      +'<ind x="'+IntToStr(StatusSocBaseSize)+'">'+FCFdTFiles_UIStr_Get(uistrUI, 'cpsSLsoc')
-      +'<ind x="'+IntToStr(StatusMilBaseSize)+'">'+FCFdTFiles_UIStr_Get(uistrUI, 'cpsSLmil')
+      +'<ind x="'+IntToStr(FCVuiumifStatusEconBaseSize)+'">'+FCFdTFiles_UIStr_Get(uistrUI, 'cpsSLecon')
+      +'<ind x="'+IntToStr(FCVuiumifStatusSocBaseSize)+'">'+FCFdTFiles_UIStr_Get(uistrUI, 'cpsSLsoc')
+      +'<ind x="'+IntToStr(FCVuiumifStatusSpaceMilBaseSize)+'">'+FCFdTFiles_UIStr_Get(uistrUI, 'cpsSLmil')
       +FCCFdHeadEnd
       );
    FCMuiUMIF_FactionLevel_Update;
    FCMuiUMIF_DependenceEconomic_Update;
    FCMuiUMIF_DependenceSocial_Update;
-   FCMuiUMIF_DependenceMilitary_Update;
+   FCMuiUMIF_DependenceSpaceMilitary_Update;
 end;
 
 procedure FCMuiUMIF_FactionLevel_Update;
