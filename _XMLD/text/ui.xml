@@ -4200,26 +4200,36 @@
       <FR>mois de cycle</FR>
       <SP>mes(es) de ciclo</SP>
    </UMIpolenfReqUC2>
-   <UMIpolenfRuleNoEnf1Soc>
-      <EN>Your faction doesn't have a sufficient &lt;a href="cpsStatusSoc"&gt;social status level&lt;/a&gt; to enforce policies.&lt;br&gt;The current social status level is </EN>
-      <FR>Votre faction n'a pas de quartier général pour appliquer des politiques.&lt;br&gt;Mettez en place une colony ou construisez une infrastructure QG.</FR>
-      <SP>Tu facción no tiene suficiente &lt;a href="cpsStatusSoc"&gt;nivel de estatus social&lt;/a&gt; para aplicar las políticas.&lt;br&gt;El nivel de estatus actual es </SP>
-   </UMIpolenfRuleNoEnf1Soc>
+   <UMIpolenfRuleNoEnf1>
+      <EN>Your faction doesn't have a sufficient </EN>
+      <FR>Votre faction n'a pas un suffisant niveau de Status </FR>
+      <SP>Tu facción no tiene suficiente nivel de Estatus </SP>
+   </UMIpolenfRuleNoEnf1>
    <UMIpolenfRuleNoEnf2>
+      <EN> Status level to enforce this kind of policies.&lt;br&gt;The current </EN>
+      <FR> pour appliquer cette sorte de politiques.&lt;br&gt;Le niveau actuel de Status </FR>
+      <SP> !--translation incomplete--! para aplicar las políticas.&lt;br&gt;El nivel actual de Estatus </SP>
+   </UMIpolenfRuleNoEnf2>
+   <UMIpolenfRuleNoEnf3>
+      <EN> Status level is </EN>
+      <FR> est </FR>
+      <SP> es </SP>
+   </UMIpolenfRuleNoEnf3>
+   <UMIpolenfRuleNoEnf4>
       <EN>and the minimum required level is </EN>
       <FR>et le niveau minimum requis est </FR>
       <SP>y el mínimo requerido es </SP>
-   </UMIpolenfRuleNoEnf2>
-   <UMIpolenfRuleNoEnf3>
+   </UMIpolenfRuleNoEnf4>
+   <UMIpolenfRuleNoEnf5>
       <EN>Since you're in the &lt;a href="cpsRoot"&gt;Colonization Phase&lt;/a&gt; of the game, try to get the better &lt;a href="cpsCVS"&gt;Colonization Viability Score(CVS)&lt;/a&gt; to reach the best status levels at the end of the phase, if the colonization mode you have choosen allows an enough social level.</EN>
       <FR>Depuis que vous êtes dans la &lt;a href="cpsRoot"&gt;Phase de Colonisation&lt;/a&gt; du jeu, essayez d'obtenir le meilleur &lt;a href="cpsCVS"&gt;Score de Viabilité de Colonisation (CVS)&lt;/a&gt; pour atteindre les meilleurs niveaux de statut à la fin de la phase, si le mode de colonisation vous avez choisi permet un niveau social suffisant.</FR>
       <SP>Puesto que tu estás en la &lt;a href="cpsRoot"&gt;Fase de Colonización&lt;/a&gt; del juego, trata de conseguir la mejor &lt;a href="cpsCVS"&gt;Puntuación de Viabilidad de Colonización(CVS)&lt;/a&gt; para alcanzar los mejores niveles de estado al final de la fase, si el modo de colonización que has escogido permite un nivel social diferente.</SP>
-   </UMIpolenfRuleNoEnf3>
-   <UMIpolenfRuleNoEnf4>
+   </UMIpolenfRuleNoEnf5>
+   <UMIpolenfRuleNoEnf6>
       <EN>Since the &lt;a href="cpsRoot"&gt;Colonization Phase&lt;/a&gt; is finished, you can't enforce policies for the rest of your current game.&lt;br&gt;If you want to be allowed to enforce policies, try a new game.</EN>
       <FR>Depuis que la &lt;a href="cpsRoot"&gt;Phase de Colonisation&lt;/a&gt; est finie, vous ne pouvez appliquer des politiques pour le reste de votre partie actuelle.&lt;br&gt;Si vous voulez avoir la permission d'en appliquer, commencez une nouvelle partie.</FR>
       <SP>Desde la &lt;a href="cpsRoot"&gt;Fase de Colonización&lt;/a&gt; ha terminado, no se puede hacer cumplir las políticas para el resto del juego actual.&lt;br&gt;Si desea que se le permita hacer cumplir esas políticas, comienza una nueva partida.</SP>
-   </UMIpolenfRuleNoEnf4>
+   </UMIpolenfRuleNoEnf6>
    <UMIpolenfRuleNoUnique>
       <EN>Due to your faction's status level you can't change of governmental, economical, healthcare and spiritual system.&lt;br&gt;Try to get the better &lt;a href="cpsCVS"&gt;Colonization Viability Score(CVS)&lt;/a&gt; to reach the best status levels at the end of the phase.</EN>
       <FR>Vu votre niveau de statut de faction vous ne pouvez changer de système gouvernemental, economique, de santé et spirituel.&lt;br&gt;Essayez d'avoir le meilleur &lt;a href="cpsCVS"&gt;Score de Viabilité de Colonisation(CVS)&lt;/a&gt; pour atteindre les meilleurs niveaux de statut à la fin de la phase.</FR>
