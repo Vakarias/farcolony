@@ -399,13 +399,13 @@ procedure FCMuiUMIF_PolicyEnforcement_FinalProcess( const isPolicyRequirementsMe
 {:Purpose: sub-procedure of FCMuiUMIF_PolicyEnforcement_Update.
     Additions:
       -2012Sep22- *code audit:
-                     (_)var formatting + refactoring     (o)if..then reformatting   (-)function/procedure refactoring
-                     (_)parameters refactoring           (o) ()reformatting         (o)code optimizations
-                     (_)float local variables=> extended (-)case..of reformatting   (-)local methods
-                     (_)summary completion               (-)protect all float add/sub w/ FCFcFunc_Rnd
+                     (_)var formatting + refactoring     (x)if..then reformatting   (_)function/procedure refactoring
+                     (_)parameters refactoring           (x) ()reformatting         (x)code optimizations
+                     (_)float local variables=> extended (x)case..of reformatting   (_)local methods
+                     (_)summary completion               (_)protect all float add/sub w/ FCFcFunc_Rnd
                      (_)standardize internal data + commenting them at each use as a result (like Count1 / Count2 ...)
                      (_)put [format x.xx ] in returns of summary, if required and if the function do formatting
-                     (_)use of enumindex                 (-)use of StrToFloat( x, FCVdiFormat ) for all float data w/ XML
+                     (_)use of enumindex                 (_)use of StrToFloat( x, FCVdiFormat ) for all float data w/ XML
                      (_)if the procedure reset the same record's data or external data put:
                         ///   <remarks>the procedure/function reset the /data/</remarks>
       -2012Sep18- *add: take in account the override rules state.
@@ -446,43 +446,46 @@ begin
          MarginPenalty:=FCFgSPM_EnforcData_Get( gspmMargMod );
          String1:=FCFuiHTML_Modifier_GetFormat( SPMInfluence, true );
          FCWinMain.FCWM_UMIFSh_CAPFlab.HTMLText.Add(
-            '<p align="center" valign="center"><font size="20">'+IntToStr(AcceptanceProbability)+' %</font></p><p align="left"><sub>'
-               +FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolenfInflTtl')+' '+String1+'   '+FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolenfReqPen')
+            '<p align="center" valign="center"><font size="20">'+IntToStr( AcceptanceProbability )+' %</font></p><p align="left"><sub>'
+               +FCFdTFiles_UIStr_Get( uistrUI, 'UMIpolenfInflTtl' )+' '+String1+'   '+FCFdTFiles_UIStr_Get( uistrUI, 'UMIpolenfReqPen' )
             );
-         if MarginPenalty<0
-         then String1:=FCCFcolRed
-         else String1:='';
-         FCWinMain.FCWM_UMIFSh_CAPFlab.HTMLText.Add(' <b>'+String1+IntToStr(MarginPenalty)+'</b></sub></p>');
+         String1:=FCFuiHTML_Modifier_GetFormat( MarginPenalty, true );
+         FCWinMain.FCWM_UMIFSh_CAPFlab.HTMLText.Add( ' '+String1+'</sub></p>' );
          FCWinMain.FCWM_UMISh_CEFenforce.Visible:=true;
-         FCWinMain.FCWM_UMISh_CEFenforce.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_UMISh_CEFenforce');
+         FCWinMain.FCWM_UMISh_CEFenforce.Caption:=FCFdTFiles_UIStr_Get( uistrUI, 'FCWM_UMISh_CEFenforce' );
          FCWinMain.FCWM_UMISh_CEFenforce.Enabled:=true;
-         FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI, 'UMIenfYReq1'));
+         FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add( FCFdTFiles_UIStr_Get( uistrUI, 'UMIenfYReq1' ) );
          case FCFgSPM_PolicyProc_DoTest( 50 ) of
-            gspmResMassRjct: FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add(FCCFcolRed+FCFdTFiles_UIStr_Get(uistrUI, 'UMIenfRsltMassRej')+FCCFcolEND);
-            gspmResReject: FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add(FCCFcolOrge+FCFdTFiles_UIStr_Get(uistrUI, 'UMIenfRsltReject')+FCCFcolEND);
-            gspmResFifFifty: FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add(FCCFcolYel+FCFdTFiles_UIStr_Get(uistrUI, 'UMIenfRsltMitig')+FCCFcolEND);
-            gspmResAccept: FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add(FCCFcolGreen+FCFdTFiles_UIStr_Get(uistrUI, 'UMIenfRsltComplAcc')+FCCFcolEND);
+            gspmResMassRjct: FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add( FCCFcolRed+FCFdTFiles_UIStr_Get( uistrUI, 'UMIenfRsltMassRej' )+FCCFcolEND );
+
+            gspmResReject: FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add( FCCFcolOrge+FCFdTFiles_UIStr_Get( uistrUI, 'UMIenfRsltReject' )+FCCFcolEND );
+
+            gspmResFifFifty: FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add( FCCFcolYel+FCFdTFiles_UIStr_Get( uistrUI, 'UMIenfRsltMitig' )+FCCFcolEND );
+
+            gspmResAccept: FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add( FCCFcolGreen+FCFdTFiles_UIStr_Get( uistrUI, 'UMIenfRsltComplAcc' )+FCCFcolEND );
          end;
-         FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI, 'UMIenfYReq2'));
-         String1:=FCFgSPM_GvtEconMedcaSpiSystems_GetToken(0, FCVuiumifPolicyArea);
-         if (isUniquePolicy)
-            and (String1<>'')
-         then
+         FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add( FCFdTFiles_UIStr_Get( uistrUI, 'UMIenfYReq2' ) );
+         String1:=FCFgSPM_GvtEconMedcaSpiSystems_GetToken( 0, FCVuiumifPolicyArea );
+         if ( isUniquePolicy )
+            and ( String1<>'' ) then
          begin
-            FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add('<br>'+FCCFcolWhBL+FCFdTFiles_UIStr_Get(uistrUI, 'UMIenfUnique')+'<b>'+FCFdTFiles_UIStr_Get(uistrUI, String1)+'</b> ');
+            FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add('<br>'+FCCFcolWhBL+FCFdTFiles_UIStr_Get( uistrUI, 'UMIenfUnique' )+'<b>'+FCFdTFiles_UIStr_Get( uistrUI, String1 )+'</b> ' );
             case FCVuiumifPolicyArea of
                dgADMIN: FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add( FCFdTFiles_UIStr_Get( uistrUI, 'UMIgvtPolSys' ) );
+
                dgECON: FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add( FCFdTFiles_UIStr_Get( uistrUI, 'UMIgvtEcoSys' ) );
+
                dgMEDCA: FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add( FCFdTFiles_UIStr_Get( uistrUI, 'UMIgvtHcareSys' ) );
+
                dgSPI: FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add( FCFdTFiles_UIStr_Get( uistrUI, 'UMIgvtRelSys' ) );
             end;
-            FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add('.'+FCCFcolEND);
+            FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add( '.'+FCCFcolEND );
          end;
       end
       else begin
          if FCDdgEntities[0].E_hqHigherLevel<hqsPrimaryUniqueHQ
-         then FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI, 'UMIhqNoMsg2'))
-         else FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolenfRuleNoUnique'));
+         then FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add( FCFdTFiles_UIStr_Get( uistrUI, 'UMIhqNoMsg2' ) )
+         else FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add( FCFdTFiles_UIStr_Get( uistrUI, 'UMIpolenfRuleNoUnique' ) );
          FCWinMain.FCWM_UMISh_CEFenforce.Enabled:=false;
       end;
    end; //==END== !if not isPolicyRequirementsMet then ==//
@@ -491,6 +494,16 @@ end;
 procedure FCMuiUMIF_PolicyEnforcement_Update;
 {:Purpose: update the acceptance probability and enforcement subsection.
     Additions:
+      -2012Sep22- *code audit:
+                     (_)var formatting + refactoring     (_)if..then reformatting   (_)function/procedure refactoring
+                     (_)parameters refactoring           (x) ()reformatting         (_)code optimizations
+                     (_)float local variables=> extended (_)case..of reformatting   (_)local methods
+                     (_)summary completion               (_)protect all float add/sub w/ FCFcFunc_Rnd
+                     (_)standardize internal data + commenting them at each use as a result (like Count1 / Count2 ...)
+                     (_)put [format x.xx ] in returns of summary, if required and if the function do formatting
+                     (_)use of enumindex                 (_)use of StrToFloat( x, FCVdiFormat ) for all float data w/ XML
+                     (_)if the procedure reset the same record's data or external data put:
+                        ///   <remarks>the procedure/function reset the /data/</remarks>
       -2012Sep18- *add: take in account the override rules state.
       -2012Sep17- *add/mod: (WIP)-routine completion/cleanup.
       -2012Sep16- *add: take the HQ in account for unique policies.
@@ -529,43 +542,43 @@ begin
          dgADMIN, dgMEDCA, dgSPI:
          begin
             FCVuiumifCanChangePolicy:=FCFgSPMD_PlyrStatus_ApplyRules( rCanChangePoliciesAdminMedcaSocSpi );
-            String1:=IntToStr(Integer(FCVdgPlayer.P_socialStatus));
-            String2:=FCFdTFiles_UIStr_Get(uistrUI, FCFgSPMD_Level_GetToken(FCVdgPlayer.P_socialStatus));
-            String3:=IntToStr(Integer(TFCEdgPlayerFactionStatus.pfs2_SemiDependent));
-            String4:=FCFdTFiles_UIStr_Get(uistrUI, 'cpsStatSD');
-            String5:=FCFdTFiles_UIStr_Get(uistrUI, 'cpsSLsoc');
+            String1:=IntToStr( Integer( FCVdgPlayer.P_socialStatus ) );
+            String2:=FCFdTFiles_UIStr_Get( uistrUI, FCFgSPMD_Level_GetToken( FCVdgPlayer.P_socialStatus ) );
+            String3:=IntToStr( Integer( TFCEdgPlayerFactionStatus.pfs2_SemiDependent ) );
+            String4:=FCFdTFiles_UIStr_Get( uistrUI, 'cpsStatSD' );
+            String5:=FCFdTFiles_UIStr_Get( uistrUI, 'cpsSLsoc' );
          end;
 
          dgECON:
          begin
             FCVuiumifCanChangePolicy:=FCFgSPMD_PlyrStatus_ApplyRules( rCanChangePoliciesEcon );
-            String1:=IntToStr(Integer(FCVdgPlayer.P_economicStatus));
-            String2:=FCFdTFiles_UIStr_Get(uistrUI, FCFgSPMD_Level_GetToken(FCVdgPlayer.P_economicStatus));
-            String3:=IntToStr(Integer(TFCEdgPlayerFactionStatus.pfs2_SemiDependent));
-            String4:=FCFdTFiles_UIStr_Get(uistrUI, 'cpsStatSD');
-            String5:=FCFdTFiles_UIStr_Get(uistrUI, 'cpsSLecon');
+            String1:=IntToStr( Integer( FCVdgPlayer.P_economicStatus ) );
+            String2:=FCFdTFiles_UIStr_Get( uistrUI, FCFgSPMD_Level_GetToken( FCVdgPlayer.P_economicStatus ) );
+            String3:=IntToStr( Integer( TFCEdgPlayerFactionStatus.pfs2_SemiDependent ) );
+            String4:=FCFdTFiles_UIStr_Get( uistrUI, 'cpsStatSD' );
+            String5:=FCFdTFiles_UIStr_Get( uistrUI, 'cpsSLecon' );
          end;
 
          dgSPOL:
          begin
             FCVuiumifCanChangePolicy:=FCFgSPMD_PlyrStatus_ApplyRules( rCanChangePoliciesMilSpol );
-            String1:=IntToStr(Integer(FCVdgPlayer.P_militaryStatus));
-            String2:=FCFdTFiles_UIStr_Get(uistrUI, FCFgSPMD_Level_GetToken(FCVdgPlayer.P_militaryStatus));
-            String3:=IntToStr(Integer(TFCEdgPlayerFactionStatus.pfs3_Independent));
-            String4:=FCFdTFiles_UIStr_Get(uistrUI, 'cpsStatFI');
-            String5:=FCFdTFiles_UIStr_Get(uistrUI, 'cpsSLmil');
+            String1:=IntToStr( Integer( FCVdgPlayer.P_militaryStatus ) );
+            String2:=FCFdTFiles_UIStr_Get( uistrUI, FCFgSPMD_Level_GetToken( FCVdgPlayer.P_militaryStatus ) );
+            String3:=IntToStr( Integer( TFCEdgPlayerFactionStatus.pfs3_Independent ) );
+            String4:=FCFdTFiles_UIStr_Get( uistrUI, 'cpsStatFI' );
+            String5:=FCFdTFiles_UIStr_Get( uistrUI, 'cpsSLmil' );
          end;
       end;
       case FCVuiumifCanChangePolicy of
          rrNo:
          begin
             FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add(
-               FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolenfRuleNoEnf1')+String5+FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolenfRuleNoEnf2')+String5+FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolenfRuleNoEnf3')+'[<b>'+String1+'</b>]-<b>'
-                  +String2+'</b>, '+FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolenfRuleNoEnf4')+'[<b>'+String3+'</b>]-<b>'+String4+'</b>.<br>'
+               FCFdTFiles_UIStr_Get( uistrUI, 'UMIpolenfRuleNoEnf1' )+String5+FCFdTFiles_UIStr_Get( uistrUI, 'UMIpolenfRuleNoEnf2' )+String5+FCFdTFiles_UIStr_Get( uistrUI, 'UMIpolenfRuleNoEnf3' )+'[<b>'+String1
+                  +'</b>]-<b>'+String2+'</b>, '+FCFdTFiles_UIStr_Get( uistrUI, 'UMIpolenfRuleNoEnf4' )+'[<b>'+String3+'</b>]-<b>'+String4+'</b>.<br>'
                );
-            if Assigned(FCcps)
-            then FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add( FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolenfRuleNoEnf5') )
-            else FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add( FCFdTFiles_UIStr_Get(uistrUI, 'UMIpolenfRuleNoEnf6') );
+            if Assigned( FCcps )
+            then FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add( FCFdTFiles_UIStr_Get( uistrUI, 'UMIpolenfRuleNoEnf5' ) )
+            else FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add( FCFdTFiles_UIStr_Get( uistrUI, 'UMIpolenfRuleNoEnf6' ) );
          end;
 
          rrYes50_50NoSystem:
@@ -592,6 +605,16 @@ end;
 procedure FCMuiUMIF_PolicyEnforcement_UpdateAccepted;
 {:Purpose: sub procedure of FCMuiUMIF_PolicyEnforcement_UpdateAll, update the complete list of policies.
     Additions:
+      -2012Sep22- *code audit:
+                     (_)var formatting + refactoring     (_)if..then reformatting   (_)function/procedure refactoring
+                     (_)parameters refactoring           (x) ()reformatting         (_)code optimizations
+                     (_)float local variables=> extended (_)case..of reformatting   (_)local methods
+                     (_)summary completion               (_)protect all float add/sub w/ FCFcFunc_Rnd
+                     (_)standardize internal data + commenting them at each use as a result (like Count1 / Count2 ...)
+                     (_)put [format x.xx ] in returns of summary, if required and if the function do formatting
+                     (_)use of enumindex                 (_)use of StrToFloat( x, FCVdiFormat ) for all float data w/ XML
+                     (_)if the procedure reset the same record's data or external data put:
+                        ///   <remarks>the procedure/function reset the /data/</remarks>
 }
    var
       Count
@@ -600,18 +623,15 @@ begin
    Count:=0;
    Max:=0;
    FCWinMain.FCWM_UMIFSh_AFlist.Enabled:=true;
-   Max:=length(FCDdgEntities[0].E_spmSettings)-1;
+   Max:=length( FCDdgEntities[0].E_spmSettings )-1;
    Count:=1;
    while Count<=Max do
    begin
-      if (FCDdgEntities[0].E_spmSettings[Count].SPMS_isPolicy)
-         and (not FCDdgEntities[0].E_spmSettings[Count].SPMS_iPtIsSet)
-         and (FCDdgEntities[0].E_spmSettings[Count].SPMS_duration=0)
-      then FCWinMain.FCWM_UMIFSh_AFlist.Items.Add(
-         FCFdTFiles_UIStr_Get(uistrUI, FCDdgEntities[0].E_spmSettings[Count].SPMS_token)+
-         UIHTMLencyBEGIN+FCDdgEntities[0].E_spmSettings[Count].SPMS_token+UIHTMLencyEND
-         );
-      inc(Count)
+      if ( FCDdgEntities[0].E_spmSettings[Count].SPMS_isPolicy )
+         and ( not FCDdgEntities[0].E_spmSettings[Count].SPMS_iPtIsSet )
+         and ( FCDdgEntities[0].E_spmSettings[Count].SPMS_duration=0 )
+      then FCWinMain.FCWM_UMIFSh_AFlist.Items.Add( FCFdTFiles_UIStr_Get( uistrUI, FCDdgEntities[0].E_spmSettings[Count].SPMS_token )+UIHTMLencyBEGIN+FCDdgEntities[0].E_spmSettings[Count].SPMS_token+UIHTMLencyEND );
+      inc( Count )
    end;
    FCWinMain.FCWM_UMIFSh_AFlist.Sorted:=true;
    FCWinMain.FCWM_UMIFSh_AFlist.SortWithHTML:=true;
@@ -622,6 +642,16 @@ end;
 procedure FCMuiUMIF_PolicyEnforcement_UpdateAll;
 {:Purpose: update the policy enforcement sub-tab.
     Additions:
+      *code audit:
+         (_)var formatting + refactoring     (_)if..then reformatting   (_)function/procedure refactoring
+         (_)parameters refactoring           (x) ()reformatting         (_)code optimizations
+         (_)float local variables=> extended (_)case..of reformatting   (_)local methods
+         (_)summary completion               (_)protect all float add/sub w/ FCFcFunc_Rnd
+         (_)standardize internal data + commenting them at each use as a result (like Count1 / Count2 ...)
+         (_)put [format x.xx ] in returns of summary, if required and if the function do formatting
+         (_)use of enumindex                 (_)use of StrToFloat( x, FCVdiFormat ) for all float data w/ XML
+         (_)if the procedure reset the same record's data or external data put:
+            ///   <remarks>the procedure/function reset the /data/</remarks>
       -2012Sep18- *add: the debug mode override all the enforcement rules.
 }
 begin
@@ -631,9 +661,9 @@ begin
    if not FCVdiOverrideRules then
    begin
       case FCDdgEntities[0].E_hqHigherLevel of
-         hqsNoHQPresent: FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI, 'UMIhqNoMsg'));
+         hqsNoHQPresent: FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add( FCFdTFiles_UIStr_Get( uistrUI, 'UMIhqNoMsg' ) );
 
-         hqsBasicHQ: FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI, 'UMIhqNoMsg1'));
+         hqsBasicHQ: FCWinMain.FCWM_UMISh_CEFreslt.HTMLText.Add( FCFdTFiles_UIStr_Get( uistrUI, 'UMIhqNoMsg1' ) );
 
          hqsSecondaryHQ, hqsPrimaryUniqueHQ: FCMuiUMIF_PolicyEnforcement_UpdateAccepted;
       end;
@@ -645,6 +675,16 @@ end;
 procedure FCMuiUMIF_PoliticalStructure_Update( const UpdateTarget: TFCEuiUMIFpoliticalActions );
 {:Purpose: update the political structure.
     Additions:
+      -2012Sep22- *code audit:
+                     (_)var formatting + refactoring     (_)if..then reformatting   (_)function/procedure refactoring
+                     (_)parameters refactoring           (x) ()reformatting         (_)code optimizations
+                     (_)float local variables=> extended (_)case..of reformatting   (_)local methods
+                     (_)summary completion               (_)protect all float add/sub w/ FCFcFunc_Rnd
+                     (_)standardize internal data + commenting them at each use as a result (like Count1 / Count2 ...)
+                     (_)put [format x.xx ] in returns of summary, if required and if the function do formatting
+                     (_)use of enumindex                 (_)use of StrToFloat( x, FCVdiFormat ) for all float data w/ XML
+                     (_)if the procedure reset the same record's data or external data put:
+                        ///   <remarks>the procedure/function reset the /data/</remarks>
 }
 begin
    case UpdateTarget of
@@ -679,38 +719,38 @@ begin
 
       paPoliticalStructureGovernment:
       begin
-         FCWinMain.FCWM_UMIFac_PGDdata.HTMLText.Insert(1, FCFdTFiles_UIStr_Get(uistrUI, FCFgSPM_GvtEconMedcaSpiSystems_GetToken(0, dgADMIN))+'<br>' );
-         FCWinMain.FCWM_UMIFac_PGDdata.HTMLText.Delete(2);
+         FCWinMain.FCWM_UMIFac_PGDdata.HTMLText.Insert( 1, FCFdTFiles_UIStr_Get( uistrUI, FCFgSPM_GvtEconMedcaSpiSystems_GetToken( 0, dgADMIN ) )+'<br>' );
+         FCWinMain.FCWM_UMIFac_PGDdata.HTMLText.Delete( 2 );
       end;
 
       paPoliticalStructureBureaucracy:
       begin
-         FCWinMain.FCWM_UMIFac_PGDdata.HTMLText.Insert(3, IntToStr(FCDdgEntities[0].E_bureaucracy)+' %<br>' );
-         FCWinMain.FCWM_UMIFac_PGDdata.HTMLText.Delete(4);
+         FCWinMain.FCWM_UMIFac_PGDdata.HTMLText.Insert( 3, IntToStr( FCDdgEntities[0].E_bureaucracy )+' %<br>' );
+         FCWinMain.FCWM_UMIFac_PGDdata.HTMLText.Delete( 4 );
       end;
 
       paPoliticalStructureCorruption:
       begin
-         FCWinMain.FCWM_UMIFac_PGDdata.HTMLText.Insert(5, IntToStr(FCDdgEntities[0].E_corruption)+' %<br>' );
-         FCWinMain.FCWM_UMIFac_PGDdata.HTMLText.Delete(6);
+         FCWinMain.FCWM_UMIFac_PGDdata.HTMLText.Insert( 5, IntToStr( FCDdgEntities[0].E_corruption )+' %<br>' );
+         FCWinMain.FCWM_UMIFac_PGDdata.HTMLText.Delete( 6 );
       end;
 
       paPoliticalStructureEconomy:
       begin
-         FCWinMain.FCWM_UMIFac_PGDdata.HTMLText.Insert(7, FCFdTFiles_UIStr_Get(uistrUI, FCFgSPM_GvtEconMedcaSpiSystems_GetToken(0, dgECON))+'<br>' );
-         FCWinMain.FCWM_UMIFac_PGDdata.HTMLText.Delete(8);
+         FCWinMain.FCWM_UMIFac_PGDdata.HTMLText.Insert( 7, FCFdTFiles_UIStr_Get( uistrUI, FCFgSPM_GvtEconMedcaSpiSystems_GetToken( 0, dgECON ) )+'<br>' );
+         FCWinMain.FCWM_UMIFac_PGDdata.HTMLText.Delete( 8 );
       end;
 
       paPoliticalStructureHealthcare:
       begin
-         FCWinMain.FCWM_UMIFac_PGDdata.HTMLText.Insert(9, FCFdTFiles_UIStr_Get(uistrUI, FCFgSPM_GvtEconMedcaSpiSystems_GetToken(0, dgMEDCA))+'<br>' );
-         FCWinMain.FCWM_UMIFac_PGDdata.HTMLText.Delete(10);
+         FCWinMain.FCWM_UMIFac_PGDdata.HTMLText.Insert( 9, FCFdTFiles_UIStr_Get(uistrUI, FCFgSPM_GvtEconMedcaSpiSystems_GetToken( 0, dgMEDCA ) )+'<br>' );
+         FCWinMain.FCWM_UMIFac_PGDdata.HTMLText.Delete( 10 );
       end;
 
       paPoliticalStructureSpiritual:
       begin
-         FCWinMain.FCWM_UMIFac_PGDdata.HTMLText.Insert(11, FCFdTFiles_UIStr_Get(uistrUI, FCFgSPM_GvtEconMedcaSpiSystems_GetToken(0, dgSPI))+'<br>' );
-         FCWinMain.FCWM_UMIFac_PGDdata.HTMLText.Delete(12);
+         FCWinMain.FCWM_UMIFac_PGDdata.HTMLText.Insert( 11, FCFdTFiles_UIStr_Get( uistrUI, FCFgSPM_GvtEconMedcaSpiSystems_GetToken( 0, dgSPI ) )+'<br>' );
+         FCWinMain.FCWM_UMIFac_PGDdata.HTMLText.Delete( 12 );
       end;
    end; //==END== case UpdateTarget of ==//
 end;
