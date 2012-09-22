@@ -472,6 +472,7 @@ function FCFgSPM_PolicyEnf_Preproc(
    ): boolean;
 {:Purpose: preprocess a policy setup, return false if the faction doesn't meet the policy's requirements.
     Additions:
+      -2012Sep22- *fix: for UC requirement, if the entity has 0 UC, the base calculations are also done to provide a correct requirement display.
       -2012Sep17- *rem: the spm item data are loaded in a separate routine.
       -2012Jan31- *fix: for UC requirement, display the right requirement value.
       -2010Dec29- *add: UC cost in case of UC requirement.
@@ -544,6 +545,7 @@ begin
          if PPisReqPassed
          then
          begin
+            {:DEV NOTES: reset margin and all other variable here!.}
             case FCVgspmiCurrentSPMiData.SPMI_req[PPreqCnt].SPMIR_type of
                dgBuilding:
                begin
@@ -732,32 +734,32 @@ begin
                   PPreqOutput:='';
                   FCWinMain.FCWM_UMIFSh_RFdisp.HTMLText.Add( '<br>'+FCCFidxL+FCFdTFiles_UIStr_Get(uistrUI, 'acronUCwDes') +'...' );
                   PPreqResult:=trunc(FCDdgEntities[PPent].E_ucInAccount);
+                  case FCVgspmiCurrentSPMiData.SPMI_req[PPreqCnt].SPMIR_ucMethod of
+                     dgFixed, dgFixed_yr:
+                     begin
+                        if FCVgspmiCurrentSPMiData.SPMI_req[PPreqCnt].SPMIR_ucMethod=dgFixed_yr
+                        then PPsubCnt:=12
+                        else PPsubCnt:=1;
+                        PPreqSubVal:=round( FCVgspmiCurrentSPMiData.SPMI_req[PPreqCnt].SPMIR_ucVal*PPsubCnt );
+                     end;
+                     dgCalcPop, dgCalcPop_yr:
+                     begin
+                        if FCVgspmiCurrentSPMiData.SPMI_req[PPreqCnt].SPMIR_ucMethod=dgCalcPop_yr
+                        then PPsubCnt:=12
+                        else PPsubCnt:=1;
+                        PPreqSubVal:=round( FCVgspmiCurrentSPMiData.SPMI_req[PPreqCnt].SPMIR_ucVal*FCFgSPMD_GlobalData_Get(gmspmdPopulation, PPent)*PPsubCnt );
+                     end;
+                     dgCalcCol, dgCalcCol_yr:
+                     begin
+                        if FCVgspmiCurrentSPMiData.SPMI_req[PPreqCnt].SPMIR_ucMethod=dgCalcCol_yr
+                        then PPsubCnt:=12
+                        else PPsubCnt:=1;
+                        PPreqSubVal:=round( FCVgspmiCurrentSPMiData.SPMI_req[PPreqCnt].SPMIR_ucVal*( length(FCDdgEntities[PPent].E_colonies)-1 )*PPsubCnt );
+                     end;
+                  end; //==END== case GSPMspmi.SPMI_req[PPreqCnt].SPMIR_ucMethod of ==//
                   if PPreqResult>0
                   then
                   begin
-                     case FCVgspmiCurrentSPMiData.SPMI_req[PPreqCnt].SPMIR_ucMethod of
-                        dgFixed, dgFixed_yr:
-                        begin
-                           if FCVgspmiCurrentSPMiData.SPMI_req[PPreqCnt].SPMIR_ucMethod=dgFixed_yr
-                           then PPsubCnt:=12
-                           else PPsubCnt:=1;
-                           PPreqSubVal:=round( FCVgspmiCurrentSPMiData.SPMI_req[PPreqCnt].SPMIR_ucVal*PPsubCnt );
-                        end;
-                        dgCalcPop, dgCalcPop_yr:
-                        begin
-                           if FCVgspmiCurrentSPMiData.SPMI_req[PPreqCnt].SPMIR_ucMethod=dgCalcPop_yr
-                           then PPsubCnt:=12
-                           else PPsubCnt:=1;
-                           PPreqSubVal:=round( FCVgspmiCurrentSPMiData.SPMI_req[PPreqCnt].SPMIR_ucVal*FCFgSPMD_GlobalData_Get(gmspmdPopulation, PPent)*PPsubCnt );
-                        end;
-                        dgCalcCol, dgCalcCol_yr:
-                        begin
-                           if FCVgspmiCurrentSPMiData.SPMI_req[PPreqCnt].SPMIR_ucMethod=dgCalcCol_yr
-                           then PPsubCnt:=12
-                           else PPsubCnt:=1;
-                           PPreqSubVal:=round( FCVgspmiCurrentSPMiData.SPMI_req[PPreqCnt].SPMIR_ucVal*( length(FCDdgEntities[PPent].E_colonies)-1 )*PPsubCnt );
-                        end;
-                     end; //==END== case GSPMspmi.SPMI_req[PPreqCnt].SPMIR_ucMethod of ==//
                      FCDdgEntities[PPent].E_spmSettings[GSPMitmIdx].SPMS_ucCost:=PPreqSubVal;
                      PPmarginMin:=round(PPreqSubVal*0.75);
                      if PPreqResult<PPmarginMin
