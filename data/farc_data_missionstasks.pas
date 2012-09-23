@@ -88,6 +88,14 @@ type TFCRdmtTask = record
    ///   entity index # linked to the task
    ///</summary>
    T_entity: integer;
+   ///<summary>
+   ///   indicate that the task is done
+   ///</summary>
+   T_isTaskDone: boolean;
+   ///<summary>
+   ///   indicate that the task is terminated and ready to be flushed
+   ///</summary>
+   T_isTaskTerminated: boolean;
    {controlled target's index in subdata structure}
    TITP_ctldIdx: integer;
    {.timer tick at start of the mission}
@@ -140,8 +148,6 @@ type TFCRdmtTask = record
          T_tMCphase:(
             mcpDeceleration
             ,mcpAtmosphericEntry
-            ,mcpDone
-            ,mcpTerminated
             )
          );
 
@@ -150,8 +156,6 @@ type TFCRdmtTask = record
             mitpAcceleration
             ,mitpCruise
             ,mitpDeceleration
-            ,mitpDone
-            ,mitpTerminated
             )
          );
 
