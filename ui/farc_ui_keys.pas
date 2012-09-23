@@ -204,6 +204,7 @@ uses
    ,farc_data_game
    ,farc_data_init
    ,farc_data_messages
+   ,farc_data_missionstasks //debug add, remove when the command panel is done
    ,farc_data_univ
    ,farc_data_textfiles
    ,farc_game_gameflow
@@ -1138,6 +1139,13 @@ begin
          and (FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglSpaceUnits[FC3doglSelectedSpaceUnit])
          and (not FCWinMain.FCWM_MissionSettings.Visible)
       then FCMoglVM_CamMain_Target(FC3doglSelectedPlanetAsteroid, true);
+      {:DEV NOTES: remove the following lines when the new command panel is made, debug feature only.}
+      {.T}
+      if ( FCVdiDebugMode )
+         and (FCWinMain.FCWM_3dMainGrp.Visible)
+         and (WMTkeyDump=84)
+      then FCMgMCore_Mission_Setup(0, tMissionColonization);
+      {.END debug feature}
       {.X}
       if (WMTkeyDump=88)
          and (FCWinMain.FCWM_3dMainGrp.Visible)

@@ -33,6 +33,33 @@ interface
 //uses
 
 {:REFERENCES LIST
+   - FCFspuF_Mission_GetPhaseName
+   - FCMdFiles_Game_Load
+   - FCMdFiles_Game_Save
+}
+///<summary>
+///   task phases for the colonization mission
+///</summary>
+type TFCEdmtTaskPhasesColonization=(
+   mcpDeceleration
+   ,mcpAtmosphericEntry
+   );
+
+{:REFERENCES LIST
+   - FCFspuF_Mission_GetPhaseName
+   - FCMdFiles_Game_Load
+   - FCMdFiles_Game_Save
+}
+///<summary>
+///   task phases for the interplanetary transit mission
+///</summary>
+type TFCEdmtTaskPhasesInterplanetaryTransit=(
+   mitpAcceleration
+   ,mitpCruise
+   ,mitpDeceleration
+   );
+
+{:REFERENCES LIST
    - FCMgMCore_Mission_Commit
    - FCMgMCore_Mission_Setup
    - FCMgMCore_Mission_TrackUpd
@@ -63,7 +90,6 @@ type TFCEdmtTaskTargets=(
 //==END PUBLIC ENUM=========================================================================
 
 {:REFERENCES LIST
-   - FCFspuF_Mission_GetPhaseName
    - FCMdFiles_Game_Load
    - FCMdFiles_Game_Save
    - TFCGtasklistToProc: farc_game_missioncore /FCMgMCore_Mission_Commit
@@ -145,18 +171,11 @@ type TFCRdmtTask = record
    TITP_int1: integer;
    case T_type: TFCEdmtTasks of
       tMissionColonization:(
-         T_tMCphase:(
-            mcpDeceleration
-            ,mcpAtmosphericEntry
-            )
+         T_tMCphase: TFCEdmtTaskPhasesColonization
          );
 
       tMissionInterplanetaryTransit:(
-         T_tMITphase:(
-            mitpAcceleration
-            ,mitpCruise
-            ,mitpDeceleration
-            )
+         T_tMITphase: TFCEdmtTaskPhasesInterplanetaryTransit
          );
 
 end; //==END== type TFCRtaskItem = record ==//

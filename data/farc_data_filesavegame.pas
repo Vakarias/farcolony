@@ -98,6 +98,7 @@ uses
 procedure FCMdFSG_Game_Load;
 {:Purpose: load the current game.
    Additions:
+      -2012Sep23- *mod: tasks - load the real phase name.
       -2012Aug15- *code audit:
                      (x)var formatting + refactoring     (x)if..then reformatting   (_)function/procedure refactoring
                      (_)parameters refactoring           (x) ()reformatting         (x)code optimizations
@@ -338,11 +339,21 @@ begin
             FCGtskListInProc[Count].T_type:=TFCEdmtTasks( EnumIndex );
             if EnumIndex=-1
             then raise Exception.Create( 'bad gamesave loading w/task type: '+XMLSavedGameItem.Attributes['tipActTp'] );
-            FCGtskListInProc[Count].T_tMColCurrentPhase:=XMLSavedGameItem.Attributes['tipPhase'];
-            EnumIndex:=GetEnumValue( TypeInfo( TFCEdmtTaskTargets ), XMLSavedGameItem.Attributes['tipTgtTp'] );
-//            FCGtskListInProc[Count].TITP_ctldType:=TFCEdmtTaskTargets( EnumIndex );
+            case FCGtskListInProc[Count].T_type of
+               tMissionColonization:
+               begin
+                  EnumIndex:=GetEnumValue( TypeInfo( TFCEdmtTaskPhasesColonization ), XMLSavedGameItem.Attributes['tipPhase'] );
+                  FCGtskListInProc[Count].T_tMCphase:=TFCEdmtTaskPhasesColonization( EnumIndex );
+               end;
+
+               tMissionInterplanetaryTransit:
+               begin
+                  EnumIndex:=GetEnumValue( TypeInfo( TFCEdmtTaskPhasesInterplanetaryTransit ), XMLSavedGameItem.Attributes['tipPhase'] );
+                  FCGtskListInProc[Count].T_tMITphase:=TFCEdmtTaskPhasesInterplanetaryTransit( EnumIndex );
+               end;
+            end;
             if EnumIndex=-1
-            then raise Exception.Create( 'bad gamesave loading w/ task target type: '+XMLSavedGameItem.Attributes['tipTgtTp'] );
+            then raise Exception.Create( 'bad gamesave loading w/task phase: '+XMLSavedGameItem.Attributes['tipPhase'] );
             FCGtskListInProc[Count].T_entity:=XMLSavedGameItem.Attributes['tipTgtFac'];
             FCGtskListInProc[Count].TITP_ctldIdx:=XMLSavedGameItem.Attributes['tipTgtIdx'];
             FCGtskListInProc[Count].TITP_timeOrg:=XMLSavedGameItem.Attributes['tipTimeOrg'];
@@ -1008,6 +1019,7 @@ end;
 procedure FCMdFSG_Game_Save;
 {:Purpose: save the current game.
     Additions:
+      -2012Sep23- *mod: tasks - save the real phase name.
       -2012Aug19- *code audit:
                      (x)var formatting + refactoring     (x)if..then reformatting   (_)function/procedure refactoring
                      (_)parameters refactoring           (x) ()reformatting         (o)code optimizations
@@ -1216,7 +1228,12 @@ begin
       begin
          XMLSavedGameItemSub:=XMLSavedGameItem.AddChild('gfTskInProc');
          XMLSavedGameItemSub.Attributes['tipActTp']:=GetEnumName( TypeInfo( TFCEdmtTasks ), Integer( FCGtskListInProc[Count].T_type ) );
-         XMLSavedGameItemSub.Attributes['tipPhase']:=FCGtskListInProc[Count].T_tMColCurrentPhase;
+         case FCGtskListInProc[Count].T_type of
+            tMissionColonization: XMLSavedGameItemSub.Attributes['tipPhase']:=GetEnumName( TypeInfo( TFCEdmtTaskPhasesColonization ), Integer( FCGtskListInProc[Count].T_tMCphase ) );
+
+            tMissionInterplanetaryTransit: XMLSavedGameItemSub.Attributes['tipPhase']:=GetEnumName( TypeInfo( TFCEdmtTaskPhasesInterplanetaryTransit ), Integer( FCGtskListInProc[Count].T_tMITphase ) );
+         end;
+
 //         XMLSavedGameItemSub.Attributes['tipTgtTp']:=GetEnumName( TypeInfo( TFCEdmtTaskTargets ), Integer( FCGtskListInProc[Count].TITP_ctldType ) );
          XMLSavedGameItemSub.Attributes['tipTgtFac']:=FCGtskListInProc[Count].T_entity;
          XMLSavedGameItemSub.Attributes['tipTgtIdx']:=FCGtskListInProc[Count].TITP_ctldIdx;
