@@ -63,6 +63,7 @@ type TFCEdmtTaskTargets=(
 //==END PUBLIC ENUM=========================================================================
 
 {:REFERENCES LIST
+   - FCFspuF_Mission_GetPhaseName
    - FCMdFiles_Game_Load
    - FCMdFiles_Game_Save
    - TFCGtasklistToProc: farc_game_missioncore /FCMgMCore_Mission_Commit

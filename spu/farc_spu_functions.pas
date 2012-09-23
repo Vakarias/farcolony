@@ -353,6 +353,7 @@ end;
 function FCFspuF_Mission_GetPhaseName(const MGPNfac, MGPNspU: integer): string;
 {:Purpose: get the phase name of the chosen space unit.
     Additions:
+      -2012Sep23- *add/mod: modify and expand the selection according to the overhaul of the task data structure.
       -2010Sep15- *mod: delete useless code after entities transformation.
       -2010Sep13- *add: entities code.
       -2010Sep06- *code audit.
@@ -370,11 +371,23 @@ begin
    then
    begin
       result:='error';
-      case FCGtskListInProc[MGPNtask].T_tMColCurrentPhase of
-         ccpAcceleration: result:=FCFdTFiles_UIStr_Get(uistrUI,'ggfptAccel');
-         ccpCruise: result:=FCFdTFiles_UIStr_Get(uistrUI,'ggfptCruise');
-         ccpDeceleration: result:=FCFdTFiles_UIStr_Get(uistrUI,'ggfptDecel');
-         ccpAtmosphericEntry: result:=FCFdTFiles_UIStr_Get(uistrUI,'ggftpAtmEnt');
+      case FCGtskListInProc[MGPNtask].T_type of
+         tMissionColonization:
+         begin
+            case FCGtskListInProc[MGPNtask].T_tMCphase of
+               mcpDeceleration: result:=FCFdTFiles_UIStr_Get(uistrUI,'ggfptDecel');
+               mcpAtmosphericEntry: result:=FCFdTFiles_UIStr_Get(uistrUI,'ggftpAtmEnt');
+            end;
+         end;
+
+         tMissionInterplanetaryTransit:
+         begin
+            case FCGtskListInProc[MGPNtask].T_tMITphase of
+               mitpAcceleration: result:=FCFdTFiles_UIStr_Get(uistrUI,'ggfptAccel');
+               mitpCruise: result:=FCFdTFiles_UIStr_Get(uistrUI,'ggfptCruise');
+               mitpDeceleration: result:=FCFdTFiles_UIStr_Get(uistrUI,'ggfptDecel');
+            end;
+         end;
       end;
    end;
 end;
