@@ -52,8 +52,9 @@ type TFCEdmtTasks=(
 ///   targets
 ///</summary>
 type TFCEdmtTaskTargets=(
-   ttInfrastructure
-   ,ttSpaceUnit
+//   ttInfrastructure
+//   ,
+   ttSpaceUnit
    ,ttOrbitalObject
    ,ttSatellite
    ,ttSpace
@@ -71,19 +72,21 @@ type TFCEdmtTaskTargets=(
 ///   task
 ///</summary>
 type TFCRdmtTask = record
-   T_type: TFCEdmtTasks;
-   T_tMColCurrentPhase: (
-      ccpAcceleration
-      ,ccpCruise
-      ,ccpDeceleration
-      ,ccpAtmosphericEntry
-      ,ccpDone
-      ,ccpTerminated
-      );
-   {controlled target type}
-   TITP_ctldType: TFCEdmtTaskTargets;
-   {controlled target's faction number, 0=player}
-   TITP_ctldFac: integer;
+//   T_type: TFCEdmtTasks;
+//   T_tMColCurrentPhase: (
+//      ccpAcceleration
+//      ,ccpCruise
+//      ,ccpDeceleration
+//      ,ccpAtmosphericEntry
+//      ,ccpDone
+//      ,ccpTerminated
+//      );
+//   {controlled target type}
+//   TITP_ctldType: TFCEdmtTaskTargets;
+   ///<summary>
+   ///   entity index # linked to the task
+   ///</summary>
+   T_entity: integer;
    {controlled target's index in subdata structure}
    TITP_ctldIdx: integer;
    {.timer tick at start of the mission}
@@ -131,6 +134,26 @@ type TFCRdmtTask = record
    TITP_str2: string;
    {.data integer 1 for needed data transferts}
    TITP_int1: integer;
+   case T_type: TFCEdmtTasks of
+      tMissionColonization:(
+         T_tMCphase:(
+            mcpDeceleration
+            ,mcpAtmosphericEntry
+            ,mcpDone
+            ,mcpTerminated
+            )
+         );
+
+      tMissionInterplanetaryTransit:(
+         T_tMITphase:(
+            mitpAcceleration
+            ,mitpCruise
+            ,mitpDeceleration
+            ,mitpDone
+            ,mitpTerminated
+            )
+         );
+
 end; //==END== type TFCRtaskItem = record ==//
    {.tasklist to process dynamic array}
    TFCGtasklistToProc = array of TFCRdmtTask;

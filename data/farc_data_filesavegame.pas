@@ -340,10 +340,10 @@ begin
             then raise Exception.Create( 'bad gamesave loading w/task type: '+XMLSavedGameItem.Attributes['tipActTp'] );
             FCGtskListInProc[Count].T_tMColCurrentPhase:=XMLSavedGameItem.Attributes['tipPhase'];
             EnumIndex:=GetEnumValue( TypeInfo( TFCEdmtTaskTargets ), XMLSavedGameItem.Attributes['tipTgtTp'] );
-            FCGtskListInProc[Count].TITP_ctldType:=TFCEdmtTaskTargets( EnumIndex );
+//            FCGtskListInProc[Count].TITP_ctldType:=TFCEdmtTaskTargets( EnumIndex );
             if EnumIndex=-1
             then raise Exception.Create( 'bad gamesave loading w/ task target type: '+XMLSavedGameItem.Attributes['tipTgtTp'] );
-            FCGtskListInProc[Count].TITP_ctldFac:=XMLSavedGameItem.Attributes['tipTgtFac'];
+            FCGtskListInProc[Count].T_entity:=XMLSavedGameItem.Attributes['tipTgtFac'];
             FCGtskListInProc[Count].TITP_ctldIdx:=XMLSavedGameItem.Attributes['tipTgtIdx'];
             FCGtskListInProc[Count].TITP_timeOrg:=XMLSavedGameItem.Attributes['tipTimeOrg'];
             FCGtskListInProc[Count].TITP_duration:=XMLSavedGameItem.Attributes['tipDura'];
@@ -966,10 +966,10 @@ begin
                      else if not FCDdgEntities[Count].E_spmSettings[Count1].SPMS_isPolicy then
                      begin
                         EnumIndex:=GetEnumValue( TypeInfo( TFCEdgBeliefLevels ), XMLSavedGameItemSub1.Attributes['belieflvl'] );
-                        FCDdgEntities[Count].E_spmSettings[Count1].SPMS_iPtBeliefLevel:=TFCEdgBeliefLevels( EnumIndex );
+                        FCDdgEntities[Count].E_spmSettings[Count1].SPMS_iPfBeliefLevel:=TFCEdgBeliefLevels( EnumIndex );
                         if EnumIndex=-1
                         then raise Exception.Create( 'bad gamesave loading w/meme belief level: '+XMLSavedGameItemSub1.Attributes['belieflvl'] );
-                        FCDdgEntities[Count].E_spmSettings[Count1].SPMS_iPtSpreadValue:=XMLSavedGameItemSub1.Attributes['spreadval'];
+                        FCDdgEntities[Count].E_spmSettings[Count1].SPMS_iPfSpreadValue:=XMLSavedGameItemSub1.Attributes['spreadval'];
                      end;
                      XMLSavedGameItemSub1:=XMLSavedGameItemSub1.NextSibling;
                   end;
@@ -1217,8 +1217,8 @@ begin
          XMLSavedGameItemSub:=XMLSavedGameItem.AddChild('gfTskInProc');
          XMLSavedGameItemSub.Attributes['tipActTp']:=GetEnumName( TypeInfo( TFCEdmtTasks ), Integer( FCGtskListInProc[Count].T_type ) );
          XMLSavedGameItemSub.Attributes['tipPhase']:=FCGtskListInProc[Count].T_tMColCurrentPhase;
-         XMLSavedGameItemSub.Attributes['tipTgtTp']:=GetEnumName( TypeInfo( TFCEdmtTaskTargets ), Integer( FCGtskListInProc[Count].TITP_ctldType ) );
-         XMLSavedGameItemSub.Attributes['tipTgtFac']:=FCGtskListInProc[Count].TITP_ctldFac;
+//         XMLSavedGameItemSub.Attributes['tipTgtTp']:=GetEnumName( TypeInfo( TFCEdmtTaskTargets ), Integer( FCGtskListInProc[Count].TITP_ctldType ) );
+         XMLSavedGameItemSub.Attributes['tipTgtFac']:=FCGtskListInProc[Count].T_entity;
          XMLSavedGameItemSub.Attributes['tipTgtIdx']:=FCGtskListInProc[Count].TITP_ctldIdx;
          XMLSavedGameItemSub.Attributes['tipTimeOrg']:=FCGtskListInProc[Count].TITP_timeOrg;
          XMLSavedGameItemSub.Attributes['tipDura']:=FCGtskListInProc[Count].TITP_duration;
@@ -1730,7 +1730,7 @@ begin
             end
             else if not FCDdgEntities[Count].E_spmSettings[Count1].SPMS_isPolicy then
             begin
-               XMLSavedGameItemSub2.Attributes['belieflvl']:=GetEnumName( TypeInfo( TFCEdgBeliefLevels ), Integer( FCDdgEntities[Count].E_spmSettings[Count1].SPMS_iPtBeliefLevel ) );
+               XMLSavedGameItemSub2.Attributes['belieflvl']:=GetEnumName( TypeInfo( TFCEdgBeliefLevels ), Integer( FCDdgEntities[Count].E_spmSettings[Count1].SPMS_iPfBeliefLevel ) );
                XMLSavedGameItemSub2.Attributes['spreadval']:=FCDdgEntities[Count].E_spmSettings[Count1].SPMS_iPtAcceptanceProbability;
             end;
             inc( Count1 );

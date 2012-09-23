@@ -434,9 +434,9 @@ begin
          and ( FCDdgEntities[SPMIIGent].E_spmSettings[SPMIIGcnt].SPMS_duration=0 )
       then SPMIIGres:=SPMIIGres+SPMIIGspmi.SPMI_infl[SPMIIGcnt].SPMII_influence
       else if ( not FCDdgEntities[SPMIIGent].E_spmSettings[SPMIIGcnt].SPMS_isPolicy )
-         and ( FCDdgEntities[SPMIIGent].E_spmSettings[SPMIIGcnt].SPMS_iPtBeliefLevel>blUnknown ) then
+         and ( FCDdgEntities[SPMIIGent].E_spmSettings[SPMIIGcnt].SPMS_iPfBeliefLevel>blUnknown ) then
       begin
-         SPMIIGsv:=FCFgSPMM_SVRange_Get( FCDdgEntities[SPMIIGent].E_spmSettings[SPMIIGcnt].SPMS_iPtBeliefLevel );
+         SPMIIGsv:=FCFgSPMM_SVRange_Get( FCDdgEntities[SPMIIGent].E_spmSettings[SPMIIGcnt].SPMS_iPfBeliefLevel );
          SPMIIGres:=SPMIIGres+round( SPMIIGspmi.SPMI_infl[SPMIIGcnt].SPMII_influence* ( SPMIIGsv[2]*0.01 ) );
       end;
       inc( SPMIIGcnt );

@@ -817,14 +817,14 @@ begin
       SPMItemData:=FCFgSPM_SPMIData_Get( FCDdgEntities[0].E_spmSettings[Count].SPMS_token );
       if not FCDdgEntities[0].E_spmSettings[Count].SPMS_isPolicy then
       begin
-         if FCDdgEntities[0].E_spmSettings[Count].SPMS_iPtBeliefLevel>blUnknown then
+         if FCDdgEntities[0].E_spmSettings[Count].SPMS_iPfBeliefLevel>blUnknown then
          begin
              StrPolicySetMemePresent:=FCCFcolBlueL+FCFdTFiles_UIStr_Get( uistrUI, 'UMImemeSet' )+FCCFcolEND;
              StrFormat:=FCCFcolBlueL;
          end;
          StrFormat:=StrFormat+FCFdTFiles_UIStr_Get( uistrUI, FCDdgEntities[0].E_spmSettings[Count].SPMS_token )+UIHTMLencyBEGIN+FCDdgEntities[0].E_spmSettings[Count].SPMS_token+UIHTMLencyEND+StrPolicySetMemePresent;
-         StrMemeProgressUniquePolicy:='  [<a href="SPMiBL">BL</a>: <b>'+FCFdTFiles_UIStr_Get( uistrUI, 'SPMiBL'+IntToStr( Integer( FCDdgEntities[0].E_spmSettings[Count].SPMS_iPtBeliefLevel ) ) )
-            +'</b> / <a href="SPMiSV">SV</a>: <b>'+IntToStr( FCDdgEntities[0].E_spmSettings[Count].SPMS_iPtSpreadValue )+'</b> %]';
+         StrMemeProgressUniquePolicy:='  [<a href="SPMiBL">BL</a>: <b>'+FCFdTFiles_UIStr_Get( uistrUI, 'SPMiBL'+IntToStr( Integer( FCDdgEntities[0].E_spmSettings[Count].SPMS_iPfBeliefLevel ) ) )
+            +'</b> / <a href="SPMiSV">SV</a>: <b>'+IntToStr( FCDdgEntities[0].E_spmSettings[Count].SPMS_iPfSpreadValue )+'</b> %]';
       end
       else begin
          if not FCDdgEntities[0].E_spmSettings[Count].SPMS_iPtIsSet then

@@ -546,12 +546,12 @@ FCWinNewGSetup.Close;
          else if not FCDdgEntities[CPent].E_spmSettings[CPspmCnt].SPMS_isPolicy
          then
          begin
-            FCDdgEntities[CPent].E_spmSettings[CPspmCnt].SPMS_iPtBeliefLevel:=FCDdgFactions[CPfacLd].F_spm[CPspmCnt].SPMS_iPtBeliefLevel;
-            FCDdgEntities[CPent].E_spmSettings[CPspmCnt].SPMS_iPtSpreadValue:=FCDdgFactions[CPfacLd].F_spm[CPspmCnt].SPMS_iPtSpreadValue;
-            if FCDdgEntities[CPent].E_spmSettings[CPspmCnt].SPMS_iPtBeliefLevel>=blFleeting
+            FCDdgEntities[CPent].E_spmSettings[CPspmCnt].SPMS_iPfBeliefLevel:=FCDdgFactions[CPfacLd].F_spm[CPspmCnt].SPMS_iPfBeliefLevel;
+            FCDdgEntities[CPent].E_spmSettings[CPspmCnt].SPMS_iPfSpreadValue:=FCDdgFactions[CPfacLd].F_spm[CPspmCnt].SPMS_iPfSpreadValue;
+            if FCDdgEntities[CPent].E_spmSettings[CPspmCnt].SPMS_iPfBeliefLevel>=blFleeting
             then
             begin
-               CPsv:=FCDdgEntities[CPent].E_spmSettings[CPspmCnt].SPMS_iPtSpreadValue*0.01;
+               CPsv:=FCDdgEntities[CPent].E_spmSettings[CPspmCnt].SPMS_iPfSpreadValue*0.01;
                CPspmI:=FCFgSPM_SPMIData_Get(FCDdgEntities[CPent].E_spmSettings[CPspmCnt].SPMS_token);
                FCDdgEntities[CPent].E_spmMod_Cohesion:=FCDdgEntities[CPent].E_spmMod_Cohesion+round(CPspmI.SPMI_modCohes*CPsv);
                FCDdgEntities[CPent].E_spmMod_Tension:=FCDdgEntities[CPent].E_spmMod_Tension+round(CPspmI.SPMI_modTens*CPsv);

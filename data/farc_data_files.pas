@@ -596,10 +596,10 @@ begin
                   begin
                      FCDdgFactions[FactionCount].F_spm[Count1].SPMS_isPolicy:=false;
                      EnumIndex:=GetEnumValue( TypeInfo( TFCEdgBeliefLevels ), XMLFactionSubItem.Attributes['belieflev'] );
-                     FCDdgFactions[FactionCount].F_spm[Count1].SPMS_iPtBeliefLevel:=TFCEdgBeliefLevels( EnumIndex );
+                     FCDdgFactions[FactionCount].F_spm[Count1].SPMS_iPfBeliefLevel:=TFCEdgBeliefLevels( EnumIndex );
                      if EnumIndex=-1
                      then raise Exception.Create( 'bad faction XML loading w/ meme belief level: '+XMLFactionSubItem.Attributes['belieflev'] );
-                     FCDdgFactions[FactionCount].F_spm[Count1].SPMS_iPtSpreadValue:=XMLFactionSubItem.Attributes['spreadval'];
+                     FCDdgFactions[FactionCount].F_spm[Count1].SPMS_iPfSpreadValue:=XMLFactionSubItem.Attributes['spreadval'];
                   end;
                   XMLFactionSubItem:=XMLFactionSubItem.NextSibling;
                end; //==END== while DBFRspmItm<>nil ==//

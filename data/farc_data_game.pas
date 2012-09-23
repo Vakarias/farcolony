@@ -568,8 +568,8 @@ type TFCRdgSPMSettings= record
          SPMS_iPtAcceptanceProbability: integer
          );
       false:(
-         SPMS_iPtBeliefLevel: TFCEdgBeliefLevels;
-         SPMS_iPtSpreadValue: integer
+         SPMS_iPfBeliefLevel: TFCEdgBeliefLevels;
+         SPMS_iPfSpreadValue: integer
          );
 end;
 

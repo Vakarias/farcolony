@@ -278,7 +278,7 @@ begin
          if (FCGtskListInProc[GTPtaskIdx].T_tMColCurrentPhase<>ccpTerminated)
          then
          begin
-            GTPfac:=FCGtskListInProc[GTPtaskIdx].TITP_ctldFac;
+            GTPfac:=FCGtskListInProc[GTPtaskIdx].T_entity;
             GTPspuOwn:=FCGtskListInProc[GTPtaskIdx].TITP_ctldIdx;
             case FCGtskListInProc[GTPtaskIdx].T_type of
                {.mission - colonization}
@@ -373,7 +373,7 @@ begin
                      begin
                         GTPoobjDB:=FCGtskListInProc[GTPtaskIdx].TITP_destIdx;
                         FCMgC_Colonize_PostProc(
-                           FCGtskListInProc[GTPtaskIdx].TITP_ctldFac
+                           FCGtskListInProc[GTPtaskIdx].T_entity
                            ,GTPspuOwn
                            ,GTPssysDB
                            ,GTPstarDB
@@ -391,7 +391,7 @@ begin
                         GTPoobjDB:=round(FC3doglSatellitesObjectsGroups[FCGtskListInProc[GTPtaskIdx].TITP_destIdx].TagFloat);
                         GTPsatDB:=FC3doglSatellitesObjectsGroups[FCGtskListInProc[GTPtaskIdx].TITP_destIdx].Tag;
                         FCMgC_Colonize_PostProc(
-                           FCGtskListInProc[GTPtaskIdx].TITP_ctldFac
+                           FCGtskListInProc[GTPtaskIdx].T_entity
                            ,GTPspuOwn
                            ,GTPssysDB
                            ,GTPstarDB
@@ -840,7 +840,7 @@ begin
             FCGtskListInProc[GTPtaskIdx].TITP_timeOrg:= GGFnewTick;
             GTPspUidx:=FCGtskListInProc[GTPtaskIdx].TITP_ctldIdx;
             {.update the tasklist in process index inside the owned space unit data structure}
-            GTPfac:=FCGtskListInProc[GTPtaskIdx].TITP_ctldFac;
+            GTPfac:=FCGtskListInProc[GTPtaskIdx].T_entity;
             FCDdgEntities[GTPfac].E_spaceUnits[FCGtskListInProc[GTPtaskIdx].TITP_ctldIdx].SU_assignedTask:=GTPtaskIdx;
             {.mission related data init}
             case FCGtskListInProc[GTPtaskIdx].T_type of
