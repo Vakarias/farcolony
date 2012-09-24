@@ -716,7 +716,7 @@ begin
                then
                begin
                   SURtask:=SURown[SURclone].SU_assignedTask;
-                  FCGtskListInProc[SURtask].TITP_ctldIdx:=SURclone;
+                  FCGtskListInProc[SURtask].T_controllerIndex:=SURclone;
                end;
                if SURown[SURclone].SU_locationStar=FCVdgPlayer.P_viewStar
                then

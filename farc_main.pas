@@ -640,7 +640,7 @@ begin
                if not FCGtskListInProc[i].T_isTaskTerminated
                then
                begin
-                  FCGLSCPspUidx:=FCGtskListInProc[i].TITP_ctldIdx;
+                  FCGLSCPspUidx:=FCGtskListInProc[i].T_controllerIndex;
                   FCGLSCPobjIdx:=FCDdgEntities[0].E_spaceUnits[FCGLSCPspUidx].SU_linked3dObject;
                   if
                      (

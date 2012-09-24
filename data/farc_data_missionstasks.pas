@@ -122,8 +122,10 @@ type TFCRdmtTask = record
    ///   indicate that the task is terminated and ready to be flushed
    ///</summary>
    T_isTaskTerminated: boolean;
-   {controlled target's index in subdata structure}
-   TITP_ctldIdx: integer;
+   ///<summary>
+   ///   task controller index
+   ///</summary>
+   T_controllerIndex: integer;
    {.timer tick at start of the mission}
    {:DEV NOTES: taskinprocONLY.}
    TITP_timeOrg: integer;
@@ -169,6 +171,7 @@ type TFCRdmtTask = record
    TITP_str2: string;
    {.data integer 1 for needed data transferts}
    TITP_int1: integer;
+
    case T_type: TFCEdmtTasks of
       tMissionColonization:(
          T_tMCphase: TFCEdmtTaskPhasesColonization
@@ -181,7 +184,7 @@ type TFCRdmtTask = record
 end; //==END== type TFCRtaskItem = record ==//
    {.tasklist to process dynamic array}
    TFCGtasklistToProc = array of TFCRdmtTask;
-   {.current tasklit dynamic array}
+   {.current tasklist dynamic array}
    TFCGtasklistInProc = array of TFCRdmtTask;
 
 //==END PUBLIC RECORDS======================================================================

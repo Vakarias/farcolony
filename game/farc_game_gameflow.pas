@@ -279,7 +279,7 @@ begin
          then
          begin
             GTPfac:=FCGtskListInProc[GTPtaskIdx].T_entity;
-            GTPspuOwn:=FCGtskListInProc[GTPtaskIdx].TITP_ctldIdx;
+            GTPspuOwn:=FCGtskListInProc[GTPtaskIdx].T_controllerIndex;
             case FCGtskListInProc[GTPtaskIdx].T_type of
                {.mission - colonization}
                tMissionColonization:
@@ -618,7 +618,7 @@ begin
                         GTPoobjDB:=FCGtskListInProc[GTPtaskIdx].TITP_destIdx;
                         FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_locationOrbitalObject
                            :=FCDduStarSystem[GTPssysDB].SS_stars[GTPstarDB].S_orbitalObjects[FCGtskListInProc[GTPtaskIdx].TITP_destIdx].OO_dbTokenId;
-                        FCDdgEntities[GTPfac].E_spaceUnits[FCGtskListInProc[GTPtaskIdx].TITP_ctldIdx].SU_locationSatellite:='';
+                        FCDdgEntities[GTPfac].E_spaceUnits[FCGtskListInProc[GTPtaskIdx].T_controllerIndex].SU_locationSatellite:='';
                         FCMspuF_Orbits_Process(
                            spufoioAddOrbit
                            ,GTPssysDB
@@ -811,6 +811,7 @@ begin
       then FCcps.FCM_EndPhase_Proc;
    end;
    {.delete unused tasks, if it's possible}
+   {:DEV NOTES: rewrite that part of code w/ better algo!.}
    GTPcnt:=length(FCGtskListInProc)-1;
    while GTPcnt>0 do
    begin
@@ -838,10 +839,10 @@ begin
             {.update the tasklist in process}
             FCGtskListInProc[GTPtaskIdx]:=FCGtskLstToProc[GTPnumTTProcIdx];
             FCGtskListInProc[GTPtaskIdx].TITP_timeOrg:= GGFnewTick;
-            GTPspUidx:=FCGtskListInProc[GTPtaskIdx].TITP_ctldIdx;
+            GTPspUidx:=FCGtskListInProc[GTPtaskIdx].T_controllerIndex;
             {.update the tasklist in process index inside the owned space unit data structure}
             GTPfac:=FCGtskListInProc[GTPtaskIdx].T_entity;
-            FCDdgEntities[GTPfac].E_spaceUnits[FCGtskListInProc[GTPtaskIdx].TITP_ctldIdx].SU_assignedTask:=GTPtaskIdx;
+            FCDdgEntities[GTPfac].E_spaceUnits[FCGtskListInProc[GTPtaskIdx].T_controllerIndex].SU_assignedTask:=GTPtaskIdx;
             {.mission related data init}
             case FCGtskListInProc[GTPtaskIdx].T_type of
                tMissionColonization:
@@ -902,7 +903,7 @@ begin
                      ,FCGtskListInProc[GTPtaskIdx].TITP_orgIdx
                      ,0
                      ,0
-                     ,FCGtskListInProc[GTPtaskIdx].TITP_ctldIdx
+                     ,FCGtskListInProc[GTPtaskIdx].T_controllerIndex
                      ,true
                      )
                   else if FCGtskListInProc[GTPtaskIdx].TITP_orgType=ttSatellite
@@ -917,7 +918,7 @@ begin
                         ,GTPoriginSatPlanIdx
                         ,GTPoriginSatIdx
                         ,0
-                        ,FCGtskListInProc[GTPtaskIdx].TITP_ctldIdx
+                        ,FCGtskListInProc[GTPtaskIdx].T_controllerIndex
                         ,true
                         );
                   end;

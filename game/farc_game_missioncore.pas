@@ -253,7 +253,7 @@ begin
             FCGtskLstToProc[MCtskL].T_type:=tMissionColonization;
 //            FCGtskLstToProc[MCtskL].TITP_ctldType:=ttSpaceUnit;
             FCGtskLstToProc[MCtskL].T_entity:=GMCfac;
-            FCGtskLstToProc[MCtskL].TITP_ctldIdx:=GMCdckd[MCcnt].GMCD_index;
+            FCGtskLstToProc[MCtskL].T_controllerIndex:=GMCdckd[MCcnt].GMCD_index;
             FCGtskLstToProc[MCtskL].TITP_duration:=GMCdckd[MCcnt].GMCD_tripTime;
             FCGtskLstToProc[MCtskL].TITP_interval:=1;
             FCGtskLstToProc[MCtskL].TITP_orgType:=ttSpaceUnit;
@@ -313,7 +313,7 @@ begin
          FCGtskLstToProc[MCtskL].T_type:=tMissionInterplanetaryTransit;
 //         FCGtskLstToProc[MCtskL].TITP_ctldType:=ttSpaceUnit;
          FCGtskLstToProc[MCtskL].T_entity:=FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].Tag;
-         FCGtskLstToProc[MCtskL].TITP_ctldIdx:=round(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].TagFloat);
+         FCGtskLstToProc[MCtskL].T_controllerIndex:=round(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].TagFloat);
          FCGtskLstToProc[MCtskL].TITP_duration:=round(GMCtripTime);
          FCGtskLstToProc[MCtskL].TITP_interval:=1;
          if GMCrootSatIdx=0
