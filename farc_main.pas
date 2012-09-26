@@ -637,7 +637,7 @@ begin
             i:=1;
             while i<=FCGLSCPtaskL-1 do
             begin
-               if not FCGtskListInProc[i].T_isTaskTerminated
+               if not FCGtskListInProc[i].T_inProcessData.IPD_isTaskTerminated
                then
                begin
                   FCGLSCPspUidx:=FCGtskListInProc[i].T_controllerIndex;

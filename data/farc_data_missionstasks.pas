@@ -99,36 +99,45 @@ type TFCEdmtTaskTargets=(
 ///   task
 ///</summary>
 type TFCRdmtTask = record
-//   T_type: TFCEdmtTasks;
-//   T_tMColCurrentPhase: (
-//      ccpAcceleration
-//      ,ccpCruise
-//      ,ccpDeceleration
-//      ,ccpAtmosphericEntry
-//      ,ccpDone
-//      ,ccpTerminated
-//      );
-//   {controlled target type}
-//   TITP_ctldType: TFCEdmtTaskTargets;
    ///<summary>
    ///   entity index # linked to the task
    ///</summary>
    T_entity: integer;
    ///<summary>
-   ///   indicate that the task is done
+   ///   subset of data for the task in process only
    ///</summary>
-   T_isTaskDone: boolean;
-   ///<summary>
-   ///   indicate that the task is terminated and ready to be flushed
-   ///</summary>
-   T_isTaskTerminated: boolean;
+   T_inProcessData: record
+      ///<summary>
+      ///   indicate that the task is done
+      ///</summary>
+      IPD_isTaskDone: boolean;
+      ///<summary>
+      ///   indicate that the task is terminated and ready to be flushed
+      ///</summary>
+      IPD_isTaskTerminated: boolean;
+      {.timer tick at start of the mission}
+      {:DEV NOTES: taskinprocONLY.}
+      TITP_timeOrg: integer;
+      {.time in tick for deceleration}
+      {:DEV NOTES: taskinprocONLY.}
+      TITP_timeDecel: integer;
+      {.time to transfert}
+      {:DEV NOTES: taskinprocONLY.}
+      TITP_time2xfert: integer;
+      {.time to transfert to decel}
+      {:DEV NOTES: taskinprocONLY.}
+      TITP_time2xfert2decel: integer;
+      {.acceleration by tick for the current mission}
+      {:DEV NOTES: taskinprocONLY.}
+      TITP_accelbyTick: extended;
+   end;
+
+
    ///<summary>
    ///   task controller index
    ///</summary>
    T_controllerIndex: integer;
-   {.timer tick at start of the mission}
-   {:DEV NOTES: taskinprocONLY.}
-   TITP_timeOrg: integer;
+
    {task duration in ticks, 0= infinite}
    TITP_duration: integer;
    {interval, in clock tick, between 2 running processes in same thread}
@@ -147,22 +156,14 @@ type TFCRdmtTask = record
    TITP_velCruise: extended;
    {acceleration time in ticks}
    TITP_timeToCruise: integer;
-   {.time in tick for deceleration}
-   {:DEV NOTES: taskinprocONLY.}
-   TITP_timeDecel: integer;
-   {.time to transfert}
-   {:DEV NOTES: taskinprocONLY.}
-   TITP_time2xfert: integer;
-   {.time to transfert to decel}
-   {:DEV NOTES: taskinprocONLY.}
-   TITP_time2xfert2decel: integer;
+
+
+
    {final velocity, if 0 then = cruise vel}
    TITP_velFinal: extended;
    {deceleration time in ticks}
    TITP_timeToFinal: integer;
-   {.acceleration by tick for the current mission}
-   {:DEV NOTES: taskinprocONLY.}
-   TITP_accelbyTick: extended;
+
    {used reaction mass volume for the complete task}
    TITP_usedRMassV: extended;
    {.data string 1 for needed data transferts}
@@ -171,7 +172,6 @@ type TFCRdmtTask = record
    TITP_str2: string;
    {.data integer 1 for needed data transferts}
    TITP_int1: integer;
-
    case T_type: TFCEdmtTasks of
       tMissionColonization:(
          T_tMCphase: TFCEdmtTaskPhasesColonization
