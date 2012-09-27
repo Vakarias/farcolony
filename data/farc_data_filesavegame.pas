@@ -339,8 +339,8 @@ begin
             FCGtskListInProc[Count].T_entity:=XMLSavedGameItem.Attributes['entity'];
             FCGtskListInProc[Count].T_inProcessData.IPD_isTaskDone:=XMLSavedGameItem.Attributes['isTaskDone'];
             FCGtskListInProc[Count].T_inProcessData.IPD_isTaskTerminated:=XMLSavedGameItem.Attributes['isTaskTerminated'];
+            FCGtskListInProc[Count].T_inProcessData.IPD_ticksAtTaskStart:=XMLSavedGameItem.Attributes['ticksAtStart'];
             FCGtskListInProc[Count].T_controllerIndex:=XMLSavedGameItem.Attributes['controllerIndex'];
-            FCGtskListInProc[Count].T_inProcessData.TITP_timeOrg:=XMLSavedGameItem.Attributes['tipTimeOrg'];
             FCGtskListInProc[Count].TITP_duration:=XMLSavedGameItem.Attributes['tipDura'];
             FCGtskListInProc[Count].TITP_interval:=XMLSavedGameItem.Attributes['tipInterv'];
             EnumIndex:=GetEnumValue( TypeInfo( TFCEdmtTaskTargets ), XMLSavedGameItem.Attributes['tipOrgTp'] );
@@ -353,7 +353,6 @@ begin
             if EnumIndex=-1
             then raise Exception.Create( 'bad gamesave loading w/ destination type: '+XMLSavedGameItem.Attributes['tipDestTp'] );
             FCGtskListInProc[Count].TITP_destIdx:=XMLSavedGameItem.Attributes['tipDestIdx'];
-            FCGtskListInProc[Count].TITP_regIdx:=XMLSavedGameItem.Attributes['tipRegIdx'];
             FCGtskListInProc[Count].TITP_velCruise:=StrToFloat( XMLSavedGameItem.Attributes['tipVelCr'], FCVdiFormat );
             FCGtskListInProc[Count].TITP_timeToCruise:=XMLSavedGameItem.Attributes['tipTimeTcr'];
             FCGtskListInProc[Count].T_inProcessData.TITP_timeDecel:=XMLSavedGameItem.Attributes['tipTimeTdec'];
@@ -375,6 +374,7 @@ begin
                begin
                   EnumIndex:=GetEnumValue( TypeInfo( TFCEdmtTaskPhasesColonization ), XMLSavedGameItem.Attributes['phase'] );
                   FCGtskListInProc[Count].T_tMCphase:=TFCEdmtTaskPhasesColonization( EnumIndex );
+                  FCGtskListInProc[Count].T_tMCregionOfDestination:=XMLSavedGameItem.Attributes['regionDestination'];
                end;
 
                tMissionInterplanetaryTransit:
@@ -1235,14 +1235,14 @@ begin
          XMLSavedGameItem.Attributes['isTaskDone']:=FCGtskListInProc[Count].T_inProcessData.IPD_isTaskDone;
          XMLSavedGameItem.Attributes['isTaskTerminated']:=FCGtskListInProc[Count].T_inProcessData.IPD_isTaskTerminated;
          XMLSavedGameItemSub.Attributes['controllerIndex']:=FCGtskListInProc[Count].T_controllerIndex;
-         XMLSavedGameItemSub.Attributes['tipTimeOrg']:=FCGtskListInProc[Count].T_inProcessData.TITP_timeOrg;
+         XMLSavedGameItemSub.Attributes['ticksAtStart']:=FCGtskListInProc[Count].T_inProcessData.IPD_ticksAtTaskStart;
          XMLSavedGameItemSub.Attributes['tipDura']:=FCGtskListInProc[Count].TITP_duration;
          XMLSavedGameItemSub.Attributes['tipInterv']:=FCGtskListInProc[Count].TITP_interval;
          XMLSavedGameItemSub.Attributes['tipOrgTp']:=GetEnumName( TypeInfo( TFCEdmtTaskTargets ), Integer( FCGtskListInProc[Count].TITP_orgType ) );
          XMLSavedGameItemSub.Attributes['tipOrgIdx']:=FCGtskListInProc[Count].TITP_orgIdx;
          XMLSavedGameItemSub.Attributes['tipDestTp']:=GetEnumName( TypeInfo( TFCEdmtTaskTargets ), Integer( FCGtskListInProc[Count].TITP_destType ) );
          XMLSavedGameItemSub.Attributes['tipDestIdx']:=FCGtskListInProc[Count].TITP_destIdx;
-         XMLSavedGameItemSub.Attributes['tipRegIdx']:=FCGtskListInProc[Count].TITP_regIdx;
+         XMLSavedGameItemSub.Attributes['regionDestination']:=FCGtskListInProc[Count].T_tMCregionOfDestination;
          XMLSavedGameItemSub.Attributes['tipVelCr']:=FloatToStr( FCGtskListInProc[Count].TITP_velCruise, FCVdiFormat );
          XMLSavedGameItemSub.Attributes['tipTimeTcr']:=FCGtskListInProc[Count].TITP_timeToCruise;
          XMLSavedGameItemSub.Attributes['tipTimeTdec']:=FCGtskListInProc[Count].T_inProcessData.TITP_timeDecel;

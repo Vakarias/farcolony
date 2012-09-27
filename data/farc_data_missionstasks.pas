@@ -115,12 +115,11 @@ type TFCRdmtTask = record
       ///   indicate that the task is terminated and ready to be flushed
       ///</summary>
       IPD_isTaskTerminated: boolean;
-      {.timer tick at start of the mission}
-      {:DEV NOTES: taskinprocONLY.}
-      TITP_timeOrg: integer;
-      {.time in tick for deceleration}
-      {:DEV NOTES: taskinprocONLY.}
-      TITP_timeDecel: integer;
+      ///<summary>
+      ///   current timer ticks at start of the task
+      ///</summary>
+      IPD_ticksAtTaskStart: integer;
+
       {.time to transfert}
       {:DEV NOTES: taskinprocONLY.}
       TITP_time2xfert: integer;
@@ -131,13 +130,10 @@ type TFCRdmtTask = record
       {:DEV NOTES: taskinprocONLY.}
       TITP_accelbyTick: extended;
    end;
-
-
    ///<summary>
    ///   task controller index
    ///</summary>
    T_controllerIndex: integer;
-
    {task duration in ticks, 0= infinite}
    TITP_duration: integer;
    {interval, in clock tick, between 2 running processes in same thread}
@@ -150,20 +146,14 @@ type TFCRdmtTask = record
    TITP_destType: TFCEdmtTaskTargets;
    {destination index (OBJECT)}
    TITP_destIdx: integer;
-   {.targeted region #}
-   TITP_regIdx: integer;
    {cruise velocity to reach , if 0 then =current deltav}
    TITP_velCruise: extended;
    {acceleration time in ticks}
    TITP_timeToCruise: integer;
-
-
-
    {final velocity, if 0 then = cruise vel}
    TITP_velFinal: extended;
    {deceleration time in ticks}
    TITP_timeToFinal: integer;
-
    {used reaction mass volume for the complete task}
    TITP_usedRMassV: extended;
    {.data string 1 for needed data transferts}
@@ -174,11 +164,24 @@ type TFCRdmtTask = record
    TITP_int1: integer;
    case T_type: TFCEdmtTasks of
       tMissionColonization:(
-         T_tMCphase: TFCEdmtTaskPhasesColonization
+         T_tMCphase: TFCEdmtTaskPhasesColonization;
+         T_tMCregionOfDestination: integer;
+         T_tMCinProcessData: record
+            ///<summary>
+            ///   time in tick for deceleration
+            ///</summary>
+            IPD_timeForDeceleration: integer;
+         end;
          );
 
       tMissionInterplanetaryTransit:(
-         T_tMITphase: TFCEdmtTaskPhasesInterplanetaryTransit
+         T_tMITphase: TFCEdmtTaskPhasesInterplanetaryTransit;
+         T_tMITinProcessData: record
+            ///<summary>
+            ///   time in tick for deceleration
+            ///</summary>
+            IPD_timeForDeceleration: integer;
+         end;
          );
 
 end; //==END== type TFCRtaskItem = record ==//

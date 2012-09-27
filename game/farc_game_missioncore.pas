@@ -270,7 +270,7 @@ begin
                FCGtskLstToProc[MCtskL].TITP_destType:=ttSatellite;
                FCGtskLstToProc[MCtskL].TITP_destIdx:=GMCrootSatObjIdx;
             end;
-            FCGtskLstToProc[MCtskL].TITP_regIdx:=GMCregion;
+            FCGtskLstToProc[MCtskL].T_tMCregionOfDestination:=GMCregion;
             FCGtskLstToProc[MCtskL].TITP_velCruise:=0;
             FCGtskLstToProc[MCtskL].TITP_timeToCruise:=0;
             FCGtskLstToProc[MCtskL].TITP_velFinal:=GMCfinalDV;
@@ -340,7 +340,7 @@ begin
             FCGtskLstToProc[MCtskL].TITP_destType:=ttSatellite;
             FCGtskLstToProc[MCtskL].TITP_destIdx:=FC3doglSelectedSatellite;
          end;
-         FCGtskLstToProc[MCtskL].TITP_regIdx:=0;
+         FCGtskLstToProc[MCtskL].T_tMCregionOfDestination:=0;
          FCGtskLstToProc[MCtskL].TITP_velCruise:=GMCcruiseDV;
          FCGtskLstToProc[MCtskL].TITP_timeToCruise:=GMCtimeA;
          FCGtskLstToProc[MCtskL].T_inProcessData.TITP_time2xfert:=0;
