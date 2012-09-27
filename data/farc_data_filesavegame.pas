@@ -341,7 +341,7 @@ begin
             FCGtskListInProc[Count].T_inProcessData.IPD_isTaskTerminated:=XMLSavedGameItem.Attributes['isTaskTerminated'];
             FCGtskListInProc[Count].T_inProcessData.IPD_ticksAtTaskStart:=XMLSavedGameItem.Attributes['ticksAtStart'];
             FCGtskListInProc[Count].T_controllerIndex:=XMLSavedGameItem.Attributes['controllerIndex'];
-            FCGtskListInProc[Count].TITP_duration:=XMLSavedGameItem.Attributes['tipDura'];
+            FCGtskListInProc[Count].T_duration:=XMLSavedGameItem.Attributes['tipDura'];
             FCGtskListInProc[Count].TITP_interval:=XMLSavedGameItem.Attributes['tipInterv'];
             EnumIndex:=GetEnumValue( TypeInfo( TFCEdmtTaskTargets ), XMLSavedGameItem.Attributes['tipOrgTp'] );
             FCGtskListInProc[Count].TITP_orgType:=TFCEdmtTaskTargets( EnumIndex );
@@ -358,7 +358,7 @@ begin
 
             FCGtskListInProc[Count].TITP_velFinal:=StrToFloat( XMLSavedGameItem.Attributes['tipVelFin'], FCVdiFormat );
             FCGtskListInProc[Count].TITP_timeToFinal:=XMLSavedGameItem.Attributes['tipTimeTfin'];
-            FCGtskListInProc[Count].T_inProcessData.TITP_accelbyTick:=StrToFloat( XMLSavedGameItem.Attributes['tipAccelBtick'], FCVdiFormat );
+
             FCGtskListInProc[Count].TITP_usedRMassV:=StrToFloat( XMLSavedGameItem.Attributes['tipUsedRM'], FCVdiFormat );
             FCGtskListInProc[Count].TITP_str1:=XMLSavedGameItem.Attributes['tipStr1'];
             FCGtskListInProc[Count].TITP_str2:=XMLSavedGameItem.Attributes['tipStr2'];
@@ -375,6 +375,7 @@ begin
                   then raise Exception.Create( 'bad gamesave loading w/task phase: '+XMLSavedGameItem.Attributes['phase'] );
                   FCGtskListInProc[Count].T_tMCphase:=TFCEdmtTaskPhasesColonization( EnumIndex );
                   FCGtskListInProc[Count].T_tMCregionOfDestination:=XMLSavedGameItem.Attributes['regionDestination'];
+                  FCGtskListInProc[Count].T_tMCinProcessData.IPD_accelerationByTick:=StrToFloat( XMLSavedGameItem.Attributes['accelerationByTick'], FCVdiFormat );
                   FCGtskListInProc[Count].T_tMCinProcessData.IPD_timeForDeceleration:=XMLSavedGameItem.Attributes['timeForDecel'];
                end;
 
@@ -384,6 +385,7 @@ begin
                   if EnumIndex=-1
                   then raise Exception.Create( 'bad gamesave loading w/task phase: '+XMLSavedGameItem.Attributes['phase'] );
                   FCGtskListInProc[Count].T_tMITphase:=TFCEdmtTaskPhasesInterplanetaryTransit( EnumIndex );
+                  FCGtskListInProc[Count].T_tMITinProcessData.IPD_accelerationByTick:=StrToFloat( XMLSavedGameItem.Attributes['accelerationByTick'], FCVdiFormat );
                   FCGtskListInProc[Count].T_tMITinProcessData.IPD_timeForDeceleration:=XMLSavedGameItem.Attributes['timeForDecel'];
                   FCGtskListInProc[Count].T_tMITinProcessData.IPD_timeToTransfert:=XMLSavedGameItem.Attributes['timeToTtransfert'];
                end;
@@ -1239,7 +1241,7 @@ begin
          XMLSavedGameItem.Attributes['isTaskTerminated']:=FCGtskListInProc[Count].T_inProcessData.IPD_isTaskTerminated;
          XMLSavedGameItemSub.Attributes['ticksAtStart']:=FCGtskListInProc[Count].T_inProcessData.IPD_ticksAtTaskStart;
          XMLSavedGameItemSub.Attributes['controllerIndex']:=FCGtskListInProc[Count].T_controllerIndex;
-         XMLSavedGameItemSub.Attributes['tipDura']:=FCGtskListInProc[Count].TITP_duration;
+         XMLSavedGameItemSub.Attributes['tipDura']:=FCGtskListInProc[Count].T_duration;
          XMLSavedGameItemSub.Attributes['tipInterv']:=FCGtskListInProc[Count].TITP_interval;
          XMLSavedGameItemSub.Attributes['tipOrgTp']:=GetEnumName( TypeInfo( TFCEdmtTaskTargets ), Integer( FCGtskListInProc[Count].TITP_orgType ) );
          XMLSavedGameItemSub.Attributes['tipOrgIdx']:=FCGtskListInProc[Count].TITP_orgIdx;
@@ -1250,7 +1252,7 @@ begin
 
          XMLSavedGameItemSub.Attributes['tipVelFin']:=FloatToStr( FCGtskListInProc[Count].TITP_velFinal, FCVdiFormat );
          XMLSavedGameItemSub.Attributes['tipTimeTfin']:=FCGtskListInProc[Count].TITP_timeToFinal;
-         XMLSavedGameItemSub.Attributes['tipAccelBtick']:=FloatToStr( FCGtskListInProc[Count].T_inProcessData.TITP_accelbyTick, FCVdiFormat );
+
          XMLSavedGameItemSub.Attributes['tipUsedRM']:=FloatToStr( FCGtskListInProc[Count].TITP_usedRMassV, FCVdiFormat );
          XMLSavedGameItemSub.Attributes['tipStr1']:=FCGtskListInProc[Count].TITP_str1;
          XMLSavedGameItemSub.Attributes['tipStr2']:=FCGtskListInProc[Count].TITP_str1;
@@ -1261,12 +1263,14 @@ begin
             begin
                XMLSavedGameItemSub.Attributes['phase']:=GetEnumName( TypeInfo( TFCEdmtTaskPhasesColonization ), Integer( FCGtskListInProc[Count].T_tMCphase ) );
                XMLSavedGameItemSub.Attributes['regionDestination']:=FCGtskListInProc[Count].T_tMCregionOfDestination;
+               XMLSavedGameItemSub.Attributes['accelerationByTick']:=FloatToStr( FCGtskListInProc[Count].T_tMCinProcessData.IPD_accelerationByTick, FCVdiFormat );
                XMLSavedGameItemSub.Attributes['timeForDecel']:=FCGtskListInProc[Count].T_tMCinProcessData.IPD_timeForDeceleration;
             end;
 
             tMissionInterplanetaryTransit:
             begin
                XMLSavedGameItemSub.Attributes['phase']:=GetEnumName( TypeInfo( TFCEdmtTaskPhasesInterplanetaryTransit ), Integer( FCGtskListInProc[Count].T_tMITphase ) );
+               XMLSavedGameItemSub.Attributes['accelerationByTick']:=FloatToStr( FCGtskListInProc[Count].T_tMITinProcessData.IPD_accelerationByTick, FCVdiFormat );
                XMLSavedGameItemSub.Attributes['timeForDecel']:=FCGtskListInProc[Count].T_tMITinProcessData.IPD_timeForDeceleration;
                XMLSavedGameItemSub.Attributes['timeToTtransfert']:=FCGtskListInProc[Count].T_tMITinProcessData.IPD_timeToTransfert;
             end;

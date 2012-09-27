@@ -254,7 +254,7 @@ begin
 //            FCGtskLstToProc[MCtskL].TITP_ctldType:=ttSpaceUnit;
             FCGtskLstToProc[MCtskL].T_entity:=GMCfac;
             FCGtskLstToProc[MCtskL].T_controllerIndex:=GMCdckd[MCcnt].GMCD_index;
-            FCGtskLstToProc[MCtskL].TITP_duration:=GMCdckd[MCcnt].GMCD_tripTime;
+            FCGtskLstToProc[MCtskL].T_duration:=GMCdckd[MCcnt].GMCD_tripTime;
             FCGtskLstToProc[MCtskL].TITP_interval:=1;
             FCGtskLstToProc[MCtskL].TITP_orgType:=ttSpaceUnit;
             FCGtskLstToProc[MCtskL].TITP_orgIdx:=GMCmother;
@@ -314,7 +314,7 @@ begin
 //         FCGtskLstToProc[MCtskL].TITP_ctldType:=ttSpaceUnit;
          FCGtskLstToProc[MCtskL].T_entity:=FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].Tag;
          FCGtskLstToProc[MCtskL].T_controllerIndex:=round(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].TagFloat);
-         FCGtskLstToProc[MCtskL].TITP_duration:=round(GMCtripTime);
+         FCGtskLstToProc[MCtskL].T_duration:=round(GMCtripTime);
          FCGtskLstToProc[MCtskL].TITP_interval:=1;
          if GMCrootSatIdx=0
          then

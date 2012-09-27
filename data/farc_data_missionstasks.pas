@@ -119,17 +119,15 @@ type TFCRdmtTask = record
       ///   current timer ticks at start of the task
       ///</summary>
       IPD_ticksAtTaskStart: integer;
-
-      {.acceleration by tick for the current mission}
-      {:DEV NOTES: taskinprocONLY.}
-      TITP_accelbyTick: extended;
    end;
    ///<summary>
    ///   task controller index
    ///</summary>
    T_controllerIndex: integer;
-   {task duration in ticks, 0= infinite}
-   TITP_duration: integer;
+   ///<summary>
+   ///   task duration in the defined scale in the interval, 0= infinite
+   ///</summary>
+   T_duration: integer;
    {interval, in clock tick, between 2 running processes in same thread}
    TITP_interval: integer;
    {kind of origin}
@@ -162,6 +160,10 @@ type TFCRdmtTask = record
          T_tMCregionOfDestination: integer;
          T_tMCinProcessData: record
             ///<summary>
+            ///   acceleration by tick for the current mission
+            ///</summary>
+            IPD_accelerationByTick: extended;
+            ///<summary>
             ///   time in tick for deceleration
             ///</summary>
             IPD_timeForDeceleration: integer;
@@ -171,6 +173,10 @@ type TFCRdmtTask = record
       tMissionInterplanetaryTransit:(
          T_tMITphase: TFCEdmtTaskPhasesInterplanetaryTransit;
          T_tMITinProcessData: record
+            ///<summary>
+            ///   acceleration by tick for the current mission
+            ///</summary>
+            IPD_accelerationByTick: extended;
             ///<summary>
             ///   time in tick for deceleration
             ///</summary>
