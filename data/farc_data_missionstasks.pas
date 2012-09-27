@@ -120,10 +120,6 @@ type TFCRdmtTask = record
       ///</summary>
       IPD_ticksAtTaskStart: integer;
 
-
-      {.time to transfert to decel}
-      {:DEV NOTES: taskinprocONLY.}
-      TITP_time2xfert2decel: integer;
       {.acceleration by tick for the current mission}
       {:DEV NOTES: taskinprocONLY.}
       TITP_accelbyTick: extended;

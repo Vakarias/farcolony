@@ -356,7 +356,6 @@ begin
             FCGtskListInProc[Count].TITP_velCruise:=StrToFloat( XMLSavedGameItem.Attributes['tipVelCr'], FCVdiFormat );
             FCGtskListInProc[Count].TITP_timeToCruise:=XMLSavedGameItem.Attributes['tipTimeTcr'];
 
-            FCGtskListInProc[Count].T_inProcessData.TITP_time2xfert2decel:=XMLSavedGameItem.Attributes['tipTime2XfrtDec'];
             FCGtskListInProc[Count].TITP_velFinal:=StrToFloat( XMLSavedGameItem.Attributes['tipVelFin'], FCVdiFormat );
             FCGtskListInProc[Count].TITP_timeToFinal:=XMLSavedGameItem.Attributes['tipTimeTfin'];
             FCGtskListInProc[Count].T_inProcessData.TITP_accelbyTick:=StrToFloat( XMLSavedGameItem.Attributes['tipAccelBtick'], FCVdiFormat );
@@ -1249,7 +1248,6 @@ begin
          XMLSavedGameItemSub.Attributes['tipVelCr']:=FloatToStr( FCGtskListInProc[Count].TITP_velCruise, FCVdiFormat );
          XMLSavedGameItemSub.Attributes['tipTimeTcr']:=FCGtskListInProc[Count].TITP_timeToCruise;
 
-         XMLSavedGameItemSub.Attributes['tipTime2XfrtDec']:=FCGtskListInProc[Count].T_inProcessData.TITP_time2xfert2decel;
          XMLSavedGameItemSub.Attributes['tipVelFin']:=FloatToStr( FCGtskListInProc[Count].TITP_velFinal, FCVdiFormat );
          XMLSavedGameItemSub.Attributes['tipTimeTfin']:=FCGtskListInProc[Count].TITP_timeToFinal;
          XMLSavedGameItemSub.Attributes['tipAccelBtick']:=FloatToStr( FCGtskListInProc[Count].T_inProcessData.TITP_accelbyTick, FCVdiFormat );

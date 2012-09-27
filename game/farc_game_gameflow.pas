@@ -261,7 +261,8 @@ var
   ,GTPstartTaskAt
   ,GTPstartThrAt
   ,GTPtaskIdx
-  ,GTPthreadIdx: integer;
+  ,GTPthreadIdx
+  ,IntCalculation1: integer;
 
   GTPmove
   ,GTPspUnVel: extended;
@@ -460,28 +461,30 @@ begin
                      and(FCGtskListInProc[GTPtaskIdx].T_tMITphase=mitpCruise)
                   then
                   begin
+                     {.used for calculations of deceleration time to transfert}
+                     IntCalculation1:=0;
                      if FCGtskListInProc[GTPtaskIdx].T_tMITinProcessData.IPD_timeToTransfert>0 then
                      begin
-                        FCGtskListInProc[GTPtaskIdx].T_inProcessData.TITP_time2xfert2decel:=0;
                         if FCGtskListInProc[GTPtaskIdx].T_tMITinProcessData.IPD_timeToTransfert+GGFoldTick
                            =FCGtskListInProc[GTPtaskIdx].T_inProcessData.IPD_ticksAtTaskStart+FCGtskListInProc[GTPtaskIdx].TITP_timeToCruise
                               +FCGtskListInProc[GTPtaskIdx].T_tMITinProcessData.IPD_timeForDeceleration
                         then
                         begin
                            FCGtskListInProc[GTPtaskIdx].T_tMITinProcessData.IPD_timeToTransfert:=0;
-                           FCGtskListInProc[GTPtaskIdx].T_tMITphase:=mitpDeceleration;
+                           {:DEV NOTES: put that line below after :=intcalculation1 because mitpDeleration is the case for EACH OUTCOME OF THE TESTS.}
+                           FCGtskListInProc[GTPtaskIdx].T_tMITphase:=mitpDeceleration;   //remove
                         end
                         else if FCGtskListInProc[GTPtaskIdx].T_tMITinProcessData.IPD_timeToTransfert+GGFoldTick
                            >FCGtskListInProc[GTPtaskIdx].T_inProcessData.IPD_ticksAtTaskStart+FCGtskListInProc[GTPtaskIdx].TITP_timeToCruise
                               +FCGtskListInProc[GTPtaskIdx].T_tMITinProcessData.IPD_timeForDeceleration
                         then
                         begin
-                           FCGtskListInProc[GTPtaskIdx].T_inProcessData.TITP_time2xfert2decel
+                           IntCalculation1
                               :=(FCGtskListInProc[GTPtaskIdx].T_tMITinProcessData.IPD_timeToTransfert+GGFoldTick)
                                  -(FCGtskListInProc[GTPtaskIdx].T_inProcessData.IPD_ticksAtTaskStart+FCGtskListInProc[GTPtaskIdx].TITP_timeToCruise
                               +FCGtskListInProc[GTPtaskIdx].T_tMITinProcessData.IPD_timeForDeceleration);
                            FCGtskListInProc[GTPtaskIdx].T_tMITinProcessData.IPD_timeToTransfert:=0;
-                           FCGtskListInProc[GTPtaskIdx].T_tMITphase:=mitpDeceleration;
+                           FCGtskListInProc[GTPtaskIdx].T_tMITphase:=mitpDeceleration;   //remove
                         end;
                      end
                      else if FCGtskListInProc[GTPtaskIdx].T_tMITinProcessData.IPD_timeToTransfert=0
@@ -489,31 +492,32 @@ begin
                      begin
                         if GGFnewTick=FCGtskListInProc[GTPtaskIdx].T_inProcessData.IPD_ticksAtTaskStart+FCGtskListInProc[GTPtaskIdx].TITP_timeToCruise
                               +FCGtskListInProc[GTPtaskIdx].T_tMITinProcessData.IPD_timeForDeceleration
-                        then FCGtskListInProc[GTPtaskIdx].T_tMITphase:=mitpDeceleration
+                        then FCGtskListInProc[GTPtaskIdx].T_tMITphase:=mitpDeceleration      //remove
                         else if GGFnewTick>FCGtskListInProc[GTPtaskIdx].T_inProcessData.IPD_ticksAtTaskStart+FCGtskListInProc[GTPtaskIdx].TITP_timeToCruise
                               +FCGtskListInProc[GTPtaskIdx].T_tMITinProcessData.IPD_timeForDeceleration
                         then
                         begin
-                           FCGtskListInProc[GTPtaskIdx].T_inProcessData.TITP_time2xfert2decel
+                           IntCalculation1
                               :=GGFnewTick-(FCGtskListInProc[GTPtaskIdx].T_inProcessData.IPD_ticksAtTaskStart+FCGtskListInProc[GTPtaskIdx].TITP_timeToCruise
                               +FCGtskListInProc[GTPtaskIdx].T_tMITinProcessData.IPD_timeForDeceleration);
-                           FCGtskListInProc[GTPtaskIdx].T_tMITphase:=mitpDeceleration;
+                           FCGtskListInProc[GTPtaskIdx].T_tMITphase:=mitpDeceleration;  //remove
                         end;
                      end;
+                     FCGtskListInProc[GTPtaskIdx].T_tMITinProcessData.IPD_timeToTransfert:=IntCalculation1;
                   end; //==END== if (GGFnewTick>GGFoldTick) and(FCGtskListInProc[GTPtaskIdx].TITP_phaseTp=tpCruise) ==//
                   if (GGFnewTick>GGFoldTick)
                      and(FCGtskListInProc[GTPtaskIdx].T_tMITphase=mitpDeceleration)
                   then
                   begin
-                     if FCGtskListInProc[GTPtaskIdx].T_inProcessData.TITP_time2xfert2decel>0
+                     if FCGtskListInProc[GTPtaskIdx].T_tMITinProcessData.IPD_timeToTransfert>0
                      then
                      begin
-                        if FCGtskListInProc[GTPtaskIdx].T_inProcessData.TITP_time2xfert2decel+GGFoldTick
+                        if FCGtskListInProc[GTPtaskIdx].T_tMITinProcessData.IPD_timeToTransfert+GGFoldTick
                            >=FCGtskListInProc[GTPtaskIdx].T_inProcessData.IPD_ticksAtTaskStart+FCGtskListInProc[GTPtaskIdx].TITP_duration
                         then
                         begin
                            GTPspUnVel:=FCGtskListInProc[GTPtaskIdx].TITP_velFinal;
-                           FCGtskListInProc[GTPtaskIdx].T_inProcessData.TITP_time2xfert2decel:=0;
+                           FCGtskListInProc[GTPtaskIdx].T_tMITinProcessData.IPD_timeToTransfert:=0;
                            {.update data structure}
                            FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_deltaV
                               :=FCFcFunc_Rnd(
@@ -527,13 +531,13 @@ begin
                            FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_3dVelocity:=GTPmove;
                            FCGtskListInProc[GTPtaskIdx].T_inProcessData.IPD_isTaskDone:=true;
                         end
-                        else if FCGtskListInProc[GTPtaskIdx].T_inProcessData.TITP_time2xfert2decel+GGFoldTick
+                        else if FCGtskListInProc[GTPtaskIdx].T_tMITinProcessData.IPD_timeToTransfert+GGFoldTick
                            <FCGtskListInProc[GTPtaskIdx].T_inProcessData.IPD_ticksAtTaskStart+FCGtskListInProc[GTPtaskIdx].TITP_duration
                         then
                         begin
                            GTPspUnVel
                               :=FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_deltaV
-                                 -(FCGtskListInProc[GTPtaskIdx].T_inProcessData.TITP_accelbyTick*(FCGtskListInProc[GTPtaskIdx].T_inProcessData.TITP_time2xfert2decel));
+                                 -(FCGtskListInProc[GTPtaskIdx].T_inProcessData.TITP_accelbyTick*(FCGtskListInProc[GTPtaskIdx].T_tMITinProcessData.IPD_timeToTransfert));
                            FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_deltaV
                               :=FCFcFunc_Rnd(
                                  cfrttpVelkms
@@ -544,10 +548,10 @@ begin
                               ,FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_deltaV
                               );
                            FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_3dVelocity:=GTPmove;
-                           FCGtskListInProc[GTPtaskIdx].T_inProcessData.TITP_time2xfert2decel:=0;
+                           FCGtskListInProc[GTPtaskIdx].T_tMITinProcessData.IPD_timeToTransfert:=0;
                         end;
                      end
-                     else if FCGtskListInProc[GTPtaskIdx].T_inProcessData.TITP_time2xfert2decel=0
+                     else if FCGtskListInProc[GTPtaskIdx].T_tMITinProcessData.IPD_timeToTransfert=0
                      then
                      begin
                         if GGFnewTick>=FCGtskListInProc[GTPtaskIdx].T_inProcessData.IPD_ticksAtTaskStart+FCGtskListInProc[GTPtaskIdx].TITP_duration

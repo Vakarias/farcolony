@@ -344,7 +344,6 @@ begin
          FCGtskLstToProc[MCtskL].TITP_velCruise:=GMCcruiseDV;
          FCGtskLstToProc[MCtskL].TITP_timeToCruise:=GMCtimeA;
          FCGtskLstToProc[MCtskL].T_tMITinProcessData.IPD_timeToTransfert:=0;
-         FCGtskLstToProc[MCtskL].T_inProcessData.TITP_time2xfert2decel:=0;
          FCGtskLstToProc[MCtskL].TITP_velFinal:=GMCfinalDV;
          FCGtskLstToProc[MCtskL].TITP_timeToFinal:=GMCtimeD;
          FCGtskLstToProc[MCtskL].TITP_usedRMassV:=GMCusedRMvol;
