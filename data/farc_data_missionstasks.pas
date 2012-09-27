@@ -120,9 +120,7 @@ type TFCRdmtTask = record
       ///</summary>
       IPD_ticksAtTaskStart: integer;
 
-      {.time to transfert}
-      {:DEV NOTES: taskinprocONLY.}
-      TITP_time2xfert: integer;
+
       {.time to transfert to decel}
       {:DEV NOTES: taskinprocONLY.}
       TITP_time2xfert2decel: integer;
@@ -181,6 +179,10 @@ type TFCRdmtTask = record
             ///   time in tick for deceleration
             ///</summary>
             IPD_timeForDeceleration: integer;
+            ///<summary>
+            ///   time to transfert from a phase to an another
+            ///</summary>
+            IPD_timeToTransfert: integer;
          end;
          );
 
