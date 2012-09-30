@@ -65,6 +65,7 @@ type TFCEdmtTaskPhasesInterplanetaryTransit=(
    - FCMgMCore_Mission_TrackUpd
    - FCFspuF_Mission_GetMissName
    - FCMspuF_SpUnit_Remove
+   - TFCRdmtTask
 }
 ///<summary>
 ///   tasks
@@ -81,7 +82,7 @@ type TFCEdmtTasks=(
 type TFCEdmtTaskTargets=(
 //   ttInfrastructure
 //   ,
-   ttSpaceUnit
+   ttSpaceUnitDockedIn
    ,ttOrbitalObject
    ,ttSatellite
    ,ttSpace
@@ -121,7 +122,9 @@ type TFCRdmtTask = record
       IPD_ticksAtTaskStart: integer;
    end;
    ///<summary>
-   ///   task controller index
+   ///   task controller index. The type of controller is deduced by the type of task
+   ///   for missions, the controller is always a space unit. For planetary survey
+   ///   for planetary surveys, the controller is always a group of vehicles (called an expedition)
    ///</summary>
    T_controllerIndex: integer;
    ///<summary>
@@ -136,14 +139,14 @@ type TFCRdmtTask = record
    ///   previous process time
    ///</summary>
    T_previousProcessTime: integer;
-   {kind of origin}
-   TITP_orgType: TFCEdmtTaskTargets;
-   {origin index (OBJECT)}
-   TITP_orgIdx: integer;
-   {kind of destination}
-   TITP_destType: TFCEdmtTaskTargets;
-   {destination index (OBJECT)}
-   TITP_destIdx: integer;
+//   {kind of origin}
+//   TITP_orgType: TFCEdmtTaskTargets;
+//   {origin index (OBJECT)}
+//   TITP_orgIdx: integer;
+//   {kind of destination}
+//   TITP_destType: TFCEdmtTaskTargets;
+//   {destination index (OBJECT)}
+//   TITP_destIdx: integer;
    {cruise velocity to reach , if 0 then =current deltav}
    TITP_velCruise: extended;
    {acceleration time in ticks}
@@ -163,7 +166,12 @@ type TFCRdmtTask = record
    case T_type: TFCEdmtTasks of
       tMissionColonization:(
          T_tMCphase: TFCEdmtTaskPhasesColonization;
-         T_tMCregionOfDestination: integer;
+         T_tMCorigin: TFCEdmtTaskTargets;
+         T_tMCoriginIndex: integer;
+         T_tMCdestination: TFCEdmtTaskTargets;
+         T_tMCdestinationIndex: integer;
+         T_tMCdestinationRegion: integer;
+
          T_tMCinProcessData: record
             ///<summary>
             ///   acceleration by tick for the current mission
@@ -178,6 +186,10 @@ type TFCRdmtTask = record
 
       tMissionInterplanetaryTransit:(
          T_tMITphase: TFCEdmtTaskPhasesInterplanetaryTransit;
+         T_tMITorigin: TFCEdmtTaskTargets;
+         T_tMIToriginIndex: integer;
+         T_tMITdestination: TFCEdmtTaskTargets;
+         T_tMITdestinationIndex: integer;
          T_tMITinProcessData: record
             ///<summary>
             ///   acceleration by tick for the current mission

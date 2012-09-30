@@ -257,21 +257,21 @@ begin
             FCGtskLstToProc[MCtskL].T_controllerIndex:=GMCdckd[MCcnt].GMCD_index;
             FCGtskLstToProc[MCtskL].T_duration:=GMCdckd[MCcnt].GMCD_tripTime;
             FCGtskLstToProc[MCtskL].T_durationInterval:=1;
-            FCGtskLstToProc[MCtskL].TITP_orgType:=ttSpaceUnit;
-            FCGtskLstToProc[MCtskL].TITP_orgIdx:=GMCmother;
+            FCGtskLstToProc[MCtskL].T_tMCorigin:=ttSpaceUnitDockedIn;
+            FCGtskLstToProc[MCtskL].T_tMCoriginIndex:=GMCmother;
             if GMCrootSatIdx=0
             then
             begin
-               FCGtskLstToProc[MCtskL].TITP_destType:=ttOrbitalObject;
-               FCGtskLstToProc[MCtskL].TITP_destIdx:=GMCrootOObIdx;
+               FCGtskLstToProc[MCtskL].T_tMCdestination:=ttOrbitalObject;
+               FCGtskLstToProc[MCtskL].T_tMCdestinationIndex:=GMCrootOObIdx;
             end
             else if GMCrootSatIdx>0
             then
             begin
-               FCGtskLstToProc[MCtskL].TITP_destType:=ttSatellite;
-               FCGtskLstToProc[MCtskL].TITP_destIdx:=GMCrootSatObjIdx;
+               FCGtskLstToProc[MCtskL].T_tMCdestination:=ttSatellite;
+               FCGtskLstToProc[MCtskL].T_tMCdestinationIndex:=GMCrootSatObjIdx;
             end;
-            FCGtskLstToProc[MCtskL].T_tMCregionOfDestination:=GMCregion;
+            FCGtskLstToProc[MCtskL].T_tMCdestinationRegion:=GMCregion;
             FCGtskLstToProc[MCtskL].TITP_velCruise:=0;
             FCGtskLstToProc[MCtskL].TITP_timeToCruise:=0;
             FCGtskLstToProc[MCtskL].TITP_velFinal:=GMCfinalDV;
@@ -320,28 +320,28 @@ begin
          if GMCrootSatIdx=0
          then
          begin
-            FCGtskLstToProc[MCtskL].TITP_orgType:=ttOrbitalObject;
-            FCGtskLstToProc[MCtskL].TITP_orgIdx:=GMCrootOObIdx;
+            FCGtskLstToProc[MCtskL].T_tMITorigin:=ttOrbitalObject;
+            FCGtskLstToProc[MCtskL].T_tMIToriginIndex:=GMCrootOObIdx;
          end
          else if GMCrootSatIdx>0
          then
          begin
-            FCGtskLstToProc[MCtskL].TITP_orgType:=ttSatellite;
-            FCGtskLstToProc[MCtskL].TITP_orgIdx:=GMCrootSatObjIdx;
+            FCGtskLstToProc[MCtskL].T_tMITorigin:=ttSatellite;
+            FCGtskLstToProc[MCtskL].T_tMIToriginIndex:=GMCrootSatObjIdx;
          end;
          if FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglObjectsGroups[FC3doglSelectedPlanetAsteroid]
          then
          begin
-            FCGtskLstToProc[MCtskL].TITP_destType:=ttOrbitalObject;
-            FCGtskLstToProc[MCtskL].TITP_destIdx:=FC3doglSelectedPlanetAsteroid;
+            FCGtskLstToProc[MCtskL].T_tMITdestination:=ttOrbitalObject;
+            FCGtskLstToProc[MCtskL].T_tMITdestinationIndex:=FC3doglSelectedPlanetAsteroid;
          end
          else if FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite]
          then
          begin
-            FCGtskLstToProc[MCtskL].TITP_destType:=ttSatellite;
-            FCGtskLstToProc[MCtskL].TITP_destIdx:=FC3doglSelectedSatellite;
+            FCGtskLstToProc[MCtskL].T_tMITdestination:=ttSatellite;
+            FCGtskLstToProc[MCtskL].T_tMITdestinationIndex:=FC3doglSelectedSatellite;
          end;
-         FCGtskLstToProc[MCtskL].T_tMCregionOfDestination:=0;
+         FCGtskLstToProc[MCtskL].T_tMCdestinationRegion:=0;
          FCGtskLstToProc[MCtskL].TITP_velCruise:=GMCcruiseDV;
          FCGtskLstToProc[MCtskL].TITP_timeToCruise:=GMCtimeA;
          FCGtskLstToProc[MCtskL].T_tMITinProcessData.IPD_timeToTransfert:=0;

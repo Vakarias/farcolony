@@ -329,21 +329,21 @@ begin
                      then
                      begin
                         FC3doglSpaceUnits[FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_linked3dObject].Visible:=false;
-                        if FCGtskListInProc[GTPtaskIdx].TITP_orgType=ttSpaceUnit
+                        if FCGtskListInProc[GTPtaskIdx].T_tMCorigin=ttSpaceUnitDockedIn
                         then
                         begin
-                           FC3doglSelectedSpaceUnit:=FCGtskListInProc[GTPtaskIdx].TITP_orgIdx;
+                           FC3doglSelectedSpaceUnit:=FCGtskListInProc[GTPtaskIdx].T_tMCoriginIndex;
                            FCMoglVM_CamMain_Target(-1, true);
                         end
-                        else if FCGtskListInProc[GTPtaskIdx].TITP_orgType=ttSpace
+                        else if FCGtskListInProc[GTPtaskIdx].T_tMCorigin=ttSpace
                         then
                         begin
-                           if FCGtskListInProc[GTPtaskIdx].TITP_destType=ttOrbitalObject
-                           then FCMoglVM_CamMain_Target(FCGtskListInProc[GTPtaskIdx].TITP_destIdx, true)
-                           else if FCGtskListInProc[GTPtaskIdx].TITP_destType=ttSatellite
+                           if FCGtskListInProc[GTPtaskIdx].T_tMCdestination=ttOrbitalObject
+                           then FCMoglVM_CamMain_Target(FCGtskListInProc[GTPtaskIdx].T_tMCdestinationIndex, true)
+                           else if FCGtskListInProc[GTPtaskIdx].T_tMCdestination=ttSatellite
                            then
                            begin
-                              FC3doglSelectedSatellite:=FC3doglSatellitesObjectsGroups[FCGtskListInProc[GTPtaskIdx].TITP_destIdx].Tag;
+                              FC3doglSelectedSatellite:=FC3doglSatellitesObjectsGroups[FCGtskListInProc[GTPtaskIdx].T_tMCdestinationIndex].Tag;
                               FCMoglVM_CamMain_Target(100, true);
                            end
                         end;
@@ -377,28 +377,28 @@ begin
                         );
                      GTPoobjDB:=0;
                      GTPsatDB:=0;
-                     if FCGtskListInProc[GTPtaskIdx].TITP_destType=ttOrbitalObject
+                     if FCGtskListInProc[GTPtaskIdx].T_tMCdestination=ttOrbitalObject
                      then
                      begin
-                        GTPoobjDB:=FCGtskListInProc[GTPtaskIdx].TITP_destIdx;
+                        GTPoobjDB:=FCGtskListInProc[GTPtaskIdx].T_tMCdestinationIndex;
                         FCMgC_Colonize_PostProc(
                            FCGtskListInProc[GTPtaskIdx].T_entity
                            ,GTPspuOwn
                            ,GTPssysDB
                            ,GTPstarDB
-                           ,FCGtskListInProc[GTPtaskIdx].TITP_destIdx
+                           ,FCGtskListInProc[GTPtaskIdx].T_tMCdestinationIndex
                            ,0
-                           ,FCGtskListInProc[GTPtaskIdx].T_tMCregionOfDestination
+                           ,FCGtskListInProc[GTPtaskIdx].T_tMCdestinationRegion
                            ,FCGtskListInProc[GTPtaskIdx].TITP_int1
                            ,FCGtskListInProc[GTPtaskIdx].TITP_str1
                            ,FCGtskListInProc[GTPtaskIdx].TITP_str2
                            );
                      end
-                     else if FCGtskListInProc[GTPtaskIdx].TITP_destType=ttSatellite
+                     else if FCGtskListInProc[GTPtaskIdx].T_tMCdestination=ttSatellite
                      then
                      begin
-                        GTPoobjDB:=round(FC3doglSatellitesObjectsGroups[FCGtskListInProc[GTPtaskIdx].TITP_destIdx].TagFloat);
-                        GTPsatDB:=FC3doglSatellitesObjectsGroups[FCGtskListInProc[GTPtaskIdx].TITP_destIdx].Tag;
+                        GTPoobjDB:=round(FC3doglSatellitesObjectsGroups[FCGtskListInProc[GTPtaskIdx].T_tMCdestinationIndex].TagFloat); //ERROR:FCGtskListInProc[GTPtaskIdx].T_tMCdestinationIndex doesn't link to the
+                        GTPsatDB:=FC3doglSatellitesObjectsGroups[FCGtskListInProc[GTPtaskIdx].T_tMCdestinationIndex].Tag; //satellite 3d object index! use: FCFoglVM_SatObj_Search
                         FCMgC_Colonize_PostProc(
                            FCGtskListInProc[GTPtaskIdx].T_entity
                            ,GTPspuOwn
@@ -406,7 +406,7 @@ begin
                            ,GTPstarDB
                            ,GTPoobjDB
                            ,GTPsatDB
-                           ,FCGtskListInProc[GTPtaskIdx].T_tMCregionOfDestination
+                           ,FCGtskListInProc[GTPtaskIdx].T_tMCdestinationRegion
                            ,FCGtskListInProc[GTPtaskIdx].TITP_int1
                            ,FCGtskListInProc[GTPtaskIdx].TITP_str1
                            ,FCGtskListInProc[GTPtaskIdx].TITP_str2
@@ -624,12 +624,12 @@ begin
                      GTPsatDB:=0;
                      {.set orbit data for destination}
                      FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_status:=susInOrbit;
-                     if FCGtskListInProc[GTPtaskIdx].TITP_destType=ttOrbitalObject
+                     if FCGtskListInProc[GTPtaskIdx].T_tMITdestination=ttOrbitalObject
                      then
                      begin
-                        GTPoobjDB:=FCGtskListInProc[GTPtaskIdx].TITP_destIdx;
+                        GTPoobjDB:=FCGtskListInProc[GTPtaskIdx].T_tMITdestinationIndex;
                         FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_locationOrbitalObject
-                           :=FCDduStarSystem[GTPssysDB].SS_stars[GTPstarDB].S_orbitalObjects[FCGtskListInProc[GTPtaskIdx].TITP_destIdx].OO_dbTokenId;
+                           :=FCDduStarSystem[GTPssysDB].SS_stars[GTPstarDB].S_orbitalObjects[FCGtskListInProc[GTPtaskIdx].T_tMITdestinationIndex].OO_dbTokenId;
                         FCDdgEntities[GTPfac].E_spaceUnits[FCGtskListInProc[GTPtaskIdx].T_controllerIndex].SU_locationSatellite:='';
                         FCMspuF_Orbits_Process(
                            spufoioAddOrbit
@@ -642,11 +642,11 @@ begin
                            ,true
                            );
                      end
-                     else if FCGtskListInProc[GTPtaskIdx].TITP_destType=ttSatellite
+                     else if FCGtskListInProc[GTPtaskIdx].T_tMITdestination=ttSatellite
                      then
                      begin
-                        GTPsatDB:=FC3doglSatellitesObjectsGroups[FCGtskListInProc[GTPtaskIdx].TITP_destIdx].Tag;
-                        GTPoobjDB:=round(FC3doglSatellitesObjectsGroups[FCGtskListInProc[GTPtaskIdx].TITP_destIdx].TagFloat);
+                        GTPsatDB:=FC3doglSatellitesObjectsGroups[FCGtskListInProc[GTPtaskIdx].T_tMITdestinationIndex].Tag; //ERROR:FCGtskListInProc[GTPtaskIdx].T_tMITdestinationIndex doesn't link to the
+                        GTPoobjDB:=round(FC3doglSatellitesObjectsGroups[FCGtskListInProc[GTPtaskIdx].T_tMITdestinationIndex].TagFloat); //satellite 3d object index! use: FCFoglVM_SatObj_Search
                         FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_locationOrbitalObject:=FCDduStarSystem[GTPssysDB].SS_stars[GTPstarDB].S_orbitalObjects[GTPoobjDB].OO_dbTokenId;
                         FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_locationSatellite
                            :=FCDduStarSystem[GTPssysDB].SS_stars[GTPstarDB].S_orbitalObjects[GTPoobjDB].OO_satellitesList[GTPsatDB].OO_dbTokenId;
@@ -836,6 +836,7 @@ begin
       else break;
    end;
    {.initialize additional in process tasks if required}
+   {:DEV NOTES: WARNING: check all array index assignations!.}
    fcwinmain.FCGLScadencer.Enabled:=false;
    GTPnumTaskToProc:=length(FCGtskLstToProc)-1;
    if GTPnumTaskToProc>0
@@ -862,25 +863,25 @@ begin
                   FCGtskListInProc[GTPtaskIdx].T_tMCphase:=mcpDeceleration;
                   FCGtskListInProc[GTPtaskIdx].T_tMCinProcessData.IPD_timeForDeceleration:=FCGtskListInProc[GTPtaskIdx].T_duration-FCGtskListInProc[GTPtaskIdx].TITP_timeToFinal;
                   FCGtskListInProc[GTPtaskIdx].T_tMCinProcessData.IPD_accelerationByTick
-                     :=(FCDdgEntities[GTPfac].E_spaceUnits[FCGtskListInProc[GTPtaskIdx].TITP_orgIdx].SU_deltaV-FCGtskListInProc[GTPtaskIdx].TITP_velFinal)
+                     :=(FCDdgEntities[GTPfac].E_spaceUnits[FCGtskListInProc[GTPtaskIdx].T_tMCoriginIndex].SU_deltaV-FCGtskListInProc[GTPtaskIdx].TITP_velFinal)//assignation error!!!!  E_spaceUnits[FCGtskListInProc[GTPtaskIdx].TITP_orgIdx]
                         /FCGtskListInProc[GTPtaskIdx].T_tMCinProcessData.IPD_timeForDeceleration;
                   FCDdgEntities[GTPfac].E_spaceUnits[GTPspUidx].SU_locationOrbitalObject:='';
                   FCDdgEntities[GTPfac].E_spaceUnits[GTPspUidx].SU_locationSatellite:='';
                   FCDdgEntities[GTPfac].E_spaceUnits[GTPspUidx].SU_status:=susInFreeSpace;
-                  FCDdgEntities[GTPfac].E_spaceUnits[GTPspUidx].SU_locationViewX:=FCDdgEntities[GTPfac].E_spaceUnits[FCGtskListInProc[GTPtaskIdx].TITP_orgIdx].SU_locationViewX; //assignation error!!!!  E_spaceUnits[FCGtskListInProc[GTPtaskIdx].TITP_orgIdx]
-                  FCDdgEntities[GTPfac].E_spaceUnits[GTPspUidx].SU_locationViewZ:=FCDdgEntities[GTPfac].E_spaceUnits[FCGtskListInProc[GTPtaskIdx].TITP_orgIdx].SU_locationViewZ; //assignation error!!!!  E_spaceUnits[FCGtskListInProc[GTPtaskIdx].TITP_orgIdx]
+                  FCDdgEntities[GTPfac].E_spaceUnits[GTPspUidx].SU_locationViewX:=FCDdgEntities[GTPfac].E_spaceUnits[FCGtskListInProc[GTPtaskIdx].T_tMCoriginIndex].SU_locationViewX; //assignation error!!!!  E_spaceUnits[FCGtskListInProc[GTPtaskIdx].TITP_orgIdx]
+                  FCDdgEntities[GTPfac].E_spaceUnits[GTPspUidx].SU_locationViewZ:=FCDdgEntities[GTPfac].E_spaceUnits[FCGtskListInProc[GTPtaskIdx].T_tMCoriginIndex].SU_locationViewZ; //assignation error!!!!  E_spaceUnits[FCGtskListInProc[GTPtaskIdx].TITP_orgIdx]
                   GTPspUObjIdx:=FCDdgEntities[GTPfac].E_spaceUnits[GTPspUidx].SU_linked3dObject;
                   FC3doglSpaceUnits[GTPspUObjIdx].Position.X:=FCDdgEntities[GTPfac].E_spaceUnits[GTPspUidx].SU_locationViewX;
                   FC3doglSpaceUnits[GTPspUObjIdx].Position.Z:=FCDdgEntities[GTPfac].E_spaceUnits[GTPspUidx].SU_locationViewZ;
                   {.3d initialization}
                   if not FC3doglSpaceUnits[GTPspUObjIdx].Visible
                   then FC3doglSpaceUnits[GTPspUObjIdx].Visible:=true;
-                  if FCGtskListInProc[GTPtaskIdx].TITP_destType=ttOrbitalObject
+                  if FCGtskListInProc[GTPtaskIdx].T_tMCdestination=ttOrbitalObject
                   then FC3doglSpaceUnits[GTPspUObjIdx].PointTo
-                     (FC3doglObjectsGroups[FCGtskListInProc[GTPtaskIdx].TITP_destIdx],FC3doglObjectsGroups[FCGtskListInProc[GTPtaskIdx].TITP_destIdx].Position.AsVector)
-                  else if FCGtskListInProc[GTPtaskIdx].TITP_destType=ttSatellite
+                     (FC3doglObjectsGroups[FCGtskListInProc[GTPtaskIdx].T_tMCdestinationIndex],FC3doglObjectsGroups[FCGtskListInProc[GTPtaskIdx].T_tMCdestinationIndex].Position.AsVector)
+                  else if FCGtskListInProc[GTPtaskIdx].T_tMCdestination=ttSatellite
                   then FC3doglSpaceUnits[GTPspUObjIdx].PointTo
-                     (FC3doglSatellitesObjectsGroups[FCGtskListInProc[GTPtaskIdx].TITP_destIdx],FC3doglSatellitesObjectsGroups[FCGtskListInProc[GTPtaskIdx].TITP_destIdx].Position.AsVector);
+                     (FC3doglSatellitesObjectsGroups[FCGtskListInProc[GTPtaskIdx].T_tMCdestinationIndex],FC3doglSatellitesObjectsGroups[FCGtskListInProc[GTPtaskIdx].T_tMCdestinationIndex].Position.AsVector);
                end; //==END== case: tatpMissColonize: ==//
                tMissionInterplanetaryTransit:
                begin
@@ -888,7 +889,7 @@ begin
                   FCGtskListInProc[GTPtaskIdx].T_tMITinProcessData.IPD_timeForDeceleration
                      :=FCGtskListInProc[GTPtaskIdx].T_duration-(FCGtskListInProc[GTPtaskIdx].TITP_timeToCruise+FCGtskListInProc[GTPtaskIdx].TITP_timeToFinal);
                   FCGtskListInProc[GTPtaskIdx].T_tMITinProcessData.IPD_accelerationByTick
-                     :=(FCGtskListInProc[GTPtaskIdx].TITP_velCruise-FCDdgEntities[GTPfac].E_spaceUnits[FCGtskListInProc[GTPtaskIdx].TITP_orgIdx].SU_deltaV)  //assignation error!!!!  E_spaceUnits[FCGtskListInProc[GTPtaskIdx].TITP_orgIdx]
+                     :=(FCGtskListInProc[GTPtaskIdx].TITP_velCruise-FCDdgEntities[GTPfac].E_spaceUnits[FCGtskListInProc[GTPtaskIdx].T_tMIToriginIndex].SU_deltaV)  //assignation error!!!!  E_spaceUnits[FCGtskListInProc[GTPtaskIdx].TITP_orgIdx]
                         /FCGtskListInProc[GTPtaskIdx].TITP_timeToCruise;
                   FCDdgEntities[GTPfac].E_spaceUnits[GTPspUidx].SU_locationOrbitalObject:='';
                   FCDdgEntities[GTPfac].E_spaceUnits[GTPspUidx].SU_locationSatellite:='';
@@ -907,22 +908,22 @@ begin
                      ,0
                      ,0
                      );
-                  if FCGtskListInProc[GTPtaskIdx].TITP_orgType=ttOrbitalObject
+                  if FCGtskListInProc[GTPtaskIdx].T_tMITorigin=ttOrbitalObject
                   then FCMspuF_Orbits_Process(
                      spufoioRemOrbit
                      ,GTPssys
                      ,GTPstar
-                     ,FCGtskListInProc[GTPtaskIdx].TITP_orgIdx
+                     ,FCGtskListInProc[GTPtaskIdx].T_tMIToriginIndex
                      ,0
                      ,0
                      ,FCGtskListInProc[GTPtaskIdx].T_controllerIndex
                      ,true
                      )
-                  else if FCGtskListInProc[GTPtaskIdx].TITP_orgType=ttSatellite
+                  else if FCGtskListInProc[GTPtaskIdx].T_tMITorigin=ttSatellite
                   then
                   begin
-                     GTPoriginSatPlanIdx:=round(FC3doglSatellitesObjectsGroups[FCGtskListInProc[GTPtaskIdx].TITP_orgIdx].TagFloat);
-                     GTPoriginSatIdx:=FC3doglSatellitesObjectsGroups[FCGtskListInProc[GTPtaskIdx].TITP_orgIdx].Tag;
+                     GTPoriginSatPlanIdx:=round(FC3doglSatellitesObjectsGroups[FCGtskListInProc[GTPtaskIdx].T_tMIToriginIndex].TagFloat);
+                     GTPoriginSatIdx:=FC3doglSatellitesObjectsGroups[FCGtskListInProc[GTPtaskIdx].T_tMIToriginIndex].Tag;
                      FCMspuF_Orbits_Process(
                         spufoioRemOrbit
                         ,GTPssys
@@ -936,12 +937,12 @@ begin
                   end;
                   FCMuiW_FocusPopup_Upd(uiwpkSpUnit);
                   GTPspUObjIdx:=FCDdgEntities[GTPfac].E_spaceUnits[GTPspUidx].SU_linked3dObject;
-                  if FCGtskListInProc[GTPtaskIdx].TITP_destType=ttOrbitalObject
+                  if FCGtskListInProc[GTPtaskIdx].T_tMITdestination=ttOrbitalObject
                   then FC3doglSpaceUnits[GTPspUObjIdx].PointTo
-                     (FC3doglObjectsGroups[FCGtskListInProc[GTPtaskIdx].TITP_destIdx],FC3doglObjectsGroups[FCGtskListInProc[GTPtaskIdx].TITP_destIdx].Position.AsVector)
-                  else if FCGtskListInProc[GTPtaskIdx].TITP_destType=ttSatellite
+                     (FC3doglObjectsGroups[FCGtskListInProc[GTPtaskIdx].T_tMITdestinationIndex],FC3doglObjectsGroups[FCGtskListInProc[GTPtaskIdx].T_tMITdestinationIndex].Position.AsVector)
+                  else if FCGtskListInProc[GTPtaskIdx].T_tMITdestination=ttSatellite
                   then FC3doglSpaceUnits[GTPspUObjIdx].PointTo
-                     (FC3doglSatellitesObjectsGroups[FCGtskListInProc[GTPtaskIdx].TITP_destIdx],FC3doglSatellitesObjectsGroups[FCGtskListInProc[GTPtaskIdx].TITP_destIdx].Position.AsVector);
+                     (FC3doglSatellitesObjectsGroups[FCGtskListInProc[GTPtaskIdx].T_tMITdestinationIndex],FC3doglSatellitesObjectsGroups[FCGtskListInProc[GTPtaskIdx].T_tMITdestinationIndex].Position.AsVector);
                end; //==END== tatpMissItransit ==//
             end; //==END== case FCGtskListInProc[GTPtaskIdx].TITP_actionTp ==//
             inc(GTPnumTTProcIdx);
