@@ -139,14 +139,6 @@ type TFCRdmtTask = record
    ///   previous process time
    ///</summary>
    T_previousProcessTime: integer;
-//   {kind of origin}
-//   TITP_orgType: TFCEdmtTaskTargets;
-//   {origin index (OBJECT)}
-//   TITP_orgIdx: integer;
-//   {kind of destination}
-//   TITP_destType: TFCEdmtTaskTargets;
-//   {destination index (OBJECT)}
-//   TITP_destIdx: integer;
    {cruise velocity to reach , if 0 then =current deltav}
    TITP_velCruise: extended;
    {acceleration time in ticks}
