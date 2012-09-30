@@ -128,8 +128,14 @@ type TFCRdmtTask = record
    ///   task duration in the defined scale in the interval, 0= infinite
    ///</summary>
    T_duration: integer;
-   {interval, in clock tick, between 2 running processes in same thread}
-   TITP_interval: integer;
+   ///<summary>
+   ///   interval, in clock tick, between 2 running processes of the task
+   ///</summary>
+   T_durationInterval: integer;
+   ///<summary>
+   ///   previous process time
+   ///</summary>
+   T_previousProcessTime: integer;
    {kind of origin}
    TITP_orgType: TFCEdmtTaskTargets;
    {origin index (OBJECT)}

@@ -98,6 +98,7 @@ uses
 procedure FCMdFSG_Game_Load;
 {:Purpose: load the current game.
    Additions:
+      -2012Sep29- *add: previous process time.
       -2012Sep23- *mod: tasks - load the real phase name.
                   *add: tasks - T_isTaskDone + T_isTaskTerminated.
       -2012Aug15- *code audit:
@@ -341,8 +342,11 @@ begin
             FCGtskListInProc[Count].T_inProcessData.IPD_isTaskTerminated:=XMLSavedGameItem.Attributes['isTaskTerminated'];
             FCGtskListInProc[Count].T_inProcessData.IPD_ticksAtTaskStart:=XMLSavedGameItem.Attributes['ticksAtStart'];
             FCGtskListInProc[Count].T_controllerIndex:=XMLSavedGameItem.Attributes['controllerIndex'];
-            FCGtskListInProc[Count].T_duration:=XMLSavedGameItem.Attributes['tipDura'];
-            FCGtskListInProc[Count].TITP_interval:=XMLSavedGameItem.Attributes['tipInterv'];
+            FCGtskListInProc[Count].T_duration:=XMLSavedGameItem.Attributes['duration'];
+            FCGtskListInProc[Count].T_durationInterval:=XMLSavedGameItem.Attributes['durationInterval'];
+            FCGtskListInProc[Count].T_previousProcessTime:=XMLSavedGameItem.Attributes['prevProcessTime'];
+
+
             EnumIndex:=GetEnumValue( TypeInfo( TFCEdmtTaskTargets ), XMLSavedGameItem.Attributes['tipOrgTp'] );
             FCGtskListInProc[Count].TITP_orgType:=TFCEdmtTaskTargets( EnumIndex );
             if EnumIndex=-1
@@ -1027,6 +1031,7 @@ end;
 procedure FCMdFSG_Game_Save;
 {:Purpose: save the current game.
     Additions:
+      -2012Sep29- *add: previous process time.
       -2012Sep23- *mod: tasks - save the real phase name.
                   *add: tasks - T_isTaskDone + T_isTaskTerminated.
       -2012Aug19- *code audit:
@@ -1241,8 +1246,10 @@ begin
          XMLSavedGameItem.Attributes['isTaskTerminated']:=FCGtskListInProc[Count].T_inProcessData.IPD_isTaskTerminated;
          XMLSavedGameItemSub.Attributes['ticksAtStart']:=FCGtskListInProc[Count].T_inProcessData.IPD_ticksAtTaskStart;
          XMLSavedGameItemSub.Attributes['controllerIndex']:=FCGtskListInProc[Count].T_controllerIndex;
-         XMLSavedGameItemSub.Attributes['tipDura']:=FCGtskListInProc[Count].T_duration;
-         XMLSavedGameItemSub.Attributes['tipInterv']:=FCGtskListInProc[Count].TITP_interval;
+         XMLSavedGameItemSub.Attributes['duration']:=FCGtskListInProc[Count].T_duration;
+         XMLSavedGameItemSub.Attributes['durationInterval']:=FCGtskListInProc[Count].T_durationInterval;
+         XMLSavedGameItemSub.Attributes['prevProcessTime']:=FCGtskListInProc[Count].T_previousProcessTime;
+
          XMLSavedGameItemSub.Attributes['tipOrgTp']:=GetEnumName( TypeInfo( TFCEdmtTaskTargets ), Integer( FCGtskListInProc[Count].TITP_orgType ) );
          XMLSavedGameItemSub.Attributes['tipOrgIdx']:=FCGtskListInProc[Count].TITP_orgIdx;
          XMLSavedGameItemSub.Attributes['tipDestTp']:=GetEnumName( TypeInfo( TFCEdmtTaskTargets ), Integer( FCGtskListInProc[Count].TITP_destType ) );

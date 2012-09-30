@@ -273,6 +273,14 @@ begin
    if GTPnumTaskInProc>0
    then
    begin
+      {:DEV NOTES: put in a function a test with the duration interval. Input: TFCEdmtTasks + T_previousProcessTime /  Output: passed: boolean
+         - if previous process = 0, it's the start of the task, so it's passed automatically.
+         - if interval=1, return passed automatically
+
+         - for the rest do the test
+
+         don't forget to update the previous process time with the current time tick in this tasks process
+      }
       GTPtaskIdx:=1;
       while GTPtaskIdx<=GTPnumTaskInProc do
       begin
@@ -859,8 +867,8 @@ begin
                   FCDdgEntities[GTPfac].E_spaceUnits[GTPspUidx].SU_locationOrbitalObject:='';
                   FCDdgEntities[GTPfac].E_spaceUnits[GTPspUidx].SU_locationSatellite:='';
                   FCDdgEntities[GTPfac].E_spaceUnits[GTPspUidx].SU_status:=susInFreeSpace;
-                  FCDdgEntities[GTPfac].E_spaceUnits[GTPspUidx].SU_locationViewX:=FCDdgEntities[GTPfac].E_spaceUnits[FCGtskListInProc[GTPtaskIdx].TITP_orgIdx].SU_locationViewX;
-                  FCDdgEntities[GTPfac].E_spaceUnits[GTPspUidx].SU_locationViewZ:=FCDdgEntities[GTPfac].E_spaceUnits[FCGtskListInProc[GTPtaskIdx].TITP_orgIdx].SU_locationViewZ;
+                  FCDdgEntities[GTPfac].E_spaceUnits[GTPspUidx].SU_locationViewX:=FCDdgEntities[GTPfac].E_spaceUnits[FCGtskListInProc[GTPtaskIdx].TITP_orgIdx].SU_locationViewX; //assignation error!!!!  E_spaceUnits[FCGtskListInProc[GTPtaskIdx].TITP_orgIdx]
+                  FCDdgEntities[GTPfac].E_spaceUnits[GTPspUidx].SU_locationViewZ:=FCDdgEntities[GTPfac].E_spaceUnits[FCGtskListInProc[GTPtaskIdx].TITP_orgIdx].SU_locationViewZ; //assignation error!!!!  E_spaceUnits[FCGtskListInProc[GTPtaskIdx].TITP_orgIdx]
                   GTPspUObjIdx:=FCDdgEntities[GTPfac].E_spaceUnits[GTPspUidx].SU_linked3dObject;
                   FC3doglSpaceUnits[GTPspUObjIdx].Position.X:=FCDdgEntities[GTPfac].E_spaceUnits[GTPspUidx].SU_locationViewX;
                   FC3doglSpaceUnits[GTPspUObjIdx].Position.Z:=FCDdgEntities[GTPfac].E_spaceUnits[GTPspUidx].SU_locationViewZ;
@@ -880,7 +888,7 @@ begin
                   FCGtskListInProc[GTPtaskIdx].T_tMITinProcessData.IPD_timeForDeceleration
                      :=FCGtskListInProc[GTPtaskIdx].T_duration-(FCGtskListInProc[GTPtaskIdx].TITP_timeToCruise+FCGtskListInProc[GTPtaskIdx].TITP_timeToFinal);
                   FCGtskListInProc[GTPtaskIdx].T_tMITinProcessData.IPD_accelerationByTick
-                     :=(FCGtskListInProc[GTPtaskIdx].TITP_velCruise-FCDdgEntities[GTPfac].E_spaceUnits[FCGtskListInProc[GTPtaskIdx].TITP_orgIdx].SU_deltaV)
+                     :=(FCGtskListInProc[GTPtaskIdx].TITP_velCruise-FCDdgEntities[GTPfac].E_spaceUnits[FCGtskListInProc[GTPtaskIdx].TITP_orgIdx].SU_deltaV)  //assignation error!!!!  E_spaceUnits[FCGtskListInProc[GTPtaskIdx].TITP_orgIdx]
                         /FCGtskListInProc[GTPtaskIdx].TITP_timeToCruise;
                   FCDdgEntities[GTPfac].E_spaceUnits[GTPspUidx].SU_locationOrbitalObject:='';
                   FCDdgEntities[GTPfac].E_spaceUnits[GTPspUidx].SU_locationSatellite:='';
