@@ -347,14 +347,6 @@ begin
             FCGtskListInProc[Count].T_previousProcessTime:=XMLSavedGameItem.Attributes['prevProcessTime'];
 
 
-
-            FCGtskListInProc[Count].TITP_velCruise:=StrToFloat( XMLSavedGameItem.Attributes['tipVelCr'], FCVdiFormat );
-            FCGtskListInProc[Count].TITP_timeToCruise:=XMLSavedGameItem.Attributes['tipTimeTcr'];
-
-            FCGtskListInProc[Count].TITP_velFinal:=StrToFloat( XMLSavedGameItem.Attributes['tipVelFin'], FCVdiFormat );
-            FCGtskListInProc[Count].TITP_timeToFinal:=XMLSavedGameItem.Attributes['tipTimeTfin'];
-
-            FCGtskListInProc[Count].TITP_usedRMassV:=StrToFloat( XMLSavedGameItem.Attributes['tipUsedRM'], FCVdiFormat );
             FCGtskListInProc[Count].TITP_str1:=XMLSavedGameItem.Attributes['tipStr1'];
             FCGtskListInProc[Count].TITP_str2:=XMLSavedGameItem.Attributes['tipStr2'];
             FCGtskListInProc[Count].TITP_int1:=XMLSavedGameItem.Attributes['tipInt1'];
@@ -380,6 +372,9 @@ begin
                   then raise Exception.Create( 'bad gamesave loading w/ destination type: '+XMLSavedGameItem.Attributes['destination'] );
                   FCGtskListInProc[Count].T_tMCdestinationIndex:=XMLSavedGameItem.Attributes['destinationIndex'];
                   FCGtskListInProc[Count].T_tMCdestinationRegion:=XMLSavedGameItem.Attributes['regionDestination'];
+                  FCGtskListInProc[Count].T_tMCfinalVelocity:=StrToFloat( XMLSavedGameItem.Attributes['finalVelocity'], FCVdiFormat );
+                  FCGtskListInProc[Count].T_tMCfinalTime:=XMLSavedGameItem.Attributes['finalTime'];
+                  FCGtskListInProc[Count].T_tMCusedReactionMassVol:=StrToFloat( XMLSavedGameItem.Attributes['usedReactionMass'], FCVdiFormat );
                   FCGtskListInProc[Count].T_tMCinProcessData.IPD_accelerationByTick:=StrToFloat( XMLSavedGameItem.Attributes['accelerationByTick'], FCVdiFormat );
                   FCGtskListInProc[Count].T_tMCinProcessData.IPD_timeForDeceleration:=XMLSavedGameItem.Attributes['timeForDecel'];
                end;
@@ -400,6 +395,11 @@ begin
                   if EnumIndex=-1
                   then raise Exception.Create( 'bad gamesave loading w/ destination type: '+XMLSavedGameItem.Attributes['destination'] );
                   FCGtskListInProc[Count].T_tMITdestinationIndex:=XMLSavedGameItem.Attributes['destinationIndex'];
+                  FCGtskListInProc[Count].T_tMITcruiseVelocity:=StrToFloat( XMLSavedGameItem.Attributes['cruiseVelocity'], FCVdiFormat );
+                  FCGtskListInProc[Count].T_tMITcruiseTime:=XMLSavedGameItem.Attributes['cruiseTime'];
+                  FCGtskListInProc[Count].T_tMITfinalVelocity:=StrToFloat( XMLSavedGameItem.Attributes['finalVelocity'], FCVdiFormat );
+                  FCGtskListInProc[Count].T_tMITfinalTime:=XMLSavedGameItem.Attributes['finalTime'];
+                  FCGtskListInProc[Count].T_tMITusedReactionMassVol:=StrToFloat( XMLSavedGameItem.Attributes['usedReactionMass'], FCVdiFormat );
                   FCGtskListInProc[Count].T_tMITinProcessData.IPD_accelerationByTick:=StrToFloat( XMLSavedGameItem.Attributes['accelerationByTick'], FCVdiFormat );
                   FCGtskListInProc[Count].T_tMITinProcessData.IPD_timeForDeceleration:=XMLSavedGameItem.Attributes['timeForDecel'];
                   FCGtskListInProc[Count].T_tMITinProcessData.IPD_timeToTransfert:=XMLSavedGameItem.Attributes['timeToTtransfert'];
@@ -1262,13 +1262,6 @@ begin
          XMLSavedGameItemSub.Attributes['prevProcessTime']:=FCGtskListInProc[Count].T_previousProcessTime;
 
 
-         XMLSavedGameItemSub.Attributes['tipVelCr']:=FloatToStr( FCGtskListInProc[Count].TITP_velCruise, FCVdiFormat );
-         XMLSavedGameItemSub.Attributes['tipTimeTcr']:=FCGtskListInProc[Count].TITP_timeToCruise;
-
-         XMLSavedGameItemSub.Attributes['tipVelFin']:=FloatToStr( FCGtskListInProc[Count].TITP_velFinal, FCVdiFormat );
-         XMLSavedGameItemSub.Attributes['tipTimeTfin']:=FCGtskListInProc[Count].TITP_timeToFinal;
-
-         XMLSavedGameItemSub.Attributes['tipUsedRM']:=FloatToStr( FCGtskListInProc[Count].TITP_usedRMassV, FCVdiFormat );
          XMLSavedGameItemSub.Attributes['tipStr1']:=FCGtskListInProc[Count].TITP_str1;
          XMLSavedGameItemSub.Attributes['tipStr2']:=FCGtskListInProc[Count].TITP_str1;
          XMLSavedGameItemSub.Attributes['tipInt1']:=FCGtskListInProc[Count].TITP_int1;
@@ -1282,6 +1275,9 @@ begin
                XMLSavedGameItemSub.Attributes['destination']:=GetEnumName( TypeInfo( TFCEdmtTaskTargets ), Integer( FCGtskListInProc[Count].T_tMCdestination ) );
                XMLSavedGameItemSub.Attributes['destinationIndex']:=FCGtskListInProc[Count].T_tMCdestinationIndex;
                XMLSavedGameItemSub.Attributes['regionDestination']:=FCGtskListInProc[Count].T_tMCdestinationRegion;
+               XMLSavedGameItemSub.Attributes['finalVelocity']:=FloatToStr( FCGtskListInProc[Count].T_tMCfinalVelocity, FCVdiFormat );
+               XMLSavedGameItemSub.Attributes['finalTime']:=FCGtskListInProc[Count].T_tMCfinalTime;
+               XMLSavedGameItemSub.Attributes['usedReactionMass']:=FloatToStr( FCGtskListInProc[Count].T_tMCusedReactionMassVol, FCVdiFormat );
                XMLSavedGameItemSub.Attributes['accelerationByTick']:=FloatToStr( FCGtskListInProc[Count].T_tMCinProcessData.IPD_accelerationByTick, FCVdiFormat );
                XMLSavedGameItemSub.Attributes['timeForDecel']:=FCGtskListInProc[Count].T_tMCinProcessData.IPD_timeForDeceleration;
             end;
@@ -1293,6 +1289,11 @@ begin
                XMLSavedGameItemSub.Attributes['originIndex']:=FCGtskListInProc[Count].T_tMIToriginIndex;
                XMLSavedGameItemSub.Attributes['destination']:=GetEnumName( TypeInfo( TFCEdmtTaskTargets ), Integer( FCGtskListInProc[Count].T_tMITdestination ) );
                XMLSavedGameItemSub.Attributes['destinationIndex']:=FCGtskListInProc[Count].T_tMITdestinationIndex;
+               XMLSavedGameItemSub.Attributes['cruiseVelocity']:=FloatToStr( FCGtskListInProc[Count].T_tMITcruiseVelocity, FCVdiFormat );
+               XMLSavedGameItemSub.Attributes['cruiseTime']:=FCGtskListInProc[Count].T_tMITcruiseTime;
+               XMLSavedGameItemSub.Attributes['finalVelocity']:=FloatToStr( FCGtskListInProc[Count].T_tMITfinalVelocity, FCVdiFormat );
+               XMLSavedGameItemSub.Attributes['finalTime']:=FCGtskListInProc[Count].T_tMITfinalTime;
+               XMLSavedGameItemSub.Attributes['usedReactionMass']:=FloatToStr( FCGtskListInProc[Count].T_tMITusedReactionMassVol, FCVdiFormat );
                XMLSavedGameItemSub.Attributes['accelerationByTick']:=FloatToStr( FCGtskListInProc[Count].T_tMITinProcessData.IPD_accelerationByTick, FCVdiFormat );
                XMLSavedGameItemSub.Attributes['timeForDecel']:=FCGtskListInProc[Count].T_tMITinProcessData.IPD_timeForDeceleration;
                XMLSavedGameItemSub.Attributes['timeToTtransfert']:=FCGtskListInProc[Count].T_tMITinProcessData.IPD_timeToTransfert;

@@ -272,11 +272,9 @@ begin
                FCGtskLstToProc[MCtskL].T_tMCdestinationIndex:=GMCrootSatObjIdx;
             end;
             FCGtskLstToProc[MCtskL].T_tMCdestinationRegion:=GMCregion;
-            FCGtskLstToProc[MCtskL].TITP_velCruise:=0;
-            FCGtskLstToProc[MCtskL].TITP_timeToCruise:=0;
-            FCGtskLstToProc[MCtskL].TITP_velFinal:=GMCfinalDV;
-            FCGtskLstToProc[MCtskL].TITP_timeToFinal:=GMCdckd[MCcnt].GMCD_landTime;
-            FCGtskLstToProc[MCtskL].TITP_usedRMassV:=GMCdckd[MCcnt].GMCD_usedRM;
+            FCGtskLstToProc[MCtskL].T_tMCfinalVelocity:=GMCfinalDV;
+            FCGtskLstToProc[MCtskL].T_tMCfinalTime:=GMCdckd[MCcnt].GMCD_landTime;
+            FCGtskLstToProc[MCtskL].T_tMCusedReactionMassVol:=GMCdckd[MCcnt].GMCD_usedRM;
             if FCWinMain.FCWMS_Grp_MCGColName.Text<>FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_CDPcolNameNo')
             then FCGtskLstToProc[MCtskL].TITP_str1:=FCWinMain.FCWMS_Grp_MCGColName.Text
             else FCGtskLstToProc[MCtskL].TITP_str1:='';
@@ -341,13 +339,12 @@ begin
             FCGtskLstToProc[MCtskL].T_tMITdestination:=ttSatellite;
             FCGtskLstToProc[MCtskL].T_tMITdestinationIndex:=FC3doglSelectedSatellite;
          end;
-         FCGtskLstToProc[MCtskL].T_tMCdestinationRegion:=0;
-         FCGtskLstToProc[MCtskL].TITP_velCruise:=GMCcruiseDV;
-         FCGtskLstToProc[MCtskL].TITP_timeToCruise:=GMCtimeA;
+         FCGtskLstToProc[MCtskL].T_tMITcruiseVelocity:=GMCcruiseDV;
+         FCGtskLstToProc[MCtskL].T_tMITcruiseTime:=GMCtimeA;
          FCGtskLstToProc[MCtskL].T_tMITinProcessData.IPD_timeToTransfert:=0;
-         FCGtskLstToProc[MCtskL].TITP_velFinal:=GMCfinalDV;
-         FCGtskLstToProc[MCtskL].TITP_timeToFinal:=GMCtimeD;
-         FCGtskLstToProc[MCtskL].TITP_usedRMassV:=GMCusedRMvol;
+         FCGtskLstToProc[MCtskL].T_tMITfinalVelocity:=GMCfinalDV;
+         FCGtskLstToProc[MCtskL].T_tMITfinalTime:=GMCtimeD;
+         FCGtskLstToProc[MCtskL].T_tMITusedReactionMassVol:=GMCusedRMvol;
          FCGtskLstToProc[MCtskL].TITP_str1:='';
          FCGtskLstToProc[MCtskL].TITP_str2:='';
          FCGtskLstToProc[MCtskL].TITP_int1:=0;

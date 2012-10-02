@@ -139,16 +139,8 @@ type TFCRdmtTask = record
    ///   previous process time
    ///</summary>
    T_previousProcessTime: integer;
-   {cruise velocity to reach , if 0 then =current deltav}
-   TITP_velCruise: extended;
-   {acceleration time in ticks}
-   TITP_timeToCruise: integer;
-   {final velocity, if 0 then = cruise vel}
-   TITP_velFinal: extended;
-   {deceleration time in ticks}
-   TITP_timeToFinal: integer;
-   {used reaction mass volume for the complete task}
-   TITP_usedRMassV: extended;
+
+
    {.data string 1 for needed data transferts}
    TITP_str1: string;
    {.data string 2 for needed data transferts}
@@ -163,6 +155,18 @@ type TFCRdmtTask = record
          T_tMCdestination: TFCEdmtTaskTargets;
          T_tMCdestinationIndex: integer;
          T_tMCdestinationRegion: integer;
+         ///<summary>
+         ///   final velocity, if 0 then = cruise velocity
+         ///</summary>
+         T_tMCfinalVelocity: extended;
+         ///<summary>
+         ///   deceleration time in ticks
+         ///</summary>
+         T_tMCfinalTime: integer;
+         ///<summary>
+         ///   used reaction mass volume for the complete task
+         ///</summary>
+         T_tMCusedReactionMassVol: extended;
 
          T_tMCinProcessData: record
             ///<summary>
@@ -182,6 +186,27 @@ type TFCRdmtTask = record
          T_tMIToriginIndex: integer;
          T_tMITdestination: TFCEdmtTaskTargets;
          T_tMITdestinationIndex: integer;
+         ///<summary>
+         ///   cruise velocity to reach , if 0 then =current deltav
+         ///</summary>
+         T_tMITcruiseVelocity: extended;
+         ///<summary>
+         ///   time to accelerate to the cruise velocity to reach
+         ///</summary>
+         T_tMITcruiseTime: integer;
+         ///<summary>
+         ///   final velocity, if 0 then = cruise velocity
+         ///</summary>
+         T_tMITfinalVelocity: extended;
+         ///<summary>
+         ///   deceleration time in ticks
+         ///</summary>
+         T_tMITfinalTime: integer;
+         ///<summary>
+         ///   used reaction mass volume for the complete task
+         ///</summary>
+         T_tMITusedReactionMassVol: extended;
+
          T_tMITinProcessData: record
             ///<summary>
             ///   acceleration by tick for the current mission
