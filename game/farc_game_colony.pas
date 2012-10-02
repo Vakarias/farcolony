@@ -133,8 +133,8 @@ function FCFgC_InfraKitsInStorage_Retrieve(
 function FCFgC_Settlement_Add(
    const Entity
          ,Colony
-         ,Region
-         ,SettlementType: integer;
+         ,Region: integer;
+         SettlementType: TFCEdgSettlements;
    const SettlementName: string
    ): integer;
 
@@ -510,8 +510,8 @@ end;
 function FCFgC_Settlement_Add(
    const Entity
          ,Colony
-         ,Region
-         ,SettlementType: integer;
+         ,Region: integer;
+         SettlementType: TFCEdgSettlements;
    const SettlementName: string
    ): integer;
 {:Purpose: add and initialize a new settlement for a colony.

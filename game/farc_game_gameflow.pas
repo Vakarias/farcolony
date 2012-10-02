@@ -389,9 +389,9 @@ begin
                            ,FCGtskListInProc[GTPtaskIdx].T_tMCdestinationIndex
                            ,0
                            ,FCGtskListInProc[GTPtaskIdx].T_tMCdestinationRegion
-                           ,FCGtskListInProc[GTPtaskIdx].TITP_int1
-                           ,FCGtskListInProc[GTPtaskIdx].TITP_str1
-                           ,FCGtskListInProc[GTPtaskIdx].TITP_str2
+                           ,FCGtskListInProc[GTPtaskIdx].T_tMCsettlementType
+                           ,FCGtskListInProc[GTPtaskIdx].T_tMCcolonyName
+                           ,FCGtskListInProc[GTPtaskIdx].T_tMCsettlementName
                            );
                      end
                      else if FCGtskListInProc[GTPtaskIdx].T_tMCdestination=ttSatellite
@@ -407,9 +407,9 @@ begin
                            ,GTPoobjDB
                            ,GTPsatDB
                            ,FCGtskListInProc[GTPtaskIdx].T_tMCdestinationRegion
-                           ,FCGtskListInProc[GTPtaskIdx].TITP_int1
-                           ,FCGtskListInProc[GTPtaskIdx].TITP_str1
-                           ,FCGtskListInProc[GTPtaskIdx].TITP_str2
+                           ,FCGtskListInProc[GTPtaskIdx].T_tMCsettlementType
+                           ,FCGtskListInProc[GTPtaskIdx].T_tMCcolonyName
+                           ,FCGtskListInProc[GTPtaskIdx].T_tMCsettlementName
                            );
                      end;
                      FCGtskListInProc[GTPtaskIdx].T_inProcessData.IPD_isTaskTerminated:=true;

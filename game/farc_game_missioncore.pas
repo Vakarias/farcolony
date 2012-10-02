@@ -276,18 +276,20 @@ begin
             FCGtskLstToProc[MCtskL].T_tMCfinalTime:=GMCdckd[MCcnt].GMCD_landTime;
             FCGtskLstToProc[MCtskL].T_tMCusedReactionMassVol:=GMCdckd[MCcnt].GMCD_usedRM;
             if FCWinMain.FCWMS_Grp_MCGColName.Text<>FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_CDPcolNameNo')
-            then FCGtskLstToProc[MCtskL].TITP_str1:=FCWinMain.FCWMS_Grp_MCGColName.Text
-            else FCGtskLstToProc[MCtskL].TITP_str1:='';
+            then FCGtskLstToProc[MCtskL].T_tMCcolonyName:=FCWinMain.FCWMS_Grp_MCGColName.Text
+            else FCGtskLstToProc[MCtskL].T_tMCcolonyName:='';
             if FCWinMain.FCWMS_Grp_MCG_SetName.Visible
             then
             begin
-               FCGtskLstToProc[MCtskL].TITP_str2:=FCWinMain.FCWMS_Grp_MCG_SetName.Text;
-               FCGtskLstToProc[MCtskL].TITP_int1:=FCWinMain.FCWMS_Grp_MCG_SetType.ItemIndex;
+               FCGtskLstToProc[MCtskL].T_tMCsettlementName:=FCWinMain.FCWMS_Grp_MCG_SetName.Text;
+               {:DEV NOTES: change that for the real settlement type.}
+               FCGtskLstToProc[MCtskL].T_tMCsettlementType:=sSurface;//FCWinMain.FCWMS_Grp_MCG_SetType.ItemIndex;
             end
             else
             begin
-               FCGtskLstToProc[MCtskL].TITP_str2:='';
-               FCGtskLstToProc[MCtskL].TITP_int1:=0;
+               FCGtskLstToProc[MCtskL].T_tMCsettlementName:='';
+               {:DEV NOTES: change that for the real settlement type.}
+               FCGtskLstToProc[MCtskL].T_tMCsettlementType:=sSurface;
             end;
             FCMspuF_DockedSpU_Rem(
                GMCfac
@@ -345,9 +347,6 @@ begin
          FCGtskLstToProc[MCtskL].T_tMITfinalVelocity:=GMCfinalDV;
          FCGtskLstToProc[MCtskL].T_tMITfinalTime:=GMCtimeD;
          FCGtskLstToProc[MCtskL].T_tMITusedReactionMassVol:=GMCusedRMvol;
-         FCGtskLstToProc[MCtskL].TITP_str1:='';
-         FCGtskLstToProc[MCtskL].TITP_str2:='';
-         FCGtskLstToProc[MCtskL].TITP_int1:=0;
          FCWinMain.FCWM_MissionSettings.Hide;
          FCWinMain.FCWMS_Grp_MCG_RMassTrack.Position:=1;
          if GMCrootSatIdx=0

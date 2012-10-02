@@ -30,7 +30,8 @@ unit farc_data_missionstasks;
 
 interface
 
-//uses
+uses
+   farc_data_game;
 
 {:REFERENCES LIST
    - FCFspuF_Mission_GetPhaseName
@@ -139,14 +140,6 @@ type TFCRdmtTask = record
    ///   previous process time
    ///</summary>
    T_previousProcessTime: integer;
-
-
-   {.data string 1 for needed data transferts}
-   TITP_str1: string;
-   {.data string 2 for needed data transferts}
-   TITP_str2: string;
-   {.data integer 1 for needed data transferts}
-   TITP_int1: integer;
    case T_type: TFCEdmtTasks of
       tMissionColonization:(
          T_tMCphase: TFCEdmtTaskPhasesColonization;
@@ -155,6 +148,9 @@ type TFCRdmtTask = record
          T_tMCdestination: TFCEdmtTaskTargets;
          T_tMCdestinationIndex: integer;
          T_tMCdestinationRegion: integer;
+         T_tMCcolonyName: string[20];
+         T_tMCsettlementName: string[20];
+         T_tMCsettlementType: TFCEdgSettlements;
          ///<summary>
          ///   final velocity, if 0 then = cruise velocity
          ///</summary>
