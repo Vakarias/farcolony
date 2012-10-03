@@ -65,8 +65,6 @@
 			<DCCReference Include="gfx\farc_ogl_ui.pas"/>
 			<DCCReference Include="ui\farc_ui_keys.pas"/>
 			<DCCReference Include="game\farc_game_gameflow.pas"/>
-			<DCCReference Include="game\farc_game_missioncore.pas"/>
-			<DCCReference Include="game\farc_game_mitransit.pas"/>
 			<DCCReference Include="spu\farc_spu_functions.pas"/>
 			<DCCReference Include="ui\farc_win_about.pas">
 				<Form>FCWinAbout</Form>
@@ -80,8 +78,6 @@
 			<DCCReference Include="game\farc_game_colony.pas"/>
 			<DCCReference Include="game\farc_game_csmevents.pas"/>
 			<DCCReference Include="game\farc_game_cps.pas"/>
-			<DCCReference Include="game\farc_game_miland.pas"/>
-			<DCCReference Include="game\farc_game_micolonize.pas"/>
 			<DCCReference Include="game\farc_game_spm.pas"/>
 			<DCCReference Include="ui\farc_win_debug.pas">
 				<Form>FCWinDebug</Form>
@@ -135,6 +131,10 @@
 			<DCCReference Include="data\farc_data_spm.pas"/>
 			<DCCReference Include="data\farc_data_missionstasks.pas"/>
 			<DCCReference Include="ui\farc_ui_umifaction.pas"/>
+			<DCCReference Include="missions\farc_missions_landing.pas"/>
+			<DCCReference Include="missions\farc_missions_core.pas"/>
+			<DCCReference Include="missions\farc_missions_colonization.pas"/>
+			<DCCReference Include="missions\farc_missions_interplanetarytransit.pas"/>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>

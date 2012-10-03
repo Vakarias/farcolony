@@ -483,8 +483,8 @@ uses
    ,farc_fug_com
    ,farc_game_core
    ,farc_game_cps
-   ,farc_game_micolonize
-   ,farc_game_missioncore
+   ,farc_missions_colonization
+   ,farc_missions_core
    ,farc_game_contg
    ,farc_game_infra
    ,farc_game_newg

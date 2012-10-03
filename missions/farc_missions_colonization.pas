@@ -27,7 +27,7 @@ Copyright (c) 2009-2012, Jean-Francois Baconnet
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *******************************************************************************************}
 
-unit farc_game_micolonize;
+unit farc_missions_colonization;
 
 interface
 
@@ -93,9 +93,9 @@ uses
    ,farc_game_cps
    ,farc_game_infra
    ,farc_game_infraconsys
-   ,farc_game_miland
-   ,farc_game_mitransit
-   ,farc_game_missioncore
+   ,farc_missions_landing
+   ,farc_missions_interplanetarytransit
+   ,farc_missions_core
    ,farc_game_spmdata
    ,farc_gfx_core
    ,farc_main

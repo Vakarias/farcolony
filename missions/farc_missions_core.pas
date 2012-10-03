@@ -27,7 +27,7 @@ Copyright (c) 2009-2012, Jean-Francois Baconnet
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *******************************************************************************************}
 
-unit farc_game_missioncore;
+unit farc_missions_core;
 
 interface
 
@@ -138,8 +138,8 @@ uses
    ,farc_data_textfiles
    ,farc_data_univ
    ,farc_game_gameflow
-   ,farc_game_micolonize
-   ,farc_game_mitransit
+   ,farc_missions_colonization
+   ,farc_missions_interplanetarytransit
    ,farc_main
    ,farc_ogl_ui
    ,farc_ogl_viewmain

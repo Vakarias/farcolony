@@ -50,8 +50,6 @@ uses
   farc_ogl_ui in 'gfx\farc_ogl_ui.pas',
   farc_ui_keys in 'ui\farc_ui_keys.pas',
   farc_game_gameflow in 'game\farc_game_gameflow.pas',
-  farc_game_missioncore in 'game\farc_game_missioncore.pas',
-  farc_game_mitransit in 'game\farc_game_mitransit.pas',
   farc_spu_functions in 'spu\farc_spu_functions.pas',
   farc_win_about in 'ui\farc_win_about.pas' {FCWinAbout},
   farc_game_contg in 'game\farc_game_contg.pas',
@@ -61,8 +59,6 @@ uses
   farc_game_colony in 'game\farc_game_colony.pas',
   farc_game_csmevents in 'game\farc_game_csmevents.pas',
   farc_game_cps in 'game\farc_game_cps.pas',
-  farc_game_miland in 'game\farc_game_miland.pas',
-  farc_game_micolonize in 'game\farc_game_micolonize.pas',
   farc_game_spm in 'game\farc_game_spm.pas',
   farc_win_debug in 'ui\farc_win_debug.pas' {FCWinDebug},
   farc_game_infra in 'game\farc_game_infra.pas',
@@ -113,7 +109,11 @@ uses
   farc_data_messages in 'data\farc_data_messages.pas',
   farc_data_spm in 'data\farc_data_spm.pas',
   farc_data_missionstasks in 'data\farc_data_missionstasks.pas',
-  farc_ui_umifaction in 'ui\farc_ui_umifaction.pas';
+  farc_ui_umifaction in 'ui\farc_ui_umifaction.pas',
+  farc_missions_landing in 'missions\farc_missions_landing.pas',
+  farc_missions_core in 'missions\farc_missions_core.pas',
+  farc_missions_colonization in 'missions\farc_missions_colonization.pas',
+  farc_missions_interplanetarytransit in 'missions\farc_missions_interplanetarytransit.pas';
 
 {$R *.res}
 

@@ -208,7 +208,7 @@ uses
    ,farc_data_univ
    ,farc_data_textfiles
    ,farc_game_gameflow
-   ,farc_game_missioncore
+   ,farc_missions_core
    ,farc_game_newg
    ,farc_main
    ,farc_ogl_ui

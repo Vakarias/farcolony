@@ -85,10 +85,10 @@ uses
    ,farc_game_cps
    ,farc_game_csm
    ,farc_data_game
-   ,farc_game_micolonize
    ,farc_game_prod
    ,farc_game_spm
    ,farc_main
+   ,farc_missions_colonization
    ,farc_ogl_viewmain
    ,farc_ogl_ui
    ,farc_spu_functions

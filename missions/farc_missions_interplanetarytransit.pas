@@ -27,7 +27,7 @@ Copyright (c) 2009-2012, Jean-Francois Baconnet
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *******************************************************************************************}
 
-unit farc_game_mitransit;
+unit farc_missions_interplanetarytransit;
 
 interface
 
@@ -78,7 +78,7 @@ uses
    ,farc_data_init
    ,farc_data_spu
    ,farc_data_univ
-   ,farc_game_missioncore
+   ,farc_missions_core
    ,farc_main
    ,farc_spu_functions;
 
