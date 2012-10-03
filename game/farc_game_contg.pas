@@ -111,7 +111,7 @@ FCMdF_DBProducts_Load;
    if not Assigned(FCRdiSettlementPictures[1])
    then FCMgfxC_Settlements_Init;
    {.data initialization}
-   SetLength(FCGtskLstToProc,1);
+   SetLength(FCDdmtTaskListToProcess,1);
    FCMdF_DBStarSystems_Load;
 
    FCMuiM_Messages_Reset;

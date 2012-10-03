@@ -630,35 +630,35 @@ begin
       begin
          FCMgGFlow_Tasks_Process;
          {.space units moving subroutine}
-         FCGLSCPtaskL:=length(FCGtskListInProc);
+         FCGLSCPtaskL:=length(FCDdmtTaskListInProcess);
          if FCGLSCPtaskL>1
          then
          begin
             i:=1;
             while i<=FCGLSCPtaskL-1 do
             begin
-               if not FCGtskListInProc[i].T_inProcessData.IPD_isTaskTerminated
+               if not FCDdmtTaskListInProcess[i].T_inProcessData.IPD_isTaskTerminated
                then
                begin
-                  FCGLSCPspUidx:=FCGtskListInProc[i].T_controllerIndex;
+                  FCGLSCPspUidx:=FCDdmtTaskListInProcess[i].T_controllerIndex;
                   FCGLSCPobjIdx:=FCDdgEntities[0].E_spaceUnits[FCGLSCPspUidx].SU_linked3dObject;
                   if
                      (
                         (
-                           (FCGtskListInProc[i].T_type=tMissionInterplanetaryTransit)
+                           (FCDdmtTaskListInProcess[i].T_type=tMissionInterplanetaryTransit)
                            and
                               (
-                                 (FCGtskListInProc[i].T_tMITphase=mitpAcceleration)
+                                 (FCDdmtTaskListInProcess[i].T_tMITphase=mitpAcceleration)
                                  or
-                                 (FCGtskListInProc[i].T_tMITphase=mitpCruise)
+                                 (FCDdmtTaskListInProcess[i].T_tMITphase=mitpCruise)
                                  or
-                                 (FCGtskListInProc[i].T_tMITphase=mitpDeceleration)
+                                 (FCDdmtTaskListInProcess[i].T_tMITphase=mitpDeceleration)
                               )
                         )
                         or
                         (
-                           (FCGtskListInProc[i].T_type=tMissionColonization)
-                              and (FCGtskListInProc[i].T_tMCphase=mcpDeceleration)
+                           (FCDdmtTaskListInProcess[i].T_type=tMissionColonization)
+                              and (FCDdmtTaskListInProcess[i].T_tMCphase=mcpDeceleration)
                               and (FCDdgEntities[0].E_spaceUnits[FCGLSCPspUidx].SU_linked3dObject>0)
                         )
                      )
@@ -1326,7 +1326,9 @@ end;
 
 procedure TFCWinMain.FCWM_MMenu_G_SaveClick(Sender: TObject);
 begin
-   FCMdFSG_Game_Save;
+   {.prevent the game save if the tasks to process are initialized ( fcwinmain.FCGLScadencer.Enabled=false).}
+   if fcwinmain.FCGLScadencer.Enabled
+   then FCMdFSG_Game_Save;
 end;
 
 procedure TFCWinMain.FCWM_MMenu_H_AboutClick(Sender: TObject);

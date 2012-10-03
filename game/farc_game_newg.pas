@@ -317,8 +317,8 @@ FCWinNewGSetup.Close;
    FCWinMain.FCWM_MMenu_G_New.Enabled:=false;
    {.data initialization}
 //   CPfacIdx:=FCWinNewGSetup.FCWNGS_Frm_FactionList.ItemIndex+1;
-   SetLength(FCGtskLstToProc, 1);
-   SetLength(FCGtskListInProc, 1);
+   SetLength(FCDdmtTaskListToProcess, 1);
+   SetLength(FCDdmtTaskListInProcess, 1);
    FCMdG_Entities_Clear;
    FCMdF_DBStarSystems_Load;
    {.initialize player's data structure}

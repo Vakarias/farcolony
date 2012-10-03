@@ -135,6 +135,8 @@
 			<DCCReference Include="missions\farc_missions_core.pas"/>
 			<DCCReference Include="missions\farc_missions_colonization.pas"/>
 			<DCCReference Include="missions\farc_missions_interplanetarytransit.pas"/>
+			<DCCReference Include="ui\farc_ui_missionsetup.pas"/>
+			<DCCReference Include="game\farc_game_tasksystem.pas"/>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>

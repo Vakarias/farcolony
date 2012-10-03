@@ -269,7 +269,7 @@ var
 
   GTPendPh: boolean;
 begin
-   GTPnumTaskInProc:=length(FCGtskListInProc)-1;
+   GTPnumTaskInProc:=length(FCDdmtTaskListInProcess)-1;
    if GTPnumTaskInProc>0
    then
    begin
@@ -284,31 +284,31 @@ begin
       GTPtaskIdx:=1;
       while GTPtaskIdx<=GTPnumTaskInProc do
       begin
-         if (not FCGtskListInProc[GTPtaskIdx].T_inProcessData.IPD_isTaskTerminated)
+         if (not FCDdmtTaskListInProcess[GTPtaskIdx].T_inProcessData.IPD_isTaskTerminated)
          then
          begin
-            GTPfac:=FCGtskListInProc[GTPtaskIdx].T_entity;
-            GTPspuOwn:=FCGtskListInProc[GTPtaskIdx].T_controllerIndex;
-            case FCGtskListInProc[GTPtaskIdx].T_type of
+            GTPfac:=FCDdmtTaskListInProcess[GTPtaskIdx].T_entity;
+            GTPspuOwn:=FCDdmtTaskListInProcess[GTPtaskIdx].T_controllerIndex;
+            case FCDdmtTaskListInProcess[GTPtaskIdx].T_type of
                {.mission - colonization}
                tMissionColonization:
                begin
                   {.deceleration phase}
                   if (GGFnewTick>GGFoldTick)
-                     and(FCGtskListInProc[GTPtaskIdx].T_tMCphase=mcpDeceleration)
+                     and(FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCphase=mcpDeceleration)
                   then
                   begin
-                     if GGFnewTick>=FCGtskListInProc[GTPtaskIdx].T_inProcessData.IPD_ticksAtTaskStart+FCGtskListInProc[GTPtaskIdx].T_tMCinProcessData.IPD_timeForDeceleration
+                     if GGFnewTick>=FCDdmtTaskListInProcess[GTPtaskIdx].T_inProcessData.IPD_ticksAtTaskStart+FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCinProcessData.IPD_timeForDeceleration
                      then
                      begin
-                        GTPspUnVel:=FCGtskListInProc[GTPtaskIdx].T_tMCfinalVelocity;
-                        FCGtskListInProc[GTPtaskIdx].T_tMCphase:=mcpAtmosphericEntry;
+                        GTPspUnVel:=FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCfinalVelocity;
+                        FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCphase:=mcpAtmosphericEntry;
                      end
-                     else if GGFnewTick<FCGtskListInProc[GTPtaskIdx].T_inProcessData.IPD_ticksAtTaskStart+FCGtskListInProc[GTPtaskIdx].T_tMCinProcessData.IPD_timeForDeceleration
+                     else if GGFnewTick<FCDdmtTaskListInProcess[GTPtaskIdx].T_inProcessData.IPD_ticksAtTaskStart+FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCinProcessData.IPD_timeForDeceleration
                      then
                      begin
                         GTPspUnVel
-                           :=FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_deltaV-(FCGtskListInProc[GTPtaskIdx].T_tMCinProcessData.IPD_accelerationByTick*(GGFnewTick-GGFoldTick));
+                           :=FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_deltaV-(FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCinProcessData.IPD_accelerationByTick*(GGFnewTick-GGFoldTick));
                         FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_deltaV:=FCFcFunc_Rnd(
                            cfrttpVelkms
                            ,GTPspUnVel
@@ -322,36 +322,36 @@ begin
                   end; //==END== if (GGFnewTick>GGFoldTick) and(FCGtskListInProc[GTPtaskIdx].TITP_phaseTp=tpDecel) ==//
                   {.atmospheric entry phase}
                   if (GGFnewTick>GGFoldTick)
-                     and(FCGtskListInProc[GTPtaskIdx].T_tMCphase=mcpAtmosphericEntry)
+                     and(FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCphase=mcpAtmosphericEntry)
                   then
                   begin
                      if FC3doglSpaceUnits[FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_linked3dObject].Visible
                      then
                      begin
                         FC3doglSpaceUnits[FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_linked3dObject].Visible:=false;
-                        if FCGtskListInProc[GTPtaskIdx].T_tMCorigin=ttSpaceUnitDockedIn
+                        if FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCorigin=ttSpaceUnitDockedIn
                         then
                         begin
-                           FC3doglSelectedSpaceUnit:=FCGtskListInProc[GTPtaskIdx].T_tMCoriginIndex;
+                           FC3doglSelectedSpaceUnit:=FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCoriginIndex;
                            FCMoglVM_CamMain_Target(-1, true);
                         end
-                        else if FCGtskListInProc[GTPtaskIdx].T_tMCorigin=ttSpace
+                        else if FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCorigin=ttSpace
                         then
                         begin
-                           if FCGtskListInProc[GTPtaskIdx].T_tMCdestination=ttOrbitalObject
-                           then FCMoglVM_CamMain_Target(FCGtskListInProc[GTPtaskIdx].T_tMCdestinationIndex, true)
-                           else if FCGtskListInProc[GTPtaskIdx].T_tMCdestination=ttSatellite
+                           if FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCdestination=ttOrbitalObject
+                           then FCMoglVM_CamMain_Target(FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCdestinationIndex, true)
+                           else if FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCdestination=ttSatellite
                            then
                            begin
-                              FC3doglSelectedSatellite:=FC3doglSatellitesObjectsGroups[FCGtskListInProc[GTPtaskIdx].T_tMCdestinationIndex].Tag;
+                              FC3doglSelectedSatellite:=FC3doglSatellitesObjectsGroups[FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCdestinationIndex].Tag;
                               FCMoglVM_CamMain_Target(100, true);
                            end
                         end;
                      end;
-                     if GGFnewTick>=FCGtskListInProc[GTPtaskIdx].T_inProcessData.IPD_ticksAtTaskStart+FCGtskListInProc[GTPtaskIdx].T_duration
-                     then FCGtskListInProc[GTPtaskIdx].T_inProcessData.IPD_isTaskDone:=true;
+                     if GGFnewTick>=FCDdmtTaskListInProcess[GTPtaskIdx].T_inProcessData.IPD_ticksAtTaskStart+FCDdmtTaskListInProcess[GTPtaskIdx].T_duration
+                     then FCDdmtTaskListInProcess[GTPtaskIdx].T_inProcessData.IPD_isTaskDone:=true;
                   end;
-                  if FCGtskListInProc[GTPtaskIdx].T_inProcessData.IPD_isTaskDone
+                  if FCDdmtTaskListInProcess[GTPtaskIdx].T_inProcessData.IPD_isTaskDone
                   then
                   begin
                      {.unload the current task to the space unit}
@@ -359,7 +359,7 @@ begin
                      FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_status:=susLanded;
                      {.set the remaining reaction mass}
                      FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_reactionMass
-                        :=FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_reactionMass-FCGtskListInProc[GTPtaskIdx].T_tMCusedReactionMassVol;
+                        :=FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_reactionMass-FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCusedReactionMassVol;
                      {.colonize mission post-process}
                      GTPssysDB:=FCFuF_StelObj_GetDbIdx(
                            ufsoSsys
@@ -377,63 +377,63 @@ begin
                         );
                      GTPoobjDB:=0;
                      GTPsatDB:=0;
-                     if FCGtskListInProc[GTPtaskIdx].T_tMCdestination=ttOrbitalObject
+                     if FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCdestination=ttOrbitalObject
                      then
                      begin
-                        GTPoobjDB:=FCGtskListInProc[GTPtaskIdx].T_tMCdestinationIndex;
+                        GTPoobjDB:=FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCdestinationIndex;
                         FCMgC_Colonize_PostProc(
-                           FCGtskListInProc[GTPtaskIdx].T_entity
+                           FCDdmtTaskListInProcess[GTPtaskIdx].T_entity
                            ,GTPspuOwn
                            ,GTPssysDB
                            ,GTPstarDB
-                           ,FCGtskListInProc[GTPtaskIdx].T_tMCdestinationIndex
+                           ,FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCdestinationIndex
                            ,0
-                           ,FCGtskListInProc[GTPtaskIdx].T_tMCdestinationRegion
-                           ,FCGtskListInProc[GTPtaskIdx].T_tMCsettlementType
-                           ,FCGtskListInProc[GTPtaskIdx].T_tMCcolonyName
-                           ,FCGtskListInProc[GTPtaskIdx].T_tMCsettlementName
+                           ,FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCdestinationRegion
+                           ,FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCsettlementType
+                           ,FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCcolonyName
+                           ,FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCsettlementName
                            );
                      end
-                     else if FCGtskListInProc[GTPtaskIdx].T_tMCdestination=ttSatellite
+                     else if FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCdestination=ttSatellite
                      then
                      begin
-                        GTPoobjDB:=round(FC3doglSatellitesObjectsGroups[FCGtskListInProc[GTPtaskIdx].T_tMCdestinationIndex].TagFloat); //ERROR:FCGtskListInProc[GTPtaskIdx].T_tMCdestinationIndex doesn't link to the
-                        GTPsatDB:=FC3doglSatellitesObjectsGroups[FCGtskListInProc[GTPtaskIdx].T_tMCdestinationIndex].Tag; //satellite 3d object index! use: FCFoglVM_SatObj_Search
+                        GTPoobjDB:=round(FC3doglSatellitesObjectsGroups[FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCdestinationIndex].TagFloat); //ERROR:FCGtskListInProc[GTPtaskIdx].T_tMCdestinationIndex doesn't link to the
+                        GTPsatDB:=FC3doglSatellitesObjectsGroups[FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCdestinationIndex].Tag; //satellite 3d object index! use: FCFoglVM_SatObj_Search
                         FCMgC_Colonize_PostProc(
-                           FCGtskListInProc[GTPtaskIdx].T_entity
+                           FCDdmtTaskListInProcess[GTPtaskIdx].T_entity
                            ,GTPspuOwn
                            ,GTPssysDB
                            ,GTPstarDB
                            ,GTPoobjDB
                            ,GTPsatDB
-                           ,FCGtskListInProc[GTPtaskIdx].T_tMCdestinationRegion
-                           ,FCGtskListInProc[GTPtaskIdx].T_tMCsettlementType
-                           ,FCGtskListInProc[GTPtaskIdx].T_tMCcolonyName
-                           ,FCGtskListInProc[GTPtaskIdx].T_tMCsettlementName
+                           ,FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCdestinationRegion
+                           ,FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCsettlementType
+                           ,FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCcolonyName
+                           ,FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCsettlementName
                            );
                      end;
-                     FCGtskListInProc[GTPtaskIdx].T_inProcessData.IPD_isTaskTerminated:=true;
+                     FCDdmtTaskListInProcess[GTPtaskIdx].T_inProcessData.IPD_isTaskTerminated:=true;
                   end;
                end; //==END== case: tatpMissColonize ==//
                {.mission - interplanetary transit}
                tMissionInterplanetaryTransit:
                begin
                   if (GGFnewTick>GGFoldTick)
-                     and(FCGtskListInProc[GTPtaskIdx].T_tMITphase=mitpAcceleration)
+                     and(FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITphase=mitpAcceleration)
                   then
                   begin
-                     if GGFnewTick=FCGtskListInProc[GTPtaskIdx].T_inProcessData.IPD_ticksAtTaskStart+FCGtskListInProc[GTPtaskIdx].T_tMITcruiseTime
-                     then FCGtskListInProc[GTPtaskIdx].T_tMITphase:=mitpCruise
-                     else if GGFnewTick>FCGtskListInProc[GTPtaskIdx].T_inProcessData.IPD_ticksAtTaskStart+FCGtskListInProc[GTPtaskIdx].T_tMITcruiseTime
+                     if GGFnewTick=FCDdmtTaskListInProcess[GTPtaskIdx].T_inProcessData.IPD_ticksAtTaskStart+FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITcruiseTime
+                     then FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITphase:=mitpCruise
+                     else if GGFnewTick>FCDdmtTaskListInProcess[GTPtaskIdx].T_inProcessData.IPD_ticksAtTaskStart+FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITcruiseTime
                      then
                      begin
-                        FCGtskListInProc[GTPtaskIdx].T_tMITinProcessData.IPD_timeToTransfert
-                           :=GGFnewTick-(FCGtskListInProc[GTPtaskIdx].T_inProcessData.IPD_ticksAtTaskStart+FCGtskListInProc[GTPtaskIdx].T_tMITcruiseTime);
+                        FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITinProcessData.IPD_timeToTransfert
+                           :=GGFnewTick-(FCDdmtTaskListInProcess[GTPtaskIdx].T_inProcessData.IPD_ticksAtTaskStart+FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITcruiseTime);
                         GTPspUnVel
                            :=FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_deltaV
                                  +(
-                                    FCGtskListInProc[GTPtaskIdx].T_tMITinProcessData.IPD_accelerationByTick
-                                    *(GGFnewTick-GGFoldTick-FCGtskListInProc[GTPtaskIdx].T_tMITinProcessData.IPD_timeToTransfert)
+                                    FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITinProcessData.IPD_accelerationByTick
+                                    *(GGFnewTick-GGFoldTick-FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITinProcessData.IPD_timeToTransfert)
                                     );
                         FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_deltaV
                            :=FCFcFunc_Rnd(
@@ -445,14 +445,14 @@ begin
                            ,FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_deltaV
                            );
                         FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_3dVelocity:=GTPmove;
-                        FCGtskListInProc[GTPtaskIdx].T_tMITphase:=mitpCruise;
+                        FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITphase:=mitpCruise;
                      end
-                     else if GGFnewTick<FCGtskListInProc[GTPtaskIdx].T_inProcessData.IPD_ticksAtTaskStart+FCGtskListInProc[GTPtaskIdx].T_tMITcruiseTime
+                     else if GGFnewTick<FCDdmtTaskListInProcess[GTPtaskIdx].T_inProcessData.IPD_ticksAtTaskStart+FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITcruiseTime
                      then
                      begin
                         GTPspUnVel
                            :=FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_deltaV
-                              +(FCGtskListInProc[GTPtaskIdx].T_tMITinProcessData.IPD_accelerationByTick*(GGFnewTick-GGFoldTick));
+                              +(FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITinProcessData.IPD_accelerationByTick*(GGFnewTick-GGFoldTick));
                         FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_deltaV
                            :=FCFcFunc_Rnd(
                               cfrttpVelkms
@@ -466,66 +466,66 @@ begin
                      end;
                   end; //==END== if (GGFnewTick>GGFoldTick) and(FCGtskListInProc[GTPtaskIdx].TITP_phaseTp=tpAccel) ==//
                   if (GGFnewTick>GGFoldTick)
-                     and(FCGtskListInProc[GTPtaskIdx].T_tMITphase=mitpCruise)
+                     and(FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITphase=mitpCruise)
                   then
                   begin
                      {.used for calculations of deceleration time to transfert}
                      IntCalculation1:=0;
-                     if FCGtskListInProc[GTPtaskIdx].T_tMITinProcessData.IPD_timeToTransfert>0 then
+                     if FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITinProcessData.IPD_timeToTransfert>0 then
                      begin
-                        if FCGtskListInProc[GTPtaskIdx].T_tMITinProcessData.IPD_timeToTransfert+GGFoldTick
-                           =FCGtskListInProc[GTPtaskIdx].T_inProcessData.IPD_ticksAtTaskStart+FCGtskListInProc[GTPtaskIdx].T_tMITcruiseTime
-                              +FCGtskListInProc[GTPtaskIdx].T_tMITinProcessData.IPD_timeForDeceleration
+                        if FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITinProcessData.IPD_timeToTransfert+GGFoldTick
+                           =FCDdmtTaskListInProcess[GTPtaskIdx].T_inProcessData.IPD_ticksAtTaskStart+FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITcruiseTime
+                              +FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITinProcessData.IPD_timeForDeceleration
                         then
                         begin
-                           FCGtskListInProc[GTPtaskIdx].T_tMITinProcessData.IPD_timeToTransfert:=0;
+                           FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITinProcessData.IPD_timeToTransfert:=0;
                            {:DEV NOTES: put that line below after :=intcalculation1 because mitpDeleration is the case for EACH OUTCOME OF THE TESTS.}
-                           FCGtskListInProc[GTPtaskIdx].T_tMITphase:=mitpDeceleration;   //remove
+                           FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITphase:=mitpDeceleration;   //remove
                         end
-                        else if FCGtskListInProc[GTPtaskIdx].T_tMITinProcessData.IPD_timeToTransfert+GGFoldTick
-                           >FCGtskListInProc[GTPtaskIdx].T_inProcessData.IPD_ticksAtTaskStart+FCGtskListInProc[GTPtaskIdx].T_tMITcruiseTime
-                              +FCGtskListInProc[GTPtaskIdx].T_tMITinProcessData.IPD_timeForDeceleration
+                        else if FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITinProcessData.IPD_timeToTransfert+GGFoldTick
+                           >FCDdmtTaskListInProcess[GTPtaskIdx].T_inProcessData.IPD_ticksAtTaskStart+FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITcruiseTime
+                              +FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITinProcessData.IPD_timeForDeceleration
                         then
                         begin
                            IntCalculation1
-                              :=(FCGtskListInProc[GTPtaskIdx].T_tMITinProcessData.IPD_timeToTransfert+GGFoldTick)
-                                 -(FCGtskListInProc[GTPtaskIdx].T_inProcessData.IPD_ticksAtTaskStart+FCGtskListInProc[GTPtaskIdx].T_tMITcruiseTime
-                              +FCGtskListInProc[GTPtaskIdx].T_tMITinProcessData.IPD_timeForDeceleration);
-                           FCGtskListInProc[GTPtaskIdx].T_tMITinProcessData.IPD_timeToTransfert:=0;
-                           FCGtskListInProc[GTPtaskIdx].T_tMITphase:=mitpDeceleration;   //remove
+                              :=(FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITinProcessData.IPD_timeToTransfert+GGFoldTick)
+                                 -(FCDdmtTaskListInProcess[GTPtaskIdx].T_inProcessData.IPD_ticksAtTaskStart+FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITcruiseTime
+                              +FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITinProcessData.IPD_timeForDeceleration);
+                           FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITinProcessData.IPD_timeToTransfert:=0;
+                           FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITphase:=mitpDeceleration;   //remove
                         end;
                      end
-                     else if FCGtskListInProc[GTPtaskIdx].T_tMITinProcessData.IPD_timeToTransfert=0
+                     else if FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITinProcessData.IPD_timeToTransfert=0
                      then
                      begin
-                        if GGFnewTick=FCGtskListInProc[GTPtaskIdx].T_inProcessData.IPD_ticksAtTaskStart+FCGtskListInProc[GTPtaskIdx].T_tMITcruiseTime
-                              +FCGtskListInProc[GTPtaskIdx].T_tMITinProcessData.IPD_timeForDeceleration
-                        then FCGtskListInProc[GTPtaskIdx].T_tMITphase:=mitpDeceleration      //remove
-                        else if GGFnewTick>FCGtskListInProc[GTPtaskIdx].T_inProcessData.IPD_ticksAtTaskStart+FCGtskListInProc[GTPtaskIdx].T_tMITcruiseTime
-                              +FCGtskListInProc[GTPtaskIdx].T_tMITinProcessData.IPD_timeForDeceleration
+                        if GGFnewTick=FCDdmtTaskListInProcess[GTPtaskIdx].T_inProcessData.IPD_ticksAtTaskStart+FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITcruiseTime
+                              +FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITinProcessData.IPD_timeForDeceleration
+                        then FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITphase:=mitpDeceleration      //remove
+                        else if GGFnewTick>FCDdmtTaskListInProcess[GTPtaskIdx].T_inProcessData.IPD_ticksAtTaskStart+FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITcruiseTime
+                              +FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITinProcessData.IPD_timeForDeceleration
                         then
                         begin
                            IntCalculation1
-                              :=GGFnewTick-(FCGtskListInProc[GTPtaskIdx].T_inProcessData.IPD_ticksAtTaskStart+FCGtskListInProc[GTPtaskIdx].T_tMITcruiseTime
-                              +FCGtskListInProc[GTPtaskIdx].T_tMITinProcessData.IPD_timeForDeceleration);
-                           FCGtskListInProc[GTPtaskIdx].T_tMITphase:=mitpDeceleration;  //remove
+                              :=GGFnewTick-(FCDdmtTaskListInProcess[GTPtaskIdx].T_inProcessData.IPD_ticksAtTaskStart+FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITcruiseTime
+                              +FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITinProcessData.IPD_timeForDeceleration);
+                           FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITphase:=mitpDeceleration;  //remove
                         end;
                      end;
-                     FCGtskListInProc[GTPtaskIdx].T_tMITinProcessData.IPD_timeToTransfert:=IntCalculation1;
+                     FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITinProcessData.IPD_timeToTransfert:=IntCalculation1;
                   end; //==END== if (GGFnewTick>GGFoldTick) and(FCGtskListInProc[GTPtaskIdx].TITP_phaseTp=tpCruise) ==//
                   if (GGFnewTick>GGFoldTick)
-                     and(FCGtskListInProc[GTPtaskIdx].T_tMITphase=mitpDeceleration)
+                     and(FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITphase=mitpDeceleration)
                   then
                   begin
-                     if FCGtskListInProc[GTPtaskIdx].T_tMITinProcessData.IPD_timeToTransfert>0
+                     if FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITinProcessData.IPD_timeToTransfert>0
                      then
                      begin
-                        if FCGtskListInProc[GTPtaskIdx].T_tMITinProcessData.IPD_timeToTransfert+GGFoldTick
-                           >=FCGtskListInProc[GTPtaskIdx].T_inProcessData.IPD_ticksAtTaskStart+FCGtskListInProc[GTPtaskIdx].T_duration
+                        if FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITinProcessData.IPD_timeToTransfert+GGFoldTick
+                           >=FCDdmtTaskListInProcess[GTPtaskIdx].T_inProcessData.IPD_ticksAtTaskStart+FCDdmtTaskListInProcess[GTPtaskIdx].T_duration
                         then
                         begin
-                           GTPspUnVel:=FCGtskListInProc[GTPtaskIdx].T_tMITfinalVelocity;
-                           FCGtskListInProc[GTPtaskIdx].T_tMITinProcessData.IPD_timeToTransfert:=0;
+                           GTPspUnVel:=FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITfinalVelocity;
+                           FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITinProcessData.IPD_timeToTransfert:=0;
                            {.update data structure}
                            FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_deltaV
                               :=FCFcFunc_Rnd(
@@ -537,15 +537,15 @@ begin
                               ,FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_deltaV
                               );
                            FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_3dVelocity:=GTPmove;
-                           FCGtskListInProc[GTPtaskIdx].T_inProcessData.IPD_isTaskDone:=true;
+                           FCDdmtTaskListInProcess[GTPtaskIdx].T_inProcessData.IPD_isTaskDone:=true;
                         end
-                        else if FCGtskListInProc[GTPtaskIdx].T_tMITinProcessData.IPD_timeToTransfert+GGFoldTick
-                           <FCGtskListInProc[GTPtaskIdx].T_inProcessData.IPD_ticksAtTaskStart+FCGtskListInProc[GTPtaskIdx].T_duration
+                        else if FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITinProcessData.IPD_timeToTransfert+GGFoldTick
+                           <FCDdmtTaskListInProcess[GTPtaskIdx].T_inProcessData.IPD_ticksAtTaskStart+FCDdmtTaskListInProcess[GTPtaskIdx].T_duration
                         then
                         begin
                            GTPspUnVel
                               :=FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_deltaV
-                                 -(FCGtskListInProc[GTPtaskIdx].T_tMITinProcessData.IPD_accelerationByTick*(FCGtskListInProc[GTPtaskIdx].T_tMITinProcessData.IPD_timeToTransfert));
+                                 -(FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITinProcessData.IPD_accelerationByTick*(FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITinProcessData.IPD_timeToTransfert));
                            FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_deltaV
                               :=FCFcFunc_Rnd(
                                  cfrttpVelkms
@@ -556,16 +556,16 @@ begin
                               ,FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_deltaV
                               );
                            FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_3dVelocity:=GTPmove;
-                           FCGtskListInProc[GTPtaskIdx].T_tMITinProcessData.IPD_timeToTransfert:=0;
+                           FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITinProcessData.IPD_timeToTransfert:=0;
                         end;
                      end
-                     else if FCGtskListInProc[GTPtaskIdx].T_tMITinProcessData.IPD_timeToTransfert=0
+                     else if FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITinProcessData.IPD_timeToTransfert=0
                      then
                      begin
-                        if GGFnewTick>=FCGtskListInProc[GTPtaskIdx].T_inProcessData.IPD_ticksAtTaskStart+FCGtskListInProc[GTPtaskIdx].T_duration
+                        if GGFnewTick>=FCDdmtTaskListInProcess[GTPtaskIdx].T_inProcessData.IPD_ticksAtTaskStart+FCDdmtTaskListInProcess[GTPtaskIdx].T_duration
                         then
                         begin
-                           GTPspUnVel:=FCGtskListInProc[GTPtaskIdx].T_tMITfinalVelocity;
+                           GTPspUnVel:=FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITfinalVelocity;
                            FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_deltaV
                               :=FCFcFunc_Rnd(
                                  cfrttpVelkms
@@ -576,14 +576,14 @@ begin
                               ,FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_deltaV
                               );
                            FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_3dVelocity:=GTPmove;
-                           FCGtskListInProc[GTPtaskIdx].T_inProcessData.IPD_isTaskDone:=true;
+                           FCDdmtTaskListInProcess[GTPtaskIdx].T_inProcessData.IPD_isTaskDone:=true;
                         end
-                        else if GGFnewTick<FCGtskListInProc[GTPtaskIdx].T_inProcessData.IPD_ticksAtTaskStart+FCGtskListInProc[GTPtaskIdx].T_duration
+                        else if GGFnewTick<FCDdmtTaskListInProcess[GTPtaskIdx].T_inProcessData.IPD_ticksAtTaskStart+FCDdmtTaskListInProcess[GTPtaskIdx].T_duration
                         then
                         begin
                            GTPspUnVel
                               :=FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_deltaV
-                                 -(FCGtskListInProc[GTPtaskIdx].T_tMITinProcessData.IPD_accelerationByTick*(GGFnewTick-GGFoldTick));
+                                 -(FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITinProcessData.IPD_accelerationByTick*(GGFnewTick-GGFoldTick));
                            FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_deltaV
                            :=FCFcFunc_Rnd(
                               cfrttpVelkms
@@ -597,14 +597,14 @@ begin
                         end;
                      end;
                   end; //==END== if (GGFnewTick>GGFoldTick) and(FCGtskListInProc[GTPtaskIdx].TITP_phaseTp=tpDecel) ==//
-                  if FCGtskListInProc[GTPtaskIdx].T_inProcessData.IPD_isTaskDone=true
+                  if FCDdmtTaskListInProcess[GTPtaskIdx].T_inProcessData.IPD_isTaskDone=true
                   then
                   begin
                      {.unload the current task to the space unit}
                      FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_assignedTask:=0;
                      {.set the remaining reaction mass}
                      FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_reactionMass
-                        :=FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_reactionMass-FCGtskListInProc[GTPtaskIdx].T_tMITusedReactionMassVol;
+                        :=FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_reactionMass-FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITusedReactionMassVol;
                      {.interplanetary transit mission post-process}
                      GTPssysDB:=FCFuF_StelObj_GetDbIdx(
                            ufsoSsys
@@ -624,13 +624,13 @@ begin
                      GTPsatDB:=0;
                      {.set orbit data for destination}
                      FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_status:=susInOrbit;
-                     if FCGtskListInProc[GTPtaskIdx].T_tMITdestination=ttOrbitalObject
+                     if FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITdestination=ttOrbitalObject
                      then
                      begin
-                        GTPoobjDB:=FCGtskListInProc[GTPtaskIdx].T_tMITdestinationIndex;
+                        GTPoobjDB:=FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITdestinationIndex;
                         FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_locationOrbitalObject
-                           :=FCDduStarSystem[GTPssysDB].SS_stars[GTPstarDB].S_orbitalObjects[FCGtskListInProc[GTPtaskIdx].T_tMITdestinationIndex].OO_dbTokenId;
-                        FCDdgEntities[GTPfac].E_spaceUnits[FCGtskListInProc[GTPtaskIdx].T_controllerIndex].SU_locationSatellite:='';
+                           :=FCDduStarSystem[GTPssysDB].SS_stars[GTPstarDB].S_orbitalObjects[FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITdestinationIndex].OO_dbTokenId;
+                        FCDdgEntities[GTPfac].E_spaceUnits[FCDdmtTaskListInProcess[GTPtaskIdx].T_controllerIndex].SU_locationSatellite:='';
                         FCMspuF_Orbits_Process(
                            spufoioAddOrbit
                            ,GTPssysDB
@@ -642,11 +642,11 @@ begin
                            ,true
                            );
                      end
-                     else if FCGtskListInProc[GTPtaskIdx].T_tMITdestination=ttSatellite
+                     else if FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITdestination=ttSatellite
                      then
                      begin
-                        GTPsatDB:=FC3doglSatellitesObjectsGroups[FCGtskListInProc[GTPtaskIdx].T_tMITdestinationIndex].Tag; //ERROR:FCGtskListInProc[GTPtaskIdx].T_tMITdestinationIndex doesn't link to the
-                        GTPoobjDB:=round(FC3doglSatellitesObjectsGroups[FCGtskListInProc[GTPtaskIdx].T_tMITdestinationIndex].TagFloat); //satellite 3d object index! use: FCFoglVM_SatObj_Search
+                        GTPsatDB:=FC3doglSatellitesObjectsGroups[FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITdestinationIndex].Tag; //ERROR:FCGtskListInProc[GTPtaskIdx].T_tMITdestinationIndex doesn't link to the
+                        GTPoobjDB:=round(FC3doglSatellitesObjectsGroups[FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITdestinationIndex].TagFloat); //satellite 3d object index! use: FCFoglVM_SatObj_Search
                         FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_locationOrbitalObject:=FCDduStarSystem[GTPssysDB].SS_stars[GTPstarDB].S_orbitalObjects[GTPoobjDB].OO_dbTokenId;
                         FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_locationSatellite
                            :=FCDduStarSystem[GTPssysDB].SS_stars[GTPstarDB].S_orbitalObjects[GTPoobjDB].OO_satellitesList[GTPsatDB].OO_dbTokenId;
@@ -688,9 +688,9 @@ begin
                         FC3doglSelectedSpaceUnit:=FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_linked3dObject;
                         FCMoglVM_CamMain_Target(-1, true);
                      end;
-                     FCGtskListInProc[GTPtaskIdx].T_inProcessData.IPD_isTaskTerminated:=true;
+                     FCDdmtTaskListInProcess[GTPtaskIdx].T_inProcessData.IPD_isTaskTerminated:=true;
                   end; //==END== if FCGtskListInProc[GTPtaskIdx].TITP_phaseTp=tpDone ==//
-                  FCGtskListInProc[GTPtaskIdx].T_tMITinProcessData.IPD_timeToTransfert:=0;
+                  FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITinProcessData.IPD_timeToTransfert:=0;
                end; //==END== case: tatpMissItransit ==//
             end; //==END== case FCGtskListInProc[GTPtaskIdx].TITP_actionTp ==//
          end; //==END== if (FCGtskListInProc[GTPtaskIdx].TITP_phaseTp<>tpTerminated) ==//
@@ -824,13 +824,13 @@ begin
    end;
    {.delete unused tasks, if it's possible}
    {:DEV NOTES: rewrite that part of code w/ better algo!.}
-   GTPcnt:=length(FCGtskListInProc)-1;
+   GTPcnt:=length(FCDdmtTaskListInProcess)-1;
    while GTPcnt>0 do
    begin
-      if FCGtskListInProc[GTPcnt].T_inProcessData.IPD_isTaskTerminated
+      if FCDdmtTaskListInProcess[GTPcnt].T_inProcessData.IPD_isTaskTerminated
       then
       begin
-         setlength(FCGtskListInProc, length(FCGtskListInProc)-1);
+         setlength(FCDdmtTaskListInProcess, length(FCDdmtTaskListInProcess)-1);
          dec(GTPcnt);
       end
       else break;
@@ -838,59 +838,59 @@ begin
    {.initialize additional in process tasks if required}
    {:DEV NOTES: WARNING: check all array index assignations!.}
    fcwinmain.FCGLScadencer.Enabled:=false;
-   GTPnumTaskToProc:=length(FCGtskLstToProc)-1;
+   GTPnumTaskToProc:=length(FCDdmtTaskListToProcess)-1;
    if GTPnumTaskToProc>0
    then
    begin
-      GTPstartTaskAt:=length(FCGtskListInProc)-1;
-      SetLength(FCGtskListInProc, length(FCGtskListInProc)+GTPnumTaskToProc);
+      GTPstartTaskAt:=length(FCDdmtTaskListInProcess)-1;
+      SetLength(FCDdmtTaskListInProcess, length(FCDdmtTaskListInProcess)+GTPnumTaskToProc);
       GTPnumTTProcIdx:=1;
       try
          while GTPnumTTProcIdx<=GTPnumTaskToProc do
          begin
             GTPtaskIdx:=GTPstartTaskAt+GTPnumTTProcIdx;
             {.update the tasklist in process}
-            FCGtskListInProc[GTPtaskIdx]:=FCGtskLstToProc[GTPnumTTProcIdx];
-            FCGtskListInProc[GTPtaskIdx].T_inProcessData.IPD_ticksAtTaskStart:= GGFnewTick;
-            GTPspUidx:=FCGtskListInProc[GTPtaskIdx].T_controllerIndex;
+            FCDdmtTaskListInProcess[GTPtaskIdx]:=FCDdmtTaskListToProcess[GTPnumTTProcIdx];
+            FCDdmtTaskListInProcess[GTPtaskIdx].T_inProcessData.IPD_ticksAtTaskStart:= GGFnewTick;
+            GTPspUidx:=FCDdmtTaskListInProcess[GTPtaskIdx].T_controllerIndex;
             {.update the tasklist in process index inside the owned space unit data structure}
-            GTPfac:=FCGtskListInProc[GTPtaskIdx].T_entity;
-            FCDdgEntities[GTPfac].E_spaceUnits[FCGtskListInProc[GTPtaskIdx].T_controllerIndex].SU_assignedTask:=GTPtaskIdx;
+            GTPfac:=FCDdmtTaskListInProcess[GTPtaskIdx].T_entity;
+            FCDdgEntities[GTPfac].E_spaceUnits[FCDdmtTaskListInProcess[GTPtaskIdx].T_controllerIndex].SU_assignedTask:=GTPtaskIdx;
             {.mission related data init}
-            case FCGtskListInProc[GTPtaskIdx].T_type of
+            case FCDdmtTaskListInProcess[GTPtaskIdx].T_type of
                tMissionColonization:
                begin
-                  FCGtskListInProc[GTPtaskIdx].T_tMCphase:=mcpDeceleration;
-                  FCGtskListInProc[GTPtaskIdx].T_tMCinProcessData.IPD_timeForDeceleration:=FCGtskListInProc[GTPtaskIdx].T_duration-FCGtskListInProc[GTPtaskIdx].T_tMCfinalTime;
-                  FCGtskListInProc[GTPtaskIdx].T_tMCinProcessData.IPD_accelerationByTick
-                     :=(FCDdgEntities[GTPfac].E_spaceUnits[FCGtskListInProc[GTPtaskIdx].T_tMCoriginIndex].SU_deltaV-FCGtskListInProc[GTPtaskIdx].T_tMCfinalVelocity)//assignation error!!!!  E_spaceUnits[FCGtskListInProc[GTPtaskIdx].TITP_orgIdx]
-                        /FCGtskListInProc[GTPtaskIdx].T_tMCinProcessData.IPD_timeForDeceleration;
+                  FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCphase:=mcpDeceleration;
+                  FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCinProcessData.IPD_timeForDeceleration:=FCDdmtTaskListInProcess[GTPtaskIdx].T_duration-FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCfinalTime;
+                  FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCinProcessData.IPD_accelerationByTick
+                     :=(FCDdgEntities[GTPfac].E_spaceUnits[FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCoriginIndex].SU_deltaV-FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCfinalVelocity)//assignation error!!!!  E_spaceUnits[FCGtskListInProc[GTPtaskIdx].TITP_orgIdx]
+                        /FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCinProcessData.IPD_timeForDeceleration;
                   FCDdgEntities[GTPfac].E_spaceUnits[GTPspUidx].SU_locationOrbitalObject:='';
                   FCDdgEntities[GTPfac].E_spaceUnits[GTPspUidx].SU_locationSatellite:='';
                   FCDdgEntities[GTPfac].E_spaceUnits[GTPspUidx].SU_status:=susInFreeSpace;
-                  FCDdgEntities[GTPfac].E_spaceUnits[GTPspUidx].SU_locationViewX:=FCDdgEntities[GTPfac].E_spaceUnits[FCGtskListInProc[GTPtaskIdx].T_tMCoriginIndex].SU_locationViewX; //assignation error!!!!  E_spaceUnits[FCGtskListInProc[GTPtaskIdx].TITP_orgIdx]
-                  FCDdgEntities[GTPfac].E_spaceUnits[GTPspUidx].SU_locationViewZ:=FCDdgEntities[GTPfac].E_spaceUnits[FCGtskListInProc[GTPtaskIdx].T_tMCoriginIndex].SU_locationViewZ; //assignation error!!!!  E_spaceUnits[FCGtskListInProc[GTPtaskIdx].TITP_orgIdx]
+                  FCDdgEntities[GTPfac].E_spaceUnits[GTPspUidx].SU_locationViewX:=FCDdgEntities[GTPfac].E_spaceUnits[FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCoriginIndex].SU_locationViewX; //assignation error!!!!  E_spaceUnits[FCGtskListInProc[GTPtaskIdx].TITP_orgIdx]
+                  FCDdgEntities[GTPfac].E_spaceUnits[GTPspUidx].SU_locationViewZ:=FCDdgEntities[GTPfac].E_spaceUnits[FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCoriginIndex].SU_locationViewZ; //assignation error!!!!  E_spaceUnits[FCGtskListInProc[GTPtaskIdx].TITP_orgIdx]
                   GTPspUObjIdx:=FCDdgEntities[GTPfac].E_spaceUnits[GTPspUidx].SU_linked3dObject;
                   FC3doglSpaceUnits[GTPspUObjIdx].Position.X:=FCDdgEntities[GTPfac].E_spaceUnits[GTPspUidx].SU_locationViewX;
                   FC3doglSpaceUnits[GTPspUObjIdx].Position.Z:=FCDdgEntities[GTPfac].E_spaceUnits[GTPspUidx].SU_locationViewZ;
                   {.3d initialization}
                   if not FC3doglSpaceUnits[GTPspUObjIdx].Visible
                   then FC3doglSpaceUnits[GTPspUObjIdx].Visible:=true;
-                  if FCGtskListInProc[GTPtaskIdx].T_tMCdestination=ttOrbitalObject
+                  if FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCdestination=ttOrbitalObject
                   then FC3doglSpaceUnits[GTPspUObjIdx].PointTo
-                     (FC3doglObjectsGroups[FCGtskListInProc[GTPtaskIdx].T_tMCdestinationIndex],FC3doglObjectsGroups[FCGtskListInProc[GTPtaskIdx].T_tMCdestinationIndex].Position.AsVector)
-                  else if FCGtskListInProc[GTPtaskIdx].T_tMCdestination=ttSatellite
+                     (FC3doglObjectsGroups[FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCdestinationIndex],FC3doglObjectsGroups[FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCdestinationIndex].Position.AsVector)
+                  else if FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCdestination=ttSatellite
                   then FC3doglSpaceUnits[GTPspUObjIdx].PointTo
-                     (FC3doglSatellitesObjectsGroups[FCGtskListInProc[GTPtaskIdx].T_tMCdestinationIndex],FC3doglSatellitesObjectsGroups[FCGtskListInProc[GTPtaskIdx].T_tMCdestinationIndex].Position.AsVector);
+                     (FC3doglSatellitesObjectsGroups[FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCdestinationIndex],FC3doglSatellitesObjectsGroups[FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCdestinationIndex].Position.AsVector);
                end; //==END== case: tatpMissColonize: ==//
                tMissionInterplanetaryTransit:
                begin
-                  FCGtskListInProc[GTPtaskIdx].T_tMITphase:=mitpAcceleration;
-                  FCGtskListInProc[GTPtaskIdx].T_tMITinProcessData.IPD_timeForDeceleration
-                     :=FCGtskListInProc[GTPtaskIdx].T_duration-(FCGtskListInProc[GTPtaskIdx].T_tMITcruiseTime+FCGtskListInProc[GTPtaskIdx].T_tMITfinalTime);
-                  FCGtskListInProc[GTPtaskIdx].T_tMITinProcessData.IPD_accelerationByTick
-                     :=(FCGtskListInProc[GTPtaskIdx].T_tMITcruiseVelocity-FCDdgEntities[GTPfac].E_spaceUnits[FCGtskListInProc[GTPtaskIdx].T_tMIToriginIndex].SU_deltaV)  //assignation error!!!!  E_spaceUnits[FCGtskListInProc[GTPtaskIdx].TITP_orgIdx]
-                        /FCGtskListInProc[GTPtaskIdx].T_tMITcruiseTime;
+                  FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITphase:=mitpAcceleration;
+                  FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITinProcessData.IPD_timeForDeceleration
+                     :=FCDdmtTaskListInProcess[GTPtaskIdx].T_duration-(FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITcruiseTime+FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITfinalTime);
+                  FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITinProcessData.IPD_accelerationByTick
+                     :=(FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITcruiseVelocity-FCDdgEntities[GTPfac].E_spaceUnits[FCDdmtTaskListInProcess[GTPtaskIdx].T_tMIToriginIndex].SU_deltaV)  //assignation error!!!!  E_spaceUnits[FCGtskListInProc[GTPtaskIdx].TITP_orgIdx]
+                        /FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITcruiseTime;
                   FCDdgEntities[GTPfac].E_spaceUnits[GTPspUidx].SU_locationOrbitalObject:='';
                   FCDdgEntities[GTPfac].E_spaceUnits[GTPspUidx].SU_locationSatellite:='';
                   FCDdgEntities[GTPfac].E_spaceUnits[GTPspUidx].SU_status:=susInFreeSpace;
@@ -908,22 +908,22 @@ begin
                      ,0
                      ,0
                      );
-                  if FCGtskListInProc[GTPtaskIdx].T_tMITorigin=ttOrbitalObject
+                  if FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITorigin=ttOrbitalObject
                   then FCMspuF_Orbits_Process(
                      spufoioRemOrbit
                      ,GTPssys
                      ,GTPstar
-                     ,FCGtskListInProc[GTPtaskIdx].T_tMIToriginIndex
+                     ,FCDdmtTaskListInProcess[GTPtaskIdx].T_tMIToriginIndex
                      ,0
                      ,0
-                     ,FCGtskListInProc[GTPtaskIdx].T_controllerIndex
+                     ,FCDdmtTaskListInProcess[GTPtaskIdx].T_controllerIndex
                      ,true
                      )
-                  else if FCGtskListInProc[GTPtaskIdx].T_tMITorigin=ttSatellite
+                  else if FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITorigin=ttSatellite
                   then
                   begin
-                     GTPoriginSatPlanIdx:=round(FC3doglSatellitesObjectsGroups[FCGtskListInProc[GTPtaskIdx].T_tMIToriginIndex].TagFloat);
-                     GTPoriginSatIdx:=FC3doglSatellitesObjectsGroups[FCGtskListInProc[GTPtaskIdx].T_tMIToriginIndex].Tag;
+                     GTPoriginSatPlanIdx:=round(FC3doglSatellitesObjectsGroups[FCDdmtTaskListInProcess[GTPtaskIdx].T_tMIToriginIndex].TagFloat);
+                     GTPoriginSatIdx:=FC3doglSatellitesObjectsGroups[FCDdmtTaskListInProcess[GTPtaskIdx].T_tMIToriginIndex].Tag;
                      FCMspuF_Orbits_Process(
                         spufoioRemOrbit
                         ,GTPssys
@@ -931,24 +931,24 @@ begin
                         ,GTPoriginSatPlanIdx
                         ,GTPoriginSatIdx
                         ,0
-                        ,FCGtskListInProc[GTPtaskIdx].T_controllerIndex
+                        ,FCDdmtTaskListInProcess[GTPtaskIdx].T_controllerIndex
                         ,true
                         );
                   end;
                   FCMuiW_FocusPopup_Upd(uiwpkSpUnit);
                   GTPspUObjIdx:=FCDdgEntities[GTPfac].E_spaceUnits[GTPspUidx].SU_linked3dObject;
-                  if FCGtskListInProc[GTPtaskIdx].T_tMITdestination=ttOrbitalObject
+                  if FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITdestination=ttOrbitalObject
                   then FC3doglSpaceUnits[GTPspUObjIdx].PointTo
-                     (FC3doglObjectsGroups[FCGtskListInProc[GTPtaskIdx].T_tMITdestinationIndex],FC3doglObjectsGroups[FCGtskListInProc[GTPtaskIdx].T_tMITdestinationIndex].Position.AsVector)
-                  else if FCGtskListInProc[GTPtaskIdx].T_tMITdestination=ttSatellite
+                     (FC3doglObjectsGroups[FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITdestinationIndex],FC3doglObjectsGroups[FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITdestinationIndex].Position.AsVector)
+                  else if FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITdestination=ttSatellite
                   then FC3doglSpaceUnits[GTPspUObjIdx].PointTo
-                     (FC3doglSatellitesObjectsGroups[FCGtskListInProc[GTPtaskIdx].T_tMITdestinationIndex],FC3doglSatellitesObjectsGroups[FCGtskListInProc[GTPtaskIdx].T_tMITdestinationIndex].Position.AsVector);
+                     (FC3doglSatellitesObjectsGroups[FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITdestinationIndex],FC3doglSatellitesObjectsGroups[FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITdestinationIndex].Position.AsVector);
                end; //==END== tatpMissItransit ==//
             end; //==END== case FCGtskListInProc[GTPtaskIdx].TITP_actionTp ==//
             inc(GTPnumTTProcIdx);
          end; //==END== while GTPnumTTProcIdx<=GTPnumTaskToProc ==//
       finally
-         setlength(FCGtskLstToProc, 1);
+         setlength(FCDdmtTaskListToProcess, 1);
       end;
    end; //==END== if GTPnumTaskToProc>0 ==//
    fcwinmain.FCGLScadencer.Enabled:=true;

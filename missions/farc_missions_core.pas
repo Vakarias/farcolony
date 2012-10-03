@@ -208,8 +208,8 @@ begin
 //                     -FCGtskListInProc[TPUtaskIdx].TITP_usedRMassV;
       {.disable the task and delete it if it's the last in the list}
 //      FCGtskListInProc[MCtaskId].T_enabled:=false;
-      if MCtaskId=length(FCGtskListInProc)-1
-      then SetLength(FCGtskListInProc, length(FCGtskListInProc)-1);
+      if MCtaskId=length(FCDdmtTaskListInProcess)-1
+      then SetLength(FCDdmtTaskListInProcess, length(FCDdmtTaskListInProcess)-1);
    end;
    FCMgTFlow_FlowState_Set(tphTac);
    FCMoglUI_Main3DViewUI_Update(oglupdtpTxtOnly, ogluiutFocObj);
@@ -249,47 +249,47 @@ begin
          MCcnt:=1;
          while MCcnt<=MCmax do
          begin
-            setlength(FCGtskLstToProc, length(FCGtskLstToProc)+1);
-            MCtskL:=length(FCGtskLstToProc)-1;
-            FCGtskLstToProc[MCtskL].T_type:=tMissionColonization;
+            setlength(FCDdmtTaskListToProcess, length(FCDdmtTaskListToProcess)+1);
+            MCtskL:=length(FCDdmtTaskListToProcess)-1;
+            FCDdmtTaskListToProcess[MCtskL].T_type:=tMissionColonization;
 //            FCGtskLstToProc[MCtskL].TITP_ctldType:=ttSpaceUnit;
-            FCGtskLstToProc[MCtskL].T_entity:=GMCfac;
-            FCGtskLstToProc[MCtskL].T_controllerIndex:=GMCdckd[MCcnt].GMCD_index;
-            FCGtskLstToProc[MCtskL].T_duration:=GMCdckd[MCcnt].GMCD_tripTime;
-            FCGtskLstToProc[MCtskL].T_durationInterval:=1;
-            FCGtskLstToProc[MCtskL].T_tMCorigin:=ttSpaceUnitDockedIn;
-            FCGtskLstToProc[MCtskL].T_tMCoriginIndex:=GMCmother;
+            FCDdmtTaskListToProcess[MCtskL].T_entity:=GMCfac;
+            FCDdmtTaskListToProcess[MCtskL].T_controllerIndex:=GMCdckd[MCcnt].GMCD_index;
+            FCDdmtTaskListToProcess[MCtskL].T_duration:=GMCdckd[MCcnt].GMCD_tripTime;
+            FCDdmtTaskListToProcess[MCtskL].T_durationInterval:=1;
+            FCDdmtTaskListToProcess[MCtskL].T_tMCorigin:=ttSpaceUnitDockedIn;
+            FCDdmtTaskListToProcess[MCtskL].T_tMCoriginIndex:=GMCmother;
             if GMCrootSatIdx=0
             then
             begin
-               FCGtskLstToProc[MCtskL].T_tMCdestination:=ttOrbitalObject;
-               FCGtskLstToProc[MCtskL].T_tMCdestinationIndex:=GMCrootOObIdx;
+               FCDdmtTaskListToProcess[MCtskL].T_tMCdestination:=ttOrbitalObject;
+               FCDdmtTaskListToProcess[MCtskL].T_tMCdestinationIndex:=GMCrootOObIdx;
             end
             else if GMCrootSatIdx>0
             then
             begin
-               FCGtskLstToProc[MCtskL].T_tMCdestination:=ttSatellite;
-               FCGtskLstToProc[MCtskL].T_tMCdestinationIndex:=GMCrootSatObjIdx;
+               FCDdmtTaskListToProcess[MCtskL].T_tMCdestination:=ttSatellite;
+               FCDdmtTaskListToProcess[MCtskL].T_tMCdestinationIndex:=GMCrootSatObjIdx;
             end;
-            FCGtskLstToProc[MCtskL].T_tMCdestinationRegion:=GMCregion;
-            FCGtskLstToProc[MCtskL].T_tMCfinalVelocity:=GMCfinalDV;
-            FCGtskLstToProc[MCtskL].T_tMCfinalTime:=GMCdckd[MCcnt].GMCD_landTime;
-            FCGtskLstToProc[MCtskL].T_tMCusedReactionMassVol:=GMCdckd[MCcnt].GMCD_usedRM;
+            FCDdmtTaskListToProcess[MCtskL].T_tMCdestinationRegion:=GMCregion;
+            FCDdmtTaskListToProcess[MCtskL].T_tMCfinalVelocity:=GMCfinalDV;
+            FCDdmtTaskListToProcess[MCtskL].T_tMCfinalTime:=GMCdckd[MCcnt].GMCD_landTime;
+            FCDdmtTaskListToProcess[MCtskL].T_tMCusedReactionMassVol:=GMCdckd[MCcnt].GMCD_usedRM;
             if FCWinMain.FCWMS_Grp_MCGColName.Text<>FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_CDPcolNameNo')
-            then FCGtskLstToProc[MCtskL].T_tMCcolonyName:=FCWinMain.FCWMS_Grp_MCGColName.Text
-            else FCGtskLstToProc[MCtskL].T_tMCcolonyName:='';
+            then FCDdmtTaskListToProcess[MCtskL].T_tMCcolonyName:=FCWinMain.FCWMS_Grp_MCGColName.Text
+            else FCDdmtTaskListToProcess[MCtskL].T_tMCcolonyName:='';
             if FCWinMain.FCWMS_Grp_MCG_SetName.Visible
             then
             begin
-               FCGtskLstToProc[MCtskL].T_tMCsettlementName:=FCWinMain.FCWMS_Grp_MCG_SetName.Text;
+               FCDdmtTaskListToProcess[MCtskL].T_tMCsettlementName:=FCWinMain.FCWMS_Grp_MCG_SetName.Text;
                {:DEV NOTES: change that for the real settlement type.}
-               FCGtskLstToProc[MCtskL].T_tMCsettlementType:=sSurface;//FCWinMain.FCWMS_Grp_MCG_SetType.ItemIndex;
+               FCDdmtTaskListToProcess[MCtskL].T_tMCsettlementType:=sSurface;//FCWinMain.FCWMS_Grp_MCG_SetType.ItemIndex;
             end
             else
             begin
-               FCGtskLstToProc[MCtskL].T_tMCsettlementName:='';
+               FCDdmtTaskListToProcess[MCtskL].T_tMCsettlementName:='';
                {:DEV NOTES: change that for the real settlement type.}
-               FCGtskLstToProc[MCtskL].T_tMCsettlementType:=sSurface;
+               FCDdmtTaskListToProcess[MCtskL].T_tMCsettlementType:=sSurface;
             end;
             FCMspuF_DockedSpU_Rem(
                GMCfac
@@ -309,44 +309,44 @@ begin
       end; //==END== case: gmcmnColoniz ==//
       tMissionInterplanetaryTransit:
       begin
-         setlength(FCGtskLstToProc, length(FCGtskLstToProc)+1);
-         MCtskL:=length(FCGtskLstToProc)-1;
-         FCGtskLstToProc[MCtskL].T_type:=tMissionInterplanetaryTransit;
+         setlength(FCDdmtTaskListToProcess, length(FCDdmtTaskListToProcess)+1);
+         MCtskL:=length(FCDdmtTaskListToProcess)-1;
+         FCDdmtTaskListToProcess[MCtskL].T_type:=tMissionInterplanetaryTransit;
 //         FCGtskLstToProc[MCtskL].TITP_ctldType:=ttSpaceUnit;
-         FCGtskLstToProc[MCtskL].T_entity:=FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].Tag;
-         FCGtskLstToProc[MCtskL].T_controllerIndex:=round(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].TagFloat);
-         FCGtskLstToProc[MCtskL].T_duration:=round(GMCtripTime);
-         FCGtskLstToProc[MCtskL].T_durationInterval:=1;
+         FCDdmtTaskListToProcess[MCtskL].T_entity:=FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].Tag;
+         FCDdmtTaskListToProcess[MCtskL].T_controllerIndex:=round(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].TagFloat);
+         FCDdmtTaskListToProcess[MCtskL].T_duration:=round(GMCtripTime);
+         FCDdmtTaskListToProcess[MCtskL].T_durationInterval:=1;
          if GMCrootSatIdx=0
          then
          begin
-            FCGtskLstToProc[MCtskL].T_tMITorigin:=ttOrbitalObject;
-            FCGtskLstToProc[MCtskL].T_tMIToriginIndex:=GMCrootOObIdx;
+            FCDdmtTaskListToProcess[MCtskL].T_tMITorigin:=ttOrbitalObject;
+            FCDdmtTaskListToProcess[MCtskL].T_tMIToriginIndex:=GMCrootOObIdx;
          end
          else if GMCrootSatIdx>0
          then
          begin
-            FCGtskLstToProc[MCtskL].T_tMITorigin:=ttSatellite;
-            FCGtskLstToProc[MCtskL].T_tMIToriginIndex:=GMCrootSatObjIdx;
+            FCDdmtTaskListToProcess[MCtskL].T_tMITorigin:=ttSatellite;
+            FCDdmtTaskListToProcess[MCtskL].T_tMIToriginIndex:=GMCrootSatObjIdx;
          end;
          if FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglObjectsGroups[FC3doglSelectedPlanetAsteroid]
          then
          begin
-            FCGtskLstToProc[MCtskL].T_tMITdestination:=ttOrbitalObject;
-            FCGtskLstToProc[MCtskL].T_tMITdestinationIndex:=FC3doglSelectedPlanetAsteroid;
+            FCDdmtTaskListToProcess[MCtskL].T_tMITdestination:=ttOrbitalObject;
+            FCDdmtTaskListToProcess[MCtskL].T_tMITdestinationIndex:=FC3doglSelectedPlanetAsteroid;
          end
          else if FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite]
          then
          begin
-            FCGtskLstToProc[MCtskL].T_tMITdestination:=ttSatellite;
-            FCGtskLstToProc[MCtskL].T_tMITdestinationIndex:=FC3doglSelectedSatellite;
+            FCDdmtTaskListToProcess[MCtskL].T_tMITdestination:=ttSatellite;
+            FCDdmtTaskListToProcess[MCtskL].T_tMITdestinationIndex:=FC3doglSelectedSatellite;
          end;
-         FCGtskLstToProc[MCtskL].T_tMITcruiseVelocity:=GMCcruiseDV;
-         FCGtskLstToProc[MCtskL].T_tMITcruiseTime:=GMCtimeA;
-         FCGtskLstToProc[MCtskL].T_tMITinProcessData.IPD_timeToTransfert:=0;
-         FCGtskLstToProc[MCtskL].T_tMITfinalVelocity:=GMCfinalDV;
-         FCGtskLstToProc[MCtskL].T_tMITfinalTime:=GMCtimeD;
-         FCGtskLstToProc[MCtskL].T_tMITusedReactionMassVol:=GMCusedRMvol;
+         FCDdmtTaskListToProcess[MCtskL].T_tMITcruiseVelocity:=GMCcruiseDV;
+         FCDdmtTaskListToProcess[MCtskL].T_tMITcruiseTime:=GMCtimeA;
+         FCDdmtTaskListToProcess[MCtskL].T_tMITinProcessData.IPD_timeToTransfert:=0;
+         FCDdmtTaskListToProcess[MCtskL].T_tMITfinalVelocity:=GMCfinalDV;
+         FCDdmtTaskListToProcess[MCtskL].T_tMITfinalTime:=GMCtimeD;
+         FCDdmtTaskListToProcess[MCtskL].T_tMITusedReactionMassVol:=GMCusedRMvol;
          FCWinMain.FCWM_MissionSettings.Hide;
          FCWinMain.FCWMS_Grp_MCG_RMassTrack.Position:=1;
          if GMCrootSatIdx=0

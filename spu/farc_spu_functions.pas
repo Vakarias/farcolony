@@ -343,7 +343,7 @@ begin
    then
    begin
       result:='error';
-      case FCGtskListInProc[MNGtask].T_type of
+      case FCDdmtTaskListInProcess[MNGtask].T_type of
          tMissionColonization: Result:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_PMFO_MissColoniz');
          tMissionInterplanetaryTransit: Result:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_PMFO_MissITransit');
       end;
@@ -371,10 +371,10 @@ begin
    then
    begin
       result:='error';
-      case FCGtskListInProc[MGPNtask].T_type of
+      case FCDdmtTaskListInProcess[MGPNtask].T_type of
          tMissionColonization:
          begin
-            case FCGtskListInProc[MGPNtask].T_tMCphase of
+            case FCDdmtTaskListInProcess[MGPNtask].T_tMCphase of
                mcpDeceleration: result:=FCFdTFiles_UIStr_Get(uistrUI,'ggfptDecel');
                mcpAtmosphericEntry: result:=FCFdTFiles_UIStr_Get(uistrUI,'ggftpAtmEnt');
             end;
@@ -382,7 +382,7 @@ begin
 
          tMissionInterplanetaryTransit:
          begin
-            case FCGtskListInProc[MGPNtask].T_tMITphase of
+            case FCDdmtTaskListInProcess[MGPNtask].T_tMITphase of
                mitpAcceleration: result:=FCFdTFiles_UIStr_Get(uistrUI,'ggfptAccel');
                mitpCruise: result:=FCFdTFiles_UIStr_Get(uistrUI,'ggfptCruise');
                mitpDeceleration: result:=FCFdTFiles_UIStr_Get(uistrUI,'ggfptDecel');
@@ -716,7 +716,7 @@ begin
                then
                begin
                   SURtask:=SURown[SURclone].SU_assignedTask;
-                  FCGtskListInProc[SURtask].T_controllerIndex:=SURclone;
+                  FCDdmtTaskListInProcess[SURtask].T_controllerIndex:=SURclone;
                end;
                if SURown[SURclone].SU_locationStar=FCVdgPlayer.P_viewStar
                then

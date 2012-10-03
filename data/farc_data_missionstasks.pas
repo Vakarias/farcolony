@@ -220,19 +220,16 @@ type TFCRdmtTask = record
          );
 
 end; //==END== type TFCRtaskItem = record ==//
-   {.tasklist to process dynamic array}
-   TFCGtasklistToProc = array of TFCRdmtTask;
-   {.current tasklist dynamic array}
-   TFCGtasklistInProc = array of TFCRdmtTask;
+   TFCDdmtTaskListInProcess = array of TFCRdmtTask;
+   TFCDdmtTaskListToProcess = array of TFCRdmtTask;
 
 //==END PUBLIC RECORDS======================================================================
 
    //==========subsection===================================================================
 var
-   {.tasklist in process}
-      FCGtskListInProc: TFCGtasklistInProc;
-      {.tasklist to process}
-      FCGtskLstToProc: TFCGtaskListToProc;
+   FCDdmtTaskListInProcess: TFCDdmtTaskListInProcess;
+
+   FCDdmtTaskListToProcess: TFCDdmtTaskListToProcess;
 
 //==END PUBLIC VAR==========================================================================
 
