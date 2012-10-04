@@ -171,6 +171,7 @@ function FCFuF_StarLight_CalcPower(const SLCPstarLum, SLCPoobjDist: extended): e
 ///   <param name="SOGDIssys">parent star system</param>
 ///   <param name="SOGDIstar">parent star</param>
 ///   <param name="SOGDIoobj">parent orbital object</param>
+{:DEV NOTES: do a reset on the array's data + returns: detail the array: [1] star system [2] star and so on.}
 function FCFuF_StelObj_GetDbIdx(
    const SOGDIobject: TFCEufStelObj;
    const SOGDItokenId: string;
@@ -184,6 +185,7 @@ function FCFuF_StelObj_GetDbIdx(
 ///</summary>
 ///   <param name=""></param>
 ///   <param name=""></param>
+{:DEV NOTES: do a reset on the array's data + returns: detail the array: [1] star system [2] star and so on.}
 function FCFuF_StelObj_GetFullRow(
    const SOGFRssys
          ,SOGFRstar
@@ -191,6 +193,7 @@ function FCFuF_StelObj_GetFullRow(
          ,SOGFRsat: string
    ): TFCRufStelObj;
 
+{:DEV NOTES: do a reset on the array's data + returns: detail the array: [1] star system [2] star and so on.}
 function FCFuF_StelObj_GetStarSystemStar(
    const SOGFRssys
          ,SOGFRstar: string
