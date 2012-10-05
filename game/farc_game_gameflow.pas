@@ -821,19 +821,7 @@ begin
       if GTPendPh
       then FCcps.FCM_EndPhase_Proc;
    end;
-   {.delete unused tasks, if it's possible}
-   {:DEV NOTES: rewrite that part of code w/ better algo!.}
-   GTPcnt:=length(FCDdmtTaskListInProcess)-1;
-   while GTPcnt>0 do
-   begin
-      if FCDdmtTaskListInProcess[GTPcnt].T_inProcessData.IPD_isTaskTerminated
-      then
-      begin
-         setlength(FCDdmtTaskListInProcess, length(FCDdmtTaskListInProcess)-1);
-         dec(GTPcnt);
-      end
-      else break;
-   end;
+   FCMgTS_TaskInProcess_Cleanup;
    FCMgTS_TaskToProcess_Initialize( GGFnewTick );
 end;
 

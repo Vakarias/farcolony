@@ -44,6 +44,12 @@ interface
 //==END PUBLIC CONST========================================================================
 
 ///<summary>
+///   cleanup the TFCDdmtTaskListInProcess array of terminated tasks, if there's any
+///</summary>
+///   <remarks>for space units missions, the E_spaceUnits[].SU_assignedTask is updated, if needed</remarks>
+procedure FCMgTS_TaskInProcess_Cleanup;
+
+///<summary>
 ///   initialize the list of the tasks to process to allow the task system to process them
 ///</summary>
 ///   <remarks>the procedure reset the TFCDdmtTaskListToProcess array</remarks>
@@ -76,6 +82,53 @@ uses
 
 //===================================================END OF INIT============================
 //===========================END FUNCTIONS SECTION==========================================
+
+procedure FCMgTS_TaskInProcess_Cleanup;
+{:Purpose: cleanup the TFCDdmtTaskListInProcess array of terminated tasks, if there's any.
+    Additions:
+}
+   var
+      Count
+      ,Max
+      ,NewCount: integer;
+
+      TaskWorkingArray: array of TFCRdmtTask;
+begin
+   ///   <remarks>for space units missions, the E_spaceUnits[].SU_assignedTask is updated, if needed</remarks>
+   /// if moved
+   Count:=1;
+   Max:=length( FCDdmtTaskListInProcess );
+   NewCount:=0;
+   SetLength( TaskWorkingArray, Max );
+   while Count>=Max-1 do
+   begin
+      if not FCDdmtTaskListInProcess[Count].T_inProcessData.IPD_isTaskTerminated then
+      begin
+         inc( NewCount );
+         TaskWorkingArray[NewCount]:=FCDdmtTaskListInProcess[Count];
+         if ( FCDdmtTaskListInProcess[Count].T_type=tMissionColonization )
+            or ( FCDdmtTaskListInProcess[Count].T_type=tMissionInterplanetaryTransit)
+         then FCDdgEntities[FCDdmtTaskListInProcess[Count].T_entity].E_spaceUnits[FCDdmtTaskListInProcess[Count].T_controllerIndex].SU_assignedTask:=NewCount;
+         {:DEV NOTES: add an entry here for planetary survey.}
+      end;
+      inc( Count );
+   end;
+//   {.delete unused tasks, if it's possible}
+//   {:DEV NOTES: rewrite that part of code w/ better algo!.}
+//   GTPcnt:=length(FCDdmtTaskListInProcess)-1;
+//   while GTPcnt>0 do
+//   begin
+//      if FCDdmtTaskListInProcess[GTPcnt].T_inProcessData.IPD_isTaskTerminated
+//      then
+//      begin
+//         setlength(FCDdmtTaskListInProcess, length(FCDdmtTaskListInProcess)-1);
+//         dec(GTPcnt);
+//      end
+//      else break;
+//   end;
+   SetLength( TaskWorkingArray, 1 );
+   TaskWorkingArray:=nil;
+end;
 
 procedure FCMgTS_TaskToProcess_Initialize( const CurrentTimeTick: integer);
 {:Purpose: initialize the list of the tasks to process to allow the task system to process them.
