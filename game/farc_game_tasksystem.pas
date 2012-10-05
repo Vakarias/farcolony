@@ -98,6 +98,7 @@ procedure FCMgTS_TaskToProcess_Initialize( const CurrentTimeTick: integer);
       ,Entity
       ,Linked3dObject
       ,Max
+      ,Origin
       ,StartTaskAtIndex
       ,TaskIndex: integer;
 
@@ -110,6 +111,7 @@ begin
    Entity:=0;
    Linked3dObject:=0;
    Max:=0;
+   Origin:=0;
    StartTaskAtIndex:=0;
    Max:=length( FCDdmtTaskListToProcess )-1;
    if Max>0 then
@@ -121,27 +123,27 @@ begin
          while Count<=Max do
          begin
             TaskIndex:=StartTaskAtIndex+Count;
-            {.update the tasklist in process}
             FCDdmtTaskListInProcess[TaskIndex]:=FCDdmtTaskListToProcess[Count];
-            FCDdmtTaskListInProcess[TaskIndex].T_inProcessData.IPD_ticksAtTaskStart:= CurrentTimeTick;
-            Controller:=FCDdmtTaskListInProcess[TaskIndex].T_controllerIndex;
-            {.update the tasklist in process index inside the owned space unit data structure}
             Entity:=FCDdmtTaskListInProcess[TaskIndex].T_entity;
-            FCDdgEntities[Entity].E_spaceUnits[FCDdmtTaskListInProcess[TaskIndex].T_controllerIndex].SU_assignedTask:=TaskIndex;
+            Controller:=FCDdmtTaskListInProcess[TaskIndex].T_controllerIndex;
+            FCDdmtTaskListInProcess[TaskIndex].T_inProcessData.IPD_ticksAtTaskStart:=CurrentTimeTick;
             {.mission related data init}
             case FCDdmtTaskListInProcess[TaskIndex].T_type of
                tMissionColonization:
                begin
+                  if FCDdmtTaskListInProcess[TaskIndex].T_tMCorigin=ttSelf
+                  then Origin:=Controller
+                  else Origin:=FCDdmtTaskListInProcess[TaskIndex].T_tMCoriginIndex;
+                  FCDdgEntities[Entity].E_spaceUnits[Controller].SU_assignedTask:=TaskIndex;
                   FCDdmtTaskListInProcess[TaskIndex].T_tMCphase:=mcpDeceleration;
                   FCDdmtTaskListInProcess[TaskIndex].T_tMCinProcessData.IPD_timeForDeceleration:=FCDdmtTaskListInProcess[TaskIndex].T_duration-FCDdmtTaskListInProcess[TaskIndex].T_tMCfinalTime;
-                  FCDdmtTaskListInProcess[TaskIndex].T_tMCinProcessData.IPD_accelerationByTick
-                     :=( FCDdgEntities[Entity].E_spaceUnits[FCDdmtTaskListInProcess[TaskIndex].T_tMCoriginIndex].SU_deltaV-FCDdmtTaskListInProcess[TaskIndex].T_tMCfinalVelocity )//assignation error!!!!  E_spaceUnits[FCGtskListInProc[GTPtaskIdx].TITP_orgIdx]
-                        /FCDdmtTaskListInProcess[TaskIndex].T_tMCinProcessData.IPD_timeForDeceleration;
+                  FCDdmtTaskListInProcess[TaskIndex].T_tMCinProcessData.IPD_accelerationByTick:=
+                     ( FCDdgEntities[Entity].E_spaceUnits[Origin].SU_deltaV-FCDdmtTaskListInProcess[TaskIndex].T_tMCfinalVelocity )/FCDdmtTaskListInProcess[TaskIndex].T_tMCinProcessData.IPD_timeForDeceleration;
                   FCDdgEntities[Entity].E_spaceUnits[Controller].SU_locationOrbitalObject:='';
                   FCDdgEntities[Entity].E_spaceUnits[Controller].SU_locationSatellite:='';
                   FCDdgEntities[Entity].E_spaceUnits[Controller].SU_status:=susInFreeSpace;
-                  FCDdgEntities[Entity].E_spaceUnits[Controller].SU_locationViewX:=FCDdgEntities[Entity].E_spaceUnits[FCDdmtTaskListInProcess[TaskIndex].T_tMCoriginIndex].SU_locationViewX; //assignation error!!!!  E_spaceUnits[FCGtskListInProc[GTPtaskIdx].TITP_orgIdx]
-                  FCDdgEntities[Entity].E_spaceUnits[Controller].SU_locationViewZ:=FCDdgEntities[Entity].E_spaceUnits[FCDdmtTaskListInProcess[TaskIndex].T_tMCoriginIndex].SU_locationViewZ; //assignation error!!!!  E_spaceUnits[FCGtskListInProc[GTPtaskIdx].TITP_orgIdx]
+                  FCDdgEntities[Entity].E_spaceUnits[Controller].SU_locationViewX:=FCDdgEntities[Entity].E_spaceUnits[Origin].SU_locationViewX;
+                  FCDdgEntities[Entity].E_spaceUnits[Controller].SU_locationViewZ:=FCDdgEntities[Entity].E_spaceUnits[Origin].SU_locationViewZ;
                   Linked3dObject:=FCDdgEntities[Entity].E_spaceUnits[Controller].SU_linked3dObject;
                   FC3doglSpaceUnits[Linked3dObject].Position.X:=FCDdgEntities[Entity].E_spaceUnits[Controller].SU_locationViewX;
                   FC3doglSpaceUnits[Linked3dObject].Position.Z:=FCDdgEntities[Entity].E_spaceUnits[Controller].SU_locationViewZ;
@@ -158,6 +160,7 @@ begin
 
                tMissionInterplanetaryTransit:
                begin
+                  FCDdgEntities[Entity].E_spaceUnits[Controller].SU_assignedTask:=TaskIndex;
                   FCDdmtTaskListInProcess[TaskIndex].T_tMITphase:=mitpAcceleration;
                   FCDdmtTaskListInProcess[TaskIndex].T_tMITinProcessData.IPD_timeForDeceleration
                      :=FCDdmtTaskListInProcess[TaskIndex].T_duration-( FCDdmtTaskListInProcess[TaskIndex].T_tMITcruiseTime+FCDdmtTaskListInProcess[TaskIndex].T_tMITfinalTime );
@@ -176,7 +179,7 @@ begin
                      ,FCDdmtTaskListInProcess[TaskIndex].T_tMIToriginIndex
                      ,0
                      ,0
-                     ,FCDdmtTaskListInProcess[TaskIndex].T_controllerIndex
+                     ,Controller
                      ,true
                      )
                   else if FCDdmtTaskListInProcess[TaskIndex].T_tMITorigin=ttSatellite
@@ -187,7 +190,7 @@ begin
                         ,round( FC3doglSatellitesObjectsGroups[FCDdmtTaskListInProcess[TaskIndex].T_tMIToriginIndex].TagFloat )
                         ,FC3doglSatellitesObjectsGroups[FCDdmtTaskListInProcess[TaskIndex].T_tMIToriginIndex].Tag
                         ,0
-                        ,FCDdmtTaskListInProcess[TaskIndex].T_controllerIndex
+                        ,Controller
                         ,true
                         );
                   FCMuiW_FocusPopup_Upd(uiwpkSpUnit);

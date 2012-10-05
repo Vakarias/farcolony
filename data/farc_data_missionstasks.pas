@@ -83,7 +83,8 @@ type TFCEdmtTasks=(
 type TFCEdmtTaskTargets=(
 //   ttInfrastructure
 //   ,
-   ttSpaceUnitDockedIn
+   ttSelf
+   ,ttSpaceUnitDockedIn
    ,ttOrbitalObject
    ,ttSatellite
    ,ttSpace

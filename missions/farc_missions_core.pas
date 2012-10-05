@@ -221,8 +221,9 @@ procedure FCMgMCore_Mission_Commit;
 {:DEV NOTES: don't forget to update all the required data w/ the new and modified ones! synch w/ a clone of data_missiontasks.}
 {:Purpose: commit the mission by creating a task.
     Additions:
-      -2011Feb12- add: additional data.
-      -2010Sep16- add: entities code.
+      -2012Oct04- *add: colonization - test if the controller is docked or not and initialize the origin data accordingly.
+      -2011Feb12- *add: additional data.
+      -2010Sep16- *add: entities code.
       -2010Jul02- *add: colonization mission: add colony's name if it's set.
       -2010May10- *add: time2xfert data init for interplanetary transit mission.
       -2010May05- *add: targeted region (used only for colonization mission for now).
@@ -254,11 +255,21 @@ begin
             FCDdmtTaskListToProcess[MCtskL].T_type:=tMissionColonization;
 //            FCGtskLstToProc[MCtskL].TITP_ctldType:=ttSpaceUnit;
             FCDdmtTaskListToProcess[MCtskL].T_entity:=GMCfac;
-            FCDdmtTaskListToProcess[MCtskL].T_controllerIndex:=GMCdckd[MCcnt].GMCD_index;
+            FCDdmtTaskListToProcess[MCtskL].T_controllerIndex:=GMCdckd[MCcnt].GMCD_index; {:DEV NOTES: add the possibility of not docked space units!.}
             FCDdmtTaskListToProcess[MCtskL].T_duration:=GMCdckd[MCcnt].GMCD_tripTime;
             FCDdmtTaskListToProcess[MCtskL].T_durationInterval:=1;
-            FCDdmtTaskListToProcess[MCtskL].T_tMCorigin:=ttSpaceUnitDockedIn;
-            FCDdmtTaskListToProcess[MCtskL].T_tMCoriginIndex:=GMCmother;
+            if FCDdgEntities[GMCfac].E_spaceUnits[FCDdmtTaskListToProcess[MCtskL].T_controllerIndex].SU_status=susDocked then
+            begin
+               FCDdmtTaskListToProcess[MCtskL].T_tMCorigin:=ttSpaceUnitDockedIn;
+               FCDdmtTaskListToProcess[MCtskL].T_tMCoriginIndex:=GMCmother;
+            end
+            else begin
+               FCDdmtTaskListToProcess[MCtskL].T_tMCorigin:=ttSelf;
+               FCDdmtTaskListToProcess[MCtskL].T_tMCoriginIndex:=0;
+            end;
+            {:DEV NOTES: end WARNING
+               if not docked: origin=0
+            .}
             if GMCrootSatIdx=0
             then
             begin
