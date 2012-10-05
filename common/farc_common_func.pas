@@ -307,6 +307,7 @@ function FCFcFunc_Rnd(
 begin
    result:=0;
    case RentryType of
+      {:DEV NOTES: optimize by grouping, when possible. as for dist km and vel kms}
 		cfrttp1dec: result:=DecimalRound(Rval, 1, 0.001);
       cfrttp2dec: result:=DecimalRound(Rval, 2, 0.0001);
       cfrttp3dec: result:=DecimalRound(Rval, 3, 0.00001);

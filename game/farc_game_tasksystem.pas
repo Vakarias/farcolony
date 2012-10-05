@@ -54,7 +54,8 @@ procedure FCMgTS_TaskToProcess_Initialize( const CurrentTimeTick: integer);
 implementation
 
 uses
-   farc_data_game
+   farc_common_func
+   ,farc_data_game
    ,farc_data_missionstasks
    ,farc_data_3dopengl
    ,farc_main
@@ -79,19 +80,19 @@ uses
 procedure FCMgTS_TaskToProcess_Initialize( const CurrentTimeTick: integer);
 {:Purpose: initialize the list of the tasks to process to allow the task system to process them.
     Additions:
+      -2012Oct04- *code audit: COMPLETION.
       -2012Oct03- *fix: correction of assignation errors for the space units.
                   *code audit:
-                     (x)var formatting + refactoring     (x)if..then reformatting   (-)function/procedure refactoring
-                     (_)parameters refactoring           (x) ()reformatting         (o)code optimizations
-                     (_)float local variables=> extended (x)case..of reformatting   (-)local methods
-                     (_)summary completion               (-)protect all float add/sub w/ FCFcFunc_Rnd
+                     (x)var formatting + refactoring     (x)if..then reformatting   (_)function/procedure refactoring
+                     (_)parameters refactoring           (x) ()reformatting         (x)code optimizations
+                     (_)float local variables=> extended (x)case..of reformatting   (_)local methods
+                     (_)summary completion               (x)protect all float add/sub w/ FCFcFunc_Rnd
                      (_)standardize internal data + commenting them at each use as a result (like Count1 / Count2 ...)
                      (_)put [format x.xx ] in returns of summary, if required and if the function do formatting
-                     (-)use of enumindex                 (-)use of StrToFloat( x, FCVdiFormat ) for all float data w/ XML
+                     (-)use of enumindex                 (x)use of StrToFloat( x, FCVdiFormat ) for all float data w/ XML
                      (x)if the procedure reset the same record's data or external data put:
                         ///   <remarks>the procedure/function reset the /data/</remarks>
 }
-{:DEV NOTES: apply code audit after that code migration is complete.}
    var
       Controller
       ,Count
@@ -104,7 +105,6 @@ procedure FCMgTS_TaskToProcess_Initialize( const CurrentTimeTick: integer);
 
       Universe: TFCRufStelObj;
 begin
-   {:DEV NOTES: WARNING: check all array index assignations!.}
    FCWinMain.FCGLScadencer.Enabled:=false;
    Controller:=0;
    Count:=0;
@@ -127,7 +127,6 @@ begin
             Entity:=FCDdmtTaskListInProcess[TaskIndex].T_entity;
             Controller:=FCDdmtTaskListInProcess[TaskIndex].T_controllerIndex;
             FCDdmtTaskListInProcess[TaskIndex].T_inProcessData.IPD_ticksAtTaskStart:=CurrentTimeTick;
-            {.mission related data init}
             case FCDdmtTaskListInProcess[TaskIndex].T_type of
                tMissionColonization:
                begin
@@ -137,8 +136,10 @@ begin
                   FCDdgEntities[Entity].E_spaceUnits[Controller].SU_assignedTask:=TaskIndex;
                   FCDdmtTaskListInProcess[TaskIndex].T_tMCphase:=mcpDeceleration;
                   FCDdmtTaskListInProcess[TaskIndex].T_tMCinProcessData.IPD_timeForDeceleration:=FCDdmtTaskListInProcess[TaskIndex].T_duration-FCDdmtTaskListInProcess[TaskIndex].T_tMCfinalTime;
-                  FCDdmtTaskListInProcess[TaskIndex].T_tMCinProcessData.IPD_accelerationByTick:=
-                     ( FCDdgEntities[Entity].E_spaceUnits[Origin].SU_deltaV-FCDdmtTaskListInProcess[TaskIndex].T_tMCfinalVelocity )/FCDdmtTaskListInProcess[TaskIndex].T_tMCinProcessData.IPD_timeForDeceleration;
+                  FCDdmtTaskListInProcess[TaskIndex].T_tMCinProcessData.IPD_accelerationByTick:=FCFcFunc_Rnd(
+                     cfrttpVelkms
+                     ,( FCDdgEntities[Entity].E_spaceUnits[Origin].SU_deltaV-FCDdmtTaskListInProcess[TaskIndex].T_tMCfinalVelocity )/FCDdmtTaskListInProcess[TaskIndex].T_tMCinProcessData.IPD_timeForDeceleration
+                     );
                   FCDdgEntities[Entity].E_spaceUnits[Controller].SU_locationOrbitalObject:='';
                   FCDdgEntities[Entity].E_spaceUnits[Controller].SU_locationSatellite:='';
                   FCDdgEntities[Entity].E_spaceUnits[Controller].SU_status:=susInFreeSpace;
@@ -147,7 +148,6 @@ begin
                   Linked3dObject:=FCDdgEntities[Entity].E_spaceUnits[Controller].SU_linked3dObject;
                   FC3doglSpaceUnits[Linked3dObject].Position.X:=FCDdgEntities[Entity].E_spaceUnits[Controller].SU_locationViewX;
                   FC3doglSpaceUnits[Linked3dObject].Position.Z:=FCDdgEntities[Entity].E_spaceUnits[Controller].SU_locationViewZ;
-                  {.3d initialization}
                   if not FC3doglSpaceUnits[Linked3dObject].Visible
                   then FC3doglSpaceUnits[Linked3dObject].Visible:=true;
                   if FCDdmtTaskListInProcess[TaskIndex].T_tMCdestination=ttOrbitalObject
@@ -156,17 +156,18 @@ begin
                   else if FCDdmtTaskListInProcess[TaskIndex].T_tMCdestination=ttSatellite
                   then FC3doglSpaceUnits[Linked3dObject].PointTo
                      ( FC3doglSatellitesObjectsGroups[FCDdmtTaskListInProcess[TaskIndex].T_tMCdestinationIndex],FC3doglSatellitesObjectsGroups[FCDdmtTaskListInProcess[TaskIndex].T_tMCdestinationIndex].Position.AsVector );
-               end; //==END== case: tatpMissColonize: ==//
+               end; //==END== case: tMissionColonization: ==//
 
                tMissionInterplanetaryTransit:
                begin
                   FCDdgEntities[Entity].E_spaceUnits[Controller].SU_assignedTask:=TaskIndex;
                   FCDdmtTaskListInProcess[TaskIndex].T_tMITphase:=mitpAcceleration;
-                  FCDdmtTaskListInProcess[TaskIndex].T_tMITinProcessData.IPD_timeForDeceleration
-                     :=FCDdmtTaskListInProcess[TaskIndex].T_duration-( FCDdmtTaskListInProcess[TaskIndex].T_tMITcruiseTime+FCDdmtTaskListInProcess[TaskIndex].T_tMITfinalTime );
-                  FCDdmtTaskListInProcess[TaskIndex].T_tMITinProcessData.IPD_accelerationByTick
-                     :=( FCDdmtTaskListInProcess[TaskIndex].T_tMITcruiseVelocity-FCDdgEntities[Entity].E_spaceUnits[FCDdmtTaskListInProcess[TaskIndex].T_tMIToriginIndex].SU_deltaV )  //assignation error!!!!  E_spaceUnits[FCGtskListInProc[GTPtaskIdx].TITP_orgIdx]
-                        /FCDdmtTaskListInProcess[TaskIndex].T_tMITcruiseTime;
+                  FCDdmtTaskListInProcess[TaskIndex].T_tMITinProcessData.IPD_timeForDeceleration:=
+                     FCDdmtTaskListInProcess[TaskIndex].T_duration-( FCDdmtTaskListInProcess[TaskIndex].T_tMITcruiseTime+FCDdmtTaskListInProcess[TaskIndex].T_tMITfinalTime );
+                  FCDdmtTaskListInProcess[TaskIndex].T_tMITinProcessData.IPD_accelerationByTick:=FCFcFunc_Rnd(
+                     cfrttpVelkms
+                     ,( FCDdmtTaskListInProcess[TaskIndex].T_tMITcruiseVelocity-FCDdgEntities[Entity].E_spaceUnits[Controller].SU_deltaV )/FCDdmtTaskListInProcess[TaskIndex].T_tMITcruiseTime
+                     );
                   FCDdgEntities[Entity].E_spaceUnits[Controller].SU_locationOrbitalObject:='';
                   FCDdgEntities[Entity].E_spaceUnits[Controller].SU_locationSatellite:='';
                   FCDdgEntities[Entity].E_spaceUnits[Controller].SU_status:=susInFreeSpace;
@@ -201,14 +202,14 @@ begin
                   else if FCDdmtTaskListInProcess[TaskIndex].T_tMITdestination=ttSatellite
                   then FC3doglSpaceUnits[Linked3dObject].PointTo
                      ( FC3doglSatellitesObjectsGroups[FCDdmtTaskListInProcess[TaskIndex].T_tMITdestinationIndex],FC3doglSatellitesObjectsGroups[FCDdmtTaskListInProcess[TaskIndex].T_tMITdestinationIndex].Position.AsVector );
-               end; //==END== tatpMissItransit ==//
-            end; //==END== case FCGtskListInProc[GTPtaskIdx].TITP_actionTp ==//
+               end; //==END== case: tMissionInterplanetaryTransit ==//
+            end; //==END== case FCDdmtTaskListInProcess[TaskIndex].T_type ==//
             inc( Count );
-         end; //==END== while GTPnumTTProcIdx<=GTPnumTaskToProc ==//
+         end; //==END== while Count<=Max do ==//
       finally
          setlength( FCDdmtTaskListToProcess, 1 );
       end;
-   end; //==END== if GTPnumTaskToProc>0 ==//
+   end; //==END== if Max>0 ==//
    FCWinMain.FCGLScadencer.Enabled:=true;
 end;
 
