@@ -1,13 +1,13 @@
-{======(C) Copyright Aug.2009-2012 Jean-Francois Baconnet All rights reserved===============
+{======(C) Copyright Aug.2009-2012 Jean-Francois Baconnet All rights reserved==============
 
         Title:  FAR Colony
         Author: Jean-Francois Baconnet
-        Project Started: Aug 16 2009
+        Project Started: August 16 2009
         Platform: Delphi
         License: GPLv3
         Website: http://farcolony.sourceforge.net/
 
-        Unit: manage all missions setup
+        Unit: space units mission - core unit
 
 ============================================================================================
 ********************************************************************************************
@@ -26,37 +26,28 @@ Copyright (c) 2009-2012, Jean-Francois Baconnet
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *******************************************************************************************}
-
 unit farc_missions_core;
 
 interface
 
 uses
-   Classes
-   ,SysUtils
+   SysUtils
 
-   ,farc_data_game
    ,farc_data_init
    ,farc_data_missionstasks;
 
-type TFCRgmcDckd=record
-   GMCD_index: integer;
-   GMCD_landTime: integer;
-   GMCD_tripTime: integer;
-   GMCD_usedRM: extended;
-end;
+//==END PUBLIC ENUM=========================================================================
+
+//==END PUBLIC RECORDS======================================================================
+
+   //==========subsection===================================================================
+//var
+//==END PUBLIC VAR==========================================================================
+
+//const
+//==END PUBLIC CONST========================================================================
 
 //===========================END FUNCTIONS SECTION==========================================
-
-///<summary>
-///   test key routine for mission setup window.
-///</summary>
-///   <param="WMSTkeyDump">key number</param>
-///   <param="WMSTshftCtrl">shift state</param>
-procedure FCMgMC_KeyButtons_Test(
-   const WMSTkeyDump: integer;
-   const WMSTshftCtrl: TShiftState
-   );
 
 ///<summary>
 ///   cancel the mission of a selected space unit
@@ -68,11 +59,6 @@ procedure FCMgMCore_Mission_Cancel(const MCownSpUidx: integer);
 ///   commit the mission by creating a task.
 ///</summary>
 procedure FCMgMCore_Mission_Commit;
-
-///<summary>
-///   core routine for mission panel closing
-///</summary>
-procedure FCMgMCore_Mission_ClosePanel;
 
 ///<summary>
 ///   update the destination object and distance.
@@ -88,51 +74,12 @@ procedure FCMgMCore_Mission_Setup(
    const MSmissType: TFCEdmtTasks
    );
 
-///<summary>
-///   update the trackbar.
-///</summary>
-///   <param name="MTUmission">current mission type</param>
-procedure FCMgMCore_Mission_TrackUpd(const MTUmission: TFCEdmtTasks);
-
-var
-   GMCfac
-   ,GMCtimeA
-   ,GMCtimeD
-   ,GMCtripTime
-   ,GMClandTime
-   ,GMCregion
-   ,GMCrootOObIdx
-   ,GMCrootSatIdx
-   ,GMCrootSatObjIdx
-   ,GMCrootSsys
-   ,GMCrootStar: integer;
-
-   GMCbaseDist,
-   GMCfinalDV,
-   GMCrmMaxVol,
-   GMCreqDV,
-   GMCcruiseDV,
-   GMCAccelG,
-   GMCusedRMvol,
-   GMCmaxDV: extended;
-
-
-   GMCdckd: array of TFCRgmcDckd;
-
-
-{:DEV NOTE: these constant are only for prototype purposes. It's quick&dirty}
-const
-   MRMCDVCthrbyvol=0.7;
-   MRMCDVCvolOfDrive=3000;
-   MRMCDVCloadedMassInTons=100000;
-   MRMCDVCrmMass=70;
-   GMCCthrN=MRMCDVCthrbyvol*MRMCDVCvolOfDrive*(FCCdiMbySec_In_1G*1000);
-
 implementation
 
 uses
    farc_common_func
    ,farc_data_3dopengl
+   ,farc_data_game
    ,farc_data_html
    ,farc_data_spu
    ,farc_data_textfiles
@@ -145,43 +92,63 @@ uses
    ,farc_ogl_viewmain
    ,farc_spu_functions
    ,farc_ui_coldatapanel
-   ,farc_ui_keys
    ,farc_ui_msges
    ,farc_ui_surfpanel
    ,farc_ui_win
    ,farc_univ_func;
 
+//==END PRIVATE ENUM========================================================================
+
+//type TFCRgmcDckd=record
+//   GMCD_index: integer;
+//   GMCD_landTime: integer;
+//   GMCD_tripTime: integer;
+//   GMCD_usedRM: extended;
+//end;
+
+//==END PRIVATE RECORDS=====================================================================
+
+   //==========subsection===================================================================
 var
-   GMCmother: integer;
+   GMCfac
+   ,GMCtimeA
+   ,GMCtimeD
+   ,GMCtripTime
+   ,GMClandTime
+   ,GMCregion
+   ,GMCrootOObIdx
+   ,GMCrootSatIdx
+   ,GMCrootSatObjIdx
+   ,GMCrootSsys
+   ,GMCrootStar
+   ,GMCmother: integer;
+
+   GMCbaseDist,
+   GMCfinalDV,
+   GMCrmMaxVol,
+   GMCreqDV,
+   GMCcruiseDV,
+   GMCAccelG,
+   GMCusedRMvol,
+   GMCmaxDV: extended;
 
    GMCmissTp: TFCEdmtTasks;
+//   GMCdckd: array of TFCRgmcDckd;
 
-//===================================END OF INIT============================================
+//==END PRIVATE VAR=========================================================================
 
+{:DEV NOTE: these constants are only for prototype purposes. It's quick & dirty and must be removed when the space unit designs are completed}
+const
+   MRMCDVCthrbyvol=0.7;
+   MRMCDVCvolOfDrive=3000;
+   MRMCDVCloadedMassInTons=100000;
+   MRMCDVCrmMass=70;
+   GMCCthrN=MRMCDVCthrbyvol*MRMCDVCvolOfDrive*(FCCdiMbySec_In_1G*1000);
+
+//==END PRIVATE CONST=======================================================================
+
+//===================================================END OF INIT============================
 //===========================END FUNCTIONS SECTION==========================================
-
-procedure FCMgMC_KeyButtons_Test(
-   const WMSTkeyDump: integer;
-   const WMSTshftCtrl: TShiftState
-   );
-{:Purpose: test key routine for mission setup window..
-    Additions:
-      -2012Feb15- *code:  move the procedure into farc_game_missioncore.
-                  *mod: link the escape key to the mission_closepanel core routine.
-      -2010Jul03- *fix: set correctly the parameters if the mission window is closed.
-}
-begin
-   if (ssAlt in WMSTshftCtrl)
-   then FCMuiK_WinMain_Test(WMSTkeyDump, WMSTshftCtrl);
-   {.ESCAPE}
-   {.close the mission setup window}
-   if WMSTkeyDump=27
-   then FCMgMCore_Mission_ClosePanel
-   else if (WMSTkeyDump<>65)
-      and (WMSTkeyDump<>67)
-      and (WMSTkeyDump<>27)
-   then FCMuiK_WinMain_Test(WMSTkeyDump, WMSTshftCtrl);
-end;
 
 procedure FCMgMCore_Mission_Cancel(const MCownSpUidx: integer);
 {:Purpose: cancel the mission of a selected space unit.
@@ -246,7 +213,7 @@ begin
       tMissionColonization:
       begin
          {:DEV NOTES: add code if the LV are selected by the docking list or directly.}
-         MCmax:=length(GMCdckd)-1;
+//         MCmax:=length(GMCdckd)-1;
          MCcnt:=1;
          while MCcnt<=MCmax do
          begin
@@ -255,8 +222,8 @@ begin
             FCDdmtTaskListToProcess[MCtskL].T_type:=tMissionColonization;
 //            FCGtskLstToProc[MCtskL].TITP_ctldType:=ttSpaceUnit;
             FCDdmtTaskListToProcess[MCtskL].T_entity:=GMCfac;
-            FCDdmtTaskListToProcess[MCtskL].T_controllerIndex:=GMCdckd[MCcnt].GMCD_index; {:DEV NOTES: add the possibility of not docked space units!.}
-            FCDdmtTaskListToProcess[MCtskL].T_duration:=GMCdckd[MCcnt].GMCD_tripTime;
+//            FCDdmtTaskListToProcess[MCtskL].T_controllerIndex:=GMCdckd[MCcnt].GMCD_index; {:DEV NOTES: add the possibility of not docked space units!.}
+//            FCDdmtTaskListToProcess[MCtskL].T_duration:=GMCdckd[MCcnt].GMCD_tripTime;
             FCDdmtTaskListToProcess[MCtskL].T_durationInterval:=1;
             if FCDdgEntities[GMCfac].E_spaceUnits[FCDdmtTaskListToProcess[MCtskL].T_controllerIndex].SU_status=susDocked then
             begin
@@ -284,8 +251,8 @@ begin
             end;
             FCDdmtTaskListToProcess[MCtskL].T_tMCdestinationRegion:=GMCregion;
             FCDdmtTaskListToProcess[MCtskL].T_tMCfinalVelocity:=GMCfinalDV;
-            FCDdmtTaskListToProcess[MCtskL].T_tMCfinalTime:=GMCdckd[MCcnt].GMCD_landTime;
-            FCDdmtTaskListToProcess[MCtskL].T_tMCusedReactionMassVol:=GMCdckd[MCcnt].GMCD_usedRM;
+//            FCDdmtTaskListToProcess[MCtskL].T_tMCfinalTime:=GMCdckd[MCcnt].GMCD_landTime;
+//            FCDdmtTaskListToProcess[MCtskL].T_tMCusedReactionMassVol:=GMCdckd[MCcnt].GMCD_usedRM;
             if FCWinMain.FCWMS_Grp_MCGColName.Text<>FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_CDPcolNameNo')
             then FCDdmtTaskListToProcess[MCtskL].T_tMCcolonyName:=FCWinMain.FCWMS_Grp_MCGColName.Text
             else FCDdmtTaskListToProcess[MCtskL].T_tMCcolonyName:='';
@@ -305,7 +272,7 @@ begin
             FCMspuF_DockedSpU_Rem(
                GMCfac
                ,GMCmother
-               ,GMCdckd[MCcnt].GMCD_index
+//               ,GMCdckd[MCcnt].GMCD_index
                );
             inc(MCcnt);
          end; //==END== while MCcnt<=MCmax ==//
@@ -404,22 +371,6 @@ begin
             +FCFcFunc_TimeTick_GetDate(GMCtripTime)
    );
    FCWinMain.FCWMS_Grp_MCG_MissCfgData.HTMLText.Delete(2);
-end;
-
-procedure FCMgMCore_Mission_ClosePanel;
-{:Purpose: core routine for mission panel closing.
-    Additions:
-}
-begin
-   FCWinMain.FCWM_MissionSettings.Hide;
-   FCWinMain.FCWM_MissionSettings.Enabled:=False;
-   if FCWinMain.FCWM_SurfPanel.Visible
-   then
-   begin
-      FCWinMain.FCWM_SurfPanel.Hide;
-      FCWinMain.FCWM_SP_Surface.Enabled:=false;
-   end;
-   FCVdiGameFlowTimer.Enabled:=true;
 end;
 
 procedure FCMgMCore_Mission_DestUpd(const MDUtripOnly: boolean);
@@ -633,7 +584,7 @@ var
 
    MSenvironment: TFCEduEnvironmentTypes;
 begin
-   FCVdiGameFlowTimer.Enabled:=false;
+//   FCVdiGameFlowTimer.Enabled:=false;
    {.pre initialization for all the missions}
    FCWinMain.FCWM_MissionSettings.Enabled:=true;
    FCMuiM_MessageBox_ResetState(true);
@@ -656,7 +607,7 @@ begin
    GMCtimeD:=0;
    GMCtripTime:=0;
    GMCusedRMvol:=0;
-   setlength(GMCdckd, 0);
+//   setlength(GMCdckd, 0);
    {.universal data initialization for all missions}
    GMCmissTp:=MSmissType;
    MSownedIdx:=round(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].TagFloat);
@@ -1031,63 +982,6 @@ begin
    end; //==END== case MSmissType of ==//
    FCWinMain.FCWM_MissionSettings.Show;
    FCWinMain.FCWM_MissionSettings.BringToFront;
-end;
-
-procedure FCMgMCore_Mission_TrackUpd(const MTUmission: TFCEdmtTasks);
-{:Purpose: update the trackbar.
-    Additions:
-      -2010Apr26- *fix: stop the bug of updating for a colonize mission when the trackbar is resetted.
-      -2010Apr17- *add: colonization setup data update.
-      -2010Apr10- *add: mission type.
-                  *add: update for colonization mission.
-      -2009Oct24- *update trip data.
-                  *prevent update trip data when initializing.
-      -2009Oct19- *change the number of levels.
-}
-var
-   MTUsatObj: integer;
-begin
-   case MTUmission of
-      tMissionColonization:
-      begin
-         FCWinMain.FCWMS_Grp_MCG_RMassTrack.TrackLabel.Format:=IntToStr(FCWinMain.FCWMS_Grp_MCG_RMassTrack.Position);
-         if FCWinMain.FCWMS_Grp_MCG_RMassTrack.Tag=0
-         then
-         begin
-
-            if GMCrootSatIdx>0
-            then MTUsatObj:=FCFoglVM_SatObj_Search(GMCrootOObIdx, GMCrootSatIdx)
-            else MTUsatObj:=0;
-            FCMgC_Colonize_Setup(
-               gclvstBySelector
-               ,GMCmother
-               ,GMCrootSsys
-               ,GMCrootStar
-               ,GMCrootOObIdx
-               ,GMCrootSatIdx
-               ,MTUsatObj
-               );
-         end
-         else if FCWinMain.FCWMS_Grp_MCG_RMassTrack.Tag=1
-         then FCWinMain.FCWMS_Grp_MCG_RMassTrack.Tag:=0;
-      end;
-      tMissionInterplanetaryTransit:
-      begin
-         case FCWinMain.FCWMS_Grp_MCG_RMassTrack.Position of
-            1: FCWinMain.FCWMS_Grp_MCG_RMassTrack.TrackLabel.Format
-               :=FCFdTFiles_UIStr_Get(uistrUI,'FCWMS_Grp_MCG_RMassTrackITransEco');
-            2: FCWinMain.FCWMS_Grp_MCG_RMassTrack.TrackLabel.Format
-               :=FCFdTFiles_UIStr_Get(uistrUI,'FCWMS_Grp_MCG_RMassTrackITransSlow');
-            3: FCWinMain.FCWMS_Grp_MCG_RMassTrack.TrackLabel.Format
-               :=FCFdTFiles_UIStr_Get(uistrUI,'FCWMS_Grp_MCG_RMassTrackITransFast');
-         end;
-         if FCWinMain.FCWMS_Grp_MCG_RMassTrack.Tag=0
-         then FCMgMCore_Mission_DestUpd(true)
-         else if FCWinMain.FCWMS_Grp_MCG_RMassTrack.Tag=1
-         then FCWinMain.FCWMS_Grp_MCG_RMassTrack.Tag:=0;
-      end;
-   end; //==END== case MTUmission of ==//
-   {.update the trackbar label}
 end;
 
 end.

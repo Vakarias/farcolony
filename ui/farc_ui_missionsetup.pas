@@ -30,7 +30,11 @@ unit farc_ui_missionsetup;
 
 interface
 
-//uses
+uses
+   Classes
+   ,SysUtils
+
+   ,farc_data_missionstasks;
 
 //==END PUBLIC ENUM=========================================================================
 
@@ -45,9 +49,32 @@ interface
 
 //===========================END FUNCTIONS SECTION==========================================
 
+///<summary>
+///   test key routine for mission setup window.
+///</summary>
+///   <param="WMSTkeyDump">key number</param>
+///   <param="WMSTshftCtrl">shift state</param>
+procedure FCMgMC_KeyButtons_Test(
+   const WMSTkeyDump: integer;
+   const WMSTshftCtrl: TShiftState
+   );
+
+///<summary>
+///   core routine for mission panel closing
+///</summary>
+procedure FCMgMCore_Mission_ClosePanel;
+
+///<summary>
+///   update the trackbar.
+///</summary>
+///   <param name="MTUmission">current mission type</param>
+procedure FCMgMCore_Mission_TrackUpd(const MTUmission: TFCEdmtTasks);
+
 implementation
 
-//uses
+uses
+   farc_main
+   ,farc_ui_keys;
 
 //==END PRIVATE ENUM========================================================================
 
@@ -62,5 +89,101 @@ implementation
 
 //===================================================END OF INIT============================
 //===========================END FUNCTIONS SECTION==========================================
+
+procedure FCMgMC_KeyButtons_Test(
+   const WMSTkeyDump: integer;
+   const WMSTshftCtrl: TShiftState
+   );
+{:Purpose: test key routine for mission setup window..
+    Additions:
+      -2012Feb15- *code:  move the procedure into farc_game_missioncore.
+                  *mod: link the escape key to the mission_closepanel core routine.
+      -2010Jul03- *fix: set correctly the parameters if the mission window is closed.
+}
+begin
+   if (ssAlt in WMSTshftCtrl)
+   then FCMuiK_WinMain_Test(WMSTkeyDump, WMSTshftCtrl);
+   {.ESCAPE}
+   {.close the mission setup window}
+   if WMSTkeyDump=27
+   then FCMgMCore_Mission_ClosePanel
+   else if (WMSTkeyDump<>65)
+      and (WMSTkeyDump<>67)
+      and (WMSTkeyDump<>27)
+   then FCMuiK_WinMain_Test(WMSTkeyDump, WMSTshftCtrl);
+end;
+
+procedure FCMgMCore_Mission_ClosePanel;
+{:Purpose: core routine for mission panel closing.
+    Additions:
+}
+begin
+   FCWinMain.FCWM_MissionSettings.Hide;
+   FCWinMain.FCWM_MissionSettings.Enabled:=False;
+   if FCWinMain.FCWM_SurfPanel.Visible
+   then
+   begin
+      FCWinMain.FCWM_SurfPanel.Hide;
+      FCWinMain.FCWM_SP_Surface.Enabled:=false;
+   end;
+//   FCVdiGameFlowTimer.Enabled:=true;
+end;
+
+procedure FCMgMCore_Mission_TrackUpd(const MTUmission: TFCEdmtTasks);
+{:Purpose: update the trackbar.
+    Additions:
+      -2010Apr26- *fix: stop the bug of updating for a colonize mission when the trackbar is resetted.
+      -2010Apr17- *add: colonization setup data update.
+      -2010Apr10- *add: mission type.
+                  *add: update for colonization mission.
+      -2009Oct24- *update trip data.
+                  *prevent update trip data when initializing.
+      -2009Oct19- *change the number of levels.
+}
+var
+   MTUsatObj: integer;
+begin
+   case MTUmission of
+      tMissionColonization:
+      begin
+         FCWinMain.FCWMS_Grp_MCG_RMassTrack.TrackLabel.Format:=IntToStr(FCWinMain.FCWMS_Grp_MCG_RMassTrack.Position);
+         if FCWinMain.FCWMS_Grp_MCG_RMassTrack.Tag=0
+         then
+         begin
+
+            if GMCrootSatIdx>0
+            then MTUsatObj:=FCFoglVM_SatObj_Search(GMCrootOObIdx, GMCrootSatIdx)
+            else MTUsatObj:=0;
+            FCMgC_Colonize_Setup(
+               gclvstBySelector
+               ,GMCmother
+               ,GMCrootSsys
+               ,GMCrootStar
+               ,GMCrootOObIdx
+               ,GMCrootSatIdx
+               ,MTUsatObj
+               );
+         end
+         else if FCWinMain.FCWMS_Grp_MCG_RMassTrack.Tag=1
+         then FCWinMain.FCWMS_Grp_MCG_RMassTrack.Tag:=0;
+      end;
+      tMissionInterplanetaryTransit:
+      begin
+         case FCWinMain.FCWMS_Grp_MCG_RMassTrack.Position of
+            1: FCWinMain.FCWMS_Grp_MCG_RMassTrack.TrackLabel.Format
+               :=FCFdTFiles_UIStr_Get(uistrUI,'FCWMS_Grp_MCG_RMassTrackITransEco');
+            2: FCWinMain.FCWMS_Grp_MCG_RMassTrack.TrackLabel.Format
+               :=FCFdTFiles_UIStr_Get(uistrUI,'FCWMS_Grp_MCG_RMassTrackITransSlow');
+            3: FCWinMain.FCWMS_Grp_MCG_RMassTrack.TrackLabel.Format
+               :=FCFdTFiles_UIStr_Get(uistrUI,'FCWMS_Grp_MCG_RMassTrackITransFast');
+         end;
+         if FCWinMain.FCWMS_Grp_MCG_RMassTrack.Tag=0
+         then FCMgMCore_Mission_DestUpd(true)
+         else if FCWinMain.FCWMS_Grp_MCG_RMassTrack.Tag=1
+         then FCWinMain.FCWMS_Grp_MCG_RMassTrack.Tag:=0;
+      end;
+   end; //==END== case MTUmission of ==//
+   {.update the trackbar label}
+end;
 
 end.
