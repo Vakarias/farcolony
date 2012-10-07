@@ -94,39 +94,35 @@ procedure FCMgTS_TaskInProcess_Cleanup;
 
       TaskWorkingArray: array of TFCRdmtTask;
 begin
-   ///   <remarks>for space units missions, the E_spaceUnits[].SU_assignedTask is updated, if needed</remarks>
-   /// if moved
    Count:=1;
    Max:=length( FCDdmtTaskListInProcess );
    NewCount:=0;
-   SetLength( TaskWorkingArray, Max );
-   while Count>=Max-1 do
+   SetLength( TaskWorkingArray, 1 );
+   while Count<=Max-1 do
    begin
       if not FCDdmtTaskListInProcess[Count].T_inProcessData.IPD_isTaskTerminated then
       begin
          inc( NewCount );
+         SetLength( TaskWorkingArray, NewCount+1 );
          TaskWorkingArray[NewCount]:=FCDdmtTaskListInProcess[Count];
          if ( FCDdmtTaskListInProcess[Count].T_type=tMissionColonization )
-            or ( FCDdmtTaskListInProcess[Count].T_type=tMissionInterplanetaryTransit)
+            or ( FCDdmtTaskListInProcess[Count].T_type=tMissionInterplanetaryTransit )
          then FCDdgEntities[FCDdmtTaskListInProcess[Count].T_entity].E_spaceUnits[FCDdmtTaskListInProcess[Count].T_controllerIndex].SU_assignedTask:=NewCount;
          {:DEV NOTES: add an entry here for planetary survey.}
       end;
       inc( Count );
    end;
-//   {.delete unused tasks, if it's possible}
-//   {:DEV NOTES: rewrite that part of code w/ better algo!.}
-//   GTPcnt:=length(FCDdmtTaskListInProcess)-1;
-//   while GTPcnt>0 do
-//   begin
-//      if FCDdmtTaskListInProcess[GTPcnt].T_inProcessData.IPD_isTaskTerminated
-//      then
-//      begin
-//         setlength(FCDdmtTaskListInProcess, length(FCDdmtTaskListInProcess)-1);
-//         dec(GTPcnt);
-//      end
-//      else break;
-//   end;
-   SetLength( TaskWorkingArray, 1 );
+   Setlength( FCDdmtTaskListInProcess, 0 );
+   FCDdmtTaskListInProcess:=nil;
+   Count:=1;
+   Max:=length( TaskWorkingArray );
+   Setlength( FCDdmtTaskListInProcess, Max );
+   while Count<=Max-1 do
+   begin
+      FCDdmtTaskListInProcess[Count]:=TaskWorkingArray[Count];
+      inc( Count );
+   end;
+   SetLength( TaskWorkingArray, 0 );
    TaskWorkingArray:=nil;
 end;
 
