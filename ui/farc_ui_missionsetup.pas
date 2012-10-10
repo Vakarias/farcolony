@@ -70,11 +70,19 @@ procedure FCMgMCore_Mission_ClosePanel;
 ///   <param name="MTUmission">current mission type</param>
 procedure FCMgMCore_Mission_TrackUpd(const MTUmission: TFCEdmtTasks);
 
+
+///<summary>
+///   reset all the interface elements of the mission panel, and set correctly any interface
+///   element outside the mission panel
+///</summary>
+procedure FCMuiMS_Panel_Initialize;
+
 implementation
 
 uses
    farc_main
-   ,farc_ui_keys;
+   ,farc_ui_keys
+   ,farc_ui_msges;
 
 //==END PRIVATE ENUM========================================================================
 
@@ -184,6 +192,21 @@ begin
       end;
    end; //==END== case MTUmission of ==//
    {.update the trackbar label}
+end;
+
+procedure FCMuiMS_Panel_Initialize;
+{:Purpose: reset all the interface elements of the mission panel, and set correctly any interface.
+    Additions:
+}
+begin
+   FCWinMain.FCWM_MissionSettings.Enabled:=true;
+   FCMuiM_MessageBox_ResetState(true);
+   FCWinMain.FCWM_ColDPanel.Hide;
+   FCWinMain.FCWM_UMI.Hide;
+   FCWinMain.FCWMS_Grp_MCGColName.Text:='';
+   FCWinMain.FCWMS_Grp_MCG_SetName.Text:='';
+   FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Clear;
+   FCWinMain.FCWMS_Grp_MCG_DatDisp.HTMLText.Clear;
 end;
 
 end.

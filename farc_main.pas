@@ -498,6 +498,7 @@ uses
    ,farc_ui_html
    ,farc_ui_infrapanel
    ,farc_ui_keys
+   ,farc_ui_missionsetup
    ,farc_ui_msges
    ,farc_ui_surfpanel
    ,farc_ui_umi
@@ -1512,12 +1513,12 @@ end;
 
 procedure TFCWinMain.FCWM_PMFO_MissColonizClick(Sender: TObject);
 begin
-   FCMgMCore_Mission_Setup(0, tMissionColonization);
+   FCMgMCore_Mission_Setup(0, round(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].TagFloat), tMissionColonization);
 end;
 
 procedure TFCWinMain.FCWM_PMFO_MissITransitClick(Sender: TObject);
 begin
-   FCMgMCore_Mission_Setup(0, tMissionInterplanetaryTransit);
+   FCMgMCore_Mission_Setup(0, round(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].TagFloat), tMissionInterplanetaryTransit);
 end;
 
 procedure TFCWinMain.FCWM_PopMenFocusedObjPopup(Sender: TObject);

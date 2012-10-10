@@ -72,9 +72,10 @@ type TFCEdmtTaskPhasesInterplanetaryTransit=(
 ///   tasks
 ///</summary>
 type TFCEdmtTasks=(
-   tMissionColonization
+   tNil
+   ,tMissionColonization
    ,tMissionInterplanetaryTransit
-   ,tDummy
+
    );
 
 ///<summary>
