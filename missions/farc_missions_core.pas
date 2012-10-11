@@ -74,7 +74,14 @@ var
    FCRmcCurrentMissionCalculations: TFCRmcCurrentMissionCalculations;
 //==END PUBLIC VAR==========================================================================
 
-//const
+{:DEV NOTE: these constants are only for prototype purposes. It's quick & dirty and must be removed when the space unit designs are completed}
+const
+   MRMCDVCthrbyvol=0.7;
+   MRMCDVCvolOfDrive=3000;
+   MRMCDVCloadedMassInTons=100000;
+   MRMCDVCrmMass=70;
+   GMCCthrN=MRMCDVCthrbyvol*MRMCDVCvolOfDrive*(FCCdiMbySec_In_1G*1000);
+
 //==END PUBLIC CONST========================================================================
 
 //===========================END FUNCTIONS SECTION==========================================
@@ -146,13 +153,7 @@ uses
 
 //==END PRIVATE VAR=========================================================================
 
-{:DEV NOTE: these constants are only for prototype purposes. It's quick & dirty and must be removed when the space unit designs are completed}
-const
-   MRMCDVCthrbyvol=0.7;
-   MRMCDVCvolOfDrive=3000;
-   MRMCDVCloadedMassInTons=100000;
-   MRMCDVCrmMass=70;
-   GMCCthrN=MRMCDVCthrbyvol*MRMCDVCvolOfDrive*(FCCdiMbySec_In_1G*1000);
+//const
 
 //==END PRIVATE CONST=======================================================================
 
@@ -598,7 +599,6 @@ procedure FCMgMCore_Mission_Setup(
 //   MScol
 //   ,MSdesgn
 //   ,MSdockedNum
-//   ,MSownedIdx
 //   ,surfaceOObj: integer;
 //
 //   MSdmpStatus
@@ -608,6 +608,9 @@ procedure FCMgMCore_Mission_Setup(
    var
       Count
       ,Count1: integer;
+
+   const
+      indX='<ind x="'+IntToStr(FCWinMain.FCWMS_Grp_MSDG.Width shr 1)+'">';
 begin
    {.pre initialization for all the missions}
    {:DEV NOTES: for the 0.5.5, change the line below to a decelerated time.}
@@ -620,13 +623,12 @@ begin
    FCDmcCurrentMission[Entity].T_durationInterval:=0;
    FCDmcCurrentMission[Entity].T_previousProcessTime:=0;
    FCDmcCurrentMission[Entity].T_type:=MissionType;
+   case FCDmcCurrentMission[Entity].T_type of
+
    {.design index}
    Count:=FCFspuF_Design_getDB( FCDdgEntities[Entity].E_spaceUnits[SpaceUnit].SU_designToken );
 
 //=================================old code
-
-
-
 
 //   GMCAccelG:=0;
 //   GMCbaseDist:=0;
@@ -647,7 +649,7 @@ begin
 //   GMCusedRMvol:=0;
 ////   setlength(GMCdckd, 0);
 //   {.universal data initialization for all missions}
-//   MSownedIdx:=round(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].TagFloat);
+
 //   MSdispIdx:='<ind x="'+IntToStr(FCWinMain.FCWMS_Grp_MSDG.Width shr 1)+'">';
 //   {.missions specific settings}
 //   case MissionType of
