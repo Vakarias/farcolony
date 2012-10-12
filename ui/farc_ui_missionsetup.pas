@@ -218,6 +218,7 @@ begin
    FCMuiM_MessageBox_ResetState(true);
    FCWinMain.FCWM_ColDPanel.Hide;
    FCWinMain.FCWM_UMI.Hide;
+   FCWinMain.FCWM_MissionSettings.Caption.Text:='';
    FCWinMain.FCWMS_Grp_MCGColName.Text:='';
    FCWinMain.FCWMS_Grp_MCG_SetName.Text:='';
    FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Clear;

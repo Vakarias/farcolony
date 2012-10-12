@@ -39,7 +39,6 @@ uses
 //==END PUBLIC ENUM=========================================================================
 
 type TFCRmcCurrentMissionCalculations=record
-
    CMC_dockList: array of record
       DL_spaceUnitIndex: integer;
       DL_landTime: integer;
@@ -54,11 +53,7 @@ type TFCRmcCurrentMissionCalculations=record
 //   ,GMCtripTime
 //   ,GMClandTime
 //   ,GMCregion
-//   ,GMCrootOObIdx
-//   ,GMCrootSatIdx
-//   ,GMCrootSatObjIdx
-//   ,GMCrootSsys
-//   ,GMCrootStar: integer;
+//: integer;
 //
 //   GMCbaseDist,
 //   GMCfinalDV,
@@ -235,6 +230,7 @@ begin
 ////            FCDdmtTaskListToProcess[MCtskL].T_controllerIndex:=GMCdckd[MCcnt].GMCD_index; {:DEV NOTES: add the possibility of not docked space units!.}
 ////            FCDdmtTaskListToProcess[MCtskL].T_duration:=GMCdckd[MCcnt].GMCD_tripTime;
 //            FCDdmtTaskListToProcess[MCtskL].T_durationInterval:=1;
+   {:DEV NOTES: WARNING, already set in FCMgMCore_Mission_Setup, please check it en remove / modif the lines below.}
 //            if FCDdgEntities[GMCfac].E_spaceUnits[FCDdmtTaskListToProcess[MCtskL].T_controllerIndex].SU_status=susDocked then
 //            begin
 //               FCDdmtTaskListToProcess[MCtskL].T_tMCorigin:=ttSpaceUnitDockedIn;
@@ -598,7 +594,6 @@ procedure FCMgMCore_Mission_Setup(
 //var
 //   MScol
 //   ,MSdesgn
-//   ,MSdockedNum
 //   ,surfaceOObj: integer;
 //
 //   MSdmpStatus: string;
@@ -608,7 +603,7 @@ procedure FCMgMCore_Mission_Setup(
       Count
       ,Count1: integer;
 
-      Universe: TFCRufStelObj;
+      OriginLocation: TFCRufStelObj;
 begin
    {.pre initialization for all the missions}
    {:DEV NOTES: for the 0.5.5, change the line below to a decelerated time.}
@@ -638,10 +633,19 @@ begin
          FCDmcCurrentMission[Entity].T_tMCfinalVelocity:=0;
          FCDmcCurrentMission[Entity].T_tMCfinalTime:=0;
          FCDmcCurrentMission[Entity].T_tMCusedReactionMassVol:=0;
-         {.}
-         if length( FCDdgEntities[Entity].E_spaceUnits[SpaceUnit].SU_dockedSpaceUnits )<2
-         then FCDmcCurrentMission[Entity].T_tMCdestinationIndex:=SpaceUnit
-         else begin
+         {.# of docked space units that can colonize}
+         Count1:=FCFspuF_DockedSpU_GetNum(
+            Entity
+            ,SpaceUnit
+            ,aNone
+            ,sufcColoniz
+            );
+         if Count1=0
+         then FCDmcCurrentMission[Entity].T_controllerIndex:=SpaceUnit
+         else if Count1>0 then
+         begin
+            SetLength( FCRmcCurrentMissionCalculations.CMC_dockList, Count1+1 );
+            {:DEV NOTES: load the docklist.}
          end;
 
          FCMuiMS_ColonizationInterface_Setup;
@@ -674,9 +678,6 @@ begin
 //   GMCmaxDV:=0;
 //   GMCreqDV:=0;
 //   GMCrmMaxVol:=0;
-//   GMCrootOObIdx:=0;
-//   GMCrootSatIdx:=0;
-//   GMCrootSatObjIdx:=0;
 //   GMCtimeA:=0;
 //   GMCtimeD:=0;
 //   GMCtripTime:=0;
@@ -731,12 +732,7 @@ begin
 //            MScol:=FCDduStarSystem[GMCrootSsys].SS_stars[GMCrootStar].S_orbitalObjects[GMCrootOObIdx].OO_colonies[0];
 //            MSenvironment:=FCDduStarSystem[GMCrootSsys].SS_stars[GMCrootStar].S_orbitalObjects[GMCrootOObIdx].OO_environment;
 //         end;
-//         MSdockedNum:=FCFspuF_DockedSpU_GetNum(
-//            0
-//            ,GMCmother
-//            ,aNone
-//            ,sufcColoniz
-//            );
+
 //         if GMCrootSatIdx>0
 //         then
 //         begin

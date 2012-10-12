@@ -36,6 +36,7 @@ uses
 
    ,farc_data_spu;
 
+   {:DEV NOTES: put that in farc_data_spu, link it to TFCRdsuSpaceUnitDesign too!.}
 type TFCEsufCapab=(
    sufcAny
    ,sufcInterstel
@@ -55,6 +56,18 @@ type TFCEspufOrbIO=(
 ///    <param name="ASGidxFac">space unit faction #</param>
 ///    <param name="ASGidxOwn">space unit index</param>
 function FCFspuF_AttStatus_Get(const ASGfac, ASGidxOwn: integer): string;
+
+///<summary>
+///   get if an entity's space unit has an asked capability
+///</summary>
+///   <param name="Entity">entity index #</param>
+///   <param name="SpaceUnit">entity's space unit index #</param>
+///   <returns>true= has it</returns>
+function FCFspuF_Capability_HasIt(
+   const Entity
+         ,SpaceUnit: integer;
+   const Capability: TFCEsufCapab
+   ): boolean;
 
 ///<summary>
 ///   get the orbital deltav of a given orbital object.
@@ -201,6 +214,36 @@ begin
       susOutOfControl: result:=FCFdTFiles_UIStr_Get(uistrUI,'susOutOfCtl');
       susDeadWreck: result:=FCFdTFiles_UIStr_Get(uistrUI,'susDeadWreck');
    end; //==END== case ASGsatus ==//
+end;
+
+function FCFspuF_Capability_HasIt(
+   const Entity
+         ,SpaceUnit: integer;
+   const Capability: TFCEsufCapab
+   ): boolean;
+{:Purpose: get if an entity's space unit has an asked capability.
+    Additions:
+}
+   var
+      DesignIndex: integer;
+begin
+   DesignIndex:=0;
+   Result:=false;
+   DesignIndex:=FCFspuF_Design_getDB( FCDdgEntities[Entity].E_spaceUnits[SpaceUnit].SU_designToken );
+   case Capability of
+      sufcInterstel:
+         if FCDdsuSpaceUnitDesigns[DesignIndex].SUD_capabilityInterstellarTransit
+         then Result:=true;
+      sufcColoniz:
+         if FCDdsuSpaceUnitDesigns[DesignIndex].SUD_capabilityColonization
+         then Result:=true;
+      sufcPassngr:
+         if FCDdsuSpaceUnitDesigns[DesignIndex].SUD_capabilityPassengers
+         then Result:=true;
+      sufcCombat:
+         if FCDdsuSpaceUnitDesigns[DesignIndex].SUD_capabilityCombat
+         then Result:=true;
+   end; //==END== case Capability of ==//
 end;
 
 function FCFspuF_DeltaV_GetFromOrbit(

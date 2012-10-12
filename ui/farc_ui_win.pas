@@ -474,12 +474,16 @@ begin
 //      end;
       {.START POINT OF SPECIFIC MISSIONS}
       {.colonization menu item}
+      {:DEV NOTES: include the possibility when there's no docked spu but the focused spu has colonization capability.}
       FPUlvNum:=FCFspuF_DockedSpU_GetNum(
          0
          ,FPUdmpIdx
          ,aLV
          ,sufcColoniz
          );
+      {:DEV NOTES: if = 0, test if focused spu has capability
+         FCFspuF_Capability_HasIt
+      .}
       FPUcolN:=length(FCDdgEntities[0].E_colonies)-1;
       if (FPUdmpSpUnStatus=susInOrbit)
          and (FPUlvNum>0)

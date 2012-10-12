@@ -238,7 +238,9 @@ end;
    - FCFgMl_Land_Calc
    - FCMgNG_ColMode_Upd
    - FCMoglVM_SpUn_Gen
+   - FCFspuF_Capability_HasIt
    - FCFspuF_Design_getDB
+   - FCFspuF_DockedSpU_GetNum
    - FCMuiWin_SpUnDck_Upd
 }
 ///<summary>
