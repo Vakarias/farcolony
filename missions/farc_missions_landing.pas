@@ -88,41 +88,41 @@ procedure FCFgMl_Land_Calc(
                   *add: entities code.
       -2010Sep02- *add: use a local variable for the design #.
 }
-var
-   LCdesgn
-   ,LCisp: integer;
-
-   LCplanApress
-   ,LCdepVel
-   ,LCburnEnd
-   ,LCusedRM
-   ,LCtime
-   ,LCatm: extended;
-const
-   LCgeesInKmS=FCCdiMbySec_In_1G*0.001;
+//var
+//   LCdesgn
+//   ,LCisp: integer;
+//
+//   LCplanApress
+//   ,LCdepVel
+//   ,LCburnEnd
+//   ,LCusedRM
+//   ,LCtime
+//   ,LCatm: extended;
+//const
+//   LCgeesInKmS=FCCdiMbySec_In_1G*0.001;
 begin
-   if LCsatIdx=0
-   then LCplanApress:=FCDduStarSystem[LCssys].SS_stars[LCstar].S_orbitalObjects[LCoobjIdx].OO_atmosphericPressure
-   else if LCsatIdx>0
-   then LCplanApress:=FCDduStarSystem[LCssys].SS_stars[LCstar].S_orbitalObjects[LCoobjIdx].OO_satellitesList[LCsatIdx].OO_atmosphericPressure;
-   LCdesgn:=FCFspuF_Design_getDB(FCDdgEntities[LCfac].E_spaceUnits[LCownIdx].SU_designToken);
-   {.calculate final acceleration in gees relative to loaded mass}
-   GMCAccelG:=(MRMCDVCthrbyvol*MRMCDVCvolOfDrive)/MRMCDVCloadedMassInTons;
-   {.get the space unit's ISP}
-   LCisp:=FCDdsuSpaceUnitDesigns[LCdesgn].SUD_spaceDriveISP;
-   {.velocities calculations}
-   LCdepVel:=FCDdgEntities[LCfac].E_spaceUnits[LCownIdx].SU_deltaV;
-   {.calculate the burn endurance for deceleration}
-   LCburnEnd:=(LCdepVel-LCentrVel)/(GMCAccelG*LCgeesInKmS);
-   {.caculate used reaction mass volume for deceleration}
-   LCusedRM:=(LCburnEnd)*(GMCCthrN/(LCisp*FCCdiMbySec_In_1G))/(MRMCDVCrmMass*1000);
-   {.calculate deceleration time}
-   LCtime:=LCburnEnd/600;
-   {.determine atmosphere entry time}
-   LCatm:=LCplanApress/FCCdiMbars_In_1atmosphere;
-   GMClandTime:=round(((1.84-(1-LCatm))*70)/18.4);
-   GMCtripTime:=round(LCtime)+GMClandTime;
-   GMCusedRMvol:=FCFcFunc_Rnd(cfrttpVolm3, LCusedRM);
+//   if LCsatIdx=0
+//   then LCplanApress:=FCDduStarSystem[LCssys].SS_stars[LCstar].S_orbitalObjects[LCoobjIdx].OO_atmosphericPressure
+//   else if LCsatIdx>0
+//   then LCplanApress:=FCDduStarSystem[LCssys].SS_stars[LCstar].S_orbitalObjects[LCoobjIdx].OO_satellitesList[LCsatIdx].OO_atmosphericPressure;
+//   LCdesgn:=FCFspuF_Design_getDB(FCDdgEntities[LCfac].E_spaceUnits[LCownIdx].SU_designToken);
+//   {.calculate final acceleration in gees relative to loaded mass}
+//   GMCAccelG:=(MRMCDVCthrbyvol*MRMCDVCvolOfDrive)/MRMCDVCloadedMassInTons;
+//   {.get the space unit's ISP}
+//   LCisp:=FCDdsuSpaceUnitDesigns[LCdesgn].SUD_spaceDriveISP;
+//   {.velocities calculations}
+//   LCdepVel:=FCDdgEntities[LCfac].E_spaceUnits[LCownIdx].SU_deltaV;
+//   {.calculate the burn endurance for deceleration}
+//   LCburnEnd:=(LCdepVel-LCentrVel)/(GMCAccelG*LCgeesInKmS);
+//   {.caculate used reaction mass volume for deceleration}
+//   LCusedRM:=(LCburnEnd)*(GMCCthrN/(LCisp*FCCdiMbySec_In_1G))/(MRMCDVCrmMass*1000);
+//   {.calculate deceleration time}
+//   LCtime:=LCburnEnd/600;
+//   {.determine atmosphere entry time}
+//   LCatm:=LCplanApress/FCCdiMbars_In_1atmosphere;
+//   GMClandTime:=round(((1.84-(1-LCatm))*70)/18.4);
+//   GMCtripTime:=round(LCtime)+GMClandTime;
+//   GMCusedRMvol:=FCFcFunc_Rnd(cfrttpVolm3, LCusedRM);
 end;
 
 end.

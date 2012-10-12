@@ -1559,45 +1559,37 @@ var
    SPSSCcurrSettlement: integer;
 begin
    SPSSCcurrSettlement:=0;
-//   if FCWM_SP_DataSheet.ActivePage<>FCWM_SP_ShReg
-//   then
-//   begin
-//      FCWM_SP_DataSheet.ActivePage:=FCWM_SP_ShReg;
-//      FCMuiSP_RegionDataPicture_Update(FCWM_SP_Surface.Tag, false);
-//   end;
-   if (FCWinMain.FCWM_MissionSettings.Visible)
-//      and (FCWinMissSet.FCWMS_Grp.Caption=FCFdTFiles_UIStr_Get(uistrUI,'FCWinMissSet')+FCFdTFiles_UIStr_Get(uistrUI,'Mission.coloniz'))
-   then
+   if (FCWinMain.FCWM_MissionSettings.Visible) then
    begin
-      GMCregion:=FCFuiSP_VarRegionSelected_Get;
-      if not FCWinMain.FCWMS_Grp_MCGColName.Visible
-      then
-      begin
-         SPSSCcurrSettlement:=FCFgC_Settlement_GetIndexFromRegion(
-            0
-            ,FCWinMain.FCWMS_Grp_MCGColName.Tag
-            ,GMCregion
-            );
-         if SPSSCcurrSettlement=0
-         then
-         begin
-            FCWinMain.FCWMS_Grp_MCG_SetType.Show;
-            FCWinMain.FCWMS_Grp_MCG_SetName.Show;
-         end
-         else if SPSSCcurrSettlement>0
-         then
-         begin
-            FCWinMain.FCWMS_Grp_MCG_SetType.Hide;
-            FCWinMain.FCWMS_Grp_MCG_SetName.Hide;
-         end;
-      end
-      else if FCWinMain.FCWMS_Grp_MCGColName.Visible
-      then
-      begin
-         FCWinMain.FCWMS_Grp_MCG_SetType.Show;
-         FCWinMain.FCWMS_Grp_MCG_SetName.Show;
-      end;
-      FCMgMc_Colonize_Upd(GMCregion);
+//      GMCregion:=FCFuiSP_VarRegionSelected_Get;
+//      if not FCWinMain.FCWMS_Grp_MCGColName.Visible
+//      then
+//      begin
+//         SPSSCcurrSettlement:=FCFgC_Settlement_GetIndexFromRegion(
+//            0
+//            ,FCWinMain.FCWMS_Grp_MCGColName.Tag
+//            ,GMCregion
+//            );
+//         if SPSSCcurrSettlement=0
+//         then
+//         begin
+//            FCWinMain.FCWMS_Grp_MCG_SetType.Show;
+//            FCWinMain.FCWMS_Grp_MCG_SetName.Show;
+//         end
+//         else if SPSSCcurrSettlement>0
+//         then
+//         begin
+//            FCWinMain.FCWMS_Grp_MCG_SetType.Hide;
+//            FCWinMain.FCWMS_Grp_MCG_SetName.Hide;
+//         end;
+//      end
+//      else if FCWinMain.FCWMS_Grp_MCGColName.Visible
+//      then
+//      begin
+//         FCWinMain.FCWMS_Grp_MCG_SetType.Show;
+//         FCWinMain.FCWMS_Grp_MCG_SetName.Show;
+//      end;
+//      FCMgMc_Colonize_Upd(GMCregion);
    end;
 end;
 

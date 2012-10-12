@@ -66,6 +66,7 @@ type TFCEdmtTaskPhasesInterplanetaryTransit=(
    - FCMgMCore_Mission_TrackUpd
    - FCFspuF_Mission_GetMissName
    - FCMspuF_SpUnit_Remove
+   - FCMuiMS_InterfaceSetup
    - TFCRdmtTask
 }
 ///<summary>
@@ -96,6 +97,8 @@ type TFCEdmtTaskTargets=(
 {:REFERENCES LIST
    - FCMdFiles_Game_Load
    - FCMdFiles_Game_Save
+   - FCMgMCore_Mission_Setup
+   - FCMuiMS_InterfaceSetup
    - TFCGtasklistToProc: farc_game_missioncore /FCMgMCore_Mission_Commit
    - TFCGtasklistInProc: farc_game_gameflow /FCMgTFlow_GameTimer_Process + FCMgGFlow_Tasks_Process
 }

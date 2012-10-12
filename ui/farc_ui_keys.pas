@@ -215,6 +215,7 @@ uses
    ,farc_ogl_viewmain
    ,farc_ui_coldatapanel
    ,farc_ui_infrapanel
+   ,farc_ui_missionsetup
    ,farc_ui_msges
    ,farc_ui_umi
    ,farc_ui_surfpanel

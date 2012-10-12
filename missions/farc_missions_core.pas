@@ -39,6 +39,14 @@ uses
 //==END PUBLIC ENUM=========================================================================
 
 type TFCRmcCurrentMissionCalculations=record
+
+   CMC_dockList: array of record
+      DL_spaceUnitIndex: integer;
+      DL_landTime: integer;
+      DL_tripTime: integer;
+      DL_usedReactionMass: extended;
+   end;
+
 //   CMD_entity: integer;
 //   CMD_mission: TFCEdmtTasks;
 //   GMCtimeA
@@ -50,8 +58,7 @@ type TFCRmcCurrentMissionCalculations=record
 //   ,GMCrootSatIdx
 //   ,GMCrootSatObjIdx
 //   ,GMCrootSsys
-//   ,GMCrootStar
-//   ,GMCmother: integer;
+//   ,GMCrootStar: integer;
 //
 //   GMCbaseDist,
 //   GMCfinalDV,
@@ -137,19 +144,12 @@ uses
 
 //==END PRIVATE ENUM========================================================================
 
-//type TFCRgmcDckd=record
-//   GMCD_index: integer;
-//   GMCD_landTime: integer;
-//   GMCD_tripTime: integer;
-//   GMCD_usedRM: extended;
-//end;
+
 
 //==END PRIVATE RECORDS=====================================================================
 
    //==========subsection===================================================================
 //var
-
-//   GMCdckd: array of TFCRgmcDckd;
 
 //==END PRIVATE VAR=========================================================================
 
@@ -165,32 +165,32 @@ procedure FCMgMCore_Mission_Cancel(const MCownSpUidx: integer);
     Additions:
       -2010Jan08- *mod: change gameflow state method according to game flow changes.
 }
-var
-   MCtaskId
-//   ,MCthreadId
-   : integer;
+//var
+//   MCtaskId
+////   ,MCthreadId
+//   : integer;
 begin
-   {:DEV NOTES: a complete rewrite will be done for 0.4.0.}
-//   MCtaskId:=FCRplayer.P_suOwned[MCownSpUidx].SUO_taskIdx;
-//   MCthreadId:=FCGtskListInProc[MCtaskId].TITP_threadIdx;
-   try
-      FCMgTFlow_FlowState_Set(tphPAUSE);
-   finally
-//      GGFthrTPU[MCthreadId].TPUphaseTp:=tpTerminated;
-      {.unload the current task to the space unit}
-//      FCRplayer.P_suOwned[MCownSpUidx].SUO_taskIdx:=0;
-//               {.set the remaining reaction mass}
-//               FCRplayer.Play_suOwned[TPUownedIdx].SUO_availRMass
-//                  :=FCRplayer.Play_suOwned[TPUownedIdx].SUO_availRMass
-//                     -FCGtskListInProc[TPUtaskIdx].TITP_usedRMassV;
-      {.disable the task and delete it if it's the last in the list}
-//      FCGtskListInProc[MCtaskId].T_enabled:=false;
-      if MCtaskId=length(FCDdmtTaskListInProcess)-1
-      then SetLength(FCDdmtTaskListInProcess, length(FCDdmtTaskListInProcess)-1);
-   end;
-   FCMgTFlow_FlowState_Set(tphTac);
-   FCMoglUI_Main3DViewUI_Update(oglupdtpTxtOnly, ogluiutFocObj);
-//   FCMoglVMain_CameraMain_Target(-1, true);
+//   {:DEV NOTES: a complete rewrite will be done for 0.4.0.}
+////   MCtaskId:=FCRplayer.P_suOwned[MCownSpUidx].SUO_taskIdx;
+////   MCthreadId:=FCGtskListInProc[MCtaskId].TITP_threadIdx;
+//   try
+//      FCMgTFlow_FlowState_Set(tphPAUSE);
+//   finally
+////      GGFthrTPU[MCthreadId].TPUphaseTp:=tpTerminated;
+//      {.unload the current task to the space unit}
+////      FCRplayer.P_suOwned[MCownSpUidx].SUO_taskIdx:=0;
+////               {.set the remaining reaction mass}
+////               FCRplayer.Play_suOwned[TPUownedIdx].SUO_availRMass
+////                  :=FCRplayer.Play_suOwned[TPUownedIdx].SUO_availRMass
+////                     -FCGtskListInProc[TPUtaskIdx].TITP_usedRMassV;
+//      {.disable the task and delete it if it's the last in the list}
+////      FCGtskListInProc[MCtaskId].T_enabled:=false;
+//      if MCtaskId=length(FCDdmtTaskListInProcess)-1
+//      then SetLength(FCDdmtTaskListInProcess, length(FCDdmtTaskListInProcess)-1);
+//   end;
+//   FCMgTFlow_FlowState_Set(tphTac);
+//   FCMoglUI_Main3DViewUI_Update(oglupdtpTxtOnly, ogluiutFocObj);
+////   FCMoglVMain_CameraMain_Target(-1, true);
 end;
 
 procedure FCMgMCore_Mission_Commit;
@@ -214,141 +214,141 @@ procedure FCMgMCore_Mission_Commit;
       -2009Nov22- *doesn't initialize FCRplayer.Play_suOwned[TITP_tgtIdx].SUO_taskIdx here, it's done only when the thread is created.
       -2009Oct31- *fixed a bug by a non transfered data.
 }
-var
-   MCmax
-   ,MCcnt
-   ,MCtskL: integer;
+//var
+//   MCmax
+//   ,MCcnt
+//   ,MCtskL: integer;
 begin
-   case GMCmissTp of
-      tMissionColonization:
-      begin
-         {:DEV NOTES: add code if the LV are selected by the docking list or directly.}
-//         MCmax:=length(GMCdckd)-1;
-         MCcnt:=1;
-         while MCcnt<=MCmax do
-         begin
-            setlength(FCDdmtTaskListToProcess, length(FCDdmtTaskListToProcess)+1);
-            MCtskL:=length(FCDdmtTaskListToProcess)-1;
-            FCDdmtTaskListToProcess[MCtskL].T_type:=tMissionColonization;
-//            FCGtskLstToProc[MCtskL].TITP_ctldType:=ttSpaceUnit;
-            FCDdmtTaskListToProcess[MCtskL].T_entity:=GMCfac;
-//            FCDdmtTaskListToProcess[MCtskL].T_controllerIndex:=GMCdckd[MCcnt].GMCD_index; {:DEV NOTES: add the possibility of not docked space units!.}
-//            FCDdmtTaskListToProcess[MCtskL].T_duration:=GMCdckd[MCcnt].GMCD_tripTime;
-            FCDdmtTaskListToProcess[MCtskL].T_durationInterval:=1;
-            if FCDdgEntities[GMCfac].E_spaceUnits[FCDdmtTaskListToProcess[MCtskL].T_controllerIndex].SU_status=susDocked then
-            begin
-               FCDdmtTaskListToProcess[MCtskL].T_tMCorigin:=ttSpaceUnitDockedIn;
-               FCDdmtTaskListToProcess[MCtskL].T_tMCoriginIndex:=GMCmother;
-            end
-            else begin
-               FCDdmtTaskListToProcess[MCtskL].T_tMCorigin:=ttSelf;
-               FCDdmtTaskListToProcess[MCtskL].T_tMCoriginIndex:=0;
-            end;
-            {:DEV NOTES: end WARNING
-               if not docked: origin=0
-            .}
-            if GMCrootSatIdx=0
-            then
-            begin
-               FCDdmtTaskListToProcess[MCtskL].T_tMCdestination:=ttOrbitalObject;
-               FCDdmtTaskListToProcess[MCtskL].T_tMCdestinationIndex:=GMCrootOObIdx;
-            end
-            else if GMCrootSatIdx>0
-            then
-            begin
-               FCDdmtTaskListToProcess[MCtskL].T_tMCdestination:=ttSatellite;
-               FCDdmtTaskListToProcess[MCtskL].T_tMCdestinationIndex:=GMCrootSatObjIdx;
-            end;
-            FCDdmtTaskListToProcess[MCtskL].T_tMCdestinationRegion:=GMCregion;
-            FCDdmtTaskListToProcess[MCtskL].T_tMCfinalVelocity:=GMCfinalDV;
-//            FCDdmtTaskListToProcess[MCtskL].T_tMCfinalTime:=GMCdckd[MCcnt].GMCD_landTime;
-//            FCDdmtTaskListToProcess[MCtskL].T_tMCusedReactionMassVol:=GMCdckd[MCcnt].GMCD_usedRM;
-            if FCWinMain.FCWMS_Grp_MCGColName.Text<>FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_CDPcolNameNo')
-            then FCDdmtTaskListToProcess[MCtskL].T_tMCcolonyName:=FCWinMain.FCWMS_Grp_MCGColName.Text
-            else FCDdmtTaskListToProcess[MCtskL].T_tMCcolonyName:='';
-            if FCWinMain.FCWMS_Grp_MCG_SetName.Visible
-            then
-            begin
-               FCDdmtTaskListToProcess[MCtskL].T_tMCsettlementName:=FCWinMain.FCWMS_Grp_MCG_SetName.Text;
-               {:DEV NOTES: change that for the real settlement type.}
-               FCDdmtTaskListToProcess[MCtskL].T_tMCsettlementType:=sSurface;//FCWinMain.FCWMS_Grp_MCG_SetType.ItemIndex;
-            end
-            else
-            begin
-               FCDdmtTaskListToProcess[MCtskL].T_tMCsettlementName:='';
-               {:DEV NOTES: change that for the real settlement type.}
-               FCDdmtTaskListToProcess[MCtskL].T_tMCsettlementType:=sSurface;
-            end;
-            FCMspuF_DockedSpU_Rem(
-               GMCfac
-               ,GMCmother
-//               ,GMCdckd[MCcnt].GMCD_index
-               );
-            inc(MCcnt);
-         end; //==END== while MCcnt<=MCmax ==//
-         FCWinMain.FCWM_SurfPanel.Hide;
-         FCWinMain.FCWM_MissionSettings.Hide;
-         if FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglSpaceUnits[GMCmother]
-         then
-         begin
-            FCMoglUI_Main3DViewUI_Update(oglupdtpTxtOnly, ogluiutFocObj);
-            FCMuiW_FocusPopup_Upd(uiwpkSpUnit);
-         end;
-      end; //==END== case: gmcmnColoniz ==//
-      tMissionInterplanetaryTransit:
-      begin
-         setlength(FCDdmtTaskListToProcess, length(FCDdmtTaskListToProcess)+1);
-         MCtskL:=length(FCDdmtTaskListToProcess)-1;
-         FCDdmtTaskListToProcess[MCtskL].T_type:=tMissionInterplanetaryTransit;
-//         FCGtskLstToProc[MCtskL].TITP_ctldType:=ttSpaceUnit;
-         FCDdmtTaskListToProcess[MCtskL].T_entity:=FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].Tag;
-         FCDdmtTaskListToProcess[MCtskL].T_controllerIndex:=round(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].TagFloat);
-         FCDdmtTaskListToProcess[MCtskL].T_duration:=round(GMCtripTime);
-         FCDdmtTaskListToProcess[MCtskL].T_durationInterval:=1;
-         if GMCrootSatIdx=0
-         then
-         begin
-            FCDdmtTaskListToProcess[MCtskL].T_tMITorigin:=ttOrbitalObject;
-            FCDdmtTaskListToProcess[MCtskL].T_tMIToriginIndex:=GMCrootOObIdx;
-         end
-         else if GMCrootSatIdx>0
-         then
-         begin
-            FCDdmtTaskListToProcess[MCtskL].T_tMITorigin:=ttSatellite;
-            FCDdmtTaskListToProcess[MCtskL].T_tMIToriginIndex:=GMCrootSatObjIdx;
-         end;
-         if FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglObjectsGroups[FC3doglSelectedPlanetAsteroid]
-         then
-         begin
-            FCDdmtTaskListToProcess[MCtskL].T_tMITdestination:=ttOrbitalObject;
-            FCDdmtTaskListToProcess[MCtskL].T_tMITdestinationIndex:=FC3doglSelectedPlanetAsteroid;
-         end
-         else if FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite]
-         then
-         begin
-            FCDdmtTaskListToProcess[MCtskL].T_tMITdestination:=ttSatellite;
-            FCDdmtTaskListToProcess[MCtskL].T_tMITdestinationIndex:=FC3doglSelectedSatellite;
-         end;
-         FCDdmtTaskListToProcess[MCtskL].T_tMITcruiseVelocity:=GMCcruiseDV;
-         FCDdmtTaskListToProcess[MCtskL].T_tMITcruiseTime:=GMCtimeA;
-         FCDdmtTaskListToProcess[MCtskL].T_tMITinProcessData.IPD_timeToTransfert:=0;
-         FCDdmtTaskListToProcess[MCtskL].T_tMITfinalVelocity:=GMCfinalDV;
-         FCDdmtTaskListToProcess[MCtskL].T_tMITfinalTime:=GMCtimeD;
-         FCDdmtTaskListToProcess[MCtskL].T_tMITusedReactionMassVol:=GMCusedRMvol;
-         FCWinMain.FCWM_MissionSettings.Hide;
-         FCWinMain.FCWMS_Grp_MCG_RMassTrack.Position:=1;
-         if GMCrootSatIdx=0
-         then FC3doglSelectedPlanetAsteroid:=GMCrootOObIdx
-         else if GMCrootSatIdx>0
-         then
-         begin
-            FC3doglSelectedSatellite:=GMCrootSatObjIdx;
-            FC3doglSelectedPlanetAsteroid:=round(FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].TagFloat);
-         end;
-         FCMoglVM_CamMain_Target(-1, false);
-      end; //==END== case: gmcmnItransit ==//
-   end; //==END== case GMCmissTp of ==//
-FCVdiGameFlowTimer.Enabled:=true;
+//   case GMCmissTp of
+//      tMissionColonization:
+//      begin
+//         {:DEV NOTES: add code if the LV are selected by the docking list or directly.}
+////         MCmax:=length(GMCdckd)-1;
+//         MCcnt:=1;
+//         while MCcnt<=MCmax do
+//         begin
+//            setlength(FCDdmtTaskListToProcess, length(FCDdmtTaskListToProcess)+1);
+//            MCtskL:=length(FCDdmtTaskListToProcess)-1;
+//            FCDdmtTaskListToProcess[MCtskL].T_type:=tMissionColonization;
+////            FCGtskLstToProc[MCtskL].TITP_ctldType:=ttSpaceUnit;
+//            FCDdmtTaskListToProcess[MCtskL].T_entity:=GMCfac;
+////            FCDdmtTaskListToProcess[MCtskL].T_controllerIndex:=GMCdckd[MCcnt].GMCD_index; {:DEV NOTES: add the possibility of not docked space units!.}
+////            FCDdmtTaskListToProcess[MCtskL].T_duration:=GMCdckd[MCcnt].GMCD_tripTime;
+//            FCDdmtTaskListToProcess[MCtskL].T_durationInterval:=1;
+//            if FCDdgEntities[GMCfac].E_spaceUnits[FCDdmtTaskListToProcess[MCtskL].T_controllerIndex].SU_status=susDocked then
+//            begin
+//               FCDdmtTaskListToProcess[MCtskL].T_tMCorigin:=ttSpaceUnitDockedIn;
+//               FCDdmtTaskListToProcess[MCtskL].T_tMCoriginIndex:=GMCmother;
+//            end
+//            else begin
+//               FCDdmtTaskListToProcess[MCtskL].T_tMCorigin:=ttSelf;
+//               FCDdmtTaskListToProcess[MCtskL].T_tMCoriginIndex:=0;
+//            end;
+//            {:DEV NOTES: end WARNING
+//               if not docked: origin=0
+//            .}
+//            if GMCrootSatIdx=0
+//            then
+//            begin
+//               FCDdmtTaskListToProcess[MCtskL].T_tMCdestination:=ttOrbitalObject;
+//               FCDdmtTaskListToProcess[MCtskL].T_tMCdestinationIndex:=GMCrootOObIdx;
+//            end
+//            else if GMCrootSatIdx>0
+//            then
+//            begin
+//               FCDdmtTaskListToProcess[MCtskL].T_tMCdestination:=ttSatellite;
+//               FCDdmtTaskListToProcess[MCtskL].T_tMCdestinationIndex:=GMCrootSatObjIdx;
+//            end;
+//            FCDdmtTaskListToProcess[MCtskL].T_tMCdestinationRegion:=GMCregion;
+//            FCDdmtTaskListToProcess[MCtskL].T_tMCfinalVelocity:=GMCfinalDV;
+////            FCDdmtTaskListToProcess[MCtskL].T_tMCfinalTime:=GMCdckd[MCcnt].GMCD_landTime;
+////            FCDdmtTaskListToProcess[MCtskL].T_tMCusedReactionMassVol:=GMCdckd[MCcnt].GMCD_usedRM;
+//            if FCWinMain.FCWMS_Grp_MCGColName.Text<>FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_CDPcolNameNo')
+//            then FCDdmtTaskListToProcess[MCtskL].T_tMCcolonyName:=FCWinMain.FCWMS_Grp_MCGColName.Text
+//            else FCDdmtTaskListToProcess[MCtskL].T_tMCcolonyName:='';
+//            if FCWinMain.FCWMS_Grp_MCG_SetName.Visible
+//            then
+//            begin
+//               FCDdmtTaskListToProcess[MCtskL].T_tMCsettlementName:=FCWinMain.FCWMS_Grp_MCG_SetName.Text;
+//               {:DEV NOTES: change that for the real settlement type.}
+//               FCDdmtTaskListToProcess[MCtskL].T_tMCsettlementType:=sSurface;//FCWinMain.FCWMS_Grp_MCG_SetType.ItemIndex;
+//            end
+//            else
+//            begin
+//               FCDdmtTaskListToProcess[MCtskL].T_tMCsettlementName:='';
+//               {:DEV NOTES: change that for the real settlement type.}
+//               FCDdmtTaskListToProcess[MCtskL].T_tMCsettlementType:=sSurface;
+//            end;
+//            FCMspuF_DockedSpU_Rem(
+//               GMCfac
+//               ,GMCmother
+////               ,GMCdckd[MCcnt].GMCD_index
+//               );
+//            inc(MCcnt);
+//         end; //==END== while MCcnt<=MCmax ==//
+//         FCWinMain.FCWM_SurfPanel.Hide;
+//         FCWinMain.FCWM_MissionSettings.Hide;
+//         if FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglSpaceUnits[GMCmother]
+//         then
+//         begin
+//            FCMoglUI_Main3DViewUI_Update(oglupdtpTxtOnly, ogluiutFocObj);
+//            FCMuiW_FocusPopup_Upd(uiwpkSpUnit);
+//         end;
+//      end; //==END== case: gmcmnColoniz ==//
+//      tMissionInterplanetaryTransit:
+//      begin
+//         setlength(FCDdmtTaskListToProcess, length(FCDdmtTaskListToProcess)+1);
+//         MCtskL:=length(FCDdmtTaskListToProcess)-1;
+//         FCDdmtTaskListToProcess[MCtskL].T_type:=tMissionInterplanetaryTransit;
+////         FCGtskLstToProc[MCtskL].TITP_ctldType:=ttSpaceUnit;
+//         FCDdmtTaskListToProcess[MCtskL].T_entity:=FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].Tag;
+//         FCDdmtTaskListToProcess[MCtskL].T_controllerIndex:=round(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].TagFloat);
+//         FCDdmtTaskListToProcess[MCtskL].T_duration:=round(GMCtripTime);
+//         FCDdmtTaskListToProcess[MCtskL].T_durationInterval:=1;
+//         if GMCrootSatIdx=0
+//         then
+//         begin
+//            FCDdmtTaskListToProcess[MCtskL].T_tMITorigin:=ttOrbitalObject;
+//            FCDdmtTaskListToProcess[MCtskL].T_tMIToriginIndex:=GMCrootOObIdx;
+//         end
+//         else if GMCrootSatIdx>0
+//         then
+//         begin
+//            FCDdmtTaskListToProcess[MCtskL].T_tMITorigin:=ttSatellite;
+//            FCDdmtTaskListToProcess[MCtskL].T_tMIToriginIndex:=GMCrootSatObjIdx;
+//         end;
+//         if FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglObjectsGroups[FC3doglSelectedPlanetAsteroid]
+//         then
+//         begin
+//            FCDdmtTaskListToProcess[MCtskL].T_tMITdestination:=ttOrbitalObject;
+//            FCDdmtTaskListToProcess[MCtskL].T_tMITdestinationIndex:=FC3doglSelectedPlanetAsteroid;
+//         end
+//         else if FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite]
+//         then
+//         begin
+//            FCDdmtTaskListToProcess[MCtskL].T_tMITdestination:=ttSatellite;
+//            FCDdmtTaskListToProcess[MCtskL].T_tMITdestinationIndex:=FC3doglSelectedSatellite;
+//         end;
+//         FCDdmtTaskListToProcess[MCtskL].T_tMITcruiseVelocity:=GMCcruiseDV;
+//         FCDdmtTaskListToProcess[MCtskL].T_tMITcruiseTime:=GMCtimeA;
+//         FCDdmtTaskListToProcess[MCtskL].T_tMITinProcessData.IPD_timeToTransfert:=0;
+//         FCDdmtTaskListToProcess[MCtskL].T_tMITfinalVelocity:=GMCfinalDV;
+//         FCDdmtTaskListToProcess[MCtskL].T_tMITfinalTime:=GMCtimeD;
+//         FCDdmtTaskListToProcess[MCtskL].T_tMITusedReactionMassVol:=GMCusedRMvol;
+//         FCWinMain.FCWM_MissionSettings.Hide;
+//         FCWinMain.FCWMS_Grp_MCG_RMassTrack.Position:=1;
+//         if GMCrootSatIdx=0
+//         then FC3doglSelectedPlanetAsteroid:=GMCrootOObIdx
+//         else if GMCrootSatIdx>0
+//         then
+//         begin
+//            FC3doglSelectedSatellite:=GMCrootSatObjIdx;
+//            FC3doglSelectedPlanetAsteroid:=round(FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].TagFloat);
+//         end;
+//         FCMoglVM_CamMain_Target(-1, false);
+//      end; //==END== case: gmcmnItransit ==//
+//   end; //==END== case GMCmissTp of ==//
+//FCVdiGameFlowTimer.Enabled:=true;
 end;
 
 procedure FCMgMCore_Mission_ConfData;
@@ -357,30 +357,30 @@ procedure FCMgMCore_Mission_ConfData;
     Additions:
 }
 begin
-   {.mission configuration data}
-   FCWinMain.FCWMS_Grp_MCG_MissCfgData.HTMLText.Insert
-   (
-      1
-      ,  FCFdTFiles_UIStr_Get(uistrUI,'MCGDatAccel')+' '+FloatToStr(GMCAccelG)
-            +' g <br>'
-            +FCFdTFiles_UIStr_Get(uistrUI,'MCGDatCruiseDV')+' '+FloatToStr(GMCcruiseDV)
-            +' km/s <br>'
-            +FCFdTFiles_UIStr_Get(uistrUI,'MCGDatFinalDV')+' '+FloatToStr(GMCfinalDV)
-            +' km/s <br>'
-            +FCFdTFiles_UIStr_Get(uistrUI,'MCGDatUsdRM')+' '
-               +IntToStr
-                  (
-                     round
-                        (
-                           GMCusedRMvol*100
-                           /FCDdgEntities[GMCfac].E_spaceUnits[round(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].TagFloat)].SU_reactionMass
-                        )
-                  )
-            +' %<br>'
-            +FCCFdHead+FCFdTFiles_UIStr_Get(uistrUI,'MCGDatTripTime')+FCCFdHeadEnd
-            +FCFcFunc_TimeTick_GetDate(GMCtripTime)
-   );
-   FCWinMain.FCWMS_Grp_MCG_MissCfgData.HTMLText.Delete(2);
+//   {.mission configuration data}
+//   FCWinMain.FCWMS_Grp_MCG_MissCfgData.HTMLText.Insert
+//   (
+//      1
+//      ,  FCFdTFiles_UIStr_Get(uistrUI,'MCGDatAccel')+' '+FloatToStr(GMCAccelG)
+//            +' g <br>'
+//            +FCFdTFiles_UIStr_Get(uistrUI,'MCGDatCruiseDV')+' '+FloatToStr(GMCcruiseDV)
+//            +' km/s <br>'
+//            +FCFdTFiles_UIStr_Get(uistrUI,'MCGDatFinalDV')+' '+FloatToStr(GMCfinalDV)
+//            +' km/s <br>'
+//            +FCFdTFiles_UIStr_Get(uistrUI,'MCGDatUsdRM')+' '
+//               +IntToStr
+//                  (
+//                     round
+//                        (
+//                           GMCusedRMvol*100
+//                           /FCDdgEntities[GMCfac].E_spaceUnits[round(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].TagFloat)].SU_reactionMass
+//                        )
+//                  )
+//            +' %<br>'
+//            +FCCFdHead+FCFdTFiles_UIStr_Get(uistrUI,'MCGDatTripTime')+FCCFdHeadEnd
+//            +FCFcFunc_TimeTick_GetDate(GMCtripTime)
+//   );
+//   FCWinMain.FCWMS_Grp_MCG_MissCfgData.HTMLText.Delete(2);
 end;
 
 procedure FCMgMCore_Mission_DestUpd(const MDUtripOnly: boolean);
@@ -396,154 +396,154 @@ procedure FCMgMCore_Mission_DestUpd(const MDUtripOnly: boolean);
       -2009Oct17- *add distance update.
       -2009Oct14- *add orbital object destination name.
 }
-var
-   MDUdmpSatIdx
-   ,MDUdmpPlanSatIdx: integer;
-   MDUdmpTokenName: string;
+//var
+//   MDUdmpSatIdx
+//   ,MDUdmpPlanSatIdx: integer;
+//   MDUdmpTokenName: string;
 begin
-   {.calculate all necessary data}
-   if not MDUtripOnly
-   then
-   begin
-      FCMgMiT_ITransit_Setup;
-      FCWinMain.FCWMS_Grp_MCG_RMassTrack.Enabled:=true;
-      FCWinMain.FCWMS_ButProceed.Enabled:=true;
-      FCWinMain.FCWMS_Grp_MCG_RMassTrack.Max:=3;
-   end;
-   {.calculate all trip data}
-   if FCWinMain.FCWMS_Grp_MCG_RMassTrack.Enabled
-   then
-   begin
-      FCMgMiT_MissionTrip_Calc
-         (
-            FCWinMain.FCWMS_Grp_MCG_RMassTrack.Position
-            ,FCDdgEntities[GMCfac].E_spaceUnits[round(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].TagFloat)].SU_deltaV
-         );
-   end;
-   {.current destination for orbital object}
-   if FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglObjectsGroups[FC3doglSelectedPlanetAsteroid]
-   then
-   begin
-      if (FC3doglSelectedPlanetAsteroid=GMCrootOObIdx)
-         or (not FCWinMain.FCWMS_Grp_MCG_RMassTrack.Enabled)
-      then
-      begin
-         FCWinMain.FCWMS_ButProceed.Enabled:=false;
-         FCWinMain.FCWMS_Grp_MCG_RMassTrack.Enabled:=false;
-         {.current destination}
-         FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Insert(7, FCFdTFiles_UIStr_Get(uistrUI,'MSDGcurDestNone')+'<br>');
-         FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Delete(8);
-         {.distance + min deltaV}
-         FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Insert
-         (
-            9
-            ,FCFdTFiles_UIStr_Get(uistrUI,'MSDGdesIntCdist')
-               +' 0 '
-               +FCFdTFiles_UIStr_Get(uistrUI,'acronAU')
-               +'<ind x="'+IntToStr(FCWinMain.FCWMS_Grp_MSDG_Disp.Width shr 1)+'">'
-               +FCFdTFiles_UIStr_Get(uistrUI,'MSDGdestIntCminDV')
-               +' 0 km/s'
-         );
-         FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Delete(10);
-         {.mission configuration data}
-         if (not FCWinMain.FCWMS_Grp_MCG_RMassTrack.Enabled)
-            and (FC3doglSelectedPlanetAsteroid<>GMCrootOObIdx)
-         then FCWinMain.FCWMS_Grp_MCG_MissCfgData.HTMLText.Insert(1, FCFdTFiles_UIStr_Get(uistrUI,'MCGDatNA'))
-         else FCWinMain.FCWMS_Grp_MCG_MissCfgData.HTMLText.Insert(1, FCFdTFiles_UIStr_Get(uistrUI,'MSDGcurDestNone'));
-         FCWinMain.FCWMS_Grp_MCG_MissCfgData.HTMLText.Delete(2);
-      end //==END== if FCV3DoObjSlctd=CFVoobjIdDB or (not FCWMS_Grp_MCG_RMassTrack.Enabled) ==//
-      else if FC3doglSelectedPlanetAsteroid<>GMCrootOObIdx
-      then
-      begin
-         if not MDUtripOnly
-         then
-         begin
-            {.current destination}
-            MDUdmpTokenName:=FCFdTFiles_UIStr_Get(
-               dtfscPrprName
-               ,FCDduStarSystem[GMCrootSsys].SS_stars[GMCrootStar].S_orbitalObjects[FC3doglSelectedPlanetAsteroid].OO_dbTokenId
-               );
-            FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Insert(7, MDUdmpTokenName+'<br>');
-            FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Delete(8);
-            FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Insert
-            (
-               9
-               ,FCFdTFiles_UIStr_Get(uistrUI,'MSDGdesIntCdist')+' '
-                  +FloatToStr(GMCbaseDist)+' '
-                  +FCFdTFiles_UIStr_Get(uistrUI,'acronAU')
-                  +'<ind x="'+IntToStr(FCWinMain.FCWMS_Grp_MSDG_Disp.Width shr 1)+'">'
-                  +FCFdTFiles_UIStr_Get(uistrUI,'MSDGdestIntCminDV')
-                  +' '+FloatToStr(GMCreqDV)+' km/s'
-            );
-            FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Delete(10);
-         end; //==END== if not MDUtripOnly ==//
-         FCMgMCore_Mission_ConfData;
-      end; {.else if FCV3dMVorbObjSlctd<>CFVoobjIdDB}
-   end //==END== if FCGLSCamMainViewGhost.TargetObject=FC3DobjGrp[FCV3DoObjSlctd] ==//
-   {.current destination for satellite}
-   else if FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite]
-   then
-   begin
-      if (GMCrootSatIdx>0)
-         and ((FC3doglSelectedSatellite=GMCrootSatObjIdx) or (not FCWinMain.FCWMS_Grp_MCG_RMassTrack.Enabled))
-      then
-      begin
-         FCWinMain.FCWMS_ButProceed.Enabled:=false;
-         FCWinMain.FCWMS_Grp_MCG_RMassTrack.Enabled:=false;
-         {.current destination}
-         FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Insert(7, FCFdTFiles_UIStr_Get(uistrUI,'MSDGcurDestNone')+'<br>');
-         FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Delete(8);
-         {.distance + min deltaV}
-         FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Insert
-         (
-            9
-            ,FCFdTFiles_UIStr_Get(uistrUI,'MSDGdesIntCdist')
-               +' 0 '
-               +FCFdTFiles_UIStr_Get(uistrUI,'acronAU')
-               +'<ind x="'+IntToStr(FCWinMain.FCWMS_Grp_MSDG_Disp.Width shr 1)+'">'
-               +FCFdTFiles_UIStr_Get(uistrUI,'MSDGdestIntCminDV')
-               +' 0 km/s'
-         );
-         FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Delete(10);
-         {.mission configuration data}
-         if (not FCWinMain.FCWMS_Grp_MCG_RMassTrack.Enabled)
-            and (FC3doglSelectedSatellite<>GMCrootSatObjIdx)
-         then FCWinMain.FCWMS_Grp_MCG_MissCfgData.HTMLText.Insert(1, FCFdTFiles_UIStr_Get(uistrUI,'MCGDatNA'))
-         else FCWinMain.FCWMS_Grp_MCG_MissCfgData.HTMLText.Insert
-            (1, FCFdTFiles_UIStr_Get(uistrUI,'MSDGcurDestNone'));
-         FCWinMain.FCWMS_Grp_MCG_MissCfgData.HTMLText.Delete(2);
-      end
-      else if ((GMCrootSatIdx>0) and (FC3doglSelectedSatellite<>GMCrootSatObjIdx))
-         or (GMCrootSatObjIdx=0)
-      then
-      begin
-         {.get satellite data}
-         MDUdmpSatIdx:=FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].Tag;
-         MDUdmpPlanSatIdx:=round(FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].TagFloat);
-         if not MDUtripOnly
-         then
-         begin
-            {.current destination}
-            MDUdmpTokenName:=FCFdTFiles_UIStr_Get(
-               dtfscPrprName
-               ,FCDduStarSystem[GMCrootSsys].SS_stars[GMCrootStar].S_orbitalObjects[MDUdmpPlanSatIdx].OO_satellitesList[MDUdmpSatIdx].OO_dbTokenId
-               );
-            FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Insert(7, MDUdmpTokenName+'<br>');
-            FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Delete(8);
-            FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Insert(
-               9
-               ,FCFdTFiles_UIStr_Get(uistrUI,'MSDGdesIntCdist')+' '
-                  +FloatToStr(GMCbaseDist)+' '
-                  +FCFdTFiles_UIStr_Get(uistrUI,'acronAU')
-                  +'<ind x="'+IntToStr(FCWinMain.FCWMS_Grp_MSDG_Disp.Width shr 1)+'">'
-                  +FCFdTFiles_UIStr_Get(uistrUI,'MSDGdestIntCminDV')
-                  +' '+FloatToStr(GMCreqDV)+' km/s'
-               );
-            FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Delete(10);
-         end; //==END== if not MDUtripOnly ==//
-         FCMgMCore_Mission_ConfData;
-      end;
-   end; //==END== else FCGLSCamMainViewGhost.TargetObject=FC3DobjSatGrp[FCV3DsatSlctd] ==//
+//   {.calculate all necessary data}
+//   if not MDUtripOnly
+//   then
+//   begin
+//      FCMgMiT_ITransit_Setup;
+//      FCWinMain.FCWMS_Grp_MCG_RMassTrack.Enabled:=true;
+//      FCWinMain.FCWMS_ButProceed.Enabled:=true;
+//      FCWinMain.FCWMS_Grp_MCG_RMassTrack.Max:=3;
+//   end;
+//   {.calculate all trip data}
+//   if FCWinMain.FCWMS_Grp_MCG_RMassTrack.Enabled
+//   then
+//   begin
+//      FCMgMiT_MissionTrip_Calc
+//         (
+//            FCWinMain.FCWMS_Grp_MCG_RMassTrack.Position
+//            ,FCDdgEntities[GMCfac].E_spaceUnits[round(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].TagFloat)].SU_deltaV
+//         );
+//   end;
+//   {.current destination for orbital object}
+//   if FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglObjectsGroups[FC3doglSelectedPlanetAsteroid]
+//   then
+//   begin
+//      if (FC3doglSelectedPlanetAsteroid=GMCrootOObIdx)
+//         or (not FCWinMain.FCWMS_Grp_MCG_RMassTrack.Enabled)
+//      then
+//      begin
+//         FCWinMain.FCWMS_ButProceed.Enabled:=false;
+//         FCWinMain.FCWMS_Grp_MCG_RMassTrack.Enabled:=false;
+//         {.current destination}
+//         FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Insert(7, FCFdTFiles_UIStr_Get(uistrUI,'MSDGcurDestNone')+'<br>');
+//         FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Delete(8);
+//         {.distance + min deltaV}
+//         FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Insert
+//         (
+//            9
+//            ,FCFdTFiles_UIStr_Get(uistrUI,'MSDGdesIntCdist')
+//               +' 0 '
+//               +FCFdTFiles_UIStr_Get(uistrUI,'acronAU')
+//               +'<ind x="'+IntToStr(FCWinMain.FCWMS_Grp_MSDG_Disp.Width shr 1)+'">'
+//               +FCFdTFiles_UIStr_Get(uistrUI,'MSDGdestIntCminDV')
+//               +' 0 km/s'
+//         );
+//         FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Delete(10);
+//         {.mission configuration data}
+//         if (not FCWinMain.FCWMS_Grp_MCG_RMassTrack.Enabled)
+//            and (FC3doglSelectedPlanetAsteroid<>GMCrootOObIdx)
+//         then FCWinMain.FCWMS_Grp_MCG_MissCfgData.HTMLText.Insert(1, FCFdTFiles_UIStr_Get(uistrUI,'MCGDatNA'))
+//         else FCWinMain.FCWMS_Grp_MCG_MissCfgData.HTMLText.Insert(1, FCFdTFiles_UIStr_Get(uistrUI,'MSDGcurDestNone'));
+//         FCWinMain.FCWMS_Grp_MCG_MissCfgData.HTMLText.Delete(2);
+//      end //==END== if FCV3DoObjSlctd=CFVoobjIdDB or (not FCWMS_Grp_MCG_RMassTrack.Enabled) ==//
+//      else if FC3doglSelectedPlanetAsteroid<>GMCrootOObIdx
+//      then
+//      begin
+//         if not MDUtripOnly
+//         then
+//         begin
+//            {.current destination}
+//            MDUdmpTokenName:=FCFdTFiles_UIStr_Get(
+//               dtfscPrprName
+//               ,FCDduStarSystem[GMCrootSsys].SS_stars[GMCrootStar].S_orbitalObjects[FC3doglSelectedPlanetAsteroid].OO_dbTokenId
+//               );
+//            FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Insert(7, MDUdmpTokenName+'<br>');
+//            FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Delete(8);
+//            FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Insert
+//            (
+//               9
+//               ,FCFdTFiles_UIStr_Get(uistrUI,'MSDGdesIntCdist')+' '
+//                  +FloatToStr(GMCbaseDist)+' '
+//                  +FCFdTFiles_UIStr_Get(uistrUI,'acronAU')
+//                  +'<ind x="'+IntToStr(FCWinMain.FCWMS_Grp_MSDG_Disp.Width shr 1)+'">'
+//                  +FCFdTFiles_UIStr_Get(uistrUI,'MSDGdestIntCminDV')
+//                  +' '+FloatToStr(GMCreqDV)+' km/s'
+//            );
+//            FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Delete(10);
+//         end; //==END== if not MDUtripOnly ==//
+//         FCMgMCore_Mission_ConfData;
+//      end; {.else if FCV3dMVorbObjSlctd<>CFVoobjIdDB}
+//   end //==END== if FCGLSCamMainViewGhost.TargetObject=FC3DobjGrp[FCV3DoObjSlctd] ==//
+//   {.current destination for satellite}
+//   else if FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite]
+//   then
+//   begin
+//      if (GMCrootSatIdx>0)
+//         and ((FC3doglSelectedSatellite=GMCrootSatObjIdx) or (not FCWinMain.FCWMS_Grp_MCG_RMassTrack.Enabled))
+//      then
+//      begin
+//         FCWinMain.FCWMS_ButProceed.Enabled:=false;
+//         FCWinMain.FCWMS_Grp_MCG_RMassTrack.Enabled:=false;
+//         {.current destination}
+//         FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Insert(7, FCFdTFiles_UIStr_Get(uistrUI,'MSDGcurDestNone')+'<br>');
+//         FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Delete(8);
+//         {.distance + min deltaV}
+//         FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Insert
+//         (
+//            9
+//            ,FCFdTFiles_UIStr_Get(uistrUI,'MSDGdesIntCdist')
+//               +' 0 '
+//               +FCFdTFiles_UIStr_Get(uistrUI,'acronAU')
+//               +'<ind x="'+IntToStr(FCWinMain.FCWMS_Grp_MSDG_Disp.Width shr 1)+'">'
+//               +FCFdTFiles_UIStr_Get(uistrUI,'MSDGdestIntCminDV')
+//               +' 0 km/s'
+//         );
+//         FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Delete(10);
+//         {.mission configuration data}
+//         if (not FCWinMain.FCWMS_Grp_MCG_RMassTrack.Enabled)
+//            and (FC3doglSelectedSatellite<>GMCrootSatObjIdx)
+//         then FCWinMain.FCWMS_Grp_MCG_MissCfgData.HTMLText.Insert(1, FCFdTFiles_UIStr_Get(uistrUI,'MCGDatNA'))
+//         else FCWinMain.FCWMS_Grp_MCG_MissCfgData.HTMLText.Insert
+//            (1, FCFdTFiles_UIStr_Get(uistrUI,'MSDGcurDestNone'));
+//         FCWinMain.FCWMS_Grp_MCG_MissCfgData.HTMLText.Delete(2);
+//      end
+//      else if ((GMCrootSatIdx>0) and (FC3doglSelectedSatellite<>GMCrootSatObjIdx))
+//         or (GMCrootSatObjIdx=0)
+//      then
+//      begin
+//         {.get satellite data}
+//         MDUdmpSatIdx:=FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].Tag;
+//         MDUdmpPlanSatIdx:=round(FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].TagFloat);
+//         if not MDUtripOnly
+//         then
+//         begin
+//            {.current destination}
+//            MDUdmpTokenName:=FCFdTFiles_UIStr_Get(
+//               dtfscPrprName
+//               ,FCDduStarSystem[GMCrootSsys].SS_stars[GMCrootStar].S_orbitalObjects[MDUdmpPlanSatIdx].OO_satellitesList[MDUdmpSatIdx].OO_dbTokenId
+//               );
+//            FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Insert(7, MDUdmpTokenName+'<br>');
+//            FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Delete(8);
+//            FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Insert(
+//               9
+//               ,FCFdTFiles_UIStr_Get(uistrUI,'MSDGdesIntCdist')+' '
+//                  +FloatToStr(GMCbaseDist)+' '
+//                  +FCFdTFiles_UIStr_Get(uistrUI,'acronAU')
+//                  +'<ind x="'+IntToStr(FCWinMain.FCWMS_Grp_MSDG_Disp.Width shr 1)+'">'
+//                  +FCFdTFiles_UIStr_Get(uistrUI,'MSDGdestIntCminDV')
+//                  +' '+FloatToStr(GMCreqDV)+' km/s'
+//               );
+//            FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Delete(10);
+//         end; //==END== if not MDUtripOnly ==//
+//         FCMgMCore_Mission_ConfData;
+//      end;
+//   end; //==END== else FCGLSCamMainViewGhost.TargetObject=FC3DobjSatGrp[FCV3DsatSlctd] ==//
 end;
 
 procedure FCMgMCore_Mission_Setup(
@@ -601,22 +601,23 @@ procedure FCMgMCore_Mission_Setup(
 //   ,MSdockedNum
 //   ,surfaceOObj: integer;
 //
-//   MSdmpStatus
-//   ,MSdispIdx: string;
+//   MSdmpStatus: string;
 //
 //   MSenvironment: TFCEduEnvironmentTypes;
    var
       Count
       ,Count1: integer;
 
-   const
-      indX='<ind x="'+IntToStr(FCWinMain.FCWMS_Grp_MSDG.Width shr 1)+'">';
+      Universe: TFCRufStelObj;
 begin
    {.pre initialization for all the missions}
    {:DEV NOTES: for the 0.5.5, change the line below to a decelerated time.}
    FCVdiGameFlowTimer.Enabled:=false;
    {:DEV NOTES: end change.}
    FCMuiMS_Panel_Initialize;
+   {.design index}
+   Count:=FCFspuF_Design_getDB( FCDdgEntities[Entity].E_spaceUnits[SpaceUnit].SU_designToken );
+   SetLength( FCRmcCurrentMissionCalculations.CMC_dockList, 0 );
    FCDmcCurrentMission[Entity].T_entity:=Entity;
    FCDmcCurrentMission[Entity].T_controllerIndex:=0;
    FCDmcCurrentMission[Entity].T_duration:=0;
@@ -624,9 +625,43 @@ begin
    FCDmcCurrentMission[Entity].T_previousProcessTime:=0;
    FCDmcCurrentMission[Entity].T_type:=MissionType;
    case FCDmcCurrentMission[Entity].T_type of
+      tMissionColonization:
+      begin
+         FCDmcCurrentMission[Entity].T_tMCorigin:=ttSelf;
+         FCDmcCurrentMission[Entity].T_tMCoriginIndex:=0;
+         FCDmcCurrentMission[Entity].T_tMCdestination:=ttSelf;
+         FCDmcCurrentMission[Entity].T_tMCdestinationIndex:=0;
+         FCDmcCurrentMission[Entity].T_tMCdestinationRegion:=0;
+         FCDmcCurrentMission[Entity].T_tMCcolonyName:='';
+         FCDmcCurrentMission[Entity].T_tMCsettlementName:='';
+         FCDmcCurrentMission[Entity].T_tMCsettlementType:=sSurface;
+         FCDmcCurrentMission[Entity].T_tMCfinalVelocity:=0;
+         FCDmcCurrentMission[Entity].T_tMCfinalTime:=0;
+         FCDmcCurrentMission[Entity].T_tMCusedReactionMassVol:=0;
+         {.}
+         if length( FCDdgEntities[Entity].E_spaceUnits[SpaceUnit].SU_dockedSpaceUnits )<2
+         then FCDmcCurrentMission[Entity].T_tMCdestinationIndex:=SpaceUnit
+         else begin
+         end;
 
-   {.design index}
-   Count:=FCFspuF_Design_getDB( FCDdgEntities[Entity].E_spaceUnits[SpaceUnit].SU_designToken );
+         FCMuiMS_ColonizationInterface_Setup;
+      end;
+
+      tMissionInterplanetaryTransit:
+      begin
+         FCDmcCurrentMission[Entity].T_tMITorigin:=ttSelf;
+         FCDmcCurrentMission[Entity].T_tMIToriginIndex:=0;
+         FCDmcCurrentMission[Entity].T_tMITdestination:=ttSelf;
+         FCDmcCurrentMission[Entity].T_tMITdestinationIndex:=0;
+         FCDmcCurrentMission[Entity].T_tMITcruiseVelocity:=0;
+         FCDmcCurrentMission[Entity].T_tMITcruiseTime:=0;
+         FCDmcCurrentMission[Entity].T_tMITfinalVelocity:=0;
+         FCDmcCurrentMission[Entity].T_tMITfinalTime:=0;
+         FCDmcCurrentMission[Entity].T_tMITusedReactionMassVol:=0;
+      end;
+   end;
+
+
 
 //=================================old code
 
@@ -637,7 +672,6 @@ begin
 //   GMCfinalDV:=0;
 //   GMClandTime:=0;
 //   GMCmaxDV:=0;
-//   GMCmother:=0;
 //   GMCreqDV:=0;
 //   GMCrmMaxVol:=0;
 //   GMCrootOObIdx:=0;
@@ -647,16 +681,13 @@ begin
 //   GMCtimeD:=0;
 //   GMCtripTime:=0;
 //   GMCusedRMvol:=0;
-////   setlength(GMCdckd, 0);
+
 //   {.universal data initialization for all missions}
 
-//   MSdispIdx:='<ind x="'+IntToStr(FCWinMain.FCWMS_Grp_MSDG.Width shr 1)+'">';
 //   {.missions specific settings}
 //   case MissionType of
 //      tMissionColonization:
 //      begin
-//         {.set the mission name}
-//         FCWinMain.FCWM_MissionSettings.Caption.Text:=FCFdTFiles_UIStr_Get(uistrUI,'FCWinMissSet')+FCFdTFiles_UIStr_Get(uistrUI,'Mission.coloniz');
 //         {.initialize mission data}
 //         GMCmother:=MSownedIdx;
 //         MSdmpStatus:=FCFspuF_AttStatus_Get(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].Tag, GMCmother);

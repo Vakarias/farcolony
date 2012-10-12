@@ -70,6 +70,10 @@ procedure FCMgMCore_Mission_ClosePanel;
 ///   <param name="MTUmission">current mission type</param>
 procedure FCMgMCore_Mission_TrackUpd(const MTUmission: TFCEdmtTasks);
 
+///<summary>
+///   setup the interface for the colonization mission
+///</summary>
+procedure FCMuiMS_ColonizationInterface_Setup;
 
 ///<summary>
 ///   reset all the interface elements of the mission panel, and set correctly any interface
@@ -80,7 +84,8 @@ procedure FCMuiMS_Panel_Initialize;
 implementation
 
 uses
-   farc_main
+   farc_data_textfiles
+   ,farc_main
    ,farc_ui_keys
    ,farc_ui_msges;
 
@@ -89,7 +94,8 @@ uses
 //==END PRIVATE RECORDS=====================================================================
 
    //==========subsection===================================================================
-//var
+var
+   FCVuimsIndX: string;
 //==END PRIVATE VAR=========================================================================
 
 //const
@@ -148,50 +154,59 @@ procedure FCMgMCore_Mission_TrackUpd(const MTUmission: TFCEdmtTasks);
                   *prevent update trip data when initializing.
       -2009Oct19- *change the number of levels.
 }
-var
-   MTUsatObj: integer;
+//var
+//   MTUsatObj: integer;
 begin
-   case MTUmission of
-      tMissionColonization:
-      begin
-         FCWinMain.FCWMS_Grp_MCG_RMassTrack.TrackLabel.Format:=IntToStr(FCWinMain.FCWMS_Grp_MCG_RMassTrack.Position);
-         if FCWinMain.FCWMS_Grp_MCG_RMassTrack.Tag=0
-         then
-         begin
+//   case MTUmission of
+//      tMissionColonization:
+//      begin
+//         FCWinMain.FCWMS_Grp_MCG_RMassTrack.TrackLabel.Format:=IntToStr(FCWinMain.FCWMS_Grp_MCG_RMassTrack.Position);
+//         if FCWinMain.FCWMS_Grp_MCG_RMassTrack.Tag=0
+//         then
+//         begin
+//
+//            if GMCrootSatIdx>0
+//            then MTUsatObj:=FCFoglVM_SatObj_Search(GMCrootOObIdx, GMCrootSatIdx)
+//            else MTUsatObj:=0;
+//            FCMgC_Colonize_Setup(
+//               gclvstBySelector
+//               ,GMCmother
+//               ,GMCrootSsys
+//               ,GMCrootStar
+//               ,GMCrootOObIdx
+//               ,GMCrootSatIdx
+//               ,MTUsatObj
+//               );
+//         end
+//         else if FCWinMain.FCWMS_Grp_MCG_RMassTrack.Tag=1
+//         then FCWinMain.FCWMS_Grp_MCG_RMassTrack.Tag:=0;
+//      end;
+//      tMissionInterplanetaryTransit:
+//      begin
+//         case FCWinMain.FCWMS_Grp_MCG_RMassTrack.Position of
+//            1: FCWinMain.FCWMS_Grp_MCG_RMassTrack.TrackLabel.Format
+//               :=FCFdTFiles_UIStr_Get(uistrUI,'FCWMS_Grp_MCG_RMassTrackITransEco');
+//            2: FCWinMain.FCWMS_Grp_MCG_RMassTrack.TrackLabel.Format
+//               :=FCFdTFiles_UIStr_Get(uistrUI,'FCWMS_Grp_MCG_RMassTrackITransSlow');
+//            3: FCWinMain.FCWMS_Grp_MCG_RMassTrack.TrackLabel.Format
+//               :=FCFdTFiles_UIStr_Get(uistrUI,'FCWMS_Grp_MCG_RMassTrackITransFast');
+//         end;
+//         if FCWinMain.FCWMS_Grp_MCG_RMassTrack.Tag=0
+//         then FCMgMCore_Mission_DestUpd(true)
+//         else if FCWinMain.FCWMS_Grp_MCG_RMassTrack.Tag=1
+//         then FCWinMain.FCWMS_Grp_MCG_RMassTrack.Tag:=0;
+//      end;
+//   end; //==END== case MTUmission of ==//
+//   {.update the trackbar label}
+end;
 
-            if GMCrootSatIdx>0
-            then MTUsatObj:=FCFoglVM_SatObj_Search(GMCrootOObIdx, GMCrootSatIdx)
-            else MTUsatObj:=0;
-            FCMgC_Colonize_Setup(
-               gclvstBySelector
-               ,GMCmother
-               ,GMCrootSsys
-               ,GMCrootStar
-               ,GMCrootOObIdx
-               ,GMCrootSatIdx
-               ,MTUsatObj
-               );
-         end
-         else if FCWinMain.FCWMS_Grp_MCG_RMassTrack.Tag=1
-         then FCWinMain.FCWMS_Grp_MCG_RMassTrack.Tag:=0;
-      end;
-      tMissionInterplanetaryTransit:
-      begin
-         case FCWinMain.FCWMS_Grp_MCG_RMassTrack.Position of
-            1: FCWinMain.FCWMS_Grp_MCG_RMassTrack.TrackLabel.Format
-               :=FCFdTFiles_UIStr_Get(uistrUI,'FCWMS_Grp_MCG_RMassTrackITransEco');
-            2: FCWinMain.FCWMS_Grp_MCG_RMassTrack.TrackLabel.Format
-               :=FCFdTFiles_UIStr_Get(uistrUI,'FCWMS_Grp_MCG_RMassTrackITransSlow');
-            3: FCWinMain.FCWMS_Grp_MCG_RMassTrack.TrackLabel.Format
-               :=FCFdTFiles_UIStr_Get(uistrUI,'FCWMS_Grp_MCG_RMassTrackITransFast');
-         end;
-         if FCWinMain.FCWMS_Grp_MCG_RMassTrack.Tag=0
-         then FCMgMCore_Mission_DestUpd(true)
-         else if FCWinMain.FCWMS_Grp_MCG_RMassTrack.Tag=1
-         then FCWinMain.FCWMS_Grp_MCG_RMassTrack.Tag:=0;
-      end;
-   end; //==END== case MTUmission of ==//
-   {.update the trackbar label}
+procedure FCMuiMS_ColonizationInterface_Setup;
+{:Purpose: setup the interface for the colonization mission
+    Additions:
+}
+begin
+   FCWinMain.FCWM_MissionSettings.Caption.Text:=FCFdTFiles_UIStr_Get(uistrUI,'FCWinMissSet')+FCFdTFiles_UIStr_Get(uistrUI,'Mission.coloniz');
+
 end;
 
 procedure FCMuiMS_Panel_Initialize;
@@ -207,6 +222,7 @@ begin
    FCWinMain.FCWMS_Grp_MCG_SetName.Text:='';
    FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Clear;
    FCWinMain.FCWMS_Grp_MCG_DatDisp.HTMLText.Clear;
+   FCVuimsIndX:='<ind x="'+IntToStr(FCWinMain.FCWMS_Grp_MSDG.Width shr 1)+'">';
 end;
 
 end.
