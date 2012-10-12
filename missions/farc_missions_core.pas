@@ -649,7 +649,7 @@ begin
          end;
 
          FCMuiMS_ColonizationInterface_Setup;
-      end;
+      end; //==END== case: tMissionColonization ==//
 
       tMissionInterplanetaryTransit:
       begin
@@ -663,7 +663,7 @@ begin
          FCDmcCurrentMission[Entity].T_tMITfinalTime:=0;
          FCDmcCurrentMission[Entity].T_tMITusedReactionMassVol:=0;
       end;
-   end;
+   end; //==END== case FCDmcCurrentMission[Entity].T_type of ==//
 
 
 

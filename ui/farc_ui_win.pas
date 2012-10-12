@@ -486,7 +486,7 @@ begin
       .}
       FPUcolN:=length(FCDdgEntities[0].E_colonies)-1;
       if (FPUdmpSpUnStatus=susInOrbit)
-         and (FPUlvNum>0)
+         and (FPUlvNum>0) // or hasCapability itself
          {:DEV NOTES: when eq mdl done, change the line below for more complex code testing
       colonization equipment module and/or have docked colonization pods.}
          and (FCDdgEntities[0].E_spaceUnits[FPUdmpIdx].SU_name='wrdMUNmov')
