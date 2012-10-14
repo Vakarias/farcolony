@@ -601,15 +601,25 @@ procedure FCMgMCore_Mission_Setup(
 //   MSenvironment: TFCEduEnvironmentTypes;
    var
       Count
-      ,Count1: integer;
+      ,Count1
+      ,Count2
+      ,Count3
+      ,Max: integer;
 
       OriginLocation: TFCRufStelObj;
+
+      DockListIndexes: TFCRspufIndexes;
 begin
    {.pre initialization for all the missions}
    {:DEV NOTES: for the 0.5.5, change the line below to a decelerated time.}
    FCVdiGameFlowTimer.Enabled:=false;
    {:DEV NOTES: end change.}
    FCMuiMS_Panel_Initialize;
+   Count:=0;
+   Count1:=0;
+   Count2:=0;
+   Max:=0;
+   SetLength( DockListIndexes, 1 );
    {.design index}
    Count:=FCFspuF_Design_getDB( FCDdgEntities[Entity].E_spaceUnits[SpaceUnit].SU_designToken );
    SetLength( FCRmcCurrentMissionCalculations.CMC_dockList, 0 );
@@ -633,21 +643,33 @@ begin
          FCDmcCurrentMission[Entity].T_tMCfinalVelocity:=0;
          FCDmcCurrentMission[Entity].T_tMCfinalTime:=0;
          FCDmcCurrentMission[Entity].T_tMCusedReactionMassVol:=0;
-         {.# of docked space units that can colonize}
-         Count1:=FCFspuF_DockedSpU_GetNum(
+         {.# of docked space units}
+         Count1:=0;
+         DockListIndexes:=FCFspuF_DockedSpU_GetIndexList(
             Entity
             ,SpaceUnit
             ,aNone
             ,sufcColoniz
             );
+         Count1:=length( DockListIndexes )-1;
          if Count1=0
          then FCDmcCurrentMission[Entity].T_controllerIndex:=SpaceUnit
          else if Count1>0 then
          begin
+            FCDmcCurrentMission[Entity].T_tMCorigin:=ttSpaceUnitDockedIn;
+            FCDmcCurrentMission[Entity].T_tMCoriginIndex:=SpaceUnit;
             SetLength( FCRmcCurrentMissionCalculations.CMC_dockList, Count1+1 );
-            {:DEV NOTES: load the docklist.}
+            {.docklist index}
+            Count2:=1;
+            while Count2<=Count1 do
+            begin
+               FCRmcCurrentMissionCalculations.CMC_dockList[Count2].DL_spaceUnitIndex:=DockListIndexes[Count2];
+               FCRmcCurrentMissionCalculations.CMC_dockList[Count2].DL_landTime:=0;
+               FCRmcCurrentMissionCalculations.CMC_dockList[Count2].DL_tripTime:=0;
+               FCRmcCurrentMissionCalculations.CMC_dockList[Count2].DL_usedReactionMass:=0;
+               inc( Count2 );
+            end;
          end;
-
          FCMuiMS_ColonizationInterface_Setup;
       end; //==END== case: tMissionColonization ==//
 

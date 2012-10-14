@@ -50,6 +50,8 @@ type TFCEspufOrbIO=(
    ,spufoioRemOrbit
    );
 
+type TFCRspufIndexes= array of integer;
+
 ///<summary>
 ///   get the choosen space unit status
 ///</summary>
@@ -87,6 +89,20 @@ function FCFspuF_DeltaV_GetFromOrbit(
 ///</summary>
 ///   <param name="ISDGBdsgnToken">design token id</param>
 function FCFspuF_Design_getDB(const DGDBdsgnToken: string): integer;
+
+///<summary>
+///   get the index list of docked space units, of a specific architecture and/or capability.
+///</summary>
+///   <param name="DSUGNfac">faction index</param>
+///   <param name="DSUGNidx">owned index</param>
+///   <param name="DSUGNarch">architecture [optional]</param>
+///   <param name="DSUGNcapab">capability [optional]</param>
+function FCFspuF_DockedSpU_GetIndexList(
+   const DSUGNfac
+         ,DSUGNidx: integer;
+   const DSUGNarch: TFCEdsuArchitectures;
+   const DSUGNcapab: TFCEsufCapab
+   ): TFCRspufIndexes;
 
 ///<summary>
 ///   get the number of docked space units, of a specific architecture and/or capability.
@@ -300,6 +316,74 @@ begin
       end;
    end;
    Result:=DGDBres;
+end;
+
+function FCFspuF_DockedSpU_GetIndexList(
+   const DSUGNfac
+         ,DSUGNidx: integer;
+   const DSUGNarch: TFCEdsuArchitectures;
+   const DSUGNcapab: TFCEsufCapab
+   ): TFCRspufIndexes;
+{:Purpose: get the index list of docked space units, of a specific architecture and/or capability.
+    Additions:
+}
+var
+   Count
+   ,DSUGNdesgn
+   ,DSGUNdockIdx
+   ,Max
+   ,ResultIndex: integer;
+
+   DSUGNresult: TFCRspufIndexes;
+
+   procedure FCMdspuGIL_DockList_Update;
+   begin
+      inc( ResultIndex );
+      SetLength( DSUGNresult, ResultIndex+1 );
+      DSUGNresult[ResultIndex]:=DSGUNdockIdx;
+   end;
+begin
+   SetLength( Result, 1 );
+   SetLength( DSUGNresult, 1 );
+   DSGUNdockIdx:=0;
+   DSUGNresult:=0;
+   DSUGNdesgn:=0;
+   Count:=1;
+   Max:=length(FCDdgEntities[DSUGNfac].E_spaceUnits[DSUGNidx].SU_dockedSpaceUnits)-1;
+   ResultIndex:=0;
+   while Count<=Max do
+   begin
+      DSGUNdockIdx:=FCDdgEntities[DSUGNfac].E_spaceUnits[DSUGNidx].SU_dockedSpaceUnits[Count].SUDL_index;
+      DSUGNdesgn:=FCFspuF_Design_getDB(FCDdgEntities[DSUGNfac].E_spaceUnits[DSGUNdockIdx].SU_designToken);
+      if (DSUGNarch=aNone)
+         or (
+            (DSUGNarch>aNone)
+            and
+            (FCDdsuSpaceUnitDesigns[DSUGNdesgn].SUD_internalStructureClone.IS_architecture=DSUGNarch)
+            )
+      then
+      begin
+         case DSUGNcapab of
+            sufcAny: FCMdspuGIL_DockList_Update;
+
+            sufcInterstel:
+               if FCDdsuSpaceUnitDesigns[DSUGNdesgn].SUD_capabilityInterstellarTransit
+               then FCMdspuGIL_DockList_Update;
+            sufcColoniz:
+               if FCDdsuSpaceUnitDesigns[DSUGNdesgn].SUD_capabilityColonization
+               then FCMdspuGIL_DockList_Update;
+            sufcPassngr:
+               if FCDdsuSpaceUnitDesigns[DSUGNdesgn].SUD_capabilityPassengers
+               then FCMdspuGIL_DockList_Update;
+            sufcCombat:
+               if FCDdsuSpaceUnitDesigns[DSUGNdesgn].SUD_capabilityCombat
+               then FCMdspuGIL_DockList_Update;
+         end;
+      end; //==END== if DSUGNarch=scatNone ==//
+      inc(Count);
+   end; //==END== while DSUGNcnt<=DSUGNmax ==//
+   SetLength( Result, length( DSUGNresult ) );
+   Result:=DSUGNresult;
 end;
 
 function FCFspuF_DockedSpU_GetNum(
