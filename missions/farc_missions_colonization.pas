@@ -65,7 +65,7 @@ procedure FCMgC_Colonize_PostProc(
 ///</summary>
 ///   <param name="TFCEgcLVselTp">LV selected mode: by selector or directly in docking list</param>
 ///   <param name=""></param>
-procedure FCMgC_Colonize_Setup(
+procedure FCMmC_Colonization_Setup(
    const CSmethod: TFCEgcLVselTp;
    const CSowndMother
          ,CSssys
@@ -286,7 +286,7 @@ begin
 //   end;
 end;
 
-procedure FCMgC_Colonize_Setup(
+procedure FCMmC_Colonization_Setup(
    const CSmethod: TFCEgcLVselTp;
    const CSowndMother
          ,CSssys

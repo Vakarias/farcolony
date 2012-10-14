@@ -106,12 +106,13 @@ procedure FCMgMCore_Mission_Commit;
 procedure FCMgMCore_Mission_DestUpd(const MDUtripOnly: boolean);
 
 ///<summary>
-///   Interplanetary transit mission setup
+///   Interplanetary transit mission setup ///erm... change that...
 ///</summary>
 procedure FCMgMCore_Mission_Setup(
    const Entity
          ,SpaceUnit: integer;
-   const MissionType: TFCEdmtTasks
+   const MissionType: TFCEdmtTasks;
+   const isMustSet3D: boolean
    );
 
 implementation
@@ -545,10 +546,12 @@ end;
 procedure FCMgMCore_Mission_Setup(
    const Entity
          ,SpaceUnit: integer;
-   const MissionType: TFCEdmtTasks
+   const MissionType: TFCEdmtTasks;
+   const isMustSet3D: boolean
    );
 {:Purpose: Interplanetary transit mission setup.
     Additions:
+      -2012Oct14- *add: a new parameter to indicate if the 3d view must be set up before. True is used in the case when the mission is triggered by the UMI, in future implementation.
       -2012Oct09- *code: start of the complete rewrite of the procedure logic, including the last required updates concerning the user's interface.
                   *add: a new parameter indicate the concerned space unit. It's now required because it can come from multiple sources (3d view and UMI).
                   *code: audit: start
@@ -614,6 +617,12 @@ begin
    {:DEV NOTES: for the 0.5.5, change the line below to a decelerated time.}
    FCVdiGameFlowTimer.Enabled:=false;
    {:DEV NOTES: end change.}
+   {:DEV NOTES: expand this part only when the space units tab will be implemented.}
+//   if isMustSet3D then
+//    0/ store the current player's location (will be restored after the mission setup)
+//   1/ trigger the right star system
+//   2/ focus the right space unit 3d object
+   {:DEV NOTES: end change.}
    FCMuiMS_Panel_Initialize;
    Count:=0;
    Count1:=0;
@@ -670,6 +679,13 @@ begin
                inc( Count2 );
             end;
          end;
+         OriginLocation:=FCFuF_StelObj_GetFullRow(
+            FCDdgEntities[Entity].E_spaceUnits[spaceUnit].SU_locationStarSystem
+            ,FCDdgEntities[Entity].E_spaceUnits[spaceUnit].SU_locationStar
+            ,FCDdgEntities[Entity].E_spaceUnits[spaceUnit].SU_locationOrbitalObject
+            ,FCDdgEntities[Entity].E_spaceUnits[spaceUnit].SU_locationSatellite
+            );
+
          FCMuiMS_ColonizationInterface_Setup;
       end; //==END== case: tMissionColonization ==//
 
@@ -714,37 +730,9 @@ begin
 //         {.initialize mission data}
 //         GMCmother:=MSownedIdx;
 //         MSdmpStatus:=FCFspuF_AttStatus_Get(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].Tag, GMCmother);
-//         GMCrootSsys:=FCFuF_StelObj_GetDbIdx(
-//            ufsoSsys
-//            ,FCDdgEntities[GMCfac].E_spaceUnits[GMCmother].SU_locationStarSystem
-//            ,0
-//            ,0
-//            ,0
-//            );
-//         GMCrootStar:=FCFuF_StelObj_GetDbIdx(
-//            ufsoStar
-//            ,FCDdgEntities[GMCfac].E_spaceUnits[GMCmother].SU_locationStar
-//            ,GMCrootSsys
-//            ,0
-//            ,0
-//            );
-//         GMCrootOObIdx:=FCFuF_StelObj_GetDbIdx(
-//            ufsoOObj
-//            ,FCDdgEntities[GMCfac].E_spaceUnits[GMCmother].SU_locationOrbitalObject
-//            ,GMCrootSsys
-//            ,GMCrootStar
-//            ,0
-//            );
 //         if FCDdgEntities[GMCfac].E_spaceUnits[GMCmother].SU_locationSatellite<>''
 //         then
 //         begin
-//            GMCrootSatIdx:=FCFuF_StelObj_GetDbIdx(
-//               ufsoSat
-//               ,FCDdgEntities[GMCfac].E_spaceUnits[GMCmother].SU_locationSatellite
-//               ,GMCrootSsys
-//               ,GMCrootStar
-//               ,GMCrootOObIdx
-//               );
 //            MScol:=FCDduStarSystem[GMCrootSsys].SS_stars[GMCrootStar].S_orbitalObjects[GMCrootOObIdx].OO_satellitesList[GMCrootSatObjIdx].OO_colonies[0];
 //            MSenvironment:=FCDduStarSystem[GMCrootSsys].SS_stars[GMCrootStar].S_orbitalObjects[GMCrootOObIdx].OO_satellitesList[GMCrootSatObjIdx].OO_environment;
 //         end
@@ -763,7 +751,7 @@ begin
 //                  GMCrootOObIdx
 //                  ,GMCrootSatIdx
 //                  );
-//            FCMgC_Colonize_Setup(
+//            FCMmC_Colonization_Setup(
 //               gclvstBySelector
 //               ,GMCmother
 //               ,GMCrootSsys
@@ -774,7 +762,7 @@ begin
 //               );
 //         end
 //         else if GMCrootSatIdx=0
-//         then FCMgC_Colonize_Setup(
+//         then FCMmC_Colonization_Setup(
 //            gclvstBySelector
 //            ,GMCmother
 //            ,GMCrootSsys
