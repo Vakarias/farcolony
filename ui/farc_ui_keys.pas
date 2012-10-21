@@ -1145,7 +1145,12 @@ begin
       if ( FCVdiDebugMode )
          and (FCWinMain.FCWM_3dMainGrp.Visible)
          and (WMTkeyDump=84)
-      then FCMgMCore_Mission_Setup(0, round(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].TagFloat), tMissionColonization);
+      then FCMgMCore_Mission_Setup(
+         0
+         ,round(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].TagFloat)
+         ,tMissionColonization
+         ,false
+         );
       {.END debug feature}
       {.X}
       if (WMTkeyDump=88)

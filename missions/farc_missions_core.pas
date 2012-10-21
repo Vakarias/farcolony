@@ -34,11 +34,13 @@ uses
    SysUtils
 
    ,farc_data_init
-   ,farc_data_missionstasks;
+   ,farc_data_missionstasks
+   ,farc_univ_func;
 
 //==END PUBLIC ENUM=========================================================================
 
 type TFCRmcCurrentMissionCalculations=record
+   OriginLocation: TFCRufStelObj;
    CMC_dockList: array of record
       DL_spaceUnitIndex: integer;
       DL_landTime: integer;
@@ -135,8 +137,7 @@ uses
    ,farc_ui_coldatapanel
    ,farc_ui_missionsetup
    ,farc_ui_surfpanel
-   ,farc_ui_win
-   ,farc_univ_func;
+   ,farc_ui_win;
 
 //==END PRIVATE ENUM========================================================================
 
@@ -601,15 +602,12 @@ procedure FCMgMCore_Mission_Setup(
 //
 //   MSdmpStatus: string;
 //
-//   MSenvironment: TFCEduEnvironmentTypes;
    var
       Count
       ,Count1
       ,Count2
       ,Count3
       ,Max: integer;
-
-      OriginLocation: TFCRufStelObj;
 
       DockListIndexes: TFCRspufIndexes;
 begin
@@ -652,6 +650,21 @@ begin
          FCDmcCurrentMission[Entity].T_tMCfinalVelocity:=0;
          FCDmcCurrentMission[Entity].T_tMCfinalTime:=0;
          FCDmcCurrentMission[Entity].T_tMCusedReactionMassVol:=0;
+         FCRmcCurrentMissionCalculations.OriginLocation:=FCFuF_StelObj_GetFullRow(
+            FCDdgEntities[Entity].E_spaceUnits[spaceUnit].SU_locationStarSystem
+            ,FCDdgEntities[Entity].E_spaceUnits[spaceUnit].SU_locationStar
+            ,FCDdgEntities[Entity].E_spaceUnits[spaceUnit].SU_locationOrbitalObject
+            ,FCDdgEntities[Entity].E_spaceUnits[spaceUnit].SU_locationSatellite
+            );
+         if FCRmcCurrentMissionCalculations.OriginLocation[4]=0
+         then FCFuiMS_CurrentColony_Load(
+            FCDduStarSystem[FCRmcCurrentMissionCalculations.OriginLocation[1]].SS_stars[FCRmcCurrentMissionCalculations.OriginLocation[2]].S_orbitalObjects[FCRmcCurrentMissionCalculations.OriginLocation[3]]
+               .OO_colonies[0]
+            )
+         else FCFuiMS_CurrentColony_Load(
+            FCDduStarSystem[FCRmcCurrentMissionCalculations.OriginLocation[1]].SS_stars[FCRmcCurrentMissionCalculations.OriginLocation[2]].S_orbitalObjects[FCRmcCurrentMissionCalculations.OriginLocation[3]]
+               .OO_satellitesList[FCRmcCurrentMissionCalculations.OriginLocation[4]].OO_colonies[Entity]
+            );
          {.# of docked space units}
          Count1:=0;
          DockListIndexes:=FCFspuF_DockedSpU_GetIndexList(
@@ -661,8 +674,14 @@ begin
             ,sufcColoniz
             );
          Count1:=length( DockListIndexes )-1;
-         if Count1=0
-         then FCDmcCurrentMission[Entity].T_controllerIndex:=SpaceUnit
+         if Count1=0 then
+         begin
+            FCDmcCurrentMission[Entity].T_controllerIndex:=SpaceUnit;
+            FCMmC_Colonization_Setup(
+               cmSingleVessel
+               ,SpaceUnit
+               );
+         end
          else if Count1>0 then
          begin
             FCDmcCurrentMission[Entity].T_tMCorigin:=ttSpaceUnitDockedIn;
@@ -678,13 +697,12 @@ begin
                FCRmcCurrentMissionCalculations.CMC_dockList[Count2].DL_usedReactionMass:=0;
                inc( Count2 );
             end;
+            FCMmC_Colonization_Setup(
+               cmDockingList
+               ,SpaceUnit
+               );
          end;
-         OriginLocation:=FCFuF_StelObj_GetFullRow(
-            FCDdgEntities[Entity].E_spaceUnits[spaceUnit].SU_locationStarSystem
-            ,FCDdgEntities[Entity].E_spaceUnits[spaceUnit].SU_locationStar
-            ,FCDdgEntities[Entity].E_spaceUnits[spaceUnit].SU_locationOrbitalObject
-            ,FCDdgEntities[Entity].E_spaceUnits[spaceUnit].SU_locationSatellite
-            );
+
 
          FCMuiMS_ColonizationInterface_Setup;
       end; //==END== case: tMissionColonization ==//
@@ -733,57 +751,17 @@ begin
 //         if FCDdgEntities[GMCfac].E_spaceUnits[GMCmother].SU_locationSatellite<>''
 //         then
 //         begin
-//            MScol:=FCDduStarSystem[GMCrootSsys].SS_stars[GMCrootStar].S_orbitalObjects[GMCrootOObIdx].OO_satellitesList[GMCrootSatObjIdx].OO_colonies[0];
+
 //            MSenvironment:=FCDduStarSystem[GMCrootSsys].SS_stars[GMCrootStar].S_orbitalObjects[GMCrootOObIdx].OO_satellitesList[GMCrootSatObjIdx].OO_environment;
 //         end
 //         else
 //         begin
 //            GMCrootSatIdx:=0;
-//            MScol:=FCDduStarSystem[GMCrootSsys].SS_stars[GMCrootStar].S_orbitalObjects[GMCrootOObIdx].OO_colonies[0];
+//
 //            MSenvironment:=FCDduStarSystem[GMCrootSsys].SS_stars[GMCrootStar].S_orbitalObjects[GMCrootOObIdx].OO_environment;
 //         end;
 
-//         if GMCrootSatIdx>0
-//         then
-//         begin
-//            GMCrootSatObjIdx
-//               :=FCFoglVM_SatObj_Search(
-//                  GMCrootOObIdx
-//                  ,GMCrootSatIdx
-//                  );
-//            FCMmC_Colonization_Setup(
-//               gclvstBySelector
-//               ,GMCmother
-//               ,GMCrootSsys
-//               ,GMCrootStar
-//               ,GMCrootOObIdx
-//               ,GMCrootSatIdx
-//               ,GMCrootSatObjIdx
-//               );
-//         end
-//         else if GMCrootSatIdx=0
-//         then FCMmC_Colonization_Setup(
-//            gclvstBySelector
-//            ,GMCmother
-//            ,GMCrootSsys
-//            ,GMCrootStar
-//            ,GMCrootOObIdx
-//            ,0
-//            ,0
-//            );
-//         {.set the interface elements}
-//         surfaceOObj:=FCFuiSP_VarCurrentOObj_Get;
-//         if surfaceOObj<>GMCrootOObIdx
-//         then FCMuiSP_SurfaceEcosphere_Set(GMCrootOObIdx, GMCrootSatIdx, false)
-//         else begin
-//            FCWinMain.FCWM_SurfPanel.Visible:=true;
-//            fcwinmain.FCWM_SP_Surface.Enabled:=true;
-//            FCMuiSP_VarRegionSelected_Reset;
-//            FCWinMain.FCWM_SP_SurfSel.Width:=0;
-//            FCWinMain.FCWM_SP_SurfSel.Height:=0;
-//            FCWinMain.FCWM_SP_SurfSel.Left:=0;
-//            FCWinMain.FCWM_SP_SurfSel.Top:=0;
-//         end;
+//  =====================
 //         FCMuiSP_Panel_Relocate ( true );
 //         FCWinMain.FCWM_SP_DataSheet.ActivePage:=FCWinMain.FCWM_SP_ShReg;
 

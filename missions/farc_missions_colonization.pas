@@ -37,9 +37,9 @@ uses
 
    ,farc_data_game;
 
-type TFCEgcLVselTp=(
-   gclvstBySelector
-   ,gclvstByList
+type TFCEmcColonizationMethod=(
+   cmDockingList
+   ,cmSingleVessel
    );
 
 ///<summary>
@@ -66,13 +66,8 @@ procedure FCMgC_Colonize_PostProc(
 ///   <param name="TFCEgcLVselTp">LV selected mode: by selector or directly in docking list</param>
 ///   <param name=""></param>
 procedure FCMmC_Colonization_Setup(
-   const CSmethod: TFCEgcLVselTp;
-   const CSowndMother
-         ,CSssys
-         ,CSstar
-         ,CSoobjIdx
-         ,CSsatIdx
-         ,CSsatObjIdx: integer
+   const CSmethod: TFCEmcColonizationMethod;
+   const CSowndMother: integer
    );
 
 ///<summary>
@@ -287,16 +282,12 @@ begin
 end;
 
 procedure FCMmC_Colonization_Setup(
-   const CSmethod: TFCEgcLVselTp;
-   const CSowndMother
-         ,CSssys
-         ,CSstar
-         ,CSoobjIdx
-         ,CSsatIdx
-         ,CSsatObjIdx: integer
+   const CSmethod: TFCEmcColonizationMethod;
+   const CSowndMother: integer
    );
 {:Purpose: core colonize mission setup.
     Additions:
+      -2012Oct14- *rem: the parameter CSsatObjIdx is removed.
       -2010Sep16- *add: entities code.
       -2010Apr27- *add: take in account if the trackbar is disabled/not visible.
 }
@@ -310,6 +301,13 @@ procedure FCMmC_Colonization_Setup(
 //   ,CSdistDecel
 //   ,CSfinalVel: extended;
 begin
+
+//            GMCrootSatObjIdx
+//               :=FCFoglVM_SatObj_Search(
+//                  GMCrootOObIdx
+//                  ,GMCrootSatIdx
+//                  );
+
 //   setlength(GMCdckd, 1);
 //   if CSmethod=gclvstBySelector
 //   then

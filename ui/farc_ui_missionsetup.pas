@@ -47,7 +47,19 @@ uses
 //const
 //==END PUBLIC CONST========================================================================
 
+///<summary>
+///   retrieve the FCVuimsCurrentColony
+///</summary>
+///   <returns>the FCVuimsCurrentColony value</returns>
+function FCFuiMS_CurrentColony_Get: integer;
+
 //===========================END FUNCTIONS SECTION==========================================
+
+///<summary>
+///   load the FCVuimsCurrentColony with a given value
+///</summary>
+///   <param name="Value">value to load FCVuimsCurrentColony with</param>
+procedure FCFuiMS_CurrentColony_Load( const Value: integer );
 
 ///<summary>
 ///   test key routine for mission setup window.
@@ -86,8 +98,10 @@ implementation
 uses
    farc_data_textfiles
    ,farc_main
+   ,farc_missions_core
    ,farc_ui_keys
-   ,farc_ui_msges;
+   ,farc_ui_msges
+   ,farc_ui_surfpanel;
 
 //==END PRIVATE ENUM========================================================================
 
@@ -95,6 +109,11 @@ uses
 
    //==========subsection===================================================================
 var
+   ///<summary>
+   ///   colony index # currently loaded in the mission setup interface
+   ///</summary>
+   FCVuimsCurrentColony: integer;
+
    FCVuimsIndX: string;
 //==END PRIVATE VAR=========================================================================
 
@@ -102,7 +121,24 @@ var
 //==END PRIVATE CONST=======================================================================
 
 //===================================================END OF INIT============================
+
+function FCFuiMS_CurrentColony_Get: integer;
+{:Purpose: retrieve the FCVuimsCurrentColony.
+    Additions:
+}
+begin
+   Result:=FCVuimsCurrentColony;
+end;
+
 //===========================END FUNCTIONS SECTION==========================================
+
+procedure FCFuiMS_CurrentColony_Load( const Value: integer );
+{:Purpose: load the FCVuimsCurrentColony with a given value.
+    Additions:
+}
+begin
+   FCVuimsCurrentColony:=Value;
+end;
 
 procedure FCMgMC_KeyButtons_Test(
    const WMSTkeyDump: integer;
@@ -206,7 +242,18 @@ procedure FCMuiMS_ColonizationInterface_Setup;
 }
 begin
    FCWinMain.FCWM_MissionSettings.Caption.Text:=FCFdTFiles_UIStr_Get(uistrUI,'FCWinMissSet')+FCFdTFiles_UIStr_Get(uistrUI,'Mission.coloniz');
-
+   if ( FCFuiSP_VarCurrentOObj_Get<>FCRmcCurrentMissionCalculations.OriginLocation[3] )
+      and ( ( FCFuiSP_VarCurrentSat_Get=0 ) or ( ( FCFuiSP_VarCurrentSat_Get>0 ) and ( FCFuiSP_VarCurrentSat_Get<>FCRmcCurrentMissionCalculations.OriginLocation[4] ) ) )
+   then FCMuiSP_SurfaceEcosphere_Set( FCRmcCurrentMissionCalculations.OriginLocation[3], FCRmcCurrentMissionCalculations.OriginLocation[4], false)
+   else begin
+      FCWinMain.FCWM_SurfPanel.Visible:=true;
+      fcwinmain.FCWM_SP_Surface.Enabled:=true;
+      FCMuiSP_VarRegionSelected_Reset;
+      FCWinMain.FCWM_SP_SurfSel.Width:=0;
+      FCWinMain.FCWM_SP_SurfSel.Height:=0;
+      FCWinMain.FCWM_SP_SurfSel.Left:=0;
+      FCWinMain.FCWM_SP_SurfSel.Top:=0;
+   end;
 end;
 
 procedure FCMuiMS_Panel_Initialize;
