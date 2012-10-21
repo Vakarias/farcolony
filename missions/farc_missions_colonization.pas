@@ -66,8 +66,8 @@ procedure FCMgC_Colonize_PostProc(
 ///   <param name="TFCEgcLVselTp">LV selected mode: by selector or directly in docking list</param>
 ///   <param name=""></param>
 procedure FCMmC_Colonization_Setup(
-   const CSmethod: TFCEmcColonizationMethod;
-   const CSowndMother: integer
+   const Method: TFCEmcColonizationMethod;
+   const SpaceUnit: integer
    );
 
 ///<summary>
@@ -282,11 +282,12 @@ begin
 end;
 
 procedure FCMmC_Colonization_Setup(
-   const CSmethod: TFCEmcColonizationMethod;
-   const CSowndMother: integer
+   const Method: TFCEmcColonizationMethod;
+   const SpaceUnit: integer
    );
 {:Purpose: core colonize mission setup.
     Additions:
+      -2012Oct21- *add/mod: begin of the complete rewrite of the routine.
       -2012Oct14- *rem: the parameter CSsatObjIdx is removed.
       -2010Sep16- *add: entities code.
       -2010Apr27- *add: take in account if the trackbar is disabled/not visible.
@@ -301,7 +302,15 @@ procedure FCMmC_Colonization_Setup(
 //   ,CSdistDecel
 //   ,CSfinalVel: extended;
 begin
+   case Method of
+      cmDockingList:
+      begin
+      end;
 
+      cmSingleVessel:
+      begin
+      end;
+   end;
 //            GMCrootSatObjIdx
 //               :=FCFoglVM_SatObj_Search(
 //                  GMCrootOObIdx

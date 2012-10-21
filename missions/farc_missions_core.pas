@@ -40,15 +40,16 @@ uses
 //==END PUBLIC ENUM=========================================================================
 
 type TFCRmcCurrentMissionCalculations=record
-   OriginLocation: TFCRufStelObj;
+   CMC_entity: integer;
+   CMC_originLocation: TFCRufStelObj;
    CMC_dockList: array of record
       DL_spaceUnitIndex: integer;
       DL_landTime: integer;
       DL_tripTime: integer;
       DL_usedReactionMass: extended;
    end;
+   CMC_baseDistance: extended;
 
-//   CMD_entity: integer;
 //   CMD_mission: TFCEdmtTasks;
 //   GMCtimeA
 //   ,GMCtimeD
@@ -137,7 +138,8 @@ uses
    ,farc_ui_coldatapanel
    ,farc_ui_missionsetup
    ,farc_ui_surfpanel
-   ,farc_ui_win;
+   ,farc_ui_win
+   ,farc_win_debug;
 
 //==END PRIVATE ENUM========================================================================
 
@@ -605,8 +607,8 @@ procedure FCMgMCore_Mission_Setup(
    var
       Count
       ,Count1
-      ,Count2
-      ,Count3
+//      ,Count2
+//      ,Count3
       ,Max: integer;
 
       DockListIndexes: TFCRspufIndexes;
@@ -624,13 +626,11 @@ begin
    FCMuiMS_Panel_Initialize;
    Count:=0;
    Count1:=0;
-   Count2:=0;
    Max:=0;
    SetLength( DockListIndexes, 1 );
    {.design index}
-   Count:=FCFspuF_Design_getDB( FCDdgEntities[Entity].E_spaceUnits[SpaceUnit].SU_designToken );
    SetLength( FCRmcCurrentMissionCalculations.CMC_dockList, 0 );
-   FCDmcCurrentMission[Entity].T_entity:=Entity;
+   FCRmcCurrentMissionCalculations.CMC_entity:=Entity;
    FCDmcCurrentMission[Entity].T_controllerIndex:=0;
    FCDmcCurrentMission[Entity].T_duration:=0;
    FCDmcCurrentMission[Entity].T_durationInterval:=0;
@@ -650,31 +650,31 @@ begin
          FCDmcCurrentMission[Entity].T_tMCfinalVelocity:=0;
          FCDmcCurrentMission[Entity].T_tMCfinalTime:=0;
          FCDmcCurrentMission[Entity].T_tMCusedReactionMassVol:=0;
-         FCRmcCurrentMissionCalculations.OriginLocation:=FCFuF_StelObj_GetFullRow(
+         FCRmcCurrentMissionCalculations.CMC_originLocation:=FCFuF_StelObj_GetFullRow(
             FCDdgEntities[Entity].E_spaceUnits[spaceUnit].SU_locationStarSystem
             ,FCDdgEntities[Entity].E_spaceUnits[spaceUnit].SU_locationStar
             ,FCDdgEntities[Entity].E_spaceUnits[spaceUnit].SU_locationOrbitalObject
             ,FCDdgEntities[Entity].E_spaceUnits[spaceUnit].SU_locationSatellite
             );
-         if FCRmcCurrentMissionCalculations.OriginLocation[4]=0
+         if FCRmcCurrentMissionCalculations.CMC_originLocation[4]=0
          then FCFuiMS_CurrentColony_Load(
-            FCDduStarSystem[FCRmcCurrentMissionCalculations.OriginLocation[1]].SS_stars[FCRmcCurrentMissionCalculations.OriginLocation[2]].S_orbitalObjects[FCRmcCurrentMissionCalculations.OriginLocation[3]]
+            FCDduStarSystem[FCRmcCurrentMissionCalculations.CMC_originLocation[1]].SS_stars[FCRmcCurrentMissionCalculations.CMC_originLocation[2]].S_orbitalObjects[FCRmcCurrentMissionCalculations.CMC_originLocation[3]]
                .OO_colonies[0]
             )
          else FCFuiMS_CurrentColony_Load(
-            FCDduStarSystem[FCRmcCurrentMissionCalculations.OriginLocation[1]].SS_stars[FCRmcCurrentMissionCalculations.OriginLocation[2]].S_orbitalObjects[FCRmcCurrentMissionCalculations.OriginLocation[3]]
-               .OO_satellitesList[FCRmcCurrentMissionCalculations.OriginLocation[4]].OO_colonies[Entity]
+            FCDduStarSystem[FCRmcCurrentMissionCalculations.CMC_originLocation[1]].SS_stars[FCRmcCurrentMissionCalculations.CMC_originLocation[2]].S_orbitalObjects[FCRmcCurrentMissionCalculations.CMC_originLocation[3]]
+               .OO_satellitesList[FCRmcCurrentMissionCalculations.CMC_originLocation[4]].OO_colonies[Entity]
             );
          {.# of docked space units}
-         Count1:=0;
+         Count:=0;
          DockListIndexes:=FCFspuF_DockedSpU_GetIndexList(
             Entity
             ,SpaceUnit
             ,aNone
             ,sufcColoniz
             );
-         Count1:=length( DockListIndexes )-1;
-         if Count1=0 then
+         Count:=length( DockListIndexes )-1;
+         if Count=0 then
          begin
             FCDmcCurrentMission[Entity].T_controllerIndex:=SpaceUnit;
             FCMmC_Colonization_Setup(
@@ -682,20 +682,20 @@ begin
                ,SpaceUnit
                );
          end
-         else if Count1>0 then
+         else if Count>0 then
          begin
             FCDmcCurrentMission[Entity].T_tMCorigin:=ttSpaceUnitDockedIn;
             FCDmcCurrentMission[Entity].T_tMCoriginIndex:=SpaceUnit;
-            SetLength( FCRmcCurrentMissionCalculations.CMC_dockList, Count1+1 );
+            SetLength( FCRmcCurrentMissionCalculations.CMC_dockList, Count+1 );
             {.docklist index}
-            Count2:=1;
-            while Count2<=Count1 do
+            Count1:=1;
+            while Count1<=Count do
             begin
-               FCRmcCurrentMissionCalculations.CMC_dockList[Count2].DL_spaceUnitIndex:=DockListIndexes[Count2];
-               FCRmcCurrentMissionCalculations.CMC_dockList[Count2].DL_landTime:=0;
-               FCRmcCurrentMissionCalculations.CMC_dockList[Count2].DL_tripTime:=0;
-               FCRmcCurrentMissionCalculations.CMC_dockList[Count2].DL_usedReactionMass:=0;
-               inc( Count2 );
+               FCRmcCurrentMissionCalculations.CMC_dockList[Count1].DL_spaceUnitIndex:=DockListIndexes[Count1];
+               FCRmcCurrentMissionCalculations.CMC_dockList[Count1].DL_landTime:=0;
+               FCRmcCurrentMissionCalculations.CMC_dockList[Count1].DL_tripTime:=0;
+               FCRmcCurrentMissionCalculations.CMC_dockList[Count1].DL_usedReactionMass:=0;
+               inc( Count1 );
             end;
             FCMmC_Colonization_Setup(
                cmDockingList
@@ -703,8 +703,9 @@ begin
                );
          end;
 
-
-         FCMuiMS_ColonizationInterface_Setup;
+         if Entity=0
+         then FCMuiMS_ColonizationInterface_Setup;
+//         else AI-Colonization Determination(Entity);
       end; //==END== case: tMissionColonization ==//
 
       tMissionInterplanetaryTransit:
@@ -720,7 +721,8 @@ begin
          FCDmcCurrentMission[Entity].T_tMITusedReactionMassVol:=0;
       end;
    end; //==END== case FCDmcCurrentMission[Entity].T_type of ==//
-
+   FCWinMain.FCWM_MissionSettings.Show;
+   FCWinMain.FCWM_MissionSettings.BringToFront;
 
 
 //=================================old code
@@ -747,7 +749,7 @@ begin
 //      begin
 //         {.initialize mission data}
 //         GMCmother:=MSownedIdx;
-//         MSdmpStatus:=FCFspuF_AttStatus_Get(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].Tag, GMCmother);
+
 //         if FCDdgEntities[GMCfac].E_spaceUnits[GMCmother].SU_locationSatellite<>''
 //         then
 //         begin
@@ -762,44 +764,9 @@ begin
 //         end;
 
 //  =====================
-//         FCMuiSP_Panel_Relocate ( true );
-//         FCWinMain.FCWM_SP_DataSheet.ActivePage:=FCWinMain.FCWM_SP_ShReg;
 
-//         {.idx=0}
-//         FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Add(
-//            FCCFdHead
-//            +FCFdTFiles_UIStr_Get(uistrUI,'MSDGmotherSpUnIdStat')
-//            +FCCFdHeadEnd
-//            );
-//         {.idx=1}
-//         FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Add(
-//            FCFdTFiles_UIStr_Get(dtfscPrprName, FCDdgEntities[GMCfac].E_spaceUnits[MSownedIdx].SU_name)+
-//            ' '
-//            +FCFdTFiles_UIStr_Get(dtfscSCarchShort, FCDdsuSpaceUnitDesigns[MSdesgn].SUD_internalStructureClone.IS_architecture)
-//            +' '+MSdmpStatus
-//            +'<br>'
-//            );
-//         {.current destination idx=2}
-//         FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Add(
-//            FCCFdHead
-//            +FCFdTFiles_UIStr_Get(uistrUI,'MSDGcurDest')
-//            +FCCFdHeadEnd
-//            );
-//         {.idx=3}
-//         FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Add(
-//            FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_SP_ShReg')+
-//            ' ['
-//            +FCFdTFiles_UIStr_Get(uistrUI,'MSDGcurRegDestNone')
-//               +']<br>'
-//            );
-//         {.current destination idx=4}
-//         FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Add(
-//            FCCFdHead
-//            +FCFdTFiles_UIStr_Get(uistrUI,'MSDGdistAtm')
-//            +FCCFdHeadEnd
-//            );
-//         {.idx=5}
-//         FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Add(FloatToStr(FCFcFunc_ScaleConverter(cf3dct3dViewUnitToKm, GMCbaseDist))+' km');
+
+
 //         {.track bar for number of spacecrafts}
 //         FCWinMain.FCWMS_Grp_MCG_RMassTrack.Tag:=1;
 //         FCWinMain.FCWMS_Grp_MCG_RMassTrack.Left:=12;
@@ -880,6 +847,9 @@ begin
 //         {.mission configuration proceed button}
 //         FCWinMain.FCWMS_ButProceed.Enabled:=false;
 //      end; //==END== case: gmcmnColoniz ==//
+
+
+
 //      tMissionInterplanetaryTransit:
 //      begin
 //         {.initialize mission data}
@@ -1030,8 +1000,7 @@ begin
 //         FCWinMain.FCWMS_Grp_MCG_MissCfgData.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI,'MSDGcurDestNone')+'<br>');
 //      end; //==END== case: gmcmnItransit ==//
 //   end; //==END== case MSmissType of ==//
-//   FCWinMain.FCWM_MissionSettings.Show;
-//   FCWinMain.FCWM_MissionSettings.BringToFront;
+
 end;
 
 end.

@@ -96,9 +96,14 @@ procedure FCMuiMS_Panel_Initialize;
 implementation
 
 uses
-   farc_data_textfiles
+   farc_common_func
+   ,farc_data_game
+   ,farc_data_html
+   ,farc_data_textfiles
+   ,farc_data_spu
    ,farc_main
    ,farc_missions_core
+   ,farc_spu_functions
    ,farc_ui_keys
    ,farc_ui_msges
    ,farc_ui_surfpanel;
@@ -240,11 +245,19 @@ procedure FCMuiMS_ColonizationInterface_Setup;
 {:Purpose: setup the interface for the colonization mission
     Additions:
 }
+   var
+      SpaceDesign
+      ,SpaceUnit: integer;
 begin
+   if FCDmcCurrentMission[0].T_tMCorigin=ttSelf
+   then SpaceUnit:=FCDmcCurrentMission[0].T_controllerIndex
+   else if FCDmcCurrentMission[0].T_tMCorigin=ttSpaceUnitDockedIn
+   then SpaceUnit:=FCDmcCurrentMission[0].T_tMCoriginIndex;
+   SpaceDesign:=FCFspuF_Design_getDB( FCDdgEntities[0].E_spaceUnits[SpaceUnit].SU_designToken );
    FCWinMain.FCWM_MissionSettings.Caption.Text:=FCFdTFiles_UIStr_Get(uistrUI,'FCWinMissSet')+FCFdTFiles_UIStr_Get(uistrUI,'Mission.coloniz');
-   if ( FCFuiSP_VarCurrentOObj_Get<>FCRmcCurrentMissionCalculations.OriginLocation[3] )
-      and ( ( FCFuiSP_VarCurrentSat_Get=0 ) or ( ( FCFuiSP_VarCurrentSat_Get>0 ) and ( FCFuiSP_VarCurrentSat_Get<>FCRmcCurrentMissionCalculations.OriginLocation[4] ) ) )
-   then FCMuiSP_SurfaceEcosphere_Set( FCRmcCurrentMissionCalculations.OriginLocation[3], FCRmcCurrentMissionCalculations.OriginLocation[4], false)
+   if ( FCFuiSP_VarCurrentOObj_Get<>FCRmcCurrentMissionCalculations.CMC_originLocation[3] )
+      and ( ( FCFuiSP_VarCurrentSat_Get=0 ) or ( ( FCFuiSP_VarCurrentSat_Get>0 ) and ( FCFuiSP_VarCurrentSat_Get<>FCRmcCurrentMissionCalculations.CMC_originLocation[4] ) ) )
+   then FCMuiSP_SurfaceEcosphere_Set( FCRmcCurrentMissionCalculations.CMC_originLocation[3], FCRmcCurrentMissionCalculations.CMC_originLocation[4], false)
    else begin
       FCWinMain.FCWM_SurfPanel.Visible:=true;
       fcwinmain.FCWM_SP_Surface.Enabled:=true;
@@ -254,6 +267,37 @@ begin
       FCWinMain.FCWM_SP_SurfSel.Left:=0;
       FCWinMain.FCWM_SP_SurfSel.Top:=0;
    end;
+   FCMuiSP_Panel_Relocate ( true );
+   FCWinMain.FCWM_SP_DataSheet.ActivePage:=FCWinMain.FCWM_SP_ShReg;
+   {.idx=0}
+   FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Add( FCCFdHead+FCFdTFiles_UIStr_Get(uistrUI,'MSDGmotherSpUnIdStat')+FCCFdHeadEnd );
+   {.idx=1}
+   FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Add(
+      FCFdTFiles_UIStr_Get(dtfscPrprName, FCDdgEntities[0].E_spaceUnits[SpaceUnit].SU_name)+' '
+      +FCFdTFiles_UIStr_Get( dtfscSCarchShort, FCDdsuSpaceUnitDesigns[SpaceDesign].SUD_internalStructureClone.IS_architecture)
+      +' '+FCFspuF_AttStatus_Get( 0, SpaceUnit )+'<br>'
+      );
+   {.current destination idx=2}
+   FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Add(
+      FCCFdHead
+      +FCFdTFiles_UIStr_Get(uistrUI,'MSDGcurDest')
+      +FCCFdHeadEnd
+      );
+   {.idx=3}
+   FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Add(
+      FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_SP_ShReg')+
+      ' ['
+      +FCFdTFiles_UIStr_Get(uistrUI,'MSDGcurRegDestNone')
+         +']<br>'
+      );
+   {.current destination idx=4}
+   FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Add(
+      FCCFdHead
+      +FCFdTFiles_UIStr_Get(uistrUI,'MSDGdistAtm')
+      +FCCFdHeadEnd
+      );
+   {.idx=5}
+   FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Add(FloatToStr(FCFcFunc_ScaleConverter(cf3dct3dViewUnitToKm, FCRmcCurrentMissionCalculations.CMC_baseDistance))+' km');
 end;
 
 procedure FCMuiMS_Panel_Initialize;
