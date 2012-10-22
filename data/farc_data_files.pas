@@ -1488,17 +1488,17 @@ begin
          begin
             if XMLOrbitalObject.NodeName='orbobjorbdata' then
             begin
-               FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_isSatFdistanceFromStar:=StrToFloat( XMLOrbitalObject.Attributes['oodist'], FCVdiFormat );
-               FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_isSatFeccentricity:=StrToFloat( XMLOrbitalObject.Attributes['ooecc'], FCVdiFormat );
+               FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_isNotSat_distanceFromStar:=StrToFloat( XMLOrbitalObject.Attributes['oodist'], FCVdiFormat );
+               FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_isNotSat_eccentricity:=StrToFloat( XMLOrbitalObject.Attributes['ooecc'], FCVdiFormat );
                EnumIndex:=GetEnumValue( TypeInfo( TFCEduHabitableZones ), XMLOrbitalObject.Attributes['ooorbzne'] );
-               FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_isSatForbitalZone:=TFCEduHabitableZones(EnumIndex);
+               FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_isNotSat_orbitalZone:=TFCEduHabitableZones(EnumIndex);
                if EnumIndex=-1
                then raise Exception.Create( 'bad orbital zone: '+XMLOrbitalObject.Attributes['ooorbzne'] );
                FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_revolutionPeriod:=XMLOrbitalObject.Attributes['oorevol'];
                FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_revolutionPeriodInit:=XMLOrbitalObject.Attributes['oorevevinit'];
                FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_angle1stDay:=
                   FCFcFunc_Rnd(
-                     cfrttp2dec
+                     rttCustom2Decimal
                      ,FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_revolutionPeriodInit*360
                         /FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_revolutionPeriod
                      );
@@ -1681,12 +1681,12 @@ begin
                begin
                   if XMSatellite.NodeName='satorbdata' then
                   begin
-                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_isSatTdistFrmOOb:=StrToFloat( XMSatellite.Attributes['satdist'], FCVdiFormat );
+                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_isSat_distanceFromPlanet:=StrToFloat( XMSatellite.Attributes['satdist'], FCVdiFormat );
                      FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_revolutionPeriod:=XMSatellite.Attributes['satrevol'];
                      FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_revolutionPeriodInit:=XMSatellite.Attributes['satrevinit'];
                      FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_angle1stDay:=
                         FCFcFunc_Rnd(
-                           cfrttp2dec
+                           rttCustom2Decimal
                            ,FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_revolutionPeriodInit*360
                               /FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_revolutionPeriod
                            );

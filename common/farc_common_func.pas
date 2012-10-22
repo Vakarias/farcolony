@@ -52,9 +52,10 @@ type TFCEcfunc3dCvTp=(
    );
 
 type TFCEcfRndToTp=(
-   cfrttp1dec
-   ,cfrttp2dec
-   ,cfrttp3dec
+   rtt3dposition
+   ,rttCustom1Decimal
+   ,rttCustom2Decimal
+   ,rttCustom3Decimal
    ,cfrttpDistkm
    ,cfrttpVelkms
    ,cfrttpSizem
@@ -308,9 +309,10 @@ begin
    result:=0;
    case RentryType of
       {:DEV NOTES: optimize by grouping, when possible. as for dist km and vel kms}
-		cfrttp1dec: result:=DecimalRound(Rval, 1, 0.001);
-      cfrttp2dec: result:=DecimalRound(Rval, 2, 0.0001);
-      cfrttp3dec: result:=DecimalRound(Rval, 3, 0.00001);
+      rtt3dposition: result:=DecimalRound(Rval, 9, 0.00000000001);
+		rttCustom1Decimal: result:=DecimalRound(Rval, 1, 0.001);
+      rttCustom2Decimal: result:=DecimalRound(Rval, 2, 0.0001);
+      rttCustom3Decimal: result:=DecimalRound(Rval, 3, 0.00001);
       cfrttpDistkm: result:=DecimalRound(Rval, 2, 0.0001);
       cfrttpVelkms: result:=DecimalRound(Rval, 2, 0.0001);
       cfrttpSizem: result:=DecimalRound(Rval, 1, 0.001);
@@ -328,6 +330,7 @@ function FCFcFunc_ScaleConverter(
    ): extended;
 {:Purpose: convert units in all ways.
     Additions:
+      -2012Oct21- *add: cf3dctAUto3dViewUnit - round correctly the result.
       -2010Apr05- *mod: simplify and cleanup cf3dctMeterToSpUnitSize.
       -2010Mar28- *mod: cleanup the cf3dctMeterToSpUnitSize.
       -2009Dec15- *add: asteroid size conversion (one way, the reverse is useless).
@@ -353,7 +356,7 @@ begin
       {.kilometers => 3d view unit}
       cf3dctKmTo3dViewUnit: TDSCdmpRes:=SCvalue/CFC3dUnInKm;
       {.astronomical units => 3d view unit}
-      cf3dctAUto3dViewUnit: TDSCdmpRes:=SCvalue*CFC3dUnInAU;
+      cf3dctAUto3dViewUnit: TDSCdmpRes:=FCFcFunc_Rnd( rtt3dposition, SCvalue*CFC3dUnInAU );
       {.3d view unit => kilometers}
       cf3dct3dViewUnitToKm: TDSCdmpRes:=FCFcFunc_Rnd(cfrttpDistkm,(SCvalue*CFC3dUnInKm));
       {.3d view unit => astronomical units}

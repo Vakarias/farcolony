@@ -288,6 +288,7 @@ procedure FCMmC_Colonization_Setup(
 {:Purpose: core colonize mission setup.
     Additions:
       -2012Oct21- *add/mod: begin of the complete rewrite of the routine.
+                  *add: new parameter to indicate if the space unit is in the player's local view, or not
       -2012Oct14- *rem: the parameter CSsatObjIdx is removed.
       -2010Sep16- *add: entities code.
       -2010Apr27- *add: take in account if the trackbar is disabled/not visible.
@@ -305,6 +306,32 @@ begin
    case Method of
       cmDockingList:
       begin
+//         if CSsatIdx=0
+//         then
+//         begin
+//            if GMCbaseDist=0
+//            then GMCbaseDist:=FCFgMTrans_ObObjInLStar_CalcRng(
+//               FCDdgEntities[GMCfac].E_spaceUnits[CSowndMother].SU_linked3dObject
+//               ,CSoobjIdx
+//               ,gmtltSpUnit
+//               ,gmtltOrbObj
+//               ,false
+//               );
+//            CSentVel:=FCDduStarSystem[CSssys].SS_stars[CSstar].S_orbitalObjects[CSoobjIdx].OO_escapeVelocity;
+//         end
+//         else if CSsatIdx>0
+//         then
+//         begin
+//            if GMCbaseDist=0
+//            then GMCbaseDist:=FCFgMTrans_ObObjInLStar_CalcRng(
+//               FCDdgEntities[GMCfac].E_spaceUnits[CSowndMother].SU_linked3dObject
+//               ,CSsatObjIdx
+//               ,gmtltSpUnit
+//               ,gmtltSat
+//               ,false
+//               );
+//            CSentVel:=FCDduStarSystem[CSssys].SS_stars[CSstar].S_orbitalObjects[CSoobjIdx].OO_satellitesList[CSsatIdx].OO_escapeVelocity;
+//         end;
       end;
 
       cmSingleVessel:
@@ -321,32 +348,7 @@ begin
 //   if CSmethod=gclvstBySelector
 //   then
 //   begin
-//      if CSsatIdx=0
-//      then
-//      begin
-//         if GMCbaseDist=0
-//         then GMCbaseDist:=FCFgMTrans_ObObjInLStar_CalcRng(
-//            FCDdgEntities[GMCfac].E_spaceUnits[CSowndMother].SU_linked3dObject
-//            ,CSoobjIdx
-//            ,gmtltSpUnit
-//            ,gmtltOrbObj
-//            ,false
-//            );
-//         CSentVel:=FCDduStarSystem[CSssys].SS_stars[CSstar].S_orbitalObjects[CSoobjIdx].OO_escapeVelocity;
-//      end
-//      else if CSsatIdx>0
-//      then
-//      begin
-//         if GMCbaseDist=0
-//         then GMCbaseDist:=FCFgMTrans_ObObjInLStar_CalcRng(
-//            FCDdgEntities[GMCfac].E_spaceUnits[CSowndMother].SU_linked3dObject
-//            ,CSsatObjIdx
-//            ,gmtltSpUnit
-//            ,gmtltSat
-//            ,false
-//            );
-//         CSentVel:=FCDduStarSystem[CSssys].SS_stars[CSstar].S_orbitalObjects[CSoobjIdx].OO_satellitesList[CSsatIdx].OO_escapeVelocity;
-//      end;
+
 //      {.distance conversion in m}
 //      CSdistDecel:=GMCbaseDist*CFC3dUnInKm*1000;
 //      {.begin the docked LV's setup}

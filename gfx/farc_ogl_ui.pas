@@ -767,7 +767,7 @@ begin
                :=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIsatDistFCP');
             FCWinMain.FCGLSHUDobobjDist.Text
                :=FloatToStrF(FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[M3DVUIUsatPlanIdx]
-                  .OO_satellitesList[M3DVUIUsatIdx].OO_isSatTdistFrmOOb*1000,ffNumber,35,0)
+                  .OO_satellitesList[M3DVUIUsatIdx].OO_isSat_distanceFromPlanet*1000,ffNumber,35,0)
                   +' Km';
             {.revolution period}
             FCWinMain.FCGLSHUDobobjRevPerLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIoobjRevPer');
@@ -913,18 +913,18 @@ begin
             look in FC_OpenGL_DataDisp.pas of the ancient iteration of FARC.}
             FCWinMain.FCGLSHUDobobjDistLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIoobjDistFSt');
             FCWinMain.FCGLSHUDobobjDist.Text
-               :=FloatToStr(FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[FC3doglSelectedPlanetAsteroid].OO_isSatFdistanceFromStar)
+               :=FloatToStr(FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[FC3doglSelectedPlanetAsteroid].OO_isNotSat_distanceFromStar)
                   +' '+FCFdTFiles_UIStr_Get(uistrUI, 'acronAU');
             {.orbit eccentricity}
             {DEV NOTE: add ecc for rings and protoplanetary disk later.
             look in FC_OpenGL_DataDisp.pas of the ancient iteration of FARC.}
             FCWinMain.FCGLSHUDobobjEccLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIoobjEcc');
             FCWinMain.FCGLSHUDobobjEcc.Text
-               :=FloatToStr(FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[FC3doglSelectedPlanetAsteroid].OO_isSatFeccentricity);
+               :=FloatToStr(FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[FC3doglSelectedPlanetAsteroid].OO_isNotSat_eccentricity);
             {.orbital zone}
             {DEV NOTE: for sat use mother's planet zone.}
             FCWinMain.FCGLSHUDobobjZoneLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIoobjOrbZone');
-            case FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[FC3doglSelectedPlanetAsteroid].OO_isSatForbitalZone of
+            case FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[FC3doglSelectedPlanetAsteroid].OO_isNotSat_orbitalZone of
                hzInner: FCWinMain.FCGLSHUDobobjZone.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'zoneInner');
                hzIntermediary: FCWinMain.FCGLSHUDobobjZone.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'zoneInterm');
                hzOuter: FCWinMain.FCGLSHUDobobjZone.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'zoneOuter');

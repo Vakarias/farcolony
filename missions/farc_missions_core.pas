@@ -628,9 +628,15 @@ begin
    Count1:=0;
    Max:=0;
    SetLength( DockListIndexes, 1 );
-   {.design index}
-   SetLength( FCRmcCurrentMissionCalculations.CMC_dockList, 0 );
    FCRmcCurrentMissionCalculations.CMC_entity:=Entity;
+   FCRmcCurrentMissionCalculations.CMC_originLocation:=FCFuF_StelObj_GetFullRow(
+      FCDdgEntities[Entity].E_spaceUnits[spaceUnit].SU_locationStarSystem
+      ,FCDdgEntities[Entity].E_spaceUnits[spaceUnit].SU_locationStar
+      ,FCDdgEntities[Entity].E_spaceUnits[spaceUnit].SU_locationOrbitalObject
+      ,FCDdgEntities[Entity].E_spaceUnits[spaceUnit].SU_locationSatellite
+      );
+   SetLength( FCRmcCurrentMissionCalculations.CMC_dockList, 0 );
+   FCRmcCurrentMissionCalculations.CMC_baseDistance:=0;
    FCDmcCurrentMission[Entity].T_controllerIndex:=0;
    FCDmcCurrentMission[Entity].T_duration:=0;
    FCDmcCurrentMission[Entity].T_durationInterval:=0;
@@ -650,12 +656,6 @@ begin
          FCDmcCurrentMission[Entity].T_tMCfinalVelocity:=0;
          FCDmcCurrentMission[Entity].T_tMCfinalTime:=0;
          FCDmcCurrentMission[Entity].T_tMCusedReactionMassVol:=0;
-         FCRmcCurrentMissionCalculations.CMC_originLocation:=FCFuF_StelObj_GetFullRow(
-            FCDdgEntities[Entity].E_spaceUnits[spaceUnit].SU_locationStarSystem
-            ,FCDdgEntities[Entity].E_spaceUnits[spaceUnit].SU_locationStar
-            ,FCDdgEntities[Entity].E_spaceUnits[spaceUnit].SU_locationOrbitalObject
-            ,FCDdgEntities[Entity].E_spaceUnits[spaceUnit].SU_locationSatellite
-            );
          if FCRmcCurrentMissionCalculations.CMC_originLocation[4]=0
          then FCFuiMS_CurrentColony_Load(
             FCDduStarSystem[FCRmcCurrentMissionCalculations.CMC_originLocation[1]].SS_stars[FCRmcCurrentMissionCalculations.CMC_originLocation[2]].S_orbitalObjects[FCRmcCurrentMissionCalculations.CMC_originLocation[3]]
@@ -728,7 +728,6 @@ begin
 //=================================old code
 
 //   GMCAccelG:=0;
-//   GMCbaseDist:=0;
 //   GMCcruiseDV:=0;
 //   GMCfac:=Entity;
 //   GMCfinalDV:=0;

@@ -1,13 +1,13 @@
-{=====(C) Copyright Aug.2009-2012 Jean-Francois Baconnet All rights reserved================
+{======(C) Copyright Aug.2009-2012 Jean-Francois Baconnet All rights reserved==============
 
         Title:  FAR Colony
         Author: Jean-Francois Baconnet
-        Project Started: Aug 16 2009
+        Project Started: August 16 2009
         Platform: Delphi
         License: GPLv3
         Website: http://farcolony.sourceforge.net/
 
-        Unit: stellar objects functions (data processing only != FUG units)
+        Unit: universe - functions unit
 
 ============================================================================================
 ********************************************************************************************
@@ -26,7 +26,6 @@ Copyright (c) 2009-2012, Jean-Francois Baconnet
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *******************************************************************************************}
-
 unit farc_univ_func;
 
 interface
@@ -47,6 +46,8 @@ type TFCEufStelObj=(
    ,ufsoOObj
    ,ufsoSat
    );
+
+//==END PUBLIC ENUM=========================================================================
 
 ///<summary>
 /// record used to retrieve the volumes taken by the gases. Use the internal AtmosphereGases_CalculatePercents method to calculate them
@@ -77,6 +78,15 @@ end;
 ///   [1]= star system index, [2]= star index, [3]= orbital object index, [4]= satellite index
 ///</summary>
 type TFCRufStelObj = array[0..4] of integer;
+
+//==END PUBLIC RECORDS======================================================================
+
+   //==========subsection===================================================================
+//var
+//==END PUBLIC VAR==========================================================================
+
+//const
+//==END PUBLIC CONST========================================================================
 
 ///<summary>
 ///   get the current season token
@@ -211,10 +221,20 @@ implementation
 uses
    farc_common_func
    ,farc_data_3dopengl
-//   ,farc_data_init
    ,farc_data_textfiles;
 
-//===================================END OF INIT============================================
+//==END PRIVATE ENUM========================================================================
+
+//==END PRIVATE RECORDS=====================================================================
+
+   //==========subsection===================================================================
+//var
+//==END PRIVATE VAR=========================================================================
+
+//const
+//==END PRIVATE CONST=======================================================================
+
+//===================================================END OF INIT============================
 
 function FCFuF_Ecosph_GetCurSeas(const GCSooIdx, GCSsatIdx: integer): string;
 {:Purpose: get the current season token.
@@ -1030,9 +1050,9 @@ begin
    TotalPercentForTraceGases:=( RestOfGasVolume * TraceGasesCount ) / 200;
    TotalPercentForSecondaryGases:=RestOfGasVolume - TotalPercentForTraceGases;
    AGP_secondaryGasPercent:=TotalPercentForSecondaryGases / SecondaryGasesCount;
-   AGP_secondaryGasPercent:=FCFcFunc_Rnd( cfrttp2dec, AGP_secondaryGasPercent );
+   AGP_secondaryGasPercent:=FCFcFunc_Rnd( rttCustom2Decimal, AGP_secondaryGasPercent );
    AGP_traceGasPercent:=TotalPercentForTraceGases / TraceGasesCount;
-   AGP_traceGasPercent:=FCFcFunc_Rnd( cfrttp2dec, AGP_traceGasPercent );
+   AGP_traceGasPercent:=FCFcFunc_Rnd( rttCustom2Decimal, AGP_traceGasPercent );
 end;
 
 end.

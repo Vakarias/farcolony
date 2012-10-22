@@ -625,26 +625,26 @@ type TFCRduOrbitalObject = record
          ///<summary>
          ///   NOT LOADED DATA - index of the first satellite 3d object
          ///</summary>
-         OO_isSatF1st3dObjectSatelliteIndex: integer;
+         OO_isNotSat_1st3dObjectSatelliteIndex: integer;
          ///<summary>
          ///   distance from it's star in AU
          ///</summary>
-         OO_isSatFdistanceFromStar: extended;
+         OO_isNotSat_distanceFromStar: extended;
          ///<summary>
          ///   orbit eccentricity in #.### format
          ///</summary>
-         OO_isSatFeccentricity: extended;
+         OO_isNotSat_eccentricity: extended;
          ///<summary>
          ///   orbital zone type
          ///</summary>
-         OO_isSatForbitalZone: TFCEduHabitableZones;
+         OO_isNotSat_orbitalZone: TFCEduHabitableZones;
          );
 
       true: (
          ///<summary>
          ///   distance from it's central planet in thousands of km
          ///</summary>
-         OO_isSatTdistFrmOOb: extended;
+         OO_isSat_distanceFromPlanet: extended;
          );
 end;
 

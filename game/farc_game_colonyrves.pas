@@ -541,7 +541,7 @@ begin
    then AgeCoefficient:=FCFgCSM_AgeCoefficient_Retrieve( Entity, Colony )
    else AgeCoefficient:=AgeCoef;
    ModifierCalc:=( SQRT( FCDdgEntities[Entity].E_colonies[Colony].C_events[Event].CCSME_tFShPercentPopulationNotSupportedAtCalculation - 10 ) * ( 4 * AgeCoefficient ) )+FCDdgEntities[Entity].E_colonies[Colony].C_events[Event].CCSME_tFShDeathFractionalValue;
-   ModifierCalc:=FCFcFunc_Rnd( cfrttp2dec, ModifierCalc );
+   ModifierCalc:=FCFcFunc_Rnd( rttCustom2Decimal, ModifierCalc );
    DeadToApply:=trunc( ModifierCalc );
    {:DEV NOTES: apply the direct death here, create a method in farc_game_pgs.}
    FracValue:=frac( ModifierCalc );
@@ -631,7 +631,7 @@ begin
    PPScalc:=NewPPS * 0.01;
    SubSFcalc:=round( FCDdgEntities[ Entity ].E_colonies[ Colony ].C_population.CP_total * PPScalc );
    SFcalc:=FCDdgEntities[ Entity ].E_colonies[ Colony ].C_population.CP_total / ( FCDdgEntities[ Entity ].E_colonies[ Colony ].C_population.CP_total - SubSFcalc );
-   SFcalc:=FCFcFunc_Rnd( cfrttp2dec, SFcalc );
+   SFcalc:=FCFcFunc_Rnd( rttCustom2Decimal, SFcalc );
    if SFcalc<2.5 then
    begin
       AgeCoefficient:=FCFgCSM_AgeCoefficient_Retrieve( Entity, Colony );
@@ -757,7 +757,7 @@ begin
                   StorageIdx:=FCDdgEntities[ Entity ].E_colonies[ Colony ].C_reserveFoodProductsIndex[ Count ];
                   ProductIdx:=FCFgP_Product_GetIndex( FCDdgEntities[ Entity ].E_colonies[ Colony ].C_storedProducts[ StorageIdx ].SP_token );
                   FoodDistribution[ Count ]:=FCDdgEntities[ Entity ].E_colonies[ Colony ].C_storedProducts[ StorageIdx ].SP_unit*100/SumOfStorageUnits;
-                  FoodDistribution[ Count ]:=FCFcFunc_Rnd( cfrttp1dec, FoodDistribution[ Count ] );
+                  FoodDistribution[ Count ]:=FCFcFunc_Rnd( rttCustom1Decimal, FoodDistribution[ Count ] );
                   ReservesCalc:=trunc( ReservePointsToXfer*( FoodDistribution[ Count ]*0.01 ) )+1;
                   VolumeFromReserve:=FCFgCR_ReserveToFood_Convert( ReservesCalc, FCDdipProducts[ ProductIdx ].P_massByUnit );
                   FCFgC_Storage_Update(

@@ -324,7 +324,7 @@ begin
    else if ICWPCsumLvl>0 then
    begin
       ICWPCdivider:=ln( ICWPCsumLvl+1 ) / ln( ICWPCinfraLevel+1 );
-      ICWPCicwp:=FCFcFunc_Rnd( cfrttp1dec, FCDdgEntities[ICWPCent].E_colonies[ICWPCcol].C_population.CP_CWPtotal/ICWPCdivider );
+      ICWPCicwp:=FCFcFunc_Rnd( rttCustom1Decimal, FCDdgEntities[ICWPCent].E_colonies[ICWPCcol].C_population.CP_CWPtotal/ICWPCdivider );
    end;
    Result:=ICWPCicwp;
 end;
@@ -360,7 +360,7 @@ begin
    then
    begin
       RCCcoef:=1-( RCCdoneTime / RCCinitTime );
-      Result:=FCFcFunc_Rnd(cfrttp3dec, RCCcoef);
+      Result:=FCFcFunc_Rnd(rttCustom3Decimal, RCCcoef);
    end;
 end;
 

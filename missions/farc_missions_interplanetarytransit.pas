@@ -349,6 +349,7 @@ begin
 ////====================(END) GLOBAL DATA FORMATING===========================
 end;
 
+{:DEV NOTES: put that in OGL FUNCTIONS AND MODIFY IT TO ALLOW TO USE CALCUALTED POSITIONS.}
 function FCFgMTrans_ObObjInLStar_CalcRng
    (
       const OOILSCRooIdxOrg

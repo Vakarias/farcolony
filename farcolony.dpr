@@ -115,7 +115,8 @@ uses
   farc_missions_colonization in 'missions\farc_missions_colonization.pas',
   farc_missions_interplanetarytransit in 'missions\farc_missions_interplanetarytransit.pas',
   farc_ui_missionsetup in 'ui\farc_ui_missionsetup.pas',
-  farc_game_tasksystem in 'game\farc_game_tasksystem.pas';
+  farc_game_tasksystem in 'game\farc_game_tasksystem.pas',
+  farc_ogl_functions in 'ogl\farc_ogl_functions.pas';
 
 {$R *.res}
 
