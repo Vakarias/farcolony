@@ -1305,8 +1305,8 @@ begin
                         SetLength(FC3oglvmSatellitesGravityWells, Length(FC3oglvmSatellitesGravityWells)+LSVUblocCnt);
                         SetLength(FC3oglvmSatellitesOrbits, Length(FC3oglvmSatellitesOrbits)+LSVUblocCnt);
                      end;
-                     {:DEV NOTES: WARNING A FUNCTION NOW EXISTS FOR THIS CALCULATION: FCFoglF_}
-                     LSVUangleRad:=S_orbitalObjects[TDMVUorbObjCnt].OO_satellitesList[TDMVUsatIdx].OO_angle1stDay*FCCdiDegrees_To_Radian;
+                     {:DEV NOTES: WARNING A FUNCTION NOW EXISTS FOR THIS CALCULATION: FCFoglF_Satellite_CalculatePosition}
+                     LSVUangleRad:=S_orbitalObjects[TDMVUorbObjCnt].OO_satellitesList[TDMVUsatIdx].OO_angle1stDay*FCCdiDegrees_To_Radian; //ok to fill the call w/ param and remove this
                      {.for a satellite asteroid}
                      if S_orbitalObjects[TDMVUorbObjCnt].OO_satellitesList[TDMVUsatIdx].OO_type<ootSatellite_Telluric_Lunar
                      then
@@ -1330,19 +1330,19 @@ begin
                               );
                         FC3doglSatellitesAsteroids[TDMVUsatCnt].scale.Y:=FC3doglSatellitesAsteroids[TDMVUsatCnt].scale.X;
                         FC3doglSatellitesAsteroids[TDMVUsatCnt].scale.Z:=FC3doglSatellitesAsteroids[TDMVUsatCnt].scale.X;
-                        {:DEV NOTES: WARNING A FUNCTION NOW EXISTS FOR THIS CALCULATION: FCFoglF_.}
+                        {:DEV NOTES: WARNING A FUNCTION NOW EXISTS FOR THIS CALCULATION: FCFoglF_Satellite_CalculatePosition.}
                         {.set distance and location}
-                        LSVUsatDistUnit:=FCFcFunc_ScaleConverter
-                           (
-                              cf3dctKmTo3dViewUnit
-                              ,S_orbitalObjects[TDMVUorbObjCnt].OO_satellitesList[TDMVUsatIdx]
-                                 .OO_isSat_distanceFromPlanet*1000
-                           );
-                        FC3doglSatellitesObjectsGroups[TDMVUsatCnt].Position.X
-                           :=FC3doglObjectsGroups[TDMVUorbObjCnt].Position.X+(cos(LSVUangleRad)*LSVUsatDistUnit);
-                        FC3doglSatellitesObjectsGroups[TDMVUsatCnt].Position.Y:=0;
-                        FC3doglSatellitesObjectsGroups[TDMVUsatCnt].Position.Z
-                           :=FC3doglObjectsGroups[TDMVUorbObjCnt].Position.Z+(sin(LSVUangleRad)*LSVUsatDistUnit);
+                        LSVUsatDistUnit:=FCFcFunc_ScaleConverter   //ok to fill the call w/ param and remove this
+                           (                                                        //ok to fill the call w/ param and remove this
+                              cf3dctKmTo3dViewUnit                                              //ok to fill the call w/ param and remove this
+                              ,S_orbitalObjects[TDMVUorbObjCnt].OO_satellitesList[TDMVUsatIdx]   //ok to fill the call w/ param and remove this
+                                 .OO_isSat_distanceFromPlanet*1000                             //ok to fill the call w/ param and remove this
+                           );                                                               //ok to fill the call w/ param and remove this
+                        FC3doglSatellitesObjectsGroups[TDMVUsatCnt].Position.X              //ok to fill the call w/ param and remove this
+                           :=FC3doglObjectsGroups[TDMVUorbObjCnt].Position.X+(cos(LSVUangleRad)*LSVUsatDistUnit);//ok to fill the call w/ param and remove this
+                        FC3doglSatellitesObjectsGroups[TDMVUsatCnt].Position.Y:=0;//ok to fill the call w/ param and remove this
+                        FC3doglSatellitesObjectsGroups[TDMVUsatCnt].Position.Z//ok to fill the call w/ param and remove this
+                           :=FC3doglObjectsGroups[TDMVUorbObjCnt].Position.Z+(sin(LSVUangleRad)*LSVUsatDistUnit);//ok to fill the call w/ param and remove this
                         {.set group scale}
                         FC3doglSatellitesObjectsGroups[TDMVUsatCnt].CubeSize:=FC3doglSatellitesAsteroids[TDMVUsatCnt].scale.X*50;
                         {.displaying}
@@ -1369,18 +1369,19 @@ begin
                               );
                         FC3doglSatellites[TDMVUsatCnt].scale.Y:=FC3doglSatellites[TDMVUsatCnt].scale.X;
                         FC3doglSatellites[TDMVUsatCnt].scale.Z:=FC3doglSatellites[TDMVUsatCnt].scale.X;
+                        {:DEV NOTES: WARNING A FUNCTION NOW EXISTS FOR THIS CALCULATION: FCFoglF_Satellite_CalculatePosition.}
                         {.set distance and location}
-                        LSVUsatDistUnit:=FCFcFunc_ScaleConverter
-                           (
-                              cf3dctKmTo3dViewUnit
-                              ,S_orbitalObjects[TDMVUorbObjCnt].OO_satellitesList[TDMVUsatIdx]
-                                 .OO_isSat_distanceFromPlanet*1000
-                           );
-                        FC3doglSatellitesObjectsGroups[TDMVUsatCnt].Position.X
-                           :=FC3doglObjectsGroups[TDMVUorbObjCnt].Position.X+(cos(LSVUangleRad)*LSVUsatDistUnit);
-                        FC3doglSatellitesObjectsGroups[TDMVUsatCnt].Position.Y:=0;
-                        FC3doglSatellitesObjectsGroups[TDMVUsatCnt].Position.Z
-                           :=FC3doglObjectsGroups[TDMVUorbObjCnt].Position.Z+(sin(LSVUangleRad)*LSVUsatDistUnit);
+                        LSVUsatDistUnit:=FCFcFunc_ScaleConverter     //ok to fill the call w/ param and remove this
+                           (                            //ok to fill the call w/ param and remove this
+                              cf3dctKmTo3dViewUnit       //ok to fill the call w/ param and remove this
+                              ,S_orbitalObjects[TDMVUorbObjCnt].OO_satellitesList[TDMVUsatIdx] //ok to fill the call w/ param and remove this
+                                 .OO_isSat_distanceFromPlanet*1000       //ok to fill the call w/ param and remove this
+                           );     //ok to fill the call w/ param and remove this
+                        FC3doglSatellitesObjectsGroups[TDMVUsatCnt].Position.X     //ok to fill the call w/ param and remove this
+                           :=FC3doglObjectsGroups[TDMVUorbObjCnt].Position.X+(cos(LSVUangleRad)*LSVUsatDistUnit);  //ok to fill the call w/ param and remove this
+                        FC3doglSatellitesObjectsGroups[TDMVUsatCnt].Position.Y:=0; //ok to fill the call w/ param and remove this
+                        FC3doglSatellitesObjectsGroups[TDMVUsatCnt].Position.Z    //ok to fill the call w/ param and remove this
+                           :=FC3doglObjectsGroups[TDMVUorbObjCnt].Position.Z+(sin(LSVUangleRad)*LSVUsatDistUnit);  //ok to fill the call w/ param and remove this
                         {.set group scale}
                         FC3doglSatellitesObjectsGroups[TDMVUsatCnt].CubeSize:=FC3doglSatellites[TDMVUsatCnt].scale.X*2;
                         {.set atmosphere}
