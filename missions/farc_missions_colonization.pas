@@ -303,9 +303,26 @@ procedure FCMmC_Colonization_Setup(
 //   ,CSdistDecel
 //   ,CSfinalVel: extended;
 begin
-   case Method of
-      cmDockingList:
-      begin
+   if FCRmcCurrentMissionCalculations.CMC_entity=0 then
+   begin
+//            if FCRmcCurrentMissionCalculations.CMC_originLocation[4]=0
+//            then
+
+//            >0
+            //            GMCrootSatObjIdx
+//               :=FCFoglVM_SatObj_Search(
+//                  GMCrootOObIdx
+//                  ,GMCrootSatIdx
+//                  );
+   end
+   else if FCRmcCurrentMissionCalculations.CMC_entity>0 then
+   begin
+            {.for the AIs we never consider the AI's spacecraft is in the 3d view, even if it's the case. So the game database data (owned space unit data, FCDduStarSystem for ex.) are used for distance calculations
+               instead to use 3d objects data directly. Since obviously the mission user's interface isn't used for AIs, objects positions requires to be calculated in realtime, excepted for space units that
+               have always a x and z position
+               }
+   end;
+
 //         if CSsatIdx=0
 //         then
 //         begin
@@ -332,17 +349,18 @@ begin
 //               );
 //            CSentVel:=FCDduStarSystem[CSssys].SS_stars[CSstar].S_orbitalObjects[CSoobjIdx].OO_satellitesList[CSsatIdx].OO_escapeVelocity;
 //         end;
+
+   case Method of
+      cmDockingList:
+      begin
+
       end;
 
       cmSingleVessel:
       begin
       end;
    end;
-//            GMCrootSatObjIdx
-//               :=FCFoglVM_SatObj_Search(
-//                  GMCrootOObIdx
-//                  ,GMCrootSatIdx
-//                  );
+
 
 //   setlength(GMCdckd, 1);
 //   if CSmethod=gclvstBySelector

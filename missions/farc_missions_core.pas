@@ -58,7 +58,6 @@ type TFCRmcCurrentMissionCalculations=record
 //   ,GMCregion
 //: integer;
 //
-//   GMCbaseDist,
 //   GMCfinalDV,
 //   GMCrmMaxVol,
 //   GMCreqDV,

@@ -32,6 +32,12 @@ interface
 
 //uses
 
+type TFCEoglfObjectTypes=(
+   otOrbitalObject
+   ,otSatellite
+   ,SpaceUnit
+   );
+
 //==END PUBLIC ENUM=========================================================================
 
 type TFCRoglfPosition=record
@@ -48,6 +54,22 @@ end;
 
 //const
 //==END PUBLIC CONST========================================================================
+
+///<summary>
+///   calculate the distance between to objects in the 3d view
+///</summary>
+///   <param name="Origin">type of origin object</param>
+///   <param name="OriginIndex">index of origin object, always in 3d index. 3d index= DB space unit index, DB orbital object index, 3D satellite object index (must be retrieved if required)</param>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <returns>distance in 3d units</returns>
+///   <remarks></remarks>
+function FCFoglF_DistanceBetweenTwoObjects_Calculate(
+   const Origin: TFCEoglfObjectTypes;
+   const OriginIndex: integer;
+   const Destination: TFCEoglfObjectTypes;
+   const DestinationIndex: integer
+   ): extended;
 
 ///<summary>
 ///   calculate the position, in the 3d view, of an orbital object according to a given angle
@@ -82,6 +104,7 @@ implementation
 uses
    farc_common_func
    ,farc_data_init;
+
 //==END PRIVATE ENUM========================================================================
 
 //==END PRIVATE RECORDS=====================================================================
