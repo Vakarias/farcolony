@@ -35,7 +35,7 @@ interface
 type TFCEoglfObjectTypes=(
    otOrbitalObject
    ,otSatellite
-   ,SpaceUnit
+   ,otSpaceUnit
    );
 
 //==END PUBLIC ENUM=========================================================================
@@ -59,12 +59,28 @@ end;
 ///   calculate the distance between to objects in the 3d view
 ///</summary>
 ///   <param name="Origin">type of origin object</param>
-///   <param name="OriginIndex">index of origin object, always in 3d index. 3d index= DB space unit index, DB orbital object index, 3D satellite object index (must be retrieved if required)</param>
-///   <param name=""></param>
-///   <param name=""></param>
+///   <param name="OriginIndex">index of origin object, always in 3d index. 3d index= 3D space unit index, DB orbital object index (=3d index), 3D satellite object index (must be retrieved if required)</param>
+///   <param name="Destination">type of destination object</param>
+///   <param name="DestinationIndex">index of destination object, always in 3d index. 3d index= 3D space unit index, DB orbital object index (=3d index), 3D satellite object index (must be retrieved if required)</param>
 ///   <returns>distance in 3d units</returns>
-///   <remarks></remarks>
+///   <remarks>formatted [x.x9]</remarks>
 function FCFoglF_DistanceBetweenTwoObjects_Calculate(
+   const Origin: TFCEoglfObjectTypes;
+   const OriginIndex: integer;
+   const Destination: TFCEoglfObjectTypes;
+   const DestinationIndex: integer
+   ): extended;
+
+///<summary>
+///   calculate the distance between to objects in the 3d view
+///</summary>
+///   <param name="Origin">type of origin object</param>
+///   <param name="OriginIndex">index of origin object, always in 3d index. 3d index= 3D space unit index, DB orbital object index (=3d index), 3D satellite object index (must be retrieved if required)</param>
+///   <param name="Destination">type of destination object</param>
+///   <param name="DestinationIndex">index of destination object, always in 3d index. 3d index= 3D space unit index, DB orbital object index (=3d index), 3D satellite object index (must be retrieved if required)</param>
+///   <returns>distance in astronomical units (AU)</returns>
+///   <remarks>formatted [x.x9]</remarks>
+function FCFoglF_DistanceBetweenTwoObjects_CalculateInAU(
    const Origin: TFCEoglfObjectTypes;
    const OriginIndex: integer;
    const Destination: TFCEoglfObjectTypes;
@@ -88,7 +104,7 @@ function FCFoglF_OrbitalObject_CalculatePosition(
 ///</summary>
 ///   <param name="DistanceFromPlanet">distance of the satellite from its star, in thousands of kilometers</param>
 ///   <param name="Angle">satellite's current seasonal angle</param>
-///   <param name="PlanetPosition">central planet 3d position, if this data is unknown, use the othe one</param>
+///   <param name="PlanetPosition">central planet 3d position, if this data is unknown, use the other one</param>
 ///   <returns>satellite's X, Y and Z in TFCRoglfPosition.</returns>
 ///   <remarks>100% compatible with satellites asteroids too</remarks>
 function FCFoglF_Satellite_CalculatePosition(
@@ -103,7 +119,9 @@ implementation
 
 uses
    farc_common_func
-   ,farc_data_init;
+   ,farc_data_3dopengl
+   ,farc_data_init
+   ,farc_data_univ;
 
 //==END PRIVATE ENUM========================================================================
 
@@ -117,6 +135,126 @@ uses
 //==END PRIVATE CONST=======================================================================
 
 //===================================================END OF INIT============================
+
+function FCFoglF_DistanceBetweenTwoObjects_Calculate(
+   const Origin: TFCEoglfObjectTypes;
+   const OriginIndex: integer;
+   const Destination: TFCEoglfObjectTypes;
+   const DestinationIndex: integer
+   ): extended;
+{:Purpose: calculate the distance between to objects in the 3d view.
+    Additions:
+}
+   var
+      DestinationGravitationalSphere
+      ,DestinationX
+      ,DestinationZ
+      ,OriginGravitationalSphere
+      ,OriginX
+      ,OriginZ
+      ,ProcessData: extended;
+
+      DestinationDBPlanetIndex
+      ,DestinationDBSatelliteIndex
+      ,OriginDBPlanetIndex
+      ,OriginDBSatelliteIndex: integer;
+begin
+   DestinationGravitationalSphere:=0;
+   DestinationX:=0;
+   DestinationZ:=0;
+   OriginGravitationalSphere:=0;
+   OriginX:=0;
+   OriginZ:=0;
+   ProcessData:=0;
+   DestinationDBPlanetIndex:=0;
+   DestinationDBSatelliteIndex:=0;
+   OriginDBPlanetIndex:=0;
+   OriginDBSatelliteIndex:=0;
+   Result:=0;
+   case Origin of
+      otOrbitalObject:
+      begin
+         OriginX:=FC3doglObjectsGroups[OriginIndex].Position.X;
+         OriginZ:=FC3doglObjectsGroups[OriginIndex].Position.Z;
+         OriginGravitationalSphere:=FCFcFunc_ScaleConverter(
+            cf3dctKmTo3dViewUnit
+            ,FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OriginIndex].OO_gravitationalSphereRadius
+            );
+      end;
+
+      otSatellite:
+      begin
+         OriginX:=FC3doglSatellitesObjectsGroups[OriginIndex].Position.X;
+         OriginZ:=FC3doglSatellitesObjectsGroups[OriginIndex].Position.Z;
+         OriginDBPlanetIndex:=round( FC3doglSatellitesObjectsGroups[OriginIndex].TagFloat );
+         OriginDBSatelliteIndex:=FC3doglSatellitesObjectsGroups[OriginIndex].Tag;
+         OriginGravitationalSphere:=FCFcFunc_ScaleConverter(
+            cf3dctKmTo3dViewUnit
+            ,FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OriginDBPlanetIndex].OO_satellitesList[OriginDBSatelliteIndex].OO_gravitationalSphereRadius
+            );
+      end;
+
+      otSpaceUnit:
+      begin
+         OriginX:=FC3doglSpaceUnits[OriginIndex].Position.X;
+         OriginZ:=FC3doglSpaceUnits[OriginIndex].Position.Z;
+      end;
+   end; //==END== case Origin of ==//
+   case Destination of
+      otOrbitalObject:
+      begin
+         DestinationX:=FC3doglObjectsGroups[DestinationIndex].Position.X;
+         DestinationZ:=FC3doglObjectsGroups[DestinationIndex].Position.Z;
+         DestinationGravitationalSphere:=FCFcFunc_ScaleConverter(
+            cf3dctKmTo3dViewUnit
+            ,FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[DestinationIndex].OO_gravitationalSphereRadius
+            );
+      end;
+
+      otSatellite:
+      begin
+         DestinationX:=FC3doglSatellitesObjectsGroups[DestinationIndex].Position.X;
+         DestinationZ:=FC3doglSatellitesObjectsGroups[DestinationIndex].Position.Z;
+         DestinationDBPlanetIndex:=round( FC3doglSatellitesObjectsGroups[DestinationIndex].TagFloat );
+         DestinationDBSatelliteIndex:=FC3doglSatellitesObjectsGroups[DestinationIndex].Tag;
+         DestinationGravitationalSphere:=FCFcFunc_ScaleConverter(
+            cf3dctKmTo3dViewUnit
+            ,FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[DestinationDBPlanetIndex].OO_satellitesList[DestinationDBSatelliteIndex].OO_gravitationalSphereRadius
+            );
+      end;
+
+      otSpaceUnit:
+      begin
+         DestinationX:=FC3doglSpaceUnits[DestinationIndex].Position.X;
+         DestinationZ:=FC3doglSpaceUnits[DestinationIndex].Position.Z;
+      end;
+   end;
+   ProcessData:=sqrt( sqr( OriginX-DestinationX )+sqr( OriginZ-DestinationZ ) )-( OriginGravitationalSphere+DestinationGravitationalSphere );
+   Result:=FCFcFunc_Rnd( rtt3dposition, ProcessData );
+end;
+
+function FCFoglF_DistanceBetweenTwoObjects_CalculateInAU(
+   const Origin: TFCEoglfObjectTypes;
+   const OriginIndex: integer;
+   const Destination: TFCEoglfObjectTypes;
+   const DestinationIndex: integer
+   ): extended;
+{:Purpose: calculate the distance between to objects in the 3d view.
+    Additions:
+}
+   var
+      DataProcess: extended;
+begin
+   DataProcess:=0;
+   Result:=0;
+   DataProcess:=FCFoglF_DistanceBetweenTwoObjects_Calculate(
+      Origin
+      ,OriginIndex
+      ,Destination
+      ,DestinationIndex
+      );
+   Result:=FCFcFunc_ScaleConverter( cf3dct3dViewUnitToAU, DataProcess )
+end;
 
 function FCFoglF_OrbitalObject_CalculatePosition(
    const DistanceFromStar

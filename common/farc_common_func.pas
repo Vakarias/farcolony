@@ -330,6 +330,7 @@ function FCFcFunc_ScaleConverter(
    ): extended;
 {:Purpose: convert units in all ways.
     Additions:
+      -2012Oct28- *add: cf3dctKmTo3dViewUnit - round correctly the result.
       -2012Oct21- *add: cf3dctAUto3dViewUnit - round correctly the result.
       -2010Apr05- *mod: simplify and cleanup cf3dctMeterToSpUnitSize.
       -2010Mar28- *mod: cleanup the cf3dctMeterToSpUnitSize.
@@ -354,7 +355,7 @@ begin
       {.unit (planet aera and oobj size) => 3d view unit. /20 for ua-unit *500}
       cf3dctMeterToSpUnitSize: TDSCdmpRes:=(FCDdsuSpaceUnitDesigns[round(SCvalue)].SUD_internalStructureClone.IS_length*0.02)/CFC3dUnInKm;
       {.kilometers => 3d view unit}
-      cf3dctKmTo3dViewUnit: TDSCdmpRes:=SCvalue/CFC3dUnInKm;
+      cf3dctKmTo3dViewUnit: TDSCdmpRes:=FCFcFunc_Rnd( rtt3dposition, SCvalue/CFC3dUnInKm );
       {.astronomical units => 3d view unit}
       cf3dctAUto3dViewUnit: TDSCdmpRes:=FCFcFunc_Rnd( rtt3dposition, SCvalue*CFC3dUnInAU );
       {.3d view unit => kilometers}
