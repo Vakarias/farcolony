@@ -52,23 +52,6 @@ procedure FCMgMiT_ITransit_Setup;
 ///</summary>
 procedure FCMgMiT_MissionTrip_Calc(const MTCflightTp: integer; MTCcurDV: extended);
 
-///<summary>
-///   calculate the distance, in AU, between a space unit and an orbital object in the same
-///   local star aera.
-///</summary>
-///   <param name="OOILSCRooIdxOrg">origin orbital object index</param>
-///   <param name="OOILSCRooIdxDest">destination orbital object index</param>
-///   <param name="OOILSCRorgTp">origin type: orbital object, satellite or space unit</param>
-///   <param name="OOILSCRdestTp">destination type: orbital object, satellite or space unit</param>
-///   <param name="isConvToAU">tell if the distance must be in AU</param>
-function FCFgMTrans_ObObjInLStar_CalcRng(
-   const OOILSCRooIdxOrg
-         ,OOILSCRooIdxDest: integer;
-   const OOILSCRorgTp,
-         OOILSCRdestTp: TFCEgmtLocTp;
-   const isConvToAU: boolean
-   ): extended;
-
 implementation
 
 uses
@@ -347,114 +330,6 @@ begin
 //      GMCtimeD:=round(MTCtimeAtDecel);
 //   end; {.if FCWinMissSet.FCWMS_Grp_MCG_RMassTrack.Enabled}
 ////====================(END) GLOBAL DATA FORMATING===========================
-end;
-
-{:DEV NOTES: put that in OGL FUNCTIONS AND MODIFY IT TO ALLOW TO USE CALCUALTED POSITIONS.}
-function FCFgMTrans_ObObjInLStar_CalcRng
-   (
-      const OOILSCRooIdxOrg
-            ,OOILSCRooIdxDest: integer;
-      const OOILSCRorgTp,
-            OOILSCRdestTp: TFCEgmtLocTp;
-      const isConvToAU: boolean
-   ): extended;
-{:Purpose: calculate the distance, in AU, between a space unit and an orbital object in the
-   same local star aera.
-      Additions:
-         -2009Dec25- *mod: supress all boolean and put switches, origin/destination can be oob/sat
-                     and space unit.
-                     *mod: full method rewriting and completion.
-         -2009Dec22- *add: 2 boolean switchs for indicate if Org and/or Dest is a satellite.
-                     *add: calculation w/ satellites.
-                     *mod: change calculation, if isFrmOOb= false then OOILSCRgravSphRLSVU is not
-                     equal to 0 but equal to destination only OO_gravSphRad.
-         -2009Oct26- *change origin type (orbital object) by the space unit.
-                     *deduct destination gravitational sphere radius in the final distance.
-}
-var
-   OOILSCRxOrg
-   ,OOILSCRzOrg
-   ,OOILSCRxDest
-   ,OOILSCRzDest
-   ,OOILSCRgravSphOrg
-   ,OOILSCRgravSphDes: extended;
-
-   OOILSCRsatPlanIdxOrg
-   ,OOILSCRsatIdxOrg
-   ,OOILSCRsatPlanIdxDest
-   ,OOILSCRsatIdxDest: integer;
-begin
-   {.origin calculations}
-//   case OOILSCRorgTp of
-//      gmtltOrbObj:
-//      begin
-//         OOILSCRxOrg:=FC3doglObjectsGroups[OOILSCRooIdxOrg].Position.X;
-//         OOILSCRzOrg:=FC3doglObjectsGroups[OOILSCRooIdxOrg].Position.Z;
-//         OOILSCRgravSphOrg:=FCFcFunc_ScaleConverter(
-//            cf3dctKmTo3dViewUnit
-//            ,FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OOILSCRooIdxOrg].OO_gravitationalSphereRadius
-//            );
-//      end;
-//      gmtltSat:
-//      begin
-//         OOILSCRxOrg:=FC3doglSatellitesObjectsGroups[OOILSCRooIdxOrg].Position.X;
-//         OOILSCRzOrg:=FC3doglSatellitesObjectsGroups[OOILSCRooIdxOrg].Position.Z;
-//         OOILSCRsatIdxOrg:=FC3doglSatellitesObjectsGroups[OOILSCRooIdxOrg].Tag;
-//         OOILSCRsatPlanIdxOrg:=round(FC3doglSatellitesObjectsGroups[OOILSCRooIdxOrg].TagFloat);
-//         OOILSCRgravSphOrg:=FCFcFunc_ScaleConverter(
-//            cf3dctKmTo3dViewUnit
-//            ,FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OOILSCRsatPlanIdxOrg].OO_satellitesList[OOILSCRsatIdxOrg].OO_gravitationalSphereRadius
-//            );
-//      end;
-//      gmtltSpUnit:
-//      begin
-//         OOILSCRxOrg:=FC3doglSpaceUnits[OOILSCRooIdxOrg].Position.X;
-//         OOILSCRzOrg:=FC3doglSpaceUnits[OOILSCRooIdxOrg].Position.Z;
-//         OOILSCRgravSphOrg:=0;
-//      end;
-//   end; //==END== case OOILSCRorgTp of ==//
-   {.destination calculations}
-//   case OOILSCRdestTp of
-//      gmtltOrbObj:
-//      begin
-//         OOILSCRxDest:=FC3doglObjectsGroups[OOILSCRooIdxDest].Position.X;
-//         OOILSCRzDest:=FC3doglObjectsGroups[OOILSCRooIdxDest].Position.Z;
-//         OOILSCRgravSphDes
-//            :=FCFcFunc_ScaleConverter(
-//               cf3dctKmTo3dViewUnit
-//               ,FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OOILSCRooIdxDest].OO_gravitationalSphereRadius
-//               );
-//      end;
-//      gmtltSat:
-//      begin
-//         OOILSCRxDest:=FC3doglSatellitesObjectsGroups[OOILSCRooIdxDest].Position.X;
-//         OOILSCRzDest:=FC3doglSatellitesObjectsGroups[OOILSCRooIdxDest].Position.Z;
-//         OOILSCRsatIdxDest:=FC3doglSatellitesObjectsGroups[OOILSCRooIdxDest].Tag;
-//         OOILSCRsatPlanIdxDest:=round(FC3doglSatellitesObjectsGroups[OOILSCRooIdxDest].TagFloat);
-//         OOILSCRgravSphDes
-//            :=FCFcFunc_ScaleConverter(
-//               cf3dctKmTo3dViewUnit
-//               ,FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OOILSCRsatPlanIdxDest].OO_satellitesList[OOILSCRsatIdxDest].OO_gravitationalSphereRadius
-//               );
-//      end;
-//      gmtltSpUnit:
-//      begin
-//         OOILSCRxDest:=FC3doglSpaceUnits[OOILSCRooIdxDest].Position.X;
-//         OOILSCRzDest:=FC3doglSpaceUnits[OOILSCRooIdxDest].Position.Z;
-//         OOILSCRgravSphDes:=0;
-//      end;
-//   end; //==END== case OOILSCRdestTp of ==//
-   {.distance calculation}
-   if isConvToAU
-   then Result
-      :=FCFcFunc_ScaleConverter
-         (
-            cf3dct3dViewUnitToAU
-            ,sqrt(sqr(OOILSCRxOrg-OOILSCRxDest)+sqr(OOILSCRzOrg-OOILSCRzDest))-(OOILSCRgravSphOrg+OOILSCRgravSphDes)
-         )
-   else if not isConvToAU
-   then Result
-      :=sqrt(sqr(OOILSCRxOrg-OOILSCRxDest)+sqr(OOILSCRzOrg-OOILSCRzDest))-(OOILSCRgravSphOrg+OOILSCRgravSphDes);
 end;
 
 end.
