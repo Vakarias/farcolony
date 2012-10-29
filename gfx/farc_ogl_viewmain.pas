@@ -135,11 +135,6 @@ procedure FCMoglVM_OObjSpUn_inOrbit(
    );
 
 ///<summary>
-///   return the satellite object index of the choosen satellite in the current view.
-///</summary>
-function FCFoglVM_SatObj_Search(const SOSidxDBoob, SOSidxDBsat: integer): integer;
-
-///<summary>
 ///   generate a space unit.
 ///</summary>
 ///   <param name="SUGstatus">space unit status</param>
@@ -194,6 +189,19 @@ var
 
    {.objects list for satellites orbits}
    FC3oglvmSatellitesOrbits: array of TGLLines;
+
+{:DEV NOTES: OGL CLEAR SCENE - FCMoglVM_Scene_Cleanup;
+
+   - freeze realtime + ogl timers
+   - unload all ui + store their state
+
+   - put at zero S_orbitalObjects[.].OO_isNotSat_1st3dObjectSatelliteIndex
+
+
+
+
+.}
+
 
 //=============================================END OF INIT==================================
 
@@ -2088,33 +2096,6 @@ begin
          end; //==END== if OOSUIOUspUnFacTtl>0 ==//
       end; //==END== else if OOSUIOUsatIdx>0 ==//
    end; //==END== with FCDBstarSys[CFVstarSysIdDB].SS_star[CFVstarIdDB] ==//
-end;
-
-function FCFoglVM_SatObj_Search(const SOSidxDBoob, SOSidxDBsat: integer): integer;
-{:Purpose: return the satellite object index of the choosen satellite in the current view.
-    Additions:
-}
-var
-   SOSdmpObjIdx
-   ,SOSdmpSatObjIdx
-   ,SOScnt
-   ,SOSttl: integer;
-begin
-   SOSdmpObjIdx:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[SOSidxDBoob].OO_isNotSat_1st3dObjectSatelliteIndex;
-   SOScnt:=1;
-   SOSttl:=length(FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[SOSidxDBoob].OO_satellitesList)-1;
-   Result:=0;
-   while SOScnt<=SOSttl do
-   begin
-      SOSdmpSatObjIdx:=SOSdmpObjIdx+SOScnt-1;
-      if FC3doglSatellitesObjectsGroups[SOSdmpSatObjIdx].Tag=SOSidxDBsat
-      then
-      begin
-         Result:=SOSdmpSatObjIdx;
-         Break;
-      end;
-      inc(SOScnt);
-   end;
 end;
 
 procedure FCMoglVM_SpUn_Gen(

@@ -188,6 +188,7 @@ uses
    ,farc_data_missionstasks
    ,farc_data_textfiles
    ,farc_data_univ
+   ,farc_ogl_functions
    ,farc_ogl_viewmain
    ,farc_win_debug;
 
@@ -662,7 +663,7 @@ begin
          if opUpd3dView
          then
          begin
-            OPsatObj:=FCFoglVM_SatObj_Search(OPoobj, OPsat);
+            OPsatObj:=FCFoglF_Satellite_SearchObject(OPoobj, OPsat);
             FCMoglVM_OObjSpUn_inOrbit(
                OPoobj
                ,OPsat
@@ -747,7 +748,7 @@ begin
             if opUpd3dView
             then
             begin
-               OPsatObj:=FCFoglVM_SatObj_Search(OPoobj, OPsat);
+               OPsatObj:=FCFoglF_Satellite_SearchObject(OPoobj, OPsat);
                FCMoglVM_OObjSpUn_inOrbit(
                   OPoobj
                   ,OPsat
@@ -786,7 +787,7 @@ begin
             if opUpd3dView
             then
             begin
-               OPsatObj:=FCFoglVM_SatObj_Search(OPoobj, OPsat);
+               OPsatObj:=FCFoglF_Satellite_SearchObject(OPoobj, OPsat);
                FCMoglVM_OObjSpUn_inOrbit(
                   OPoobj
                   ,OPsat

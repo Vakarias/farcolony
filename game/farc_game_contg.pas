@@ -52,6 +52,7 @@ uses
    ,farc_data_textfiles
    ,farc_gfx_core
    ,farc_main
+   ,farc_ogl_functions
    ,farc_ogl_init
    ,farc_ogl_ui
    ,farc_ogl_viewmain
@@ -269,7 +270,7 @@ FCMdF_DBProducts_Load;
             true
             );
          if CPsat>0
-         then FC3doglSelectedSatellite:=FCFoglVM_SatObj_Search(CPoobj, CPsat)
+         then FC3doglSelectedSatellite:=FCFoglF_Satellite_SearchObject(CPoobj, CPsat)
          else if (CPsat=0)
             and (FC3doglTotalSatellites>0)
          then FC3doglSelectedSatellite:=1;

@@ -94,6 +94,7 @@ uses
    ,farc_game_spmdata
    ,farc_gfx_core
    ,farc_main
+   ,farc_ogl_functions
    ,farc_ui_coldatapanel
    ,farc_ui_coredatadisplay
    ,farc_ui_msges
@@ -302,18 +303,38 @@ procedure FCMmC_Colonization_Setup(
 //   ,CSentVel
 //   ,CSdistDecel
 //   ,CSfinalVel: extended;
+   var
+      SatelliteObjectIndex: integer;
+
+      ObjectEscapeVelocity: extended;
 begin
+   ObjectEscapeVelocity:=0;
+   {.player's entity is separated from AI's because the system use directly the OpenGL object, since the player obviously use the mission setup interface}
    if FCRmcCurrentMissionCalculations.CMC_entity=0 then
    begin
-//            if FCRmcCurrentMissionCalculations.CMC_originLocation[4]=0
-//            then
-
-//            >0
-            //            GMCrootSatObjIdx
-//               :=FCFoglVM_SatObj_Search(
-//                  GMCrootOObIdx
-//                  ,GMCrootSatIdx
-//                  );
+      if FCRmcCurrentMissionCalculations.CMC_originLocation[4]=0 then
+      begin
+         if FCRmcCurrentMissionCalculations.CMC_baseDistance=0
+         then FCRmcCurrentMissionCalculations.CMC_baseDistance:=FCFoglF_DistanceBetweenTwoObjects_Calculate(
+            otSpaceUnit
+            ,FCDdgEntities[FCRmcCurrentMissionCalculations.CMC_entity].E_spaceUnits[SpaceUnit].SU_linked3dObject
+            ,otOrbitalObject
+            ,FCRmcCurrentMissionCalculations.CMC_originLocation[3]
+            );
+         ObjectEscapeVelocity:=FCDduStarSystem[FCRmcCurrentMissionCalculations.CMC_originLocation[1]].SS_stars[FCRmcCurrentMissionCalculations.CMC_originLocation[2]].S_orbitalObjects[FCRmcCurrentMissionCalculations.CMC_originLocation[3]].OO_escapeVelocity;
+      end
+      else if FCRmcCurrentMissionCalculations.CMC_originLocation[4]>0 then
+      begin
+         SatelliteObjectIndex:=FCFoglF_Satellite_SearchObject( FCRmcCurrentMissionCalculations.CMC_originLocation[3], FCRmcCurrentMissionCalculations.CMC_originLocation[4] );
+         if FCRmcCurrentMissionCalculations.CMC_baseDistance=0
+         then FCRmcCurrentMissionCalculations.CMC_baseDistance:=FCFoglF_DistanceBetweenTwoObjects_Calculate(
+            otSpaceUnit
+            ,FCDdgEntities[FCRmcCurrentMissionCalculations.CMC_entity].E_spaceUnits[SpaceUnit].SU_linked3dObject
+            ,otSatellite
+            ,SatelliteObjectIndex
+            );
+         ObjectEscapeVelocity:=FCDduStarSystem[FCRmcCurrentMissionCalculations.CMC_originLocation[1]].SS_stars[FCRmcCurrentMissionCalculations.CMC_originLocation[2]].S_orbitalObjects[FCRmcCurrentMissionCalculations.CMC_originLocation[3]].OO_satellitesList[FCRmcCurrentMissionCalculations.CMC_originLocation[4]].OO_escapeVelocity;
+      end;
    end
    else if FCRmcCurrentMissionCalculations.CMC_entity>0 then
    begin
@@ -323,32 +344,6 @@ begin
                }
    end;
 
-//         if CSsatIdx=0
-//         then
-//         begin
-//            if GMCbaseDist=0
-//            then GMCbaseDist:=FCFgMTrans_ObObjInLStar_CalcRng(
-//               FCDdgEntities[GMCfac].E_spaceUnits[CSowndMother].SU_linked3dObject
-//               ,CSoobjIdx
-//               ,gmtltSpUnit
-//               ,gmtltOrbObj
-//               ,false
-//               );
-//            CSentVel:=FCDduStarSystem[CSssys].SS_stars[CSstar].S_orbitalObjects[CSoobjIdx].OO_escapeVelocity;
-//         end
-//         else if CSsatIdx>0
-//         then
-//         begin
-//            if GMCbaseDist=0
-//            then GMCbaseDist:=FCFgMTrans_ObObjInLStar_CalcRng(
-//               FCDdgEntities[GMCfac].E_spaceUnits[CSowndMother].SU_linked3dObject
-//               ,CSsatObjIdx
-//               ,gmtltSpUnit
-//               ,gmtltSat
-//               ,false
-//               );
-//            CSentVel:=FCDduStarSystem[CSssys].SS_stars[CSstar].S_orbitalObjects[CSoobjIdx].OO_satellitesList[CSsatIdx].OO_escapeVelocity;
-//         end;
 
    case Method of
       cmDockingList:

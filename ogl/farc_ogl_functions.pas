@@ -113,6 +113,11 @@ function FCFoglF_Satellite_CalculatePosition(
          PlanetPosition: TFCRoglfPosition
    ): TFCRoglfPosition;
 
+///<summary>
+///   return the satellite object index of the choosen satellite in the current view. Satellite_SearchObject
+///</summary>
+function FCFoglF_Satellite_SearchObject(const SOSidxDBoob, SOSidxDBsat: integer): integer;
+
 //===========================END FUNCTIONS SECTION==========================================
 
 implementation
@@ -309,6 +314,34 @@ begin
    Result.P_y:=0;
    ProcessingData:=PlanetPosition.P_z+( sin( AngleInRad )*DistanceInUnits );
    Result.P_z:=FCFcFunc_Rnd( rtt3dposition, ProcessingData );
+end;
+
+function FCFoglF_Satellite_SearchObject(const SOSidxDBoob, SOSidxDBsat: integer): integer;
+{:Purpose: return the satellite object index of the choosen satellite in the current view.
+    Additions:
+}
+var
+   SOSdmpObjIdx
+   ,SOSdmpSatObjIdx
+   ,SOScnt
+   ,SOSttl: integer;
+begin
+   SOSdmpObjIdx:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[SOSidxDBoob].OO_isNotSat_1st3dObjectSatelliteIndex;
+   SOSdmpSatObjIdx:=0;
+   SOScnt:=1;
+   SOSttl:=length(FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[SOSidxDBoob].OO_satellitesList)-1;
+   Result:=0;
+   while SOScnt<=SOSttl do
+   begin
+      SOSdmpSatObjIdx:=SOSdmpObjIdx+SOScnt-1;
+      if FC3doglSatellitesObjectsGroups[SOSdmpSatObjIdx].Tag=SOSidxDBsat
+      then
+      begin
+         Result:=SOSdmpSatObjIdx;
+         Break;
+      end;
+      inc(SOScnt);
+   end;
 end;
 
 //===========================END FUNCTIONS SECTION==========================================
