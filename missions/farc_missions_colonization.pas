@@ -304,7 +304,7 @@ procedure FCMmC_Colonization_Setup(
 //   ,CSdistDecel
 //   ,CSfinalVel: extended;
    var
-      SatelliteObjectIndex: integer;
+//      SatelliteObjectIndex: integer;
 
       ObjectEscapeVelocity: extended;
 begin
@@ -314,25 +314,25 @@ begin
    begin
       if FCRmcCurrentMissionCalculations.CMC_originLocation[4]=0 then
       begin
-         if FCRmcCurrentMissionCalculations.CMC_baseDistance=0
-         then FCRmcCurrentMissionCalculations.CMC_baseDistance:=FCFoglF_DistanceBetweenTwoObjects_Calculate(
-            otSpaceUnit
-            ,FCDdgEntities[FCRmcCurrentMissionCalculations.CMC_entity].E_spaceUnits[SpaceUnit].SU_linked3dObject
-            ,otOrbitalObject
-            ,FCRmcCurrentMissionCalculations.CMC_originLocation[3]
-            );
+//         if FCRmcCurrentMissionCalculations.CMC_baseDistance=0
+//         then FCRmcCurrentMissionCalculations.CMC_baseDistance:=FCFoglF_DistanceBetweenTwoObjects_Calculate(
+//            otSpaceUnit
+//            ,FCDdgEntities[FCRmcCurrentMissionCalculations.CMC_entity].E_spaceUnits[SpaceUnit].SU_linked3dObject
+//            ,otOrbitalObject
+//            ,FCRmcCurrentMissionCalculations.CMC_originLocation[3]
+//            );
          ObjectEscapeVelocity:=FCDduStarSystem[FCRmcCurrentMissionCalculations.CMC_originLocation[1]].SS_stars[FCRmcCurrentMissionCalculations.CMC_originLocation[2]].S_orbitalObjects[FCRmcCurrentMissionCalculations.CMC_originLocation[3]].OO_escapeVelocity;
       end
       else if FCRmcCurrentMissionCalculations.CMC_originLocation[4]>0 then
       begin
-         SatelliteObjectIndex:=FCFoglF_Satellite_SearchObject( FCRmcCurrentMissionCalculations.CMC_originLocation[3], FCRmcCurrentMissionCalculations.CMC_originLocation[4] );
-         if FCRmcCurrentMissionCalculations.CMC_baseDistance=0
-         then FCRmcCurrentMissionCalculations.CMC_baseDistance:=FCFoglF_DistanceBetweenTwoObjects_Calculate(
-            otSpaceUnit
-            ,FCDdgEntities[FCRmcCurrentMissionCalculations.CMC_entity].E_spaceUnits[SpaceUnit].SU_linked3dObject
-            ,otSatellite
-            ,SatelliteObjectIndex
-            );
+//         SatelliteObjectIndex:=FCFoglF_Satellite_SearchObject( FCRmcCurrentMissionCalculations.CMC_originLocation[3], FCRmcCurrentMissionCalculations.CMC_originLocation[4] );
+//         if FCRmcCurrentMissionCalculations.CMC_baseDistance=0
+//         then FCRmcCurrentMissionCalculations.CMC_baseDistance:=FCFoglF_DistanceBetweenTwoObjects_Calculate(
+//            otSpaceUnit
+//            ,FCDdgEntities[FCRmcCurrentMissionCalculations.CMC_entity].E_spaceUnits[SpaceUnit].SU_linked3dObject
+//            ,otSatellite
+//            ,SatelliteObjectIndex
+//            );
          ObjectEscapeVelocity:=FCDduStarSystem[FCRmcCurrentMissionCalculations.CMC_originLocation[1]].SS_stars[FCRmcCurrentMissionCalculations.CMC_originLocation[2]].S_orbitalObjects[FCRmcCurrentMissionCalculations.CMC_originLocation[3]].OO_satellitesList[FCRmcCurrentMissionCalculations.CMC_originLocation[4]].OO_escapeVelocity;
       end;
    end

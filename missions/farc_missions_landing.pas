@@ -49,8 +49,10 @@ procedure FCFgMl_Land_Calc(
          ,LCsatIdx
          ,LCsatObjIdx: integer;
 
-   const LCdistDecel
-         ,LCentrVel: extended;
+   const
+//   LCdistDecel
+//         ,
+         LCentrVel: extended;
 
    const LCsetPeVel: boolean
    );
@@ -77,8 +79,10 @@ procedure FCFgMl_Land_Calc(
          ,LCsatIdx
          ,LCsatObjIdx: integer;
 
-   const LCdistDecel
-         ,LCentrVel: extended;
+   const
+//   LCdistDecel
+//         ,
+         LCentrVel: extended;
 
    const LCsetPeVel: boolean
    );
