@@ -50,15 +50,16 @@ type TFCRmcCurrentMissionCalculations=record
    end;
    CMC_accelerationInG: extended;
    CMC_baseDistance: extended;
+   CMC_colonyAlreadyExisting: integer;
    CMC_finalDeltaV: extended;
    CMC_landTime: integer;
+   CMC_regionOfDestination: integer;
    CMC_tripTime: integer;
    CMC_usedReactionMassVol: extended;
 
 //   CMD_mission: TFCEdmtTasks;
 //   GMCtimeA
 //   ,GMCtimeD
-//   ,GMCregion
 //: integer;
 //
 //   GMCrmMaxVol,
@@ -645,8 +646,10 @@ begin
    SetLength( FCRmcCurrentMissionCalculations.CMC_dockList, 0 );
    FCRmcCurrentMissionCalculations.CMC_accelerationInG:=0;
    FCRmcCurrentMissionCalculations.CMC_baseDistance:=0;
+   FCRmcCurrentMissionCalculations.CMC_colonyAlreadyExisting:=0;
    FCRmcCurrentMissionCalculations.CMC_finalDeltaV:=0;
    FCRmcCurrentMissionCalculations.CMC_landTime:=0;
+   FCRmcCurrentMissionCalculations.CMC_regionOfDestination:=0;
    FCRmcCurrentMissionCalculations.CMC_tripTime:=0;
    FCRmcCurrentMissionCalculations.CMC_usedReactionMassVol:=0;
    FCDmcCurrentMission[Entity].T_controllerIndex:=0;
@@ -778,85 +781,7 @@ begin
 
 
 
-//         {.track bar for number of spacecrafts}
-//         FCWinMain.FCWMS_Grp_MCG_RMassTrack.Tag:=1;
-//         FCWinMain.FCWMS_Grp_MCG_RMassTrack.Left:=12;
-//         FCWinMain.FCWMS_Grp_MCG_RMassTrack.Top:=28;
-//         FCWinMain.FCWMS_Grp_MCG_RMassTrack.Position:=1;
-//         FCWinMain.FCWMS_Grp_MCG_RMassTrack.Min:=1;
-//         if MSdockedNum=1
-//         then
-//         begin
-//            FCWinMain.FCWMS_Grp_MCG_RMassTrack.Max:=2;
-//            FCWinMain.FCWMS_Grp_MCG_RMassTrack.Visible:=false;
-//            FCWinMain.FCWMS_Grp_MCG_RMassTrack.Enabled:=false;
-//         end
-//         else if MSdockedNum>1
-//         then
-//         begin
-//            FCWinMain.FCWMS_Grp_MCG_RMassTrack.Max:=MSdockedNum;
-//            if FCWinMain.FCWMS_Grp_MCG_RMassTrack.Tag=1
-//            then FCWinMain.FCWMS_Grp_MCG_RMassTrack.Tag:=0;
-//            FCWinMain.FCWMS_Grp_MCG_RMassTrack.TrackLabel.Format:=IntToStr(FCWinMain.FCWMS_Grp_MCG_RMassTrack.Position);
-//         end;
-//         {.colony name}
-//         FCWinMain.FCWMS_Grp_MCGColName.Left
-//            :=FCWinMain.FCWMS_Grp_MCG_RMassTrack.Left+(FCWinMain.FCWMS_Grp_MCG_RMassTrack.Width shr 1)-(FCWinMain.FCWMS_Grp_MCGColName.Width shr 1);
-//         FCWinMain.FCWMS_Grp_MCGColName.Top:=FCWinMain.FCWMS_Grp_MCG_RMassTrack.Top+FCWinMain.FCWMS_Grp_MCG_RMassTrack.Height+24;
-//         if MScol=0
-//         then
-//         begin
-//            FCWinMain.FCWMS_Grp_MCGColName.Tag:=0;
-//            FCWinMain.FCWMS_Grp_MCGColName.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_CDPcolNameNo');
-//            FCWinMain.FCWMS_Grp_MCGColName.Show;
-//         end
-//         else if MScol>0
-//         then
-//         begin
-//            FCWinMain.FCWMS_Grp_MCGColName.Tag:=MScol;
-//            FCWinMain.FCWMS_Grp_MCGColName.Text:='';
-//            FCWinMain.FCWMS_Grp_MCGColName.Hide;
-//         end;
-//         {.settlement type}
-//         FCWinMain.FCWMS_Grp_MCG_SetType.Left:=FCWinMain.FCWMS_Grp_MCGColName.Left-4;
-//         FCWinMain.FCWMS_Grp_MCG_SetType.Top:=FCWinMain.FCWMS_Grp_MCGColName.Top+FCWinMain.FCWMS_Grp_MCGColName.Height+4;
-//         FCWinMain.FCWMS_Grp_MCG_SetType.ItemIndex:=-1;
-//         FCWinMain.FCWMS_Grp_MCG_SetType.Items.Clear;
-//         if MSenvironment<etSpace
-//         then
-//         begin
-//            FCWinMain.FCWMS_Grp_MCG_SetType.Items.Add( FCFdTFiles_UIStr_Get(uistrUI, 'FCWMS_Grp_MCG_SetType0') );
-//            FCWinMain.FCWMS_Grp_MCG_SetType.Items.Add( FCFdTFiles_UIStr_Get(uistrUI, 'FCWMS_Grp_MCG_SetType2') );
-//         end
-//         else if MSenvironment=etSpace
-//         then
-//         begin
-//            FCWinMain.FCWMS_Grp_MCG_SetType.Items.Add( FCFdTFiles_UIStr_Get(uistrUI, 'FCWMS_Grp_MCG_SetType1') );
-//            FCWinMain.FCWMS_Grp_MCG_SetType.Items.Add( FCFdTFiles_UIStr_Get(uistrUI, 'FCWMS_Grp_MCG_SetType2') );
-//         end;
-//         FCWinMain.FCWMS_Grp_MCG_SetType.ItemIndex:=0;
-//         FCWinMain.FCWMS_Grp_MCG_SetType.Hide;
-//         {.settlement name}
-//         FCWinMain.FCWMS_Grp_MCG_SetName.Left:=FCWinMain.FCWMS_Grp_MCGColName.Left;
-//         FCWinMain.FCWMS_Grp_MCG_SetName.Top:=FCWinMain.FCWMS_Grp_MCG_SetType.Top+FCWinMain.FCWMS_Grp_MCG_SetType.Height+19;
-//         FCWinMain.FCWMS_Grp_MCG_SetName.Hide;
-//         {.initialize the 2 mission configuration panels}
-//         FCWinMain.FCWMS_Grp_MCG_MissCfgData.HTMLText.Clear;
-//         {.mission configuration background panel}
-//         FCWinMain.FCWMS_Grp_MCG_DatDisp.HTMLText.Add(
-//            FCCFdHead
-//            +FCFdTFiles_UIStr_Get(uistrUI,'MCGColCVSel')
-//            +FCCFdHeadEnd
-//            );
-//         {.mission configuration data}
-//         FCWinMain.FCWMS_Grp_MCG_MissCfgData.HTMLText.Add(
-//            FCCFdHead
-//            +FCFdTFiles_UIStr_Get(uistrUI,'MCGDatHead')
-//            +FCCFdHeadEnd
-//            );
-//         FCWinMain.FCWMS_Grp_MCG_MissCfgData.HTMLText.Add( FCFdTFiles_UIStr_Get(uistrUI,'MSDGcurRegDestNone') );
-//         {.mission configuration proceed button}
-//         FCWinMain.FCWMS_ButProceed.Enabled:=false;
+
 //      end; //==END== case: gmcmnColoniz ==//
 
 

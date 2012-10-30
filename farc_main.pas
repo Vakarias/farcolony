@@ -1569,37 +1569,38 @@ var
    SPSSCcurrSettlement: integer;
 begin
    SPSSCcurrSettlement:=0;
-   if (FCWinMain.FCWM_MissionSettings.Visible) then
+   if (FCWinMain.FCWM_MissionSettings.Visible)
+      and (FCDmcCurrentMission[0].T_type=tMissionColonization) then
    begin
-//      GMCregion:=FCFuiSP_VarRegionSelected_Get;
-//      if not FCWinMain.FCWMS_Grp_MCGColName.Visible
-//      then
-//      begin
-//         SPSSCcurrSettlement:=FCFgC_Settlement_GetIndexFromRegion(
-//            0
-//            ,FCWinMain.FCWMS_Grp_MCGColName.Tag ///use
-//            ,GMCregion
-//            );
-//         if SPSSCcurrSettlement=0
-//         then
-//         begin
-//            FCWinMain.FCWMS_Grp_MCG_SetType.Show;
-//            FCWinMain.FCWMS_Grp_MCG_SetName.Show;
-//         end
-//         else if SPSSCcurrSettlement>0
-//         then
-//         begin
-//            FCWinMain.FCWMS_Grp_MCG_SetType.Hide;
-//            FCWinMain.FCWMS_Grp_MCG_SetName.Hide;
-//         end;
-//      end
-//      else if FCWinMain.FCWMS_Grp_MCGColName.Visible
-//      then
-//      begin
-//         FCWinMain.FCWMS_Grp_MCG_SetType.Show;
-//         FCWinMain.FCWMS_Grp_MCG_SetName.Show;
-//      end;
-//      FCMgMc_Colonize_Upd(GMCregion);
+      FCRmcCurrentMissionCalculations.CMC_regionOfDestination:=FCFuiSP_VarRegionSelected_Get;
+      if not FCWinMain.FCWMS_Grp_MCGColName.Visible
+      then
+      begin
+         SPSSCcurrSettlement:=FCFgC_Settlement_GetIndexFromRegion(
+            0
+            ,FCRmcCurrentMissionCalculations.CMC_colonyAlreadyExisting
+            ,FCRmcCurrentMissionCalculations.CMC_regionOfDestination
+            );
+         if SPSSCcurrSettlement=0
+         then
+         begin
+            FCWinMain.FCWMS_Grp_MCG_SetType.Show;
+            FCWinMain.FCWMS_Grp_MCG_SetName.Show;
+         end
+         else if SPSSCcurrSettlement>0
+         then
+         begin
+            FCWinMain.FCWMS_Grp_MCG_SetType.Hide;
+            FCWinMain.FCWMS_Grp_MCG_SetName.Hide;
+         end;
+      end
+      else if FCWinMain.FCWMS_Grp_MCGColName.Visible
+      then
+      begin
+         FCWinMain.FCWMS_Grp_MCG_SetType.Show;
+         FCWinMain.FCWMS_Grp_MCG_SetName.Show;
+      end;
+      FCMgMc_Colonize_Upd(FCRmcCurrentMissionCalculations.CMC_regionOfDestination);
    end;
 end;
 
