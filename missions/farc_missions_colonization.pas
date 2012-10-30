@@ -288,6 +288,7 @@ procedure FCMmC_Colonization_Setup(
    );
 {:Purpose: core colonize mission setup.
     Additions:
+      -2012Oct29- *code: end of rewriting.
       -2012Oct21- *add/mod: begin of the complete rewrite of the routine.
                   *add: new parameter to indicate if the space unit is in the player's local view, or not
       -2012Oct14- *rem: the parameter CSsatObjIdx is removed.
@@ -305,10 +306,16 @@ procedure FCMmC_Colonization_Setup(
 //   ,CSfinalVel: extended;
    var
 //      SatelliteObjectIndex: integer;
+      Count
+      ,Max: integer;
 
-      ObjectEscapeVelocity: extended;
+      ObjectEscapeVelocity
+      ,ProcessData: extended;
 begin
+   Count:=0;
+   Max:=0;
    ObjectEscapeVelocity:=0;
+   ProcessData:=0;
    {.player's entity is separated from AI's because the system use directly the OpenGL object, since the player obviously use the mission setup interface}
    if FCRmcCurrentMissionCalculations.CMC_entity=0 then
    begin
@@ -335,6 +342,44 @@ begin
 //            );
          ObjectEscapeVelocity:=FCDduStarSystem[FCRmcCurrentMissionCalculations.CMC_originLocation[1]].SS_stars[FCRmcCurrentMissionCalculations.CMC_originLocation[2]].S_orbitalObjects[FCRmcCurrentMissionCalculations.CMC_originLocation[3]].OO_satellitesList[FCRmcCurrentMissionCalculations.CMC_originLocation[4]].OO_escapeVelocity;
       end;
+      case Method of
+      cmDockingList:
+      begin
+         if FCRmcCurrentMissionCalculations.CMC_finalDeltaV=0 then
+         begin
+            ProcessData:=( ObjectEscapeVelocity*7.8 )/11.19;
+            FCRmcCurrentMissionCalculations.CMC_finalDeltaV:=FCFcFunc_Rnd( cfrttpVelkms, ProcessData );
+         end;
+         if not FCWinMain.FCWMS_Grp_MCG_RMassTrack.Visible
+         then Max:=1
+         else if FCWinMain.FCWMS_Grp_MCG_RMassTrack.Visible
+         then Max:=FCWinMain.FCWMS_Grp_MCG_RMassTrack.Position;
+         Count:=1;
+         while Count<=Max do
+         begin
+            FCFgMl_Land_Calc(
+               FCRmcCurrentMissionCalculations.CMC_entity
+               ,FCRmcCurrentMissionCalculations.CMC_dockList[Count].DL_spaceUnitIndex
+               ,FCRmcCurrentMissionCalculations.CMC_finalDeltaV
+               );
+            FCRmcCurrentMissionCalculations.CMC_dockList[Count].DL_landTime:=FCRmcCurrentMissionCalculations.CMC_landTime;
+            FCRmcCurrentMissionCalculations.CMC_dockList[Count].DL_tripTime:=FCRmcCurrentMissionCalculations.CMC_tripTime;
+            FCRmcCurrentMissionCalculations.CMC_dockList[Count].DL_usedReactionMass:=FCRmcCurrentMissionCalculations.CMC_usedReactionMassVol;
+            inc(Count);
+         end; //==END== while CScnt<=CSmax ==//
+      end;
+
+      cmSingleVessel:
+      begin
+         ProcessData:=( ObjectEscapeVelocity*7.8 )/11.19;
+         FCRmcCurrentMissionCalculations.CMC_finalDeltaV:=FCFcFunc_Rnd( cfrttpVelkms, ProcessData );
+         FCFgMl_Land_Calc(
+               FCRmcCurrentMissionCalculations.CMC_entity
+               ,SpaceUnit
+               ,FCRmcCurrentMissionCalculations.CMC_finalDeltaV
+               );
+      end;
+   end;
    end
    else if FCRmcCurrentMissionCalculations.CMC_entity>0 then
    begin
@@ -342,64 +387,8 @@ begin
                instead to use 3d objects data directly. Since obviously the mission user's interface isn't used for AIs, objects positions requires to be calculated in realtime, excepted for space units that
                have always a x and z position
                }
+            {:DEV NOTES: will be implemented when the AIs will.}
    end;
-
-
-   case Method of
-      cmDockingList:
-      begin
-
-      end;
-
-      cmSingleVessel:
-      begin
-      end;
-   end;
-
-
-//   setlength(GMCdckd, 1);
-//   if CSmethod=gclvstBySelector
-//   then
-//   begin
-
-//      {.distance conversion in m}
-//      CSdistDecel:=GMCbaseDist*CFC3dUnInKm*1000;
-//      {.begin the docked LV's setup}
-//      if FCWinMain.FCWMS_Grp_MCG_RMassTrack.Visible
-//      then CSmax:=FCWinMain.FCWMS_Grp_MCG_RMassTrack.Position
-//      else if not FCWinMain.FCWMS_Grp_MCG_RMassTrack.Visible
-//      then CSmax:=1;
-//      setlength(GMCdckd, CSmax+1);
-//      CScnt:=1;
-//      while CScnt<=CSmax do
-//      begin
-//         CSspuIdx:=FCDdgEntities[GMCfac].E_spaceUnits[CSowndMother].SU_dockedSpaceUnits[CScnt].SUDL_index;
-//         if (CScnt=1)
-//            and (GMCfinalDV=0)
-//         then
-//         begin
-//            CSfinalVel:=(CSentVel*7.8)/11.19;
-//            GMCfinalDV:=FCFcFunc_Rnd(cfrttpVelkms, CSfinalVel);
-//         end;
-//         FCFgMl_Land_Calc(
-//            GMCfac
-//            ,CSspuIdx
-//            ,CSssys
-//            ,CSstar
-//            ,CSoobjIdx
-//            ,CSsatIdx
-//            ,CSsatObjIdx
-//            ,CSdistDecel
-//            ,GMCfinalDV
-//            ,false
-//            );
-//         GMCdckd[CScnt].GMCD_index:=CSspuIdx;
-//         GMCdckd[CScnt].GMCD_landTime:=GMClandTime;
-//         GMCdckd[CScnt].GMCD_tripTime:=GMCtripTime;
-//         GMCdckd[CScnt].GMCD_usedRM:=GMCusedRMvol;
-//         inc(CScnt);
-//      end; //==END== while CScnt<=CSmax ==//
-//   end; //==END== if CSmethod=gclvstBySelector ==//
 end;
 
 procedure FCMgMc_Colonize_Upd(CUregIdx: integer);

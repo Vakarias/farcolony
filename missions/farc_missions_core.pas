@@ -48,22 +48,22 @@ type TFCRmcCurrentMissionCalculations=record
       DL_tripTime: integer;
       DL_usedReactionMass: extended;
    end;
+   CMC_accelerationInG: extended;
    CMC_baseDistance: extended;
+   CMC_finalDeltaV: extended;
+   CMC_landTime: integer;
+   CMC_tripTime: integer;
+   CMC_usedReactionMassVol: extended;
 
 //   CMD_mission: TFCEdmtTasks;
 //   GMCtimeA
 //   ,GMCtimeD
-//   ,GMCtripTime
-//   ,GMClandTime
 //   ,GMCregion
 //: integer;
 //
-//   GMCfinalDV,
 //   GMCrmMaxVol,
 //   GMCreqDV,
 //   GMCcruiseDV,
-//   GMCAccelG,
-//   GMCusedRMvol,
 //   GMCmaxDV: extended;
 end;
 
@@ -78,13 +78,15 @@ var
    FCRmcCurrentMissionCalculations: TFCRmcCurrentMissionCalculations;
 //==END PUBLIC VAR==========================================================================
 
-{:DEV NOTE: these constants are only for prototype purposes. It's quick & dirty and must be removed when the space unit designs are completed}
+{:DEV NOTE: these constants are only for prototype purposes. It's quick & dirty and must be removed when the space unit designs are completed.
+   it's why these ones are let as it (not audited)
+}
 const
    MRMCDVCthrbyvol=0.7;
    MRMCDVCvolOfDrive=3000;
    MRMCDVCloadedMassInTons=100000;
    MRMCDVCrmMass=70;
-   GMCCthrN=MRMCDVCthrbyvol*MRMCDVCvolOfDrive*(FCCdiMbySec_In_1G*1000);
+   GMCCthrN=MRMCDVCthrbyvol*MRMCDVCvolOfDrive*(FCCdiMetersBySec_In_1G*1000);
 
 //==END PUBLIC CONST========================================================================
 
@@ -221,6 +223,12 @@ begin
 //      tMissionColonization:
 //      begin
 //         {:DEV NOTES: add code if the LV are selected by the docking list or directly.}
+   {:DEV NOTES: for docked spu, don't forget to set the oobj and sat tokens w/ the mothercraft's ones (the ryule for all docked spu that left their mother craft)
+      LocationOrbitalObject:='';
+      LocationStatellite:=FCDduStarSystem[FCRmcCurrentMissionCalculations.CMC_originLocation[1]].SS_stars[FCRmcCurrentMissionCalculations.CMC_originLocation[2]].S_orbitalObjects[FCRmcCurrentMissionCalculations.CMC_originLocation[3]].OO_satellitesList[FCRmcCurrentMissionCalculations.CMC_originLocation[4]].OO_dbTokenId;
+
+      ALSO: beware to correctly limit the # of docked spu to assign, in accordance to the # of spu on the trackbar (1 if not visible)
+   .}
 ////         MCmax:=length(GMCdckd)-1;
 //         MCcnt:=1;
 //         while MCcnt<=MCmax do
@@ -635,7 +643,12 @@ begin
       ,FCDdgEntities[Entity].E_spaceUnits[spaceUnit].SU_locationSatellite
       );
    SetLength( FCRmcCurrentMissionCalculations.CMC_dockList, 0 );
+   FCRmcCurrentMissionCalculations.CMC_accelerationInG:=0;
    FCRmcCurrentMissionCalculations.CMC_baseDistance:=0;
+   FCRmcCurrentMissionCalculations.CMC_finalDeltaV:=0;
+   FCRmcCurrentMissionCalculations.CMC_landTime:=0;
+   FCRmcCurrentMissionCalculations.CMC_tripTime:=0;
+   FCRmcCurrentMissionCalculations.CMC_usedReactionMassVol:=0;
    FCDmcCurrentMission[Entity].T_controllerIndex:=0;
    FCDmcCurrentMission[Entity].T_duration:=0;
    FCDmcCurrentMission[Entity].T_durationInterval:=0;

@@ -196,6 +196,11 @@ const
    FCCdiKm_In_1AU=149597870;
 
    ///<summary>
+   ///   Gees to km/s
+   ///</summary>
+   FCCdiKmBySec_In_1G=0.009807;
+
+   ///<summary>
    ///   # of light-seconds in one Astonomical Unit
    ///</summary>
    FCCdiLightSec_In_1AU=499;
@@ -223,12 +228,12 @@ const
    ///<summary>
    ///   # of meters by seconds in 1c (light speed index)
    ///</summary>
-   FCCdiMbySec_In_1c=299792458;
+   FCCdiMetersBySec_In_1c=299792458;
 
    ///<summary>
    ///   # of meters by second in 1g
    ///</summary>
-   FCCdiMbySec_In_1G=9.807;
+   FCCdiMetersBySec_In_1G=9.807;
 
    ///<summary>
    ///   # of MegaJoules in 1 kWh
