@@ -327,14 +327,14 @@ begin
 //         if MScol=0
 //         then
 //         begin
-//            FCWinMain.FCWMS_Grp_MCGColName.Tag:=0;
+//            FCWinMain.FCWMS_Grp_MCGColName.Tag:=0;     ///USE FCRmcCurrentMissionCalculations.CMC_colonyAlreadyExisting
 //            FCWinMain.FCWMS_Grp_MCGColName.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_CDPcolNameNo');
 //            FCWinMain.FCWMS_Grp_MCGColName.Show;
 //         end
 //         else if MScol>0
 //         then
 //         begin
-//            FCWinMain.FCWMS_Grp_MCGColName.Tag:=MScol;
+//            FCWinMain.FCWMS_Grp_MCGColName.Tag:=MScol;  ///USE FCRmcCurrentMissionCalculations.CMC_colonyAlreadyExisting
 //            FCWinMain.FCWMS_Grp_MCGColName.Text:='';
 //            FCWinMain.FCWMS_Grp_MCGColName.Hide;
 //         end;
