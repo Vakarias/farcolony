@@ -899,9 +899,9 @@ begin
    begin
       RMTCmiss:=FCFdTFiles_UIStr_Get(uistrUI,'FCWinMissSet');
       if FCWinMain.FCWM_MissionSettings.Caption.Text=RMTCmiss+FCFdTFiles_UIStr_Get(uistrUI,'Mission.itransit')
-      then FCMgMCore_Mission_TrackUpd(tMissionInterplanetaryTransit)
+      then FCMuiMS_TrackBar_Update(tMissionInterplanetaryTransit)
       else if FCWinMain.FCWM_MissionSettings.Caption.Text=RMTCmiss+FCFdTFiles_UIStr_Get(uistrUI,'Mission.coloniz')
-      then FCMgMCore_Mission_TrackUpd(tMissionColonization);
+      then FCMuiMS_TrackBar_Update(tMissionColonization);
    end
    else if (FCWinMain.FCWM_MissionSettings.Visible)
       and (FCWMS_Grp_MCG_RMassTrack.Tag=1)
@@ -1269,7 +1269,7 @@ end;
 
 procedure TFCWinMain.FCWM_MissionSettingsClose(Sender: TObject);
 begin
-   FCMgMCore_Mission_ClosePanel;
+   FCMuiMS_Planel_Close;
 end;
 
 procedure TFCWinMain.FCWM_MissionSettingsEndCollapsExpand(Sender: TObject);
@@ -1600,7 +1600,7 @@ begin
          FCWinMain.FCWMS_Grp_MCG_SetType.Show;
          FCWinMain.FCWMS_Grp_MCG_SetName.Show;
       end;
-      FCMgMc_Colonize_Upd(FCRmcCurrentMissionCalculations.CMC_regionOfDestination);
+      FCMuiMS_ColonizationInterface_UpdateRegionSelection(FCRmcCurrentMissionCalculations.CMC_regionOfDestination);
    end;
 end;
 

@@ -672,11 +672,11 @@ begin
          FCDmcCurrentMission[Entity].T_tMCfinalTime:=0;
          FCDmcCurrentMission[Entity].T_tMCusedReactionMassVol:=0;
          if FCRmcCurrentMissionCalculations.CMC_originLocation[4]=0
-         then FCFuiMS_CurrentColony_Load(
+         then FCMuiMS_CurrentColony_Load(
             FCDduStarSystem[FCRmcCurrentMissionCalculations.CMC_originLocation[1]].SS_stars[FCRmcCurrentMissionCalculations.CMC_originLocation[2]].S_orbitalObjects[FCRmcCurrentMissionCalculations.CMC_originLocation[3]]
                .OO_colonies[0]
             )
-         else FCFuiMS_CurrentColony_Load(
+         else FCMuiMS_CurrentColony_Load(
             FCDduStarSystem[FCRmcCurrentMissionCalculations.CMC_originLocation[1]].SS_stars[FCRmcCurrentMissionCalculations.CMC_originLocation[2]].S_orbitalObjects[FCRmcCurrentMissionCalculations.CMC_originLocation[3]]
                .OO_satellitesList[FCRmcCurrentMissionCalculations.CMC_originLocation[4]].OO_colonies[Entity]
             );
@@ -756,31 +756,6 @@ begin
 //   GMCusedRMvol:=0;
 
 //   {.universal data initialization for all missions}
-
-//   {.missions specific settings}
-//   case MissionType of
-//      tMissionColonization:
-//      begin
-//         {.initialize mission data}
-//         GMCmother:=MSownedIdx;
-
-//         if FCDdgEntities[GMCfac].E_spaceUnits[GMCmother].SU_locationSatellite<>''
-//         then
-//         begin
-
-//            MSenvironment:=FCDduStarSystem[GMCrootSsys].SS_stars[GMCrootStar].S_orbitalObjects[GMCrootOObIdx].OO_satellitesList[GMCrootSatObjIdx].OO_environment;
-//         end
-//         else
-//         begin
-//            GMCrootSatIdx:=0;
-//
-//            MSenvironment:=FCDduStarSystem[GMCrootSsys].SS_stars[GMCrootStar].S_orbitalObjects[GMCrootOObIdx].OO_environment;
-//         end;
-
-//  =====================
-
-
-
 
 //      end; //==END== case: gmcmnColoniz ==//
 

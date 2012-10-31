@@ -70,12 +70,6 @@ procedure FCMmC_Colonization_Setup(
    const SpaceUnit: integer
    );
 
-///<summary>
-///   update region selection and update mission configuration
-///</summary>
-///   <param name="CUregIdx"></param>
-procedure FCMgMc_Colonize_Upd(CUregIdx: integer);
-
 implementation
 
 uses
@@ -307,13 +301,15 @@ procedure FCMmC_Colonization_Setup(
    var
 //      SatelliteObjectIndex: integer;
       Count
-      ,Max: integer;
+      ,Max
+      ,SatelliteObjectIndex: integer;
 
       ObjectEscapeVelocity
       ,ProcessData: extended;
 begin
    Count:=0;
    Max:=0;
+   SatelliteObjectIndex:=0;
    ObjectEscapeVelocity:=0;
    ProcessData:=0;
    {.player's entity is separated from AI's because the system use directly the OpenGL object, since the player obviously use the mission setup interface}
@@ -321,25 +317,25 @@ begin
    begin
       if FCRmcCurrentMissionCalculations.CMC_originLocation[4]=0 then
       begin
-//         if FCRmcCurrentMissionCalculations.CMC_baseDistance=0
-//         then FCRmcCurrentMissionCalculations.CMC_baseDistance:=FCFoglF_DistanceBetweenTwoObjects_Calculate(
-//            otSpaceUnit
-//            ,FCDdgEntities[FCRmcCurrentMissionCalculations.CMC_entity].E_spaceUnits[SpaceUnit].SU_linked3dObject
-//            ,otOrbitalObject
-//            ,FCRmcCurrentMissionCalculations.CMC_originLocation[3]
-//            );
+         if FCRmcCurrentMissionCalculations.CMC_baseDistance=0
+         then FCRmcCurrentMissionCalculations.CMC_baseDistance:=FCFoglF_DistanceBetweenTwoObjects_Calculate(
+            otSpaceUnit
+            ,FCDdgEntities[FCRmcCurrentMissionCalculations.CMC_entity].E_spaceUnits[SpaceUnit].SU_linked3dObject
+            ,otOrbitalObject
+            ,FCRmcCurrentMissionCalculations.CMC_originLocation[3]
+            );
          ObjectEscapeVelocity:=FCDduStarSystem[FCRmcCurrentMissionCalculations.CMC_originLocation[1]].SS_stars[FCRmcCurrentMissionCalculations.CMC_originLocation[2]].S_orbitalObjects[FCRmcCurrentMissionCalculations.CMC_originLocation[3]].OO_escapeVelocity;
       end
       else if FCRmcCurrentMissionCalculations.CMC_originLocation[4]>0 then
       begin
-//         SatelliteObjectIndex:=FCFoglF_Satellite_SearchObject( FCRmcCurrentMissionCalculations.CMC_originLocation[3], FCRmcCurrentMissionCalculations.CMC_originLocation[4] );
-//         if FCRmcCurrentMissionCalculations.CMC_baseDistance=0
-//         then FCRmcCurrentMissionCalculations.CMC_baseDistance:=FCFoglF_DistanceBetweenTwoObjects_Calculate(
-//            otSpaceUnit
-//            ,FCDdgEntities[FCRmcCurrentMissionCalculations.CMC_entity].E_spaceUnits[SpaceUnit].SU_linked3dObject
-//            ,otSatellite
-//            ,SatelliteObjectIndex
-//            );
+         SatelliteObjectIndex:=FCFoglF_Satellite_SearchObject( FCRmcCurrentMissionCalculations.CMC_originLocation[3], FCRmcCurrentMissionCalculations.CMC_originLocation[4] );
+         if FCRmcCurrentMissionCalculations.CMC_baseDistance=0
+         then FCRmcCurrentMissionCalculations.CMC_baseDistance:=FCFoglF_DistanceBetweenTwoObjects_Calculate(
+            otSpaceUnit
+            ,FCDdgEntities[FCRmcCurrentMissionCalculations.CMC_entity].E_spaceUnits[SpaceUnit].SU_linked3dObject
+            ,otSatellite
+            ,SatelliteObjectIndex
+            );
          ObjectEscapeVelocity:=FCDduStarSystem[FCRmcCurrentMissionCalculations.CMC_originLocation[1]].SS_stars[FCRmcCurrentMissionCalculations.CMC_originLocation[2]].S_orbitalObjects[FCRmcCurrentMissionCalculations.CMC_originLocation[3]].OO_satellitesList[FCRmcCurrentMissionCalculations.CMC_originLocation[4]].OO_escapeVelocity;
       end;
       case Method of
@@ -389,58 +385,6 @@ begin
                }
             {:DEV NOTES: will be implemented when the AIs will.}
    end;
-end;
-
-procedure FCMgMc_Colonize_Upd(CUregIdx: integer);
-{:Purpose: update region selection and update mission configuration.
-    Additions:
-      -2010May03- *fix: fixed a critical bug.
-}
-//var
-//   CUtimeMin
-//   ,CUtimeMax
-//   ,CUmax
-//   ,CUcnt: integer;
-//
-//   CUregLoc: string;
-//
-//   CUarrTime: array of integer;
-begin
-//   CUregLoc:=FCFuF_RegionLoc_Extract(
-//      GMCrootSsys
-//      ,GMCrootStar
-//      ,GMCrootOObIdx
-//      ,GMCrootSatIdx
-//      ,CUregIdx
-//      );
-//   CUcnt:=1;
-//   CUmax:=length(GMCdckd)-1;
-//   SetLength(CUarrTime, CUmax+1);
-//   while CUcnt<=CUmax do
-//   begin
-//      CUarrTime[CUcnt-1]:=GMCdckd[CUcnt].GMCD_landTime+GMCdckd[CUcnt].GMCD_tripTime;
-//      inc(CUcnt);
-//   end;
-//   CUtimeMin:=MinIntValue(CUarrTime);
-//   CUtimeMax:=MaxIntValue(CUarrTime);
-//   {.update selected region location idx=3}
-//   FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Insert(
-//      3
-//      ,FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_SP_ShReg')+' ['
-//      +CUregLoc+']<br>'
-//      );
-//   FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Delete(4);
-//   {.update mission data}
-//   FCWinMain.FCWMS_Grp_MCG_MissCfgData.HTMLText.Insert(
-//      1
-//      ,FCFdTFiles_UIStr_Get(uistrUI, 'MCGatmEntDV')+' '+FloatToStr(GMCfinalDV)+' km/s<br>'
-//         +FCCFdHead+FCFdTFiles_UIStr_Get(uistrUI,'MCGDatTripTime')+FCCFdHeadEnd
-//         +FCFdTFiles_UIStr_Get(uistrUI, 'MCGDatMinTime')+' '+FCFcFunc_TimeTick_GetDate(CUtimeMin)
-//         +'<br>'+FCFdTFiles_UIStr_Get(uistrUI, 'MCGDatMaxTime')+' '+FCFcFunc_TimeTick_GetDate(CUtimeMax)
-//      );
-//   FCWinMain.FCWMS_Grp_MCG_MissCfgData.HTMLText.Delete(2);
-//   if not FCWinMain.FCWMS_ButProceed.Enabled
-//   then FCWinMain.FCWMS_ButProceed.Enabled:=true;
 end;
 
 end.
