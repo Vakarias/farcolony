@@ -120,6 +120,8 @@ var
    FCVuimsCurrentColony: integer;
 
    FCVuimsIndX: string;
+
+   FCVuimsIsTrackbarProcess: boolean;
 //==END PRIVATE VAR=========================================================================
 
 //const
@@ -246,9 +248,13 @@ procedure FCMuiMS_ColonizationInterface_Setup;
     Additions:
 }
    var
-      SpaceDesign
+      MaxDocked
+      ,SpaceDesign
       ,SpaceUnit: integer;
 begin
+   MaxDocked:=0;
+   SpaceDesign:=0;
+   SpaceUnit:=0;
    if FCDmcCurrentMission[0].T_tMCorigin=ttSelf
    then SpaceUnit:=FCDmcCurrentMission[0].T_controllerIndex
    else if FCDmcCurrentMission[0].T_tMCorigin=ttSpaceUnitDockedIn
@@ -298,28 +304,51 @@ begin
       );
    {.idx=5}
    FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Add(FloatToStr(FCFcFunc_ScaleConverter(cf3dct3dViewUnitToKm, FCRmcCurrentMissionCalculations.CMC_baseDistance))+' km');
+   {.trackbar with docked space units}
+   MaxDocked:=length( FCRmcCurrentMissionCalculations.CMC_dockList )-1;
+   FCVuimsIsTrackbarProcess:=false;
+   FCWinMain.FCWMS_Grp_MCG_RMassTrack.Left:=12;
+   FCWinMain.FCWMS_Grp_MCG_RMassTrack.Top:=28;
+   FCWinMain.FCWMS_Grp_MCG_RMassTrack.Position:=1;
+   FCWinMain.FCWMS_Grp_MCG_RMassTrack.Min:=1;
+   if MaxDocked<=1
+   then
+   begin
+      FCWinMain.FCWMS_Grp_MCG_RMassTrack.Max:=2;
+      FCWinMain.FCWMS_Grp_MCG_RMassTrack.Visible:=false;
+      FCWinMain.FCWMS_Grp_MCG_RMassTrack.Enabled:=false;
+   end
+   else if MaxDocked>1
+   then
+   begin
+      FCWinMain.FCWMS_Grp_MCG_RMassTrack.Max:=MaxDocked;
+      FCVuimsIsTrackbarProcess:=true;
+      FCWinMain.FCWMS_Grp_MCG_RMassTrack.TrackLabel.Format:=IntToStr(FCWinMain.FCWMS_Grp_MCG_RMassTrack.Position);
+   end;
 
-   //         {.track bar for number of spacecrafts}
-//         FCWinMain.FCWMS_Grp_MCG_RMassTrack.Tag:=1;
-//         FCWinMain.FCWMS_Grp_MCG_RMassTrack.Left:=12;
-//         FCWinMain.FCWMS_Grp_MCG_RMassTrack.Top:=28;
-//         FCWinMain.FCWMS_Grp_MCG_RMassTrack.Position:=1;
-//         FCWinMain.FCWMS_Grp_MCG_RMassTrack.Min:=1;
-//         if MSdockedNum=1
-//         then
-//         begin
-//            FCWinMain.FCWMS_Grp_MCG_RMassTrack.Max:=2;
-//            FCWinMain.FCWMS_Grp_MCG_RMassTrack.Visible:=false;
-//            FCWinMain.FCWMS_Grp_MCG_RMassTrack.Enabled:=false;
-//         end
-//         else if MSdockedNum>1
-//         then
-//         begin
-//            FCWinMain.FCWMS_Grp_MCG_RMassTrack.Max:=MSdockedNum;
-//            if FCWinMain.FCWMS_Grp_MCG_RMassTrack.Tag=1
-//            then FCWinMain.FCWMS_Grp_MCG_RMassTrack.Tag:=0;
-//            FCWinMain.FCWMS_Grp_MCG_RMassTrack.TrackLabel.Format:=IntToStr(FCWinMain.FCWMS_Grp_MCG_RMassTrack.Position);
-//         end;
+
+
+//-            {.track bar for number of spacecrafts}
+//-         FCWinMain.FCWMS_Grp_MCG_RMassTrack.Tag:=1;
+//-         FCWinMain.FCWMS_Grp_MCG_RMassTrack.Left:=12;
+//-         FCWinMain.FCWMS_Grp_MCG_RMassTrack.Top:=28;
+//-         FCWinMain.FCWMS_Grp_MCG_RMassTrack.Position:=1;
+//-         FCWinMain.FCWMS_Grp_MCG_RMassTrack.Min:=1;
+//-         if MSdockedNum=1
+//-         then
+//-         begin
+//-            FCWinMain.FCWMS_Grp_MCG_RMassTrack.Max:=2;
+//-            FCWinMain.FCWMS_Grp_MCG_RMassTrack.Visible:=false;
+//-            FCWinMain.FCWMS_Grp_MCG_RMassTrack.Enabled:=false;
+//-         end
+//-         else if MSdockedNum>1
+//-         then
+//-         begin
+//-            FCWinMain.FCWMS_Grp_MCG_RMassTrack.Max:=MSdockedNum;
+//-            if FCWinMain.FCWMS_Grp_MCG_RMassTrack.Tag=1
+//-            then FCWinMain.FCWMS_Grp_MCG_RMassTrack.Tag:=0;
+//-            FCWinMain.FCWMS_Grp_MCG_RMassTrack.TrackLabel.Format:=IntToStr(FCWinMain.FCWMS_Grp_MCG_RMassTrack.Position);
+//-         end;
 //         {.colony name}
 //         FCWinMain.FCWMS_Grp_MCGColName.Left
 //            :=FCWinMain.FCWMS_Grp_MCG_RMassTrack.Left+(FCWinMain.FCWMS_Grp_MCG_RMassTrack.Width shr 1)-(FCWinMain.FCWMS_Grp_MCGColName.Width shr 1);
