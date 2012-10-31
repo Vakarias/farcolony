@@ -199,6 +199,7 @@ procedure FCMgMCore_Mission_Commit;
 {:DEV NOTES: don't forget to update all the required data w/ the new and modified ones! synch w/ a clone of data_missiontasks.}
 {:Purpose: commit the mission by creating a task.
     Additions:
+      -2012Oct30- *mod: begin of routine rewrite for the colonization mission.
       -2012Oct04- *add: colonization - test if the controller is docked or not and initialize the origin data accordingly.
       -2011Feb12- *add: additional data.
       -2010Sep16- *add: entities code.
@@ -215,33 +216,101 @@ procedure FCMgMCore_Mission_Commit;
       -2009Nov22- *doesn't initialize FCRplayer.Play_suOwned[TITP_tgtIdx].SUO_taskIdx here, it's done only when the thread is created.
       -2009Oct31- *fixed a bug by a non transfered data.
 }
-//var
-//   MCmax
+var
+   Count
+   ,Entity
+   ,Max
+   ,TaskIndex
+//   ,MCmax
 //   ,MCcnt
-//   ,MCtskL: integer;
+//   ,MCtskL
+   : integer;
 begin
-//   case GMCmissTp of
-//      tMissionColonization:
-//      begin
+   Count:=0;
+   Entity:=FCRmcCurrentMissionCalculations.CMC_entity;
+   Max:=0;
+   TaskIndex:=0;
+   case FCDmcCurrentMission[Entity].T_type of
+      tMissionColonization:
+      begin
 //         {:DEV NOTES: add code if the LV are selected by the docking list or directly.}
-   {:DEV NOTES: for docked spu, don't forget to set the oobj and sat tokens w/ the mothercraft's ones (the ryule for all docked spu that left their mother craft)
+   {:DEV NOTES: for docked spu, don't forget to set the oobj and sat tokens w/ the mothercraft's ones (the rule for all docked spu that left their mother craft)
       LocationOrbitalObject:='';
       LocationStatellite:=FCDduStarSystem[FCRmcCurrentMissionCalculations.CMC_originLocation[1]].SS_stars[FCRmcCurrentMissionCalculations.CMC_originLocation[2]].S_orbitalObjects[FCRmcCurrentMissionCalculations.CMC_originLocation[3]].OO_satellitesList[FCRmcCurrentMissionCalculations.CMC_originLocation[4]].OO_dbTokenId;
 
       ALSO: beware to correctly limit the # of docked spu to assign, in accordance to the # of spu on the trackbar (1 if not visible)
    .}
-////         MCmax:=length(GMCdckd)-1;
-//         MCcnt:=1;
-//         while MCcnt<=MCmax do
-//         begin
-//            setlength(FCDdmtTaskListToProcess, length(FCDdmtTaskListToProcess)+1);
-//            MCtskL:=length(FCDdmtTaskListToProcess)-1;
-//            FCDdmtTaskListToProcess[MCtskL].T_type:=tMissionColonization;
-////            FCGtskLstToProc[MCtskL].TITP_ctldType:=ttSpaceUnit;
-//            FCDdmtTaskListToProcess[MCtskL].T_entity:=GMCfac;
-////            FCDdmtTaskListToProcess[MCtskL].T_controllerIndex:=GMCdckd[MCcnt].GMCD_index; {:DEV NOTES: add the possibility of not docked space units!.}
-////            FCDdmtTaskListToProcess[MCtskL].T_duration:=GMCdckd[MCcnt].GMCD_tripTime;
-//            FCDdmtTaskListToProcess[MCtskL].T_durationInterval:=1;
+         Max:=FCWinMain.FCWMS_Grp_MCG_RMassTrack.Position;
+         if Max=0 then
+         begin
+            setlength( FCDdmtTaskListToProcess, length(FCDdmtTaskListToProcess)+1 );
+            TaskIndex:=length(FCDdmtTaskListToProcess)-1;
+            FCDdmtTaskListToProcess[TaskIndex].T_entity:=FCRmcCurrentMissionCalculations.CMC_entity;
+            FCDdmtTaskListToProcess[TaskIndex].T_inProcessData.IPD_isTaskDone:=false;
+            FCDdmtTaskListToProcess[TaskIndex].T_inProcessData.IPD_isTaskTerminated:=false;
+            FCDdmtTaskListToProcess[TaskIndex].T_inProcessData.IPD_ticksAtTaskStart:=0;
+            FCDdmtTaskListToProcess[TaskIndex].T_controllerIndex:=FCDmcCurrentMission[Entity].T_controllerIndex;
+            FCDdmtTaskListToProcess[TaskIndex].T_duration:=FCRmcCurrentMissionCalculations.CMC_tripTime;
+            FCDdmtTaskListToProcess[TaskIndex].T_durationInterval:=1;
+            FCDdmtTaskListToProcess[TaskIndex].T_previousProcessTime:=0;
+            FCDdmtTaskListToProcess[TaskIndex].T_type:=tMissionColonization;
+            FCDdmtTaskListToProcess[TaskIndex].T_tMCphase:=mcpDeceleration;
+            FCDdmtTaskListToProcess[TaskIndex].T_tMCorigin:=FCDmcCurrentMission[Entity].T_tMCorigin;
+            FCDdmtTaskListToProcess[TaskIndex].T_tMCoriginIndex:=FCDmcCurrentMission[Entity].T_tMCoriginIndex;
+
+
+
+            {.update the docked space unit data}
+            FCDdgEntities[Entity].E_spaceUnits[FCDdmtTaskListToProcess[TaskIndex].T_controllerIndex].SU_locationOrbitalObject:=FCDduStarSystem[FCRmcCurrentMissionCalculations.CMC_originLocation[1]].SS_stars[FCRmcCurrentMissionCalculations.CMC_originLocation[2]].S_orbitalObjects[FCRmcCurrentMissionCalculations.CMC_originLocation[3]].OO_dbTokenId;
+            if FCRmcCurrentMissionCalculations.CMC_originLocation[4]=0
+            then FCDdgEntities[Entity].E_spaceUnits[FCDdmtTaskListToProcess[TaskIndex].T_controllerIndex].SU_locationSatellite:=''
+            else if FCRmcCurrentMissionCalculations.CMC_originLocation[4]>0
+            then FCDdgEntities[Entity].E_spaceUnits[FCDdmtTaskListToProcess[TaskIndex].T_controllerIndex].SU_locationSatellite:=FCDduStarSystem[FCRmcCurrentMissionCalculations.CMC_originLocation[1]].SS_stars[FCRmcCurrentMissionCalculations.CMC_originLocation[2]].S_orbitalObjects[FCRmcCurrentMissionCalculations.CMC_originLocation[3]].OO_satellitesList[FCRmcCurrentMissionCalculations.CMC_originLocation[4]].OO_dbTokenId;
+         end
+         else if Max>0 then
+         begin
+            Count:=1;
+            while Count<=Max do
+            begin
+               setlength( FCDdmtTaskListToProcess, length(FCDdmtTaskListToProcess)+1 );
+               TaskIndex:=length(FCDdmtTaskListToProcess)-1;
+               FCDdmtTaskListToProcess[TaskIndex].T_entity:=FCRmcCurrentMissionCalculations.CMC_entity;
+               FCDdmtTaskListToProcess[TaskIndex].T_inProcessData.IPD_isTaskDone:=false;
+               FCDdmtTaskListToProcess[TaskIndex].T_inProcessData.IPD_isTaskTerminated:=false;
+               FCDdmtTaskListToProcess[TaskIndex].T_inProcessData.IPD_ticksAtTaskStart:=0;
+               FCDdmtTaskListToProcess[TaskIndex].T_controllerIndex:=FCRmcCurrentMissionCalculations.CMC_dockList[Count].DL_spaceUnitIndex;
+               FCDdmtTaskListToProcess[TaskIndex].T_duration:=FCRmcCurrentMissionCalculations.CMC_dockList[Count].DL_tripTime;
+               FCDdmtTaskListToProcess[TaskIndex].T_durationInterval:=1;
+               FCDdmtTaskListToProcess[TaskIndex].T_previousProcessTime:=0;
+               FCDdmtTaskListToProcess[TaskIndex].T_type:=tMissionColonization;
+               FCDdmtTaskListToProcess[TaskIndex].T_tMCphase:=mcpDeceleration;
+               FCDdmtTaskListToProcess[TaskIndex].T_tMCorigin:=FCDmcCurrentMission[Entity].T_tMCorigin;
+               FCDdmtTaskListToProcess[TaskIndex].T_tMCoriginIndex:=FCDmcCurrentMission[Entity].T_tMCoriginIndex;
+
+
+
+               {.update the docked space unit data}
+               FCDdgEntities[Entity].E_spaceUnits[FCRmcCurrentMissionCalculations.CMC_dockList[Count].DL_spaceUnitIndex].SU_locationOrbitalObject:=FCDduStarSystem[FCRmcCurrentMissionCalculations.CMC_originLocation[1]].SS_stars[FCRmcCurrentMissionCalculations.CMC_originLocation[2]].S_orbitalObjects[FCRmcCurrentMissionCalculations.CMC_originLocation[3]].OO_dbTokenId;
+               if FCRmcCurrentMissionCalculations.CMC_originLocation[4]=0
+               then FCDdgEntities[Entity].E_spaceUnits[FCRmcCurrentMissionCalculations.CMC_dockList[Count].DL_spaceUnitIndex].SU_locationSatellite:=''
+               else if FCRmcCurrentMissionCalculations.CMC_originLocation[4]>0
+               then FCDdgEntities[Entity].E_spaceUnits[FCRmcCurrentMissionCalculations.CMC_dockList[Count].DL_spaceUnitIndex].SU_locationSatellite:=FCDduStarSystem[FCRmcCurrentMissionCalculations.CMC_originLocation[1]].SS_stars[FCRmcCurrentMissionCalculations.CMC_originLocation[2]].S_orbitalObjects[FCRmcCurrentMissionCalculations.CMC_originLocation[3]].OO_satellitesList[FCRmcCurrentMissionCalculations.CMC_originLocation[4]].OO_dbTokenId;
+               inc( Count );
+            end;
+         end;
+
+////-         MCmax:=length(GMCdckd)-1;
+//-         MCcnt:=1;
+//-         while MCcnt<=MCmax do
+//-         begin
+//-            setlength(FCDdmtTaskListToProcess, length(FCDdmtTaskListToProcess)+1);
+//-            MCtskL:=length(FCDdmtTaskListToProcess)-1;
+//-            FCDdmtTaskListToProcess[MCtskL].T_type:=tMissionColonization;
+////-            FCGtskLstToProc[MCtskL].TITP_ctldType:=ttSpaceUnit;
+//-            FCDdmtTaskListToProcess[MCtskL].T_entity:=GMCfac;
+////-            FCDdmtTaskListToProcess[MCtskL].T_controllerIndex:=GMCdckd[MCcnt].GMCD_index; {:DEV NOTES: add the possibility of not docked space units!.}
+////-            FCDdmtTaskListToProcess[MCtskL].T_duration:=GMCdckd[MCcnt].GMCD_tripTime;
+//-            FCDdmtTaskListToProcess[MCtskL].T_durationInterval:=1;
    {:DEV NOTES: WARNING, already set in FCMgMCore_Mission_Setup, please check it en remove / modif the lines below.}
 //            if FCDdgEntities[GMCfac].E_spaceUnits[FCDdmtTaskListToProcess[MCtskL].T_controllerIndex].SU_status=susDocked then
 //            begin
@@ -302,9 +371,10 @@ begin
 //            FCMoglUI_Main3DViewUI_Update(oglupdtpTxtOnly, ogluiutFocObj);
 //            FCMuiW_FocusPopup_Upd(uiwpkSpUnit);
 //         end;
-//      end; //==END== case: gmcmnColoniz ==//
-//      tMissionInterplanetaryTransit:
-//      begin
+      end; //==END== case: gmcmnColoniz ==//
+
+      tMissionInterplanetaryTransit:
+      begin
 //         setlength(FCDdmtTaskListToProcess, length(FCDdmtTaskListToProcess)+1);
 //         MCtskL:=length(FCDdmtTaskListToProcess)-1;
 //         FCDdmtTaskListToProcess[MCtskL].T_type:=tMissionInterplanetaryTransit;
@@ -354,8 +424,8 @@ begin
 //            FC3doglSelectedPlanetAsteroid:=round(FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].TagFloat);
 //         end;
 //         FCMoglVM_CamMain_Target(-1, false);
-//      end; //==END== case: gmcmnItransit ==//
-//   end; //==END== case GMCmissTp of ==//
+      end; //==END== case: gmcmnItransit ==//
+   end; //==END== case GMCmissTp of ==//
 //FCVdiGameFlowTimer.Enabled:=true;
 end;
 

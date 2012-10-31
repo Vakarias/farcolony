@@ -32,6 +32,7 @@ interface
 
 uses
    Classes
+   ,Math
    ,SysUtils
 
    ,farc_data_missionstasks;
@@ -114,7 +115,8 @@ uses
    ,farc_spu_functions
    ,farc_ui_keys
    ,farc_ui_msges
-   ,farc_ui_surfpanel;
+   ,farc_ui_surfpanel
+   ,farc_univ_func;
 
 //==END PRIVATE ENUM========================================================================
 
@@ -150,53 +152,66 @@ end;
 procedure FCMuiMS_ColonizationInterface_UpdateRegionSelection(CUregIdx: integer);
 {:Purpose: update region selection and update mission configuration.
     Additions:
+      -2012Oct30- *mod: update the routine with the last changes for the alpha 4.
+                  *add: the case for not docked space units.
       -2010May03- *fix: fixed a critical bug.
 }
-//var
-//   CUtimeMin
-//   ,CUtimeMax
-//   ,CUmax
-//   ,CUcnt: integer;
+var
+   CUtimeMin
+   ,CUtimeMax
+   ,CUmax
+   ,CUcnt: integer;
 //
-//   CUregLoc: string;
+   CUregLoc: string;
 //
-//   CUarrTime: array of integer;
+   CUarrTime: array of integer;
 begin
-//   CUregLoc:=FCFuF_RegionLoc_Extract(
-//      GMCrootSsys
-//      ,GMCrootStar
-//      ,GMCrootOObIdx
-//      ,GMCrootSatIdx
-//      ,CUregIdx
-//      );
-//   CUcnt:=1;
-//   CUmax:=length(GMCdckd)-1;
-//   SetLength(CUarrTime, CUmax+1);
-//   while CUcnt<=CUmax do
-//   begin
-//      CUarrTime[CUcnt-1]:=GMCdckd[CUcnt].GMCD_landTime+GMCdckd[CUcnt].GMCD_tripTime;
-//      inc(CUcnt);
-//   end;
-//   CUtimeMin:=MinIntValue(CUarrTime);
-//   CUtimeMax:=MaxIntValue(CUarrTime);
-//   {.update selected region location idx=3}
-//   FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Insert(
-//      3
-//      ,FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_SP_ShReg')+' ['
-//      +CUregLoc+']<br>'
-//      );
-//   FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Delete(4);
-//   {.update mission data}
-//   FCWinMain.FCWMS_Grp_MCG_MissCfgData.HTMLText.Insert(
-//      1
-//      ,FCFdTFiles_UIStr_Get(uistrUI, 'MCGatmEntDV')+' '+FloatToStr(GMCfinalDV)+' km/s<br>'
-//         +FCCFdHead+FCFdTFiles_UIStr_Get(uistrUI,'MCGDatTripTime')+FCCFdHeadEnd
-//         +FCFdTFiles_UIStr_Get(uistrUI, 'MCGDatMinTime')+' '+FCFcFunc_TimeTick_GetDate(CUtimeMin)
-//         +'<br>'+FCFdTFiles_UIStr_Get(uistrUI, 'MCGDatMaxTime')+' '+FCFcFunc_TimeTick_GetDate(CUtimeMax)
-//      );
-//   FCWinMain.FCWMS_Grp_MCG_MissCfgData.HTMLText.Delete(2);
-//   if not FCWinMain.FCWMS_ButProceed.Enabled
-//   then FCWinMain.FCWMS_ButProceed.Enabled:=true;
+   SetLength(CUarrTime, 1);
+   CUregLoc:=FCFuF_RegionLoc_Extract(
+      FCRmcCurrentMissionCalculations.CMC_originLocation[1]
+      ,FCRmcCurrentMissionCalculations.CMC_originLocation[2]
+      ,FCRmcCurrentMissionCalculations.CMC_originLocation[3]
+      ,FCRmcCurrentMissionCalculations.CMC_originLocation[4]
+      ,FCRmcCurrentMissionCalculations.CMC_regionOfDestination
+      );
+   CUcnt:=1;
+   CUmax:=length(FCRmcCurrentMissionCalculations.CMC_dockList)-1;
+   if CUmax=0 then
+   begin
+      CUtimeMin:=FCRmcCurrentMissionCalculations.CMC_landTime+FCRmcCurrentMissionCalculations.CMC_tripTime;
+      CUtimeMax:=CUtimeMin;
+   end
+   else if CUmax>0 then
+   begin
+      SetLength(CUarrTime, CUmax+1);
+      while CUcnt<=CUmax do
+      begin
+         CUarrTime[CUcnt-1]:=FCRmcCurrentMissionCalculations.CMC_dockList[CUcnt].DL_landTime+FCRmcCurrentMissionCalculations.CMC_dockList[CUcnt].DL_tripTime;
+         inc(CUcnt);
+      end;
+      CUtimeMin:=MinIntValue(CUarrTime);
+      CUtimeMax:=MaxIntValue(CUarrTime);
+      if CUtimeMin=0
+      then CUtimeMin:=CUtimeMax;
+   end;
+   {.update selected region location idx=3}
+   FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Insert(
+      3
+      ,FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_SP_ShReg')+' ['
+      +CUregLoc+']<br>'
+      );
+   FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Delete(4);
+   {.update mission data}
+   FCWinMain.FCWMS_Grp_MCG_MissCfgData.HTMLText.Insert(
+      1
+      ,FCFdTFiles_UIStr_Get(uistrUI, 'MCGatmEntDV')+' '+FloatToStr(FCRmcCurrentMissionCalculations.CMC_finalDeltaV)+' km/s<br>'
+         +FCCFdHead+FCFdTFiles_UIStr_Get(uistrUI,'MCGDatTripTime')+FCCFdHeadEnd
+         +FCFdTFiles_UIStr_Get(uistrUI, 'MCGDatMinTime')+' '+FCFcFunc_TimeTick_GetDate(CUtimeMin)
+         +'<br>'+FCFdTFiles_UIStr_Get(uistrUI, 'MCGDatMaxTime')+' '+FCFcFunc_TimeTick_GetDate(CUtimeMax)
+      );
+   FCWinMain.FCWMS_Grp_MCG_MissCfgData.HTMLText.Delete(2);
+   if not FCWinMain.FCWMS_ButProceed.Enabled
+   then FCWinMain.FCWMS_ButProceed.Enabled:=true;
 end;
 
 procedure FCMuiMS_ColonizationInterface_Setup;
@@ -276,9 +291,9 @@ begin
    if MaxDocked<=1
    then
    begin
-      FCWinMain.FCWMS_Grp_MCG_RMassTrack.Max:=2;
       FCWinMain.FCWMS_Grp_MCG_RMassTrack.Visible:=false;
       FCWinMain.FCWMS_Grp_MCG_RMassTrack.Enabled:=false;
+      FCWinMain.FCWMS_Grp_MCG_RMassTrack.Max:=2;
    end
    else if MaxDocked>1
    then

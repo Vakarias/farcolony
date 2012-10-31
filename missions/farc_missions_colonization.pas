@@ -129,151 +129,151 @@ procedure FCMgC_Colonize_PostProc(
       -2010Jun02- *add: completion mission message.
       -2010May19- *add: faction # local data.
 }
-//var
-//   CPPcolIdx
-//   ,CPPsettlement
-//   ,regionttl
-//   ,surfaceOObj
-//   ,surfaceSat: integer;
+var
+   CPPcolIdx
+   ,CPPsettlement
+   ,regionttl
+   ,surfaceOObj
+   ,surfaceSat: integer;
 
 begin
-//   CPPsettlement:=0;
-//   {:DEV NOTES: resource survey data, TO REMOVE WHEN REGION SURVEY IS IMPLEMENTED.}
-//   SetLength(FCVdgPlayer.P_surveyedResourceSpots, 2);
-//   {:DEV NOTES: END HARCODED SURVEY DATA.}
-//   if CPPsatIdx=0
-//   then
-//   begin
-//      CPPcolIdx:=FCDduStarSystem[CPPssys].SS_stars[CPPstar].S_orbitalObjects[CPPobjIdx].OO_colonies[0];
-//      {:DEV NOTES: resource survey data, TO REMOVE WHEN REGION SURVEY IS IMPLEMENTED.}
-//      regionttl:=length(FCDduStarSystem[CPPssys].SS_stars[CPPstar].S_orbitalObjects[CPPobjIdx].OO_regions);
-//      FCVdgPlayer.P_surveyedResourceSpots[1].SRS_orbitalObject_SatelliteToken:=FCDduStarSystem[CPPssys].SS_stars[CPPstar].S_orbitalObjects[CPPobjIdx].OO_dbTokenId;
-//      {:DEV NOTES: END HARCODED SURVEY DATA.}
-//   end
-//   else if CPPsatIdx>0
-//   then
-//   begin
-//      CPPcolIdx:=FCDduStarSystem[CPPssys].SS_stars[CPPstar].S_orbitalObjects[CPPobjIdx].OO_satellitesList[CPPsatIdx].OO_colonies[0];
-//      {:DEV NOTES: resource survey data, TO REMOVE WHEN REGION SURVEY IS IMPLEMENTED.}
-//      regionttl:=length(FCDduStarSystem[CPPssys].SS_stars[CPPstar].S_orbitalObjects[CPPobjIdx].OO_satellitesList[CPPsatIdx].OO_regions);
-//      FCVdgPlayer.P_surveyedResourceSpots[1].SRS_orbitalObject_SatelliteToken:=FCDduStarSystem[CPPssys].SS_stars[CPPstar].S_orbitalObjects[CPPobjIdx].OO_satellitesList[CPPsatIdx].OO_dbTokenId;
-//      {:DEV NOTES: END HARCODED SURVEY DATA.}
-//   end;
-//   {.establish the colony if no one exist}
-//   if CPPcolIdx=0
-//   then
-//   begin
-//      CPPcolIdx:=FCFgC_Colony_Core(
-//         gcaEstablished
-//         ,CPPfac
-//         ,CPPssys
-//         ,CPPstar
-//         ,CPPobjIdx
-//         ,CPPsatIdx
-//         );
-//      FCDdgEntities[CPPfac].E_colonies[CPPcolIdx].C_name:=CPPname;
-//      CPPsettlement:=FCFgC_Settlement_Add(
-//         CPPfac
-//         ,CPPcolIdx
-//         ,CPPregion
-//         ,CPPsettleTp
-//         ,CPPsettleName
-//         );
-//      surfaceOObj:=FCFuiSP_VarCurrentOObj_Get;
-//      surfaceSat:=FCFuiSP_VarCurrentSat_Get;
-//      if (surfaceOObj=CPPobjIdx)
-//         and (surfaceSat=CPPsatIdx)
-//         and (CPPfac=0)
-//      then FCMgfxC_Settlement_SwitchState(CPPregion);
-//      {:DEV NOTES: resource survey data, TO REMOVE WHEN REGION SURVEY IS IMPLEMENTED.}
-//      FCVdgPlayer.P_surveyedResourceSpots[1].SRS_starSystem:=CPPssys;
-//      FCVdgPlayer.P_surveyedResourceSpots[1].SRS_star:=CPPstar;
-//      FCVdgPlayer.P_surveyedResourceSpots[1].SRS_orbitalObject:=CPPobjIdx;
-//      FCVdgPlayer.P_surveyedResourceSpots[1].SRS_satellite:=CPPsatIdx;
-//      setlength(FCVdgPlayer.P_surveyedResourceSpots[1].SRS_surveyedRegions, regionttl);
-//      setlength(FCVdgPlayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots, 2 );
-//      FCVdgPlayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots[1].RS_meanQualityCoefficient:=0.7;
-//      FCVdgPlayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots[1].RS_spotSizeCurrent:=0;
-//      FCVdgPlayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots[1].RS_spotSizeMax:=50;
-//      FCVdgPlayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots[1].RS_type:=rstOreField;
-//      FCVdgPlayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots[1].RS_tOFiCarbonaceous:=25;
-//      FCVdgPlayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots[1].RS_tOFiMetallic:=25;
-//      FCVdgPlayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots[1].RS_tOFiRare:=25;
-//      FCVdgPlayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots[1].RS_tOFiUranium:=25;
-//      {:DEV NOTES: END HARCODED SURVEY DATA.}
-//      FCMuiM_Message_Add(
-//         mtColonizeWset
-//         ,0
-//         ,CPPspuIdx
-//         ,CPPobjIdx
-//         ,CPPsatIdx
-//         ,CPPregion
-//         );
-//      FCcps.FCM_ViabObj_Init(true);
-//      FCcps.CPSisEnabled:=true;
-//   end
-//   else
-//   begin
-//      CPPsettlement:=FCFgC_Settlement_GetIndexFromRegion(
-//         CPPfac
-//         ,CPPcolIdx
-//         ,CPPregion
-//         );
-//      if CPPsettlement=0
-//      then
-//      begin
-//         CPPsettlement:=FCFgC_Settlement_Add(
-//            CPPfac
-//            ,CPPcolIdx
-//            ,CPPregion
-//            ,CPPsettleTp
-//            ,CPPsettleName
-//            );
-//         surfaceOObj:=FCFuiSP_VarCurrentOObj_Get;
-//         surfaceSat:=FCFuiSP_VarCurrentSat_Get;
-//         if (surfaceOObj=CPPobjIdx)
-//            and (surfaceSat=CPPsatIdx)
-//            and (CPPfac=0)
-//         then FCMgfxC_Settlement_SwitchState(CPPregion);
-//      end;
-//      FCMuiM_Message_Add(
-//         mtColonize
-//         ,0
-//         ,CPPspuIdx
-//         ,CPPobjIdx
-//         ,CPPsatIdx
-//         ,CPPregion
-//         );
-//   end;
-//   {.convert the LV in a colonization shelter}
-//   FCMgICS_Conversion_Process(
-//      CPPfac
-//      ,CPPspuIdx
-//      ,CPPcolIdx
-//      ,CPPsettlement
-//      );
-//   FCMgSPMD_Level_Upd(CPPfac);
-//   surfaceOObj:=FCFuiSP_VarCurrentOObj_Get;
-//   surfaceSat:=FCFuiSP_VarCurrentSat_Get;
-//   if (FCWinMain.FCWM_SurfPanel.Visible)
-//      and (CPPfac=0)
-//      and (surfaceOObj=CPPobjIdx)
-//      and (surfaceSat=CPPsatIdx)
-//   then
-//   begin
-//      FCMuiCDD_Colony_Update(
-//         cdlAll
-//         ,CPPcolIdx
-//         ,CPPsettlement
-//         ,0
-//         ,false
-//         ,false
-//         ,true
-//         );
-//
-////      FCWinMain.FCWM_ColDPanel.Show;
-////      FCMuiSP_Panel_Relocate( false );
-//   end;
+   CPPsettlement:=0;
+   {:DEV NOTES: resource survey data, TO REMOVE WHEN REGION SURVEY IS IMPLEMENTED.}
+   SetLength(FCVdgPlayer.P_surveyedResourceSpots, 2);
+   {:DEV NOTES: END HARCODED SURVEY DATA.}
+   if CPPsatIdx=0
+   then
+   begin
+      CPPcolIdx:=FCDduStarSystem[CPPssys].SS_stars[CPPstar].S_orbitalObjects[CPPobjIdx].OO_colonies[0];
+      {:DEV NOTES: resource survey data, TO REMOVE WHEN REGION SURVEY IS IMPLEMENTED.}
+      regionttl:=length(FCDduStarSystem[CPPssys].SS_stars[CPPstar].S_orbitalObjects[CPPobjIdx].OO_regions);
+      FCVdgPlayer.P_surveyedResourceSpots[1].SRS_orbitalObject_SatelliteToken:=FCDduStarSystem[CPPssys].SS_stars[CPPstar].S_orbitalObjects[CPPobjIdx].OO_dbTokenId;
+      {:DEV NOTES: END HARCODED SURVEY DATA.}
+   end
+   else if CPPsatIdx>0
+   then
+   begin
+      CPPcolIdx:=FCDduStarSystem[CPPssys].SS_stars[CPPstar].S_orbitalObjects[CPPobjIdx].OO_satellitesList[CPPsatIdx].OO_colonies[0];
+      {:DEV NOTES: resource survey data, TO REMOVE WHEN REGION SURVEY IS IMPLEMENTED.}
+      regionttl:=length(FCDduStarSystem[CPPssys].SS_stars[CPPstar].S_orbitalObjects[CPPobjIdx].OO_satellitesList[CPPsatIdx].OO_regions);
+      FCVdgPlayer.P_surveyedResourceSpots[1].SRS_orbitalObject_SatelliteToken:=FCDduStarSystem[CPPssys].SS_stars[CPPstar].S_orbitalObjects[CPPobjIdx].OO_satellitesList[CPPsatIdx].OO_dbTokenId;
+      {:DEV NOTES: END HARCODED SURVEY DATA.}
+   end;
+   {.establish the colony if no one exist}
+   if CPPcolIdx=0
+   then
+   begin
+      CPPcolIdx:=FCFgC_Colony_Core(
+         gcaEstablished
+         ,CPPfac
+         ,CPPssys
+         ,CPPstar
+         ,CPPobjIdx
+         ,CPPsatIdx
+         );
+      FCDdgEntities[CPPfac].E_colonies[CPPcolIdx].C_name:=CPPname;
+      CPPsettlement:=FCFgC_Settlement_Add(
+         CPPfac
+         ,CPPcolIdx
+         ,CPPregion
+         ,CPPsettleTp
+         ,CPPsettleName
+         );
+      surfaceOObj:=FCFuiSP_VarCurrentOObj_Get;
+      surfaceSat:=FCFuiSP_VarCurrentSat_Get;
+      if (surfaceOObj=CPPobjIdx)
+         and (surfaceSat=CPPsatIdx)
+         and (CPPfac=0)
+      then FCMgfxC_Settlement_SwitchState(CPPregion);
+      {:DEV NOTES: resource survey data, TO REMOVE WHEN REGION SURVEY IS IMPLEMENTED.}
+      FCVdgPlayer.P_surveyedResourceSpots[1].SRS_starSystem:=CPPssys;
+      FCVdgPlayer.P_surveyedResourceSpots[1].SRS_star:=CPPstar;
+      FCVdgPlayer.P_surveyedResourceSpots[1].SRS_orbitalObject:=CPPobjIdx;
+      FCVdgPlayer.P_surveyedResourceSpots[1].SRS_satellite:=CPPsatIdx;
+      setlength(FCVdgPlayer.P_surveyedResourceSpots[1].SRS_surveyedRegions, regionttl);
+      setlength(FCVdgPlayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots, 2 );
+      FCVdgPlayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots[1].RS_meanQualityCoefficient:=0.7;
+      FCVdgPlayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots[1].RS_spotSizeCurrent:=0;
+      FCVdgPlayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots[1].RS_spotSizeMax:=50;
+      FCVdgPlayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots[1].RS_type:=rstOreField;
+      FCVdgPlayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots[1].RS_tOFiCarbonaceous:=25;
+      FCVdgPlayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots[1].RS_tOFiMetallic:=25;
+      FCVdgPlayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots[1].RS_tOFiRare:=25;
+      FCVdgPlayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots[1].RS_tOFiUranium:=25;
+      {:DEV NOTES: END HARCODED SURVEY DATA.}
+      FCMuiM_Message_Add(
+         mtColonizeWset
+         ,0
+         ,CPPspuIdx
+         ,CPPobjIdx
+         ,CPPsatIdx
+         ,CPPregion
+         );
+      FCcps.FCM_ViabObj_Init(true);
+      FCcps.CPSisEnabled:=true;
+   end
+   else
+   begin
+      CPPsettlement:=FCFgC_Settlement_GetIndexFromRegion(
+         CPPfac
+         ,CPPcolIdx
+         ,CPPregion
+         );
+      if CPPsettlement=0
+      then
+      begin
+         CPPsettlement:=FCFgC_Settlement_Add(
+            CPPfac
+            ,CPPcolIdx
+            ,CPPregion
+            ,CPPsettleTp
+            ,CPPsettleName
+            );
+         surfaceOObj:=FCFuiSP_VarCurrentOObj_Get;
+         surfaceSat:=FCFuiSP_VarCurrentSat_Get;
+         if (surfaceOObj=CPPobjIdx)
+            and (surfaceSat=CPPsatIdx)
+            and (CPPfac=0)
+         then FCMgfxC_Settlement_SwitchState(CPPregion);
+      end;
+      FCMuiM_Message_Add(
+         mtColonize
+         ,0
+         ,CPPspuIdx
+         ,CPPobjIdx
+         ,CPPsatIdx
+         ,CPPregion
+         );
+   end;
+   {.convert the LV in a colonization shelter}
+   FCMgICS_Conversion_Process(
+      CPPfac
+      ,CPPspuIdx
+      ,CPPcolIdx
+      ,CPPsettlement
+      );
+   FCMgSPMD_Level_Upd(CPPfac);
+   surfaceOObj:=FCFuiSP_VarCurrentOObj_Get;
+   surfaceSat:=FCFuiSP_VarCurrentSat_Get;
+   if (FCWinMain.FCWM_SurfPanel.Visible)
+      and (CPPfac=0)
+      and (surfaceOObj=CPPobjIdx)
+      and (surfaceSat=CPPsatIdx)
+   then
+   begin
+      FCMuiCDD_Colony_Update(
+         cdlAll
+         ,CPPcolIdx
+         ,CPPsettlement
+         ,0
+         ,false
+         ,false
+         ,true
+         );
+
+//      FCWinMain.FCWM_ColDPanel.Show;
+//      FCMuiSP_Panel_Relocate( false );
+   end;
 end;
 
 procedure FCMmC_Colonization_Setup(
