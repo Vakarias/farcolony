@@ -350,12 +350,12 @@ begin
          if Entity=0 then
          begin
             FCMuiMS_Planel_Close;
-//            if FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglSpaceUnits[GMCmother]
-//            then
-//            begin
-//               FCMoglUI_Main3DViewUI_Update(oglupdtpTxtOnly, ogluiutFocObj);
-//               FCMuiW_FocusPopup_Upd(uiwpkSpUnit);
-//            end;
+            if ( Max>0 )
+               and (  FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglSpaceUnits[FCDdgEntities[Entity].E_spaceUnits[FCDdmtTaskListToProcess[TaskIndex].T_tMCoriginIndex].SU_linked3dObject] ) then
+            begin
+               FCMoglUI_Main3DViewUI_Update(oglupdtpTxtOnly, ogluiutFocObj);
+               FCMuiW_FocusPopup_Upd(uiwpkSpUnit);
+            end;
          end;
       end; //==END== case: tMissionColonization ==//
 
@@ -412,7 +412,7 @@ begin
 //         FCMoglVM_CamMain_Target(-1, false);
       end; //==END== case: gmcmnItransit ==//
    end; //==END== case GMCmissTp of ==//
-//FCVdiGameFlowTimer.Enabled:=true;
+   FCVdiGameFlowTimer.Enabled:=true;
 end;
 
 procedure FCMgMCore_Mission_ConfData;
