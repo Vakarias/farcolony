@@ -134,6 +134,7 @@ uses
    ,farc_missions_colonization
    ,farc_missions_interplanetarytransit
    ,farc_main
+   ,farc_ogl_functions
    ,farc_ogl_ui
    ,farc_ogl_viewmain
    ,farc_spu_functions
@@ -233,13 +234,6 @@ begin
    case FCDmcCurrentMission[Entity].T_type of
       tMissionColonization:
       begin
-//         {:DEV NOTES: add code if the LV are selected by the docking list or directly.}
-   {:DEV NOTES: for docked spu, don't forget to set the oobj and sat tokens w/ the mothercraft's ones (the rule for all docked spu that left their mother craft)
-      LocationOrbitalObject:='';
-      LocationStatellite:=FCDduStarSystem[FCRmcCurrentMissionCalculations.CMC_originLocation[1]].SS_stars[FCRmcCurrentMissionCalculations.CMC_originLocation[2]].S_orbitalObjects[FCRmcCurrentMissionCalculations.CMC_originLocation[3]].OO_satellitesList[FCRmcCurrentMissionCalculations.CMC_originLocation[4]].OO_dbTokenId;
-
-      ALSO: beware to correctly limit the # of docked spu to assign, in accordance to the # of spu on the trackbar (1 if not visible)
-   .}
          Max:=FCWinMain.FCWMS_Grp_MCG_RMassTrack.Position;
          if Max=0 then
          begin
@@ -257,16 +251,41 @@ begin
             FCDdmtTaskListToProcess[TaskIndex].T_tMCphase:=mcpDeceleration;
             FCDdmtTaskListToProcess[TaskIndex].T_tMCorigin:=FCDmcCurrentMission[Entity].T_tMCorigin;
             FCDdmtTaskListToProcess[TaskIndex].T_tMCoriginIndex:=FCDmcCurrentMission[Entity].T_tMCoriginIndex;
-
-
-
-            {.update the docked space unit data}
+            {.update the space unit data}
             FCDdgEntities[Entity].E_spaceUnits[FCDdmtTaskListToProcess[TaskIndex].T_controllerIndex].SU_locationOrbitalObject:=FCDduStarSystem[FCRmcCurrentMissionCalculations.CMC_originLocation[1]].SS_stars[FCRmcCurrentMissionCalculations.CMC_originLocation[2]].S_orbitalObjects[FCRmcCurrentMissionCalculations.CMC_originLocation[3]].OO_dbTokenId;
-            if FCRmcCurrentMissionCalculations.CMC_originLocation[4]=0
-            then FCDdgEntities[Entity].E_spaceUnits[FCDdmtTaskListToProcess[TaskIndex].T_controllerIndex].SU_locationSatellite:=''
-            else if FCRmcCurrentMissionCalculations.CMC_originLocation[4]>0
-            then FCDdgEntities[Entity].E_spaceUnits[FCDdmtTaskListToProcess[TaskIndex].T_controllerIndex].SU_locationSatellite:=FCDduStarSystem[FCRmcCurrentMissionCalculations.CMC_originLocation[1]].SS_stars[FCRmcCurrentMissionCalculations.CMC_originLocation[2]].S_orbitalObjects[FCRmcCurrentMissionCalculations.CMC_originLocation[3]].OO_satellitesList[FCRmcCurrentMissionCalculations.CMC_originLocation[4]].OO_dbTokenId;
-         end
+            if FCRmcCurrentMissionCalculations.CMC_originLocation[4]=0 then
+            begin
+               FCDdgEntities[Entity].E_spaceUnits[FCDdmtTaskListToProcess[TaskIndex].T_controllerIndex].SU_locationSatellite:='';
+               FCDdmtTaskListToProcess[TaskIndex].T_tMCdestination:=ttOrbitalObject;
+               FCDdmtTaskListToProcess[TaskIndex].T_tMCdestinationIndex:=FCRmcCurrentMissionCalculations.CMC_originLocation[3];
+            end
+            else if FCRmcCurrentMissionCalculations.CMC_originLocation[4]>0 then
+            begin
+               FCDdgEntities[Entity].E_spaceUnits[FCDdmtTaskListToProcess[TaskIndex].T_controllerIndex].SU_locationSatellite:=FCDduStarSystem[FCRmcCurrentMissionCalculations.CMC_originLocation[1]].SS_stars[FCRmcCurrentMissionCalculations.CMC_originLocation[2]].S_orbitalObjects[FCRmcCurrentMissionCalculations.CMC_originLocation[3]].OO_satellitesList[FCRmcCurrentMissionCalculations.CMC_originLocation[4]].OO_dbTokenId;
+               FCDdmtTaskListToProcess[TaskIndex].T_tMCdestination:=ttSatellite;
+               FCDdmtTaskListToProcess[TaskIndex].T_tMCdestinationIndex:=FCRmcCurrentMissionCalculations.CMC_originLocation[4];
+            end;
+            FCDdmtTaskListToProcess[TaskIndex].T_tMCdestinationRegion:=FCRmcCurrentMissionCalculations.CMC_regionOfDestination;
+            if FCWinMain.FCWMS_Grp_MCGColName.Text<>FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_CDPcolNameNo')
+            then FCDdmtTaskListToProcess[TaskIndex].T_tMCcolonyName:=FCWinMain.FCWMS_Grp_MCGColName.Text
+            else FCDdmtTaskListToProcess[TaskIndex].T_tMCcolonyName:='';
+            if FCWinMain.FCWMS_Grp_MCG_SetName.Visible then
+            begin
+               FCDdmtTaskListToProcess[TaskIndex].T_tMCsettlementName:=FCWinMain.FCWMS_Grp_MCG_SetName.Text;
+               {:DEV NOTES: change that for the real settlement type.}
+               FCDdmtTaskListToProcess[TaskIndex].T_tMCsettlementType:=sSurface;//FCWinMain.FCWMS_Grp_MCG_SetType.ItemIndex;
+            end
+            else begin
+               FCDdmtTaskListToProcess[TaskIndex].T_tMCsettlementName:='';
+               {:DEV NOTES: change that for the real settlement type.}
+               FCDdmtTaskListToProcess[TaskIndex].T_tMCsettlementType:=sSurface;
+            end;
+            FCDdmtTaskListToProcess[TaskIndex].T_tMCfinalVelocity:=FCRmcCurrentMissionCalculations.CMC_finalDeltaV;
+            FCDdmtTaskListToProcess[TaskIndex].T_tMCfinalTime:=FCRmcCurrentMissionCalculations.CMC_landTime;
+            FCDdmtTaskListToProcess[TaskIndex].T_tMCusedReactionMassVol:=FCRmcCurrentMissionCalculations.CMC_usedReactionMassVol;
+            FCDdmtTaskListToProcess[TaskIndex].T_tMCinProcessData.IPD_accelerationByTick:=0;
+            FCDdmtTaskListToProcess[TaskIndex].T_tMCinProcessData.IPD_timeForDeceleration:=0;
+         end //==END== if Max=0 then ==//
          else if Max>0 then
          begin
             Count:=1;
@@ -286,92 +305,59 @@ begin
                FCDdmtTaskListToProcess[TaskIndex].T_tMCphase:=mcpDeceleration;
                FCDdmtTaskListToProcess[TaskIndex].T_tMCorigin:=FCDmcCurrentMission[Entity].T_tMCorigin;
                FCDdmtTaskListToProcess[TaskIndex].T_tMCoriginIndex:=FCDmcCurrentMission[Entity].T_tMCoriginIndex;
-
-
-
-               {.update the docked space unit data}
+               {.update the docked space unit data + destination}
                FCDdgEntities[Entity].E_spaceUnits[FCRmcCurrentMissionCalculations.CMC_dockList[Count].DL_spaceUnitIndex].SU_locationOrbitalObject:=FCDduStarSystem[FCRmcCurrentMissionCalculations.CMC_originLocation[1]].SS_stars[FCRmcCurrentMissionCalculations.CMC_originLocation[2]].S_orbitalObjects[FCRmcCurrentMissionCalculations.CMC_originLocation[3]].OO_dbTokenId;
-               if FCRmcCurrentMissionCalculations.CMC_originLocation[4]=0
-               then FCDdgEntities[Entity].E_spaceUnits[FCRmcCurrentMissionCalculations.CMC_dockList[Count].DL_spaceUnitIndex].SU_locationSatellite:=''
-               else if FCRmcCurrentMissionCalculations.CMC_originLocation[4]>0
-               then FCDdgEntities[Entity].E_spaceUnits[FCRmcCurrentMissionCalculations.CMC_dockList[Count].DL_spaceUnitIndex].SU_locationSatellite:=FCDduStarSystem[FCRmcCurrentMissionCalculations.CMC_originLocation[1]].SS_stars[FCRmcCurrentMissionCalculations.CMC_originLocation[2]].S_orbitalObjects[FCRmcCurrentMissionCalculations.CMC_originLocation[3]].OO_satellitesList[FCRmcCurrentMissionCalculations.CMC_originLocation[4]].OO_dbTokenId;
+               if FCRmcCurrentMissionCalculations.CMC_originLocation[4]=0 then
+               begin
+                  FCDdgEntities[Entity].E_spaceUnits[FCRmcCurrentMissionCalculations.CMC_dockList[Count].DL_spaceUnitIndex].SU_locationSatellite:='';
+                  FCDdmtTaskListToProcess[TaskIndex].T_tMCdestination:=ttOrbitalObject;
+                  FCDdmtTaskListToProcess[TaskIndex].T_tMCdestinationIndex:=FCRmcCurrentMissionCalculations.CMC_originLocation[3];
+               end
+               else if FCRmcCurrentMissionCalculations.CMC_originLocation[4]>0 then
+               begin
+                  FCDdgEntities[Entity].E_spaceUnits[FCRmcCurrentMissionCalculations.CMC_dockList[Count].DL_spaceUnitIndex].SU_locationSatellite:=FCDduStarSystem[FCRmcCurrentMissionCalculations.CMC_originLocation[1]].SS_stars[FCRmcCurrentMissionCalculations.CMC_originLocation[2]].S_orbitalObjects[FCRmcCurrentMissionCalculations.CMC_originLocation[3]].OO_satellitesList[FCRmcCurrentMissionCalculations.CMC_originLocation[4]].OO_dbTokenId;
+                  FCDdmtTaskListToProcess[TaskIndex].T_tMCdestination:=ttSatellite;
+                  FCDdmtTaskListToProcess[TaskIndex].T_tMCdestinationIndex:=FCRmcCurrentMissionCalculations.CMC_originLocation[4];
+               end;
+               FCDdmtTaskListToProcess[TaskIndex].T_tMCdestinationRegion:=FCRmcCurrentMissionCalculations.CMC_regionOfDestination;
+               if FCWinMain.FCWMS_Grp_MCGColName.Text<>FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_CDPcolNameNo')
+               then FCDdmtTaskListToProcess[TaskIndex].T_tMCcolonyName:=FCWinMain.FCWMS_Grp_MCGColName.Text
+               else FCDdmtTaskListToProcess[TaskIndex].T_tMCcolonyName:='';
+               if FCWinMain.FCWMS_Grp_MCG_SetName.Visible then
+               begin
+                  FCDdmtTaskListToProcess[TaskIndex].T_tMCsettlementName:=FCWinMain.FCWMS_Grp_MCG_SetName.Text;
+                  {:DEV NOTES: change that for the real settlement type.}
+                  FCDdmtTaskListToProcess[TaskIndex].T_tMCsettlementType:=sSurface;//FCWinMain.FCWMS_Grp_MCG_SetType.ItemIndex;
+               end
+               else begin
+                  FCDdmtTaskListToProcess[TaskIndex].T_tMCsettlementName:='';
+                  {:DEV NOTES: change that for the real settlement type.}
+                  FCDdmtTaskListToProcess[TaskIndex].T_tMCsettlementType:=sSurface;
+               end;
+               FCDdmtTaskListToProcess[TaskIndex].T_tMCfinalVelocity:=FCRmcCurrentMissionCalculations.CMC_finalDeltaV;
+               FCDdmtTaskListToProcess[TaskIndex].T_tMCfinalTime:=FCRmcCurrentMissionCalculations.CMC_dockList[Count].DL_landTime;
+               FCDdmtTaskListToProcess[TaskIndex].T_tMCusedReactionMassVol:=FCRmcCurrentMissionCalculations.CMC_dockList[Count].DL_usedReactionMass;
+               FCDdmtTaskListToProcess[TaskIndex].T_tMCinProcessData.IPD_accelerationByTick:=0;
+               FCDdmtTaskListToProcess[TaskIndex].T_tMCinProcessData.IPD_timeForDeceleration:=0;
+               FCMspuF_DockedSpU_Rem(
+                  Entity
+                  ,FCDdmtTaskListToProcess[TaskIndex].T_tMCoriginIndex
+                  ,FCDdmtTaskListToProcess[TaskIndex].T_controllerIndex
+                  );
                inc( Count );
             end;
+         end; //==END== else if Max>0 then ==//
+         if Entity=0 then
+         begin
+            FCMuiMS_Planel_Close;
+//            if FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglSpaceUnits[GMCmother]
+//            then
+//            begin
+//               FCMoglUI_Main3DViewUI_Update(oglupdtpTxtOnly, ogluiutFocObj);
+//               FCMuiW_FocusPopup_Upd(uiwpkSpUnit);
+//            end;
          end;
-
-////-         MCmax:=length(GMCdckd)-1;
-//-         MCcnt:=1;
-//-         while MCcnt<=MCmax do
-//-         begin
-//-            setlength(FCDdmtTaskListToProcess, length(FCDdmtTaskListToProcess)+1);
-//-            MCtskL:=length(FCDdmtTaskListToProcess)-1;
-//-            FCDdmtTaskListToProcess[MCtskL].T_type:=tMissionColonization;
-////-            FCGtskLstToProc[MCtskL].TITP_ctldType:=ttSpaceUnit;
-//-            FCDdmtTaskListToProcess[MCtskL].T_entity:=GMCfac;
-////-            FCDdmtTaskListToProcess[MCtskL].T_controllerIndex:=GMCdckd[MCcnt].GMCD_index; {:DEV NOTES: add the possibility of not docked space units!.}
-////-            FCDdmtTaskListToProcess[MCtskL].T_duration:=GMCdckd[MCcnt].GMCD_tripTime;
-//-            FCDdmtTaskListToProcess[MCtskL].T_durationInterval:=1;
-   {:DEV NOTES: WARNING, already set in FCMgMCore_Mission_Setup, please check it en remove / modif the lines below.}
-//            if FCDdgEntities[GMCfac].E_spaceUnits[FCDdmtTaskListToProcess[MCtskL].T_controllerIndex].SU_status=susDocked then
-//            begin
-//               FCDdmtTaskListToProcess[MCtskL].T_tMCorigin:=ttSpaceUnitDockedIn;
-//               FCDdmtTaskListToProcess[MCtskL].T_tMCoriginIndex:=GMCmother;
-//            end
-//            else begin
-//               FCDdmtTaskListToProcess[MCtskL].T_tMCorigin:=ttSelf;
-//               FCDdmtTaskListToProcess[MCtskL].T_tMCoriginIndex:=0;
-//            end;
-//            {:DEV NOTES: end WARNING
-//               if not docked: origin=0
-//            .}
-//            if GMCrootSatIdx=0
-//            then
-//            begin
-//               FCDdmtTaskListToProcess[MCtskL].T_tMCdestination:=ttOrbitalObject;
-//               FCDdmtTaskListToProcess[MCtskL].T_tMCdestinationIndex:=GMCrootOObIdx;
-//            end
-//            else if GMCrootSatIdx>0
-//            then
-//            begin
-//               FCDdmtTaskListToProcess[MCtskL].T_tMCdestination:=ttSatellite;
-//               FCDdmtTaskListToProcess[MCtskL].T_tMCdestinationIndex:=GMCrootSatObjIdx;
-//            end;
-//            FCDdmtTaskListToProcess[MCtskL].T_tMCdestinationRegion:=GMCregion;
-//            FCDdmtTaskListToProcess[MCtskL].T_tMCfinalVelocity:=GMCfinalDV;
-////            FCDdmtTaskListToProcess[MCtskL].T_tMCfinalTime:=GMCdckd[MCcnt].GMCD_landTime;
-////            FCDdmtTaskListToProcess[MCtskL].T_tMCusedReactionMassVol:=GMCdckd[MCcnt].GMCD_usedRM;
-//            if FCWinMain.FCWMS_Grp_MCGColName.Text<>FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_CDPcolNameNo')
-//            then FCDdmtTaskListToProcess[MCtskL].T_tMCcolonyName:=FCWinMain.FCWMS_Grp_MCGColName.Text
-//            else FCDdmtTaskListToProcess[MCtskL].T_tMCcolonyName:='';
-//            if FCWinMain.FCWMS_Grp_MCG_SetName.Visible
-//            then
-//            begin
-//               FCDdmtTaskListToProcess[MCtskL].T_tMCsettlementName:=FCWinMain.FCWMS_Grp_MCG_SetName.Text;
-//               {:DEV NOTES: change that for the real settlement type.}
-//               FCDdmtTaskListToProcess[MCtskL].T_tMCsettlementType:=sSurface;//FCWinMain.FCWMS_Grp_MCG_SetType.ItemIndex;
-//            end
-//            else
-//            begin
-//               FCDdmtTaskListToProcess[MCtskL].T_tMCsettlementName:='';
-//               {:DEV NOTES: change that for the real settlement type.}
-//               FCDdmtTaskListToProcess[MCtskL].T_tMCsettlementType:=sSurface;
-//            end;
-//            FCMspuF_DockedSpU_Rem(
-//               GMCfac
-//               ,GMCmother
-////               ,GMCdckd[MCcnt].GMCD_index
-//               );
-//            inc(MCcnt);
-//         end; //==END== while MCcnt<=MCmax ==//
-//         FCWinMain.FCWM_SurfPanel.Hide;
-//         FCWinMain.FCWM_MissionSettings.Hide;
-//         if FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglSpaceUnits[GMCmother]
-//         then
-//         begin
-//            FCMoglUI_Main3DViewUI_Update(oglupdtpTxtOnly, ogluiutFocObj);
-//            FCMuiW_FocusPopup_Upd(uiwpkSpUnit);
-//         end;
-      end; //==END== case: gmcmnColoniz ==//
+      end; //==END== case: tMissionColonization ==//
 
       tMissionInterplanetaryTransit:
       begin

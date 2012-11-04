@@ -339,44 +339,44 @@ begin
          ObjectEscapeVelocity:=FCDduStarSystem[FCRmcCurrentMissionCalculations.CMC_originLocation[1]].SS_stars[FCRmcCurrentMissionCalculations.CMC_originLocation[2]].S_orbitalObjects[FCRmcCurrentMissionCalculations.CMC_originLocation[3]].OO_satellitesList[FCRmcCurrentMissionCalculations.CMC_originLocation[4]].OO_escapeVelocity;
       end;
       case Method of
-      cmDockingList:
-      begin
-         if FCRmcCurrentMissionCalculations.CMC_finalDeltaV=0 then
+         cmDockingList:
+         begin
+            if FCRmcCurrentMissionCalculations.CMC_finalDeltaV=0 then
+            begin
+               ProcessData:=( ObjectEscapeVelocity*7.8 )/11.19;
+               FCRmcCurrentMissionCalculations.CMC_finalDeltaV:=FCFcFunc_Rnd( cfrttpVelkms, ProcessData );
+            end;
+            if not FCWinMain.FCWMS_Grp_MCG_RMassTrack.Visible
+            then Max:=1
+            else if FCWinMain.FCWMS_Grp_MCG_RMassTrack.Visible
+            then Max:=FCWinMain.FCWMS_Grp_MCG_RMassTrack.Position;
+            Count:=1;
+            while Count<=Max do
+            begin
+               FCFgMl_Land_Calc(
+                  FCRmcCurrentMissionCalculations.CMC_entity
+                  ,FCRmcCurrentMissionCalculations.CMC_dockList[Count].DL_spaceUnitIndex
+                  ,FCRmcCurrentMissionCalculations.CMC_finalDeltaV
+                  );
+               FCRmcCurrentMissionCalculations.CMC_dockList[Count].DL_landTime:=FCRmcCurrentMissionCalculations.CMC_landTime;
+               FCRmcCurrentMissionCalculations.CMC_dockList[Count].DL_tripTime:=FCRmcCurrentMissionCalculations.CMC_tripTime;
+               FCRmcCurrentMissionCalculations.CMC_dockList[Count].DL_usedReactionMass:=FCRmcCurrentMissionCalculations.CMC_usedReactionMassVol;
+               inc(Count);
+            end; //==END== while CScnt<=CSmax ==//
+         end;
+
+         cmSingleVessel:
          begin
             ProcessData:=( ObjectEscapeVelocity*7.8 )/11.19;
             FCRmcCurrentMissionCalculations.CMC_finalDeltaV:=FCFcFunc_Rnd( cfrttpVelkms, ProcessData );
-         end;
-         if not FCWinMain.FCWMS_Grp_MCG_RMassTrack.Visible
-         then Max:=1
-         else if FCWinMain.FCWMS_Grp_MCG_RMassTrack.Visible
-         then Max:=FCWinMain.FCWMS_Grp_MCG_RMassTrack.Position;
-         Count:=1;
-         while Count<=Max do
-         begin
             FCFgMl_Land_Calc(
-               FCRmcCurrentMissionCalculations.CMC_entity
-               ,FCRmcCurrentMissionCalculations.CMC_dockList[Count].DL_spaceUnitIndex
-               ,FCRmcCurrentMissionCalculations.CMC_finalDeltaV
-               );
-            FCRmcCurrentMissionCalculations.CMC_dockList[Count].DL_landTime:=FCRmcCurrentMissionCalculations.CMC_landTime;
-            FCRmcCurrentMissionCalculations.CMC_dockList[Count].DL_tripTime:=FCRmcCurrentMissionCalculations.CMC_tripTime;
-            FCRmcCurrentMissionCalculations.CMC_dockList[Count].DL_usedReactionMass:=FCRmcCurrentMissionCalculations.CMC_usedReactionMassVol;
-            inc(Count);
-         end; //==END== while CScnt<=CSmax ==//
+                  FCRmcCurrentMissionCalculations.CMC_entity
+                  ,SpaceUnit
+                  ,FCRmcCurrentMissionCalculations.CMC_finalDeltaV
+                  );
+         end;
       end;
-
-      cmSingleVessel:
-      begin
-         ProcessData:=( ObjectEscapeVelocity*7.8 )/11.19;
-         FCRmcCurrentMissionCalculations.CMC_finalDeltaV:=FCFcFunc_Rnd( cfrttpVelkms, ProcessData );
-         FCFgMl_Land_Calc(
-               FCRmcCurrentMissionCalculations.CMC_entity
-               ,SpaceUnit
-               ,FCRmcCurrentMissionCalculations.CMC_finalDeltaV
-               );
-      end;
-   end;
-   end
+   end //==END== if FCRmcCurrentMissionCalculations.CMC_entity=0 then ==//
    else if FCRmcCurrentMissionCalculations.CMC_entity>0 then
    begin
             {.for the AIs we never consider the AI's spacecraft is in the 3d view, even if it's the case. So the game database data (owned space unit data, FCDduStarSystem for ex.) are used for distance calculations

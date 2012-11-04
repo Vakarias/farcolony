@@ -138,7 +138,7 @@ type TFCRdmtTask = record
    ///</summary>
    T_duration: integer;
    ///<summary>
-   ///   interval, in clock tick, between 2 running processes of the task
+   ///   interval, in clock tick, between 2 running processes of the task. More used for tasks <>missions
    ///</summary>
    T_durationInterval: integer;
    ///<summary>

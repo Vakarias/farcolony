@@ -326,6 +326,7 @@ begin
                      and(FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCphase=mcpAtmosphericEntry)
                   then
                   begin
+                     {:DEV NOTES: TEST if the SPU IS IN THE CURRENTLY VIEWED PLANETARY SYSTEM!.}
                      if FC3doglSpaceUnits[FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_linked3dObject].Visible
                      then
                      begin
@@ -333,7 +334,7 @@ begin
                         if FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCorigin=ttSpaceUnitDockedIn
                         then
                         begin
-                           FC3doglSelectedSpaceUnit:=FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCoriginIndex;
+                           FC3doglSelectedSpaceUnit:=FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCoriginIndex; //replace that! use ownedepu [].linked 3d obj
                            FCMoglVM_CamMain_Target(-1, true);
                         end
                         else if FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCorigin=ttSpace
@@ -344,7 +345,7 @@ begin
                            else if FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCdestination=ttSatellite
                            then
                            begin
-                              FC3doglSelectedSatellite:=FC3doglSatellitesObjectsGroups[FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCdestinationIndex].Tag;
+                              FC3doglSelectedSatellite:=FC3doglSatellitesObjectsGroups[FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCdestinationIndex].Tag;//! review that
                               FCMoglVM_CamMain_Target(100, true);
                            end
                         end;
@@ -362,6 +363,7 @@ begin
                      FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_reactionMass
                         :=FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_reactionMass-FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCusedReactionMassVol;
                      {.colonize mission post-process}
+                     {:DEV NOTES: replace these 2 lines with FCFuF_StelObj_GetDbIdx / FCFuF_StelObj_GetFullRow or FCFuF_StelObj_GetStarSystemStar.}
                      GTPssysDB:=FCFuF_StelObj_GetDbIdx(
                            ufsoSsys
                            ,FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_locationStarSystem
