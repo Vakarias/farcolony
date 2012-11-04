@@ -132,7 +132,8 @@ procedure FCMgTS_TaskToProcess_Initialize( const CurrentTimeTick: integer);
       -2012Nov04- *add: colonization and interplanetary transit missions - take in account if the space unit isn't in the current 3d view.
                   *fix: interplanetary transit mission - if the space unit is a 3d object in the current 3d view it is updated.
                   *fix: interplanetary transit mission - the popup menu is only updated under certain conditions.
-                  *fix: colonization - set correctly the X/Z locations if it's only needed.
+                  *fix: colonization mission - set correctly the X/Z locations if it's only needed.
+                  *add: colonization mission - if the space unit isn't docked, its orbit of origin is removed.
       -2012Oct04- *code audit: COMPLETION.
       -2012Oct03- *fix: correction of assignation errors for the space units.
                   *code audit:
@@ -183,8 +184,39 @@ begin
             case FCDdmtTaskListInProcess[TaskIndex].T_type of
                tMissionColonization:
                begin
-                  if FCDdmtTaskListInProcess[TaskIndex].T_tMCorigin=ttSelf
-                  then Origin:=Controller
+                  Linked3dObject:=FCDdgEntities[Entity].E_spaceUnits[Controller].SU_linked3dObject;
+                  Universe:=FCFuF_StelObj_GetFullRow(
+                     FCDdgEntities[Entity].E_spaceUnits[Controller].SU_locationStarSystem
+                     ,FCDdgEntities[Entity].E_spaceUnits[Controller].SU_locationStar
+                     ,FCDdgEntities[Entity].E_spaceUnits[Controller].SU_locationOrbitalObject
+                     ,FCDdgEntities[Entity].E_spaceUnits[Controller].SU_locationSatellite
+                     );
+                  if FCDdmtTaskListInProcess[TaskIndex].T_tMCorigin=ttSelf then
+                  begin
+                     Origin:=Controller;
+                     if Linked3dObject=0
+                     then FCMspuF_Orbits_Process(
+                        spufoioRemOrbit
+                        ,Universe[1]
+                        ,Universe[2]
+                        ,Universe[3]
+                        ,Universe[4]
+                        ,Entity
+                        ,Controller
+                        ,false
+                        )
+                     else if Linked3dObject>0
+                     then FCMspuF_Orbits_Process(
+                        spufoioRemOrbit
+                        ,Universe[1]
+                        ,Universe[2]
+                        ,Universe[3]
+                        ,Universe[4]
+                        ,Entity
+                        ,Controller
+                        ,true
+                        );
+                  end
                   else begin
                      Origin:=FCDdmtTaskListInProcess[TaskIndex].T_tMCoriginIndex;
                      FCDdgEntities[Entity].E_spaceUnits[Controller].SU_locationViewX:=FCDdgEntities[Entity].E_spaceUnits[Origin].SU_locationViewX;
@@ -198,7 +230,6 @@ begin
                      ,( FCDdgEntities[Entity].E_spaceUnits[Origin].SU_deltaV-FCDdmtTaskListInProcess[TaskIndex].T_tMCfinalVelocity )/FCDdmtTaskListInProcess[TaskIndex].T_tMCinProcessData.IPD_timeForDeceleration
                      );
                   FCDdgEntities[Entity].E_spaceUnits[Controller].SU_status:=susInFreeSpace;
-                  Linked3dObject:=FCDdgEntities[Entity].E_spaceUnits[Controller].SU_linked3dObject;
                   if Linked3dObject>0 then
                   begin
                      FC3doglSpaceUnits[Linked3dObject].Position.X:=FCDdgEntities[Entity].E_spaceUnits[Controller].SU_locationViewX;
