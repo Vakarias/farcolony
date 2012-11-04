@@ -129,6 +129,9 @@ end;
 procedure FCMgTS_TaskToProcess_Initialize( const CurrentTimeTick: integer);
 {:Purpose: initialize the list of the tasks to process to allow the task system to process them.
     Additions:
+      -2012Nov04- *add: colonization and interplanetary transit missions - take in account if the space unit isn't in the current 3d view.
+                  *fix: interplanetary transit mission - if the space unit is a 3d object in the current 3d view it is updated.
+                  *fix: interplanetary transit mission - the popup menu is only updated under certain conditions.
       -2012Oct04- *code audit: COMPLETION.
       -2012Oct03- *fix: correction of assignation errors for the space units.
                   *code audit:
@@ -189,22 +192,23 @@ begin
                      cfrttpVelkms
                      ,( FCDdgEntities[Entity].E_spaceUnits[Origin].SU_deltaV-FCDdmtTaskListInProcess[TaskIndex].T_tMCfinalVelocity )/FCDdmtTaskListInProcess[TaskIndex].T_tMCinProcessData.IPD_timeForDeceleration
                      );
-                  FCDdgEntities[Entity].E_spaceUnits[Controller].SU_locationOrbitalObject:='';
-                  FCDdgEntities[Entity].E_spaceUnits[Controller].SU_locationSatellite:='';
                   FCDdgEntities[Entity].E_spaceUnits[Controller].SU_status:=susInFreeSpace;
                   FCDdgEntities[Entity].E_spaceUnits[Controller].SU_locationViewX:=FCDdgEntities[Entity].E_spaceUnits[Origin].SU_locationViewX;
                   FCDdgEntities[Entity].E_spaceUnits[Controller].SU_locationViewZ:=FCDdgEntities[Entity].E_spaceUnits[Origin].SU_locationViewZ;
                   Linked3dObject:=FCDdgEntities[Entity].E_spaceUnits[Controller].SU_linked3dObject;
-                  FC3doglSpaceUnits[Linked3dObject].Position.X:=FCDdgEntities[Entity].E_spaceUnits[Controller].SU_locationViewX;
-                  FC3doglSpaceUnits[Linked3dObject].Position.Z:=FCDdgEntities[Entity].E_spaceUnits[Controller].SU_locationViewZ;
-                  if not FC3doglSpaceUnits[Linked3dObject].Visible
-                  then FC3doglSpaceUnits[Linked3dObject].Visible:=true;
-                  if FCDdmtTaskListInProcess[TaskIndex].T_tMCdestination=ttOrbitalObject
-                  then FC3doglSpaceUnits[Linked3dObject].PointTo
-                     ( FC3doglObjectsGroups[FCDdmtTaskListInProcess[TaskIndex].T_tMCdestinationIndex],FC3doglObjectsGroups[FCDdmtTaskListInProcess[TaskIndex].T_tMCdestinationIndex].Position.AsVector )
-                  else if FCDdmtTaskListInProcess[TaskIndex].T_tMCdestination=ttSatellite
-                  then FC3doglSpaceUnits[Linked3dObject].PointTo
-                     ( FC3doglSatellitesObjectsGroups[FCDdmtTaskListInProcess[TaskIndex].T_tMCdestinationIndex],FC3doglSatellitesObjectsGroups[FCDdmtTaskListInProcess[TaskIndex].T_tMCdestinationIndex].Position.AsVector );
+                  if Linked3dObject>0 then
+                  begin
+                     FC3doglSpaceUnits[Linked3dObject].Position.X:=FCDdgEntities[Entity].E_spaceUnits[Controller].SU_locationViewX;
+                     FC3doglSpaceUnits[Linked3dObject].Position.Z:=FCDdgEntities[Entity].E_spaceUnits[Controller].SU_locationViewZ;
+                     if not FC3doglSpaceUnits[Linked3dObject].Visible
+                     then FC3doglSpaceUnits[Linked3dObject].Visible:=true;
+                     if FCDdmtTaskListInProcess[TaskIndex].T_tMCdestination=ttOrbitalObject
+                     then FC3doglSpaceUnits[Linked3dObject].PointTo
+                        ( FC3doglObjectsGroups[FCDdmtTaskListInProcess[TaskIndex].T_tMCdestinationIndex],FC3doglObjectsGroups[FCDdmtTaskListInProcess[TaskIndex].T_tMCdestinationIndex].Position.AsVector )
+                     else if FCDdmtTaskListInProcess[TaskIndex].T_tMCdestination=ttSatellite
+                     then FC3doglSpaceUnits[Linked3dObject].PointTo
+                        ( FC3doglSatellitesObjectsGroups[FCDdmtTaskListInProcess[TaskIndex].T_tMCdestinationIndex],FC3doglSatellitesObjectsGroups[FCDdmtTaskListInProcess[TaskIndex].T_tMCdestinationIndex].Position.AsVector );
+                  end;
                end; //==END== case: tMissionColonization: ==//
 
                tMissionInterplanetaryTransit:
@@ -217,40 +221,78 @@ begin
                      cfrttpVelkms
                      ,( FCDdmtTaskListInProcess[TaskIndex].T_tMITcruiseVelocity-FCDdgEntities[Entity].E_spaceUnits[Controller].SU_deltaV )/FCDdmtTaskListInProcess[TaskIndex].T_tMITcruiseTime
                      );
-                  FCDdgEntities[Entity].E_spaceUnits[Controller].SU_locationOrbitalObject:='';
-                  FCDdgEntities[Entity].E_spaceUnits[Controller].SU_locationSatellite:='';
                   FCDdgEntities[Entity].E_spaceUnits[Controller].SU_status:=susInFreeSpace;
-                  Universe:=FCFuF_StelObj_GetStarSystemStar( FCDdgEntities[Entity].E_spaceUnits[Controller].SU_locationStarSystem, FCDdgEntities[Entity].E_spaceUnits[Controller].SU_locationStar );
-                  if FCDdmtTaskListInProcess[TaskIndex].T_tMITorigin=ttOrbitalObject
-                  then FCMspuF_Orbits_Process(
-                     spufoioRemOrbit
-                     ,Universe[1]
-                     ,Universe[2]
-                     ,FCDdmtTaskListInProcess[TaskIndex].T_tMIToriginIndex
-                     ,0
-                     ,0
-                     ,Controller
-                     ,true
-                     )
-                  else if FCDdmtTaskListInProcess[TaskIndex].T_tMITorigin=ttSatellite
-                  then FCMspuF_Orbits_Process(
+                  Universe:=FCFuF_StelObj_GetFullRow(
+                     FCDdgEntities[Entity].E_spaceUnits[Controller].SU_locationStarSystem
+                     ,FCDdgEntities[Entity].E_spaceUnits[Controller].SU_locationStar
+                     ,FCDdgEntities[Entity].E_spaceUnits[Controller].SU_locationOrbitalObject
+                     ,FCDdgEntities[Entity].E_spaceUnits[Controller].SU_locationSatellite
+                     );
+                  Linked3dObject:=FCDdgEntities[Entity].E_spaceUnits[Controller].SU_linked3dObject;
+                  if Linked3dObject=0 then
+                  begin
+                     if FCDdmtTaskListInProcess[TaskIndex].T_tMITorigin=ttOrbitalObject
+                     then FCMspuF_Orbits_Process(
                         spufoioRemOrbit
                         ,Universe[1]
                         ,Universe[2]
-                        ,round( FC3doglSatellitesObjectsGroups[FCDdmtTaskListInProcess[TaskIndex].T_tMIToriginIndex].TagFloat )
-                        ,FC3doglSatellitesObjectsGroups[FCDdmtTaskListInProcess[TaskIndex].T_tMIToriginIndex].Tag
+                        ,Universe[3]
                         ,0
+                        ,Entity
+                        ,Controller
+                        ,false
+                        )
+                     else if FCDdmtTaskListInProcess[TaskIndex].T_tMITorigin=ttSatellite
+                     then FCMspuF_Orbits_Process(
+                           spufoioRemOrbit
+                           ,Universe[1]
+                           ,Universe[2]
+                           ,Universe[3]
+                           ,Universe[4]
+                           ,Entity
+                           ,Controller
+                           ,false
+                           );
+                  end
+                  else if Linked3dObject>0 then
+                  begin
+                     if FCDdmtTaskListInProcess[TaskIndex].T_tMITorigin=ttOrbitalObject
+                     then FCMspuF_Orbits_Process(
+                        spufoioRemOrbit
+                        ,Universe[1]
+                        ,Universe[2]
+                        ,Universe[3]
+                        ,0
+                        ,Entity
                         ,Controller
                         ,true
-                        );
-                  FCMuiW_FocusPopup_Upd(uiwpkSpUnit);
-                  Linked3dObject:=FCDdgEntities[Entity].E_spaceUnits[Controller].SU_linked3dObject;
-                  if FCDdmtTaskListInProcess[TaskIndex].T_tMITdestination=ttOrbitalObject
-                  then FC3doglSpaceUnits[Linked3dObject].PointTo
-                     ( FC3doglObjectsGroups[FCDdmtTaskListInProcess[TaskIndex].T_tMITdestinationIndex],FC3doglObjectsGroups[FCDdmtTaskListInProcess[TaskIndex].T_tMITdestinationIndex].Position.AsVector )
-                  else if FCDdmtTaskListInProcess[TaskIndex].T_tMITdestination=ttSatellite
-                  then FC3doglSpaceUnits[Linked3dObject].PointTo
-                     ( FC3doglSatellitesObjectsGroups[FCDdmtTaskListInProcess[TaskIndex].T_tMITdestinationIndex],FC3doglSatellitesObjectsGroups[FCDdmtTaskListInProcess[TaskIndex].T_tMITdestinationIndex].Position.AsVector );
+                        )
+                     else if FCDdmtTaskListInProcess[TaskIndex].T_tMITorigin=ttSatellite
+                     then FCMspuF_Orbits_Process(
+                           spufoioRemOrbit
+                           ,Universe[1]
+                           ,Universe[2]
+                           ,Universe[3]
+                           ,Universe[4]
+                           ,Entity
+                           ,Controller
+                           ,true
+                           );
+                     FC3doglSpaceUnits[Linked3dObject].Position.X:=FCDdgEntities[Entity].E_spaceUnits[Controller].SU_locationViewX;
+                     FC3doglSpaceUnits[Linked3dObject].Position.Z:=FCDdgEntities[Entity].E_spaceUnits[Controller].SU_locationViewZ;
+                     if not FC3doglSpaceUnits[Linked3dObject].Visible
+                     then FC3doglSpaceUnits[Linked3dObject].Visible:=true;
+                     if FCDdmtTaskListInProcess[TaskIndex].T_tMITdestination=ttOrbitalObject
+                     then FC3doglSpaceUnits[Linked3dObject].PointTo
+                        ( FC3doglObjectsGroups[FCDdmtTaskListInProcess[TaskIndex].T_tMITdestinationIndex],FC3doglObjectsGroups[FCDdmtTaskListInProcess[TaskIndex].T_tMITdestinationIndex].Position.AsVector )
+                     else if FCDdmtTaskListInProcess[TaskIndex].T_tMITdestination=ttSatellite
+                     then FC3doglSpaceUnits[Linked3dObject].PointTo
+                        ( FC3doglSatellitesObjectsGroups[FCDdmtTaskListInProcess[TaskIndex].T_tMITdestinationIndex],FC3doglSatellitesObjectsGroups[FCDdmtTaskListInProcess[TaskIndex].T_tMITdestinationIndex].Position.AsVector );
+                  end;
+                  if ( Entity=0 )
+                     and ( FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].Tag=Entity )
+                     and ( round( FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].TagFloat )=Controller )
+                  then FCMuiW_FocusPopup_Upd(uiwpkSpUnit);
                end; //==END== case: tMissionInterplanetaryTransit ==//
             end; //==END== case FCDdmtTaskListInProcess[TaskIndex].T_type ==//
             inc( Count );

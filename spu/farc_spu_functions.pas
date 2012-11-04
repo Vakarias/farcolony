@@ -610,6 +610,7 @@ procedure FCMspuF_Orbits_Process(
    );
 {:Purpose: add or remove a space unit in orbit of an orbital object.
     Additions:
+      -2010Nov04- *fix: only update the 3d view if the entity is the player's one.
       -2010Sep15- *add: entities code.
       -2010Sep06- *code audit.
       -2009Dec27- *fix: put opSatObj:=FCFoglVMain_SatObj_Search(opOOidx, opSatIdx); on in the case the 3d view is updated !
@@ -640,7 +641,8 @@ begin
          FCDduStarSystem[OPsSys].SS_stars[OPstar].S_orbitalObjects[OPoobj].OO_inOrbitSpaceUnitsList[OPttl].SUIO_ownedSpaceUnitIndex:=OPspuOwn;
          FCDdgEntities[OPfac].E_spaceUnits[OPspuOwn].SU_locationOrbitalObject:=FCDduStarSystem[OPsSys].SS_stars[OPstar].S_orbitalObjects[OPoobj].OO_dbTokenId;
          {.update the 3d view}
-         if opUpd3dView
+         if ( opUpd3dView )
+            and (OPfac=0)
          then FCMoglVM_OObjSpUn_inOrbit(
             OPoobj
             ,0
@@ -660,7 +662,8 @@ begin
          FCDdgEntities[OPfac].E_spaceUnits[OPspuOwn].SU_locationOrbitalObject:=FCDduStarSystem[OPsSys].SS_stars[OPstar].S_orbitalObjects[OPoobj].OO_dbTokenId;
          FCDdgEntities[OPfac].E_spaceUnits[OPspuOwn].SU_locationSatellite:=FCDduStarSystem[OPsSys].SS_stars[OPstar].S_orbitalObjects[OPoobj].OO_satellitesList[OPsat].OO_dbTokenId;
          {.update the 3d view}
-         if opUpd3dView
+         if ( opUpd3dView )
+            and (OPfac=0)
          then
          begin
             OPsatObj:=FCFoglF_Satellite_SearchObject(OPoobj, OPsat);
@@ -689,7 +692,8 @@ begin
             FCDduStarSystem[OPsSys].SS_stars[OPstar].S_orbitalObjects[OPoobj].OO_inOrbitSpaceUnitsList[OPttl]:=FCDduStarSystem[OPsSys].SS_stars[OPstar].S_orbitalObjects[OPoobj].OO_inOrbitSpaceUnitsList[0];
             dec(FCDduStarSystem[OPsSys].SS_stars[OPstar].S_orbitalObjects[OPoobj].OO_inOrbitCurrentNumber);
             {.update the 3d view}
-            if opUpd3dView
+            if ( opUpd3dView )
+            and (OPfac=0)
             then FCMoglVM_OObjSpUn_inOrbit(
                OPoobj
                ,0
@@ -723,7 +727,8 @@ begin
                inc(OPcnt);
             end;
             {.update the 3d view}
-            if opUpd3dView
+            if ( opUpd3dView )
+            and (OPfac=0)
             then FCMoglVM_OObjSpUn_inOrbit(
                OPoobj
                ,0
@@ -745,7 +750,8 @@ begin
                :=FCDduStarSystem[OPsSys].SS_stars[OPstar].S_orbitalObjects[OPoobj].OO_satellitesList[OPsat].OO_inOrbitSpaceUnitsList[0];
             dec(FCDduStarSystem[OPsSys].SS_stars[OPstar].S_orbitalObjects[OPoobj].OO_satellitesList[OPsat].OO_inOrbitCurrentNumber);
             {.update the 3d view}
-            if opUpd3dView
+            if ( opUpd3dView )
+            and (OPfac=0)
             then
             begin
                OPsatObj:=FCFoglF_Satellite_SearchObject(OPoobj, OPsat);
@@ -784,7 +790,8 @@ begin
                inc(OPcnt);
             end;
             {.update the 3d view}
-            if opUpd3dView
+            if ( opUpd3dView )
+            and (OPfac=0)
             then
             begin
                OPsatObj:=FCFoglF_Satellite_SearchObject(OPoobj, OPsat);

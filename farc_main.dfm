@@ -23,7 +23,7 @@ object FCWinMain: TFCWinMain
   OnKeyDown = FormKeyDown
   OnResize = FormResize
   PixelsPerInch = 96
-  TextHeight = 15
+  TextHeight = 14
   object FCWM_BckgImage: TImage32
     Left = 0
     Top = 0
@@ -274,6 +274,10 @@ object FCWinMain: TFCWinMain
           TabColor = clBlack
           TabColorTo = clGray
           TextColor = 14803425
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
           object FCWM_HPdPad_KeysTxt: THTMLabel
             Left = 0
             Top = 0
@@ -442,6 +446,7 @@ object FCWinMain: TFCWinMain
         OnKeyDown = FCWM_DLP_DockListKeyDown
         OnMouseMove = FCWM_DLP_DockListMouseMove
         Version = '2.0.1.0'
+        ExplicitWidth = 400
       end
     end
     object FCWM_InfraPanel: TAdvPanel
@@ -716,6 +721,10 @@ object FCWinMain: TFCWinMain
           TabColor = clBlack
           TabColorTo = clGray
           TextColor = 14803425
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
           object FCWM_SPShReg_Lab: THTMLabel
             Left = 0
             Top = 0
@@ -990,6 +999,10 @@ object FCWinMain: TFCWinMain
           TabColor = clBlack
           TabColorTo = clGray
           TextColor = 14803425
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
           object FCWM_CDPpopList: THTMLTreeview
             Left = 0
             Top = 0
@@ -997,7 +1010,7 @@ object FCWinMain: TFCWinMain
             Height = 241
             ControlStyle = csFlat
             ControlColor = clSilver
-            ItemHeight = 18
+            ItemHeight = 16
             SelectionColors.BorderColor = clNone
             SelectionColors.ColorFrom = clBlack
             SelectionColors.ColorTo = 7237230
@@ -1032,7 +1045,7 @@ object FCWinMain: TFCWinMain
             Height = 241
             ControlStyle = csFlat
             ControlColor = clSilver
-            ItemHeight = 18
+            ItemHeight = 16
             SelectionColors.BorderColor = clNone
             SelectionColors.ColorFrom = clBlack
             SelectionColors.ColorTo = 7237230
@@ -1070,8 +1083,8 @@ object FCWinMain: TFCWinMain
             Color = clWhite
             Ctl3D = False
             EditLabel.AlignWithMargins = True
-            EditLabel.Width = 119
-            EditLabel.Height = 15
+            EditLabel.Width = 100
+            EditLabel.Height = 14
             EditLabel.Caption = 'FCWM_CDPcolName'
             EditLabel.Font.Charset = DEFAULT_CHARSET
             EditLabel.Font.Color = clWhite
@@ -1111,7 +1124,7 @@ object FCWinMain: TFCWinMain
             Font.Name = 'FrancophilSans'
             Font.Style = []
             ItemIndex = -1
-            ItemHeight = 14
+            ItemHeight = 12
             LabelCaption = 'Equip'
             LabelPosition = lpLeftCenter
             LabelAlwaysEnabled = True
@@ -1142,8 +1155,8 @@ object FCWinMain: TFCWinMain
             Color = clWhite
             Ctl3D = False
             EditLabel.AlignWithMargins = True
-            EditLabel.Width = 119
-            EditLabel.Height = 15
+            EditLabel.Width = 100
+            EditLabel.Height = 14
             EditLabel.Caption = 'FCWM_CDPcolName'
             EditLabel.Font.Charset = DEFAULT_CHARSET
             EditLabel.Font.Color = clWhite
@@ -1174,6 +1187,10 @@ object FCWinMain: TFCWinMain
           TabColor = clBlack
           TabColorTo = clGray
           TextColor = 14803425
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
           object CDPstorageCapacity: THTMLabel
             Left = 53
             Top = 0
@@ -1206,7 +1223,7 @@ object FCWinMain: TFCWinMain
             Height = 241
             ControlStyle = csFlat
             ControlColor = clSilver
-            ItemHeight = 18
+            ItemHeight = 16
             SelectionColors.BorderColor = clNone
             SelectionColors.ColorFrom = clBlack
             SelectionColors.ColorTo = 7237230
@@ -1240,7 +1257,7 @@ object FCWinMain: TFCWinMain
             Height = 241
             ControlStyle = csFlat
             ControlColor = clSilver
-            ItemHeight = 18
+            ItemHeight = 16
             SelectionColors.BorderColor = clNone
             SelectionColors.ColorFrom = clBlack
             SelectionColors.ColorTo = 7237230
@@ -1275,6 +1292,10 @@ object FCWinMain: TFCWinMain
           TabColor = clBlack
           TabColorTo = clGray
           TextColor = 14803425
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
           object FCWM_CDPinfrList: THTMLTreeview
             Left = 0
             Top = 0
@@ -1282,7 +1303,7 @@ object FCWinMain: TFCWinMain
             Height = 241
             ControlStyle = csFlat
             ControlColor = clSilver
-            ItemHeight = 18
+            ItemHeight = 16
             SelectionColors.BorderColor = clNone
             SelectionColors.ColorFrom = clBlack
             SelectionColors.ColorTo = 7237230
@@ -1318,7 +1339,7 @@ object FCWinMain: TFCWinMain
             Height = 241
             ControlStyle = csFlat
             ControlColor = clSilver
-            ItemHeight = 18
+            ItemHeight = 16
             SelectionColors.BorderColor = clNone
             SelectionColors.ColorFrom = clBlack
             SelectionColors.ColorTo = 7237230
@@ -1360,6 +1381,10 @@ object FCWinMain: TFCWinMain
           TabColor = clBlack
           TabColorTo = clGray
           TextColor = 14803425
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
           object FCWM_CDPcsmeList: THTMLTreeview
             Left = 0
             Top = 0
@@ -1367,7 +1392,7 @@ object FCWinMain: TFCWinMain
             Height = 241
             ControlStyle = csFlat
             ControlColor = clSilver
-            ItemHeight = 18
+            ItemHeight = 16
             SelectionColors.BorderColor = clNone
             SelectionColors.ColorFrom = clBlack
             SelectionColors.ColorTo = 7237230
@@ -1450,8 +1475,8 @@ object FCWinMain: TFCWinMain
         Color = clWhite
         Ctl3D = False
         EditLabel.AlignWithMargins = True
-        EditLabel.Width = 119
-        EditLabel.Height = 15
+        EditLabel.Width = 100
+        EditLabel.Height = 14
         EditLabel.Caption = 'FCWM_CDPcolName'
         EditLabel.Font.Charset = DEFAULT_CHARSET
         EditLabel.Font.Color = clWhite
@@ -1616,7 +1641,6 @@ object FCWinMain: TFCWinMain
           Color = clNone
           Max = 0
           Min = 1
-          Position = 1
           Slider.BorderColor = 12752500
           Slider.BorderColorDisabled = clBlack
           Slider.Color = clSkyBlue
@@ -1688,8 +1712,8 @@ object FCWinMain: TFCWinMain
           Color = clWhite
           Ctl3D = False
           EditLabel.AlignWithMargins = True
-          EditLabel.Width = 158
-          EditLabel.Height = 15
+          EditLabel.Width = 133
+          EditLabel.Height = 14
           EditLabel.Caption = 'FCWMS_Grp_MCGColName'
           EditLabel.Font.Charset = DEFAULT_CHARSET
           EditLabel.Font.Color = clWhite
@@ -1725,8 +1749,8 @@ object FCWinMain: TFCWinMain
           Color = clWhite
           Ctl3D = False
           EditLabel.AlignWithMargins = True
-          EditLabel.Width = 164
-          EditLabel.Height = 15
+          EditLabel.Width = 140
+          EditLabel.Height = 14
           EditLabel.Caption = 'FCWMS_Grp_MCG_SetName'
           EditLabel.Color = clWhite
           EditLabel.Font.Charset = DEFAULT_CHARSET
@@ -2197,6 +2221,10 @@ object FCWinMain: TFCWinMain
           TabColor = clBlack
           TabColorTo = clGray
           TextColor = 14803425
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
           object FCWM_UMI_FacDatG: TAdvGroupBox
             Left = 0
             Top = 0
@@ -2531,6 +2559,10 @@ object FCWinMain: TFCWinMain
               TabColor = clBlack
               TabColorTo = clGray
               TextColor = 14803425
+              ExplicitLeft = 0
+              ExplicitTop = 0
+              ExplicitWidth = 0
+              ExplicitHeight = 0
               object FCWM_UMIFac_PolGvtDetails: TAdvGroupBox
                 Left = 0
                 Top = 0
@@ -2641,7 +2673,7 @@ object FCWinMain: TFCWinMain
                   end>
                 ColumnLines = False
                 Separator = ';'
-                ItemHeight = 16
+                ItemHeight = 14
                 HeaderSettings.AllowResize = False
                 HeaderSettings.Color = clBlack
                 HeaderSettings.ColorTo = clGray
@@ -2664,6 +2696,10 @@ object FCWinMain: TFCWinMain
               TabColor = clBlack
               TabColorTo = clGray
               TextColor = 14803425
+              ExplicitLeft = 0
+              ExplicitTop = 0
+              ExplicitWidth = 0
+              ExplicitHeight = 0
               object FCWM_UMIFSh_SPMlistTop: TAdvPanel
                 Left = 0
                 Top = 0
@@ -2712,7 +2748,7 @@ object FCWinMain: TFCWinMain
                   Height = 184
                   ControlStyle = csFlat
                   ControlColor = clSilver
-                  ItemHeight = 18
+                  ItemHeight = 16
                   SelectionColors.BorderColor = clNone
                   SelectionColors.ColorFrom = clBlack
                   SelectionColors.ColorTo = 7237230
@@ -2745,7 +2781,7 @@ object FCWinMain: TFCWinMain
                   Height = 184
                   ControlStyle = csFlat
                   ControlColor = clSilver
-                  ItemHeight = 18
+                  ItemHeight = 16
                   SelectionColors.BorderColor = clNone
                   SelectionColors.ColorFrom = clBlack
                   SelectionColors.ColorTo = 7237230
@@ -2778,7 +2814,7 @@ object FCWinMain: TFCWinMain
                   Height = 184
                   ControlStyle = csFlat
                   ControlColor = clSilver
-                  ItemHeight = 18
+                  ItemHeight = 16
                   SelectionColors.BorderColor = clNone
                   SelectionColors.ColorFrom = clBlack
                   SelectionColors.ColorTo = 7237230
@@ -2854,7 +2890,7 @@ object FCWinMain: TFCWinMain
                   Height = 209
                   ControlStyle = csFlat
                   ControlColor = clSilver
-                  ItemHeight = 18
+                  ItemHeight = 16
                   SelectionColors.BorderColor = clNone
                   SelectionColors.ColorFrom = clBlack
                   SelectionColors.ColorTo = 7237230
@@ -2887,7 +2923,7 @@ object FCWinMain: TFCWinMain
                   Height = 209
                   ControlStyle = csFlat
                   ControlColor = clSilver
-                  ItemHeight = 18
+                  ItemHeight = 16
                   SelectionColors.BorderColor = clNone
                   SelectionColors.ColorFrom = clBlack
                   SelectionColors.ColorTo = 7237230
@@ -2920,7 +2956,7 @@ object FCWinMain: TFCWinMain
                   Height = 209
                   ControlStyle = csFlat
                   ControlColor = clSilver
-                  ItemHeight = 18
+                  ItemHeight = 16
                   SelectionColors.BorderColor = clNone
                   SelectionColors.ColorFrom = clBlack
                   SelectionColors.ColorTo = 7237230
@@ -2997,6 +3033,7 @@ object FCWinMain: TFCWinMain
                   OnKeyDown = FCWM_UMIFSh_AFlistKeyDown
                   OnAnchorClick = FCWM_UMIFSh_AFlistAnchorClick
                   Version = '2.0.1.0'
+                  ExplicitWidth = 272
                 end
               end
               object FCWM_UMIFSh_ReqF: TAdvGroupBox
