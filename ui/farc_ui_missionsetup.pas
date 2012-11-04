@@ -283,21 +283,22 @@ begin
    FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Add(FCFcFunc_ThSep(FCFcFunc_ScaleConverter(cf3dct3dViewUnitToKm, FCRmcCurrentMissionCalculations.CMC_baseDistance))+' km');
    {.trackbar with docked space units}
    MaxDocked:=length( FCRmcCurrentMissionCalculations.CMC_dockList )-1;
-   FCVuimsIsTrackbarProcess:=false;
    FCWinMain.FCWMS_Grp_MCG_RMassTrack.Left:=12;
    FCWinMain.FCWMS_Grp_MCG_RMassTrack.Top:=28;
-   FCWinMain.FCWMS_Grp_MCG_RMassTrack.Position:=1;
-   FCWinMain.FCWMS_Grp_MCG_RMassTrack.Min:=1;
-   if MaxDocked<=1
+   FCWinMain.FCWMS_Grp_MCG_RMassTrack.Min:=0;
+   FCWinMain.FCWMS_Grp_MCG_RMassTrack.Max:=0;
+   FCVuimsIsTrackbarProcess:=false;
+   FCWinMain.FCWMS_Grp_MCG_RMassTrack.Position:=0;
+   if MaxDocked<=0
    then
    begin
       FCWinMain.FCWMS_Grp_MCG_RMassTrack.Visible:=false;
       FCWinMain.FCWMS_Grp_MCG_RMassTrack.Enabled:=false;
-      FCWinMain.FCWMS_Grp_MCG_RMassTrack.Max:=2;
    end
-   else if MaxDocked>1
+   else if MaxDocked>0
    then
    begin
+      FCWinMain.FCWMS_Grp_MCG_RMassTrack.Min:=1;
       FCWinMain.FCWMS_Grp_MCG_RMassTrack.Max:=MaxDocked;
       FCVuimsIsTrackbarProcess:=true;
       FCWinMain.FCWMS_Grp_MCG_RMassTrack.Position:=1;

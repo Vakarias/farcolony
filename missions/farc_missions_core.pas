@@ -235,7 +235,7 @@ begin
       tMissionColonization:
       begin
          Max:=FCWinMain.FCWMS_Grp_MCG_RMassTrack.Position;
-         if Max=0 then
+         if length ( FCRmcCurrentMissionCalculations.CMC_dockList )-1<1 then
          begin
             setlength( FCDdmtTaskListToProcess, length(FCDdmtTaskListToProcess)+1 );
             TaskIndex:=length(FCDdmtTaskListToProcess)-1;
@@ -618,6 +618,7 @@ procedure FCMgMCore_Mission_Setup(
    );
 {:Purpose: Interplanetary transit mission setup.
     Additions:
+      -2012Nov04- *fix: setup the interface BEFORE the calculations are processed.
       -2012Oct14- *add: a new parameter to indicate if the 3d view must be set up before. True is used in the case when the mission is triggered by the UMI, in future implementation.
       -2012Oct09- *code: start of the complete rewrite of the procedure logic, including the last required updates concerning the user's interface.
                   *add: a new parameter indicate the concerned space unit. It's now required because it can come from multiple sources (3d view and UMI).
@@ -748,6 +749,8 @@ begin
          if Count=0 then
          begin
             FCDmcCurrentMission[Entity].T_controllerIndex:=SpaceUnit;
+            if Entity=0
+            then FCMuiMS_ColonizationInterface_Setup;
             FCMmC_Colonization_Setup(
                cmSingleVessel
                ,SpaceUnit
@@ -768,15 +771,14 @@ begin
                FCRmcCurrentMissionCalculations.CMC_dockList[Count1].DL_usedReactionMass:=0;
                inc( Count1 );
             end;
+            if Entity=0
+            then FCMuiMS_ColonizationInterface_Setup;
+   //         else AI-Colonization Determination(Entity);
             FCMmC_Colonization_Setup(
                cmDockingList
                ,SpaceUnit
                );
          end;
-
-         if Entity=0
-         then FCMuiMS_ColonizationInterface_Setup;
-//         else AI-Colonization Determination(Entity);
       end; //==END== case: tMissionColonization ==//
 
       tMissionInterplanetaryTransit:
