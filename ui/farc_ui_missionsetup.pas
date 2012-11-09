@@ -74,6 +74,11 @@ procedure FCMuiMS_ColonizationInterface_Setup;
 procedure FCMuiMS_CurrentColony_Load( const Value: integer );
 
 ///<summary>
+///   setup the interface for the interplanetary transit mission
+///</summary>
+procedure FCMuiMS_InterplanetaryTransitInterface_Setup;
+
+///<summary>
 ///   test key routine for mission setup window.
 ///</summary>
 ///   <param="WMSTkeyDump">key number</param>
@@ -369,6 +374,134 @@ procedure FCMuiMS_CurrentColony_Load( const Value: integer );
 }
 begin
    FCVuimsCurrentColony:=Value;
+end;
+
+procedure FCMuiMS_InterplanetaryTransitInterface_Setup;
+{:Purpose: setup the interface for the interplanetary transit mission.
+    Additions:
+}
+begin
+   //      tMissionInterplanetaryTransit:
+//      begin
+//         {.initialize mission data}
+//         MSdmpStatus:=FCFspuF_AttStatus_Get(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].Tag, MSownedIdx);
+
+//         {DEV NOTE: for futur expansion, add the case of a mission assignated on a space unit
+//         that is not in the current local star system. The only case where it will happens it's
+//         when a mission is assignated by the faction's properties window.
+//         For data update, take over this faction's properties window data, test if this win is
+//         displayed or not}
+//         {DEV NOTE: the case which follow is just concerning the current system and only the
+//         player's faction.}
+//         FC3doglSelectedPlanetAsteroid:=GMCrootOObIdx;
+//         if GMCrootSatIdx>0
+//         then
+//         begin
+//            GMCrootSatObjIdx:=FCFoglVM_SatObj_Search(GMCrootOObIdx, GMCrootSatIdx);
+//            FC3doglSelectedSatellite:=GMCrootSatObjIdx;
+//            FCMoglVM_CamMain_Target(100, false);
+//         end
+//         else if GMCrootSatIdx=0
+//         then FCMoglVM_CamMain_Target(FC3doglSelectedPlanetAsteroid, false);
+//         {.set user's interface}
+//         FCWinMain.FCWM_MissionSettings.Caption.Text:=FCFdTFiles_UIStr_Get(uistrUI,'FCWinMissSet')+FCFdTFiles_UIStr_Get(uistrUI,'Mission.itransit');
+//         FCWinMain.FCWMS_Grp_MCG_RMassTrack.Visible:=true;
+//         FCWinMain.FCWMS_Grp_MCG_RMassTrack.Enabled:=false;
+//         {.mission data display}
+//         {.idx=0}
+//         FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Add(
+//            FCCFdHead+FCFdTFiles_UIStr_Get(uistrUI,'MSDGspUnIdStat')+FCCFdHeadEnd
+//            );
+//         {.idx=1}
+//         FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Add(
+//            FCFdTFiles_UIStr_Get(dtfscPrprName, FCDdgEntities[GMCfac].E_spaceUnits[MSownedIdx].SU_name)
+//            +' '
+//            +FCFdTFiles_UIStr_Get(dtfscSCarchShort, FCDdsuSpaceUnitDesigns[MSdesgn].SUD_internalStructureClone.IS_architecture)
+//            +' '+MSdmpStatus
+//            +'<br>'
+//            );
+//         {.current deltaV + reaction mass, idx=2}
+//         FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Add(
+//            FCCFdHead
+//            +FCFdTFiles_UIStr_Get(uistrUI,'MSDGcurDV')
+//            +MSdispIdx
+//            +FCFdTFiles_UIStr_Get(uistrUI,'MSDGremRMass')
+//            +FCCFdHeadEnd
+//            );
+//         {.idx=3}
+//         FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Add(
+//            FloatToStr(FCDdgEntities[GMCfac].E_spaceUnits[MSownedIdx].SU_deltaV)+' km/s'
+//            +MSdispIdx
+//            +FloatToStr(FCDdgEntities[GMCfac].E_spaceUnits[MSownedIdx].SU_reactionMass)+' m<sup>3</sup>'
+//            +'<br>'
+//            );
+//         {.space drive type and isp, idx=4}
+//         FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Add(
+//            FCCFdHead
+//            +FCFdTFiles_UIStr_Get(uistrUI,'spUnDrvTp')
+//            +MSdispIdx
+//            +FCFdTFiles_UIStr_Get(uistrUI,'spUnISPfull')
+//            +FCCFdHeadEnd
+//            );
+//         {.idx=5}
+//         FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Add(
+//            '(data not implemented yet)'
+//            +MSdispIdx
+//            +IntToStr(FCDdsuSpaceUnitDesigns[MSdesgn].SUD_spaceDriveISP)+' sec'
+//            +'<br>'
+//            );
+//         {.current destination idx=6}
+//         FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Add(
+//            FCCFdHead
+//            +FCFdTFiles_UIStr_Get(uistrUI,'MSDGcurDest')
+//            +FCCFdHeadEnd
+//            );
+//         {.idx= 7}
+//         FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI,'MSDGcurDestNone')+'<br>');
+//         {.destination intercept course, idx=8}
+//         FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Add(
+//            FCCFdHead
+//            +FCFdTFiles_UIStr_Get(uistrUI,'MSDGdesIntC')
+//            +FCCFdHeadEnd
+//            );
+//         {.idx=9}
+//         FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Add(
+//            FCFdTFiles_UIStr_Get(uistrUI,'MSDGdesIntCdist')
+//            +' 0 '
+//            +FCFdTFiles_UIStr_Get(uistrUI,'acronAU')
+//            +MSdispIdx
+//            +FCFdTFiles_UIStr_Get(uistrUI,'MSDGdestIntCminDV')
+//            +' 0 km/s'
+//            );
+//         {.mission configuration proceed button}
+//         FCWinMain.FCWMS_ButProceed.Enabled:=false;
+//         {.mission configuration trackbar}
+//         FCWinMain.FCWMS_Grp_MCG_RMassTrack.Tag:=1;
+//         FCWinMain.FCWMS_Grp_MCG_RMassTrack.Left:=24;
+//         FCWinMain.FCWMS_Grp_MCG_RMassTrack.Top:=32;
+//         FCWinMain.FCWMS_Grp_MCG_RMassTrack.Max:=3;
+//         FCWinMain.FCWMS_Grp_MCG_RMassTrack.Min:=1;
+//         FCWinMain.FCWMS_Grp_MCG_RMassTrack.Position:=1;
+//         FCMgMCore_Mission_TrackUpd( tMissionInterplanetaryTransit );
+//         FCWinMain.FCWMS_Grp_MCG_RMassTrack.Enabled:=false;
+//         {.initialize the 2 mission configuration panels}
+
+//         FCWinMain.FCWMS_Grp_MCG_MissCfgData.HTMLText.Clear;
+//         {.mission configuration background panel}
+//         FCWinMain.FCWMS_Grp_MCG_DatDisp.HTMLText.Add(
+//            FCCFdHead
+//            +FCFdTFiles_UIStr_Get(uistrUI,'MCGtransSpd')
+//            +FCCFdHeadEnd
+//            );
+//         {.mission configuration data}
+//         FCWinMain.FCWMS_Grp_MCG_MissCfgData.HTMLText.Add(
+//            FCCFdHead
+//            +FCFdTFiles_UIStr_Get(uistrUI,'MCGDatHead')
+//            +FCCFdHeadEnd
+//            );
+//         FCWinMain.FCWMS_Grp_MCG_MissCfgData.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI,'MSDGcurDestNone')+'<br>');
+//      end; //==END== case: gmcmnItransit ==//
+//   end; //==END== case MSmissType of ==//
 end;
 
 procedure FCMgMC_KeyButtons_Test(
