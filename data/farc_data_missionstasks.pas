@@ -98,7 +98,8 @@ type TFCEdmtTaskTargets=(
    - FCMdFiles_Game_Load
    - FCMdFiles_Game_Save
    - FCMgMCore_Mission_Setup
-   - FCMuiMS_InterfaceSetup
+   - FCMuiMS_ColonizationInterface_Setup
+   - FCMuiMS_InterplanetaryTransitInterface_Setup
    - TFCGtasklistToProc: farc_game_missioncore /FCMgMCore_Mission_Commit
    - TFCGtasklistInProc: farc_game_gameflow /FCMgTFlow_GameTimer_Process + FCMgGFlow_Tasks_Process
 }
@@ -185,8 +186,10 @@ type TFCRdmtTask = record
          T_tMITphase: TFCEdmtTaskPhasesInterplanetaryTransit;
          T_tMITorigin: TFCEdmtTaskTargets;
          T_tMIToriginIndex: integer;
+         T_tMIToriginSatIndex:integer;
          T_tMITdestination: TFCEdmtTaskTargets;
          T_tMITdestinationIndex: integer;
+         T_tMITdestinationSatIndex: integer;
          ///<summary>
          ///   cruise velocity to reach , if 0 then =current deltav
          ///</summary>

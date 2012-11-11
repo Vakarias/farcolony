@@ -98,6 +98,7 @@ uses
 procedure FCMdFSG_Game_Load;
 {:Purpose: load the current game.
    Additions:
+      -2012Nov11- *add: tasks - interplanetary transit mission - T_tMIToriginSatIndex + T_tMITdestinationSatIndex.
       -2012Oct02- *add: tasks to process.
       -2012Sep29- *add: previous process time.
       -2012Sep23- *mod: tasks - load the real phase name.
@@ -388,11 +389,13 @@ begin
                   if EnumIndex=-1
                   then raise Exception.Create( 'bad gamesave loading w/ origin type: '+XMLSavedGameItem.Attributes['origin'] );
                   FCDdmtTaskListToProcess[Count].T_tMIToriginIndex:=XMLSavedGameItem.Attributes['originIndex'];
+                  FCDdmtTaskListToProcess[Count].T_tMIToriginSatIndex:=XMLSavedGameItem.Attributes['originSatIndex'];
                   EnumIndex:=GetEnumValue( TypeInfo( TFCEdmtTaskTargets ), XMLSavedGameItem.Attributes['destination'] );
                   FCDdmtTaskListToProcess[Count].T_tMITdestination:=TFCEdmtTaskTargets( EnumIndex );
                   if EnumIndex=-1
                   then raise Exception.Create( 'bad gamesave loading w/ destination type: '+XMLSavedGameItem.Attributes['destination'] );
                   FCDdmtTaskListToProcess[Count].T_tMITdestinationIndex:=XMLSavedGameItem.Attributes['destinationIndex'];
+                  FCDdmtTaskListToProcess[Count].T_tMITdestinationSatIndex:=XMLSavedGameItem.Attributes['destinationSatIndex'];
                   FCDdmtTaskListToProcess[Count].T_tMITcruiseVelocity:=StrToFloat( XMLSavedGameItem.Attributes['cruiseVelocity'], FCVdiFormat );
                   FCDdmtTaskListToProcess[Count].T_tMITcruiseTime:=XMLSavedGameItem.Attributes['cruiseTime'];
                   FCDdmtTaskListToProcess[Count].T_tMITfinalVelocity:=StrToFloat( XMLSavedGameItem.Attributes['finalVelocity'], FCVdiFormat );
@@ -470,11 +473,13 @@ begin
                   if EnumIndex=-1
                   then raise Exception.Create( 'bad gamesave loading w/ origin type: '+XMLSavedGameItem.Attributes['origin'] );
                   FCDdmtTaskListInProcess[Count].T_tMIToriginIndex:=XMLSavedGameItem.Attributes['originIndex'];
+                  FCDdmtTaskListInProcess[Count].T_tMIToriginSatIndex:=XMLSavedGameItem.Attributes['originSatIndex'];
                   EnumIndex:=GetEnumValue( TypeInfo( TFCEdmtTaskTargets ), XMLSavedGameItem.Attributes['destination'] );
                   FCDdmtTaskListInProcess[Count].T_tMITdestination:=TFCEdmtTaskTargets( EnumIndex );
                   if EnumIndex=-1
                   then raise Exception.Create( 'bad gamesave loading w/ destination type: '+XMLSavedGameItem.Attributes['destination'] );
                   FCDdmtTaskListInProcess[Count].T_tMITdestinationIndex:=XMLSavedGameItem.Attributes['destinationIndex'];
+                  FCDdmtTaskListInProcess[Count].T_tMITdestinationSatIndex:=XMLSavedGameItem.Attributes['destinationSatIndex'];
                   FCDdmtTaskListInProcess[Count].T_tMITcruiseVelocity:=StrToFloat( XMLSavedGameItem.Attributes['cruiseVelocity'], FCVdiFormat );
                   FCDdmtTaskListInProcess[Count].T_tMITcruiseTime:=XMLSavedGameItem.Attributes['cruiseTime'];
                   FCDdmtTaskListInProcess[Count].T_tMITfinalVelocity:=StrToFloat( XMLSavedGameItem.Attributes['finalVelocity'], FCVdiFormat );
@@ -1122,6 +1127,7 @@ end;
 procedure FCMdFSG_Game_Save;
 {:Purpose: save the current game.
     Additions:
+      -2012Nov11- *add: tasks - interplanetary transit mission - T_tMIToriginSatIndex + T_tMITdestinationSatIndex.
       -2012Oct02- *add: tasks to process.
       -2012Sep29- *add: previous process time.
       -2012Sep23- *mod: tasks - save the real phase name.
@@ -1363,8 +1369,10 @@ begin
                XMLSavedGameItemSub.Attributes['phase']:=GetEnumName( TypeInfo( TFCEdmtTaskPhasesInterplanetaryTransit ), Integer( FCDdmtTaskListToProcess[Count].T_tMITphase ) );
                XMLSavedGameItemSub.Attributes['origin']:=GetEnumName( TypeInfo( TFCEdmtTaskTargets ), Integer( FCDdmtTaskListToProcess[Count].T_tMITorigin ) );
                XMLSavedGameItemSub.Attributes['originIndex']:=FCDdmtTaskListToProcess[Count].T_tMIToriginIndex;
+               XMLSavedGameItemSub.Attributes['originSatIndex']:=FCDdmtTaskListToProcess[Count].T_tMIToriginSatIndex;
                XMLSavedGameItemSub.Attributes['destination']:=GetEnumName( TypeInfo( TFCEdmtTaskTargets ), Integer( FCDdmtTaskListToProcess[Count].T_tMITdestination ) );
                XMLSavedGameItemSub.Attributes['destinationIndex']:=FCDdmtTaskListToProcess[Count].T_tMITdestinationIndex;
+               XMLSavedGameItemSub.Attributes['destinationSatIndex']:=FCDdmtTaskListToProcess[Count].T_tMITdestinationSatIndex;
                XMLSavedGameItemSub.Attributes['cruiseVelocity']:=FloatToStr( FCDdmtTaskListToProcess[Count].T_tMITcruiseVelocity, FCVdiFormat );
                XMLSavedGameItemSub.Attributes['cruiseTime']:=FCDdmtTaskListToProcess[Count].T_tMITcruiseTime;
                XMLSavedGameItemSub.Attributes['finalVelocity']:=FloatToStr( FCDdmtTaskListToProcess[Count].T_tMITfinalVelocity, FCVdiFormat );
@@ -1418,8 +1426,10 @@ begin
                XMLSavedGameItemSub.Attributes['phase']:=GetEnumName( TypeInfo( TFCEdmtTaskPhasesInterplanetaryTransit ), Integer( FCDdmtTaskListInProcess[Count].T_tMITphase ) );
                XMLSavedGameItemSub.Attributes['origin']:=GetEnumName( TypeInfo( TFCEdmtTaskTargets ), Integer( FCDdmtTaskListInProcess[Count].T_tMITorigin ) );
                XMLSavedGameItemSub.Attributes['originIndex']:=FCDdmtTaskListInProcess[Count].T_tMIToriginIndex;
+               XMLSavedGameItemSub.Attributes['originSatIndex']:=FCDdmtTaskListInProcess[Count].T_tMIToriginSatIndex;
                XMLSavedGameItemSub.Attributes['destination']:=GetEnumName( TypeInfo( TFCEdmtTaskTargets ), Integer( FCDdmtTaskListInProcess[Count].T_tMITdestination ) );
                XMLSavedGameItemSub.Attributes['destinationIndex']:=FCDdmtTaskListInProcess[Count].T_tMITdestinationIndex;
+               XMLSavedGameItemSub.Attributes['destinationSatIndex']:=FCDdmtTaskListInProcess[Count].T_tMITdestinationSatIndex;
                XMLSavedGameItemSub.Attributes['cruiseVelocity']:=FloatToStr( FCDdmtTaskListInProcess[Count].T_tMITcruiseVelocity, FCVdiFormat );
                XMLSavedGameItemSub.Attributes['cruiseTime']:=FCDdmtTaskListInProcess[Count].T_tMITcruiseTime;
                XMLSavedGameItemSub.Attributes['finalVelocity']:=FloatToStr( FCDdmtTaskListInProcess[Count].T_tMITfinalVelocity, FCVdiFormat );

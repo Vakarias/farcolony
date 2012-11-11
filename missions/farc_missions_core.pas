@@ -42,6 +42,7 @@ uses
 type TFCRmcCurrentMissionCalculations=record
    CMC_entity: integer;
    CMC_originLocation: TFCRufStelObj;
+   CMC_destinationLocation: TFCRufStelObj;
    CMC_dockList: array of record
       DL_spaceUnitIndex: integer;
       DL_landTime: integer;
@@ -369,6 +370,7 @@ begin
 //         FCDdmtTaskListToProcess[MCtskL].T_controllerIndex:=round(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].TagFloat);
 //         FCDdmtTaskListToProcess[MCtskL].T_duration:=round(GMCtripTime);
 //         FCDdmtTaskListToProcess[MCtskL].T_durationInterval:=1;
+{:DEV NOTES: the origin is already set in mission setup, remove the lines below.}
 //         if GMCrootSatIdx=0
 //         then
 //         begin
@@ -386,12 +388,14 @@ begin
 //         begin
 //            FCDdmtTaskListToProcess[MCtskL].T_tMITdestination:=ttOrbitalObject;
 //            FCDdmtTaskListToProcess[MCtskL].T_tMITdestinationIndex:=FC3doglSelectedPlanetAsteroid;
+            {:DEV NOTES: add destinationstatindex.}
 //         end
 //         else if FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite]
 //         then
 //         begin
 //            FCDdmtTaskListToProcess[MCtskL].T_tMITdestination:=ttSatellite;
-//            FCDdmtTaskListToProcess[MCtskL].T_tMITdestinationIndex:=FC3doglSelectedSatellite;
+//            FCDdmtTaskListToProcess[MCtskL].T_tMITdestinationIndex:=FC3doglSelectedSatellite; dev: put oobjk index in it
+             {:DEV NOTES: add destinationstatindex.}
 //         end;
 //         FCDdmtTaskListToProcess[MCtskL].T_tMITcruiseVelocity:=GMCcruiseDV;
 //         FCDdmtTaskListToProcess[MCtskL].T_tMITcruiseTime:=GMCtimeA;
@@ -783,10 +787,16 @@ begin
 
       tMissionInterplanetaryTransit:
       begin
-         FCDmcCurrentMission[Entity].T_tMITorigin:=ttSelf;
-         FCDmcCurrentMission[Entity].T_tMIToriginIndex:=0;
+         FCDmcCurrentMission[Entity].T_controllerIndex:=SpaceUnit;
+         if FCRmcCurrentMissionCalculations.CMC_originLocation[4]=0
+         then FCDmcCurrentMission[Entity].T_tMITorigin:=ttOrbitalObject
+         else if FCRmcCurrentMissionCalculations.CMC_originLocation[4]>0
+         then FCDmcCurrentMission[Entity].T_tMITorigin:=ttSatellite;
+         FCDmcCurrentMission[Entity].T_tMIToriginIndex:=FCRmcCurrentMissionCalculations.CMC_originLocation[3];
+         FCDmcCurrentMission[Entity].T_tMIToriginSatIndex:=FCRmcCurrentMissionCalculations.CMC_originLocation[4];
          FCDmcCurrentMission[Entity].T_tMITdestination:=ttSelf;
          FCDmcCurrentMission[Entity].T_tMITdestinationIndex:=0;
+         FCDmcCurrentMission[Entity].T_tMITdestinationSatIndex:=0;
          FCDmcCurrentMission[Entity].T_tMITcruiseVelocity:=0;
          FCDmcCurrentMission[Entity].T_tMITcruiseTime:=0;
          FCDmcCurrentMission[Entity].T_tMITfinalVelocity:=0;
