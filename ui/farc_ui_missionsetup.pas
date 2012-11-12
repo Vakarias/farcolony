@@ -7,7 +7,7 @@
         License: GPLv3
         Website: http://farcolony.sourceforge.net/
 
-        Unit: space units mission - interface unit
+        Unit: space units missions - interface unit
 
 ============================================================================================
 ********************************************************************************************
@@ -566,6 +566,7 @@ end;
 procedure FCMuiMS_TrackBar_Update(const MTUmission: TFCEdmtTasks);
 {:Purpose: update the trackbar.
     Additions:
+      -2012Nov11- *mod: complete update of the interplanetary transit mission.
       -2012Oct30- *mod: complete update of the colonization mission.
       -2010Apr26- *fix: stop the bug of updating for a colonize mission when the trackbar is resetted.
       -2010Apr17- *add: colonization setup data update.
@@ -592,21 +593,20 @@ begin
 
       tMissionInterplanetaryTransit:
       begin
-//         case FCWinMain.FCWMS_Grp_MCG_RMassTrack.Position of
-//            1: FCWinMain.FCWMS_Grp_MCG_RMassTrack.TrackLabel.Format
-//               :=FCFdTFiles_UIStr_Get(uistrUI,'FCWMS_Grp_MCG_RMassTrackITransEco');
-//            2: FCWinMain.FCWMS_Grp_MCG_RMassTrack.TrackLabel.Format
-//               :=FCFdTFiles_UIStr_Get(uistrUI,'FCWMS_Grp_MCG_RMassTrackITransSlow');
-//            3: FCWinMain.FCWMS_Grp_MCG_RMassTrack.TrackLabel.Format
-//               :=FCFdTFiles_UIStr_Get(uistrUI,'FCWMS_Grp_MCG_RMassTrackITransFast');
-//         end;
-//         if FCWinMain.FCWMS_Grp_MCG_RMassTrack.Tag=0
-//         then FCMgMCore_Mission_DestUpd(true)
-//         else if FCWinMain.FCWMS_Grp_MCG_RMassTrack.Tag=1
-//         then FCWinMain.FCWMS_Grp_MCG_RMassTrack.Tag:=0;
+         case FCWinMain.FCWMS_Grp_MCG_RMassTrack.Position of
+            1: FCWinMain.FCWMS_Grp_MCG_RMassTrack.TrackLabel.Format:=FCFdTFiles_UIStr_Get(uistrUI,'FCWMS_Grp_MCG_RMassTrackITransEco');
+
+            2: FCWinMain.FCWMS_Grp_MCG_RMassTrack.TrackLabel.Format:=FCFdTFiles_UIStr_Get(uistrUI,'FCWMS_Grp_MCG_RMassTrackITransSlow');
+
+            3: FCWinMain.FCWMS_Grp_MCG_RMassTrack.TrackLabel.Format:=FCFdTFiles_UIStr_Get(uistrUI,'FCWMS_Grp_MCG_RMassTrackITransFast');
+         end;
+         if ( not FCVuimsIsTrackbarProcess )
+            and (FCWinMain.FCWMS_Grp_MCG_RMassTrack.Visible)
+         then FCVuimsIsTrackbarProcess:=true
+         else if FCVuimsIsTrackbarProcess
+         then FCMgMCore_Mission_DestUpd(true);
       end;
    end; //==END== case MTUmission of ==//
-//   {.update the trackbar label}
 end;
 
 end.

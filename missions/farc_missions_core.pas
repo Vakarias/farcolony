@@ -836,26 +836,6 @@ begin
    end; //==END== case FCDmcCurrentMission[Entity].T_type of ==//
    FCWinMain.FCWM_MissionSettings.Show;
    FCWinMain.FCWM_MissionSettings.BringToFront;
-
-
-//=================================old code
-
-//   GMCAccelG:=0;
-//   GMCcruiseDV:=0;
-//   GMCfac:=Entity;
-//   GMCfinalDV:=0;
-//   GMClandTime:=0;
-//   GMCmaxDV:=0;
-//   GMCreqDV:=0;
-//   GMCrmMaxVol:=0;
-//   GMCtimeA:=0;
-//   GMCtimeD:=0;
-//   GMCtripTime:=0;
-//   GMCusedRMvol:=0;
-
-//   {.universal data initialization for all missions}
-
-//      end; //==END== case: gmcmnColoniz ==//
 end;
 
 end.
