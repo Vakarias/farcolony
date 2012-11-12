@@ -101,7 +101,7 @@ type TFCEdmtTaskTargets=(
    - FCMuiMS_ColonizationInterface_Setup
    - FCMuiMS_InterplanetaryTransitInterface_Setup
    - TFCGtasklistToProc: farc_game_missioncore /FCMgMCore_Mission_Commit
-   - TFCGtasklistInProc: farc_game_gameflow /FCMgTFlow_GameTimer_Process + FCMgGFlow_Tasks_Process
+   - TFCGtasklistInProc: FCMgTS_TaskToProcess_Initialize + farc_game_gameflow /FCMgGFlow_Tasks_Process
 }
 ///<summary>
 ///   task

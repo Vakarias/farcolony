@@ -129,6 +129,7 @@ end;
 procedure FCMgTS_TaskToProcess_Initialize( const CurrentTimeTick: integer);
 {:Purpose: initialize the list of the tasks to process to allow the task system to process them.
     Additions:
+      -2012Nov11- *mod: some adjustements for the interplanetary transit mission.
       -2012Nov04- *add: colonization and interplanetary transit missions - take in account if the space unit isn't in the current 3d view.
                   *fix: interplanetary transit mission - if the space unit is a 3d object in the current 3d view it is updated.
                   *fix: interplanetary transit mission - the popup menu is only updated under certain conditions.
@@ -256,11 +257,9 @@ begin
                      ,( FCDdmtTaskListInProcess[TaskIndex].T_tMITcruiseVelocity-FCDdgEntities[Entity].E_spaceUnits[Controller].SU_deltaV )/FCDdmtTaskListInProcess[TaskIndex].T_tMITcruiseTime
                      );
                   FCDdgEntities[Entity].E_spaceUnits[Controller].SU_status:=susInFreeSpace;
-                  Universe:=FCFuF_StelObj_GetFullRow(
+                  Universe:=FCFuF_StelObj_GetStarSystemStar(
                      FCDdgEntities[Entity].E_spaceUnits[Controller].SU_locationStarSystem
                      ,FCDdgEntities[Entity].E_spaceUnits[Controller].SU_locationStar
-                     ,FCDdgEntities[Entity].E_spaceUnits[Controller].SU_locationOrbitalObject
-                     ,FCDdgEntities[Entity].E_spaceUnits[Controller].SU_locationSatellite
                      );
                   Linked3dObject:=FCDdgEntities[Entity].E_spaceUnits[Controller].SU_linked3dObject;
                   if Linked3dObject=0
@@ -268,8 +267,8 @@ begin
                      spufoioRemOrbit
                      ,Universe[1]
                      ,Universe[2]
-                     ,Universe[3]
-                     ,Universe[4]
+                     ,FCDdmtTaskListInProcess[TaskIndex].T_tMIToriginIndex
+                     ,FCDdmtTaskListInProcess[TaskIndex].T_tMIToriginSatIndex
                      ,Entity
                      ,Controller
                      ,false
@@ -280,8 +279,8 @@ begin
                         spufoioRemOrbit
                         ,Universe[1]
                         ,Universe[2]
-                        ,Universe[3]
-                        ,Universe[4]
+                        ,FCDdmtTaskListInProcess[TaskIndex].T_tMIToriginIndex
+                        ,FCDdmtTaskListInProcess[TaskIndex].T_tMIToriginSatIndex
                         ,Entity
                         ,Controller
                         ,true

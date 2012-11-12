@@ -370,12 +370,16 @@ begin
 //         FCDdmtTaskListToProcess[MCtskL].T_controllerIndex:=round(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].TagFloat);
 //         FCDdmtTaskListToProcess[MCtskL].T_duration:=round(GMCtripTime);
 //         FCDdmtTaskListToProcess[MCtskL].T_durationInterval:=1;
+//            {.update the space unit data}
+//            FCDdgEntities[Entity].E_spaceUnits[FCDdmtTaskListToProcess[TaskIndex].T_controllerIndex].SU_locationOrbitalObject:='';
+//               FCDdgEntities[Entity].E_spaceUnits[FCDdmtTaskListToProcess[TaskIndex].T_controllerIndex].SU_locationSatellite:='';
 {:DEV NOTES: the origin is already set in mission setup, remove the lines below.}
 //         if GMCrootSatIdx=0
 //         then
 //         begin
 //            FCDdmtTaskListToProcess[MCtskL].T_tMITorigin:=ttOrbitalObject;
 //            FCDdmtTaskListToProcess[MCtskL].T_tMIToriginIndex:=GMCrootOObIdx;
+
 //         end
 //         else if GMCrootSatIdx>0
 //         then
@@ -383,6 +387,23 @@ begin
 //            FCDdmtTaskListToProcess[MCtskL].T_tMITorigin:=ttSatellite;
 //            FCDdmtTaskListToProcess[MCtskL].T_tMIToriginIndex:=GMCrootSatObjIdx;
 //         end;
+
+
+//               FCDdmtTaskListToProcess[TaskIndex].T_tMCdestinationIndex:=FCRmcCurrentMissionCalculations.CMC_destinationLocation[3];
+//            if FCRmcCurrentMissionCalculations.CMC_destinationLocation[4]=0 then
+//            begin
+
+//               FCDdmtTaskListToProcess[TaskIndex].T_tMCdestination:=ttOrbitalObject;
+//               FCDdmtTaskListToProcess[TaskIndex].T_tMCdestinationSatIndex:=0;
+//            end
+//            else if FCRmcCurrentMissionCalculations.CMC_destinationLocation[4]>0 then
+//            begin
+//               FCDdmtTaskListToProcess[TaskIndex].T_tMCdestination:=ttSatellite;
+//               FCDdmtTaskListToProcess[TaskIndex].T_tMCdestinationSatIndex:=FCRmcCurrentMissionCalculations.CMC_destinationLocation[4];
+//            end;
+
+
+//DO NOT USE THAT
 //         if FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglObjectsGroups[FC3doglSelectedPlanetAsteroid]
 //         then
 //         begin
@@ -397,6 +418,8 @@ begin
 //            FCDdmtTaskListToProcess[MCtskL].T_tMITdestinationIndex:=FC3doglSelectedSatellite; dev: put oobjk index in it
              {:DEV NOTES: add destinationstatindex.}
 //         end;
+//END DO NOT USE THAT
+
 //         FCDdmtTaskListToProcess[MCtskL].T_tMITcruiseVelocity:=GMCcruiseDV;
 //         FCDdmtTaskListToProcess[MCtskL].T_tMITcruiseTime:=GMCtimeA;
 //         FCDdmtTaskListToProcess[MCtskL].T_tMITinProcessData.IPD_timeToTransfert:=0;
