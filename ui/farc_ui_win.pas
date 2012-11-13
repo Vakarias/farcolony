@@ -465,6 +465,7 @@ begin
 //      then FCWinMain.FCWM_PMFO_MissCancel.Visible:=true;
       {.START POINT OF TRAVEL MISSIONS}
       {.interplanetary transit menu item}
+      {:DEV NOTES: when reimplant it, test also if there's any reaction mass left!.}
 //      if (FPUdmpSpUnStatus in [susInFreeSpace..susDocked])
 //         and(FPUdmpTaskId=0)
 //      then
@@ -474,6 +475,7 @@ begin
 //      end;
       {.START POINT OF SPECIFIC MISSIONS}
       {.colonization menu item}
+      {:DEV NOTES: when reimplant it, test also if there's any reaction mass left!.}
       {:DEV NOTES: include the possibility when there's no docked spu but the focused spu has colonization capability.}
       FPUlvNum:=FCFspuF_DockedSpU_GetNum(
          0

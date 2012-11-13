@@ -268,7 +268,7 @@ begin
                   inc(FC3doglSelectedPlanetAsteroid);
                   FCMoglVM_CamMain_Target(FC3doglSelectedPlanetAsteroid, true);
                   if FCWinMain.FCWM_MissionSettings.Visible
-                  then FCMgMCore_Mission_DestUpd(false)
+                  then FCMuiMS_InterplanetaryTransitInterface_UpdateDestination(false)
                   else if (not FCWinMain.FCWM_MissionSettings.Visible)
                      and (FCWinMain.FCWM_SP_AutoUp.Checked)
                   then FCMuiSP_SurfaceEcosphere_Set(FC3doglSelectedPlanetAsteroid, 0, false);
@@ -282,7 +282,7 @@ begin
                begin
                   dec(FC3doglSelectedPlanetAsteroid);
                   FCMoglVM_CamMain_Target(FC3doglSelectedPlanetAsteroid, true);
-                  FCMgMCore_Mission_DestUpd(false);
+                  FCMuiMS_InterplanetaryTransitInterface_UpdateDestination(false);
                end
                else if not FCWinMain.FCWM_MissionSettings.Visible
                then
@@ -301,7 +301,7 @@ begin
                begin
                   FC3doglSelectedPlanetAsteroid:=1;
                   FCMoglVM_CamMain_Target(FC3doglSelectedPlanetAsteroid, true);
-                  FCMgMCore_Mission_DestUpd(false);
+                  FCMuiMS_InterplanetaryTransitInterface_UpdateDestination(false);
                end
                else if not FCWinMain.FCWM_MissionSettings.Visible
                then
@@ -318,7 +318,7 @@ begin
                   FC3doglSelectedPlanetAsteroid:=FC3doglTotalOrbitalObjects;
                   FCMoglVM_CamMain_Target(FC3doglSelectedPlanetAsteroid, true);
                   if FCWinMain.FCWM_MissionSettings.Visible
-                  then FCMgMCore_Mission_DestUpd(false)
+                  then FCMuiMS_InterplanetaryTransitInterface_UpdateDestination(false)
                   else if (not FCWinMain.FCWM_MissionSettings.Visible)
                      and (FCWinMain.FCWM_SP_AutoUp.Checked)
                   then FCMuiSP_SurfaceEcosphere_Set(FC3doglSelectedPlanetAsteroid, 0, false);
@@ -380,7 +380,7 @@ begin
          end; //==END== case BKSbk of ==//
          FCMoglVM_CamMain_Target(100, false);
          if FCWinMain.FCWM_MissionSettings.Visible
-         then FCMgMCore_Mission_DestUpd(false)
+         then FCMuiMS_InterplanetaryTransitInterface_UpdateDestination(false)
          else if (not FCWinMain.FCWM_MissionSettings.Visible)
             and (FCWinMain.FCWM_SP_AutoUp.Checked)
          then FCMuiSP_SurfaceEcosphere_Set(FC3doglSelectedPlanetAsteroid, FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].Tag, false);
@@ -934,7 +934,7 @@ begin
                            (FCWinMain.FCWM_MissionSettings.Visible)
                            and
                            (FCWinMain.FCWM_MissionSettings.Caption.Text
-                              <>FCFdTFiles_UIStr_Get(uistrUI,'FCWinMissSet')+FCFdTFiles_UIStr_Get(uistrUI,'Mission.coloniz')
+                              =FCFdTFiles_UIStr_Get(uistrUI,'FCWinMissSet')+FCFdTFiles_UIStr_Get(uistrUI,'Mission.itransit')
                            )
                         )
                      )
@@ -947,7 +947,7 @@ begin
                   end;
                   FCMoglVM_CamMain_Target(100, false);
                   if FCWinMain.FCWM_MissionSettings.Visible
-                  then FCMgMCore_Mission_DestUpd(false);
+                  then FCMuiMS_InterplanetaryTransitInterface_UpdateDestination(false);
                end
                else if (FC3doglTotalSatellites>0)
                   and (FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite])
@@ -955,7 +955,7 @@ begin
                begin
                   FCMoglVM_CamMain_Target(FC3doglSelectedPlanetAsteroid, true);
                   if FCWinMain.FCWM_MissionSettings.Visible
-                  then FCMgMCore_Mission_DestUpd(false);
+                  then FCMuiMS_InterplanetaryTransitInterface_UpdateDestination(false);
                end;
             end;
 
@@ -1195,293 +1195,6 @@ begin
             end;
          end; //==END== case WMTkeyDump of ==//
       end; //==END== if (FCWinMain.FCWM_3dMainGrp.Visible) and (FCVdgPlayer.P_currentTimePhase<>tphPAUSE) then ==//
-
-//      {NUMPAD1}
-//      {.last focused object}
-//      if (WMTkeyDump=97)
-//         and (FCWinMain.FCWM_3dMainGrp.Visible)
-//         and (FCWinMain.FCGLScadencer.Enabled)
-//      then
-//      begin
-//         WMTfocus:=FCFoglVM_Focused_Get;
-//         case WMTfocus of
-//            1, 2:
-//            begin
-//               if (not FCWinMain.FCWM_MissionSettings.Visible)
-//                  or (
-//                        (FCWinMain.FCWM_MissionSettings.Visible)
-//                        and
-//                        (FCWinMain.FCWM_MissionSettings.Caption.Text
-//                           <>FCFdTFiles_UIStr_Get(uistrUI,'FCWinMissSet')+FCFdTFiles_UIStr_Get(uistrUI,'Mission.coloniz')
-//                        )
-//                     )
-//               then
-//               begin
-//                  if WMTfocus=1
-//                  then FCMuiK_BrowseK_Set(uikbtOObj, uikbkLast)
-//                  else if WMTfocus=2
-//                  then FCMuiK_BrowseK_Set(uikbtSat, uikbkLast);
-//               end;
-//            end;
-//            3:
-//            begin
-//               if not FCWinMain.FCWM_MissionSettings.Visible
-//               then FCMuiK_BrowseK_Set(uikbtSpU, uikbkLast);
-//            end;
-//         end;
-//      end;
-//      {.NUMPAD4}
-//      {.previous focused object}
-//      if (WMTkeyDump=100)
-//         and (FCWinMain.FCWM_3dMainGrp.Visible)
-//         and (FCVdgPlayer.P_currentTimePhase<>tphPAUSE)
-//      then
-//      begin
-//         WMTfocus:=FCFoglVM_Focused_Get;
-//         case WMTfocus of
-//            1, 2:
-//            begin
-//               if (not FCWinMain.FCWM_MissionSettings.Visible)
-//                  or (
-//                        (FCWinMain.FCWM_MissionSettings.Visible)
-//                        and
-//                        (FCWinMain.FCWM_MissionSettings.Caption.Text
-//                           <>FCFdTFiles_UIStr_Get(uistrUI,'FCWinMissSet')+FCFdTFiles_UIStr_Get(uistrUI,'Mission.coloniz')
-//                        )
-//                     )
-//               then
-//               begin
-//                  if WMTfocus=1
-//                  then FCMuiK_BrowseK_Set(uikbtOObj, uikbkPrev)
-//                  else if WMTfocus=2
-//                  then FCMuiK_BrowseK_Set(uikbtSat, uikbkPrev);
-//               end;
-//            end;
-//            3:
-//            begin
-//               if not FCWinMain.FCWM_MissionSettings.Visible
-//               then FCMuiK_BrowseK_Set(uikbtSpU, uikbkPrev);
-//            end;
-//         end;
-//      end;
-//      {.NUMPAD6}
-//      {.next focused object}
-//      if (WMTkeyDump=102)
-//         and (FCWinMain.FCWM_3dMainGrp.Visible)
-//         and (FCVdgPlayer.P_currentTimePhase<>tphPAUSE)
-//      then
-//      begin
-//         WMTfocus:=FCFoglVM_Focused_Get;
-//         case WMTfocus of
-//            0, 1, 2:
-//            begin
-//               if (not FCWinMain.FCWM_MissionSettings.Visible)
-//                  or (
-//                        (FCWinMain.FCWM_MissionSettings.Visible)
-//                        and
-//                        (FCWinMain.FCWM_MissionSettings.Caption.Text
-//                           <>FCFdTFiles_UIStr_Get(uistrUI,'FCWinMissSet')+FCFdTFiles_UIStr_Get(uistrUI,'Mission.coloniz')
-//                        )
-//                     )
-//               then
-//               begin
-//                  if (WMTfocus=0)
-//                     or (WMTfocus=1)
-//                  then FCMuiK_BrowseK_Set(uikbtOObj, uikbkNext)
-//                  else if WMTfocus=2
-//                  then FCMuiK_BrowseK_Set(uikbtSat, uikbkNext);
-//               end;
-//            end;
-//            3:
-//            begin
-//               if not FCWinMain.FCWM_MissionSettings.Visible
-//               then FCMuiK_BrowseK_Set(uikbtSpU, uikbkNext);
-//            end;
-//         end;
-//      end;
-//      {.NUMPAD7}
-//      {.first focused object}
-//      if (WMTkeyDump=103)
-//         and (FCWinMain.FCWM_3dMainGrp.Visible)
-//         and (FCVdgPlayer.P_currentTimePhase<>tphPAUSE)
-//      then
-//      begin
-//         WMTfocus:=FCFoglVM_Focused_Get;
-//         case WMTfocus of
-//            1, 2:
-//            begin
-//               if (not FCWinMain.FCWM_MissionSettings.Visible)
-//                  or (
-//                        (FCWinMain.FCWM_MissionSettings.Visible)
-//                        and
-//                        (FCWinMain.FCWM_MissionSettings.Caption.Text
-//                           <>FCFdTFiles_UIStr_Get(uistrUI,'FCWinMissSet')+FCFdTFiles_UIStr_Get(uistrUI,'Mission.coloniz')
-//                        )
-//                     )
-//               then
-//               begin
-//                  if WMTfocus=1
-//                  then FCMuiK_BrowseK_Set(uikbtOObj, uikbkFirst)
-//                  else if WMTfocus=2
-//                  then FCMuiK_BrowseK_Set(uikbtSat, uikbkFirst);
-//               end;
-//            end;
-//            3:
-//            begin
-//               if not FCWinMain.FCWM_MissionSettings.Visible
-//               then FCMuiK_BrowseK_Set(uikbtSpU, uikbkFirst);
-//            end;
-//         end;
-//      end;
-//      {. A}
-//      {.switch satellite view <=> orbital object view}
-//      if (WMTkeyDump=65)
-//         and (FC3doglTotalSatellites>0)
-//         and (FCWinMain.FCGLSCamMainViewGhost.TargetObject<>FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite])
-//         and
-//            (
-//               (
-//                  (not FCWinMain.FCWM_MissionSettings.Visible)
-//                  and
-//                  (length(FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[FC3doglSelectedPlanetAsteroid].OO_satellitesList)>1)
-//               )
-//               or
-//               (
-//                  (FCWinMain.FCWM_MissionSettings.Visible)
-//                  and
-//                  (FCWinMain.FCWM_MissionSettings.Caption.Text
-//                     <>FCFdTFiles_UIStr_Get(uistrUI,'FCWinMissSet')+FCFdTFiles_UIStr_Get(uistrUI,'Mission.coloniz')
-//                  )
-//               )
-//            )
-//      then
-//      begin
-//         if round(FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].TagFloat)<>FC3doglSelectedPlanetAsteroid
-//         then
-//         begin
-//            FC3doglSelectedPlanetAsteroid:=round(FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].TagFloat);
-//         end;
-//         FCMoglVM_CamMain_Target(100, false);
-//         if FCWinMain.FCWM_MissionSettings.Visible
-//         then FCMgMCore_Mission_DestUpd(false);
-//      end
-//      else if (WMTkeyDump=65)
-//         and (FC3doglTotalSatellites>0)
-//         and (FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite])
-//      then
-//      begin
-//         FCMoglVM_CamMain_Target(FC3doglSelectedPlanetAsteroid, true);
-//         if FCWinMain.FCWM_MissionSettings.Visible
-//         then FCMgMCore_Mission_DestUpd(false);
-//      end;
-//      {.C}
-//      if (WMTkeyDump=67)
-//         and (FCWinMain.FCWM_3dMainGrp.Visible)
-//         and (FCWinMain.FCGLScadencer.Enabled)
-//         and (FCVdiGameFlowTimer.Enabled)
-//         and ( (FCWinNewGSetup=nil) or ( (FCWinNewGSetup<>nil) and (  not FCWinNewGSetup.Visible) ) )
-//         and (not FCWinMain.FCWM_MissionSettings.Visible)
-//      then
-//      begin
-//         if FCVdgPlayer.P_currentTimePhase<>tphSTH
-//         then FCMgTFlow_FlowState_Set(tphSTH);
-//      end;
-//      {.M}
-//      {.message box raise/expand}
-//      if (WMTkeyDump=77)
-//         and (FCWinMain.FCWM_3dMainGrp.Visible)
-//         and (not FCWinMain.FCWM_MissionSettings.Visible)
-//      then
-//      begin
-//         if FCWinMain.FCWM_MsgeBox.Collaps
-//         then
-//         begin
-//            FCWinMain.FCWM_MsgeBox.Collaps:=false;
-//            FCWinMain.FCWM_MsgeBox.Height:=FCWinMain.Height div 6;
-//            FCWinMain.FCWM_MsgeBox.Top:=FCWinMain.FCWM_3dMainGrp.Height-(FCWinMain.FCWM_MsgeBox.Height+2);
-//            FCWinMain.FCWM_MsgeBox.BringToFront;
-//            FCWinMain.FCWM_MsgeBox_List.SetFocus;
-//         end
-//         else if (not FCWinMain.FCWM_MsgeBox.Collaps)
-//            and (FCWinMain.FCWM_MsgeBox.Tag=0)
-//         then FCFuiM_MessageBox_Expand
-//         else if (not FCWinMain.FCWM_MsgeBox.Collaps)
-//            and (FCWinMain.FCWM_MsgeBox.Tag=1)
-//         then FCMuiM_MessageBox_ResetState(true);
-//      end;
-//      {.P}
-//      {.pause / unpause the game}
-//      if (WMTkeyDump=80)
-//         and (FCVdgPlayer.P_currentTimePhase<>tphPAUSE)
-//         and (FCVdgPlayer.P_currentTimePhase<>tphPAUSEwo)
-//         and (FCVdiGameFlowTimer.Enabled)
-//         and (FCWinMain.FCGLScadencer.Enabled)
-//      then
-//      begin
-//         FCMgTFlow_FlowState_Set(tphPAUSE);
-//         FCMoglUI_Main3DViewUI_Update(oglupdtpTxtOnly, ogluiutTime);
-//      end
-//      else if (WMTkeyDump=80)
-//         and ((FCVdgPlayer.P_currentTimePhase=tphPAUSE) or (FCVdgPlayer.P_currentTimePhase=tphPAUSEwo))
-//      then FCMgTFlow_FlowState_Set(tphTac);
-//      {. S}
-//      {.switch space unit view <=> orbital object view}
-//      if (WMTkeyDump=83)
-//         and (FC3doglTotalSpaceUnits>0)
-//         and (FCWinMain.FCGLSCamMainViewGhost.TargetObject<>FC3doglSpaceUnits[FC3doglSelectedSpaceUnit])
-//         and (not FCWinMain.FCWM_MissionSettings.Visible)
-//      then FCMoglVM_CamMain_Target(-1, true)
-//      else if (WMTkeyDump=83)
-//         and (FC3doglTotalSpaceUnits>0)
-//         and (FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglSpaceUnits[FC3doglSelectedSpaceUnit])
-//         and (not FCWinMain.FCWM_MissionSettings.Visible)
-//      then FCMoglVM_CamMain_Target(FC3doglSelectedPlanetAsteroid, true);
-//      {:DEV NOTES: remove the following lines when the new command panel is made, debug feature only.}
-//      {.T}
-//      if ( FCVdiDebugMode )
-//         and (FCWinMain.FCWM_3dMainGrp.Visible)
-//         and (WMTkeyDump=84)
-//      then FCMgMCore_Mission_Setup(
-//         0
-//         ,round(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].TagFloat)
-//         ,tMissionColonization
-//         ,false
-//         );
-//      {.U}
-//      if ( FCVdiDebugMode )
-//         and (FCWinMain.FCWM_3dMainGrp.Visible)
-//         and (WMTkeyDump=85)
-//      then FCMgMCore_Mission_Setup(
-//         0
-//         ,round(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].TagFloat)
-//         ,tMissionInterplanetaryTransit
-//         ,false
-//         );
-//      {.END debug feature}
-//      {.X}
-//      if (WMTkeyDump=88)
-//         and (FCWinMain.FCWM_3dMainGrp.Visible)
-//         and (FCWinMain.FCGLScadencer.Enabled)
-//         and (FCVdiGameFlowTimer.Enabled)
-//         and ( (FCWinNewGSetup=nil) or ( (FCWinNewGSetup<>nil) and (  not FCWinNewGSetup.Visible) ) )
-//         and (not FCWinMain.FCWM_MissionSettings.Visible)
-//      then
-//      begin
-//         if FCVdgPlayer.P_currentTimePhase<>tphMan
-//         then FCMgTFlow_FlowState_Set(tphMan);
-//      end;
-//      {.Z}
-//      if (WMTkeyDump=90)
-//         and (FCWinMain.FCWM_3dMainGrp.Visible)
-//         and (FCWinMain.FCGLScadencer.Enabled)
-//         and (FCVdiGameFlowTimer.Enabled)
-//         and ( (FCWinNewGSetup=nil) or ( (FCWinNewGSetup<>nil) and (  not FCWinNewGSetup.Visible) ) )
-//         and (not FCWinMain.FCWM_MissionSettings.Visible)
-//      then
-//      begin
-//         if FCVdgPlayer.P_currentTimePhase<>tphTac
-//         then FCMgTFlow_FlowState_Set(tphTac);
-//      end;
    end; //==END== else begin of if (ssAlt in WMTshftCtrl) and ((WMTkeyDump=115) or (WMTkeyDump=115)) + else if (ssCtrl in WMTshftCtrl) ==//
 end;
 

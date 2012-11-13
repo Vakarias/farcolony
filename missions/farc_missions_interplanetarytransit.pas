@@ -70,6 +70,7 @@ uses
 procedure FCMgMiT_ITransit_Setup;
 {:Purpose: calculate the core data of the interplanetary transit mission.
     Additions:
+      -2012Nov12- *code: begin of rewriting.
       -2010Sep16- *add: entities code.
       -2010Sep02- *add: use a local variable for the design #.
       -2009Dec26- *complete sattelite calculations.
@@ -84,9 +85,7 @@ procedure FCMgMiT_ITransit_Setup;
 //   ,MCCvh: extended;
 //
 //   MCCdsgn
-//   ,MCCfac
 //   ,MCCisp
-//   ,MCCowned
 //   ,MCCsatOrgIdx
 //   ,MCCsatOrgPlanIdx
 //   ,MCCsatDestIdx
@@ -94,14 +93,21 @@ procedure FCMgMiT_ITransit_Setup;
 //
 //   MCCisOrgAsat
 //   ,MCCisDestASat: boolean;
+
+   var
+      Entity //MCCfac
+      ,SpaceUnit: integer; //MCCowned
 begin
+   Entity:=FCRmcCurrentMissionCalculations.CMC_entity;
+   SpaceUnit:=FCDmcCurrentMission[Entity].T_controllerIndex;
+
 //====================DATA INITIALIZATION==================================
    {.determine the nature of origin and destination}
 //   MCCisOrgAsat:=false;
 //   MCCisDestASat:=false;
 //   MCCsatOrgIdx:=0;
-//   MCCfac:=FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].Tag;
-//   MCCowned:=round(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].TagFloat);
+//=   MCCfac:=FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].Tag;
+//=   MCCowned:=round(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].TagFloat);
 //   MCCdsgn:=FCFspuF_Design_getDB(FCDdgEntities[MCCfac].E_spaceUnits[MCCowned].SU_designToken);
 //   if GMCrootSatObjIdx>0
 //   then
