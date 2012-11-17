@@ -566,21 +566,29 @@ procedure FCMuiMS_InterplanetaryTransitInterface_UpdateDestination(const MDUtrip
 //   ,MDUdmpPlanSatIdx: integer;
 //   MDUdmpTokenName: string;
 begin
+
    if not MDUtripOnly
    then
    begin
+      if FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglObjectsGroups[FC3doglSelectedPlanetAsteroid] then
+      begin
+         FCDmcCurrentMission[0].T_tMITdestination:=ttOrbitalObject;
+         FCDmcCurrentMission[0].T_tMITdestinationIndex:=FC3doglSelectedPlanetAsteroid;
+         FCDmcCurrentMission[0].T_tMITdestinationSatIndex:=0;
+      end
+      else if FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite] then
+      begin
+         FCDmcCurrentMission[0].T_tMITdestination:=ttSatellite;
+         FCDmcCurrentMission[0].T_tMITdestinationIndex:=round(FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].TagFloat);
+         FCDmcCurrentMission[0].T_tMITdestinationSatIndex:=FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].Tag;
+      end;
 //      FCMgMiT_ITransit_Setup;
       FCWinMain.FCWMS_Grp_MCG_RMassTrack.Enabled:=true;
       FCWinMain.FCWMS_ButProceed.Enabled:=true;
       FCWinMain.FCWMS_Grp_MCG_RMassTrack.Max:=3;
    end;
    {.update the destination}
-   if FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglObjectsGroups[FC3doglSelectedPlanetAsteroid] then
-   begin
-   end
-   else if FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite] then
-   begin
-   end;
+
 
 //   {.calculate all trip data}
 //   if FCWinMain.FCWMS_Grp_MCG_RMassTrack.Enabled

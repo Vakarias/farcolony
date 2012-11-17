@@ -85,14 +85,8 @@ procedure FCMgMiT_ITransit_Setup;
 //   ,MCCvh: extended;
 //
 //   MCCdsgn
-//   ,MCCisp
-//   ,MCCsatOrgIdx
-//   ,MCCsatOrgPlanIdx
-//   ,MCCsatDestIdx
-//   ,MCCsatDestPlanIdx: integer;
+//   ,MCCisp: integer;
 //
-//   MCCisOrgAsat
-//   ,MCCisDestASat: boolean;
 
    var
       Entity //MCCfac
@@ -103,26 +97,10 @@ begin
 
 //====================DATA INITIALIZATION==================================
    {.determine the nature of origin and destination}
-//   MCCisOrgAsat:=false;
-//   MCCisDestASat:=false;
 //   MCCsatOrgIdx:=0;
 //=   MCCfac:=FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].Tag;
 //=   MCCowned:=round(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].TagFloat);
 //   MCCdsgn:=FCFspuF_Design_getDB(FCDdgEntities[MCCfac].E_spaceUnits[MCCowned].SU_designToken);
-//   if GMCrootSatObjIdx>0
-//   then
-//   begin
-//      MCCisOrgAsat:=true;
-//      MCCsatOrgIdx:=FC3doglSatellitesObjectsGroups[GMCrootSatObjIdx].Tag;
-//      MCCsatOrgPlanIdx:=round(FC3doglSatellitesObjectsGroups[GMCrootSatObjIdx].TagFloat);
-//   end;
-//   if FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite]
-//   then
-//   begin
-//      MCCisDestASat:=true;
-//      MCCsatDestIdx:=FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].Tag;
-//      MCCsatDestPlanIdx:=round(FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].TagFloat);
-//   end;
 //   {.calculate base distance in AU}
 //   if not MCCisDestASat
 //   then GMCbaseDist:=FCFgMTrans_ObObjInLStar_CalcRng(FC3doglSelectedSpaceUnit, FC3doglSelectedPlanetAsteroid, gmtltSpUnit, gmtltOrbObj, true)

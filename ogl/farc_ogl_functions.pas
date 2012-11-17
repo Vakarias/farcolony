@@ -79,7 +79,7 @@ function FCFoglF_DistanceBetweenTwoObjects_Calculate(
 ///   <param name="Destination">type of destination object</param>
 ///   <param name="DestinationIndex">index of destination object, always in 3d index. 3d index= 3D space unit index, DB orbital object index (=3d index), 3D satellite object index (must be retrieved if required)</param>
 ///   <returns>distance in astronomical units (AU)</returns>
-///   <remarks>formatted [x.x9]</remarks>
+///   <remarks>formatted [x.xx]</remarks>
 function FCFoglF_DistanceBetweenTwoObjects_CalculateInAU(
    const Origin: TFCEoglfObjectTypes;
    const OriginIndex: integer;
