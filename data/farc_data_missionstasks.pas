@@ -90,6 +90,7 @@ type TFCEdmtTaskTargets=(
    ,ttOrbitalObject
    ,ttSatellite
    ,ttSpace
+   ,ttSpaceUnit
    );
 
 //==END PUBLIC ENUM=========================================================================

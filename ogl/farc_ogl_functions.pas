@@ -30,13 +30,14 @@ unit farc_ogl_functions;
 
 interface
 
-//uses
+uses
+   farc_data_missionstasks;
 
-type TFCEoglfObjectTypes=(
-   otOrbitalObject
-   ,otSatellite
-   ,otSpaceUnit
-   );
+//type TFCEoglfObjectTypes=(
+//   otOrbitalObject
+//   ,otSatellite
+//   ,otSpaceUnit
+//   );
 
 //==END PUBLIC ENUM=========================================================================
 
@@ -65,9 +66,9 @@ end;
 ///   <returns>distance in 3d units</returns>
 ///   <remarks>formatted [x.x9]</remarks>
 function FCFoglF_DistanceBetweenTwoObjects_Calculate(
-   const Origin: TFCEoglfObjectTypes;
+   const Origin: TFCEdmtTaskTargets;
    const OriginIndex: integer;
-   const Destination: TFCEoglfObjectTypes;
+   const Destination: TFCEdmtTaskTargets;
    const DestinationIndex: integer
    ): extended;
 
@@ -81,9 +82,9 @@ function FCFoglF_DistanceBetweenTwoObjects_Calculate(
 ///   <returns>distance in astronomical units (AU)</returns>
 ///   <remarks>formatted [x.xx]</remarks>
 function FCFoglF_DistanceBetweenTwoObjects_CalculateInAU(
-   const Origin: TFCEoglfObjectTypes;
+   const Origin: TFCEdmtTaskTargets;
    const OriginIndex: integer;
-   const Destination: TFCEoglfObjectTypes;
+   const Destination: TFCEdmtTaskTargets;
    const DestinationIndex: integer
    ): extended;
 
@@ -142,9 +143,9 @@ uses
 //===================================================END OF INIT============================
 
 function FCFoglF_DistanceBetweenTwoObjects_Calculate(
-   const Origin: TFCEoglfObjectTypes;
+   const Origin: TFCEdmtTaskTargets;
    const OriginIndex: integer;
-   const Destination: TFCEoglfObjectTypes;
+   const Destination: TFCEdmtTaskTargets;
    const DestinationIndex: integer
    ): extended;
 {:Purpose: calculate the distance between to objects in the 3d view.
@@ -177,7 +178,7 @@ begin
    OriginDBSatelliteIndex:=0;
    Result:=0;
    case Origin of
-      otOrbitalObject:
+      ttOrbitalObject:
       begin
          OriginX:=FC3doglObjectsGroups[OriginIndex].Position.X;
          OriginZ:=FC3doglObjectsGroups[OriginIndex].Position.Z;
@@ -187,7 +188,7 @@ begin
             );
       end;
 
-      otSatellite:
+      ttSatellite:
       begin
          OriginX:=FC3doglSatellitesObjectsGroups[OriginIndex].Position.X;
          OriginZ:=FC3doglSatellitesObjectsGroups[OriginIndex].Position.Z;
@@ -199,14 +200,14 @@ begin
             );
       end;
 
-      otSpaceUnit:
+      ttSpaceUnit:
       begin
          OriginX:=FC3doglSpaceUnits[OriginIndex].Position.X;
          OriginZ:=FC3doglSpaceUnits[OriginIndex].Position.Z;
       end;
    end; //==END== case Origin of ==//
    case Destination of
-      otOrbitalObject:
+      ttOrbitalObject:
       begin
          DestinationX:=FC3doglObjectsGroups[DestinationIndex].Position.X;
          DestinationZ:=FC3doglObjectsGroups[DestinationIndex].Position.Z;
@@ -216,7 +217,7 @@ begin
             );
       end;
 
-      otSatellite:
+      ttSatellite:
       begin
          DestinationX:=FC3doglSatellitesObjectsGroups[DestinationIndex].Position.X;
          DestinationZ:=FC3doglSatellitesObjectsGroups[DestinationIndex].Position.Z;
@@ -228,7 +229,7 @@ begin
             );
       end;
 
-      otSpaceUnit:
+      ttSpaceUnit:
       begin
          DestinationX:=FC3doglSpaceUnits[DestinationIndex].Position.X;
          DestinationZ:=FC3doglSpaceUnits[DestinationIndex].Position.Z;
@@ -239,9 +240,9 @@ begin
 end;
 
 function FCFoglF_DistanceBetweenTwoObjects_CalculateInAU(
-   const Origin: TFCEoglfObjectTypes;
+   const Origin: TFCEdmtTaskTargets;
    const OriginIndex: integer;
-   const Destination: TFCEoglfObjectTypes;
+   const Destination: TFCEdmtTaskTargets;
    const DestinationIndex: integer
    ): extended;
 {:Purpose: calculate the distance between to objects in the 3d view.

@@ -240,6 +240,8 @@ const
    ///</summary>
    FCCdiMJ_In_1kWh=3.6;
 
+   FCCdiPiDouble=2*pi;
+
    //==========game core====================================================================
    ///<summary>
    ///   current alpha # for FARC

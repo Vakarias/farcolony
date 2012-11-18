@@ -59,10 +59,12 @@ uses
    ,farc_data_3dopengl
    ,farc_data_game
    ,farc_data_init
+   ,farc_data_missionstasks
    ,farc_data_spu
    ,farc_data_univ
    ,farc_missions_core
    ,farc_main
+   ,farc_ogl_functions
    ,farc_spu_functions;
 
 //===================================END OF INIT============================================
@@ -89,43 +91,96 @@ procedure FCMgMiT_ITransit_Setup;
 //
 
    var
-      Entity //MCCfac
+      Design
+      ,Destination
+      ,Entity //MCCfac
+      ,Origin
       ,SpaceUnit: integer; //MCCowned
+
+      DistanceAccelMeters
+      ,MinRequiredDeltaVarrival
+      ,MinRequiredDeltaVdeparture: extended;
 begin
+   Destination:=0;
+   Origin:=0;
+   DistanceAccelMeters:=0;
+   MinRequiredDeltaVarrival:=0;
+   MinRequiredDeltaVdeparture:=0;
    Entity:=FCRmcCurrentMissionCalculations.CMC_entity;
    SpaceUnit:=FCDmcCurrentMission[Entity].T_controllerIndex;
+   Design:=FCFspuF_Design_getDB(FCDdgEntities[Entity].E_spaceUnits[SpaceUnit].SU_designToken);
+   if Entity=0 then
+   begin
+      if FCDmcCurrentMission[0].T_tMITorigin=ttOrbitalObject then
+      begin
+         Origin:=FCDmcCurrentMission[0].T_tMIToriginIndex;
+         MinRequiredDeltaVdeparture:=(
+            FCCdiPiDouble*FCDduStarSystem[FCRmcCurrentMissionCalculations.CMC_originLocation[1]].SS_stars[FCRmcCurrentMissionCalculations.CMC_originLocation[2]].S_orbitalObjects[Origin].OO_isNotSat_distanceFromStar*FCCdiKm_In_1AU
+               /FCDduStarSystem[FCRmcCurrentMissionCalculations.CMC_originLocation[1]].SS_stars[FCRmcCurrentMissionCalculations.CMC_originLocation[2]].S_orbitalObjects[Origin].OO_revolutionPeriod
+            )/86400;
+      end
+      else if FCDmcCurrentMission[0].T_tMITorigin=ttSatellite then
+      begin
+         Origin:=FCFoglF_Satellite_SearchObject( FCDmcCurrentMission[0].T_tMIToriginIndex, FCDmcCurrentMission[0].T_tMIToriginSatIndex );
+         MinRequiredDeltaVdeparture:=(
+            FCCdiPiDouble
+               *FCDduStarSystem[FCRmcCurrentMissionCalculations.CMC_originLocation[1]].SS_stars[FCRmcCurrentMissionCalculations.CMC_originLocation[2]].S_orbitalObjects[FCDmcCurrentMission[0].T_tMIToriginIndex].OO_satellitesList[FCDmcCurrentMission[0].T_tMIToriginSatIndex].OO_isSat_distanceFromPlanet*1000
+               /FCDduStarSystem[FCRmcCurrentMissionCalculations.CMC_originLocation[1]].SS_stars[FCRmcCurrentMissionCalculations.CMC_originLocation[2]].S_orbitalObjects[FCDmcCurrentMission[0].T_tMIToriginIndex].OO_satellitesList[FCDmcCurrentMission[0].T_tMIToriginSatIndex].OO_revolutionPeriod
+            )/86400;
+      end;
+
+      if FCDmcCurrentMission[0].T_tMITdestination=ttOrbitalObject
+      then Destination:=FCDmcCurrentMission[0].T_tMITdestinationIndex
+      else if FCDmcCurrentMission[0].T_tMITdestination=ttSatellite
+      then Destination:=FCFoglF_Satellite_SearchObject( FCDmcCurrentMission[0].T_tMITdestinationIndex, FCDmcCurrentMission[0].T_tMITdestinationSatIndex );
+      FCRmcCurrentMissionCalculations.CMC_baseDistance:=FCFoglF_DistanceBetweenTwoObjects_CalculateInAU(
+         FCDmcCurrentMission[0].T_tMITorigin
+         ,Origin
+         ,FCDmcCurrentMission[0].T_tMITdestination
+         ,Destination
+         );
+         {.distance conversion in m}
+      DistanceAccelMeters:=FCRmcCurrentMissionCalculations.CMC_baseDistance*FCCdiKm_In_1AU*500;
+      {.calculate final acceleration in gees relative to loaded mass}
+      FCRmcCurrentMissionCalculations.CMC_accelerationInG:=(MRMCDVCthrbyvol*MRMCDVCvolOfDrive)/MRMCDVCloadedMassInTons;
+   end
+   else if entity>0 then
+   begin
+      {:DEV NOTES: implement only during the development of the 0.7.5 w/ FADE/AI.}
+   end;
+
 
 //====================DATA INITIALIZATION==================================
    {.determine the nature of origin and destination}
 //   MCCsatOrgIdx:=0;
 //=   MCCfac:=FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].Tag;
 //=   MCCowned:=round(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].TagFloat);
-//   MCCdsgn:=FCFspuF_Design_getDB(FCDdgEntities[MCCfac].E_spaceUnits[MCCowned].SU_designToken);
-//   {.calculate base distance in AU}
-//   if not MCCisDestASat
-//   then GMCbaseDist:=FCFgMTrans_ObObjInLStar_CalcRng(FC3doglSelectedSpaceUnit, FC3doglSelectedPlanetAsteroid, gmtltSpUnit, gmtltOrbObj, true)
-//   else if MCCisDestASat
-//   then GMCbaseDist:=FCFgMTrans_ObObjInLStar_CalcRng(FC3doglSelectedSpaceUnit, FC3doglSelectedSatellite, gmtltSpUnit, gmtltSat, true);
-//   {.distance conversion in m}
-//   MCCdAccelM:=GMCbaseDist*FCCdiKm_In_1AU*500;
-//   {.calculate final acceleration in gees relative to loaded mass}
-//   GMCAccelG:=(MRMCDVCthrbyvol*MRMCDVCvolOfDrive)/MRMCDVCloadedMassInTons;
-//   {.get the space unit's ISP}
-//   MCCisp:=FCDdsuSpaceUnitDesigns[MCCdsgn].SUD_spaceDriveISP;
-//   //================calculate minimal required deltaV=====================
-//   {.minreqDV.departure orbital velocity}
-//   if not MCCisOrgAsat
-//   then MCCdepOrbVel:=(
-//      2*pi*FCDduStarSystem[GMCrootSsys].SS_stars[GMCrootStar].S_orbitalObjects[GMCrootOObIdx].OO_isSatFdistanceFromStar*FCCdiKm_In_1AU
-//      /FCDduStarSystem[GMCrootSsys].SS_stars[GMCrootStar].S_orbitalObjects[GMCrootOObIdx].OO_revolutionPeriod
-//      )
-//      /86400
-//   else if MCCisOrgAsat
-//   then MCCdepOrbVel:=(
-//      2*pi*FCDduStarSystem[GMCrootSsys].SS_stars[GMCrootStar].S_orbitalObjects[MCCsatOrgPlanIdx].OO_satellitesList[MCCsatOrgIdx].OO_isSatTdistFrmOOb*1000
-//      /FCDduStarSystem[GMCrootSsys].SS_stars[GMCrootStar].S_orbitalObjects[MCCsatOrgPlanIdx].OO_satellitesList[MCCsatOrgIdx].OO_revolutionPeriod
-//      )
-//      /86400;
+//=   MCCdsgn:=FCFspuF_Design_getDB(FCDdgEntities[MCCfac].E_spaceUnits[MCCowned].SU_designToken);
+//=   {.calculate base distance in AU}
+//=   if not MCCisDestASat
+//=   then GMCbaseDist:=FCFgMTrans_ObObjInLStar_CalcRng(FC3doglSelectedSpaceUnit, FC3doglSelectedPlanetAsteroid, gmtltSpUnit, gmtltOrbObj, true)
+//=   else if MCCisDestASat
+//=   then GMCbaseDist:=FCFgMTrans_ObObjInLStar_CalcRng(FC3doglSelectedSpaceUnit, FC3doglSelectedSatellite, gmtltSpUnit, gmtltSat, true);
+//=   {.distance conversion in m}
+//=   MCCdAccelM:=GMCbaseDist*FCCdiKm_In_1AU*500;
+//=   {.calculate final acceleration in gees relative to loaded mass}
+//=   GMCAccelG:=(MRMCDVCthrbyvol*MRMCDVCvolOfDrive)/MRMCDVCloadedMassInTons;
+//=   {.get the space unit's ISP}
+//=   MCCisp:=FCDdsuSpaceUnitDesigns[MCCdsgn].SUD_spaceDriveISP;
+//=   //================calculate minimal required deltaV=====================
+//=   {.minreqDV.departure orbital velocity}
+//=   if not MCCisOrgAsat
+//=   then MCCdepOrbVel:=(
+//=      2*pi*FCDduStarSystem[GMCrootSsys].SS_stars[GMCrootStar].S_orbitalObjects[GMCrootOObIdx].OO_isSatFdistanceFromStar*FCCdiKm_In_1AU
+//=      /FCDduStarSystem[GMCrootSsys].SS_stars[GMCrootStar].S_orbitalObjects[GMCrootOObIdx].OO_revolutionPeriod
+//=      )
+//=      /86400
+//=   else if MCCisOrgAsat
+//=   then MCCdepOrbVel:=(
+//=      2*pi*FCDduStarSystem[GMCrootSsys].SS_stars[GMCrootStar].S_orbitalObjects[MCCsatOrgPlanIdx].OO_satellitesList[MCCsatOrgIdx].OO_isSatTdistFrmOOb*1000
+//=      /FCDduStarSystem[GMCrootSsys].SS_stars[GMCrootStar].S_orbitalObjects[MCCsatOrgPlanIdx].OO_satellitesList[MCCsatOrgIdx].OO_revolutionPeriod
+//=      )
+//=      /86400;
 //   {.minreqDV.arrival orbital velocity}
 //   if not MCCisDestASat
 //   then MCCarrOrbVel:=(

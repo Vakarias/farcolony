@@ -76,6 +76,7 @@ uses
    farc_common_func
    ,farc_data_html
    ,farc_data_init
+   ,farc_data_missionstasks
    ,farc_data_univ
    ,farc_data_textfiles
    ,farc_game_colony
@@ -319,9 +320,9 @@ begin
       begin
          if FCRmcCurrentMissionCalculations.CMC_baseDistance=0
          then FCRmcCurrentMissionCalculations.CMC_baseDistance:=FCFoglF_DistanceBetweenTwoObjects_Calculate(
-            otSpaceUnit
+            ttSpaceUnit
             ,FCDdgEntities[FCRmcCurrentMissionCalculations.CMC_entity].E_spaceUnits[SpaceUnit].SU_linked3dObject
-            ,otOrbitalObject
+            ,ttOrbitalObject
             ,FCRmcCurrentMissionCalculations.CMC_originLocation[3]
             );
          ObjectEscapeVelocity:=FCDduStarSystem[FCRmcCurrentMissionCalculations.CMC_originLocation[1]].SS_stars[FCRmcCurrentMissionCalculations.CMC_originLocation[2]].S_orbitalObjects[FCRmcCurrentMissionCalculations.CMC_originLocation[3]].OO_escapeVelocity;
@@ -331,9 +332,9 @@ begin
          SatelliteObjectIndex:=FCFoglF_Satellite_SearchObject( FCRmcCurrentMissionCalculations.CMC_originLocation[3], FCRmcCurrentMissionCalculations.CMC_originLocation[4] );
          if FCRmcCurrentMissionCalculations.CMC_baseDistance=0
          then FCRmcCurrentMissionCalculations.CMC_baseDistance:=FCFoglF_DistanceBetweenTwoObjects_Calculate(
-            otSpaceUnit
+            ttSpaceUnit
             ,FCDdgEntities[FCRmcCurrentMissionCalculations.CMC_entity].E_spaceUnits[SpaceUnit].SU_linked3dObject
-            ,otSatellite
+            ,ttSatellite
             ,SatelliteObjectIndex
             );
          ObjectEscapeVelocity:=FCDduStarSystem[FCRmcCurrentMissionCalculations.CMC_originLocation[1]].SS_stars[FCRmcCurrentMissionCalculations.CMC_originLocation[2]].S_orbitalObjects[FCRmcCurrentMissionCalculations.CMC_originLocation[3]].OO_satellitesList[FCRmcCurrentMissionCalculations.CMC_originLocation[4]].OO_escapeVelocity;
