@@ -42,7 +42,7 @@ uses
 type TFCRmcCurrentMissionCalculations=record
    CMC_entity: integer;
    CMC_originLocation: TFCRufStelObj;
-   CMC_destinationLocation: TFCRufStelObj;
+//   CMC_destinationLocation: TFCRufStelObj;
    CMC_dockList: array of record
       DL_spaceUnitIndex: integer;
       DL_landTime: integer;
@@ -52,10 +52,13 @@ type TFCRmcCurrentMissionCalculations=record
    CMC_accelerationInG: extended;
    CMC_baseDistance: extended;
    CMC_colonyAlreadyExisting: integer;
+   CMC_requiredDeltaV: extended;
+   CMC_maxDeltaV: extended;
    CMC_finalDeltaV: extended;
    CMC_landTime: integer;
    CMC_regionOfDestination: integer;
    CMC_tripTime: integer;
+   CMC_reactionMassMaxVol: extended;
    CMC_usedReactionMassVol: extended;
 
 //   CMD_mission: TFCEdmtTasks;
@@ -63,10 +66,7 @@ type TFCRmcCurrentMissionCalculations=record
 //   ,GMCtimeD
 //: integer;
 //
-//   GMCrmMaxVol,
-//   GMCreqDV,
-//   GMCcruiseDV,
-//   GMCmaxDV: extended;
+//   GMCcruiseDV,: extended;
 end;
 
 type TFCDmcCurrentMission = array[0..FCCdiFactionsMax] of TFCRdmtTask;
@@ -530,10 +530,13 @@ begin
    FCRmcCurrentMissionCalculations.CMC_accelerationInG:=0;
    FCRmcCurrentMissionCalculations.CMC_baseDistance:=0;
    FCRmcCurrentMissionCalculations.CMC_colonyAlreadyExisting:=0;
+   FCRmcCurrentMissionCalculations.CMC_requiredDeltaV:=0;
+   FCRmcCurrentMissionCalculations.CMC_maxDeltaV:=0;
    FCRmcCurrentMissionCalculations.CMC_finalDeltaV:=0;
    FCRmcCurrentMissionCalculations.CMC_landTime:=0;
    FCRmcCurrentMissionCalculations.CMC_regionOfDestination:=0;
    FCRmcCurrentMissionCalculations.CMC_tripTime:=0;
+   FCRmcCurrentMissionCalculations.CMC_reactionMassMaxVol:=0;
    FCRmcCurrentMissionCalculations.CMC_usedReactionMassVol:=0;
    FCDmcCurrentMission[Entity].T_controllerIndex:=0;
    FCDmcCurrentMission[Entity].T_duration:=0;
@@ -627,10 +630,7 @@ begin
          if Entity=0
          then FCMuiMS_InterplanetaryTransitInterface_Setup;
    //         else AI-Colonization Determination(Entity);
-//         FCMmC_Colonization_Setup(
-//            cmDockingList
-//            ,SpaceUnit
-//            );
+//         FCMgMiT_ITransit_Setup;
       end;
    end; //==END== case FCDmcCurrentMission[Entity].T_type of ==//
    FCWinMain.FCWM_MissionSettings.Show;

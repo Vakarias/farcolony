@@ -124,6 +124,7 @@ uses
    ,farc_main
    ,farc_missions_core
    ,farc_missions_colonization
+   ,farc_missions_interplanetarytransit
    ,farc_ogl_functions
    ,farc_ogl_viewmain
    ,farc_spu_functions
@@ -582,7 +583,7 @@ begin
          FCDmcCurrentMission[0].T_tMITdestinationIndex:=round(FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].TagFloat);
          FCDmcCurrentMission[0].T_tMITdestinationSatIndex:=FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].Tag;
       end;
-//      FCMgMiT_ITransit_Setup;
+      FCMgMiT_ITransit_Setup;
       FCWinMain.FCWMS_Grp_MCG_RMassTrack.Enabled:=true;
       FCWinMain.FCWMS_ButProceed.Enabled:=true;
       FCWinMain.FCWMS_Grp_MCG_RMassTrack.Max:=3;
