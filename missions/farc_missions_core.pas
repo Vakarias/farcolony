@@ -53,6 +53,7 @@ type TFCRmcCurrentMissionCalculations=record
    CMC_baseDistance: extended;
    CMC_colonyAlreadyExisting: integer;
    CMC_requiredDeltaV: extended;
+   CMC_cruiseDeltaV: extended;
    CMC_maxDeltaV: extended;
    CMC_finalDeltaV: extended;
    CMC_landTime: integer;
@@ -65,8 +66,6 @@ type TFCRmcCurrentMissionCalculations=record
 //   GMCtimeA
 //   ,GMCtimeD
 //: integer;
-//
-//   GMCcruiseDV,: extended;
 end;
 
 type TFCDmcCurrentMission = array[0..FCCdiFactionsMax] of TFCRdmtTask;
@@ -531,6 +530,7 @@ begin
    FCRmcCurrentMissionCalculations.CMC_baseDistance:=0;
    FCRmcCurrentMissionCalculations.CMC_colonyAlreadyExisting:=0;
    FCRmcCurrentMissionCalculations.CMC_requiredDeltaV:=0;
+   FCRmcCurrentMissionCalculations.CMC_cruiseDeltaV:=0;
    FCRmcCurrentMissionCalculations.CMC_maxDeltaV:=0;
    FCRmcCurrentMissionCalculations.CMC_finalDeltaV:=0;
    FCRmcCurrentMissionCalculations.CMC_landTime:=0;
