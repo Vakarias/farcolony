@@ -227,108 +227,131 @@ flight selection.
 //   MTCdistAtCruise,
 //   MTCtimeAtCruise
 //   : extended;
-//const
-//   MTCgeesInKmS=FCCdiMbySec_In_1G*0.001;
+const
+   MTCgeesInKmS=FCCdiMetersBySec_In_1G*0.001;
+   var
+      Design
+      ,Entity
+      ,SpaceUnit: integer;
+
+      BurnEnduranceAtAcceleration
+      ,BurnEnduranceAtDeceleration
+      ,DistanceAtAcceleration
+      ,DistanceAtCruise
+      ,DistanceAtDeceleration
+      ,ReactionMassVolUsedAcceleration
+      ,ReactionMassVolUsedDeceleration
+      ,TimeAtAcceleration
+      ,TimeAtCruise
+      ,TimeAtDeceleration: extended;
 begin
-//   {.decide of the cruise deltav}
-//   case MTCflightTp of
-//      1:
-//      begin
-//         GMCcruiseDV:=GMCreqDV;
-//         if (FC3doglSelectedPlanetAsteroid<>GMCrootOObIdx)
-//            and (GMCcruiseDV>GMCmaxDV)
-//         then
-//         begin
-//            FCWinMain.FCWMS_Grp_MCG_RMassTrack.Enabled:=false;
-//            FCWinMain.FCWMS_ButProceed.Enabled:=false;
-//         end
-//         else if GMCcruiseDV<GMCfinalDV
-//         then GMCcruiseDV:=GMCfinalDV;
-//      end;
-//      2:
-//      begin
-//         GMCcruiseDV:=GMCmaxDV-((GMCmaxDV-GMCreqDV)*0.5);
-//         if (FC3doglSelectedPlanetAsteroid<>GMCrootOObIdx)
-//            and (GMCcruiseDV>GMCmaxDV)
-//         then
-//         begin
-//            FCWinMain.FCWMS_Grp_MCG_RMassTrack.Enabled:=false;
-//            FCWinMain.FCWMS_ButProceed.Enabled:=false;
-//         end
-//         else if GMCcruiseDV<GMCfinalDV
-//         then GMCcruiseDV:=GMCfinalDV;
-//      end;
-//      3:
-//      begin
-//         GMCcruiseDV:=GMCmaxDV;
-//         if (FC3doglSelectedPlanetAsteroid<>GMCrootOObIdx)
-//            and (GMCreqDV>GMCmaxDV)
-//         then
-//         begin
-//            FCWinMain.FCWMS_Grp_MCG_RMassTrack.Enabled:=false;
-//            FCWinMain.FCWMS_ButProceed.Enabled:=false;
-//         end
-//         else if GMCcruiseDV<GMCfinalDV
-//         then GMCcruiseDV:=GMCfinalDV;
-//      end;
-//   end;
-//   if FCWinMain.FCWMS_Grp_MCG_RMassTrack.Enabled
-//   then
-//   begin
-//      MTCfac:=FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].Tag;
-//      MTCowned:=round(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].TagFloat);
-//      MTCdesgn:=FCFspuF_Design_getDB(FCDdgEntities[MTCfac].E_spaceUnits[MTCowned].SU_designToken);
-//      {.calculate the burn endurance for acceleration}
-//      MTCburnEndAtAccel:=(GMCcruiseDV-MTCcurDV)/(GMCAccelG*MTCgeesInKmS);
-//      {.caculate used reaction mass volume for acceleration}
-//      MTCusedRMvolAtAccel:=
-//         (MTCburnEndAtAccel)
-//         *(GMCCthrN/(FCDdsuSpaceUnitDesigns[MTCdesgn].SUD_spaceDriveISP*FCCdiMbySec_In_1G))
-//         /(MRMCDVCrmMass*1000);
-//      {.calculate acceleration distance}
-//      MTCdistAtAccel:=(GMCAccelG*MTCgeesInKmS)*sqr(MTCburnEndAtAccel);
-//      {.calculate acceleration time}
-//      MTCtimeAtAccel:=MTCburnEndAtAccel/600;
-//      {.calculate the burn endurance for deceleration}
-//      MTCburnEndAtDecel:=(GMCcruiseDV-GMCfinalDV)/(GMCAccelG*MTCgeesInKmS);
-//      {.caculate used reaction mass volume for deceleration}
-//      MTCusedRMvolAtDecel:=
-//         (MTCburnEndAtDecel)
-//         *(GMCCthrN/(FCDdsuSpaceUnitDesigns[MTCdesgn].SUD_spaceDriveISP*FCCdiMbySec_In_1G))
-//         /(MRMCDVCrmMass*1000);
-//      {.calculate deceleration distance}
-//      MTCdistAtDecel:=(GMCAccelG*MTCgeesInKmS)*sqr(MTCburnEndAtDecel);
-//      {.calculate deceleration time}
-//      MTCtimeAtDecel:=MTCburnEndAtDecel/600;
-//      {.calculate cruise distance}
-//      MTCdistAtCruise:=(GMCbaseDist*FCCdiKm_In_1AU)-MTCdistAtAccel-MTCdistAtDecel;
-//      {.calculate cruise time}
-//      MTCtimeAtCruise:=MTCdistAtCruise/GMCcruiseDV/600;
-//      {.calculate trip time}
-//      GMCtripTime:=round(MTCtimeAtAccel+MTCtimeAtDecel+MTCtimeAtCruise);
-//      {.calculate reaction mass volume used}
-//      GMCusedRMvol:=MTCusedRMvolAtAccel+MTCusedRMvolAtDecel;
-//      if GMCusedRMvol>FCDdgEntities[MTCfac].E_spaceUnits[MTCowned].SU_reactionMass
-//      then
-//      begin
-//         case MTCflightTp of
-//            1:
-//            begin
-//               FCWinMain.FCWMS_Grp_MCG_RMassTrack.Enabled:=false;
-//               FCWinMain.FCWMS_ButProceed.Enabled:=false;
-//            end;
-//            2: FCWinMain.FCWMS_Grp_MCG_RMassTrack.Position:=1;
-//            3: FCWinMain.FCWMS_Grp_MCG_RMassTrack.Position:=2;
-//         end;
-//      end;
-////====================GLOBAL DATA FORMATING=================================
-////      GMCAccelG:=FCFcFunc_Rnd(cfrttp3dunit, GMCAccelG);
-//      GMCcruiseDV:=FCFcFunc_Rnd(cfrttpVelkms, GMCcruiseDV);
-//      GMCusedRMvol:=FCFcFunc_Rnd(cfrttpVolm3, GMCusedRMvol);
-//      GMCtimeA:=round(MTCtimeAtAccel);
-//      GMCtimeD:=round(MTCtimeAtDecel);
-//   end; {.if FCWinMissSet.FCWMS_Grp_MCG_RMassTrack.Enabled}
-////====================(END) GLOBAL DATA FORMATING===========================
+   Design:=0;
+   Entity:=0;
+   SpaceUnit:=0;
+   BurnEnduranceAtAcceleration:=0;
+   BurnEnduranceAtDeceleration:=0;
+   DistanceAtAcceleration:=0;
+   DistanceAtCruise:=0;
+   DistanceAtDeceleration:=0;
+   ReactionMassVolUsedAcceleration:=0;
+   ReactionMassVolUsedDeceleration:=0;
+   TimeAtAcceleration:=0;
+   TimeAtCruise:=0;
+   TimeAtDeceleration:=0;
+   {.decide of the cruise deltav}
+   case MTCflightTp of
+      1:
+      begin
+         FCRmcCurrentMissionCalculations.CMC_cruiseDeltaV:=FCRmcCurrentMissionCalculations.CMC_requiredDeltaV;
+         if FCRmcCurrentMissionCalculations.CMC_cruiseDeltaV>FCRmcCurrentMissionCalculations.CMC_maxDeltaV
+         then
+         begin
+            FCWinMain.FCWMS_Grp_MCG_RMassTrack.Enabled:=false;
+            FCWinMain.FCWMS_ButProceed.Enabled:=false;
+         end
+         else if FCRmcCurrentMissionCalculations.CMC_cruiseDeltaV<FCRmcCurrentMissionCalculations.CMC_finalDeltaV
+         then FCRmcCurrentMissionCalculations.CMC_cruiseDeltaV:=FCRmcCurrentMissionCalculations.CMC_finalDeltaV;
+      end;
+      2:
+      begin
+         FCRmcCurrentMissionCalculations.CMC_cruiseDeltaV:=FCRmcCurrentMissionCalculations.CMC_maxDeltaV-((FCRmcCurrentMissionCalculations.CMC_maxDeltaV-FCRmcCurrentMissionCalculations.CMC_requiredDeltaV)*0.5);
+         if FCRmcCurrentMissionCalculations.CMC_cruiseDeltaV>FCRmcCurrentMissionCalculations.CMC_maxDeltaV
+         then
+         begin
+            FCWinMain.FCWMS_Grp_MCG_RMassTrack.Enabled:=false;
+            FCWinMain.FCWMS_ButProceed.Enabled:=false;
+         end
+         else if FCRmcCurrentMissionCalculations.CMC_cruiseDeltaV<FCRmcCurrentMissionCalculations.CMC_finalDeltaV
+         then FCRmcCurrentMissionCalculations.CMC_cruiseDeltaV:=FCRmcCurrentMissionCalculations.CMC_finalDeltaV;
+      end;
+      3:
+      begin
+         FCRmcCurrentMissionCalculations.CMC_cruiseDeltaV:=FCRmcCurrentMissionCalculations.CMC_maxDeltaV;
+         if FCRmcCurrentMissionCalculations.CMC_requiredDeltaV>FCRmcCurrentMissionCalculations.CMC_maxDeltaV
+         then
+         begin
+            FCWinMain.FCWMS_Grp_MCG_RMassTrack.Enabled:=false;
+            FCWinMain.FCWMS_ButProceed.Enabled:=false;
+         end
+         else if FCRmcCurrentMissionCalculations.CMC_cruiseDeltaV<FCRmcCurrentMissionCalculations.CMC_finalDeltaV
+         then FCRmcCurrentMissionCalculations.CMC_cruiseDeltaV:=FCRmcCurrentMissionCalculations.CMC_finalDeltaV;
+      end;
+   end;
+   if FCWinMain.FCWMS_Grp_MCG_RMassTrack.Enabled
+   then
+   begin
+      Entity:=FCRmcCurrentMissionCalculations.CMC_entity;
+      SpaceUnit:=FCDmcCurrentMission[Entity].T_controllerIndex;
+      Design:=FCFspuF_Design_getDB(FCDdgEntities[Entity].E_spaceUnits[SpaceUnit].SU_designToken);
+      {.calculate the burn endurance for acceleration}
+      BurnEnduranceAtAcceleration:=(FCRmcCurrentMissionCalculations.CMC_cruiseDeltaV-MTCcurDV)/(FCRmcCurrentMissionCalculations.CMC_accelerationInG*MTCgeesInKmS);
+      {.caculate used reaction mass volume for acceleration}
+      ReactionMassVolUsedAcceleration:=
+         (BurnEnduranceAtAcceleration)
+         *(GMCCthrN/(FCDdsuSpaceUnitDesigns[Design].SUD_spaceDriveISP*FCCdiMetersBySec_In_1G))
+         /(MRMCDVCrmMass*1000);
+      {.calculate acceleration distance}
+      DistanceAtAcceleration:=(FCRmcCurrentMissionCalculations.CMC_accelerationInG*MTCgeesInKmS)*sqr(BurnEnduranceAtAcceleration);
+      {.calculate acceleration time}
+      TimeAtAcceleration:=BurnEnduranceAtAcceleration/600;
+      {.calculate the burn endurance for deceleration}
+      BurnEnduranceAtDeceleration:=(FCRmcCurrentMissionCalculations.CMC_cruiseDeltaV-FCRmcCurrentMissionCalculations.CMC_finalDeltaV)/(FCRmcCurrentMissionCalculations.CMC_accelerationInG*MTCgeesInKmS);
+      {.caculate used reaction mass volume for deceleration}
+      ReactionMassVolUsedDeceleration:=
+         (BurnEnduranceAtDeceleration)
+         *(GMCCthrN/(FCDdsuSpaceUnitDesigns[Design].SUD_spaceDriveISP*FCCdiMetersBySec_In_1G))
+         /(MRMCDVCrmMass*1000);
+      {.calculate deceleration distance}
+      DistanceAtDeceleration:=(FCRmcCurrentMissionCalculations.CMC_accelerationInG*MTCgeesInKmS)*sqr(BurnEnduranceAtDeceleration);
+      {.calculate deceleration time}
+      TimeAtDeceleration:=BurnEnduranceAtDeceleration/600;
+      {.calculate cruise distance}
+      DistanceAtCruise:=(FCRmcCurrentMissionCalculations.CMC_baseDistance*FCCdiKm_In_1AU)-DistanceAtAcceleration-DistanceAtDeceleration;
+      {.calculate cruise time}
+      TimeAtCruise:=DistanceAtCruise/FCRmcCurrentMissionCalculations.CMC_cruiseDeltaV/600;
+      {.calculate trip time}
+      FCRmcCurrentMissionCalculations.CMC_tripTime:=round(TimeAtAcceleration+TimeAtDeceleration+TimeAtCruise);
+      {.calculate reaction mass volume used}
+      FCRmcCurrentMissionCalculations.CMC_usedReactionMassVol:=ReactionMassVolUsedAcceleration+ReactionMassVolUsedDeceleration;
+      if FCRmcCurrentMissionCalculations.CMC_usedReactionMassVol>FCDdgEntities[Entity].E_spaceUnits[SpaceUnit].SU_reactionMass
+      then
+      begin
+         case MTCflightTp of
+            1:
+            begin
+               FCWinMain.FCWMS_Grp_MCG_RMassTrack.Enabled:=false;
+               FCWinMain.FCWMS_ButProceed.Enabled:=false;
+            end;
+            2: FCWinMain.FCWMS_Grp_MCG_RMassTrack.Position:=1;
+            3: FCWinMain.FCWMS_Grp_MCG_RMassTrack.Position:=2;
+         end;
+      end;
+//      GMCAccelG:=FCFcFunc_Rnd(cfrttp3dunit, GMCAccelG);
+      FCRmcCurrentMissionCalculations.CMC_cruiseDeltaV:=FCFcFunc_Rnd(cfrttpVelkms, FCRmcCurrentMissionCalculations.CMC_cruiseDeltaV);
+      FCRmcCurrentMissionCalculations.CMC_usedReactionMassVol:=FCFcFunc_Rnd(cfrttpVolm3, FCRmcCurrentMissionCalculations.CMC_usedReactionMassVol);
+      FCRmcCurrentMissionCalculations.CMC_timeAccel:=round(TimeAtAcceleration);
+      FCRmcCurrentMissionCalculations.CMC_timeDecel:=round(TimeAtDeceleration);
+   end; {.if FCWinMissSet.FCWMS_Grp_MCG_RMassTrack.Enabled}
 end;
 
 end.

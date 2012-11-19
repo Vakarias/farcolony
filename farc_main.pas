@@ -894,7 +894,10 @@ procedure TFCWinMain.FCWMS_Grp_MCG_RMassTrackChange(Sender: TObject);
       RMTCmiss: string;
 begin
    if (FCWinMain.FCWM_MissionSettings.Visible)
-      and (FCWMS_Grp_MCG_RMassTrack.Tag=0)
+      and ( not FCVuimsIsTrackbarProcess )
+   then FCVuimsIsTrackbarProcess:=true
+   else if (FCWinMain.FCWM_MissionSettings.Visible)
+      and ( FCVuimsIsTrackbarProcess )
    then
    begin
       RMTCmiss:=FCFdTFiles_UIStr_Get(uistrUI,'FCWinMissSet');
@@ -902,10 +905,7 @@ begin
       then FCMuiMS_TrackBar_Update(tMissionInterplanetaryTransit)
       else if FCWinMain.FCWM_MissionSettings.Caption.Text=RMTCmiss+FCFdTFiles_UIStr_Get(uistrUI,'Mission.coloniz')
       then FCMuiMS_TrackBar_Update(tMissionColonization);
-   end
-   else if (FCWinMain.FCWM_MissionSettings.Visible)
-      and (FCWMS_Grp_MCG_RMassTrack.Tag=1)
-   then FCWMS_Grp_MCG_RMassTrack.Tag:=0;
+   end;
 end;
 
 procedure TFCWinMain.FCWMS_Grp_MCG_RMassTrackKeyDown(Sender: TObject; var Key: Word;

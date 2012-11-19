@@ -58,6 +58,8 @@ type TFCRmcCurrentMissionCalculations=record
    CMC_finalDeltaV: extended;
    CMC_landTime: integer;
    CMC_regionOfDestination: integer;
+   CMC_timeAccel: integer;
+   CMC_timeDecel: integer;
    CMC_tripTime: integer;
    CMC_reactionMassMaxVol: extended;
    CMC_usedReactionMassVol: extended;
@@ -535,6 +537,8 @@ begin
    FCRmcCurrentMissionCalculations.CMC_finalDeltaV:=0;
    FCRmcCurrentMissionCalculations.CMC_landTime:=0;
    FCRmcCurrentMissionCalculations.CMC_regionOfDestination:=0;
+   FCRmcCurrentMissionCalculations.CMC_timeAccel:=0;
+   FCRmcCurrentMissionCalculations.CMC_timeDecel:=0;
    FCRmcCurrentMissionCalculations.CMC_tripTime:=0;
    FCRmcCurrentMissionCalculations.CMC_reactionMassMaxVol:=0;
    FCRmcCurrentMissionCalculations.CMC_usedReactionMassVol:=0;
@@ -630,7 +634,6 @@ begin
          if Entity=0
          then FCMuiMS_InterplanetaryTransitInterface_Setup;
    //         else AI-Colonization Determination(Entity);
-//         FCMgMiT_ITransit_Setup;
       end;
    end; //==END== case FCDmcCurrentMission[Entity].T_type of ==//
    FCWinMain.FCWM_MissionSettings.Show;

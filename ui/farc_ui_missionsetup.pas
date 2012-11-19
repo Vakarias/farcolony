@@ -42,7 +42,9 @@ uses
 //==END PUBLIC RECORDS======================================================================
 
    //==========subsection===================================================================
-//var
+var
+   FCVuimsIsTrackbarProcess: boolean;
+
 //==END PUBLIC VAR==========================================================================
 
 //const
@@ -146,7 +148,6 @@ var
 
    FCVuimsIndX: string;
 
-   FCVuimsIsTrackbarProcess: boolean;
 //==END PRIVATE VAR=========================================================================
 
 //const
@@ -588,19 +589,6 @@ begin
       FCWinMain.FCWMS_ButProceed.Enabled:=true;
       FCWinMain.FCWMS_Grp_MCG_RMassTrack.Max:=3;
    end;
-   {.update the destination}
-
-
-   {.calculate all trip data}
-   if FCWinMain.FCWMS_Grp_MCG_RMassTrack.Enabled
-   then
-   begin
-      FCMgMiT_MissionTrip_Calc
-         (
-            FCWinMain.FCWMS_Grp_MCG_RMassTrack.Position
-            ,FCDdgEntities[0].E_spaceUnits[round(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].TagFloat)].SU_deltaV
-         );
-   end;
    {.current destination for orbital object}
    if FCDmcCurrentMission[0].T_tMITdestination=ttOrbitalObject
    then
@@ -636,6 +624,11 @@ begin
       else if FC3doglSelectedPlanetAsteroid<>FCDmcCurrentMission[0].T_tMIToriginIndex
       then
       begin
+         FCMgMiT_MissionTrip_Calc
+         (
+            FCWinMain.FCWMS_Grp_MCG_RMassTrack.Position
+            ,FCDdgEntities[0].E_spaceUnits[FCDmcCurrentMission[0].T_controllerIndex].SU_deltaV
+         );
          if not MDUtripOnly
          then
          begin
@@ -690,17 +683,23 @@ begin
          );
          FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Delete(10);
          {.mission configuration data}
-//         if (not FCWinMain.FCWMS_Grp_MCG_RMassTrack.Enabled)
-//            and (FC3doglSelectedSatellite<>GMCrootSatObjIdx)
-//         then FCWinMain.FCWMS_Grp_MCG_MissCfgData.HTMLText.Insert(1, FCFdTFiles_UIStr_Get(uistrUI,'MCGDatNA'))
-//         else FCWinMain.FCWMS_Grp_MCG_MissCfgData.HTMLText.Insert
-//            (1, FCFdTFiles_UIStr_Get(uistrUI,'MSDGcurDestNone'));
-//         FCWinMain.FCWMS_Grp_MCG_MissCfgData.HTMLText.Delete(2);
+         if (not FCWinMain.FCWMS_Grp_MCG_RMassTrack.Enabled)
+            and (( ( FCDmcCurrentMission[0].T_tMITdestinationIndex=FCDmcCurrentMission[0].T_tMIToriginIndex) and ( FCDmcCurrentMission[0].T_tMITdestinationSatIndex<>FCDmcCurrentMission[0].T_tMIToriginSatIndex ))
+         or ( FCDmcCurrentMission[0].T_tMITdestinationIndex<>FCDmcCurrentMission[0].T_tMIToriginIndex))
+         then FCWinMain.FCWMS_Grp_MCG_MissCfgData.HTMLText.Insert(1, FCFdTFiles_UIStr_Get(uistrUI,'MCGDatNA'))
+         else FCWinMain.FCWMS_Grp_MCG_MissCfgData.HTMLText.Insert
+            (1, FCFdTFiles_UIStr_Get(uistrUI,'MSDGcurDestNone'));
+         FCWinMain.FCWMS_Grp_MCG_MissCfgData.HTMLText.Delete(2);
       end
       else if ( ( FCDmcCurrentMission[0].T_tMITdestinationIndex=FCDmcCurrentMission[0].T_tMIToriginIndex) and ( FCDmcCurrentMission[0].T_tMITdestinationSatIndex<>FCDmcCurrentMission[0].T_tMIToriginSatIndex ))
          or ( FCDmcCurrentMission[0].T_tMITdestinationIndex<>FCDmcCurrentMission[0].T_tMIToriginIndex)
       then
       begin
+         FCMgMiT_MissionTrip_Calc
+         (
+            FCWinMain.FCWMS_Grp_MCG_RMassTrack.Position
+            ,FCDdgEntities[0].E_spaceUnits[FCDmcCurrentMission[0].T_controllerIndex].SU_deltaV
+         );
          if not MDUtripOnly
          then
          begin
