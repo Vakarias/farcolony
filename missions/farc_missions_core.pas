@@ -196,6 +196,7 @@ procedure FCMgMCore_Mission_Commit;
 {:DEV NOTES: don't forget to update all the required data w/ the new and modified ones! synch w/ a clone of data_missiontasks.}
 {:Purpose: commit the mission by creating a task.
     Additions:
+      -2012Nov18- *mod: begin of routine rewrite for the interplanetary transit mission.
       -2012Oct30- *mod: begin of routine rewrite for the colonization mission.
       -2012Oct04- *add: colonization - test if the controller is docked or not and initialize the origin data accordingly.
       -2011Feb12- *add: additional data.
@@ -357,81 +358,44 @@ begin
 
       tMissionInterplanetaryTransit:
       begin
-//         setlength(FCDdmtTaskListToProcess, length(FCDdmtTaskListToProcess)+1);
-//         MCtskL:=length(FCDdmtTaskListToProcess)-1;
-//         FCDdmtTaskListToProcess[MCtskL].T_type:=tMissionInterplanetaryTransit;
-////         FCGtskLstToProc[MCtskL].TITP_ctldType:=ttSpaceUnit;
-//         FCDdmtTaskListToProcess[MCtskL].T_entity:=FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].Tag;
-//         FCDdmtTaskListToProcess[MCtskL].T_controllerIndex:=round(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].TagFloat);
-//         FCDdmtTaskListToProcess[MCtskL].T_duration:=round(GMCtripTime);
-//         FCDdmtTaskListToProcess[MCtskL].T_durationInterval:=1;
-//            {.update the space unit data}
-//            FCDdgEntities[Entity].E_spaceUnits[FCDdmtTaskListToProcess[TaskIndex].T_controllerIndex].SU_locationOrbitalObject:='';
-//               FCDdgEntities[Entity].E_spaceUnits[FCDdmtTaskListToProcess[TaskIndex].T_controllerIndex].SU_locationSatellite:='';
-{:DEV NOTES: the origin is already set in mission setup, remove the lines below.}
-//         if GMCrootSatIdx=0
-//         then
-//         begin
-//            FCDdmtTaskListToProcess[MCtskL].T_tMITorigin:=ttOrbitalObject;
-//            FCDdmtTaskListToProcess[MCtskL].T_tMIToriginIndex:=GMCrootOObIdx;
-
-//         end
-//         else if GMCrootSatIdx>0
-//         then
-//         begin
-//            FCDdmtTaskListToProcess[MCtskL].T_tMITorigin:=ttSatellite;
-//            FCDdmtTaskListToProcess[MCtskL].T_tMIToriginIndex:=GMCrootSatObjIdx;
-//         end;
-
-
-//               FCDdmtTaskListToProcess[TaskIndex].T_tMCdestinationIndex:=FCRmcCurrentMissionCalculations.CMC_destinationLocation[3];
-//            if FCRmcCurrentMissionCalculations.CMC_destinationLocation[4]=0 then
-//            begin
-
-//               FCDdmtTaskListToProcess[TaskIndex].T_tMCdestination:=ttOrbitalObject;
-//               FCDdmtTaskListToProcess[TaskIndex].T_tMCdestinationSatIndex:=0;
-//            end
-//            else if FCRmcCurrentMissionCalculations.CMC_destinationLocation[4]>0 then
-//            begin
-//               FCDdmtTaskListToProcess[TaskIndex].T_tMCdestination:=ttSatellite;
-//               FCDdmtTaskListToProcess[TaskIndex].T_tMCdestinationSatIndex:=FCRmcCurrentMissionCalculations.CMC_destinationLocation[4];
-//            end;
-
-
-//DO NOT USE THAT
-//         if FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglObjectsGroups[FC3doglSelectedPlanetAsteroid]
-//         then
-//         begin
-//            FCDdmtTaskListToProcess[MCtskL].T_tMITdestination:=ttOrbitalObject;
-//            FCDdmtTaskListToProcess[MCtskL].T_tMITdestinationIndex:=FC3doglSelectedPlanetAsteroid;
-            {:DEV NOTES: add destinationstatindex.}
-//         end
-//         else if FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite]
-//         then
-//         begin
-//            FCDdmtTaskListToProcess[MCtskL].T_tMITdestination:=ttSatellite;
-//            FCDdmtTaskListToProcess[MCtskL].T_tMITdestinationIndex:=FC3doglSelectedSatellite; dev: put oobjk index in it
-             {:DEV NOTES: add destinationstatindex.}
-//         end;
-//END DO NOT USE THAT
-
-//         FCDdmtTaskListToProcess[MCtskL].T_tMITcruiseVelocity:=GMCcruiseDV;
-//         FCDdmtTaskListToProcess[MCtskL].T_tMITcruiseTime:=GMCtimeA;
-//         FCDdmtTaskListToProcess[MCtskL].T_tMITinProcessData.IPD_timeToTransfert:=0;
-//         FCDdmtTaskListToProcess[MCtskL].T_tMITfinalVelocity:=GMCfinalDV;
-//         FCDdmtTaskListToProcess[MCtskL].T_tMITfinalTime:=GMCtimeD;
-//         FCDdmtTaskListToProcess[MCtskL].T_tMITusedReactionMassVol:=GMCusedRMvol;
-//         FCWinMain.FCWM_MissionSettings.Hide;
-//         FCWinMain.FCWMS_Grp_MCG_RMassTrack.Position:=1;
-//         if GMCrootSatIdx=0
-//         then FC3doglSelectedPlanetAsteroid:=GMCrootOObIdx
-//         else if GMCrootSatIdx>0
-//         then
-//         begin
-//            FC3doglSelectedSatellite:=GMCrootSatObjIdx;
-//            FC3doglSelectedPlanetAsteroid:=round(FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].TagFloat);
-//         end;
-//         FCMoglVM_CamMain_Target(-1, false);
+         setlength(FCDdmtTaskListToProcess, length(FCDdmtTaskListToProcess)+1);
+         TaskIndex:=length(FCDdmtTaskListToProcess)-1;
+         FCDdmtTaskListToProcess[TaskIndex].T_entity:=FCRmcCurrentMissionCalculations.CMC_entity;
+         FCDdmtTaskListToProcess[TaskIndex].T_inProcessData.IPD_isTaskDone:=false;
+         FCDdmtTaskListToProcess[TaskIndex].T_inProcessData.IPD_isTaskTerminated:=false;
+         FCDdmtTaskListToProcess[TaskIndex].T_inProcessData.IPD_ticksAtTaskStart:=0;
+         FCDdmtTaskListToProcess[TaskIndex].T_controllerIndex:=FCDmcCurrentMission[Entity].T_controllerIndex;
+         FCDdmtTaskListToProcess[TaskIndex].T_duration:=FCRmcCurrentMissionCalculations.CMC_tripTime;
+         FCDdmtTaskListToProcess[TaskIndex].T_durationInterval:=1;
+         FCDdmtTaskListToProcess[TaskIndex].T_previousProcessTime:=0;
+         FCDdmtTaskListToProcess[TaskIndex].T_type:=tMissionInterplanetaryTransit;
+         FCDdmtTaskListToProcess[TaskIndex].T_tMITphase:=mitpAcceleration;
+         FCDdmtTaskListToProcess[TaskIndex].T_tMITorigin:=FCDmcCurrentMission[Entity].T_tMITorigin;
+         FCDdmtTaskListToProcess[TaskIndex].T_tMIToriginIndex:=FCDmcCurrentMission[Entity].T_tMIToriginIndex;
+         FCDdmtTaskListToProcess[TaskIndex].T_tMIToriginSatIndex:=FCDmcCurrentMission[Entity].T_tMIToriginSatIndex;
+         {.update the space unit data}
+         FCDdgEntities[Entity].E_spaceUnits[FCDdmtTaskListToProcess[TaskIndex].T_controllerIndex].SU_locationOrbitalObject:='';
+         FCDdgEntities[Entity].E_spaceUnits[FCDdmtTaskListToProcess[TaskIndex].T_controllerIndex].SU_locationSatellite:='';
+         FCDdmtTaskListToProcess[TaskIndex].T_tMITdestination:=FCDmcCurrentMission[Entity].T_tMITdestination;
+         FCDdmtTaskListToProcess[TaskIndex].T_tMITdestinationIndex:=FCDmcCurrentMission[Entity].T_tMITdestinationIndex;
+         FCDdmtTaskListToProcess[TaskIndex].T_tMITdestinationSatIndex:=FCDmcCurrentMission[Entity].T_tMITdestinationSatIndex;
+         FCDdmtTaskListToProcess[TaskIndex].T_tMITcruiseVelocity:=FCRmcCurrentMissionCalculations.CMC_cruiseDeltaV;
+         FCDdmtTaskListToProcess[TaskIndex].T_tMITcruiseTime:=FCRmcCurrentMissionCalculations.CMC_timeAccel;
+         FCDdmtTaskListToProcess[TaskIndex].T_tMITfinalVelocity:=FCRmcCurrentMissionCalculations.CMC_finalDeltaV;
+         FCDdmtTaskListToProcess[TaskIndex].T_tMITfinalTime:=FCRmcCurrentMissionCalculations.CMC_timeDecel;
+         FCDdmtTaskListToProcess[TaskIndex].T_tMITusedReactionMassVol:=FCRmcCurrentMissionCalculations.CMC_usedReactionMassVol;
+         FCDdmtTaskListToProcess[TaskIndex].T_tMITinProcessData.IPD_accelerationByTick:=0;
+         FCDdmtTaskListToProcess[TaskIndex].T_tMITinProcessData.IPD_timeForDeceleration:=0;
+         FCDdmtTaskListToProcess[TaskIndex].T_tMITinProcessData.IPD_timeToTransfert:=0;
+         if Entity=0 then
+         begin
+            FCMuiMS_Planel_Close;
+            if FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglSpaceUnits[FCDdgEntities[Entity].E_spaceUnits[FCDdmtTaskListToProcess[TaskIndex].T_tMCoriginIndex].SU_linked3dObject] then
+            begin
+               FCMoglUI_Main3DViewUI_Update(oglupdtpTxtOnly, ogluiutFocObj);
+               FCMuiW_FocusPopup_Upd(uiwpkSpUnit);
+            end;
+         end;
       end; //==END== case: gmcmnItransit ==//
    end; //==END== case GMCmissTp of ==//
    FCVdiGameFlowTimer.Enabled:=true;
