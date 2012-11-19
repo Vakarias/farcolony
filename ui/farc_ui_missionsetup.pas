@@ -602,7 +602,7 @@ begin
          );
    end;
    {.current destination for orbital object}
-   if FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglObjectsGroups[FC3doglSelectedPlanetAsteroid]
+   if FCDmcCurrentMission[0].T_tMITdestination=ttOrbitalObject
    then
    begin
       if (not FCWinMain.FCWMS_Grp_MCG_RMassTrack.Enabled)
@@ -627,11 +627,11 @@ begin
          );
          FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Delete(10);
          {.mission configuration data}
-         if (not FCWinMain.FCWMS_Grp_MCG_RMassTrack.Enabled)
-            and (FC3doglSelectedPlanetAsteroid<>FCDmcCurrentMission[0].T_tMIToriginIndex)
-         then FCWinMain.FCWMS_Grp_MCG_MissCfgData.HTMLText.Insert(1, FCFdTFiles_UIStr_Get(uistrUI,'MCGDatNA'))
-         else FCWinMain.FCWMS_Grp_MCG_MissCfgData.HTMLText.Insert(1, FCFdTFiles_UIStr_Get(uistrUI,'MSDGcurDestNone'));
-         FCWinMain.FCWMS_Grp_MCG_MissCfgData.HTMLText.Delete(2);
+//         if (not FCWinMain.FCWMS_Grp_MCG_RMassTrack.Enabled)
+//            and (FC3doglSelectedPlanetAsteroid<>FCDmcCurrentMission[0].T_tMIToriginIndex)
+//         then FCWinMain.FCWMS_Grp_MCG_MissCfgData.HTMLText.Insert(1, FCFdTFiles_UIStr_Get(uistrUI,'MCGDatNA'))
+//         else FCWinMain.FCWMS_Grp_MCG_MissCfgData.HTMLText.Insert(1, FCFdTFiles_UIStr_Get(uistrUI,'MSDGcurDestNone'));
+//         FCWinMain.FCWMS_Grp_MCG_MissCfgData.HTMLText.Delete(2);
       end //==END== if FCV3DoObjSlctd=CFVoobjIdDB or (not FCWMS_Grp_MCG_RMassTrack.Enabled) ==//
       else if FC3doglSelectedPlanetAsteroid<>FCDmcCurrentMission[0].T_tMIToriginIndex
       then
@@ -661,11 +661,15 @@ begin
       end; {.else if FCV3dMVorbObjSlctd<>CFVoobjIdDB}
    end //==END== if FCGLSCamMainViewGhost.TargetObject=FC3DobjGrp[FCV3DoObjSlctd] ==//
    {.current destination for satellite}
-   else if FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite]
+   else if FCDmcCurrentMission[0].T_tMITdestination=ttSatellite
    then
    begin
-      if (GMCrootSatIdx>0)
-         and ((FC3doglSelectedSatellite=GMCrootSatObjIdx) or (not FCWinMain.FCWMS_Grp_MCG_RMassTrack.Enabled))
+      if (not FCWinMain.FCWMS_Grp_MCG_RMassTrack.Enabled)
+         or (
+            ( FCWinMain.FCWMS_Grp_MCG_RMassTrack.Enabled )
+               and ( FCDmcCurrentMission[0].T_tMITdestinationIndex=FCDmcCurrentMission[0].T_tMIToriginIndex)
+               and ( FCDmcCurrentMission[0].T_tMITdestinationSatIndex=FCDmcCurrentMission[0].T_tMIToriginSatIndex )
+            )
       then
       begin
          FCWinMain.FCWMS_ButProceed.Enabled:=false;
@@ -686,42 +690,42 @@ begin
          );
          FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Delete(10);
          {.mission configuration data}
-         if (not FCWinMain.FCWMS_Grp_MCG_RMassTrack.Enabled)
-            and (FC3doglSelectedSatellite<>GMCrootSatObjIdx)
-         then FCWinMain.FCWMS_Grp_MCG_MissCfgData.HTMLText.Insert(1, FCFdTFiles_UIStr_Get(uistrUI,'MCGDatNA'))
-         else FCWinMain.FCWMS_Grp_MCG_MissCfgData.HTMLText.Insert
-            (1, FCFdTFiles_UIStr_Get(uistrUI,'MSDGcurDestNone'));
-         FCWinMain.FCWMS_Grp_MCG_MissCfgData.HTMLText.Delete(2);
+//         if (not FCWinMain.FCWMS_Grp_MCG_RMassTrack.Enabled)
+//            and (FC3doglSelectedSatellite<>GMCrootSatObjIdx)
+//         then FCWinMain.FCWMS_Grp_MCG_MissCfgData.HTMLText.Insert(1, FCFdTFiles_UIStr_Get(uistrUI,'MCGDatNA'))
+//         else FCWinMain.FCWMS_Grp_MCG_MissCfgData.HTMLText.Insert
+//            (1, FCFdTFiles_UIStr_Get(uistrUI,'MSDGcurDestNone'));
+//         FCWinMain.FCWMS_Grp_MCG_MissCfgData.HTMLText.Delete(2);
       end
-      else if ((GMCrootSatIdx>0) and (FC3doglSelectedSatellite<>GMCrootSatObjIdx))
-         or (GMCrootSatObjIdx=0)
+      else if ( ( FCDmcCurrentMission[0].T_tMITdestinationIndex=FCDmcCurrentMission[0].T_tMIToriginIndex) and ( FCDmcCurrentMission[0].T_tMITdestinationSatIndex<>FCDmcCurrentMission[0].T_tMIToriginSatIndex ))
+         or ( FCDmcCurrentMission[0].T_tMITdestinationIndex<>FCDmcCurrentMission[0].T_tMIToriginIndex)
       then
       begin
-         {.get satellite data}
-         MDUdmpSatIdx:=FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].Tag;
-         MDUdmpPlanSatIdx:=round(FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].TagFloat);
          if not MDUtripOnly
          then
          begin
             {.current destination}
-            MDUdmpTokenName:=FCFdTFiles_UIStr_Get(
-               dtfscPrprName
-               ,FCDduStarSystem[GMCrootSsys].SS_stars[GMCrootStar].S_orbitalObjects[MDUdmpPlanSatIdx].OO_satellitesList[MDUdmpSatIdx].OO_dbTokenId
+            FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Insert(
+               7
+               ,FCFdTFiles_UIStr_Get(
+                  dtfscPrprName
+                     ,FCDduStarSystem[FCRmcCurrentMissionCalculations.CMC_originLocation[1]].SS_stars[FCRmcCurrentMissionCalculations.CMC_originLocation[2]].S_orbitalObjects[FCDmcCurrentMission[0].T_tMITdestinationIndex]
+                        .OO_satellitesList[FCDmcCurrentMission[0].T_tMITdestinationSatIndex].OO_dbTokenId
+                  )+'<br>'
                );
-            FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Insert(7, MDUdmpTokenName+'<br>');
             FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Delete(8);
             FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Insert(
                9
                ,FCFdTFiles_UIStr_Get(uistrUI,'MSDGdesIntCdist')+' '
-                  +FloatToStr(GMCbaseDist)+' '
+                  +FloatToStr(FCRmcCurrentMissionCalculations.CMC_baseDistance)+' '
                   +FCFdTFiles_UIStr_Get(uistrUI,'acronAU')
                   +'<ind x="'+IntToStr(FCWinMain.FCWMS_Grp_MSDG_Disp.Width shr 1)+'">'
                   +FCFdTFiles_UIStr_Get(uistrUI,'MSDGdestIntCminDV')
-                  +' '+FloatToStr(GMCreqDV)+' km/s'
+                  +' '+FloatToStr(FCRmcCurrentMissionCalculations.CMC_requiredDeltaV)+' km/s'
                );
             FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Delete(10);
          end; //==END== if not MDUtripOnly ==//
-         FCMgMCore_Mission_ConfData;
+         FCMuiMS_InterplanetaryTransitInterface_UpdateConfigurationData;
       end;
    end; //==END== else FCGLSCamMainViewGhost.TargetObject=FC3DobjSatGrp[FCV3DsatSlctd] ==//
 end;
