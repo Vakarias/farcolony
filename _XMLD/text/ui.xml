@@ -323,7 +323,7 @@
    <gasH2S>
       <EN>Hydrogen Sulfide</EN>
       <FR>Sulfure d'Hydrogène</FR>
-      <SP>Sulfuro de Hydrógeno</SP>
+      <SP>Sulfuro de Hidrógeno</SP>
    </gasH2S>
    <gasHe>
       <EN>Helium</EN>
@@ -900,7 +900,7 @@
    <colStorageCapGas>
       <EN>Gas</EN>
       <FR>Gaz</FR>
-      <SP>Gases</SP>
+      <SP>Gas</SP>
    </colStorageCapGas>
    <colStorageCapHead>
       <EN>Capacities</EN>
@@ -1101,7 +1101,7 @@
    <munCmodARC>
       <EN>Autonomous Remote Colony (ARC)</EN>
       <FR>Colonie Autonome Eloignée (ARC)</FR>
-      <SP>Colonia Autonoma Remota(ARC)</SP>
+      <SP>Colonia Autonoma Remota (ARC)</SP>
    </munCmodARC>
    <!-- ********** COMMON ********** -->
    <comCurGame>
@@ -1265,7 +1265,7 @@
    <FCWM_HPDPhints>
       <EN>Topics - Definitions</EN>
       <FR>Sujets - Définitions</FR>
-      <SP>Definiciones Temas</SP>
+      <SP>Definiciones - Temas</SP>
    </FCWM_HPDPhints>
    <HPKeys>
       <EN>
@@ -1344,8 +1344,8 @@
    <!-- ********** INFRASTRUCTURES ********** -->
    <cwpAssignConfirm>
       <EN>[ENTER] for confirm</EN>
-      <FR>[Entrée] pour confirmer'</FR>
-      <SP>[ENTER] para confirmar</SP>
+      <FR>[ENTRÉE] pour confirmer</FR>
+      <SP>[INTRO] para confirmar</SP>
    </cwpAssignConfirm>
    <cwpAssigned>
       <EN>Assigned Colonists</EN>
@@ -1530,7 +1530,7 @@
    <infrHumidTrap>
       <EN>Humidity Trap</EN>
       <FR>Piège à Humidité</FR>
-      <SP></SP>
+      <SP>Colector de Humedad</SP>
    </infrHumidTrap>
    <infrInflatGreen>
       <EN>Inflatable Greenhouse</EN>
@@ -2076,7 +2076,7 @@
          <MCGDatAccel>
             <EN>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Acceleration&#60;/b&#62;&#60;/font&#62;</EN>
             <FR>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Accelération&#60;/b&#62;&#60;/font&#62;</FR>
-            <SP>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Acceleracion&#60;/b&#62;&#60;/font&#62;</SP>
+            <SP>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Aceleración&#60;/b&#62;&#60;/font&#62;</SP>
          </MCGDatAccel>
          <MCGatmEntDV>
             <EN>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Atmosphere Entry &#60;font face=&#34;symbol&#34;&#62;D&#60;/font&#62;V&#60;/b&#62;&#60;/font&#62;</EN>
@@ -2096,7 +2096,7 @@
          <MCGDatNA>
             <EN>Not Applicable !&#60;br&#62;Not Enough Reaction Mass</EN>
             <FR>Non Applicable !&#60;br&#62;Pas Assez de Masse de Réaction</FR>
-            <SP>Not Applicable !&#60;br&#62;No hay Masa de Reaccion</SP>
+            <SP>Not Applicable !&#60;br&#62;No hay Masa de Reacción</SP>
          </MCGDatNA>
          <MCGDatMaxTime>
             <EN>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Max. ETA&#60;/b&#62;&#60;/font&#62;</EN>
@@ -2197,7 +2197,7 @@
    <FCWNGS_Frame>
     <EN>New Game Setup [Esc.: quit  Enter: proceed]</EN>
     <FR>Configuration de Nouvelle Partie [Esc.: quitter  Entrée: procéder]</FR>
-    <SP>Ajustes Nueva partida              [Esc.: salir  Enter: proceder]</SP>
+    <SP>Ajustes Nueva partida              [Esc.: salir    Intro: proceder]</SP>
    </FCWNGS_Frame>
       <FCWNGS_Frm_ColMode>
          <EN>Colonization Mode</EN>
@@ -2227,7 +2227,7 @@
       <FCWNGS_Frm_GNameEditEditLabel>
          <EN>Enter a Game Name (5 characters min.)</EN>
          <FR>Entrez un Nom de Partie (5 caractères min)</FR>
-         <SP>            Ingresa un nombre de partida (5 caracteres mínimo)</SP>
+         <SP>            Ingresa un nombre de partida   (5 caracteres mínimo)</SP>
       </FCWNGS_Frm_GNameEditEditLabel>
    <!-- ********** ORBITAL OBJECTS TYPES ********** -->
    <oobtpAster_Carbo>
@@ -2415,27 +2415,27 @@
    <equipHumidityTrap1>
       <EN>Humidity Trap [level 1]</EN>
       <FR>Piège à Humidité [niveau 1]</FR>
-      <SP></SP>
+      <SP>Colector de Humedad [nivel 1]</SP>
    </equipHumidityTrap1>
    <equipHumidityTrap2>
       <EN>Humidity Trap [level 2]</EN>
       <FR>Piège à Humidité [niveau 2]</FR>
-      <SP></SP>
+      <SP>Colector de Humedad [nivel 2]</SP>
    </equipHumidityTrap2>
    <equipHumidityTrap3>
       <EN>Humidity Trap [level 3]</EN>
       <FR>Piège à Humidité [niveau 3]</FR>
-      <SP></SP>
+      <SP>Colector de Humedad [nivel 3]</SP>
    </equipHumidityTrap3>
    <equipHumidityTrap4>
       <EN>Humidity Trap [level 4]</EN>
       <FR>Piège à Humidité [niveau 4]</FR>
-      <SP></SP>
+      <SP>Colector de Humedad [nivel 4]</SP>
    </equipHumidityTrap4>
    <equipHumidityTrap5>
       <EN>Humidity Trap [level 5]</EN>
       <FR>Piège à Humidité [niveau 5]</FR>
-      <SP></SP>
+      <SP>Colector de Humedad [nivel 5]</SP>
    </equipHumidityTrap5>
    <equipInflatGreen1>
       <EN>Inflatable Greenhouse [level 1]</EN>
@@ -2455,22 +2455,22 @@
    <equipInflatHab1>
       <EN>Inflatable Habitat [level 1]</EN>
       <FR>Inflatable Habitat [niveau 1]</FR>
-      <SP></SP>
+      <SP>Habitat Inflable [nivel 1]</SP>
    </equipInflatHab1>
    <equipInflatHab2>
       <EN>Inflatable Habitat [level 2]</EN>
       <FR>Inflatable Habitat [niveau 2]</FR>
-      <SP></SP>
+      <SP>Habitat Inflable [nivel 2]</SP>
    </equipInflatHab2>
    <equipInflatHab3>
       <EN>Inflatable Habitat [level 3]</EN>
       <FR>Inflatable Habitat [niveau 3]</FR>
-      <SP></SP>
+      <SP>Habitat Inflable [nivel 3]</SP>
    </equipInflatHab3>
    <equipInflatHab4>
       <EN>Inflatable Habitat [level 4]</EN>
       <FR>Inflatable Habitat [niveau 4]</FR>
-      <SP></SP>
+      <SP>Habitat Inflable [nivel 4]</SP>
    </equipInflatHab4>
    <equipMiningMachinery>
       <EN>Mining Machinery</EN>
@@ -2580,7 +2580,7 @@
    <matSilver>
       <EN>Silver</EN>
       <FR>Argent</FR>
-      <SP></SP>
+      <SP>Plata</SP>
    </matSilver>
    <matSteel>
       <EN>Steel</EN>
@@ -2615,7 +2615,7 @@
    <resH2>
       <EN>Hydrogen</EN>
       <FR>Hydrogène</FR>
-      <SP>Hidrógenos</SP>
+      <SP>Hidrógeno</SP>
    </resH2>
    <resIcyOre>
       <EN>Icy Ore</EN>
@@ -3440,7 +3440,7 @@
    <secpAtm>
       <EN>&#60;b&#62;Atmosphere&#60;/b&#62;</EN>
       <FR>&#60;b&#62;Atmosphère&#60;/b&#62;</FR>
-      <SP>&#60;b&#62;Atmosfera&#60;/b&#62;</SP>
+      <SP>&#60;b&#62;Atmósfera&#60;/b&#62;</SP>
    </secpAtm>
    <secpClCov>
       <EN>Clouds Cover&#60;/u&#62;&#60;/ul&#62;</EN>
@@ -3525,7 +3525,7 @@
    <secpPress>
       <EN>&#60;ul&#62;&#60;li&#62;&#60;u&#62;Pressure</EN>
       <FR>&#60;ul&#62;&#60;li&#62;&#60;u&#62;Pression</FR>
-      <SP>&#60;ul&#62;&#60;li&#62;&#60;u&#62;Presion</SP>
+      <SP>&#60;ul&#62;&#60;li&#62;&#60;u&#62;Presión</SP>
    </secpPress>
    <secpTerrTp>
       <EN>Terrain Type</EN>
@@ -4043,7 +4043,7 @@
    <UMIenfNReq3>
       <EN>Due to your faction's status, the policy's prerequisite is assumed by your allegiance faction.</EN>
       <FR>Au vu du status de votre faction, le prérequis de la politique est assumé par votre faction d'allégeance.</FR>
-      <SP>-!not translated!-</SP>
+      <SP>En vista de la situación de su facción, los requisitos previos a la politica es asumida por la lealtad de su facción.</SP>
    </UMIenfNReq3>
    <UMIenfRsltComplAcc>
       <EN>&lt;b&gt;a complete acceptance&lt;/b&gt;</EN>
@@ -4068,7 +4068,7 @@
    <UMIenfUnique>
       <EN>This policy is unique and replace the </EN>
       <FR>Cette politique remplace le </FR>
-      <SP>Esta Política Reemplaza la </SP>
+      <SP>Esta Política reemplaza la </SP>
    </UMIenfUnique>
    <UMIgvtEcoSys>
       <EN>Economic System</EN>
@@ -4103,17 +4103,17 @@
    <UMIhqNoMsg>
       <EN>Your faction doesn't have any headquarter to enforce policies.&lt;br&gt;Set a colony or build an infrastructure that have this effect.&lt;br&gt;Please refer to the infrastructure's custom effects section located in the encyclopaedia.</EN>
       <FR>Votre faction n'a pas de quartier général pour appliquer des politiques.&lt;br&gt;Mettez en place une colony ou construisez une infrastructure qui possède cet effet.&lt;br&gt;SVP réfèrez-vous à la section effets custom d'infrastructure située dans l'encyclopédie.</FR>
-      <SP>!--Translation To Update--!  Tu facción no tiene ningún cuartel general para aplicar las políticas.&lt;br&gt;Selecciona otra colonia o construye un Cuartel General.</SP>
+      <SP>Su facción no posee un cuartel general para aplicar las políticas.&lt;br&gt;Establezca una colonia o construya las infraestructuras necesarias para este efecto.&lt;br&gt;Por favor vaya a la sección personalizada de la infraestructura situada en la enciplopedia.</SP>
    </UMIhqNoMsg>
    <UMIhqNoMsg1>
       <EN>Your faction has only a &lt;b&gt;basic headquarter&lt;/b&gt; so you cannot enforce any policy.&lt;br&gt;You need to build a &lt;b&gt;secondary headquarter&lt;/b&gt; to be able to enforce any policy, or a &lt;b&gt;primary headquarter&lt;/b&gt; to be able to enforce any policy and also to change of political, economical, healthcare and spiritual system.&lt;br&gt;Please refer to the infrastructure's custom effects section located in the encyclopaedia.</EN>
       <FR>Votre faction ne dispose que d'un &lt;b&gt;quartier général de base&lt;/b&gt; de sorte que vous ne pouvez pas appliquer une politique.&lt;br&gt;Vous devez construire un &lt;b&gt;quartier général secondaire&lt;/b&gt; pour être en mesure d'appliquer une politique ou d'un &lt;b&gt;quartier général principal&lt;/b&gt; pour être en mesure d'appliquer une politique et aussi de changer de système politique, économique, de santé et spirituel.&lt;br&gt;SVP réfèrez-vous à la section effets custom d'infrastructure située dans l'encyclopédie.</FR>
-      <SP>!--not translated--!</SP>
+      <SP>Su facción solo posee un &lt;b&gt;cuartel general bsico&lt;/b&gt; ´por lo que no puede hacer cumplir ninguna política.&lt;br&gt;Necesita construir un &lt;b&gt;cuartel general secundario&lt;/b&gt; para poder aplicar cualquier politica, o un &lt;b&gt;cuartel general principal&lt;/b&gt; para ser capaz de hacer cumplir cualquier política y tambien para poder cambiar de sistema político, económico, sanitario o espiritual.&lt;br&gt;Por favor acuda a la sección personalizada de los efectos de la infraestructura localizada en la enciclopedia.</SP>
    </UMIhqNoMsg1>
    <UMIhqNoMsg2>
       <EN>Your faction hasn't a &lt;b&gt;primary headquarter&lt;/b&gt; so you cannot change of political, economical, healthcare and spiritual system.</EN>
       <FR>Votre faction na pas de &lt;b&gt;quartier général principal&lt;/b&gt; pour être en mesure de changer de système politique, économique, de santé et spirituel.</FR>
-      <SP>!--not translated--!</SP>
+      <SP>Su facción no tiene un &lt;b&gt;cuartel general principal&lt;/b&gt; por lo que no puede cambiar de sistema político, econímico, sanitario o espiritual.</SP>
    </UMIhqNoMsg2>
    <UMIhqPrim>
       <EN>Primary/Unique HQ</EN>
@@ -4208,7 +4208,7 @@
    <UMIpolenfRuleNoEnf2>
       <EN> Status level to enforce this kind of policies.&lt;br&gt;The current </EN>
       <FR> pour appliquer cette sorte de politiques.&lt;br&gt;Le niveau actuel de Status </FR>
-      <SP> !--translation incomplete--! para aplicar las políticas.&lt;br&gt;El nivel actual de Estatus </SP>
+      <SP> para aplicar este tipo de políticas.&lt;br&gt;El nivel actual de Estatus </SP>
    </UMIpolenfRuleNoEnf2>
    <UMIpolenfRuleNoEnf3>
       <EN> Status level is </EN>
