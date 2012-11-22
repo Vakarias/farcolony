@@ -468,9 +468,9 @@
       <SP>Índice de Mortalidad</SP>
    </colDdrate>
    <colDedu>
-      <EN>Education</EN>
-      <FR>Education</FR>
-      <SP>Educación</SP>
+      <EN>Instruction</EN>
+      <FR>Instruction</FR>
+      <SP>Instrucción</SP>
    </colDedu>
    <colDeduI1>
       <EN>F Grade</EN>
@@ -1161,9 +1161,9 @@
       <SP>Desestabilización del Gobierno (Recuperación)</SP>
    </csmevGovDestabRec>
    <csmevHealthEduRel>
-      <EN>Health-Education Relation</EN>
-      <FR>Relation Santé-Education</FR>
-      <SP>Relación Sanidad-Educación</SP>
+      <EN>Health-Instruction Relation</EN>
+      <FR>Relation Santé-Instruction</FR>
+      <SP>Relación Sanidad-Instrucción</SP>
    </csmevHealthEduRel>
    <csmevRveOxygenOverload>
       <EN>Oxygen Production Overload</EN>
