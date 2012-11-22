@@ -41,22 +41,22 @@
    <FCWA_Frm_CredsHead>
       <EN>&#60;p align=&#34;left&#34;&#62;&#60;font size=&#34;11&#34; color=&#34;clwhite&#34;&#62;&#60;b&#62;CREDITS&#60;/b&#62;&#60;/font&#62;&#60;br&#62;</EN>
       <FR>&#60;p align=&#34;left&#34;&#62;&#60;font size=&#34;11&#34; color=&#34;clwhite&#34;&#62;&#60;b&#62;CREDITS&#60;/b&#62;&#60;/font&#62;&#60;br&#62;</FR>
-      <SP>&#60;p align=&#34;left&#34;&#62;&#60;font size=&#34;11&#34; color=&#34;clwhite&#34;&#62;&#60;b&#62;CREDITS&#60;/b&#62;&#60;/font&#62;&#60;br&#62;</SP>
+      <SP>&#60;p align=&#34;left&#34;&#62;&#60;font size=&#34;11&#34; color=&#34;clwhite&#34;&#62;&#60;b&#62;CREDITOS&#60;/b&#62;&#60;/font&#62;&#60;br&#62;</SP>
    </FCWA_Frm_CredsHead>
    <FCWA_Frm_CredsAuth>
       <EN>&#60;ul&#62;&#60;u&#62;Authors&#60;/u&#62;&#60;br&#62;&#60;li&#62;J.F. Baconnet  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Game Design, Programming and 3d&#60;/b&#62;&#60;/font&#62;)&#60;/ul&#62;</EN>
       <FR>&#60;ul&#62;&#60;u&#62;Auteurs&#60;/u&#62;&#60;br&#62;&#60;li&#62;J.F. Baconnet  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Design de Jeu, Programmation et 3d&#60;/b&#62;&#60;/font&#62;)&#60;/ul&#62;</FR>
-      <SP>&#60;ul&#62;&#60;u&#62;Autores&#60;/u&#62;&#60;br&#62;&#60;li&#62;J.F. Baconnet  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Diseño del Juego, Programacion y 3d&#60;/b&#62;&#60;/font&#62;)&#60;/ul&#62;</SP>
+      <SP>&#60;ul&#62;&#60;u&#62;Autores&#60;/u&#62;&#60;br&#62;&#60;li&#62;J.F. Baconnet  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Diseño del Juego, Programación y 3d&#60;/b&#62;&#60;/font&#62;)&#60;/ul&#62;</SP>
    </FCWA_Frm_CredsAuth>
    <FCWA_Frm_CredsSrcComp>
       <EN>&#60;br&#62;&#60;ul&#62;&#60;u&#62;Sources Code and Components&#60;/u&#62;&#60;br&#62;&#60;li&#62;&#60;a href=&#34;http://www.dave.serveusers.com/&#34;&#62;Dave Gravel&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;.3ds Loader code&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;&#60;a href=&#34;http://glscene.sourceforge.net/wikka/HomePage&#34;&#62;GLScene&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;3D Framework&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;&#60;a href=&#34;http://graphics32.org/wiki/&#34;&#62;GR32&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;2D Library&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;&#60;a href=&#34;http://www.tmssoftware.com/site/&#34;&#62;TMS Software&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;User's Interface Components&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;&#60;a href=&#34;http://www.gtdelphicomponents.gr/&#34;&#62;Trifidis George&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;GT Threaded Timer&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;&#60;a href=&#34;http://imaginglib.sourceforge.net/&#34;&#62;Vampyre Imaging Library&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;2D Library&#60;/b&#62;&#60;/font&#62;)&#60;/ul&#62;</EN>
       <FR>&#60;br&#62;&#60;ul&#62;&#60;u&#62;Codes Sources et Composants&#60;/u&#62;&#60;br&#62;&#60;li&#62;&#60;a href=&#34;http://www.dave.serveusers.com/&#34;&#62;Dave Gravel&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Code .3ds Loader&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;&#60;a href=&#34;http://glscene.sourceforge.net/wikka/HomePage&#34;&#62;GLScene&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Framework 3D&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;&#60;a href=&#34;http://graphics32.org/wiki/&#34;&#62;GR32&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Bibliothèque 2D&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;&#60;a href=&#34;http://www.tmssoftware.com/site/&#34;&#62;TMS Software&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Composants Interface Utilisateur&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;&#60;a href=&#34;http://www.gtdelphicomponents.gr/&#34;&#62;Trifidis George&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;GT Threaded Timer&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;&#60;a href=&#34;http://imaginglib.sourceforge.net/&#34;&#62;Vampyre Imaging Library&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Bibliothèque 2D&#60;/b&#62;&#60;/font&#62;)&#60;/ul&#62;</FR>
-      <SP>&#60;br&#62;&#60;ul&#62;&#60;u&#62;Codigo Fuente y Componentes&#60;/u&#62;&#60;br&#62;&#60;li&#62;&#60;a href=&#34;http://www.dave.serveusers.com/&#34;&#62;Dave Gravel&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Cargador de codigo .3ds &#60;/b&#62;&#60;/font&#62;)&#60;li&#62;&#60;a href=&#34;http://glscene.sourceforge.net/wikka/HomePage&#34;&#62;GLScene&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Framework 3D&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;&#60;a href=&#34;http://graphics32.org/wiki/&#34;&#62;GR32&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Libreria 2D&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;&#60;a href=&#34;http://www.tmssoftware.com/site/&#34;&#62;TMS Software&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Componentes de la Interfaz de Usuario&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;&#60;a href=&#34;http://www.gtdelphicomponents.gr/&#34;&#62;Trifidis George&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;GT Threaded Timer&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;&#60;a href=&#34;http://imaginglib.sourceforge.net/&#34;&#62;Vampyre Imaging Library&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Libreria 2D&#60;/b&#62;&#60;/font&#62;)&#60;/ul&#62;</SP>
+      <SP>&#60;br&#62;&#60;ul&#62;&#60;u&#62;Código Fuente y Componentes&#60;/u&#62;&#60;br&#62;&#60;li&#62;&#60;a href=&#34;http://www.dave.serveusers.com/&#34;&#62;Dave Gravel&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Cargador de código .3ds &#60;/b&#62;&#60;/font&#62;)&#60;li&#62;&#60;a href=&#34;http://glscene.sourceforge.net/wikka/HomePage&#34;&#62;GLScene&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Framework 3D&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;&#60;a href=&#34;http://graphics32.org/wiki/&#34;&#62;GR32&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Librería 2D&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;&#60;a href=&#34;http://www.tmssoftware.com/site/&#34;&#62;TMS Software&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Componentes de la Interfaz de Usuario&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;&#60;a href=&#34;http://www.gtdelphicomponents.gr/&#34;&#62;Trifidis George&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;GT Threaded Timer&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;&#60;a href=&#34;http://imaginglib.sourceforge.net/&#34;&#62;Vampyre Imaging Library&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Librería 2D&#60;/b&#62;&#60;/font&#62;)&#60;/ul&#62;</SP>
    </FCWA_Frm_CredsSrcComp>
    <FCWA_Frm_CredsContrib>
       <EN>&#60;br&#62;&#60;ul&#62;&#60;u&#62;Contributions&#60;/u&#62;&#60;br&#62;&#60;li&#62;&#60;a href=&#34;http://www.robotconstruct.com/&#34;&#62;Forgebot&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Ambient Tunes&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;Eric Alain (rikoal)  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Background Graphics&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;Ratimir Rakuljic (ratko)  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Background Graphics&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;Alejandro Ramos Gonzalez (nenexulo22)  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Spanish Translation&#60;/b&#62;&#60;/font&#62;)&#60;/ul&#62;</EN>
       <FR>&#60;br&#62;&#60;ul&#62;&#60;u&#62;Contributions&#60;/u&#62;&#60;br&#62;&#60;li&#62;&#60;a href=&#34;http://www.robotconstruct.com/&#34;&#62;Forgebot&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Musiques Ambiantes&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;Eric Alain (rikoal)  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Graphiques de Fond&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;Ratimir Rakuljic (ratko)  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Graphiques de Fond&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;Alejandro Ramos Gonzalez (nenexulo22)  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Traduction Espagnole&#60;/b&#62;&#60;/font&#62;)&#60;/ul&#62;</FR>
-      <SP>&#60;br&#62;&#60;ul&#62;&#60;u&#62;Contribuciones&#60;/u&#62;&#60;br&#62;&#60;li&#62;&#60;a href=&#34;http://www.robotconstruct.com/&#34;&#62;Forgebot&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Musicas Ambientes&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;Eric Alain (rikoal)  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Graficos de Fondo&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;Ratimir Rakuljic (ratko)  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Graficos de Fondo&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;Alejandro Ramos Gonzalez (nenexulo22)  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Spanish Translation&#60;/b&#62;&#60;/font&#62;)&#60;/ul&#62;</SP>
+      <SP>&#60;br&#62;&#60;ul&#62;&#60;u&#62;Contribuciones&#60;/u&#62;&#60;br&#62;&#60;li&#62;&#60;a href=&#34;http://www.robotconstruct.com/&#34;&#62;Forgebot&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Músicas Ambientes&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;Eric Alain (rikoal)  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Gráficos de Fondo&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;Ratimir Rakuljic (ratko)  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Gráficos de Fondo&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;Alejandro Ramos Gonzalez (nenexulo22)  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Traducción Española&#60;/b&#62;&#60;/font&#62;)&#60;/ul&#62;</SP>
    </FCWA_Frm_CredsContrib>
    <FCWA_Frm_CredsOthrSrc>
       <EN>
@@ -166,7 +166,7 @@
          &#60;li&#62;infrastatus_operational16.jpg&#60;/ul&#62;&#60;/font&#62;
          &#60;/ul&#62;</FR>
       <SP>
-         &#60;br&#62;&#60;ul&#62;&#60;u&#62;Autres Sources&#60;/u&#62;
+         &#60;br&#62;&#60;ul&#62;&#60;u&#62;Otros orígenes&#60;/u&#62;
          &#60;br&#62;&#60;li&#62;Dave McDonald  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Texture&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
          &#60;ul&#62;&#60;li&#62;NeptuneCold.jpg
          &#60;/ul&#62;&#60;/font&#62;
@@ -245,7 +245,7 @@
          &#60;li&#62;Traveller, MegaTraveller  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;JDR&#60;/b&#62;&#60;/font&#62;)
          &#60;/ul&#62;</FR>
       <SP>
-         &#60;br&#62;&#60;ul&#62;&#60;u&#62;Origenes de Inspiracion&#60;/u&#62;&#60;br&#62;
+         &#60;br&#62;&#60;ul&#62;&#60;u&#62;Orígenes de Inspiración&#60;/u&#62;&#60;br&#62;
          &#60;li&#62;2001 A Space Odyssey  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Pelicula&#60;/b&#62;&#60;/font&#62;)
          &#60;li&#62;Advanced Automation for Space Missions  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Libro&#60;/b&#62;&#60;/font&#62;)
          &#60;li&#62;Islands in the Sky  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Libro&#60;/b&#62;&#60;/font&#62;)
@@ -261,7 +261,7 @@
       <EN>
          &#60;br&#62;&#60;p align=&#34;center&#34;&#62;&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;®2009-2012 J.F.Baconnet&#60;/b&#62;&#60;/font&#62;&#60;/p&#62;License: GPLv3&#60;br&#62;&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Website  &#60;/b&#62;&#60;/font&#62;&#60;a href=&#34;http://farcolony.sourceforge.net/&#34;&#62;http://farcolony.sourceforge.net/&#60;/a&#62;&#60;br&#62;&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Project Page  &#60;/b&#62;&#60;/font&#62;&#60;a href=&#34;http://sourceforge.net/projects/farcolony&#34;&#62;http://sourceforge.net/projects/farcolony&#60;/a&#62;</EN>
       <FR>&#60;br&#62;&#60;p align=&#34;center&#34;&#62;&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;®2009-2012 J.F.Baconnet&#60;/b&#62;&#60;/font&#62;&#60;/p&#62;License: GPLv3&#60;br&#62;&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Site Web  &#60;/b&#62;&#60;/font&#62;&#60;a href=&#34;http://farcolony.sourceforge.net/&#34;&#62;http://farcolony.sourceforge.net/&#60;/a&#62;&#60;br&#62;&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Page du Project  &#60;/b&#62;&#60;/font&#62;&#60;a href=&#34;http://sourceforge.net/projects/farcolony&#34;&#62;http://sourceforge.net/projects/farcolony&#60;/a&#62;</FR>
-      <SP>&#60;br&#62;&#60;p align=&#34;center&#34;&#62;&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;®2009-2012 J.F.Baconnet&#60;/b&#62;&#60;/font&#62;&#60;/p&#62;Licencia: GPLv3&#60;br&#62;&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Pagina Web  &#60;/b&#62;&#60;/font&#62;&#60;a href=&#34;http://farcolony.sourceforge.net/&#34;&#62;http://farcolony.sourceforge.net/&#60;/a&#62;&#60;br&#62;&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Pagina del proyecto  &#60;/b&#62;&#60;/font&#62;&#60;a href=&#34;http://sourceforge.net/projects/farcolony&#34;&#62;http://sourceforge.net/projects/farcolony&#60;/a&#62;</SP>
+      <SP>&#60;br&#62;&#60;p align=&#34;center&#34;&#62;&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;®2009-2012 J.F.Baconnet&#60;/b&#62;&#60;/font&#62;&#60;/p&#62;Licencia: GPLv3&#60;br&#62;&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Página Web  &#60;/b&#62;&#60;/font&#62;&#60;a href=&#34;http://farcolony.sourceforge.net/&#34;&#62;http://farcolony.sourceforge.net/&#60;/a&#62;&#60;br&#62;&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Página del proyecto  &#60;/b&#62;&#60;/font&#62;&#60;a href=&#34;http://sourceforge.net/projects/farcolony&#34;&#62;http://sourceforge.net/projects/farcolony&#60;/a&#62;</SP>
    </FCWA_Frm_Header>
    <!-- ********** ACRONYMS ********** -->
    <acronAU>
@@ -293,7 +293,7 @@
    <gasAr>
       <EN>Argon</EN>
       <FR>Argon</FR>
-      <SP>Argon</SP>
+      <SP>Argón</SP>
    </gasAr>
    <gasCH4>
       <EN>Methane</EN>
@@ -440,7 +440,7 @@
    <colDcohesI6>
       <EN>Strong</EN>
       <FR>Solide</FR>
-      <SP>Sólido</SP>
+      <SP>Sólida</SP>
    </colDcohesI6>
    <colDcohesI7>
       <EN>Unified</EN>
@@ -725,7 +725,7 @@
    <colMsgNotEst>
       <EN>There's No Established Colony Yet</EN>
       <FR>Il N'y a Encore Aucune Colonie Fondée</FR>
-      <SP>No se ha Establecido una Colonia</SP>
+      <SP>No se ha establecido una colonia</SP>
    </colMsgNotEst>
    <colPopBDR>
       <EN>person(s)</EN>
@@ -900,7 +900,7 @@
    <colStorageCapGas>
       <EN>Gas</EN>
       <FR>Gaz</FR>
-      <SP>Gas</SP>
+      <SP>Gases</SP>
    </colStorageCapGas>
    <colStorageCapHead>
       <EN>Capacities</EN>
@@ -996,7 +996,7 @@
    <cpsSLecon>
       <EN>Economic</EN>
       <FR>Economique</FR>
-      <SP>Económica</SP>
+      <SP>Económia</SP>
    </cpsSLecon>
    <cpsSLmil>
       <EN>Space &amp; Military</EN>
@@ -1265,7 +1265,7 @@
    <FCWM_HPDPhints>
       <EN>Topics - Definitions</EN>
       <FR>Sujets - Définitions</FR>
-      <SP>Definiciones - Temas</SP>
+      <SP>Temas - Definiciones</SP>
    </FCWM_HPDPhints>
    <HPKeys>
       <EN>
@@ -1322,30 +1322,30 @@
       &#60;br&#62;&#60;b&#62;TECLA NUMÉRICA 4: &#60;/b&#62;Enfocar Objeto Anterior
       &lt;ind x="361"&gt;&#60;b&#62;F2: &#60;/b&#62;Universo
       &#60;br&#62;&#60;b&#62;TECLA NUMÉRICA 6: &#60;/b&#62;Enfocar Objeto Siguiente
-      &lt;ind x="361"&gt;&#60;b&#62;F3: &#60;/b&#62;Faccion/Estructura Política
+      &lt;ind x="361"&gt;&#60;b&#62;F3: &#60;/b&#62;Facción/Estructura Política
       &#60;br&#62;&#60;b&#62;TECLA NUMÉRICA 7: &#60;/b&#62;Enfocar en el Primer Objeto
       &lt;ind x="361"&gt;&#60;b&#62;F4: &#60;/b&#62;Marco Facción Socio/política (SPM)
       &#60;br&#62;&#60;b&#62;TECLA NUMÉRICA 1: &#60;/b&#62;Enfocar en el Último Objeto
-      &lt;ind x="361"&gt;&#60;b&#62;F5: &#60;/b&#62;onglet Facción/políticas de aplicación
+      &lt;ind x="361"&gt;&#60;b&#62;F5: &#60;/b&#62;Facción/políticas de aplicación
       &#60;br&#62;&#60;b&#62;A: &#60;/b&#62;Cambiar Entre el Satélite y la Visualización de Objetos Orbitales
       &lt;ind x="361"&gt;&#60;b&#62;F6: &#60;/b&#62;Ficha Unidades Espaciales
       &#60;br&#62;&#60;b&#62;S: &#60;/b&#62;Cambiar entre la Unidad del Espacio y los Objetos de Visualización Orbital
-      &lt;ind x="361"&gt;&#60;b&#62;F7: &#60;/b&#62;Ficha Produccion&lt;br&gt;
+      &lt;ind x="361"&gt;&#60;b&#62;F7: &#60;/b&#62;Ficha Producción&lt;br&gt;
       &lt;ind x="361"&gt;&#60;b&#62;F8: &#60;/b&#62;Ficha Investigación y Desarrollo
       &#60;br&#62;&#60;b&#62;&#60;u&#62;Vista 3D - Tiempos&#60;/u&#62;&#60;/b&#62;
-      &#60;br&#62;&#60;b&#62;P: &#60;/b&#62;juego en pausa
+      &#60;br&#62;&#60;b&#62;P: &#60;/b&#62;Juego en pausa
       &#60;br&#62;&#60;b&#62;Z: &#60;/b&#62;tiempos tácticos (1seg TR ~ 10min TJ)
       &#60;br&#62;&#60;b&#62;X: &#60;/b&#62;tiempos de gestión (1seg TR ~ 20min TJ)
       &#60;br&#62;&#60;b&#62;C: &#60;/b&#62;tiempos estratégicos/históricos (1seg TR ~ 100min TJ)
       &#60;br&#62;&#60;br&#62;&#60;b&#62;&#60;u&#62;Ventana de mensajes
-      &#60;br&#62;&#60;b&#62;M: &#60;/b&#62;=&#62; maximizar =&#62; minimizar la ventana de mensajes
-      &#60;br&#62;&#60;b&#62;ESC: &#60;/b&#62;minimizar la ventana de mensajes</SP>
+      &#60;br&#62;&#60;b&#62;M: &#60;/b&#62;=&#62; Maximizar =&#62; Minimizar la ventana de mensajes
+      &#60;br&#62;&#60;b&#62;ESC: &#60;/b&#62;Minimizar la ventana de mensajes</SP>
    </HPKeys>
    <!-- ********** INFRASTRUCTURES ********** -->
    <cwpAssignConfirm>
       <EN>[ENTER] for confirm</EN>
       <FR>[ENTRÉE] pour confirmer</FR>
-      <SP>[INTRO] para confirmar</SP>
+      <SP>[ENTER] para confirmar</SP>
    </cwpAssignConfirm>
    <cwpAssigned>
       <EN>Assigned Colonists</EN>
@@ -1395,12 +1395,12 @@
    <FCWMtaskBuild>
       <EN>This infrastructure is ready to be build, required materials will be taken from the colony's storage.</EN>
       <FR>Cette infrastructure est prête à être construite, les materiaux requis serons pris du stockage de la colonie.</FR>
-      <SP>Esta Infraestructura está Lista para ser Montada,los Materiales Requeridos serán Recogidos del Almacén de la Colonia.</SP>
+            <SP>Esta Infraestructura está Lista para ser Montada, los Materiales Requeridos serán Recogidos del Almacén de la Colonia.</SP>
    </FCWMtaskBuild>
    <FCWMtaskCannotAssemble1>
       <EN>This infrastructure cannot be assembled, there's no more available Workforce Construction Points for it.</EN>
       <FR>Cette infrastructure ne peut être assemblée, il n'y a plus de Points de Force de Construction disponible pour.</FR>
-      <SP>Esta Infraestructura no puede ser Montada,no hay Puntos de Construcción de Mano de obra.</SP>
+      <SP>Esta Infraestructura no puede ser Montada, no hay Puntos de Construcción de Mano de obra.</SP>
    </FCWMtaskCannotAssemble1>
    <FCWMtaskCannotAssemble2>
       <EN>You need to assign more Construction Workforce Points in the Population section.</EN>
@@ -1410,7 +1410,7 @@
    <FCWMtaskCannotBuild>
       <EN>This infrastructure cannot be built, there's no more available Workforce Construction Points for it.</EN>
       <FR>Cette infrastructure ne peut être construite, il n'y a plus de Points de Force de Construction disponible pour.</FR>
-      <SP>Esta Infraestructura no Puede ser Construida,no hay Puntos de Construcción de Mano de Obra Disponibles.</SP>
+      <SP>Esta Infraestructura no Puede ser Construida, no hay Puntos de Construcción de Mano de Obra Disponibles.</SP>
    </FCWMtaskCannotBuild>
    <FCWMtaskCWPassemble>
       <EN>The &#60;a href="cwpRoot"&#62;CWP&#60;/a&#62; assigned to this assembling will be equal to</EN>
@@ -1825,13 +1825,13 @@
          <FCWM_MMenu_O_WideScr>
             <EN>Widescreen Background</EN>
             <FR>Fond Écran Large</FR>
-            <SP>Pantalla Ancha</SP>
+            <SP>Pantalla Panoramica</SP>
          </FCWM_MMenu_O_WideScr>
          <!-- Main Menu / Options / Standard Textures Resolution -->
          <FCWM_MMenu_O_TexR>
             <EN>Standard Textures Resolution</EN>
             <FR>Résolution des Textures Standard</FR>
-            <SP>Resolución de Texturas Standard</SP>
+            <SP>Resolución de Texturas Estandard</SP>
          </FCWM_MMenu_O_TexR>
    <!-- Main Menu / Debug Tools -->
    <FCWM_MMenu_DebTools>
@@ -1849,7 +1849,7 @@
       <FCWM_MMenu_DTreloadTfiles>
          <EN>Reload Text Files (WARNING)</EN>
          <FR>Recharge les Fichiers Texte (ATTENTION)</FR>
-         <SP>Recargar Archivos de Texto (ATENCION)</SP>
+         <SP>Recargar Archivos de Texto (ATENCIÓN)</SP>
       </FCWM_MMenu_DTreloadTfiles>
       <!-- Main Menu / Debug Tools / FUG -->
       <FCWM_MMenu_DT_FUG>
@@ -1894,7 +1894,7 @@
    <MSG_Intro1>
       <EN>Welcome to FAR Colony.&#60;br&#62;After a long travel, the expedition set by </EN>
       <FR>Bienvenue à FAR Colony.&#60;br&#62;Après un long voyage, l'expédition mise en place par </FR>
-      <SP>Bienvenido a FAR Colony.&#60;br&#62;Después de un viaje muy largo, la expedición comienza en </SP>
+      <SP>Bienvenido a FAR Colony. &#60;br&#62; Después de un viaje muy largo, la expedición comienza en </SP>
    </MSG_Intro1>
    <MSG_Intro2>
       <EN> arrives in orbit of the planet &#60;b&#62;</EN>
@@ -1919,7 +1919,7 @@
    <MSG_IntroCMend>
       <EN>As a player you'll have to obtain the best viability score, during the colonization phase of the first colony, by trying to complete the different colonization objectives. The different status of these objectives are described in the second message.&#60;br&#62;The Colonization Phase itself have a duration of 1 standard year (365 standard days).&#60;br&#62;Good luck !</EN>
       <FR>En tant que joueur vous devrez obtenir le meilleur score de viabilité, pendant la phase de colonisation de la première colonie, en essayant de complèter les différents objectifs de colonisation. Les différents statut de ces objectifs sont décrits dans le deuxième message.&#60;br&#62;Le Colonization Phase elle-même a une durée de 1 année standard (365 jours standard).&#60;br&#62;Bonne chance !</FR>
-      <SP>Como jugador tendrá que tener la mejor puntuación de viabilidad, durante la fase de colonización de la primera colonia, al tratar de cumplir los objetivos de colonización diferentes. Las diferentes condiciones de los objetivos se describen en el segundo mensaje.&#60;br&#62;La fase de colonización tendrá una duración de 1 año terrestre (365 dias terrestres).&#60;br&#62;Buena Suerte !</SP>
+      <SP>Como jugador tendrá que tener la mejor puntuación de viabilidad, durante la fase de colonización de la primera colonia, al tratar de cumplir los objetivos de colonización diferentes. Las diferentes condiciones de los objetivos se describen en el segundo mensaje. &#60;br&#62; La fase de colonización tendrá una duración de 1 año terrestre (365 días terrestres). &#60;br&#62;Buena Suerte !</SP>
    </MSG_IntroCMend>
    <MSG_IntroCMmun>
       <EN>The future &#60;b&#62;Autonomous Remote Colony (ARC)&#60;/b&#62;, such an extension of the Unity, will have to stay sustainable on long term, and even if it can't become completely independent, the range of allowed actions is wide.</EN>
@@ -2063,7 +2063,7 @@
          <FCWMS_Grp_MCG_SetType3>
             <EN>Space-Based Settlement</EN>
             <FR>Communeauté Spatiale</FR>
-            <SP>Asentamiento Espacial Basico</SP>
+            <SP>Asentamiento Espacial Básico</SP>
          </FCWMS_Grp_MCG_SetType3>
          <!-- Mission Setup Window / Mission Configuration GroupBox / Mission Configuration Data -->
          <!-- Mission Configuration Data Header -->
@@ -2076,7 +2076,7 @@
          <MCGDatAccel>
             <EN>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Acceleration&#60;/b&#62;&#60;/font&#62;</EN>
             <FR>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Accelération&#60;/b&#62;&#60;/font&#62;</FR>
-            <SP>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Aceleración&#60;/b&#62;&#60;/font&#62;</SP>
+            <SP>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Acceleración&#60;/b&#62;&#60;/font&#62;</SP>
          </MCGDatAccel>
          <MCGatmEntDV>
             <EN>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Atmosphere Entry &#60;font face=&#34;symbol&#34;&#62;D&#60;/font&#62;V&#60;/b&#62;&#60;/font&#62;</EN>
@@ -2116,7 +2116,7 @@
          <MCGDatUsdRM>
             <EN>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Used Reaction Mass&#60;/b&#62;&#60;/font&#62;</EN>
             <FR>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Masse de Réaction Utilisée&#60;/b&#62;&#60;/font&#62;</FR>
-            <SP>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Masa de reaccion Usada&#60;/b&#62;&#60;/font&#62;</SP>
+            <SP>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Masa de reacción Usada&#60;/b&#62;&#60;/font&#62;</SP>
          </MCGDatUsdRM>
       <Mission.coloniz>
          <EN>Colonization</EN>
@@ -2143,7 +2143,7 @@
          <MSDGmotherSpUnIdStat>
             <EN>Mother-Vessel Id. And Status</EN>
             <FR>Id. et Status du Vaisseau-Mère</FR>
-            <SP>Id. y Estado de Buque Nodriza</SP>
+            <SP>Id. y Estado del Buque Nodriza</SP>
          </MSDGmotherSpUnIdStat>
          <!-- Mission Setup Window / Mission Data / Current DeltaV and Remaining RMass -->
          <MSDGcurDV>
@@ -2165,12 +2165,12 @@
          <MSDGcurDestNone>
             <EN>None (destination same as origin)</EN>
             <FR>Aucune (destination identique à l'origine)</FR>
-            <SP>Nada (destino idéntico al origen)</SP>
+            <SP>Nada (destino idéntico al origen) </SP>
          </MSDGcurDestNone>
          <MSDGcurRegDestNone>
             <EN>None (please select a region)</EN>
             <FR>Aucune (svp veuillez sélectionner une région)</FR>
-            <SP>Nada (por favor selecciona una región)</SP>
+            <SP>Nada (por favor seleccione una región)</SP>
          </MSDGcurRegDestNone>
          <MSDGdistAtm>
             <EN>Distance to Atmosphere Entry</EN>
@@ -2181,7 +2181,7 @@
          <MSDGdesIntC>
             <EN>Destination Intercept Course</EN>
             <FR>Route d'Interception de la Destination</FR>
-            <SP>Ruta de Interceptación de el Destino</SP>
+            <SP>Ruta de Interceptación del Destino</SP>
          </MSDGdesIntC>
          <MSDGdesIntCdist>
             <EN>&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Distance&#60;/b&#62;&#60;/font&#62;</EN>
@@ -2197,7 +2197,7 @@
    <FCWNGS_Frame>
     <EN>New Game Setup [Esc.: quit  Enter: proceed]</EN>
     <FR>Configuration de Nouvelle Partie [Esc.: quitter  Entrée: procéder]</FR>
-    <SP>Ajustes Nueva partida              [Esc.: salir    Intro: proceder]</SP>
+    <SP>Ajustes Nueva Partida              [Esc.: salir  Intro: proceder]</SP>
    </FCWNGS_Frame>
       <FCWNGS_Frm_ColMode>
          <EN>Colonization Mode</EN>
@@ -2227,7 +2227,7 @@
       <FCWNGS_Frm_GNameEditEditLabel>
          <EN>Enter a Game Name (5 characters min.)</EN>
          <FR>Entrez un Nom de Partie (5 caractères min)</FR>
-         <SP>            Ingresa un nombre de partida   (5 caracteres mínimo)</SP>
+         <SP>            Ingresa un nombre de partida (5 caracteres mínimo)</SP>
       </FCWNGS_Frm_GNameEditEditLabel>
    <!-- ********** ORBITAL OBJECTS TYPES ********** -->
    <oobtpAster_Carbo>
@@ -2253,22 +2253,22 @@
    <oobtpAsterBelt_Carbo>
       <EN>Asteroids Belt (Carbonaceous)</EN>
       <FR>Ceinture d'Astéroïdes (Carbonifères)</FR>
-      <SP>Cinturón de Asteroides (Carboníferos)</SP>
+      <SP>Cinturón de Asteroides (Carboníferos) </SP>
    </oobtpAsterBelt_Carbo>
    <oobtpAsterBelt_Icy>
       <EN>Asteroids Belt (Icy)</EN>
       <FR>Ceinture d'Astéroïdes (Glaciaires)</FR>
-      <SP>Cinturón de Asteroides (Glaciares)</SP>
+      <SP>Cinturón de Asteroides (Glaciares) </SP>
    </oobtpAsterBelt_Icy>
    <oobtpAsterBelt_Metall>
       <EN>Asteroids Belt (Métallics)</EN>
       <FR>Ceinture d'Astéroïdes (Métalliques)</FR>
-      <SP>Cinturón de Asteroides (Metálicos)</SP>
+      <SP>Cinturón de Asteroides (Metálicos) </SP>
    </oobtpAsterBelt_Metall>
    <oobtpAsterBelt_Sili>
       <EN>Asteroids Belt (Silicates)</EN>
       <FR>Ceinture d'Astéroïdes (Silicates)</FR>
-      <SP>Cinturón de Asteroides (Silicio)</SP>
+      <SP>Cinturón de Asteroides (Silicio) </SP>
    </oobtpAsterBelt_Sili>
    <oobtpPlan_Gas>
       <EN>Gaseous Planet</EN>
@@ -2415,62 +2415,62 @@
    <equipHumidityTrap1>
       <EN>Humidity Trap [level 1]</EN>
       <FR>Piège à Humidité [niveau 1]</FR>
-      <SP>Colector de Humedad [nivel 1]</SP>
+      <SP>Colector de Humedad [nivel 1] </SP>
    </equipHumidityTrap1>
    <equipHumidityTrap2>
       <EN>Humidity Trap [level 2]</EN>
       <FR>Piège à Humidité [niveau 2]</FR>
-      <SP>Colector de Humedad [nivel 2]</SP>
+      <SP>Colector de Humedad [nivel 2] </SP>
    </equipHumidityTrap2>
    <equipHumidityTrap3>
       <EN>Humidity Trap [level 3]</EN>
       <FR>Piège à Humidité [niveau 3]</FR>
-      <SP>Colector de Humedad [nivel 3]</SP>
+      <SP>Colector de Humedad [nivel 3] </SP>
    </equipHumidityTrap3>
    <equipHumidityTrap4>
       <EN>Humidity Trap [level 4]</EN>
       <FR>Piège à Humidité [niveau 4]</FR>
-      <SP>Colector de Humedad [nivel 4]</SP>
+      <SP>Colector de Humedad [nivel 4] </SP>
    </equipHumidityTrap4>
    <equipHumidityTrap5>
       <EN>Humidity Trap [level 5]</EN>
       <FR>Piège à Humidité [niveau 5]</FR>
-      <SP>Colector de Humedad [nivel 5]</SP>
+      <SP>Colector de Humedad [nivel 5] </SP>
    </equipHumidityTrap5>
    <equipInflatGreen1>
       <EN>Inflatable Greenhouse [level 1]</EN>
       <FR>Serre Gonflable [niveau 1]</FR>
-      <SP>Inflables de Efecto Invernadero [nivel 1]</SP>
+      <SP>Inflables de Efecto Invernadero [nivel 1] </SP>
    </equipInflatGreen1>
    <equipInflatGreen2>
       <EN>Inflatable Greenhouse [level 2]</EN>
       <FR>Serre Gonflable [niveau 2]</FR>
-      <SP>Inflables de Efecto Invernadero [nivel 2]</SP>
+      <SP>Inflables de Efecto Invernadero [nivel 2] </SP>
    </equipInflatGreen2>
    <equipInflatGreen3>
       <EN>Inflatable Greenhouse [level 3]</EN>
       <FR>Serre Gonflable [niveau 3]</FR>
-      <SP>Inflables de Efecto Invernadero [nivel 3]</SP>
+      <SP>Inflables de Efecto Invernadero [nivel 3] </SP>
    </equipInflatGreen3>
    <equipInflatHab1>
       <EN>Inflatable Habitat [level 1]</EN>
       <FR>Inflatable Habitat [niveau 1]</FR>
-      <SP>Habitat Inflable [nivel 1]</SP>
+      <SP>Habitat Inflable [nivel 1] </SP>
    </equipInflatHab1>
    <equipInflatHab2>
       <EN>Inflatable Habitat [level 2]</EN>
       <FR>Inflatable Habitat [niveau 2]</FR>
-      <SP>Habitat Inflable [nivel 2]</SP>
+      <SP>Habitat Inflable [nivel 2 ]</SP>
    </equipInflatHab2>
    <equipInflatHab3>
       <EN>Inflatable Habitat [level 3]</EN>
       <FR>Inflatable Habitat [niveau 3]</FR>
-      <SP>Habitat Inflable [nivel 3]</SP>
+      <SP>Habitat Inflable [nivel 3] </SP>
    </equipInflatHab3>
    <equipInflatHab4>
       <EN>Inflatable Habitat [level 4]</EN>
       <FR>Inflatable Habitat [niveau 4]</FR>
-      <SP>Habitat Inflable [nivel 4]</SP>
+      <SP>Habitat Inflable [nivel 4] </SP>
    </equipInflatHab4>
    <equipMiningMachinery>
       <EN>Mining Machinery</EN>
@@ -2480,27 +2480,27 @@
    <equipMultiDepot1>
       <EN>Multipurpose Depot [level 1]</EN>
       <FR>Entrepôt Multifonction [niveau 1]</FR>
-      <SP>Almacén multipropósito [nivel 1]</SP>
+      <SP>Almacén multipropósito [nivel 1] </SP>
    </equipMultiDepot1>
    <equipMultiDepot2>
       <EN>Multipurpose Depot [level 2]</EN>
       <FR>Entrepôt Multifonction [niveau 2]</FR>
-      <SP>Almacén multipropósito [nivel 2]</SP>
+      <SP>Almacén multipropósito [nivel 2] </SP>
    </equipMultiDepot2>
    <equipMultiDepot3>
       <EN>Multipurpose Depot [level 3]</EN>
       <FR>Entrepôt Multifonction [niveau 3]</FR>
-      <SP>Almacén multipropósito [nivel 3]</SP>
+      <SP>Almacén multipropósito [nivel 3] </SP>
    </equipMultiDepot3>
    <equipMultiDepot4>
       <EN>Multipurpose Depot [level 4]</EN>
       <FR>Entrepôt Multifonction [niveau 4]</FR>
-      <SP>Almacen multiproposito [nivel 4]</SP>
+      <SP>Almacen multipropósito [nivel 4] </SP>
    </equipMultiDepot4>
    <equipMultiDepot5>
       <EN>Multipurpose Depot [level 5]</EN>
       <FR>Entrepôt Multifonction [niveau 5]</FR>
-      <SP>Almacen multiproposito [nivel 5]</SP>
+      <SP>Almacen multipropósito [nivel 5] </SP>
    </equipMultiDepot5>
    <equipPowerTools>
       <EN>Power Tools</EN>
@@ -2510,37 +2510,37 @@
    <equipPressTanksArr1>
       <EN>Pressurized Tanks Array [level 1</EN>
       <FR>Grille de Réservoirs Préssurisés [niveau 1]</FR>
-      <SP>Matriz de Tanques Presurizados [nivel 1]</SP>
+      <SP>Matriz de Tanques Presurizados [nivel 1] </SP>
    </equipPressTanksArr1>
    <equipPressTanksArr2>
       <EN>Pressurized Tanks Array [level 2</EN>
       <FR>Grille de Réservoirs Préssurisés [niveau 2]</FR>
-      <SP>Matriz de Tanques Presurizados [nivel 2]</SP>
+      <SP>Matriz de Tanques Presurizados [nivel 2] </SP>
    </equipPressTanksArr2>
    <equipPressTanksArr3>
       <EN>Pressurized Tanks Array [level 3</EN>
       <FR>Grille de Réservoirs Préssurisés [niveau 3]</FR>
-      <SP>Matriz de Tanques Presurizados [nivel 3]</SP>
+      <SP>Matriz de Tanques Presurizados [nivel 3] </SP>
    </equipPressTanksArr3>
    <equipPressTanksArr4>
       <EN>Pressurized Tanks Array [level 4</EN>
       <FR>Grille de Réservoirs Préssurisés [niveau 4]</FR>
-      <SP>Matriz de Tanques Presurizados [nivel 4]</SP>
+      <SP>Matriz de Tanques Presurizados [nivel 4] </SP>
    </equipPressTanksArr4>
    <equipPressTanksArr5>
       <EN>Pressurized Tanks Array [level 5</EN>
       <FR>Grille de Réservoirs Préssurisés [niveau 5]</FR>
-      <SP>Matriz de Tanques Presurizados [nivel 5]</SP>
+      <SP>Matriz de Tanques Presurizados [nivel 5] </SP>
    </equipPressTanksArr5>
    <equipPressTanksArr6>
       <EN>Pressurized Tanks Array [level 6</EN>
       <FR>Grille de Réservoirs Préssurisés [niveau 6]</FR>
-      <SP>Matriz de Tanques Presurizados [nivel 6]</SP>
+      <SP>Matriz de Tanques Presurizados [nivel 6] </SP>
    </equipPressTanksArr6>
    <equipPressTanksArr7>
       <EN>Pressurized Tanks Array [level 7</EN>
       <FR>Grille de Réservoirs Préssurisés [niveau 7]</FR>
-      <SP>Matriz de Tanques Presurizados [nivel 7]</SP>
+      <SP>Matriz de Tanques Presurizados [nivel 7] </SP>
    </equipPressTanksArr7>
    <matAluminium>
       <EN>Aluminium</EN>
@@ -3340,7 +3340,7 @@
    <climtpColdAr>
       <EN>Cold Arid</EN>
       <FR>Aride Froid</FR>
-      <SP>Arido Frío</SP>
+      <SP>Árido Frío</SP>
    </climtpColdAr>
    <climtpExtr>
       <EN>Extreme</EN>
@@ -3350,7 +3350,7 @@
    <climtpHotAr>
       <EN>Hot Arid</EN>
       <FR>Aride Chaud</FR>
-      <SP>Arido Caliente</SP>
+      <SP>Árido Caliente</SP>
    </climtpHotAr>
    <climtpHotSAr>
       <EN>Hot Semi-Arid</EN>
@@ -3440,7 +3440,7 @@
    <secpAtm>
       <EN>&#60;b&#62;Atmosphere&#60;/b&#62;</EN>
       <FR>&#60;b&#62;Atmosphère&#60;/b&#62;</FR>
-      <SP>&#60;b&#62;Atmósfera&#60;/b&#62;</SP>
+      <SP>&#60;b&#62;Atmosfera&#60;/b&#62;</SP>
    </secpAtm>
    <secpClCov>
       <EN>Clouds Cover&#60;/u&#62;&#60;/ul&#62;</EN>
@@ -3520,7 +3520,7 @@
    <secpCov>
       <EN> (Covers an Area of </EN>
       <FR> (Couvre une Zone de </FR>
-      <SP>(Cubre una Zona de </SP>
+      <SP> (Cubre una Zona de </SP>
    </secpCov>
    <secpPress>
       <EN>&#60;ul&#62;&#60;li&#62;&#60;u&#62;Pressure</EN>
@@ -3741,7 +3741,7 @@
    <tsciNucFission>
       <EN>Nuclear Fission</EN>
       <FR>Fission Nucléaire</FR>
-      <SP>Fisión Nueclear</SP>
+      <SP>Fisión Nuclear</SP>
    </tsciNucFission>
    <!-- ********** TIME FRAME ********** -->
    <TimeF1st>
@@ -3873,7 +3873,7 @@
    <FCWM_UMI_TabShFac>
       <EN>Faction {Government [F3]-SPM [F4]-Policies [F5]}</EN>
       <FR>Faction {Gouvernement [F3]-SPM [F4]-Politiques [F5]}</FR>
-      <SP>Facción {Gobierno [F3]-SPM [SPM]-Políticas [F5]}</SP>
+      <SP>Facción {Gobierno [F3]-SPM [SPM]-Políticas [F5]} </SP>
    </FCWM_UMI_TabShFac>
    <FCWM_UMI_TabShProd>
       <EN>Production [F7]</EN>
@@ -3883,7 +3883,7 @@
    <FCWM_UMI_TabShRDS>
       <EN>Research and Development [F8]</EN>
       <FR>Recherche et Dévelopement [F8]</FR>
-      <SP>Investigación y Desarrollo [F8]</SP>
+      <SP>Investigación y Desarrollo [F8] </SP>
    </FCWM_UMI_TabShRDS>
    <FCWM_UMI_TabShSpU>
       <EN>Space Units [F6]</EN>
@@ -3923,7 +3923,7 @@
    <FCWM_UMIFac_TabShSPM>
       <EN>Socio-Political Matrix (SPM) Setting [F4]</EN>
       <FR>Disposition de la Matrice Socio-Politique (SPM) [F4]</FR>
-      <SP>Disposición de la Matriz Socio_Política (SPM) [F4]</SP>
+      <SP>Disposición de la Matriz Socio-Política (SPM) [F4]</SP>
    </FCWM_UMIFac_TabShSPM>
    <FCWM_UMIFac_TabShSPMpol>
       <EN>Policies Enforcement [F5]</EN>
@@ -3963,17 +3963,17 @@
    <UMIenfEnforcedCAcc>
       <EN>of this one by the population.&lt;br&gt;You can now enforce it or retire it without penalties:&lt;br&gt;If you enforce it, the policy duration will be of </EN>
       <FR>de celle-ci par la population.&lt;br&gt;Vous pouvez maintenant la mettre en vigueur ou la retirer sans pénalités.&lt;br&gt;Si vous la mettez en vigueur, la durée de la politique sera de </FR>
-      <SP>de éste por la población.&lt;br&gt;Ahora se puede hacer cumplir o retirarlo sin sanciones:&lt;br&gt;Sin ponerla en práctica, la duración de la política será de </SP>
+      <SP>de éste por la población. &lt;br&gt;Ahora se puede hacer cumplir o retirarlo sin sanciones:&lt;br&gt;Sin ponerla en práctica, la duración de la política será de </SP>
    </UMIenfEnforcedCAcc>
    <UMIenfEnforcedCAcc1>
       <EN>month(s) before that's evaluated again.&lt;br&gt;If you retire it, you can enforce it again at any time.</EN>
       <FR>mois avant qu'elle soit à nouveau évaluée.&lt;br&gt;Si vous la retirez, vous pouvez l'appliquer encore à n'importe quel moment.</FR>
-      <SP>mes(es) antes de que se evalúe de nuevo.&lt;br&gt;Si lo retira, se puede aplicar en cualquier momento.</SP>
+      <SP>mes(es) antes de que se evalúe de nuevo. &lt;br&gt;Si lo retira, se puede aplicar en cualquier momento.</SP>
    </UMIenfEnforcedCAcc1>
    <UMIenfEnforcedFift>
       <EN>of this one by the population.&lt;br&gt;You can now enforce it, with a cohesion penalty, or retire it:&lt;br&gt;If you enforce it, the policy duration will be of </EN>
       <FR>de celle-ci par la population.&lt;br&gt;Vous pouvez maintenant la mettre en vigueur, avec une pénalité de cohésion, ou la retirer:&lt;br&gt;Si vous la mettez en vigueur, la durée de la politique sera de </FR>
-      <SP>de éste por la población.&lt;br&gt;Ahora se puede hacer cumplir, con una pena de cohesión, o puede retirarla:&lt;br&gt;Si la pone en práctica, la duración de la política será de </SP>
+      <SP>de éste por la población. &lt;br&gt;Ahora se puede hacer cumplir, con una pena de cohesión, o puede retirarla:&lt;br&gt;Si la pone en práctica, la duración de la política será de </SP>
    </UMIenfEnforcedFift>
    <UMIenfEnforcedFift1>
       <EN>month(s) before that's evaluated again, and a direct Cohesion modifier of </EN>
@@ -3983,12 +3983,12 @@
    <UMIenfEnforcedFift2>
       <EN>will be applied on all you colonies.&lt;br&gt;If you retire it, you can enforce it again after a &lt;b&gt;3&lt;/b&gt; months delay.</EN>
       <FR>sera appliqué pour sur toutes vos colonies.&lt;br&gt;Si vous la retirez, vous pouvez encore l'appliquer après &lt;b&gt;3&lt;/b&gt; mois de délai.</FR>
-      <SP>se aplicara en todas tus colonias.&lt;br&gt;Si lo retiras, se puede aplicar de nuevo después de &lt;b&gt;3&lt;/b&gt; meses de espera.</SP>
+      <SP>se aplicara en todas tus colonias. &lt;br&gt;Si lo retira, se puede aplicar de nuevo después de &lt;b&gt;3&lt;/b&gt; meses de espera.</SP>
    </UMIenfEnforcedFift2>
    <UMIenfEnforcedMReject>
       <EN>of this one by the population.&lt;br&gt;You can now enforce it or retire it, with a cohesion penalty.:&lt;br&gt;If you enforce it, the policy duration will be of </EN>
       <FR>de celle-ci par la population.&lt;br&gt;Vous pouvez maintenant la mettre en vigueur ou la retirer, avec une pénalité de cohésion:&lt;br&gt;Si vous la mettez en vigueur, la durée de la politique sera de </FR>
-      <SP>de éste por la población.&lt;br&gt;Ahora se puede hacer cumplir o retirarla, con una pena de cohesión.:&lt;br&gt;Si la pone en práctica, la duración de la política será de </SP>
+      <SP>de éste por la población. &lt;br&gt;Ahora se puede hacer cumplir o retirarla, con una pena de cohesión.:&lt;br&gt;Si la pone en práctica, la duración de la política será de </SP>
    </UMIenfEnforcedMReject>
    <UMIenfEnforcedMReject1>
       <EN>month(s) before that's evaluated again, and a direct Cohesion modifier of </EN>
@@ -3998,17 +3998,17 @@
    <UMIenfEnforcedMReject2>
       <EN>will be applied on all you colonies. A Cohesion test will be also processed.&lt;br&gt;If you retire it, you can enforce it again after a &lt;b&gt;6&lt;/b&gt; months delay and a direct Cohesion modifier of </EN>
       <FR>sera appliqué pour sur toutes vos colonies. Un test de Cohésion sera aussi effectué.&lt;br&gt;Si vous la retirez, vous pouvez encore l'appliquer après &lt;b&gt;12&lt;/b&gt; mois de délai et un modificateur de Cohésion de </FR>
-      <SP>será aplicado en todas tus colonias. Una prueba de cohesión también será procesada.&lt;br&gt;Si la retiras, se puede aplicar de nuevo después de &lt;b&gt;6&lt;/b&gt; meses de espera y un modificador directo de cohesión </SP>
+      <SP>será aplicado en todas tus colonias. Una prueba de cohesión también será procesada. &lt;br&gt;Si la retira, se puede aplicar de nuevo después de &lt;b&gt;6&lt;/b&gt; meses de espera y un modificador directo de cohesión </SP>
    </UMIenfEnforcedMReject2>
    <UMIenfEnforcedMReject3>
       <EN>will be applied on all you colonies. A Cohesion test will be also processed.</EN>
       <FR>sera appliqué sur toutes vos colonies. Un test de Cohésion sera aussi effectué.</FR>
-      <SP>será aplicado en todas tus colonias. Una prueba de cohesión será también procesada.</SP>
+      <SP>será aplicado en todas tus colonias. Una prueba de cohesión será también procesada. </SP>
    </UMIenfEnforcedMReject3>
    <UMIenfEnforcedReject>
       <EN>of this one by the population.&lt;br&gt;You can now enforce it or retire it, with a cohesion penalty.:&lt;br&gt;If you enforce it, the policy duration will be of </EN>
       <FR>de celle-ci par la population.&lt;br&gt;Vous pouvez maintenant la mettre en vigueur ou la retirer, avec une pénalité de cohésion:&lt;br&gt;Si vous la mettez en vigueur, la durée de la politique sera de </FR>
-      <SP>de éste por la población.&lt;br&gt;Ahora se puede hacer cumplir o retirarla, con una pena de cohesión.:&lt;br&gt;Si la pone en práctica, la duración de la política será de </SP>
+      <SP>de éste por la población. &lt;br&gt;Ahora se puede hacer cumplir o retirarla, con una pena de cohesión.:&lt;br&gt;Si la pone en práctica, la duración de la política será de </SP>
    </UMIenfEnforcedReject>
    <UMIenfEnforcedReject1>
       <EN>month(s) before that's evaluated again, and a direct Cohesion modifier of </EN>
@@ -4018,17 +4018,17 @@
    <UMIenfEnforcedReject2>
       <EN>will be applied on all you colonies. A Cohesion test will be also processed.&lt;br&gt;If you retire it, you can enforce it again after a &lt;b&gt;6&lt;/b&gt; months delay and a direct Cohesion modifier of </EN>
       <FR>sera appliqué pour sur toutes vos colonies. Un test de Cohésion sera aussi effectué.&lt;br&gt;Si vous la retirez, vous pouvez encore l'appliquer après &lt;b&gt;6&lt;/b&gt; mois de délai et un modificateur de Cohésion de </FR>
-      <SP>será aplicado en todas tus colonias. una prueba de cohesón será también procesada.&lt;br&gt;Si la retiras, se puede aplicar de nuevo después de &lt;b&gt;6&lt;/b&gt; meses de espera y un modificador directo de cohesión  </SP>
+      <SP>será aplicado en todas tus colonias. Una prueba de cohesón será también procesada. &lt;br&gt;Si la retira, se puede aplicar de nuevo después de &lt;b&gt;6&lt;/b&gt; meses de espera y un modificador directo de cohesión  </SP>
    </UMIenfEnforcedReject2>
    <UMIenfEnforcedReject3>
       <EN>will be applied on all you colonies.</EN>
       <FR>sera appliqué sur toutes vos colonies.</FR>
-      <SP>Será aplicado en todas tus colonias.</SP>
+      <SP>Será aplicado en todas tus colonias. </SP>
    </UMIenfEnforcedReject3>
    <UMIenfNReq>
       <EN>A prerequisite of this policy isn't fulfilled.&lt;br&gt;It's impossible for this moment to enforce it.</EN>
       <FR>Un prérequis de cette politique n'est pas rempli.&lt;br&gt;C'est impossible pour le moment de la mettre en vigueur.</FR>
-      <SP>Uno de los prerequisitos de esta política no se cumple.&lt;br&gt;Es imposible que entre en vigor en este momento.</SP>
+      <SP>Uno de los prerequisitos de esta política no se cumple. &lt;br&gt;Es imposible que entre en vigor en este momento. </SP>
    </UMIenfNReq>
    <UMIenfYReq1>
       <EN>You can now enforce the policy. According to statistics, the policy enforcement will gives </EN>
@@ -4038,12 +4038,12 @@
    <UMIenfYReq2>
       <EN>, from the population, with a probability of &lt;b&gt;50%&lt;/b&gt;.&lt;br&gt;By knowing this, it's up to you to enforce it or not.</EN>
       <FR>, de la part de la population, avec une probabilité de &lt;b&gt;50%&lt;/b&gt;.&lt;br&gt;En sachant cela, c'est à vous de voir si vous l'appliquez ou non.</FR>
-      <SP>, de la población, con una probabilidad de &lt;b&gt;50%&lt;/b&gt;.&lt;br&gt;Sabiendo ésto, debes decidir si se aplica o no.</SP>
+      <SP>, de la población, con una probabilidad de &lt;b&gt;50%&lt;/b&gt;.&lt;br&gt;Sabiendo ésto, debes decidir si se aplica o no. </SP>
    </UMIenfYReq2>
    <UMIenfNReq3>
       <EN>Due to your faction's status, the policy's prerequisite is assumed by your allegiance faction.</EN>
       <FR>Au vu du status de votre faction, le prérequis de la politique est assumé par votre faction d'allégeance.</FR>
-      <SP>En vista de la situación de su facción, los requisitos previos a la politica es asumida por la lealtad de su facción.</SP>
+      <SP>Debido a la situación de su facción, el requisito previo de la política es asumida por la lealtad de su facción. </SP>
    </UMIenfNReq3>
    <UMIenfRsltComplAcc>
       <EN>&lt;b&gt;a complete acceptance&lt;/b&gt;</EN>
@@ -4058,7 +4058,7 @@
    <UMIenfRsltMitig>
       <EN>&lt;b&gt;a mitigated acceptance&lt;/b&gt;</EN>
       <FR>&lt;b&gt;une acceptation mitigée&lt;/b&gt;</FR>
-      <SP>&lt;b&gt;una aceptación aceptable&lt;/b&gt;</SP>
+      <SP>&lt;b&gt;una aceptación considerable&lt;/b&gt;</SP>
    </UMIenfRsltMitig>
    <UMIenfRsltReject>
       <EN>&lt;b&gt;a reject&lt;/b&gt;</EN>
@@ -4068,7 +4068,7 @@
    <UMIenfUnique>
       <EN>This policy is unique and replace the </EN>
       <FR>Cette politique remplace le </FR>
-      <SP>Esta Política reemplaza la </SP>
+      <SP>Esta Política Reemplaza el </SP>
    </UMIenfUnique>
    <UMIgvtEcoSys>
       <EN>Economic System</EN>
@@ -4103,17 +4103,17 @@
    <UMIhqNoMsg>
       <EN>Your faction doesn't have any headquarter to enforce policies.&lt;br&gt;Set a colony or build an infrastructure that have this effect.&lt;br&gt;Please refer to the infrastructure's custom effects section located in the encyclopaedia.</EN>
       <FR>Votre faction n'a pas de quartier général pour appliquer des politiques.&lt;br&gt;Mettez en place une colony ou construisez une infrastructure qui possède cet effet.&lt;br&gt;SVP réfèrez-vous à la section effets custom d'infrastructure située dans l'encyclopédie.</FR>
-      <SP>Su facción no posee un cuartel general para aplicar las políticas.&lt;br&gt;Establezca una colonia o construya las infraestructuras necesarias para este efecto.&lt;br&gt;Por favor vaya a la sección personalizada de la infraestructura situada en la enciplopedia.</SP>
+      <SP>Tu facción no tiene ningún cuartel general para aplicar las políticas. &lt;br&gt;Selecciona otra colonia o construye un Cuartel General Primario.</SP>
    </UMIhqNoMsg>
    <UMIhqNoMsg1>
       <EN>Your faction has only a &lt;b&gt;basic headquarter&lt;/b&gt; so you cannot enforce any policy.&lt;br&gt;You need to build a &lt;b&gt;secondary headquarter&lt;/b&gt; to be able to enforce any policy, or a &lt;b&gt;primary headquarter&lt;/b&gt; to be able to enforce any policy and also to change of political, economical, healthcare and spiritual system.&lt;br&gt;Please refer to the infrastructure's custom effects section located in the encyclopaedia.</EN>
       <FR>Votre faction ne dispose que d'un &lt;b&gt;quartier général de base&lt;/b&gt; de sorte que vous ne pouvez pas appliquer une politique.&lt;br&gt;Vous devez construire un &lt;b&gt;quartier général secondaire&lt;/b&gt; pour être en mesure d'appliquer une politique ou d'un &lt;b&gt;quartier général principal&lt;/b&gt; pour être en mesure d'appliquer une politique et aussi de changer de système politique, économique, de santé et spirituel.&lt;br&gt;SVP réfèrez-vous à la section effets custom d'infrastructure située dans l'encyclopédie.</FR>
-      <SP>Su facción solo posee un &lt;b&gt;cuartel general bsico&lt;/b&gt; ´por lo que no puede hacer cumplir ninguna política.&lt;br&gt;Necesita construir un &lt;b&gt;cuartel general secundario&lt;/b&gt; para poder aplicar cualquier politica, o un &lt;b&gt;cuartel general principal&lt;/b&gt; para ser capaz de hacer cumplir cualquier política y tambien para poder cambiar de sistema político, económico, sanitario o espiritual.&lt;br&gt;Por favor acuda a la sección personalizada de los efectos de la infraestructura localizada en la enciclopedia.</SP>
+      <SP>Su facción solo tiene un &lt;b&gt; cuartel general básico &lt;/b&gt; por lo que no puede hacer cumplir ninguna política. &lt;br&gt; Necesita construir un &lt;b&gt; cuartel general secundario &lt;/b&gt; para poder aplicar cualquier política, o un &lt;b&gt; cuartel general primario &lt;/b&gt; para ser capaz de poder hacer cumplir cualquier cambio de sistema político, económico, salud o espiritual. &lt;br&gt; Por favor vaya a la sección personalizada de la infraestructura efectos situada en la encyclopaedia.</SP>
    </UMIhqNoMsg1>
    <UMIhqNoMsg2>
       <EN>Your faction hasn't a &lt;b&gt;primary headquarter&lt;/b&gt; so you cannot change of political, economical, healthcare and spiritual system.</EN>
       <FR>Votre faction na pas de &lt;b&gt;quartier général principal&lt;/b&gt; pour être en mesure de changer de système politique, économique, de santé et spirituel.</FR>
-      <SP>Su facción no tiene un &lt;b&gt;cuartel general principal&lt;/b&gt; por lo que no puede cambiar de sistema político, econímico, sanitario o espiritual.</SP>
+      <SP>Su facción no dispone de un &lt;b&gt;cuartel general&lt;/b&gt; por lo que no puede cambiar de sistema político, económico, salud o espiritual.</SP>
    </UMIhqNoMsg2>
    <UMIhqPrim>
       <EN>Primary/Unique HQ</EN>
@@ -4208,7 +4208,7 @@
    <UMIpolenfRuleNoEnf2>
       <EN> Status level to enforce this kind of policies.&lt;br&gt;The current </EN>
       <FR> pour appliquer cette sorte de politiques.&lt;br&gt;Le niveau actuel de Status </FR>
-      <SP> para aplicar este tipo de políticas.&lt;br&gt;El nivel actual de Estatus </SP>
+      <SP> para aplicar las políticas. &lt;br&gt; El nivel actual de Estatus </SP>
    </UMIpolenfRuleNoEnf2>
    <UMIpolenfRuleNoEnf3>
       <EN> Status level is </EN>
@@ -4223,17 +4223,17 @@
    <UMIpolenfRuleNoEnf5>
       <EN>Since you're in the &lt;a href="cpsRoot"&gt;Colonization Phase&lt;/a&gt; of the game, try to get the better &lt;a href="cpsCVS"&gt;Colonization Viability Score(CVS)&lt;/a&gt; to reach the best status levels at the end of the phase, if the colonization mode you have choosen allows an enough social level.</EN>
       <FR>Depuis que vous êtes dans la &lt;a href="cpsRoot"&gt;Phase de Colonisation&lt;/a&gt; du jeu, essayez d'obtenir le meilleur &lt;a href="cpsCVS"&gt;Score de Viabilité de Colonisation (CVS)&lt;/a&gt; pour atteindre les meilleurs niveaux de statut à la fin de la phase, si le mode de colonisation vous avez choisi permet un niveau social suffisant.</FR>
-      <SP>Puesto que tu estás en la &lt;a href="cpsRoot"&gt;Fase de Colonización&lt;/a&gt; del juego, trata de conseguir la mejor &lt;a href="cpsCVS"&gt;Puntuación de Viabilidad de Colonización(CVS)&lt;/a&gt; para alcanzar los mejores niveles de estado al final de la fase, si el modo de colonización que has escogido permite un nivel social diferente.</SP>
+      <SP>Puesto que tú estás en la &lt;a href="cpsRoot"&gt; Fase de Colonización &lt;/a&gt; del juego, trata de conseguir la mejor &lt;a href="cpsCVS"&gt; Puntuación de Viabilidad de Colonización(CVS) &lt;/a&gt; para alcanzar los mejores niveles de estado al final de la fase, si el modo de colonización que has escogido permite un nivel social diferente.</SP>
    </UMIpolenfRuleNoEnf5>
    <UMIpolenfRuleNoEnf6>
       <EN>Since the &lt;a href="cpsRoot"&gt;Colonization Phase&lt;/a&gt; is finished, you can't enforce policies for the rest of your current game.&lt;br&gt;If you want to be allowed to enforce policies, try a new game.</EN>
       <FR>Depuis que la &lt;a href="cpsRoot"&gt;Phase de Colonisation&lt;/a&gt; est finie, vous ne pouvez appliquer des politiques pour le reste de votre partie actuelle.&lt;br&gt;Si vous voulez avoir la permission d'en appliquer, commencez une nouvelle partie.</FR>
-      <SP>Desde la &lt;a href="cpsRoot"&gt;Fase de Colonización&lt;/a&gt; ha terminado, no se puede hacer cumplir las políticas para el resto del juego actual.&lt;br&gt;Si desea que se le permita hacer cumplir esas políticas, comienza una nueva partida.</SP>
+      <SP>Desde la &lt;a href="cpsRoot"&gt; Fase de Colonización &lt;/a&gt; ha terminado, no se puede hacer cumplir las políticas para el resto del juego actual. &lt;br&gt; Si desea que se le permita hacer cumplir esas políticas, comienza una nueva partida. </SP>
    </UMIpolenfRuleNoEnf6>
    <UMIpolenfRuleNoUnique>
       <EN>Due to your faction's status level you can't change of governmental, economical, healthcare and spiritual system.&lt;br&gt;Try to get the better &lt;a href="cpsCVS"&gt;Colonization Viability Score(CVS)&lt;/a&gt; to reach the best status levels at the end of the phase.</EN>
       <FR>Vu votre niveau de statut de faction vous ne pouvez changer de système gouvernemental, economique, de santé et spirituel.&lt;br&gt;Essayez d'avoir le meilleur &lt;a href="cpsCVS"&gt;Score de Viabilité de Colonisation(CVS)&lt;/a&gt; pour atteindre les meilleurs niveaux de statut à la fin de la phase.</FR>
-      <SP>Debido al nivel de estado de tu facción no puede cambiar de gobierno, modo económico, cuidados médicos y sistema espiritual.&lt;br&gt;Trate de obtener la mejor &lt;a href="cpsCVS"&gt;Puntuación de Viabilidad de Colonización(CVS)&lt;/a&gt; para alcanzar los mejores niveles de estado en la final de la fase.</SP>
+      <SP>Debido al nivel de estado de tu facción no puede cambiar de gobierno, modo económico, cuidados médicos y sistema espiritual. &lt;br&gt; Trate de obtener la mejor &lt;a href="cpsCVS"&gt; Puntuación de Viabilidad de Colonización (CVS) &lt;/a&gt; para alcanzar los mejores niveles de estado en la final de la fase. </SP>
    </UMIpolenfRuleNoUnique>
    <UMIpolicy>
       <EN>Policy</EN>
