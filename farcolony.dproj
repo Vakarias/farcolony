@@ -138,6 +138,7 @@
 			<DCCReference Include="ui\farc_ui_missionsetup.pas"/>
 			<DCCReference Include="game\farc_game_tasksystem.pas"/>
 			<DCCReference Include="ogl\farc_ogl_functions.pas"/>
+			<DCCReference Include="ui\farc_ui_actionpanel.pas"/>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>

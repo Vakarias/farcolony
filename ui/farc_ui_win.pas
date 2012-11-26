@@ -448,7 +448,7 @@ begin
       if FCDdgEntities[0].E_spaceUnits[FPUdmpIdx].SU_locationSatellite<>''
       then FPUspUsat:=FCFuF_StelObj_GetDbIdx(
          ufsoSat
-         ,FCDdgEntities[0].E_spaceUnits[FPUdmpIdx].SU_locationSatellite
+         ,FCDdgEntities[0].E_spaceUnits[FPUdmpIdx].SU_locationSatellite                                                                                  f
          ,FPUspUssys
          ,FPUspUstar
          ,FPUspUoobj
