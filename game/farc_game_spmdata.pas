@@ -221,7 +221,7 @@ begin
             while GDGcnt<=GDGmax do
             begin
                GDGtens:=StrToInt(FCFgCSM_Tension_GetIdx(GDGfacIdx, GDGcnt, true));
-               GDGsec:=StrToInt(FCFgCSM_Security_GetIdxStr(GDGfacIdx, GDGcnt, true));
+               GDGsec:=FCFgCSM_Security_GetIndex(GDGfacIdx, GDGcnt);
                GDGdmpRes:=GDGdmpRes+(GDGsec-GDGtens);
                inc(GDGcnt);
             end;

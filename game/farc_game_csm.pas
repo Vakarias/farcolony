@@ -248,6 +248,16 @@ procedure FCMgCSM_Pop_Xfert(
    );
 
 ///<summary>
+///   get the security index
+///</summary>
+///   <param name="SGISfac">faction index #</param>
+///   <param name="SGIScol">colony index #</param>
+function FCFgCSM_Security_GetIndex(
+   const SGISfac
+         ,SGIScol: integer
+   ): integer;
+
+///<summary>
 ///   get the security index string
 ///</summary>
 ///   <param name="SGISfac">faction index #</param>
@@ -1918,6 +1928,26 @@ begin
    end;
 end;
 
+function FCFgCSM_Security_GetIndex(
+   const SGISfac
+         ,SGIScol: integer
+   ): integer;
+{:Purpose: get the security index.
+    Additions:
+}
+   var
+      ResultString: string;
+begin
+   Result:=0;
+   ResultString:='';
+   ResultString:=FCFgCSM_Security_GetIdxStr(
+      SGISfac
+      ,SGIScol
+      ,true
+      );
+   Result:=StrToInt( ResultString );
+end;
+
 function FCFgCSM_Security_GetIdxStr(
    const SGISfac
          ,SGIScol: integer;
@@ -1925,6 +1955,7 @@ function FCFgCSM_Security_GetIdxStr(
    ): string;
 {:Purpose: get the security index string.
    -Additions-
+      -2012Nov25- *mod: update of the three security range tables after refinement.
       -2010Sep15- *add: faction # parameter.
                   *add: entities code.
       -2010Aug01- *add: raw switch + raw data return.
@@ -1997,58 +2028,58 @@ begin
          case SGIStens of
             1:
             begin
-               SGISd1:=451;
-               SGISd2:=450;
-               SGISd3:=151;
-               SGISd4:=150;
-               SGISd5:=46;
-               SGISd6:=45;
-               SGISd7:=16;
-               SGISd8:=15;
+               SGISd1:=1001;
+               SGISd2:=1000;
+               SGISd3:=251;
+               SGISd4:=250;
+               SGISd5:=76;
+               SGISd6:=75;
+               SGISd7:=51;
+               SGISd8:=50;
             end;
             2:
             begin
-               SGISd1:=301;
-               SGISd2:=300;
-               SGISd3:=101;
-               SGISd4:=100;
-               SGISd5:=31;
-               SGISd6:=30;
-               SGISd7:=11;
-               SGISd8:=10;
+               SGISd1:=668;
+               SGISd2:=667;
+               SGISd3:=168;
+               SGISd4:=167;
+               SGISd5:=51;
+               SGISd6:=50;
+               SGISd7:=34;
+               SGISd8:=33;
             end;
             3:
             begin
-               SGISd1:=201;
-               SGISd2:=200;
-               SGISd3:=68;
-               SGISd4:=67;
-               SGISd5:=21;
-               SGISd6:=20;
-               SGISd7:=8;
-               SGISd8:=7;
+               SGISd1:=446;
+               SGISd2:=445;
+               SGISd3:=112;
+               SGISd4:=111;
+               SGISd5:=34;
+               SGISd6:=33;
+               SGISd7:=24;
+               SGISd8:=23;
             end;
             4:
             begin
-               SGISd1:=151;
-               SGISd2:=150;
-               SGISd3:=51;
-               SGISd4:=50;
-               SGISd5:=16;
-               SGISd6:=15;
-               SGISd7:=6;
-               SGISd8:=5;
+               SGISd1:=335;
+               SGISd2:=334;
+               SGISd3:=84;
+               SGISd4:=83;
+               SGISd5:=26;
+               SGISd6:=25;
+               SGISd7:=17;
+               SGISd8:=16;
             end;
             5:
             begin
-               SGISd1:=121;
-               SGISd2:=120;
-               SGISd3:=41;
-               SGISd4:=40;
-               SGISd5:=13;
-               SGISd6:=12;
-               SGISd7:=5;
-               SGISd8:=4;
+               SGISd1:=268;
+               SGISd2:=267;
+               SGISd3:=67;
+               SGISd4:=66;
+               SGISd5:=21;
+               SGISd6:=20;
+               SGISd7:=14;
+               SGISd8:=13;
             end;
          end; //==END== case SGIStens of ==//
       end; //==END== case: freeLiving ==//
@@ -2057,58 +2088,58 @@ begin
          case SGIStens of
             1:
             begin
-               SGISd1:=301;
-               SGISd2:=300;
-               SGISd3:=101;
-               SGISd4:=100;
-               SGISd5:=31;
-               SGISd6:=30;
-               SGISd7:=11;
-               SGISd8:=10;
+               SGISd1:=667;
+               SGISd2:=666;
+               SGISd3:=167;
+               SGISd4:=166;
+               SGISd5:=51;
+               SGISd6:=50;
+               SGISd7:=34;
+               SGISd8:=33;
             end;
             2:
             begin
-               SGISd1:=201;
-               SGISd2:=200;
-               SGISd3:=68;
-               SGISd4:=67;
-               SGISd5:=21;
-               SGISd6:=20;
-               SGISd7:=8;
-               SGISd8:=7;
+               SGISd1:=446;
+               SGISd2:=445;
+               SGISd3:=112;
+               SGISd4:=111;
+               SGISd5:=34;
+               SGISd6:=33;
+               SGISd7:=23;
+               SGISd8:=22;
             end;
             3:
             begin
-               SGISd1:=151;
-               SGISd2:=150;
-               SGISd3:=51;
-               SGISd4:=50;
-               SGISd5:=16;
-               SGISd6:=15;
-               SGISd7:=6;
-               SGISd8:=5;
+               SGISd1:=335;
+               SGISd2:=334;
+               SGISd3:=84;
+               SGISd4:=83;
+               SGISd5:=26;
+               SGISd6:=25;
+               SGISd7:=17;
+               SGISd8:=16;
             end;
             4:
             begin
-               SGISd1:=101;
-               SGISd2:=100;
-               SGISd3:=34;
-               SGISd4:=33;
-               SGISd5:=11;
-               SGISd6:=10;
-               SGISd7:=4;
-               SGISd8:=3;
+               SGISd1:=224;
+               SGISd2:=223;
+               SGISd3:=56;
+               SGISd4:=55;
+               SGISd5:=18;
+               SGISd6:=17;
+               SGISd7:=11;
+               SGISd8:=10;
             end;
             5:
             begin
-               SGISd1:=87;
-               SGISd2:=86;
-               SGISd3:=30;
-               SGISd4:=29;
-               SGISd5:=10;
-               SGISd6:=9;
-               SGISd7:=4;
-               SGISd8:=3;
+               SGISd1:=192;
+               SGISd2:=191;
+               SGISd3:=49;
+               SGISd4:=48;
+               SGISd5:=16;
+               SGISd6:=15;
+               SGISd7:=9;
+               SGISd8:=8;
             end;
          end; //==END== case SGIStens of ==//
       end; //==END== case: restrict ==//
@@ -2117,58 +2148,58 @@ begin
          case SGIStens of
             1:
             begin
-               SGISd1:=201;
-               SGISd2:=200;
-               SGISd3:=68;
-               SGISd4:=67;
-               SGISd5:=21;
-               SGISd6:=20;
-               SGISd7:=8;
-               SGISd8:=7;
+               SGISd1:=445;
+               SGISd2:=444;
+               SGISd3:=113;
+               SGISd4:=112;
+               SGISd5:=34;
+               SGISd6:=33;
+               SGISd7:=24;
+               SGISd8:=23;
             end;
             2:
             begin
-               SGISd1:=151;
-               SGISd2:=150;
-               SGISd3:=51;
-               SGISd4:=50;
-               SGISd5:=16;
-               SGISd6:=15;
-               SGISd7:=6;
-               SGISd8:=5;
+               SGISd1:=335;
+               SGISd2:=334;
+               SGISd3:=85;
+               SGISd4:=84;
+               SGISd5:=26;
+               SGISd6:=25;
+               SGISd7:=18;
+               SGISd8:=17;
             end;
             3:
             begin
-               SGISd1:=101;
-               SGISd2:=100;
+               SGISd1:=224;
+               SGISd2:=223;
+               SGISd3:=56;
+               SGISd4:=55;
+               SGISd5:=18;
+               SGISd6:=17;
+               SGISd7:=11;
+               SGISd8:=10;
+            end;
+            4:
+            begin
+               SGISd1:=168;
+               SGISd2:=167;
+               SGISd3:=43;
+               SGISd4:=42;
+               SGISd5:=14;
+               SGISd6:=13;
+               SGISd7:=11;
+               SGISd8:=10;
+            end;
+            5:
+            begin
+               SGISd1:=135;
+               SGISd2:=134;
                SGISd3:=34;
                SGISd4:=33;
                SGISd5:=11;
                SGISd6:=10;
-               SGISd7:=4;
-               SGISd8:=3;
-            end;
-            4:
-            begin
-               SGISd1:=76;
-               SGISd2:=75;
-               SGISd3:=26;
-               SGISd4:=25;
-               SGISd5:=9;
-               SGISd6:=8;
-               SGISd7:=4;
-               SGISd8:=3;
-            end;
-            5:
-            begin
-               SGISd1:=61;
-               SGISd2:=60;
-               SGISd3:=21;
-               SGISd4:=20;
-               SGISd5:=7;
-               SGISd6:=6;
-               SGISd7:=3;
-               SGISd8:=2;
+               SGISd7:=8;
+               SGISd8:=7;
             end;
          end; //==END== case SGIStens of ==//
       end; //==END== case: space ==//

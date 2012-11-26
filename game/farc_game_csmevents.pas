@@ -2140,13 +2140,7 @@ begin
                   {.in case of soldiers were been added after that the uprising event was set}
                   if FCDdgEntities[Entity].E_colonies[Colony].C_events[OTPcnt].CCSME_durationWeeks<>-1
                   then FCDdgEntities[Entity].E_colonies[Colony].C_events[OTPcnt].CCSME_durationWeeks:=-1;
-                  OTPsec:=StrToInt(
-                     FCFgCSM_Security_GetIdxStr(
-                        Entity
-                        ,Colony
-                        ,true
-                        )
-                     );
+                  OTPsec:=FCFgCSM_Security_GetIndex( Entity, Colony);
                   case OTPsec of
                      1: OTPmod3:=-40;
                      2: OTPmod3:=-15;
@@ -2718,13 +2712,7 @@ begin
                   or (OTPmili>0)
                then
                begin
-                  OTPsec:=StrToInt(
-                     FCFgCSM_Security_GetIdxStr(
-                        Entity
-                        ,Colony
-                        ,true
-                        )
-                     );
+                  OTPsec:=FCFgCSM_Security_GetIndex( Entity, Colony );
                   case OTPsec of
                      1: OTPmod3:=-40;
                      2: OTPmod3:=-15;
