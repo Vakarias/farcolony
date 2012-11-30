@@ -134,6 +134,7 @@ uses
    ,farc_ogl_ui
    ,farc_ogl_viewmain
    ,farc_spu_functions
+   ,farc_ui_actionpanel
    ,farc_ui_coldatapanel
    ,farc_ui_missionsetup
    ,farc_ui_surfpanel
@@ -351,7 +352,7 @@ begin
                and (  FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglSpaceUnits[FCDdgEntities[Entity].E_spaceUnits[FCDdmtTaskListToProcess[TaskIndex].T_tMCoriginIndex].SU_linked3dObject] ) then
             begin
                FCMoglUI_Main3DViewUI_Update(oglupdtpTxtOnly, ogluiutFocObj);
-               FCMuiW_FocusPopup_Upd(uiwpkSpUnit);
+               FCMuiAP_Update_SpaceUnit;
             end;
          end;
       end; //==END== case: tMissionColonization ==//
@@ -393,7 +394,7 @@ begin
             if FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglSpaceUnits[FCDdgEntities[Entity].E_spaceUnits[FCDdmtTaskListToProcess[TaskIndex].T_tMCoriginIndex].SU_linked3dObject] then
             begin
                FCMoglUI_Main3DViewUI_Update(oglupdtpTxtOnly, ogluiutFocObj);
-               FCMuiW_FocusPopup_Upd(uiwpkSpUnit);
+               FCMuiAP_Update_SpaceUnit;
             end;
          end;
       end; //==END== case: gmcmnItransit ==//

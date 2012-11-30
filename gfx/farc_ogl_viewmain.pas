@@ -169,6 +169,7 @@ uses
    ,farc_ogl_ui
    ,farc_data_spu
    ,farc_spu_functions
+   ,farc_ui_actionpanel
    ,farc_ui_win
    ,farc_univ_func
    ,farc_win_debug;
@@ -508,7 +509,7 @@ begin
       FCMoglUI_Main3DViewUI_Update(oglupdtpTxtOnly, ogluiutFocObj);
      {.update the corresponding popup menu}
       if CMTisUpdPMenu
-      then FCMuiW_FocusPopup_Upd(uiwpkSpUnit);
+      then FCMuiAP_Update_SpaceUnit;
    end
    {.central star selected}
    else if CMTidxOfObj=0
@@ -529,7 +530,7 @@ begin
       FCMoglUI_Main3DViewUI_Update(oglupdtpTxtOnly, ogluiutFocObj);
       {.update the corresponding popup menu}
       if CMTisUpdPMenu
-      then FCMuiW_FocusPopup_Upd(uiwpkOrbObj);
+      then FCMuiAP_Update_OrbitalObject;
    end
    {.orbital object selected}
    else if (CMTidxOfObj>0)
@@ -564,7 +565,7 @@ begin
       FCMoglUI_Main3DViewUI_Update(oglupdtpTxtOnly, ogluiutFocObj);
       {.update the corresponding popup menu}
       if CMTisUpdPMenu
-      then FCMuiW_FocusPopup_Upd(uiwpkOrbObj);
+      then FCMuiAP_Update_OrbitalObject;
       {.store the player's location}
       FCVdgPlayer.P_viewOrbitalObject:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[FC3doglSelectedPlanetAsteroid].OO_dbTokenId;
    end
@@ -600,7 +601,7 @@ begin
       FCMoglUI_Main3DViewUI_Update(oglupdtpTxtOnly, ogluiutFocObj);
       {.update the corresponding popup menu}
       if CMTisUpdPMenu
-      then FCMuiW_FocusPopup_Upd(uiwpkOrbObj);
+      then FCMuiAP_Update_OrbitalObject;
       {.store the player's location}
       CMTdmpSatIdx:=FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].Tag;
       CMTdmpSatPlanIdx:=round(FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].TagFloat);

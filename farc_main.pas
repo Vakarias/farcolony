@@ -327,25 +327,11 @@ type
     FCWM_UMI_FDMilValDesc: THTMLabel;
     FCWM_UMI_FDSocValDesc: THTMLabel;
     WM_ActionPanel: TAdvPanel;
-    AdvPageControl1: TAdvPageControl;
-    AdvTabSheet1: TAdvTabSheet;
-    HTMLTreeview1: THTMLTreeview;
-    HTMLTreeview2: THTMLTreeview;
-    LabeledEdit1: TLabeledEdit;
-    AdvComboBox1: TAdvComboBox;
-    LabeledEdit2: TLabeledEdit;
-    AdvTabSheet2: TAdvTabSheet;
-    HTMLabel2: THTMLabel;
-    HTMLTreeview3: THTMLTreeview;
-    HTMLTreeview4: THTMLTreeview;
-    AdvTabSheet3: TAdvTabSheet;
-    HTMLTreeview5: THTMLTreeview;
-    HTMLTreeview6: THTMLTreeview;
-    AdvTabSheet4: TAdvTabSheet;
-    HTMLTreeview7: THTMLTreeview;
     AdvGroupBox1: TAdvGroupBox;
     HTMLabel3: THTMLabel;
     LabeledEdit3: TLabeledEdit;
+    AP_ColonyData: TAdvGlowButton;
+    AP_Separator1: TAdvGlowButton;
       procedure FormCreate(Sender: TObject);
       procedure FormResize(Sender: TObject);
       procedure FCWM_MMenu_G_QuitClick(Sender: TObject);
@@ -385,7 +371,6 @@ type
     procedure FCWM_MMenu_O_LocVObjClick(Sender: TObject);
     procedure FCWM_MMenu_O_LocHelpClick(Sender: TObject);
     procedure FCWM_MMenu_DTFUGClick(Sender: TObject);
-    procedure FCWM_PMFOcolfacDataClick(Sender: TObject);
     procedure FCWM_ColDPanelEndMoveSize(Sender: TObject);
     procedure FCWM_ColDPanelClose(Sender: TObject);
     procedure FCWM_CDPinfrListMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
@@ -466,6 +451,8 @@ type
     procedure FCWM_ColDPanelEndCollapsExpand(Sender: TObject);
     procedure FCWM_CDPinfoTextAnchorClick(Sender: TObject; Anchor: string);
     procedure FCWM_CPSRSbuttonConfirmClick(Sender: TObject);
+    procedure WM_ActionPanelClose(Sender: TObject);
+    procedure AP_ColonyDataClick(Sender: TObject);
    private
       { Private declarations }
          {timesteps needed for camera transitions}
@@ -513,6 +500,7 @@ uses
    ,farc_ogl_init
    ,farc_ogl_viewmain
    ,farc_ogl_ui
+   ,farc_ui_actionpanel
    ,farc_ui_coldatapanel
    ,farc_ui_coredatadisplay
    ,farc_ui_html
@@ -532,6 +520,25 @@ const
 //=======================================END OF INIT========================================
 
 {$R *.dfm}
+
+procedure TFCWinMain.AP_ColonyDataClick(Sender: TObject);
+begin
+   FCWinMain.WM_ActionPanel.Hide;
+   if FCGLSCamMainViewGhost.TargetObject=FC3doglObjectsGroups[FC3doglSelectedPlanetAsteroid]
+   then FCMuiCDP_Display_Set(
+      FC3doglCurrentStarSystem
+      ,FC3doglCurrentStar
+      ,FC3doglSelectedPlanetAsteroid
+      ,0
+      )
+   else if FCGLSCamMainViewGhost.TargetObject=FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite]
+   then FCMuiCDP_Display_Set(
+      FC3doglCurrentStarSystem
+      ,FC3doglCurrentStar
+      ,round(FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].TagFloat)
+      ,FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].Tag
+      );
+end;
 
 procedure TFCWinMain.CDPproductionMatrixListKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
@@ -775,16 +782,8 @@ begin
    if  Button=mb_Left
    then
    begin
-//      if FCWM_PopMenFocusedObj.Tag=1
-//      then
-//      begin
-//         FCWM_PopMenFocusedObj.Tag:=0;
-//         FCMgTFlow_FlowState_Set(tphTac);
-//      end
-//      else if (FCV3DselSpU>0)
-//         and (FCGLSCamMainViewGhost.TargetObject=FC3DobjSpUnit[FCV3DselSpU])
-//         and (FCentities[0].E_spU[round(FC3DobjSpUnit[FCV3DselSpU].TagFloat)].SUO_3dmove>0)
-//      then FCGtimeFlow.Enabled:=false;
+      if FCWinMain.WM_ActionPanel.Visible
+      then FCWinMain.WM_ActionPanel.Hide;
       try
          FCGLScadencer.Enabled:=false;
       finally
@@ -800,16 +799,6 @@ begin
    end;
    {.right mouse button}
    if (Button=mb_Right)
-//
-//      and (FCWM_PopMenFocusedObj.Tag=1)
-//   then
-//   begin
-//      FCWM_PopMenFocusedObj.Tag:=0;
-//      FCMgTFlow_FlowState_Set(tphTac);
-//   end
-//   else if (Button=mb_Right)
-//      and (FCWM_PopMenFocusedObj.Tag=0)
-//
       and (FCVdgPlayer.P_currentTimePhase<>tphPAUSE)
       and (not FCWinMain.FCWM_CPSreportSet.Visible)
       and
@@ -828,7 +817,8 @@ begin
          or (FCGLSCamMainViewGhost.TargetObject=FCGLSStarMain)
       )
       and (not FCWM_MissionSettings.Visible)
-   then FCWM_PopMenFocusedObj.PopupAtCursor;
+   then FCMuiAP_Panel_PopupAtPos( X, Y );
+//   then FCWM_PopMenFocusedObj.PopupAtCursor;
    {.middle mouse button}
    if (Button=mb_Middle)
      and (FCGLSmainView.cursor=crCross)
@@ -844,12 +834,12 @@ begin
    FCVwinMmouseShftState:=Shift;
    FCVwinMmouseNewPosX:=X;
    FCVwinMmouseNewPosY:=Y;
-   if FCWM_PopMenFocusedObj.Tag=1
-   then
-   begin
-      FCWM_PopMenFocusedObj.Tag:=0;
-      FCMgTFlow_FlowState_Set(tphTac);
-   end;
+//   if FCWM_PopMenFocusedObj.Tag=1
+//   then
+//   begin
+//      FCWM_PopMenFocusedObj.Tag:=0;
+//      FCMgTFlow_FlowState_Set(tphTac);
+//   end;
    if (ssMiddle in shift)
       and (FCGLSmainView.cursor=crSizeNS)
    then
@@ -1484,24 +1474,6 @@ begin
    FCMuiK_MsgBoxList_Test(Key, Shift);
 end;
 
-procedure TFCWinMain.FCWM_PMFOcolfacDataClick(Sender: TObject);
-begin
-   if FCGLSCamMainViewGhost.TargetObject=FC3doglObjectsGroups[FC3doglSelectedPlanetAsteroid]
-   then FCMuiCDP_Display_Set(
-      FC3doglCurrentStarSystem
-      ,FC3doglCurrentStar
-      ,FC3doglSelectedPlanetAsteroid
-      ,0
-      )
-   else if FCGLSCamMainViewGhost.TargetObject=FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite]
-   then FCMuiCDP_Display_Set(
-      FC3doglCurrentStarSystem
-      ,FC3doglCurrentStar
-      ,round(FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].TagFloat)
-      ,FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].Tag
-      );
-end;
-
 procedure TFCWinMain.FCWM_PMFOoobjDataClick(Sender: TObject);
 var PMFODCdmpOobj: integer;
 begin
@@ -1873,6 +1845,11 @@ end;
 
 procedure TFCWinMain.WMMaximized(var Message: TMessage) ;
 begin
+end;
+
+procedure TFCWinMain.WM_ActionPanelClose(Sender: TObject);
+begin
+   WM_ActionPanel.Hide;
 end;
 
 procedure TFCWinMain.UpdUI(UUIwinOnly: boolean);

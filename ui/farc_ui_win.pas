@@ -393,27 +393,27 @@ begin
    if PPOFUtp=uiwpkOrbObj
    then
    begin
-      {.menu initialize}
-      FCMuiWin_FocusPopup_Reset;
-      {.menu main header}
-      FCWinMain.FCWM_PMFO_Header_SpUnitOObj.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_PMFO_Header_SpUnitOObj.OObj');
-      {.colony/faction data}
-      if (
-         (FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglObjectsGroups[FC3doglSelectedPlanetAsteroid])
-         and (FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[FC3doglSelectedPlanetAsteroid].OO_colonies[0]>0)
-         )
-         or
-         (
-         (FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglSatellitesObjectsGroups[FC3doglSelectedPlanetAsteroid])
-         and (FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[FC3doglSelectedPlanetAsteroid].OO_satellitesList[FC3doglSelectedSatellite].OO_colonies[0]>0)
-         )
-      then
-      begin
-         FCWinMain.FCWM_PMFOcolfacData.Visible:=true;
-         FCWinMain.FCWM_PMFOoobjData.Visible:=false;
-      end
-      else if FC3doglSelectedPlanetAsteroid>0
-      then FCWinMain.FCWM_PMFOoobjData.Visible:=true;
+//      {.menu initialize}
+//      FCMuiWin_FocusPopup_Reset;
+//      {.menu main header}
+//      FCWinMain.FCWM_PMFO_Header_SpUnitOObj.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_PMFO_Header_SpUnitOObj.OObj');
+//      {.colony/faction data}
+//      if (
+//         (FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglObjectsGroups[FC3doglSelectedPlanetAsteroid])
+//         and (FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[FC3doglSelectedPlanetAsteroid].OO_colonies[0]>0)
+//         )
+//         or
+//         (
+//         (FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglSatellitesObjectsGroups[FC3doglSelectedPlanetAsteroid])
+//         and (FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[FC3doglSelectedPlanetAsteroid].OO_satellitesList[FC3doglSelectedSatellite].OO_colonies[0]>0)
+//         )
+//      then
+//      begin
+//         FCWinMain.FCWM_PMFOcolfacData.Visible:=true;
+//         FCWinMain.FCWM_PMFOoobjData.Visible:=false;
+//      end
+//      else if FC3doglSelectedPlanetAsteroid>0
+//      then FCWinMain.FCWM_PMFOoobjData.Visible:=true;
    end {.if FPUkind= uiwpkOrbObj}
    {.space unit menu setup}
    else if PPOFUtp=uiwpkSpUnit
@@ -448,7 +448,7 @@ begin
       if FCDdgEntities[0].E_spaceUnits[FPUdmpIdx].SU_locationSatellite<>''
       then FPUspUsat:=FCFuF_StelObj_GetDbIdx(
          ufsoSat
-         ,FCDdgEntities[0].E_spaceUnits[FPUdmpIdx].SU_locationSatellite                                                                                  f
+         ,FCDdgEntities[0].E_spaceUnits[FPUdmpIdx].SU_locationSatellite
          ,FPUspUssys
          ,FPUspUstar
          ,FPUspUoobj
@@ -673,6 +673,7 @@ end;
 procedure FCMuiW_UI_Initialize(const UIUtp: TFCEmwinUpdTp);
 {:Purpose: update and initialize all user's interface elements of the game.
    Additions:
+      -2012Nov29- *add: action panel.
       -2012Sep09- *add: UMI - Faction - Dependencies Circular Progress - linked description label.
       -2012Sep08- *add: UMI - Faction - Dependencies Circular Progress - linked label.
       -2012May27- *add: FCWM_CPSreport.
@@ -951,6 +952,8 @@ begin
       {.CPS report and settings}
       FCWinMain.FCWM_CPSreportSet.Caption.Text:='<p align="center"><b>'+FCFdTFiles_UIStr_Get( uistrUI, 'CPSrepSetTitle' )+'</b>';
       FCWinMain.FCWM_CPSRSbuttonConfirm.Caption:='OK';
+      {.action panel}
+      FCWinMain.AP_ColonyData.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_PMFOcolfacData');
    end;
    //=======================================================================================
    {.this section concern only all texts of about window}
@@ -1227,6 +1230,8 @@ begin
       FCWinMain.FCWM_CPSreportSet.Height:=330;
       FCWinMain.FCWM_CPSRSIGscores.Width:=180;
       FCWinMain.FCWM_CPSRSinfogroup.Width:=FCWinMain.FCWM_CPSreportSet.Width-8-FCWinMain.FCWM_CPSRSIGscores.Width;
+      {.action panel}
+      FCWinMain.WM_ActionPanel.Width:=180;
    end;
    if UIUtp<>mwupAll
    then
@@ -1541,6 +1546,9 @@ begin
       FCWinMain.FCWM_CPSRSinfogroup.Font.Size:=FCFuiW_Font_GetSize(uiwGrpBoxSec);
       FCWinMain.FCWM_CPSRSIGreport.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
       FCWinMain.FCWM_CPSRSbuttonConfirm.Font.Size:=FCFuiW_Font_GetSize(uiwButton);
+      {.action panel}
+      FCWinMain.WM_ActionPanel.Caption.Font.Size:=FCFuiW_Font_GetSize(uiwPanelTitle);
+      FCWinMain.AP_ColonyData.Font.Size:=FCFuiW_Font_GetSize(uiwButton);
    end; //==END== if (UIUtp=mwupAll) or (UIUtp=mwupFontAll) ==//
    {.for about window}
    if ((UIUtp=mwupFontWinAb) or (UIUtp=mwupFontAll))

@@ -66,6 +66,7 @@ uses
    ,farc_data_3dopengl
    ,farc_main
    ,farc_spu_functions
+   ,farc_ui_actionpanel
    ,farc_ui_win
    ,farc_univ_func;
 
@@ -299,7 +300,7 @@ begin
                   if ( Entity=0 )
                      and ( FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].Tag=Entity )
                      and ( round( FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].TagFloat )=Controller )
-                  then FCMuiW_FocusPopup_Upd(uiwpkSpUnit);
+                  then FCMuiAP_Update_SpaceUnit;
                end; //==END== case: tMissionInterplanetaryTransit ==//
             end; //==END== case FCDdmtTaskListInProcess[TaskIndex].T_type ==//
             inc( Count );

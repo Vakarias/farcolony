@@ -4,6 +4,7 @@
 <!-- Implemented sections are, in order:
       ********** ABOUT WINDOW **********
       ********** ACRONYMS **********
+      ********** ACTION PANEL *******
       ********** ATMOSPHERIC GASES **********
       ********** BUTTONS CAPTIONS **********
       ********** COLONIES / FACTION **********
@@ -20,7 +21,6 @@
       ********** MISSIONS SETUP WINDOW **********
       ********** NEW GAME SETUP WINDOW **********
       ********** ORBITAL OBJECTS TYPES **********
-      ********** POPUP MENU - FOCUSED OBJECT *******
       ********** PRODUCTS *******
       ********** SPACE UNIT ARCHITECTURE **********
       ********** SPACE UNIT OVERALL **********
@@ -289,6 +289,62 @@
       <FR>an.</FR>
       <SP>año</SP>
    </acronYr>
+   <!-- ********** ACTION PANEL  ******* -->
+   <FCWM_PMFOcolfacData>
+      <EN>Colony/Faction Data</EN>
+      <FR>Données de la Colonie/Faction</FR>
+      <SP>Datos de la Colonia/Facción</SP>
+   </FCWM_PMFOcolfacData>
+   <ActionPanelHeader.OObj>
+      <EN>Orbital Object Menu</EN>
+      <FR>Menu de l'Objet Orbital</FR>
+      <SP>Menú del Objeto Orbital</SP>
+   </ActionPanelHeader.OObj>
+   <ActionPanelHeader.SpU>
+      <EN>Space Unit Menu</EN>
+      <FR>Menu de l'Unité Spatiale</FR>
+      <SP>Menú de la Unidad Espacial</SP>
+   </ActionPanelHeader.SpU>
+      <FCWM_PMFO_DList>
+         <EN>|__Docking List</EN>
+         <FR>|__Liste d'Amarrage</FR>
+         <SP>|__Lista de Acoplamiento</SP>
+      </FCWM_PMFO_DList>
+      <FCWM_PMFO_Data.OObj>
+         <EN>Ecosphere / Surface</EN>
+         <FR>Ecosphère / Surface</FR>
+         <SP>Ecosfera / Superficie</SP>
+      </FCWM_PMFO_Data.OObj>
+      <FCWM_PMFO_Data.SpUnit>
+         <EN>---Detailed Data</EN>
+         <FR>---Données Détaillées</FR>
+         <SP>---Datos Detallados</SP>
+      </FCWM_PMFO_Data.SpUnit>
+      <FCWM_PMFO_MissCancel>
+         <EN>---Cancel Current Mission</EN>
+         <FR>---Annule la Mission en Cours</FR>
+         <SP>---Cancelar la Misión en Curso</SP>
+      </FCWM_PMFO_MissCancel>
+   <FCWM_PMFO_Header_Travel>
+      <EN>Travel Missions</EN>
+      <FR>Missions de Voyage</FR>
+      <SP>Misiones de Viaje</SP>
+   </FCWM_PMFO_Header_Travel>
+      <FCWM_PMFO_MissITransit>
+         <EN>|__Interplanetary Transit</EN>
+         <FR>|__Transit Interplanétaire</FR>
+         <SP>|__Tránsito Interplanetario</SP>
+      </FCWM_PMFO_MissITransit>
+   <FCWM_PMFO_HeaderSpecMiss>
+      <EN>Specific Missions</EN>
+      <FR>Missions Spécifiques</FR>
+      <SP>Misiones Específicas</SP>
+   </FCWM_PMFO_HeaderSpecMiss>
+      <FCWM_PMFO_MissColoniz>
+         <EN>|__Colonization</EN>
+         <FR>|__Colonisation</FR>
+         <SP>|__Colonización</SP>
+      </FCWM_PMFO_MissColoniz>
    <!-- ********** ATMOSPHERIC GASES ********** -->
    <gasAr>
       <EN>Argon</EN>
@@ -2305,62 +2361,6 @@
       <FR>Disque Protoplanétaire</FR>
       <SP>Disco Protoplanetario</SP>
    </oobtpProtoDisk>
-   <!-- ********** POPUP MENU - FOCUSED OBJECT  ******* -->
-   <FCWM_PMFOcolfacData>
-      <EN>Colony/Faction Data</EN>
-      <FR>Données de la Colonie/Faction</FR>
-      <SP>Datos de la Colonia/Facción</SP>
-   </FCWM_PMFOcolfacData>
-   <FCWM_PMFO_Header_SpUnitOObj.OObj>
-      <EN>Orbital Object Menu</EN>
-      <FR>Menu de l'Objet Orbital</FR>
-      <SP>Menú del Objeto Orbital</SP>
-   </FCWM_PMFO_Header_SpUnitOObj.OObj>
-   <FCWM_PMFO_Header_SpUnitOObj.SpUnit>
-      <EN>Space Unit Menu</EN>
-      <FR>Menu de l'Unité Spatiale</FR>
-      <SP>Menú de la Unidad Espacial</SP>
-   </FCWM_PMFO_Header_SpUnitOObj.SpUnit>
-      <FCWM_PMFO_DList>
-         <EN>|__Docking List</EN>
-         <FR>|__Liste d'Amarrage</FR>
-         <SP>|__Lista de Acoplamiento</SP>
-      </FCWM_PMFO_DList>
-      <FCWM_PMFO_Data.OObj>
-         <EN>Ecosphere / Surface</EN>
-         <FR>Ecosphère / Surface</FR>
-         <SP>Ecosfera / Superficie</SP>
-      </FCWM_PMFO_Data.OObj>
-      <FCWM_PMFO_Data.SpUnit>
-         <EN>---Detailed Data</EN>
-         <FR>---Données Détaillées</FR>
-         <SP>---Datos Detallados</SP>
-      </FCWM_PMFO_Data.SpUnit>
-      <FCWM_PMFO_MissCancel>
-         <EN>---Cancel Current Mission</EN>
-         <FR>---Annule la Mission en Cours</FR>
-         <SP>---Cancelar la Misión en Curso</SP>
-      </FCWM_PMFO_MissCancel>
-   <FCWM_PMFO_Header_Travel>
-      <EN>Travel Missions</EN>
-      <FR>Missions de Voyage</FR>
-      <SP>Misiones de Viaje</SP>
-   </FCWM_PMFO_Header_Travel>
-      <FCWM_PMFO_MissITransit>
-         <EN>|__Interplanetary Transit</EN>
-         <FR>|__Transit Interplanétaire</FR>
-         <SP>|__Tránsito Interplanetario</SP>
-      </FCWM_PMFO_MissITransit>
-   <FCWM_PMFO_HeaderSpecMiss>
-      <EN>Specific Missions</EN>
-      <FR>Missions Spécifiques</FR>
-      <SP>Misiones Específicas</SP>
-   </FCWM_PMFO_HeaderSpecMiss>
-      <FCWM_PMFO_MissColoniz>
-         <EN>|__Colonization</EN>
-         <FR>|__Colonisation</FR>
-         <SP>|__Colonización</SP>
-      </FCWM_PMFO_MissColoniz>
    <!-- ********** PRODUCTS ******* -->
    <bioAnimalFood>
       <EN>Animal Food</EN>
