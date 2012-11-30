@@ -794,6 +794,7 @@ procedure FCMuiK_WinMain_Test(
 {:DEV NOTE: DO NOT FORGET TO UPDATE THE HELP PANEL / KEYS TAB.}
 {:Purpose: test key routine for main window.
     Additions:
+      -2012Nov29- *add: action panel update.
       -2012Nov11- *fix: for the numpad browsing keys
                   *mod: optimization of the code concerning the shortcut keys for the 3d view.
       -2011May30- *add: infrastructure opanel linked with the escape key.
@@ -841,6 +842,8 @@ var
    WMTdmpPlan
    ,WMTfocus: integer;
 begin
+   if FCWinMain.WM_ActionPanel.Visible
+   then FCWinMain.WM_ActionPanel.Hide;
    {.implement alt+f4 + ctrl+q in case of an override focus}
    if (ssAlt in WMTshftCtrl)
       and ((WMTkeyDump=115) or (WMTkeyDump=115))
