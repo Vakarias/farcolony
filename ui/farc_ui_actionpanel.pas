@@ -87,6 +87,7 @@ uses
    ,farc_data_univ
    ,farc_main
    ,farc_spu_functions
+   ,farc_univ_func
    ,farc_win_debug;
 
 //==END PRIVATE ENUM========================================================================
@@ -190,15 +191,22 @@ procedure FCMuiAP_Update_SpaceUnit;
 }
    var
       DockedSpaceUnits
+      ,NumberOfColonies //FPUcolN:=
       ,SpaceUnit: integer; //FPUdmpIdx
 
-      isReactionMassLeft: boolean;
+      Location: TFCRufStelObj;
 begin
    FCMuiAP_Panel_Reset;
    FCWinMain.WM_ActionPanel.Caption.Text:='<p align="center"><b>'+FCFdTFiles_UIStr_Get(uistrUI,'ActionPanelHeader.SpU')+'</b>';
    DockedSpaceUnits:=0;
+   NumberOfColonies:=0;
    SpaceUnit:=round(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].TagFloat);
-   isReactionMassLeft:=false;
+   Location:=FCFuF_StelObj_GetFullRow(
+      FCDdgEntities[0].E_spaceUnits[SpaceUnit].SU_locationStarSystem
+      ,FCDdgEntities[0].E_spaceUnits[SpaceUnit].SU_locationStar
+      ,FCDdgEntities[0].E_spaceUnits[SpaceUnit].SU_locationOrbitalObject
+      ,FCDdgEntities[0].E_spaceUnits[SpaceUnit].SU_locationSatellite
+      );
    {.detailed data}
    {DEV NOTE: to add when i'll implement a detailed data panel.}
    {.docking list}
@@ -207,92 +215,52 @@ begin
       FCWinMain.AP_DockingList.Show;
       FCVuiapItems:=FCVuiapItems+1;
    end;
-   {.missions separator}
-   if FCVuiapItems>0 then
+   {.missions}
+   if ( FCVuiapItems>0 )
+      and ( FCDdgEntities[0].E_spaceUnits[SpaceUnit].SU_reactionMass>0 ) then
    begin
       FCWinMain.AP_Separator1.Show;
       FCVuiapItems:=FCVuiapItems+0.5;
-   end;
-   isReactionMassLeft:=
-   {.colonization mission}
-   {:DEV NOTES: when reimplant it, test also if there's any reaction mass left!.}
-   {:DEV NOTES: include the possibility when there's no docked spu but the focused spu has colonization capability.}
-   DockedSpaceUnits:=FCFspuF_DockedSpU_GetNum(
-      0
-      ,SpaceUnit
-      ,aLV
-      ,sufcColoniz
-      );
-   {:DEV NOTES: if = 0, test if focused spu has capability
-      FCFspuF_Capability_HasIt
-   .}
-   FPUcolN:=length(FCDdgEntities[0].E_colonies)-1;
-   if (FPUdmpSpUnStatus=susInOrbit)
-      and (FPUlvNum>0) // or hasCapability itself
-      {:DEV NOTES: when eq mdl done, change the line below for more complex code testing
-   colonization equipment module and/or have docked colonization pods.}
-      and (FCDdgEntities[0].E_spaceUnits[FPUdmpIdx].SU_name='wrdMUNmov')
-      and (
-         not assigned(FCcps)
-         or (
-            assigned(FCcps)
-            and (
-                  (FPUcolN=0)
-                  or
-                  (
-                     (FPUcolN=1)
-                     and(FPUspUsat=0)
-                     and (FCDduStarSystem[FPUspUssys].SS_stars[FPUspUstar].S_orbitalObjects[FPUspUoobj].OO_colonies[0]>0)
-                     )
-                  or
-                  (
-                     (FPUcolN=1)
-                     and (FPUspUsat>0)
-                     and (FCDduStarSystem[FPUspUssys].SS_stars[FPUspUstar].S_orbitalObjects[FPUspUoobj].OO_satellitesList[FPUspUsat].OO_colonies[0]>0)
+      {.colonization mission}
+      {:DEV NOTES: include the possibility when there's no docked spu but the focused spu has colonization capability.}
+      DockedSpaceUnits:=FCFspuF_DockedSpU_GetNum(
+         0
+         ,SpaceUnit
+         ,aLV
+         ,sufcColoniz
+         );
+      NumberOfColonies:=length(FCDdgEntities[0].E_colonies)-1;
+      {:DEV NOTES: if = 0, test if focused spu has capability
+         FCFspuF_Capability_HasIt
+         when eq mdl done, change the line below for more complex code testing
+         colonization equipment module and/or have docked colonization pods
+      .}
+      if ( ( DockedSpaceUnits>0 ) or ( FCDdgEntities[0].E_spaceUnits[SpaceUnit].SU_name='wrdMUNmov' ) )
+         and (FCDdgEntities[0].E_spaceUnits[SpaceUnit].SU_status=susInOrbit)
+         and (
+            not assigned(FCcps)
+               or (
+                  assigned(FCcps)
+                  and (
+                     (NumberOfColonies=0)
+                        or ( (NumberOfColonies=1) and(Location[4]=0) and (FCDduStarSystem[Location[1]].SS_stars[Location[2]].S_orbitalObjects[Location[3]].OO_colonies[0]>0) )
+                        or ( (NumberOfColonies=1) and (Location[4]>0) and (FCDduStarSystem[Location[1]].SS_stars[Location[2]].S_orbitalObjects[Location[3]].OO_satellitesList[Location[4]].OO_colonies[0]>0) )
                      )
                   )
                )
-            )
-   then
-   begin
-      FCWinMain.FCWM_PMFO_MissColoniz.Visible:=true;
-   end;
+      then
+      begin
+         FCWinMain.AP_MissionColonization.Show;
+         FCVuiapItems:=FCVuiapItems+1;
+      end;
+   end; //==END== if ( FCVuiapItems>0 ) and ( FCDdgEntities[0].E_spaceUnits[SpaceUnit].SU_reactionMass>0 ) ==//
+
 
 
 
 
 
 //      FPUdmpTaskId:=FCDdgEntities[0].E_spaceUnits[FPUdmpIdx].SU_assignedTask;
-//      FPUdmpSpUnStatus:=FCDdgEntities[0].E_spaceUnits[FPUdmpIdx].SU_status;
-//      FPUspUssys:=FCFuF_StelObj_GetDbIdx(
-//         ufsoSsys
-//         ,FCDdgEntities[0].E_spaceUnits[FPUdmpIdx].SU_locationStarSystem
-//         ,0
-//         ,0
-//         ,0
-//         );
-//      FPUspUstar:=FCFuF_StelObj_GetDbIdx(
-//         ufsoStar
-//         ,FCDdgEntities[0].E_spaceUnits[FPUdmpIdx].SU_locationStar
-//         ,FPUspUssys
-//         ,0
-//         ,0
-//         );
-//      FPUspUoobj:=FCFuF_StelObj_GetDbIdx(
-//         ufsoOObj
-//         ,FCDdgEntities[0].E_spaceUnits[FPUdmpIdx].SU_locationOrbitalObject
-//         ,FPUspUssys
-//         ,FPUspUstar
-//         ,0
-//         );
-//      if FCDdgEntities[0].E_spaceUnits[FPUdmpIdx].SU_locationSatellite<>''
-//      then FPUspUsat:=FCFuF_StelObj_GetDbIdx(
-//         ufsoSat
-//         ,FCDdgEntities[0].E_spaceUnits[FPUdmpIdx].SU_locationSatellite
-//         ,FPUspUssys
-//         ,FPUspUstar
-//         ,FPUspUoobj
-//         );
 
 //      {.cancel current mission subitem}
 ////      if FPUdmpTaskId>0

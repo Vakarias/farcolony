@@ -110,13 +110,6 @@ type
       FCGLSSM_Blur: TGLBlur;
       FCGLSHUDobjectFocused: TGLHUDText;
       FCGLSFontTitleMain: TGLWindowsBitmapFont;
-      FCWM_PopMenFocusedObj: TAdvPopupMenu;
-      FCWM_PMFO_Header_SpUnitOObj: TMenuItem;
-      FCWM_PMFO_MissCancel: TMenuItem;
-      FCWM_PMFO_MissITransit: TMenuItem;
-      FCWM_MenuStyle1: TAdvMenuStyler;
-    FCWM_PMFOoobjData: TMenuItem;
-      FCWM_PMFO_Header_Travel: TMenuItem;
       FCWM_MsgeBox: TAdvPanel;
       FCWM_MsgeBox_Desc: THTMLabel;
       FCWM_MsgeBox_List: THTMListBox;
@@ -212,11 +205,8 @@ type
       FCGLSHUDcpsTlft: TGLHUDText;
       FCGLSHUDspunDockd: TGLHUDSprite;
       FCGLSHUDspunDockdDat: TGLHUDText;
-      FCWM_PMFO_DList: TMenuItem;
       FCWM_DockLstPanel: TAdvPanel;
     FCWM_DLP_DockList: THTMListBox;
-    FCWM_PMFO_HeaderSpecMiss: TMenuItem;
-    FCWM_PMFO_MissColoniz: TMenuItem;
     FCXMLdbInfra: TXMLDocument;
     FCWM_MMenu_O_Loc: TMenuItem;
     FCWM_MMenu_O_LocHelp: TMenuItem;
@@ -228,7 +218,6 @@ type
     FCWM_CDPepi: TAdvPageControl;
     FCWM_CDPcsme: TAdvTabSheet;
     FCWM_CDPinfr: TAdvTabSheet;
-    FCWM_PMFOcolfacData: TMenuItem;
     FCWM_CDPpopList: THTMLTreeview;
     FCWM_CDPcsmeList: THTMLTreeview;
     FCWM_HPDPhints: TAdvTabSheet;
@@ -349,14 +338,12 @@ type
       procedure FCWM_MsgeBox_ListClick(Sender: TObject);
       procedure FCWM_MsgeBox_ListDblClick(Sender: TObject);
       procedure FCWM_MsgeBox_ListKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-      procedure FCWM_PMFO_MissITransitClick(Sender: TObject);
       procedure FCWM_MMenu_H_AboutClick(Sender: TObject);
       procedure FCWM_MMenu_G_ContClick(Sender: TObject);
       procedure FCWM_PopMenFocusedObjPopup(Sender: TObject);
       procedure FCWM_MMenu_G_SaveClick(Sender: TObject);
       procedure FCGLSmainViewAfterRender(Sender: TObject);
       procedure FCWM_MMenu_O_WideScrClick(Sender: TObject);
-      procedure FCWM_PMFO_MissCancelClick(Sender: TObject);
       procedure FCWM_MMenu_O_TR_1024Click(Sender: TObject);
       procedure FCWM_MMenu_O_TR_2048Click(Sender: TObject);
       procedure FCWM_MMenu_H_HPanelClick(Sender: TObject);
@@ -367,7 +354,6 @@ type
     procedure FCWM_DLP_DockListKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FCWM_DLP_DockListMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
     procedure FCWM_DLP_DockListClick(Sender: TObject);
-    procedure FCWM_PMFO_MissColonizClick(Sender: TObject);
     procedure FCGLSmainViewMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure FCWM_MMenu_O_LocVObjClick(Sender: TObject);
     procedure FCWM_MMenu_O_LocHelpClick(Sender: TObject);
@@ -456,6 +442,9 @@ type
     procedure AP_ColonyDataClick(Sender: TObject);
     procedure AP_OObjDataClick(Sender: TObject);
     procedure AP_DockingListClick(Sender: TObject);
+    procedure AP_MissionColonizationClick(Sender: TObject);
+    procedure AP_MissionInterplanetaryTransitClick(Sender: TObject);
+    procedure AP_MissionCancelClick(Sender: TObject);
    private
       { Private declarations }
          {timesteps needed for camera transitions}
@@ -547,6 +536,34 @@ procedure TFCWinMain.AP_DockingListClick(Sender: TObject);
 begin
    FCWinMain.WM_ActionPanel.Hide;
    FCMuiWin_SpUnDck_Upd(round(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].TagFloat));
+end;
+
+procedure TFCWinMain.AP_MissionCancelClick(Sender: TObject);
+begin
+//   FCMgMCore_Mission_Cancel(round(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].TagFloat));
+//   FCMgTFlow_FlowState_Set(tphTac);
+end;
+
+procedure TFCWinMain.AP_MissionColonizationClick(Sender: TObject);
+begin
+   FCWinMain.WM_ActionPanel.Hide;
+   FCMgMCore_Mission_Setup(
+      0
+      ,round(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].TagFloat)
+      ,tMissionColonization
+      ,false
+      );
+end;
+
+procedure TFCWinMain.AP_MissionInterplanetaryTransitClick(Sender: TObject);
+begin
+   FCWinMain.WM_ActionPanel.Hide;
+   FCMgMCore_Mission_Setup(
+      0
+      ,round(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].TagFloat)
+      ,tMissionInterplanetaryTransit
+      ,false
+      );
 end;
 
 procedure TFCWinMain.AP_OObjDataClick(Sender: TObject);
@@ -1492,35 +1509,6 @@ procedure TFCWinMain.FCWM_MsgeBox_ListKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
    FCMuiK_MsgBoxList_Test(Key, Shift);
-end;
-
-procedure TFCWinMain.FCWM_PMFO_MissCancelClick(Sender: TObject);
-var
-   PMFOMCCspUnIdx: integer;
-begin
-   PMFOMCCspUnIdx:=round(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].TagFloat);
-   FCMgMCore_Mission_Cancel(PMFOMCCspUnIdx);
-   FCMgTFlow_FlowState_Set(tphTac);
-end;
-
-procedure TFCWinMain.FCWM_PMFO_MissColonizClick(Sender: TObject);
-begin
-   FCMgMCore_Mission_Setup(
-      0
-      ,round(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].TagFloat)
-      ,tMissionColonization
-      ,false
-      );
-end;
-
-procedure TFCWinMain.FCWM_PMFO_MissITransitClick(Sender: TObject);
-begin
-   FCMgMCore_Mission_Setup(
-      0
-      ,round(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].TagFloat)
-      ,tMissionInterplanetaryTransit
-      ,false
-      );
 end;
 
 procedure TFCWinMain.FCWM_PopMenFocusedObjPopup(Sender: TObject);

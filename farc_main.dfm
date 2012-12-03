@@ -69,7 +69,6 @@ object FCWinMain: TFCWinMain
       Buffer.ShadeModel = smSmooth
       FieldOfView = 156.195632934570300000
       Align = alClient
-      PopupMenu = FCWM_PopMenFocusedObj
       OnMouseDown = FCGLSmainViewMouseDown
       OnMouseMove = FCGLSmainViewMouseMove
       OnMouseUp = FCGLSmainViewMouseUp
@@ -3436,7 +3435,7 @@ object FCWinMain: TFCWinMain
         NotesFont.Style = []
         ParentFont = False
         Position = bpMiddle
-        TabOrder = 1
+        TabOrder = 4
         Visible = False
         Appearance.BorderColor = clBlack
         Appearance.BorderColorHot = clWhite
@@ -3488,7 +3487,7 @@ object FCWinMain: TFCWinMain
         NotesFont.Style = []
         ParentFont = False
         Position = bpMiddle
-        TabOrder = 2
+        TabOrder = 1
         OnClick = AP_OObjDataClick
         Appearance.BorderColorHot = clWhite
         Appearance.BorderColorDown = clSkyBlue
@@ -3535,7 +3534,7 @@ object FCWinMain: TFCWinMain
         NotesFont.Style = []
         ParentFont = False
         Position = bpMiddle
-        TabOrder = 3
+        TabOrder = 2
         Appearance.BorderColorHot = clWhite
         Appearance.BorderColorDown = clSkyBlue
         Appearance.ColorTo = clSilver
@@ -3581,7 +3580,7 @@ object FCWinMain: TFCWinMain
         NotesFont.Style = []
         ParentFont = False
         Position = bpMiddle
-        TabOrder = 4
+        TabOrder = 3
         OnClick = AP_DockingListClick
         Appearance.BorderColorHot = clWhite
         Appearance.BorderColorDown = clSkyBlue
@@ -3629,7 +3628,8 @@ object FCWinMain: TFCWinMain
         NotesFont.Style = []
         ParentFont = False
         Position = bpMiddle
-        TabOrder = 5
+        TabOrder = 7
+        OnClick = AP_MissionCancelClick
         Appearance.BorderColorHot = clWhite
         Appearance.BorderColorDown = clSkyBlue
         Appearance.ColorTo = clSilver
@@ -3677,6 +3677,7 @@ object FCWinMain: TFCWinMain
         ParentFont = False
         Position = bpMiddle
         TabOrder = 6
+        OnClick = AP_MissionInterplanetaryTransitClick
         Appearance.BorderColorHot = clWhite
         Appearance.BorderColorDown = clSkyBlue
         Appearance.ColorTo = clSilver
@@ -3723,8 +3724,8 @@ object FCWinMain: TFCWinMain
         NotesFont.Style = []
         ParentFont = False
         Position = bpMiddle
-        TabOrder = 7
-        OnClick = AP_DockingListClick
+        TabOrder = 5
+        OnClick = AP_MissionColonizationClick
         Appearance.BorderColorHot = clWhite
         Appearance.BorderColorDown = clSkyBlue
         Appearance.ColorTo = clSilver
@@ -12494,133 +12495,6 @@ object FCWinMain: TFCWinMain
       end>
     Left = 56
     Top = 192
-  end
-  object FCWM_PopMenFocusedObj: TAdvPopupMenu
-    AutoHotkeys = maManual
-    AutoLineReduction = maManual
-    AutoPopup = False
-    OnPopup = FCWM_PopMenFocusedObjPopup
-    MenuStyler = FCWM_MenuStyle1
-    ShowNotes = False
-    Version = '2.5.3.1'
-    Left = 56
-    Top = 32
-    object FCWM_PMFO_Header_SpUnitOObj: TMenuItem
-      Caption = 'FCWM_PMFO_Header_SpUnitOObj'
-      Enabled = False
-    end
-    object FCWM_PMFO_DList: TMenuItem
-      Caption = 'FCWM_PMFO_DList'
-    end
-    object FCWM_PMFOcolfacData: TMenuItem
-      Caption = 'FCWM_PMFOcolfacData'
-    end
-    object FCWM_PMFOoobjData: TMenuItem
-      Caption = 'FCWM_PMFOoobjData'
-    end
-    object FCWM_PMFO_MissCancel: TMenuItem
-      Caption = 'FCWM_PMFO_MissCancel'
-      OnClick = FCWM_PMFO_MissCancelClick
-    end
-    object FCWM_PMFO_Header_Travel: TMenuItem
-      Caption = 'FCWM_PMFO_Header_Travel'
-      Enabled = False
-    end
-    object FCWM_PMFO_MissITransit: TMenuItem
-      Caption = 'FCWM_PMFO_MissITransit'
-      OnClick = FCWM_PMFO_MissITransitClick
-    end
-    object FCWM_PMFO_HeaderSpecMiss: TMenuItem
-      Caption = 'FCWM_PMFO_HeaderSpecMiss'
-      Enabled = False
-    end
-    object FCWM_PMFO_MissColoniz: TMenuItem
-      Caption = 'FCWM_PMFO_MissColoniz'
-      OnClick = FCWM_PMFO_MissColonizClick
-    end
-  end
-  object FCWM_MenuStyle1: TAdvMenuStyler
-    AntiAlias = aaClearType
-    Background.Position = bpCenter
-    Background.Color = clBlack
-    Background.ColorTo = 7237230
-    Background.GradientDirection = gdHorizontal
-    IconBar.Color = clSilver
-    IconBar.ColorTo = clBlack
-    IconBar.CheckColor = clNone
-    IconBar.CheckBorder = clNone
-    IconBar.RadioColor = clNone
-    IconBar.RadioBorder = clNone
-    IconBar.Size = 16
-    SelectedItem.Font.Charset = DEFAULT_CHARSET
-    SelectedItem.Font.Color = clWhite
-    SelectedItem.Font.Height = -11
-    SelectedItem.Font.Name = 'Tahoma'
-    SelectedItem.Font.Style = []
-    SelectedItem.NotesFont.Charset = DEFAULT_CHARSET
-    SelectedItem.NotesFont.Color = clWindowText
-    SelectedItem.NotesFont.Height = -8
-    SelectedItem.NotesFont.Name = 'Tahoma'
-    SelectedItem.NotesFont.Style = []
-    RootItem.Color = clWhite
-    RootItem.ColorTo = clNone
-    RootItem.Font.Charset = DEFAULT_CHARSET
-    RootItem.Font.Color = clWhite
-    RootItem.Font.Height = -11
-    RootItem.Font.Name = 'Tahoma'
-    RootItem.Font.Style = []
-    RootItem.SelectedTextColor = clWhite
-    Glyphs.SubMenu.Data = {
-      5A000000424D5A000000000000003E0000002800000004000000070000000100
-      0100000000001C0000000000000000000000020000000200000000000000FFFF
-      FF0070000000300000001000000000000000100000003000000070000000}
-    Glyphs.Check.Data = {
-      7E000000424D7E000000000000003E0000002800000010000000100000000100
-      010000000000400000000000000000000000020000000200000000000000FFFF
-      FF00FFFF0000FFFF0000FFFF0000FFFF0000FDFF0000F8FF0000F07F0000F23F
-      0000F71F0000FF8F0000FFCF0000FFEF0000FFFF0000FFFF0000FFFF0000FFFF
-      0000}
-    Glyphs.Radio.Data = {
-      7E000000424D7E000000000000003E0000002800000010000000100000000100
-      010000000000400000000000000000000000020000000200000000000000FFFF
-      FF00FFFF0000FFFF0000FFFF0000FFFF0000FFFF0000FC3F0000F81F0000F81F
-      0000F81F0000F81F0000FC3F0000FFFF0000FFFF0000FFFF0000FFFF0000FFFF
-      0000}
-    SideBar.Font.Charset = DEFAULT_CHARSET
-    SideBar.Font.Color = clWhite
-    SideBar.Font.Height = -19
-    SideBar.Font.Name = 'Tahoma'
-    SideBar.Font.Style = [fsBold, fsItalic]
-    SideBar.Depth = 0
-    SideBar.Image.Position = bpCenter
-    SideBar.Background.Position = bpCenter
-    SideBar.Size = 0
-    SideBar.SplitterColorTo = clBlack
-    SideBar.SplitterWidth = 0
-    SideBar.BorderColor = clBlack
-    Separator.Color = clSilver
-    Separator.Width = 0
-    Separator.GradientType = gtBoth
-    Separator.Margin = 0
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWhite
-    Font.Height = -11
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    NotesFont.Charset = DEFAULT_CHARSET
-    NotesFont.Color = clWhite
-    NotesFont.Height = -8
-    NotesFont.Name = 'Tahoma'
-    NotesFont.Style = []
-    UseSystemFont = False
-    MenuBorderColor = clSilver
-    ButtonAppearance.CaptionFont.Charset = DEFAULT_CHARSET
-    ButtonAppearance.CaptionFont.Color = clWhite
-    ButtonAppearance.CaptionFont.Height = -11
-    ButtonAppearance.CaptionFont.Name = 'Tahoma'
-    ButtonAppearance.CaptionFont.Style = []
-    Left = 96
-    Top = 32
   end
   object FCXMLsave: TXMLDocument
     NodeIndentStr = '   '
