@@ -78,12 +78,15 @@ procedure FCMuiAP_Update_SpaceUnit;
 implementation
 
 uses
-   farc_data_3dopengl
+   farc_game_cps
+   ,farc_data_3dopengl
    ,farc_data_game
    ,farc_data_init
+   ,farc_data_spu
+   ,farc_data_textfiles
    ,farc_data_univ
    ,farc_main
-   ,farc_data_textfiles
+   ,farc_spu_functions
    ,farc_win_debug;
 
 //==END PRIVATE ENUM========================================================================
@@ -138,6 +141,9 @@ begin
    FCWinMain.AP_DetailedData.Hide;
    FCWinMain.AP_DockingList.Hide;
    FCWinMain.AP_Separator1.Hide;
+   FCWinMain.AP_MissionColonization.Hide;
+   FCWinMain.AP_MissionInterplanetaryTransit.Hide;
+   FCWinMain.AP_MissionCancel.Hide;
 end;
 
 procedure FCMuiAP_Panel_Resize;
@@ -183,11 +189,16 @@ procedure FCMuiAP_Update_SpaceUnit;
     Additions:
 }
    var
-      SpaceUnit: integer; //FPUdmpIdx
+      DockedSpaceUnits
+      ,SpaceUnit: integer; //FPUdmpIdx
+
+      isReactionMassLeft: boolean;
 begin
    FCMuiAP_Panel_Reset;
    FCWinMain.WM_ActionPanel.Caption.Text:='<p align="center"><b>'+FCFdTFiles_UIStr_Get(uistrUI,'ActionPanelHeader.SpU')+'</b>';
+   DockedSpaceUnits:=0;
    SpaceUnit:=round(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].TagFloat);
+   isReactionMassLeft:=false;
    {.detailed data}
    {DEV NOTE: to add when i'll implement a detailed data panel.}
    {.docking list}
@@ -196,11 +207,58 @@ begin
       FCWinMain.AP_DockingList.Show;
       FCVuiapItems:=FCVuiapItems+1;
    end;
+   {.missions separator}
    if FCVuiapItems>0 then
    begin
       FCWinMain.AP_Separator1.Show;
       FCVuiapItems:=FCVuiapItems+0.5;
    end;
+   isReactionMassLeft:=
+   {.colonization mission}
+   {:DEV NOTES: when reimplant it, test also if there's any reaction mass left!.}
+   {:DEV NOTES: include the possibility when there's no docked spu but the focused spu has colonization capability.}
+   DockedSpaceUnits:=FCFspuF_DockedSpU_GetNum(
+      0
+      ,SpaceUnit
+      ,aLV
+      ,sufcColoniz
+      );
+   {:DEV NOTES: if = 0, test if focused spu has capability
+      FCFspuF_Capability_HasIt
+   .}
+   FPUcolN:=length(FCDdgEntities[0].E_colonies)-1;
+   if (FPUdmpSpUnStatus=susInOrbit)
+      and (FPUlvNum>0) // or hasCapability itself
+      {:DEV NOTES: when eq mdl done, change the line below for more complex code testing
+   colonization equipment module and/or have docked colonization pods.}
+      and (FCDdgEntities[0].E_spaceUnits[FPUdmpIdx].SU_name='wrdMUNmov')
+      and (
+         not assigned(FCcps)
+         or (
+            assigned(FCcps)
+            and (
+                  (FPUcolN=0)
+                  or
+                  (
+                     (FPUcolN=1)
+                     and(FPUspUsat=0)
+                     and (FCDduStarSystem[FPUspUssys].SS_stars[FPUspUstar].S_orbitalObjects[FPUspUoobj].OO_colonies[0]>0)
+                     )
+                  or
+                  (
+                     (FPUcolN=1)
+                     and (FPUspUsat>0)
+                     and (FCDduStarSystem[FPUspUssys].SS_stars[FPUspUstar].S_orbitalObjects[FPUspUoobj].OO_satellitesList[FPUspUsat].OO_colonies[0]>0)
+                     )
+                  )
+               )
+            )
+   then
+   begin
+      FCWinMain.FCWM_PMFO_MissColoniz.Visible:=true;
+   end;
+
+
 
 
 
@@ -250,51 +308,7 @@ begin
 ////         FCWinMain.FCWM_PMFO_MissITransit.Visible:=true;
 ////      end;
 //      {.START POINT OF SPECIFIC MISSIONS}
-//      {.colonization menu item}
-//      {:DEV NOTES: when reimplant it, test also if there's any reaction mass left!.}
-//      {:DEV NOTES: include the possibility when there's no docked spu but the focused spu has colonization capability.}
-//      FPUlvNum:=FCFspuF_DockedSpU_GetNum(
-//         0
-//         ,FPUdmpIdx
-//         ,aLV
-//         ,sufcColoniz
-//         );
-//      {:DEV NOTES: if = 0, test if focused spu has capability
-//         FCFspuF_Capability_HasIt
-//      .}
-//      FPUcolN:=length(FCDdgEntities[0].E_colonies)-1;
-//      if (FPUdmpSpUnStatus=susInOrbit)
-//         and (FPUlvNum>0) // or hasCapability itself
-//         {:DEV NOTES: when eq mdl done, change the line below for more complex code testing
-//      colonization equipment module and/or have docked colonization pods.}
-//         and (FCDdgEntities[0].E_spaceUnits[FPUdmpIdx].SU_name='wrdMUNmov')
-//         and (
-//            not assigned(FCcps)
-//            or (
-//               assigned(FCcps)
-//               and (
-//                     (FPUcolN=0)
-//                     or
-//                     (
-//                        (FPUcolN=1)
-//                        and(FPUspUsat=0)
-//                        and (FCDduStarSystem[FPUspUssys].SS_stars[FPUspUstar].S_orbitalObjects[FPUspUoobj].OO_colonies[0]>0)
-//                        )
-//                     or
-//                     (
-//                        (FPUcolN=1)
-//                        and (FPUspUsat>0)
-//                        and (FCDduStarSystem[FPUspUssys].SS_stars[FPUspUstar].S_orbitalObjects[FPUspUoobj].OO_satellitesList[FPUspUsat].OO_colonies[0]>0)
-//                        )
-//                     )
-//                  )
-//               )
-//      then
-//      begin
-//         FCWinMain.FCWM_PMFO_HeaderSpecMiss.Visible:=true;
-//         FCWinMain.FCWM_PMFO_MissColoniz.Visible:=true;
-//      end;
-//   end; //==END== else if FPUkind= uiwpkSpUnit ==//
+
    FCMuiAP_Panel_Resize;
 end;
 

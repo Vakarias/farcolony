@@ -1018,32 +1018,6 @@ begin
                then FCMoglVM_CamMain_Target(FC3doglSelectedPlanetAsteroid, true);
             end;
 
-            {:DEV NOTES: remove the following lines when the new command panel is made, debug feature only.}
-            {.T}
-            84:
-            begin
-               if FCVdiDebugMode
-               then FCMgMCore_Mission_Setup(
-                  0
-                  ,round(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].TagFloat)
-                  ,tMissionColonization
-                  ,false
-                  );
-            end;
-
-            {.U}
-            85:
-            begin
-               if FCVdiDebugMode
-               then FCMgMCore_Mission_Setup(
-                  0
-                  ,round(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].TagFloat)
-                  ,tMissionInterplanetaryTransit
-                  ,false
-                  );
-            end;
-            {.END debug feature}
-
             {.X}
             88:
             begin

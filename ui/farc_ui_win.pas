@@ -674,7 +674,7 @@ end;
 procedure FCMuiW_UI_Initialize(const UIUtp: TFCEmwinUpdTp);
 {:Purpose: update and initialize all user's interface elements of the game.
    Additions:
-      -2012Dec02- *add: action panel - orbital object data + AP_DetailedData + AP_DockingList buttons.
+      -2012Dec02- *add: action panel - orbital object data + AP_DetailedData + AP_DockingList + AP_MissionColonization + AP_MissionInterplanetaryTransit + AP_MissionCancel buttons.
       -2012Nov29- *add: action panel.
       -2012Sep09- *add: UMI - Faction - Dependencies Circular Progress - linked description label.
       -2012Sep08- *add: UMI - Faction - Dependencies Circular Progress - linked label.
@@ -949,12 +949,9 @@ begin
       FCWinMain.AP_OObjData.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'AP_OObjData');
       FCWinMain.AP_DetailedData.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'AP_DetailedData');
       FCWinMain.AP_DockingList.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'AP_DockingList');
-//      {.popup menu - focused object}
-//      FCWinMain.FCWM_PMFO_Header_Travel.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_PMFO_Header_Travel');
-//      FCWinMain.FCWM_PMFO_MissITransit.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_PMFO_MissITransit');
-//      FCWinMain.FCWM_PMFO_MissCancel.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_PMFO_MissCancel');
-//      FCWinMain.FCWM_PMFO_HeaderSpecMiss.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_PMFO_HeaderSpecMiss');
-//      FCWinMain.FCWM_PMFO_MissColoniz.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_PMFO_MissColoniz');
+      FCWinMain.AP_MissionColonization.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'AP_MissionColonization');
+      FCWinMain.AP_MissionInterplanetaryTransit.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'AP_MissionInterplanetaryTransit');
+      FCWinMain.AP_MissionCancel.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'AP_MissionCancel');
    end;
    //=======================================================================================
    {.this section concern only all texts of about window}
@@ -1553,6 +1550,9 @@ begin
       FCWinMain.AP_OObjData.Font.Size:=FCFuiW_Font_GetSize(uiwButton);
       FCWinMain.AP_DetailedData.Font.Size:=FCFuiW_Font_GetSize(uiwButton);
       FCWinMain.AP_DockingList.Font.Size:=FCFuiW_Font_GetSize(uiwButton);
+      FCWinMain.AP_MissionColonization.Font.Size:=FCFuiW_Font_GetSize(uiwButton);
+      FCWinMain.AP_MissionInterplanetaryTransit.Font.Size:=FCFuiW_Font_GetSize(uiwButton);
+      FCWinMain.AP_MissionCancel.Font.Size:=FCFuiW_Font_GetSize(uiwButton);
    end; //==END== if (UIUtp=mwupAll) or (UIUtp=mwupFontAll) ==//
    {.for about window}
    if ((UIUtp=mwupFontWinAb) or (UIUtp=mwupFontAll))

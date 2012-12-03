@@ -320,31 +320,21 @@
          <FR>Liste d'Amarrage</FR>
          <SP>Lista de Acoplamiento</SP>
       </AP_DockingList>
-      <FCWM_PMFO_MissCancel>
-         <EN>---Cancel Current Mission</EN>
-         <FR>---Annule la Mission en Cours</FR>
-         <SP>---Cancelar la Misión en Curso</SP>
-      </FCWM_PMFO_MissCancel>
-   <FCWM_PMFO_Header_Travel>
-      <EN>Travel Missions</EN>
-      <FR>Missions de Voyage</FR>
-      <SP>Misiones de Viaje</SP>
-   </FCWM_PMFO_Header_Travel>
-      <FCWM_PMFO_MissITransit>
-         <EN>|__Interplanetary Transit</EN>
-         <FR>|__Transit Interplanétaire</FR>
-         <SP>|__Tránsito Interplanetario</SP>
-      </FCWM_PMFO_MissITransit>
-   <FCWM_PMFO_HeaderSpecMiss>
-      <EN>Specific Missions</EN>
-      <FR>Missions Spécifiques</FR>
-      <SP>Misiones Específicas</SP>
-   </FCWM_PMFO_HeaderSpecMiss>
-      <FCWM_PMFO_MissColoniz>
-         <EN>|__Colonization</EN>
-         <FR>|__Colonisation</FR>
-         <SP>|__Colonización</SP>
-      </FCWM_PMFO_MissColoniz>
+      <AP_MissionColonization>
+         <EN>Colonization</EN>
+         <FR>Colonisation</FR>
+         <SP>Colonización</SP>
+      </AP_MissionColonization>
+      <AP_MissionInterplanetaryTransit>
+         <EN>Interplanetary Transit</EN>
+         <FR>Transit Interplanétaire</FR>
+         <SP>Tránsito Interplanetario</SP>
+      </AP_MissionInterplanetaryTransit>
+      <AP_MissionCancel>
+         <EN>Cancel Current Mission</EN>
+         <FR>Annule la Mission en Cours</FR>
+         <SP>Cancelar la Misión en Curso</SP>
+      </AP_MissionCancel>
    <!-- ********** ATMOSPHERIC GASES ********** -->
    <gasAr>
       <EN>Argon</EN>

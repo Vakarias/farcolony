@@ -332,6 +332,9 @@ type
     AP_OObjData: TAdvGlowButton;
     AP_DetailedData: TAdvGlowButton;
     AP_DockingList: TAdvGlowButton;
+    AP_MissionCancel: TAdvGlowButton;
+    AP_MissionInterplanetaryTransit: TAdvGlowButton;
+    AP_MissionColonization: TAdvGlowButton;
       procedure FormCreate(Sender: TObject);
       procedure FormResize(Sender: TObject);
       procedure FCWM_MMenu_G_QuitClick(Sender: TObject);
