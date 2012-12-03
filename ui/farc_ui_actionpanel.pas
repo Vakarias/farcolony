@@ -209,18 +209,26 @@ begin
       );
    {.detailed data}
    {DEV NOTE: to add when i'll implement a detailed data panel.}
+   FCWinMain.AP_DetailedData.Show;
+   FCWinMain.AP_DetailedData.Top:=999;
+   FCVuiapItems:=FCVuiapItems+1;
    {.docking list}
    if length(FCDdgEntities[0].E_spaceUnits[SpaceUnit].SU_dockedSpaceUnits)>1 then
    begin
       FCWinMain.AP_DockingList.Show;
+      FCWinMain.AP_DockingList.Top:=999;
       FCVuiapItems:=FCVuiapItems+1;
    end;
-   {.missions}
-   if ( FCVuiapItems>0 )
-      and ( FCDdgEntities[0].E_spaceUnits[SpaceUnit].SU_reactionMass>0 ) then
+   if FCVuiapItems>0 then
    begin
       FCWinMain.AP_Separator1.Show;
-      FCVuiapItems:=FCVuiapItems+0.5;
+      FCWinMain.AP_Separator1.Top:=999;
+      FCVuiapItems:=FCVuiapItems+0.75;
+   end;
+   {.missions}
+   if FCDdgEntities[0].E_spaceUnits[SpaceUnit].SU_reactionMass>0 then
+   begin
+
       {.colonization mission}
       {:DEV NOTES: include the possibility when there's no docked spu but the focused spu has colonization capability.}
       DockedSpaceUnits:=FCFspuF_DockedSpU_GetNum(
@@ -251,6 +259,7 @@ begin
       then
       begin
          FCWinMain.AP_MissionColonization.Show;
+         FCWinMain.AP_MissionColonization.Top:=999;
          FCVuiapItems:=FCVuiapItems+1;
       end;
    end; //==END== if ( FCVuiapItems>0 ) and ( FCDdgEntities[0].E_spaceUnits[SpaceUnit].SU_reactionMass>0 ) ==//

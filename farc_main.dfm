@@ -3414,14 +3414,16 @@ object FCWinMain: TFCWinMain
         Appearance.ColorMirrorDisabledTo = 15921906
         Appearance.GradientMirrorHot = ggVertical
         Appearance.SystemFont = False
+        ExplicitTop = 0
       end
       object AP_Separator1: TAdvGlowButton
         Left = 1
         Top = 83
         Width = 782
-        Height = 6
+        Height = 12
         Align = alTop
         BorderStyle = bsNone
+        Caption = 'Missions'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clBlack
         Font.Height = -12
@@ -3446,7 +3448,7 @@ object FCWinMain: TFCWinMain
         Appearance.ColorChecked = 16111818
         Appearance.ColorCheckedTo = 16367008
         Appearance.ColorDisabled = 15921906
-        Appearance.ColorDisabledTo = 15921906
+        Appearance.ColorDisabledTo = 11974326
         Appearance.ColorDown = clWhite
         Appearance.ColorDownTo = 9568255
         Appearance.ColorHot = clWhite
@@ -3461,11 +3463,11 @@ object FCWinMain: TFCWinMain
         Appearance.ColorMirrorCheckedTo = 16768988
         Appearance.ColorMirrorDisabled = 11974326
         Appearance.ColorMirrorDisabledTo = 15921906
-        Appearance.Gradient = ggDiagonalBackward
-        Appearance.GradientMirror = ggDiagonalBackward
+        Appearance.Gradient = ggRadial
+        Appearance.GradientMirror = ggRadial
+        Appearance.GradientMirrorDisabled = ggDiagonalForward
         Appearance.SystemFont = False
         Enabled = False
-        ExplicitTop = 64
       end
       object AP_OObjData: TAdvGlowButton
         Left = 1
@@ -3512,7 +3514,7 @@ object FCWinMain: TFCWinMain
         Appearance.ColorMirrorDisabledTo = 15921906
         Appearance.GradientMirrorHot = ggVertical
         Appearance.SystemFont = False
-        ExplicitTop = 63
+        ExplicitTop = 20
       end
       object AP_DetailedData: TAdvGlowButton
         Left = 1
@@ -3610,7 +3612,7 @@ object FCWinMain: TFCWinMain
       end
       object AP_MissionCancel: TAdvGlowButton
         Left = 1
-        Top = 121
+        Top = 127
         Width = 782
         Height = 16
         Align = alTop
@@ -3658,7 +3660,7 @@ object FCWinMain: TFCWinMain
       end
       object AP_MissionInterplanetaryTransit: TAdvGlowButton
         Left = 1
-        Top = 105
+        Top = 111
         Width = 782
         Height = 16
         Align = alTop
@@ -3706,7 +3708,7 @@ object FCWinMain: TFCWinMain
       end
       object AP_MissionColonization: TAdvGlowButton
         Left = 1
-        Top = 89
+        Top = 95
         Width = 782
         Height = 16
         Align = alTop
