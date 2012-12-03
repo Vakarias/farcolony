@@ -3370,90 +3370,6 @@ object FCWinMain: TFCWinMain
       URLColor = 14068651
       OnClose = WM_ActionPanelClose
       FullHeight = 0
-      object AdvGroupBox1: TAdvGroupBox
-        AlignWithMargins = True
-        Left = 1
-        Top = 81
-        Width = 224
-        Height = 207
-        Margins.Left = 0
-        Margins.Top = 40
-        Margins.Right = 0
-        Margins.Bottom = 0
-        Align = alLeft
-        Font.Charset = ANSI_CHARSET
-        Font.Color = clWhite
-        Font.Height = -11
-        Font.Name = 'DejaVu Sans Condensed'
-        Font.Style = []
-        ParentFont = False
-        TabOrder = 0
-        Visible = False
-        ExplicitTop = 59
-        ExplicitHeight = 229
-        object HTMLabel3: THTMLabel
-          Left = 2
-          Top = 3
-          Width = 220
-          Height = 202
-          Align = alClient
-          Color = clBlack
-          GradientType = gtFullVertical
-          Font.Charset = ANSI_CHARSET
-          Font.Color = 14803425
-          Font.Height = -12
-          Font.Name = 'FrancophilSans'
-          Font.Style = []
-          Hover = True
-          HoverColor = clBlack
-          HoverFontColor = clSkyBlue
-          HTMLText.Strings = (
-            'TMS <b>HTML</b> label ')
-          ParentColor = False
-          ParentFont = False
-          URLColor = 14068651
-          OnAnchorClick = FCWM_CDPinfoTextAnchorClick
-          Version = '1.8.1.0'
-          ExplicitHeight = 225
-        end
-      end
-      object LabeledEdit3: TLabeledEdit
-        Left = 192
-        Top = 36
-        Width = 81
-        Height = 20
-        Alignment = taCenter
-        BevelInner = bvNone
-        BevelKind = bkFlat
-        BevelOuter = bvNone
-        BorderStyle = bsNone
-        Color = clWhite
-        Ctl3D = False
-        EditLabel.AlignWithMargins = True
-        EditLabel.Width = 100
-        EditLabel.Height = 14
-        EditLabel.Caption = 'FCWM_CDPcolName'
-        EditLabel.Font.Charset = DEFAULT_CHARSET
-        EditLabel.Font.Color = clWhite
-        EditLabel.Font.Height = -12
-        EditLabel.Font.Name = 'FrancophilSans'
-        EditLabel.Font.Style = []
-        EditLabel.ParentFont = False
-        EditLabel.Transparent = True
-        EditLabel.Layout = tlCenter
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clBlack
-        Font.Height = -12
-        Font.Name = 'FrancophilSans'
-        Font.Style = []
-        MaxLength = 20
-        ParentCtl3D = False
-        ParentFont = False
-        TabOrder = 1
-        Visible = False
-        OnKeyDown = FCWM_CDPcolNameKeyDown
-        OnKeyPress = FCWM_CDPcolNameKeyPress
-      end
       object AP_ColonyData: TAdvGlowButton
         Left = 1
         Top = 19
@@ -3474,7 +3390,7 @@ object FCWinMain: TFCWinMain
         NotesFont.Style = []
         ParentFont = False
         Position = bpMiddle
-        TabOrder = 2
+        TabOrder = 0
         OnClick = AP_ColonyDataClick
         Appearance.BorderColorHot = clWhite
         Appearance.BorderColorDown = clSkyBlue
@@ -3502,7 +3418,7 @@ object FCWinMain: TFCWinMain
       end
       object AP_Separator1: TAdvGlowButton
         Left = 1
-        Top = 35
+        Top = 83
         Width = 782
         Height = 6
         Align = alTop
@@ -3520,7 +3436,7 @@ object FCWinMain: TFCWinMain
         NotesFont.Style = []
         ParentFont = False
         Position = bpMiddle
-        TabOrder = 3
+        TabOrder = 1
         Visible = False
         Appearance.BorderColor = clBlack
         Appearance.BorderColorHot = clWhite
@@ -3550,7 +3466,148 @@ object FCWinMain: TFCWinMain
         Appearance.GradientMirror = ggDiagonalBackward
         Appearance.SystemFont = False
         Enabled = False
-        ExplicitTop = 41
+        ExplicitTop = 64
+      end
+      object AP_OObjData: TAdvGlowButton
+        Left = 1
+        Top = 35
+        Width = 782
+        Height = 16
+        Align = alTop
+        Caption = 'AP_OObjData'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -12
+        Font.Name = 'DejaVu Sans'
+        Font.Style = []
+        FocusType = ftHot
+        NotesFont.Charset = DEFAULT_CHARSET
+        NotesFont.Color = clBlack
+        NotesFont.Height = -11
+        NotesFont.Name = 'FrancophilSans'
+        NotesFont.Style = []
+        ParentFont = False
+        Position = bpMiddle
+        TabOrder = 2
+        OnClick = AP_OObjDataClick
+        Appearance.BorderColorHot = clWhite
+        Appearance.BorderColorDown = clSkyBlue
+        Appearance.ColorTo = clSilver
+        Appearance.ColorChecked = 16111818
+        Appearance.ColorCheckedTo = 16367008
+        Appearance.ColorDisabled = 15921906
+        Appearance.ColorDisabledTo = 15921906
+        Appearance.ColorDown = clWhite
+        Appearance.ColorDownTo = clWhite
+        Appearance.ColorHot = clWhite
+        Appearance.ColorHotTo = clBlack
+        Appearance.ColorMirror = 6447714
+        Appearance.ColorMirrorTo = clSilver
+        Appearance.ColorMirrorHot = 16768988
+        Appearance.ColorMirrorHotTo = clWhite
+        Appearance.ColorMirrorDown = clWhite
+        Appearance.ColorMirrorDownTo = clSkyBlue
+        Appearance.ColorMirrorChecked = 16102556
+        Appearance.ColorMirrorCheckedTo = 16768988
+        Appearance.ColorMirrorDisabled = 11974326
+        Appearance.ColorMirrorDisabledTo = 15921906
+        Appearance.GradientMirrorHot = ggVertical
+        Appearance.SystemFont = False
+        ExplicitTop = 63
+      end
+      object AP_DetailedData: TAdvGlowButton
+        Left = 1
+        Top = 51
+        Width = 782
+        Height = 16
+        Align = alTop
+        Caption = 'AP_DetailedData'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -12
+        Font.Name = 'DejaVu Sans'
+        Font.Style = []
+        FocusType = ftHot
+        NotesFont.Charset = DEFAULT_CHARSET
+        NotesFont.Color = clBlack
+        NotesFont.Height = -11
+        NotesFont.Name = 'FrancophilSans'
+        NotesFont.Style = []
+        ParentFont = False
+        Position = bpMiddle
+        TabOrder = 3
+        Appearance.BorderColorHot = clWhite
+        Appearance.BorderColorDown = clSkyBlue
+        Appearance.ColorTo = clSilver
+        Appearance.ColorChecked = 16111818
+        Appearance.ColorCheckedTo = 16367008
+        Appearance.ColorDisabled = 15921906
+        Appearance.ColorDisabledTo = 15921906
+        Appearance.ColorDown = clWhite
+        Appearance.ColorDownTo = clWhite
+        Appearance.ColorHot = clWhite
+        Appearance.ColorHotTo = clBlack
+        Appearance.ColorMirror = 6447714
+        Appearance.ColorMirrorTo = clSilver
+        Appearance.ColorMirrorHot = 16768988
+        Appearance.ColorMirrorHotTo = clWhite
+        Appearance.ColorMirrorDown = clWhite
+        Appearance.ColorMirrorDownTo = clSkyBlue
+        Appearance.ColorMirrorChecked = 16102556
+        Appearance.ColorMirrorCheckedTo = 16768988
+        Appearance.ColorMirrorDisabled = 11974326
+        Appearance.ColorMirrorDisabledTo = 15921906
+        Appearance.GradientMirrorHot = ggVertical
+        Appearance.SystemFont = False
+        ExplicitTop = 64
+      end
+      object AP_DockingList: TAdvGlowButton
+        Left = 1
+        Top = 67
+        Width = 782
+        Height = 16
+        Align = alTop
+        Caption = 'AP_DockingList'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -12
+        Font.Name = 'DejaVu Sans'
+        Font.Style = []
+        FocusType = ftHot
+        NotesFont.Charset = DEFAULT_CHARSET
+        NotesFont.Color = clBlack
+        NotesFont.Height = -11
+        NotesFont.Name = 'FrancophilSans'
+        NotesFont.Style = []
+        ParentFont = False
+        Position = bpMiddle
+        TabOrder = 4
+        OnClick = AP_DockingListClick
+        Appearance.BorderColorHot = clWhite
+        Appearance.BorderColorDown = clSkyBlue
+        Appearance.ColorTo = clSilver
+        Appearance.ColorChecked = 16111818
+        Appearance.ColorCheckedTo = 16367008
+        Appearance.ColorDisabled = 15921906
+        Appearance.ColorDisabledTo = 15921906
+        Appearance.ColorDown = clWhite
+        Appearance.ColorDownTo = clWhite
+        Appearance.ColorHot = clWhite
+        Appearance.ColorHotTo = clBlack
+        Appearance.ColorMirror = 6447714
+        Appearance.ColorMirrorTo = clSilver
+        Appearance.ColorMirrorHot = 16768988
+        Appearance.ColorMirrorHotTo = clWhite
+        Appearance.ColorMirrorDown = clWhite
+        Appearance.ColorMirrorDownTo = clSkyBlue
+        Appearance.ColorMirrorChecked = 16102556
+        Appearance.ColorMirrorCheckedTo = 16768988
+        Appearance.ColorMirrorDisabled = 11974326
+        Appearance.ColorMirrorDisabledTo = 15921906
+        Appearance.GradientMirrorHot = ggVertical
+        Appearance.SystemFont = False
+        ExplicitLeft = -5
+        ExplicitTop = 79
       end
     end
   end
@@ -12312,14 +12369,12 @@ object FCWinMain: TFCWinMain
     end
     object FCWM_PMFO_DList: TMenuItem
       Caption = 'FCWM_PMFO_DList'
-      OnClick = FCWM_PMFO_DListClick
     end
     object FCWM_PMFOcolfacData: TMenuItem
       Caption = 'FCWM_PMFOcolfacData'
     end
     object FCWM_PMFOoobjData: TMenuItem
       Caption = 'FCWM_PMFOoobjData'
-      OnClick = FCWM_PMFOoobjDataClick
     end
     object FCWM_PMFO_MissCancel: TMenuItem
       Caption = 'FCWM_PMFO_MissCancel'

@@ -290,36 +290,36 @@
       <SP>año</SP>
    </acronYr>
    <!-- ********** ACTION PANEL  ******* -->
-   <FCWM_PMFOcolfacData>
-      <EN>Colony/Faction Data</EN>
-      <FR>Données de la Colonie/Faction</FR>
-      <SP>Datos de la Colonia/Facción</SP>
-   </FCWM_PMFOcolfacData>
    <ActionPanelHeader.OObj>
       <EN>Orbital Object Menu</EN>
       <FR>Menu de l'Objet Orbital</FR>
       <SP>Menú del Objeto Orbital</SP>
    </ActionPanelHeader.OObj>
+      <AP_ColonyData>
+         <EN>Colony/Faction Data</EN>
+         <FR>Données de la Colonie/Faction</FR>
+         <SP>Datos de la Colonia/Facción</SP>
+      </AP_ColonyData>
+      <AP_OObjData>
+         <EN>Ecosphere / Surface</EN>
+         <FR>Ecosphère / Surface</FR>
+         <SP>Ecosfera / Superficie</SP>
+      </AP_OObjData>
    <ActionPanelHeader.SpU>
       <EN>Space Unit Menu</EN>
       <FR>Menu de l'Unité Spatiale</FR>
       <SP>Menú de la Unidad Espacial</SP>
    </ActionPanelHeader.SpU>
-      <FCWM_PMFO_DList>
-         <EN>|__Docking List</EN>
-         <FR>|__Liste d'Amarrage</FR>
-         <SP>|__Lista de Acoplamiento</SP>
-      </FCWM_PMFO_DList>
-      <FCWM_PMFO_Data.OObj>
-         <EN>Ecosphere / Surface</EN>
-         <FR>Ecosphère / Surface</FR>
-         <SP>Ecosfera / Superficie</SP>
-      </FCWM_PMFO_Data.OObj>
-      <FCWM_PMFO_Data.SpUnit>
-         <EN>---Detailed Data</EN>
-         <FR>---Données Détaillées</FR>
-         <SP>---Datos Detallados</SP>
-      </FCWM_PMFO_Data.SpUnit>
+      <AP_DetailedData>
+         <EN>Detailed Data</EN>
+         <FR>Données Détaillées</FR>
+         <SP>Datos Detallados</SP>
+      </AP_DetailedData>
+      <AP_DockingList>
+         <EN>Docking List</EN>
+         <FR>Liste d'Amarrage</FR>
+         <SP>Lista de Acoplamiento</SP>
+      </AP_DockingList>
       <FCWM_PMFO_MissCancel>
          <EN>---Cancel Current Mission</EN>
          <FR>---Annule la Mission en Cours</FR>

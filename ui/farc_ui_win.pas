@@ -413,111 +413,112 @@ begin
 //         FCWinMain.FCWM_PMFOoobjData.Visible:=false;
 //      end
 //      else if FC3doglSelectedPlanetAsteroid>0
-//      then FCWinMain.FCWM_PMFOoobjData.Visible:=true;
+//      then
+//FCWinMain.FCWM_PMFOoobjData.Visible:=true;
    end {.if FPUkind= uiwpkOrbObj}
-   {.space unit menu setup}
+//   {.space unit menu setup}
    else if PPOFUtp=uiwpkSpUnit
    then
    begin
-      {.menu initialize and gather owned space unit data}
-      FCMuiWin_FocusPopup_Reset;
-      FPUdmpIdx:=round(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].TagFloat);
-      FPUdmpTaskId:=FCDdgEntities[0].E_spaceUnits[FPUdmpIdx].SU_assignedTask;
-      FPUdmpSpUnStatus:=FCDdgEntities[0].E_spaceUnits[FPUdmpIdx].SU_status;
-      FPUspUssys:=FCFuF_StelObj_GetDbIdx(
-         ufsoSsys
-         ,FCDdgEntities[0].E_spaceUnits[FPUdmpIdx].SU_locationStarSystem
-         ,0
-         ,0
-         ,0
-         );
-      FPUspUstar:=FCFuF_StelObj_GetDbIdx(
-         ufsoStar
-         ,FCDdgEntities[0].E_spaceUnits[FPUdmpIdx].SU_locationStar
-         ,FPUspUssys
-         ,0
-         ,0
-         );
-      FPUspUoobj:=FCFuF_StelObj_GetDbIdx(
-         ufsoOObj
-         ,FCDdgEntities[0].E_spaceUnits[FPUdmpIdx].SU_locationOrbitalObject
-         ,FPUspUssys
-         ,FPUspUstar
-         ,0
-         );
-      if FCDdgEntities[0].E_spaceUnits[FPUdmpIdx].SU_locationSatellite<>''
-      then FPUspUsat:=FCFuF_StelObj_GetDbIdx(
-         ufsoSat
-         ,FCDdgEntities[0].E_spaceUnits[FPUdmpIdx].SU_locationSatellite
-         ,FPUspUssys
-         ,FPUspUstar
-         ,FPUspUoobj
-         );
-      {.menu main header}
-      FCWinMain.FCWM_PMFO_Header_SpUnitOObj.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_PMFO_Header_SpUnitOObj.SpUnit');
-      {.docking list}
-      if length(FCDdgEntities[0].E_spaceUnits[FPUdmpIdx].SU_dockedSpaceUnits)>1
-      then FCWinMain.FCWM_PMFO_DList.Visible:=true;
-      {.detailed data subitem}
-      {DEV NOTE: to add when i'll implement a detailed data panel.}
-      {.cancel current mission subitem}
-//      if FPUdmpTaskId>0
-//      then FCWinMain.FCWM_PMFO_MissCancel.Visible:=true;
-      {.START POINT OF TRAVEL MISSIONS}
-      {.interplanetary transit menu item}
-      {:DEV NOTES: when reimplant it, test also if there's any reaction mass left!.}
-//      if (FPUdmpSpUnStatus in [susInFreeSpace..susDocked])
-//         and(FPUdmpTaskId=0)
+//      {.menu initialize and gather owned space unit data}
+//      FCMuiWin_FocusPopup_Reset;
+//      FPUdmpIdx:=round(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].TagFloat);
+//      FPUdmpTaskId:=FCDdgEntities[0].E_spaceUnits[FPUdmpIdx].SU_assignedTask;
+//      FPUdmpSpUnStatus:=FCDdgEntities[0].E_spaceUnits[FPUdmpIdx].SU_status;
+//      FPUspUssys:=FCFuF_StelObj_GetDbIdx(
+//         ufsoSsys
+//         ,FCDdgEntities[0].E_spaceUnits[FPUdmpIdx].SU_locationStarSystem
+//         ,0
+//         ,0
+//         ,0
+//         );
+//      FPUspUstar:=FCFuF_StelObj_GetDbIdx(
+//         ufsoStar
+//         ,FCDdgEntities[0].E_spaceUnits[FPUdmpIdx].SU_locationStar
+//         ,FPUspUssys
+//         ,0
+//         ,0
+//         );
+//      FPUspUoobj:=FCFuF_StelObj_GetDbIdx(
+//         ufsoOObj
+//         ,FCDdgEntities[0].E_spaceUnits[FPUdmpIdx].SU_locationOrbitalObject
+//         ,FPUspUssys
+//         ,FPUspUstar
+//         ,0
+//         );
+//      if FCDdgEntities[0].E_spaceUnits[FPUdmpIdx].SU_locationSatellite<>''
+//      then FPUspUsat:=FCFuF_StelObj_GetDbIdx(
+//         ufsoSat
+//         ,FCDdgEntities[0].E_spaceUnits[FPUdmpIdx].SU_locationSatellite
+//         ,FPUspUssys
+//         ,FPUspUstar
+//         ,FPUspUoobj
+//         );
+//      {.menu main header}
+//      FCWinMain.FCWM_PMFO_Header_SpUnitOObj.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_PMFO_Header_SpUnitOObj.SpUnit');
+//      {.docking list}
+//      if length(FCDdgEntities[0].E_spaceUnits[FPUdmpIdx].SU_dockedSpaceUnits)>1
+//      then FCWinMain.FCWM_PMFO_DList.Visible:=true;
+//      {.detailed data subitem}
+//      {DEV NOTE: to add when i'll implement a detailed data panel.}
+//      {.cancel current mission subitem}
+////      if FPUdmpTaskId>0
+////      then FCWinMain.FCWM_PMFO_MissCancel.Visible:=true;
+//      {.START POINT OF TRAVEL MISSIONS}
+//      {.interplanetary transit menu item}
+//      {:DEV NOTES: when reimplant it, test also if there's any reaction mass left!.}
+////      if (FPUdmpSpUnStatus in [susInFreeSpace..susDocked])
+////         and(FPUdmpTaskId=0)
+////      then
+////      begin
+////         FCWinMain.FCWM_PMFO_Header_Travel.Visible:=true;
+////         FCWinMain.FCWM_PMFO_MissITransit.Visible:=true;
+////      end;
+//      {.START POINT OF SPECIFIC MISSIONS}
+//      {.colonization menu item}
+//      {:DEV NOTES: when reimplant it, test also if there's any reaction mass left!.}
+//      {:DEV NOTES: include the possibility when there's no docked spu but the focused spu has colonization capability.}
+//      FPUlvNum:=FCFspuF_DockedSpU_GetNum(
+//         0
+//         ,FPUdmpIdx
+//         ,aLV
+//         ,sufcColoniz
+//         );
+//      {:DEV NOTES: if = 0, test if focused spu has capability
+//         FCFspuF_Capability_HasIt
+//      .}
+//      FPUcolN:=length(FCDdgEntities[0].E_colonies)-1;
+//      if (FPUdmpSpUnStatus=susInOrbit)
+//         and (FPUlvNum>0) // or hasCapability itself
+//         {:DEV NOTES: when eq mdl done, change the line below for more complex code testing
+//      colonization equipment module and/or have docked colonization pods.}
+//         and (FCDdgEntities[0].E_spaceUnits[FPUdmpIdx].SU_name='wrdMUNmov')
+//         and (
+//            not assigned(FCcps)
+//            or (
+//               assigned(FCcps)
+//               and (
+//                     (FPUcolN=0)
+//                     or
+//                     (
+//                        (FPUcolN=1)
+//                        and(FPUspUsat=0)
+//                        and (FCDduStarSystem[FPUspUssys].SS_stars[FPUspUstar].S_orbitalObjects[FPUspUoobj].OO_colonies[0]>0)
+//                        )
+//                     or
+//                     (
+//                        (FPUcolN=1)
+//                        and (FPUspUsat>0)
+//                        and (FCDduStarSystem[FPUspUssys].SS_stars[FPUspUstar].S_orbitalObjects[FPUspUoobj].OO_satellitesList[FPUspUsat].OO_colonies[0]>0)
+//                        )
+//                     )
+//                  )
+//               )
 //      then
 //      begin
-//         FCWinMain.FCWM_PMFO_Header_Travel.Visible:=true;
-//         FCWinMain.FCWM_PMFO_MissITransit.Visible:=true;
+//         FCWinMain.FCWM_PMFO_HeaderSpecMiss.Visible:=true;
+//         FCWinMain.FCWM_PMFO_MissColoniz.Visible:=true;
 //      end;
-      {.START POINT OF SPECIFIC MISSIONS}
-      {.colonization menu item}
-      {:DEV NOTES: when reimplant it, test also if there's any reaction mass left!.}
-      {:DEV NOTES: include the possibility when there's no docked spu but the focused spu has colonization capability.}
-      FPUlvNum:=FCFspuF_DockedSpU_GetNum(
-         0
-         ,FPUdmpIdx
-         ,aLV
-         ,sufcColoniz
-         );
-      {:DEV NOTES: if = 0, test if focused spu has capability
-         FCFspuF_Capability_HasIt
-      .}
-      FPUcolN:=length(FCDdgEntities[0].E_colonies)-1;
-      if (FPUdmpSpUnStatus=susInOrbit)
-         and (FPUlvNum>0) // or hasCapability itself
-         {:DEV NOTES: when eq mdl done, change the line below for more complex code testing
-      colonization equipment module and/or have docked colonization pods.}
-         and (FCDdgEntities[0].E_spaceUnits[FPUdmpIdx].SU_name='wrdMUNmov')
-         and (
-            not assigned(FCcps)
-            or (
-               assigned(FCcps)
-               and (
-                     (FPUcolN=0)
-                     or
-                     (
-                        (FPUcolN=1)
-                        and(FPUspUsat=0)
-                        and (FCDduStarSystem[FPUspUssys].SS_stars[FPUspUstar].S_orbitalObjects[FPUspUoobj].OO_colonies[0]>0)
-                        )
-                     or
-                     (
-                        (FPUcolN=1)
-                        and (FPUspUsat>0)
-                        and (FCDduStarSystem[FPUspUssys].SS_stars[FPUspUstar].S_orbitalObjects[FPUspUoobj].OO_satellitesList[FPUspUsat].OO_colonies[0]>0)
-                        )
-                     )
-                  )
-               )
-      then
-      begin
-         FCWinMain.FCWM_PMFO_HeaderSpecMiss.Visible:=true;
-         FCWinMain.FCWM_PMFO_MissColoniz.Visible:=true;
-      end;
    end; //==END== else if FPUkind= uiwpkSpUnit ==//
 end;
 
@@ -673,6 +674,7 @@ end;
 procedure FCMuiW_UI_Initialize(const UIUtp: TFCEmwinUpdTp);
 {:Purpose: update and initialize all user's interface elements of the game.
    Additions:
+      -2012Dec02- *add: action panel - orbital object data + AP_DetailedData + AP_DockingList buttons.
       -2012Nov29- *add: action panel.
       -2012Sep09- *add: UMI - Faction - Dependencies Circular Progress - linked description label.
       -2012Sep08- *add: UMI - Faction - Dependencies Circular Progress - linked label.
@@ -857,9 +859,6 @@ begin
       FCWinMain.FCWM_MMenu_Help.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MMenu_Help');
       FCWinMain.FCWM_MMenu_H_HPanel.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MMenu_H_HPanel');
 		FCWinMain.FCWM_MMenu_H_About.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MMenu_H_About');
-      {.focused object popup menu - static texts}
-      FCWinMain.FCWM_PMFOoobjData.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_PMFO_Data.OObj');
-      FCWinMain.FCWM_PMFOcolfacData.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_PMFOcolfacData');
 	end;
    if (((UIUtp=mwupAll) or (UIUtp=mwupTextWinMain)) and (FCWinMain.FCWM_3dMainGrp.Visible))
       or (UIUtp=mwupTextWM3dFrame)
@@ -895,13 +894,6 @@ begin
       FCWinMain.FCWM_HDPhintsList.ItemIndex:=0;
       FCWinMain.FCWM_HDPhintsList.Selected[0]:=true;
       FCMuiW_HelpTDef_Link(FCDBhelpTdef[FCWinMain.FCWM_HDPhintsList.ItemIndex+1].TD_link, false);
-      {.popup menu - focused object}
-      FCWinMain.FCWM_PMFO_DList.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_PMFO_DList');
-      FCWinMain.FCWM_PMFO_Header_Travel.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_PMFO_Header_Travel');
-      FCWinMain.FCWM_PMFO_MissITransit.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_PMFO_MissITransit');
-      FCWinMain.FCWM_PMFO_MissCancel.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_PMFO_MissCancel');
-      FCWinMain.FCWM_PMFO_HeaderSpecMiss.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_PMFO_HeaderSpecMiss');
-      FCWinMain.FCWM_PMFO_MissColoniz.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_PMFO_MissColoniz');
       {.surface panel}
       FCWinMain.FCWM_SurfPanel.Caption.Text:='';
       FCWinMain.FCWM_SP_AutoUp.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_SP_AutoUp');
@@ -953,7 +945,16 @@ begin
       FCWinMain.FCWM_CPSreportSet.Caption.Text:='<p align="center"><b>'+FCFdTFiles_UIStr_Get( uistrUI, 'CPSrepSetTitle' )+'</b>';
       FCWinMain.FCWM_CPSRSbuttonConfirm.Caption:='OK';
       {.action panel}
-      FCWinMain.AP_ColonyData.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_PMFOcolfacData');
+      FCWinMain.AP_ColonyData.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'AP_ColonyData');
+      FCWinMain.AP_OObjData.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'AP_OObjData');
+      FCWinMain.AP_DetailedData.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'AP_DetailedData');
+      FCWinMain.AP_DockingList.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'AP_DockingList');
+//      {.popup menu - focused object}
+//      FCWinMain.FCWM_PMFO_Header_Travel.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_PMFO_Header_Travel');
+//      FCWinMain.FCWM_PMFO_MissITransit.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_PMFO_MissITransit');
+//      FCWinMain.FCWM_PMFO_MissCancel.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_PMFO_MissCancel');
+//      FCWinMain.FCWM_PMFO_HeaderSpecMiss.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_PMFO_HeaderSpecMiss');
+//      FCWinMain.FCWM_PMFO_MissColoniz.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_PMFO_MissColoniz');
    end;
    //=======================================================================================
    {.this section concern only all texts of about window}
@@ -1549,6 +1550,9 @@ begin
       {.action panel}
       FCWinMain.WM_ActionPanel.Caption.Font.Size:=FCFuiW_Font_GetSize(uiwPanelTitle);
       FCWinMain.AP_ColonyData.Font.Size:=FCFuiW_Font_GetSize(uiwButton);
+      FCWinMain.AP_OObjData.Font.Size:=FCFuiW_Font_GetSize(uiwButton);
+      FCWinMain.AP_DetailedData.Font.Size:=FCFuiW_Font_GetSize(uiwButton);
+      FCWinMain.AP_DockingList.Font.Size:=FCFuiW_Font_GetSize(uiwButton);
    end; //==END== if (UIUtp=mwupAll) or (UIUtp=mwupFontAll) ==//
    {.for about window}
    if ((UIUtp=mwupFontWinAb) or (UIUtp=mwupFontAll))

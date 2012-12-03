@@ -79,6 +79,7 @@ implementation
 
 uses
    farc_data_3dopengl
+   ,farc_data_game
    ,farc_data_init
    ,farc_data_univ
    ,farc_main
@@ -128,10 +129,14 @@ end;
 procedure FCMuiAP_Panel_Reset;
 {:Purpose: reset the action panel choices.
     Additions:
+      -2012Dec02- *add: AP_OObjData + AP_DetailedData + AP_DockingList.
 }
 begin
    FCVuiapItems:=0;
    FCWinMain.AP_ColonyData.Hide;
+   FCWinMain.AP_OObjData.Hide;
+   FCWinMain.AP_DetailedData.Hide;
+   FCWinMain.AP_DockingList.Hide;
    FCWinMain.AP_Separator1.Hide;
 end;
 
@@ -146,11 +151,11 @@ end;
 procedure FCMuiAP_Update_OrbitalObject;
 {:Purpose: update the action panel w/ orbital object actions.
     Additions:
+      -2012Dec02- *add: routine completion.
 }
 begin
    FCMuiAP_Panel_Reset;
    FCWinMain.WM_ActionPanel.Caption.Text:='<p align="center"><b>'+FCFdTFiles_UIStr_Get(uistrUI,'ActionPanelHeader.OObj')+'</b>';
-   {.colony/faction data}
    if (
       (FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglObjectsGroups[FC3doglSelectedPlanetAsteroid])
       and (FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[FC3doglSelectedPlanetAsteroid].OO_colonies[0]>0)
@@ -164,13 +169,12 @@ begin
    begin
       FCWinMain.AP_ColonyData.Show;
       FCVuiapItems:=FCVuiapItems+1;
-//      FCWinMain.AP_Separator1.Show;
-//      FCVuiapItems:=FCVuiapItems+0.5
-//      FCWinMain.FCWM_PMFOoobjData.Visible:=false;
    end
-//   else if FC3doglSelectedPlanetAsteroid>0
-//   then FCWinMain.FCWM_PMFOoobjData.Visible:=true
-   ;
+   else if FC3doglSelectedPlanetAsteroid>0 then
+   begin
+      FCWinMain.AP_OObjData.Show;
+      FCVuiapItems:=FCVuiapItems+1;
+   end;
    FCMuiAP_Panel_Resize;
 end;
 
@@ -178,9 +182,120 @@ procedure FCMuiAP_Update_SpaceUnit;
 {:Purpose: update the action panel w/ space unit actions.
     Additions:
 }
+   var
+      SpaceUnit: integer; //FPUdmpIdx
 begin
    FCMuiAP_Panel_Reset;
    FCWinMain.WM_ActionPanel.Caption.Text:='<p align="center"><b>'+FCFdTFiles_UIStr_Get(uistrUI,'ActionPanelHeader.SpU')+'</b>';
+   SpaceUnit:=round(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].TagFloat);
+   {.detailed data}
+   {DEV NOTE: to add when i'll implement a detailed data panel.}
+   {.docking list}
+   if length(FCDdgEntities[0].E_spaceUnits[SpaceUnit].SU_dockedSpaceUnits)>1 then
+   begin
+      FCWinMain.AP_DockingList.Show;
+      FCVuiapItems:=FCVuiapItems+1;
+   end;
+   if FCVuiapItems>0 then
+   begin
+      FCWinMain.AP_Separator1.Show;
+      FCVuiapItems:=FCVuiapItems+0.5;
+   end;
+
+
+
+//      FPUdmpTaskId:=FCDdgEntities[0].E_spaceUnits[FPUdmpIdx].SU_assignedTask;
+//      FPUdmpSpUnStatus:=FCDdgEntities[0].E_spaceUnits[FPUdmpIdx].SU_status;
+//      FPUspUssys:=FCFuF_StelObj_GetDbIdx(
+//         ufsoSsys
+//         ,FCDdgEntities[0].E_spaceUnits[FPUdmpIdx].SU_locationStarSystem
+//         ,0
+//         ,0
+//         ,0
+//         );
+//      FPUspUstar:=FCFuF_StelObj_GetDbIdx(
+//         ufsoStar
+//         ,FCDdgEntities[0].E_spaceUnits[FPUdmpIdx].SU_locationStar
+//         ,FPUspUssys
+//         ,0
+//         ,0
+//         );
+//      FPUspUoobj:=FCFuF_StelObj_GetDbIdx(
+//         ufsoOObj
+//         ,FCDdgEntities[0].E_spaceUnits[FPUdmpIdx].SU_locationOrbitalObject
+//         ,FPUspUssys
+//         ,FPUspUstar
+//         ,0
+//         );
+//      if FCDdgEntities[0].E_spaceUnits[FPUdmpIdx].SU_locationSatellite<>''
+//      then FPUspUsat:=FCFuF_StelObj_GetDbIdx(
+//         ufsoSat
+//         ,FCDdgEntities[0].E_spaceUnits[FPUdmpIdx].SU_locationSatellite
+//         ,FPUspUssys
+//         ,FPUspUstar
+//         ,FPUspUoobj
+//         );
+
+//      {.cancel current mission subitem}
+////      if FPUdmpTaskId>0
+////      then FCWinMain.FCWM_PMFO_MissCancel.Visible:=true;
+//      {.START POINT OF TRAVEL MISSIONS}
+//      {.interplanetary transit menu item}
+//      {:DEV NOTES: when reimplant it, test also if there's any reaction mass left!.}
+////      if (FPUdmpSpUnStatus in [susInFreeSpace..susDocked])
+////         and(FPUdmpTaskId=0)
+////      then
+////      begin
+////         FCWinMain.FCWM_PMFO_Header_Travel.Visible:=true;
+////         FCWinMain.FCWM_PMFO_MissITransit.Visible:=true;
+////      end;
+//      {.START POINT OF SPECIFIC MISSIONS}
+//      {.colonization menu item}
+//      {:DEV NOTES: when reimplant it, test also if there's any reaction mass left!.}
+//      {:DEV NOTES: include the possibility when there's no docked spu but the focused spu has colonization capability.}
+//      FPUlvNum:=FCFspuF_DockedSpU_GetNum(
+//         0
+//         ,FPUdmpIdx
+//         ,aLV
+//         ,sufcColoniz
+//         );
+//      {:DEV NOTES: if = 0, test if focused spu has capability
+//         FCFspuF_Capability_HasIt
+//      .}
+//      FPUcolN:=length(FCDdgEntities[0].E_colonies)-1;
+//      if (FPUdmpSpUnStatus=susInOrbit)
+//         and (FPUlvNum>0) // or hasCapability itself
+//         {:DEV NOTES: when eq mdl done, change the line below for more complex code testing
+//      colonization equipment module and/or have docked colonization pods.}
+//         and (FCDdgEntities[0].E_spaceUnits[FPUdmpIdx].SU_name='wrdMUNmov')
+//         and (
+//            not assigned(FCcps)
+//            or (
+//               assigned(FCcps)
+//               and (
+//                     (FPUcolN=0)
+//                     or
+//                     (
+//                        (FPUcolN=1)
+//                        and(FPUspUsat=0)
+//                        and (FCDduStarSystem[FPUspUssys].SS_stars[FPUspUstar].S_orbitalObjects[FPUspUoobj].OO_colonies[0]>0)
+//                        )
+//                     or
+//                     (
+//                        (FPUcolN=1)
+//                        and (FPUspUsat>0)
+//                        and (FCDduStarSystem[FPUspUssys].SS_stars[FPUspUstar].S_orbitalObjects[FPUspUoobj].OO_satellitesList[FPUspUsat].OO_colonies[0]>0)
+//                        )
+//                     )
+//                  )
+//               )
+//      then
+//      begin
+//         FCWinMain.FCWM_PMFO_HeaderSpecMiss.Visible:=true;
+//         FCWinMain.FCWM_PMFO_MissColoniz.Visible:=true;
+//      end;
+//   end; //==END== else if FPUkind= uiwpkSpUnit ==//
+   FCMuiAP_Panel_Resize;
 end;
 
 end.

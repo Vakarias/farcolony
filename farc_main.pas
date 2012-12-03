@@ -327,11 +327,11 @@ type
     FCWM_UMI_FDMilValDesc: THTMLabel;
     FCWM_UMI_FDSocValDesc: THTMLabel;
     WM_ActionPanel: TAdvPanel;
-    AdvGroupBox1: TAdvGroupBox;
-    HTMLabel3: THTMLabel;
-    LabeledEdit3: TLabeledEdit;
     AP_ColonyData: TAdvGlowButton;
     AP_Separator1: TAdvGlowButton;
+    AP_OObjData: TAdvGlowButton;
+    AP_DetailedData: TAdvGlowButton;
+    AP_DockingList: TAdvGlowButton;
       procedure FormCreate(Sender: TObject);
       procedure FormResize(Sender: TObject);
       procedure FCWM_MMenu_G_QuitClick(Sender: TObject);
@@ -357,12 +357,10 @@ type
       procedure FCWM_MMenu_O_TR_1024Click(Sender: TObject);
       procedure FCWM_MMenu_O_TR_2048Click(Sender: TObject);
       procedure FCWM_MMenu_H_HPanelClick(Sender: TObject);
-      procedure FCWM_PMFOoobjDataClick(Sender: TObject);
       procedure FCWM_SP_SurfaceHotSpotEnter(Sender: TObject; HotSpot: THotSpot);
       procedure FCWM_SP_SurfaceMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
       procedure FCWM_SP_SurfSelClick(Sender: TObject);
       procedure FCWM_SP_AutoUpKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-      procedure FCWM_PMFO_DListClick(Sender: TObject);
     procedure FCWM_DLP_DockListKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FCWM_DLP_DockListMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
     procedure FCWM_DLP_DockListClick(Sender: TObject);
@@ -453,6 +451,8 @@ type
     procedure FCWM_CPSRSbuttonConfirmClick(Sender: TObject);
     procedure WM_ActionPanelClose(Sender: TObject);
     procedure AP_ColonyDataClick(Sender: TObject);
+    procedure AP_OObjDataClick(Sender: TObject);
+    procedure AP_DockingListClick(Sender: TObject);
    private
       { Private declarations }
          {timesteps needed for camera transitions}
@@ -538,6 +538,23 @@ begin
       ,round(FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].TagFloat)
       ,FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].Tag
       );
+end;
+
+procedure TFCWinMain.AP_DockingListClick(Sender: TObject);
+begin
+   FCWinMain.WM_ActionPanel.Hide;
+   FCMuiWin_SpUnDck_Upd(round(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].TagFloat));
+end;
+
+procedure TFCWinMain.AP_OObjDataClick(Sender: TObject);
+begin
+   FCWinMain.WM_ActionPanel.Hide;
+   if FCWM_ColDPanel.Visible
+   then FCWM_ColDPanel.Hide;
+   if FCGLSCamMainViewGhost.TargetObject=FC3doglObjectsGroups[FC3doglSelectedPlanetAsteroid]
+   then FCMuiSP_SurfaceEcosphere_Set(FC3doglSelectedPlanetAsteroid, 0, false)
+   else if FCGLSCamMainViewGhost.TargetObject=FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite]
+   then FCMuiSP_SurfaceEcosphere_Set(round(FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].TagFloat), FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].Tag, false);
 end;
 
 procedure TFCWinMain.CDPproductionMatrixListKeyDown(Sender: TObject; var Key: Word;
@@ -1472,26 +1489,6 @@ procedure TFCWinMain.FCWM_MsgeBox_ListKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
    FCMuiK_MsgBoxList_Test(Key, Shift);
-end;
-
-procedure TFCWinMain.FCWM_PMFOoobjDataClick(Sender: TObject);
-var PMFODCdmpOobj: integer;
-begin
-   if FCWM_ColDPanel.Visible
-   then FCWM_ColDPanel.Hide;
-   if FCGLSCamMainViewGhost.TargetObject=FC3doglObjectsGroups[FC3doglSelectedPlanetAsteroid]
-   then FCMuiSP_SurfaceEcosphere_Set(FC3doglSelectedPlanetAsteroid, 0, false)
-   else if FCGLSCamMainViewGhost.TargetObject=FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite]
-   then
-   begin
-      PMFODCdmpOobj:=round(FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].TagFloat);
-      FCMuiSP_SurfaceEcosphere_Set(PMFODCdmpOobj, FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].Tag, false);
-   end;
-end;
-
-procedure TFCWinMain.FCWM_PMFO_DListClick(Sender: TObject);
-begin
-   FCMuiWin_SpUnDck_Upd(round(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].TagFloat));
 end;
 
 procedure TFCWinMain.FCWM_PMFO_MissCancelClick(Sender: TObject);
