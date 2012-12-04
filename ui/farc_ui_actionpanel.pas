@@ -188,6 +188,7 @@ end;
 procedure FCMuiAP_Update_SpaceUnit;
 {:Purpose: update the action panel w/ space unit actions.
     Additions:
+      -2012Dec03- *add: routine completion.
 }
    var
       DockedSpaceUnits
@@ -228,7 +229,6 @@ begin
    {.missions}
    if FCDdgEntities[0].E_spaceUnits[SpaceUnit].SU_reactionMass>0 then
    begin
-
       {.colonization mission}
       {:DEV NOTES: include the possibility when there's no docked spu but the focused spu has colonization capability.}
       DockedSpaceUnits:=FCFspuF_DockedSpU_GetNum(
@@ -262,30 +262,19 @@ begin
          FCWinMain.AP_MissionColonization.Top:=999;
          FCVuiapItems:=FCVuiapItems+1;
       end;
-   end; //==END== if ( FCVuiapItems>0 ) and ( FCDdgEntities[0].E_spaceUnits[SpaceUnit].SU_reactionMass>0 ) ==//
-
-
-
-
-
-
-//      FPUdmpTaskId:=FCDdgEntities[0].E_spaceUnits[FPUdmpIdx].SU_assignedTask;
-
-//      {.cancel current mission subitem}
+      {.interplanetary transit mission}
+      if (FCDdgEntities[0].E_spaceUnits[SpaceUnit].SU_status in [susInFreeSpace..susDocked])
+         and (FCDdgEntities[0].E_spaceUnits[SpaceUnit].SU_assignedTask=0)
+      then
+      begin
+         FCWinMain.AP_MissionInterplanetaryTransit.Show;
+         FCWinMain.AP_MissionInterplanetaryTransit.Top:=999;
+         FCVuiapItems:=FCVuiapItems+1;
+      end;
+      {.cancel current mission subitem}
 ////      if FPUdmpTaskId>0
 ////      then FCWinMain.FCWM_PMFO_MissCancel.Visible:=true;
-//      {.START POINT OF TRAVEL MISSIONS}
-//      {.interplanetary transit menu item}
-//      {:DEV NOTES: when reimplant it, test also if there's any reaction mass left!.}
-////      if (FPUdmpSpUnStatus in [susInFreeSpace..susDocked])
-////         and(FPUdmpTaskId=0)
-////      then
-////      begin
-////         FCWinMain.FCWM_PMFO_Header_Travel.Visible:=true;
-////         FCWinMain.FCWM_PMFO_MissITransit.Visible:=true;
-////      end;
-//      {.START POINT OF SPECIFIC MISSIONS}
-
+   end; //==END== if ( FCVuiapItems>0 ) and ( FCDdgEntities[0].E_spaceUnits[SpaceUnit].SU_reactionMass>0 ) ==//
    FCMuiAP_Panel_Resize;
 end;
 
