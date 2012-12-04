@@ -248,6 +248,7 @@ procedure FCMuiK_BrowseK_Set(
    );
 {:Purpose: centralized browsing keys.
     Additions:
+      -2012Dec03- *fix: prevent a focus on a not visible object.
       -2010Jun02-	*add: space unit: take in account if the object is visible or not.
       -2010Apr05- *fix: browsing previous object for an orbital object simply didn't work.
 }
@@ -255,7 +256,10 @@ var
    BKScnt
    ,BKSdmp
    ,BKSfrwdSpU: integer;
+
+   GreenFlagForFocus: boolean;
 begin
+   GreenFlagForFocus:=false;
    case BKSbtp of
       uikbtOObj:
       begin
@@ -387,7 +391,7 @@ begin
       end; //==END== case - uikbtSat ==//
       uikbtSpU:
       begin
-         FCMoglVMain_SpUnits_SetInitSize(true);
+
          case BKSbk of
             uikbkNext:
             begin
@@ -403,15 +407,21 @@ begin
                         if FC3doglSpaceUnits[BKScnt].Visible
                         then
                         begin
+                              FCMoglVMain_SpUnits_SetInitSize(true);
                               FC3doglSelectedSpaceUnit:=BKScnt;
+                              GreenFlagForFocus:=true;
                               break;
                         end
                         else if not FC3doglSpaceUnits[BKScnt].Visible
                         then inc(BKScnt);
                      end;
                   end
-                  else if FC3doglSpaceUnits[FC3doglSelectedSpaceUnit+1].Visible
-                  then inc(FC3doglSelectedSpaceUnit);
+                  else if FC3doglSpaceUnits[FC3doglSelectedSpaceUnit+1].Visible then
+                  begin
+                     FCMoglVMain_SpUnits_SetInitSize(true);
+                     inc(FC3doglSelectedSpaceUnit);
+                     GreenFlagForFocus:=true;
+                  end;
                end;
             end;
             uikbkPrev:
@@ -428,22 +438,32 @@ begin
                         if FC3doglSpaceUnits[BKScnt].Visible
                         then
                         begin
+                           FCMoglVMain_SpUnits_SetInitSize(true);
                            FC3doglSelectedSpaceUnit:=BKScnt;
+                           GreenFlagForFocus:=true;
                            break;
                         end
                         else if not FC3doglSpaceUnits[BKScnt].Visible
                         then dec(BKScnt);
                      end;
                   end
-                  else if FC3doglSpaceUnits[FC3doglSelectedSpaceUnit-1].Visible
-                  then dec(FC3doglSelectedSpaceUnit);
+                  else if FC3doglSpaceUnits[FC3doglSelectedSpaceUnit-1].Visible then
+                  begin
+                     FCMoglVMain_SpUnits_SetInitSize(true);
+                     dec(FC3doglSelectedSpaceUnit);
+                     GreenFlagForFocus:=true;
+                  end;
                end;
             end;
             uikbkFirst:
             begin
                if (FC3doglSelectedSpaceUnit>1)
-                  and (FC3doglSpaceUnits[1].Visible)
-               then FC3doglSelectedSpaceUnit:=1
+                  and (FC3doglSpaceUnits[1].Visible) then
+               begin
+                  FCMoglVMain_SpUnits_SetInitSize(true);
+                  FC3doglSelectedSpaceUnit:=1;
+                  GreenFlagForFocus:=true;
+               end
                else if (FC3doglSelectedSpaceUnit>2)
                   and (not FC3doglSpaceUnits[1].Visible)
                then
@@ -454,7 +474,9 @@ begin
                      if FC3doglSpaceUnits[BKScnt].Visible
                      then
                      begin
+                        FCMoglVMain_SpUnits_SetInitSize(true);
                         FC3doglSelectedSpaceUnit:=BKScnt;
+                        GreenFlagForFocus:=true;
                         break;
                      end
                      else if not FC3doglSpaceUnits[BKScnt].Visible
@@ -465,8 +487,12 @@ begin
             uikbkLast:
             begin
                if (FC3doglSelectedSpaceUnit<FC3doglTotalSpaceUnits)
-                  and (FC3doglSpaceUnits[FC3doglTotalSpaceUnits].Visible)
-               then FC3doglSelectedSpaceUnit:=FC3doglTotalSpaceUnits
+                  and (FC3doglSpaceUnits[FC3doglTotalSpaceUnits].Visible) then
+               begin
+                  FCMoglVMain_SpUnits_SetInitSize(true);
+                  FC3doglSelectedSpaceUnit:=FC3doglTotalSpaceUnits;
+                  GreenFlagForFocus:=true;
+               end
                else if (FC3doglSelectedSpaceUnit<FC3doglTotalSpaceUnits-1)
                   and (not FC3doglSpaceUnits[FC3doglTotalSpaceUnits].Visible)
                then
@@ -477,7 +503,9 @@ begin
                      if FC3doglSpaceUnits[BKScnt].Visible
                      then
                      begin
+                        FCMoglVMain_SpUnits_SetInitSize(true);
                         FC3doglSelectedSpaceUnit:=BKScnt;
+                        GreenFlagForFocus:=true;
                         break;
                      end
                      else if not FC3doglSpaceUnits[BKScnt].Visible
@@ -486,7 +514,8 @@ begin
                end;
             end;
          end; //==END== case BKSbk of ==//
-         FCMoglVM_CamMain_Target(-1, true);
+         if GreenFlagForFocus
+         then FCMoglVM_CamMain_Target(-1, true);
       end; //==END== case - uikbtSpU: ==//
    end; //==END== case BKSbtp of ==//
 end;

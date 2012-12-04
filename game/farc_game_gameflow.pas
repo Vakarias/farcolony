@@ -231,6 +231,7 @@ end;
 procedure FCMgGFlow_Tasks_Process;
 {:Purpose: process the space units tasks. Replace the multiple threads creation.
     Additions:
+      -2012Dec03- *fix: colonization mission - 3d object management is corrected.
       -2011Feb12- *add: tasks extra data for colonization mission.
       -2010Sep05- *fix: colonization mission - post process: change the 2nd destination check with TITP_destType=tttSat as it should be.
       -2010Jul02- *add: colonization mission: add colony name.
@@ -331,13 +332,16 @@ begin
                      then
                      begin
                         FC3doglSpaceUnits[FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_linked3dObject].Visible:=false;
+
+
+
                         if FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCorigin=ttSpaceUnitDockedIn
                         then
                         begin
-                           FC3doglSelectedSpaceUnit:=FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCoriginIndex; //replace that! use ownedepu [].linked 3d obj
+                           FC3doglSelectedSpaceUnit:=FCDdgEntities[GTPfac].E_spaceUnits[FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCoriginIndex].SU_linked3dObject;
                            FCMoglVM_CamMain_Target(-1, true);
                         end
-                        else if FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCorigin=ttSpace
+                        else if FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCorigin=ttSelf
                         then
                         begin
                            if FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCdestination=ttOrbitalObject

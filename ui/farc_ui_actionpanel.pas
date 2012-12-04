@@ -243,7 +243,8 @@ begin
          when eq mdl done, change the line below for more complex code testing
          colonization equipment module and/or have docked colonization pods
       .}
-      if ( ( DockedSpaceUnits>0 ) or ( FCDdgEntities[0].E_spaceUnits[SpaceUnit].SU_name='wrdMUNmov' ) )
+      if ( ( DockedSpaceUnits>0 ) and ( FCDdgEntities[0].E_spaceUnits[SpaceUnit].SU_name='wrdMUNmov' ) )
+      {:DEV NOTES: new ione must be if ( ( DockedSpaceUnits>0 ) or ( FCFspuF_Capability_HasIt ) ).}
          and (FCDdgEntities[0].E_spaceUnits[SpaceUnit].SU_status=susInOrbit)
          and (
             not assigned(FCcps)

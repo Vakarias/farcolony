@@ -177,7 +177,7 @@ procedure FCMspuF_Orbits_Process(
 ///</summary>
 ///   <param name=""></param>
 ///   <param name=""></param>
-procedure FCMspuF_SpUnit_Remove(const SURfac, SURspu: integer);
+procedure FCMspuF_SpUnit_Remove(const Entity, TargetSpaceUnit: integer);
 
 implementation
 
@@ -185,6 +185,7 @@ uses
    farc_common_func
    ,farc_data_3dopengl
    ,farc_data_game
+   ,farc_data_init
    ,farc_data_missionstasks
    ,farc_data_textfiles
    ,farc_data_univ
@@ -523,6 +524,7 @@ end;
 function FCFspuF_SpUObject_Search(const SUOSfac, SUOSidx: integer): integer;
 {:Purpose: search the corresponding space unit 3d object index regarding the owned #.
     Additions:
+      -2012Dec03- *mod: initialize correctly the Result.
       -2010Sep15- *mod: delete useless code after entities transformation.
       -2010Sep13- *add: entities code.
       -2010Sep06- *code audit.
@@ -535,6 +537,7 @@ var
 
    SUOSsyst: string;
 begin
+   Result:=0;
    SUOSret:=0;
    SUOScnt:=1;
    SUOSsyst:=FCDdgEntities[SUOSfac].E_spaceUnits[SUOSidx].SU_locationStar;
@@ -807,20 +810,22 @@ begin
    end; {.if opOrbMode=spufoioRemOrbit}
 end;
 
-procedure FCMspuF_SpUnit_Remove(const SURfac, SURspu: integer);
+procedure FCMspuF_SpUnit_Remove(const Entity, TargetSpaceUnit: integer);
 {:Purpose: delete a chosen space unit from an faction's owned data structure.
     Additions:
+      -2012Dec03- *rem: remove the faction=0 test, this routine applies either to the player's faction and the AIs ones.
+                  *fix: if the space unit is present in the current 3d view, its object is disabled by set its visibility to false.
       -2010Sep15- *entities code.
       -2010Sep06- *code audit.
 }
 {:DEV NOTES: later include if a space unit have docked space units, to remove them also. The only case it can happen is in case when a mother vessel is
    destroyed in combat, so the docked units are destroyed too. If they can escape, they will be no more docked at the time to remove the mother vessel anyway.}
 var
-   SURclone
-   ,SURcnt
-   ,SURmax
-   ,SURspuObj
-   ,SURtask: integer;
+   CloneCount
+   ,Count
+   ,Max
+   ,SpaceUnit3dIndex
+   ,TaskIndex: integer;
 
    SURisTgtDeleted: boolean;
 
@@ -828,51 +833,57 @@ var
 begin
    SetLength(SURown, 1);
    SURisTgtDeleted:=false;
-   SURcnt:=1;
-   SURclone:=0;
-   SURspuObj:=0;
-   if SURfac=0
-   then
+   Count:=1;
+   CloneCount:=0;
+   SpaceUnit3dIndex:=0;
+   Max:=Length(FCDdgEntities[Entity].E_spaceUnits)-1;
+   SetLength(SURown, Max);
+   while Count<=Max do
    begin
-      SURmax:=Length(FCDdgEntities[SURfac].E_spaceUnits)-1;
-      SetLength(SURown, SURmax);
-      while SURcnt<=SURmax do
+      if Count=TargetSpaceUnit then
       begin
-         if SURcnt<>SURspu
-         then
+         SURisTgtDeleted:=true;
+         if FCDdgEntities[Entity].E_spaceUnits[Count].SU_linked3dObject>0 then
          begin
-            inc(SURclone);
-            SURown[SURclone]:=FCDdgEntities[SURfac].E_spaceUnits[SURcnt];
-            {.task # and 3d object stored data update for all space units after the deleted one}
-            if SURisTgtDeleted
+            SpaceUnit3dIndex:=FCFspuF_SpUObject_Search(Entity, Count);
+            FC3doglSpaceUnits[SpaceUnit3dIndex].Tag:=-1;
+            FC3doglSpaceUnits[SpaceUnit3dIndex].TagFloat:=0;
+            FC3doglSpaceUnits[SpaceUnit3dIndex].Visible:=false;
+         end;
+      end
+      else begin
+         inc( CloneCount );
+         SURown[CloneCount]:=FCDdgEntities[Entity].E_spaceUnits[Count];
+         if SURown[CloneCount].SU_status=susDocked then
+         begin
+            {:DEV NOTES: search mothership    dockedSPuSearch ( entity, dockedIndex = Count) + if mothership< then SURown modif, else if mothership>count then FCDdgEntities modif.}
+         end;
+         if SURisTgtDeleted then
+         begin
+            if SURown[CloneCount].SU_linked3dObject>0
+            then begin
+               FC3doglSpaceUnits[SURown[CloneCount].SU_linked3dObject].TagFloat:=CloneCount;
+               if FCVdiDebugMode
+                  then FCWinDebug.AdvMemo1.Lines.Add('Entity='+inttostr(Entity)+'  CloneCount='+inttostr(CloneCount)+'  SU_linked3dObject='+inttostr(SURown[CloneCount].SU_linked3dObject));
+            end;
+            if SURown[CloneCount].SU_assignedTask>0
             then
             begin
-               if SURown[SURclone].SU_assignedTask>0
-               then
-               begin
-                  SURtask:=SURown[SURclone].SU_assignedTask;
-                  FCDdmtTaskListInProcess[SURtask].T_controllerIndex:=SURclone;
-               end;
-               if SURown[SURclone].SU_locationStar=FCVdgPlayer.P_viewStar
-               then
-               begin
-                  SURspuObj:=FCFspuF_SpUObject_Search(SURfac, SURspu);
-                  FC3doglSpaceUnits[SURspuObj].TagFloat:=SURclone;
-               end;
+               TaskIndex:=SURown[CloneCount].SU_assignedTask;
+               FCDdmtTaskListInProcess[TaskIndex].T_controllerIndex:=CloneCount;
             end;
-         end
-         else if SURcnt=SURspu
-         then SURisTgtDeleted:=true;
-         inc(SURcnt);
+         end;
+
       end;
-      SetLength(FCDdgEntities[SURfac].E_spaceUnits, SURmax);
-      SURcnt:=1;
-      while SURcnt<=SURmax-1 do
-      begin
-         FCDdgEntities[SURfac].E_spaceUnits[surcnt]:=SURown[SURcnt];
-         inc(surcnt);
-      end;
-   end; //==END== if SURfac=0 ==//
+      inc(Count);
+   end;
+   SetLength(FCDdgEntities[Entity].E_spaceUnits, Max);
+   Count:=1;
+   while Count<=Max-1 do
+   begin
+      FCDdgEntities[Entity].E_spaceUnits[Count]:=SURown[Count];
+      inc(Count);
+   end;
 end;
 
 end.
