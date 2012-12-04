@@ -642,6 +642,7 @@ procedure FCMgICS_Conversion_Process(
    );
 {:Purpose: convert a space unit to a corresponding infrastructure as requested.
     Additions:
+      -2012Dec03- *add: the space unit in conversion is now removed from the entity's space units array.
       -2012Apr16- *add: new hardcoded resource added to the colony: water, oxygen and some food for reserves development and testing.
       -2012Mar13- *mod: adjust some hardcoded data.
       -2012Feb15- *mod: adjust the energy generation of the hardcoded data.
@@ -803,7 +804,6 @@ begin
       ,ICPinfra
       ,ICPclonedInfra
       );
-//   FCMspuF_SpUnit_Remove(ICPent, ICPspu);
    {:DEV NOTES: energy consumption-generation-storage data will be calculated from the space unit's design.}
    {:DEV NOTES: for now it's simply hardcoded.}
    FCDdgEntities[ICPent].E_colonies[ICPcol].C_settlements[ICPsettlement].S_infrastructures[ICPinfra].I_powerConsumption:=5;
@@ -904,6 +904,7 @@ begin
       ,ICPsettlement
       ,0
       );
+   FCMspuF_SpUnit_Remove(ICPent, ICPspu);
 end;
 
 procedure FCMgICS_TransitionRule_Process(
