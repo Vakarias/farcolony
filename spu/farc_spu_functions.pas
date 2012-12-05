@@ -854,7 +854,7 @@ end;
 procedure FCMspuF_SpUnit_Remove(const Entity, TargetSpaceUnit: integer);
 {:Purpose: delete a chosen space unit from an faction's owned data structure.
     Additions:
-      -2012Dec04- *add: reoutine completion with docked space units management.
+      -2012Dec04- *add: routine completion with docked space units management.
       -2012Dec03- *rem: remove the faction=0 test, this routine applies either to the player's faction and the AIs ones.
                   *fix: if the space unit is present in the current 3d view, its object is disabled by set its visibility to false.
       -2010Sep15- *entities code.
@@ -899,7 +899,6 @@ begin
          SURown[CloneCount]:=FCDdgEntities[Entity].E_spaceUnits[Count];
          if SURown[CloneCount].SU_status=susDocked then
          begin
-            {:DEV NOTES: search mothership    dockedSPuSearch ( entity, dockedIndex = Count) + if mothership< then SURown modif, else if mothership>count then FCDdgEntities modif.}
             DockedIndex:=FCFspuF_DockedSpU_RetrieveDockedIndex(
                Entity
                ,FCDdgEntities[Entity].E_spaceUnits[Count].SU_locationDockingMotherCraft
