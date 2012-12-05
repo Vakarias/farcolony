@@ -328,22 +328,7 @@ begin
                   then
                   begin
                      {:DEV NOTES: TEST if the SPU IS IN THE CURRENTLY VIEWED PLANETARY SYSTEM!.}
-                     if FC3doglSpaceUnits[FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_linked3dObject].Visible
-                     then
-                     begin
-                        FC3doglSpaceUnits[FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_linked3dObject].Visible:=false;
 
-
-
-                        if FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCorigin=ttSpaceUnitDockedIn
-                        then
-                        begin
-                           FC3doglSelectedSpaceUnit:=FCDdgEntities[GTPfac].E_spaceUnits[FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCoriginIndex].SU_linked3dObject;
-                           FCMoglVM_CamMain_Target(-1, true);
-                        end
-                        else if FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCorigin=ttSelf
-                        then
-                        begin
                            if FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCdestination=ttOrbitalObject
                            then FCMoglVM_CamMain_Target(FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCdestinationIndex, true)
                            else if FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCdestination=ttSatellite
@@ -351,9 +336,9 @@ begin
                            begin
                               FC3doglSelectedSatellite:=FC3doglSatellitesObjectsGroups[FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCdestinationIndex].Tag;//! review that
                               FCMoglVM_CamMain_Target(100, true);
-                           end
-                        end;
-                     end;
+                           end;
+//                        end;
+//                     end;
                      if GGFnewTick>=FCDdmtTaskListInProcess[GTPtaskIdx].T_inProcessData.IPD_ticksAtTaskStart+FCDdmtTaskListInProcess[GTPtaskIdx].T_duration
                      then FCDdmtTaskListInProcess[GTPtaskIdx].T_inProcessData.IPD_isTaskDone:=true;
                   end;

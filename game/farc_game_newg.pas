@@ -217,6 +217,7 @@ end;
 procedure FCMgNG_Core_Proceed;
 {:Purpose: commit new game and initialize game interface.
    Additions:
+      -2012Dec04- *add: for docked vessels, load the SU_locationDockingMotherCraft.
       -2012May24- *add: store the viability thresholds.
       -2012May22- *rem: min/max status levels.
                   *add: economic, social and military viability thresholds.
@@ -445,6 +446,7 @@ FCWinNewGSetup.Close;
                   FCDdgEntities[CPent].E_spaceUnits[CPowndSCidx].SU_locationStarSystem:=FCVdgPlayer.P_viewStarSystem;
                   FCDdgEntities[CPent].E_spaceUnits[CPowndSCidx].SU_locationStar:=FCVdgPlayer.P_viewStar;
                   FCDdgEntities[CPent].E_spaceUnits[CPowndSCidx].SU_locationSatellite:=FCVdgPlayer.P_viewSatellite;
+                  FCDdgEntities[CPent].E_spaceUnits[CPowndSCidx].SU_locationDockingMotherCraft:=0;
                   FCDdgEntities[CPent].E_spaceUnits[CPowndSCidx].SU_locationViewX:=0;
                   FCDdgEntities[CPent].E_spaceUnits[CPowndSCidx].SU_locationViewZ:=0;
                   FCDdgEntities[CPent].E_spaceUnits[CPowndSCidx].SU_assignedTask:=0 ;
@@ -507,6 +509,7 @@ FCWinNewGSetup.Close;
                      FCDdgEntities[CPent].E_spaceUnits[CPspUnMother].SU_dockedSpaceUnits[length(FCDdgEntities[CPent].E_spaceUnits[CPspUnMother].SU_dockedSpaceUnits)-1]
                         .SUDL_index:=CPowndSCidx;
                      FCDdgEntities[CPent].E_spaceUnits[CPowndSCidx].SU_deltaV:=FCDdgEntities[CPent].E_spaceUnits[CPspUnMother].SU_deltaV;
+                     FCDdgEntities[CPent].E_spaceUnits[CPowndSCidx].SU_locationDockingMotherCraft:=CPspUnMother;
                   end;
                   {.available reaction mass}
                   FCDdgEntities[CPent].E_spaceUnits[CPowndSCidx].SU_reactionMass:=CM_equipmentList[CPcount0].EL_eiSUnReactionMass;

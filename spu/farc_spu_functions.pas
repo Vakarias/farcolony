@@ -119,6 +119,19 @@ function FCFspuF_DockedSpU_GetNum(
    ): integer;
 
 ///<summary>
+///   retrieve the index, in the mother craft docking list, of a docked space unit
+///</summary>
+///   <param name="Entity">entity index #</param>
+///   <param name="MotherCraftDBIndex">mother craft db index #</param>
+///   <param name="DockedCraftDBIndex">docked craft db index #</param>
+///   <returns>mother craft docking list index</returns>
+function FCFspuF_DockedSpU_RetrieveDockedIndex(
+   const Entity
+         ,MotherCraftDBIndex
+         ,DockedCraftDBIndex: integer
+         ): integer;
+
+///<summary>
 ///   get the mission name assigned to the chosen space unit
 ///</summary>
 ///    <param name="MNGfac">faction index</param>
@@ -452,6 +465,32 @@ begin
    Result:=DSUGNresult;
 end;
 
+function FCFspuF_DockedSpU_RetrieveDockedIndex(
+   const Entity
+         ,MotherCraftDBIndex
+         ,DockedCraftDBIndex: integer
+         ): integer;
+{:Purpose: retrieve the index, in the mother craft docking list, of a docked space unit.
+    Additions:
+}
+   var
+      Count
+      ,Max: integer;
+begin
+   Result:=0;
+   Count:=1;
+   Max:=length( FCDdgEntities[Entity].E_spaceUnits[MotherCraftDBIndex].SU_dockedSpaceUnits )-1;
+   while Count<=Max do
+   begin
+      if FCDdgEntities[Entity].E_spaceUnits[MotherCraftDBIndex].SU_dockedSpaceUnits[Count].SUDL_index=DockedCraftDBIndex then
+      begin
+         Result:=Count;
+         break;
+      end;
+      inc( Count );
+   end;
+end;
+
 function FCFspuF_Mission_GetMissName(const MNGfac, MNGidxOwn: integer): string;
 {:Purpose: get the mission name assigned to the chosen space unit.
     Additions:
@@ -566,6 +605,7 @@ procedure FCMspuF_DockedSpU_Rem(
    );
 {:Purpose: remove the docked space unit specified by it's owned index #.
     Additions:
+      -2012Dec04- *add: apply the SU_locationDockingMotherCraft management.
       -2010Sep15- *add: a faction # parameter.
                   *add: entities code.
       -2010Sep06- *code audit.
@@ -599,6 +639,7 @@ begin
       inc(DSURnewCnt);
    end;
    SetLength(DSURdckdClone, 0);
+   FCDdgEntities[DSURfac].E_spaceUnits[DSURdToken].SU_locationDockingMotherCraft:=0;
 end;
 
 procedure FCMspuF_Orbits_Process(
@@ -813,6 +854,7 @@ end;
 procedure FCMspuF_SpUnit_Remove(const Entity, TargetSpaceUnit: integer);
 {:Purpose: delete a chosen space unit from an faction's owned data structure.
     Additions:
+      -2012Dec04- *add: reoutine completion with docked space units management.
       -2012Dec03- *rem: remove the faction=0 test, this routine applies either to the player's faction and the AIs ones.
                   *fix: if the space unit is present in the current 3d view, its object is disabled by set its visibility to false.
       -2010Sep15- *entities code.
@@ -823,6 +865,9 @@ procedure FCMspuF_SpUnit_Remove(const Entity, TargetSpaceUnit: integer);
 var
    CloneCount
    ,Count
+   ,Count1
+   ,DockedIndex
+   ,DockedMax
    ,Max
    ,SpaceUnit3dIndex
    ,TaskIndex: integer;
@@ -834,7 +879,10 @@ begin
    SetLength(SURown, 1);
    SURisTgtDeleted:=false;
    Count:=1;
+   Count1:=0;
    CloneCount:=0;
+   DockedIndex:=0;
+   DockedMax:=0;
    SpaceUnit3dIndex:=0;
    Max:=Length(FCDdgEntities[Entity].E_spaceUnits)-1;
    SetLength(SURown, Max);
@@ -843,13 +891,8 @@ begin
       if Count=TargetSpaceUnit then
       begin
          SURisTgtDeleted:=true;
-         if FCDdgEntities[Entity].E_spaceUnits[Count].SU_linked3dObject>0 then
-         begin
-            SpaceUnit3dIndex:=FCFspuF_SpUObject_Search(Entity, Count);
-            FC3doglSpaceUnits[SpaceUnit3dIndex].Tag:=-1;
-            FC3doglSpaceUnits[SpaceUnit3dIndex].TagFloat:=0;
-            FC3doglSpaceUnits[SpaceUnit3dIndex].Visible:=false;
-         end;
+         if FCDdgEntities[Entity].E_spaceUnits[Count].SU_linked3dObject>0
+         then FC3doglSpaceUnits[FCDdgEntities[Entity].E_spaceUnits[Count].SU_linked3dObject].Visible:=false;
       end
       else begin
          inc( CloneCount );
@@ -857,15 +900,20 @@ begin
          if SURown[CloneCount].SU_status=susDocked then
          begin
             {:DEV NOTES: search mothership    dockedSPuSearch ( entity, dockedIndex = Count) + if mothership< then SURown modif, else if mothership>count then FCDdgEntities modif.}
+            DockedIndex:=FCFspuF_DockedSpU_RetrieveDockedIndex(
+               Entity
+               ,FCDdgEntities[Entity].E_spaceUnits[Count].SU_locationDockingMotherCraft
+               ,Count
+               );
+            if FCDdgEntities[Entity].E_spaceUnits[Count].SU_locationDockingMotherCraft<Count
+            then SURown[SURown[CloneCount].SU_locationDockingMotherCraft].SU_dockedSpaceUnits[DockedIndex].SUDL_index:=CloneCount
+            else if FCDdgEntities[Entity].E_spaceUnits[Count].SU_locationDockingMotherCraft>Count
+            then FCDdgEntities[Entity].E_spaceUnits[SURown[CloneCount].SU_locationDockingMotherCraft].SU_dockedSpaceUnits[DockedIndex].SUDL_index:=CloneCount;
          end;
          if SURisTgtDeleted then
          begin
             if SURown[CloneCount].SU_linked3dObject>0
-            then begin
-               FC3doglSpaceUnits[SURown[CloneCount].SU_linked3dObject].TagFloat:=CloneCount;
-               if FCVdiDebugMode
-                  then FCWinDebug.AdvMemo1.Lines.Add('Entity='+inttostr(Entity)+'  CloneCount='+inttostr(CloneCount)+'  SU_linked3dObject='+inttostr(SURown[CloneCount].SU_linked3dObject));
-            end;
+            then FC3doglSpaceUnits[SURown[CloneCount].SU_linked3dObject].TagFloat:=CloneCount;
             if SURown[CloneCount].SU_assignedTask>0
             then
             begin
@@ -882,8 +930,19 @@ begin
    while Count<=Max-1 do
    begin
       FCDdgEntities[Entity].E_spaceUnits[Count]:=SURown[Count];
+      DockedMax:=length(FCDdgEntities[Entity].E_spaceUnits[Count].SU_dockedSpaceUnits)-1;
+      Count1:=1;
+      while Count1<=DockedMax do
+      begin
+         if FCDdgEntities[Entity].E_spaceUnits[Count].SU_dockedSpaceUnits[Count1].SUDL_index<Count
+         then FCDdgEntities[Entity].E_spaceUnits[FCDdgEntities[Entity].E_spaceUnits[Count].SU_dockedSpaceUnits[Count1].SUDL_index].SU_locationDockingMotherCraft:=Count
+         else if FCDdgEntities[Entity].E_spaceUnits[Count].SU_dockedSpaceUnits[Count1].SUDL_index>Count
+         then SURown[FCDdgEntities[Entity].E_spaceUnits[Count].SU_dockedSpaceUnits[Count1].SUDL_index].SU_locationDockingMotherCraft:=Count;
+         inc( Count1 );
+      end;
       inc(Count);
    end;
+
 end;
 
 end.

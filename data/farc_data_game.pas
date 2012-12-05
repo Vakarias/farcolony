@@ -699,6 +699,7 @@ type TFCRdgSpaceUnit = record
    SU_locationStar: string[20];
    SU_locationOrbitalObject: string[20];
    SU_locationSatellite: string[20];
+   SU_locationDockingMotherCraft: integer;
    SU_linked3dObject: integer;
    SU_locationViewX: extended;
    SU_locationViewZ: extended;

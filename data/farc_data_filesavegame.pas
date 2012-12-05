@@ -98,6 +98,7 @@ uses
 procedure FCMdFSG_Game_Load;
 {:Purpose: load the current game.
    Additions:
+      -2012Dec04- *add: space units - SU_locationDockingMotherCraft.
       -2012Nov11- *add: tasks - interplanetary transit mission - T_tMIToriginSatIndex + T_tMITdestinationSatIndex.
       -2012Oct02- *add: tasks to process.
       -2012Sep29- *add: previous process time.
@@ -644,6 +645,7 @@ begin
                      FCDdgEntities[Count].E_spaceUnits[Count1].SU_locationStar:=XMLSavedGameItemSub1.Attributes['stLoc'];
                      FCDdgEntities[Count].E_spaceUnits[Count1].SU_locationOrbitalObject:=XMLSavedGameItemSub1.Attributes['oobjLoc'];
                      FCDdgEntities[Count].E_spaceUnits[Count1].SU_locationSatellite:=XMLSavedGameItemSub1.Attributes['satLoc'];
+                     FCDdgEntities[Count].E_spaceUnits[Count1].SU_locationDockingMotherCraft:=XMLSavedGameItemSub1.Attributes['locDockMotherCraft'];
                      FCDdgEntities[Count].E_spaceUnits[Count1].SU_linked3dObject:=XMLSavedGameItemSub1.Attributes['TdObjIdx'];
                      FCDdgEntities[Count].E_spaceUnits[Count1].SU_locationViewX:=StrToFloat( XMLSavedGameItemSub1.Attributes['xLoc'], FCVdiFormat );
                      FCDdgEntities[Count].E_spaceUnits[Count1].SU_locationViewZ:=StrToFloat( XMLSavedGameItemSub1.Attributes['zLoc'], FCVdiFormat );
@@ -1127,6 +1129,7 @@ end;
 procedure FCMdFSG_Game_Save;
 {:Purpose: save the current game.
     Additions:
+      -2012Dec04- *add: space units - SU_locationDockingMotherCraft.
       -2012Nov11- *add: tasks - interplanetary transit mission - T_tMIToriginSatIndex + T_tMITdestinationSatIndex.
       -2012Oct02- *add: tasks to process.
       -2012Sep29- *add: previous process time.
@@ -1546,6 +1549,7 @@ begin
             XMLSavedGameItemSub2.Attributes['stLoc']:=FCDdgEntities[Count].E_spaceUnits[Count1].SU_locationStar;
             XMLSavedGameItemSub2.Attributes['oobjLoc']:=FCDdgEntities[Count].E_spaceUnits[Count1].SU_locationOrbitalObject;
             XMLSavedGameItemSub2.Attributes['satLoc']:=FCDdgEntities[Count].E_spaceUnits[Count1].SU_locationSatellite;
+            XMLSavedGameItemSub2.Attributes['locDockMotherCraft']:=FCDdgEntities[Count].E_spaceUnits[Count1].SU_locationDockingMotherCraft;
             XMLSavedGameItemSub2.Attributes['TdObjIdx']:=FCDdgEntities[Count].E_spaceUnits[Count1].SU_linked3dObject;
             XMLSavedGameItemSub2.Attributes['xLoc']:=FloatToStr( FCDdgEntities[Count].E_spaceUnits[Count1].SU_locationViewX, FCVdiFormat );
             XMLSavedGameItemSub2.Attributes['zLoc']:=FloatToStr( FCDdgEntities[Count].E_spaceUnits[Count1].SU_locationViewZ, FCVdiFormat );
