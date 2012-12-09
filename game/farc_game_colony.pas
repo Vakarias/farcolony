@@ -723,7 +723,7 @@ begin
       case FCDdipProducts[ProductIndex].P_storage of
          stSolid:
          begin
-            CapacityLoaded:=FCFcFunc_Rnd( cfrttpVolm3, FCDdgEntities[Entity].E_colonies[Colony].C_storageCapacitySolidCurrent+TotalVolToTransfer );
+            CapacityLoaded:=FCFcFunc_Rnd( rttVolume, FCDdgEntities[Entity].E_colonies[Colony].C_storageCapacitySolidCurrent+TotalVolToTransfer );
             {.normally a case that shouldn't happen...}
             if CapacityLoaded<0 then
             begin
@@ -731,13 +731,13 @@ begin
                FinalTransferedUnits:=FCFgP_UnitFromVolume_Get( ProductIndex, FCDdgEntities[Entity].E_colonies[Colony].C_storageCapacitySolidCurrent );
                FCDdgEntities[Entity].E_colonies[Colony].C_storageCapacitySolidCurrent:=0;
                FCDdgEntities[Entity].E_colonies[Colony].C_storedProducts[StorageIdxToUse].SP_unit:=0;
-               Result:=FCFcFunc_Rnd( cfrttpVolm3, UnitToTransfer-FinalTransferedUnits );
+               Result:=FCFcFunc_Rnd( rttVolume, UnitToTransfer-FinalTransferedUnits );
             end
             else if CapacityLoaded<=FCDdgEntities[Entity].E_colonies[Colony].C_storageCapacitySolidMax then
             begin
                FinalTransferedUnits:=UnitToTransfer;
                FCDdgEntities[Entity].E_colonies[Colony].C_storageCapacitySolidCurrent:=CapacityLoaded;
-               FCDdgEntities[Entity].E_colonies[Colony].C_storedProducts[StorageIdxToUse].SP_unit:=FCFcFunc_Rnd( cfrttpVolm3, FCDdgEntities[Entity].E_colonies[Colony].C_storedProducts[StorageIdxToUse].SP_unit+FinalTransferedUnits );
+               FCDdgEntities[Entity].E_colonies[Colony].C_storedProducts[StorageIdxToUse].SP_unit:=FCFcFunc_Rnd( rttVolume, FCDdgEntities[Entity].E_colonies[Colony].C_storedProducts[StorageIdxToUse].SP_unit+FinalTransferedUnits );
                Result:=0;
             end
             else if CapacityLoaded>FCDdgEntities[Entity].E_colonies[Colony].C_storageCapacitySolidMax then
@@ -747,15 +747,15 @@ begin
                then Result:=UnitToTransfer
                else begin
                   FCDdgEntities[Entity].E_colonies[Colony].C_storageCapacitySolidCurrent:=FCDdgEntities[Entity].E_colonies[Colony].C_storageCapacitySolidMax;
-                  FCDdgEntities[Entity].E_colonies[Colony].C_storedProducts[StorageIdxToUse].SP_unit:=FCFcFunc_Rnd( cfrttpVolm3, FCDdgEntities[Entity].E_colonies[Colony].C_storedProducts[StorageIdxToUse].SP_unit+FinalTransferedUnits );
-                  Result:=FCFcFunc_Rnd( cfrttpVolm3, UnitToTransfer-FinalTransferedUnits );
+                  FCDdgEntities[Entity].E_colonies[Colony].C_storedProducts[StorageIdxToUse].SP_unit:=FCFcFunc_Rnd( rttVolume, FCDdgEntities[Entity].E_colonies[Colony].C_storedProducts[StorageIdxToUse].SP_unit+FinalTransferedUnits );
+                  Result:=FCFcFunc_Rnd( rttVolume, UnitToTransfer-FinalTransferedUnits );
                end;
             end;
          end; //==END== case: stSolid ==//
 
          stLiquid:
          begin
-            CapacityLoaded:=FCFcFunc_Rnd(cfrttpVolm3, FCDdgEntities[Entity].E_colonies[Colony].C_storageCapacityLiquidCurrent+TotalVolToTransfer);
+            CapacityLoaded:=FCFcFunc_Rnd(rttVolume, FCDdgEntities[Entity].E_colonies[Colony].C_storageCapacityLiquidCurrent+TotalVolToTransfer);
             {.normally a case that shouldn't happen...}
             if CapacityLoaded<0 then
             begin
@@ -763,13 +763,13 @@ begin
                FinalTransferedUnits:=FCFgP_UnitFromVolume_Get( ProductIndex, FCDdgEntities[Entity].E_colonies[Colony].C_storageCapacityLiquidCurrent );
                FCDdgEntities[Entity].E_colonies[Colony].C_storageCapacityLiquidCurrent:=0;
                FCDdgEntities[Entity].E_colonies[Colony].C_storedProducts[StorageIdxToUse].SP_unit:=0;
-               Result:=FCFcFunc_Rnd( cfrttpVolm3, UnitToTransfer-FinalTransferedUnits );
+               Result:=FCFcFunc_Rnd( rttVolume, UnitToTransfer-FinalTransferedUnits );
             end
             else if CapacityLoaded<=FCDdgEntities[Entity].E_colonies[Colony].C_storageCapacityLiquidMax then
             begin
                FinalTransferedUnits:=UnitToTransfer;
                FCDdgEntities[Entity].E_colonies[Colony].C_storageCapacityLiquidCurrent:=CapacityLoaded;
-               FCDdgEntities[Entity].E_colonies[Colony].C_storedProducts[StorageIdxToUse].SP_unit:=FCFcFunc_Rnd( cfrttpVolm3, FCDdgEntities[Entity].E_colonies[Colony].C_storedProducts[StorageIdxToUse].SP_unit+FinalTransferedUnits );
+               FCDdgEntities[Entity].E_colonies[Colony].C_storedProducts[StorageIdxToUse].SP_unit:=FCFcFunc_Rnd( rttVolume, FCDdgEntities[Entity].E_colonies[Colony].C_storedProducts[StorageIdxToUse].SP_unit+FinalTransferedUnits );
                Result:=0;
             end
             else if CapacityLoaded>FCDdgEntities[Entity].E_colonies[Colony].C_storageCapacityLiquidMax then
@@ -779,15 +779,15 @@ begin
                then Result:=UnitToTransfer
                else begin
                   FCDdgEntities[Entity].E_colonies[Colony].C_storageCapacityLiquidCurrent:=FCDdgEntities[Entity].E_colonies[Colony].C_storageCapacityLiquidMax;
-                  FCDdgEntities[Entity].E_colonies[Colony].C_storedProducts[StorageIdxToUse].SP_unit:=FCFcFunc_Rnd( cfrttpVolm3, FCDdgEntities[Entity].E_colonies[Colony].C_storedProducts[StorageIdxToUse].SP_unit+FinalTransferedUnits );
-                  Result:=FCFcFunc_Rnd( cfrttpVolm3, UnitToTransfer-FinalTransferedUnits );
+                  FCDdgEntities[Entity].E_colonies[Colony].C_storedProducts[StorageIdxToUse].SP_unit:=FCFcFunc_Rnd( rttVolume, FCDdgEntities[Entity].E_colonies[Colony].C_storedProducts[StorageIdxToUse].SP_unit+FinalTransferedUnits );
+                  Result:=FCFcFunc_Rnd( rttVolume, UnitToTransfer-FinalTransferedUnits );
                end;
             end;
          end; //==END== stLiquid ==//
 
          stGas:
          begin
-            CapacityLoaded:=FCFcFunc_Rnd( cfrttpVolm3, FCDdgEntities[Entity].E_colonies[Colony].C_storageCapacityGasCurrent+TotalVolToTransfer);
+            CapacityLoaded:=FCFcFunc_Rnd( rttVolume, FCDdgEntities[Entity].E_colonies[Colony].C_storageCapacityGasCurrent+TotalVolToTransfer);
             {.normally a case that shouldn't happen...}
             if CapacityLoaded<0 then
             begin
@@ -795,13 +795,13 @@ begin
                FinalTransferedUnits:=FCFgP_UnitFromVolume_Get( ProductIndex, FCDdgEntities[Entity].E_colonies[Colony].C_storageCapacityGasCurrent );
                FCDdgEntities[Entity].E_colonies[Colony].C_storageCapacityGasCurrent:=0;
                FCDdgEntities[Entity].E_colonies[Colony].C_storedProducts[StorageIdxToUse].SP_unit:=0;
-               Result:=FCFcFunc_Rnd( cfrttpVolm3, UnitToTransfer-FinalTransferedUnits );
+               Result:=FCFcFunc_Rnd( rttVolume, UnitToTransfer-FinalTransferedUnits );
             end
             else if CapacityLoaded<=FCDdgEntities[Entity].E_colonies[Colony].C_storageCapacityGasMax then
             begin
                FinalTransferedUnits:=UnitToTransfer;
                FCDdgEntities[Entity].E_colonies[Colony].C_storageCapacityGasCurrent:=CapacityLoaded;
-               FCDdgEntities[Entity].E_colonies[Colony].C_storedProducts[StorageIdxToUse].SP_unit:=FCFcFunc_Rnd( cfrttpVolm3, FCDdgEntities[Entity].E_colonies[Colony].C_storedProducts[StorageIdxToUse].SP_unit+FinalTransferedUnits );
+               FCDdgEntities[Entity].E_colonies[Colony].C_storedProducts[StorageIdxToUse].SP_unit:=FCFcFunc_Rnd( rttVolume, FCDdgEntities[Entity].E_colonies[Colony].C_storedProducts[StorageIdxToUse].SP_unit+FinalTransferedUnits );
                Result:=0;
             end
             else if CapacityLoaded>FCDdgEntities[Entity].E_colonies[Colony].C_storageCapacityGasMax then
@@ -811,15 +811,15 @@ begin
                then Result:=UnitToTransfer
                else begin
                   FCDdgEntities[Entity].E_colonies[Colony].C_storageCapacityGasCurrent:=FCDdgEntities[Entity].E_colonies[Colony].C_storageCapacityGasMax;
-                  FCDdgEntities[Entity].E_colonies[Colony].C_storedProducts[StorageIdxToUse].SP_unit:=FCFcFunc_Rnd( cfrttpVolm3, FCDdgEntities[Entity].E_colonies[Colony].C_storedProducts[StorageIdxToUse].SP_unit+FinalTransferedUnits );
-                  Result:=FCFcFunc_Rnd( cfrttpVolm3, UnitToTransfer-FinalTransferedUnits );
+                  FCDdgEntities[Entity].E_colonies[Colony].C_storedProducts[StorageIdxToUse].SP_unit:=FCFcFunc_Rnd( rttVolume, FCDdgEntities[Entity].E_colonies[Colony].C_storedProducts[StorageIdxToUse].SP_unit+FinalTransferedUnits );
+                  Result:=FCFcFunc_Rnd( rttVolume, UnitToTransfer-FinalTransferedUnits );
                end;
             end;
          end; //==END== stGas ==//
 
          stBiologic:
          begin
-            CapacityLoaded:=FCFcFunc_Rnd( cfrttpVolm3, FCDdgEntities[Entity].E_colonies[Colony].C_storageCapacityBioCurrent+TotalVolToTransfer );
+            CapacityLoaded:=FCFcFunc_Rnd( rttVolume, FCDdgEntities[Entity].E_colonies[Colony].C_storageCapacityBioCurrent+TotalVolToTransfer );
             {.normally a case that shouldn't happen...}
             if CapacityLoaded<0 then
             begin
@@ -827,13 +827,13 @@ begin
                FinalTransferedUnits:=FCFgP_UnitFromVolume_Get( ProductIndex, FCDdgEntities[Entity].E_colonies[Colony].C_storageCapacityBioCurrent );
                FCDdgEntities[Entity].E_colonies[Colony].C_storageCapacityBioCurrent:=0;
                FCDdgEntities[Entity].E_colonies[Colony].C_storedProducts[StorageIdxToUse].SP_unit:=0;
-               Result:=FCFcFunc_Rnd( cfrttpVolm3, UnitToTransfer-FinalTransferedUnits );
+               Result:=FCFcFunc_Rnd( rttVolume, UnitToTransfer-FinalTransferedUnits );
             end
             else if CapacityLoaded<=FCDdgEntities[Entity].E_colonies[Colony].C_storageCapacityBioMax then
             begin
                FinalTransferedUnits:=UnitToTransfer;
                FCDdgEntities[Entity].E_colonies[Colony].C_storageCapacityBioCurrent:=CapacityLoaded;
-               FCDdgEntities[Entity].E_colonies[Colony].C_storedProducts[StorageIdxToUse].SP_unit:=FCFcFunc_Rnd( cfrttpVolm3, FCDdgEntities[Entity].E_colonies[Colony].C_storedProducts[StorageIdxToUse].SP_unit+FinalTransferedUnits );
+               FCDdgEntities[Entity].E_colonies[Colony].C_storedProducts[StorageIdxToUse].SP_unit:=FCFcFunc_Rnd( rttVolume, FCDdgEntities[Entity].E_colonies[Colony].C_storedProducts[StorageIdxToUse].SP_unit+FinalTransferedUnits );
                Result:=0;
             end
             else if CapacityLoaded>FCDdgEntities[Entity].E_colonies[Colony].C_storageCapacityBioMax then
@@ -844,8 +844,8 @@ begin
                else
                begin
                   FCDdgEntities[Entity].E_colonies[Colony].C_storageCapacityBioCurrent:=FCDdgEntities[Entity].E_colonies[Colony].C_storageCapacityBioMax;
-                  FCDdgEntities[Entity].E_colonies[Colony].C_storedProducts[StorageIdxToUse].SP_unit:=FCFcFunc_Rnd( cfrttpVolm3, FCDdgEntities[Entity].E_colonies[Colony].C_storedProducts[StorageIdxToUse].SP_unit+FinalTransferedUnits );
-                  Result:=FCFcFunc_Rnd( cfrttpVolm3, UnitToTransfer-FinalTransferedUnits );
+                  FCDdgEntities[Entity].E_colonies[Colony].C_storedProducts[StorageIdxToUse].SP_unit:=FCFcFunc_Rnd( rttVolume, FCDdgEntities[Entity].E_colonies[Colony].C_storedProducts[StorageIdxToUse].SP_unit+FinalTransferedUnits );
+                  Result:=FCFcFunc_Rnd( rttVolume, UnitToTransfer-FinalTransferedUnits );
                end;
             end;
          end;

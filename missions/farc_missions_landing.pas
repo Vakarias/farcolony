@@ -141,7 +141,7 @@ begin
    AtmosphereCalc:=AtmosphericPressure/FCCdiMbars_In_1atmosphere;
    FCRmcCurrentMissionCalculations.CMC_landTime:=round(((1.84-(1-AtmosphereCalc))*70)/18.4);
    FCRmcCurrentMissionCalculations.CMC_tripTime:=DecelerationTime+FCRmcCurrentMissionCalculations.CMC_landTime;
-   FCRmcCurrentMissionCalculations.CMC_usedReactionMassVol:=FCFcFunc_Rnd(cfrttpVolm3, UsedReactionMass);
+   FCRmcCurrentMissionCalculations.CMC_usedReactionMassVol:=FCFcFunc_Rnd(rttVolume, UsedReactionMass);
 end;
 
 end.

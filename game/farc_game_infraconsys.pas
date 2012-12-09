@@ -520,7 +520,7 @@ begin
    while BPcount<=BPmax do
    begin
       BPtempMatVol:=BPclonedInfra.I_materialVolume[ FCDdgEntities[BPent].E_colonies[BPcol].C_settlements[BPsettlement].S_infrastructures[BPinfraIndex].I_level ]*( BPclonedInfra.I_reqConstructionMaterials[ BPcount ].RCM_partOfMaterialVolume*0.01 );
-      BPtempMatVol:=FCFcFunc_Rnd( cfrttpVolm3, BPtempMatVol );
+      BPtempMatVol:=FCFcFunc_Rnd( rttVolume, BPtempMatVol );
       BPresultUnits:=FCFgP_UnitFromVolume_Get( BPclonedInfra.I_reqConstructionMaterials[ BPcount ].RCM_token, BPtempMatVol );
       BPcurrentMatVol:=BPcurrentMatVol-BPtempMatVol;
       FCFgC_Storage_Update(

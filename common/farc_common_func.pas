@@ -1,4 +1,4 @@
-﻿{=======(C) Copyright Aug.2009-2012 Jean-Francois Baconnet All rights reserved==============
+﻿{======(C) Copyright Aug.2009-2012 Jean-Francois Baconnet All rights reserved==============
 
         Title:  FAR Colony
         Author: Jean-Francois Baconnet
@@ -7,7 +7,7 @@
         License: GPLv3
         Website: http://farcolony.sourceforge.net/
 
-        Unit: common functions and procedures
+        Unit: common functions & procedures - core unit
 
 ============================================================================================
 ********************************************************************************************
@@ -26,7 +26,6 @@ Copyright (c) 2009-2012, Jean-Francois Baconnet
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *******************************************************************************************}
-
 unit farc_common_func;
 
 interface
@@ -36,48 +35,56 @@ uses
    ,SysUtils
    ,Windows
 
-   ,farc_data_init
-
    ,DecimalRounding_JH1;
 
-type TFCEcfunc3dCvTp=(
-   cf3dctMeterToSpUnitSize
-   ,cf3dctKmTo3dViewUnit
-   ,cf3dct3dViewUnitToKm
-   ,cf3dctAUto3dViewUnit
-   ,cf3dct3dViewUnitToAU
-   ,cf3dctAstDiamKmTo3dViewUnit
-   ,cf3dctVelkmSecTo3dViewUnit
-   ,cf3dctMinToGameTicks
+type TFCEcfConversions=(
+   cMetersToSpaceUnitSize
+   ,cKmTo3dViewUnits
+   ,c3dViewUnitsToKm
+   ,cAU_to3dViewUnits
+   ,c3dViewUnitsToAU
+   ,cAsteroidDiameterKmTo3dViewUnits
+   ,cVelocityKmSecTo3dViewUnits
+   ,cMinutesToGameTicks
    );
 
-type TFCEcfRndToTp=(
+type TFCEcfRoundToTypes=(
    rtt3dposition
    ,rttCustom1Decimal
    ,rttCustom2Decimal
    ,rttCustom3Decimal
-   ,cfrttpDistkm
-   ,cfrttpVelkms
-   ,cfrttpSizem
-   ,cfrttpVolm3
-   ,cfrttpSurfm2
-   ,cfrttpMassAster
+   ,rttDistanceKm
+   ,rttVelocityKmSec
+   ,rttSizeInMeters
+   ,rttVolume
+   ,rttSurface
+   ,rttMassAsteroid
    ,rttMasstons
    ,rttPowerKw
    );
 
-type TFCEufClassF=(
-   ufcfRaw
-   ,ufcfAbr
-   ,ufcfFull
+type TFCEufClassDisplayForms=(
+   cdfRaw
+   ,cdfAbr
+   ,cdfFull
    );
+
+//==END PUBLIC ENUM=========================================================================
+
+//==END PUBLIC RECORDS======================================================================
+
+   //==========subsection===================================================================
+//var
+//==END PUBLIC VAR==========================================================================
+
+//const
+//==END PUBLIC CONST========================================================================
 
 ///<summary>
 ///   return the version of Far Colony. This code come from Alexandre of the
-///   www.developpez.com website, is not my proper code. This code is modified for taking
-///   into account of the future beta (1.x) and regular rls (>=1.5)
+///   www.developpez.com website, is not my proper code. 
 ///</summary>
-function FCFcFunc_FARCVersion_Get: string;
+function FCFcF_FARCVersion_Get: string;
 
 ///<summary>
 ///   protect the ln() function with value <= 0
@@ -90,15 +97,16 @@ function FCFcF_Ln_Protected( const aValue: extended): extended;
 ///   round the target value following value type
 ///</summary>
 function FCFcFunc_Rnd(
-   const RentryType: TFCEcfRndToTp;
+   const RentryType: TFCEcfRoundToTypes;
    const Rval: extended
    ): extended;
 
 ///<summary>
-///   "real' random function including a randomize each time
+///   "real" random function including a randomize each time.
 ///</summary>
-///   <param name="RIrange">range integer</param>
-function FCFcFunc_Rand_Int(const RIrange: integer): integer;
+///   <param name="Range">range integer for the random processing</param>
+///   <returns>the randomized integer included in the range</returns>
+function FCFcF_Random_DoInteger(const Range: integer): integer;
 
 ///<summary>
 ///   convert units in all ways
@@ -106,7 +114,7 @@ function FCFcFunc_Rand_Int(const RIrange: integer): integer;
 ///   <param name="TDSCconvertion">conversion switch</param>
 ///   <param name="TDSCvalue">value to convert</param>
 function FCFcFunc_ScaleConverter(
-   const SCconversion: TFCEcfunc3dCvTp;
+   const SCconversion: TFCEcfConversions;
    const SCvalue: extended
    ): extended;
 
@@ -133,7 +141,7 @@ function FCFcFunc_SpUnit_getOwnDB(
 ///    <param name="SGCstsIdx">star system index</param>
 ///    <param name="SGCstIdx">star index</param>
 function FCFcFunc_Star_GetClass(
-   const SGCformat: TFCEufClassF;
+   const SGCformat: TFCEufClassDisplayForms;
    const SGCstsIdx
          ,SGCstIdx: integer
    ): string;
@@ -203,6 +211,8 @@ function FCFcFunc_WinFolders_GetAction(
 ///<param name="WFGMDforcefolder">really dunno</param>
 function FCFcFunc_WinFolders_GetMyDocs(const WFGMDforcefolder: boolean=false): string;
 
+//===========================END FUNCTIONS SECTION==========================================
+
 ///<summary>
 ///   delete w/ wildcards support. From Ion_T@DelphiPages.com
 ///</summary>
@@ -210,72 +220,94 @@ function FCFcFunc_WinFolders_GetMyDocs(const WFGMDforcefolder: boolean=false): s
 ///<param name="FDname">filename w/ wildcards</param>
 procedure FCMcF_Files_Del(const FDpath, FDname: string);
 
-const
-   CFC3dAstConv=14960*30.59789;
-   CFC3dUnInKm=14959.787;     {conversion constant 1 3d unit = 14959.787km}
-   CFC3dUnInAU=FCCdiKm_In_1AU/CFC3dUnInKm;
-
 implementation
 
 uses
-   farc_data_game
+   farc_data_init
+   ,farc_data_game
    ,farc_data_spu
    ,farc_data_textfiles
    ,farc_data_univ
    ,farc_win_debug;
 
-//===================================END OF INIT============================================
+//==END PRIVATE ENUM========================================================================
 
-function FCFcFunc_FARCVersion_Get: string;
-{:Purpose: return the version of Far Colony. This code come from Alexandre of the
-    www.developpez.com website, is not my proper code. This code is modified for taking into
-    account of the future beta (0.9) and regular rls (>=1.0)
+//==END PRIVATE RECORDS=====================================================================
+
+   //==========subsection===================================================================
+//var
+//==END PRIVATE VAR=========================================================================
+
+//const
+//==END PRIVATE CONST=======================================================================
+
+//===================================================END OF INIT============================
+
+function FCFcF_FARCVersion_Get: string;
+{:Purpose: return the version of FAR Colony. This code come from Alexandre of the
+    www.developpez.com website, is not my proper code.
    Additions:
+      -2012Dec09- *code audit:
+                     (x)var formatting + refactoring     (_)if..then reformatting   (x)function/procedure refactoring
+                     (_)parameters refactoring           (x) ()reformatting         (_)code optimizations
+                     (_)float local variables=> extended (_)case..of reformatting   (_)local methods
+                     (x)summary completion               (_)protect all float add/sub w/ FCFcFunc_Rnd
+                     (_)standardize internal data + commenting them at each use as a result (like Count1 / Count2 ...)
+                     (_)put [format x.xx ] in returns of summary, if required and if the function do formatting
+                     (_)use of enumindex                 (_)use of StrToFloat( x, FCVdiFormat ) for all float data w/ XML
+                     (_)if the procedure reset the same record's data or external data put:
+                        ///   <remarks>the procedure/function reset the /data/</remarks>
+                  *mod: update according to the last planned roadmap.
       -2012May27- *add: take into account of the alpha #.
 }
-var
-  VerInfoSize, Dummy: DWord;
-  VerInfo: Pointer;
-  VerValueSize: DWord;
-  VerValue: PVSFixedFileInfo;
-begin
-   VerInfoSize:=GetFileVersionInfoSize(PChar(ParamStr(0)), Dummy);
-   If VerInfoSize<>0 then
-   begin
-      GetMem(VerInfo, VerInfoSize);
-      GetFileVersionInfo(PChar(ParamStr(0)), 0, VerInfoSize, VerInfo);
-      VerQueryValue(VerInfo, '\', Pointer(VerValue), VerValueSize);
-      with VerValue^ do
-      begin
+   var
+      Dummy
+      ,VersionInfoSize
+      ,VersionValueSize: DWord;
 
-         if ((dwFileVersionMS shr 16)=0)
-//            and ((dwFileVersionMS and $FFFF)<1)
-         then Result:='Alpha '+FCCdiAlphaNumber+' '
-         else if ((dwFileVersionMS shr 16)=1)
-           and ((dwFileVersionMS and $FFFF)=0)
-         then Result:=Result+'Beta'
-         else if ((dwFileVersionMS shr 16)=1)
-           and ((dwFileVersionMS and $FFFF)=1)
-         then Result:=Result+'Final'
-         ;
-         Result:=Result+'['+IntTostr(dwFileVersionMS shr 16);//0
-         Result:=Result+'.'+IntTostr(dwFileVersionMS and $FFFF);//.4
-         Result:=Result+'.'+IntTostr(dwFileVersionLS shr 16);//.0
-         Result:=Result+'.'+IntTostr(dwFileVersionLS and $FFFF)+']';//.177
-      end;
-      FreeMem(VerInfo, VerInfoSize);
+      VersionInfo: Pointer;
+
+      VersionValue: PVSFixedFileInfo;
+begin
+   VersionInfoSize:=GetFileVersionInfoSize( PChar( ParamStr( 0 ) ), Dummy );
+   If VersionInfoSize<>0 then
+   begin
+      GetMem( VersionInfo, VersionInfoSize );
+      GetFileVersionInfo( PChar( ParamStr( 0 ) ), 0, VersionInfoSize, VersionInfo );
+      VerQueryValue( VersionInfo, '\', Pointer( VersionValue ), VersionValueSize );
+      if ( ( VersionValue^.dwFileVersionMS shr 16 )=0 )
+      then Result:='Alpha '+FCCdiAlphaNumber+' '
+      else if ( ( VersionValue^.dwFileVersionMS shr 16 )=1 )
+        and ( ( VersionValue^.dwFileVersionMS and $FFFF )=0 )
+      then Result:=Result+'Beta'
+      else Result:=Result+'Final';
+      Result:=Result+'['+IntTostr( VersionValue^.dwFileVersionMS shr 16 );//0
+      Result:=Result+'.'+IntTostr( VersionValue^.dwFileVersionMS and $FFFF );//.4
+      Result:=Result+'.'+IntTostr( VersionValue^.dwFileVersionLS shr 16 );//.0
+      Result:=Result+'.'+IntTostr( VersionValue^.dwFileVersionLS and $FFFF )+']';//.177
+      FreeMem( VersionInfo, VersionInfoSize );
    end
    else Result:='Unknown Version';
 end;
 
-function FCFcFunc_Rand_Int(const RIrange: integer): integer;
-{:Purpose: "real' random function including a randomize each time.
+function FCFcF_Random_DoInteger(const Range: integer): integer;
+{:Purpose: "real" random function including a randomize each time.
     Additions:
+      -2012Dec09- *code audit:
+                     (_)var formatting + refactoring     (_)if..then reformatting   (x)function/procedure refactoring
+                     (x)parameters refactoring           (x) ()reformatting         (_)code optimizations
+                     (_)float local variables=> extended (_)case..of reformatting   (_)local methods
+                     (x)summary completion               (_)protect all float add/sub w/ FCFcFunc_Rnd
+                     (_)standardize internal data + commenting them at each use as a result (like Count1 / Count2 ...)
+                     (_)put [format x.xx ] in returns of summary, if required and if the function do formatting
+                     (_)use of enumindex                 (_)use of StrToFloat( x, FCVdiFormat ) for all float data w/ XML
+                     (_)if the procedure reset the same record's data or external data put:
+                        ///   <remarks>the procedure/function reset the /data/</remarks>
 }
 begin
    Result:=0;
    Randomize;
-   Result:=random(RIrange);
+   Result:=random( Range );
 end;
 
 function FCFcF_Ln_Protected( const aValue: extended): extended;
@@ -289,7 +321,7 @@ begin
 end;
 
 function FCFcFunc_Rnd(
-   const RentryType: TFCEcfRndToTp;
+   const RentryType: TFCEcfRoundToTypes;
    const Rval: extended
    ): extended;
 {:Purpose: round the target value dollowing value type.
@@ -313,19 +345,19 @@ begin
 		rttCustom1Decimal: result:=DecimalRound(Rval, 1, 0.001);
       rttCustom2Decimal: result:=DecimalRound(Rval, 2, 0.0001);
       rttCustom3Decimal: result:=DecimalRound(Rval, 3, 0.00001);
-      cfrttpDistkm: result:=DecimalRound(Rval, 2, 0.0001);
-      cfrttpVelkms: result:=DecimalRound(Rval, 2, 0.0001);
-      cfrttpSizem: result:=DecimalRound(Rval, 1, 0.001);
-      cfrttpVolm3: result:=DecimalRound(Rval, 3, 0.00001);
-      cfrttpSurfm2: result:=DecimalRound(Rval, 2, 0.0001);
-      cfrttpMassAster: result:=DecimalRound(Rval, 6, 0.00000001);
+      rttDistanceKm: result:=DecimalRound(Rval, 2, 0.0001);
+      rttVelocityKmSec: result:=DecimalRound(Rval, 2, 0.0001);
+      rttSizeInMeters: result:=DecimalRound(Rval, 1, 0.001);
+      rttVolume: result:=DecimalRound(Rval, 3, 0.00001);
+      rttSurface: result:=DecimalRound(Rval, 2, 0.0001);
+      rttMassAsteroid: result:=DecimalRound(Rval, 6, 0.00000001);
       rttMasstons: result:=DecimalRound(Rval, 3, 0.00001);
       rttPowerKw: result:=DecimalRound(Rval, 2, 0.0001);
    end;
 end;
 
 function FCFcFunc_ScaleConverter(
-   const SCconversion: TFCEcfunc3dCvTp;
+   const SCconversion: TFCEcfConversions;
    const SCvalue: extended
    ): extended;
 {:Purpose: convert units in all ways.
@@ -353,23 +385,23 @@ begin
    TDSCdmpRes:=0;
    case SCconversion of
       {.unit (planet aera and oobj size) => 3d view unit. /20 for ua-unit *500}
-      cf3dctMeterToSpUnitSize: TDSCdmpRes:=(FCDdsuSpaceUnitDesigns[round(SCvalue)].SUD_internalStructureClone.IS_length*0.02)/CFC3dUnInKm;
+      cMetersToSpaceUnitSize: TDSCdmpRes:=(FCDdsuSpaceUnitDesigns[round(SCvalue)].SUD_internalStructureClone.IS_length*0.02)/CFC3dUnInKm;
       {.kilometers => 3d view unit}
-      cf3dctKmTo3dViewUnit: TDSCdmpRes:=FCFcFunc_Rnd( rtt3dposition, SCvalue/CFC3dUnInKm );
+      cKmTo3dViewUnits: TDSCdmpRes:=FCFcFunc_Rnd( rtt3dposition, SCvalue/CFC3dUnInKm );
       {.astronomical units => 3d view unit}
-      cf3dctAUto3dViewUnit: TDSCdmpRes:=FCFcFunc_Rnd( rtt3dposition, SCvalue*CFC3dUnInAU );
+      cAU_to3dViewUnits: TDSCdmpRes:=FCFcFunc_Rnd( rtt3dposition, SCvalue*CFC3dUnInAU );
       {.3d view unit => kilometers}
-      cf3dct3dViewUnitToKm: TDSCdmpRes:=FCFcFunc_Rnd(cfrttpDistkm,(SCvalue*CFC3dUnInKm));
+      c3dViewUnitsToKm: TDSCdmpRes:=FCFcFunc_Rnd(rttDistanceKm,(SCvalue*CFC3dUnInKm));
       {.3d view unit => astronomical units}
-      cf3dct3dViewUnitToAU: TDSCdmpRes:=FCFcFunc_Rnd(cfrttpDistkm, (SCvalue/CFC3dUnInAU));
+      c3dViewUnitsToAU: TDSCdmpRes:=FCFcFunc_Rnd(rttDistanceKm, (SCvalue/CFC3dUnInAU));
       {.asteroid diameter in km => 3d view unit}
       {:DEV NOTE: WARNING, need to load CF data concerning star system and star indexes.}
       {:DEV NOTE: 14960*coef 3.7= earth size, *8.2697= normalsize.}
-      cf3dctAstDiamKmTo3dViewUnit: TDSCdmpRes:=SCvalue/(CFC3dAstConv);
+      cAsteroidDiameterKmTo3dViewUnits: TDSCdmpRes:=SCvalue/(CFC3dAstConv);
       {.minutes => game ticks, 1 tick=10min}
-      cf3dctMinToGameTicks: TDSCdmpRes:=round(SCvalue*0.1);
+      cMinutesToGameTicks: TDSCdmpRes:=round(SCvalue*0.1);
       {.km/s velocity => 3d view unit / tick}
-      cf3dctVelkmSecTo3dViewUnit: TDSCdmpRes:=((SCvalue*600)/CFC3dUnInKm);
+      cVelocityKmSecTo3dViewUnits: TDSCdmpRes:=((SCvalue*600)/CFC3dUnInKm);
    end;
    Result:=TDSCdmpRes;
 end;
@@ -391,6 +423,7 @@ function FCFcFunc_SpUnit_getOwnDB(
    const SUGODBentity: integer;
    const SUGODBtokenId: string
    ): integer;
+{:DEV NOTES: PUT THAT IN farc_spu_functions.}
 {:Purpose: retrieve space unit id# from token id in a owned list.
     Additions:
       -2010Sep14- *add: entities code.
@@ -423,7 +456,7 @@ begin
 end;
 
 function FCFcFunc_Star_GetClass(
-   const SGCformat: TFCEufClassF;
+   const SGCformat: TFCEufClassDisplayForms;
    const SGCstsIdx
          ,SGCstIdx: integer
    ): string;
@@ -438,1141 +471,1141 @@ begin
          cB5:
          begin
             case SGCformat of
-               ufcfRaw: result:='cB5';
-               ufcfAbr: result:='B5I';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclCB')+' (B5I)';
+               cdfRaw: result:='cB5';
+               cdfAbr: result:='B5I';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclCB')+' (B5I)';
             end;
          end;
          cB6:
          begin
             case SGCformat of
-               ufcfRaw: result:='cB6';
-               ufcfAbr: result:='B6I';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclCB')+' (B6I)';
+               cdfRaw: result:='cB6';
+               cdfAbr: result:='B6I';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclCB')+' (B6I)';
             end;
          end;
          cB7:
          begin
             case SGCformat of
-               ufcfRaw: result:='cB7';
-               ufcfAbr: result:='B7I';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclCB')+' (B7I)';
+               cdfRaw: result:='cB7';
+               cdfAbr: result:='B7I';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclCB')+' (B7I)';
             end;
          end;
          cB8:
          begin
             case SGCformat of
-               ufcfRaw: result:='cB8';
-               ufcfAbr: result:='B8I';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclCB')+' (B8I)';
+               cdfRaw: result:='cB8';
+               cdfAbr: result:='B8I';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclCB')+' (B8I)';
             end;
          end;
          cB9:
          begin
             case SGCformat of
-               ufcfRaw: result:='cB9';
-               ufcfAbr: result:='B9I';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclCB')+' (B9I)';
+               cdfRaw: result:='cB9';
+               cdfAbr: result:='B9I';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclCB')+' (B9I)';
             end;
          end;
          cA0:
          begin
             case SGCformat of
-               ufcfRaw: result:='cA0';
-               ufcfAbr: result:='A0I';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclCA')+' (A0I)';
+               cdfRaw: result:='cA0';
+               cdfAbr: result:='A0I';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclCA')+' (A0I)';
             end;
          end;
          cA1:
          begin
             case SGCformat of
-               ufcfRaw: result:='cA1';
-               ufcfAbr: result:='A1I';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclCA')+' (A1I)';
+               cdfRaw: result:='cA1';
+               cdfAbr: result:='A1I';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclCA')+' (A1I)';
             end;
          end;
          cA2:
          begin
             case SGCformat of
-               ufcfRaw: result:='cA2';
-               ufcfAbr: result:='A2I';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclCA')+' (A2I)';
+               cdfRaw: result:='cA2';
+               cdfAbr: result:='A2I';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclCA')+' (A2I)';
             end;
          end;
          cA3:
          begin
             case SGCformat of
-               ufcfRaw: result:='cA3';
-               ufcfAbr: result:='A3I';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclCA')+' (A3I)';
+               cdfRaw: result:='cA3';
+               cdfAbr: result:='A3I';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclCA')+' (A3I)';
             end;
          end;
          cA4:
          begin
             case SGCformat of
-               ufcfRaw: result:='cA4';
-               ufcfAbr: result:='A4I';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclCA')+' (A4I)';
+               cdfRaw: result:='cA4';
+               cdfAbr: result:='A4I';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclCA')+' (A4I)';
             end;
          end;
          cA5:
          begin
             case SGCformat of
-               ufcfRaw: result:='cA5';
-               ufcfAbr: result:='A5I';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclCA')+' (A5I)';
+               cdfRaw: result:='cA5';
+               cdfAbr: result:='A5I';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclCA')+' (A5I)';
             end;
          end;
          cA6:
          begin
             case SGCformat of
-               ufcfRaw: result:='cA6';
-               ufcfAbr: result:='A6I';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclCA')+' (A6I)';
+               cdfRaw: result:='cA6';
+               cdfAbr: result:='A6I';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclCA')+' (A6I)';
             end;
          end;
          cA7:
          begin
             case SGCformat of
-               ufcfRaw: result:='cA7';
-               ufcfAbr: result:='A7I';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclCA')+' (A7I)';
+               cdfRaw: result:='cA7';
+               cdfAbr: result:='A7I';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclCA')+' (A7I)';
             end;
          end;
          cA8:
          begin
             case SGCformat of
-               ufcfRaw: result:='cA8';
-               ufcfAbr: result:='A8I';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclCA')+' (A8I)';
+               cdfRaw: result:='cA8';
+               cdfAbr: result:='A8I';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclCA')+' (A8I)';
             end;
          end;
          cA9:
          begin
             case SGCformat of
-               ufcfRaw: result:='cA9';
-               ufcfAbr: result:='A9I';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclCA')+' (A9I)';
+               cdfRaw: result:='cA9';
+               cdfAbr: result:='A9I';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclCA')+' (A9I)';
             end;
          end;
          cK0:
          begin
             case SGCformat of
-               ufcfRaw: result:='cK0';
-               ufcfAbr: result:='K0I';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclCK')+' (K0I)';
+               cdfRaw: result:='cK0';
+               cdfAbr: result:='K0I';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclCK')+' (K0I)';
             end;
          end;
          cK1:
          begin
             case SGCformat of
-               ufcfRaw: result:='cK1';
-               ufcfAbr: result:='K1I';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclCK')+' (K1I)';
+               cdfRaw: result:='cK1';
+               cdfAbr: result:='K1I';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclCK')+' (K1I)';
             end;
          end;
          cK2:
          begin
             case SGCformat of
-               ufcfRaw: result:='cK2';
-               ufcfAbr: result:='K2I';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclCK')+' (K2I)';
+               cdfRaw: result:='cK2';
+               cdfAbr: result:='K2I';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclCK')+' (K2I)';
             end;
          end;
          cK3:
          begin
             case SGCformat of
-               ufcfRaw: result:='cK3';
-               ufcfAbr: result:='K3I';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclCK')+' (K3I)';
+               cdfRaw: result:='cK3';
+               cdfAbr: result:='K3I';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclCK')+' (K3I)';
             end;
          end;
          cK4:
          begin
             case SGCformat of
-               ufcfRaw: result:='cK4';
-               ufcfAbr: result:='K4I';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclCK')+' (K4I)';
+               cdfRaw: result:='cK4';
+               cdfAbr: result:='K4I';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclCK')+' (K4I)';
             end;
          end;
          cK5:
          begin
             case SGCformat of
-               ufcfRaw: result:='cK5';
-               ufcfAbr: result:='K5I';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclCK')+' (K5I)';
+               cdfRaw: result:='cK5';
+               cdfAbr: result:='K5I';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclCK')+' (K5I)';
             end;
          end;
          cK6:
          begin
             case SGCformat of
-               ufcfRaw: result:='cK6';
-               ufcfAbr: result:='K6I';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclCK')+' (K6I)';
+               cdfRaw: result:='cK6';
+               cdfAbr: result:='K6I';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclCK')+' (K6I)';
             end;
          end;
          cK7:
          begin
             case SGCformat of
-               ufcfRaw: result:='cK7';
-               ufcfAbr: result:='K7I';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclCK')+' (K7I)';
+               cdfRaw: result:='cK7';
+               cdfAbr: result:='K7I';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclCK')+' (K7I)';
             end;
          end;
          cK8:
          begin
             case SGCformat of
-               ufcfRaw: result:='cK8';
-               ufcfAbr: result:='K8I';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclCK')+' (K8I)';
+               cdfRaw: result:='cK8';
+               cdfAbr: result:='K8I';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclCK')+' (K8I)';
             end;
          end;
          cK9:
          begin
             case SGCformat of
-               ufcfRaw: result:='cK9';
-               ufcfAbr: result:='K9I';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclCK')+' (K9I)';
+               cdfRaw: result:='cK9';
+               cdfAbr: result:='K9I';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclCK')+' (K9I)';
             end;
          end;
          cM0:
          begin
             case SGCformat of
-               ufcfRaw: result:='cM0';
-               ufcfAbr: result:='M0I';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclCM')+' (M0I)';
+               cdfRaw: result:='cM0';
+               cdfAbr: result:='M0I';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclCM')+' (M0I)';
             end;
          end;
          cM1:
          begin
             case SGCformat of
-               ufcfRaw: result:='cM1';
-               ufcfAbr: result:='M1I';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclCM')+' (M1I)';
+               cdfRaw: result:='cM1';
+               cdfAbr: result:='M1I';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclCM')+' (M1I)';
             end;
          end;
          cM2:
          begin
             case SGCformat of
-               ufcfRaw: result:='cM2';
-               ufcfAbr: result:='M2I';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclCM')+' (M2I)';
+               cdfRaw: result:='cM2';
+               cdfAbr: result:='M2I';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclCM')+' (M2I)';
             end;
          end;
          cM3:
          begin
             case SGCformat of
-               ufcfRaw: result:='cM3';
-               ufcfAbr: result:='M3I';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclCM')+' (M3I)';
+               cdfRaw: result:='cM3';
+               cdfAbr: result:='M3I';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclCM')+' (M3I)';
             end;
          end;
          cM4:
          begin
             case SGCformat of
-               ufcfRaw: result:='cM4';
-               ufcfAbr: result:='M4I';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclCM')+' (M4I)';
+               cdfRaw: result:='cM4';
+               cdfAbr: result:='M4I';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclCM')+' (M4I)';
             end;
          end;
          cM5:
          begin
             case SGCformat of
-               ufcfRaw: result:='cM5';
-               ufcfAbr: result:='M5I';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclCM')+' (M5I)';
+               cdfRaw: result:='cM5';
+               cdfAbr: result:='M5I';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclCM')+' (M5I)';
             end;
          end;
          gF0:
          begin
             case SGCformat of
-               ufcfRaw: result:='gF0';
-               ufcfAbr: result:='F0III';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclGF')+' (F0III)';
+               cdfRaw: result:='gF0';
+               cdfAbr: result:='F0III';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclGF')+' (F0III)';
             end;
          end;
          gF1:
          begin
             case SGCformat of
-               ufcfRaw: result:='gF1';
-               ufcfAbr: result:='F1III';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclGF')+' (F1III)';
+               cdfRaw: result:='gF1';
+               cdfAbr: result:='F1III';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclGF')+' (F1III)';
             end;
          end;
          gF2:
          begin
             case SGCformat of
-               ufcfRaw: result:='gF2';
-               ufcfAbr: result:='F2III';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclGF')+' (F2III)';
+               cdfRaw: result:='gF2';
+               cdfAbr: result:='F2III';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclGF')+' (F2III)';
             end;
          end;
          gF3:
          begin
             case SGCformat of
-               ufcfRaw: result:='gF3';
-               ufcfAbr: result:='F3III';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclGF')+' (F3III)';
+               cdfRaw: result:='gF3';
+               cdfAbr: result:='F3III';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclGF')+' (F3III)';
             end;
          end;
          gF4:
          begin
             case SGCformat of
-               ufcfRaw: result:='gF4';
-               ufcfAbr: result:='F4III';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclGF')+' (F4III)';
+               cdfRaw: result:='gF4';
+               cdfAbr: result:='F4III';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclGF')+' (F4III)';
             end;
          end;
          gF5:
          begin
             case SGCformat of
-               ufcfRaw: result:='gF5';
-               ufcfAbr: result:='F5III';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclGF')+' (F5III)';
+               cdfRaw: result:='gF5';
+               cdfAbr: result:='F5III';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclGF')+' (F5III)';
             end;
          end;
          gF6:
          begin
             case SGCformat of
-               ufcfRaw: result:='gF6';
-               ufcfAbr: result:='F6III';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclGF')+' (F6III)';
+               cdfRaw: result:='gF6';
+               cdfAbr: result:='F6III';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclGF')+' (F6III)';
             end;
          end;
          gF7:
          begin
             case SGCformat of
-               ufcfRaw: result:='gF7';
-               ufcfAbr: result:='F7III';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclGF')+' (F7III)';
+               cdfRaw: result:='gF7';
+               cdfAbr: result:='F7III';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclGF')+' (F7III)';
             end;
          end;
          gF8:
          begin
             case SGCformat of
-               ufcfRaw: result:='gF8';
-               ufcfAbr: result:='F8III';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclGF')+' (F8III)';
+               cdfRaw: result:='gF8';
+               cdfAbr: result:='F8III';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclGF')+' (F8III)';
             end;
          end;
          gF9:
          begin
             case SGCformat of
-               ufcfRaw: result:='gF9';
-               ufcfAbr: result:='F9III';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclGF')+' (F9III)';
+               cdfRaw: result:='gF9';
+               cdfAbr: result:='F9III';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclGF')+' (F9III)';
             end;
          end;
          gG0:
          begin
             case SGCformat of
-               ufcfRaw: result:='gG0';
-               ufcfAbr: result:='G0III';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclGG')+' (G0III)';
+               cdfRaw: result:='gG0';
+               cdfAbr: result:='G0III';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclGG')+' (G0III)';
             end;
          end;
          gG1:
          begin
             case SGCformat of
-               ufcfRaw: result:='gG1';
-               ufcfAbr: result:='G1III';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclGG')+' (G1III)';
+               cdfRaw: result:='gG1';
+               cdfAbr: result:='G1III';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclGG')+' (G1III)';
             end;
          end;
          gG2:
          begin
             case SGCformat of
-               ufcfRaw: result:='gG2';
-               ufcfAbr: result:='G2III';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclGG')+' (G2III)';
+               cdfRaw: result:='gG2';
+               cdfAbr: result:='G2III';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclGG')+' (G2III)';
             end;
          end;
          gG3:
          begin
             case SGCformat of
-               ufcfRaw: result:='gG3';
-               ufcfAbr: result:='G3III';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclGG')+' (G3III)';
+               cdfRaw: result:='gG3';
+               cdfAbr: result:='G3III';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclGG')+' (G3III)';
             end;
          end;
          gG4:
          begin
             case SGCformat of
-               ufcfRaw: result:='gG4';
-               ufcfAbr: result:='G4III';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclGG')+' (G4III)';
+               cdfRaw: result:='gG4';
+               cdfAbr: result:='G4III';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclGG')+' (G4III)';
             end;
          end;
          gG5:
          begin
             case SGCformat of
-               ufcfRaw: result:='gG5';
-               ufcfAbr: result:='G5III';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclGG')+' (G5III)';
+               cdfRaw: result:='gG5';
+               cdfAbr: result:='G5III';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclGG')+' (G5III)';
             end;
          end;
          gG6:
          begin
             case SGCformat of
-               ufcfRaw: result:='gG6';
-               ufcfAbr: result:='G6III';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclGG')+' (G6III)';
+               cdfRaw: result:='gG6';
+               cdfAbr: result:='G6III';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclGG')+' (G6III)';
             end;
          end;
          gG7:
          begin
             case SGCformat of
-               ufcfRaw: result:='gG7';
-               ufcfAbr: result:='G7III';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclGG')+' (G7III)';
+               cdfRaw: result:='gG7';
+               cdfAbr: result:='G7III';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclGG')+' (G7III)';
             end;
          end;
          gG8:
          begin
             case SGCformat of
-               ufcfRaw: result:='gG8';
-               ufcfAbr: result:='G8III';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclGG')+' (G8III)';
+               cdfRaw: result:='gG8';
+               cdfAbr: result:='G8III';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclGG')+' (G8III)';
             end;
          end;
          gG9:
          begin
             case SGCformat of
-               ufcfRaw: result:='gG9';
-               ufcfAbr: result:='G9III';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclGG')+' (G9III)';
+               cdfRaw: result:='gG9';
+               cdfAbr: result:='G9III';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclGG')+' (G9III)';
             end;
          end;
          gK0:
          begin
             case SGCformat of
-               ufcfRaw: result:='gK0';
-               ufcfAbr: result:='K0III';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclGK')+' (K0III)';
+               cdfRaw: result:='gK0';
+               cdfAbr: result:='K0III';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclGK')+' (K0III)';
             end;
          end;
          gK1:
          begin
             case SGCformat of
-               ufcfRaw: result:='gK1';
-               ufcfAbr: result:='K1III';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclGK')+' (K1III)';
+               cdfRaw: result:='gK1';
+               cdfAbr: result:='K1III';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclGK')+' (K1III)';
             end;
          end;
          gK2:
          begin
             case SGCformat of
-               ufcfRaw: result:='gK2';
-               ufcfAbr: result:='K2III';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclGK')+' (K2III)';
+               cdfRaw: result:='gK2';
+               cdfAbr: result:='K2III';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclGK')+' (K2III)';
             end;
          end;
          gK3:
          begin
             case SGCformat of
-               ufcfRaw: result:='gK3';
-               ufcfAbr: result:='K3III';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclGK')+' (K3III)';
+               cdfRaw: result:='gK3';
+               cdfAbr: result:='K3III';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclGK')+' (K3III)';
             end;
          end;
          gK4:
          begin
             case SGCformat of
-               ufcfRaw: result:='gK4';
-               ufcfAbr: result:='K4III';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclGK')+' (K4III)';
+               cdfRaw: result:='gK4';
+               cdfAbr: result:='K4III';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclGK')+' (K4III)';
             end;
          end;
          gK5:
          begin
             case SGCformat of
-               ufcfRaw: result:='gK5';
-               ufcfAbr: result:='K5III';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclGK')+' (K5III)';
+               cdfRaw: result:='gK5';
+               cdfAbr: result:='K5III';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclGK')+' (K5III)';
             end;
          end;
          gK6:
          begin
             case SGCformat of
-               ufcfRaw: result:='gK6';
-               ufcfAbr: result:='K6III';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclGK')+' (K6III)';
+               cdfRaw: result:='gK6';
+               cdfAbr: result:='K6III';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclGK')+' (K6III)';
             end;
          end;
          gK7:
          begin
             case SGCformat of
-               ufcfRaw: result:='gK7';
-               ufcfAbr: result:='K7III';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclGK')+' (K7III)';
+               cdfRaw: result:='gK7';
+               cdfAbr: result:='K7III';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclGK')+' (K7III)';
             end;
          end;
          gK8:
          begin
             case SGCformat of
-               ufcfRaw: result:='gK8';
-               ufcfAbr: result:='K8III';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclGK')+' (K8III)';
+               cdfRaw: result:='gK8';
+               cdfAbr: result:='K8III';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclGK')+' (K8III)';
             end;
          end;
          gK9:
          begin
             case SGCformat of
-               ufcfRaw: result:='gK9';
-               ufcfAbr: result:='K9III';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclGK')+' (K9III)';
+               cdfRaw: result:='gK9';
+               cdfAbr: result:='K9III';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclGK')+' (K9III)';
             end;
          end;
          gM0:
          begin
             case SGCformat of
-               ufcfRaw: result:='gM0';
-               ufcfAbr: result:='M0III';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclGM')+' (M0III)';
+               cdfRaw: result:='gM0';
+               cdfAbr: result:='M0III';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclGM')+' (M0III)';
             end;
          end;
          gM1:
          begin
             case SGCformat of
-               ufcfRaw: result:='gM1';
-               ufcfAbr: result:='M1III';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclGM')+' (M1III)';
+               cdfRaw: result:='gM1';
+               cdfAbr: result:='M1III';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclGM')+' (M1III)';
             end;
          end;
          gM2:
          begin
             case SGCformat of
-               ufcfRaw: result:='gM2';
-               ufcfAbr: result:='M2III';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclGM')+' (M2III)';
+               cdfRaw: result:='gM2';
+               cdfAbr: result:='M2III';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclGM')+' (M2III)';
             end;
          end;
          gM3:
          begin
             case SGCformat of
-               ufcfRaw: result:='gM3';
-               ufcfAbr: result:='M3III';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclGM')+' (M3III)';
+               cdfRaw: result:='gM3';
+               cdfAbr: result:='M3III';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclGM')+' (M3III)';
             end;
          end;
          gM4:
          begin
             case SGCformat of
-               ufcfRaw: result:='gM4';
-               ufcfAbr: result:='M4III';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclGM')+' (M4III)';
+               cdfRaw: result:='gM4';
+               cdfAbr: result:='M4III';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclGM')+' (M4III)';
             end;
          end;
          gM5:
          begin
             case SGCformat of
-               ufcfRaw: result:='gM5';
-               ufcfAbr: result:='M5III';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclGM')+' (M5III)';
+               cdfRaw: result:='gM5';
+               cdfAbr: result:='M5III';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclGM')+' (M5III)';
             end;
          end;
          O5:
          begin
             case SGCformat of
-               ufcfRaw: result:='O5';
-               ufcfAbr: result:='O5V';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclO')+' (O5V)';
+               cdfRaw: result:='O5';
+               cdfAbr: result:='O5V';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclO')+' (O5V)';
             end;
          end;
          O6:
          begin
             case SGCformat of
-               ufcfRaw: result:='O6';
-               ufcfAbr: result:='O6V';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclO')+' (O6V)';
+               cdfRaw: result:='O6';
+               cdfAbr: result:='O6V';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclO')+' (O6V)';
             end;
          end;
          O7:
          begin
             case SGCformat of
-               ufcfRaw: result:='O7';
-               ufcfAbr: result:='O7V';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclO')+' (O7V)';
+               cdfRaw: result:='O7';
+               cdfAbr: result:='O7V';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclO')+' (O7V)';
             end;
          end;
          O8:
          begin
             case SGCformat of
-               ufcfRaw: result:='O8';
-               ufcfAbr: result:='O8V';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclO')+' (O8V)';
+               cdfRaw: result:='O8';
+               cdfAbr: result:='O8V';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclO')+' (O8V)';
             end;
          end;
          O9:
          begin
             case SGCformat of
-               ufcfRaw: result:='O9';
-               ufcfAbr: result:='O9V';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclO')+' (O9V)';
+               cdfRaw: result:='O9';
+               cdfAbr: result:='O9V';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclO')+' (O9V)';
             end;
          end;
          B0:
          begin
             case SGCformat of
-               ufcfRaw: result:='B0';
-               ufcfAbr: result:='B0V';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclB')+' (B0V)';
+               cdfRaw: result:='B0';
+               cdfAbr: result:='B0V';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclB')+' (B0V)';
             end;
          end;
          B1:
          begin
             case SGCformat of
-               ufcfRaw: result:='B1';
-               ufcfAbr: result:='B1V';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclB')+' (B1V)';
+               cdfRaw: result:='B1';
+               cdfAbr: result:='B1V';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclB')+' (B1V)';
             end;
          end;
          B2:
          begin
             case SGCformat of
-               ufcfRaw: result:='B2';
-               ufcfAbr: result:='B2V';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclB')+' (B2V)';
+               cdfRaw: result:='B2';
+               cdfAbr: result:='B2V';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclB')+' (B2V)';
             end;
          end;
          B3:
          begin
             case SGCformat of
-               ufcfRaw: result:='B3';
-               ufcfAbr: result:='B3V';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclB')+' (B3V)';
+               cdfRaw: result:='B3';
+               cdfAbr: result:='B3V';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclB')+' (B3V)';
             end;
          end;
          B4:
          begin
             case SGCformat of
-               ufcfRaw: result:='B4';
-               ufcfAbr: result:='B4V';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclB')+' (B4V)';
+               cdfRaw: result:='B4';
+               cdfAbr: result:='B4V';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclB')+' (B4V)';
             end;
          end;
          B5:
          begin
             case SGCformat of
-               ufcfRaw: result:='B5';
-               ufcfAbr: result:='B5V';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclB')+' (B5V)';
+               cdfRaw: result:='B5';
+               cdfAbr: result:='B5V';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclB')+' (B5V)';
             end;
          end;
          B6:
          begin
             case SGCformat of
-               ufcfRaw: result:='B6';
-               ufcfAbr: result:='B6V';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclB')+' (B6V)';
+               cdfRaw: result:='B6';
+               cdfAbr: result:='B6V';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclB')+' (B6V)';
             end;
          end;
          B7:
          begin
             case SGCformat of
-               ufcfRaw: result:='B7';
-               ufcfAbr: result:='B7V';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclB')+' (B7V)';
+               cdfRaw: result:='B7';
+               cdfAbr: result:='B7V';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclB')+' (B7V)';
             end;
          end;
          B8:
          begin
             case SGCformat of
-               ufcfRaw: result:='B8';
-               ufcfAbr: result:='B8V';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclB')+' (B8V)';
+               cdfRaw: result:='B8';
+               cdfAbr: result:='B8V';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclB')+' (B8V)';
             end;
          end;
          B9:
          begin
             case SGCformat of
-               ufcfRaw: result:='B9';
-               ufcfAbr: result:='B9V';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclB')+' (B9V)';
+               cdfRaw: result:='B9';
+               cdfAbr: result:='B9V';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclB')+' (B9V)';
             end;
          end;
          A0:
          begin
             case SGCformat of
-               ufcfRaw: result:='A0';
-               ufcfAbr: result:='A0V';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclA')+' (A0V)';
+               cdfRaw: result:='A0';
+               cdfAbr: result:='A0V';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclA')+' (A0V)';
             end;
          end;
          A1:
          begin
             case SGCformat of
-               ufcfRaw: result:='A1';
-               ufcfAbr: result:='A1V';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclA')+' (A1V)';
+               cdfRaw: result:='A1';
+               cdfAbr: result:='A1V';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclA')+' (A1V)';
             end;
          end;
          A2:
          begin
             case SGCformat of
-               ufcfRaw: result:='A2';
-               ufcfAbr: result:='A2V';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclA')+' (A2V)';
+               cdfRaw: result:='A2';
+               cdfAbr: result:='A2V';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclA')+' (A2V)';
             end;
          end;
          A3:
          begin
             case SGCformat of
-               ufcfRaw: result:='A3';
-               ufcfAbr: result:='A3V';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclA')+' (A3V)';
+               cdfRaw: result:='A3';
+               cdfAbr: result:='A3V';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclA')+' (A3V)';
             end;
          end;
          A4:
          begin
             case SGCformat of
-               ufcfRaw: result:='A4';
-               ufcfAbr: result:='A4V';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclA')+' (A4V)';
+               cdfRaw: result:='A4';
+               cdfAbr: result:='A4V';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclA')+' (A4V)';
             end;
          end;
          A5:
          begin
             case SGCformat of
-               ufcfRaw: result:='A5';
-               ufcfAbr: result:='A5V';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclA')+' (A5V)';
+               cdfRaw: result:='A5';
+               cdfAbr: result:='A5V';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclA')+' (A5V)';
             end;
          end;
          A6:
          begin
             case SGCformat of
-               ufcfRaw: result:='A6';
-               ufcfAbr: result:='A6V';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclA')+' (A6V)';
+               cdfRaw: result:='A6';
+               cdfAbr: result:='A6V';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclA')+' (A6V)';
             end;
          end;
          A7:
          begin
             case SGCformat of
-               ufcfRaw: result:='A7';
-               ufcfAbr: result:='A7V';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclA')+' (A7V)';
+               cdfRaw: result:='A7';
+               cdfAbr: result:='A7V';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclA')+' (A7V)';
             end;
          end;
          A8:
          begin
             case SGCformat of
-               ufcfRaw: result:='A8';
-               ufcfAbr: result:='A8V';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclA')+' (A8V)';
+               cdfRaw: result:='A8';
+               cdfAbr: result:='A8V';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclA')+' (A8V)';
             end;
          end;
          A9:
          begin
             case SGCformat of
-               ufcfRaw: result:='A9';
-               ufcfAbr: result:='A9V';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclA')+' (A9V)';
+               cdfRaw: result:='A9';
+               cdfAbr: result:='A9V';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclA')+' (A9V)';
             end;
          end;
          F0:
          begin
             case SGCformat of
-               ufcfRaw: result:='F0';
-               ufcfAbr: result:='F0V';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclF')+' (F0V)';
+               cdfRaw: result:='F0';
+               cdfAbr: result:='F0V';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclF')+' (F0V)';
             end;
          end;
          F1:
          begin
             case SGCformat of
-               ufcfRaw: result:='F1';
-               ufcfAbr: result:='F1V';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclF')+' (F1V)';
+               cdfRaw: result:='F1';
+               cdfAbr: result:='F1V';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclF')+' (F1V)';
             end;
          end;
          F2:
          begin
             case SGCformat of
-               ufcfRaw: result:='F2';
-               ufcfAbr: result:='F2V';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclF')+' (F2V)';
+               cdfRaw: result:='F2';
+               cdfAbr: result:='F2V';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclF')+' (F2V)';
             end;
          end;
          F3:
          begin
             case SGCformat of
-               ufcfRaw: result:='F3';
-               ufcfAbr: result:='F3V';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclF')+' (F3V)';
+               cdfRaw: result:='F3';
+               cdfAbr: result:='F3V';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclF')+' (F3V)';
             end;
          end;
          F4:
          begin
             case SGCformat of
-               ufcfRaw: result:='F4';
-               ufcfAbr: result:='F4V';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclF')+' (F4V)';
+               cdfRaw: result:='F4';
+               cdfAbr: result:='F4V';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclF')+' (F4V)';
             end;
          end;
          F5:
          begin
             case SGCformat of
-               ufcfRaw: result:='F5';
-               ufcfAbr: result:='F5V';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclF')+' (F5V)';
+               cdfRaw: result:='F5';
+               cdfAbr: result:='F5V';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclF')+' (F5V)';
             end;
          end;
          F6:
          begin
             case SGCformat of
-               ufcfRaw: result:='F6';
-               ufcfAbr: result:='F6V';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclF')+' (F6V)';
+               cdfRaw: result:='F6';
+               cdfAbr: result:='F6V';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclF')+' (F6V)';
             end;
          end;
          F7:
          begin
             case SGCformat of
-               ufcfRaw: result:='F7';
-               ufcfAbr: result:='F7V';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclF')+' (F7V)';
+               cdfRaw: result:='F7';
+               cdfAbr: result:='F7V';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclF')+' (F7V)';
             end;
          end;
          F8:
          begin
             case SGCformat of
-               ufcfRaw: result:='F8';
-               ufcfAbr: result:='F8V';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclF')+' (F8V)';
+               cdfRaw: result:='F8';
+               cdfAbr: result:='F8V';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclF')+' (F8V)';
             end;
          end;
          F9:
          begin
             case SGCformat of
-               ufcfRaw: result:='F9';
-               ufcfAbr: result:='F9V';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclF')+' (F9V)';
+               cdfRaw: result:='F9';
+               cdfAbr: result:='F9V';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclF')+' (F9V)';
             end;
          end;
          G0:
          begin
             case SGCformat of
-               ufcfRaw: result:='G0';
-               ufcfAbr: result:='G0V';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclG')+' (G0V)';
+               cdfRaw: result:='G0';
+               cdfAbr: result:='G0V';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclG')+' (G0V)';
             end;
          end;
          G1:
          begin
             case SGCformat of
-               ufcfRaw: result:='G1';
-               ufcfAbr: result:='G1V';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclG')+' (G1V)';
+               cdfRaw: result:='G1';
+               cdfAbr: result:='G1V';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclG')+' (G1V)';
             end;
          end;
          G2:
          begin
             case SGCformat of
-               ufcfRaw: result:='G2';
-               ufcfAbr: result:='G2V';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclG')+' (G2V)';
+               cdfRaw: result:='G2';
+               cdfAbr: result:='G2V';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclG')+' (G2V)';
             end;
          end;
          G3:
          begin
             case SGCformat of
-               ufcfRaw: result:='G3';
-               ufcfAbr: result:='G3V';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclG')+' (G3V)';
+               cdfRaw: result:='G3';
+               cdfAbr: result:='G3V';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclG')+' (G3V)';
             end;
          end;
          G4:
          begin
             case SGCformat of
-               ufcfRaw: result:='G4';
-               ufcfAbr: result:='G4V';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclG')+' (G4V)';
+               cdfRaw: result:='G4';
+               cdfAbr: result:='G4V';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclG')+' (G4V)';
             end;
          end;
          G5:
          begin
             case SGCformat of
-               ufcfRaw: result:='G5';
-               ufcfAbr: result:='G5V';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclG')+' (G5V)';
+               cdfRaw: result:='G5';
+               cdfAbr: result:='G5V';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclG')+' (G5V)';
             end;
          end;
          G6:
          begin
             case SGCformat of
-               ufcfRaw: result:='G6';
-               ufcfAbr: result:='G6V';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclG')+' (G6V)';
+               cdfRaw: result:='G6';
+               cdfAbr: result:='G6V';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclG')+' (G6V)';
             end;
          end;
          G7:
          begin
             case SGCformat of
-               ufcfRaw: result:='G7';
-               ufcfAbr: result:='G7V';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclG')+' (G7V)';
+               cdfRaw: result:='G7';
+               cdfAbr: result:='G7V';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclG')+' (G7V)';
             end;
          end;
          G8:
          begin
             case SGCformat of
-               ufcfRaw: result:='G8';
-               ufcfAbr: result:='G8V';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclG')+' (G8V)';
+               cdfRaw: result:='G8';
+               cdfAbr: result:='G8V';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclG')+' (G8V)';
             end;
          end;
          G9:
          begin
             case SGCformat of
-               ufcfRaw: result:='G9';
-               ufcfAbr: result:='G9V';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclG')+' (G9V)';
+               cdfRaw: result:='G9';
+               cdfAbr: result:='G9V';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclG')+' (G9V)';
             end;
          end;
          K0:
          begin
             case SGCformat of
-               ufcfRaw: result:='K0';
-               ufcfAbr: result:='K0V';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclK')+' (K0V)';
+               cdfRaw: result:='K0';
+               cdfAbr: result:='K0V';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclK')+' (K0V)';
             end;
          end;
          K1:
          begin
             case SGCformat of
-               ufcfRaw: result:='K1';
-               ufcfAbr: result:='K1V';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclK')+' (K1V)';
+               cdfRaw: result:='K1';
+               cdfAbr: result:='K1V';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclK')+' (K1V)';
             end;
          end;
          K2:
          begin
             case SGCformat of
-               ufcfRaw: result:='K2';
-               ufcfAbr: result:='K2V';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclK')+' (K2V)';
+               cdfRaw: result:='K2';
+               cdfAbr: result:='K2V';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclK')+' (K2V)';
             end;
          end;
          K3:
          begin
             case SGCformat of
-               ufcfRaw: result:='K3';
-               ufcfAbr: result:='K3V';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclK')+' (K3V)';
+               cdfRaw: result:='K3';
+               cdfAbr: result:='K3V';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclK')+' (K3V)';
             end;
          end;
          K4:
          begin
             case SGCformat of
-               ufcfRaw: result:='K4';
-               ufcfAbr: result:='K4V';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclK')+' (K4V)';
+               cdfRaw: result:='K4';
+               cdfAbr: result:='K4V';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclK')+' (K4V)';
             end;
          end;
          K5:
          begin
             case SGCformat of
-               ufcfRaw: result:='K5';
-               ufcfAbr: result:='K5V';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclK')+' (K5V)';
+               cdfRaw: result:='K5';
+               cdfAbr: result:='K5V';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclK')+' (K5V)';
             end;
          end;
          K6:
          begin
             case SGCformat of
-               ufcfRaw: result:='K6';
-               ufcfAbr: result:='K6V';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclK')+' (K6V)';
+               cdfRaw: result:='K6';
+               cdfAbr: result:='K6V';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclK')+' (K6V)';
             end;
          end;
          K7:
          begin
             case SGCformat of
-               ufcfRaw: result:='K7';
-               ufcfAbr: result:='K7V';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclK')+' (K7V)';
+               cdfRaw: result:='K7';
+               cdfAbr: result:='K7V';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclK')+' (K7V)';
             end;
          end;
          K8:
          begin
             case SGCformat of
-               ufcfRaw: result:='K8';
-               ufcfAbr: result:='K8V';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclK')+' (K8V)';
+               cdfRaw: result:='K8';
+               cdfAbr: result:='K8V';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclK')+' (K8V)';
             end;
          end;
          K9:
          begin
             case SGCformat of
-               ufcfRaw: result:='K9';
-               ufcfAbr: result:='K9V';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclK')+' (K9V)';
+               cdfRaw: result:='K9';
+               cdfAbr: result:='K9V';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclK')+' (K9V)';
             end;
          end;
          M0:
          begin
             case SGCformat of
-               ufcfRaw: result:='M0';
-               ufcfAbr: result:='M0V';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclM')+' (M0V)';
+               cdfRaw: result:='M0';
+               cdfAbr: result:='M0V';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclM')+' (M0V)';
             end;
          end;
          M1:
          begin
             case SGCformat of
-               ufcfRaw: result:='M1';
-               ufcfAbr: result:='M1V';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclM')+' (M1V)';
+               cdfRaw: result:='M1';
+               cdfAbr: result:='M1V';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclM')+' (M1V)';
             end;
          end;
          M2:
          begin
             case SGCformat of
-               ufcfRaw: result:='M2';
-               ufcfAbr: result:='M2V';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclM')+' (M2V)';
+               cdfRaw: result:='M2';
+               cdfAbr: result:='M2V';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclM')+' (M2V)';
             end;
          end;
          M3:
          begin
             case SGCformat of
-               ufcfRaw: result:='M3';
-               ufcfAbr: result:='M3V';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclM')+' (M3V)';
+               cdfRaw: result:='M3';
+               cdfAbr: result:='M3V';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclM')+' (M3V)';
             end;
          end;
          M4:
          begin
             case SGCformat of
-               ufcfRaw: result:='M4';
-               ufcfAbr: result:='M4V';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclM')+' (M4V)';
+               cdfRaw: result:='M4';
+               cdfAbr: result:='M4V';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclM')+' (M4V)';
             end;
          end;
          M5:
          begin
             case SGCformat of
-               ufcfRaw: result:='M5';
-               ufcfAbr: result:='M5V';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclM')+' (M5V)';
+               cdfRaw: result:='M5';
+               cdfAbr: result:='M5V';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclM')+' (M5V)';
             end;
          end;
          M6:
          begin
             case SGCformat of
-               ufcfRaw: result:='M6';
-               ufcfAbr: result:='M6V';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclM')+' (M6V)';
+               cdfRaw: result:='M6';
+               cdfAbr: result:='M6V';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclM')+' (M6V)';
             end;
          end;
          M7:
          begin
             case SGCformat of
-               ufcfRaw: result:='M7';
-               ufcfAbr: result:='M7V';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclM')+' (M7V)';
+               cdfRaw: result:='M7';
+               cdfAbr: result:='M7V';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclM')+' (M7V)';
             end;
          end;
          M8:
          begin
             case SGCformat of
-               ufcfRaw: result:='M8';
-               ufcfAbr: result:='M8V';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclM')+' (M8V)';
+               cdfRaw: result:='M8';
+               cdfAbr: result:='M8V';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclM')+' (M8V)';
             end;
          end;
          M9:
          begin
             case SGCformat of
-               ufcfRaw: result:='M9';
-               ufcfAbr: result:='M9V';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclM')+' (M9V)';
+               cdfRaw: result:='M9';
+               cdfAbr: result:='M9V';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclM')+' (M9V)';
             end;
          end;
          WD0:
          begin
             case SGCformat of
-               ufcfRaw, ufcfAbr: result:='WD0';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclWD')+' (WD0)';
+               cdfRaw, cdfAbr: result:='WD0';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclWD')+' (WD0)';
             end;
          end;
          WD1:
          begin
             case SGCformat of
-               ufcfRaw, ufcfAbr: result:='WD1';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclWD')+' (WD1)';
+               cdfRaw, cdfAbr: result:='WD1';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclWD')+' (WD1)';
             end;
          end;
          WD2:
          begin
             case SGCformat of
-               ufcfRaw, ufcfAbr: result:='WD2';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclWD')+' (WD2)';
+               cdfRaw, cdfAbr: result:='WD2';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclWD')+' (WD2)';
             end;
          end;
          WD3:
          begin
             case SGCformat of
-               ufcfRaw, ufcfAbr: result:='WD3';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclWD')+' (WD3)';
+               cdfRaw, cdfAbr: result:='WD3';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclWD')+' (WD3)';
             end;
          end;
          WD4:
          begin
             case SGCformat of
-               ufcfRaw, ufcfAbr: result:='WD4';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclWD')+' (WD4)';
+               cdfRaw, cdfAbr: result:='WD4';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclWD')+' (WD4)';
             end;
          end;
          WD5:
          begin
             case SGCformat of
-               ufcfRaw, ufcfAbr: result:='WD5';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclWD')+' (WD5)';
+               cdfRaw, cdfAbr: result:='WD5';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclWD')+' (WD5)';
             end;
          end;
          WD6:
          begin
             case SGCformat of
-               ufcfRaw, ufcfAbr: result:='WD6';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclWD')+' (WD6)';
+               cdfRaw, cdfAbr: result:='WD6';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclWD')+' (WD6)';
             end;
          end;
          WD7:
          begin
             case SGCformat of
-               ufcfRaw, ufcfAbr: result:='WD7';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclWD')+' (WD7)';
+               cdfRaw, cdfAbr: result:='WD7';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclWD')+' (WD7)';
             end;
          end;
          WD8:
          begin
             case SGCformat of
-               ufcfRaw, ufcfAbr: result:='WD8';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclWD')+' (WD8)';
+               cdfRaw, cdfAbr: result:='WD8';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclWD')+' (WD8)';
             end;
          end;
          WD9:
          begin
             case SGCformat of
-               ufcfRaw, ufcfAbr: result:='WD8';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclWD')+' (WD9)';
+               cdfRaw, cdfAbr: result:='WD8';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclWD')+' (WD9)';
             end;
          end;
          PSR:
          begin
             case SGCformat of
-               ufcfRaw, ufcfAbr: result:='PSR';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclPSR')+' (PSR)';
+               cdfRaw, cdfAbr: result:='PSR';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclPSR')+' (PSR)';
             end;
          end;
          BH:
          begin
             case SGCformat of
-               ufcfRaw, ufcfAbr: result:='BH';
-               ufcfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclBH')+' (BH)';
+               cdfRaw, cdfAbr: result:='BH';
+               cdfFull: result:=FCFdTFiles_UIStr_Get(uistrUI,'stclBH')+' (BH)';
             end;
          end;
       end; {.case SDB_class}
@@ -1793,6 +1826,8 @@ begin
    then MkDir(FGMDresult+'\farcolony');
    Result:=FGMDresult+'\farcolony\';
 end;
+
+//===========================END FUNCTIONS SECTION==========================================
 
 procedure FCMcF_Files_Del(const FDpath, FDname: string);
 {:Purpose: delete w/ wildcards support. From Ion_T@DelphiPages.com.

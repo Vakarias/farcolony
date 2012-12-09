@@ -277,14 +277,14 @@ begin
    end;
    CPScrLineU:=0;
    case CPSCintRng of
-      cirPoor_Insignificant: CPSCint:=IRmiPoor+( (FCFcFunc_Rand_Int(100)+1)*(IRmaPoor-IRmiPoor)*0.01 );
-      cirUnderfunded_Low: CPSCint:=IRmiUnde+( (FCFcFunc_Rand_Int(100)+1)*(IRmaUnde-IRmiUnde)*0.01 );
-      cirBelowAverage_Moderate: CPSCint:=IRmiBAvg+( (FCFcFunc_Rand_Int(100)+1)*(IRmaBAvg-IRmiBAvg)*0.01 );
-      cirAverage: CPSCint:=IRmiAvge+( (FCFcFunc_Rand_Int(100)+1)*(IRmaAvge-IRmiAvge)*0.01 );
-      cirAboveAverage: CPSCint:=IRmiAbAv+( (FCFcFunc_Rand_Int(100)+1)*(IRmaAbAv-IRmiAbAv)*0.01 );
-      cirRich_High: CPSCint:=IRmiRich+( (FCFcFunc_Rand_Int(100)+1)*(IRmaRich-IRmiRich)*0.01 );
-      cirOverFunded_Usurious: CPSCint:=IRmiOvFu+( (FCFcFunc_Rand_Int(100)+1)*(IRmaOvFu-IRmiOvFu)*0.01 );
-      cirUnlimited_Insane: CPSCint:=IRmiUnli+( (FCFcFunc_Rand_Int(100)+1)*(IRmaUnli-IRmiUnli)*0.01 );
+      cirPoor_Insignificant: CPSCint:=IRmiPoor+( (FCFcF_Random_DoInteger(100)+1)*(IRmaPoor-IRmiPoor)*0.01 );
+      cirUnderfunded_Low: CPSCint:=IRmiUnde+( (FCFcF_Random_DoInteger(100)+1)*(IRmaUnde-IRmiUnde)*0.01 );
+      cirBelowAverage_Moderate: CPSCint:=IRmiBAvg+( (FCFcF_Random_DoInteger(100)+1)*(IRmaBAvg-IRmiBAvg)*0.01 );
+      cirAverage: CPSCint:=IRmiAvge+( (FCFcF_Random_DoInteger(100)+1)*(IRmaAvge-IRmiAvge)*0.01 );
+      cirAboveAverage: CPSCint:=IRmiAbAv+( (FCFcF_Random_DoInteger(100)+1)*(IRmaAbAv-IRmiAbAv)*0.01 );
+      cirRich_High: CPSCint:=IRmiRich+( (FCFcF_Random_DoInteger(100)+1)*(IRmaRich-IRmiRich)*0.01 );
+      cirOverFunded_Usurious: CPSCint:=IRmiOvFu+( (FCFcF_Random_DoInteger(100)+1)*(IRmaOvFu-IRmiOvFu)*0.01 );
+      cirUnlimited_Insane: CPSCint:=IRmiUnli+( (FCFcF_Random_DoInteger(100)+1)*(IRmaUnli-IRmiUnli)*0.01 );
    end;
    CPSint:=DecimalRound(CPSCint, 1, 0.01);
    {.set viability objectives}

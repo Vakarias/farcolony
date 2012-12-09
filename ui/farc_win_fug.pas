@@ -255,7 +255,7 @@ begin
          then break
          else
          begin
-            GCclassStr:=FCFcFunc_Star_GetClass(ufcfRaw, 0, GCcnt);
+            GCclassStr:=FCFcFunc_Star_GetClass(cdfRaw, 0, GCcnt);
             FCWFoutput.Lines.Add('   <star startoken="'+FCDduStarSystem[0].SS_stars[GCcnt].S_token+'" starclass="'+GCclassStr+'">');
             FCWFoutput.Lines.Add(
                '      <starphysdata startemp="'+IntToStr(FCDduStarSystem[0].SS_stars[GCcnt].S_temperature)

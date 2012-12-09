@@ -99,7 +99,7 @@ begin
             0: FOGisPassedBiTri:=false;
             50,80:
             begin
-               OrbitProbaTest:=FCFcFunc_Rand_Int(99)+1;
+               OrbitProbaTest:=FCFcF_Random_DoInteger(99)+1;
                if OrbitProbaTest>FOGorbitProbaGenOrb
                then FOGisPassedBiTri:=false;
             end;
@@ -156,7 +156,7 @@ begin
                OrbitProbaRngMax:=5;
             end;
          end; //==END== case FCDBsSys[0].SS_star[FOGstar].SDB_class of ==//
-         OrbitProbaTest:=FCFcFunc_Rand_Int(99)+1;
+         OrbitProbaTest:=FCFcF_Random_DoInteger(99)+1;
          if (OrbitProbaTest>=OrbitProbaRngMin)
             and (OrbitProbaTest<=OrbitProbaRngMax)
          then

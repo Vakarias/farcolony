@@ -185,9 +185,9 @@ begin
          FCRmcCurrentMissionCalculations.CMC_maxDeltaV:=( AccelerationInMbySec*0.001 )*( BurnEnduranceMaxInSec );
       end;
       {.required deltaV}
-      FCRmcCurrentMissionCalculations.CMC_requiredDeltaV:=FCFcFunc_Rnd( cfrttpDistkm, FCRmcCurrentMissionCalculations.CMC_requiredDeltaV );
+      FCRmcCurrentMissionCalculations.CMC_requiredDeltaV:=FCFcFunc_Rnd( rttDistanceKm, FCRmcCurrentMissionCalculations.CMC_requiredDeltaV );
       {.max reaction mass volume}
-      FCRmcCurrentMissionCalculations.CMC_reactionMassMaxVol:=FCFcFunc_Rnd( cfrttpVolm3, FCRmcCurrentMissionCalculations.CMC_reactionMassMaxVol );
+      FCRmcCurrentMissionCalculations.CMC_reactionMassMaxVol:=FCFcFunc_Rnd( rttVolume, FCRmcCurrentMissionCalculations.CMC_reactionMassMaxVol );
       {.calculate final deltaV}
       FCRmcCurrentMissionCalculations.CMC_finalDeltaV:=FCFspuF_DeltaV_GetFromOrbit(
          FCRmcCurrentMissionCalculations.CMC_originLocation[1]
@@ -347,8 +347,8 @@ begin
          end;
       end;
 //      GMCAccelG:=FCFcFunc_Rnd(cfrttp3dunit, GMCAccelG);
-      FCRmcCurrentMissionCalculations.CMC_cruiseDeltaV:=FCFcFunc_Rnd(cfrttpVelkms, FCRmcCurrentMissionCalculations.CMC_cruiseDeltaV);
-      FCRmcCurrentMissionCalculations.CMC_usedReactionMassVol:=FCFcFunc_Rnd(cfrttpVolm3, FCRmcCurrentMissionCalculations.CMC_usedReactionMassVol);
+      FCRmcCurrentMissionCalculations.CMC_cruiseDeltaV:=FCFcFunc_Rnd(rttVelocityKmSec, FCRmcCurrentMissionCalculations.CMC_cruiseDeltaV);
+      FCRmcCurrentMissionCalculations.CMC_usedReactionMassVol:=FCFcFunc_Rnd(rttVolume, FCRmcCurrentMissionCalculations.CMC_usedReactionMassVol);
       FCRmcCurrentMissionCalculations.CMC_timeAccel:=round(TimeAtAcceleration);
       FCRmcCurrentMissionCalculations.CMC_timeDecel:=round(TimeAtDeceleration);
    end; {.if FCWinMissSet.FCWMS_Grp_MCG_RMassTrack.Enabled}

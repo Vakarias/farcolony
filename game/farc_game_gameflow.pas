@@ -312,11 +312,11 @@ begin
                         GTPspUnVel
                            :=FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_deltaV-(FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCinProcessData.IPD_accelerationByTick*(GGFnewTick-GGFoldTick));
                         FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_deltaV:=FCFcFunc_Rnd(
-                           cfrttpVelkms
+                           rttVelocityKmSec
                            ,GTPspUnVel
                            );
                         GTPmove:=FCFcFunc_ScaleConverter(
-                           cf3dctVelkmSecTo3dViewUnit
+                           cVelocityKmSecTo3dViewUnits
                            ,FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_deltaV
                            );
                         FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_3dVelocity:=GTPmove;
@@ -429,11 +429,11 @@ begin
                                     );
                         FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_deltaV
                            :=FCFcFunc_Rnd(
-                              cfrttpVelkms
+                              rttVelocityKmSec
                               ,GTPspUnVel
                               );
                         GTPmove:=FCFcFunc_ScaleConverter(
-                           cf3dctVelkmSecTo3dViewUnit
+                           cVelocityKmSecTo3dViewUnits
                            ,FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_deltaV
                            );
                         FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_3dVelocity:=GTPmove;
@@ -447,11 +447,11 @@ begin
                               +(FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITinProcessData.IPD_accelerationByTick*(GGFnewTick-GGFoldTick));
                         FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_deltaV
                            :=FCFcFunc_Rnd(
-                              cfrttpVelkms
+                              rttVelocityKmSec
                               ,GTPspUnVel
                               );
                         GTPmove:=FCFcFunc_ScaleConverter(
-                           cf3dctVelkmSecTo3dViewUnit
+                           cVelocityKmSecTo3dViewUnits
                            ,FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_deltaV
                            );
                         FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_3dVelocity:=GTPmove;
@@ -521,11 +521,11 @@ begin
                            {.update data structure}
                            FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_deltaV
                               :=FCFcFunc_Rnd(
-                                 cfrttpVelkms
+                                 rttVelocityKmSec
                                  ,GTPspUnVel
                                  );
                            GTPmove:=FCFcFunc_ScaleConverter(
-                              cf3dctVelkmSecTo3dViewUnit
+                              cVelocityKmSecTo3dViewUnits
                               ,FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_deltaV
                               );
                            FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_3dVelocity:=GTPmove;
@@ -540,11 +540,11 @@ begin
                                  -(FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITinProcessData.IPD_accelerationByTick*(FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITinProcessData.IPD_timeToTransfert));
                            FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_deltaV
                               :=FCFcFunc_Rnd(
-                                 cfrttpVelkms
+                                 rttVelocityKmSec
                                  ,GTPspUnVel
                                  );
                            GTPmove:=FCFcFunc_ScaleConverter(
-                              cf3dctVelkmSecTo3dViewUnit
+                              cVelocityKmSecTo3dViewUnits
                               ,FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_deltaV
                               );
                            FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_3dVelocity:=GTPmove;
@@ -560,11 +560,11 @@ begin
                            GTPspUnVel:=FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITfinalVelocity;
                            FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_deltaV
                               :=FCFcFunc_Rnd(
-                                 cfrttpVelkms
+                                 rttVelocityKmSec
                                  ,GTPspUnVel
                                  );
                            GTPmove:=FCFcFunc_ScaleConverter(
-                              cf3dctVelkmSecTo3dViewUnit
+                              cVelocityKmSecTo3dViewUnits
                               ,FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_deltaV
                               );
                            FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_3dVelocity:=GTPmove;
@@ -578,11 +578,11 @@ begin
                                  -(FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITinProcessData.IPD_accelerationByTick*(GGFnewTick-GGFoldTick));
                            FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_deltaV
                            :=FCFcFunc_Rnd(
-                              cfrttpVelkms
+                              rttVelocityKmSec
                               ,GTPspUnVel
                               );
                            GTPmove:=FCFcFunc_ScaleConverter(
-                              cf3dctVelkmSecTo3dViewUnit
+                              cVelocityKmSecTo3dViewUnits
                               ,FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_deltaV
                               );
                            FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_3dVelocity:=GTPmove;

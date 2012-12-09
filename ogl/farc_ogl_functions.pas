@@ -183,7 +183,7 @@ begin
          OriginX:=FC3doglObjectsGroups[OriginIndex].Position.X;
          OriginZ:=FC3doglObjectsGroups[OriginIndex].Position.Z;
          OriginGravitationalSphere:=FCFcFunc_ScaleConverter(
-            cf3dctKmTo3dViewUnit
+            cKmTo3dViewUnits
             ,FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OriginIndex].OO_gravitationalSphereRadius
             );
       end;
@@ -195,7 +195,7 @@ begin
          OriginDBPlanetIndex:=round( FC3doglSatellitesObjectsGroups[OriginIndex].TagFloat );
          OriginDBSatelliteIndex:=FC3doglSatellitesObjectsGroups[OriginIndex].Tag;
          OriginGravitationalSphere:=FCFcFunc_ScaleConverter(
-            cf3dctKmTo3dViewUnit
+            cKmTo3dViewUnits
             ,FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OriginDBPlanetIndex].OO_satellitesList[OriginDBSatelliteIndex].OO_gravitationalSphereRadius
             );
       end;
@@ -212,7 +212,7 @@ begin
          DestinationX:=FC3doglObjectsGroups[DestinationIndex].Position.X;
          DestinationZ:=FC3doglObjectsGroups[DestinationIndex].Position.Z;
          DestinationGravitationalSphere:=FCFcFunc_ScaleConverter(
-            cf3dctKmTo3dViewUnit
+            cKmTo3dViewUnits
             ,FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[DestinationIndex].OO_gravitationalSphereRadius
             );
       end;
@@ -224,7 +224,7 @@ begin
          DestinationDBPlanetIndex:=round( FC3doglSatellitesObjectsGroups[DestinationIndex].TagFloat );
          DestinationDBSatelliteIndex:=FC3doglSatellitesObjectsGroups[DestinationIndex].Tag;
          DestinationGravitationalSphere:=FCFcFunc_ScaleConverter(
-            cf3dctKmTo3dViewUnit
+            cKmTo3dViewUnits
             ,FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[DestinationDBPlanetIndex].OO_satellitesList[DestinationDBSatelliteIndex].OO_gravitationalSphereRadius
             );
       end;
@@ -259,7 +259,7 @@ begin
       ,Destination
       ,DestinationIndex
       );
-   Result:=FCFcFunc_ScaleConverter( cf3dct3dViewUnitToAU, DataProcess )
+   Result:=FCFcFunc_ScaleConverter( c3dViewUnitsToAU, DataProcess )
 end;
 
 function FCFoglF_OrbitalObject_CalculatePosition(
@@ -281,7 +281,7 @@ begin
    Result.P_y:=0;
    Result.P_z:=0;
    AngleInRad:=Angle*FCCdiDegrees_To_Radian;
-   DistanceInUnits:=FCFcFunc_ScaleConverter( cf3dctAUto3dViewUnit, DistanceFromStar );
+   DistanceInUnits:=FCFcFunc_ScaleConverter( cAU_to3dViewUnits, DistanceFromStar );
    ProcessingData:=cos( AngleInRad )*DistanceInUnits;
    Result.P_x:=FCFcFunc_Rnd( rtt3dposition, ProcessingData );
    Result.P_y:=0;
@@ -309,7 +309,7 @@ begin
    Result.P_y:=0;
    Result.P_z:=0;
    AngleInRad:=Angle*FCCdiDegrees_To_Radian;
-   DistanceInUnits:=FCFcFunc_ScaleConverter( cf3dctKmTo3dViewUnit, DistanceFromPlanet*1000 );
+   DistanceInUnits:=FCFcFunc_ScaleConverter( cKmTo3dViewUnits, DistanceFromPlanet*1000 );
    ProcessingData:=PlanetPosition.P_x+( cos( AngleInRad )*DistanceInUnits );
    Result.P_x:=FCFcFunc_Rnd( rtt3dposition, ProcessingData );
    Result.P_y:=0;

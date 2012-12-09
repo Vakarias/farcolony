@@ -186,7 +186,7 @@ function FCFgP_UnitFromVolume_Get( const UFVGdbproductIndex: integer; UFVGvolume
 begin
    Result:=0;
    if FCDdipProducts[ UFVGdbproductIndex ].P_volumeByUnit=1
-   then Result:=FCFcFunc_Rnd( cfrttpVolm3, UFVGvolume )
+   then Result:=FCFcFunc_Rnd( rttVolume, UFVGvolume )
    else if FCDdipProducts[ UFVGdbproductIndex ].P_volumeByUnit<>1 then
    begin
       UFVGworkingData:=UFVGvolume / FCDdipProducts[ UFVGdbproductIndex ].P_volumeByUnit;
@@ -218,11 +218,11 @@ function FCFgP_VolumeFromUnit_Get( const DBProductIndex: integer; UnitsToConvert
 begin
    Result:=0;
    if FCDdipProducts[ DBProductIndex ].P_volumeByUnit=1
-   then Result:=FCFcFunc_Rnd( cfrttpVolm3, UnitsToConvert )
+   then Result:=FCFcFunc_Rnd( rttVolume, UnitsToConvert )
    else if FCDdipProducts[ DBProductIndex ].P_volumeByUnit<>1 then
    begin
       WorkingData:=UnitsToConvert * FCDdipProducts[ DBProductIndex ].P_volumeByUnit;
-      Result:=FCFcFunc_Rnd( cfrttpVolm3, WorkingData );
+      Result:=FCFcFunc_Rnd( rttVolume, WorkingData );
    end;
 end;
 

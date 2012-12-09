@@ -1014,7 +1014,7 @@ begin
    if PPDTsimulVal=0
    then
    begin
-      PPDTproba:=(FCFcFunc_Rand_Int(4)+1)*20;
+      PPDTproba:=(FCFcF_Random_DoInteger(4)+1)*20;
       GSPMfap_x:=GSPMap-(PPDTproba+GSPMfsMod);
    end
    else if PPDTsimulVal>0
@@ -1150,7 +1150,7 @@ begin
                   if PPcolMax>0
                   then
                   begin
-                     PPfAPtest:=FCFcFunc_Rand_Int(99)+1;
+                     PPfAPtest:=FCFcF_Random_DoInteger(99)+1;
                      if PPfAPtest<=FCDdgEntities[PPentCnt].E_spmSettings[PPspmCnt].SPMS_iPtAcceptanceProbability
                      then FCMgCSME_Event_Trigger(
                         ceGovernmentDestabilization

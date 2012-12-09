@@ -1047,7 +1047,7 @@ begin
          FCDdgEntities[Entity].E_colonies[Colony].C_events[CurrentEventIndex].CCSME_type:=ceDissidentColony;
          FCDdgEntities[Entity].E_colonies[Colony].C_events[CurrentEventIndex].CCSME_isResident:=true;
          FCDdgEntities[Entity].E_colonies[Colony].C_events[CurrentEventIndex].CCSME_level:=EventLevel;
-         ETrnd:=FCFcFunc_Rand_Int(100);
+         ETrnd:=FCFcF_Random_DoInteger(100);
          ETintEv:=0;
          ETuprRebAmnt:=0;
          ETloyal:=0;

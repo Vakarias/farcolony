@@ -111,8 +111,8 @@ begin
    begin
       CECcalc:=(FCDduStarSystem[0].SS_stars[CECstIdx].S_isCompMeanSeparation-0.25)/FCDduStarSystem[0].SS_stars[CECstIdx].S_isCompMeanSeparation;
       CECeccMax:=DecimalRound(CECcalc, 3, 0.0001);
-      CECstat:=FCFcFunc_Rand_Int(99)+1;
-      CECmod:=FCFcFunc_Rand_Int(9)+1;
+      CECstat:=FCFcF_Random_DoInteger(99)+1;
+      CECmod:=FCFcF_Random_DoInteger(9)+1;
       case CECstat of
          1..20:
          begin
@@ -181,7 +181,7 @@ begin
             /(FCDduStarSystem[0].SS_stars[CECstIdx].S_isCompMeanSeparation - FCDduStarSystem[0].SS_stars[2].S_isCompMinApproachDistance+0.25);
          CECeccMax:=DecimalRound(CECcalc, 3, 0.0001);
       end;
-      CECmod:=FCFcFunc_Rand_Int(99)+1;
+      CECmod:=FCFcF_Random_DoInteger(99)+1;
       CECecc:=CECmod*(CECeccMax*0.01);
    end;
    FCDduStarSystem[0].SS_stars[CECstIdx].S_isCompEccentricity:=DecimalRound(CECecc, 3, 0.0001);
@@ -203,8 +203,8 @@ begin
    then
    begin
       {mean separation}
-      CSCstat:=FCFcFunc_Rand_Int(9)+1;
-      CSCmod:=FCFcFunc_Rand_Int(9)+1;
+      CSCstat:=FCFcF_Random_DoInteger(9)+1;
+      CSCmod:=FCFcF_Random_DoInteger(9)+1;
       //            if DBStarSys[1].Sys_StarAge >= 5  then inc(CSstat)
 //            else if DBStarSys[1].Sys_StarAge <= 1  then dec(CSstat);
       case CSCstat of
@@ -214,7 +214,7 @@ begin
          9: CSCmsep:=CSCmod*100;
          10:
          begin
-            CSCstatsub:=FCFcFunc_Rand_Int(99)+1;
+            CSCstatsub:=FCFcF_Random_DoInteger(99)+1;
             CSCmsep:=CSCstatsub*200;
          end;
       end;
@@ -227,14 +227,14 @@ begin
    else if CSCstIdx=3
    then
    begin
-      CSCstat:=FCFcFunc_Rand_Int(10);
+      CSCstat:=FCFcF_Random_DoInteger(10);
       case CSCstat of
          0..6:
          begin
             if CSCstat<4
             then FCDduStarSystem[0].SS_stars[CSCstIdx].S_isCompStar2OrbitType:=cotAroundMain_Companion1
             else FCDduStarSystem[0].SS_stars[CSCstIdx].S_isCompStar2OrbitType:=cotAroundCompanion1;
-            CSCmod:=FCFcFunc_Rand_Int(9)+1;
+            CSCmod:=FCFcF_Random_DoInteger(9)+1;
             CSCmsep:=(((FCDduStarSystem[0].SS_stars[2].S_isCompMinApproachDistance*0.5)-(FCDduStarSystem[0].SS_stars[2].S_isCompMinApproachDistance*0.1))*0.1)*CSCmod;
             FCDduStarSystem[0].SS_stars[CSCstIdx].S_isCompMeanSeparation:=DecimalRound(CSCmsep, 2, 0.001);
             FCMfS_CompEcc_Calc(CSCstIdx);
@@ -244,11 +244,11 @@ begin
          7..10:
          begin
             FCDduStarSystem[0].SS_stars[CSCstIdx].S_isCompStar2OrbitType:=cotAroundMain_Companion1GravityCenter;
-            CSCmod:=FCFcFunc_Rand_Int(100);
+            CSCmod:=FCFcF_Random_DoInteger(100);
             CSCmad:=(((FCDduStarSystem[0].SS_stars[2].S_isCompMeanSeparation+FCDduStarSystem[0].SS_stars[2].S_isCompMinApproachDistance)*0.5)+0.25)*(1+(CSCmod*0.1));
             FCDduStarSystem[0].SS_stars[CSCstIdx].S_isCompMinApproachDistance:=DecimalRound(CSCmad, 2, 0.001);
-            CSCstat:=FCFcFunc_Rand_Int(9)+1;
-            CSCmod:=FCFcFunc_Rand_Int(9)+1;
+            CSCstat:=FCFcF_Random_DoInteger(9)+1;
+            CSCmod:=FCFcF_Random_DoInteger(9)+1;
             case CSCstat of
                0..3: CSCmsep:=FCDduStarSystem[0].SS_stars[CSCstIdx].S_isCompMinApproachDistance+(CSCmod*0.25);
                4..6: CSCmsep:=FCDduStarSystem[0].SS_stars[CSCstIdx].S_isCompMinApproachDistance+(CSCmod*2.5);
@@ -256,7 +256,7 @@ begin
                9: CSCmsep:=FCDduStarSystem[0].SS_stars[CSCstIdx].S_isCompMinApproachDistance+(CSCmod*100);
                10:
                begin
-                  CSCmod:=FCFcFunc_Rand_Int(99)+1;
+                  CSCmod:=FCFcF_Random_DoInteger(99)+1;
                   CSCmsep:=FCDduStarSystem[0].SS_stars[CSCstIdx].S_isCompMinApproachDistance+(CSCmod*200);
                end;
             end;
@@ -1294,7 +1294,7 @@ begin
       BH:
       begin
          FSCD.FSCD_temp:=1;
-         FSCD.FSCD_mass:=5+FCFcFunc_Rand_Int(5);
+         FSCD.FSCD_mass:=5+FCFcF_Random_DoInteger(5);
          DLdiam:=((2*6.67e-11*(1.989e30*FCDduStarSystem[0].SS_stars[DLstIdx].S_mass))/299792458)*(2/1390000);
          FSCD.FSCD_diam:=DecimalRound(DLdiam, 2, 0.001);
          if DLdiam<=0

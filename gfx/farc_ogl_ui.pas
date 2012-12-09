@@ -825,7 +825,7 @@ begin
                   (
                      FCFcFunc_Rnd
                         (
-                           cfrttpMassAster
+                           rttMassAsteroid
                            ,FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar]
                               .S_orbitalObjects[M3DVUIUsatPlanIdx].OO_satellitesList[M3DVUIUsatIdx].OO_mass
                            *FCCdiMassEqAsteroid
@@ -864,7 +864,7 @@ begin
                :=FCFdTFiles_UIStr_Get(dtfscPrprName, FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_token);
             {.star class}
             FCWinMain.FCGLSHUDstarClassLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIstarClass');
-            FCWinMain.FCGLSHUDstarClass.Text:=FCFcFunc_Star_GetClass(ufcfFull, FC3doglCurrentStarSystem, FC3doglCurrentStar);
+            FCWinMain.FCGLSHUDstarClass.Text:=FCFcFunc_Star_GetClass(cdfFull, FC3doglCurrentStarSystem, FC3doglCurrentStar);
             {.star temperature}
             FCWinMain.FCGLSHUDstarTempLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIstarTemp');
             FCWinMain.FCGLSHUDstarTemp.Text:=inttostr(FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_temperature)
@@ -1024,7 +1024,7 @@ begin
                   (
                      FCFcFunc_Rnd
                         (
-                           cfrttpMassAster
+                           rttMassAsteroid
                            ,FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar]
                               .S_orbitalObjects[FC3doglSelectedPlanetAsteroid].OO_mass
                            *FCCdiMassEqAsteroid

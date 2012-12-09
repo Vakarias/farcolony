@@ -1428,7 +1428,7 @@ begin
       begin
          PPx:=PPcohes-19;
          PPclvl:=round(sqrt(PPx));
-         PPrand:=FCFcFunc_Rand_Int(100);
+         PPrand:=FCFcF_Random_DoInteger(100);
          {.calculate modifiers}
          PPmod:=0;
          PPstr:=FCFgCSM_Tension_GetIdx(
@@ -1773,7 +1773,7 @@ begin
    if PPev<>ceDissidentColony
    then
    begin
-      PPrand:=FCFcFunc_Rand_Int(100);
+      PPrand:=FCFcF_Random_DoInteger(100);
       PPx:=round((PPrand-PPcohes)*0.2);
       PPmodF:=0;
       PPtest:=0;

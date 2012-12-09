@@ -290,9 +290,9 @@ function FCFspuF_DeltaV_GetFromOrbit(
 }
 begin
    if DVGFOsat=0
-   then Result:=FCFcFunc_Rnd(cfrttpVelkms, FCDduStarSystem[DVGFOstarsys].SS_stars[DVGFOstar].S_orbitalObjects[DVGFOobobj].OO_escapeVelocity*0.83)
+   then Result:=FCFcFunc_Rnd(rttVelocityKmSec, FCDduStarSystem[DVGFOstarsys].SS_stars[DVGFOstar].S_orbitalObjects[DVGFOobobj].OO_escapeVelocity*0.83)
    else if DVGFOsat>0
-   then Result:=FCFcFunc_Rnd(cfrttpVelkms, FCDduStarSystem[DVGFOstarsys].SS_stars[DVGFOstar].S_orbitalObjects[DVGFOobobj].OO_satellitesList[DVGFOsat].OO_escapeVelocity*0.83);
+   then Result:=FCFcFunc_Rnd(rttVelocityKmSec, FCDduStarSystem[DVGFOstarsys].SS_stars[DVGFOstar].S_orbitalObjects[DVGFOobobj].OO_satellitesList[DVGFOsat].OO_escapeVelocity*0.83);
 end;
 
 function FCFspuF_Design_getDB(const DGDBdsgnToken: string): integer;

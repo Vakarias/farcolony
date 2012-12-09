@@ -298,7 +298,7 @@ function FCFgCR_ReserveToFood_Convert( const FoodPoints: integer; FoodDensity: e
 }
 begin
    Result:=0;
-   Result:=FCFcFunc_Rnd( cfrttpVolm3, ( FoodPoints / FoodDensity ) * 0.000618 );
+   Result:=FCFcFunc_Rnd( rttVolume, ( FoodPoints / FoodDensity ) * 0.000618 );
 end;
 
 
@@ -308,7 +308,7 @@ function FCFgCR_ReserveToOxygen_Convert( const OxygenPoints: integer ): extended
 }
 begin
    Result:=0;
-   Result:=FCFcFunc_Rnd( cfrttpVolm3, OxygenPoints * 0.000736 );
+   Result:=FCFcFunc_Rnd( rttVolume, OxygenPoints * 0.000736 );
 end;
 
 function FCFgCR_ReserveToWater_Convert( const WaterPoints: integer ): extended;
@@ -320,7 +320,7 @@ function FCFgCR_ReserveToWater_Convert( const WaterPoints: integer ): extended;
 begin
    Result:=0;
    WaterCalc:=WaterPoints * 0.018077;
-   Result:=FCFcFunc_Rnd( cfrttpVolm3, WaterCalc );
+   Result:=FCFcFunc_Rnd( rttVolume, WaterCalc );
 end;
 
 function FCFgCR_WaterOverload_Calc( const Entity, Colony: integer ): integer;
