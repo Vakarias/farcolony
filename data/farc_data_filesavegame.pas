@@ -98,6 +98,7 @@ uses
 procedure FCMdFSG_Game_Load;
 {:Purpose: load the current game.
    Additions:
+      -2012Dec09- *add/fix: initialize the GGFnewTick and GGF_OldTick values with the loaded game tick.
       -2012Dec04- *add: space units - SU_locationDockingMotherCraft.
       -2012Nov11- *add: tasks - interplanetary transit mission - T_tMIToriginSatIndex + T_tMITdestinationSatIndex.
       -2012Oct02- *add: tasks to process.
@@ -270,6 +271,8 @@ begin
       if XMLSavedGame<>nil then
       begin
          FCVdgPlayer.P_currentTimeTick:=XMLSavedGame.Attributes['tfTick'];
+         GGFnewTick:=FCVdgPlayer.P_currentTimeTick;
+         GGFoldTick:=FCVdgPlayer.P_currentTimeTick;
          FCVdgPlayer.P_currentTimeMinut:=XMLSavedGame.Attributes['tfMin'];
          FCVdgPlayer.P_currentTimeHour:=XMLSavedGame.Attributes['tfHr'];
          FCVdgPlayer.P_currentTimeDay:=XMLSavedGame.Attributes['tfDay'];

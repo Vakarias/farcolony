@@ -62,13 +62,15 @@ implementation
 uses
    farc_common_func
    ,farc_data_game
+   ,farc_data_init
    ,farc_data_missionstasks
    ,farc_data_3dopengl
    ,farc_main
    ,farc_spu_functions
    ,farc_ui_actionpanel
    ,farc_ui_win
-   ,farc_univ_func;
+   ,farc_univ_func
+   ,farc_win_debug;
 
 //==END PRIVATE ENUM========================================================================
 
@@ -196,8 +198,7 @@ begin
                   if FCDdmtTaskListInProcess[TaskIndex].T_tMCorigin=ttSelf then
                   begin
                      Origin:=Controller;
-                     if Linked3dObject=0
-                     then FCMspuF_Orbits_Process(
+                     FCMspuF_Orbits_Process(
                         spufoioRemOrbit
                         ,Universe[1]
                         ,Universe[2]
@@ -206,17 +207,6 @@ begin
                         ,Entity
                         ,Controller
                         ,false
-                        )
-                     else if Linked3dObject>0
-                     then FCMspuF_Orbits_Process(
-                        spufoioRemOrbit
-                        ,Universe[1]
-                        ,Universe[2]
-                        ,Universe[3]
-                        ,Universe[4]
-                        ,Entity
-                        ,Controller
-                        ,true
                         );
                   end
                   else begin
@@ -263,8 +253,7 @@ begin
                      ,FCDdgEntities[Entity].E_spaceUnits[Controller].SU_locationStar
                      );
                   Linked3dObject:=FCDdgEntities[Entity].E_spaceUnits[Controller].SU_linked3dObject;
-                  if Linked3dObject=0
-                  then FCMspuF_Orbits_Process(
+                  FCMspuF_Orbits_Process(
                      spufoioRemOrbit
                      ,Universe[1]
                      ,Universe[2]
@@ -273,19 +262,9 @@ begin
                      ,Entity
                      ,Controller
                      ,false
-                     )
-                  else if Linked3dObject>0 then
+                     );
+                  if Linked3dObject>0 then
                   begin
-                     FCMspuF_Orbits_Process(
-                        spufoioRemOrbit
-                        ,Universe[1]
-                        ,Universe[2]
-                        ,FCDdmtTaskListInProcess[TaskIndex].T_tMIToriginIndex
-                        ,FCDdmtTaskListInProcess[TaskIndex].T_tMIToriginSatIndex
-                        ,Entity
-                        ,Controller
-                        ,true
-                        );
                      FC3doglSpaceUnits[Linked3dObject].Position.X:=FCDdgEntities[Entity].E_spaceUnits[Controller].SU_locationViewX;
                      FC3doglSpaceUnits[Linked3dObject].Position.Z:=FCDdgEntities[Entity].E_spaceUnits[Controller].SU_locationViewZ;
                      if not FC3doglSpaceUnits[Linked3dObject].Visible

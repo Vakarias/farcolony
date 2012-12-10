@@ -494,13 +494,14 @@ end;
 function FCFspuF_Mission_GetMissName(const MNGfac, MNGidxOwn: integer): string;
 {:Purpose: get the mission name assigned to the chosen space unit.
     Additions:
+      -2012Dec09- *fix: forgot to update the strings.
       -2010Sep15- *mod: delete useless code after entities transformation.
       -2010Sep13- *add: entities code.
       -2010Sep06- *code audit.
       -2010Apr22- *add: colonization mission.
 }
 var
-   MNGtask: integer;
+   MNGtask: integer; {:DEV NOTES: remove that!.}
 begin
    MNGtask:=0;
    Result:='';
@@ -512,8 +513,8 @@ begin
    begin
       result:='error';
       case FCDdmtTaskListInProcess[MNGtask].T_type of
-         tMissionColonization: Result:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_PMFO_MissColoniz');
-         tMissionInterplanetaryTransit: Result:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_PMFO_MissITransit');
+         tMissionColonization: Result:=FCFdTFiles_UIStr_Get(uistrUI,'Mission.coloniz');
+         tMissionInterplanetaryTransit: Result:=FCFdTFiles_UIStr_Get(uistrUI,'Mission.itransit');
       end;
    end;
 end;
@@ -528,7 +529,7 @@ function FCFspuF_Mission_GetPhaseName(const MGPNfac, MGPNspU: integer): string;
       -2010Apr22- *add: space unit, atmospheric flight phase.
 }
 var
-   MGPNtask: integer;
+   MGPNtask: integer;  {:DEV NOTES: remove that!.}
 begin
    MGPNtask:=0;
    Result:='';
@@ -723,7 +724,7 @@ begin
    else if OPaction=spufoioRemOrbit
    then
    begin
-      FCDdgEntities[OPfac].E_spaceUnits[OPspuOwn].SU_locationOrbitalObject:='';
+//      FCDdgEntities[OPfac].E_spaceUnits[OPspuOwn].SU_locationOrbitalObject:='';
       FCDdgEntities[OPfac].E_spaceUnits[OPspuOwn].SU_status:=susInFreeSpace;
       if OPsat=0
       then
