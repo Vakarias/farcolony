@@ -188,6 +188,7 @@ end;
 procedure FCMuiAP_Update_SpaceUnit;
 {:Purpose: update the action panel w/ space unit actions.
     Additions:
+      -2012Dec09- *add: mission cancel.
       -2012Dec03- *add: routine completion.
 }
    var
@@ -272,9 +273,14 @@ begin
          FCWinMain.AP_MissionInterplanetaryTransit.Top:=999;
          FCVuiapItems:=FCVuiapItems+1;
       end;
-      {.cancel current mission subitem}
-////      if FPUdmpTaskId>0
-////      then FCWinMain.FCWM_PMFO_MissCancel.Visible:=true;
+      {.cancel current mission}
+      if ( FCDdgEntities[0].E_spaceUnits[SpaceUnit].SU_assignedTask>0 )
+      then
+      begin
+         FCWinMain.AP_MissionCancel.Show;
+         FCWinMain.AP_MissionCancel.Top:=999;
+         FCVuiapItems:=FCVuiapItems+1;
+      end;
    end; //==END== if ( FCVuiapItems>0 ) and ( FCDdgEntities[0].E_spaceUnits[SpaceUnit].SU_reactionMass>0 ) ==//
    FCMuiAP_Panel_Resize;
 end;
