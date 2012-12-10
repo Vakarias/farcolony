@@ -227,7 +227,7 @@ begin
                   FCDdgEntities[Entity].E_spaceUnits[Controller].SU_assignedTask:=TaskIndex;
                   FCDdmtTaskListInProcess[TaskIndex].T_tMCphase:=mcpDeceleration;
                   FCDdmtTaskListInProcess[TaskIndex].T_tMCinProcessData.IPD_timeForDeceleration:=FCDdmtTaskListInProcess[TaskIndex].T_duration-FCDdmtTaskListInProcess[TaskIndex].T_tMCfinalTime;
-                  FCDdmtTaskListInProcess[TaskIndex].T_tMCinProcessData.IPD_accelerationByTick:=FCFcFunc_Rnd(
+                  FCDdmtTaskListInProcess[TaskIndex].T_tMCinProcessData.IPD_accelerationByTick:=FCFcF_Round(
                      rttVelocityKmSec
                      ,( FCDdgEntities[Entity].E_spaceUnits[Origin].SU_deltaV-FCDdmtTaskListInProcess[TaskIndex].T_tMCfinalVelocity )/FCDdmtTaskListInProcess[TaskIndex].T_tMCinProcessData.IPD_timeForDeceleration
                      );
@@ -253,7 +253,7 @@ begin
                   FCDdmtTaskListInProcess[TaskIndex].T_tMITphase:=mitpAcceleration;
                   FCDdmtTaskListInProcess[TaskIndex].T_tMITinProcessData.IPD_timeForDeceleration:=
                      FCDdmtTaskListInProcess[TaskIndex].T_duration-( FCDdmtTaskListInProcess[TaskIndex].T_tMITcruiseTime+FCDdmtTaskListInProcess[TaskIndex].T_tMITfinalTime );
-                  FCDdmtTaskListInProcess[TaskIndex].T_tMITinProcessData.IPD_accelerationByTick:=FCFcFunc_Rnd(
+                  FCDdmtTaskListInProcess[TaskIndex].T_tMITinProcessData.IPD_accelerationByTick:=FCFcF_Round(
                      rttVelocityKmSec
                      ,( FCDdmtTaskListInProcess[TaskIndex].T_tMITcruiseVelocity-FCDdgEntities[Entity].E_spaceUnits[Controller].SU_deltaV )/FCDdmtTaskListInProcess[TaskIndex].T_tMITcruiseTime
                      );

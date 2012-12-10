@@ -173,7 +173,7 @@ begin
    PEOCspacePower:=FCFuF_StarLight_CalcPower(FCDduStarSystem[PEOCstarLoc[1]].SS_stars[PEOCstarLoc[2]].S_luminosity, FCDduStarSystem[PEOCstarLoc[1]].SS_stars[PEOCstarLoc[2]].S_orbitalObjects[PEOCstarLoc[3]].OO_isNotSat_distanceFromStar);
    PEOCsurfPower:=( 1-(( PEOCalbedo+( PEOCcloudsCover*0.005 ))/1.721)) * PEOCspacePower;
    PEOCresult:=( PEOCsurfPower*PEOCphotonarea*(PEOCefficiency*0.01))*0.001;
-   Result:=FCFcFunc_Rnd(rttPowerKw, PEOCresult);
+   Result:=FCFcF_Round(rttPowerKw, PEOCresult);
 end;
 
 function FCFgEM_OutputFromCustomFx_GetValue(

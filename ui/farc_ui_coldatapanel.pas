@@ -450,7 +450,7 @@ begin
          if CWPAKTvalue>ColonistLeft
          then CWPAKTvalue:=ColonistLeft;
          if CWPAKTequipIndex=0
-         then CWPAKTcwp:=FCFcFunc_Rnd( rttSizeInMeters, CWPAKTvalue*0.5 )
+         then CWPAKTcwp:=FCFcF_Round( rttSizeInMeters, CWPAKTvalue*0.5 )
          else if CWPAKTequipIndex>0
          then
          begin
@@ -463,7 +463,7 @@ begin
                ,CWPAKTcol
                ,false
                );
-            CWPAKTcwp:=FCFcFunc_Rnd( rttSizeInMeters, CWPAKTvalue*FCDdipProducts[ CDPmanEquipDB[CWPAKTequipIndex] ].P_fManCwcpCoef );
+            CWPAKTcwp:=FCFcF_Round( rttSizeInMeters, CWPAKTvalue*FCDdipProducts[ CDPmanEquipDB[CWPAKTequipIndex] ].P_fManCwcpCoef );
          end;
          FCDdgEntities[0].E_colonies[CWPAKTcol].C_population.CP_classColonistAssigned:=FCDdgEntities[0].E_colonies[CWPAKTcol].C_population.CP_classColonistAssigned+CWPAKTvalue;
          FCDdgEntities[0].E_colonies[CWPAKTcol].C_population.CP_CWPassignedPeople:=FCDdgEntities[0].E_colonies[CWPAKTcol].C_population.CP_CWPassignedPeople+CWPAKTvalue;
@@ -539,7 +539,7 @@ begin
             );
          FCDdgEntities[0].E_colonies[CWPAVKTcol].C_population.CP_classColonistAssigned:=FCDdgEntities[0].E_colonies[CWPAVKTcol].C_population.CP_classColonistAssigned+CWPAVKTcrew;
          FCDdgEntities[0].E_colonies[CWPAVKTcol].C_population.CP_CWPassignedPeople:=FCDdgEntities[0].E_colonies[CWPAVKTcol].C_population.CP_CWPassignedPeople+CWPAVKTcrew;
-         CWPAVKTcwp:=FCFcFunc_Rnd( rttSizeInMeters, CWPAVKTvalue*FCDdipProducts[ CDPmanEquipDB[CWPAVKTequipIndex] ].P_fManCwcpCoef );
+         CWPAVKTcwp:=FCFcF_Round( rttSizeInMeters, CWPAVKTvalue*FCDdipProducts[ CDPmanEquipDB[CWPAVKTequipIndex] ].P_fManCwcpCoef );
          FCDdgEntities[0].E_colonies[CWPAVKTcol].C_population.CP_CWPtotal:=FCDdgEntities[0].E_colonies[CWPAVKTcol].C_population.CP_CWPtotal+CWPAVKTcwp;
          FCMuiCDD_Colony_Update(
             cdlDataPopulation

@@ -1050,9 +1050,9 @@ begin
    TotalPercentForTraceGases:=( RestOfGasVolume * TraceGasesCount ) / 200;
    TotalPercentForSecondaryGases:=RestOfGasVolume - TotalPercentForTraceGases;
    AGP_secondaryGasPercent:=TotalPercentForSecondaryGases / SecondaryGasesCount;
-   AGP_secondaryGasPercent:=FCFcFunc_Rnd( rttCustom2Decimal, AGP_secondaryGasPercent );
+   AGP_secondaryGasPercent:=FCFcF_Round( rttCustom2Decimal, AGP_secondaryGasPercent );
    AGP_traceGasPercent:=TotalPercentForTraceGases / TraceGasesCount;
-   AGP_traceGasPercent:=FCFcFunc_Rnd( rttCustom2Decimal, AGP_traceGasPercent );
+   AGP_traceGasPercent:=FCFcF_Round( rttCustom2Decimal, AGP_traceGasPercent );
 end;
 
 end.

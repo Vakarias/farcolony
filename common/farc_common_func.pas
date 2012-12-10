@@ -89,17 +89,9 @@ function FCFcF_FARCVersion_Get: string;
 ///<summary>
 ///   protect the ln() function with value <= 0
 ///</summary>
-///   <param name="aValue">value to apply the ln() to</param>
+///   <param name="Value">value to apply the ln() to</param>
 ///   <returns>result of the logarithm or 0</returns>
-function FCFcF_Ln_Protected( const aValue: extended): extended;
-
-///<summary>
-///   round the target value following value type
-///</summary>
-function FCFcFunc_Rnd(
-   const RentryType: TFCEcfRoundToTypes;
-   const Rval: extended
-   ): extended;
+function FCFcF_Ln_Protected( const Value: extended): extended;
 
 ///<summary>
 ///   "real" random function including a randomize each time.
@@ -109,13 +101,25 @@ function FCFcFunc_Rnd(
 function FCFcF_Random_DoInteger(const Range: integer): integer;
 
 ///<summary>
-///   convert units in all ways
+///   round the target value according to the value type
 ///</summary>
-///   <param name="TDSCconvertion">conversion switch</param>
-///   <param name="TDSCvalue">value to convert</param>
-function FCFcFunc_ScaleConverter(
-   const SCconversion: TFCEcfConversions;
-   const SCvalue: extended
+///   <param name="RoundType">kind of rounding</param>
+///   <param name="Value">value to round</param>
+///   <returns>the rounded value</returns>
+function FCFcF_Round(
+   const RoundType: TFCEcfRoundToTypes;
+   const Value: extended
+   ): extended;
+
+///<summary>
+///   centralized conversion function
+///</summary>
+///   <param name="Conversion">kind conversion</param>
+///   <param name="Value">value to convert</param>
+///   <returns>the converted value</returns>
+function FCFcF_Scale_Conversion(
+   const Conversion: TFCEcfConversions;
+   const Value: extended
    ): extended;
 
 ///<summary>
@@ -290,6 +294,26 @@ begin
    else Result:='Unknown Version';
 end;
 
+function FCFcF_Ln_Protected( const Value: extended): extended;
+{:Purpose: protect the ln() function with value <= 0.
+    Additions:
+      -2012Dec09- *code audit:
+                     (_)var formatting + refactoring     (-)if..then reformatting   (_)function/procedure refactoring
+                     (x)parameters refactoring           (x) ()reformatting         (_)code optimizations
+                     (_)float local variables=> extended (_)case..of reformatting   (_)local methods
+                     (x)summary completion               (_)protect all float add/sub w/ FCFcFunc_Rnd
+                     (_)standardize internal data + commenting them at each use as a result (like Count1 / Count2 ...)
+                     (_)put [format x.xx ] in returns of summary, if required and if the function do formatting
+                     (_)use of enumindex                 (_)use of StrToFloat( x, FCVdiFormat ) for all float data w/ XML
+                     (_)if the procedure reset the same record's data or external data put:
+                        ///   <remarks>the procedure/function reset the /data/</remarks>
+}
+begin
+   Result:=Value;
+   if Value>0
+   then Result:=ln( Value );
+end;
+
 function FCFcF_Random_DoInteger(const Range: integer): integer;
 {:Purpose: "real" random function including a randomize each time.
     Additions:
@@ -310,22 +334,22 @@ begin
    Result:=random( Range );
 end;
 
-function FCFcF_Ln_Protected( const aValue: extended): extended;
-{:Purpose: protect the ln() function with value <= 0.
-    Additions:
-}
-begin
-   Result:=aValue;
-   if aValue>0
-   then Result:=ln(aValue);
-end;
-
-function FCFcFunc_Rnd(
-   const RentryType: TFCEcfRoundToTypes;
-   const Rval: extended
+function FCFcF_Round(
+   const RoundType: TFCEcfRoundToTypes;
+   const Value: extended
    ): extended;
-{:Purpose: round the target value dollowing value type.
+{:Purpose: round the target value according to the value type.
     Additions:
+      -2012Dec09- *code audit:
+                     (_)var formatting + refactoring     (_)if..then reformatting   (o)function/procedure refactoring
+                     (x)parameters refactoring           (x) ()reformatting         (-)code optimizations
+                     (_)float local variables=> extended (x)case..of reformatting   (-)local methods
+                     (x)summary completion               (_)protect all float add/sub w/ FCFcFunc_Rnd
+                     (_)standardize internal data + commenting them at each use as a result (like Count1 / Count2 ...)
+                     (_)put [format x.xx ] in returns of summary, if required and if the function do formatting
+                     (_)use of enumindex                 (_)use of StrToFloat( x, FCVdiFormat ) for all float data w/ XML
+                     (_)if the procedure reset the same record's data or external data put:
+                        ///   <remarks>the procedure/function reset the /data/</remarks>
       -2011Jul17- *add: power/kW rounding.
                   *mod: put the surfm2 at 2 decimal like it should be.
       -2011May15-	*add: 1dec/2dec/3dec.
@@ -338,30 +362,50 @@ function FCFcFunc_Rnd(
       -2009Dec10- *add mass roundto -6.
 }
 begin
-   result:=0;
-   case RentryType of
-      {:DEV NOTES: optimize by grouping, when possible. as for dist km and vel kms}
-      rtt3dposition: result:=DecimalRound(Rval, 9, 0.00000000001);
-		rttCustom1Decimal: result:=DecimalRound(Rval, 1, 0.001);
-      rttCustom2Decimal: result:=DecimalRound(Rval, 2, 0.0001);
-      rttCustom3Decimal: result:=DecimalRound(Rval, 3, 0.00001);
-      rttDistanceKm: result:=DecimalRound(Rval, 2, 0.0001);
-      rttVelocityKmSec: result:=DecimalRound(Rval, 2, 0.0001);
-      rttSizeInMeters: result:=DecimalRound(Rval, 1, 0.001);
-      rttVolume: result:=DecimalRound(Rval, 3, 0.00001);
-      rttSurface: result:=DecimalRound(Rval, 2, 0.0001);
-      rttMassAsteroid: result:=DecimalRound(Rval, 6, 0.00000001);
-      rttMasstons: result:=DecimalRound(Rval, 3, 0.00001);
-      rttPowerKw: result:=DecimalRound(Rval, 2, 0.0001);
+   Result:=0;
+   case RoundType of
+      rtt3dposition: result:=DecimalRound( Value, 9, 0.00000000001 );
+
+		rttCustom1Decimal: result:=DecimalRound( Value, 1, 0.001 );
+
+      rttCustom2Decimal: result:=DecimalRound( Value, 2, 0.0001 );
+
+      rttCustom3Decimal: result:=DecimalRound( Value, 3, 0.00001 );
+
+      rttDistanceKm: result:=DecimalRound( Value, 2, 0.0001 );
+
+      rttVelocityKmSec: result:=DecimalRound( Value, 2, 0.0001 );
+
+      rttSizeInMeters: result:=DecimalRound( Value, 1, 0.001 );
+
+      rttVolume: result:=DecimalRound( Value, 3, 0.00001 );
+
+      rttSurface: result:=DecimalRound( Value, 2, 0.0001 );
+
+      rttMassAsteroid: result:=DecimalRound( Value, 6, 0.00000001 );
+
+      rttMasstons: result:=DecimalRound( Value, 3, 0.00001 );
+
+      rttPowerKw: result:=DecimalRound( Value, 2, 0.0001 );
    end;
 end;
 
-function FCFcFunc_ScaleConverter(
-   const SCconversion: TFCEcfConversions;
-   const SCvalue: extended
+function FCFcF_Scale_Conversion(
+   const Conversion: TFCEcfConversions;
+   const Value: extended
    ): extended;
-{:Purpose: convert units in all ways.
+{:Purpose: centralized conversion function.
     Additions:
+      -2012Dec09- *code audit:
+                     (x)var formatting + refactoring     (_)if..then reformatting   (x)function/procedure refactoring
+                     (x)parameters refactoring           (x) ()reformatting         (x)code optimizations
+                     (_)float local variables=> extended (x)case..of reformatting   (_)local methods
+                     (x)summary completion               (_)protect all float add/sub w/ FCFcFunc_Rnd
+                     (_)standardize internal data + commenting them at each use as a result (like Count1 / Count2 ...)
+                     (_)put [format x.xx ] in returns of summary, if required and if the function do formatting
+                     (_)use of enumindex                 (_)use of StrToFloat( x, FCVdiFormat ) for all float data w/ XML
+                     (_)if the procedure reset the same record's data or external data put:
+                        ///   <remarks>the procedure/function reset the /data/</remarks>
       -2012Oct28- *add: cf3dctKmTo3dViewUnit - round correctly the result.
       -2012Oct21- *add: cf3dctAUto3dViewUnit - round correctly the result.
       -2010Apr05- *mod: simplify and cleanup cf3dctMeterToSpUnitSize.
@@ -379,31 +423,57 @@ function FCFcFunc_ScaleConverter(
                   *add kmtoLoStarViewUnit.
       -2009Aug30- *add ua<->unit.
 }
-var
-   TDSCdmpRes: extended;
+   var
+      Calculations: extended;
 begin
-   TDSCdmpRes:=0;
-   case SCconversion of
-      {.unit (planet aera and oobj size) => 3d view unit. /20 for ua-unit *500}
-      cMetersToSpaceUnitSize: TDSCdmpRes:=(FCDdsuSpaceUnitDesigns[round(SCvalue)].SUD_internalStructureClone.IS_length*0.02)/CFC3dUnInKm;
-      {.kilometers => 3d view unit}
-      cKmTo3dViewUnits: TDSCdmpRes:=FCFcFunc_Rnd( rtt3dposition, SCvalue/CFC3dUnInKm );
-      {.astronomical units => 3d view unit}
-      cAU_to3dViewUnits: TDSCdmpRes:=FCFcFunc_Rnd( rtt3dposition, SCvalue*CFC3dUnInAU );
-      {.3d view unit => kilometers}
-      c3dViewUnitsToKm: TDSCdmpRes:=FCFcFunc_Rnd(rttDistanceKm,(SCvalue*CFC3dUnInKm));
-      {.3d view unit => astronomical units}
-      c3dViewUnitsToAU: TDSCdmpRes:=FCFcFunc_Rnd(rttDistanceKm, (SCvalue/CFC3dUnInAU));
-      {.asteroid diameter in km => 3d view unit}
-      {:DEV NOTE: WARNING, need to load CF data concerning star system and star indexes.}
-      {:DEV NOTE: 14960*coef 3.7= earth size, *8.2697= normalsize.}
-      cAsteroidDiameterKmTo3dViewUnits: TDSCdmpRes:=SCvalue/(CFC3dAstConv);
-      {.minutes => game ticks, 1 tick=10min}
-      cMinutesToGameTicks: TDSCdmpRes:=round(SCvalue*0.1);
-      {.km/s velocity => 3d view unit / tick}
-      cVelocityKmSecTo3dViewUnits: TDSCdmpRes:=((SCvalue*600)/CFC3dUnInKm);
+   Calculations:=0;
+   Result:=0;
+   case Conversion of
+      cMetersToSpaceUnitSize:
+      begin
+         Calculations:=( FCDdsuSpaceUnitDesigns[round( Value )].SUD_internalStructureClone.IS_length*0.02 )/CFC3dUnInKm;
+         Result:=FCFcF_Round( rtt3dposition, Calculations );
+      end;
+
+      cKmTo3dViewUnits:
+      begin
+         Calculations:=Value/CFC3dUnInKm;
+         Result:=FCFcF_Round( rtt3dposition, Calculations );
+      end;
+
+      cAU_to3dViewUnits:
+      begin
+         Calculations:=Value*CFC3dUnInAU;
+         Result:=FCFcF_Round( rtt3dposition, Calculations );
+      end;
+
+      c3dViewUnitsToKm:
+      begin
+         Calculations:=Value*CFC3dUnInKm;
+         Result:=FCFcF_Round( rttDistanceKm, Calculations );
+      end;
+
+      c3dViewUnitsToAU:
+      begin
+         Calculations:=Value/CFC3dUnInAU;
+         Result:=FCFcF_Round( rttDistanceKm, Calculations );
+      end;
+
+      cAsteroidDiameterKmTo3dViewUnits:
+      begin
+         Calculations:=Value/(CFC3dAstConv);
+         Result:=FCFcF_Round( rtt3dposition, Calculations );
+      end;
+
+      cMinutesToGameTicks: Calculations:=round( Value*0.1 );
+
+      cVelocityKmSecTo3dViewUnits:
+      begin
+         Calculations:=( ( Value*600 )/CFC3dUnInKm );
+         Result:=FCFcF_Round( rtt3dposition, Calculations );
+      end;
    end;
-   Result:=TDSCdmpRes;
+
 end;
 
 function FCFcF_SignSwap( const SSvalue: extended ): extended;

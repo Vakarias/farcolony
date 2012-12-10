@@ -823,7 +823,7 @@ begin
             else FCWinMain.FCGLSHUDobobjMass.Text
                :=FloatToStr
                   (
-                     FCFcFunc_Rnd
+                     FCFcF_Round
                         (
                            rttMassAsteroid
                            ,FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar]
@@ -1022,7 +1022,7 @@ begin
             else FCWinMain.FCGLSHUDobobjMass.Text
                :=FloatToStr
                   (
-                     FCFcFunc_Rnd
+                     FCFcF_Round
                         (
                            rttMassAsteroid
                            ,FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar]

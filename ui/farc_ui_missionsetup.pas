@@ -231,7 +231,7 @@ begin
       +FCCFdHeadEnd
       );
    {.idx=5}
-   FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Add(FCFcFunc_ThSep(FCFcFunc_ScaleConverter(c3dViewUnitsToKm, FCRmcCurrentMissionCalculations.CMC_baseDistance))+' km');
+   FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Add(FCFcFunc_ThSep(FCFcF_Scale_Conversion(c3dViewUnitsToKm, FCRmcCurrentMissionCalculations.CMC_baseDistance))+' km');
    {.trackbar with docked space units}
    MaxDocked:=length( FCRmcCurrentMissionCalculations.CMC_dockList )-1;
    FCWinMain.FCWMS_Grp_MCG_RMassTrack.Left:=12;

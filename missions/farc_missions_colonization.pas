@@ -345,7 +345,7 @@ begin
             if FCRmcCurrentMissionCalculations.CMC_finalDeltaV=0 then
             begin
                ProcessData:=( ObjectEscapeVelocity*7.8 )/11.19;
-               FCRmcCurrentMissionCalculations.CMC_finalDeltaV:=FCFcFunc_Rnd( rttVelocityKmSec, ProcessData );
+               FCRmcCurrentMissionCalculations.CMC_finalDeltaV:=FCFcF_Round( rttVelocityKmSec, ProcessData );
             end;
             if not FCWinMain.FCWMS_Grp_MCG_RMassTrack.Visible
             then Max:=1
@@ -369,7 +369,7 @@ begin
          cmSingleVessel:
          begin
             ProcessData:=( ObjectEscapeVelocity*7.8 )/11.19;
-            FCRmcCurrentMissionCalculations.CMC_finalDeltaV:=FCFcFunc_Rnd( rttVelocityKmSec, ProcessData );
+            FCRmcCurrentMissionCalculations.CMC_finalDeltaV:=FCFcF_Round( rttVelocityKmSec, ProcessData );
             FCFgMl_Land_Calc(
                   FCRmcCurrentMissionCalculations.CMC_entity
                   ,SpaceUnit

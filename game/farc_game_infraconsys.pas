@@ -324,7 +324,7 @@ begin
    else if ICWPCsumLvl>0 then
    begin
       ICWPCdivider:=ln( ICWPCsumLvl+1 ) / ln( ICWPCinfraLevel+1 );
-      ICWPCicwp:=FCFcFunc_Rnd( rttCustom1Decimal, FCDdgEntities[ICWPCent].E_colonies[ICWPCcol].C_population.CP_CWPtotal/ICWPCdivider );
+      ICWPCicwp:=FCFcF_Round( rttCustom1Decimal, FCDdgEntities[ICWPCent].E_colonies[ICWPCcol].C_population.CP_CWPtotal/ICWPCdivider );
    end;
    Result:=ICWPCicwp;
 end;
@@ -360,7 +360,7 @@ begin
    then
    begin
       RCCcoef:=1-( RCCdoneTime / RCCinitTime );
-      Result:=FCFcFunc_Rnd(rttCustom3Decimal, RCCcoef);
+      Result:=FCFcF_Round(rttCustom3Decimal, RCCcoef);
    end;
 end;
 
@@ -520,7 +520,7 @@ begin
    while BPcount<=BPmax do
    begin
       BPtempMatVol:=BPclonedInfra.I_materialVolume[ FCDdgEntities[BPent].E_colonies[BPcol].C_settlements[BPsettlement].S_infrastructures[BPinfraIndex].I_level ]*( BPclonedInfra.I_reqConstructionMaterials[ BPcount ].RCM_partOfMaterialVolume*0.01 );
-      BPtempMatVol:=FCFcFunc_Rnd( rttVolume, BPtempMatVol );
+      BPtempMatVol:=FCFcF_Round( rttVolume, BPtempMatVol );
       BPresultUnits:=FCFgP_UnitFromVolume_Get( BPclonedInfra.I_reqConstructionMaterials[ BPcount ].RCM_token, BPtempMatVol );
       BPcurrentMatVol:=BPcurrentMatVol-BPtempMatVol;
       FCFgC_Storage_Update(

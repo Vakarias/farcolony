@@ -324,7 +324,7 @@ begin
                   * (PMDFFGinfraData.I_fPmodeStructure[InfraProdModeCount].MS_occupancy*0.01);
                if PMDFFGinfraData.I_reqResourceSpot=rstIcyOreField then
                begin
-                  ProdModeDataF1:=FCFcFunc_Rnd( rttVolume, ProdModeDataF1 );
+                  ProdModeDataF1:=FCFcF_Round( rttVolume, ProdModeDataF1 );
                   FCMgPS2_ProductionMatrixItem_Add(
                      PMDFFGent
                      ,PMDFFGcol
@@ -337,7 +337,7 @@ begin
                end
                else begin
                   ProdModeDataF2:=ProdModeDataF1*( FCVdgPlayer.P_surveyedResourceSpots[PMDFFGsurveyedSpot].SRS_surveyedRegions[ProdModeDataI2].SR_ResourceSpots[ProdModeDataI1].RS_tOFiCarbonaceous*0.01 );
-                  ProdModeDataF2:=FCFcFunc_Rnd( rttVolume, ProdModeDataF2 );
+                  ProdModeDataF2:=FCFcF_Round( rttVolume, ProdModeDataF2 );
                   FCMgPS2_ProductionMatrixItem_Add(
                      PMDFFGent
                      ,PMDFFGcol
@@ -348,7 +348,7 @@ begin
                      ,ProdModeDataF2
                      );
                   ProdModeDataF3:=ProdModeDataF1*( FCVdgPlayer.P_surveyedResourceSpots[PMDFFGsurveyedSpot].SRS_surveyedRegions[ProdModeDataI2].SR_ResourceSpots[ProdModeDataI1].RS_tOFiMetallic*0.01 );
-                  ProdModeDataF3:=FCFcFunc_Rnd( rttVolume, ProdModeDataF3 );
+                  ProdModeDataF3:=FCFcF_Round( rttVolume, ProdModeDataF3 );
                   FCMgPS2_ProductionMatrixItem_Add(
                      PMDFFGent
                      ,PMDFFGcol
@@ -359,7 +359,7 @@ begin
                      ,ProdModeDataF3
                      );
                   ProdModeDataF4:=ProdModeDataF1*( FCVdgPlayer.P_surveyedResourceSpots[PMDFFGsurveyedSpot].SRS_surveyedRegions[ProdModeDataI2].SR_ResourceSpots[ProdModeDataI1].RS_tOFiRare*0.01 );
-                  ProdModeDataF4:=FCFcFunc_Rnd( rttVolume, ProdModeDataF4 );
+                  ProdModeDataF4:=FCFcF_Round( rttVolume, ProdModeDataF4 );
                   FCMgPS2_ProductionMatrixItem_Add(
                      PMDFFGent
                      ,PMDFFGcol
@@ -370,7 +370,7 @@ begin
                      ,ProdModeDataF4
                      );
                   ProdModeDataF5:=ProdModeDataF1*( FCVdgPlayer.P_surveyedResourceSpots[PMDFFGsurveyedSpot].SRS_surveyedRegions[ProdModeDataI2].SR_ResourceSpots[ProdModeDataI1].RS_tOFiUranium*0.01 );
-                  ProdModeDataF5:=FCFcFunc_Rnd( rttVolume, ProdModeDataF5 );
+                  ProdModeDataF5:=FCFcF_Round( rttVolume, ProdModeDataF5 );
                   FCMgPS2_ProductionMatrixItem_Add(
                      PMDFFGent
                      ,PMDFFGcol
@@ -391,7 +391,7 @@ begin
                   +( int( PMDFFGinfraData.I_reqStaff[PMDFFGstaffTechIndex].RS_requiredByLv[ PMDFFGinfraLevel ] /3 )*354 )
                   )
                   *( 1-( 1-ColonyEnvironment.ENV_gravity ) );
-               FCDdgEntities[PMDFFGent].E_colonies[PMDFFGcol].C_settlements[PMDFFGsett].S_infrastructures[PMDFFGinfra].I_fProdProductionMode[InfraProdModeCount].PM_energyConsumption:=FCFcFunc_Rnd( rttPowerKw, ProdModeDataF1 );
+               FCDdgEntities[PMDFFGent].E_colonies[PMDFFGcol].C_settlements[PMDFFGsett].S_infrastructures[PMDFFGinfra].I_fProdProductionMode[InfraProdModeCount].PM_energyConsumption:=FCFcF_Round( rttPowerKw, ProdModeDataF1 );
             end; //==END== case of: pmResourceMining ==//
 
             pmWaterRecovery:
@@ -448,7 +448,7 @@ begin
                {.precipitations calculations}
                ProdModeDataF4:=( ProdModeDataF1 * PMDFFGinfraData.I_fPmodeStructure[InfraProdModeCount].MS_mWRroofArea * ProdModeDataF2 * ProdModeDataF3 * 0.001 ) / 8760;
                {.format and update the production matrix}
-               ProdModeDataF4:=FCFcFunc_Rnd( rttVolume, ProdModeDataF4 );
+               ProdModeDataF4:=FCFcF_Round( rttVolume, ProdModeDataF4 );
                FCMgPS2_ProductionMatrixItem_Add(
                   PMDFFGent
                   ,PMDFFGcol
@@ -479,7 +479,7 @@ begin
                {.energy consumption calculations}
                ProdModeDataF1:=FCFgICFX_EffectStorageLiquid_Search( PMDFFGinfraData, PMDFFGinfraLevel );
                ProdModeDataF1:=ProdModeDataF1 / 4.5 * 1.1;
-               FCDdgEntities[PMDFFGent].E_colonies[PMDFFGcol].C_settlements[PMDFFGsett].S_infrastructures[PMDFFGinfra].I_fProdProductionMode[InfraProdModeCount].PM_energyConsumption:=FCFcFunc_Rnd( rttPowerKw, ProdModeDataF1 );
+               FCDdgEntities[PMDFFGent].E_colonies[PMDFFGcol].C_settlements[PMDFFGsett].S_infrastructures[PMDFFGinfra].I_fProdProductionMode[InfraProdModeCount].PM_energyConsumption:=FCFcF_Round( rttPowerKw, ProdModeDataF1 );
             end; //==END== case of: pmWaterRecovery ==//
          end; //==END== case PMDFFGinfraData.I_fProductionMode[PMDFFGcnt].IPM_productionModes of ==//
       end //==END== if PMDFFGinfraData.I_fProductionMode[PMDFFGcnt].IPM_occupancy>0 then ==//

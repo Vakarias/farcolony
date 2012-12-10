@@ -1497,7 +1497,7 @@ begin
                FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_revolutionPeriod:=XMLOrbitalObject.Attributes['oorevol'];
                FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_revolutionPeriodInit:=XMLOrbitalObject.Attributes['oorevevinit'];
                FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_angle1stDay:=
-                  FCFcFunc_Rnd(
+                  FCFcF_Round(
                      rttCustom2Decimal
                      ,FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_revolutionPeriodInit*360
                         /FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_revolutionPeriod
@@ -1685,7 +1685,7 @@ begin
                      FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_revolutionPeriod:=XMSatellite.Attributes['satrevol'];
                      FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_revolutionPeriodInit:=XMSatellite.Attributes['satrevinit'];
                      FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_angle1stDay:=
-                        FCFcFunc_Rnd(
+                        FCFcF_Round(
                            rttCustom2Decimal
                            ,FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_revolutionPeriodInit*360
                               /FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_revolutionPeriod
