@@ -131,6 +131,7 @@ function FCFdTFiles_UIStr_Get(
    ): string; overload;
 {:Purpose: retrieve text for ui/ encyclopaedia or proper names.
     Additions:
+      -2012Dec09- *fix: protect the function in case when the token=''.
       -2012Jan30- *add: complete special reformatting for SPMi (WIP).
       -2012Jan29- *add: complete special reformatting for SPMi (WIP).
       -2012Jan26- *add: complete special reformatting for SPMi (WIP).
@@ -153,7 +154,7 @@ var
 
    UISGspmi: TFCRdgSPMi;
 begin
-   Result:='';
+   Result:='!error!';
 	UISGresDump:='';
    UISGtxtItm:=nil;
    UISGtxtSubItm:=nil;
@@ -162,10 +163,12 @@ begin
 		uistrEncyl: UISGtxtItm:=FCWinMain.FCXMLtxtEncy.DocumentElement.ChildNodes.FindNode(UISGtoken);
       dtfscPrprName: UISGtxtItm:=FCWinMain.FCXMLtxtUI.DocumentElement.ChildNodes.FindNode(UISGtoken);
 	end;
-   if (UISGtxtItm<>nil)
+   if (UISGtoken<>'')
+      and (UISGtxtItm<>nil)
       and (UISGcateg=dtfscPrprName)
    then UISGresDump:=UISGtxtItm.Attributes['name']
-   else if (UISGtxtItm<>nil)
+   else if (UISGtoken<>'')
+      and (UISGtxtItm<>nil)
       and (UISGcateg=uistrEncyl)
    then
    begin
