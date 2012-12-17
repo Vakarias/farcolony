@@ -1164,6 +1164,7 @@ begin
                end;
             end; //==END== else if FCentities[PPentCnt].E_spm[PPspmCnt].SPMS_isSet ==//
          end //==END== if FCentities[PPentCnt].E_spm[PPspmCnt].SPMS_isPolicy ==//
+         {:DEV NOTES: use FCMgSPMM_Evolution_Process.}
 //         else if not FCDdgEntities[PPentCnt].E_spmSettings[PPspmCnt].SPMS_isPolicy
 //         then
 //         begin

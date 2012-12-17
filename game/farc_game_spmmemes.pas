@@ -64,6 +64,14 @@ function FCFgSPMM_Req_DoTest(
 function FCFgSPMM_SVRange_Get(const SVRGbl: TFCEdgBeliefLevels): GSPMMret;
 
 //===========================END FUNCTIONS SECTION==========================================
+
+///<summary>
+///   process the evolution of a particular meme.
+///</summary>
+///   <param name="Entity">entity index #</param>
+///   <param name="Meme">SPMi-meme index #</param>
+procedure FCMgSPMM_Evolution_Process( const Entity, Meme: integer);
+
 ///<summary>
 ///   update the meme modifiers and custom effects with the updated BL and new SV value
 ///</summary>
@@ -322,6 +330,15 @@ begin
    end;
 end;
 //===========================END FUNCTIONS SECTION==========================================
+
+procedure FCMgSPMM_Evolution_Process( const Entity, Meme: integer);
+{:Purpose: process the evolution of a particular meme.
+    Additions:
+}
+begin
+
+end;
+
 procedure FCMgSPMM_ModifCustFx_Upd(
    const MCFUent
          ,MCFUmeme
