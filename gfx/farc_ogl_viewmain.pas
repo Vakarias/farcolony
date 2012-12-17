@@ -2106,6 +2106,7 @@ procedure FCMoglVM_SpUn_Gen(
    );
 {:Purpose: generate a space unit.
     Additions:
+      -2012Dec11- *mod: the size of space units has been adjusted.
       -2010Sep14- *add: SUGfac parameter, faction index #.
                   *add: entities code.
       -2010Sep02- *add: use a local variable for the design #.
@@ -2136,7 +2137,7 @@ begin
       FC3doglSpaceUnits[FC3doglTotalSpaceUnits].Load3DSFileFrom(FCVdiPathResourceDir+'obj-3ds-scraft\'+FCDdsuSpaceUnitDesigns[SUGdesgn].SUD_internalStructureClone.IS_token+'.3ds');//Load3DSFileFrom(FCVpathRsrc+'obj-3ds-scraft\'+FCDBscDesigns[SUGdesgn].SCD_intStrClone.SCIS_token+'.3ds');
 //      FC3DobjSpUnit[FCV3DttlSpU].UseMeshMaterials:=true;
       {.set the space unit 3d scales}
-      FC3doglSpaceUnits[FC3doglTotalSpaceUnits].Scale.X:=FCFcF_Scale_Conversion(cMetersToSpaceUnitSize, SUGdesgn);
+      FC3doglSpaceUnits[FC3doglTotalSpaceUnits].Scale.X:=FCFcF_Scale_Conversion(cMetersToSpaceUnitSize, SUGdesgn)*3.5;
       FC3doglSpaceUnits[FC3doglTotalSpaceUnits].Scale.Y:=FC3doglSpaceUnits[FC3doglTotalSpaceUnits].Scale.X;
       FC3doglSpaceUnits[FC3doglTotalSpaceUnits].Scale.Z:=FC3doglSpaceUnits[FC3doglTotalSpaceUnits].Scale.X;
       {.in case of the space unit is in free space}
@@ -2178,13 +2179,15 @@ procedure FCMoglVM_SpUn_SetZoomScale;
 }
 begin
    FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].Scale.X
-      :=FC3doglSpaceUnitSize*
+      :=FC3doglSpaceUnitSize
+      *
          (1+
             (
                (1/(fcwinmain.FCGLSCamMainViewGhost.DistanceToTarget/fcwinmain.FCGLSCamMainViewGhost.TargetObject.Scale.X))
-               *150
+               *150//150
             )
-         );
+         )
+         ;
    FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].Scale.Y:=FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].Scale.X;
    FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].Scale.Z:=FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].Scale.X;
 end;

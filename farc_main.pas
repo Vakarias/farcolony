@@ -445,6 +445,8 @@ type
     procedure AP_MissionColonizationClick(Sender: TObject);
     procedure AP_MissionInterplanetaryTransitClick(Sender: TObject);
     procedure AP_MissionCancelClick(Sender: TObject);
+    procedure FormMouseWheel(Sender: TObject; Shift: TShiftState; WheelDelta: Integer;
+      MousePos: TPoint; var Handled: Boolean);
    private
       { Private declarations }
          {timesteps needed for camera transitions}
@@ -1808,6 +1810,12 @@ begin
    FCMuiK_WinMain_Test(Key, Shift);
 end;
 
+procedure TFCWinMain.FormMouseWheel(Sender: TObject; Shift: TShiftState;
+  WheelDelta: Integer; MousePos: TPoint; var Handled: Boolean);
+begin
+   FCGLSCamMainViewGhost.AdjustDistanceToTarget(Power(1.5, WheelDelta/-120));
+end;
+
 procedure TFCWinMain.FormResize(Sender: TObject);
 {:Purpose: during form resize.
     Additions:
@@ -1817,6 +1825,7 @@ procedure TFCWinMain.FormResize(Sender: TObject);
 }
 begin
    if not FCVisFARCclosing then UpdUI(false);
+//   GLCamera1.FocalLength:=ClientWidth*0.25;
 end;
 
 procedure TFCWinMain.InternalOnGameTimer(Sender: TObject);
