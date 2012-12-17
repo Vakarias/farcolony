@@ -3782,6 +3782,7 @@ object FCWinMain: TFCWinMain
     DOMVendorDesc = 'MSXML'
   end
   object FCWM_MainMenu: TMainMenu
+    OnChange = FCWM_MainMenuChange
     Left = 16
     Top = 32
     object FCWM_MMenu_Game: TMenuItem

@@ -447,6 +447,7 @@ type
     procedure AP_MissionCancelClick(Sender: TObject);
     procedure FormMouseWheel(Sender: TObject; Shift: TShiftState; WheelDelta: Integer;
       MousePos: TPoint; var Handled: Boolean);
+    procedure FCWM_MainMenuChange(Sender: TObject; Source: TMenuItem; Rebuild: Boolean);
    private
       { Private declarations }
          {timesteps needed for camera transitions}
@@ -542,8 +543,8 @@ end;
 
 procedure TFCWinMain.AP_MissionCancelClick(Sender: TObject);
 begin
-//   FCMgMCore_Mission_Cancel(round(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].TagFloat));
-//   FCMgTFlow_FlowState_Set(tphTac);
+   FCWinMain.WM_ActionPanel.Hide;
+   FCMgMCore_Mission_Cancel( 0, round(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].TagFloat) );
 end;
 
 procedure TFCWinMain.AP_MissionColonizationClick(Sender: TObject);
@@ -815,6 +816,8 @@ procedure TFCWinMain.FCGLSmainViewMouseDown(Sender: TObject; Button: TMouseButto
 var
    VMDpick: TGLCustomSceneObject;
 begin
+   if FCWinMain.WM_ActionPanel.Visible
+   then FCWinMain.WM_ActionPanel.Hide;
    FCVwinMmousePosDumpX:=x;
    FCVwinMmousePosDumpY:=y;
    {.left mouse button}
@@ -857,7 +860,6 @@ begin
       )
       and (not FCWM_MissionSettings.Visible)
    then FCMuiAP_Panel_PopupAtPos( X, Y );
-//   then FCWM_PopMenFocusedObj.PopupAtCursor;
    {.middle mouse button}
    if (Button=mb_Middle)
      and (FCGLSmainView.cursor=crCross)
@@ -873,12 +875,8 @@ begin
    FCVwinMmouseShftState:=Shift;
    FCVwinMmouseNewPosX:=X;
    FCVwinMmouseNewPosY:=Y;
-//   if FCWM_PopMenFocusedObj.Tag=1
-//   then
-//   begin
-//      FCWM_PopMenFocusedObj.Tag:=0;
-//      FCMgTFlow_FlowState_Set(tphTac);
-//   end;
+//   if FCWinMain.WM_ActionPanel.Visible
+//   then FCWinMain.WM_ActionPanel.Hide;
    if (ssMiddle in shift)
       and (FCGLSmainView.cursor=crSizeNS)
    then
@@ -1314,6 +1312,13 @@ end;
 procedure TFCWinMain.FCWM_IPlabelAnchorClick(Sender: TObject; Anchor: string);
 begin
    FCMuiW_HelpTDef_Link(anchor, true);
+end;
+
+procedure TFCWinMain.FCWM_MainMenuChange(Sender: TObject; Source: TMenuItem;
+  Rebuild: Boolean);
+begin
+   if FCWinMain.WM_ActionPanel.Visible
+   then FCWinMain.WM_ActionPanel.Hide;
 end;
 
 procedure TFCWinMain.FCWM_MissionSettingsClose(Sender: TObject);
@@ -1813,18 +1818,23 @@ end;
 procedure TFCWinMain.FormMouseWheel(Sender: TObject; Shift: TShiftState;
   WheelDelta: Integer; MousePos: TPoint; var Handled: Boolean);
 begin
+   if FCWinMain.WM_ActionPanel.Visible
+   then FCWinMain.WM_ActionPanel.Hide;
    FCGLSCamMainViewGhost.AdjustDistanceToTarget(Power(1.5, WheelDelta/-120));
 end;
 
 procedure TFCWinMain.FormResize(Sender: TObject);
 {:Purpose: during form resize.
     Additions:
+      -2012Dec16- *add: hide the action panel if it is visible.
       -2010Apr07- *fix: message box is correctly updated.
       -2009Oct08- *add about window update.
       -2009Oct08- *add mission setup window update.
 }
 begin
    if not FCVisFARCclosing then UpdUI(false);
+   if FCWinMain.WM_ActionPanel.Visible
+   then FCWinMain.WM_ActionPanel.Hide;
 //   GLCamera1.FocalLength:=ClientWidth*0.25;
 end;
 
@@ -1835,6 +1845,8 @@ end;
 
 procedure TFCWinMain.WMExitSizeMove(var Message: TMessage) ;
 begin
+   if FCWinMain.WM_ActionPanel.Visible
+   then FCWinMain.WM_ActionPanel.Hide;
    if not FCVisFARCclosing then UpdUI(false);
 //   if not FCVisFARCclosing
 //   then UpdUI(true);

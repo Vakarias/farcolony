@@ -99,7 +99,7 @@ const
 ///   cancel the mission of a selected space unit
 ///</summary>
 ///   <param name="MCownSpUidx">owned space unit index</param>
-procedure FCMgMCore_Mission_Cancel(const MCownSpUidx: integer);
+procedure FCMgMCore_Mission_Cancel(const Entity, SpaceUnit: integer);
 
 ///<summary>
 ///   commit the mission by creating a task.
@@ -159,37 +159,41 @@ uses
 //===================================================END OF INIT============================
 //===========================END FUNCTIONS SECTION==========================================
 
-procedure FCMgMCore_Mission_Cancel(const MCownSpUidx: integer);
+procedure FCMgMCore_Mission_Cancel(const Entity, SpaceUnit: integer);
 {:Purpose: cancel the mission of a selected space unit.
     Additions:
+      -2012Dec16- *mod/add: start of basic write up.
+                  *add: new parameter to indicate the entity concerned.
       -2010Jan08- *mod: change gameflow state method according to game flow changes.
 }
-//var
-//   MCtaskId
-////   ,MCthreadId
-//   : integer;
+   var
+      TaskId: integer;
 begin
-//   {:DEV NOTES: a complete rewrite will be done for 0.4.0.}
-////   MCtaskId:=FCRplayer.P_suOwned[MCownSpUidx].SUO_taskIdx;
-////   MCthreadId:=FCGtskListInProc[MCtaskId].TITP_threadIdx;
-//   try
-//      FCMgTFlow_FlowState_Set(tphPAUSE);
-//   finally
-////      GGFthrTPU[MCthreadId].TPUphaseTp:=tpTerminated;
-//      {.unload the current task to the space unit}
-////      FCRplayer.P_suOwned[MCownSpUidx].SUO_taskIdx:=0;
-////               {.set the remaining reaction mass}
-////               FCRplayer.Play_suOwned[TPUownedIdx].SUO_availRMass
-////                  :=FCRplayer.Play_suOwned[TPUownedIdx].SUO_availRMass
-////                     -FCGtskListInProc[TPUtaskIdx].TITP_usedRMassV;
-//      {.disable the task and delete it if it's the last in the list}
-////      FCGtskListInProc[MCtaskId].T_enabled:=false;
-//      if MCtaskId=length(FCDdmtTaskListInProcess)-1
-//      then SetLength(FCDdmtTaskListInProcess, length(FCDdmtTaskListInProcess)-1);
-//   end;
-//   FCMgTFlow_FlowState_Set(tphTac);
-//   FCMoglUI_Main3DViewUI_Update(oglupdtpTxtOnly, ogluiutFocObj);
-////   FCMoglVMain_CameraMain_Target(-1, true);
+   TaskId:=FCDdgEntities[Entity].E_spaceUnits[SpaceUnit].SU_assignedTask;
+
+
+   try
+      FCMgTFlow_FlowState_Set(tphPAUSE);
+   finally
+      case FCDdmtTaskListInProcess[TaskId].T_type of
+         tMissionColonization:
+         begin
+            {:DEV NOTES: do it during space design update. Todolist updated}
+         end;
+
+         tMissionInterplanetaryTransit:
+         begin
+            FCDdmtTaskListInProcess[TaskId].T_tMITphase:=mitpDeceleration;
+            FCDdmtTaskListInProcess[TaskId].T_tMITdestination:=FCDdmtTaskListInProcess[TaskId].T_tMITorigin;
+            FCDdmtTaskListInProcess[TaskId].T_tMITdestinationIndex:=FCDdmtTaskListInProcess[TaskId].T_tMIToriginIndex;
+            FCDdmtTaskListInProcess[TaskId].T_tMITdestinationSatIndex:=FCDdmtTaskListInProcess[TaskId].T_tMIToriginSatIndex;
+            FCDdmtTaskListInProcess[TaskId].T_tMITinProcessData.IPD_timeToTransfert:=0;
+            FCDdmtTaskListInProcess[TaskId].T_duration:=FCVdgPlayer.P_currentTimeTick-FCDdmtTaskListInProcess[TaskId].T_inProcessData.IPD_ticksAtTaskStart;
+            FCDdmtTaskListInProcess[TaskId].T_inProcessData.IPD_ticksAtTaskStart:=FCVdgPlayer.P_currentTimeTick;
+         end;
+      end;
+   end;
+   FCMgTFlow_FlowState_Set(tphTac);
 end;
 
 procedure FCMgMCore_Mission_Commit;

@@ -82,6 +82,7 @@ uses
    ,farc_data_3dopengl
    ,farc_data_game
    ,farc_data_init
+   ,farc_data_missionstasks
    ,farc_data_spu
    ,farc_data_textfiles
    ,farc_data_univ
@@ -188,11 +189,13 @@ end;
 procedure FCMuiAP_Update_SpaceUnit;
 {:Purpose: update the action panel w/ space unit actions.
     Additions:
+      -2012Dec16- *add: mission cancel is expanded w/ conditions.
       -2012Dec09- *add: mission cancel.
       -2012Dec03- *add: routine completion.
 }
    var
-      DockedSpaceUnits
+      Design
+      ,DockedSpaceUnits
       ,NumberOfColonies //FPUcolN:=
       ,SpaceUnit: integer; //FPUdmpIdx
 
@@ -200,6 +203,7 @@ procedure FCMuiAP_Update_SpaceUnit;
 begin
    FCMuiAP_Panel_Reset;
    FCWinMain.WM_ActionPanel.Caption.Text:='<p align="center"><b>'+FCFdTFiles_UIStr_Get(uistrUI,'ActionPanelHeader.SpU')+'</b>';
+   Design:=0;
    DockedSpaceUnits:=0;
    NumberOfColonies:=0;
    SpaceUnit:=round(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].TagFloat);
@@ -274,12 +278,40 @@ begin
          FCVuiapItems:=FCVuiapItems+1;
       end;
       {.cancel current mission}
-      if ( FCDdgEntities[0].E_spaceUnits[SpaceUnit].SU_assignedTask>0 )
-      then
+      if ( FCDdgEntities[0].E_spaceUnits[SpaceUnit].SU_assignedTask>0 ) then
       begin
-         FCWinMain.AP_MissionCancel.Show;
-         FCWinMain.AP_MissionCancel.Top:=999;
-         FCVuiapItems:=FCVuiapItems+1;
+         case FCDdmtTaskListInProcess[FCDdgEntities[0].E_spaceUnits[SpaceUnit].SU_assignedTask].T_type of
+            tMissionColonization:
+            begin
+               Design:=FCFspuF_Design_getDB( FCDdgEntities[0].E_spaceUnits[SpaceUnit].SU_designToken );
+               if ( FCDdmtTaskListInProcess[FCDdgEntities[0].E_spaceUnits[SpaceUnit].SU_assignedTask].T_tMCphase=mcpDeceleration )
+                  and ( FCDdsuSpaceUnitDesigns[Design].SUD_internalStructureClone.IS_architecture<>aLV ) then
+               begin
+                  FCWinMain.AP_MissionCancel.Show;
+                  FCWinMain.AP_MissionCancel.Top:=999;
+                  FCVuiapItems:=FCVuiapItems+1;
+               end;
+            end;
+
+            tMissionInterplanetaryTransit:
+            begin
+               if ( FCDdmtTaskListInProcess[FCDdgEntities[0].E_spaceUnits[SpaceUnit].SU_assignedTask].T_tMITphase=mitpAcceleration )
+                  and ( FCVdgPlayer.P_currentTimeTick<=FCDdmtTaskListInProcess[FCDdgEntities[0].E_spaceUnits[SpaceUnit].SU_assignedTask].T_inProcessData.IPD_ticksAtTaskStart+( FCDdmtTaskListInProcess[FCDdgEntities[0].E_spaceUnits[SpaceUnit].SU_assignedTask].T_tMITcruiseTime*0.5 ) )
+                  and ( FCDdmtTaskListInProcess[FCDdgEntities[0].E_spaceUnits[SpaceUnit].SU_assignedTask].T_tMIToriginIndex<>FCDdmtTaskListInProcess[FCDdgEntities[0].E_spaceUnits[SpaceUnit].SU_assignedTask].T_tMITdestinationIndex )
+                  and (
+                     ( FCDdmtTaskListInProcess[FCDdgEntities[0].E_spaceUnits[SpaceUnit].SU_assignedTask].T_tMITdestinationSatIndex=0)
+                     or (
+                        ( FCDdmtTaskListInProcess[FCDdgEntities[0].E_spaceUnits[SpaceUnit].SU_assignedTask].T_tMITdestinationSatIndex>0)
+                           and ( FCDdmtTaskListInProcess[FCDdgEntities[0].E_spaceUnits[SpaceUnit].SU_assignedTask].T_tMIToriginSatIndex<>FCDdmtTaskListInProcess[FCDdgEntities[0].E_spaceUnits[SpaceUnit].SU_assignedTask].T_tMITdestinationSatIndex )
+                        )
+                     ) then
+               begin
+                  FCWinMain.AP_MissionCancel.Show;
+                  FCWinMain.AP_MissionCancel.Top:=999;
+                  FCVuiapItems:=FCVuiapItems+1;
+               end;
+            end;
+         end;
       end;
    end; //==END== if ( FCVuiapItems>0 ) and ( FCDdgEntities[0].E_spaceUnits[SpaceUnit].SU_reactionMass>0 ) ==//
    FCMuiAP_Panel_Resize;

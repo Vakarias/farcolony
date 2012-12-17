@@ -231,6 +231,7 @@ end;
 procedure FCMgGFlow_Tasks_Process;
 {:Purpose: process the space units tasks. Replace the multiple threads creation.
     Additions:
+      -2012Dec16- *add: a test is inserted to see if the action panel, for the current space unit, is opened.
       -2012Dec03- *fix: colonization mission - 3d object management is corrected.
       -2011Feb12- *add: tasks extra data for colonization mission.
       -2010Sep05- *fix: colonization mission - post process: change the 2nd destination check with TITP_destType=tttSat as it should be.

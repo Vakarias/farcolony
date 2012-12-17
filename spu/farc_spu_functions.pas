@@ -655,6 +655,7 @@ procedure FCMspuF_Orbits_Process(
    );
 {:Purpose: add or remove a space unit in orbit of an orbital object.
     Additions:
+      -2012Dec16- *fix: prevent a crash after to remove a space unit in orbit, the data structure is properly adjusted.
       -2010Nov04- *fix: only update the 3d view if the entity is the player's one.
       -2010Sep15- *add: entities code.
       -2010Sep06- *code audit.
@@ -749,14 +750,14 @@ begin
          else
          begin
             OPcnt:=1;
-            OPcopyCnt:=1;
+            OPcopyCnt:=0;
             while OPcnt<=OPttl do
             begin
                if FCDduStarSystem[OPsSys].SS_stars[OPstar].S_orbitalObjects[OPoobj].OO_inOrbitSpaceUnitsList[OPcnt].SUIO_ownedSpaceUnitIndex<>OPspuOwn
                then
                begin
-                  OPcopyOrbArr[OPcopyCnt]:=FCDduStarSystem[OPsSys].SS_stars[OPstar].S_orbitalObjects[OPoobj].OO_inOrbitSpaceUnitsList[OPcnt];
                   inc(OPcopyCnt);
+                  OPcopyOrbArr[OPcopyCnt]:=FCDduStarSystem[OPsSys].SS_stars[OPstar].S_orbitalObjects[OPoobj].OO_inOrbitSpaceUnitsList[OPcnt];
                end;
                inc(OPcnt);
             end;
@@ -811,14 +812,14 @@ begin
          else
          begin
             OPcnt:=1;
-            OPcopyCnt:=1;
+            OPcopyCnt:=0;
             while OPcnt<=OPttl do
             begin
                if FCDduStarSystem[OPsSys].SS_stars[OPstar].S_orbitalObjects[OPoobj].OO_satellitesList[OPsat].OO_inOrbitSpaceUnitsList[OPcnt].SUIO_ownedSpaceUnitIndex<>OPspuOwn
                then
                begin
-                  OPcopyOrbArr[OPcopyCnt]:=FCDduStarSystem[OPsSys].SS_stars[OPstar].S_orbitalObjects[OPoobj].OO_satellitesList[OPsat].OO_inOrbitSpaceUnitsList[OPcnt];
                   inc(OPcopyCnt);
+                  OPcopyOrbArr[OPcopyCnt]:=FCDduStarSystem[OPsSys].SS_stars[OPstar].S_orbitalObjects[OPoobj].OO_satellitesList[OPsat].OO_inOrbitSpaceUnitsList[OPcnt];
                end;
                inc(OPcnt);
             end;

@@ -98,7 +98,9 @@ type TFCEdmtTaskTargets=(
 {:REFERENCES LIST
    - FCMdFiles_Game_Load
    - FCMdFiles_Game_Save
+   - FCMgMCore_Mission_Cancel
    - FCMgMCore_Mission_Setup
+   - FCMuiAP_Update_SpaceUnit
    - FCMuiMS_ColonizationInterface_Setup
    - FCMuiMS_InterplanetaryTransitInterface_Setup
    - TFCGtasklistToProc: farc_game_missioncore /FCMgMCore_Mission_Commit
