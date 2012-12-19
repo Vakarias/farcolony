@@ -94,6 +94,7 @@
 			<DCCReference Include="game\farc_game_spmdata.pas"/>
 			<DCCReference Include="ui\farc_ui_umi.pas"/>
 			<DCCReference Include="ui\farc_ui_msges.pas"/>
+			<DCCReference Include="game\farc_game_spmmemes.pas"/>
 			<DCCReference Include="game\farc_game_spmpolicies.pas"/>
 			<DCCReference Include="univ\farc_fug_orbits.pas"/>
 			<DCCReference Include="gfx\farc_gfx_core.pas"/>
@@ -138,7 +139,6 @@
 			<DCCReference Include="game\farc_game_tasksystem.pas"/>
 			<DCCReference Include="ogl\farc_ogl_functions.pas"/>
 			<DCCReference Include="ui\farc_ui_actionpanel.pas"/>
-			<DCCReference Include="spm\farc_spm_memes.pas"/>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>

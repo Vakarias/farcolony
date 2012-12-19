@@ -73,6 +73,7 @@ uses
   farc_game_spmdata in 'game\farc_game_spmdata.pas',
   farc_ui_umi in 'ui\farc_ui_umi.pas',
   farc_ui_msges in 'ui\farc_ui_msges.pas',
+  farc_game_spmmemes in 'game\farc_game_spmmemes.pas',
   farc_game_spmpolicies in 'game\farc_game_spmpolicies.pas',
   farc_fug_orbits in 'univ\farc_fug_orbits.pas',
   farc_gfx_core in 'gfx\farc_gfx_core.pas',
@@ -116,8 +117,7 @@ uses
   farc_ui_missionsetup in 'ui\farc_ui_missionsetup.pas',
   farc_game_tasksystem in 'game\farc_game_tasksystem.pas',
   farc_ogl_functions in 'ogl\farc_ogl_functions.pas',
-  farc_ui_actionpanel in 'ui\farc_ui_actionpanel.pas',
-  farc_spm_memes in 'spm\farc_spm_memes.pas';
+  farc_ui_actionpanel in 'ui\farc_ui_actionpanel.pas';
 
 {$R *.res}
 

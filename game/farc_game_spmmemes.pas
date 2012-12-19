@@ -26,7 +26,7 @@ Copyright (c) 2009-2012, Jean-Francois Baconnet
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *******************************************************************************************}
-unit farc_spm_memes;
+unit farc_game_spmmemes;
 
 interface
 
@@ -34,7 +34,7 @@ uses
    farc_data_game;
 
 type
-   FCVspmmRange= array[0..2] of integer;
+   GSPMMret= array[0..2] of integer;
 
 ///<summary>
 ///   returns the BL modifier regarding the given belief level
@@ -58,10 +58,10 @@ function FCFgSPMM_Req_DoTest(
    ): boolean;
 
 ///<summary>
-///   get min and max SV values regarding the given belief level
+///   returns min and max SV values regarding the given belief level
 ///</summary>
 ///   <param name="SVRGbl">belief level</param>
-function FCFgSPMM_SVRange_Get(const SVRGbl: TFCEdgBeliefLevels): FCVspmmRange;
+function FCFgSPMM_SVRange_Get(const SVRGbl: TFCEdgBeliefLevels): GSPMMret;
 
 //===========================END FUNCTIONS SECTION==========================================
 
@@ -294,8 +294,8 @@ begin
    Result:=RDTreqPassed;
 end;
 
-function FCFgSPMM_SVRange_Get(const SVRGbl: TFCEdgBeliefLevels): FCVspmmRange;
-{:Purpose: get min and max SV values regarding the given belief level.
+function FCFgSPMM_SVRange_Get(const SVRGbl: TFCEdgBeliefLevels): GSPMMret;
+{:Purpose: returns min and max SV values regarding the given belief level.
     Additions:
 }
 begin
@@ -334,121 +334,9 @@ end;
 procedure FCMgSPMM_Evolution_Process( const Entity, Meme: integer);
 {:Purpose: process the evolution of a particular meme.
     Additions:
-      -2012dec18- *add: start of complete rewriting of the code, based on the part taken in the SPM core unit.
 }
-   var
-      NewSpreadValue
-      ,TotalOfColonies: integer;
-
-      Range: array [0..2] of integer;
 begin
-   NewSpreadValue:=0;
-   TotalOfColonies:=0;
-   Range[1]:=Range[0];
-   Range[2]:=Range[0];
-   Range:=FCFgSPMM_SVRange_Get( FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfBeliefLevel );
-   {.spread value evolution}
-   if FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfBeliefLevel>blUnknown then
-   begin
-   end;
-   {.meme requirements}
-   if FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfSpreadValue<Range[2] then
-   begin
-      TotalOfColonies:=length( FCDdgEntities[Entity].E_colonies )-1;
-//                  PPblMod:=FCFgSPMM_BLMod_Get(FCDdgEntities[PPentCnt].E_spmSettings[PPspmCnt].SPMS_iPtBeliefLevel);
-//                  PPcalc:=( ( (PPmaSV-PPcSV)-sqrt(PPcolMax) )*PPblMod )*0.1;
-//                  if PPcalc<=0
-//                  then PPnSV:=0
-//                  else if PPcalc>0
-//                  then
-//                  begin
-//                     PPrand:=FCFcFunc_Rand_Int(9)+1;
-//                     PPnSV:=PPcSV+round(PPcalc*PPrand);
-//                  end;
-   end
-   else if FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfSpreadValue>Range[2] then
-   begin
-      NewSpreadValue:=FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfSpreadValue-round( FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfSpreadValue*0.1 );
-      if NewSpreadValue<Range[1]
-      then NewSpreadValue:=Range[1];
-   end;
 
-//            PPcSV:=FCDdgEntities[PPentCnt].E_spmSettings[PPspmCnt].SPMS_iPtSpreadValue;
-//            PPsvRng:=FCFgSPMM_SVRange_Get(FCDdgEntities[PPentCnt].E_spmSettings[PPspmCnt].SPMS_iPtBeliefLevel);
-//            PPmiSV:=PPsvRng[1];
-//            PPmaSV:=PPsvRng[2];
-//            {.SV evolution before BL calculations}
-//            if FCDdgEntities[PPentCnt].E_spmSettings[PPspmCnt].SPMS_iPtBeliefLevel>blUnknown
-//            then
-//            begin
-
-//            end;
-//            {.meme requirements}
-//            PPreResult:=FCFgSPMM_Req_DoTest(PPentCnt, FCDdgEntities[PPentCnt].E_spmSettings[PPspmCnt].SPMS_token);
-//            if (not PPreResult)
-//               and (FCDdgEntities[PPentCnt].E_spmSettings[PPspmCnt].SPMS_iPtBeliefLevel>blUnknown)
-//               and (PPcSV<=PPmaSV)
-//            then
-//            begin
-//               dec(FCDdgEntities[PPentCnt].E_spmSettings[PPspmCnt].SPMS_iPtBeliefLevel);
-//               PPpostSVoverride:=true;
-//            end
-//            else if (
-//               (not PPreResult)
-//                  and (FCDdgEntities[PPentCnt].E_spmSettings[PPspmCnt].SPMS_iPtBeliefLevel>blUnknown)
-//                  and (PPcSV>PPmaSV)
-//               )
-//               or (PPreResult)
-//            then
-//            begin
-//               {.BL progression}
-//               if not PPreResult
-//               then PPpostSVoverride:=true;
-//               PPbBLP:=50;
-//               PPbREQ:=FCFgSPMM_Margin_Get;
-//               PPeSUM:=FCFgSPM_SPMiInfluence_Get(PPspmi, PPentCnt);
-//               PPsvMod:=round(PPcSV*0.2);
-//               PPfBLP:=PPbBLP+PPbREQ+PPeSUM+PPsvMod;
-//               PPrand:=FCFcFunc_Rand_Int(99)+1;
-//               PPt2:=PPfBLP*2/3;
-//               PPt4:=PPfBLP*4/3;
-//               if PPrand<PPt2
-//               then inc(FCDdgEntities[PPentCnt].E_spmSettings[PPspmCnt].SPMS_iPtBeliefLevel)
-//               else if (PPrand>PPt4)
-//                  and (FCDdgEntities[PPentCnt].E_spmSettings[PPspmCnt].SPMS_iPtBeliefLevel>blUnknown)
-//               then
-//               begin
-//                  dec(FCDdgEntities[PPentCnt].E_spmSettings[PPspmCnt].SPMS_iPtBeliefLevel);
-//                  PPblRed:=true;
-//               end;
-//            end;
-//            {.SV evolution after BL calculations}
-//             if PPpostSVoverride
-//            then
-//            begin
-//               if PPnSV=0
-//               then PPnSV:=PPcSV-round(PPcSV*0.1)
-//               else if PPnSV<>0
-//               then PPnSV:=PPnSV-round(PPcSV*0.1);
-//            end
-//            else if not PPpostSVoverride
-//            then
-//            begin
-//               if (FCDdgEntities[PPentCnt].E_spmSettings[PPspmCnt].SPMS_iPtBeliefLevel=blUnknown)
-//                  and (PPcSV>0)
-//                  and (PPnSV=0)
-//               then PPnSV:=PPcSV-round(PPcSV*0.1)
-//               else if (FCDdgEntities[PPentCnt].E_spmSettings[PPspmCnt].SPMS_iPtBeliefLevel=blUnknown)
-//                  and (PPcSV>0)
-//                  and (PPnSV<>0)
-//               then PPnSV:=PPnSV-round(PPcSV*0.1)
-//               else if (PPcSV=0)
-//                  and (FCDdgEntities[PPentCnt].E_spmSettings[PPspmCnt].SPMS_iPtBeliefLevel>blUnknown)
-//                  and (PPnSV=0)
-//               then PPnSV:=1;
-//            end;
-//            {.readjust custom effects modifiers and meme's modifiers}
-//            FCMgSPMM_ModifCustFx_Upd(PPentCnt, PPspmCnt, PPnSV);
 end;
 
 procedure FCMgSPMM_ModifCustFx_Upd(

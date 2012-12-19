@@ -207,7 +207,7 @@ uses
    ,farc_game_csm
    ,farc_game_csmevents
    ,farc_game_spmdata
-   ,farc_spm_memes
+   ,farc_game_spmmemes
    ,farc_main
    ,farc_ui_msges
    ,farc_ui_umi
@@ -419,7 +419,7 @@ function FCFgSPM_SPMiInfluence_Get(
       ,SPMIIGmax
       ,SPMIIGres: integer;
 
-      SPMIIGsv: FCVspmmRange;
+      SPMIIGsv: GSPMMret;
 begin
    SPMIIGcnt:=1;
    SPMIIGmax:=length( FCDdgEntities[SPMIIGent].E_spmSettings )-1;
@@ -1079,7 +1079,7 @@ var
 
    PPspmi: TFCRdgSPMi;
 
-   PPsvRng: FCVspmmRange;
+   PPsvRng: GSPMMret;
 begin
    {.disable the policy enforcement tab of the UMI}
    FCWinMain.FCWM_UMIFac_TabShSPMpol.Enabled:=false;
@@ -1168,7 +1168,98 @@ begin
 //         else if not FCDdgEntities[PPentCnt].E_spmSettings[PPspmCnt].SPMS_isPolicy
 //         then
 //         begin
-
+//            PPcSV:=FCDdgEntities[PPentCnt].E_spmSettings[PPspmCnt].SPMS_iPtSpreadValue;
+//            PPsvRng:=FCFgSPMM_SVRange_Get(FCDdgEntities[PPentCnt].E_spmSettings[PPspmCnt].SPMS_iPtBeliefLevel);
+//            PPmiSV:=PPsvRng[1];
+//            PPmaSV:=PPsvRng[2];
+//            {.SV evolution before BL calculations}
+//            if FCDdgEntities[PPentCnt].E_spmSettings[PPspmCnt].SPMS_iPtBeliefLevel>blUnknown
+//            then
+//            begin
+//               if PPcSV<PPmaSV
+//               then
+//               begin
+//                  PPcolMax:=length(FCDdgEntities[PPentCnt].E_colonies)-1;
+//                  PPblMod:=FCFgSPMM_BLMod_Get(FCDdgEntities[PPentCnt].E_spmSettings[PPspmCnt].SPMS_iPtBeliefLevel);
+//                  PPcalc:=( ( (PPmaSV-PPcSV)-sqrt(PPcolMax) )*PPblMod )*0.1;
+//                  if PPcalc<=0
+//                  then PPnSV:=0
+//                  else if PPcalc>0
+//                  then
+//                  begin
+//                     PPrand:=FCFcFunc_Rand_Int(9)+1;
+//                     PPnSV:=PPcSV+round(PPcalc*PPrand);
+//                  end;
+//               end
+//               else if PPcSV>PPmaSV
+//               then PPnSV:=round( PPcSV-(PPcSV*0.1) );
+//            end;
+//            {.meme requirements}
+//            PPreResult:=FCFgSPMM_Req_DoTest(PPentCnt, FCDdgEntities[PPentCnt].E_spmSettings[PPspmCnt].SPMS_token);
+//            if (not PPreResult)
+//               and (FCDdgEntities[PPentCnt].E_spmSettings[PPspmCnt].SPMS_iPtBeliefLevel>blUnknown)
+//               and (PPcSV<=PPmaSV)
+//            then
+//            begin
+//               dec(FCDdgEntities[PPentCnt].E_spmSettings[PPspmCnt].SPMS_iPtBeliefLevel);
+//               PPpostSVoverride:=true;
+//            end
+//            else if (
+//               (not PPreResult)
+//                  and (FCDdgEntities[PPentCnt].E_spmSettings[PPspmCnt].SPMS_iPtBeliefLevel>blUnknown)
+//                  and (PPcSV>PPmaSV)
+//               )
+//               or (PPreResult)
+//            then
+//            begin
+//               {.BL progression}
+//               if not PPreResult
+//               then PPpostSVoverride:=true;
+//               PPbBLP:=50;
+//               PPbREQ:=FCFgSPMM_Margin_Get;
+//               PPeSUM:=FCFgSPM_SPMiInfluence_Get(PPspmi, PPentCnt);
+//               PPsvMod:=round(PPcSV*0.2);
+//               PPfBLP:=PPbBLP+PPbREQ+PPeSUM+PPsvMod;
+//               PPrand:=FCFcFunc_Rand_Int(99)+1;
+//               PPt2:=PPfBLP*2/3;
+//               PPt4:=PPfBLP*4/3;
+//               if PPrand<PPt2
+//               then inc(FCDdgEntities[PPentCnt].E_spmSettings[PPspmCnt].SPMS_iPtBeliefLevel)
+//               else if (PPrand>PPt4)
+//                  and (FCDdgEntities[PPentCnt].E_spmSettings[PPspmCnt].SPMS_iPtBeliefLevel>blUnknown)
+//               then
+//               begin
+//                  dec(FCDdgEntities[PPentCnt].E_spmSettings[PPspmCnt].SPMS_iPtBeliefLevel);
+//                  PPblRed:=true;
+//               end;
+//            end;
+//            {.SV evolution after BL calculations}
+//             if PPpostSVoverride
+//            then
+//            begin
+//               if PPnSV=0
+//               then PPnSV:=PPcSV-round(PPcSV*0.1)
+//               else if PPnSV<>0
+//               then PPnSV:=PPnSV-round(PPcSV*0.1);
+//            end
+//            else if not PPpostSVoverride
+//            then
+//            begin
+//               if (FCDdgEntities[PPentCnt].E_spmSettings[PPspmCnt].SPMS_iPtBeliefLevel=blUnknown)
+//                  and (PPcSV>0)
+//                  and (PPnSV=0)
+//               then PPnSV:=PPcSV-round(PPcSV*0.1)
+//               else if (FCDdgEntities[PPentCnt].E_spmSettings[PPspmCnt].SPMS_iPtBeliefLevel=blUnknown)
+//                  and (PPcSV>0)
+//                  and (PPnSV<>0)
+//               then PPnSV:=PPnSV-round(PPcSV*0.1)
+//               else if (PPcSV=0)
+//                  and (FCDdgEntities[PPentCnt].E_spmSettings[PPspmCnt].SPMS_iPtBeliefLevel>blUnknown)
+//                  and (PPnSV=0)
+//               then PPnSV:=1;
+//            end;
+//            {.readjust custom effects modifiers and meme's modifiers}
+//            FCMgSPMM_ModifCustFx_Upd(PPentCnt, PPspmCnt, PPnSV);
 //         end; //==END== else if not FCentities[PPentCnt].E_spm[PPspmCnt].SPMS_isPolicy ==//
       ;
          inc(PPspmCnt);
