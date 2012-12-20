@@ -345,6 +345,8 @@ procedure FCMgSPMM_Evolution_Process( const Entity, Meme: integer);
       BLmod
       ,Calculation: extended;
 
+      isRequirementsPassed: boolean;
+
       Range: FCVspmmRange;
 begin
    Modifier:=0;
@@ -352,6 +354,7 @@ begin
    TotalOfColonies:=0;
    BLmod:=0;
    Calculation:=0;
+   isRequirementsPassed:=false;
    Range[1]:=Range[0];
    Range[2]:=Range[0];
    Range:=FCFgSPMM_SVRange_Get( FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfBeliefLevel );
@@ -379,38 +382,24 @@ begin
       if NewSpreadValue<Range[1]
       then NewSpreadValue:=Range[1];
    end;
-
-
    {.meme requirements}
-
-//            PPcSV:=FCDdgEntities[PPentCnt].E_spmSettings[PPspmCnt].SPMS_iPtSpreadValue;
-//            PPsvRng:=FCFgSPMM_SVRange_Get(FCDdgEntities[PPentCnt].E_spmSettings[PPspmCnt].SPMS_iPtBeliefLevel);
-//            PPmiSV:=PPsvRng[1];
-//            PPmaSV:=PPsvRng[2];
-//            {.SV evolution before BL calculations}
-//            if FCDdgEntities[PPentCnt].E_spmSettings[PPspmCnt].SPMS_iPtBeliefLevel>blUnknown
-//            then
-//            begin
-
-//            end;
-//            {.meme requirements}
-//            PPreResult:=FCFgSPMM_Req_DoTest(PPentCnt, FCDdgEntities[PPentCnt].E_spmSettings[PPspmCnt].SPMS_token);
-//            if (not PPreResult)
-//               and (FCDdgEntities[PPentCnt].E_spmSettings[PPspmCnt].SPMS_iPtBeliefLevel>blUnknown)
-//               and (PPcSV<=PPmaSV)
-//            then
-//            begin
+   isRequirementsPassed:=FCFgSPMM_Req_DoTest( Entity, FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_token );
+   if (not isRequirementsPassed)
+   and (FCDdgEntities[PPentCnt].E_spmSettings[PPspmCnt].SPMS_iPtBeliefLevel>blUnknown)
+   and (PPcSV<=PPmaSV)
+            then
+            begin
 //               dec(FCDdgEntities[PPentCnt].E_spmSettings[PPspmCnt].SPMS_iPtBeliefLevel);
 //               PPpostSVoverride:=true;
-//            end
-//            else if (
-//               (not PPreResult)
-//                  and (FCDdgEntities[PPentCnt].E_spmSettings[PPspmCnt].SPMS_iPtBeliefLevel>blUnknown)
-//                  and (PPcSV>PPmaSV)
-//               )
-//               or (PPreResult)
-//            then
-//            begin
+            end
+            else if (
+               (not isRequirementsPassed)
+                  and (FCDdgEntities[PPentCnt].E_spmSettings[PPspmCnt].SPMS_iPtBeliefLevel>blUnknown)
+                  and (PPcSV>PPmaSV)
+               )
+               or (isRequirementsPassed)
+            then
+            begin
 //               {.BL progression}
 //               if not PPreResult
 //               then PPpostSVoverride:=true;
@@ -431,7 +420,15 @@ begin
 //                  dec(FCDdgEntities[PPentCnt].E_spmSettings[PPspmCnt].SPMS_iPtBeliefLevel);
 //                  PPblRed:=true;
 //               end;
-//            end;
+            end;
+
+//            PPcSV:=FCDdgEntities[PPentCnt].E_spmSettings[PPspmCnt].SPMS_iPtSpreadValue;
+//            PPsvRng:=FCFgSPMM_SVRange_Get(FCDdgEntities[PPentCnt].E_spmSettings[PPspmCnt].SPMS_iPtBeliefLevel);
+//            PPmiSV:=PPsvRng[1];
+//            PPmaSV:=PPsvRng[2];
+//            {.meme requirements}
+
+
 //            {.SV evolution after BL calculations}
 //             if PPpostSVoverride
 //            then
