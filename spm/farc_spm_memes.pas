@@ -87,7 +87,8 @@ procedure FCMgSPMM_ModifCustFx_Upd(
 implementation
 
 uses
-   farc_data_spm
+   farc_common_func
+   ,farc_data_spm
    ,farc_game_colony
    ,farc_game_csm
    ,farc_game_spm
@@ -337,41 +338,50 @@ procedure FCMgSPMM_Evolution_Process( const Entity, Meme: integer);
       -2012dec18- *add: start of complete rewriting of the code, based on the part taken in the SPM core unit.
 }
    var
-      NewSpreadValue
+      Modifier
+      ,NewSpreadValue
       ,TotalOfColonies: integer;
 
-      Range: array [0..2] of integer;
+      BLmod
+      ,Calculation: extended;
+
+      Range: FCVspmmRange;
 begin
+   Modifier:=0;
    NewSpreadValue:=0;
    TotalOfColonies:=0;
+   BLmod:=0;
+   Calculation:=0;
    Range[1]:=Range[0];
    Range[2]:=Range[0];
    Range:=FCFgSPMM_SVRange_Get( FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfBeliefLevel );
    {.spread value evolution}
    if FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfBeliefLevel>blUnknown then
    begin
-   end;
-   {.meme requirements}
-   if FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfSpreadValue<Range[2] then
-   begin
-      TotalOfColonies:=length( FCDdgEntities[Entity].E_colonies )-1;
-                  PPblMod:=FCFgSPMM_BLMod_Get(FCDdgEntities[PPentCnt].E_spmSettings[PPspmCnt].SPMS_iPtBeliefLevel);
-//                  PPcalc:=( ( (PPmaSV-PPcSV)-sqrt(PPcolMax) )*PPblMod )*0.1;
-//                  if PPcalc<=0
-//                  then PPnSV:=0
-//                  else if PPcalc>0
-//                  then
-//                  begin
-//                     PPrand:=FCFcFunc_Rand_Int(9)+1;
-//                     PPnSV:=PPcSV+round(PPcalc*PPrand);
-//                  end;
-   end
-   else if FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfSpreadValue>Range[2] then
-   begin
-      NewSpreadValue:=FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfSpreadValue-round( FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfSpreadValue*0.1 );
+      if FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfSpreadValue<Range[2] then
+      begin
+         TotalOfColonies:=length( FCDdgEntities[Entity].E_colonies )-1;
+         BLmod:=FCFgSPMM_BLMod_Get( FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfBeliefLevel );
+         Calculation:=( ( ( Range[2]-FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfSpreadValue )-sqrt( TotalOfColonies ) )*BLmod )*0.1;
+         if Calculation<=0
+         then NewSpreadValue:=FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfSpreadValue
+         else if Calculation>0
+         then
+         begin
+            Modifier:=FCFcF_Random_DoInteger(9)+1;
+            NewSpreadValue:=FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfSpreadValue+round( Calculation*Modifier );
+         end;
+         if NewSpreadValue>Range[2]
+         then NewSpreadValue:=Range[2];
+      end
+      else if FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfSpreadValue>Range[2]
+      then NewSpreadValue:=FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfSpreadValue-round( FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfSpreadValue*0.1 );
       if NewSpreadValue<Range[1]
       then NewSpreadValue:=Range[1];
    end;
+
+
+   {.meme requirements}
 
 //            PPcSV:=FCDdgEntities[PPentCnt].E_spmSettings[PPspmCnt].SPMS_iPtSpreadValue;
 //            PPsvRng:=FCFgSPMM_SVRange_Get(FCDdgEntities[PPentCnt].E_spmSettings[PPspmCnt].SPMS_iPtBeliefLevel);
