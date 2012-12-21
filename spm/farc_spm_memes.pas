@@ -42,16 +42,17 @@ type
 ///   <param name="BLMGbl">belief level</param>
 function FCFgSPMM_BLMod_Get(const BLMGbl: TFCEdgBeliefLevels): extended;
 
-///<summary>
-///   returns requirements margin modifier value
-///</summary>
-function FCFgSPMM_Margin_Get: integer;
+/////<summary>
+/////   returns requirements margin modifier value
+/////</summary>
+//function FCFgSPMM_Margin_Get: integer;
 
 ///<summary>
 ///   test the requirements of a meme, returns false if one of these doesn't pass, true if all the requirements pass
 ///</summary>
 ///   <param name="RDTent">entity index #</param>
 ///   <param name="RDTmeme">meme token</param>
+///   <remarks>the margin modifier is stored in the private variable FCVspmmRequirementsMarginMod</remarks>
 function FCFgSPMM_Req_DoTest(
    const RDTent: integer;
    const RDTmeme: string
@@ -95,7 +96,7 @@ uses
    ,farc_game_spmdata;
 
 var
-   GSPMMmarginMod: integer;
+   FCVspmmRequirementsMarginMod: integer;
 
 //===================================================END OF INIT============================
 function FCFgSPMM_BLMod_Get(const BLMGbl: TFCEdgBeliefLevels): extended;
@@ -113,13 +114,13 @@ begin
    end;
 end;
 
-function FCFgSPMM_Margin_Get: integer;
-{:Purpose: returns requirements margin modifier value
-   Additions:
-}
-begin
-   Result:=GSPMMmarginMod;
-end;
+//function FCFgSPMM_Margin_Get: integer;
+//{:Purpose: returns requirements margin modifier value
+//   Additions:
+//}
+//begin
+//   Result:=FCVspmmRequirementsMarginMod;
+//end;
 
 function FCFgSPMM_Req_DoTest(
    const RDTent: integer;
@@ -144,7 +145,7 @@ var
    RDTspmi: TFCRdgSPMi;
 begin
    {.data initialization}
-   GSPMMmarginMod:=0;
+   FCVspmmRequirementsMarginMod:=0;
    RDTreqCnt:=0;
    RDTreqMax:=0;
    RDTreqPassed:=true;
@@ -191,7 +192,7 @@ begin
                      then RDTreqPassed:=false
                      else if (RDTreqRes>=RDTmarginMin)
                         and (RDTreqRes<RDTspmi.SPMI_req[RDTreqCnt].SPMIR_percCol)
-                     then GSPMMmarginMod:=GSPMMmarginMod-round( (RDTspmi.SPMI_req[RDTreqCnt].SPMIR_percCol-RDTreqRes)*0.8 );
+                     then FCVspmmRequirementsMarginMod:=FCVspmmRequirementsMarginMod-round( (RDTspmi.SPMI_req[RDTreqCnt].SPMIR_percCol-RDTreqRes)*0.8 );
                   end
                   else if RDTcolMax=0
                   then RDTreqPassed:=false;
@@ -214,55 +215,55 @@ begin
                         if FCDdgEntities[RDTent].E_factionLevel<=1
                         then RDTreqPassed:=false
                         else if FCDdgEntities[RDTent].E_factionLevel=2
-                        then GSPMMmarginMod:=GSPMMmarginMod-10;
+                        then FCVspmmRequirementsMarginMod:=FCVspmmRequirementsMarginMod-10;
                      end;
                      rfdFacLv4:
                      begin
                         if FCDdgEntities[RDTent].E_factionLevel<=2
                         then RDTreqPassed:=false
                         else if FCDdgEntities[RDTent].E_factionLevel=3
-                        then GSPMMmarginMod:=GSPMMmarginMod-10;
+                        then FCVspmmRequirementsMarginMod:=FCVspmmRequirementsMarginMod-10;
                      end;
                      rfdFacLv5:
                      begin
                         if FCDdgEntities[RDTent].E_factionLevel<=3
                         then RDTreqPassed:=false
                         else if FCDdgEntities[RDTent].E_factionLevel=4
-                        then GSPMMmarginMod:=GSPMMmarginMod-10;
+                        then FCVspmmRequirementsMarginMod:=FCVspmmRequirementsMarginMod-10;
                      end;
                      rfdFacLv6:
                      begin
                         if FCDdgEntities[RDTent].E_factionLevel<=4
                         then RDTreqPassed:=false
                         else if FCDdgEntities[RDTent].E_factionLevel=5
-                        then GSPMMmarginMod:=GSPMMmarginMod-10;
+                        then FCVspmmRequirementsMarginMod:=FCVspmmRequirementsMarginMod-10;
                      end;
                      rfdFacLv7:
                      begin
                         if FCDdgEntities[RDTent].E_factionLevel<=4
                         then RDTreqPassed:=false
                         else if FCDdgEntities[RDTent].E_factionLevel=5
-                        then GSPMMmarginMod:=GSPMMmarginMod-20
+                        then FCVspmmRequirementsMarginMod:=FCVspmmRequirementsMarginMod-20
                         else if FCDdgEntities[RDTent].E_factionLevel=6
-                        then GSPMMmarginMod:=GSPMMmarginMod-10;
+                        then FCVspmmRequirementsMarginMod:=FCVspmmRequirementsMarginMod-10;
                      end;
                      rfdFacLv8:
                      begin
                         if FCDdgEntities[RDTent].E_factionLevel<=5
                         then RDTreqPassed:=false
                         else if FCDdgEntities[RDTent].E_factionLevel=6
-                        then GSPMMmarginMod:=GSPMMmarginMod-20
+                        then FCVspmmRequirementsMarginMod:=FCVspmmRequirementsMarginMod-20
                         else if FCDdgEntities[RDTent].E_factionLevel=7
-                        then GSPMMmarginMod:=GSPMMmarginMod-10;
+                        then FCVspmmRequirementsMarginMod:=FCVspmmRequirementsMarginMod-10;
                      end;
                      rfdFacLv9:
                      begin
                         if FCDdgEntities[RDTent].E_factionLevel<=6
                         then RDTreqPassed:=false
                         else if FCDdgEntities[RDTent].E_factionLevel=7
-                        then GSPMMmarginMod:=GSPMMmarginMod-20
+                        then FCVspmmRequirementsMarginMod:=FCVspmmRequirementsMarginMod-20
                         else if FCDdgEntities[RDTent].E_factionLevel=8
-                        then GSPMMmarginMod:=GSPMMmarginMod-10;
+                        then FCVspmmRequirementsMarginMod:=FCVspmmRequirementsMarginMod-10;
                      end;
                      rfdFacStab..rfdEquil:
                      begin
@@ -277,7 +278,7 @@ begin
                         then RDTreqPassed:=false
                         else if (RDTreqRes>=RDTmarginMin)
                            and (RDTreqRes<RDTspmi.SPMI_req[RDTreqCnt].SPMIR_datValue)
-                        then GSPMMmarginMod:=GSPMMmarginMod-round( (100- ( ( RDTreqRes*100)/RDTspmi.SPMI_req[RDTreqCnt].SPMIR_datValue ) )*0.8 );
+                        then FCVspmmRequirementsMarginMod:=FCVspmmRequirementsMarginMod-round( (100- ( ( RDTreqRes*100)/RDTspmi.SPMI_req[RDTreqCnt].SPMIR_datValue ) )*0.8 );
                      end;
                   end; //==END== case RDTspmi.SPMI_req[RDTreqCnt].SPMIR_datTp of ==//
                end; //==END== case: dgFacData ==//
@@ -340,6 +341,7 @@ procedure FCMgSPMM_Evolution_Process( const Entity, Meme: integer);
    var
       Modifier
       ,NewSpreadValue
+      ,TotalInfluence
       ,TotalOfColonies: integer;
 
       BLmod
@@ -348,9 +350,15 @@ procedure FCMgSPMM_Evolution_Process( const Entity, Meme: integer);
       isRequirementsPassed: boolean;
 
       Range: FCVspmmRange;
+
+      MemeData: TFCRdgSPMi;
+
+   const
+      BaseBLModifier=50;
 begin
    Modifier:=0;
    NewSpreadValue:=0;
+   TotalInfluence:=0;
    TotalOfColonies:=0;
    BLmod:=0;
    Calculation:=0;
@@ -358,8 +366,46 @@ begin
    Range[1]:=Range[0];
    Range[2]:=Range[0];
    Range:=FCFgSPMM_SVRange_Get( FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfBeliefLevel );
+   {.meme requirements}
+   isRequirementsPassed:=FCFgSPMM_Req_DoTest( Entity, FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_token );
+   if ( not isRequirementsPassed )
+      and ( FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfBeliefLevel>blUnknown ) then
+   begin
+      dec( FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfBeliefLevel );
+//               PPpostSVoverride:=true;
+   end
+   else if isRequirementsPassed then
+   begin
+      {.BL progression}
+//      if not PPreResult
+//      then PPpostSVoverride:=true;
+//      PPbBLP:=50;
+//      PPbREQ:=FCFgSPMM_Margin_Get;
+      MemeData:=FCFgSPM_SPMIData_Get( FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_token );
+      TotalInfluence:=FCFgSPM_SPMiInfluence_Get(PPspmi, PPentCnt);
+      PPsvMod:=round(PPcSV*0.2);
+      PPfBLP:=PPbBLP+PPbREQ+TotalInfluence+PPsvMod;
+      PPrand:=FCFcFunc_Rand_Int(99)+1;
+      PPt2:=PPfBLP*2/3;
+      PPt4:=PPfBLP*4/3;
+      if PPrand<PPt2
+      then inc(FCDdgEntities[PPentCnt].E_spmSettings[PPspmCnt].SPMS_iPtBeliefLevel)
+      else if (PPrand>PPt4)
+         and (FCDdgEntities[PPentCnt].E_spmSettings[PPspmCnt].SPMS_iPtBeliefLevel>blUnknown)
+      then
+      begin
+         dec(FCDdgEntities[PPentCnt].E_spmSettings[PPspmCnt].SPMS_iPtBeliefLevel);
+         PPblRed:=true;
+      end;
+   end;
+
+
+
    {.spread value evolution}
-   if FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfBeliefLevel>blUnknown then
+   if ( FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfBeliefLevel=blUnknown )
+      and ( FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfSpreadValue>0 )
+   then FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfSpreadValue:=0
+   else if FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfBeliefLevel>blUnknown then
    begin
       if FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfSpreadValue<Range[2] then
       begin
@@ -382,52 +428,14 @@ begin
       if NewSpreadValue<Range[1]
       then NewSpreadValue:=Range[1];
    end;
-   {.meme requirements}
-   isRequirementsPassed:=FCFgSPMM_Req_DoTest( Entity, FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_token );
-   if (not isRequirementsPassed)
-   and (FCDdgEntities[PPentCnt].E_spmSettings[PPspmCnt].SPMS_iPtBeliefLevel>blUnknown)
-   and (PPcSV<=PPmaSV)
-            then
-            begin
-//               dec(FCDdgEntities[PPentCnt].E_spmSettings[PPspmCnt].SPMS_iPtBeliefLevel);
-//               PPpostSVoverride:=true;
-            end
-            else if (
-               (not isRequirementsPassed)
-                  and (FCDdgEntities[PPentCnt].E_spmSettings[PPspmCnt].SPMS_iPtBeliefLevel>blUnknown)
-                  and (PPcSV>PPmaSV)
-               )
-               or (isRequirementsPassed)
-            then
-            begin
-//               {.BL progression}
-//               if not PPreResult
-//               then PPpostSVoverride:=true;
-//               PPbBLP:=50;
-//               PPbREQ:=FCFgSPMM_Margin_Get;
-//               PPeSUM:=FCFgSPM_SPMiInfluence_Get(PPspmi, PPentCnt);
-//               PPsvMod:=round(PPcSV*0.2);
-//               PPfBLP:=PPbBLP+PPbREQ+PPeSUM+PPsvMod;
-//               PPrand:=FCFcFunc_Rand_Int(99)+1;
-//               PPt2:=PPfBLP*2/3;
-//               PPt4:=PPfBLP*4/3;
-//               if PPrand<PPt2
-//               then inc(FCDdgEntities[PPentCnt].E_spmSettings[PPspmCnt].SPMS_iPtBeliefLevel)
-//               else if (PPrand>PPt4)
-//                  and (FCDdgEntities[PPentCnt].E_spmSettings[PPspmCnt].SPMS_iPtBeliefLevel>blUnknown)
-//               then
-//               begin
-//                  dec(FCDdgEntities[PPentCnt].E_spmSettings[PPspmCnt].SPMS_iPtBeliefLevel);
-//                  PPblRed:=true;
-//               end;
-            end;
+
 
 //            PPcSV:=FCDdgEntities[PPentCnt].E_spmSettings[PPspmCnt].SPMS_iPtSpreadValue;
 //            PPsvRng:=FCFgSPMM_SVRange_Get(FCDdgEntities[PPentCnt].E_spmSettings[PPspmCnt].SPMS_iPtBeliefLevel);
 //            PPmiSV:=PPsvRng[1];
 //            PPmaSV:=PPsvRng[2];
 //            {.meme requirements}
-
+//======================================================================================
 
 //            {.SV evolution after BL calculations}
 //             if PPpostSVoverride

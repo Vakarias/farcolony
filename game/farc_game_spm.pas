@@ -93,7 +93,7 @@ function FCFgSPM_GvtEconMedcaSpiSystems_GetIdx(
 ///   retrieve the <token> SPMi data
 ///</summary>
 ///   <param name="SPMIGtoken">SPMi token</param>
-///   <param name="SPMIGloadIndex">load the index in GSPMitmIdx</param>
+///   <param name="SPMIGloadIndex">load the DB index in GSPMitmIdx, useful is we have the SPMi token only but not its db index</param>
 function FCFgSPM_SPMIData_Get(
    const SPMIDGtoken: string;
    const SPMIDGloadIndex: boolean=false
