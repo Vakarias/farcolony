@@ -339,7 +339,8 @@ procedure FCMgSPMM_Evolution_Process( const Entity, Meme: integer);
       -2012dec18- *add: start of complete rewriting of the code, based on the part taken in the SPM core unit.
 }
    var
-      Modifier
+      FinalBLProgression
+      ,Modifier
       ,NewSpreadValue
       ,TotalInfluence
       ,TotalOfColonies: integer;
@@ -356,6 +357,7 @@ procedure FCMgSPMM_Evolution_Process( const Entity, Meme: integer);
    const
       BaseBLModifier=50;
 begin
+   FinalBLProgression:=0;
    Modifier:=0;
    NewSpreadValue:=0;
    TotalInfluence:=0;
@@ -382,9 +384,9 @@ begin
 //      PPbBLP:=50;
 //      PPbREQ:=FCFgSPMM_Margin_Get;
       MemeData:=FCFgSPM_SPMIData_Get( FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_token );
-      TotalInfluence:=FCFgSPM_SPMiInfluence_Get(PPspmi, PPentCnt);
-      PPsvMod:=round(PPcSV*0.2);
-      PPfBLP:=PPbBLP+PPbREQ+TotalInfluence+PPsvMod;
+      TotalInfluence:=FCFgSPM_SPMiInfluence_Get( MemeData, Entity );
+      Modifier:=round( FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfSpreadValue*0.2 );
+      FinalBLProgression:=BaseBLModifier +FCVspmmRequirementsMarginMod +TotalInfluence+Modifier;
       PPrand:=FCFcFunc_Rand_Int(99)+1;
       PPt2:=PPfBLP*2/3;
       PPt4:=PPfBLP*4/3;
