@@ -139,7 +139,8 @@ uses
    ,farc_ui_missionsetup
    ,farc_ui_surfpanel
    ,farc_ui_win
-   ,farc_win_debug;
+//   ,farc_win_debug
+   ;
 
 //==END PRIVATE ENUM========================================================================
 
@@ -293,8 +294,6 @@ begin
             Count:=1;
             while Count<=Max do
             begin
-               if FCVdiDebugMode
-               then FCWinDebug.AdvMemo1.Lines.Add('max>0');
                setlength( FCDdmtTaskListToProcess, length(FCDdmtTaskListToProcess)+1 );
                TaskIndex:=length(FCDdmtTaskListToProcess)-1;
                FCDdmtTaskListToProcess[TaskIndex].T_entity:=FCRmcCurrentMissionCalculations.CMC_entity;

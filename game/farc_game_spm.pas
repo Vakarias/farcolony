@@ -419,13 +419,12 @@ function FCFgSPM_SPMiInfluence_Get(
       ,SPMIIGmax
       ,SPMIIGres: integer;
 
-      SPMIIGsv: FCVspmmRange;
+      MaxSV: integer;
 begin
    SPMIIGcnt:=1;
    SPMIIGmax:=length( FCDdgEntities[SPMIIGent].E_spmSettings )-1;
    SPMIIGres:=0;
-   SPMIIGsv[1]:=SPMIIGsv[0];
-   SPMIIGsv[2]:=SPMIIGsv[0];
+   MaxSV:=0;
    Result:=0;
    while SPMIIGcnt<=SPMIIGmax do
    begin
@@ -436,8 +435,8 @@ begin
       else if ( not FCDdgEntities[SPMIIGent].E_spmSettings[SPMIIGcnt].SPMS_isPolicy )
          and ( FCDdgEntities[SPMIIGent].E_spmSettings[SPMIIGcnt].SPMS_iPfBeliefLevel>blUnknown ) then
       begin
-         SPMIIGsv:=FCFgSPMM_SVRange_Get( FCDdgEntities[SPMIIGent].E_spmSettings[SPMIIGcnt].SPMS_iPfBeliefLevel );
-         SPMIIGres:=SPMIIGres+round( SPMIIGspmi.SPMI_infl[SPMIIGcnt].SPMII_influence* ( SPMIIGsv[2]*0.01 ) );
+         MaxSV:=FCFspmM_BeliefLevel_GetMaxSV( FCDdgEntities[SPMIIGent].E_spmSettings[SPMIIGcnt].SPMS_iPfBeliefLevel );
+         SPMIIGres:=SPMIIGres+round( SPMIIGspmi.SPMI_infl[SPMIIGcnt].SPMII_influence* ( MaxSV*0.01 ) );
       end;
       inc( SPMIIGcnt );
    end;
@@ -1039,6 +1038,8 @@ end;
 procedure FCMgSPM_Phase_Proc;
 {:Purpose: SPM phase processing.
     Additions:
+      -2012Dec26- *rem: useless variables are removed.
+                  *add: memes management is re-enabled.
       -2012Aug20- *mod: the memes management is disabled until full audit of all the code.
       -2011Jan19- *add: trigger Government Destabilization if the political system doesn't meet a requirement.
       -2011Jan06- *add: complete memes processing.
@@ -1050,36 +1051,18 @@ procedure FCMgSPM_Phase_Proc;
       -2010Dec29- *add: disable and re-enable the policy enforcement UI during the test of the player's entity.
 }
 var
-   PPbBLP
-   ,PPbREQ
-   ,PPcohPenalty
+   PPcohPenalty
    ,PPcolCnt
    ,PPcolMax
-   ,PPcSV
    ,PPentCnt
-   ,PPeSUM
    ,PPfAPtest
-   ,PPfBLP
-   ,PPmaSV
-   ,PPmiSV
-   ,PPnSV
-   ,PPrand
    ,PPspmCnt
-   ,PPspmMax
-   ,PPsvMod: integer;
+   ,PPspmMax: integer;
 
-   PPblMod
-   ,PPcalc
-   ,PPt2
-   ,PPt4: extended;
-
-   PPblRed
-   ,PPpostSVoverride
-   ,PPreResult: boolean;
+   PPreResult: boolean;
 
    PPspmi: TFCRdgSPMi;
 
-   PPsvRng: FCVspmmRange;
 begin
    {.disable the policy enforcement tab of the UMI}
    FCWinMain.FCWM_UMIFac_TabShSPMpol.Enabled:=false;
@@ -1092,24 +1075,7 @@ begin
       PPspmCnt:=1;
       while PPspmCnt<=PPspmMax do
       begin
-         PPblMod:=0;
-         PPcalc:=0;
-         PPcSV:=0;
-         PPmaSV:=0;
-         PPmiSV:=0;
-         PPnSV:=0;
-         PPrand:=0;
-         PPsvRng[1]:=PPsvRng[0];
-         PPsvRng[2]:=PPsvRng[0];
          PPcohPenalty:=0;
-         PPbBLP:=0;
-         PPbREQ:=0;
-         PPeSUM:=0;
-         PPsvMod:=0;
-         PPfBLP:=0;
-         PPt2:=0;
-         PPt4:=0;
-         PPpostSVoverride:=false;
          PPspmi:=FCFgSPM_SPMIData_Get(FCDdgEntities[PPentCnt].E_spmSettings[PPspmCnt].SPMS_token);
          if FCDdgEntities[PPentCnt].E_spmSettings[PPspmCnt].SPMS_isPolicy
          then
@@ -1164,13 +1130,8 @@ begin
                end;
             end; //==END== else if FCentities[PPentCnt].E_spm[PPspmCnt].SPMS_isSet ==//
          end //==END== if FCentities[PPentCnt].E_spm[PPspmCnt].SPMS_isPolicy ==//
-         {:DEV NOTES: use FCMgSPMM_Evolution_Process.}
-//         else if not FCDdgEntities[PPentCnt].E_spmSettings[PPspmCnt].SPMS_isPolicy
-//         then
-//         begin
-
-//         end; //==END== else if not FCentities[PPentCnt].E_spm[PPspmCnt].SPMS_isPolicy ==//
-      ;
+         else if not FCDdgEntities[PPentCnt].E_spmSettings[PPspmCnt].SPMS_isPolicy
+         then FCMgSPMM_Evolution_Process( PPentCnt, PPspmCnt );
          inc(PPspmCnt);
       end; //==END== while PPspmCnt<=PPspmMax do ==//
       inc(PPentCnt);

@@ -70,13 +70,15 @@
    
    Memes:
    duration="0" isSet="false" aprob="-2" belieflev="" spreadval=""/>
-   Belief Level   Max SV   Min SV
-   Unknown        0 %      0%
-   Fleeting       20%      1%
-   Uncommon       40%      21%
-   Common         60%      41%
-   Strong         80%      61%
-   Known by All   100%     81%
+   Belief Level   Max SV
+   Unknown        0 %   
+   Fleeting       20%   
+   Uncommon       40%   
+   Common         60%   
+   Strong         80%   
+   Known by All   100%  
+   
+   Min SV=1 if > Unknown
    
    Viability Threshold  Difficulty           Associated Colonization Ideology
             70 %        Childishly Simple    Permissive

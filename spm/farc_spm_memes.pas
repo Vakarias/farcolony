@@ -33,9 +33,6 @@ interface
 uses
    farc_data_game;
 
-type
-   FCVspmmRange= array[0..2] of integer;
-
 ///<summary>
 ///   returns the BL modifier regarding the given belief level
 ///</summary>
@@ -59,10 +56,10 @@ function FCFgSPMM_Req_DoTest(
    ): boolean;
 
 ///<summary>
-///   get min and max SV values regarding the given belief level
+///   get max SV values regarding the given belief level
 ///</summary>
 ///   <param name="SVRGbl">belief level</param>
-function FCFgSPMM_SVRange_Get(const SVRGbl: TFCEdgBeliefLevels): FCVspmmRange;
+function FCFspmM_BeliefLevel_GetMaxSV(const SVRGbl: TFCEdgBeliefLevels): integer;
 
 //===========================END FUNCTIONS SECTION==========================================
 
@@ -296,39 +293,22 @@ begin
    Result:=RDTreqPassed;
 end;
 
-function FCFgSPMM_SVRange_Get(const SVRGbl: TFCEdgBeliefLevels): FCVspmmRange;
-{:Purpose: get min and max SV values regarding the given belief level.
+function FCFspmM_BeliefLevel_GetMaxSV(const SVRGbl: TFCEdgBeliefLevels): integer;
+{:Purpose: get max SV values regarding the given belief level.
     Additions:
 }
 begin
-   Result[1]:=Result[0];
-   Result[2]:=Result[0];
+   Result:=0;
    case SVRGbl of
-      blFleeting:
-      begin
-         Result[1]:=1;
-         Result[2]:=20;
-      end;
-      blUncommon:
-      begin
-         Result[1]:=21;
-         Result[2]:=40;
-      end;
-      blCommon:
-      begin
-         Result[1]:=41;
-         Result[2]:=60;
-      end;
-      blStrong:
-      begin
-         Result[1]:=61;
-         Result[2]:=80;
-      end;
-      blKnownByAll:
-      begin
-         Result[1]:=81;
-         Result[2]:=100;
-      end;
+      blFleeting: Result:=20;
+
+      blUncommon: Result:=40;
+
+      blCommon: Result:=60;
+
+      blStrong: Result:=80;
+
+      blKnownByAll: Result:=100;
    end;
 end;
 //===========================END FUNCTIONS SECTION==========================================
@@ -336,11 +316,15 @@ end;
 procedure FCMgSPMM_Evolution_Process( const Entity, Meme: integer);
 {:Purpose: process the evolution of a particular meme.
     Additions:
+      -2012dec18- *add: end of complete rewriting of the code, based on the part taken in the SPM core unit.
+                  *fix: kill of the show stopper bug.
       -2012dec18- *add: start of complete rewriting of the code, based on the part taken in the SPM core unit.
 }
    var
       FinalBLProgression
+      ,MaxSV
       ,Modifier
+      ,Modifier1
       ,NewSpreadValue
       ,TotalInfluence
       ,TotalOfColonies: integer;
@@ -348,9 +332,8 @@ procedure FCMgSPMM_Evolution_Process( const Entity, Meme: integer);
       BLmod
       ,Calculation: extended;
 
-      isRequirementsPassed: boolean;
-
-      Range: FCVspmmRange;
+      isBeliefLevelDecreased
+      ,isRequirementsPassed: boolean;
 
       MemeData: TFCRdgSPMi;
 
@@ -358,114 +341,95 @@ procedure FCMgSPMM_Evolution_Process( const Entity, Meme: integer);
       BaseBLModifier=50;
 begin
    FinalBLProgression:=0;
+   MaxSV:=0;
    Modifier:=0;
+   Modifier1:=0;
    NewSpreadValue:=0;
    TotalInfluence:=0;
    TotalOfColonies:=0;
    BLmod:=0;
    Calculation:=0;
+   isBeliefLevelDecreased:=false;
    isRequirementsPassed:=false;
-   Range[1]:=Range[0];
-   Range[2]:=Range[0];
-   Range:=FCFgSPMM_SVRange_Get( FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfBeliefLevel );
    {.meme requirements}
    isRequirementsPassed:=FCFgSPMM_Req_DoTest( Entity, FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_token );
    if ( not isRequirementsPassed )
       and ( FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfBeliefLevel>blUnknown ) then
    begin
       dec( FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfBeliefLevel );
-//               PPpostSVoverride:=true;
+      isBeliefLevelDecreased:=true;
    end
    else if isRequirementsPassed then
    begin
       {.BL progression}
-//      if not PPreResult
-//      then PPpostSVoverride:=true;
-//      PPbBLP:=50;
-//      PPbREQ:=FCFgSPMM_Margin_Get;
       MemeData:=FCFgSPM_SPMIData_Get( FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_token );
       TotalInfluence:=FCFgSPM_SPMiInfluence_Get( MemeData, Entity );
       Modifier:=round( FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfSpreadValue*0.2 );
       FinalBLProgression:=BaseBLModifier +FCVspmmRequirementsMarginMod +TotalInfluence+Modifier;
-      PPrand:=FCFcFunc_Rand_Int(99)+1;
-      PPt2:=PPfBLP*2/3;
-      PPt4:=PPfBLP*4/3;
-      if PPrand<PPt2
-      then inc(FCDdgEntities[PPentCnt].E_spmSettings[PPspmCnt].SPMS_iPtBeliefLevel)
-      else if (PPrand>PPt4)
-         and (FCDdgEntities[PPentCnt].E_spmSettings[PPspmCnt].SPMS_iPtBeliefLevel>blUnknown)
+      Modifier1:=FCFcF_Random_DoInteger(99)+1;
+      if ( Modifier1<FinalBLProgression*0.8 )
+         and ( FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfBeliefLevel<blKnownByAll )then
+      begin
+         inc( FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfBeliefLevel );
+         if FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfBeliefLevel=blFleeting
+         then NewSpreadValue:=1;
+      end
+      else if ( Modifier1>FinalBLProgression*1.2 )
+         and ( FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfBeliefLevel>blUnknown )
       then
       begin
-         dec(FCDdgEntities[PPentCnt].E_spmSettings[PPspmCnt].SPMS_iPtBeliefLevel);
-         PPblRed:=true;
+         dec(FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfBeliefLevel);
+         isBeliefLevelDecreased:=true;
       end;
    end;
-
-
-
-   {.spread value evolution}
-   if ( FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfBeliefLevel=blUnknown )
-      and ( FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfSpreadValue>0 )
-   then FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfSpreadValue:=0
-   else if FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfBeliefLevel>blUnknown then
+   if not isBeliefLevelDecreased then
    begin
-      if FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfSpreadValue<Range[2] then
+      {.spread value evolution}
+      if ( FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfBeliefLevel=blUnknown )
+         and ( FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfSpreadValue>0 )
+      then NewSpreadValue:=0
+      else if FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfBeliefLevel>blUnknown then
       begin
-         TotalOfColonies:=length( FCDdgEntities[Entity].E_colonies )-1;
-         BLmod:=FCFgSPMM_BLMod_Get( FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfBeliefLevel );
-         Calculation:=( ( ( Range[2]-FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfSpreadValue )-sqrt( TotalOfColonies ) )*BLmod )*0.1;
-         if Calculation<=0
-         then NewSpreadValue:=FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfSpreadValue
-         else if Calculation>0
-         then
+         MaxSV:=FCFspmM_BeliefLevel_GetMaxSV( FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfBeliefLevel );
+         if FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfSpreadValue<MaxSV then
          begin
-            Modifier:=FCFcF_Random_DoInteger(9)+1;
-            NewSpreadValue:=FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfSpreadValue+round( Calculation*Modifier );
+            TotalOfColonies:=length( FCDdgEntities[Entity].E_colonies )-1;
+            BLmod:=FCFgSPMM_BLMod_Get( FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfBeliefLevel );
+            Calculation:=( ( ( MaxSV-FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfSpreadValue )-sqrt( TotalOfColonies ) )*BLmod )*0.1;
+            if Calculation<=0
+            then NewSpreadValue:=FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfSpreadValue
+            else if Calculation>0
+            then
+            begin
+               Modifier:=FCFcF_Random_DoInteger(9)+1;
+               NewSpreadValue:=FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfSpreadValue+round( Calculation*Modifier );
+            end;
+            if NewSpreadValue>MaxSV
+            then NewSpreadValue:=MaxSV;
+         end
+         else if FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfSpreadValue>MaxSV
+         then NewSpreadValue:=FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfSpreadValue-round( FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfSpreadValue*0.1 );
+         if NewSpreadValue<0
+         then NewSpreadValue:=1;
+
+      end;
+   end
+   else begin
+      if FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfBeliefLevel=blUnknown
+      then NewSpreadValue:=0
+      else begin
+         MaxSV:=FCFspmM_BeliefLevel_GetMaxSV( FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfBeliefLevel );
+         if FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfSpreadValue>MaxSV then
+         begin
+            NewSpreadValue:=FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfSpreadValue-round( FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfSpreadValue*0.1 );
+            if NewSpreadValue<0
+            then NewSpreadValue:=1;
          end;
-         if NewSpreadValue>Range[2]
-         then NewSpreadValue:=Range[2];
-      end
-      else if FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfSpreadValue>Range[2]
-      then NewSpreadValue:=FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfSpreadValue-round( FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfSpreadValue*0.1 );
-      if NewSpreadValue<Range[1]
-      then NewSpreadValue:=Range[1];
+      end;
    end;
-
-
-//            PPcSV:=FCDdgEntities[PPentCnt].E_spmSettings[PPspmCnt].SPMS_iPtSpreadValue;
-//            PPsvRng:=FCFgSPMM_SVRange_Get(FCDdgEntities[PPentCnt].E_spmSettings[PPspmCnt].SPMS_iPtBeliefLevel);
-//            PPmiSV:=PPsvRng[1];
-//            PPmaSV:=PPsvRng[2];
-//            {.meme requirements}
-//======================================================================================
-
-//            {.SV evolution after BL calculations}
-//             if PPpostSVoverride
-//            then
-//            begin
-//               if PPnSV=0
-//               then PPnSV:=PPcSV-round(PPcSV*0.1)
-//               else if PPnSV<>0
-//               then PPnSV:=PPnSV-round(PPcSV*0.1);
-//            end
-//            else if not PPpostSVoverride
-//            then
-//            begin
-//               if (FCDdgEntities[PPentCnt].E_spmSettings[PPspmCnt].SPMS_iPtBeliefLevel=blUnknown)
-//                  and (PPcSV>0)
-//                  and (PPnSV=0)
-//               then PPnSV:=PPcSV-round(PPcSV*0.1)
-//               else if (FCDdgEntities[PPentCnt].E_spmSettings[PPspmCnt].SPMS_iPtBeliefLevel=blUnknown)
-//                  and (PPcSV>0)
-//                  and (PPnSV<>0)
-//               then PPnSV:=PPnSV-round(PPcSV*0.1)
-//               else if (PPcSV=0)
-//                  and (FCDdgEntities[PPentCnt].E_spmSettings[PPspmCnt].SPMS_iPtBeliefLevel>blUnknown)
-//                  and (PPnSV=0)
-//               then PPnSV:=1;
-//            end;
-//            {.readjust custom effects modifiers and meme's modifiers}
-//            FCMgSPMM_ModifCustFx_Upd(PPentCnt, PPspmCnt, PPnSV);
+   {.readjust custom effects modifiers and meme's modifiers}
+   FCMgSPMM_ModifCustFx_Upd(Entity, Meme, NewSpreadValue);
+   FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfSpreadValue:=NewSpreadValue;
 end;
 
 procedure FCMgSPMM_ModifCustFx_Upd(
@@ -474,6 +438,8 @@ procedure FCMgSPMM_ModifCustFx_Upd(
          ,MCFUnewSV: integer
    );
 {:Purpose: update the meme modifiers and custom effects with the updated BL and new SV value.
+   Additions:
+      -2012Dec26- *rem: removing of useless code.
 }
 var
    MCFUcnt
@@ -512,78 +478,46 @@ var
 begin
    MCFUoldSV:=FCDdgEntities[MCFUent].E_spmSettings[MCFUmeme].SPMS_iPfSpreadValue;
    MCFUspmi:=FCFgSPM_SPMIData_Get(FCDdgEntities[MCFUent].E_spmSettings[MCFUmeme].SPMS_token);
-   if MCFUoldSV=0
-   then
-   begin
-      MCFUoldSVmod:=0;
-      MCFUoldBur:=0;
-      MCFUoldCoh:=0;
-      MCFUoldCorr:=0;
-      MCFUoldEdu:=0;
-      MCFUoldHealth:=0;
-      MCFUoldNat:=0;
-      MCFUoldSec:=0;
-      MCFUoldTens:=0;
-   end
-   else if MCFUoldSV>0
-   then
-   begin
-      MCFUoldSVmod:=MCFUoldSV*0.01;
-      MCFUoldBur:=round(MCFUspmi.SPMI_modbur*MCFUoldSVmod);
-      MCFUoldCoh:=round(MCFUspmi.SPMI_modCohes*MCFUoldSVmod);
-      MCFUoldCorr:=round(MCFUspmi.SPMI_modCorr*MCFUoldSVmod);
-      MCFUoldEdu:=round(MCFUspmi.SPMI_modEdu*MCFUoldSVmod);
-      MCFUoldHealth:=round(MCFUspmi.SPMI_modHeal*MCFUoldSVmod);
-      MCFUoldNat:=round(MCFUspmi.SPMI_modNat*MCFUoldSVmod);
-      MCFUoldSec:=round(MCFUspmi.SPMI_modSec*MCFUoldSVmod);
-      MCFUoldTens:=round(MCFUspmi.SPMI_modTens*MCFUoldSVmod);
-      FCDdgEntities[MCFUent].E_spmMod_Cohesion:=FCDdgEntities[MCFUent].E_spmMod_Cohesion-MCFUoldCoh;
-      FCDdgEntities[MCFUent].E_spmMod_Tension:=FCDdgEntities[MCFUent].E_spmMod_Tension-MCFUoldTens;
-      FCDdgEntities[MCFUent].E_spmMod_Security:=FCDdgEntities[MCFUent].E_spmMod_Security-MCFUoldSec;
-      FCDdgEntities[MCFUent].E_spmMod_Education:=FCDdgEntities[MCFUent].E_spmMod_Education-MCFUoldEdu;
-      FCDdgEntities[MCFUent].E_spmMod_Natality:=FCDdgEntities[MCFUent].E_spmMod_Natality-MCFUoldNat;
-      FCDdgEntities[MCFUent].E_spmMod_Health:=FCDdgEntities[MCFUent].E_spmMod_Health-MCFUoldHealth;
-      FCDdgEntities[MCFUent].E_spmMod_Bureaucracy:=FCDdgEntities[MCFUent].E_spmMod_Bureaucracy-MCFUoldBur;
-      FCDdgEntities[MCFUent].E_bureaucracy:=FCDdgEntities[MCFUent].E_bureaucracy-MCFUoldBur;
-      FCDdgEntities[MCFUent].E_spmMod_Corruption:=FCDdgEntities[MCFUent].E_spmMod_Corruption-MCFUoldCorr;
-      FCDdgEntities[MCFUent].E_corruption:=FCDdgEntities[MCFUent].E_corruption-MCFUoldCorr;
-   end;
-   if MCFUnewSV=0
-   then
-   begin
-      MCFUnewSVmod:=0;
-      MCFUnewBur:=0;
-      MCFUnewCoh:=0;
-      MCFUnewCorr:=0;
-      MCFUnewEdu:=0;
-      MCFUnewHealth:=0;
-      MCFUnewNat:=0;
-      MCFUnewSec:=0;
-      MCFUnewTens:=0;
-   end
-   else if MCFUnewSV>0
-   then
-   begin
-      MCFUnewSVmod:=MCFUnewSV*0.01;
-      MCFUnewBur:=round(MCFUspmi.SPMI_modbur*MCFUnewSVmod);
-      MCFUnewCoh:=round(MCFUspmi.SPMI_modCohes*MCFUnewSVmod);
-      MCFUnewCorr:=round(MCFUspmi.SPMI_modCorr*MCFUnewSVmod);
-      MCFUnewEdu:=round(MCFUspmi.SPMI_modEdu*MCFUnewSVmod);
-      MCFUnewHealth:=round(MCFUspmi.SPMI_modHeal*MCFUnewSVmod);
-      MCFUnewNat:=round(MCFUspmi.SPMI_modNat*MCFUnewSVmod);
-      MCFUnewSec:=round(MCFUspmi.SPMI_modSec*MCFUnewSVmod);
-      MCFUnewTens:=round(MCFUspmi.SPMI_modTens*MCFUnewSVmod);
-      FCDdgEntities[MCFUent].E_spmMod_Cohesion:=FCDdgEntities[MCFUent].E_spmMod_Cohesion+MCFUnewCoh;
-      FCDdgEntities[MCFUent].E_spmMod_Tension:=FCDdgEntities[MCFUent].E_spmMod_Tension+MCFUnewTens;
-      FCDdgEntities[MCFUent].E_spmMod_Security:=FCDdgEntities[MCFUent].E_spmMod_Security+MCFUnewSec;
-      FCDdgEntities[MCFUent].E_spmMod_Education:=FCDdgEntities[MCFUent].E_spmMod_Education+MCFUnewEdu;
-      FCDdgEntities[MCFUent].E_spmMod_Natality:=FCDdgEntities[MCFUent].E_spmMod_Natality+MCFUnewNat;
-      FCDdgEntities[MCFUent].E_spmMod_Health:=FCDdgEntities[MCFUent].E_spmMod_Health+MCFUnewHealth;
-      FCDdgEntities[MCFUent].E_spmMod_Bureaucracy:=FCDdgEntities[MCFUent].E_spmMod_Bureaucracy+MCFUnewBur;
-      FCDdgEntities[MCFUent].E_bureaucracy:=FCDdgEntities[MCFUent].E_bureaucracy+MCFUnewBur;
-      FCDdgEntities[MCFUent].E_spmMod_Corruption:=FCDdgEntities[MCFUent].E_spmMod_Corruption+MCFUnewCorr;
-      FCDdgEntities[MCFUent].E_corruption:=FCDdgEntities[MCFUent].E_corruption+MCFUnewCorr;
-   end;
+   {.the old modifiers are reverted}
+   MCFUoldSVmod:=MCFUoldSV*0.01;
+   MCFUoldBur:=round(MCFUspmi.SPMI_modbur*MCFUoldSVmod);
+   MCFUoldCoh:=round(MCFUspmi.SPMI_modCohes*MCFUoldSVmod);
+   MCFUoldCorr:=round(MCFUspmi.SPMI_modCorr*MCFUoldSVmod);
+   MCFUoldEdu:=round(MCFUspmi.SPMI_modEdu*MCFUoldSVmod);
+   MCFUoldHealth:=round(MCFUspmi.SPMI_modHeal*MCFUoldSVmod);
+   MCFUoldNat:=round(MCFUspmi.SPMI_modNat*MCFUoldSVmod);
+   MCFUoldSec:=round(MCFUspmi.SPMI_modSec*MCFUoldSVmod);
+   MCFUoldTens:=round(MCFUspmi.SPMI_modTens*MCFUoldSVmod);
+   FCDdgEntities[MCFUent].E_spmMod_Cohesion:=FCDdgEntities[MCFUent].E_spmMod_Cohesion-MCFUoldCoh;
+   FCDdgEntities[MCFUent].E_spmMod_Tension:=FCDdgEntities[MCFUent].E_spmMod_Tension-MCFUoldTens;
+   FCDdgEntities[MCFUent].E_spmMod_Security:=FCDdgEntities[MCFUent].E_spmMod_Security-MCFUoldSec;
+   FCDdgEntities[MCFUent].E_spmMod_Education:=FCDdgEntities[MCFUent].E_spmMod_Education-MCFUoldEdu;
+   FCDdgEntities[MCFUent].E_spmMod_Natality:=FCDdgEntities[MCFUent].E_spmMod_Natality-MCFUoldNat;
+   FCDdgEntities[MCFUent].E_spmMod_Health:=FCDdgEntities[MCFUent].E_spmMod_Health-MCFUoldHealth;
+   FCDdgEntities[MCFUent].E_spmMod_Bureaucracy:=FCDdgEntities[MCFUent].E_spmMod_Bureaucracy-MCFUoldBur;
+   FCDdgEntities[MCFUent].E_bureaucracy:=FCDdgEntities[MCFUent].E_bureaucracy-MCFUoldBur;
+   FCDdgEntities[MCFUent].E_spmMod_Corruption:=FCDdgEntities[MCFUent].E_spmMod_Corruption-MCFUoldCorr;
+   FCDdgEntities[MCFUent].E_corruption:=FCDdgEntities[MCFUent].E_corruption-MCFUoldCorr;
+   {.the new modifiers are applied}
+   MCFUnewSVmod:=MCFUnewSV*0.01;
+   MCFUnewBur:=round(MCFUspmi.SPMI_modbur*MCFUnewSVmod);
+   MCFUnewCoh:=round(MCFUspmi.SPMI_modCohes*MCFUnewSVmod);
+   MCFUnewCorr:=round(MCFUspmi.SPMI_modCorr*MCFUnewSVmod);
+   MCFUnewEdu:=round(MCFUspmi.SPMI_modEdu*MCFUnewSVmod);
+   MCFUnewHealth:=round(MCFUspmi.SPMI_modHeal*MCFUnewSVmod);
+   MCFUnewNat:=round(MCFUspmi.SPMI_modNat*MCFUnewSVmod);
+   MCFUnewSec:=round(MCFUspmi.SPMI_modSec*MCFUnewSVmod);
+   MCFUnewTens:=round(MCFUspmi.SPMI_modTens*MCFUnewSVmod);
+   FCDdgEntities[MCFUent].E_spmMod_Cohesion:=FCDdgEntities[MCFUent].E_spmMod_Cohesion+MCFUnewCoh;
+   FCDdgEntities[MCFUent].E_spmMod_Tension:=FCDdgEntities[MCFUent].E_spmMod_Tension+MCFUnewTens;
+   FCDdgEntities[MCFUent].E_spmMod_Security:=FCDdgEntities[MCFUent].E_spmMod_Security+MCFUnewSec;
+   FCDdgEntities[MCFUent].E_spmMod_Education:=FCDdgEntities[MCFUent].E_spmMod_Education+MCFUnewEdu;
+   FCDdgEntities[MCFUent].E_spmMod_Natality:=FCDdgEntities[MCFUent].E_spmMod_Natality+MCFUnewNat;
+   FCDdgEntities[MCFUent].E_spmMod_Health:=FCDdgEntities[MCFUent].E_spmMod_Health+MCFUnewHealth;
+   FCDdgEntities[MCFUent].E_spmMod_Bureaucracy:=FCDdgEntities[MCFUent].E_spmMod_Bureaucracy+MCFUnewBur;
+   FCDdgEntities[MCFUent].E_bureaucracy:=FCDdgEntities[MCFUent].E_bureaucracy+MCFUnewBur;
+   FCDdgEntities[MCFUent].E_spmMod_Corruption:=FCDdgEntities[MCFUent].E_spmMod_Corruption+MCFUnewCorr;
+   FCDdgEntities[MCFUent].E_corruption:=FCDdgEntities[MCFUent].E_corruption+MCFUnewCorr;
    MCFUfinalBur:=MCFUnewBur-MCFUoldBur;
    MCFUfinalCoh:=MCFUnewCoh-MCFUoldCoh;
    MCFUfinalCorr:=MCFUnewCorr-MCFUoldCorr;
@@ -665,9 +599,6 @@ begin
          inc(MCFUcnt);
       end; //==END== while MCFUcnt<=PECmax do ==//
    end; //==END== if MCFUmax>0 ==// }
-   {.custom effects adjustements}
-   {:extreme END}
-   FCDdgEntities[MCFUent].E_spmSettings[MCFUmeme].SPMS_iPfSpreadValue:=MCFUnewSV;
 end;
 
 end.
