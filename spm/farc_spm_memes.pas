@@ -316,6 +316,8 @@ end;
 procedure FCMgSPMM_Evolution_Process( const Entity, Meme: integer);
 {:Purpose: process the evolution of a particular meme.
     Additions:
+      -2012Dec26- *fix: small bug fix with the SV value.
+                  *mod: some adjustments.
       -2012dec18- *add: end of complete rewriting of the code, based on the part taken in the SPM core unit.
                   *fix: kill of the show stopper bug.
       -2012dec18- *add: start of complete rewriting of the code, based on the part taken in the SPM core unit.
@@ -402,16 +404,18 @@ begin
             then
             begin
                Modifier:=FCFcF_Random_DoInteger(9)+1;
-               NewSpreadValue:=FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfSpreadValue+round( Calculation*Modifier );
+               NewSpreadValue:=FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfSpreadValue+round( Calculation*( Modifier*0.1 ) );
+               if NewSpreadValue=0
+               then NewSpreadValue:=1;
             end;
             if NewSpreadValue>MaxSV
             then NewSpreadValue:=MaxSV;
          end
          else if FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfSpreadValue>MaxSV
-         then NewSpreadValue:=FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfSpreadValue-round( FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfSpreadValue*0.1 );
-         if NewSpreadValue<0
+         then NewSpreadValue:=FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfSpreadValue-round( FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfSpreadValue*0.25 )
+         else NewSpreadValue:=MaxSV;
+         if NewSpreadValue<=0
          then NewSpreadValue:=1;
-
       end;
    end
    else begin
@@ -421,10 +425,11 @@ begin
          MaxSV:=FCFspmM_BeliefLevel_GetMaxSV( FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfBeliefLevel );
          if FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfSpreadValue>MaxSV then
          begin
-            NewSpreadValue:=FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfSpreadValue-round( FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfSpreadValue*0.1 );
-            if NewSpreadValue<0
+            NewSpreadValue:=FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfSpreadValue-round( FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfSpreadValue*0.25 );
+            if NewSpreadValue<=0
             then NewSpreadValue:=1;
-         end;
+         end
+         else NewSpreadValue:=FCDdgEntities[Entity].E_spmSettings[Meme].SPMS_iPfSpreadValue;
       end;
    end;
    {.readjust custom effects modifiers and meme's modifiers}
