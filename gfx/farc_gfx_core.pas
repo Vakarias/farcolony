@@ -94,7 +94,7 @@ begin
       end;
       inc(SOMEcnt);
    end;
-   RegionSelected:=FCFuiSP_VarRegionSelected_Get;
+   RegionSelected:=FCFuiSP_VarRegionHovered_Get;
    if (RegionSelected<>SOMEreg)
       and (FCWinMain.FCWM_SP_DataSheet.ActivePage=FCWinMain.FCWM_SP_ShReg)
    then FCMuiSP_RegionDataPicture_Update(SOMEreg, false)

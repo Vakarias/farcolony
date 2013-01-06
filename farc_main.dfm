@@ -3616,7 +3616,7 @@ object FCWinMain: TFCWinMain
           Align = alCustom
           BorderWidth = 1
           BorderStyle = bsSingle
-          BorderColor = 217
+          BorderColor = clSilver
           Color = clNone
           GradientType = gtFullVertical
           Font.Charset = ANSI_CHARSET
@@ -3631,6 +3631,32 @@ object FCWinMain: TFCWinMain
           Transparent = True
           URLColor = 14068651
           OnClick = SD_SurfaceSelectorClick
+          Version = '1.8.1.0'
+        end
+        object SD_SurfaceSelected: THTMLabel
+          Left = 12
+          Top = 13
+          Width = 93
+          Height = 60
+          Align = alCustom
+          BorderWidth = 1
+          BorderStyle = bsSingle
+          BorderColor = 217
+          Color = clNone
+          GradientType = gtFullVertical
+          Font.Charset = ANSI_CHARSET
+          Font.Color = 49601
+          Font.Height = -12
+          Font.Name = 'FrancophilSans'
+          Font.Style = []
+          HoverColor = clBlack
+          HoverFontColor = clSkyBlue
+          ParentColor = False
+          ParentFont = False
+          Transparent = True
+          URLColor = 14068651
+          Visible = False
+          OnMouseEnter = SD_SurfaceSelectedMouseEnter
           Version = '1.8.1.0'
         end
       end

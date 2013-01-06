@@ -67,7 +67,10 @@ procedure FCMuiMS_ColonizationInterface_Setup;
 ///   update region selection and update mission configuration
 ///</summary>
 ///   <param name="CUregIdx"></param>
-procedure FCMuiMS_ColonizationInterface_UpdateRegionSelection(CUregIdx: integer);
+procedure FCMuiMS_ColonizationInterface_UpdateRegionSelection(
+   const CUregIdx: integer;
+   const MustSelect: boolean
+   );
 
 ///<summary>
 ///   load the FCVuimsCurrentColony with a given value
@@ -195,7 +198,7 @@ begin
    else begin
       FCWinMain.MVG_SurfacePanel.Visible:=true;
       fcwinmain.SP_SurfaceDisplay.Enabled:=true;
-      FCMuiSP_VarRegionSelected_Reset;
+      FCMuiSP_VarRegionHoveredSelected_Reset;
       FCWinMain.SD_SurfaceSelector.Width:=0;
       FCWinMain.SD_SurfaceSelector.Height:=0;
       FCWinMain.SD_SurfaceSelector.Left:=0;
@@ -314,9 +317,14 @@ begin
    FCWinMain.FCWMS_ButProceed.Enabled:=false;
 end;
 
-procedure FCMuiMS_ColonizationInterface_UpdateRegionSelection(CUregIdx: integer);
+procedure FCMuiMS_ColonizationInterface_UpdateRegionSelection(
+   const CUregIdx: integer;
+   const MustSelect: boolean
+   );
 {:Purpose: update region selection and update mission configuration.
     Additions:
+      -2013Jan06- *add: new parameter to indicate if the selected box must be displayed.
+                  *mod: optimize the parameters with const.
       -2012Oct30- *mod: update the routine with the last changes for the alpha 4.
                   *add: the case for not docked space units.
       -2010May03- *fix: fixed a critical bug.
@@ -331,6 +339,15 @@ var
 //
    CUarrTime: array of integer;
 begin
+   if not MustSelect
+   then FCWinMain.SD_SurfaceSelected.Visible:=false
+   else begin
+      FCWinMain.SD_SurfaceSelected.Left:=FCWinMain.SD_SurfaceSelector.Left;
+      FCWinMain.SD_SurfaceSelected.Top:=FCWinMain.SD_SurfaceSelector.Top;
+      FCWinMain.SD_SurfaceSelected.Width:=FCWinMain.SD_SurfaceSelector.Width;
+         FCWinMain.SD_SurfaceSelected.Height:=FCWinMain.SD_SurfaceSelector.Height;
+      FCWinMain.SD_SurfaceSelected.Visible:=true;
+   end;
    SetLength(CUarrTime, 1);
    CUregLoc:=FCFuF_RegionLoc_Extract(
       FCRmcCurrentMissionCalculations.CMC_originLocation[1]

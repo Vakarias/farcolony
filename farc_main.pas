@@ -324,6 +324,7 @@ type
     AP_MissionCancel: TAdvGlowButton;
     AP_MissionInterplanetaryTransit: TAdvGlowButton;
     AP_MissionColonization: TAdvGlowButton;
+    SD_SurfaceSelected: THTMLabel;
       procedure FormCreate(Sender: TObject);
       procedure FormResize(Sender: TObject);
       procedure FCWM_MMenu_G_QuitClick(Sender: TObject);
@@ -448,6 +449,7 @@ type
     procedure FormMouseWheel(Sender: TObject; Shift: TShiftState; WheelDelta: Integer;
       MousePos: TPoint; var Handled: Boolean);
     procedure FCWM_MainMenuChange(Sender: TObject; Source: TMenuItem; Rebuild: Boolean);
+    procedure SD_SurfaceSelectedMouseEnter(Sender: TObject);
    private
       { Private declarations }
          {timesteps needed for camera transitions}
@@ -1551,6 +1553,12 @@ begin
    SD_SurfaceSelector.Refresh;
 end;
 
+procedure TFCWinMain.SD_SurfaceSelectedMouseEnter(Sender: TObject);
+begin
+//   SD_SurfaceSelector.Refresh;
+//   FCMuiSP_RegionDataPicture_Update(FCFuiSP_VarRegionSelected_Get, false);
+end;
+
 procedure TFCWinMain.SD_SurfaceSelectorClick(Sender: TObject);
 var
    SPSSCcurrSettlement: integer;
@@ -1559,7 +1567,7 @@ begin
    if (FCWinMain.FCWM_MissionSettings.Visible)
       and (FCDmcCurrentMission[0].T_type=tMissionColonization) then
    begin
-      FCRmcCurrentMissionCalculations.CMC_regionOfDestination:=FCFuiSP_VarRegionSelected_Get;
+      FCRmcCurrentMissionCalculations.CMC_regionOfDestination:=FCFuiSP_VarRegionHovered_Get;
       if not FCWinMain.FCWMS_Grp_MCGColName.Visible
       then
       begin
@@ -1587,7 +1595,7 @@ begin
          FCWinMain.FCWMS_Grp_MCG_SetType.Show;
          FCWinMain.FCWMS_Grp_MCG_SetName.Show;
       end;
-      FCMuiMS_ColonizationInterface_UpdateRegionSelection(FCRmcCurrentMissionCalculations.CMC_regionOfDestination);
+      FCMuiMS_ColonizationInterface_UpdateRegionSelection(FCRmcCurrentMissionCalculations.CMC_regionOfDestination, true);
    end;
 end;
 

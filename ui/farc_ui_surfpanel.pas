@@ -48,7 +48,7 @@ function FCFuiSP_VarCurrentSat_Get: integer;
 ///<summary>
 ///   retrieve the SPregionSelected variable value
 ///</summary>
-function FCFuiSP_VarRegionSelected_Get: integer;
+function FCFuiSP_VarRegionHovered_Get: integer;
 
 //===========================END FUNCTIONS SECTION==========================================
 
@@ -81,9 +81,14 @@ procedure FCMuiSP_SurfaceEcosphere_Set(
    );
 
 ///<summary>
-///   reset the SPregionSelected to zero
+///   update the selected region with the hovered region
 ///</summary>
-procedure FCMuiSP_VarRegionSelected_Reset;
+procedure FCMuiSP_VarRegionSelected_Update;
+
+///<summary>
+///   reset the SPregionHovered/Selected to zero
+///</summary>
+procedure FCMuiSP_VarRegionHoveredSelected_Reset;
 
 implementation
 
@@ -101,6 +106,7 @@ uses
 var
    SPcurrentOObjIndex
    ,SPcurrentSatIndex
+   ,SPregionHovered
    ,SPregionSelected: integer;
 
 //===================================================END OF INIT============================
@@ -465,12 +471,12 @@ begin
    Result:=SPcurrentSatIndex;
 end;
 
-function FCFuiSP_VarRegionSelected_Get: integer;
+function FCFuiSP_VarRegionHovered_Get: integer;
 {:Purpose: retrieve the SPregionSelected variable value.
     Additions:
 }
 begin
-   Result:=SPregionSelected;
+   Result:=SPregionHovered;
 end;
 
 //===========================END FUNCTIONS SECTION==========================================
@@ -503,8 +509,9 @@ procedure FCMuiSP_RegionDataPicture_Update(
 {:Purpose: update the region data and picture .
 Tags set: oobjIdx=FCWM_SP_LDat, satIdx=FCWM_SP_RDat
     Additions:
+      -2013Jan06- *add: initialization of SurfaceSelected.
       -2012Jan06- *code: procedure moved in its proper unit.
-      -2010Mar20- *add climate, current average temperature, temperature and windspeed indexes.
+      -2010Mar20- *add: climate, current average temperature, temperature and windspeed indexes.
                   *add: a switch for only update the region picture.
                   *mod: uses FCWM_SPShReg_Lab for region data display.
                   *mod: store current selected region in FCWM_SP_Surface.Tag.
@@ -531,7 +538,7 @@ begin
    with FCWinMain do
    begin
       SERUseason:=FCFuF_Ecosph_GetCurSeas(SPcurrentOObjIndex, SPcurrentSatIndex);
-      SPregionSelected:=SERUregIdx;
+      SPregionHovered:=SERUregIdx;
       {.initialize required data}
       if SPcurrentSatIndex=0
       then
@@ -864,11 +871,15 @@ begin
          end;
       end; //==END== case SERUdmpTerrTp ==//
       FCWM_SP_SPic.Bitmap:=FCWM_RegTerrLib.Bitmap[SERUtPic];
-      {.set the selection frame}
       SD_SurfaceSelector.Left:=SP_SurfaceDisplay.HotSpots[SERUregIdx-1].X;
       SD_SurfaceSelector.Top:=SP_SurfaceDisplay.HotSpots[SERUregIdx-1].Y;
       SD_SurfaceSelector.Width:=SP_SurfaceDisplay.HotSpots[SERUregIdx-1].Width;
       SD_SurfaceSelector.Height:=SP_SurfaceDisplay.HotSpots[SERUregIdx-1].Height;
+      if not SD_SurfaceSelected.Visible then
+      begin
+         SD_SurfaceSelected.Width:=SD_SurfaceSelector.Width;
+         SD_SurfaceSelected.Height:=SD_SurfaceSelector.Height;
+      end;
       if not SERUonlyPic
       then
       begin
@@ -941,6 +952,7 @@ procedure FCMuiSP_SurfaceEcosphere_Set(
 {:Purpose: set and display the Surface / Ecosphere Panel.
 tags set: FCWM_SurfPanel=FCWM_SurfPanel.Width FCWM_SP_DataSheet:=FCWM_SP_DataSheet.Left
     Additions:
+      -2013Jan06- *add: initialization of SD_SurfaceSelected.
       -2012Jan08- *code: procedure moved in its proper unit.
                   *mod: since the Ecosphere tab doesn't exist, it the region tab that is focused.
                   *add: initialize correctly the region data sheet by load it with data of the first region.
@@ -996,12 +1008,17 @@ begin
          FCWM_SP_SPic.Bitmap.Clear;
          SPcurrentOObjIndex:=SESoobjIdx;
          SPcurrentSatIndex:=0;
-         SPregionSelected:=0;
+         SPregionHovered:=0;
          FCWM_SP_DataSheet.ActivePage:=FCWM_SP_ShReg;
          SD_SurfaceSelector.Width:=0;
          SD_SurfaceSelector.Height:=0;
          SD_SurfaceSelector.Left:=0;
          SD_SurfaceSelector.Top:=0;
+         SD_SurfaceSelected.Width:=SD_SurfaceSelector.Width;
+         SD_SurfaceSelected.Height:=SD_SurfaceSelector.Height;
+         SD_SurfaceSelected.Left:=SD_SurfaceSelector.Left;
+         SD_SurfaceSelected.Top:=SD_SurfaceSelector.Top;
+         SD_SurfaceSelected.Hide;
          if SESsatIdx=0
          then
          begin
@@ -1139,7 +1156,7 @@ begin
                SP_SurfaceDisplay.Visible:=true;
                MVG_SurfacePanel.Width:=MVG_SurfacePanel.Tag;
                MVG_SurfacePanel.Tag:=0;
-               SPregionSelected:=0;
+               SPregionHovered:=0;
                FCWM_SP_DataSheet.Align:=alCustom;
                FCWM_SP_DataSheet.Left:=FCWM_SP_DataSheet.Tag;
                FCWM_SP_DataSheet.Tag:=0;
@@ -1557,7 +1574,7 @@ begin
          MVG_SurfacePanel.Caption.Text:='';
          SPcurrentOObjIndex:=0;
          SPcurrentSatIndex:=0;
-         SPregionSelected:=0;
+         SPregionHovered:=0;
          SP_SurfaceDisplay.Enabled:=false;
          SP_SurfaceDisplay.HotSpots.Clear;
          SEScnt:=1;
@@ -1604,11 +1621,20 @@ begin
    end; //==END== with FCWinMain ==//
 end;
 
-procedure FCMuiSP_VarRegionSelected_Reset;
-{:Purpose: reset the SPregionSelected to zero.
+procedure FCMuiSP_VarRegionSelected_Update;
+{:Purpose: update the selected region with the hovered region.
     Additions:
 }
 begin
+   SPregionSelected:=SPregionHovered;
+end;
+
+procedure FCMuiSP_VarRegionHoveredSelected_Reset;
+{:Purpose: reset the SPregionHovered/Selected to zero.
+    Additions:
+}
+begin
+   SPregionHovered:=0;
    SPregionSelected:=0;
 end;
 

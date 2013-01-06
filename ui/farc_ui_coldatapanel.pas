@@ -1731,7 +1731,7 @@ begin
       begin
          FCWinMain.MVG_SurfacePanel.Visible:=true;
          FCWinMain.SP_SurfaceDisplay.Enabled:=true;
-         FCMuiSP_VarRegionSelected_Reset;
+         FCMuiSP_VarRegionHoveredSelected_Reset;
          FCWinMain.SD_SurfaceSelector.Width:=0;
          FCWinMain.SD_SurfaceSelector.Height:=0;
          FCWinMain.SD_SurfaceSelector.Left:=0;
@@ -1753,7 +1753,7 @@ begin
       begin
          FCWinMain.MVG_SurfacePanel.Visible:=true;
          FCWinMain.SP_SurfaceDisplay.Enabled:=true;
-         FCMuiSP_VarRegionSelected_Reset;
+         FCMuiSP_VarRegionHoveredSelected_Reset;
          FCWinMain.SD_SurfaceSelector.Width:=0;
          FCWinMain.SD_SurfaceSelector.Height:=0;
          FCWinMain.SD_SurfaceSelector.Left:=0;
