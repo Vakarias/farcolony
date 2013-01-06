@@ -1563,11 +1563,12 @@ procedure TFCWinMain.SD_SurfaceSelectorClick(Sender: TObject);
 var
    SPSSCcurrSettlement: integer;
 begin
+   FCMuiSP_VarRegionSelected_Update;
    SPSSCcurrSettlement:=0;
    if (FCWinMain.FCWM_MissionSettings.Visible)
       and (FCDmcCurrentMission[0].T_type=tMissionColonization) then
    begin
-      FCRmcCurrentMissionCalculations.CMC_regionOfDestination:=FCFuiSP_VarRegionHovered_Get;
+      FCRmcCurrentMissionCalculations.CMC_regionOfDestination:=FCFuiSP_VarRegionSelected_Get;
       if not FCWinMain.FCWMS_Grp_MCGColName.Visible
       then
       begin

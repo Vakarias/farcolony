@@ -46,9 +46,14 @@ function FCFuiSP_VarCurrentOObj_Get: integer;
 function FCFuiSP_VarCurrentSat_Get: integer;
 
 ///<summary>
-///   retrieve the SPregionSelected variable value
+///   retrieve the SPregionHovered variable value
 ///</summary>
 function FCFuiSP_VarRegionHovered_Get: integer;
+
+///<summary>
+///   retrieve the SPregionSelected variable value
+///</summary>
+function FCFuiSP_VarRegionSelected_Get: integer;
 
 //===========================END FUNCTIONS SECTION==========================================
 
@@ -472,11 +477,19 @@ begin
 end;
 
 function FCFuiSP_VarRegionHovered_Get: integer;
-{:Purpose: retrieve the SPregionSelected variable value.
+{:Purpose: retrieve the SPregionHovered variable value.
     Additions:
 }
 begin
    Result:=SPregionHovered;
+end;
+
+function FCFuiSP_VarRegionSelected_Get: integer;
+{:Purpose: retrieve the SPregionSelected variable value.
+    Additions:
+}
+begin
+   Result:=SPregionSelected;
 end;
 
 //===========================END FUNCTIONS SECTION==========================================
@@ -1008,7 +1021,7 @@ begin
          FCWM_SP_SPic.Bitmap.Clear;
          SPcurrentOObjIndex:=SESoobjIdx;
          SPcurrentSatIndex:=0;
-         SPregionHovered:=0;
+         FCMuiSP_VarRegionHoveredSelected_Reset;
          FCWM_SP_DataSheet.ActivePage:=FCWM_SP_ShReg;
          SD_SurfaceSelector.Width:=0;
          SD_SurfaceSelector.Height:=0;
@@ -1156,7 +1169,7 @@ begin
                SP_SurfaceDisplay.Visible:=true;
                MVG_SurfacePanel.Width:=MVG_SurfacePanel.Tag;
                MVG_SurfacePanel.Tag:=0;
-               SPregionHovered:=0;
+               FCMuiSP_VarRegionHoveredSelected_Reset;
                FCWM_SP_DataSheet.Align:=alCustom;
                FCWM_SP_DataSheet.Left:=FCWM_SP_DataSheet.Tag;
                FCWM_SP_DataSheet.Tag:=0;
@@ -1574,7 +1587,7 @@ begin
          MVG_SurfacePanel.Caption.Text:='';
          SPcurrentOObjIndex:=0;
          SPcurrentSatIndex:=0;
-         SPregionHovered:=0;
+         FCMuiSP_VarRegionHoveredSelected_Reset;
          SP_SurfaceDisplay.Enabled:=false;
          SP_SurfaceDisplay.HotSpots.Clear;
          SEScnt:=1;
