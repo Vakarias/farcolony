@@ -1729,13 +1729,13 @@ begin
          )
       else
       begin
-         FCWinMain.FCWM_SurfPanel.Visible:=true;
-         FCWinMain.FCWM_SP_Surface.Enabled:=true;
+         FCWinMain.MVG_SurfacePanel.Visible:=true;
+         FCWinMain.SP_SurfaceDisplay.Enabled:=true;
          FCMuiSP_VarRegionSelected_Reset;
-         FCWinMain.FCWM_SP_SurfSel.Width:=0;
-         FCWinMain.FCWM_SP_SurfSel.Height:=0;
-         FCWinMain.FCWM_SP_SurfSel.Left:=0;
-         FCWinMain.FCWM_SP_SurfSel.Top:=0;
+         FCWinMain.SD_SurfaceSelector.Width:=0;
+         FCWinMain.SD_SurfaceSelector.Height:=0;
+         FCWinMain.SD_SurfaceSelector.Left:=0;
+         FCWinMain.SD_SurfaceSelector.Top:=0;
       end;
       CFDcol:=FCDduStarSystem[CFDssys].SS_stars[CFDstar].S_orbitalObjects[CFDoobj].OO_colonies[0];
    end
@@ -1751,13 +1751,13 @@ begin
          )
       else
       begin
-         FCWinMain.FCWM_SurfPanel.Visible:=true;
-         FCWinMain.FCWM_SP_Surface.Enabled:=true;
+         FCWinMain.MVG_SurfacePanel.Visible:=true;
+         FCWinMain.SP_SurfaceDisplay.Enabled:=true;
          FCMuiSP_VarRegionSelected_Reset;
-         FCWinMain.FCWM_SP_SurfSel.Width:=0;
-         FCWinMain.FCWM_SP_SurfSel.Height:=0;
-         FCWinMain.FCWM_SP_SurfSel.Left:=0;
-         FCWinMain.FCWM_SP_SurfSel.Top:=0;
+         FCWinMain.SD_SurfaceSelector.Width:=0;
+         FCWinMain.SD_SurfaceSelector.Height:=0;
+         FCWinMain.SD_SurfaceSelector.Left:=0;
+         FCWinMain.SD_SurfaceSelector.Top:=0;
       end;
       CFDcol:=FCDduStarSystem[CFDssys].SS_stars[CFDstar].S_orbitalObjects[CFDoobj].OO_satellitesList[CFDsat].OO_colonies[0];
    end;
@@ -1777,7 +1777,7 @@ begin
    if FCWinMain.FCWM_ColDPanel.Collaps
    then FCWinMain.FCWM_ColDPanel.Collaps:=false;
    FCWinMain.FCWM_ColDPanel.BringToFront;
-   FCWinMain.FCWM_SurfPanel.Visible:=true;
+   FCWinMain.MVG_SurfacePanel.Visible:=true;
 end;
 
 procedure FCMuiCDP_FunctionCateg_Initialize;

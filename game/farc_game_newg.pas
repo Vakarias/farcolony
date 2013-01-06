@@ -581,7 +581,7 @@ FCWinNewGSetup.Close;
    {.set the game user's interface}
    FCWinMain.FCGLSRootMain.Tag:=1;
    try
-      FCWinMain.FCWM_3dMainGrp.Show;
+      FCWinMain.WM_MainViewGroup.Show;
       FCMoglInit_Initialize;
    finally
       FC3doglSelectedPlanetAsteroid:=CPoobj;

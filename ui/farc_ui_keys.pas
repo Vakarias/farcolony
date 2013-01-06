@@ -934,7 +934,7 @@ begin
          FCMuiUMI_CurrentTab_Update( true, true );
       end;
       {.=====================================}
-      if (FCWinMain.FCWM_3dMainGrp.Visible)
+      if (FCWinMain.WM_MainViewGroup.Visible)
          and ( (FCVdgPlayer.P_currentTimePhase=tphPAUSE) or  (FCVdgPlayer.P_currentTimePhase=tphPAUSEwo) )then
       begin
          case WMTkeyDump of
@@ -943,7 +943,7 @@ begin
             80: FCMgTFlow_FlowState_Set(tphTac);
          end; //==END== case WMTkeyDump of ==//
       end //==END== if (FCWinMain.FCWM_3dMainGrp.Visible) and (FCVdgPlayer.P_currentTimePhase=tphPAUSE) then ==//
-      else if (FCWinMain.FCWM_3dMainGrp.Visible)
+      else if (FCWinMain.WM_MainViewGroup.Visible)
          and (FCVdgPlayer.P_currentTimePhase<>tphPAUSE)
          and (FCVdgPlayer.P_currentTimePhase<>tphPAUSEwo) then
       begin
@@ -1012,7 +1012,7 @@ begin
                   begin
                      FCWinMain.FCWM_MsgeBox.Collaps:=false;
                      FCWinMain.FCWM_MsgeBox.Height:=FCWinMain.Height div 6;
-                     FCWinMain.FCWM_MsgeBox.Top:=FCWinMain.FCWM_3dMainGrp.Height-(FCWinMain.FCWM_MsgeBox.Height+2);
+                     FCWinMain.FCWM_MsgeBox.Top:=FCWinMain.WM_MainViewGroup.Height-(FCWinMain.FCWM_MsgeBox.Height+2);
                      FCWinMain.FCWM_MsgeBox.BringToFront;
                      FCWinMain.FCWM_MsgeBox_List.SetFocus;
                   end

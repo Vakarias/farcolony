@@ -926,7 +926,7 @@ begin
    FC3doglAsteroids:=nil;
    SetLength(FC3doglAsteroids,1);
    {.set the update message}
-   FCWinMain.FCWM_3dMainGrp.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_3dMainGrp.Upd');
+   FCWinMain.WM_MainViewGroup.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_3dMainGrp.Upd');
    {.set star}
    LSVUstarSize:=FCFcF_Scale_Conversion(
       cKmTo3dViewUnits

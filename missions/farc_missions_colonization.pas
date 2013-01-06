@@ -256,7 +256,7 @@ begin
    FCMgSPMD_Level_Upd(CPPfac);
    surfaceOObj:=FCFuiSP_VarCurrentOObj_Get;
    surfaceSat:=FCFuiSP_VarCurrentSat_Get;
-   if (FCWinMain.FCWM_SurfPanel.Visible)
+   if (FCWinMain.MVG_SurfacePanel.Visible)
       and (CPPfac=0)
       and (surfaceOObj=CPPobjIdx)
       and (surfaceSat=CPPsatIdx)

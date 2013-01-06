@@ -476,8 +476,8 @@ begin
          FCWinMain.FCGLSHUDcolplyrName.Position.Y:=FCWinMain.FCGLSHUDcolplyr.Position.Y-12;
          {.hud star class}
             {.label}
-         FCWinMain.FCGLSHUDstarClassLAB.Position.X:=FCWinMain.FCWM_3dMainGrp.Width -400;
-         FCWinMain.FCGLSHUDstarClassLAB.Position.Y:=(FCWinMain.FCWM_3dMainGrp.Height shr 3*3);
+         FCWinMain.FCGLSHUDstarClassLAB.Position.X:=FCWinMain.WM_MainViewGroup.Width -400;
+         FCWinMain.FCGLSHUDstarClassLAB.Position.Y:=(FCWinMain.WM_MainViewGroup.Height shr 3*3);
             {.data display}
          FCWinMain.FCGLSHUDstarClass.Position.X:=FCWinMain.FCGLSHUDstarClassLAB.Position.X+145;
          FCWinMain.FCGLSHUDstarClass.Position.Y:=FCWinMain.FCGLSHUDstarClassLAB.Position.Y;
@@ -513,8 +513,8 @@ begin
          //================SPACE UNIT=======================================================
          {.hud space unit status}
             {.label}
-         FCWinMain.FCGLSHUDspunSTATUSLAB.Position.X:=FCWinMain.FCWM_3dMainGrp.Width-400;
-         FCWinMain.FCGLSHUDspunSTATUSLAB.Position.Y:=(FCWinMain.FCWM_3dMainGrp.Height shr 3*3);
+         FCWinMain.FCGLSHUDspunSTATUSLAB.Position.X:=FCWinMain.WM_MainViewGroup.Width-400;
+         FCWinMain.FCGLSHUDspunSTATUSLAB.Position.Y:=(FCWinMain.WM_MainViewGroup.Height shr 3*3);
             {.data display}
          FCWinMain.FCGLSHUDspunSTATUS.Position.X:=FCWinMain.FCGLSHUDspunSTATUSLAB.Position.X+145;
          FCWinMain.FCGLSHUDspunSTATUS.Position.Y:=FCWinMain.FCGLSHUDspunSTATUSLAB.Position.Y;
@@ -556,11 +556,11 @@ begin
          //================END SPACE UNIT===================================================
          //================ORBITAL OBJECTS==================================================
          {.orbital data header}
-         FCWinMain.FCGLSHUDobobjOrbDatHLAB.Position.X:=FCWinMain.FCWM_3dMainGrp.Width-270;
+         FCWinMain.FCGLSHUDobobjOrbDatHLAB.Position.X:=FCWinMain.WM_MainViewGroup.Width-270;
          if (FCVdiWinMainWidth>=1152)
             and (FCVdiWinMainHeight>=896)
-         then FCWinMain.FCGLSHUDobobjOrbDatHLAB.Position.Y:=(FCWinMain.FCWM_3dMainGrp.Height shr 4*5)
-         else FCWinMain.FCGLSHUDobobjOrbDatHLAB.Position.Y:=(FCWinMain.FCWM_3dMainGrp.Height shr 4*4);
+         then FCWinMain.FCGLSHUDobobjOrbDatHLAB.Position.Y:=(FCWinMain.WM_MainViewGroup.Height shr 4*5)
+         else FCWinMain.FCGLSHUDobobjOrbDatHLAB.Position.Y:=(FCWinMain.WM_MainViewGroup.Height shr 4*4);
          {.distance from star}
             {.label}
          if FCVdiLanguage='SP'

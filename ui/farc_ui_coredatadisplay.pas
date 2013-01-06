@@ -168,7 +168,7 @@ begin
          )
    then begin
       if (not FCWinMain.FCWM_ColDPanel.Visible)
-         and (FCWinMain.FCWM_SurfPanel.Visible)
+         and (FCWinMain.MVG_SurfacePanel.Visible)
       then FCWinMain.FCWM_ColDPanel.Show;
 //   isColonyDataPanelShown:=true;
       case DataType of

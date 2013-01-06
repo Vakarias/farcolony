@@ -154,13 +154,13 @@ begin
 
    if FCWinMain.FCWM_DockLstPanel.Visible
    then FCWinMain.FCWM_DockLstPanel.Hide;
-   if FCWinMain.FCWM_SurfPanel.Visible
-   then FCWinMain.FCWM_SurfPanel.Hide;
+   if FCWinMain.MVG_SurfacePanel.Visible
+   then FCWinMain.MVG_SurfacePanel.Hide;
 
    FCWinMain.FCGLSmainView.Enabled:=false;
 
-   FCWinMain.FCWM_CPSreportSet.Left:=((FCWinMain.FCWM_3dMainGrp.Left+FCWinMain.FCWM_3dMainGrp.Width) shr 1)-(FCWinMain.FCWM_CPSreportSet.Width shr 1);
-   FCWinMain.FCWM_CPSreportSet.Top:=((FCWinMain.FCWM_3dMainGrp.Top+FCWinMain.FCWM_3dMainGrp.Height) shr 1)-(FCWinMain.FCWM_CPSreportSet.Height shr 1);
+   FCWinMain.FCWM_CPSreportSet.Left:=((FCWinMain.WM_MainViewGroup.Left+FCWinMain.WM_MainViewGroup.Width) shr 1)-(FCWinMain.FCWM_CPSreportSet.Width shr 1);
+   FCWinMain.FCWM_CPSreportSet.Top:=((FCWinMain.WM_MainViewGroup.Top+FCWinMain.WM_MainViewGroup.Height) shr 1)-(FCWinMain.FCWM_CPSreportSet.Height shr 1);
    FCWinMain.FCWM_CPSRSbuttonConfirm.Left:=8;
    FCWinMain.FCWM_CPSRSbuttonConfirm.Top:=FCWinMain.FCWM_CPSreportSet.Height-FCWinMain.FCWM_CPSRSbuttonConfirm.Height-8;
    FCWinMain.FCWM_CPSRSIGscores.HTMLText.Clear;

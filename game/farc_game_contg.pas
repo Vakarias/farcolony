@@ -226,7 +226,7 @@ FCMdF_DBProducts_Load;
       end; {.if CPttl>0}
       {.3d initialization}
       try
-         FCWinMain.FCWM_3dMainGrp.Show;
+         FCWinMain.WM_MainViewGroup.Show;
          FCMoglInit_Initialize;
       finally
          {DEV NOTE: OF COURSE OGL INIT IS ONLY IN CASE OF A NEW AND FIRST GAME SINCE FARC IS

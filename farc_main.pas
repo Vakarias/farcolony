@@ -1,4 +1,4 @@
-{=====(C) Copyright Aug.2009-2012 Jean-Francois Baconnet All rights reserved================
+{=====(C) Copyright Aug.2009-2013 Jean-Francois Baconnet All rights reserved================
 
         Title:  FAR Colony
         Author: Jean-Francois Baconnet
@@ -11,7 +11,7 @@
 
 ============================================================================================
 ********************************************************************************************
-Copyright (c) 2009-2012, Jean-Francois Baconnet
+Copyright (c) 2009-2013, Jean-Francois Baconnet
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -94,7 +94,7 @@ type
       FCWM_MMenu_H_About: TMenuItem;
       FCWM_MMenu_O_L_EN: TMenuItem;
       FCWM_BckgImage: TImage32;
-      FCWM_3dMainGrp: TAdvGroupBox;
+      WM_MainViewGroup: TAdvGroupBox;
       FCGLSRootMain: TGLScene;
       FCGLSmainView: TGLSceneViewer;
       FCGLSCamMainView: TGLCamera;
@@ -182,10 +182,10 @@ type
       FCWM_MMenu_O_TR_1024: TMenuItem;
       FCWM_MMenu_O_TR_2048: TMenuItem;
       FCWM_MMenu_H_HPanel: TMenuItem;
-      FCWM_SurfPanel: TAdvPanel;
+      MVG_SurfacePanel: TAdvPanel;
       FCWM_SP_DataSheet: TAdvPageControl;
       FCWM_SPShEcos_Lab: THTMLabel;
-      FCWM_SP_Surface: THotSpotImage;
+      SP_SurfaceDisplay: THotSpotImage;
       FCWM_SP_SPicFrm: TAdvGroupBox;
       FCWM_SP_LDatFrm: TAdvGroupBox;
       FCWM_SP_RDatFrm: TAdvGroupBox;
@@ -194,7 +194,7 @@ type
       FCWM_SP_SPic: TImage32;
       FCWM_MMenu_DebTools: TMenuItem;
       FCWM_RegTerrLib: TBitmap32List;
-      FCWM_SP_SurfSel: THTMLabel;
+      SD_SurfaceSelector: THTMLabel;
       FCWM_SP_ShReg: TAdvTabSheet;
       FCWM_SPShReg_Lab: THTMLabel;
       FCWM_SP_AutoUp: TCheckBox;
@@ -347,9 +347,9 @@ type
       procedure FCWM_MMenu_O_TR_1024Click(Sender: TObject);
       procedure FCWM_MMenu_O_TR_2048Click(Sender: TObject);
       procedure FCWM_MMenu_H_HPanelClick(Sender: TObject);
-      procedure FCWM_SP_SurfaceHotSpotEnter(Sender: TObject; HotSpot: THotSpot);
-      procedure FCWM_SP_SurfaceMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
-      procedure FCWM_SP_SurfSelClick(Sender: TObject);
+      procedure SP_SurfaceDisplayHotSpotEnter(Sender: TObject; HotSpot: THotSpot);
+      procedure SP_SurfaceDisplayMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
+      procedure SD_SurfaceSelectorClick(Sender: TObject);
       procedure FCWM_SP_AutoUpKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FCWM_DLP_DockListKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FCWM_DLP_DockListMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
@@ -1229,7 +1229,7 @@ end;
 
 procedure TFCWinMain.FCWM_ColDPanelClose(Sender: TObject);
 begin
-   FCWM_SurfPanel.Hide;
+   MVG_SurfacePanel.Hide;
 end;
 
 procedure TFCWinMain.FCWM_ColDPanelEndCollapsExpand(Sender: TObject);
@@ -1239,18 +1239,18 @@ end;
 
 procedure TFCWinMain.FCWM_ColDPanelEndMoveSize(Sender: TObject);
 begin
-   if FCWM_SurfPanel.Visible
+   if MVG_SurfacePanel.Visible
    then FCMuiSP_Panel_Relocate( false );
 end;
 
 procedure TFCWinMain.FCWM_ColDPanelMaximize(Sender: TObject);
 begin
-   FCWM_SurfPanel.show;
+   MVG_SurfacePanel.show;
 end;
 
 procedure TFCWinMain.FCWM_ColDPanelMinimize(Sender: TObject);
 begin
-   FCWM_SurfPanel.Hide;
+   MVG_SurfacePanel.Hide;
 end;
 
 procedure TFCWinMain.FCWM_CPSRSbuttonConfirmClick(Sender: TObject);
@@ -1333,18 +1333,18 @@ end;
 
 procedure TFCWinMain.FCWM_MissionSettingsEndMoveSize(Sender: TObject);
 begin
-   if FCWM_SurfPanel.Visible
+   if MVG_SurfacePanel.Visible
    then FCMuiSP_Panel_Relocate( true );
 end;
 
 procedure TFCWinMain.FCWM_MissionSettingsMaximize(Sender: TObject);
 begin
-   FCWM_SurfPanel.show;
+   MVG_SurfacePanel.show;
 end;
 
 procedure TFCWinMain.FCWM_MissionSettingsMinimize(Sender: TObject);
 begin
-   FCWM_SurfPanel.Hide;
+   MVG_SurfacePanel.Hide;
 end;
 
 procedure TFCWinMain.FCWM_MMenu_DTFUGClick(Sender: TObject);
@@ -1401,7 +1401,7 @@ begin
       else if not FCWinMain.FCWM_HelpPanel.Collaps
       then FCWinMain.FCWM_HelpPanel.Collaps:=true;
    end
-   else if (FCWinMain.FCWM_3dMainGrp.Visible)
+   else if (FCWinMain.WM_MainViewGroup.Visible)
       and (not FCWinMain.FCWM_HelpPanel.Visible)
    then
    begin
@@ -1488,7 +1488,7 @@ begin
       begin
          FCWM_MsgeBox.Collaps:=false;
          FCWM_MsgeBox.Height:=FCWinMain.Height div 6;
-         FCWM_MsgeBox.Top:=FCWM_3dMainGrp.Height-(FCWM_MsgeBox.Height+2);
+         FCWM_MsgeBox.Top:=WM_MainViewGroup.Height-(FCWM_MsgeBox.Height+2);
       end
       else if not FCWM_MsgeBox.Collaps
       then FCMuiM_MessageBox_ResetState(true);
@@ -1540,18 +1540,18 @@ begin
    FCMuiK_WinMain_Test(Key, Shift);
 end;
 
-procedure TFCWinMain.FCWM_SP_SurfaceHotSpotEnter(Sender: TObject; HotSpot: THotSpot);
+procedure TFCWinMain.SP_SurfaceDisplayHotSpotEnter(Sender: TObject; HotSpot: THotSpot);
 begin
    FCMuiSP_RegionDataPicture_Update(HotSpot.ID, false);
 end;
 
-procedure TFCWinMain.FCWM_SP_SurfaceMouseMove(Sender: TObject; Shift: TShiftState; X,
+procedure TFCWinMain.SP_SurfaceDisplayMouseMove(Sender: TObject; Shift: TShiftState; X,
   Y: Integer);
 begin
-   FCWM_SP_SurfSel.Refresh;
+   SD_SurfaceSelector.Refresh;
 end;
 
-procedure TFCWinMain.FCWM_SP_SurfSelClick(Sender: TObject);
+procedure TFCWinMain.SD_SurfaceSelectorClick(Sender: TObject);
 var
    SPSSCcurrSettlement: integer;
 begin
@@ -1877,7 +1877,7 @@ begin
       FCMuiW_UI_Initialize(mwupFontAll);
 
       {.update 3d main view frame and all childs}
-      if FCWM_3dMainGrp.Visible
+      if WM_MainViewGroup.Visible
       then
       begin
          {.relocate and/or resize the message box}

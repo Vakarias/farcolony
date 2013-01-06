@@ -472,7 +472,7 @@ procedure TFCcps.FCM_ObjPanel_Init;
 }
 begin
    CPSobjPanel:=TAdvPanel.Create(FCWinMain);
-   CPSobjPanel.Parent:=FCWinMain.FCWM_3dMainGrp;
+   CPSobjPanel.Parent:=FCWinMain.WM_MainViewGroup;
    CPSobjPanel.BevelOuter:=bvNone;
    CPSobjPanel.BorderColor:=clSilver;
    CPSobjPanel.BorderWidth:=1;

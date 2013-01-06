@@ -117,8 +117,8 @@ begin
    begin
       SSShot:=SSSregion-1;
       FCRdiSettlementPictures[SSSregion].Left:=
-         FCWinMain.FCWM_SP_Surface.HotSpots[SSShot].X+(FCWinMain.FCWM_SP_Surface.HotSpots[SSShot].Width shr 1)-(FCRdiSettlementPictures[SSSregion].Width shr 1);
-      FCRdiSettlementPictures[SSSregion].Top:=FCWinMain.FCWM_SP_Surface.HotSpots[SSShot].Y+4;
+         FCWinMain.SP_SurfaceDisplay.HotSpots[SSShot].X+(FCWinMain.SP_SurfaceDisplay.HotSpots[SSShot].Width shr 1)-(FCRdiSettlementPictures[SSSregion].Width shr 1);
+      FCRdiSettlementPictures[SSSregion].Top:=FCWinMain.SP_SurfaceDisplay.HotSpots[SSShot].Y+4;
       FCRdiSettlementPictures[SSSregion].Show;
    end;
 end;
@@ -153,8 +153,8 @@ begin
    SIbmp.LoadFromFile(FCVdiPathResourceDir+'pics-ui-colony\colonysurficn.png');
    while SIcnt<=30 do
    begin
-      FCRdiSettlementPictures[SIcnt]:=TImage32.Create(FCWinMain.FCWM_SP_Surface);
-      FCRdiSettlementPictures[SIcnt].Parent:=FCWinMain.FCWM_SP_Surface;
+      FCRdiSettlementPictures[SIcnt]:=TImage32.Create(FCWinMain.SP_SurfaceDisplay);
+      FCRdiSettlementPictures[SIcnt].Parent:=FCWinMain.SP_SurfaceDisplay;
       FCRdiSettlementPictures[SIcnt].Bitmap:=SIbmp;
       FCRdiSettlementPictures[SIcnt].BitmapAlign:=baTopLeft;
       FCRdiSettlementPictures[SIcnt].Height:=40;

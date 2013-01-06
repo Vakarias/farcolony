@@ -206,11 +206,11 @@ procedure FCMuiW_About_Close;
 begin
    FreeAndNil(FCWinAbout);
 //   FCWinAbout.Enabled:=false;
-   if FCWinMain.FCWM_3dMainGrp.Tag=1 then
+   if FCWinMain.WM_MainViewGroup.Tag=1 then
    begin
       FCMgTFlow_FlowState_Set(tphTac);
-      FCWinMain.FCWM_3dMainGrp.Tag:=0;
-      FCWinMain.FCWM_3dMainGrp.Show;
+      FCWinMain.WM_MainViewGroup.Tag:=0;
+      FCWinMain.WM_MainViewGroup.Show;
    end;
    FCWinMain.Enabled:=true;
 end;
@@ -233,11 +233,11 @@ begin
 
 //   FCMuiW_UI_Initialize(mwupSecwinAbout);
    FCWinMain.Enabled:=false;
-   if FCWinMain.FCWM_3dMainGrp.Visible then
+   if FCWinMain.WM_MainViewGroup.Visible then
    begin
       FCMgTFlow_FlowState_Set(tphPAUSE);
-      FCWinMain.FCWM_3dMainGrp.Tag:=1;
-      FCWinMain.FCWM_3dMainGrp.Hide;
+      FCWinMain.WM_MainViewGroup.Tag:=1;
+      FCWinMain.WM_MainViewGroup.Hide;
    end;
    FCWinAbout.Enabled:=true;
    FCWinAbout.Show;
@@ -455,7 +455,7 @@ begin
    if not FCWinMain.FCWM_MMenu_G_Cont.Enabled then
    begin
       colMax:=Length(FCDdgEntities[0].E_colonies)-1;
-      if FCWinMain.FCWM_3dMainGrp.Visible
+      if FCWinMain.WM_MainViewGroup.Visible
       then FCMoglUI_Main3DViewUI_Update(oglupdtpAll, ogluiutAll);
       if colMax>0 then
       begin
@@ -672,13 +672,13 @@ begin
       FCWinMain.FCWM_MMenu_H_HPanel.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MMenu_H_HPanel');
 		FCWinMain.FCWM_MMenu_H_About.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MMenu_H_About');
 	end;
-   if (((UIUtp=mwupAll) or (UIUtp=mwupTextWinMain)) and (FCWinMain.FCWM_3dMainGrp.Visible))
+   if (((UIUtp=mwupAll) or (UIUtp=mwupTextWinMain)) and (FCWinMain.WM_MainViewGroup.Visible))
       or (UIUtp=mwupTextWM3dFrame)
    then
    begin
       {:DEV NOTES: put .main 3d view frame in a separated procedure and remove the mwupTextWM3dFrame switch.}
       {.main 3d view frame}
-      FCWinMain.FCWM_3dMainGrp.Caption
+      FCWinMain.WM_MainViewGroup.Caption
          :=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_3dMainGrp.SSys')
             +' '+FCFdTFiles_UIStr_Get(dtfscPrprName,FCDduStarSystem[FC3doglCurrentStarSystem].SS_token)
             +']  '
@@ -707,7 +707,7 @@ begin
       FCWinMain.FCWM_HDPhintsList.Selected[0]:=true;
       FCMuiW_HelpTDef_Link(FCDBhelpTdef[FCWinMain.FCWM_HDPhintsList.ItemIndex+1].TD_link, false);
       {.surface panel}
-      FCWinMain.FCWM_SurfPanel.Caption.Text:='';
+      FCWinMain.MVG_SurfacePanel.Caption.Text:='';
       FCWinMain.FCWM_SP_AutoUp.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_SP_AutoUp');
       FCWinMain.FCWM_SP_ShReg.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_SP_ShReg');
       {.viability objectives panel}
@@ -848,28 +848,28 @@ begin
       FCWinMain.FCWM_HDPhintsList.Width:=(FCWinMain.FCWM_HelpPanel.Width shr 5*14)-5;
       FCWinMain.FCWM_HDPhintsText.Width:=(FCWinMain.FCWM_HelpPanel.Width shr 5*18);
       {.surface panel}
-      FCWinMain.FCWM_SurfPanel.Width:=1024;//784;
-      FCWinMain.FCWM_SurfPanel.Height:=375;
-      FCWinMain.FCWM_SurfPanel.Left:=(UIUmainW2)-(FCWinMain.FCWM_SurfPanel.Width shr 1);
-      FCWinMain.FCWM_SurfPanel.Top:=(UIUmainH2)-(FCWinMain.FCWM_SurfPanel.Height shr 1);
+      FCWinMain.MVG_SurfacePanel.Width:=1024;//784;
+      FCWinMain.MVG_SurfacePanel.Height:=375;
+      FCWinMain.MVG_SurfacePanel.Left:=(UIUmainW2)-(FCWinMain.MVG_SurfacePanel.Width shr 1);
+      FCWinMain.MVG_SurfacePanel.Top:=(UIUmainH2)-(FCWinMain.MVG_SurfacePanel.Height shr 1);
       FCWinMain.FCWM_SP_AutoUp.Width:=82;
-      FCWinMain.FCWM_SP_AutoUp.Left:=FCWinMain.FCWM_SurfPanel.Width-25-FCWinMain.FCWM_SP_AutoUp.Width;
+      FCWinMain.FCWM_SP_AutoUp.Left:=FCWinMain.MVG_SurfacePanel.Width-25-FCWinMain.FCWM_SP_AutoUp.Width;
       FCWinMain.FCWM_SP_AutoUp.Top:=1;
       {.surface panel - ecosphere sheet}
       FCWinMain.FCWM_SPShEcos_Lab.Width:=260;
-      FCWinMain.FCWM_SPShEcos_Lab.Height:=FCWinMain.FCWM_SurfPanel.Height-19;
+      FCWinMain.FCWM_SPShEcos_Lab.Height:=FCWinMain.MVG_SurfacePanel.Height-19;
       FCWinMain.FCWM_SPShEcos_Lab.Left:=1;
       FCWinMain.FCWM_SPShEcos_Lab.Top:=19;
       {.surface panel - surface hotspot}
-      FCWinMain.FCWM_SP_Surface.Width:=512;
-      FCWinMain.FCWM_SP_Surface.Height:=256;
-      FCWinMain.FCWM_SP_Surface.Left:=FCWinMain.FCWM_SPShEcos_Lab.Left+FCWinMain.FCWM_SPShEcos_Lab.Width+1;
-      FCWinMain.FCWM_SP_Surface.Top:=FCWinMain.FCWM_SPShEcos_Lab.Top;
+      FCWinMain.SP_SurfaceDisplay.Width:=512;
+      FCWinMain.SP_SurfaceDisplay.Height:=256;
+      FCWinMain.SP_SurfaceDisplay.Left:=FCWinMain.FCWM_SPShEcos_Lab.Left+FCWinMain.FCWM_SPShEcos_Lab.Width+1;
+      FCWinMain.SP_SurfaceDisplay.Top:=FCWinMain.FCWM_SPShEcos_Lab.Top;
       {.surface panel - left data}
       FCWinMain.FCWM_SP_LDatFrm.Width:=111;
       FCWinMain.FCWM_SP_LDatFrm.Height:=99;
-      FCWinMain.FCWM_SP_LDatFrm.Left:=FCWinMain.FCWM_SP_Surface.Left;
-      FCWinMain.FCWM_SP_LDatFrm.Top:=FCWinMain.FCWM_SP_Surface.Top+FCWinMain.FCWM_SP_Surface.Height+1;
+      FCWinMain.FCWM_SP_LDatFrm.Left:=FCWinMain.SP_SurfaceDisplay.Left;
+      FCWinMain.FCWM_SP_LDatFrm.Top:=FCWinMain.SP_SurfaceDisplay.Top+FCWinMain.SP_SurfaceDisplay.Height+1;
       {.surface panel - region picture}
       FCWinMain.FCWM_SP_SPicFrm.Width:=292;
       FCWinMain.FCWM_SP_SPicFrm.Height:=99;
@@ -885,10 +885,10 @@ begin
       FCWinMain.FCWM_SP_RDatFrm.Left:=FCWinMain.FCWM_SP_SPicFrm.Left+FCWinMain.FCWM_SP_SPicFrm.Width;
       FCWinMain.FCWM_SP_RDatFrm.Top:=FCWinMain.FCWM_SP_SPicFrm.Top;
       {.surface panel - data sheet}
-      FCWinMain.FCWM_SP_DataSheet.Width:=FCWinMain.FCWM_SurfPanel.Width-FCWinMain.FCWM_SPShEcos_Lab.Width-FCWinMain.FCWM_SP_Surface.Width-4;//270;
+      FCWinMain.FCWM_SP_DataSheet.Width:=FCWinMain.MVG_SurfacePanel.Width-FCWinMain.FCWM_SPShEcos_Lab.Width-FCWinMain.SP_SurfaceDisplay.Width-4;//270;
       FCWinMain.FCWM_SP_DataSheet.Height:=FCWinMain.FCWM_SPShEcos_Lab.Height;
-      FCWinMain.FCWM_SP_DataSheet.Left:=FCWinMain.FCWM_SP_Surface.Left+FCWinMain.FCWM_SP_Surface.Width+1;
-      FCWinMain.FCWM_SP_DataSheet.Top:=FCWinMain.FCWM_SP_Surface.Top;
+      FCWinMain.FCWM_SP_DataSheet.Left:=FCWinMain.SP_SurfaceDisplay.Left+FCWinMain.SP_SurfaceDisplay.Width+1;
+      FCWinMain.FCWM_SP_DataSheet.Top:=FCWinMain.SP_SurfaceDisplay.Top;
       {.colony data panel}
       FCWinMain.FCWM_ColDPanel.Width:=1024;//784;
       FCWinMain.FCWM_ColDPanel.Height:=350;
@@ -1004,7 +1004,7 @@ begin
       FCWinMain.FCWM_IPinfraKits.Left:=20;
       FCWinMain.FCWM_IPinfraKits.Top:=84;
       {.missions panel}
-      FCWinMain.FCWM_MissionSettings.Width:=FCWinMain.FCWM_SurfPanel.Width;//800;
+      FCWinMain.FCWM_MissionSettings.Width:=FCWinMain.MVG_SurfacePanel.Width;//800;
       FCWinMain.FCWM_MissionSettings.Height:=280;
       FCWinMain.FCWM_MissionSettings.Left:=12;
       FCWinMain.FCWM_MissionSettings.Top:=20;
@@ -1230,7 +1230,7 @@ begin
    then
    begin
       FCWinMain.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
-      FCWinMain.FCWM_3dMainGrp.Font.Size:=FCFuiW_Font_GetSize(uiwGrpBox);
+      FCWinMain.WM_MainViewGroup.Font.Size:=FCFuiW_Font_GetSize(uiwGrpBox);
       {.message box}
       FCWinMain.FCWM_MsgeBox.Caption.Font.Size:=FCFuiW_Font_GetSize(uiwPanelTitle);
       FCWinMain.FCWM_MsgeBox_List.Font.Size:=FCFuiW_Font_GetSize(uiwListItems);
@@ -1248,7 +1248,7 @@ begin
       FCWinMain.FCWM_HDPhintsText.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
       {.surface panel}
       FCWinMain.FCWM_SP_AutoUp.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
-      FCWinMain.FCWM_SurfPanel.Caption.Font.Size:=FCFuiW_Font_GetSize(uiwPanelTitle);
+      FCWinMain.MVG_SurfacePanel.Caption.Font.Size:=FCFuiW_Font_GetSize(uiwPanelTitle);
       FCWinMain.FCWM_SP_DataSheet.Font.Size:=FCFuiW_Font_GetSize(uiwPageCtrl);
       FCWinMain.FCWM_SPShEcos_Lab.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
       FCWinMain.FCWM_SPShReg_Lab.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);

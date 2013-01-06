@@ -193,13 +193,13 @@ begin
       and ( ( FCFuiSP_VarCurrentSat_Get=0 ) or ( ( FCFuiSP_VarCurrentSat_Get>0 ) and ( FCFuiSP_VarCurrentSat_Get<>FCRmcCurrentMissionCalculations.CMC_originLocation[4] ) ) )
    then FCMuiSP_SurfaceEcosphere_Set( FCRmcCurrentMissionCalculations.CMC_originLocation[3], FCRmcCurrentMissionCalculations.CMC_originLocation[4], false)
    else begin
-      FCWinMain.FCWM_SurfPanel.Visible:=true;
-      fcwinmain.FCWM_SP_Surface.Enabled:=true;
+      FCWinMain.MVG_SurfacePanel.Visible:=true;
+      fcwinmain.SP_SurfaceDisplay.Enabled:=true;
       FCMuiSP_VarRegionSelected_Reset;
-      FCWinMain.FCWM_SP_SurfSel.Width:=0;
-      FCWinMain.FCWM_SP_SurfSel.Height:=0;
-      FCWinMain.FCWM_SP_SurfSel.Left:=0;
-      FCWinMain.FCWM_SP_SurfSel.Top:=0;
+      FCWinMain.SD_SurfaceSelector.Width:=0;
+      FCWinMain.SD_SurfaceSelector.Height:=0;
+      FCWinMain.SD_SurfaceSelector.Left:=0;
+      FCWinMain.SD_SurfaceSelector.Top:=0;
    end;
    FCMuiSP_Panel_Relocate ( true );
    FCWinMain.FCWM_SP_DataSheet.ActivePage:=FCWinMain.FCWM_SP_ShReg;
@@ -759,11 +759,11 @@ procedure FCMuiMS_Planel_Close;
 begin
    FCWinMain.FCWM_MissionSettings.Hide;
    FCWinMain.FCWM_MissionSettings.Enabled:=False;
-   if FCWinMain.FCWM_SurfPanel.Visible
+   if FCWinMain.MVG_SurfacePanel.Visible
    then
    begin
-      FCWinMain.FCWM_SurfPanel.Hide;
-      FCWinMain.FCWM_SP_Surface.Enabled:=false;
+      FCWinMain.MVG_SurfacePanel.Hide;
+      FCWinMain.SP_SurfaceDisplay.Enabled:=false;
    end;
 //   FCVdiGameFlowTimer.Enabled:=true;
 end;

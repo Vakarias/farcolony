@@ -326,7 +326,7 @@ begin
    FCWinMain.FCWM_MsgeBox_Desc.Visible:=False;
    if MBRScollaps
    then FCWinMain.FCWM_MsgeBox.Collaps:=true;
-   FCWinMain.FCWM_MsgeBox.Top:=FCWinMain.FCWM_3dMainGrp.Height-22;
+   FCWinMain.FCWM_MsgeBox.Top:=FCWinMain.WM_MainViewGroup.Height-22;
    FCWinMain.FCWM_MsgeBox.Tag:=0;
 end;
 
