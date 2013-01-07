@@ -1,4 +1,4 @@
-{======(C) Copyright Aug.2009-2012 Jean-Francois Baconnet All rights reserved==============
+{======(C) Copyright Aug.2009-2013 Jean-Francois Baconnet All rights reserved==============
 
         Title:  FAR Colony
         Author: Jean-Francois Baconnet
@@ -11,7 +11,7 @@
 
 ============================================================================================
 ********************************************************************************************
-Copyright (c) 2009-2012, Jean-Francois Baconnet
+Copyright (c) 2009-2013, Jean-Francois Baconnet
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -659,6 +659,8 @@ procedure FCMuiCDP_Data_Update(
          ,DataIndex1: integer
    );
 {:Purpose: update the colony data display
+   -2013Jan06- *fix: CAB duration display is corrected.
+               *fix: for owned infrastructures - transition phase, if the infrastructure is in transition because of a lack of staff, it's now displayed.
    -2012May21- *add: CSM events: etRveOxygenShortage, etRveOxygenShortageRec, etRveWaterOverload, etRveWaterShortage, etRveWaterShortageRec, etRveFoodOverload, etRveFoodShortage and, etRveFoodShortageRec.
    -2012May06- *add: CSM events: etRveOxygenOverload.
    -2012apr29- *mod: CSM event modifiers and data are displayed according to the new changes in the data structure.
@@ -1277,13 +1279,23 @@ begin
                fProduction: CPUsubnode:=FCWinMain.FCWM_CDPinfrList.Items.AddChild(CPUrootnodeInfraPR, CPUinfDisplay);
             end; //==END== case FCentities[0].E_col[CDPcurrentColony].COL_settlements[CDPcurrentSettlement].CS_infra[CPUcnt].IO_func of ==//
             case FCDdgEntities[0].E_colonies[CDPcurrentColony].C_settlements[CDPcurrentSettlement].S_infrastructures[CPUcnt].I_status of
-               isInConversion, isInAssembling, isInBluidingSite: FCWinMain.FCWM_CDPinfrList.Items.AddChild(
-                  CPUsubnode
-                  ,FCFdTFiles_UIStr_Get(uistrUI, CPUinfStatus)+': '+IntToStr(
-                     FCDdgEntities[0].E_colonies[CDPcurrentColony].C_settlements[CDPcurrentSettlement].S_infrastructures[CPUcnt].I_cabDuration
-                     -FCDdgEntities[0].E_colonies[CDPcurrentColony].C_settlements[CDPcurrentSettlement].S_infrastructures[CPUcnt].I_cabWorked
-                     )+' hr(s)'
-                  );
+               isInConversion, isInAssembling, isInBluidingSite:
+               begin
+                  if FCDdgEntities[0].E_colonies[CDPcurrentColony].C_settlements[CDPcurrentSettlement].S_infrastructures[CPUcnt].I_cabWorked=-1
+                  then FCWinMain.FCWM_CDPinfrList.Items.AddChild(
+                     CPUsubnode
+                     ,FCFdTFiles_UIStr_Get(uistrUI, CPUinfStatus)+': '+IntToStr(
+                        FCDdgEntities[0].E_colonies[CDPcurrentColony].C_settlements[CDPcurrentSettlement].S_infrastructures[CPUcnt].I_cabDuration
+                        )+' hr(s)'
+                     )
+                  else FCWinMain.FCWM_CDPinfrList.Items.AddChild(
+                     CPUsubnode
+                     ,FCFdTFiles_UIStr_Get(uistrUI, CPUinfStatus)+': '+IntToStr(
+                        FCDdgEntities[0].E_colonies[CDPcurrentColony].C_settlements[CDPcurrentSettlement].S_infrastructures[CPUcnt].I_cabDuration
+                        -FCDdgEntities[0].E_colonies[CDPcurrentColony].C_settlements[CDPcurrentSettlement].S_infrastructures[CPUcnt].I_cabWorked
+                        )+' hr(s)'
+                     );
+               end;
 
                isInTransition: FCWinMain.FCWM_CDPinfrList.Items.AddChild(
                   CPUsubnode
@@ -1330,11 +1342,15 @@ begin
 
                   isInTransition:
                   begin
-                     if FCDdgEntities[0].E_colonies[CDPcurrentColony].C_settlements[CDPcurrentSettlement].S_infrastructures[DataIndex1].I_cabDuration=FCCdipTransitionTime
+                     if ( FCDdgEntities[0].E_colonies[CDPcurrentColony].C_settlements[CDPcurrentSettlement].S_infrastructures[DataIndex1].I_cabDuration=-1 )
+                        or ( FCDdgEntities[0].E_colonies[CDPcurrentColony].C_settlements[CDPcurrentSettlement].S_infrastructures[DataIndex1].I_cabDuration=FCCdipTransitionTime )
                      then CPUsubnode.Text:='<img src="file://'+FCVdiPathResourceDir+'pics-ui-colony\'+CPUinfStatus+'16.jpg" align="middle"> - '
                         +FCFdTFiles_UIStr_Get(uistrUI, FCDdgEntities[0].E_colonies[CDPcurrentColony].C_settlements[CDPcurrentSettlement].S_infrastructures[DataIndex1].I_token)
                         +' '+UIHTMLencyBEGIN+FCDdgEntities[0].E_colonies[CDPcurrentColony].C_settlements[CDPcurrentSettlement].S_infrastructures[DataIndex1].I_token+UIHTMLencyEND;
-                     CPUsubnodetp.Text:=
+                     if  FCDdgEntities[0].E_colonies[CDPcurrentColony].C_settlements[CDPcurrentSettlement].S_infrastructures[DataIndex1].I_cabDuration=-1
+                     then CPUsubnodetp.Text:=
+                        FCFdTFiles_UIStr_Get(uistrUI, CPUinfStatus)+': lack of staff - cannot be operated until the entire needed staff is available.'   //or right click to show the details or for details
+                     else CPUsubnodetp.Text:=
                         FCFdTFiles_UIStr_Get(uistrUI, CPUinfStatus)+': '+IntToStr( FCDdgEntities[0].E_colonies[CDPcurrentColony].C_settlements[CDPcurrentSettlement].S_infrastructures[DataIndex1].I_cabDuration )+' hr(s)'
                         ;
                   end;
