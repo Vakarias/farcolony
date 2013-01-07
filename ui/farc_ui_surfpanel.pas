@@ -1,4 +1,4 @@
-{======(C) Copyright Aug.2009-2012 Jean-Francois Baconnet All rights reserved==============
+{======(C) Copyright Aug.2009-2013 Jean-Francois Baconnet All rights reserved==============
 
         Title:  FAR Colony
         Author: Jean-Francois Baconnet
@@ -11,7 +11,7 @@
 
 ============================================================================================
 ********************************************************************************************
-Copyright (c) 2009-2012, Jean-Francois Baconnet
+Copyright (c) 2009-2013, Jean-Francois Baconnet
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -112,7 +112,9 @@ var
    SPcurrentOObjIndex
    ,SPcurrentSatIndex
    ,SPregionHovered
-   ,SPregionSelected: integer;
+   ,SPregionSelected
+   ,SPstoredPanelWidth
+   ,SPstoredDataSheetLeft: integer;
 
 //===================================================END OF INIT============================
 
@@ -520,9 +522,9 @@ procedure FCMuiSP_RegionDataPicture_Update(
    const SERUonlyPic: boolean
    );
 {:Purpose: update the region data and picture .
-Tags set: oobjIdx=FCWM_SP_LDat, satIdx=FCWM_SP_RDat
     Additions:
       -2013Jan06- *add: initialization of SurfaceSelected.
+                  *rem: the tag uses are removed.
       -2012Jan06- *code: procedure moved in its proper unit.
       -2010Mar20- *add: climate, current average temperature, temperature and windspeed indexes.
                   *add: a switch for only update the region picture.
@@ -1149,17 +1151,17 @@ begin
             FCWM_SP_SPicFrm.Visible:=false;
             FCWM_SP_RDatFrm.Visible:=false;
             SP_SurfaceDisplay.Visible:=false;
-            if MVG_SurfacePanel.Tag=0
-            then MVG_SurfacePanel.Tag:=MVG_SurfacePanel.Width;
-            if FCWM_SP_DataSheet.Tag=0
-            then FCWM_SP_DataSheet.Tag:=FCWM_SP_DataSheet.Left;
+            if SPstoredPanelWidth=0
+            then SPstoredPanelWidth:=MVG_SurfacePanel.Width;
+            if SPstoredDataSheetLeft=0
+            then SPstoredDataSheetLeft:=FCWM_SP_DataSheet.Left;
             MVG_SurfacePanel.Width:=232;
             FCWM_SP_DataSheet.Align:=alLeft;
          end //==END== if (SESdmpTp>Icy_CallistoH3H4Atm0) and (<Aster_Metall) ==//
          {.otherwise for non gaseous orbital objects}
          else
          begin
-            if MVG_SurfacePanel.Tag>0
+            if SPstoredPanelWidth>0
             then
             begin
                {.set interface}
@@ -1167,12 +1169,12 @@ begin
                FCWM_SP_SPicFrm.Visible:=true;
                FCWM_SP_RDatFrm.Visible:=true;
                SP_SurfaceDisplay.Visible:=true;
-               MVG_SurfacePanel.Width:=MVG_SurfacePanel.Tag;
-               MVG_SurfacePanel.Tag:=0;
+               MVG_SurfacePanel.Width:=SPstoredPanelWidth;
+               SPstoredPanelWidth:=0;
                FCMuiSP_VarRegionHoveredSelected_Reset;
                FCWM_SP_DataSheet.Align:=alCustom;
-               FCWM_SP_DataSheet.Left:=FCWM_SP_DataSheet.Tag;
-               FCWM_SP_DataSheet.Tag:=0;
+               FCWM_SP_DataSheet.Left:=SPstoredDataSheetLeft;
+               SPstoredDataSheetLeft:=0;
             end;
             {.set the hotspots if needed}
             if (SESdmpTtlReg>0)
@@ -1575,7 +1577,7 @@ begin
          end; //==END== else not gaseous ==//
          if not MVG_SurfacePanel.Visible
          then MVG_SurfacePanel.Visible:=true;
-         if MVG_SurfacePanel.Tag=0
+         if SPstoredPanelWidth=0
          then FCMuiSP_RegionDataPicture_Update(1, false);
       end //==END== if not SESinit ==//
       else if SESinit
@@ -1649,6 +1651,7 @@ procedure FCMuiSP_VarRegionHoveredSelected_Reset;
 begin
    SPregionHovered:=0;
    SPregionSelected:=0;
+   FCWinMain.SD_SurfaceSelected.Hide;
 end;
 
 end.

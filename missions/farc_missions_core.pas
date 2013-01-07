@@ -237,6 +237,7 @@ begin
    case FCDmcCurrentMission[Entity].T_type of
       tMissionColonization:
       begin
+         FCWinMain.SD_SurfaceSelected.Hide;
          Max:=FCWinMain.FCWMS_Grp_MCG_RMassTrack.Position;
          if length ( FCRmcCurrentMissionCalculations.CMC_dockList )-1<1 then
          begin

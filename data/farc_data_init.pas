@@ -256,8 +256,8 @@ const
 
    FCCdiMatrixItemsMax=20;
 
-   CFC3dAstConv=14960*30.59789;
    CFC3dUnInKm=14959.787;     {conversion constant 1 3d unit = 14959.787km}
+   CFC3dAstConv=CFC3dUnInKm*30.59789;
    CFC3dUnInAU=FCCdiKm_In_1AU/CFC3dUnInKm;
 
 //==END PUBLIC CONST========================================================================

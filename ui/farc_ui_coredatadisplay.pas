@@ -114,6 +114,7 @@ uses
    ,farc_game_cpsobjectives
    ,farc_game_prod
    ,farc_main
+   ,farc_ogl_ui
    ,farc_ui_coldatapanel
    ,farc_ui_surfpanel;
 
@@ -196,6 +197,7 @@ begin
 //            end;
             {:DEV NOTES: also update the UMI here (full entry in the colonies list).}
             {:DEV NOTES: update the 3d w/ colony name here, if required.}
+
          end;
 
          cdlLevel:
