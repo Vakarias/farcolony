@@ -185,7 +185,7 @@ begin
       if (surfaceOObj=CPPobjIdx)
          and (surfaceSat=CPPsatIdx)
          and (CPPfac=0)
-      then FCMgfxC_Settlement_SwitchState(CPPregion);
+      then FCMgfxC_Settlement_SwitchDisplay(CPPregion, regionttl);
       {:DEV NOTES: resource survey data, TO REMOVE WHEN REGION SURVEY IS IMPLEMENTED.}
       FCVdgPlayer.P_surveyedResourceSpots[1].SRS_starSystem:=CPPssys;
       FCVdgPlayer.P_surveyedResourceSpots[1].SRS_star:=CPPstar;
@@ -235,7 +235,7 @@ begin
          if (surfaceOObj=CPPobjIdx)
             and (surfaceSat=CPPsatIdx)
             and (CPPfac=0)
-         then FCMgfxC_Settlement_SwitchState(CPPregion);
+         then FCMgfxC_Settlement_SwitchDisplay(CPPregion, regionttl);
       end;
       FCMuiM_Message_Add(
          mtColonize

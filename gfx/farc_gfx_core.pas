@@ -36,7 +36,7 @@ uses
 
 //===========================END FUNCTIONS SECTION==========================================
 
-procedure FCMgfxC_Settlement_SwitchState(const SSSregion: integer);
+procedure FCMgfxC_Settlement_SwitchDisplay(const Region, RegionMax: integer);
 
 ///<summary>
 ///   hide the settlements icons
@@ -64,6 +64,10 @@ type TFCgfxCsettlementEvents = class
    {.settlements icons mouse enter event}
    procedure FCMgfxC_Settlement_OnMouseEnter(SOMEsender: TObject);
 end;
+
+const
+   FCgFXsettlementIconsSize=40;
+   FCgFXsettlementPoleIconsSize=30;
 
 var FCgfxCsettlementEvents: TFCgfxCsettlementEvents;
 
@@ -103,23 +107,46 @@ begin
    then FCMuiSP_RegionDataPicture_Update(SOMEreg, true);
 end;
 
-procedure FCMgfxC_Settlement_SwitchState(const SSSregion: integer);
+procedure FCMgfxC_Settlement_SwitchDisplay(const Region, RegionMax: integer);
 {:Purpose: switch the display state of the selected region's settlement.
     Additions:
+      -2013Jan07- *code: small refactoring.
+                  *add: set the correct picture and size for settlement at north or south pole.
+                  *add: new parameter to indicate the maximum # of regions.
 }
 var
    SSShot: integer;
+
+   BitmapSettlement: TBitmap32;
 begin
    SSShot:=0;
-   if FCRdiSettlementPictures[SSSregion].Visible
-   then FCRdiSettlementPictures[SSSregion].Hide
+   if FCRdiSettlementPictures[Region].Visible
+   then FCRdiSettlementPictures[Region].Hide
    else
    begin
-      SSShot:=SSSregion-1;
-      FCRdiSettlementPictures[SSSregion].Left:=
-         FCWinMain.SP_SurfaceDisplay.HotSpots[SSShot].X+(FCWinMain.SP_SurfaceDisplay.HotSpots[SSShot].Width shr 1)-(FCRdiSettlementPictures[SSSregion].Width shr 1);
-      FCRdiSettlementPictures[SSSregion].Top:=FCWinMain.SP_SurfaceDisplay.HotSpots[SSShot].Y+4;
-      FCRdiSettlementPictures[SSSregion].Show;
+      SSShot:=Region-1;
+      if ( ( Region=1 ) or ( Region=RegionMax) )
+         and ( FCRdiSettlementPictures[Region].Height=FCgFXsettlementIconsSize ) then
+      begin
+         BitmapSettlement:=TBitmap32.Create;
+         BitmapSettlement.LoadFromFile(FCVdiPathResourceDir+'pics-ui-colony\colonysurfpoleicn.png');
+         FCRdiSettlementPictures[Region].Bitmap:=BitmapSettlement;
+         FCRdiSettlementPictures[Region].Height:=FCgFXsettlementPoleIconsSize;
+         FCRdiSettlementPictures[Region].Width:=FCgFXsettlementPoleIconsSize;
+         BitmapSettlement.Free;
+      end
+      else if FCRdiSettlementPictures[Region].Height=FCgFXsettlementPoleIconsSize then
+      begin
+         BitmapSettlement:=TBitmap32.Create;
+         BitmapSettlement.LoadFromFile(FCVdiPathResourceDir+'pics-ui-colony\colonysurficn.png');
+         FCRdiSettlementPictures[Region].Bitmap:=BitmapSettlement;
+         FCRdiSettlementPictures[Region].Height:=FCgFXsettlementIconsSize;
+         FCRdiSettlementPictures[Region].Width:=FCgFXsettlementIconsSize;
+         BitmapSettlement.Free;
+      end;
+      FCRdiSettlementPictures[Region].Left:=FCWinMain.SP_SurfaceDisplay.HotSpots[SSShot].X+(FCWinMain.SP_SurfaceDisplay.HotSpots[SSShot].Width shr 1)-(FCRdiSettlementPictures[Region].Width shr 1);
+      FCRdiSettlementPictures[Region].Top:=FCWinMain.SP_SurfaceDisplay.HotSpots[SSShot].Y+(FCWinMain.SP_SurfaceDisplay.HotSpots[SSShot].Height shr 1)-(FCRdiSettlementPictures[Region].Height shr 1);
+      FCRdiSettlementPictures[Region].Show;
    end;
 end;
 
@@ -157,13 +184,13 @@ begin
       FCRdiSettlementPictures[SIcnt].Parent:=FCWinMain.SP_SurfaceDisplay;
       FCRdiSettlementPictures[SIcnt].Bitmap:=SIbmp;
       FCRdiSettlementPictures[SIcnt].BitmapAlign:=baTopLeft;
-      FCRdiSettlementPictures[SIcnt].Height:=40;
-      FCRdiSettlementPictures[SIcnt].Left:=25+(SIcnt*40);
+      FCRdiSettlementPictures[SIcnt].Height:=FCgFXsettlementIconsSize;
+      FCRdiSettlementPictures[SIcnt].Left:=25+(SIcnt*FCgFXsettlementIconsSize);
       FCRdiSettlementPictures[SIcnt].Scale:=1;
       FCRdiSettlementPictures[SIcnt].ScaleMode:=smNormal;
       FCRdiSettlementPictures[SIcnt].Top:=60;
       FCRdiSettlementPictures[SIcnt].Visible:=false;
-      FCRdiSettlementPictures[SIcnt].Width:=40;
+      FCRdiSettlementPictures[SIcnt].Width:=FCgFXsettlementIconsSize;
       FCRdiSettlementPictures[SIcnt].OnMouseEnter:=FCgfxCsettlementEvents.FCMgfxC_Settlement_OnMouseEnter;
       inc(SIcnt);
    end;
