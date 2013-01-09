@@ -1555,8 +1555,8 @@ end;
 
 procedure TFCWinMain.SD_SurfaceSelectedMouseEnter(Sender: TObject);
 begin
-//   SD_SurfaceSelector.Refresh;
-//   FCMuiSP_RegionDataPicture_Update(FCFuiSP_VarRegionSelected_Get, false);
+   SD_SurfaceSelector.BringToFront;
+   FCMuiSP_RegionDataPicture_Update(FCFuiSP_VarRegionSelected_Get, false);
 end;
 
 procedure TFCWinMain.SD_SurfaceSelectorClick(Sender: TObject);

@@ -76,6 +76,17 @@ procedure FCMoglVM_CamMain_Target(
    );
 
 ///<summary>
+///   target a specified space unit, this one must but owned by the player
+///</summary>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <returns></returns>
+///   <remarks></remarks>
+procedure FCMoglMV_Camera_TargetSpaceUnit( const DBSpaceUnit: integer);
+
+///<summary>
 ///   return the focused object. 0= star, 1= orbital object, 2= satellite, 3= space unit
 ///</summary>
 function FCFoglVM_Focused_Get(): integer;
@@ -784,10 +795,24 @@ begin
    end;
 end;
 
+procedure FCMoglMV_Camera_TargetSpaceUnit( const DBSpaceUnit: integer);
+{:Purpose: target a specified space unit, this one must but owned by the player.
+    Additions:
+}
+begin
+   if FCDdgEntities[0].E_spaceUnits[DBSpaceUnit].SU_linked3dObject>0 then
+   begin
+      FC3doglSelectedSpaceUnit:=FCDdgEntities[0].E_spaceUnits[DBSpaceUnit].SU_linked3dObject;
+      FCMoglVM_CamMain_Target(-1, true)
+      {:DEV NOTES: put the spu part of cammain target here + root test if DBSpaceUnit=0 then use FC3doglSelectedSpaceUnit.}
+   end;
+end;
+
 function FCFoglVM_Focused_Get(): integer;
 {:Purpose: return the focused object. 0= star, 1= orbital object, 2= satellite, 3= space unit.
     Additions:
 }
+{:DEV NOTES: put the result in an ENUM!.}
 begin
    if FCWinMain.FCGLSCamMainViewGhost.TargetObject=FCWinMain.FCGLSStarMain
    then Result:=0

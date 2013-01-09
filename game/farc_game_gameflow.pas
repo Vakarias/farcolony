@@ -93,6 +93,7 @@ uses
    ,farc_ogl_viewmain
    ,farc_ogl_ui
    ,farc_spu_functions
+   ,farc_ui_actionpanel
    ,farc_ui_coldatapanel
    ,farc_ui_msges
    ,farc_ui_win
@@ -231,6 +232,8 @@ end;
 procedure FCMgGFlow_Tasks_Process;
 {:Purpose: process the space units tasks. Replace the multiple threads creation.
     Additions:
+      -2013Jan08- *add/fix: colonization mission - set correctly which 3d object to focus during the atmospheric entry phase.
+                  *add/fix: colonization mission - in case where it's the orbital object of origin which is focused, the data about the colony is correctly displayed after the colonization post-processing.
       -2012Dec16- *add: a test is inserted to see if the action panel, for the current space unit, is opened.
       -2012Dec03- *fix: colonization mission - 3d object management is corrected.
       -2011Feb12- *add: tasks extra data for colonization mission.
@@ -330,6 +333,10 @@ begin
                   begin
                      {:DEV NOTES: TEST if the SPU IS IN THE CURRENTLY VIEWED PLANETARY SYSTEM!.}
 
+                     if FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCorigin=ttSpaceUnitDockedIn
+                     then FCMoglMV_Camera_TargetSpaceUnit(FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCoriginIndex)
+                     else begin
+
                            if FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCdestination=ttOrbitalObject
                            then FCMoglVM_CamMain_Target(FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCdestinationIndex, true)
                            else if FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCdestination=ttSatellite
@@ -338,8 +345,9 @@ begin
                               FC3doglSelectedSatellite:=FC3doglSatellitesObjectsGroups[FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCdestinationIndex].Tag;//! review that
                               FCMoglVM_CamMain_Target(100, true);
                            end;
-//                        end;
 //                     end;
+//                        end;
+                     end;
                      if GGFnewTick>=FCDdmtTaskListInProcess[GTPtaskIdx].T_inProcessData.IPD_ticksAtTaskStart+FCDdmtTaskListInProcess[GTPtaskIdx].T_duration
                      then FCDdmtTaskListInProcess[GTPtaskIdx].T_inProcessData.IPD_isTaskDone:=true;
                   end;
@@ -386,6 +394,13 @@ begin
                            ,FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCcolonyName
                            ,FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCsettlementName
                            );
+                        if ( FCFoglVM_Focused_Get=1 )
+                           and ( FCDduStarSystem[GTPssysDB].SS_stars[GTPstarDB].S_token=FCVdgPlayer.P_viewStar )
+                           and ( FC3doglSelectedPlanetAsteroid=FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCdestinationIndex) then
+                        begin
+                           FCMoglUI_Main3DViewUI_Update(oglupdtpTxtOnly, ogluiutFocObj);
+                           FCMuiAP_Update_OrbitalObject;
+                        end;
                      end
                      else if FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCdestination=ttSatellite
                      then
@@ -404,7 +419,17 @@ begin
                            ,FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCcolonyName
                            ,FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCsettlementName
                            );
+                        if ( FCFoglVM_Focused_Get=2 )
+                           and ( FCDduStarSystem[GTPssysDB].SS_stars[GTPstarDB].S_token=FCVdgPlayer.P_viewStar )
+                           and ( FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].TagFloat=GTPoobjDB)
+                           and ( FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].Tag=GTPsatDB) then
+                        begin
+                           FCMoglUI_Main3DViewUI_Update(oglupdtpTxtOnly, ogluiutFocObj);
+                           FCMuiAP_Update_OrbitalObject;
+                        end;
                      end;
+
+
                      FCDdmtTaskListInProcess[GTPtaskIdx].T_inProcessData.IPD_isTaskTerminated:=true;
                   end;
                end; //==END== case: tatpMissColonize ==//
