@@ -593,6 +593,7 @@ object FCWinMain: TFCWinMain
         Font.Style = []
         ParentFont = False
         TabOrder = 2
+        Visible = False
         OnClick = FCWM_IPinfraKitsClick
       end
     end
@@ -654,7 +655,7 @@ object FCWinMain: TFCWinMain
         Top = 19
         Width = 271
         Height = 269
-        ActivePage = FCWM_CDPcsme
+        ActivePage = FCWM_CDPinfr
         ActiveFont.Charset = DEFAULT_CHARSET
         ActiveFont.Color = 13238272
         ActiveFont.Height = -11

@@ -486,6 +486,7 @@ end;
 procedure FCMuiW_UI_Initialize(const UIUtp: TFCEmwinUpdTp);
 {:Purpose: update and initialize all user's interface elements of the game.
    Additions:
+      -2013Jan09- *mod: adjustment of ActionPanel width for french language.
       -2012Dec02- *add: action panel - orbital object data + AP_DetailedData + AP_DockingList + AP_MissionColonization + AP_MissionInterplanetaryTransit + AP_MissionCancel buttons.
       -2012Nov29- *add: action panel.
       -2012Sep09- *add: UMI - Faction - Dependencies Circular Progress - linked description label.
@@ -1041,7 +1042,7 @@ begin
       FCWinMain.FCWM_CPSRSIGscores.Width:=180;
       FCWinMain.FCWM_CPSRSinfogroup.Width:=FCWinMain.FCWM_CPSreportSet.Width-8-FCWinMain.FCWM_CPSRSIGscores.Width;
       {.action panel}
-      FCWinMain.WM_ActionPanel.Width:=180;
+      FCWinMain.WM_ActionPanel.Width:=197;
    end;
    if UIUtp<>mwupAll
    then

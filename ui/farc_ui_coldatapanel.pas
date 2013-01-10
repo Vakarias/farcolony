@@ -1297,10 +1297,14 @@ begin
                      );
                end;
 
-               isInTransition: FCWinMain.FCWM_CDPinfrList.Items.AddChild(
-                  CPUsubnode
-                  ,FCFdTFiles_UIStr_Get(uistrUI, CPUinfStatus)+': '+IntToStr( FCDdgEntities[0].E_colonies[CDPcurrentColony].C_settlements[CDPcurrentSettlement].S_infrastructures[CPUcnt].I_cabDuration )+' hr(s)'
-                  );
+               isInTransition:
+               begin
+                     if  FCDdgEntities[0].E_colonies[CDPcurrentColony].C_settlements[CDPcurrentSettlement].S_infrastructures[CPUcnt].I_cabDuration=-1
+                     then FCWinMain.FCWM_CDPinfrList.Items.AddChild(
+                     CPUsubnode, FCFdTFiles_UIStr_Get( uistrUI, 'infralackofstaff' ) )
+                     else FCWinMain.FCWM_CDPinfrList.Items.AddChild(
+                  CPUsubnode, FCFdTFiles_UIStr_Get(uistrUI, CPUinfStatus)+': '+IntToStr( FCDdgEntities[0].E_colonies[CDPcurrentColony].C_settlements[CDPcurrentSettlement].S_infrastructures[CPUcnt].I_cabDuration )+' hr(s)');
+               end;
             end;
             inc(CPUcnt);
          end; //==END== while CPUcnt<=CPUmax do ==//
@@ -1334,11 +1338,19 @@ begin
                end;
                CPUsubnodeTp:=CPUsubnode.getFirstChild;
                case FCDdgEntities[0].E_colonies[CDPcurrentColony].C_settlements[CDPcurrentSettlement].S_infrastructures[DataIndex1].I_status of
-                  isInConversion, isInAssembling, isInBluidingSite: CPUsubnodetp.Text:=
-                     FCFdTFiles_UIStr_Get(uistrUI, CPUinfStatus)+': '+IntToStr(
-                        FCDdgEntities[0].E_colonies[CDPcurrentColony].C_settlements[CDPcurrentSettlement].S_infrastructures[DataIndex1].I_cabDuration
-                        -FCDdgEntities[0].E_colonies[CDPcurrentColony].C_settlements[CDPcurrentSettlement].S_infrastructures[DataIndex1].I_cabWorked
-                        )+' hr(s)';
+                  isInConversion, isInAssembling, isInBluidingSite:
+                  begin
+                     if FCDdgEntities[0].E_colonies[CDPcurrentColony].C_settlements[CDPcurrentSettlement].S_infrastructures[DataIndex1].I_cabWorked=-1
+                     then CPUsubnodetp.Text:=
+                        FCFdTFiles_UIStr_Get(uistrUI, CPUinfStatus)+': '+IntToStr(
+                           FCDdgEntities[0].E_colonies[CDPcurrentColony].C_settlements[CDPcurrentSettlement].S_infrastructures[DataIndex1].I_cabDuration
+                           )+' hr(s)'
+                     else CPUsubnodetp.Text:=
+                        FCFdTFiles_UIStr_Get(uistrUI, CPUinfStatus)+': '+IntToStr(
+                           FCDdgEntities[0].E_colonies[CDPcurrentColony].C_settlements[CDPcurrentSettlement].S_infrastructures[DataIndex1].I_cabDuration
+                           -FCDdgEntities[0].E_colonies[CDPcurrentColony].C_settlements[CDPcurrentSettlement].S_infrastructures[DataIndex1].I_cabWorked
+                           )+' hr(s)';
+                  end;
 
                   isInTransition:
                   begin
@@ -1348,11 +1360,8 @@ begin
                         +FCFdTFiles_UIStr_Get(uistrUI, FCDdgEntities[0].E_colonies[CDPcurrentColony].C_settlements[CDPcurrentSettlement].S_infrastructures[DataIndex1].I_token)
                         +' '+UIHTMLencyBEGIN+FCDdgEntities[0].E_colonies[CDPcurrentColony].C_settlements[CDPcurrentSettlement].S_infrastructures[DataIndex1].I_token+UIHTMLencyEND;
                      if  FCDdgEntities[0].E_colonies[CDPcurrentColony].C_settlements[CDPcurrentSettlement].S_infrastructures[DataIndex1].I_cabDuration=-1
-                     then CPUsubnodetp.Text:=
-                        FCFdTFiles_UIStr_Get(uistrUI, CPUinfStatus)+': lack of staff - cannot be operated until the entire needed staff is available.'   //or right click to show the details or for details
-                     else CPUsubnodetp.Text:=
-                        FCFdTFiles_UIStr_Get(uistrUI, CPUinfStatus)+': '+IntToStr( FCDdgEntities[0].E_colonies[CDPcurrentColony].C_settlements[CDPcurrentSettlement].S_infrastructures[DataIndex1].I_cabDuration )+' hr(s)'
-                        ;
+                     then CPUsubnodetp.Text:=FCFdTFiles_UIStr_Get( uistrUI, 'infralackofstaff' )
+                     else CPUsubnodetp.Text:=FCFdTFiles_UIStr_Get(uistrUI, CPUinfStatus)+': '+IntToStr( FCDdgEntities[0].E_colonies[CDPcurrentColony].C_settlements[CDPcurrentSettlement].S_infrastructures[DataIndex1].I_cabDuration )+' hr(s)';
                   end;
 
                   isOperational:

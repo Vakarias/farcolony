@@ -1518,6 +1518,11 @@
       <FR>Production</FR>
       <SP>Producción</SP>
    </infrafunc_Prod>
+   <infralackofstaff>
+      <EN>Lack of staff: Right click on name for details</EN>
+      <FR>Manque de staff: Click droit sur le nom pour les détails</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </infralackofstaff>
    <infrastatus_disabled>
       <EN>Disabled</EN>
       <FR>Hors Service</FR>

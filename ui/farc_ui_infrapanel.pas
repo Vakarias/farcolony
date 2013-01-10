@@ -384,6 +384,7 @@ procedure FCMuiIP_InfraList_Setup(
          );
 {:Purpose: setup the panel for display the configuration interface of the selected infrastructure.
     Additions:
+      -2013Jan09- *add: hide useless interface elements.
       -2011Jun06- *add: display the real infrastructure name.
       -2011May30- *add: 2 parameters for gather the mouse position for display the panel under the mouse cursor.
       -2011May26- *add: infrastructure name and details hotlink display.
@@ -410,6 +411,7 @@ begin
          );
       FCWinMain.FCWM_InfraPanel.Left:=FCWinMain.FCWM_ColDPanel.Left+ILSmouseX+(FCWinMain.FCWM_InfraPanel.Width shr 1);
       FCWinMain.FCWM_InfraPanel.Top:=FCWinMain.FCWM_ColDPanel.Top+ILSmouseY+18;
+      FCWinMain.FCWM_IPconfirmButton.Hide;
       FCWinMain.FCWM_InfraPanel.Visible:=true;
       FCWinMain.FCWM_InfraPanel.BringToFront;
    end; //==END== else if ILSinfraIndex>0 ==//
