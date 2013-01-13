@@ -180,12 +180,17 @@ type TFCEdipProductFunctions=(
    ,pfEnergyGeneration
    ,pfFood
    ,pfInfrastructureKit
-   ,pfManualConstruction
+   ,pfManpowerConstruction
    ,pfManufacturingMaterial
-   ,pfMechanicalConstruction
+   ,pfMechanizedConstruction
    ,pfMultipurposeMaterial
    ,pfOxygen
    ,pfSpaceMaterial
+   ,pfSurveyAir
+   ,pfSurveyAntigrav
+   ,pfSurveyGround
+   ,pfSurveySpace
+   ,pfSurveySwarmAntigrav
    ,pfWater
    );
 
@@ -279,7 +284,7 @@ end;
 
 {:REFERENCES LIST
    - productsdb.xml
-   - FCMdF_DBProducts_Read
+   - FCMdF_DBProducts_Load
 }
 ///<summary>
 ///   product
@@ -317,11 +322,11 @@ type TFCRdipProduct= record
          P_fIKlevel: integer;
          );
 
-      pfManualConstruction:( P_fManCwcpCoef: extended );
+      pfManpowerConstruction:( P_fManCwcpCoef: extended );
 
       pfManufacturingMaterial:();
 
-      pfMechanicalConstruction:(
+      pfMechanizedConstruction:(
          P_fMechCwcpCoef: extended;
          P_fMechCcrew: integer
          );
@@ -345,7 +350,17 @@ type TFCRdipProduct= record
          P_fSMyoungModulusByDevLevel: extended;
          P_fSMthermalProtection: extended;
          P_fSMreflectivity: extended;
-         P_fSMcorrosiveClass: TFCEdipCorrosiveClasses
+         P_fSMcorrosiveClass: TFCEdipCorrosiveClasses;
+         );
+
+      pfSurveyAir, pfSurveyAntigrav, pfSurveyGround, pfSurveySpace, pfSurveySwarmAntigrav:(
+         P_fSspeed: integer;
+         P_fSmissionTime: integer;
+         P_fScapabilityResources: integer;
+         P_fScapabilityBiosphere: integer;
+         P_fScapabilitySettlements: integer;
+         P_fScapabilityFeaturesArtifacts: integer;
+         P_fScrew: integer
          );
 
       pfWater:( P_fWpoints: integer );

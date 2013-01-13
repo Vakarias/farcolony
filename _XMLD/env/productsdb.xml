@@ -15,21 +15,6 @@
       stGas
       stBiologic
       
-   {.product functions}
-   [function]
-      pfBuildingMaterial
-      pfBuildingSupportEquipment
-      pfEnergyGeneration
-      pfFood
-      pfInfrastructureKit
-      pfManualConstruction
-      pfManufacturingMaterial
-      pfMechanicalConstruction
-      pfMultipurposeMaterial
-      pfOxygen
-      pfSpaceMaterial
-      pfWater
-      
    {.product corrosive classes}
    [corrosiveidx]
       ccD_Poor
@@ -55,12 +40,17 @@
       <function token="pfEnergyGeneration"/>
       <function token="pfFood" foodpoint=""/>
       <function token="pfInfraKit" infratoken="" infralevel=""/>
-      <function token="pfManConstruction" wcpcoef=""/>
+      <function token="pfManpowerConstruction" wcpcoef=""/>
       <function token="pfManufacturingMat"/>
-      <function token="pfMechConstruction" wcp="" crew=""/>
+      <function token="pfMechanizedConstruction" wcp="" crew=""/>
       <function token="pfMultipurposeMat" tensilestr="" tsbylevel="" youngmodulus="" ymbylevel="" thermalprot="" reflectivity="" corrosiveclass=""/>
       <function token="pfOxygen" oxypoint=""/>
       <function token="pfSpaceMat" tensilestr="" tsbylevel="" youngmodulus="" ymbylevel="" thermalprot="" reflectivity="" corrosiveclass=""/>
+      <function token="pfSurveyAir" speed="" missionTime="" capabResources="" capabBiosphere="" capabSettlements="" capabFeaturesArtifacts="" crew=""/>
+      <function token="pfSurveyAntigrav" speed="" missionTime="" capabResources="" capabBiosphere="" capabSettlements="" capabFeaturesArtifacts="" crew=""/>
+      <function token="pfSurveyGround" speed="" missionTime="" capabResources="" capabBiosphere="" capabSettlements="" capabFeaturesArtifacts="" crew=""/>
+      <function token="pfSurveySpace" speed="" missionTime="" capabResources="" capabBiosphere="" capabSettlements="" capabFeaturesArtifacts="" crew=""/>
+      <function token="pfSurveySwarmAntigrav" speed="" missionTime="" capabResources="" capabBiosphere="" capabSettlements="" capabFeaturesArtifacts="" crew=""/>
       <function token="pfWater" waterpoint=""/>
       <tags>
          <hazEnv/>
@@ -237,15 +227,15 @@
    </product>
    <!-- Advanced Tools - Equipment -->
    <product token="equipAdvTools" class="pcEquipment" storage="stSolid" cargo="" volbyunit="0.004" massbyunit="0.006">
-      <function token="pfManualConstruction" wcpcoef="1.25"/>
+      <function token="pfManpowerConstruction" wcpcoef="1.25"/>
    </product>
    <!-- Construction Exowalkers - Equipment -->
    <product token="equipConstrExo" class="pcEquipment" storage="stSolid" cargo="" volbyunit="3.2" massbyunit="4.054">
-      <function token="pfMechanicalConstruction" wcp="15" crew="4"/>
+      <function token="pfMechanizedConstruction" wcp="15" crew="4"/>
    </product>
    <!-- Hand Tools -Equipment -->
    <product token="equipHandTools" class="pcEquipment" storage="stSolid" cargo="" volbyunit="0.002" massbyunit="0.004">
-      <function token="pfManualConstruction" wcpcoef="0.67"/>
+      <function token="pfManpowerConstruction" wcpcoef="0.67"/>
    </product>
    <!-- Humidity Trap [level 1] - Equipment -->
    <product token="equipHumidityTrap1" class="pcEquipment" storage="stSolid" cargo="" volbyunit="13.72" massbyunit="33.624">
@@ -321,7 +311,7 @@
    </product>
    <!-- Power Tools - Equipment -->
    <product token="equipPowerTools" class="pcEquipment" storage="stSolid" cargo="" volbyunit="0.004" massbyunit="0.007">
-      <function token="pfManualConstruction" wcpcoef="1"/>
+      <function token="pfManpowerConstruction" wcpcoef="1"/>
    </product>
    <!-- Pressurized Tanks Array [level 1] - Equipment -->
    <product token="equipPressTanksArr1" class="pcEquipment" storage="stSolid" cargo="" volbyunit="3.656" massbyunit="13.125">

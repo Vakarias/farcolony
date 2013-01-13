@@ -598,7 +598,7 @@ begin
          while WCPRCstorCnt<=WCPRCmax do
          begin
             WCPRCdbCnt:=FCFgP_Product_GetIndex(FCDdgEntities[0].E_colonies[WCPRCcol].C_storedProducts[WCPRCstorCnt].SP_token);
-            if ( FCDdipProducts[WCPRCdbCnt].P_function=pfManualConstruction )
+            if ( FCDdipProducts[WCPRCdbCnt].P_function=pfManpowerConstruction )
                and ( FCDdgEntities[0].E_colonies[WCPRCcol].C_storedProducts[WCPRCstorCnt].SP_unit>0 )
             then
             begin
@@ -627,7 +627,7 @@ begin
          while WCPRCstorCnt<=WCPRCmax do
          begin
             WCPRCdbCnt:=FCFgP_Product_GetIndex(FCDdgEntities[0].E_colonies[WCPRCcol].C_storedProducts[WCPRCstorCnt].SP_token);
-            if ( FCDdipProducts[WCPRCdbCnt].P_function=pfMechanicalConstruction )
+            if ( FCDdipProducts[WCPRCdbCnt].P_function=pfMechanizedConstruction )
                and ( FCDdgEntities[0].E_colonies[WCPRCcol].C_storedProducts[WCPRCstorCnt].SP_unit>0 )
             then
             begin

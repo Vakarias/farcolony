@@ -972,6 +972,7 @@ end;
 procedure FCMdF_DBProducts_Load;
 {:Purpose: load the products database XML file.
    Additions:
+      -2013Jan13- *add: new functions: Survey-Air, Survey-Antigrav, Survey-Ground, Survey-Space and Survey-Swarm Antigrav.
       -2012Aug01- *code audit:
                      (x)var formatting + refactoring     (x)if..then reformatting   (x)function/procedure refactoring
                      (_)parameters refactoring           (x) ()reformatting         (_)code optimizations
@@ -1066,9 +1067,9 @@ begin
                      FCDdipProducts[Count].P_fIKlevel:=XMLProductItem.Attributes['infralevel'];
                   end;
 
-                  pfManualConstruction: FCDdipProducts[Count].P_fManCwcpCoef:=StrToFloat( XMLProductItem.Attributes['wcpcoef'], FCVdiFormat );
+                  pfManpowerConstruction: FCDdipProducts[Count].P_fManCwcpCoef:=StrToFloat( XMLProductItem.Attributes['wcpcoef'], FCVdiFormat );
 
-                  pfMechanicalConstruction:
+                  pfMechanizedConstruction:
                   begin
                      FCDdipProducts[Count].P_fMechCwcpCoef:=StrToFloat( XMLProductItem.Attributes['wcp'], FCVdiFormat );
                      FCDdipProducts[Count].P_fMechCcrew:=XMLProductItem.Attributes['crew'];
@@ -1092,7 +1093,6 @@ begin
 
                   pfSpaceMaterial:
                   begin
-                     FCDdipProducts[Count].P_function:=pfSpaceMaterial;
                      FCDdipProducts[Count].P_fSMtensileStrength:=StrToFloat( XMLProductItem.Attributes['tensilestr'], FCVdiFormat );
                      FCDdipProducts[Count].P_fSMtensileStrengthByDevLevel:=StrToFloat( XMLProductItem.Attributes['tsbylevel'], FCVdiFormat );
                      FCDdipProducts[Count].P_fSMyoungModulus:=StrToFloat( XMLProductItem.Attributes['youngmodulus'], FCVdiFormat );
@@ -1103,6 +1103,17 @@ begin
                      FCDdipProducts[Count].P_fSMcorrosiveClass:=TFCEdipCorrosiveClasses( EnumIndex );
                      if EnumIndex=-1
                      then raise Exception.Create( 'bad corrosive class: '+XMLProductItem.Attributes['corrosiveclass'] );
+                  end;
+
+                  pfSurveyAir, pfSurveyAntigrav, pfSurveyGround, pfSurveySpace, pfSurveySwarmAntigrav:
+                  begin
+                     FCDdipProducts[Count].P_fSspeed:=XMLProductItem.Attributes['speed'];
+                     FCDdipProducts[Count].P_fSmissionTime:=XMLProductItem.Attributes['missionTime'];
+                     FCDdipProducts[Count].P_fScapabilityResources:=XMLProductItem.Attributes['capabResources'];
+                     FCDdipProducts[Count].P_fScapabilityBiosphere:=XMLProductItem.Attributes['capabBiosphere'];
+                     FCDdipProducts[Count].P_fScapabilitySettlements:=XMLProductItem.Attributes['capabSettlements'];
+                     FCDdipProducts[Count].P_fScapabilityFeaturesArtifacts:=XMLProductItem.Attributes['capabFeaturesArtifacts'];
+                     FCDdipProducts[Count].P_fScrew:=XMLProductItem.Attributes['crew'];
                   end;
 
                   pfWater: FCDdipProducts[Count].P_fWpoints:=XMLProductItem.Attributes['waterpoint'];
