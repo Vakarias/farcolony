@@ -460,7 +460,15 @@ type TFCRduOObRegion = record
    OOR_settlementColony: integer;
    OOR_settlementIndex: integer;
    {.environment modifier}
-   OOR_emo: extended;
+   OOR_emo: record
+      EMO_planetarySurveyGround: extended;
+      EMO_planetarySurveyAir: extended;
+      EMO_planetarySurveyAntigrav: extended;
+      EMO_planetarySurveySwarmAntigrav: extended;
+      EMO_cab: extended;
+      EMO_iwc: extended;
+      EMO_groundCombat: extended;
+   end;
    {.resources data}
    OOR_resourceSpot: array of record
       RS_type: TFCEduResourceSpotTypes;

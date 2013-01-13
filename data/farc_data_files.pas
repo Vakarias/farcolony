@@ -1416,6 +1416,7 @@ end;
 procedure FCMdF_DBStarOrbitalObjects_Load( const StarSystemToken, StarToken: string );
 {:Purpose: load the orbital objects, if there's any, of a specified star in the universe database XML file.
    Additions:
+      -2013Jan13- *add/mod: expansion of the region's EMO modifiers.
       -2012Aug05- *code audit:
                      (x)var formatting + refactoring     (x)if..then reformatting   (_)function/procedure refactoring
                      (_)parameters refactoring           (x) ()reformatting         (_)code optimizations
@@ -1643,7 +1644,13 @@ begin
                   FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_regions[Count1].OOR_settlementEntity:=0;
                   FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_regions[Count1].OOR_settlementColony:=0;
                   FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_regions[Count1].OOR_settlementIndex:=0;
-                  FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_regions[Count1].OOR_emo:=StrToFloat( XMLOObjSub1.Attributes['emo'], FCVdiFormat );
+                  FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_regions[Count1].OOR_emo.EMO_planetarySurveyGround:=StrToFloat( XMLOObjSub1.Attributes['emoPlanSurveyG'], FCVdiFormat );
+                  FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_regions[Count1].OOR_emo.EMO_planetarySurveyAir:=StrToFloat( XMLOObjSub1.Attributes['emoPlanSurveyA'], FCVdiFormat );
+                  FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_regions[Count1].OOR_emo.EMO_planetarySurveyAntigrav:=StrToFloat( XMLOObjSub1.Attributes['emoPlanSurveyAG'], FCVdiFormat );
+                  FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_regions[Count1].OOR_emo.EMO_planetarySurveySwarmAntigrav:=StrToFloat( XMLOObjSub1.Attributes['emoPlanSurveySAG'], FCVdiFormat );
+                  FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_regions[Count1].OOR_emo.EMO_cab:=StrToFloat( XMLOObjSub1.Attributes['emoCAB'], FCVdiFormat );
+                  FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_regions[Count1].OOR_emo.EMO_iwc:=StrToFloat( XMLOObjSub1.Attributes['emoIWC'], FCVdiFormat );
+                  FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_regions[Count1].OOR_emo.EMO_groundCombat:=StrToFloat( XMLOObjSub1.Attributes['emoGroundCombat'], FCVdiFormat );
                   SetLength( FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_regions[Count1].OOR_resourceSpot, 1 );
                   Count2:=1;
                   XMLOObjSub2:=XMLOObjSub1.ChildNodes.First;
@@ -1830,7 +1837,13 @@ begin
                         FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_regions[Count1].OOR_settlementEntity:=0;
                         FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_regions[Count1].OOR_settlementColony:=0;
                         FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_regions[Count1].OOR_settlementIndex:=0;
-                        FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_regions[Count1].OOR_emo:=StrToFloat( XMLOObjSub1.Attributes['emo'], FCVdiFormat );
+                        FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_regions[Count1].OOR_emo.EMO_planetarySurveyGround:=StrToFloat( XMLOObjSub1.Attributes['emoPlanSurveyG'], FCVdiFormat );
+                        FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_regions[Count1].OOR_emo.EMO_planetarySurveyAir:=StrToFloat( XMLOObjSub1.Attributes['emoPlanSurveyA'], FCVdiFormat );
+                        FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_regions[Count1].OOR_emo.EMO_planetarySurveyAntigrav:=StrToFloat( XMLOObjSub1.Attributes['emoPlanSurveyAG'], FCVdiFormat );
+                        FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_regions[Count1].OOR_emo.EMO_planetarySurveySwarmAntigrav:=StrToFloat( XMLOObjSub1.Attributes['emoPlanSurveySAG'], FCVdiFormat );
+                        FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_regions[Count1].OOR_emo.EMO_cab:=StrToFloat( XMLOObjSub1.Attributes['emoCAB'], FCVdiFormat );
+                        FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_regions[Count1].OOR_emo.EMO_iwc:=StrToFloat( XMLOObjSub1.Attributes['emoIWC'], FCVdiFormat );
+                        FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_regions[Count1].OOR_emo.EMO_groundCombat:=StrToFloat( XMLOObjSub1.Attributes['emoGroundCombat'], FCVdiFormat );
                         SetLength(FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_regions[Count1].OOR_resourceSpot, 1);
                         Count2:=1;
                         XMLOObjSub2:=XMLOObjSub1.ChildNodes.First;

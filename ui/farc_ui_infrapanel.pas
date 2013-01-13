@@ -195,14 +195,14 @@ begin
                UIIPinfrastructure.I_volume[FCDdgEntities[0].E_colonies[UIIPcolony].C_settlements[UIIPsettlement].S_level]
                ,1
                ,UIIPiCWP
-               ,FCDduStarSystem[AIScurrLocation.CLI_starsys].SS_stars[AIScurrLocation.CLI_star].S_orbitalObjects[AIScurrLocation.CLI_oobj].OO_regions[ FCDdgEntities[0].E_colonies[UIIPcolony].C_settlements[UIIPcolony].S_locationRegion ].OOR_emo
+               ,FCDduStarSystem[AIScurrLocation.CLI_starsys].SS_stars[AIScurrLocation.CLI_star].S_orbitalObjects[AIScurrLocation.CLI_oobj].OO_regions[ FCDdgEntities[0].E_colonies[UIIPcolony].C_settlements[UIIPcolony].S_locationRegion ].OOR_emo.EMO_cab
                )
             else if AIScurrLocation.CLI_sat<>0
             then UIIPduration:=FCFgICS_BuildingDuration_Calculation(
                UIIPinfrastructure.I_volume[FCDdgEntities[0].E_colonies[UIIPcolony].C_settlements[UIIPsettlement].S_level]
                ,1
                ,UIIPiCWP
-               ,FCDduStarSystem[AIScurrLocation.CLI_starsys].SS_stars[AIScurrLocation.CLI_star].S_orbitalObjects[AIScurrLocation.CLI_oobj].OO_satellitesList[AIScurrLocation.CLI_sat].OO_regions[ FCDdgEntities[0].E_colonies[UIIPcolony].C_settlements[UIIPcolony].S_locationRegion ].OOR_emo
+               ,FCDduStarSystem[AIScurrLocation.CLI_starsys].SS_stars[AIScurrLocation.CLI_star].S_orbitalObjects[AIScurrLocation.CLI_oobj].OO_satellitesList[AIScurrLocation.CLI_sat].OO_regions[ FCDdgEntities[0].E_colonies[UIIPcolony].C_settlements[UIIPcolony].S_locationRegion ].OOR_emo.EMO_cab
                );
             AIStask:=FCFdTFiles_UIStr_Get(uistrUI, 'FCWMtaskBuild');
             AISicwpResult:=FCFdTFiles_UIStr_Get(uistrUI, 'FCWMtaskCWPbuild')+' <b>'+FloatToStr(UIIPiCWP)+'</b> ...';
