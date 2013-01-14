@@ -2397,6 +2397,16 @@
       <FR>Outils Avancés</FR>
       <SP>Herramientas Avanzadas</SP>
    </equipAdvTools>
+   <equipAirships>
+      <EN>Airships</EN>
+      <FR>Dirigeables</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </equipAirships>
+   <equipAGravScoutPlat>
+      <EN>Antigrav Scout Platforms</EN>
+      <FR>Plateformes Scout Antigrav</FR>
+      <SP>!TO TRANSLATE, as note: antigrav=antigravity!</SP>
+   </equipAGravScoutPlat>
    <equipConstrExo>
       <EN>Construction Exowalkers</EN>
       <FR>Exowalkers de Construction</FR>

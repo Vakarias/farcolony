@@ -251,19 +251,33 @@
    <energNucFisReactor2>
       <EN></EN>
       <FR></FR>
+      <SP></SP>
    </energNucFisReactor2>
    <energNucFisReactor3>
       <EN></EN>
       <FR></FR>
+      <SP></SP>
    </energNucFisReactor3>
    <energNucPellets>
       <EN></EN>
       <FR></FR>
+      <SP></SP>
    </energNucPellets>
    <equipAdvTools>
       <EN></EN>
       <FR></FR>
+      <SP></SP>
    </equipAdvTools>
+   <equipAirships>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </equipAirships>
+   <equipAGravScoutPlat>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </equipAGravScoutPlat>
    <equipConstrExo>
       <EN></EN>
       <FR></FR>
@@ -789,6 +803,7 @@
       <hintitem link="cpsVOotEcoLowCr" title="CPS Objective: Low Credit Line Use"/>
       <hintitem link="cpsVOotEcoSustCol" title="CPS Objective: Sustainable Colony"/>
       <hintitem link="cpsVOotSocSecPop" title="CPS Objective: Secure Population"/>
+      <!-- test -->
       <hintitem link="csmRoot" title="CSM: Colony Simulation Model"/>
       <hintitem link="csmData" title="CSM: Data Management"/>
       <hintitem link="csmDataCohesion" title="CSM Data: Cohesion"/>
@@ -861,9 +876,11 @@
       <hintitem link="SPMi_ZeroTol" title="Policy: Zero Tolerance"/>
       <hintitem link="Products_Root" title="Products"/>
       <hintitem link="equipAdvTools" title="Product: Advanced Tools"/>
+      <hintitem link="equipAirships" title="Product: Airships"/>
       <hintitem link="matAluminium" title="Product: Aluminium"/>
       <hintitem link="resNH3" title="Product: Ammonia"/>
       <hintitem link="bioAnimalFood" title="Product: Animal Food"/>
+      <hintitem link="equipAGravScoutPlat" title="Product: Antigrav Scout Platforms"/>
       <hintitem link="matCarbComposites" title="Product: Carbon Composites"/>
       <hintitem link="matConcrete" title="Product: Concrete"/>
       <hintitem link="equipConstrExo" title="Product: Construction Exowalkers"/>
@@ -1010,6 +1027,7 @@
       <hintitem link="matSilver" title="Produit: Argent"/>
       <hintitem link="matConcrete" title="Produit: Béton"/>
       <hintitem link="matCarbComposites" title="Produit: Composites de Carbone"/>
+      <hintitem link="equipAirships" title="Produit: Dirigeables"/>
       <hintitem link="equipMultiDepot1" title="Produit: Entrepôt Multifonction [niveau 1]"/>
       <hintitem link="equipMultiDepot2" title="Produit: Entrepôt Multifonction [niveau 2]"/>
       <hintitem link="equipMultiDepot3" title="Produit: Entrepôt Multifonction [niveau 3]"/>
@@ -1044,6 +1062,7 @@
       <hintitem link="equipHumidityTrap4" title="Produit: Piège à Humidité [niveau 4]"/>
       <hintitem link="equipHumidityTrap5" title="Produit: Piège à Humidité [niveau 5]"/>
       <hintitem link="matPlastics" title="Produit: Plastiques"/>
+      <hintitem link="equipAGravScoutPlat" title="Produit: Plateformes Scout Antigrav"/>
       <hintitem link="energNucFisReactor1" title="Produit: Réacteur à Fission Nucléaire [niveau 1]"/>
       <hintitem link="energNucFisReactor2" title="Produit: Réacteur à Fission Nucléaire [niveau 2]"/>
       <hintitem link="energNucFisReactor3" title="Produit: Réacteur à Fission Nucléaire [niveau 3]"/>
@@ -1148,6 +1167,8 @@
       <hintitem link="SPMi_ZeroTol" title="Política: Tolerancia Zero"/>
       <hintitem link="SPMi_AntiHumSpacef" title="Política: Vuelo Espacial Antihumano"/>
       <hintitem link="Products_Root" title="Productos"/>
+      <hintitem link="equipAirships" title="Product: !TO TRANSLATE!"/>
+      <hintitem link="equipAGravScoutPlat" title="Product: !TO TRANSLATE!"/>
       <hintitem link="matSteel" title="Productos: Acero"/>
       <hintitem link="matAluminium" title="Productos Aluminio"/>
       <hintitem link="resNH3" title="Productos: Amoniaco"/>

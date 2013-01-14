@@ -229,6 +229,17 @@
    <product token="equipAdvTools" class="pcEquipment" storage="stSolid" cargo="" volbyunit="0.004" massbyunit="0.006">
       <function token="pfManpowerConstruction" wcpcoef="1.25"/>
    </product>
+   <!-- Airships - Equipment -->
+   <product token="equipAirships" class="pcEquipment" storage="stSolid" cargo="" volbyunit="60.5" massbyunit="6.232">
+      <function token="pfSurveyAir" speed="960" missionTime="90" capabResources="1" capabBiosphere="1" capabSettlements="2" capabFeaturesArtifacts="2" crew="4"/>
+      <tags>
+         <hazFire/>
+      </tags>
+   </product>
+   <!-- Antigrav Scout Platforms - Equipment -->
+   <product token="equipAGravScoutPlat" class="pcEquipment" storage="stSolid" cargo="" volbyunit="18" massbyunit="4.05">
+      <function token="pfSurveyAntigrav" speed="6000" missionTime="30" capabResources="5" capabBiosphere="1" capabSettlements="4" capabFeaturesArtifacts="2" crew="-3"/>
+   </product>
    <!-- Construction Exowalkers - Equipment -->
    <product token="equipConstrExo" class="pcEquipment" storage="stSolid" cargo="" volbyunit="3.2" massbyunit="4.054">
       <function token="pfMechanizedConstruction" wcp="15" crew="4"/>
