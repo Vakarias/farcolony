@@ -2547,6 +2547,16 @@
       <FR>Grille de Réservoirs Préssurisés [niveau 7]</FR>
       <SP>Matriz de Tanques Presurizados [nivel 7] </SP>
    </equipPressTanksArr7>
+   <equipRoverSurveyVeh>
+      <EN>Rover Survey Vehicles</EN>
+      <FR>Véhicules Rover d'Etude</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </equipRoverSurveyVeh>
+   <equipScoutAutoRovers>
+      <EN>Scout Autonomous Rovers</EN>
+      <FR>Rovers Scout Autonomes</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </equipScoutAutoRovers>
    <matAluminium>
       <EN>Aluminium</EN>
       <FR>Aluminium</FR>

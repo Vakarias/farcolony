@@ -1111,9 +1111,9 @@ begin
                      FCDdipProducts[Count].P_fSmissionTime:=XMLProductItem.Attributes['missionTime'];
                      FCDdipProducts[Count].P_fScapabilityResources:=XMLProductItem.Attributes['capabResources'];
                      FCDdipProducts[Count].P_fScapabilityBiosphere:=XMLProductItem.Attributes['capabBiosphere'];
-                     FCDdipProducts[Count].P_fScapabilitySettlements:=XMLProductItem.Attributes['capabSettlements'];
                      FCDdipProducts[Count].P_fScapabilityFeaturesArtifacts:=XMLProductItem.Attributes['capabFeaturesArtifacts'];
                      FCDdipProducts[Count].P_fScrew:=XMLProductItem.Attributes['crew'];
+                     FCDdipProducts[Count].P_fvehicles:=XMLProductItem.Attributes['vehicles'];
                   end;
 
                   pfWater: FCDdipProducts[Count].P_fWpoints:=XMLProductItem.Attributes['waterpoint'];
@@ -2112,10 +2112,73 @@ begin
       XMLHelpItem:=XMLHelpRoot.ChildNodes.First;
       while XMLHelpItem<>nil do
       begin
-         inc( Count );
-         setlength( FCDBhelpTdef, Count+1 );
-         FCDBhelpTdef[Count].TD_link:=XMLHelpItem.Attributes['link'];
-         FCDBhelpTdef[Count].TD_str:=XMLHelpItem.Attributes['title'];
+         if XMLHelpItem.NodeName<>'#comment' then
+         begin
+            inc( Count );
+            setlength( FCDBhelpTdef, Count+1 );
+            FCDBhelpTdef[Count].TD_link:=XMLHelpItem.Attributes['link'];
+            FCDBhelpTdef[Count].TD_str:=XMLHelpItem.Attributes['title'];
+            {add 'section' and in the XML separate by section w/ <!-- --> between them, it's the fastest way to upgrade the encyclopedia w/multiple sections
+               the section is an enum:  Principles / Game Systems / CSM Events / SPM Policies / SPM Memes / Products / Infrastructures
+               Principles:
+                  -Intro (hard sci if + phases + scales + CPS/EP + Goals...)
+                  -Colonization Phase
+                  -Expansion Phase
+                  -Player vs AIs (describe the player's status vs AIs and how the player doesn't start any game like the AIs)
+               Game Systems:
+                  -CPS
+                     -Objectives
+                        -...
+                  -Colony Simulation Model (CSM)
+                     -Data
+                     -Population Growth System (PGS)
+                        -Population Types
+                           -...
+                        -Aging and Population Transfert Subsystems
+                        -Births
+                        -Deaths
+                     -Events
+                        -...
+                  -SPM
+                     -Memes
+                     -Policies
+                     -Political Systems
+                     -Economical Systems
+                     -Healthcare Systems
+                     -Spiritual Systems
+                  -Realtime & Turn-Based Game Flow
+                  -Tasks System
+                  -Planetary Survey
+                     -Biosphere Survey
+                     -Features & Artifacts Survey
+                     -Resources Survey
+                     -Settlement Survey
+                  -Space Units Missions
+                     -Missions
+                        -Colonization
+                        -Interplanetary Transit
+                  -Production
+                     -Energy Segment
+                     -Products Segment
+                        -Resources
+                           -...
+                        -Energy-Related
+                           -...
+                        -Materials
+                           -...
+                        -Bioproducts
+                           -...
+                        -Equipment
+                           -...
+                     -Reserves Segment
+                     -Space Units Manufacturing Segment
+                     -Conversion/Assembling/Building (CAB) Segment
+                        -Infrastructures
+                           -...
+               replace the list w/ a tree!
+
+            }
+         end;
          XMLHelpItem:=XMLHelpItem.NextSibling;
       end;
    end;

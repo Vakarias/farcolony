@@ -358,9 +358,9 @@ type TFCRdipProduct= record
          P_fSmissionTime: integer;
          P_fScapabilityResources: integer;
          P_fScapabilityBiosphere: integer;
-         P_fScapabilitySettlements: integer;
          P_fScapabilityFeaturesArtifacts: integer;
-         P_fScrew: integer
+         P_fScrew: integer;
+         P_fvehicles:integer
          );
 
       pfWater:( P_fWpoints: integer );

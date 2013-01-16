@@ -409,6 +409,16 @@
       <FR></FR>
       <SP></SP>
    </equipPressTanksArr7>
+   <equipRoverSurveyVeh>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </equipRoverSurveyVeh>
+   <equipScoutAutoRovers>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </equipScoutAutoRovers>
    <matAluminium>
       <EN></EN>
       <FR></FR>
@@ -920,6 +930,8 @@
       <hintitem link="equipPressTanksArr5" title="Product: Pressurized Tanks Array [level 5]"/>
       <hintitem link="equipPressTanksArr6" title="Product: Pressurized Tanks Array [level 6]"/>
       <hintitem link="equipPressTanksArr7" title="Product: Pressurized Tanks Array [level 7]"/>
+      <hintitem link="equipRoverSurveyVeh" title="Product: Rover Survey Vehicles"/>
+      <hintitem link="equipScoutAutoRovers" title="Product: Scout Autonomous Rovers"/>
       <hintitem link="matSilicon" title="Product: Silicon (Si)"/>
       <hintitem link="matSilver" title="Product: Silver"/>
       <hintitem link="matSWNT" title="Product: Single-Walled Nanotubes (SWNT)"/>
@@ -1071,6 +1083,8 @@
       <hintitem link="equipInflatGreen3" title="Produit: Serre Gonflable [niveau 3]"/>
       <hintitem link="matSilicon" title="Produit: Silicone (Si)"/>
       <hintitem link="matTitanium" title="Produit: Titane"/>
+      <hintitem link="equipRoverSurveyVeh" title="Produits: Véhicules Rover d'Etude"/>
+      <hintitem link="equipScoutAutoRovers" title="Produits: Rovers Scout Autonomes"/>
       <hintitem link="univAlbedo" title="Univers: Albédo"/>
       <hintitem link="tsciAlloys" title="Technoscience: Alliages"/>
       <hintitem link="tsciNucFission" title="Technoscience: Fission Nucléaire"/>
@@ -1167,8 +1181,10 @@
       <hintitem link="SPMi_ZeroTol" title="Política: Tolerancia Zero"/>
       <hintitem link="SPMi_AntiHumSpacef" title="Política: Vuelo Espacial Antihumano"/>
       <hintitem link="Products_Root" title="Productos"/>
-      <hintitem link="equipAirships" title="Product: !TO TRANSLATE!"/>
-      <hintitem link="equipAGravScoutPlat" title="Product: !TO TRANSLATE!"/>
+      <hintitem link="equipAirships" title="!TO TRANSLATE!"/>
+      <hintitem link="equipAGravScoutPlat" title="!TO TRANSLATE!"/>
+      <hintitem link="equipRoverSurveyVeh" title="!TO TRANSLATE!"/>
+      <hintitem link="equipScoutAutoRovers" title="!TO TRANSLATE!"/>
       <hintitem link="matSteel" title="Productos: Acero"/>
       <hintitem link="matAluminium" title="Productos Aluminio"/>
       <hintitem link="resNH3" title="Productos: Amoniaco"/>
