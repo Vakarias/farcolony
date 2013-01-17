@@ -2557,6 +2557,16 @@
       <FR>Rovers Scout Autonomes</FR>
       <SP>!TO TRANSLATE!</SP>
    </equipScoutAutoRovers>
+   <equipUAVSurveyVeh>
+      <EN>UAVs Survey Vehicles</EN>
+      <FR>Véhicules UAV d'Etude</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </equipUAVSurveyVeh>
+   <equipUtilFogScout>
+      <EN>Utility Fog Scout</EN>
+      <FR>Brouillard Utilitaire Scout</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </equipUtilFogScout>
    <matAluminium>
       <EN>Aluminium</EN>
       <FR>Aluminium</FR>

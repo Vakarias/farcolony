@@ -361,57 +361,11 @@
       <function token="pfSurveyGround" speed="35" missionTime="365" capabResources="4" capabBiosphere="3" capabFeaturesArtifacts="2" crew="-5" vehicles="5"/>
    </product>
    <!-- UAVs Survey Vehicles - Equipment -->
-   <product token="equipUAVSurveyVeh" class="pcEquipment" storage="stSolid" cargo="" volbyunit="" massbyunit="">
-      {case function specific data}
-      <function token="pfBuildingMat" tensilestr="" tsbylevel="" youngmodulus="" ymbylevel="" thermalprot="" reflectivity="" corrosiveclass=""/>
-      <function token="pfBuildingSupportEquip"/>
-      <function token="pfEnergyGeneration"/>
-      <function token="pfFood" foodpoint=""/>
-      <function token="pfInfraKit" infratoken="" infralevel=""/>
-      <function token="pfManpowerConstruction" wcpcoef=""/>
-      <function token="pfManufacturingMat"/>
-      <function token="pfMechanizedConstruction" wcp="" crew=""/>
-      <function token="pfMultipurposeMat" tensilestr="" tsbylevel="" youngmodulus="" ymbylevel="" thermalprot="" reflectivity="" corrosiveclass=""/>
-      <function token="pfOxygen" oxypoint=""/>
-      <function token="pfSpaceMat" tensilestr="" tsbylevel="" youngmodulus="" ymbylevel="" thermalprot="" reflectivity="" corrosiveclass=""/>
-      <function token="pfSurveyAir" speed="" missionTime="" capabResources="" capabBiosphere="" capabFeaturesArtifacts="" crew="" vehicles=""/>
-      <function token="pfSurveyAntigrav" speed="" missionTime="" capabResources="" capabBiosphere="" capabFeaturesArtifacts="" crew=""/>
-      <function token="pfSurveyGround" speed="" missionTime="" capabResources="" capabBiosphere="" capabFeaturesArtifacts="" crew=""/>
-      <function token="pfSurveySpace" speed="" missionTime="" capabResources="" capabBiosphere="" capabFeaturesArtifacts="" crew=""/>
-      <function token="pfSurveySwarmAntigrav" speed="" missionTime="" capabResources="" capabBiosphere="" capabFeaturesArtifacts="" crew=""/>
-      <function token="pfWater" waterpoint=""/>
-      <tags>
-         <hazEnv/>
-         <hazFire/>
-         <hazRad/>
-         <hazToxic/>
-      </tags>
+   <product token="equipUAVSurveyVeh" class="pcEquipment" storage="stSolid" cargo="" volbyunit="158.4" massbyunit="9.504">
+      <function token="pfSurveyAir" speed="700" missionTime="8" capabResources="1" capabBiosphere="1" capabFeaturesArtifacts="2" crew="4" vehicles="2"/>
    </product>
    <!-- Utility Fog Scout - Equipment -->
-   <product token="" class="" storage="" cargo="" volbyunit="" massbyunit="">
-      {case function specific data}
-      <function token="pfBuildingMat" tensilestr="" tsbylevel="" youngmodulus="" ymbylevel="" thermalprot="" reflectivity="" corrosiveclass=""/>
-      <function token="pfBuildingSupportEquip"/>
-      <function token="pfEnergyGeneration"/>
-      <function token="pfFood" foodpoint=""/>
-      <function token="pfInfraKit" infratoken="" infralevel=""/>
-      <function token="pfManpowerConstruction" wcpcoef=""/>
-      <function token="pfManufacturingMat"/>
-      <function token="pfMechanizedConstruction" wcp="" crew=""/>
-      <function token="pfMultipurposeMat" tensilestr="" tsbylevel="" youngmodulus="" ymbylevel="" thermalprot="" reflectivity="" corrosiveclass=""/>
-      <function token="pfOxygen" oxypoint=""/>
-      <function token="pfSpaceMat" tensilestr="" tsbylevel="" youngmodulus="" ymbylevel="" thermalprot="" reflectivity="" corrosiveclass=""/>
-      <function token="pfSurveyAir" speed="" missionTime="" capabResources="" capabBiosphere="" capabFeaturesArtifacts="" crew=""/>
-      <function token="pfSurveyAntigrav" speed="" missionTime="" capabResources="" capabBiosphere="" capabFeaturesArtifacts="" crew=""/>
-      <function token="pfSurveyGround" speed="" missionTime="" capabResources="" capabBiosphere="" capabFeaturesArtifacts="" crew=""/>
-      <function token="pfSurveySpace" speed="" missionTime="" capabResources="" capabBiosphere="" capabFeaturesArtifacts="" crew=""/>
-      <function token="pfSurveySwarmAntigrav" speed="" missionTime="" capabResources="" capabBiosphere="" capabFeaturesArtifacts="" crew="" vehicles=""/>
-      <function token="pfWater" waterpoint=""/>
-      <tags>
-         <hazEnv/>
-         <hazFire/>
-         <hazRad/>
-         <hazToxic/>
-      </tags>
+   <product token="equipUtilFogScout" class="pcEquipment" storage="stSolid" cargo="" volbyunit="1.5" massbyunit="2.363">
+      <function token="pfSurveySwarmAntigrav" speed="6000" missionTime="0" capabResources="4" capabBiosphere="6" capabFeaturesArtifacts="4" crew="0" vehicles="12"/>
    </product>
 </productsDB>
