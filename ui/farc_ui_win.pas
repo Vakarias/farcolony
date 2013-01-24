@@ -881,10 +881,10 @@ begin
       FCWinMain.FCWM_SP_SPic.Left:=1;
       FCWinMain.FCWM_SP_SPic.Top:=2;
       {.surface panel - right data}
-      FCWinMain.FCWM_SP_RDatFrm.Width:=FCWinMain.FCWM_SP_LDatFrm.Width;
-      FCWinMain.FCWM_SP_RDatFrm.Height:=FCWinMain.FCWM_SP_LDatFrm.Height;
-      FCWinMain.FCWM_SP_RDatFrm.Left:=FCWinMain.FCWM_SP_SPicFrm.Left+FCWinMain.FCWM_SP_SPicFrm.Width;
-      FCWinMain.FCWM_SP_RDatFrm.Top:=FCWinMain.FCWM_SP_SPicFrm.Top;
+      FCWinMain.SP_FrameRightResources.Width:=FCWinMain.FCWM_SP_LDatFrm.Width;
+      FCWinMain.SP_FrameRightResources.Height:=FCWinMain.FCWM_SP_LDatFrm.Height;
+      FCWinMain.SP_FrameRightResources.Left:=FCWinMain.FCWM_SP_SPicFrm.Left+FCWinMain.FCWM_SP_SPicFrm.Width;
+      FCWinMain.SP_FrameRightResources.Top:=FCWinMain.FCWM_SP_SPicFrm.Top;
       {.surface panel - data sheet}
       FCWinMain.FCWM_SP_DataSheet.Width:=FCWinMain.MVG_SurfacePanel.Width-FCWinMain.FCWM_SPShEcos_Lab.Width-FCWinMain.SP_SurfaceDisplay.Width-4;//270;
       FCWinMain.FCWM_SP_DataSheet.Height:=FCWinMain.FCWM_SPShEcos_Lab.Height;
@@ -1254,7 +1254,6 @@ begin
       FCWinMain.FCWM_SPShEcos_Lab.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
       FCWinMain.FCWM_SPShReg_Lab.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
       FCWinMain.FCWM_SP_LDat.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
-      FCWinMain.FCWM_SP_RDat.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
       {.viability objectives panel}
       if Assigned(FCcps)
       then

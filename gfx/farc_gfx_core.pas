@@ -36,6 +36,21 @@ uses
 
 //===========================END FUNCTIONS SECTION==========================================
 
+///<summary>
+///   centralized graphics initialization caller
+///</summary>
+procedure FCMgfxC_Main_Init;
+
+///<summary>
+///   initialize the planetary survey related assets
+///</summary>
+procedure FCMgfxC_PlanetarySurvey_Init;
+
+///<summary>
+///   switch the display state of the selected region's settlement
+///</summary>
+///   <param name=""></param>
+///   <param name=""></param>
 procedure FCMgfxC_Settlement_SwitchDisplay(const Region, RegionMax: integer);
 
 ///<summary>
@@ -105,6 +120,25 @@ begin
    else if (RegionSelected<>SOMEreg)
       and (FCWinMain.FCWM_SP_DataSheet.ActivePage<>FCWinMain.FCWM_SP_ShReg)
    then FCMuiSP_RegionDataPicture_Update(SOMEreg, true);
+end;
+
+procedure FCMgfxC_Main_Init;
+{:Purpose: centralized graphics initialization caller.
+    Additions:
+}
+begin
+   FCMgfxC_TerrainsCollection_Init;
+   if not Assigned(FCRdiSettlementPictures[1])
+   then FCMgfxC_Settlements_Init;
+   FCMgfxC_PlanetarySurvey_Init;
+end;
+
+procedure FCMgfxC_PlanetarySurvey_Init;
+{:Purpose: initialize the planetary survey related assets.
+    Additions:
+}
+begin
+   FCWinMain.FRR_IconResourcesSurvey.Bitmap.LoadFromFile(FCVdiPathResourceDir+'pics-ui-resources\resourceSurvey.jpg');
 end;
 
 procedure FCMgfxC_Settlement_SwitchDisplay(const Region, RegionMax: integer);

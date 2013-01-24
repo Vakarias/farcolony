@@ -1149,7 +1149,7 @@ begin
             {.set interface}
             FCWM_SP_LDatFrm.Visible:=false;
             FCWM_SP_SPicFrm.Visible:=false;
-            FCWM_SP_RDatFrm.Visible:=false;
+            SP_FrameRightResources.Visible:=false;
             SP_SurfaceDisplay.Visible:=false;
             if SPstoredPanelWidth=0
             then SPstoredPanelWidth:=MVG_SurfacePanel.Width;
@@ -1167,7 +1167,7 @@ begin
                {.set interface}
                FCWM_SP_LDatFrm.Visible:=true;
                FCWM_SP_SPicFrm.Visible:=true;
-               FCWM_SP_RDatFrm.Visible:=true;
+               SP_FrameRightResources.Visible:=true;
                SP_SurfaceDisplay.Visible:=true;
                MVG_SurfacePanel.Width:=SPstoredPanelWidth;
                SPstoredPanelWidth:=0;

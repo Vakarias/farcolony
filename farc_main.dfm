@@ -3719,7 +3719,7 @@ object FCWinMain: TFCWinMain
           Version = '1.8.1.0'
         end
       end
-      object FCWM_SP_RDatFrm: TAdvGroupBox
+      object SP_FrameRightResources: TAdvGroupBox
         Left = 18
         Top = 144
         Width = 97
@@ -3731,26 +3731,21 @@ object FCWinMain: TFCWinMain
         Font.Style = []
         ParentFont = False
         TabOrder = 4
-        object FCWM_SP_RDat: THTMLabel
+        object FRR_IconResourcesSurvey: TImage32
           Left = 2
           Top = 3
           Width = 93
           Height = 60
           Align = alClient
-          Color = clBlack
-          GradientType = gtFullVertical
-          Font.Charset = ANSI_CHARSET
-          Font.Color = 14803425
-          Font.Height = -12
-          Font.Name = 'FrancophilSans'
-          Font.Style = []
-          Hover = True
-          HoverColor = clBlack
-          HoverFontColor = clSkyBlue
-          ParentColor = False
-          ParentFont = False
-          URLColor = 14068651
-          Version = '1.8.1.0'
+          Bitmap.ResamplerClassName = 'TNearestResampler'
+          BitmapAlign = baTopLeft
+          Scale = 1.000000000000000000
+          ScaleMode = smNormal
+          TabOrder = 0
+          ExplicitLeft = 32
+          ExplicitTop = 24
+          ExplicitWidth = 192
+          ExplicitHeight = 192
         end
       end
       object FCWM_SP_AutoUp: TCheckBox

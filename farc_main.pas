@@ -188,9 +188,8 @@ type
       SP_SurfaceDisplay: THotSpotImage;
       FCWM_SP_SPicFrm: TAdvGroupBox;
       FCWM_SP_LDatFrm: TAdvGroupBox;
-      FCWM_SP_RDatFrm: TAdvGroupBox;
+      SP_FrameRightResources: TAdvGroupBox;
       FCWM_SP_LDat: THTMLabel;
-      FCWM_SP_RDat: THTMLabel;
       FCWM_SP_SPic: TImage32;
       FCWM_MMenu_DebTools: TMenuItem;
       FCWM_RegTerrLib: TBitmap32List;
@@ -325,6 +324,7 @@ type
     AP_MissionInterplanetaryTransit: TAdvGlowButton;
     AP_MissionColonization: TAdvGlowButton;
     SD_SurfaceSelected: THTMLabel;
+    FRR_IconResourcesSurvey: TImage32;
       procedure FormCreate(Sender: TObject);
       procedure FormResize(Sender: TObject);
       procedure FCWM_MMenu_G_QuitClick(Sender: TObject);

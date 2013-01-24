@@ -108,9 +108,7 @@ FCMdF_DBProducts_Load;
    FCMdF_DBFactions_Load;
    FCMdF_DBInfrastructures_Load;
    FCMdF_DBSpaceUnits_Load;
-   FCMgfxC_TerrainsCollection_Init;
-   if not Assigned(FCRdiSettlementPictures[1])
-   then FCMgfxC_Settlements_Init;
+   FCMgfxC_Main_Init;
    {.data initialization}
    SetLength(FCDdmtTaskListToProcess,1);
    FCMdF_DBStarSystems_Load;

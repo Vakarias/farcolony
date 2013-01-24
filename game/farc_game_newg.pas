@@ -312,9 +312,7 @@ FCWinNewGSetup.Close;
    FCWinMain.FCWM_MMenu_G_Cont.Enabled:=false;
    if FCWinMain.FCWM_MMenu_DebTools.Visible
    then FCWinMain.FCWM_MMenu_DebTools.Visible:=false;
-   FCMgfxC_TerrainsCollection_Init;
-   if not Assigned(FCRdiSettlementPictures[1])
-   then FCMgfxC_Settlements_Init;
+   FCMgfxC_Main_Init;
    {DEV NOTE: will be re-enabled in future.}
    FCWinMain.FCWM_MMenu_G_New.Enabled:=false;
    {.data initialization}
