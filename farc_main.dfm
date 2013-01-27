@@ -3742,10 +3742,89 @@ object FCWinMain: TFCWinMain
           Scale = 1.000000000000000000
           ScaleMode = smNormal
           TabOrder = 0
+          Visible = False
           ExplicitLeft = 32
           ExplicitTop = 24
           ExplicitWidth = 192
           ExplicitHeight = 192
+        end
+        object FRR_IconCantSurvey: TImage32
+          Left = 2
+          Top = 3
+          Width = 93
+          Height = 60
+          Align = alClient
+          Bitmap.ResamplerClassName = 'TNearestResampler'
+          BitmapAlign = baTopLeft
+          Scale = 1.000000000000000000
+          ScaleMode = smNormal
+          TabOrder = 1
+          Visible = False
+          ExplicitLeft = 4
+          ExplicitTop = 5
+        end
+        object FRR_IconRsrcGasField: TImage32
+          Left = 4
+          Top = 5
+          Width = 32
+          Height = 32
+          Align = alCustom
+          Bitmap.ResamplerClassName = 'TNearestResampler'
+          BitmapAlign = baTopLeft
+          Scale = 1.000000000000000000
+          ScaleMode = smNormal
+          TabOrder = 2
+          Visible = False
+        end
+        object FRR_IconRsrcHydroLocation: TImage32
+          Left = 12
+          Top = 13
+          Width = 32
+          Height = 32
+          Align = alCustom
+          Bitmap.ResamplerClassName = 'TNearestResampler'
+          BitmapAlign = baTopLeft
+          Scale = 1.000000000000000000
+          ScaleMode = smNormal
+          TabOrder = 3
+          Visible = False
+        end
+        object FRR_IconRsrcIcyOreField: TImage32
+          Left = 0
+          Top = 0
+          Width = 32
+          Height = 32
+          Align = alCustom
+          Bitmap.ResamplerClassName = 'TNearestResampler'
+          BitmapAlign = baTopLeft
+          Scale = 1.000000000000000000
+          ScaleMode = smNormal
+          TabOrder = 4
+        end
+        object FRR_IconRsrcOreField: TImage32
+          Left = 0
+          Top = 0
+          Width = 32
+          Height = 32
+          Align = alCustom
+          Bitmap.ResamplerClassName = 'TNearestResampler'
+          BitmapAlign = baTopLeft
+          Scale = 1.000000000000000000
+          ScaleMode = smNormal
+          TabOrder = 5
+        end
+        object FRR_IconRsrcUndergroundWater: TImage32
+          Left = 0
+          Top = 0
+          Width = 32
+          Height = 32
+          Align = alCustom
+          Bitmap.ResamplerClassName = 'TNearestResampler'
+          BitmapAlign = baTopLeft
+          Scale = 1.000000000000000000
+          ScaleMode = smNormal
+          TabOrder = 6
+          Visible = False
         end
       end
       object FCWM_SP_AutoUp: TCheckBox

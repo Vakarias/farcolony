@@ -325,6 +325,12 @@ type
     AP_MissionColonization: TAdvGlowButton;
     SD_SurfaceSelected: THTMLabel;
     FRR_IconResourcesSurvey: TImage32;
+    FRR_IconCantSurvey: TImage32;
+    FRR_IconRsrcGasField: TImage32;
+    FRR_IconRsrcHydroLocation: TImage32;
+    FRR_IconRsrcIcyOreField: TImage32;
+    FRR_IconRsrcOreField: TImage32;
+    FRR_IconRsrcUndergroundWater: TImage32;
       procedure FormCreate(Sender: TObject);
       procedure FormResize(Sender: TObject);
       procedure FCWM_MMenu_G_QuitClick(Sender: TObject);
