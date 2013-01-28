@@ -1818,7 +1818,7 @@ object FCWinMain: TFCWinMain
         Top = 19
         Width = 808
         Height = 550
-        ActivePage = FCWM_UMI_TabShFac
+        ActivePage = FCWM_UMI_TabShUniv
         ActiveFont.Charset = DEFAULT_CHARSET
         ActiveFont.Color = 13238272
         ActiveFont.Height = -11
@@ -3800,6 +3800,7 @@ object FCWinMain: TFCWinMain
           Scale = 1.000000000000000000
           ScaleMode = smNormal
           TabOrder = 4
+          Visible = False
         end
         object FRR_IconRsrcOreField: TImage32
           Left = 0
@@ -3812,6 +3813,7 @@ object FCWinMain: TFCWinMain
           Scale = 1.000000000000000000
           ScaleMode = smNormal
           TabOrder = 5
+          Visible = False
         end
         object FRR_IconRsrcUndergroundWater: TImage32
           Left = 0

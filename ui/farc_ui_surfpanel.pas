@@ -80,10 +80,15 @@ procedure FCMuiSP_RegionDataPicture_Update(
 ///    <param name="SESsatIdx">[optional, disable by 0] targeted satellite index</param>
 ///    <param name="SESinit">init the hotspots</param>
 procedure FCMuiSP_SurfaceEcosphere_Set(
-   const SESoobjIdx
+   const StarSys, Star, SESoobjIdx
          ,SESsatIdx: integer;
    const SESinit: boolean
    );
+
+///<summary>
+///   set and display the Surface / Ecosphere Panel with already included data
+///</summary>
+procedure FCMuiSP_SurfaceEcosphere_SetWithSelf;
 
 ///<summary>
 ///   update the selected region with the hovered region
@@ -99,6 +104,7 @@ implementation
 
 uses
    farc_data_3dopengl
+   ,farc_data_game
    ,farc_data_html
    ,farc_data_init
    ,farc_data_textfiles
@@ -109,7 +115,9 @@ uses
    ,farc_univ_func;
 
 var
-   SPcurrentOObjIndex
+   SPcurrentStarSys
+   ,SPcurrentStar
+   ,SPcurrentOObjIndex
    ,SPcurrentSatIndex
    ,SPregionHovered
    ,SPregionSelected
@@ -523,6 +531,8 @@ procedure FCMuiSP_RegionDataPicture_Update(
    );
 {:Purpose: update the region data and picture .
     Additions:
+      -2013Jan27- *code: remove a not needed with command.
+                  *add: resources display.
       -2013Jan06- *add: initialization of SurfaceSelected.
                   *rem: the tag uses are removed.
       -2012Jan06- *code: procedure moved in its proper unit.
@@ -538,7 +548,11 @@ var
    SERUtPic
    ,SERUprecip
    ,SERUidxTemp
-   ,SERUidxWdSpd: integer;
+   ,SERUidxWdSpd
+   ,Test
+   ,Count
+   ,Max
+   ,Colony: integer;
 
    SERUwndSpd
    ,SERUtemp: extended;
@@ -550,423 +564,452 @@ var
    SERUdmpRelief: TFCEduRegionReliefs;
    SERUdmpTerrTp: TFCEduRegionSoilTypes;
 begin
-   with FCWinMain do
+   SERUseason:=FCFuF_Ecosph_GetCurSeas(SPcurrentStarSys, SPcurrentStar, SPcurrentOObjIndex, SPcurrentSatIndex);
+   SPregionHovered:=SERUregIdx;
+   {.initialize required data}
+   if SPcurrentSatIndex=0
+   then
    begin
-      SERUseason:=FCFuF_Ecosph_GetCurSeas(SPcurrentOObjIndex, SPcurrentSatIndex);
-      SPregionHovered:=SERUregIdx;
-      {.initialize required data}
-      if SPcurrentSatIndex=0
-      then
+      Colony:=FCDduStarSystem[SPcurrentStarSys].SS_stars[SPcurrentStar].S_orbitalObjects[SPcurrentOObjIndex].OO_colonies[0];
+      with FCDduStarSystem[SPcurrentStarSys].SS_stars[SPcurrentStar].S_orbitalObjects[SPcurrentOObjIndex].OO_regions[SERUregIdx] do
       begin
-         with FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[SPcurrentOObjIndex].OO_regions[SERUregIdx] do
-         begin
-            SERUdmpTerrTp:=OOR_soilType;
-            SERUdmpRelief:=OOR_relief;
-            SERUwndSpd:=OOR_windSpeed;
-            SERUprecip:=OOR_precipitation;
-            if SERUseason='seasonMin'
-            then SERUtemp:=OOR_meanTdMin
-            else if SERUseason='seasonMid'
-            then SERUtemp:=OOR_meanTdInt
-            else if SERUseason='seasonMax'
-            then SERUtemp:=OOR_meanTdMax;
-         end;
-      end
-      else if SPcurrentSatIndex>0
-      then
-      begin
-         with FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[SPcurrentOObjIndex].OO_satellitesList[SPcurrentSatIndex] do
-         begin
-            SERUdmpTerrTp:=OO_regions[SERUregIdx].OOR_soilType;
-            SERUdmpRelief:=OO_regions[SERUregIdx].OOR_relief;
-            SERUwndSpd:=OO_regions[SERUregIdx].OOR_windSpeed;
-            SERUprecip:=OO_regions[SERUregIdx].OOR_precipitation;
-            if SERUseason='seasonMin'
-            then SERUtemp:=OO_regions[SERUregIdx].OOR_meanTdMin
-            else if SERUseason='seasonMid'
-            then SERUtemp:=OO_regions[SERUregIdx].OOR_meanTdInt
-            else if SERUseason='seasonMax'
-            then SERUtemp:=OO_regions[SERUregIdx].OOR_meanTdMax;
-         end;
+         SERUdmpTerrTp:=OOR_soilType;
+         SERUdmpRelief:=OOR_relief;
+         SERUwndSpd:=OOR_windSpeed;
+         SERUprecip:=OOR_precipitation;
+         if SERUseason='seasonMin'
+         then SERUtemp:=OOR_meanTdMin
+         else if SERUseason='seasonMid'
+         then SERUtemp:=OOR_meanTdInt
+         else if SERUseason='seasonMax'
+         then SERUtemp:=OOR_meanTdMax;
+         Test:=OOR_resourceSurveyIndex;
       end;
-      SERUidxTemp:=FCFuF_Index_Get(ufitTemp, SERUtemp);
-      SERUidxWdSpd:=FCFuF_Index_Get(ufitWdSpd, SERUwndSpd);
-      {.gather the focused terrain picture and set terrain description data}
-      SERUterrain:='';
-      SERUrelief:='';
-      case SERUdmpTerrTp of
-         rst01RockyDesert:
-         begin
-            SERUterrain:='terrainRDes';
-            case SERUdmpRelief of
-               rr1Plain:
-               begin
-                  SERUrelief:='reliefPlain';
-                  SERUtPic:=0;
-               end;
-               rr4Broken:
-               begin
-                  SERUrelief:='reliefBrok';
-                  SERUtPic:=1;
-               end;
-               rr9Mountain:
-               begin
-                  SERUrelief:='reliefMount';
-                  SERUtPic:=2;
-               end;
-            end;
-         end;
-         rst02SandyDesert:
-         begin
-            SERUterrain:='terrainSDes';
-            if SERUdmpRelief=rr1Plain
-            then
+   end
+   else if SPcurrentSatIndex>0
+   then
+   begin
+      Colony:=FCDduStarSystem[SPcurrentStarSys].SS_stars[SPcurrentStar].S_orbitalObjects[SPcurrentOObjIndex].OO_satellitesList[SPcurrentSatIndex].OO_colonies[0];
+      with FCDduStarSystem[SPcurrentStarSys].SS_stars[SPcurrentStar].S_orbitalObjects[SPcurrentOObjIndex].OO_satellitesList[SPcurrentSatIndex] do
+      begin
+         SERUdmpTerrTp:=OO_regions[SERUregIdx].OOR_soilType;
+         SERUdmpRelief:=OO_regions[SERUregIdx].OOR_relief;
+         SERUwndSpd:=OO_regions[SERUregIdx].OOR_windSpeed;
+         SERUprecip:=OO_regions[SERUregIdx].OOR_precipitation;
+         if SERUseason='seasonMin'
+         then SERUtemp:=OO_regions[SERUregIdx].OOR_meanTdMin
+         else if SERUseason='seasonMid'
+         then SERUtemp:=OO_regions[SERUregIdx].OOR_meanTdInt
+         else if SERUseason='seasonMax'
+         then SERUtemp:=OO_regions[SERUregIdx].OOR_meanTdMax;
+         Test:=OO_regions[SERUregIdx].OOR_resourceSurveyIndex;
+      end;
+   end;
+   SERUidxTemp:=FCFuF_Index_Get(ufitTemp, SERUtemp);
+   SERUidxWdSpd:=FCFuF_Index_Get(ufitWdSpd, SERUwndSpd);
+   {.gather the focused terrain picture and set terrain description data}
+   SERUterrain:='';
+   SERUrelief:='';
+   case SERUdmpTerrTp of
+      rst01RockyDesert:
+      begin
+         SERUterrain:='terrainRDes';
+         case SERUdmpRelief of
+            rr1Plain:
             begin
                SERUrelief:='reliefPlain';
-               SERUtPic:=3;
-            end
-            else if SERUdmpRelief=rr4Broken
-            then
+               SERUtPic:=0;
+            end;
+            rr4Broken:
             begin
                SERUrelief:='reliefBrok';
-               SERUtPic:=4;
+               SERUtPic:=1;
+            end;
+            rr9Mountain:
+            begin
+               SERUrelief:='reliefMount';
+               SERUtPic:=2;
             end;
          end;
-         rst03Volcanic:
+      end;
+      rst02SandyDesert:
+      begin
+         SERUterrain:='terrainSDes';
+         if SERUdmpRelief=rr1Plain
+         then
          begin
-            SERUterrain:='terrainVol';
-            case SERUdmpRelief of
-               rr1Plain:
-               begin
-                  SERUrelief:='reliefPlain';
-                  SERUtPic:=5;
-               end;
-               rr4Broken:
-               begin
-                  SERUrelief:='reliefBrok';
-                  SERUtPic:=6;
-               end;
-               rr9Mountain:
-               begin
-                  SERUrelief:='reliefMount';
-                  SERUtPic:=7;
-               end;
-            end;
+            SERUrelief:='reliefPlain';
+            SERUtPic:=3;
+         end
+         else if SERUdmpRelief=rr4Broken
+         then
+         begin
+            SERUrelief:='reliefBrok';
+            SERUtPic:=4;
          end;
-         rst04Polar:
-         begin
-            SERUterrain:='terrainPol';
-            case SERUdmpRelief of
-               rr1Plain:
-               begin
-                  SERUrelief:='reliefPlain';
-                  SERUtPic:=8;
-               end;
-               rr4Broken:
-               begin
-                  SERUrelief:='reliefBrok';
-                  SERUtPic:=9;
-               end;
-               rr9Mountain:
-               begin
-                  SERUrelief:='reliefMount';
-                  SERUtPic:=10;
-               end;
-            end;
-         end;
-         rst05Arid:
-         begin
-            SERUterrain:='terrainArid';
-            case SERUdmpRelief of
-               rr1Plain:
-               begin
-                  SERUrelief:='reliefPlain';
-                  SERUtPic:=11;
-               end;
-               rr4Broken:
-               begin
-                  SERUrelief:='reliefBrok';
-                  SERUtPic:=12;
-               end;
-               rr9Mountain:
-               begin
-                  SERUrelief:='reliefMount';
-                  SERUtPic:=13;
-               end;
-            end;
-         end;
-         rst06Fertile:
-         begin
-            SERUterrain:='terrainFert';
-            case SERUdmpRelief of
-               rr1Plain:
-               begin
-                  SERUrelief:='reliefPlain';
-                  SERUtPic:=14;
-               end;
-               rr4Broken:
-               begin
-                  SERUrelief:='reliefBrok';
-                  SERUtPic:=15;
-               end;
-               rr9Mountain:
-               begin
-                  SERUrelief:='reliefMount';
-                  SERUtPic:=16;
-               end;
-            end;
-         end;
-         rst07Oceanic:
-         begin
-            SERUterrain:='terrainOcean';
-            SERUtPic:=17;
-         end;
-         rst08CoastalRockyDesert:
-         begin
-            SERUterrain:='terrainCoastRDes';
-            case SERUdmpRelief of
-               rr1Plain:
-               begin
-                  SERUrelief:='reliefPlain';
-                  SERUtPic:=18;
-               end;
-               rr4Broken:
-               begin
-                  SERUrelief:='reliefBrok';
-                  SERUtPic:=19;
-               end;
-               rr9Mountain:
-               begin
-                  SERUrelief:='reliefMount';
-                  SERUtPic:=20;
-               end;
-            end;
-         end;
-         rst09CoastalSandyDesert:
-         begin
-            SERUterrain:='terrainCoastSDes';
-            if SERUdmpRelief=rr1Plain
-            then
+      end;
+      rst03Volcanic:
+      begin
+         SERUterrain:='terrainVol';
+         case SERUdmpRelief of
+            rr1Plain:
             begin
                SERUrelief:='reliefPlain';
-               SERUtPic:=21;
-            end
-            else if SERUdmpRelief=rr4Broken
-            then
+               SERUtPic:=5;
+            end;
+            rr4Broken:
             begin
                SERUrelief:='reliefBrok';
-               SERUtPic:=22;
+               SERUtPic:=6;
+            end;
+            rr9Mountain:
+            begin
+               SERUrelief:='reliefMount';
+               SERUtPic:=7;
             end;
          end;
-         rst10CoastalVolcanic:
-         begin
-            SERUterrain:='terrainCoastVol';
-            case SERUdmpRelief of
-               rr1Plain:
-               begin
-                  SERUrelief:='reliefPlain';
-                  SERUtPic:=23;
-               end;
-               rr4Broken:
-               begin
-                  SERUrelief:='reliefBrok';
-                  SERUtPic:=24;
-               end;
-               rr9Mountain:
-               begin
-                  SERUrelief:='reliefMount';
-                  SERUtPic:=25;
-               end;
-            end;
-         end;
-         rst11CoastalPolar:
-         begin
-            SERUterrain:='terrainCoastPol';
-            case SERUdmpRelief of
-               rr1Plain:
-               begin
-                  SERUrelief:='reliefPlain';
-                  SERUtPic:=26;
-               end;
-               rr4Broken:
-               begin
-                  SERUrelief:='reliefBrok';
-                  SERUtPic:=27;
-               end;
-               rr9Mountain:
-               begin
-                  SERUrelief:='reliefMount';
-                  SERUtPic:=28;
-               end;
-            end;
-         end;
-         rst12CoastalArid:
-         begin
-            SERUterrain:='terrainCoastArid';
-            case SERUdmpRelief of
-               rr1Plain:
-               begin
-                  SERUrelief:='reliefPlain';
-                  SERUtPic:=29;
-               end;
-               rr4Broken:
-               begin
-                  SERUrelief:='reliefBrok';
-                  SERUtPic:=30;
-               end;
-               rr9Mountain:
-               begin
-                  SERUrelief:='reliefMount';
-                  SERUtPic:=31;
-               end;
-            end;
-         end;
-         rst13CoastalFertile:
-         begin
-            SERUterrain:='terrainCoastFert';
-            case SERUdmpRelief of
-               rr1Plain:
-               begin
-                  SERUrelief:='reliefPlain';
-                  SERUtPic:=32;
-               end;
-               rr4Broken:
-               begin
-                  SERUrelief:='reliefBrok';
-                  SERUtPic:=33;
-               end;
-               rr9Mountain:
-               begin
-                  SERUrelief:='reliefMount';
-                  SERUtPic:=34;
-               end;
-            end;
-         end;
-         rst14Sterile:
-         begin
-            SERUterrain:='terrainSter';
-            case SERUdmpRelief of
-               rr1Plain:
-               begin
-                  SERUrelief:='reliefPlain';
-                  SERUtPic:=35;
-               end;
-               rr4Broken:
-               begin
-                  SERUrelief:='reliefBrok';
-                  SERUtPic:=36;
-               end;
-               rr9Mountain:
-               begin
-                  SERUrelief:='reliefMount';
-                  SERUtPic:=37;
-               end;
-            end;
-         end;
-         rst15icySterile:
-         begin
-            SERUterrain:='terrainIcSter';
-            case SERUdmpRelief of
-               rr1Plain:
-               begin
-                  SERUrelief:='reliefPlain';
-                  SERUtPic:=38;
-               end;
-               rr4Broken:
-               begin
-                  SERUrelief:='reliefBrok';
-                  SERUtPic:=39;
-               end;
-               rr9Mountain:
-               begin
-                  SERUrelief:='reliefMount';
-                  SERUtPic:=40;
-               end;
-            end;
-         end;
-      end; //==END== case SERUdmpTerrTp ==//
-      FCWM_SP_SPic.Bitmap:=FCWM_RegTerrLib.Bitmap[SERUtPic];
-      SD_SurfaceSelector.Left:=SP_SurfaceDisplay.HotSpots[SERUregIdx-1].X;
-      SD_SurfaceSelector.Top:=SP_SurfaceDisplay.HotSpots[SERUregIdx-1].Y;
-      SD_SurfaceSelector.Width:=SP_SurfaceDisplay.HotSpots[SERUregIdx-1].Width;
-      SD_SurfaceSelector.Height:=SP_SurfaceDisplay.HotSpots[SERUregIdx-1].Height;
-      if not SD_SurfaceSelected.Visible then
-      begin
-         SD_SurfaceSelected.Width:=SD_SurfaceSelector.Width;
-         SD_SurfaceSelected.Height:=SD_SurfaceSelector.Height;
       end;
-      if not SERUonlyPic
-      then
+      rst04Polar:
       begin
-         {.terrain type}
-         FCWM_SPShReg_Lab.HTMLText.Clear;
-         FCWM_SPShReg_Lab.HTMLText.Add(
-            FCCFdHeadC+FCFdTFiles_UIStr_Get(uistrUI, 'secpTerrTp')+FCCFdHeadEnd
-            +FCFdTFiles_UIStr_Get(uistrUI, SERUrelief)+' '+FCFdTFiles_UIStr_Get(uistrUI, SERUterrain)
-            +'<br>'
-            );
-         {.current season}
-         FCWM_SPShReg_Lab.HTMLText.Add(
-            FCCFdHeadC+FCFdTFiles_UIStr_Get(uistrUI, 'season')+FCCFdHeadEnd
-            +FCFdTFiles_UIStr_Get(uistrUI, SERUseason)
-            +'<br>'
-            );
-         {.climate}
-         FCWM_SPShReg_Lab.HTMLText.Add(
-            FCCFdHeadC+FCFdTFiles_UIStr_Get(uistrUI, 'climate')+FCCFdHeadEnd
-            +FCFdTFiles_UIStr_Get(uistrUI, FCFuF_Region_GetClim(SPcurrentOObjIndex, SPcurrentSatIndex, SERUregIdx))
-            +'<br>'
-            );
-         {.temperature}
-         FCWM_SPShReg_Lab.HTMLText.Add(
-            FCCFdHeadC+FCFdTFiles_UIStr_Get(uistrUI, 'temp')+FCCFdHeadEnd
-            +FloatToStr(SERUtemp)+' K ('
-            );
-         case SERUidxTemp of
-            1, 2: FCWM_SPShReg_Lab.HTMLText.Add(FCCFcolWhBL);
-            3, 4: FCWM_SPShReg_Lab.HTMLText.Add(FCCFcolBlueL);
-            5, 6, 7: FCWM_SPShReg_Lab.HTMLText.Add(FCCFcolGreen);
-            8, 9: FCWM_SPShReg_Lab.HTMLText.Add(FCCFcolOrge);
-            else FCWM_SPShReg_Lab.HTMLText.Add(FCCFcolRed);
+         SERUterrain:='terrainPol';
+         case SERUdmpRelief of
+            rr1Plain:
+            begin
+               SERUrelief:='reliefPlain';
+               SERUtPic:=8;
+            end;
+            rr4Broken:
+            begin
+               SERUrelief:='reliefBrok';
+               SERUtPic:=9;
+            end;
+            rr9Mountain:
+            begin
+               SERUrelief:='reliefMount';
+               SERUtPic:=10;
+            end;
          end;
-         FCWM_SPShReg_Lab.HTMLText.Add(
-            FCFdTFiles_UIStr_Get(uistrUI, 'tempIdx'+FloatToStr(SERUidxTemp))
-            +FCCFcolEND+')'
-            +'<br>'
-            );
-         {.yearly mean precipitations}
-         FCWM_SPShReg_Lab.HTMLText.Add(
-            FCCFdHeadC+FCFdTFiles_UIStr_Get(uistrUI, 'precip')+FCCFdHeadEnd
-            +IntToStr(SERUprecip)+' mm/'+FCFdTFiles_UIStr_Get(uistrUI, 'acronYr')
-            +'<br>'
-            );
-         {.yearly mean windspeed}
-         FCWM_SPShReg_Lab.HTMLText.Add(
-            FCCFdHeadC+FCFdTFiles_UIStr_Get(uistrUI, 'wndspd')+FCCFdHeadEnd
-            +FloatToStr(SERUwndSpd)+' m/s ('
-            );
-         case SERUidxWdSpd of
-            0..2: FCWM_SPShReg_Lab.HTMLText.Add(FCCFcolGreen);
-            3..4: FCWM_SPShReg_Lab.HTMLText.Add(FCCFcolBlue);
-            5..6: FCWM_SPShReg_Lab.HTMLText.Add(FCCFcolOrge);
-            else FCWM_SPShReg_Lab.HTMLText.Add(FCCFcolRed);
+      end;
+      rst05Arid:
+      begin
+         SERUterrain:='terrainArid';
+         case SERUdmpRelief of
+            rr1Plain:
+            begin
+               SERUrelief:='reliefPlain';
+               SERUtPic:=11;
+            end;
+            rr4Broken:
+            begin
+               SERUrelief:='reliefBrok';
+               SERUtPic:=12;
+            end;
+            rr9Mountain:
+            begin
+               SERUrelief:='reliefMount';
+               SERUtPic:=13;
+            end;
          end;
-         FCWM_SPShReg_Lab.HTMLText.Add(
-            FCFdTFiles_UIStr_Get(uistrUI, 'wspdIdx'+FloatToStr(SERUidxWdSpd))
-            +FCCFcolEND+')'
-            +'<br>'
-            );
-      end; //==END== if not SERUonlyPic ==//
-   end; //==END== with FCWinMain ==//
+      end;
+      rst06Fertile:
+      begin
+         SERUterrain:='terrainFert';
+         case SERUdmpRelief of
+            rr1Plain:
+            begin
+               SERUrelief:='reliefPlain';
+               SERUtPic:=14;
+            end;
+            rr4Broken:
+            begin
+               SERUrelief:='reliefBrok';
+               SERUtPic:=15;
+            end;
+            rr9Mountain:
+            begin
+               SERUrelief:='reliefMount';
+               SERUtPic:=16;
+            end;
+         end;
+      end;
+      rst07Oceanic:
+      begin
+         SERUterrain:='terrainOcean';
+         SERUtPic:=17;
+      end;
+      rst08CoastalRockyDesert:
+      begin
+         SERUterrain:='terrainCoastRDes';
+         case SERUdmpRelief of
+            rr1Plain:
+            begin
+               SERUrelief:='reliefPlain';
+               SERUtPic:=18;
+            end;
+            rr4Broken:
+            begin
+               SERUrelief:='reliefBrok';
+               SERUtPic:=19;
+            end;
+            rr9Mountain:
+            begin
+               SERUrelief:='reliefMount';
+               SERUtPic:=20;
+            end;
+         end;
+      end;
+      rst09CoastalSandyDesert:
+      begin
+         SERUterrain:='terrainCoastSDes';
+         if SERUdmpRelief=rr1Plain
+         then
+         begin
+            SERUrelief:='reliefPlain';
+            SERUtPic:=21;
+         end
+         else if SERUdmpRelief=rr4Broken
+         then
+         begin
+            SERUrelief:='reliefBrok';
+            SERUtPic:=22;
+         end;
+      end;
+      rst10CoastalVolcanic:
+      begin
+         SERUterrain:='terrainCoastVol';
+         case SERUdmpRelief of
+            rr1Plain:
+            begin
+               SERUrelief:='reliefPlain';
+               SERUtPic:=23;
+            end;
+            rr4Broken:
+            begin
+               SERUrelief:='reliefBrok';
+               SERUtPic:=24;
+            end;
+            rr9Mountain:
+            begin
+               SERUrelief:='reliefMount';
+               SERUtPic:=25;
+            end;
+         end;
+      end;
+      rst11CoastalPolar:
+      begin
+         SERUterrain:='terrainCoastPol';
+         case SERUdmpRelief of
+            rr1Plain:
+            begin
+               SERUrelief:='reliefPlain';
+               SERUtPic:=26;
+            end;
+            rr4Broken:
+            begin
+               SERUrelief:='reliefBrok';
+               SERUtPic:=27;
+            end;
+            rr9Mountain:
+            begin
+               SERUrelief:='reliefMount';
+               SERUtPic:=28;
+            end;
+         end;
+      end;
+      rst12CoastalArid:
+      begin
+         SERUterrain:='terrainCoastArid';
+         case SERUdmpRelief of
+            rr1Plain:
+            begin
+               SERUrelief:='reliefPlain';
+               SERUtPic:=29;
+            end;
+            rr4Broken:
+            begin
+               SERUrelief:='reliefBrok';
+               SERUtPic:=30;
+            end;
+            rr9Mountain:
+            begin
+               SERUrelief:='reliefMount';
+               SERUtPic:=31;
+            end;
+         end;
+      end;
+      rst13CoastalFertile:
+      begin
+         SERUterrain:='terrainCoastFert';
+         case SERUdmpRelief of
+            rr1Plain:
+            begin
+               SERUrelief:='reliefPlain';
+               SERUtPic:=32;
+            end;
+            rr4Broken:
+            begin
+               SERUrelief:='reliefBrok';
+               SERUtPic:=33;
+            end;
+            rr9Mountain:
+            begin
+               SERUrelief:='reliefMount';
+               SERUtPic:=34;
+            end;
+         end;
+      end;
+      rst14Sterile:
+      begin
+         SERUterrain:='terrainSter';
+         case SERUdmpRelief of
+            rr1Plain:
+            begin
+               SERUrelief:='reliefPlain';
+               SERUtPic:=35;
+            end;
+            rr4Broken:
+            begin
+               SERUrelief:='reliefBrok';
+               SERUtPic:=36;
+            end;
+            rr9Mountain:
+            begin
+               SERUrelief:='reliefMount';
+               SERUtPic:=37;
+            end;
+         end;
+      end;
+      rst15icySterile:
+      begin
+         SERUterrain:='terrainIcSter';
+         case SERUdmpRelief of
+            rr1Plain:
+            begin
+               SERUrelief:='reliefPlain';
+               SERUtPic:=38;
+            end;
+            rr4Broken:
+            begin
+               SERUrelief:='reliefBrok';
+               SERUtPic:=39;
+            end;
+            rr9Mountain:
+            begin
+               SERUrelief:='reliefMount';
+               SERUtPic:=40;
+            end;
+         end;
+      end;
+   end; //==END== case SERUdmpTerrTp ==//
+   FCWinMain.FCWM_SP_SPic.Bitmap:=FCWinMain.FCWM_RegTerrLib.Bitmap[SERUtPic];
+   FCWinMain.SD_SurfaceSelector.Left:=FCWinMain.SP_SurfaceDisplay.HotSpots[SERUregIdx-1].X;
+   FCWinMain.SD_SurfaceSelector.Top:=FCWinMain.SP_SurfaceDisplay.HotSpots[SERUregIdx-1].Y;
+   FCWinMain.SD_SurfaceSelector.Width:=FCWinMain.SP_SurfaceDisplay.HotSpots[SERUregIdx-1].Width;
+   FCWinMain.SD_SurfaceSelector.Height:=FCWinMain.SP_SurfaceDisplay.HotSpots[SERUregIdx-1].Height;
+   if not FCWinMain.SD_SurfaceSelected.Visible then
+   begin
+      FCWinMain.SD_SurfaceSelected.Width:=FCWinMain.SD_SurfaceSelector.Width;
+      FCWinMain.SD_SurfaceSelected.Height:=FCWinMain.SD_SurfaceSelector.Height;
+   end;
+   if not SERUonlyPic
+   then
+   begin
+      {.terrain type}
+      FCWinMain.FCWM_SPShReg_Lab.HTMLText.Clear;
+      FCWinMain.FCWM_SPShReg_Lab.HTMLText.Add(
+         FCCFdHeadC+FCFdTFiles_UIStr_Get(uistrUI, 'secpTerrTp')+FCCFdHeadEnd
+         +FCFdTFiles_UIStr_Get(uistrUI, SERUrelief)+' '+FCFdTFiles_UIStr_Get(uistrUI, SERUterrain)
+         +'<br>'
+         );
+      {.current season}
+      FCWinMain.FCWM_SPShReg_Lab.HTMLText.Add(
+         FCCFdHeadC+FCFdTFiles_UIStr_Get(uistrUI, 'season')+FCCFdHeadEnd
+         +FCFdTFiles_UIStr_Get(uistrUI, SERUseason)
+         +'<br>'
+         );
+      {.climate}
+      FCWinMain.FCWM_SPShReg_Lab.HTMLText.Add(
+         FCCFdHeadC+FCFdTFiles_UIStr_Get(uistrUI, 'climate')+FCCFdHeadEnd
+         +FCFdTFiles_UIStr_Get(uistrUI, FCFuF_Region_GetClim(SPcurrentStarSys, SPcurrentStar, SPcurrentOObjIndex, SPcurrentSatIndex, SERUregIdx))
+         +'<br>'
+         );
+      {.temperature}
+      FCWinMain.FCWM_SPShReg_Lab.HTMLText.Add(
+         FCCFdHeadC+FCFdTFiles_UIStr_Get(uistrUI, 'temp')+FCCFdHeadEnd
+         +FloatToStr(SERUtemp)+' K ('
+         );
+      case SERUidxTemp of
+         1, 2: FCWinMain.FCWM_SPShReg_Lab.HTMLText.Add(FCCFcolWhBL);
+         3, 4: FCWinMain.FCWM_SPShReg_Lab.HTMLText.Add(FCCFcolBlueL);
+         5, 6, 7: FCWinMain.FCWM_SPShReg_Lab.HTMLText.Add(FCCFcolGreen);
+         8, 9: FCWinMain.FCWM_SPShReg_Lab.HTMLText.Add(FCCFcolOrge);
+         else FCWinMain.FCWM_SPShReg_Lab.HTMLText.Add(FCCFcolRed);
+      end;
+      FCWinMain.FCWM_SPShReg_Lab.HTMLText.Add(
+         FCFdTFiles_UIStr_Get(uistrUI, 'tempIdx'+FloatToStr(SERUidxTemp))
+         +FCCFcolEND+')'
+         +'<br>'
+         );
+      {.yearly mean precipitations}
+      FCWinMain.FCWM_SPShReg_Lab.HTMLText.Add(
+         FCCFdHeadC+FCFdTFiles_UIStr_Get(uistrUI, 'precip')+FCCFdHeadEnd
+         +IntToStr(SERUprecip)+' mm/'+FCFdTFiles_UIStr_Get(uistrUI, 'acronYr')
+         +'<br>'
+         );
+      {.yearly mean windspeed}
+      FCWinMain.FCWM_SPShReg_Lab.HTMLText.Add(
+         FCCFdHeadC+FCFdTFiles_UIStr_Get(uistrUI, 'wndspd')+FCCFdHeadEnd
+         +FloatToStr(SERUwndSpd)+' m/s ('
+         );
+      case SERUidxWdSpd of
+         0..2: FCWinMain.FCWM_SPShReg_Lab.HTMLText.Add(FCCFcolGreen);
+         3..4: FCWinMain.FCWM_SPShReg_Lab.HTMLText.Add(FCCFcolBlue);
+         5..6: FCWinMain.FCWM_SPShReg_Lab.HTMLText.Add(FCCFcolOrge);
+         else FCWinMain.FCWM_SPShReg_Lab.HTMLText.Add(FCCFcolRed);
+      end;
+      FCWinMain.FCWM_SPShReg_Lab.HTMLText.Add(
+         FCFdTFiles_UIStr_Get(uistrUI, 'wspdIdx'+FloatToStr(SERUidxWdSpd))
+         +FCCFcolEND+')'
+         +'<br>'
+         );
+      FCMgfxC_PlanetarySurvey_Hide;
+      if ( Test=0 )
+         and (Colony=0)
+      then FCWinMain.FRR_IconCantSurvey.Show
+      else if ( Test=0 )
+         and (Colony>0)
+      then FCWinMain.FRR_IconResourcesSurvey.Show
+      else if Test>0 then
+      begin
+         Count:=1;
+         Max:=length(FCVdgPlayer.P_surveyedResourceSpots[Test].SRS_surveyedRegions[SERUregIdx].SR_ResourceSpots)-1;
+         while Count<=Max do
+         begin
+            case FCVdgPlayer.P_surveyedResourceSpots[Test].SRS_surveyedRegions[SERUregIdx].SR_ResourceSpots[Count].RS_type of
+               rstGasField: FCWinMain.FRR_IconRsrcGasField.Show;
+
+               rstHydroWell: FCWinMain.FRR_IconRsrcHydroLocation.Show;
+
+               rstIcyOreField: FCWinMain.FRR_IconRsrcIcyOreField.Show;
+
+               rstOreField: FCWinMain.FRR_IconRsrcOreField.Show;
+
+               rstUnderWater: FCWinMain.FRR_IconRsrcUndergroundWater.Show;
+            end;
+            inc( Count);
+         end;
+      end;
+   end; //==END== if not SERUonlyPic ==//
 end;
 
 procedure FCMuiSP_SurfaceEcosphere_Set(
-   const SESoobjIdx, SESsatIdx: integer;
+   const StarSys, Star, SESoobjIdx, SESsatIdx: integer;
    const SESinit: boolean
    );
 {:Purpose: set and display the Surface / Ecosphere Panel.
 tags set: FCWM_SurfPanel=FCWM_SurfPanel.Width FCWM_SP_DataSheet:=FCWM_SP_DataSheet.Left
     Additions:
+      -2013Jan27- *add: hide any resource icons.
       -2013Jan06- *add: initialization of SD_SurfaceSelected.
       -2012Jan08- *code: procedure moved in its proper unit.
                   *mod: since the Ecosphere tab doesn't exist, it the region tab that is focused.
@@ -1021,6 +1064,8 @@ begin
       begin
          FCWM_SPShEcos_Lab.HTMLText.Clear;
          FCWM_SP_SPic.Bitmap.Clear;
+         SPcurrentStarSys:=StarSys;
+         SPcurrentStar:=Star;
          SPcurrentOObjIndex:=SESoobjIdx;
          SPcurrentSatIndex:=0;
          FCMuiSP_VarRegionHoveredSelected_Reset;
@@ -1189,6 +1234,7 @@ begin
                SESregSHm64shr1:=(SP_SurfaceDisplay.Height-64) shr 1;
                SESregSHm64shr2:=(SP_SurfaceDisplay.Height-64) shr 2;
                FCMgfxC_Settlements_Hide;
+               FCMgfxC_PlanetarySurvey_Hide;
                SEScnt:=1;
                while SEScnt<=SESdmpTtlReg do
                begin
@@ -1588,6 +1634,8 @@ begin
          SESdmpTp:=ootAsteroid_Metallic;
          SESdmpTtlReg:=4;
          MVG_SurfacePanel.Caption.Text:='';
+         SPcurrentStarSys:=0;
+         SPcurrentStar:=0;
          SPcurrentOObjIndex:=0;
          SPcurrentSatIndex:=0;
          FCMuiSP_VarRegionHoveredSelected_Reset;
@@ -1635,6 +1683,14 @@ begin
          SP_SurfaceDisplay.HotSpots.Clear;
       end; //==END== else if SESinit ==//
    end; //==END== with FCWinMain ==//
+end;
+
+procedure FCMuiSP_SurfaceEcosphere_SetWithSelf;
+{:Purpose: set and display the Surface / Ecosphere Panel with already included data.
+    Additions:
+}
+begin
+   FCMuiSP_SurfaceEcosphere_Set(SPcurrentStarSys, SPcurrentStar, SPcurrentOObjIndex, SPcurrentSatIndex, false);
 end;
 
 procedure FCMuiSP_VarRegionSelected_Update;

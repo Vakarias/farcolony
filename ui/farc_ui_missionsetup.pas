@@ -194,7 +194,7 @@ begin
    FCWinMain.FCWM_MissionSettings.Caption.Text:=FCFdTFiles_UIStr_Get(uistrUI,'FCWinMissSet')+FCFdTFiles_UIStr_Get(uistrUI,'Mission.coloniz');
    if ( FCFuiSP_VarCurrentOObj_Get<>FCRmcCurrentMissionCalculations.CMC_originLocation[3] )
       and ( ( FCFuiSP_VarCurrentSat_Get=0 ) or ( ( FCFuiSP_VarCurrentSat_Get>0 ) and ( FCFuiSP_VarCurrentSat_Get<>FCRmcCurrentMissionCalculations.CMC_originLocation[4] ) ) )
-   then FCMuiSP_SurfaceEcosphere_Set( FCRmcCurrentMissionCalculations.CMC_originLocation[3], FCRmcCurrentMissionCalculations.CMC_originLocation[4], false)
+   then FCMuiSP_SurfaceEcosphere_Set( FCRmcCurrentMissionCalculations.CMC_originLocation[1], FCRmcCurrentMissionCalculations.CMC_originLocation[2], FCRmcCurrentMissionCalculations.CMC_originLocation[3], FCRmcCurrentMissionCalculations.CMC_originLocation[4], false)
    else begin
       FCWinMain.MVG_SurfacePanel.Visible:=true;
       fcwinmain.SP_SurfaceDisplay.Enabled:=true;

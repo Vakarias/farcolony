@@ -583,9 +583,9 @@ begin
    if FCWM_ColDPanel.Visible
    then FCWM_ColDPanel.Hide;
    if FCGLSCamMainViewGhost.TargetObject=FC3doglObjectsGroups[FC3doglSelectedPlanetAsteroid]
-   then FCMuiSP_SurfaceEcosphere_Set(FC3doglSelectedPlanetAsteroid, 0, false)
+   then FCMuiSP_SurfaceEcosphere_Set(FC3doglCurrentStarSystem, FC3doglCurrentStar, FC3doglSelectedPlanetAsteroid, 0, false)
    else if FCGLSCamMainViewGhost.TargetObject=FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite]
-   then FCMuiSP_SurfaceEcosphere_Set(round(FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].TagFloat), FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].Tag, false);
+   then FCMuiSP_SurfaceEcosphere_Set(FC3doglCurrentStarSystem, FC3doglCurrentStar, round(FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].TagFloat), FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].Tag, false);
 end;
 
 procedure TFCWinMain.CDPproductionMatrixListKeyDown(Sender: TObject; var Key: Word;

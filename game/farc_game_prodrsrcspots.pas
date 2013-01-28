@@ -37,7 +37,7 @@ uses
    ,farc_data_univ;
 
 ///<summary>
-///   check if a given resource spot type is present (surveyed) by giving entity/colony and settlement #
+///   check if a specified resource spot type is present (surveyed) by giving entity/colony and settlement #
 ///</summary>
 ///   <param name="IPIRCentity">entity index #</param>
 ///   <param name="IPIRCcolony">colony index#</param>

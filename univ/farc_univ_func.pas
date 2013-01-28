@@ -93,7 +93,7 @@ type TFCRufStelObj = array[0..4] of integer;
 ///</summary>
 ///    <param name="GCSooIdx">orbital object index</param>
 ///    <param name="GCSsatIdx">[optional] satellite index</param>
-function FCFuF_Ecosph_GetCurSeas(const GCSooIdx, GCSsatIdx: integer): string;
+function FCFuF_Ecosph_GetCurSeas(const StarSys, Star, GCSooIdx, GCSsatIdx: integer): string;
 
 ///<summary>
 ///   get the environment enum
@@ -151,7 +151,7 @@ function FCFuF_OrbPeriod_GetMeanTemp(const OPGMToobjIdx, OPGMTsatIdx: integer): 
 ///    <param name="RGCooIdx">orbital object index</param>
 ///    <param name="RGCsatIdx">[optional] satellite index</param>
 ///    <param name="RGCregIdx">region index</param>
-function FCFuF_Region_GetClim(const RGCooIdx, RGCsatIdx, RGCregIdx: integer): string;
+function FCFuF_Region_GetClim(const StarSys, Star, RGCooIdx, RGCsatIdx, RGCregIdx: integer): string;
 
 ///<summary>
 ///   extract a defined region location and put it in a string in x;y format or plain text if required
@@ -236,7 +236,7 @@ uses
 
 //===================================================END OF INIT============================
 
-function FCFuF_Ecosph_GetCurSeas(const GCSooIdx, GCSsatIdx: integer): string;
+function FCFuF_Ecosph_GetCurSeas(const StarSys, Star, GCSooIdx, GCSsatIdx: integer): string;
 {:Purpose: get the current season token.
     Additions:
 }
@@ -264,7 +264,7 @@ begin
    if GCSsatIdx=0
    then
    begin
-      with FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[GCSooIdx] do
+      with FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[GCSooIdx] do
       begin
          GCSrevolIni:=OO_revolutionPeriodInit;
          GCSorbP1s:=OO_orbitalPeriods[1].OOS_dayStart;
@@ -284,7 +284,7 @@ begin
    else if GCSsatIdx>0
    then
    begin
-      with FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[GCSooIdx].OO_satellitesList[GCSsatIdx] do
+      with FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[GCSooIdx].OO_satellitesList[GCSsatIdx] do
       begin
          GCSrevolIni:=OO_revolutionPeriodInit;
          GCSorbP1s:=OO_orbitalPeriods[1].OOS_dayStart;
@@ -556,7 +556,7 @@ begin
    Result:=OPGMTdmpRes;
 end;
 
-function FCFuF_Region_GetClim(const RGCooIdx, RGCsatIdx, RGCregIdx: integer): string;
+function FCFuF_Region_GetClim(const StarSys, Star, RGCooIdx, RGCsatIdx, RGCregIdx: integer): string;
 {:Purpose: get the climate token of a choosen region.
     Additions:
 }
@@ -566,10 +566,10 @@ var
 begin
    RGCdmpRes:='';
    if RGCsatIdx=0
-   then RGCdmpClim:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[RGCooIdx].OO_regions[RGCregIdx].OOR_climate
+   then RGCdmpClim:=FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[RGCooIdx].OO_regions[RGCregIdx].OOR_climate
    else if RGCsatIdx>0
    then RGCdmpClim
-      :=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[RGCooIdx].OO_satellitesList[RGCsatIdx].OO_regions[RGCregIdx].OOR_climate;
+      :=FCDduStarSystem[Starsys].SS_stars[Star].S_orbitalObjects[RGCooIdx].OO_satellitesList[RGCsatIdx].OO_regions[RGCregIdx].OOR_climate;
    case RGCdmpClim of
       rc00VoidNoUse: RGCdmpRes:='climtpVoid';
       rc01VeryHotHumid: RGCdmpRes:='climtpVHotH';

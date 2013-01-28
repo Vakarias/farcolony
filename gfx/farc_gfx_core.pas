@@ -42,6 +42,11 @@ uses
 procedure FCMgfxC_Main_Init;
 
 ///<summary>
+///   hide the resources icons
+///</summary>
+procedure FCMgfxC_PlanetarySurvey_Hide;
+
+///<summary>
 ///   initialize the planetary survey related assets
 ///</summary>
 procedure FCMgfxC_PlanetarySurvey_Init;
@@ -131,6 +136,20 @@ begin
    if not Assigned(FCRdiSettlementPictures[1])
    then FCMgfxC_Settlements_Init;
    FCMgfxC_PlanetarySurvey_Init;
+end;
+
+procedure FCMgfxC_PlanetarySurvey_Hide;
+{:Purpose: hide the resources icons.
+    Additions:
+}
+begin
+   FCWinMain.FRR_IconResourcesSurvey.Hide;
+   FCWinMain.FRR_IconCantSurvey.Hide;
+   FCWinMain.FRR_IconRsrcOreField.Hide;
+   FCWinMain.FRR_IconRsrcIcyOreField.Hide;
+   FCWinMain.FRR_IconRsrcGasField.Hide;
+   FCWinMain.FRR_IconRsrcHydroLocation.Hide;
+   FCWinMain.FRR_IconRsrcUndergroundWater.Hide;
 end;
 
 procedure FCMgfxC_PlanetarySurvey_Init;

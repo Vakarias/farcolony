@@ -470,6 +470,7 @@ type TFCRduOObRegion = record
       EMO_groundCombat: extended;
    end;
    {.resources data}
+   OOR_resourceSurveyIndex: integer;
    OOR_resourceSpot: array of record
       RS_type: TFCEduResourceSpotTypes;
       RS_quality: TFCEduResourceSpotQuality;

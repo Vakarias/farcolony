@@ -149,7 +149,8 @@ procedure FCMuiCDD_Colony_Update(
       ColonyDataPanelColony
       ,ColonyDataPanelSettlement
       ,ReturnInt1
-      ,ReturnInt2: integer;
+      ,ReturnInt2
+      : integer;
 
 //      isColonyDataPanelShown: boolean;
 begin
@@ -186,13 +187,14 @@ begin
                {.update the surface panel if needed}
                if isSurfacePanelUpdate then
                begin
-                  ReturnInt1:=FCFuiSP_VarCurrentOObj_Get;
-                  ReturnInt2:=FCFuiSP_VarCurrentSat_Get;
-                  FCMuiSP_SurfaceEcosphere_Set(
-                     ReturnInt1
-                     ,ReturnInt2
-                     ,false
-                     );
+//                  ReturnInt1:=FCFuiSP_VarCurrentOObj_Get;
+//                  ReturnInt2:=FCFuiSP_VarCurrentSat_Get;
+                  FCMuiSP_SurfaceEcosphere_SetWithSelf;
+//                  FCMuiSP_SurfaceEcosphere_Set(
+//                     ReturnInt1
+//                     ,ReturnInt2
+//                     ,false
+//                     );
                end;
 //            end;
             {:DEV NOTES: also update the UMI here (full entry in the colonies list).}

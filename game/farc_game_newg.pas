@@ -622,7 +622,7 @@ FCWinNewGSetup.Close;
       setlength(FCDdgFactions[CPcount0].F_startingLocations,1);
       inc(CPcount0);
    end;
-   FCMuiSP_SurfaceEcosphere_Set(0, 0, true);
+   FCMuiSP_SurfaceEcosphere_Set(0, 0, 0, 0, true);
    FCWinMain.caption:=FCWinMain.caption+'   ['+FCFdTFiles_UIStr_Get(uistrUI,'comCurGame')+FCVdgPlayer.P_gameName+']';
    FCMoglUI_Main3DViewUI_Update(oglupdtpTxtOnly, ogluiutCPS);
 end;

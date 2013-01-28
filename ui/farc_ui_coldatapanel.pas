@@ -1748,7 +1748,9 @@ begin
       surfaceOObj:=FCFuiSP_VarCurrentOObj_Get;
       if surfaceOObj<>CFDoobj
       then FCMuiSP_SurfaceEcosphere_Set(
-         CFDoobj
+         CFDssys
+         ,CFDstar
+         ,CFDoobj
          ,0
          ,false
          )
@@ -1770,7 +1772,9 @@ begin
       surfaceSat:=FCFuiSP_VarCurrentSat_Get;
       if surfaceSat<>CFDsat
       then FCMuiSP_SurfaceEcosphere_Set(
-         CFDoobj
+         CFDssys
+         ,CFDstar
+         ,CFDoobj
          ,CFDsat
          ,false
          )

@@ -98,6 +98,7 @@ uses
 procedure FCMdFSG_Game_Load;
 {:Purpose: load the current game.
    Additions:
+      -2013Jan27- *add: resource survey - OOR_resourceSurveyIndex loading.
       -2012Dec09- *add/fix: initialize the GGFnewTick and GGF_OldTick values with the loaded game tick.
       -2012Dec04- *add: space units - SU_locationDockingMotherCraft.
       -2012Nov11- *add: tasks - interplanetary transit mission - T_tMIToriginSatIndex + T_tMITdestinationSatIndex.
@@ -546,6 +547,12 @@ begin
                begin
                   Count1:=XMLSavedGameItemSub.Attributes['regionIdx'];
                   Count2:=0;
+                  if FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_satellite=0
+                  then FCDduStarSystem[FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_starSystem].SS_stars[FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_star].S_orbitalObjects[FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_orbitalObject].
+                     OO_regions[Count1].OOR_resourceSurveyIndex:=Count
+                  else if FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_satellite>0
+                  then FCDduStarSystem[FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_starSystem].SS_stars[FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_star].S_orbitalObjects[FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_orbitalObject].
+                     OO_satellitesList[FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_satellite].OO_regions[Count1].OOR_resourceSurveyIndex:=Count;
                   XMLSavedGameItemSub1:=XMLSavedGameItemSub.ChildNodes.First;
                   while XMLSavedGameItemSub1<>nil do
                   begin
