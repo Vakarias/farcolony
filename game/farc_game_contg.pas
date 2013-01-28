@@ -273,7 +273,7 @@ FCMdF_DBProducts_Load;
             and (FC3doglTotalSatellites>0)
          then FC3doglSelectedSatellite:=1;
       end; //==END== 3d initialization try..finally ==//
-      FCMuiSP_SurfaceEcosphere_Set(0, 0, true);
+      FCMuiSP_SurfaceEcosphere_Set(0,0,0, 0, true);
       FCWinMain.caption:=FCWinMain.caption+'   ['+FCFdTFiles_UIStr_Get(uistrUI,'comCurGame')+FCVdgPlayer.P_gameName+']';
       FCMoglUI_Main3DViewUI_Update(oglupdtpTxtOnly, ogluiutCPS);
    end; //==END== else of if FCRplayer.Play_starSysLoc='' ==//
