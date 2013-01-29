@@ -182,21 +182,40 @@ type
       FCWM_MMenu_O_TR_1024: TMenuItem;
       FCWM_MMenu_O_TR_2048: TMenuItem;
       FCWM_MMenu_H_HPanel: TMenuItem;
-      MVG_SurfacePanel: TAdvPanel;
-      FCWM_SP_DataSheet: TAdvPageControl;
-      FCWM_SPShEcos_Lab: THTMLabel;
-      SP_SurfaceDisplay: THotSpotImage;
-      FCWM_SP_SPicFrm: TAdvGroupBox;
-      FCWM_SP_LDatFrm: TAdvGroupBox;
-      SP_FrameRightResources: TAdvGroupBox;
-      FCWM_SP_LDat: THTMLabel;
-      FCWM_SP_SPic: TImage32;
       FCWM_MMenu_DebTools: TMenuItem;
       FCWM_RegTerrLib: TBitmap32List;
-      SD_SurfaceSelector: THTMLabel;
-      FCWM_SP_ShReg: TAdvTabSheet;
-      FCWM_SPShReg_Lab: THTMLabel;
-      FCWM_SP_AutoUp: TCheckBox;
+      {.Surface Panel declarations}
+      MVG_SurfacePanel: TAdvPanel;
+      {.--}
+      SP_FrameLeftNOTDESIGNED: TAdvGroupBox;
+      SP_FLND_Label: THTMLabel;
+      {.--}
+      SP_FrameRegionPicture: TAdvGroupBox;
+      SP_FRP_Picture: TImage32;
+      {.--}
+      SP_EcosphereSheet: THTMLabel;
+      {.--}
+      SP_AutoUpdateCheck: TCheckBox;
+      {.--}
+      SP_DataSheet: TAdvPageControl;
+      SP_DS_TabRegion: TAdvTabSheet;
+      SP_DS_TabRegionLabel: THTMLabel;
+      SP_DS_TabResources: TAdvTabSheet;
+      SP_DS_TabResourcesLabel: THTMLabel;
+      {.--}
+      SP_FrameRightResources: TAdvGroupBox;
+      SP_FRR_IconResourcesSurvey: TImage32;
+      SP_FRR_IconCantSurvey: TImage32;
+      SP_FRR_IconRsrcGasField: TImage32;
+      SP_FRR_IconRsrcHydroLocation: TImage32;
+      SP_FRR_IconRsrcIcyOreField: TImage32;
+      SP_FRR_IconRsrcOreField: TImage32;
+      SP_FRR_IconRsrcUndergroundWater: TImage32;
+      {.--}
+      SP_SurfaceDisplay: THotSpotImage;
+      SP_SD_SurfaceSelector: THTMLabel;
+      SP_SD_SurfaceSelected: THTMLabel;
+      {.}
       FCGLSHUDcpsCVS: TGLHUDText;
       FCGLSHUDcpsCVSLAB: TGLHUDText;
       FCGLSHUDcpsCredL: TGLHUDText;
@@ -323,14 +342,7 @@ type
     AP_MissionCancel: TAdvGlowButton;
     AP_MissionInterplanetaryTransit: TAdvGlowButton;
     AP_MissionColonization: TAdvGlowButton;
-    SD_SurfaceSelected: THTMLabel;
-    FRR_IconResourcesSurvey: TImage32;
-    FRR_IconCantSurvey: TImage32;
-    FRR_IconRsrcGasField: TImage32;
-    FRR_IconRsrcHydroLocation: TImage32;
-    FRR_IconRsrcIcyOreField: TImage32;
-    FRR_IconRsrcOreField: TImage32;
-    FRR_IconRsrcUndergroundWater: TImage32;
+
       procedure FormCreate(Sender: TObject);
       procedure FormResize(Sender: TObject);
       procedure FCWM_MMenu_G_QuitClick(Sender: TObject);
@@ -356,8 +368,8 @@ type
       procedure FCWM_MMenu_H_HPanelClick(Sender: TObject);
       procedure SP_SurfaceDisplayHotSpotEnter(Sender: TObject; HotSpot: THotSpot);
       procedure SP_SurfaceDisplayMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
-      procedure SD_SurfaceSelectorClick(Sender: TObject);
-      procedure FCWM_SP_AutoUpKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+      procedure SP_SD_SurfaceSelectorClick(Sender: TObject);
+      procedure SP_AutoUpdateCheckKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FCWM_DLP_DockListKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FCWM_DLP_DockListMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
     procedure FCWM_DLP_DockListClick(Sender: TObject);
@@ -455,7 +467,7 @@ type
     procedure FormMouseWheel(Sender: TObject; Shift: TShiftState; WheelDelta: Integer;
       MousePos: TPoint; var Handled: Boolean);
     procedure FCWM_MainMenuChange(Sender: TObject; Source: TMenuItem; Rebuild: Boolean);
-    procedure SD_SurfaceSelectedMouseEnter(Sender: TObject);
+    procedure SP_SD_SurfaceSelectedMouseEnter(Sender: TObject);
    private
       { Private declarations }
          {timesteps needed for camera transitions}
@@ -1542,7 +1554,7 @@ begin
 //   end;
 end;
 
-procedure TFCWinMain.FCWM_SP_AutoUpKeyDown(Sender: TObject; var Key: Word;
+procedure TFCWinMain.SP_AutoUpdateCheckKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
    FCMuiK_WinMain_Test(Key, Shift);
@@ -1556,16 +1568,16 @@ end;
 procedure TFCWinMain.SP_SurfaceDisplayMouseMove(Sender: TObject; Shift: TShiftState; X,
   Y: Integer);
 begin
-   SD_SurfaceSelector.Refresh;
+   SP_SD_SurfaceSelector.Refresh;
 end;
 
-procedure TFCWinMain.SD_SurfaceSelectedMouseEnter(Sender: TObject);
+procedure TFCWinMain.SP_SD_SurfaceSelectedMouseEnter(Sender: TObject);
 begin
-   SD_SurfaceSelector.BringToFront;
+   SP_SD_SurfaceSelector.BringToFront;
    FCMuiSP_RegionDataPicture_Update(FCFuiSP_VarRegionSelected_Get, false);
 end;
 
-procedure TFCWinMain.SD_SurfaceSelectorClick(Sender: TObject);
+procedure TFCWinMain.SP_SD_SurfaceSelectorClick(Sender: TObject);
 var
    SPSSCcurrSettlement: integer;
 begin

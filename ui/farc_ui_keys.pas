@@ -274,7 +274,7 @@ begin
                   if FCWinMain.FCWM_MissionSettings.Visible
                   then FCMuiMS_InterplanetaryTransitInterface_UpdateDestination(false)
                   else if (not FCWinMain.FCWM_MissionSettings.Visible)
-                     and (FCWinMain.FCWM_SP_AutoUp.Checked)
+                     and (FCWinMain.SP_AutoUpdateCheck.Checked)
                   then FCMuiSP_SurfaceEcosphere_Set(FC3doglCurrentStarSystem, FC3doglCurrentStar, FC3doglSelectedPlanetAsteroid, 0, false);
                end;
             end;
@@ -293,7 +293,7 @@ begin
                begin
                   dec(FC3doglSelectedPlanetAsteroid);
                   FCMoglVM_CamMain_Target(FC3doglSelectedPlanetAsteroid, true);
-                  if (FCWinMain.FCWM_SP_AutoUp.Checked)
+                  if (FCWinMain.SP_AutoUpdateCheck.Checked)
                      and (FC3doglSelectedPlanetAsteroid>0)
                   then FCMuiSP_SurfaceEcosphere_Set(FC3doglCurrentStarSystem, FC3doglCurrentStar, FC3doglSelectedPlanetAsteroid, 0, false);
                end;
@@ -324,7 +324,7 @@ begin
                   if FCWinMain.FCWM_MissionSettings.Visible
                   then FCMuiMS_InterplanetaryTransitInterface_UpdateDestination(false)
                   else if (not FCWinMain.FCWM_MissionSettings.Visible)
-                     and (FCWinMain.FCWM_SP_AutoUp.Checked)
+                     and (FCWinMain.SP_AutoUpdateCheck.Checked)
                   then FCMuiSP_SurfaceEcosphere_Set(FC3doglCurrentStarSystem, FC3doglCurrentStar, FC3doglSelectedPlanetAsteroid, 0, false);
                end;
             end;
@@ -386,7 +386,7 @@ begin
          if FCWinMain.FCWM_MissionSettings.Visible
          then FCMuiMS_InterplanetaryTransitInterface_UpdateDestination(false)
          else if (not FCWinMain.FCWM_MissionSettings.Visible)
-            and (FCWinMain.FCWM_SP_AutoUp.Checked)
+            and (FCWinMain.SP_AutoUpdateCheck.Checked)
          then FCMuiSP_SurfaceEcosphere_Set(FC3doglCurrentStarSystem, FC3doglCurrentStar, FC3doglSelectedPlanetAsteroid, FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].Tag, false);
       end; //==END== case - uikbtSat ==//
       uikbtSpU:

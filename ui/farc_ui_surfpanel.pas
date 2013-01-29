@@ -901,73 +901,73 @@ begin
          end;
       end;
    end; //==END== case SERUdmpTerrTp ==//
-   FCWinMain.FCWM_SP_SPic.Bitmap:=FCWinMain.FCWM_RegTerrLib.Bitmap[SERUtPic];
-   FCWinMain.SD_SurfaceSelector.Left:=FCWinMain.SP_SurfaceDisplay.HotSpots[SERUregIdx-1].X;
-   FCWinMain.SD_SurfaceSelector.Top:=FCWinMain.SP_SurfaceDisplay.HotSpots[SERUregIdx-1].Y;
-   FCWinMain.SD_SurfaceSelector.Width:=FCWinMain.SP_SurfaceDisplay.HotSpots[SERUregIdx-1].Width;
-   FCWinMain.SD_SurfaceSelector.Height:=FCWinMain.SP_SurfaceDisplay.HotSpots[SERUregIdx-1].Height;
-   if not FCWinMain.SD_SurfaceSelected.Visible then
+   FCWinMain.SP_FRP_Picture.Bitmap:=FCWinMain.FCWM_RegTerrLib.Bitmap[SERUtPic];
+   FCWinMain.SP_SD_SurfaceSelector.Left:=FCWinMain.SP_SurfaceDisplay.HotSpots[SERUregIdx-1].X;
+   FCWinMain.SP_SD_SurfaceSelector.Top:=FCWinMain.SP_SurfaceDisplay.HotSpots[SERUregIdx-1].Y;
+   FCWinMain.SP_SD_SurfaceSelector.Width:=FCWinMain.SP_SurfaceDisplay.HotSpots[SERUregIdx-1].Width;
+   FCWinMain.SP_SD_SurfaceSelector.Height:=FCWinMain.SP_SurfaceDisplay.HotSpots[SERUregIdx-1].Height;
+   if not FCWinMain.SP_SD_SurfaceSelected.Visible then
    begin
-      FCWinMain.SD_SurfaceSelected.Width:=FCWinMain.SD_SurfaceSelector.Width;
-      FCWinMain.SD_SurfaceSelected.Height:=FCWinMain.SD_SurfaceSelector.Height;
+      FCWinMain.SP_SD_SurfaceSelected.Width:=FCWinMain.SP_SD_SurfaceSelector.Width;
+      FCWinMain.SP_SD_SurfaceSelected.Height:=FCWinMain.SP_SD_SurfaceSelector.Height;
    end;
    if not SERUonlyPic
    then
    begin
       {.terrain type}
-      FCWinMain.FCWM_SPShReg_Lab.HTMLText.Clear;
-      FCWinMain.FCWM_SPShReg_Lab.HTMLText.Add(
+      FCWinMain.SP_DS_TabRegionLabel.HTMLText.Clear;
+      FCWinMain.SP_DS_TabRegionLabel.HTMLText.Add(
          FCCFdHeadC+FCFdTFiles_UIStr_Get(uistrUI, 'secpTerrTp')+FCCFdHeadEnd
          +FCFdTFiles_UIStr_Get(uistrUI, SERUrelief)+' '+FCFdTFiles_UIStr_Get(uistrUI, SERUterrain)
          +'<br>'
          );
       {.current season}
-      FCWinMain.FCWM_SPShReg_Lab.HTMLText.Add(
+      FCWinMain.SP_DS_TabRegionLabel.HTMLText.Add(
          FCCFdHeadC+FCFdTFiles_UIStr_Get(uistrUI, 'season')+FCCFdHeadEnd
          +FCFdTFiles_UIStr_Get(uistrUI, SERUseason)
          +'<br>'
          );
       {.climate}
-      FCWinMain.FCWM_SPShReg_Lab.HTMLText.Add(
+      FCWinMain.SP_DS_TabRegionLabel.HTMLText.Add(
          FCCFdHeadC+FCFdTFiles_UIStr_Get(uistrUI, 'climate')+FCCFdHeadEnd
          +FCFdTFiles_UIStr_Get(uistrUI, FCFuF_Region_GetClim(SPcurrentStarSys, SPcurrentStar, SPcurrentOObjIndex, SPcurrentSatIndex, SERUregIdx))
          +'<br>'
          );
       {.temperature}
-      FCWinMain.FCWM_SPShReg_Lab.HTMLText.Add(
+      FCWinMain.SP_DS_TabRegionLabel.HTMLText.Add(
          FCCFdHeadC+FCFdTFiles_UIStr_Get(uistrUI, 'temp')+FCCFdHeadEnd
          +FloatToStr(SERUtemp)+' K ('
          );
       case SERUidxTemp of
-         1, 2: FCWinMain.FCWM_SPShReg_Lab.HTMLText.Add(FCCFcolWhBL);
-         3, 4: FCWinMain.FCWM_SPShReg_Lab.HTMLText.Add(FCCFcolBlueL);
-         5, 6, 7: FCWinMain.FCWM_SPShReg_Lab.HTMLText.Add(FCCFcolGreen);
-         8, 9: FCWinMain.FCWM_SPShReg_Lab.HTMLText.Add(FCCFcolOrge);
-         else FCWinMain.FCWM_SPShReg_Lab.HTMLText.Add(FCCFcolRed);
+         1, 2: FCWinMain.SP_DS_TabRegionLabel.HTMLText.Add(FCCFcolWhBL);
+         3, 4: FCWinMain.SP_DS_TabRegionLabel.HTMLText.Add(FCCFcolBlueL);
+         5, 6, 7: FCWinMain.SP_DS_TabRegionLabel.HTMLText.Add(FCCFcolGreen);
+         8, 9: FCWinMain.SP_DS_TabRegionLabel.HTMLText.Add(FCCFcolOrge);
+         else FCWinMain.SP_DS_TabRegionLabel.HTMLText.Add(FCCFcolRed);
       end;
-      FCWinMain.FCWM_SPShReg_Lab.HTMLText.Add(
+      FCWinMain.SP_DS_TabRegionLabel.HTMLText.Add(
          FCFdTFiles_UIStr_Get(uistrUI, 'tempIdx'+FloatToStr(SERUidxTemp))
          +FCCFcolEND+')'
          +'<br>'
          );
       {.yearly mean precipitations}
-      FCWinMain.FCWM_SPShReg_Lab.HTMLText.Add(
+      FCWinMain.SP_DS_TabRegionLabel.HTMLText.Add(
          FCCFdHeadC+FCFdTFiles_UIStr_Get(uistrUI, 'precip')+FCCFdHeadEnd
          +IntToStr(SERUprecip)+' mm/'+FCFdTFiles_UIStr_Get(uistrUI, 'acronYr')
          +'<br>'
          );
       {.yearly mean windspeed}
-      FCWinMain.FCWM_SPShReg_Lab.HTMLText.Add(
+      FCWinMain.SP_DS_TabRegionLabel.HTMLText.Add(
          FCCFdHeadC+FCFdTFiles_UIStr_Get(uistrUI, 'wndspd')+FCCFdHeadEnd
          +FloatToStr(SERUwndSpd)+' m/s ('
          );
       case SERUidxWdSpd of
-         0..2: FCWinMain.FCWM_SPShReg_Lab.HTMLText.Add(FCCFcolGreen);
-         3..4: FCWinMain.FCWM_SPShReg_Lab.HTMLText.Add(FCCFcolBlue);
-         5..6: FCWinMain.FCWM_SPShReg_Lab.HTMLText.Add(FCCFcolOrge);
-         else FCWinMain.FCWM_SPShReg_Lab.HTMLText.Add(FCCFcolRed);
+         0..2: FCWinMain.SP_DS_TabRegionLabel.HTMLText.Add(FCCFcolGreen);
+         3..4: FCWinMain.SP_DS_TabRegionLabel.HTMLText.Add(FCCFcolBlue);
+         5..6: FCWinMain.SP_DS_TabRegionLabel.HTMLText.Add(FCCFcolOrge);
+         else FCWinMain.SP_DS_TabRegionLabel.HTMLText.Add(FCCFcolRed);
       end;
-      FCWinMain.FCWM_SPShReg_Lab.HTMLText.Add(
+      FCWinMain.SP_DS_TabRegionLabel.HTMLText.Add(
          FCFdTFiles_UIStr_Get(uistrUI, 'wspdIdx'+FloatToStr(SERUidxWdSpd))
          +FCCFcolEND+')'
          +'<br>'
@@ -975,10 +975,10 @@ begin
       FCMgfxC_PlanetarySurvey_Hide;
       if ( Test=0 )
          and (Colony=0)
-      then FCWinMain.FRR_IconCantSurvey.Show
+      then FCWinMain.SP_FRR_IconCantSurvey.Show
       else if ( Test=0 )
          and (Colony>0)
-      then FCWinMain.FRR_IconResourcesSurvey.Show
+      then FCWinMain.SP_FRR_IconResourcesSurvey.Show
       else if Test>0 then
       begin
          Count:=1;
@@ -986,15 +986,15 @@ begin
          while Count<=Max do
          begin
             case FCVdgPlayer.P_surveyedResourceSpots[Test].SRS_surveyedRegions[SERUregIdx].SR_ResourceSpots[Count].RS_type of
-               rstGasField: FCWinMain.FRR_IconRsrcGasField.Show;
+               rstGasField: FCWinMain.SP_FRR_IconRsrcGasField.Show;
 
-               rstHydroWell: FCWinMain.FRR_IconRsrcHydroLocation.Show;
+               rstHydroWell: FCWinMain.SP_FRR_IconRsrcHydroLocation.Show;
 
-               rstIcyOreField: FCWinMain.FRR_IconRsrcIcyOreField.Show;
+               rstIcyOreField: FCWinMain.SP_FRR_IconRsrcIcyOreField.Show;
 
-               rstOreField: FCWinMain.FRR_IconRsrcOreField.Show;
+               rstOreField: FCWinMain.SP_FRR_IconRsrcOreField.Show;
 
-               rstUnderWater: FCWinMain.FRR_IconRsrcUndergroundWater.Show;
+               rstUnderWater: FCWinMain.SP_FRR_IconRsrcUndergroundWater.Show;
             end;
             inc( Count);
          end;
@@ -1062,23 +1062,23 @@ begin
       if not SESinit
       then
       begin
-         FCWM_SPShEcos_Lab.HTMLText.Clear;
-         FCWM_SP_SPic.Bitmap.Clear;
+         SP_EcosphereSheet.HTMLText.Clear;
+         SP_FRP_Picture.Bitmap.Clear;
          SPcurrentStarSys:=StarSys;
          SPcurrentStar:=Star;
          SPcurrentOObjIndex:=SESoobjIdx;
          SPcurrentSatIndex:=0;
          FCMuiSP_VarRegionHoveredSelected_Reset;
-         FCWM_SP_DataSheet.ActivePage:=FCWM_SP_ShReg;
-         SD_SurfaceSelector.Width:=0;
-         SD_SurfaceSelector.Height:=0;
-         SD_SurfaceSelector.Left:=0;
-         SD_SurfaceSelector.Top:=0;
-         SD_SurfaceSelected.Width:=SD_SurfaceSelector.Width;
-         SD_SurfaceSelected.Height:=SD_SurfaceSelector.Height;
-         SD_SurfaceSelected.Left:=SD_SurfaceSelector.Left;
-         SD_SurfaceSelected.Top:=SD_SurfaceSelector.Top;
-         SD_SurfaceSelected.Hide;
+         SP_DataSheet.ActivePage:=SP_DS_TabRegion;
+         SP_SD_SurfaceSelector.Width:=0;
+         SP_SD_SurfaceSelector.Height:=0;
+         SP_SD_SurfaceSelector.Left:=0;
+         SP_SD_SurfaceSelector.Top:=0;
+         SP_SD_SurfaceSelected.Width:=SP_SD_SurfaceSelector.Width;
+         SP_SD_SurfaceSelected.Height:=SP_SD_SurfaceSelector.Height;
+         SP_SD_SurfaceSelected.Left:=SP_SD_SurfaceSelector.Left;
+         SP_SD_SurfaceSelected.Top:=SP_SD_SurfaceSelector.Top;
+         SP_SD_SurfaceSelected.Hide;
          if SESsatIdx=0
          then
          begin
@@ -1116,71 +1116,71 @@ begin
          end;
          MVG_SurfacePanel.Caption.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_SurfPanel')+FCFdTFiles_UIStr_Get(dtfscPrprName,SESdmpToken);
          {.environment type subsection}
-         FCWM_SPShEcos_Lab.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI, 'secpEnv')+'<br>'+FCCFidxL+SESenv+'<br>');
+         SP_EcosphereSheet.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI, 'secpEnv')+'<br>'+FCCFidxL+SESenv+'<br>');
          {.atmosphere subsection}
-         FCWM_SPShEcos_Lab.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI, 'secpAtm'));
+         SP_EcosphereSheet.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI, 'secpAtm'));
          if SESdmpAtmPr=0
-         then FCWM_SPShEcos_Lab.HTMLText.Add('<br>'+FCCFidxL+FCFdTFiles_UIStr_Get(uistrUI, 'comNoneP'))
+         then SP_EcosphereSheet.HTMLText.Add('<br>'+FCCFidxL+FCFdTFiles_UIStr_Get(uistrUI, 'comNoneP'))
          else if SESdmpAtmPr>0
          then
          begin
-            FCWM_SPShEcos_Lab.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI, 'secpGasM'));
+            SP_EcosphereSheet.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI, 'secpGasM'));
             SESdmpStrDat:=FCFuiSP_EcoDataAtmosphere_Process(agsMain, SESoobjIdx, SESsatIdx);
-            FCWM_SPShEcos_Lab.HTMLText.Add(SESdmpStrDat);
-            FCWM_SPShEcos_Lab.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI, 'secpGasS'));
+            SP_EcosphereSheet.HTMLText.Add(SESdmpStrDat);
+            SP_EcosphereSheet.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI, 'secpGasS'));
             SESdmpStrDat:=FCFuiSP_EcoDataAtmosphere_Process(agsSecondary, SESoobjIdx, SESsatIdx);
-            FCWM_SPShEcos_Lab.HTMLText.Add(SESdmpStrDat);
-            FCWM_SPShEcos_Lab.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI, 'secpGasT'));
+            SP_EcosphereSheet.HTMLText.Add(SESdmpStrDat);
+            SP_EcosphereSheet.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI, 'secpGasT'));
             SESdmpStrDat:=FCFuiSP_EcoDataAtmosphere_Process(agsTrace, SESoobjIdx, SESsatIdx);
             if SESdmpStrDat<>''
-            then FCWM_SPShEcos_Lab.HTMLText.Add(SESdmpStrDat)
-            else FCWM_SPShEcos_Lab.HTMLText.Add('<br>'+FCCFidxL+FCFdTFiles_UIStr_Get(uistrUI, 'comNoneP'));
+            then SP_EcosphereSheet.HTMLText.Add(SESdmpStrDat)
+            else SP_EcosphereSheet.HTMLText.Add('<br>'+FCCFidxL+FCFdTFiles_UIStr_Get(uistrUI, 'comNoneP'));
             if SESdmpAtmPr<>1
             then
             begin
-               FCWM_SPShEcos_Lab.HTMLText.Add(
+               SP_EcosphereSheet.HTMLText.Add(
                   FCCFidxL+FCFdTFiles_UIStr_Get(uistrUI, 'secpPress')
                   +FCCFidxR+FCFdTFiles_UIStr_Get(uistrUI, 'secpClCov')
                   );
-               FCWM_SPShEcos_Lab.HTMLText.Add
+               SP_EcosphereSheet.HTMLText.Add
                   ('<br>'+FCCFidxL+floattostr(SESdmpAtmPr)+' mbars'+FCCFidxR+floattostr(SESdmpCCov)+' %');
             end;
          end; //==END== else if SESdmpAtmPr>0 ==//
-         FCWM_SPShEcos_Lab.HTMLText.Add('<br>'+FCFdTFiles_UIStr_Get(uistrUI, 'secpHydr')+'<br>');
+         SP_EcosphereSheet.HTMLText.Add('<br>'+FCFdTFiles_UIStr_Get(uistrUI, 'secpHydr')+'<br>');
          case SESdmpHydr of
-            hNoH2O: FCWM_SPShEcos_Lab.HTMLText.Add(FCCFidxL+FCFdTFiles_UIStr_Get(uistrUI, 'comNoneP'));
+            hNoH2O: SP_EcosphereSheet.HTMLText.Add(FCCFidxL+FCFdTFiles_UIStr_Get(uistrUI, 'comNoneP'));
             hVaporH2O:
-               FCWM_SPShEcos_Lab.HTMLText.Add(
+               SP_EcosphereSheet.HTMLText.Add(
                   FCCFidxL
                   +FCFdTFiles_UIStr_Get(uistrUI, 'specpHtpVap')
                   +FCFdTFiles_UIStr_Get(uistrUI, 'secpCov')+floattostr(SESdmpHCov)+' %)'
                   );
             hLiquidH2O:
-               FCWM_SPShEcos_Lab.HTMLText.Add(
+               SP_EcosphereSheet.HTMLText.Add(
                   FCCFidxL
                   +FCFdTFiles_UIStr_Get(uistrUI, 'specpHtpLiq')
                   +FCFdTFiles_UIStr_Get(uistrUI, 'secpCov')+floattostr(SESdmpHCov)+' %)'
                   );
             hIceSheet:
-               FCWM_SPShEcos_Lab.HTMLText.Add(
+               SP_EcosphereSheet.HTMLText.Add(
                   FCCFidxL
                   +FCFdTFiles_UIStr_Get(uistrUI, 'specpHtpISh')
                   +FCFdTFiles_UIStr_Get(uistrUI, 'secpCov')+floattostr(SESdmpHCov)+' %)'
                   );
             hCrystalIce:
-               FCWM_SPShEcos_Lab.HTMLText.Add(
+               SP_EcosphereSheet.HTMLText.Add(
                   FCCFidxL
                   +FCFdTFiles_UIStr_Get(uistrUI, 'specpHtpCryst')
                   +FCFdTFiles_UIStr_Get(uistrUI, 'secpCov')+floattostr(SESdmpHCov)+' %)'
                   );
             hLiquidH2O_blend_NH3:
-               FCWM_SPShEcos_Lab.HTMLText.Add(
+               SP_EcosphereSheet.HTMLText.Add(
                   FCCFidxL
                   +FCFdTFiles_UIStr_Get(uistrUI, 'specpHtpLiqNH3')
                   +FCFdTFiles_UIStr_Get(uistrUI, 'secpCov')+floattostr(SESdmpHCov)+' %)'
                   );
             hLiquidCH4:
-               FCWM_SPShEcos_Lab.HTMLText.Add(
+               SP_EcosphereSheet.HTMLText.Add(
                   FCCFidxL
                   +FCFdTFiles_UIStr_Get(uistrUI, 'specpHtpLiqCH4')
                   +FCFdTFiles_UIStr_Get(uistrUI, 'secpCov')+floattostr(SESdmpHCov)+' %)'
@@ -1192,16 +1192,16 @@ begin
          then
          begin
             {.set interface}
-            FCWM_SP_LDatFrm.Visible:=false;
-            FCWM_SP_SPicFrm.Visible:=false;
+            SP_FrameLeftNOTDESIGNED.Visible:=false;
+            SP_FrameRegionPicture.Visible:=false;
             SP_FrameRightResources.Visible:=false;
             SP_SurfaceDisplay.Visible:=false;
             if SPstoredPanelWidth=0
             then SPstoredPanelWidth:=MVG_SurfacePanel.Width;
             if SPstoredDataSheetLeft=0
-            then SPstoredDataSheetLeft:=FCWM_SP_DataSheet.Left;
+            then SPstoredDataSheetLeft:=SP_DataSheet.Left;
             MVG_SurfacePanel.Width:=232;
-            FCWM_SP_DataSheet.Align:=alLeft;
+            SP_DataSheet.Align:=alLeft;
          end //==END== if (SESdmpTp>Icy_CallistoH3H4Atm0) and (<Aster_Metall) ==//
          {.otherwise for non gaseous orbital objects}
          else
@@ -1210,15 +1210,15 @@ begin
             then
             begin
                {.set interface}
-               FCWM_SP_LDatFrm.Visible:=true;
-               FCWM_SP_SPicFrm.Visible:=true;
+               SP_FrameLeftNOTDESIGNED.Visible:=true;
+               SP_FrameRegionPicture.Visible:=true;
                SP_FrameRightResources.Visible:=true;
                SP_SurfaceDisplay.Visible:=true;
                MVG_SurfacePanel.Width:=SPstoredPanelWidth;
                SPstoredPanelWidth:=0;
                FCMuiSP_VarRegionHoveredSelected_Reset;
-               FCWM_SP_DataSheet.Align:=alCustom;
-               FCWM_SP_DataSheet.Left:=SPstoredDataSheetLeft;
+               SP_DataSheet.Align:=alCustom;
+               SP_DataSheet.Left:=SPstoredDataSheetLeft;
                SPstoredDataSheetLeft:=0;
             end;
             {.set the hotspots if needed}
@@ -1708,7 +1708,7 @@ procedure FCMuiSP_VarRegionHoveredSelected_Reset;
 begin
    SPregionHovered:=0;
    SPregionSelected:=0;
-   FCWinMain.SD_SurfaceSelected.Hide;
+   FCWinMain.SP_SD_SurfaceSelected.Hide;
 end;
 
 end.

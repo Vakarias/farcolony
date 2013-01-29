@@ -3495,7 +3495,7 @@ object FCWinMain: TFCWinMain
       StatusBar.Font.Style = []
       URLColor = 14068651
       FullHeight = 0
-      object FCWM_SPShEcos_Lab: THTMLabel
+      object SP_EcosphereSheet: THTMLabel
         Left = 0
         Top = 0
         Width = 153
@@ -3519,12 +3519,12 @@ object FCWinMain: TFCWinMain
         URLColor = 14068651
         Version = '1.8.1.0'
       end
-      object FCWM_SP_DataSheet: TAdvPageControl
+      object SP_DataSheet: TAdvPageControl
         Left = 328
         Top = 19
         Width = 160
         Height = 269
-        ActivePage = FCWM_SP_ShReg
+        ActivePage = SP_DS_TabRegion
         ActiveFont.Charset = DEFAULT_CHARSET
         ActiveFont.Color = 13238272
         ActiveFont.Height = -11
@@ -3555,8 +3555,8 @@ object FCWinMain: TFCWinMain
         Version = '1.6.2.1'
         TabOrder = 0
         TabStop = False
-        object FCWM_SP_ShReg: TAdvTabSheet
-          Caption = 'FCWM_SP_ShReg'
+        object SP_DS_TabRegion: TAdvTabSheet
+          Caption = 'SP_DS_TabRegion'
           Color = clBlack
           ColorTo = clNone
           Font.Charset = DEFAULT_CHARSET
@@ -3568,11 +3568,13 @@ object FCWinMain: TFCWinMain
           TabColor = clBlack
           TabColorTo = clGray
           TextColor = 14803425
-          object FCWM_SPShReg_Lab: THTMLabel
+          ExplicitTop = 24
+          ExplicitHeight = 241
+          object SP_DS_TabRegionLabel: THTMLabel
             Left = 0
             Top = 0
             Width = 152
-            Height = 241
+            Height = 223
             Align = alClient
             Color = clBlack
             GradientType = gtFullVertical
@@ -3586,6 +3588,41 @@ object FCWinMain: TFCWinMain
             HoverFontColor = clSkyBlue
             HTMLText.Strings = (
               'TMS <b>HTML</b> label ')
+            ParentColor = False
+            ParentFont = False
+            URLColor = 14068651
+            Version = '1.8.1.0'
+            ExplicitWidth = 153
+            ExplicitHeight = 243
+          end
+        end
+        object SP_DS_TabResources: TAdvTabSheet
+          Caption = 'SP_DS_TabResources'
+          Color = clBlack
+          ColorTo = clNone
+          TabColor = clBlack
+          TabColorTo = clGray
+          TextColor = 14803425
+          ExplicitLeft = 24
+          ExplicitTop = 0
+          ExplicitWidth = 100
+          ExplicitHeight = 100
+          object SP_DS_TabResourcesLabel: THTMLabel
+            Left = 0
+            Top = 0
+            Width = 152
+            Height = 223
+            Align = alClient
+            Color = clBlack
+            GradientType = gtFullVertical
+            Font.Charset = ANSI_CHARSET
+            Font.Color = 14803425
+            Font.Height = -12
+            Font.Name = 'FrancophilSans'
+            Font.Style = []
+            Hover = True
+            HoverColor = clBlack
+            HoverFontColor = clSkyBlue
             ParentColor = False
             ParentFont = False
             URLColor = 14068651
@@ -3609,7 +3646,7 @@ object FCWinMain: TFCWinMain
         Version = '2.0.2.4'
         OnHotSpotEnter = SP_SurfaceDisplayHotSpotEnter
         OnMouseMove = SP_SurfaceDisplayMouseMove
-        object SD_SurfaceSelector: THTMLabel
+        object SP_SD_SurfaceSelector: THTMLabel
           Left = 4
           Top = 5
           Width = 93
@@ -3631,10 +3668,10 @@ object FCWinMain: TFCWinMain
           ParentFont = False
           Transparent = True
           URLColor = 14068651
-          OnClick = SD_SurfaceSelectorClick
+          OnClick = SP_SD_SurfaceSelectorClick
           Version = '1.8.1.0'
         end
-        object SD_SurfaceSelected: THTMLabel
+        object SP_SD_SurfaceSelected: THTMLabel
           Left = 12
           Top = 13
           Width = 93
@@ -3657,11 +3694,11 @@ object FCWinMain: TFCWinMain
           Transparent = True
           URLColor = 14068651
           Visible = False
-          OnMouseEnter = SD_SurfaceSelectedMouseEnter
+          OnMouseEnter = SP_SD_SurfaceSelectedMouseEnter
           Version = '1.8.1.0'
         end
       end
-      object FCWM_SP_SPicFrm: TAdvGroupBox
+      object SP_FrameRegionPicture: TAdvGroupBox
         Left = 119
         Top = 167
         Width = 292
@@ -3673,7 +3710,7 @@ object FCWinMain: TFCWinMain
         Font.Style = []
         ParentFont = False
         TabOrder = 2
-        object FCWM_SP_SPic: TImage32
+        object SP_FRP_Picture: TImage32
           Left = 24
           Top = 16
           Width = 65
@@ -3685,7 +3722,7 @@ object FCWinMain: TFCWinMain
           TabOrder = 0
         end
       end
-      object FCWM_SP_LDatFrm: TAdvGroupBox
+      object SP_FrameLeftNOTDESIGNED: TAdvGroupBox
         Left = 143
         Top = 32
         Width = 110
@@ -3697,7 +3734,7 @@ object FCWinMain: TFCWinMain
         Font.Style = []
         ParentFont = False
         TabOrder = 3
-        object FCWM_SP_LDat: THTMLabel
+        object SP_FLND_Label: THTMLabel
           Left = 2
           Top = 3
           Width = 106
@@ -3731,7 +3768,7 @@ object FCWinMain: TFCWinMain
         Font.Style = []
         ParentFont = False
         TabOrder = 4
-        object FRR_IconResourcesSurvey: TImage32
+        object SP_FRR_IconResourcesSurvey: TImage32
           Left = 2
           Top = 3
           Width = 93
@@ -3743,12 +3780,8 @@ object FCWinMain: TFCWinMain
           ScaleMode = smNormal
           TabOrder = 0
           Visible = False
-          ExplicitLeft = 32
-          ExplicitTop = 24
-          ExplicitWidth = 192
-          ExplicitHeight = 192
         end
-        object FRR_IconCantSurvey: TImage32
+        object SP_FRR_IconCantSurvey: TImage32
           Left = 2
           Top = 3
           Width = 93
@@ -3760,10 +3793,8 @@ object FCWinMain: TFCWinMain
           ScaleMode = smNormal
           TabOrder = 1
           Visible = False
-          ExplicitLeft = 4
-          ExplicitTop = 5
         end
-        object FRR_IconRsrcGasField: TImage32
+        object SP_FRR_IconRsrcGasField: TImage32
           Left = 4
           Top = 5
           Width = 32
@@ -3776,7 +3807,7 @@ object FCWinMain: TFCWinMain
           TabOrder = 2
           Visible = False
         end
-        object FRR_IconRsrcHydroLocation: TImage32
+        object SP_FRR_IconRsrcHydroLocation: TImage32
           Left = 12
           Top = 13
           Width = 32
@@ -3789,7 +3820,7 @@ object FCWinMain: TFCWinMain
           TabOrder = 3
           Visible = False
         end
-        object FRR_IconRsrcIcyOreField: TImage32
+        object SP_FRR_IconRsrcIcyOreField: TImage32
           Left = 0
           Top = 0
           Width = 32
@@ -3802,7 +3833,7 @@ object FCWinMain: TFCWinMain
           TabOrder = 4
           Visible = False
         end
-        object FRR_IconRsrcOreField: TImage32
+        object SP_FRR_IconRsrcOreField: TImage32
           Left = 0
           Top = 0
           Width = 32
@@ -3815,7 +3846,7 @@ object FCWinMain: TFCWinMain
           TabOrder = 5
           Visible = False
         end
-        object FRR_IconRsrcUndergroundWater: TImage32
+        object SP_FRR_IconRsrcUndergroundWater: TImage32
           Left = 0
           Top = 0
           Width = 32
@@ -3829,7 +3860,7 @@ object FCWinMain: TFCWinMain
           Visible = False
         end
       end
-      object FCWM_SP_AutoUp: TCheckBox
+      object SP_AutoUpdateCheck: TCheckBox
         Left = 376
         Top = 3
         Width = 97
@@ -3845,7 +3876,7 @@ object FCWinMain: TFCWinMain
         ParentColor = False
         ParentFont = False
         TabOrder = 5
-        OnKeyDown = FCWM_SP_AutoUpKeyDown
+        OnKeyDown = SP_AutoUpdateCheckKeyDown
       end
     end
   end

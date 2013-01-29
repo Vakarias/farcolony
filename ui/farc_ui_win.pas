@@ -486,6 +486,7 @@ end;
 procedure FCMuiW_UI_Initialize(const UIUtp: TFCEmwinUpdTp);
 {:Purpose: update and initialize all user's interface elements of the game.
    Additions:
+      -2013Jan28- *add: surface panel - DS_TabResources.
       -2013Jan09- *mod: adjustment of ActionPanel width for french language.
       -2012Dec02- *add: action panel - orbital object data + AP_DetailedData + AP_DockingList + AP_MissionColonization + AP_MissionInterplanetaryTransit + AP_MissionCancel buttons.
       -2012Nov29- *add: action panel.
@@ -709,8 +710,9 @@ begin
       FCMuiW_HelpTDef_Link(FCDBhelpTdef[FCWinMain.FCWM_HDPhintsList.ItemIndex+1].TD_link, false);
       {.surface panel}
       FCWinMain.MVG_SurfacePanel.Caption.Text:='';
-      FCWinMain.FCWM_SP_AutoUp.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_SP_AutoUp');
-      FCWinMain.FCWM_SP_ShReg.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_SP_ShReg');
+      FCWinMain.SP_AutoUpdateCheck.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_SP_AutoUp');
+      FCWinMain.SP_DS_TabRegion.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'DS_TabRegion');
+      FCWinMain.SP_DS_TabResources.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'DS_TabResources');
       {.viability objectives panel}
       if Assigned(FCcps)
       then FCcps.CPSobjPanel.Caption.Text:='<p align="center"><b>'+FCFdTFiles_UIStr_Get(uistrUI, 'CPSobjPanel')+'</b>';
@@ -853,43 +855,43 @@ begin
       FCWinMain.MVG_SurfacePanel.Height:=375;
       FCWinMain.MVG_SurfacePanel.Left:=(UIUmainW2)-(FCWinMain.MVG_SurfacePanel.Width shr 1);
       FCWinMain.MVG_SurfacePanel.Top:=(UIUmainH2)-(FCWinMain.MVG_SurfacePanel.Height shr 1);
-      FCWinMain.FCWM_SP_AutoUp.Width:=82;
-      FCWinMain.FCWM_SP_AutoUp.Left:=FCWinMain.MVG_SurfacePanel.Width-25-FCWinMain.FCWM_SP_AutoUp.Width;
-      FCWinMain.FCWM_SP_AutoUp.Top:=1;
+      FCWinMain.SP_AutoUpdateCheck.Width:=82;
+      FCWinMain.SP_AutoUpdateCheck.Left:=FCWinMain.MVG_SurfacePanel.Width-25-FCWinMain.SP_AutoUpdateCheck.Width;
+      FCWinMain.SP_AutoUpdateCheck.Top:=1;
       {.surface panel - ecosphere sheet}
-      FCWinMain.FCWM_SPShEcos_Lab.Width:=260;
-      FCWinMain.FCWM_SPShEcos_Lab.Height:=FCWinMain.MVG_SurfacePanel.Height-19;
-      FCWinMain.FCWM_SPShEcos_Lab.Left:=1;
-      FCWinMain.FCWM_SPShEcos_Lab.Top:=19;
+      FCWinMain.SP_EcosphereSheet.Width:=260;
+      FCWinMain.SP_EcosphereSheet.Height:=FCWinMain.MVG_SurfacePanel.Height-19;
+      FCWinMain.SP_EcosphereSheet.Left:=1;
+      FCWinMain.SP_EcosphereSheet.Top:=19;
       {.surface panel - surface hotspot}
       FCWinMain.SP_SurfaceDisplay.Width:=512;
       FCWinMain.SP_SurfaceDisplay.Height:=256;
-      FCWinMain.SP_SurfaceDisplay.Left:=FCWinMain.FCWM_SPShEcos_Lab.Left+FCWinMain.FCWM_SPShEcos_Lab.Width+1;
-      FCWinMain.SP_SurfaceDisplay.Top:=FCWinMain.FCWM_SPShEcos_Lab.Top;
+      FCWinMain.SP_SurfaceDisplay.Left:=FCWinMain.SP_EcosphereSheet.Left+FCWinMain.SP_EcosphereSheet.Width+1;
+      FCWinMain.SP_SurfaceDisplay.Top:=FCWinMain.SP_EcosphereSheet.Top;
       {.surface panel - left data}
-      FCWinMain.FCWM_SP_LDatFrm.Width:=111;
-      FCWinMain.FCWM_SP_LDatFrm.Height:=99;
-      FCWinMain.FCWM_SP_LDatFrm.Left:=FCWinMain.SP_SurfaceDisplay.Left;
-      FCWinMain.FCWM_SP_LDatFrm.Top:=FCWinMain.SP_SurfaceDisplay.Top+FCWinMain.SP_SurfaceDisplay.Height+1;
+      FCWinMain.SP_FrameLeftNOTDESIGNED.Width:=111;
+      FCWinMain.SP_FrameLeftNOTDESIGNED.Height:=99;
+      FCWinMain.SP_FrameLeftNOTDESIGNED.Left:=FCWinMain.SP_SurfaceDisplay.Left;
+      FCWinMain.SP_FrameLeftNOTDESIGNED.Top:=FCWinMain.SP_SurfaceDisplay.Top+FCWinMain.SP_SurfaceDisplay.Height+1;
       {.surface panel - region picture}
-      FCWinMain.FCWM_SP_SPicFrm.Width:=292;
-      FCWinMain.FCWM_SP_SPicFrm.Height:=99;
-      FCWinMain.FCWM_SP_SPicFrm.Left:=FCWinMain.FCWM_SP_LDatFrm.Left+FCWinMain.FCWM_SP_LDatFrm.Width;
-      FCWinMain.FCWM_SP_SPicFrm.Top:=FCWinMain.FCWM_SP_LDatFrm.Top;
-      FCWinMain.FCWM_SP_SPic.Width:=FCWinMain.FCWM_SP_SPicFrm.Width-2;
-      FCWinMain.FCWM_SP_SPic.Height:=FCWinMain.FCWM_SP_SPicFrm.Height-3;
-      FCWinMain.FCWM_SP_SPic.Left:=1;
-      FCWinMain.FCWM_SP_SPic.Top:=2;
+      FCWinMain.SP_FrameRegionPicture.Width:=292;
+      FCWinMain.SP_FrameRegionPicture.Height:=99;
+      FCWinMain.SP_FrameRegionPicture.Left:=FCWinMain.SP_FrameLeftNOTDESIGNED.Left+FCWinMain.SP_FrameLeftNOTDESIGNED.Width;
+      FCWinMain.SP_FrameRegionPicture.Top:=FCWinMain.SP_FrameLeftNOTDESIGNED.Top;
+      FCWinMain.SP_FRP_Picture.Width:=FCWinMain.SP_FrameRegionPicture.Width-2;
+      FCWinMain.SP_FRP_Picture.Height:=FCWinMain.SP_FrameRegionPicture.Height-3;
+      FCWinMain.SP_FRP_Picture.Left:=1;
+      FCWinMain.SP_FRP_Picture.Top:=2;
       {.surface panel - right data}
-      FCWinMain.SP_FrameRightResources.Width:=FCWinMain.FCWM_SP_LDatFrm.Width;
-      FCWinMain.SP_FrameRightResources.Height:=FCWinMain.FCWM_SP_LDatFrm.Height;
-      FCWinMain.SP_FrameRightResources.Left:=FCWinMain.FCWM_SP_SPicFrm.Left+FCWinMain.FCWM_SP_SPicFrm.Width;
-      FCWinMain.SP_FrameRightResources.Top:=FCWinMain.FCWM_SP_SPicFrm.Top;
+      FCWinMain.SP_FrameRightResources.Width:=FCWinMain.SP_FrameLeftNOTDESIGNED.Width;
+      FCWinMain.SP_FrameRightResources.Height:=FCWinMain.SP_FrameLeftNOTDESIGNED.Height;
+      FCWinMain.SP_FrameRightResources.Left:=FCWinMain.SP_FrameRegionPicture.Left+FCWinMain.SP_FrameRegionPicture.Width;
+      FCWinMain.SP_FrameRightResources.Top:=FCWinMain.SP_FrameRegionPicture.Top;
       {.surface panel - data sheet}
-      FCWinMain.FCWM_SP_DataSheet.Width:=FCWinMain.MVG_SurfacePanel.Width-FCWinMain.FCWM_SPShEcos_Lab.Width-FCWinMain.SP_SurfaceDisplay.Width-4;//270;
-      FCWinMain.FCWM_SP_DataSheet.Height:=FCWinMain.FCWM_SPShEcos_Lab.Height;
-      FCWinMain.FCWM_SP_DataSheet.Left:=FCWinMain.SP_SurfaceDisplay.Left+FCWinMain.SP_SurfaceDisplay.Width+1;
-      FCWinMain.FCWM_SP_DataSheet.Top:=FCWinMain.SP_SurfaceDisplay.Top;
+      FCWinMain.SP_DataSheet.Width:=FCWinMain.MVG_SurfacePanel.Width-FCWinMain.SP_EcosphereSheet.Width-FCWinMain.SP_SurfaceDisplay.Width-4;//270;
+      FCWinMain.SP_DataSheet.Height:=FCWinMain.SP_EcosphereSheet.Height;
+      FCWinMain.SP_DataSheet.Left:=FCWinMain.SP_SurfaceDisplay.Left+FCWinMain.SP_SurfaceDisplay.Width+1;
+      FCWinMain.SP_DataSheet.Top:=FCWinMain.SP_SurfaceDisplay.Top;
       {.colony data panel}
       FCWinMain.FCWM_ColDPanel.Width:=1024;//784;
       FCWinMain.FCWM_ColDPanel.Height:=350;
@@ -1248,12 +1250,12 @@ begin
       FCWinMain.FCWM_HDPhintsList.Font.Size:=FCFuiW_Font_GetSize(uiwListItems);
       FCWinMain.FCWM_HDPhintsText.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
       {.surface panel}
-      FCWinMain.FCWM_SP_AutoUp.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+      FCWinMain.SP_AutoUpdateCheck.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
       FCWinMain.MVG_SurfacePanel.Caption.Font.Size:=FCFuiW_Font_GetSize(uiwPanelTitle);
-      FCWinMain.FCWM_SP_DataSheet.Font.Size:=FCFuiW_Font_GetSize(uiwPageCtrl);
-      FCWinMain.FCWM_SPShEcos_Lab.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
-      FCWinMain.FCWM_SPShReg_Lab.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
-      FCWinMain.FCWM_SP_LDat.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+      FCWinMain.SP_DataSheet.Font.Size:=FCFuiW_Font_GetSize(uiwPageCtrl);
+      FCWinMain.SP_EcosphereSheet.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+      FCWinMain.SP_DS_TabRegionLabel.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+      FCWinMain.SP_FLND_Label.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
       {.viability objectives panel}
       if Assigned(FCcps)
       then

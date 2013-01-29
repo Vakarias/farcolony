@@ -199,13 +199,13 @@ begin
       FCWinMain.MVG_SurfacePanel.Visible:=true;
       fcwinmain.SP_SurfaceDisplay.Enabled:=true;
       FCMuiSP_VarRegionHoveredSelected_Reset;
-      FCWinMain.SD_SurfaceSelector.Width:=0;
-      FCWinMain.SD_SurfaceSelector.Height:=0;
-      FCWinMain.SD_SurfaceSelector.Left:=0;
-      FCWinMain.SD_SurfaceSelector.Top:=0;
+      FCWinMain.SP_SD_SurfaceSelector.Width:=0;
+      FCWinMain.SP_SD_SurfaceSelector.Height:=0;
+      FCWinMain.SP_SD_SurfaceSelector.Left:=0;
+      FCWinMain.SP_SD_SurfaceSelector.Top:=0;
    end;
    FCMuiSP_Panel_Relocate ( true );
-   FCWinMain.FCWM_SP_DataSheet.ActivePage:=FCWinMain.FCWM_SP_ShReg;
+   FCWinMain.SP_DataSheet.ActivePage:=FCWinMain.SP_DS_TabRegion;
    {.idx=0}
    FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Add( FCCFdHead+FCFdTFiles_UIStr_Get(uistrUI,'MSDGmotherSpUnIdStat')+FCCFdHeadEnd );
    {.idx=1}
@@ -340,13 +340,13 @@ var
    CUarrTime: array of integer;
 begin
    if not MustSelect
-   then FCWinMain.SD_SurfaceSelected.Visible:=false
+   then FCWinMain.SP_SD_SurfaceSelected.Visible:=false
    else begin
-      FCWinMain.SD_SurfaceSelected.Left:=FCWinMain.SD_SurfaceSelector.Left;
-      FCWinMain.SD_SurfaceSelected.Top:=FCWinMain.SD_SurfaceSelector.Top;
-      FCWinMain.SD_SurfaceSelected.Width:=FCWinMain.SD_SurfaceSelector.Width;
-         FCWinMain.SD_SurfaceSelected.Height:=FCWinMain.SD_SurfaceSelector.Height;
-      FCWinMain.SD_SurfaceSelected.Visible:=true;
+      FCWinMain.SP_SD_SurfaceSelected.Left:=FCWinMain.SP_SD_SurfaceSelector.Left;
+      FCWinMain.SP_SD_SurfaceSelected.Top:=FCWinMain.SP_SD_SurfaceSelector.Top;
+      FCWinMain.SP_SD_SurfaceSelected.Width:=FCWinMain.SP_SD_SurfaceSelector.Width;
+         FCWinMain.SP_SD_SurfaceSelected.Height:=FCWinMain.SP_SD_SurfaceSelector.Height;
+      FCWinMain.SP_SD_SurfaceSelected.Visible:=true;
    end;
    SetLength(CUarrTime, 1);
    CUregLoc:=FCFuF_RegionLoc_Extract(

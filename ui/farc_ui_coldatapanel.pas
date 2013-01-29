@@ -1759,10 +1759,10 @@ begin
          FCWinMain.MVG_SurfacePanel.Visible:=true;
          FCWinMain.SP_SurfaceDisplay.Enabled:=true;
          FCMuiSP_VarRegionHoveredSelected_Reset;
-         FCWinMain.SD_SurfaceSelector.Width:=0;
-         FCWinMain.SD_SurfaceSelector.Height:=0;
-         FCWinMain.SD_SurfaceSelector.Left:=0;
-         FCWinMain.SD_SurfaceSelector.Top:=0;
+         FCWinMain.SP_SD_SurfaceSelector.Width:=0;
+         FCWinMain.SP_SD_SurfaceSelector.Height:=0;
+         FCWinMain.SP_SD_SurfaceSelector.Left:=0;
+         FCWinMain.SP_SD_SurfaceSelector.Top:=0;
       end;
       CFDcol:=FCDduStarSystem[CFDssys].SS_stars[CFDstar].S_orbitalObjects[CFDoobj].OO_colonies[0];
    end
@@ -1783,15 +1783,15 @@ begin
          FCWinMain.MVG_SurfacePanel.Visible:=true;
          FCWinMain.SP_SurfaceDisplay.Enabled:=true;
          FCMuiSP_VarRegionHoveredSelected_Reset;
-         FCWinMain.SD_SurfaceSelector.Width:=0;
-         FCWinMain.SD_SurfaceSelector.Height:=0;
-         FCWinMain.SD_SurfaceSelector.Left:=0;
-         FCWinMain.SD_SurfaceSelector.Top:=0;
+         FCWinMain.SP_SD_SurfaceSelector.Width:=0;
+         FCWinMain.SP_SD_SurfaceSelector.Height:=0;
+         FCWinMain.SP_SD_SurfaceSelector.Left:=0;
+         FCWinMain.SP_SD_SurfaceSelector.Top:=0;
       end;
       CFDcol:=FCDduStarSystem[CFDssys].SS_stars[CFDstar].S_orbitalObjects[CFDoobj].OO_satellitesList[CFDsat].OO_colonies[0];
    end;
-   if FCWinMain.FCWM_SP_AutoUp.Checked
-   then FCWinMain.FCWM_SP_AutoUp.Checked:=false;
+   if FCWinMain.SP_AutoUpdateCheck.Checked
+   then FCWinMain.SP_AutoUpdateCheck.Checked:=false;
    FCMuiSP_Panel_Relocate( false );
    FCWinMain.FCWM_ColDPanel.Visible:=true;
    FCMuiCDD_Colony_Update(

@@ -120,10 +120,10 @@ begin
    end;
    RegionSelected:=FCFuiSP_VarRegionHovered_Get;
    if (RegionSelected<>SOMEreg)
-      and (FCWinMain.FCWM_SP_DataSheet.ActivePage=FCWinMain.FCWM_SP_ShReg)
+      and (FCWinMain.SP_DataSheet.ActivePage=FCWinMain.SP_DS_TabRegion)
    then FCMuiSP_RegionDataPicture_Update(SOMEreg, false)
    else if (RegionSelected<>SOMEreg)
-      and (FCWinMain.FCWM_SP_DataSheet.ActivePage<>FCWinMain.FCWM_SP_ShReg)
+      and (FCWinMain.SP_DataSheet.ActivePage<>FCWinMain.SP_DS_TabRegion)
    then FCMuiSP_RegionDataPicture_Update(SOMEreg, true);
 end;
 
@@ -143,13 +143,13 @@ procedure FCMgfxC_PlanetarySurvey_Hide;
     Additions:
 }
 begin
-   FCWinMain.FRR_IconResourcesSurvey.Hide;
-   FCWinMain.FRR_IconCantSurvey.Hide;
-   FCWinMain.FRR_IconRsrcOreField.Hide;
-   FCWinMain.FRR_IconRsrcIcyOreField.Hide;
-   FCWinMain.FRR_IconRsrcGasField.Hide;
-   FCWinMain.FRR_IconRsrcHydroLocation.Hide;
-   FCWinMain.FRR_IconRsrcUndergroundWater.Hide;
+   FCWinMain.SP_FRR_IconResourcesSurvey.Hide;
+   FCWinMain.SP_FRR_IconCantSurvey.Hide;
+   FCWinMain.SP_FRR_IconRsrcOreField.Hide;
+   FCWinMain.SP_FRR_IconRsrcIcyOreField.Hide;
+   FCWinMain.SP_FRR_IconRsrcGasField.Hide;
+   FCWinMain.SP_FRR_IconRsrcHydroLocation.Hide;
+   FCWinMain.SP_FRR_IconRsrcUndergroundWater.Hide;
 end;
 
 procedure FCMgfxC_PlanetarySurvey_Init;
@@ -159,23 +159,23 @@ procedure FCMgfxC_PlanetarySurvey_Init;
       -2013Jan26- *add: FRR_IconCantSurvey.
 }
 begin
-   FCWinMain.FRR_IconResourcesSurvey.Bitmap.LoadFromFile(FCVdiPathResourceDir+'pics-ui-resources\resourceSurvey.jpg');
-   FCWinMain.FRR_IconCantSurvey.Bitmap.LoadFromFile(FCVdiPathResourceDir+'pics-ui-resources\cantSurvey.jpg');
-   FCWinMain.FRR_IconRsrcOreField.Bitmap.LoadFromFile(FCVdiPathResourceDir+'pics-ui-resources\orefield32.jpg');
-   FCWinMain.FRR_IconRsrcOreField.Left:=4;
-   FCWinMain.FRR_IconRsrcOreField.Top:=2;
-   FCWinMain.FRR_IconRsrcIcyOreField.Bitmap.LoadFromFile(FCVdiPathResourceDir+'pics-ui-resources\icyorefield32.jpg');
-   FCWinMain.FRR_IconRsrcIcyOreField.Left:=FCWinMain.FRR_IconRsrcOreField.Left+(FCWinMain.FRR_IconRsrcOreField.Width*2)+6;
-   FCWinMain.FRR_IconRsrcIcyOreField.Top:=FCWinMain.FRR_IconRsrcOreField.Top;
-   FCWinMain.FRR_IconRsrcGasField.Bitmap.LoadFromFile(FCVdiPathResourceDir+'pics-ui-resources\gasfield32.jpg');
-   FCWinMain.FRR_IconRsrcGasField.Left:=FCWinMain.FRR_IconRsrcOreField.Left+FCWinMain.FRR_IconRsrcOreField.Width+3;
-   FCWinMain.FRR_IconRsrcGasField.Top:=FCWinMain.FRR_IconRsrcOreField.Top+FCWinMain.FRR_IconRsrcOreField.Height;
-   FCWinMain.FRR_IconRsrcHydroLocation.Bitmap.LoadFromFile(FCVdiPathResourceDir+'pics-ui-resources\hydrolocation32.jpg');
-   FCWinMain.FRR_IconRsrcHydroLocation.Left:=FCWinMain.FRR_IconRsrcOreField.Left;
-   FCWinMain.FRR_IconRsrcHydroLocation.Top:=FCWinMain.FRR_IconRsrcOreField.Top+(FCWinMain.FRR_IconRsrcOreField.Height*2);
-   FCWinMain.FRR_IconRsrcUndergroundWater.Bitmap.LoadFromFile(FCVdiPathResourceDir+'pics-ui-resources\undergroundwater32.jpg');
-   FCWinMain.FRR_IconRsrcUndergroundWater.Left:=FCWinMain.FRR_IconRsrcIcyOreField.Left;
-   FCWinMain.FRR_IconRsrcUndergroundWater.Top:=FCWinMain.FRR_IconRsrcHydroLocation.Top;
+   FCWinMain.SP_FRR_IconResourcesSurvey.Bitmap.LoadFromFile(FCVdiPathResourceDir+'pics-ui-resources\resourceSurvey.jpg');
+   FCWinMain.SP_FRR_IconCantSurvey.Bitmap.LoadFromFile(FCVdiPathResourceDir+'pics-ui-resources\cantSurvey.jpg');
+   FCWinMain.SP_FRR_IconRsrcOreField.Bitmap.LoadFromFile(FCVdiPathResourceDir+'pics-ui-resources\orefield32.jpg');
+   FCWinMain.SP_FRR_IconRsrcOreField.Left:=4;
+   FCWinMain.SP_FRR_IconRsrcOreField.Top:=2;
+   FCWinMain.SP_FRR_IconRsrcIcyOreField.Bitmap.LoadFromFile(FCVdiPathResourceDir+'pics-ui-resources\icyorefield32.jpg');
+   FCWinMain.SP_FRR_IconRsrcIcyOreField.Left:=FCWinMain.SP_FRR_IconRsrcOreField.Left+(FCWinMain.SP_FRR_IconRsrcOreField.Width*2)+6;
+   FCWinMain.SP_FRR_IconRsrcIcyOreField.Top:=FCWinMain.SP_FRR_IconRsrcOreField.Top;
+   FCWinMain.SP_FRR_IconRsrcGasField.Bitmap.LoadFromFile(FCVdiPathResourceDir+'pics-ui-resources\gasfield32.jpg');
+   FCWinMain.SP_FRR_IconRsrcGasField.Left:=FCWinMain.SP_FRR_IconRsrcOreField.Left+FCWinMain.SP_FRR_IconRsrcOreField.Width+3;
+   FCWinMain.SP_FRR_IconRsrcGasField.Top:=FCWinMain.SP_FRR_IconRsrcOreField.Top+FCWinMain.SP_FRR_IconRsrcOreField.Height;
+   FCWinMain.SP_FRR_IconRsrcHydroLocation.Bitmap.LoadFromFile(FCVdiPathResourceDir+'pics-ui-resources\hydrolocation32.jpg');
+   FCWinMain.SP_FRR_IconRsrcHydroLocation.Left:=FCWinMain.SP_FRR_IconRsrcOreField.Left;
+   FCWinMain.SP_FRR_IconRsrcHydroLocation.Top:=FCWinMain.SP_FRR_IconRsrcOreField.Top+(FCWinMain.SP_FRR_IconRsrcOreField.Height*2);
+   FCWinMain.SP_FRR_IconRsrcUndergroundWater.Bitmap.LoadFromFile(FCVdiPathResourceDir+'pics-ui-resources\undergroundwater32.jpg');
+   FCWinMain.SP_FRR_IconRsrcUndergroundWater.Left:=FCWinMain.SP_FRR_IconRsrcIcyOreField.Left;
+   FCWinMain.SP_FRR_IconRsrcUndergroundWater.Top:=FCWinMain.SP_FRR_IconRsrcHydroLocation.Top;
 end;
 
 procedure FCMgfxC_Settlement_SwitchDisplay(const Region, RegionMax: integer);
