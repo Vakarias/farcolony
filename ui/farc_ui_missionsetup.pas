@@ -206,7 +206,6 @@ begin
       FCWinMain.SP_SD_SurfaceSelector.Top:=0;
    end;
    FCMuiSP_Panel_Relocate ( true );
-   FCWinMain.SP_DataSheet.ActivePage:=FCWinMain.SP_DS_TabRegion;
    {.idx=0}
    FCWinMain.FCWMS_Grp_MSDG_Disp.HTMLText.Add( FCCFdHead+FCFdTFiles_UIStr_Get(uistrUI,'MSDGmotherSpUnIdStat')+FCCFdHeadEnd );
    {.idx=1}

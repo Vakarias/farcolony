@@ -119,12 +119,8 @@ begin
       inc(SOMEcnt);
    end;
    RegionSelected:=FCFuiSP_VarRegionHovered_Get;
-   if (RegionSelected<>SOMEreg)
-      and (FCWinMain.SP_DataSheet.ActivePage=FCWinMain.SP_DS_TabRegion)
-   then FCMuiSP_RegionDataPicture_Update(SOMEreg, false)
-   else if (RegionSelected<>SOMEreg)
-      and (FCWinMain.SP_DataSheet.ActivePage<>FCWinMain.SP_DS_TabRegion)
-   then FCMuiSP_RegionDataPicture_Update(SOMEreg, true);
+   if RegionSelected<>SOMEreg
+   then FCMuiSP_RegionDataPicture_Update(SOMEreg, false);
 end;
 
 procedure FCMgfxC_Main_Init;

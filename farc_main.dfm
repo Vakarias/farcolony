@@ -3519,118 +3519,31 @@ object FCWinMain: TFCWinMain
         URLColor = 14068651
         Version = '1.8.1.0'
       end
-      object SP_DataSheet: TAdvPageControl
-        Left = 328
-        Top = 19
-        Width = 160
-        Height = 269
-        ActivePage = SP_DS_TabRegion
-        ActiveFont.Charset = DEFAULT_CHARSET
-        ActiveFont.Color = 13238272
-        ActiveFont.Height = -11
-        ActiveFont.Name = 'Tahoma'
-        ActiveFont.Style = [fsBold]
+      object SP_RegionSheet: THTMLabel
+        Left = 0
+        Top = 0
+        Width = 153
+        Height = 243
         Align = alCustom
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWhite
-        Font.Height = -11
-        Font.Name = 'DejaVu Sans'
+        BorderWidth = 1
+        BorderStyle = bsSingle
+        BorderColor = clSilver
+        Color = clBlack
+        GradientType = gtFullVertical
+        Font.Charset = ANSI_CHARSET
+        Font.Color = 14803425
+        Font.Height = -12
+        Font.Name = 'FrancophilSans'
         Font.Style = []
-        HotTrack = True
-        MultiLine = True
+        Hover = True
+        HoverColor = clBlack
+        HoverFontColor = clSkyBlue
+        HTMLText.Strings = (
+          'TMS <b>HTML</b> label ')
+        ParentColor = False
         ParentFont = False
-        DefaultTextColor = 14803425
-        DefaultTabColor = clBlack
-        DefaultTabColorTo = clGray
-        ActiveColor = 4210752
-        ActiveColorTo = clWhite
-        TabBorderColor = clBlack
-        TabSheetBorderColor = clSilver
-        TabHoverColor = clGray
-        TabHoverColorTo = clBlack
-        TabHoverBorder = clWhite
-        TabBackGroundColor = clBlack
-        TabMargin.RightMargin = 0
-        TabOverlap = 0
-        Version = '1.6.2.1'
-        TabOrder = 0
-        TabStop = False
-        object SP_DS_TabRegion: TAdvTabSheet
-          Caption = 'SP_DS_TabRegion'
-          Color = clBlack
-          ColorTo = clNone
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWhite
-          Font.Height = -11
-          Font.Name = 'DejaVu Sans'
-          Font.Style = []
-          ParentFont = False
-          TabColor = clBlack
-          TabColorTo = clGray
-          TextColor = 14803425
-          ExplicitTop = 24
-          ExplicitHeight = 241
-          object SP_DS_TabRegionLabel: THTMLabel
-            Left = 0
-            Top = 0
-            Width = 152
-            Height = 223
-            Align = alClient
-            Color = clBlack
-            GradientType = gtFullVertical
-            Font.Charset = ANSI_CHARSET
-            Font.Color = 14803425
-            Font.Height = -12
-            Font.Name = 'FrancophilSans'
-            Font.Style = []
-            Hover = True
-            HoverColor = clBlack
-            HoverFontColor = clSkyBlue
-            HTMLText.Strings = (
-              'TMS <b>HTML</b> label ')
-            ParentColor = False
-            ParentFont = False
-            URLColor = 14068651
-            Version = '1.8.1.0'
-            ExplicitWidth = 153
-            ExplicitHeight = 243
-          end
-        end
-        object SP_DS_TabResources: TAdvTabSheet
-          Caption = 'SP_DS_TabResources'
-          Color = clBlack
-          ColorTo = clNone
-          TabColor = clBlack
-          TabColorTo = clGray
-          TextColor = 14803425
-          ExplicitLeft = 24
-          ExplicitTop = 0
-          ExplicitWidth = 100
-          ExplicitHeight = 100
-          object SP_DS_TabResourcesLabel: THTMLabel
-            Left = 0
-            Top = 0
-            Width = 152
-            Height = 223
-            Align = alClient
-            Color = clBlack
-            GradientType = gtFullVertical
-            Font.Charset = ANSI_CHARSET
-            Font.Color = 14803425
-            Font.Height = -12
-            Font.Name = 'FrancophilSans'
-            Font.Style = []
-            Hover = True
-            HoverColor = clBlack
-            HoverFontColor = clSkyBlue
-            ParentColor = False
-            ParentFont = False
-            URLColor = 14068651
-            Version = '1.8.1.0'
-            ExplicitWidth = 153
-            ExplicitHeight = 243
-          end
-        end
+        URLColor = 14068651
+        Version = '1.8.1.0'
       end
       object SP_SurfaceDisplay: THotSpotImage
         Left = 16
@@ -3709,7 +3622,7 @@ object FCWinMain: TFCWinMain
         Font.Name = 'DejaVu Sans Condensed'
         Font.Style = []
         ParentFont = False
-        TabOrder = 2
+        TabOrder = 1
         object SP_FRP_Picture: TImage32
           Left = 24
           Top = 16
@@ -3733,7 +3646,7 @@ object FCWinMain: TFCWinMain
         Font.Name = 'DejaVu Sans Condensed'
         Font.Style = []
         ParentFont = False
-        TabOrder = 3
+        TabOrder = 2
         object SP_FLND_Label: THTMLabel
           Left = 2
           Top = 3
@@ -3767,7 +3680,7 @@ object FCWinMain: TFCWinMain
         Font.Name = 'Tahoma'
         Font.Style = []
         ParentFont = False
-        TabOrder = 4
+        TabOrder = 3
         object SP_FRR_IconResourcesSurvey: TImage32
           Left = 2
           Top = 3
@@ -3875,7 +3788,7 @@ object FCWinMain: TFCWinMain
         Font.Style = []
         ParentColor = False
         ParentFont = False
-        TabOrder = 5
+        TabOrder = 4
         OnKeyDown = SP_AutoUpdateCheckKeyDown
       end
     end

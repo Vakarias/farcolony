@@ -486,7 +486,7 @@ end;
 procedure FCMuiW_UI_Initialize(const UIUtp: TFCEmwinUpdTp);
 {:Purpose: update and initialize all user's interface elements of the game.
    Additions:
-      -2013Jan28- *add: surface panel - DS_TabResources.
+      -2013Jan28- *rem: surface panel - tabsheet is removed, SP_RegionSheet is a panel by itself.
       -2013Jan09- *mod: adjustment of ActionPanel width for french language.
       -2012Dec02- *add: action panel - orbital object data + AP_DetailedData + AP_DockingList + AP_MissionColonization + AP_MissionInterplanetaryTransit + AP_MissionCancel buttons.
       -2012Nov29- *add: action panel.
@@ -711,8 +711,6 @@ begin
       {.surface panel}
       FCWinMain.MVG_SurfacePanel.Caption.Text:='';
       FCWinMain.SP_AutoUpdateCheck.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_SP_AutoUp');
-      FCWinMain.SP_DS_TabRegion.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'DS_TabRegion');
-      FCWinMain.SP_DS_TabResources.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'DS_TabResources');
       {.viability objectives panel}
       if Assigned(FCcps)
       then FCcps.CPSobjPanel.Caption.Text:='<p align="center"><b>'+FCFdTFiles_UIStr_Get(uistrUI, 'CPSobjPanel')+'</b>';
@@ -887,11 +885,11 @@ begin
       FCWinMain.SP_FrameRightResources.Height:=FCWinMain.SP_FrameLeftNOTDESIGNED.Height;
       FCWinMain.SP_FrameRightResources.Left:=FCWinMain.SP_FrameRegionPicture.Left+FCWinMain.SP_FrameRegionPicture.Width;
       FCWinMain.SP_FrameRightResources.Top:=FCWinMain.SP_FrameRegionPicture.Top;
-      {.surface panel - data sheet}
-      FCWinMain.SP_DataSheet.Width:=FCWinMain.MVG_SurfacePanel.Width-FCWinMain.SP_EcosphereSheet.Width-FCWinMain.SP_SurfaceDisplay.Width-4;//270;
-      FCWinMain.SP_DataSheet.Height:=FCWinMain.SP_EcosphereSheet.Height;
-      FCWinMain.SP_DataSheet.Left:=FCWinMain.SP_SurfaceDisplay.Left+FCWinMain.SP_SurfaceDisplay.Width+1;
-      FCWinMain.SP_DataSheet.Top:=FCWinMain.SP_SurfaceDisplay.Top;
+      {.surface panel - region sheet}
+      FCWinMain.SP_RegionSheet.Width:=FCWinMain.MVG_SurfacePanel.Width-FCWinMain.SP_EcosphereSheet.Width-FCWinMain.SP_SurfaceDisplay.Width-4;//270;
+      FCWinMain.SP_RegionSheet.Height:=FCWinMain.SP_EcosphereSheet.Height;
+      FCWinMain.SP_RegionSheet.Left:=FCWinMain.SP_SurfaceDisplay.Left+FCWinMain.SP_SurfaceDisplay.Width+1;
+      FCWinMain.SP_RegionSheet.Top:=FCWinMain.SP_EcosphereSheet.Top;
       {.colony data panel}
       FCWinMain.FCWM_ColDPanel.Width:=1024;//784;
       FCWinMain.FCWM_ColDPanel.Height:=350;
@@ -1252,9 +1250,9 @@ begin
       {.surface panel}
       FCWinMain.SP_AutoUpdateCheck.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
       FCWinMain.MVG_SurfacePanel.Caption.Font.Size:=FCFuiW_Font_GetSize(uiwPanelTitle);
-      FCWinMain.SP_DataSheet.Font.Size:=FCFuiW_Font_GetSize(uiwPageCtrl);
+      FCWinMain.SP_RegionSheet.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
       FCWinMain.SP_EcosphereSheet.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
-      FCWinMain.SP_DS_TabRegionLabel.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+      FCWinMain.SP_RegionSheet.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
       FCWinMain.SP_FLND_Label.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
       {.viability objectives panel}
       if Assigned(FCcps)

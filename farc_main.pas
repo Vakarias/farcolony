@@ -196,12 +196,7 @@ type
       SP_EcosphereSheet: THTMLabel;
       {.--}
       SP_AutoUpdateCheck: TCheckBox;
-      {.--}
-      SP_DataSheet: TAdvPageControl;
-      SP_DS_TabRegion: TAdvTabSheet;
-      SP_DS_TabRegionLabel: THTMLabel;
-      SP_DS_TabResources: TAdvTabSheet;
-      SP_DS_TabResourcesLabel: THTMLabel;
+      SP_RegionSheet: THTMLabel;
       {.--}
       SP_FrameRightResources: TAdvGroupBox;
       SP_FRR_IconResourcesSurvey: TImage32;

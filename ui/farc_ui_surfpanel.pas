@@ -921,59 +921,59 @@ begin
    then
    begin
       {.terrain type}
-      FCWinMain.SP_DS_TabRegionLabel.HTMLText.Clear;
-      FCWinMain.SP_DS_TabRegionLabel.HTMLText.Add(
+      FCWinMain.SP_RegionSheet.HTMLText.Clear;
+      FCWinMain.SP_RegionSheet.HTMLText.Add(
          FCCFdHeadC+FCFdTFiles_UIStr_Get(uistrUI, 'secpTerrTp')+FCCFdHeadEnd
          +FCFdTFiles_UIStr_Get(uistrUI, SERUrelief)+' '+FCFdTFiles_UIStr_Get(uistrUI, SERUterrain)
          +'<br>'
          );
       {.current season}
-      FCWinMain.SP_DS_TabRegionLabel.HTMLText.Add(
+      FCWinMain.SP_RegionSheet.HTMLText.Add(
          FCCFdHeadC+FCFdTFiles_UIStr_Get(uistrUI, 'season')+FCCFdHeadEnd
          +FCFdTFiles_UIStr_Get(uistrUI, SERUseason)
          +'<br>'
          );
       {.climate}
-      FCWinMain.SP_DS_TabRegionLabel.HTMLText.Add(
+      FCWinMain.SP_RegionSheet.HTMLText.Add(
          FCCFdHeadC+FCFdTFiles_UIStr_Get(uistrUI, 'climate')+FCCFdHeadEnd
          +FCFdTFiles_UIStr_Get(uistrUI, FCFuF_Region_GetClim(SPcurrentStarSys, SPcurrentStar, SPcurrentOObjIndex, SPcurrentSatIndex, SERUregIdx))
          +'<br>'
          );
       {.temperature}
-      FCWinMain.SP_DS_TabRegionLabel.HTMLText.Add(
+      FCWinMain.SP_RegionSheet.HTMLText.Add(
          FCCFdHeadC+FCFdTFiles_UIStr_Get(uistrUI, 'temp')+FCCFdHeadEnd
          +FloatToStr(SERUtemp)+' K ('
          );
       case SERUidxTemp of
-         1, 2: FCWinMain.SP_DS_TabRegionLabel.HTMLText.Add(FCCFcolWhBL);
-         3, 4: FCWinMain.SP_DS_TabRegionLabel.HTMLText.Add(FCCFcolBlueL);
-         5, 6, 7: FCWinMain.SP_DS_TabRegionLabel.HTMLText.Add(FCCFcolGreen);
-         8, 9: FCWinMain.SP_DS_TabRegionLabel.HTMLText.Add(FCCFcolOrge);
-         else FCWinMain.SP_DS_TabRegionLabel.HTMLText.Add(FCCFcolRed);
+         1, 2: FCWinMain.SP_RegionSheet.HTMLText.Add(FCCFcolWhBL);
+         3, 4: FCWinMain.SP_RegionSheet.HTMLText.Add(FCCFcolBlueL);
+         5, 6, 7: FCWinMain.SP_RegionSheet.HTMLText.Add(FCCFcolGreen);
+         8, 9: FCWinMain.SP_RegionSheet.HTMLText.Add(FCCFcolOrge);
+         else FCWinMain.SP_RegionSheet.HTMLText.Add(FCCFcolRed);
       end;
-      FCWinMain.SP_DS_TabRegionLabel.HTMLText.Add(
+      FCWinMain.SP_RegionSheet.HTMLText.Add(
          FCFdTFiles_UIStr_Get(uistrUI, 'tempIdx'+FloatToStr(SERUidxTemp))
          +FCCFcolEND+')'
          +'<br>'
          );
       {.yearly mean precipitations}
-      FCWinMain.SP_DS_TabRegionLabel.HTMLText.Add(
+      FCWinMain.SP_RegionSheet.HTMLText.Add(
          FCCFdHeadC+FCFdTFiles_UIStr_Get(uistrUI, 'precip')+FCCFdHeadEnd
          +IntToStr(SERUprecip)+' mm/'+FCFdTFiles_UIStr_Get(uistrUI, 'acronYr')
          +'<br>'
          );
       {.yearly mean windspeed}
-      FCWinMain.SP_DS_TabRegionLabel.HTMLText.Add(
+      FCWinMain.SP_RegionSheet.HTMLText.Add(
          FCCFdHeadC+FCFdTFiles_UIStr_Get(uistrUI, 'wndspd')+FCCFdHeadEnd
          +FloatToStr(SERUwndSpd)+' m/s ('
          );
       case SERUidxWdSpd of
-         0..2: FCWinMain.SP_DS_TabRegionLabel.HTMLText.Add(FCCFcolGreen);
-         3..4: FCWinMain.SP_DS_TabRegionLabel.HTMLText.Add(FCCFcolBlue);
-         5..6: FCWinMain.SP_DS_TabRegionLabel.HTMLText.Add(FCCFcolOrge);
-         else FCWinMain.SP_DS_TabRegionLabel.HTMLText.Add(FCCFcolRed);
+         0..2: FCWinMain.SP_RegionSheet.HTMLText.Add(FCCFcolGreen);
+         3..4: FCWinMain.SP_RegionSheet.HTMLText.Add(FCCFcolBlue);
+         5..6: FCWinMain.SP_RegionSheet.HTMLText.Add(FCCFcolOrge);
+         else FCWinMain.SP_RegionSheet.HTMLText.Add(FCCFcolRed);
       end;
-      FCWinMain.SP_DS_TabRegionLabel.HTMLText.Add(
+      FCWinMain.SP_RegionSheet.HTMLText.Add(
          FCFdTFiles_UIStr_Get(uistrUI, 'wspdIdx'+FloatToStr(SERUidxWdSpd))
          +FCCFcolEND+')'
          +'<br>'
@@ -1075,7 +1075,6 @@ begin
          SPcurrentOObjIndex:=SESoobjIdx;
          SPcurrentSatIndex:=0;
          FCMuiSP_VarRegionHoveredSelected_Reset;
-         SP_DataSheet.ActivePage:=SP_DS_TabRegion;
          SP_SD_SurfaceSelector.Width:=0;
          SP_SD_SurfaceSelector.Height:=0;
          SP_SD_SurfaceSelector.Left:=0;
@@ -1201,9 +1200,8 @@ begin
             if SPstoredPanelWidth=0
             then SPstoredPanelWidth:=MVG_SurfacePanel.Width;
             if SPstoredDataSheetLeft=0
-            then SPstoredDataSheetLeft:=SP_DataSheet.Left;
+            then SPstoredDataSheetLeft:=SP_RegionSheet.Left;
             MVG_SurfacePanel.Width:=232;
-            SP_DataSheet.Align:=alLeft;
          end //==END== if (SESdmpTp>Icy_CallistoH3H4Atm0) and (<Aster_Metall) ==//
          {.otherwise for non gaseous orbital objects}
          else
@@ -1219,8 +1217,7 @@ begin
                MVG_SurfacePanel.Width:=SPstoredPanelWidth;
                SPstoredPanelWidth:=0;
                FCMuiSP_VarRegionHoveredSelected_Reset;
-               SP_DataSheet.Align:=alCustom;
-               SP_DataSheet.Left:=SPstoredDataSheetLeft;
+               SP_RegionSheet.Left:=SPstoredDataSheetLeft;
                SPstoredDataSheetLeft:=0;
             end;
             {.set the hotspots if needed}
