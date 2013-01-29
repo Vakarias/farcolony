@@ -91,6 +91,12 @@ procedure FCMuiSP_SurfaceEcosphere_Set(
 procedure FCMuiSP_SurfaceEcosphere_SetWithSelf;
 
 ///<summary>
+///   update the selected box and display it or not
+///</summary>
+///   <param name="isShowBox">true= show the surface selected</param>
+procedure FCMuiSP_SurfaceSelected_Update( const isShowBox: boolean );
+
+///<summary>
 ///   update the selected region with the hovered region
 ///</summary>
 procedure FCMuiSP_VarRegionSelected_Update;
@@ -1074,11 +1080,7 @@ begin
          SP_SD_SurfaceSelector.Height:=0;
          SP_SD_SurfaceSelector.Left:=0;
          SP_SD_SurfaceSelector.Top:=0;
-         SP_SD_SurfaceSelected.Width:=SP_SD_SurfaceSelector.Width;
-         SP_SD_SurfaceSelected.Height:=SP_SD_SurfaceSelector.Height;
-         SP_SD_SurfaceSelected.Left:=SP_SD_SurfaceSelector.Left;
-         SP_SD_SurfaceSelected.Top:=SP_SD_SurfaceSelector.Top;
-         SP_SD_SurfaceSelected.Hide;
+         FCMuiSP_SurfaceSelected_Update(false);
          if SESsatIdx=0
          then
          begin
@@ -1691,6 +1693,20 @@ procedure FCMuiSP_SurfaceEcosphere_SetWithSelf;
 }
 begin
    FCMuiSP_SurfaceEcosphere_Set(SPcurrentStarSys, SPcurrentStar, SPcurrentOObjIndex, SPcurrentSatIndex, false);
+end;
+
+procedure FCMuiSP_SurfaceSelected_Update( const isShowBox: boolean );
+{:Purpose: update the selected box and display it or not.
+    Additions:
+}
+begin
+   FCWinMain.SP_SD_SurfaceSelected.Width:=FCWinMain.SP_SD_SurfaceSelector.Width;
+   FCWinMain.SP_SD_SurfaceSelected.Height:=FCWinMain.SP_SD_SurfaceSelector.Height;
+   FCWinMain.SP_SD_SurfaceSelected.Left:=FCWinMain.SP_SD_SurfaceSelector.Left;
+   FCWinMain.SP_SD_SurfaceSelected.Top:=FCWinMain.SP_SD_SurfaceSelector.Top;
+   if not isShowBox
+   then FCWinMain.SP_SD_SurfaceSelected.Hide
+   else FCWinMain.SP_SD_SurfaceSelected.Show;
 end;
 
 procedure FCMuiSP_VarRegionSelected_Update;

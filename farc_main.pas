@@ -1614,7 +1614,7 @@ begin
          FCWinMain.FCWMS_Grp_MCG_SetType.Show;
          FCWinMain.FCWMS_Grp_MCG_SetName.Show;
       end;
-      FCMuiMS_ColonizationInterface_UpdateRegionSelection(FCRmcCurrentMissionCalculations.CMC_regionOfDestination, true);
+      FCMuiMS_ColonizationInterface_UpdateRegionSelection(FCRmcCurrentMissionCalculations.CMC_regionOfDestination);
    end;
 end;
 

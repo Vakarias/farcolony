@@ -68,8 +68,9 @@ procedure FCMuiMS_ColonizationInterface_Setup;
 ///</summary>
 ///   <param name="CUregIdx"></param>
 procedure FCMuiMS_ColonizationInterface_UpdateRegionSelection(
-   const CUregIdx: integer;
-   const MustSelect: boolean
+   const CUregIdx: integer
+//   ;
+//   const MustSelect: boolean
    );
 
 ///<summary>
@@ -318,8 +319,7 @@ begin
 end;
 
 procedure FCMuiMS_ColonizationInterface_UpdateRegionSelection(
-   const CUregIdx: integer;
-   const MustSelect: boolean
+   const CUregIdx: integer
    );
 {:Purpose: update region selection and update mission configuration.
     Additions:
@@ -339,15 +339,7 @@ var
 //
    CUarrTime: array of integer;
 begin
-   if not MustSelect
-   then FCWinMain.SP_SD_SurfaceSelected.Visible:=false
-   else begin
-      FCWinMain.SP_SD_SurfaceSelected.Left:=FCWinMain.SP_SD_SurfaceSelector.Left;
-      FCWinMain.SP_SD_SurfaceSelected.Top:=FCWinMain.SP_SD_SurfaceSelector.Top;
-      FCWinMain.SP_SD_SurfaceSelected.Width:=FCWinMain.SP_SD_SurfaceSelector.Width;
-         FCWinMain.SP_SD_SurfaceSelected.Height:=FCWinMain.SP_SD_SurfaceSelector.Height;
-      FCWinMain.SP_SD_SurfaceSelected.Visible:=true;
-   end;
+      FCMuiSP_SurfaceSelected_Update(true);
    SetLength(CUarrTime, 1);
    CUregLoc:=FCFuF_RegionLoc_Extract(
       FCRmcCurrentMissionCalculations.CMC_originLocation[1]
