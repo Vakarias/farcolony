@@ -199,13 +199,6 @@ type
       SP_RegionSheet: THTMLabel;
       {.--}
       SP_FrameRightResources: TAdvGroupBox;
-      SP_FRR_IconResourcesSurvey: TImage32;
-      SP_FRR_IconCantSurvey: TImage32;
-      SP_FRR_IconRsrcGasField: TImage32;
-      SP_FRR_IconRsrcHydroLocation: TImage32;
-      SP_FRR_IconRsrcIcyOreField: TImage32;
-      SP_FRR_IconRsrcOreField: TImage32;
-      SP_FRR_IconRsrcUndergroundWater: TImage32;
       {.--}
       SP_SurfaceDisplay: THotSpotImage;
       SP_SD_SurfaceSelector: THTMLabel;
@@ -337,6 +330,7 @@ type
     AP_MissionCancel: TAdvGlowButton;
     AP_MissionInterplanetaryTransit: TAdvGlowButton;
     AP_MissionColonization: TAdvGlowButton;
+    SP_ResourceSurveyCommit: TAdvGlowButton;
 
       procedure FormCreate(Sender: TObject);
       procedure FormResize(Sender: TObject);

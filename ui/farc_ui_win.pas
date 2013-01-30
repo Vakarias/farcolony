@@ -486,6 +486,7 @@ end;
 procedure FCMuiW_UI_Initialize(const UIUtp: TFCEmwinUpdTp);
 {:Purpose: update and initialize all user's interface elements of the game.
    Additions:
+      -2013Jan29- *add: surface panel - add a SP_ResourceSurveyCommit.
       -2013Jan28- *rem: surface panel - tabsheet is removed, SP_RegionSheet is a panel by itself.
       -2013Jan09- *mod: adjustment of ActionPanel width for french language.
       -2012Dec02- *add: action panel - orbital object data + AP_DetailedData + AP_DockingList + AP_MissionColonization + AP_MissionInterplanetaryTransit + AP_MissionCancel buttons.
@@ -710,7 +711,8 @@ begin
       FCMuiW_HelpTDef_Link(FCDBhelpTdef[FCWinMain.FCWM_HDPhintsList.ItemIndex+1].TD_link, false);
       {.surface panel}
       FCWinMain.MVG_SurfacePanel.Caption.Text:='';
-      FCWinMain.SP_AutoUpdateCheck.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_SP_AutoUp');
+      FCWinMain.SP_AutoUpdateCheck.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'SP_AutoUpdateCheck');
+      FCWinMain.SP_ResourceSurveyCommit.Caption:=FCFdTFiles_UIStr_Get( uistrUI, 'SP_ResourceSurveyCommit' );
       {.viability objectives panel}
       if Assigned(FCcps)
       then FCcps.CPSobjPanel.Caption.Text:='<p align="center"><b>'+FCFdTFiles_UIStr_Get(uistrUI, 'CPSobjPanel')+'</b>';
@@ -890,6 +892,11 @@ begin
       FCWinMain.SP_RegionSheet.Height:=FCWinMain.SP_EcosphereSheet.Height;
       FCWinMain.SP_RegionSheet.Left:=FCWinMain.SP_SurfaceDisplay.Left+FCWinMain.SP_SurfaceDisplay.Width+1;
       FCWinMain.SP_RegionSheet.Top:=FCWinMain.SP_EcosphereSheet.Top;
+      {.surface panel - resources survey}
+      FCWinMain.SP_ResourceSurveyCommit.Width:=FCWinMain.SP_RegionSheet.Width-16;
+      FCWinMain.SP_ResourceSurveyCommit.Height:=26;
+      FCWinMain.SP_ResourceSurveyCommit.Left:=FCWinMain.SP_RegionSheet.Left+8;
+      FCWinMain.SP_ResourceSurveyCommit.Top:=280;
       {.colony data panel}
       FCWinMain.FCWM_ColDPanel.Width:=1024;//784;
       FCWinMain.FCWM_ColDPanel.Height:=350;

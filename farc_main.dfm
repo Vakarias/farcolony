@@ -3681,97 +3681,6 @@ object FCWinMain: TFCWinMain
         Font.Style = []
         ParentFont = False
         TabOrder = 3
-        object SP_FRR_IconResourcesSurvey: TImage32
-          Left = 2
-          Top = 3
-          Width = 93
-          Height = 60
-          Align = alClient
-          Bitmap.ResamplerClassName = 'TNearestResampler'
-          BitmapAlign = baTopLeft
-          Scale = 1.000000000000000000
-          ScaleMode = smNormal
-          TabOrder = 0
-          Visible = False
-        end
-        object SP_FRR_IconCantSurvey: TImage32
-          Left = 2
-          Top = 3
-          Width = 93
-          Height = 60
-          Align = alClient
-          Bitmap.ResamplerClassName = 'TNearestResampler'
-          BitmapAlign = baTopLeft
-          Scale = 1.000000000000000000
-          ScaleMode = smNormal
-          TabOrder = 1
-          Visible = False
-        end
-        object SP_FRR_IconRsrcGasField: TImage32
-          Left = 4
-          Top = 5
-          Width = 32
-          Height = 32
-          Align = alCustom
-          Bitmap.ResamplerClassName = 'TNearestResampler'
-          BitmapAlign = baTopLeft
-          Scale = 1.000000000000000000
-          ScaleMode = smNormal
-          TabOrder = 2
-          Visible = False
-        end
-        object SP_FRR_IconRsrcHydroLocation: TImage32
-          Left = 12
-          Top = 13
-          Width = 32
-          Height = 32
-          Align = alCustom
-          Bitmap.ResamplerClassName = 'TNearestResampler'
-          BitmapAlign = baTopLeft
-          Scale = 1.000000000000000000
-          ScaleMode = smNormal
-          TabOrder = 3
-          Visible = False
-        end
-        object SP_FRR_IconRsrcIcyOreField: TImage32
-          Left = 0
-          Top = 0
-          Width = 32
-          Height = 32
-          Align = alCustom
-          Bitmap.ResamplerClassName = 'TNearestResampler'
-          BitmapAlign = baTopLeft
-          Scale = 1.000000000000000000
-          ScaleMode = smNormal
-          TabOrder = 4
-          Visible = False
-        end
-        object SP_FRR_IconRsrcOreField: TImage32
-          Left = 0
-          Top = 0
-          Width = 32
-          Height = 32
-          Align = alCustom
-          Bitmap.ResamplerClassName = 'TNearestResampler'
-          BitmapAlign = baTopLeft
-          Scale = 1.000000000000000000
-          ScaleMode = smNormal
-          TabOrder = 5
-          Visible = False
-        end
-        object SP_FRR_IconRsrcUndergroundWater: TImage32
-          Left = 0
-          Top = 0
-          Width = 32
-          Height = 32
-          Align = alCustom
-          Bitmap.ResamplerClassName = 'TNearestResampler'
-          BitmapAlign = baTopLeft
-          Scale = 1.000000000000000000
-          ScaleMode = smNormal
-          TabOrder = 6
-          Visible = False
-        end
       end
       object SP_AutoUpdateCheck: TCheckBox
         Left = 376
@@ -3790,6 +3699,51 @@ object FCWinMain: TFCWinMain
         ParentFont = False
         TabOrder = 4
         OnKeyDown = SP_AutoUpdateCheckKeyDown
+      end
+      object SP_ResourceSurveyCommit: TAdvGlowButton
+        Left = 17
+        Top = 245
+        Width = 116
+        Height = 26
+        Caption = 'FCWM_UMISh_CEFcommit'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -12
+        Font.Name = 'DejaVu Sans'
+        Font.Style = []
+        FocusType = ftHot
+        NotesFont.Charset = DEFAULT_CHARSET
+        NotesFont.Color = clBlack
+        NotesFont.Height = -11
+        NotesFont.Name = 'FrancophilSans'
+        NotesFont.Style = []
+        ParentFont = False
+        Position = bpMiddle
+        TabOrder = 5
+        Visible = False
+        Appearance.BorderColorHot = clWhite
+        Appearance.BorderColorDown = clSkyBlue
+        Appearance.Color = clBlack
+        Appearance.ColorTo = clSilver
+        Appearance.ColorChecked = 16111818
+        Appearance.ColorCheckedTo = 16367008
+        Appearance.ColorDisabled = 15921906
+        Appearance.ColorDisabledTo = 15921906
+        Appearance.ColorDown = clWhite
+        Appearance.ColorDownTo = 9568255
+        Appearance.ColorHot = clWhite
+        Appearance.ColorHotTo = clBlack
+        Appearance.ColorMirror = clBlack
+        Appearance.ColorMirrorTo = clSilver
+        Appearance.ColorMirrorHot = clWhite
+        Appearance.ColorMirrorHotTo = clBlack
+        Appearance.ColorMirrorDown = clWhite
+        Appearance.ColorMirrorDownTo = clSkyBlue
+        Appearance.ColorMirrorChecked = 16102556
+        Appearance.ColorMirrorCheckedTo = 16768988
+        Appearance.ColorMirrorDisabled = 11974326
+        Appearance.ColorMirrorDisabledTo = 15921906
+        Appearance.SystemFont = False
       end
     end
   end

@@ -537,8 +537,8 @@ procedure FCMuiSP_RegionDataPicture_Update(
    );
 {:Purpose: update the region data and picture .
     Additions:
+      -2013Jan29- *add: resources display.
       -2013Jan27- *code: remove a not needed with command.
-                  *add: resources display.
       -2013Jan06- *add: initialization of SurfaceSelected.
                   *rem: the tag uses are removed.
       -2012Jan06- *code: procedure moved in its proper unit.
@@ -920,8 +920,9 @@ begin
    if not SERUonlyPic
    then
    begin
-      {.terrain type}
       FCWinMain.SP_RegionSheet.HTMLText.Clear;
+      FCWinMain.SP_ResourceSurveyCommit.Hide;
+      {.terrain type}
       FCWinMain.SP_RegionSheet.HTMLText.Add(
          FCCFdHeadC+FCFdTFiles_UIStr_Get(uistrUI, 'secpTerrTp')+FCCFdHeadEnd
          +FCFdTFiles_UIStr_Get(uistrUI, SERUrelief)+' '+FCFdTFiles_UIStr_Get(uistrUI, SERUterrain)
@@ -978,30 +979,38 @@ begin
          +FCCFcolEND+')'
          +'<br>'
          );
-      FCMgfxC_PlanetarySurvey_Hide;
+      {.resources display}
+      FCWinMain.SP_RegionSheet.HTMLText.Add( FCCFdHeadC+FCFdTFiles_UIStr_Get(uistrUI, 'resourcespots')+FCCFdHeadEnd );
+
+
       if ( Test=0 )
          and (Colony=0)
-      then FCWinMain.SP_FRR_IconCantSurvey.Show
+      then FCWinMain.SP_RegionSheet.HTMLText.Add( '<img src="file://'+FCVdiPathResourceDir+'pics-ui-resources\cantSurvey.jpg" align="middle"><br>No resource spot is displayed because no survey has been made yet, and none can be applied until you found a colony on this orbital object.' )
       else if ( Test=0 )
-         and (Colony>0)
-      then FCWinMain.SP_FRR_IconResourcesSurvey.Show
+         and (Colony>0) then
+      begin
+         FCWinMain.SP_RegionSheet.HTMLText.Add( 'No resource spot is displayed because no survey has been made yet, click on the button below to setup a survey expedition.');
+         FCWinMain.SP_ResourceSurveyCommit.Show;
+      end
       else if Test>0 then
       begin
+         FCWinMain.SP_RegionSheet.HTMLText.Add( '<p align="left"><br>');
          Count:=1;
          Max:=length(FCVdgPlayer.P_surveyedResourceSpots[Test].SRS_surveyedRegions[SERUregIdx].SR_ResourceSpots)-1;
          while Count<=Max do
          begin
             case FCVdgPlayer.P_surveyedResourceSpots[Test].SRS_surveyedRegions[SERUregIdx].SR_ResourceSpots[Count].RS_type of
-               rstGasField: FCWinMain.SP_FRR_IconRsrcGasField.Show;
+               rstGasField: FCWinMain.SP_RegionSheet.HTMLText.Add( '<img src="file://'+FCVdiPathResourceDir+'pics-ui-resources\gasfield32.jpg" align="left">' );
 
-               rstHydroWell: FCWinMain.SP_FRR_IconRsrcHydroLocation.Show;
+               rstHydroWell: FCWinMain.SP_RegionSheet.HTMLText.Add( '<img src="file://'+FCVdiPathResourceDir+'pics-ui-resources\hydrolocation32.jpg" align="left">' );
 
-               rstIcyOreField: FCWinMain.SP_FRR_IconRsrcIcyOreField.Show;
+               rstIcyOreField: FCWinMain.SP_RegionSheet.HTMLText.Add( '<img src="file://'+FCVdiPathResourceDir+'pics-ui-resources\icyorefield32.jpg" align="left">' );
 
-               rstOreField: FCWinMain.SP_FRR_IconRsrcOreField.Show;
+               rstOreField: FCWinMain.SP_RegionSheet.HTMLText.Add( '<img src="file://'+FCVdiPathResourceDir+'pics-ui-resources\orefield32.jpg" align="left">' );
 
-               rstUnderWater: FCWinMain.SP_FRR_IconRsrcUndergroundWater.Show;
+               rstUnderWater: FCWinMain.SP_RegionSheet.HTMLText.Add( '<img src="file://'+FCVdiPathResourceDir+'pics-ui-resources\undergroundwater32.jpg" align="left">' );
             end;
+            FCWinMain.SP_RegionSheet.HTMLText.Add( 'Use <b>'+inttostr(FCVdgPlayer.P_surveyedResourceSpots[Test].SRS_surveyedRegions[SERUregIdx].SR_ResourceSpots[Count].RS_spotSizeCurrent)+'/'+inttostr(FCVdgPlayer.P_surveyedResourceSpots[Test].SRS_surveyedRegions[SERUregIdx].SR_ResourceSpots[Count].RS_spotSizeMax)+'</b><br>' );
             inc( Count);
          end;
       end;
@@ -1233,7 +1242,6 @@ begin
                SESregSHm64shr1:=(SP_SurfaceDisplay.Height-64) shr 1;
                SESregSHm64shr2:=(SP_SurfaceDisplay.Height-64) shr 2;
                FCMgfxC_Settlements_Hide;
-               FCMgfxC_PlanetarySurvey_Hide;
                SEScnt:=1;
                while SEScnt<=SESdmpTtlReg do
                begin

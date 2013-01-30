@@ -3332,11 +3332,16 @@
       <SP>Enana Blanca</SP>
    </stclWD>
    <!-- ********** SURFACE / ECOSPHERE PANEL ********** -->
-   <FCWM_SP_AutoUp>
+   <SP_AutoUpdateCheck>
       <EN>Auto Update</EN>
       <FR>MàJ Auto</FR>
       <SP>Auto Actualizable</SP>
-   </FCWM_SP_AutoUp>
+   </SP_AutoUpdateCheck>
+   <SP_ResourceSurveyCommit>
+      <EN>Do a Resources Survey</EN>
+      <FR>Fait une Etude de Ressources</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </SP_ResourceSurveyCommit>
    <FCWM_SurfPanel>
       <EN>Surface of </EN>
       <FR>Surface de </FR>
@@ -3437,6 +3442,11 @@
       <FR>Plaine</FR>
       <SP>Plano</SP>
    </reliefPlain>
+   <resourcespots>
+      <EN>Resource Spots</EN>
+      <FR>Spots de Ressource</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </resourcespots>
    <season>
       <EN>Current Season</EN>
       <FR>Saison Actuelle</FR>

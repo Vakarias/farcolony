@@ -42,16 +42,6 @@ uses
 procedure FCMgfxC_Main_Init;
 
 ///<summary>
-///   hide the resources icons
-///</summary>
-procedure FCMgfxC_PlanetarySurvey_Hide;
-
-///<summary>
-///   initialize the planetary survey related assets
-///</summary>
-procedure FCMgfxC_PlanetarySurvey_Init;
-
-///<summary>
 ///   switch the display state of the selected region's settlement
 ///</summary>
 ///   <param name=""></param>
@@ -131,47 +121,6 @@ begin
    FCMgfxC_TerrainsCollection_Init;
    if not Assigned(FCRdiSettlementPictures[1])
    then FCMgfxC_Settlements_Init;
-   FCMgfxC_PlanetarySurvey_Init;
-end;
-
-procedure FCMgfxC_PlanetarySurvey_Hide;
-{:Purpose: hide the resources icons.
-    Additions:
-}
-begin
-   FCWinMain.SP_FRR_IconResourcesSurvey.Hide;
-   FCWinMain.SP_FRR_IconCantSurvey.Hide;
-   FCWinMain.SP_FRR_IconRsrcOreField.Hide;
-   FCWinMain.SP_FRR_IconRsrcIcyOreField.Hide;
-   FCWinMain.SP_FRR_IconRsrcGasField.Hide;
-   FCWinMain.SP_FRR_IconRsrcHydroLocation.Hide;
-   FCWinMain.SP_FRR_IconRsrcUndergroundWater.Hide;
-end;
-
-procedure FCMgfxC_PlanetarySurvey_Init;
-{:Purpose: initialize the planetary survey related assets.
-    Additions:
-      -2013Jan27- *add: FRR_IconRsrcOreField + FRR_IconRsrcIcyOreField + FRR_IconRsrcGasField + FRR_IconRsrcHydroLocation + FRR_IconRsrcUndergroundWater.
-      -2013Jan26- *add: FRR_IconCantSurvey.
-}
-begin
-   FCWinMain.SP_FRR_IconResourcesSurvey.Bitmap.LoadFromFile(FCVdiPathResourceDir+'pics-ui-resources\resourceSurvey.jpg');
-   FCWinMain.SP_FRR_IconCantSurvey.Bitmap.LoadFromFile(FCVdiPathResourceDir+'pics-ui-resources\cantSurvey.jpg');
-   FCWinMain.SP_FRR_IconRsrcOreField.Bitmap.LoadFromFile(FCVdiPathResourceDir+'pics-ui-resources\orefield32.jpg');
-   FCWinMain.SP_FRR_IconRsrcOreField.Left:=4;
-   FCWinMain.SP_FRR_IconRsrcOreField.Top:=2;
-   FCWinMain.SP_FRR_IconRsrcIcyOreField.Bitmap.LoadFromFile(FCVdiPathResourceDir+'pics-ui-resources\icyorefield32.jpg');
-   FCWinMain.SP_FRR_IconRsrcIcyOreField.Left:=FCWinMain.SP_FRR_IconRsrcOreField.Left+(FCWinMain.SP_FRR_IconRsrcOreField.Width*2)+6;
-   FCWinMain.SP_FRR_IconRsrcIcyOreField.Top:=FCWinMain.SP_FRR_IconRsrcOreField.Top;
-   FCWinMain.SP_FRR_IconRsrcGasField.Bitmap.LoadFromFile(FCVdiPathResourceDir+'pics-ui-resources\gasfield32.jpg');
-   FCWinMain.SP_FRR_IconRsrcGasField.Left:=FCWinMain.SP_FRR_IconRsrcOreField.Left+FCWinMain.SP_FRR_IconRsrcOreField.Width+3;
-   FCWinMain.SP_FRR_IconRsrcGasField.Top:=FCWinMain.SP_FRR_IconRsrcOreField.Top+FCWinMain.SP_FRR_IconRsrcOreField.Height;
-   FCWinMain.SP_FRR_IconRsrcHydroLocation.Bitmap.LoadFromFile(FCVdiPathResourceDir+'pics-ui-resources\hydrolocation32.jpg');
-   FCWinMain.SP_FRR_IconRsrcHydroLocation.Left:=FCWinMain.SP_FRR_IconRsrcOreField.Left;
-   FCWinMain.SP_FRR_IconRsrcHydroLocation.Top:=FCWinMain.SP_FRR_IconRsrcOreField.Top+(FCWinMain.SP_FRR_IconRsrcOreField.Height*2);
-   FCWinMain.SP_FRR_IconRsrcUndergroundWater.Bitmap.LoadFromFile(FCVdiPathResourceDir+'pics-ui-resources\undergroundwater32.jpg');
-   FCWinMain.SP_FRR_IconRsrcUndergroundWater.Left:=FCWinMain.SP_FRR_IconRsrcIcyOreField.Left;
-   FCWinMain.SP_FRR_IconRsrcUndergroundWater.Top:=FCWinMain.SP_FRR_IconRsrcHydroLocation.Top;
 end;
 
 procedure FCMgfxC_Settlement_SwitchDisplay(const Region, RegionMax: integer);
