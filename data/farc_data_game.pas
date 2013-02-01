@@ -160,15 +160,6 @@ type TFCEdgInfrastructureStatus=(
    ,isOperational
    );
 
-///<summary>
-///   planetary survey types
-///</summary>
-type TFCEdgPlanetarySurveys=(
-   psResources
-   ,psBiosphere
-   ,psFeaturesArtifacts
-   );
-
 {:REFERENCES LIST
    - FCFgSPMD_Level_GetToken
 }
@@ -749,18 +740,51 @@ type TFCRdgEntity= record
    E_spmMod_Bureaucracy: integer;
    E_spmMod_Corruption: integer;
    E_planetarySurveys: array of record
-      PS_type: TFCEdgPlanetarySurveys;
+      PS_type: (//type TFCEdgPlanetarySurveys=(
+         tResources
+         ,tBiosphere
+         ,tFeaturesArtifacts
+         );
       PS_locationSSys: integer;
       PS_locationStar: integer;
       PS_locationOobj: integer;
       PS_locationSat: integer;
       PS_targetRegion: integer;
+      PS_regionEMO: extended;
       PS_linkedColony: integer;
+      PS_missionExtension: (
+         meSelectedRegionOnly
+         ,meAllAdjacentRegions
+         ,meAllControlledNeutralRegions
+         );
       PS_vehiclesGroups: array of record
          VG_linkedStorage: integer;
          VG_numberOfUnits: integer;
          VG_numberOfVehicles: integer;
-
+         VG_vehiclesFunction: ( //type TFCEdgPlanetarySurveyVehicles=(
+            vfGround
+            ,vfAir
+            ,vfAntigrav
+            ,vfSwarmAntigrav
+            );
+         VG_speed: integer;
+         VG_missionTime: integer;
+         VG_usedCapability: integer;
+         VG_crew: integer;
+         VG_timeOfOneWayTravel: integer;
+         ///<summary>
+         ///   DMS = days of mission (note for design doc)
+         ///</summary>
+         VG_timeOfMission: integer;
+         VG_currentPhase: (   //TFCEdgPlanetarySurveyPhases=(
+            cpInTransitToSite
+            ,cpResourcesSurveying
+            ,cpBiosphereSurveying
+            ,cpFeaturesArtifactsSurveying
+            ,cpBackToBase
+            ,cpReplenishment
+            );
+         VG_percentofSurfaceSurveyedByDay: extended;
       end;
    end;
 end;
