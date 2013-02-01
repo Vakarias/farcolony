@@ -160,6 +160,15 @@ type TFCEdgInfrastructureStatus=(
    ,isOperational
    );
 
+///<summary>
+///   planetary survey types
+///</summary>
+type TFCEdgPlanetarySurveys=(
+   psResources
+   ,psBiosphere
+   ,psFeaturesArtifacts
+   );
+
 {:REFERENCES LIST
    - FCFgSPMD_Level_GetToken
 }
@@ -740,7 +749,19 @@ type TFCRdgEntity= record
    E_spmMod_Bureaucracy: integer;
    E_spmMod_Corruption: integer;
    E_planetarySurveys: array of record
+      PS_type: TFCEdgPlanetarySurveys;
+      PS_locationSSys: integer;
+      PS_locationStar: integer;
+      PS_locationOobj: integer;
+      PS_locationSat: integer;
+      PS_targetRegion: integer;
+      PS_linkedColony: integer;
+      PS_vehiclesGroups: array of record
+         VG_linkedStorage: integer;
+         VG_numberOfUnits: integer;
+         VG_numberOfVehicles: integer;
 
+      end;
    end;
 end;
    TFCDdgEntities= array [0..FCCdiFactionsMax] of TFCRdgEntity;
@@ -798,6 +819,7 @@ implementation
 procedure FCMdG_Entities_Clear;
 {:Purpose: clear the entities' data.
     Additions:
+      -2013Jan31- *add: E_planetarySurveys.
       -2012Aug14- *code audit:
                      (x)var formatting + refactoring     (_)if..then reformatting   (_)function/procedure refactoring
                      (_)parameters refactoring           (x) ()reformatting         (_)code optimizations
@@ -835,6 +857,7 @@ begin
       FCDdgEntities[Count].E_spmMod_Health:=0;
       FCDdgEntities[Count].E_spmMod_Bureaucracy:=0;
       FCDdgEntities[Count].E_spmMod_Corruption:=0;
+      SetLength( FCDdgEntities[Count].E_planetarySurveys, 0 );
       inc(Count);
    end;
 end;
