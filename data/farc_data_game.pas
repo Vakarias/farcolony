@@ -776,6 +776,7 @@ type TFCRdgEntity= record
          ///   DMS = days of mission (note for design doc)
          ///</summary>
          VG_timeOfMission: integer;
+         VG_percentofSurfaceSurveyedByDay: extended;
          VG_currentPhase: (   //TFCEdgPlanetarySurveyPhases=(
             cpInTransitToSite
             ,cpResourcesSurveying
@@ -784,7 +785,7 @@ type TFCRdgEntity= record
             ,cpBackToBase
             ,cpReplenishment
             );
-         VG_percentofSurfaceSurveyedByDay: extended;
+         VG_currentPhaseElapsedTime: integer;
       end;
    end;
 end;
