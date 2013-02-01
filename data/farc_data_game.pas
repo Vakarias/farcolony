@@ -739,6 +739,9 @@ type TFCRdgEntity= record
    E_spmMod_Health: integer;
    E_spmMod_Bureaucracy: integer;
    E_spmMod_Corruption: integer;
+   E_planetarySurveys: array of record
+
+   end;
 end;
    TFCDdgEntities= array [0..FCCdiFactionsMax] of TFCRdgEntity;
 
