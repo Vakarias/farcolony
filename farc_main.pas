@@ -335,7 +335,7 @@ type
     HTMLabel2: THTMLabel;
     HTMLCheckBox2: THTMLCheckBox;
     AdvGlowButton1: TAdvGlowButton;
-    HTMLRadioGroup1: THTMLRadioGroup;
+    PSP_TypeOfExpedition: THTMLRadioGroup;
 
       procedure FormCreate(Sender: TObject);
       procedure FormResize(Sender: TObject);
@@ -462,6 +462,7 @@ type
       MousePos: TPoint; var Handled: Boolean);
     procedure FCWM_MainMenuChange(Sender: TObject; Source: TMenuItem; Rebuild: Boolean);
     procedure SP_SD_SurfaceSelectedMouseEnter(Sender: TObject);
+    procedure SP_ResourceSurveyCommitClick(Sender: TObject);
    private
       { Private declarations }
          {timesteps needed for camera transitions}
@@ -517,6 +518,7 @@ uses
    ,farc_ui_keys
    ,farc_ui_missionsetup
    ,farc_ui_msges
+   ,farc_ui_planetarysurvey
    ,farc_ui_surfpanel
    ,farc_ui_umi
    ,farc_ui_umifaction
@@ -1552,6 +1554,11 @@ procedure TFCWinMain.SP_AutoUpdateCheckKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
    FCMuiK_WinMain_Test(Key, Shift);
+end;
+
+procedure TFCWinMain.SP_ResourceSurveyCommitClick(Sender: TObject);
+begin
+   FCMuiPS_Panel_Show( psResources );
 end;
 
 procedure TFCWinMain.SP_SurfaceDisplayHotSpotEnter(Sender: TObject; HotSpot: THotSpot);

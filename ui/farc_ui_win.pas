@@ -171,6 +171,7 @@ uses
    ,farc_ui_coldatapanel
    ,farc_ui_coredatadisplay
    ,farc_ui_msges
+   ,farc_ui_planetarysurvey
    ,farc_ui_umi
    ,farc_univ_func
    ,farc_win_about
@@ -486,6 +487,7 @@ end;
 procedure FCMuiW_UI_Initialize(const UIUtp: TFCEmwinUpdTp);
 {:Purpose: update and initialize all user's interface elements of the game.
    Additions:
+      -2013Feb03- *add: planetary survey panel.
       -2013Jan29- *add: surface panel - add a SP_ResourceSurveyCommit.
       -2013Jan28- *rem: surface panel - tabsheet is removed, SP_RegionSheet is a panel by itself.
       -2013Jan09- *mod: adjustment of ActionPanel width for french language.
@@ -767,6 +769,8 @@ begin
       FCWinMain.AP_MissionColonization.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'AP_MissionColonization');
       FCWinMain.AP_MissionInterplanetaryTransit.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'AP_MissionInterplanetaryTransit');
       FCWinMain.AP_MissionCancel.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'AP_MissionCancel');
+      {.planetary survey panel}
+      FCMuiPS_Panel_InitText;
    end;
    //=======================================================================================
    {.this section concern only all texts of about window}
@@ -1050,6 +1054,8 @@ begin
       FCWinMain.FCWM_CPSRSinfogroup.Width:=FCWinMain.FCWM_CPSreportSet.Width-8-FCWinMain.FCWM_CPSRSIGscores.Width;
       {.action panel}
       FCWinMain.WM_ActionPanel.Width:=197;
+      {.planetary survey panel}
+      FCMuiPS_Panel_InitElements;
    end;
    if UIUtp<>mwupAll
    then
@@ -1372,6 +1378,8 @@ begin
       FCWinMain.AP_MissionColonization.Font.Size:=FCFuiW_Font_GetSize(uiwButton);
       FCWinMain.AP_MissionInterplanetaryTransit.Font.Size:=FCFuiW_Font_GetSize(uiwButton);
       FCWinMain.AP_MissionCancel.Font.Size:=FCFuiW_Font_GetSize(uiwButton);
+      {.planetary survey panel}
+      FCMuiPS_Panel_InitFonts;
    end; //==END== if (UIUtp=mwupAll) or (UIUtp=mwupFontAll) ==//
    {.for about window}
    if ((UIUtp=mwupFontWinAb) or (UIUtp=mwupFontAll))

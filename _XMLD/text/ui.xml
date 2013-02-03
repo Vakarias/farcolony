@@ -21,6 +21,7 @@
       ********** MISSIONS SETUP WINDOW **********
       ********** NEW GAME SETUP WINDOW **********
       ********** ORBITAL OBJECTS TYPES **********
+      ********** PLANETARY SURVEY **********
       ********** PRODUCTS *******
       ********** SPACE UNIT ARCHITECTURE **********
       ********** SPACE UNIT OVERALL **********
@@ -2356,6 +2357,57 @@
       <FR>Disque Protoplanétaire</FR>
       <SP>Disco Protoplanetario</SP>
    </oobtpProtoDisk>
+   <!-- ********** PLANETARY SURVEY ********** -->
+   <psExpedition>
+      <EN>Type of Expedition</EN>
+      <FR>Type d'Expedition</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </psExpedition>
+   <psexpedAir>
+      <EN>Aerial</EN>
+      <FR>Aérien</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </psexpedAir>
+   <psexpedAntigrav>
+      <EN>Antigrav</EN>
+      <FR>Antigrav</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </psexpedAntigrav>
+   <psexpedGround>
+      <EN>Ground</EN>
+      <FR>Terrestre</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </psexpedGround>
+   <psexpedSpace>
+      <EN>Space</EN>
+      <FR>Spatial</FR>
+      <FR>!TO TRANSLATE!</FR>
+   </psexpedSpace>
+   <psexpedSwarmAntigrav>
+      <EN>Swarm Antigrav</EN>
+      <FR>Essaim Antigrav</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </psexpedSwarmAntigrav>
+   <psMainTitle>
+      <EN>Planetary Survey: </EN>
+      <FR>Etude Planétaire: </FR>
+      <SP>!TO TRANSLATE!</SP>
+   </psMainTitle>
+   <psTitleBiosphere>
+      <EN>Biosphere</EN>
+      <FR>Biosphère</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </psTitleBiosphere>
+   <psFeaturesArtifacts>
+      <EN>Features & Artifacts</EN>
+      <FR>Particularités & Artefacts</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </psFeaturesArtifacts>
+   <psTitleResources>
+      <EN>Resources</EN>
+      <FR>Ressources</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </psTitleResources>
    <!-- ********** PRODUCTS ******* -->
    <bioAnimalFood>
       <EN>Animal Food</EN>

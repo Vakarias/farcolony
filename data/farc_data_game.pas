@@ -198,6 +198,7 @@ type TFCEdgPlanetarySurveyVehicles=(
    ,psvAir
    ,psvAntigrav
    ,psvSwarmAntigrav
+   ,psvSpace
    );
 
 {:REFERENCES LIST
