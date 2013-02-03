@@ -331,6 +331,11 @@ type
     AP_MissionInterplanetaryTransit: TAdvGlowButton;
     AP_MissionColonization: TAdvGlowButton;
     SP_ResourceSurveyCommit: TAdvGlowButton;
+    MVG_PlanetarySurveyPanel: TAdvPanel;
+    HTMLabel2: THTMLabel;
+    HTMLCheckBox2: THTMLCheckBox;
+    AdvGlowButton1: TAdvGlowButton;
+    HTMLRadioGroup1: THTMLRadioGroup;
 
       procedure FormCreate(Sender: TObject);
       procedure FormResize(Sender: TObject);
