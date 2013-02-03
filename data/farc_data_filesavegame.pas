@@ -1105,7 +1105,60 @@ begin
                      end;
                      XMLSavedGameItemSub1:=XMLSavedGameItemSub1.NextSibling;
                   end;
-               end; //==END== if GLxmlEntSubRoot.NodeName='entSPMset' ==//
+               end //==END== if GLxmlEntSubRoot.NodeName='entSPMset' ==//
+               else if XMLSavedGameItemSub.NodeName='entPlanetarySurveys' then
+               begin
+                  Count1:=0;
+                  XMLSavedGameItemSub1:=XMLSavedGameItemSub.ChildNodes.First;
+                  while XMLSavedGameItemSub1<>nil do
+                  begin
+                     inc( Count1 );
+                     SetLength( FCDdgEntities[Count].E_planetarySurveys, Count1+1 );
+                     EnumIndex:=GetEnumValue( TypeInfo( TFCEdgPlanetarySurveys ), XMLSavedGameItemSub1.Attributes['type'] );
+                     FCDdgEntities[Count].E_planetarySurveys[Count1].PS_type:=TFCEdgPlanetarySurveys( EnumIndex );
+                     if EnumIndex=-1
+                     then raise Exception.Create( 'bad gamesave loading w/planetary survey type: '+XMLSavedGameItemSub1.Attributes['type'] );
+                     FCDdgEntities[Count].E_planetarySurveys[Count1].PS_locationSSys:=XMLSavedGameItemSub1.Attributes['locationStarSys'];
+                     FCDdgEntities[Count].E_planetarySurveys[Count1].PS_locationStar:=XMLSavedGameItemSub1.Attributes['locationStar'];
+                     FCDdgEntities[Count].E_planetarySurveys[Count1].PS_locationOobj:=XMLSavedGameItemSub1.Attributes['locationOObj'];
+                     FCDdgEntities[Count].E_planetarySurveys[Count1].PS_locationSat:=XMLSavedGameItemSub1.Attributes['locationSat'];
+                     FCDdgEntities[Count].E_planetarySurveys[Count1].PS_targetRegion:=XMLSavedGameItemSub1.Attributes['targetRegion'];
+                     FCDdgEntities[Count].E_planetarySurveys[Count1].PS_regionEMO:=StrToFloat( XMLSavedGameItemSub1.Attributes['regionEMO'], FCVdiFormat );
+                     FCDdgEntities[Count].E_planetarySurveys[Count1].PS_linkedColony:=XMLSavedGameItemSub1.Attributes['linkedColony'];
+                     EnumIndex:=GetEnumValue( TypeInfo( TFCEdgPlanetarySurveyExtensions ), XMLSavedGameItemSub1.Attributes['missionExtension'] );
+                     FCDdgEntities[Count].E_planetarySurveys[Count1].PS_missionExtension:=TFCEdgPlanetarySurveyExtensions( EnumIndex );
+                     if EnumIndex=-1
+                     then raise Exception.Create( 'bad gamesave loading w/planetary survey mission extension: '+XMLSavedGameItemSub1.Attributes['missionExtension'] );
+                     Count2:=0;
+                     XMLSavedGameItemSub2:=XMLSavedGameItemSub1.ChildNodes.First;
+                     while XMLSavedGameItemSub2<>nil do
+                     begin
+                        inc( Count2 );
+                        SetLength( FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups, Count2+1 );
+                        FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].VG_linkedStorage:=XMLSavedGameItemSub2.Attributes['linkedStorage'];
+                        FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].VG_numberOfUnits:=XMLSavedGameItemSub2.Attributes['units'];
+                        FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].VG_numberOfVehicles:=XMLSavedGameItemSub2.Attributes['vehicles'];
+                        EnumIndex:=GetEnumValue( TypeInfo( TFCEdgPlanetarySurveyVehicles ), XMLSavedGameItemSub2.Attributes['function'] );
+                        FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].VG_vehiclesFunction:=TFCEdgPlanetarySurveyVehicles( EnumIndex );
+                        if EnumIndex=-1
+                        then raise Exception.Create( 'bad gamesave loading w/planetary survey vehicles function: '+XMLSavedGameItemSub2.Attributes['function'] );
+                        FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].VG_speed:=XMLSavedGameItemSub2.Attributes['speed'];
+                        FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].VG_totalMissionTime:=XMLSavedGameItemSub2.Attributes['totalMissionTime'];
+                        FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].VG_usedCapability:=XMLSavedGameItemSub2.Attributes['capability'];
+                        FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].VG_crew:=XMLSavedGameItemSub2.Attributes['crew'];
+                        FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].VG_timeOfOneWayTravel:=XMLSavedGameItemSub2.Attributes['timeOneWayTravel'];
+                        FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].VG_timeOfMission:=XMLSavedGameItemSub2.Attributes['timeMission'];
+                        FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].VG_percentofSurfaceSurveyedByDay:=StrToFloat( XMLSavedGameItemSub2.Attributes['percSurfSurveyedDay'], FCVdiFormat );
+                        EnumIndex:=GetEnumValue( TypeInfo( TFCEdgPlanetarySurveyPhases ), XMLSavedGameItemSub2.Attributes['phase'] );
+                        FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].VG_currentPhase:=TFCEdgPlanetarySurveyPhases( EnumIndex );
+                        if EnumIndex=-1
+                        then raise Exception.Create( 'bad gamesave loading w/planetary survey phase: '+XMLSavedGameItemSub2.Attributes['phase'] );
+                        FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].VG_currentPhaseElapsedTime:=XMLSavedGameItemSub2.Attributes['phaseTime'];
+                        XMLSavedGameItemSub2:=XMLSavedGameItemSub2.NextSibling;
+                     end;
+                     XMLSavedGameItemSub1:=XMLSavedGameItemSub1.NextSibling;
+                  end;
+               end; //==END== else if XMLSavedGameItemSub.NodeName='entPlanetarySurveys' ==//
                XMLSavedGameItemSub:=XMLSavedGameItemSub.NextSibling;
             end; //==END== while GLxmlEntSubRoot<>nil do ==//
             inc( Count );
