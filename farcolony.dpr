@@ -117,7 +117,8 @@ uses
   farc_game_tasksystem in 'game\farc_game_tasksystem.pas',
   farc_ogl_functions in 'ogl\farc_ogl_functions.pas',
   farc_ui_actionpanel in 'ui\farc_ui_actionpanel.pas',
-  farc_spm_memes in 'spm\farc_spm_memes.pas';
+  farc_spm_memes in 'spm\farc_spm_memes.pas',
+  farc_ui_planetarysurvey in 'ui\farc_ui_planetarysurvey.pas';
 
 {$R *.res}
 
