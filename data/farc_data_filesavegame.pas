@@ -98,6 +98,7 @@ uses
 procedure FCMdFSG_Game_Load;
 {:Purpose: load the current game.
    Additions:
+      -2013Feb02- *add: planetary survey data.
       -2013Jan27- *add: resource survey - OOR_resourceSurveyIndex loading.
       -2012Dec09- *add/fix: initialize the GGFnewTick and GGF_OldTick values with the loaded game tick.
       -2012Dec04- *add: space units - SU_locationDockingMotherCraft.
@@ -1139,6 +1140,7 @@ end;
 procedure FCMdFSG_Game_Save;
 {:Purpose: save the current game.
     Additions:
+      -2013Feb02- *add: planetary survey data.
       -2012Dec04- *add: space units - SU_locationDockingMotherCraft.
       -2012Nov11- *add: tasks - interplanetary transit mission - T_tMIToriginSatIndex + T_tMITdestinationSatIndex.
       -2012Oct02- *add: tasks to process.
@@ -1917,6 +1919,7 @@ begin
             inc(Count1);
          end; //==END== while Count1<=GScolMax do ==//
       end; //==END== if Max1>0 ==//
+      {.SPM settings}
       Max1:=Length( FCDdgEntities[Count].E_spmSettings )-1;
       if Max1>0 then
       begin
@@ -1950,8 +1953,49 @@ begin
             inc( Count1 );
          end;
       end;
+      {.planetary surveys}
+      Max1:=Length( FCDdgEntities[Count].E_planetarySurveys )-1;
+      if Max1>0 then
+      begin
+         XMLSavedGameItemSub1:=XMLSavedGameItemSub.AddChild( 'entPlanetarySurveys' );
+         Count1:=1;
+         while Count1<=Max1 do
+         begin
+            XMLSavedGameItemSub2:=XMLSavedGameItemSub1.AddChild( 'entPlanetarySurvey' );
+            XMLSavedGameItemSub2.Attributes['type']:=GetEnumName( TypeInfo( TFCEdgPlanetarySurveys ), Integer( FCDdgEntities[Count].E_planetarySurveys[Count1].PS_type ) );
+            XMLSavedGameItemSub2.Attributes['locationStarSys']:=FCDdgEntities[Count].E_planetarySurveys[Count1].PS_locationSSys;
+            XMLSavedGameItemSub2.Attributes['locationStar']:=FCDdgEntities[Count].E_planetarySurveys[Count1].PS_locationStar;
+            XMLSavedGameItemSub2.Attributes['locationOObj']:=FCDdgEntities[Count].E_planetarySurveys[Count1].PS_locationOobj;
+            XMLSavedGameItemSub2.Attributes['locationSat']:=FCDdgEntities[Count].E_planetarySurveys[Count1].PS_locationSat;
+            XMLSavedGameItemSub2.Attributes['targetRegion']:=FCDdgEntities[Count].E_planetarySurveys[Count1].PS_targetRegion;
+            XMLSavedGameItemSub2.Attributes['regionEMO']:=FloatToStr( FCDdgEntities[Count].E_planetarySurveys[Count1].PS_regionEMO, FCVdiFormat );
+            XMLSavedGameItemSub2.Attributes['linkedColony']:=FCDdgEntities[Count].E_planetarySurveys[Count1].PS_linkedColony;
+            XMLSavedGameItemSub2.Attributes['missionExtension']:=GetEnumName( TypeInfo( TFCEdgPlanetarySurveyExtensions ), Integer( FCDdgEntities[Count].E_planetarySurveys[Count1].PS_missionExtension ) );
+            Max2:=Length( FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups )-1;
+            Count2:=1;
+            while Count2<=Max2 do
+            begin
+               XMLSavedGameItemSub3:=XMLSavedGameItemSub2.AddChild( 'psurVehGroup' );
+               XMLSavedGameItemSub3.Attributes['linkedStorage']:=FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].VG_linkedStorage;
+               XMLSavedGameItemSub3.Attributes['units']:=FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].VG_numberOfUnits;
+               XMLSavedGameItemSub3.Attributes['vehicles']:=FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].VG_numberOfVehicles;
+               XMLSavedGameItemSub3.Attributes['function']:=GetEnumName( TypeInfo( TFCEdgPlanetarySurveyVehicles ), Integer( FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].VG_vehiclesFunction ) );
+               XMLSavedGameItemSub3.Attributes['']:=FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].VG_speed;
+               XMLSavedGameItemSub3.Attributes['']:=FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].;
+               XMLSavedGameItemSub3.Attributes['']:=FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].;
+               XMLSavedGameItemSub3.Attributes['']:=FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].;
+               XMLSavedGameItemSub3.Attributes['']:=FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].;
+               XMLSavedGameItemSub3.Attributes['']:=FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].;
+               XMLSavedGameItemSub3.Attributes['']:=FloatToStr( FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2]., FCVdiFormat );
+               XMLSavedGameItemSub3.Attributes['']:=GetEnumName( TypeInfo( TFCEdgPlanetarySurvey ), Integer( FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2]. ) );
+               XMLSavedGameItemSub3.Attributes['']:=FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].;
+               inc( Count2 );
+            end;
+            inc( Count1 );
+         end;
+      end;
       inc( Count );
-   end; //==END== while GScount<=FCCfacMax do ==//
+   end; //==END== while Count<=FCCdiFactionsMax do do ==//
    {.create "msgqueue" saved game item}
    Max:=length( FCVmsgStoMsg );
    if Max>1 then

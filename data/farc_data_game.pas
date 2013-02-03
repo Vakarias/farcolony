@@ -160,6 +160,46 @@ type TFCEdgInfrastructureStatus=(
    ,isOperational
    );
 
+///<summary>
+///   types of planetary surveys
+///</summary>
+type TFCEdgPlanetarySurveys=(
+   psResources
+   ,psBiosphere
+   ,psFeaturesArtifacts
+   );
+
+///<summary>
+///   types of extension for a planetary survey expedition
+///</summary>
+type TFCEdgPlanetarySurveyExtensions=(
+   pseSelectedRegionOnly
+   ,pseAllAdjacentRegions
+   ,pseAllControlledNeutralRegions
+   );
+
+///<summary>
+///   planetary survey phases
+///</summary>
+type TFCEdgPlanetarySurveyPhases=(
+   pspInTransitToSite
+   ,pspResourcesSurveying
+   ,pspBiosphereSurveying
+   ,pspFeaturesArtifactsSurveying
+   ,pspBackToBase
+   ,pspReplenishment
+   );
+
+///<summary>
+///   types of survey vehicles
+///</summary>
+type TFCEdgPlanetarySurveyVehicles=(
+   psvGround
+   ,psvAir
+   ,psvAntigrav
+   ,psvSwarmAntigrav
+   );
+
 {:REFERENCES LIST
    - FCFgSPMD_Level_GetToken
 }
@@ -740,33 +780,20 @@ type TFCRdgEntity= record
    E_spmMod_Bureaucracy: integer;
    E_spmMod_Corruption: integer;
    E_planetarySurveys: array of record
-      PS_type: (//type TFCEdgPlanetarySurveys=(
-         tResources
-         ,tBiosphere
-         ,tFeaturesArtifacts
-         );
-      PS_locationSSys: integer;
-      PS_locationStar: integer;
-      PS_locationOobj: integer;
-      PS_locationSat: integer;
+      PS_type: TFCEdgPlanetarySurveys;
+      PS_locationSSys: string[20];
+      PS_locationStar: string[20];
+      PS_locationOobj: string[20];
+      PS_locationSat: string[20];
       PS_targetRegion: integer;
       PS_regionEMO: extended;
       PS_linkedColony: integer;
-      PS_missionExtension: (
-         meSelectedRegionOnly
-         ,meAllAdjacentRegions
-         ,meAllControlledNeutralRegions
-         );
+      PS_missionExtension: TFCEdgPlanetarySurveyExtensions;
       PS_vehiclesGroups: array of record
          VG_linkedStorage: integer;
          VG_numberOfUnits: integer;
          VG_numberOfVehicles: integer;
-         VG_vehiclesFunction: ( //type TFCEdgPlanetarySurveyVehicles=(
-            vfGround
-            ,vfAir
-            ,vfAntigrav
-            ,vfSwarmAntigrav
-            );
+         VG_vehiclesFunction: TFCEdgPlanetarySurveyVehicles;
          VG_speed: integer;
          VG_missionTime: integer;
          VG_usedCapability: integer;
@@ -777,14 +804,7 @@ type TFCRdgEntity= record
          ///</summary>
          VG_timeOfMission: integer;
          VG_percentofSurfaceSurveyedByDay: extended;
-         VG_currentPhase: (   //TFCEdgPlanetarySurveyPhases=(
-            cpInTransitToSite
-            ,cpResourcesSurveying
-            ,cpBiosphereSurveying
-            ,cpFeaturesArtifactsSurveying
-            ,cpBackToBase
-            ,cpReplenishment
-            );
+         VG_currentPhase: TFCEdgPlanetarySurveyPhases;
          VG_currentPhaseElapsedTime: integer;
       end;
    end;
