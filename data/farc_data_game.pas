@@ -795,7 +795,7 @@ type TFCRdgEntity= record
          VG_numberOfVehicles: integer;
          VG_vehiclesFunction: TFCEdgPlanetarySurveyVehicles;
          VG_speed: integer;
-         VG_missionTime: integer;
+         VG_totalMissionTime: integer;
          VG_usedCapability: integer;
          VG_crew: integer;
          VG_timeOfOneWayTravel: integer;
