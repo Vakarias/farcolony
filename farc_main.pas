@@ -333,9 +333,9 @@ type
     SP_ResourceSurveyCommit: TAdvGlowButton;
     MVG_PlanetarySurveyPanel: TAdvPanel;
     PSP_Label: THTMLabel;
-    HTMLCheckBox2: THTMLCheckBox;
     AdvGlowButton1: TAdvGlowButton;
     PSP_TypeOfExpedition: THTMLRadioGroup;
+    HTMLabel2: THTMLabel;
 
       procedure FormCreate(Sender: TObject);
       procedure FormResize(Sender: TObject);
@@ -915,8 +915,7 @@ end;
 
 procedure TFCWinMain.FCWMS_ButCancelClick(Sender: TObject);
 begin
-   FCWinMain.FCWM_MissionSettings.Hide;
-   FCVdiGameFlowTimer.Enabled:=true;
+   FCMuiMS_Planel_Close;
 end;
 
 procedure TFCWinMain.FCWMS_ButCancelKeyDown(Sender: TObject; var Key: Word;
@@ -1582,11 +1581,11 @@ procedure TFCWinMain.SP_SD_SurfaceSelectorClick(Sender: TObject);
 var
    SPSSCcurrSettlement: integer;
 begin
-   FCMuiSP_VarRegionSelected_Update;
    SPSSCcurrSettlement:=0;
    if (FCWinMain.FCWM_MissionSettings.Visible)
       and (FCDmcCurrentMission[0].T_type=tMissionColonization) then
    begin
+      FCMuiSP_VarRegionSelected_Update;
       FCRmcCurrentMissionCalculations.CMC_regionOfDestination:=FCFuiSP_VarRegionSelected_Get;
       if not FCWinMain.FCWMS_Grp_MCGColName.Visible
       then
@@ -1620,6 +1619,7 @@ begin
    else if ( FCWinMain.FCWM_ColDPanel.Visible )
       and ( FCFuiSP_VarIsResourcesSurveyOK_Get ) then
    begin
+      FCMuiSP_VarRegionSelected_Update;
       FCMuiSP_SurfaceSelected_Update( true );
       FCWinMain.SP_ResourceSurveyCommit.Show;
    end;

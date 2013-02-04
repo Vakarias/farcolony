@@ -642,6 +642,7 @@ procedure FCMgICS_Conversion_Process(
    );
 {:Purpose: convert a space unit to a corresponding infrastructure as requested.
     Additions:
+      -2013Feb03- *add: insert additional hardcoded equipment for planetary survey.
       -2012Dec03- *add: the space unit in conversion is now removed from the entity's space units array.
       -2012Apr16- *add: new hardcoded resource added to the colony: water, oxygen and some food for reserves development and testing.
       -2012Mar13- *mod: adjust some hardcoded data.
@@ -897,6 +898,20 @@ begin
       ,ICPcol
       ,true
       );
+   FCFgC_Storage_Update(
+      'equipAirships'
+      ,1
+      ,0
+      ,ICPcol
+      ,false
+      );
+//   FCFgC_Storage_Update(
+//      'equipScoutAutoRovers'
+//      ,2
+//      ,0
+//      ,ICPcol
+//      ,false
+//      );
    if ICPent=0
    then FCMuiCDD_Production_Update(
       plInfrastructuresInit

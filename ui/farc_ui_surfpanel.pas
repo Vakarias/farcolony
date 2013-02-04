@@ -108,6 +108,11 @@ procedure FCMuiSP_SurfaceEcosphere_SetWithSelf;
 procedure FCMuiSP_SurfaceSelected_Update( const isShowBox: boolean );
 
 ///<summary>
+///   reset the SPisResourcesSurveyOK to false
+///</summary>
+procedure FCMuiSP_VarIsResourcesSurveyOK_Reset;
+
+///<summary>
 ///   update the selected region with the hovered region
 ///</summary>
 procedure FCMuiSP_VarRegionSelected_Update;
@@ -612,6 +617,7 @@ procedure FCMuiSP_RegionDataPicture_Update(
    );
 {:Purpose: update the region data and picture .
     Additions:
+      -2013Feb03- *fix: prevent to be able to setup a resource survey during a mission setup.
       -2013Jan29- *add: resources display.
       -2013Jan27- *code: remove a not needed with command.
       -2013Jan06- *add: initialization of SurfaceSelected.
@@ -1057,8 +1063,6 @@ begin
          );
       {.resources display}
       FCWinMain.SP_RegionSheet.HTMLText.Add( FCCFdHeadC+FCFdTFiles_UIStr_Get(uistrUI, 'resourcespots')+FCCFdHeadEnd );
-
-
       if ( Test=0 )
          and (Colony=0) then
       begin
@@ -1068,7 +1072,8 @@ begin
          FCWinMain.SP_RegionSheet.HTMLText.Add( '<img src="file://'+FCVdiPathResourceDir+'pics-ui-resources\cantSurvey.jpg" align="middle"><br>No resource spot is displayed because no survey has been made yet, and none can be applied until you found a colony on this orbital object.' );
       end
       else if ( Test=0 )
-         and (Colony>0) then
+         and ( Colony>0 )
+         and ( not FCWinMain.FCWM_MissionSettings.Visible ) then
       begin
          FCWinMain.SP_RegionSheet.HTMLText.Add( 'No resource spot is displayed because no survey has been made yet. Please click on the region where you want to apply a resource survey to, it will show a survey button below this text to let you able to setup an expedition.');
          SPisResourcesSurveyOK:=true;
@@ -1079,7 +1084,7 @@ begin
       end
       else if Test>0 then
       begin
-//         SPisResourcesSurveyOK:=false;
+         SPisResourcesSurveyOK:=false;
          if FCWinMain.SP_ResourceSurveyCommit.Visible
          then FCWinMain.SP_ResourceSurveyCommit.Hide;
          FCWinMain.SP_RegionSheet.HTMLText.Add( '<p align="left"><br>');
@@ -1803,6 +1808,14 @@ begin
    if not isShowBox
    then FCWinMain.SP_SD_SurfaceSelected.Hide
    else FCWinMain.SP_SD_SurfaceSelected.Show;
+end;
+
+procedure FCMuiSP_VarIsResourcesSurveyOK_Reset;
+{:Purpose: reset the SPisResourcesSurveyOK to false.
+    Additions:
+}
+begin
+   SPisResourcesSurveyOK:=false;
 end;
 
 procedure FCMuiSP_VarRegionSelected_Update;

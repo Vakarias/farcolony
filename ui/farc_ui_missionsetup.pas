@@ -123,6 +123,7 @@ uses
    farc_common_func
    ,farc_data_game
    ,farc_data_html
+   ,farc_data_init
    ,farc_data_3dopengl
    ,farc_data_textfiles
    ,farc_data_spu
@@ -172,6 +173,7 @@ end;
 procedure FCMuiMS_ColonizationInterface_Setup;
 {:Purpose: setup the interface for the colonization mission
     Additions:
+      -2013Feb03- *add: reset the resources survey interface, if it's the same orbital object.
 }
    var
       MaxDocked
@@ -204,6 +206,8 @@ begin
       FCWinMain.SP_SD_SurfaceSelector.Height:=0;
       FCWinMain.SP_SD_SurfaceSelector.Left:=0;
       FCWinMain.SP_SD_SurfaceSelector.Top:=0;
+      FCWinMain.SP_ResourceSurveyCommit.Hide;
+      FCMuiSP_VarIsResourcesSurveyOK_Reset;
    end;
    FCMuiSP_Panel_Relocate ( true );
    {.idx=0}
@@ -773,7 +777,7 @@ begin
       FCWinMain.MVG_SurfacePanel.Hide;
       FCWinMain.SP_SurfaceDisplay.Enabled:=false;
    end;
-//   FCVdiGameFlowTimer.Enabled:=true;
+   FCVdiGameFlowTimer.Enabled:=true;
 end;
 
 procedure FCMuiMS_Panel_Initialize;

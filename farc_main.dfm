@@ -3816,18 +3816,28 @@ object FCWinMain: TFCWinMain
         URLColor = 14068651
         Version = '1.8.1.0'
       end
-      object HTMLCheckBox2: THTMLCheckBox
-        Left = 455
-        Top = 157
-        Width = 92
-        Height = 18
-        Alignment = taLeftJustify
-        ButtonType = btClassic
-        Caption = 'THTMLCheckBox'
-        ReturnIsTab = False
-        TabOrder = 0
-        Visible = False
-        Version = '1.5.4.0'
+      object HTMLabel2: THTMLabel
+        Left = 2
+        Top = 20
+        Width = 782
+        Height = 269
+        Align = alCustom
+        BorderStyle = bsSingle
+        BorderColor = clSilver
+        Color = clBlack
+        GradientType = gtFullVertical
+        Font.Charset = ANSI_CHARSET
+        Font.Color = 14803425
+        Font.Height = -12
+        Font.Name = 'FrancophilSans'
+        Font.Style = []
+        Hover = True
+        HoverColor = clBlack
+        HoverFontColor = clSkyBlue
+        ParentColor = False
+        ParentFont = False
+        URLColor = 14068651
+        Version = '1.8.1.0'
       end
       object AdvGlowButton1: TAdvGlowButton
         Left = 119
@@ -3848,7 +3858,7 @@ object FCWinMain: TFCWinMain
         NotesFont.Style = []
         ParentFont = False
         Position = bpMiddle
-        TabOrder = 1
+        TabOrder = 0
         Visible = False
         Appearance.BorderColorHot = clWhite
         Appearance.BorderColorDown = clSkyBlue
@@ -3891,7 +3901,7 @@ object FCWinMain: TFCWinMain
         Font.Name = 'FrancophilSans'
         Font.Style = []
         ParentFont = False
-        TabOrder = 2
+        TabOrder = 1
       end
     end
   end
