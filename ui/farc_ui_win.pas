@@ -172,6 +172,7 @@ uses
    ,farc_ui_coredatadisplay
    ,farc_ui_msges
    ,farc_ui_planetarysurvey
+   ,farc_ui_surfpanel
    ,farc_ui_umi
    ,farc_univ_func
    ,farc_win_about
@@ -855,52 +856,7 @@ begin
       FCWinMain.FCWM_HDPhintsList.Width:=(FCWinMain.FCWM_HelpPanel.Width shr 5*14)-5;
       FCWinMain.FCWM_HDPhintsText.Width:=(FCWinMain.FCWM_HelpPanel.Width shr 5*18);
       {.surface panel}
-      FCWinMain.MVG_SurfacePanel.Width:=1024;//784;
-      FCWinMain.MVG_SurfacePanel.Height:=375;
-      FCWinMain.MVG_SurfacePanel.Left:=(UIUmainW2)-(FCWinMain.MVG_SurfacePanel.Width shr 1);
-      FCWinMain.MVG_SurfacePanel.Top:=(UIUmainH2)-(FCWinMain.MVG_SurfacePanel.Height shr 1);
-      FCWinMain.SP_AutoUpdateCheck.Width:=82;
-      FCWinMain.SP_AutoUpdateCheck.Left:=FCWinMain.MVG_SurfacePanel.Width-25-FCWinMain.SP_AutoUpdateCheck.Width;
-      FCWinMain.SP_AutoUpdateCheck.Top:=1;
-      {.surface panel - ecosphere sheet}
-      FCWinMain.SP_EcosphereSheet.Width:=260;
-      FCWinMain.SP_EcosphereSheet.Height:=FCWinMain.MVG_SurfacePanel.Height-19;
-      FCWinMain.SP_EcosphereSheet.Left:=1;
-      FCWinMain.SP_EcosphereSheet.Top:=19;
-      {.surface panel - surface hotspot}
-      FCWinMain.SP_SurfaceDisplay.Width:=512;
-      FCWinMain.SP_SurfaceDisplay.Height:=256;
-      FCWinMain.SP_SurfaceDisplay.Left:=FCWinMain.SP_EcosphereSheet.Left+FCWinMain.SP_EcosphereSheet.Width+1;
-      FCWinMain.SP_SurfaceDisplay.Top:=FCWinMain.SP_EcosphereSheet.Top;
-      {.surface panel - left data}
-      FCWinMain.SP_FrameLeftNOTDESIGNED.Width:=111;
-      FCWinMain.SP_FrameLeftNOTDESIGNED.Height:=99;
-      FCWinMain.SP_FrameLeftNOTDESIGNED.Left:=FCWinMain.SP_SurfaceDisplay.Left;
-      FCWinMain.SP_FrameLeftNOTDESIGNED.Top:=FCWinMain.SP_SurfaceDisplay.Top+FCWinMain.SP_SurfaceDisplay.Height+1;
-      {.surface panel - region picture}
-      FCWinMain.SP_FrameRegionPicture.Width:=292;
-      FCWinMain.SP_FrameRegionPicture.Height:=99;
-      FCWinMain.SP_FrameRegionPicture.Left:=FCWinMain.SP_FrameLeftNOTDESIGNED.Left+FCWinMain.SP_FrameLeftNOTDESIGNED.Width;
-      FCWinMain.SP_FrameRegionPicture.Top:=FCWinMain.SP_FrameLeftNOTDESIGNED.Top;
-      FCWinMain.SP_FRP_Picture.Width:=FCWinMain.SP_FrameRegionPicture.Width-2;
-      FCWinMain.SP_FRP_Picture.Height:=FCWinMain.SP_FrameRegionPicture.Height-3;
-      FCWinMain.SP_FRP_Picture.Left:=1;
-      FCWinMain.SP_FRP_Picture.Top:=2;
-      {.surface panel - right data}
-      FCWinMain.SP_FrameRightResources.Width:=FCWinMain.SP_FrameLeftNOTDESIGNED.Width;
-      FCWinMain.SP_FrameRightResources.Height:=FCWinMain.SP_FrameLeftNOTDESIGNED.Height;
-      FCWinMain.SP_FrameRightResources.Left:=FCWinMain.SP_FrameRegionPicture.Left+FCWinMain.SP_FrameRegionPicture.Width;
-      FCWinMain.SP_FrameRightResources.Top:=FCWinMain.SP_FrameRegionPicture.Top;
-      {.surface panel - region sheet}
-      FCWinMain.SP_RegionSheet.Width:=FCWinMain.MVG_SurfacePanel.Width-FCWinMain.SP_EcosphereSheet.Width-FCWinMain.SP_SurfaceDisplay.Width-4;//270;
-      FCWinMain.SP_RegionSheet.Height:=FCWinMain.SP_EcosphereSheet.Height;
-      FCWinMain.SP_RegionSheet.Left:=FCWinMain.SP_SurfaceDisplay.Left+FCWinMain.SP_SurfaceDisplay.Width+1;
-      FCWinMain.SP_RegionSheet.Top:=FCWinMain.SP_EcosphereSheet.Top;
-      {.surface panel - resources survey}
-      FCWinMain.SP_ResourceSurveyCommit.Width:=FCWinMain.SP_RegionSheet.Width-16;
-      FCWinMain.SP_ResourceSurveyCommit.Height:=26;
-      FCWinMain.SP_ResourceSurveyCommit.Left:=FCWinMain.SP_RegionSheet.Left+8;
-      FCWinMain.SP_ResourceSurveyCommit.Top:=280;
+      FCMuiSP_Panel_InitElements;
       {.colony data panel}
       FCWinMain.FCWM_ColDPanel.Width:=1024;//784;
       FCWinMain.FCWM_ColDPanel.Height:=350;

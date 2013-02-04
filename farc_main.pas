@@ -332,7 +332,7 @@ type
     AP_MissionColonization: TAdvGlowButton;
     SP_ResourceSurveyCommit: TAdvGlowButton;
     MVG_PlanetarySurveyPanel: TAdvPanel;
-    HTMLabel2: THTMLabel;
+    PSP_Label: THTMLabel;
     HTMLCheckBox2: THTMLCheckBox;
     AdvGlowButton1: TAdvGlowButton;
     PSP_TypeOfExpedition: THTMLRadioGroup;
@@ -1616,6 +1616,12 @@ begin
          FCWinMain.FCWMS_Grp_MCG_SetName.Show;
       end;
       FCMuiMS_ColonizationInterface_UpdateRegionSelection(FCRmcCurrentMissionCalculations.CMC_regionOfDestination);
+   end
+   else if ( FCWinMain.FCWM_ColDPanel.Visible )
+      and ( FCFuiSP_VarIsResourcesSurveyOK_Get ) then
+   begin
+      FCMuiSP_SurfaceSelected_Update( true );
+      FCWinMain.SP_ResourceSurveyCommit.Show;
    end;
 end;
 

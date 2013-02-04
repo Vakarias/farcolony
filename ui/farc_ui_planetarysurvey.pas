@@ -31,7 +31,9 @@ unit farc_ui_planetarysurvey;
 interface
 
 uses
-   farc_data_game;
+   SysUtils
+
+   ,farc_data_game;
 
 //==END PUBLIC ENUM=========================================================================
 
@@ -70,8 +72,10 @@ procedure FCMuiPS_Panel_Show( const TypeOfSurvey: TFCEdgPlanetarySurveys );
 implementation
 
 uses
-   farc_data_textfiles
+   farc_data_html
+   ,farc_data_textfiles
    ,farc_main
+   ,farc_ui_surfpanel
    ,farc_ui_win;
 
 //==END PRIVATE ENUM========================================================================
@@ -95,8 +99,10 @@ procedure FCMuiPS_Panel_InitElements;
 begin
    FCWinMain.MVG_PlanetarySurveyPanel.Width:=350;
    FCWinMain.MVG_PlanetarySurveyPanel.Height:=500;
-   FCWinMain.PSP_TypeOfExpedition.Width:=FCWinMain.MVG_PlanetarySurveyPanel.Width-8;
-   FCWinMain.PSP_TypeOfExpedition.Height:=70;
+   FCWinMain.PSP_TypeOfExpedition.Width:=( FCWinMain.MVG_PlanetarySurveyPanel.Width shr 3 * 3 )-8;
+   FCWinMain.PSP_TypeOfExpedition.Height:=116;
+   FCWinMain.PSP_TypeOfExpedition.Left:=4;
+   FCWinMain.PSP_TypeOfExpedition.Top:=32;
 end;
 
 procedure FCMuiPS_Panel_InitFonts;
@@ -105,6 +111,7 @@ procedure FCMuiPS_Panel_InitFonts;
 }
 begin
    FCWinMain.MVG_PlanetarySurveyPanel.Caption.Font.Size:=FCFuiW_Font_GetSize(uiwPanelTitle);
+   FCWinMain.PSP_Label.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
    FCWinMain.PSP_TypeOfExpedition.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
 end;
 
@@ -135,6 +142,11 @@ begin
 
       psFeaturesArtifacts: FCWinMain.MVG_PlanetarySurveyPanel.Caption.Text:='<p align="center"><b>'+FCFdTFiles_UIStr_Get( uistrUI, 'psMainTitle' )+FCFdTFiles_UIStr_Get( uistrUI, 'psFeaturesArtifacts' );
    end;
+   FCWinMain.MVG_PlanetarySurveyPanel.Caption.Text:=FCWinMain.MVG_PlanetarySurveyPanel.Caption.Text+'  Region:'+inttostr( FCFuiSP_VarRegionSelected_Get );
+   FCWinMain.MVG_PlanetarySurveyPanel.Left:=FCWinMain.MVG_SurfacePanel.Left+FCWinMain.MVG_SurfacePanel.Width-FCWinMain.SP_RegionSheet.Width;
+   FCWinMain.MVG_PlanetarySurveyPanel.Top:=FCWinMain.MVG_SurfacePanel.Top;
+   FCWinMain.PSP_Label.HTMLText.Clear;
+   FCWinMain.PSP_Label.HTMLText.Add( FCCFdHeadC+'Set up An Expedition'+FCCFdHeadEnd );
    FCWinMain.MVG_PlanetarySurveyPanel.Show;
    FCWinMain.MVG_PlanetarySurveyPanel.BringToFront;
 end;

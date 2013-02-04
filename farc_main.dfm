@@ -3795,7 +3795,7 @@ object FCWinMain: TFCWinMain
       StatusBar.Font.Style = []
       URLColor = 14068651
       FullHeight = 0
-      object HTMLabel2: THTMLabel
+      object PSP_Label: THTMLabel
         Left = 1
         Top = 19
         Width = 782

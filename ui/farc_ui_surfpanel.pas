@@ -46,6 +46,12 @@ function FCFuiSP_VarCurrentOObj_Get: integer;
 function FCFuiSP_VarCurrentSat_Get: integer;
 
 ///<summary>
+///   retrieve the SPisResourcesSurveyOK variable value
+///</summary>
+///   <returns>SPisResourcesSurveyOK boolean value</returns>
+function FCFuiSP_VarIsResourcesSurveyOK_Get: boolean;
+
+///<summary>
 ///   retrieve the SPregionHovered variable value
 ///</summary>
 function FCFuiSP_VarRegionHovered_Get: integer;
@@ -56,6 +62,11 @@ function FCFuiSP_VarRegionHovered_Get: integer;
 function FCFuiSP_VarRegionSelected_Get: integer;
 
 //===========================END FUNCTIONS SECTION==========================================
+
+///<summary>
+///   init the elements (size and location) of the panel
+///</summary>
+procedure FCMuiSP_Panel_InitElements;
 
 ///<summary>
 ///   relocate the surface panel behind the colony panel
@@ -129,6 +140,8 @@ var
    ,SPregionSelected
    ,SPstoredPanelWidth
    ,SPstoredDataSheetLeft: integer;
+
+   SPisResourcesSurveyOK: boolean;
 
 //===================================================END OF INIT============================
 
@@ -492,6 +505,14 @@ begin
    Result:=SPcurrentSatIndex;
 end;
 
+function FCFuiSP_VarIsResourcesSurveyOK_Get: boolean;
+{:Purpose: retrieve the SPisResourcesSurveyOK variable value.
+    Additions:
+}
+begin
+   Result:=SPisResourcesSurveyOK;
+end;
+
 function FCFuiSP_VarRegionHovered_Get: integer;
 {:Purpose: retrieve the SPregionHovered variable value.
     Additions:
@@ -509,6 +530,60 @@ begin
 end;
 
 //===========================END FUNCTIONS SECTION==========================================
+
+procedure FCMuiSP_Panel_InitElements;
+{:Purpose: init the elements (size and location) of the panel.
+    Additions:
+}
+begin
+   FCWinMain.MVG_SurfacePanel.Width:=1024;//784;
+   FCWinMain.MVG_SurfacePanel.Height:=375;
+   FCWinMain.MVG_SurfacePanel.Left:=(FCWinMain.Width shr 1)-(FCWinMain.MVG_SurfacePanel.Width shr 1);
+   FCWinMain.MVG_SurfacePanel.Top:=(FCWinMain.Height shr 1)-(FCWinMain.MVG_SurfacePanel.Height shr 1);
+   FCWinMain.SP_AutoUpdateCheck.Width:=82;
+   FCWinMain.SP_AutoUpdateCheck.Left:=FCWinMain.MVG_SurfacePanel.Width-25-FCWinMain.SP_AutoUpdateCheck.Width;
+   FCWinMain.SP_AutoUpdateCheck.Top:=1;
+   {.surface panel - ecosphere sheet}
+   FCWinMain.SP_EcosphereSheet.Width:=260;
+   FCWinMain.SP_EcosphereSheet.Height:=FCWinMain.MVG_SurfacePanel.Height-19;
+   FCWinMain.SP_EcosphereSheet.Left:=1;
+   FCWinMain.SP_EcosphereSheet.Top:=19;
+   {.surface panel - surface hotspot}
+   FCWinMain.SP_SurfaceDisplay.Width:=512;
+   FCWinMain.SP_SurfaceDisplay.Height:=256;
+   FCWinMain.SP_SurfaceDisplay.Left:=FCWinMain.SP_EcosphereSheet.Left+FCWinMain.SP_EcosphereSheet.Width+1;
+   FCWinMain.SP_SurfaceDisplay.Top:=FCWinMain.SP_EcosphereSheet.Top;
+   {.surface panel - left data}
+   FCWinMain.SP_FrameLeftNOTDESIGNED.Width:=111;
+   FCWinMain.SP_FrameLeftNOTDESIGNED.Height:=99;
+   FCWinMain.SP_FrameLeftNOTDESIGNED.Left:=FCWinMain.SP_SurfaceDisplay.Left;
+   FCWinMain.SP_FrameLeftNOTDESIGNED.Top:=FCWinMain.SP_SurfaceDisplay.Top+FCWinMain.SP_SurfaceDisplay.Height+1;
+   {.surface panel - region picture}
+   FCWinMain.SP_FrameRegionPicture.Width:=292;
+   FCWinMain.SP_FrameRegionPicture.Height:=99;
+   FCWinMain.SP_FrameRegionPicture.Left:=FCWinMain.SP_FrameLeftNOTDESIGNED.Left+FCWinMain.SP_FrameLeftNOTDESIGNED.Width;
+   FCWinMain.SP_FrameRegionPicture.Top:=FCWinMain.SP_FrameLeftNOTDESIGNED.Top;
+   FCWinMain.SP_FRP_Picture.Width:=FCWinMain.SP_FrameRegionPicture.Width-2;
+   FCWinMain.SP_FRP_Picture.Height:=FCWinMain.SP_FrameRegionPicture.Height-3;
+   FCWinMain.SP_FRP_Picture.Left:=1;
+   FCWinMain.SP_FRP_Picture.Top:=2;
+   {.surface panel - right data}
+   FCWinMain.SP_FrameRightResources.Width:=FCWinMain.SP_FrameLeftNOTDESIGNED.Width;
+   FCWinMain.SP_FrameRightResources.Height:=FCWinMain.SP_FrameLeftNOTDESIGNED.Height;
+   FCWinMain.SP_FrameRightResources.Left:=FCWinMain.SP_FrameRegionPicture.Left+FCWinMain.SP_FrameRegionPicture.Width;
+   FCWinMain.SP_FrameRightResources.Top:=FCWinMain.SP_FrameRegionPicture.Top;
+   {.surface panel - region sheet}
+   FCWinMain.SP_RegionSheet.Width:=FCWinMain.MVG_SurfacePanel.Width-FCWinMain.SP_EcosphereSheet.Width-FCWinMain.SP_SurfaceDisplay.Width-4;//270;
+   FCWinMain.SP_RegionSheet.Height:=FCWinMain.SP_EcosphereSheet.Height;
+   FCWinMain.SP_RegionSheet.Left:=FCWinMain.SP_SurfaceDisplay.Left+FCWinMain.SP_SurfaceDisplay.Width+1;
+   FCWinMain.SP_RegionSheet.Top:=FCWinMain.SP_EcosphereSheet.Top;
+   {.surface panel - resources survey}
+   FCWinMain.SP_ResourceSurveyCommit.Width:=FCWinMain.SP_RegionSheet.Width-16;
+   FCWinMain.SP_ResourceSurveyCommit.Height:=26;
+   FCWinMain.SP_ResourceSurveyCommit.Left:=FCWinMain.SP_RegionSheet.Left+8;
+   FCWinMain.SP_ResourceSurveyCommit.Top:=310;
+end;
+
 
 procedure FCMuiSP_Panel_Relocate( const isMissionSettings: boolean );
 {:Purpose: relocate the surface panel behind the colony panel.
@@ -921,7 +996,8 @@ begin
    then
    begin
       FCWinMain.SP_RegionSheet.HTMLText.Clear;
-      FCWinMain.SP_ResourceSurveyCommit.Hide;
+      if not SPisResourcesSurveyOK
+      then FCWinMain.SP_ResourceSurveyCommit.Hide;
       {.terrain type}
       FCWinMain.SP_RegionSheet.HTMLText.Add(
          FCCFdHeadC+FCFdTFiles_UIStr_Get(uistrUI, 'secpTerrTp')+FCCFdHeadEnd
@@ -984,16 +1060,28 @@ begin
 
 
       if ( Test=0 )
-         and (Colony=0)
-      then FCWinMain.SP_RegionSheet.HTMLText.Add( '<img src="file://'+FCVdiPathResourceDir+'pics-ui-resources\cantSurvey.jpg" align="middle"><br>No resource spot is displayed because no survey has been made yet, and none can be applied until you found a colony on this orbital object.' )
+         and (Colony=0) then
+      begin
+         SPisResourcesSurveyOK:=false;
+         if FCWinMain.SP_ResourceSurveyCommit.Visible
+         then FCWinMain.SP_ResourceSurveyCommit.Hide;
+         FCWinMain.SP_RegionSheet.HTMLText.Add( '<img src="file://'+FCVdiPathResourceDir+'pics-ui-resources\cantSurvey.jpg" align="middle"><br>No resource spot is displayed because no survey has been made yet, and none can be applied until you found a colony on this orbital object.' );
+      end
       else if ( Test=0 )
          and (Colony>0) then
       begin
-         FCWinMain.SP_RegionSheet.HTMLText.Add( 'No resource spot is displayed because no survey has been made yet, click on the button below to setup a survey expedition.');
-         FCWinMain.SP_ResourceSurveyCommit.Show;
+         FCWinMain.SP_RegionSheet.HTMLText.Add( 'No resource spot is displayed because no survey has been made yet. Please click on the region where you want to apply a resource survey to, it will show a survey button below this text to let you able to setup an expedition.');
+         SPisResourcesSurveyOK:=true;
+         if SERUregIdx=SPregionSelected
+         then FCWinMain.SP_ResourceSurveyCommit.Show
+         else if SPregionSelected>0
+         then FCWinMain.SP_ResourceSurveyCommit.Show;
       end
       else if Test>0 then
       begin
+//         SPisResourcesSurveyOK:=false;
+         if FCWinMain.SP_ResourceSurveyCommit.Visible
+         then FCWinMain.SP_ResourceSurveyCommit.Hide;
          FCWinMain.SP_RegionSheet.HTMLText.Add( '<p align="left"><br>');
          Count:=1;
          Max:=length(FCVdgPlayer.P_surveyedResourceSpots[Test].SRS_surveyedRegions[SERUregIdx].SR_ResourceSpots)-1;
@@ -1024,6 +1112,7 @@ procedure FCMuiSP_SurfaceEcosphere_Set(
 {:Purpose: set and display the Surface / Ecosphere Panel.
 tags set: FCWM_SurfPanel=FCWM_SurfPanel.Width FCWM_SP_DataSheet:=FCWM_SP_DataSheet.Left
     Additions:
+      -2013Feb03- *add: SPisResourcesSurveyOK.
       -2013Jan27- *add: hide any resource icons.
       -2013Jan06- *add: initialization of SD_SurfaceSelected.
       -2012Jan08- *code: procedure moved in its proper unit.
@@ -1089,6 +1178,7 @@ begin
          SP_SD_SurfaceSelector.Left:=0;
          SP_SD_SurfaceSelector.Top:=0;
          FCMuiSP_SurfaceSelected_Update(false);
+         SPisResourcesSurveyOK:=false;
          if SESsatIdx=0
          then
          begin
@@ -1646,6 +1736,7 @@ begin
          SPcurrentOObjIndex:=0;
          SPcurrentSatIndex:=0;
          FCMuiSP_VarRegionHoveredSelected_Reset;
+         SPisResourcesSurveyOK:=false;
          SP_SurfaceDisplay.Enabled:=false;
          SP_SurfaceDisplay.HotSpots.Clear;
          SEScnt:=1;
