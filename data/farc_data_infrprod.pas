@@ -360,7 +360,7 @@ type TFCRdipProduct= record
          P_fScapabilityBiosphere: integer;
          P_fScapabilityFeaturesArtifacts: integer;
          P_fScrew: integer;
-         P_fvehicles:integer
+         P_fSvehicles:integer
          );
 
       pfWater:( P_fWpoints: integer );

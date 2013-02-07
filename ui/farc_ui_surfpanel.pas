@@ -134,6 +134,7 @@ uses
    ,farc_gfx_core
    ,farc_main
    ,farc_ogl_init
+   ,farc_survey_functions
    ,farc_univ_func;
 
 var
@@ -617,6 +618,8 @@ procedure FCMuiSP_RegionDataPicture_Update(
    );
 {:Purpose: update the region data and picture .
     Additions:
+      -2013Feb06- *add: for resources survey, the presence of survey vehicles or not is also tested.
+                  *fix: resource survey message is correctly displayed during a colonization mission.
       -2013Feb03- *fix: prevent to be able to setup a resource survey during a mission setup.
       -2013Jan29- *add: resources display.
       -2013Jan27- *code: remove a not needed with command.
@@ -651,6 +654,7 @@ var
    SERUdmpRelief: TFCEduRegionReliefs;
    SERUdmpTerrTp: TFCEduRegionSoilTypes;
 begin
+   Test:=0;
    SERUseason:=FCFuF_Ecosph_GetCurSeas(SPcurrentStarSys, SPcurrentStar, SPcurrentOObjIndex, SPcurrentSatIndex);
    SPregionHovered:=SERUregIdx;
    {.initialize required data}
@@ -1064,7 +1068,8 @@ begin
       {.resources display}
       FCWinMain.SP_RegionSheet.HTMLText.Add( FCCFdHeadC+FCFdTFiles_UIStr_Get(uistrUI, 'resourcespots')+FCCFdHeadEnd );
       if ( Test=0 )
-         and (Colony=0) then
+         and (Colony=0)
+         and ( not FCWinMain.FCWM_MissionSettings.Visible ) then
       begin
          SPisResourcesSurveyOK:=false;
          if FCWinMain.SP_ResourceSurveyCommit.Visible
@@ -1073,7 +1078,12 @@ begin
       end
       else if ( Test=0 )
          and ( Colony>0 )
-         and ( not FCWinMain.FCWM_MissionSettings.Visible ) then
+         and ( not FCWinMain.FCWM_MissionSettings.Visible )
+         and ( FCFsF_SurveyVehicles_Get(
+            0
+            ,Colony
+            ,false
+            ) >0 ) then
       begin
          FCWinMain.SP_RegionSheet.HTMLText.Add( 'No resource spot is displayed because no survey has been made yet. Please click on the region where you want to apply a resource survey to, it will show a survey button below this text to let you able to setup an expedition.');
          SPisResourcesSurveyOK:=true;
@@ -1106,7 +1116,9 @@ begin
             FCWinMain.SP_RegionSheet.HTMLText.Add( 'Use <b>'+inttostr(FCVdgPlayer.P_surveyedResourceSpots[Test].SRS_surveyedRegions[SERUregIdx].SR_ResourceSpots[Count].RS_spotSizeCurrent)+'/'+inttostr(FCVdgPlayer.P_surveyedResourceSpots[Test].SRS_surveyedRegions[SERUregIdx].SR_ResourceSpots[Count].RS_spotSizeMax)+'</b><br>' );
             inc( Count);
          end;
-      end;
+      end
+      else if not FCWinMain.FCWM_MissionSettings.Visible
+      then FCWinMain.SP_RegionSheet.HTMLText.Add( 'No resource survey can be applied because your colony hasn''t any survey vehicles available in its storage.' );
    end; //==END== if not SERUonlyPic ==//
 end;
 

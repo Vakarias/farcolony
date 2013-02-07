@@ -1113,7 +1113,7 @@ begin
                      FCDdipProducts[Count].P_fScapabilityBiosphere:=XMLProductItem.Attributes['capabBiosphere'];
                      FCDdipProducts[Count].P_fScapabilityFeaturesArtifacts:=XMLProductItem.Attributes['capabFeaturesArtifacts'];
                      FCDdipProducts[Count].P_fScrew:=XMLProductItem.Attributes['crew'];
-                     FCDdipProducts[Count].P_fvehicles:=XMLProductItem.Attributes['vehicles'];
+                     FCDdipProducts[Count].P_fSvehicles:=XMLProductItem.Attributes['vehicles'];
                   end;
 
                   pfWater: FCDdipProducts[Count].P_fWpoints:=XMLProductItem.Attributes['waterpoint'];

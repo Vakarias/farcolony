@@ -783,7 +783,7 @@ begin
    setlength(ICPclonedInfra.I_customEffectStructure, length(ICPclonedInfra.I_customEffectStructure)+1);
    ICPeffectIdx:=length(ICPclonedInfra.I_customEffectStructure)-1;
    ICPclonedInfra.I_customEffectStructure[ICPeffectIdx].ICFX_customEffect:=ceProductStorage;
-   ICPclonedInfra.I_customEffectStructure[ICPeffectIdx].ICFX_cePSstorageByLevel[FCDdgEntities[ICPent].E_colonies[ICPcol].C_settlements[ICPsettlement].S_infrastructures[ICPinfra].I_level].SBL_solid:=200;
+   ICPclonedInfra.I_customEffectStructure[ICPeffectIdx].ICFX_cePSstorageByLevel[FCDdgEntities[ICPent].E_colonies[ICPcol].C_settlements[ICPsettlement].S_infrastructures[ICPinfra].I_level].SBL_solid:=300;
    ICPclonedInfra.I_customEffectStructure[ICPeffectIdx].ICFX_cePSstorageByLevel[FCDdgEntities[ICPent].E_colonies[ICPcol].C_settlements[ICPsettlement].S_infrastructures[ICPinfra].I_level].SBL_liquid:=210;
    ICPclonedInfra.I_customEffectStructure[ICPeffectIdx].ICFX_cePSstorageByLevel[FCDdgEntities[ICPent].E_colonies[ICPcol].C_settlements[ICPsettlement].S_infrastructures[ICPinfra].I_level].SBL_gas:=30;
    ICPclonedInfra.I_customEffectStructure[ICPeffectIdx].ICFX_cePSstorageByLevel[FCDdgEntities[ICPent].E_colonies[ICPcol].C_settlements[ICPsettlement].S_infrastructures[ICPinfra].I_level].SBL_biologic:=30;
@@ -905,13 +905,13 @@ begin
       ,ICPcol
       ,false
       );
-//   FCFgC_Storage_Update(
-//      'equipScoutAutoRovers'
-//      ,2
-//      ,0
-//      ,ICPcol
-//      ,false
-//      );
+   FCFgC_Storage_Update(
+      'equipScoutAutoRovers'
+      ,2
+      ,0
+      ,ICPcol
+      ,false
+      );
    if ICPent=0
    then FCMuiCDD_Production_Update(
       plInfrastructuresInit
