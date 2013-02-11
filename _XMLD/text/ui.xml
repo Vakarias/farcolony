@@ -39,231 +39,77 @@
 -->
 <uitext>
    <!-- ********** ABOUT WINDOW ********** -->
-   <FCWA_Frm_CredsHead>
-      <EN>&#60;p align=&#34;left&#34;&#62;&#60;font size=&#34;11&#34; color=&#34;clwhite&#34;&#62;&#60;b&#62;CREDITS&#60;/b&#62;&#60;/font&#62;&#60;br&#62;</EN>
-      <FR>&#60;p align=&#34;left&#34;&#62;&#60;font size=&#34;11&#34; color=&#34;clwhite&#34;&#62;&#60;b&#62;CREDITS&#60;/b&#62;&#60;/font&#62;&#60;br&#62;</FR>
-      <SP>&#60;p align=&#34;left&#34;&#62;&#60;font size=&#34;11&#34; color=&#34;clwhite&#34;&#62;&#60;b&#62;CREDITOS&#60;/b&#62;&#60;/font&#62;&#60;br&#62;</SP>
-   </FCWA_Frm_CredsHead>
-   <FCWA_Frm_CredsAuth>
-      <EN>&#60;ul&#62;&#60;u&#62;Authors&#60;/u&#62;&#60;br&#62;&#60;li&#62;J.F. Baconnet  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Game Design, Programming and 3d&#60;/b&#62;&#60;/font&#62;)&#60;/ul&#62;</EN>
-      <FR>&#60;ul&#62;&#60;u&#62;Auteurs&#60;/u&#62;&#60;br&#62;&#60;li&#62;J.F. Baconnet  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Design de Jeu, Programmation et 3d&#60;/b&#62;&#60;/font&#62;)&#60;/ul&#62;</FR>
-      <SP>&#60;ul&#62;&#60;u&#62;Autores&#60;/u&#62;&#60;br&#62;&#60;li&#62;J.F. Baconnet  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Diseño del Juego, Programación y 3d&#60;/b&#62;&#60;/font&#62;)&#60;/ul&#62;</SP>
-   </FCWA_Frm_CredsAuth>
-   <FCWA_Frm_CredsSrcComp>
-      <EN>&#60;br&#62;&#60;ul&#62;&#60;u&#62;Sources Code and Components&#60;/u&#62;&#60;br&#62;&#60;li&#62;&#60;a href=&#34;http://www.dave.serveusers.com/&#34;&#62;Dave Gravel&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;.3ds Loader code&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;&#60;a href=&#34;http://glscene.sourceforge.net/wikka/HomePage&#34;&#62;GLScene&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;3D Framework&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;&#60;a href=&#34;http://graphics32.org/wiki/&#34;&#62;GR32&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;2D Library&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;&#60;a href=&#34;http://www.tmssoftware.com/site/&#34;&#62;TMS Software&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;User's Interface Components&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;&#60;a href=&#34;http://www.gtdelphicomponents.gr/&#34;&#62;Trifidis George&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;GT Threaded Timer&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;&#60;a href=&#34;http://imaginglib.sourceforge.net/&#34;&#62;Vampyre Imaging Library&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;2D Library&#60;/b&#62;&#60;/font&#62;)&#60;/ul&#62;</EN>
-      <FR>&#60;br&#62;&#60;ul&#62;&#60;u&#62;Codes Sources et Composants&#60;/u&#62;&#60;br&#62;&#60;li&#62;&#60;a href=&#34;http://www.dave.serveusers.com/&#34;&#62;Dave Gravel&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Code .3ds Loader&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;&#60;a href=&#34;http://glscene.sourceforge.net/wikka/HomePage&#34;&#62;GLScene&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Framework 3D&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;&#60;a href=&#34;http://graphics32.org/wiki/&#34;&#62;GR32&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Bibliothèque 2D&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;&#60;a href=&#34;http://www.tmssoftware.com/site/&#34;&#62;TMS Software&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Composants Interface Utilisateur&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;&#60;a href=&#34;http://www.gtdelphicomponents.gr/&#34;&#62;Trifidis George&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;GT Threaded Timer&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;&#60;a href=&#34;http://imaginglib.sourceforge.net/&#34;&#62;Vampyre Imaging Library&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Bibliothèque 2D&#60;/b&#62;&#60;/font&#62;)&#60;/ul&#62;</FR>
-      <SP>&#60;br&#62;&#60;ul&#62;&#60;u&#62;Código Fuente y Componentes&#60;/u&#62;&#60;br&#62;&#60;li&#62;&#60;a href=&#34;http://www.dave.serveusers.com/&#34;&#62;Dave Gravel&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Cargador de código .3ds &#60;/b&#62;&#60;/font&#62;)&#60;li&#62;&#60;a href=&#34;http://glscene.sourceforge.net/wikka/HomePage&#34;&#62;GLScene&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Framework 3D&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;&#60;a href=&#34;http://graphics32.org/wiki/&#34;&#62;GR32&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Librería 2D&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;&#60;a href=&#34;http://www.tmssoftware.com/site/&#34;&#62;TMS Software&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Componentes de la Interfaz de Usuario&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;&#60;a href=&#34;http://www.gtdelphicomponents.gr/&#34;&#62;Trifidis George&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;GT Threaded Timer&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;&#60;a href=&#34;http://imaginglib.sourceforge.net/&#34;&#62;Vampyre Imaging Library&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Librería 2D&#60;/b&#62;&#60;/font&#62;)&#60;/ul&#62;</SP>
-   </FCWA_Frm_CredsSrcComp>
-   <FCWA_Frm_CredsContrib>
-      <EN>&#60;br&#62;&#60;ul&#62;&#60;u&#62;Contributions&#60;/u&#62;&#60;br&#62;&#60;li&#62;&#60;a href=&#34;http://www.robotconstruct.com/&#34;&#62;Forgebot&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Ambient Tunes&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;Eric Alain (rikoal)  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Background Graphics&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;Ratimir Rakuljic (ratko)  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Background Graphics&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;Alejandro Ramos Gonzalez (nenexulo22)  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Spanish Translation&#60;/b&#62;&#60;/font&#62;)&#60;/ul&#62;</EN>
-      <FR>&#60;br&#62;&#60;ul&#62;&#60;u&#62;Contributions&#60;/u&#62;&#60;br&#62;&#60;li&#62;&#60;a href=&#34;http://www.robotconstruct.com/&#34;&#62;Forgebot&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Musiques Ambiantes&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;Eric Alain (rikoal)  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Graphiques de Fond&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;Ratimir Rakuljic (ratko)  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Graphiques de Fond&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;Alejandro Ramos Gonzalez (nenexulo22)  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Traduction Espagnole&#60;/b&#62;&#60;/font&#62;)&#60;/ul&#62;</FR>
-      <SP>&#60;br&#62;&#60;ul&#62;&#60;u&#62;Contribuciones&#60;/u&#62;&#60;br&#62;&#60;li&#62;&#60;a href=&#34;http://www.robotconstruct.com/&#34;&#62;Forgebot&#60;/a&#62;  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Músicas Ambientes&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;Eric Alain (rikoal)  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Gráficos de Fondo&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;Ratimir Rakuljic (ratko)  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Gráficos de Fondo&#60;/b&#62;&#60;/font&#62;)&#60;li&#62;Alejandro Ramos Gonzalez (nenexulo22)  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Traducción Española&#60;/b&#62;&#60;/font&#62;)&#60;/ul&#62;</SP>
-   </FCWA_Frm_CredsContrib>
+   <CC0>
+      <EN>Creative Common CC0 license</EN>
+      <FR>licence Creative Common CC0</FR>
+      <SP>licencia Creative Common CC0</SP>
+   </CC0>
+   <CCBy>
+      <EN>Creative Common CC BY license</EN>
+      <FR>licence Creative Common CC BY</FR>
+      <SP>licencia Creative Common CC BY</SP>
+   </CCBy>
+   <CCByNCSA>
+      <EN>Creative Common CC BY-NC-SA license</EN>
+      <EN>licence Creative Common CC BY-NC-SA</EN>
+      <EN>licencia Creative Common CC BY-NC-SA</EN>
+   </CCByNCSA>
+   <CCBySA>
+      <EN>Creative Common CC BY-SA license</EN>
+      <FR>licence Creative Common CC BY-SA</FR>
+      <SP>licencia Creative Common CC BY-SA</SP>
+   </CCBySA>
+   <DomPub>
+      <EN>Public Domain license</EN>
+      <FR>licence Domaine Publique</FR>
+      <SP>licencia Dominio Público</SP>
+   </DomPub>
+   <FFNCU>
+      <EN>Free For Non Commercial Use</EN>
+      <FR>Gratuit Pour Usage Non Commercial</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </FFNCU>
+   <GPL3>
+      <EN>GNU General Public GPL v3 license</EN>
+      <FR>licence GNU General Public GPL v3</FR>
+      <SP>licencia GNU General Public GPL v3</SP>
+   </GPL3>
+   <WTFPL>
+      <EN>do What The Fuck you want to Public License</EN>
+      <FR>do What The Fuck you want to Public License</FR>
+      <SP>do What The Fuck you want to Public License</SP>
+   </WTFPL>
    <FCWA_Frm_CredsOthrSrc>
       <EN>
          &#60;br&#62;&#60;ul&#62;&#60;u&#62;Other Sources&#60;/u&#62;
-         &#60;br&#62;&#60;li&#62;Dave McDonald  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Texture&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
-         &#60;ul&#62;&#60;li&#62;NeptuneCold.jpg
-         &#60;/ul&#62;&#60;/font&#62;
-         &#60;li&#62;John M.Dollan  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Texture&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
-         &#60;ul&#62;&#60;li&#62;SuperGiantCold.jpg (from Sanche)&#60;/ul&#62;&#60;/font&#62;
-         &#60;li&#62;John Van Vliet  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Textures&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
-         &#60;ul&#62;&#60;li&#62;CallistoH3.jpg
-         &#60;li&#62;Europa.jpg
-         &#60;li&#62;JovianCold.jpg
-         &#60;li&#62;SatIo.jpg
-         &#60;/ul&#62;&#60;/font&#62;
-         &#60;li&#62;milosz1987_87.o2.pl  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Textures&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
-         &#60;ul&#62;&#60;li&#62;SatCallistoH3.jpg
-         &#60;li&#62;UranusHot.jpg
-         &#60;/ul&#62;&#60;/font&#62;
-         &#60;li&#62;NASA JPL  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Textures&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
-         &#60;ul&#62;&#60;li&#62;CallistoH4.jpg
-         &#60;li&#62;MercuryH0.jpg
-         &#60;li&#62;MercuryH3.jpg
-         &#60;li&#62;MercuryH4.jpg
-         &#60;li&#62;Pluto.jpg
-         &#60;li&#62;SatCallistoH4.jpg
-         &#60;li&#62;SatEuropa.jpg
-         &#60;li&#62;SatLunar.jpg
-         &#60;li&#62;SaturnCold.jpg
-         &#60;li&#62;UranusCold.jpg
-         &#60;/ul&#62;&#60;/font&#62;
-         &#60;li&#62;Rob Sanders  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Textures&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
-         &#60;ul&#62;&#60;li&#62;aster_metal.jpg
-         &#60;li&#62;aster_icy.jpg
-         &#60;li&#62;JovianHot.jpg
-         &#60;li&#62;SaturnHot.jpg
-         &#60;/ul&#62;&#60;/font&#62;
-         &#60;li&#62;Shcuf  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Textures&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
-         &#60;ul&#62;&#60;li&#62;NeptuneHot.jpg
-         &#60;li&#62;SatLunarCold.jpg
-         &#60;/ul&#62;&#60;/font&#62;
-         &#60;li&#62;SolCommand  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;3d Object: spacecraft&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
-         &#60;ul&#62;&#60;li&#62;scis001.3ds (from Eris)&#60;/ul&#62;&#60;/font&#62;
-         &#60;li&#62;Steve Bowers  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Texture&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
-         &#60;ul&#62;&#60;li&#62;SuperGiantHot.jpg (from greenbrowngasgiant)
-         &#60;/ul&#62;&#60;/font&#62;
-         &#60;li&#62;tornadorip1984.yahoo.com  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Texture&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
-         &#60;ul&#62;&#60;li&#62;SatPluto.jpg&#60;/ul&#62;&#60;/font&#62;
-         &#60;li&#62;Brightmix - CC0 LICENSE  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Pictures&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
-         &#60;ul&#62;&#60;li&#62;infrastatus_destroyed16.jpg
-         &#60;li&#62;infrastatus_disabled16.jpg
-         &#60;li&#62;infrastatus_inCAB16.jpg
-         &#60;li&#62;infrastatus_intransition16.jpg
-         &#60;li&#62;infrastatus_operational16.jpg&#60;/ul&#62;&#60;/font&#62;
-         &#60;/ul&#62;</EN>
+         </EN>
       <FR>
          &#60;br&#62;&#60;ul&#62;&#60;u&#62;Autres Sources&#60;/u&#62;
-         &#60;br&#62;&#60;li&#62;Dave McDonald  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Texture&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
-         &#60;ul&#62;&#60;li&#62;NeptuneCold.jpg
-         &#60;/ul&#62;&#60;/font&#62;
-         &#60;li&#62;John M.Dollan  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Texture&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
-         &#60;ul&#62;&#60;li&#62;SuperGiantCold.jpg (Venant de Sanche)&#60;/ul&#62;&#60;/font&#62;
-         &#60;li&#62;John Van Vliet  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Textures&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
-         &#60;ul&#62;&#60;li&#62;CallistoH3.jpg
-         &#60;li&#62;Europa.jpg
-         &#60;li&#62;JovianCold.jpg
-         &#60;li&#62;SatIo.jpg
-         &#60;/ul&#62;&#60;/font&#62;
-         &#60;li&#62;milosz1987_87@o2.pl  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Textures&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
-         &#60;ul&#62;&#60;li&#62;SatCallistoH3.jpg
-         &#60;li&#62;UranusHot.jpg
-         &#60;/ul&#62;&#60;/font&#62;
-         &#60;li&#62;NASA JPL  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Textures&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
-         &#60;ul&#62;&#60;li&#62;CallistoH4.jpg
-         &#60;li&#62;MercuryH0.jpg
-         &#60;li&#62;MercuryH3.jpg
-         &#60;li&#62;MercuryH4.jpg
-         &#60;li&#62;Pluto.jpg
-         &#60;li&#62;SatCallistoH4.jpg
-         &#60;li&#62;SatEuropa.jpg
-         &#60;li&#62;SatLunar.jpg
-         &#60;li&#62;SaturnCold.jpg
-         &#60;li&#62;UranusCold.jpg
-         &#60;/ul&#62;&#60;/font&#62;
-         &#60;li&#62;Rob Sanders  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Textures&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
-         &#60;ul&#62;&#60;li&#62;aster_metal.jpg
-         &#60;li&#62;aster_icy.jpg
-         &#60;li&#62;JovianHot.jpg
-         &#60;li&#62;SaturnHot.jpg
-         &#60;/ul&#62;&#60;/font&#62;
-         &#60;li&#62;Shcuf  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Textures&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
-         &#60;ul&#62;&#60;li&#62;NeptuneHot.jpg
-         &#60;li&#62;SatLunarCold.jpg
-         &#60;/ul&#62;&#60;/font&#62;
-         &#60;li&#62;SolCommand  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Objet 3d: vaisseau spatial&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
-         &#60;ul&#62;&#60;li&#62;scis001.3ds (venant d'Eris)&#60;/ul&#62;&#60;/font&#62;
-         &#60;li&#62;Steve Bowers  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Texture&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
-         &#60;ul&#62;&#60;li&#62;SuperGiantHot.jpg (venant de greenbrowngasgiant)
-         &#60;/ul&#62;&#60;/font&#62;
-         &#60;li&#62;tornadorip1984@yahoo.com  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Texture&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
-         &#60;ul&#62;&#60;li&#62;SatPluto.jpg&#60;/ul&#62;&#60;/font&#62;
-         &#60;li&#62;Brightmix (recolored by myself) CC0 LICENSE  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Pictures&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
-         &#60;ul&#62;&#60;li&#62;infrastatus_destroyed16.jpg&#60;
-         &#60;li&#62;infrastatus_disabled16.jpg&#60;
-         &#60;li&#62;infrastatus_inCAB16.jpg&#60;
-         &#60;li&#62;infrastatus_intransition16.jpg&#60;
-         &#60;li&#62;infrastatus_operational16.jpg&#60;/ul&#62;&#60;/font&#62;
-         &#60;/ul&#62;</FR>
+         </FR>
       <SP>
          &#60;br&#62;&#60;ul&#62;&#60;u&#62;Otros orígenes&#60;/u&#62;
-         &#60;br&#62;&#60;li&#62;Dave McDonald  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Texture&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
-         &#60;ul&#62;&#60;li&#62;NeptuneCold.jpg
-         &#60;/ul&#62;&#60;/font&#62;
-         &#60;li&#62;John M.Dollan  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Texture&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
-         &#60;ul&#62;&#60;li&#62;SuperGiantCold.jpg (Venant de Sanche)&#60;/ul&#62;&#60;/font&#62;
-         &#60;li&#62;John Van Vliet  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Textures&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
-         &#60;ul&#62;&#60;li&#62;CallistoH3.jpg
-         &#60;li&#62;Europa.jpg
-         &#60;li&#62;JovianCold.jpg
-         &#60;li&#62;SatIo.jpg
-         &#60;/ul&#62;&#60;/font&#62;
-         &#60;li&#62;milosz1987_87@o2.pl  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Textures&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
-         &#60;ul&#62;&#60;li&#62;SatCallistoH3.jpg
-         &#60;li&#62;UranusHot.jpg
-         &#60;/ul&#62;&#60;/font&#62;
-         &#60;li&#62;NASA JPL  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Textures&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
-         &#60;ul&#62;&#60;li&#62;CallistoH4.jpg
-         &#60;li&#62;MercuryH0.jpg
-         &#60;li&#62;MercuryH3.jpg
-         &#60;li&#62;MercuryH4.jpg
-         &#60;li&#62;Pluto.jpg
-         &#60;li&#62;SatCallistoH4.jpg
-         &#60;li&#62;SatEuropa.jpg
-         &#60;li&#62;SatLunar.jpg
-         &#60;li&#62;SaturnCold.jpg
-         &#60;li&#62;UranusCold.jpg
-         &#60;/ul&#62;&#60;/font&#62;
-         &#60;li&#62;Rob Sanders  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Textures&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
-         &#60;ul&#62;&#60;li&#62;aster_metal.jpg
-         &#60;li&#62;aster_icy.jpg
-         &#60;li&#62;JovianHot.jpg
-         &#60;li&#62;SaturnHot.jpg
-         &#60;/ul&#62;&#60;/font&#62;
-         &#60;li&#62;Shcuf  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Textures&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
-         &#60;ul&#62;&#60;li&#62;NeptuneHot.jpg
-         &#60;li&#62;SatLunarCold.jpg
-         &#60;/ul&#62;&#60;/font&#62;
-         &#60;li&#62;SolCommand  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Objet 3d: vaisseau spatial&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
-         &#60;ul&#62;&#60;li&#62;scis001.3ds (venant d'Eris)&#60;/ul&#62;&#60;/font&#62;
-         &#60;li&#62;Steve Bowers  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Texture&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
-         &#60;ul&#62;&#60;li&#62;SuperGiantHot.jpg (venant de greenbrowngasgiant)
-         &#60;/ul&#62;&#60;/font&#62;
-         &#60;li&#62;tornadorip1984@yahoo.com  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Texture&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
-         &#60;ul&#62;&#60;li&#62;SatPluto.jpg&#60;/ul&#62;&#60;/font&#62;
-         &#60;li&#62;Brightmix (recolored by myself) CC0 LICENSE  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Pictures&#60;/b&#62;&#60;/font&#62;)&#60;font color=&#34;clyellow&#34;&#62;
-         &#60;ul&#62;&#60;li&#62;infrastatus_destroyed16.jpg&#60;
-         &#60;li&#62;infrastatus_disabled16.jpg&#60;
-         &#60;li&#62;infrastatus_inCAB16.jpg&#60;
-         &#60;li&#62;infrastatus_intransition16.jpg&#60;
-         &#60;li&#62;infrastatus_operational16.jpg&#60;/ul&#62;&#60;/font&#62;
-         &#60;/ul&#62;</SP>
+         </SP>
    </FCWA_Frm_CredsOthrSrc>
-   <FCWA_Frm_CredsInspSrc>
-      <EN>
-         &#60;br&#62;&#60;ul&#62;&#60;u&#62;Inspiration Sources&#60;/u&#62;&#60;br&#62;
-         &#60;li&#62;2001 A Space Odyssey  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Movie&#60;/b&#62;&#60;/font&#62;)
-         &#60;li&#62;Advanced Automation for Space Missions  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Book&#60;/b&#62;&#60;/font&#62;)
-         &#60;li&#62;Islands in the Sky  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Book&#60;/b&#62;&#60;/font&#62;)
-         &#60;li&#62;Planètes &#38; Satellites  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Book&#60;/b&#62;&#60;/font&#62;)
-         &#60;li&#62;SpaceMaster  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;RPG&#60;/b&#62;&#60;/font&#62;)
-         &#60;li&#62;The High Frontier  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Book&#60;/b&#62;&#60;/font&#62;)
-         &#60;li&#62;The Hydrogen Economy  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Book&#60;/b&#62;&#60;/font&#62;)
-         &#60;li&#62;Transhuman Space  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;RPG&#60;/b&#62;&#60;/font&#62;)
-         &#60;li&#62;Traveller, MegaTraveller  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;RPG&#60;/b&#62;&#60;/font&#62;)
-         &#60;/ul&#62;</EN>
-      <FR>
-         &#60;br&#62;&#60;ul&#62;&#60;u&#62;Sources d'Inspiration&#60;/u&#62;&#60;br&#62;
-         &#60;li&#62;2001 A Space Odyssey  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Film&#60;/b&#62;&#60;/font&#62;)
-         &#60;li&#62;Advanced Automation for Space Missions  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Livre&#60;/b&#62;&#60;/font&#62;)
-         &#60;li&#62;Islands in the Sky  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Livre&#60;/b&#62;&#60;/font&#62;)
-         &#60;li&#62;Planètes &#38; Satellites  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Livre&#60;/b&#62;&#60;/font&#62;)
-         &#60;li&#62;SpaceMaster  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;JDR&#60;/b&#62;&#60;/font&#62;)
-         &#60;li&#62;The High Frontier  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Livre&#60;/b&#62;&#60;/font&#62;)
-         &#60;li&#62;The Hydrogen Economy  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Livre&#60;/b&#62;&#60;/font&#62;)
-         &#60;li&#62;Transhuman Space  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;JDR&#60;/b&#62;&#60;/font&#62;)
-         &#60;li&#62;Traveller, MegaTraveller  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;JDR&#60;/b&#62;&#60;/font&#62;)
-         &#60;/ul&#62;</FR>
-      <SP>
-         &#60;br&#62;&#60;ul&#62;&#60;u&#62;Orígenes de Inspiración&#60;/u&#62;&#60;br&#62;
-         &#60;li&#62;2001 A Space Odyssey  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Pelicula&#60;/b&#62;&#60;/font&#62;)
-         &#60;li&#62;Advanced Automation for Space Missions  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Libro&#60;/b&#62;&#60;/font&#62;)
-         &#60;li&#62;Islands in the Sky  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Libro&#60;/b&#62;&#60;/font&#62;)
-         &#60;li&#62;Planètes &#38; Satellites  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Libro&#60;/b&#62;&#60;/font&#62;)
-         &#60;li&#62;SpaceMaster  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Revista&#60;/b&#62;&#60;/font&#62;)
-         &#60;li&#62;The High Frontier  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Libro&#60;/b&#62;&#60;/font&#62;)
-         &#60;li&#62;The Hydrogen Economy  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Libro&#60;/b&#62;&#60;/font&#62;)
-         &#60;li&#62;Transhuman Space  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Revista&#60;/b&#62;&#60;/font&#62;)
-         &#60;li&#62;Traveller, MegaTraveller  (&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Revista&#60;/b&#62;&#60;/font&#62;)
-         &#60;/ul&#62;</SP>
-   </FCWA_Frm_CredsInspSrc>
-   <FCWA_Frm_Header>
-      <EN>
-         &#60;br&#62;&#60;p align=&#34;center&#34;&#62;&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;®2009-2012 J.F.Baconnet&#60;/b&#62;&#60;/font&#62;&#60;/p&#62;License: GPLv3&#60;br&#62;&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Website  &#60;/b&#62;&#60;/font&#62;&#60;a href=&#34;http://farcolony.sourceforge.net/&#34;&#62;http://farcolony.sourceforge.net/&#60;/a&#62;&#60;br&#62;&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Project Page  &#60;/b&#62;&#60;/font&#62;&#60;a href=&#34;http://sourceforge.net/projects/farcolony&#34;&#62;http://sourceforge.net/projects/farcolony&#60;/a&#62;</EN>
-      <FR>&#60;br&#62;&#60;p align=&#34;center&#34;&#62;&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;®2009-2012 J.F.Baconnet&#60;/b&#62;&#60;/font&#62;&#60;/p&#62;License: GPLv3&#60;br&#62;&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Site Web  &#60;/b&#62;&#60;/font&#62;&#60;a href=&#34;http://farcolony.sourceforge.net/&#34;&#62;http://farcolony.sourceforge.net/&#60;/a&#62;&#60;br&#62;&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Page du Project  &#60;/b&#62;&#60;/font&#62;&#60;a href=&#34;http://sourceforge.net/projects/farcolony&#34;&#62;http://sourceforge.net/projects/farcolony&#60;/a&#62;</FR>
-      <SP>&#60;br&#62;&#60;p align=&#34;center&#34;&#62;&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;®2009-2012 J.F.Baconnet&#60;/b&#62;&#60;/font&#62;&#60;/p&#62;Licencia: GPLv3&#60;br&#62;&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Página Web  &#60;/b&#62;&#60;/font&#62;&#60;a href=&#34;http://farcolony.sourceforge.net/&#34;&#62;http://farcolony.sourceforge.net/&#60;/a&#62;&#60;br&#62;&#60;font color=&#34;clwhite&#34;&#62;&#60;b&#62;Página del proyecto  &#60;/b&#62;&#60;/font&#62;&#60;a href=&#34;http://sourceforge.net/projects/farcolony&#34;&#62;http://sourceforge.net/projects/farcolony&#60;/a&#62;</SP>
-   </FCWA_Frm_Header>
+   <aboutCredits>
+      <EN>Credits</EN>
+      <FR>Crédits</FR>
+      <SP>Créditos</SP>
+   </aboutCredits>
+   <aboutheader1>
+      <EN>®2009-2012 J.F.Baconnet - Code is under license GPLv3</EN>
+      <FR>®2009-2012 J.F.Baconnet - Le Code est sous license GPLv3</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </aboutheader1>
+   <aboutheader2>
+      <EN>Website: </EN>
+      <FR>Site Web: </FR>
+      <SP>!TO TRANSLATE!</SP>
+   </aboutheader2>
+   <aboutheader3>
+      <EN>Project Page: </EN>
+      <FR>Page de Projet: </FR>
+      <SP>!TO TRANSLATE!</SP>
+   </aboutheader3>
    <!-- ********** ACRONYMS ********** -->
    <acronAU>
       <EN>AU</EN>

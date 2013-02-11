@@ -120,7 +120,8 @@ uses
   farc_spm_memes in 'spm\farc_spm_memes.pas',
   farc_ui_planetarysurvey in 'ui\farc_ui_planetarysurvey.pas',
   farc_survey_functions in 'survey\farc_survey_functions.pas',
-  farc_data_planetarysurvey in 'data\farc_data_planetarysurvey.pas';
+  farc_data_planetarysurvey in 'data\farc_data_planetarysurvey.pas',
+  farc_ui_about in 'ui\farc_ui_about.pas';
 
 {$R *.res}
 

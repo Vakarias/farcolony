@@ -21,16 +21,15 @@ object FCWinAbout: TFCWinAbout
   OnClose = FormClose
   OnCreate = FormCreate
   OnKeyDown = FormKeyDown
-  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 15
-  object FCWA_Frame: TAdvGroupBox
+  object WA_Frame: TAdvGroupBox
     Left = 0
     Top = 0
     Width = 465
     Height = 343
     Align = alClient
-    Caption = 'FCWA_Frame'
+    Caption = 'WA_Frame'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWhite
     Font.Height = -13
@@ -38,7 +37,7 @@ object FCWinAbout: TFCWinAbout
     Font.Style = []
     ParentFont = False
     TabOrder = 0
-    object FCWA_Frm_Header: THTMLabel
+    object F_Header: THTMLabel
       Left = 2
       Top = 18
       Width = 461
@@ -58,29 +57,39 @@ object FCWinAbout: TFCWinAbout
       URLColor = 14068651
       Version = '1.8.1.0'
     end
-    object FCWA_Frm_Creds: THTMLCredit
+    object F_Credits: THTMLTreeview
       Left = 2
-      Top = 220
+      Top = 78
       Width = 461
-      Height = 121
+      Height = 263
+      ControlStyle = csFlat
+      ControlColor = clSilver
+      ItemHeight = 18
+      SelectionColors.BorderColor = clNone
+      SelectionColors.ColorFrom = clBlack
+      SelectionColors.ColorTo = 7237230
+      SelectionFontColor = clSkyBlue
+      SelectionNFColor = clNone
+      SelectionNFFontColor = clBlack
+      URLColor = 14068651
+      OnAnchorClick = F_CreditsAnchorClick
       Align = alBottom
-      AutoScroll = True
+      HotTrack = True
+      RowSelect = True
+      BorderStyle = bsNone
       Color = clBlack
-      Font.Charset = DEFAULT_CHARSET
+      Font.Charset = ANSI_CHARSET
       Font.Color = 14803425
-      Font.Height = -13
+      Font.Height = -12
       Font.Name = 'FrancophilSans'
       Font.Style = []
-      HoverColor = clBlack
-      HoverFontColor = clSkyBlue
-      Loop = True
-      ParentColor = False
+      Indent = 19
       ParentFont = False
       TabOrder = 0
-      URLColor = 14068651
-      OnMouseLeave = FCWA_Frm_CredsMouseLeave
-      OnMouseEnter = FCWA_Frm_CredsMouseEnter
-      Version = '1.1.1.0'
+      OnKeyDown = F_CreditsKeyDown
+      Version = '1.2.1.0'
+      ExplicitTop = 36
+      ExplicitWidth = 305
     end
   end
 end

@@ -1,0 +1,155 @@
+﻿<!-- Credits Database -->
+<!-- 
+   
+-->
+
+<credits>
+   <code_design>
+      <author name="JF Baconnet (aka Farcodev)" contact="http://farcolony.blogspot.ca/">
+         <EN>Design and code of the game</EN>
+         <FR>Design et code du jeu</FR>
+         <SP>Diseño y programación del juego</SP>
+      </author>
+      <author name="Alejandro Ramos Gonzalez (aka nenexulo22)" contact="n/a">
+         <EN>Spanish translation</EN>
+         <FR>Traduction Espagnole</FR>
+         <SP>Traducción Española</SP>
+      </author>
+      <author name="Dave Gravel" contact="http://www.dave.serveusers.com/">
+         <EN>Third Party Component: 3D Studio loader</EN>
+         <FR>Composant Externe: loader 3D Studio</FR>
+         <SP>!TO TRANSLATE!</SP>
+      </author>
+      <author name="GLScene" contact="http://glscene.sourceforge.net/wikka/HomePage">
+         <EN>Third Party Component: OpenGL framework</EN>
+         <FR>Composant Externe: bibliothèque OpenGL</FR>
+         <SP>!TO TRANSLATE!</SP>
+      </author>
+      <author name="GR32" contact="http://graphics32.org/wiki/">
+         <EN>Third Party Component: Imaging Library</EN>
+         <FR>Composant Externe: bibliothèque d'imagerie</FR>
+         <SP>!TO TRANSLATE!</SP>
+      </author>
+      <author name="Marek Mauder" contact="http://imaginglib.sourceforge.net/">
+         <EN>Third Party Component: Vampyre Imaging Library</EN>
+         <FR>Composant Externe: Vampyre Imaging Library</FR>
+         <SP>!TO TRANSLATE!</SP>
+      </author>
+      <author name="TMS Software" contact="http://www.tmssoftware.com/site/">
+         <EN>Third Party Component: TMS Components Pack</EN>
+         <FR>Composant Externe: TMS Components Pack</FR>
+         <SP>!TO TRANSLATE!</SP>
+      </author>
+      <author name="Trifidis George" contact="http://www.gtdelphicomponents.gr/">
+         <EN>Third Party Component: GT Threaded Timer</EN>
+         <FR>Composant Externe: GT Threaded Timer</FR>
+         <SP>!TO TRANSLATE!</SP>
+      </author>
+   </code_design>
+   <assets2D>
+      <entry author="Brightmix" contact="http://www.brightmix.com/">
+         <entryfile license="" current="" original=""/>
+         <entryfile license="WTFPL" current="infrastatus_destroyed16.jpg" original="brightmixIconset_v02.png"/>
+         <entryfile license="WTFPL" current="infrastatus_disabled16.jpg" original="brightmixIconset_v02.png"/>
+         <entryfile license="WTFPL" current="infrastatus_inCAB16.jpg" original="brightmixIconset_v02.png"/>
+         <entryfile license="WTFPL" current="infrastatus_intransition16.jpg" original="brightmixIconset_v02.png"/>
+         <entryfile license="WTFPL" current="infrastatus_operational16.jpg" original="brightmixIconset_v02.png"/>
+      </entry>
+      <entry author="Dave McDonald" contact="dmgt350@aol.com">
+         <entryfile license="" current="" original=""/>
+         <entryfile license="FFNCU" current="NeptuneCold.jpg" original="neptune_current.jpg"/>
+      </entry>
+      <entry author="JF Baconnet (aka Farcodev)" contact="http://farcolony.blogspot.ca/">
+         <entryfile license="" current="" original=""/>
+         <entryfile license="CCByNCSA" current="_error_map.jpg" original="n/a"/>
+         <entryfile license="CCByNCSA" current="infraenergyicn.jpg" original="n/a"/>
+         <entryfile license="CCByNCSA" current="infrahousingicn.jpg" original="n/a"/>
+         <entryfile license="CCByNCSA" current="arrow.jpg" original="n/a"/>
+         <entryfile license="CCByNCSA" current="scis001_lst.jpg" original="n/a"/>
+         <entryfile license="CCByNCSA" current="scis002_lst.jpg" original="n/a"/>
+         <entryfile license="CCByNCSA" current="scis003_lst.jpg" original="n/a"/>
+         <entryfile license="CCByNCSA" current="spucapab_docking.jpg" original="n/a"/>
+         <entryfile license="CCByNCSA" current="pics-ui-terrain" original="n/a"/>
+      </entry>
+      <entry author="John M.Dollan" contact="">
+         <entryfile license="" current="" original=""/>
+         <entryfile license="FFNCU" current="SuperGiantCold.jpg" original="Sanche"/>
+      </entry>
+      <entry author="John Van Vliet" contact="">
+         <entryfile license="" current="" original=""/>
+         <entryfile license="FFNCU" current="CallistoH3.jpg" original="Callisto.png"/>
+         <entryfile license="FFNCU" current="Europa.jpg" original="Europa.png"/>
+         <entryfile license="FFNCU" current="JovianCold.jpg" original="Jupiter.png"/>
+         <entryfile license="FFNCU" current="SatIo.jpg" original="Io.png"/>
+      </entry>
+      <entry author="milosz1987_87.o2.pl" contact="milosz1987_87@o2.pl">
+         <entryfile license="" current="" original=""/>
+         <entryfile license="CCByNCSA" current="SatCallistoH3.jpg" original="Maximus.png"/>
+         <entryfile license="CCByNCSA" current="UranusHot.jpg" original="Apollo.png"/>
+      </entry>
+      <entry author="NASA JPL" contact="">
+         <entryfile license="" current="" original=""/>
+         <entryfile license="DomPub" current="MercuryH0.jpg" original=""/>
+         <entryfile license="DomPub" current="MercuryH3.jpg" original=""/>
+         <entryfile license="DomPub" current="MercuryH4.jpg" original=""/>
+         <entryfile license="DomPub" current="Pluto.jpg" original=""/>
+         <entryfile license="DomPub" current="SatCallistoH4.jpg" original=""/>
+         <entryfile license="DomPub" current="SatEuropa.jpg" original=""/>
+         <entryfile license="DomPub" current="SatLunar.jpg" original=""/>
+         <entryfile license="DomPub" current="SaturnCold.jpg" original=""/>
+         <entryfile license="DomPub" current="UranusCold.jpg" original=""/>
+      </entry>
+      <entry author="Ratimir Rakuljic (aka ratko)" contact="">
+      </entry>
+      <entry author="Rob Sanders" contact="">
+         <entryfile license="" current="" original=""/>
+         <entryfile license="n/a" current="aster_metal.jpg" original=""/>
+         <entryfile license="n/a" current="aster_icy.jpg" original=""/>
+         <entryfile license="n/a" current="JovianHot.jpg" original=""/>
+         <entryfile license="n/a" current="SaturnHot.jpg" original=""/>
+      </entry>
+      <entry author="Shcuf" contact="">
+         <entryfile license="" current="" original=""/>
+         <entryfile license="n/a" current="NeptuneHot.jpg" original=""/>
+         <entryfile license="n/a" current="SatLunarCold.jpg" original=""/>
+      </entry>
+      <entry author="Sigma" contact="spacesector.org">
+         <entryfile license="" current="" original=""/>
+         <entryfile license="CCBySA" current="gasfield32.jpg" original="gas1.bmp"/>
+         <entryfile license="CCBySA" current="hydrolocation32.jpg" original="hydrosphere.bmp"/>
+         <entryfile license="CCBySA" current="icyorefield32.jpg" original="ice ore block.bmp"/>
+         <entryfile license="CCBySA" current="orefield32.jpg" original="Test Icon_FARC02.bmp"/>
+         <entryfile license="CCBySA" current="undergroundwater32.jpg" original="underwater.bmp"/>
+      </entry>
+      <entry author="Steve Bowers" contact="">
+         <entryfile license="" current="" original=""/>
+         <entryfile license="n/a" current="SuperGiantHot.jpg" original="greenbrowngasgiant"/>
+      </entry>
+      <entry author="The Noun Project" contact="http://www.thenounproject.com/">
+         <entryfile license="" current="" original=""/>
+         <entryfile license="CCBy" current="resourceSurvey.jpg" original="Scenic-Viewpoint.png"/>
+         <entryfile license="CCBy" current="cantSurvey.jpg" original="No.png"/>
+      </entry>
+      <entry author="tornadorip1984.yahoo.com" contact="">
+         <entryfile license="" current="" original=""/>
+         <entryfile license="n/a" current="SatPluto.jpg" original=""/>
+      </entry>
+   </assets2D>
+   <assets3D>
+      <entry author="JF Baconnet (aka Farcodev)" contact="">
+      </entry>
+      <entry author="SolCommand" contact="">
+         <entryfile license="" current="" original=""/>
+         <entryfile license="n/a" current="scis001.3ds" original="Eris"/>
+      </entry>
+   </assets3D>
+   <assetsSound>
+   </assetsSound>
+   <assetsMusic>
+      <entry author="Forgebot" contact="http://www.robotconstruct.com/">
+         <entryfile license="" current="" original=""/>
+         <entryfile license="DomPub" current="not integrated yet" original=""/>
+      </entry>
+   </assetsMusic>
+</credits>
+

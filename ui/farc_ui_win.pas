@@ -168,6 +168,7 @@ uses
    ,farc_ogl_init
    ,farc_ogl_ui
    ,farc_spu_functions
+   ,farc_ui_about
    ,farc_ui_coldatapanel
    ,farc_ui_coredatadisplay
    ,farc_ui_msges
@@ -206,7 +207,7 @@ procedure FCMuiW_About_Close;
       -2010Apr06- *add: release the game if needed.
 }
 begin
-   FreeAndNil(FCWinAbout);
+//   FreeAndNil(FCWinAbout);
 //   FCWinAbout.Enabled:=false;
    if FCWinMain.WM_MainViewGroup.Tag=1 then
    begin
@@ -225,7 +226,7 @@ procedure FCMuiW_About_Raise;
                   window.
 }
 begin
-   if FCWinAbout=nil
+   if not Assigned( FCWinAbout )
    then  begin
    FCWinAbout:=TFCWinAbout.Create(Application);
       FCMuiW_UI_Initialize(mwupSecwinAbout);
@@ -776,24 +777,7 @@ begin
    //=======================================================================================
    {.this section concern only all texts of about window}
    if UIUtp=mwupTextWinAb
-   then
-   begin
-      {.main frame}
-      FCWinAbout.FCWA_Frame.Caption
-         :=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MMenu_H_About')+' FAR Colony '+FCFcF_FARCVersion_Get;
-      {.header}
-      FCWinAbout.FCWA_Frm_Header.HTMLText.Clear;
-      FCWinAbout.FCWA_Frm_Header.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI,'FCWA_Frm_Header'));
-      FCWinAbout.FCWA_Frm_Creds.HTMLText.Clear;
-      FCWinAbout.FCWA_Frm_Creds.HTMLText.Add(
-         FCFdTFiles_UIStr_Get(uistrUI,'FCWA_Frm_CredsHead')
-            +FCFdTFiles_UIStr_Get(uistrUI,'FCWA_Frm_CredsAuth')
-            +FCFdTFiles_UIStr_Get(uistrUI,'FCWA_Frm_CredsSrcComp')
-            +FCFdTFiles_UIStr_Get(uistrUI,'FCWA_Frm_CredsContrib')
-            +FCFdTFiles_UIStr_Get(uistrUI,'FCWA_Frm_CredsOthrSrc')
-            +FCFdTFiles_UIStr_Get(uistrUI,'FCWA_Frm_CredsInspSrc')
-         );
-   end;
+   then FCMuiA_Panel_InitText;
    //=======================================================================================
    {.this section concern only all texts of new game setup window}
    if UIUtp=mwupTextWinNGS
@@ -1051,17 +1035,7 @@ begin
    initialization/update}
    if (UIUtp=mwupSecwinAbout)
       and (FCVdiWinAboutAllowUpdate)
-   then
-   begin
-      FCWinAbout.Width:=400;
-      FCWinAbout.Height:=FCWinMain.Height shr 3*5;
-      FCWinAbout.Left:=FCWinMain.Left+UIUmainW2-(FCWinAbout.Width shr 1);
-      FCWinAbout.Top:=FCWinMain.Top+UIUmainH2-(FCWinAbout.Height shr 1);
-      {.header}
-      FCWinAbout.FCWA_Frm_Header.Height:=FCWinAbout.Height shr 3*2;
-      {.credits label}
-      FCWinAbout.FCWA_Frm_Creds.Height:=FCWinAbout.Height shr 3 *6;
-   end;
+   then FCMuiA_Panel_InitElements;
    //=======================================================================================
    {.this section concern all graphical elements of new game setup window w/o text
    initialization/update}
@@ -1344,11 +1318,11 @@ begin
    begin
       FCWinAbout.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
       {.frame}
-      FCWinAbout.FCWA_Frame.Font.Size:=FCFuiW_Font_GetSize(uiwGrpBox);
+      FCWinAbout.WA_Frame.Font.Size:=FCFuiW_Font_GetSize(uiwGrpBox);
       {.header}
-      FCWinAbout.FCWA_Frm_Header.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+      FCWinAbout.F_Header.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
       {.main section}
-      FCWinAbout.FCWA_Frm_Creds.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+      FCWinAbout.F_Credits.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
    end;
    {.for new game setup window}
    if ((UIUtp=mwupFontWinNGS) or (UIUtp=mwupFontAll))

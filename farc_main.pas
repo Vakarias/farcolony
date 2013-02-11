@@ -336,6 +336,7 @@ type
     AdvGlowButton1: TAdvGlowButton;
     PSP_TypeOfExpedition: THTMLRadioGroup;
     HTMLabel2: THTMLabel;
+    FCXMLtxtCredits: TXMLDocument;
 
       procedure FormCreate(Sender: TObject);
       procedure FormResize(Sender: TObject);
@@ -1812,8 +1813,10 @@ begin
    FCXMLdbProducts.Active:=false;
    FCXMLdbSCraft.Active:=false;
    FCXMLdbSPMi.Active:=false;
+   FCXMLdbTechnosciences.Active:=false;
    FCXMLdbUniv.Active:=false;
    FCXMLsave.Active:=false;
+   FCXMLtxtCredits.Active:=false;
    FCXMLtxtUI.Active:=false;
    FCXMLtxtEncy.Active:=false;
    {.free memory streams}

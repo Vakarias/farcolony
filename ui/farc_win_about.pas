@@ -35,27 +35,26 @@ uses
    Classes
    ,Controls
    ,Forms
+   ,ShellApi
    ,StdCtrls
+   ,Windows
 
    ,AdvGroupBox
    ,HTMLCredit
-   ,HTMLabel;
+   ,HTMLabel, ComCtrls, htmltv;
 
 type
   TFCWinAbout = class(TForm)
-    FCWA_Frame: TAdvGroupBox;
-    FCWA_Frm_Header: THTMLabel;
-    FCWA_Frm_Creds: THTMLCredit;
+    WA_Frame: TAdvGroupBox;
+    F_Header: THTMLabel;
+    F_Credits: THTMLTreeview;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
-    procedure FCWA_ButDownClick(Sender: TObject);
-    procedure FCWA_ButUpClick(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FCWA_ButUpKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FCWA_ButDownKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure FCWA_Frm_CredsMouseEnter(Sender: TObject);
-    procedure FCWA_Frm_CredsMouseLeave(Sender: TObject);
-    procedure FormShow(Sender: TObject);
+    procedure F_CreditsKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure F_CreditsAnchorClick(Sender: TObject; Node: TTreeNode; anchor: string);
   private
     { Private declarations }
   public
@@ -76,38 +75,15 @@ uses
 
 //===================================END OF INIT============================================
 
-procedure TFCWinAbout.FCWA_ButDownClick(Sender: TObject);
-var
-   i,
-   oldpos: integer;
-begin
-   FCWA_Frm_Creds.ScrollPosition:=FCWA_Frm_Creds.ScrollPosition-30;
-end;
-
 procedure TFCWinAbout.FCWA_ButDownKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
    FCMuiK_AboutWin_Test(Key, Shift);
 end;
 
-procedure TFCWinAbout.FCWA_ButUpClick(Sender: TObject);
-begin
-   FCWA_Frm_Creds.ScrollPosition:=FCWA_Frm_Creds.ScrollPosition+30;
-end;
-
 procedure TFCWinAbout.FCWA_ButUpKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
    FCMuiK_AboutWin_Test(Key, Shift);
-end;
-
-procedure TFCWinAbout.FCWA_Frm_CredsMouseEnter(Sender: TObject);
-begin
-   FCWA_Frm_Creds.AutoScroll:=false;
-end;
-
-procedure TFCWinAbout.FCWA_Frm_CredsMouseLeave(Sender: TObject);
-begin
-   FCWA_Frm_Creds.AutoScroll:=true;
 end;
 
 procedure TFCWinAbout.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -126,9 +102,15 @@ begin
    FCMuiK_AboutWin_Test(Key, Shift);
 end;
 
-procedure TFCWinAbout.FormShow(Sender: TObject);
+procedure TFCWinAbout.F_CreditsAnchorClick(Sender: TObject; Node: TTreeNode;
+  anchor: string);
 begin
-   FCWA_Frm_Creds.AutoScroll:=true;
+   ShellExecute(0, nil, PChar(String(anchor)), nil, nil, SW_SHOWNORMAL);
+end;
+
+procedure TFCWinAbout.F_CreditsKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+   FCMuiK_AboutWin_Test(Key, Shift);
 end;
 
 end.
