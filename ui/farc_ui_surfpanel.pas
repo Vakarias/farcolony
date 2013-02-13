@@ -1082,7 +1082,7 @@ begin
          and ( FCFsF_SurveyVehicles_Get(
             0
             ,Colony
-            ,false
+            ,true
             ) >0 ) then
       begin
          FCWinMain.SP_RegionSheet.HTMLText.Add( 'No resource spot is displayed because no survey has been made yet. Please click on the region where you want to apply a resource survey to, it will show a survey button below this text to let you able to setup an expedition.');

@@ -48,12 +48,12 @@ interface
 ///</summary>
 ///   <param name="Entity">entity index #</param>
 ///   <param name="Colony">colony index #</param>
-///   <param name="GenerateDetailedList">[true]=generate the detailed list in FCDsfSurveyVehicles</param>
+///   <param name="GetFirstTestOnly">[true]=stop at first positive test, doesn't generate the detailed list, [false]=generate the detailed list in FCDsfSurveyVehicles</param>
 ///   <returns>the # of different products that are survey vehicles</returns>
 ///   <remarks>FCDsfSurveyVehicles is reseted whatever the value of FCDsfSurveyVehicles</remarks>
 function FCFsF_SurveyVehicles_Get(
    const Entity, Colony: integer;
-   const GenerateDetailedList: boolean
+   const GetFirstTestOnly: boolean
    ): integer;
 
 //===========================END FUNCTIONS SECTION==========================================
@@ -81,10 +81,11 @@ uses
 
 function FCFsF_SurveyVehicles_Get(
    const Entity, Colony: integer;
-   const GenerateDetailedList: boolean
+   const GetFirstTestOnly: boolean
    ): integer;
 {:Purpose: generate a listing of available survey vehicles into a colony's storage.
     Additions:
+      -2013Feb12- *mod: the 3rd parameter to GetFirstTestOnly is changed and its code too.
 }
    var
       Count
@@ -103,23 +104,28 @@ begin
    begin
       ClonedProduct:=FCDdipProducts[FCFgP_Product_GetIndex( FCDdgEntities[Entity].E_colonies[Colony].C_storedProducts[Count].SP_token )];
       if ( ClonedProduct.P_function in [pfSurveyAir..pfSurveySwarmAntigrav] )
-         and ( FCDdgEntities[Entity].E_colonies[Colony].C_storedProducts[Count].SP_unit>0 ) then
+         and ( FCDdgEntities[Entity].E_colonies[Colony].C_storedProducts[Count].SP_unit>0 )
+         and ( GetFirstTestOnly ) then
       begin
          inc( VehiclesProducts );
-         if GenerateDetailedList then
-         begin
-            FCDsfSurveyVehicles[VehiclesProducts].SV_storageIndex:=Count;
-            FCDsfSurveyVehicles[VehiclesProducts].SV_storageUnits:=Trunc( FCDdgEntities[Entity].E_colonies[Colony].C_storedProducts[Count].SP_unit );
-            FCDsfSurveyVehicles[VehiclesProducts].SV_token:=FCDdgEntities[Entity].E_colonies[Colony].C_storedProducts[Count].SP_token;
-            FCDsfSurveyVehicles[VehiclesProducts].SV_function:=ClonedProduct.P_function;
-            FCDsfSurveyVehicles[VehiclesProducts].SV_speed:=ClonedProduct.P_fSspeed;
-            FCDsfSurveyVehicles[VehiclesProducts].SV_missionTime:=ClonedProduct.P_fSmissionTime;
-            FCDsfSurveyVehicles[VehiclesProducts].SV_capabilityResources:=ClonedProduct.P_fScapabilityResources;
-            FCDsfSurveyVehicles[VehiclesProducts].SV_capabilityBiosphere:=ClonedProduct.P_fScapabilityBiosphere;
-            FCDsfSurveyVehicles[VehiclesProducts].SV_capabilityFeaturesArtifacts:=ClonedProduct.P_fScapabilityFeaturesArtifacts;
-            FCDsfSurveyVehicles[VehiclesProducts].SV_crew:=ClonedProduct.P_fScrew;
-            FCDsfSurveyVehicles[VehiclesProducts].SV_numberOfVehicles:=ClonedProduct.P_fSvehicles;
-         end;
+         break;
+      end
+      else if ( ClonedProduct.P_function in [pfSurveyAir..pfSurveySwarmAntigrav] )
+         and ( FCDdgEntities[Entity].E_colonies[Colony].C_storedProducts[Count].SP_unit>0 )
+         and ( not GetFirstTestOnly ) then
+      begin
+         inc( VehiclesProducts );
+         FCDsfSurveyVehicles[VehiclesProducts].SV_storageIndex:=Count;
+         FCDsfSurveyVehicles[VehiclesProducts].SV_storageUnits:=Trunc( FCDdgEntities[Entity].E_colonies[Colony].C_storedProducts[Count].SP_unit );
+         FCDsfSurveyVehicles[VehiclesProducts].SV_token:=FCDdgEntities[Entity].E_colonies[Colony].C_storedProducts[Count].SP_token;
+         FCDsfSurveyVehicles[VehiclesProducts].SV_function:=ClonedProduct.P_function;
+         FCDsfSurveyVehicles[VehiclesProducts].SV_speed:=ClonedProduct.P_fSspeed;
+         FCDsfSurveyVehicles[VehiclesProducts].SV_missionTime:=ClonedProduct.P_fSmissionTime;
+         FCDsfSurveyVehicles[VehiclesProducts].SV_capabilityResources:=ClonedProduct.P_fScapabilityResources;
+         FCDsfSurveyVehicles[VehiclesProducts].SV_capabilityBiosphere:=ClonedProduct.P_fScapabilityBiosphere;
+         FCDsfSurveyVehicles[VehiclesProducts].SV_capabilityFeaturesArtifacts:=ClonedProduct.P_fScapabilityFeaturesArtifacts;
+         FCDsfSurveyVehicles[VehiclesProducts].SV_crew:=ClonedProduct.P_fScrew;
+         FCDsfSurveyVehicles[VehiclesProducts].SV_numberOfVehicles:=ClonedProduct.P_fSvehicles;
       end;
       inc( Count );
    end;
