@@ -49,6 +49,11 @@ uses
 //===========================END FUNCTIONS SECTION==========================================
 
 ///<summary>
+///   update the list of available vehicles according to the selected expedition type
+///</summary>
+procedure FCMuiPS_ExpeditionTypeSelect;
+
+///<summary>
 ///   init the elements (size and location) of the panel
 ///</summary>
 procedure FCMuiPS_Panel_InitElements;
@@ -69,21 +74,36 @@ procedure FCMuiPS_Panel_InitText;
 ///   <param name="TypeOfSurvey">configure the panel for a specified type of survey</param>
 procedure FCMuiPS_Panel_Show( const TypeOfSurvey: TFCEdgPlanetarySurveys );
 
+
+procedure FCMuiPS_VehiclesSetupBonus;
+
 implementation
 
 uses
    farc_data_html
+   ,farc_data_init
+   ,farc_data_infrprod
+   ,farc_data_planetarysurvey
    ,farc_data_textfiles
    ,farc_main
+   ,farc_survey_functions
+   ,farc_ui_coldatapanel
    ,farc_ui_surfpanel
-   ,farc_ui_win;
+   ,farc_ui_win
+   ,farc_win_debug;
 
 //==END PRIVATE ENUM========================================================================
+
+
 
 //==END PRIVATE RECORDS=====================================================================
 
    //==========subsection===================================================================
-//var
+var
+   PSvehiclesListMax: integer;
+
+   PScurrentProducts: array of integer;
+
 //==END PRIVATE VAR=========================================================================
 
 //const
@@ -92,9 +112,51 @@ uses
 //===================================================END OF INIT============================
 //===========================END FUNCTIONS SECTION==========================================
 
+procedure FCMuiPS_ExpeditionTypeSelect;
+{:Purpose: update the list of available vehicles according to the selected expedition type.
+    Additions:
+}
+   var
+      Count
+      ,CountProduct: integer;
+
+      CurrentFunction: TFCEdipProductFunctions;
+begin
+   CurrentFunction:=pfNone;
+   case FCWinMain.PSP_TypeOfExpedition.ItemIndex of
+      0: CurrentFunction:=pfSurveyGround;
+
+      1: CurrentFunction:=pfSurveyAir;
+
+      2: CurrentFunction:=pfSurveyAntigrav;
+
+      3: CurrentFunction:=pfSurveySwarmAntigrav;
+
+      4: CurrentFunction:=pfSurveySpace;
+   end;
+   FCWinMain.PSP_ProductsList.Items.Clear;
+   Count:=1;
+   CountProduct:=0;
+   while Count<=PSvehiclesListMax do
+   begin
+      if FCDsfSurveyVehicles[Count].SV_function=CurrentFunction then
+      begin
+         FCWinMain.PSP_ProductsList.Items.Add( nil, FCFdTFiles_UIStr_Get( uistrUI, FCDsfSurveyVehicles[Count].SV_token )
+         +'  (<a href="tesssstminus"><b>-</b></a> <a href="tesssstbonus"><b>+</b></a> <a href="tesssstmid"><b>=</b></a> <a href="tesssstMax"><b>M</b></a>)    '+inttostr( FCDsfSurveyVehicles[Count].SV_choosenUnits )
+         +' / <b>'
+         +inttostr( FCDsfSurveyVehicles[Count].SV_storageUnits )+'</b>' );
+         inc( CountProduct );
+         PScurrentProducts[CountProduct]:=Count;
+      end;
+      inc( Count );
+   end;
+
+end;
+
 procedure FCMuiPS_Panel_InitElements;
 {:Purpose: init the elements (size and location) of the panel.
     Additions:
+      -2013Feb12- *add: PSP_ProductsList init.
 }
 begin
    FCWinMain.MVG_PlanetarySurveyPanel.Width:=350;
@@ -103,6 +165,10 @@ begin
    FCWinMain.PSP_TypeOfExpedition.Height:=116;
    FCWinMain.PSP_TypeOfExpedition.Left:=4;
    FCWinMain.PSP_TypeOfExpedition.Top:=32;
+   FCWinMain.PSP_ProductsList.Width:=FCWinMain.MVG_PlanetarySurveyPanel.Width-8;//FCWinMain.MVG_PlanetarySurveyPanel.Width-FCWinMain.PSP_TypeOfExpedition.Width-12;
+   FCWinMain.PSP_ProductsList.Height:=FCWinMain.PSP_TypeOfExpedition.Height;
+   FCWinMain.PSP_ProductsList.Left:=4;//FCWinMain.PSP_TypeOfExpedition.Left+FCWinMain.PSP_TypeOfExpedition.Width+4;
+   FCWinMain.PSP_ProductsList.Top:=FCWinMain.PSP_TypeOfExpedition.Top+FCWinMain.PSP_TypeOfExpedition.Width+4;
 end;
 
 procedure FCMuiPS_Panel_InitFonts;
@@ -113,6 +179,7 @@ begin
    FCWinMain.MVG_PlanetarySurveyPanel.Caption.Font.Size:=FCFuiW_Font_GetSize(uiwPanelTitle);
    FCWinMain.PSP_Label.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
    FCWinMain.PSP_TypeOfExpedition.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+   FCWinMain.PSP_ProductsList.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
 end;
 
 procedure FCMuiPS_Panel_InitText;
@@ -135,6 +202,8 @@ procedure FCMuiPS_Panel_Show( const TypeOfSurvey: TFCEdgPlanetarySurveys );
     Additions:
 }
 begin
+   SetLength( PScurrentProducts, 6 );
+   PSvehiclesListMax:=0;
    case TypeOfSurvey of
       psResources: FCWinMain.MVG_PlanetarySurveyPanel.Caption.Text:='<p align="center"><b>'+FCFdTFiles_UIStr_Get( uistrUI, 'psMainTitle' )+FCFdTFiles_UIStr_Get( uistrUI, 'psTitleResources' );
 
@@ -147,8 +216,34 @@ begin
    FCWinMain.MVG_PlanetarySurveyPanel.Top:=FCWinMain.MVG_SurfacePanel.Top;
    FCWinMain.PSP_Label.HTMLText.Clear;
    FCWinMain.PSP_Label.HTMLText.Add( FCCFdHeadC+'Set up An Expedition'+FCCFdHeadEnd );
+   PSvehiclesListMax:=FCFsF_SurveyVehicles_Get(
+      0
+      ,FCFuiCDP_VarCurrentColony_Get
+      ,false
+      );
+   FCWinMain.PSP_TypeOfExpedition.ItemIndex:=0;
+
+
+
    FCWinMain.MVG_PlanetarySurveyPanel.Show;
    FCWinMain.MVG_PlanetarySurveyPanel.BringToFront;
+end;
+
+procedure FCMuiPS_VehiclesSetupBonus;
+   var
+      CurrentItem: integer;
+begin
+
+   CurrentItem:=PScurrentProducts[FCWinMain.PSP_ProductsList.Selected.Index+1];
+   {:DEV NOTES: + test if enough crew....}
+   if FCDsfSurveyVehicles[CurrentItem].SV_choosenUnits<FCDsfSurveyVehicles[CurrentItem].SV_storageUnits then
+   begin
+      inc( FCDsfSurveyVehicles[CurrentItem].SV_choosenUnits );
+      FCWinMain.PSP_ProductsList.Items[ 0 ].Text:=FCFdTFiles_UIStr_Get( uistrUI, FCDsfSurveyVehicles[CurrentItem].SV_token )
+      +'  (<a href="tesssstminus"><b>-</b></a> <a href="tesssstbonus"><b>+</b></a> <a href="tesssstmid"><b>=</b></a> <a href="tesssstMax"><b>M</b></a>)   '+inttostr( FCDsfSurveyVehicles[CurrentItem].SV_choosenUnits )
+         +'  / <b>'
+            +inttostr( FCDsfSurveyVehicles[CurrentItem].SV_storageUnits )+'</b>';
+   end;
 end;
 
 end.

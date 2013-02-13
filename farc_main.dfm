@@ -3257,6 +3257,7 @@ object FCWinMain: TFCWinMain
         ParentColor = False
         ParentFont = False
         URLColor = 14068651
+        Visible = False
         Version = '1.8.1.0'
       end
       object AdvGlowButton1: TAdvGlowButton
@@ -3322,6 +3323,38 @@ object FCWinMain: TFCWinMain
         Font.Style = []
         ParentFont = False
         TabOrder = 1
+        OnClick = PSP_TypeOfExpeditionClick
+      end
+      object PSP_ProductsList: THTMLTreeview
+        Left = 1
+        Top = 19
+        Width = 263
+        Height = 269
+        ControlStyle = csFlat
+        ControlColor = clSilver
+        ItemHeight = 18
+        SelectionColors.BorderColor = clNone
+        SelectionColors.ColorFrom = clBlack
+        SelectionColors.ColorTo = 7237230
+        SelectionFontColor = clSkyBlue
+        SelectionNFColor = clNone
+        SelectionNFFontColor = clBlack
+        URLColor = 14068651
+        OnAnchorClick = PSP_ProductsListAnchorClick
+        Align = alCustom
+        BorderWidth = 1
+        HotTrack = True
+        RowSelect = True
+        Color = clBlack
+        Font.Charset = ANSI_CHARSET
+        Font.Color = 14803425
+        Font.Height = -12
+        Font.Name = 'FrancophilSans'
+        Font.Style = []
+        Indent = 19
+        ParentFont = False
+        TabOrder = 2
+        Version = '1.2.1.0'
       end
     end
     object FCWM_ColDPanel: TAdvPanel

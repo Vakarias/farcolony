@@ -30,7 +30,8 @@ unit farc_survey_functions;
 
 interface
 
-//uses
+uses
+   SysUtils;
 
 //==END PUBLIC ENUM=========================================================================
 
@@ -63,8 +64,10 @@ implementation
 uses
    farc_data_game
    ,farc_data_infrprod
+   ,farc_data_init
    ,farc_data_planetarysurvey
-   ,farc_game_prod;
+   ,farc_game_prod
+   ,farc_win_debug;
 
 //==END PRIVATE ENUM========================================================================
 
@@ -95,11 +98,15 @@ function FCFsF_SurveyVehicles_Get(
       ClonedProduct: TFCRdipProduct;
 begin
    Result:=0;
-   VehiclesProducts:=0;
-   SetLength( FCDsfSurveyVehicles, 0 );
-   Max:=length( FCDdgEntities[Entity].E_colonies[Colony].C_storedProducts )-1;
-   SetLength( FCDsfSurveyVehicles, Max+1 );
    Count:=1;
+   Max:=length( FCDdgEntities[Entity].E_colonies[Colony].C_storedProducts )-1;
+   VehiclesProducts:=0;
+   if not GetFirstTestOnly then
+   begin
+      SetLength( FCDsfSurveyVehicles, 0 );
+      FCDsfSurveyVehicles:=nil;
+      SetLength( FCDsfSurveyVehicles, Max+1 );
+   end;
    while Count<=Max do
    begin
       ClonedProduct:=FCDdipProducts[FCFgP_Product_GetIndex( FCDdgEntities[Entity].E_colonies[Colony].C_storedProducts[Count].SP_token )];
@@ -117,6 +124,7 @@ begin
          inc( VehiclesProducts );
          FCDsfSurveyVehicles[VehiclesProducts].SV_storageIndex:=Count;
          FCDsfSurveyVehicles[VehiclesProducts].SV_storageUnits:=Trunc( FCDdgEntities[Entity].E_colonies[Colony].C_storedProducts[Count].SP_unit );
+         FCDsfSurveyVehicles[VehiclesProducts].SV_choosenUnits:=0;
          FCDsfSurveyVehicles[VehiclesProducts].SV_token:=FCDdgEntities[Entity].E_colonies[Colony].C_storedProducts[Count].SP_token;
          FCDsfSurveyVehicles[VehiclesProducts].SV_function:=ClonedProduct.P_function;
          FCDsfSurveyVehicles[VehiclesProducts].SV_speed:=ClonedProduct.P_fSspeed;

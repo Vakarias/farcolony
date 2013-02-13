@@ -337,6 +337,7 @@ type
     PSP_TypeOfExpedition: THTMLRadioGroup;
     HTMLabel2: THTMLabel;
     FCXMLtxtCredits: TXMLDocument;
+    PSP_ProductsList: THTMLTreeview;
 
       procedure FormCreate(Sender: TObject);
       procedure FormResize(Sender: TObject);
@@ -464,6 +465,8 @@ type
     procedure FCWM_MainMenuChange(Sender: TObject; Source: TMenuItem; Rebuild: Boolean);
     procedure SP_SD_SurfaceSelectedMouseEnter(Sender: TObject);
     procedure SP_ResourceSurveyCommitClick(Sender: TObject);
+    procedure PSP_TypeOfExpeditionClick(Sender: TObject);
+    procedure PSP_ProductsListAnchorClick(Sender: TObject; Node: TTreeNode; anchor: string);
    private
       { Private declarations }
          {timesteps needed for camera transitions}
@@ -1878,6 +1881,18 @@ end;
 procedure TFCWinMain.InternalOnGameTimer(Sender: TObject);
 begin
    FCMgGF_GameTimer_Process;
+end;
+
+procedure TFCWinMain.PSP_ProductsListAnchorClick(Sender: TObject; Node: TTreeNode;
+  anchor: string);
+begin
+   if anchor='tesssstbonus'
+   then FCMuiPS_VehiclesSetupBonus;
+end;
+
+procedure TFCWinMain.PSP_TypeOfExpeditionClick(Sender: TObject);
+begin
+   FCMuiPS_ExpeditionTypeSelect;
 end;
 
 procedure TFCWinMain.WMExitSizeMove(var Message: TMessage) ;
