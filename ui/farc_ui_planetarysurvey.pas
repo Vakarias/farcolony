@@ -75,7 +75,7 @@ procedure FCMuiPS_Panel_InitText;
 procedure FCMuiPS_Panel_Show( const TypeOfSurvey: TFCEdgPlanetarySurveys );
 
 
-procedure FCMuiPS_VehiclesSetupBonus;
+procedure FCMuiPS_VehiclesSetup_Bonus;
 
 implementation
 
@@ -110,6 +110,29 @@ var
 //==END PRIVATE CONST=======================================================================
 
 //===================================================END OF INIT============================
+
+function FCFuiPS_VehiclesSetup_EntryFormat(
+   const VehicleToken: string;
+   const ChoosenUnits
+         ,StorageUnits: integer
+   ): string;
+{:Purpose: generate an entry line for a vehicle.
+    Additions:
+}
+begin
+   Result:='';
+   Result:=FCFdTFiles_UIStr_Get( uistrUI, VehicleToken )
+         +'  <a href="vehiclesremmax">'
+         +'<img src="file://'+FCVdiPathResourceDir+'pics-ui-resources\remmax.jpg">'
+         +'</a> <a href="vehiclesrem">'
+         +'<img src="file://'+FCVdiPathResourceDir+'pics-ui-resources\rem.jpg">'
+         +'</a> <a href="vehiclesbonus">'
+         +'<img src="file://'+FCVdiPathResourceDir+'pics-ui-resources\add.jpg">'
+         +'</a> <a href="vehiclesbonusmax"><b>'
+         +'<img src="file://'+FCVdiPathResourceDir+'pics-ui-resources\addmax.jpg">'
+         +'</a>    '+inttostr( ChoosenUnits )+' / <b>'+inttostr( StorageUnits )+'</b>'
+end;
+
 //===========================END FUNCTIONS SECTION==========================================
 
 procedure FCMuiPS_ExpeditionTypeSelect;
@@ -141,10 +164,11 @@ begin
    begin
       if FCDsfSurveyVehicles[Count].SV_function=CurrentFunction then
       begin
-         FCWinMain.PSP_ProductsList.Items.Add( nil, FCFdTFiles_UIStr_Get( uistrUI, FCDsfSurveyVehicles[Count].SV_token )
-         +'  (<a href="tesssstminus"><b>-</b></a> <a href="tesssstbonus"><b>+</b></a> <a href="tesssstmid"><b>=</b></a> <a href="tesssstMax"><b>M</b></a>)    '+inttostr( FCDsfSurveyVehicles[Count].SV_choosenUnits )
-         +' / <b>'
-         +inttostr( FCDsfSurveyVehicles[Count].SV_storageUnits )+'</b>' );
+         FCWinMain.PSP_ProductsList.Items.Add( nil, FCFuiPS_VehiclesSetup_EntryFormat(
+            FCDsfSurveyVehicles[Count].SV_token
+            ,FCDsfSurveyVehicles[Count].SV_choosenUnits
+            ,FCDsfSurveyVehicles[Count].SV_storageUnits
+            ) );
          inc( CountProduct );
          PScurrentProducts[CountProduct]:=Count;
       end;
@@ -229,7 +253,7 @@ begin
    FCWinMain.MVG_PlanetarySurveyPanel.BringToFront;
 end;
 
-procedure FCMuiPS_VehiclesSetupBonus;
+procedure FCMuiPS_VehiclesSetup_Bonus;
    var
       CurrentItem: integer;
 begin
@@ -239,10 +263,11 @@ begin
    if FCDsfSurveyVehicles[CurrentItem].SV_choosenUnits<FCDsfSurveyVehicles[CurrentItem].SV_storageUnits then
    begin
       inc( FCDsfSurveyVehicles[CurrentItem].SV_choosenUnits );
-      FCWinMain.PSP_ProductsList.Items[ 0 ].Text:=FCFdTFiles_UIStr_Get( uistrUI, FCDsfSurveyVehicles[CurrentItem].SV_token )
-      +'  (<a href="tesssstminus"><b>-</b></a> <a href="tesssstbonus"><b>+</b></a> <a href="tesssstmid"><b>=</b></a> <a href="tesssstMax"><b>M</b></a>)   '+inttostr( FCDsfSurveyVehicles[CurrentItem].SV_choosenUnits )
-         +'  / <b>'
-            +inttostr( FCDsfSurveyVehicles[CurrentItem].SV_storageUnits )+'</b>';
+      FCWinMain.PSP_ProductsList.Items[ 0 ].Text:=FCFuiPS_VehiclesSetup_EntryFormat(
+         FCDsfSurveyVehicles[CurrentItem].SV_token
+         ,FCDsfSurveyVehicles[CurrentItem].SV_choosenUnits
+         ,FCDsfSurveyVehicles[CurrentItem].SV_storageUnits
+         );
    end;
 end;
 

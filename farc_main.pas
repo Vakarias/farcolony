@@ -1886,8 +1886,8 @@ end;
 procedure TFCWinMain.PSP_ProductsListAnchorClick(Sender: TObject; Node: TTreeNode;
   anchor: string);
 begin
-   if anchor='tesssstbonus'
-   then FCMuiPS_VehiclesSetupBonus;
+   if anchor='vehiclesbonus'
+   then FCMuiPS_VehiclesSetup_Bonus;
 end;
 
 procedure TFCWinMain.PSP_TypeOfExpeditionClick(Sender: TObject);
