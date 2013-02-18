@@ -334,7 +334,6 @@ type
     MVG_PlanetarySurveyPanel: TAdvPanel;
     PSP_Label: THTMLabel;
     AdvGlowButton1: TAdvGlowButton;
-    PSP_TypeOfExpedition: THTMLRadioGroup;
     HTMLabel2: THTMLabel;
     FCXMLtxtCredits: TXMLDocument;
     PSP_ProductsList: THTMLTreeview;
@@ -465,8 +464,9 @@ type
     procedure FCWM_MainMenuChange(Sender: TObject; Source: TMenuItem; Rebuild: Boolean);
     procedure SP_SD_SurfaceSelectedMouseEnter(Sender: TObject);
     procedure SP_ResourceSurveyCommitClick(Sender: TObject);
-    procedure PSP_TypeOfExpeditionClick(Sender: TObject);
     procedure PSP_ProductsListAnchorClick(Sender: TObject; Node: TTreeNode; anchor: string);
+    procedure PSP_ProductsListCollapsing(Sender: TObject; Node: TTreeNode;
+      var AllowCollapse: Boolean);
    private
       { Private declarations }
          {timesteps needed for camera transitions}
@@ -1886,13 +1886,20 @@ end;
 procedure TFCWinMain.PSP_ProductsListAnchorClick(Sender: TObject; Node: TTreeNode;
   anchor: string);
 begin
-   if anchor='vehiclesbonus'
+   if anchor='vehiclesremmax'
+   then FCMuiPS_VehiclesSetup_Bonus
+   else if anchor='vehiclesrem'
+   then FCMuiPS_VehiclesSetup_Bonus
+   else if anchor='vehiclesbonus'
+   then FCMuiPS_VehiclesSetup_Bonus
+   else if anchor='vehiclesbonusmax'
    then FCMuiPS_VehiclesSetup_Bonus;
 end;
 
-procedure TFCWinMain.PSP_TypeOfExpeditionClick(Sender: TObject);
+procedure TFCWinMain.PSP_ProductsListCollapsing(Sender: TObject; Node: TTreeNode;
+  var AllowCollapse: Boolean);
 begin
-   FCMuiPS_ExpeditionTypeSelect;
+   AllowCollapse:=false;
 end;
 
 procedure TFCWinMain.WMExitSizeMove(var Message: TMessage) ;

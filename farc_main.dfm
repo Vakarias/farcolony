@@ -3305,26 +3305,6 @@ object FCWinMain: TFCWinMain
         Appearance.ColorMirrorDisabledTo = 15921906
         Appearance.SystemFont = False
       end
-      object PSP_TypeOfExpedition: THTMLRadioGroup
-        Left = 307
-        Top = 76
-        Width = 177
-        Height = 50
-        Margins.Top = 0
-        Margins.Bottom = 0
-        ButtonType = btFlat
-        Ellipsis = False
-        ShadowColor = clBlack
-        Version = '1.5.4.0'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = 14803425
-        Font.Height = -12
-        Font.Name = 'FrancophilSans'
-        Font.Style = []
-        ParentFont = False
-        TabOrder = 1
-        OnClick = PSP_TypeOfExpeditionClick
-      end
       object PSP_ProductsList: THTMLTreeview
         Left = 1
         Top = 19
@@ -3353,7 +3333,9 @@ object FCWinMain: TFCWinMain
         Font.Style = []
         Indent = 19
         ParentFont = False
-        TabOrder = 2
+        TabOrder = 1
+        TabStop = False
+        OnCollapsing = PSP_ProductsListCollapsing
         Version = '1.2.1.0'
       end
     end

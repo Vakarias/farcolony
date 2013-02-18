@@ -231,7 +231,7 @@
    </product>
    <!-- Airships - Equipment -->
    <product token="equipAirships" class="pcEquipment" storage="stSolid" cargo="" volbyunit="60.5" massbyunit="6.232">
-      <function token="pfSurveyAir" speed="960" missionTime="90" capabResources="20" capabBiosphere="1" capabFeaturesArtifacts="3" crew="4" vehicles="2"/>
+      <function token="pfSurveyAir" speed="960" missionTime="90" capabResources="2" capabBiosphere="1" capabFeaturesArtifacts="3" crew="4" vehicles="2"/>
       <tags>
          <hazFire/>
       </tags>
