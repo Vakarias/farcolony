@@ -61,30 +61,30 @@
       </entry>
       <entry author="JF Baconnet (aka Farcodev)" contact="http://farcolony.blogspot.ca/">
          <entryfile license="" current="" original=""/>
-         <entryfile license="CCByNCSA" current="_error_map.jpg" original="n/a"/>
-         <entryfile license="CCByNCSA" current="infraenergyicn.jpg" original="n/a"/>
-         <entryfile license="CCByNCSA" current="infrahousingicn.jpg" original="n/a"/>
-         <entryfile license="CCByNCSA" current="arrow.jpg" original="n/a"/>
-         <entryfile license="CCByNCSA" current="scis001_lst.jpg" original="n/a"/>
-         <entryfile license="CCByNCSA" current="scis002_lst.jpg" original="n/a"/>
-         <entryfile license="CCByNCSA" current="scis003_lst.jpg" original="n/a"/>
-         <entryfile license="CCByNCSA" current="spucapab_docking.jpg" original="n/a"/>
-         <entryfile license="CCByNCSA" current="pics-ui-terrain" original="n/a"/>
+         <entryfile license="CCBySA" current="_error_map.jpg" original="n/a"/>
+         <entryfile license="CCBySA" current="infraenergyicn.jpg" original="n/a"/>
+         <entryfile license="CCBySA" current="infrahousingicn.jpg" original="n/a"/>
+         <entryfile license="CCBySA" current="arrow.jpg" original="n/a"/>
+         <entryfile license="CCBySA" current="scis001_lst.jpg" original="n/a"/>
+         <entryfile license="CCBySA" current="scis002_lst.jpg" original="n/a"/>
+         <entryfile license="CCBySA" current="scis003_lst.jpg" original="n/a"/>
+         <entryfile license="CCBySA" current="spucapab_docking.jpg" original="n/a"/>
+         <entryfile license="CCBySA" current="pics-ui-terrain" original="n/a"/>
       </entry>
       <entry author="John M.Dollan" contact="">
          <entryfile license="" current="" original=""/>
          <entryfile license="FFNCU" current="SuperGiantCold.jpg" original="Sanche"/>
       </entry>
-      <entry author="John Van Vliet" contact="">
+      <entry author="John Van Vliet" contact="johnkvanvliet2006@yahoo.com">
          <entryfile license="" current="" original=""/>
          <entryfile license="FFNCU" current="CallistoH3.jpg" original="Callisto.png"/>
          <entryfile license="FFNCU" current="Europa.jpg" original="Europa.png"/>
          <entryfile license="FFNCU" current="JovianCold.jpg" original="Jupiter.png"/>
+         <entryfile license="FFNCU" current="SatCallistoH3.jpg" original="2kCallisto.png"/>
          <entryfile license="FFNCU" current="SatIo.jpg" original="Io.png"/>
       </entry>
       <entry author="milosz1987_87.o2.pl" contact="milosz1987_87@o2.pl">
          <entryfile license="" current="" original=""/>
-         <entryfile license="CCByNCSA" current="SatCallistoH3.jpg" original="Maximus.png"/>
          <entryfile license="CCByNCSA" current="UranusHot.jpg" original="Apollo.png"/>
       </entry>
       <entry author="NASA JPL" contact="">
@@ -140,7 +140,7 @@
       </entry>
       <entry author="SolCommand" contact="">
          <entryfile license="" current="" original=""/>
-         <entryfile license="n/a" current="scis001.3ds" original="Eris"/>
+         <entryfile license="CCBySA" current="scis001.3ds" original="Eris"/>
       </entry>
    </assets3D>
    <assetsSound>
