@@ -1887,13 +1887,13 @@ procedure TFCWinMain.PSP_ProductsListAnchorClick(Sender: TObject; Node: TTreeNod
   anchor: string);
 begin
    if anchor='vehiclesremmax'
-   then FCMuiPS_VehiclesSetup_Bonus
+   then FCMuiPS_VehiclesSetup_Add
    else if anchor='vehiclesrem'
-   then FCMuiPS_VehiclesSetup_Bonus
-   else if anchor='vehiclesbonus'
-   then FCMuiPS_VehiclesSetup_Bonus
-   else if anchor='vehiclesbonusmax'
-   then FCMuiPS_VehiclesSetup_Bonus;
+   then FCMuiPS_VehiclesSetup_Add
+   else if anchor='vehiclesadd'
+   then FCMuiPS_VehiclesSetup_Add
+   else if anchor='vehiclesaddmax'
+   then FCMuiPS_VehiclesSetup_AddMax;
 end;
 
 procedure TFCWinMain.PSP_ProductsListCollapsing(Sender: TObject; Node: TTreeNode;
