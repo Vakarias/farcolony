@@ -88,6 +88,7 @@ function FCFsF_SurveyVehicles_Get(
    ): integer;
 {:Purpose: generate a listing of available survey vehicles into a colony's storage.
     Additions:
+      -2013Feb20- *add: SV_unitThreshold initialization.
       -2013Feb12- *mod: the 3rd parameter to GetFirstTestOnly is changed and its code too.
 }
    var
@@ -125,6 +126,7 @@ begin
          FCDsfSurveyVehicles[VehiclesProducts].SV_storageIndex:=Count;
          FCDsfSurveyVehicles[VehiclesProducts].SV_storageUnits:=Trunc( FCDdgEntities[Entity].E_colonies[Colony].C_storedProducts[Count].SP_unit );
          FCDsfSurveyVehicles[VehiclesProducts].SV_choosenUnits:=0;
+         FCDsfSurveyVehicles[VehiclesProducts].SV_unitThreshold:=0;
          FCDsfSurveyVehicles[VehiclesProducts].SV_token:=FCDdgEntities[Entity].E_colonies[Colony].C_storedProducts[Count].SP_token;
          FCDsfSurveyVehicles[VehiclesProducts].SV_function:=ClonedProduct.P_function;
          FCDsfSurveyVehicles[VehiclesProducts].SV_speed:=ClonedProduct.P_fSspeed;

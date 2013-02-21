@@ -43,6 +43,7 @@ type TFCRsfSurveyVehicles=record
    SV_storageIndex: integer;
    SV_storageUnits: integer;
    SV_choosenUnits: integer;
+   SV_unitThreshold: integer;
    SV_token: string[20];
    SV_function: TFCEdipProductFunctions;
    SV_speed: integer;

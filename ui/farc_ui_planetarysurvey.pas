@@ -90,6 +90,17 @@ procedure FCMuiPS_VehiclesSetup_CrewFormat;
 ///</summary>
 procedure FCMuiPS_VehiclesSetup_Rem;
 
+///<summary>
+///   process the remmax button
+///</summary>
+procedure FCMuiPS_VehiclesSetup_RemMax;
+
+///<summary>
+///   initialize the unit threshold of a given type of vehicles
+///</summary>
+///   <param name="VehiclesGroupIndex">index of a vehicles group</param>
+procedure FCMuiPS_VehiclesSetupUnitThreshold_Init( const VehiclesGroupIndex: integer );
+
 implementation
 
 uses
@@ -296,14 +307,10 @@ procedure FCMuiPS_VehiclesSetup_AddMax;
 }
    var
       CurrentItem
-      ,MaxUnit
-      ,UnitThreshold: integer;
+      ,MaxUnit: integer;
 begin
    CurrentItem:=PScurrentProducts[FCWinMain.PSP_ProductsList.Selected.Index+1];
-   if FCDsfSurveyVehicles[CurrentItem].SV_storageUnits<20
-   then UnitThreshold:=FCDsfSurveyVehicles[CurrentItem].SV_storageUnits shr 1
-   else if FCDsfSurveyVehicles[CurrentItem].SV_storageUnits>=20
-   then UnitThreshold:=round( FCDsfSurveyVehicles[CurrentItem].SV_storageUnits * 0.1 );
+   FCMuiPS_VehiclesSetupUnitThreshold_Init( CurrentItem );
    if FCDsfSurveyVehicles[CurrentItem].SV_crew<0
    then MaxUnit:=FCDsfSurveyVehicles[CurrentItem].SV_storageUnits
    else if FCDsfSurveyVehicles[CurrentItem].SV_crew>0
@@ -311,22 +318,22 @@ begin
       ( FCFuiPS_AvailableCrew_GetValue ) /FCDsfSurveyVehicles[CurrentItem].SV_crew
       );
    if ( MaxUnit>0 )
-      and ( FCDsfSurveyVehicles[CurrentItem].SV_choosenUnits+UnitThreshold<=MaxUnit ) then
+      and ( FCDsfSurveyVehicles[CurrentItem].SV_choosenUnits+FCDsfSurveyVehicles[CurrentItem].SV_unitThreshold<=MaxUnit ) then
    begin
-      FCDsfSurveyVehicles[CurrentItem].SV_choosenUnits:=FCDsfSurveyVehicles[CurrentItem].SV_choosenUnits+UnitThreshold;
+      FCDsfSurveyVehicles[CurrentItem].SV_choosenUnits:=FCDsfSurveyVehicles[CurrentItem].SV_choosenUnits+FCDsfSurveyVehicles[CurrentItem].SV_unitThreshold;
       if FCDsfSurveyVehicles[CurrentItem].SV_crew>0 then
       begin
-         PSvehiclesCrewUsed:=PSvehiclesCrewUsed+( FCDsfSurveyVehicles[CurrentItem].SV_crew * UnitThreshold );
+         PSvehiclesCrewUsed:=PSvehiclesCrewUsed+( FCDsfSurveyVehicles[CurrentItem].SV_crew * FCDsfSurveyVehicles[CurrentItem].SV_unitThreshold );
          FCMuiPS_VehiclesSetup_CrewFormat;
       end;
    end
    else if ( MaxUnit>0 )
-      and ( FCDsfSurveyVehicles[CurrentItem].SV_choosenUnits+UnitThreshold>MaxUnit ) then
+      and ( FCDsfSurveyVehicles[CurrentItem].SV_choosenUnits+FCDsfSurveyVehicles[CurrentItem].SV_unitThreshold>MaxUnit ) then
    begin
       FCDsfSurveyVehicles[CurrentItem].SV_choosenUnits:=MaxUnit;
       if FCDsfSurveyVehicles[CurrentItem].SV_crew>0 then
       begin
-         PSvehiclesCrewUsed:=PSvehiclesCrewUsed+( FCDsfSurveyVehicles[CurrentItem].SV_crew * MaxUnit-( FCDsfSurveyVehicles[CurrentItem].SV_choosenUnits+UnitThreshold ) );
+         PSvehiclesCrewUsed:=PSvehiclesCrewUsed+( FCDsfSurveyVehicles[CurrentItem].SV_crew * MaxUnit-( FCDsfSurveyVehicles[CurrentItem].SV_choosenUnits+FCDsfSurveyVehicles[CurrentItem].SV_unitThreshold ) );
          FCMuiPS_VehiclesSetup_CrewFormat;
       end;
    end;
@@ -375,6 +382,54 @@ begin
          FCMuiPS_VehiclesSetup_CrewFormat;
       end;
    end;
+end;
+
+procedure FCMuiPS_VehiclesSetup_RemMax;
+{:Purpose: process the remmax button.
+    Additions:
+}
+   var
+      CurrentItem
+      ,MaxUnit: integer;
+begin
+   CurrentItem:=PScurrentProducts[FCWinMain.PSP_ProductsList.Selected.Index+1];
+   FCMuiPS_VehiclesSetupUnitThreshold_Init( CurrentItem );
+   if FCDsfSurveyVehicles[CurrentItem].SV_choosenUnits>0 then
+   begin
+      if FCDsfSurveyVehicles[CurrentItem].SV_choosenUnits-FCDsfSurveyVehicles[CurrentItem].SV_unitThreshold<=0 then
+      begin
+         if FCDsfSurveyVehicles[CurrentItem].SV_crew>0
+         then PSvehiclesCrewUsed:=PSvehiclesCrewUsed-( FCDsfSurveyVehicles[CurrentItem].SV_crew * FCDsfSurveyVehicles[CurrentItem].SV_choosenUnits );
+         FCDsfSurveyVehicles[CurrentItem].SV_choosenUnits:=0;
+      end
+      else if FCDsfSurveyVehicles[CurrentItem].SV_choosenUnits-FCDsfSurveyVehicles[CurrentItem].SV_unitThreshold>0 then
+      begin
+         if FCDsfSurveyVehicles[CurrentItem].SV_crew>0
+         then PSvehiclesCrewUsed:=PSvehiclesCrewUsed-( FCDsfSurveyVehicles[CurrentItem].SV_crew * FCDsfSurveyVehicles[CurrentItem].SV_unitThreshold );
+         FCDsfSurveyVehicles[CurrentItem].SV_choosenUnits:=FCDsfSurveyVehicles[CurrentItem].SV_choosenUnits-FCDsfSurveyVehicles[CurrentItem].SV_unitThreshold;
+      end;
+      FCMuiPS_VehiclesSetup_CrewFormat;
+      FCWinMain.PSP_ProductsList.Items[ (FCWinMain.PSP_ProductsList.Selected.Index*2)+1 ].Text:=
+         FCFuiPS_VehiclesSetup_EntryFormat(
+            FCDsfSurveyVehicles[CurrentItem].SV_capabilityResources
+            ,FCDsfSurveyVehicles[CurrentItem].SV_crew
+            ,FCDsfSurveyVehicles[CurrentItem].SV_choosenUnits
+            ,FCDsfSurveyVehicles[CurrentItem].SV_storageUnits
+            );
+   end;
+end;
+
+procedure FCMuiPS_VehiclesSetupUnitThreshold_Init( const VehiclesGroupIndex: integer );
+{:Purpose: initialize the unit threshold of a given type of vehicles.
+    Additions:
+}
+begin
+   if ( FCDsfSurveyVehicles[VehiclesGroupIndex].SV_unitThreshold=0 )
+      and ( FCDsfSurveyVehicles[VehiclesGroupIndex].SV_storageUnits<20 )
+   then FCDsfSurveyVehicles[VehiclesGroupIndex].SV_unitThreshold:=FCDsfSurveyVehicles[VehiclesGroupIndex].SV_storageUnits shr 1
+   else if ( FCDsfSurveyVehicles[VehiclesGroupIndex].SV_unitThreshold=0 )
+      and ( FCDsfSurveyVehicles[VehiclesGroupIndex].SV_storageUnits>=20 )
+   then FCDsfSurveyVehicles[VehiclesGroupIndex].SV_unitThreshold:=round( FCDsfSurveyVehicles[VehiclesGroupIndex].SV_storageUnits * 0.1 );
 end;
 
 end.

@@ -1887,7 +1887,7 @@ procedure TFCWinMain.PSP_ProductsListAnchorClick(Sender: TObject; Node: TTreeNod
   anchor: string);
 begin
    if anchor='vehiclesremmax'
-   then FCMuiPS_VehiclesSetup_Add
+   then FCMuiPS_VehiclesSetup_RemMax
    else if anchor='vehiclesrem'
    then FCMuiPS_VehiclesSetup_Rem
    else if anchor='vehiclesadd'
