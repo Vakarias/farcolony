@@ -85,6 +85,11 @@ procedure FCMuiPS_VehiclesSetup_AddMax;
 ///</summary>
 procedure FCMuiPS_VehiclesSetup_CrewFormat;
 
+///<summary>
+///   process the rem button
+///</summary>
+procedure FCMuiPS_VehiclesSetup_Rem;
+
 implementation
 
 uses
@@ -266,7 +271,7 @@ begin
    CurrentItem:=PScurrentProducts[FCWinMain.PSP_ProductsList.Selected.Index+1];
    if ( FCDsfSurveyVehicles[CurrentItem].SV_choosenUnits<FCDsfSurveyVehicles[CurrentItem].SV_storageUnits )
       and (
-         ( FCDsfSurveyVehicles[CurrentItem].SV_crew<0 ) or ( FCDdgEntities[0].E_colonies[FCFuiCDP_VarCurrentColony_Get].C_population.CP_classColonist-FCDdgEntities[0].E_colonies[FCFuiCDP_VarCurrentColony_Get].C_population.CP_classColonistAssigned-PSvehiclesCrewUsed-FCDsfSurveyVehicles[CurrentItem].SV_crew>=0 )
+         ( FCDsfSurveyVehicles[CurrentItem].SV_crew<0 ) or ( FCFuiPS_AvailableCrew_GetValue-FCDsfSurveyVehicles[CurrentItem].SV_crew>=0 )
          ) then
    begin
       inc( FCDsfSurveyVehicles[CurrentItem].SV_choosenUnits );
@@ -344,6 +349,32 @@ begin
       ,'Current Crew Available: '+IntToStr( FCFuiPS_AvailableCrew_GetValue )
       );
    FCWinMain.PSP_Label.HTMLText.Delete( 2 );
+end;
+
+procedure FCMuiPS_VehiclesSetup_Rem;
+{:Purpose: process the rem button.
+    Additions:
+}
+   var
+      CurrentItem: integer;
+begin
+   CurrentItem:=PScurrentProducts[FCWinMain.PSP_ProductsList.Selected.Index+1];
+   if ( FCDsfSurveyVehicles[CurrentItem].SV_choosenUnits>0 ) then
+   begin
+      dec( FCDsfSurveyVehicles[CurrentItem].SV_choosenUnits );
+      FCWinMain.PSP_ProductsList.Items[ (FCWinMain.PSP_ProductsList.Selected.Index*2)+1 ].Text:=
+      FCFuiPS_VehiclesSetup_EntryFormat(
+         FCDsfSurveyVehicles[CurrentItem].SV_capabilityResources
+         ,FCDsfSurveyVehicles[CurrentItem].SV_crew
+         ,FCDsfSurveyVehicles[CurrentItem].SV_choosenUnits
+         ,FCDsfSurveyVehicles[CurrentItem].SV_storageUnits
+         );
+      if FCDsfSurveyVehicles[CurrentItem].SV_crew>0 then
+      begin
+         PSvehiclesCrewUsed:=PSvehiclesCrewUsed-FCDsfSurveyVehicles[CurrentItem].SV_crew;
+         FCMuiPS_VehiclesSetup_CrewFormat;
+      end;
+   end;
 end;
 
 end.

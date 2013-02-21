@@ -1889,7 +1889,7 @@ begin
    if anchor='vehiclesremmax'
    then FCMuiPS_VehiclesSetup_Add
    else if anchor='vehiclesrem'
-   then FCMuiPS_VehiclesSetup_Add
+   then FCMuiPS_VehiclesSetup_Rem
    else if anchor='vehiclesadd'
    then FCMuiPS_VehiclesSetup_Add
    else if anchor='vehiclesaddmax'
