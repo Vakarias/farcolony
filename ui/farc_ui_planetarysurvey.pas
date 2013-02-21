@@ -121,6 +121,15 @@ var
 
 //===================================================END OF INIT============================
 
+function FCFuiPS_AvailableCrew_GetValue: integer;
+{:Purpose: calculate the available crew for the current expedition setup.
+    Additions:
+}
+begin
+   Result:=0;
+   Result:=FCDdgEntities[0].E_colonies[FCFuiCDP_VarCurrentColony_Get].C_population.CP_classColonist-FCDdgEntities[0].E_colonies[FCFuiCDP_VarCurrentColony_Get].C_population.CP_classColonistAssigned-PSvehiclesCrewUsed;
+end;
+
 function FCFuiPS_VehiclesSetup_EntryFormat(
    const VehicleCapability
          ,Crew
@@ -130,9 +139,20 @@ function FCFuiPS_VehiclesSetup_EntryFormat(
 {:Purpose: generate an entry line for a vehicle.
     Additions:
 }
+   var
+      RedFormat
+      ,RedFormatEnd: string;
 begin
+   RedFormat:='';
+   RedFormatEnd:='';
    Result:='';
-   Result:='Capability [<b>'+IntToStr( VehicleCapability )+'</b>]  Crew [<b>'+Crew+'</b>]  Units [<b>'+inttostr( ChoosenUnits )+' / '+inttostr( StorageUnits )+'</b>]';
+   if ( Crew>0 )
+      and ( FCFuiPS_AvailableCrew_GetValue<Crew ) then
+   begin
+      RedFormat:=FCCFcolRed;
+      RedFormatEnd:=FCCFcolEND
+   end;
+   Result:='Capability [<b>'+IntToStr( VehicleCapability )+'</b>]  Crew [<b>'+RedFormat+IntToStr( Crew )+RedFormatEnd+'</b>]  Units [<b>'+inttostr( ChoosenUnits )+' / '+inttostr( StorageUnits )+'</b>]';
 end;
 
 //===========================END FUNCTIONS SECTION==========================================
@@ -214,10 +234,11 @@ begin
                FCWinMain.PSP_ProductsList.Items.AddChild(
                   ProductNode
                   ,FCFuiPS_VehiclesSetup_EntryFormat(
-                  FCDsfSurveyVehicles[Count].SV_capabilityResources
-                  ,FCDsfSurveyVehicles[Count].SV_choosenUnits
-                  ,FCDsfSurveyVehicles[Count].SV_storageUnits
-                  )
+                     FCDsfSurveyVehicles[Count].SV_capabilityResources
+                     ,FCDsfSurveyVehicles[Count].SV_crew
+                     ,FCDsfSurveyVehicles[Count].SV_choosenUnits
+                     ,FCDsfSurveyVehicles[Count].SV_storageUnits
+                     )
                   );
                inc( CountProduct );
                PScurrentProducts[CountProduct]:=Count;
@@ -252,6 +273,7 @@ begin
       FCWinMain.PSP_ProductsList.Items[ (FCWinMain.PSP_ProductsList.Selected.Index*2)+1 ].Text:=
       FCFuiPS_VehiclesSetup_EntryFormat(
          FCDsfSurveyVehicles[CurrentItem].SV_capabilityResources
+         ,FCDsfSurveyVehicles[CurrentItem].SV_crew
          ,FCDsfSurveyVehicles[CurrentItem].SV_choosenUnits
          ,FCDsfSurveyVehicles[CurrentItem].SV_storageUnits
          );
@@ -281,8 +303,35 @@ begin
    then MaxUnit:=FCDsfSurveyVehicles[CurrentItem].SV_storageUnits
    else if FCDsfSurveyVehicles[CurrentItem].SV_crew>0
    then MaxUnit:=trunc(
-      ( FCDdgEntities[0].E_colonies[FCFuiCDP_VarCurrentColony_Get].C_population.CP_classColonist-FCDdgEntities[0].E_colonies[FCFuiCDP_VarCurrentColony_Get].C_population.CP_classColonistAssigned-PSvehiclesCrewUsed ) /FCDsfSurveyVehicles[CurrentItem].SV_crew
+      ( FCFuiPS_AvailableCrew_GetValue ) /FCDsfSurveyVehicles[CurrentItem].SV_crew
       );
+   if ( MaxUnit>0 )
+      and ( FCDsfSurveyVehicles[CurrentItem].SV_choosenUnits+UnitThreshold<=MaxUnit ) then
+   begin
+      FCDsfSurveyVehicles[CurrentItem].SV_choosenUnits:=FCDsfSurveyVehicles[CurrentItem].SV_choosenUnits+UnitThreshold;
+      if FCDsfSurveyVehicles[CurrentItem].SV_crew>0 then
+      begin
+         PSvehiclesCrewUsed:=PSvehiclesCrewUsed+( FCDsfSurveyVehicles[CurrentItem].SV_crew * UnitThreshold );
+         FCMuiPS_VehiclesSetup_CrewFormat;
+      end;
+   end
+   else if ( MaxUnit>0 )
+      and ( FCDsfSurveyVehicles[CurrentItem].SV_choosenUnits+UnitThreshold>MaxUnit ) then
+   begin
+      FCDsfSurveyVehicles[CurrentItem].SV_choosenUnits:=MaxUnit;
+      if FCDsfSurveyVehicles[CurrentItem].SV_crew>0 then
+      begin
+         PSvehiclesCrewUsed:=PSvehiclesCrewUsed+( FCDsfSurveyVehicles[CurrentItem].SV_crew * MaxUnit-( FCDsfSurveyVehicles[CurrentItem].SV_choosenUnits+UnitThreshold ) );
+         FCMuiPS_VehiclesSetup_CrewFormat;
+      end;
+   end;
+   FCWinMain.PSP_ProductsList.Items[ (FCWinMain.PSP_ProductsList.Selected.Index*2)+1 ].Text:=
+      FCFuiPS_VehiclesSetup_EntryFormat(
+         FCDsfSurveyVehicles[CurrentItem].SV_capabilityResources
+         ,FCDsfSurveyVehicles[CurrentItem].SV_crew
+         ,FCDsfSurveyVehicles[CurrentItem].SV_choosenUnits
+         ,FCDsfSurveyVehicles[CurrentItem].SV_storageUnits
+         );
 end;
 
 procedure FCMuiPS_VehiclesSetup_CrewFormat;
@@ -292,7 +341,7 @@ procedure FCMuiPS_VehiclesSetup_CrewFormat;
 begin
    FCWinMain.PSP_Label.HTMLText.Insert(
       1
-      ,'Current Crew Available: '+IntToStr( FCDdgEntities[0].E_colonies[FCFuiCDP_VarCurrentColony_Get].C_population.CP_classColonist-FCDdgEntities[0].E_colonies[FCFuiCDP_VarCurrentColony_Get].C_population.CP_classColonistAssigned-PSvehiclesCrewUsed )
+      ,'Current Crew Available: '+IntToStr( FCFuiPS_AvailableCrew_GetValue )
       );
    FCWinMain.PSP_Label.HTMLText.Delete( 2 );
 end;
