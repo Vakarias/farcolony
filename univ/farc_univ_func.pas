@@ -74,6 +74,12 @@ type TFCRufAtmosphereGasesPercent=record
       );
 end;
 
+type TFCRufRegionLoc=record
+   RL_X: integer;
+   RL_Y: integer;
+end;
+
+
 ///<summary>
 ///   [1]= star system index, [2]= star index, [3]= orbital object index, [4]= satellite index
 ///</summary>
@@ -154,9 +160,21 @@ function FCFuF_OrbPeriod_GetMeanTemp(const OPGMToobjIdx, OPGMTsatIdx: integer): 
 function FCFuF_Region_GetClim(const StarSys, Star, RGCooIdx, RGCsatIdx, RGCregIdx: integer): string;
 
 ///<summary>
+///   extract a defined region location and put it in an array
+///</summary>
+function FCFuF_RegionLoc_ExtractNum(
+   const RLEssysIdx
+         ,RLEstarIdx
+         ,RLEoobjIdx
+         ,RLEsatIdx
+         ,RLEregIdx: integer
+   ): TFCRufRegionLoc;
+
+
+///<summary>
 ///   extract a defined region location and put it in a string in x;y format or plain text if required
 ///</summary>
-function FCFuF_RegionLoc_Extract(
+function FCFuF_RegionLoc_ExtractStr(
    const RLEssysIdx
          ,RLEstarIdx
          ,RLEoobjIdx
@@ -586,7 +604,345 @@ begin
    Result:=RGCdmpRes;
 end;
 
-function FCFuF_RegionLoc_Extract(
+function FCFuF_RegionLoc_ExtractNum(
+   const RLEssysIdx
+         ,RLEstarIdx
+         ,RLEoobjIdx
+         ,RLEsatIdx
+         ,RLEregIdx: integer
+   ): TFCRufRegionLoc; overload;
+{:Purpose: extract a defined region location and put it in an array.
+    Additions:
+}
+   var
+      RegionMax: integer;
+begin
+   Result.RL_X:=0;
+   Result.RL_Y:=0;
+
+   if RLEsatIdx=0
+   then
+   begin
+      RegionMax:=length(FCDduStarSystem[RLEssysIdx].SS_stars[RLEstarIdx].S_orbitalObjects[RLEoobjIdx].OO_regions)-1;
+   end
+   else if RLEsatIdx>0
+   then
+   begin
+      RegionMax:=length(FCDduStarSystem[RLEssysIdx].SS_stars[RLEstarIdx].S_orbitalObjects[RLEoobjIdx].OO_satellitesList[RLEsatIdx].OO_regions)-1;
+   end;
+   case RegionMax of
+      4:
+      begin
+         case RLEregIdx of
+            1:
+            begin
+               Result.RL_X:=1;
+               Result.RL_Y:=1;
+            end;
+
+            2, 3:
+            begin
+               Result.RL_X:=RLEregIdx-1;
+               Result.RL_Y:=2;
+            end;
+
+            4:
+            begin
+               Result.RL_X:=1;
+               Result.RL_Y:=3;
+            end;
+         end;
+      end;
+
+      6:
+      begin
+         case RLEregIdx of
+            1:
+            begin
+               Result.RL_X:=1;
+               Result.RL_Y:=1;
+            end;
+
+            2,3:
+            begin
+               Result.RL_X:=RLEregIdx-1;
+               Result.RL_Y:=2;
+            end;
+
+            4,5:
+            begin
+               Result.RL_X:=RLEregIdx-3;
+               Result.RL_Y:=3;
+            end;
+
+            6:
+            begin
+               Result.RL_X:=1;
+               Result.RL_Y:=4;
+            end;
+         end;
+      end;
+
+      8:
+      begin
+         case RLEregIdx of
+            1:
+            begin
+               Result.RL_X:=2;
+               Result.RL_Y:=1;
+            end;
+
+            2..4:
+            begin
+               Result.RL_X:=RLEregIdx-1;
+               Result.RL_Y:=2;
+            end;
+
+            5..7:
+            begin
+               Result.RL_X:=RLEregIdx-4;
+               Result.RL_Y:=3;
+            end;
+
+            8:
+            begin
+               Result.RL_X:=2;
+               Result.RL_Y:=4;
+            end;
+         end;
+      end;
+
+      10:
+      begin
+         case RLEregIdx of
+            1:
+            begin
+               Result.RL_X:=2;
+               Result.RL_Y:=1;
+            end;
+
+            2..5:
+            begin
+               Result.RL_X:=RLEregIdx-1;
+               Result.RL_Y:=2;
+            end;
+
+            6..9:
+            begin
+               Result.RL_X:=RLEregIdx-5;
+               Result.RL_Y:=3;
+            end;
+
+            10:
+            begin
+               Result.RL_X:=2;
+               Result.RL_Y:=4;
+            end;
+         end;
+      end;
+
+      14:
+      begin
+         case RLEregIdx of
+            1:
+            begin
+               Result.RL_X:=2;
+               Result.RL_Y:=1;
+            end;
+
+            2..5:
+            begin
+               Result.RL_X:=RLEregIdx-1;
+               Result.RL_Y:=2;
+            end;
+
+            6..9:
+            begin
+               Result.RL_X:=RLEregIdx-5;
+               Result.RL_Y:=3;
+            end;
+
+            10..13:
+            begin
+               Result.RL_X:=RLEregIdx-9;
+               Result.RL_Y:=4;
+            end;
+
+            14:
+            begin
+               Result.RL_X:=2;
+               Result.RL_Y:=5;
+            end;
+         end;
+      end;
+
+      18:
+      begin
+         case RLEregIdx of
+            1:
+            begin
+               Result.RL_X:=2;
+               Result.RL_Y:=1;
+            end;
+
+            2..5:
+            begin
+               Result.RL_X:=RLEregIdx-1;
+               Result.RL_Y:=2;
+            end;
+
+            6..9:
+            begin
+               Result.RL_X:=RLEregIdx-5;
+               Result.RL_Y:=3;
+            end;
+
+            10..13:
+            begin
+               Result.RL_X:=RLEregIdx-9;
+               Result.RL_Y:=4;
+            end;
+
+            14..17:
+            begin
+               Result.RL_X:=RLEregIdx-13;
+               Result.RL_Y:=5;
+            end;
+
+            18:
+            begin
+               Result.RL_X:=2;
+               Result.RL_Y:=6;
+            end;
+         end;
+      end;
+
+      22:
+      begin
+         case RLEregIdx of
+            1:
+            begin
+               Result.RL_X:=3;
+               Result.RL_Y:=1;
+            end;
+
+            2..6:
+            begin
+               Result.RL_X:=RLEregIdx-1;
+               Result.RL_Y:=2;
+            end;
+
+            7..11:
+            begin
+               Result.RL_X:=RLEregIdx-6;
+               Result.RL_Y:=3;
+            end;
+
+            12..16:
+            begin
+               Result.RL_X:=RLEregIdx-11;
+               Result.RL_Y:=4;
+            end;
+
+            17..21:
+            begin
+               Result.RL_X:=RLEregIdx-16;
+               Result.RL_Y:=5;
+            end;
+
+            22:
+            begin
+               Result.RL_X:=3;
+               Result.RL_Y:=6;
+            end;
+         end;
+      end;
+
+      26:
+      begin
+         case RLEregIdx of
+            1:
+            begin
+               Result.RL_X:=3;
+               Result.RL_Y:=1;
+            end;
+
+            2..7:
+            begin
+               Result.RL_X:=RLEregIdx-1;
+               Result.RL_Y:=2;
+            end;
+
+            8..13:
+            begin
+               Result.RL_X:=RLEregIdx-7;
+               Result.RL_Y:=3;
+            end;
+
+            14..19:
+            begin
+               Result.RL_X:=RLEregIdx-13;
+               Result.RL_Y:=4;
+            end;
+
+            20..25:
+            begin
+               Result.RL_X:=RLEregIdx-19;
+               Result.RL_Y:=5;
+            end;
+
+            26:
+            begin
+               Result.RL_X:=3;
+               Result.RL_Y:=6;
+            end;
+         end;
+      end;
+
+      30:
+      begin
+         case RLEregIdx of
+            1:
+            begin
+               Result.RL_X:=4;
+               Result.RL_Y:=1;
+            end;
+
+            2..8:
+            begin
+               Result.RL_X:=RLEregIdx-1;
+               Result.RL_Y:=2;
+            end;
+
+            9..15:
+            begin
+               Result.RL_X:=RLEregIdx-8;
+               Result.RL_Y:=3;
+            end;
+
+            16..22:
+            begin
+               Result.RL_X:=RLEregIdx-15;
+               Result.RL_Y:=4;
+            end;
+
+            23..29:
+            begin
+               Result.RL_X:=RLEregIdx-22;
+               Result.RL_Y:=5;
+            end;
+
+            30:
+            begin
+               Result.RL_X:=4;
+               Result.RL_Y:=6;
+            end;
+         end;
+      end;
+   end; //==END== case RegionMax of ==//
+end;
+
+function FCFuF_RegionLoc_ExtractStr(
    const RLEssysIdx
          ,RLEstarIdx
          ,RLEoobjIdx
@@ -598,108 +954,39 @@ function FCFuF_RegionLoc_Extract(
 }
 var
    RLEmaxReg: integer;
+
+   RegionLocation: TFCRufRegionLoc;
 begin
    Result:='';
-   if RLEsatIdx=0
-   then
+   RegionLocation.RL_X:=0;
+   RegionLocation.RL_Y:=0;
+   RegionLocation:=FCFuF_RegionLoc_ExtractNum(
+      RLEssysIdx
+      ,RLEstarIdx
+      ,RLEoobjIdx
+      ,RLEsatIdx
+      ,RLEregIdx
+      );
+   if RegionLocation.RL_Y=1
+   then Result:=FCFdTFiles_UIStr_Get(uistrUI, 'reglocNPole')
+   else if RegionLocation.RL_Y>1 then
    begin
-      RLEmaxReg:=length(FCDduStarSystem[RLEssysIdx].SS_stars[RLEstarIdx].S_orbitalObjects[RLEoobjIdx].OO_regions)-1;
-   end
-   else if RLEsatIdx>0
-   then
-   begin
-      RLEmaxReg:=length(FCDduStarSystem[RLEssysIdx].SS_stars[RLEstarIdx].S_orbitalObjects[RLEoobjIdx].OO_satellitesList[RLEsatIdx].OO_regions)-1;
-   end;
-   case RLEmaxReg of
-      4:
+      if RLEsatIdx=0
+      then
       begin
-         case RLEregIdx of
-            1: Result:=FCFdTFiles_UIStr_Get(uistrUI, 'reglocNPole');
-            2, 3: Result:=IntToStr(RLEregIdx-1)+';2';
-            4: Result:=FCFdTFiles_UIStr_Get(uistrUI, 'reglocSPole');
-         end;
-      end;
-      6:
+         RLEmaxReg:=length(FCDduStarSystem[RLEssysIdx].SS_stars[RLEstarIdx].S_orbitalObjects[RLEoobjIdx].OO_regions)-1;
+      end
+      else if RLEsatIdx>0
+      then
       begin
-         case RLEregIdx of
-            1: Result:=FCFdTFiles_UIStr_Get(uistrUI, 'reglocNPole');
-            2,3: Result:=IntToStr(RLEregIdx-1)+';2';
-            4,5: Result:=IntToStr(RLEregIdx-3)+';3';
-            6: Result:=FCFdTFiles_UIStr_Get(uistrUI, 'reglocSPole');
-         end;
+         RLEmaxReg:=length(FCDduStarSystem[RLEssysIdx].SS_stars[RLEstarIdx].S_orbitalObjects[RLEoobjIdx].OO_satellitesList[RLEsatIdx].OO_regions)-1;
       end;
-      8:
-      begin
-         case RLEregIdx of
-            1: Result:=FCFdTFiles_UIStr_Get(uistrUI, 'reglocNPole');
-            2..4: Result:=IntToStr(RLEregIdx-1)+';2';
-            5..7: Result:=IntToStr(RLEregIdx-4)+';3';
-            8: Result:=FCFdTFiles_UIStr_Get(uistrUI, 'reglocSPole');
-         end;
-      end;
-      10:
-      begin
-         case RLEregIdx of
-            1: Result:=FCFdTFiles_UIStr_Get(uistrUI, 'reglocNPole');
-            2..5: Result:=IntToStr(RLEregIdx-1)+';2';
-            6..9: Result:=IntToStr(RLEregIdx-5)+';3';
-            10: Result:=FCFdTFiles_UIStr_Get(uistrUI, 'reglocSPole');
-         end;
-      end;
-      14:
-      begin
-         case RLEregIdx of
-            1: Result:=FCFdTFiles_UIStr_Get(uistrUI, 'reglocNPole');
-            2..5: Result:=IntToStr(RLEregIdx-1)+';2';
-            6..9: Result:=IntToStr(RLEregIdx-5)+';3';
-            10..13: Result:=IntToStr(RLEregIdx-9)+';4';
-            14: Result:=FCFdTFiles_UIStr_Get(uistrUI, 'reglocSPole');
-         end;
-      end;
-      18:
-      begin
-         case RLEregIdx of
-            1: Result:=FCFdTFiles_UIStr_Get(uistrUI, 'reglocNPole');
-            2..5: Result:=IntToStr(RLEregIdx-1)+';2';
-            6..9: Result:=IntToStr(RLEregIdx-5)+';3';
-            10..13: Result:=IntToStr(RLEregIdx-9)+';4';
-            14..17: Result:=IntToStr(RLEregIdx-13)+';5';
-            18: Result:=FCFdTFiles_UIStr_Get(uistrUI, 'reglocSPole');
-         end;
-      end;
-      22:
-      begin
-         case RLEregIdx of
-            1: Result:=FCFdTFiles_UIStr_Get(uistrUI, 'reglocNPole');
-            2..6: Result:=IntToStr(RLEregIdx-1)+';2';
-            7..11: Result:=IntToStr(RLEregIdx-6)+';3';
-            12..16: Result:=IntToStr(RLEregIdx-11)+';4';
-            17..21: Result:=IntToStr(RLEregIdx-16)+';5';
-            22: Result:=FCFdTFiles_UIStr_Get(uistrUI, 'reglocSPole');
-         end;
-      end;
-      26:
-      begin
-         case RLEregIdx of
-            1: Result:=FCFdTFiles_UIStr_Get(uistrUI, 'reglocNPole');
-            2..7: Result:=IntToStr(RLEregIdx-1)+';2';
-            8..13: Result:=IntToStr(RLEregIdx-7)+';3';
-            14..19: Result:=IntToStr(RLEregIdx-13)+';4';
-            20..25: Result:=IntToStr(RLEregIdx-19)+';5';
-            26: Result:=FCFdTFiles_UIStr_Get(uistrUI, 'reglocSPole');
-         end;
-      end;
-      30:
-      begin
-         case RLEregIdx of
-            1: Result:=FCFdTFiles_UIStr_Get(uistrUI, 'reglocNPole');
-            2..8: Result:=IntToStr(RLEregIdx-1)+';2';
-            9..15: Result:=IntToStr(RLEregIdx-8)+';3';
-            16..22: Result:=IntToStr(RLEregIdx-15)+';4';
-            23..29: Result:=IntToStr(RLEregIdx-22)+';5';
-            30: Result:=FCFdTFiles_UIStr_Get(uistrUI, 'reglocSPole');
-         end;
-      end;
+      if ( ( RLEmaxReg=4 ) and ( RegionLocation.RL_Y=3 ) )
+         or ( ( RLEmaxReg in [6..10] ) and ( RegionLocation.RL_Y=4 ) )
+         or ( ( RLEmaxReg=14 ) and ( RegionLocation.RL_Y=5 ) )
+         or ( ( RLEmaxReg in [18..30] ) and ( RegionLocation.RL_Y=6 ) )
+      then Result:=FCFdTFiles_UIStr_Get(uistrUI, 'reglocSPole')
+      else Result:=IntToStr( RegionLocation.RL_X )+';'+IntToStr( RegionLocation.RL_Y );
    end;
 end;
 

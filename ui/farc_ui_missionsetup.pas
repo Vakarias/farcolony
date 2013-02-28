@@ -344,7 +344,7 @@ var
 begin
       FCMuiSP_SurfaceSelected_Update(true);
    SetLength(CUarrTime, 1);
-   CUregLoc:=FCFuF_RegionLoc_Extract(
+   CUregLoc:=FCFuF_RegionLoc_ExtractStr(
       FCRmcCurrentMissionCalculations.CMC_originLocation[1]
       ,FCRmcCurrentMissionCalculations.CMC_originLocation[2]
       ,FCRmcCurrentMissionCalculations.CMC_originLocation[3]

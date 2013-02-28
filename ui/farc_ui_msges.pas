@@ -195,7 +195,7 @@ begin
             MBAMcolName
                :=FCDdgEntities[MBAMfac].E_colonies[FCDduStarSystem[MBAMssys].SS_stars[MBAMstar].S_orbitalObjects[MBAMitm1Idx].OO_satellitesList[MBAMitm2Idx].OO_colonies[0]].C_name;
          end;
-         MBAMregLoc:=FCFuF_RegionLoc_Extract(
+         MBAMregLoc:=FCFuF_RegionLoc_ExtractStr(
             MBAMssys
             ,MBAMstar
             ,MBAMitm1Idx
