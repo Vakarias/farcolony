@@ -68,7 +68,8 @@ function FCFsF_SurveyVehicles_Get(
 function FCFsF_SurveyVehicles_ProcessTravel(
    const Entity
          ,Colony
-         ,RegionOfDestination: integer
+         ,RegionOfDestination: integer;
+   const useSameOrbitalObject: boolean
    ): boolean;
 
 
@@ -161,20 +162,24 @@ end;
 function FCFsF_SurveyVehicles_ProcessTravel(
    const Entity
          ,Colony
-         ,RegionOfDestination: integer
+         ,RegionOfDestination: integer;
+   const useSameOrbitalObject: boolean
    ): boolean;
 {:Purpose: process the travel duration, if it's required.
     Additions:
 }
    var
-      MaxSettlements: integer;
+      Count
+      ,MaxSettlements: integer;
 
-      RegionLocDestination
-      ,RegionLocOrigin: array of TFCRufRegionLoc;
+      RegionLocDestination: TFCRufRegionLoc;
+
+      RegionLocOrigin: array of TFCRufRegionLoc;
 begin
+   Count:=0;
    MaxSettlements:=0;
-   SetLength( RegionLocDestination, 0 );
-   RegionLocDestination:=nil;
+   RegionLocDestination.RL_X:=0;
+   RegionLocDestination.RL_Y:=0;
    SetLength( RegionLocOrigin, 0 );
    RegionLocOrigin:=nil;
    Result:=false;
@@ -184,8 +189,18 @@ begin
    then Result:=true
    else if MaxSettlements>1 then
    begin
-      SetLength( RegionLocDestination, MaxSettlements+1 );
+//      if not useSameOrbitalObject
+//      then
+//      RegionLocDestination:=FCFuF_RegionLoc_ExtractNum(
+//
+//         )
       SetLength( RegionLocOrigin, MaxSettlements+1 );
+      count:=1;
+      while Count<=MaxSettlements do
+      begin
+
+         inc( Count );
+      end;
    end; //==END== else if MaxSettlements>1 ==//
 end;
 

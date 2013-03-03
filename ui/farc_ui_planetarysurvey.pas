@@ -246,10 +246,19 @@ begin
          CountProduct:=0;
          while Count<=PSvehiclesListMax do
          begin
-            isTravelOK:=FCFsF_SurveyVehicles_ProcessTravel(
+            if Count=1
+            then isTravelOK:=FCFsF_SurveyVehicles_ProcessTravel(
                0
                ,FCFuiCDP_VarCurrentColony_Get
                ,SelectedRegion
+               ,false
+               )
+            else if Count>1
+            then isTravelOK:=FCFsF_SurveyVehicles_ProcessTravel(
+               0
+               ,FCFuiCDP_VarCurrentColony_Get
+               ,SelectedRegion
+               ,true
                );
             if not isTravelOK then
             begin
