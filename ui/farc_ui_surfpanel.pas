@@ -36,6 +36,16 @@ uses
    ,SysUtils;
 
 ///<summary>
+///   retrieve the SPcurrentStarSys variable value
+///</summary>
+function FCFuiSP_VarCurrentStarSys_Get: integer;
+
+///<summary>
+///   retrieve the SPcurrentStar variable value
+///</summary>
+function FCFuiSP_VarCurrentStar_Get: integer;
+
+///<summary>
 ///   retrieve the SPcurrentOObjIndex variable value
 ///</summary>
 function FCFuiSP_VarCurrentOObj_Get: integer;
@@ -493,6 +503,22 @@ begin
       then SAEPres:=SAEPres+FCCFidxRi+FCFdTFiles_UIStr_Get(uistrUI, 'gasSO2');
    end;
    Result:=SAEPres;
+end;
+
+function FCFuiSP_VarCurrentStarSys_Get: integer;
+{:Purpose: retrieve the SPcurrentStarSys variable value.
+    Additions:
+}
+begin
+   Result:=SPcurrentStarSys;
+end;
+
+function FCFuiSP_VarCurrentStar_Get: integer;
+{:Purpose: retrieve the SPcurrentStar variable value.
+    Additions:
+}
+begin
+   Result:=SPcurrentStar;
 end;
 
 function FCFuiSP_VarCurrentOOBj_Get: integer;

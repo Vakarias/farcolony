@@ -57,6 +57,21 @@ function FCFsF_SurveyVehicles_Get(
    const GetFirstTestOnly: boolean
    ): integer;
 
+///<summary>
+///   process the travel duration, if it's required
+///</summary>
+///   <param name="Entity">entity index #</param>
+///   <param name="Colony">colony index #</param>
+///   <param name="RegionOfDestination">region of destination where the survey will occur</param>
+///   <returns>true= the group has enough autonomy to go on site and process</returns>
+///   <remarks>FCFsF_SurveyVehicles_Get must be called on time before to be able to use this function (the vehicles groups list must be generated) because some data are updated.</remarks>
+function FCFsF_SurveyVehicles_ProcessTravel(
+   const Entity
+         ,Colony
+         ,RegionOfDestination: integer
+   ): boolean;
+
+
 //===========================END FUNCTIONS SECTION==========================================
 
 implementation
@@ -67,6 +82,7 @@ uses
    ,farc_data_init
    ,farc_data_planetarysurvey
    ,farc_game_prod
+   ,farc_univ_func
    ,farc_win_debug;
 
 //==END PRIVATE ENUM========================================================================
@@ -140,6 +156,37 @@ begin
       inc( Count );
    end;
    Result:=VehiclesProducts;
+end;
+
+function FCFsF_SurveyVehicles_ProcessTravel(
+   const Entity
+         ,Colony
+         ,RegionOfDestination: integer
+   ): boolean;
+{:Purpose: process the travel duration, if it's required.
+    Additions:
+}
+   var
+      MaxSettlements: integer;
+
+      RegionLocDestination
+      ,RegionLocOrigin: array of TFCRufRegionLoc;
+begin
+   MaxSettlements:=0;
+   SetLength( RegionLocDestination, 0 );
+   RegionLocDestination:=nil;
+   SetLength( RegionLocOrigin, 0 );
+   RegionLocOrigin:=nil;
+   Result:=false;
+   MaxSettlements:=length( FCDdgEntities[Entity].E_colonies[Colony].C_settlements )-1;
+   if ( MaxSettlements=1 )
+      and ( FCDdgEntities[Entity].E_colonies[Colony].C_settlements[1].S_locationRegion=RegionOfDestination)
+   then Result:=true
+   else if MaxSettlements>1 then
+   begin
+      SetLength( RegionLocDestination, MaxSettlements+1 );
+      SetLength( RegionLocOrigin, MaxSettlements+1 );
+   end; //==END== else if MaxSettlements>1 ==//
 end;
 
 //===========================END FUNCTIONS SECTION==========================================
