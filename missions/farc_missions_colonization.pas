@@ -114,6 +114,7 @@ procedure FCMgC_Colonize_PostProc(
    );
 {:Purpose: colonize mission - post process.
     Additions:
+      -2013Mar03- *rem: harcoded resource spots data are removed.
       -2012Jun03- *mod: the colony panel is correctly updated when a colonization mission is completed and the surface panel is displayed.
       -2011Nov17- *add: update hardcoded resource data w/ updated data structure.
       -2011Oct19- *add: update hardcoded resource data w/ Ore Field specific values.
@@ -139,27 +140,10 @@ var
 
 begin
    CPPsettlement:=0;
-   {:DEV NOTES: resource survey data, TO REMOVE WHEN REGION SURVEY IS IMPLEMENTED.}
-   SetLength(FCVdgPlayer.P_surveyedResourceSpots, 2);
-   {:DEV NOTES: END HARCODED SURVEY DATA.}
    if CPPsatIdx=0
-   then
-   begin
-      CPPcolIdx:=FCDduStarSystem[CPPssys].SS_stars[CPPstar].S_orbitalObjects[CPPobjIdx].OO_colonies[0];
-      {:DEV NOTES: resource survey data, TO REMOVE WHEN REGION SURVEY IS IMPLEMENTED.}
-      regionttl:=length(FCDduStarSystem[CPPssys].SS_stars[CPPstar].S_orbitalObjects[CPPobjIdx].OO_regions);
-      FCVdgPlayer.P_surveyedResourceSpots[1].SRS_orbitalObject_SatelliteToken:=FCDduStarSystem[CPPssys].SS_stars[CPPstar].S_orbitalObjects[CPPobjIdx].OO_dbTokenId;
-      {:DEV NOTES: END HARCODED SURVEY DATA.}
-   end
+   then CPPcolIdx:=FCDduStarSystem[CPPssys].SS_stars[CPPstar].S_orbitalObjects[CPPobjIdx].OO_colonies[0]
    else if CPPsatIdx>0
-   then
-   begin
-      CPPcolIdx:=FCDduStarSystem[CPPssys].SS_stars[CPPstar].S_orbitalObjects[CPPobjIdx].OO_satellitesList[CPPsatIdx].OO_colonies[0];
-      {:DEV NOTES: resource survey data, TO REMOVE WHEN REGION SURVEY IS IMPLEMENTED.}
-      regionttl:=length(FCDduStarSystem[CPPssys].SS_stars[CPPstar].S_orbitalObjects[CPPobjIdx].OO_satellitesList[CPPsatIdx].OO_regions);
-      FCVdgPlayer.P_surveyedResourceSpots[1].SRS_orbitalObject_SatelliteToken:=FCDduStarSystem[CPPssys].SS_stars[CPPstar].S_orbitalObjects[CPPobjIdx].OO_satellitesList[CPPsatIdx].OO_dbTokenId;
-      {:DEV NOTES: END HARCODED SURVEY DATA.}
-   end;
+   then CPPcolIdx:=FCDduStarSystem[CPPssys].SS_stars[CPPstar].S_orbitalObjects[CPPobjIdx].OO_satellitesList[CPPsatIdx].OO_colonies[0];
    {.establish the colony if no one exist}
    if CPPcolIdx=0
    then
@@ -186,26 +170,6 @@ begin
          and (surfaceSat=CPPsatIdx)
          and (CPPfac=0)
       then FCMgfxC_Settlement_SwitchDisplay(CPPregion, regionttl);
-      {:DEV NOTES: resource survey data, TO REMOVE WHEN REGION SURVEY IS IMPLEMENTED.}
-      FCVdgPlayer.P_surveyedResourceSpots[1].SRS_starSystem:=CPPssys;
-      FCVdgPlayer.P_surveyedResourceSpots[1].SRS_star:=CPPstar;
-      FCVdgPlayer.P_surveyedResourceSpots[1].SRS_orbitalObject:=CPPobjIdx;
-      FCVdgPlayer.P_surveyedResourceSpots[1].SRS_satellite:=CPPsatIdx;
-      setlength(FCVdgPlayer.P_surveyedResourceSpots[1].SRS_surveyedRegions, regionttl);
-      setlength(FCVdgPlayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots, 2 );
-      FCVdgPlayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots[1].RS_meanQualityCoefficient:=0.7;
-      FCVdgPlayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots[1].RS_spotSizeCurrent:=0;
-      FCVdgPlayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots[1].RS_spotSizeMax:=50;
-      FCVdgPlayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots[1].RS_type:=rstOreField;
-      FCVdgPlayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots[1].RS_tOFiCarbonaceous:=25;
-      FCVdgPlayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots[1].RS_tOFiMetallic:=25;
-      FCVdgPlayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots[1].RS_tOFiRare:=25;
-      FCVdgPlayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots[1].RS_tOFiUranium:=25;
-      if CPPsatIdx=0
-      then FCDduStarSystem[CPPssys].SS_stars[CPPstar].S_orbitalObjects[CPPobjIdx].OO_regions[CPPregion].OOR_resourceSurveyIndex:=1
-      else if CPPsatIdx>0
-      then FCDduStarSystem[CPPssys].SS_stars[CPPstar].S_orbitalObjects[CPPobjIdx].OO_satellitesList[CPPsatIdx].OO_regions[CPPregion].OOR_resourceSurveyIndex:=1;
-      {:DEV NOTES: END HARCODED SURVEY DATA.}
       FCMuiM_Message_Add(
          mtColonizeWset
          ,0

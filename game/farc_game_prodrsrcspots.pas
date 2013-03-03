@@ -59,6 +59,17 @@ function FCFgPRS_PresenceBySettlement_Check(
 //===========================END FUNCTIONS SECTION==========================================
 
 ///<summary>
+///   add/update a surveyed resource spot
+///</summary>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <returns></returns>
+///   <remarks></remarks>
+procedure FCMgPRS_ResourceSpot_Add();
+
+///<summary>
 ///   assign an owned infrastructure to it's resource spot
 ///</summary>
 ///   <param name="SRSAIentity">entity index #</param>
@@ -153,6 +164,34 @@ begin
 end;
 
 //===========================END FUNCTIONS SECTION==========================================
+
+procedure FCMgPRS_ResourceSpot_Add();
+{:Purpose: add/update a surveyed resource spot.
+    Additions:
+}
+begin
+   {:DEV NOTES: old hardcode form colonization post-process.}
+   {:DEV NOTES: resource survey data, TO REMOVE WHEN REGION SURVEY IS IMPLEMENTED.}
+//   FCVdgPlayer.P_surveyedResourceSpots[1].SRS_starSystem:=CPPssys;
+//   FCVdgPlayer.P_surveyedResourceSpots[1].SRS_star:=CPPstar;
+//   FCVdgPlayer.P_surveyedResourceSpots[1].SRS_orbitalObject:=CPPobjIdx;
+//   FCVdgPlayer.P_surveyedResourceSpots[1].SRS_satellite:=CPPsatIdx;
+//   setlength(FCVdgPlayer.P_surveyedResourceSpots[1].SRS_surveyedRegions, regionttl);
+//   setlength(FCVdgPlayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots, 2 );
+//   FCVdgPlayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots[1].RS_meanQualityCoefficient:=0.7;
+//   FCVdgPlayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots[1].RS_spotSizeCurrent:=0;
+//   FCVdgPlayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots[1].RS_spotSizeMax:=50;
+//   FCVdgPlayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots[1].RS_type:=rstOreField;
+//   FCVdgPlayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots[1].RS_tOFiCarbonaceous:=25;
+//   FCVdgPlayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots[1].RS_tOFiMetallic:=25;
+//   FCVdgPlayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots[1].RS_tOFiRare:=25;
+//   FCVdgPlayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots[1].RS_tOFiUranium:=25;
+//   if CPPsatIdx=0
+//   then FCDduStarSystem[CPPssys].SS_stars[CPPstar].S_orbitalObjects[CPPobjIdx].OO_regions[CPPregion].OOR_resourceSurveyIndex:=1
+//   else if CPPsatIdx>0
+//   then FCDduStarSystem[CPPssys].SS_stars[CPPstar].S_orbitalObjects[CPPobjIdx].OO_satellitesList[CPPsatIdx].OO_regions[CPPregion].OOR_resourceSurveyIndex:=1;
+   {:DEV NOTES: END HARCODED SURVEY DATA.}
+end;
 
 procedure FCMgPRS_SurveyedRsrcSpot_AssignInfra(
    const SRSAIentity

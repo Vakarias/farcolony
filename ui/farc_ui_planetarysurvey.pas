@@ -246,29 +246,36 @@ begin
          CountProduct:=0;
          while Count<=PSvehiclesListMax do
          begin
-            isTravelOK:=false;
-            ProductNode:=FCWinMain.PSP_ProductsList.Items.Add( nil,
-               '<a href="vehiclesremmax"><img src="file://'+FCVdiPathResourceDir+'pics-ui-resources\remmax.jpg"></a> '
-                     +'<a href="vehiclesrem"><img src="file://'+FCVdiPathResourceDir+'pics-ui-resources\rem.jpg"></a> '
-                     +'<a href="vehiclesadd"><img src="file://'+FCVdiPathResourceDir+'pics-ui-resources\add.jpg"></a> '
-                     +'<a href="vehiclesaddmax"><img src="file://'+FCVdiPathResourceDir+'pics-ui-resources\addmax.jpg"></a>  '+
-               FCFdTFiles_UIStr_Get( uistrUI, FCDsfSurveyVehicles[Count].SV_token )
-               );
             isTravelOK:=FCFsF_SurveyVehicles_ProcessTravel(
                0
                ,FCFuiCDP_VarCurrentColony_Get
                ,SelectedRegion
                );
+            if not isTravelOK then
+            begin
+               ProductNode:=FCWinMain.PSP_ProductsList.Items.Add( nil, FCFdTFiles_UIStr_Get( uistrUI, FCDsfSurveyVehicles[Count].SV_token ) );
+               FCWinMain.PSP_ProductsList.Items.AddChild( ProductNode, 'these vehicles haven''t enough range to process the survey at the current location' );
+            end
+            else begin
+               ProductNode:=FCWinMain.PSP_ProductsList.Items.Add( nil,
+                  '<a href="vehiclesremmax"><img src="file://'+FCVdiPathResourceDir+'pics-ui-resources\remmax.jpg"></a> '
+                     +'<a href="vehiclesrem"><img src="file://'+FCVdiPathResourceDir+'pics-ui-resources\rem.jpg"></a> '
+                     +'<a href="vehiclesadd"><img src="file://'+FCVdiPathResourceDir+'pics-ui-resources\add.jpg"></a> '
+                     +'<a href="vehiclesaddmax"><img src="file://'+FCVdiPathResourceDir+'pics-ui-resources\addmax.jpg"></a>  '
+                     +FCFdTFiles_UIStr_Get( uistrUI, FCDsfSurveyVehicles[Count].SV_token )
+                  );
 
-            FCWinMain.PSP_ProductsList.Items.AddChild(
-               ProductNode
-               ,FCFuiPS_VehiclesSetup_EntryFormat(
-                  FCDsfSurveyVehicles[Count].SV_capabilityResources
-                  ,FCDsfSurveyVehicles[Count].SV_crew
-                  ,FCDsfSurveyVehicles[Count].SV_choosenUnits
-                  ,FCDsfSurveyVehicles[Count].SV_storageUnits
-                  )
-               );
+
+               FCWinMain.PSP_ProductsList.Items.AddChild(
+                  ProductNode
+                  ,FCFuiPS_VehiclesSetup_EntryFormat(
+                     FCDsfSurveyVehicles[Count].SV_capabilityResources
+                     ,FCDsfSurveyVehicles[Count].SV_crew
+                     ,FCDsfSurveyVehicles[Count].SV_choosenUnits
+                     ,FCDsfSurveyVehicles[Count].SV_storageUnits
+                     )
+                  );
+            end;
             inc( CountProduct );
             PScurrentProducts[CountProduct]:=Count;
             inc( Count );
@@ -279,7 +286,7 @@ begin
       psBiosphere: FCWinMain.MVG_PlanetarySurveyPanel.Caption.Text:='<p align="center"><b>'+FCFdTFiles_UIStr_Get( uistrUI, 'psMainTitle' )+FCFdTFiles_UIStr_Get( uistrUI, 'psTitleBiosphere' );
 
       psFeaturesArtifacts: FCWinMain.MVG_PlanetarySurveyPanel.Caption.Text:='<p align="center"><b>'+FCFdTFiles_UIStr_Get( uistrUI, 'psMainTitle' )+FCFdTFiles_UIStr_Get( uistrUI, 'psFeaturesArtifacts' );
-   end;
+   end; //==END== case TypeOfSurvey of ==//
    FCWinMain.MVG_PlanetarySurveyPanel.Show;
    FCWinMain.MVG_PlanetarySurveyPanel.BringToFront;
 end;
