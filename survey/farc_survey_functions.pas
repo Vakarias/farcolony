@@ -91,7 +91,8 @@ uses
 //==END PRIVATE RECORDS=====================================================================
 
    //==========subsection===================================================================
-//var
+var
+   SFworkingOrbObject: TFCRufStelObj;
 //==END PRIVATE VAR=========================================================================
 
 //const
@@ -175,6 +176,8 @@ function FCFsF_SurveyVehicles_ProcessTravel(
       RegionLocDestination: TFCRufRegionLoc;
 
       RegionLocOrigin: array of TFCRufRegionLoc;
+
+
 begin
    Count:=0;
    MaxSettlements:=0;
@@ -187,18 +190,33 @@ begin
    if ( MaxSettlements=1 )
       and ( FCDdgEntities[Entity].E_colonies[Colony].C_settlements[1].S_locationRegion=RegionOfDestination)
    then Result:=true
-   else if MaxSettlements>1 then
-   begin
-//      if not useSameOrbitalObject
-//      then
-//      RegionLocDestination:=FCFuF_RegionLoc_ExtractNum(
-//
-//         )
+   else begin
+
+      if not useSameOrbitalObject
+      then SFworkingOrbObject:=FCFuF_StelObj_GetFullRow(
+         FCDdgEntities[Entity].E_colonies[Colony].C_locationStarSystem
+         ,FCDdgEntities[Entity].E_colonies[Colony].C_locationStar
+         ,FCDdgEntities[Entity].E_colonies[Colony].C_locationOrbitalObject
+         ,FCDdgEntities[Entity].E_colonies[Colony].C_locationSatellite
+         );
+      RegionLocDestination:=FCFuF_RegionLoc_ExtractNum(
+         SFworkingOrbObject[1]
+         ,SFworkingOrbObject[2]
+         ,SFworkingOrbObject[3]
+         ,SFworkingOrbObject[4]
+         ,RegionOfDestination
+         );
       SetLength( RegionLocOrigin, MaxSettlements+1 );
-      count:=1;
+      Count:=1;
       while Count<=MaxSettlements do
       begin
-
+         RegionLocOrigin[Count]:=FCFuF_RegionLoc_ExtractNum(
+            SFworkingOrbObject[1]
+            ,SFworkingOrbObject[2]
+            ,SFworkingOrbObject[3]
+            ,SFworkingOrbObject[4]
+            ,FCDdgEntities[Entity].E_colonies[Colony].C_settlements[Count].S_locationRegion
+            );
          inc( Count );
       end;
    end; //==END== else if MaxSettlements>1 ==//
