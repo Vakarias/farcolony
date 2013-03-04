@@ -574,10 +574,13 @@ function FCFgC_Region_GetNearestSettlement(
    var
       CountSettlement
       ,MaxSettlements: integer;
+
+      Distance: extended;
 begin
    Result:=0;
    CountSettlement:=1;
    MaxSettlements:=length( FCDdgEntities[Entity].E_colonies[Colony].C_settlements )-1;
+//   Distance:=
    while CountSettlement<=MaxSettlements do
    begin
       if FCDdgEntities[Entity].E_colonies[Colony].C_settlements[CountSettlement].S_locationRegion=SpecifiedRegion then
@@ -585,9 +588,7 @@ begin
          Result:=CountSettlement;
          break;
       end;
-//      case FCDdgEntities[Entity].E_colonies[Colony].C_settlements[CountSettlement].S_locationRegion of
-//
-//      end;
+
       inc( CountSettlement );
    end;
 end;

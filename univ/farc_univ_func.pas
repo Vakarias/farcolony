@@ -163,11 +163,8 @@ function FCFuF_Region_GetClim(const StarSys, Star, RGCooIdx, RGCsatIdx, RGCregId
 ///   extract a defined region location and put it in an array
 ///</summary>
 function FCFuF_RegionLoc_ExtractNum(
-   const RLEssysIdx
-         ,RLEstarIdx
-         ,RLEoobjIdx
-         ,RLEsatIdx
-         ,RLEregIdx: integer
+   const OrbObject: TFCRufStelObj;
+   const RLEregIdx: integer
    ): TFCRufRegionLoc;
 
 
@@ -175,12 +172,23 @@ function FCFuF_RegionLoc_ExtractNum(
 ///   extract a defined region location and put it in a string in x;y format or plain text if required
 ///</summary>
 function FCFuF_RegionLoc_ExtractStr(
-   const RLEssysIdx
-         ,RLEstarIdx
-         ,RLEoobjIdx
-         ,RLEsatIdx
-         ,RLEregIdx: integer
+   const OrbObject: TFCRufStelObj;
+   const RLEregIdx: integer
    ): string;
+
+///<summary>
+///   calculate the distance between two regions
+///</summary>
+///   <param name="OrbObject">orbital object numeric location</param>
+///   <param name="RegionA">region A index #</param>
+///   <param name="RegionB">region B index #</param>
+///   <returns>distance in raw numeric value</returns>
+///   <remarks>there's no roundto applied to the result</remarks>
+function FCFuF_Regions_CalculateDistance(
+   const OrbObject: TFCRufStelObj;
+   const RegionA
+         ,RegionB: integer
+   ): extended;
 
 ///<summary>
 ///   calculate the power, in watts / m2, provided by a star in space
@@ -605,11 +613,8 @@ begin
 end;
 
 function FCFuF_RegionLoc_ExtractNum(
-   const RLEssysIdx
-         ,RLEstarIdx
-         ,RLEoobjIdx
-         ,RLEsatIdx
-         ,RLEregIdx: integer
+   const OrbObject: TFCRufStelObj;
+   const RLEregIdx: integer
    ): TFCRufRegionLoc; overload;
 {:Purpose: extract a defined region location and put it in an array.
     Additions:
@@ -620,15 +625,15 @@ begin
    Result.RL_X:=0;
    Result.RL_Y:=0;
 
-   if RLEsatIdx=0
+   if OrbObject[4]=0
    then
    begin
-      RegionMax:=length(FCDduStarSystem[RLEssysIdx].SS_stars[RLEstarIdx].S_orbitalObjects[RLEoobjIdx].OO_regions)-1;
+      RegionMax:=length(FCDduStarSystem[OrbObject[1]].SS_stars[OrbObject[2]].S_orbitalObjects[OrbObject[3]].OO_regions)-1;
    end
-   else if RLEsatIdx>0
+   else if OrbObject[4]>0
    then
    begin
-      RegionMax:=length(FCDduStarSystem[RLEssysIdx].SS_stars[RLEstarIdx].S_orbitalObjects[RLEoobjIdx].OO_satellitesList[RLEsatIdx].OO_regions)-1;
+      RegionMax:=length(FCDduStarSystem[OrbObject[1]].SS_stars[OrbObject[2]].S_orbitalObjects[OrbObject[3]].OO_satellitesList[OrbObject[4]].OO_regions)-1;
    end;
    case RegionMax of
       4:
@@ -943,11 +948,8 @@ begin
 end;
 
 function FCFuF_RegionLoc_ExtractStr(
-   const RLEssysIdx
-         ,RLEstarIdx
-         ,RLEoobjIdx
-         ,RLEsatIdx
-         ,RLEregIdx: integer
+   const OrbObject: TFCRufStelObj;
+   const RLEregIdx: integer
    ): string;
 {:Purpose: extract a defined region location and put it in a string in x;y format or plain text if required.
     Additions:
@@ -961,25 +963,25 @@ begin
    RegionLocation.RL_X:=0;
    RegionLocation.RL_Y:=0;
    RegionLocation:=FCFuF_RegionLoc_ExtractNum(
-      RLEssysIdx
-      ,RLEstarIdx
-      ,RLEoobjIdx
-      ,RLEsatIdx
+      OrbObject[1]
+      ,OrbObject[2]
+      ,OrbObject[3]
+      ,OrbObject[4]
       ,RLEregIdx
       );
    if RegionLocation.RL_Y=1
    then Result:=FCFdTFiles_UIStr_Get(uistrUI, 'reglocNPole')
    else if RegionLocation.RL_Y>1 then
    begin
-      if RLEsatIdx=0
+      if OrbObject[4]=0
       then
       begin
-         RLEmaxReg:=length(FCDduStarSystem[RLEssysIdx].SS_stars[RLEstarIdx].S_orbitalObjects[RLEoobjIdx].OO_regions)-1;
+         RLEmaxReg:=length(FCDduStarSystem[OrbObject[1]].SS_stars[OrbObject[2]].S_orbitalObjects[OrbObject[3]].OO_regions)-1;
       end
-      else if RLEsatIdx>0
+      else if OrbObject[4]>0
       then
       begin
-         RLEmaxReg:=length(FCDduStarSystem[RLEssysIdx].SS_stars[RLEstarIdx].S_orbitalObjects[RLEoobjIdx].OO_satellitesList[RLEsatIdx].OO_regions)-1;
+         RLEmaxReg:=length(FCDduStarSystem[OrbObject[1]].SS_stars[OrbObject[2]].S_orbitalObjects[OrbObject[3]].OO_satellitesList[OrbObject[4]].OO_regions)-1;
       end;
       if ( ( RLEmaxReg=4 ) and ( RegionLocation.RL_Y=3 ) )
          or ( ( RLEmaxReg in [6..10] ) and ( RegionLocation.RL_Y=4 ) )
@@ -988,6 +990,24 @@ begin
       then Result:=FCFdTFiles_UIStr_Get(uistrUI, 'reglocSPole')
       else Result:=IntToStr( RegionLocation.RL_X )+';'+IntToStr( RegionLocation.RL_Y );
    end;
+end;
+
+function FCFuF_Regions_CalculateDistance(
+   const OrbObject: TFCRufStelObj;
+   const RegionA
+         ,RegionB: integer
+   ): extended;
+{:Purpose: calculate the distance between two regions.
+    Additions:
+}
+   var
+      LocRegionA
+      ,LocRegionB: TFCRufRegionLoc;
+begin
+   Result:=0;
+   LocRegionA:=FCFuF_RegionLoc_ExtractNum( OrbObject, RegionA );
+   LocRegionB:=FCFuF_RegionLoc_ExtractNum( OrbObject, RegionB );
+
 end;
 
 function FCFuF_StarLight_CalcPower(const SLCPstarLum, SLCPoobjDist: extended): extended;
