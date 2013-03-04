@@ -217,7 +217,7 @@ begin
          ,FCDdgEntities[Entity].E_colonies[Colony].C_settlements[NearestSettlement].S_locationRegion
          ,RegionOfDestination
          );
-      DistanceOneWay:=
+//      DistanceOneWay:=
    end;
 end;
 

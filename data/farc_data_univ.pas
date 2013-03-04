@@ -622,6 +622,17 @@ type TFCRduOrbitalObject = record
    ///   hydrosphere area
    ///</summary>
    OO_hydrosphereArea: extended;
+
+   ///<summary>
+   ///   surface by region
+   ///</summary>
+   OO_regionSurface: extended;
+   ///<summary>
+   ///   mean travel distance (MTD)
+   ///</summary>
+   OO_meanTravelDistance: integer;
+   {:DEV NOTES: include them in data files + upd xml with determined values.}
+
    ///<summary>
    ///   regions list
    ///</summary>
