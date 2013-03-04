@@ -35,7 +35,9 @@ uses
    SysUtils
 
    ,farc_data_game
-   ,farc_data_univ;
+   ,farc_data_univ
+
+   ,farc_univ_func;
 
 type TFCEgcAction=(
    gcaEstablished
@@ -120,6 +122,34 @@ function FCFgC_InfraKitsInStorage_Retrieve(
          ,IKISRset: integer;
    const IKISRinfraToken: string
    ): TFCRgcInfraKit;
+
+///<summary>
+///   get the nearest settlement of a specified colony from a region
+///</summary>
+///   <param name="Entity">entity index #</param>
+///   <param name="Colony">colony index #</param>
+///   <param name="SpecifiedRegion">region index # of origin</param>
+///   <returns>0 if there's no settlement, or the settlement[index]</returns>
+function FCFgC_Region_GetNearestSettlement(
+   const Entity
+         ,Colony
+         ,SpecifiedRegion: integer
+   ): integer; overload;
+
+///<summary>
+///   get the nearest settlement of a specified colony from a region
+///</summary>
+///   <param name="Entity">entity index #</param>
+///   <param name="Colony">colony index #</param>
+///   <param name="SpecifiedRegion">region index # of origin</param>
+///   <param name="OrbitalObject">orbital object indexes</param>
+///   <returns>0 if there's no settlement, or the settlement[index]</returns>
+function FCFgC_Region_GetNearestSettlement(
+   const Entity
+         ,Colony
+         ,SpecifiedRegion: integer;
+   const OrbitalObject: TFCRufStelObj
+   ): integer; overload;
 
 ///<summary>
 ///   add and initialize a new settlement for a colony
@@ -215,7 +245,6 @@ uses
    ,farc_game_infracustomfx
    ,farc_game_prod
    ,farc_ui_coredatadisplay
-   ,farc_univ_func
    ,farc_win_debug;
 
 var
@@ -504,6 +533,62 @@ begin
          end;
          inc(IKISRcnt);
       end;
+   end;
+end;
+
+function FCFgC_Region_GetNearestSettlement(
+   const Entity
+         ,Colony
+         ,SpecifiedRegion: integer
+   ): integer; overload;
+{:Purpose: get the nearest settlement of a specified colony from a region.
+    Additions:
+}
+   var
+      LocalOrbitalObject: TFCRufStelObj;
+begin
+   Result:=0;
+   LocalOrbitalObject:=FCFuF_StelObj_GetFullRow(
+      FCDdgEntities[ Entity ].E_colonies[ Colony ].C_locationStarSystem
+      ,FCDdgEntities[ Entity ].E_colonies[ Colony ].C_locationStar
+      ,FCDdgEntities[ Entity ].E_colonies[ Colony ].C_locationOrbitalObject
+      ,FCDdgEntities[ Entity ].E_colonies[ Colony ].C_locationSatellite
+      );
+   Result:=FCFgC_Region_GetNearestSettlement(
+      Entity
+      ,Colony
+      ,SpecifiedRegion
+      ,LocalOrbitalObject
+      );
+end;
+
+function FCFgC_Region_GetNearestSettlement(
+   const Entity
+         ,Colony
+         ,SpecifiedRegion: integer;
+   const OrbitalObject: TFCRufStelObj
+   ): integer; overload;
+{:Purpose: get the nearest settlement of a specified colony from a region.
+    Additions:
+}
+   var
+      CountSettlement
+      ,MaxSettlements: integer;
+begin
+   Result:=0;
+   CountSettlement:=1;
+   MaxSettlements:=length( FCDdgEntities[Entity].E_colonies[Colony].C_settlements )-1;
+   while CountSettlement<=MaxSettlements do
+   begin
+      if FCDdgEntities[Entity].E_colonies[Colony].C_settlements[CountSettlement].S_locationRegion=SpecifiedRegion then
+      begin
+         Result:=CountSettlement;
+         break;
+      end;
+//      case FCDdgEntities[Entity].E_colonies[Colony].C_settlements[CountSettlement].S_locationRegion of
+//
+//      end;
+      inc( CountSettlement );
    end;
 end;
 

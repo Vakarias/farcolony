@@ -53,6 +53,10 @@ type TFCRsfSurveyVehicles=record
    SV_capabilityFeaturesArtifacts: integer;
    SV_crew: integer;
    SV_numberOfVehicles: integer;
+   SV_emo: extended;
+   SV_oneWayTravel: integer;
+   SV_timeOfMission: integer;
+   SV_percentofSurfaceSurveyedByDay: extended;
 end;
 
    type TFCDsfSurveyVehicles= array of TFCRsfSurveyVehicles;
