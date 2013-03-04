@@ -344,13 +344,7 @@ var
 begin
       FCMuiSP_SurfaceSelected_Update(true);
    SetLength(CUarrTime, 1);
-   CUregLoc:=FCFuF_RegionLoc_ExtractStr(
-      FCRmcCurrentMissionCalculations.CMC_originLocation[1]
-      ,FCRmcCurrentMissionCalculations.CMC_originLocation[2]
-      ,FCRmcCurrentMissionCalculations.CMC_originLocation[3]
-      ,FCRmcCurrentMissionCalculations.CMC_originLocation[4]
-      ,FCRmcCurrentMissionCalculations.CMC_regionOfDestination
-      );
+   CUregLoc:=FCFuF_RegionLoc_ExtractStr( FCRmcCurrentMissionCalculations.CMC_originLocation, FCRmcCurrentMissionCalculations.CMC_regionOfDestination );
    CUcnt:=1;
    CUmax:=length(FCRmcCurrentMissionCalculations.CMC_dockList)-1;
    if CUmax=0 then

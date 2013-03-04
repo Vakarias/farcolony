@@ -962,13 +962,7 @@ begin
    Result:='';
    RegionLocation.RL_X:=0;
    RegionLocation.RL_Y:=0;
-   RegionLocation:=FCFuF_RegionLoc_ExtractNum(
-      OrbObject[1]
-      ,OrbObject[2]
-      ,OrbObject[3]
-      ,OrbObject[4]
-      ,RLEregIdx
-      );
+   RegionLocation:=FCFuF_RegionLoc_ExtractNum( OrbObject, RLEregIdx );
    if RegionLocation.RL_Y=1
    then Result:=FCFdTFiles_UIStr_Get(uistrUI, 'reglocNPole')
    else if RegionLocation.RL_Y>1 then
@@ -1001,13 +995,18 @@ function FCFuF_Regions_CalculateDistance(
     Additions:
 }
    var
+      CalcX
+      ,CalcY: extended;
+
       LocRegionA
       ,LocRegionB: TFCRufRegionLoc;
 begin
    Result:=0;
    LocRegionA:=FCFuF_RegionLoc_ExtractNum( OrbObject, RegionA );
    LocRegionB:=FCFuF_RegionLoc_ExtractNum( OrbObject, RegionB );
-
+   CalcX:=sqr( LocRegionB.RL_X-LocRegionA.RL_X );
+   CalcY:=sqr( LocRegionB.RL_Y-LocRegionA.RL_Y );
+   Result:=sqrt( CalcX+CalcY );
 end;
 
 function FCFuF_StarLight_CalcPower(const SLCPstarLum, SLCPoobjDist: extended): extended;

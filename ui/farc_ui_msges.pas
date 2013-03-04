@@ -132,8 +132,11 @@ procedure FCMuiM_Message_Add(
 var
    MBAMcnt
    ,MBAMmax
-   ,MBAMssys
-   ,MBAMstar: integer;
+//   ,MBAMssys
+//   ,MBAMstar
+   : integer;
+
+   SpaceLocation: TFCRufStelObj;
 
    MBAMcmode
    ,MBAMcolName
@@ -146,20 +149,24 @@ var
 
    procedure MA_Loc_Calc;
    begin
-      MBAMssys:=FCFuF_StelObj_GetDbIdx(
-      ufsoSsys
-      ,FCDdgEntities[MBAMfac].E_spaceUnits[MBAMitm0Idx].SU_locationStarSystem
-      ,0
-      ,0
-      ,0
-      );
-   MBAMstar:=FCFuF_StelObj_GetDbIdx(
-      ufsoStar
-      ,FCDdgEntities[MBAMfac].E_spaceUnits[MBAMitm0Idx].SU_locationStar
-      ,MBAMssys
-      ,0
-      ,0
-      );
+      SpaceLocation:=FCFuF_StelObj_GetStarSystemStar(
+         FCDdgEntities[MBAMfac].E_spaceUnits[MBAMitm0Idx].SU_locationStarSystem
+         ,FCDdgEntities[MBAMfac].E_spaceUnits[MBAMitm0Idx].SU_locationStar
+         );
+//      MBAMssys:=FCFuF_StelObj_GetDbIdx(
+//      ufsoSsys
+//      ,
+//      ,0
+//      ,0
+//      ,0
+//      );
+//   MBAMstar:=FCFuF_StelObj_GetDbIdx(
+//      ufsoStar
+//      ,
+//      ,MBAMssys
+//      ,0
+//      ,0
+//      );
    end;
 begin
    {.update string arrays and initialize data}
@@ -181,27 +188,23 @@ begin
          begin
             MBAMdestName:=FCFdTFiles_UIStr_Get(
                dtfscPrprName
-               ,FCDduStarSystem[MBAMssys].SS_stars[MBAMstar].S_orbitalObjects[MBAMitm1Idx].OO_dbTokenId
+               ,FCDduStarSystem[SpaceLocation[1]].SS_stars[SpaceLocation[2]].S_orbitalObjects[MBAMitm1Idx].OO_dbTokenId
                );
-            MBAMcolName:=FCDdgEntities[MBAMfac].E_colonies[FCDduStarSystem[MBAMssys].SS_stars[MBAMstar].S_orbitalObjects[MBAMitm1Idx].OO_colonies[0]].C_name;
+            MBAMcolName:=FCDdgEntities[MBAMfac].E_colonies[FCDduStarSystem[SpaceLocation[1]].SS_stars[SpaceLocation[2]].S_orbitalObjects[MBAMitm1Idx].OO_colonies[0]].C_name;
          end
          else if MBAMitm2Idx>0
          then
          begin
             MBAMdestName:=FCFdTFiles_UIStr_Get(
                dtfscPrprName
-               ,FCDduStarSystem[MBAMssys].SS_stars[MBAMstar].S_orbitalObjects[MBAMitm1Idx].OO_satellitesList[MBAMitm2Idx].OO_dbTokenId
+               ,FCDduStarSystem[SpaceLocation[1]].SS_stars[SpaceLocation[2]].S_orbitalObjects[MBAMitm1Idx].OO_satellitesList[MBAMitm2Idx].OO_dbTokenId
                );
             MBAMcolName
-               :=FCDdgEntities[MBAMfac].E_colonies[FCDduStarSystem[MBAMssys].SS_stars[MBAMstar].S_orbitalObjects[MBAMitm1Idx].OO_satellitesList[MBAMitm2Idx].OO_colonies[0]].C_name;
+               :=FCDdgEntities[MBAMfac].E_colonies[FCDduStarSystem[SpaceLocation[1]].SS_stars[SpaceLocation[2]].S_orbitalObjects[MBAMitm1Idx].OO_satellitesList[MBAMitm2Idx].OO_colonies[0]].C_name;
          end;
-         MBAMregLoc:=FCFuF_RegionLoc_ExtractStr(
-            MBAMssys
-            ,MBAMstar
-            ,MBAMitm1Idx
-            ,MBAMitm2Idx
-            ,MBAMitm3Idx
-            );
+         SpaceLocation[3]:=MBAMitm1Idx;
+         SpaceLocation[4]:=MBAMitm2Idx;
+         MBAMregLoc:=FCFuF_RegionLoc_ExtractStr( SpaceLocation, MBAMitm3Idx );
          if MBAMmsgeTp=mtColonize
          then FCVmsgStoMsg[FCVmsgCount]
             :=FCFdTFiles_UIStr_Get(uistrUI,'MSG_MissCol0')
@@ -236,12 +239,12 @@ begin
          if MBAMitm2Idx=0
          then MBAMdestName:=FCFdTFiles_UIStr_Get(
             dtfscPrprName
-            ,FCDduStarSystem[MBAMssys].SS_stars[MBAMstar].S_orbitalObjects[MBAMitm1Idx].OO_dbTokenId
+            ,FCDduStarSystem[SpaceLocation[1]].SS_stars[SpaceLocation[2]].S_orbitalObjects[MBAMitm1Idx].OO_dbTokenId
             )
          else if MBAMitm2Idx>0
          then MBAMdestName:=FCFdTFiles_UIStr_Get(
             dtfscPrprName
-            ,FCDduStarSystem[MBAMssys].SS_stars[MBAMstar].S_orbitalObjects[MBAMitm1Idx].OO_satellitesList[MBAMitm2Idx].OO_dbTokenId
+            ,FCDduStarSystem[SpaceLocation[1]].SS_stars[SpaceLocation[2]].S_orbitalObjects[MBAMitm1Idx].OO_satellitesList[MBAMitm2Idx].OO_dbTokenId
             );
          FCVmsgStoMsg[FCVmsgCount]:=FCFdTFiles_UIStr_Get(uistrUI,'MSG_MissIT0')
             +FCFdTFiles_UIStr_Get(dtfscPrprName, FCDdgEntities[MBAMfac].E_spaceUnits[MBAMitm0Idx].SU_name)

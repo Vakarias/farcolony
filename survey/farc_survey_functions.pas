@@ -63,12 +63,14 @@ function FCFsF_SurveyVehicles_Get(
 ///   <param name="Entity">entity index #</param>
 ///   <param name="Colony">colony index #</param>
 ///   <param name="RegionOfDestination">region of destination where the survey will occur</param>
+///   <param name="VehiclesGroupIndex">vehicles group index # in FCDsfSurveyVehicles</param>
 ///   <returns>true= the group has enough autonomy to go on site and process</returns>
 ///   <remarks>FCFsF_SurveyVehicles_Get must be called on time before to be able to use this function (the vehicles groups list must be generated) because some data are updated.</remarks>
 function FCFsF_SurveyVehicles_ProcessTravel(
    const Entity
          ,Colony
-         ,RegionOfDestination: integer;
+         ,RegionOfDestination
+         ,VehiclesGroupIndex: integer;
    const useSameOrbitalObject: boolean
    ): boolean;
 
@@ -169,7 +171,8 @@ end;
 function FCFsF_SurveyVehicles_ProcessTravel(
    const Entity
          ,Colony
-         ,RegionOfDestination: integer;
+         ,RegionOfDestination
+         ,VehiclesGroupIndex: integer;
    const useSameOrbitalObject: boolean
    ): boolean;
 {:Purpose: process the travel duration, if it's required.
@@ -179,18 +182,18 @@ function FCFsF_SurveyVehicles_ProcessTravel(
       NearestSettlement
       ,MaxSettlements: integer;
 
-      RegionLocDestination: TFCRufRegionLoc;
+//      RegionLocDestination: TFCRufRegionLoc;
+      DistanceCoefficient
+      ,DistanceOneWay: extended;
 
-      RegionLocOrigin: array of TFCRufRegionLoc;
+//      RegionLocOrigin: array of TFCRufRegionLoc;
 
 
 begin
    NearestSettlement:=0;
    MaxSettlements:=0;
-   RegionLocDestination.RL_X:=0;
-   RegionLocDestination.RL_Y:=0;
-   SetLength( RegionLocOrigin, 0 );
-   RegionLocOrigin:=nil;
+   DistanceCoefficient:=0;
+   DistanceOneWay:=0;
    Result:=false;
    MaxSettlements:=length( FCDdgEntities[Entity].E_colonies[Colony].C_settlements )-1;
    if not useSameOrbitalObject
@@ -199,13 +202,6 @@ begin
       ,FCDdgEntities[Entity].E_colonies[Colony].C_locationStar
       ,FCDdgEntities[Entity].E_colonies[Colony].C_locationOrbitalObject
       ,FCDdgEntities[Entity].E_colonies[Colony].C_locationSatellite
-      );
-   RegionLocDestination:=FCFuF_RegionLoc_ExtractNum(
-      SFworkingOrbObject[1]
-      ,SFworkingOrbObject[2]
-      ,SFworkingOrbObject[3]
-      ,SFworkingOrbObject[4]
-      ,RegionOfDestination
       );
    NearestSettlement:=FCFgC_Region_GetNearestSettlement(
       Entity
@@ -216,61 +212,13 @@ begin
    if FCDdgEntities[Entity].E_colonies[Colony].C_settlements[NearestSettlement].S_locationRegion=RegionOfDestination
    then Result:=true
    else begin
-      if FCVdiDebugMode
-      then FCWinDebug.AdvMemo1.Lines.Add('nearest settlement'+inttostr(NearestSettlement));
+      DistanceCoefficient:=FCFuF_Regions_CalculateDistance(
+         SFworkingOrbObject
+         ,FCDdgEntities[Entity].E_colonies[Colony].C_settlements[NearestSettlement].S_locationRegion
+         ,RegionOfDestination
+         );
+      DistanceOneWay:=
    end;
-
-
-
-//   SetLength( RegionLocOrigin, MaxSettlements+1 );
-//   Count:=1;
-//   while Count<=MaxSettlements do
-//   begin
-//      RegionLocOrigin[Count]:=FCFuF_RegionLoc_ExtractNum(
-//         SFworkingOrbObject[1]
-//         ,SFworkingOrbObject[2]
-//         ,SFworkingOrbObject[3]
-//         ,SFworkingOrbObject[4]
-//         ,FCDdgEntities[Entity].E_colonies[Colony].C_settlements[Count].S_locationRegion
-//         );
-//      inc( Count );
-//   end;
-
-
-
-//   if ( MaxSettlements=1 )
-//      and ( FCDdgEntities[Entity].E_colonies[Colony].C_settlements[1].S_locationRegion=RegionOfDestination)
-//   then Result:=true
-//   else begin
-//
-//      if not useSameOrbitalObject
-//      then SFworkingOrbObject:=FCFuF_StelObj_GetFullRow(
-//         FCDdgEntities[Entity].E_colonies[Colony].C_locationStarSystem
-//         ,FCDdgEntities[Entity].E_colonies[Colony].C_locationStar
-//         ,FCDdgEntities[Entity].E_colonies[Colony].C_locationOrbitalObject
-//         ,FCDdgEntities[Entity].E_colonies[Colony].C_locationSatellite
-//         );
-//      RegionLocDestination:=FCFuF_RegionLoc_ExtractNum(
-//         SFworkingOrbObject[1]
-//         ,SFworkingOrbObject[2]
-//         ,SFworkingOrbObject[3]
-//         ,SFworkingOrbObject[4]
-//         ,RegionOfDestination
-//         );
-//      SetLength( RegionLocOrigin, MaxSettlements+1 );
-//      Count:=1;
-//      while Count<=MaxSettlements do
-//      begin
-//         RegionLocOrigin[Count]:=FCFuF_RegionLoc_ExtractNum(
-//            SFworkingOrbObject[1]
-//            ,SFworkingOrbObject[2]
-//            ,SFworkingOrbObject[3]
-//            ,SFworkingOrbObject[4]
-//            ,FCDdgEntities[Entity].E_colonies[Colony].C_settlements[Count].S_locationRegion
-//            );
-//         inc( Count );
-//      end;
-//   end; //==END== else if MaxSettlements>1 ==//
 end;
 
 //===========================END FUNCTIONS SECTION==========================================

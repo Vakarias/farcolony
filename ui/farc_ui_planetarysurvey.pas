@@ -251,6 +251,7 @@ begin
                0
                ,FCFuiCDP_VarCurrentColony_Get
                ,SelectedRegion
+               ,Count
                ,false
                )
             else if Count>1
@@ -258,6 +259,7 @@ begin
                0
                ,FCFuiCDP_VarCurrentColony_Get
                ,SelectedRegion
+               ,Count
                ,true
                );
             if not isTravelOK then

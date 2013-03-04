@@ -575,12 +575,14 @@ function FCFgC_Region_GetNearestSettlement(
       CountSettlement
       ,MaxSettlements: integer;
 
-      Distance: extended;
+      Distance
+      ,DistanceMin: extended;
 begin
    Result:=0;
    CountSettlement:=1;
+   Distance:=0;
+   DistanceMin:=0;
    MaxSettlements:=length( FCDdgEntities[Entity].E_colonies[Colony].C_settlements )-1;
-//   Distance:=
    while CountSettlement<=MaxSettlements do
    begin
       if FCDdgEntities[Entity].E_colonies[Colony].C_settlements[CountSettlement].S_locationRegion=SpecifiedRegion then
@@ -588,7 +590,18 @@ begin
          Result:=CountSettlement;
          break;
       end;
-
+      Distance:=FCFcF_Round( rttCustom2Decimal, FCFuF_Regions_CalculateDistance(
+            OrbitalObject
+            ,FCDdgEntities[Entity].E_colonies[Colony].C_settlements[CountSettlement].S_locationRegion
+            ,SpecifiedRegion
+            )
+         );
+      if ( CountSettlement=1 )
+         or ( ( CountSettlement>1 ) and ( Distance<DistanceMin ) ) then
+      begin
+         DistanceMin:=Distance;
+         Result:=CountSettlement;
+      end;
       inc( CountSettlement );
    end;
 end;
