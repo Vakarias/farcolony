@@ -68,17 +68,20 @@ procedure FCMuiPS_Panel_InitText;
 ///   show the panel
 ///</summary>
 ///   <param name="TypeOfSurvey">configure the panel for a specified type of survey</param>
-procedure FCMuiPS_Panel_Show( const TypeOfSurvey: TFCEdgPlanetarySurveys );
+///   <param name="UpdateOnlyVehicles">only update the vehicles list, used when the panel is already opened</param>
+procedure FCMuiPS_Panel_Show( const TypeOfSurvey: TFCEdgPlanetarySurveys; const UpdateOnlyVehicles: boolean );
 
 ///<summary>
 ///   process the add button
 ///</summary>
-procedure FCMuiPS_VehiclesSetup_Add;
+///   <param name="TypeOfSurvey">configure the add for a specified type of survey</param>
+procedure FCMuiPS_VehiclesSetup_Add( const TypeOfSurvey: TFCEdgPlanetarySurveys );
 
 ///<summary>
 ///   process the addmax button
 ///</summary>
-procedure FCMuiPS_VehiclesSetup_AddMax;
+///   <param name="TypeOfSurvey">configure the addmax for a specified type of survey</param>
+procedure FCMuiPS_VehiclesSetup_AddMax( const TypeOfSurvey: TFCEdgPlanetarySurveys );
 
 ///<summary>
 ///   update the current crew available
@@ -88,12 +91,14 @@ procedure FCMuiPS_VehiclesSetup_CrewFormat;
 ///<summary>
 ///   process the rem button
 ///</summary>
-procedure FCMuiPS_VehiclesSetup_Rem;
+///   <param name="TypeOfSurvey">configure the rem for a specified type of survey</param>
+procedure FCMuiPS_VehiclesSetup_Rem( const TypeOfSurvey: TFCEdgPlanetarySurveys );
 
 ///<summary>
 ///   process the remmax button
 ///</summary>
-procedure FCMuiPS_VehiclesSetup_RemMax;
+///   <param name="TypeOfSurvey">configure the remmax for a specified type of survey</param>
+procedure FCMuiPS_VehiclesSetup_RemMax( const TypeOfSurvey: TFCEdgPlanetarySurveys );
 
 ///<summary>
 ///   initialize the unit threshold of a given type of vehicles
@@ -146,29 +151,35 @@ begin
    Result:=FCDdgEntities[0].E_colonies[FCFuiCDP_VarCurrentColony_Get].C_population.CP_classColonist-FCDdgEntities[0].E_colonies[FCFuiCDP_VarCurrentColony_Get].C_population.CP_classColonistAssigned-PSvehiclesCrewUsed;
 end;
 
-function FCFuiPS_VehiclesSetup_EntryFormat(
-   const VehicleCapability
-         ,Crew
-         ,ChoosenUnits
-         ,StorageUnits: integer
-   ): string;
+function FCFuiPS_VehiclesSetup_EntryFormat( const TypeOfSurvey: TFCEdgPlanetarySurveys; const VehiclesGroupIndex: integer ): string;
 {:Purpose: generate an entry line for a vehicle.
     Additions:
+      -2013Mar04- *rem: useless parameter have been removed.
 }
    var
       RedFormat
-      ,RedFormatEnd: string;
+      ,RedFormatEnd
+      ,VehiclesCapability: string;
 begin
    RedFormat:='';
    RedFormatEnd:='';
+   VehiclesCapability:='';
+   case TypeOfSurvey of
+      psResources: VehiclesCapability:=inttostr( FCDsfSurveyVehicles[VehiclesGroupIndex].SV_capabilityResources );
+
+      psBiosphere: VehiclesCapability:=inttostr( FCDsfSurveyVehicles[VehiclesGroupIndex].SV_capabilityBiosphere );
+
+      psFeaturesArtifacts: VehiclesCapability:=inttostr( FCDsfSurveyVehicles[VehiclesGroupIndex].SV_capabilityFeaturesArtifacts );
+   end;
    Result:='';
-   if ( Crew>0 )
-      and ( FCFuiPS_AvailableCrew_GetValue<Crew ) then
+   if ( FCDsfSurveyVehicles[VehiclesGroupIndex].SV_crew>0 )
+      and ( FCFuiPS_AvailableCrew_GetValue<FCDsfSurveyVehicles[VehiclesGroupIndex].SV_crew ) then
    begin
       RedFormat:=FCCFcolRed;
       RedFormatEnd:=FCCFcolEND
    end;
-   Result:='Capability [<b>'+IntToStr( VehicleCapability )+'</b>]  Crew [<b>'+RedFormat+IntToStr( Crew )+RedFormatEnd+'</b>]  Units [<b>'+inttostr( ChoosenUnits )+' / '+inttostr( StorageUnits )+'</b>]';
+   Result:='Capability [<b>'+VehiclesCapability+'</b>]  Crew [<b>'+RedFormat+IntToStr( FCDsfSurveyVehicles[VehiclesGroupIndex].SV_crew )+RedFormatEnd+'</b>]  Units [<b>'+inttostr( FCDsfSurveyVehicles[VehiclesGroupIndex].SV_choosenUnits )+' / '
+      +inttostr( FCDsfSurveyVehicles[VehiclesGroupIndex].SV_storageUnits )+'</b>]';
 end;
 
 //===========================END FUNCTIONS SECTION==========================================
@@ -205,9 +216,10 @@ begin
    FCWinMain.MVG_PlanetarySurveyPanel.Caption.Text:='';
 end;
 
-procedure FCMuiPS_Panel_Show( const TypeOfSurvey: TFCEdgPlanetarySurveys );
+procedure FCMuiPS_Panel_Show( const TypeOfSurvey: TFCEdgPlanetarySurveys; const UpdateOnlyVehicles: boolean );
 {:Purpose: show the panel.
     Additions:
+      -2013Mar04- *add: new parameter - UpdateOnlyVehicles.
 }
    var
       Count
@@ -230,12 +242,14 @@ begin
       begin
          SelectedRegion:=FCFuiSP_VarRegionSelected_Get;
          FCWinMain.MVG_PlanetarySurveyPanel.Caption.Text:='<p align="center"><b>'+FCFdTFiles_UIStr_Get( uistrUI, 'psMainTitle' )+FCFdTFiles_UIStr_Get( uistrUI, 'psTitleResources' );
-         FCWinMain.MVG_PlanetarySurveyPanel.Caption.Text:=FCWinMain.MVG_PlanetarySurveyPanel.Caption.Text+'  Region:'+inttostr( SelectedRegion );
-         FCWinMain.MVG_PlanetarySurveyPanel.Left:=FCWinMain.MVG_SurfacePanel.Left+FCWinMain.MVG_SurfacePanel.Width-FCWinMain.SP_RegionSheet.Width;
-         FCWinMain.MVG_PlanetarySurveyPanel.Top:=FCWinMain.MVG_SurfacePanel.Top;
-         FCWinMain.PSP_Label.HTMLText.Clear;
-         FCWinMain.PSP_Label.HTMLText.Add( FCCFdHeadC+'Set up An Expedition'+FCCFdHeadEnd );
-         FCWinMain.PSP_Label.HTMLText.Add( 'Current Crew Available: '+IntToStr( FCDdgEntities[0].E_colonies[FCFuiCDP_VarCurrentColony_Get].C_population.CP_classColonist-FCDdgEntities[0].E_colonies[FCFuiCDP_VarCurrentColony_Get].C_population.CP_classColonistAssigned-PSvehiclesCrewUsed ) );
+         if not UpdateOnlyVehicles then
+         begin
+            FCWinMain.MVG_PlanetarySurveyPanel.Left:=FCWinMain.MVG_SurfacePanel.Left+FCWinMain.MVG_SurfacePanel.Width-FCWinMain.SP_RegionSheet.Width;
+            FCWinMain.MVG_PlanetarySurveyPanel.Top:=FCWinMain.MVG_SurfacePanel.Top;
+            FCWinMain.PSP_Label.HTMLText.Clear;
+            FCWinMain.PSP_Label.HTMLText.Add( FCCFdHeadC+'Set up An Expedition'+FCCFdHeadEnd );
+            FCWinMain.PSP_Label.HTMLText.Add( 'Current Crew Available: '+IntToStr( FCDdgEntities[0].E_colonies[FCFuiCDP_VarCurrentColony_Get].C_population.CP_classColonist-FCDdgEntities[0].E_colonies[FCFuiCDP_VarCurrentColony_Get].C_population.CP_classColonistAssigned-PSvehiclesCrewUsed ) );
+         end;
          PSvehiclesListMax:=FCFsF_SurveyVehicles_Get(
             0
             ,FCFuiCDP_VarCurrentColony_Get
@@ -247,20 +261,22 @@ begin
          while Count<=PSvehiclesListMax do
          begin
             if Count=1
-            then isTravelOK:=FCFsF_SurveyVehicles_ProcessTravel(
+            then isTravelOK:=FCFsF_ResourcesSurvey_ProcessTravelSurveyDistance(
                0
                ,FCFuiCDP_VarCurrentColony_Get
                ,SelectedRegion
                ,Count
                ,false
+               ,false
                )
             else if Count>1
-            then isTravelOK:=FCFsF_SurveyVehicles_ProcessTravel(
+            then isTravelOK:=FCFsF_ResourcesSurvey_ProcessTravelSurveyDistance(
                0
                ,FCFuiCDP_VarCurrentColony_Get
                ,SelectedRegion
                ,Count
                ,true
+               ,false
                );
             if not isTravelOK then
             begin
@@ -269,30 +285,22 @@ begin
             end
             else begin
                ProductNode:=FCWinMain.PSP_ProductsList.Items.Add( nil,
-                  '<a href="vehiclesremmax"><img src="file://'+FCVdiPathResourceDir+'pics-ui-resources\remmax.jpg"></a> '
-                     +'<a href="vehiclesrem"><img src="file://'+FCVdiPathResourceDir+'pics-ui-resources\rem.jpg"></a> '
-                     +'<a href="vehiclesadd"><img src="file://'+FCVdiPathResourceDir+'pics-ui-resources\add.jpg"></a> '
-                     +'<a href="vehiclesaddmax"><img src="file://'+FCVdiPathResourceDir+'pics-ui-resources\addmax.jpg"></a>  '
+                  '<a href="vehiclesRESremmax"><img src="file://'+FCVdiPathResourceDir+'pics-ui-resources\remmax.jpg"></a> '
+                     +'<a href="vehiclesRESrem"><img src="file://'+FCVdiPathResourceDir+'pics-ui-resources\rem.jpg"></a> '
+                     +'<a href="vehiclesRESadd"><img src="file://'+FCVdiPathResourceDir+'pics-ui-resources\add.jpg"></a> '
+                     +'<a href="vehiclesRESaddmax"><img src="file://'+FCVdiPathResourceDir+'pics-ui-resources\addmax.jpg"></a>  '
                      +FCFdTFiles_UIStr_Get( uistrUI, FCDsfSurveyVehicles[Count].SV_token )
                   );
 
 
-               FCWinMain.PSP_ProductsList.Items.AddChild(
-                  ProductNode
-                  ,FCFuiPS_VehiclesSetup_EntryFormat(
-                     FCDsfSurveyVehicles[Count].SV_capabilityResources
-                     ,FCDsfSurveyVehicles[Count].SV_crew
-                     ,FCDsfSurveyVehicles[Count].SV_choosenUnits
-                     ,FCDsfSurveyVehicles[Count].SV_storageUnits
-                     )
-                  );
+               FCWinMain.PSP_ProductsList.Items.AddChild( ProductNode, FCFuiPS_VehiclesSetup_EntryFormat( psResources,Count ) );
             end;
             inc( CountProduct );
             PScurrentProducts[CountProduct]:=Count;
             inc( Count );
-         end;
+         end; //==END== while Count<=PSvehiclesListMax ==//
          FCWinMain.PSP_ProductsList.FullExpand;
-      end;
+      end; //==END== case: psResources ==//
 
       psBiosphere: FCWinMain.MVG_PlanetarySurveyPanel.Caption.Text:='<p align="center"><b>'+FCFdTFiles_UIStr_Get( uistrUI, 'psMainTitle' )+FCFdTFiles_UIStr_Get( uistrUI, 'psTitleBiosphere' );
 
@@ -302,7 +310,7 @@ begin
    FCWinMain.MVG_PlanetarySurveyPanel.BringToFront;
 end;
 
-procedure FCMuiPS_VehiclesSetup_Add;
+procedure FCMuiPS_VehiclesSetup_Add( const TypeOfSurvey: TFCEdgPlanetarySurveys );
 {:Purpose: process the add button.
     Additions:
 }
@@ -316,13 +324,7 @@ begin
          ) then
    begin
       inc( FCDsfSurveyVehicles[CurrentItem].SV_choosenUnits );
-      FCWinMain.PSP_ProductsList.Items[ (FCWinMain.PSP_ProductsList.Selected.Index*2)+1 ].Text:=
-      FCFuiPS_VehiclesSetup_EntryFormat(
-         FCDsfSurveyVehicles[CurrentItem].SV_capabilityResources
-         ,FCDsfSurveyVehicles[CurrentItem].SV_crew
-         ,FCDsfSurveyVehicles[CurrentItem].SV_choosenUnits
-         ,FCDsfSurveyVehicles[CurrentItem].SV_storageUnits
-         );
+      FCWinMain.PSP_ProductsList.Items[ (FCWinMain.PSP_ProductsList.Selected.Index*2)+1 ].Text:=FCFuiPS_VehiclesSetup_EntryFormat( TypeOfSurvey, CurrentItem );
       if FCDsfSurveyVehicles[CurrentItem].SV_crew>0 then
       begin
          PSvehiclesCrewUsed:=PSvehiclesCrewUsed+FCDsfSurveyVehicles[CurrentItem].SV_crew;
@@ -331,7 +333,7 @@ begin
    end;
 end;
 
-procedure FCMuiPS_VehiclesSetup_AddMax;
+procedure FCMuiPS_VehiclesSetup_AddMax( const TypeOfSurvey: TFCEdgPlanetarySurveys );
 {:Purpose: process the addmax button.
     Additions:
 }
@@ -367,13 +369,7 @@ begin
          FCMuiPS_VehiclesSetup_CrewFormat;
       end;
    end;
-   FCWinMain.PSP_ProductsList.Items[ (FCWinMain.PSP_ProductsList.Selected.Index*2)+1 ].Text:=
-      FCFuiPS_VehiclesSetup_EntryFormat(
-         FCDsfSurveyVehicles[CurrentItem].SV_capabilityResources
-         ,FCDsfSurveyVehicles[CurrentItem].SV_crew
-         ,FCDsfSurveyVehicles[CurrentItem].SV_choosenUnits
-         ,FCDsfSurveyVehicles[CurrentItem].SV_storageUnits
-         );
+   FCWinMain.PSP_ProductsList.Items[ (FCWinMain.PSP_ProductsList.Selected.Index*2)+1 ].Text:=FCFuiPS_VehiclesSetup_EntryFormat( TypeOfSurvey, CurrentItem );
 end;
 
 procedure FCMuiPS_VehiclesSetup_CrewFormat;
@@ -388,7 +384,7 @@ begin
    FCWinMain.PSP_Label.HTMLText.Delete( 2 );
 end;
 
-procedure FCMuiPS_VehiclesSetup_Rem;
+procedure FCMuiPS_VehiclesSetup_Rem( const TypeOfSurvey: TFCEdgPlanetarySurveys );
 {:Purpose: process the rem button.
     Additions:
 }
@@ -399,13 +395,7 @@ begin
    if ( FCDsfSurveyVehicles[CurrentItem].SV_choosenUnits>0 ) then
    begin
       dec( FCDsfSurveyVehicles[CurrentItem].SV_choosenUnits );
-      FCWinMain.PSP_ProductsList.Items[ (FCWinMain.PSP_ProductsList.Selected.Index*2)+1 ].Text:=
-      FCFuiPS_VehiclesSetup_EntryFormat(
-         FCDsfSurveyVehicles[CurrentItem].SV_capabilityResources
-         ,FCDsfSurveyVehicles[CurrentItem].SV_crew
-         ,FCDsfSurveyVehicles[CurrentItem].SV_choosenUnits
-         ,FCDsfSurveyVehicles[CurrentItem].SV_storageUnits
-         );
+      FCWinMain.PSP_ProductsList.Items[ (FCWinMain.PSP_ProductsList.Selected.Index*2)+1 ].Text:=FCFuiPS_VehiclesSetup_EntryFormat( TypeOfSurvey, CurrentItem );
       if FCDsfSurveyVehicles[CurrentItem].SV_crew>0 then
       begin
          PSvehiclesCrewUsed:=PSvehiclesCrewUsed-FCDsfSurveyVehicles[CurrentItem].SV_crew;
@@ -414,7 +404,7 @@ begin
    end;
 end;
 
-procedure FCMuiPS_VehiclesSetup_RemMax;
+procedure FCMuiPS_VehiclesSetup_RemMax( const TypeOfSurvey: TFCEdgPlanetarySurveys );
 {:Purpose: process the remmax button.
     Additions:
 }
@@ -439,13 +429,7 @@ begin
          FCDsfSurveyVehicles[CurrentItem].SV_choosenUnits:=FCDsfSurveyVehicles[CurrentItem].SV_choosenUnits-FCDsfSurveyVehicles[CurrentItem].SV_unitThreshold;
       end;
       FCMuiPS_VehiclesSetup_CrewFormat;
-      FCWinMain.PSP_ProductsList.Items[ (FCWinMain.PSP_ProductsList.Selected.Index*2)+1 ].Text:=
-         FCFuiPS_VehiclesSetup_EntryFormat(
-            FCDsfSurveyVehicles[CurrentItem].SV_capabilityResources
-            ,FCDsfSurveyVehicles[CurrentItem].SV_crew
-            ,FCDsfSurveyVehicles[CurrentItem].SV_choosenUnits
-            ,FCDsfSurveyVehicles[CurrentItem].SV_storageUnits
-            );
+      FCWinMain.PSP_ProductsList.Items[ (FCWinMain.PSP_ProductsList.Selected.Index*2)+1 ].Text:=FCFuiPS_VehiclesSetup_EntryFormat( TypeOfSurvey, CurrentItem );
    end;
 end;
 

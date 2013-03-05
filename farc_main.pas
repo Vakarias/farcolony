@@ -1561,7 +1561,7 @@ end;
 
 procedure TFCWinMain.SP_ResourceSurveyCommitClick(Sender: TObject);
 begin
-   FCMuiPS_Panel_Show( psResources );
+   FCMuiPS_Panel_Show( psResources, false );
 end;
 
 procedure TFCWinMain.SP_SurfaceDisplayHotSpotEnter(Sender: TObject; HotSpot: THotSpot);
@@ -1626,7 +1626,11 @@ begin
       FCMuiSP_VarRegionSelected_Update;
       FCMuiSP_SurfaceSelected_Update( true );
       FCWinMain.SP_ResourceSurveyCommit.Show;
-   end;
+      if FCWinMain.MVG_PlanetarySurveyPanel.Visible
+      then FCMuiPS_Panel_Show( psResources, true );
+   end
+   else if FCWinMain.MVG_PlanetarySurveyPanel.Visible
+   then FCWinMain.MVG_PlanetarySurveyPanel.Hide;
 end;
 
 procedure TFCWinMain.FCWM_UMIFac_ColoniesKeyDown(Sender: TObject; var Key: Word;
@@ -1886,14 +1890,14 @@ end;
 procedure TFCWinMain.PSP_ProductsListAnchorClick(Sender: TObject; Node: TTreeNode;
   anchor: string);
 begin
-   if anchor='vehiclesremmax'
-   then FCMuiPS_VehiclesSetup_RemMax
-   else if anchor='vehiclesrem'
-   then FCMuiPS_VehiclesSetup_Rem
-   else if anchor='vehiclesadd'
-   then FCMuiPS_VehiclesSetup_Add
-   else if anchor='vehiclesaddmax'
-   then FCMuiPS_VehiclesSetup_AddMax;
+   if anchor='vehiclesRESremmax'
+   then FCMuiPS_VehiclesSetup_RemMax( psResources )
+   else if anchor='vehiclesRESrem'
+   then FCMuiPS_VehiclesSetup_Rem( psResources )
+   else if anchor='vehiclesRESadd'
+   then FCMuiPS_VehiclesSetup_Add( psResources )
+   else if anchor='vehiclesRESaddmax'
+   then FCMuiPS_VehiclesSetup_AddMax( psResources );
 end;
 
 procedure TFCWinMain.PSP_ProductsListCollapsing(Sender: TObject; Node: TTreeNode;

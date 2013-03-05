@@ -56,7 +56,7 @@ type TFCRsfSurveyVehicles=record
    SV_emo: extended;
    SV_oneWayTravel: integer;
    SV_timeOfMission: integer;
-   SV_percentofSurfaceSurveyedByDay: extended;
+   SV_distanceOfSurvey: extended;
 end;
 
    type TFCDsfSurveyVehicles= array of TFCRsfSurveyVehicles;

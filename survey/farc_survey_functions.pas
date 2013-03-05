@@ -58,29 +58,41 @@ function FCFsF_SurveyVehicles_Get(
    ): integer;
 
 ///<summary>
-///   process the travel duration, if it's required
+///   process the travel duration, if it's required, and the distance of survey
 ///</summary>
 ///   <param name="Entity">entity index #</param>
 ///   <param name="Colony">colony index #</param>
 ///   <param name="RegionOfDestination">region of destination where the survey will occur</param>
 ///   <param name="VehiclesGroupIndex">vehicles group index # in FCDsfSurveyVehicles</param>
+///   <param name="useSameOrbitalObject">false= don't retrieve the orbital object location</param>
+///   <param name="onlyUpdateDistanceSurvey">false= full calculations, true= only update the distance of survey</param>
 ///   <returns>true= the group has enough autonomy to go on site and process</returns>
 ///   <remarks>FCFsF_SurveyVehicles_Get must be called on time before to be able to use this function (the vehicles groups list must be generated) because some data are updated.</remarks>
-function FCFsF_SurveyVehicles_ProcessTravel(
+function FCFsF_ResourcesSurvey_ProcessTravelSurveyDistance(
    const Entity
          ,Colony
          ,RegionOfDestination
          ,VehiclesGroupIndex: integer;
-   const useSameOrbitalObject: boolean
+   const useSameOrbitalObject
+         ,onlyUpdateDistanceSurvey: boolean
    ): boolean;
 
 
 //===========================END FUNCTIONS SECTION==========================================
 
+///<summary>
+///   determine the EMO, according to the vehicles group function, and load it into the data structure
+///</summary>
+///   <param name="VehiclesGroupIndex">vehicles group index # in FCDsfSurveyVehicles</param>
+///   <param name="Region">region index # where the EMO must be taken of</param>
+///   <remarks>SFworkingOrbObject must be loaded with the correct data prior the call of this procedure</remarks>
+procedure FCMsF_SurveyVehicles_EMOLoad( const VehiclesGroupIndex, Region: integer );
+
 implementation
 
 uses
-   farc_data_game
+   farc_common_func
+   ,farc_data_game
    ,farc_data_infrprod
    ,farc_data_init
    ,farc_data_planetarysurvey
@@ -162,41 +174,40 @@ begin
          FCDsfSurveyVehicles[VehiclesProducts].SV_emo:=0;
          FCDsfSurveyVehicles[VehiclesProducts].SV_oneWayTravel:=0;
          FCDsfSurveyVehicles[VehiclesProducts].SV_timeOfMission:=0;
-         FCDsfSurveyVehicles[VehiclesProducts].SV_percentofSurfaceSurveyedByDay:=0;
+         FCDsfSurveyVehicles[VehiclesProducts].SV_distanceOfSurvey:=0;
       end;
       inc( Count );
    end;
    Result:=VehiclesProducts;
 end;
 
-function FCFsF_SurveyVehicles_ProcessTravel(
+function FCFsF_ResourcesSurvey_ProcessTravelSurveyDistance(
    const Entity
          ,Colony
          ,RegionOfDestination
          ,VehiclesGroupIndex: integer;
-   const useSameOrbitalObject: boolean
+   const useSameOrbitalObject
+         ,onlyUpdateDistanceSurvey: boolean
    ): boolean;
-{:Purpose: process the travel duration, if it's required.
+{:Purpose: process the travel duration, if it's required, and the distance of survey.
     Additions:
 }
    var
-      NearestSettlement
+      DaysOfTravel
+      ,NearestSettlement
       ,MaxSettlements: integer;
 
-//      RegionLocDestination: TFCRufRegionLoc;
-      DaysOfTravel
-      ,DistanceCoefficient
-      ,DistanceOneWay: extended;
-
-//      RegionLocOrigin: array of TFCRufRegionLoc;
-
+      DistanceCoefficient
+      ,DistanceOneWay
+      ,DistanceSurvey: extended;
 
 begin
+   DaysOfTravel:=0;
    NearestSettlement:=0;
    MaxSettlements:=0;
-   DaysOfTravel:=0;
    DistanceCoefficient:=0;
    DistanceOneWay:=0;
+   DistanceSurvey:=0;
    Result:=false;
    MaxSettlements:=length( FCDdgEntities[Entity].E_colonies[Colony].C_settlements )-1;
    if not useSameOrbitalObject
@@ -212,8 +223,12 @@ begin
       ,RegionOfDestination
       ,SFworkingOrbObject
       );
-   if FCDdgEntities[Entity].E_colonies[Colony].C_settlements[NearestSettlement].S_locationRegion=RegionOfDestination
-   then Result:=true
+   if FCDdgEntities[Entity].E_colonies[Colony].C_settlements[NearestSettlement].S_locationRegion=RegionOfDestination then
+   begin
+      Result:=true;
+      FCMsF_SurveyVehicles_EMOLoad( VehiclesGroupIndex, RegionOfDestination );
+      FCDsfSurveyVehicles[VehiclesGroupIndex].SV_timeOfMission:=FCDsfSurveyVehicles[VehiclesGroupIndex].SV_missionTime;
+   end
    else begin
       DistanceCoefficient:=FCFuF_Regions_CalculateDistance(
          SFworkingOrbObject
@@ -221,50 +236,62 @@ begin
          ,RegionOfDestination
          );
       if SFworkingOrbObject[4]<=0
-      then DistanceOneWay:=FCDduStarSystem[SFworkingOrbObject[1]].SS_stars[SFworkingOrbObject[2]].S_orbitalObjects[SFworkingOrbObject[3]].OO_meanTravelDistance*DistanceCoefficient
-      else DistanceOneWay:=FCDduStarSystem[SFworkingOrbObject[1]].SS_stars[SFworkingOrbObject[2]].S_orbitalObjects[SFworkingOrbObject[3]].OO_satellitesList[SFworkingOrbObject[4]].OO_meanTravelDistance*DistanceCoefficient;
-      DaysOfTravel:=int( DistanceOneWay / FCDsfSurveyVehicles[VehiclesGroupIndex].SV_speed )+1;
+      then DistanceOneWay:=FCDduStarSystem[SFworkingOrbObject[1]].SS_stars[SFworkingOrbObject[2]].S_orbitalObjects[SFworkingOrbObject[3]].OO_meanTravelDistance * DistanceCoefficient
+      else DistanceOneWay:=FCDduStarSystem[SFworkingOrbObject[1]].SS_stars[SFworkingOrbObject[2]].S_orbitalObjects[SFworkingOrbObject[3]].OO_satellitesList[SFworkingOrbObject[4]].OO_meanTravelDistance * DistanceCoefficient;
+      DaysOfTravel:=trunc( DistanceOneWay / FCDsfSurveyVehicles[VehiclesGroupIndex].SV_speed ) + 1;
       if DaysOfTravel*2<FCDsfSurveyVehicles[VehiclesGroupIndex].SV_missionTime then
       begin
          Result:=true;
-         case FCDsfSurveyVehicles[VehiclesGroupIndex].SV_function of
-            pfSurveyAir:
-            begin
-               if SFworkingOrbObject[4]<=0
-               then FCDsfSurveyVehicles[VehiclesGroupIndex].SV_emo:=FCDduStarSystem[SFworkingOrbObject[1]].SS_stars[SFworkingOrbObject[2]].S_orbitalObjects[SFworkingOrbObject[3]].OO_regions[RegionOfDestination].OOR_emo.EMO_planetarySurveyAir
-               else FCDsfSurveyVehicles[VehiclesGroupIndex].SV_emo:=FCDduStarSystem[SFworkingOrbObject[1]].SS_stars[SFworkingOrbObject[2]].S_orbitalObjects[SFworkingOrbObject[3]].OO_satellitesList[SFworkingOrbObject[4]].OO_regions[RegionOfDestination].OOR_emo.EMO_planetarySurveyAir;
-            end;
-
-            pfSurveyAntigrav:
-            begin
-               if SFworkingOrbObject[4]<=0
-               then FCDsfSurveyVehicles[VehiclesGroupIndex].SV_emo:=FCDduStarSystem[SFworkingOrbObject[1]].SS_stars[SFworkingOrbObject[2]].S_orbitalObjects[SFworkingOrbObject[3]].OO_regions[RegionOfDestination].OOR_emo.EMO_planetarySurveyAntigrav
-               else FCDsfSurveyVehicles[VehiclesGroupIndex].SV_emo:=FCDduStarSystem[SFworkingOrbObject[1]].SS_stars[SFworkingOrbObject[2]].S_orbitalObjects[SFworkingOrbObject[3]].OO_satellitesList[SFworkingOrbObject[4]].OO_regions[RegionOfDestination].OOR_emo.EMO_planetarySurveyAntigrav;
-            end;
-
-            pfSurveyGround:
-            begin
-               if SFworkingOrbObject[4]<=0
-               then FCDsfSurveyVehicles[VehiclesGroupIndex].SV_emo:=FCDduStarSystem[SFworkingOrbObject[1]].SS_stars[SFworkingOrbObject[2]].S_orbitalObjects[SFworkingOrbObject[3]].OO_regions[RegionOfDestination].OOR_emo.EMO_planetarySurveyGround
-               else FCDsfSurveyVehicles[VehiclesGroupIndex].SV_emo:=FCDduStarSystem[SFworkingOrbObject[1]].SS_stars[SFworkingOrbObject[2]].S_orbitalObjects[SFworkingOrbObject[3]].OO_satellitesList[SFworkingOrbObject[4]].OO_regions[RegionOfDestination].OOR_emo.EMO_planetarySurveyGround;
-            end;
-
-            pfSurveySpace: ;
-
-            pfSurveySwarmAntigrav:
-            begin
-               if SFworkingOrbObject[4]<=0
-               then FCDsfSurveyVehicles[VehiclesGroupIndex].SV_emo:=FCDduStarSystem[SFworkingOrbObject[1]].SS_stars[SFworkingOrbObject[2]].S_orbitalObjects[SFworkingOrbObject[3]].OO_regions[RegionOfDestination].OOR_emo.EMO_planetarySurveySwarmAntigrav
-               else FCDsfSurveyVehicles[VehiclesGroupIndex].SV_emo:=FCDduStarSystem[SFworkingOrbObject[1]].SS_stars[SFworkingOrbObject[2]].S_orbitalObjects[SFworkingOrbObject[3]].OO_satellitesList[SFworkingOrbObject[4]].OO_regions[RegionOfDestination].OOR_emo.EMO_planetarySurveySwarmAntigrav;
-            end;
-         end;
-         //FCDsfSurveyVehicles[VehiclesProducts].SV_oneWayTravel:=0;
-         //FCDsfSurveyVehicles[VehiclesProducts].SV_timeOfMission:=0;
-         //FCDsfSurveyVehicles[VehiclesProducts].SV_percentofSurfaceSurveyedByDay:=0;
+         FCMsF_SurveyVehicles_EMOLoad( VehiclesGroupIndex, RegionOfDestination );
+         FCDsfSurveyVehicles[VehiclesGroupIndex].SV_oneWayTravel:=DaysOfTravel;
+         FCDsfSurveyVehicles[VehiclesGroupIndex].SV_timeOfMission:=FCDsfSurveyVehicles[VehiclesGroupIndex].SV_missionTime - ( FCDsfSurveyVehicles[VehiclesGroupIndex].SV_oneWayTravel shl 1 );
       end;
+   end;
+   if Result=true then
+   begin
+      DistanceSurvey:=( FCDsfSurveyVehicles[VehiclesGroupIndex].SV_speed * FCDsfSurveyVehicles[VehiclesGroupIndex].SV_numberOfVehicles * FCDsfSurveyVehicles[VehiclesGroupIndex].SV_capabilityResources ) / FCDsfSurveyVehicles[VehiclesGroupIndex].SV_emo;
+      FCDsfSurveyVehicles[VehiclesGroupIndex].SV_distanceOfSurvey:=FCFcF_Round( rttDistanceKm, DistanceSurvey );
    end;
 end;
 
 //===========================END FUNCTIONS SECTION==========================================
+
+procedure FCMsF_SurveyVehicles_EMOLoad( const VehiclesGroupIndex, Region: integer );
+{:Purpose: determine the EMO, according to the vehicles group function, and load it into the data structure.
+    Additions:
+}
+begin
+   case FCDsfSurveyVehicles[VehiclesGroupIndex].SV_function of
+      pfSurveyAir:
+      begin
+         if SFworkingOrbObject[4]<=0
+         then FCDsfSurveyVehicles[VehiclesGroupIndex].SV_emo:=FCDduStarSystem[SFworkingOrbObject[1]].SS_stars[SFworkingOrbObject[2]].S_orbitalObjects[SFworkingOrbObject[3]].OO_regions[Region].OOR_emo.EMO_planetarySurveyAir
+         else FCDsfSurveyVehicles[VehiclesGroupIndex].SV_emo:=FCDduStarSystem[SFworkingOrbObject[1]].SS_stars[SFworkingOrbObject[2]].S_orbitalObjects[SFworkingOrbObject[3]].OO_satellitesList[SFworkingOrbObject[4]].OO_regions[Region].OOR_emo.EMO_planetarySurveyAir;
+      end;
+
+      pfSurveyAntigrav:
+      begin
+         if SFworkingOrbObject[4]<=0
+         then FCDsfSurveyVehicles[VehiclesGroupIndex].SV_emo:=FCDduStarSystem[SFworkingOrbObject[1]].SS_stars[SFworkingOrbObject[2]].S_orbitalObjects[SFworkingOrbObject[3]].OO_regions[Region].OOR_emo.EMO_planetarySurveyAntigrav
+         else FCDsfSurveyVehicles[VehiclesGroupIndex].SV_emo:=FCDduStarSystem[SFworkingOrbObject[1]].SS_stars[SFworkingOrbObject[2]].S_orbitalObjects[SFworkingOrbObject[3]].OO_satellitesList[SFworkingOrbObject[4]].OO_regions[Region].OOR_emo.EMO_planetarySurveyAntigrav;
+      end;
+
+      pfSurveyGround:
+      begin
+         if SFworkingOrbObject[4]<=0
+         then FCDsfSurveyVehicles[VehiclesGroupIndex].SV_emo:=FCDduStarSystem[SFworkingOrbObject[1]].SS_stars[SFworkingOrbObject[2]].S_orbitalObjects[SFworkingOrbObject[3]].OO_regions[Region].OOR_emo.EMO_planetarySurveyGround
+         else FCDsfSurveyVehicles[VehiclesGroupIndex].SV_emo:=FCDduStarSystem[SFworkingOrbObject[1]].SS_stars[SFworkingOrbObject[2]].S_orbitalObjects[SFworkingOrbObject[3]].OO_satellitesList[SFworkingOrbObject[4]].OO_regions[Region].OOR_emo.EMO_planetarySurveyGround;
+      end;
+
+      pfSurveySpace: ;
+
+      pfSurveySwarmAntigrav:
+      begin
+         if SFworkingOrbObject[4]<=0
+         then FCDsfSurveyVehicles[VehiclesGroupIndex].SV_emo:=FCDduStarSystem[SFworkingOrbObject[1]].SS_stars[SFworkingOrbObject[2]].S_orbitalObjects[SFworkingOrbObject[3]].OO_regions[Region].OOR_emo.EMO_planetarySurveySwarmAntigrav
+         else FCDsfSurveyVehicles[VehiclesGroupIndex].SV_emo:=FCDduStarSystem[SFworkingOrbObject[1]].SS_stars[SFworkingOrbObject[2]].S_orbitalObjects[SFworkingOrbObject[3]].OO_satellitesList[SFworkingOrbObject[4]].OO_regions[Region].OOR_emo.EMO_planetarySurveySwarmAntigrav;
+      end;
+   end;
+end;
 
 end.
