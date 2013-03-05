@@ -1427,6 +1427,7 @@ end;
 procedure FCMdF_DBStarOrbitalObjects_Load( const StarSystemToken, StarToken: string );
 {:Purpose: load the orbital objects, if there's any, of a specified star in the universe database XML file.
    Additions:
+      -2013Mar04- *add: OO_regionSurface + OO_meanTravelDistance.
       -2013Jan13- *add/mod: expansion of the region's EMO modifiers.
       -2012Aug05- *code audit:
                      (x)var formatting + refactoring     (x)if..then reformatting   (_)function/procedure refactoring
@@ -1630,6 +1631,8 @@ begin
             end {.else if DBSSPorbObjNode.NodeName='orbobjecosdata'}
             else if XMLOrbitalObject.NodeName='orbobjregions' then
             begin
+               FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_regionSurface:=StrToFloat( XMLOrbitalObject.Attributes['surface'], FCVdiFormat );
+               FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_meanTravelDistance:=XMLOrbitalObject.Attributes['mtd'];
                Count1:=1;
                XMLOObjSub1:=XMLOrbitalObject.ChildNodes.First;
                while XMLOObjSub1<>nil do
@@ -1823,6 +1826,8 @@ begin
                   end {.else if DBSSPsatNode.NodeName='satecosdata'}
                   else if XMSatellite.NodeName='satregions' then
                   begin
+                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_regionSurface:=StrToFloat( XMSatellite.Attributes['surface'], FCVdiFormat );
+                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_meanTravelDistance:=XMSatellite.Attributes['mtd'];
                      Count1:=1;
                      XMLOObjSub1:=XMSatellite.ChildNodes.First;
                      while XMLOObjSub1<>nil do
