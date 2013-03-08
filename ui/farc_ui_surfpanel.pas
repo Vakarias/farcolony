@@ -644,6 +644,7 @@ procedure FCMuiSP_RegionDataPicture_Update(
    );
 {:Purpose: update the region data and picture .
     Additions:
+      -2013Mar05- *add: resources survey - text localization.
       -2013Feb06- *add: for resources survey, the presence of survey vehicles or not is also tested.
                   *fix: resource survey message is correctly displayed during a colonization mission.
       -2013Feb03- *fix: prevent to be able to setup a resource survey during a mission setup.
@@ -1100,7 +1101,7 @@ begin
          SPisResourcesSurveyOK:=false;
          if FCWinMain.SP_ResourceSurveyCommit.Visible
          then FCWinMain.SP_ResourceSurveyCommit.Hide;
-         FCWinMain.SP_RegionSheet.HTMLText.Add( '<img src="file://'+FCVdiPathResourceDir+'pics-ui-resources\cantSurvey.jpg" align="middle"><br>No resource spot is displayed because no survey has been made yet, and none can be applied until you found a colony on this orbital object.' );
+         FCWinMain.SP_RegionSheet.HTMLText.Add( '<img src="file://'+FCVdiPathResourceDir+'pics-ui-resources\cantSurvey.jpg" align="middle"><br>'+FCFdTFiles_UIStr_Get( uistrUI, 'psNoSurvey' )+FCFdTFiles_UIStr_Get( uistrUI, 'psNoColony' ) );
       end
       else if ( Test=0 )
          and ( Colony>0 )
@@ -1111,7 +1112,7 @@ begin
             ,true
             ) >0 ) then
       begin
-         FCWinMain.SP_RegionSheet.HTMLText.Add( 'No resource spot is displayed because no survey has been made yet. Please click on the region where you want to apply a resource survey to, it will show a survey button below this text to let you able to setup an expedition.');
+         FCWinMain.SP_RegionSheet.HTMLText.Add( FCFdTFiles_UIStr_Get( uistrUI, 'psNoSurvey' )+FCFdTFiles_UIStr_Get( uistrUI, 'psUIProcedure' ) );
          SPisResourcesSurveyOK:=true;
          if SERUregIdx=SPregionSelected
          then FCWinMain.SP_ResourceSurveyCommit.Show
@@ -1144,7 +1145,7 @@ begin
          end;
       end
       else if not FCWinMain.FCWM_MissionSettings.Visible
-      then FCWinMain.SP_RegionSheet.HTMLText.Add( 'No resource survey can be applied because your colony hasn''t any survey vehicles available in its storage.' );
+      then FCWinMain.SP_RegionSheet.HTMLText.Add( FCFdTFiles_UIStr_Get(uistrUI, 'psNoSurveyNoVehicles' ) );
    end; //==END== if not SERUonlyPic ==//
 end;
 

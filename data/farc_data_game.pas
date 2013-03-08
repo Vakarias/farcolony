@@ -190,17 +190,6 @@ type TFCEdgPlanetarySurveyPhases=(
    ,pspReplenishment
    );
 
-///<summary>
-///   types of survey vehicles
-///</summary>
-type TFCEdgPlanetarySurveyVehicles=(
-   psvGround
-   ,psvAir
-   ,psvAntigrav
-   ,psvSwarmAntigrav
-   ,psvSpace
-   );
-
 {:REFERENCES LIST
    - FCFgSPMD_Level_GetToken
 }
@@ -787,18 +776,18 @@ type TFCRdgEntity= record
       PS_locationOobj: string[20];
       PS_locationSat: string[20];
       PS_targetRegion: integer;
-      PS_regionEMO: extended;
       PS_linkedColony: integer;
       PS_missionExtension: TFCEdgPlanetarySurveyExtensions;
       PS_vehiclesGroups: array of record
          VG_linkedStorage: integer;
          VG_numberOfUnits: integer;
          VG_numberOfVehicles: integer;
-         VG_vehiclesFunction: TFCEdgPlanetarySurveyVehicles;
+         VG_vehiclesFunction: TFCEdipProductFunctions;
          VG_speed: integer;
          VG_totalMissionTime: integer;
          VG_usedCapability: integer;
          VG_crew: integer;
+         VG_regionEMO: extended;
          VG_timeOfOneWayTravel: integer;
          ///<summary>
          ///   DMS = days of mission (note for design doc)

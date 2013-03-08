@@ -1123,7 +1123,6 @@ begin
                      FCDdgEntities[Count].E_planetarySurveys[Count1].PS_locationOobj:=XMLSavedGameItemSub1.Attributes['locationOObj'];
                      FCDdgEntities[Count].E_planetarySurveys[Count1].PS_locationSat:=XMLSavedGameItemSub1.Attributes['locationSat'];
                      FCDdgEntities[Count].E_planetarySurveys[Count1].PS_targetRegion:=XMLSavedGameItemSub1.Attributes['targetRegion'];
-                     FCDdgEntities[Count].E_planetarySurveys[Count1].PS_regionEMO:=StrToFloat( XMLSavedGameItemSub1.Attributes['regionEMO'], FCVdiFormat );
                      FCDdgEntities[Count].E_planetarySurveys[Count1].PS_linkedColony:=XMLSavedGameItemSub1.Attributes['linkedColony'];
                      EnumIndex:=GetEnumValue( TypeInfo( TFCEdgPlanetarySurveyExtensions ), XMLSavedGameItemSub1.Attributes['missionExtension'] );
                      FCDdgEntities[Count].E_planetarySurveys[Count1].PS_missionExtension:=TFCEdgPlanetarySurveyExtensions( EnumIndex );
@@ -1138,14 +1137,15 @@ begin
                         FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].VG_linkedStorage:=XMLSavedGameItemSub2.Attributes['linkedStorage'];
                         FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].VG_numberOfUnits:=XMLSavedGameItemSub2.Attributes['units'];
                         FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].VG_numberOfVehicles:=XMLSavedGameItemSub2.Attributes['vehicles'];
-                        EnumIndex:=GetEnumValue( TypeInfo( TFCEdgPlanetarySurveyVehicles ), XMLSavedGameItemSub2.Attributes['function'] );
-                        FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].VG_vehiclesFunction:=TFCEdgPlanetarySurveyVehicles( EnumIndex );
+                        EnumIndex:=GetEnumValue( TypeInfo( TFCEdipProductFunctions ), XMLSavedGameItemSub2.Attributes['function'] );
+                        FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].VG_vehiclesFunction:=TFCEdipProductFunctions( EnumIndex );
                         if EnumIndex=-1
                         then raise Exception.Create( 'bad gamesave loading w/planetary survey vehicles function: '+XMLSavedGameItemSub2.Attributes['function'] );
                         FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].VG_speed:=XMLSavedGameItemSub2.Attributes['speed'];
                         FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].VG_totalMissionTime:=XMLSavedGameItemSub2.Attributes['totalMissionTime'];
                         FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].VG_usedCapability:=XMLSavedGameItemSub2.Attributes['capability'];
                         FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].VG_crew:=XMLSavedGameItemSub2.Attributes['crew'];
+                        FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].VG_regionEMO:=StrToFloat( XMLSavedGameItemSub2.Attributes['regionEMO'], FCVdiFormat );
                         FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].VG_timeOfOneWayTravel:=XMLSavedGameItemSub2.Attributes['timeOneWayTravel'];
                         FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].VG_timeOfMission:=XMLSavedGameItemSub2.Attributes['timeMission'];
                         FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].VG_percentofSurfaceSurveyedByDay:=StrToFloat( XMLSavedGameItemSub2.Attributes['percSurfSurveyedDay'], FCVdiFormat );
@@ -2021,7 +2021,6 @@ begin
             XMLSavedGameItemSub2.Attributes['locationOObj']:=FCDdgEntities[Count].E_planetarySurveys[Count1].PS_locationOobj;
             XMLSavedGameItemSub2.Attributes['locationSat']:=FCDdgEntities[Count].E_planetarySurveys[Count1].PS_locationSat;
             XMLSavedGameItemSub2.Attributes['targetRegion']:=FCDdgEntities[Count].E_planetarySurveys[Count1].PS_targetRegion;
-            XMLSavedGameItemSub2.Attributes['regionEMO']:=FloatToStr( FCDdgEntities[Count].E_planetarySurveys[Count1].PS_regionEMO, FCVdiFormat );
             XMLSavedGameItemSub2.Attributes['linkedColony']:=FCDdgEntities[Count].E_planetarySurveys[Count1].PS_linkedColony;
             XMLSavedGameItemSub2.Attributes['missionExtension']:=GetEnumName( TypeInfo( TFCEdgPlanetarySurveyExtensions ), Integer( FCDdgEntities[Count].E_planetarySurveys[Count1].PS_missionExtension ) );
             Max2:=Length( FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups )-1;
@@ -2032,11 +2031,12 @@ begin
                XMLSavedGameItemSub3.Attributes['linkedStorage']:=FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].VG_linkedStorage;
                XMLSavedGameItemSub3.Attributes['units']:=FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].VG_numberOfUnits;
                XMLSavedGameItemSub3.Attributes['vehicles']:=FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].VG_numberOfVehicles;
-               XMLSavedGameItemSub3.Attributes['function']:=GetEnumName( TypeInfo( TFCEdgPlanetarySurveyVehicles ), Integer( FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].VG_vehiclesFunction ) );
+               XMLSavedGameItemSub3.Attributes['function']:=GetEnumName( TypeInfo( TFCEdipProductFunctions ), Integer( FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].VG_vehiclesFunction ) );
                XMLSavedGameItemSub3.Attributes['speed']:=FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].VG_speed;
                XMLSavedGameItemSub3.Attributes['totalMissionTime']:=FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].VG_totalMissionTime;
                XMLSavedGameItemSub3.Attributes['capability']:=FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].VG_usedCapability;
                XMLSavedGameItemSub3.Attributes['crew']:=FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].VG_crew;
+               XMLSavedGameItemSub3.Attributes['regionEMO']:=FloatToStr( FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].VG_regionEMO, FCVdiFormat );
                XMLSavedGameItemSub3.Attributes['timeOneWayTravel']:=FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].VG_timeOfOneWayTravel;
                XMLSavedGameItemSub3.Attributes['timeMission']:=FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].VG_timeOfMission;
                XMLSavedGameItemSub3.Attributes['percSurfSurveyedDay']:=FloatToStr( FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].VG_percentofSurfaceSurveyedByDay, FCVdiFormat );

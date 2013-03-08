@@ -2204,11 +2204,41 @@
       <SP>Disco Protoplanetario</SP>
    </oobtpProtoDisk>
    <!-- ********** PLANETARY SURVEY ********** -->
+   <psDatCapability>
+      <EN>Capability</EN>
+      <FR>Capacité</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </psDatCapability>
+   <psDatCrew>
+      <EN>Crew</EN>
+      <FR>Equipage</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </psDatCrew>
+   <psDatUnit>
+      <EN>Units</EN>
+      <FR>Unités</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </psDatUnit>
    <psExpedition>
       <EN>Type of Expedition</EN>
       <FR>Type d'Expedition</FR>
       <SP>!TO TRANSLATE!</SP>
    </psExpedition>
+   <psExpeditionSetup>
+      <EN>Set up An Expedition</EN>
+      <FR>Monter Une Expédition</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </psExpeditionSetup>
+   <psExpeditionSetupCrew>
+      <EN>Available Crew</EN>
+      <FR>Equipage Disponible</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </psExpeditionSetupCrew>
+   <psExpeditionSetupTravelFail>
+      <EN>These vehicles haven't enough range to process the survey at the current location.</EN>
+      <FR>Ces véhicules n'ont pas assez d'autonomie pour effectuer le sondage à l'emplacement actuel.</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </psExpeditionSetupTravelFail>
    <psexpedAir>
       <EN>Aerial</EN>
       <FR>Aérien</FR>
@@ -2236,7 +2266,7 @@
    </psexpedSwarmAntigrav>
    <psMainTitle>
       <EN>Planetary Survey: </EN>
-      <FR>Etude Planétaire: </FR>
+      <FR>Sondage Planétaire: </FR>
       <SP>!TO TRANSLATE!</SP>
    </psMainTitle>
    <psTitleBiosphere>
@@ -2249,6 +2279,26 @@
       <FR>Particularités &#38; Artefacts</FR>
       <SP>!TO TRANSLATE!</SP>
    </psFeaturesArtifacts>
+   <psNoColony>
+      <EN>, and none can be applied until you found a colony.</EN>
+      <FR>, et aucun ne peut être appliqué jusqu'à ce que vous ayez fondé une colonie.</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </psNoColony>
+   <psNoSurvey>
+      <EN>No resource spot is displayed because no survey has been made yet</EN>
+      <FR>Aucun spot de ressource n'est affiché car aucun sondage n'a été effectué</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </psNoSurvey>
+   <psNoSurveyNoVehicles>
+      <EN>No resource survey can be applied because your colony hasn't any survey vehicles available in its storage.</EN>
+      <FR>Aucun sondage de ressource ne peut être appliqué parceque votre colonie n'a pas de véhicules de sondage disponible dans son stockage.</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </psNoSurveyNoVehicles>
+   <psUIProcedure>
+      <EN>. Please click on the region where you want to apply a resource survey to, it will show a survey button below this text to let you able to setup an expedition.</EN>
+      <FR>. SVP cliquez sur la region ou vous voulez appliquer un sondage de ressource, cela montrera un bouton de sondage en dessous de ce texte pour vous laisser la possibilité de monter une expédition.</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </psUIProcedure>
    <psTitleResources>
       <EN>Resources</EN>
       <FR>Ressources</FR>

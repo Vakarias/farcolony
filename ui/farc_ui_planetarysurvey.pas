@@ -154,6 +154,7 @@ end;
 function FCFuiPS_VehiclesSetup_EntryFormat( const TypeOfSurvey: TFCEdgPlanetarySurveys; const VehiclesGroupIndex: integer ): string;
 {:Purpose: generate an entry line for a vehicle.
     Additions:
+      -2013Mar05- *mod: text localization.
       -2013Mar04- *rem: useless parameter have been removed.
 }
    var
@@ -178,8 +179,8 @@ begin
       RedFormat:=FCCFcolRed;
       RedFormatEnd:=FCCFcolEND
    end;
-   Result:='Capability [<b>'+VehiclesCapability+'</b>]  Crew [<b>'+RedFormat+IntToStr( FCDsfSurveyVehicles[VehiclesGroupIndex].SV_crew )+RedFormatEnd+'</b>]  Units [<b>'+inttostr( FCDsfSurveyVehicles[VehiclesGroupIndex].SV_choosenUnits )+' / '
-      +inttostr( FCDsfSurveyVehicles[VehiclesGroupIndex].SV_storageUnits )+'</b>]';
+   Result:=FCFdTFiles_UIStr_Get(uistrUI, 'psDatCapability')+' [<b>'+VehiclesCapability+'</b>]  '+FCFdTFiles_UIStr_Get(uistrUI, 'psDatCrew')+' [<b>'+RedFormat+IntToStr( FCDsfSurveyVehicles[VehiclesGroupIndex].SV_crew )+RedFormatEnd+'</b>]  '
+      +FCFdTFiles_UIStr_Get(uistrUI, 'psDatUnit')+' [<b>'+inttostr( FCDsfSurveyVehicles[VehiclesGroupIndex].SV_choosenUnits )+' / '+inttostr( FCDsfSurveyVehicles[VehiclesGroupIndex].SV_storageUnits )+'</b>]';
 end;
 
 //===========================END FUNCTIONS SECTION==========================================
@@ -219,6 +220,8 @@ end;
 procedure FCMuiPS_Panel_Show( const TypeOfSurvey: TFCEdgPlanetarySurveys; const UpdateOnlyVehicles: boolean );
 {:Purpose: show the panel.
     Additions:
+      -2013Mar06- *mod: end text localizations.
+      -2013Mar05- *mod: begin text localizations.
       -2013Mar04- *add: new parameter - UpdateOnlyVehicles.
 }
    var
@@ -247,8 +250,11 @@ begin
             FCWinMain.MVG_PlanetarySurveyPanel.Left:=FCWinMain.MVG_SurfacePanel.Left+FCWinMain.MVG_SurfacePanel.Width-FCWinMain.SP_RegionSheet.Width;
             FCWinMain.MVG_PlanetarySurveyPanel.Top:=FCWinMain.MVG_SurfacePanel.Top;
             FCWinMain.PSP_Label.HTMLText.Clear;
-            FCWinMain.PSP_Label.HTMLText.Add( FCCFdHeadC+'Set up An Expedition'+FCCFdHeadEnd );
-            FCWinMain.PSP_Label.HTMLText.Add( 'Current Crew Available: '+IntToStr( FCDdgEntities[0].E_colonies[FCFuiCDP_VarCurrentColony_Get].C_population.CP_classColonist-FCDdgEntities[0].E_colonies[FCFuiCDP_VarCurrentColony_Get].C_population.CP_classColonistAssigned-PSvehiclesCrewUsed ) );
+            FCWinMain.PSP_Label.HTMLText.Add( FCCFdHeadC+FCFdTFiles_UIStr_Get( uistrUI, 'psExpeditionSetup' )+FCCFdHeadEnd );
+            FCWinMain.PSP_Label.HTMLText.Add(
+               FCFdTFiles_UIStr_Get( uistrUI, 'psExpeditionSetupCrew' )+': '
+                  +IntToStr( FCDdgEntities[0].E_colonies[FCFuiCDP_VarCurrentColony_Get].C_population.CP_classColonist-FCDdgEntities[0].E_colonies[FCFuiCDP_VarCurrentColony_Get].C_population.CP_classColonistAssigned-PSvehiclesCrewUsed )
+               );
          end;
          PSvehiclesListMax:=FCFsF_SurveyVehicles_Get(
             0
@@ -281,7 +287,7 @@ begin
             if not isTravelOK then
             begin
                ProductNode:=FCWinMain.PSP_ProductsList.Items.Add( nil, FCFdTFiles_UIStr_Get( uistrUI, FCDsfSurveyVehicles[Count].SV_token ) );
-               FCWinMain.PSP_ProductsList.Items.AddChild( ProductNode, 'these vehicles haven''t enough range to process the survey at the current location' );
+               FCWinMain.PSP_ProductsList.Items.AddChild( ProductNode, FCFdTFiles_UIStr_Get( uistrUI, 'psExpeditionSetupTravelFail' ) );
             end
             else begin
                ProductNode:=FCWinMain.PSP_ProductsList.Items.Add( nil,
@@ -375,11 +381,12 @@ end;
 procedure FCMuiPS_VehiclesSetup_CrewFormat;
 {:Purpose: update the current crew available.
     Additions:
+      -2013Mar06- *mod: text localization.
 }
 begin
    FCWinMain.PSP_Label.HTMLText.Insert(
       1
-      ,'Current Crew Available: '+IntToStr( FCFuiPS_AvailableCrew_GetValue )
+      ,FCFdTFiles_UIStr_Get( uistrUI, 'psExpeditionSetupCrew' )+': '+IntToStr( FCFuiPS_AvailableCrew_GetValue )
       );
    FCWinMain.PSP_Label.HTMLText.Delete( 2 );
 end;

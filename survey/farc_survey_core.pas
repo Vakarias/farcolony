@@ -33,7 +33,8 @@ interface
 uses
 //   SysUtils;
 
-   farc_data_game;
+   farc_data_game
+   ,farc_univ_func;
 
 //==END PUBLIC ENUM=========================================================================
 
@@ -61,11 +62,8 @@ uses
 procedure FCMsC_Expedition_Setup(
    const Entity
          ,Colony
-         ,Region
-         ,LocationStarSys
-         ,LocationStar
-         ,LocationOObj
-         ,LocationSat: integer;
+         ,Region: integer;
+   const LocationUniverse: TFCRufStelObj ;
    const TypeOfSurvey:TFCEdgPlanetarySurveys;
    const MissionExtension: TFCEdgPlanetarySurveyExtensions
    );
@@ -74,6 +72,7 @@ implementation
 
 uses
    farc_data_planetarysurvey
+   ,farc_data_univ
    ,farc_survey_functions;
 //   farc_data_game
 //   ,farc_data_infrprod
@@ -100,11 +99,8 @@ uses
 procedure FCMsC_Expedition_Setup(
    const Entity
          ,Colony
-         ,Region
-         ,LocationStarSys
-         ,LocationStar
-         ,LocationOObj
-         ,LocationSat: integer;
+         ,Region: integer;
+   const LocationUniverse: TFCRufStelObj ;
    const TypeOfSurvey:TFCEdgPlanetarySurveys;
    const MissionExtension: TFCEdgPlanetarySurveyExtensions
    );
@@ -127,10 +123,13 @@ begin
             CurrentPlanetarySurvey:=length( FCDdgEntities[Entity].E_planetarySurveys );
             setlength( FCDdgEntities[Entity].E_planetarySurveys, CurrentPlanetarySurvey+1 );
             FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_type:=TypeOfSurvey;
-//            FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_locationSSys:=LocationStarSys;
-//            FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_locationStar:=LocationStar;
-//            FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_locationOobj:=LocationOObj;
-//            FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_locationSat:=LocationSat;
+            FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_locationSSys:=FCDduStarSystem[LocationUniverse[1]].SS_token;
+            FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_locationStar:=FCDduStarSystem[LocationUniverse[1]].SS_stars[LocationUniverse[2]].S_token;
+            FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_locationOobj:=FCDduStarSystem[LocationUniverse[1]].SS_stars[LocationUniverse[2]].S_orbitalObjects[LocationUniverse[3]].OO_dbTokenId;
+            if LocationUniverse[4]=0
+            then FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_locationSat:=''
+            else if LocationUniverse[4]>0
+            then FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_locationSat:=FCDduStarSystem[LocationUniverse[1]].SS_stars[LocationUniverse[2]].S_orbitalObjects[LocationUniverse[3]].OO_satellitesList[LocationUniverse[4]].OO_dbTokenId;
             FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_targetRegion:=Region;
             FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_linkedColony:=Colony;
             FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_missionExtension:=MissionExtension;
