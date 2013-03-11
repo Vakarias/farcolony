@@ -188,25 +188,32 @@ end;
 procedure FCMuiPS_Panel_InitElements;
 {:Purpose: init the elements (size and location) of the panel.
     Additions:
+      -2013Mar10- *add: PSP_MissionExt.
       -2013Feb12- *add: PSP_ProductsList init.
 }
 begin
    FCWinMain.MVG_PlanetarySurveyPanel.Width:=350;
    FCWinMain.MVG_PlanetarySurveyPanel.Height:=500;
    FCWinMain.PSP_ProductsList.Width:=FCWinMain.MVG_PlanetarySurveyPanel.Width-8;
-   FCWinMain.PSP_ProductsList.Height:=200;
+   FCWinMain.PSP_ProductsList.Height:=260;
    FCWinMain.PSP_ProductsList.Left:=4;
    FCWinMain.PSP_ProductsList.Top:=60;
+   FCWinMain.PSP_MissionExt.Width:=FCWinMain.PSP_ProductsList.Width;
+   FCWinMain.PSP_MissionExt.Height:=120;
+   FCWinMain.PSP_MissionExt.Left:=4;
+   FCWinMain.PSP_MissionExt.Top:=FCWinMain.PSP_ProductsList.Top+FCWinMain.PSP_ProductsList.Height+4;
 end;
 
 procedure FCMuiPS_Panel_InitFonts;
 {:Purpose: init the fonts of the panel.
     Additions:
+      -2013Mar10- *add: PSP_MissionExt.
 }
 begin
    FCWinMain.MVG_PlanetarySurveyPanel.Caption.Font.Size:=FCFuiW_Font_GetSize(uiwPanelTitle);
    FCWinMain.PSP_Label.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
    FCWinMain.PSP_ProductsList.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+   FCWinMain.PSP_MissionExt.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
 end;
 
 procedure FCMuiPS_Panel_InitText;
@@ -215,6 +222,12 @@ procedure FCMuiPS_Panel_InitText;
 }
 begin
    FCWinMain.MVG_PlanetarySurveyPanel.Caption.Text:='';
+   FCWinMain.PSP_MissionExt.Caption:=FCFdTFiles_UIStr_Get( uistrUI, 'psMissionExtension' );
+   FCWinMain.PSP_MissionExt.Items.Clear;
+   FCWinMain.PSP_MissionExt.Items.Add( FCFdTFiles_UIStr_Get( uistrUI, 'psMissionExtdefault' ) );
+   FCWinMain.PSP_MissionExt.Items.Add( FCFdTFiles_UIStr_Get( uistrUI, 'psMissionExtAdj' ) );
+   FCWinMain.PSP_MissionExt.Items.Add( FCFdTFiles_UIStr_Get( uistrUI, 'psMissionExtAllCtlNeut' ) );
+   FCWinMain.PSP_MissionExt.ItemIndex:=0;
 end;
 
 procedure FCMuiPS_Panel_Show( const TypeOfSurvey: TFCEdgPlanetarySurveys; const UpdateOnlyVehicles: boolean );

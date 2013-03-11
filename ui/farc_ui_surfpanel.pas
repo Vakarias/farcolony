@@ -613,7 +613,7 @@ begin
    FCWinMain.SP_ResourceSurveyCommit.Width:=FCWinMain.SP_RegionSheet.Width-16;
    FCWinMain.SP_ResourceSurveyCommit.Height:=26;
    FCWinMain.SP_ResourceSurveyCommit.Left:=FCWinMain.SP_RegionSheet.Left+8;
-   FCWinMain.SP_ResourceSurveyCommit.Top:=310;
+   FCWinMain.SP_ResourceSurveyCommit.Top:=340;
 end;
 
 

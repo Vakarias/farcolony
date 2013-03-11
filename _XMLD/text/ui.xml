@@ -2279,6 +2279,26 @@
       <FR>Particularités &#38; Artefacts</FR>
       <SP>!TO TRANSLATE!</SP>
    </psFeaturesArtifacts>
+   <psMissionExtension>
+      <EN>Mission Extension</EN>
+      <FR>Extension de Mission</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </psMissionExtension>
+   <psMissionExtdefault>
+      <EN>Apply only to the related region.</EN>
+      <FR>Appliquer seulement à la région concernée.</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </psMissionExtdefault>
+   <psMissionExtAdj>
+      <EN>Extend to all adjacent regions.</EN>
+      <FR>Etend à toute régions adjacentes.</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </psMissionExtAdj>
+   <psMissionExtAllCtlNeut>
+      <EN>Extend to any controlled/neutral region.</EN>
+      <FR>Etend à toute région controllée/neutre.</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </psMissionExtAllCtlNeut>
    <psNoColony>
       <EN>, and none can be applied until you found a colony.</EN>
       <FR>, et aucun ne peut être appliqué jusqu'à ce que vous ayez fondé une colonie.</FR>

@@ -437,6 +437,7 @@ end;
 procedure FCMuiWin_UI_LangUpd;
 {:Purpose: update interface for new language.
     Additions:
+      -2013Mar10- add: hide the planetary survey panel if it's visible.
       -2012Aug21- *fix: bugfixes due to the modification of windows initialization.
       -2011Dec21- *mod: integrate the new method to call the colony data panel.
       -2011Jul20- *add: update the Colony Data Panel, especially the data display itself, if needed.
@@ -478,6 +479,8 @@ begin
          );
 
       FCMuiUMI_CurrentTab_Update( false, false );
+      if FCWinMain.MVG_PlanetarySurveyPanel.Visible
+      then FCWinMain.MVG_PlanetarySurveyPanel.Hide;
    end;
 
 

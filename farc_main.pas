@@ -334,9 +334,9 @@ type
     MVG_PlanetarySurveyPanel: TAdvPanel;
     PSP_Label: THTMLabel;
     AdvGlowButton1: TAdvGlowButton;
-    HTMLabel2: THTMLabel;
     FCXMLtxtCredits: TXMLDocument;
     PSP_ProductsList: THTMLTreeview;
+    PSP_MissionExt: THTMLRadioGroup;
 
       procedure FormCreate(Sender: TObject);
       procedure FormResize(Sender: TObject);
