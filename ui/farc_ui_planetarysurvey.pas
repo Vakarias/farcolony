@@ -50,6 +50,11 @@ uses
 //===========================END FUNCTIONS SECTION==========================================
 
 ///<summary>
+///   commit the currect expedition setup by user's interface action
+///</summary>
+procedure FCMuiPS_ExpeditionCommit;
+
+///<summary>
 ///   init the elements (size and location) of the panel
 ///</summary>
 procedure FCMuiPS_Panel_InitElements;
@@ -115,6 +120,7 @@ uses
    ,farc_data_planetarysurvey
    ,farc_data_textfiles
    ,farc_main
+   ,farc_survey_core
    ,farc_survey_functions
    ,farc_ui_coldatapanel
    ,farc_ui_surfpanel
@@ -134,6 +140,8 @@ var
    PSvehiclesListMax: integer;
 
    PScurrentProducts: array of integer;
+
+   PScurrentSurveyType: TFCEdgPlanetarySurveys;
 
 //==END PRIVATE VAR=========================================================================
 
@@ -207,6 +215,21 @@ begin
 end;
 
 //===========================END FUNCTIONS SECTION==========================================
+
+procedure FCMuiPS_ExpeditionCommit;
+{:Purpose: commit the currect expedition setup by user's interface action.
+    Additions:
+}
+begin
+   FCWinMain.MVG_PlanetarySurveyPanel.Hide;
+   FCMsC_Expedition_Setup(
+      0
+      ,FCFuiCDP_VarCurrentColony_Get
+      ,FCFuiSP_VarRegionSelected_Get
+      ,PScurrentSurveyType
+      ,TFCEdgPlanetarySurveyExtensions( FCWinMain.PSP_MissionExt.ItemIndex )
+      );
+end;
 
 procedure FCMuiPS_Panel_InitElements;
 {:Purpose: init the elements (size and location) of the panel.
@@ -285,6 +308,7 @@ begin
    SetLength( PScurrentProducts, 6 );
    PSvehiclesListMax:=0;
    PSvehiclesCrewUsed:=0;
+   PScurrentSurveyType:=TypeOfSurvey;
    case TypeOfSurvey of
       psResources:
       begin

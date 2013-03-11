@@ -3886,6 +3886,7 @@ object FCWinMain: TFCWinMain
         ParentFont = False
         Position = bpMiddle
         TabOrder = 2
+        OnClick = PSP_CommitClick
         Appearance.BorderColorHot = clWhite
         Appearance.BorderColorDown = clSkyBlue
         Appearance.Color = clBlack

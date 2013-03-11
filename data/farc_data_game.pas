@@ -747,6 +747,7 @@ end;
    - FCMdG_Entities_Clear
    - FCMgNG_Core_Proceed
    - if centralized SPMi mod ad/rem/update and/or bureaucracy/corruption: FCMgSPM_SPMI_Set
+   - for any array, init it in FCMgNG_Core_Proceed.
 }
 ///<summary>
 ///   entities
@@ -793,7 +794,7 @@ type TFCRdgEntity= record
          ///   DMS = days of mission (note for design doc)
          ///</summary>
          VG_timeOfMission: integer;
-         VG_percentofSurfaceSurveyedByDay: extended;
+         VG_distanceOfSurvey: extended;
          VG_currentPhase: TFCEdgPlanetarySurveyPhases;
          VG_currentPhaseElapsedTime: integer;
       end;
@@ -892,7 +893,7 @@ begin
       FCDdgEntities[Count].E_spmMod_Health:=0;
       FCDdgEntities[Count].E_spmMod_Bureaucracy:=0;
       FCDdgEntities[Count].E_spmMod_Corruption:=0;
-      SetLength( FCDdgEntities[Count].E_planetarySurveys, 0 );
+      SetLength( FCDdgEntities[Count].E_planetarySurveys, 1 );
       inc(Count);
    end;
 end;

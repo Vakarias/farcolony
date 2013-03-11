@@ -31,10 +31,9 @@ unit farc_survey_core;
 interface
 
 uses
-//   SysUtils;
+   SysUtils
 
-   farc_data_game
-   ,farc_univ_func;
+   ,farc_data_game;
 
 //==END PUBLIC ENUM=========================================================================
 
@@ -51,19 +50,19 @@ uses
 //===========================END FUNCTIONS SECTION==========================================
 
 ///<summary>
-///
+///   setup an expedition data structure
 ///</summary>
-///   <param name=""></param>
-///   <param name=""></param>
-///   <param name=""></param>
-///   <param name=""></param>
+///   <param name="Entity">entity index #</param>
+///   <param name="Colony">colony index #</param>
+///   <param name="Region">surveyed region index #</param>
+///   <param name="TypeOfSurvey">type of survey</param>
+///   <param name="MissionExtension">mission extension configuration</param>
 ///   <returns></returns>
 ///   <remarks></remarks>
 procedure FCMsC_Expedition_Setup(
    const Entity
          ,Colony
          ,Region: integer;
-   const LocationUniverse: TFCRufStelObj ;
    const TypeOfSurvey:TFCEdgPlanetarySurveys;
    const MissionExtension: TFCEdgPlanetarySurveyExtensions
    );
@@ -73,13 +72,9 @@ implementation
 uses
    farc_data_planetarysurvey
    ,farc_data_univ
-   ,farc_survey_functions;
-//   farc_data_game
-//   ,farc_data_infrprod
-//   ,farc_data_init
-//   ,farc_data_planetarysurvey
-//   ,farc_game_prod
-//   ,farc_win_debug;
+   ,farc_survey_functions
+   ,farc_univ_func
+   ,farc_win_debug;
 
 //==END PRIVATE ENUM========================================================================
 
@@ -100,20 +95,31 @@ procedure FCMsC_Expedition_Setup(
    const Entity
          ,Colony
          ,Region: integer;
-   const LocationUniverse: TFCRufStelObj ;
    const TypeOfSurvey:TFCEdgPlanetarySurveys;
    const MissionExtension: TFCEdgPlanetarySurveyExtensions
    );
-var
-   Count
-   ,CurrentPlanetarySurvey
-   ,Max
-   ,CurrentVehiclesGroup: integer;
+{:Purpose: setup an expedition data structure.
+    Additions:
+      -2013Mar10- *add: code completion.
+}
+   var
+      Count
+      ,CurrentPlanetarySurvey
+      ,Max
+      ,CurrentVehiclesGroup: integer;
+
+      LocationUniverse: TFCRufStelObj;
 begin
    Count:=1;
    CurrentPlanetarySurvey:=0;
    Max:=length( FCDsfSurveyVehicles )-1;
    CurrentVehiclesGroup:=0;
+   LocationUniverse:=FCFuF_StelObj_GetFullRow(
+      FCDdgEntities[Entity].E_colonies[Colony].C_locationStarSystem
+      ,FCDdgEntities[Entity].E_colonies[Colony].C_locationStar
+      ,FCDdgEntities[Entity].E_colonies[Colony].C_locationOrbitalObject
+      ,FCDdgEntities[Entity].E_colonies[Colony].C_locationSatellite
+      );
    while Count<=Max do
    begin
       if FCDsfSurveyVehicles[Count].SV_choosenUnits>0 then
@@ -133,31 +139,46 @@ begin
             FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_targetRegion:=Region;
             FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_linkedColony:=Colony;
             FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_missionExtension:=MissionExtension;
-            setlength( FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups, CurrentVehiclesGroup+1 );
-            //FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].:=;
-            //put EMO into VGroup sub data structure
+            setlength( FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups, 1 );
          end;
          inc( CurrentVehiclesGroup );
          setlength( FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups, CurrentVehiclesGroup+1 );
          FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CurrentVehiclesGroup].VG_linkedStorage:=FCDsfSurveyVehicles[Count].SV_storageIndex;
          FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CurrentVehiclesGroup].VG_numberOfUnits:=FCDsfSurveyVehicles[Count].SV_choosenUnits;
          FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CurrentVehiclesGroup].VG_numberOfVehicles:=FCDsfSurveyVehicles[Count].SV_numberOfVehicles;
-//         FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CurrentVehiclesGroup].VG_vehiclesFunction:=FCDsfSurveyVehicles[Count].SV_function;
+         FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CurrentVehiclesGroup].VG_vehiclesFunction:=FCDsfSurveyVehicles[Count].SV_function;
          FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CurrentVehiclesGroup].VG_speed:=FCDsfSurveyVehicles[Count].SV_speed;
          FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CurrentVehiclesGroup].VG_totalMissionTime:=FCDsfSurveyVehicles[Count].SV_missionTime;
-         case TypeOfSurvey of
-            psResources: FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CurrentVehiclesGroup].VG_usedCapability:=FCDsfSurveyVehicles[Count].SV_capabilityResources;
-
-            psBiosphere: FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CurrentVehiclesGroup].VG_usedCapability:=FCDsfSurveyVehicles[Count].SV_capabilityBiosphere;
-
-            psFeaturesArtifacts: FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CurrentVehiclesGroup].VG_usedCapability:=FCDsfSurveyVehicles[Count].SV_capabilityFeaturesArtifacts;
-         end;
          FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CurrentVehiclesGroup].VG_crew:=FCDsfSurveyVehicles[Count].SV_crew;
-//         FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CurrentVehiclesGroup].VG_timeOfOneWayTravel:=;
-//         FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CurrentVehiclesGroup].VG_timeOfMission:=;
-//         FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CurrentVehiclesGroup].VG_percentofSurfaceSurveyedByDay:=;
-//         FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CurrentVehiclesGroup].VG_currentPhase:=;
-//         FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CurrentVehiclesGroup].VG_currentPhaseElapsedTime:=;
+         FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CurrentVehiclesGroup].VG_regionEMO:=FCDsfSurveyVehicles[Count].SV_emo;
+         FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CurrentVehiclesGroup].VG_timeOfOneWayTravel:=FCDsfSurveyVehicles[Count].SV_oneWayTravel;
+         FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CurrentVehiclesGroup].VG_timeOfMission:=FCDsfSurveyVehicles[Count].SV_timeOfMission;
+         FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CurrentVehiclesGroup].VG_distanceOfSurvey:=FCDsfSurveyVehicles[Count].SV_distanceOfSurvey;
+         case TypeOfSurvey of
+            psResources:
+            begin
+               FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CurrentVehiclesGroup].VG_usedCapability:=FCDsfSurveyVehicles[Count].SV_capabilityResources;
+               if FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CurrentVehiclesGroup].VG_timeOfOneWayTravel=0
+               then FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CurrentVehiclesGroup].VG_currentPhase:=pspResourcesSurveying;
+            end;
+
+            psBiosphere:
+            begin
+               FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CurrentVehiclesGroup].VG_usedCapability:=FCDsfSurveyVehicles[Count].SV_capabilityBiosphere;
+               if FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CurrentVehiclesGroup].VG_timeOfOneWayTravel=0
+               then FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CurrentVehiclesGroup].VG_currentPhase:=pspBiosphereSurveying;
+            end;
+
+            psFeaturesArtifacts:
+            begin
+               FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CurrentVehiclesGroup].VG_usedCapability:=FCDsfSurveyVehicles[Count].SV_capabilityFeaturesArtifacts;
+               if FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CurrentVehiclesGroup].VG_timeOfOneWayTravel=0
+               then FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CurrentVehiclesGroup].VG_currentPhase:=pspFeaturesArtifactsSurveying;
+            end;
+         end;
+         if FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CurrentVehiclesGroup].VG_timeOfOneWayTravel>0
+         then FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CurrentVehiclesGroup].VG_currentPhase:=pspInTransitToSite;
+         FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CurrentVehiclesGroup].VG_currentPhaseElapsedTime:=0;
       end;
       inc( Count );
    end;

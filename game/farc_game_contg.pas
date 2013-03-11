@@ -111,6 +111,7 @@ FCMdF_DBProducts_Load;
    FCMgfxC_Main_Init;
    {.data initialization}
    SetLength(FCDdmtTaskListToProcess,1);
+   FCMdG_Entities_Clear;
    FCMdF_DBStarSystems_Load;
 
    FCMuiM_Messages_Reset;

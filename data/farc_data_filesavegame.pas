@@ -79,7 +79,8 @@ uses
    ,farc_game_cpsobjectives
    ,farc_game_gameflow
    ,farc_univ_func
-   ,farc_main;
+   ,farc_main
+   ,farc_win_debug;
 
 //==END PRIVATE ENUM========================================================================
 
@@ -1148,7 +1149,7 @@ begin
                         FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].VG_regionEMO:=StrToFloat( XMLSavedGameItemSub2.Attributes['regionEMO'], FCVdiFormat );
                         FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].VG_timeOfOneWayTravel:=XMLSavedGameItemSub2.Attributes['timeOneWayTravel'];
                         FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].VG_timeOfMission:=XMLSavedGameItemSub2.Attributes['timeMission'];
-                        FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].VG_percentofSurfaceSurveyedByDay:=StrToFloat( XMLSavedGameItemSub2.Attributes['percSurfSurveyedDay'], FCVdiFormat );
+                        FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].VG_distanceOfSurvey:=StrToFloat( XMLSavedGameItemSub2.Attributes['distanceOfSurvey'], FCVdiFormat );
                         EnumIndex:=GetEnumValue( TypeInfo( TFCEdgPlanetarySurveyPhases ), XMLSavedGameItemSub2.Attributes['phase'] );
                         FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].VG_currentPhase:=TFCEdgPlanetarySurveyPhases( EnumIndex );
                         if EnumIndex=-1
@@ -2039,7 +2040,7 @@ begin
                XMLSavedGameItemSub3.Attributes['regionEMO']:=FloatToStr( FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].VG_regionEMO, FCVdiFormat );
                XMLSavedGameItemSub3.Attributes['timeOneWayTravel']:=FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].VG_timeOfOneWayTravel;
                XMLSavedGameItemSub3.Attributes['timeMission']:=FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].VG_timeOfMission;
-               XMLSavedGameItemSub3.Attributes['percSurfSurveyedDay']:=FloatToStr( FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].VG_percentofSurfaceSurveyedByDay, FCVdiFormat );
+               XMLSavedGameItemSub3.Attributes['distanceOfSurvey']:=FloatToStr( FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].VG_distanceOfSurvey, FCVdiFormat );
                XMLSavedGameItemSub3.Attributes['phase']:=GetEnumName( TypeInfo( TFCEdgPlanetarySurveyPhases ), Integer( FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].VG_currentPhase ) );
                XMLSavedGameItemSub3.Attributes['phaseTime']:=FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].VG_currentPhaseElapsedTime;
                inc( Count2 );

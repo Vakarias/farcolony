@@ -141,7 +141,6 @@ begin
    begin
       SetLength( FCDsfSurveyVehicles, 0 );
       FCDsfSurveyVehicles:=nil;
-      SetLength( FCDsfSurveyVehicles, Max+1 );
    end;
    while Count<=Max do
    begin
@@ -158,6 +157,7 @@ begin
          and ( not GetFirstTestOnly ) then
       begin
          inc( VehiclesProducts );
+         SetLength( FCDsfSurveyVehicles, VehiclesProducts+1 );
          FCDsfSurveyVehicles[VehiclesProducts].SV_storageIndex:=Count;
          FCDsfSurveyVehicles[VehiclesProducts].SV_storageUnits:=Trunc( FCDdgEntities[Entity].E_colonies[Colony].C_storedProducts[Count].SP_unit );
          FCDsfSurveyVehicles[VehiclesProducts].SV_choosenUnits:=0;

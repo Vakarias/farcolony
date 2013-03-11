@@ -217,6 +217,7 @@ end;
 procedure FCMgNG_Core_Proceed;
 {:Purpose: commit new game and initialize game interface.
    Additions:
+      -2013Mar10- *add: initialize entity's E_planetarySurveys.
       -2012Dec04- *add: for docked vessels, load the SU_locationDockingMotherCraft.
       -2012May24- *add: store the viability thresholds.
       -2012May22- *rem: min/max status levels.
@@ -574,6 +575,7 @@ FCWinNewGSetup.Close;
       then FCDdgEntities[CPent].E_hqHigherLevel:=hqsNoHQPresent
       else if CPent>0
       then FCDdgEntities[CPent].E_hqHigherLevel:=hqsPrimaryUniqueHQ;
+//      setlength( FCDdgEntities[CPent].E_planetarySurveys, 1 );
       inc(CPent);
    end; //==END== while CPent<=FCCfacMax do ==//
    {.set the game user's interface}

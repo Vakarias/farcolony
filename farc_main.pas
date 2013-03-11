@@ -467,6 +467,7 @@ type
     procedure PSP_ProductsListAnchorClick(Sender: TObject; Node: TTreeNode; anchor: string);
     procedure PSP_ProductsListCollapsing(Sender: TObject; Node: TTreeNode;
       var AllowCollapse: Boolean);
+    procedure PSP_CommitClick(Sender: TObject);
    private
       { Private declarations }
          {timesteps needed for camera transitions}
@@ -1885,6 +1886,11 @@ end;
 procedure TFCWinMain.InternalOnGameTimer(Sender: TObject);
 begin
    FCMgGF_GameTimer_Process;
+end;
+
+procedure TFCWinMain.PSP_CommitClick(Sender: TObject);
+begin
+   FCMuiPS_ExpeditionCommit;
 end;
 
 procedure TFCWinMain.PSP_ProductsListAnchorClick(Sender: TObject; Node: TTreeNode;
