@@ -188,7 +188,7 @@ end;
 procedure FCMuiPS_Panel_InitElements;
 {:Purpose: init the elements (size and location) of the panel.
     Additions:
-      -2013Mar10- *add: PSP_MissionExt.
+      -2013Mar10- *add: PSP_MissionExt + PSP_Commit.
       -2013Feb12- *add: PSP_ProductsList init.
 }
 begin
@@ -202,23 +202,29 @@ begin
    FCWinMain.PSP_MissionExt.Height:=120;
    FCWinMain.PSP_MissionExt.Left:=4;
    FCWinMain.PSP_MissionExt.Top:=FCWinMain.PSP_ProductsList.Top+FCWinMain.PSP_ProductsList.Height+4;
+   FCWinMain.PSP_Commit.Width:=FCWinMain.MVG_PlanetarySurveyPanel.Width-16;
+   FCWinMain.PSP_Commit.Height:=26;
+   FCWinMain.PSP_Commit.Left:=8;
+   FCWinMain.PSP_Commit.Top:=FCWinMain.PSP_MissionExt.Top+FCWinMain.PSP_MissionExt.Height+8;
 end;
 
 procedure FCMuiPS_Panel_InitFonts;
 {:Purpose: init the fonts of the panel.
     Additions:
-      -2013Mar10- *add: PSP_MissionExt.
+      -2013Mar10- *add: PSP_MissionExt + PSP_Commit.
 }
 begin
    FCWinMain.MVG_PlanetarySurveyPanel.Caption.Font.Size:=FCFuiW_Font_GetSize(uiwPanelTitle);
    FCWinMain.PSP_Label.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
    FCWinMain.PSP_ProductsList.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
    FCWinMain.PSP_MissionExt.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+   FCWinMain.PSP_Commit.Font.Size:=FCFuiW_Font_GetSize(uiwButton);
 end;
 
 procedure FCMuiPS_Panel_InitText;
 {:Purpose: init the texts of the panel.
     Additions:
+      -2013Mar10- *add: PSP_MissionExt + PSP_Commit.
 }
 begin
    FCWinMain.MVG_PlanetarySurveyPanel.Caption.Text:='';
@@ -228,11 +234,13 @@ begin
    FCWinMain.PSP_MissionExt.Items.Add( FCFdTFiles_UIStr_Get( uistrUI, 'psMissionExtAdj' ) );
    FCWinMain.PSP_MissionExt.Items.Add( FCFdTFiles_UIStr_Get( uistrUI, 'psMissionExtAllCtlNeut' ) );
    FCWinMain.PSP_MissionExt.ItemIndex:=0;
+   FCWinMain.PSP_Commit.Caption:=FCFdTFiles_UIStr_Get( uistrUI, 'psCommit' );
 end;
 
 procedure FCMuiPS_Panel_Show( const TypeOfSurvey: TFCEdgPlanetarySurveys; const UpdateOnlyVehicles: boolean );
 {:Purpose: show the panel.
     Additions:
+      -2013Mar10- *add: PSP_Commit button.
       -2013Mar06- *mod: end text localizations.
       -2013Mar05- *mod: begin text localizations.
       -2013Mar04- *add: new parameter - UpdateOnlyVehicles.
@@ -256,6 +264,7 @@ begin
    case TypeOfSurvey of
       psResources:
       begin
+         FCWinMain.PSP_Commit.Enabled:=false;
          SelectedRegion:=FCFuiSP_VarRegionSelected_Get;
          FCWinMain.MVG_PlanetarySurveyPanel.Caption.Text:='<p align="center"><b>'+FCFdTFiles_UIStr_Get( uistrUI, 'psMainTitle' )+FCFdTFiles_UIStr_Get( uistrUI, 'psTitleResources' );
          if not UpdateOnlyVehicles then
@@ -310,8 +319,6 @@ begin
                      +'<a href="vehiclesRESaddmax"><img src="file://'+FCVdiPathResourceDir+'pics-ui-resources\addmax.jpg"></a>  '
                      +FCFdTFiles_UIStr_Get( uistrUI, FCDsfSurveyVehicles[Count].SV_token )
                   );
-
-
                FCWinMain.PSP_ProductsList.Items.AddChild( ProductNode, FCFuiPS_VehiclesSetup_EntryFormat( psResources,Count ) );
             end;
             inc( CountProduct );
@@ -349,6 +356,8 @@ begin
          PSvehiclesCrewUsed:=PSvehiclesCrewUsed+FCDsfSurveyVehicles[CurrentItem].SV_crew;
          FCMuiPS_VehiclesSetup_CrewFormat;
       end;
+      if not FCWinMain.PSP_Commit.Enabled
+      then FCWinMain.PSP_Commit.Enabled:=true;
    end;
 end;
 
@@ -389,6 +398,8 @@ begin
       end;
    end;
    FCWinMain.PSP_ProductsList.Items[ (FCWinMain.PSP_ProductsList.Selected.Index*2)+1 ].Text:=FCFuiPS_VehiclesSetup_EntryFormat( TypeOfSurvey, CurrentItem );
+   if not FCWinMain.PSP_Commit.Enabled
+   then FCWinMain.PSP_Commit.Enabled:=true;
 end;
 
 procedure FCMuiPS_VehiclesSetup_CrewFormat;

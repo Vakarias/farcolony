@@ -2204,6 +2204,11 @@
       <SP>Disco Protoplanetario</SP>
    </oobtpProtoDisk>
    <!-- ********** PLANETARY SURVEY ********** -->
+   <psCommit>
+      <EN>Commit Expedition</EN> 
+      <FR>Effectuer l'Expedition</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </psCommit>
    <psDatCapability>
       <EN>Capability</EN>
       <FR>Capacité</FR>

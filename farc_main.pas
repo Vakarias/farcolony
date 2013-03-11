@@ -333,10 +333,10 @@ type
     SP_ResourceSurveyCommit: TAdvGlowButton;
     MVG_PlanetarySurveyPanel: TAdvPanel;
     PSP_Label: THTMLabel;
-    AdvGlowButton1: TAdvGlowButton;
     FCXMLtxtCredits: TXMLDocument;
     PSP_ProductsList: THTMLTreeview;
     PSP_MissionExt: THTMLRadioGroup;
+    PSP_Commit: TAdvGlowButton;
 
       procedure FormCreate(Sender: TObject);
       procedure FormResize(Sender: TObject);

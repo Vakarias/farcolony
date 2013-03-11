@@ -3816,51 +3816,6 @@ object FCWinMain: TFCWinMain
         URLColor = 14068651
         Version = '1.8.1.0'
       end
-      object AdvGlowButton1: TAdvGlowButton
-        Left = 119
-        Top = 263
-        Width = 116
-        Height = 26
-        Caption = 'FCWM_UMISh_CEFcommit'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clBlack
-        Font.Height = -12
-        Font.Name = 'DejaVu Sans'
-        Font.Style = []
-        FocusType = ftHot
-        NotesFont.Charset = DEFAULT_CHARSET
-        NotesFont.Color = clBlack
-        NotesFont.Height = -11
-        NotesFont.Name = 'FrancophilSans'
-        NotesFont.Style = []
-        ParentFont = False
-        Position = bpMiddle
-        TabOrder = 0
-        Visible = False
-        Appearance.BorderColorHot = clWhite
-        Appearance.BorderColorDown = clSkyBlue
-        Appearance.Color = clBlack
-        Appearance.ColorTo = clSilver
-        Appearance.ColorChecked = 16111818
-        Appearance.ColorCheckedTo = 16367008
-        Appearance.ColorDisabled = 15921906
-        Appearance.ColorDisabledTo = 15921906
-        Appearance.ColorDown = clWhite
-        Appearance.ColorDownTo = 9568255
-        Appearance.ColorHot = clWhite
-        Appearance.ColorHotTo = clBlack
-        Appearance.ColorMirror = clBlack
-        Appearance.ColorMirrorTo = clSilver
-        Appearance.ColorMirrorHot = clWhite
-        Appearance.ColorMirrorHotTo = clBlack
-        Appearance.ColorMirrorDown = clWhite
-        Appearance.ColorMirrorDownTo = clSkyBlue
-        Appearance.ColorMirrorChecked = 16102556
-        Appearance.ColorMirrorCheckedTo = 16768988
-        Appearance.ColorMirrorDisabled = 11974326
-        Appearance.ColorMirrorDisabledTo = 15921906
-        Appearance.SystemFont = False
-      end
       object PSP_ProductsList: THTMLTreeview
         Left = 1
         Top = 19
@@ -3889,7 +3844,7 @@ object FCWinMain: TFCWinMain
         Font.Style = []
         Indent = 19
         ParentFont = False
-        TabOrder = 1
+        TabOrder = 0
         TabStop = False
         OnCollapsing = PSP_ProductsListCollapsing
         Version = '1.2.1.0'
@@ -3909,7 +3864,52 @@ object FCWinMain: TFCWinMain
         Font.Name = 'FrancophilSans'
         Font.Style = []
         ParentFont = False
+        TabOrder = 1
+      end
+      object PSP_Commit: TAdvGlowButton
+        Left = 17
+        Top = 245
+        Width = 116
+        Height = 26
+        Caption = 'FCWM_UMISh_CEFcommit'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -12
+        Font.Name = 'DejaVu Sans'
+        Font.Style = []
+        FocusType = ftHot
+        NotesFont.Charset = DEFAULT_CHARSET
+        NotesFont.Color = clBlack
+        NotesFont.Height = -11
+        NotesFont.Name = 'FrancophilSans'
+        NotesFont.Style = []
+        ParentFont = False
+        Position = bpMiddle
         TabOrder = 2
+        OnClick = SP_ResourceSurveyCommitClick
+        Appearance.BorderColorHot = clWhite
+        Appearance.BorderColorDown = clSkyBlue
+        Appearance.Color = clBlack
+        Appearance.ColorTo = clSilver
+        Appearance.ColorChecked = 16111818
+        Appearance.ColorCheckedTo = 16367008
+        Appearance.ColorDisabled = 15921906
+        Appearance.ColorDisabledTo = 15921906
+        Appearance.ColorDown = clWhite
+        Appearance.ColorDownTo = 9568255
+        Appearance.ColorHot = clWhite
+        Appearance.ColorHotTo = clBlack
+        Appearance.ColorMirror = clBlack
+        Appearance.ColorMirrorTo = clSilver
+        Appearance.ColorMirrorHot = clWhite
+        Appearance.ColorMirrorHotTo = clBlack
+        Appearance.ColorMirrorDown = clWhite
+        Appearance.ColorMirrorDownTo = clSkyBlue
+        Appearance.ColorMirrorChecked = 16102556
+        Appearance.ColorMirrorCheckedTo = 16768988
+        Appearance.ColorMirrorDisabled = 11974326
+        Appearance.ColorMirrorDisabledTo = 15921906
+        Appearance.SystemFont = False
       end
     end
   end
