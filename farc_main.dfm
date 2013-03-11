@@ -3886,7 +3886,6 @@ object FCWinMain: TFCWinMain
         ParentFont = False
         Position = bpMiddle
         TabOrder = 2
-        OnClick = SP_ResourceSurveyCommitClick
         Appearance.BorderColorHot = clWhite
         Appearance.BorderColorDown = clSkyBlue
         Appearance.Color = clBlack

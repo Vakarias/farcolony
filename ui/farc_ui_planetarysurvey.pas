@@ -140,6 +140,29 @@ var
 //const
 //==END PRIVATE CONST=======================================================================
 
+function FCFuiPS_VehiclesGroups_TestIfChoosenPositive: boolean;
+{:Purpose: test if one groupe has the choosen value>0.
+    Additions:
+}
+   var
+      Count
+      ,Max: integer;
+begin
+   Result:=false;
+   Count:=1;
+   Max:=length( FCDsfSurveyVehicles )-1;
+   while Count<=Max do
+   begin
+      if FCDsfSurveyVehicles[Count].SV_choosenUnits>0 then
+      begin
+         Result:=true;
+         break;
+      end;
+      inc( Count );
+   end;
+
+end;
+
 //===================================================END OF INIT============================
 
 function FCFuiPS_AvailableCrew_GetValue: integer;
@@ -241,6 +264,7 @@ procedure FCMuiPS_Panel_Show( const TypeOfSurvey: TFCEdgPlanetarySurveys; const 
 {:Purpose: show the panel.
     Additions:
       -2013Mar10- *add: PSP_Commit button.
+                  *fix: update also the available crew when the panel is opened and a new region is clicked.
       -2013Mar06- *mod: end text localizations.
       -2013Mar05- *mod: begin text localizations.
       -2013Mar04- *add: new parameter - UpdateOnlyVehicles.
@@ -277,7 +301,8 @@ begin
                FCFdTFiles_UIStr_Get( uistrUI, 'psExpeditionSetupCrew' )+': '
                   +IntToStr( FCDdgEntities[0].E_colonies[FCFuiCDP_VarCurrentColony_Get].C_population.CP_classColonist-FCDdgEntities[0].E_colonies[FCFuiCDP_VarCurrentColony_Get].C_population.CP_classColonistAssigned-PSvehiclesCrewUsed )
                );
-         end;
+         end
+         else FCMuiPS_VehiclesSetup_CrewFormat;
          PSvehiclesListMax:=FCFsF_SurveyVehicles_Get(
             0
             ,FCFuiCDP_VarCurrentColony_Get
@@ -339,6 +364,7 @@ end;
 procedure FCMuiPS_VehiclesSetup_Add( const TypeOfSurvey: TFCEdgPlanetarySurveys );
 {:Purpose: process the add button.
     Additions:
+      -2013Mar10- *add: PSP_Commit button state.
 }
    var
       CurrentItem: integer;
@@ -364,6 +390,8 @@ end;
 procedure FCMuiPS_VehiclesSetup_AddMax( const TypeOfSurvey: TFCEdgPlanetarySurveys );
 {:Purpose: process the addmax button.
     Additions:
+      -2013Mar10- *fix: remove a bug during the calculations of MaxUnit.
+                  *add: PSP_Commit button state.
 }
    var
       CurrentItem
@@ -373,33 +401,46 @@ begin
    FCMuiPS_VehiclesSetupUnitThreshold_Init( CurrentItem );
    if FCDsfSurveyVehicles[CurrentItem].SV_crew<0
    then MaxUnit:=FCDsfSurveyVehicles[CurrentItem].SV_storageUnits
-   else if FCDsfSurveyVehicles[CurrentItem].SV_crew>0
-   then MaxUnit:=trunc(
-      ( FCFuiPS_AvailableCrew_GetValue ) /FCDsfSurveyVehicles[CurrentItem].SV_crew
-      );
-   if ( MaxUnit>0 )
-      and ( FCDsfSurveyVehicles[CurrentItem].SV_choosenUnits+FCDsfSurveyVehicles[CurrentItem].SV_unitThreshold<=MaxUnit ) then
+   else if FCDsfSurveyVehicles[CurrentItem].SV_crew>0 then
    begin
-      FCDsfSurveyVehicles[CurrentItem].SV_choosenUnits:=FCDsfSurveyVehicles[CurrentItem].SV_choosenUnits+FCDsfSurveyVehicles[CurrentItem].SV_unitThreshold;
-      if FCDsfSurveyVehicles[CurrentItem].SV_crew>0 then
-      begin
-         PSvehiclesCrewUsed:=PSvehiclesCrewUsed+( FCDsfSurveyVehicles[CurrentItem].SV_crew * FCDsfSurveyVehicles[CurrentItem].SV_unitThreshold );
-         FCMuiPS_VehiclesSetup_CrewFormat;
-      end;
-   end
-   else if ( MaxUnit>0 )
-      and ( FCDsfSurveyVehicles[CurrentItem].SV_choosenUnits+FCDsfSurveyVehicles[CurrentItem].SV_unitThreshold>MaxUnit ) then
-   begin
-      FCDsfSurveyVehicles[CurrentItem].SV_choosenUnits:=MaxUnit;
-      if FCDsfSurveyVehicles[CurrentItem].SV_crew>0 then
-      begin
-         PSvehiclesCrewUsed:=PSvehiclesCrewUsed+( FCDsfSurveyVehicles[CurrentItem].SV_crew * MaxUnit-( FCDsfSurveyVehicles[CurrentItem].SV_choosenUnits+FCDsfSurveyVehicles[CurrentItem].SV_unitThreshold ) );
-         FCMuiPS_VehiclesSetup_CrewFormat;
-      end;
+      MaxUnit:=trunc( ( FCFuiPS_AvailableCrew_GetValue ) /FCDsfSurveyVehicles[CurrentItem].SV_crew );
+      if MaxUnit>FCDsfSurveyVehicles[CurrentItem].SV_storageUnits
+      then MaxUnit:=FCDsfSurveyVehicles[CurrentItem].SV_storageUnits;
    end;
-   FCWinMain.PSP_ProductsList.Items[ (FCWinMain.PSP_ProductsList.Selected.Index*2)+1 ].Text:=FCFuiPS_VehiclesSetup_EntryFormat( TypeOfSurvey, CurrentItem );
-   if not FCWinMain.PSP_Commit.Enabled
-   then FCWinMain.PSP_Commit.Enabled:=true;
+   if MaxUnit>0 then
+   begin
+      if FCDsfSurveyVehicles[CurrentItem].SV_choosenUnits+FCDsfSurveyVehicles[CurrentItem].SV_unitThreshold<MaxUnit then
+      begin
+         FCDsfSurveyVehicles[CurrentItem].SV_choosenUnits:=FCDsfSurveyVehicles[CurrentItem].SV_choosenUnits+FCDsfSurveyVehicles[CurrentItem].SV_unitThreshold;
+         if FCDsfSurveyVehicles[CurrentItem].SV_crew>0 then
+         begin
+            PSvehiclesCrewUsed:=PSvehiclesCrewUsed+( FCDsfSurveyVehicles[CurrentItem].SV_crew * FCDsfSurveyVehicles[CurrentItem].SV_unitThreshold );
+            FCMuiPS_VehiclesSetup_CrewFormat;
+         end;
+      end
+      else if FCDsfSurveyVehicles[CurrentItem].SV_choosenUnits+FCDsfSurveyVehicles[CurrentItem].SV_unitThreshold=MaxUnit then
+      begin
+         FCDsfSurveyVehicles[CurrentItem].SV_choosenUnits:=MaxUnit;
+         if FCDsfSurveyVehicles[CurrentItem].SV_crew>0 then
+         begin
+            PSvehiclesCrewUsed:=PSvehiclesCrewUsed+( FCDsfSurveyVehicles[CurrentItem].SV_crew * FCDsfSurveyVehicles[CurrentItem].SV_unitThreshold );
+            FCMuiPS_VehiclesSetup_CrewFormat;
+         end;
+      end
+      else if ( FCDsfSurveyVehicles[CurrentItem].SV_choosenUnits+FCDsfSurveyVehicles[CurrentItem].SV_unitThreshold>MaxUnit )
+         and (FCDsfSurveyVehicles[CurrentItem].SV_choosenUnits<MaxUnit ) then
+      begin
+         if FCDsfSurveyVehicles[CurrentItem].SV_crew>0 then
+         begin
+            PSvehiclesCrewUsed:=PSvehiclesCrewUsed+( FCDsfSurveyVehicles[CurrentItem].SV_crew * ( MaxUnit - FCDsfSurveyVehicles[CurrentItem].SV_choosenUnits ) );
+            FCMuiPS_VehiclesSetup_CrewFormat;
+         end;
+         FCDsfSurveyVehicles[CurrentItem].SV_choosenUnits:=MaxUnit;
+      end;
+      FCWinMain.PSP_ProductsList.Items[ (FCWinMain.PSP_ProductsList.Selected.Index*2)+1 ].Text:=FCFuiPS_VehiclesSetup_EntryFormat( TypeOfSurvey, CurrentItem );
+      if not FCWinMain.PSP_Commit.Enabled
+      then FCWinMain.PSP_Commit.Enabled:=true;
+   end;
 end;
 
 procedure FCMuiPS_VehiclesSetup_CrewFormat;
@@ -418,6 +459,7 @@ end;
 procedure FCMuiPS_VehiclesSetup_Rem( const TypeOfSurvey: TFCEdgPlanetarySurveys );
 {:Purpose: process the rem button.
     Additions:
+      -2013Mar10- *add: PSP_Commit button state.
 }
    var
       CurrentItem: integer;
@@ -432,12 +474,16 @@ begin
          PSvehiclesCrewUsed:=PSvehiclesCrewUsed-FCDsfSurveyVehicles[CurrentItem].SV_crew;
          FCMuiPS_VehiclesSetup_CrewFormat;
       end;
+      if ( FCDsfSurveyVehicles[CurrentItem].SV_choosenUnits=0 )
+         and ( not FCFuiPS_VehiclesGroups_TestIfChoosenPositive )
+      then FCWinMain.PSP_Commit.Enabled:=false;
    end;
 end;
 
 procedure FCMuiPS_VehiclesSetup_RemMax( const TypeOfSurvey: TFCEdgPlanetarySurveys );
 {:Purpose: process the remmax button.
     Additions:
+      -2013Mar10- *add: PSP_Commit button state.
 }
    var
       CurrentItem
@@ -461,6 +507,8 @@ begin
       end;
       FCMuiPS_VehiclesSetup_CrewFormat;
       FCWinMain.PSP_ProductsList.Items[ (FCWinMain.PSP_ProductsList.Selected.Index*2)+1 ].Text:=FCFuiPS_VehiclesSetup_EntryFormat( TypeOfSurvey, CurrentItem );
+      if not FCFuiPS_VehiclesGroups_TestIfChoosenPositive
+      then FCWinMain.PSP_Commit.Enabled:=false;
    end;
 end;
 
