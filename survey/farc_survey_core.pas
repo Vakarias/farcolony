@@ -111,7 +111,7 @@ procedure FCMsC_Expedition_Setup(
    );
 {:Purpose: setup an expedition data structure.
     Additions:
-      -2013Mar11- *add: PS_completionPercent initialization.
+      -2013Mar11- *add: PS_completionPercent + PSS initialization.
       -2013Mar10- *add: code completion.
 }
    var
@@ -151,6 +151,7 @@ begin
             FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_targetRegion:=Region;
             FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_linkedColony:=Colony;
             FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_missionExtension:=MissionExtension;
+            FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_pss:=0;
             FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_completionPercent:=0;
             setlength( FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups, 1 );
          end;
@@ -204,12 +205,21 @@ procedure FCMsC_ResourceSurvey_Core;
    var
       CountEntity
       ,CountSurvey
+      ,CountVehiclesGroup
       ,MaxEntity
-      ,MaxSurvey: integer;
+      ,MaxSurvey
+      ,MaxVehiclesGroup: integer;
+
+      mustProcessPSS: boolean;
 
 begin
+   {:DEV NOTES: look for a mass back to base when a survey mission is complete (also in accordance with mission extension!).
+   see pspBackToBaseFINAL in this code
+   add also a data for replenishment value + init at 0 in expedition setup (prevent to calculate it each game day) update this data if choosen units is updated
+   }
    CountEntity:=1;
-
+   CountSurvey:=0;
+   CountVehiclesGroup:=0;
    MaxEntity:=length( FCDdgEntities )-1;
    while CountEntity<=MaxEntity do
    begin
@@ -217,12 +227,64 @@ begin
       MaxSurvey:=length( FCDdgEntities[CountEntity].E_planetarySurveys )-1;
       while CountSurvey<=MaxSurvey do
       begin
-         //test phase and process in accordance
+         if FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_pss=0
+         then mustProcessPSS:=true
+         else mustProcessPSS:=false;
+         MaxVehiclesGroup:=length( FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups )-1;
+         CountVehiclesGroup:=1;
+         while CountVehiclesGroup<=MaxVehiclesGroup do
+         begin
+            case FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVehiclesGroup].VG_currentPhase of
+               pspInTransitToSite:
+               begin
+                  inc( FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVehiclesGroup].VG_currentPhaseElapsedTime );
+                  if FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVehiclesGroup].VG_currentPhaseElapsedTime>FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVehiclesGroup].VG_timeOfOneWayTravel then
+                  begin
+                     FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVehiclesGroup].VG_currentPhase:=pspResourcesSurveying;
+                     FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVehiclesGroup].VG_currentPhaseElapsedTime:=1;
+                     mustProcessPSS:=true;
+                     {:DEV NOTES: if entity=0, trigger a message to the player to inform him/her that a group is arrived on site.}
+                  end;
+               end;
 
+               pspResourcesSurveying:
+               begin
+                  inc( FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVehiclesGroup].VG_currentPhaseElapsedTime );
+                  if FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVehiclesGroup].VG_currentPhaseElapsedTime>FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVehiclesGroup].VG_timeOfMission then
+                  begin
+                     FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVehiclesGroup].VG_currentPhase:=pspBackToBase;
+                     FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVehiclesGroup].VG_currentPhaseElapsedTime:=1;
+                     mustProcessPSS:=true;
+                     {:DEV NOTES: if entity=0, trigger a message to the player to inform him/her that a group has finished its survey mission and is back to base.}
+                  end;
+               end;
+
+               pspBackToBase:
+               begin
+                  inc( FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVehiclesGroup].VG_currentPhaseElapsedTime );
+                  if FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVehiclesGroup].VG_currentPhaseElapsedTime>FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVehiclesGroup].VG_timeOfOneWayTravel then
+                  begin
+//                     FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVehiclesGroup].VG_currentPhase:=pspResourcesSurveying;
+//                     FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVehiclesGroup].VG_currentPhaseElapsedTime:=1;
+//                     mustProcessPSS:=true;
+//                     {:DEV NOTES: if entity=0, trigger a message to the player to inform him/her that a group is arrived on site.}
+                  end;
+               end;
+
+               pspReplenishment:
+               begin
+               end;
+
+               pspBackToBaseFINAL:
+               begin
+               end;
+            end; //==END== case FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVehiclesGroup].VG_currentPhase ==//
+            inc( CountVehiclesGroup );
+         end; //==END== while CountVehiclesGroup<=MaxVehiclesGroup ==//
          inc( CountSurvey );
-      end;
+      end; //==END== while CountSurvey<=MaxSurvey ==//
       inc( CountEntity );
-   end;
+   end; //==END== while CountEntity<=MaxEntity ==//
 end;
 
 end.

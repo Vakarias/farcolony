@@ -99,7 +99,7 @@ uses
 procedure FCMdFSG_Game_Load;
 {:Purpose: load the current game.
    Additions:
-      -2013Mar11- *add: planetary survey - PS_completionPercent.
+      -2013Mar11- *add: planetary survey - PS_completionPercent + PS_pss.
       -2013Feb02- *add: planetary survey data.
       -2013Jan27- *add: resource survey - OOR_resourceSurveyIndex loading.
       -2012Dec09- *add/fix: initialize the GGFnewTick and GGF_OldTick values with the loaded game tick.
@@ -1128,6 +1128,7 @@ begin
                      FCDdgEntities[Count].E_planetarySurveys[Count1].PS_linkedColony:=XMLSavedGameItemSub1.Attributes['linkedColony'];
                      EnumIndex:=GetEnumValue( TypeInfo( TFCEdgPlanetarySurveyExtensions ), XMLSavedGameItemSub1.Attributes['missionExtension'] );
                      FCDdgEntities[Count].E_planetarySurveys[Count1].PS_missionExtension:=TFCEdgPlanetarySurveyExtensions( EnumIndex );
+                     FCDdgEntities[Count].E_planetarySurveys[Count1].PS_pss:=StrToFloat( XMLSavedGameItemSub2.Attributes['PSS'], FCVdiFormat );
                      FCDdgEntities[Count].E_planetarySurveys[Count1].PS_completionPercent:=StrToFloat( XMLSavedGameItemSub2.Attributes['completionPercent'], FCVdiFormat );
                      if EnumIndex=-1
                      then raise Exception.Create( 'bad gamesave loading w/planetary survey mission extension: '+XMLSavedGameItemSub1.Attributes['missionExtension'] );
@@ -1196,7 +1197,7 @@ end;
 procedure FCMdFSG_Game_Save;
 {:Purpose: save the current game.
     Additions:
-      -2013Mar11- *add: planetary survey - PS_completionPercent.
+      -2013Mar11- *add: planetary survey - PS_completionPercent + PS_pss.
                   *fix: the SPM meme spread value is correctly loaded now, it wasn't the case.
       -2013Feb02- *add: planetary survey data.
       -2012Dec04- *add: space units - SU_locationDockingMotherCraft.
@@ -2028,6 +2029,7 @@ begin
             XMLSavedGameItemSub2.Attributes['targetRegion']:=FCDdgEntities[Count].E_planetarySurveys[Count1].PS_targetRegion;
             XMLSavedGameItemSub2.Attributes['linkedColony']:=FCDdgEntities[Count].E_planetarySurveys[Count1].PS_linkedColony;
             XMLSavedGameItemSub2.Attributes['missionExtension']:=GetEnumName( TypeInfo( TFCEdgPlanetarySurveyExtensions ), Integer( FCDdgEntities[Count].E_planetarySurveys[Count1].PS_missionExtension ) );
+            XMLSavedGameItemSub2.Attributes['PSS']:=FloatToStr( FCDdgEntities[Count].E_planetarySurveys[Count1].PS_pss, FCVdiFormat );
             XMLSavedGameItemSub2.Attributes['completionPercent']:=FloatToStr( FCDdgEntities[Count].E_planetarySurveys[Count1].PS_completionPercent, FCVdiFormat );
             Max2:=Length( FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups )-1;
             Count2:=1;

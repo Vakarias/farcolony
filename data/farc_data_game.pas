@@ -188,6 +188,7 @@ type TFCEdgPlanetarySurveyPhases=(
    ,pspFeaturesArtifactsSurveying
    ,pspBackToBase
    ,pspReplenishment
+   ,pspBackToBaseFINAL
    );
 
 {:REFERENCES LIST
@@ -779,6 +780,10 @@ type TFCRdgEntity= record
       PS_targetRegion: integer;
       PS_linkedColony: integer;
       PS_missionExtension: TFCEdgPlanetarySurveyExtensions;
+      ///<summary>
+      ///   current percent of surface surveyed by day
+      ///</summary>
+      PS_pss: extended;
       PS_completionPercent: extended;
       PS_vehiclesGroups: array of record
          VG_linkedStorage: integer;

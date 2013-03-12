@@ -83,7 +83,7 @@ function FCFsF_ResourcesSurvey_ProcessTravelSurveyDistance(
 ///   <param name="Entity">entity index #</param>
 ///   <param name="PlanetarySurvey">planetary survey index #</param>
 ///   <returns>PSS value</returns>
-///   <remarks></remarks>
+///   <remarks>the PSS value is rounded at 2 decimals</remarks>
 function FCFsF_ResourcesSurvey_PSSCalculations( const Entity, PlanetarySurvey: integer ): extended;
 
 //===========================END FUNCTIONS SECTION==========================================
