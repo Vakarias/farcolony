@@ -77,6 +77,14 @@ function FCFsF_ResourcesSurvey_ProcessTravelSurveyDistance(
          ,onlyUpdateDistanceSurvey: boolean
    ): boolean;
 
+///<summary>
+///   calculate the percent of surface surveyed by day (or PSS)
+///</summary>
+///   <param name="Entity">entity index #</param>
+///   <param name="PlanetarySurvey">planetary survey index #</param>
+///   <returns>PSS value</returns>
+///   <remarks></remarks>
+function FCFsF_ResourcesSurvey_PSSCalculations( const Entity, PlanetarySurvey: integer ): extended;
 
 //===========================END FUNCTIONS SECTION==========================================
 
@@ -252,6 +260,56 @@ begin
       DistanceSurvey:=( FCDsfSurveyVehicles[VehiclesGroupIndex].SV_speed * FCDsfSurveyVehicles[VehiclesGroupIndex].SV_numberOfVehicles * FCDsfSurveyVehicles[VehiclesGroupIndex].SV_capabilityResources ) / FCDsfSurveyVehicles[VehiclesGroupIndex].SV_emo;
       FCDsfSurveyVehicles[VehiclesGroupIndex].SV_distanceOfSurvey:=FCFcF_Round( rttDistanceKm, DistanceSurvey );
    end;
+end;
+
+function FCFsF_ResourcesSurvey_PSSCalculations( const Entity, PlanetarySurvey: integer ): extended;
+{:Purpose: calculate the percent of surface surveyed by day (or PSS).
+    Additions:
+}
+   var
+      Count
+      ,Max: integer;
+
+      PSS
+      ,RegionSurface
+      ,SumDV: extended;
+
+      LocationUniverse: TFCRufStelObj;
+begin
+   Result:=0;
+   Count:=1;
+   Max:=length( FCDdgEntities[Entity].E_planetarySurveys[PlanetarySurvey].PS_vehiclesGroups )-1;
+   PSS:=0;
+   RegionSurface:=0;
+   SumDV:=0;
+   LocationUniverse:=FCFuF_StelObj_GetFullRow(
+      FCDdgEntities[Entity].E_planetarySurveys[PlanetarySurvey].PS_locationSSys
+      ,FCDdgEntities[Entity].E_planetarySurveys[PlanetarySurvey].PS_locationStar
+      ,FCDdgEntities[Entity].E_planetarySurveys[PlanetarySurvey].PS_locationOobj
+      ,FCDdgEntities[Entity].E_planetarySurveys[PlanetarySurvey].PS_locationSat
+      );
+   if LocationUniverse[4]=0 then
+   begin
+      RegionSurface:=FCDduStarSystem[LocationUniverse[1]].SS_stars[LocationUniverse[2]].S_orbitalObjects[LocationUniverse[3]].OO_regionSurface;
+      if FCDduStarSystem[LocationUniverse[1]].SS_stars[LocationUniverse[2]].S_orbitalObjects[LocationUniverse[3]].OO_regions[FCDdgEntities[Entity].E_planetarySurveys[PlanetarySurvey].PS_targetRegion].OOR_soilType
+         in [rst08CoastalRockyDesert..rst13CoastalFertile]
+      then RegionSurface:=RegionSurface * 0.60;
+   end
+   else if LocationUniverse[4]>0 then
+   begin
+      RegionSurface:=FCDduStarSystem[LocationUniverse[1]].SS_stars[LocationUniverse[2]].S_orbitalObjects[LocationUniverse[3]].OO_satellitesList[LocationUniverse[4]].OO_regionSurface;
+      if FCDduStarSystem[LocationUniverse[1]].SS_stars[LocationUniverse[2]].S_orbitalObjects[LocationUniverse[3]].OO_satellitesList[LocationUniverse[4]].OO_regions[FCDdgEntities[Entity].E_planetarySurveys[PlanetarySurvey].PS_targetRegion].OOR_soilType
+         in [rst08CoastalRockyDesert..rst13CoastalFertile]
+      then RegionSurface:=RegionSurface * 0.60;
+   end;
+   while Count <= Max do
+   begin
+      if FCDdgEntities[Entity].E_planetarySurveys[PlanetarySurvey].PS_vehiclesGroups[Count].VG_currentPhase = pspResourcesSurveying
+      then SumDV:=SumDV + FCDdgEntities[Entity].E_planetarySurveys[PlanetarySurvey].PS_vehiclesGroups[Count].VG_distanceOfSurvey;
+      inc( Count );
+   end;
+   PSS:=( SumDV / RegionSurface ) * 100;
+   Result:=FCFcF_Round( rttCustom2Decimal, PSS );
 end;
 
 //===========================END FUNCTIONS SECTION==========================================

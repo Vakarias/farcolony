@@ -779,6 +779,7 @@ type TFCRdgEntity= record
       PS_targetRegion: integer;
       PS_linkedColony: integer;
       PS_missionExtension: TFCEdgPlanetarySurveyExtensions;
+      PS_completionPercent: extended;
       PS_vehiclesGroups: array of record
          VG_linkedStorage: integer;
          VG_numberOfUnits: integer;

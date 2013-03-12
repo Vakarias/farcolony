@@ -67,6 +67,17 @@ procedure FCMsC_Expedition_Setup(
    const MissionExtension: TFCEdgPlanetarySurveyExtensions
    );
 
+///<summary>
+///   core process of the resources survey subsystem
+///</summary>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <returns></returns>
+///   <remarks></remarks>
+procedure FCMsC_ResourceSurvey_Core;
+
 implementation
 
 uses
@@ -100,6 +111,7 @@ procedure FCMsC_Expedition_Setup(
    );
 {:Purpose: setup an expedition data structure.
     Additions:
+      -2013Mar11- *add: PS_completionPercent initialization.
       -2013Mar10- *add: code completion.
 }
    var
@@ -139,6 +151,7 @@ begin
             FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_targetRegion:=Region;
             FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_linkedColony:=Colony;
             FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_missionExtension:=MissionExtension;
+            FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_completionPercent:=0;
             setlength( FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups, 1 );
          end;
          inc( CurrentVehiclesGroup );
@@ -181,6 +194,34 @@ begin
          FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CurrentVehiclesGroup].VG_currentPhaseElapsedTime:=0;
       end;
       inc( Count );
+   end;
+end;
+
+procedure FCMsC_ResourceSurvey_Core;
+{:Purpose: core process of the resources survey subsystem.
+    Additions:
+}
+   var
+      CountEntity
+      ,CountSurvey
+      ,MaxEntity
+      ,MaxSurvey: integer;
+
+begin
+   CountEntity:=1;
+
+   MaxEntity:=length( FCDdgEntities )-1;
+   while CountEntity<=MaxEntity do
+   begin
+      CountSurvey:=1;
+      MaxSurvey:=length( FCDdgEntities[CountEntity].E_planetarySurveys )-1;
+      while CountSurvey<=MaxSurvey do
+      begin
+         //test phase and process in accordance
+
+         inc( CountSurvey );
+      end;
+      inc( CountEntity );
    end;
 end;
 
