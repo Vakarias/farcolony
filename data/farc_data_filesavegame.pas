@@ -1128,10 +1128,10 @@ begin
                            Count3:=0;
                            if FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_satellite=0
                            then FCDduStarSystem[FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_starSystem].SS_stars[FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_star].S_orbitalObjects[FCDdgEntities[Count].
-                              E_surveyedResourceSpots[Count1].SRS_orbitalObject].OO_regions[Count2].OOR_resourceSurveyedIndex:=Count1
+                              E_surveyedResourceSpots[Count1].SRS_orbitalObject].OO_regions[Count2].OOR_resourceSurveyedBy[Count]:=Count1
                            else if FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_satellite>0
                            then FCDduStarSystem[FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_starSystem].SS_stars[FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_star].
-                              S_orbitalObjects[FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_orbitalObject].OO_satellitesList[FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_satellite].OO_regions[Count2].OOR_resourceSurveyedIndex:=Count1;
+                              S_orbitalObjects[FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_orbitalObject].OO_satellitesList[FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_satellite].OO_regions[Count2].OOR_resourceSurveyedBy[Count]:=Count1;
                            XMLSavedGameItemSub3:=XMLSavedGameItemSub2.ChildNodes.First;
                            while XMLSavedGameItemSub3<>nil do
                            begin

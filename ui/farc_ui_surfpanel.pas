@@ -701,7 +701,7 @@ begin
          then SERUtemp:=OOR_meanTdInt
          else if SERUseason='seasonMax'
          then SERUtemp:=OOR_meanTdMax;
-         Test:=OOR_resourceSurveyedIndex;
+         Test:=OOR_resourceSurveyedBy[0];
       end;
    end
    else if SPcurrentSatIndex>0
@@ -720,7 +720,7 @@ begin
          then SERUtemp:=OO_regions[SERUregIdx].OOR_meanTdInt
          else if SERUseason='seasonMax'
          then SERUtemp:=OO_regions[SERUregIdx].OOR_meanTdMax;
-         Test:=OO_regions[SERUregIdx].OOR_resourceSurveyedIndex;
+         Test:=OO_regions[SERUregIdx].OOR_resourceSurveyedBy[0];
       end;
    end;
    SERUidxTemp:=FCFuF_Index_Get(ufitTemp, SERUtemp);

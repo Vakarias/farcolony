@@ -469,8 +469,10 @@ type TFCRduOObRegion = record
       EMO_iwc: extended;
       EMO_groundCombat: extended;
    end;
-   {.resources data}
-   OOR_resourceSurveyedIndex: integer;
+   ///<summary>
+   ///   array of factions with their surveyed index #, if the region IS surveyed
+   ///</summary>
+   OOR_resourceSurveyedBy: array [0..FCCdiFactionsMax] of integer;
    OOR_resourceSpot: array of record
       RS_type: TFCEduResourceSpotTypes;
       RS_quality: TFCEduResourceSpotQuality;
