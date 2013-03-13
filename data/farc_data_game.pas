@@ -679,29 +679,6 @@ type TFCRdgPlayer = record
    P_currentTimeMonth: integer;
    P_currentTimeYear: integer;
    P_currentTimePhase: TFCEtimePhases;
-   P_surveyedResourceSpots: array of record
-      SRS_orbitalObject_SatelliteToken: string[20];
-      SRS_starSystem: integer;
-      SRS_star: integer;
-      SRS_orbitalObject: integer;
-      SRS_satellite: integer;
-      SRS_surveyedRegions: array of record
-         SR_ResourceSpots: array of record
-            RS_meanQualityCoefficient: extended;
-            RS_spotSizeCurrent: integer;
-            RS_spotSizeMax: integer;
-            case RS_type: TFCEduResourceSpotTypes of
-               rstIcyOreField:();
-
-               rstOreField:(
-                  RS_tOFiCarbonaceous: integer;
-                  RS_tOFiMetallic: integer;
-                  RS_tOFiRare: integer;
-                  RS_tOFiUranium: integer;
-                  );
-         end; //==END== record: SR_ResourceSpots ==//
-      end; //==END== record: SRS_surveyedRegions ==//
-   end; //==END== record: P_surveyedResourceSpots ==//
 end;
 
 ///<summary>
@@ -804,8 +781,31 @@ type TFCRdgEntity= record
          VG_distanceOfSurvey: extended;
          VG_currentPhase: TFCEdgPlanetarySurveyPhases;
          VG_currentPhaseElapsedTime: integer;
-      end;
-   end;
+      end; //==END== record: PS_vehiclesGroups ==//
+   end; //==END== record: E_planetarySurveys ==//
+   E_surveyedResourceSpots: array of record
+      SRS_orbitalObject_SatelliteToken: string[20];
+      SRS_starSystem: integer;
+      SRS_star: integer;
+      SRS_orbitalObject: integer;
+      SRS_satellite: integer;
+      SRS_surveyedRegions: array of record
+         SR_ResourceSpots: array of record
+            RS_meanQualityCoefficient: extended;
+            RS_spotSizeCurrent: integer;
+            RS_spotSizeMax: integer;
+            case RS_type: TFCEduResourceSpotTypes of
+               rstIcyOreField:();
+
+               rstOreField:(
+                  RS_tOFiCarbonaceous: integer;
+                  RS_tOFiMetallic: integer;
+                  RS_tOFiRare: integer;
+                  RS_tOFiUranium: integer;
+                  );
+         end; //==END== record: SR_ResourceSpots ==//
+      end; //==END== record: SRS_surveyedRegions ==//
+   end; //==END== record: P_surveyedResourceSpots ==//
 end;
    TFCDdgEntities= array [0..FCCdiFactionsMax] of TFCRdgEntity;
 
@@ -862,6 +862,7 @@ implementation
 procedure FCMdG_Entities_Clear;
 {:Purpose: clear the entities' data.
     Additions:
+      -2013Mar12- *add: E_surveyedResourceSpots.
       -2013Jan31- *add: E_planetarySurveys.
       -2012Aug14- *code audit:
                      (x)var formatting + refactoring     (_)if..then reformatting   (_)function/procedure refactoring
@@ -901,6 +902,7 @@ begin
       FCDdgEntities[Count].E_spmMod_Bureaucracy:=0;
       FCDdgEntities[Count].E_spmMod_Corruption:=0;
       SetLength( FCDdgEntities[Count].E_planetarySurveys, 1 );
+      SetLength( FCDdgEntities[Count].E_surveyedResourceSpots, 1 );
       inc(Count);
    end;
 end;

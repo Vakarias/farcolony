@@ -320,7 +320,7 @@ begin
                ProdModeDataI1:=FCDdgEntities[PMDFFGent].E_colonies[PMDFFGcol].C_settlements[PMDFFGsett].S_infrastructures[PMDFFGinfra].I_fProdResourceSpot;
                {.resource mining production calculation}
                ProdModeDataF1:=( ( power( PMDFFGinfraData.I_surface[PMDFFGinfraLevel], 0.333 ) + power( PMDFFGinfraData.I_volume[PMDFFGinfraLevel], 0.111 ) )*0.5 )
-                  * FCVdgPlayer.P_surveyedResourceSpots[PMDFFGsurveyedSpot].SRS_surveyedRegions[ProdModeDataI2].SR_ResourceSpots[ProdModeDataI1].RS_meanQualityCoefficient
+                  * FCDdgEntities[PMDFFGent].E_surveyedResourceSpots[PMDFFGsurveyedSpot].SRS_surveyedRegions[ProdModeDataI2].SR_ResourceSpots[ProdModeDataI1].RS_meanQualityCoefficient
                   * (PMDFFGinfraData.I_fPmodeStructure[InfraProdModeCount].MS_occupancy*0.01);
                if PMDFFGinfraData.I_reqResourceSpot=rstIcyOreField then
                begin
@@ -336,7 +336,7 @@ begin
                      );
                end
                else begin
-                  ProdModeDataF2:=ProdModeDataF1*( FCVdgPlayer.P_surveyedResourceSpots[PMDFFGsurveyedSpot].SRS_surveyedRegions[ProdModeDataI2].SR_ResourceSpots[ProdModeDataI1].RS_tOFiCarbonaceous*0.01 );
+                  ProdModeDataF2:=ProdModeDataF1*( FCDdgEntities[PMDFFGent].E_surveyedResourceSpots[PMDFFGsurveyedSpot].SRS_surveyedRegions[ProdModeDataI2].SR_ResourceSpots[ProdModeDataI1].RS_tOFiCarbonaceous*0.01 );
                   ProdModeDataF2:=FCFcF_Round( rttVolume, ProdModeDataF2 );
                   FCMgPS2_ProductionMatrixItem_Add(
                      PMDFFGent
@@ -347,7 +347,7 @@ begin
                      ,'resCarbOre'
                      ,ProdModeDataF2
                      );
-                  ProdModeDataF3:=ProdModeDataF1*( FCVdgPlayer.P_surveyedResourceSpots[PMDFFGsurveyedSpot].SRS_surveyedRegions[ProdModeDataI2].SR_ResourceSpots[ProdModeDataI1].RS_tOFiMetallic*0.01 );
+                  ProdModeDataF3:=ProdModeDataF1*( FCDdgEntities[PMDFFGent].E_surveyedResourceSpots[PMDFFGsurveyedSpot].SRS_surveyedRegions[ProdModeDataI2].SR_ResourceSpots[ProdModeDataI1].RS_tOFiMetallic*0.01 );
                   ProdModeDataF3:=FCFcF_Round( rttVolume, ProdModeDataF3 );
                   FCMgPS2_ProductionMatrixItem_Add(
                      PMDFFGent
@@ -358,7 +358,7 @@ begin
                      ,'resMetalOre'
                      ,ProdModeDataF3
                      );
-                  ProdModeDataF4:=ProdModeDataF1*( FCVdgPlayer.P_surveyedResourceSpots[PMDFFGsurveyedSpot].SRS_surveyedRegions[ProdModeDataI2].SR_ResourceSpots[ProdModeDataI1].RS_tOFiRare*0.01 );
+                  ProdModeDataF4:=ProdModeDataF1*( FCDdgEntities[PMDFFGent].E_surveyedResourceSpots[PMDFFGsurveyedSpot].SRS_surveyedRegions[ProdModeDataI2].SR_ResourceSpots[ProdModeDataI1].RS_tOFiRare*0.01 );
                   ProdModeDataF4:=FCFcF_Round( rttVolume, ProdModeDataF4 );
                   FCMgPS2_ProductionMatrixItem_Add(
                      PMDFFGent
@@ -369,7 +369,7 @@ begin
                      ,'resRareMetOre'
                      ,ProdModeDataF4
                      );
-                  ProdModeDataF5:=ProdModeDataF1*( FCVdgPlayer.P_surveyedResourceSpots[PMDFFGsurveyedSpot].SRS_surveyedRegions[ProdModeDataI2].SR_ResourceSpots[ProdModeDataI1].RS_tOFiUranium*0.01 );
+                  ProdModeDataF5:=ProdModeDataF1*( FCDdgEntities[PMDFFGent].E_surveyedResourceSpots[PMDFFGsurveyedSpot].SRS_surveyedRegions[ProdModeDataI2].SR_ResourceSpots[ProdModeDataI1].RS_tOFiUranium*0.01 );
                   ProdModeDataF5:=FCFcF_Round( rttVolume, ProdModeDataF5 );
                   FCMgPS2_ProductionMatrixItem_Add(
                      PMDFFGent

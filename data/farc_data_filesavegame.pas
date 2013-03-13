@@ -502,92 +502,6 @@ begin
             XMLSavedGameItem:=XMLSavedGameItem.NextSibling;
          end; {.while XMLSavedGameItem<>nil}
       end; {.if XMLSavedGame<>nil}
-      {.read all surveyed resources}
-      setlength( FCVdgPlayer.P_surveyedResourceSpots, 1 );
-      XMLSavedGame:=FCWinMain.FCXMLsave.DocumentElement.ChildNodes.FindNode( 'gfSurveyedResourceSpots' );
-      if XMLSavedGame<>nil then
-      begin
-         Count:=0;
-         XMLSavedGameItem:=XMLSavedGame.ChildNodes.First;
-         while XMLSavedGameItem<>nil do
-         begin
-            inc( Count );
-            SetLength( FCVdgPlayer.P_surveyedResourceSpots, Count+1 );
-            FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_orbitalObject_SatelliteToken:=XMLSavedGameItem.Attributes['oobj'];
-            FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_starSystem:=XMLSavedGameItem.Attributes['ssysIdx'];
-            FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_star:=XMLSavedGameItem.Attributes['starIdx'];
-            FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_orbitalObject:=XMLSavedGameItem.Attributes['oobjIdx'];
-            FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_satellite:=XMLSavedGameItem.Attributes['satIdx'];
-            if ( ( FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_orbitalObject_SatelliteToken<>'' ) and ( FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_satellite=0 )
-               and ( FCDduStarSystem[FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_starSystem].SS_stars[FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_star].
-                  S_orbitalObjects[FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_orbitalObject].OO_dbTokenId=FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_orbitalObject_SatelliteToken
-                  )
-               )
-               or ( ( FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_orbitalObject_SatelliteToken<>'' ) and ( FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_satellite>0 )
-                  and ( FCDduStarSystem[FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_starSystem].SS_stars[FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_star].S_orbitalObjects[FCVdgPlayer.P_surveyedResourceSpots[Count].
-                     SRS_orbitalObject].OO_satellitesList[FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_satellite].OO_dbTokenId=FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_orbitalObject_SatelliteToken
-                     )
-               ) then
-            begin
-               if FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_satellite=0
-               then SetLength(
-                  FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_surveyedRegions
-                  ,length(
-                     FCDduStarSystem[FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_starSystem].SS_stars[FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_star].
-                        S_orbitalObjects[FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_orbitalObject].OO_regions
-                     )+1
-                  )
-               else if FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_satellite>0
-               then SetLength(
-                  FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_surveyedRegions
-                  ,length(
-                     FCDduStarSystem[FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_starSystem].
-                        SS_stars[FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_star].S_orbitalObjects[FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_orbitalObject].
-                           OO_satellitesList[FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_satellite].OO_regions
-                     )+1
-                  );
-               XMLSavedGameItemSub:=XMLSavedGameItem.ChildNodes.First;
-               while XMLSavedGameItemSub<>nil do
-               begin
-                  Count1:=XMLSavedGameItemSub.Attributes['regionIdx'];
-                  Count2:=0;
-                  if FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_satellite=0
-                  then FCDduStarSystem[FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_starSystem].SS_stars[FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_star].S_orbitalObjects[FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_orbitalObject].
-                     OO_regions[Count1].OOR_resourceSurveyIndex:=Count
-                  else if FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_satellite>0
-                  then FCDduStarSystem[FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_starSystem].SS_stars[FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_star].S_orbitalObjects[FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_orbitalObject].
-                     OO_satellitesList[FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_satellite].OO_regions[Count1].OOR_resourceSurveyIndex:=Count;
-                  XMLSavedGameItemSub1:=XMLSavedGameItemSub.ChildNodes.First;
-                  while XMLSavedGameItemSub1<>nil do
-                  begin
-                     inc( Count2 );
-                     SetLength( FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_surveyedRegions[Count1].SR_ResourceSpots, Count2+1 );
-                     EnumIndex:=GetEnumValue( TypeInfo( TFCEduResourceSpotTypes ), XMLSavedGameItemSub1.Attributes['spotType'] );
-                     FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_surveyedRegions[Count1].SR_ResourceSpots[Count2].RS_type:=TFCEduResourceSpotTypes( EnumIndex );
-                     if EnumIndex=-1
-                     then raise Exception.Create( 'bad gamesave loading w/rsrc spot type: '+XMLSavedGameItemSub1.Attributes['spotType'] )
-                     else if EnumIndex>0 then
-                     begin
-                        FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_surveyedRegions[Count1].SR_ResourceSpots[Count2].RS_meanQualityCoefficient:=StrToFloat( XMLSavedGameItemSub1.Attributes['meanQualCoef'], FCVdiFormat );
-                        FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_surveyedRegions[Count1].SR_ResourceSpots[Count2].RS_spotSizeCurrent:=XMLSavedGameItemSub1.Attributes['spotSizCurr'];
-                        FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_surveyedRegions[Count1].SR_ResourceSpots[Count2].RS_spotSizeMax:=XMLSavedGameItemSub1.Attributes['spotSizeMax'];
-                        if FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_surveyedRegions[Count1].SR_ResourceSpots[Count2].RS_type=rstOreField then
-                        begin
-                           FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_surveyedRegions[Count1].SR_ResourceSpots[Count2].RS_tOFiCarbonaceous:=XMLSavedGameItemSub1.Attributes['oreCarbo'];
-                           FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_surveyedRegions[Count1].SR_ResourceSpots[Count2].RS_tOFiMetallic:=XMLSavedGameItemSub1.Attributes['oreMetal'];
-                           FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_surveyedRegions[Count1].SR_ResourceSpots[Count2].RS_tOFiRare:=XMLSavedGameItemSub1.Attributes['oreRare'];
-                           FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_surveyedRegions[Count1].SR_ResourceSpots[Count2].RS_tOFiUranium:=XMLSavedGameItemSub1.Attributes['oreUra'];
-                        end;
-                     end;
-                     XMLSavedGameItemSub1:=XMLSavedGameItemSub1.NextSibling;
-                  end;
-                  XMLSavedGameItemSub:=XMLSavedGameItemSub.NextSibling;
-               end;
-            end
-            else raise Exception.Create('universe database is not compatible with the current save game file');
-            XMLSavedGameItem:=XMLSavedGameItem.NextSibling;
-         end; //==END== while XMLSavedGameItem<>nil ==//
-      end; //==END== if XMLSavedGame<>nil then... for surveyed resources ==//
       {.read "CSM" section}
       XMLSavedGame:=FCWinMain.FCXMLsave.DocumentElement.ChildNodes.FindNode( 'gfCSM' );
       if XMLSavedGame<>nil then
@@ -1164,7 +1078,91 @@ begin
                      end;
                      XMLSavedGameItemSub1:=XMLSavedGameItemSub1.NextSibling;
                   end;
-               end; //==END== else if XMLSavedGameItemSub.NodeName='entPlanetarySurveys' ==//
+               end //==END== else if XMLSavedGameItemSub.NodeName='entPlanetarySurveys' ==//
+               else if XMLSavedGameItemSub.NodeName='entSurveyedResources' then
+               begin
+                  Count1:=0;
+                  XMLSavedGameItemSub1:=XMLSavedGameItemSub.ChildNodes.First;
+                  while XMLSavedGameItemSub1<>nil do
+                  begin
+                     inc( Count1 );
+                     SetLength( FCDdgEntities[Count].E_surveyedResourceSpots, Count1+1 );
+                     FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_orbitalObject_SatelliteToken:=XMLSavedGameItemSub1.Attributes['oobj'];
+                     FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_starSystem:=XMLSavedGameItemSub1.Attributes['ssysIdx'];
+                     FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_star:=XMLSavedGameItemSub1.Attributes['starIdx'];
+                     FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_orbitalObject:=XMLSavedGameItemSub1.Attributes['oobjIdx'];
+                     FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_satellite:=XMLSavedGameItemSub1.Attributes['satIdx'];
+                     if ( ( FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_orbitalObject_SatelliteToken<>'' ) and ( FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_satellite=0 )
+                        and ( FCDduStarSystem[FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_starSystem].SS_stars[FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_star].
+                           S_orbitalObjects[FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_orbitalObject].OO_dbTokenId=FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_orbitalObject_SatelliteToken
+                           )
+                        )
+                        or ( ( FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_orbitalObject_SatelliteToken<>'' ) and ( FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_satellite>0 )
+                           and ( FCDduStarSystem[FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_starSystem].SS_stars[FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_star].
+                              S_orbitalObjects[FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_orbitalObject].OO_satellitesList[FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_satellite].OO_dbTokenId=
+                                 FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_orbitalObject_SatelliteToken
+                              )
+                        ) then
+                     begin
+                        if FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_satellite=0
+                        then SetLength(
+                           FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_surveyedRegions
+                           ,length(
+                              FCDduStarSystem[FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_starSystem].SS_stars[FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_star].
+                                 S_orbitalObjects[FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_orbitalObject].OO_regions
+                              )+1
+                           )
+                        else if FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_satellite>0
+                        then SetLength(
+                           FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_surveyedRegions
+                           ,length(
+                              FCDduStarSystem[FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_starSystem].
+                                 SS_stars[FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_star].S_orbitalObjects[FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_orbitalObject].
+                                    OO_satellitesList[FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_satellite].OO_regions
+                              )+1
+                           );
+                        XMLSavedGameItemSub2:=XMLSavedGameItemSub1.ChildNodes.First;
+                        while XMLSavedGameItemSub2<>nil do
+                        begin
+                           Count2:=XMLSavedGameItemSub.Attributes['regionIdx'];
+                           Count3:=0;
+                           if FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_satellite=0
+                           then FCDduStarSystem[FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_starSystem].SS_stars[FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_star].S_orbitalObjects[FCDdgEntities[Count].
+                              E_surveyedResourceSpots[Count1].SRS_orbitalObject].OO_regions[Count2].OOR_resourceSurveyedIndex:=Count1
+                           else if FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_satellite>0
+                           then FCDduStarSystem[FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_starSystem].SS_stars[FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_star].
+                              S_orbitalObjects[FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_orbitalObject].OO_satellitesList[FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_satellite].OO_regions[Count2].OOR_resourceSurveyedIndex:=Count1;
+                           XMLSavedGameItemSub3:=XMLSavedGameItemSub2.ChildNodes.First;
+                           while XMLSavedGameItemSub3<>nil do
+                           begin
+                              inc( Count3 );
+                              SetLength( FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_surveyedRegions[Count2].SR_ResourceSpots, Count3+1 );
+                              EnumIndex:=GetEnumValue( TypeInfo( TFCEduResourceSpotTypes ), XMLSavedGameItemSub3.Attributes['spotType'] );
+                              FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_surveyedRegions[Count2].SR_ResourceSpots[Count3].RS_type:=TFCEduResourceSpotTypes( EnumIndex );
+                              if EnumIndex=-1
+                              then raise Exception.Create( 'bad gamesave loading w/rsrc spot type: '+XMLSavedGameItemSub3.Attributes['spotType'] )
+                              else if EnumIndex>0 then
+                              begin
+                                 FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_surveyedRegions[Count2].SR_ResourceSpots[Count3].RS_meanQualityCoefficient:=StrToFloat( XMLSavedGameItemSub3.Attributes['meanQualCoef'], FCVdiFormat );
+                                 FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_surveyedRegions[Count2].SR_ResourceSpots[Count3].RS_spotSizeCurrent:=XMLSavedGameItemSub3.Attributes['spotSizCurr'];
+                                 FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_surveyedRegions[Count2].SR_ResourceSpots[Count3].RS_spotSizeMax:=XMLSavedGameItemSub3.Attributes['spotSizeMax'];
+                                 if FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_surveyedRegions[Count2].SR_ResourceSpots[Count3].RS_type=rstOreField then
+                                 begin
+                                    FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_surveyedRegions[Count2].SR_ResourceSpots[Count3].RS_tOFiCarbonaceous:=XMLSavedGameItemSub3.Attributes['oreCarbo'];
+                                    FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_surveyedRegions[Count2].SR_ResourceSpots[Count3].RS_tOFiMetallic:=XMLSavedGameItemSub3.Attributes['oreMetal'];
+                                    FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_surveyedRegions[Count2].SR_ResourceSpots[Count3].RS_tOFiRare:=XMLSavedGameItemSub3.Attributes['oreRare'];
+                                    FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_surveyedRegions[Count2].SR_ResourceSpots[Count3].RS_tOFiUranium:=XMLSavedGameItemSub3.Attributes['oreUra'];
+                                 end;
+                              end;
+                              XMLSavedGameItemSub3:=XMLSavedGameItemSub3.NextSibling;
+                           end;
+                           XMLSavedGameItemSub2:=XMLSavedGameItemSub2.NextSibling;
+                        end;
+                     end
+                     else raise Exception.Create('universe database is not compatible with the current save game file');
+                     XMLSavedGameItemSub1:=XMLSavedGameItemSub1.NextSibling;
+                  end; //==END== while XMLSavedGameItemSub1<>nil ==//
+               end; //==END== else if XMLSavedGameItemSub.NodeName='entSurveyedResources' ==//
                XMLSavedGameItemSub:=XMLSavedGameItemSub.NextSibling;
             end; //==END== while GLxmlEntSubRoot<>nil do ==//
             inc( Count );
@@ -1520,52 +1518,6 @@ begin
          inc(Count);
       end; {.while GScount<=GSlength-1}
    end; {.if GSlength>1 then... for taskinprocess}
-   {.all surveyed resources}
-   Max:=length( FCVdgPlayer.P_surveyedResourceSpots );
-   if Max>1 then
-   begin
-      XMLSavedGameItem:=XMLSavedGame.AddChild( 'gfSurveyedResourceSpots' );
-      Count:=1;
-      while Count<=Max-1 do
-      begin
-         XMLSavedGameItemSub:=XMLSavedGameItem.AddChild( 'gfSpotLocation' );
-         XMLSavedGameItemSub.Attributes['oobj']:=FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_orbitalObject_SatelliteToken;
-         XMLSavedGameItemSub.Attributes['ssysIdx']:=FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_starSystem;
-         XMLSavedGameItemSub.Attributes['starIdx']:=FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_star;
-         XMLSavedGameItemSub.Attributes['oobjIdx']:=FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_orbitalObject;
-         XMLSavedGameItemSub.Attributes['satIdx']:=FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_satellite;
-         Max1:=length( FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_surveyedRegions )-1;
-         Count1:=1;
-         while Count1<=Max1 do
-         begin
-            Max2:=length( FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_surveyedRegions[Count1].SR_ResourceSpots )-1;
-            if Max2>0 then
-            begin
-               XMLSavedGameItemSub1:=XMLSavedGameItemSub.AddChild( 'gfSpotRegion' );
-               XMLSavedGameItemSub1.Attributes['regionIdx']:=Count1;
-               Count2:=1;
-               while Count2<=Max2 do
-               begin
-                  XMLSavedGameItemSub2:=XMLSavedGameItemSub1.AddChild( 'gfRsrcSpot' );
-                  XMLSavedGameItemSub2.Attributes['spotType']:=GetEnumName(TypeInfo(TFCEduResourceSpotTypes), Integer(FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_surveyedRegions[Count1].SR_ResourceSpots[Count2].RS_type));
-                  XMLSavedGameItemSub2.Attributes['meanQualCoef']:=FloatToStr( FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_surveyedRegions[Count1].SR_ResourceSpots[Count2].RS_meanQualityCoefficient, FCVdiFormat );
-                  XMLSavedGameItemSub2.Attributes['spotSizCurr']:=FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_surveyedRegions[Count1].SR_ResourceSpots[Count2].RS_spotSizeCurrent;
-                  XMLSavedGameItemSub2.Attributes['spotSizeMax']:=FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_surveyedRegions[Count1].SR_ResourceSpots[Count2].RS_spotSizeMax;
-                  if FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_surveyedRegions[Count1].SR_ResourceSpots[Count2].RS_type=rstOreField then
-                  begin
-                     XMLSavedGameItemSub2.Attributes['oreCarbo']:=FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_surveyedRegions[Count1].SR_ResourceSpots[Count2].RS_tOFiCarbonaceous;
-                     XMLSavedGameItemSub2.Attributes['oreMetal']:=FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_surveyedRegions[Count1].SR_ResourceSpots[Count2].RS_tOFiMetallic;
-                     XMLSavedGameItemSub2.Attributes['oreRare']:=FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_surveyedRegions[Count1].SR_ResourceSpots[Count2].RS_tOFiRare;
-                     XMLSavedGameItemSub2.Attributes['oreUra']:=FCVdgPlayer.P_surveyedResourceSpots[Count].SRS_surveyedRegions[Count1].SR_ResourceSpots[Count2].RS_tOFiUranium;
-                  end;
-                  inc(Count2);
-               end;
-            end;
-            inc( Count1 );
-         end;
-         inc( Count );
-      end; //==END== while Count<=Count1-1 do ==//
-   end; //==END== if Count1>1 then... for surveyed resource spots ==//
    {.create "CSM" saved game item}
    Max:=length( FCDdgCSMPhaseSchedule );
    if Max>1 then
@@ -2058,7 +2010,53 @@ begin
             end;
             inc( Count1 );
          end;
-      end;
+      end; //==END== if Max1>1... for planetary surveys ==//
+      {.all surveyed resources}
+      Max1:=length( FCDdgEntities[Count].E_surveyedResourceSpots );
+      if Max1>1 then
+      begin
+         XMLSavedGameItemSub1:=XMLSavedGameItemSub.AddChild( 'entSurveyedResources' );
+         Count1:=1;
+         while Count1<=Max1-1 do
+         begin
+            XMLSavedGameItemSub2:=XMLSavedGameItemSub1.AddChild( 'srSpotLocation' );
+            XMLSavedGameItemSub2.Attributes['oobj']:=FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_orbitalObject_SatelliteToken;
+            XMLSavedGameItemSub2.Attributes['ssysIdx']:=FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_starSystem;
+            XMLSavedGameItemSub2.Attributes['starIdx']:=FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_star;
+            XMLSavedGameItemSub2.Attributes['oobjIdx']:=FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_orbitalObject;
+            XMLSavedGameItemSub2.Attributes['satIdx']:=FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_satellite;
+            Max2:=length( FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_surveyedRegions )-1;
+            Count2:=1;
+            while Count2<=Max2 do
+            begin
+               Max3:=length( FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_surveyedRegions[Count2].SR_ResourceSpots )-1;
+               if Max3>0 then
+               begin
+                  XMLSavedGameItemSub3:=XMLSavedGameItemSub2.AddChild( 'slSpotRegion' );
+                  XMLSavedGameItemSub3.Attributes['regionIdx']:=Count1;
+                  Count3:=1;
+                  while Count3<=Max3 do
+                  begin
+                     XMLSavedGameItemSub4:=XMLSavedGameItemSub3.AddChild( 'srRsrcSpot' );
+                     XMLSavedGameItemSub4.Attributes['spotType']:=GetEnumName(TypeInfo(TFCEduResourceSpotTypes), Integer(FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_surveyedRegions[Count2].SR_ResourceSpots[Count3].RS_type));
+                     XMLSavedGameItemSub4.Attributes['meanQualCoef']:=FloatToStr( FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_surveyedRegions[Count2].SR_ResourceSpots[Count3].RS_meanQualityCoefficient, FCVdiFormat );
+                     XMLSavedGameItemSub4.Attributes['spotSizCurr']:=FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_surveyedRegions[Count2].SR_ResourceSpots[Count3].RS_spotSizeCurrent;
+                     XMLSavedGameItemSub4.Attributes['spotSizeMax']:=FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_surveyedRegions[Count2].SR_ResourceSpots[Count3].RS_spotSizeMax;
+                     if FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_surveyedRegions[Count2].SR_ResourceSpots[Count3].RS_type=rstOreField then
+                     begin
+                        XMLSavedGameItemSub4.Attributes['oreCarbo']:=FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_surveyedRegions[Count2].SR_ResourceSpots[Count3].RS_tOFiCarbonaceous;
+                        XMLSavedGameItemSub4.Attributes['oreMetal']:=FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_surveyedRegions[Count2].SR_ResourceSpots[Count3].RS_tOFiMetallic;
+                        XMLSavedGameItemSub4.Attributes['oreRare']:=FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_surveyedRegions[Count2].SR_ResourceSpots[Count3].RS_tOFiRare;
+                        XMLSavedGameItemSub4.Attributes['oreUra']:=FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_surveyedRegions[Count2].SR_ResourceSpots[Count3].RS_tOFiUranium;
+                     end;
+                     inc(Count3);
+                  end;
+               end;
+               inc( Count2 );
+            end;
+            inc( Count1 );
+         end; //==END== while Count1<=Max1-1 do ==//
+      end; //==END== if Max1>1... for surveyed resource spots ==//
       inc( Count );
    end; //==END== while Count<=FCCdiFactionsMax do do ==//
    {.create "msgqueue" saved game item}

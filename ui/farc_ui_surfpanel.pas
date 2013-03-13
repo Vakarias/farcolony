@@ -701,7 +701,7 @@ begin
          then SERUtemp:=OOR_meanTdInt
          else if SERUseason='seasonMax'
          then SERUtemp:=OOR_meanTdMax;
-         Test:=OOR_resourceSurveyIndex;
+         Test:=OOR_resourceSurveyedIndex;
       end;
    end
    else if SPcurrentSatIndex>0
@@ -720,7 +720,7 @@ begin
          then SERUtemp:=OO_regions[SERUregIdx].OOR_meanTdInt
          else if SERUseason='seasonMax'
          then SERUtemp:=OO_regions[SERUregIdx].OOR_meanTdMax;
-         Test:=OO_regions[SERUregIdx].OOR_resourceSurveyIndex;
+         Test:=OO_regions[SERUregIdx].OOR_resourceSurveyedIndex;
       end;
    end;
    SERUidxTemp:=FCFuF_Index_Get(ufitTemp, SERUtemp);
@@ -1126,10 +1126,10 @@ begin
          then FCWinMain.SP_ResourceSurveyCommit.Hide;
          FCWinMain.SP_RegionSheet.HTMLText.Add( '<p align="left"><br>');
          Count:=1;
-         Max:=length(FCVdgPlayer.P_surveyedResourceSpots[Test].SRS_surveyedRegions[SERUregIdx].SR_ResourceSpots)-1;
+         Max:=length(FCDdgEntities[0].E_surveyedResourceSpots[Test].SRS_surveyedRegions[SERUregIdx].SR_ResourceSpots)-1;
          while Count<=Max do
          begin
-            case FCVdgPlayer.P_surveyedResourceSpots[Test].SRS_surveyedRegions[SERUregIdx].SR_ResourceSpots[Count].RS_type of
+            case FCDdgEntities[0].E_surveyedResourceSpots[Test].SRS_surveyedRegions[SERUregIdx].SR_ResourceSpots[Count].RS_type of
                rstGasField: FCWinMain.SP_RegionSheet.HTMLText.Add( '<img src="file://'+FCVdiPathResourceDir+'pics-ui-resources\gasfield32.jpg" align="left">' );
 
                rstHydroWell: FCWinMain.SP_RegionSheet.HTMLText.Add( '<img src="file://'+FCVdiPathResourceDir+'pics-ui-resources\hydrolocation32.jpg" align="left">' );
@@ -1140,7 +1140,7 @@ begin
 
                rstUnderWater: FCWinMain.SP_RegionSheet.HTMLText.Add( '<img src="file://'+FCVdiPathResourceDir+'pics-ui-resources\undergroundwater32.jpg" align="left">' );
             end;
-            FCWinMain.SP_RegionSheet.HTMLText.Add( 'Use <b>'+inttostr(FCVdgPlayer.P_surveyedResourceSpots[Test].SRS_surveyedRegions[SERUregIdx].SR_ResourceSpots[Count].RS_spotSizeCurrent)+'/'+inttostr(FCVdgPlayer.P_surveyedResourceSpots[Test].SRS_surveyedRegions[SERUregIdx].SR_ResourceSpots[Count].RS_spotSizeMax)+'</b><br>' );
+            FCWinMain.SP_RegionSheet.HTMLText.Add( 'Use <b>'+inttostr(FCDdgEntities[0].E_surveyedResourceSpots[Test].SRS_surveyedRegions[SERUregIdx].SR_ResourceSpots[Count].RS_spotSizeCurrent)+'/'+inttostr(FCDdgEntities[0].E_surveyedResourceSpots[Test].SRS_surveyedRegions[SERUregIdx].SR_ResourceSpots[Count].RS_spotSizeMax)+'</b><br>' );
             inc( Count);
          end;
       end

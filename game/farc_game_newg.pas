@@ -394,9 +394,6 @@ FCWinNewGSetup.Close;
    FCVdgPlayer.P_currentTimeDay:=1;
    FCVdgPlayer.P_currentTimeMonth:=1;
    FCVdgPlayer.P_currentTimeYear:=2250;
-   {.surveyed region initialization}
-   {:DEV NOTES: it's important to put it BEFORE the entities main loop, because future faction's data will include already surveyed regions data.}
-   SetLength(FCVdgPlayer.P_surveyedResourceSpots, 1);
    {.entities main loop}
    CPent:=0;
    while CPent<=FCCdiFactionsMax do
