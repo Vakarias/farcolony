@@ -99,6 +99,7 @@ uses
 procedure FCMdFSG_Game_Load;
 {:Purpose: load the current game.
    Additions:
+      -2013Mar12- *add: planetary survey - VG_timeOfReplenishment.
       -2013Mar11- *add: planetary survey - PS_completionPercent + PS_pss.
       -2013Feb02- *add: planetary survey data.
       -2013Jan27- *add: resource survey - OOR_resourceSurveyIndex loading.
@@ -1152,6 +1153,7 @@ begin
                         FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].VG_regionEMO:=StrToFloat( XMLSavedGameItemSub2.Attributes['regionEMO'], FCVdiFormat );
                         FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].VG_timeOfOneWayTravel:=XMLSavedGameItemSub2.Attributes['timeOneWayTravel'];
                         FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].VG_timeOfMission:=XMLSavedGameItemSub2.Attributes['timeMission'];
+                        FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].VG_timeOfReplenishment:=XMLSavedGameItemSub2.Attributes['timeRepl'];
                         FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].VG_distanceOfSurvey:=StrToFloat( XMLSavedGameItemSub2.Attributes['distanceOfSurvey'], FCVdiFormat );
                         EnumIndex:=GetEnumValue( TypeInfo( TFCEdgPlanetarySurveyPhases ), XMLSavedGameItemSub2.Attributes['phase'] );
                         FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].VG_currentPhase:=TFCEdgPlanetarySurveyPhases( EnumIndex );
@@ -1197,6 +1199,7 @@ end;
 procedure FCMdFSG_Game_Save;
 {:Purpose: save the current game.
     Additions:
+      -2013Mar12- *add: planetary survey - VG_timeOfReplenishment.
       -2013Mar11- *add: planetary survey - PS_completionPercent + PS_pss.
                   *fix: the SPM meme spread value is correctly loaded now, it wasn't the case.
       -2013Feb02- *add: planetary survey data.
@@ -2047,6 +2050,7 @@ begin
                XMLSavedGameItemSub3.Attributes['regionEMO']:=FloatToStr( FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].VG_regionEMO, FCVdiFormat );
                XMLSavedGameItemSub3.Attributes['timeOneWayTravel']:=FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].VG_timeOfOneWayTravel;
                XMLSavedGameItemSub3.Attributes['timeMission']:=FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].VG_timeOfMission;
+               XMLSavedGameItemSub3.Attributes['timeRepl']:=FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].VG_timeOfReplenishment;
                XMLSavedGameItemSub3.Attributes['distanceOfSurvey']:=FloatToStr( FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].VG_distanceOfSurvey, FCVdiFormat );
                XMLSavedGameItemSub3.Attributes['phase']:=GetEnumName( TypeInfo( TFCEdgPlanetarySurveyPhases ), Integer( FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].VG_currentPhase ) );
                XMLSavedGameItemSub3.Attributes['phaseTime']:=FCDdgEntities[Count].E_planetarySurveys[Count1].PS_vehiclesGroups[Count2].VG_currentPhaseElapsedTime;

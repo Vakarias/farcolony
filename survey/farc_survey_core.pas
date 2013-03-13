@@ -111,6 +111,7 @@ procedure FCMsC_Expedition_Setup(
    );
 {:Purpose: setup an expedition data structure.
     Additions:
+      -2013Mar12- *add: VG_timeOfReplenishment initialization.
       -2013Mar11- *add: PS_completionPercent + PSS initialization.
       -2013Mar10- *add: code completion.
 }
@@ -167,6 +168,7 @@ begin
          FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CurrentVehiclesGroup].VG_regionEMO:=FCDsfSurveyVehicles[Count].SV_emo;
          FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CurrentVehiclesGroup].VG_timeOfOneWayTravel:=FCDsfSurveyVehicles[Count].SV_oneWayTravel;
          FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CurrentVehiclesGroup].VG_timeOfMission:=FCDsfSurveyVehicles[Count].SV_timeOfMission;
+         FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CurrentVehiclesGroup].VG_timeOfReplenishment:=0;
          FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CurrentVehiclesGroup].VG_distanceOfSurvey:=FCDsfSurveyVehicles[Count].SV_distanceOfSurvey;
          case TypeOfSurvey of
             psResources:
@@ -264,9 +266,10 @@ begin
                   inc( FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVehiclesGroup].VG_currentPhaseElapsedTime );
                   if FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVehiclesGroup].VG_currentPhaseElapsedTime>FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVehiclesGroup].VG_timeOfOneWayTravel then
                   begin
-//                     FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVehiclesGroup].VG_currentPhase:=pspResourcesSurveying;
-//                     FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVehiclesGroup].VG_currentPhaseElapsedTime:=1;
-//                     mustProcessPSS:=true;
+                     FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVehiclesGroup].VG_currentPhase:=pspReplenishment;
+                     if FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVehiclesGroup].VG_timeOfReplenishment=0
+                     then FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVehiclesGroup].VG_timeOfReplenishment:=FCFsF_SurveyVehicles_ReplenishmentCalc(  $ );
+                     FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVehiclesGroup].VG_currentPhaseElapsedTime:=1;
 //                     {:DEV NOTES: if entity=0, trigger a message to the player to inform him/her that a group is arrived on site.}
                   end;
                end;

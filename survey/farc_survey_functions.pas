@@ -45,19 +45,6 @@ uses
 //==END PUBLIC CONST========================================================================
 
 ///<summary>
-///   generate a listing of available survey vehicles into a colony's storage
-///</summary>
-///   <param name="Entity">entity index #</param>
-///   <param name="Colony">colony index #</param>
-///   <param name="GetFirstTestOnly">[true]=stop at first positive test, doesn't generate the detailed list, [false]=generate the detailed list in FCDsfSurveyVehicles</param>
-///   <returns>the # of different products that are survey vehicles</returns>
-///   <remarks>FCDsfSurveyVehicles is reseted whatever the value of FCDsfSurveyVehicles</remarks>
-function FCFsF_SurveyVehicles_Get(
-   const Entity, Colony: integer;
-   const GetFirstTestOnly: boolean
-   ): integer;
-
-///<summary>
 ///   process the travel duration, if it's required, and the distance of survey
 ///</summary>
 ///   <param name="Entity">entity index #</param>
@@ -85,6 +72,27 @@ function FCFsF_ResourcesSurvey_ProcessTravelSurveyDistance(
 ///   <returns>PSS value</returns>
 ///   <remarks>the PSS value is rounded at 2 decimals</remarks>
 function FCFsF_ResourcesSurvey_PSSCalculations( const Entity, PlanetarySurvey: integer ): extended;
+
+///<summary>
+///   generate a listing of available survey vehicles into a colony's storage
+///</summary>
+///   <param name="Entity">entity index #</param>
+///   <param name="Colony">colony index #</param>
+///   <param name="GetFirstTestOnly">[true]=stop at first positive test, doesn't generate the detailed list, [false]=generate the detailed list in FCDsfSurveyVehicles</param>
+///   <returns>the # of different products that are survey vehicles</returns>
+///   <remarks>FCDsfSurveyVehicles is reseted whatever the value of FCDsfSurveyVehicles</remarks>
+function FCFsF_SurveyVehicles_Get(
+   const Entity, Colony: integer;
+   const GetFirstTestOnly: boolean
+   ): integer;
+
+///<summary>
+///   calculate the replenishment duration
+///</summary>
+///   <param name="NumberOfVehicles"># of vehicles in total in the concerned group</param>
+///   <returns>the replenishment duration in standard days</returns>
+///   <remarks></remarks>
+function FCFsF_SurveyVehicles_ReplenishmentCalc( const NumberOfVehicles: integer ): integer;
 
 //===========================END FUNCTIONS SECTION==========================================
 
@@ -123,71 +131,6 @@ var
 //==END PRIVATE CONST=======================================================================
 
 //===================================================END OF INIT============================
-
-function FCFsF_SurveyVehicles_Get(
-   const Entity, Colony: integer;
-   const GetFirstTestOnly: boolean
-   ): integer;
-{:Purpose: generate a listing of available survey vehicles into a colony's storage.
-    Additions:
-      -2013Mar03- *add: new data - EMO, one way travel, time of mission and percent of surface surveyed by day.
-      -2013Feb20- *add: SV_unitThreshold initialization.
-      -2013Feb12- *mod: the 3rd parameter to GetFirstTestOnly is changed and its code too.
-}
-   var
-      Count
-      ,Max
-      ,VehiclesProducts: integer;
-
-      ClonedProduct: TFCRdipProduct;
-begin
-   Result:=0;
-   Count:=1;
-   Max:=length( FCDdgEntities[Entity].E_colonies[Colony].C_storedProducts )-1;
-   VehiclesProducts:=0;
-   if not GetFirstTestOnly then
-   begin
-      SetLength( FCDsfSurveyVehicles, 0 );
-      FCDsfSurveyVehicles:=nil;
-   end;
-   while Count<=Max do
-   begin
-      ClonedProduct:=FCDdipProducts[FCFgP_Product_GetIndex( FCDdgEntities[Entity].E_colonies[Colony].C_storedProducts[Count].SP_token )];
-      if ( ClonedProduct.P_function in [pfSurveyAir..pfSurveySwarmAntigrav] )
-         and ( FCDdgEntities[Entity].E_colonies[Colony].C_storedProducts[Count].SP_unit>0 )
-         and ( GetFirstTestOnly ) then
-      begin
-         inc( VehiclesProducts );
-         break;
-      end
-      else if ( ClonedProduct.P_function in [pfSurveyAir..pfSurveySwarmAntigrav] )
-         and ( FCDdgEntities[Entity].E_colonies[Colony].C_storedProducts[Count].SP_unit>0 )
-         and ( not GetFirstTestOnly ) then
-      begin
-         inc( VehiclesProducts );
-         SetLength( FCDsfSurveyVehicles, VehiclesProducts+1 );
-         FCDsfSurveyVehicles[VehiclesProducts].SV_storageIndex:=Count;
-         FCDsfSurveyVehicles[VehiclesProducts].SV_storageUnits:=Trunc( FCDdgEntities[Entity].E_colonies[Colony].C_storedProducts[Count].SP_unit );
-         FCDsfSurveyVehicles[VehiclesProducts].SV_choosenUnits:=0;
-         FCDsfSurveyVehicles[VehiclesProducts].SV_unitThreshold:=0;
-         FCDsfSurveyVehicles[VehiclesProducts].SV_token:=FCDdgEntities[Entity].E_colonies[Colony].C_storedProducts[Count].SP_token;
-         FCDsfSurveyVehicles[VehiclesProducts].SV_function:=ClonedProduct.P_function;
-         FCDsfSurveyVehicles[VehiclesProducts].SV_speed:=ClonedProduct.P_fSspeed;
-         FCDsfSurveyVehicles[VehiclesProducts].SV_missionTime:=ClonedProduct.P_fSmissionTime;
-         FCDsfSurveyVehicles[VehiclesProducts].SV_capabilityResources:=ClonedProduct.P_fScapabilityResources;
-         FCDsfSurveyVehicles[VehiclesProducts].SV_capabilityBiosphere:=ClonedProduct.P_fScapabilityBiosphere;
-         FCDsfSurveyVehicles[VehiclesProducts].SV_capabilityFeaturesArtifacts:=ClonedProduct.P_fScapabilityFeaturesArtifacts;
-         FCDsfSurveyVehicles[VehiclesProducts].SV_crew:=ClonedProduct.P_fScrew;
-         FCDsfSurveyVehicles[VehiclesProducts].SV_numberOfVehicles:=ClonedProduct.P_fSvehicles;
-         FCDsfSurveyVehicles[VehiclesProducts].SV_emo:=0;
-         FCDsfSurveyVehicles[VehiclesProducts].SV_oneWayTravel:=0;
-         FCDsfSurveyVehicles[VehiclesProducts].SV_timeOfMission:=0;
-         FCDsfSurveyVehicles[VehiclesProducts].SV_distanceOfSurvey:=0;
-      end;
-      inc( Count );
-   end;
-   Result:=VehiclesProducts;
-end;
 
 function FCFsF_ResourcesSurvey_ProcessTravelSurveyDistance(
    const Entity
@@ -310,6 +253,83 @@ begin
    end;
    PSS:=( SumDV / RegionSurface ) * 100;
    Result:=FCFcF_Round( rttCustom2Decimal, PSS );
+end;
+
+function FCFsF_SurveyVehicles_Get(
+   const Entity, Colony: integer;
+   const GetFirstTestOnly: boolean
+   ): integer;
+{:Purpose: generate a listing of available survey vehicles into a colony's storage.
+    Additions:
+      -2013Mar03- *add: new data - EMO, one way travel, time of mission and percent of surface surveyed by day.
+      -2013Feb20- *add: SV_unitThreshold initialization.
+      -2013Feb12- *mod: the 3rd parameter to GetFirstTestOnly is changed and its code too.
+}
+   var
+      Count
+      ,Max
+      ,VehiclesProducts: integer;
+
+      ClonedProduct: TFCRdipProduct;
+begin
+   Result:=0;
+   Count:=1;
+   Max:=length( FCDdgEntities[Entity].E_colonies[Colony].C_storedProducts )-1;
+   VehiclesProducts:=0;
+   if not GetFirstTestOnly then
+   begin
+      SetLength( FCDsfSurveyVehicles, 0 );
+      FCDsfSurveyVehicles:=nil;
+   end;
+   while Count<=Max do
+   begin
+      ClonedProduct:=FCDdipProducts[FCFgP_Product_GetIndex( FCDdgEntities[Entity].E_colonies[Colony].C_storedProducts[Count].SP_token )];
+      if ( ClonedProduct.P_function in [pfSurveyAir..pfSurveySwarmAntigrav] )
+         and ( FCDdgEntities[Entity].E_colonies[Colony].C_storedProducts[Count].SP_unit>0 )
+         and ( GetFirstTestOnly ) then
+      begin
+         inc( VehiclesProducts );
+         break;
+      end
+      else if ( ClonedProduct.P_function in [pfSurveyAir..pfSurveySwarmAntigrav] )
+         and ( FCDdgEntities[Entity].E_colonies[Colony].C_storedProducts[Count].SP_unit>0 )
+         and ( not GetFirstTestOnly ) then
+      begin
+         inc( VehiclesProducts );
+         SetLength( FCDsfSurveyVehicles, VehiclesProducts+1 );
+         FCDsfSurveyVehicles[VehiclesProducts].SV_storageIndex:=Count;
+         FCDsfSurveyVehicles[VehiclesProducts].SV_storageUnits:=Trunc( FCDdgEntities[Entity].E_colonies[Colony].C_storedProducts[Count].SP_unit );
+         FCDsfSurveyVehicles[VehiclesProducts].SV_choosenUnits:=0;
+         FCDsfSurveyVehicles[VehiclesProducts].SV_unitThreshold:=0;
+         FCDsfSurveyVehicles[VehiclesProducts].SV_token:=FCDdgEntities[Entity].E_colonies[Colony].C_storedProducts[Count].SP_token;
+         FCDsfSurveyVehicles[VehiclesProducts].SV_function:=ClonedProduct.P_function;
+         FCDsfSurveyVehicles[VehiclesProducts].SV_speed:=ClonedProduct.P_fSspeed;
+         FCDsfSurveyVehicles[VehiclesProducts].SV_missionTime:=ClonedProduct.P_fSmissionTime;
+         FCDsfSurveyVehicles[VehiclesProducts].SV_capabilityResources:=ClonedProduct.P_fScapabilityResources;
+         FCDsfSurveyVehicles[VehiclesProducts].SV_capabilityBiosphere:=ClonedProduct.P_fScapabilityBiosphere;
+         FCDsfSurveyVehicles[VehiclesProducts].SV_capabilityFeaturesArtifacts:=ClonedProduct.P_fScapabilityFeaturesArtifacts;
+         FCDsfSurveyVehicles[VehiclesProducts].SV_crew:=ClonedProduct.P_fScrew;
+         FCDsfSurveyVehicles[VehiclesProducts].SV_numberOfVehicles:=ClonedProduct.P_fSvehicles;
+         FCDsfSurveyVehicles[VehiclesProducts].SV_emo:=0;
+         FCDsfSurveyVehicles[VehiclesProducts].SV_oneWayTravel:=0;
+         FCDsfSurveyVehicles[VehiclesProducts].SV_timeOfMission:=0;
+         FCDsfSurveyVehicles[VehiclesProducts].SV_distanceOfSurvey:=0;
+      end;
+      inc( Count );
+   end;
+   Result:=VehiclesProducts;
+end;
+
+function FCFsF_SurveyVehicles_ReplenishmentCalc( const NumberOfVehicles: integer ): integer;
+{:Purpose: calculate the replenishment duration.
+    Additions:
+}
+   var
+      WorkingFloat: extended;
+begin
+   Result:=0;
+   WorkingFloat:=sqrt( NumberOfVehicles * 0.1 );
+   Result:=trunc( WorkingFloat )+1;
 end;
 
 //===========================END FUNCTIONS SECTION==========================================

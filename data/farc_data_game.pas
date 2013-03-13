@@ -800,6 +800,7 @@ type TFCRdgEntity= record
          ///   DMS = days of mission (note for design doc)
          ///</summary>
          VG_timeOfMission: integer;
+         VG_timeOfReplenishment: integer;
          VG_distanceOfSurvey: extended;
          VG_currentPhase: TFCEdgPlanetarySurveyPhases;
          VG_currentPhaseElapsedTime: integer;
