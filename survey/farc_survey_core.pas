@@ -115,6 +115,7 @@ procedure FCMsC_Expedition_Setup(
       -2013Mar11- *add: PS_completionPercent + PSS initialization.
       -2013Mar10- *add: code completion.
 }
+{:DEV NOTES: don't forget to assign population if it's required + update the STORAGE!!!  vehicles are used!.}
    var
       Count
       ,CurrentPlanetarySurvey
@@ -205,7 +206,8 @@ procedure FCMsC_ResourceSurvey_Core;
     Additions:
 }
    var
-      CountEntity
+      CompletionVehiclesGroups
+      ,CountEntity
       ,CountSurvey
       ,CountVehiclesGroup
       ,MaxEntity
@@ -215,13 +217,11 @@ procedure FCMsC_ResourceSurvey_Core;
       mustProcessPSS: boolean;
 
 begin
-   {:DEV NOTES: look for a mass back to base when a survey mission is complete (also in accordance with mission extension!).
-   see pspBackToBaseFINAL in this code
-   add also a data for replenishment value + init at 0 in expedition setup (prevent to calculate it each game day) update this data if choosen units is updated
-   }
+   CompletionVehiclesGroups:=0;
    CountEntity:=1;
    CountSurvey:=0;
    CountVehiclesGroup:=0;
+   {:DEV NOTES: test here if there are any completed survey, if its the case=> PostProcess: update entity's surveyed resources in the array and finalize the data + remove after that the completed survey.}
    MaxEntity:=length( FCDdgEntities )-1;
    while CountEntity<=MaxEntity do
    begin
@@ -278,15 +278,51 @@ begin
                pspReplenishment:
                begin
                   inc( FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVehiclesGroup].VG_currentPhaseElapsedTime );
-
+                  if FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVehiclesGroup].VG_currentPhaseElapsedTime>FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVehiclesGroup].VG_timeOfReplenishment then
+                  begin
+                     FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVehiclesGroup].VG_currentPhase:=pspInTransitToSite;
+                     FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVehiclesGroup].VG_currentPhaseElapsedTime:=1;
+                  end;
                end;
 
                pspBackToBaseFINAL:
                begin
+                  inc( FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVehiclesGroup].VG_currentPhaseElapsedTime );
+                  if FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVehiclesGroup].VG_currentPhaseElapsedTime>FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVehiclesGroup].VG_timeOfOneWayTravel then
+                  begin
+                     FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVehiclesGroup].VG_currentPhase:=pspMissionCompletion;
+                     inc( CompletionVehiclesGroups );
+                  end;
                end;
+
+               pspMissionCompletion: inc( CompletionVehiclesGroups );
             end; //==END== case FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVehiclesGroup].VG_currentPhase ==//
             inc( CountVehiclesGroup );
          end; //==END== while CountVehiclesGroup<=MaxVehiclesGroup ==//
+         if CompletionVehiclesGroups=0 then
+         begin
+
+
+            {:DEV NOTES: if 100% => endOfProcess => OOR_resourceSurveyedBy is updated, a message is triggered and all the vehicles groups are back to baseFINAL + target region=0
+               FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_targetRegion:=0;
+
+               OR DEPENDS of mission extension setup!
+
+               the back to base FINAL depends on the current phase a group has
+                pspInTransitToSite=> btbF w/ days travel = current elapsed time
+
+                pspResourcesSurveying=> btbF normally w/ one way travel duration
+
+                pspBackToBase=> only switch btbF
+
+                pspReplenishment=> stop it and switch on  pspMissionCompletion
+            .}
+         end
+         else if CompletionVehiclesGroups=MaxVehiclesGroup then
+         begin
+            {.the expedition will be removed the next day}
+            FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_targetRegion:=-1;
+         end;
          inc( CountSurvey );
       end; //==END== while CountSurvey<=MaxSurvey ==//
       inc( CountEntity );

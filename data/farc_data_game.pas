@@ -189,6 +189,7 @@ type TFCEdgPlanetarySurveyPhases=(
    ,pspBackToBase
    ,pspReplenishment
    ,pspBackToBaseFINAL
+   ,pspMissionCompletion
    );
 
 {:REFERENCES LIST
@@ -754,6 +755,9 @@ type TFCRdgEntity= record
       PS_locationStar: string[20];
       PS_locationOobj: string[20];
       PS_locationSat: string[20];
+      ///<summary>
+      ///   targeted region for the survey. If the mission is complete but not all vehicles are back to base, region=0. If the mission is entirely complete, region=-1
+      ///</summary>
       PS_targetRegion: integer;
       PS_linkedColony: integer;
       PS_missionExtension: TFCEdgPlanetarySurveyExtensions;
