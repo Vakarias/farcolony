@@ -81,7 +81,8 @@ procedure FCMsC_ResourceSurvey_Core;
 implementation
 
 uses
-   farc_data_planetarysurvey
+   farc_common_func
+   ,farc_data_planetarysurvey
    ,farc_data_univ
    ,farc_survey_functions
    ,farc_univ_func
@@ -111,6 +112,7 @@ procedure FCMsC_Expedition_Setup(
    );
 {:Purpose: setup an expedition data structure.
     Additions:
+      -2013Mar13- *add: PS_meanEMO initialization.
       -2013Mar12- *add: VG_timeOfReplenishment initialization.
       -2013Mar11- *add: PS_completionPercent + PSS initialization.
       -2013Mar10- *add: code completion.
@@ -151,6 +153,7 @@ begin
             else if LocationUniverse[4]>0
             then FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_locationSat:=FCDduStarSystem[LocationUniverse[1]].SS_stars[LocationUniverse[2]].S_orbitalObjects[LocationUniverse[3]].OO_satellitesList[LocationUniverse[4]].OO_dbTokenId;
             FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_targetRegion:=Region;
+            FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_meanEMO:=0;
             FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_linkedColony:=Colony;
             FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_missionExtension:=MissionExtension;
             FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_pss:=0;
@@ -209,18 +212,37 @@ procedure FCMsC_ResourceSurvey_Core;
       CompletionVehiclesGroups
       ,CountEntity
       ,CountSurvey
-      ,CountVehiclesGroup
+      ,CountMisc1
       ,MaxEntity
       ,MaxSurvey
-      ,MaxVehiclesGroup: integer;
+      ,MaxMisc1
+      ,RarityThreshold
+      ,SurveyProbabilityBySpot: integer;
+
+      SurveyProbability
+      ,TotalCapabilityVehiclesOnSite: extended;
 
       mustProcessPSS: boolean;
+
+      LocationUniverse: TFCRufStelObj;
+
+      SpotQualityGasField
+      ,SpotQualityHydroWell
+      ,SpotQualityIcyOreField
+      ,SpotQualityOreField
+      ,SpotQualityUnderWater: TFCEduResourceSpotQuality;
+
+      SpotRarityGasField
+      ,SpotRarityHydroWell
+      ,SpotRarityIcyOreField
+      ,SpotRarityOreField
+      ,SpotRarityUnderWater: TFCEduResourceSpotRarity;
 
 begin
    CompletionVehiclesGroups:=0;
    CountEntity:=1;
    CountSurvey:=0;
-   CountVehiclesGroup:=0;
+   CountMisc1:=0;
    {:DEV NOTES: test here if there are any completed survey, if its the case=> PostProcess: update entity's surveyed resources in the array and finalize the data + remove after that the completed survey.}
    MaxEntity:=length( FCDdgEntities )-1;
    while CountEntity<=MaxEntity do
@@ -232,18 +254,20 @@ begin
          if FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_pss=0
          then mustProcessPSS:=true
          else mustProcessPSS:=false;
-         MaxVehiclesGroup:=length( FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups )-1;
-         CountVehiclesGroup:=1;
-         while CountVehiclesGroup<=MaxVehiclesGroup do
+         TotalCapabilityVehiclesOnSite:=0;
+         MaxMisc1:=length( FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups )-1;
+         {.CountMisc1= CountVehiclesGroup}
+         CountMisc1:=1;
+         while CountMisc1<=MaxMisc1 do
          begin
-            case FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVehiclesGroup].VG_currentPhase of
+            case FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_currentPhase of
                pspInTransitToSite:
                begin
-                  inc( FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVehiclesGroup].VG_currentPhaseElapsedTime );
-                  if FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVehiclesGroup].VG_currentPhaseElapsedTime>FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVehiclesGroup].VG_timeOfOneWayTravel then
+                  inc( FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_currentPhaseElapsedTime );
+                  if FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_currentPhaseElapsedTime>FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_timeOfOneWayTravel then
                   begin
-                     FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVehiclesGroup].VG_currentPhase:=pspResourcesSurveying;
-                     FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVehiclesGroup].VG_currentPhaseElapsedTime:=1;
+                     FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_currentPhase:=pspResourcesSurveying;
+                     FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_currentPhaseElapsedTime:=1;
                      mustProcessPSS:=true;
                      {:DEV NOTES: if entity=0, trigger a message to the player to inform him/her that a group is arrived on site.}
                   end;
@@ -251,56 +275,201 @@ begin
 
                pspResourcesSurveying:
                begin
-                  inc( FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVehiclesGroup].VG_currentPhaseElapsedTime );
-                  if FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVehiclesGroup].VG_currentPhaseElapsedTime>FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVehiclesGroup].VG_timeOfMission then
+                  inc( FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_currentPhaseElapsedTime );
+                  if FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_currentPhaseElapsedTime>FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_timeOfMission then
                   begin
-                     FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVehiclesGroup].VG_currentPhase:=pspBackToBase;
-                     FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVehiclesGroup].VG_currentPhaseElapsedTime:=1;
+                     FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_currentPhase:=pspBackToBase;
+                     FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_currentPhaseElapsedTime:=1;
                      mustProcessPSS:=true;
                      {:DEV NOTES: if entity=0, trigger a message to the player to inform him/her that a group has finished its survey mission and is back to base.}
-                  end;
+                  end
+                  else TotalCapabilityVehiclesOnSite:=TotalCapabilityVehiclesOnSite+(
+                     FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_usedCapability
+                        * sqrt( FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_numberOfVehicles * FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_numberOfUnits )
+                        * 5
+                     );
                end;
 
                pspBackToBase:
                begin
-                  inc( FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVehiclesGroup].VG_currentPhaseElapsedTime );
-                  if FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVehiclesGroup].VG_currentPhaseElapsedTime>FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVehiclesGroup].VG_timeOfOneWayTravel then
+                  inc( FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_currentPhaseElapsedTime );
+                  if FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_currentPhaseElapsedTime>FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_timeOfOneWayTravel then
                   begin
-                     FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVehiclesGroup].VG_currentPhase:=pspReplenishment;
-                     if FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVehiclesGroup].VG_timeOfReplenishment=0
-                     then FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVehiclesGroup].VG_timeOfReplenishment:=FCFsF_SurveyVehicles_ReplenishmentCalc(
-                        FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVehiclesGroup].VG_numberOfVehicles * FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVehiclesGroup].VG_numberOfUnits
+                     FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_currentPhase:=pspReplenishment;
+                     if FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_timeOfReplenishment=0
+                     then FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_timeOfReplenishment:=FCFsF_SurveyVehicles_ReplenishmentCalc(
+                        FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_numberOfVehicles * FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_numberOfUnits
                         );
-                     FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVehiclesGroup].VG_currentPhaseElapsedTime:=1;
+                     FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_currentPhaseElapsedTime:=1;
                   end;
                end;
 
                pspReplenishment:
                begin
-                  inc( FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVehiclesGroup].VG_currentPhaseElapsedTime );
-                  if FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVehiclesGroup].VG_currentPhaseElapsedTime>FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVehiclesGroup].VG_timeOfReplenishment then
+                  inc( FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_currentPhaseElapsedTime );
+                  if FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_currentPhaseElapsedTime>FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_timeOfReplenishment then
                   begin
-                     FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVehiclesGroup].VG_currentPhase:=pspInTransitToSite;
-                     FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVehiclesGroup].VG_currentPhaseElapsedTime:=1;
+                     FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_currentPhase:=pspInTransitToSite;
+                     FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_currentPhaseElapsedTime:=1;
                   end;
                end;
 
                pspBackToBaseFINAL:
                begin
-                  inc( FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVehiclesGroup].VG_currentPhaseElapsedTime );
-                  if FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVehiclesGroup].VG_currentPhaseElapsedTime>FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVehiclesGroup].VG_timeOfOneWayTravel then
+                  inc( FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_currentPhaseElapsedTime );
+                  if FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_currentPhaseElapsedTime>FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_timeOfOneWayTravel then
                   begin
-                     FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVehiclesGroup].VG_currentPhase:=pspMissionCompletion;
+                     FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_currentPhase:=pspMissionCompletion;
                      inc( CompletionVehiclesGroups );
                   end;
                end;
 
                pspMissionCompletion: inc( CompletionVehiclesGroups );
             end; //==END== case FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVehiclesGroup].VG_currentPhase ==//
-            inc( CountVehiclesGroup );
-         end; //==END== while CountVehiclesGroup<=MaxVehiclesGroup ==//
+            inc( CountMisc1 );
+         end; //==END== while CountMisc1<=MaxMisc1 ==//
          if CompletionVehiclesGroups=0 then
          begin
+            if mustProcessPSS
+            then  FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_pss:=FCFsF_ResourcesSurvey_PSSEMOCalculations( CountEntity, CountSurvey );
+            FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_completionPercent:=FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_completionPercent+FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_pss;
+            LocationUniverse:=FCFuF_StelObj_GetFullRow(
+               FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_locationSSys
+               ,FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_locationStar
+               ,FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_locationOobj
+               ,FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_locationSat
+               );
+            CountMisc1:=1;
+            if LocationUniverse[4]=0 then
+            begin
+               MaxMisc1:=length( FCDduStarSystem[LocationUniverse[1]].SS_stars[LocationUniverse[2]].S_orbitalObjects[LocationUniverse[3]].OO_regions[FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_targetRegion].OOR_resourceSpot )-1;
+               while CountMisc1<=MaxMisc1 do
+               begin
+                  case FCDduStarSystem[LocationUniverse[1]].SS_stars[LocationUniverse[2]].S_orbitalObjects[LocationUniverse[3]].OO_regions[FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_targetRegion].OOR_resourceSpot[CountMisc1].RS_type of
+                     rstGasField:
+                     begin
+                        SpotQualityGasField:=
+                           FCDduStarSystem[LocationUniverse[1]].SS_stars[LocationUniverse[2]].S_orbitalObjects[LocationUniverse[3]].OO_regions[FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_targetRegion].OOR_resourceSpot[CountMisc1].RS_quality;
+                        SpotRarityGasField:=
+                           FCDduStarSystem[LocationUniverse[1]].SS_stars[LocationUniverse[2]].S_orbitalObjects[LocationUniverse[3]].OO_regions[FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_targetRegion].OOR_resourceSpot[CountMisc1].RS_rarity;
+                     end;
+
+                     rstHydroWell:
+                     begin
+                        SpotQualityHydroWell:=
+                           FCDduStarSystem[LocationUniverse[1]].SS_stars[LocationUniverse[2]].S_orbitalObjects[LocationUniverse[3]].OO_regions[FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_targetRegion].OOR_resourceSpot[CountMisc1].RS_quality;
+                        SpotRarityHydroWell:=
+                           FCDduStarSystem[LocationUniverse[1]].SS_stars[LocationUniverse[2]].S_orbitalObjects[LocationUniverse[3]].OO_regions[FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_targetRegion].OOR_resourceSpot[CountMisc1].RS_rarity;
+                     end;
+
+                     rstIcyOreField:
+                     begin
+                        SpotQualityIcyOreField:=
+                           FCDduStarSystem[LocationUniverse[1]].SS_stars[LocationUniverse[2]].S_orbitalObjects[LocationUniverse[3]].OO_regions[FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_targetRegion].OOR_resourceSpot[CountMisc1].RS_quality;
+                        SpotRarityIcyOreField:=
+                           FCDduStarSystem[LocationUniverse[1]].SS_stars[LocationUniverse[2]].S_orbitalObjects[LocationUniverse[3]].OO_regions[FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_targetRegion].OOR_resourceSpot[CountMisc1].RS_rarity;
+                     end;
+
+                     rstOreField:
+                     begin
+                        SpotQualityOreField:=
+                           FCDduStarSystem[LocationUniverse[1]].SS_stars[LocationUniverse[2]].S_orbitalObjects[LocationUniverse[3]].OO_regions[FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_targetRegion].OOR_resourceSpot[CountMisc1].RS_quality;
+                        SpotRarityOreField:=
+                           FCDduStarSystem[LocationUniverse[1]].SS_stars[LocationUniverse[2]].S_orbitalObjects[LocationUniverse[3]].OO_regions[FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_targetRegion].OOR_resourceSpot[CountMisc1].RS_rarity;
+                     end;
+
+                     rstUnderWater:
+                     begin
+                        SpotQualityUnderWater:=
+                           FCDduStarSystem[LocationUniverse[1]].SS_stars[LocationUniverse[2]].S_orbitalObjects[LocationUniverse[3]].OO_regions[FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_targetRegion].OOR_resourceSpot[CountMisc1].RS_quality;
+                        SpotRarityUnderWater:=
+                           FCDduStarSystem[LocationUniverse[1]].SS_stars[LocationUniverse[2]].S_orbitalObjects[LocationUniverse[3]].OO_regions[FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_targetRegion].OOR_resourceSpot[CountMisc1].RS_rarity;
+                     end;
+                  end;
+                  inc( CountMisc1 );
+               end;
+            end
+            else if LocationUniverse[4]>0 then
+            begin
+//               FCDduStarSystem[LocationUniverse[1]].SS_stars[LocationUniverse[2]].S_orbitalObjects[LocationUniverse[3]].OO_satellitesList[LocationUniverse[4]].
+               MaxMisc1:=length( FCDduStarSystem[LocationUniverse[1]].SS_stars[LocationUniverse[2]].S_orbitalObjects[LocationUniverse[3]].OO_satellitesList[LocationUniverse[4]].OO_regions[FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_targetRegion].OOR_resourceSpot )-1;
+               while CountMisc1<=MaxMisc1 do
+               begin
+                  case FCDduStarSystem[LocationUniverse[1]].SS_stars[LocationUniverse[2]].S_orbitalObjects[LocationUniverse[3]].OO_satellitesList[LocationUniverse[4]].OO_regions[FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_targetRegion].OOR_resourceSpot[CountMisc1].RS_type of
+                     rstGasField:
+                     begin
+                        SpotQualityGasField:=
+                           FCDduStarSystem[LocationUniverse[1]].SS_stars[LocationUniverse[2]].S_orbitalObjects[LocationUniverse[3]].OO_satellitesList[LocationUniverse[4]].OO_regions[FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_targetRegion].OOR_resourceSpot[CountMisc1].RS_quality;
+                        SpotRarityGasField:=
+                           FCDduStarSystem[LocationUniverse[1]].SS_stars[LocationUniverse[2]].S_orbitalObjects[LocationUniverse[3]].OO_satellitesList[LocationUniverse[4]].OO_regions[FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_targetRegion].OOR_resourceSpot[CountMisc1].RS_rarity;
+                     end;
+
+                     rstHydroWell:
+                     begin
+                        SpotQualityHydroWell:=
+                           FCDduStarSystem[LocationUniverse[1]].SS_stars[LocationUniverse[2]].S_orbitalObjects[LocationUniverse[3]].OO_satellitesList[LocationUniverse[4]].OO_regions[FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_targetRegion].OOR_resourceSpot[CountMisc1].RS_quality;
+                        SpotRarityHydroWell:=
+                           FCDduStarSystem[LocationUniverse[1]].SS_stars[LocationUniverse[2]].S_orbitalObjects[LocationUniverse[3]].OO_satellitesList[LocationUniverse[4]].OO_regions[FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_targetRegion].OOR_resourceSpot[CountMisc1].RS_rarity;
+                     end;
+
+                     rstIcyOreField:
+                     begin
+                        SpotQualityIcyOreField:=
+                           FCDduStarSystem[LocationUniverse[1]].SS_stars[LocationUniverse[2]].S_orbitalObjects[LocationUniverse[3]].OO_satellitesList[LocationUniverse[4]].OO_regions[FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_targetRegion].OOR_resourceSpot[CountMisc1].RS_quality;
+                        SpotRarityIcyOreField:=
+                           FCDduStarSystem[LocationUniverse[1]].SS_stars[LocationUniverse[2]].S_orbitalObjects[LocationUniverse[3]].OO_satellitesList[LocationUniverse[4]].OO_regions[FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_targetRegion].OOR_resourceSpot[CountMisc1].RS_rarity;
+                     end;
+
+                     rstOreField:
+                     begin
+                        SpotQualityOreField:=
+                           FCDduStarSystem[LocationUniverse[1]].SS_stars[LocationUniverse[2]].S_orbitalObjects[LocationUniverse[3]].OO_satellitesList[LocationUniverse[4]].OO_regions[FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_targetRegion].OOR_resourceSpot[CountMisc1].RS_quality;
+                        SpotRarityOreField:=
+                           FCDduStarSystem[LocationUniverse[1]].SS_stars[LocationUniverse[2]].S_orbitalObjects[LocationUniverse[3]].OO_satellitesList[LocationUniverse[4]].OO_regions[FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_targetRegion].OOR_resourceSpot[CountMisc1].RS_rarity;
+                     end;
+
+                     rstUnderWater:
+                     begin
+                        SpotQualityUnderWater:=
+                           FCDduStarSystem[LocationUniverse[1]].SS_stars[LocationUniverse[2]].S_orbitalObjects[LocationUniverse[3]].OO_satellitesList[LocationUniverse[4]].OO_regions[FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_targetRegion].OOR_resourceSpot[CountMisc1].RS_quality;
+                        SpotRarityUnderWater:=
+                           FCDduStarSystem[LocationUniverse[1]].SS_stars[LocationUniverse[2]].S_orbitalObjects[LocationUniverse[3]].OO_satellitesList[LocationUniverse[4]].OO_regions[FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_targetRegion].OOR_resourceSpot[CountMisc1].RS_rarity;
+                     end;
+                  end;
+                  inc( CountMisc1 );
+               end;
+            end;
+            SurveyProbability:=TotalCapabilityVehiclesOnSite - ( ( 1 - FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_meanEMO ) * 100 );
+            if SpotRarityGasField<rsrAbsent then
+            begin
+               SurveyProbabilityBySpot:=round( ( FCFcF_Random_DoInteger( 99 ) + 1 ) + SurveyProbability );
+               RarityThreshold:=FCFsF_ResourcesSurvey_SpotRarityThreshold( SpotRarityGasField );
+               {:DEV NOTES: put here the survey result process procedure/function.}
+            end;
+            if SpotRarityHydroWell<rsrAbsent then
+            begin
+               SurveyProbabilityBySpot:=round( ( FCFcF_Random_DoInteger( 99 ) + 1 ) + SurveyProbability );
+               RarityThreshold:=FCFsF_ResourcesSurvey_SpotRarityThreshold( SpotRarityHydroWell );
+               {:DEV NOTES: put here the survey result process procedure/function.}
+            end;
+            if SpotRarityIcyOreField<rsrAbsent then
+            begin
+               SurveyProbabilityBySpot:=round( ( FCFcF_Random_DoInteger( 99 ) + 1 ) + SurveyProbability );
+               RarityThreshold:=FCFsF_ResourcesSurvey_SpotRarityThreshold( SpotRarityIcyOreField );
+               {:DEV NOTES: put here the survey result process procedure/function.}
+            end;
+            if SpotRarityOreField<rsrAbsent then
+            begin
+               SurveyProbabilityBySpot:=round( ( FCFcF_Random_DoInteger( 99 ) + 1 ) + SurveyProbability );
+               RarityThreshold:=FCFsF_ResourcesSurvey_SpotRarityThreshold( SpotRarityOreField );
+               {:DEV NOTES: put here the survey result process procedure/function.}
+            end;
+            if SpotRarityUnderWater<rsrAbsent then
+            begin
+               SurveyProbabilityBySpot:=round( ( FCFcF_Random_DoInteger( 99 ) + 1 ) + SurveyProbability );
+               RarityThreshold:=FCFsF_ResourcesSurvey_SpotRarityThreshold( SpotRarityUnderWater );
+               {:DEV NOTES: put here the survey result process procedure/function.}
+            end;
 
 
             {:DEV NOTES: if 100% => endOfProcess => OOR_resourceSurveyedBy is updated, a message is triggered and all the vehicles groups are back to baseFINAL + target region=0
@@ -317,8 +486,8 @@ begin
 
                 pspReplenishment=> stop it and switch on  pspMissionCompletion
             .}
-         end
-         else if CompletionVehiclesGroups=MaxVehiclesGroup then
+         end //==END== if CompletionVehiclesGroups=0 ==//
+         else if CompletionVehiclesGroups=MaxMisc1 then
          begin
             {.the expedition will be removed the next day}
             FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_targetRegion:=-1;

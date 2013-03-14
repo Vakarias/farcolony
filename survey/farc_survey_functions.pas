@@ -31,7 +31,9 @@ unit farc_survey_functions;
 interface
 
 uses
-   SysUtils;
+   SysUtils
+
+   ,farc_data_univ;
 
 //==END PUBLIC ENUM=========================================================================
 
@@ -65,13 +67,20 @@ function FCFsF_ResourcesSurvey_ProcessTravelSurveyDistance(
    ): boolean;
 
 ///<summary>
-///   calculate the percent of surface surveyed by day (or PSS)
+///   calculate the percent of surface surveyed by day (or PSS) and the mean of the EMOs
 ///</summary>
 ///   <param name="Entity">entity index #</param>
 ///   <param name="PlanetarySurvey">planetary survey index #</param>
 ///   <returns>PSS value</returns>
 ///   <remarks>the PSS value is rounded at 2 decimals</remarks>
-function FCFsF_ResourcesSurvey_PSSCalculations( const Entity, PlanetarySurvey: integer ): extended;
+function FCFsF_ResourcesSurvey_PSSEMOCalculations( const Entity, PlanetarySurvey: integer ): extended;
+
+///<summary>
+///   give the rarity threshold (RT) in accordance of the resource spot's rarity
+///</summary>
+///   <param name="Rarity">rarity enum</param>
+///   <returns>rarity threshold (RT)</returns>
+function FCFsF_ResourcesSurvey_SpotRarityThreshold( const Rarity: TFCEduResourceSpotRarity ): integer;
 
 ///<summary>
 ///   generate a listing of available survey vehicles into a colony's storage
@@ -112,7 +121,6 @@ uses
    ,farc_data_infrprod
    ,farc_data_init
    ,farc_data_planetarysurvey
-   ,farc_data_univ
    ,farc_game_colony
    ,farc_game_prod
    ,farc_univ_func
@@ -205,17 +213,20 @@ begin
    end;
 end;
 
-function FCFsF_ResourcesSurvey_PSSCalculations( const Entity, PlanetarySurvey: integer ): extended;
-{:Purpose: calculate the percent of surface surveyed by day (or PSS).
+function FCFsF_ResourcesSurvey_PSSEMOCalculations( const Entity, PlanetarySurvey: integer ): extended;
+{:Purpose: calculate the percent of surface surveyed by day (or PSS) and the mean of the EMOs.
     Additions:
+      -2013Mar13- *add: integrate the calculations of the mean EMO.
 }
    var
       Count
-      ,Max: integer;
+      ,Max
+      ,VehiclesCount: integer;
 
       PSS
       ,RegionSurface
-      ,SumDV: extended;
+      ,SumDV
+      ,sumEMOs: extended;
 
       LocationUniverse: TFCRufStelObj;
 begin
@@ -247,12 +258,38 @@ begin
    end;
    while Count <= Max do
    begin
-      if FCDdgEntities[Entity].E_planetarySurveys[PlanetarySurvey].PS_vehiclesGroups[Count].VG_currentPhase = pspResourcesSurveying
-      then SumDV:=SumDV + FCDdgEntities[Entity].E_planetarySurveys[PlanetarySurvey].PS_vehiclesGroups[Count].VG_distanceOfSurvey;
+      if FCDdgEntities[Entity].E_planetarySurveys[PlanetarySurvey].PS_vehiclesGroups[Count].VG_currentPhase = pspResourcesSurveying then
+      begin
+         SumDV:=SumDV + FCDdgEntities[Entity].E_planetarySurveys[PlanetarySurvey].PS_vehiclesGroups[Count].VG_distanceOfSurvey;
+         inc( VehiclesCount );
+         sumEMOs:=sumEMOs + FCDdgEntities[Entity].E_planetarySurveys[PlanetarySurvey].PS_vehiclesGroups[Count].VG_regionEMO;
+      end;
       inc( Count );
    end;
    PSS:=( SumDV / RegionSurface ) * 100;
+   FCDdgEntities[Entity].E_planetarySurveys[PlanetarySurvey].PS_meanEMO:=FCFcF_Round( rttCustom2Decimal, sumEMOs / VehiclesCount );
    Result:=FCFcF_Round( rttCustom2Decimal, PSS );
+end;
+
+function FCFsF_ResourcesSurvey_SpotRarityThreshold( const Rarity: TFCEduResourceSpotRarity ): integer;
+{:Purpose: give the rarity threshold (RT) in accordance of the resource spot's rarity.
+    Additions:
+}
+begin
+   Result:=0;
+   case Rarity of
+      rsrRich: Result:=40;
+
+      rsrAbundant: Result:=55;
+
+      rsrCommon: Result:=75;
+
+      rsrPresent: Result:=90;
+
+      rsrUncommon: Result:=110;
+
+      rsrRare: Result:=125;
+   end;
 end;
 
 function FCFsF_SurveyVehicles_Get(

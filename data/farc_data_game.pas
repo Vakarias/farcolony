@@ -759,6 +759,7 @@ type TFCRdgEntity= record
       ///   targeted region for the survey. If the mission is complete but not all vehicles are back to base, region=0. If the mission is entirely complete, region=-1
       ///</summary>
       PS_targetRegion: integer;
+      PS_meanEMO: extended;
       PS_linkedColony: integer;
       PS_missionExtension: TFCEdgPlanetarySurveyExtensions;
       ///<summary>
