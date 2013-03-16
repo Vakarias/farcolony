@@ -84,6 +84,7 @@ uses
    farc_common_func
    ,farc_data_planetarysurvey
    ,farc_data_univ
+   ,farc_game_prodrsrcspots
    ,farc_survey_functions
    ,farc_univ_func
    ,farc_win_debug;
@@ -112,6 +113,7 @@ procedure FCMsC_Expedition_Setup(
    );
 {:Purpose: setup an expedition data structure.
     Additions:
+      -2013Mar15- *add: PS_linkedSurveyedResource initialization.
       -2013Mar13- *add: PS_meanEMO initialization.
       -2013Mar12- *add: VG_timeOfReplenishment initialization.
       -2013Mar11- *add: PS_completionPercent + PSS initialization.
@@ -121,6 +123,7 @@ procedure FCMsC_Expedition_Setup(
    var
       Count
       ,CurrentPlanetarySurvey
+      ,CurrentSurveyedResources
       ,Max
       ,CurrentVehiclesGroup: integer;
 
@@ -155,6 +158,15 @@ begin
             FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_targetRegion:=Region;
             FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_meanEMO:=0;
             FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_linkedColony:=Colony;
+
+            CurrentSurveyedResources:=FCFgPRS_PresenceByLocation_Check(
+               Entity
+               ,LocationUniverse
+               );
+            if CurrentSurveyedResources=0
+            then FCFgPRS_SurveyedResourceSpots_Add
+            else FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_linkedSurveyedResource:=CurrentSurveyedResources;
+
             FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_missionExtension:=MissionExtension;
             FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_pss:=0;
             FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_completionPercent:=0;
@@ -199,9 +211,9 @@ begin
          if FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CurrentVehiclesGroup].VG_timeOfOneWayTravel>0
          then FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CurrentVehiclesGroup].VG_currentPhase:=pspInTransitToSite;
          FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CurrentVehiclesGroup].VG_currentPhaseElapsedTime:=0;
-      end;
+      end; //==END== if FCDsfSurveyVehicles[Count].SV_choosenUnits>0 ==//
       inc( Count );
-   end;
+   end; //==END== while Count<=Max ==//
 end;
 
 procedure FCMsC_ResourceSurvey_Core;

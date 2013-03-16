@@ -34,7 +34,20 @@ uses
    SysUtils
 
    ,farc_data_infrprod
-   ,farc_data_univ;
+   ,farc_data_univ
+   ,farc_univ_func;
+
+///<summary>
+///   check if a surveyed resource spot is present for a specified region location within a specified entity
+///</summary>
+///   <param name="Entity">entity index #</param>
+///   <param name="RegionLocation">universe location of the specified region</param>
+///   <returns>the surveyed resource spot index #. 0 if not found</returns>
+///   <remarks></remarks>
+function FCFgPRS_PresenceByLocation_Check(
+   const Entity: integer;
+   const RegionLocation: TFCRufStelObj
+   ): integer;
 
 ///<summary>
 ///   check if a specified resource spot type is present (surveyed) by giving entity/colony and settlement #
@@ -43,31 +56,33 @@ uses
 ///   <param name="IPIRCcolony">colony index#</param>
 ///   <param name="IPIRCsettlement">settlement index #</param>
 ///   <param name="IPIRCownedInfra">owned infrastructure index #, if >0 => and spot found, indexes are stored in the owned data structure. THE OWNED INFRASTRUCTURE MUST BE A PRODUCTION ONE.</param>
-///   <param name="IPIRCrsrcSpot">resource spot type</param>
+///   <param name="ResourceSpot">resource spot type</param>
 ///   <param name="IPIRCcalculateLocation">true= calculate the colony's location (retrieve the indexes)</param>
 ///   <returns>the resource spot index #, 0 if not found, more than 0 if found</returns>
+///   <remarks>if ResourceSpot is rstNone, return the result on any spot found. OwnedInfra is not used in this particular case</remarks>
 function FCFgPRS_PresenceBySettlement_Check(
    const IPIRCentity
          ,IPIRCcolony
          ,IPIRCsettlement
          ,IPIRCownedInfra: integer;
-   const IPIRCrsrcSpot: TFCEduResourceSpotTypes;
+   const ResourceSpot: TFCEduResourceSpotTypes;
    const IPIRCcalculateLocation: boolean
    ): integer;
    {:DEV NOTES: ADD curr/max level TEST.}
 
-//===========================END FUNCTIONS SECTION==========================================
-
 ///<summary>
 ///   add/update a surveyed resource spot
 ///</summary>
-///   <param name=""></param>
-///   <param name=""></param>
-///   <param name=""></param>
-///   <param name=""></param>
-///   <returns></returns>
-///   <remarks></remarks>
-procedure FCMgPRS_ResourceSpot_Add();
+///   <param name="Entity">entity index #</param>
+///   <param name="Location">surveyed resources spots location</param>
+///   <returns>resources spots index which is created</returns>
+///   <remarks>the resource spot presence should be tested before, if it's necessary. Thsi function doesn't do this automatically</remarks>
+function FCFgPRS_SurveyedResourceSpots_Add(
+   const Entity: integer;
+   const Location: TFCRufStelObj
+   ): integer;
+
+//===========================END FUNCTIONS SECTION==========================================
 
 ///<summary>
 ///   assign an owned infrastructure to it's resource spot
@@ -89,7 +104,6 @@ implementation
 
 uses
    farc_data_game
-   ,farc_univ_func
    ,farc_win_debug;
 
 var
@@ -97,16 +111,48 @@ var
 
 //===================================================END OF INIT============================
 
+function FCFgPRS_PresenceByLocation_Check(
+   const Entity: integer;
+   const RegionLocation: TFCRufStelObj
+   ): integer;
+{:Purpose: check if a surveyed resource spot is present for a specified region location within a specified entity.
+    Additions:
+}
+   var
+      Count
+      ,Max: integer;
+begin
+   Result:=0;
+   Count:=1;
+   Max:=length( FCDdgEntities[Entity].E_surveyedResourceSpots ) - 1;
+   while Count<=Max do
+   begin
+      if (
+            ( RegionLocation[4]=0 ) and ( FCDdgEntities[Entity].E_surveyedResourceSpots[Count].SRS_orbitalObject_SatelliteToken=FCDduStarSystem[ RegionLocation[1] ].SS_stars[ RegionLocation[2] ].S_orbitalObjects[ RegionLocation[3] ].OO_dbTokenId )
+         )
+         or (
+               ( RegionLocation[4]>0 )
+                  and ( FCDdgEntities[Entity].E_surveyedResourceSpots[Count].SRS_orbitalObject_SatelliteToken=FCDduStarSystem[ RegionLocation[1] ].SS_stars[ RegionLocation[2] ].S_orbitalObjects[ RegionLocation[3] ].OO_satellitesList[ RegionLocation[4] ].OO_dbTokenId )
+            ) then
+      begin
+         Result:=Count;
+         break;
+      end;
+      inc( Count );
+   end;
+end;
+
 function FCFgPRS_PresenceBySettlement_Check(
    const IPIRCentity
          ,IPIRCcolony
          ,IPIRCsettlement
          ,IPIRCownedInfra: integer;
-   const IPIRCrsrcSpot: TFCEduResourceSpotTypes;
+   const ResourceSpot: TFCEduResourceSpotTypes;
    const IPIRCcalculateLocation: boolean
    ): integer;
 {:Purpose: check if a given resource spot type is present (surveyed) by giving entity/colony and settlement #.
     Additions:
+      -2013Mar16- *add: if ResourceSpot is rstNone, return the result on any spot found.
       -2011Nov30- *add: new parameter to indicate an owned infrastructure, if >0 => and spot is found, the data are stored in the owned infrastructure data structure.
       -2011Nov22- *fix: prevent a crash when the target is a satellite.
 }
@@ -139,13 +185,19 @@ begin
       IPIRCspotCount:=1;
       while IPIRCspotCount<=IPIRCspotMax do
       begin
-         if FCDdgEntities[IPIRCentity].E_surveyedResourceSpots[IPIRCspotCount].SRS_orbitalObject_SatelliteToken=IPIRCtargetOobj then
+         if ( ResourceSpot=rstNone )
+                  and ( FCDdgEntities[IPIRCentity].E_surveyedResourceSpots[IPIRCspotCount].SRS_orbitalObject_SatelliteToken=IPIRCtargetOobj ) then
+         begin
+            Result:=IPIRCspotCount;
+            break;
+         end
+         else if FCDdgEntities[IPIRCentity].E_surveyedResourceSpots[IPIRCspotCount].SRS_orbitalObject_SatelliteToken=IPIRCtargetOobj then
          begin
             IPIRCspotSubMax:=length( FCDdgEntities[IPIRCentity].E_surveyedResourceSpots[IPIRCspotCount].SRS_surveyedRegions[IPIRCregion].SR_ResourceSpots )-1;
             IPIRCspotSubCount:=1;
             while IPIRCspotSubCount<=IPIRCspotSubMax do
             begin
-               if FCDdgEntities[IPIRCentity].E_surveyedResourceSpots[IPIRCspotCount].SRS_surveyedRegions[IPIRCregion].SR_ResourceSpots[IPIRCspotSubCount].RS_type=IPIRCrsrcSpot then
+               if FCDdgEntities[IPIRCentity].E_surveyedResourceSpots[IPIRCspotCount].SRS_surveyedRegions[IPIRCregion].SR_ResourceSpots[IPIRCspotSubCount].RS_type=ResourceSpot then
                begin
                   Result:=IPIRCspotCount;
                   if IPIRCownedInfra>0 then
@@ -163,21 +215,41 @@ begin
    end;
 end;
 
-//===========================END FUNCTIONS SECTION==========================================
+function FCFgPRS_SurveyedResourceSpots_Add(
+   const Entity: integer;
+   const Location: TFCRufStelObj
+   ): integer;
+{:Purpose: add a surveyed resource spot.
 
-procedure FCMgPRS_ResourceSpot_Add();
-{:Purpose: add/update a surveyed resource spot.
     Additions:
 }
+   var
+      Count
+      ,Max
+      ,MaxRegions: integer;
 begin
-   {:DEV NOTES: old hardcode form colonization post-process.}
-   {:DEV NOTES: resource survey data, TO REMOVE WHEN REGION SURVEY IS IMPLEMENTED.}
-//   FCVdgPlayer.P_surveyedResourceSpots[1].SRS_starSystem:=CPPssys;
-//   FCVdgPlayer.P_surveyedResourceSpots[1].SRS_star:=CPPstar;
-//   FCVdgPlayer.P_surveyedResourceSpots[1].SRS_orbitalObject:=CPPobjIdx;
-//   FCVdgPlayer.P_surveyedResourceSpots[1].SRS_satellite:=CPPsatIdx;
-//   setlength(FCVdgPlayer.P_surveyedResourceSpots[1].SRS_surveyedRegions, regionttl);
-//   setlength(FCVdgPlayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots, 2 );
+   Result:=0;
+   Max:=length( FCDdgEntities[Entity].E_surveyedResourceSpots ) - 1;
+   MaxRegions:=0;
+   Count:=Max + 1;
+   setlength( FCDdgEntities[Entity].E_surveyedResourceSpots, Count + 1 );
+   if Location[4]=0 then
+   begin
+      FCDdgEntities[Entity].E_surveyedResourceSpots[Count].SRS_orbitalObject_SatelliteToken:=FCDduStarSystem[Location[1]].SS_stars[Location[2]].S_orbitalObjects[Location[3]].OO_dbTokenId;
+      MaxRegions:=length( FCDduStarSystem[Location[1]].SS_stars[Location[2]].S_orbitalObjects[Location[3]].OO_regions );
+   end
+   else if Location[4]>0 then
+   begin
+      FCDdgEntities[Entity].E_surveyedResourceSpots[Count].SRS_orbitalObject_SatelliteToken:=FCDduStarSystem[Location[1]].SS_stars[Location[2]].S_orbitalObjects[Location[3]].OO_satellitesList[Location[4]].OO_dbTokenId;
+      MaxRegions:=length( FCDduStarSystem[Location[1]].SS_stars[Location[2]].S_orbitalObjects[Location[3]].OO_satellitesList[Location[4]].OO_regions );
+   end;
+   FCDdgEntities[Entity].E_surveyedResourceSpots[Count].SRS_starSystem:=Location[1];
+   FCDdgEntities[Entity].E_surveyedResourceSpots[Count].SRS_star:=Location[2];
+   FCDdgEntities[Entity].E_surveyedResourceSpots[Count].SRS_orbitalObject:=Location[3];
+   FCDdgEntities[Entity].E_surveyedResourceSpots[Count].SRS_satellite:=Location[4];
+   setlength( FCDdgEntities[Entity].E_surveyedResourceSpots[Count].SRS_surveyedRegions, MaxRegions );
+   Result:=Count;
+
 //   FCVdgPlayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots[1].RS_meanQualityCoefficient:=0.7;
 //   FCVdgPlayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots[1].RS_spotSizeCurrent:=0;
 //   FCVdgPlayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots[1].RS_spotSizeMax:=50;
@@ -192,6 +264,8 @@ begin
 //   then FCDduStarSystem[CPPssys].SS_stars[CPPstar].S_orbitalObjects[CPPobjIdx].OO_satellitesList[CPPsatIdx].OO_regions[CPPregion].OOR_resourceSurveyIndex:=1;
    {:DEV NOTES: END HARCODED SURVEY DATA.}
 end;
+
+//===========================END FUNCTIONS SECTION==========================================
 
 procedure FCMgPRS_SurveyedRsrcSpot_AssignInfra(
    const SRSAIentity

@@ -761,6 +761,7 @@ type TFCRdgEntity= record
       PS_targetRegion: integer;
       PS_meanEMO: extended;
       PS_linkedColony: integer;
+      PS_linkedSurveyedResource: integer;
       PS_missionExtension: TFCEdgPlanetarySurveyExtensions;
       ///<summary>
       ///   current percent of surface surveyed by day
