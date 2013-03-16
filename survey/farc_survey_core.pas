@@ -498,4 +498,9 @@ begin
    end; //==END== while CountEntity<=MaxEntity ==//
 end;
 
+procedure FCMsC_ResourceSurvey_ResultProcess;
+begin
+
+end;
+
 end.

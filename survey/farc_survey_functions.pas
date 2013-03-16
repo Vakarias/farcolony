@@ -76,6 +76,14 @@ function FCFsF_ResourcesSurvey_ProcessTravelSurveyDistance(
 function FCFsF_ResourcesSurvey_PSSEMOCalculations( const Entity, PlanetarySurvey: integer ): extended;
 
 ///<summary>
+///   give the mean quality (MQ) in accordance of the resource spot's quality
+///</summary>
+///   <param name="Quality">quality enum</param>
+///   <returns>mean quality (MQ)</returns>
+///   <remarks>the MQ value is in x.xx format (1/100 of percent)</remarks>
+function FCFsF_ResourcesSurvey_SpotMeanQuality( const Quality: TFCEduResourceSpotQuality ): extended;
+
+///<summary>
 ///   give the rarity threshold (RT) in accordance of the resource spot's rarity
 ///</summary>
 ///   <param name="Rarity">rarity enum</param>
@@ -269,6 +277,56 @@ begin
    PSS:=( SumDV / RegionSurface ) * 100;
    FCDdgEntities[Entity].E_planetarySurveys[PlanetarySurvey].PS_meanEMO:=FCFcF_Round( rttCustom2Decimal, sumEMOs / VehiclesCount );
    Result:=FCFcF_Round( rttCustom2Decimal, PSS );
+end;
+
+function FCFsF_ResourcesSurvey_SpotMeanQuality( const Quality: TFCEduResourceSpotQuality ): extended;
+{:Purpose: give the mean quality (MQ) in accordance of the resource spot's quality.
+}
+   var
+      MaxRange
+      ,MinRange: integer;
+begin
+   Result:=0;
+   MaxRange:=0;
+   MinRange:=0;
+   case Quality of
+      rsqF_Bad:
+      begin
+         MaxRange:=13;
+         MinRange:=1;
+      end;
+
+      rsqE_Poor:
+      begin
+         MaxRange:=20;
+         MinRange:=14;
+      end;
+
+      rsqD_FairAverage:
+      begin
+         MaxRange:=26;
+         MinRange:=21;
+      end;
+
+      rsqC_Good:
+      begin
+         MaxRange:=34;
+         MinRange:=27;
+      end;
+
+      rsqB_Excellent:
+      begin
+         MaxRange:=40;
+         MinRange:=35;
+      end;
+
+      rsqA_Perfect:
+      begin
+         MaxRange:=45;
+         MinRange:=41;
+      end;
+   end;
+   Result:=( MinRange + FCFcF_Random_DoInteger( MaxRange - MinRange ) ) * 0.01;
 end;
 
 function FCFsF_ResourcesSurvey_SpotRarityThreshold( const Rarity: TFCEduResourceSpotRarity ): integer;

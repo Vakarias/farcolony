@@ -99,6 +99,7 @@ uses
 procedure FCMdFSG_Game_Load;
 {:Purpose: load the current game.
    Additions:
+      -2013Mar14- *add: planetary survey - PS_linkedSurveyedResource.
       -2013Mar13- *add: planetary survey - PS_meanEMO.
       -2013Mar12- *add: planetary survey - VG_timeOfReplenishment.
       -2013Mar11- *add: planetary survey - PS_completionPercent + PS_pss.
@@ -1043,6 +1044,7 @@ begin
                      FCDdgEntities[Count].E_planetarySurveys[Count1].PS_targetRegion:=XMLSavedGameItemSub1.Attributes['targetRegion'];
                      FCDdgEntities[Count].E_planetarySurveys[Count1].PS_meanEMO:=XMLSavedGameItemSub1.Attributes['meanEMO'];
                      FCDdgEntities[Count].E_planetarySurveys[Count1].PS_linkedColony:=XMLSavedGameItemSub1.Attributes['linkedColony'];
+                     FCDdgEntities[Count].E_planetarySurveys[Count1].PS_linkedSurveyedResource:=XMLSavedGameItemSub1.Attributes['linkedSurveyedResource'];
                      EnumIndex:=GetEnumValue( TypeInfo( TFCEdgPlanetarySurveyExtensions ), XMLSavedGameItemSub1.Attributes['missionExtension'] );
                      FCDdgEntities[Count].E_planetarySurveys[Count1].PS_missionExtension:=TFCEdgPlanetarySurveyExtensions( EnumIndex );
                      FCDdgEntities[Count].E_planetarySurveys[Count1].PS_pss:=StrToFloat( XMLSavedGameItemSub2.Attributes['PSS'], FCVdiFormat );
@@ -1199,6 +1201,7 @@ end;
 procedure FCMdFSG_Game_Save;
 {:Purpose: save the current game.
     Additions:
+      -2013Mar14- *add: planetary survey - PS_linkedSurveyedResource.
       -2013Mar13- *add: planetary survey - PS_meanEMO.
       -2013Mar12- *add: planetary survey - VG_timeOfReplenishment.
       -2013Mar11- *add: planetary survey - PS_completionPercent + PS_pss.
@@ -1987,6 +1990,7 @@ begin
             XMLSavedGameItemSub2.Attributes['targetRegion']:=FCDdgEntities[Count].E_planetarySurveys[Count1].PS_targetRegion;
             XMLSavedGameItemSub2.Attributes['meanEMO']:=FCDdgEntities[Count].E_planetarySurveys[Count1].PS_meanEMO;
             XMLSavedGameItemSub2.Attributes['linkedColony']:=FCDdgEntities[Count].E_planetarySurveys[Count1].PS_linkedColony;
+            XMLSavedGameItemSub2.Attributes['linkedSurveyedResource']:=FCDdgEntities[Count].E_planetarySurveys[Count1].PS_linkedSurveyedResource;
             XMLSavedGameItemSub2.Attributes['missionExtension']:=GetEnumName( TypeInfo( TFCEdgPlanetarySurveyExtensions ), Integer( FCDdgEntities[Count].E_planetarySurveys[Count1].PS_missionExtension ) );
             XMLSavedGameItemSub2.Attributes['PSS']:=FloatToStr( FCDdgEntities[Count].E_planetarySurveys[Count1].PS_pss, FCVdiFormat );
             XMLSavedGameItemSub2.Attributes['completionPercent']:=FloatToStr( FCDdgEntities[Count].E_planetarySurveys[Count1].PS_completionPercent, FCVdiFormat );
