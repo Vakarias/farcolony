@@ -71,15 +71,49 @@ function FCFgPRS_PresenceBySettlement_Check(
    {:DEV NOTES: ADD curr/max level TEST.}
 
 ///<summary>
-///   add/update a surveyed resource spot
+///   add a resource spot in a surveyed resources spots array of an entity
+///</summary>
+///   <param name="Entity">entity index #</param>
+///   <param name="SurveyedResourceSpot">surveyed resource spot index #</param>
+///   <param name="Region">region index #</param>
+///   <param name="ResourceSpotType">type of resource spot to add</param>
+///   <returns>index the the resource spot inside the surveyed resource spot array</returns>
+///   <remarks>the resource spot presence should be tested before, if it's necessary. This function doesn't do this automatically</remarks>
+function FCFgPRS_ResourceSpots_Add(
+   const Entity
+         ,SurveyedResourceSpots
+         ,Region: integer;
+   const ResourceSpotType: TFCEduResourceSpotTypes
+   ): integer;
+
+///<summary>
+///   add a surveyed resource spot
 ///</summary>
 ///   <param name="Entity">entity index #</param>
 ///   <param name="Location">surveyed resources spots location</param>
 ///   <returns>resources spots index which is created</returns>
-///   <remarks>the resource spot presence should be tested before, if it's necessary. Thsi function doesn't do this automatically</remarks>
+///   <remarks>the resource spot presence should be tested before, if it's necessary. This function doesn't do this automatically</remarks>
 function FCFgPRS_SurveyedResourceSpots_Add(
    const Entity: integer;
    const Location: TFCRufStelObj
+   ): integer;
+
+///<summary>
+///   search if a specified type of resource spot is present in the entity's surveyed resources spot
+///</summary>
+///   <param name="Entity">entity index #</param>
+///   <param name="SurveyedResourceSpot">surveyed resource spot index #</param>
+///   <param name="Region">region index #</param>
+///   <param name="TypeOfResourceSpot">type of resource spot to search</param>
+///   <param name="ifNotFoundGenerateSpot">true= generate an entry in the array if the type of resource spot is not found.</param>
+///   <returns>resource spot index #, 0 if not found</returns>
+///   <remarks></remarks>
+function FCFgPRS_SurveyedResourceSpots_Search(
+   const Entity
+         ,SurveyedResourceSpot
+         ,Region: integer;
+   const TypeOfResourceSpot: TFCEduResourceSpotTypes;
+   const ifNotFoundGenerateSpot: boolean
    ): integer;
 
 //===========================END FUNCTIONS SECTION==========================================
@@ -215,16 +249,48 @@ begin
    end;
 end;
 
+function FCFgPRS_ResourceSpots_Add(
+   const Entity
+         ,SurveyedResourceSpots
+         ,Region: integer;
+   const ResourceSpotType: TFCEduResourceSpotTypes
+   ): integer;
+{:Purpose: add a resource spot in a surveyed resources spots array of an entity.
+    Additions:
+}
+   var
+      Count
+      ,Max: integer;
+begin
+   Result:=0;
+   Count:=0;
+   Max:=length( FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots );
+   setlength( FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots, Max+1 );
+   Count:=Max;
+   FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_meanQualityCoefficient:=0;
+   FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_spotSizeCurrent:=0;
+   FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_spotSizeMax:=0;
+   FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_type:=ResourceSpotType;
+   if FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_type=rstOreField then
+   begin
+      FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiCarbonaceous:=0;
+      FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiMetallic:=0;
+      FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiRare:=0;
+      FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiUranium:=0;
+   end;
+end;
+
 function FCFgPRS_SurveyedResourceSpots_Add(
    const Entity: integer;
    const Location: TFCRufStelObj
    ): integer;
 {:Purpose: add a surveyed resource spot.
-
     Additions:
+      -2013Mar17- *add: initialize the SR_ResourceSpots.
 }
    var
       Count
+      ,CountRegion
       ,Max
       ,MaxRegions: integer;
 begin
@@ -248,21 +314,48 @@ begin
    FCDdgEntities[Entity].E_surveyedResourceSpots[Count].SRS_orbitalObject:=Location[3];
    FCDdgEntities[Entity].E_surveyedResourceSpots[Count].SRS_satellite:=Location[4];
    setlength( FCDdgEntities[Entity].E_surveyedResourceSpots[Count].SRS_surveyedRegions, MaxRegions );
+   CountRegion:=1;
+   while CountRegion <= MaxRegions-1 do
+   begin
+      setlength( FCDdgEntities[Entity].E_surveyedResourceSpots[Count].SRS_surveyedRegions[CountRegion].SR_ResourceSpots, 1 );
+      inc( CountRegion );
+   end;
    Result:=Count;
+end;
 
-//   FCVdgPlayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots[1].RS_meanQualityCoefficient:=0.7;
-//   FCVdgPlayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots[1].RS_spotSizeCurrent:=0;
-//   FCVdgPlayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots[1].RS_spotSizeMax:=50;
-//   FCVdgPlayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots[1].RS_type:=rstOreField;
-//   FCVdgPlayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots[1].RS_tOFiCarbonaceous:=25;
-//   FCVdgPlayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots[1].RS_tOFiMetallic:=25;
-//   FCVdgPlayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots[1].RS_tOFiRare:=25;
-//   FCVdgPlayer.P_surveyedResourceSpots[1].SRS_surveyedRegions[CPPregion].SR_ResourceSpots[1].RS_tOFiUranium:=25;
-//   if CPPsatIdx=0
-//   then FCDduStarSystem[CPPssys].SS_stars[CPPstar].S_orbitalObjects[CPPobjIdx].OO_regions[CPPregion].OOR_resourceSurveyIndex:=1
-//   else if CPPsatIdx>0
-//   then FCDduStarSystem[CPPssys].SS_stars[CPPstar].S_orbitalObjects[CPPobjIdx].OO_satellitesList[CPPsatIdx].OO_regions[CPPregion].OOR_resourceSurveyIndex:=1;
-   {:DEV NOTES: END HARCODED SURVEY DATA.}
+function FCFgPRS_SurveyedResourceSpots_Search(
+   const Entity
+         ,SurveyedResourceSpot
+         ,Region: integer;
+   const TypeOfResourceSpot: TFCEduResourceSpotTypes;
+   const ifNotFoundGenerateSpot: boolean
+   ): integer;
+{:Purpose: search if a specified type of resource spot is present in the entity's surveyed resources spot.
+    Additions:
+}
+   var
+      Count
+      ,Max: integer;
+begin
+   Result:=0;
+   Count:=1;
+   Max:=length( FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpot].SRS_surveyedRegions[Region].SR_ResourceSpots ) - 1;
+   while Count <= Max do
+   begin
+      if FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpot].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_type=TypeOfResourceSpot then
+      begin
+
+      end;
+      inc( Count );
+   end;
+   if ( Result=0 )
+      and ( ifNotFoundGenerateSpot )
+   then Result:=FCFgPRS_ResourceSpots_Add(
+      Entity
+      ,SurveyedResourceSpot
+      ,Region
+      ,TypeOfResourceSpot
+      );
 end;
 
 //===========================END FUNCTIONS SECTION==========================================
