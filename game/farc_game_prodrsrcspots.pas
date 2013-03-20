@@ -281,7 +281,9 @@ function FCFgPRS_ResourceSpots_Add(
       Count
       ,Max: integer;
 
-      PotentialCarbo
+      OObjDensity
+      ,OObjDiameter
+      ,PotentialCarbo
       ,PotentialMetal
       ,PotentialRare
       ,PotentialUra: extended;
@@ -295,6 +297,8 @@ begin
    FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_spotSizeCurrent:=0;
    FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_spotSizeMax:=0;
    FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_type:=ResourceSpotType;
+   OObjDensity:=0;
+   OObjDiameter:=0;
    PotentialCarbo:=0;
    PotentialMetal:=0;
    PotentialRare:=0;
@@ -311,19 +315,21 @@ begin
       PotentialUra:=0;
       if Location[4]=0 then
       begin
-         FCDduStarSystem[Location[1]].SS_stars[Location[2]].S_orbitalObjects[Location[3]].OO_satellitesList[Location[4]].
+         OObjDiameter:=FCDduStarSystem[Location[1]].SS_stars[Location[2]].S_orbitalObjects[Location[3]].OO_diameter;
+         OObjDensity:=FCDduStarSystem[Location[1]].SS_stars[Location[2]].S_orbitalObjects[Location[3]].OO_dens;
       end
       else if Location[4]>0 then
       begin
-         FCDduStarSystem[Location[1]].SS_stars[Location[2]].S_orbitalObjects[Location[3]].OO_satellitesList[Location[4]].
-
+         OObjDiameter:=FCDduStarSystem[Location[1]].SS_stars[Location[2]].S_orbitalObjects[Location[3]].OO_satellitesList[Location[4]].OO_diameter;
+         OObjDensity:=FCDduStarSystem[Location[1]].SS_stars[Location[2]].S_orbitalObjects[Location[3]].OO_satellitesList[Location[4]].OO_dens;
       end;
-
-
-      PotentialMetal:=(Diam/500)+(DensEq*10)+(70)-45+sqr(1);//+sqr(AcTec); - hardcoded Actec for now, note in todolist for Alpha 6
-      PotentialCarbo:=(Diam/500)+(DensEq*10)+(35)-45+sqr(1);//+sqr(AcTec); - hardcoded Actec for now, note in todolist for Alpha 6
-      PotentialRare:=(Diam/500)+(DensEq*10)+(17.5)-45+sqr(1);//+sqr(AcTec); - hardcoded Actec for now, note in todolist for Alpha 6
-      PotentialUra:=(Diam/500)+(DensEq*10)+(40)-45+sqr(1);//+sqr(AcTec); - hardcoded Actec for now, note in todolist for Alpha 6
+      PotentialMetal:=( OObjDiameter / 500 ) + ( OObjDensity * 10 ) + ( 70 ) - 45 + sqr( 1 );//+sqr(AcTec); - hardcoded Actec for now, note in todolist for Alpha 6
+      PotentialCarbo:=( OObjDiameter / 500 ) + ( OObjDensity * 10 ) + ( 35 ) - 45 + sqr( 1 );//+sqr(AcTec); - hardcoded Actec for now, note in todolist for Alpha 6
+      PotentialRare:=( OObjDiameter / 500 ) + ( OObjDensity * 10 )+( 17.5 ) - 45 + sqr( 1 );//+sqr(AcTec); - hardcoded Actec for now, note in todolist for Alpha 6
+      PotentialUra:=( OObjDiameter / 500 ) + ( OObjDensity * 10 )+( 40 ) - 45 + sqr( 1 );//+sqr(AcTec); - hardcoded Actec for now, note in todolist for Alpha 6
+      if ( FCDduStarSystem[Location[1]].SS_stars[Location[2]].S_class = PSR )
+         or ( FCDduStarSystem[Location[1]].SS_stars[Location[2]].S_class = PSR )
+      then PotentialUra:=PotentialUra * ( 1 +( random * 0.5 ) );
    end;
 end;
 
@@ -408,7 +414,7 @@ function FCFgPRS_ResourceSpots_SearchGenerate(
 }
 begin
    Result:=0;
-   Result:=FCFgPRS_SurveyedResourceSpots_Search(
+   Result:=FCFgPRS_ResourceSpot_Search(
       Entity
       ,SurveyedResourceSpot
       ,Region
