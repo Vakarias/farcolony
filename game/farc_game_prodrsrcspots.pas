@@ -287,6 +287,8 @@ function FCFgPRS_ResourceSpots_Add(
       ,PotentialMetal
       ,PotentialRare
       ,PotentialUra: extended;
+
+      OObjRegionType: TFCEduRegionSoilTypes;
 begin
    Result:=0;
    Count:=0;
@@ -303,12 +305,9 @@ begin
    PotentialMetal:=0;
    PotentialRare:=0;
    PotentialUra:=0;
+   OObjRegionType:=rst01RockyDesert;
    if FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_type=rstOreField then
    begin
-      //FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiCarbonaceous:=0;
-      //FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiMetallic:=0;
-      //FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiRare:=0;
-      //FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiUranium:=0;
       PotentialCarbo:=0;
       PotentialMetal:=0;
       PotentialRare:=0;
@@ -317,11 +316,13 @@ begin
       begin
          OObjDiameter:=FCDduStarSystem[Location[1]].SS_stars[Location[2]].S_orbitalObjects[Location[3]].OO_diameter;
          OObjDensity:=FCDduStarSystem[Location[1]].SS_stars[Location[2]].S_orbitalObjects[Location[3]].OO_dens;
+         OObjRegionType:=FCDduStarSystem[Location[1]].SS_stars[Location[2]].S_orbitalObjects[Location[3]].OO_regions[Region].OOR_soilType;
       end
       else if Location[4]>0 then
       begin
          OObjDiameter:=FCDduStarSystem[Location[1]].SS_stars[Location[2]].S_orbitalObjects[Location[3]].OO_satellitesList[Location[4]].OO_diameter;
          OObjDensity:=FCDduStarSystem[Location[1]].SS_stars[Location[2]].S_orbitalObjects[Location[3]].OO_satellitesList[Location[4]].OO_dens;
+         OObjRegionType:=FCDduStarSystem[Location[1]].SS_stars[Location[2]].S_orbitalObjects[Location[3]].OO_satellitesList[Location[4]].OO_regions[Region].OOR_soilType;
       end;
       PotentialMetal:=( OObjDiameter / 500 ) + ( OObjDensity * 10 ) + ( 70 ) - 45 + sqr( 1 );//+sqr(AcTec); - hardcoded Actec for now, note in todolist for Alpha 6
       PotentialCarbo:=( OObjDiameter / 500 ) + ( OObjDensity * 10 ) + ( 35 ) - 45 + sqr( 1 );//+sqr(AcTec); - hardcoded Actec for now, note in todolist for Alpha 6
@@ -330,7 +331,146 @@ begin
       if ( FCDduStarSystem[Location[1]].SS_stars[Location[2]].S_class = PSR )
          or ( FCDduStarSystem[Location[1]].SS_stars[Location[2]].S_class = PSR )
       then PotentialUra:=PotentialUra * ( 1 +( random * 0.5 ) );
-   end;
+      case OObjRegionType of
+         rst01RockyDesert:
+         begin
+            FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiMetallic:=round(randg(pot_calc_minerais,3));
+            FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiCarbonaceous:=round(randg(pot_calc_metnonFer*1.25,3));
+            FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiRare:=round(randg(pot_calc_metPrec,3));
+            FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiUranium:=round(randg(pot_calc_minRadio*1.25,3));
+         end;
+
+         rst02SandyDesert:
+         begin
+            FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiMetallic:=round(randg(pot_calc_minerais*0.75,3));
+            FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiCarbonaceous:=round(randg(pot_calc_metnonFer,3));
+            FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiRare:=round(randg(pot_calc_metPrec,3));
+            FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiUranium:=0;
+         end;
+
+         rst03Volcanic:
+         begin
+            FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiMetallic:=round(randg(pot_calc_minerais,3));
+            FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiCarbonaceous:=round(randg(pot_calc_metnonFer*1.25,3));
+            FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiRare:=round(randg(pot_calc_metPrec*1.25,3));
+            FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiUranium:=round(randg(pot_calc_minRadio,3));
+         end;
+
+         rst04Polar:
+         begin
+            FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiMetallic:=round(randg(pot_calc_minerais*0.75,3));
+            FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiCarbonaceous:=round(randg(pot_calc_metnonFer*0.75,3));
+            FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiRare:=0;
+            FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiUranium:=0;
+         end;
+
+         rst05Arid:
+         begin
+            FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiMetallic:=round(randg(pot_calc_minerais,3));
+            FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiCarbonaceous:=round(randg(pot_calc_metnonFer,3));
+            FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiRare:=round(randg(pot_calc_metPrec,3));
+            FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiUranium:=round(randg(pot_calc_minRadio*1.25,3));
+         end;
+
+         rst06Fertile:
+         begin
+            FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiMetallic:=round(randg(pot_calc_minerais*0.75,3));
+            FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiCarbonaceous:=round(randg(pot_calc_metnonFer,3));
+            FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiRare:=round(randg(pot_calc_metPrec*1.25,3));
+            FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiUranium:=round(randg(pot_calc_minRadio,3));
+         end;
+
+         rst07Oceanic:
+         begin
+            FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiMetallic:=round(randg(pot_calc_minerais*1.25,3));
+            FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiCarbonaceous:=round(randg(pot_calc_metnonFer,3));
+            FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiRare:=round(randg(pot_calc_metPrec*0.75,3));
+            FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiUranium:=round(randg(pot_calc_minRadio,3));
+         end;
+
+         rst08CoastalRockyDesert:
+         begin
+            FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiMetallic:=round(randg(pot_calc_minerais,3));
+            FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiCarbonaceous:=round(randg(pot_calc_metnonFer,3));
+            FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiRare:=round(randg(pot_calc_metPrec*0.75,3));
+            FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiUranium:=round(randg(pot_calc_minRadio,3));
+         end;
+
+         rst09CoastalSandyDesert:
+         begin
+            FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiMetallic:=round(randg(pot_calc_minerais,3));
+            FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiCarbonaceous:=round(randg(pot_calc_metnonFer,3));
+            FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiRare:=round(randg(pot_calc_metPrec*0.75,3));
+            FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiUranium:=round(randg(pot_calc_minRadio*0.75,3));
+         end;
+
+         rst10CoastalVolcanic:
+         begin
+            FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiMetallic:=round(randg(pot_calc_minerais,3));
+            FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiCarbonaceous:=round(randg(pot_calc_metnonFer,3));
+            FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiRare:=round(randg(pot_calc_metPrec,3));
+            FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiUranium:=round(randg(pot_calc_minRadio*0.75,3));
+         end;
+
+         rst11CoastalPolar:
+         begin
+            FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiMetallic:=round(randg(pot_calc_minerais,3));
+            FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiCarbonaceous:=round(randg(pot_calc_metnonFer*0.75,3));
+            FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiRare:=0;
+            FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiUranium:=round(randg(pot_calc_minRadio*0.75,3));
+         end;
+
+         rst12CoastalArid:
+         begin
+            FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiMetallic:=round(randg(pot_calc_minerais,3));
+            FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiCarbonaceous:=round(randg(pot_calc_metnonFer,3));
+            FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiRare:=round(randg(pot_calc_metPrec*0.75,3));
+            FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiUranium:=round(randg(pot_calc_minRadio,3));
+         end;
+
+         rst13CoastalFertile:
+         begin
+            FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiMetallic:=round(randg(pot_calc_minerais,3));
+            FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiCarbonaceous:=round(randg(pot_calc_metnonFer,3));
+            FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiRare:=round(randg(pot_calc_metPrec,3));
+            FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiUranium:=round(randg(pot_calc_minRadio,3));
+         end;
+
+         rst14Sterile:
+         begin
+            FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiMetallic:=round(randg(pot_calc_minerais*1.25,3));
+            FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiCarbonaceous:=round(randg(pot_calc_metnonFer,3));
+            FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiRare:=round(randg(pot_calc_metPrec*0.75,3));
+            if ((StarClone_Class='BH') or (StarClone_Class='PSR'))
+                   or (StarClone_Age<=475) then FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiUranium:=round(randg(pot_calc_minRadio*1.25,3))
+            else if (StarClone_Class<>'BH')
+                   and (StarClone_Class<>'PSR')
+                   and (StarClone_Age>475) then FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiUranium:=round(randg(pot_calc_minRadio*0.75,3));
+         end;
+
+         rst15icySterile:
+         begin
+            FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiMetallic:=round(randg(pot_calc_minerais*0.75,3));
+            FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiCarbonaceous:=round(randg(pot_calc_metnonFer*0.75,3));
+            FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiRare:=round(randg(pot_calc_metPrec*0.75,3));
+            if (StarClone_Class='BH')
+                   or (StarClone_Class='PSR')
+                   or (StarClone_Age<=475) then FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiUranium:=round(randg(pot_calc_minRadio,3))
+            else if (StarClone_Class<>'BH')
+                   and (StarClone_Class<>'PSR')
+                   and (StarClone_Age>475) then FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiUranium:=0;
+         end;
+      end; //==END== case OObjRegionType ==//
+      if FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiMetallic<0
+      then FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiMetallic:=0;
+      if FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiCarbonaceous<0
+      then FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiCarbonaceous:=0;
+      if FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiRare<0
+      then FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiRare:=0;
+      if FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiUranium<0
+      then FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiUranium:=0;
+   end; //==END== if FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_type=rstOreField ==//
+   Result:=Count;
 end;
 
 function FCFgPRS_SurveyedResourceSpots_Add(
