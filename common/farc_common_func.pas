@@ -94,11 +94,25 @@ function FCFcF_FARCVersion_Get: string;
 function FCFcF_Ln_Protected( const Value: extended): extended;
 
 ///<summary>
-///   "real" random function including a randomize each time.
+///   "real" random function including a randomize each time
+///</summary>
+///   <returns>the randomized float</returns>
+function FCFcF_Random_DoFloat: extended;
+
+///<summary>
+///   "real" random function including a randomize each time
 ///</summary>
 ///   <param name="Range">range integer for the random processing</param>
 ///   <returns>the randomized integer included in the range</returns>
 function FCFcF_Random_DoInteger(const Range: integer): integer;
+
+///<summary>
+///   "real" randg function including a randomize each time
+///</summary>
+///   <param name="Mean">mean value</param>
+///   <param name="StdDev">coef</param>
+///   <returns>the randomized float</returns>
+function FCFcF_Rand_G( const Mean, StdDev: extended ): extended;
 
 ///<summary>
 ///   round the target value according to the value type
@@ -314,6 +328,16 @@ begin
    then Result:=ln( Value );
 end;
 
+function FCFcF_Random_DoFloat: extended;
+{:Purpose: "real" random function including a randomize each time.
+    Additions:
+}
+begin
+   Result:=0;
+   Randomize;
+   Result:=random;
+end;
+
 function FCFcF_Random_DoInteger(const Range: integer): integer;
 {:Purpose: "real" random function including a randomize each time.
     Additions:
@@ -332,6 +356,22 @@ begin
    Result:=0;
    Randomize;
    Result:=random( Range );
+end;
+
+function FCFcF_Rand_G( const Mean, StdDev: extended ): extended;
+{:Purpose: "real" randg function including a randomize each time.
+    Additions:
+}
+{ Marsaglia-Bray algorithm }
+var
+  U1, S2: Extended;
+begin
+   Result:=0;
+   repeat
+    U1 := 2*FCFcF_Random_DoFloat - 1;
+    S2 := Sqr(U1) + Sqr(2*FCFcF_Random_DoFloat-1);
+   until S2 < 1;
+   Result := Sqrt(-2*Ln(S2)/S2) * U1 * StdDev + Mean;
 end;
 
 function FCFcF_Round(

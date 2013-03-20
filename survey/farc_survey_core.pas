@@ -574,29 +574,6 @@ begin
          RegionSurface:=RegionSurface * FCDduStarSystem[SClocationUniverse[1]].SS_stars[SClocationUniverse[2]].S_orbitalObjects[SClocationUniverse[3]].OO_satellitesList[SClocationUniverse[4]].OO_regionSurface;
       end;
 //      NewSpotSize:=
-      {:DEV NOTES: work need to be done for ore. use old doc planetary system generation + the pasted code below to generate % for each ore subcategory}
-      {
-      var
-        i, a: shortint;
-        sumRH, pot_calc_minerais, pot_calc_metnonFer, pot_calc_metPrec: double;
-        pot_calc_minRadio, pot_calc_napPhr, pot_calc_TerHar, dumpFloat: double;
-begin
-//        with TabOrbit[OrbDBCounter] do begin
-//                pot_calc_minerais:=(Diam/500)+(DensEq*10)+(70)-45+sqr(AcTec);          put 1 to Actec for now, note in todolist, warning, put actec use in comments
-//                pot_calc_metnonFer:=(Diam/500)+(DensEq*10)+(35)-45+sqr(AcTec);
-//                pot_calc_metPrec:=(Diam/500)+(DensEq*10)+(17.5)-45+sqr(AcTec);
-//                pot_calc_minRadio:=(Diam/500)+(DensEq*10)+(40)-45+sqr(AcTec);
-//        end;
-        if (StarClone_Class='BH')
-                or (StarClone_Class='PSR')
-                or (StarClone_Age<=475) then pot_calc_minRadio:=pot_calc_minRadio*(1+(random*0.5));
-        with TabRegion[a] do begin
-                i:=1; while i<=TabOrbit[OrbDBCounter].SurfNbRegions do begin
-                        a:=i;
-                        
-                        inc(i);
-                end;{while i}
-
    end; //==END== if SurveyProbability >= SpotRarityThreshold ==//
 end;
 
