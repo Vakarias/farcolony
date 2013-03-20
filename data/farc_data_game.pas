@@ -728,6 +728,7 @@ end;
    - if centralized SPMi mod ad/rem/update and/or bureaucracy/corruption: FCMgSPM_SPMI_Set
    - for any array, init it in FCMgNG_Core_Proceed.
    - for resources spots: FCFgPRS_SurveyedResourceSpots_Add + FCFgPRS_ResourceSpots_Add
+   - for E_surveyedResourceSpots / TFCEduResourceSpotTypes: init special data in FCFgPRS_ResourceSpots_Add
 }
 ///<summary>
 ///   entities

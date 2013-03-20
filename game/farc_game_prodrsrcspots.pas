@@ -83,7 +83,8 @@ function FCFgPRS_ResourceSpots_Add(
    const Entity
          ,SurveyedResourceSpots
          ,Region: integer;
-   const ResourceSpotType: TFCEduResourceSpotTypes
+   const ResourceSpotType: TFCEduResourceSpotTypes;
+   const Location: TFCRufStelObj
    ): integer;
 
 ///<summary>
@@ -105,15 +106,31 @@ function FCFgPRS_SurveyedResourceSpots_Add(
 ///   <param name="SurveyedResourceSpot">surveyed resource spot index #</param>
 ///   <param name="Region">region index #</param>
 ///   <param name="TypeOfResourceSpot">type of resource spot to search</param>
-///   <param name="ifNotFoundGenerateSpot">true= generate an entry in the array if the type of resource spot is not found.</param>
 ///   <returns>resource spot index #, 0 if not found</returns>
 ///   <remarks></remarks>
-function FCFgPRS_SurveyedResourceSpots_Search(
+function FCFgPRS_ResourceSpot_Search(
+   const Entity
+         ,SurveyedResourceSpot
+         ,Region: integer;
+   const TypeOfResourceSpot: TFCEduResourceSpotTypes
+   ): integer;
+
+///<summary>
+///   search if a specified type of resource spot is present in the entity's surveyed resources spot, if it's not the case it generate it
+///</summary>
+///   <param name="Entity">entity index #</param>
+///   <param name="SurveyedResourceSpot">surveyed resource spot index #</param>
+///   <param name="Region">region index #</param>
+///   <param name="TypeOfResourceSpot">type of resource spot to search</param>
+///   <param name="Location">universe location of the resource spot</param>
+///   <returns>resource spot index #</returns>
+///   <remarks></remarks>
+function FCFgPRS_ResourceSpots_SearchGenerate(
    const Entity
          ,SurveyedResourceSpot
          ,Region: integer;
    const TypeOfResourceSpot: TFCEduResourceSpotTypes;
-   const ifNotFoundGenerateSpot: boolean
+   const Location: TFCRufStelObj
    ): integer;
 
 //===========================END FUNCTIONS SECTION==========================================
@@ -253,14 +270,21 @@ function FCFgPRS_ResourceSpots_Add(
    const Entity
          ,SurveyedResourceSpots
          ,Region: integer;
-   const ResourceSpotType: TFCEduResourceSpotTypes
+   const ResourceSpotType: TFCEduResourceSpotTypes;
+   const Location: TFCRufStelObj
    ): integer;
 {:Purpose: add a resource spot in a surveyed resources spots array of an entity.
     Additions:
+      -2013Mar18- *add: (begin) initialize special data when the spot is an Ore Field.
 }
    var
       Count
       ,Max: integer;
+
+      PotentialCarbo
+      ,PotentialMetal
+      ,PotentialRare
+      ,PotentialUra: extended;
 begin
    Result:=0;
    Count:=0;
@@ -271,12 +295,35 @@ begin
    FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_spotSizeCurrent:=0;
    FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_spotSizeMax:=0;
    FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_type:=ResourceSpotType;
+   PotentialCarbo:=0;
+   PotentialMetal:=0;
+   PotentialRare:=0;
+   PotentialUra:=0;
    if FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_type=rstOreField then
    begin
-      FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiCarbonaceous:=0;
-      FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiMetallic:=0;
-      FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiRare:=0;
-      FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiUranium:=0;
+      //FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiCarbonaceous:=0;
+      //FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiMetallic:=0;
+      //FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiRare:=0;
+      //FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedResourceSpots].SRS_surveyedRegions[Region].SR_ResourceSpots[Count].RS_tOFiUranium:=0;
+      PotentialCarbo:=0;
+      PotentialMetal:=0;
+      PotentialRare:=0;
+      PotentialUra:=0;
+      if Location[4]=0 then
+      begin
+         FCDduStarSystem[Location[1]].SS_stars[Location[2]].S_orbitalObjects[Location[3]].OO_satellitesList[Location[4]].
+      end
+      else if Location[4]>0 then
+      begin
+         FCDduStarSystem[Location[1]].SS_stars[Location[2]].S_orbitalObjects[Location[3]].OO_satellitesList[Location[4]].
+
+      end;
+
+
+      PotentialMetal:=(Diam/500)+(DensEq*10)+(70)-45+sqr(1);//+sqr(AcTec); - hardcoded Actec for now, note in todolist for Alpha 6
+      PotentialCarbo:=(Diam/500)+(DensEq*10)+(35)-45+sqr(1);//+sqr(AcTec); - hardcoded Actec for now, note in todolist for Alpha 6
+      PotentialRare:=(Diam/500)+(DensEq*10)+(17.5)-45+sqr(1);//+sqr(AcTec); - hardcoded Actec for now, note in todolist for Alpha 6
+      PotentialUra:=(Diam/500)+(DensEq*10)+(40)-45+sqr(1);//+sqr(AcTec); - hardcoded Actec for now, note in todolist for Alpha 6
    end;
 end;
 
@@ -323,12 +370,11 @@ begin
    Result:=Count;
 end;
 
-function FCFgPRS_SurveyedResourceSpots_Search(
+function FCFgPRS_ResourceSpot_Search(
    const Entity
          ,SurveyedResourceSpot
          ,Region: integer;
-   const TypeOfResourceSpot: TFCEduResourceSpotTypes;
-   const ifNotFoundGenerateSpot: boolean
+   const TypeOfResourceSpot: TFCEduResourceSpotTypes
    ): integer;
 {:Purpose: search if a specified type of resource spot is present in the entity's surveyed resources spot.
     Additions:
@@ -348,13 +394,33 @@ begin
       end;
       inc( Count );
    end;
-   if ( Result=0 )
-      and ( ifNotFoundGenerateSpot )
+end;
+
+function FCFgPRS_ResourceSpots_SearchGenerate(
+   const Entity
+         ,SurveyedResourceSpot
+         ,Region: integer;
+   const TypeOfResourceSpot: TFCEduResourceSpotTypes;
+   const Location: TFCRufStelObj
+   ): integer;
+{:Purpose: search if a specified type of resource spot is present in the entity's surveyed resources spot, if it's not the case it generate it.
+    Additions:
+}
+begin
+   Result:=0;
+   Result:=FCFgPRS_SurveyedResourceSpots_Search(
+      Entity
+      ,SurveyedResourceSpot
+      ,Region
+      ,TypeOfResourceSpot
+      );
+   if Result=0
    then Result:=FCFgPRS_ResourceSpots_Add(
       Entity
       ,SurveyedResourceSpot
       ,Region
       ,TypeOfResourceSpot
+      ,Location
       );
 end;
 

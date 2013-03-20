@@ -528,15 +528,24 @@ procedure FCMsC_ResourceSurvey_ResultProcess(
       ,RegionSurface: extended;
 
       NewSpotSize
-      ,SpotIndex: integer;
+      ,SpotIndex
+      ,SurveyedIndex: integer;
 begin
    MeanQuality:=0;
    RegionSurface:=1;
    NewSpotSize:=0;
    SpotIndex:=0;
+   SurveyedIndex:=0;
    if SurveyProbability >= SpotRarityThreshold then
    begin
-//      SpotIndex:=FCFgPRS_SurveyedResourceSpots_Search
+      SurveyedIndex:=FCDdgEntities[Entity].E_planetarySurveys[PlanetarySurvey].PS_linkedSurveyedResource;
+      SpotIndex:=FCFgPRS_SurveyedResourceSpots_SearchGenerate(
+         Entity
+         ,SurveyedIndex
+         ,FCDdgEntities[Entity].E_planetarySurveys[PlanetarySurvey].PS_targetRegion
+         ,SpotType
+         ,true
+         );
       MeanQuality:=FCFsF_ResourcesSurvey_SpotMeanQuality( SpotQuality );
       if SClocationUniverse[4]=0 then
       begin
