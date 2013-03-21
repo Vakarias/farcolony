@@ -33,7 +33,8 @@ interface
 uses
    SysUtils
 
-   ,farc_data_game;
+   ,farc_data_game
+   ,farc_data_univ;
 
 //==END PUBLIC ENUM=========================================================================
 
@@ -78,12 +79,32 @@ procedure FCMsC_Expedition_Setup(
 ///   <remarks></remarks>
 procedure FCMsC_ResourceSurvey_Core;
 
+///<summary>
+///   process the possible result and outcomes of a resource survey
+///</summary>
+///   <param name="Entity">entity index #</param>
+///   <param name="PlanetarySurvey">planetary survey index #</param>
+///   <param name="SurveyProbability">survey probability</param>
+///   <param name="SpotType">type of resource spot</param>
+///   <param name="SpotRarity">rarity of the resource</param>
+///   <param name="SpotRarityThreshold">rarity threshold</param>
+///   <param name="SpotQuality">quality of the resource spot</param>
+///   <remarks></remarks>
+procedure FCMsC_ResourceSurvey_ResultProcess(
+   const Entity
+         ,PlanetarySurvey
+         ,SurveyProbability: integer;
+   const SpotType: TFCEduResourceSpotTypes;
+   const SpotRarity: TFCEduResourceSpotRarity;
+   const SpotRarityThreshold: integer;
+   const SpotQuality: TFCEduResourceSpotQuality
+   );
+
 implementation
 
 uses
    farc_common_func
    ,farc_data_planetarysurvey
-   ,farc_data_univ
    ,farc_game_prodrsrcspots
    ,farc_survey_functions
    ,farc_univ_func
@@ -408,7 +429,6 @@ begin
             end
             else if SClocationUniverse[4]>0 then
             begin
-//               FCDduStarSystem[LocationUniverse[1]].SS_stars[LocationUniverse[2]].S_orbitalObjects[LocationUniverse[3]].OO_satellitesList[LocationUniverse[4]].
                MaxMisc1:=length( FCDduStarSystem[SClocationUniverse[1]].SS_stars[SClocationUniverse[2]].S_orbitalObjects[SClocationUniverse[3]].OO_satellitesList[SClocationUniverse[4]].OO_regions[FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_targetRegion].OOR_resourceSpot )-1;
                while CountMisc1<=MaxMisc1 do
                begin
@@ -461,35 +481,99 @@ begin
             begin
                SurveyProbabilityBySpot:=round( ( FCFcF_Random_DoInteger( 99 ) + 1 ) + SurveyProbability );
                RarityThreshold:=FCFsF_ResourcesSurvey_SpotRarityThreshold( SpotRarityGasField );
-               {:DEV NOTES: put here the survey result process procedure/function.}
+               FCMsC_ResourceSurvey_ResultProcess(
+                  CountEntity
+                  ,CountSurvey
+                  ,SurveyProbabilityBySpot
+                  ,rstGasField
+                  ,SpotRarityGasField
+                  ,RarityThreshold
+                  ,SpotQualityGasField
+                  );
             end;
             if SpotRarityHydroWell<rsrAbsent then
             begin
                SurveyProbabilityBySpot:=round( ( FCFcF_Random_DoInteger( 99 ) + 1 ) + SurveyProbability );
                RarityThreshold:=FCFsF_ResourcesSurvey_SpotRarityThreshold( SpotRarityHydroWell );
-               {:DEV NOTES: put here the survey result process procedure/function.}
+               FCMsC_ResourceSurvey_ResultProcess(
+                  CountEntity
+                  ,CountSurvey
+                  ,SurveyProbabilityBySpot
+                  ,rstHydroWell
+                  ,SpotRarityHydroWell
+                  ,RarityThreshold
+                  ,SpotQualityHydroWell
+                  );
             end;
             if SpotRarityIcyOreField<rsrAbsent then
             begin
                SurveyProbabilityBySpot:=round( ( FCFcF_Random_DoInteger( 99 ) + 1 ) + SurveyProbability );
                RarityThreshold:=FCFsF_ResourcesSurvey_SpotRarityThreshold( SpotRarityIcyOreField );
-               {:DEV NOTES: put here the survey result process procedure/function.}
+               FCMsC_ResourceSurvey_ResultProcess(
+                  CountEntity
+                  ,CountSurvey
+                  ,SurveyProbabilityBySpot
+                  ,rstIcyOreField
+                  ,SpotRarityIcyOreField
+                  ,RarityThreshold
+                  ,SpotQualityIcyOreField
+                  );
             end;
             if SpotRarityOreField<rsrAbsent then
             begin
                SurveyProbabilityBySpot:=round( ( FCFcF_Random_DoInteger( 99 ) + 1 ) + SurveyProbability );
                RarityThreshold:=FCFsF_ResourcesSurvey_SpotRarityThreshold( SpotRarityOreField );
-               {:DEV NOTES: put here the survey result process procedure/function.}
+               FCMsC_ResourceSurvey_ResultProcess(
+                  CountEntity
+                  ,CountSurvey
+                  ,SurveyProbabilityBySpot
+                  ,rstOreField
+                  ,SpotRarityOreField
+                  ,RarityThreshold
+                  ,SpotQualityOreField
+                  );
             end;
             if SpotRarityUnderWater<rsrAbsent then
             begin
                SurveyProbabilityBySpot:=round( ( FCFcF_Random_DoInteger( 99 ) + 1 ) + SurveyProbability );
                RarityThreshold:=FCFsF_ResourcesSurvey_SpotRarityThreshold( SpotRarityUnderWater );
-               {:DEV NOTES: put here the survey result process procedure/function.}
+               FCMsC_ResourceSurvey_ResultProcess(
+                  CountEntity
+                  ,CountSurvey
+                  ,SurveyProbabilityBySpot
+                  ,rstUnderWater
+                  ,SpotRarityUnderWater
+                  ,RarityThreshold
+                  ,SpotQualityUnderWater
+                  );
+            end;
+            if FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_completionPercent>=100 then
+            begin
+               case FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_missionExtension of
+                  pseSelectedRegionOnly:
+                  begin
+                     FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_completionPercent:=100;
+                     FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_targetRegion:=0;
+                     {:DEV NOTES: if entity=0, trigger a message to the player to inform him/her that the survey mission is complete
+                     +RELEASE THE CREW AND STORAGE
+                     .}
+                  end;
+
+                  pseAllAdjacentRegions:
+                  begin
+                     {:DEV NOTES: put regions to survey into a secondary array + avoid oceanic}
+                  end;
+
+                  pseAllControlledNeutralRegions:
+                  begin
+                  {:DEV NOTES: put regions to survey into a secondary array + avoid oceanic}
+                  end;
+               end
+
             end;
 
-            {:DEV NOTES: if 100% => endOfProcess => OOR_resourceSurveyedBy is updated, a message is triggered and all the vehicles groups are back to baseFINAL + target region=0
-               FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_targetRegion:=0;
+            {:DEV NOTES:
+            if 100% => endOfProcess => OOR_resourceSurveyedBy is updated, a message is triggered and all the vehicles groups are back to baseFINAL + target region=0
 
                OR DEPENDS of mission extension setup!
 
@@ -525,15 +609,17 @@ procedure FCMsC_ResourceSurvey_ResultProcess(
    );
    var
       MeanQuality
+      ,NewSpotSize
       ,RegionSurface: extended;
 
-      NewSpotSize
+      RarityCoef
       ,SpotIndex
       ,SurveyedIndex: integer;
 begin
    MeanQuality:=0;
-   RegionSurface:=1;
    NewSpotSize:=0;
+   RegionSurface:=1;
+   RarityCoef:=0;
    SpotIndex:=0;
    SurveyedIndex:=0;
    if SurveyProbability >= SpotRarityThreshold then
@@ -546,7 +632,11 @@ begin
          ,SpotType
          ,SClocationUniverse
          );
-      MeanQuality:=FCFsF_ResourcesSurvey_SpotMeanQuality( SpotQuality );
+      if FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedIndex].SRS_surveyedRegions[FCDdgEntities[Entity].E_planetarySurveys[PlanetarySurvey].PS_targetRegion].SR_ResourceSpots[SpotIndex].RS_meanQualityCoefficient=0 then
+      begin
+         MeanQuality:=FCFsF_ResourcesSurvey_SpotMeanQuality( SpotQuality );
+         FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedIndex].SRS_surveyedRegions[FCDdgEntities[Entity].E_planetarySurveys[PlanetarySurvey].PS_targetRegion].SR_ResourceSpots[SpotIndex].RS_meanQualityCoefficient:=MeanQuality;
+      end;
       if SClocationUniverse[4]=0 then
       begin
          if FCDduStarSystem[SClocationUniverse[1]].SS_stars[SClocationUniverse[2]].S_orbitalObjects[SClocationUniverse[3]].OO_regions[FCDdgEntities[Entity].E_planetarySurveys[PlanetarySurvey].PS_targetRegion].OOR_soilType
@@ -573,7 +663,21 @@ begin
          then RegionSurface:=0.3;
          RegionSurface:=RegionSurface * FCDduStarSystem[SClocationUniverse[1]].SS_stars[SClocationUniverse[2]].S_orbitalObjects[SClocationUniverse[3]].OO_satellitesList[SClocationUniverse[4]].OO_regionSurface;
       end;
-//      NewSpotSize:=
+      case SpotRarity of
+         rsrRich: RarityCoef:=5;
+
+         rsrAbundant: RarityCoef:=7;
+
+         rsrCommon: RarityCoef:=10;
+
+         rsrPresent: RarityCoef:=12;
+
+         rsrUncommon: RarityCoef:=15;
+
+         rsrRare: RarityCoef:=17;
+      end;
+      NewSpotSize:=FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedIndex].SRS_surveyedRegions[FCDdgEntities[Entity].E_planetarySurveys[PlanetarySurvey].PS_targetRegion].SR_ResourceSpots[SpotIndex].RS_spotSizeMax + sqrt( RegionSurface / RarityCoef );
+      FCDdgEntities[Entity].E_surveyedResourceSpots[SurveyedIndex].SRS_surveyedRegions[FCDdgEntities[Entity].E_planetarySurveys[PlanetarySurvey].PS_targetRegion].SR_ResourceSpots[SpotIndex].RS_spotSizeMax:=round( NewSpotSize );
    end; //==END== if SurveyProbability >= SpotRarityThreshold ==//
 end;
 
