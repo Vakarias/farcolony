@@ -51,6 +51,13 @@ uses
 //===========================END FUNCTIONS SECTION==========================================
 
 ///<summary>
+///   setup an entire expedition in the final stage post-mission
+///</summary>
+///   <param name="Entity">entity index #</param>
+///   <param name="SurveyToApply">planetary survey index #</param>
+procedure FCMsC_Expedition_BackToBaseFinal( const Entity, SurveyToApply: integer );
+
+///<summary>
 ///   setup an expedition data structure
 ///</summary>
 ///   <param name="Entity">entity index #</param>
@@ -105,6 +112,7 @@ implementation
 uses
    farc_common_func
    ,farc_data_planetarysurvey
+   ,farc_game_colony
    ,farc_game_prodrsrcspots
    ,farc_survey_functions
    ,farc_univ_func
@@ -127,6 +135,51 @@ var
 
 //===========================END FUNCTIONS SECTION==========================================
 
+procedure FCMsC_Expedition_BackToBaseFinal( const Entity, SurveyToApply: integer );
+{:Purpose: setup an entire expedition in the final stage post-mission.
+   Additions:
+}
+   var
+      Count
+      ,Max: integer;
+begin
+   Count:=1;
+   Max:=length( FCDdgEntities[Entity].E_planetarySurveys[SurveyToApply].PS_vehiclesGroups )-1;
+   while Count <= Max do
+   begin
+      case FCDdgEntities[Entity].E_planetarySurveys[SurveyToApply].PS_vehiclesGroups[Count].VG_currentPhase of
+         pspInTransitToSite:
+         begin
+            FCDdgEntities[Entity].E_planetarySurveys[SurveyToApply].PS_vehiclesGroups[Count].VG_currentPhase:=pspBackToBaseFinal;
+            FCDdgEntities[Entity].E_planetarySurveys[SurveyToApply].PS_vehiclesGroups[Count].VG_timeOfOneWayTravel:=FCDdgEntities[Entity].E_planetarySurveys[SurveyToApply].PS_vehiclesGroups[Count].VG_currentPhaseElapsedTime;
+            FCDdgEntities[Entity].E_planetarySurveys[SurveyToApply].PS_vehiclesGroups[Count].VG_currentPhaseElapsedTime:=0;
+         end;
+
+         pspResourcesSurveying:
+         begin
+            FCDdgEntities[Entity].E_planetarySurveys[SurveyToApply].PS_vehiclesGroups[Count].VG_currentPhase:=pspBackToBaseFinal;
+            FCDdgEntities[Entity].E_planetarySurveys[SurveyToApply].PS_vehiclesGroups[Count].VG_currentPhaseElapsedTime:=0;
+         end;
+
+         pspBackToBase: FCDdgEntities[Entity].E_planetarySurveys[SurveyToApply].PS_vehiclesGroups[Count].VG_currentPhase:=pspBackToBaseFinal;
+
+         pspReplenishment: FCDdgEntities[Entity].E_planetarySurveys[SurveyToApply].PS_vehiclesGroups[Count].pspMissionCompletion;
+      end;
+      inc( Count );
+   end;
+{:DEV NOTES:
+
+               the back to base FINAL depends on the current phase a group has
+                pspInTransitToSite=> btbF w/ days travel = current elapsed time
+
+                pspResourcesSurveying=> btbF normally w/ one way travel duration
+
+                pspBackToBase=> only switch btbF
+
+                pspReplenishment=> stop it and switch on  pspMissionCompletion
+            .}
+end;
+
 procedure FCMsC_Expedition_Setup(
    const Entity
          ,Colony
@@ -136,6 +189,7 @@ procedure FCMsC_Expedition_Setup(
    );
 {:Purpose: setup an expedition data structure.
     Additions:
+      -2013Mar21- *add: assign and update crew-related and storage data.
       -2013Mar17- *add: OOR_resourceSurveyedBy initialization.
       -2013Mar15- *add: PS_linkedSurveyedResource initialization.
       -2013Mar13- *add: PS_meanEMO initialization.
@@ -204,11 +258,20 @@ begin
          setlength( FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups, CurrentVehiclesGroup+1 );
          FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CurrentVehiclesGroup].VG_linkedStorage:=FCDsfSurveyVehicles[Count].SV_storageIndex;
          FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CurrentVehiclesGroup].VG_numberOfUnits:=FCDsfSurveyVehicles[Count].SV_choosenUnits;
+         FCFgC_Storage_Update(
+            FCDdgEntities[Entity].E_colonies[FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_linkedColony].C_storedProducts[FCDsfSurveyVehicles[Count].SV_storageIndex].SP_token
+            ,-FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CurrentVehiclesGroup].VG_numberOfUnits
+            ,Entity
+            ,FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_linkedColony
+            ,false
+            );
          FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CurrentVehiclesGroup].VG_numberOfVehicles:=FCDsfSurveyVehicles[Count].SV_numberOfVehicles;
          FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CurrentVehiclesGroup].VG_vehiclesFunction:=FCDsfSurveyVehicles[Count].SV_function;
          FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CurrentVehiclesGroup].VG_speed:=FCDsfSurveyVehicles[Count].SV_speed;
          FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CurrentVehiclesGroup].VG_totalMissionTime:=FCDsfSurveyVehicles[Count].SV_missionTime;
          FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CurrentVehiclesGroup].VG_crew:=FCDsfSurveyVehicles[Count].SV_crew;
+         if FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CurrentVehiclesGroup].VG_crew>0
+         then d
          FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CurrentVehiclesGroup].VG_regionEMO:=FCDsfSurveyVehicles[Count].SV_emo;
          FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CurrentVehiclesGroup].VG_timeOfOneWayTravel:=FCDsfSurveyVehicles[Count].SV_oneWayTravel;
          FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CurrentVehiclesGroup].VG_timeOfMission:=FCDsfSurveyVehicles[Count].SV_timeOfMission;
@@ -281,7 +344,8 @@ begin
    CountEntity:=1;
    CountSurvey:=0;
    CountMisc1:=0;
-   {:DEV NOTES: test here if there are any completed survey, if its the case=> PostProcess: update entity's surveyed resources in the array and finalize the data + remove after that the completed survey.}
+   {:DEV NOTES: test here if there are any completed survey, if its the case=> PostProcess: update entity's surveyed resources in the array and finalize the data + remove after that the completed survey.
+   +RELEASE THE CREW AND STORAGE}
    MaxEntity:=length( FCDdgEntities )-1;
    while CountEntity<=MaxEntity do
    begin
@@ -554,9 +618,8 @@ begin
                   begin
                      FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_completionPercent:=100;
                      FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_targetRegion:=0;
-                     {:DEV NOTES: if entity=0, trigger a message to the player to inform him/her that the survey mission is complete
-                     +RELEASE THE CREW AND STORAGE
-                     .}
+                     FCMsC_Expedition_BackToBaseFinal( CountEntity, CountSurvey );
+                     {:DEV NOTES: if entity=0, trigger a message to the player to inform him/her that the survey mission is complete.}
                   end;
 
                   pseAllAdjacentRegions:
