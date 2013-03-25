@@ -76,17 +76,9 @@ procedure FCMsC_Expedition_Setup(
    );
 
 ///<summary>
-///   clear the release list of the completed surveys
+///   process the release list
 ///</summary>
-procedure FCMsC_ReleaseList_Clear;
-
-///<summary>
-///   update the release list of the completed surveys
-///</summary>
-///   <param name="Entity">entity index #</param>
-///   <param name="PlanetarySurvey">planetary survey index #</param>
-///   <remarks></remarks>
-procedure FCMsC_ReleaseList_Update( const Entity, PlanetarySurvey: integer );
+procedure FCMsC_ReleaseList_Process;
 
 ///<summary>
 ///   core process of the resources survey subsystem
@@ -138,9 +130,11 @@ uses
 
    //==========subsection===================================================================
 var
+//   SCisReleaseListEmpty: boolean;
+
    SClocationUniverse: TFCRufStelObj;
 
-   SCreleaseList: array [0..FCCdiFactionsMax] of array of integer;
+//   SCreleaseList: array [0..FCCdiFactionsMax] of array of integer;
 
 //==END PRIVATE VAR=========================================================================
 
@@ -276,7 +270,8 @@ begin
          FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CurrentVehiclesGroup].VG_totalMissionTime:=FCDsfSurveyVehicles[Count].SV_missionTime;
          FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CurrentVehiclesGroup].VG_crew:=FCDsfSurveyVehicles[Count].SV_crew;
          if FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CurrentVehiclesGroup].VG_crew>0
-         then FCDdgEntities[Entity].E_colonies[Colony].C_population.CP_classColonistAssigned:=FCDdgEntities[Entity].E_colonies[Colony].C_population.CP_classColonistAssigned + FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CurrentVehiclesGroup].VG_crew;
+         then FCDdgEntities[Entity].E_colonies[Colony].C_population.CP_classColonistAssigned:=FCDdgEntities[Entity].E_colonies[Colony].C_population.CP_classColonistAssigned
+            + FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CurrentVehiclesGroup].VG_crew;
          FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CurrentVehiclesGroup].VG_regionEMO:=FCDsfSurveyVehicles[Count].SV_emo;
          FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CurrentVehiclesGroup].VG_timeOfOneWayTravel:=FCDsfSurveyVehicles[Count].SV_oneWayTravel;
          FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CurrentVehiclesGroup].VG_timeOfMission:=FCDsfSurveyVehicles[Count].SV_timeOfMission;
@@ -312,31 +307,66 @@ begin
    end; //==END== while Count<=Max ==//
 end;
 
-procedure FCMsC_ReleaseList_Clear;
-{:Purpose: clear the release list of the completed surveys.
+procedure FCMsC_ReleaseList_Process;
+{:Purpose: process the release list.
     Additions:
 }
    var
-      Count: integer;
-begin
-   Count:=1;
-   while Count<=FCCdiFactionsMax do
-   begin
-      setlength( SCreleaseList[Count], 1 );
-      inc( Count );
-   end;
-end;
+      CountSurvey
+      ,CountEntity
+      ,CountVeh
+      ,MaxSurvey
+      ,MaxVeh
+      ,NewMax: integer;
 
-procedure FCMsC_ReleaseList_Update( const Entity, PlanetarySurvey: integer );
-{:Purpose: update the release list of the completed surveys.
-    Additions:
-}
-   var
-      Count: integer;
+      NewArray: array of TFCRdgPlanetarySurvey;
 begin
-   Count:=length( SCreleaseList[Entity] );
-   setlength( SCreleaseList[Entity], Count + 1 );
-   SCreleaseList[Entity, Count]:=PlanetarySurvey;
+   CountEntity:=1;
+   while CountEntity<=FCCdiFactionsMax do
+   begin
+      MaxSurvey:=length( FCDdgEntities[CountEntity].E_planetarySurveys )-1;
+      NewMax:=0;
+      SetLength( NewArray, NewMax + 1 );
+      CountSurvey:=1;
+      while CountSurvey<=MaxSurvey do
+      begin
+         if FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_targetRegion=-1 then
+         begin
+            MaxVeh:=length( FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups ) - 1;
+            CountVeh:=1;
+            while CountVeh<=MaxVeh do
+            begin
+               FCFgC_Storage_Update(
+                  FCDdgEntities[CountEntity].E_colonies[FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_linkedColony].C_storedProducts[FCDsfSurveyVehicles[CountSurvey].SV_storageIndex].SP_token
+                  ,FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVeh].VG_numberOfUnits
+                  ,CountEntity
+                  ,FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_linkedColony
+                  ,false
+                  );
+               if FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVeh].VG_crew>0
+               then FCDdgEntities[CountEntity].E_colonies[FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_linkedColony].C_population.CP_classColonistAssigned:=
+                  FCDdgEntities[CountEntity].E_colonies[FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_linkedColony].C_population.CP_classColonistAssigned
+                  - FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVeh].VG_crew;
+               inc( CountVeh );
+            end;
+         end
+         else if FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_targetRegion>-1 then
+         begin
+            inc( NewMax );
+            SetLength( NewArray, NewMax + 1 );
+            NewArray[NewMax]:=FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey];
+         end;
+         inc( CountSurvey );
+      end;
+      SetLength( FCDdgEntities[CountEntity].E_planetarySurveys, NewMax + 1 );
+      CountSurvey:=1;
+      while CountSurvey<=NewMax do
+      begin
+         FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey]:=NewArray[CountSurvey];
+         inc( CountSurvey );
+      end;
+      inc( CountEntity );
+   end;
 end;
 
 procedure FCMsC_ResourceSurvey_Core;
@@ -376,8 +406,7 @@ begin
    CountEntity:=1;
    CountSurvey:=0;
    CountMisc1:=0;
-   {:DEV NOTES: test here if there are any completed survey, if it is the case=> PostProcess: update entity's surveyed resources in the array and finalize the data + remove after that the completed survey.
-   +RELEASE THE CREW AND STORAGE}
+   FCMsC_ReleaseList_Process;
    MaxEntity:=length( FCDdgEntities )-1;
    while CountEntity<=MaxEntity do
    begin
@@ -671,7 +700,6 @@ begin
          begin
             {.the expedition will be removed the next day}
             FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_targetRegion:=-1;
-            FCMsC_ReleaseList_Update( CountEntity, CountSurvey );
          end;
          inc( CountSurvey );
       end; //==END== while CountSurvey<=MaxSurvey ==//

@@ -720,6 +720,47 @@ type TFCRdgSpaceUnit = record
    SU_reactionMass: extended;
 end;
 
+type TFCRdgPlanetarySurvey = record
+   PS_type: TFCEdgPlanetarySurveys;
+   PS_locationSSys: string[20];
+   PS_locationStar: string[20];
+   PS_locationOobj: string[20];
+   PS_locationSat: string[20];
+   ///<summary>
+   ///   targeted region for the survey. If the mission is complete but not all vehicles are back to base, region=0. If the mission is entirely complete, region=-1
+   ///</summary>
+   PS_targetRegion: integer;
+   PS_meanEMO: extended;
+   PS_linkedColony: integer;
+   PS_linkedSurveyedResource: integer;
+   PS_missionExtension: TFCEdgPlanetarySurveyExtensions;
+   ///<summary>
+   ///   current percent of surface surveyed by day
+   ///</summary>
+   PS_pss: extended;
+   PS_completionPercent: extended;
+   PS_vehiclesGroups: array of record
+      VG_linkedStorage: integer;
+      VG_numberOfUnits: integer;
+      VG_numberOfVehicles: integer;
+      VG_vehiclesFunction: TFCEdipProductFunctions;
+      VG_speed: integer;
+      VG_totalMissionTime: integer;
+      VG_usedCapability: integer;
+      VG_crew: integer;
+      VG_regionEMO: extended;
+      VG_timeOfOneWayTravel: integer;
+      ///<summary>
+      ///   DMS = days of mission (note for design doc)
+      ///</summary>
+      VG_timeOfMission: integer;
+      VG_timeOfReplenishment: integer;
+      VG_distanceOfSurvey: extended;
+      VG_currentPhase: TFCEdgPlanetarySurveyPhases;
+      VG_currentPhaseElapsedTime: integer;
+   end; //==END== record: PS_vehiclesGroups ==//
+end;
+
 {:REFERENCES LIST
    - FCMdF_Game_Load
    - FCMdF_Game_Save
@@ -751,46 +792,7 @@ type TFCRdgEntity= record
    E_spmMod_Health: integer;
    E_spmMod_Bureaucracy: integer;
    E_spmMod_Corruption: integer;
-   E_planetarySurveys: array of record
-      PS_type: TFCEdgPlanetarySurveys;
-      PS_locationSSys: string[20];
-      PS_locationStar: string[20];
-      PS_locationOobj: string[20];
-      PS_locationSat: string[20];
-      ///<summary>
-      ///   targeted region for the survey. If the mission is complete but not all vehicles are back to base, region=0. If the mission is entirely complete, region=-1
-      ///</summary>
-      PS_targetRegion: integer;
-      PS_meanEMO: extended;
-      PS_linkedColony: integer;
-      PS_linkedSurveyedResource: integer;
-      PS_missionExtension: TFCEdgPlanetarySurveyExtensions;
-      ///<summary>
-      ///   current percent of surface surveyed by day
-      ///</summary>
-      PS_pss: extended;
-      PS_completionPercent: extended;
-      PS_vehiclesGroups: array of record
-         VG_linkedStorage: integer;
-         VG_numberOfUnits: integer;
-         VG_numberOfVehicles: integer;
-         VG_vehiclesFunction: TFCEdipProductFunctions;
-         VG_speed: integer;
-         VG_totalMissionTime: integer;
-         VG_usedCapability: integer;
-         VG_crew: integer;
-         VG_regionEMO: extended;
-         VG_timeOfOneWayTravel: integer;
-         ///<summary>
-         ///   DMS = days of mission (note for design doc)
-         ///</summary>
-         VG_timeOfMission: integer;
-         VG_timeOfReplenishment: integer;
-         VG_distanceOfSurvey: extended;
-         VG_currentPhase: TFCEdgPlanetarySurveyPhases;
-         VG_currentPhaseElapsedTime: integer;
-      end; //==END== record: PS_vehiclesGroups ==//
-   end; //==END== record: E_planetarySurveys ==//
+   E_planetarySurveys: array of TFCRdgPlanetarySurvey;
    E_surveyedResourceSpots: array of record
       SRS_orbitalObject_SatelliteToken: string[20];
       SRS_starSystem: integer;
