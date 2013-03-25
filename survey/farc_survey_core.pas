@@ -76,6 +76,19 @@ procedure FCMsC_Expedition_Setup(
    );
 
 ///<summary>
+///   clear the release list of the completed surveys
+///</summary>
+procedure FCMsC_ReleaseList_Clear;
+
+///<summary>
+///   update the release list of the completed surveys
+///</summary>
+///   <param name="Entity">entity index #</param>
+///   <param name="PlanetarySurvey">planetary survey index #</param>
+///   <remarks></remarks>
+procedure FCMsC_ReleaseList_Update( const Entity, PlanetarySurvey: integer );
+
+///<summary>
 ///   core process of the resources survey subsystem
 ///</summary>
 ///   <param name=""></param>
@@ -111,6 +124,7 @@ implementation
 
 uses
    farc_common_func
+   ,farc_data_init
    ,farc_data_planetarysurvey
    ,farc_game_colony
    ,farc_game_prodrsrcspots
@@ -125,6 +139,8 @@ uses
    //==========subsection===================================================================
 var
    SClocationUniverse: TFCRufStelObj;
+
+   SCreleaseList: array [0..FCCdiFactionsMax] of array of integer;
 
 //==END PRIVATE VAR=========================================================================
 
@@ -163,21 +179,10 @@ begin
 
          pspBackToBase: FCDdgEntities[Entity].E_planetarySurveys[SurveyToApply].PS_vehiclesGroups[Count].VG_currentPhase:=pspBackToBaseFinal;
 
-         pspReplenishment: FCDdgEntities[Entity].E_planetarySurveys[SurveyToApply].PS_vehiclesGroups[Count].pspMissionCompletion;
+         pspReplenishment: FCDdgEntities[Entity].E_planetarySurveys[SurveyToApply].PS_vehiclesGroups[Count].VG_currentPhase:=pspMissionCompletion;
       end;
       inc( Count );
    end;
-{:DEV NOTES:
-
-               the back to base FINAL depends on the current phase a group has
-                pspInTransitToSite=> btbF w/ days travel = current elapsed time
-
-                pspResourcesSurveying=> btbF normally w/ one way travel duration
-
-                pspBackToBase=> only switch btbF
-
-                pspReplenishment=> stop it and switch on  pspMissionCompletion
-            .}
 end;
 
 procedure FCMsC_Expedition_Setup(
@@ -189,7 +194,7 @@ procedure FCMsC_Expedition_Setup(
    );
 {:Purpose: setup an expedition data structure.
     Additions:
-      -2013Mar21- *add: assign and update crew-related and storage data.
+      -2013Mar21/24- *add: assign and update crew-related and storage data.
       -2013Mar17- *add: OOR_resourceSurveyedBy initialization.
       -2013Mar15- *add: PS_linkedSurveyedResource initialization.
       -2013Mar13- *add: PS_meanEMO initialization.
@@ -271,7 +276,7 @@ begin
          FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CurrentVehiclesGroup].VG_totalMissionTime:=FCDsfSurveyVehicles[Count].SV_missionTime;
          FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CurrentVehiclesGroup].VG_crew:=FCDsfSurveyVehicles[Count].SV_crew;
          if FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CurrentVehiclesGroup].VG_crew>0
-         then d
+         then FCDdgEntities[Entity].E_colonies[Colony].C_population.CP_classColonistAssigned:=FCDdgEntities[Entity].E_colonies[Colony].C_population.CP_classColonistAssigned + FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CurrentVehiclesGroup].VG_crew;
          FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CurrentVehiclesGroup].VG_regionEMO:=FCDsfSurveyVehicles[Count].SV_emo;
          FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CurrentVehiclesGroup].VG_timeOfOneWayTravel:=FCDsfSurveyVehicles[Count].SV_oneWayTravel;
          FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CurrentVehiclesGroup].VG_timeOfMission:=FCDsfSurveyVehicles[Count].SV_timeOfMission;
@@ -305,6 +310,33 @@ begin
       end; //==END== if FCDsfSurveyVehicles[Count].SV_choosenUnits>0 ==//
       inc( Count );
    end; //==END== while Count<=Max ==//
+end;
+
+procedure FCMsC_ReleaseList_Clear;
+{:Purpose: clear the release list of the completed surveys.
+    Additions:
+}
+   var
+      Count: integer;
+begin
+   Count:=1;
+   while Count<=FCCdiFactionsMax do
+   begin
+      setlength( SCreleaseList[Count], 1 );
+      inc( Count );
+   end;
+end;
+
+procedure FCMsC_ReleaseList_Update( const Entity, PlanetarySurvey: integer );
+{:Purpose: update the release list of the completed surveys.
+    Additions:
+}
+   var
+      Count: integer;
+begin
+   Count:=length( SCreleaseList[Entity] );
+   setlength( SCreleaseList[Entity], Count + 1 );
+   SCreleaseList[Entity, Count]:=PlanetarySurvey;
 end;
 
 procedure FCMsC_ResourceSurvey_Core;
@@ -344,7 +376,7 @@ begin
    CountEntity:=1;
    CountSurvey:=0;
    CountMisc1:=0;
-   {:DEV NOTES: test here if there are any completed survey, if its the case=> PostProcess: update entity's surveyed resources in the array and finalize the data + remove after that the completed survey.
+   {:DEV NOTES: test here if there are any completed survey, if it is the case=> PostProcess: update entity's surveyed resources in the array and finalize the data + remove after that the completed survey.
    +RELEASE THE CREW AND STORAGE}
    MaxEntity:=length( FCDdgEntities )-1;
    while CountEntity<=MaxEntity do
@@ -634,26 +666,12 @@ begin
                end
 
             end;
-
-            {:DEV NOTES:
-            if 100% => endOfProcess => OOR_resourceSurveyedBy is updated, a message is triggered and all the vehicles groups are back to baseFINAL + target region=0
-
-               OR DEPENDS of mission extension setup!
-
-               the back to base FINAL depends on the current phase a group has
-                pspInTransitToSite=> btbF w/ days travel = current elapsed time
-
-                pspResourcesSurveying=> btbF normally w/ one way travel duration
-
-                pspBackToBase=> only switch btbF
-
-                pspReplenishment=> stop it and switch on  pspMissionCompletion
-            .}
          end //==END== if CompletionVehiclesGroups=0 ==//
          else if CompletionVehiclesGroups=MaxMisc1 then
          begin
             {.the expedition will be removed the next day}
             FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_targetRegion:=-1;
+            FCMsC_ReleaseList_Update( CountEntity, CountSurvey );
          end;
          inc( CountSurvey );
       end; //==END== while CountSurvey<=MaxSurvey ==//

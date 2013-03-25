@@ -57,6 +57,7 @@ uses
    ,farc_ogl_ui
    ,farc_ogl_viewmain
    ,farc_spu_functions
+   ,farc_survey_core
    ,farc_ui_msges
    ,farc_ui_surfpanel
    ,farc_univ_func;
@@ -66,6 +67,7 @@ uses
 procedure FCMgCG_Core_Proceed;
 {:Purpose: initialize the current game.
     Additions:
+      -2013Mar24- *add: FCMsC_ReleaseList_Clear.
       -2010Sep19- *add: entities code.
       -2010Jun19- *rem: the french fix became useless and removed.
       -2010Jun15- *mod: use the new space locator.
@@ -112,6 +114,7 @@ FCMdF_DBProducts_Load;
    {.data initialization}
    SetLength(FCDdmtTaskListToProcess,1);
    FCMdG_Entities_Clear;
+   FCMsC_ReleaseList_Clear;
    FCMdF_DBStarSystems_Load;
 
    FCMuiM_Messages_Reset;

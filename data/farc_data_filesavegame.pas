@@ -78,6 +78,7 @@ uses
    ,farc_game_cps
    ,farc_game_cpsobjectives
    ,farc_game_gameflow
+   ,farc_survey_core
    ,farc_univ_func
    ,farc_main
    ,farc_win_debug;
@@ -99,6 +100,7 @@ uses
 procedure FCMdFSG_Game_Load;
 {:Purpose: load the current game.
    Additions:
+      -2013Mar24- *add: planetary survey - in case of completed survey, the SCreleaseList is updated.
       -2013Mar14- *add: planetary survey - PS_linkedSurveyedResource.
       -2013Mar13- *add: planetary survey - PS_meanEMO.
       -2013Mar12- *add: planetary survey - VG_timeOfReplenishment.
@@ -1042,6 +1044,8 @@ begin
                      FCDdgEntities[Count].E_planetarySurveys[Count1].PS_locationOobj:=XMLSavedGameItemSub1.Attributes['locationOObj'];
                      FCDdgEntities[Count].E_planetarySurveys[Count1].PS_locationSat:=XMLSavedGameItemSub1.Attributes['locationSat'];
                      FCDdgEntities[Count].E_planetarySurveys[Count1].PS_targetRegion:=XMLSavedGameItemSub1.Attributes['targetRegion'];
+                     if FCDdgEntities[Count].E_planetarySurveys[Count1].PS_targetRegion=-1
+                     then FCMsC_ReleaseList_Update( Count, Count1 );
                      FCDdgEntities[Count].E_planetarySurveys[Count1].PS_meanEMO:=XMLSavedGameItemSub1.Attributes['meanEMO'];
                      FCDdgEntities[Count].E_planetarySurveys[Count1].PS_linkedColony:=XMLSavedGameItemSub1.Attributes['linkedColony'];
                      FCDdgEntities[Count].E_planetarySurveys[Count1].PS_linkedSurveyedResource:=XMLSavedGameItemSub1.Attributes['linkedSurveyedResource'];

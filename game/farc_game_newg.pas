@@ -90,6 +90,7 @@ uses
    ,farc_ogl_ui
    ,farc_ogl_viewmain
    ,farc_spu_functions
+   ,farc_survey_core
    ,farc_ui_msges
    ,farc_ui_surfpanel
    ,farc_ui_win
@@ -217,6 +218,7 @@ end;
 procedure FCMgNG_Core_Proceed;
 {:Purpose: commit new game and initialize game interface.
    Additions:
+      -2013Mar24- *add: FCMsC_ReleaseList_Clear.
       -2013Mar10- *add: initialize entity's E_planetarySurveys.
       -2012Dec04- *add: for docked vessels, load the SU_locationDockingMotherCraft.
       -2012May24- *add: store the viability thresholds.
@@ -321,6 +323,7 @@ FCWinNewGSetup.Close;
    SetLength(FCDdmtTaskListToProcess, 1);
    SetLength(FCDdmtTaskListInProcess, 1);
    FCMdG_Entities_Clear;
+   FCMsC_ReleaseList_Clear;
    FCMdF_DBStarSystems_Load;
    {.initialize player's data structure}
    FCVdgPlayer.P_gameName:=SetGameName;// FCWinNewGSetup.FCWNGS_Frm_GNameEdit.Text;
