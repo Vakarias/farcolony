@@ -145,7 +145,8 @@ uses
    ,farc_main
    ,farc_ogl_init
    ,farc_survey_functions
-   ,farc_univ_func;
+   ,farc_univ_func
+   ,farc_win_debug;
 
 var
    SPcurrentStarSys
@@ -1090,6 +1091,8 @@ begin
          );
       {.resources display}
       FCWinMain.SP_RegionSheet.HTMLText.Add( FCCFdHeadC+FCFdTFiles_UIStr_Get(uistrUI, 'resourcespots')+FCCFdHeadEnd );
+//      if FCVdiDebugMode
+//      then FCWinDebug.AdvMemo1.Lines.Add('Test='+inttostr(Test) + 'FCDdgEntities[0].E_surveyedResourceSpots[Test].SRS_surveyedRegions[SERUregIdx].SRS_currentPlanetarySurvey='+inttostr(FCDdgEntities[0].E_surveyedResourceSpots[Test].SRS_surveyedRegions[SERUregIdx].SRS_currentPlanetarySurvey)  );
       if ( Test=0 )
          and (Colony=0)
          and ( not FCWinMain.FCWM_MissionSettings.Visible ) then
@@ -1115,7 +1118,9 @@ begin
          else if SPregionSelected>0
          then FCWinMain.SP_ResourceSurveyCommit.Show;
       end
-      else if Test>0 then
+      else if ( Test>0 )
+         and ( FCDdgEntities[0].E_surveyedResourceSpots[Test].SRS_surveyedRegions[SERUregIdx].SRS_currentPlanetarySurvey=0 )
+         then
       begin
          SPisResourcesSurveyOK:=false;
          if FCWinMain.SP_ResourceSurveyCommit.Visible
@@ -1140,8 +1145,21 @@ begin
             inc( Count);
          end;
       end
+      else if ( Test>0 )
+         and ( FCDdgEntities[0].E_surveyedResourceSpots[Test].SRS_surveyedRegions[SERUregIdx].SRS_currentPlanetarySurvey>0 ) then
+      begin
+         SPisResourcesSurveyOK:=false;
+         if FCWinMain.SP_ResourceSurveyCommit.Visible
+         then FCWinMain.SP_ResourceSurveyCommit.Hide;
+         FCWinMain.SP_RegionSheet.HTMLText.Add(
+            'An expedition is currently surveying this region for resources spots. The process is done at:<br><font size="14">[<b>50%</b>]</font><sub>+1.35% / std day</sub>' );//FCFdTFiles_UIStr_Get( uistrUI,
+
+            {:DEV NOTES: + button for detailed informations=> open planetary survey panel and display the vehicles groups list, as for a setup including their current phase, duration and so on (and w/o the interface to setup them.}
+            {:DEV NOTES: don't forget to force the update of the colony panel to display population assignment/storage update.}
+      end
       else if not FCWinMain.FCWM_MissionSettings.Visible
-      then FCWinMain.SP_RegionSheet.HTMLText.Add( FCFdTFiles_UIStr_Get(uistrUI, 'psNoSurveyNoVehicles' ) );
+      then FCWinMain.SP_RegionSheet.HTMLText.Add( FCFdTFiles_UIStr_Get(uistrUI, 'psNoSurveyNoVehicles' ) )
+      else FCWinMain.SP_RegionSheet.HTMLText.Add( 'Test='+inttostr(Test));
    end; //==END== if not SERUonlyPic ==//
 end;
 

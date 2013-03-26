@@ -188,6 +188,7 @@ procedure FCMsC_Expedition_Setup(
    );
 {:Purpose: setup an expedition data structure.
     Additions:
+      -2013Mar25- *fix: remove an error in the use of indexes for SRS_currentPlanetarySurvey loading.
       -2013Mar21/24- *add: assign and update crew-related and storage data.
       -2013Mar17- *add: OOR_resourceSurveyedBy initialization.
       -2013Mar15- *add: PS_linkedSurveyedResource initialization.
@@ -240,7 +241,7 @@ begin
                Entity
                ,LocationUniverse
                );
-            FCDdgEntities[Entity].E_surveyedResourceSpots[Count].SRS_surveyedRegions[CurrentSurveyedResources].SRS_currentPlanetarySurvey:=CurrentPlanetarySurvey;
+            FCDdgEntities[Entity].E_surveyedResourceSpots[CurrentSurveyedResources].SRS_surveyedRegions[Region].SRS_currentPlanetarySurvey:=CurrentPlanetarySurvey;
             if LocationUniverse[4]=0 then
             begin
                FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_locationSat:='';

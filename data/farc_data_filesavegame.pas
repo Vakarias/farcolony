@@ -101,6 +101,8 @@ procedure FCMdFSG_Game_Load;
 {:Purpose: load the current game.
    Additions:
       -2013Mar25- *add: survey resources - SRS_currentPlanetarySurvey.
+                  *fix: remove a crash during the loading of the mission extension.
+                  *fix: prevent to load OOR_resourceSurveyedBy if the data mustn't be loaded.
       -2013Mar14- *add: planetary survey - PS_linkedSurveyedResource.
       -2013Mar13- *add: planetary survey - PS_meanEMO.
       -2013Mar12- *add: planetary survey - VG_timeOfReplenishment.
@@ -1049,10 +1051,10 @@ begin
                      FCDdgEntities[Count].E_planetarySurveys[Count1].PS_linkedSurveyedResource:=XMLSavedGameItemSub1.Attributes['linkedSurveyedResource'];
                      EnumIndex:=GetEnumValue( TypeInfo( TFCEdgPlanetarySurveyExtensions ), XMLSavedGameItemSub1.Attributes['missionExtension'] );
                      FCDdgEntities[Count].E_planetarySurveys[Count1].PS_missionExtension:=TFCEdgPlanetarySurveyExtensions( EnumIndex );
-                     FCDdgEntities[Count].E_planetarySurveys[Count1].PS_pss:=StrToFloat( XMLSavedGameItemSub2.Attributes['PSS'], FCVdiFormat );
-                     FCDdgEntities[Count].E_planetarySurveys[Count1].PS_completionPercent:=StrToFloat( XMLSavedGameItemSub2.Attributes['completionPercent'], FCVdiFormat );
                      if EnumIndex=-1
                      then raise Exception.Create( 'bad gamesave loading w/planetary survey mission extension: '+XMLSavedGameItemSub1.Attributes['missionExtension'] );
+                     FCDdgEntities[Count].E_planetarySurveys[Count1].PS_pss:=StrToFloat( XMLSavedGameItemSub1.Attributes['PSS'], FCVdiFormat );
+                     FCDdgEntities[Count].E_planetarySurveys[Count1].PS_completionPercent:=StrToFloat( XMLSavedGameItemSub1.Attributes['completionPercent'], FCVdiFormat );
                      Count2:=0;
                      XMLSavedGameItemSub2:=XMLSavedGameItemSub1.ChildNodes.First;
                      while XMLSavedGameItemSub2<>nil do
@@ -1132,14 +1134,16 @@ begin
                         begin
                            Count2:=XMLSavedGameItemSub2.Attributes['regionIdx'];
                            Count3:=0;
-                           if FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_satellite=0
-                           then FCDduStarSystem[FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_starSystem].SS_stars[FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_star].S_orbitalObjects[FCDdgEntities[Count].
-                              E_surveyedResourceSpots[Count1].SRS_orbitalObject].OO_regions[Count2].OOR_resourceSurveyedBy[Count]:=Count1
-                           else if FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_satellite>0
-                           then FCDduStarSystem[FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_starSystem].SS_stars[FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_star].
-                              S_orbitalObjects[FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_orbitalObject].OO_satellitesList[FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_satellite].OO_regions[Count2].OOR_resourceSurveyedBy[Count]:=Count1;
                            FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_surveyedRegions[Count2].SRS_currentPlanetarySurvey:=XMLSavedGameItemSub2.Attributes['currPlanetarySurvey'];
                            XMLSavedGameItemSub3:=XMLSavedGameItemSub2.ChildNodes.First;
+                           if ( ( XMLSavedGameItemSub3<>nil ) or ( FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_surveyedRegions[Count2].SRS_currentPlanetarySurvey>0 ) )
+                              and ( FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_satellite=0 )
+                           then FCDduStarSystem[FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_starSystem].SS_stars[FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_star].S_orbitalObjects[FCDdgEntities[Count].
+                              E_surveyedResourceSpots[Count1].SRS_orbitalObject].OO_regions[Count2].OOR_resourceSurveyedBy[Count]:=Count1
+                           else if ( ( XMLSavedGameItemSub3<>nil ) or ( FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_surveyedRegions[Count2].SRS_currentPlanetarySurvey>0 ) )
+                              and ( FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_satellite>0 )
+                           then FCDduStarSystem[FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_starSystem].SS_stars[FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_star].
+                              S_orbitalObjects[FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_orbitalObject].OO_satellitesList[FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_satellite].OO_regions[Count2].OOR_resourceSurveyedBy[Count]:=Count1;
                            while XMLSavedGameItemSub3<>nil do
                            begin
                               inc( Count3 );
@@ -2042,7 +2046,7 @@ begin
             while Count2<=Max2 do
             begin
                XMLSavedGameItemSub3:=XMLSavedGameItemSub2.AddChild( 'slSpotRegion' );
-               XMLSavedGameItemSub3.Attributes['regionIdx']:=Count1;
+               XMLSavedGameItemSub3.Attributes['regionIdx']:=Count2;
                XMLSavedGameItemSub3.Attributes['currPlanetarySurvey']:=FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_surveyedRegions[Count2].SRS_currentPlanetarySurvey;
                Max3:=length( FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_surveyedRegions[Count2].SR_ResourceSpots )-1;
                Count3:=1;
