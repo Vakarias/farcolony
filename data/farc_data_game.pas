@@ -800,6 +800,10 @@ type TFCRdgEntity= record
       SRS_orbitalObject: integer;
       SRS_satellite: integer;
       SRS_surveyedRegions: array of record
+         ///<summary>
+         ///   store the planetary survey index that currently process the survey of the region. If it's equal to 0, the survey is completed.
+         ///</summary>
+         SRS_currentPlanetarySurvey: integer;
          SR_ResourceSpots: array of record
             RS_meanQualityCoefficient: extended;
             RS_spotSizeCurrent: integer;

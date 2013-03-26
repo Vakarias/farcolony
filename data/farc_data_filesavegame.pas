@@ -100,6 +100,7 @@ uses
 procedure FCMdFSG_Game_Load;
 {:Purpose: load the current game.
    Additions:
+      -2013Mar25- *add: survey resources - SRS_currentPlanetarySurvey.
       -2013Mar14- *add: planetary survey - PS_linkedSurveyedResource.
       -2013Mar13- *add: planetary survey - PS_meanEMO.
       -2013Mar12- *add: planetary survey - VG_timeOfReplenishment.
@@ -1129,7 +1130,7 @@ begin
                         XMLSavedGameItemSub2:=XMLSavedGameItemSub1.ChildNodes.First;
                         while XMLSavedGameItemSub2<>nil do
                         begin
-                           Count2:=XMLSavedGameItemSub.Attributes['regionIdx'];
+                           Count2:=XMLSavedGameItemSub2.Attributes['regionIdx'];
                            Count3:=0;
                            if FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_satellite=0
                            then FCDduStarSystem[FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_starSystem].SS_stars[FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_star].S_orbitalObjects[FCDdgEntities[Count].
@@ -1137,6 +1138,7 @@ begin
                            else if FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_satellite>0
                            then FCDduStarSystem[FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_starSystem].SS_stars[FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_star].
                               S_orbitalObjects[FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_orbitalObject].OO_satellitesList[FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_satellite].OO_regions[Count2].OOR_resourceSurveyedBy[Count]:=Count1;
+                           FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_surveyedRegions[Count2].SRS_currentPlanetarySurvey:=XMLSavedGameItemSub2.Attributes['currPlanetarySurvey'];
                            XMLSavedGameItemSub3:=XMLSavedGameItemSub2.ChildNodes.First;
                            while XMLSavedGameItemSub3<>nil do
                            begin
@@ -1202,6 +1204,7 @@ end;
 procedure FCMdFSG_Game_Save;
 {:Purpose: save the current game.
     Additions:
+      -2013Mar25- *add: survey resources - SRS_currentPlanetarySurvey.
       -2013Mar14- *add: planetary survey - PS_linkedSurveyedResource.
       -2013Mar13- *add: planetary survey - PS_meanEMO.
       -2013Mar12- *add: planetary survey - VG_timeOfReplenishment.
@@ -2038,28 +2041,26 @@ begin
             Count2:=1;
             while Count2<=Max2 do
             begin
+               XMLSavedGameItemSub3:=XMLSavedGameItemSub2.AddChild( 'slSpotRegion' );
+               XMLSavedGameItemSub3.Attributes['regionIdx']:=Count1;
+               XMLSavedGameItemSub3.Attributes['currPlanetarySurvey']:=FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_surveyedRegions[Count2].SRS_currentPlanetarySurvey;
                Max3:=length( FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_surveyedRegions[Count2].SR_ResourceSpots )-1;
-               if Max3>0 then
+               Count3:=1;
+               while Count3<=Max3 do
                begin
-                  XMLSavedGameItemSub3:=XMLSavedGameItemSub2.AddChild( 'slSpotRegion' );
-                  XMLSavedGameItemSub3.Attributes['regionIdx']:=Count1;
-                  Count3:=1;
-                  while Count3<=Max3 do
+                  XMLSavedGameItemSub4:=XMLSavedGameItemSub3.AddChild( 'srRsrcSpot' );
+                  XMLSavedGameItemSub4.Attributes['spotType']:=GetEnumName(TypeInfo(TFCEduResourceSpotTypes), Integer(FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_surveyedRegions[Count2].SR_ResourceSpots[Count3].RS_type));
+                  XMLSavedGameItemSub4.Attributes['meanQualCoef']:=FloatToStr( FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_surveyedRegions[Count2].SR_ResourceSpots[Count3].RS_meanQualityCoefficient, FCVdiFormat );
+                  XMLSavedGameItemSub4.Attributes['spotSizCurr']:=FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_surveyedRegions[Count2].SR_ResourceSpots[Count3].RS_spotSizeCurrent;
+                  XMLSavedGameItemSub4.Attributes['spotSizeMax']:=FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_surveyedRegions[Count2].SR_ResourceSpots[Count3].RS_spotSizeMax;
+                  if FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_surveyedRegions[Count2].SR_ResourceSpots[Count3].RS_type=rstOreField then
                   begin
-                     XMLSavedGameItemSub4:=XMLSavedGameItemSub3.AddChild( 'srRsrcSpot' );
-                     XMLSavedGameItemSub4.Attributes['spotType']:=GetEnumName(TypeInfo(TFCEduResourceSpotTypes), Integer(FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_surveyedRegions[Count2].SR_ResourceSpots[Count3].RS_type));
-                     XMLSavedGameItemSub4.Attributes['meanQualCoef']:=FloatToStr( FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_surveyedRegions[Count2].SR_ResourceSpots[Count3].RS_meanQualityCoefficient, FCVdiFormat );
-                     XMLSavedGameItemSub4.Attributes['spotSizCurr']:=FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_surveyedRegions[Count2].SR_ResourceSpots[Count3].RS_spotSizeCurrent;
-                     XMLSavedGameItemSub4.Attributes['spotSizeMax']:=FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_surveyedRegions[Count2].SR_ResourceSpots[Count3].RS_spotSizeMax;
-                     if FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_surveyedRegions[Count2].SR_ResourceSpots[Count3].RS_type=rstOreField then
-                     begin
-                        XMLSavedGameItemSub4.Attributes['oreCarbo']:=FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_surveyedRegions[Count2].SR_ResourceSpots[Count3].RS_tOFiCarbonaceous;
-                        XMLSavedGameItemSub4.Attributes['oreMetal']:=FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_surveyedRegions[Count2].SR_ResourceSpots[Count3].RS_tOFiMetallic;
-                        XMLSavedGameItemSub4.Attributes['oreRare']:=FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_surveyedRegions[Count2].SR_ResourceSpots[Count3].RS_tOFiRare;
-                        XMLSavedGameItemSub4.Attributes['oreUra']:=FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_surveyedRegions[Count2].SR_ResourceSpots[Count3].RS_tOFiUranium;
-                     end;
-                     inc(Count3);
+                     XMLSavedGameItemSub4.Attributes['oreCarbo']:=FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_surveyedRegions[Count2].SR_ResourceSpots[Count3].RS_tOFiCarbonaceous;
+                     XMLSavedGameItemSub4.Attributes['oreMetal']:=FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_surveyedRegions[Count2].SR_ResourceSpots[Count3].RS_tOFiMetallic;
+                     XMLSavedGameItemSub4.Attributes['oreRare']:=FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_surveyedRegions[Count2].SR_ResourceSpots[Count3].RS_tOFiRare;
+                     XMLSavedGameItemSub4.Attributes['oreUra']:=FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_surveyedRegions[Count2].SR_ResourceSpots[Count3].RS_tOFiUranium;
                   end;
+                  inc(Count3);
                end;
                inc( Count2 );
             end;

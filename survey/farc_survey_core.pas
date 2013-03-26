@@ -236,7 +236,11 @@ begin
                ,LocationUniverse
                );
             if CurrentSurveyedResources=0
-            then CurrentSurveyedResources:=FCFgPRS_SurveyedResourceSpots_Add( Entity, LocationUniverse );
+            then CurrentSurveyedResources:=FCFgPRS_SurveyedResourceSpots_Add(
+               Entity
+               ,LocationUniverse
+               );
+            FCDdgEntities[Entity].E_surveyedResourceSpots[Count].SRS_surveyedRegions[CurrentSurveyedResources].SRS_currentPlanetarySurvey:=CurrentPlanetarySurvey;
             if LocationUniverse[4]=0 then
             begin
                FCDdgEntities[Entity].E_planetarySurveys[CurrentPlanetarySurvey].PS_locationSat:='';
@@ -372,6 +376,7 @@ end;
 procedure FCMsC_ResourceSurvey_Core;
 {:Purpose: core process of the resources survey subsystem.
     Additions:
+      -2013Mar25- *add: if the survey is 100% completed, the SRS_currentPlanetarySurvey isu pdated in accordance.
 }
    var
       CompletionVehiclesGroups
@@ -699,6 +704,7 @@ begin
          else if CompletionVehiclesGroups=MaxMisc1 then
          begin
             {.the expedition will be removed the next day}
+            FCDdgEntities[CountEntity].E_surveyedResourceSpots[FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_linkedSurveyedResource].SRS_surveyedRegions[FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_targetRegion].SRS_currentPlanetarySurvey:=0;
             FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_targetRegion:=-1;
          end;
          inc( CountSurvey );

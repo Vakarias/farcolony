@@ -644,6 +644,8 @@ procedure FCMuiSP_RegionDataPicture_Update(
    );
 {:Purpose: update the region data and picture .
     Additions:
+      -2013Mar25- *code: some with cleanup.
+                  *add: display the progress of a resource survey if there is any.
       -2013Mar05- *add: resources survey - text localization.
       -2013Feb06- *add: for resources survey, the presence of survey vehicles or not is also tested.
                   *fix: resource survey message is correctly displayed during a colonization mission.
@@ -689,39 +691,33 @@ begin
    then
    begin
       Colony:=FCDduStarSystem[SPcurrentStarSys].SS_stars[SPcurrentStar].S_orbitalObjects[SPcurrentOObjIndex].OO_colonies[0];
-      with FCDduStarSystem[SPcurrentStarSys].SS_stars[SPcurrentStar].S_orbitalObjects[SPcurrentOObjIndex].OO_regions[SERUregIdx] do
-      begin
-         SERUdmpTerrTp:=OOR_soilType;
-         SERUdmpRelief:=OOR_relief;
-         SERUwndSpd:=OOR_windSpeed;
-         SERUprecip:=OOR_precipitation;
-         if SERUseason='seasonMin'
-         then SERUtemp:=OOR_meanTdMin
-         else if SERUseason='seasonMid'
-         then SERUtemp:=OOR_meanTdInt
-         else if SERUseason='seasonMax'
-         then SERUtemp:=OOR_meanTdMax;
-         Test:=OOR_resourceSurveyedBy[0];
-      end;
+      SERUdmpTerrTp:=FCDduStarSystem[SPcurrentStarSys].SS_stars[SPcurrentStar].S_orbitalObjects[SPcurrentOObjIndex].OO_regions[SERUregIdx].OOR_soilType;
+      SERUdmpRelief:=FCDduStarSystem[SPcurrentStarSys].SS_stars[SPcurrentStar].S_orbitalObjects[SPcurrentOObjIndex].OO_regions[SERUregIdx].OOR_relief;
+      SERUwndSpd:=FCDduStarSystem[SPcurrentStarSys].SS_stars[SPcurrentStar].S_orbitalObjects[SPcurrentOObjIndex].OO_regions[SERUregIdx].OOR_windSpeed;
+      SERUprecip:=FCDduStarSystem[SPcurrentStarSys].SS_stars[SPcurrentStar].S_orbitalObjects[SPcurrentOObjIndex].OO_regions[SERUregIdx].OOR_precipitation;
+      if SERUseason='seasonMin'
+      then SERUtemp:=FCDduStarSystem[SPcurrentStarSys].SS_stars[SPcurrentStar].S_orbitalObjects[SPcurrentOObjIndex].OO_regions[SERUregIdx].OOR_meanTdMin
+      else if SERUseason='seasonMid'
+      then SERUtemp:=FCDduStarSystem[SPcurrentStarSys].SS_stars[SPcurrentStar].S_orbitalObjects[SPcurrentOObjIndex].OO_regions[SERUregIdx].OOR_meanTdInt
+      else if SERUseason='seasonMax'
+      then SERUtemp:=FCDduStarSystem[SPcurrentStarSys].SS_stars[SPcurrentStar].S_orbitalObjects[SPcurrentOObjIndex].OO_regions[SERUregIdx].OOR_meanTdMax;
+      Test:=FCDduStarSystem[SPcurrentStarSys].SS_stars[SPcurrentStar].S_orbitalObjects[SPcurrentOObjIndex].OO_regions[SERUregIdx].OOR_resourceSurveyedBy[0];
    end
    else if SPcurrentSatIndex>0
    then
    begin
       Colony:=FCDduStarSystem[SPcurrentStarSys].SS_stars[SPcurrentStar].S_orbitalObjects[SPcurrentOObjIndex].OO_satellitesList[SPcurrentSatIndex].OO_colonies[0];
-      with FCDduStarSystem[SPcurrentStarSys].SS_stars[SPcurrentStar].S_orbitalObjects[SPcurrentOObjIndex].OO_satellitesList[SPcurrentSatIndex] do
-      begin
-         SERUdmpTerrTp:=OO_regions[SERUregIdx].OOR_soilType;
-         SERUdmpRelief:=OO_regions[SERUregIdx].OOR_relief;
-         SERUwndSpd:=OO_regions[SERUregIdx].OOR_windSpeed;
-         SERUprecip:=OO_regions[SERUregIdx].OOR_precipitation;
-         if SERUseason='seasonMin'
-         then SERUtemp:=OO_regions[SERUregIdx].OOR_meanTdMin
-         else if SERUseason='seasonMid'
-         then SERUtemp:=OO_regions[SERUregIdx].OOR_meanTdInt
-         else if SERUseason='seasonMax'
-         then SERUtemp:=OO_regions[SERUregIdx].OOR_meanTdMax;
-         Test:=OO_regions[SERUregIdx].OOR_resourceSurveyedBy[0];
-      end;
+      SERUdmpTerrTp:=FCDduStarSystem[SPcurrentStarSys].SS_stars[SPcurrentStar].S_orbitalObjects[SPcurrentOObjIndex].OO_satellitesList[SPcurrentSatIndex].OO_regions[SERUregIdx].OOR_soilType;
+      SERUdmpRelief:=FCDduStarSystem[SPcurrentStarSys].SS_stars[SPcurrentStar].S_orbitalObjects[SPcurrentOObjIndex].OO_satellitesList[SPcurrentSatIndex].OO_regions[SERUregIdx].OOR_relief;
+      SERUwndSpd:=FCDduStarSystem[SPcurrentStarSys].SS_stars[SPcurrentStar].S_orbitalObjects[SPcurrentOObjIndex].OO_satellitesList[SPcurrentSatIndex].OO_regions[SERUregIdx].OOR_windSpeed;
+      SERUprecip:=FCDduStarSystem[SPcurrentStarSys].SS_stars[SPcurrentStar].S_orbitalObjects[SPcurrentOObjIndex].OO_satellitesList[SPcurrentSatIndex].OO_regions[SERUregIdx].OOR_precipitation;
+      if SERUseason='seasonMin'
+      then SERUtemp:=FCDduStarSystem[SPcurrentStarSys].SS_stars[SPcurrentStar].S_orbitalObjects[SPcurrentOObjIndex].OO_satellitesList[SPcurrentSatIndex].OO_regions[SERUregIdx].OOR_meanTdMin
+      else if SERUseason='seasonMid'
+      then SERUtemp:=FCDduStarSystem[SPcurrentStarSys].SS_stars[SPcurrentStar].S_orbitalObjects[SPcurrentOObjIndex].OO_satellitesList[SPcurrentSatIndex].OO_regions[SERUregIdx].OOR_meanTdInt
+      else if SERUseason='seasonMax'
+      then SERUtemp:=FCDduStarSystem[SPcurrentStarSys].SS_stars[SPcurrentStar].S_orbitalObjects[SPcurrentOObjIndex].OO_satellitesList[SPcurrentSatIndex].OO_regions[SERUregIdx].OOR_meanTdMax;
+      Test:=FCDduStarSystem[SPcurrentStarSys].SS_stars[SPcurrentStar].S_orbitalObjects[SPcurrentOObjIndex].OO_satellitesList[SPcurrentSatIndex].OO_regions[SERUregIdx].OOR_resourceSurveyedBy[0];
    end;
    SERUidxTemp:=FCFuF_Index_Get(ufitTemp, SERUtemp);
    SERUidxWdSpd:=FCFuF_Index_Get(ufitWdSpd, SERUwndSpd);

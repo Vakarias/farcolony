@@ -89,10 +89,11 @@ function FCFgPRS_ResourceSpots_Add(
    ): integer;
 
 ///<summary>
-///   add a surveyed resource spot
+///   add a surveyed resource spot list
 ///</summary>
 ///   <param name="Entity">entity index #</param>
 ///   <param name="Location">surveyed resources spots location</param>
+///   <param name="LinkedPlanetarySurvey">linked planetary survey index #</param>
 ///   <returns>resources spots index which is created</returns>
 ///   <remarks>the resource spot presence should be tested before, if it's necessary. This function doesn't do this automatically</remarks>
 function FCFgPRS_SurveyedResourceSpots_Add(
@@ -477,7 +478,7 @@ function FCFgPRS_SurveyedResourceSpots_Add(
    const Entity: integer;
    const Location: TFCRufStelObj
    ): integer;
-{:Purpose: add a surveyed resource spot.
+{:Purpose: add a surveyed resource spot list.
     Additions:
       -2013Mar17- *add: initialize the SR_ResourceSpots.
 }
