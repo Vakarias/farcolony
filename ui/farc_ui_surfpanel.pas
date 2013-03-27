@@ -1151,9 +1151,11 @@ begin
          SPisResourcesSurveyOK:=false;
          if FCWinMain.SP_ResourceSurveyCommit.Visible
          then FCWinMain.SP_ResourceSurveyCommit.Hide;
+         Count:=FCDdgEntities[0].E_surveyedResourceSpots[Test].SRS_surveyedRegions[SERUregIdx].SRS_currentPlanetarySurvey;
          FCWinMain.SP_RegionSheet.HTMLText.Add(
-            'An expedition is currently surveying this region for resources spots. The process is done at:<br><font size="14">[<b>50%</b>]</font><sub>+1.35% / std day</sub>' );//FCFdTFiles_UIStr_Get( uistrUI,
-
+            'An expedition is currently surveying this region for resources spots. The process is done at:<br><font size="12">[<b>'+floattostr( FCDdgEntities[0].E_planetarySurveys[Count].PS_completionPercent )+'%</b>]</font><sub>+<b>'
+               +floattostr( FCDdgEntities[0].E_planetarySurveys[Count].PS_pss )+'</b>% / std day</sub>' );//FCFdTFiles_UIStr_Get( uistrUI,
+         FCWinMain.SP_RegionSheet.HTMLText.Add( '<br>If you want to see the details of the expedition, please click on the button belows.' );
             {:DEV NOTES: + button for detailed informations=> open planetary survey panel and display the vehicles groups list, as for a setup including their current phase, duration and so on (and w/o the interface to setup them.}
             {:DEV NOTES: don't forget to force the update of the colony panel to display population assignment/storage update.}
       end

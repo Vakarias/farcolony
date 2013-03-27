@@ -93,6 +93,7 @@ uses
    ,farc_ogl_viewmain
    ,farc_ogl_ui
    ,farc_spu_functions
+   ,farc_survey_core
    ,farc_ui_actionpanel
    ,farc_ui_coldatapanel
    ,farc_ui_msges
@@ -721,6 +722,7 @@ end;
 procedure FCMgGF_GameTimer_Process;
 {:Purpose: gametimer flow processing routine.
     Additions:
+      -2013Mar26- *add: add the planetary survey system.
       -2012Oct03- *mod: put the code about the initialization of the list of tasks to process into its proper unit.
       -2012May21- *add: trigger the segment 3 of the production phase only when a day passed.
       -2011Jul06- *code: put the CSM phase before the SPM phase.
@@ -767,11 +769,11 @@ procedure FCMgGF_GameTimer_Process;
       : integer;
 
       isProdPhaseSwitch
-      ,isSegment3Switch
+      ,isSegment3_PlanetarySurveySwitch
       ,GTPendPh: boolean;
 begin
    isProdPhaseSwitch:=false;
-   isSegment3Switch:=false;
+   isSegment3_PlanetarySurveySwitch:=false;
    {.time updating}
    inc(FCVdgPlayer.P_currentTimeTick);
    GGFnewTick:=FCVdgPlayer.P_currentTimeTick;
@@ -787,7 +789,7 @@ begin
       else
       begin
          FCVdgPlayer.P_currentTimeHour:=0;
-         isSegment3Switch:=true;
+         isSegment3_PlanetarySurveySwitch:=true;
          GTPmaxDayMonth:=FCFgTFlow_GameTimer_DayMthGet;
          if FCVdgPlayer.P_currentTimeDay<GTPmaxDayMonth
          then inc(FCVdgPlayer.P_currentTimeDay)
@@ -805,11 +807,14 @@ begin
       end;
    end;
    FCMoglUI_Main3DViewUI_Update(oglupdtpTxtOnly, ogluiutTime);
+   {.planetary survey}
+   if isSegment3_PlanetarySurveySwitch
+   then FCMsC_ResourceSurvey_Core;
    {.production phase}
    if isProdPhaseSwitch
    then
    begin
-      FCMgP_PhaseCore_Process(isSegment3Switch);
+      FCMgP_PhaseCore_Process(isSegment3_PlanetarySurveySwitch);
       isProdPhaseSwitch:=false;
    end;
    {.CSM phase}

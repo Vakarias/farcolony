@@ -377,6 +377,10 @@ end;
 procedure FCMsC_ResourceSurvey_Core;
 {:Purpose: core process of the resources survey subsystem.
     Additions:
+      -2013Mar26- *fix: remove a bug that prevented the player's faction to be processed.
+                  *add: pspResourcesSurveying - only switch to BackToBase if oneWayTravel>0.
+                  *add: pspReplenishment - only switch to pspInTransitToSite if oneWayTravel>0.
+                  *add: creation of the inline procedures _SetReplenishment and _SetResourcesSurveying.
       -2013Mar25- *add: if the survey is 100% completed, the SRS_currentPlanetarySurvey isu pdated in accordance.
 }
    var
@@ -407,9 +411,27 @@ procedure FCMsC_ResourceSurvey_Core;
       ,SpotRarityOreField
       ,SpotRarityUnderWater: TFCEduResourceSpotRarity;
 
+      procedure _SetReplenishment;
+      begin
+         FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_currentPhase:=pspReplenishment;
+         if FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_timeOfReplenishment=0
+         then FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_timeOfReplenishment:=FCFsF_SurveyVehicles_ReplenishmentCalc(
+            FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_numberOfVehicles * FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_numberOfUnits
+            );
+         FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_currentPhaseElapsedTime:=1;
+      end;
+
+      procedure _SetResourcesSurveying;
+      begin
+         FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_currentPhase:=pspResourcesSurveying;
+         FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_currentPhaseElapsedTime:=1;
+         mustProcessPSS:=true;
+         {:DEV NOTES: if entity=0, trigger a message to the player to inform him/her that a group is arrived on site.}
+      end;
+
 begin
    CompletionVehiclesGroups:=0;
-   CountEntity:=1;
+   CountEntity:=0;
    CountSurvey:=0;
    CountMisc1:=0;
    FCMsC_ReleaseList_Process;
@@ -418,6 +440,8 @@ begin
    begin
       CountSurvey:=1;
       MaxSurvey:=length( FCDdgEntities[CountEntity].E_planetarySurveys )-1;
+      if FCVdiDebugMode
+      then FCWinDebug.AdvMemo1.Lines.Add('MaxSurvey='+inttostr(MaxSurvey));
       while CountSurvey<=MaxSurvey do
       begin
          if FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_pss=0
@@ -433,19 +457,19 @@ begin
                pspInTransitToSite:
                begin
                   inc( FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_currentPhaseElapsedTime );
-                  if FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_currentPhaseElapsedTime>FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_timeOfOneWayTravel then
-                  begin
-                     FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_currentPhase:=pspResourcesSurveying;
-                     FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_currentPhaseElapsedTime:=1;
-                     mustProcessPSS:=true;
-                     {:DEV NOTES: if entity=0, trigger a message to the player to inform him/her that a group is arrived on site.}
-                  end;
+                  if FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_currentPhaseElapsedTime>FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_timeOfOneWayTravel
+                  then _SetResourcesSurveying;
                end;
 
                pspResourcesSurveying:
                begin
                   inc( FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_currentPhaseElapsedTime );
-                  if FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_currentPhaseElapsedTime>FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_timeOfMission then
+                  if ( FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_currentPhaseElapsedTime>FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_timeOfMission )
+                     and ( FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_timeOfOneWayTravel=0 )
+                  then _SetReplenishment
+                  else if ( FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_currentPhaseElapsedTime>FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_timeOfMission )
+                     and ( FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_timeOfOneWayTravel>0 )
+                  then
                   begin
                      FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_currentPhase:=pspBackToBase;
                      FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_currentPhaseElapsedTime:=1;
@@ -462,21 +486,19 @@ begin
                pspBackToBase:
                begin
                   inc( FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_currentPhaseElapsedTime );
-                  if FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_currentPhaseElapsedTime>FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_timeOfOneWayTravel then
-                  begin
-                     FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_currentPhase:=pspReplenishment;
-                     if FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_timeOfReplenishment=0
-                     then FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_timeOfReplenishment:=FCFsF_SurveyVehicles_ReplenishmentCalc(
-                        FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_numberOfVehicles * FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_numberOfUnits
-                        );
-                     FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_currentPhaseElapsedTime:=1;
-                  end;
+                  if FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_currentPhaseElapsedTime>FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_timeOfOneWayTravel
+                  then _SetReplenishment;
                end;
 
                pspReplenishment:
                begin
                   inc( FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_currentPhaseElapsedTime );
-                  if FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_currentPhaseElapsedTime>FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_timeOfReplenishment then
+                  if ( FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_currentPhaseElapsedTime>FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_timeOfReplenishment )
+                     and ( FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_timeOfOneWayTravel=0 )
+                  then _SetResourcesSurveying
+                  else if ( FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_currentPhaseElapsedTime>FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_timeOfReplenishment )
+                     and ( FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_timeOfOneWayTravel>0 )
+                  then
                   begin
                      FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_currentPhase:=pspInTransitToSite;
                      FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountMisc1].VG_currentPhaseElapsedTime:=1;
