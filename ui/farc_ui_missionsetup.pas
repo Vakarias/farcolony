@@ -173,6 +173,7 @@ end;
 procedure FCMuiMS_ColonizationInterface_Setup;
 {:Purpose: setup the interface for the colonization mission
     Additions:
+      -2013Mar26- *add: SP_ResourceSurveyShowDetails.
       -2013Feb03- *add: reset the resources survey interface, if it's the same orbital object.
 }
    var
@@ -206,8 +207,10 @@ begin
       FCWinMain.SP_SD_SurfaceSelector.Height:=0;
       FCWinMain.SP_SD_SurfaceSelector.Left:=0;
       FCWinMain.SP_SD_SurfaceSelector.Top:=0;
+      FCWinMain.SP_ResourceSurveyShowDetails.Hide;
       FCWinMain.SP_ResourceSurveyCommit.Hide;
       FCMuiSP_VarIsResourcesSurveyOK_Reset;
+      FCMuiSP_VarIsResourcesSurveyInProcess_Reset;
    end;
    FCMuiSP_Panel_Relocate ( true );
    {.idx=0}

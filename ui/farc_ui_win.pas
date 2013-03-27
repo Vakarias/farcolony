@@ -492,6 +492,7 @@ end;
 procedure FCMuiW_UI_Initialize(const UIUtp: TFCEmwinUpdTp);
 {:Purpose: update and initialize all user's interface elements of the game.
    Additions:
+      -2013Mar26- *add: SP_ResourceSurveyShowDetails.
       -2013Feb03- *add: planetary survey panel.
       -2013Jan29- *add: surface panel - add a SP_ResourceSurveyCommit.
       -2013Jan28- *rem: surface panel - tabsheet is removed, SP_RegionSheet is a panel by itself.
@@ -720,6 +721,7 @@ begin
       FCWinMain.MVG_SurfacePanel.Caption.Text:='';
       FCWinMain.SP_AutoUpdateCheck.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'SP_AutoUpdateCheck');
       FCWinMain.SP_ResourceSurveyCommit.Caption:=FCFdTFiles_UIStr_Get( uistrUI, 'SP_ResourceSurveyCommit' );
+      FCWinMain.SP_ResourceSurveyShowDetails.Caption:=FCFdTFiles_UIStr_Get( uistrUI, 'SP_ResourceSurveyDetails' );
       {.viability objectives panel}
       if Assigned(FCcps)
       then FCcps.CPSobjPanel.Caption.Text:='<p align="center"><b>'+FCFdTFiles_UIStr_Get(uistrUI, 'CPSobjPanel')+'</b>';

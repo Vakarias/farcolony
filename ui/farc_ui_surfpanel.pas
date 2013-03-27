@@ -56,6 +56,12 @@ function FCFuiSP_VarCurrentOObj_Get: integer;
 function FCFuiSP_VarCurrentSat_Get: integer;
 
 ///<summary>
+///   retrieve the SPisResourcesSurveyInProcess variable value
+///</summary>
+///   <returns>SPisResourcesSurveyInProcess boolean value</returns>
+function FCFuiSP_VarIsResourcesSurveyInProcess_Get: boolean;
+
+///<summary>
 ///   retrieve the SPisResourcesSurveyOK variable value
 ///</summary>
 ///   <returns>SPisResourcesSurveyOK boolean value</returns>
@@ -118,6 +124,11 @@ procedure FCMuiSP_SurfaceEcosphere_SetWithSelf;
 procedure FCMuiSP_SurfaceSelected_Update( const isShowBox: boolean );
 
 ///<summary>
+///   reset the SPisResourcesSurveyInProcess to false
+///</summary>
+procedure FCMuiSP_VarIsResourcesSurveyInProcess_Reset;
+
+///<summary>
 ///   reset the SPisResourcesSurveyOK to false
 ///</summary>
 procedure FCMuiSP_VarIsResourcesSurveyOK_Reset;
@@ -158,7 +169,8 @@ var
    ,SPstoredPanelWidth
    ,SPstoredDataSheetLeft: integer;
 
-   SPisResourcesSurveyOK: boolean;
+   SPisResourcesSurveyInProcess
+   ,SPisResourcesSurveyOK: boolean;
 
 //===================================================END OF INIT============================
 
@@ -538,6 +550,14 @@ begin
    Result:=SPcurrentSatIndex;
 end;
 
+function FCFuiSP_VarIsResourcesSurveyInProcess_Get: boolean;
+{:Purpose: retrieve the SPisResourcesSurveyInProcess variable value.
+    Additions:
+}
+begin
+   Result:=SPisResourcesSurveyInProcess;
+end;
+
 function FCFuiSP_VarIsResourcesSurveyOK_Get: boolean;
 {:Purpose: retrieve the SPisResourcesSurveyOK variable value.
     Additions:
@@ -567,6 +587,7 @@ end;
 procedure FCMuiSP_Panel_InitElements;
 {:Purpose: init the elements (size and location) of the panel.
     Additions:
+      -2013Mar26- *add: SP_ResourceSurveyShowDetails.
 }
 begin
    FCWinMain.MVG_SurfacePanel.Width:=1024;//784;
@@ -615,6 +636,10 @@ begin
    FCWinMain.SP_ResourceSurveyCommit.Height:=26;
    FCWinMain.SP_ResourceSurveyCommit.Left:=FCWinMain.SP_RegionSheet.Left+8;
    FCWinMain.SP_ResourceSurveyCommit.Top:=340;
+   FCWinMain.SP_ResourceSurveyShowDetails.Width:=FCWinMain.SP_ResourceSurveyCommit.Width;
+   FCWinMain.SP_ResourceSurveyShowDetails.Height:=FCWinMain.SP_ResourceSurveyCommit.Height;
+   FCWinMain.SP_ResourceSurveyShowDetails.Left:=FCWinMain.SP_ResourceSurveyCommit.Left;
+   FCWinMain.SP_ResourceSurveyShowDetails.Top:=FCWinMain.SP_ResourceSurveyCommit.Top;
 end;
 
 
@@ -645,6 +670,7 @@ procedure FCMuiSP_RegionDataPicture_Update(
    );
 {:Purpose: update the region data and picture .
     Additions:
+      -2013Mar26- *add: SP_ResourceSurveyShowDetails + SPisResourcesSurveyInProcess.
       -2013Mar25- *code: some with cleanup.
                   *add: display the progress of a resource survey if there is any.
       -2013Mar05- *add: resources survey - text localization.
@@ -1032,6 +1058,8 @@ begin
       FCWinMain.SP_RegionSheet.HTMLText.Clear;
       if not SPisResourcesSurveyOK
       then FCWinMain.SP_ResourceSurveyCommit.Hide;
+      if not SPisResourcesSurveyInProcess
+      then FCWinMain.SP_ResourceSurveyShowDetails.Hide;
       {.terrain type}
       FCWinMain.SP_RegionSheet.HTMLText.Add(
          FCCFdHeadC+FCFdTFiles_UIStr_Get(uistrUI, 'secpTerrTp')+FCCFdHeadEnd
@@ -1098,6 +1126,7 @@ begin
          and ( not FCWinMain.FCWM_MissionSettings.Visible ) then
       begin
          SPisResourcesSurveyOK:=false;
+         SPisResourcesSurveyInProcess:=false;
          if FCWinMain.SP_ResourceSurveyCommit.Visible
          then FCWinMain.SP_ResourceSurveyCommit.Hide;
          FCWinMain.SP_RegionSheet.HTMLText.Add( '<img src="file://'+FCVdiPathResourceDir+'pics-ui-resources\cantSurvey.jpg" align="middle"><br>'+FCFdTFiles_UIStr_Get( uistrUI, 'psNoSurvey' )+FCFdTFiles_UIStr_Get( uistrUI, 'psNoColony' ) );
@@ -1113,6 +1142,7 @@ begin
       begin
          FCWinMain.SP_RegionSheet.HTMLText.Add( FCFdTFiles_UIStr_Get( uistrUI, 'psNoSurvey' )+FCFdTFiles_UIStr_Get( uistrUI, 'psUIProcedure' ) );
          SPisResourcesSurveyOK:=true;
+         SPisResourcesSurveyInProcess:=false;
          if SERUregIdx=SPregionSelected
          then FCWinMain.SP_ResourceSurveyCommit.Show
          else if SPregionSelected>0
@@ -1123,6 +1153,7 @@ begin
          then
       begin
          SPisResourcesSurveyOK:=false;
+         SPisResourcesSurveyInProcess:=false;
          if FCWinMain.SP_ResourceSurveyCommit.Visible
          then FCWinMain.SP_ResourceSurveyCommit.Hide;
          FCWinMain.SP_RegionSheet.HTMLText.Add( '<p align="left"><br>');
@@ -1149,8 +1180,10 @@ begin
          and ( FCDdgEntities[0].E_surveyedResourceSpots[Test].SRS_surveyedRegions[SERUregIdx].SRS_currentPlanetarySurvey>0 ) then
       begin
          SPisResourcesSurveyOK:=false;
+         SPisResourcesSurveyInProcess:=true;
          if FCWinMain.SP_ResourceSurveyCommit.Visible
          then FCWinMain.SP_ResourceSurveyCommit.Hide;
+         FCWinMain.SP_ResourceSurveyShowDetails.Show;
          Count:=FCDdgEntities[0].E_surveyedResourceSpots[Test].SRS_surveyedRegions[SERUregIdx].SRS_currentPlanetarySurvey;
          FCWinMain.SP_RegionSheet.HTMLText.Add(
             'An expedition is currently surveying this region for resources spots. The process is done at:<br><font size="12">[<b>'+floattostr( FCDdgEntities[0].E_planetarySurveys[Count].PS_completionPercent )+'%</b>]</font><sub>+<b>'
@@ -1172,6 +1205,7 @@ procedure FCMuiSP_SurfaceEcosphere_Set(
 {:Purpose: set and display the Surface / Ecosphere Panel.
 tags set: FCWM_SurfPanel=FCWM_SurfPanel.Width FCWM_SP_DataSheet:=FCWM_SP_DataSheet.Left
     Additions:
+      -2013Mar26- *add: SPisResourcesSurveyInProcess.
       -2013Feb03- *add: SPisResourcesSurveyOK.
       -2013Jan27- *add: hide any resource icons.
       -2013Jan06- *add: initialization of SD_SurfaceSelected.
@@ -1239,6 +1273,7 @@ begin
          SP_SD_SurfaceSelector.Top:=0;
          FCMuiSP_SurfaceSelected_Update(false);
          SPisResourcesSurveyOK:=false;
+         SPisResourcesSurveyInProcess:=false;
          if SESsatIdx=0
          then
          begin
@@ -1797,6 +1832,7 @@ begin
          SPcurrentSatIndex:=0;
          FCMuiSP_VarRegionHoveredSelected_Reset;
          SPisResourcesSurveyOK:=false;
+         SPisResourcesSurveyInProcess:=false;
          SP_SurfaceDisplay.Enabled:=false;
          SP_SurfaceDisplay.HotSpots.Clear;
          SEScnt:=1;
@@ -1863,6 +1899,14 @@ begin
    if not isShowBox
    then FCWinMain.SP_SD_SurfaceSelected.Hide
    else FCWinMain.SP_SD_SurfaceSelected.Show;
+end;
+
+procedure FCMuiSP_VarIsResourcesSurveyInProcess_Reset;
+{:Purpose: reset the SPisResourcesSurveyInProcess to false.
+    Additions:
+}
+begin
+   SPisResourcesSurveyInProcess:=false;
 end;
 
 procedure FCMuiSP_VarIsResourcesSurveyOK_Reset;

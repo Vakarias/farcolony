@@ -3315,6 +3315,11 @@
       <FR>Fait une Etude de Ressources</FR>
       <SP>!TO TRANSLATE!</SP>
    </SP_ResourceSurveyCommit>
+   <SP_ResourceSurveyDetails>
+      <EN>Expedition Details</EN>
+      <FR>Détails d'Expedition</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </SP_ResourceSurveyDetails>
    <FCWM_SurfPanel>
       <EN>Surface of </EN>
       <FR>Surface de </FR>

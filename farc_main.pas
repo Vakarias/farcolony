@@ -337,6 +337,7 @@ type
     PSP_ProductsList: THTMLTreeview;
     PSP_MissionExt: THTMLRadioGroup;
     PSP_Commit: TAdvGlowButton;
+    SP_ResourceSurveyShowDetails: TAdvGlowButton;
 
       procedure FormCreate(Sender: TObject);
       procedure FormResize(Sender: TObject);
@@ -1626,9 +1627,17 @@ begin
    begin
       FCMuiSP_VarRegionSelected_Update;
       FCMuiSP_SurfaceSelected_Update( true );
-      FCWinMain.SP_ResourceSurveyCommit.Show;
+//      FCWinMain.SP_ResourceSurveyCommit.Show;
       if FCWinMain.MVG_PlanetarySurveyPanel.Visible
       then FCMuiPS_Panel_Show( psResources, true );
+   end
+   else if ( FCWinMain.FCWM_ColDPanel.Visible )
+      and ( FCFuiSP_VarIsResourcesSurveyInProcess_Get ) then
+   begin
+      FCMuiSP_VarRegionSelected_Update;
+      FCMuiSP_SurfaceSelected_Update( true );
+//      if FCWinMain.MVG_PlanetarySurveyPanel.Visible
+//      then FCMuiPS_Panel_Show( psResources, true );
    end
    else if FCWinMain.MVG_PlanetarySurveyPanel.Visible
    then FCWinMain.MVG_PlanetarySurveyPanel.Hide;
