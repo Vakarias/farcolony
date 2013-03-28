@@ -124,6 +124,7 @@ uses
    ,farc_data_infrprod
    ,farc_data_planetarysurvey
    ,farc_data_textfiles
+   ,farc_data_univ
    ,farc_main
    ,farc_survey_core
    ,farc_survey_functions
@@ -289,7 +290,7 @@ begin
    FCWinMain.PSP_Commit.Caption:=FCFdTFiles_UIStr_Get( uistrUI, 'psCommit' );
 end;
 
-procedure FCMuiPS_Panel_Show( const TypeOfSurvey: TFCEdgPlanetarySurveys; const UpdateOnlyVehicles: boolean );
+procedure FCMuiPS_Panel_Show( const TypeOfSurvey: TFCEdgPlanetarySurveys; const UpdateOnlyVehicles: boolean ); overload;
 {:Purpose: show the panel.
     Additions:
       -2013Mar10- *add: PSP_Commit button.
@@ -397,6 +398,7 @@ procedure FCMuiPS_Panel_Show; overload;
 }
    var
       CurrentColony
+      ,CurrentSurveyed
       ,SelectedRegion: integer;
 
       CurrentLocation: TFCRufStelObj;
@@ -404,9 +406,19 @@ begin
    CurrentColony:=FCFuiCDP_VarCurrentColony_Get;
    SelectedRegion:=FCFuiSP_VarRegionSelected_Get;
    CurrentLocation:=FCFuF_StelObj_GetFullRow(
-      FCDdgEntities[0].E_colonies
-      ...
+      FCDdgEntities[0].E_colonies[CurrentColony].C_locationStarSystem
+      ,FCDdgEntities[0].E_colonies[CurrentColony].C_locationStar
+      ,FCDdgEntities[0].E_colonies[CurrentColony].C_locationOrbitalObject
+      ,FCDdgEntities[0].E_colonies[CurrentColony].C_locationSatellite
       );
+   if CurrentLocation[4]=0 then
+   begin
+      CurrentSurveyed:=FCDduStarSystem[CurrentLocation[1]].SS_stars[CurrentLocation[2]].S_orbitalObjects[CurrentLocation[3]].OO_regions[SelectedRegion].OOR_resourceSurveyedBy[0];
+   end
+   else if CurrentLocation[4]>0 then
+   begin
+      CurrentSurveyed:=FCDduStarSystem[CurrentLocation[1]].SS_stars[CurrentLocation[2]].S_orbitalObjects[CurrentLocation[3]].OO_satellitesList[CurrentLocation[4]].OO_regions[SelectedRegion].OOR_resourceSurveyedBy[0];
+   end;
 
 
 
