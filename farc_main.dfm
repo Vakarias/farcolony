@@ -3390,6 +3390,7 @@ object FCWinMain: TFCWinMain
         ParentColor = False
         ParentFont = False
         URLColor = 14068651
+        OnMouseEnter = SP_RegionSheetMouseEnter
         Version = '1.8.1.0'
       end
       object SP_SurfaceDisplay: THotSpotImage
@@ -3614,7 +3615,7 @@ object FCWinMain: TFCWinMain
         Position = bpMiddle
         TabOrder = 6
         Visible = False
-        OnClick = SP_ResourceSurveyCommitClick
+        OnClick = SP_ResourceSurveyShowDetailsClick
         Appearance.BorderColorHot = clWhite
         Appearance.BorderColorDown = clSkyBlue
         Appearance.Color = clBlack

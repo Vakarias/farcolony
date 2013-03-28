@@ -293,6 +293,7 @@ end;
 procedure FCMuiPS_Panel_Show( const TypeOfSurvey: TFCEdgPlanetarySurveys; const UpdateOnlyVehicles: boolean ); overload;
 {:Purpose: show the panel.
     Additions:
+      -2013Mar27- *add: update the display of PSP_Commit button.
       -2013Mar10- *add: PSP_Commit button.
                   *fix: update also the available crew when the panel is opened and a new region is clicked.
       -2013Mar06- *mod: end text localizations.
@@ -316,6 +317,7 @@ begin
    PSvehiclesListMax:=0;
    PSvehiclesCrewUsed:=0;
    PScurrentSurveyType:=TypeOfSurvey;
+   FCWinMain.PSP_Commit.Show;
    case TypeOfSurvey of
       psResources:
       begin

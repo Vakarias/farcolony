@@ -469,6 +469,8 @@ type
     procedure PSP_ProductsListCollapsing(Sender: TObject; Node: TTreeNode;
       var AllowCollapse: Boolean);
     procedure PSP_CommitClick(Sender: TObject);
+    procedure SP_ResourceSurveyShowDetailsClick(Sender: TObject);
+    procedure SP_RegionSheetMouseEnter(Sender: TObject);
    private
       { Private declarations }
          {timesteps needed for camera transitions}
@@ -1561,9 +1563,26 @@ begin
    FCMuiK_WinMain_Test(Key, Shift);
 end;
 
+procedure TFCWinMain.SP_RegionSheetMouseEnter(Sender: TObject);
+   var
+      Region: integer;
+begin
+   Region:=FCFuiSP_VarRegionSelected_Get;
+   if Region>0 then
+   begin
+      FCMuiSP_RegionDataPicture_Update( Region, false );
+      FCWinMain.SP_SD_SurfaceSelected.BringToFront
+   end;
+end;
+
 procedure TFCWinMain.SP_ResourceSurveyCommitClick(Sender: TObject);
 begin
    FCMuiPS_Panel_Show( psResources, false );
+end;
+
+procedure TFCWinMain.SP_ResourceSurveyShowDetailsClick(Sender: TObject);
+begin
+   FCMuiPS_Panel_Show;
 end;
 
 procedure TFCWinMain.SP_SurfaceDisplayHotSpotEnter(Sender: TObject; HotSpot: THotSpot);
