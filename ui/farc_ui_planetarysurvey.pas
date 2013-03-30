@@ -74,12 +74,12 @@ procedure FCMuiPS_Panel_InitText;
 ///</summary>
 ///   <param name="TypeOfSurvey">configure the panel for a specified type of survey</param>
 ///   <param name="UpdateOnlyVehicles">only update the vehicles list, used when the panel is already opened</param>
-procedure FCMuiPS_Panel_Show( const TypeOfSurvey: TFCEdgPlanetarySurveys; const UpdateOnlyVehicles: boolean ); overload;
+procedure FCMuiPS_Panel_Show( const TypeOfSurvey: TFCEdgPlanetarySurveys; const UpdateOnlyVehicles: boolean );
 
 ///<summary>
 ///   show only the details of the current expedition
 ///</summary>
-procedure FCMuiPS_Panel_Show; overload;
+procedure FCMuiPS_Panel_ShowDetails;
 
 ///<summary>
 ///   process the add button
@@ -245,7 +245,7 @@ procedure FCMuiPS_Panel_InitElements;
       -2013Feb12- *add: PSP_ProductsList init.
 }
 begin
-   FCWinMain.MVG_PlanetarySurveyPanel.Width:=350;
+   FCWinMain.MVG_PlanetarySurveyPanel.Width:=400;
    FCWinMain.MVG_PlanetarySurveyPanel.Height:=500;
    FCWinMain.PSP_ProductsList.Width:=FCWinMain.MVG_PlanetarySurveyPanel.Width-8;
    FCWinMain.PSP_ProductsList.Height:=260;
@@ -290,7 +290,7 @@ begin
    FCWinMain.PSP_Commit.Caption:=FCFdTFiles_UIStr_Get( uistrUI, 'psCommit' );
 end;
 
-procedure FCMuiPS_Panel_Show( const TypeOfSurvey: TFCEdgPlanetarySurveys; const UpdateOnlyVehicles: boolean ); overload;
+procedure FCMuiPS_Panel_Show( const TypeOfSurvey: TFCEdgPlanetarySurveys; const UpdateOnlyVehicles: boolean );
 {:Purpose: show the panel.
     Additions:
       -2013Mar27- *add: update the display of PSP_Commit button.
@@ -342,6 +342,7 @@ begin
             ,false
             );
          FCWinMain.PSP_ProductsList.Items.Clear;
+         FCWinMain.PSP_MissionExt.Show;
          Count:=1;
          CountProduct:=0;
          while Count<=PSvehiclesListMax do
@@ -394,17 +395,28 @@ begin
    FCWinMain.MVG_PlanetarySurveyPanel.BringToFront;
 end;
 
-procedure FCMuiPS_Panel_Show; overload;
+procedure FCMuiPS_Panel_ShowDetails;
 {:Purpose: show only the details of the current expedition.
     Additions:
 }
    var
-      CurrentColony
+      CountVehicles
+      ,CurrentColony
+      ,CurrentPlanetarySurvey
       ,CurrentSurveyed
+      ,MaxVehicles
+      ,PhaseTimeInt
       ,SelectedRegion: integer;
 
+//      PhaseTime: string;
+
       CurrentLocation: TFCRufStelObj;
+
+      VehiclesNode: TTreeNode;
 begin
+   FCWinMain.PSP_Commit.Hide;
+   PhaseTimeInt:=0;
+//   PhaseTime:='';
    CurrentColony:=FCFuiCDP_VarCurrentColony_Get;
    SelectedRegion:=FCFuiSP_VarRegionSelected_Get;
    CurrentLocation:=FCFuF_StelObj_GetFullRow(
@@ -421,9 +433,43 @@ begin
    begin
       CurrentSurveyed:=FCDduStarSystem[CurrentLocation[1]].SS_stars[CurrentLocation[2]].S_orbitalObjects[CurrentLocation[3]].OO_satellitesList[CurrentLocation[4]].OO_regions[SelectedRegion].OOR_resourceSurveyedBy[0];
    end;
+   CurrentPlanetarySurvey:=FCDdgEntities[0].E_surveyedResourceSpots[CurrentSurveyed].SRS_surveyedRegions[SelectedRegion].SRS_currentPlanetarySurvey;
+   FCWinMain.MVG_PlanetarySurveyPanel.Left:=FCWinMain.MVG_SurfacePanel.Left+FCWinMain.MVG_SurfacePanel.Width-FCWinMain.SP_RegionSheet.Width;
+   FCWinMain.MVG_PlanetarySurveyPanel.Top:=FCWinMain.MVG_SurfacePanel.Top;
+   FCWinMain.MVG_PlanetarySurveyPanel.Caption.Text:='<p align="center"><b>'+FCFdTFiles_UIStr_Get( uistrUI, 'psMainTitle' )+FCFdTFiles_UIStr_Get( uistrUI, 'psExpeditionDetails' );
+   FCWinMain.PSP_Label.HTMLText.Clear;
+   FCWinMain.PSP_ProductsList.Items.Clear;
+   FCWinMain.PSP_MissionExt.Hide;
+   CountVehicles:=1;
+   MaxVehicles:=length( FCDdgEntities[0].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups ) - 1;
+   while CountVehicles<=MaxVehicles do
+   begin
+      VehiclesNode:=FCWinMain.PSP_ProductsList.Items.Add( nil, FCFdTFiles_UIStr_Get( uistrUI, FCDdgEntities[0].E_colonies[CurrentColony].C_storedProducts[FCDdgEntities[0].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CountVehicles].VG_linkedStorage].SP_token ) );
+
+      FCWinMain.PSP_ProductsList.Items.AddChild(
+         VehiclesNode
+         ,
+//         FCFdTFiles_UIStr_Get(uistrUI, 'psDatCapability')+' [<b>'+inttostr( FCDdgEntities[0].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CountVehicles].VG_usedCapability )+'</b>]  '
+//            +
+            'Phase [<b>'
+            +FCFsF_SurveyVehicles_GetPhase( FCDdgEntities[0].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CountVehicles].VG_currentPhase )
+               +'</b>]'
+         );
+      PhaseTimeInt:=FCFsF_SurveyVehicles_GetPhaseDuration(
+         0
+         ,CurrentPlanetarySurvey
+         ,CountVehicles
+         );
+      if PhaseTimeInt>0
+      then FCWinMain.PSP_ProductsList.Items.AddChild(
+         VehiclesNode
+         ,'  time [<b>'+inttostr( FCDdgEntities[0].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CountVehicles].VG_currentPhaseElapsedTime )+' / '+inttostr( PhaseTimeInt )+'</b>] '+FCFdTFiles_UIStr_Get( uistrUI, 'TimeFstdDfull' )
+         );
+      inc( CountVehicles );
+   end;
 
 
-
+   FCWinMain.PSP_ProductsList.FullExpand;
    FCWinMain.MVG_PlanetarySurveyPanel.Show;
    FCWinMain.MVG_PlanetarySurveyPanel.BringToFront;
 {

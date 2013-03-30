@@ -178,6 +178,15 @@ type TFCEdgPlanetarySurveyExtensions=(
    ,pseAllControlledNeutralRegions
    );
 
+{:REFERENCES LIST
+   - FCFsF_SurveyVehicles_GetPhase
+   - FCFsF_SurveyVehicles_GetPhaseDuration
+   - FCMsC_ResourceSurvey_Core
+   -
+   -
+   -
+   -
+}
 ///<summary>
 ///   planetary survey phases
 ///</summary>

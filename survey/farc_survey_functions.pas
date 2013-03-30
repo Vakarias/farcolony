@@ -33,6 +33,7 @@ interface
 uses
    SysUtils
 
+   ,farc_data_game
    ,farc_data_univ;
 
 //==END PUBLIC ENUM=========================================================================
@@ -104,6 +105,28 @@ function FCFsF_SurveyVehicles_Get(
    ): integer;
 
 ///<summary>
+///   get the phase string of a vehicles group inside a planetary survey
+///</summary>
+///   <param name="PhaseToExtract">phase to extract</param>
+///   <returns>the string of the planetary survey phase</returns>
+///   <remarks></remarks>
+function FCFsF_SurveyVehicles_GetPhase( const PhaseToExtract: TFCEdgPlanetarySurveyPhases ): string;
+
+///<summary>
+///   determine the duration of the current phase for a vehicles group
+///</summary>
+///   <param name="Entity">entity index #</param>
+///   <param name="PlanetarySurvey">planetary survey index #</param>
+///   <param name="VehcilesGroup">vehicles group index #</param>
+///   <returns>the duration of the current phase in standard days</returns>
+///   <remarks></remarks>
+function FCFsF_SurveyVehicles_GetPhaseDuration(
+   const Entity
+         ,PlanetarySurvey
+         ,VehiclesGroup: integer
+   ): integer;
+
+///<summary>
 ///   calculate the replenishment duration
 ///</summary>
 ///   <param name="NumberOfVehicles"># of vehicles in total in the concerned group</param>
@@ -125,10 +148,10 @@ implementation
 
 uses
    farc_common_func
-   ,farc_data_game
    ,farc_data_infrprod
    ,farc_data_init
    ,farc_data_planetarysurvey
+   ,farc_data_textfiles
    ,farc_game_colony
    ,farc_game_prod
    ,farc_univ_func
@@ -413,6 +436,56 @@ begin
       inc( Count );
    end;
    Result:=VehiclesProducts;
+end;
+
+function FCFsF_SurveyVehicles_GetPhase( const PhaseToExtract: TFCEdgPlanetarySurveyPhases ): string;
+{:Purpose: get the phase string of a vehicles group inside a planetary survey.
+    Additions:
+}
+begin
+   Result:='';
+   case PhaseToExtract of
+      pspInTransitToSite: Result:=FCFdTFiles_UIStr_Get( uistrUI, 'psPhaseInTransitToSite' );
+
+      pspResourcesSurveying: Result:=FCFdTFiles_UIStr_Get( uistrUI, 'psPhaseResourcesSurveying' );
+
+      pspBiosphereSurveying: Result:=FCFdTFiles_UIStr_Get( uistrUI, 'psPhaseBiosphereSurveying' );
+
+      pspFeaturesArtifactsSurveying: Result:=FCFdTFiles_UIStr_Get( uistrUI, 'psPhaseFeaturesArtifactsSurveying' );
+
+      pspBackToBase: Result:=FCFdTFiles_UIStr_Get( uistrUI, 'psPhaseBackToBase' );
+
+      pspReplenishment: Result:=FCFdTFiles_UIStr_Get( uistrUI, 'psPhaseReplenishment' );
+
+      pspBackToBaseFINAL: Result:=FCFdTFiles_UIStr_Get( uistrUI, 'psPhaseBackToBaseFINAL' );
+
+      pspMissionCompletion: Result:=FCFdTFiles_UIStr_Get( uistrUI, 'psPhaseMissionCompletion' );
+   end;
+end;
+
+function FCFsF_SurveyVehicles_GetPhaseDuration(
+   const Entity
+         ,PlanetarySurvey
+         ,VehiclesGroup: integer
+   ): integer;
+{:Purpose: determine the duration of the current phase for a vehicles group.
+    Additions:
+}
+begin
+   Result:=0;
+   case FCDdgEntities[Entity].E_planetarySurveys[PlanetarySurvey].PS_vehiclesGroups[VehiclesGroup].VG_currentPhase of
+      pspInTransitToSite: Result:=FCDdgEntities[Entity].E_planetarySurveys[PlanetarySurvey].PS_vehiclesGroups[VehiclesGroup].VG_timeOfOneWayTravel;
+
+      pspResourcesSurveying, pspBiosphereSurveying ,pspFeaturesArtifactsSurveying: Result:=FCDdgEntities[Entity].E_planetarySurveys[PlanetarySurvey].PS_vehiclesGroups[VehiclesGroup].VG_timeOfMission;
+
+      pspBackToBase: Result:=FCDdgEntities[Entity].E_planetarySurveys[PlanetarySurvey].PS_vehiclesGroups[VehiclesGroup].VG_timeOfOneWayTravel;
+
+      pspReplenishment: Result:=FCDdgEntities[Entity].E_planetarySurveys[PlanetarySurvey].PS_vehiclesGroups[VehiclesGroup].VG_timeOfReplenishment;
+
+      pspBackToBaseFINAL: Result:=FCDdgEntities[Entity].E_planetarySurveys[PlanetarySurvey].PS_vehiclesGroups[VehiclesGroup].VG_timeOfOneWayTravel;
+
+      pspMissionCompletion: Result:=0;
+   end;
 end;
 
 function FCFsF_SurveyVehicles_ReplenishmentCalc( const NumberOfVehicles: integer ): integer;

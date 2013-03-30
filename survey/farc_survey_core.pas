@@ -440,8 +440,6 @@ begin
    begin
       CountSurvey:=1;
       MaxSurvey:=length( FCDdgEntities[CountEntity].E_planetarySurveys )-1;
-      if FCVdiDebugMode
-      then FCWinDebug.AdvMemo1.Lines.Add('MaxSurvey='+inttostr(MaxSurvey));
       while CountSurvey<=MaxSurvey do
       begin
          if FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_pss=0

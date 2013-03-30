@@ -2229,6 +2229,11 @@
       <FR>Type d'Expedition</FR>
       <SP>!TO TRANSLATE!</SP>
    </psExpedition>
+   <psExpeditionDetails>
+      <EN>Details of The Expedition</EN>
+      <FR>Détails de l'Expedition</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </psExpeditionDetails>
    <psExpeditionSetup>
       <EN>Set up An Expedition</EN>
       <FR>Monter Une Expédition</FR>
@@ -2274,6 +2279,46 @@
       <FR>Sondage Planétaire: </FR>
       <SP>Sonda Planetaria: </SP>
    </psMainTitle>
+   <psPhaseBackToBase>
+      <EN>Back to base</EN>
+      <FR>Retour à la base</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </psPhaseBackToBase>
+   <psPhaseBackToBaseFINAL>
+      <EN>Back to base (final step)</EN>
+      <FR>Retour à la base (étape finale)</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </psPhaseBackToBaseFINAL>
+   <psPhaseBiosphereSurveying>
+      <EN>Surveying of the biosphere</EN>
+      <FR>Sondage de la biosphère</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </psPhaseBiosphereSurveying>
+   <psPhaseFeaturesArtifactsSurveying>
+      <EN>Surveying of the orbital object's features and artifacts</EN>
+      <FR>Sondage des particularités et des artefacts de l'objet orbital</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </psPhaseFeaturesArtifactsSurveying>
+   <psPhaseInTransitToSite>
+      <EN>In transit toward the survey site</EN>
+      <FR>En transit vers le site de sondage</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </psPhaseInTransitToSite>
+   <psPhaseMissionCompletion>
+      <EN>Idle (mission completed)</EN>
+      <FR>Inactif (mission complètée)</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </psPhaseMissionCompletion>
+   <psPhaseReplenishment>
+      <EN>Idle (replenishment)</EN>
+      <FR>Inactif (réapprovisionnement)(</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </psPhaseReplenishment>
+   <psPhaseResourcesSurveying>
+      <EN>Surveying of the orbital object's resources</EN>
+      <FR>Sondage des ressources de l'objet orbital</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </psPhaseResourcesSurveying>
    <psTitleBiosphere>
       <EN>Biosphere</EN>
       <FR>Biosphère</FR>

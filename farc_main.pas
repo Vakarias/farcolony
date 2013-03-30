@@ -1582,7 +1582,7 @@ end;
 
 procedure TFCWinMain.SP_ResourceSurveyShowDetailsClick(Sender: TObject);
 begin
-   FCMuiPS_Panel_Show;
+   FCMuiPS_Panel_ShowDetails;
 end;
 
 procedure TFCWinMain.SP_SurfaceDisplayHotSpotEnter(Sender: TObject; HotSpot: THotSpot);
@@ -1647,16 +1647,19 @@ begin
       FCMuiSP_VarRegionSelected_Update;
       FCMuiSP_SurfaceSelected_Update( true );
 //      FCWinMain.SP_ResourceSurveyCommit.Show;
-      if FCWinMain.MVG_PlanetarySurveyPanel.Visible
-      then FCMuiPS_Panel_Show( psResources, true );
+      if ( FCWinMain.MVG_PlanetarySurveyPanel.Visible )
+         and ( FCWinMain.MVG_PlanetarySurveyPanel.Caption.Text='<p align="center"><b>'+FCFdTFiles_UIStr_Get( uistrUI, 'psMainTitle' )+FCFdTFiles_UIStr_Get( uistrUI, 'psTitleResources' ) )
+      then FCMuiPS_Panel_Show( psResources, true )
+      else if ( FCWinMain.MVG_PlanetarySurveyPanel.Visible )
+      then FCMuiPS_Panel_Show( psResources, false );
    end
    else if ( FCWinMain.FCWM_ColDPanel.Visible )
       and ( FCFuiSP_VarIsResourcesSurveyInProcess_Get ) then
    begin
       FCMuiSP_VarRegionSelected_Update;
       FCMuiSP_SurfaceSelected_Update( true );
-//      if FCWinMain.MVG_PlanetarySurveyPanel.Visible
-//      then FCMuiPS_Panel_Show( psResources, true );
+      if FCWinMain.MVG_PlanetarySurveyPanel.Visible
+      then FCMuiPS_Panel_ShowDetails;
    end
    else if FCWinMain.MVG_PlanetarySurveyPanel.Visible
    then FCWinMain.MVG_PlanetarySurveyPanel.Hide;
