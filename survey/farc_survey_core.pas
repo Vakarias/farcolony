@@ -434,7 +434,7 @@ begin
    CountEntity:=0;
    CountSurvey:=0;
    CountMisc1:=0;
-   FCMsC_ReleaseList_Process;
+//   FCMsC_ReleaseList_Process;     dev: DONT PROCESS EVEN IF NOT SURVEY TO RELEASE, BREAK THAT! put a variable into entity data structure...
    MaxEntity:=length( FCDdgEntities )-1;
    while CountEntity<=MaxEntity do
    begin
