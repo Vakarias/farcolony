@@ -90,6 +90,41 @@
          &#60;br&#62;&#60;ul&#62;&#60;u&#62;Otros orígenes&#60;/u&#62;
          </SP>
    </FCWA_Frm_CredsOthrSrc>
+   <aboutAssetCurrent>
+      <EN>current file</EN>
+      <FR>fichier courant</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </aboutAssetCurrent>
+   <aboutAssetOriginal>
+      <EN>original file</EN>
+      <FR>fichier original</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </aboutAssetOriginal>
+   <aboutAssets2D>
+      <EN>Assets - 2D</EN>
+      <FR>Contenus - 2D</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </aboutAssets2D>
+   <aboutAssets3D>
+      <EN>Assets - 3D</EN>
+      <FR>Contenus - 3D</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </aboutAssets3D>
+   <aboutAssetsMusic>
+      <EN>Assets - Music</EN>
+      <FR>Contenus - Musique</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </aboutAssetsMusic>
+   <aboutAssetsSound>
+      <EN>Assets - Sound</EN>
+      <FR>Contenus - Sons</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </aboutAssetsSound>
+   <aboutCodeDesign>
+      <EN>Code &#38; Design</EN>
+      <FR>Code &#38; Design</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </aboutCodeDesign>
    <aboutCredits>
       <EN>Credits</EN>
       <FR>Crédits</FR>

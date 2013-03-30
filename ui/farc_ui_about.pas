@@ -112,6 +112,7 @@ end;
 procedure FCMuiA_Panel_InitText;
 {:Purpose: init the texts of the panel.
     Additions:
+      -2013Mar30- *add: complete the texts localization.
 }
    var
       TextDump
@@ -141,11 +142,11 @@ begin
    FCWinAbout.F_Credits.Items.Clear;
    FCWinAbout.F_Credits.FullExpand;
    RootNodeCredits:=FCWinAbout.F_Credits.Items.Add( nil, '<b>'+FCFdTFiles_UIStr_Get( uistrUI, 'aboutCredits' )+'</b>' );
-   RootNodeCode:=FCWinAbout.F_Credits.Items.AddChild( RootNodeCredits, '<b>Code & Design</b>' );
-   RootNodeAssets2D:=FCWinAbout.F_Credits.Items.AddChild( RootNodeCredits, '<b>Assets - 2D</b>' );
-   RootNodeAssets3D:=FCWinAbout.F_Credits.Items.AddChild( RootNodeCredits, '<b>Assets - 3D</b>' );
-   RootNodeAssetsSound:=FCWinAbout.F_Credits.Items.AddChild( RootNodeCredits, '<b>Assets - Sound</b>' );
-   RootNodeAssetsMusic:=FCWinAbout.F_Credits.Items.AddChild( RootNodeCredits, '<b>Assets - Music</b>' );
+   RootNodeCode:=FCWinAbout.F_Credits.Items.AddChild( RootNodeCredits, '<b>'+FCFdTFiles_UIStr_Get( uistrUI, 'aboutCodeDesign' )+'</b>' );
+   RootNodeAssets2D:=FCWinAbout.F_Credits.Items.AddChild( RootNodeCredits, '<b>'+FCFdTFiles_UIStr_Get( uistrUI, 'aboutAssets2D' )+'</b>' );
+   RootNodeAssets3D:=FCWinAbout.F_Credits.Items.AddChild( RootNodeCredits, '<b>'+FCFdTFiles_UIStr_Get( uistrUI, 'aboutAssets3D' )+'</b>' );
+   RootNodeAssetsSound:=FCWinAbout.F_Credits.Items.AddChild( RootNodeCredits, '<b>'+FCFdTFiles_UIStr_Get( uistrUI, 'aboutAssetsSound' )+'</b>' );
+   RootNodeAssetsMusic:=FCWinAbout.F_Credits.Items.AddChild( RootNodeCredits, '<b>'+FCFdTFiles_UIStr_Get( uistrUI, 'aboutAssetsMusic' )+'</b>' );
    FCWinMain.FCXMLtxtCredits.FileName:=FCVdiPathXML+'\text\credits.xml';
    FCWinMain.FCXMLtxtCredits.Active:=true;
    {.code and design section}
@@ -187,10 +188,10 @@ begin
                begin
                   TextLicense:=CreditInfo.attributes['license'];
                   InfoNode:=FCWinAbout.F_Credits.Items.AddChild( SubNode, '( '+FCFdTFiles_UIStr_Get( uistrUI, TextLicense )+')' );
-                  InfoNode1:=FCWinAbout.F_Credits.Items.AddChild( InfoNode, FCCFcolWhBL+'current file'+FCCFcolEND+' <b>'+CreditInfo.attributes['current']+'</b> - '+FCCFcolWhBL+'original file'+FCCFcolEND+' <b>'+CreditInfo.attributes['original']+'</b>' );
+                  InfoNode1:=FCWinAbout.F_Credits.Items.AddChild( InfoNode, FCCFcolWhBL+FCFdTFiles_UIStr_Get( uistrUI, 'aboutAssetCurrent' )+FCCFcolEND+' <b>'+CreditInfo.attributes['current']+'</b> - '+FCCFcolWhBL+FCFdTFiles_UIStr_Get( uistrUI, 'aboutAssetOriginal' )+FCCFcolEND+' <b>'+CreditInfo.attributes['original']+'</b>' );
                end;
             end
-            else InfoNode1:=FCWinAbout.F_Credits.Items.AddChild( InfoNode, FCCFcolWhBL+'current file'+FCCFcolEND+' <b>'+CreditInfo.attributes['current']+'</b> - '+FCCFcolWhBL+'original file'+FCCFcolEND+' <b>'+CreditInfo.attributes['original']+'</b>' );
+            else InfoNode1:=FCWinAbout.F_Credits.Items.AddChild( InfoNode, FCCFcolWhBL+FCFdTFiles_UIStr_Get( uistrUI, 'aboutAssetCurrent' )+FCCFcolEND+' <b>'+CreditInfo.attributes['current']+'</b> - '+FCCFcolWhBL+FCFdTFiles_UIStr_Get( uistrUI, 'aboutAssetOriginal' )+FCCFcolEND+' <b>'+CreditInfo.attributes['original']+'</b>' );
             CreditInfo:=CreditInfo.NextSibling;
          end;
          SubNode.Expanded:=false;
@@ -220,10 +221,10 @@ begin
                begin
                   TextLicense:=CreditInfo.attributes['license'];
                   InfoNode:=FCWinAbout.F_Credits.Items.AddChild( SubNode, '( '+FCFdTFiles_UIStr_Get( uistrUI, TextLicense )+')' );
-                  InfoNode1:=FCWinAbout.F_Credits.Items.AddChild( InfoNode, FCCFcolWhBL+'current file'+FCCFcolEND+' <b>'+CreditInfo.attributes['current']+'</b> - '+FCCFcolWhBL+'original file'+FCCFcolEND+' <b>'+CreditInfo.attributes['original']+'</b>' );
+                  InfoNode1:=FCWinAbout.F_Credits.Items.AddChild( InfoNode, FCCFcolWhBL+FCFdTFiles_UIStr_Get( uistrUI, 'aboutAssetCurrent' )+FCCFcolEND+' <b>'+CreditInfo.attributes['current']+'</b> - '+FCCFcolWhBL+FCFdTFiles_UIStr_Get( uistrUI, 'aboutAssetOriginal' )+FCCFcolEND+' <b>'+CreditInfo.attributes['original']+'</b>' );
                end;
             end
-            else InfoNode1:=FCWinAbout.F_Credits.Items.AddChild( InfoNode, FCCFcolWhBL+'current file'+FCCFcolEND+' <b>'+CreditInfo.attributes['current']+'</b> - '+FCCFcolWhBL+'original file'+FCCFcolEND+' <b>'+CreditInfo.attributes['original']+'</b>' );
+            else InfoNode1:=FCWinAbout.F_Credits.Items.AddChild( InfoNode, FCCFcolWhBL+FCFdTFiles_UIStr_Get( uistrUI, 'aboutAssetCurrent' )+FCCFcolEND+' <b>'+CreditInfo.attributes['current']+'</b> - '+FCCFcolWhBL+FCFdTFiles_UIStr_Get( uistrUI, 'aboutAssetOriginal' )+FCCFcolEND+' <b>'+CreditInfo.attributes['original']+'</b>' );
             CreditInfo:=CreditInfo.NextSibling;
          end;
          SubNode.Expanded:=false;
@@ -253,10 +254,10 @@ begin
                begin
                   TextLicense:=CreditInfo.attributes['license'];
                   InfoNode:=FCWinAbout.F_Credits.Items.AddChild( SubNode, '( '+FCFdTFiles_UIStr_Get( uistrUI, TextLicense )+')' );
-                  InfoNode1:=FCWinAbout.F_Credits.Items.AddChild( InfoNode, FCCFcolWhBL+'current file'+FCCFcolEND+' <b>'+CreditInfo.attributes['current']+'</b> - '+FCCFcolWhBL+'original file'+FCCFcolEND+' <b>'+CreditInfo.attributes['original']+'</b>' );
+                  InfoNode1:=FCWinAbout.F_Credits.Items.AddChild( InfoNode, FCCFcolWhBL+FCFdTFiles_UIStr_Get( uistrUI, 'aboutAssetCurrent' )+FCCFcolEND+' <b>'+CreditInfo.attributes['current']+'</b> - '+FCCFcolWhBL+FCFdTFiles_UIStr_Get( uistrUI, 'aboutAssetOriginal' )+FCCFcolEND+' <b>'+CreditInfo.attributes['original']+'</b>' );
                end;
             end
-            else InfoNode1:=FCWinAbout.F_Credits.Items.AddChild( InfoNode, FCCFcolWhBL+'current file'+FCCFcolEND+' <b>'+CreditInfo.attributes['current']+'</b> - '+FCCFcolWhBL+'original file'+FCCFcolEND+' <b>'+CreditInfo.attributes['original']+'</b>' );
+            else InfoNode1:=FCWinAbout.F_Credits.Items.AddChild( InfoNode, FCCFcolWhBL+FCFdTFiles_UIStr_Get( uistrUI, 'aboutAssetCurrent' )+FCCFcolEND+' <b>'+CreditInfo.attributes['current']+'</b> - '+FCCFcolWhBL+FCFdTFiles_UIStr_Get( uistrUI, 'aboutAssetOriginal' )+FCCFcolEND+' <b>'+CreditInfo.attributes['original']+'</b>' );
             CreditInfo:=CreditInfo.NextSibling;
          end;
          SubNode.Expanded:=false;
@@ -286,10 +287,10 @@ begin
                begin
                   TextLicense:=CreditInfo.attributes['license'];
                   InfoNode:=FCWinAbout.F_Credits.Items.AddChild( SubNode, '( '+FCFdTFiles_UIStr_Get( uistrUI, TextLicense )+')' );
-                  InfoNode1:=FCWinAbout.F_Credits.Items.AddChild( InfoNode, FCCFcolWhBL+'current file'+FCCFcolEND+' <b>'+CreditInfo.attributes['current']+'</b> - '+FCCFcolWhBL+'original file'+FCCFcolEND+' <b>'+CreditInfo.attributes['original']+'</b>' );
+                  InfoNode1:=FCWinAbout.F_Credits.Items.AddChild( InfoNode, FCCFcolWhBL+FCFdTFiles_UIStr_Get( uistrUI, 'aboutAssetCurrent' )+FCCFcolEND+' <b>'+CreditInfo.attributes['current']+'</b> - '+FCCFcolWhBL+FCFdTFiles_UIStr_Get( uistrUI, 'aboutAssetOriginal' )+FCCFcolEND+' <b>'+CreditInfo.attributes['original']+'</b>' );
                end;
             end
-            else InfoNode1:=FCWinAbout.F_Credits.Items.AddChild( InfoNode, FCCFcolWhBL+'current file'+FCCFcolEND+' <b>'+CreditInfo.attributes['current']+'</b> - '+FCCFcolWhBL+'original file'+FCCFcolEND+' <b>'+CreditInfo.attributes['original']+'</b>' );
+            else InfoNode1:=FCWinAbout.F_Credits.Items.AddChild( InfoNode, FCCFcolWhBL+FCFdTFiles_UIStr_Get( uistrUI, 'aboutAssetCurrent' )+FCCFcolEND+' <b>'+CreditInfo.attributes['current']+'</b> - '+FCCFcolWhBL+FCFdTFiles_UIStr_Get( uistrUI, 'aboutAssetOriginal' )+FCCFcolEND+' <b>'+CreditInfo.attributes['original']+'</b>' );
             CreditInfo:=CreditInfo.NextSibling;
          end;
          SubNode.Expanded:=false;
