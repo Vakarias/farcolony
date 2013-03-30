@@ -100,6 +100,7 @@ uses
 procedure FCMdFSG_Game_Load;
 {:Purpose: load the current game.
    Additions:
+      -2013Mar30- *add: planetary survey - E_cleanupSurveys.
       -2013Mar25- *add: survey resources - SRS_currentPlanetarySurvey.
                   *fix: remove a crash during the loading of the mission extension.
                   *fix: prevent to load OOR_resourceSurveyedBy if the data mustn't be loaded.
@@ -1031,6 +1032,7 @@ begin
                end //==END== if GLxmlEntSubRoot.NodeName='entSPMset' ==//
                else if XMLSavedGameItemSub.NodeName='entPlanetarySurveys' then
                begin
+                  FCDdgEntities[Count].E_cleanupSurveys:=XMLSavedGameItemSub.Attributes['cleanupSurveys'];
                   Count1:=0;
                   XMLSavedGameItemSub1:=XMLSavedGameItemSub.ChildNodes.First;
                   while XMLSavedGameItemSub1<>nil do
@@ -1208,6 +1210,7 @@ end;
 procedure FCMdFSG_Game_Save;
 {:Purpose: save the current game.
     Additions:
+      -2013Mar30- *add: planetary survey - E_cleanupSurveys.
       -2013Mar25- *add: survey resources - SRS_currentPlanetarySurvey.
       -2013Mar14- *add: planetary survey - PS_linkedSurveyedResource.
       -2013Mar13- *add: planetary survey - PS_meanEMO.
@@ -1986,6 +1989,7 @@ begin
       if Max1>0 then
       begin
          XMLSavedGameItemSub1:=XMLSavedGameItemSub.AddChild( 'entPlanetarySurveys' );
+         XMLSavedGameItemSub1.Attributes['cleanupSurveys']:=FCDdgEntities[Count].E_cleanupSurveys;
          Count1:=1;
          while Count1<=Max1 do
          begin

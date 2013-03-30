@@ -801,6 +801,10 @@ type TFCRdgEntity= record
    E_spmMod_Health: integer;
    E_spmMod_Bureaucracy: integer;
    E_spmMod_Corruption: integer;
+   ///<summary>
+   ///   switch to indicate if the planetary survey array must be cleaned up
+   ///</summary>
+   E_cleanupSurveys: boolean;
    E_planetarySurveys: array of TFCRdgPlanetarySurvey;
    E_surveyedResourceSpots: array of record
       SRS_orbitalObject_SatelliteToken: string[20];
@@ -885,6 +889,7 @@ implementation
 procedure FCMdG_Entities_Clear;
 {:Purpose: clear the entities' data.
     Additions:
+      -2013Mar30- *add: E_cleanupSurveys.
       -2013Mar12- *add: E_surveyedResourceSpots.
       -2013Jan31- *add: E_planetarySurveys.
       -2012Aug14- *code audit:
@@ -924,6 +929,7 @@ begin
       FCDdgEntities[Count].E_spmMod_Health:=0;
       FCDdgEntities[Count].E_spmMod_Bureaucracy:=0;
       FCDdgEntities[Count].E_spmMod_Corruption:=0;
+      FCDdgEntities[Count].E_cleanupSurveys:=false;
       SetLength( FCDdgEntities[Count].E_planetarySurveys, 1 );
       SetLength( FCDdgEntities[Count].E_surveyedResourceSpots, 1 );
       inc(Count);

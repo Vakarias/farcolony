@@ -51,6 +51,7 @@ type TFCEuicddColonyDataList=(
    ,cdlReserveOxy
    ,cdlReserveFood
    ,cdlReserveWater
+   ,cdlPlanetarySurvey
    );
 
 type TFCEuicddProductionList=(
@@ -69,7 +70,7 @@ type TFCEuicddProductionList=(
 ///   <param name="DataType">type of data to refresh in the display</param>
 ///   <param name="Colony">colony index #</param>
 ///   <param name="SettlementStorageItemIndex">settlement index #, EXCEPTED FOR cdlStorageItem, it represent the item index #</param>
-///   <param name="SecondaryIndex">[optional] index, with cdlInfrastructuresOwnedIndex, for indicate the owned infrastructure's index</param>
+///   <param name="SecondaryIndex">[optional] index, with cdlInfrastructuresOwnedIndex, for indicate the owned infrastructure's index. with cdlPlanetarySurvey, indicate the planetary survey region</param>
 ///   <param name="isMustbeTheSameColony">if true=> the Colony index parameter must be of the same value than the current colony displayed</param>
 ///   <param name="isMustBeTheSameSettlement">if true=> the Settlement index parameter must be of the same value than the current settlement displayed</param>
 ///   <param name="isSurfacePanelUpdate">if true=> indicate if the surface panel must be updated too (used in case of language change for ex). Used only w/cdlColonyAll</param>
@@ -110,12 +111,14 @@ implementation
 uses
    farc_data_game
    ,farc_data_infrprod
+   ,farc_data_textfiles
    ,farc_game_cps
    ,farc_game_cpsobjectives
    ,farc_game_prod
    ,farc_main
    ,farc_ogl_ui
    ,farc_ui_coldatapanel
+   ,farc_ui_planetarysurvey
    ,farc_ui_surfpanel;
 
 //===================================================END OF INIT============================
@@ -132,6 +135,7 @@ procedure FCMuiCDD_Colony_Update(
    );
 {:Purpose: core data display refresh for colony data. Update the Colony Data Panel and the related UMI tabs if required.
     Additions:
+      -2013Mar30- *add: cdlPlanetarySurvey.
       -2012Jun03- *mod: remove isColonyDataPanelShown, change conditions and display the colony panel if it's not the case.
       -2012Apr16- *add: reserves (COMPLETION).
       -2012Apr15- *add: reserves.
@@ -447,6 +451,24 @@ begin
                ,SettlementStorageItemIndex
                ,0
                );
+         end;
+
+         cdlPlanetarySurvey:
+         begin
+            {:DEV NOTES: update TFCWinMain.SP_SD_SurfaceSelectorClick in accordance.}
+            if ( FCFuiSP_VarIsResourcesSurveyOK_Get )
+               and ( FCWinMain.MVG_PlanetarySurveyPanel.Visible )
+               and ( FCWinMain.MVG_PlanetarySurveyPanel.Caption.Text='<p align="center"><b>'+FCFdTFiles_UIStr_Get( uistrUI, 'psMainTitle' )+FCFdTFiles_UIStr_Get( uistrUI, 'psTitleResources' ) )
+            then FCMuiPS_Panel_Show( psResources, true )
+            else if ( FCFuiSP_VarIsResourcesSurveyOK_Get )
+               and ( FCWinMain.MVG_PlanetarySurveyPanel.Visible )
+            then FCMuiPS_Panel_Show( psResources, false )
+            else if ( FCFuiSP_VarIsResourcesSurveyInProcess_Get )
+               and ( FCWinMain.MVG_PlanetarySurveyPanel.Visible )
+            then FCMuiPS_Panel_ShowDetails;
+            if ( Colony=FCFuiCDP_VarCurrentColony_Get )
+               and ( SecondaryIndex=FCFuiSP_VarRegionSelected_Get )
+            then FCMuiSP_RegionDataPicture_Update( SecondaryIndex, false);
          end;
       end; //==END== case DataType of ==//
    end;

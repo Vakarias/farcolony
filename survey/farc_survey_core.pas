@@ -121,6 +121,7 @@ uses
    ,farc_game_colony
    ,farc_game_prodrsrcspots
    ,farc_survey_functions
+   ,farc_ui_coredatadisplay
    ,farc_univ_func
    ,farc_win_debug;
 
@@ -315,6 +316,7 @@ end;
 procedure FCMsC_ReleaseList_Process;
 {:Purpose: process the release list.
     Additions:
+      -2013Mar30- *add: E_cleanupSurveys.
 }
    var
       CountSurvey
@@ -329,46 +331,49 @@ begin
    CountEntity:=1;
    while CountEntity<=FCCdiFactionsMax do
    begin
-      MaxSurvey:=length( FCDdgEntities[CountEntity].E_planetarySurveys )-1;
-      NewMax:=0;
-      SetLength( NewArray, NewMax + 1 );
-      CountSurvey:=1;
-      while CountSurvey<=MaxSurvey do
+      if FCDdgEntities[CountEntity].E_cleanupSurveys then
       begin
-         if FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_targetRegion=-1 then
+         MaxSurvey:=length( FCDdgEntities[CountEntity].E_planetarySurveys )-1;
+         NewMax:=0;
+         SetLength( NewArray, NewMax + 1 );
+         CountSurvey:=1;
+         while CountSurvey<=MaxSurvey do
          begin
-            MaxVeh:=length( FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups ) - 1;
-            CountVeh:=1;
-            while CountVeh<=MaxVeh do
+            if FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_targetRegion=-1 then
             begin
-               FCFgC_Storage_Update(
-                  FCDdgEntities[CountEntity].E_colonies[FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_linkedColony].C_storedProducts[FCDsfSurveyVehicles[CountSurvey].SV_storageIndex].SP_token
-                  ,FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVeh].VG_numberOfUnits
-                  ,CountEntity
-                  ,FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_linkedColony
-                  ,false
-                  );
-               if FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVeh].VG_crew>0
-               then FCDdgEntities[CountEntity].E_colonies[FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_linkedColony].C_population.CP_classColonistAssigned:=
-                  FCDdgEntities[CountEntity].E_colonies[FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_linkedColony].C_population.CP_classColonistAssigned
-                  - FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVeh].VG_crew;
-               inc( CountVeh );
+               MaxVeh:=length( FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups ) - 1;
+               CountVeh:=1;
+               while CountVeh<=MaxVeh do
+               begin
+                  FCFgC_Storage_Update(
+                     FCDdgEntities[CountEntity].E_colonies[FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_linkedColony].C_storedProducts[FCDsfSurveyVehicles[CountSurvey].SV_storageIndex].SP_token
+                     ,FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVeh].VG_numberOfUnits
+                     ,CountEntity
+                     ,FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_linkedColony
+                     ,false
+                     );
+                  if FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVeh].VG_crew>0
+                  then FCDdgEntities[CountEntity].E_colonies[FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_linkedColony].C_population.CP_classColonistAssigned:=
+                     FCDdgEntities[CountEntity].E_colonies[FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_linkedColony].C_population.CP_classColonistAssigned
+                     - FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_vehiclesGroups[CountVeh].VG_crew;
+                  inc( CountVeh );
+               end;
+            end
+            else if FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_targetRegion>-1 then
+            begin
+               inc( NewMax );
+               SetLength( NewArray, NewMax + 1 );
+               NewArray[NewMax]:=FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey];
             end;
-         end
-         else if FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_targetRegion>-1 then
-         begin
-            inc( NewMax );
-            SetLength( NewArray, NewMax + 1 );
-            NewArray[NewMax]:=FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey];
+            inc( CountSurvey );
          end;
-         inc( CountSurvey );
-      end;
-      SetLength( FCDdgEntities[CountEntity].E_planetarySurveys, NewMax + 1 );
-      CountSurvey:=1;
-      while CountSurvey<=NewMax do
-      begin
-         FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey]:=NewArray[CountSurvey];
-         inc( CountSurvey );
+         SetLength( FCDdgEntities[CountEntity].E_planetarySurveys, NewMax + 1 );
+         CountSurvey:=1;
+         while CountSurvey<=NewMax do
+         begin
+            FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey]:=NewArray[CountSurvey];
+            inc( CountSurvey );
+         end;
       end;
       inc( CountEntity );
    end;
@@ -377,6 +382,7 @@ end;
 procedure FCMsC_ResourceSurvey_Core;
 {:Purpose: core process of the resources survey subsystem.
     Additions:
+      -2013Mar30- *add: E_cleanupSurveys.
       -2013Mar26- *fix: remove a bug that prevented the player's faction to be processed.
                   *add: pspResourcesSurveying - only switch to BackToBase if oneWayTravel>0.
                   *add: pspReplenishment - only switch to pspInTransitToSite if oneWayTravel>0.
@@ -434,7 +440,7 @@ begin
    CountEntity:=0;
    CountSurvey:=0;
    CountMisc1:=0;
-//   FCMsC_ReleaseList_Process;     dev: DONT PROCESS EVEN IF NOT SURVEY TO RELEASE, BREAK THAT! put a variable into entity data structure...
+   FCMsC_ReleaseList_Process;
    MaxEntity:=length( FCDdgEntities )-1;
    while CountEntity<=MaxEntity do
    begin
@@ -701,7 +707,7 @@ begin
             if FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_completionPercent>=100 then
             begin
                case FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_missionExtension of
-                  pseSelectedRegionOnly:
+                  pseSelectedRegionOnly, pseAllAdjacentRegions, pseAllControlledNeutralRegions:
                   begin
                      FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_completionPercent:=100;
                      FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_targetRegion:=0;
@@ -709,15 +715,15 @@ begin
                      {:DEV NOTES: if entity=0, trigger a message to the player to inform him/her that the survey mission is complete.}
                   end;
 
-                  pseAllAdjacentRegions:
-                  begin
-                     {:DEV NOTES: put regions to survey into a secondary array + avoid oceanic}
-                  end;
-
-                  pseAllControlledNeutralRegions:
-                  begin
-                  {:DEV NOTES: put regions to survey into a secondary array + avoid oceanic}
-                  end;
+//                  pseAllAdjacentRegions:
+//                  begin
+//                     {:DEV NOTES: put regions to survey into a secondary array + avoid oceanic}
+//                  end;
+//
+//                  pseAllControlledNeutralRegions:
+//                  begin
+//                  {:DEV NOTES: put regions to survey into a secondary array + avoid oceanic}
+//                  end;
                end
 
             end;
@@ -727,7 +733,19 @@ begin
             {.the expedition will be removed the next day}
             FCDdgEntities[CountEntity].E_surveyedResourceSpots[FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_linkedSurveyedResource].SRS_surveyedRegions[FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_targetRegion].SRS_currentPlanetarySurvey:=0;
             FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_targetRegion:=-1;
+            if not FCDdgEntities[CountEntity].E_cleanupSurveys
+            then FCDdgEntities[CountEntity].E_cleanupSurveys:=true;
          end;
+         if CountEntity=0
+         then FCMuiCDD_Colony_Update(
+            cdlPlanetarySurvey
+            ,FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_linkedColony
+            ,0
+            ,FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_targetRegion
+            ,true
+            ,false
+            ,false
+            );
          inc( CountSurvey );
       end; //==END== while CountSurvey<=MaxSurvey ==//
       inc( CountEntity );

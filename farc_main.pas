@@ -1641,6 +1641,7 @@ begin
       end;
       FCMuiMS_ColonizationInterface_UpdateRegionSelection(FCRmcCurrentMissionCalculations.CMC_regionOfDestination);
    end
+   {:DEV NOTES: update FCMuiCDD_Colony_Update in accordance.}
    else if ( FCWinMain.FCWM_ColDPanel.Visible )
       and ( FCFuiSP_VarIsResourcesSurveyOK_Get ) then
    begin
