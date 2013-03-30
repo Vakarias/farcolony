@@ -670,6 +670,7 @@ procedure FCMuiSP_RegionDataPicture_Update(
    );
 {:Purpose: update the region data and picture .
     Additions:
+      -2013Mar30- *fix: prevent a crash for psNoSurveyNoVehicles due to incomplete code.
       -2013Mar26- *add: SP_ResourceSurveyShowDetails + SPisResourcesSurveyInProcess.
       -2013Mar25- *code: some with cleanup.
                   *add: display the progress of a resource survey if there is any.
@@ -1192,9 +1193,14 @@ begin
             {:DEV NOTES: + button for detailed informations=> open planetary survey panel and display the vehicles groups list, as for a setup including their current phase, duration and so on (and w/o the interface to setup them.}
             {:DEV NOTES: don't forget to force the update of the colony panel to display population assignment/storage update.}
       end
-      else if not FCWinMain.FCWM_MissionSettings.Visible
-      then FCWinMain.SP_RegionSheet.HTMLText.Add( FCFdTFiles_UIStr_Get(uistrUI, 'psNoSurveyNoVehicles' ) )
-      else FCWinMain.SP_RegionSheet.HTMLText.Add( 'Test='+inttostr(Test));
+      else if not FCWinMain.FCWM_MissionSettings.Visible then
+      begin
+         SPisResourcesSurveyOK:=false;
+         SPisResourcesSurveyInProcess:=false;
+         FCWinMain.SP_RegionSheet.HTMLText.Add( FCFdTFiles_UIStr_Get(uistrUI, 'psNoSurveyNoVehicles' ) );
+         FCWinMain.SP_ResourceSurveyCommit.Hide;
+         FCWinMain.SP_ResourceSurveyShowDetails.Hide;
+      end;
    end; //==END== if not SERUonlyPic ==//
 end;
 

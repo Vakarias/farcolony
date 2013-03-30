@@ -456,7 +456,7 @@ begin
 
       FCWinMain.PSP_ProductsList.Items.AddChild(
          VehiclesNode
-         ,'Phase [<b>'+FCFsF_SurveyVehicles_GetPhase( FCDdgEntities[0].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CountVehicles].VG_currentPhase )+'</b>]'
+         ,FCFdTFiles_UIStr_Get( uistrUI, 'psPhase' )+' [<b>'+FCFsF_SurveyVehicles_GetPhase( FCDdgEntities[0].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CountVehicles].VG_currentPhase )+'</b>]'
          );
       PhaseTimeInt:=FCFsF_SurveyVehicles_GetPhaseDuration(
          0
@@ -466,7 +466,8 @@ begin
       if PhaseTimeInt>0
       then FCWinMain.PSP_ProductsList.Items.AddChild(
          VehiclesNode
-         ,'  time [<b>'+inttostr( FCDdgEntities[0].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CountVehicles].VG_currentPhaseElapsedTime )+' / '+inttostr( PhaseTimeInt )+'</b>] '+FCFdTFiles_UIStr_Get( uistrUI, 'TimeFstdDfull' )
+         ,FCFdTFiles_UIStr_Get( uistrUI, 'TimeFduration' )+' [<b>'+inttostr( FCDdgEntities[0].E_planetarySurveys[CurrentPlanetarySurvey].PS_vehiclesGroups[CountVehicles].VG_currentPhaseElapsedTime )+' / '+inttostr( PhaseTimeInt )+'</b>] '
+            +FCFdTFiles_UIStr_Get( uistrUI, 'TimeFstdDfull' )
          );
       inc( CountVehicles );
    end;
