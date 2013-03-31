@@ -93,37 +93,37 @@
    <aboutAssetCurrent>
       <EN>current file</EN>
       <FR>fichier courant</FR>
-      <SP>!TO TRANSLATE!</SP>
+      <SP>archivo actual</SP>
    </aboutAssetCurrent>
    <aboutAssetOriginal>
       <EN>original file</EN>
       <FR>fichier original</FR>
-      <SP>!TO TRANSLATE!</SP>
+      <SP>archivo original</SP>
    </aboutAssetOriginal>
    <aboutAssets2D>
       <EN>Assets - 2D</EN>
       <FR>Contenus - 2D</FR>
-      <SP>!TO TRANSLATE!</SP>
+      <SP>Contenido - 2D</SP>
    </aboutAssets2D>
    <aboutAssets3D>
       <EN>Assets - 3D</EN>
       <FR>Contenus - 3D</FR>
-      <SP>!TO TRANSLATE!</SP>
+      <SP>Contenido - 3D</SP>
    </aboutAssets3D>
    <aboutAssetsMusic>
       <EN>Assets - Music</EN>
       <FR>Contenus - Musique</FR>
-      <SP>!TO TRANSLATE!</SP>
+      <SP>Contenido - Musica</SP>
    </aboutAssetsMusic>
    <aboutAssetsSound>
       <EN>Assets - Sound</EN>
       <FR>Contenus - Sons</FR>
-      <SP>!TO TRANSLATE!</SP>
+      <SP>Contenido - Sonidos</SP>
    </aboutAssetsSound>
    <aboutCodeDesign>
       <EN>Code &#38; Design</EN>
       <FR>Code &#38; Design</FR>
-      <SP>!TO TRANSLATE!</SP>
+      <SP>Codigo &#38; Diseño</SP>
    </aboutCodeDesign>
    <aboutCredits>
       <EN>Credits</EN>
@@ -2317,7 +2317,7 @@
    <psPhase>
       <EN>Phase</EN>
       <FR>Phase</FR>
-      <SP>!TO TRANSLATE!</SP>
+      <SP>Fase</SP>
    </psPhase>
    <psPhaseBackToBase>
       <EN>Back to base</EN>
@@ -2326,8 +2326,8 @@
    </psPhaseBackToBase>
    <psPhaseBackToBaseFINAL>
       <EN>Back to base (final step)</EN>
-      <FR>Volver a la base (etapa final)</FR>
-      <SP>!TO TRANSLATE!</SP>
+      <FR>Retour à la base (l'étape finale)</FR>
+      <SP>Volver a la base (etapa final)</SP>
    </psPhaseBackToBaseFINAL>
    <psPhaseBiosphereSurveying>
       <EN>Surveying of the biosphere</EN>
