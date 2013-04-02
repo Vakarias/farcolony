@@ -95,69 +95,69 @@ var
 //=======================================END OF INIT========================================
 
 procedure FCMfS_CompEcc_Calc(const CECstIdx: integer);
+{:Purpose: calculate the orbit eccentricity for the compnaion stars.
+    Additions:
+      -2013Apr01- *mod: some adjustment for CECstat, to put it in line with the design doc.
+                  *code: some code reduction/optimization.
+}
 var
    CECstat
    ,CECmod: integer;
 
-   CECbase
-   ,CECbasef
+   Base
+   ,BaseFinal
    ,CECcalc
-   ,CECecc
-   ,CECeccMax
+   ,Eccentricity
+   ,EccentricityMax
    ,CECend
    ,CECendf: extended;
 begin
    if CECstIdx=2 then
    begin
       CECcalc:=(FCDduStarSystem[0].SS_stars[CECstIdx].S_isCompMeanSeparation-0.25)/FCDduStarSystem[0].SS_stars[CECstIdx].S_isCompMeanSeparation;
-      CECeccMax:=DecimalRound(CECcalc, 3, 0.0001);
-      CECstat:=FCFcF_Random_DoInteger(99)+1;
+      EccentricityMax:=DecimalRound(CECcalc, 3, 0.0001);
+      CECend:=EccentricityMax*0.2;
+      CECendf:=DecimalRound(CECend, 3, 0.0001);
+      CECstat:=FCFcF_Random_DoInteger(100);
       CECmod:=FCFcF_Random_DoInteger(9)+1;
+
       case CECstat of
-         1..20:
-         begin
-            CECend:=CECeccMax*0.2;
-            CECendf:=DecimalRound(CECend, 3, 0.0001);
-            CECecc:=CECmod*(CECendf*0.1);
-         end;
+         0..20: Eccentricity:=CECmod*(CECendf*0.1);
+
          21..40:
          begin
-            CECbase:=CECeccMax*0.1;
-            CECbasef:=DecimalRound(CECbase, 3, 0.0001);
-            CECend:=CECeccMax*0.2;
-            CECendf:=DecimalRound(CECend, 3, 0.0001);
-            CECecc:=CECbasef+(CECmod*(CECendf*0.1));
+            Base:=EccentricityMax*0.1;
+            BaseFinal:=DecimalRound(Base, 3, 0.0001);
+            Eccentricity:=BaseFinal+(CECmod*(CECendf*0.1));
          end;
+
          41..60:
          begin
-            CECbase:=CECeccMax*0.2;
-            CECbasef:=DecimalRound(CECbase, 3, 0.0001);
-            CECend:=CECeccMax*0.2;
-            CECendf:=DecimalRound(CECend, 3, 0.0001);
-            CECecc:=CECbasef+(CECmod*(CECendf*0.1));
+            Base:=EccentricityMax*0.2;
+            BaseFinal:=DecimalRound(Base, 3, 0.0001);
+            Eccentricity:=BaseFinal+(CECmod*(CECendf*0.1));
          end;
+
          61..80:
          begin
-            CECbase:=CECeccMax*0.3;
-            CECbasef:=DecimalRound(CECbase, 3, 0.0001);
-            CECend:=CECeccMax*0.2;
-            CECendf:=DecimalRound(CECend, 3, 0.0001);
-            CECecc:=CECbasef+(CECmod*(CECendf*0.1));
+            Base:=EccentricityMax*0.3;
+            BaseFinal:=DecimalRound(Base, 3, 0.0001);
+            Eccentricity:=BaseFinal+(CECmod*(CECendf*0.1));
          end;
+
          81..90:
          begin
-            CECbase:=CECeccMax*0.4;
-            CECbasef:=DecimalRound(CECbase, 3, 0.0001);
-            CECend:=CECeccMax*0.2;
-            CECendf:=DecimalRound(CECend, 3, 0.0001);
-            CECecc:=CECbasef+(CECmod*(CECendf*0.1));
+            Base:=EccentricityMax*0.4;
+            BaseFinal:=DecimalRound(Base, 3, 0.0001);
+            Eccentricity:=BaseFinal+(CECmod*(CECendf*0.1));
          end;
+
          91..100:
          begin
-            CECbase:=CECeccMax*0.5;
-            CECbasef:=DecimalRound(CECbase, 3, 0.0001);
-            CECendf:=CECbasef;
-            CECecc:=CECbasef+(CECmod*(CECendf*0.1));
+            Base:=EccentricityMax*0.5;
+            BaseFinal:=DecimalRound(Base, 3, 0.0001);
+            CECendf:=BaseFinal;
+            Eccentricity:=BaseFinal+(CECmod*(CECendf*0.1));
          end;
       end; //==END== case CECstat of ==//
    end //==END== if CECstIdx=2 then ==//
@@ -169,7 +169,7 @@ begin
       then
       begin
          CECcalc:=(FCDduStarSystem[0].SS_stars[CECstIdx].S_isCompMeanSeparation-0.25)/FCDduStarSystem[0].SS_stars[CECstIdx].S_isCompMeanSeparation;
-         CECeccMax:=DecimalRound(CECcalc, 3, 0.0001);
+         EccentricityMax:=DecimalRound(CECcalc, 3, 0.0001);
       end
       else if FCDduStarSystem[0].SS_stars[CECstIdx].S_isCompStar2OrbitType=cotAroundMain_Companion1GravityCenter
       then
@@ -179,12 +179,12 @@ begin
             -(FCDduStarSystem[0].SS_stars[2].S_isCompMeanSeparation+FCDduStarSystem[0].SS_stars[2].S_isCompMinApproachDistance)
             )
             /(FCDduStarSystem[0].SS_stars[CECstIdx].S_isCompMeanSeparation - FCDduStarSystem[0].SS_stars[2].S_isCompMinApproachDistance+0.25);
-         CECeccMax:=DecimalRound(CECcalc, 3, 0.0001);
+         EccentricityMax:=DecimalRound(CECcalc, 3, 0.0001);
       end;
       CECmod:=FCFcF_Random_DoInteger(99)+1;
-      CECecc:=CECmod*(CECeccMax*0.01);
+      Eccentricity:=CECmod*(EccentricityMax*0.01);
    end;
-   FCDduStarSystem[0].SS_stars[CECstIdx].S_isCompEccentricity:=DecimalRound(CECecc, 3, 0.0001);
+   FCDduStarSystem[0].SS_stars[CECstIdx].S_isCompEccentricity:=DecimalRound(Eccentricity, 3, 0.0001);
 end;
 
 procedure FCMfS_CompStar_Calc(const CSCstIdx: integer);
