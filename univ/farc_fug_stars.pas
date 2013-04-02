@@ -1296,7 +1296,7 @@ begin
          FSCD.FSCD_temp:=1;
          FSCD.FSCD_mass:=5+FCFcF_Random_DoInteger(5);
          DLdiam:=((2*6.67e-11*(1.989e30*FCDduStarSystem[0].SS_stars[DLstIdx].S_mass))/299792458)*(2/1390000);
-         FSCD.FSCD_diam:=DecimalRound(DLdiam, 2, 0.001);
+         FSCD.FSCD_diam:=FCFcF_Round( rttCustom2Decimal, DLdiam );
          if DLdiam<=0
          then DLdiam:=0.01;
          FSCD.FSCD_lum:=0.00001;
