@@ -189,11 +189,12 @@ end;
 
 procedure FCMfS_CompStar_Calc(const CSCstIdx: integer);
 {:Purpose: calculate companion star specific data.
+   Additions:
+      -2013Apr02- *add/mod: some adjustments.
 }
 var
    CSCmod
-   ,CSCstat
-   ,CSCstatsub: integer;
+   ,CSCstat: integer;
 
    CSCecc
    ,CSCmsep
@@ -208,14 +209,13 @@ begin
       //            if DBStarSys[1].Sys_StarAge >= 5  then inc(CSstat)
 //            else if DBStarSys[1].Sys_StarAge <= 1  then dec(CSstat);
       case CSCstat of
-         0..3: CSCmsep:=CSCmod*0.25;
+         1..3: CSCmsep:=CSCmod*0.25;
          4..6: CSCmsep:=CSCmod*2.5;
          7..8: CSCmsep:=CSCmod*15;
-         9: CSCmsep:=CSCmod*100;
-         10:
+         9..10:
          begin
-            CSCstatsub:=FCFcF_Random_DoInteger(99)+1;
-            CSCmsep:=CSCstatsub*200;
+            CSCmod:=FCFcF_Random_DoInteger(99)+1;
+            CSCmsep:=CSCmod*( ( CSCstat-8 ) * 100 );
          end;
       end;
       FCDduStarSystem[0].SS_stars[CSCstIdx].S_isCompMeanSeparation:=DecimalRound(CSCmsep, 2, 0.001);
