@@ -97,6 +97,8 @@ var
 procedure FCMfS_CompEcc_Calc(const CECstIdx: integer);
 {:Purpose: calculate the orbit eccentricity for the compnaion stars.
     Additions:
+      -2013Apr02- *mod: some code optimizations.
+                  *mod: DecimalRound calls are replaced w/ FCFcF_Round.
       -2013Apr01- *mod: some adjustment for CECstat, to put it in line with the design doc.
                   *code: some code reduction/optimization.
 }
@@ -117,45 +119,44 @@ begin
       CECcalc:=(FCDduStarSystem[0].SS_stars[CECstIdx].S_isCompMeanSeparation-0.25)/FCDduStarSystem[0].SS_stars[CECstIdx].S_isCompMeanSeparation;
       EccentricityMax:=DecimalRound(CECcalc, 3, 0.0001);
       CECend:=EccentricityMax*0.2;
-      CECendf:=DecimalRound(CECend, 3, 0.0001);
+      CECendf:=FCFcF_Round( rttCustom3Decimal, CECend );
       CECstat:=FCFcF_Random_DoInteger(100);
       CECmod:=FCFcF_Random_DoInteger(9)+1;
-
       case CECstat of
          0..20: Eccentricity:=CECmod*(CECendf*0.1);
 
          21..40:
          begin
             Base:=EccentricityMax*0.1;
-            BaseFinal:=DecimalRound(Base, 3, 0.0001);
+            BaseFinal:=FCFcF_Round( rttCustom3Decimal, Base );
             Eccentricity:=BaseFinal+(CECmod*(CECendf*0.1));
          end;
 
          41..60:
          begin
             Base:=EccentricityMax*0.2;
-            BaseFinal:=DecimalRound(Base, 3, 0.0001);
+            BaseFinal:=FCFcF_Round( rttCustom3Decimal, Base );
             Eccentricity:=BaseFinal+(CECmod*(CECendf*0.1));
          end;
 
          61..80:
          begin
             Base:=EccentricityMax*0.3;
-            BaseFinal:=DecimalRound(Base, 3, 0.0001);
+            BaseFinal:=FCFcF_Round( rttCustom3Decimal, Base );
             Eccentricity:=BaseFinal+(CECmod*(CECendf*0.1));
          end;
 
          81..90:
          begin
             Base:=EccentricityMax*0.4;
-            BaseFinal:=DecimalRound(Base, 3, 0.0001);
+            BaseFinal:=FCFcF_Round( rttCustom3Decimal, Base );
             Eccentricity:=BaseFinal+(CECmod*(CECendf*0.1));
          end;
 
          91..100:
          begin
             Base:=EccentricityMax*0.5;
-            BaseFinal:=DecimalRound(Base, 3, 0.0001);
+            BaseFinal:=FCFcF_Round( rttCustom3Decimal, Base );
             CECendf:=BaseFinal;
             Eccentricity:=BaseFinal+(CECmod*(CECendf*0.1));
          end;
@@ -169,7 +170,7 @@ begin
       then
       begin
          CECcalc:=(FCDduStarSystem[0].SS_stars[CECstIdx].S_isCompMeanSeparation-0.25)/FCDduStarSystem[0].SS_stars[CECstIdx].S_isCompMeanSeparation;
-         EccentricityMax:=DecimalRound(CECcalc, 3, 0.0001);
+         EccentricityMax:=FCFcF_Round( rttCustom3Decimal, CECcalc );
       end
       else if FCDduStarSystem[0].SS_stars[CECstIdx].S_isCompStar2OrbitType=cotAroundMain_Companion1GravityCenter
       then
@@ -179,17 +180,18 @@ begin
             -(FCDduStarSystem[0].SS_stars[2].S_isCompMeanSeparation+FCDduStarSystem[0].SS_stars[2].S_isCompMinApproachDistance)
             )
             /(FCDduStarSystem[0].SS_stars[CECstIdx].S_isCompMeanSeparation - FCDduStarSystem[0].SS_stars[2].S_isCompMinApproachDistance+0.25);
-         EccentricityMax:=DecimalRound(CECcalc, 3, 0.0001);
+         EccentricityMax:=FCFcF_Round( rttCustom3Decimal, CECcalc );
       end;
       CECmod:=FCFcF_Random_DoInteger(99)+1;
       Eccentricity:=CECmod*(EccentricityMax*0.01);
    end;
-   FCDduStarSystem[0].SS_stars[CECstIdx].S_isCompEccentricity:=DecimalRound(Eccentricity, 3, 0.0001);
+   FCDduStarSystem[0].SS_stars[CECstIdx].S_isCompEccentricity:=FCFcF_Round( rttCustom3Decimal, Eccentricity );
 end;
 
 procedure FCMfS_CompStar_Calc(const CSCstIdx: integer);
 {:Purpose: calculate companion star specific data.
    Additions:
+      -2013Apr02- *mod: DecimalRound calls are replaced w/ FCFcF_Round.
       -2013Apr02- *add/mod: some adjustments.
 }
 var
@@ -218,11 +220,11 @@ begin
             CSCmsep:=CSCmod*( ( CSCstat-8 ) * 100 );
          end;
       end;
-      FCDduStarSystem[0].SS_stars[CSCstIdx].S_isCompMeanSeparation:=DecimalRound(CSCmsep, 2, 0.001);
+      FCDduStarSystem[0].SS_stars[CSCstIdx].S_isCompMeanSeparation:=FCFcF_Round( rttCustom2Decimal, CSCmsep );
       {.eccentricity}
       FCMfS_CompEcc_Calc(CSCstIdx);
       CSCmad:=FCDduStarSystem[0].SS_stars[CSCstIdx].S_isCompMeanSeparation*(1-FCDduStarSystem[0].SS_stars[CSCstIdx].S_isCompEccentricity);
-      FCDduStarSystem[0].SS_stars[CSCstIdx].S_isCompMinApproachDistance:=DecimalRound(CSCmad, 2, 0.001);
+      FCDduStarSystem[0].SS_stars[CSCstIdx].S_isCompMinApproachDistance:=FCFcF_Round( rttCustom2Decimal, CSCmad );
    end //==END== if CSCstIdx=2 ==//
    else if CSCstIdx=3
    then
@@ -236,33 +238,32 @@ begin
             else FCDduStarSystem[0].SS_stars[CSCstIdx].S_isCompStar2OrbitType:=cotAroundCompanion1;
             CSCmod:=FCFcF_Random_DoInteger(9)+1;
             CSCmsep:=(((FCDduStarSystem[0].SS_stars[2].S_isCompMinApproachDistance*0.5)-(FCDduStarSystem[0].SS_stars[2].S_isCompMinApproachDistance*0.1))*0.1)*CSCmod;
-            FCDduStarSystem[0].SS_stars[CSCstIdx].S_isCompMeanSeparation:=DecimalRound(CSCmsep, 2, 0.001);
+            FCDduStarSystem[0].SS_stars[CSCstIdx].S_isCompMeanSeparation:=FCFcF_Round( rttCustom2Decimal, CSCmsep );
             FCMfS_CompEcc_Calc(CSCstIdx);
             CSCmad:=FCDduStarSystem[0].SS_stars[CSCstIdx].S_isCompMeanSeparation*(1-FCDduStarSystem[0].SS_stars[CSCstIdx].S_isCompEccentricity);
-            FCDduStarSystem[0].SS_stars[CSCstIdx].S_isCompMinApproachDistance:=DecimalRound(CSCmad, 2, 0.001);
+            FCDduStarSystem[0].SS_stars[CSCstIdx].S_isCompMinApproachDistance:=FCFcF_Round( rttCustom2Decimal, CSCmad );
          end;
          7..10:
          begin
             FCDduStarSystem[0].SS_stars[CSCstIdx].S_isCompStar2OrbitType:=cotAroundMain_Companion1GravityCenter;
             CSCmod:=FCFcF_Random_DoInteger(100);
             CSCmad:=(((FCDduStarSystem[0].SS_stars[2].S_isCompMeanSeparation+FCDduStarSystem[0].SS_stars[2].S_isCompMinApproachDistance)*0.5)+0.25)*(1+(CSCmod*0.1));
-            FCDduStarSystem[0].SS_stars[CSCstIdx].S_isCompMinApproachDistance:=DecimalRound(CSCmad, 2, 0.001);
+            FCDduStarSystem[0].SS_stars[CSCstIdx].S_isCompMinApproachDistance:=FCFcF_Round( rttCustom2Decimal, CSCmad );
             CSCstat:=FCFcF_Random_DoInteger(9)+1;
             CSCmod:=FCFcF_Random_DoInteger(9)+1;
             case CSCstat of
-               0..3: CSCmsep:=FCDduStarSystem[0].SS_stars[CSCstIdx].S_isCompMinApproachDistance+(CSCmod*0.25);
+               1..3: CSCmsep:=FCDduStarSystem[0].SS_stars[CSCstIdx].S_isCompMinApproachDistance+(CSCmod*0.25);
                4..6: CSCmsep:=FCDduStarSystem[0].SS_stars[CSCstIdx].S_isCompMinApproachDistance+(CSCmod*2.5);
                7..8: CSCmsep:=FCDduStarSystem[0].SS_stars[CSCstIdx].S_isCompMinApproachDistance+(CSCmod*15);
-               9: CSCmsep:=FCDduStarSystem[0].SS_stars[CSCstIdx].S_isCompMinApproachDistance+(CSCmod*100);
-               10:
+               9..10:
                begin
                   CSCmod:=FCFcF_Random_DoInteger(99)+1;
-                  CSCmsep:=FCDduStarSystem[0].SS_stars[CSCstIdx].S_isCompMinApproachDistance+(CSCmod*200);
+                  CSCmsep:=FCDduStarSystem[0].SS_stars[CSCstIdx].S_isCompMinApproachDistance+(CSCmod* ( ( CSCstat-8 ) * 100 ) );
                end;
             end;
-            FCDduStarSystem[0].SS_stars[CSCstIdx].S_isCompMeanSeparation:=DecimalRound(CSCmsep, 2, 0.001);
+            FCDduStarSystem[0].SS_stars[CSCstIdx].S_isCompMeanSeparation:=FCFcF_Round( rttCustom2Decimal, CSCmsep );
             CSCecc:=FCDduStarSystem[0].SS_stars[CSCstIdx].S_isCompMinApproachDistance/FCDduStarSystem[0].SS_stars[CSCstIdx].S_isCompMeanSeparation;
-            FCDduStarSystem[0].SS_stars[CSCstIdx].S_isCompEccentricity:=DecimalRound(CSCecc, 3, 0.0001);
+            FCDduStarSystem[0].SS_stars[CSCstIdx].S_isCompEccentricity:=FCFcF_Round( rttCustom3Decimal, CSCecc );
          end;
       end; //==END== case CSCstat of ==//
    end;
@@ -270,13 +271,15 @@ end;
 
 function FCFfS_Data_WDLum(const DWDLidx: integer): extended;
 {:Purpose: calculate the luminosity for White Dwarves
+   Additions:
+      -2013Apr02- *mod: DecimalRound calls are replaced w/ FCFcF_Round.
 }
 var
    DWDLlum: extended;
 begin
    Result:=0;
    DWDLlum:=(sqr(FCDduStarSystem[0].SS_stars[DWDLidx].S_diameter*0.5)*power(FCDduStarSystem[0].SS_stars[DWDLidx].S_temperature,4))/power(5800,4);
-   Result:=DecimalRound(DWDLlum, 5, 0.000001);
+   Result:=FCFcF_Round( rttCustom5Decimal, DWDLlum );
    if Result<=0
    then Result:=0.00001;
 end;
@@ -1307,6 +1310,7 @@ end;
 function FCFfS_Diameter_Calc(const DCstar: integer): extended;
 {:Purpose: calculate the star's diameter.
     Additions:
+      -2013Apr02- *mod: DecimalRound calls are replaced w/ FCFcF_Round.
 }
 var
    DCdiam: extended;
@@ -1318,7 +1322,7 @@ begin
    then
    begin
       DCdiam:=randg(FSCD.FSCD_diam,0.007);
-      Result:=DecimalRound(DCdiam, 2, 0.001);
+      Result:=FCFcF_Round( rttCustom2Decimal, DCdiam );
       if Result<=0
       then Result:=0.01;
    end
@@ -1328,6 +1332,7 @@ end;
 function FCFfS_Luminosity_Calc(const LCstar: integer): extended;
 {:Purpose: calculate the star's luminosity.
     Additions:
+      -2013Apr02- *mod: DecimalRound calls are replaced w/ FCFcF_Round.
 }
 var
    DClum: extended;
@@ -1339,7 +1344,7 @@ begin
    then
    begin
       DClum:=randg(FSCD.FSCD_lum,0.007);
-      Result:=DecimalRound(DClum, 5, 0.000001);
+      Result:=FCFcF_Round( rttCustom5Decimal, DClum );
       if Result<=0
       then Result:=0.00001;
    end
@@ -1355,6 +1360,7 @@ end;
 function FCFfS_Mass_Calc(const TMstar: integer): extended;
 {:Purpose: calculate the star's mass.
     Additions:
+      -2013Apr02- *mod: DecimalRound calls are replaced w/ FCFcF_Round.
 }
 var
    TMmass: extended;
@@ -1363,7 +1369,7 @@ begin
    if FCDduStarSystem[0].SS_stars[TMstar].S_class<>FSCD.FSCD_class
    then FCMfS_Data_Load(TMstar);
    TMmass:=randg(FSCD.FSCD_mass,0.007);
-   Result:=DecimalRound(TMmass, 2, 0.001);
+   Result:=FCFcF_Round( rttCustom2Decimal, TMmass );
    if Result<=0
    then Result:=0.01;
 end;

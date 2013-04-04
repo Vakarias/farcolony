@@ -53,6 +53,8 @@ type TFCEcfRoundToTypes=(
    ,rttCustom1Decimal
    ,rttCustom2Decimal
    ,rttCustom3Decimal
+   ,rttCustom4Decimal
+   ,rttCustom5Decimal
    ,rttDistanceKm
    ,rttVelocityKmSec
    ,rttSizeInMeters
@@ -380,6 +382,7 @@ function FCFcF_Round(
    ): extended;
 {:Purpose: round the target value according to the value type.
     Additions:
+      -2013Apr03- *add: rttCustom4Decimal and rttCustom5Decimal.
       -2012Dec09- *code audit:
                      (_)var formatting + refactoring     (_)if..then reformatting   (o)function/procedure refactoring
                      (x)parameters refactoring           (x) ()reformatting         (-)code optimizations
@@ -411,6 +414,10 @@ begin
       rttCustom2Decimal: result:=DecimalRound( Value, 2, 0.0001 );
 
       rttCustom3Decimal: result:=DecimalRound( Value, 3, 0.00001 );
+
+      rttCustom4Decimal: result:=DecimalRound( Value, 4, 0.000001 );
+
+      rttCustom5Decimal: result:=DecimalRound( Value, 5, 0.0000001 );
 
       rttDistanceKm: result:=DecimalRound( Value, 2, 0.0001 );
 
