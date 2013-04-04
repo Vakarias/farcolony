@@ -16,20 +16,7 @@ object FCWinFUG: TFCWinFUG
   OldCreateOrder = False
   PixelsPerInch = 96
   TextHeight = 13
-  object Label1: TLabel
-    Left = 792
-    Top = 23
-    Width = 74
-    Height = 16
-    Caption = 'XML Output'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clBlack
-    Font.Height = -13
-    Font.Name = 'Existence Light'
-    Font.Style = [fsBold]
-    ParentFont = False
-  end
-  object Label2: TLabel
+  object WF_ConfigurationMainTitle: TLabel
     Left = 176
     Top = 23
     Width = 288
@@ -42,7 +29,7 @@ object FCWinFUG: TFCWinFUG
     Font.Style = [fsBold]
     ParentFont = False
   end
-  object FCWFoutput: TAdvMemo
+  object WF_XMLOutput: TAdvMemo
     Left = 615
     Top = 0
     Width = 409
@@ -117,12 +104,12 @@ object FCWinFUG: TFCWinFUG
     Version = '2.2.3.1'
     WordWrap = wwNone
   end
-  object AdvPageControl1: TAdvPageControl
+  object WF_ConfigurationMultiTab: TAdvPageControl
     Left = 25
     Top = 39
     Width = 577
     Height = 721
-    ActivePage = AdvTabSheet1
+    ActivePage = CMT_TabStellarStarSystem
     ActiveFont.Charset = DEFAULT_CHARSET
     ActiveFont.Color = clWindowText
     ActiveFont.Height = -11
@@ -133,17 +120,13 @@ object FCWinFUG: TFCWinFUG
     TabOverlap = 0
     Version = '1.6.2.1'
     TabOrder = 1
-    object AdvTabSheet1: TAdvTabSheet
+    object CMT_TabStellarStarSystem: TAdvTabSheet
       Caption = 'Stellar and Star System'
       Color = clSilver
       ColorTo = clNone
       TabColor = clBtnFace
       TabColorTo = clNone
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
-      object AdvGroupBox1: TAdvGroupBox
+      object TSSS_StellarStarSysGroup: TAdvGroupBox
         Left = 16
         Top = 3
         Width = 529
@@ -160,7 +143,7 @@ object FCWinFUG: TFCWinFUG
         ParentColor = False
         ParentFont = False
         TabOrder = 0
-        object FCWFssysToken: TLabeledEdit
+        object SSSG_StellarSysToken: TLabeledEdit
           Left = 24
           Top = 40
           Width = 97
@@ -172,7 +155,7 @@ object FCWinFUG: TFCWinFUG
           EditLabel.Layout = tlCenter
           TabOrder = 0
         end
-        object FCWFlocX: TLabeledEdit
+        object SSSG_LocationX: TLabeledEdit
           Left = 143
           Top = 40
           Width = 97
@@ -185,7 +168,7 @@ object FCWinFUG: TFCWinFUG
           NumbersOnly = True
           TabOrder = 1
         end
-        object FCWFlocY: TLabeledEdit
+        object SSSG_LocationY: TLabeledEdit
           Left = 262
           Top = 40
           Width = 97
@@ -198,7 +181,7 @@ object FCWinFUG: TFCWinFUG
           NumbersOnly = True
           TabOrder = 2
         end
-        object FCWFlocZ: TLabeledEdit
+        object SSSG_LocationZ: TLabeledEdit
           Left = 381
           Top = 40
           Width = 97
@@ -212,7 +195,7 @@ object FCWinFUG: TFCWinFUG
           TabOrder = 3
         end
       end
-      object AdvGroupBox2: TAdvGroupBox
+      object CMT_TabMainStar: TAdvGroupBox
         Left = 16
         Top = 87
         Width = 529
@@ -229,7 +212,7 @@ object FCWinFUG: TFCWinFUG
         ParentColor = False
         ParentFont = False
         TabOrder = 1
-        object Label3: TLabel
+        object TMS_StarClassLabel: TLabel
           Left = 143
           Top = 23
           Width = 25
@@ -242,7 +225,7 @@ object FCWinFUG: TFCWinFUG
           Font.Style = []
           ParentFont = False
         end
-        object Label4: TLabel
+        object TMS_SystemTypeLabel: TLabel
           Left = 24
           Top = 63
           Width = 62
@@ -255,7 +238,7 @@ object FCWinFUG: TFCWinFUG
           Font.Style = []
           ParentFont = False
         end
-        object FUGmStartoken: TLabeledEdit
+        object TMS_StarToken: TLabeledEdit
           Left = 24
           Top = 40
           Width = 97
@@ -267,7 +250,7 @@ object FCWinFUG: TFCWinFUG
           EditLabel.Layout = tlCenter
           TabOrder = 0
         end
-        object FUGmStarDiam: TLabeledEdit
+        object TMS_StarDiam: TLabeledEdit
           Left = 278
           Top = 40
           Width = 58
@@ -280,7 +263,7 @@ object FCWinFUG: TFCWinFUG
           NumbersOnly = True
           TabOrder = 3
         end
-        object FUGmStarMass: TLabeledEdit
+        object TMS_StarMass: TLabeledEdit
           Left = 365
           Top = 40
           Width = 59
@@ -293,7 +276,7 @@ object FCWinFUG: TFCWinFUG
           NumbersOnly = True
           TabOrder = 4
         end
-        object FUGmStarLum: TLabeledEdit
+        object TMS_StarLum: TLabeledEdit
           Left = 452
           Top = 40
           Width = 60
@@ -306,7 +289,7 @@ object FCWinFUG: TFCWinFUG
           NumbersOnly = True
           TabOrder = 5
         end
-        object FUGmStarClass: TAdvComboBox
+        object TMS_StarClass: TAdvComboBox
           Left = 143
           Top = 39
           Width = 50
@@ -472,7 +455,7 @@ object FCWinFUG: TFCWinFUG
           TabOrder = 1
           Text = 'cB5'
         end
-        object FUGmSType: TAdvComboBox
+        object TMS_SystemType: TAdvComboBox
           Left = 24
           Top = 79
           Width = 89
@@ -497,9 +480,9 @@ object FCWinFUG: TFCWinFUG
           LabelFont.Style = []
           TabOrder = 6
           Text = 'Sol Like'
-          OnChange = FUGmSTypeChange
+          OnChange = TMS_SystemTypeChange
         end
-        object FUGmStarOG: THTMLRadioGroup
+        object TMS_OrbitGeneration: THTMLRadioGroup
           Left = 143
           Top = 80
           Width = 113
@@ -513,9 +496,9 @@ object FCWinFUG: TFCWinFUG
             'Randomized'
             'Fixed')
           TabOrder = 7
-          OnClick = FUGmStarOGClick
+          OnClick = TMS_OrbitGenerationClick
         end
-        object FUGmStarNumOrb: TLabeledEdit
+        object TMS_OrbitGenerationNumberOrbits: TLabeledEdit
           Left = 262
           Top = 136
           Width = 59
@@ -528,7 +511,7 @@ object FCWinFUG: TFCWinFUG
           NumbersOnly = True
           TabOrder = 8
         end
-        object FUGmStarTemp: TLabeledEdit
+        object TMS_StarTemp: TLabeledEdit
           Left = 199
           Top = 40
           Width = 58
@@ -844,7 +827,7 @@ object FCWinFUG: TFCWinFUG
             'Randomized'
             'Fixed')
           TabOrder = 7
-          OnClick = FUGmStarOGClick
+          OnClick = TMS_OrbitGenerationClick
         end
         object FUGcs1NumOrb: TLabeledEdit
           Left = 262
@@ -1194,7 +1177,7 @@ object FCWinFUG: TFCWinFUG
             'Randomized'
             'Fixed')
           TabOrder = 7
-          OnClick = FUGmStarOGClick
+          OnClick = TMS_OrbitGenerationClick
         end
         object FUGcs2NumOrb: TLabeledEdit
           Left = 262
@@ -1225,7 +1208,7 @@ object FCWinFUG: TFCWinFUG
       end
     end
   end
-  object FCWFgenerate: TAdvGlowButton
+  object WF_GenerateButton: TAdvGlowButton
     Left = 497
     Top = 0
     Width = 105
@@ -1237,7 +1220,7 @@ object FCWinFUG: TFCWinFUG
     NotesFont.Name = 'Tahoma'
     NotesFont.Style = []
     TabOrder = 2
-    OnClick = FCWFgenerateClick
+    OnClick = WF_GenerateButtonClick
     Appearance.ColorChecked = 16111818
     Appearance.ColorCheckedTo = 16367008
     Appearance.ColorDisabled = 15921906

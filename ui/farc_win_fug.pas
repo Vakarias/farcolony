@@ -43,29 +43,35 @@ uses
 
 type
    TFCWinFUG = class(TForm)
-    FCWFoutput: TAdvMemo;
-    Label1: TLabel;
-    AdvPageControl1: TAdvPageControl;
-    AdvTabSheet1: TAdvTabSheet;
-    Label2: TLabel;
-    AdvGroupBox1: TAdvGroupBox;
-    FCWFssysToken: TLabeledEdit;
-    FCWFlocX: TLabeledEdit;
-    FCWFlocY: TLabeledEdit;
-    FCWFlocZ: TLabeledEdit;
-    FCWFgenerate: TAdvGlowButton;
-    AdvGroupBox2: TAdvGroupBox;
-    FUGmStartoken: TLabeledEdit;
-    FUGmStarDiam: TLabeledEdit;
-    FUGmStarMass: TLabeledEdit;
-    FUGmStarLum: TLabeledEdit;
-    FUGmStarClass: TAdvComboBox;
-    Label3: TLabel;
-    FUGmSType: TAdvComboBox;
-    Label4: TLabel;
-    FUGmStarOG: THTMLRadioGroup;
-    FUGmStarNumOrb: TLabeledEdit;
-    FUGmStarTemp: TLabeledEdit;
+    WF_XMLOutput: TAdvMemo;
+    WF_ConfigurationMultiTab: TAdvPageControl;
+    CMT_TabStellarStarSystem: TAdvTabSheet;
+      TSSS_StellarStarSysGroup: TAdvGroupBox;
+         SSSG_StellarSysToken: TLabeledEdit;
+         SSSG_LocationX: TLabeledEdit;
+         SSSG_LocationY: TLabeledEdit;
+         SSSG_LocationZ: TLabeledEdit;
+    CMT_TabMainStar: TAdvGroupBox;
+      TMS_StarToken: TLabeledEdit;
+      TMS_StarDiam: TLabeledEdit;
+      TMS_StarMass: TLabeledEdit;
+      TMS_StarLum: TLabeledEdit;
+      TMS_StarClass: TAdvComboBox;
+      TMS_StarClassLabel: TLabel;
+      TMS_SystemType: TAdvComboBox;
+      TMS_SystemTypeLabel: TLabel;
+      TMS_OrbitGeneration: THTMLRadioGroup;
+      TMS_OrbitGenerationNumberOrbits: TLabeledEdit;
+      TMS_StarTemp: TLabeledEdit;
+    WF_ConfigurationMainTitle: TLabel;
+
+
+
+    WF_GenerateButton: TAdvGlowButton;
+
+
+
+
     FUGcs1Check: TCheckBox;
     AdvGroupBox3: TAdvGroupBox;
     Label5: TLabel;
@@ -92,11 +98,11 @@ type
     FUGcs2OG: THTMLRadioGroup;
     FUGcs2NumOrb: TLabeledEdit;
     FUGcs2Temp: TLabeledEdit;
-    procedure FCWFgenerateClick(Sender: TObject);
-    procedure FUGmStarOGClick(Sender: TObject);
+    procedure WF_GenerateButtonClick(Sender: TObject);
+    procedure TMS_OrbitGenerationClick(Sender: TObject);
     procedure FUGcs1CheckClick(Sender: TObject);
     procedure FUGcs2CheckClick(Sender: TObject);
-    procedure FUGmSTypeChange(Sender: TObject);
+    procedure TMS_SystemTypeChange(Sender: TObject);
     procedure FUGcs1TypeChange(Sender: TObject);
     procedure FUGcs2TypeChange(Sender: TObject);
    private
@@ -121,27 +127,27 @@ uses
 
 {$R *.dfm}
 
-procedure TFCWinFUG.FCWFgenerateClick(Sender: TObject);
+procedure TFCWinFUG.WF_GenerateButtonClick(Sender: TObject);
 var
    GCcnt: integer;
 
    GCclassStr
    ,GCorbStr: string;
 begin
-   if (FCWFssysToken.Text<>'stelsys')
-      and (FCWFlocX.Text<>'')
-      and (FCWFlocY.Text<>'')
-      and (FCWFlocZ.Text<>'')
-      and (FUGmStartoken.Text<>'')
+   if (SSSG_StellarSysToken.Text<>'stelsys')
+      and (SSSG_LocationX.Text<>'')
+      and (SSSG_LocationY.Text<>'')
+      and (SSSG_LocationZ.Text<>'')
+      and (TMS_StarToken.Text<>'')
    then
    begin
       {.FUG start process}
       FCDduStarSystem:=nil;
       SetLength(FCDduStarSystem, 1);
-      FCDduStarSystem[0].SS_token:=FCWFssysToken.Text;
-      FCDduStarSystem[0].SS_locationX:=StrToFloat(FCWFlocX.Text);
-      FCDduStarSystem[0].SS_locationY:=StrToFloat(FCWFlocY.Text);
-      FCDduStarSystem[0].SS_locationZ:=StrToFloat(FCWFlocZ.Text);
+      FCDduStarSystem[0].SS_token:=SSSG_StellarSysToken.Text;
+      FCDduStarSystem[0].SS_locationX:=StrToFloat(SSSG_LocationX.Text);
+      FCDduStarSystem[0].SS_locationY:=StrToFloat(SSSG_LocationY.Text);
+      FCDduStarSystem[0].SS_locationZ:=StrToFloat(SSSG_LocationZ.Text);
       FCRfdStarOrbits[1]:=-1;
       FCRfdStarOrbits[2]:=-1;
       FCRfdStarOrbits[3]:=-1;
@@ -150,28 +156,28 @@ begin
       FCRfdSystemType[3]:=0;
       {.stars}
       FCMfS_Data_Load(1);
-      FCDduStarSystem[0].SS_stars[1].S_token:=FUGmStartoken.Text;
-      FCDduStarSystem[0].SS_stars[1].S_class:=TFCEduStarClasses(FUGmStarClass.ItemIndex);
-      if FUGmStarTemp.Text=''
+      FCDduStarSystem[0].SS_stars[1].S_token:=TMS_StarToken.Text;
+      FCDduStarSystem[0].SS_stars[1].S_class:=TFCEduStarClasses(TMS_StarClass.ItemIndex);
+      if TMS_StarTemp.Text=''
       then FCDduStarSystem[0].SS_stars[1].S_temperature:=FCFfS_Temperature_Calc(1)
-      else if FUGmStarTemp.Text<>''
-      then FCDduStarSystem[0].SS_stars[1].S_temperature:=StrToInt(FUGmStarTemp.Text);
-      if FUGmStarMass.Text=''
+      else if TMS_StarTemp.Text<>''
+      then FCDduStarSystem[0].SS_stars[1].S_temperature:=StrToInt(TMS_StarTemp.Text);
+      if TMS_StarMass.Text=''
       then FCDduStarSystem[0].SS_stars[1].S_mass:=FCFfS_Mass_Calc(1)
-      else if FUGmStarMass.Text<>''
-      then FCDduStarSystem[0].SS_stars[1].S_mass:=StrToInt(FUGmStarMass.Text);
-      if FUGmStarDiam.Text=''
+      else if TMS_StarMass.Text<>''
+      then FCDduStarSystem[0].SS_stars[1].S_mass:=StrToInt(TMS_StarMass.Text);
+      if TMS_StarDiam.Text=''
       then FCDduStarSystem[0].SS_stars[1].S_diameter:=FCFfS_Diameter_Calc(1)
-      else if FUGmStarDiam.Text<>''
-      then FCDduStarSystem[0].SS_stars[1].S_diameter:=StrToFloat(FUGmStarDiam.Text);
-      if FUGmStarLum.Text=''
+      else if TMS_StarDiam.Text<>''
+      then FCDduStarSystem[0].SS_stars[1].S_diameter:=StrToFloat(TMS_StarDiam.Text);
+      if TMS_StarLum.Text=''
       then FCDduStarSystem[0].SS_stars[1].S_luminosity:=FCFfS_Luminosity_Calc(1)
-      else if FUGmStarLum.Text<>''
-      then FCDduStarSystem[0].SS_stars[1].S_luminosity:=StrToFloat(FUGmStarLum.Text);
-      FCRfdSystemType[1]:=FUGmSType.ItemIndex+1;
-      FCRfdStarOrbits[1]:=FUGmStarOG.ItemIndex-1;
+      else if TMS_StarLum.Text<>''
+      then FCDduStarSystem[0].SS_stars[1].S_luminosity:=StrToFloat(TMS_StarLum.Text);
+      FCRfdSystemType[1]:=TMS_SystemType.ItemIndex+1;
+      FCRfdStarOrbits[1]:=TMS_OrbitGeneration.ItemIndex-1;
       if FCRfdStarOrbits[1]=1
-      then FCRfdStarOrbits[1]:=StrToInt(FUGmStarNumOrb.Text);
+      then FCRfdStarOrbits[1]:=StrToInt(TMS_OrbitGenerationNumberOrbits.Text);
       if (AdvGroupBox3.Visible)
          and (FUGcs1token.Text<>'star')
       then
@@ -229,23 +235,24 @@ begin
 
          end;
       end;
-      if FCRfdSystemType[1]>-1
+      {.generate the orbital objects}
+      if FCRfdSystemType[1]<4
       then FCMfO_Generate(1);
       if (FCDduStarSystem[0].SS_stars[2].S_token<>'')
-         and (FCRfdSystemType[2]>-1)
+         and (FCRfdSystemType[2]<4)
       then FCMfO_Generate(2);
       if (FCDduStarSystem[0].SS_stars[3].S_token<>'')
-         and (FCRfdSystemType[3]>-1)
+         and (FCRfdSystemType[3]<4)
       then FCMfO_Generate(3);
       {.generate ouput}
-      FCWFoutput.Lines.Clear;
-      FCWFoutput.Lines.Add('===============================================');
-      FCWFoutput.Lines.Add('===============================================');
+      WF_XMLOutput.Lines.Clear;
+      WF_XMLOutput.Lines.Add('===============================================');
+      WF_XMLOutput.Lines.Add('===============================================');
       {.for stellar system}
-      FCWFoutput.Lines.Add('<!-- -->');
-      FCWFoutput.Lines.Add(
+      WF_XMLOutput.Lines.Add('<!-- -->');
+      WF_XMLOutput.Lines.Add(
          '<starsys sstoken="'+FCDduStarSystem[0].SS_token+'" steslocx="'
-         +FCWFlocX.Text+'" steslocy="'+FCWFlocY.Text+'" steslocz="'+FCWFlocZ.Text+'">'
+         +SSSG_LocationX.Text+'" steslocy="'+SSSG_LocationY.Text+'" steslocz="'+SSSG_LocationZ.Text+'">'
          );
       {.for stars}
       GCcnt:=1;
@@ -256,8 +263,8 @@ begin
          else
          begin
             GCclassStr:=FCFcFunc_Star_GetClass(cdfRaw, 0, GCcnt);
-            FCWFoutput.Lines.Add('   <star startoken="'+FCDduStarSystem[0].SS_stars[GCcnt].S_token+'" starclass="'+GCclassStr+'">');
-            FCWFoutput.Lines.Add(
+            WF_XMLOutput.Lines.Add('   <star startoken="'+FCDduStarSystem[0].SS_stars[GCcnt].S_token+'" starclass="'+GCclassStr+'">');
+            WF_XMLOutput.Lines.Add(
                '      <starphysdata startemp="'+IntToStr(FCDduStarSystem[0].SS_stars[GCcnt].S_temperature)
                +'" starmass="'+FloatToStr(FCDduStarSystem[0].SS_stars[GCcnt].S_mass)
                +'" stardiam="'+FloatToStr(FCDduStarSystem[0].SS_stars[GCcnt].S_diameter)
@@ -267,7 +274,7 @@ begin
             if GCcnt=2
             then
             begin
-               FCWFoutput.Lines.Add(
+               WF_XMLOutput.Lines.Add(
                   '      <starcompdata compmsep="'+FloatToStr(FCDduStarSystem[0].SS_stars[GCcnt].S_isCompMeanSeparation)
                   +'" compminapd="'+FloatToStr(FCDduStarSystem[0].SS_stars[GCcnt].S_isCompMinApproachDistance)
                   +'" compecc="'+FloatToStr(FCDduStarSystem[0].SS_stars[GCcnt].S_isCompEccentricity)
@@ -282,7 +289,7 @@ begin
                   cotAroundCompanion1: GCorbStr:='coAroundComp';
                   cotAroundMain_Companion1GravityCenter: GCorbStr:='coAroundGravC';
                end;
-               FCWFoutput.Lines.Add(
+               WF_XMLOutput.Lines.Add(
                   '      <starcompdata compmsep="'+FloatToStr(FCDduStarSystem[0].SS_stars[GCcnt].S_isCompMeanSeparation)
                   +'" compminapd="'+FloatToStr(FCDduStarSystem[0].SS_stars[GCcnt].S_isCompMinApproachDistance)
                   +'" compecc="'+FloatToStr(FCDduStarSystem[0].SS_stars[GCcnt].S_isCompEccentricity)
@@ -290,18 +297,18 @@ begin
                   +'/>'
                   );
             end;
-            FCWFoutput.Lines.Add('   </star>');
+            WF_XMLOutput.Lines.Add('   </star>');
          end;
          inc(GCcnt);
       end;
       {.end root}
-      FCWFoutput.Lines.Add('</starsys>');
+      WF_XMLOutput.Lines.Add('</starsys>');
    end
    else
    begin
-      FCWFoutput.Lines.Add('===============================================');
-      FCWFoutput.Lines.Add('!ERROR: DATA INIT!');
-      FCWFoutput.Lines.Add('===============================================');
+      WF_XMLOutput.Lines.Add('===============================================');
+      WF_XMLOutput.Lines.Add('!ERROR: DATA INIT!');
+      WF_XMLOutput.Lines.Add('===============================================');
    end;
 end;
 
@@ -343,17 +350,17 @@ begin
    then FUGcs2OG.ItemIndex:=0;
 end;
 
-procedure TFCWinFUG.FUGmStarOGClick(Sender: TObject);
+procedure TFCWinFUG.TMS_OrbitGenerationClick(Sender: TObject);
 begin
-   if FUGmStarOG.ItemIndex<2
-   then FUGmStarNumOrb.Enabled:=false
-   else FUGmStarNumOrb.Enabled:=true;
+   if TMS_OrbitGeneration.ItemIndex<2
+   then TMS_OrbitGenerationNumberOrbits.Enabled:=false
+   else TMS_OrbitGenerationNumberOrbits.Enabled:=true;
 end;
 
-procedure TFCWinFUG.FUGmSTypeChange(Sender: TObject);
+procedure TFCWinFUG.TMS_SystemTypeChange(Sender: TObject);
 begin
-   if FUGmSType.ItemIndex=3
-   then FUGmStarOG.ItemIndex:=0;
+   if TMS_SystemType.ItemIndex=3
+   then TMS_OrbitGeneration.ItemIndex:=0;
 end;
 
 end.
