@@ -50,12 +50,12 @@ type TFCRfdSystemType= array[0..3] of integer;
    //==========subsection===================================================================
 var
    ///<summary>
-   ///   FUG star orbits - temp data
+   ///   FUG orbits to generate - temp data
    ///</summary>
    FCRfdStarOrbits: TFCRfdStarOrbits;
 
    ///<summary>
-   ///   FUG star orbits - temp data
+   ///   FUG system type - temp data
    ///</summary>
    FCRfdSystemType: TFCRfdSystemType;
 //==END PUBLIC VAR==========================================================================

@@ -76,6 +76,7 @@ begin
    MinimalApproachDistanceCompanion[1]:=100000;
    MinimalApproachDistanceCompanion[2]:=100000;
    isPassedBinaryTrinaryTest:=true;
+   {.in case where the orbits generation is randomized}
    if FCRfdStarOrbits[FOGstar]=0
    then
    begin
