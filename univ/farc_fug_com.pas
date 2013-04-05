@@ -53,9 +53,7 @@ procedure FCMfC_Initialize;
 }
 begin
    if FCWinFUG=nil
-   then
-   FCWinFUG:=TFCWinFUG.Create(Application);
-
+   then FCWinFUG:=TFCWinFUG.Create(Application);
    FCWinFUG.Width:=FCWinMain.Width;
    FCWinFUG.Height:=FCWinMain.Height;
    FCWinFUG.Left:=FCWinMain.Left;

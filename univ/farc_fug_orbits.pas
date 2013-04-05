@@ -42,7 +42,7 @@ uses
 ///   <param name="StarClass">star class</param>
 ///   <param name="Zone">orbital zone</param>
 ///   <return>the default orbital object that must be generated</return>
-function FCFfS_OrbitGen_Balanced( const StarClass: TFCEduStarClasses; const Zone: TFCEfdOrbitalZones ): TFCEfdOrbitalObjectBasicTypes;
+function FCFfS_OrbitGen_Balanced( const StarClass: TFCEduStarClasses; const Zone: TFCEduHabitableZones ): TFCEfdOrbitalObjectBasicTypes;
 
 ///<summary>
 ///   generate the basic type of orbital object given the star's class, for a Sol-Like distribution system
@@ -50,7 +50,7 @@ function FCFfS_OrbitGen_Balanced( const StarClass: TFCEduStarClasses; const Zone
 ///   <param name="StarClass">star class</param>
 ///   <param name="Zone">orbital zone</param>
 ///   <return>the default orbital object that must be generated</return>
-function FCFfS_OrbitGen_SolLike( const StarClass: TFCEduStarClasses; const Zone: TFCEfdOrbitalZones ): TFCEfdOrbitalObjectBasicTypes;
+function FCFfS_OrbitGen_SolLike( const StarClass: TFCEduStarClasses; const Zone: TFCEduHabitableZones ): TFCEfdOrbitalObjectBasicTypes;
 
 ///<summary>
 ///   generate the basic type of orbital object given the star's class, for a ExtraSol-Like distribution system
@@ -58,7 +58,7 @@ function FCFfS_OrbitGen_SolLike( const StarClass: TFCEduStarClasses; const Zone:
 ///   <param name="StarClass">star class</param>
 ///   <param name="Zone">orbital zone</param>
 ///   <return>the default orbital object that must be generated</return>
-function FCFfS_OrbitGen_ExtraSolLike( const StarClass: TFCEduStarClasses; const Zone: TFCEfdOrbitalZones ): TFCEfdOrbitalObjectBasicTypes;
+function FCFfS_OrbitGen_ExtraSolLike( const StarClass: TFCEduStarClasses; const Zone: TFCEduHabitableZones ): TFCEfdOrbitalObjectBasicTypes;
 
 //===========================END FUNCTIONS SECTION==========================================
 
@@ -75,7 +75,7 @@ uses
 
 //===================================================END OF INIT============================
 
-function FCFfS_OrbitGen_Balanced( const StarClass: TFCEduStarClasses; const Zone: TFCEfdOrbitalZones ): TFCEfdOrbitalObjectBasicTypes;
+function FCFfS_OrbitGen_Balanced( const StarClass: TFCEduStarClasses; const Zone: TFCEduHabitableZones ): TFCEfdOrbitalObjectBasicTypes;
 {:Purpose: generate the basic type of orbital object given the star's class, for a Balanced distribution system.
 }
    var
@@ -103,7 +103,7 @@ begin
       cB5..A9:
       begin
          case Zone of
-            ozInner:
+            hzInner:
             begin
                MinAsteroidBelt:=1;
                MaxAsteroidBelt:=48;
@@ -115,7 +115,7 @@ begin
                MaxGaseousPlanet:=100;
             end;
 
-            ozIntermediate:
+            hzIntermediary:
             begin
                MinAsteroidBelt:=1;
                MaxAsteroidBelt:=29;
@@ -127,7 +127,7 @@ begin
                MaxGaseousPlanet:=100;
             end;
 
-            ozOuter:
+            hzOuter:
             begin
                MinAsteroidBelt:=1;
                MaxAsteroidBelt:=20;
@@ -144,7 +144,7 @@ begin
       F0..M9:
       begin
          case Zone of
-            ozInner:
+            hzInner:
             begin
                MinAsteroidBelt:=1;
                MaxAsteroidBelt:=14;
@@ -156,7 +156,7 @@ begin
                MaxGaseousPlanet:=100;
             end;
 
-            ozIntermediate:
+            hzIntermediary:
             begin
                MinAsteroidBelt:=1;
                MaxAsteroidBelt:=16;
@@ -168,7 +168,7 @@ begin
                MaxGaseousPlanet:=100;
             end;
 
-            ozOuter:
+            hzOuter:
             begin
                MinAsteroidBelt:=1;
                MaxAsteroidBelt:=17;
@@ -185,7 +185,7 @@ begin
       WD0..WD9:
       begin
          case Zone of
-            ozInner:
+            hzInner:
             begin
                MinAsteroidBelt:=0;
                MaxAsteroidBelt:=0;
@@ -197,7 +197,7 @@ begin
                MaxGaseousPlanet:=0;
             end;
 
-            ozIntermediate:
+            hzIntermediary:
             begin
                MinAsteroidBelt:=0;
                MaxAsteroidBelt:=0;
@@ -209,7 +209,7 @@ begin
                MaxGaseousPlanet:=0;
             end;
 
-            ozOuter:
+            hzOuter:
             begin
                MinAsteroidBelt:=1;
                MaxAsteroidBelt:=3;
@@ -226,7 +226,7 @@ begin
       PSR:
       begin
          case Zone of
-            ozInner:
+            hzInner:
             begin
                MinAsteroidBelt:=0;
                MaxAsteroidBelt:=0;
@@ -238,7 +238,7 @@ begin
                MaxGaseousPlanet:=0;
             end;
 
-            ozIntermediate:
+            hzIntermediary:
             begin
                MinAsteroidBelt:=0;
                MaxAsteroidBelt:=0;
@@ -250,7 +250,7 @@ begin
                MaxGaseousPlanet:=0;
             end;
 
-            ozOuter:
+            hzOuter:
             begin
                MinAsteroidBelt:=1;
                MaxAsteroidBelt:=5;
@@ -267,7 +267,7 @@ begin
       BH:
       begin
          case Zone of
-            ozInner:
+            hzInner:
             begin
                MinAsteroidBelt:=0;
                MaxAsteroidBelt:=0;
@@ -279,7 +279,7 @@ begin
                MaxGaseousPlanet:=0;
             end;
 
-            ozIntermediate:
+            hzIntermediary:
             begin
                MinAsteroidBelt:=0;
                MaxAsteroidBelt:=0;
@@ -291,7 +291,7 @@ begin
                MaxGaseousPlanet:=0;
             end;
 
-            ozOuter:
+            hzOuter:
             begin
                MinAsteroidBelt:=0;
                MaxAsteroidBelt:=0;
@@ -320,7 +320,7 @@ begin
    then Result:=oobtGaseousPlanet;
 end;
 
-function FCFfS_OrbitGen_ExtraSolLike( const StarClass: TFCEduStarClasses; const Zone: TFCEfdOrbitalZones ): TFCEfdOrbitalObjectBasicTypes;
+function FCFfS_OrbitGen_ExtraSolLike( const StarClass: TFCEduStarClasses; const Zone: TFCEduHabitableZones ): TFCEfdOrbitalObjectBasicTypes;
 {:Purpose: generate the basic type of orbital object given the star's class, for a ExtraSol-Like distribution system.
 }
    var
@@ -348,7 +348,7 @@ begin
       cB5..A9:
       begin
          case Zone of
-            ozInner:
+            hzInner:
             begin
                MinAsteroidBelt:=1;
                MaxAsteroidBelt:=40;
@@ -360,7 +360,7 @@ begin
                MaxGaseousPlanet:=100;
             end;
 
-            ozIntermediate:
+            hzIntermediary:
             begin
                MinAsteroidBelt:=1;
                MaxAsteroidBelt:=25;
@@ -372,7 +372,7 @@ begin
                MaxGaseousPlanet:=100;
             end;
 
-            ozOuter:
+            hzOuter:
             begin
                MinAsteroidBelt:=1;
                MaxAsteroidBelt:=17;
@@ -389,7 +389,7 @@ begin
       F0..M9:
       begin
          case Zone of
-            ozInner:
+            hzInner:
             begin
                MinAsteroidBelt:=1;
                MaxAsteroidBelt:=8;
@@ -401,7 +401,7 @@ begin
                MaxGaseousPlanet:=100;
             end;
 
-            ozIntermediate:
+            hzIntermediary:
             begin
                MinAsteroidBelt:=1;
                MaxAsteroidBelt:=12;
@@ -413,7 +413,7 @@ begin
                MaxGaseousPlanet:=100;
             end;
 
-            ozOuter:
+            hzOuter:
             begin
                MinAsteroidBelt:=1;
                MaxAsteroidBelt:=17;
@@ -430,7 +430,7 @@ begin
       WD0..WD9:
       begin
          case Zone of
-            ozInner:
+            hzInner:
             begin
                MinAsteroidBelt:=0;
                MaxAsteroidBelt:=0;
@@ -442,7 +442,7 @@ begin
                MaxGaseousPlanet:=0;
             end;
 
-            ozIntermediate:
+            hzIntermediary:
             begin
                MinAsteroidBelt:=0;
                MaxAsteroidBelt:=0;
@@ -454,7 +454,7 @@ begin
                MaxGaseousPlanet:=0;
             end;
 
-            ozOuter:
+            hzOuter:
             begin
                MinAsteroidBelt:=0;
                MaxAsteroidBelt:=0;
@@ -471,7 +471,7 @@ begin
       PSR:
       begin
          case Zone of
-            ozInner:
+            hzInner:
             begin
                MinAsteroidBelt:=0;
                MaxAsteroidBelt:=0;
@@ -483,7 +483,7 @@ begin
                MaxGaseousPlanet:=0;
             end;
 
-            ozIntermediate:
+            hzIntermediary:
             begin
                MinAsteroidBelt:=0;
                MaxAsteroidBelt:=0;
@@ -495,7 +495,7 @@ begin
                MaxGaseousPlanet:=0;
             end;
 
-            ozOuter:
+            hzOuter:
             begin
                MinAsteroidBelt:=1;
                MaxAsteroidBelt:=10;
@@ -512,7 +512,7 @@ begin
       BH:
       begin
          case Zone of
-            ozInner:
+            hzInner:
             begin
                MinAsteroidBelt:=0;
                MaxAsteroidBelt:=0;
@@ -524,7 +524,7 @@ begin
                MaxGaseousPlanet:=0;
             end;
 
-            ozIntermediate:
+            hzIntermediary:
             begin
                MinAsteroidBelt:=0;
                MaxAsteroidBelt:=0;
@@ -536,7 +536,7 @@ begin
                MaxGaseousPlanet:=0;
             end;
 
-            ozOuter:
+            hzOuter:
             begin
                MinAsteroidBelt:=0;
                MaxAsteroidBelt:=0;
@@ -565,7 +565,7 @@ begin
    then Result:=oobtGaseousPlanet;
 end;
 
-function FCFfS_OrbitGen_SolLike( const StarClass: TFCEduStarClasses; const Zone: TFCEfdOrbitalZones ): TFCEfdOrbitalObjectBasicTypes;
+function FCFfS_OrbitGen_SolLike( const StarClass: TFCEduStarClasses; const Zone: TFCEduHabitableZones ): TFCEfdOrbitalObjectBasicTypes;
 {:Purpose: generate the basic type of orbital object given the star's class, for a Sol-Like distribution system.
 }
    var
@@ -593,7 +593,7 @@ begin
       cB5..A9:
       begin
          case Zone of
-            ozInner:
+            hzInner:
             begin
                MinAsteroidBelt:=1;
                MaxAsteroidBelt:=55;
@@ -605,7 +605,7 @@ begin
                MaxGaseousPlanet:=100;
             end;
 
-            ozIntermediate:
+            hzIntermediary:
             begin
                MinAsteroidBelt:=1;
                MaxAsteroidBelt:=34;
@@ -617,7 +617,7 @@ begin
                MaxGaseousPlanet:=100;
             end;
 
-            ozOuter:
+            hzOuter:
             begin
                MinAsteroidBelt:=1;
                MaxAsteroidBelt:=23;
@@ -634,7 +634,7 @@ begin
       F0..M9:
       begin
          case Zone of
-            ozInner:
+            hzInner:
             begin
                MinAsteroidBelt:=1;
                MaxAsteroidBelt:=21;
@@ -646,7 +646,7 @@ begin
                MaxGaseousPlanet:=100;
             end;
 
-            ozIntermediate:
+            hzIntermediary:
             begin
                MinAsteroidBelt:=1;
                MaxAsteroidBelt:=19;
@@ -658,7 +658,7 @@ begin
                MaxGaseousPlanet:=100;
             end;
 
-            ozOuter:
+            hzOuter:
             begin
                MinAsteroidBelt:=1;
                MaxAsteroidBelt:=17;
@@ -675,7 +675,7 @@ begin
       WD0..WD9:
       begin
          case Zone of
-            ozInner:
+            hzInner:
             begin
                MinAsteroidBelt:=0;
                MaxAsteroidBelt:=0;
@@ -687,7 +687,7 @@ begin
                MaxGaseousPlanet:=0;
             end;
 
-            ozIntermediate:
+            hzIntermediary:
             begin
                MinAsteroidBelt:=0;
                MaxAsteroidBelt:=0;
@@ -699,7 +699,7 @@ begin
                MaxGaseousPlanet:=0;
             end;
 
-            ozOuter:
+            hzOuter:
             begin
                MinAsteroidBelt:=1;
                MaxAsteroidBelt:=5;
@@ -716,7 +716,7 @@ begin
       PSR:
       begin
          case Zone of
-            ozInner:
+            hzInner:
             begin
                MinAsteroidBelt:=0;
                MaxAsteroidBelt:=0;
@@ -728,7 +728,7 @@ begin
                MaxGaseousPlanet:=0;
             end;
 
-            ozIntermediate:
+            hzIntermediary:
             begin
                MinAsteroidBelt:=0;
                MaxAsteroidBelt:=0;
@@ -740,7 +740,7 @@ begin
                MaxGaseousPlanet:=0;
             end;
 
-            ozOuter:
+            hzOuter:
             begin
                MinAsteroidBelt:=0;
                MaxAsteroidBelt:=0;
@@ -757,7 +757,7 @@ begin
       BH:
       begin
          case Zone of
-            ozInner:
+            hzInner:
             begin
                MinAsteroidBelt:=0;
                MaxAsteroidBelt:=0;
@@ -769,7 +769,7 @@ begin
                MaxGaseousPlanet:=0;
             end;
 
-            ozIntermediate:
+            hzIntermediary:
             begin
                MinAsteroidBelt:=0;
                MaxAsteroidBelt:=0;
@@ -781,7 +781,7 @@ begin
                MaxGaseousPlanet:=0;
             end;
 
-            ozOuter:
+            hzOuter:
             begin
                MinAsteroidBelt:=0;
                MaxAsteroidBelt:=0;

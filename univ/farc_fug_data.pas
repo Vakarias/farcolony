@@ -40,12 +40,6 @@ type TFCEfdOrbitalObjectBasicTypes=(
    ,oobtGaseousPlanet
    );
 
-type TFCEfdOrbitalZones=(
-   ozInner
-   ,ozIntermediate
-   ,ozOuter
-   );
-
 //==END PUBLIC ENUM=========================================================================
 
 ///<summary>
