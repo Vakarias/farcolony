@@ -287,9 +287,9 @@ begin
             then
             begin
                case FCDduStarSystem[0].SS_stars[Count].S_isCompStar2OrbitType of
-                  cotAroundMain_Companion1: DumpString:='coAroundCenter';
-                  cotAroundCompanion1: DumpString:='coAroundComp';
-                  cotAroundMain_Companion1GravityCenter: DumpString:='coAroundGravC';
+                  cotAroundMain_Companion1: DumpString:='cotAroundMain_Companion1';
+                  cotAroundCompanion1: DumpString:='cotAroundCompanion1';
+                  cotAroundMain_Companion1GravityCenter: DumpString:='cotAroundMain_Companion1GravityCenter';
                end;
                WF_XMLOutput.Lines.Add(
                   '      <starcompdata compmsep="'+FloatToStr(FCDduStarSystem[0].SS_stars[Count].S_isCompMeanSeparation)

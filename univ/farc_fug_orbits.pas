@@ -36,6 +36,32 @@ uses
    ,farc_data_univ
    ,farc_fug_data;
 
+//   procedure OOR_Orbits_DetermineZone;
+//begin
+//   with DBOrbObjs[FCOObCurrInProc] do
+//   begin
+////      if Distance<sqrt(OODZ_StarLum/1.1) then Zone:=1
+////      else if Distance>sqrt(OODZ_StarLum/0.53) then Zone:=3
+////      else if (Distance>=sqrt(OODZ_StarLum/1.1))
+////         and (Distance<=sqrt(OODZ_StarLum/0.53)) then Zone:=2;
+//   end;
+//end;
+
+///oldold
+//    with DBOrbits[Current_OObj] do begin
+//        if BOrb_Distance<sqrt(OODZ_StarLum/1.1) then BOrb_Zone:=1
+//        else if BOrb_Distance>sqrt(OODZ_StarLum/0.53) then BOrb_Zone:=3
+//        else if (BOrb_Distance>=sqrt(OODZ_StarLum/1.1))
+//            and (BOrb_Distance<=sqrt(OODZ_StarLum/0.53)) then BOrb_Zone:=2;
+//        if (OODZ_StarClass='PSR')
+//            or (OODZ_StarClass='BH')
+//            or (OODZ_StarClass='WD') then BOrb_Zone:=3;
+//        if ((OODZ_StarClass='O') or (OODZ_StarClass='B') or ((OODZ_StarClass='A') and (OODZ_StarSubClass<=5))
+//            or (OODZ_StarClass='cB') or (OODZ_StarClass='cA'))
+//            and (BOrb_Zone=1) then BOrb_Zone:=2;
+//    end;
+
+
 ///<summary>
 ///   generate the basic type of orbital object given the star's class, for a Balanced distribution system
 ///</summary>
@@ -938,12 +964,15 @@ begin
       NumberOfOrbits:=FCRfdStarOrbits[FOGstar];
       SetLength(FCDduStarSystem[0].SS_stars[FOGstar].S_orbitalObjects, NumberOfOrbits+1);
    end;
-   {.orbit generation}
-   CountOrbits:=1;
-   while CountOrbits<=NumberOfOrbits do
-   begin
-      inc( CountOrbits );
-   end;
+   {.orbit distances}
+   {:DEV NOTES: end=> if MAOD<=0 then => no orbits, supress the setlength or set it only if >0.}
+
+//   {.orbit generation}
+//   CountOrbits:=1;
+//   while CountOrbits<=NumberOfOrbits do
+//   begin
+//      inc( CountOrbits );
+//   end;
 end;
 
 end.
