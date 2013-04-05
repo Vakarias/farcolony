@@ -31,7 +31,36 @@ unit farc_fug_orbits;
 interface
 
 uses
-   Math;
+   Math
+
+   ,farc_data_univ
+   ,farc_fug_data;
+
+///<summary>
+///   generate the basic type of orbital object given the star's class, for a Balanced distribution system
+///</summary>
+///   <param name="StarClass">star class</param>
+///   <param name="Zone">orbital zone</param>
+///   <return>the default orbital object that must be generated</return>
+function FCFfS_OrbitGen_Balanced( const StarClass: TFCEduStarClasses; const Zone: TFCEfdOrbitalZones ): TFCEfdOrbitalObjectBasicTypes;
+
+///<summary>
+///   generate the basic type of orbital object given the star's class, for a Sol-Like distribution system
+///</summary>
+///   <param name="StarClass">star class</param>
+///   <param name="Zone">orbital zone</param>
+///   <return>the default orbital object that must be generated</return>
+function FCFfS_OrbitGen_SolLike( const StarClass: TFCEduStarClasses; const Zone: TFCEfdOrbitalZones ): TFCEfdOrbitalObjectBasicTypes;
+
+///<summary>
+///   generate the basic type of orbital object given the star's class, for a ExtraSol-Like distribution system
+///</summary>
+///   <param name="StarClass">star class</param>
+///   <param name="Zone">orbital zone</param>
+///   <return>the default orbital object that must be generated</return>
+function FCFfS_OrbitGen_ExtraSolLike( const StarClass: TFCEduStarClasses; const Zone: TFCEfdOrbitalZones ): TFCEfdOrbitalObjectBasicTypes;
+
+//===========================END FUNCTIONS SECTION==========================================
 
 ///<summary>
 ///   core routine for orbits generation
@@ -39,17 +68,750 @@ uses
 ///</summary>
 procedure FCMfO_Generate(const FOGstar: integer);
 
-//===========================END FUNCTIONS SECTION==========================================
-
 implementation
 
 uses
-   farc_common_func
-   ,farc_data_univ
-   ,farc_fug_data;
+   farc_common_func;
 
 //===================================================END OF INIT============================
+
+function FCFfS_OrbitGen_Balanced( const StarClass: TFCEduStarClasses; const Zone: TFCEfdOrbitalZones ): TFCEfdOrbitalObjectBasicTypes;
+{:Purpose: generate the basic type of orbital object given the star's class, for a Balanced distribution system.
+}
+   var
+      MaxAsteroid
+      ,MaxAsteroidBelt
+      ,MaxGaseousPlanet
+      ,MaxTelluricPlanet
+      ,MinAsteroid
+      ,MinAsteroidBelt
+      ,MinGaseousPlanet
+      ,MinTelluricPlanet
+      ,Test: integer;
+begin
+   Result:=oobtNone;
+   MaxAsteroid:=0;
+   MaxAsteroidBelt:=0;
+   MaxGaseousPlanet:=0;
+   MaxTelluricPlanet:=0;
+   MinAsteroid:=0;
+   MinAsteroidBelt:=0;
+   MinGaseousPlanet:=0;
+   MinTelluricPlanet:=0;
+   Test:=0;
+   case StarClass of
+      cB5..A9:
+      begin
+         case Zone of
+            ozInner:
+            begin
+               MinAsteroidBelt:=1;
+               MaxAsteroidBelt:=48;
+               MinAsteroid:=MaxAsteroidBelt+1;
+               MaxAsteroid:=72;
+               MinTelluricPlanet:=MaxAsteroid+1;
+               MaxTelluricPlanet:=83;
+               MinGaseousPlanet:=MaxTelluricPlanet+1;
+               MaxGaseousPlanet:=100;
+            end;
+
+            ozIntermediate:
+            begin
+               MinAsteroidBelt:=1;
+               MaxAsteroidBelt:=29;
+               MinAsteroid:=MaxAsteroidBelt+1;
+               MaxAsteroid:=57;
+               MinTelluricPlanet:=MaxAsteroid+1;
+               MaxTelluricPlanet:=77;
+               MinGaseousPlanet:=MaxTelluricPlanet+1;
+               MaxGaseousPlanet:=100;
+            end;
+
+            ozOuter:
+            begin
+               MinAsteroidBelt:=1;
+               MaxAsteroidBelt:=20;
+               MinAsteroid:=MaxAsteroidBelt+1;
+               MaxAsteroid:=50;
+               MinTelluricPlanet:=MaxAsteroid+1;
+               MaxTelluricPlanet:=58;
+               MinGaseousPlanet:=MaxTelluricPlanet+1;
+               MaxGaseousPlanet:=100;
+            end;
+         end;//==END== case Zone of ==//
+      end;
+
+      F0..M9:
+      begin
+         case Zone of
+            ozInner:
+            begin
+               MinAsteroidBelt:=1;
+               MaxAsteroidBelt:=14;
+               MinAsteroid:=MaxAsteroidBelt+1;
+               MaxAsteroid:=33;
+               MinTelluricPlanet:=MaxAsteroid+1;
+               MaxTelluricPlanet:=71;
+               MinGaseousPlanet:=MaxTelluricPlanet+1;
+               MaxGaseousPlanet:=100;
+            end;
+
+            ozIntermediate:
+            begin
+               MinAsteroidBelt:=1;
+               MaxAsteroidBelt:=16;
+               MinAsteroid:=MaxAsteroidBelt+1;
+               MaxAsteroid:=30;
+               MinTelluricPlanet:=MaxAsteroid+1;
+               MaxTelluricPlanet:=57;
+               MinGaseousPlanet:=MaxTelluricPlanet+1;
+               MaxGaseousPlanet:=100;
+            end;
+
+            ozOuter:
+            begin
+               MinAsteroidBelt:=1;
+               MaxAsteroidBelt:=17;
+               MinAsteroid:=MaxAsteroidBelt+1;
+               MaxAsteroid:=30;
+               MinTelluricPlanet:=MaxAsteroid+1;
+               MaxTelluricPlanet:=41;
+               MinGaseousPlanet:=MaxTelluricPlanet+1;
+               MaxGaseousPlanet:=100;
+            end;
+         end;//==END== case Zone of ==//
+      end;
+
+      WD0..WD9:
+      begin
+         case Zone of
+            ozInner:
+            begin
+               MinAsteroidBelt:=0;
+               MaxAsteroidBelt:=0;
+               MinAsteroid:=1;
+               MaxAsteroid:=85;
+               MinTelluricPlanet:=MaxAsteroid+1;
+               MaxTelluricPlanet:=100;
+               MinGaseousPlanet:=0;
+               MaxGaseousPlanet:=0;
+            end;
+
+            ozIntermediate:
+            begin
+               MinAsteroidBelt:=0;
+               MaxAsteroidBelt:=0;
+               MinAsteroid:=1;
+               MaxAsteroid:=71;
+               MinTelluricPlanet:=MaxAsteroid+1;
+               MaxTelluricPlanet:=100;
+               MinGaseousPlanet:=0;
+               MaxGaseousPlanet:=0;
+            end;
+
+            ozOuter:
+            begin
+               MinAsteroidBelt:=1;
+               MaxAsteroidBelt:=3;
+               MinAsteroid:=MaxAsteroidBelt+1;
+               MaxAsteroid:=61;
+               MinTelluricPlanet:=MaxAsteroid+1;
+               MaxTelluricPlanet:=95;
+               MinGaseousPlanet:=MaxTelluricPlanet+1;
+               MaxGaseousPlanet:=100;
+            end;
+         end;//==END== case Zone of ==//
+      end;
+
+      PSR:
+      begin
+         case Zone of
+            ozInner:
+            begin
+               MinAsteroidBelt:=0;
+               MaxAsteroidBelt:=0;
+               MinAsteroid:=1;
+               MaxAsteroid:=77;
+               MinTelluricPlanet:=MaxAsteroid+1;
+               MaxTelluricPlanet:=100;
+               MinGaseousPlanet:=0;
+               MaxGaseousPlanet:=0;
+            end;
+
+            ozIntermediate:
+            begin
+               MinAsteroidBelt:=0;
+               MaxAsteroidBelt:=0;
+               MinAsteroid:=1;
+               MaxAsteroid:=60;
+               MinTelluricPlanet:=MaxAsteroid+1;
+               MaxTelluricPlanet:=100;
+               MinGaseousPlanet:=0;
+               MaxGaseousPlanet:=0;
+            end;
+
+            ozOuter:
+            begin
+               MinAsteroidBelt:=1;
+               MaxAsteroidBelt:=5;
+               MinAsteroid:=MaxAsteroidBelt+1;
+               MaxAsteroid:=61;
+               MinTelluricPlanet:=MaxAsteroid+1;
+               MaxTelluricPlanet:=100;
+               MinGaseousPlanet:=0;
+               MaxGaseousPlanet:=0;
+            end;
+         end;//==END== case Zone of ==//
+      end;
+
+      BH:
+      begin
+         case Zone of
+            ozInner:
+            begin
+               MinAsteroidBelt:=0;
+               MaxAsteroidBelt:=0;
+               MinAsteroid:=0;
+               MaxAsteroid:=0;
+               MinTelluricPlanet:=0;
+               MaxTelluricPlanet:=0;
+               MinGaseousPlanet:=0;
+               MaxGaseousPlanet:=0;
+            end;
+
+            ozIntermediate:
+            begin
+               MinAsteroidBelt:=0;
+               MaxAsteroidBelt:=0;
+               MinAsteroid:=0;
+               MaxAsteroid:=0;
+               MinTelluricPlanet:=0;
+               MaxTelluricPlanet:=0;
+               MinGaseousPlanet:=0;
+               MaxGaseousPlanet:=0;
+            end;
+
+            ozOuter:
+            begin
+               MinAsteroidBelt:=0;
+               MaxAsteroidBelt:=0;
+               MinAsteroid:=1;
+               MaxAsteroid:=85;
+               MinTelluricPlanet:=MaxAsteroid+1;
+               MaxTelluricPlanet:=100;
+               MinGaseousPlanet:=0;
+               MaxGaseousPlanet:=0;
+            end;
+         end;//==END== case Zone of ==//
+      end;
+   end;//==END== case StarClass of ==//
+   Test:=FCFcF_Random_DoInteger(99)+1;
+   if ( MinAsteroidBelt>0 )
+      and ( ( Test>=MinAsteroidBelt ) and ( Test<=MaxAsteroidBelt ) )
+   then Result:=oobtAsteroidBelt
+   else if ( MinAsteroid>0 )
+      and ( ( Test>=MinAsteroid ) and ( Test<=MaxAsteroid ) )
+   then Result:=oobtAsteroid
+   else if ( MinTelluricPlanet>0 )
+      and ( ( Test>=MinTelluricPlanet ) and ( Test<=MaxTelluricPlanet ) )
+   then Result:=oobtTelluricPlanet
+   else if ( MinGaseousPlanet>0 )
+      and ( ( Test>=MinGaseousPlanet ) and ( Test<=MaxGaseousPlanet ) )
+   then Result:=oobtGaseousPlanet;
+end;
+
+function FCFfS_OrbitGen_ExtraSolLike( const StarClass: TFCEduStarClasses; const Zone: TFCEfdOrbitalZones ): TFCEfdOrbitalObjectBasicTypes;
+{:Purpose: generate the basic type of orbital object given the star's class, for a ExtraSol-Like distribution system.
+}
+   var
+      MaxAsteroid
+      ,MaxAsteroidBelt
+      ,MaxGaseousPlanet
+      ,MaxTelluricPlanet
+      ,MinAsteroid
+      ,MinAsteroidBelt
+      ,MinGaseousPlanet
+      ,MinTelluricPlanet
+      ,Test: integer;
+begin
+   Result:=oobtNone;
+   MaxAsteroid:=0;
+   MaxAsteroidBelt:=0;
+   MaxGaseousPlanet:=0;
+   MaxTelluricPlanet:=0;
+   MinAsteroid:=0;
+   MinAsteroidBelt:=0;
+   MinGaseousPlanet:=0;
+   MinTelluricPlanet:=0;
+   Test:=0;
+   case StarClass of
+      cB5..A9:
+      begin
+         case Zone of
+            ozInner:
+            begin
+               MinAsteroidBelt:=1;
+               MaxAsteroidBelt:=40;
+               MinAsteroid:=MaxAsteroidBelt+1;
+               MaxAsteroid:=49;
+               MinTelluricPlanet:=MaxAsteroid+1;
+               MaxTelluricPlanet:=68;
+               MinGaseousPlanet:=MaxTelluricPlanet+1;
+               MaxGaseousPlanet:=100;
+            end;
+
+            ozIntermediate:
+            begin
+               MinAsteroidBelt:=1;
+               MaxAsteroidBelt:=25;
+               MinAsteroid:=MaxAsteroidBelt+1;
+               MaxAsteroid:=35;
+               MinTelluricPlanet:=MaxAsteroid+1;
+               MaxTelluricPlanet:=61;
+               MinGaseousPlanet:=MaxTelluricPlanet+1;
+               MaxGaseousPlanet:=100;
+            end;
+
+            ozOuter:
+            begin
+               MinAsteroidBelt:=1;
+               MaxAsteroidBelt:=17;
+               MinAsteroid:=MaxAsteroidBelt+1;
+               MaxAsteroid:=30;
+               MinTelluricPlanet:=MaxAsteroid+1;
+               MaxTelluricPlanet:=40;
+               MinGaseousPlanet:=MaxTelluricPlanet+1;
+               MaxGaseousPlanet:=100;
+            end;
+         end;//==END== case Zone of ==//
+      end;
+
+      F0..M9:
+      begin
+         case Zone of
+            ozInner:
+            begin
+               MinAsteroidBelt:=1;
+               MaxAsteroidBelt:=8;
+               MinAsteroid:=MaxAsteroidBelt+1;
+               MaxAsteroid:=35;
+               MinTelluricPlanet:=MaxAsteroid+1;
+               MaxTelluricPlanet:=60;
+               MinGaseousPlanet:=MaxTelluricPlanet+1;
+               MaxGaseousPlanet:=100;
+            end;
+
+            ozIntermediate:
+            begin
+               MinAsteroidBelt:=1;
+               MaxAsteroidBelt:=12;
+               MinAsteroid:=MaxAsteroidBelt+1;
+               MaxAsteroid:=27;
+               MinTelluricPlanet:=MaxAsteroid+1;
+               MaxTelluricPlanet:=45;
+               MinGaseousPlanet:=MaxTelluricPlanet+1;
+               MaxGaseousPlanet:=100;
+            end;
+
+            ozOuter:
+            begin
+               MinAsteroidBelt:=1;
+               MaxAsteroidBelt:=17;
+               MinAsteroid:=MaxAsteroidBelt+1;
+               MaxAsteroid:=30;
+               MinTelluricPlanet:=MaxAsteroid+1;
+               MaxTelluricPlanet:=40;
+               MinGaseousPlanet:=MaxTelluricPlanet+1;
+               MaxGaseousPlanet:=100;
+            end;
+         end;//==END== case Zone of ==//
+      end;
+
+      WD0..WD9:
+      begin
+         case Zone of
+            ozInner:
+            begin
+               MinAsteroidBelt:=0;
+               MaxAsteroidBelt:=0;
+               MinAsteroid:=1;
+               MaxAsteroid:=85;
+               MinTelluricPlanet:=MaxAsteroid+1;
+               MaxTelluricPlanet:=100;
+               MinGaseousPlanet:=0;
+               MaxGaseousPlanet:=0;
+            end;
+
+            ozIntermediate:
+            begin
+               MinAsteroidBelt:=0;
+               MaxAsteroidBelt:=0;
+               MinAsteroid:=1;
+               MaxAsteroid:=71;
+               MinTelluricPlanet:=MaxAsteroid+1;
+               MaxTelluricPlanet:=100;
+               MinGaseousPlanet:=0;
+               MaxGaseousPlanet:=0;
+            end;
+
+            ozOuter:
+            begin
+               MinAsteroidBelt:=0;
+               MaxAsteroidBelt:=0;
+               MinAsteroid:=1;
+               MaxAsteroid:=52;
+               MinTelluricPlanet:=MaxAsteroid+1;
+               MaxTelluricPlanet:=90;
+               MinGaseousPlanet:=MaxTelluricPlanet+1;
+               MaxGaseousPlanet:=100;
+            end;
+         end;//==END== case Zone of ==//
+      end;
+
+      PSR:
+      begin
+         case Zone of
+            ozInner:
+            begin
+               MinAsteroidBelt:=0;
+               MaxAsteroidBelt:=0;
+               MinAsteroid:=1;
+               MaxAsteroid:=70;
+               MinTelluricPlanet:=MaxAsteroid+1;
+               MaxTelluricPlanet:=100;
+               MinGaseousPlanet:=0;
+               MaxGaseousPlanet:=0;
+            end;
+
+            ozIntermediate:
+            begin
+               MinAsteroidBelt:=0;
+               MaxAsteroidBelt:=0;
+               MinAsteroid:=1;
+               MaxAsteroid:=60;
+               MinTelluricPlanet:=MaxAsteroid+1;
+               MaxTelluricPlanet:=100;
+               MinGaseousPlanet:=0;
+               MaxGaseousPlanet:=0;
+            end;
+
+            ozOuter:
+            begin
+               MinAsteroidBelt:=1;
+               MaxAsteroidBelt:=10;
+               MinAsteroid:=MaxAsteroidBelt+1;
+               MaxAsteroid:=80;
+               MinTelluricPlanet:=MaxAsteroid+1;
+               MaxTelluricPlanet:=100;
+               MinGaseousPlanet:=0;
+               MaxGaseousPlanet:=0;
+            end;
+         end;//==END== case Zone of ==//
+      end;
+
+      BH:
+      begin
+         case Zone of
+            ozInner:
+            begin
+               MinAsteroidBelt:=0;
+               MaxAsteroidBelt:=0;
+               MinAsteroid:=0;
+               MaxAsteroid:=0;
+               MinTelluricPlanet:=0;
+               MaxTelluricPlanet:=0;
+               MinGaseousPlanet:=0;
+               MaxGaseousPlanet:=0;
+            end;
+
+            ozIntermediate:
+            begin
+               MinAsteroidBelt:=0;
+               MaxAsteroidBelt:=0;
+               MinAsteroid:=0;
+               MaxAsteroid:=0;
+               MinTelluricPlanet:=0;
+               MaxTelluricPlanet:=0;
+               MinGaseousPlanet:=0;
+               MaxGaseousPlanet:=0;
+            end;
+
+            ozOuter:
+            begin
+               MinAsteroidBelt:=0;
+               MaxAsteroidBelt:=0;
+               MinAsteroid:=1;
+               MaxAsteroid:=80;
+               MinTelluricPlanet:=MaxAsteroid+1;
+               MaxTelluricPlanet:=100;
+               MinGaseousPlanet:=0;
+               MaxGaseousPlanet:=0;
+            end;
+         end;//==END== case Zone of ==//
+      end;
+   end;//==END== case StarClass of ==//
+   Test:=FCFcF_Random_DoInteger(99)+1;
+   if ( MinAsteroidBelt>0 )
+      and ( ( Test>=MinAsteroidBelt ) and ( Test<=MaxAsteroidBelt ) )
+   then Result:=oobtAsteroidBelt
+   else if ( MinAsteroid>0 )
+      and ( ( Test>=MinAsteroid ) and ( Test<=MaxAsteroid ) )
+   then Result:=oobtAsteroid
+   else if ( MinTelluricPlanet>0 )
+      and ( ( Test>=MinTelluricPlanet ) and ( Test<=MaxTelluricPlanet ) )
+   then Result:=oobtTelluricPlanet
+   else if ( MinGaseousPlanet>0 )
+      and ( ( Test>=MinGaseousPlanet ) and ( Test<=MaxGaseousPlanet ) )
+   then Result:=oobtGaseousPlanet;
+end;
+
+function FCFfS_OrbitGen_SolLike( const StarClass: TFCEduStarClasses; const Zone: TFCEfdOrbitalZones ): TFCEfdOrbitalObjectBasicTypes;
+{:Purpose: generate the basic type of orbital object given the star's class, for a Sol-Like distribution system.
+}
+   var
+      MaxAsteroid
+      ,MaxAsteroidBelt
+      ,MaxGaseousPlanet
+      ,MaxTelluricPlanet
+      ,MinAsteroid
+      ,MinAsteroidBelt
+      ,MinGaseousPlanet
+      ,MinTelluricPlanet
+      ,Test: integer;
+begin
+   Result:=oobtNone;
+   MaxAsteroid:=0;
+   MaxAsteroidBelt:=0;
+   MaxGaseousPlanet:=0;
+   MaxTelluricPlanet:=0;
+   MinAsteroid:=0;
+   MinAsteroidBelt:=0;
+   MinGaseousPlanet:=0;
+   MinTelluricPlanet:=0;
+   Test:=0;
+   case StarClass of
+      cB5..A9:
+      begin
+         case Zone of
+            ozInner:
+            begin
+               MinAsteroidBelt:=1;
+               MaxAsteroidBelt:=55;
+               MinAsteroid:=MaxAsteroidBelt+1;
+               MaxAsteroid:=94;
+               MinTelluricPlanet:=MaxAsteroid+1;
+               MaxTelluricPlanet:=98;
+               MinGaseousPlanet:=MaxTelluricPlanet+1;
+               MaxGaseousPlanet:=100;
+            end;
+
+            ozIntermediate:
+            begin
+               MinAsteroidBelt:=1;
+               MaxAsteroidBelt:=34;
+               MinAsteroid:=MaxAsteroidBelt+1;
+               MaxAsteroid:=80;
+               MinTelluricPlanet:=MaxAsteroid+1;
+               MaxTelluricPlanet:=94;
+               MinGaseousPlanet:=MaxTelluricPlanet+1;
+               MaxGaseousPlanet:=100;
+            end;
+
+            ozOuter:
+            begin
+               MinAsteroidBelt:=1;
+               MaxAsteroidBelt:=23;
+               MinAsteroid:=MaxAsteroidBelt+1;
+               MaxAsteroid:=71;
+               MinTelluricPlanet:=MaxAsteroid+1;
+               MaxTelluricPlanet:=76;
+               MinGaseousPlanet:=MaxTelluricPlanet+1;
+               MaxGaseousPlanet:=100;
+            end;
+         end;//==END== case Zone of ==//
+      end;
+
+      F0..M9:
+      begin
+         case Zone of
+            ozInner:
+            begin
+               MinAsteroidBelt:=1;
+               MaxAsteroidBelt:=21;
+               MinAsteroid:=MaxAsteroidBelt+1;
+               MaxAsteroid:=32;
+               MinTelluricPlanet:=MaxAsteroid+1;
+               MaxTelluricPlanet:=83;
+               MinGaseousPlanet:=MaxTelluricPlanet+1;
+               MaxGaseousPlanet:=100;
+            end;
+
+            ozIntermediate:
+            begin
+               MinAsteroidBelt:=1;
+               MaxAsteroidBelt:=19;
+               MinAsteroid:=MaxAsteroidBelt+1;
+               MaxAsteroid:=32;
+               MinTelluricPlanet:=MaxAsteroid+1;
+               MaxTelluricPlanet:=69;
+               MinGaseousPlanet:=MaxTelluricPlanet+1;
+               MaxGaseousPlanet:=100;
+            end;
+
+            ozOuter:
+            begin
+               MinAsteroidBelt:=1;
+               MaxAsteroidBelt:=17;
+               MinAsteroid:=MaxAsteroidBelt+1;
+               MaxAsteroid:=31;
+               MinTelluricPlanet:=MaxAsteroid+1;
+               MaxTelluricPlanet:=43;
+               MinGaseousPlanet:=MaxTelluricPlanet+1;
+               MaxGaseousPlanet:=100;
+            end;
+         end;//==END== case Zone of ==//
+      end;
+
+      WD0..WD9:
+      begin
+         case Zone of
+            ozInner:
+            begin
+               MinAsteroidBelt:=0;
+               MaxAsteroidBelt:=0;
+               MinAsteroid:=0;
+               MaxAsteroid:=0;
+               MinTelluricPlanet:=0;
+               MaxTelluricPlanet:=0;
+               MinGaseousPlanet:=0;
+               MaxGaseousPlanet:=0;
+            end;
+
+            ozIntermediate:
+            begin
+               MinAsteroidBelt:=0;
+               MaxAsteroidBelt:=0;
+               MinAsteroid:=0;
+               MaxAsteroid:=0;
+               MinTelluricPlanet:=0;
+               MaxTelluricPlanet:=0;
+               MinGaseousPlanet:=0;
+               MaxGaseousPlanet:=0;
+            end;
+
+            ozOuter:
+            begin
+               MinAsteroidBelt:=1;
+               MaxAsteroidBelt:=5;
+               MinAsteroid:=MaxAsteroidBelt+1;
+               MaxAsteroid:=69;
+               MinTelluricPlanet:=MaxAsteroid+1;
+               MaxTelluricPlanet:=100;
+               MinGaseousPlanet:=0;
+               MaxGaseousPlanet:=0;
+            end;
+         end;//==END== case Zone of ==//
+      end;
+
+      PSR:
+      begin
+         case Zone of
+            ozInner:
+            begin
+               MinAsteroidBelt:=0;
+               MaxAsteroidBelt:=0;
+               MinAsteroid:=1;
+               MaxAsteroid:=84;
+               MinTelluricPlanet:=MaxAsteroid+1;
+               MaxTelluricPlanet:=100;
+               MinGaseousPlanet:=0;
+               MaxGaseousPlanet:=0;
+            end;
+
+            ozIntermediate:
+            begin
+               MinAsteroidBelt:=0;
+               MaxAsteroidBelt:=0;
+               MinAsteroid:=1;
+               MaxAsteroid:=60;
+               MinTelluricPlanet:=MaxAsteroid+1;
+               MaxTelluricPlanet:=100;
+               MinGaseousPlanet:=0;
+               MaxGaseousPlanet:=0;
+            end;
+
+            ozOuter:
+            begin
+               MinAsteroidBelt:=0;
+               MaxAsteroidBelt:=0;
+               MinAsteroid:=1;
+               MaxAsteroid:=42;
+               MinTelluricPlanet:=MaxAsteroid+1;
+               MaxTelluricPlanet:=100;
+               MinGaseousPlanet:=0;
+               MaxGaseousPlanet:=0;
+            end;
+         end;//==END== case Zone of ==//
+      end;
+
+      BH:
+      begin
+         case Zone of
+            ozInner:
+            begin
+               MinAsteroidBelt:=0;
+               MaxAsteroidBelt:=0;
+               MinAsteroid:=0;
+               MaxAsteroid:=0;
+               MinTelluricPlanet:=0;
+               MaxTelluricPlanet:=0;
+               MinGaseousPlanet:=0;
+               MaxGaseousPlanet:=0;
+            end;
+
+            ozIntermediate:
+            begin
+               MinAsteroidBelt:=0;
+               MaxAsteroidBelt:=0;
+               MinAsteroid:=0;
+               MaxAsteroid:=0;
+               MinTelluricPlanet:=0;
+               MaxTelluricPlanet:=0;
+               MinGaseousPlanet:=0;
+               MaxGaseousPlanet:=0;
+            end;
+
+            ozOuter:
+            begin
+               MinAsteroidBelt:=0;
+               MaxAsteroidBelt:=0;
+               MinAsteroid:=1;
+               MaxAsteroid:=90;
+               MinTelluricPlanet:=MaxAsteroid+1;
+               MaxTelluricPlanet:=100;
+               MinGaseousPlanet:=0;
+               MaxGaseousPlanet:=0;
+            end;
+         end;//==END== case Zone of ==//
+      end;
+   end;//==END== case StarClass of ==//
+   Test:=FCFcF_Random_DoInteger(99)+1;
+   if ( MinAsteroidBelt>0 )
+      and ( ( Test>=MinAsteroidBelt ) and ( Test<=MaxAsteroidBelt ) )
+   then Result:=oobtAsteroidBelt
+   else if ( MinAsteroid>0 )
+      and ( ( Test>=MinAsteroid ) and ( Test<=MaxAsteroid ) )
+   then Result:=oobtAsteroid
+   else if ( MinTelluricPlanet>0 )
+      and ( ( Test>=MinTelluricPlanet ) and ( Test<=MaxTelluricPlanet ) )
+   then Result:=oobtTelluricPlanet
+   else if ( MinGaseousPlanet>0 )
+      and ( ( Test>=MinGaseousPlanet ) and ( Test<=MaxGaseousPlanet ) )
+   then Result:=oobtGaseousPlanet;
+end;
+
 //===========================END FUNCTIONS SECTION==========================================
+
 procedure FCMfO_Generate(const FOGstar: integer);
 {:Purpose: core routine for orbits generation.
     Additions:

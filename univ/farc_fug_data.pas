@@ -32,6 +32,20 @@ interface
 
 //uses
 
+type TFCEfdOrbitalObjectBasicTypes=(
+   oobtNone
+   ,oobtAsteroidBelt
+   ,oobtAsteroid
+   ,oobtTelluricPlanet
+   ,oobtGaseousPlanet
+   );
+
+type TFCEfdOrbitalZones=(
+   ozInner
+   ,ozIntermediate
+   ,ozOuter
+   );
+
 //==END PUBLIC ENUM=========================================================================
 
 ///<summary>
