@@ -817,7 +817,8 @@ procedure FCMfO_Generate(const FOGstar: integer);
     Additions:
 }
 var
-   NumberOfOrbits
+   CountOrbits
+   ,NumberOfOrbits
    ,FOGorbitProbaGenOrb
    ,OrbitProbabilityMax
    ,OrbitProbabilitMin
@@ -925,6 +926,8 @@ begin
          then
          begin
             NumberOfOrbits:=round(0.2*OrbitProbaTest);
+            if NumberOfOrbits=0
+            then NumberOfOrbits:=1;
             SetLength(FCDduStarSystem[0].SS_stars[FOGstar].S_orbitalObjects, NumberOfOrbits+1);
          end;
       end; //==END== if FOGisPassedBiTri ==//
@@ -936,11 +939,11 @@ begin
       SetLength(FCDduStarSystem[0].SS_stars[FOGstar].S_orbitalObjects, NumberOfOrbits+1);
    end;
    {.orbit generation}
-   if NumberOfOrbits>0
-   then
+   CountOrbits:=1;
+   while CountOrbits<=NumberOfOrbits do
    begin
-
-   end; //==END== if FOGnbOrb>0 ==//
+      inc( CountOrbits );
+   end;
 end;
 
 end.

@@ -129,10 +129,9 @@ uses
 
 procedure TFCWinFUG.WF_GenerateButtonClick(Sender: TObject);
 var
-   GCcnt: integer;
+   Count: integer;
 
-   GCclassStr
-   ,GCorbStr: string;
+   DumpString: string;
 begin
    if (SSSG_StellarSysToken.Text<>'stelsys')
       and (SSSG_LocationX.Text<>'')
@@ -236,13 +235,16 @@ begin
          end;
       end;
       {.generate the orbital objects}
-      if FCRfdSystemType[1]<4
+      if ( FCRfdSystemType[1]<4 )
+         and ( FCRfdStarOrbits[1]>-1 )
       then FCMfO_Generate(1);
       if (FCDduStarSystem[0].SS_stars[2].S_token<>'')
          and (FCRfdSystemType[2]<4)
+         and ( FCRfdStarOrbits[2]>-1 )
       then FCMfO_Generate(2);
       if (FCDduStarSystem[0].SS_stars[3].S_token<>'')
          and (FCRfdSystemType[3]<4)
+         and ( FCRfdStarOrbits[3]>-1 )
       then FCMfO_Generate(3);
       {.generate ouput}
       WF_XMLOutput.Lines.Clear;
@@ -255,51 +257,51 @@ begin
          +SSSG_LocationX.Text+'" steslocy="'+SSSG_LocationY.Text+'" steslocz="'+SSSG_LocationZ.Text+'">'
          );
       {.for stars}
-      GCcnt:=1;
-      while GCcnt<=3 do
+      Count:=1;
+      while Count<=3 do
       begin
-         if FCDduStarSystem[0].SS_stars[GCcnt].S_token=''
+         if FCDduStarSystem[0].SS_stars[Count].S_token=''
          then break
          else
          begin
-            GCclassStr:=FCFcFunc_Star_GetClass(cdfRaw, 0, GCcnt);
-            WF_XMLOutput.Lines.Add('   <star startoken="'+FCDduStarSystem[0].SS_stars[GCcnt].S_token+'" starclass="'+GCclassStr+'">');
+            DumpString:=FCFcFunc_Star_GetClass(cdfRaw, 0, Count);
+            WF_XMLOutput.Lines.Add('   <star startoken="'+FCDduStarSystem[0].SS_stars[Count].S_token+'" starclass="'+DumpString+'">');
             WF_XMLOutput.Lines.Add(
-               '      <starphysdata startemp="'+IntToStr(FCDduStarSystem[0].SS_stars[GCcnt].S_temperature)
-               +'" starmass="'+FloatToStr(FCDduStarSystem[0].SS_stars[GCcnt].S_mass)
-               +'" stardiam="'+FloatToStr(FCDduStarSystem[0].SS_stars[GCcnt].S_diameter)
-               +'" starlum="'+FloatToStrF(FCDduStarSystem[0].SS_stars[GCcnt].S_luminosity, ffFixed, 15, 5)+'"'
+               '      <starphysdata startemp="'+IntToStr(FCDduStarSystem[0].SS_stars[Count].S_temperature)
+               +'" starmass="'+FloatToStr(FCDduStarSystem[0].SS_stars[Count].S_mass)
+               +'" stardiam="'+FloatToStr(FCDduStarSystem[0].SS_stars[Count].S_diameter)
+               +'" starlum="'+FloatToStrF(FCDduStarSystem[0].SS_stars[Count].S_luminosity, ffFixed, 15, 5)+'"'
                +'/>'
                );
-            if GCcnt=2
+            if Count=2
             then
             begin
                WF_XMLOutput.Lines.Add(
-                  '      <starcompdata compmsep="'+FloatToStr(FCDduStarSystem[0].SS_stars[GCcnt].S_isCompMeanSeparation)
-                  +'" compminapd="'+FloatToStr(FCDduStarSystem[0].SS_stars[GCcnt].S_isCompMinApproachDistance)
-                  +'" compecc="'+FloatToStr(FCDduStarSystem[0].SS_stars[GCcnt].S_isCompEccentricity)
+                  '      <starcompdata compmsep="'+FloatToStr(FCDduStarSystem[0].SS_stars[Count].S_isCompMeanSeparation)
+                  +'" compminapd="'+FloatToStr(FCDduStarSystem[0].SS_stars[Count].S_isCompMinApproachDistance)
+                  +'" compecc="'+FloatToStr(FCDduStarSystem[0].SS_stars[Count].S_isCompEccentricity)
                   +'"/>'
                   );
             end
-            else if GCcnt=3
+            else if Count=3
             then
             begin
-               case FCDduStarSystem[0].SS_stars[GCcnt].S_isCompStar2OrbitType of
-                  cotAroundMain_Companion1: GCorbStr:='coAroundCenter';
-                  cotAroundCompanion1: GCorbStr:='coAroundComp';
-                  cotAroundMain_Companion1GravityCenter: GCorbStr:='coAroundGravC';
+               case FCDduStarSystem[0].SS_stars[Count].S_isCompStar2OrbitType of
+                  cotAroundMain_Companion1: DumpString:='coAroundCenter';
+                  cotAroundCompanion1: DumpString:='coAroundComp';
+                  cotAroundMain_Companion1GravityCenter: DumpString:='coAroundGravC';
                end;
                WF_XMLOutput.Lines.Add(
-                  '      <starcompdata compmsep="'+FloatToStr(FCDduStarSystem[0].SS_stars[GCcnt].S_isCompMeanSeparation)
-                  +'" compminapd="'+FloatToStr(FCDduStarSystem[0].SS_stars[GCcnt].S_isCompMinApproachDistance)
-                  +'" compecc="'+FloatToStr(FCDduStarSystem[0].SS_stars[GCcnt].S_isCompEccentricity)
-                  +'" comporb="'+GCorbStr+'"'
+                  '      <starcompdata compmsep="'+FloatToStr(FCDduStarSystem[0].SS_stars[Count].S_isCompMeanSeparation)
+                  +'" compminapd="'+FloatToStr(FCDduStarSystem[0].SS_stars[Count].S_isCompMinApproachDistance)
+                  +'" compecc="'+FloatToStr(FCDduStarSystem[0].SS_stars[Count].S_isCompEccentricity)
+                  +'" comporb="'+DumpString+'"'
                   +'/>'
                   );
             end;
             WF_XMLOutput.Lines.Add('   </star>');
          end;
-         inc(GCcnt);
+         inc(Count);
       end;
       {.end root}
       WF_XMLOutput.Lines.Add('</starsys>');
