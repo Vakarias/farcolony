@@ -1321,7 +1321,7 @@ begin
    if FCDduStarSystem[0].SS_stars[DCstar].S_class<PSR
    then
    begin
-      DCdiam:=randg(FSCD.FSCD_diam,0.007);
+      DCdiam:=FCFcF_Rand_G(FSCD.FSCD_diam,0.007);
       Result:=FCFcF_Round( rttCustom2Decimal, DCdiam );
       if Result<=0
       then Result:=0.01;
@@ -1343,7 +1343,7 @@ begin
    if FCDduStarSystem[0].SS_stars[LCstar].S_class<PSR
    then
    begin
-      DClum:=randg(FSCD.FSCD_lum,0.007);
+      DClum:=FCFcF_Rand_G(FSCD.FSCD_lum, 0.007);
       Result:=FCFcF_Round( rttCustom5Decimal, DClum );
       if Result<=0
       then Result:=0.00001;
@@ -1368,7 +1368,7 @@ begin
    Result:=0;
    if FCDduStarSystem[0].SS_stars[TMstar].S_class<>FSCD.FSCD_class
    then FCMfS_Data_Load(TMstar);
-   TMmass:=randg(FSCD.FSCD_mass,0.007);
+   TMmass:=FCFcF_Rand_G(FSCD.FSCD_mass,0.007);
    Result:=FCFcF_Round( rttCustom2Decimal, TMmass );
    if Result<=0
    then Result:=0.01;
@@ -1383,7 +1383,7 @@ begin
    if FCDduStarSystem[0].SS_stars[TCstar].S_class<>FSCD.FSCD_class
    then FCMfS_Data_Load(TCstar);
    if FCDduStarSystem[0].SS_stars[TCstar].S_class<PSR
-   then Result:=round(randg(FSCD.FSCD_temp,50))
+   then Result:=round(FCFcF_Rand_G(FSCD.FSCD_temp,50))
    else Result:=FSCD.FSCD_temp
 end;
 

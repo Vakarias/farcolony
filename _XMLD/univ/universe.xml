@@ -163,7 +163,7 @@
       <star startoken="" starclass="">
          <starphysdata startemp="" starmass="" stardiam="" starlum=""/>
          <starcompdata compmsep="" compminapd="" compecc="" comporb=""/>
-         <orbobj ootoken="">
+         <orbobj ootoken="" ftSeed="">
             <orbobjorbdata oodist="" ooecc="" ooorbzne="" oorevol="" oorevevinit="" oogravsphrad=""/>      
             <orbperlist>
                <orbper optype="" opstrt="" opend="" opmtemp=""/>

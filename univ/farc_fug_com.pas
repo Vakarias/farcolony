@@ -99,6 +99,7 @@ begin
    FCWinFUG.FUGcs2OG.ItemIndex:=0;
    FCWinFUG.FUGcs2NumOrb.Enabled:=false;
    FCWinFUG.FUGcs2NumOrb.Text:='';
+   FCWinFUG.WF_XMLOutput.Clear;
    {.finally we display the window and set interface of the main FARC window if required}
    if not FCWinFUG.Visible
    then

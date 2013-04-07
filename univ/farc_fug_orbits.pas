@@ -37,6 +37,13 @@ uses
    ,farc_fug_data;
 
 ///<summary>
+///   calculate the orbital eccentricity
+///</summary>
+///   <returns>orbital eccentricity</returns>
+///   <remarks>format [x.xxx]</remarks>
+function FCFfS_OrbitalEccentricity_Calculation: extended;
+
+///<summary>
 ///   calculate the orbital zone in which the orbit is located
 ///</summary>
 ///   <param name="OrbitDistance">distance of the orbit from the central star</param>
@@ -83,6 +90,18 @@ uses
    farc_common_func;
 
 //===================================================END OF INIT============================
+
+function FCFfS_OrbitalEccentricity_Calculation: extended;
+{:Purpose: calculate the orbital eccentricity.
+    Additions:
+}
+   var
+      Float: extended;
+begin
+   Result:=0;
+   Float:=0.5 - ( power( FCFcF_Random_DoFloat, 0.077 ) / 2.005 );
+   Result:=FCFcF_Round( rttCustom3Decimal, Float );
+end;
 
 function FCFfS_OrbitalZone_Determining( const OrbitDistance, StarLuminosity: extended ): TFCEduHabitableZones;
 {:Purpose: calculate the orbital zone in which the orbit is located.
@@ -844,7 +863,8 @@ var
    ,OrbitProbabilitMin: integer;
 
    CalcFloat
-   ,CalcFloat1: extended;
+   ,CalcFloat1
+   ,CalcFloat2: extended;
 
    isPassedBinaryTrinaryTest: boolean;
 
@@ -1034,10 +1054,18 @@ begin
          end
          {.continue the orbit generation}
          else begin
-            {:DEV NOTES: ecc + zones + end of build.}
             if FCDduStarSystem[0].SS_stars[FOGstar].S_class=BH
             then FCDduStarSystem[0].SS_stars[FOGstar].S_orbitalObjects[Count].OO_isNotSat_orbitalZone:=hzOuter
             else FCDduStarSystem[0].SS_stars[FOGstar].S_orbitalObjects[Count].OO_isNotSat_orbitalZone:=FCFfS_OrbitalZone_Determining( FCDduStarSystem[0].SS_stars[FOGstar].S_orbitalObjects[Count].OO_isNotSat_distanceFromStar, FCDduStarSystem[0].SS_stars[FOGstar].S_luminosity );
+            FCDduStarSystem[0].SS_stars[FOGstar].S_orbitalObjects[Count].OO_isNotSat_eccentricity:=FCFfS_OrbitalEccentricity_Calculation;
+            CalcFloat2:=SQRT( ( power( FCDduStarSystem[0].SS_stars[FOGstar].S_orbitalObjects[Count].OO_isNotSat_distanceFromStar, 3 ) / FCDduStarSystem[0].SS_stars[FOGstar].S_mass ) ) * 365.2422;
+            FCDduStarSystem[0].SS_stars[FOGstar].S_orbitalObjects[Count].OO_revolutionPeriod:=round( CalcFloat2 );
+            if FCDduStarSystem[0].SS_stars[FOGstar].S_orbitalObjects[Count].OO_revolutionPeriod<1
+            then FCDduStarSystem[0].SS_stars[FOGstar].S_orbitalObjects[Count].OO_revolutionPeriod:=1;
+            CalcFloat2:=( FCDduStarSystem[0].SS_stars[FOGstar].S_orbitalObjects[Count].OO_revolutionPeriod / 100 ) * ( FCFcF_Random_DoInteger( 99 ) + 1 );
+            FCDduStarSystem[0].SS_stars[FOGstar].S_orbitalObjects[Count].OO_revolutionPeriodInit:=round( CalcFloat2 );
+            if FCDduStarSystem[0].SS_stars[FOGstar].S_orbitalObjects[Count].OO_revolutionPeriodInit<1
+            then FCDduStarSystem[0].SS_stars[FOGstar].S_orbitalObjects[Count].OO_revolutionPeriodInit:=1;
             {:DEV NOTES: generate orb obj type.}
             
          end;

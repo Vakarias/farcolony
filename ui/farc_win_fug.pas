@@ -303,7 +303,22 @@ begin
             Count1:=1;
             while Count1<=Max1 do
             begin
-               WF_XMLOutput.Lines.Add( '      <orbobj ootoken="'+FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_dbTokenId+'">' );
+               WF_XMLOutput.Lines.Add( '      <orbobj ootoken="'+FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_dbTokenId+'" ftSeed="">' );
+               case FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_isNotSat_orbitalZone of
+                  hzInner: DumpString:='hzInner';
+
+                  hzIntermediary: DumpString:='hzIntermediary';
+
+                  hzOuter: DumpString:='hzOuter';
+               end;
+               WF_XMLOutput.Lines.Add(
+                  '         <orbobjorbdata oodist="'+FloatToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_isNotSat_distanceFromStar )
+                     +'" ooecc="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_isNotSat_eccentricity )
+                     +'" ooorbzne="'+DumpString
+                     +'" oorevol="'+IntToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_revolutionPeriod )
+                     +'" oorevevinit="'+IntToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_revolutionPeriodInit )
+                     +'"/>'
+                  );
                inc( Count1 );
             end;
             WF_XMLOutput.Lines.Add('   </star>');
