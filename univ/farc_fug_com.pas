@@ -33,31 +33,36 @@ interface
 uses
    forms;
 
-procedure FCMfC_Initialize;
+procedure FCMfC_Initialize( isCreateWindow: boolean );
 
 implementation
 
 uses
-   farc_main
+   farc_data_univ
+   ,farc_main
    ,farc_win_fug;
 
 //=======================================END OF INIT========================================
 
-procedure FCMfC_Initialize;
-{:Purpose: initialize the FUG window and input/outputs.
+procedure FCMfC_Initialize( isCreateWindow: boolean );
+{:Purpose: initialize the FUG window and input/outputs + the data.
     Additions:
+      -2013Apr06- *add: isCreateWindow parameter.
       -2010Jul13- *add: companion star 1 and 2 ui.
       -2010Jul11- *add: main star class, temperature, diameter, mass, luminosity, system type and orbit generation init.
                   *add: initialize FUG window size and location.
       -2010Jul04- *add: main star init.
 }
 begin
-   if FCWinFUG=nil
-   then FCWinFUG:=TFCWinFUG.Create(Application);
-   FCWinFUG.Width:=FCWinMain.Width;
-   FCWinFUG.Height:=FCWinMain.Height;
-   FCWinFUG.Left:=FCWinMain.Left;
-   FCWinFUG.Top:=FCWinMain.Top;
+   if ( isCreateWindow )
+      and ( FCWinFUG=nil ) then
+   begin
+      FCWinFUG:=TFCWinFUG.Create(Application);
+      FCWinFUG.Width:=FCWinMain.Width;
+      FCWinFUG.Height:=FCWinMain.Height;
+      FCWinFUG.Left:=FCWinMain.Left;
+      FCWinFUG.Top:=FCWinMain.Top;
+   end;
    FCWinFUG.SSSG_StellarSysToken.Text:='stelsys';
    FCWinFUG.SSSG_LocationX.Text:='';
    FCWinFUG.SSSG_LocationY.Text:='';
@@ -105,6 +110,8 @@ begin
       FCWinFUG.Show;
       FCWinFUG.BringToFront;
    end;
+   FCDduStarSystem:=nil;
+   SetLength(FCDduStarSystem, 1);
 end;
 
 end.

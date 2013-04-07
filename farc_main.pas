@@ -1372,7 +1372,7 @@ end;
 
 procedure TFCWinMain.FCWM_MMenu_DTFUGClick(Sender: TObject);
 begin
-   FCMfC_Initialize;
+   FCMfC_Initialize( true );
 end;
 
 procedure TFCWinMain.FCWM_MMenu_DTreloadTfilesClick(Sender: TObject);

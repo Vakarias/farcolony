@@ -849,11 +849,32 @@ var
    ,OrbitProbabilityMax
    ,OrbitProbabilitMin: integer;
 
-   CalcFloat: extended;
+   CalcFloat
+   ,CalcFloat1: extended;
 
    isPassedBinaryTrinaryTest: boolean;
 
-   MinimalApproachDistanceCompanion: array[1..2] of double;
+   procedure _BinaryTrinary_Calculate;
+   begin
+      if (CalcFloat>=1)
+         and (CalcFloat<7)
+      then FOGorbitProbaGenOrb:=50
+      else if (CalcFloat>=7)
+         and (CalcFloat<11)
+      then FOGorbitProbaGenOrb:=80
+      else if CalcFloat>=11
+      then FOGorbitProbaGenOrb:=100;
+      case FOGorbitProbaGenOrb of
+         0: isPassedBinaryTrinaryTest:=false;
+         50,80:
+         begin
+            Count:=FCFcF_Random_DoInteger(99)+1;
+            if Count>FOGorbitProbaGenOrb
+            then isPassedBinaryTrinaryTest:=false;
+         end;
+      end;
+   end;
+
 begin
    NumberOfOrbits:=0;
    FOGorbitProbaGenOrb:=0;
@@ -861,85 +882,75 @@ begin
    OrbitProbabilitMin:=0;
    Count:=0;
    CalcFloat:=0;
-   MinimalApproachDistanceCompanion[1]:=100000;
-   MinimalApproachDistanceCompanion[2]:=100000;
+   CalcFloat1:=0;
    isPassedBinaryTrinaryTest:=true;
    {.in case where the orbits generation is randomized}
-   if FCRfdStarOrbits[FOGstar]=0
-   then
+   if FCRfdStarOrbits[FOGstar]=0 then
    begin
       {.binary/trinary orbits probability}
-      if FCDduStarSystem[0].SS_stars[3].S_token<>''
-      then MinimalApproachDistanceCompanion[2]:=FCDduStarSystem[0].SS_stars[3].S_isCompMinApproachDistance;
-      if FCDduStarSystem[0].SS_stars[2].S_token<>''
-      then
+      {.CalcFloat: lowest minimal approach distance}
+      if FCDduStarSystem[0].SS_stars[3].S_token<>'' then
       begin
-         MinimalApproachDistanceCompanion[1]:=FCDduStarSystem[0].SS_stars[2].S_isCompMinApproachDistance;
-         {.CalcFloat: lowest minimal approach distance}
-         CalcFloat:=MinValue(MinimalApproachDistanceCompanion);
-         if (CalcFloat>=1)
-            and (CalcFloat<7)
-         then FOGorbitProbaGenOrb:=50
-         else if (CalcFloat>=7)
-            and (CalcFloat<11)
-         then FOGorbitProbaGenOrb:=80
-         else if CalcFloat>=11
-         then FOGorbitProbaGenOrb:=100;
-         case FOGorbitProbaGenOrb of
-            0: isPassedBinaryTrinaryTest:=false;
-            50,80:
-            begin
-               Count:=FCFcF_Random_DoInteger(99)+1;
-               if Count>FOGorbitProbaGenOrb
-               then isPassedBinaryTrinaryTest:=false;
-            end;
-         end;
+         CalcFloat:=Min( FCDduStarSystem[0].SS_stars[2].S_isCompMinApproachDistance, FCDduStarSystem[0].SS_stars[3].S_isCompMinApproachDistance );
+         _BinaryTrinary_Calculate;
+      end
+      else if FCDduStarSystem[0].SS_stars[2].S_token<>'' then
+      begin
+         CalcFloat:=FCDduStarSystem[0].SS_stars[2].S_isCompMinApproachDistance;
+         _BinaryTrinary_Calculate;
       end;
-      if isPassedBinaryTrinaryTest
-      then
+      {.orbits probability + number generation}
+      if isPassedBinaryTrinaryTest then
       begin
-         {.orbits probability + number generation}
          case FCDduStarSystem[0].SS_stars[FOGstar].S_class of
             cB5..cM5:
             begin
                OrbitProbabilitMin:=5;
                OrbitProbabilityMax:=10;
             end;
+
             gF0..gM5:
             begin
                OrbitProbabilitMin:=5;
                OrbitProbabilityMax:=20;
             end;
+
             O5..B9:
             begin
                OrbitProbabilitMin:=5;
                OrbitProbabilityMax:=10;
             end;
+
             A0..A9:
             begin
                OrbitProbabilitMin:=5;
                OrbitProbabilityMax:=50;
             end;
+
             F0..K9:
             begin
                OrbitProbabilitMin:=25;
                OrbitProbabilityMax:=75;
             end;
+
             M0..M9:
             begin
                OrbitProbabilitMin:=5;
                OrbitProbabilityMax:=50;
             end;
+
             WD0..WD9:
             begin
                OrbitProbabilitMin:=5;
                OrbitProbabilityMax:=10;
             end;
+
             PSR:
             begin
                OrbitProbabilitMin:=5;
                OrbitProbabilityMax:=30;
             end;
+
             BH:
             begin
                OrbitProbabilitMin:=1;
@@ -948,8 +959,7 @@ begin
          end; //==END== case FCDBsSys[0].SS_star[FOGstar].SDB_class of ==//
          Count:=FCFcF_Random_DoInteger(99)+1;
          if (Count>=OrbitProbabilitMin)
-            and (Count<=OrbitProbabilityMax)
-         then
+            and (Count<=OrbitProbabilityMax) then
          begin
             NumberOfOrbits:=round(0.2*Count);
             if NumberOfOrbits=0
@@ -958,8 +968,7 @@ begin
          end;
       end; //==END== if FOGisPassedBiTri ==//
    end //==END== if FUGstarOrb[FOGstar]=0 ==//
-   else if FCRfdStarOrbits[FOGstar]>0
-   then
+   else if FCRfdStarOrbits[FOGstar]>0 then
    begin
       NumberOfOrbits:=FCRfdStarOrbits[FOGstar];
       SetLength(FCDduStarSystem[0].SS_stars[FOGstar].S_orbitalObjects, NumberOfOrbits+1);

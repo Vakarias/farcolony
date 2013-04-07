@@ -98,6 +98,7 @@ type
     FUGcs2OG: THTMLRadioGroup;
     FUGcs2NumOrb: TLabeledEdit;
     FUGcs2Temp: TLabeledEdit;
+    AdvGlowButton1: TAdvGlowButton;
     procedure WF_GenerateButtonClick(Sender: TObject);
     procedure TMS_OrbitGenerationClick(Sender: TObject);
     procedure FUGcs1CheckClick(Sender: TObject);
@@ -105,6 +106,7 @@ type
     procedure TMS_SystemTypeChange(Sender: TObject);
     procedure FUGcs1TypeChange(Sender: TObject);
     procedure FUGcs2TypeChange(Sender: TObject);
+    procedure AdvGlowButton1Click(Sender: TObject);
    private
     { Private declarations }
    public
@@ -119,6 +121,7 @@ implementation
 uses
    farc_common_func//to remove when FCFcFunc_Star_GetClass is moved
    ,farc_data_univ
+   ,farc_fug_com
    ,farc_fug_data
    ,farc_fug_orbits
    ,farc_fug_stars;
@@ -141,8 +144,6 @@ begin
    then
    begin
       {.FUG start process}
-      FCDduStarSystem:=nil;
-      SetLength(FCDduStarSystem, 1);
       FCDduStarSystem[0].SS_token:=SSSG_StellarSysToken.Text;
       FCDduStarSystem[0].SS_locationX:=StrToFloat(SSSG_LocationX.Text);
       FCDduStarSystem[0].SS_locationY:=StrToFloat(SSSG_LocationY.Text);
@@ -312,6 +313,11 @@ begin
       WF_XMLOutput.Lines.Add('!ERROR: DATA INIT!');
       WF_XMLOutput.Lines.Add('===============================================');
    end;
+end;
+
+procedure TFCWinFUG.AdvGlowButton1Click(Sender: TObject);
+begin
+   FCMfC_Initialize;
 end;
 
 procedure TFCWinFUG.FUGcs1CheckClick(Sender: TObject);
