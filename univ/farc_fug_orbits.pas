@@ -1020,52 +1020,36 @@ begin
    else begin
       {.CalcFloat=maximum allowed orbit distance (MAOD)}
       {.CalcFloat1: distance of the first orbit}
-      CalcFloat1:=( FCDduStarSystem[0].SS_stars[FOGstar].S_diameter * 0.5 ) * 0.004645787 * SQRT( FCDduStarSystem[0].SS_stars[FOGstar].S_temperature ) * ( 1 + ( FCFcF_Random_DoInteger( 10 ) * 0.02 ) );
-
-      FCDduStarSystem[0].SS_stars[FOGstar].S_orbitalObjects[1].OO_isSatellite:=false;
-      FCDduStarSystem[0].SS_stars[FOGstar].S_orbitalObjects[1].OO_isNotSat_distanceFromStar:=FCFcF_Round( rttCustom2Decimal, CalcFloat1 );
-      if FCDduStarSystem[0].SS_stars[FOGstar].S_orbitalObjects[1].OO_isNotSat_distanceFromStar > CalcFloat
-      then SetLength( FCDduStarSystem[0].SS_stars[FOGstar].S_orbitalObjects, 1 )
-      else begin
-         Count:=2;
-         while Count<=NumberOfOrbits do
+      Count:=1;
+      while Count<=NumberOfOrbits do
+      begin
+         FCDduStarSystem[0].SS_stars[FOGstar].S_orbitalObjects[Count].OO_isSatellite:=false;
+         if Count=1 then
          begin
+            CalcFloat1:=( FCDduStarSystem[0].SS_stars[FOGstar].S_diameter * 0.5 ) * 0.004645787 * SQRT( FCDduStarSystem[0].SS_stars[FOGstar].S_temperature ) * ( 1 + ( FCFcF_Random_DoInteger( 10 ) * 0.02 ) );
+         end
+         else begin
             GeneratedProbability:=FCFcF_Random_DoInteger( 8 ) + 1;
-            case GeneratedProbability of
-               1: CalcFloat1:=CalcFloat1 * ;
-
-               2: CalcFloat1:=CalcFloat1 * ;
-
-               3: CalcFloat1:=CalcFloat1 * ;
-
-               4: CalcFloat1:=CalcFloat1 * ;
-
-               5: CalcFloat1:=CalcFloat1 * ;
-
-               6: CalcFloat1:=CalcFloat1 * ;
-
-               7: CalcFloat1:=CalcFloat1 * ;
-
-               8: CalcFloat1:=CalcFloat1 * ;
-
-               9: CalcFloat1:=CalcFloat1 * ;
-            end;
-            inc( Count);
+            CalcFloat1:=CalcFloat1 * ( 1.2 + ( GeneratedProbability * 0.1 ) );
          end;
+         FCDduStarSystem[0].SS_stars[FOGstar].S_orbitalObjects[Count].OO_isNotSat_distanceFromStar:=FCFcF_Round( rttCustom2Decimal, CalcFloat1 );
+         if FCDduStarSystem[0].SS_stars[FOGstar].S_orbitalObjects[Count].OO_isNotSat_distanceFromStar > CalcFloat then
+         begin
+            SetLength( FCDduStarSystem[0].SS_stars[FOGstar].S_orbitalObjects, Count );
+            break;
+         end
+         {.continue the orbit generation}
+         else begin
+            {:DEV NOTES: ecc + zones + end of build.}
+            {:DEV NOTES: generate orb obj type.}
+            {:DEV NOTES: for aster belt, do it simple: use satellites sub data array.  in isSat case add dist/pos x-z of the aster in the belt.  in 3d aster belt browse like oobj, to go in belt detail=> sat view and browse each aster of the belt.}
+            {:DEV NOTES: note dev status on the blog: ... also the asteroids belt are reinstated, it wasn't the case before this alpha because I ddin't known how to implement them. In the previous failed iterations there were present but... unplayable.
+            Now they are present and fully playable, in fact the solution was already here, right in front of me: they are treated like satellites. The belt itself is the main object, and it is possible to browse and interact with each asteroid of a belt by
+            browsing them like planet's satellites. So in the ALpha 6 you will certainly see at least one asteroids belt in the final generated alpha centauri system}
+         end;
+         inc( Count);
       end;
    end;
-
-   ///Count:=FCDduStarSystem[0].SS_stars
-
-
-   {:DEV NOTES: end=> if MAOD<=0 then => no orbits, supress the setlength or set it only if >0.}
-
-//   {.orbit generation}
-//   CountOrbits:=1;
-//   while CountOrbits<=NumberOfOrbits do
-//   begin
-//      inc( CountOrbits );
-//   end;
 end;
 
 end.
