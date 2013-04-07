@@ -36,31 +36,14 @@ uses
    ,farc_data_univ
    ,farc_fug_data;
 
-//   procedure OOR_Orbits_DetermineZone;
-//begin
-//   with DBOrbObjs[FCOObCurrInProc] do
-//   begin
-////      if Distance<sqrt(OODZ_StarLum/1.1) then Zone:=1
-////      else if Distance>sqrt(OODZ_StarLum/0.53) then Zone:=3
-////      else if (Distance>=sqrt(OODZ_StarLum/1.1))
-////         and (Distance<=sqrt(OODZ_StarLum/0.53)) then Zone:=2;
-//   end;
-//end;
-
-///oldold
-//    with DBOrbits[Current_OObj] do begin
-//        if BOrb_Distance<sqrt(OODZ_StarLum/1.1) then BOrb_Zone:=1
-//        else if BOrb_Distance>sqrt(OODZ_StarLum/0.53) then BOrb_Zone:=3
-//        else if (BOrb_Distance>=sqrt(OODZ_StarLum/1.1))
-//            and (BOrb_Distance<=sqrt(OODZ_StarLum/0.53)) then BOrb_Zone:=2;
-//        if (OODZ_StarClass='PSR')
-//            or (OODZ_StarClass='BH')
-//            or (OODZ_StarClass='WD') then BOrb_Zone:=3;
-//        if ((OODZ_StarClass='O') or (OODZ_StarClass='B') or ((OODZ_StarClass='A') and (OODZ_StarSubClass<=5))
-//            or (OODZ_StarClass='cB') or (OODZ_StarClass='cA'))
-//            and (BOrb_Zone=1) then BOrb_Zone:=2;
-//    end;
-
+///<summary>
+///   calculate the orbital zone in which the orbit is located
+///</summary>
+///   <param name="OrbitDistance">distance of the orbit from the central star</param>
+///   <param name="StarLuminosity">luminosity of the star</param>
+///   <returns>the orbital zone</returns>
+///   <remarks>don't apply it if the star is a BH, all orbits are located in the outer zone for this class of star</remarks>
+function FCFfS_OrbitalZone_Determining( const OrbitDistance, StarLuminosity: extended ): TFCEduHabitableZones;
 
 ///<summary>
 ///   generate the basic type of orbital object given the star's class, for a Balanced distribution system
@@ -100,6 +83,17 @@ uses
    farc_common_func;
 
 //===================================================END OF INIT============================
+
+function FCFfS_OrbitalZone_Determining( const OrbitDistance, StarLuminosity: extended ): TFCEduHabitableZones;
+{:Purpose: calculate the orbital zone in which the orbit is located.
+    Additions:
+}
+begin
+   Result:=hzInner;
+   if OrbitDistance < sqrt( StarLuminosity / 1.1 ) then Result:=hzInner
+   else if OrbitDistance>sqrt( StarLuminosity / 0.53 ) then Result:=hzOuter
+   else Result:=hzIntermediary;
+end;
 
 function FCFfS_OrbitGen_Balanced( const StarClass: TFCEduStarClasses; const Zone: TFCEduHabitableZones ): TFCEfdOrbitalObjectBasicTypes;
 {:Purpose: generate the basic type of orbital object given the star's class, for a Balanced distribution system.
@@ -1019,7 +1013,7 @@ begin
    {.orbit generation}
    else begin
       {.CalcFloat=maximum allowed orbit distance (MAOD)}
-      {.CalcFloat1: distance of the first orbit}
+      {.CalcFloat1: current orbit's distance}
       Count:=1;
       while Count<=NumberOfOrbits do
       begin
@@ -1041,11 +1035,11 @@ begin
          {.continue the orbit generation}
          else begin
             {:DEV NOTES: ecc + zones + end of build.}
+            if FCDduStarSystem[0].SS_stars[FOGstar].S_class=BH
+            then FCDduStarSystem[0].SS_stars[FOGstar].S_orbitalObjects[Count].OO_isNotSat_orbitalZone:=hzOuter
+            else FCDduStarSystem[0].SS_stars[FOGstar].S_orbitalObjects[Count].OO_isNotSat_orbitalZone:=FCFfS_OrbitalZone_Determining( FCDduStarSystem[0].SS_stars[FOGstar].S_orbitalObjects[Count].OO_isNotSat_distanceFromStar, FCDduStarSystem[0].SS_stars[FOGstar].S_luminosity );
             {:DEV NOTES: generate orb obj type.}
-            {:DEV NOTES: for aster belt, do it simple: use satellites sub data array.  in isSat case add dist/pos x-z of the aster in the belt.  in 3d aster belt browse like oobj, to go in belt detail=> sat view and browse each aster of the belt.}
-            {:DEV NOTES: note dev status on the blog: ... also the asteroids belt are reinstated, it wasn't the case before this alpha because I ddin't known how to implement them. In the previous failed iterations there were present but... unplayable.
-            Now they are present and fully playable, in fact the solution was already here, right in front of me: they are treated like satellites. The belt itself is the main object, and it is possible to browse and interact with each asteroid of a belt by
-            browsing them like planet's satellites. So in the ALpha 6 you will certainly see at least one asteroids belt in the final generated alpha centauri system}
+            
          end;
          inc( Count);
       end;
