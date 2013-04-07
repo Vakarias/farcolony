@@ -843,14 +843,13 @@ procedure FCMfO_Generate(const FOGstar: integer);
     Additions:
 }
 var
-   CountOrbits
+   Count
    ,NumberOfOrbits
    ,FOGorbitProbaGenOrb
    ,OrbitProbabilityMax
-   ,OrbitProbabilitMin
-   ,OrbitProbaTest: integer;
+   ,OrbitProbabilitMin: integer;
 
-   LowestMADCompanion: extended;
+   CalcFloat: extended;
 
    isPassedBinaryTrinaryTest: boolean;
 
@@ -860,8 +859,8 @@ begin
    FOGorbitProbaGenOrb:=0;
    OrbitProbabilityMax:=0;
    OrbitProbabilitMin:=0;
-   OrbitProbaTest:=0;
-   LowestMADCompanion:=0;
+   Count:=0;
+   CalcFloat:=0;
    MinimalApproachDistanceCompanion[1]:=100000;
    MinimalApproachDistanceCompanion[2]:=100000;
    isPassedBinaryTrinaryTest:=true;
@@ -876,21 +875,22 @@ begin
       then
       begin
          MinimalApproachDistanceCompanion[1]:=FCDduStarSystem[0].SS_stars[2].S_isCompMinApproachDistance;
-         LowestMADCompanion:=MinValue(MinimalApproachDistanceCompanion);
-         if (LowestMADCompanion>=1)
-            and (LowestMADCompanion<7)
+         {.CalcFloat: lowest minimal approach distance}
+         CalcFloat:=MinValue(MinimalApproachDistanceCompanion);
+         if (CalcFloat>=1)
+            and (CalcFloat<7)
          then FOGorbitProbaGenOrb:=50
-         else if (LowestMADCompanion>=7)
-            and (LowestMADCompanion<11)
+         else if (CalcFloat>=7)
+            and (CalcFloat<11)
          then FOGorbitProbaGenOrb:=80
-         else if LowestMADCompanion>=11
+         else if CalcFloat>=11
          then FOGorbitProbaGenOrb:=100;
          case FOGorbitProbaGenOrb of
             0: isPassedBinaryTrinaryTest:=false;
             50,80:
             begin
-               OrbitProbaTest:=FCFcF_Random_DoInteger(99)+1;
-               if OrbitProbaTest>FOGorbitProbaGenOrb
+               Count:=FCFcF_Random_DoInteger(99)+1;
+               if Count>FOGorbitProbaGenOrb
                then isPassedBinaryTrinaryTest:=false;
             end;
          end;
@@ -946,12 +946,12 @@ begin
                OrbitProbabilityMax:=5;
             end;
          end; //==END== case FCDBsSys[0].SS_star[FOGstar].SDB_class of ==//
-         OrbitProbaTest:=FCFcF_Random_DoInteger(99)+1;
-         if (OrbitProbaTest>=OrbitProbabilitMin)
-            and (OrbitProbaTest<=OrbitProbabilityMax)
+         Count:=FCFcF_Random_DoInteger(99)+1;
+         if (Count>=OrbitProbabilitMin)
+            and (Count<=OrbitProbabilityMax)
          then
          begin
-            NumberOfOrbits:=round(0.2*OrbitProbaTest);
+            NumberOfOrbits:=round(0.2*Count);
             if NumberOfOrbits=0
             then NumberOfOrbits:=1;
             SetLength(FCDduStarSystem[0].SS_stars[FOGstar].S_orbitalObjects, NumberOfOrbits+1);
@@ -965,6 +965,55 @@ begin
       SetLength(FCDduStarSystem[0].SS_stars[FOGstar].S_orbitalObjects, NumberOfOrbits+1);
    end;
    {.orbit distances}
+   {.CalcFloat=maximum allowed orbit distance (MAOD)}
+   CalcFloat:=0;
+   {.for a single star}
+   if ( FOGstar=1 )
+      and ( FCDduStarSystem[0].SS_stars[2].S_token='' )
+   then CalcFloat:=400 * FCDduStarSystem[0].SS_stars[FOGstar].S_mass
+   {.for a binary system}
+   else if ( ( FOGstar=1 ) and ( FCDduStarSystem[0].SS_stars[2].S_token<>'' ) and ( FCDduStarSystem[0].SS_stars[3].S_token='' ) )
+      or ( ( FOGstar=2 ) and ( FCDduStarSystem[0].SS_stars[3].S_token='' ) )
+   then CalcFloat:=FCDduStarSystem[0].SS_stars[2].S_isCompMinApproachDistance * 0.5
+   {.for a trinary system - main star}
+   else if FOGstar=1 then
+   begin
+      case FCDduStarSystem[0].SS_stars[3].S_isCompStar2OrbitType of
+         cotAroundMain_Companion1: CalcFloat:=FCDduStarSystem[0].SS_stars[3].S_isCompMinApproachDistance * 0.5;
+
+         cotAroundCompanion1: CalcFloat:=min( FCDduStarSystem[0].SS_stars[2].S_isCompMinApproachDistance, FCDduStarSystem[0].SS_stars[3].S_isCompMinApproachDistance ) * 0.5;
+
+         cotAroundMain_Companion1GravityCenter: CalcFloat:=( FCDduStarSystem[0].SS_stars[3].S_isCompMinApproachDistance - FCDduStarSystem[0].SS_stars[2].S_isCompMinApproachDistance ) * 0.5;
+      end;
+   end
+   else if FOGstar=2 then
+   begin
+      case FCDduStarSystem[0].SS_stars[3].S_isCompStar2OrbitType of
+         cotAroundMain_Companion1: CalcFloat:=( FCDduStarSystem[0].SS_stars[2].S_isCompMinApproachDistance - FCDduStarSystem[0].SS_stars[3].S_isCompMeanSeparation ) * 0.5;
+
+         cotAroundCompanion1: CalcFloat:=( FCDduStarSystem[0].SS_stars[2].S_isCompMinApproachDistance - FCDduStarSystem[0].SS_stars[3].S_isCompMinApproachDistance ) * 0.5;
+
+         cotAroundMain_Companion1GravityCenter: CalcFloat:=( FCDduStarSystem[0].SS_stars[3].S_isCompMinApproachDistance - FCDduStarSystem[0].SS_stars[2].S_isCompMinApproachDistance ) * 0.5;
+      end;
+   end
+   else if FOGstar=3 then
+   begin
+      case FCDduStarSystem[0].SS_stars[3].S_isCompStar2OrbitType of
+         cotAroundMain_Companion1, cotAroundCompanion1: CalcFloat:=FCDduStarSystem[0].SS_stars[3].S_isCompMinApproachDistance * 0.5;
+
+         cotAroundMain_Companion1GravityCenter: CalcFloat:=( FCDduStarSystem[0].SS_stars[3].S_isCompMinApproachDistance - FCDduStarSystem[0].SS_stars[2].S_isCompMinApproachDistance ) * 0.5;
+      end;
+   end;
+   CalcFloat:=FCFcF_Round( rttCustom2Decimal, CalcFloat );
+   if CalcFloat<=0
+   then SetLength(FCDduStarSystem[0].SS_stars[FOGstar].S_orbitalObjects, 1 )
+   else begin
+
+   end;
+
+   ///Count:=FCDduStarSystem[0].SS_stars
+
+
    {:DEV NOTES: end=> if MAOD<=0 then => no orbits, supress the setlength or set it only if >0.}
 
 //   {.orbit generation}
