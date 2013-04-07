@@ -132,7 +132,9 @@ uses
 
 procedure TFCWinFUG.WF_GenerateButtonClick(Sender: TObject);
 var
-   Count: integer;
+   Count
+   ,Count1
+   ,Max1: integer;
 
    DumpString: string;
 begin
@@ -140,8 +142,7 @@ begin
       and (SSSG_LocationX.Text<>'')
       and (SSSG_LocationY.Text<>'')
       and (SSSG_LocationZ.Text<>'')
-      and (TMS_StarToken.Text<>'')
-   then
+      and (TMS_StarToken.Text<>'') then
    begin
       {.FUG start process}
       FCDduStarSystem[0].SS_token:=SSSG_StellarSysToken.Text;
@@ -263,8 +264,7 @@ begin
       begin
          if FCDduStarSystem[0].SS_stars[Count].S_token=''
          then break
-         else
-         begin
+         else begin
             DumpString:=FCFcFunc_Star_GetClass(cdfRaw, 0, Count);
             WF_XMLOutput.Lines.Add('   <star startoken="'+FCDduStarSystem[0].SS_stars[Count].S_token+'" starclass="'+DumpString+'">');
             WF_XMLOutput.Lines.Add(
@@ -274,8 +274,7 @@ begin
                +'" starlum="'+FloatToStrF(FCDduStarSystem[0].SS_stars[Count].S_luminosity, ffFixed, 15, 5)+'"'
                +'/>'
                );
-            if Count=2
-            then
+            if Count=2 then
             begin
                WF_XMLOutput.Lines.Add(
                   '      <starcompdata compmsep="'+FloatToStr(FCDduStarSystem[0].SS_stars[Count].S_isCompMeanSeparation)
@@ -284,8 +283,7 @@ begin
                   +'"/>'
                   );
             end
-            else if Count=3
-            then
+            else if Count=3 then
             begin
                case FCDduStarSystem[0].SS_stars[Count].S_isCompStar2OrbitType of
                   cotAroundMain_Companion1: DumpString:='cotAroundMain_Companion1';
@@ -300,13 +298,21 @@ begin
                   +'/>'
                   );
             end;
+            {.orbital objects}
+            Max1:=length( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects ) - 1;
+            Count1:=1;
+            while Count1<=Max1 do
+            begin
+               WF_XMLOutput.Lines.Add( '      <orbobj ootoken="'+FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_dbTokenId+'">' );
+               inc( Count1 );
+            end;
             WF_XMLOutput.Lines.Add('   </star>');
-         end;
+         end; //==END== else of FCDduStarSystem[0].SS_stars[Count].S_token='' ==//
          inc(Count);
-      end;
+      end; //==END== while Count<=3 ==//
       {.end root}
       WF_XMLOutput.Lines.Add('</starsys>');
-   end
+   end //==END== if (SSSG_StellarSysToken.Text<>'stelsys') and (SSSG_LocationX.Text<>'') and (SSSG_LocationY.Text<>'') and (SSSG_LocationZ.Text<>'') and (TMS_StarToken.Text<>'') ==//
    else
    begin
       WF_XMLOutput.Lines.Add('===============================================');
