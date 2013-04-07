@@ -845,7 +845,7 @@ procedure FCMfO_Generate(const FOGstar: integer);
 var
    Count
    ,NumberOfOrbits
-   ,FOGorbitProbaGenOrb
+   ,GeneratedProbability
    ,OrbitProbabilityMax
    ,OrbitProbabilitMin: integer;
 
@@ -858,18 +858,18 @@ var
    begin
       if (CalcFloat>=1)
          and (CalcFloat<7)
-      then FOGorbitProbaGenOrb:=50
+      then GeneratedProbability:=50
       else if (CalcFloat>=7)
          and (CalcFloat<11)
-      then FOGorbitProbaGenOrb:=80
+      then GeneratedProbability:=80
       else if CalcFloat>=11
-      then FOGorbitProbaGenOrb:=100;
-      case FOGorbitProbaGenOrb of
+      then GeneratedProbability:=100;
+      case GeneratedProbability of
          0: isPassedBinaryTrinaryTest:=false;
          50,80:
          begin
             Count:=FCFcF_Random_DoInteger(99)+1;
-            if Count>FOGorbitProbaGenOrb
+            if Count>GeneratedProbability
             then isPassedBinaryTrinaryTest:=false;
          end;
       end;
@@ -877,7 +877,7 @@ var
 
 begin
    NumberOfOrbits:=0;
-   FOGorbitProbaGenOrb:=0;
+   GeneratedProbability:=0;
    OrbitProbabilityMax:=0;
    OrbitProbabilitMin:=0;
    Count:=0;
@@ -1015,9 +1015,44 @@ begin
    end;
    CalcFloat:=FCFcF_Round( rttCustom2Decimal, CalcFloat );
    if CalcFloat<=0
-   then SetLength(FCDduStarSystem[0].SS_stars[FOGstar].S_orbitalObjects, 1 )
+   then SetLength( FCDduStarSystem[0].SS_stars[FOGstar].S_orbitalObjects, 1 )
+   {.orbit generation}
    else begin
+      {.CalcFloat=maximum allowed orbit distance (MAOD)}
+      {.CalcFloat1: distance of the first orbit}
+      CalcFloat1:=( FCDduStarSystem[0].SS_stars[FOGstar].S_diameter * 0.5 ) * 0.004645787 * SQRT( FCDduStarSystem[0].SS_stars[FOGstar].S_temperature ) * ( 1 + ( FCFcF_Random_DoInteger( 10 ) * 0.02 ) );
 
+      FCDduStarSystem[0].SS_stars[FOGstar].S_orbitalObjects[1].OO_isSatellite:=false;
+      FCDduStarSystem[0].SS_stars[FOGstar].S_orbitalObjects[1].OO_isNotSat_distanceFromStar:=FCFcF_Round( rttCustom2Decimal, CalcFloat1 );
+      if FCDduStarSystem[0].SS_stars[FOGstar].S_orbitalObjects[1].OO_isNotSat_distanceFromStar > CalcFloat
+      then SetLength( FCDduStarSystem[0].SS_stars[FOGstar].S_orbitalObjects, 1 )
+      else begin
+         Count:=2;
+         while Count<=NumberOfOrbits do
+         begin
+            GeneratedProbability:=FCFcF_Random_DoInteger( 8 ) + 1;
+            case GeneratedProbability of
+               1: CalcFloat1:=CalcFloat1 * ;
+
+               2: CalcFloat1:=CalcFloat1 * ;
+
+               3: CalcFloat1:=CalcFloat1 * ;
+
+               4: CalcFloat1:=CalcFloat1 * ;
+
+               5: CalcFloat1:=CalcFloat1 * ;
+
+               6: CalcFloat1:=CalcFloat1 * ;
+
+               7: CalcFloat1:=CalcFloat1 * ;
+
+               8: CalcFloat1:=CalcFloat1 * ;
+
+               9: CalcFloat1:=CalcFloat1 * ;
+            end;
+            inc( Count);
+         end;
+      end;
    end;
 
    ///Count:=FCDduStarSystem[0].SS_stars

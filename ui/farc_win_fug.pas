@@ -317,7 +317,7 @@ end;
 
 procedure TFCWinFUG.AdvGlowButton1Click(Sender: TObject);
 begin
-   FCMfC_Initialize;
+   FCMfC_Initialize( false );
 end;
 
 procedure TFCWinFUG.FUGcs1CheckClick(Sender: TObject);
