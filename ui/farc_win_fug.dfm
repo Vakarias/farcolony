@@ -525,7 +525,7 @@ object FCWinFUG: TFCWinFUG
           TabOrder = 2
         end
       end
-      object AdvGroupBox3: TAdvGroupBox
+      object CMT_TabCompanion1Star: TAdvGroupBox
         Left = 16
         Top = 280
         Width = 529
@@ -569,7 +569,7 @@ object FCWinFUG: TFCWinFUG
           Font.Style = []
           ParentFont = False
         end
-        object FUGcs1token: TLabeledEdit
+        object TC1S_StarToken: TLabeledEdit
           Left = 24
           Top = 40
           Width = 97
@@ -581,7 +581,7 @@ object FCWinFUG: TFCWinFUG
           EditLabel.Layout = tlCenter
           TabOrder = 0
         end
-        object FUGcs1Diam: TLabeledEdit
+        object TC1S_StarDiam: TLabeledEdit
           Left = 278
           Top = 40
           Width = 58
@@ -594,7 +594,7 @@ object FCWinFUG: TFCWinFUG
           NumbersOnly = True
           TabOrder = 3
         end
-        object FUGcs1Mass: TLabeledEdit
+        object TC1S_StarMass: TLabeledEdit
           Left = 365
           Top = 40
           Width = 59
@@ -607,7 +607,7 @@ object FCWinFUG: TFCWinFUG
           NumbersOnly = True
           TabOrder = 4
         end
-        object FUGcs1Lum: TLabeledEdit
+        object TC1S_StarLum: TLabeledEdit
           Left = 452
           Top = 40
           Width = 60
@@ -620,7 +620,7 @@ object FCWinFUG: TFCWinFUG
           NumbersOnly = True
           TabOrder = 5
         end
-        object FUGcs1Class: TAdvComboBox
+        object TC1S_StarClass: TAdvComboBox
           Left = 143
           Top = 39
           Width = 50
@@ -786,7 +786,7 @@ object FCWinFUG: TFCWinFUG
           TabOrder = 1
           Text = 'cB5'
         end
-        object FUGcs1Type: TAdvComboBox
+        object TC1S_SystemType: TAdvComboBox
           Left = 24
           Top = 79
           Width = 89
@@ -811,9 +811,9 @@ object FCWinFUG: TFCWinFUG
           LabelFont.Style = []
           TabOrder = 6
           Text = 'Sol Like'
-          OnChange = FUGcs1TypeChange
+          OnChange = TC1S_SystemTypeChange
         end
-        object FUGcs1OG: THTMLRadioGroup
+        object TC1S_OrbitGeneration: THTMLRadioGroup
           Left = 143
           Top = 85
           Width = 113
@@ -829,7 +829,7 @@ object FCWinFUG: TFCWinFUG
           TabOrder = 7
           OnClick = TMS_OrbitGenerationClick
         end
-        object FUGcs1NumOrb: TLabeledEdit
+        object TC1S_OrbitGenerationNumberOrbits: TLabeledEdit
           Left = 262
           Top = 136
           Width = 59
@@ -842,7 +842,7 @@ object FCWinFUG: TFCWinFUG
           NumbersOnly = True
           TabOrder = 8
         end
-        object FUGcs1Temp: TLabeledEdit
+        object TC1S_StarTemp: TLabeledEdit
           Left = 199
           Top = 40
           Width = 58
@@ -856,7 +856,7 @@ object FCWinFUG: TFCWinFUG
           TabOrder = 2
         end
       end
-      object FUGcs2Check: TCheckBox
+      object TC2S_EnableGroupCompanion2: TCheckBox
         Left = 16
         Top = 455
         Width = 121
@@ -873,9 +873,9 @@ object FCWinFUG: TFCWinFUG
         ParentColor = False
         ParentFont = False
         TabOrder = 3
-        OnClick = FUGcs2CheckClick
+        OnClick = TC2S_EnableGroupCompanion2Click
       end
-      object AdvGroupBox4: TAdvGroupBox
+      object CMT_TabCompanion2Star: TAdvGroupBox
         Left = 16
         Top = 472
         Width = 529
@@ -919,7 +919,7 @@ object FCWinFUG: TFCWinFUG
           Font.Style = []
           ParentFont = False
         end
-        object FUGcs2token: TLabeledEdit
+        object TC2S_StarToken: TLabeledEdit
           Left = 24
           Top = 40
           Width = 97
@@ -931,7 +931,7 @@ object FCWinFUG: TFCWinFUG
           EditLabel.Layout = tlCenter
           TabOrder = 0
         end
-        object FUGcs2Diam: TLabeledEdit
+        object TC2S_StarDiam: TLabeledEdit
           Left = 278
           Top = 40
           Width = 58
@@ -944,7 +944,7 @@ object FCWinFUG: TFCWinFUG
           NumbersOnly = True
           TabOrder = 3
         end
-        object FUGcs2Mass: TLabeledEdit
+        object TC2S_StarMass: TLabeledEdit
           Left = 365
           Top = 40
           Width = 59
@@ -957,7 +957,7 @@ object FCWinFUG: TFCWinFUG
           NumbersOnly = True
           TabOrder = 4
         end
-        object FUGcs2Lum: TLabeledEdit
+        object TC2S_StarLum: TLabeledEdit
           Left = 452
           Top = 40
           Width = 60
@@ -970,7 +970,7 @@ object FCWinFUG: TFCWinFUG
           NumbersOnly = True
           TabOrder = 5
         end
-        object FUGcs2Class: TAdvComboBox
+        object TC2S_StarClass: TAdvComboBox
           Left = 143
           Top = 39
           Width = 50
@@ -1136,7 +1136,7 @@ object FCWinFUG: TFCWinFUG
           TabOrder = 1
           Text = 'cB5'
         end
-        object FUGcs2Type: TAdvComboBox
+        object TC2S_SystemType: TAdvComboBox
           Left = 24
           Top = 79
           Width = 89
@@ -1161,9 +1161,9 @@ object FCWinFUG: TFCWinFUG
           LabelFont.Style = []
           TabOrder = 6
           Text = 'Sol Like'
-          OnChange = FUGcs2TypeChange
+          OnChange = TC2S_SystemTypeChange
         end
-        object FUGcs2OG: THTMLRadioGroup
+        object TC2S_OrbitGeneration: THTMLRadioGroup
           Left = 143
           Top = 80
           Width = 113
@@ -1179,7 +1179,7 @@ object FCWinFUG: TFCWinFUG
           TabOrder = 7
           OnClick = TMS_OrbitGenerationClick
         end
-        object FUGcs2NumOrb: TLabeledEdit
+        object TC2S_OrbitGenerationNumberOrbits: TLabeledEdit
           Left = 262
           Top = 136
           Width = 59
@@ -1192,7 +1192,7 @@ object FCWinFUG: TFCWinFUG
           NumbersOnly = True
           TabOrder = 8
         end
-        object FUGcs2Temp: TLabeledEdit
+        object TC2S_StarTemp: TLabeledEdit
           Left = 199
           Top = 40
           Width = 58
@@ -1238,7 +1238,7 @@ object FCWinFUG: TFCWinFUG
     Appearance.ColorMirrorDisabled = 11974326
     Appearance.ColorMirrorDisabledTo = 15921906
   end
-  object FUGcs1Check: TCheckBox
+  object TC1S_EnableGroupCompanion1: TCheckBox
     Left = 45
     Top = 326
     Width = 121
@@ -1254,7 +1254,7 @@ object FCWinFUG: TFCWinFUG
     ParentColor = False
     ParentFont = False
     TabOrder = 3
-    OnClick = FUGcs1CheckClick
+    OnClick = TC1S_EnableGroupCompanion1Click
   end
   object AdvGlowButton1: TAdvGlowButton
     Left = 1
