@@ -98,13 +98,12 @@ type
 
     Label5: TLabel;
     Label6: TLabel;
-
-
-
-    Label7: TLabel;
-    Label8: TLabel;
+    TC2S_StarClassLabel: TLabel;
+    TC2S_SystemTypeLabel: TLabel;
 
     AdvGlowButton1: TAdvGlowButton;
+    CMT_TabOrbitalObjects: TAdvTabSheet;
+    TOO_StarPicker: TRadioGroup;
     procedure WF_GenerateButtonClick(Sender: TObject);
     procedure TMS_OrbitGenerationClick(Sender: TObject);
     procedure TC1S_EnableGroupCompanion1Click(Sender: TObject);

@@ -109,7 +109,7 @@ object FCWinFUG: TFCWinFUG
     Top = 39
     Width = 577
     Height = 721
-    ActivePage = CMT_TabStellarStarSystem
+    ActivePage = CMT_TabOrbitalObjects
     ActiveFont.Charset = DEFAULT_CHARSET
     ActiveFont.Color = clWindowText
     ActiveFont.Height = -11
@@ -893,7 +893,7 @@ object FCWinFUG: TFCWinFUG
         ParentFont = False
         TabOrder = 4
         Visible = False
-        object Label7: TLabel
+        object TC2S_StarClassLabel: TLabel
           Left = 143
           Top = 23
           Width = 25
@@ -906,7 +906,7 @@ object FCWinFUG: TFCWinFUG
           Font.Style = []
           ParentFont = False
         end
-        object Label8: TLabel
+        object TC2S_SystemTypeLabel: TLabel
           Left = 24
           Top = 63
           Width = 62
@@ -1206,6 +1206,47 @@ object FCWinFUG: TFCWinFUG
           TabOrder = 2
         end
       end
+      object TC1S_EnableGroupCompanion1: TCheckBox
+        Left = 16
+        Top = 263
+        Width = 121
+        Height = 17
+        TabStop = False
+        Caption = 'Companion Star 1'
+        Color = clSilver
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWhite
+        Font.Height = -12
+        Font.Name = 'FrancophilSans'
+        Font.Style = []
+        ParentColor = False
+        ParentFont = False
+        TabOrder = 5
+        OnClick = TC1S_EnableGroupCompanion1Click
+      end
+    end
+    object CMT_TabOrbitalObjects: TAdvTabSheet
+      Caption = 'Orbital Objects'
+      Color = clSilver
+      ColorTo = clNone
+      TabColor = clBtnFace
+      TabColorTo = clNone
+      ExplicitLeft = 24
+      ExplicitTop = 0
+      ExplicitWidth = 100
+      ExplicitHeight = 100
+      object TOO_StarPicker: TRadioGroup
+        Left = 3
+        Top = 3
+        Width = 185
+        Height = 70
+        Caption = 'TOO_StarPicker'
+        Items.Strings = (
+          'Main Star'
+          'Companion 1 Star'
+          'Companion 2 Star')
+        TabOrder = 0
+      end
     end
   end
   object WF_GenerateButton: TAdvGlowButton
@@ -1238,24 +1279,6 @@ object FCWinFUG: TFCWinFUG
     Appearance.ColorMirrorDisabled = 11974326
     Appearance.ColorMirrorDisabledTo = 15921906
   end
-  object TC1S_EnableGroupCompanion1: TCheckBox
-    Left = 45
-    Top = 326
-    Width = 121
-    Height = 17
-    TabStop = False
-    Caption = 'Companion Star 1'
-    Color = clSilver
-    Font.Charset = ANSI_CHARSET
-    Font.Color = clWhite
-    Font.Height = -12
-    Font.Name = 'FrancophilSans'
-    Font.Style = []
-    ParentColor = False
-    ParentFont = False
-    TabOrder = 3
-    OnClick = TC1S_EnableGroupCompanion1Click
-  end
   object AdvGlowButton1: TAdvGlowButton
     Left = 1
     Top = 0
@@ -1267,7 +1290,7 @@ object FCWinFUG: TFCWinFUG
     NotesFont.Height = -11
     NotesFont.Name = 'Tahoma'
     NotesFont.Style = []
-    TabOrder = 4
+    TabOrder = 3
     OnClick = AdvGlowButton1Click
     Appearance.ColorChecked = 16111818
     Appearance.ColorCheckedTo = 16367008
