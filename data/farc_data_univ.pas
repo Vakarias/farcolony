@@ -32,7 +32,8 @@ unit farc_data_univ;
 interface
 
 uses
-   farc_data_init;
+   farc_data_init
+   ,farc_fug_data;
 
 const
    FCCduMaxSpaceUnitsInOrbit=100;
@@ -557,6 +558,10 @@ type TFCRduOrbitalObject = record
    OO_colonies: array [0..FCCdiFactionsMax] of integer;
    {.type of orbital object}
    OO_type: TFCEduOrbitalObjectTypes;
+   ///<summary>
+   ///   basic type. WARNING: USED ONLY BY THE FUG, not in-game
+   ///</summary>
+   OO_basicType: TFCEfdOrbitalObjectBasicTypes;
    {.environment type}
    OO_environment: TFCEduEnvironmentTypes;
    {.revolution period, in standard days, around it's star}
