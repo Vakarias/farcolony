@@ -2183,26 +2183,11 @@
       <FR>Astéroïde Silicate</FR>
       <SP>Asteroide Silicio</SP>
    </oobtpAster_Sili>
-   <oobtpAsterBelt_Carbo>
-      <EN>Asteroids Belt (Carbonaceous)</EN>
-      <FR>Ceinture d'Astéroïdes (Carbonifères)</FR>
-      <SP>Cinturón de Asteroides (Carboníferos) </SP>
-   </oobtpAsterBelt_Carbo>
-   <oobtpAsterBelt_Icy>
-      <EN>Asteroids Belt (Icy)</EN>
-      <FR>Ceinture d'Astéroïdes (Glaciaires)</FR>
-      <SP>Cinturón de Asteroides (Glaciares) </SP>
-   </oobtpAsterBelt_Icy>
-   <oobtpAsterBelt_Metall>
-      <EN>Asteroids Belt (Métallics)</EN>
-      <FR>Ceinture d'Astéroïdes (Métalliques)</FR>
-      <SP>Cinturón de Asteroides (Metálicos) </SP>
-   </oobtpAsterBelt_Metall>
-   <oobtpAsterBelt_Sili>
-      <EN>Asteroids Belt (Silicates)</EN>
-      <FR>Ceinture d'Astéroïdes (Silicates)</FR>
-      <SP>Cinturón de Asteroides (Silicio) </SP>
-   </oobtpAsterBelt_Sili>
+   <ootAsteroidsBelt>
+      <EN>Asteroids Belt</EN>
+      <FR>Ceinture d'Astéroïdes</FR>
+      <SP>Cinturón de Asteroides</SP>
+   </ootAsteroidsBelt>
    <oobtpPlan_Gas>
       <EN>Gaseous Planet</EN>
       <FR>Planète Gazeuze</FR>
@@ -2233,11 +2218,6 @@
       <FR>Planète Tellurique</FR>
       <SP>Planeta Telúrico</SP>
    </oobtpPlan_Tellu>
-   <oobtpProtoDisk>
-      <EN>Protoplanetary Disk</EN>
-      <FR>Disque Protoplanétaire</FR>
-      <SP>Disco Protoplanetario</SP>
-   </oobtpProtoDisk>
    <!-- ********** PLANETARY SURVEY ********** -->
    <psCommit>
       <EN>Commit Expedition</EN> 

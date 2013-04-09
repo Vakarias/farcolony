@@ -940,8 +940,7 @@ begin
             {.rotation period}
             FCWinMain.FCGLSHUDobobjRotPerLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIoobjRotPer');
             if (FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[FC3doglSelectedPlanetAsteroid].OO_rotationPeriod=0)
-               and (FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[FC3doglSelectedPlanetAsteroid].OO_type
-                  >ootAsteroidsBelt_Icy)
+               and (FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[FC3doglSelectedPlanetAsteroid].OO_type > ootAsteroidsBelt)
                and (FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[FC3doglSelectedPlanetAsteroid].OO_type
                   <ootRing_Metallic)
             then FCWinMain.FCGLSHUDobobjRotPer.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIoobjTidLckd')
@@ -970,11 +969,7 @@ begin
             {.a reminder for complete types not implemented}
             FCWinMain.FCGLSHUDobobjObjTp.Text:='N/A';
             case FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[FC3doglSelectedPlanetAsteroid].OO_type of
-               ootProtoplanetaryDisk: FCWinMain.FCGLSHUDobobjObjTp.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'oobtpProtoDisk');
-               ootAsteroidsBelt_Metallic: FCWinMain.FCGLSHUDobobjObjTp.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'oobtpAsterBelt_Metall');
-               ootAsteroidsBelt_Silicate: FCWinMain.FCGLSHUDobobjObjTp.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'oobtpAsterBelt_Sili');
-               ootAsteroidsBelt_Carbonaceous: FCWinMain.FCGLSHUDobobjObjTp.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'oobtpAsterBelt_Carbo');
-               ootAsteroidsBelt_Icy: FCWinMain.FCGLSHUDobobjObjTp.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'oobtpAsterBelt_Icy');
+               ootAsteroidsBelt: FCWinMain.FCGLSHUDobobjObjTp.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'ootAsteroidsBelt');
                ootAsteroid_Metallic: FCWinMain.FCGLSHUDobobjObjTp.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'oobtpAster_Metall');
                ootAsteroid_Silicate: FCWinMain.FCGLSHUDobobjObjTp.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'oobtpAster_Sili');
                ootAsteroid_Carbonaceous: FCWinMain.FCGLSHUDobobjObjTp.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'oobtpAster_Carbo');

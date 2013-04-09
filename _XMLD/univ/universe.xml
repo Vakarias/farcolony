@@ -28,11 +28,7 @@
 
    {.orbital object type list, derived from previous FARC}
    [ootype-sattype]
-      ootProtoplanetaryDisk
-      ootAsteroidsBelt_Metallic
-      ootAsteroidsBelt_Silicate
-      ootAsteroidsBelt_Carbonaceous
-      ootAsteroidsBelt_Icy
+      ootAsteroidsBelt
       ootAsteroid_Metallic
       ootAsteroid_Silicate
       ootAsteroid_Carbonaceous

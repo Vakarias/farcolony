@@ -126,15 +126,16 @@ type TFCEduHydrospheres=(
 {:DEV NOTES: REMOVE THE OLD REFRENCES WHEN THE FUG WILL BE COMPLETE.}
 type TFCEduOrbitalObjectTypes=(
    {.old mum=1}
-   ootProtoplanetaryDisk
+//   ootProtoplanetaryDisk
    {.old num=2}
-   ,ootAsteroidsBelt_Metallic
+//   ,ootAsteroidsBelt_Metallic
    {.old num=3}
-   ,ootAsteroidsBelt_Silicate
+//   ,ootAsteroidsBelt_Silicate
    {.old num=4}
-   ,ootAsteroidsBelt_Carbonaceous
+//   ,ootAsteroidsBelt_Carbonaceous
    {.old num=5}
-   ,ootAsteroidsBelt_Icy
+//   ,ootAsteroidsBelt_Icy
+   ootAsteroidsBelt
    {.old num=6}
    ,ootAsteroid_Metallic
    {.old num=7}
