@@ -103,12 +103,13 @@ object FCWinFUG: TFCWinFUG
     UseStyler = False
     Version = '2.2.3.1'
     WordWrap = wwNone
+    ExplicitLeft = 608
   end
   object WF_ConfigurationMultiTab: TAdvPageControl
     Left = 25
     Top = 39
     Width = 577
-    Height = 721
+    Height = 1500
     ActivePage = CMT_TabOrbitalObjects
     ActiveFont.Charset = DEFAULT_CHARSET
     ActiveFont.Color = clWindowText
@@ -126,6 +127,7 @@ object FCWinFUG: TFCWinFUG
       ColorTo = clNone
       TabColor = clBtnFace
       TabColorTo = clNone
+      ExplicitHeight = 693
       object TSSS_StellarStarSysGroup: TAdvGroupBox
         Left = 16
         Top = 3
@@ -1231,21 +1233,188 @@ object FCWinFUG: TFCWinFUG
       ColorTo = clNone
       TabColor = clBtnFace
       TabColorTo = clNone
-      ExplicitLeft = 24
-      ExplicitTop = 0
-      ExplicitWidth = 100
-      ExplicitHeight = 100
+      ExplicitHeight = 693
       object TOO_StarPicker: TRadioGroup
         Left = 3
         Top = 3
-        Width = 185
+        Width = 118
         Height = 70
-        Caption = 'TOO_StarPicker'
+        Caption = 'Star Picker'
         Items.Strings = (
           'Main Star'
           'Companion 1 Star'
           'Companion 2 Star')
         TabOrder = 0
+        OnClick = TOO_StarPickerClick
+      end
+      object TOO_MainStarOrbitalObjects: TAdvGroupBox
+        Left = 3
+        Top = 71
+        Width = 566
+        Height = 1200
+        BorderColor = clBlack
+        Caption = 'Orbital Objects'
+        Color = clSilver
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentBackground = False
+        ParentColor = False
+        ParentFont = False
+        TabOrder = 1
+        object MSOO1: TAdvGroupBox
+          Left = 3
+          Top = 16
+          Width = 529
+          Height = 129
+          BorderColor = clBlack
+          Caption = '1'
+          Color = clSilver
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ParentBackground = False
+          ParentColor = False
+          ParentFont = False
+          TabOrder = 0
+          object MSOO1_token: TLabeledEdit
+            Left = 18
+            Top = 24
+            Width = 97
+            Height = 19
+            Color = clWhite
+            EditLabel.Width = 29
+            EditLabel.Height = 13
+            EditLabel.Caption = 'Token'
+            EditLabel.Layout = tlCenter
+            TabOrder = 0
+          end
+          object MSOO1_Distance: TLabeledEdit
+            Left = 116
+            Top = 24
+            Width = 42
+            Height = 19
+            Color = clWhite
+            EditLabel.Width = 41
+            EditLabel.Height = 13
+            EditLabel.Caption = 'Distance'
+            EditLabel.Layout = tlCenter
+            NumbersOnly = True
+            TabOrder = 1
+          end
+          object MSOO1_Diameter: TLabeledEdit
+            Left = 3
+            Top = 57
+            Width = 54
+            Height = 19
+            Color = clWhite
+            EditLabel.Width = 43
+            EditLabel.Height = 13
+            EditLabel.Caption = 'Diameter'
+            EditLabel.Layout = tlCenter
+            NumbersOnly = True
+            TabOrder = 2
+          end
+          object MSOO1_Density: TLabeledEdit
+            Left = 58
+            Top = 57
+            Width = 47
+            Height = 19
+            Color = clWhite
+            EditLabel.Width = 36
+            EditLabel.Height = 13
+            EditLabel.Caption = 'Density'
+            EditLabel.Layout = tlCenter
+            NumbersOnly = True
+            TabOrder = 3
+          end
+          object MSOO1_ObjecType: TAdvComboBox
+            Left = 158
+            Top = 23
+            Width = 130
+            Height = 21
+            Color = clWhite
+            Version = '1.3.1.0'
+            Visible = True
+            ButtonWidth = 18
+            DropWidth = 0
+            Enabled = True
+            ItemIndex = -1
+            ItemHeight = 13
+            Items.Strings = (
+              'None'
+              'Asteroids Belt (BASIC TYPE)'
+              'Asteroid (BASIC TYPE)'
+              'Telluric Planet (BASIC TYPE)'
+              'Gaseous Planet (BASIC TYPE)'
+              'Asteroids Belt'
+              'Asteroid Metallic'
+              'Asteroid Silicate'
+              'Asteroid Carbonaceous'
+              'Asteroid Icy'
+              'Planet Telluric EarthH0H1'
+              'Planet_Telluric_EarthH2'
+              'Planet_Telluric_EarthH3'
+              'Planet_Telluric_EarthH4'
+              'Planet_Telluric_MarsH0H1'
+              'Planet_Telluric_MarsH2'
+              'Planet_Telluric_MarsH3'
+              'Planet_Telluric_MarsH4'
+              'Planet_Telluric_VenusH0H1'
+              'Planet_Telluric_VenusH2'
+              'Planet_Telluric_VenusH3'
+              'Planet_Telluric_VenusH4'
+              'Planet_Telluric_MercuryH0'
+              'Planet_Telluric_MercuryH3'
+              'Planet_Telluric_MercuryH4'
+              'Planet_Icy_PlutoH3'
+              'Planet_Icy_EuropaH4'
+              'Planet_Icy_CallistoH3H4Atm0'
+              'Planet_Gaseous_Uranus'
+              'Planet_Gaseous_Neptune'
+              'Planet_Gaseous_Saturn'
+              'Planet_Jovian'
+              'Planet_Supergiant')
+            LabelCaption = 'Object Type'
+            LabelPosition = lpTopCenter
+            LabelFont.Charset = DEFAULT_CHARSET
+            LabelFont.Color = clWindowText
+            LabelFont.Height = -11
+            LabelFont.Name = 'Tahoma'
+            LabelFont.Style = []
+            TabOrder = 4
+          end
+          object MSOO1_Mass: TLabeledEdit
+            Left = 106
+            Top = 57
+            Width = 63
+            Height = 19
+            Color = clWhite
+            EditLabel.Width = 24
+            EditLabel.Height = 13
+            EditLabel.Caption = 'Mass'
+            EditLabel.Layout = tlCenter
+            NumbersOnly = True
+            TabOrder = 5
+          end
+          object MSOO1_Gravity: TLabeledEdit
+            Left = 170
+            Top = 57
+            Width = 47
+            Height = 19
+            Color = clWhite
+            EditLabel.Width = 35
+            EditLabel.Height = 13
+            EditLabel.Caption = 'Gravity'
+            EditLabel.Layout = tlCenter
+            NumbersOnly = True
+            TabOrder = 6
+          end
+        end
       end
     end
   end

@@ -31,9 +31,12 @@ unit farc_fug_com;
 interface
 
 uses
-   forms;
+   forms
+   ,SysUtils;
 
 procedure FCMfC_Initialize( isCreateWindow: boolean );
+
+procedure FCMfC_StarPicker_Update;
 
 implementation
 
@@ -99,6 +102,7 @@ begin
    FCWinFUG.TC2S_OrbitGeneration.ItemIndex:=0;
    FCWinFUG.TC2S_OrbitGenerationNumberOrbits.Enabled:=false;
    FCWinFUG.TC2S_OrbitGenerationNumberOrbits.Text:='';
+   FCWinFUG.TOO_StarPicker.ItemIndex:=0;
    FCWinFUG.WF_XMLOutput.Clear;
    {.finally we display the window and set interface of the main FARC window if required}
    if not FCWinFUG.Visible
@@ -113,6 +117,15 @@ begin
    end;
    FCDduStarSystem:=nil;
    SetLength(FCDduStarSystem, 1);
+end;
+
+procedure FCMfC_StarPicker_Update;
+{:Purpose: update the orbital object tab.
+    Additions:
+}
+begin
+   {:DEV NOTES: hide the 3 oobj groups.}
+   {:DEV NOTES: case item index=> display the right oobj group, if not random of course.}
 end;
 
 end.

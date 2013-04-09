@@ -104,6 +104,15 @@ type
     AdvGlowButton1: TAdvGlowButton;
     CMT_TabOrbitalObjects: TAdvTabSheet;
     TOO_StarPicker: TRadioGroup;
+    MSOO1: TAdvGroupBox;
+    MSOO1_token: TLabeledEdit;
+    MSOO1_Distance: TLabeledEdit;
+    MSOO1_Diameter: TLabeledEdit;
+    MSOO1_Density: TLabeledEdit;
+    MSOO1_ObjecType: TAdvComboBox;
+    TOO_MainStarOrbitalObjects: TAdvGroupBox;
+    MSOO1_Mass: TLabeledEdit;
+    MSOO1_Gravity: TLabeledEdit;
     procedure WF_GenerateButtonClick(Sender: TObject);
     procedure TMS_OrbitGenerationClick(Sender: TObject);
     procedure TC1S_EnableGroupCompanion1Click(Sender: TObject);
@@ -112,6 +121,7 @@ type
     procedure TC1S_SystemTypeChange(Sender: TObject);
     procedure TC2S_SystemTypeChange(Sender: TObject);
     procedure AdvGlowButton1Click(Sender: TObject);
+    procedure TOO_StarPickerClick(Sender: TObject);
    private
     { Private declarations }
    public
@@ -361,6 +371,8 @@ begin
       TC2S_EnableGroupCompanion2.Checked:=false;
       TC2S_EnableGroupCompanion2.Enabled:=false;
       CMT_TabCompanion2Star.Visible:=false;
+      if TOO_StarPicker.ItemIndex=1
+      then TOO_StarPicker.ItemIndex:=0;
    end;
 end;
 
@@ -374,8 +386,12 @@ procedure TFCWinFUG.TC2S_EnableGroupCompanion2Click(Sender: TObject);
 begin
    if TC2S_EnableGroupCompanion2.Checked
    then CMT_TabCompanion2Star.Visible:=true
-   else if not TC2S_EnableGroupCompanion2.Checked
-   then CMT_TabCompanion2Star.Visible:=false;
+   else if not TC2S_EnableGroupCompanion2.Checked then
+   begin
+      CMT_TabCompanion2Star.Visible:=false;
+      if TOO_StarPicker.ItemIndex=2
+      then TOO_StarPicker.ItemIndex:=1;
+   end;
 end;
 
 procedure TFCWinFUG.TC2S_SystemTypeChange(Sender: TObject);
@@ -395,6 +411,11 @@ procedure TFCWinFUG.TMS_SystemTypeChange(Sender: TObject);
 begin
    if TMS_SystemType.ItemIndex=3
    then TMS_OrbitGeneration.ItemIndex:=0;
+end;
+
+procedure TFCWinFUG.TOO_StarPickerClick(Sender: TObject);
+begin
+   FCMfC_StarPicker_Update;
 end;
 
 end.

@@ -136,7 +136,8 @@ type TFCEduOrbitalObjectTypes=(
 //   ,ootAsteroidsBelt_Carbonaceous
    {.old num=5}
 //   ,ootAsteroidsBelt_Icy
-   ootAsteroidsBelt
+   ootNone
+   ,ootAsteroidsBelt
    {.old num=6}
    ,ootAsteroid_Metallic
    {.old num=7}
