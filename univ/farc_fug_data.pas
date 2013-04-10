@@ -30,15 +30,8 @@ unit farc_fug_data;
 
 interface
 
-//uses
-
-type TFCEfdOrbitalObjectBasicTypes=(
-   oobtNone
-   ,oobtAsteroidBelt
-   ,oobtAsteroid
-   ,oobtTelluricPlanet
-   ,oobtGaseousPlanet
-   );
+uses
+   farc_data_univ;
 
 //==END PUBLIC ENUM=========================================================================
 
@@ -53,10 +46,22 @@ type TFCRfdStarOrbits= array[0..3] of integer;
 ///</summary>
 type TFCRfdSystemType= array[0..3] of integer;
 
+type TFCDfdMainStarObjectsList= array of TFCRduOrbitalObject;
+
+type TFCDfdComp1StarObjectsList= array of TFCRduOrbitalObject;
+
+type TFCDfdComp2StarObjectsList= array of TFCRduOrbitalObject;
+
 //==END PUBLIC RECORDS======================================================================
 
    //==========subsection===================================================================
 var
+   FCDfdMainStarObjectsList: TFCDfdMainStarObjectsList;
+
+   FCDfdComp1StarObjectsList: TFCDfdComp1StarObjectsList;
+
+   FCDfdComp2StarObjectsList: TFCDfdComp2StarObjectsList;
+
    ///<summary>
    ///   FUG orbits to generate - temp data
    ///</summary>

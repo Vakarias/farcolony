@@ -32,9 +32,32 @@ interface
 
 uses
    forms
-   ,SysUtils;
+   ,SysUtils
+   ,TypInfo;
 
 procedure FCMfC_Initialize( isCreateWindow: boolean );
+
+///<summary>
+///   update the orbital object token
+///</summary>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <returns></returns>
+///   <remarks></remarks>
+procedure FCmfC_OrbitPicker_TokenUpdate;
+
+///<summary>
+///   update the orbital object tab / orbital object picker
+///</summary>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <returns></returns>
+///   <remarks></remarks>
+procedure FCmfC_OrbitPicker_Update;
 
 procedure FCMfC_StarPicker_Update;
 
@@ -42,6 +65,7 @@ implementation
 
 uses
    farc_data_univ
+   ,farc_fug_data
    ,farc_main
    ,farc_win_fug;
 
@@ -103,6 +127,9 @@ begin
    FCWinFUG.TC2S_OrbitGenerationNumberOrbits.Enabled:=false;
    FCWinFUG.TC2S_OrbitGenerationNumberOrbits.Text:='';
    FCWinFUG.TOO_StarPicker.ItemIndex:=0;
+   setlength( FCDfdMainStarObjectsList, 1 );
+   setlength( FCDfdComp1StarObjectsList, 1 );
+   setlength( FCDfdComp2StarObjectsList, 1 );
    FCWinFUG.WF_XMLOutput.Clear;
    {.finally we display the window and set interface of the main FARC window if required}
    if not FCWinFUG.Visible
@@ -119,8 +146,57 @@ begin
    SetLength(FCDduStarSystem, 1);
 end;
 
+procedure FCmfC_OrbitPicker_TokenUpdate;
+{:Purpose: update the orbital object token.
+    Additions:
+}
+   var
+      CurrentObject: integer;
+begin
+   CurrentObject:=FCWinFUG.TOO_OrbitalObjectPicker.ItemIndex+1;
+   case FCWinFUG.TOO_StarPicker.ItemIndex of
+      0: FCDfdMainStarObjectsList[CurrentObject].OO_dbTokenId:=FCWinFUG.COO_Token.Text;
+
+      1: FCDfdComp1StarObjectsList[CurrentObject].OO_dbTokenId:=FCWinFUG.COO_Token.Text;
+
+      2: FCDfdComp2StarObjectsList[CurrentObject].OO_dbTokenId:=FCWinFUG.COO_Token.Text;
+   end;
+end;
+
+procedure FCmfC_OrbitPicker_Update;
+{:Purpose: update the orbital object tab / orbital object picker.
+    Additions:
+}
+   var
+      CurrentObject: integer;
+begin
+   if not FCWinFUG.TOO_CurrentOrbitalObject.Visible
+   then FCWinFUG.TOO_CurrentOrbitalObject.Show;
+   CurrentObject:=FCWinFUG.TOO_OrbitalObjectPicker.ItemIndex+1;
+   case FCWinFUG.TOO_StarPicker.ItemIndex of
+      0:
+      begin
+         if FCDfdMainStarObjectsList[CurrentObject].OO_dbTokenId<>''
+         then FCWinFUG.COO_Token.Text:=FCDfdMainStarObjectsList[CurrentObject].OO_dbTokenId
+         else FCWinFUG.COO_Token.Text:='';
+         if FCDfdMainStarObjectsList[CurrentObject].OO_isNotSat_distanceFromStar>0
+         then FCWinFUG.COO_Distance.Text:=floattostr( FCDfdMainStarObjectsList[CurrentObject].OO_isNotSat_distanceFromStar )
+         else FCWinFUG.COO_Distance.Text:='';
+         FCWinFUG.COO_ObjecType.Text:=GetEnumName( TypeInfo( TFCEduOrbitalObjectTypes ), Integer( FCDfdMainStarObjectsList[CurrentObject].OO_type ) );
+      end;
+
+      1:
+      begin
+      end;
+
+      2:
+      begin
+      end;
+   end;
+end;
+
 procedure FCMfC_StarPicker_Update;
-{:Purpose: update the orbital object tab.
+{:Purpose: update the orbital object tab / star picker.
     Additions:
 }
    var
@@ -149,6 +225,11 @@ begin
             end;
             FCWinFUG.TOO_OrbitalObjectPicker.Show;
             FCWinFUG.TOO_OrbitalObjectPicker.ItemIndex:=0;
+         end
+         else begin
+            Max:=length( FCDfdMainStarObjectsList )-1;
+            if Max>0
+            then SetLength( FCDfdMainStarObjectsList, 1 );
          end;
       end;
 
@@ -167,6 +248,11 @@ begin
             end;
             FCWinFUG.TOO_OrbitalObjectPicker.Show;
             FCWinFUG.TOO_OrbitalObjectPicker.ItemIndex:=0;
+         end
+         else begin
+            Max:=length( FCDfdComp1StarObjectsList )-1;
+            if Max>0
+            then SetLength( FCDfdComp1StarObjectsList, 1 );
          end;
       end;
 
@@ -185,6 +271,11 @@ begin
             end;
             FCWinFUG.TOO_OrbitalObjectPicker.Show;
             FCWinFUG.TOO_OrbitalObjectPicker.ItemIndex:=0;
+         end
+         else begin
+            Max:=length( FCDfdComp2StarObjectsList )-1;
+            if Max>0
+            then SetLength( FCDfdComp2StarObjectsList, 1 );
          end;
       end;
    end;

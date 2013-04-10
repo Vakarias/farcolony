@@ -32,8 +32,7 @@ unit farc_data_univ;
 interface
 
 uses
-   farc_data_init
-   ,farc_fug_data;
+   farc_data_init;
 
 const
    FCCduMaxSpaceUnitsInOrbit=100;
@@ -112,6 +111,14 @@ type TFCEduHydrospheres=(
    ,hCrystalIce
    ,hLiquidH2O_blend_NH3
    ,hLiquidCH4
+   );
+
+type TFCEduOrbitalObjectBasicTypes=(
+   oobtNone
+   ,oobtAsteroidBelt
+   ,oobtAsteroid
+   ,oobtTelluricPlanet
+   ,oobtGaseousPlanet
    );
 
 {:REFERENCES LIST
@@ -562,7 +569,7 @@ type TFCRduOrbitalObject = record
    ///<summary>
    ///   basic type. WARNING: USED ONLY BY THE FUG, not in-game
    ///</summary>
-   OO_basicType: TFCEfdOrbitalObjectBasicTypes;
+   OO_basicType: TFCEduOrbitalObjectBasicTypes;
    {.environment type}
    OO_environment: TFCEduEnvironmentTypes;
    {.revolution period, in standard days, around it's star}

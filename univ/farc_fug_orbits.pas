@@ -33,8 +33,7 @@ interface
 uses
    Math
 
-   ,farc_data_univ
-   ,farc_fug_data;
+   ,farc_data_univ;
 
 ///<summary>
 ///   calculate the orbital eccentricity
@@ -58,7 +57,7 @@ function FCFfS_OrbitalZone_Determining( const OrbitDistance, StarLuminosity: ext
 ///   <param name="StarClass">star class</param>
 ///   <param name="Zone">orbital zone</param>
 ///   <return>the default orbital object that must be generated</return>
-function FCFfS_OrbitGen_Balanced( const StarClass: TFCEduStarClasses; const Zone: TFCEduHabitableZones ): TFCEfdOrbitalObjectBasicTypes;
+function FCFfS_OrbitGen_Balanced( const StarClass: TFCEduStarClasses; const Zone: TFCEduHabitableZones ): TFCEduOrbitalObjectBasicTypes;
 
 ///<summary>
 ///   generate the basic type of orbital object given the star's class, for a Sol-Like distribution system
@@ -66,7 +65,7 @@ function FCFfS_OrbitGen_Balanced( const StarClass: TFCEduStarClasses; const Zone
 ///   <param name="StarClass">star class</param>
 ///   <param name="Zone">orbital zone</param>
 ///   <return>the default orbital object that must be generated</return>
-function FCFfS_OrbitGen_SolLike( const StarClass: TFCEduStarClasses; const Zone: TFCEduHabitableZones ): TFCEfdOrbitalObjectBasicTypes;
+function FCFfS_OrbitGen_SolLike( const StarClass: TFCEduStarClasses; const Zone: TFCEduHabitableZones ): TFCEduOrbitalObjectBasicTypes;
 
 ///<summary>
 ///   generate the basic type of orbital object given the star's class, for a ExtraSol-Like distribution system
@@ -74,7 +73,7 @@ function FCFfS_OrbitGen_SolLike( const StarClass: TFCEduStarClasses; const Zone:
 ///   <param name="StarClass">star class</param>
 ///   <param name="Zone">orbital zone</param>
 ///   <return>the default orbital object that must be generated</return>
-function FCFfS_OrbitGen_ExtraSolLike( const StarClass: TFCEduStarClasses; const Zone: TFCEduHabitableZones ): TFCEfdOrbitalObjectBasicTypes;
+function FCFfS_OrbitGen_ExtraSolLike( const StarClass: TFCEduStarClasses; const Zone: TFCEduHabitableZones ): TFCEduOrbitalObjectBasicTypes;
 
 //===========================END FUNCTIONS SECTION==========================================
 
@@ -87,7 +86,8 @@ procedure FCMfO_Generate(const FOGstar: integer);
 implementation
 
 uses
-   farc_common_func;
+   farc_common_func
+   ,farc_fug_data;
 
 //===================================================END OF INIT============================
 
@@ -114,7 +114,7 @@ begin
    else Result:=hzIntermediary;
 end;
 
-function FCFfS_OrbitGen_Balanced( const StarClass: TFCEduStarClasses; const Zone: TFCEduHabitableZones ): TFCEfdOrbitalObjectBasicTypes;
+function FCFfS_OrbitGen_Balanced( const StarClass: TFCEduStarClasses; const Zone: TFCEduHabitableZones ): TFCEduOrbitalObjectBasicTypes;
 {:Purpose: generate the basic type of orbital object given the star's class, for a Balanced distribution system.
 }
    var
@@ -359,7 +359,7 @@ begin
    then Result:=oobtGaseousPlanet;
 end;
 
-function FCFfS_OrbitGen_ExtraSolLike( const StarClass: TFCEduStarClasses; const Zone: TFCEduHabitableZones ): TFCEfdOrbitalObjectBasicTypes;
+function FCFfS_OrbitGen_ExtraSolLike( const StarClass: TFCEduStarClasses; const Zone: TFCEduHabitableZones ): TFCEduOrbitalObjectBasicTypes;
 {:Purpose: generate the basic type of orbital object given the star's class, for a ExtraSol-Like distribution system.
 }
    var
@@ -604,7 +604,7 @@ begin
    then Result:=oobtGaseousPlanet;
 end;
 
-function FCFfS_OrbitGen_SolLike( const StarClass: TFCEduStarClasses; const Zone: TFCEduHabitableZones ): TFCEfdOrbitalObjectBasicTypes;
+function FCFfS_OrbitGen_SolLike( const StarClass: TFCEduStarClasses; const Zone: TFCEduHabitableZones ): TFCEduOrbitalObjectBasicTypes;
 {:Purpose: generate the basic type of orbital object given the star's class, for a Sol-Like distribution system.
 }
    var

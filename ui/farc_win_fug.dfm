@@ -511,7 +511,7 @@ object FCWinFUG: TFCWinFUG
           EditLabel.Layout = tlCenter
           NumbersOnly = True
           TabOrder = 8
-          OnChange = TMS_OrbitGenerationNumberOrbitsChange
+          OnKeyDown = TMS_OrbitGenerationNumberOrbitsKeyDown
         end
         object TMS_StarTemp: TLabeledEdit
           Left = 199
@@ -843,7 +843,7 @@ object FCWinFUG: TFCWinFUG
           EditLabel.Layout = tlCenter
           NumbersOnly = True
           TabOrder = 8
-          OnChange = TMS_OrbitGenerationNumberOrbitsChange
+          OnKeyDown = TC1S_OrbitGenerationNumberOrbitsKeyDown
         end
         object TC1S_StarTemp: TLabeledEdit
           Left = 199
@@ -1194,7 +1194,7 @@ object FCWinFUG: TFCWinFUG
           EditLabel.Layout = tlCenter
           NumbersOnly = True
           TabOrder = 8
-          OnChange = TMS_OrbitGenerationNumberOrbitsChange
+          OnKeyDown = TC2S_OrbitGenerationNumberOrbitsKeyDown
         end
         object TC2S_StarTemp: TLabeledEdit
           Left = 199
@@ -1382,7 +1382,7 @@ object FCWinFUG: TFCWinFUG
             'Planet_Gaseous_Saturn'
             'Planet_Jovian'
             'Planet_Supergiant')
-          LabelCaption = #34416#6636#16
+          LabelCaption = 'Orbit Type'
           LabelPosition = lpTopCenter
           LabelFont.Charset = DEFAULT_CHARSET
           LabelFont.Color = clWindowText
@@ -1403,6 +1403,7 @@ object FCWinFUG: TFCWinFUG
           EditLabel.Caption = 'Token'
           EditLabel.Layout = tlCenter
           TabOrder = 6
+          OnKeyDown = COO_TokenKeyDown
         end
       end
       object TOO_OrbitalObjectPicker: TRadioGroup
@@ -1412,6 +1413,7 @@ object FCWinFUG: TFCWinFUG
         Height = 230
         Caption = 'Orbital Object Picker'
         TabOrder = 2
+        OnClick = TOO_OrbitalObjectPickerClick
       end
     end
   end
