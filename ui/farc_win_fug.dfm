@@ -103,14 +103,13 @@ object FCWinFUG: TFCWinFUG
     UseStyler = False
     Version = '2.2.3.1'
     WordWrap = wwNone
-    ExplicitLeft = 608
   end
   object WF_ConfigurationMultiTab: TAdvPageControl
     Left = 25
     Top = 39
     Width = 577
     Height = 1500
-    ActivePage = CMT_TabOrbitalObjects
+    ActivePage = CMT_TabStellarStarSystem
     ActiveFont.Charset = DEFAULT_CHARSET
     ActiveFont.Color = clWindowText
     ActiveFont.Height = -11
@@ -121,13 +120,13 @@ object FCWinFUG: TFCWinFUG
     TabOverlap = 0
     Version = '1.6.2.1'
     TabOrder = 1
+    TabStop = False
     object CMT_TabStellarStarSystem: TAdvTabSheet
       Caption = 'Stellar and Star System'
       Color = clSilver
       ColorTo = clNone
       TabColor = clBtnFace
       TabColorTo = clNone
-      ExplicitHeight = 693
       object TSSS_StellarStarSysGroup: TAdvGroupBox
         Left = 16
         Top = 3
@@ -512,6 +511,7 @@ object FCWinFUG: TFCWinFUG
           EditLabel.Layout = tlCenter
           NumbersOnly = True
           TabOrder = 8
+          OnChange = TMS_OrbitGenerationNumberOrbitsChange
         end
         object TMS_StarTemp: TLabeledEdit
           Left = 199
@@ -829,7 +829,7 @@ object FCWinFUG: TFCWinFUG
             'Randomized'
             'Fixed')
           TabOrder = 7
-          OnClick = TMS_OrbitGenerationClick
+          OnClick = TC1S_OrbitGenerationClick
         end
         object TC1S_OrbitGenerationNumberOrbits: TLabeledEdit
           Left = 262
@@ -843,6 +843,7 @@ object FCWinFUG: TFCWinFUG
           EditLabel.Layout = tlCenter
           NumbersOnly = True
           TabOrder = 8
+          OnChange = TMS_OrbitGenerationNumberOrbitsChange
         end
         object TC1S_StarTemp: TLabeledEdit
           Left = 199
@@ -1179,7 +1180,7 @@ object FCWinFUG: TFCWinFUG
             'Randomized'
             'Fixed')
           TabOrder = 7
-          OnClick = TMS_OrbitGenerationClick
+          OnClick = TC2S_OrbitGenerationClick
         end
         object TC2S_OrbitGenerationNumberOrbits: TLabeledEdit
           Left = 262
@@ -1193,6 +1194,7 @@ object FCWinFUG: TFCWinFUG
           EditLabel.Layout = tlCenter
           NumbersOnly = True
           TabOrder = 8
+          OnChange = TMS_OrbitGenerationNumberOrbitsChange
         end
         object TC2S_StarTemp: TLabeledEdit
           Left = 199
@@ -1233,7 +1235,6 @@ object FCWinFUG: TFCWinFUG
       ColorTo = clNone
       TabColor = clBtnFace
       TabColorTo = clNone
-      ExplicitHeight = 693
       object TOO_StarPicker: TRadioGroup
         Left = 3
         Top = 3
@@ -1247,13 +1248,13 @@ object FCWinFUG: TFCWinFUG
         TabOrder = 0
         OnClick = TOO_StarPickerClick
       end
-      object TOO_MainStarOrbitalObjects: TAdvGroupBox
-        Left = 3
-        Top = 71
-        Width = 566
-        Height = 1200
+      object TOO_CurrentOrbitalObject: TAdvGroupBox
+        Left = 127
+        Top = 3
+        Width = 442
+        Height = 600
         BorderColor = clBlack
-        Caption = 'Orbital Objects'
+        Caption = 'Orbital Object'
         Color = clSilver
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clBlack
@@ -1264,157 +1265,153 @@ object FCWinFUG: TFCWinFUG
         ParentColor = False
         ParentFont = False
         TabOrder = 1
-        object MSOO1: TAdvGroupBox
+        object COO_Density: TLabeledEdit
+          Left = 58
+          Top = 72
+          Width = 47
+          Height = 19
+          Color = clWhite
+          EditLabel.Width = 36
+          EditLabel.Height = 13
+          EditLabel.Caption = 'Density'
+          EditLabel.Layout = tlCenter
+          NumbersOnly = True
+          TabOrder = 0
+        end
+        object COO_Diameter: TLabeledEdit
           Left = 3
-          Top = 16
-          Width = 529
-          Height = 129
-          BorderColor = clBlack
-          Caption = '1'
-          Color = clSilver
+          Top = 72
+          Width = 54
+          Height = 19
+          Color = clWhite
+          EditLabel.Width = 43
+          EditLabel.Height = 13
+          EditLabel.Caption = 'Diameter'
+          EditLabel.Layout = tlCenter
+          NumbersOnly = True
+          TabOrder = 1
+        end
+        object COO_Distance: TLabeledEdit
+          Left = 101
+          Top = 32
+          Width = 42
+          Height = 19
+          Color = clWhite
+          EditLabel.Width = 41
+          EditLabel.Height = 13
+          EditLabel.Caption = 'Distance'
+          EditLabel.Layout = tlCenter
+          NumbersOnly = True
+          TabOrder = 2
+        end
+        object COO_Gravity: TLabeledEdit
+          Left = 170
+          Top = 72
+          Width = 47
+          Height = 19
+          Color = clWhite
+          EditLabel.Width = 35
+          EditLabel.Height = 13
+          EditLabel.Caption = 'Gravity'
+          EditLabel.Layout = tlCenter
+          NumbersOnly = True
+          TabOrder = 3
+        end
+        object COO_Mass: TLabeledEdit
+          Left = 106
+          Top = 72
+          Width = 63
+          Height = 19
+          Color = clWhite
+          EditLabel.Width = 24
+          EditLabel.Height = 13
+          EditLabel.Caption = 'Mass'
+          EditLabel.Layout = tlCenter
+          NumbersOnly = True
+          TabOrder = 4
+        end
+        object COO_ObjecType: TAdvComboBox
+          Left = 143
+          Top = 31
+          Width = 130
+          Height = 21
+          Color = clWhite
+          Version = '1.3.1.0'
+          Visible = True
+          ButtonWidth = 18
+          DropWidth = 0
+          Enabled = True
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
           Font.Height = -11
           Font.Name = 'Tahoma'
           Font.Style = []
-          ParentBackground = False
-          ParentColor = False
+          ItemIndex = -1
+          ItemHeight = 13
+          Items.Strings = (
+            'None'
+            'Asteroids Belt (BASIC TYPE)'
+            'Asteroid (BASIC TYPE)'
+            'Telluric Planet (BASIC TYPE)'
+            'Gaseous Planet (BASIC TYPE)'
+            'Asteroids Belt'
+            'Asteroid Metallic'
+            'Asteroid Silicate'
+            'Asteroid Carbonaceous'
+            'Asteroid Icy'
+            'Planet Telluric EarthH0H1'
+            'Planet_Telluric_EarthH2'
+            'Planet_Telluric_EarthH3'
+            'Planet_Telluric_EarthH4'
+            'Planet_Telluric_MarsH0H1'
+            'Planet_Telluric_MarsH2'
+            'Planet_Telluric_MarsH3'
+            'Planet_Telluric_MarsH4'
+            'Planet_Telluric_VenusH0H1'
+            'Planet_Telluric_VenusH2'
+            'Planet_Telluric_VenusH3'
+            'Planet_Telluric_VenusH4'
+            'Planet_Telluric_MercuryH0'
+            'Planet_Telluric_MercuryH3'
+            'Planet_Telluric_MercuryH4'
+            'Planet_Icy_PlutoH3'
+            'Planet_Icy_EuropaH4'
+            'Planet_Icy_CallistoH3H4Atm0'
+            'Planet_Gaseous_Uranus'
+            'Planet_Gaseous_Neptune'
+            'Planet_Gaseous_Saturn'
+            'Planet_Jovian'
+            'Planet_Supergiant')
+          LabelCaption = #34416#6636#16
+          LabelPosition = lpTopCenter
+          LabelFont.Charset = DEFAULT_CHARSET
+          LabelFont.Color = clWindowText
+          LabelFont.Height = -11
+          LabelFont.Name = 'Tahoma'
+          LabelFont.Style = []
           ParentFont = False
-          TabOrder = 0
-          object MSOO1_token: TLabeledEdit
-            Left = 18
-            Top = 24
-            Width = 97
-            Height = 19
-            Color = clWhite
-            EditLabel.Width = 29
-            EditLabel.Height = 13
-            EditLabel.Caption = 'Token'
-            EditLabel.Layout = tlCenter
-            TabOrder = 0
-          end
-          object MSOO1_Distance: TLabeledEdit
-            Left = 116
-            Top = 24
-            Width = 42
-            Height = 19
-            Color = clWhite
-            EditLabel.Width = 41
-            EditLabel.Height = 13
-            EditLabel.Caption = 'Distance'
-            EditLabel.Layout = tlCenter
-            NumbersOnly = True
-            TabOrder = 1
-          end
-          object MSOO1_Diameter: TLabeledEdit
-            Left = 3
-            Top = 57
-            Width = 54
-            Height = 19
-            Color = clWhite
-            EditLabel.Width = 43
-            EditLabel.Height = 13
-            EditLabel.Caption = 'Diameter'
-            EditLabel.Layout = tlCenter
-            NumbersOnly = True
-            TabOrder = 2
-          end
-          object MSOO1_Density: TLabeledEdit
-            Left = 58
-            Top = 57
-            Width = 47
-            Height = 19
-            Color = clWhite
-            EditLabel.Width = 36
-            EditLabel.Height = 13
-            EditLabel.Caption = 'Density'
-            EditLabel.Layout = tlCenter
-            NumbersOnly = True
-            TabOrder = 3
-          end
-          object MSOO1_ObjecType: TAdvComboBox
-            Left = 158
-            Top = 23
-            Width = 130
-            Height = 21
-            Color = clWhite
-            Version = '1.3.1.0'
-            Visible = True
-            ButtonWidth = 18
-            DropWidth = 0
-            Enabled = True
-            ItemIndex = -1
-            ItemHeight = 13
-            Items.Strings = (
-              'None'
-              'Asteroids Belt (BASIC TYPE)'
-              'Asteroid (BASIC TYPE)'
-              'Telluric Planet (BASIC TYPE)'
-              'Gaseous Planet (BASIC TYPE)'
-              'Asteroids Belt'
-              'Asteroid Metallic'
-              'Asteroid Silicate'
-              'Asteroid Carbonaceous'
-              'Asteroid Icy'
-              'Planet Telluric EarthH0H1'
-              'Planet_Telluric_EarthH2'
-              'Planet_Telluric_EarthH3'
-              'Planet_Telluric_EarthH4'
-              'Planet_Telluric_MarsH0H1'
-              'Planet_Telluric_MarsH2'
-              'Planet_Telluric_MarsH3'
-              'Planet_Telluric_MarsH4'
-              'Planet_Telluric_VenusH0H1'
-              'Planet_Telluric_VenusH2'
-              'Planet_Telluric_VenusH3'
-              'Planet_Telluric_VenusH4'
-              'Planet_Telluric_MercuryH0'
-              'Planet_Telluric_MercuryH3'
-              'Planet_Telluric_MercuryH4'
-              'Planet_Icy_PlutoH3'
-              'Planet_Icy_EuropaH4'
-              'Planet_Icy_CallistoH3H4Atm0'
-              'Planet_Gaseous_Uranus'
-              'Planet_Gaseous_Neptune'
-              'Planet_Gaseous_Saturn'
-              'Planet_Jovian'
-              'Planet_Supergiant')
-            LabelCaption = 'Object Type'
-            LabelPosition = lpTopCenter
-            LabelFont.Charset = DEFAULT_CHARSET
-            LabelFont.Color = clWindowText
-            LabelFont.Height = -11
-            LabelFont.Name = 'Tahoma'
-            LabelFont.Style = []
-            TabOrder = 4
-          end
-          object MSOO1_Mass: TLabeledEdit
-            Left = 106
-            Top = 57
-            Width = 63
-            Height = 19
-            Color = clWhite
-            EditLabel.Width = 24
-            EditLabel.Height = 13
-            EditLabel.Caption = 'Mass'
-            EditLabel.Layout = tlCenter
-            NumbersOnly = True
-            TabOrder = 5
-          end
-          object MSOO1_Gravity: TLabeledEdit
-            Left = 170
-            Top = 57
-            Width = 47
-            Height = 19
-            Color = clWhite
-            EditLabel.Width = 35
-            EditLabel.Height = 13
-            EditLabel.Caption = 'Gravity'
-            EditLabel.Layout = tlCenter
-            NumbersOnly = True
-            TabOrder = 6
-          end
+          TabOrder = 5
         end
+        object COO_Token: TLabeledEdit
+          Left = 3
+          Top = 32
+          Width = 97
+          Height = 19
+          Color = clWhite
+          EditLabel.Width = 29
+          EditLabel.Height = 13
+          EditLabel.Caption = 'Token'
+          EditLabel.Layout = tlCenter
+          TabOrder = 6
+        end
+      end
+      object TOO_OrbitalObjectPicker: TRadioGroup
+        Left = 3
+        Top = 75
+        Width = 118
+        Height = 230
+        Caption = 'Orbital Object Picker'
+        TabOrder = 2
       end
     end
   end

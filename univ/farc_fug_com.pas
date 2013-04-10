@@ -123,9 +123,71 @@ procedure FCMfC_StarPicker_Update;
 {:Purpose: update the orbital object tab.
     Additions:
 }
+   var
+      Count
+      ,Max: integer;
 begin
    {:DEV NOTES: hide the 3 oobj groups.}
    {:DEV NOTES: case item index=> display the right oobj group, if not random of course.}
+   FCWinFUG.TOO_CurrentOrbitalObject.Hide;
+   FCWinFUG.TOO_OrbitalObjectPicker.ItemIndex:=-1;
+   FCWinFUG.TOO_OrbitalObjectPicker.Items.Clear;
+   FCWinFUG.TOO_OrbitalObjectPicker.Hide;
+   case FCWinFUG.TOO_StarPicker.ItemIndex of
+      0:
+      begin
+         if ( FCWinFUG.TMS_SystemType.ItemIndex < 3 )
+            and ( FCWinFUG.TMS_OrbitGeneration.ItemIndex = 2 )
+            and ( FCWinFUG.TMS_OrbitGenerationNumberOrbits.Text<>'' ) then
+         begin
+            Max:=strtoint( FCWinFUG.TMS_OrbitGenerationNumberOrbits.Text );
+            Count:=1;
+            while Count<=Max do
+            begin
+               FCWinFUG.TOO_OrbitalObjectPicker.Items.Add( inttostr( Count ) );
+               inc( Count );
+            end;
+            FCWinFUG.TOO_OrbitalObjectPicker.Show;
+            FCWinFUG.TOO_OrbitalObjectPicker.ItemIndex:=0;
+         end;
+      end;
+
+      1:
+      begin
+         if ( FCWinFUG.TC1S_SystemType.ItemIndex < 3 )
+            and ( FCWinFUG.TC1S_OrbitGeneration.ItemIndex = 2 )
+            and ( FCWinFUG.TC1S_OrbitGenerationNumberOrbits.Text<>'' ) then
+         begin
+            Max:=strtoint( FCWinFUG.TC1S_OrbitGenerationNumberOrbits.Text );
+            Count:=1;
+            while Count<=Max do
+            begin
+               FCWinFUG.TOO_OrbitalObjectPicker.Items.Add( inttostr( Count ) );
+               inc( Count );
+            end;
+            FCWinFUG.TOO_OrbitalObjectPicker.Show;
+            FCWinFUG.TOO_OrbitalObjectPicker.ItemIndex:=0;
+         end;
+      end;
+
+      2:
+      begin
+         if ( FCWinFUG.TC2S_SystemType.ItemIndex < 3 )
+            and ( FCWinFUG.TC2S_OrbitGeneration.ItemIndex = 2 )
+            and ( FCWinFUG.TC2S_OrbitGenerationNumberOrbits.Text<>'' ) then
+         begin
+            Max:=strtoint( FCWinFUG.TC2S_OrbitGenerationNumberOrbits.Text );
+            Count:=1;
+            while Count<=Max do
+            begin
+               FCWinFUG.TOO_OrbitalObjectPicker.Items.Add( inttostr( Count ) );
+               inc( Count );
+            end;
+            FCWinFUG.TOO_OrbitalObjectPicker.Show;
+            FCWinFUG.TOO_OrbitalObjectPicker.ItemIndex:=0;
+         end;
+      end;
+   end;
 end;
 
 end.

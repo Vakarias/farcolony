@@ -104,15 +104,15 @@ type
     AdvGlowButton1: TAdvGlowButton;
     CMT_TabOrbitalObjects: TAdvTabSheet;
     TOO_StarPicker: TRadioGroup;
-    MSOO1: TAdvGroupBox;
-    MSOO1_token: TLabeledEdit;
-    MSOO1_Distance: TLabeledEdit;
-    MSOO1_Diameter: TLabeledEdit;
-    MSOO1_Density: TLabeledEdit;
-    MSOO1_ObjecType: TAdvComboBox;
-    TOO_MainStarOrbitalObjects: TAdvGroupBox;
-    MSOO1_Mass: TLabeledEdit;
-    MSOO1_Gravity: TLabeledEdit;
+    COO_Token: TLabeledEdit;
+    COO_Distance: TLabeledEdit;
+    COO_Diameter: TLabeledEdit;
+    COO_Density: TLabeledEdit;
+    COO_ObjecType: TAdvComboBox;
+    TOO_CurrentOrbitalObject: TAdvGroupBox;
+    COO_Mass: TLabeledEdit;
+    COO_Gravity: TLabeledEdit;
+    TOO_OrbitalObjectPicker: TRadioGroup;
     procedure WF_GenerateButtonClick(Sender: TObject);
     procedure TMS_OrbitGenerationClick(Sender: TObject);
     procedure TC1S_EnableGroupCompanion1Click(Sender: TObject);
@@ -122,6 +122,9 @@ type
     procedure TC2S_SystemTypeChange(Sender: TObject);
     procedure AdvGlowButton1Click(Sender: TObject);
     procedure TOO_StarPickerClick(Sender: TObject);
+    procedure TMS_OrbitGenerationNumberOrbitsChange(Sender: TObject);
+    procedure TC1S_OrbitGenerationClick(Sender: TObject);
+    procedure TC2S_OrbitGenerationClick(Sender: TObject);
    private
     { Private declarations }
    public
@@ -376,10 +379,21 @@ begin
    end;
 end;
 
+procedure TFCWinFUG.TC1S_OrbitGenerationClick(Sender: TObject);
+begin
+   if TC1S_OrbitGeneration.ItemIndex<2
+   then TC1S_OrbitGenerationNumberOrbits.Enabled:=false
+   else TC1S_OrbitGenerationNumberOrbits.Enabled:=true;
+   FCMfC_StarPicker_Update;
+   WF_ConfigurationMultiTab.ActivePage:=CMT_TabStellarStarSystem;
+end;
+
 procedure TFCWinFUG.TC1S_SystemTypeChange(Sender: TObject);
 begin
    if TC1S_SystemType.ItemIndex=3
    then TC1S_OrbitGeneration.ItemIndex:=0;
+   FCMfC_StarPicker_Update;
+   WF_ConfigurationMultiTab.ActivePage:=CMT_TabStellarStarSystem;
 end;
 
 procedure TFCWinFUG.TC2S_EnableGroupCompanion2Click(Sender: TObject);
@@ -394,10 +408,21 @@ begin
    end;
 end;
 
+procedure TFCWinFUG.TC2S_OrbitGenerationClick(Sender: TObject);
+begin
+   if TC2S_OrbitGeneration.ItemIndex<2
+   then TC2S_OrbitGenerationNumberOrbits.Enabled:=false
+   else TC2S_OrbitGenerationNumberOrbits.Enabled:=true;
+   FCMfC_StarPicker_Update;
+   WF_ConfigurationMultiTab.ActivePage:=CMT_TabStellarStarSystem;
+end;
+
 procedure TFCWinFUG.TC2S_SystemTypeChange(Sender: TObject);
 begin
    if TC2S_SystemType.ItemIndex=3
    then TC2S_OrbitGeneration.ItemIndex:=0;
+   FCMfC_StarPicker_Update;
+   WF_ConfigurationMultiTab.ActivePage:=CMT_TabStellarStarSystem;
 end;
 
 procedure TFCWinFUG.TMS_OrbitGenerationClick(Sender: TObject);
@@ -405,12 +430,22 @@ begin
    if TMS_OrbitGeneration.ItemIndex<2
    then TMS_OrbitGenerationNumberOrbits.Enabled:=false
    else TMS_OrbitGenerationNumberOrbits.Enabled:=true;
+   FCMfC_StarPicker_Update;
+   WF_ConfigurationMultiTab.ActivePage:=CMT_TabStellarStarSystem;
+end;
+
+procedure TFCWinFUG.TMS_OrbitGenerationNumberOrbitsChange(Sender: TObject);
+begin
+   FCMfC_StarPicker_Update;
+   WF_ConfigurationMultiTab.ActivePage:=CMT_TabStellarStarSystem;
 end;
 
 procedure TFCWinFUG.TMS_SystemTypeChange(Sender: TObject);
 begin
    if TMS_SystemType.ItemIndex=3
    then TMS_OrbitGeneration.ItemIndex:=0;
+   FCMfC_StarPicker_Update;
+   WF_ConfigurationMultiTab.ActivePage:=CMT_TabStellarStarSystem;
 end;
 
 procedure TFCWinFUG.TOO_StarPickerClick(Sender: TObject);
