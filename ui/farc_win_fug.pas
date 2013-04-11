@@ -132,6 +132,12 @@ type
     procedure TC2S_OrbitGenerationNumberOrbitsKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure COO_TokenKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure COO_DistanceKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure COO_ObjecTypeChange(Sender: TObject);
+    procedure COO_DiameterKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure COO_DensityKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure COO_MassKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure COO_GravityKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
    private
     { Private declarations }
    public
@@ -364,6 +370,41 @@ end;
 procedure TFCWinFUG.AdvGlowButton1Click(Sender: TObject);
 begin
    FCMfC_Initialize( false );
+end;
+
+procedure TFCWinFUG.COO_DensityKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+   if Key=13
+   then FCmfC_OrbitPicker_DensityUpdate;
+end;
+
+procedure TFCWinFUG.COO_DiameterKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+   if Key=13
+   then FCmfC_OrbitPicker_DiameterUpdate;
+end;
+
+procedure TFCWinFUG.COO_DistanceKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+   if Key=13
+   then FCmfC_OrbitPicker_DistanceUpdate;
+end;
+
+procedure TFCWinFUG.COO_GravityKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+   if Key=13
+   then FCmfC_OrbitPicker_GravityUpdate;
+end;
+
+procedure TFCWinFUG.COO_MassKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+   if Key=13
+   then FCmfC_OrbitPicker_MassUpdate;
+end;
+
+procedure TFCWinFUG.COO_ObjecTypeChange(Sender: TObject);
+begin
+   FCmfC_OrbitPicker_ObjectTypeUpdate;
 end;
 
 procedure TFCWinFUG.COO_TokenKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);

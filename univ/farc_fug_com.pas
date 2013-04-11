@@ -38,25 +38,43 @@ uses
 procedure FCMfC_Initialize( isCreateWindow: boolean );
 
 ///<summary>
+///   update the orbital object density
+///</summary>
+procedure FCmfC_OrbitPicker_DensityUpdate;
+
+///<summary>
+///   update the orbital object diameter
+///</summary>
+procedure FCmfC_OrbitPicker_DiameterUpdate;
+
+///<summary>
+///   update the orbital object distance
+///</summary>
+procedure FCmfC_OrbitPicker_DistanceUpdate;
+
+///<summary>
+///   update the orbital object gravity
+///</summary>
+procedure FCmfC_OrbitPicker_GravityUpdate;
+
+///<summary>
+///   update the orbital object mass
+///</summary>
+procedure FCmfC_OrbitPicker_MassUpdate;
+
+///<summary>
+///   update the orbital object type
+///</summary>
+procedure FCmfC_OrbitPicker_ObjectTypeUpdate;
+
+///<summary>
 ///   update the orbital object token
 ///</summary>
-///   <param name=""></param>
-///   <param name=""></param>
-///   <param name=""></param>
-///   <param name=""></param>
-///   <returns></returns>
-///   <remarks></remarks>
 procedure FCmfC_OrbitPicker_TokenUpdate;
 
 ///<summary>
 ///   update the orbital object tab / orbital object picker
 ///</summary>
-///   <param name=""></param>
-///   <param name=""></param>
-///   <param name=""></param>
-///   <param name=""></param>
-///   <returns></returns>
-///   <remarks></remarks>
 procedure FCmfC_OrbitPicker_Update;
 
 procedure FCMfC_StarPicker_Update;
@@ -146,6 +164,108 @@ begin
    SetLength(FCDduStarSystem, 1);
 end;
 
+procedure FCmfC_OrbitPicker_DensityUpdate;
+{:Purpose: update the orbital object density.
+    Additions:
+}
+   var
+      CurrentObject: integer;
+begin
+   CurrentObject:=FCWinFUG.TOO_OrbitalObjectPicker.ItemIndex+1;
+   case FCWinFUG.TOO_StarPicker.ItemIndex of
+      0: FCDfdMainStarObjectsList[CurrentObject].OO_density:=strtofloat( FCWinFUG.COO_Density.Text );
+
+      1: FCDfdComp1StarObjectsList[CurrentObject].OO_density:=strtofloat( FCWinFUG.COO_Density.Text );
+
+      2: FCDfdComp2StarObjectsList[CurrentObject].OO_density:=strtofloat( FCWinFUG.COO_Density.Text );
+   end;
+end;
+
+procedure FCmfC_OrbitPicker_DiameterUpdate;
+{:Purpose: update the orbital object diameter.
+    Additions:
+}
+   var
+      CurrentObject: integer;
+begin
+   CurrentObject:=FCWinFUG.TOO_OrbitalObjectPicker.ItemIndex+1;
+   case FCWinFUG.TOO_StarPicker.ItemIndex of
+      0: FCDfdMainStarObjectsList[CurrentObject].OO_diameter:=strtofloat( FCWinFUG.COO_Diameter.Text );
+
+      1: FCDfdComp1StarObjectsList[CurrentObject].OO_diameter:=strtofloat( FCWinFUG.COO_Diameter.Text );
+
+      2: FCDfdComp2StarObjectsList[CurrentObject].OO_diameter:=strtofloat( FCWinFUG.COO_Diameter.Text );
+   end;
+end;
+
+procedure FCmfC_OrbitPicker_DistanceUpdate;
+{:Purpose: update the orbital object distance.
+    Additions:
+}
+   var
+      CurrentObject: integer;
+begin
+   CurrentObject:=FCWinFUG.TOO_OrbitalObjectPicker.ItemIndex+1;
+   case FCWinFUG.TOO_StarPicker.ItemIndex of
+      0: FCDfdMainStarObjectsList[CurrentObject].OO_isNotSat_distanceFromStar:=strtofloat( FCWinFUG.COO_Distance.Text );
+
+      1: FCDfdComp1StarObjectsList[CurrentObject].OO_isNotSat_distanceFromStar:=strtofloat( FCWinFUG.COO_Distance.Text );
+
+      2: FCDfdComp2StarObjectsList[CurrentObject].OO_isNotSat_distanceFromStar:=strtofloat( FCWinFUG.COO_Distance.Text );
+   end;
+end;
+
+procedure FCmfC_OrbitPicker_GravityUpdate;
+{:Purpose: update the orbital object gravity.
+    Additions:
+}
+   var
+      CurrentObject: integer;
+begin
+   CurrentObject:=FCWinFUG.TOO_OrbitalObjectPicker.ItemIndex+1;
+   case FCWinFUG.TOO_StarPicker.ItemIndex of
+      0: FCDfdMainStarObjectsList[CurrentObject].OO_gravity:=strtofloat( FCWinFUG.COO_Gravity.Text );
+
+      1: FCDfdComp1StarObjectsList[CurrentObject].OO_gravity:=strtofloat( FCWinFUG.COO_Gravity.Text );
+
+      2: FCDfdComp2StarObjectsList[CurrentObject].OO_gravity:=strtofloat( FCWinFUG.COO_Gravity.Text );
+   end;
+end;
+
+procedure FCmfC_OrbitPicker_MassUpdate;
+{:Purpose: update the orbital object mass.
+    Additions:
+}
+   var
+      CurrentObject: integer;
+begin
+   CurrentObject:=FCWinFUG.TOO_OrbitalObjectPicker.ItemIndex+1;
+   case FCWinFUG.TOO_StarPicker.ItemIndex of
+      0: FCDfdMainStarObjectsList[CurrentObject].OO_mass:=strtofloat( FCWinFUG.COO_Mass.Text );
+
+      1: FCDfdComp1StarObjectsList[CurrentObject].OO_mass:=strtofloat( FCWinFUG.COO_Mass.Text );
+
+      2: FCDfdComp2StarObjectsList[CurrentObject].OO_mass:=strtofloat( FCWinFUG.COO_Mass.Text );
+   end;
+end;
+
+procedure FCmfC_OrbitPicker_ObjectTypeUpdate;
+{:Purpose: update the orbital object type.
+    Additions:
+}
+   var
+      CurrentObject: integer;
+begin
+   CurrentObject:=FCWinFUG.TOO_OrbitalObjectPicker.ItemIndex+1;
+   case FCWinFUG.TOO_StarPicker.ItemIndex of
+      0: FCDfdMainStarObjectsList[CurrentObject].OO_basicType:=TFCEduOrbitalObjectBasicTypes( FCWinFUG.COO_ObjecType.ItemIndex );
+
+      1: FCDfdComp1StarObjectsList[CurrentObject].OO_basicType:=TFCEduOrbitalObjectBasicTypes( FCWinFUG.COO_ObjecType.ItemIndex );
+
+      2: FCDfdComp2StarObjectsList[CurrentObject].OO_basicType:=TFCEduOrbitalObjectBasicTypes( FCWinFUG.COO_ObjecType.ItemIndex );
+   end;
+end;
+
 procedure FCmfC_OrbitPicker_TokenUpdate;
 {:Purpose: update the orbital object token.
     Additions:
@@ -178,19 +298,69 @@ begin
       begin
          if FCDfdMainStarObjectsList[CurrentObject].OO_dbTokenId<>''
          then FCWinFUG.COO_Token.Text:=FCDfdMainStarObjectsList[CurrentObject].OO_dbTokenId
-         else FCWinFUG.COO_Token.Text:='';
+         else FCWinFUG.COO_Token.Text:='orbobj';
          if FCDfdMainStarObjectsList[CurrentObject].OO_isNotSat_distanceFromStar>0
          then FCWinFUG.COO_Distance.Text:=floattostr( FCDfdMainStarObjectsList[CurrentObject].OO_isNotSat_distanceFromStar )
          else FCWinFUG.COO_Distance.Text:='';
-         FCWinFUG.COO_ObjecType.Text:=GetEnumName( TypeInfo( TFCEduOrbitalObjectTypes ), Integer( FCDfdMainStarObjectsList[CurrentObject].OO_type ) );
+         FCWinFUG.COO_ObjecType.Text:=GetEnumName( TypeInfo( TFCEduOrbitalObjectBasicTypes ), Integer( FCDfdMainStarObjectsList[CurrentObject].OO_basicType ) );
+         if FCDfdMainStarObjectsList[CurrentObject].OO_diameter>0
+         then FCWinFUG.COO_Diameter.Text:=floattostr( FCDfdMainStarObjectsList[CurrentObject].OO_diameter )
+         else FCWinFUG.COO_Diameter.Text:='';
+         if FCDfdMainStarObjectsList[CurrentObject].OO_density>0
+         then FCWinFUG.COO_Density.Text:=floattostr( FCDfdMainStarObjectsList[CurrentObject].OO_density )
+         else FCWinFUG.COO_Density.Text:='';
+         if FCDfdMainStarObjectsList[CurrentObject].OO_mass>0
+         then FCWinFUG.COO_Mass.Text:=floattostr( FCDfdMainStarObjectsList[CurrentObject].OO_mass )
+         else FCWinFUG.COO_Mass.Text:='';
+         if FCDfdMainStarObjectsList[CurrentObject].OO_gravity>0
+         then FCWinFUG.COO_Gravity.Text:=floattostr( FCDfdMainStarObjectsList[CurrentObject].OO_gravity )
+         else FCWinFUG.COO_Gravity.Text:='';
       end;
 
       1:
       begin
+         if FCDfdComp1StarObjectsList[CurrentObject].OO_dbTokenId<>''
+         then FCWinFUG.COO_Token.Text:=FCDfdComp1StarObjectsList[CurrentObject].OO_dbTokenId
+         else FCWinFUG.COO_Token.Text:='orbobj';
+         if FCDfdComp1StarObjectsList[CurrentObject].OO_isNotSat_distanceFromStar>0
+         then FCWinFUG.COO_Distance.Text:=floattostr( FCDfdComp1StarObjectsList[CurrentObject].OO_isNotSat_distanceFromStar )
+         else FCWinFUG.COO_Distance.Text:='';
+         FCWinFUG.COO_ObjecType.Text:=GetEnumName( TypeInfo( TFCEduOrbitalObjectBasicTypes ), Integer( FCDfdComp1StarObjectsList[CurrentObject].OO_basicType ) );
+         if FCDfdComp1StarObjectsList[CurrentObject].OO_diameter>0
+         then FCWinFUG.COO_Diameter.Text:=floattostr( FCDfdComp1StarObjectsList[CurrentObject].OO_diameter )
+         else FCWinFUG.COO_Diameter.Text:='';
+         if FCDfdComp1StarObjectsList[CurrentObject].OO_density>0
+         then FCWinFUG.COO_Density.Text:=floattostr( FCDfdComp1StarObjectsList[CurrentObject].OO_density )
+         else FCWinFUG.COO_Density.Text:='';
+         if FCDfdComp1StarObjectsList[CurrentObject].OO_mass>0
+         then FCWinFUG.COO_Mass.Text:=floattostr( FCDfdComp1StarObjectsList[CurrentObject].OO_mass )
+         else FCWinFUG.COO_Mass.Text:='';
+         if FCDfdComp1StarObjectsList[CurrentObject].OO_gravity>0
+         then FCWinFUG.COO_Gravity.Text:=floattostr( FCDfdComp1StarObjectsList[CurrentObject].OO_gravity )
+         else FCWinFUG.COO_Gravity.Text:='';
       end;
 
       2:
       begin
+         if FCDfdComp2StarObjectsList[CurrentObject].OO_dbTokenId<>''
+         then FCWinFUG.COO_Token.Text:=FCDfdComp2StarObjectsList[CurrentObject].OO_dbTokenId
+         else FCWinFUG.COO_Token.Text:='orbobj';
+         if FCDfdComp2StarObjectsList[CurrentObject].OO_isNotSat_distanceFromStar>0
+         then FCWinFUG.COO_Distance.Text:=floattostr( FCDfdComp2StarObjectsList[CurrentObject].OO_isNotSat_distanceFromStar )
+         else FCWinFUG.COO_Distance.Text:='';
+         FCWinFUG.COO_ObjecType.Text:=GetEnumName( TypeInfo( TFCEduOrbitalObjectBasicTypes ), Integer( FCDfdComp2StarObjectsList[CurrentObject].OO_basicType ) );
+         if FCDfdComp2StarObjectsList[CurrentObject].OO_diameter>0
+         then FCWinFUG.COO_Diameter.Text:=floattostr( FCDfdComp2StarObjectsList[CurrentObject].OO_diameter )
+         else FCWinFUG.COO_Diameter.Text:='';
+         if FCDfdComp2StarObjectsList[CurrentObject].OO_density>0
+         then FCWinFUG.COO_Density.Text:=floattostr( FCDfdComp2StarObjectsList[CurrentObject].OO_density )
+         else FCWinFUG.COO_Density.Text:='';
+         if FCDfdComp2StarObjectsList[CurrentObject].OO_mass>0
+         then FCWinFUG.COO_Mass.Text:=floattostr( FCDfdComp2StarObjectsList[CurrentObject].OO_mass )
+         else FCWinFUG.COO_Mass.Text:='';
+         if FCDfdComp2StarObjectsList[CurrentObject].OO_gravity>0
+         then FCWinFUG.COO_Gravity.Text:=floattostr( FCDfdComp2StarObjectsList[CurrentObject].OO_gravity )
+         else FCWinFUG.COO_Gravity.Text:='';
       end;
    end;
 end;

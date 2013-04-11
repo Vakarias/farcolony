@@ -319,13 +319,13 @@ begin
       if Location[4]=0 then
       begin
          OObjDiameter:=FCDduStarSystem[Location[1]].SS_stars[Location[2]].S_orbitalObjects[Location[3]].OO_diameter;
-         OObjDensity:=FCDduStarSystem[Location[1]].SS_stars[Location[2]].S_orbitalObjects[Location[3]].OO_dens;
+         OObjDensity:=FCDduStarSystem[Location[1]].SS_stars[Location[2]].S_orbitalObjects[Location[3]].OO_density;
          OObjRegionType:=FCDduStarSystem[Location[1]].SS_stars[Location[2]].S_orbitalObjects[Location[3]].OO_regions[Region].OOR_soilType;
       end
       else if Location[4]>0 then
       begin
          OObjDiameter:=FCDduStarSystem[Location[1]].SS_stars[Location[2]].S_orbitalObjects[Location[3]].OO_satellitesList[Location[4]].OO_diameter;
-         OObjDensity:=FCDduStarSystem[Location[1]].SS_stars[Location[2]].S_orbitalObjects[Location[3]].OO_satellitesList[Location[4]].OO_dens;
+         OObjDensity:=FCDduStarSystem[Location[1]].SS_stars[Location[2]].S_orbitalObjects[Location[3]].OO_satellitesList[Location[4]].OO_density;
          OObjRegionType:=FCDduStarSystem[Location[1]].SS_stars[Location[2]].S_orbitalObjects[Location[3]].OO_satellitesList[Location[4]].OO_regions[Region].OOR_soilType;
       end;
       PotentialMetal:=( OObjDiameter / 500 ) + ( OObjDensity * 10 ) + ( 70 ) - 45 + sqr( 1 );//+sqr(AcTec); - hardcoded Actec for now, note in todolist for Alpha 6

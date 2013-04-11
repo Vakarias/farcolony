@@ -811,7 +811,7 @@ begin
             FCWinMain.FCGLSHUDobobjDensLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIoobjDens');
             FCWinMain.FCGLSHUDobobjDens.Text
                :=FloatToStr(FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[M3DVUIUsatPlanIdx]
-                  .OO_satellitesList[M3DVUIUsatIdx].OO_dens)+' Kg';
+                  .OO_satellitesList[M3DVUIUsatIdx].OO_density)+' Kg';
             {.mass}
             FCWinMain.FCGLSHUDobobjMassLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIoobjMass');
             if (FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[M3DVUIUsatPlanIdx]
@@ -1007,7 +1007,7 @@ begin
             {.density}
             FCWinMain.FCGLSHUDobobjDensLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIoobjDens');
             FCWinMain.FCGLSHUDobobjDens.Text
-               :=FloatToStr(FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[FC3doglSelectedPlanetAsteroid].OO_dens)+' Kg';
+               :=FloatToStr(FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[FC3doglSelectedPlanetAsteroid].OO_density)+' Kg';
             {.mass}
             FCWinMain.FCGLSHUDobobjMassLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIoobjMass');
             if (FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[FC3doglSelectedPlanetAsteroid].OO_type>ootAsteroid_Icy)

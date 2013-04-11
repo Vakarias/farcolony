@@ -109,7 +109,7 @@ object FCWinFUG: TFCWinFUG
     Top = 39
     Width = 577
     Height = 1500
-    ActivePage = CMT_TabStellarStarSystem
+    ActivePage = CMT_TabOrbitalObjects
     ActiveFont.Charset = DEFAULT_CHARSET
     ActiveFont.Color = clWindowText
     ActiveFont.Height = -11
@@ -1277,6 +1277,7 @@ object FCWinFUG: TFCWinFUG
           EditLabel.Layout = tlCenter
           NumbersOnly = True
           TabOrder = 0
+          OnKeyDown = COO_DensityKeyDown
         end
         object COO_Diameter: TLabeledEdit
           Left = 3
@@ -1290,6 +1291,7 @@ object FCWinFUG: TFCWinFUG
           EditLabel.Layout = tlCenter
           NumbersOnly = True
           TabOrder = 1
+          OnKeyDown = COO_DiameterKeyDown
         end
         object COO_Distance: TLabeledEdit
           Left = 101
@@ -1303,6 +1305,7 @@ object FCWinFUG: TFCWinFUG
           EditLabel.Layout = tlCenter
           NumbersOnly = True
           TabOrder = 2
+          OnKeyDown = COO_DistanceKeyDown
         end
         object COO_Gravity: TLabeledEdit
           Left = 170
@@ -1316,6 +1319,7 @@ object FCWinFUG: TFCWinFUG
           EditLabel.Layout = tlCenter
           NumbersOnly = True
           TabOrder = 3
+          OnKeyDown = COO_GravityKeyDown
         end
         object COO_Mass: TLabeledEdit
           Left = 106
@@ -1329,6 +1333,7 @@ object FCWinFUG: TFCWinFUG
           EditLabel.Layout = tlCenter
           NumbersOnly = True
           TabOrder = 4
+          OnKeyDown = COO_MassKeyDown
         end
         object COO_ObjecType: TAdvComboBox
           Left = 143
@@ -1350,39 +1355,11 @@ object FCWinFUG: TFCWinFUG
           ItemHeight = 13
           Items.Strings = (
             'None'
-            'Asteroids Belt (BASIC TYPE)'
-            'Asteroid (BASIC TYPE)'
-            'Telluric Planet (BASIC TYPE)'
-            'Gaseous Planet (BASIC TYPE)'
             'Asteroids Belt'
-            'Asteroid Metallic'
-            'Asteroid Silicate'
-            'Asteroid Carbonaceous'
-            'Asteroid Icy'
-            'Planet Telluric EarthH0H1'
-            'Planet_Telluric_EarthH2'
-            'Planet_Telluric_EarthH3'
-            'Planet_Telluric_EarthH4'
-            'Planet_Telluric_MarsH0H1'
-            'Planet_Telluric_MarsH2'
-            'Planet_Telluric_MarsH3'
-            'Planet_Telluric_MarsH4'
-            'Planet_Telluric_VenusH0H1'
-            'Planet_Telluric_VenusH2'
-            'Planet_Telluric_VenusH3'
-            'Planet_Telluric_VenusH4'
-            'Planet_Telluric_MercuryH0'
-            'Planet_Telluric_MercuryH3'
-            'Planet_Telluric_MercuryH4'
-            'Planet_Icy_PlutoH3'
-            'Planet_Icy_EuropaH4'
-            'Planet_Icy_CallistoH3H4Atm0'
-            'Planet_Gaseous_Uranus'
-            'Planet_Gaseous_Neptune'
-            'Planet_Gaseous_Saturn'
-            'Planet_Jovian'
-            'Planet_Supergiant')
-          LabelCaption = 'Orbit Type'
+            'Asteroid'
+            'Telluric Planet'
+            'Gaseous Planet')
+          LabelCaption = 'Object Basic Type'
           LabelPosition = lpTopCenter
           LabelFont.Charset = DEFAULT_CHARSET
           LabelFont.Color = clWindowText
@@ -1391,6 +1368,7 @@ object FCWinFUG: TFCWinFUG
           LabelFont.Style = []
           ParentFont = False
           TabOrder = 5
+          OnChange = COO_ObjecTypeChange
         end
         object COO_Token: TLabeledEdit
           Left = 3
