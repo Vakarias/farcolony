@@ -113,6 +113,9 @@ type
     COO_Mass: TLabeledEdit;
     COO_Gravity: TLabeledEdit;
     TOO_OrbitalObjectPicker: TRadioGroup;
+    COO_EscapeVel: TLabeledEdit;
+    COO_RotationPeriod: TLabeledEdit;
+    COO_InclAxis: TLabeledEdit;
     procedure WF_GenerateButtonClick(Sender: TObject);
     procedure TMS_OrbitGenerationClick(Sender: TObject);
     procedure TC1S_EnableGroupCompanion1Click(Sender: TObject);
@@ -138,6 +141,9 @@ type
     procedure COO_DensityKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure COO_MassKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure COO_GravityKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure COO_EscapeVelKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure COO_RotationPeriodKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure COO_InclAxisKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
    private
     { Private declarations }
    public
@@ -390,10 +396,23 @@ begin
    then FCmfC_OrbitPicker_DistanceUpdate;
 end;
 
+procedure TFCWinFUG.COO_EscapeVelKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+   if Key=13
+   then FCmfC_OrbitPicker_EscapeVelUpdate;
+end;
+
 procedure TFCWinFUG.COO_GravityKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
    if Key=13
    then FCmfC_OrbitPicker_GravityUpdate;
+end;
+
+procedure TFCWinFUG.COO_InclAxisKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+   if Key=13
+   then FCmfC_OrbitPicker_InclinationAxisUpdate;
 end;
 
 procedure TFCWinFUG.COO_MassKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -405,6 +424,13 @@ end;
 procedure TFCWinFUG.COO_ObjecTypeChange(Sender: TObject);
 begin
    FCmfC_OrbitPicker_ObjectTypeUpdate;
+end;
+
+procedure TFCWinFUG.COO_RotationPeriodKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+   if Key=13
+   then FCmfC_OrbitPicker_RotationPeriodUpdate;
 end;
 
 procedure TFCWinFUG.COO_TokenKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);

@@ -1383,6 +1383,48 @@ object FCWinFUG: TFCWinFUG
           TabOrder = 6
           OnKeyDown = COO_TokenKeyDown
         end
+        object COO_EscapeVel: TLabeledEdit
+          Left = 218
+          Top = 72
+          Width = 47
+          Height = 19
+          Color = clWhite
+          EditLabel.Width = 51
+          EditLabel.Height = 13
+          EditLabel.Caption = 'Escape Vel'
+          EditLabel.Layout = tlCenter
+          NumbersOnly = True
+          TabOrder = 7
+          OnKeyDown = COO_EscapeVelKeyDown
+        end
+        object COO_RotationPeriod: TLabeledEdit
+          Left = 279
+          Top = 32
+          Width = 47
+          Height = 19
+          Color = clWhite
+          EditLabel.Width = 74
+          EditLabel.Height = 13
+          EditLabel.Caption = 'Rotation Period'
+          EditLabel.Layout = tlCenter
+          NumbersOnly = True
+          TabOrder = 8
+          OnKeyDown = COO_RotationPeriodKeyDown
+        end
+        object COO_InclAxis: TLabeledEdit
+          Left = 362
+          Top = 32
+          Width = 47
+          Height = 19
+          Color = clWhite
+          EditLabel.Width = 72
+          EditLabel.Height = 13
+          EditLabel.Caption = 'Inclination Axis'
+          EditLabel.Layout = tlCenter
+          NumbersOnly = True
+          TabOrder = 9
+          OnKeyDown = COO_InclAxisKeyDown
+        end
       end
       object TOO_OrbitalObjectPicker: TRadioGroup
         Left = 3
