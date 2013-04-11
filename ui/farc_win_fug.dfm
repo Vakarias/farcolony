@@ -109,7 +109,7 @@ object FCWinFUG: TFCWinFUG
     Top = 39
     Width = 577
     Height = 1500
-    ActivePage = CMT_TabOrbitalObjects
+    ActivePage = CMT_TabStellarStarSystem
     ActiveFont.Charset = DEFAULT_CHARSET
     ActiveFont.Color = clWindowText
     ActiveFont.Height = -11
@@ -153,6 +153,14 @@ object FCWinFUG: TFCWinFUG
           EditLabel.Width = 29
           EditLabel.Height = 13
           EditLabel.Caption = 'Token'
+          EditLabel.Color = clSilver
+          EditLabel.Font.Charset = DEFAULT_CHARSET
+          EditLabel.Font.Color = clMaroon
+          EditLabel.Font.Height = -11
+          EditLabel.Font.Name = 'Tahoma'
+          EditLabel.Font.Style = []
+          EditLabel.ParentColor = False
+          EditLabel.ParentFont = False
           EditLabel.Layout = tlCenter
           TabOrder = 0
         end
@@ -165,6 +173,12 @@ object FCWinFUG: TFCWinFUG
           EditLabel.Width = 22
           EditLabel.Height = 13
           EditLabel.Caption = 'LocX'
+          EditLabel.Font.Charset = DEFAULT_CHARSET
+          EditLabel.Font.Color = clMaroon
+          EditLabel.Font.Height = -11
+          EditLabel.Font.Name = 'Tahoma'
+          EditLabel.Font.Style = []
+          EditLabel.ParentFont = False
           EditLabel.Layout = tlCenter
           NumbersOnly = True
           TabOrder = 1
@@ -178,6 +192,12 @@ object FCWinFUG: TFCWinFUG
           EditLabel.Width = 22
           EditLabel.Height = 13
           EditLabel.Caption = 'LocY'
+          EditLabel.Font.Charset = DEFAULT_CHARSET
+          EditLabel.Font.Color = clMaroon
+          EditLabel.Font.Height = -11
+          EditLabel.Font.Name = 'Tahoma'
+          EditLabel.Font.Style = []
+          EditLabel.ParentFont = False
           EditLabel.Layout = tlCenter
           NumbersOnly = True
           TabOrder = 2
@@ -191,6 +211,12 @@ object FCWinFUG: TFCWinFUG
           EditLabel.Width = 22
           EditLabel.Height = 13
           EditLabel.Caption = 'LocZ'
+          EditLabel.Font.Charset = DEFAULT_CHARSET
+          EditLabel.Font.Color = clMaroon
+          EditLabel.Font.Height = -11
+          EditLabel.Font.Name = 'Tahoma'
+          EditLabel.Font.Style = []
+          EditLabel.ParentFont = False
           EditLabel.Layout = tlCenter
           NumbersOnly = True
           TabOrder = 3
@@ -248,6 +274,12 @@ object FCWinFUG: TFCWinFUG
           EditLabel.Width = 29
           EditLabel.Height = 13
           EditLabel.Caption = 'Token'
+          EditLabel.Font.Charset = DEFAULT_CHARSET
+          EditLabel.Font.Color = clMaroon
+          EditLabel.Font.Height = -11
+          EditLabel.Font.Name = 'Tahoma'
+          EditLabel.Font.Style = []
+          EditLabel.ParentFont = False
           EditLabel.Layout = tlCenter
           TabOrder = 0
         end
@@ -580,6 +612,12 @@ object FCWinFUG: TFCWinFUG
           EditLabel.Width = 29
           EditLabel.Height = 13
           EditLabel.Caption = 'Token'
+          EditLabel.Font.Charset = DEFAULT_CHARSET
+          EditLabel.Font.Color = clMaroon
+          EditLabel.Font.Height = -11
+          EditLabel.Font.Name = 'Tahoma'
+          EditLabel.Font.Style = []
+          EditLabel.ParentFont = False
           EditLabel.Layout = tlCenter
           TabOrder = 0
         end
@@ -931,6 +969,12 @@ object FCWinFUG: TFCWinFUG
           EditLabel.Width = 29
           EditLabel.Height = 13
           EditLabel.Caption = 'Token'
+          EditLabel.Font.Charset = DEFAULT_CHARSET
+          EditLabel.Font.Color = clMaroon
+          EditLabel.Font.Height = -11
+          EditLabel.Font.Name = 'Tahoma'
+          EditLabel.Font.Style = []
+          EditLabel.ParentFont = False
           EditLabel.Layout = tlCenter
           TabOrder = 0
         end
