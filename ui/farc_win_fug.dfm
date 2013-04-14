@@ -127,6 +127,10 @@ object FCWinFUG: TFCWinFUG
       ColorTo = clNone
       TabColor = clBtnFace
       TabColorTo = clNone
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object TSSS_StellarStarSysGroup: TAdvGroupBox
         Left = 16
         Top = 3
@@ -1468,6 +1472,34 @@ object FCWinFUG: TFCWinFUG
           NumbersOnly = True
           TabOrder = 9
           OnKeyDown = COO_InclAxisKeyDown
+        end
+        object COO_MagField: TLabeledEdit
+          Left = 271
+          Top = 72
+          Width = 47
+          Height = 19
+          Color = clWhite
+          EditLabel.Width = 42
+          EditLabel.Height = 13
+          EditLabel.Caption = 'MagField'
+          EditLabel.Layout = tlCenter
+          NumbersOnly = True
+          TabOrder = 10
+          OnKeyDown = COO_MagFieldKeyDown
+        end
+        object COO_Albedo: TLabeledEdit
+          Left = 324
+          Top = 72
+          Width = 47
+          Height = 19
+          Color = clWhite
+          EditLabel.Width = 33
+          EditLabel.Height = 13
+          EditLabel.Caption = 'Albedo'
+          EditLabel.Layout = tlCenter
+          NumbersOnly = True
+          TabOrder = 11
+          OnKeyDown = COO_AlbedoKeyDown
         end
       end
       object TOO_OrbitalObjectPicker: TRadioGroup

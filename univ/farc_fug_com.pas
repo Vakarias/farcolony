@@ -38,6 +38,11 @@ uses
 procedure FCMfC_Initialize( isCreateWindow: boolean );
 
 ///<summary>
+///   update the orbital object albedo
+///</summary>
+procedure FCmfC_OrbitPicker_AlbedoUpdate;
+
+///<summary>
 ///   update the orbital object density
 ///</summary>
 procedure FCmfC_OrbitPicker_DensityUpdate;
@@ -66,6 +71,11 @@ procedure FCmfC_OrbitPicker_GravityUpdate;
 ///   update the orbital object inclination axis
 ///</summary>
 procedure FCmfC_OrbitPicker_InclinationAxisUpdate;
+
+///<summary>
+///   update the orbital object magnetic field
+///</summary>
+procedure FCmfC_OrbitPicker_MagFieldUpdate;
 
 ///<summary>
 ///   update the orbital object mass
@@ -179,6 +189,23 @@ begin
    SetLength(FCDduStarSystem, 1);
 end;
 
+procedure FCmfC_OrbitPicker_AlbedoUpdate;
+{:Purpose: update the orbital object albedo.
+    Additions:
+}
+   var
+      CurrentObject: integer;
+begin
+   CurrentObject:=FCWinFUG.TOO_OrbitalObjectPicker.ItemIndex+1;
+   case FCWinFUG.TOO_StarPicker.ItemIndex of
+      0: FCDfdMainStarObjectsList[CurrentObject].OO_albedo:=strtofloat( FCWinFUG.COO_Albedo.Text );
+
+      1: FCDfdComp1StarObjectsList[CurrentObject].OO_albedo:=strtofloat( FCWinFUG.COO_Albedo.Text );
+
+      2: FCDfdComp2StarObjectsList[CurrentObject].OO_albedo:=strtofloat( FCWinFUG.COO_Albedo.Text );
+   end;
+end;
+
 procedure FCmfC_OrbitPicker_DensityUpdate;
 {:Purpose: update the orbital object density.
     Additions:
@@ -278,6 +305,23 @@ begin
       1: FCDfdComp1StarObjectsList[CurrentObject].OO_inclinationAxis:=strtofloat( FCWinFUG.COO_InclAxis.Text );
 
       2: FCDfdComp2StarObjectsList[CurrentObject].OO_inclinationAxis:=strtofloat( FCWinFUG.COO_InclAxis.Text );
+   end;
+end;
+
+procedure FCmfC_OrbitPicker_MagFieldUpdate;
+{:Purpose: update the orbital object magnetic field.
+    Additions:
+}
+   var
+      CurrentObject: integer;
+begin
+   CurrentObject:=FCWinFUG.TOO_OrbitalObjectPicker.ItemIndex+1;
+   case FCWinFUG.TOO_StarPicker.ItemIndex of
+      0: FCDfdMainStarObjectsList[CurrentObject].OO_magneticField:=strtofloat( FCWinFUG.COO_MagField.Text );
+
+      1: FCDfdComp1StarObjectsList[CurrentObject].OO_magneticField:=strtofloat( FCWinFUG.COO_MagField.Text );
+
+      2: FCDfdComp2StarObjectsList[CurrentObject].OO_magneticField:=strtofloat( FCWinFUG.COO_MagField.Text );
    end;
 end;
 
@@ -390,6 +434,12 @@ begin
          if FCDfdMainStarObjectsList[CurrentObject].OO_inclinationAxis>0
          then FCWinFUG.COO_InclAxis.Text:=floattostr( FCDfdMainStarObjectsList[CurrentObject].OO_inclinationAxis )
          else FCWinFUG.COO_InclAxis.Text:='';
+         if FCDfdMainStarObjectsList[CurrentObject].OO_magneticField>0
+         then FCWinFUG.COO_MagField.Text:=floattostr( FCDfdMainStarObjectsList[CurrentObject].OO_magneticField )
+         else FCWinFUG.COO_MagField.Text:='';
+         if FCDfdMainStarObjectsList[CurrentObject].OO_albedo>0
+         then FCWinFUG.COO_Albedo.Text:=floattostr( FCDfdMainStarObjectsList[CurrentObject].OO_albedo )
+         else FCWinFUG.COO_Albedo.Text:='';
       end;
 
       1:
@@ -422,6 +472,12 @@ begin
          if FCDfdComp1StarObjectsList[CurrentObject].OO_inclinationAxis>0
          then FCWinFUG.COO_InclAxis.Text:=floattostr( FCDfdComp1StarObjectsList[CurrentObject].OO_inclinationAxis )
          else FCWinFUG.COO_InclAxis.Text:='';
+         if FCDfdComp1StarObjectsList[CurrentObject].OO_magneticField>0
+         then FCWinFUG.COO_MagField.Text:=floattostr( FCDfdComp1StarObjectsList[CurrentObject].OO_magneticField )
+         else FCWinFUG.COO_MagField.Text:='';
+         if FCDfdComp1StarObjectsList[CurrentObject].OO_albedo>0
+         then FCWinFUG.COO_Albedo.Text:=floattostr( FCDfdComp1StarObjectsList[CurrentObject].OO_albedo )
+         else FCWinFUG.COO_Albedo.Text:='';
       end;
 
       2:
@@ -454,8 +510,14 @@ begin
          if FCDfdComp2StarObjectsList[CurrentObject].OO_inclinationAxis>0
          then FCWinFUG.COO_InclAxis.Text:=floattostr( FCDfdComp2StarObjectsList[CurrentObject].OO_inclinationAxis )
          else FCWinFUG.COO_InclAxis.Text:='';
+         if FCDfdComp2StarObjectsList[CurrentObject].OO_magneticField>0
+         then FCWinFUG.COO_MagField.Text:=floattostr( FCDfdComp2StarObjectsList[CurrentObject].OO_magneticField )
+         else FCWinFUG.COO_MagField.Text:='';
+         if FCDfdComp2StarObjectsList[CurrentObject].OO_albedo>0
+         then FCWinFUG.COO_Albedo.Text:=floattostr( FCDfdComp2StarObjectsList[CurrentObject].OO_albedo )
+         else FCWinFUG.COO_Albedo.Text:='';
       end;
-   end;
+   end; //==END== case FCWinFUG.TOO_StarPicker.ItemIndex of ==//
 end;
 
 procedure FCMfC_StarPicker_Update;

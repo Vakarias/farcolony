@@ -36,6 +36,7 @@ uses
    ,Forms
    ,Messages
    ,SysUtils
+   ,typInfo
    ,Windows, StdCtrls, Classes, AdvMemo, AdvPageControl, ComCtrls, ExtCtrls,
 
    AdvGlowButton
@@ -116,6 +117,8 @@ type
     COO_EscapeVel: TLabeledEdit;
     COO_RotationPeriod: TLabeledEdit;
     COO_InclAxis: TLabeledEdit;
+    COO_MagField: TLabeledEdit;
+    COO_Albedo: TLabeledEdit;
     procedure WF_GenerateButtonClick(Sender: TObject);
     procedure TMS_OrbitGenerationClick(Sender: TObject);
     procedure TC1S_EnableGroupCompanion1Click(Sender: TObject);
@@ -144,6 +147,8 @@ type
     procedure COO_EscapeVelKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure COO_RotationPeriodKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure COO_InclAxisKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure COO_MagFieldKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure COO_AlbedoKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
    private
     { Private declarations }
    public
@@ -341,19 +346,27 @@ begin
             while Count1<=Max1 do
             begin
                WF_XMLOutput.Lines.Add( '      <orbobj ootoken="'+FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_dbTokenId+'" ftSeed="">' );
-               case FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_isNotSat_orbitalZone of
-                  hzInner: DumpString:='hzInner';
-
-                  hzIntermediary: DumpString:='hzIntermediary';
-
-                  hzOuter: DumpString:='hzOuter';
-               end;
                WF_XMLOutput.Lines.Add(
                   '         <orbobjorbdata oodist="'+FloatToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_isNotSat_distanceFromStar )
                      +'" ooecc="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_isNotSat_eccentricity )
-                     +'" ooorbzne="'+DumpString
+                     +'" ooorbzne="'+GetEnumName( TypeInfo( TFCEduHabitableZones ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_isNotSat_orbitalZone ) )
                      +'" oorevol="'+IntToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_revolutionPeriod )
                      +'" oorevevinit="'+IntToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_revolutionPeriodInit )
+                     +'" oogravsphrad="'+FloatToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_gravitationalSphereRadius )
+                     +'"/>'
+                  );
+               WF_XMLOutput.Lines.Add(
+                  '         <orbobjgeophysdata ootype="'+GetEnumName( TypeInfo( TFCEduOrbitalObjectTypes ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_type ) )
+                     +'" oodiam="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_diameter )
+                     +'" oodens="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_density )
+
+                     +'" oomass="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_mass )
+                     +'" oograv="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_gravity )
+                     +'" ooescvel="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_escapeVelocity )
+                     +'" oorotper="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_rotationPeriod )
+                     +'" ooinclax="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_inclinationAxis )
+                     +'" oomagfld="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_magneticField )
+                     +'" ooalbe="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_albedo )
                      +'"/>'
                   );
                inc( Count1 );
@@ -376,6 +389,12 @@ end;
 procedure TFCWinFUG.AdvGlowButton1Click(Sender: TObject);
 begin
    FCMfC_Initialize( false );
+end;
+
+procedure TFCWinFUG.COO_AlbedoKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+   if Key=13
+   then FCmfC_OrbitPicker_AlbedoUpdate;
 end;
 
 procedure TFCWinFUG.COO_DensityKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -413,6 +432,12 @@ procedure TFCWinFUG.COO_InclAxisKeyDown(Sender: TObject; var Key: Word; Shift: T
 begin
    if Key=13
    then FCmfC_OrbitPicker_InclinationAxisUpdate;
+end;
+
+procedure TFCWinFUG.COO_MagFieldKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+   if Key=13
+   then FCmfC_OrbitPicker_MagFieldUpdate;
 end;
 
 procedure TFCWinFUG.COO_MassKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
