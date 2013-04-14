@@ -53,9 +53,19 @@ procedure FCmfC_OrbitPicker_DiameterUpdate;
 procedure FCmfC_OrbitPicker_DistanceUpdate;
 
 ///<summary>
+///   update the orbital object escape velocity
+///</summary>
+procedure FCmfC_OrbitPicker_EscapeVelUpdate;
+
+///<summary>
 ///   update the orbital object gravity
 ///</summary>
 procedure FCmfC_OrbitPicker_GravityUpdate;
+
+///<summary>
+///   update the orbital object inclination axis
+///</summary>
+procedure FCmfC_OrbitPicker_InclinationAxisUpdate;
 
 ///<summary>
 ///   update the orbital object mass
@@ -66,6 +76,11 @@ procedure FCmfC_OrbitPicker_MassUpdate;
 ///   update the orbital object type
 ///</summary>
 procedure FCmfC_OrbitPicker_ObjectTypeUpdate;
+
+///<summary>
+///   update the orbital object rotation period
+///</summary>
+procedure FCmfC_OrbitPicker_RotationPeriodUpdate;
 
 ///<summary>
 ///   update the orbital object token
@@ -215,6 +230,23 @@ begin
    end;
 end;
 
+procedure FCmfC_OrbitPicker_EscapeVelUpdate;
+{:Purpose: update the orbital object escape velocity.
+    Additions:
+}
+   var
+      CurrentObject: integer;
+begin
+   CurrentObject:=FCWinFUG.TOO_OrbitalObjectPicker.ItemIndex+1;
+   case FCWinFUG.TOO_StarPicker.ItemIndex of
+      0: FCDfdMainStarObjectsList[CurrentObject].OO_escapeVelocity:=strtofloat( FCWinFUG.COO_EscapeVel.Text );
+
+      1: FCDfdComp1StarObjectsList[CurrentObject].OO_escapeVelocity:=strtofloat( FCWinFUG.COO_EscapeVel.Text );
+
+      2: FCDfdComp2StarObjectsList[CurrentObject].OO_escapeVelocity:=strtofloat( FCWinFUG.COO_EscapeVel.Text );
+   end;
+end;
+
 procedure FCmfC_OrbitPicker_GravityUpdate;
 {:Purpose: update the orbital object gravity.
     Additions:
@@ -229,6 +261,23 @@ begin
       1: FCDfdComp1StarObjectsList[CurrentObject].OO_gravity:=strtofloat( FCWinFUG.COO_Gravity.Text );
 
       2: FCDfdComp2StarObjectsList[CurrentObject].OO_gravity:=strtofloat( FCWinFUG.COO_Gravity.Text );
+   end;
+end;
+
+procedure FCmfC_OrbitPicker_InclinationAxisUpdate;
+{:Purpose: update the orbital object inclination axis.
+    Additions:
+}
+   var
+      CurrentObject: integer;
+begin
+   CurrentObject:=FCWinFUG.TOO_OrbitalObjectPicker.ItemIndex+1;
+   case FCWinFUG.TOO_StarPicker.ItemIndex of
+      0: FCDfdMainStarObjectsList[CurrentObject].OO_inclinationAxis:=strtofloat( FCWinFUG.COO_InclAxis.Text );
+
+      1: FCDfdComp1StarObjectsList[CurrentObject].OO_inclinationAxis:=strtofloat( FCWinFUG.COO_InclAxis.Text );
+
+      2: FCDfdComp2StarObjectsList[CurrentObject].OO_inclinationAxis:=strtofloat( FCWinFUG.COO_InclAxis.Text );
    end;
 end;
 
@@ -263,6 +312,23 @@ begin
       1: FCDfdComp1StarObjectsList[CurrentObject].OO_basicType:=TFCEduOrbitalObjectBasicTypes( FCWinFUG.COO_ObjecType.ItemIndex );
 
       2: FCDfdComp2StarObjectsList[CurrentObject].OO_basicType:=TFCEduOrbitalObjectBasicTypes( FCWinFUG.COO_ObjecType.ItemIndex );
+   end;
+end;
+
+procedure FCmfC_OrbitPicker_RotationPeriodUpdate;
+{:Purpose: update the orbital object rotation period.
+    Additions:
+}
+   var
+      CurrentObject: integer;
+begin
+   CurrentObject:=FCWinFUG.TOO_OrbitalObjectPicker.ItemIndex+1;
+   case FCWinFUG.TOO_StarPicker.ItemIndex of
+      0: FCDfdMainStarObjectsList[CurrentObject].OO_rotationPeriod:=strtofloat( FCWinFUG.COO_RotationPeriod.Text );
+
+      1: FCDfdComp1StarObjectsList[CurrentObject].OO_rotationPeriod:=strtofloat( FCWinFUG.COO_RotationPeriod.Text );
+
+      2: FCDfdComp2StarObjectsList[CurrentObject].OO_rotationPeriod:=strtofloat( FCWinFUG.COO_RotationPeriod.Text );
    end;
 end;
 

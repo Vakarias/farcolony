@@ -109,7 +109,7 @@ object FCWinFUG: TFCWinFUG
     Top = 39
     Width = 577
     Height = 1500
-    ActivePage = CMT_TabStellarStarSystem
+    ActivePage = CMT_TabOrbitalObjects
     ActiveFont.Charset = DEFAULT_CHARSET
     ActiveFont.Color = clWindowText
     ActiveFont.Height = -11
