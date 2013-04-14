@@ -359,7 +359,6 @@ begin
                   '         <orbobjgeophysdata ootype="'+GetEnumName( TypeInfo( TFCEduOrbitalObjectTypes ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_type ) )
                      +'" oodiam="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_diameter )
                      +'" oodens="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_density )
-
                      +'" oomass="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_mass )
                      +'" oograv="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_gravity )
                      +'" ooescvel="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_escapeVelocity )
