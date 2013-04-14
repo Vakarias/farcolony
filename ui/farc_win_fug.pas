@@ -199,7 +199,14 @@ begin
       FCRfdSystemType[3]:=0;
       {.stars}
       FCMfS_Data_Load(1);
-      FCDduStarSystem[0].SS_stars[1].S_token:=TMS_StarToken.Text;
+      if ( TMS_StarToken.Text='' )
+         or ( TMS_StarToken.Text='star' ) then
+      begin
+         DumpString:=FCDduStarSystem[0].SS_token;
+         delete( DumpString, 1, 7 );
+         FCDduStarSystem[0].SS_stars[1].S_token:='star'+DumpString+'A';
+      end
+      else FCDduStarSystem[0].SS_stars[1].S_token:=TMS_StarToken.Text;
       FCDduStarSystem[0].SS_stars[1].S_class:=TFCEduStarClasses(TMS_StarClass.ItemIndex);
       if TMS_StarTemp.Text=''
       then FCDduStarSystem[0].SS_stars[1].S_temperature:=FCFfS_Temperature_Calc(1)
@@ -225,7 +232,10 @@ begin
          and (TC1S_StarToken.Text<>'star')
       then
       begin
-         FCDduStarSystem[0].SS_stars[2].S_token:=TC1S_StarToken.Text;
+         if ( TC1S_StarToken.Text='' )
+            or ( TC1S_StarToken.Text='star' )
+         then FCDduStarSystem[0].SS_stars[2].S_token:='star'+DumpString+'B'
+         else FCDduStarSystem[0].SS_stars[2].S_token:=TC1S_StarToken.Text;
          FCDduStarSystem[0].SS_stars[2].S_class:=TFCEduStarClasses(TC1S_StarClass.ItemIndex);
          if TC1S_StarTemp.Text=''
          then FCDduStarSystem[0].SS_stars[2].S_temperature:=FCFfS_Temperature_Calc(2)
@@ -252,7 +262,10 @@ begin
             and (TC2S_StarToken.Text<>'star')
          then
          begin
-            FCDduStarSystem[0].SS_stars[3].S_token:=TC2S_StarToken.Text;
+            if ( TC2S_StarToken.Text='' )
+               or ( TC2S_StarToken.Text='star' )
+            then FCDduStarSystem[0].SS_stars[3].S_token:='star'+DumpString+'C'
+            else FCDduStarSystem[0].SS_stars[3].S_token:=TC2S_StarToken.Text;
             FCDduStarSystem[0].SS_stars[3].S_class:=TFCEduStarClasses(TC2S_StarClass.ItemIndex);
             if TC2S_StarTemp.Text=''
             then FCDduStarSystem[0].SS_stars[3].S_temperature:=FCFfS_Temperature_Calc(3)
