@@ -109,7 +109,7 @@ object FCWinFUG: TFCWinFUG
     Top = 39
     Width = 577
     Height = 1500
-    ActivePage = CMT_TabStellarStarSystem
+    ActivePage = CMT_TabOrbitalObjects
     ActiveFont.Charset = DEFAULT_CHARSET
     ActiveFont.Color = clWindowText
     ActiveFont.Height = -11
@@ -1298,7 +1298,7 @@ object FCWinFUG: TFCWinFUG
         Width = 442
         Height = 600
         BorderColor = clBlack
-        Caption = 'Orbital Object'
+        Caption = 'Orbital Object [enter for validate the data in each field]'
         Color = clSilver
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clBlack
@@ -1312,12 +1312,12 @@ object FCWinFUG: TFCWinFUG
         object COO_Density: TLabeledEdit
           Left = 58
           Top = 72
-          Width = 47
+          Width = 55
           Height = 19
           Color = clWhite
-          EditLabel.Width = 36
+          EditLabel.Width = 51
           EditLabel.Height = 13
-          EditLabel.Caption = 'Density'
+          EditLabel.Caption = 'Density Eq'
           EditLabel.Layout = tlCenter
           NumbersOnly = True
           TabOrder = 0
@@ -1352,7 +1352,7 @@ object FCWinFUG: TFCWinFUG
           OnKeyDown = COO_DistanceKeyDown
         end
         object COO_Gravity: TLabeledEdit
-          Left = 170
+          Left = 178
           Top = 72
           Width = 47
           Height = 19
@@ -1366,14 +1366,14 @@ object FCWinFUG: TFCWinFUG
           OnKeyDown = COO_GravityKeyDown
         end
         object COO_Mass: TLabeledEdit
-          Left = 106
+          Left = 114
           Top = 72
           Width = 63
           Height = 19
           Color = clWhite
-          EditLabel.Width = 24
+          EditLabel.Width = 39
           EditLabel.Height = 13
-          EditLabel.Caption = 'Mass'
+          EditLabel.Caption = 'Mass Eq'
           EditLabel.Layout = tlCenter
           NumbersOnly = True
           TabOrder = 4
@@ -1428,7 +1428,7 @@ object FCWinFUG: TFCWinFUG
           OnKeyDown = COO_TokenKeyDown
         end
         object COO_EscapeVel: TLabeledEdit
-          Left = 218
+          Left = 226
           Top = 72
           Width = 47
           Height = 19
@@ -1470,7 +1470,7 @@ object FCWinFUG: TFCWinFUG
           OnKeyDown = COO_InclAxisKeyDown
         end
         object COO_MagField: TLabeledEdit
-          Left = 271
+          Left = 279
           Top = 72
           Width = 47
           Height = 19
@@ -1484,7 +1484,7 @@ object FCWinFUG: TFCWinFUG
           OnKeyDown = COO_MagFieldKeyDown
         end
         object COO_Albedo: TLabeledEdit
-          Left = 324
+          Left = 332
           Top = 72
           Width = 47
           Height = 19

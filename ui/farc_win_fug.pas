@@ -370,6 +370,9 @@ begin
                   );
                WF_XMLOutput.Lines.Add(
                   '         <orbobjgeophysdata ootype="'+GetEnumName( TypeInfo( TFCEduOrbitalObjectTypes ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_type ) )
+                     {:DEV NOTES: DEBUG ENTRY, TO REMOVE LATER.}
+                     +'" oobasictypeDEBUG="'+GetEnumName( TypeInfo( TFCEduOrbitalObjectBasicTypes ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_basicType ) )
+                     {:DEV NOTES: END.}
                      +'" oodiam="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_diameter )
                      +'" oodens="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_density )
                      +'" oomass="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_mass )
