@@ -1379,12 +1379,50 @@ begin
 
 
 
-            {:DEV NOTES: regions here incl resources.}
+            {:DEV NOTES: surface generation + regions here incl resources.}
 
             {:DEV NOTES: biosphere here + resources 2.}
 
             {:DEV NOTES: OOrb Obj type refinment here for telluric
                telluric: if basetemp<273 => icy
+
+                try
+            if TabOrbit[OrbDBCounter].TypeAstre=10 then begin
+                if TabOrbit[OrbDBCounter].AtmPress=0 then begin
+                    if TabOrbit[OrbDBCounter].HydroType=0 then TabOrbit[OrbDBCounter].TypeAstre:=23
+                    else if TabOrbit[OrbDBCounter].HydroType=3 then TabOrbit[OrbDBCounter].TypeAstre:=24
+                    else if TabOrbit[OrbDBCounter].HydroType=4 then TabOrbit[OrbDBCounter].TypeAstre:=25;
+                end
+                else if (TabOrbit[OrbDBCounter].AtmPress>0) and (TabOrbit[OrbDBCounter].AtmPress<400) then begin
+                    if TabOrbit[OrbDBCounter].HydroType in [0..1] then TabOrbit[OrbDBCounter].TypeAstre:=15
+                    else if TabOrbit[OrbDBCounter].HydroType=2 then TabOrbit[OrbDBCounter].TypeAstre:=16
+                    else if TabOrbit[OrbDBCounter].HydroType=3 then TabOrbit[OrbDBCounter].TypeAstre:=17
+                    else if TabOrbit[OrbDBCounter].HydroType=4 then TabOrbit[OrbDBCounter].TypeAstre:=18
+                    else if TabOrbit[OrbDBCounter].HydroType in [5..6] then TabOrbit[OrbDBCounter].TypeAstre:=17;
+                end
+                else if (TabOrbit[OrbDBCounter].AtmPress>=400) and (TabOrbit[OrbDBCounter].AtmPress<=3100) then begin
+                    if TabOrbit[OrbDBCounter].HydroType in [0..1] then TabOrbit[OrbDBCounter].TypeAstre:=11
+                    else if TabOrbit[OrbDBCounter].HydroType=2 then TabOrbit[OrbDBCounter].TypeAstre:=12
+                    else if TabOrbit[OrbDBCounter].HydroType=3 then TabOrbit[OrbDBCounter].TypeAstre:=13
+                    else if TabOrbit[OrbDBCounter].HydroType=4 then TabOrbit[OrbDBCounter].TypeAstre:=14
+                    else if TabOrbit[OrbDBCounter].HydroType in [5..6] then TabOrbit[OrbDBCounter].TypeAstre:=12;
+                end
+                else if TabOrbit[OrbDBCounter].AtmPress>3100 then begin
+                    if TabOrbit[OrbDBCounter].HydroType in [0..1] then TabOrbit[OrbDBCounter].TypeAstre:=19
+                    else if TabOrbit[OrbDBCounter].HydroType=2 then TabOrbit[OrbDBCounter].TypeAstre:=20
+                    else if TabOrbit[OrbDBCounter].HydroType=3 then TabOrbit[OrbDBCounter].TypeAstre:=21
+                    else if TabOrbit[OrbDBCounter].HydroType=4 then TabOrbit[OrbDBCounter].TypeAstre:=22
+                    else if TabOrbit[OrbDBCounter].HydroType in [5..6] then TabOrbit[OrbDBCounter].TypeAstre:=21;
+                end;
+            end
+            else if TabOrbit[OrbDBCounter].TypeAstre=27 then begin
+                if TabOrbit[OrbDBCounter].AtmPress=0 then TabOrbit[OrbDBCounter].TypeAstre:=30
+                else if TabOrbit[OrbDBCounter].AtmPress>0 then begin
+                    if TabOrbit[OrbDBCounter].HydroType=3 then TabOrbit[OrbDBCounter].TypeAstre:=28
+                    else if TabOrbit[OrbDBCounter].HydroType=4 then TabOrbit[OrbDBCounter].TypeAstre:=29;
+                end;
+            end;
+
             .}
 
             {:DEV NOTES: satellites.}
