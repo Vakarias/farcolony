@@ -144,6 +144,7 @@
 			<DCCReference Include="data\farc_data_planetarysurvey.pas"/>
 			<DCCReference Include="ui\farc_ui_about.pas"/>
 			<DCCReference Include="survey\farc_survey_core.pas"/>
+			<DCCReference Include="univ\farc_fug_geophysical.pas"/>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>

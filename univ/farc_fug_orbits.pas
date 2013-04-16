@@ -1222,9 +1222,174 @@ begin
                   3: FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType:=FCFfS_OrbitGen_ExtraSolLike( FCDduStarSystem[0].SS_stars[CurrentStar].S_class, FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_orbitalZone );
                end;
             end;
-            {:DEV NOTES: geophysical data here.}
+            {:DEV NOTES: geophysical data here.
+
+               {:DEV NOTES: OOrb Obj refinement here for asteroids and gaseous
+               {.asteroids
+                 if TabOrbit[OrbDBCounter].TypeAstre=2 then begin
+                     case TabOrbit[OrbDBCounter].Dens of
+                         0..2481: TabOrbit[OrbDBCounter].TypeAstre:=5;
+                         2482..3639: TabOrbit[OrbDBCounter].TypeAstre:=4;
+                         3640..4963: TabOrbit[OrbDBCounter].TypeAstre:=3;
+                         4964..8273: TabOrbit[OrbDBCounter].TypeAstre:=2;
+                     end;
+                 end
+                 else if TabOrbit[OrbDBCounter].TypeAstre=6 then begin
+                     case TabOrbit[OrbDBCounter].Dens of
+                         0..2481: TabOrbit[OrbDBCounter].TypeAstre:=9;
+                         2482..3639: TabOrbit[OrbDBCounter].TypeAstre:=8;
+                         3640..4963: TabOrbit[OrbDBCounter].TypeAstre:=7;
+                         4964..8273: TabOrbit[OrbDBCounter].TypeAstre:=6;
+                     end;
+                 end;
+                 {.gaseous object
+                 if TabOrbit[OrbDBCounter].TypeAstre=31 then begin
+                     OCCA_Proba:=random(1);
+                     if TabOrbit[OrbDBCounter].Mass<40 then TabOrbit[OrbDBCounter].TypeAstre:=31+OCCA_Proba
+                     else if (TabOrbit[OrbDBCounter].Mass>40)
+                         and (TabOrbit[OrbDBCounter].Mass<180) then TabOrbit[OrbDBCounter].TypeAstre:=33+OCCA_Proba
+                     else if (TabOrbit[OrbDBCounter].Mass>180)
+                         and (TabOrbit[OrbDBCounter].Mass<350) then TabOrbit[OrbDBCounter].TypeAstre:=35+OCCA_Proba
+                     else if (TabOrbit[OrbDBCounter].Mass>350)
+                         and (TabOrbit[OrbDBCounter].Mass<10000) then TabOrbit[OrbDBCounter].TypeAstre:=37+OCCA_Proba;
+                 end;
+
+                 //            {.magnetic field
+            //        if TabOrbit[OrbDBCounter].TypeAstre<10 then TabOrbit[OrbDBCounter].MagField:=0
+            //        else if TabOrbit[OrbDBCounter].TypeAstre in [10..30] then begin
+            //            if (abs(TabOrbit[OrbDBCounter].PerRot)=0)
+            //                or (abs(TabOrbit[OrbDBCounter].PerRot)>(TabOrbit[OrbDBCounter].Revol*24))
+            //                then rotation_period:=TabOrbit[OrbDBCounter].Revol*24
+            //            else if abs(TabOrbit[OrbDBCounter].PerRot)>0 then rotation_period:=abs(TabOrbit[OrbDBCounter].PerRot);
+            //            if TabOrbit[OrbDBCounter].TypeAstre>=27 then mag_factor:=(10*(1/(sqrt(rotation_period/24)
+            //                *sqr(TabOrbit[OrbDBCounter].DensEq)*sqrt(TabOrbit[OrbDBCounter].Mass)))/StarClone_Age)*0.5
+            //            else if TabOrbit[OrbDBCounter].TypeAstre<27 then mag_factor:=10*(1/(sqrt(rotation_period/24)
+            //                *sqr(TabOrbit[OrbDBCounter].DensEq)*sqrt(TabOrbit[OrbDBCounter].Mass)))/StarClone_Age;
+            //            OCCA_Proba:=random(9)+1;
+            //            if mag_factor<0.05 then TabOrbit[OrbDBCounter].MagField:=0
+            //            else if (mag_factor>=0.05)
+            //                and (mag_factor<0.5) then begin
+            //
+            //                case OCCA_Proba of
+            //                    1..4: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*0.001)*0.3076;
+            //                    5..8: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*0.002)*0.3076;
+            //                    9..10: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*0.01)*0.3076;
+            //                end;
+            //            end
+            //            else if (mag_factor>=0.5)
+            //                and (mag_factor<1) then begin
+            //
+            //                case OCCA_Proba of
+            //                    1..3: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*0.001)*0.3076;
+            //                    4..6: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*0.002)*0.3076;
+            //                    7..9: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*0.01)*0.3076;
+            //                    10: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*0.05)*0.3076;
+            //                end;
+            //            end
+            //            else if (mag_factor>=1)
+            //                and (mag_factor<2) then begin
+            //
+            //                case OCCA_Proba of
+            //                    1..3: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*0.001)*0.3076;
+            //                    4..5: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*0.002)*0.3076;
+            //                    6..7: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*0.01)*0.3076;
+            //                    8..9: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*0.05)*0.3076;
+            //                    10: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*0.1)*0.3076;
+            //                end;
+            //            end
+            //            else if (mag_factor>=2)
+            //                and (mag_factor<4) then begin
+            //
+            //                case OCCA_Proba of
+            //                    1..3: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*0.05)*0.3076;
+            //                    4..5: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*0.1)*0.3076;
+            //                    6..7: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*0.2)*0.3076;
+            //                    8..9: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*0.3)*0.3076;
+            //                    10: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*0.5)*0.3076;
+            //                end;
+            //            end
+            //            else if mag_factor>=4 then begin
+            //                case OCCA_Proba of
+            //                    1..3: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*0.1)*0.3076;
+            //                    4..5: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*0.2)*0.3076;
+            //                    6..7: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*0.3)*0.3076;
+            //                    8..9: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*0.5)*0.3076;
+            //                    10: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*1.0)*0.3076;
+            //                end;
+            //            end;
+            //        end{else if TabOrbit[OrbDBCounter].TypeAstre in [10..30]
+            //        else if TabOrbit[OrbDBCounter].TypeAstre in [31..32] then begin
+            //            OCCA_Proba:=random(9)+1;
+            //            case OCCA_Proba of
+            //                1: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*0.1)*0.3076;
+            //                2..4: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*0.25)*0.3076;
+            //                5..7: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*0.5)*0.3076;
+            //                8..9: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*0.75)*0.3076;
+            //                10: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*1)*0.3076;
+            //            end;
+            //        end
+            //        else if TabOrbit[OrbDBCounter].TypeAstre in [33..34] then begin
+            //            OCCA_Proba:=random(9)+1;
+            //            case OCCA_Proba of
+            //                1: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*0.25)*0.3076;
+            //                2..4: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*0.5)*0.3076;
+            //                5..7: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*0.75)*0.3076;
+            //                8..9: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*1)*0.3076;
+            //                10: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*1.5)*0.3076;
+            //            end;
+            //        end
+            //        else if TabOrbit[OrbDBCounter].TypeAstre in [35..36] then begin
+            //            OCCA_Proba:=random(9)+1;
+            //            case OCCA_Proba of
+            //                1: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*0.5)*0.3076;
+            //                2..4: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*1)*0.3076;
+            //                5..7: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*1.5)*0.3076;
+            //                8..9: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*2)*0.3076;
+            //                10: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*3)*0.3076;
+            //            end;
+            //        end
+            //        else if TabOrbit[OrbDBCounter].TypeAstre in [37..38] then begin
+            //            OCCA_Proba:=random(9)+1;
+            //            case OCCA_Proba of
+            //                1: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*1.5)*0.3076;
+            //                2..4: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*2.5)*0.3076;
+            //                5..7: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*5)*0.3076;
+            //                8..9: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*10)*0.3076;
+            //                10: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*25)*0.3076;
+            //            end;
+            //        end;
+            //        TabOrbit[OrbDBCounter].MagField:=roundto(TabOrbit[OrbDBCounter].MagField,-3);
+
+                TectonicActivityDetermination
+               .}
+
+
+
+            {:DEV NOTES: ecosphere here
+            //GPOOT_BaseTemp:=255/sqrt((BOrb_Distance/sqrt(GPOOT_Star_Lum)));
+
+               AtmosphericDetermination;
+                OrbitsCreation_Hydrosphere(TabOrbit[OrbDBCounter].BaseTemp);
+                OrbitsCreation_Weather;
+                                       .}
+
+            {:DEV NOTES: orbital periods / seasons here.}
+
+
+
+
+
+            {:DEV NOTES: regions here incl resources.}
+
+            {:DEV NOTES: biosphere here + resources 2.}
+
+            {:DEV NOTES: OOrb Obj type refinment here for telluric
+               telluric: if basetemp<273 => icy
+            .}
+
+            {:DEV NOTES: satellites.}
             
-         end;
+         end; //==END== else: if ( CalcFloat>0 ) and ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_distanceFromStar > CalcFloat ) ==//
          inc( Count);
       end; //==END== while Count<=NumberOfOrbits ==//
    end; //==END== else of if CalcFloat=0 ==//
