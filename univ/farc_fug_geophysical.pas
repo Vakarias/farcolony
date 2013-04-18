@@ -31,11 +31,9 @@ unit farc_fug_geophysical;
 interface
 
 uses
-  // SysUtils
+   Math
 
-   farc_data_univ
-//   ,farc_fug_data
-   ;
+   ,farc_data_univ;
 
 //==END PUBLIC ENUM=========================================================================
 
@@ -80,12 +78,39 @@ function FCFfG_Diameter_Calculation(
    const OrbitalZone: TFCEduHabitableZones
    ): extended;
 
+///<summary>
+///   calculate the orbital object's gravity
+///</summary>
+/// <param name="Diameter">orbital object's diameter</param>
+/// <param name="Mass">orbital object's mass</param>
+/// <returns>the gravity in gees</returns>
+/// <remarks>format [x.xxx]</remarks>
+function FCFfG_Gravity_Calculation(
+   const Diameter
+         ,Mass: extended
+   ): extended;
+
+///<summary>
+///   calculate the orbital object's mass equivalent
+///</summary>
+/// <param name="Diameter">orbital object's diameter</param>
+/// <param name="Density">orbital object's density</param>
+/// <param name="isAsteroid">[=true]: specificity for asteroids</param>
+/// <returns>the mass in Earth mass equivalent</returns>
+/// <remarks>format [x.xxxx] for planets and [x.xxxxxxxxxx] for asteroids</remarks>
+function FCFfG_Mass_Calculation(
+   const Diameter
+         , Density: extended;
+   const isAsteroid: boolean
+   ): extended;
+
 //===========================END FUNCTIONS SECTION==========================================
 
 implementation
 
 uses
-   farc_common_func;
+   farc_common_func
+   ,farc_data_init;
 //
 //   ,farc_data_init
 //   ,farc_data_planetarysurvey
@@ -138,9 +163,6 @@ function FCFfG_Density_Calculation(
    var
       WorkingFloat: extended;
 begin
-{WARNING: this is in earth eq, * 5515kg/m3 for the real value
-look old code for that
-}
    Result:=0;
    WorkingFloat:=0;
    case ObjectType of
@@ -150,6 +172,7 @@ look old code for that
          then WorkingFloat:=0.3 + ( ( FCFcF_Random_DoInteger( 99 ) + 1 ) * 0.01 )
          else if OrbitalZone = hzOuter
          then WorkingFloat:=( 0.1 + ( ( FCFcF_Random_DoInteger( 99 ) + 1 ) * 0.005 ) ) * 0.5;
+         WorkingFloat:=WorkingFloat * FCCdiDensityEqEarth;
       end;
       
       oobtTelluricPlanet:
@@ -159,12 +182,13 @@ look old code for that
          else if OrbitalZone = hzOuter
          then WorkingFloat:=0.1 + ( ( FCFcF_Random_DoInteger( 99 ) + 1 ) * 0.005 );
          if WorkingFloat<0.54
-         then WorkingFloat:=0.54 +( FCFcF_Random_DoInteger( 99 ) * 0.001 ); 
+         then WorkingFloat:=0.54 +( FCFcF_Random_DoInteger( 99 ) * 0.001 );
+         WorkingFloat:=WorkingFloat * FCCdiDensityEqEarth;
       end;
       
       oobtGaseousPlanet: WorkingFloat:=FCFcF_Random_DoInteger( 1351 ) + 579;
    end;
-   Result:=FCFcF_Round( rttCustom3Decimal, WorkingFloat );
+   Result:=round( WorkingFloat );
 end;
 
 function FCFfG_Diameter_Calculation( 
@@ -218,6 +242,45 @@ begin
             end;
                 TabOrbit[OrbDBCounter].InclAx:=roundto(OCCA_revol,-1);
         end;}
+end;
+
+function FCFfG_Gravity_Calculation(
+   const Diameter
+         ,Mass: extended
+   ): extended;
+{:Purpose: calculate the orbital object's gravity.
+    Additions:
+}
+   var
+      CalculatedGravity
+      ,MassInKg
+      ,RadiusInMeters: extended;
+begin
+   Result:=0;
+   MassInKg:=Mass * FCCdiMassEqEarth;
+   RadiusInMeters:=Diameter * 500;
+   CalculatedGravity:=( FCCdiGravitationalConst * MassInKg / sqr( RadiusInMeters ) ) / FCCdiMetersBySec_In_1G;
+   Result:=FCFcF_Round( rttCustom3Decimal, CalculatedGravity );
+end;
+
+function FCFfG_Mass_Calculation(
+   const Diameter
+         , Density: extended;
+   const isAsteroid: boolean
+   ): extended;
+{:Purpose: calculate the orbital object's mass equivalent.
+    Additions:
+}
+   var
+      CalculatedMass
+      ,RadiusInMeters: extended;
+begin
+   Result:=0;
+   RadiusInMeters:=Diameter * 500;
+   CalculatedMass:=( 4/3 * Pi * power( RadiusInMeters, 3 ) ) / FCCdiMassEqEarth;
+   if not isAsteroid
+   then Result:=FCFcF_Round( rttCustom4Decimal, CalculatedMass )
+   else Result:=FCFcF_Round( rttMassAsteroid, CalculatedMass );
 end;
 
 function FCFfG_RotationPeriod_Calculation: extended;

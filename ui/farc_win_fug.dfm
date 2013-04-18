@@ -1319,7 +1319,6 @@ object FCWinFUG: TFCWinFUG
           EditLabel.Height = 13
           EditLabel.Caption = 'Density Eq'
           EditLabel.Layout = tlCenter
-          NumbersOnly = True
           TabOrder = 0
           OnKeyDown = COO_DensityKeyDown
         end
@@ -1333,7 +1332,6 @@ object FCWinFUG: TFCWinFUG
           EditLabel.Height = 13
           EditLabel.Caption = 'Diameter'
           EditLabel.Layout = tlCenter
-          NumbersOnly = True
           TabOrder = 1
           OnKeyDown = COO_DiameterKeyDown
         end
@@ -1347,7 +1345,6 @@ object FCWinFUG: TFCWinFUG
           EditLabel.Height = 13
           EditLabel.Caption = 'Distance'
           EditLabel.Layout = tlCenter
-          NumbersOnly = True
           TabOrder = 2
           OnKeyDown = COO_DistanceKeyDown
         end
@@ -1361,7 +1358,6 @@ object FCWinFUG: TFCWinFUG
           EditLabel.Height = 13
           EditLabel.Caption = 'Gravity'
           EditLabel.Layout = tlCenter
-          NumbersOnly = True
           TabOrder = 3
           OnKeyDown = COO_GravityKeyDown
         end
@@ -1375,7 +1371,6 @@ object FCWinFUG: TFCWinFUG
           EditLabel.Height = 13
           EditLabel.Caption = 'Mass Eq'
           EditLabel.Layout = tlCenter
-          NumbersOnly = True
           TabOrder = 4
           OnKeyDown = COO_MassKeyDown
         end
@@ -1437,7 +1432,6 @@ object FCWinFUG: TFCWinFUG
           EditLabel.Height = 13
           EditLabel.Caption = 'Escape Vel'
           EditLabel.Layout = tlCenter
-          NumbersOnly = True
           TabOrder = 7
           OnKeyDown = COO_EscapeVelKeyDown
         end
@@ -1451,7 +1445,6 @@ object FCWinFUG: TFCWinFUG
           EditLabel.Height = 13
           EditLabel.Caption = 'Rotation Period'
           EditLabel.Layout = tlCenter
-          NumbersOnly = True
           TabOrder = 8
           OnKeyDown = COO_RotationPeriodKeyDown
         end
@@ -1465,7 +1458,6 @@ object FCWinFUG: TFCWinFUG
           EditLabel.Height = 13
           EditLabel.Caption = 'Inclination Axis'
           EditLabel.Layout = tlCenter
-          NumbersOnly = True
           TabOrder = 9
           OnKeyDown = COO_InclAxisKeyDown
         end
@@ -1479,7 +1471,6 @@ object FCWinFUG: TFCWinFUG
           EditLabel.Height = 13
           EditLabel.Caption = 'MagField'
           EditLabel.Layout = tlCenter
-          NumbersOnly = True
           TabOrder = 10
           OnKeyDown = COO_MagFieldKeyDown
         end
@@ -1493,7 +1484,6 @@ object FCWinFUG: TFCWinFUG
           EditLabel.Height = 13
           EditLabel.Caption = 'Albedo'
           EditLabel.Layout = tlCenter
-          NumbersOnly = True
           TabOrder = 11
           OnKeyDown = COO_AlbedoKeyDown
         end

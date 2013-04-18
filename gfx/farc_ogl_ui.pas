@@ -828,8 +828,6 @@ begin
                            rttMassAsteroid
                            ,FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar]
                               .S_orbitalObjects[M3DVUIUsatPlanIdx].OO_satellitesList[M3DVUIUsatIdx].OO_mass
-                           *FCCdiMassEqAsteroid
-                           /FCCdiMassEqEarth
                         )
                   );
             {.gravity}
@@ -1022,8 +1020,6 @@ begin
                            rttMassAsteroid
                            ,FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar]
                               .S_orbitalObjects[FC3doglSelectedPlanetAsteroid].OO_mass
-                           *FCCdiMassEqAsteroid
-                           /FCCdiMassEqEarth
                            )
                      );
             {.gravity}

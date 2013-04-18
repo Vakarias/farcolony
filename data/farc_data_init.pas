@@ -186,6 +186,11 @@ const
    FCCdiDegrees_To_Radian=Pi/180;
 
    ///<summary>
+   ///   density equivalent for any orbital object, relative to Earth, 1 unit=5515kg/m3
+   ///</summary>
+   FCCdiDensityEqEarth=5515;
+
+   ///<summary>
    ///   gravitational constant in astrophysics
    ///</summary>
    FCCdiGravitationalConst=6.67428E-11;
@@ -211,12 +216,7 @@ const
    FCCdiLY_In_1pc=3.261633;
 
    ///<summary>
-   ///   mass equivalent for asteroids, 1 unit=10e20kg
-   ///</summary>
-   FCCdiMassEqAsteroid=10e20;
-
-   ///<summary>
-   ///   mass equivalent for any planet, in Earth mass, 1 unit=5.976e24kg
+   ///   mass equivalent for any orbital object, in Earth mass, 1 unit=5.976e24kg
    ///</summary>
    FCCdiMassEqEarth=5.976e24;
 

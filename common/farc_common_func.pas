@@ -336,7 +336,7 @@ function FCFcF_Random_DoFloat: extended;
 }
 begin
    Result:=0;
-   Randomize;
+//   Randomize;
    Result:=random;
 end;
 
@@ -356,7 +356,7 @@ function FCFcF_Random_DoInteger(const Range: integer): integer;
 }
 begin
    Result:=0;
-   Randomize;
+//   Randomize;
    Result:=random( Range );
 end;
 
@@ -429,7 +429,7 @@ begin
 
       rttSurface: result:=DecimalRound( Value, 2, 0.0001 );
 
-      rttMassAsteroid: result:=DecimalRound( Value, 6, 0.00000001 );
+      rttMassAsteroid: result:=DecimalRound( Value, 10, 0.000000000001 );
 
       rttMasstons: result:=DecimalRound( Value, 3, 0.00001 );
 
