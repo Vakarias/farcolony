@@ -79,6 +79,18 @@ function FCFfG_Diameter_Calculation(
    ): extended;
 
 ///<summary>
+///   calculate the orbital object's escape velocity
+///</summary>
+/// <param name="Diameter">orbital object's diameter</param>
+/// <param name="Mass">orbital object's mass</param>
+/// <returns>the escape velocity in km/sec</returns>
+/// <remarks>format [x.xx]</remarks>
+function FCFfG_EscapeVelocity_Calculation(
+   const Diameter
+         ,Mass: extended
+   ): extended;
+
+///<summary>
 ///   calculate the orbital object's gravity
 ///</summary>
 /// <param name="Diameter">orbital object's diameter</param>
@@ -102,6 +114,20 @@ function FCFfG_Mass_Calculation(
    const Diameter
          , Density: extended;
    const isAsteroid: boolean
+   ): extended;
+
+///<summary>
+///   calculate the orbital object's rotation period
+///</summary>
+/// <param name=""></param>
+/// <param name=""></param>
+/// <param name=""></param>
+/// <returns>the rotation period in hours</returns>
+/// <remarks>format [x.]</remarks>
+function FCFfG_RotationPeriod_Calculation(
+   const StarMass
+         ,StarLuminosity
+         ,OrbitalObjectDistance: extended
    ): extended;
 
 //===========================END FUNCTIONS SECTION==========================================
@@ -244,6 +270,24 @@ begin
         end;}
 end;
 
+function FCFfG_EscapeVelocity_Calculation(
+   const Diameter
+         ,Mass: extended
+   ): extended;
+{:Purpose: calculate the orbital object's escape velocity.
+}
+   var
+      CalculatedEscapeVelocity
+      ,MassInKg
+      ,RadiusInMeters: extended;
+begin
+   Result:=0;
+   MassInKg:=Mass * FCCdiMassEqEarth;
+   RadiusInMeters:=Diameter * 500;
+   CalculatedEscapeVelocity:=sqrt( 2 * FCCdiGravitationalConst * MassInKg / sqr( RadiusInMeters ) ) / FCCdiMetersBySec_In_1G;
+   Result:=FCFcF_Round( rttCustom2Decimal, CalculatedEscapeVelocity );
+end;
+
 function FCFfG_Gravity_Calculation(
    const Diameter
          ,Mass: extended
@@ -283,7 +327,11 @@ begin
    else Result:=FCFcF_Round( rttMassAsteroid, CalculatedMass );
 end;
 
-function FCFfG_RotationPeriod_Calculation: extended;
+function FCFfG_RotationPeriod_Calculation(
+   const StarMass
+         ,StarLuminosity
+         ,OrbitalObjectDistance: extended
+   ): extended;
 begin
    {plan_mass:=0;
         if (TabOrbit[OrbDBCounter].TypeAstre=1)
