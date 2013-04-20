@@ -171,7 +171,7 @@
       <FR>an.</FR>
       <SP>año</SP>
    </acronYr>
-   <!-- ********** ACTION PANEL  ******* -->
+   <!-- ********** ACTION PANEL ******* -->
    <ActionPanelHeader.OObj>
       <EN>Orbital Object Menu</EN>
       <FR>Menu de l'Objet Orbital</FR>
@@ -202,6 +202,11 @@
          <FR>Liste d'Amarrage</FR>
          <SP>Lista de Acoplamiento</SP>
       </AP_DockingList>
+      <AP_Missions>
+         <EN>Missions</EN>
+         <FR>Missions</FR>
+         <SP>!TO TRANSLATE!</SP>
+      </AP_Missions>
       <AP_MissionColonization>
          <EN>Colonization</EN>
          <FR>Colonisation</FR>

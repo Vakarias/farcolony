@@ -773,6 +773,7 @@ begin
       FCWinMain.AP_OObjData.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'AP_OObjData');
       FCWinMain.AP_DetailedData.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'AP_DetailedData');
       FCWinMain.AP_DockingList.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'AP_DockingList');
+      FCWinMain.AP_Separator1.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'AP_Missions');
       FCWinMain.AP_MissionColonization.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'AP_MissionColonization');
       FCWinMain.AP_MissionInterplanetaryTransit.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'AP_MissionInterplanetaryTransit');
       FCWinMain.AP_MissionCancel.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'AP_MissionCancel');
