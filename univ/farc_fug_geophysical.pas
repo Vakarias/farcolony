@@ -184,7 +184,8 @@ function FCFfG_Density_Calculation(
    const OrbitalZone: TFCEduHabitableZones
    ): extended;
 {:Purpose: calculate the orbital object's density.
-   -Additions-
+   Additions:
+      -2013Apr20- *mod: adjustments.
 }
    var
       WorkingFloat: extended;
@@ -195,34 +196,33 @@ begin
       oobtAsteroid:
       begin
          if OrbitalZone in[hzInner..hzIntermediary]
-         then WorkingFloat:=0.3 + ( ( FCFcF_Random_DoInteger( 99 ) + 1 ) * 0.01 )
+         then WorkingFloat:=0.3 + ( ( FCFcF_Random_DoInteger( 99 ) + 1 ) * 0.01 )//1.3
          else if OrbitalZone = hzOuter
-         then WorkingFloat:=( 0.1 + ( ( FCFcF_Random_DoInteger( 99 ) + 1 ) * 0.005 ) ) * 0.5;
+         then WorkingFloat:=0.1 + ( ( FCFcF_Random_DoInteger( 99 ) + 1 ) * 0.005 );//0.6
          WorkingFloat:=WorkingFloat * FCCdiDensityEqEarth;
       end;
-      
+
       oobtTelluricPlanet:
       begin
          if OrbitalZone in[hzInner..hzIntermediary]
-         then WorkingFloat:=0.3 + ( ( FCFcF_Random_DoInteger( 99 ) + 1 ) * 0.01 )
+         then WorkingFloat:=0.54 + ( ( FCFcF_Random_DoInteger( 99 ) + 1 ) * 0.0076 )//1.3
          else if OrbitalZone = hzOuter
-         then WorkingFloat:=0.1 + ( ( FCFcF_Random_DoInteger( 99 ) + 1 ) * 0.005 );
-         if WorkingFloat<0.54
-         then WorkingFloat:=0.54 +( FCFcF_Random_DoInteger( 99 ) * 0.001 );
+         then WorkingFloat:=0.3 + ( ( FCFcF_Random_DoInteger( 99 ) + 1 ) * 0.0035 );
          WorkingFloat:=WorkingFloat * FCCdiDensityEqEarth;
       end;
-      
+
       oobtGaseousPlanet: WorkingFloat:=FCFcF_Random_DoInteger( 1351 ) + 579;
    end;
    Result:=round( WorkingFloat );
 end;
 
-function FCFfG_Diameter_Calculation( 
+function FCFfG_Diameter_Calculation(
    const ObjectType: TFCEduOrbitalObjectBasicTypes;
    const OrbitalZone: TFCEduHabitableZones
    ): extended;
 {:Purpose: calculate the orbital object's diameter.
-   -Additions-
+   Additions:
+      -2013Apr20- *mod: adjustments.
 }
    var
       WorkingFloat: extended;
@@ -235,7 +235,7 @@ begin
       oobtTelluricPlanet:
       begin
          case OrbitalZone of
-            hzInner: WorkingFloat:=FCFcF_Random_DoInteger( 5110 ) + 2000;
+            hzInner: WorkingFloat:=FCFcF_Random_DoInteger( 18409 ) + 2000;//5110 ) + 2000;
             
             hzIntermediary: WorkingFloat:=FCFcF_Random_DoInteger( 29676 ) + 2324;
             
