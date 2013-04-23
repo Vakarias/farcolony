@@ -60,11 +60,11 @@ function FCFfG_AsteroidsBelt_CalculateDiameter( const Distance: extended ): exte
 /// <param name="ObjectType">basic type of the object</param>
 /// <param name="OrbitalZone">orbital zone in which the object is</param>
 /// <returns>the density in kg</returns>   
-/// <remarks>format [x.xxx]</remarks>
-function FCFfG_Density_Calculation( 
+/// <remarks>format is rounded</remarks>
+function FCFfG_Density_Calculation(
    const ObjectType: TFCEduOrbitalObjectBasicTypes;
    const OrbitalZone: TFCEduHabitableZones
-   ): extended;
+   ): integer;
 
 ///<summary>
 ///   calculate the orbital object's diameter
@@ -119,15 +119,13 @@ function FCFfG_Mass_Calculation(
 ///<summary>
 ///   calculate the orbital object's rotation period
 ///</summary>
-/// <param name=""></param>
-/// <param name=""></param>
-/// <param name=""></param>
+/// <param name="Star">star index #</param>
+/// <param name="OrbitalObject">orbital object index #</param>
 /// <returns>the rotation period in hours</returns>
-/// <remarks>format [x.]</remarks>
+/// <remarks>format [x.xx]</remarks>
 function FCFfG_RotationPeriod_Calculation(
-   const StarMass
-         ,StarLuminosity
-         ,OrbitalObjectDistance: extended
+   const Star
+         ,OrbitalObject: integer
    ): extended;
 
 //===========================END FUNCTIONS SECTION==========================================
@@ -182,7 +180,7 @@ end;
 function FCFfG_Density_Calculation( 
    const ObjectType: TFCEduOrbitalObjectBasicTypes;
    const OrbitalZone: TFCEduHabitableZones
-   ): extended;
+   ): integer;
 {:Purpose: calculate the orbital object's density.
    Additions:
       -2013Apr20- *mod: adjustments.
@@ -328,37 +326,58 @@ begin
 end;
 
 function FCFfG_RotationPeriod_Calculation(
-   const StarMass
-         ,StarLuminosity
-         ,OrbitalObjectDistance: extended
+   const Star
+         ,OrbitalObject: integer
    ): extended;
+{:Purpose: calculate the orbital object's rotation period.
+   Additions:
+}
+   var
+      Probability: integer;
+
+      CalculatedRotationPeriod
+      ,ShortestPeriod
+      ,StarAge
+      ,TidalFinal
+      ,TidalForce: extended;
 begin
+   Result:=0;
+   ShortestPeriod:=sqrt( ( 2 * Pi ) / ( 0.19 * FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_gravity * 9.807 ) );
+   TidalForce:=( FCDduStarSystem[0].SS_stars[Star].S_mass * 26640000 ) /   power( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isNotSat_distanceFromStar * 400, 3 );
+   StarAge:=( ( 10.1 * FCDduStarSystem[0].SS_stars[Star].S_mass ) / FCDduStarSystem[0].SS_stars[Star].S_luminosity ) / 2.244;
+   Probability:=FCFcF_Random_DoInteger( 9 ) + 1;
+   TidalFinal:=( ( 0.83 + ( Probability * 0.03 ) ) * TidalForce * StarAge ) /  6.6;
+   if TidalFinal > 1 then
+   begin
+      if TidalForce>=1 then
+      begin
+         if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isNotSat_eccentricity < 0.21
+         then CalculatedRotationPeriod:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_revolutionPeriod * 24
+         else if ( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isNotSat_eccentricity >= 0.21 )
+            and ( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isNotSat_eccentricity < 0.39 )
+         then CalculatedRotationPeriod:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_revolutionPeriod * 16 //( revol * 2 / 3 ) * 24
+         else if ( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isNotSat_eccentricity >= 0.39 )
+            and ( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isNotSat_eccentricity < 0.57 )
+         then CalculatedRotationPeriod:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_revolutionPeriod * 12 //( revol * 0.5 ) * 24
+         else if ( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isNotSat_eccentricity >= 0.57 )
+            and ( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isNotSat_eccentricity < 0.72 )
+         then CalculatedRotationPeriod:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_revolutionPeriod * 9.6 //( revol * 0.4 ) * 24
+         else if ( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isNotSat_eccentricity >= 0.72 )
+            and ( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isNotSat_eccentricity < 0.87 )
+         then CalculatedRotationPeriod:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_revolutionPeriod * 8 //( revol * 1 / 3 ) * 24
+         else if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isNotSat_eccentricity >= 0.87
+         then CalculatedRotationPeriod:=( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_revolutionPeriod * 2 / 7 ) * 24; //no simplification for this one
+      end
+      else begin
+      end;
+   end
+   else begin
+   end; //==END== else of: if TidalFinal > 1 ==//
    {plan_mass:=0;
-        if (TabOrbit[OrbDBCounter].TypeAstre=1)
-            or (TabOrbit[OrbDBCounter].TypeAstre=2) then TabOrbit[OrbDBCounter].PerRot:=0
-        else if TabOrbit[OrbDBCounter].TypeAstre>5 then begin
-            try
-                try
-                    shortest_period_in_hrs:=sqrt((2*pi)/(0.19*TabOrbit[OrbDBCounter].Grav*9.81));
-                    tidal_force:=(StarClone_Mass*26640000)/power(TabOrbit[OrbDBCounter].Distance*400,3);
-                    OCCA_Proba:=1;
-                finally
-                    tidal_proba:=((0.83+(OCCA_Proba*0.03))*tidal_force*StarClone_Age)/6.6;
-                end;
-            finally
                 if tidal_proba>1 then begin
-                    try
+                    try         WARNING' CALCULATION ARE BAD (refers to the doc):
                         if tidal_force>=1 then begin
-                            if Taborbit[OrbDBCounter].Ecc<0.21 then OCCA_revol:=TabOrbit[OrbDBCounter].Revol*24
-                            else if (TabOrbit[OrbDBCounter].Ecc>=0.21)
-                                and (TabOrbit[OrbDBCounter].Ecc<0.39) then OCCA_revol:=(TabOrbit[OrbDBCounter].Revol/1.5)*24
-                            else if (TabOrbit[OrbDBCounter].Ecc>=0.39)
-                                and (TabOrbit[OrbDBCounter].Ecc<0.57) then OCCA_revol:=(TabOrbit[OrbDBCounter].Revol*0.5)*24
-                            else if (TabOrbit[OrbDBCounter].Ecc>=0.57)
-                                and (TabOrbit[OrbDBCounter].Ecc<0.72) then OCCA_revol:=(TabOrbit[OrbDBCounter].Revol/2.5)*24
-                            else if (TabOrbit[OrbDBCounter].Ecc>=0.72)
-                                and (TabOrbit[OrbDBCounter].Ecc<0.87) then OCCA_revol:=(TabOrbit[OrbDBCounter].Revol/3)*24
-                            else if TabOrbit[OrbDBCounter].Ecc>=0.87 then OCCA_revol:=(TabOrbit[OrbDBCounter].Revol/3.5)*24;
+
                             if OCCA_revol<shortest_period_in_hrs then OCCA_revol:=shortest_period_in_hrs*(1+(4*random(10)));
                         end
                         else OCCA_revol:=0;

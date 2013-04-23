@@ -581,9 +581,9 @@ type TFCRduOrbitalObject = record
    {.diameter in km RTO-1}
    OO_diameter: extended;
    {.density in kg/m3}
-   OO_density: extended;
+   OO_density: integer;
    ///<summary>
-   ///   mass in Earth mass equivalent RTO-6
+   ///   mass in Earth mass equivalent RTO-10 asteroids and -4 for planets
    ///</summary>
    OO_mass: extended;
    ///<summary>

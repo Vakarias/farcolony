@@ -1541,7 +1541,7 @@ begin
                if EnumIndex=-1
                then raise Exception.Create( 'bad orbital object type: '+XMLOrbitalObject.Attributes['ootype'] );
                FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_diameter:=StrToFloat( XMLOrbitalObject.Attributes['oodiam'], FCVdiFormat );
-               FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_density:=StrToFloat( XMLOrbitalObject.Attributes['oodens'], FCVdiFormat );
+               FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_density:=XMLOrbitalObject.Attributes['oodens'];
                FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_mass:=StrToFloat( XMLOrbitalObject.Attributes['oomass'], FCVdiFormat );
                FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_gravity:=StrToFloat( XMLOrbitalObject.Attributes['oograv'], FCVdiFormat );
                FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_escapeVelocity:=StrToFloat( XMLOrbitalObject.Attributes['ooescvel'], FCVdiFormat );
@@ -1737,7 +1737,7 @@ begin
                      if EnumIndex=-1
                      then raise Exception.Create( 'bad (sat) orbital object type: '+XMSatellite.Attributes['sattype'] );
                      FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_diameter:=StrToFloat( XMSatellite.Attributes['satdiam'], FCVdiFormat );
-                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_density:=StrToFloat( XMSatellite.Attributes['satdens'], FCVdiFormat );
+                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_density:=XMSatellite.Attributes['satdens'];
                      FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_mass:=StrToFloat( XMSatellite.Attributes['satmass'], FCVdiFormat );
                      FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_gravity:=StrToFloat( XMSatellite.Attributes['satgrav'], FCVdiFormat );
                      FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_escapeVelocity:=StrToFloat( XMSatellite.Attributes['satescvel'], FCVdiFormat );

@@ -215,11 +215,11 @@ procedure FCmfC_OrbitPicker_DensityUpdate;
 begin
    CurrentObject:=FCWinFUG.TOO_OrbitalObjectPicker.ItemIndex+1;
    case FCWinFUG.TOO_StarPicker.ItemIndex of
-      0: FCDfdMainStarObjectsList[CurrentObject].OO_density:=strtofloat( FCWinFUG.COO_Density.Text );
+      0: FCDfdMainStarObjectsList[CurrentObject].OO_density:=strtoint( FCWinFUG.COO_Density.Text );
 
-      1: FCDfdComp1StarObjectsList[CurrentObject].OO_density:=strtofloat( FCWinFUG.COO_Density.Text );
+      1: FCDfdComp1StarObjectsList[CurrentObject].OO_density:=strtoint( FCWinFUG.COO_Density.Text );
 
-      2: FCDfdComp2StarObjectsList[CurrentObject].OO_density:=strtofloat( FCWinFUG.COO_Density.Text );
+      2: FCDfdComp2StarObjectsList[CurrentObject].OO_density:=strtoint( FCWinFUG.COO_Density.Text );
    end;
 end;
 
