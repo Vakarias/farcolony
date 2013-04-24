@@ -187,6 +187,7 @@ begin
    end;
    FCDduStarSystem:=nil;
    SetLength(FCDduStarSystem, 1);
+   FCWinFUG.WF_ConfigurationMultiTab.ActivePageIndex:=0;
 end;
 
 procedure FCmfC_OrbitPicker_AlbedoUpdate;

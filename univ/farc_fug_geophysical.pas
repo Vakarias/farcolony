@@ -116,19 +116,15 @@ function FCFfG_Mass_Calculation(
    const isAsteroid: boolean
    ): extended;
 
+//===========================END FUNCTIONS SECTION==========================================
+
 ///<summary>
 ///   calculate the orbital object's rotation period
 ///</summary>
 /// <param name="Star">star index #</param>
 /// <param name="OrbitalObject">orbital object index #</param>
-/// <returns>the rotation period in hours</returns>
 /// <remarks>format [x.xx]</remarks>
-function FCFfG_RotationPeriod_Calculation(
-   const Star
-         ,OrbitalObject: integer
-   ): extended;
-
-//===========================END FUNCTIONS SECTION==========================================
+procedure FCMfG_RotationPeriod_Calculation( const Star, OrbitalObject: integer );
 
 implementation
 
@@ -312,6 +308,7 @@ function FCFfG_Mass_Calculation(
    ): extended;
 {:Purpose: calculate the orbital object's mass equivalent.
     Additions:
+      -2013Apr23- *fix: forgot to put the density in the calculations...
 }
    var
       CalculatedMass
@@ -319,16 +316,15 @@ function FCFfG_Mass_Calculation(
 begin
    Result:=0;
    RadiusInMeters:=Diameter * 500;
-   CalculatedMass:=( 4/3 * Pi * power( RadiusInMeters, 3 ) ) / FCCdiMassEqEarth;
+   CalculatedMass:=( ( 4 / 3 * Pi * power( RadiusInMeters, 3 ) ) * Density ) / FCCdiMassEqEarth;
    if not isAsteroid
    then Result:=FCFcF_Round( rttCustom4Decimal, CalculatedMass )
    else Result:=FCFcF_Round( rttMassAsteroid, CalculatedMass );
 end;
 
-function FCFfG_RotationPeriod_Calculation(
-   const Star
-         ,OrbitalObject: integer
-   ): extended;
+//===========================END FUNCTIONS SECTION==========================================
+
+procedure FCMfG_RotationPeriod_Calculation( const Star, OrbitalObject: integer );
 {:Purpose: calculate the orbital object's rotation period.
    Additions:
 }
@@ -336,17 +332,23 @@ function FCFfG_RotationPeriod_Calculation(
       Probability: integer;
 
       CalculatedRotationPeriod
+      ,CoefPeriod
+      ,KStar
+      ,MassInG
+      ,RadiusInCm
       ,ShortestPeriod
       ,StarAge
       ,TidalFinal
-      ,TidalForce: extended;
+      ,TidalForce
+      ,VelFinal
+      ,Velocity: extended;
 begin
-   Result:=0;
    ShortestPeriod:=sqrt( ( 2 * Pi ) / ( 0.19 * FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_gravity * 9.807 ) );
    TidalForce:=( FCDduStarSystem[0].SS_stars[Star].S_mass * 26640000 ) /   power( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isNotSat_distanceFromStar * 400, 3 );
    StarAge:=( ( 10.1 * FCDduStarSystem[0].SS_stars[Star].S_mass ) / FCDduStarSystem[0].SS_stars[Star].S_luminosity ) / 2.244;
    Probability:=FCFcF_Random_DoInteger( 9 ) + 1;
    TidalFinal:=( ( 0.83 + ( Probability * 0.03 ) ) * TidalForce * StarAge ) /  6.6;
+   {.case if tidally locked}
    if TidalFinal > 1 then
    begin
       if TidalForce>=1 then
@@ -367,60 +369,44 @@ begin
          then CalculatedRotationPeriod:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_revolutionPeriod * 8 //( revol * 1 / 3 ) * 24
          else if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isNotSat_eccentricity >= 0.87
          then CalculatedRotationPeriod:=( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_revolutionPeriod * 2 / 7 ) * 24; //no simplification for this one
+         if CalculatedRotationPeriod < ShortestPeriod
+         then CalculatedRotationPeriod:=ShortestPeriod * ( 1 + ( 4 * FCFcF_Random_DoInteger( 10 ) ) );
       end
-      else begin
-      end;
+      else CalculatedRotationPeriod:=0;
    end
    else begin
+      RadiusInCm:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_diameter * 100000;
+      MassInG:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_mass * FCCdiMassEqEarth * 1000;
+      KStar:=( ( 0.19 * FCDduStarSystem[0].SS_stars[Star].S_mass ) / FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isNotSat_distanceFromStar ) * FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_gravity;
+      Velocity:=sqrt( ( 2 * 1.46e-19 * MassInG ) / ( KStar * sqr( RadiusInCm ) ) );
+      VelFinal:=1 / ( ( Velocity / ( 2 * Pi ) ) * 3600 );
+      Probability:=FCFcF_Random_DoInteger( 99 ) + 1;
+      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_basicType<oobtGaseousPlanet then
+      begin
+         case Probability of
+            1..35: CoefPeriod:=1;
+
+            36..55: CoefPeriod:=1 + ( FCFcF_Random_DoInteger( 3 ) / 10 );
+
+            56..85: CoefPeriod:=30 + FCFcF_Random_DoInteger( 10 );
+
+            86..100: CoefPeriod:=110 + FCFcF_Random_DoInteger( 110 );
+         end;
+      end
+      else begin
+         case Probability of
+            1..40: CoefPeriod:=1;
+
+            41..60: CoefPeriod:=1 + ( FCFcF_Random_DoInteger( 6 ) / 10 );
+
+            61..100: CoefPeriod:=3 + ( FCFcF_Random_DoInteger( 10 ) / 10 );
+         end;
+      end;
+      CalculatedRotationPeriod:=VelFinal * CoefPeriod;
+      if CalculatedRotationPeriod < ShortestPeriod
+      then CalculatedRotationPeriod:=ShortestPeriod * ( 1 + ( 4 * FCFcF_Random_DoInteger( 10 ) ) );
    end; //==END== else of: if TidalFinal > 1 ==//
-   {plan_mass:=0;
-                if tidal_proba>1 then begin
-                    try         WARNING' CALCULATION ARE BAD (refers to the doc):
-                        if tidal_force>=1 then begin
-
-                            if OCCA_revol<shortest_period_in_hrs then OCCA_revol:=shortest_period_in_hrs*(1+(4*random(10)));
-                        end
-                        else OCCA_revol:=0;
-                    finally
-                        TabOrbit[OrbDBCounter].PerRot:=roundto(OCCA_revol,-2);
-                    end;
-                end
-                else if tidal_proba<=1 then begin
-                    try
-                        try
-                            j:=1.46E-19;
-                            eq_radius_in_cm:=TabOrbit[OrbDBCounter].Diam*100000;
-                            if TabOrbit[OrbDBCounter].TypeAstre=6 then plan_mass:=TabOrbit[OrbDBCounter].Mass*10e20*1000
-                            else if TabOrbit[OrbDBCounter].TypeAstre<>6 then plan_mass:=TabOrbit[OrbDBCounter].Mass
-                                *5.976e24*1000;
-                            k2:=((0.19*StarClone_Mass)/TabOrbit[OrbDBCounter].Distance)*TabOrbit[OrbDBCounter].Grav;
-                        finally
-                            OCCA_revol:=sqrt(2*j*plan_mass/(k2*sqr(eq_radius_in_cm)));
-                            OCCA_revol:=1/((OCCA_revol/(2*pi))*3600);
-                        end;
-                        OCCA_Proba:=random(99)+1;
-                        if TabOrbit[OrbDBCounter].TypeAstre<31 then begin
-                            if OCCA_Proba <=35 then revol1:=1
-                            else if (OCCA_Proba>35) and (OCCA_Proba<=55) then revol1:=1+(random(3)/10)
-                            else if (OCCA_Proba>55) and (OCCA_Proba<=85) then revol1:=30+random(10)
-                            else if OCCA_Proba>85 then revol1:=110+random(110);
-                        end
-                        else if TabOrbit[OrbDBCounter].TypeAstre>=31 then begin
-                            if OCCA_Proba<=40 then revol1:=1
-                            else if (OCCA_Proba>40) and (OCCA_Proba<=60) then revol1:=1+(random(6)/10)
-                            else if OCCA_Proba>60 then revol1:=1+(random(10)/10);
-                        end;
-                        try
-                            OCCA_revol:=OCCA_revol*revol1;
-                        finally
-                            if OCCA_revol<shortest_period_in_hrs then OCCA_revol:=shortest_period_in_hrs*(1+(4*random(10)));
-                        end;
-                    finally
-                        TabOrbit[OrbDBCounter].PerRot:=roundto(OCCA_revol,-2); }
+   FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_rotationPeriod:=FCFcF_Round( rttCustom2Decimal, CalculatedRotationPeriod );
 end;
-
-//===========================END FUNCTIONS SECTION==========================================
-
-
 
 end.

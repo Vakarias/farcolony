@@ -119,6 +119,8 @@ type
     COO_InclAxis: TLabeledEdit;
     COO_MagField: TLabeledEdit;
     COO_Albedo: TLabeledEdit;
+    TOO_Results: TAdvTabSheet;
+    AdvGroupBox1: TAdvGroupBox;
     procedure WF_GenerateButtonClick(Sender: TObject);
     procedure TMS_OrbitGenerationClick(Sender: TObject);
     procedure TC1S_EnableGroupCompanion1Click(Sender: TObject);
@@ -180,6 +182,8 @@ var
 
    DumpString: string;
 begin
+   FCDduStarSystem:=nil;
+   SetLength(FCDduStarSystem, 1);
    if (SSSG_StellarSysToken.Text<>'stelsys')
       and (SSSG_LocationX.Text<>'')
       and (SSSG_LocationY.Text<>'')

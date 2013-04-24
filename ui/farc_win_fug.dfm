@@ -16,117 +16,33 @@ object FCWinFUG: TFCWinFUG
   OldCreateOrder = False
   PixelsPerInch = 96
   TextHeight = 13
-  object WF_ConfigurationMainTitle: TLabel
-    Left = 176
-    Top = 23
-    Width = 288
-    Height = 16
-    Caption = 'Stellar System / Orbital Objects Configuration'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clBlack
-    Font.Height = -13
-    Font.Name = 'Existence Light'
-    Font.Style = [fsBold]
-    ParentFont = False
-  end
-  object WF_XMLOutput: TAdvMemo
-    Left = 615
-    Top = 0
-    Width = 409
-    Height = 768
-    Cursor = crIBeam
-    ActiveLineSettings.ShowActiveLine = False
-    ActiveLineSettings.ShowActiveLineIndicator = False
-    Align = alRight
-    Anchors = [akLeft, akTop, akRight, akBottom]
-    AutoCompletion.Active = False
-    AutoCompletion.AutoDisplay = False
-    AutoCompletion.Font.Charset = DEFAULT_CHARSET
-    AutoCompletion.Font.Color = clWindowText
-    AutoCompletion.Font.Height = -11
-    AutoCompletion.Font.Name = 'Tahoma'
-    AutoCompletion.Font.Style = []
-    AutoCorrect.Active = False
-    AutoCorrect.OldValue.Strings = (
-      '')
-    AutoCorrect.NewValue.Strings = (
-      '')
-    AutoHintParameterPosition = hpBelowCode
-    AutoIndent = False
-    AutoExpand = False
-    BorderStyle = bsSingle
-    CodeFolding.Enabled = False
-    CodeFolding.LineColor = clGray
-    Ctl3D = False
-    DelErase = False
-    EnhancedHomeKey = False
-    Gutter.DigitCount = 4
-    Gutter.Font.Charset = DEFAULT_CHARSET
-    Gutter.Font.Color = clWindowText
-    Gutter.Font.Height = -13
-    Gutter.Font.Name = 'Courier New'
-    Gutter.Font.Style = []
-    Gutter.GutterWidth = 30
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clBlack
-    Font.Height = -13
-    Font.Name = 'COURIER NEW'
-    Font.Style = []
-    HiddenCaret = False
-    Lines.Strings = (
-      '')
-    MarkerList.UseDefaultMarkerImageIndex = False
-    MarkerList.DefaultMarkerImageIndex = -1
-    MarkerList.ImageTransparentColor = 33554432
-    PrintOptions.MarginLeft = 0
-    PrintOptions.MarginRight = 0
-    PrintOptions.MarginTop = 0
-    PrintOptions.MarginBottom = 0
-    PrintOptions.PageNr = False
-    PrintOptions.PrintLineNumbers = False
-    ReadOnly = True
-    RightMarginColor = 14869218
-    ScrollHint = False
-    SelColor = clWhite
-    SelBkColor = clNavy
-    ShowRightMargin = True
-    SmartTabs = False
-    TabOrder = 0
-    TabSize = 4
-    TabStop = True
-    TrimTrailingSpaces = False
-    UndoLimit = 1
-    UrlAware = False
-    UrlStyle.TextColor = clBlue
-    UrlStyle.BkColor = clWhite
-    UrlStyle.Style = [fsUnderline]
-    UseStyler = False
-    Version = '2.2.3.1'
-    WordWrap = wwNone
-  end
   object WF_ConfigurationMultiTab: TAdvPageControl
-    Left = 25
-    Top = 39
-    Width = 577
-    Height = 1500
-    ActivePage = CMT_TabOrbitalObjects
+    Left = 0
+    Top = 41
+    Width = 1024
+    Height = 727
+    ActivePage = CMT_TabStellarStarSystem
     ActiveFont.Charset = DEFAULT_CHARSET
     ActiveFont.Color = clWindowText
     ActiveFont.Height = -11
     ActiveFont.Name = 'Tahoma'
     ActiveFont.Style = []
+    Align = alClient
     TabBackGroundColor = clBtnFace
     TabMargin.RightMargin = 0
     TabOverlap = 0
     Version = '1.6.2.1'
-    TabOrder = 1
+    TabOrder = 0
     TabStop = False
+    ExplicitTop = 352
+    ExplicitHeight = 416
     object CMT_TabStellarStarSystem: TAdvTabSheet
       Caption = 'Stellar and Star System'
       Color = clSilver
       ColorTo = clNone
       TabColor = clBtnFace
       TabColorTo = clNone
+      ExplicitHeight = 200
       object TSSS_StellarStarSysGroup: TAdvGroupBox
         Left = 16
         Top = 3
@@ -1279,6 +1195,8 @@ object FCWinFUG: TFCWinFUG
       ColorTo = clNone
       TabColor = clBtnFace
       TabColorTo = clNone
+      ExplicitWidth = 569
+      ExplicitHeight = 1472
       object TOO_StarPicker: TRadioGroup
         Left = 3
         Top = 3
@@ -1315,11 +1233,11 @@ object FCWinFUG: TFCWinFUG
           Width = 55
           Height = 19
           Color = clWhite
-          EditLabel.Width = 51
+          EditLabel.Width = 36
           EditLabel.Height = 13
-          EditLabel.Caption = 'Density Eq'
+          EditLabel.Caption = 'Density'
           EditLabel.Layout = tlCenter
-          TabOrder = 0
+          TabOrder = 6
           OnKeyDown = COO_DensityKeyDown
         end
         object COO_Diameter: TLabeledEdit
@@ -1332,7 +1250,7 @@ object FCWinFUG: TFCWinFUG
           EditLabel.Height = 13
           EditLabel.Caption = 'Diameter'
           EditLabel.Layout = tlCenter
-          TabOrder = 1
+          TabOrder = 5
           OnKeyDown = COO_DiameterKeyDown
         end
         object COO_Distance: TLabeledEdit
@@ -1345,7 +1263,7 @@ object FCWinFUG: TFCWinFUG
           EditLabel.Height = 13
           EditLabel.Caption = 'Distance'
           EditLabel.Layout = tlCenter
-          TabOrder = 2
+          TabOrder = 1
           OnKeyDown = COO_DistanceKeyDown
         end
         object COO_Gravity: TLabeledEdit
@@ -1358,7 +1276,7 @@ object FCWinFUG: TFCWinFUG
           EditLabel.Height = 13
           EditLabel.Caption = 'Gravity'
           EditLabel.Layout = tlCenter
-          TabOrder = 3
+          TabOrder = 8
           OnKeyDown = COO_GravityKeyDown
         end
         object COO_Mass: TLabeledEdit
@@ -1371,7 +1289,7 @@ object FCWinFUG: TFCWinFUG
           EditLabel.Height = 13
           EditLabel.Caption = 'Mass Eq'
           EditLabel.Layout = tlCenter
-          TabOrder = 4
+          TabOrder = 7
           OnKeyDown = COO_MassKeyDown
         end
         object COO_ObjecType: TAdvComboBox
@@ -1406,7 +1324,7 @@ object FCWinFUG: TFCWinFUG
           LabelFont.Name = 'Tahoma'
           LabelFont.Style = []
           ParentFont = False
-          TabOrder = 5
+          TabOrder = 2
           OnChange = COO_ObjecTypeChange
         end
         object COO_Token: TLabeledEdit
@@ -1419,7 +1337,7 @@ object FCWinFUG: TFCWinFUG
           EditLabel.Height = 13
           EditLabel.Caption = 'Token'
           EditLabel.Layout = tlCenter
-          TabOrder = 6
+          TabOrder = 0
           OnKeyDown = COO_TokenKeyDown
         end
         object COO_EscapeVel: TLabeledEdit
@@ -1432,7 +1350,7 @@ object FCWinFUG: TFCWinFUG
           EditLabel.Height = 13
           EditLabel.Caption = 'Escape Vel'
           EditLabel.Layout = tlCenter
-          TabOrder = 7
+          TabOrder = 9
           OnKeyDown = COO_EscapeVelKeyDown
         end
         object COO_RotationPeriod: TLabeledEdit
@@ -1445,7 +1363,7 @@ object FCWinFUG: TFCWinFUG
           EditLabel.Height = 13
           EditLabel.Caption = 'Rotation Period'
           EditLabel.Layout = tlCenter
-          TabOrder = 8
+          TabOrder = 3
           OnKeyDown = COO_RotationPeriodKeyDown
         end
         object COO_InclAxis: TLabeledEdit
@@ -1458,7 +1376,7 @@ object FCWinFUG: TFCWinFUG
           EditLabel.Height = 13
           EditLabel.Caption = 'Inclination Axis'
           EditLabel.Layout = tlCenter
-          TabOrder = 9
+          TabOrder = 4
           OnKeyDown = COO_InclAxisKeyDown
         end
         object COO_MagField: TLabeledEdit
@@ -1498,65 +1416,175 @@ object FCWinFUG: TFCWinFUG
         OnClick = TOO_OrbitalObjectPickerClick
       end
     end
+    object TOO_Results: TAdvTabSheet
+      Caption = 'Results'
+      Color = clSilver
+      ColorTo = clNone
+      TabColor = clBtnFace
+      TabColorTo = clNone
+      ExplicitLeft = 24
+      ExplicitTop = 0
+      ExplicitWidth = 100
+      ExplicitHeight = 100
+      object WF_XMLOutput: TAdvMemo
+        Left = 0
+        Top = 0
+        Width = 1016
+        Height = 699
+        Cursor = crIBeam
+        ActiveLineSettings.ShowActiveLine = False
+        ActiveLineSettings.ShowActiveLineIndicator = False
+        Align = alClient
+        AutoCompletion.Active = False
+        AutoCompletion.AutoDisplay = False
+        AutoCompletion.Font.Charset = DEFAULT_CHARSET
+        AutoCompletion.Font.Color = clWindowText
+        AutoCompletion.Font.Height = -11
+        AutoCompletion.Font.Name = 'Tahoma'
+        AutoCompletion.Font.Style = []
+        AutoCorrect.Active = False
+        AutoCorrect.OldValue.Strings = (
+          '')
+        AutoCorrect.NewValue.Strings = (
+          '')
+        AutoHintParameterPosition = hpBelowCode
+        AutoIndent = False
+        AutoExpand = False
+        BorderStyle = bsSingle
+        CodeFolding.Enabled = False
+        CodeFolding.LineColor = clGray
+        Ctl3D = False
+        DelErase = False
+        EnhancedHomeKey = False
+        Gutter.DigitCount = 4
+        Gutter.Font.Charset = DEFAULT_CHARSET
+        Gutter.Font.Color = clWindowText
+        Gutter.Font.Height = -13
+        Gutter.Font.Name = 'Courier New'
+        Gutter.Font.Style = []
+        Gutter.GutterWidth = 30
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -13
+        Font.Name = 'COURIER NEW'
+        Font.Style = []
+        HiddenCaret = False
+        Lines.Strings = (
+          '')
+        MarkerList.UseDefaultMarkerImageIndex = False
+        MarkerList.DefaultMarkerImageIndex = -1
+        MarkerList.ImageTransparentColor = 33554432
+        PrintOptions.MarginLeft = 0
+        PrintOptions.MarginRight = 0
+        PrintOptions.MarginTop = 0
+        PrintOptions.MarginBottom = 0
+        PrintOptions.PageNr = False
+        PrintOptions.PrintLineNumbers = False
+        ReadOnly = True
+        RightMarginColor = 14869218
+        ScrollHint = False
+        SelColor = clWhite
+        SelBkColor = clNavy
+        ShowRightMargin = True
+        SmartTabs = False
+        TabOrder = 0
+        TabSize = 4
+        TabStop = True
+        TrimTrailingSpaces = False
+        UndoLimit = 1
+        UrlAware = False
+        UrlStyle.TextColor = clBlue
+        UrlStyle.BkColor = clWhite
+        UrlStyle.Style = [fsUnderline]
+        UseStyler = False
+        Version = '2.2.3.1'
+        WordWrap = wwNone
+        ExplicitLeft = 615
+        ExplicitWidth = 409
+        ExplicitHeight = 368
+      end
+    end
   end
-  object WF_GenerateButton: TAdvGlowButton
-    Left = 497
+  object AdvGroupBox1: TAdvGroupBox
+    Left = 0
     Top = 0
-    Width = 105
-    Height = 33
-    Caption = 'Generate'
-    NotesFont.Charset = DEFAULT_CHARSET
-    NotesFont.Color = clWindowText
-    NotesFont.Height = -11
-    NotesFont.Name = 'Tahoma'
-    NotesFont.Style = []
-    TabOrder = 2
-    OnClick = WF_GenerateButtonClick
-    Appearance.ColorChecked = 16111818
-    Appearance.ColorCheckedTo = 16367008
-    Appearance.ColorDisabled = 15921906
-    Appearance.ColorDisabledTo = 15921906
-    Appearance.ColorDown = 16111818
-    Appearance.ColorDownTo = 16367008
-    Appearance.ColorHot = 16117985
-    Appearance.ColorHotTo = 16372402
-    Appearance.ColorMirrorHot = 16107693
-    Appearance.ColorMirrorHotTo = 16775412
-    Appearance.ColorMirrorDown = 16102556
-    Appearance.ColorMirrorDownTo = 16768988
-    Appearance.ColorMirrorChecked = 16102556
-    Appearance.ColorMirrorCheckedTo = 16768988
-    Appearance.ColorMirrorDisabled = 11974326
-    Appearance.ColorMirrorDisabledTo = 15921906
-  end
-  object AdvGlowButton1: TAdvGlowButton
-    Left = 1
-    Top = 0
-    Width = 105
-    Height = 33
-    Caption = 'Reset'
-    NotesFont.Charset = DEFAULT_CHARSET
-    NotesFont.Color = clWindowText
-    NotesFont.Height = -11
-    NotesFont.Name = 'Tahoma'
-    NotesFont.Style = []
-    TabOrder = 3
-    OnClick = AdvGlowButton1Click
-    Appearance.ColorChecked = 16111818
-    Appearance.ColorCheckedTo = 16367008
-    Appearance.ColorDisabled = 15921906
-    Appearance.ColorDisabledTo = 15921906
-    Appearance.ColorDown = 16111818
-    Appearance.ColorDownTo = 16367008
-    Appearance.ColorHot = 16117985
-    Appearance.ColorHotTo = 16372402
-    Appearance.ColorMirrorHot = 16107693
-    Appearance.ColorMirrorHotTo = 16775412
-    Appearance.ColorMirrorDown = 16102556
-    Appearance.ColorMirrorDownTo = 16768988
-    Appearance.ColorMirrorChecked = 16102556
-    Appearance.ColorMirrorCheckedTo = 16768988
-    Appearance.ColorMirrorDisabled = 11974326
-    Appearance.ColorMirrorDisabledTo = 15921906
+    Width = 1024
+    Height = 41
+    Align = alTop
+    Caption = 'AdvGroupBox1'
+    TabOrder = 1
+    object WF_ConfigurationMainTitle: TLabel
+      Left = 176
+      Top = 17
+      Width = 288
+      Height = 16
+      Caption = 'Stellar System / Orbital Objects Configuration'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Existence Light'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object AdvGlowButton1: TAdvGlowButton
+      Left = 1
+      Top = 0
+      Width = 105
+      Height = 33
+      Caption = 'Reset'
+      NotesFont.Charset = DEFAULT_CHARSET
+      NotesFont.Color = clWindowText
+      NotesFont.Height = -11
+      NotesFont.Name = 'Tahoma'
+      NotesFont.Style = []
+      TabOrder = 0
+      OnClick = AdvGlowButton1Click
+      Appearance.ColorChecked = 16111818
+      Appearance.ColorCheckedTo = 16367008
+      Appearance.ColorDisabled = 15921906
+      Appearance.ColorDisabledTo = 15921906
+      Appearance.ColorDown = 16111818
+      Appearance.ColorDownTo = 16367008
+      Appearance.ColorHot = 16117985
+      Appearance.ColorHotTo = 16372402
+      Appearance.ColorMirrorHot = 16107693
+      Appearance.ColorMirrorHotTo = 16775412
+      Appearance.ColorMirrorDown = 16102556
+      Appearance.ColorMirrorDownTo = 16768988
+      Appearance.ColorMirrorChecked = 16102556
+      Appearance.ColorMirrorCheckedTo = 16768988
+      Appearance.ColorMirrorDisabled = 11974326
+      Appearance.ColorMirrorDisabledTo = 15921906
+    end
+    object WF_GenerateButton: TAdvGlowButton
+      Left = 497
+      Top = 0
+      Width = 105
+      Height = 33
+      Caption = 'Generate'
+      NotesFont.Charset = DEFAULT_CHARSET
+      NotesFont.Color = clWindowText
+      NotesFont.Height = -11
+      NotesFont.Name = 'Tahoma'
+      NotesFont.Style = []
+      TabOrder = 1
+      OnClick = WF_GenerateButtonClick
+      Appearance.ColorChecked = 16111818
+      Appearance.ColorCheckedTo = 16367008
+      Appearance.ColorDisabled = 15921906
+      Appearance.ColorDisabledTo = 15921906
+      Appearance.ColorDown = 16111818
+      Appearance.ColorDownTo = 16367008
+      Appearance.ColorHot = 16117985
+      Appearance.ColorHotTo = 16372402
+      Appearance.ColorMirrorHot = 16107693
+      Appearance.ColorMirrorHotTo = 16775412
+      Appearance.ColorMirrorDown = 16102556
+      Appearance.ColorMirrorDownTo = 16768988
+      Appearance.ColorMirrorChecked = 16102556
+      Appearance.ColorMirrorCheckedTo = 16768988
+      Appearance.ColorMirrorDisabled = 11974326
+      Appearance.ColorMirrorDisabledTo = 15921906
+    end
   end
 end
