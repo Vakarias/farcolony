@@ -21,7 +21,7 @@ object FCWinFUG: TFCWinFUG
     Top = 41
     Width = 1024
     Height = 727
-    ActivePage = CMT_TabStellarStarSystem
+    ActivePage = CMT_TabOrbitalObjects
     ActiveFont.Charset = DEFAULT_CHARSET
     ActiveFont.Color = clWindowText
     ActiveFont.Height = -11
@@ -34,8 +34,6 @@ object FCWinFUG: TFCWinFUG
     Version = '1.6.2.1'
     TabOrder = 0
     TabStop = False
-    ExplicitTop = 352
-    ExplicitHeight = 416
     object CMT_TabStellarStarSystem: TAdvTabSheet
       Caption = 'Stellar and Star System'
       Color = clSilver
@@ -209,7 +207,6 @@ object FCWinFUG: TFCWinFUG
           EditLabel.Height = 13
           EditLabel.Caption = 'Diam. (Sun=1)'
           EditLabel.Layout = tlCenter
-          NumbersOnly = True
           TabOrder = 3
         end
         object TMS_StarMass: TLabeledEdit
@@ -222,7 +219,6 @@ object FCWinFUG: TFCWinFUG
           EditLabel.Height = 13
           EditLabel.Caption = 'Mass (Sun=1)'
           EditLabel.Layout = tlCenter
-          NumbersOnly = True
           TabOrder = 4
         end
         object TMS_StarLum: TLabeledEdit
@@ -235,7 +231,6 @@ object FCWinFUG: TFCWinFUG
           EditLabel.Height = 13
           EditLabel.Caption = 'Lum. (Sun=1)'
           EditLabel.Layout = tlCenter
-          NumbersOnly = True
           TabOrder = 5
         end
         object TMS_StarClass: TAdvComboBox
@@ -547,7 +542,6 @@ object FCWinFUG: TFCWinFUG
           EditLabel.Height = 13
           EditLabel.Caption = 'Diam. (Sun=1)'
           EditLabel.Layout = tlCenter
-          NumbersOnly = True
           TabOrder = 3
         end
         object TC1S_StarMass: TLabeledEdit
@@ -560,7 +554,6 @@ object FCWinFUG: TFCWinFUG
           EditLabel.Height = 13
           EditLabel.Caption = 'Mass (Sun=1)'
           EditLabel.Layout = tlCenter
-          NumbersOnly = True
           TabOrder = 4
         end
         object TC1S_StarLum: TLabeledEdit
@@ -573,7 +566,6 @@ object FCWinFUG: TFCWinFUG
           EditLabel.Height = 13
           EditLabel.Caption = 'Lum. (Sun=1)'
           EditLabel.Layout = tlCenter
-          NumbersOnly = True
           TabOrder = 5
         end
         object TC1S_StarClass: TAdvComboBox
@@ -904,7 +896,6 @@ object FCWinFUG: TFCWinFUG
           EditLabel.Height = 13
           EditLabel.Caption = 'Diam. (Sun=1)'
           EditLabel.Layout = tlCenter
-          NumbersOnly = True
           TabOrder = 3
         end
         object TC2S_StarMass: TLabeledEdit
@@ -917,7 +908,6 @@ object FCWinFUG: TFCWinFUG
           EditLabel.Height = 13
           EditLabel.Caption = 'Mass (Sun=1)'
           EditLabel.Layout = tlCenter
-          NumbersOnly = True
           TabOrder = 4
         end
         object TC2S_StarLum: TLabeledEdit
@@ -930,7 +920,6 @@ object FCWinFUG: TFCWinFUG
           EditLabel.Height = 13
           EditLabel.Caption = 'Lum. (Sun=1)'
           EditLabel.Layout = tlCenter
-          NumbersOnly = True
           TabOrder = 5
         end
         object TC2S_StarClass: TAdvComboBox

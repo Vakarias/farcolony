@@ -40,7 +40,7 @@ uses
 ///   calculate the orbital eccentricity
 ///</summary>
 ///   <returns>orbital eccentricity</returns>
-///   <remarks>format [x.xxx]</remarks>
+///   <remarks>format [x.xxxx]</remarks>
 function FCFfS_OrbitalEccentricity_Calculation: extended;
 
 ///<summary>
@@ -97,13 +97,14 @@ uses
 function FCFfS_OrbitalEccentricity_Calculation: extended;
 {:Purpose: calculate the orbital eccentricity.
     Additions:
+      -2013Apr23- *mod: start of experimental code tests.
 }
    var
-      Float: extended;
+//      Float: extended;
 begin
    Result:=0;
-   Float:=0.5 - ( power( FCFcF_Random_DoFloat, 0.077 ) / 2.005 );
-   Result:=FCFcF_Round( rttCustom3Decimal, Float );
+//   Float:=0.5 - ( power( random, 0.077 ) / 2.005 );//FCFcF_Random_DoFloat
+   Result:=FCFcF_Round( rttCustom4Decimal, Float );
 end;
 
 function FCFfS_OrbitalZone_Determining( const OrbitDistance, StarLuminosity: extended ): TFCEduHabitableZones;
@@ -1233,6 +1234,8 @@ begin
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_density:=0;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_mass:=0;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_gravity:=0;
+               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_escapeVelocity:=0;
+               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_rotationPeriod:=0;
             end
             {.for the rest of the basic types}
             else begin
@@ -1256,6 +1259,10 @@ begin
                end;
                if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_gravity=0
                then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_gravity:=FCFfG_Gravity_Calculation( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_diameter, FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_mass );
+               if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_escapeVelocity=0
+               then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_escapeVelocity:=FCFfG_EscapeVelocity_Calculation( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_diameter, FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_mass );
+               if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_rotationPeriod=0
+               then FCMfG_RotationPeriod_Calculation( CurrentStar, Count );
             end;
 
             {:DEV NOTES: geophysical data here.

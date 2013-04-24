@@ -219,7 +219,7 @@ begin
       if TMS_StarMass.Text=''
       then FCDduStarSystem[0].SS_stars[1].S_mass:=FCFfS_Mass_Calc(1)
       else if TMS_StarMass.Text<>''
-      then FCDduStarSystem[0].SS_stars[1].S_mass:=StrToInt(TMS_StarMass.Text);
+      then FCDduStarSystem[0].SS_stars[1].S_mass:=StrToFloat(TMS_StarMass.Text);
       if TMS_StarDiam.Text=''
       then FCDduStarSystem[0].SS_stars[1].S_diameter:=FCFfS_Diameter_Calc(1)
       else if TMS_StarDiam.Text<>''
@@ -232,9 +232,7 @@ begin
       FCRfdStarOrbits[1]:=TMS_OrbitGeneration.ItemIndex-1;
       if FCRfdStarOrbits[1]=1
       then FCRfdStarOrbits[1]:=StrToInt(TMS_OrbitGenerationNumberOrbits.Text);
-      if (CMT_TabCompanion1Star.Visible)
-         and (TC1S_StarToken.Text<>'star')
-      then
+      if CMT_TabCompanion1Star.Visible then
       begin
          if ( TC1S_StarToken.Text='' )
             or ( TC1S_StarToken.Text='star' )
@@ -248,7 +246,7 @@ begin
          if TC1S_StarMass.Text=''
          then FCDduStarSystem[0].SS_stars[2].S_mass:=FCFfS_Mass_Calc(2)
          else if TC1S_StarMass.Text<>''
-         then FCDduStarSystem[0].SS_stars[2].S_mass:=StrToInt(TC1S_StarMass.Text);
+         then FCDduStarSystem[0].SS_stars[2].S_mass:=StrToFloat(TC1S_StarMass.Text);
          if TC1S_StarDiam.Text=''
          then FCDduStarSystem[0].SS_stars[2].S_diameter:=FCFfS_Diameter_Calc(2)
          else if TC1S_StarDiam.Text<>''
@@ -262,9 +260,7 @@ begin
          FCRfdStarOrbits[2]:=TC1S_OrbitGeneration.ItemIndex-1;
          if FCRfdStarOrbits[2]=1
          then FCRfdStarOrbits[2]:=StrToInt(TC1S_OrbitGenerationNumberOrbits.Text);
-         if (CMT_TabCompanion2Star.Visible)
-            and (TC2S_StarToken.Text<>'star')
-         then
+         if CMT_TabCompanion2Star.Visible then
          begin
             if ( TC2S_StarToken.Text='' )
                or ( TC2S_StarToken.Text='star' )
@@ -278,7 +274,7 @@ begin
             if TC2S_StarMass.Text=''
             then FCDduStarSystem[0].SS_stars[3].S_mass:=FCFfS_Mass_Calc(3)
             else if TC2S_StarMass.Text<>''
-            then FCDduStarSystem[0].SS_stars[3].S_mass:=StrToInt(TC2S_StarMass.Text);
+            then FCDduStarSystem[0].SS_stars[3].S_mass:=StrToFloat(TC2S_StarMass.Text);
             if TC2S_StarDiam.Text=''
             then FCDduStarSystem[0].SS_stars[3].S_diameter:=FCFfS_Diameter_Calc(3)
             else if TC2S_StarDiam.Text<>''

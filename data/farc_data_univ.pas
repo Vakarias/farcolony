@@ -664,7 +664,7 @@ type TFCRduOrbitalObject = record
          ///</summary>
          OO_isNotSat_distanceFromStar: extended;
          ///<summary>
-         ///   orbit eccentricity in #.### format
+         ///   orbit eccentricity in #.#### format
          ///</summary>
          OO_isNotSat_eccentricity: extended;
          ///<summary>
