@@ -39,9 +39,10 @@ uses
 ///<summary>
 ///   calculate the orbital eccentricity
 ///</summary>
+///   <param name="SystemType">TFCRfdSystemType value</param>
 ///   <returns>orbital eccentricity</returns>
 ///   <remarks>format [x.xxxx]</remarks>
-function FCFfS_OrbitalEccentricity_Calculation: extended;
+function FCFfS_OrbitalEccentricity_Calculation( const SystemType: integer ): extended;
 
 ///<summary>
 ///   calculate the orbital zone in which the orbit is located
@@ -94,17 +95,38 @@ uses
 
 //===================================================END OF INIT============================
 
-function FCFfS_OrbitalEccentricity_Calculation: extended;
+function FCFfS_OrbitalEccentricity_Calculation( const SystemType: integer ): extended;
 {:Purpose: calculate the orbital eccentricity.
     Additions:
       -2013Apr23- *mod: start of experimental code tests.
 }
    var
-//      Float: extended;
+      Probability: integer;
+
+      Calculations: extended;
 begin
    Result:=0;
 //   Float:=0.5 - ( power( random, 0.077 ) / 2.005 );//FCFcF_Random_DoFloat
-   Result:=FCFcF_Round( rttCustom4Decimal, Float );
+   Probability:=FCFcF_Random_DoInteger( 9 ) + 1;
+   case SystemType of
+//         1: FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType:=FCFfS_OrbitGen_SolLike( FCDduStarSystem[0].SS_stars[CurrentStar].S_class, FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_orbitalZone );
+
+//         2: FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType:=FCFfS_OrbitGen_Balanced( FCDduStarSystem[0].SS_stars[CurrentStar].S_class, FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_orbitalZone );
+
+//         3: FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType:=FCFfS_OrbitGen_ExtraSolLike( FCDduStarSystem[0].SS_stars[CurrentStar].S_class, FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_orbitalZone );
+      1:
+      begin
+      end;
+
+      2:
+      begin
+      end;
+
+      3:
+      begin
+      end;
+   end;
+   Result:=FCFcF_Round( rttCustom4Decimal, Calculations );
 end;
 
 function FCFfS_OrbitalZone_Determining( const OrbitDistance, StarLuminosity: extended ): TFCEduHabitableZones;
@@ -1205,7 +1227,7 @@ begin
             if FCDduStarSystem[0].SS_stars[CurrentStar].S_class=BH
             then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_orbitalZone:=hzOuter
             else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_orbitalZone:=FCFfS_OrbitalZone_Determining( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_distanceFromStar, FCDduStarSystem[0].SS_stars[CurrentStar].S_luminosity );
-            FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_eccentricity:=FCFfS_OrbitalEccentricity_Calculation;
+            FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_eccentricity:=FCFfS_OrbitalEccentricity_Calculation( FCRfdSystemType[CurrentStar] );
             CalcFloat2:=SQRT( ( power( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_distanceFromStar, 3 ) / FCDduStarSystem[0].SS_stars[CurrentStar].S_mass ) ) * 365.2422;
             FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_revolutionPeriod:=round( CalcFloat2 );
             if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_revolutionPeriod<1
