@@ -119,27 +119,45 @@ function FCFfS_OrbitalEccentricity_Calculation(
       ,OuterDistance: extended;
 begin
    Result:=0;
-//   Float:=0.5 - ( power( random, 0.077 ) / 2.005 );//FCFcF_Random_DoFloat
    Probability:=FCFcF_Random_DoInteger( 9 ) + 1;
+   Calculations:=0;
    InnerDistance:=FCFfS_ZoneInner_CalcDistance( StarLuminosity );
    OuterDistance:=FCFfS_ZoneOuter_CalcDistance( StarLuminosity );
    case SystemType of
-//         1: FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType:=FCFfS_OrbitGen_SolLike( FCDduStarSystem[0].SS_stars[CurrentStar].S_class, FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_orbitalZone );
-
-//         2: FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType:=FCFfS_OrbitGen_Balanced( FCDduStarSystem[0].SS_stars[CurrentStar].S_class, FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_orbitalZone );
-
-//         3: FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType:=FCFfS_OrbitGen_ExtraSolLike( FCDduStarSystem[0].SS_stars[CurrentStar].S_class, FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_orbitalZone );
       1:
       begin
+         if ( ObjectDistance < ( InnerDistance * 0.5 ) )
+            or ( ObjectDistance > ( OuterDistance * 25 ) )
+         then Probability:=Probability + 2
+         else Probability:=Probability - 1;
       end;
 
       2:
       begin
+         if ObjectDistance < ( InnerDistance / 2.25 )
+         then Probability:=Probability + 1
+         else Probability:=Probability + 2;
       end;
 
       3:
       begin
+         if ObjectDistance < ( InnerDistance * 0.4 ) // /2.5
+         then Probability:=Probability - 1
+         else Probability:=Probability + 2;
       end;
+   end;
+   if Probability<1
+   then Probability:=1
+   else if Probability>10
+   then Probability:=10;
+   case Probability of
+      1..5: Calculations:=0.0005 * ( FCFcF_Random_DoInteger( 99 ) + 1 );
+
+      6..7: Calculations:=0.05 + ( 0.001 * ( FCFcF_Random_DoInteger( 99 ) + 1 ) );
+
+      8..9: Calculations:=0.15 + ( 0.001 * ( FCFcF_Random_DoInteger( 99 ) + 1 ) );
+
+      10: Calculations:=0.25 + ( 0.004 * ( FCFcF_Random_DoInteger( 99 ) + 1 ) );
    end;
    Result:=FCFcF_Round( rttCustom4Decimal, Calculations );
 end;
