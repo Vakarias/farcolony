@@ -236,7 +236,7 @@ begin
       oobtTelluricPlanet:
       begin
          case OrbitalZone of
-            hzInner: WorkingFloat:=FCFcF_Random_DoInteger( 18409 ) + 2000;//5110 ) + 2000;
+            hzInner: WorkingFloat:=FCFcF_Random_DoInteger( 18409 ) + 2000;
             
             hzIntermediary: WorkingFloat:=FCFcF_Random_DoInteger( 29676 ) + 2324;
             
@@ -250,6 +250,9 @@ begin
 end;
 
 function FCFfG_InclinationAxis_Calculation: extended;
+{:Purpose: calculate the orbital object's inclination axis.
+   Additions:
+}
    var
       Probability: integer;
 
@@ -258,37 +261,19 @@ begin
    Probability:=FCFcF_Random_DoInteger( 9 ) + 1;
    Calculations:=0;
    case Probability of
-      1..2:;
+      1..2: Calculations:=FCFcF_Random_DoInteger( 100 ) * 0.1;
 
-      3..4:;
+      3..4: Calculations:=10 + ( ( FCFcF_Random_DoInteger( 99 ) + 1 ) * 0.1 );
 
-      5..6:;
+      5..6: Calculations:=20 + ( ( FCFcF_Random_DoInteger( 99 ) + 1 ) * 0.35 );
 
-      7..8:;
+      7..8: Calculations:=30 + ( ( FCFcF_Random_DoInteger( 99 ) + 1 ) * 0.7 );
 
-      9..10:;
+      9..10: Calculations:=40 + ( ( FCFcF_Random_DoInteger( 99 ) + 1 ) * 1.4 );
    end;
    if Calculations > 90
    then Calculations:=- ( Calculations );
    Result:=FCFcF_Round( rttCustom1Decimal, Calculations );
-   {.axial tilt
-        OCCA_revol:=0;
-        if TabOrbit[OrbDBCounter].TypeAstre in [1..2] then TabOrbit[OrbDBCounter].InclAx:=0
-        else if TabOrbit[OrbDBCounter].TypeAstre>5 then begin
-            try
-                OCCA_Proba:=random(99)+1;
-            finally
-                case OCCA_Proba of
-                    1..20: OCCA_revol:=random(10);
-                    21..40: OCCA_revol:=10+(random(9)+1);
-                    41..60: OCCA_revol:=20+(random(9)+1);
-                    61..80: OCCA_revol:=30+(random(9)+1);
-                    81..100: OCCA_revol:=40+((random(99)+1)*1.4);
-                end;
-                if OCCA_revol>90 then TabOrbit[OrbDBCounter].PerRot:=-(TabOrbit[OrbDBCounter].PerRot);
-            end;
-                TabOrbit[OrbDBCounter].InclAx:=roundto(OCCA_revol,-1);
-        end;}
 end;
 
 function FCFfG_EscapeVelocity_Calculation(
