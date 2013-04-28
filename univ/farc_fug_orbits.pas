@@ -109,6 +109,7 @@ function FCFfS_OrbitalEccentricity_Calculation(
    ): extended;
 {:Purpose: calculate the orbital eccentricity.
     Additions:
+      -2013Apr26- *mod: end of experimental code tests - adoption of new eccentricity calculations method.
       -2013Apr23- *mod: start of experimental code tests.
 }
    var

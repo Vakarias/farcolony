@@ -73,7 +73,7 @@ function FCFfG_Density_Calculation(
 /// <param name="OrbitalZone">orbital zone in which the object is</param>
 /// <returns>the diameter in km</returns>   
 /// <remarks>format [x.x]</remarks>
-function FCFfG_Diameter_Calculation( 
+function FCFfG_Diameter_Calculation(
    const ObjectType: TFCEduOrbitalObjectBasicTypes;
    const OrbitalZone: TFCEduHabitableZones
    ): extended;
@@ -101,6 +101,13 @@ function FCFfG_Gravity_Calculation(
    const Diameter
          ,Mass: extended
    ): extended;
+
+///<summary>
+///   calculate the orbital object's inclination axis
+///</summary>
+///   <returns>inclination axis in degrees</returns>
+///   <remarks>format [x.x], return in negative value is the rotation period is retrograde. must load the function's result with abs() and set the negative rotation period</remarks>
+function FCFfG_InclinationAxis_Calculation: extended;
 
 ///<summary>
 ///   calculate the orbital object's mass equivalent
@@ -243,7 +250,27 @@ begin
 end;
 
 function FCFfG_InclinationAxis_Calculation: extended;
+   var
+      Probability: integer;
+
+      Calculations: extended;
 begin
+   Probability:=FCFcF_Random_DoInteger( 9 ) + 1;
+   Calculations:=0;
+   case Probability of
+      1..2:;
+
+      3..4:;
+
+      5..6:;
+
+      7..8:;
+
+      9..10:;
+   end;
+   if Calculations > 90
+   then Calculations:=- ( Calculations );
+   Result:=FCFcF_Round( rttCustom1Decimal, Calculations );
    {.axial tilt
         OCCA_revol:=0;
         if TabOrbit[OrbDBCounter].TypeAstre in [1..2] then TabOrbit[OrbDBCounter].InclAx:=0
