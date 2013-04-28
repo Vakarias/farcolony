@@ -84,6 +84,22 @@ function FCFfS_Mass_Calc(const TMstar: integer): extended;
 ///   <param name="TCstar">star's index#</param>
 function FCFfS_Temperature_Calc(const TCstar: integer): integer;
 
+///<summary>
+///   calculate the star's inner distance
+///</summary>
+///   <param name="StarLuminosity">star luminosity</param>
+///   <returns>the calculated distance threshold</returns>
+///   <remarks>value isn't formatted</remarks>
+function FCFfS_ZoneInner_CalcDistance( const StarLuminosity: extended ): extended;
+
+///<summary>
+///   calculate the star's outer distance
+///</summary>
+///   <param name="StarLuminosity">star luminosity</param>
+///   <returns>the calculated distance threshold</returns>
+///   <remarks>value isn't formatted</remarks>
+function FCFfS_ZoneOuter_CalcDistance( const StarLuminosity: extended ): extended;
+
 implementation
 
 uses
@@ -1385,6 +1401,22 @@ begin
    if FCDduStarSystem[0].SS_stars[TCstar].S_class<PSR
    then Result:=round(FCFcF_Rand_G(FSCD.FSCD_temp,50))
    else Result:=FSCD.FSCD_temp
+end;
+
+function FCFfS_ZoneInner_CalcDistance( const StarLuminosity: extended ): extended;
+{:Purpose: calculate the star's inner distance.
+    Additions:
+}
+begin
+   Result:=sqrt( StarLuminosity / 1.1 );
+end;
+
+function FCFfS_ZoneOuter_CalcDistance( const StarLuminosity: extended ): extended;
+{:Purpose: calculate the star's outer distance.
+    Additions:
+}
+begin
+   sqrt( StarLuminosity / 0.53 );
 end;
 
 end.

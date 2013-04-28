@@ -1,4 +1,4 @@
-{======(C) Copyright Aug.2009-2012 Jean-Francois Baconnet All rights reserved==============
+{======(C) Copyright Aug.2009-2013 Jean-Francois Baconnet All rights reserved==============
 
         Title:  FAR Colony
         Author: Jean-Francois Baconnet
@@ -11,7 +11,7 @@
 
 ============================================================================================
 ********************************************************************************************
-Copyright (c) 2009-2012, Jean-Francois Baconnet
+Copyright (c) 2009-2013, Jean-Francois Baconnet
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -40,9 +40,15 @@ uses
 ///   calculate the orbital eccentricity
 ///</summary>
 ///   <param name="SystemType">TFCRfdSystemType value</param>
+///   <param name="ObjectDistance">orbital object's distance from its star</param>
+///   <param name="StarLuminosity">luminosity of the central star</param>
 ///   <returns>orbital eccentricity</returns>
 ///   <remarks>format [x.xxxx]</remarks>
-function FCFfS_OrbitalEccentricity_Calculation( const SystemType: integer ): extended;
+function FCFfS_OrbitalEccentricity_Calculation(
+   const SystemType: integer;
+   const ObjectDistance
+         ,StarLuminosity: extended
+   ): extended;
 
 ///<summary>
 ///   calculate the orbital zone in which the orbit is located
@@ -91,11 +97,16 @@ uses
    farc_common_func
    ,farc_fug_data
    ,farc_fug_geophysical
+   ,farc_fug_stars
    ,farc_win_fug;
 
 //===================================================END OF INIT============================
 
-function FCFfS_OrbitalEccentricity_Calculation( const SystemType: integer ): extended;
+function FCFfS_OrbitalEccentricity_Calculation(
+   const SystemType: integer;
+   const ObjectDistance
+         ,StarLuminosity: extended
+   ): extended;
 {:Purpose: calculate the orbital eccentricity.
     Additions:
       -2013Apr23- *mod: start of experimental code tests.
@@ -103,11 +114,15 @@ function FCFfS_OrbitalEccentricity_Calculation( const SystemType: integer ): ext
    var
       Probability: integer;
 
-      Calculations: extended;
+      Calculations
+      ,InnerDistance
+      ,OuterDistance: extended;
 begin
    Result:=0;
 //   Float:=0.5 - ( power( random, 0.077 ) / 2.005 );//FCFcF_Random_DoFloat
    Probability:=FCFcF_Random_DoInteger( 9 ) + 1;
+   InnerDistance:=FCFfS_ZoneInner_CalcDistance( StarLuminosity );
+   OuterDistance:=FCFfS_ZoneOuter_CalcDistance( StarLuminosity );
    case SystemType of
 //         1: FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType:=FCFfS_OrbitGen_SolLike( FCDduStarSystem[0].SS_stars[CurrentStar].S_class, FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_orbitalZone );
 
@@ -133,10 +148,15 @@ function FCFfS_OrbitalZone_Determining( const OrbitDistance, StarLuminosity: ext
 {:Purpose: calculate the orbital zone in which the orbit is located.
     Additions:
 }
+   var
+      InnerDistance
+      ,OuterDistance: extended;
 begin
    Result:=hzInner;
-   if OrbitDistance < sqrt( StarLuminosity / 1.1 ) then Result:=hzInner
-   else if OrbitDistance>sqrt( StarLuminosity / 0.53 ) then Result:=hzOuter
+   InnerDistance:=FCFfS_ZoneInner_CalcDistance( StarLuminosity );
+   OuterDistance:=FCFfS_ZoneOuter_CalcDistance( StarLuminosity );
+   if OrbitDistance < InnerDistance then Result:=hzInner
+   else if OrbitDistance> OuterDistance then Result:=hzOuter
    else Result:=hzIntermediary;
 end;
 
@@ -1227,7 +1247,11 @@ begin
             if FCDduStarSystem[0].SS_stars[CurrentStar].S_class=BH
             then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_orbitalZone:=hzOuter
             else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_orbitalZone:=FCFfS_OrbitalZone_Determining( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_distanceFromStar, FCDduStarSystem[0].SS_stars[CurrentStar].S_luminosity );
-            FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_eccentricity:=FCFfS_OrbitalEccentricity_Calculation( FCRfdSystemType[CurrentStar] );
+            FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_eccentricity:=FCFfS_OrbitalEccentricity_Calculation(
+               FCRfdSystemType[CurrentStar]
+               ,FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_distanceFromStar
+               ,FCDduStarSystem[0].SS_stars[CurrentStar].S_luminosity
+               );
             CalcFloat2:=SQRT( ( power( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_distanceFromStar, 3 ) / FCDduStarSystem[0].SS_stars[CurrentStar].S_mass ) ) * 365.2422;
             FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_revolutionPeriod:=round( CalcFloat2 );
             if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_revolutionPeriod<1
