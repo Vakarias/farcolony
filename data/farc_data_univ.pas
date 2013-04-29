@@ -119,6 +119,7 @@ type TFCEduOrbitalObjectBasicTypes=(
    ,oobtAsteroid
    ,oobtTelluricPlanet
    ,oobtGaseousPlanet
+   ,oobtIcyPlanet
    );
 
 {:REFERENCES LIST

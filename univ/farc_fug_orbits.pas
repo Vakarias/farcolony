@@ -37,6 +37,20 @@ uses
    ,farc_data_univ;
 
 ///<summary>
+///   calculate the gravitational sphere radius of an orbital object
+///</summary>
+///   <param name="MassObject">mass of the object, Earth equivalent</param>
+///   <param name="MassStar">mass of the object's star, Sun equivalent</param>
+///   <param name="DistanceObject">distance of the object from its star in AU</param>
+///   <returns>the gravitational sphere radius in km</returns>
+///   <remarks>format [x.x]</remarks>
+function FCFfS_GravitationalSphereRadius_Calculation(
+   const MassObject
+         ,MassStar
+         ,DistanceObject: extended
+   ): extended;
+
+///<summary>
 ///   calculate the orbital eccentricity
 ///</summary>
 ///   <param name="SystemType">TFCRfdSystemType value</param>
@@ -95,12 +109,35 @@ implementation
 
 uses
    farc_common_func
+   ,farc_data_init
    ,farc_fug_data
    ,farc_fug_geophysical
    ,farc_fug_stars
    ,farc_win_fug;
 
 //===================================================END OF INIT============================
+
+function FCFfS_GravitationalSphereRadius_Calculation(
+   const MassObject
+         ,MassStar
+         ,DistanceObject: extended
+   ): extended;
+{:Purpose: calculate the gravitational sphere radius of an orbital object.
+    Additions:
+}
+   var
+      Calculation
+      ,DistanceKm
+      ,ObjectMassKg
+      ,StarMassKg: extended;
+begin
+   Result:=0;
+   ObjectMassKg:=MassObject * FCCdiMassEqEarth;
+   StarMassKg:=MassStar * FCCdiMassEqSun;
+   DistanceKm:=DistanceObject * FCCdiKm_In_1AU;
+   Calculation:=DistanceKm * power( ( ObjectMassKg /  StarMassKg ), 2 / 5 );
+   Result:=FCFcF_Round( rttCustom1Decimal, Calculation );
+end;
 
 function FCFfS_OrbitalEccentricity_Calculation(
    const SystemType: integer;
@@ -928,7 +965,8 @@ var
    ,OrbitProbabilityMax
    ,OrbitProbabilitMin: integer;
 
-   CalcFloat
+   BaseTemperature
+   ,CalcFloat
    ,CalcFloat1
    ,CalcFloat2: extended;
 
@@ -1280,6 +1318,8 @@ begin
             if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_revolutionPeriodInit<1
             then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_revolutionPeriodInit:=1;
             {.geophysical data}
+            BaseTemperature:=255 / sqrt( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_distanceFromStar / sqrt( FCDduStarSystem[0].SS_stars[CurrentStar].S_luminosity ) );
+            BaseTemperature:=FCFcF_Round( rttCustom2Decimal, BaseTemperature );
             if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType=oobtNone then
             begin
                case FCRfdSystemType[CurrentStar] of
@@ -1290,6 +1330,9 @@ begin
                   3: FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType:=FCFfS_OrbitGen_ExtraSolLike( FCDduStarSystem[0].SS_stars[CurrentStar].S_class, FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_orbitalZone );
                end;
             end;
+            if ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType=oobtTelluricPlanet )
+               and ( BaseTemperature < 273 )
+            then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType:=oobtIcyPlanet;
             {..for asteroids belt}
             if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType=oobtAsteroidBelt then
             begin
@@ -1298,9 +1341,11 @@ begin
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_distanceFromStar:=FCFcF_Round( rttCustom2Decimal, CalcFloat1 );
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_density:=0;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_mass:=0;
+               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_gravitationalSphereRadius:=0;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_gravity:=0;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_escapeVelocity:=0;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_rotationPeriod:=0;
+               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_inclinationAxis:=0;
             end
             {..for the rest of the basic types}
             else begin
@@ -1322,16 +1367,22 @@ begin
                      ,false
                      );
                end;
+               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_gravitationalSphereRadius:=FCFfS_GravitationalSphereRadius_Calculation(
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_mass
+                  ,FCDduStarSystem[0].SS_stars[CurrentStar].S_mass
+                  ,FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_distanceFromStar
+                  );
                if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_gravity=0
                then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_gravity:=FCFfG_Gravity_Calculation( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_diameter, FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_mass );
                if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_escapeVelocity=0
                then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_escapeVelocity:=FCFfG_EscapeVelocity_Calculation( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_diameter, FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_mass );
                if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_rotationPeriod=0
                then FCMfG_RotationPeriod_Calculation( CurrentStar, Count );
+               if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_inclinationAxis=0
+               then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_inclinationAxis:=FCFfG_InclinationAxis_Calculation;
             end;
 
             {:DEV NOTES: geophysical data here.
-              {:DEV NOTES: put grav sphere calc here.}
                {:DEV NOTES: OOrb Obj refinement here for asteroids and gaseous
                {.asteroids
                  if TabOrbit[OrbDBCounter].TypeAstre=2 then begin
@@ -1371,7 +1422,7 @@ begin
 
 
             {:DEV NOTES: ecosphere here
-            //GPOOT_BaseTemp:=255/sqrt((BOrb_Distance/sqrt(GPOOT_Star_Lum)));
+
 
                AtmosphericDetermination;
                 OrbitsCreation_Hydrosphere(TabOrbit[OrbDBCounter].BaseTemp);
@@ -1420,7 +1471,6 @@ begin
                     else if TabOrbit[OrbDBCounter].HydroType in [5..6] then TabOrbit[OrbDBCounter].TypeAstre:=21;
                 end;
             end
-            telluric: if basetemp<273 => icy:
             else if TabOrbit[OrbDBCounter].TypeAstre=27 then begin
                 if TabOrbit[OrbDBCounter].AtmPress=0 then TabOrbit[OrbDBCounter].TypeAstre:=30
                 else if TabOrbit[OrbDBCounter].AtmPress>0 then begin

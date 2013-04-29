@@ -221,6 +221,11 @@ const
    FCCdiMassEqEarth=5.976e24;
 
    ///<summary>
+   ///   mass equivalent for any star, in Sun mass, 1 unit=1.99e30kg
+   ///</summary>
+   FCCdiMassEqSun=1.99e30;
+
+   ///<summary>
    ///   # of millibars in one atmosphere
    ///</summary>
    FCCdiMbars_In_1atmosphere=1013;
