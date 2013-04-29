@@ -103,7 +103,8 @@ function FCFfS_ZoneOuter_CalcDistance( const StarLuminosity: extended ): extende
 implementation
 
 uses
-   farc_common_func;
+   farc_common_func
+   ,farc_data_init;
 
 var
    FSCD: TFCRfsClassDat;
@@ -1314,10 +1315,10 @@ begin
       begin
          FSCD.FSCD_temp:=1;
          FSCD.FSCD_mass:=5+FCFcF_Random_DoInteger(5);
-         DLdiam:=((2*6.67e-11*(1.989e30*FCDduStarSystem[0].SS_stars[DLstIdx].S_mass))/299792458)*(2/1390000);
+         DLdiam:=( ( ( 2 * FCCdiGravitationalConst * ( FCCdiMassEqSun * FCDduStarSystem[0].SS_stars[DLstIdx].S_mass ) ) / sqr( FCCdiMetersBySec_In_1c ) ) / 1000 ) * ( 2 / 1390000 );
          FSCD.FSCD_diam:=FCFcF_Round( rttCustom2Decimal, DLdiam );
-         if DLdiam<=0
-         then DLdiam:=0.01;
+         if FSCD.FSCD_diam<=0
+         then FSCD.FSCD_diam:=0.01;
          FSCD.FSCD_lum:=0.00001;
       end;
    end; //==END== case DLclass of ==//

@@ -1225,7 +1225,7 @@ begin
       {.for a single star}
       if ( CurrentStar=1 )
          and ( not FCWinFUG.TC1S_EnableGroupCompanion1.Checked )
-      then CalcFloat:=400 * FCDduStarSystem[0].SS_stars[CurrentStar].S_mass
+      then CalcFloat:=FCDduStarSystem[0].SS_stars[CurrentStar].S_mass * ( ( 75 + FCFcF_Random_DoInteger( 15 ) ) / 1.5 )//400*
       {.for a binary system}
       else if ( ( CurrentStar=1 ) and ( FCWinFUG.TC1S_EnableGroupCompanion1.Checked ) and ( not FCWinFUG.TC2S_EnableGroupCompanion2.Checked ) )
          or ( ( CurrentStar=2 ) and ( not FCWinFUG.TC2S_EnableGroupCompanion2.Checked ) )
@@ -1282,8 +1282,19 @@ begin
          FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isSatellite:=false;
          if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_distanceFromStar=0 then
          begin
-            if Count=1
-            then CalcFloat1:=( FCDduStarSystem[0].SS_stars[CurrentStar].S_diameter * 0.5 ) * 0.004645787 * SQRT( FCDduStarSystem[0].SS_stars[CurrentStar].S_temperature ) * ( 1 + ( FCFcF_Random_DoInteger( 10 ) * 0.02 ) )
+            if Count=1 then
+            begin
+               if FCDduStarSystem[0].SS_stars[CurrentStar].S_class in [WD0..PSR] then
+               begin
+
+               end
+               else if FCDduStarSystem[0].SS_stars[CurrentStar].S_class=BH then
+               begin
+                  CalcFloat2:=( ( 2 * FCCdiGravitationalConst * ( FCCdiMassEqSun * FCDduStarSystem[0].SS_stars[CurrentStar].S_mass ) ) / sqr( FCCdiMetersBySec_In_1c ) ) / 1000;
+                  CalcFloat1:=( CalcFloat2 / FCCdiKm_In_1AU ) * ( 1.5 + ( FCFcF_Random_DoInteger( 100 ) * 0.01 ) );
+               end
+               else CalcFloat1:=( FCDduStarSystem[0].SS_stars[CurrentStar].S_diameter * 0.5 ) * 0.004645787 * sqrt( FCDduStarSystem[0].SS_stars[CurrentStar].S_temperature ) * ( 1 + ( FCFcF_Random_DoInteger( 10 ) * 0.02 ) );
+            end
             else begin
                GeneratedProbability:=FCFcF_Random_DoInteger( 8 ) + 1;
                CalcFloat1:=CalcFloat1 * ( 1.2 + ( GeneratedProbability * 0.1 ) );
@@ -1380,6 +1391,11 @@ begin
                then FCMfG_RotationPeriod_Calculation( CurrentStar, Count );
                if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_inclinationAxis=0
                then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_inclinationAxis:=FCFfG_InclinationAxis_Calculation;
+               if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_inclinationAxis<0 then
+               begin
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_inclinationAxis:=abs( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_inclinationAxis );
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_rotationPeriod:=-( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_rotationPeriod );
+               end;
             end;
 
             {:DEV NOTES: geophysical data here.

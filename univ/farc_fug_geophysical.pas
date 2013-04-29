@@ -197,6 +197,7 @@ function FCFfG_Density_Calculation(
    ): integer;
 {:Purpose: calculate the orbital object's density.
    Additions:
+      -2013Apr28- *add: icy planet basic type.
       -2013Apr20- *mod: adjustments.
 }
    var
@@ -214,7 +215,7 @@ begin
          WorkingFloat:=WorkingFloat * FCCdiDensityEqEarth;
       end;
 
-      oobtTelluricPlanet:
+      oobtTelluricPlanet, oobtIcyPlanet:
       begin
          if OrbitalZone in[hzInner..hzIntermediary]
          then WorkingFloat:=0.54 + ( ( FCFcF_Random_DoInteger( 99 ) + 1 ) * 0.0076 )//1.3
@@ -234,6 +235,7 @@ function FCFfG_Diameter_Calculation(
    ): extended;
 {:Purpose: calculate the orbital object's diameter.
    Additions:
+      -2013Apr28- *add: icy planet basic type.
       -2013Apr20- *mod: adjustments.
 }
    var
@@ -244,7 +246,7 @@ begin
    case ObjectType of
       oobtAsteroid: WorkingFloat:=FCFcF_Random_DoInteger( 1987 ) + 12.5;
       
-      oobtTelluricPlanet:
+      oobtTelluricPlanet, oobtIcyPlanet:
       begin
          case OrbitalZone of
             hzInner: WorkingFloat:=FCFcF_Random_DoInteger( 18409 ) + 2000;
