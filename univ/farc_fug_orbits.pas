@@ -1284,9 +1284,36 @@ begin
          begin
             if Count=1 then
             begin
-               if FCDduStarSystem[0].SS_stars[CurrentStar].S_class in [WD0..PSR] then
+               if FCDduStarSystem[0].SS_stars[CurrentStar].S_class in [WD0..WD9] then
                begin
+                  GeneratedProbability:=FCFcF_Random_DoInteger( 9 ) + 1;
+                  if ( FCDduStarSystem[0].SS_stars[CurrentStar].S_mass >= 0.6 )
+                     and ( FCDduStarSystem[0].SS_stars[CurrentStar].S_mass < 0.9 )
+                  then GeneratedProbability:=GeneratedProbability + 2
+                  else if FCDduStarSystem[0].SS_stars[CurrentStar].S_mass > 0.9
+                  then GeneratedProbability:=GeneratedProbability + 4;
+                  case GeneratedProbability of
+                     1..4: CalcFloat1:=( FCFcF_Random_DoInteger( 100 ) * 0.01 ) + 1;
 
+                     5..8: CalcFloat1:=( FCFcF_Random_DoInteger( 100 ) * 0.02 ) + 2;
+
+                     9..11: CalcFloat1:=( FCFcF_Random_DoInteger( 100 ) * 0.02 ) + 4;
+
+                     12..14: CalcFloat1:=( FCFcF_Random_DoInteger( 100 ) * 0.04 ) + 6;
+                  end;
+               end
+               else if FCDduStarSystem[0].SS_stars[CurrentStar].S_class=PSR then
+               begin
+                  GeneratedProbability:=FCFcF_Random_DoInteger( 9 ) + 1;
+                  case GeneratedProbability of
+                     1..3: CalcFloat1:=( FCFcF_Random_DoInteger( 100 ) * 0.001 ) + 0.1;
+
+                     4..7: CalcFloat1:=( FCFcF_Random_DoInteger( 100 ) * 0.01 ) + 1;
+
+                     8..9: CalcFloat1:=( FCFcF_Random_DoInteger( 100 ) * 0.1 ) + 10;
+
+                     10: CalcFloat1:=( FCFcF_Random_DoInteger( 10 ) * 1 ) + 15;
+                  end;
                end
                else if FCDduStarSystem[0].SS_stars[CurrentStar].S_class=BH then
                begin
@@ -1364,6 +1391,8 @@ begin
                then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_diameter:=FCFfG_Diameter_Calculation( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType, FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_orbitalZone );
                if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_density=0
                then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_density:=FCFfG_Density_Calculation( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType, FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_orbitalZone );
+               if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType=oobtAsteroid
+               then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_type:=FCFfG_Refinement_Asteroid( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_density );
                if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_mass=0 then
                begin
                   if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType=oobtAsteroid
@@ -1378,6 +1407,8 @@ begin
                      ,false
                      );
                end;
+               if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType=oobtGaseousPlanet
+               then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_type:=FCFfG_Refinement_GaseousPlanet( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_mass );
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_gravitationalSphereRadius:=FCFfS_GravitationalSphereRadius_Calculation(
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_mass
                   ,FCDduStarSystem[0].SS_stars[CurrentStar].S_mass
@@ -1400,35 +1431,6 @@ begin
 
             {:DEV NOTES: geophysical data here.
                {:DEV NOTES: OOrb Obj refinement here for asteroids and gaseous
-               {.asteroids
-                 if TabOrbit[OrbDBCounter].TypeAstre=2 then begin
-                     case TabOrbit[OrbDBCounter].Dens of
-                         0..2481: TabOrbit[OrbDBCounter].TypeAstre:=5;
-                         2482..3639: TabOrbit[OrbDBCounter].TypeAstre:=4;
-                         3640..4963: TabOrbit[OrbDBCounter].TypeAstre:=3;
-                         4964..8273: TabOrbit[OrbDBCounter].TypeAstre:=2;
-                     end;
-                 end
-                 else if TabOrbit[OrbDBCounter].TypeAstre=6 then begin
-                     case TabOrbit[OrbDBCounter].Dens of
-                         0..2481: TabOrbit[OrbDBCounter].TypeAstre:=9;
-                         2482..3639: TabOrbit[OrbDBCounter].TypeAstre:=8;
-                         3640..4963: TabOrbit[OrbDBCounter].TypeAstre:=7;
-                         4964..8273: TabOrbit[OrbDBCounter].TypeAstre:=6;
-                     end;
-                 end;
-                 {.gaseous object
-                 if TabOrbit[OrbDBCounter].TypeAstre=31 then begin
-                     OCCA_Proba:=random(1);
-                     if TabOrbit[OrbDBCounter].Mass<40 then TabOrbit[OrbDBCounter].TypeAstre:=31+OCCA_Proba
-                     else if (TabOrbit[OrbDBCounter].Mass>40)
-                         and (TabOrbit[OrbDBCounter].Mass<180) then TabOrbit[OrbDBCounter].TypeAstre:=33+OCCA_Proba
-                     else if (TabOrbit[OrbDBCounter].Mass>180)
-                         and (TabOrbit[OrbDBCounter].Mass<350) then TabOrbit[OrbDBCounter].TypeAstre:=35+OCCA_Proba
-                     else if (TabOrbit[OrbDBCounter].Mass>350)
-                         and (TabOrbit[OrbDBCounter].Mass<10000) then TabOrbit[OrbDBCounter].TypeAstre:=37+OCCA_Proba;
-                 end;
-
                  //            {.magnetic field
 
 

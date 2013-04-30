@@ -134,6 +134,22 @@ function FCFfG_Mass_Calculation(
    const isAsteroid: boolean
    ): extended;
 
+///<summary>
+///   retrieve the final type of asteroid based on the density
+///</summary>
+///   <param name="Density">asteroid's density</param>
+///   <returns>the orbital object type</returns>
+///   <remarks></remarks>
+function FCFfG_Refinement_Asteroid( const Density: integer): TFCEduOrbitalObjectTypes;
+
+///<summary>
+///   retrieve the final type of gaseous planet based on the mass
+///</summary>
+///   <param name="Mass">planet's mass</param>
+///   <returns>the orbital object type</returns>
+///   <remarks></remarks>
+function FCFfG_Refinement_GaseousPlanet( const Mass: extended): TFCEduOrbitalObjectTypes;
+
 //===========================END FUNCTIONS SECTION==========================================
 
 ///<summary>
@@ -197,6 +213,7 @@ function FCFfG_Density_Calculation(
    ): integer;
 {:Purpose: calculate the orbital object's density.
    Additions:
+      -2013Apr29- *mod: put specific calculation for icy planets.
       -2013Apr28- *add: icy planet basic type.
       -2013Apr20- *mod: adjustments.
 }
@@ -215,7 +232,7 @@ begin
          WorkingFloat:=WorkingFloat * FCCdiDensityEqEarth;
       end;
 
-      oobtTelluricPlanet, oobtIcyPlanet:
+      oobtTelluricPlanet:
       begin
          if OrbitalZone in[hzInner..hzIntermediary]
          then WorkingFloat:=0.54 + ( ( FCFcF_Random_DoInteger( 99 ) + 1 ) * 0.0076 )//1.3
@@ -225,6 +242,12 @@ begin
       end;
 
       oobtGaseousPlanet: WorkingFloat:=FCFcF_Random_DoInteger( 1351 ) + 579;
+
+      oobtIcyPlanet:
+      begin
+         WorkingFloat:=0.15 + ( ( FCFcF_Random_DoInteger( 99 ) + 1 ) * 0.0045 );//0.1545 - 0.60;
+         WorkingFloat:=WorkingFloat * FCCdiDensityEqEarth;
+      end;
    end;
    Result:=round( WorkingFloat );
 end;
@@ -461,6 +484,49 @@ begin
 end;
 
 //===========================END FUNCTIONS SECTION==========================================
+
+function FCFfG_Refinement_Asteroid( const Density: integer): TFCEduOrbitalObjectTypes;
+{:Purpose: retrieve the final type of asteroid based on the density.
+    Additions:
+}
+begin
+   Result:=ootNone;
+   case Density of
+      0..2481: Result:=ootAsteroid_Icy;
+
+      2482..3639: Result:=ootAsteroid_Carbonaceous;
+
+      3640..4963: Result:=ootAsteroid_Silicate;
+
+      4964..8273: Result:=ootAsteroid_Metallic;
+   end;
+end;
+
+function FCFfG_Refinement_GaseousPlanet( const Mass: extended): TFCEduOrbitalObjectTypes;
+{:Purpose: retrieve the final type of gaseous planet based on the mass.
+    Additions:
+}
+   var
+      Probability: integer;
+begin
+   Result:=ootNone;
+   if Mass < 40 then
+   begin
+      Probability:=FCFcF_Random_DoInteger( 1 );
+      if Probability=0
+      then Result:=ootPlanet_Gaseous_Uranus
+      else if Probability=1
+      then Result:=ootPlanet_Gaseous_Neptune;
+   end
+   else if ( Mass >= 40 )
+      and ( Mass < 180 )
+   then Result:=ootPlanet_Gaseous_Saturn
+   else if ( Mass >= 180 )
+      and ( Mass < 350 )
+   then Result:=ootPlanet_Jovian
+   else if Mass >= 350
+   then Result:=ootPlanet_Supergiant;
+end;
 
 procedure FCMfG_RotationPeriod_Calculation( const Star, OrbitalObject: integer );
 {:Purpose: calculate the orbital object's rotation period.
