@@ -118,7 +118,7 @@ function FCFfG_InclinationAxis_Calculation: extended;
 ///   <param name=""></param>
 ///   <returns></returns>
 ///   <remarks></remarks>
-function FCFfG_MagneticField_Calculation: extended;
+function FCFfG_MagneticField_Calculation( const Star, OrbitalObject: integer): extended;
 
 ///<summary>
 ///   calculate the orbital object's mass equivalent
@@ -350,12 +350,13 @@ begin
    Result:=FCFcF_Round( rttCustom1Decimal, Calculations );
 end;
 
-function FCFfG_MagneticField_Calculation: extended;
+function FCFfG_MagneticField_Calculation( const Star, OrbitalObject: integer): extended;
 {:Purpose: calculate the orbital object's magnetic field.
     Additions:
 }
 begin
    Result:=0;
+
    {.magnetic field
         else if TabOrbit[OrbDBCounter].TypeAstre in [10..30] then begin
             if TabOrbit[OrbDBCounter].TypeAstre>=27 then mag_factor:=(10*(1/(sqrt(rotation_period/24)
