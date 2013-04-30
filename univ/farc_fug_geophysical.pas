@@ -164,7 +164,8 @@ implementation
 
 uses
    farc_common_func
-   ,farc_data_init;
+   ,farc_data_init
+   ,farc_fug_stars;
 //
 //   ,farc_data_init
 //   ,farc_data_planetarysurvey
@@ -356,12 +357,7 @@ function FCFfG_MagneticField_Calculation: extended;
 begin
    Result:=0;
    {.magnetic field
-        if TabOrbit[OrbDBCounter].TypeAstre<10 then TabOrbit[OrbDBCounter].MagField:=0
         else if TabOrbit[OrbDBCounter].TypeAstre in [10..30] then begin
-            if (abs(TabOrbit[OrbDBCounter].PerRot)=0)
-                or (abs(TabOrbit[OrbDBCounter].PerRot)>(TabOrbit[OrbDBCounter].Revol*24))
-                then rotation_period:=TabOrbit[OrbDBCounter].Revol*24
-            else if abs(TabOrbit[OrbDBCounter].PerRot)>0 then rotation_period:=abs(TabOrbit[OrbDBCounter].PerRot);
             if TabOrbit[OrbDBCounter].TypeAstre>=27 then mag_factor:=(10*(1/(sqrt(rotation_period/24)
                 *sqr(TabOrbit[OrbDBCounter].DensEq)*sqrt(TabOrbit[OrbDBCounter].Mass)))/StarClone_Age)*0.5
             else if TabOrbit[OrbDBCounter].TypeAstre<27 then mag_factor:=10*(1/(sqrt(rotation_period/24)
@@ -549,7 +545,7 @@ procedure FCMfG_RotationPeriod_Calculation( const Star, OrbitalObject: integer )
 begin
    ShortestPeriod:=sqrt( ( 2 * Pi ) / ( 0.19 * FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_gravity * 9.807 ) );
    TidalForce:=( FCDduStarSystem[0].SS_stars[Star].S_mass * 26640000 ) /   power( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isNotSat_distanceFromStar * 400, 3 );
-   StarAge:=( ( 10.1 * FCDduStarSystem[0].SS_stars[Star].S_mass ) / FCDduStarSystem[0].SS_stars[Star].S_luminosity ) / 2.244;
+   StarAge:=FCFfS_Age_Calc( FCDduStarSystem[0].SS_stars[Star].S_mass, FCDduStarSystem[0].SS_stars[Star].S_luminosity );
    Probability:=FCFcF_Random_DoInteger( 9 ) + 1;
    TidalFinal:=( ( 0.83 + ( Probability * 0.03 ) ) * TidalForce * StarAge ) /  6.6;
    {.case if tidally locked}

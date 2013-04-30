@@ -1,4 +1,4 @@
-{======(C) Copyright Aug.2009-2012 Jean-Francois Baconnet All rights reserved==============
+{======(C) Copyright Aug.2009-2013 Jean-Francois Baconnet All rights reserved==============
 
         Title:  FAR Colony
         Author: Jean-Francois Baconnet
@@ -7,11 +7,11 @@
         License: GPLv3
         Website: http://farcolony.sourceforge.net/
 
-        Unit: stars data calculations core unit
+        Unit: star calculations - core unit
 
 ============================================================================================
 ********************************************************************************************
-Copyright (c) 2009-2012, Jean-Francois Baconnet
+Copyright (c) 2009-2013, Jean-Francois Baconnet
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -37,27 +37,25 @@ uses
 
    ,farc_data_univ;
 
-{:DEV NOTES: move in implementation section.}
-type TFCRfsClassDat=record
-   private
-   FSCD_class: TFCEduStarClasses;
-   FSCD_temp: integer;
-   FSCD_mass: extended;
-   FSCD_diam: extended;
-   FSCD_lum: extended;
-end;
+//==END PUBLIC ENUM=========================================================================
+
+//==END PUBLIC RECORDS======================================================================
+
+   //==========subsection===================================================================
+//var
+//==END PUBLIC VAR==========================================================================
+
+//const
+//==END PUBLIC CONST========================================================================
 
 ///<summary>
-///   calculate companion star specific data
+///   calculate the age of a star
 ///</summary>
-///   <param name="CSCstIdx">star's index#</param>
-procedure FCMfS_CompStar_Calc(const CSCstIdx: integer);
-
-///<summary>
-///   load the initial data for the requested star
-///</summary>
-///   <param name="DLstIdx">star's index#</param>
-procedure FCMfS_Data_Load(const DLstIdx: integer);
+///   <param name="Mass">star mass, Sun equivalent</param>
+///   <param name="Luminosity">star luminosity, Sun equivalent</param>
+///   <returns>the age in GY</returns>
+///   <remarks></remarks>
+function FCFfS_Age_Calc( const Mass, Luminosity: extended ): extended;
 
 ///<summary>
 ///   calculate the star's diameter
@@ -100,19 +98,174 @@ function FCFfS_ZoneInner_CalcDistance( const StarLuminosity: extended ): extende
 ///   <remarks>value isn't formatted</remarks>
 function FCFfS_ZoneOuter_CalcDistance( const StarLuminosity: extended ): extended;
 
+//===========================END FUNCTIONS SECTION==========================================
+
+///<summary>
+///   calculate companion star specific data
+///</summary>
+///   <param name="CSCstIdx">star's index#</param>
+procedure FCMfS_CompStar_Calc(const CSCstIdx: integer);
+
+///<summary>
+///   load the initial data for the requested star
+///</summary>
+///   <param name="DLstIdx">star's index#</param>
+procedure FCMfS_Data_Load(const DLstIdx: integer);
+
 implementation
 
 uses
    farc_common_func
    ,farc_data_init;
 
-var
+//==END PRIVATE ENUM========================================================================
+
+type TFCRfsClassDat=record
+   private
+   FSCD_class: TFCEduStarClasses;
+   FSCD_temp: integer;
+   FSCD_mass: extended;
+   FSCD_diam: extended;
+   FSCD_lum: extended;
+end;
+
+//==END PRIVATE RECORDS=====================================================================
+
+   //==========subsection===================================================================
+
+   var
    FSCD: TFCRfsClassDat;
 
-//=======================================END OF INIT========================================
+//==END PRIVATE VAR=========================================================================
+
+//const
+//==END PRIVATE CONST=======================================================================
+
+//===================================================END OF INIT============================
+
+function FCFfS_Data_WDLum(const DWDLidx: integer): extended;
+{:Purpose: calculate the luminosity for White Dwarves
+   Additions:
+      -2013Apr02- *mod: DecimalRound calls are replaced w/ FCFcF_Round.
+}
+var
+   DWDLlum: extended;
+begin
+   Result:=0;
+   DWDLlum:=(sqr(FCDduStarSystem[0].SS_stars[DWDLidx].S_diameter*0.5)*power(FCDduStarSystem[0].SS_stars[DWDLidx].S_temperature,4))/power(5800,4);
+   Result:=FCFcF_Round( rttCustom5Decimal, DWDLlum );
+   if Result<=0
+   then Result:=0.00001;
+end;
+
+function FCFfS_Age_Calc( const Mass, Luminosity: extended ): extended;
+{:Purpose: calculate the age of a star.
+    Additions:
+}
+begin
+   Result:=( ( 10.1 * Mass ) / Luminosity ) / 2.244;
+end;
+
+function FCFfS_Diameter_Calc(const DCstar: integer): extended;
+{:Purpose: calculate the star's diameter.
+    Additions:
+      -2013Apr02- *mod: DecimalRound calls are replaced w/ FCFcF_Round.
+}
+var
+   DCdiam: extended;
+begin
+   Result:=0;
+   if FCDduStarSystem[0].SS_stars[DCstar].S_class<>FSCD.FSCD_class
+   then FCMfS_Data_Load(DCstar);
+   if FCDduStarSystem[0].SS_stars[DCstar].S_class<PSR
+   then
+   begin
+      DCdiam:=FCFcF_Rand_G(FSCD.FSCD_diam,0.007);
+      Result:=FCFcF_Round( rttCustom2Decimal, DCdiam );
+      if Result<=0
+      then Result:=0.01;
+   end
+   else Result:=FSCD.FSCD_diam;
+end;
+
+function FCFfS_Luminosity_Calc(const LCstar: integer): extended;
+{:Purpose: calculate the star's luminosity.
+    Additions:
+      -2013Apr02- *mod: DecimalRound calls are replaced w/ FCFcF_Round.
+}
+var
+   DClum: extended;
+begin
+   Result:=0;
+   if FCDduStarSystem[0].SS_stars[LCstar].S_class<>FSCD.FSCD_class
+   then FCMfS_Data_Load(LCstar);
+   if FCDduStarSystem[0].SS_stars[LCstar].S_class<PSR
+   then
+   begin
+      DClum:=FCFcF_Rand_G(FSCD.FSCD_lum, 0.007);
+      Result:=FCFcF_Round( rttCustom5Decimal, DClum );
+      if Result<=0
+      then Result:=0.00001;
+   end
+   else if FCDduStarSystem[0].SS_stars[LCstar].S_class in [WD0..WD9]
+   then
+   begin
+      FSCD.FSCD_lum:=FCFfS_Data_WDLum(LCstar);
+      Result:=FSCD.FSCD_lum;
+   end
+   else Result:=FSCD.FSCD_lum;
+end;
+
+function FCFfS_Mass_Calc(const TMstar: integer): extended;
+{:Purpose: calculate the star's mass.
+    Additions:
+      -2013Apr02- *mod: DecimalRound calls are replaced w/ FCFcF_Round.
+}
+var
+   TMmass: extended;
+begin
+   Result:=0;
+   if FCDduStarSystem[0].SS_stars[TMstar].S_class<>FSCD.FSCD_class
+   then FCMfS_Data_Load(TMstar);
+   TMmass:=FCFcF_Rand_G(FSCD.FSCD_mass,0.007);
+   Result:=FCFcF_Round( rttCustom2Decimal, TMmass );
+   if Result<=0
+   then Result:=0.01;
+end;
+
+function FCFfS_Temperature_Calc(const TCstar: integer): integer;
+{:Purpose: calculate the star's temperature.
+    Additions:
+}
+begin
+   Result:=0;
+   if FCDduStarSystem[0].SS_stars[TCstar].S_class<>FSCD.FSCD_class
+   then FCMfS_Data_Load(TCstar);
+   if FCDduStarSystem[0].SS_stars[TCstar].S_class<PSR
+   then Result:=round(FCFcF_Rand_G(FSCD.FSCD_temp,50))
+   else Result:=FSCD.FSCD_temp
+end;
+
+function FCFfS_ZoneInner_CalcDistance( const StarLuminosity: extended ): extended;
+{:Purpose: calculate the star's inner distance.
+    Additions:
+}
+begin
+   Result:=sqrt( StarLuminosity / 1.1 );
+end;
+
+function FCFfS_ZoneOuter_CalcDistance( const StarLuminosity: extended ): extended;
+{:Purpose: calculate the star's outer distance.
+    Additions:
+}
+begin
+   sqrt( StarLuminosity / 0.53 );
+end;
+
+//===========================END FUNCTIONS SECTION==========================================
 
 procedure FCMfS_CompEcc_Calc(const CECstIdx: integer);
-{:Purpose: calculate the orbit eccentricity for the compnaion stars.
+{:Purpose: calculate the orbit eccentricity for the companion stars.
     Additions:
       -2013Apr02- *mod: some code optimizations.
                   *mod: DecimalRound calls are replaced w/ FCFcF_Round.
@@ -208,6 +361,7 @@ end;
 procedure FCMfS_CompStar_Calc(const CSCstIdx: integer);
 {:Purpose: calculate companion star specific data.
    Additions:
+      -2013Apr29- *add: put the star age in consideration.
       -2013Apr02- *mod: DecimalRound calls are replaced w/ FCFcF_Round.
       -2013Apr02- *add/mod: some adjustments.
 }
@@ -217,7 +371,8 @@ var
 
    CSCecc
    ,CSCmsep
-   ,CSCmad: extended;
+   ,CSCmad
+   ,StarAge: extended;
 begin
    if CSCstIdx=2
    then
@@ -225,8 +380,9 @@ begin
       {mean separation}
       CSCstat:=FCFcF_Random_DoInteger(9)+1;
       CSCmod:=FCFcF_Random_DoInteger(9)+1;
-      //            if DBStarSys[1].Sys_StarAge >= 5  then inc(CSstat)
-//            else if DBStarSys[1].Sys_StarAge <= 1  then dec(CSstat);
+      StarAge:=FCFfS_Age_Calc( FCDduStarSystem[0].SS_stars[CSCstIdx].S_mass, FCDduStarSystem[0].SS_stars[CSCstIdx].S_luminosity );
+      if StarAge <= 1  then dec( CSCstat )
+      else if StarAge >= 5  then inc( CSCstat );
       case CSCstat of
          1..3: CSCmsep:=CSCmod*0.25;
          4..6: CSCmsep:=CSCmod*2.5;
@@ -284,21 +440,6 @@ begin
          end;
       end; //==END== case CSCstat of ==//
    end;
-end;
-
-function FCFfS_Data_WDLum(const DWDLidx: integer): extended;
-{:Purpose: calculate the luminosity for White Dwarves
-   Additions:
-      -2013Apr02- *mod: DecimalRound calls are replaced w/ FCFcF_Round.
-}
-var
-   DWDLlum: extended;
-begin
-   Result:=0;
-   DWDLlum:=(sqr(FCDduStarSystem[0].SS_stars[DWDLidx].S_diameter*0.5)*power(FCDduStarSystem[0].SS_stars[DWDLidx].S_temperature,4))/power(5800,4);
-   Result:=FCFcF_Round( rttCustom5Decimal, DWDLlum );
-   if Result<=0
-   then Result:=0.00001;
 end;
 
 procedure FCMfS_Data_Load(const DLstIdx: integer);
@@ -1322,102 +1463,6 @@ begin
          FSCD.FSCD_lum:=0.00001;
       end;
    end; //==END== case DLclass of ==//
-end;
-
-function FCFfS_Diameter_Calc(const DCstar: integer): extended;
-{:Purpose: calculate the star's diameter.
-    Additions:
-      -2013Apr02- *mod: DecimalRound calls are replaced w/ FCFcF_Round.
-}
-var
-   DCdiam: extended;
-begin
-   Result:=0;
-   if FCDduStarSystem[0].SS_stars[DCstar].S_class<>FSCD.FSCD_class
-   then FCMfS_Data_Load(DCstar);
-   if FCDduStarSystem[0].SS_stars[DCstar].S_class<PSR
-   then
-   begin
-      DCdiam:=FCFcF_Rand_G(FSCD.FSCD_diam,0.007);
-      Result:=FCFcF_Round( rttCustom2Decimal, DCdiam );
-      if Result<=0
-      then Result:=0.01;
-   end
-   else Result:=FSCD.FSCD_diam;
-end;
-
-function FCFfS_Luminosity_Calc(const LCstar: integer): extended;
-{:Purpose: calculate the star's luminosity.
-    Additions:
-      -2013Apr02- *mod: DecimalRound calls are replaced w/ FCFcF_Round.
-}
-var
-   DClum: extended;
-begin
-   Result:=0;
-   if FCDduStarSystem[0].SS_stars[LCstar].S_class<>FSCD.FSCD_class
-   then FCMfS_Data_Load(LCstar);
-   if FCDduStarSystem[0].SS_stars[LCstar].S_class<PSR
-   then
-   begin
-      DClum:=FCFcF_Rand_G(FSCD.FSCD_lum, 0.007);
-      Result:=FCFcF_Round( rttCustom5Decimal, DClum );
-      if Result<=0
-      then Result:=0.00001;
-   end
-   else if FCDduStarSystem[0].SS_stars[LCstar].S_class in [WD0..WD9]
-   then
-   begin
-      FSCD.FSCD_lum:=FCFfS_Data_WDLum(LCstar);
-      Result:=FSCD.FSCD_lum;
-   end
-   else Result:=FSCD.FSCD_lum;
-end;
-
-function FCFfS_Mass_Calc(const TMstar: integer): extended;
-{:Purpose: calculate the star's mass.
-    Additions:
-      -2013Apr02- *mod: DecimalRound calls are replaced w/ FCFcF_Round.
-}
-var
-   TMmass: extended;
-begin
-   Result:=0;
-   if FCDduStarSystem[0].SS_stars[TMstar].S_class<>FSCD.FSCD_class
-   then FCMfS_Data_Load(TMstar);
-   TMmass:=FCFcF_Rand_G(FSCD.FSCD_mass,0.007);
-   Result:=FCFcF_Round( rttCustom2Decimal, TMmass );
-   if Result<=0
-   then Result:=0.01;
-end;
-
-function FCFfS_Temperature_Calc(const TCstar: integer): integer;
-{:Purpose: calculate the star's temperature.
-    Additions:
-}
-begin
-   Result:=0;
-   if FCDduStarSystem[0].SS_stars[TCstar].S_class<>FSCD.FSCD_class
-   then FCMfS_Data_Load(TCstar);
-   if FCDduStarSystem[0].SS_stars[TCstar].S_class<PSR
-   then Result:=round(FCFcF_Rand_G(FSCD.FSCD_temp,50))
-   else Result:=FSCD.FSCD_temp
-end;
-
-function FCFfS_ZoneInner_CalcDistance( const StarLuminosity: extended ): extended;
-{:Purpose: calculate the star's inner distance.
-    Additions:
-}
-begin
-   Result:=sqrt( StarLuminosity / 1.1 );
-end;
-
-function FCFfS_ZoneOuter_CalcDistance( const StarLuminosity: extended ): extended;
-{:Purpose: calculate the star's outer distance.
-    Additions:
-}
-begin
-   sqrt( StarLuminosity / 0.53 );
 end;
 
 end.
