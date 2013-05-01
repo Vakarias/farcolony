@@ -40,7 +40,6 @@ object FCWinFUG: TFCWinFUG
       ColorTo = clNone
       TabColor = clBtnFace
       TabColorTo = clNone
-      ExplicitHeight = 200
       object TSSS_StellarStarSysGroup: TAdvGroupBox
         Left = 16
         Top = 3
@@ -1184,8 +1183,6 @@ object FCWinFUG: TFCWinFUG
       ColorTo = clNone
       TabColor = clBtnFace
       TabColorTo = clNone
-      ExplicitWidth = 569
-      ExplicitHeight = 1472
       object TOO_StarPicker: TRadioGroup
         Left = 3
         Top = 3
@@ -1382,8 +1379,8 @@ object FCWinFUG: TFCWinFUG
           OnKeyDown = COO_MagFieldKeyDown
         end
         object COO_Albedo: TLabeledEdit
-          Left = 332
-          Top = 72
+          Left = 8
+          Top = 184
           Width = 47
           Height = 19
           Color = clWhite
@@ -1411,10 +1408,6 @@ object FCWinFUG: TFCWinFUG
       ColorTo = clNone
       TabColor = clBtnFace
       TabColorTo = clNone
-      ExplicitLeft = 24
-      ExplicitTop = 0
-      ExplicitWidth = 100
-      ExplicitHeight = 100
       object WF_XMLOutput: TAdvMemo
         Left = 0
         Top = 0
@@ -1488,9 +1481,6 @@ object FCWinFUG: TFCWinFUG
         UseStyler = False
         Version = '2.2.3.1'
         WordWrap = wwNone
-        ExplicitLeft = 615
-        ExplicitWidth = 409
-        ExplicitHeight = 368
       end
     end
   end

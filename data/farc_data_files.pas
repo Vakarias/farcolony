@@ -1427,6 +1427,7 @@ end;
 procedure FCMdF_DBStarOrbitalObjects_Load( const StarSystemToken, StarToken: string );
 {:Purpose: load the orbital objects, if there's any, of a specified star in the universe database XML file.
    Additions:
+      -2013Apr30- *mod: albedo is moved into the ecosphere data.
       -2013Mar04- *add: OO_regionSurface + OO_meanTravelDistance.
       -2013Jan13- *add/mod: expansion of the region's EMO modifiers.
       -2012Aug05- *code audit:
@@ -1548,7 +1549,6 @@ begin
                FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_rotationPeriod:=StrToFloat( XMLOrbitalObject.Attributes['oorotper'], FCVdiFormat );
                FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_inclinationAxis:=StrToFloat( XMLOrbitalObject.Attributes['ooinclax'], FCVdiFormat );
                FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_magneticField:=StrToFloat( XMLOrbitalObject.Attributes['oomagfld'], FCVdiFormat );
-               FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_albedo:=StrToFloat( XMLOrbitalObject.Attributes['ooalbe'], FCVdiFormat );
             end {.else if DBSSPorbObjNode.NodeName='orbobjgeophysdata'}
             else if XMLOrbitalObject.NodeName='orbobjecosdata' then
             begin
@@ -1628,6 +1628,7 @@ begin
                if EnumIndex=-1
                then raise Exception.Create( 'bad universe orbital object hydrosphere type: '+XMLOrbitalObject.Attributes['hydroTp'] );
                FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_hydrosphereArea:=StrToFloat( XMLOrbitalObject.Attributes['hydroArea'], FCVdiFormat );
+               FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_albedo:=StrToFloat( XMLOrbitalObject.Attributes['ooalbe'], FCVdiFormat );
             end {.else if DBSSPorbObjNode.NodeName='orbobjecosdata'}
             else if XMLOrbitalObject.NodeName='orbobjregions' then
             begin
@@ -1743,7 +1744,6 @@ begin
                      FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_escapeVelocity:=StrToFloat( XMSatellite.Attributes['satescvel'], FCVdiFormat );
                      FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_inclinationAxis:=StrToFloat( XMSatellite.Attributes['satinclax'], FCVdiFormat );
                      FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_magneticField:=StrToFloat( XMSatellite.Attributes['satmagfld'], FCVdiFormat );
-                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_albedo:=StrToFloat( XMSatellite.Attributes['satalbe'], FCVdiFormat );
                   end {.else if DBSSPsatNode.NodeName='satgeophysdata'}
                   else if XMSatellite.NodeName='satecosdata' then
                   begin
@@ -1823,6 +1823,7 @@ begin
                      if EnumIndex=-1
                      then raise Exception.Create( 'bad universe satellite hydrosphere: '+XMSatellite.Attributes['hydroTp'] );
                      FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_hydrosphereArea:=StrToFloat( XMSatellite.Attributes['hydroArea'], FCVdiFormat );
+                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_albedo:=StrToFloat( XMSatellite.Attributes['satalbe'], FCVdiFormat );
                   end {.else if DBSSPsatNode.NodeName='satecosdata'}
                   else if XMSatellite.NodeName='satregions' then
                   begin
