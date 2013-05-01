@@ -110,17 +110,6 @@ function FCFfG_Gravity_Calculation(
 function FCFfG_InclinationAxis_Calculation: extended;
 
 ///<summary>
-///   calculate the orbital object's magnetic field
-///</summary>
-///   <param name=""></param>
-///   <param name=""></param>
-///   <param name=""></param>
-///   <param name=""></param>
-///   <returns></returns>
-///   <remarks></remarks>
-function FCFfG_MagneticField_Calculation( const Star, OrbitalObject: integer): extended;
-
-///<summary>
 ///   calculate the orbital object's mass equivalent
 ///</summary>
 /// <param name="Diameter">orbital object's diameter</param>
@@ -151,6 +140,14 @@ function FCFfG_Refinement_Asteroid( const Density: integer): TFCEduOrbitalObject
 function FCFfG_Refinement_GaseousPlanet( const Mass: extended): TFCEduOrbitalObjectTypes;
 
 //===========================END FUNCTIONS SECTION==========================================
+
+///<summary>
+///   calculate the orbital object's magnetic field
+///</summary>
+///   <param name="Star">star index #</param>
+///   <param name="OrbitalObject">orbital object index #</param>
+///   <remarks>format [x.xxx]</remarks>
+procedure FCMfG_MagneticField_Calculation( const Star, OrbitalObject: integer);
 
 ///<summary>
 ///   calculate the orbital object's rotation period
@@ -350,115 +347,6 @@ begin
    Result:=FCFcF_Round( rttCustom1Decimal, Calculations );
 end;
 
-function FCFfG_MagneticField_Calculation( const Star, OrbitalObject: integer): extended;
-{:Purpose: calculate the orbital object's magnetic field.
-    Additions:
-}
-begin
-   Result:=0;
-
-   {.magnetic field
-        else if TabOrbit[OrbDBCounter].TypeAstre in [10..30] then begin
-            if TabOrbit[OrbDBCounter].TypeAstre>=27 then mag_factor:=(10*(1/(sqrt(rotation_period/24)
-                *sqr(TabOrbit[OrbDBCounter].DensEq)*sqrt(TabOrbit[OrbDBCounter].Mass)))/StarClone_Age)*0.5
-            else if TabOrbit[OrbDBCounter].TypeAstre<27 then mag_factor:=10*(1/(sqrt(rotation_period/24)
-                *sqr(TabOrbit[OrbDBCounter].DensEq)*sqrt(TabOrbit[OrbDBCounter].Mass)))/StarClone_Age;
-            OCCA_Proba:=random(9)+1;
-            if mag_factor<0.05 then TabOrbit[OrbDBCounter].MagField:=0
-            else if (mag_factor>=0.05)
-                and (mag_factor<0.5) then begin
-
-                case OCCA_Proba of
-                    1..4: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*0.001)*0.3076;
-                    5..8: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*0.002)*0.3076;
-                    9..10: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*0.01)*0.3076;
-                end;
-            end
-            else if (mag_factor>=0.5)
-                and (mag_factor<1) then begin
-
-                case OCCA_Proba of
-                    1..3: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*0.001)*0.3076;
-                    4..6: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*0.002)*0.3076;
-                    7..9: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*0.01)*0.3076;
-                    10: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*0.05)*0.3076;
-                end;
-            end
-            else if (mag_factor>=1)
-                and (mag_factor<2) then begin
-
-                case OCCA_Proba of
-                    1..3: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*0.001)*0.3076;
-                    4..5: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*0.002)*0.3076;
-                    6..7: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*0.01)*0.3076;
-                    8..9: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*0.05)*0.3076;
-                    10: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*0.1)*0.3076;
-                end;
-            end
-            else if (mag_factor>=2)
-                and (mag_factor<4) then begin
-
-                case OCCA_Proba of
-                    1..3: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*0.05)*0.3076;
-                    4..5: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*0.1)*0.3076;
-                    6..7: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*0.2)*0.3076;
-                    8..9: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*0.3)*0.3076;
-                    10: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*0.5)*0.3076;
-                end;
-            end
-            else if mag_factor>=4 then begin
-                case OCCA_Proba of
-                    1..3: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*0.1)*0.3076;
-                    4..5: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*0.2)*0.3076;
-                    6..7: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*0.3)*0.3076;
-                    8..9: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*0.5)*0.3076;
-                    10: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*1.0)*0.3076;
-                end;
-            end;
-        end{else if TabOrbit[OrbDBCounter].TypeAstre in [10..30]
-        else if TabOrbit[OrbDBCounter].TypeAstre in [31..32] then begin
-            OCCA_Proba:=random(9)+1;
-            case OCCA_Proba of
-                1: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*0.1)*0.3076;
-                2..4: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*0.25)*0.3076;
-                5..7: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*0.5)*0.3076;
-                8..9: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*0.75)*0.3076;
-                10: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*1)*0.3076;
-            end;
-        end
-        else if TabOrbit[OrbDBCounter].TypeAstre in [33..34] then begin
-            OCCA_Proba:=random(9)+1;
-            case OCCA_Proba of
-                1: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*0.25)*0.3076;
-                2..4: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*0.5)*0.3076;
-                5..7: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*0.75)*0.3076;
-                8..9: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*1)*0.3076;
-                10: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*1.5)*0.3076;
-            end;
-        end
-        else if TabOrbit[OrbDBCounter].TypeAstre in [35..36] then begin
-            OCCA_Proba:=random(9)+1;
-            case OCCA_Proba of
-                1: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*0.5)*0.3076;
-                2..4: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*1)*0.3076;
-                5..7: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*1.5)*0.3076;
-                8..9: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*2)*0.3076;
-                10: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*3)*0.3076;
-            end;
-        end
-        else if TabOrbit[OrbDBCounter].TypeAstre in [37..38] then begin
-            OCCA_Proba:=random(9)+1;
-            case OCCA_Proba of
-                1: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*1.5)*0.3076;
-                2..4: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*2.5)*0.3076;
-                5..7: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*5)*0.3076;
-                8..9: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*10)*0.3076;
-                10: TabOrbit[OrbDBCounter].MagField:=((random(9)+1)*25)*0.3076;
-            end;
-        end;
-        TabOrbit[OrbDBCounter].MagField:=roundto(TabOrbit[OrbDBCounter].MagField,-3);}
-end;
-
 function FCFfG_Mass_Calculation(
    const Diameter
          , Density: extended;
@@ -479,8 +367,6 @@ begin
    then Result:=FCFcF_Round( rttCustom4Decimal, CalculatedMass )
    else Result:=FCFcF_Round( rttMassAsteroid, CalculatedMass );
 end;
-
-//===========================END FUNCTIONS SECTION==========================================
 
 function FCFfG_Refinement_Asteroid( const Density: integer): TFCEduOrbitalObjectTypes;
 {:Purpose: retrieve the final type of asteroid based on the density.
@@ -523,6 +409,172 @@ begin
    then Result:=ootPlanet_Jovian
    else if Mass >= 350
    then Result:=ootPlanet_Supergiant;
+end;
+
+//===========================END FUNCTIONS SECTION==========================================
+
+procedure FCMfG_MagneticField_Calculation( const Star, OrbitalObject: integer);
+{:Purpose: calculate the orbital object's magnetic field.
+    Additions:
+}
+   var
+      Probability: integer;
+
+      DensityEq
+      ,MagFactor
+      ,MagField
+      ,RevolutionPeriodHrs
+      ,RotationPeriod
+      ,StarAge: extended;
+begin
+   if ( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_basicType=oobtTelluricPlanet )
+      or ( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_basicType=oobtIcyPlanet ) then
+   begin
+      RevolutionPeriodHrs:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_revolutionPeriod * 24;
+      if ( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_rotationPeriod=0 )
+         or ( abs( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_rotationPeriod ) > RevolutionPeriodHrs )
+      then RotationPeriod:=RevolutionPeriodHrs
+      else RotationPeriod:=abs( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_rotationPeriod );
+      DensityEq:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_density / FCCdiDensityEqEarth;
+      StarAge:=FCFfS_Age_Calc( FCDduStarSystem[0].SS_stars[Star].S_mass, FCDduStarSystem[0].SS_stars[Star].S_luminosity );
+      MagFactor:=( 10 * ( 1 / sqrt( RotationPeriod / 24 ) ) * sqr( DensityEq ) * SQRT( FCDduStarSystem[0].SS_stars[Star].S_mass ) ) / StarAge;
+      if ( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_basicType=oobtIcyPlanet )
+         and ( DensityEq <= 0.45 )
+      then MagFactor:=MagFactor * 0.5;
+      Probability:=FCFcF_Random_DoInteger( 9 ) + 1;
+      if MagFactor < 0.05
+      then MagField:=0
+      else if ( Magfactor >= 0.05 )
+         and ( Magfactor < 0.5 ) then
+      begin
+         case Probability of
+            1..4: MagField:=( FCFcF_Random_DoInteger( 9 ) + 1 ) * 0.0003076;
+
+            5..8: MagField:=( FCFcF_Random_DoInteger( 9 ) + 1 ) * 0.0006152;
+
+            9..10: MagField:=( FCFcF_Random_DoInteger( 9 ) + 1 ) * 0.003076;
+         end;
+      end
+      else if ( Magfactor >= 0.5 )
+         and ( Magfactor < 1 ) then
+      begin
+         case Probability of
+            1..3: MagField:=( FCFcF_Random_DoInteger( 9 ) + 1 ) * 0.0003076;
+
+            4..6: MagField:=( FCFcF_Random_DoInteger( 9 ) + 1 ) * 0.0006152;
+
+            7..9: MagField:=( FCFcF_Random_DoInteger( 9 ) + 1 ) * 0.003076;
+
+            10: MagField:=( FCFcF_Random_DoInteger( 9 ) + 1 ) * 0.01538;
+         end;
+      end
+      else if ( Magfactor >= 1 )
+         and ( Magfactor < 2 ) then
+      begin
+         case Probability of
+            1..3: MagField:=( FCFcF_Random_DoInteger( 9 ) + 1 ) * 0.0003076;
+
+            4..5: MagField:=( FCFcF_Random_DoInteger( 9 ) + 1 ) * 0.0006152;
+
+            6..7: MagField:=( FCFcF_Random_DoInteger( 9 ) + 1 ) * 0.003076;
+
+            8..9: MagField:=( FCFcF_Random_DoInteger( 9 ) + 1 ) * 0.01538;
+
+            10: MagField:=( FCFcF_Random_DoInteger( 9 ) + 1 ) * 0.03076;
+         end;
+      end
+      else if ( Magfactor >= 2 )
+         and ( Magfactor < 4 ) then
+      begin
+         case Probability of
+            1..3: MagField:=( FCFcF_Random_DoInteger( 9 ) + 1 ) * 0.01538;
+
+            4..5: MagField:=( FCFcF_Random_DoInteger( 9 ) + 1 ) * 0.03076;
+
+            6..7: MagField:=( FCFcF_Random_DoInteger( 9 ) + 1 ) * 0.06152;
+
+            8..9: MagField:=( FCFcF_Random_DoInteger( 9 ) + 1 ) * 0.09228;
+
+            10: MagField:=( FCFcF_Random_DoInteger( 9 ) + 1 ) * 0.1538;
+         end;
+      end
+      else if Magfactor >= 4 then
+      begin
+         case Probability of
+            1..3: MagField:=( FCFcF_Random_DoInteger( 9 ) + 1 ) * 0.03076;
+
+            4..5: MagField:=( FCFcF_Random_DoInteger( 9 ) + 1 ) * 0.06152;
+
+            6..7: MagField:=( FCFcF_Random_DoInteger( 9 ) + 1 ) * 0.09228;
+
+            8..9: MagField:=( FCFcF_Random_DoInteger( 9 ) + 1 ) * 0.1538;
+
+            10: MagField:=( FCFcF_Random_DoInteger( 9 ) + 1 ) * 0.3076;
+         end;
+      end;
+   end
+   else if ( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_type=ootPlanet_Gaseous_Uranus )
+      or ( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_type=ootPlanet_Gaseous_Neptune ) then
+   begin
+      Probability:=FCFcF_Random_DoInteger( 9 ) + 1;
+      case Probability of
+         1: MagField:=( FCFcF_Random_DoInteger( 9 ) + 1 ) * 0.03076;
+
+         2..4: MagField:=( FCFcF_Random_DoInteger( 9 ) + 1 ) * 0.0769;
+
+         5..7: MagField:=( FCFcF_Random_DoInteger( 9 ) + 1 ) * 0.1538;
+
+         8..9: MagField:=( FCFcF_Random_DoInteger( 9 ) + 1 ) * 0.2307;
+
+         10: MagField:=( FCFcF_Random_DoInteger( 9 ) + 1 ) * 0.3076;
+      end;
+   end
+   else if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_type=ootPlanet_Gaseous_Saturn then
+   begin
+      Probability:=FCFcF_Random_DoInteger( 9 ) + 1;
+      case Probability of
+         1: MagField:=( FCFcF_Random_DoInteger( 9 ) + 1 ) * 0.0769;
+
+         2..4: MagField:=( FCFcF_Random_DoInteger( 9 ) + 1 ) * 0.1538;
+
+         5..7: MagField:=( FCFcF_Random_DoInteger( 9 ) + 1 ) * 0.2307;
+
+         8..9: MagField:=( FCFcF_Random_DoInteger( 9 ) + 1 ) * 0.3076;
+
+         10: MagField:=( FCFcF_Random_DoInteger( 9 ) + 1 ) * 0.4614;
+      end;
+   end
+   else if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_type=ootPlanet_Jovian then
+   begin
+      Probability:=FCFcF_Random_DoInteger( 9 ) + 1;
+      case Probability of
+         1: MagField:=( FCFcF_Random_DoInteger( 9 ) + 1 ) * 0.1538;
+
+         2..4: MagField:=( FCFcF_Random_DoInteger( 9 ) + 1 ) * 0.3076;
+
+         5..7: MagField:=( FCFcF_Random_DoInteger( 9 ) + 1 ) * 0.4614;
+
+         8..9: MagField:=( FCFcF_Random_DoInteger( 9 ) + 1 ) * 0.6152;
+
+         10: MagField:=( FCFcF_Random_DoInteger( 9 ) + 1 ) * 0.9228;
+      end;
+   end
+   else if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_type=ootPlanet_Supergiant then
+   begin
+      Probability:=FCFcF_Random_DoInteger( 9 ) + 1;
+      case Probability of
+         1: MagField:=( FCFcF_Random_DoInteger( 9 ) + 1 ) * 0.4614;
+
+         2..4: MagField:=( FCFcF_Random_DoInteger( 9 ) + 1 ) * 0.769;
+
+         5..7: MagField:=( FCFcF_Random_DoInteger( 9 ) + 1 ) * 1.538;
+
+         8..9: MagField:=( FCFcF_Random_DoInteger( 9 ) + 1 ) * 3.076;
+
+         10: MagField:=( FCFcF_Random_DoInteger( 9 ) + 1 ) * 7.69;
+      end;
+   end;
+   FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_magneticField:=FCFcF_Round( rttCustom3Decimal, MagField );
 end;
 
 procedure FCMfG_RotationPeriod_Calculation( const Star, OrbitalObject: integer );
