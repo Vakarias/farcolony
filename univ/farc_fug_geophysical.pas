@@ -730,4 +730,22 @@ begin
    }
 end;
 
+procedure FCMfG_TectonicActivityDifferential_Calculation( const Star, OrbitalObject: integer );
+{:Purpose: calculate the differential for each planet vs its satellites, if it has any, and the reverse.
+    Additions:
+}
+begin
+   {:DEV NOTES:
+      calc tidal force planet vs EACH sat (do a loop) and do a mean of these values
+
+      calc differential tidal stress= 1 + ( 0.25 * ( ( moon mass kg * 26.64 ) / power( moon distance km (thkm*1000) * 324  ,3 ) ) )
+
+      new tectonic activity factor= taf * dts
+
+      formula present in FARC.calculations
+
+   .}
+
+end;
+
 end.

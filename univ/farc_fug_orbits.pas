@@ -1454,7 +1454,7 @@ begin
 
 
 
-
+             {:DEV NOTES: look if tectonic needed below, if it is the case: generate sat (w/o surf generation and after geophysical, apply FCMfG_TectonicActivityDifferential_Calculation.}
 
             {:DEV NOTES: surface generation + regions here incl resources.}
 
@@ -1503,7 +1503,9 @@ begin
             .}
 
             {:DEV NOTES: satellites.}
-            
+
+            //FCMfG_TectonicActivityDifferential_Calculation: do that maybe before regions!
+
          end; //==END== else: if ( CalcFloat>0 ) and ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_distanceFromStar > CalcFloat ) ==//
          inc( Count);
       end; //==END== while Count<=NumberOfOrbits ==//
