@@ -121,6 +121,7 @@ type
     COO_Albedo: TLabeledEdit;
     TOO_Results: TAdvTabSheet;
     AdvGroupBox1: TAdvGroupBox;
+    COO_TectonicActivity: TAdvComboBox;
     procedure WF_GenerateButtonClick(Sender: TObject);
     procedure TMS_OrbitGenerationClick(Sender: TObject);
     procedure TC1S_EnableGroupCompanion1Click(Sender: TObject);
@@ -151,6 +152,7 @@ type
     procedure COO_InclAxisKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure COO_MagFieldKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure COO_AlbedoKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure COO_TectonicActivityChange(Sender: TObject);
    private
     { Private declarations }
    public
@@ -381,7 +383,7 @@ begin
                      +'" oorotper="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_rotationPeriod )
                      +'" ooinclax="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_inclinationAxis )
                      +'" oomagfld="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_magneticField )
-                     +'" ooalbe="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_albedo )
+                     +'" ootectonicactivity="'+GetEnumName( TypeInfo( TFCEduTectonicActivity ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_tectonicActivity ) )
                      +'"/>'
                   );
                inc( Count1 );
@@ -471,6 +473,11 @@ procedure TFCWinFUG.COO_RotationPeriodKeyDown(Sender: TObject; var Key: Word;
 begin
    if Key=13
    then FCmfC_OrbitPicker_RotationPeriodUpdate;
+end;
+
+procedure TFCWinFUG.COO_TectonicActivityChange(Sender: TObject);
+begin
+   FCmfC_OrbitPicker_TectonicActivityUpdate;
 end;
 
 procedure TFCWinFUG.COO_TokenKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);

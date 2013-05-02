@@ -157,6 +157,14 @@ procedure FCMfG_MagneticField_Calculation( const Star, OrbitalObject: integer);
 /// <remarks>format [x.xx]</remarks>
 procedure FCMfG_RotationPeriod_Calculation( const Star, OrbitalObject: integer );
 
+///<summary>
+///   calculate the orbital object's tectonic activity
+///</summary>
+/// <param name="Star">star index #</param>
+/// <param name="OrbitalObject">orbital object index #</param>
+/// <remarks></remarks>
+procedure FCMfG_TectonicActivity_Calculation( const Star, OrbitalObject: integer );
+
 implementation
 
 uses
@@ -660,6 +668,66 @@ begin
       then CalculatedRotationPeriod:=ShortestPeriod * ( 1 + ( 4 * FCFcF_Random_DoInteger( 10 ) ) );
    end; //==END== else of: if TidalFinal > 1 ==//
    FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_rotationPeriod:=FCFcF_Round( rttCustom2Decimal, CalculatedRotationPeriod );
+end;
+
+procedure FCMfG_TectonicActivity_Calculation( const Star, OrbitalObject: integer );
+{:Purpose: calculate the orbital object's tectonic activity.
+    Additions:
+}
+begin
+   {
+   else if (TabOrbit[OrbDBCounter].TypeAstre in [10..30])
+            or (TabOrbit[OrbDBCounter].TypeAstre in [43..99]) then begin
+
+                Proba:=random(3);
+                TabOrbit[OrbDBCounter].TFactor:=((15)*sqrt(TabOrbit[OrbDBCounter].Mass))/StarClone_Age;
+                if (TabOrbit[OrbDBCounter].TypeAstre>26) and (TabOrbit[OrbDBCounter].TypeAstre<31) then TabOrbit[OrbDBCounter].TFactor:=TabOrbit[OrbDBCounter].TFactor*TabOrbit[OrbDBCounter].DensEq;
+                if (TabOrbit[OrbDBCounter].TypeAstre>47) and (TabOrbit[OrbDBCounter].TypeAstre<=50) then TabOrbit[OrbDBCounter].TFactor:=TabOrbit[OrbDBCounter].TFactor*TabOrbit[OrbDBCounter].DensEq;
+                if (TabOrbit[OrbDBCounter].PerRot<18) and (TabOrbit[OrbDBCounter].PerRot>0) then TabOrbit[OrbDBCounter].TFactor:=TabOrbit[OrbDBCounter].TFactor*1.25;
+                if (TabOrbit[OrbDBCounter].PerRot>100) and (TabOrbit[OrbDBCounter].PerRot<=8760) then TabOrbit[OrbDBCounter].TFactor:=TabOrbit[OrbDBCounter].TFactor*0.75;
+                if (TabOrbit[OrbDBCounter].PerRot=0) or (TabOrbit[OrbDBCounter].PerRot>8760) then TabOrbit[OrbDBCounter].TFactor:=TabOrbit[OrbDBCounter].TFactor*0.5;
+                Proba:=random(9)+1;
+                if TabOrbit[OrbDBCounter].TFactor<0.5 then TabOrbit[OrbDBCounter].AcTec:=0
+                else if (TabOrbit[OrbDBCounter].TFactor>=0.5) and (TabOrbit[OrbDBCounter].TFactor<1) then begin
+                        case Proba of
+                                1..7: TabOrbit[OrbDBCounter].AcTec:=0;
+                                8..9: TabOrbit[OrbDBCounter].AcTec:=1;
+                                10: TabOrbit[OrbDBCounter].AcTec:=2;
+                        end;
+                end
+                else if (TabOrbit[OrbDBCounter].TFactor>=1) and (TabOrbit[OrbDBCounter].TFactor<2) then begin
+                        case Proba of
+                                1: TabOrbit[OrbDBCounter].AcTec:=0;
+                                2..5: TabOrbit[OrbDBCounter].AcTec:=1;
+                                6..9: TabOrbit[OrbDBCounter].AcTec:=2;
+                                10: TabOrbit[OrbDBCounter].AcTec:=3;
+                        end;
+                end
+                else if (TabOrbit[OrbDBCounter].TFactor>=2) and (TabOrbit[OrbDBCounter].TFactor<3) then begin
+                        case Proba of
+                                1..2: TabOrbit[OrbDBCounter].AcTec:=1;
+                                3..6: TabOrbit[OrbDBCounter].AcTec:=2;
+                                7..10: TabOrbit[OrbDBCounter].AcTec:=3;
+                        end;
+                end
+                else if (TabOrbit[OrbDBCounter].TFactor>=3) and (TabOrbit[OrbDBCounter].TFactor<5) then begin
+                        case Proba of
+                                1: TabOrbit[OrbDBCounter].AcTec:=1;
+                                2..3: TabOrbit[OrbDBCounter].AcTec:=2;
+                                4..8: TabOrbit[OrbDBCounter].AcTec:=3;
+                                9..10: TabOrbit[OrbDBCounter].AcTec:=4;
+                        end;
+                end
+                else if TabOrbit[OrbDBCounter].TFactor>=5 then begin
+                        case Proba of
+                                1: TabOrbit[OrbDBCounter].AcTec:=2;
+                                2: TabOrbit[OrbDBCounter].AcTec:=3;
+                                3..7: TabOrbit[OrbDBCounter].AcTec:=4;
+                                8..10: TabOrbit[OrbDBCounter].AcTec:=5;
+                        end;
+                end;
+        end;
+   }
 end;
 
 end.

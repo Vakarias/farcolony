@@ -1199,7 +1199,7 @@ object FCWinFUG: TFCWinFUG
       object TOO_CurrentOrbitalObject: TAdvGroupBox
         Left = 127
         Top = 3
-        Width = 442
+        Width = 471
         Height = 600
         BorderColor = clBlack
         Caption = 'Orbital Object [enter for validate the data in each field]'
@@ -1390,6 +1390,42 @@ object FCWinFUG: TFCWinFUG
           EditLabel.Layout = tlCenter
           TabOrder = 11
           OnKeyDown = COO_AlbedoKeyDown
+        end
+        object COO_TectonicActivity: TAdvComboBox
+          Left = 332
+          Top = 71
+          Width = 130
+          Height = 21
+          Color = clWhite
+          Version = '1.3.1.0'
+          Visible = True
+          ButtonWidth = 18
+          DropWidth = 0
+          Enabled = True
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ItemIndex = -1
+          ItemHeight = 13
+          Items.Strings = (
+            'Dead'
+            'Hot Spot'
+            'Plastic'
+            'Plate Tectonic'
+            'Platelet Tectonic'
+            'Extreme')
+          LabelCaption = 'Tectonic Activity'
+          LabelPosition = lpTopCenter
+          LabelFont.Charset = DEFAULT_CHARSET
+          LabelFont.Color = clWindowText
+          LabelFont.Height = -11
+          LabelFont.Name = 'Tahoma'
+          LabelFont.Style = []
+          ParentFont = False
+          TabOrder = 12
+          OnChange = COO_TectonicActivityChange
         end
       end
       object TOO_OrbitalObjectPicker: TRadioGroup

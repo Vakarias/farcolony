@@ -93,6 +93,11 @@ procedure FCmfC_OrbitPicker_ObjectTypeUpdate;
 procedure FCmfC_OrbitPicker_RotationPeriodUpdate;
 
 ///<summary>
+///   update the orbital object tectonic activity
+///</summary>
+procedure FCmfC_OrbitPicker_TectonicActivityUpdate;
+
+///<summary>
 ///   update the orbital object token
 ///</summary>
 procedure FCmfC_OrbitPicker_TokenUpdate;
@@ -377,6 +382,23 @@ begin
    end;
 end;
 
+procedure FCmfC_OrbitPicker_TectonicActivityUpdate;
+{:Purpose: update the orbital object tectonic activity.
+    Additions:
+}
+   var
+      CurrentObject: integer;
+begin
+   CurrentObject:=FCWinFUG.TOO_OrbitalObjectPicker.ItemIndex+1;
+   case FCWinFUG.TOO_StarPicker.ItemIndex of
+      0: FCDfdMainStarObjectsList[CurrentObject].OO_tectonicActivity:=TFCEduTectonicActivity( FCWinFUG.COO_TectonicActivity.ItemIndex );
+
+      1: FCDfdComp1StarObjectsList[CurrentObject].OO_tectonicActivity:=TFCEduTectonicActivity( FCWinFUG.COO_TectonicActivity.ItemIndex );
+
+      2: FCDfdComp2StarObjectsList[CurrentObject].OO_tectonicActivity:=TFCEduTectonicActivity( FCWinFUG.COO_TectonicActivity.ItemIndex );
+   end;
+end;
+
 procedure FCmfC_OrbitPicker_TokenUpdate;
 {:Purpose: update the orbital object token.
     Additions:
@@ -397,6 +419,7 @@ end;
 procedure FCmfC_OrbitPicker_Update;
 {:Purpose: update the orbital object tab / orbital object picker.
     Additions:
+      -2013May01- *add: tectonic activity.
 }
    var
       CurrentObject: integer;
@@ -438,6 +461,7 @@ begin
          if FCDfdMainStarObjectsList[CurrentObject].OO_magneticField>0
          then FCWinFUG.COO_MagField.Text:=floattostr( FCDfdMainStarObjectsList[CurrentObject].OO_magneticField )
          else FCWinFUG.COO_MagField.Text:='';
+         FCWinFUG.COO_TectonicActivity.Text:=GetEnumName( TypeInfo( TFCEduTectonicActivity ), Integer( FCDfdMainStarObjectsList[CurrentObject].OO_tectonicActivity ) );
          if FCDfdMainStarObjectsList[CurrentObject].OO_albedo>0
          then FCWinFUG.COO_Albedo.Text:=floattostr( FCDfdMainStarObjectsList[CurrentObject].OO_albedo )
          else FCWinFUG.COO_Albedo.Text:='';
@@ -476,6 +500,7 @@ begin
          if FCDfdComp1StarObjectsList[CurrentObject].OO_magneticField>0
          then FCWinFUG.COO_MagField.Text:=floattostr( FCDfdComp1StarObjectsList[CurrentObject].OO_magneticField )
          else FCWinFUG.COO_MagField.Text:='';
+         FCWinFUG.COO_TectonicActivity.Text:=GetEnumName( TypeInfo( TFCEduTectonicActivity ), Integer( FCDfdComp1StarObjectsList[CurrentObject].OO_tectonicActivity ) );
          if FCDfdComp1StarObjectsList[CurrentObject].OO_albedo>0
          then FCWinFUG.COO_Albedo.Text:=floattostr( FCDfdComp1StarObjectsList[CurrentObject].OO_albedo )
          else FCWinFUG.COO_Albedo.Text:='';
@@ -514,6 +539,7 @@ begin
          if FCDfdComp2StarObjectsList[CurrentObject].OO_magneticField>0
          then FCWinFUG.COO_MagField.Text:=floattostr( FCDfdComp2StarObjectsList[CurrentObject].OO_magneticField )
          else FCWinFUG.COO_MagField.Text:='';
+         FCWinFUG.COO_TectonicActivity.Text:=GetEnumName( TypeInfo( TFCEduTectonicActivity ), Integer( FCDfdComp2StarObjectsList[CurrentObject].OO_tectonicActivity ) );
          if FCDfdComp2StarObjectsList[CurrentObject].OO_albedo>0
          then FCWinFUG.COO_Albedo.Text:=floattostr( FCDfdComp2StarObjectsList[CurrentObject].OO_albedo )
          else FCWinFUG.COO_Albedo.Text:='';

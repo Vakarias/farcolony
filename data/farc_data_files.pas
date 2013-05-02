@@ -1427,6 +1427,7 @@ end;
 procedure FCMdF_DBStarOrbitalObjects_Load( const StarSystemToken, StarToken: string );
 {:Purpose: load the orbital objects, if there's any, of a specified star in the universe database XML file.
    Additions:
+      -2013May01- *add: tectonic activity.
       -2013Apr30- *mod: albedo is moved into the ecosphere data.
       -2013Mar04- *add: OO_regionSurface + OO_meanTravelDistance.
       -2013Jan13- *add/mod: expansion of the region's EMO modifiers.
@@ -1549,6 +1550,10 @@ begin
                FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_rotationPeriod:=StrToFloat( XMLOrbitalObject.Attributes['oorotper'], FCVdiFormat );
                FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_inclinationAxis:=StrToFloat( XMLOrbitalObject.Attributes['ooinclax'], FCVdiFormat );
                FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_magneticField:=StrToFloat( XMLOrbitalObject.Attributes['oomagfld'], FCVdiFormat );
+               EnumIndex:=GetEnumValue( TypeInfo( TFCEduTectonicActivity ), XMLOrbitalObject.Attributes['ootectonicactivity'] );
+               FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_tectonicActivity:=TFCEduTectonicActivity( EnumIndex );
+               if EnumIndex=-1
+               then raise Exception.Create( 'bad orbital object tectonic activity: '+XMLOrbitalObject.Attributes['ootectonicactivity'] );
             end {.else if DBSSPorbObjNode.NodeName='orbobjgeophysdata'}
             else if XMLOrbitalObject.NodeName='orbobjecosdata' then
             begin
@@ -1744,6 +1749,10 @@ begin
                      FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_escapeVelocity:=StrToFloat( XMSatellite.Attributes['satescvel'], FCVdiFormat );
                      FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_inclinationAxis:=StrToFloat( XMSatellite.Attributes['satinclax'], FCVdiFormat );
                      FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_magneticField:=StrToFloat( XMSatellite.Attributes['satmagfld'], FCVdiFormat );
+                     EnumIndex:=GetEnumValue( TypeInfo( TFCEduTectonicActivity ), XMSatellite.Attributes['sattectonicactivity'] );
+                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_tectonicActivity:=TFCEduTectonicActivity( EnumIndex );
+                     if EnumIndex=-1
+                     then raise Exception.Create( 'bad (sat) orbital object type: '+XMSatellite.Attributes['sattectonicactivity'] );
                   end {.else if DBSSPsatNode.NodeName='satgeophysdata'}
                   else if XMSatellite.NodeName='satecosdata' then
                   begin
