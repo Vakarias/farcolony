@@ -167,7 +167,7 @@
                <orbper optype="" opstrt="" opend="" opmtemp=""/>
                <orbper optype="" opstrt="" opend="" opmtemp=""/>
             </orbperlist>
-            <orbobjgeophysdata ootype="" oodiam="" oodens="" oomass="" oograv="" ooescvel="" oorotper="" ooinclax="" oomagfld="" ootectonicactivity=""/>
+            <orbobjgeophysdata ootype="" oodiam="" oodens="" oomass="" oograv="" ooescvel="" oorotper="" ooinclax="" oomagfld=""/>
             <orbobjecosdata ooenvtype="" ooatmpres="" oocloudscov="" atmprimgasvol="" atmH2="" atmHe="" atmCH4="" atmNH3="" atmH2O="" atmNe="" atmN2="" atmCO="" atmNO="" atmO2="" atmH2S="" atmAr="" atmCO2="" atmNO2="" atmO3="" atmSO2="" hydroTp="" hydroArea="" ooalbe=""/>
             <orbobjregions surface="" mtd="">
                <region soiltp="" relief="" climate="" mtdmin="" mtdint="" mtdmax="" wndspd="" precip="" emoPlanSurveyG="" emoPlanSurveyA="" emoPlanSurveyAG="" emoPlanSurveySAG="" emoCAB="" emoIWC="" emoGroundCombat="">
@@ -207,8 +207,8 @@
                <orbper optype="optFarest" opstrt="57" opend="84" opmtemp="411.59"/>
                <orbper optype="optIntermediary" opstrt="85" opend="112" opmtemp="424.16"/>
             </orbperlist>      
-            <orbobjgeophysdata ootype="ootAsteroid_Carbonaceous" oodiam="1542.5" oodens="2758" oomass="5.299909" oograv="0.061" ooescvel="0.96" oorotper="2688" ooinclax="29" oomagfld="0" ooalbe="0.07"/>
-            <orbobjecosdata ooenvtype="etSpace" ooatmpres="0" oocloudscov="0" atmprimgasvol="0" atmH2="agsNotPresent" atmHe="agsNotPresent" atmCH4="agsNotPresent" atmNH3="agsNotPresent" atmH2O="agsNotPresent" atmNe="agsNotPresent" atmN2="agsNotPresent" atmCO="agsNotPresent" atmNO="agsNotPresent" atmO2="agsNotPresent" atmH2S="agsNotPresent" atmAr="agsNotPresent" atmCO2="agsNotPresent" atmNO2="agsNotPresent" atmO3="agsNotPresent" atmSO2="agsNotPresent" hydroTp="hNoH2O" hydroArea="0"/>
+            <orbobjgeophysdata ootype="ootAsteroid_Carbonaceous" oodiam="1542.5" oodens="2758" oomass="5.299909" oograv="0.061" ooescvel="0.96" oorotper="2688" ooinclax="29" oomagfld="0" ootectonicactivity="taDead"/>
+            <orbobjecosdata ooenvtype="etSpace" ooatmpres="0" oocloudscov="0" atmprimgasvol="0" atmH2="agsNotPresent" atmHe="agsNotPresent" atmCH4="agsNotPresent" atmNH3="agsNotPresent" atmH2O="agsNotPresent" atmNe="agsNotPresent" atmN2="agsNotPresent" atmCO="agsNotPresent" atmNO="agsNotPresent" atmO2="agsNotPresent" atmH2S="agsNotPresent" atmAr="agsNotPresent" atmCO2="agsNotPresent" atmNO2="agsNotPresent" atmO3="agsNotPresent" atmSO2="agsNotPresent" hydroTp="hNoH2O" hydroArea="0" ooalbe="0.07"/>
             <orbobjregions surface="1245802" mtd="1174">
                <region soiltp="rst14Sterile" relief="rr1plain" climate="rc07ColdArid" mtdmin="237.99" mtdint="288.07" mtdmax="338.54" wndspd="0" precip="0" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
                </region>
@@ -228,8 +228,8 @@
                <orbper optype="optFarest" opstrt="91" opend="135" opmtemp="345.48"/>
                <orbper optype="optIntermediary" opstrt="136" opend="180" opmtemp="361.83"/>
             </orbperlist>
-            <orbobjgeophysdata ootype="ootPlanet_Telluric_MarsH0H1" oodiam="8344" oodens="6331" oomass="0.3222" oograv="0.752" ooescvel="7.85" oorotper="32.55" ooinclax="39" oomagfld="0.092" ooalbe="0.2"/>
-            <orbobjecosdata ooenvtype="etRestricted" ooatmpres="134.662" oocloudscov="37.2" atmprimgasvol="53" atmH2="agsNotPresent" atmHe="agsNotPresent" atmCH4="agsSecondary" atmNH3="agsSecondary" atmH2O="agsSecondary" atmNe="agsSecondary" atmN2="agsMain" atmCO="agsSecondary" atmNO="agsSecondary" atmO2="agsSecondary" atmH2S="agsSecondary" atmAr="agsSecondary" atmCO2="agsSecondary" atmNO2="agsSecondary" atmO3="agsSecondary" atmSO2="agsSecondary" hydroTp="hVaporH2O" hydroArea="32.7"/>
+            <orbobjgeophysdata ootype="ootPlanet_Telluric_MarsH0H1" oodiam="8344" oodens="6331" oomass="0.3222" oograv="0.752" ooescvel="7.85" oorotper="32.55" ooinclax="39" oomagfld="0.092" ootectonicactivity="taDead"/>
+            <orbobjecosdata ooenvtype="etRestricted" ooatmpres="134.662" oocloudscov="37.2" atmprimgasvol="53" atmH2="agsNotPresent" atmHe="agsNotPresent" atmCH4="agsSecondary" atmNH3="agsSecondary" atmH2O="agsSecondary" atmNe="agsSecondary" atmN2="agsMain" atmCO="agsSecondary" atmNO="agsSecondary" atmO2="agsSecondary" atmH2S="agsSecondary" atmAr="agsSecondary" atmCO2="agsSecondary" atmNO2="agsSecondary" atmO3="agsSecondary" atmSO2="agsSecondary" hydroTp="hVaporH2O" hydroArea="32.7" ooalbe="0.2"/>
             <orbobjregions surface="6075695" mtd="2593">
                <region soiltp="rst01RockyDesert" relief="rr1plain" climate="rc07ColdArid" mtdmin="210.04" mtdint="251.99" mtdmax="313.36" wndspd="32.24" precip="95" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
                </region>
@@ -293,8 +293,8 @@
                <orbper optype="optClosest" opstrt="135" opend="201" opmtemp="319.22"/>
                <orbper optype="optIntermediary" opstrt="202" opend="268" opmtemp="317.46"/>
             </orbperlist>
-            <orbobjgeophysdata ootype="ootPlanet_Telluric_MarsH2" oodiam="6552" oodens="6331" oomass="0.156" oograv="0.591" ooescvel="6.16" oorotper="935.93" ooinclax="24" oomagfld="0.001" ooalbe="0.16"/>
-            <orbobjecosdata ooenvtype="etRestricted" ooatmpres="31.595" oocloudscov="36.9" atmprimgasvol="80" atmH2="agsNotPresent" atmHe="agsNotPresent" atmCH4="agsSecondary" atmNH3="agsSecondary" atmH2O="agsSecondary" atmNe="agsSecondary" atmN2="agsMain" atmCO="agsSecondary" atmNO="agsSecondary" atmO2="agsSecondary" atmH2S="agsSecondary" atmAr="agsSecondary" atmCO2="agsSecondary" atmNO2="agsSecondary" atmO3="agsSecondary" atmSO2="agsSecondary" hydroTp="hLiquidH2O" hydroArea="11"/>
+            <orbobjgeophysdata ootype="ootPlanet_Telluric_MarsH2" oodiam="6552" oodens="6331" oomass="0.156" oograv="0.591" ooescvel="6.16" oorotper="935.93" ooinclax="24" oomagfld="0.001" ootectonicactivity="taDead"/>
+            <orbobjecosdata ooenvtype="etRestricted" ooatmpres="31.595" oocloudscov="36.9" atmprimgasvol="80" atmH2="agsNotPresent" atmHe="agsNotPresent" atmCH4="agsSecondary" atmNH3="agsSecondary" atmH2O="agsSecondary" atmNe="agsSecondary" atmN2="agsMain" atmCO="agsSecondary" atmNO="agsSecondary" atmO2="agsSecondary" atmH2S="agsSecondary" atmAr="agsSecondary" atmCO2="agsSecondary" atmNO2="agsSecondary" atmO3="agsSecondary" atmSO2="agsSecondary" hydroTp="hLiquidH2O" hydroArea="11" ooalbe="0.16"/>
             <orbobjregions surface="4495483" mtd="2230">
                <region soiltp="rst01RockyDesert" relief="rr4broken" climate="rc07ColdArid" mtdmin="166.86" mtdint="212.62" mtdmax="277.13" wndspd="1.9" precip="99" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
                </region>
@@ -350,8 +350,8 @@
                <orbper optype="optFarest" opstrt="223" opend="333" opmtemp="301.53"/>
                <orbper optype="optIntermediary" opstrt="334" opend="444" opmtemp="309.07"/>
             </orbperlist>
-            <orbobjgeophysdata ootype="ootPlanet_Telluric_VenusH2" oodiam="16865.2" oodens="5912" oomass="2.4848" oograv="1.42" ooescvel="15.33" oorotper="-21.99" ooinclax="121.2" oomagfld="0.025" ooalbe="0.05"/>
-            <orbobjecosdata ooenvtype="etRestricted" ooatmpres="6008.659" oocloudscov="16.8" atmprimgasvol="72" atmH2="agsSecondary" atmHe="agsSecondary" atmCH4="agsSecondary" atmNH3="agsSecondary" atmH2O="agsSecondary" atmNe="agsSecondary" atmN2="agsMain" atmCO="agsSecondary" atmNO="agsSecondary" atmO2="agsMain" atmH2S="agsSecondary" atmAr="agsSecondary" atmCO2="agsSecondary" atmNO2="agsSecondary" atmO3="agsSecondary" atmSO2="agsTrace" hydroTp="hLiquidH2O" hydroArea="31"/>
+            <orbobjgeophysdata ootype="ootPlanet_Telluric_VenusH2" oodiam="16865.2" oodens="5912" oomass="2.4848" oograv="1.42" ooescvel="15.33" oorotper="-21.99" ooinclax="121.2" oomagfld="0.025" ootectonicactivity="taDead"/>
+            <orbobjecosdata ooenvtype="etRestricted" ooatmpres="6008.659" oocloudscov="16.8" atmprimgasvol="72" atmH2="agsSecondary" atmHe="agsSecondary" atmCH4="agsSecondary" atmNH3="agsSecondary" atmH2O="agsSecondary" atmNe="agsSecondary" atmN2="agsMain" atmCO="agsSecondary" atmNO="agsSecondary" atmO2="agsMain" atmH2S="agsSecondary" atmAr="agsSecondary" atmCO2="agsSecondary" atmNO2="agsSecondary" atmO3="agsSecondary" atmSO2="agsTrace" hydroTp="hLiquidH2O" hydroArea="31" ooalbe="0.05"/>
             <orbobjregions surface="148929803" mtd="12837">
                <region soiltp="rst01RockyDesert" relief="rr1plain" climate="rc07ColdArid" mtdmin="315.28" mtdint="227.27" mtdmax="140.23" wndspd="49.71" precip="86" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
                </region>
@@ -362,48 +362,6 @@
                <region soiltp="rst03Volcanic" relief="rr4broken" climate="rc07ColdArid" mtdmin="297.2" mtdint="238.87" mtdmax="169.44" wndspd="174.92" precip="68" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
                </region>
             </orbobjregions>
-            <satobj sattoken="satAcentA4At01">
-               <satorbdata satdist="68.3" satrevol="1" satrevinit="1" satgravsphrad="1274.9"/>      
-               <orbperlist>
-                  <orbper optype="optClosest" opstrt="1" opend="111" opmtemp="321.24"/>
-                  <orbper optype="optIntermediary" opstrt="112" opend="222" opmtemp="309.11"/>
-                  <orbper optype="optFarest" opstrt="223" opend="333" opmtemp="301.53"/>
-                  <orbper optype="optIntermediary" opstrt="334" opend="444" opmtemp="309.07"/>
-               </orbperlist>
-               <satgeophysdata sattype="ootSatellite_Asteroid_Carbonaceous" satdiam="121.6" satdens="3309" satmass="0.003115" satgrav="0.006" satescvel="0.08" satinclax="32" satmagfld="0" satalbe="0"/>
-               <satecosdata satenvtype="etSpace" satatmpres="0" satcloudscov="0" atmprimgasvol="0" atmH2="agsNotPresent" atmHe="agsNotPresent" atmCH4="agsNotPresent" atmNH3="agsNotPresent" atmH2O="agsNotPresent" atmNe="agsNotPresent" atmN2="agsNotPresent" atmCO="agsNotPresent" atmNO="agsNotPresent" atmO2="agsNotPresent" atmH2S="agsNotPresent" atmAr="agsNotPresent" atmCO2="agsNotPresent" atmNO2="agsNotPresent" atmO3="agsNotPresent" atmSO2="agsNotPresent" hydroTp="hNoH2O" hydroArea="0"/>
-               <satregions surface="7742" mtd="93">
-                  <region soiltp="rst01RockyDesert" relief="rr1plain" climate="rc07ColdArid" mtdmin="210.04" mtdint="251.99" mtdmax="313.36" wndspd="32.24" precip="95" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
-                  </region>
-                  <region soiltp="rst03Volcanic" relief="rr4broken" climate="rc03HotSemiArid" mtdmin="278.03" mtdint="296.75" mtdmax="317.43" wndspd="116.47" precip="247" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
-                  </region>
-                  <region soiltp="rst03Volcanic" relief="rr4broken" climate="rc03HotSemiArid" mtdmin="278.03" mtdint="296.75" mtdmax="317.43" wndspd="116.47" precip="247" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
-                  </region>
-                  <region soiltp="rst01RockyDesert" relief="rr1plain" climate="rc07ColdArid" mtdmin="210.04" mtdint="251.99" mtdmax="313.36" wndspd="32.24" precip="95" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
-                  </region>
-               </satregions>
-            </satobj>
-            <satobj sattoken="satAcentA4At02">
-               <satorbdata satdist="868.3" satrevol="1" satrevinit="1" satgravsphrad="6274.9"/>      
-               <orbperlist>
-                  <orbper optype="optClosest" opstrt="1" opend="111" opmtemp="321.24"/>
-                  <orbper optype="optIntermediary" opstrt="112" opend="222" opmtemp="309.11"/>
-                  <orbper optype="optFarest" opstrt="223" opend="333" opmtemp="301.53"/>
-                  <orbper optype="optIntermediary" opstrt="334" opend="444" opmtemp="309.07"/>
-               </orbperlist>
-               <satgeophysdata sattype="ootSatellite_Icy_Callisto" satdiam="4121.6" satdens="3309" satmass="0.003115" satgrav="0.006" satescvel="0.08" satinclax="32" satmagfld="0" satalbe="0"/>
-               <satecosdata satenvtype="etRestricted" satatmpres="1000" satcloudscov="60" atmprimgasvol="0" atmH2="agsNotPresent" atmHe="agsNotPresent" atmCH4="agsNotPresent" atmNH3="agsNotPresent" atmH2O="agsNotPresent" atmNe="agsNotPresent" atmN2="agsNotPresent" atmCO="agsNotPresent" atmNO="agsNotPresent" atmO2="agsNotPresent" atmH2S="agsNotPresent" atmAr="agsNotPresent" atmCO2="agsNotPresent" atmNO2="agsNotPresent" atmO3="agsNotPresent" atmSO2="agsNotPresent" hydroTp="hVaporH2O" hydroArea="30"/>
-               <satregions surface="8894680" mtd="3137">
-                  <region soiltp="rst01RockyDesert" relief="rr1plain" climate="rc07ColdArid" mtdmin="210.04" mtdint="251.99" mtdmax="313.36" wndspd="32.24" precip="95" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
-                  </region>
-                  <region soiltp="rst03Volcanic" relief="rr4broken" climate="rc03HotSemiArid" mtdmin="278.03" mtdint="296.75" mtdmax="317.43" wndspd="116.47" precip="247" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
-                  </region>
-                  <region soiltp="rst03Volcanic" relief="rr4broken" climate="rc03HotSemiArid" mtdmin="278.03" mtdint="296.75" mtdmax="317.43" wndspd="116.47" precip="247" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
-                  </region>
-                  <region soiltp="rst01RockyDesert" relief="rr1plain" climate="rc07ColdArid" mtdmin="210.04" mtdint="251.99" mtdmax="313.36" wndspd="32.24" precip="95" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
-                  </region>
-               </satregions>
-            </satobj>
          </orbobj>
          <orbobj ootoken="orbobjAcentA5">
             <orbobjorbdata oodist="1.97" ooecc="0.086" ooorbzne="hzOuter" oorevol="990" oorevevinit="89" oogravsphrad="17486173.5"/>      
@@ -413,50 +371,8 @@
                <orbper optype="optFarest" opstrt="495" opend="741" opmtemp="164.04"/>
                <orbper optype="optIntermediary" opstrt="742" opend="988" opmtemp="170.95"/>
             </orbperlist>
-            <orbobjgeophysdata ootype="ootPlanet_Jovian" oodiam="135300" oodens="1408" oomass="305.5513" oograv="2.713" ooescvel="60.01" oorotper="16.87" ooinclax="27" oomagfld="0.461" ooalbe="0.55"/>
-            <orbobjecosdata ooenvtype="etGaseous" ooatmpres="1" oocloudscov="0" atmprimgasvol="61" atmH2="agsMain" atmHe="agsMain" atmCH4="agsSecondary" atmNH3="agsSecondary" atmH2O="agsSecondary" atmNe="agsSecondary" atmN2="agsSecondary" atmCO="agsSecondary" atmNO="agsSecondary" atmO2="agsSecondary" atmH2S="agsSecondary" atmAr="agsSecondary" atmCO2="agsSecondary" atmNO2="agsSecondary" atmO3="agsSecondary" atmSO2="agsSecondary" hydroTp="hNoH2O" hydroArea="0"/>
-            <satobj sattoken="satAcentA5t01">
-               <satorbdata satdist="681.3" satrevol="1" satrevinit="1" satgravsphrad="1274.9"/>      
-               <orbperlist>
-                  <orbper optype="optClosest" opstrt="1" opend="247" opmtemp="178.81"/>
-                  <orbper optype="optIntermediary" opstrt="248" opend="494" opmtemp="170.95"/>
-                  <orbper optype="optFarest" opstrt="495" opend="741" opmtemp="164.04"/>
-                  <orbper optype="optIntermediary" opstrt="742" opend="988" opmtemp="170.95"/>
-               </orbperlist>
-               <satgeophysdata sattype="ootSatellite_Asteroid_Icy" satdiam="121.6" satdens="3309" satmass="0.003115" satgrav="0.006" satescvel="0.08" satinclax="32" satmagfld="0" satalbe="0"/>
-               <satecosdata satenvtype="etSpace" satatmpres="0" satcloudscov="0" atmprimgasvol="0" atmH2="agsNotPresent" atmHe="agsNotPresent" atmCH4="agsNotPresent" atmNH3="agsNotPresent" atmH2O="agsNotPresent" atmNe="agsNotPresent" atmN2="agsNotPresent" atmCO="agsNotPresent" atmNO="agsNotPresent" atmO2="agsNotPresent" atmH2S="agsNotPresent" atmAr="agsNotPresent" atmCO2="agsNotPresent" atmNO2="agsNotPresent" atmO3="agsNotPresent" atmSO2="agsNotPresent" hydroTp="hNoH2O" hydroArea="0"/>
-               <satregions surface="7742" mtd="93">
-                  <region soiltp="rst01RockyDesert" relief="rr1plain" climate="rc07ColdArid" mtdmin="210.04" mtdint="251.99" mtdmax="313.36" wndspd="32.24" precip="95" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
-                  </region>
-                  <region soiltp="rst03Volcanic" relief="rr4broken" climate="rc03HotSemiArid" mtdmin="278.03" mtdint="296.75" mtdmax="317.43" wndspd="116.47" precip="247" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
-                  </region>
-                  <region soiltp="rst03Volcanic" relief="rr4broken" climate="rc03HotSemiArid" mtdmin="278.03" mtdint="296.75" mtdmax="317.43" wndspd="116.47" precip="247" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
-                  </region>
-                  <region soiltp="rst01RockyDesert" relief="rr1plain" climate="rc07ColdArid" mtdmin="210.04" mtdint="251.99" mtdmax="313.36" wndspd="32.24" precip="95" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
-                  </region>
-               </satregions>
-            </satobj>
-            <satobj sattoken="satAcentA5t02">
-               <satorbdata satdist="1068.3" satrevol="1" satrevinit="1" satgravsphrad="6274.9"/>      
-               <orbperlist>
-                  <orbper optype="optClosest" opstrt="1" opend="247" opmtemp="178.81"/>
-                  <orbper optype="optIntermediary" opstrt="248" opend="494" opmtemp="170.95"/>
-                  <orbper optype="optFarest" opstrt="495" opend="741" opmtemp="164.04"/>
-                  <orbper optype="optIntermediary" opstrt="742" opend="988" opmtemp="170.95"/>
-               </orbperlist>
-               <satgeophysdata sattype="ootSatellite_Icy_Europa" satdiam="3000.6" satdens="3309" satmass="0.003115" satgrav="0.006" satescvel="0.08" satinclax="32" satmagfld="0" satalbe="0"/>
-               <satecosdata satenvtype="etRestricted" satatmpres="1000" satcloudscov="80" atmprimgasvol="0" atmH2="agsNotPresent" atmHe="agsNotPresent" atmCH4="agsNotPresent" atmNH3="agsNotPresent" atmH2O="agsNotPresent" atmNe="agsNotPresent" atmN2="agsNotPresent" atmCO="agsNotPresent" atmNO="agsNotPresent" atmO2="agsNotPresent" atmH2S="agsNotPresent" atmAr="agsNotPresent" atmCO2="agsNotPresent" atmNO2="agsNotPresent" atmO3="agsNotPresent" atmSO2="agsNotPresent" hydroTp="hLiquidCH4" hydroArea="30"/>
-               <satregions surface="4714274" mtd="2284">
-                  <region soiltp="rst01RockyDesert" relief="rr1plain" climate="rc07ColdArid" mtdmin="210.04" mtdint="251.99" mtdmax="313.36" wndspd="32.24" precip="95" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
-                  </region>
-                  <region soiltp="rst03Volcanic" relief="rr4broken" climate="rc03HotSemiArid" mtdmin="278.03" mtdint="296.75" mtdmax="317.43" wndspd="116.47" precip="247" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
-                  </region>
-                  <region soiltp="rst03Volcanic" relief="rr4broken" climate="rc03HotSemiArid" mtdmin="278.03" mtdint="296.75" mtdmax="317.43" wndspd="116.47" precip="247" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
-                  </region>
-                  <region soiltp="rst01RockyDesert" relief="rr1plain" climate="rc07ColdArid" mtdmin="210.04" mtdint="251.99" mtdmax="313.36" wndspd="32.24" precip="95" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
-                  </region>
-               </satregions>
-            </satobj>
+            <orbobjgeophysdata ootype="ootPlanet_Jovian" oodiam="135300" oodens="1408" oomass="305.5513" oograv="2.713" ooescvel="60.01" oorotper="16.87" ooinclax="27" oomagfld="0.461" ootectonicactivity="taDead"/>
+            <orbobjecosdata ooenvtype="etGaseous" ooatmpres="1" oocloudscov="0" atmprimgasvol="61" atmH2="agsMain" atmHe="agsMain" atmCH4="agsSecondary" atmNH3="agsSecondary" atmH2O="agsSecondary" atmNe="agsSecondary" atmN2="agsSecondary" atmCO="agsSecondary" atmNO="agsSecondary" atmO2="agsSecondary" atmH2S="agsSecondary" atmAr="agsSecondary" atmCO2="agsSecondary" atmNO2="agsSecondary" atmO3="agsSecondary" atmSO2="agsSecondary" hydroTp="hNoH2O" hydroArea="0" ooalbe="0.55"/>
          </orbobj>
          <orbobj ootoken="orbobjAcentA6">
             <orbobjorbdata oodist="2.96" ooecc="0.018" ooorbzne="hzOuter" oorevol="1823" oorevevinit="91" oogravsphrad="17633091.4"/>      
@@ -466,8 +382,8 @@
                <orbper optype="optFarest" opstrt="911" opend="1365" opmtemp="145.33"/>
                <orbper optype="optIntermediary" opstrt="1366" opend="1820" opmtemp="146.63"/>
             </orbperlist>
-            <orbobjgeophysdata ootype="ootPlanet_Gaseous_Saturn" oodiam="89800" oodens="1777" oomass="112.7469" oograv="2.272" ooescvel="44.74" oorotper="13.76" ooinclax="11" oomagfld="1.23" ooalbe="0.45"/>
-            <orbobjecosdata ooenvtype="etGaseous" ooatmpres="1" oocloudscov="0" atmprimgasvol="67" atmH2="agsMain" atmHe="agsMain" atmCH4="agsSecondary" atmNH3="agsSecondary" atmH2O="agsSecondary" atmNe="agsSecondary" atmN2="agsSecondary" atmCO="agsSecondary" atmNO="agsSecondary" atmO2="agsSecondary" atmH2S="agsSecondary" atmAr="agsSecondary" atmCO2="agsSecondary" atmNO2="agsSecondary" atmO3="agsSecondary" atmSO2="agsSecondary" hydroTp="hNoH2O" hydroArea="0"/>
+            <orbobjgeophysdata ootype="ootPlanet_Gaseous_Saturn" oodiam="89800" oodens="1777" oomass="112.7469" oograv="2.272" ooescvel="44.74" oorotper="13.76" ooinclax="11" oomagfld="1.23" ootectonicactivity="taDead"/>
+            <orbobjecosdata ooenvtype="etGaseous" ooatmpres="1" oocloudscov="0" atmprimgasvol="67" atmH2="agsMain" atmHe="agsMain" atmCH4="agsSecondary" atmNH3="agsSecondary" atmH2O="agsSecondary" atmNe="agsSecondary" atmN2="agsSecondary" atmCO="agsSecondary" atmNO="agsSecondary" atmO2="agsSecondary" atmH2S="agsSecondary" atmAr="agsSecondary" atmCO2="agsSecondary" atmNO2="agsSecondary" atmO3="agsSecondary" atmSO2="agsSecondary" hydroTp="hNoH2O" hydroArea="0" ooalbe="0.45"/>
          </orbobj>
       </star>
       <star startoken="starACentB" starclass="K1">

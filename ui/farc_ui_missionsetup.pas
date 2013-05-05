@@ -587,7 +587,8 @@ begin
          FCDmcCurrentMission[0].T_tMITdestinationIndex:=FC3doglSelectedPlanetAsteroid;
          FCDmcCurrentMission[0].T_tMITdestinationSatIndex:=0;
       end
-      else if FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite] then
+      else if ( FC3doglTotalSatellites>0 )
+         and ( FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite] ) then
       begin
          FCDmcCurrentMission[0].T_tMITdestination:=ttSatellite;
          FCDmcCurrentMission[0].T_tMITdestinationIndex:=round(FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].TagFloat);
