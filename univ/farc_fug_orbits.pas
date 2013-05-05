@@ -37,20 +37,6 @@ uses
    ,farc_data_univ;
 
 ///<summary>
-///   calculate the gravitational sphere radius of an orbital object
-///</summary>
-///   <param name="MassObject">mass of the object, Earth equivalent</param>
-///   <param name="MassStar">mass of the object's star, Sun equivalent</param>
-///   <param name="DistanceObject">distance of the object from its star in AU</param>
-///   <returns>the gravitational sphere radius in km</returns>
-///   <remarks>format [x.x]</remarks>
-function FCFfS_GravitationalSphereRadius_Calculation(
-   const MassObject
-         ,MassStar
-         ,DistanceObject: extended
-   ): extended;
-
-///<summary>
 ///   calculate the orbital eccentricity
 ///</summary>
 ///   <param name="SystemType">TFCRfdSystemType value</param>
@@ -105,6 +91,15 @@ function FCFfS_OrbitGen_ExtraSolLike( const StarClass: TFCEduStarClasses; const 
 ///</summary>
 procedure FCMfO_Generate(const CurrentStar: integer);
 
+///<summary>
+///   calculate the gravitational sphere radius, the geosynchronous and the low orbits of an orbital object
+///</summary>
+///   <param name="Star">star's index #</param>
+///   <param name="OrbitalObject">orbital object's index #</param>
+///   <returns></returns>
+///   <remarks>format [x.x]</remarks>
+procedure FCMfO_GravSphereOrbits_Calculation( const Star, OrbitalObject: integer );
+
 implementation
 
 uses
@@ -116,28 +111,6 @@ uses
    ,farc_win_fug;
 
 //===================================================END OF INIT============================
-
-function FCFfS_GravitationalSphereRadius_Calculation(
-   const MassObject
-         ,MassStar
-         ,DistanceObject: extended
-   ): extended;
-{:Purpose: calculate the gravitational sphere radius of an orbital object.
-    Additions:
-}
-   var
-      Calculation
-      ,DistanceKm
-      ,ObjectMassKg
-      ,StarMassKg: extended;
-begin
-   Result:=0;
-   ObjectMassKg:=MassObject * FCCdiMassEqEarth;
-   StarMassKg:=MassStar * FCCdiMassEqSun;
-   DistanceKm:=DistanceObject * FCCdiKm_In_1AU;
-   Calculation:=DistanceKm * power( ( ObjectMassKg /  StarMassKg ), 2 / 5 );
-   Result:=FCFcF_Round( rttCustom1Decimal, Calculation );
-end;
 
 function FCFfS_OrbitalEccentricity_Calculation(
    const SystemType: integer;
@@ -1378,10 +1351,12 @@ begin
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_distanceFromStar:=FCFcF_Round( rttCustom2Decimal, CalcFloat1 );
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_density:=0;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_mass:=0;
-               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_gravitationalSphereRadius:=0;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_gravity:=0;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_escapeVelocity:=0;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_rotationPeriod:=0;
+               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_gravitationalSphereRadius:=0;
+               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_geosynchOrbit:=0;
+               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_lowOrbit:=0;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_inclinationAxis:=0;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_magneticField:=0;
             end
@@ -1409,17 +1384,13 @@ begin
                end;
                if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType=oobtGaseousPlanet
                then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_type:=FCFfG_Refinement_GaseousPlanet( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_mass );
-               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_gravitationalSphereRadius:=FCFfS_GravitationalSphereRadius_Calculation(
-                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_mass
-                  ,FCDduStarSystem[0].SS_stars[CurrentStar].S_mass
-                  ,FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_distanceFromStar
-                  );
                if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_gravity=0
                then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_gravity:=FCFfG_Gravity_Calculation( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_diameter, FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_mass );
                if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_escapeVelocity=0
                then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_escapeVelocity:=FCFfG_EscapeVelocity_Calculation( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_diameter, FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_mass );
                if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_rotationPeriod=0
                then FCMfG_RotationPeriod_Calculation( CurrentStar, Count );
+               FCMfO_GravSphereOrbits_Calculation( CurrentStar , Count );
                if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_inclinationAxis=0
                then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_inclinationAxis:=FCFfG_InclinationAxis_Calculation;
                if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_inclinationAxis<0 then
@@ -1510,6 +1481,36 @@ begin
          inc( Count);
       end; //==END== while Count<=NumberOfOrbits ==//
    end; //==END== else of if CalcFloat=0 ==//
+end;
+
+procedure FCMfO_GravSphereOrbits_Calculation( const Star, OrbitalObject: integer );
+{:Purpose: calculate the gravitational sphere radius, the geosynchronous and the low orbits of an orbital object.
+    Additions:
+      -2013May05- *mod: function = > procedure.
+                  *add: geosynchronous and low orbit calculations.
+}
+   var
+      Calculation
+      ,DistanceKm
+      ,GravSphereCoef
+      ,ObjectMassKg
+      ,StarMassKg: extended;
+begin
+   ObjectMassKg:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_mass * FCCdiMassEqEarth;
+   StarMassKg:=FCDduStarSystem[0].SS_stars[Star].S_mass * FCCdiMassEqSun;
+   DistanceKm:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isNotSat_distanceFromStar * FCCdiKm_In_1AU;
+   {.gravitational sphere radius}
+   Calculation:=DistanceKm * power( ( ObjectMassKg /  StarMassKg ), 2 / 5 );
+   FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_gravitationalSphereRadius:=FCFcF_Round( rttCustom1Decimal, Calculation );
+   {.geosynchronous orbit}
+   Calculation:=( power( ( FCCdiGravitationalConst * ObjectMassKg * power(  FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_rotationPeriod * 3600, 2 ) ) / ( 4 * power( Pi, 2 ) ) ,0.333 ) ) / 1000;
+   FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_geosynchOrbit:=FCFcF_Round( rttCustom1Decimal, Calculation );
+   {.low orbit}
+   GravSphereCoef:=10 - ( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_gravitationalSphereRadius / 100000 );
+   if GravSphereCoef < 1
+   then GravSphereCoef:=1;
+   Calculation:=( ( power(  FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_geosynchOrbit  , 0.333  ) * 14.5 ) + ( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_diameter * 0.5 ) ) * GravSphereCoef;
+   FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_lowOrbit:=FCFcF_Round( rttCustom1Decimal, Calculation );
 end;
 
 end.

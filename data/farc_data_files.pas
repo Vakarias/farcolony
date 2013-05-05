@@ -1427,6 +1427,7 @@ end;
 procedure FCMdF_DBStarOrbitalObjects_Load( const StarSystemToken, StarToken: string );
 {:Purpose: load the orbital objects, if there's any, of a specified star in the universe database XML file.
    Additions:
+      -2013May05- *add: geosynchronous and low orbit.
       -2013May01- *add: tectonic activity.
       -2013Apr30- *mod: albedo is moved into the ecosphere data.
       -2013Mar04- *add: OO_regionSurface + OO_meanTravelDistance.
@@ -1518,6 +1519,8 @@ begin
                         /FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_revolutionPeriod
                      );
                FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_gravitationalSphereRadius:=StrToFloat( XMLOrbitalObject.Attributes['oogravsphrad'], FCVdiFormat );
+               FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_geosynchOrbit:=StrToFloat( XMLOrbitalObject.Attributes['orbitGeosync'], FCVdiFormat );
+               FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_lowOrbit:=StrToFloat( XMLOrbitalObject.Attributes['orbitLow'], FCVdiFormat );
             end //==END== if DBSSPorbObjNode.NodeName='orbobjorbdata' ==//
             else if XMLOrbitalObject.NodeName='orbperlist' then
             begin
@@ -1718,6 +1721,8 @@ begin
                               /FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_revolutionPeriod
                            );
                      FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_gravitationalSphereRadius:=StrToFloat( XMSatellite.Attributes['satgravsphrad'], FCVdiFormat );
+                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_geosynchOrbit:=StrToFloat( XMSatellite.Attributes['orbitGeosync'], FCVdiFormat );
+                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_lowOrbit:=StrToFloat( XMSatellite.Attributes['orbitLow'], FCVdiFormat );
                   end
                   else if XMSatellite.NodeName='orbperlist' then
                   begin

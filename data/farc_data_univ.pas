@@ -605,6 +605,14 @@ type TFCRduOrbitalObject = record
    ///</summary>
    OO_gravitationalSphereRadius: extended;
    ///<summary>
+   ///   geosynchronous orbit radius  in km RTO-1
+   ///</summary>
+   OO_geosynchOrbit: extended;
+   ///<summary>
+   ///   low orbit radius  in km RTO-1
+   ///</summary>
+   OO_lowOrbit: extended;
+   ///<summary>
    ///   escape velocity in km/s RTO-2
    ///</summary>
    OO_escapeVelocity: extended;

@@ -160,7 +160,7 @@
          <starphysdata startemp="" starmass="" stardiam="" starlum=""/>
          <starcompdata compmsep="" compminapd="" compecc="" comporb=""/>
          <orbobj ootoken="" ftSeed="">
-            <orbobjorbdata oodist="" ooecc="" ooorbzne="" oorevol="" oorevevinit="" oogravsphrad=""/>      
+            <orbobjorbdata oodist="" ooecc="" ooorbzne="" oorevol="" oorevevinit="" oogravsphrad="" orbitGeosync="" orbitLow=""/>      
             <orbperlist>
                <orbper optype="" opstrt="" opend="" opmtemp=""/>
                <orbper optype="" opstrt="" opend="" opmtemp=""/>
@@ -175,7 +175,7 @@
                </region>
             </orbobjregions>
             <satobj sattoken="">
-               <satorbdata satdist="" satrevol="" satrevinit="" satgravsphrad=""/>      
+               <satorbdata satdist="" satrevol="" satrevinit="" satgravsphrad="" orbitGeosync="" orbitLow=""/>      
                <orbperlist>
                   <orbper optype="" opstrt="" opend="" opmtemp=""/>
                   <orbper optype="" opstrt="" opend="" opmtemp=""/>
