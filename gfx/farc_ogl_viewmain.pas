@@ -501,6 +501,7 @@ begin
    begin
       {.camera ghost settings}
       FCWinMain.FCGLSCamMainViewGhost.TargetObject:=FC3doglSpaceUnits[FC3doglSelectedSpaceUnit];
+      FC3doglSpaceUnitSize:=FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].Scale.X;
       FCMoglVM_OObjSpUn_ChgeScale(FC3doglSelectedSpaceUnit);
       CMTdmpCoef:=FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].DistanceTo(FCWinMain.FCGLSStarMain)/CFC3dUnInAU*8;
       FCWinMain.FCGLSCamMainViewGhost.Position.X
@@ -511,8 +512,8 @@ begin
          :=FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].Position.Z+FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].Scale.Z+(0.05*CMTdmpCoef);
       {.configuration}
       FCWinMain.FCGLSCamMainView.NearPlaneBias
-         :=0.01+(sqrt(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].DistanceTo(FCWinMain.FCGLSStarMain)/CFC3dUnInAU)/30);
-      FC3doglSpaceUnitSize:=FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].Scale.X;
+         :=0.01+(sqrt(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].DistanceTo(FCWinMain.FCGLSStarMain)/CFC3dUnInAU)/100);//30);
+
       FCMoglVM_SpUn_SetZoomScale;
       {.smooth navigator target change}
       FCWinMain.FCGLSsmthNavMainV.MoveAroundParams.TargetObject:=FC3doglSpaceUnits[FC3doglSelectedSpaceUnit];
@@ -2002,7 +2003,7 @@ begin
    end
    else OOSUCSdmpSize:=StrToFloat(FC3doglSpaceUnits[OOSUCSobjIdx].Hint);
    FC3doglSpaceUnits[OOSUCSobjIdx].Scale.X
-      :=OOSUCSdmpSize*FC3doglSpaceUnits[OOSUCSobjIdx].DistanceTo(FCWinMain.FCGLSStarMain)/CFC3dUnInAU*8;
+      :=OOSUCSdmpSize*FC3doglSpaceUnits[OOSUCSobjIdx].DistanceTo(FCWinMain.FCGLSStarMain)/CFC3dUnInAU*64;//8;
    FC3doglSpaceUnits[OOSUCSobjIdx].Scale.Y:=FC3doglSpaceUnits[OOSUCSobjIdx].Scale.X;
    FC3doglSpaceUnits[OOSUCSobjIdx].Scale.Z:=FC3doglSpaceUnits[OOSUCSobjIdx].Scale.X;
 end;

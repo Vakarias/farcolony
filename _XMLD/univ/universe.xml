@@ -200,7 +200,7 @@
       <star startoken="starACentA" starclass="G2">
          <starphysdata startemp="5659" starmass="1.07" stardiam="1.11" starlum="1.32069"/>
          <orbobj ootoken="orbobjAcentA1">
-            <orbobjorbdata oodist="0.46" ooecc="0.062" ooorbzne="hzInner" oorevol="112" oorevevinit="63" oogravsphrad="9910.5"/>
+            <orbobjorbdata oodist="0.46" ooecc="0.062" ooorbzne="hzInner" oorevol="112" oorevevinit="63" oogravsphrad="6090"/>
             <orbperlist>
                <orbper optype="optClosest" opstrt="1" opend="28" opmtemp="437.95"/>
                <orbper optype="optIntermediary" opstrt="29" opend="56" opmtemp="424.16"/>
@@ -286,7 +286,7 @@
             </orbobjregions>
          </orbobj>
          <orbobj ootoken="orbobjAcentA3">
-            <orbobjorbdata oodist="0.83" ooecc="0.011" ooorbzne="hzInner" oorevol="271" oorevevinit="106" oogravsphrad="355240.8"/>      
+            <orbobjorbdata oodist="0.83" ooecc="0.011" ooorbzne="hzInner" oorevol="271" oorevevinit="106" oogravsphrad="27313.0"/>      
             <orbperlist>
                <orbper optype="optFarest" opstrt="1" opend="67" opmtemp="329.74"/>
                <orbper optype="optIntermediary" opstrt="68" opend="134" opmtemp="317.45"/>
