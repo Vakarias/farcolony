@@ -447,9 +447,9 @@ object FCWinFUG: TFCWinFUG
           Width = 59
           Height = 19
           Color = clWhite
-          EditLabel.Width = 53
+          EditLabel.Width = 83
           EditLabel.Height = 13
-          EditLabel.Caption = '# of Orbits'
+          EditLabel.Caption = '# Orbits (max15)'
           EditLabel.Layout = tlCenter
           NumbersOnly = True
           TabOrder = 8
@@ -782,9 +782,9 @@ object FCWinFUG: TFCWinFUG
           Width = 59
           Height = 19
           Color = clWhite
-          EditLabel.Width = 53
+          EditLabel.Width = 83
           EditLabel.Height = 13
-          EditLabel.Caption = '# of Orbits'
+          EditLabel.Caption = '# Orbits (max15)'
           EditLabel.Layout = tlCenter
           NumbersOnly = True
           TabOrder = 8
@@ -1136,9 +1136,9 @@ object FCWinFUG: TFCWinFUG
           Width = 59
           Height = 19
           Color = clWhite
-          EditLabel.Width = 53
+          EditLabel.Width = 83
           EditLabel.Height = 13
-          EditLabel.Caption = '# of Orbits'
+          EditLabel.Caption = '# Orbits (max15)'
           EditLabel.Layout = tlCenter
           NumbersOnly = True
           TabOrder = 8
@@ -1213,6 +1213,18 @@ object FCWinFUG: TFCWinFUG
         ParentColor = False
         ParentFont = False
         TabOrder = 1
+        object Bevel1: TBevel
+          Left = 16
+          Top = 98
+          Width = 417
+          Height = 9
+        end
+        object Bevel2: TBevel
+          Left = 16
+          Top = 146
+          Width = 417
+          Height = 9
+        end
         object COO_Density: TLabeledEdit
           Left = 58
           Top = 72
@@ -1427,14 +1439,57 @@ object FCWinFUG: TFCWinFUG
           TabOrder = 12
           OnChange = COO_TectonicActivityChange
         end
+        object COO_SatTrigger: TCheckBox
+          Left = 80
+          Top = 123
+          Width = 97
+          Height = 17
+          TabStop = False
+          Caption = 'Fixed Satellites'
+          Color = clSilver
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWhite
+          Font.Height = -12
+          Font.Name = 'FrancophilSans'
+          Font.Style = []
+          ParentColor = False
+          ParentFont = False
+          TabOrder = 13
+          OnClick = TC1S_EnableGroupCompanion1Click
+        end
+        object COO_SatNumber: TLabeledEdit
+          Left = 243
+          Top = 121
+          Width = 59
+          Height = 19
+          Color = clWhite
+          EditLabel.Width = 70
+          EditLabel.Height = 13
+          EditLabel.Caption = '# Sat (max20)'
+          EditLabel.Layout = tlCenter
+          Enabled = False
+          NumbersOnly = True
+          TabOrder = 14
+          OnKeyDown = TMS_OrbitGenerationNumberOrbitsKeyDown
+        end
       end
       object TOO_OrbitalObjectPicker: TRadioGroup
         Left = 3
         Top = 75
-        Width = 118
+        Width = 54
         Height = 230
-        Caption = 'Orbital Object Picker'
+        Caption = 'OObj Pick'
         TabOrder = 2
+        OnClick = TOO_OrbitalObjectPickerClick
+      end
+      object TOO_SatPicker: TRadioGroup
+        Left = 67
+        Top = 74
+        Width = 54
+        Height = 230
+        Caption = 'Sat Pick'
+        TabOrder = 3
+        Visible = False
         OnClick = TOO_OrbitalObjectPickerClick
       end
     end

@@ -122,6 +122,11 @@ type
     TOO_Results: TAdvTabSheet;
     AdvGroupBox1: TAdvGroupBox;
     COO_TectonicActivity: TAdvComboBox;
+    COO_SatTrigger: TCheckBox;
+    Bevel1: TBevel;
+    Bevel2: TBevel;
+    TOO_SatPicker: TRadioGroup;
+    COO_SatNumber: TLabeledEdit;
     procedure WF_GenerateButtonClick(Sender: TObject);
     procedure TMS_OrbitGenerationClick(Sender: TObject);
     procedure TC1S_EnableGroupCompanion1Click(Sender: TObject);
@@ -368,6 +373,8 @@ begin
                      +'" oorevol="'+IntToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_revolutionPeriod )
                      +'" oorevevinit="'+IntToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_revolutionPeriodInit )
                      +'" oogravsphrad="'+FloatToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_gravitationalSphereRadius )
+                     +'" orbitGeosync="'+FloatToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_geosynchOrbit )
+                     +'" orbitLow="'+FloatToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_lowOrbit )
                      +'"/>'
                   );
                WF_XMLOutput.Lines.Add(
