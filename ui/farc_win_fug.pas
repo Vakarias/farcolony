@@ -158,6 +158,9 @@ type
     procedure COO_MagFieldKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure COO_AlbedoKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure COO_TectonicActivityChange(Sender: TObject);
+    procedure COO_SatTriggerClick(Sender: TObject);
+    procedure COO_SatNumberKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure TOO_SatPickerClick(Sender: TObject);
    private
     { Private declarations }
    public
@@ -482,6 +485,24 @@ begin
    then FCmfC_OrbitPicker_RotationPeriodUpdate;
 end;
 
+procedure TFCWinFUG.COO_SatNumberKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+   if Key=13 then
+   begin
+      if strtoint( COO_SatNumber.Text ) <=0
+      then COO_SatNumber.Text:='1'
+      else if strtoint( COO_SatNumber.Text ) > 15
+      then COO_SatNumber.Text:='15';
+      FCmC_SatPicker_Update;
+   end;
+end;
+
+procedure TFCWinFUG.COO_SatTriggerClick(Sender: TObject);
+begin
+   FCmfC_SatTrigger_Update;
+end;
+
 procedure TFCWinFUG.COO_TectonicActivityChange(Sender: TObject);
 begin
    FCmfC_OrbitPicker_TectonicActivityUpdate;
@@ -621,7 +642,15 @@ end;
 procedure TFCWinFUG.TOO_OrbitalObjectPickerClick(Sender: TObject);
 begin
    if TOO_OrbitalObjectPicker.ItemIndex>-1
-   then FCmfC_OrbitPicker_Update;
+   then FCmfC_OrbitPicker_UpdateCurrent( true );
+end;
+
+procedure TFCWinFUG.TOO_SatPickerClick(Sender: TObject);
+begin
+   if TOO_SatPicker.ItemIndex=0
+   then FCmfC_OrbitPicker_UpdateCurrent( false )
+   else if TOO_SatPicker.ItemIndex>0
+   then FCmfC_SatPicker_UpdateCurrent;
 end;
 
 procedure TFCWinFUG.TOO_StarPickerClick(Sender: TObject);

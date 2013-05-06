@@ -1455,7 +1455,7 @@ object FCWinFUG: TFCWinFUG
           ParentColor = False
           ParentFont = False
           TabOrder = 13
-          OnClick = TC1S_EnableGroupCompanion1Click
+          OnClick = COO_SatTriggerClick
         end
         object COO_SatNumber: TLabeledEdit
           Left = 243
@@ -1470,27 +1470,27 @@ object FCWinFUG: TFCWinFUG
           Enabled = False
           NumbersOnly = True
           TabOrder = 14
-          OnKeyDown = TMS_OrbitGenerationNumberOrbitsKeyDown
+          OnKeyDown = COO_SatNumberKeyDown
         end
       end
       object TOO_OrbitalObjectPicker: TRadioGroup
         Left = 3
         Top = 75
-        Width = 54
+        Width = 118
         Height = 230
-        Caption = 'OObj Pick'
+        Caption = 'Orbital Object Pick'
         TabOrder = 2
         OnClick = TOO_OrbitalObjectPickerClick
       end
       object TOO_SatPicker: TRadioGroup
-        Left = 67
-        Top = 74
-        Width = 54
+        Left = 3
+        Top = 311
+        Width = 118
         Height = 230
-        Caption = 'Sat Pick'
+        Caption = 'Satellite Pick'
         TabOrder = 3
         Visible = False
-        OnClick = TOO_OrbitalObjectPickerClick
+        OnClick = TOO_SatPickerClick
       end
     end
     object TOO_Results: TAdvTabSheet

@@ -167,7 +167,7 @@
                <orbper optype="" opstrt="" opend="" opmtemp=""/>
                <orbper optype="" opstrt="" opend="" opmtemp=""/>
             </orbperlist>
-            <orbobjgeophysdata ootype="" oodiam="" oodens="" oomass="" oograv="" ooescvel="" oorotper="" ooinclax="" oomagfld=""/>
+            <orbobjgeophysdata ootype="" oodiam="" oodens="" oomass="" oograv="" ooescvel="" oorotper="" ooinclax="" oomagfld="" ootectonicactivity=""/>
             <orbobjecosdata ooenvtype="" ooatmpres="" oocloudscov="" atmprimgasvol="" atmH2="" atmHe="" atmCH4="" atmNH3="" atmH2O="" atmNe="" atmN2="" atmCO="" atmNO="" atmO2="" atmH2S="" atmAr="" atmCO2="" atmNO2="" atmO3="" atmSO2="" hydroTp="" hydroArea="" ooalbe=""/>
             <orbobjregions surface="" mtd="">
                <region soiltp="" relief="" climate="" mtdmin="" mtdint="" mtdmax="" wndspd="" precip="" emoPlanSurveyG="" emoPlanSurveyA="" emoPlanSurveyAG="" emoPlanSurveySAG="" emoCAB="" emoIWC="" emoGroundCombat="">

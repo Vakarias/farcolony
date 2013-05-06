@@ -103,9 +103,46 @@ procedure FCmfC_OrbitPicker_TectonicActivityUpdate;
 procedure FCmfC_OrbitPicker_TokenUpdate;
 
 ///<summary>
-///   update the orbital object tab / orbital object picker
+///   update the current orbital object tab / orbital object picker
 ///</summary>
-procedure FCmfC_OrbitPicker_Update;
+///   <param name="UpdateSat">[true] update also the satellites automatically, [false] prevent it, useful for satlist picker</param>
+procedure FCmfC_OrbitPicker_UpdateCurrent( const UpdateSat: boolean );
+
+///<summary>
+///   update the satellite setting
+///</summary>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <returns></returns>
+///   <remarks></remarks>
+procedure FCmC_SatPicker_Update;
+
+///<summary>
+///   update the current satellite object tab / satellite picker
+///</summary>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <returns></returns>
+///   <remarks></remarks>
+procedure FCmfC_SatPicker_UpdateCurrent;
+
+
+///<summary>
+///   update the satpicker list according to the current setting
+///</summary>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <returns></returns>
+///   <remarks></remarks>
+procedure FCmC_SatPicker_UpdateList;
+
+procedure FCmfC_SatTrigger_Update;
 
 procedure FCMfC_StarPicker_Update;
 
@@ -402,23 +439,39 @@ end;
 procedure FCmfC_OrbitPicker_TokenUpdate;
 {:Purpose: update the orbital object token.
     Additions:
+      -2013May05- *add: satellite.
 }
    var
-      CurrentObject: integer;
+      CurrentObject
+      ,CurrentSat: integer;
 begin
    CurrentObject:=FCWinFUG.TOO_OrbitalObjectPicker.ItemIndex+1;
-   case FCWinFUG.TOO_StarPicker.ItemIndex of
-      0: FCDfdMainStarObjectsList[CurrentObject].OO_dbTokenId:=FCWinFUG.COO_Token.Text;
+   CurrentSat:=FCWinFUG.TOO_SatPicker.ItemIndex;
+   if CurrentSat<=0 then
+   begin
+      case FCWinFUG.TOO_StarPicker.ItemIndex of
+         0: FCDfdMainStarObjectsList[CurrentObject].OO_dbTokenId:=FCWinFUG.COO_Token.Text;
 
-      1: FCDfdComp1StarObjectsList[CurrentObject].OO_dbTokenId:=FCWinFUG.COO_Token.Text;
+         1: FCDfdComp1StarObjectsList[CurrentObject].OO_dbTokenId:=FCWinFUG.COO_Token.Text;
 
-      2: FCDfdComp2StarObjectsList[CurrentObject].OO_dbTokenId:=FCWinFUG.COO_Token.Text;
+         2: FCDfdComp2StarObjectsList[CurrentObject].OO_dbTokenId:=FCWinFUG.COO_Token.Text;
+      end;
+   end
+   else begin
+      case FCWinFUG.TOO_StarPicker.ItemIndex of
+         0: FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_dbTokenId:=FCWinFUG.COO_Token.Text;
+
+         1: FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_dbTokenId:=FCWinFUG.COO_Token.Text;
+
+         2: FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_dbTokenId:=FCWinFUG.COO_Token.Text;
+      end;
    end;
 end;
 
-procedure FCmfC_OrbitPicker_Update;
-{:Purpose: update the orbital object tab / orbital object picker.
+procedure FCmfC_OrbitPicker_UpdateCurrent( const UpdateSat: boolean );
+{:Purpose: update the current orbital object tab / orbital object picker.
     Additions:
+      -2013May05- *add: satellites setup.
       -2013May01- *add: tectonic activity.
 }
    var
@@ -426,6 +479,13 @@ procedure FCmfC_OrbitPicker_Update;
 begin
    if not FCWinFUG.TOO_CurrentOrbitalObject.Visible
    then FCWinFUG.TOO_CurrentOrbitalObject.Show;
+   if not FCWinFUG.COO_RotationPeriod.Visible
+   then FCWinFUG.COO_RotationPeriod.Show;
+   if not FCWinFUG.COO_SatTrigger.Visible then
+   begin
+      FCWinFUG.COO_SatTrigger.Show;
+      FCWinFUG.COO_SatNumber.Show;
+   end;
    CurrentObject:=FCWinFUG.TOO_OrbitalObjectPicker.ItemIndex+1;
    case FCWinFUG.TOO_StarPicker.ItemIndex of
       0:
@@ -465,6 +525,15 @@ begin
          if FCDfdMainStarObjectsList[CurrentObject].OO_albedo>0
          then FCWinFUG.COO_Albedo.Text:=floattostr( FCDfdMainStarObjectsList[CurrentObject].OO_albedo )
          else FCWinFUG.COO_Albedo.Text:='';
+         if ( UpdateSat )
+            and ( length( FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList )-1 > 0 ) then
+         begin
+            if FCWinFUG.COO_SatTrigger.Checked
+            then FCmfC_SatTrigger_Update
+            else FCWinFUG.COO_SatTrigger.Checked:=true;
+         end
+         else if UpdateSat
+         then FCWinFUG.COO_SatTrigger.Checked:=false;
       end;
 
       1:
@@ -504,6 +573,15 @@ begin
          if FCDfdComp1StarObjectsList[CurrentObject].OO_albedo>0
          then FCWinFUG.COO_Albedo.Text:=floattostr( FCDfdComp1StarObjectsList[CurrentObject].OO_albedo )
          else FCWinFUG.COO_Albedo.Text:='';
+         if ( UpdateSat )
+            and ( length( FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList )-1 > 0 ) then
+         begin
+            if FCWinFUG.COO_SatTrigger.Checked
+            then FCmfC_SatTrigger_Update
+            else FCWinFUG.COO_SatTrigger.Checked:=true;
+         end
+         else if UpdateSat
+         then FCWinFUG.COO_SatTrigger.Checked:=false;
       end;
 
       2:
@@ -543,8 +621,259 @@ begin
          if FCDfdComp2StarObjectsList[CurrentObject].OO_albedo>0
          then FCWinFUG.COO_Albedo.Text:=floattostr( FCDfdComp2StarObjectsList[CurrentObject].OO_albedo )
          else FCWinFUG.COO_Albedo.Text:='';
+         if ( UpdateSat )
+            and ( length( FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList )-1 > 0 ) then
+         begin
+            if FCWinFUG.COO_SatTrigger.Checked
+            then FCmfC_SatTrigger_Update
+            else FCWinFUG.COO_SatTrigger.Checked:=true;
+         end
+         else if UpdateSat
+         then FCWinFUG.COO_SatTrigger.Checked:=false;
       end;
    end; //==END== case FCWinFUG.TOO_StarPicker.ItemIndex of ==//
+end;
+
+procedure FCmC_SatPicker_Update;
+{:Purpose: update the satellite setting.
+    Additions:
+}
+   var
+      CurrentObject
+      ,NumberOfSatellites: integer;
+begin
+   CurrentObject:=FCWinFUG.TOO_OrbitalObjectPicker.ItemIndex+1;
+   NumberOfSatellites:=strtoint( FCWinFUG.COO_SatNumber.Text );
+   case FCWinFUG.TOO_StarPicker.ItemIndex of
+      0: SetLength( FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList, NumberOfSatellites + 1 );
+
+      1: SetLength( FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList, NumberOfSatellites + 1 );
+
+      2: SetLength( FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList, NumberOfSatellites + 1 );
+   end;
+   FCmC_SatPicker_UpdateList;
+end;
+
+procedure FCmfC_SatPicker_UpdateCurrent;
+{:Purpose: update the current satellite object tab / satellite picker.
+    Additions:
+}
+   var
+      CurrentObject
+      ,CurrentSat: integer;
+begin
+   if not FCWinFUG.TOO_CurrentOrbitalObject.Visible
+   then FCWinFUG.TOO_CurrentOrbitalObject.Show;
+   if FCWinFUG.COO_RotationPeriod.Visible
+   then FCWinFUG.COO_RotationPeriod.Hide;
+   if FCWinFUG.COO_SatTrigger.Visible then
+   begin
+      FCWinFUG.COO_SatTrigger.Hide;
+      FCWinFUG.COO_SatNumber.Hide;
+   end;
+   CurrentObject:=FCWinFUG.TOO_OrbitalObjectPicker.ItemIndex+1;
+   CurrentSat:=FCWinFUG.TOO_SatPicker.ItemIndex;
+   case FCWinFUG.TOO_StarPicker.ItemIndex of
+      0:
+      begin
+         if FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_dbTokenId<>''
+         then FCWinFUG.COO_Token.Text:=FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_dbTokenId
+         else FCWinFUG.COO_Token.Text:='sat';
+//         if FCDfdMainStarObjectsList[CurrentObject].OO_isNotSat_distanceFromStar>0
+//         then FCWinFUG.COO_Distance.Text:=floattostr( FCDfdMainStarObjectsList[CurrentObject].OO_isNotSat_distanceFromStar )
+//         else FCWinFUG.COO_Distance.Text:='';
+//         FCWinFUG.COO_ObjecType.Text:=GetEnumName( TypeInfo( TFCEduOrbitalObjectBasicTypes ), Integer( FCDfdMainStarObjectsList[CurrentObject].OO_basicType ) );
+//         if FCDfdMainStarObjectsList[CurrentObject].OO_diameter>0
+//         then FCWinFUG.COO_Diameter.Text:=floattostr( FCDfdMainStarObjectsList[CurrentObject].OO_diameter )
+//         else FCWinFUG.COO_Diameter.Text:='';
+//         if FCDfdMainStarObjectsList[CurrentObject].OO_density>0
+//         then FCWinFUG.COO_Density.Text:=floattostr( FCDfdMainStarObjectsList[CurrentObject].OO_density )
+//         else FCWinFUG.COO_Density.Text:='';
+//         if FCDfdMainStarObjectsList[CurrentObject].OO_mass>0
+//         then FCWinFUG.COO_Mass.Text:=floattostr( FCDfdMainStarObjectsList[CurrentObject].OO_mass )
+//         else FCWinFUG.COO_Mass.Text:='';
+//         if FCDfdMainStarObjectsList[CurrentObject].OO_gravity>0
+//         then FCWinFUG.COO_Gravity.Text:=floattostr( FCDfdMainStarObjectsList[CurrentObject].OO_gravity )
+//         else FCWinFUG.COO_Gravity.Text:='';
+//         if FCDfdMainStarObjectsList[CurrentObject].OO_escapeVelocity>0
+//         then FCWinFUG.COO_EscapeVel.Text:=floattostr( FCDfdMainStarObjectsList[CurrentObject].OO_escapeVelocity )
+//         else FCWinFUG.COO_EscapeVel.Text:='';
+//         if FCDfdMainStarObjectsList[CurrentObject].OO_inclinationAxis>0
+//         then FCWinFUG.COO_InclAxis.Text:=floattostr( FCDfdMainStarObjectsList[CurrentObject].OO_inclinationAxis )
+//         else FCWinFUG.COO_InclAxis.Text:='';
+//         if FCDfdMainStarObjectsList[CurrentObject].OO_magneticField>0
+//         then FCWinFUG.COO_MagField.Text:=floattostr( FCDfdMainStarObjectsList[CurrentObject].OO_magneticField )
+//         else FCWinFUG.COO_MagField.Text:='';
+//         FCWinFUG.COO_TectonicActivity.Text:=GetEnumName( TypeInfo( TFCEduTectonicActivity ), Integer( FCDfdMainStarObjectsList[CurrentObject].OO_tectonicActivity ) );
+//         if FCDfdMainStarObjectsList[CurrentObject].OO_albedo>0
+//         then FCWinFUG.COO_Albedo.Text:=floattostr( FCDfdMainStarObjectsList[CurrentObject].OO_albedo )
+//         else FCWinFUG.COO_Albedo.Text:='';
+//         if length( FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList )-1 > 0 then
+//         begin
+//            if FCWinFUG.COO_SatTrigger.Checked
+//            then FCmfC_SatTrigger_Update
+//            else FCWinFUG.COO_SatTrigger.Checked:=true;
+//         end
+//         else FCWinFUG.COO_SatTrigger.Checked:=false;
+      end;
+
+      1:
+      begin
+         if FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_dbTokenId<>''
+         then FCWinFUG.COO_Token.Text:=FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_dbTokenId
+         else FCWinFUG.COO_Token.Text:='sat';
+//         if FCDfdComp1StarObjectsList[CurrentObject].OO_isNotSat_distanceFromStar>0
+//         then FCWinFUG.COO_Distance.Text:=floattostr( FCDfdComp1StarObjectsList[CurrentObject].OO_isNotSat_distanceFromStar )
+//         else FCWinFUG.COO_Distance.Text:='';
+//         FCWinFUG.COO_ObjecType.Text:=GetEnumName( TypeInfo( TFCEduOrbitalObjectBasicTypes ), Integer( FCDfdComp1StarObjectsList[CurrentObject].OO_basicType ) );
+//         if FCDfdComp1StarObjectsList[CurrentObject].OO_diameter>0
+//         then FCWinFUG.COO_Diameter.Text:=floattostr( FCDfdComp1StarObjectsList[CurrentObject].OO_diameter )
+//         else FCWinFUG.COO_Diameter.Text:='';
+//         if FCDfdComp1StarObjectsList[CurrentObject].OO_density>0
+//         then FCWinFUG.COO_Density.Text:=floattostr( FCDfdComp1StarObjectsList[CurrentObject].OO_density )
+//         else FCWinFUG.COO_Density.Text:='';
+//         if FCDfdComp1StarObjectsList[CurrentObject].OO_mass>0
+//         then FCWinFUG.COO_Mass.Text:=floattostr( FCDfdComp1StarObjectsList[CurrentObject].OO_mass )
+//         else FCWinFUG.COO_Mass.Text:='';
+//         if FCDfdComp1StarObjectsList[CurrentObject].OO_gravity>0
+//         then FCWinFUG.COO_Gravity.Text:=floattostr( FCDfdComp1StarObjectsList[CurrentObject].OO_gravity )
+//         else FCWinFUG.COO_Gravity.Text:='';
+//         if FCDfdComp1StarObjectsList[CurrentObject].OO_escapeVelocity>0
+//         then FCWinFUG.COO_EscapeVel.Text:=floattostr( FCDfdComp1StarObjectsList[CurrentObject].OO_escapeVelocity )
+//         else FCWinFUG.COO_EscapeVel.Text:='';
+//         if FCDfdComp1StarObjectsList[CurrentObject].OO_inclinationAxis>0
+//         then FCWinFUG.COO_InclAxis.Text:=floattostr( FCDfdComp1StarObjectsList[CurrentObject].OO_inclinationAxis )
+//         else FCWinFUG.COO_InclAxis.Text:='';
+//         if FCDfdComp1StarObjectsList[CurrentObject].OO_magneticField>0
+//         then FCWinFUG.COO_MagField.Text:=floattostr( FCDfdComp1StarObjectsList[CurrentObject].OO_magneticField )
+//         else FCWinFUG.COO_MagField.Text:='';
+//         FCWinFUG.COO_TectonicActivity.Text:=GetEnumName( TypeInfo( TFCEduTectonicActivity ), Integer( FCDfdComp1StarObjectsList[CurrentObject].OO_tectonicActivity ) );
+//         if FCDfdComp1StarObjectsList[CurrentObject].OO_albedo>0
+//         then FCWinFUG.COO_Albedo.Text:=floattostr( FCDfdComp1StarObjectsList[CurrentObject].OO_albedo )
+//         else FCWinFUG.COO_Albedo.Text:='';
+//         if length( FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList )-1 > 0 then
+//         begin
+//            if FCWinFUG.COO_SatTrigger.Checked
+//            then FCmfC_SatTrigger_Update
+//            else FCWinFUG.COO_SatTrigger.Checked:=true;
+//         end
+//         else FCWinFUG.COO_SatTrigger.Checked:=false;
+      end;
+
+      2:
+      begin
+         if FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_dbTokenId<>''
+         then FCWinFUG.COO_Token.Text:=FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_dbTokenId
+         else FCWinFUG.COO_Token.Text:='sat';
+//         if FCDfdComp2StarObjectsList[CurrentObject].OO_isNotSat_distanceFromStar>0
+//         then FCWinFUG.COO_Distance.Text:=floattostr( FCDfdComp2StarObjectsList[CurrentObject].OO_isNotSat_distanceFromStar )
+//         else FCWinFUG.COO_Distance.Text:='';
+//         FCWinFUG.COO_ObjecType.Text:=GetEnumName( TypeInfo( TFCEduOrbitalObjectBasicTypes ), Integer( FCDfdComp2StarObjectsList[CurrentObject].OO_basicType ) );
+//         if FCDfdComp2StarObjectsList[CurrentObject].OO_diameter>0
+//         then FCWinFUG.COO_Diameter.Text:=floattostr( FCDfdComp2StarObjectsList[CurrentObject].OO_diameter )
+//         else FCWinFUG.COO_Diameter.Text:='';
+//         if FCDfdComp2StarObjectsList[CurrentObject].OO_density>0
+//         then FCWinFUG.COO_Density.Text:=floattostr( FCDfdComp2StarObjectsList[CurrentObject].OO_density )
+//         else FCWinFUG.COO_Density.Text:='';
+//         if FCDfdComp2StarObjectsList[CurrentObject].OO_mass>0
+//         then FCWinFUG.COO_Mass.Text:=floattostr( FCDfdComp2StarObjectsList[CurrentObject].OO_mass )
+//         else FCWinFUG.COO_Mass.Text:='';
+//         if FCDfdComp2StarObjectsList[CurrentObject].OO_gravity>0
+//         then FCWinFUG.COO_Gravity.Text:=floattostr( FCDfdComp2StarObjectsList[CurrentObject].OO_gravity )
+//         else FCWinFUG.COO_Gravity.Text:='';
+//         if FCDfdComp2StarObjectsList[CurrentObject].OO_escapeVelocity>0
+//         then FCWinFUG.COO_EscapeVel.Text:=floattostr( FCDfdComp2StarObjectsList[CurrentObject].OO_escapeVelocity )
+//         else FCWinFUG.COO_EscapeVel.Text:='';
+//         if FCDfdComp2StarObjectsList[CurrentObject].OO_inclinationAxis>0
+//         then FCWinFUG.COO_InclAxis.Text:=floattostr( FCDfdComp2StarObjectsList[CurrentObject].OO_inclinationAxis )
+//         else FCWinFUG.COO_InclAxis.Text:='';
+//         if FCDfdComp2StarObjectsList[CurrentObject].OO_magneticField>0
+//         then FCWinFUG.COO_MagField.Text:=floattostr( FCDfdComp2StarObjectsList[CurrentObject].OO_magneticField )
+//         else FCWinFUG.COO_MagField.Text:='';
+//         FCWinFUG.COO_TectonicActivity.Text:=GetEnumName( TypeInfo( TFCEduTectonicActivity ), Integer( FCDfdComp2StarObjectsList[CurrentObject].OO_tectonicActivity ) );
+//         if FCDfdComp2StarObjectsList[CurrentObject].OO_albedo>0
+//         then FCWinFUG.COO_Albedo.Text:=floattostr( FCDfdComp2StarObjectsList[CurrentObject].OO_albedo )
+//         else FCWinFUG.COO_Albedo.Text:='';
+//         if length( FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList )-1 > 0 then
+//         begin
+//            if FCWinFUG.COO_SatTrigger.Checked
+//            then FCmfC_SatTrigger_Update
+//            else FCWinFUG.COO_SatTrigger.Checked:=true;
+//         end
+//         else FCWinFUG.COO_SatTrigger.Checked:=false;
+      end;
+   end; //==END== case FCWinFUG.TOO_StarPicker.ItemIndex of ==//
+end;
+
+procedure FCmC_SatPicker_UpdateList;
+{:Purpose: update the satpicker list according to the current setting.
+    Additions:
+}
+ var
+      Count
+      ,CurrentObject
+      ,NumberOfSatellites: integer;
+begin
+   CurrentObject:=FCWinFUG.TOO_OrbitalObjectPicker.ItemIndex+1;
+   FCWinFUG.TOO_SatPicker.Items.Clear;
+   FCWinFUG.TOO_SatPicker.ItemIndex:=-1;
+   FCWinFUG.TOO_SatPicker.Enabled:=false;
+   NumberOfSatellites:=strtoint( FCWinFUG.COO_SatNumber.Text );
+   FCWinFUG.TOO_SatPicker.Items.Add( '0 - Central OObj' );
+   Count:=1;
+   while Count <= NumberOfSatellites do
+   begin
+      FCWinFUG.TOO_SatPicker.Items.Add( inttostr( Count ) );
+      inc( Count );
+   end;
+   if not FCWinFUG.TOO_SatPicker.Visible
+   then FCWinFUG.TOO_SatPicker.Show;
+   FCWinFUG.TOO_SatPicker.ItemIndex:=0;
+   FCWinFUG.TOO_SatPicker.Enabled:=true;
+end;
+
+procedure FCmfC_SatTrigger_Update;
+{:Purpose: update the sat trigger and all related interface elements.
+    Additions:
+}
+ var
+      CurrentObject
+      ,NumberOfSat: integer;
+begin
+   CurrentObject:=FCWinFUG.TOO_OrbitalObjectPicker.ItemIndex+1;
+   if not FCWinFUG.COO_SatTrigger.Checked then
+   begin
+      FCWinFUG.TOO_SatPicker.ItemIndex:=-1;
+      FCWinFUG.TOO_SatPicker.Items.Clear;
+      FCWinFUG.TOO_SatPicker.Hide;
+      FCWinFUG.COO_SatNumber.Enabled:=false;
+      case FCWinFUG.TOO_StarPicker.ItemIndex of
+         0: SetLength( FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList, 1 );
+
+         1: SetLength( FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList, 1 );
+
+         2: SetLength( FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList, 1 );
+      end;
+   end
+   else begin
+      FCWinFUG.COO_SatNumber.Enabled:=true;
+      case FCWinFUG.TOO_StarPicker.ItemIndex of
+         0: NumberOfSat:=length( FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList ) - 1;
+
+         1: NumberOfSat:=length( FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList ) - 1;
+
+         2: NumberOfSat:=length( FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList ) - 1;
+      end;
+      if NumberOfSat<=0 then
+      begin
+         FCWinFUG.COO_SatNumber.Text:='1';
+         FCmC_SatPicker_Update;
+      end
+      else begin
+         FCWinFUG.COO_SatNumber.Text:=inttostr( NumberOfSat );
+         FCmC_SatPicker_UpdateList;
+      end;
+   end;
 end;
 
 procedure FCMfC_StarPicker_Update;
