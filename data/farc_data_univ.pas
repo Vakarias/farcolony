@@ -617,10 +617,6 @@ type TFCRduOrbitalObject = record
    ///</summary>
    OO_escapeVelocity: extended;
    ///<summary>
-   ///   rotation period, around it's own axis, in hours RTO-2
-   ///</summary>
-   OO_rotationPeriod: extended;
-   ///<summary>
    ///   inclination axis
    ///</summary>
    OO_inclinationAxis: extended;
@@ -693,6 +689,10 @@ type TFCRduOrbitalObject = record
          ///   orbital zone type
          ///</summary>
          OO_isNotSat_orbitalZone: TFCEduHabitableZones;
+         ///<summary>
+         ///   rotation period, around it's own axis, in hours RTO-2
+         ///</summary>
+         OO_isNotSat_rotationPeriod: extended;
          );
 
       true: (

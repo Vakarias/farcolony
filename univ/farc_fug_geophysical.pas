@@ -439,10 +439,10 @@ begin
       or ( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_basicType=oobtIcyPlanet ) then
    begin
       RevolutionPeriodHrs:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_revolutionPeriod * 24;
-      if ( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_rotationPeriod=0 )
-         or ( abs( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_rotationPeriod ) > RevolutionPeriodHrs )
+      if ( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isNotSat_rotationPeriod=0 )
+         or ( abs( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isNotSat_rotationPeriod ) > RevolutionPeriodHrs )
       then RotationPeriod:=RevolutionPeriodHrs
-      else RotationPeriod:=abs( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_rotationPeriod );
+      else RotationPeriod:=abs( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isNotSat_rotationPeriod );
       DensityEq:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_density / FCCdiDensityEqEarth;
       StarAge:=FCFfS_Age_Calc( FCDduStarSystem[0].SS_stars[Star].S_mass, FCDduStarSystem[0].SS_stars[Star].S_luminosity );
       MagFactor:=( 10 * ( 1 / sqrt( RotationPeriod / 24 ) ) * sqr( DensityEq ) * SQRT( FCDduStarSystem[0].SS_stars[Star].S_mass ) ) / StarAge;
@@ -667,7 +667,7 @@ begin
       if CalculatedRotationPeriod < ShortestPeriod
       then CalculatedRotationPeriod:=ShortestPeriod * ( 1 + ( 4 * FCFcF_Random_DoInteger( 10 ) ) );
    end; //==END== else of: if TidalFinal > 1 ==//
-   FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_rotationPeriod:=FCFcF_Round( rttCustom2Decimal, CalculatedRotationPeriod );
+   FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isNotSat_rotationPeriod:=FCFcF_Round( rttCustom2Decimal, CalculatedRotationPeriod );
 end;
 
 procedure FCMfG_TectonicActivity_Calculation( const Star, OrbitalObject: integer );

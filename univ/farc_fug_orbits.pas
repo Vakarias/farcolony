@@ -1094,9 +1094,9 @@ begin
                if FCDfdMainStarObjectsList[Count].OO_escapeVelocity>0
                then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_escapeVelocity:=FCDfdMainStarObjectsList[Count].OO_escapeVelocity
                else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_escapeVelocity:=0;
-               if FCDfdMainStarObjectsList[Count].OO_rotationPeriod>0
-               then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_rotationPeriod:=FCDfdMainStarObjectsList[Count].OO_rotationPeriod
-               else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_rotationPeriod:=0;
+               if FCDfdMainStarObjectsList[Count].OO_isNotSat_rotationPeriod>0
+               then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_rotationPeriod:=FCDfdMainStarObjectsList[Count].OO_isNotSat_rotationPeriod
+               else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_rotationPeriod:=0;
                if FCDfdMainStarObjectsList[Count].OO_inclinationAxis>0
                then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_inclinationAxis:=FCDfdMainStarObjectsList[Count].OO_inclinationAxis
                else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_inclinationAxis:=0;
@@ -1133,9 +1133,9 @@ begin
                if FCDfdComp1StarObjectsList[Count].OO_escapeVelocity>0
                then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_escapeVelocity:=FCDfdComp1StarObjectsList[Count].OO_escapeVelocity
                else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_escapeVelocity:=0;
-               if FCDfdComp1StarObjectsList[Count].OO_rotationPeriod>0
-               then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_rotationPeriod:=FCDfdComp1StarObjectsList[Count].OO_rotationPeriod
-               else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_rotationPeriod:=0;
+               if FCDfdComp1StarObjectsList[Count].OO_isNotSat_rotationPeriod>0
+               then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_rotationPeriod:=FCDfdComp1StarObjectsList[Count].OO_isNotSat_rotationPeriod
+               else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_rotationPeriod:=0;
                if FCDfdComp1StarObjectsList[Count].OO_inclinationAxis>0
                then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_inclinationAxis:=FCDfdComp1StarObjectsList[Count].OO_inclinationAxis
                else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_inclinationAxis:=0;
@@ -1172,9 +1172,9 @@ begin
                if FCDfdComp2StarObjectsList[Count].OO_escapeVelocity>0
                then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_escapeVelocity:=FCDfdComp2StarObjectsList[Count].OO_escapeVelocity
                else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_escapeVelocity:=0;
-               if FCDfdComp2StarObjectsList[Count].OO_rotationPeriod>0
-               then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_rotationPeriod:=FCDfdComp2StarObjectsList[Count].OO_rotationPeriod
-               else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_rotationPeriod:=0;
+               if FCDfdComp2StarObjectsList[Count].OO_isNotSat_rotationPeriod>0
+               then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_rotationPeriod:=FCDfdComp2StarObjectsList[Count].OO_isNotSat_rotationPeriod
+               else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_rotationPeriod:=0;
                if FCDfdComp2StarObjectsList[Count].OO_inclinationAxis>0
                then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_inclinationAxis:=FCDfdComp2StarObjectsList[Count].OO_inclinationAxis
                else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_inclinationAxis:=0;
@@ -1353,7 +1353,7 @@ begin
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_mass:=0;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_gravity:=0;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_escapeVelocity:=0;
-               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_rotationPeriod:=0;
+               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_rotationPeriod:=0;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_gravitationalSphereRadius:=0;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_geosynchOrbit:=0;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_lowOrbit:=0;
@@ -1388,7 +1388,7 @@ begin
                then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_gravity:=FCFfG_Gravity_Calculation( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_diameter, FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_mass );
                if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_escapeVelocity=0
                then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_escapeVelocity:=FCFfG_EscapeVelocity_Calculation( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_diameter, FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_mass );
-               if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_rotationPeriod=0
+               if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_rotationPeriod=0
                then FCMfG_RotationPeriod_Calculation( CurrentStar, Count );
                FCMfO_GravSphereOrbits_Calculation( CurrentStar , Count );
                if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_inclinationAxis=0
@@ -1396,7 +1396,7 @@ begin
                if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_inclinationAxis<0 then
                begin
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_inclinationAxis:=abs( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_inclinationAxis );
-                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_rotationPeriod:=-( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_rotationPeriod );
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_rotationPeriod:=-( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_rotationPeriod );
                end;
                if ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_magneticField=0 )
                   and ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType > oobtAsteroid )
@@ -1503,7 +1503,7 @@ begin
    Calculation:=DistanceKm * power( ( ObjectMassKg /  StarMassKg ), 2 / 5 );
    FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_gravitationalSphereRadius:=FCFcF_Round( rttCustom1Decimal, Calculation );
    {.geosynchronous orbit}
-   Calculation:=( power( ( FCCdiGravitationalConst * ObjectMassKg * power(  FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_rotationPeriod * 3600, 2 ) ) / ( 4 * power( Pi, 2 ) ) ,0.333 ) ) / 1000;
+   Calculation:=( power( ( FCCdiGravitationalConst * ObjectMassKg * power(  FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isNotSat_rotationPeriod * 3600, 2 ) ) / ( 4 * power( Pi, 2 ) ) ,0.333 ) ) / 1000;
    FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_geosynchOrbit:=FCFcF_Round( rttCustom1Decimal, Calculation );
    {.low orbit}
    GravSphereCoef:=10 - ( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_gravitationalSphereRadius / 100000 );

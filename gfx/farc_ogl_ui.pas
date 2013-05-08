@@ -937,12 +937,12 @@ begin
                   +' '+FCFdTFiles_UIStr_Get(uistrUI,'TimeFstdD');
             {.rotation period}
             FCWinMain.FCGLSHUDobobjRotPerLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIoobjRotPer');
-            if (FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[FC3doglSelectedPlanetAsteroid].OO_rotationPeriod=0)
+            if (FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[FC3doglSelectedPlanetAsteroid].OO_isNotSat_rotationPeriod=0)
                and (FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[FC3doglSelectedPlanetAsteroid].OO_type > ootAsteroidsBelt)
                and (FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[FC3doglSelectedPlanetAsteroid].OO_type
                   <ootRing_Metallic)
             then FCWinMain.FCGLSHUDobobjRotPer.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIoobjTidLckd')
-            else if (FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[FC3doglSelectedPlanetAsteroid].OO_rotationPeriod=0)
+            else if (FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[FC3doglSelectedPlanetAsteroid].OO_isNotSat_rotationPeriod=0)
                and (
                      (FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[FC3doglSelectedPlanetAsteroid].OO_type
                         <ootAsteroid_Metallic)
@@ -952,7 +952,7 @@ begin
                   )
             then FCWinMain.FCGLSHUDobobjRotPer.Text:='N/A'
             else FCWinMain.FCGLSHUDobobjRotPer.Text
-               :=FloatToStr(FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[FC3doglSelectedPlanetAsteroid].OO_rotationPeriod)
+               :=FloatToStr(FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[FC3doglSelectedPlanetAsteroid].OO_isNotSat_rotationPeriod)
                   +' hrs';
             {.number of satellites}
             FCWinMain.FCGLSHUDobobjSatLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIoobjSat');
