@@ -428,32 +428,19 @@ end;
 procedure FCmfC_OrbitPicker_InclinationAxisUpdate;
 {:Purpose: update the orbital object inclination axis.
     Additions:
+      -2013May07- *rem: satellite is removed, it's a non sat data.
       -2013May06- *add: satellite.
 }
    var
-      CurrentObject
-      ,CurrentSat: integer;
+      CurrentObject: integer;
 begin
    CurrentObject:=FCWinFUG.TOO_OrbitalObjectPicker.ItemIndex+1;
-   CurrentSat:=FCWinFUG.TOO_SatPicker.ItemIndex;
-   if CurrentSat<=0 then
-   begin
-      case FCWinFUG.TOO_StarPicker.ItemIndex of
-         0: FCDfdMainStarObjectsList[CurrentObject].OO_isNotSat_inclinationAxis:=strtofloat( FCWinFUG.COO_InclAxis.Text );
+   case FCWinFUG.TOO_StarPicker.ItemIndex of
+      0: FCDfdMainStarObjectsList[CurrentObject].OO_isNotSat_inclinationAxis:=strtofloat( FCWinFUG.COO_InclAxis.Text );
 
-         1: FCDfdComp1StarObjectsList[CurrentObject].OO_isNotSat_inclinationAxis:=strtofloat( FCWinFUG.COO_InclAxis.Text );
+      1: FCDfdComp1StarObjectsList[CurrentObject].OO_isNotSat_inclinationAxis:=strtofloat( FCWinFUG.COO_InclAxis.Text );
 
-         2: FCDfdComp2StarObjectsList[CurrentObject].OO_isNotSat_inclinationAxis:=strtofloat( FCWinFUG.COO_InclAxis.Text );
-      end;
-   end
-   else begin
-      case FCWinFUG.TOO_StarPicker.ItemIndex of
-         0: FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_isNotSat_inclinationAxis:=strtofloat( FCWinFUG.COO_InclAxis.Text );
-
-         1: FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_isNotSat_inclinationAxis:=strtofloat( FCWinFUG.COO_InclAxis.Text );
-
-         2: FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_isNotSat_inclinationAxis:=strtofloat( FCWinFUG.COO_InclAxis.Text );
-      end;
+      2: FCDfdComp2StarObjectsList[CurrentObject].OO_isNotSat_inclinationAxis:=strtofloat( FCWinFUG.COO_InclAxis.Text );
    end;
 end;
 
