@@ -641,6 +641,7 @@ begin
    then FCWinFUG.COO_RotationPeriod.Show;
    if not FCWinFUG.COO_InclAxis.Visible
    then FCWinFUG.COO_InclAxis.Show;
+   FCWinFUG.COO_Distance.EditLabel.Caption:='Distance';
    if not FCWinFUG.COO_SatTrigger.Visible then
    begin
       FCWinFUG.COO_SatTrigger.Show;
@@ -828,6 +829,7 @@ begin
    then FCWinFUG.COO_RotationPeriod.Hide;
    if FCWinFUG.COO_InclAxis.Visible
    then FCWinFUG.COO_InclAxis.Hide;
+   FCWinFUG.COO_Distance.EditLabel.Caption:='Distance from Planet - Th of Km';
    if FCWinFUG.COO_SatTrigger.Visible then
    begin
       FCWinFUG.COO_SatTrigger.Hide;
@@ -846,32 +848,29 @@ begin
          if FCDfdMainStarObjectsList[CurrentObject].OO_isSat_distanceFromPlanet>0
          then FCWinFUG.COO_Distance.Text:=floattostr( FCDfdMainStarObjectsList[CurrentObject].OO_isSat_distanceFromPlanet )
          else FCWinFUG.COO_Distance.Text:='';
-//         FCWinFUG.COO_ObjecType.Text:=GetEnumName( TypeInfo( TFCEduOrbitalObjectBasicTypes ), Integer( FCDfdMainStarObjectsList[CurrentObject].OO_basicType ) );
-//         if FCDfdMainStarObjectsList[CurrentObject].OO_diameter>0
-//         then FCWinFUG.COO_Diameter.Text:=floattostr( FCDfdMainStarObjectsList[CurrentObject].OO_diameter )
-//         else FCWinFUG.COO_Diameter.Text:='';
-//         if FCDfdMainStarObjectsList[CurrentObject].OO_density>0
-//         then FCWinFUG.COO_Density.Text:=floattostr( FCDfdMainStarObjectsList[CurrentObject].OO_density )
-//         else FCWinFUG.COO_Density.Text:='';
-//         if FCDfdMainStarObjectsList[CurrentObject].OO_mass>0
-//         then FCWinFUG.COO_Mass.Text:=floattostr( FCDfdMainStarObjectsList[CurrentObject].OO_mass )
-//         else FCWinFUG.COO_Mass.Text:='';
-//         if FCDfdMainStarObjectsList[CurrentObject].OO_gravity>0
-//         then FCWinFUG.COO_Gravity.Text:=floattostr( FCDfdMainStarObjectsList[CurrentObject].OO_gravity )
-//         else FCWinFUG.COO_Gravity.Text:='';
-//         if FCDfdMainStarObjectsList[CurrentObject].OO_escapeVelocity>0
-//         then FCWinFUG.COO_EscapeVel.Text:=floattostr( FCDfdMainStarObjectsList[CurrentObject].OO_escapeVelocity )
-//         else FCWinFUG.COO_EscapeVel.Text:='';
-//         if FCDfdMainStarObjectsList[CurrentObject].OO_inclinationAxis>0
-//         then FCWinFUG.COO_InclAxis.Text:=floattostr( FCDfdMainStarObjectsList[CurrentObject].OO_inclinationAxis )
-//         else FCWinFUG.COO_InclAxis.Text:='';
-//         if FCDfdMainStarObjectsList[CurrentObject].OO_magneticField>0
-//         then FCWinFUG.COO_MagField.Text:=floattostr( FCDfdMainStarObjectsList[CurrentObject].OO_magneticField )
-//         else FCWinFUG.COO_MagField.Text:='';
-//         FCWinFUG.COO_TectonicActivity.Text:=GetEnumName( TypeInfo( TFCEduTectonicActivity ), Integer( FCDfdMainStarObjectsList[CurrentObject].OO_tectonicActivity ) );
-//         if FCDfdMainStarObjectsList[CurrentObject].OO_albedo>0
-//         then FCWinFUG.COO_Albedo.Text:=floattostr( FCDfdMainStarObjectsList[CurrentObject].OO_albedo )
-//         else FCWinFUG.COO_Albedo.Text:='';
+         FCWinFUG.COO_ObjecType.Text:=GetEnumName( TypeInfo( TFCEduOrbitalObjectBasicTypes ), Integer( FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_basicType ) );
+         if FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_diameter>0
+         then FCWinFUG.COO_Diameter.Text:=floattostr( FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_diameter )
+         else FCWinFUG.COO_Diameter.Text:='';
+         if FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_density>0
+         then FCWinFUG.COO_Density.Text:=floattostr( FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_density )
+         else FCWinFUG.COO_Density.Text:='';
+         if FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_mass>0
+         then FCWinFUG.COO_Mass.Text:=floattostr( FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_mass )
+         else FCWinFUG.COO_Mass.Text:='';
+         if FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_gravity>0
+         then FCWinFUG.COO_Gravity.Text:=floattostr( FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_gravity )
+         else FCWinFUG.COO_Gravity.Text:='';
+         if FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_escapeVelocity>0
+         then FCWinFUG.COO_EscapeVel.Text:=floattostr( FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_escapeVelocity )
+         else FCWinFUG.COO_EscapeVel.Text:='';
+         if FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_magneticField>0
+         then FCWinFUG.COO_MagField.Text:=floattostr( FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_magneticField )
+         else FCWinFUG.COO_MagField.Text:='';
+         FCWinFUG.COO_TectonicActivity.Text:=GetEnumName( TypeInfo( TFCEduTectonicActivity ), Integer( FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_tectonicActivity ) );
+         if FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_albedo>0
+         then FCWinFUG.COO_Albedo.Text:=floattostr( FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_albedo )
+         else FCWinFUG.COO_Albedo.Text:='';
       end;
 
       1:
@@ -884,32 +883,29 @@ begin
          if FCDfdComp1StarObjectsList[CurrentObject].OO_isSat_distanceFromPlanet>0
          then FCWinFUG.COO_Distance.Text:=floattostr( FCDfdComp1StarObjectsList[CurrentObject].OO_isSat_distanceFromPlanet )
          else FCWinFUG.COO_Distance.Text:='';
-//         FCWinFUG.COO_ObjecType.Text:=GetEnumName( TypeInfo( TFCEduOrbitalObjectBasicTypes ), Integer( FCDfdComp1StarObjectsList[CurrentObject].OO_basicType ) );
-//         if FCDfdComp1StarObjectsList[CurrentObject].OO_diameter>0
-//         then FCWinFUG.COO_Diameter.Text:=floattostr( FCDfdComp1StarObjectsList[CurrentObject].OO_diameter )
-//         else FCWinFUG.COO_Diameter.Text:='';
-//         if FCDfdComp1StarObjectsList[CurrentObject].OO_density>0
-//         then FCWinFUG.COO_Density.Text:=floattostr( FCDfdComp1StarObjectsList[CurrentObject].OO_density )
-//         else FCWinFUG.COO_Density.Text:='';
-//         if FCDfdComp1StarObjectsList[CurrentObject].OO_mass>0
-//         then FCWinFUG.COO_Mass.Text:=floattostr( FCDfdComp1StarObjectsList[CurrentObject].OO_mass )
-//         else FCWinFUG.COO_Mass.Text:='';
-//         if FCDfdComp1StarObjectsList[CurrentObject].OO_gravity>0
-//         then FCWinFUG.COO_Gravity.Text:=floattostr( FCDfdComp1StarObjectsList[CurrentObject].OO_gravity )
-//         else FCWinFUG.COO_Gravity.Text:='';
-//         if FCDfdComp1StarObjectsList[CurrentObject].OO_escapeVelocity>0
-//         then FCWinFUG.COO_EscapeVel.Text:=floattostr( FCDfdComp1StarObjectsList[CurrentObject].OO_escapeVelocity )
-//         else FCWinFUG.COO_EscapeVel.Text:='';
-//         if FCDfdComp1StarObjectsList[CurrentObject].OO_inclinationAxis>0
-//         then FCWinFUG.COO_InclAxis.Text:=floattostr( FCDfdComp1StarObjectsList[CurrentObject].OO_inclinationAxis )
-//         else FCWinFUG.COO_InclAxis.Text:='';
-//         if FCDfdComp1StarObjectsList[CurrentObject].OO_magneticField>0
-//         then FCWinFUG.COO_MagField.Text:=floattostr( FCDfdComp1StarObjectsList[CurrentObject].OO_magneticField )
-//         else FCWinFUG.COO_MagField.Text:='';
-//         FCWinFUG.COO_TectonicActivity.Text:=GetEnumName( TypeInfo( TFCEduTectonicActivity ), Integer( FCDfdComp1StarObjectsList[CurrentObject].OO_tectonicActivity ) );
-//         if FCDfdComp1StarObjectsList[CurrentObject].OO_albedo>0
-//         then FCWinFUG.COO_Albedo.Text:=floattostr( FCDfdComp1StarObjectsList[CurrentObject].OO_albedo )
-//         else FCWinFUG.COO_Albedo.Text:='';
+         FCWinFUG.COO_ObjecType.Text:=GetEnumName( TypeInfo( TFCEduOrbitalObjectBasicTypes ), Integer( FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_basicType ) );
+         if FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_diameter>0
+         then FCWinFUG.COO_Diameter.Text:=floattostr( FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_diameter )
+         else FCWinFUG.COO_Diameter.Text:='';
+         if FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_density>0
+         then FCWinFUG.COO_Density.Text:=floattostr( FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_density )
+         else FCWinFUG.COO_Density.Text:='';
+         if FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_mass>0
+         then FCWinFUG.COO_Mass.Text:=floattostr( FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_mass )
+         else FCWinFUG.COO_Mass.Text:='';
+         if FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_gravity>0
+         then FCWinFUG.COO_Gravity.Text:=floattostr( FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_gravity )
+         else FCWinFUG.COO_Gravity.Text:='';
+         if FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_escapeVelocity>0
+         then FCWinFUG.COO_EscapeVel.Text:=floattostr( FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_escapeVelocity )
+         else FCWinFUG.COO_EscapeVel.Text:='';
+         if FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_magneticField>0
+         then FCWinFUG.COO_MagField.Text:=floattostr( FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_magneticField )
+         else FCWinFUG.COO_MagField.Text:='';
+         FCWinFUG.COO_TectonicActivity.Text:=GetEnumName( TypeInfo( TFCEduTectonicActivity ), Integer( FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_tectonicActivity ) );
+         if FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_albedo>0
+         then FCWinFUG.COO_Albedo.Text:=floattostr( FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_albedo )
+         else FCWinFUG.COO_Albedo.Text:='';
       end;
 
       2:
@@ -922,32 +918,29 @@ begin
          if FCDfdComp2StarObjectsList[CurrentObject].OO_isSat_distanceFromPlanet>0
          then FCWinFUG.COO_Distance.Text:=floattostr( FCDfdComp2StarObjectsList[CurrentObject].OO_isSat_distanceFromPlanet )
          else FCWinFUG.COO_Distance.Text:='';
-//         FCWinFUG.COO_ObjecType.Text:=GetEnumName( TypeInfo( TFCEduOrbitalObjectBasicTypes ), Integer( FCDfdComp2StarObjectsList[CurrentObject].OO_basicType ) );
-//         if FCDfdComp2StarObjectsList[CurrentObject].OO_diameter>0
-//         then FCWinFUG.COO_Diameter.Text:=floattostr( FCDfdComp2StarObjectsList[CurrentObject].OO_diameter )
-//         else FCWinFUG.COO_Diameter.Text:='';
-//         if FCDfdComp2StarObjectsList[CurrentObject].OO_density>0
-//         then FCWinFUG.COO_Density.Text:=floattostr( FCDfdComp2StarObjectsList[CurrentObject].OO_density )
-//         else FCWinFUG.COO_Density.Text:='';
-//         if FCDfdComp2StarObjectsList[CurrentObject].OO_mass>0
-//         then FCWinFUG.COO_Mass.Text:=floattostr( FCDfdComp2StarObjectsList[CurrentObject].OO_mass )
-//         else FCWinFUG.COO_Mass.Text:='';
-//         if FCDfdComp2StarObjectsList[CurrentObject].OO_gravity>0
-//         then FCWinFUG.COO_Gravity.Text:=floattostr( FCDfdComp2StarObjectsList[CurrentObject].OO_gravity )
-//         else FCWinFUG.COO_Gravity.Text:='';
-//         if FCDfdComp2StarObjectsList[CurrentObject].OO_escapeVelocity>0
-//         then FCWinFUG.COO_EscapeVel.Text:=floattostr( FCDfdComp2StarObjectsList[CurrentObject].OO_escapeVelocity )
-//         else FCWinFUG.COO_EscapeVel.Text:='';
-//         if FCDfdComp2StarObjectsList[CurrentObject].OO_inclinationAxis>0
-//         then FCWinFUG.COO_InclAxis.Text:=floattostr( FCDfdComp2StarObjectsList[CurrentObject].OO_inclinationAxis )
-//         else FCWinFUG.COO_InclAxis.Text:='';
-//         if FCDfdComp2StarObjectsList[CurrentObject].OO_magneticField>0
-//         then FCWinFUG.COO_MagField.Text:=floattostr( FCDfdComp2StarObjectsList[CurrentObject].OO_magneticField )
-//         else FCWinFUG.COO_MagField.Text:='';
-//         FCWinFUG.COO_TectonicActivity.Text:=GetEnumName( TypeInfo( TFCEduTectonicActivity ), Integer( FCDfdComp2StarObjectsList[CurrentObject].OO_tectonicActivity ) );
-//         if FCDfdComp2StarObjectsList[CurrentObject].OO_albedo>0
-//         then FCWinFUG.COO_Albedo.Text:=floattostr( FCDfdComp2StarObjectsList[CurrentObject].OO_albedo )
-//         else FCWinFUG.COO_Albedo.Text:='';
+         FCWinFUG.COO_ObjecType.Text:=GetEnumName( TypeInfo( TFCEduOrbitalObjectBasicTypes ), Integer( FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_basicType ) );
+         if FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_diameter>0
+         then FCWinFUG.COO_Diameter.Text:=floattostr( FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_diameter )
+         else FCWinFUG.COO_Diameter.Text:='';
+         if FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_density>0
+         then FCWinFUG.COO_Density.Text:=floattostr( FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_density )
+         else FCWinFUG.COO_Density.Text:='';
+         if FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_mass>0
+         then FCWinFUG.COO_Mass.Text:=floattostr( FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_mass )
+         else FCWinFUG.COO_Mass.Text:='';
+         if FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_gravity>0
+         then FCWinFUG.COO_Gravity.Text:=floattostr( FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_gravity )
+         else FCWinFUG.COO_Gravity.Text:='';
+         if FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_escapeVelocity>0
+         then FCWinFUG.COO_EscapeVel.Text:=floattostr( FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_escapeVelocity )
+         else FCWinFUG.COO_EscapeVel.Text:='';
+         if FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_magneticField>0
+         then FCWinFUG.COO_MagField.Text:=floattostr( FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_magneticField )
+         else FCWinFUG.COO_MagField.Text:='';
+         FCWinFUG.COO_TectonicActivity.Text:=GetEnumName( TypeInfo( TFCEduTectonicActivity ), Integer( FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_tectonicActivity ) );
+         if FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_albedo>0
+         then FCWinFUG.COO_Albedo.Text:=floattostr( FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_albedo )
+         else FCWinFUG.COO_Albedo.Text:='';
       end;
    end; //==END== case FCWinFUG.TOO_StarPicker.ItemIndex of ==//
 end;
