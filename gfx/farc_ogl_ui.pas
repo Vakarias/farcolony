@@ -844,9 +844,9 @@ begin
             FCWinMain.FCGLSHUDobobjMagF.Text:=FloatToStr(FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar]
                .S_orbitalObjects[M3DVUIUsatPlanIdx].OO_satellitesList[M3DVUIUsatIdx].OO_magneticField)+' Gauss';
             {.axial tilt}
-            FCWinMain.FCGLSHUDobobjAxTiltLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIoobjAxTilt');
-            FCWinMain.FCGLSHUDobobjAxTilt.Text:=FloatToStr(FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar]
-                  .S_orbitalObjects[M3DVUIUsatPlanIdx].OO_satellitesList[M3DVUIUsatIdx].OO_inclinationAxis)+chr(176);
+//            FCWinMain.FCGLSHUDobobjAxTiltLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIoobjAxTilt');
+//            FCWinMain.FCGLSHUDobobjAxTilt.Text:=FloatToStr(FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar]
+//                  .S_orbitalObjects[M3DVUIUsatPlanIdx].OO_satellitesList[M3DVUIUsatIdx].OO_inclinationAxis)+chr(176);
             {.albedo}
             FCWinMain.FCGLSHUDobobjAlbeLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIoobjAlb');
             FCWinMain.FCGLSHUDobobjAlbe.Text:=FloatToStr(FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar]
@@ -1037,7 +1037,7 @@ begin
             {.axial tilt}
             FCWinMain.FCGLSHUDobobjAxTiltLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIoobjAxTilt');
             FCWinMain.FCGLSHUDobobjAxTilt.Text
-               :=FloatToStr(FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[FC3doglSelectedPlanetAsteroid].OO_inclinationAxis)+chr(176);
+               :=FloatToStr(FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[FC3doglSelectedPlanetAsteroid].OO_isNotSat_inclinationAxis)+chr(176);
             {.albedo}
             FCWinMain.FCGLSHUDobobjAlbeLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIoobjAlb');
             FCWinMain.FCGLSHUDobobjAlbe.Text

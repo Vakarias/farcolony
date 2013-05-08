@@ -617,10 +617,6 @@ type TFCRduOrbitalObject = record
    ///</summary>
    OO_escapeVelocity: extended;
    ///<summary>
-   ///   inclination axis
-   ///</summary>
-   OO_inclinationAxis: extended;
-   ///<summary>
    ///   magnetic field in gauss
    ///</summary>
    OO_magneticField: extended;
@@ -685,6 +681,10 @@ type TFCRduOrbitalObject = record
          ///   orbit eccentricity in #.#### format
          ///</summary>
          OO_isNotSat_eccentricity: extended;
+         ///<summary>
+         ///   inclination axis
+         ///</summary>
+         OO_isNotSat_inclinationAxis: extended;
          ///<summary>
          ///   orbital zone type
          ///</summary>

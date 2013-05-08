@@ -439,20 +439,20 @@ begin
    if CurrentSat<=0 then
    begin
       case FCWinFUG.TOO_StarPicker.ItemIndex of
-         0: FCDfdMainStarObjectsList[CurrentObject].OO_inclinationAxis:=strtofloat( FCWinFUG.COO_InclAxis.Text );
+         0: FCDfdMainStarObjectsList[CurrentObject].OO_isNotSat_inclinationAxis:=strtofloat( FCWinFUG.COO_InclAxis.Text );
 
-         1: FCDfdComp1StarObjectsList[CurrentObject].OO_inclinationAxis:=strtofloat( FCWinFUG.COO_InclAxis.Text );
+         1: FCDfdComp1StarObjectsList[CurrentObject].OO_isNotSat_inclinationAxis:=strtofloat( FCWinFUG.COO_InclAxis.Text );
 
-         2: FCDfdComp2StarObjectsList[CurrentObject].OO_inclinationAxis:=strtofloat( FCWinFUG.COO_InclAxis.Text );
+         2: FCDfdComp2StarObjectsList[CurrentObject].OO_isNotSat_inclinationAxis:=strtofloat( FCWinFUG.COO_InclAxis.Text );
       end;
    end
    else begin
       case FCWinFUG.TOO_StarPicker.ItemIndex of
-         0: FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_inclinationAxis:=strtofloat( FCWinFUG.COO_InclAxis.Text );
+         0: FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_isNotSat_inclinationAxis:=strtofloat( FCWinFUG.COO_InclAxis.Text );
 
-         1: FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_inclinationAxis:=strtofloat( FCWinFUG.COO_InclAxis.Text );
+         1: FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_isNotSat_inclinationAxis:=strtofloat( FCWinFUG.COO_InclAxis.Text );
 
-         2: FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_inclinationAxis:=strtofloat( FCWinFUG.COO_InclAxis.Text );
+         2: FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_isNotSat_inclinationAxis:=strtofloat( FCWinFUG.COO_InclAxis.Text );
       end;
    end;
 end;
@@ -652,6 +652,8 @@ begin
    then FCWinFUG.TOO_CurrentOrbitalObject.Show;
    if not FCWinFUG.COO_RotationPeriod.Visible
    then FCWinFUG.COO_RotationPeriod.Show;
+   if not FCWinFUG.COO_InclAxis.Visible
+   then FCWinFUG.COO_InclAxis.Show;
    if not FCWinFUG.COO_SatTrigger.Visible then
    begin
       FCWinFUG.COO_SatTrigger.Show;
@@ -686,8 +688,8 @@ begin
          if FCDfdMainStarObjectsList[CurrentObject].OO_isNotSat_rotationPeriod>0
          then FCWinFUG.COO_RotationPeriod.Text:=floattostr( FCDfdMainStarObjectsList[CurrentObject].OO_isNotSat_rotationPeriod )
          else FCWinFUG.COO_RotationPeriod.Text:='';
-         if FCDfdMainStarObjectsList[CurrentObject].OO_inclinationAxis>0
-         then FCWinFUG.COO_InclAxis.Text:=floattostr( FCDfdMainStarObjectsList[CurrentObject].OO_inclinationAxis )
+         if FCDfdMainStarObjectsList[CurrentObject].OO_isNotSat_inclinationAxis>0
+         then FCWinFUG.COO_InclAxis.Text:=floattostr( FCDfdMainStarObjectsList[CurrentObject].OO_isNotSat_inclinationAxis )
          else FCWinFUG.COO_InclAxis.Text:='';
          if FCDfdMainStarObjectsList[CurrentObject].OO_magneticField>0
          then FCWinFUG.COO_MagField.Text:=floattostr( FCDfdMainStarObjectsList[CurrentObject].OO_magneticField )
@@ -734,8 +736,8 @@ begin
          if FCDfdComp1StarObjectsList[CurrentObject].OO_isNotSat_rotationPeriod>0
          then FCWinFUG.COO_RotationPeriod.Text:=floattostr( FCDfdComp1StarObjectsList[CurrentObject].OO_isNotSat_rotationPeriod )
          else FCWinFUG.COO_RotationPeriod.Text:='';
-         if FCDfdComp1StarObjectsList[CurrentObject].OO_inclinationAxis>0
-         then FCWinFUG.COO_InclAxis.Text:=floattostr( FCDfdComp1StarObjectsList[CurrentObject].OO_inclinationAxis )
+         if FCDfdComp1StarObjectsList[CurrentObject].OO_isNotSat_inclinationAxis>0
+         then FCWinFUG.COO_InclAxis.Text:=floattostr( FCDfdComp1StarObjectsList[CurrentObject].OO_isNotSat_inclinationAxis )
          else FCWinFUG.COO_InclAxis.Text:='';
          if FCDfdComp1StarObjectsList[CurrentObject].OO_magneticField>0
          then FCWinFUG.COO_MagField.Text:=floattostr( FCDfdComp1StarObjectsList[CurrentObject].OO_magneticField )
@@ -782,8 +784,8 @@ begin
          if FCDfdComp2StarObjectsList[CurrentObject].OO_isNotSat_rotationPeriod>0
          then FCWinFUG.COO_RotationPeriod.Text:=floattostr( FCDfdComp2StarObjectsList[CurrentObject].OO_isNotSat_rotationPeriod )
          else FCWinFUG.COO_RotationPeriod.Text:='';
-         if FCDfdComp2StarObjectsList[CurrentObject].OO_inclinationAxis>0
-         then FCWinFUG.COO_InclAxis.Text:=floattostr( FCDfdComp2StarObjectsList[CurrentObject].OO_inclinationAxis )
+         if FCDfdComp2StarObjectsList[CurrentObject].OO_isNotSat_inclinationAxis>0
+         then FCWinFUG.COO_InclAxis.Text:=floattostr( FCDfdComp2StarObjectsList[CurrentObject].OO_isNotSat_inclinationAxis )
          else FCWinFUG.COO_InclAxis.Text:='';
          if FCDfdComp2StarObjectsList[CurrentObject].OO_magneticField>0
          then FCWinFUG.COO_MagField.Text:=floattostr( FCDfdComp2StarObjectsList[CurrentObject].OO_magneticField )
@@ -837,6 +839,8 @@ begin
    then FCWinFUG.TOO_CurrentOrbitalObject.Show;
    if FCWinFUG.COO_RotationPeriod.Visible
    then FCWinFUG.COO_RotationPeriod.Hide;
+   if FCWinFUG.COO_InclAxis.Visible
+   then FCWinFUG.COO_InclAxis.Hide;
    if FCWinFUG.COO_SatTrigger.Visible then
    begin
       FCWinFUG.COO_SatTrigger.Hide;

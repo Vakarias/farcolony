@@ -182,7 +182,7 @@
                   <orbper optype="" opstrt="" opend="" opmtemp=""/>
                   <orbper optype="" opstrt="" opend="" opmtemp=""/>
                </orbperlist>
-               <satgeophysdata sattype="" satdiam="" satdens="" satmass="" satgrav="" satescvel="" satinclax="" satmagfld="" sattectonicactivity=""/>
+               <satgeophysdata sattype="" satdiam="" satdens="" satmass="" satgrav="" satescvel="" satmagfld="" sattectonicactivity=""/>
                <satecosdata satenvtype="" satatmpres="" satcloudscov="" atmprimgasvol="" atmH2="" atmHe="" atmCH4="" atmNH3="" atmH2O="" atmNe="" atmN2="" atmCO="" atmNO="" atmO2="" atmH2S="" atmAr="" atmCO2="" atmNO2="" atmO3="" atmSO2="" hydroTp="" hydroArea="" satalbe=""/>
                <satregions surface="" mtd="">
                   <region soiltp="" relief="" climate="" mtdmin="" mtdint="" mtdmax="" wndspd="" precip="" emoPlanSurveyG="" emoPlanSurveyA="" emoPlanSurveyAG="" emoPlanSurveySAG="" emoCAB="" emoIWC="" emoGroundCombat="">

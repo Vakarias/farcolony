@@ -1097,9 +1097,9 @@ begin
                if FCDfdMainStarObjectsList[Count].OO_isNotSat_rotationPeriod>0
                then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_rotationPeriod:=FCDfdMainStarObjectsList[Count].OO_isNotSat_rotationPeriod
                else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_rotationPeriod:=0;
-               if FCDfdMainStarObjectsList[Count].OO_inclinationAxis>0
-               then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_inclinationAxis:=FCDfdMainStarObjectsList[Count].OO_inclinationAxis
-               else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_inclinationAxis:=0;
+               if FCDfdMainStarObjectsList[Count].OO_isNotSat_inclinationAxis>0
+               then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_inclinationAxis:=FCDfdMainStarObjectsList[Count].OO_isNotSat_inclinationAxis
+               else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_inclinationAxis:=0;
                if FCDfdMainStarObjectsList[Count].OO_magneticField>0
                then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_magneticField:=FCDfdMainStarObjectsList[Count].OO_magneticField
                else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_magneticField:=0;
@@ -1136,9 +1136,9 @@ begin
                if FCDfdComp1StarObjectsList[Count].OO_isNotSat_rotationPeriod>0
                then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_rotationPeriod:=FCDfdComp1StarObjectsList[Count].OO_isNotSat_rotationPeriod
                else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_rotationPeriod:=0;
-               if FCDfdComp1StarObjectsList[Count].OO_inclinationAxis>0
-               then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_inclinationAxis:=FCDfdComp1StarObjectsList[Count].OO_inclinationAxis
-               else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_inclinationAxis:=0;
+               if FCDfdComp1StarObjectsList[Count].OO_isNotSat_inclinationAxis>0
+               then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_inclinationAxis:=FCDfdComp1StarObjectsList[Count].OO_isNotSat_inclinationAxis
+               else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_inclinationAxis:=0;
                if FCDfdComp1StarObjectsList[Count].OO_magneticField>0
                then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_magneticField:=FCDfdComp1StarObjectsList[Count].OO_magneticField
                else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_magneticField:=0;
@@ -1175,9 +1175,9 @@ begin
                if FCDfdComp2StarObjectsList[Count].OO_isNotSat_rotationPeriod>0
                then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_rotationPeriod:=FCDfdComp2StarObjectsList[Count].OO_isNotSat_rotationPeriod
                else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_rotationPeriod:=0;
-               if FCDfdComp2StarObjectsList[Count].OO_inclinationAxis>0
-               then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_inclinationAxis:=FCDfdComp2StarObjectsList[Count].OO_inclinationAxis
-               else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_inclinationAxis:=0;
+               if FCDfdComp2StarObjectsList[Count].OO_isNotSat_inclinationAxis>0
+               then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_inclinationAxis:=FCDfdComp2StarObjectsList[Count].OO_isNotSat_inclinationAxis
+               else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_inclinationAxis:=0;
                if FCDfdComp2StarObjectsList[Count].OO_magneticField>0
                then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_magneticField:=FCDfdComp2StarObjectsList[Count].OO_magneticField
                else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_magneticField:=0;
@@ -1357,7 +1357,7 @@ begin
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_gravitationalSphereRadius:=0;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_geosynchOrbit:=0;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_lowOrbit:=0;
-               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_inclinationAxis:=0;
+               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_inclinationAxis:=0;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_magneticField:=0;
             end
             {..for the rest of the basic types}
@@ -1391,11 +1391,11 @@ begin
                if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_rotationPeriod=0
                then FCMfG_RotationPeriod_Calculation( CurrentStar, Count );
                FCMfO_GravSphereOrbits_Calculation( CurrentStar , Count );
-               if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_inclinationAxis=0
-               then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_inclinationAxis:=FCFfG_InclinationAxis_Calculation;
-               if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_inclinationAxis<0 then
+               if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_inclinationAxis=0
+               then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_inclinationAxis:=FCFfG_InclinationAxis_Calculation;
+               if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_inclinationAxis<0 then
                begin
-                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_inclinationAxis:=abs( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_inclinationAxis );
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_inclinationAxis:=abs( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_inclinationAxis );
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_rotationPeriod:=-( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_rotationPeriod );
                end;
                if ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_magneticField=0 )

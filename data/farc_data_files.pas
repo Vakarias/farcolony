@@ -1551,7 +1551,7 @@ begin
                FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_gravity:=StrToFloat( XMLOrbitalObject.Attributes['oograv'], FCVdiFormat );
                FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_escapeVelocity:=StrToFloat( XMLOrbitalObject.Attributes['ooescvel'], FCVdiFormat );
                FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_isNotSat_rotationPeriod:=StrToFloat( XMLOrbitalObject.Attributes['oorotper'], FCVdiFormat );
-               FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_inclinationAxis:=StrToFloat( XMLOrbitalObject.Attributes['ooinclax'], FCVdiFormat );
+               FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_isNotSat_inclinationAxis:=StrToFloat( XMLOrbitalObject.Attributes['ooinclax'], FCVdiFormat );
                FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_magneticField:=StrToFloat( XMLOrbitalObject.Attributes['oomagfld'], FCVdiFormat );
                EnumIndex:=GetEnumValue( TypeInfo( TFCEduTectonicActivity ), XMLOrbitalObject.Attributes['ootectonicactivity'] );
                FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_tectonicActivity:=TFCEduTectonicActivity( EnumIndex );
@@ -1752,7 +1752,6 @@ begin
                      FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_mass:=StrToFloat( XMSatellite.Attributes['satmass'], FCVdiFormat );
                      FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_gravity:=StrToFloat( XMSatellite.Attributes['satgrav'], FCVdiFormat );
                      FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_escapeVelocity:=StrToFloat( XMSatellite.Attributes['satescvel'], FCVdiFormat );
-                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_inclinationAxis:=StrToFloat( XMSatellite.Attributes['satinclax'], FCVdiFormat );
                      FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_magneticField:=StrToFloat( XMSatellite.Attributes['satmagfld'], FCVdiFormat );
                      EnumIndex:=GetEnumValue( TypeInfo( TFCEduTectonicActivity ), XMSatellite.Attributes['sattectonicactivity'] );
                      FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_tectonicActivity:=TFCEduTectonicActivity( EnumIndex );
