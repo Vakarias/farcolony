@@ -929,11 +929,14 @@ end;
 procedure FCMfO_Generate(const CurrentStar: integer);
 {:Purpose: core routine for orbits generation.
     Additions:
+      -2013May08- *add: satellites - manual entry initialization.
       -2013Apr14- *add: take in account the data that are manually set and load them in the data structures.
 }
 var
    Count
+   ,CountSat
    ,NumberOfOrbits
+   ,NumberOfSat
    ,GeneratedProbability
    ,OrbitProbabilityMax
    ,OrbitProbabilitMin: integer;
@@ -1071,124 +1074,121 @@ begin
          case CurrentStar of
             1:
             begin
-               if FCDfdMainStarObjectsList[Count].OO_dbTokenId<>''
-               then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_dbTokenId:=FCDfdMainStarObjectsList[Count].OO_dbTokenId
-               else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_dbTokenId:='';
+               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_dbTokenId:=FCDfdMainStarObjectsList[Count].OO_dbTokenId;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isSatellite:=false;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType:=FCDfdMainStarObjectsList[Count].OO_basicType;
-               if FCDfdMainStarObjectsList[Count].OO_isNotSat_distanceFromStar>0
-               then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_distanceFromStar:=FCDfdMainStarObjectsList[Count].OO_isNotSat_distanceFromStar
-               else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_distanceFromStar:=0;
-               if FCDfdMainStarObjectsList[Count].OO_diameter>0
-               then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_diameter:=FCDfdMainStarObjectsList[Count].OO_diameter
-               else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_diameter:=0;
-               if FCDfdMainStarObjectsList[Count].OO_density>0
-               then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_density:=FCDfdMainStarObjectsList[Count].OO_density
-               else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_density:=0;
-               if FCDfdMainStarObjectsList[Count].OO_mass>0
-               then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_mass:=FCDfdMainStarObjectsList[Count].OO_mass
-               else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_mass:=0;
-               if FCDfdMainStarObjectsList[Count].OO_gravity>0
-               then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_gravity:=FCDfdMainStarObjectsList[Count].OO_gravity
-               else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_gravity:=0;
-               if FCDfdMainStarObjectsList[Count].OO_escapeVelocity>0
-               then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_escapeVelocity:=FCDfdMainStarObjectsList[Count].OO_escapeVelocity
-               else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_escapeVelocity:=0;
-               if FCDfdMainStarObjectsList[Count].OO_isNotSat_rotationPeriod>0
-               then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_rotationPeriod:=FCDfdMainStarObjectsList[Count].OO_isNotSat_rotationPeriod
-               else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_rotationPeriod:=0;
-               if FCDfdMainStarObjectsList[Count].OO_isNotSat_inclinationAxis>0
-               then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_inclinationAxis:=FCDfdMainStarObjectsList[Count].OO_isNotSat_inclinationAxis
-               else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_inclinationAxis:=0;
-               if FCDfdMainStarObjectsList[Count].OO_magneticField>0
-               then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_magneticField:=FCDfdMainStarObjectsList[Count].OO_magneticField
-               else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_magneticField:=0;
-               if FCDfdMainStarObjectsList[Count].OO_albedo>0
-               then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_albedo:=FCDfdMainStarObjectsList[Count].OO_albedo
-               else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_albedo:=0;
+               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_distanceFromStar:=FCDfdMainStarObjectsList[Count].OO_isNotSat_distanceFromStar;
+               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_diameter:=FCDfdMainStarObjectsList[Count].OO_diameter;
+               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_density:=FCDfdMainStarObjectsList[Count].OO_density;
+               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_mass:=FCDfdMainStarObjectsList[Count].OO_mass;
+               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_gravity:=FCDfdMainStarObjectsList[Count].OO_gravity;
+               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_escapeVelocity:=FCDfdMainStarObjectsList[Count].OO_escapeVelocity;
+               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_rotationPeriod:=FCDfdMainStarObjectsList[Count].OO_isNotSat_rotationPeriod;
+               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_inclinationAxis:=FCDfdMainStarObjectsList[Count].OO_isNotSat_inclinationAxis;
+               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_magneticField:=FCDfdMainStarObjectsList[Count].OO_magneticField;
+               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_tectonicActivity:=FCDfdMainStarObjectsList[Count].OO_tectonicActivity;
+               NumberOfSat:=length( FCDfdMainStarObjectsList[Count].OO_satellitesList ) - 1;
+               if NumberOfSat>0
+               then setlength( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList, NumberOfSat + 1 );
+               CountSat:=1;
+               while CountSat<=NumberOfSat do
+               begin
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_dbTokenId:=FCDfdMainStarObjectsList[Count].OO_satellitesList[CountSat].OO_dbTokenId;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isSatellite:=true;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_basicType:=FCDfdMainStarObjectsList[Count].OO_satellitesList[CountSat].OO_basicType;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isSat_distanceFromPlanet:=FCDfdMainStarObjectsList[Count].OO_satellitesList[CountSat].OO_isSat_distanceFromPlanet;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_diameter:=FCDfdMainStarObjectsList[Count].OO_satellitesList[CountSat].OO_diameter;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_density:=FCDfdMainStarObjectsList[Count].OO_satellitesList[CountSat].OO_density;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_mass:=FCDfdMainStarObjectsList[Count].OO_satellitesList[CountSat].OO_mass;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_gravity:=FCDfdMainStarObjectsList[Count].OO_satellitesList[CountSat].OO_gravity;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_escapeVelocity:=FCDfdMainStarObjectsList[Count].OO_satellitesList[CountSat].OO_escapeVelocity;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_magneticField:=FCDfdMainStarObjectsList[Count].OO_satellitesList[CountSat].OO_magneticField;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_tectonicActivity:=FCDfdMainStarObjectsList[Count].OO_satellitesList[CountSat].OO_tectonicActivity;
+                  inc( CountSat );
+               end;
+
+//               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_albedo:=FCDfdMainStarObjectsList[Count].OO_albedo;
             end;
 
             2:
             begin
-               if FCDfdComp1StarObjectsList[Count].OO_dbTokenId<>''
-               then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_dbTokenId:=FCDfdComp1StarObjectsList[Count].OO_dbTokenId
-               else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_dbTokenId:='';
+               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_dbTokenId:=FCDfdComp1StarObjectsList[Count].OO_dbTokenId;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isSatellite:=false;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType:=FCDfdComp1StarObjectsList[Count].OO_basicType;
-               if FCDfdComp1StarObjectsList[Count].OO_isNotSat_distanceFromStar>0
-               then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_distanceFromStar:=FCDfdComp1StarObjectsList[Count].OO_isNotSat_distanceFromStar
-               else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_distanceFromStar:=0;
-               if FCDfdComp1StarObjectsList[Count].OO_diameter>0
-               then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_diameter:=FCDfdComp1StarObjectsList[Count].OO_diameter
-               else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_diameter:=0;
-               if FCDfdComp1StarObjectsList[Count].OO_density>0
-               then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_density:=FCDfdComp1StarObjectsList[Count].OO_density
-               else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_density:=0;
-               if FCDfdComp1StarObjectsList[Count].OO_mass>0
-               then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_mass:=FCDfdComp1StarObjectsList[Count].OO_mass
-               else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_mass:=0;
-               if FCDfdComp1StarObjectsList[Count].OO_gravity>0
-               then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_gravity:=FCDfdComp1StarObjectsList[Count].OO_gravity
-               else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_gravity:=0;
-               if FCDfdComp1StarObjectsList[Count].OO_escapeVelocity>0
-               then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_escapeVelocity:=FCDfdComp1StarObjectsList[Count].OO_escapeVelocity
-               else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_escapeVelocity:=0;
-               if FCDfdComp1StarObjectsList[Count].OO_isNotSat_rotationPeriod>0
-               then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_rotationPeriod:=FCDfdComp1StarObjectsList[Count].OO_isNotSat_rotationPeriod
-               else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_rotationPeriod:=0;
-               if FCDfdComp1StarObjectsList[Count].OO_isNotSat_inclinationAxis>0
-               then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_inclinationAxis:=FCDfdComp1StarObjectsList[Count].OO_isNotSat_inclinationAxis
-               else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_inclinationAxis:=0;
-               if FCDfdComp1StarObjectsList[Count].OO_magneticField>0
-               then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_magneticField:=FCDfdComp1StarObjectsList[Count].OO_magneticField
-               else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_magneticField:=0;
-               if FCDfdComp1StarObjectsList[Count].OO_albedo>0
-               then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_albedo:=FCDfdComp1StarObjectsList[Count].OO_albedo
-               else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_albedo:=0;
+               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_distanceFromStar:=FCDfdComp1StarObjectsList[Count].OO_isNotSat_distanceFromStar;
+               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_diameter:=FCDfdComp1StarObjectsList[Count].OO_diameter;
+               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_density:=FCDfdComp1StarObjectsList[Count].OO_density;
+               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_mass:=FCDfdComp1StarObjectsList[Count].OO_mass;
+               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_gravity:=FCDfdComp1StarObjectsList[Count].OO_gravity;
+               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_escapeVelocity:=FCDfdComp1StarObjectsList[Count].OO_escapeVelocity;
+               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_rotationPeriod:=FCDfdComp1StarObjectsList[Count].OO_isNotSat_rotationPeriod;
+               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_inclinationAxis:=FCDfdComp1StarObjectsList[Count].OO_isNotSat_inclinationAxis;
+               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_magneticField:=FCDfdComp1StarObjectsList[Count].OO_magneticField;
+               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_tectonicActivity:=FCDfdComp1StarObjectsList[Count].OO_tectonicActivity;
+               NumberOfSat:=length( FCDfdComp1StarObjectsList[Count].OO_satellitesList ) - 1;
+               if NumberOfSat>0
+               then setlength( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList, NumberOfSat + 1 );
+               CountSat:=1;
+               while CountSat<=NumberOfSat do
+               begin
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_dbTokenId:=FCDfdComp1StarObjectsList[Count].OO_satellitesList[CountSat].OO_dbTokenId;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isSatellite:=true;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_basicType:=FCDfdComp1StarObjectsList[Count].OO_satellitesList[CountSat].OO_basicType;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isSat_distanceFromPlanet:=FCDfdComp1StarObjectsList[Count].OO_satellitesList[CountSat].OO_isSat_distanceFromPlanet;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_diameter:=FCDfdComp1StarObjectsList[Count].OO_satellitesList[CountSat].OO_diameter;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_density:=FCDfdComp1StarObjectsList[Count].OO_satellitesList[CountSat].OO_density;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_mass:=FCDfdComp1StarObjectsList[Count].OO_satellitesList[CountSat].OO_mass;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_gravity:=FCDfdComp1StarObjectsList[Count].OO_satellitesList[CountSat].OO_gravity;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_escapeVelocity:=FCDfdComp1StarObjectsList[Count].OO_satellitesList[CountSat].OO_escapeVelocity;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_magneticField:=FCDfdComp1StarObjectsList[Count].OO_satellitesList[CountSat].OO_magneticField;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_tectonicActivity:=FCDfdComp1StarObjectsList[Count].OO_satellitesList[CountSat].OO_tectonicActivity;
+                  inc( CountSat );
+               end;
+
+//               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_albedo:=FCDfdComp1StarObjectsList[Count].OO_albedo;
             end;
 
             3:
             begin
-               if FCDfdComp2StarObjectsList[Count].OO_dbTokenId<>''
-               then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_dbTokenId:=FCDfdComp2StarObjectsList[Count].OO_dbTokenId
-               else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_dbTokenId:='';
+               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_dbTokenId:=FCDfdComp2StarObjectsList[Count].OO_dbTokenId;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isSatellite:=false;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType:=FCDfdComp2StarObjectsList[Count].OO_basicType;
-               if FCDfdComp2StarObjectsList[Count].OO_isNotSat_distanceFromStar>0
-               then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_distanceFromStar:=FCDfdComp2StarObjectsList[Count].OO_isNotSat_distanceFromStar
-               else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_distanceFromStar:=0;
-               if FCDfdComp2StarObjectsList[Count].OO_diameter>0
-               then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_diameter:=FCDfdComp2StarObjectsList[Count].OO_diameter
-               else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_diameter:=0;
-               if FCDfdComp2StarObjectsList[Count].OO_density>0
-               then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_density:=FCDfdComp2StarObjectsList[Count].OO_density
-               else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_density:=0;
-               if FCDfdComp2StarObjectsList[Count].OO_mass>0
-               then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_mass:=FCDfdComp2StarObjectsList[Count].OO_mass
-               else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_mass:=0;
-               if FCDfdComp2StarObjectsList[Count].OO_gravity>0
-               then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_gravity:=FCDfdComp2StarObjectsList[Count].OO_gravity
-               else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_gravity:=0;
-               if FCDfdComp2StarObjectsList[Count].OO_escapeVelocity>0
-               then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_escapeVelocity:=FCDfdComp2StarObjectsList[Count].OO_escapeVelocity
-               else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_escapeVelocity:=0;
-               if FCDfdComp2StarObjectsList[Count].OO_isNotSat_rotationPeriod>0
-               then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_rotationPeriod:=FCDfdComp2StarObjectsList[Count].OO_isNotSat_rotationPeriod
-               else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_rotationPeriod:=0;
-               if FCDfdComp2StarObjectsList[Count].OO_isNotSat_inclinationAxis>0
-               then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_inclinationAxis:=FCDfdComp2StarObjectsList[Count].OO_isNotSat_inclinationAxis
-               else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_inclinationAxis:=0;
-               if FCDfdComp2StarObjectsList[Count].OO_magneticField>0
-               then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_magneticField:=FCDfdComp2StarObjectsList[Count].OO_magneticField
-               else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_magneticField:=0;
-               if FCDfdComp2StarObjectsList[Count].OO_albedo>0
-               then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_albedo:=FCDfdComp2StarObjectsList[Count].OO_albedo
-               else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_albedo:=0;
+               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_distanceFromStar:=FCDfdComp2StarObjectsList[Count].OO_isNotSat_distanceFromStar;
+               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_diameter:=FCDfdComp2StarObjectsList[Count].OO_diameter;
+               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_density:=FCDfdComp2StarObjectsList[Count].OO_density;
+               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_mass:=FCDfdComp2StarObjectsList[Count].OO_mass;
+               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_gravity:=FCDfdComp2StarObjectsList[Count].OO_gravity;
+               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_escapeVelocity:=FCDfdComp2StarObjectsList[Count].OO_escapeVelocity;
+               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_rotationPeriod:=FCDfdComp2StarObjectsList[Count].OO_isNotSat_rotationPeriod;
+               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_inclinationAxis:=FCDfdComp2StarObjectsList[Count].OO_isNotSat_inclinationAxis;
+               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_magneticField:=FCDfdComp2StarObjectsList[Count].OO_magneticField;
+               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_tectonicActivity:=FCDfdComp2StarObjectsList[Count].OO_tectonicActivity;
+               NumberOfSat:=length( FCDfdComp2StarObjectsList[Count].OO_satellitesList ) - 1;
+               if NumberOfSat>0
+               then setlength( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList, NumberOfSat + 1 );
+               CountSat:=1;
+               while CountSat<=NumberOfSat do
+               begin
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_dbTokenId:=FCDfdComp2StarObjectsList[Count].OO_satellitesList[CountSat].OO_dbTokenId;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isSatellite:=true;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_basicType:=FCDfdComp2StarObjectsList[Count].OO_satellitesList[CountSat].OO_basicType;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isSat_distanceFromPlanet:=FCDfdComp2StarObjectsList[Count].OO_satellitesList[CountSat].OO_isSat_distanceFromPlanet;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_diameter:=FCDfdComp2StarObjectsList[Count].OO_satellitesList[CountSat].OO_diameter;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_density:=FCDfdComp2StarObjectsList[Count].OO_satellitesList[CountSat].OO_density;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_mass:=FCDfdComp2StarObjectsList[Count].OO_satellitesList[CountSat].OO_mass;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_gravity:=FCDfdComp2StarObjectsList[Count].OO_satellitesList[CountSat].OO_gravity;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_escapeVelocity:=FCDfdComp2StarObjectsList[Count].OO_satellitesList[CountSat].OO_escapeVelocity;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_magneticField:=FCDfdComp2StarObjectsList[Count].OO_satellitesList[CountSat].OO_magneticField;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_tectonicActivity:=FCDfdComp2StarObjectsList[Count].OO_satellitesList[CountSat].OO_tectonicActivity;
+                  inc( CountSat );
+               end;
+
+//               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_albedo:=FCDfdComp2StarObjectsList[Count].OO_albedo;
             end;
          end; //==END== case CurrentStar of ==//
          inc( Count );
       end; //==END== while Count<=NumberOfOrbits ==//
-   end;
+   end; //==END== else if FCRfdStarOrbits[CurrentStar]>0 ==//
    {.orbit distances}
    {.CalcFloat=maximum allowed orbit distance (MAOD)}
    if FCRfdStarOrbits[CurrentStar]>0
@@ -1402,9 +1402,9 @@ begin
                   and ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType > oobtAsteroid )
                then FCMfG_MagneticField_Calculation( CurrentStar, Count );
             end;
-
+            {.satellites phase I - basics + orbital + geophysical data}
             {:DEV NOTES: geophysical data here.
-                 //            {.magnetic field
+                 //
 
 
                 TectonicActivityDetermination

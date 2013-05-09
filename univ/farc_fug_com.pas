@@ -959,17 +959,20 @@ begin
    FCWinFUG.TOO_SatPicker.ItemIndex:=-1;
    FCWinFUG.TOO_SatPicker.Enabled:=false;
    NumberOfSatellites:=strtoint( FCWinFUG.COO_SatNumber.Text );
-   FCWinFUG.TOO_SatPicker.Items.Add( '0 - Central OObj' );
-   Count:=1;
-   while Count <= NumberOfSatellites do
+   if NumberOfSatellites<>-1 then
    begin
-      FCWinFUG.TOO_SatPicker.Items.Add( inttostr( Count ) );
-      inc( Count );
+      FCWinFUG.TOO_SatPicker.Items.Add( '0 - Central OObj' );
+      Count:=1;
+      while Count <= NumberOfSatellites do
+      begin
+         FCWinFUG.TOO_SatPicker.Items.Add( inttostr( Count ) );
+         inc( Count );
+      end;
+      if not FCWinFUG.TOO_SatPicker.Visible
+      then FCWinFUG.TOO_SatPicker.Show;
+      FCWinFUG.TOO_SatPicker.ItemIndex:=0;
+      FCWinFUG.TOO_SatPicker.Enabled:=true;
    end;
-   if not FCWinFUG.TOO_SatPicker.Visible
-   then FCWinFUG.TOO_SatPicker.Show;
-   FCWinFUG.TOO_SatPicker.ItemIndex:=0;
-   FCWinFUG.TOO_SatPicker.Enabled:=true;
 end;
 
 procedure FCmfC_SatTrigger_Update;
@@ -1004,7 +1007,8 @@ begin
 
          2: NumberOfSat:=length( FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList ) - 1;
       end;
-      if NumberOfSat<=0 then
+      if ( NumberOfSat< -1 )
+         or ( NumberOfSat=0 )  then
       begin
          FCWinFUG.COO_SatNumber.Text:='1';
          FCmC_SatPicker_Update;

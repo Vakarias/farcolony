@@ -188,7 +188,9 @@ procedure TFCWinFUG.WF_GenerateButtonClick(Sender: TObject);
 var
    Count
    ,Count1
-   ,Max1: integer;
+   ,Count2
+   ,Max1
+   ,Max2: integer;
 
    DumpString: string;
 begin
@@ -396,9 +398,42 @@ begin
                      +'" ootectonicactivity="'+GetEnumName( TypeInfo( TFCEduTectonicActivity ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_tectonicActivity ) )
                      +'"/>'
                   );
+               {.satellites}
+               Max2:=length( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList ) - 1;
+               Count2:=1;
+               while Count2<=Max2 do
+               begin
+                  WF_XMLOutput.Lines.Add( '         <satobj sattoken="'+FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_dbTokenId+'">' );
+                  WF_XMLOutput.Lines.Add(
+                     '            <satorbdata satdist="'+FloatToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_isSat_distanceFromPlanet )
+                        +'" satrevol="'+IntToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_revolutionPeriod )
+                        +'" satrevinit="'+IntToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_revolutionPeriodInit )
+                        +'" satgravsphrad="'+FloatToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_gravitationalSphereRadius )
+                        +'" orbitGeosync="'+FloatToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_geosynchOrbit )
+                        +'" orbitLow="'+FloatToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1]. OO_satellitesList[Count2].OO_lowOrbit )
+                        +'"/>'
+                     );
+                  WF_XMLOutput.Lines.Add(
+                     '            <satgeophysdata sattype="'+GetEnumName( TypeInfo( TFCEduOrbitalObjectTypes ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_type ) )
+                        {:DEV NOTES: DEBUG ENTRY, TO REMOVE LATER.}
+                        +'" satbasictypeDEBUG="'+GetEnumName( TypeInfo( TFCEduOrbitalObjectBasicTypes ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_basicType ) )
+                        {:DEV NOTES: END.}
+                        +'" satdiam="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_diameter )
+                        +'" satdens="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_density )
+                        +'" satmass="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_mass )
+                        +'" satgrav="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_gravity )
+                        +'" satescvel="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_escapeVelocity )
+                        +'" satmagfld="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_magneticField )
+                        +'" sattectonicactivity="'+GetEnumName( TypeInfo( TFCEduTectonicActivity ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_tectonicActivity ) )
+                        +'"/>'
+                     );
+                  WF_XMLOutput.Lines.Add( '         </satobj>' );
+                  inc( Count2 );
+               end;
+               WF_XMLOutput.Lines.Add( '      </orbobj>' );
                inc( Count1 );
             end;
-            WF_XMLOutput.Lines.Add('   </star>');
+            WF_XMLOutput.Lines.Add( '   </star>' );
          end; //==END== else of FCDduStarSystem[0].SS_stars[Count].S_token='' ==//
          inc(Count);
       end; //==END== while Count<=3 ==//
@@ -490,7 +525,8 @@ procedure TFCWinFUG.COO_SatNumberKeyDown(Sender: TObject; var Key: Word;
 begin
    if Key=13 then
    begin
-      if strtoint( COO_SatNumber.Text ) <=0
+      if ( strtoint( COO_SatNumber.Text ) < -1 )
+         or ( strtoint( COO_SatNumber.Text ) = 0 )
       then COO_SatNumber.Text:='1'
       else if strtoint( COO_SatNumber.Text ) > 15
       then COO_SatNumber.Text:='15';

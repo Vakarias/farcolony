@@ -40,10 +40,6 @@ object FCWinFUG: TFCWinFUG
       ColorTo = clNone
       TabColor = clBtnFace
       TabColorTo = clNone
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object TSSS_StellarStarSysGroup: TAdvGroupBox
         Left = 16
         Top = 3
@@ -1187,10 +1183,6 @@ object FCWinFUG: TFCWinFUG
       ColorTo = clNone
       TabColor = clBtnFace
       TabColorTo = clNone
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object TOO_StarPicker: TRadioGroup
         Left = 3
         Top = 3
@@ -1471,12 +1463,11 @@ object FCWinFUG: TFCWinFUG
           Width = 59
           Height = 19
           Color = clWhite
-          EditLabel.Width = 70
+          EditLabel.Width = 154
           EditLabel.Height = 13
-          EditLabel.Caption = '# Sat (max20)'
+          EditLabel.Caption = '# Sat (max15) / -1 FOR NO SAT'
           EditLabel.Layout = tlCenter
           Enabled = False
-          NumbersOnly = True
           TabOrder = 14
           OnKeyDown = COO_SatNumberKeyDown
         end
@@ -1507,10 +1498,6 @@ object FCWinFUG: TFCWinFUG
       ColorTo = clNone
       TabColor = clBtnFace
       TabColorTo = clNone
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object WF_XMLOutput: TAdvMemo
         Left = 0
         Top = 0
