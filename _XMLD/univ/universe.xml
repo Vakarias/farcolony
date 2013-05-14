@@ -200,7 +200,7 @@
       <star startoken="starACentA" starclass="G2">
          <starphysdata startemp="5659" starmass="1.07" stardiam="1.11" starlum="1.32069"/>
          <orbobj ootoken="orbobjAcentA1">
-            <orbobjorbdata oodist="0.46" ooecc="0.062" ooorbzne="hzInner" oorevol="112" oorevevinit="63" oogravsphrad="6090"/>
+            <orbobjorbdata oodist="0.46" ooecc="0.062" ooorbzne="hzInner" oorevol="112" oorevevinit="63" oogravsphrad="6090" orbitGeosync="0" orbitLow="0"/>
             <orbperlist>
                <orbper optype="optClosest" opstrt="1" opend="28" opmtemp="437.95"/>
                <orbper optype="optIntermediary" opstrt="29" opend="56" opmtemp="424.16"/>
@@ -221,7 +221,7 @@
             </orbobjregions>
          </orbobj>
          <orbobj ootoken="orbobjAcentA2">
-            <orbobjorbdata oodist="0.64" ooecc="0.097" ooorbzne="hzInner" oorevol="183" oorevevinit="77" oogravsphrad="366121.4"/>      
+            <orbobjorbdata oodist="0.64" ooecc="0.097" ooorbzne="hzInner" oorevol="183" oorevevinit="77" oogravsphrad="366121.4" orbitGeosync="0" orbitLow="0"/>      
             <orbperlist>
                <orbper optype="optClosest" opstrt="1" opend="45" opmtemp="402.73"/>
                <orbper optype="optIntermediary" opstrt="46" opend="90" opmtemp="361.82"/>
@@ -286,7 +286,7 @@
             </orbobjregions>
          </orbobj>
          <orbobj ootoken="orbobjAcentA3">
-            <orbobjorbdata oodist="0.83" ooecc="0.011" ooorbzne="hzInner" oorevol="271" oorevevinit="106" oogravsphrad="27313.0"/>      
+            <orbobjorbdata oodist="0.83" ooecc="0.011" ooorbzne="hzInner" oorevol="271" oorevevinit="106" oogravsphrad="27313.0" orbitGeosync="0" orbitLow="0"/>      
             <orbperlist>
                <orbper optype="optFarest" opstrt="1" opend="67" opmtemp="329.74"/>
                <orbper optype="optIntermediary" opstrt="68" opend="134" opmtemp="317.45"/>
@@ -343,7 +343,7 @@
             </orbobjregions>
          </orbobj>
          <orbobj ootoken="orbobjAcentA4">
-            <orbobjorbdata oodist="1.16" ooecc="0.05" ooorbzne="hzIntermediary" oorevol="447" oorevevinit="130" oogravsphrad="1502344.3"/>      
+            <orbobjorbdata oodist="1.16" ooecc="0.05" ooorbzne="hzIntermediary" oorevol="447" oorevevinit="130" oogravsphrad="1502344.3" orbitGeosync="0" orbitLow="0"/>      
             <orbperlist>
                <orbper optype="optClosest" opstrt="1" opend="111" opmtemp="321.24"/>
                <orbper optype="optIntermediary" opstrt="112" opend="222" opmtemp="309.11"/>
@@ -364,7 +364,7 @@
             </orbobjregions>
          </orbobj>
          <orbobj ootoken="orbobjAcentA5">
-            <orbobjorbdata oodist="1.97" ooecc="0.086" ooorbzne="hzOuter" oorevol="990" oorevevinit="89" oogravsphrad="17486173.5"/>      
+            <orbobjorbdata oodist="1.97" ooecc="0.086" ooorbzne="hzOuter" oorevol="990" oorevevinit="89" oogravsphrad="17486173.5" orbitGeosync="0" orbitLow="0"/>      
             <orbperlist>
                <orbper optype="optClosest" opstrt="1" opend="247" opmtemp="178.81"/>
                <orbper optype="optIntermediary" opstrt="248" opend="494" opmtemp="170.95"/>
@@ -375,7 +375,7 @@
             <orbobjecosdata ooenvtype="etGaseous" ooatmpres="1" oocloudscov="0" atmprimgasvol="61" atmH2="agsMain" atmHe="agsMain" atmCH4="agsSecondary" atmNH3="agsSecondary" atmH2O="agsSecondary" atmNe="agsSecondary" atmN2="agsSecondary" atmCO="agsSecondary" atmNO="agsSecondary" atmO2="agsSecondary" atmH2S="agsSecondary" atmAr="agsSecondary" atmCO2="agsSecondary" atmNO2="agsSecondary" atmO3="agsSecondary" atmSO2="agsSecondary" hydroTp="hNoH2O" hydroArea="0" ooalbe="0.55"/>
          </orbobj>
          <orbobj ootoken="orbobjAcentA6">
-            <orbobjorbdata oodist="2.96" ooecc="0.018" ooorbzne="hzOuter" oorevol="1823" oorevevinit="91" oogravsphrad="17633091.4"/>      
+            <orbobjorbdata oodist="152.96" ooecc="0.018" ooorbzne="hzOuter" oorevol="1823" oorevevinit="91" oogravsphrad="17633091.4" orbitGeosync="0" orbitLow="0"/>      
             <orbperlist>
                <orbper optype="optClosest" opstrt="1" opend="455" opmtemp="147.97"/>
                <orbper optype="optIntermediary" opstrt="456" opend="910" opmtemp="146.63"/>

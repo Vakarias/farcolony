@@ -929,6 +929,7 @@ end;
 procedure FCMfO_Generate(const CurrentStar: integer);
 {:Purpose: core routine for orbits generation.
     Additions:
+      -2013May13- *mod: the last adjustments, for the orbit distances, are applied.
       -2013May08- *add: satellites - manual entry initialization.
       -2013Apr14- *add: take in account the data that are manually set and load them in the data structures.
 }
@@ -1296,8 +1297,8 @@ begin
                else CalcFloat1:=( FCDduStarSystem[0].SS_stars[CurrentStar].S_diameter * 0.5 ) * 0.004645787 * sqrt( FCDduStarSystem[0].SS_stars[CurrentStar].S_temperature ) * ( 1 + ( FCFcF_Random_DoInteger( 10 ) * 0.02 ) );
             end
             else begin
-               GeneratedProbability:=FCFcF_Random_DoInteger( 8 ) + 1;
-               CalcFloat1:=CalcFloat1 * ( 1.2 + ( GeneratedProbability * 0.1 ) );
+               GeneratedProbability:=FCFcF_Random_DoInteger( 9 ) + 1;
+               CalcFloat1:=( CalcFloat1 * ( 1.1 + ( GeneratedProbability * 0.1 ) ) ) + 0.1;
             end;
             FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_distanceFromStar:=FCFcF_Round( rttCustom2Decimal, CalcFloat1 );
          end
@@ -1346,6 +1347,7 @@ begin
             {..for asteroids belt}
             if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType=oobtAsteroidBelt then
             begin
+               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_type:=ootAsteroidsBelt;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_diameter:=FCFfG_AsteroidsBelt_CalculateDiameter( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_distanceFromStar );
                CalcFloat1:=CalcFloat1 + ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_diameter * 0.5 );
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_distanceFromStar:=FCFcF_Round( rttCustom2Decimal, CalcFloat1 );
@@ -1359,6 +1361,7 @@ begin
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_lowOrbit:=0;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_inclinationAxis:=0;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_magneticField:=0;
+               {.satellites phase I - basics + orbital + geophysical data}
             end
             {..for the rest of the basic types}
             else begin
@@ -1401,8 +1404,9 @@ begin
                if ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_magneticField=0 )
                   and ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType > oobtAsteroid )
                then FCMfG_MagneticField_Calculation( CurrentStar, Count );
+               {.satellites phase I - basics + orbital + geophysical data}
             end;
-            {.satellites phase I - basics + orbital + geophysical data}
+
             {:DEV NOTES: geophysical data here.
                  //
 
