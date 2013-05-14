@@ -1266,7 +1266,7 @@ begin
                FC3doglAsteroids[TDMVUorbObjCnt].scale.Z:=FC3doglAsteroids[TDMVUorbObjCnt].scale.X;
                {.set distance and location}
                {:DEV NOTES: WARNING A FUNCTION NOW EXISTS FOR THIS CALCULATION: FCFoglF_OrbitalObject_CalculatePosition.}
-               LSVUorbDistUnit:=FCFcF_Scale_Conversion(cAU_to3dViewUnits,S_orbitalObjects[TDMVUorbObjCnt].OO_isNotSat_distanceFromStar);//ok to fill the call w/ param and remove this
+               LSVUorbDistUnit:=FCFcF_Scale_Conversion(cAU_to3dViewUnits,S_orbitalObjects[TDMVUorbObjCnt].OO_isNotSat_distanceFromStar);//dev:USE /5.5 - WARNING: adjust all dist proportionally ; //ok to fill the call w/ param and remove this
                FC3doglObjectsGroups[TDMVUorbObjCnt].Position.X:=cos(LSVUangleRad)*LSVUorbDistUnit;//ok to fill the call w/ param and remove this
                FC3doglObjectsGroups[TDMVUorbObjCnt].Position.Y:=0;//ok to fill the call w/ param and remove this
                FC3doglObjectsGroups[TDMVUorbObjCnt].Position.Z:=sin(LSVUangleRad)*LSVUorbDistUnit;//ok to fill the call w/ param and remove this
@@ -1297,7 +1297,7 @@ begin
                FC3doglPlanets[TDMVUorbObjCnt].scale.Z:=FC3doglPlanets[TDMVUorbObjCnt].scale.X;
                {.set distance and location}
                {:DEV NOTES: WARNING A FUNCTION NOW EXISTS FOR THIS CALCULATION: FCFoglF_OrbitalObject_CalculatePosition.}
-               LSVUorbDistUnit:=FCFcF_Scale_Conversion(cAU_to3dViewUnits,S_orbitalObjects[TDMVUorbObjCnt].OO_isNotSat_distanceFromStar);//ok to fill the call w/ param and remove this
+               LSVUorbDistUnit:=FCFcF_Scale_Conversion(cAU_to3dViewUnits,S_orbitalObjects[TDMVUorbObjCnt].OO_isNotSat_distanceFromStar);//dev:USE /5.5 - WARNING: adjust all dist proportionally ; //ok to fill the call w/ param and remove this
                FC3doglObjectsGroups[TDMVUorbObjCnt].Position.X:=cos(LSVUangleRad)*LSVUorbDistUnit;//ok to fill the call w/ param and remove this
                FC3doglObjectsGroups[TDMVUorbObjCnt].Position.Y:=0;//ok to fill the call w/ param and remove this
                FC3doglObjectsGroups[TDMVUorbObjCnt].Position.Z:=sin(LSVUangleRad)*LSVUorbDistUnit;//ok to fill the call w/ param and remove this

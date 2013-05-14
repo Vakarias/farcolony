@@ -105,6 +105,7 @@ implementation
 uses
    farc_common_func
    ,farc_data_init
+   ,farc_data_3dopengl
    ,farc_fug_data
    ,farc_fug_geophysical
    ,farc_fug_stars
@@ -945,7 +946,8 @@ var
    BaseTemperature
    ,CalcFloat
    ,CalcFloat1
-   ,CalcFloat2: extended;
+   ,CalcFloat2
+   ,CalcFloat3: extended;
 
    isPassedBinaryTrinaryTest: boolean;
 
@@ -1361,8 +1363,15 @@ begin
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_lowOrbit:=0;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_inclinationAxis:=0;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_magneticField:=0;
-               {.satellites phase I - basics + orbital + geophysical data}
-            end
+               {...satellites phase I - basics + orbital + geophysical data}
+               NumberOfSat:=length( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList ) - 1;
+               if NumberOfSat<=0 then
+               begin
+                  CalcFloat2:=FCFcF_Scale_Conversion( cAU_to3dViewUnits, FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_distanceFromStar );
+                  CalcFloat3:=sqrt( 2 * FCCdiPiDouble * CalcFloat2 ) / ( 4.52 * FC3doglCoefViewReduction );
+                  NumberOfSat:=round( CalcFloat3 );
+               end;
+            end //==END== if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType=oobtAsteroidBelt then ==//
             {..for the rest of the basic types}
             else begin
                if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_diameter=0
@@ -1404,7 +1413,7 @@ begin
                if ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_magneticField=0 )
                   and ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType > oobtAsteroid )
                then FCMfG_MagneticField_Calculation( CurrentStar, Count );
-               {.satellites phase I - basics + orbital + geophysical data}
+               {...satellites phase I - basics + orbital + geophysical data}
             end;
 
             {:DEV NOTES: geophysical data here.

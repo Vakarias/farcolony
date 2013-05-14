@@ -146,7 +146,13 @@ var
 
 //==END PUBLIC VAR==========================================================================
 
-//const
+const
+
+   ///<summary>
+   ///   used to reduce distance between orbital objects in the view but without affect the effects or secondary assets
+   ///</summary>
+   FC3doglCoefViewReduction=5.5;
+
 //==END PUBLIC CONST========================================================================
 
 //===========================END FUNCTIONS SECTION==========================================
