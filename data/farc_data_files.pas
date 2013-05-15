@@ -1427,6 +1427,7 @@ end;
 procedure FCMdF_DBStarOrbitalObjects_Load( const StarSystemToken, StarToken: string );
 {:Purpose: load the orbital objects, if there's any, of a specified star in the universe database XML file.
    Additions:
+      -2013May14- *add: specific geophysical data for asteroids in a belt.
       -2013May05- *add: geosynchronous and low orbit.
       -2013May01- *add: tectonic activity.
       -2013Apr30- *mod: albedo is moved into the ecosphere data.
@@ -1758,6 +1759,25 @@ begin
                      if EnumIndex=-1
                      then raise Exception.Create( 'bad (sat) orbital object type: '+XMSatellite.Attributes['sattectonicactivity'] );
                   end {.else if DBSSPsatNode.NodeName='satgeophysdata'}
+                  else if XMSatellite.NodeName='astbeltgeophysdata' then
+                  begin
+                     EnumIndex:=GetEnumValue( TypeInfo( TFCEduOrbitalObjectTypes ), XMSatellite.Attributes['asttype'] );
+                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_type:=TFCEduOrbitalObjectTypes( EnumIndex );
+                     if EnumIndex=-1
+                     then raise Exception.Create( 'bad (asteroid-belt) orbital object type: '+XMSatellite.Attributes['sattype'] );
+                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_diameter:=StrToFloat( XMSatellite.Attributes['astdiam'], FCVdiFormat );
+                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_density:=XMSatellite.Attributes['astdens'];
+                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_mass:=StrToFloat( XMSatellite.Attributes['astmass'], FCVdiFormat );
+                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_gravity:=StrToFloat( XMSatellite.Attributes['astgrav'], FCVdiFormat );
+                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_escapeVelocity:=StrToFloat( XMSatellite.Attributes['astescvel'], FCVdiFormat );
+                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_isAsterBelt_rotationPeriod:=StrToFloat( XMSatellite.Attributes['astrotper'], FCVdiFormat );
+                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_isAsterBelt_inclinationAxis:=StrToFloat( XMSatellite.Attributes['astinclax'], FCVdiFormat );
+                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_magneticField:=StrToFloat( XMSatellite.Attributes['astmagfld'], FCVdiFormat );
+                     EnumIndex:=GetEnumValue( TypeInfo( TFCEduTectonicActivity ), XMSatellite.Attributes['asttectonicactivity'] );
+                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_tectonicActivity:=TFCEduTectonicActivity( EnumIndex );
+                     if EnumIndex=-1
+                     then raise Exception.Create( 'bad (asteroid-belt) orbital object type: '+XMSatellite.Attributes['asttectonicactivity'] );
+                  end {.else if DBSSPsatNode.NodeName='astbeltgeophysdata'}
                   else if XMSatellite.NodeName='satecosdata' then
                   begin
                      EnumIndex:=GetEnumValue( TypeInfo( TFCEduEnvironmentTypes ), XMSatellite.Attributes['satenvtype'] );

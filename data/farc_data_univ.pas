@@ -700,6 +700,14 @@ type TFCRduOrbitalObject = record
          ///   distance from it's central planet in thousands of km
          ///</summary>
          OO_isSat_distanceFromPlanet: extended;
+         ///<summary>
+         ///   rotation period, around it's own axis, in hours RTO-2 - for asteroid in a belt only
+         ///</summary>
+         OO_isAsterBelt_rotationPeriod: extended;
+         ///<summary>
+         ///   inclination axis - for asteroid in a belt only
+         ///</summary>
+         OO_isAsterBelt_inclinationAxis: extended;
          );
 end;
 
