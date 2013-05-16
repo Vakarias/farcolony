@@ -70,7 +70,7 @@ function FCFfG_Density_Calculation(
 ///   calculate the orbital object's diameter
 ///</summary>
 /// <param name="ObjectType">basic type of the object</param>
-/// <param name="OrbitalZone">orbital zone in which the object is</param>
+/// <param name="OrbitalZone">orbital zone in which the object is. Doesn't apply if the object is a gaseous planet or an asteroid</param>
 /// <returns>the diameter in km</returns>   
 /// <remarks>format [x.x]</remarks>
 function FCFfG_Diameter_Calculation(
@@ -154,8 +154,13 @@ procedure FCMfG_MagneticField_Calculation( const Star, OrbitalObject: integer);
 ///</summary>
 /// <param name="Star">star index #</param>
 /// <param name="OrbitalObject">orbital object index #</param>
+/// <param name="Asteroid">optional parameter, only for an asteroid in a belt</param>
 /// <remarks>format [x.xx]</remarks>
-procedure FCMfG_RotationPeriod_Calculation( const Star, OrbitalObject: integer );
+procedure FCMfG_RotationPeriod_Calculation(
+   const Star
+         ,OrbitalObject
+         ,Asteroid: integer
+   );
 
 ///<summary>
 ///   calculate the orbital object's tectonic activity
@@ -585,9 +590,14 @@ begin
    FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_magneticField:=FCFcF_Round( rttCustom3Decimal, MagField );
 end;
 
-procedure FCMfG_RotationPeriod_Calculation( const Star, OrbitalObject: integer );
+procedure FCMfG_RotationPeriod_Calculation(
+   const Star
+         ,OrbitalObject
+         ,Asteroid: integer
+   );
 {:Purpose: calculate the orbital object's rotation period.
    Additions:
+      -2013May15- *add: Asteroid parameter, for asteroids in a belt.
 }
    var
       Probability: integer;
@@ -596,6 +606,10 @@ procedure FCMfG_RotationPeriod_Calculation( const Star, OrbitalObject: integer )
       ,CoefPeriod
       ,KStar
       ,MassInG
+      ,ObjectDiameter
+      ,ObjectDistance
+      ,ObjectGravity
+      ,ObjectMass
       ,RadiusInCm
       ,ShortestPeriod
       ,StarAge
@@ -604,8 +618,21 @@ procedure FCMfG_RotationPeriod_Calculation( const Star, OrbitalObject: integer )
       ,VelFinal
       ,Velocity: extended;
 begin
-   ShortestPeriod:=sqrt( ( 2 * Pi ) / ( 0.19 * FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_gravity * 9.807 ) );
-   TidalForce:=( FCDduStarSystem[0].SS_stars[Star].S_mass * 26640000 ) /   power( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isNotSat_distanceFromStar * 400, 3 );
+   if Asteroid=0 then
+   begin
+      ObjectDiameter:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_diameter;
+      ObjectDistance:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isNotSat_distanceFromStar;
+      ObjectGravity:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_gravity;
+      ObjectMass:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_mass;
+   end
+   else begin
+      ObjectDiameter:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Asteroid].OO_diameter;
+      ObjectDistance:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Asteroid].OO_isSat_distanceFromPlanet;
+      ObjectGravity:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Asteroid].OO_gravity;
+      ObjectMass:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Asteroid].OO_mass;
+   end;
+   ShortestPeriod:=sqrt( ( 2 * Pi ) / ( 0.19 * ObjectGravity * 9.807 ) );
+   TidalForce:=( FCDduStarSystem[0].SS_stars[Star].S_mass * 26640000 ) /   power( ObjectDistance * 400, 3 );
    StarAge:=FCFfS_Age_Calc( FCDduStarSystem[0].SS_stars[Star].S_mass, FCDduStarSystem[0].SS_stars[Star].S_luminosity );
    Probability:=FCFcF_Random_DoInteger( 9 ) + 1;
    TidalFinal:=( ( 0.83 + ( Probability * 0.03 ) ) * TidalForce * StarAge ) /  6.6;
@@ -636,9 +663,9 @@ begin
       else CalculatedRotationPeriod:=0;
    end
    else begin
-      RadiusInCm:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_diameter * 100000;
-      MassInG:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_mass * FCCdiMassEqEarth * 1000;
-      KStar:=( ( 0.19 * FCDduStarSystem[0].SS_stars[Star].S_mass ) / FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isNotSat_distanceFromStar ) * FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_gravity;
+      RadiusInCm:=ObjectDiameter * 100000;
+      MassInG:=ObjectMass * FCCdiMassEqEarth * 1000;
+      KStar:=( ( 0.19 * FCDduStarSystem[0].SS_stars[Star].S_mass ) / ObjectDistance ) * ObjectGravity;
       Velocity:=sqrt( ( 2 * 1.46e-19 * MassInG ) / ( KStar * sqr( RadiusInCm ) ) );
       VelFinal:=1 / ( ( Velocity / ( 2 * Pi ) ) * 3600 );
       Probability:=FCFcF_Random_DoInteger( 99 ) + 1;
@@ -667,7 +694,9 @@ begin
       if CalculatedRotationPeriod < ShortestPeriod
       then CalculatedRotationPeriod:=ShortestPeriod * ( 1 + ( 4 * FCFcF_Random_DoInteger( 10 ) ) );
    end; //==END== else of: if TidalFinal > 1 ==//
-   FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isNotSat_rotationPeriod:=FCFcF_Round( rttCustom2Decimal, CalculatedRotationPeriod );
+   if Asteroid=0
+   then FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isNotSat_rotationPeriod:=FCFcF_Round( rttCustom2Decimal, CalculatedRotationPeriod )
+   else FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Asteroid].OO_isAsterBelt_rotationPeriod:=FCFcF_Round( rttCustom2Decimal, CalculatedRotationPeriod );
 end;
 
 procedure FCMfG_TectonicActivity_Calculation( const Star, OrbitalObject: integer );
