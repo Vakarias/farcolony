@@ -127,9 +127,10 @@ function FCFfG_Mass_Calculation(
 ///   retrieve the final type of asteroid based on the density
 ///</summary>
 ///   <param name="Density">asteroid's density</param>
+///   <param name="isSatellite">[=true] process for satellites</param>
 ///   <returns>the orbital object type</returns>
 ///   <remarks></remarks>
-function FCFfG_Refinement_Asteroid( const Density: integer): TFCEduOrbitalObjectTypes;
+function FCFfG_Refinement_Asteroid( const Density: integer; isSatellite: boolean ): TFCEduOrbitalObjectTypes;
 
 ///<summary>
 ///   retrieve the final type of gaseous planet based on the mass
@@ -381,20 +382,41 @@ begin
    else Result:=FCFcF_Round( rttMassAsteroid, CalculatedMass );
 end;
 
-function FCFfG_Refinement_Asteroid( const Density: integer): TFCEduOrbitalObjectTypes;
+function FCFfG_Refinement_Asteroid( const Density: integer; isSatellite: boolean ): TFCEduOrbitalObjectTypes;
 {:Purpose: retrieve the final type of asteroid based on the density.
     Additions:
+      -2013May17- *add: isSatellite parameter.
 }
 begin
    Result:=ootNone;
    case Density of
-      0..2481: Result:=ootAsteroid_Icy;
+      0..2481:
+      begin
+         if not isSatellite
+         then Result:=ootAsteroid_Icy
+         else Result:=ootSatellite_Asteroid_Icy;
+      end;
 
-      2482..3639: Result:=ootAsteroid_Carbonaceous;
+      2482..3639:
+      begin
+         if not isSatellite
+         then Result:=ootAsteroid_Carbonaceous
+         else Result:=ootSatellite_Asteroid_Carbonaceous;
+      end;
 
-      3640..4963: Result:=ootAsteroid_Silicate;
+      3640..4963:
+      begin
+         if not isSatellite
+         then Result:=ootAsteroid_Silicate
+         else Result:=ootSatellite_Asteroid_Silicate;
+      end;
 
-      4964..8273: Result:=ootAsteroid_Metallic;
+      4964..8273:
+      begin
+         if not isSatellite
+         then Result:=ootAsteroid_Metallic
+         else Result:=ootSatellite_Asteroid_Metallic;
+      end;
    end;
 end;
 
