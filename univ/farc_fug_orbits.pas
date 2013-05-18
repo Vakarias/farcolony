@@ -36,6 +36,26 @@ uses
 
    ,farc_data_univ;
 
+type TFCEfoSatelliteDistances=(
+   sdNone
+   ,sdClose
+   ,sdAverage
+   ,sdDistant
+   ,sdVeryDistant
+   ,sdCaptured
+   );
+
+//==END PUBLIC ENUM=========================================================================
+
+//==END PUBLIC RECORDS======================================================================
+
+   //==========subsection===================================================================
+//var
+//==END PUBLIC VAR==========================================================================
+
+//const
+//==END PUBLIC CONST========================================================================
+
 ///<summary>
 ///   calculate the orbital eccentricity
 ///</summary>
@@ -83,14 +103,14 @@ function FCFfS_OrbitGen_SolLike( const StarClass: TFCEduStarClasses; const Zone:
 ///   <return>the default orbital object that must be generated</return>
 function FCFfS_OrbitGen_ExtraSolLike( const StarClass: TFCEduStarClasses; const Zone: TFCEduHabitableZones ): TFCEduOrbitalObjectBasicTypes;
 
-function FCFfO_Satellites_Distance( const RootRadius: extended; const isCaptured: boolean; Range: integer ): extended; overload;
+function FCFfO_Satellites_Distance( const RootRadius: extended ): extended; overload;
 
 ///<summary>
 ///   calculate the satellite's orbit distance from its root planet
 ///</summary>
 ///   <param name="RootRadius">radius, in km, of the root object</param>
 ///   <param name="RootGravSphere">root's gravitational sphere</param>
-///   <return>the distance in thousands of km. The value is negative if the sat is captured, make a test for it</return>
+///   <return>the distance in thousands of km.</return>
 ///   <remarks>format [x.xx]</remarks>
 function FCFfO_Satellites_Distance( const RootRadius, RootGravSphere: extended ): extended; overload;
 
@@ -126,6 +146,20 @@ uses
    ,farc_fug_geophysical
    ,farc_fug_stars
    ,farc_win_fug;
+
+//==END PRIVATE ENUM========================================================================
+
+//==END PRIVATE RECORDS=====================================================================
+
+   //==========subsection===================================================================
+var
+
+   FOsatDistanceRange: TFCEfoSatelliteDistances;
+
+//==END PRIVATE VAR=========================================================================
+
+//const
+//==END PRIVATE CONST=======================================================================
 
 //===================================================END OF INIT============================
 
@@ -941,33 +975,31 @@ begin
    then Result:=oobtGaseousPlanet;
 end;
 
-function FCFfO_Satellites_Distance( const RootRadius: extended; const isCaptured: boolean; Range: integer ): extended; overload;
+function FCFfO_Satellites_Distance( const RootRadius: extended ): extended; overload;
 {:Purpose: internal recaller for FCFfO_Satellites_Distance.
 }
    var
       GeneratedProbability: integer;
 begin
    Result:=0;
-   if not isCaptured then
-   begin
-      case Range of
-         4, 6: Result:=( 1 + ( ( FCFcF_Random_DoInteger( 99 ) + 1 ) * 0.05 ) ) * RootRadius;
+   case FOsatDistanceRange of
+      sdClose, sdAverage: Result:=( 1 + ( ( FCFcF_Random_DoInteger( 99 ) + 1 ) * 0.05 ) ) * RootRadius;
 
-         8: Result:=( 6 + ( FCFcF_Random_DoInteger( 99 ) + 0.1 ) ) * RootRadius;
+      sdDistant: Result:=( 6 + ( FCFcF_Random_DoInteger( 99 ) + 0.1 ) ) * RootRadius;
 
-         9: Result:=( 16 + ( ( FCFcF_Random_DoInteger( 99 ) + 1 ) * 0.3 ) ) * RootRadius;
+      sdVeryDistant: Result:=( 16 + ( ( FCFcF_Random_DoInteger( 99 ) + 1 ) * 0.3 ) ) * RootRadius;
+
+      sdCaptured:
+      begin
+         GeneratedProbability:=FCFcF_Random_DoInteger( 4 ) + 5;
+         case GeneratedProbability of
+            5..6: Result:=( 6 + ( FCFcF_Random_DoInteger( 99 ) + 0.1 ) ) * RootRadius;
+
+            7..8: Result:=( 16 + ( ( FCFcF_Random_DoInteger( 99 ) + 1 ) * 0.3 ) ) * RootRadius;
+
+            9: Result:=( 46 + ( ( FCFcF_Random_DoInteger( 99 ) + 1 ) * 3 ) ) * RootRadius;
+         end;
       end;
-   end
-   else begin
-      GeneratedProbability:=FCFcF_Random_DoInteger( 4 ) + 5;
-      case GeneratedProbability of
-         5..6: Result:=( 6 + ( FCFcF_Random_DoInteger( 99 ) + 0.1 ) ) * RootRadius;
-
-         7..8: Result:=( 16 + ( ( FCFcF_Random_DoInteger( 99 ) + 1 ) * 0.3 ) ) * RootRadius;
-
-         9: Result:=( 46 + ( ( FCFcF_Random_DoInteger( 99 ) + 1 ) * 3 ) ) * RootRadius;
-      end;
-      Result:=-Result;
    end;
 end;
 
@@ -975,44 +1007,48 @@ function FCFfO_Satellites_Distance( const RootRadius, RootGravSphere: extended )
 {:Purpose: calculate the satellite's orbit distance from its root planet.
 }
    var
-      GeneratedProbability
-      ,Range: integer;
+      GeneratedProbability: integer;
 
       Calculation: extended;
 begin
    Result:=0;
    GeneratedProbability:=FCFcF_Random_DoInteger( 9 ) + 1;
-   Range:=0;
+   FOsatDistanceRange:=sdNone;
    case GeneratedProbability of
       1..4:
       begin
+         FOsatDistanceRange:=sdClose;
          Calculation:=( 1 + ( ( FCFcF_Random_DoInteger( 99 ) + 1 ) * 0.05 ) ) * RootRadius;
-         Range:=4;
       end;
 
       5..6:
       begin
+         FOsatDistanceRange:=sdAverage;
          Calculation:=( 6 + ( FCFcF_Random_DoInteger( 99 ) + 0.1 ) ) * RootRadius;
-         Range:=6
       end;
 
       7..8:
       begin
+         FOsatDistanceRange:=sdDistant;
          Calculation:=( 16 + ( ( FCFcF_Random_DoInteger( 99 ) + 1 ) * 0.3 ) ) * RootRadius;
-         Range:=8;
       end;
 
       9:
       begin
+         FOsatDistanceRange:=sdVeryDistant;
          Calculation:=( 46 + ( ( FCFcF_Random_DoInteger( 99 ) + 1 ) * 3 ) ) * RootRadius;
-         Range:=9;
       end;
 
-      10: Calculation:=FCFfO_Satellites_Distance( RootRadius, true, 0 );
+      10:
+      begin
+         FOsatDistanceRange:=sdCaptured;
+         Calculation:=FCFfO_Satellites_Distance( RootRadius );
+      end;
    end;
-   if Calculation > RootGravSphere
-   then Calculation:=FCFfO_Satellites_Distance( RootRadius, false, Range );
-   Result:=FCFcF_Round( rttCustom1Decimal, Calculation );
+   if ( Calculation > RootGravSphere )
+      and ( FOsatDistanceRange < sdCaptured )
+   then Calculation:=FCFfO_Satellites_Distance( RootRadius );
+   Result:=FCFcF_Round( rttCustom1Decimal, Calculation * 0.001 );
 end;
 
 //===========================END FUNCTIONS SECTION==========================================
@@ -1039,8 +1075,7 @@ var
    ,CalcFloat2
    ,CalcFloat3: extended;
 
-   isPassedBinaryTrinaryTest
-   ,isSatCaptured: boolean;
+   isPassedBinaryTrinaryTest: boolean;
 
    Token: string;
 
@@ -1639,7 +1674,6 @@ begin
                   CountSat:=1;
                   while CountSat <= NumberOfSat do
                   begin
-                     isSatCaptured:=false;
                      if ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_dbTokenId='' )
                         or ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_dbTokenId='sat' ) then
                      begin
@@ -1650,31 +1684,34 @@ begin
                      FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isSatellite:=true;
                      {....orbit distance from the root object}
                      FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isSat_distanceFromPlanet:=FCFfO_Satellites_Distance( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_diameter * 0.5, FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_gravitationalSphereRadius );
-                     if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isSat_distanceFromPlanet < 0 then
-                     begin
-                        FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isSat_distanceFromPlanet:=abs( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isSat_distanceFromPlanet );
-                        isSatCaptured:=true;
+                     {....basic type}
+                     GeneratedProbability:=FCFcF_Random_DoInteger( 9 ) + 1;
+                     case FOsatDistanceRange of
+                        sdClose: GeneratedProbability:=GeneratedProbability - 1;
+
+                        sdDistant: GeneratedProbability:=GeneratedProbability + 1;
+
+                        sdVeryDistant: GeneratedProbability:=GeneratedProbability + 2;
                      end;
+                     if GeneratedProbability < 7
+                     then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_basicType:=oobtAsteroid
+                     else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_basicType:=oobtTelluricPlanet;
+                     {....revolution period w/ CalcFloat2: Distance Coef}
+                     CalcFloat2:=FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isSat_distanceFromPlanet / 384399;
+                     CalcFloat3:=sqrt( power( CalcFloat2, 3 ) * ( 746.468843 / FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_mass ) );
+                     FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_revolutionPeriod:=round( CalcFloat3 );
+                     if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_revolutionPeriod < 1
+                     then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_revolutionPeriod:=1;
+                     CalcFloat3:=FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_revolutionPeriod / 100 * ( FCFcF_Random_DoInteger( 99 ) + 1 );
+                     FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_revolutionPeriodInit:=round( CalcFloat3 );
+                     if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_revolutionPeriodInit < 1
+                     then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_revolutionPeriodInit:=1;
                      inc( CountSat );
                   end;
                end;
 //               CountSat:=1;
 //               while CountSat <= NumberOfSat do
 //               begin
-//                  if ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_dbTokenId='' )
-//                     or ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_dbTokenId='sat' ) then
-//                  begin
-//                     Token:=FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_dbTokenId;
-//                     delete( Token, 1, 6 );
-//                     FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_dbTokenId:='sat' + Token + '-' + inttostr( CountSat );
-//                  end;
-//                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isSatellite:=true;
-//                  CalcFloat2:=FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_distanceFromStar - ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_diameter * 0.5 );
-//                  CalcFloat3:=CalcFloat2 + ( FCFcF_Random_DoFloat * FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_diameter );
-//                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isSat_distanceFromPlanet:=FCFcF_Round( rttCustom2Decimal, CalcFloat3 );
-//                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_basicType:=oobtAsteroid;
-//                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_revolutionPeriod:=FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_revolutionPeriod;
-//                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_revolutionPeriodInit:=FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_revolutionPeriodInit;
 //                  if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_diameter=0
 //                  then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_diameter:=FCFfG_Diameter_Calculation( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_basicType, hzInner );
 //                  if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_density=0
