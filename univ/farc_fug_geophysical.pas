@@ -79,6 +79,18 @@ function FCFfG_Diameter_Calculation(
    ): extended;
 
 ///<summary>
+///   calculate the satellite's diameter
+///</summary>
+/// <param name="ObjectType">basic type of the satellite</param>
+/// <param name="OrbitDistance">range of orbit distance</param>
+/// <returns>the diameter in km</returns>
+/// <remarks>format [x.x]</remarks>
+function FCFfG_Diameter_SatCalculation(
+   const ObjectType: TFCEduOrbitalObjectBasicTypes;
+   const OrbitDistance: TFCEduSatelliteDistances
+   ): extended;
+
+///<summary>
 ///   calculate the orbital object's escape velocity
 ///</summary>
 /// <param name="Diameter">orbital object's diameter</param>
@@ -177,15 +189,6 @@ uses
    farc_common_func
    ,farc_data_init
    ,farc_fug_stars;
-//
-//   ,farc_data_init
-//   ,farc_data_planetarysurvey
-//   ,farc_game_colony
-//   ,farc_game_prodrsrcspots
-//   ,farc_survey_functions
-//   ,farc_ui_coredatadisplay
-//   ,farc_univ_func
-//   ,farc_win_debug;
 
 //==END PRIVATE ENUM========================================================================
 
@@ -296,6 +299,61 @@ begin
    end;
    Result:=FCFcF_Round( rttCustom1Decimal, WorkingFloat );
 end;
+
+function FCFfG_Diameter_SatCalculation(
+   const ObjectType: TFCEduOrbitalObjectBasicTypes;
+   const OrbitDistance: TFCEduSatelliteDistances
+   ): extended;
+{:Purpose: calculate the satellite's diameter.
+    Additions:
+}
+   var
+      GeneratedProbability: integer;
+
+      Calculation: extended;
+begin
+   Result:=0;
+   GeneratedProbability:=FCFcF_Random_DoInteger( 9 ) + 1;
+   if ObjectType=oobtAsteroid then
+   begin
+      case OrbitDistance of
+         sdClose: GeneratedProbability:=GeneratedProbability - 1;
+
+         sdDistant: GeneratedProbability:=GeneratedProbability + 1;
+
+         sdVeryDistant: GeneratedProbability:=GeneratedProbability + 2;
+
+         sdCaptured: GeneratedProbability:=GeneratedProbability - 1;
+      end;
+      case GeneratedProbability of
+         0..7: Calculation:=FCFcF_Random_DoInteger( 99 ) + 1;
+
+         8..9: Calculation:=( FCFcF_Random_DoInteger( 99 ) + 1 ) * 10;
+
+         10..12: Calculation:=1000 + ( ( FCFcF_Random_DoInteger( 99 ) + 1 ) * 10 );
+      end;
+   end
+   else if ( ObjectType=oobtTelluricPlanet )
+      or ( ObjectType=oobtIcyPlanet ) then
+   begin
+      case OrbitDistance of
+         sdClose: GeneratedProbability:=GeneratedProbability - 1;
+
+         sdDistant: GeneratedProbability:=GeneratedProbability + 1;
+
+         sdVeryDistant: GeneratedProbability:=GeneratedProbability + 2;
+
+         sdCaptured: GeneratedProbability:=GeneratedProbability - 2;
+      end;
+      case GeneratedProbability of
+         -1..8: Calculation:=2000 + ( ( FCFcF_Random_DoInteger( 99 ) + 1 ) * 20 );
+
+         9..12: Calculation:=4000 + ( ( FCFcF_Random_DoInteger( 99 ) + 1 ) * 40 );
+      end;
+   end;
+   Result:=FCFcF_Round( rttCustom1Decimal, Calculation );
+end;
+
 
 function FCFfG_EscapeVelocity_Calculation(
    const Diameter

@@ -36,15 +36,6 @@ uses
 
    ,farc_data_univ;
 
-type TFCEfoSatelliteDistances=(
-   sdNone
-   ,sdClose
-   ,sdAverage
-   ,sdDistant
-   ,sdVeryDistant
-   ,sdCaptured
-   );
-
 //==END PUBLIC ENUM=========================================================================
 
 //==END PUBLIC RECORDS======================================================================
@@ -154,7 +145,7 @@ uses
    //==========subsection===================================================================
 var
 
-   FOsatDistanceRange: TFCEfoSatelliteDistances;
+   FOsatDistanceRange: TFCEduSatelliteDistances;
 
 //==END PRIVATE VAR=========================================================================
 
@@ -1695,6 +1686,8 @@ begin
                      end;
                      if GeneratedProbability < 7
                      then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_basicType:=oobtAsteroid
+                     else if BaseTemperature < 140
+                     then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_basicType:=oobtIcyPlanet
                      else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_basicType:=oobtTelluricPlanet;
                      {....revolution period w/ CalcFloat2: Distance Coef}
                      CalcFloat2:=FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isSat_distanceFromPlanet / 384399;
@@ -1706,14 +1699,15 @@ begin
                      FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_revolutionPeriodInit:=round( CalcFloat3 );
                      if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_revolutionPeriodInit < 1
                      then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_revolutionPeriodInit:=1;
+                     if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_diameter=0
+                     then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_diameter:=FCFfG_Diameter_SatCalculation( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_basicType, FOsatDistanceRange );
                      inc( CountSat );
                   end;
                end;
 //               CountSat:=1;
 //               while CountSat <= NumberOfSat do
 //               begin
-//                  if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_diameter=0
-//                  then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_diameter:=FCFfG_Diameter_Calculation( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_basicType, hzInner );
+
 //                  if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_density=0
 //                  then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_density:=FCFfG_Density_Calculation( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_basicType, FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_orbitalZone );
 //                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_type:=FCFfG_Refinement_Asteroid( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_density );

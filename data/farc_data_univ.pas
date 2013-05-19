@@ -361,6 +361,15 @@ type TFCEduResourceSpotTypes=(
    ,rstUnderWater
    );
 
+type TFCEduSatelliteDistances=(
+   sdNone
+   ,sdClose
+   ,sdAverage
+   ,sdDistant
+   ,sdVeryDistant
+   ,sdCaptured
+   );
+
 {:REFERENCES LIST
    - FCMdF_DBstarSys_Process
    - TFCWinFUG.FCWFgenerateClick
