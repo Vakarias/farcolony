@@ -59,11 +59,29 @@ function FCFfG_AsteroidsBelt_CalculateDiameter( const Distance: extended ): exte
 ///</summary>
 /// <param name="ObjectType">basic type of the object</param>
 /// <param name="OrbitalZone">orbital zone in which the object is</param>
-/// <returns>the density in kg</returns>   
+/// <param name="isSatCaptured">optional parameter, false by default. Apply only in case of a satellite must be processed and indicate if it is captured or not</param>
+/// <returns>the density in kg</returns>
 /// <remarks>format is rounded</remarks>
 function FCFfG_Density_Calculation(
    const ObjectType: TFCEduOrbitalObjectBasicTypes;
-   const OrbitalZone: TFCEduHabitableZones
+   const OrbitalZone: TFCEduHabitableZones;
+   const isSatCaptured: boolean=false
+   ): integer;
+
+///<summary>
+///   density precalculations for satellites
+///</summary>
+///   <param name="Star">star's index #</param>
+///   <param name="Root">root planet/asteroid's index #</param>
+///   <param name="Satellite">satellite's index #</param>
+///   <param name="SatCaptured">indicate if the satellite is captured or not, so either sdCaptured or sdNone</param>
+/// <returns>the density in kg</returns>
+/// <remarks>format is rounded</remarks>
+function FCFfG_DensitySat_Calculation(
+   const Star
+         ,Root
+         ,Satellite: integer;
+   const SatCaptured: TFCEduSatelliteDistances
    ): integer;
 
 ///<summary>
@@ -222,12 +240,14 @@ begin
    Result:=FCFcF_Round( rttCustom2Decimal, WorkingFloat );
 end;
 
-function FCFfG_Density_Calculation( 
+function FCFfG_Density_Calculation(
    const ObjectType: TFCEduOrbitalObjectBasicTypes;
-   const OrbitalZone: TFCEduHabitableZones
+   const OrbitalZone: TFCEduHabitableZones;
+   const isSatCaptured: boolean=false
    ): integer;
 {:Purpose: calculate the orbital object's density.
    Additions:
+      -2013May19- *add: satellites calculations.
       -2013Apr29- *mod: put specific calculation for icy planets.
       -2013Apr28- *add: icy planet basic type.
       -2013Apr20- *mod: adjustments.
@@ -240,19 +260,27 @@ begin
    case ObjectType of
       oobtAsteroid:
       begin
-         if OrbitalZone in[hzInner..hzIntermediary]
-         then WorkingFloat:=0.3 + ( ( FCFcF_Random_DoInteger( 99 ) + 1 ) * 0.01 )//1.3
-         else if OrbitalZone = hzOuter
-         then WorkingFloat:=0.1 + ( ( FCFcF_Random_DoInteger( 99 ) + 1 ) * 0.005 );//0.6
+         if isSatCaptured
+         then WorkingFloat:=0.1 + ( ( FCFcF_Random_DoInteger( 99 ) + 1 ) * 0.012 )
+         else begin
+            if OrbitalZone in[hzInner..hzIntermediary]
+            then WorkingFloat:=0.3 + ( ( FCFcF_Random_DoInteger( 99 ) + 1 ) * 0.01 )//1.3
+            else if OrbitalZone = hzOuter
+            then WorkingFloat:=0.1 + ( ( FCFcF_Random_DoInteger( 99 ) + 1 ) * 0.005 );//0.6
+         end;
          WorkingFloat:=WorkingFloat * FCCdiDensityEqEarth;
       end;
 
       oobtTelluricPlanet:
       begin
-         if OrbitalZone in[hzInner..hzIntermediary]
-         then WorkingFloat:=0.54 + ( ( FCFcF_Random_DoInteger( 99 ) + 1 ) * 0.0076 )//1.3
-         else if OrbitalZone = hzOuter
-         then WorkingFloat:=0.3 + ( ( FCFcF_Random_DoInteger( 99 ) + 1 ) * 0.0035 );
+         if isSatCaptured
+         then WorkingFloat:=0.3 + ( ( FCFcF_Random_DoInteger( 99 ) + 1 ) * 0.01 )
+         else begin
+            if OrbitalZone in[hzInner..hzIntermediary]
+            then WorkingFloat:=0.54 + ( ( FCFcF_Random_DoInteger( 99 ) + 1 ) * 0.0076 )//1.3
+            else if OrbitalZone = hzOuter
+            then WorkingFloat:=0.3 + ( ( FCFcF_Random_DoInteger( 99 ) + 1 ) * 0.0035 );
+         end;
          WorkingFloat:=WorkingFloat * FCCdiDensityEqEarth;
       end;
 
@@ -264,6 +292,56 @@ begin
          WorkingFloat:=WorkingFloat * FCCdiDensityEqEarth;
       end;
    end;
+   Result:=round( WorkingFloat );
+end;
+
+function FCFfG_DensitySat_Calculation(
+   const Star
+         ,Root
+         ,Satellite: integer;
+   const SatCaptured: TFCEduSatelliteDistances
+   ): integer;
+{:Purpose: density precalculations for satellites.
+}
+   var
+      MaxDensity: integer;
+
+      CoefDensity
+      ,DistanceRadii
+      ,PlanetaryRadii
+      ,WorkingFloat: extended;
+begin
+   Result:=0;
+   MaxDensity:=0;
+   CoefDensity:=1;
+   if SatCaptured=sdNone then
+   begin
+      MaxDensity:=round( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[Root].OO_density * ( 1 - ( ( FCFcF_Random_DoInteger( 99 ) + 1 ) * 0.001 ) ) );
+      if ( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[Root].OO_basicType=oobtGaseousPlanet )
+         and ( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[Root].OO_isNotSat_orbitalZone=hzOuter )
+         and ( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[Root].OO_mass >= 200 ) then
+      begin
+         DistanceRadii:=( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[Root].OO_satellitesList[Satellite].OO_isSat_distanceFromPlanet * 1000 / ( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[Root].OO_diameter * 0.5 ) );
+         PlanetaryRadii:=7 + ( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[Root].OO_mass / 300 );
+         if DistanceRadii <= PlanetaryRadii
+         then CoefDensity:=2
+         else if DistanceRadii <= ( PlanetaryRadii * 1.5 )
+         then CoefDensity:=1.5;
+      end;
+      WorkingFloat:=FCFfG_Density_Calculation(
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[Root].OO_satellitesList[Satellite].OO_basicType
+         ,FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[Root].OO_isNotSat_orbitalZone
+         );
+   end
+   else if SatCaptured=sdCaptured
+   then WorkingFloat:=FCFfG_Density_Calculation(
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[Root].OO_satellitesList[Satellite].OO_basicType
+      ,FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[Root].OO_isNotSat_orbitalZone
+      ,true
+      );
+   if ( MaxDensity > 0 )
+      and ( WorkingFloat > MaxDensity )
+   then WorkingFloat:=MaxDensity;
    Result:=round( WorkingFloat );
 end;
 
