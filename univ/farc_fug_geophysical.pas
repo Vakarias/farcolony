@@ -157,10 +157,10 @@ function FCFfG_Mass_Calculation(
 ///   retrieve the final type of asteroid based on the density
 ///</summary>
 ///   <param name="Density">asteroid's density</param>
-///   <param name="isSatellite">[=true] process for satellites</param>
+///   <param name="isSatellite">optional parameter, false by default, [=true] process for satellites</param>
 ///   <returns>the orbital object type</returns>
 ///   <remarks></remarks>
-function FCFfG_Refinement_Asteroid( const Density: integer; isSatellite: boolean ): TFCEduOrbitalObjectTypes;
+function FCFfG_Refinement_Asteroid( const Density: integer; const isSatellite: boolean=false ): TFCEduOrbitalObjectTypes;
 
 ///<summary>
 ///   retrieve the final type of gaseous planet based on the mass
@@ -518,7 +518,7 @@ begin
    else Result:=FCFcF_Round( rttMassAsteroid, CalculatedMass );
 end;
 
-function FCFfG_Refinement_Asteroid( const Density: integer; isSatellite: boolean ): TFCEduOrbitalObjectTypes;
+function FCFfG_Refinement_Asteroid( const Density: integer; const isSatellite: boolean=false ): TFCEduOrbitalObjectTypes;
 {:Purpose: retrieve the final type of asteroid based on the density.
     Additions:
       -2013May17- *add: isSatellite parameter.
