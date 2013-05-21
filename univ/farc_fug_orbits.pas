@@ -125,13 +125,15 @@ procedure FCMfO_Generate(const CurrentStar: integer);
 ///</summary>
 ///   <param name="Star">star's index #</param>
 ///   <param name="OrbitalObject">orbital object's index #</param>
-///   <param name="Asteroid">optional parameter, only for an asteroid in a belt</param>
+///   <param name="Asteroid">optional parameter, only for an asteroid in a belt. Satellite must be = 0</param>
+///   <param name="Satellite">optional parameter, only for any satellite. Asteroid must be = 0</param>
 ///   <returns></returns>
 ///   <remarks>format [x.x]</remarks>
 procedure FCMfO_GravSphereOrbits_Calculation(
    const Star
-         ,OrbitalObject
-         ,Asteroid: integer
+         ,OrbitalObject: integer;
+   const Asteroid: integer=0;
+   const Satellite: integer=0
    );
 
 implementation
@@ -1597,11 +1599,7 @@ begin
                   ,Count
                   ,0
                   );
-               FCMfO_GravSphereOrbits_Calculation(
-                  CurrentStar
-                  ,Count
-                  ,0
-                  );
+               FCMfO_GravSphereOrbits_Calculation( CurrentStar, Count );
                if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_inclinationAxis=0
                then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_inclinationAxis:=FCFfG_InclinationAxis_Calculation;
                if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_inclinationAxis<0 then
@@ -1763,8 +1761,16 @@ begin
                      then  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_gravity:=FCFfG_Gravity_Calculation( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_diameter, FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_mass );
                      if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_escapeVelocity=0
                      then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_escapeVelocity:=FCFfG_EscapeVelocity_Calculation( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_diameter, FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_mass );
-                     {....asteroids refinment}
-                     FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_type:=FCFfG_Refinement_Asteroid( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_density, true );
+                     {....asteroids refinement}
+                     if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_basicType=oobtAsteroid
+                     then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_type:=FCFfG_Refinement_Asteroid( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_density, true );
+                     {.gravitational sphere}
+                     FCMfO_GravSphereOrbits_Calculation(
+                        CurrentStar
+                        ,Count
+                        ,0
+                        ,CountSat
+                        );
                      inc( CountSat );
                   end;
                end;
@@ -1774,22 +1780,7 @@ begin
 
 
 
-//                  if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isAsterBelt_rotationPeriod=0
-//                  then FCMfG_RotationPeriod_Calculation(
-//                     CurrentStar
-//                     ,Count
-//                     ,CountSat
-//                     );
-//                  FCMfO_GravSphereOrbits_Calculation(
-//                     CurrentStar
-//                     ,Count
-//                     ,CountSat
-//                     );
-//                  if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isAsterBelt_inclinationAxis=0
-//                  then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isAsterBelt_inclinationAxis:=FCFfG_InclinationAxis_Calculation;
-//
-//                  if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isAsterBelt_inclinationAxis<0
-//                  then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isAsterBelt_inclinationAxis:=abs( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isAsterBelt_inclinationAxis );
+
 //                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_magneticField:=0;
 //                  inc( CountSat );
 //               end;
@@ -1877,11 +1868,14 @@ end;
 
 procedure FCMfO_GravSphereOrbits_Calculation(
    const Star
-         ,OrbitalObject
-         ,Asteroid: integer
+         ,OrbitalObject: integer;
+   const Asteroid: integer=0;
+   const Satellite: integer=0
    );
 {:Purpose: calculate the gravitational sphere radius, the geosynchronous and the low orbits of an orbital object.
     Additions:
+      -2013May20- *fix: for asteroids in a belt: select the correct distance to use for the calculation.
+                  *add: satellites.
       -2013May16- *add: Asteroid parameter, for asteroids in a belt.
       -2013May05- *mod: function = > procedure.
                   *add: geosynchronous and low orbit calculations.
@@ -1897,38 +1891,66 @@ procedure FCMfO_GravSphereOrbits_Calculation(
       ,ObjectSynchOrbit
       ,StarMassKg: extended;
 begin
-   if Asteroid=0 then
+   if ( Asteroid=0 )
+      and ( Satellite=0 ) then
    begin
       ObjectDistanceKm:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isNotSat_distanceFromStar * FCCdiKm_In_1AU;
       ObjectMassKg:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_mass * FCCdiMassEqEarth;
       ObjectRotationPeriod:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isNotSat_rotationPeriod;
       ObjectDiameter:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_diameter;
+      StarMassKg:=FCDduStarSystem[0].SS_stars[Star].S_mass * FCCdiMassEqSun;
    end
+   else if ( Asteroid=0 )
+      and ( Satellite>0 ) then
+   begin
+      ObjectDistanceKm:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_isSat_distanceFromPlanet * 1000;
+      ObjectMassKg:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_mass * FCCdiMassEqEarth;
+      ObjectRotationPeriod:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_revolutionPeriod * 24;
+      ObjectDiameter:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_diameter;
+      StarMassKg:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_mass * FCCdiMassEqEarth;
+   end
+   {.for asteroids in a belt}
    else begin
-      ObjectDistanceKm:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Asteroid].OO_isNotSat_distanceFromStar * FCCdiKm_In_1AU;
+      ObjectDistanceKm:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Asteroid].OO_isSat_distanceFromPlanet * FCCdiKm_In_1AU;
       ObjectMassKg:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Asteroid].OO_mass * FCCdiMassEqEarth;
       ObjectRotationPeriod:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Asteroid].OO_isAsterBelt_rotationPeriod;
       ObjectDiameter:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Asteroid].OO_diameter;
+      StarMassKg:=FCDduStarSystem[0].SS_stars[Star].S_mass * FCCdiMassEqSun;
    end;
-   StarMassKg:=FCDduStarSystem[0].SS_stars[Star].S_mass * FCCdiMassEqSun;
    {.gravitational sphere radius}
    Calculation:=ObjectDistanceKm * power( ( ObjectMassKg /  StarMassKg ), 2 / 5 );
-   if Asteroid=0 then
+   if ( Asteroid=0 )
+      and ( Satellite=0 ) then
    begin
       FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_gravitationalSphereRadius:=FCFcF_Round( rttCustom1Decimal, Calculation );
       ObjectGravSphere:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_gravitationalSphereRadius;
    end
+   else if ( Asteroid=0 )
+      and ( Satellite>0 ) then
+   begin
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_gravitationalSphereRadius:=FCFcF_Round( rttCustom1Decimal, Calculation );
+      ObjectGravSphere:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_gravitationalSphereRadius;
+   end
+   {..for asteroids in a belt}
    else begin
       FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Asteroid].OO_gravitationalSphereRadius:=FCFcF_Round( rttCustom1Decimal, Calculation );
       ObjectGravSphere:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Asteroid].OO_gravitationalSphereRadius;
    end;
    {.geosynchronous orbit}
    Calculation:=( power( ( FCCdiGravitationalConst * ObjectMassKg * power(  ObjectRotationPeriod * 3600, 2 ) ) / ( 4 * power( Pi, 2 ) ) ,0.333 ) ) / 1000;
-   if Asteroid=0 then
+   if ( Asteroid=0 )
+      and ( Satellite=0 ) then
    begin
       FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_geosynchOrbit:=FCFcF_Round( rttCustom1Decimal, Calculation );
       ObjectSynchOrbit:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_geosynchOrbit;
    end
+   else if ( Asteroid=0 )
+      and ( Satellite>0 ) then
+   begin
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_geosynchOrbit:=FCFcF_Round( rttCustom1Decimal, Calculation );
+      ObjectSynchOrbit:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_geosynchOrbit;
+   end
+   {..for asteroids in a belt}
    else begin
       FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Asteroid].OO_geosynchOrbit:=FCFcF_Round( rttCustom1Decimal, Calculation );
       ObjectSynchOrbit:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Asteroid].OO_geosynchOrbit;
@@ -1938,8 +1960,12 @@ begin
    if GravSphereCoef < 1
    then GravSphereCoef:=1;
    Calculation:=( ( power(  ObjectSynchOrbit  , 0.333  ) * 14.5 ) + ( ObjectDiameter * 0.5 ) ) * GravSphereCoef;
-   if Asteroid=0
+   if ( Asteroid=0 )
+      and ( Satellite=0 )
    then FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_lowOrbit:=FCFcF_Round( rttCustom1Decimal, Calculation )
+   else if ( Asteroid=0 )
+      and ( Satellite>0 )
+   then FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_lowOrbit:=FCFcF_Round( rttCustom1Decimal, Calculation )
    else FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Asteroid].OO_lowOrbit:=FCFcF_Round( rttCustom1Decimal, Calculation );
 end;
 
