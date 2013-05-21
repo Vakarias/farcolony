@@ -1070,6 +1070,7 @@ end;
 procedure FCMfO_Generate(const CurrentStar: integer);
 {:Purpose: core routine for orbits generation.
     Additions:
+      -2013May20- *add: completion of the satellite phase I since May 14.
       -2013May13- *mod: the last adjustments, for the orbit distances, are applied.
       -2013May08- *add: satellites - manual entry initialization.
       -2013Apr14- *add: take in account the data that are manually set and load them in the data structures.
@@ -1711,8 +1712,24 @@ begin
                      end;
                      if GeneratedProbability < 7
                      then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_basicType:=oobtAsteroid
-                     else if BaseTemperature < 140
-                     then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_basicType:=oobtIcyPlanet
+                     else if BaseTemperature < 140 then
+                     begin
+                        if FOsatDistanceRange=sdCaptured then
+                        begin
+                           GeneratedProbability:=FCFcF_Random_DoInteger( 99 ) + 1;
+                           case FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_orbitalZone of
+                              hzInner: GeneratedProbability:=GeneratedProbability - 90;
+
+                              hzIntermediary: GeneratedProbability:=GeneratedProbability - 70;
+
+                              hzOuter: GeneratedProbability:=GeneratedProbability - 40;
+                           end;
+                           if GeneratedProbability <= 0
+                           then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_basicType:=oobtTelluricPlanet
+                           else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_basicType:=oobtIcyPlanet;
+                        end
+                        else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_basicType:=oobtIcyPlanet;
+                     end
                      else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_basicType:=oobtTelluricPlanet;
                      {....revolution period w/ CalcFloat2: Distance Coef}
                      CalcFloat2:=FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isSat_distanceFromPlanet / 384399;
@@ -1764,26 +1781,23 @@ begin
                      {....asteroids refinement}
                      if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_basicType=oobtAsteroid
                      then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_type:=FCFfG_Refinement_Asteroid( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_density, true );
-                     {.gravitational sphere}
+                     {....geophysical data: gravitational sphere, magnetic field}
                      FCMfO_GravSphereOrbits_Calculation(
                         CurrentStar
                         ,Count
                         ,0
                         ,CountSat
                         );
+                     if ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_magneticField=0 )
+                        and ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_basicType > oobtAsteroid )
+                     then FCMfG_MagneticField_Calculation(
+                        CurrentStar
+                        ,Count
+                        ,CountSat
+                        );
                      inc( CountSat );
-                  end;
-               end;
-//               CountSat:=1;
-//               while CountSat <= NumberOfSat do
-//               begin
-
-
-
-
-//                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_magneticField:=0;
-//                  inc( CountSat );
-//               end;
+                  end; //==END== while CountSat <= NumberOfSat ==//
+               end; //==END== if (FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_rotationPeriod <> 0 ) and ( NumberOfSat > 0 ) ==//
             end; //==END== else of: if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType=oobtAsteroidBelt ==//
 
             {:DEV NOTES: geophysical data here.
