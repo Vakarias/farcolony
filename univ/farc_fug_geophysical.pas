@@ -203,8 +203,13 @@ procedure FCMfG_RotationPeriod_Calculation(
 ///</summary>
 /// <param name="Star">star index #</param>
 /// <param name="OrbitalObject">orbital object index #</param>
+/// <param name="Satellite">[optional] satellite index #</param>
 /// <remarks></remarks>
-procedure FCMfG_TectonicActivity_Calculation( const Star, OrbitalObject: integer );
+procedure FCMfG_TectonicActivity_Calculation(
+   const Star
+         ,OrbitalObject: integer;
+   const Satellite: integer=0
+   );
 
 implementation
 
@@ -885,17 +890,63 @@ begin
    else FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Asteroid].OO_isAsterBelt_rotationPeriod:=FCFcF_Round( rttCustom2Decimal, CalculatedRotationPeriod );
 end;
 
-procedure FCMfG_TectonicActivity_Calculation( const Star, OrbitalObject: integer );
+procedure FCMfG_TectonicActivity_Calculation(
+   const Star
+         ,OrbitalObject: integer;
+   const Satellite: integer=0
+   );
 {:Purpose: calculate the orbital object's tectonic activity.
     Additions:
 }
+   var
+      SatCount
+      ,SatMax: integer;
+
+      DistanceInKm
+      ,MassInKg
+      ,ObjectMass
+      ,StarAge
+      ,TectonicFactor
+      ,TidalForce
+      ,TidalForceCumul: extended;
 begin
+   TidalForce:=0;
+   if Satellite<=0 then
+   begin
+      ObjectMass:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_mass;
+      {.differential tidal stress}
+      SatMax:=length( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList ) - 1;
+      SatCount:=1;
+      TidalForceCumul:=0;
+      while SatCount <= SatMax do
+      begin
+         {.*1000km * 324 coef for tidal force}
+         DistanceInKm:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[SatCount].OO_isSat_distanceFromPlanet * 324000;
+         {.26.64 = coef for tidal force}
+         MassInKg:=( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[SatCount].OO_mass * FCCdiMassEqEarth ) * 26.64;
+         TidalForce:=MassInKg / power( DistanceInKm, 3 );
+         TidalForceCumul:=TidalForceCumul + TidalForce;
+         inc( SatCount );
+      end;
+      TidalForce:=TidalForceCumul / SatCount;
+   end
+   else begin
+      ObjectMass:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_mass;
+      {.differential tidal stress}
+      {:DEV NOTES: complete here.}
+   end;
+   StarAge:=FCFfS_Age_Calc( FCDduStarSystem[0].SS_stars[Star].S_mass, FCDduStarSystem[0].SS_stars[Star].S_luminosity );
+   TectonicFactor:=( ( 5 + ( FCFcF_Random_DoInteger( 9 ) + 1 ) ) * sqrt( ObjectMass ) ) / StarAge;
+   {.differential tidal stress is applied}
+   TectonicFactor:=TectonicFactor * ( 1 + ( 0.25 * TidalForce ) );
+
+
+
    {
    else if (TabOrbit[OrbDBCounter].TypeAstre in [10..30])
             or (TabOrbit[OrbDBCounter].TypeAstre in [43..99]) then begin
 
        Proba:=random(3);
-       TabOrbit[OrbDBCounter].TFactor:=((15)*sqrt(TabOrbit[OrbDBCounter].Mass))/StarClone_Age;
        if (TabOrbit[OrbDBCounter].TypeAstre>26) and (TabOrbit[OrbDBCounter].TypeAstre<31) then TabOrbit[OrbDBCounter].TFactor:=TabOrbit[OrbDBCounter].TFactor*TabOrbit[OrbDBCounter].DensEq;
        if (TabOrbit[OrbDBCounter].TypeAstre>47) and (TabOrbit[OrbDBCounter].TypeAstre<=50) then TabOrbit[OrbDBCounter].TFactor:=TabOrbit[OrbDBCounter].TFactor*TabOrbit[OrbDBCounter].DensEq;
        if (TabOrbit[OrbDBCounter].PerRot<18) and (TabOrbit[OrbDBCounter].PerRot>0) then TabOrbit[OrbDBCounter].TFactor:=TabOrbit[OrbDBCounter].TFactor*1.25;
@@ -943,24 +994,6 @@ begin
        end;
         end;
    }
-end;
-
-procedure FCMfG_TectonicActivityDifferential_Calculation( const Star, OrbitalObject: integer );
-{:Purpose: calculate the differential for each planet vs its satellites, if it has any, and the reverse.
-    Additions:
-}
-begin
-   {:DEV NOTES:
-      calc tidal force planet vs EACH sat (do a loop) and do a mean of these values
-
-      calc differential tidal stress= 1 + ( 0.25 * ( ( moon mass kg * 26.64 ) / power( moon distance km (thkm*1000) * 324  ,3 ) ) )
-
-      new tectonic activity factor= taf * dts
-
-      formula present in FARC.calculations
-
-   .}
-
 end;
 
 end.
