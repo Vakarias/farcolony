@@ -1422,6 +1422,7 @@ object FCWinFUG: TFCWinFUG
           ItemIndex = -1
           ItemHeight = 13
           Items.Strings = (
+            'Null'
             'Dead'
             'Hot Spot'
             'Plastic'

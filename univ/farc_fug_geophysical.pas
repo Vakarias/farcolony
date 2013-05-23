@@ -312,6 +312,9 @@ function FCFfG_DensitySat_Calculation(
    const SatCaptured: TFCEduSatelliteDistances
    ): integer;
 {:Purpose: density precalculations for satellites.
+   Additions:
+      -2013May22- *fix: forgot to apply the coef density.
+                  *fix: SatCaptured=sdNone prevented the density calculation.
 }
    var
       MaxDensity: integer;
@@ -324,7 +327,10 @@ begin
    Result:=0;
    MaxDensity:=0;
    CoefDensity:=1;
-   if SatCaptured=sdNone then
+   DistanceRadii:=0;
+   PlanetaryRadii:=0;
+   WorkingFloat:=0;
+   if SatCaptured < sdCaptured then
    begin
       MaxDensity:=round( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[Root].OO_density * ( 1 - ( ( FCFcF_Random_DoInteger( 99 ) + 1 ) * 0.001 ) ) );
       if ( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[Root].OO_basicType=oobtGaseousPlanet )
@@ -343,12 +349,12 @@ begin
          ,FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[Root].OO_isNotSat_orbitalZone
          );
    end
-   else if SatCaptured=sdCaptured
-   then WorkingFloat:=FCFfG_Density_Calculation(
+   else WorkingFloat:=FCFfG_Density_Calculation(
       FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[Root].OO_satellitesList[Satellite].OO_basicType
       ,FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[Root].OO_isNotSat_orbitalZone
       ,true
       );
+   WorkingFloat:=WorkingFloat * CoefDensity;
    if ( MaxDensity > 0 )
       and ( WorkingFloat > MaxDensity )
    then WorkingFloat:=MaxDensity;
@@ -899,16 +905,24 @@ procedure FCMfG_TectonicActivity_Calculation(
     Additions:
 }
    var
-      SatCount
+      Probability
+      ,RevolutionPeriod
+      ,SatCount
       ,SatMax: integer;
 
-      DistanceInKm
+      DensityEq
+      ,DistanceInKm
       ,MassInKg
       ,ObjectMass
+      ,RotationPeriod
       ,StarAge
       ,TectonicFactor
       ,TidalForce
       ,TidalForceCumul: extended;
+
+      ObjectBasicType: TFCEduOrbitalObjectBasicTypes;
+
+      TectonicActivity: TFCEduTectonicActivity;
 begin
    TidalForce:=0;
    if Satellite<=0 then
@@ -929,71 +943,106 @@ begin
          inc( SatCount );
       end;
       TidalForce:=TidalForceCumul / SatCount;
+      DensityEq:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_density / FCCdiDensityEqEarth;
+      ObjectBasicType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_basicType;
+      RevolutionPeriod:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_revolutionPeriod;
+      RotationPeriod:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isNotSat_rotationPeriod;
    end
    else begin
       ObjectMass:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_mass;
       {.differential tidal stress}
-      {:DEV NOTES: complete here.}
+      {.*1000km * 324 coef for tidal force}
+      DistanceInKm:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_isSat_distanceFromPlanet * 324000;
+      {.26.64 = coef for tidal force}
+      MassInKg:=( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_mass * FCCdiMassEqEarth ) * 26.64;
+      TidalForce:=MassInKg / power( DistanceInKm, 3 );
+      DensityEq:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_density / FCCdiDensityEqEarth;
+      ObjectBasicType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_basicType;
+      RevolutionPeriod:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_revolutionPeriod;
+      RotationPeriod:=RevolutionPeriod * 24;
    end;
    StarAge:=FCFfS_Age_Calc( FCDduStarSystem[0].SS_stars[Star].S_mass, FCDduStarSystem[0].SS_stars[Star].S_luminosity );
    TectonicFactor:=( ( 5 + ( FCFcF_Random_DoInteger( 9 ) + 1 ) ) * sqrt( ObjectMass ) ) / StarAge;
    {.differential tidal stress is applied}
    TectonicFactor:=TectonicFactor * ( 1 + ( 0.25 * TidalForce ) );
+   {.icy planet specificity}
+   if ObjectBasicType=oobtIcyPlanet
+   then TectonicFactor:=TectonicFactor * DensityEq;
+   {.rotation period modifiers}
+   if RotationPeriod < 18
+   then TectonicFactor:=TectonicFactor * 1.25
+   else if RotationPeriod > 100
+   then TectonicFactor:=TectonicFactor * 0.75;
+   if ( RotationPeriod = 0 )
+      or ( ( RotationPeriod / 24 ) > RevolutionPeriod )
+   then TectonicFactor:=TectonicFactor * 0.5;
+   {.tectonic activity generation}
+   Probability:=FCFcF_Random_DoInteger( 9 ) + 1;
+   if TectonicFactor < 0.5
+   then TectonicActivity:=taDead
+   else if ( TectonicFactor >= 0.5 )
+      and ( TectonicFactor < 1 ) then
+   begin
+      case Probability of
+         1..7: TectonicActivity:=taDead;
 
+         8..9: TectonicActivity:=taHotSpot;
 
+         10: TectonicActivity:=taPlastic;
+      end;
+   end
+   else if ( TectonicFactor >= 1 )
+      and ( TectonicFactor < 2 ) then
+   begin
+      case Probability of
+         1: TectonicActivity:=taDead;
 
-   {
-   else if (TabOrbit[OrbDBCounter].TypeAstre in [10..30])
-            or (TabOrbit[OrbDBCounter].TypeAstre in [43..99]) then begin
+         2..5: TectonicActivity:=taHotSpot;
 
-       Proba:=random(3);
-       if (TabOrbit[OrbDBCounter].TypeAstre>26) and (TabOrbit[OrbDBCounter].TypeAstre<31) then TabOrbit[OrbDBCounter].TFactor:=TabOrbit[OrbDBCounter].TFactor*TabOrbit[OrbDBCounter].DensEq;
-       if (TabOrbit[OrbDBCounter].TypeAstre>47) and (TabOrbit[OrbDBCounter].TypeAstre<=50) then TabOrbit[OrbDBCounter].TFactor:=TabOrbit[OrbDBCounter].TFactor*TabOrbit[OrbDBCounter].DensEq;
-       if (TabOrbit[OrbDBCounter].PerRot<18) and (TabOrbit[OrbDBCounter].PerRot>0) then TabOrbit[OrbDBCounter].TFactor:=TabOrbit[OrbDBCounter].TFactor*1.25;
-       if (TabOrbit[OrbDBCounter].PerRot>100) and (TabOrbit[OrbDBCounter].PerRot<=8760) then TabOrbit[OrbDBCounter].TFactor:=TabOrbit[OrbDBCounter].TFactor*0.75;
-       if (TabOrbit[OrbDBCounter].PerRot=0) or (TabOrbit[OrbDBCounter].PerRot>8760) then TabOrbit[OrbDBCounter].TFactor:=TabOrbit[OrbDBCounter].TFactor*0.5;
-       Proba:=random(9)+1;
-       if TabOrbit[OrbDBCounter].TFactor<0.5 then TabOrbit[OrbDBCounter].AcTec:=0
-       else if (TabOrbit[OrbDBCounter].TFactor>=0.5) and (TabOrbit[OrbDBCounter].TFactor<1) then begin
-               case Proba of
-                       1..7: TabOrbit[OrbDBCounter].AcTec:=0;
-                       8..9: TabOrbit[OrbDBCounter].AcTec:=1;
-                       10: TabOrbit[OrbDBCounter].AcTec:=2;
-               end;
-       end
-       else if (TabOrbit[OrbDBCounter].TFactor>=1) and (TabOrbit[OrbDBCounter].TFactor<2) then begin
-               case Proba of
-                       1: TabOrbit[OrbDBCounter].AcTec:=0;
-                       2..5: TabOrbit[OrbDBCounter].AcTec:=1;
-                       6..9: TabOrbit[OrbDBCounter].AcTec:=2;
-                       10: TabOrbit[OrbDBCounter].AcTec:=3;
-               end;
-       end
-       else if (TabOrbit[OrbDBCounter].TFactor>=2) and (TabOrbit[OrbDBCounter].TFactor<3) then begin
-               case Proba of
-                       1..2: TabOrbit[OrbDBCounter].AcTec:=1;
-                       3..6: TabOrbit[OrbDBCounter].AcTec:=2;
-                       7..10: TabOrbit[OrbDBCounter].AcTec:=3;
-               end;
-       end
-       else if (TabOrbit[OrbDBCounter].TFactor>=3) and (TabOrbit[OrbDBCounter].TFactor<5) then begin
-               case Proba of
-                       1: TabOrbit[OrbDBCounter].AcTec:=1;
-                       2..3: TabOrbit[OrbDBCounter].AcTec:=2;
-                       4..8: TabOrbit[OrbDBCounter].AcTec:=3;
-                       9..10: TabOrbit[OrbDBCounter].AcTec:=4;
-               end;
-       end
-       else if TabOrbit[OrbDBCounter].TFactor>=5 then begin
-               case Proba of
-                       1: TabOrbit[OrbDBCounter].AcTec:=2;
-                       2: TabOrbit[OrbDBCounter].AcTec:=3;
-                       3..7: TabOrbit[OrbDBCounter].AcTec:=4;
-                       8..10: TabOrbit[OrbDBCounter].AcTec:=5;
-               end;
-       end;
-        end;
-   }
+         6..9: TectonicActivity:=taPlastic;
+
+         10: TectonicActivity:=taPlateTectonic;
+      end;
+   end
+   else if ( TectonicFactor >= 2 )
+      and ( TectonicFactor < 3 ) then
+   begin
+      case Probability of
+         1..2: TectonicActivity:=taHotSpot;
+
+         3..6: TectonicActivity:=taPlastic;
+
+         7..10: TectonicActivity:=taPlateTectonic;
+      end;
+   end
+   else if ( TectonicFactor >= 3 )
+      and ( TectonicFactor < 5 ) then
+   begin
+      case Probability of
+         1: TectonicActivity:=taHotSpot;
+
+         2..3: TectonicActivity:=taPlastic;
+
+         4..8: TectonicActivity:=taPlateTectonic;
+
+         9..10: TectonicActivity:=taPlateletTectonic;
+      end;
+   end
+   else if TectonicFactor >= 5 then
+   begin
+      case Probability of
+         1: TectonicActivity:=taPlastic;
+
+         2: TectonicActivity:=taPlateTectonic;
+
+         3..7: TectonicActivity:=taPlateletTectonic;
+
+         8..10: TectonicActivity:=taExtreme;
+      end;
+   end;
+   if Satellite<=0
+   then FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_tectonicActivity:=TectonicActivity
+   else FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_tectonicActivity:=TectonicActivity;
 end;
 
 end.

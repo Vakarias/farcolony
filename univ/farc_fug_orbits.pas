@@ -1070,6 +1070,8 @@ end;
 procedure FCMfO_Generate(const CurrentStar: integer);
 {:Purpose: core routine for orbits generation.
     Additions:
+      -2013May21- *add: completion of geophysical calculations.
+                  *fix: satellite generation for non asteroid belts: forgot to resize the satellite dynamic array after the determination of the number of satellites.
       -2013May20- *add: completion of the satellite phase I since May 14.
       -2013May13- *mod: the last adjustments, for the orbit distances, are applied.
       -2013May08- *add: satellites - manual entry initialization.
@@ -1397,6 +1399,7 @@ begin
             FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_dbTokenId:='orbobj' + Token + inttostr( Count );
          end;
          FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isSatellite:=false;
+         setlength( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList, 1 );
          if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_distanceFromStar=0 then
          begin
             if Count=1 then
@@ -1504,6 +1507,7 @@ begin
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_lowOrbit:=0;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_inclinationAxis:=0;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_magneticField:=0;
+               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_tectonicActivity:=taDead;
                {...asteroids phase I - basics + orbital + geophysical data}
                NumberOfSat:=length( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList ) - 1;
                if NumberOfSat<=0 then
@@ -1562,6 +1566,7 @@ begin
                   if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isAsterBelt_inclinationAxis<0
                   then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isAsterBelt_inclinationAxis:=abs( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isAsterBelt_inclinationAxis );
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_magneticField:=0;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_tectonicActivity:=taDead;
                   inc( CountSat );
                end; //==END== while CountSat <= NumberOfSat ==//
             end //==END== if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType=oobtAsteroidBelt then ==//
@@ -1611,6 +1616,10 @@ begin
                if ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_magneticField=0 )
                   and ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType > oobtAsteroid )
                then FCMfG_MagneticField_Calculation( CurrentStar, Count );
+               if ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_tectonicActivity=taNull )
+                  and ( ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType= oobtTelluricPlanet ) or ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType= oobtIcyPlanet ) )
+               then FCMfG_TectonicActivity_Calculation( CurrentStar, Count )
+               else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_tectonicActivity:=taDead;
                {...satellites phase I - basics + orbital + geophysical data}
                NumberOfSat:=length( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList ) - 1;
                if (FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_rotationPeriod <> 0 )
@@ -1625,7 +1634,7 @@ begin
                      hzOuter: GeneratedProbability:=GeneratedProbability + 5;
                   end;
                   case GeneratedProbability of
-                     1..5:
+                     -4..5:
                      begin
                         if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType=oobtGaseousPlanet
                         then NumberOfSat:=FCFcF_Random_DoInteger( 4 ) + 1;
@@ -1679,6 +1688,7 @@ begin
                         end;
                      end;
                   end; //==END== case GeneratedProbability ==//
+                  setlength( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList, NumberOfSat + 1 );
                end; //==END== if (FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_rotationPeriod <> 0 ) and ( NumberOfSat=0 ) ==//
                if (FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_rotationPeriod <> 0 )
                   and ( NumberOfSat > 0 ) then
@@ -1701,7 +1711,7 @@ begin
                         ,FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType
                         ,FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_basicType
                         );
-                     {....basic type}
+//                     {....basic type}
                      GeneratedProbability:=FCFcF_Random_DoInteger( 9 ) + 1;
                      case FOsatDistanceRange of
                         sdClose: GeneratedProbability:=GeneratedProbability - 1;
@@ -1795,19 +1805,15 @@ begin
                         ,Count
                         ,CountSat
                         );
+                     if ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_tectonicActivity=taNull )
+                        and ( ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_basicType= oobtTelluricPlanet ) or ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_basicType= oobtIcyPlanet ) )
+                     then FCMfG_TectonicActivity_Calculation( CurrentStar, Count, CountSat )
+                     else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_tectonicActivity:=taDead;
                      inc( CountSat );
                   end; //==END== while CountSat <= NumberOfSat ==//
-               end; //==END== if (FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_rotationPeriod <> 0 ) and ( NumberOfSat > 0 ) ==//
+               end //==END== if (FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_rotationPeriod <> 0 ) and ( NumberOfSat > 0 ) ==//
+               else setlength( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList, 1 );
             end; //==END== else of: if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType=oobtAsteroidBelt ==//
-
-            {:DEV NOTES: geophysical data here.
-                 //
-
-
-                TectonicActivityDetermination
-
-               .}
-
 
 
             {:DEV NOTES: ecosphere here

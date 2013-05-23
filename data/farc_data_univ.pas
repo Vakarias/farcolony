@@ -417,7 +417,8 @@ type TFCEduStarClasses=(
    );
 
 type TFCEduTectonicActivity=(
-   taDead
+   taNull
+   ,taDead
    ,taHotSpot
    ,taPlastic
    ,taPlateTectonic
