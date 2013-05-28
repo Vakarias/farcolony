@@ -1070,6 +1070,7 @@ end;
 procedure FCMfO_Generate(const CurrentStar: integer);
 {:Purpose: core routine for orbits generation.
     Additions:
+      -2013May28- *mod: base temperature calculation.
       -2013May21- *add: completion of geophysical calculations.
                   *fix: satellite generation for non asteroid belts: forgot to resize the satellite dynamic array after the determination of the number of satellites.
       -2013May20- *add: completion of the satellite phase I since May 14.
@@ -1475,7 +1476,7 @@ begin
             if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_revolutionPeriodInit<1
             then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_revolutionPeriodInit:=1;
             {.geophysical data}
-            BaseTemperature:=255 / sqrt( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_distanceFromStar / sqrt( FCDduStarSystem[0].SS_stars[CurrentStar].S_luminosity ) );
+            BaseTemperature:=252 / sqrt( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_distanceFromStar / sqrt( FCDduStarSystem[0].SS_stars[CurrentStar].S_luminosity ) );
             BaseTemperature:=FCFcF_Round( rttCustom2Decimal, BaseTemperature );
             if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType=oobtNone then
             begin

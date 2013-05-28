@@ -454,6 +454,7 @@ function FCFfG_EscapeVelocity_Calculation(
          ,Mass: extended
    ): extended;
 {:Purpose: calculate the orbital object's escape velocity.
+   -2013May27- *fix: correction in the CalculatedEscapeVelocity formula.
 }
    var
       CalculatedEscapeVelocity
@@ -463,7 +464,7 @@ begin
    Result:=0;
    MassInKg:=Mass * FCCdiMassEqEarth;
    RadiusInMeters:=Diameter * 500;
-   CalculatedEscapeVelocity:=sqrt( 2 * FCCdiGravitationalConst * MassInKg / sqr( RadiusInMeters ) ) / FCCdiMetersBySec_In_1G;
+   CalculatedEscapeVelocity:=sqrt( 2 * FCCdiGravitationalConst * MassInKg / RadiusInMeters ) / 1000;
    Result:=FCFcF_Round( rttCustom2Decimal, CalculatedEscapeVelocity );
 end;
 
