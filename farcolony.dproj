@@ -145,6 +145,7 @@
 			<DCCReference Include="ui\farc_ui_about.pas"/>
 			<DCCReference Include="survey\farc_survey_core.pas"/>
 			<DCCReference Include="univ\farc_fug_geophysical.pas"/>
+			<DCCReference Include="univ\farc_fug_atmosphere.pas"/>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>
@@ -177,7 +178,7 @@
 						<VersionInfo Name="MajorVer">0</VersionInfo>
 						<VersionInfo Name="MinorVer">5</VersionInfo>
 						<VersionInfo Name="Release">5</VersionInfo>
-						<VersionInfo Name="Build">932</VersionInfo>
+						<VersionInfo Name="Build">933</VersionInfo>
 						<VersionInfo Name="Debug">False</VersionInfo>
 						<VersionInfo Name="PreRelease">False</VersionInfo>
 						<VersionInfo Name="Special">False</VersionInfo>
@@ -189,7 +190,7 @@
 					<VersionInfoKeys>
 						<VersionInfoKeys Name="CompanyName"/>
 						<VersionInfoKeys Name="FileDescription"/>
-						<VersionInfoKeys Name="FileVersion">0.5.5.932</VersionInfoKeys>
+						<VersionInfoKeys Name="FileVersion">0.5.5.933</VersionInfoKeys>
 						<VersionInfoKeys Name="InternalName"/>
 						<VersionInfoKeys Name="LegalCopyright">2009-2012 - Jean-Francois Baconnet</VersionInfoKeys>
 						<VersionInfoKeys Name="LegalTrademarks"/>
