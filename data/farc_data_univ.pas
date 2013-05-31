@@ -439,6 +439,10 @@ type TFCEduTectonicActivity=(
 ///   atmospheric composition
 ///</summary>
 type TFCRduAtmosphericComposition = record
+   ///<summary>
+   ///   indicate if there is a trace atmosphere
+   ///</summary>
+   AC_traceAtmosphere: boolean;
    AC_primaryGasVolumePerc: integer;
    AC_gasPresenceH2: TFCEduAtmosphericGasStatus;
    AC_gasPresenceHe: TFCEduAtmosphericGasStatus;

@@ -64,15 +64,30 @@ procedure FCMfA_Atmosphere_Processing(
    const Satellite: integer=0
    );
 
-//Set Trace Atmosphere (VDswitch
-
-//Unset Trace Atmosphere
-
 implementation
 
 uses
    farc_common_func
    ,farc_data_univ;
+
+type TFCEfaGases=(
+   gH2
+   ,gHe
+   ,gCH4
+   ,gNH3
+   ,gH2O
+   ,gNe
+   ,gN2
+   ,gCO
+   ,gNO
+   ,gO2
+   ,gH2S
+   ,gAr
+   ,gCO2
+   ,gNO2
+   ,gO3
+   ,gSO2
+   );
 
 //==END PRIVATE ENUM========================================================================
 
@@ -105,6 +120,55 @@ const
 //==END PRIVATE CONST=======================================================================
 
 //===================================================END OF INIT============================
+
+function FCFfA_GasVelocity_Calculation(
+   const BaseTemperature: extended;
+   const Gas: TFCEfaGases
+   ): extended;
+{:Purpose: calculate the velocity of a specified gas.
+   Additions:
+}
+   var
+      Calculation
+      ,MolecularWeight: extended;
+begin
+   case Gas of
+      gH2: MolecularWeight:=2;
+
+      gHe: MolecularWeight:=4;
+
+      gCH4: MolecularWeight:=16;
+
+      gNH3: MolecularWeight:=17;
+
+      gH2O: MolecularWeight:=18;
+
+      gNe: MolecularWeight:=20.2;
+
+      gN2: MolecularWeight:=28;
+
+      gCO: MolecularWeight:=28;
+
+      gNO: MolecularWeight:=30;
+
+      gO2: MolecularWeight:=32;
+
+      gH2S: MolecularWeight:=34.1;
+
+      gAr: MolecularWeight:=39.9;
+
+      gCO2: MolecularWeight:=44;
+
+      gNO2: MolecularWeight:=46;
+
+      gO3: MolecularWeight:=48;
+
+      gSO2: MolecularWeight:=64.1;
+   end;
+   Calculation:=BaseTemperature / MolecularWeight;
+   Result:=145.559 * sqrt( Calculation )
+end;
+
 //===========================END FUNCTIONS SECTION==========================================
 
 procedure FCMfA_Atmosphere_Processing(
@@ -118,6 +182,10 @@ procedure FCMfA_Atmosphere_Processing(
 }
    var
       Stat: integer;
+
+      CalculatedPressure
+      ,EscapeVelocity
+      ,GasVelocity: extended;
 
       isVeryDense: boolean;
 
@@ -153,14 +221,19 @@ procedure FCMfA_Atmosphere_Processing(
          end;
       end;
 begin
+   CalculatedPressure:=0;
+   EscapeVelocity:=0;
+   GasVelocity:=0;
    isVeryDense:=false;
    GasSettings:=GasSettingNull;
    if Satellite=0 then
    begin
       BasicType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_basicType;
+      EscapeVelocity:=( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_escapeVelocity * 1000 ) / 6;
    end
    else begin
       BasicType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_basicType;
+      EscapeVelocity:=( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_escapeVelocity * 1000 ) / 6;
    end;
    {.step 1: primary composition}
    if ( BasicType=oobtTelluricPlanet )
@@ -309,7 +382,123 @@ begin
    end //==END== if ( BasicType=oobtTelluricPlanet ) or ( BasicType=oobtIcyPlanet ) ==//
    else if BasicType=oobtGaseousPlanet then
    begin
+      if BaseTemperature <= 50 then
+      begin
+         GasSettings.AC_gasPresenceCH4:=agsMain;
+         GasSettings.AC_gasPresenceNH3:=agsMain;
+      end
+      else if ( BaseTemperature > 50 )
+         and ( BaseTemperature <= 150 ) then
+      begin
+         GasSettings.AC_gasPresenceH2:=agsMain;
+         GasSettings.AC_gasPresenceHe:=agsMain;
+         GasSettings.AC_gasPresenceCH4:=agsMain;
+      end
+      else if ( BaseTemperature > 150 )
+         and ( BaseTemperature <= 400 ) then
+      begin
+         GasSettings.AC_gasPresenceH2:=agsMain;
+         GasSettings.AC_gasPresenceHe:=agsMain;
+      end
+      else if BaseTemperature > 400
+      then GasSettings.AC_gasPresenceCO2:=agsMain;
    end; //==END== if BasicType=oobtGaseousPlanet ==//
+   {.step 2: trace atmosphere}
+   GasVelocity:=FCFfA_GasVelocity_Calculation( BaseTemperature, gSO2 );
+   if ( not isVeryDense )
+      and ( GasVelocity > EscapeVelocity ) then
+   begin
+      CalculatedPressure:=0;
+      GasSettings.AC_traceAtmosphere:=false;
+      GasSettings.AC_primaryGasVolumePerc:=0;
+      GasSettings.AC_gasPresenceH2:=agsNotPresent;
+      GasSettings.AC_gasPresenceHe:=agsNotPresent;
+      GasSettings.AC_gasPresenceCH4:=agsNotPresent;
+      GasSettings.AC_gasPresenceNH3:=agsNotPresent;
+      GasSettings.AC_gasPresenceH2O:=agsNotPresent;
+      GasSettings.AC_gasPresenceNe:=agsNotPresent;
+      GasSettings.AC_gasPresenceN2:=agsNotPresent;
+      GasSettings.AC_gasPresenceCO:=agsNotPresent;
+      GasSettings.AC_gasPresenceNO:=agsNotPresent;
+      GasSettings.AC_gasPresenceO2:=agsNotPresent;
+      GasSettings.AC_gasPresenceH2S:=agsNotPresent;
+      GasSettings.AC_gasPresenceAr:=agsNotPresent;
+      GasSettings.AC_gasPresenceCO2:=agsNotPresent;
+      GasSettings.AC_gasPresenceNO2:=agsNotPresent;
+      GasSettings.AC_gasPresenceO3:=agsNotPresent;
+      GasSettings.AC_gasPresenceSO2:=agsNotPresent;
+   end
+   else if ( isVeryDense )
+      and ( GasVelocity > EscapeVelocity ) then
+   begin
+      CalculatedPressure:=0;
+      GasSettings.AC_traceAtmosphere:=true;
+      GasSettings.AC_primaryGasVolumePerc:=0;
+      GasSettings.AC_gasPresenceH2:=agsTrace;
+      GasSettings.AC_gasPresenceHe:=agsTrace;
+      GasSettings.AC_gasPresenceCH4:=agsTrace;
+      GasSettings.AC_gasPresenceNH3:=agsTrace;
+      GasSettings.AC_gasPresenceH2O:=agsTrace;
+      GasSettings.AC_gasPresenceNe:=agsTrace;
+      GasSettings.AC_gasPresenceN2:=agsTrace;
+      GasSettings.AC_gasPresenceCO:=agsTrace;
+      GasSettings.AC_gasPresenceNO:=agsTrace;
+      GasSettings.AC_gasPresenceO2:=agsTrace;
+      GasSettings.AC_gasPresenceH2S:=agsTrace;
+      GasSettings.AC_gasPresenceAr:=agsTrace;
+      GasSettings.AC_gasPresenceCO2:=agsTrace;
+      GasSettings.AC_gasPresenceNO2:=agsTrace;
+      GasSettings.AC_gasPresenceO3:=agsTrace;
+      GasSettings.AC_gasPresenceSO2:=agsTrace;
+   end
+   else begin
+      {.step 3: retained gases}
+
+   end; //==END== else begin of: if ( not/is isVeryDense ) and ( GasVelocity > EscapeVelocity ) ==//
+   {.last step: data loading}
+   if Satellite=0 then
+   begin
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphericPressure:=FCFcF_Round( rttCustom3Decimal, CalculatedPressure );
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_traceAtmosphere:=GasSettings.AC_traceAtmosphere;
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_primaryGasVolumePerc:=GasSettings.AC_primaryGasVolumePerc;
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceH2:=GasSettings.AC_gasPresenceH2;
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceHe:=GasSettings.AC_gasPresenceHe;
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceCH4:=GasSettings.AC_gasPresenceCH4;
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceNH3:=GasSettings.AC_gasPresenceNH3;
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceH2O:=GasSettings.AC_gasPresenceH2O;
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceNe:=GasSettings.AC_gasPresenceNe;
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceN2:=GasSettings.AC_gasPresenceN2;
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceCO:=GasSettings.AC_gasPresenceCO;
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceNO:=GasSettings.AC_gasPresenceNO;
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceO2:=GasSettings.AC_gasPresenceO2;
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceH2S:=GasSettings.AC_gasPresenceH2S;
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceAr:=GasSettings.AC_gasPresenceAr;
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceCO2:=GasSettings.AC_gasPresenceCO2;
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceNO2:=GasSettings.AC_gasPresenceNO2;
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceO3:=GasSettings.AC_gasPresenceO3;
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceSO2:=GasSettings.AC_gasPresenceSO2;
+   end
+   else begin
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphericPressure:=FCFcF_Round( rttCustom3Decimal, CalculatedPressure );
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_traceAtmosphere:=GasSettings.AC_traceAtmosphere;
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_primaryGasVolumePerc:=GasSettings.AC_primaryGasVolumePerc;
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceH2:=GasSettings.AC_gasPresenceH2;
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceHe:=GasSettings.AC_gasPresenceHe;
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceCH4:=GasSettings.AC_gasPresenceCH4;
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceNH3:=GasSettings.AC_gasPresenceNH3;
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceH2O:=GasSettings.AC_gasPresenceH2O;
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceNe:=GasSettings.AC_gasPresenceNe;
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceN2:=GasSettings.AC_gasPresenceN2;
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceCO:=GasSettings.AC_gasPresenceCO;
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceNO:=GasSettings.AC_gasPresenceNO;
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceO2:=GasSettings.AC_gasPresenceO2;
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceH2S:=GasSettings.AC_gasPresenceH2S;
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceAr:=GasSettings.AC_gasPresenceAr;
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceCO2:=GasSettings.AC_gasPresenceCO2;
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceNO2:=GasSettings.AC_gasPresenceNO2;
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceO3:=GasSettings.AC_gasPresenceO3;
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceSO2:=GasSettings.AC_gasPresenceSO2;
+   end;
 end;
 
 end.

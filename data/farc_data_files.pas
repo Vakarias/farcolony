@@ -1427,6 +1427,7 @@ end;
 procedure FCMdF_DBStarOrbitalObjects_Load( const StarSystemToken, StarToken: string );
 {:Purpose: load the orbital objects, if there's any, of a specified star in the universe database XML file.
    Additions:
+      -2013May30- *add: trace atmosphere flag.
       -2013May14- *add: specific geophysical data for asteroids in a belt.
       -2013May05- *add: geosynchronous and low orbit.
       -2013May01- *add: tectonic activity.
@@ -1567,6 +1568,7 @@ begin
                then raise Exception.Create( 'bad environment type: '+XMLOrbitalObject.Attributes['ooenvtype'] );
                FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_atmosphericPressure:=StrToFloat( XMLOrbitalObject.Attributes['ooatmpres'], FCVdiFormat );;
                FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_cloudsCover:=StrToFloat( XMLOrbitalObject.Attributes['oocloudscov'], FCVdiFormat );
+               FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_atmosphere.AC_traceAtmosphere:=XMLOrbitalObject.Attributes['traceAtmosphere'];
                FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_atmosphere.AC_primaryGasVolumePerc:=XMLOrbitalObject.Attributes['atmprimgasvol'];
                EnumIndex:=GetEnumValue( TypeInfo( TFCEduAtmosphericGasStatus ), XMLOrbitalObject.Attributes['atmH2'] );
                FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_atmosphere.AC_gasPresenceH2:=TFCEduAtmosphericGasStatus( EnumIndex );
@@ -1786,6 +1788,7 @@ begin
                      then raise Exception.Create( 'bad (sat) environment type: '+XMSatellite.Attributes['satenvtype'] );
                      FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_atmosphericPressure:=StrToFloat( XMSatellite.Attributes['satatmpres'], FCVdiFormat );
                      FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_cloudsCover:=StrToFloat( XMSatellite.Attributes['satcloudscov'], FCVdiFormat );
+                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_atmosphere.AC_traceAtmosphere:=XMSatellite.Attributes['traceAtmosphere'];
                      FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_atmosphere.AC_primaryGasVolumePerc:=XMSatellite.Attributes['atmprimgasvol'];
                      EnumIndex:=GetEnumValue( TypeInfo( TFCEduAtmosphericGasStatus ), XMSatellite.Attributes['atmH2'] );
                      FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_atmosphere.AC_gasPresenceH2:=TFCEduAtmosphericGasStatus( EnumIndex );
