@@ -68,7 +68,8 @@ implementation
 
 uses
    farc_common_func
-   ,farc_data_univ;
+   ,farc_data_univ
+   ,farc_fug_stars;
 
 type TFCEfaGases=(
    gH2
@@ -188,7 +189,7 @@ procedure FCMfA_Atmosphere_Processing(
       CalculatedPressure
       ,EscapeVelocity
       ,GasVelocity
-      ,PartOfVel: extended;
+      ,CalculationMisc: extended;
 
       isVeryDense
       ,TestBool: boolean;
@@ -198,12 +199,42 @@ procedure FCMfA_Atmosphere_Processing(
       GasSettingNull: TFCRduAtmosphericComposition;
       GasSettings: TFCRduAtmosphericComposition;
 
+      function _NextSecondary_SetAsPrimary: boolean;
+      begin
+         Result:=true;
+         if GasSettings.AC_gasPresenceH2O=agsSecondary
+         then GasSettings.AC_gasPresenceH2O:=agsMain
+         else if GasSettings.AC_gasPresenceNe=agsSecondary
+         then GasSettings.AC_gasPresenceNe:=agsMain
+         else if GasSettings.AC_gasPresenceN2=agsSecondary
+         then GasSettings.AC_gasPresenceN2:=agsMain
+         else if GasSettings.AC_gasPresenceCO=agsSecondary
+         then GasSettings.AC_gasPresenceCO:=agsMain
+         else if GasSettings.AC_gasPresenceNO=agsSecondary
+         then GasSettings.AC_gasPresenceNO:=agsMain
+         else if GasSettings.AC_gasPresenceO2=agsSecondary
+         then GasSettings.AC_gasPresenceO2:=agsMain
+         else if GasSettings.AC_gasPresenceH2S=agsSecondary
+         then GasSettings.AC_gasPresenceH2S:=agsMain
+         else if GasSettings.AC_gasPresenceAr=agsSecondary
+         then GasSettings.AC_gasPresenceAr:=agsMain
+         else if GasSettings.AC_gasPresenceCO2=agsSecondary
+         then GasSettings.AC_gasPresenceCO2:=agsMain
+         else if GasSettings.AC_gasPresenceNO2=agsSecondary
+         then GasSettings.AC_gasPresenceNO2:=agsMain
+         else if GasSettings.AC_gasPresenceO3=agsSecondary
+         then GasSettings.AC_gasPresenceO3:=agsMain
+         else if GasSettings.AC_gasPresenceSO2=agsSecondary
+         then GasSettings.AC_gasPresenceSO2:=agsMain
+         else Result:=false;
+      end;
+
       function _SecondaryGas_test: boolean;
       begin
          Result:=false;
-         PartOfVel:=1 - ( GasVelocity / EscapeVelocity );
-         if ( ( PartOfVel < 0.45 ) and ( isVeryDense ) )
-            or ( PartOfVel > 0.45 )
+         CalculationMisc:=1 - ( GasVelocity / EscapeVelocity );
+         if ( ( CalculationMisc < 0.45 ) and ( isVeryDense ) )
+            or ( CalculationMisc > 0.45 )
          then Result:=true;
       end;
 
@@ -246,7 +277,7 @@ begin
    CalculatedPressure:=0;
    EscapeVelocity:=0;
    GasVelocity:=0;
-   PartOfVel:=0;
+   CalculationMisc:=0;
    isVeryDense:=false;
    GasSettings:=GasSettingNull;
    if Satellite=0 then
@@ -1128,6 +1159,39 @@ begin
          inc( Count );
       end; //==END== while Count <= 16 ==//
    end; //==END== else begin of: if ( not/is isVeryDense ) and ( GasVelocity > EscapeVelocity ) ==//
+   {.step 4: stellar implications}
+   CalculationMisc:=FCFfS_Age_Calc( FCDduStarSystem[0].SS_stars[Star].S_mass, FCDduStarSystem[0].SS_stars[Star].S_luminosity );
+   if CalculationMisc > 0.5 then
+   begin
+      if ( ( BaseTemperature > 150 ) and ( ( FCDduStarSystem[0].SS_stars[Star].S_class < cK0 ) or ( ( FCDduStarSystem[0].SS_stars[Star].S_class >= B0 ) and ( FCDduStarSystem[0].SS_stars[Star].S_class < F0 ) ) ) )
+         or ( ( BaseTemperature > 180 ) and ( ( ( FCDduStarSystem[0].SS_stars[Star].S_class >= gF0 ) and ( FCDduStarSystem[0].SS_stars[Star].S_class < gG0 ) ) or ( ( FCDduStarSystem[0].SS_stars[Star].S_class >= F0 ) and ( FCDduStarSystem[0].SS_stars[Star].S_class < G0 ) ) ) )
+         or ( ( BaseTemperature > 200 ) and ( ( ( FCDduStarSystem[0].SS_stars[Star].S_class >= gG0 ) and ( FCDduStarSystem[0].SS_stars[Star].S_class < gK0 ) ) or ( ( FCDduStarSystem[0].SS_stars[Star].S_class >= G0 ) and ( FCDduStarSystem[0].SS_stars[Star].S_class < K0 ) ) ) )
+         or ( ( BaseTemperature > 230 ) and ( ( ( FCDduStarSystem[0].SS_stars[Star].S_class >= cK0 ) and ( FCDduStarSystem[0].SS_stars[Star].S_class < cM0 ) ) or ( ( FCDduStarSystem[0].SS_stars[Star].S_class >= gK0 ) and ( FCDduStarSystem[0].SS_stars[Star].S_class < gM0 ) ) or ( ( FCDduStarSystem[0].SS_stars[Star].S_class >= K0 ) and ( FCDduStarSystem[0].SS_stars[Star].S_class < M0 ) ) ) )
+         or ( ( BaseTemperature > 260 ) and ( ( ( FCDduStarSystem[0].SS_stars[Star].S_class >= cM0 ) and ( FCDduStarSystem[0].SS_stars[Star].S_class < gF0 ) ) or ( ( FCDduStarSystem[0].SS_stars[Star].S_class >= gM0 ) and ( FCDduStarSystem[0].SS_stars[Star].S_class < O5 ) ) or ( ( FCDduStarSystem[0].SS_stars[Star].S_class >= M0 ) and ( FCDduStarSystem[0].SS_stars[Star].S_class < WD0 ) ) ) )
+      then
+      begin
+         if GasSettings.AC_gasPresenceNH3=agsMain then
+         begin
+            dec( PrimaryGasCount );
+            GasSettings.AC_gasPresenceNH3:=agsTrace;
+            if PrimaryGasCount=0
+            then TestBool:=_NextSecondary_SetAsPrimary;
+            if not TestBool
+            then GasSettings.AC_traceAtmosphere:=true;
+         end;
+         if GasSettings.AC_gasPresenceCH4=agsMain then
+         begin
+            dec( PrimaryGasCount );
+            GasSettings.AC_gasPresenceCH4:=agsTrace;
+            if PrimaryGasCount=0
+            then TestBool:=_NextSecondary_SetAsPrimary;
+            if not TestBool
+            then GasSettings.AC_traceAtmosphere:=true;
+         end;
+      end;
+   end;
+   {.step 5: tectonic activity}
+
    {.last step: data loading}
    if Satellite=0 then
    begin
