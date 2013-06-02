@@ -190,7 +190,8 @@ procedure FCMfA_Atmosphere_Processing(
       ,GasVelocity
       ,PartOfVel: extended;
 
-      isVeryDense: boolean;
+      isVeryDense
+      ,TestBool: boolean;
 
       BasicType: TFCEduOrbitalObjectBasicTypes;
 
@@ -546,32 +547,586 @@ begin
                else if ( GasVelocity <= EscapeVelocity )
                   and ( GasSettings.AC_traceAtmosphere )
                then GasSettings.AC_gasPresenceH2:=agsTrace
-               else _SecondaryGas_test;
+               else begin
+                  TestBool:=_SecondaryGas_test;
+                  if not TestBool
+                  then GasSettings.AC_gasPresenceH2:=agsTrace
+                  else GasSettings.AC_gasPresenceH2:=agsSecondary;
+               end;
             end; //==END== case Count(gas): 1 ==//
 
             2:
             begin
                GasVelocity:=FCFfA_GasVelocity_Calculation( BaseTemperature, gHe );
+               if ( GasVelocity > EscapeVelocity )
+                  and ( not isVeryDense ) then
+               begin
+                  if GasSettings.AC_gasPresenceHe=agsMain then
+                  begin
+                     dec( PrimaryGasCount );
+                     if PrimaryGasCount <= 0
+                     then GasSettings.AC_traceAtmosphere:=true;
+                  end;
+                  GasSettings.AC_gasPresenceHe:=agsNotPresent;
+               end
+               else if ( GasVelocity > EscapeVelocity )
+                  and ( isVeryDense ) then
+               begin
+                  if GasSettings.AC_gasPresenceHe=agsMain then
+                  begin
+                     if PrimaryGasCount-1 > 0 then
+                     begin
+                        GasSettings.AC_gasPresenceHe:=agsTrace;
+                        dec( PrimaryGasCount );
+                     end;
+                  end
+                  else GasSettings.AC_gasPresenceHe:=agsTrace;
+               end
+               else if ( GasVelocity <= EscapeVelocity )
+                  and ( GasSettings.AC_traceAtmosphere )
+               then GasSettings.AC_gasPresenceHe:=agsTrace
+               else begin
+                  TestBool:=_SecondaryGas_test;
+                  if not TestBool
+                  then GasSettings.AC_gasPresenceHe:=agsTrace
+                  else GasSettings.AC_gasPresenceHe:=agsSecondary;
+               end;
             end;
 
-            3: GasVelocity:=FCFfA_GasVelocity_Calculation( BaseTemperature, gCH4 );
-            4: GasVelocity:=FCFfA_GasVelocity_Calculation( BaseTemperature, gNH3 );
-            5: GasVelocity:=FCFfA_GasVelocity_Calculation( BaseTemperature, gH2O );
-            6: GasVelocity:=FCFfA_GasVelocity_Calculation( BaseTemperature, gNe );
-            7: GasVelocity:=FCFfA_GasVelocity_Calculation( BaseTemperature, gN2 );
-            8: GasVelocity:=FCFfA_GasVelocity_Calculation( BaseTemperature, gCO );
-            9: GasVelocity:=FCFfA_GasVelocity_Calculation( BaseTemperature, gNO );
-            10: GasVelocity:=FCFfA_GasVelocity_Calculation( BaseTemperature, gO2 );
-            11: GasVelocity:=FCFfA_GasVelocity_Calculation( BaseTemperature, gH2S );
-            12: GasVelocity:=FCFfA_GasVelocity_Calculation( BaseTemperature, gAr );
-            13: GasVelocity:=FCFfA_GasVelocity_Calculation( BaseTemperature, gCO2 );
-            14: GasVelocity:=FCFfA_GasVelocity_Calculation( BaseTemperature, gNO2 );
-            15: GasVelocity:=FCFfA_GasVelocity_Calculation( BaseTemperature, gO3 );
-            16: GasVelocity:=FCFfA_GasVelocity_Calculation( BaseTemperature, gSO2 );
-         end;
+            3:
+            begin
+               GasVelocity:=FCFfA_GasVelocity_Calculation( BaseTemperature, gCH4 );
+               if ( GasVelocity > EscapeVelocity )
+                  and ( not isVeryDense ) then
+               begin
+                  if GasSettings.AC_gasPresenceCH4=agsMain then
+                  begin
+                     dec( PrimaryGasCount );
+                     if PrimaryGasCount <= 0
+                     then GasSettings.AC_traceAtmosphere:=true;
+                  end;
+                  GasSettings.AC_gasPresenceCH4:=agsNotPresent;
+               end
+               else if ( GasVelocity > EscapeVelocity )
+                  and ( isVeryDense ) then
+               begin
+                  if GasSettings.AC_gasPresenceCH4=agsMain then
+                  begin
+                     if PrimaryGasCount-1 > 0 then
+                     begin
+                        GasSettings.AC_gasPresenceCH4:=agsTrace;
+                        dec( PrimaryGasCount );
+                     end;
+                  end
+                  else GasSettings.AC_gasPresenceCH4:=agsTrace;
+               end
+               else if ( GasVelocity <= EscapeVelocity )
+                  and ( GasSettings.AC_traceAtmosphere )
+               then GasSettings.AC_gasPresenceCH4:=agsTrace
+               else begin
+                  TestBool:=_SecondaryGas_test;
+                  if not TestBool
+                  then GasSettings.AC_gasPresenceCH4:=agsTrace
+                  else GasSettings.AC_gasPresenceCH4:=agsSecondary;
+               end;
+            end;
 
+            4:
+            begin
+               GasVelocity:=FCFfA_GasVelocity_Calculation( BaseTemperature, gNH3 );
+               if ( GasVelocity > EscapeVelocity )
+                  and ( not isVeryDense ) then
+               begin
+                  if GasSettings.AC_gasPresenceNH3=agsMain then
+                  begin
+                     dec( PrimaryGasCount );
+                     if PrimaryGasCount <= 0
+                     then GasSettings.AC_traceAtmosphere:=true;
+                  end;
+                  GasSettings.AC_gasPresenceNH3:=agsNotPresent;
+               end
+               else if ( GasVelocity > EscapeVelocity )
+                  and ( isVeryDense ) then
+               begin
+                  if GasSettings.AC_gasPresenceNH3=agsMain then
+                  begin
+                     if PrimaryGasCount-1 > 0 then
+                     begin
+                        GasSettings.AC_gasPresenceNH3:=agsTrace;
+                        dec( PrimaryGasCount );
+                     end;
+                  end
+                  else GasSettings.AC_gasPresenceNH3:=agsTrace;
+               end
+               else if ( GasVelocity <= EscapeVelocity )
+                  and ( GasSettings.AC_traceAtmosphere )
+               then GasSettings.AC_gasPresenceNH3:=agsTrace
+               else begin
+                  TestBool:=_SecondaryGas_test;
+                  if not TestBool
+                  then GasSettings.AC_gasPresenceNH3:=agsTrace
+                  else GasSettings.AC_gasPresenceNH3:=agsSecondary;
+               end;
+            end;
+
+            5:
+            begin
+               GasVelocity:=FCFfA_GasVelocity_Calculation( BaseTemperature, gH2O );
+               if ( GasVelocity > EscapeVelocity )
+                  and ( not isVeryDense ) then
+               begin
+                  if GasSettings.AC_gasPresenceH2O=agsMain then
+                  begin
+                     dec( PrimaryGasCount );
+                     if PrimaryGasCount <= 0
+                     then GasSettings.AC_traceAtmosphere:=true;
+                  end;
+                  GasSettings.AC_gasPresenceH2O:=agsNotPresent;
+               end
+               else if ( GasVelocity > EscapeVelocity )
+                  and ( isVeryDense ) then
+               begin
+                  if GasSettings.AC_gasPresenceH2O=agsMain then
+                  begin
+                     if PrimaryGasCount-1 > 0 then
+                     begin
+                        GasSettings.AC_gasPresenceH2O:=agsTrace;
+                        dec( PrimaryGasCount );
+                     end;
+                  end
+                  else GasSettings.AC_gasPresenceH2O:=agsTrace;
+               end
+               else if ( GasVelocity <= EscapeVelocity )
+                  and ( GasSettings.AC_traceAtmosphere )
+               then GasSettings.AC_gasPresenceH2O:=agsTrace
+               else begin
+                  TestBool:=_SecondaryGas_test;
+                  if not TestBool
+                  then GasSettings.AC_gasPresenceH2O:=agsTrace
+                  else GasSettings.AC_gasPresenceH2O:=agsSecondary;
+               end;
+            end;
+
+            6:
+            begin
+               GasVelocity:=FCFfA_GasVelocity_Calculation( BaseTemperature, gNe );
+               if ( GasVelocity > EscapeVelocity )
+                  and ( not isVeryDense ) then
+               begin
+                  if GasSettings.AC_gasPresenceNe=agsMain then
+                  begin
+                     dec( PrimaryGasCount );
+                     if PrimaryGasCount <= 0
+                     then GasSettings.AC_traceAtmosphere:=true;
+                  end;
+                  GasSettings.AC_gasPresenceNe:=agsNotPresent;
+               end
+               else if ( GasVelocity > EscapeVelocity )
+                  and ( isVeryDense ) then
+               begin
+                  if GasSettings.AC_gasPresenceNe=agsMain then
+                  begin
+                     if PrimaryGasCount-1 > 0 then
+                     begin
+                        GasSettings.AC_gasPresenceNe:=agsTrace;
+                        dec( PrimaryGasCount );
+                     end;
+                  end
+                  else GasSettings.AC_gasPresenceNe:=agsTrace;
+               end
+               else if ( GasVelocity <= EscapeVelocity )
+                  and ( GasSettings.AC_traceAtmosphere )
+               then GasSettings.AC_gasPresenceNe:=agsTrace
+               else begin
+                  TestBool:=_SecondaryGas_test;
+                  if not TestBool
+                  then GasSettings.AC_gasPresenceNe:=agsTrace
+                  else GasSettings.AC_gasPresenceNe:=agsSecondary;
+               end;
+            end;
+
+            7:
+            begin
+               GasVelocity:=FCFfA_GasVelocity_Calculation( BaseTemperature, gN2 );
+               if ( GasVelocity > EscapeVelocity )
+                  and ( not isVeryDense ) then
+               begin
+                  if GasSettings.AC_gasPresenceN2=agsMain then
+                  begin
+                     dec( PrimaryGasCount );
+                     if PrimaryGasCount <= 0
+                     then GasSettings.AC_traceAtmosphere:=true;
+                  end;
+                  GasSettings.AC_gasPresenceN2:=agsNotPresent;
+               end
+               else if ( GasVelocity > EscapeVelocity )
+                  and ( isVeryDense ) then
+               begin
+                  if GasSettings.AC_gasPresenceN2=agsMain then
+                  begin
+                     if PrimaryGasCount-1 > 0 then
+                     begin
+                        GasSettings.AC_gasPresenceN2:=agsTrace;
+                        dec( PrimaryGasCount );
+                     end;
+                  end
+                  else GasSettings.AC_gasPresenceN2:=agsTrace;
+               end
+               else if ( GasVelocity <= EscapeVelocity )
+                  and ( GasSettings.AC_traceAtmosphere )
+               then GasSettings.AC_gasPresenceN2:=agsTrace
+               else begin
+                  TestBool:=_SecondaryGas_test;
+                  if not TestBool
+                  then GasSettings.AC_gasPresenceN2:=agsTrace
+                  else GasSettings.AC_gasPresenceN2:=agsSecondary;
+               end;
+            end;
+
+            8:
+            begin
+               GasVelocity:=FCFfA_GasVelocity_Calculation( BaseTemperature, gCO );
+               if ( GasVelocity > EscapeVelocity )
+                  and ( not isVeryDense ) then
+               begin
+                  if GasSettings.AC_gasPresenceCO=agsMain then
+                  begin
+                     dec( PrimaryGasCount );
+                     if PrimaryGasCount <= 0
+                     then GasSettings.AC_traceAtmosphere:=true;
+                  end;
+                  GasSettings.AC_gasPresenceCO:=agsNotPresent;
+               end
+               else if ( GasVelocity > EscapeVelocity )
+                  and ( isVeryDense ) then
+               begin
+                  if GasSettings.AC_gasPresenceCO=agsMain then
+                  begin
+                     if PrimaryGasCount-1 > 0 then
+                     begin
+                        GasSettings.AC_gasPresenceCO:=agsTrace;
+                        dec( PrimaryGasCount );
+                     end;
+                  end
+                  else GasSettings.AC_gasPresenceCO:=agsTrace;
+               end
+               else if ( GasVelocity <= EscapeVelocity )
+                  and ( GasSettings.AC_traceAtmosphere )
+               then GasSettings.AC_gasPresenceCO:=agsTrace
+               else begin
+                  TestBool:=_SecondaryGas_test;
+                  if not TestBool
+                  then GasSettings.AC_gasPresenceCO:=agsTrace
+                  else GasSettings.AC_gasPresenceCO:=agsSecondary;
+               end;
+            end;
+
+            9:
+            begin
+               GasVelocity:=FCFfA_GasVelocity_Calculation( BaseTemperature, gNO );
+               if ( GasVelocity > EscapeVelocity )
+                  and ( not isVeryDense ) then
+               begin
+                  if GasSettings.AC_gasPresenceNO=agsMain then
+                  begin
+                     dec( PrimaryGasCount );
+                     if PrimaryGasCount <= 0
+                     then GasSettings.AC_traceAtmosphere:=true;
+                  end;
+                  GasSettings.AC_gasPresenceNO:=agsNotPresent;
+               end
+               else if ( GasVelocity > EscapeVelocity )
+                  and ( isVeryDense ) then
+               begin
+                  if GasSettings.AC_gasPresenceNO=agsMain then
+                  begin
+                     if PrimaryGasCount-1 > 0 then
+                     begin
+                        GasSettings.AC_gasPresenceNO:=agsTrace;
+                        dec( PrimaryGasCount );
+                     end;
+                  end
+                  else GasSettings.AC_gasPresenceNO:=agsTrace;
+               end
+               else if ( GasVelocity <= EscapeVelocity )
+                  and ( GasSettings.AC_traceAtmosphere )
+               then GasSettings.AC_gasPresenceNO:=agsTrace
+               else begin
+                  TestBool:=_SecondaryGas_test;
+                  if not TestBool
+                  then GasSettings.AC_gasPresenceNO:=agsTrace
+                  else GasSettings.AC_gasPresenceNO:=agsSecondary;
+               end;
+            end;
+
+            10:
+            begin
+               GasVelocity:=FCFfA_GasVelocity_Calculation( BaseTemperature, gO2 );
+               if ( GasVelocity > EscapeVelocity )
+                  and ( not isVeryDense ) then
+               begin
+                  if GasSettings.AC_gasPresenceO2=agsMain then
+                  begin
+                     dec( PrimaryGasCount );
+                     if PrimaryGasCount <= 0
+                     then GasSettings.AC_traceAtmosphere:=true;
+                  end;
+                  GasSettings.AC_gasPresenceO2:=agsNotPresent;
+               end
+               else if ( GasVelocity > EscapeVelocity )
+                  and ( isVeryDense ) then
+               begin
+                  if GasSettings.AC_gasPresenceO2=agsMain then
+                  begin
+                     if PrimaryGasCount-1 > 0 then
+                     begin
+                        GasSettings.AC_gasPresenceO2:=agsTrace;
+                        dec( PrimaryGasCount );
+                     end;
+                  end
+                  else GasSettings.AC_gasPresenceO2:=agsTrace;
+               end
+               else if ( GasVelocity <= EscapeVelocity )
+                  and ( GasSettings.AC_traceAtmosphere )
+               then GasSettings.AC_gasPresenceO2:=agsTrace
+               else begin
+                  TestBool:=_SecondaryGas_test;
+                  if not TestBool
+                  then GasSettings.AC_gasPresenceO2:=agsTrace
+                  else GasSettings.AC_gasPresenceO2:=agsSecondary;
+               end;
+            end;
+
+            11:
+            begin
+               GasVelocity:=FCFfA_GasVelocity_Calculation( BaseTemperature, gH2S );
+               if ( GasVelocity > EscapeVelocity )
+                  and ( not isVeryDense ) then
+               begin
+                  if GasSettings.AC_gasPresenceH2S=agsMain then
+                  begin
+                     dec( PrimaryGasCount );
+                     if PrimaryGasCount <= 0
+                     then GasSettings.AC_traceAtmosphere:=true;
+                  end;
+                  GasSettings.AC_gasPresenceH2S:=agsNotPresent;
+               end
+               else if ( GasVelocity > EscapeVelocity )
+                  and ( isVeryDense ) then
+               begin
+                  if GasSettings.AC_gasPresenceH2S=agsMain then
+                  begin
+                     if PrimaryGasCount-1 > 0 then
+                     begin
+                        GasSettings.AC_gasPresenceH2S:=agsTrace;
+                        dec( PrimaryGasCount );
+                     end;
+                  end
+                  else GasSettings.AC_gasPresenceH2S:=agsTrace;
+               end
+               else if ( GasVelocity <= EscapeVelocity )
+                  and ( GasSettings.AC_traceAtmosphere )
+               then GasSettings.AC_gasPresenceH2S:=agsTrace
+               else begin
+                  TestBool:=_SecondaryGas_test;
+                  if not TestBool
+                  then GasSettings.AC_gasPresenceH2S:=agsTrace
+                  else GasSettings.AC_gasPresenceH2S:=agsSecondary;
+               end;
+            end;
+
+            12:
+            begin
+               GasVelocity:=FCFfA_GasVelocity_Calculation( BaseTemperature, gAr );
+               if ( GasVelocity > EscapeVelocity )
+                  and ( not isVeryDense ) then
+               begin
+                  if GasSettings.AC_gasPresenceAr=agsMain then
+                  begin
+                     dec( PrimaryGasCount );
+                     if PrimaryGasCount <= 0
+                     then GasSettings.AC_traceAtmosphere:=true;
+                  end;
+                  GasSettings.AC_gasPresenceAr:=agsNotPresent;
+               end
+               else if ( GasVelocity > EscapeVelocity )
+                  and ( isVeryDense ) then
+               begin
+                  if GasSettings.AC_gasPresenceAr=agsMain then
+                  begin
+                     if PrimaryGasCount-1 > 0 then
+                     begin
+                        GasSettings.AC_gasPresenceAr:=agsTrace;
+                        dec( PrimaryGasCount );
+                     end;
+                  end
+                  else GasSettings.AC_gasPresenceAr:=agsTrace;
+               end
+               else if ( GasVelocity <= EscapeVelocity )
+                  and ( GasSettings.AC_traceAtmosphere )
+               then GasSettings.AC_gasPresenceAr:=agsTrace
+               else begin
+                  TestBool:=_SecondaryGas_test;
+                  if not TestBool
+                  then GasSettings.AC_gasPresenceAr:=agsTrace
+                  else GasSettings.AC_gasPresenceAr:=agsSecondary;
+               end;
+            end;
+
+            13:
+            begin
+               GasVelocity:=FCFfA_GasVelocity_Calculation( BaseTemperature, gCO2 );
+               if ( GasVelocity > EscapeVelocity )
+                  and ( not isVeryDense ) then
+               begin
+                  if GasSettings.AC_gasPresenceCO2=agsMain then
+                  begin
+                     dec( PrimaryGasCount );
+                     if PrimaryGasCount <= 0
+                     then GasSettings.AC_traceAtmosphere:=true;
+                  end;
+                  GasSettings.AC_gasPresenceCO2:=agsNotPresent;
+               end
+               else if ( GasVelocity > EscapeVelocity )
+                  and ( isVeryDense ) then
+               begin
+                  if GasSettings.AC_gasPresenceCO2=agsMain then
+                  begin
+                     if PrimaryGasCount-1 > 0 then
+                     begin
+                        GasSettings.AC_gasPresenceCO2:=agsTrace;
+                        dec( PrimaryGasCount );
+                     end;
+                  end
+                  else GasSettings.AC_gasPresenceCO2:=agsTrace;
+               end
+               else if ( GasVelocity <= EscapeVelocity )
+                  and ( GasSettings.AC_traceAtmosphere )
+               then GasSettings.AC_gasPresenceCO2:=agsTrace
+               else begin
+                  TestBool:=_SecondaryGas_test;
+                  if not TestBool
+                  then GasSettings.AC_gasPresenceCO2:=agsTrace
+                  else GasSettings.AC_gasPresenceCO2:=agsSecondary;
+               end;
+            end;
+
+            14:
+            begin
+               GasVelocity:=FCFfA_GasVelocity_Calculation( BaseTemperature, gNO2 );
+               if ( GasVelocity > EscapeVelocity )
+                  and ( not isVeryDense ) then
+               begin
+                  if GasSettings.AC_gasPresenceNO2=agsMain then
+                  begin
+                     dec( PrimaryGasCount );
+                     if PrimaryGasCount <= 0
+                     then GasSettings.AC_traceAtmosphere:=true;
+                  end;
+                  GasSettings.AC_gasPresenceNO2:=agsNotPresent;
+               end
+               else if ( GasVelocity > EscapeVelocity )
+                  and ( isVeryDense ) then
+               begin
+                  if GasSettings.AC_gasPresenceNO2=agsMain then
+                  begin
+                     if PrimaryGasCount-1 > 0 then
+                     begin
+                        GasSettings.AC_gasPresenceNO2:=agsTrace;
+                        dec( PrimaryGasCount );
+                     end;
+                  end
+                  else GasSettings.AC_gasPresenceNO2:=agsTrace;
+               end
+               else if ( GasVelocity <= EscapeVelocity )
+                  and ( GasSettings.AC_traceAtmosphere )
+               then GasSettings.AC_gasPresenceNO2:=agsTrace
+               else begin
+                  TestBool:=_SecondaryGas_test;
+                  if not TestBool
+                  then GasSettings.AC_gasPresenceNO2:=agsTrace
+                  else GasSettings.AC_gasPresenceNO2:=agsSecondary;
+               end;
+            end;
+
+            15:
+            begin
+               GasVelocity:=FCFfA_GasVelocity_Calculation( BaseTemperature, gO3 );
+               if ( GasVelocity > EscapeVelocity )
+                  and ( not isVeryDense ) then
+               begin
+                  if GasSettings.AC_gasPresenceO3=agsMain then
+                  begin
+                     dec( PrimaryGasCount );
+                     if PrimaryGasCount <= 0
+                     then GasSettings.AC_traceAtmosphere:=true;
+                  end;
+                  GasSettings.AC_gasPresenceO3:=agsNotPresent;
+               end
+               else if ( GasVelocity > EscapeVelocity )
+                  and ( isVeryDense ) then
+               begin
+                  if GasSettings.AC_gasPresenceO3=agsMain then
+                  begin
+                     if PrimaryGasCount-1 > 0 then
+                     begin
+                        GasSettings.AC_gasPresenceO3:=agsTrace;
+                        dec( PrimaryGasCount );
+                     end;
+                  end
+                  else GasSettings.AC_gasPresenceO3:=agsTrace;
+               end
+               else if ( GasVelocity <= EscapeVelocity )
+                  and ( GasSettings.AC_traceAtmosphere )
+               then GasSettings.AC_gasPresenceO3:=agsTrace
+               else begin
+                  TestBool:=_SecondaryGas_test;
+                  if not TestBool
+                  then GasSettings.AC_gasPresenceO3:=agsTrace
+                  else GasSettings.AC_gasPresenceO3:=agsSecondary;
+               end;
+            end;
+
+            16:
+            begin
+               GasVelocity:=FCFfA_GasVelocity_Calculation( BaseTemperature, gSO2 );
+               if ( GasVelocity > EscapeVelocity )
+                  and ( not isVeryDense ) then
+               begin
+                  if GasSettings.AC_gasPresenceSO2=agsMain then
+                  begin
+                     dec( PrimaryGasCount );
+                     if PrimaryGasCount <= 0
+                     then GasSettings.AC_traceAtmosphere:=true;
+                  end;
+                  GasSettings.AC_gasPresenceSO2:=agsNotPresent;
+               end
+               else if ( GasVelocity > EscapeVelocity )
+                  and ( isVeryDense ) then
+               begin
+                  if GasSettings.AC_gasPresenceSO2=agsMain then
+                  begin
+                     if PrimaryGasCount-1 > 0 then
+                     begin
+                        GasSettings.AC_gasPresenceSO2:=agsTrace;
+                        dec( PrimaryGasCount );
+                     end;
+                  end
+                  else GasSettings.AC_gasPresenceSO2:=agsTrace;
+               end
+               else if ( GasVelocity <= EscapeVelocity )
+                  and ( GasSettings.AC_traceAtmosphere )
+               then GasSettings.AC_gasPresenceSO2:=agsTrace
+               else begin
+                  TestBool:=_SecondaryGas_test;
+                  if not TestBool
+                  then GasSettings.AC_gasPresenceSO2:=agsTrace
+                  else GasSettings.AC_gasPresenceSO2:=agsSecondary;
+               end;
+            end;
+         end; //==END== case Count of ==//
          inc( Count );
-      end;
+      end; //==END== while Count <= 16 ==//
    end; //==END== else begin of: if ( not/is isVeryDense ) and ( GasVelocity > EscapeVelocity ) ==//
    {.last step: data loading}
    if Satellite=0 then
