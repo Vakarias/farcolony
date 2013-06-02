@@ -181,11 +181,14 @@ procedure FCMfA_Atmosphere_Processing(
    Additions:
 }
    var
-      Stat: integer;
+      Count
+      ,PrimaryGasCount
+      ,Stat: integer;
 
       CalculatedPressure
       ,EscapeVelocity
-      ,GasVelocity: extended;
+      ,GasVelocity
+      ,PartOfVel: extended;
 
       isVeryDense: boolean;
 
@@ -193,6 +196,15 @@ procedure FCMfA_Atmosphere_Processing(
 
       GasSettingNull: TFCRduAtmosphericComposition;
       GasSettings: TFCRduAtmosphericComposition;
+
+      function _SecondaryGas_test: boolean;
+      begin
+         Result:=false;
+         PartOfVel:=1 - ( GasVelocity / EscapeVelocity );
+         if ( ( PartOfVel < 0.45 ) and ( isVeryDense ) )
+            or ( PartOfVel > 0.45 )
+         then Result:=true;
+      end;
 
       procedure _SpecialAtmosphere_Process;
       begin
@@ -202,28 +214,38 @@ procedure FCMfA_Atmosphere_Processing(
             begin
                GasSettings.AC_gasPresenceH2:=agsMain;
                GasSettings.AC_gasPresenceCO:=agsMain;
+               PrimaryGasCount:=2;
             end;
 
-            4..6: GasSettings.AC_gasPresenceCO:=agsMain;
+            4..6:
+            begin
+               GasSettings.AC_gasPresenceCO:=agsMain;
+               PrimaryGasCount:=1;
+            end;
 
             7..8:
             begin
                GasSettings.AC_gasPresenceH2:=agsMain;
                GasSettings.AC_gasPresenceCO:=agsMain;
                isVeryDense:=true;
+               PrimaryGasCount:=2;
             end;
 
             9..10:
             begin
                GasSettings.AC_gasPresenceCO:=agsMain;
                isVeryDense:=true;
+               PrimaryGasCount:=1;
             end;
          end;
       end;
 begin
+   Count:=0;
+   PrimaryGasCount:=0;
    CalculatedPressure:=0;
    EscapeVelocity:=0;
    GasVelocity:=0;
+   PartOfVel:=0;
    isVeryDense:=false;
    GasSettings:=GasSettingNull;
    if Satellite=0 then
@@ -243,17 +265,30 @@ begin
       if BaseTemperature <= 50 then
       begin
          case Stat of
-            1..4: GasSettings.AC_gasPresenceH2:=agsMain;
+            1..4:
+            begin
+               GasSettings.AC_gasPresenceH2:=agsMain;
+               PrimaryGasCount:=1;
+            end;
 
-            5..6: GasSettings.AC_gasPresenceHe:=agsMain;
+            5..6:
+            begin
+               GasSettings.AC_gasPresenceHe:=agsMain;
+               PrimaryGasCount:=1;
+            end;
 
             7..8:
             begin
                GasSettings.AC_gasPresenceH2:=agsMain;
                GasSettings.AC_gasPresenceHe:=agsMain;
+               PrimaryGasCount:=2;
             end;
 
-            9: GasSettings.AC_gasPresenceNe:=agsMain;
+            9:
+            begin
+               GasSettings.AC_gasPresenceNe:=agsMain;
+               PrimaryGasCount:=1;
+            end;
 
             10: _SpecialAtmosphere_Process;
          end;
@@ -266,6 +301,7 @@ begin
             begin
                GasSettings.AC_gasPresenceN2:=agsMain;
                GasSettings.AC_gasPresenceCH4:=agsMain;
+               PrimaryGasCount:=2;
             end;
 
             5..6:
@@ -273,18 +309,21 @@ begin
                GasSettings.AC_gasPresenceH2:=agsMain;
                GasSettings.AC_gasPresenceHe:=agsMain;
                GasSettings.AC_gasPresenceN2:=agsMain;
+               PrimaryGasCount:=3;
             end;
 
             7..8:
             begin
                GasSettings.AC_gasPresenceN2:=agsMain;
                GasSettings.AC_gasPresenceCO:=agsMain;
+               PrimaryGasCount:=2;
             end;
 
             9:
             begin
                GasSettings.AC_gasPresenceH2:=agsMain;
                GasSettings.AC_gasPresenceHe:=agsMain;
+               PrimaryGasCount:=2;
             end;
 
             10: _SpecialAtmosphere_Process;
@@ -298,23 +337,27 @@ begin
             begin
                GasSettings.AC_gasPresenceN2:=agsMain;
                GasSettings.AC_gasPresenceCO2:=agsMain;
+               PrimaryGasCount:=2;
             end;
 
             5..6:
             begin
                GasSettings.AC_gasPresenceCO2:=agsMain;
+               PrimaryGasCount:=1;
             end;
 
             7..8:
             begin
                GasSettings.AC_gasPresenceN2:=agsMain;
                GasSettings.AC_gasPresenceCH4:=agsMain;
+               PrimaryGasCount:=2;
             end;
 
             9:
             begin
                GasSettings.AC_gasPresenceH2:=agsMain;
                GasSettings.AC_gasPresenceHe:=agsMain;
+               PrimaryGasCount:=2;
             end;
 
             10: _SpecialAtmosphere_Process;
@@ -328,17 +371,20 @@ begin
             begin
                GasSettings.AC_gasPresenceN2:=agsMain;
                GasSettings.AC_gasPresenceCO2:=agsMain;
+               PrimaryGasCount:=2;
             end;
 
             5..6:
             begin
                GasSettings.AC_gasPresenceCO2:=agsMain;
+               PrimaryGasCount:=1;
             end;
 
             7..8:
             begin
                GasSettings.AC_gasPresenceN2:=agsMain;
                GasSettings.AC_gasPresenceCH4:=agsMain;
+               PrimaryGasCount:=2;
             end;
 
             9:
@@ -346,6 +392,7 @@ begin
                GasSettings.AC_gasPresenceCO2:=agsMain;
                GasSettings.AC_gasPresenceCH4:=agsMain;
                GasSettings.AC_gasPresenceNH3:=agsMain;
+               PrimaryGasCount:=3;
             end;
 
             10: _SpecialAtmosphere_Process;
@@ -358,22 +405,26 @@ begin
             begin
                GasSettings.AC_gasPresenceN2:=agsMain;
                GasSettings.AC_gasPresenceCO2:=agsMain;
+               PrimaryGasCount:=2;
             end;
 
             5..6:
             begin
                GasSettings.AC_gasPresenceCO2:=agsMain;
+               PrimaryGasCount:=1;
             end;
 
             7..8:
             begin
                GasSettings.AC_gasPresenceNO2:=agsMain;
                GasSettings.AC_gasPresenceSO2:=agsMain;
+               PrimaryGasCount:=2;
             end;
 
             9:
             begin
                GasSettings.AC_gasPresenceSO2:=agsMain;
+               PrimaryGasCount:=1;
             end;
 
             10: _SpecialAtmosphere_Process;
@@ -386,6 +437,7 @@ begin
       begin
          GasSettings.AC_gasPresenceCH4:=agsMain;
          GasSettings.AC_gasPresenceNH3:=agsMain;
+         PrimaryGasCount:=PrimaryGasCount + 2;
       end
       else if ( BaseTemperature > 50 )
          and ( BaseTemperature <= 150 ) then
@@ -393,15 +445,20 @@ begin
          GasSettings.AC_gasPresenceH2:=agsMain;
          GasSettings.AC_gasPresenceHe:=agsMain;
          GasSettings.AC_gasPresenceCH4:=agsMain;
+         PrimaryGasCount:=PrimaryGasCount + 3;
       end
       else if ( BaseTemperature > 150 )
          and ( BaseTemperature <= 400 ) then
       begin
          GasSettings.AC_gasPresenceH2:=agsMain;
          GasSettings.AC_gasPresenceHe:=agsMain;
+         PrimaryGasCount:=PrimaryGasCount + 2;
       end
-      else if BaseTemperature > 400
-      then GasSettings.AC_gasPresenceCO2:=agsMain;
+      else if BaseTemperature > 400 then
+      begin
+         GasSettings.AC_gasPresenceCO2:=agsMain;
+         PrimaryGasCount:=PrimaryGasCount + 1;
+      end;
    end; //==END== if BasicType=oobtGaseousPlanet ==//
    {.step 2: trace atmosphere}
    GasVelocity:=FCFfA_GasVelocity_Calculation( BaseTemperature, gSO2 );
@@ -409,6 +466,7 @@ begin
       and ( GasVelocity > EscapeVelocity ) then
    begin
       CalculatedPressure:=0;
+      PrimaryGasCount:=0;
       GasSettings.AC_traceAtmosphere:=false;
       GasSettings.AC_primaryGasVolumePerc:=0;
       GasSettings.AC_gasPresenceH2:=agsNotPresent;
@@ -432,6 +490,7 @@ begin
       and ( GasVelocity > EscapeVelocity ) then
    begin
       CalculatedPressure:=0;
+      PrimaryGasCount:=0;
       GasSettings.AC_traceAtmosphere:=true;
       GasSettings.AC_primaryGasVolumePerc:=0;
       GasSettings.AC_gasPresenceH2:=agsTrace;
@@ -453,7 +512,66 @@ begin
    end
    else begin
       {.step 3: retained gases}
+      Count:=1;
+      while Count <= 16 do
+      begin
+         case Count of
+            1:
+            begin
+               GasVelocity:=FCFfA_GasVelocity_Calculation( BaseTemperature, gH2 );
+               if ( GasVelocity > EscapeVelocity )
+                  and ( not isVeryDense ) then
+               begin
+                  if GasSettings.AC_gasPresenceH2=agsMain then
+                  begin
+                     dec( PrimaryGasCount );
+                     if PrimaryGasCount <= 0
+                     then GasSettings.AC_traceAtmosphere:=true;
+                  end;
+                  GasSettings.AC_gasPresenceH2:=agsNotPresent;
+               end
+               else if ( GasVelocity > EscapeVelocity )
+                  and ( isVeryDense ) then
+               begin
+                  if GasSettings.AC_gasPresenceH2=agsMain then
+                  begin
+                     if PrimaryGasCount-1 > 0 then
+                     begin
+                        GasSettings.AC_gasPresenceH2:=agsTrace;
+                        dec( PrimaryGasCount );
+                     end;
+                  end
+                  else GasSettings.AC_gasPresenceH2:=agsTrace;
+               end
+               else if ( GasVelocity <= EscapeVelocity )
+                  and ( GasSettings.AC_traceAtmosphere )
+               then GasSettings.AC_gasPresenceH2:=agsTrace
+               else _SecondaryGas_test;
+            end; //==END== case Count(gas): 1 ==//
 
+            2:
+            begin
+               GasVelocity:=FCFfA_GasVelocity_Calculation( BaseTemperature, gHe );
+            end;
+
+            3: GasVelocity:=FCFfA_GasVelocity_Calculation( BaseTemperature, gCH4 );
+            4: GasVelocity:=FCFfA_GasVelocity_Calculation( BaseTemperature, gNH3 );
+            5: GasVelocity:=FCFfA_GasVelocity_Calculation( BaseTemperature, gH2O );
+            6: GasVelocity:=FCFfA_GasVelocity_Calculation( BaseTemperature, gNe );
+            7: GasVelocity:=FCFfA_GasVelocity_Calculation( BaseTemperature, gN2 );
+            8: GasVelocity:=FCFfA_GasVelocity_Calculation( BaseTemperature, gCO );
+            9: GasVelocity:=FCFfA_GasVelocity_Calculation( BaseTemperature, gNO );
+            10: GasVelocity:=FCFfA_GasVelocity_Calculation( BaseTemperature, gO2 );
+            11: GasVelocity:=FCFfA_GasVelocity_Calculation( BaseTemperature, gH2S );
+            12: GasVelocity:=FCFfA_GasVelocity_Calculation( BaseTemperature, gAr );
+            13: GasVelocity:=FCFfA_GasVelocity_Calculation( BaseTemperature, gCO2 );
+            14: GasVelocity:=FCFfA_GasVelocity_Calculation( BaseTemperature, gNO2 );
+            15: GasVelocity:=FCFfA_GasVelocity_Calculation( BaseTemperature, gO3 );
+            16: GasVelocity:=FCFfA_GasVelocity_Calculation( BaseTemperature, gSO2 );
+         end;
+
+         inc( Count );
+      end;
    end; //==END== else begin of: if ( not/is isVeryDense ) and ( GasVelocity > EscapeVelocity ) ==//
    {.last step: data loading}
    if Satellite=0 then
