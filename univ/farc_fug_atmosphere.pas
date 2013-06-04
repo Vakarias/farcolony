@@ -196,12 +196,15 @@ procedure FCMfA_Atmosphere_Processing(
 
       BasicType: TFCEduOrbitalObjectBasicTypes;
 
-      GasSettingNull: TFCRduAtmosphericComposition;
-      GasSettings: TFCRduAtmosphericComposition;
+      TectonicActivity: TFCEduTectonicActivity;
+
+      GasSettingNull
+      ,GasSettings: TFCRduAtmosphericComposition;
 
       function _NextSecondary_SetAsPrimary: boolean;
       begin
          Result:=true;
+         inc( PrimaryGasCount );
          if GasSettings.AC_gasPresenceH2O=agsSecondary
          then GasSettings.AC_gasPresenceH2O:=agsMain
          else if GasSettings.AC_gasPresenceNe=agsSecondary
@@ -226,7 +229,10 @@ procedure FCMfA_Atmosphere_Processing(
          then GasSettings.AC_gasPresenceO3:=agsMain
          else if GasSettings.AC_gasPresenceSO2=agsSecondary
          then GasSettings.AC_gasPresenceSO2:=agsMain
-         else Result:=false;
+         else begin
+            Result:=false;
+            dec( PrimaryGasCount );
+         end;
       end;
 
       function _SecondaryGas_test: boolean;
@@ -284,10 +290,12 @@ begin
    begin
       BasicType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_basicType;
       EscapeVelocity:=( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_escapeVelocity * 1000 ) / 6;
+      TectonicActivity:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_tectonicActivity;
    end
    else begin
       BasicType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_basicType;
       EscapeVelocity:=( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_escapeVelocity * 1000 ) / 6;
+      TectonicActivity:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_tectonicActivity;
    end;
    {.step 1: primary composition}
    if ( BasicType=oobtTelluricPlanet )
@@ -1191,7 +1199,65 @@ begin
       end;
    end;
    {.step 5: tectonic activity}
-
+   if ( ( BasicType=oobtTelluricPlanet ) or ( BasicType=oobtIcyPlanet ) )
+      and ( not GasSettings.AC_traceAtmosphere ) then
+   begin
+      if TectonicActivity = taDead then
+      begin
+         if ( ( GasSettings.AC_gasPresenceH2S = agsTrace ) or ( GasSettings.AC_gasPresenceH2S = agsSecondary ) )
+            and ( not isVeryDense )
+         then GasSettings.AC_gasPresenceH2S:=agsNotPresent
+         else if ( GasSettings.AC_gasPresenceH2S = agsMain )
+            and ( not isVeryDense ) then
+         begin
+            GasSettings.AC_gasPresenceH2S:=agsTrace;
+            dec( PrimaryGasCount );
+         end
+         else if ( GasSettings.AC_gasPresenceH2S = agsMain )
+            and ( isVeryDense ) then
+         begin
+            GasSettings.AC_gasPresenceH2S:=agsSecondary;
+            dec( PrimaryGasCount );
+         end;
+         if ( ( GasSettings.AC_gasPresenceSO2 = agsTrace ) or ( GasSettings.AC_gasPresenceSO2 = agsSecondary ) )
+            and ( not isVeryDense )
+         then GasSettings.AC_gasPresenceSO2:=agsNotPresent
+         else if ( GasSettings.AC_gasPresenceSO2 = agsMain )
+            and ( not isVeryDense ) then
+         begin
+            GasSettings.AC_gasPresenceSO2:=agsTrace;
+            dec( PrimaryGasCount );
+         end
+         else if ( GasSettings.AC_gasPresenceSO2 = agsMain )
+            and ( isVeryDense ) then
+         begin
+            GasSettings.AC_gasPresenceSO2:=agsSecondary;
+            dec( PrimaryGasCount );
+         end;
+         if PrimaryGasCount=0
+         then GasSettings.AC_traceAtmosphere:=true;
+      end
+      else if TectonicActivity > taPlateTectonic then
+      begin
+         if GasSettings.AC_gasPresenceH2S = agsTrace
+         then GasSettings.AC_gasPresenceH2S:=agsSecondary
+         else if GasSettings.AC_gasPresenceH2S = agsSecondary then
+         begin
+            GasSettings.AC_gasPresenceH2S:=agsMain;
+            inc( PrimaryGasCount );
+         end;
+         if GasSettings.AC_gasPresenceSO2 = agsTrace
+         then GasSettings.AC_gasPresenceSO2:=agsSecondary
+         else if GasSettings.AC_gasPresenceSO2 = agsSecondary then
+         begin
+            GasSettings.AC_gasPresenceSO2:=agsMain;
+            inc( PrimaryGasCount );
+         end;
+         if ( PrimaryGasCount > 0 )
+            and ( GasSettings.AC_traceAtmosphere )
+         then GasSettings.AC_traceAtmosphere:=false;
+      end;
+   end;
    {.last step: data loading}
    if Satellite=0 then
    begin
