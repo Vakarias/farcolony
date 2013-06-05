@@ -189,7 +189,14 @@ procedure FCMfA_Atmosphere_Processing(
       CalculatedPressure
       ,EscapeVelocity
       ,GasVelocity
-      ,CalculationMisc: extended;
+      ,CalculationMisc
+      ,Gravity
+      ,Mass
+      ,Pressure
+      ,PressureMax
+      ,Radius
+      ,VolInventory
+      ,VolInventoryMax: extended;
 
       isVeryDense
       ,TestBool: boolean;
@@ -291,11 +298,17 @@ begin
       BasicType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_basicType;
       EscapeVelocity:=( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_escapeVelocity * 1000 ) / 6;
       TectonicActivity:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_tectonicActivity;
+      Mass:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_mass;
+      Gravity:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_gravity;
+      Radius:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_diameter * 0.5;
    end
    else begin
       BasicType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_basicType;
       EscapeVelocity:=( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_escapeVelocity * 1000 ) / 6;
       TectonicActivity:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_tectonicActivity;
+      Mass:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_mass;
+      Gravity:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_gravity;
+      Radius:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_diameter * 0.5;
    end;
    {.step 1: primary composition}
    if ( BasicType=oobtTelluricPlanet )
@@ -1257,6 +1270,67 @@ begin
             and ( GasSettings.AC_traceAtmosphere )
          then GasSettings.AC_traceAtmosphere:=false;
       end;
+   end;
+   {.step 6: gases interactions}
+   if GasSettings.AC_gasPresenceCO2 = agsMain then
+   begin
+      if GasSettings.AC_gasPresenceNH3 = agsMain then
+      begin
+         GasSettings.AC_gasPresenceNH3:=agsSecondary;
+         dec( PrimaryGasCount );
+      end
+      else if GasSettings.AC_gasPresenceNH3 = agsSecondary
+      then GasSettings.AC_gasPresenceNH3:=agsTrace
+      else if GasSettings.AC_gasPresenceNH3 = agsTrace
+      then GasSettings.AC_gasPresenceNH3:=agsNotPresent;
+      if GasSettings.AC_gasPresenceH2 = agsNotPresent
+      then GasSettings.AC_gasPresenceH2:=agsTrace;
+   end;
+   if ( GasSettings.AC_gasPresenceH2 = agsMain )
+      and ( GasSettings.AC_gasPresenceCO = agsMain ) then
+   begin
+      if GasSettings.AC_gasPresenceO2 = agsMain
+      then dec( PrimaryGasCount );
+      GasSettings.AC_gasPresenceO2:=agsNotPresent;
+   end;
+   {.step 7: primary gas volume}
+   TestBool:=false;
+   if ( GasSettings.AC_gasPresenceH2=agsNotPresent )
+      and ( GasSettings.AC_gasPresenceHe=agsNotPresent )
+      and ( GasSettings.AC_gasPresenceCH4=agsNotPresent )
+      and ( GasSettings.AC_gasPresenceNH3=agsNotPresent )
+      and ( GasSettings.AC_gasPresenceH2O=agsNotPresent )
+      and ( GasSettings.AC_gasPresenceNe=agsNotPresent )
+      and ( GasSettings.AC_gasPresenceN2=agsNotPresent )
+      and ( GasSettings.AC_gasPresenceCO=agsNotPresent )
+      and ( GasSettings.AC_gasPresenceNO=agsNotPresent )
+      and ( GasSettings.AC_gasPresenceO2=agsNotPresent )
+      and ( GasSettings.AC_gasPresenceH2S=agsNotPresent )
+      and ( GasSettings.AC_gasPresenceAr=agsNotPresent )
+      and ( GasSettings.AC_gasPresenceCO2=agsNotPresent )
+      and ( GasSettings.AC_gasPresenceNO2=agsNotPresent )
+      and ( GasSettings.AC_gasPresenceO3=agsNotPresent )
+      and ( GasSettings.AC_gasPresenceSO2=agsNotPresent )
+   then TestBool:=true;
+   if ( not GasSettings.AC_traceAtmosphere )
+      or ( not TestBool ) then
+   begin
+      Stat:=FCFcF_Random_DoInteger( 9 ) + 1;
+      case Stat of
+         1..5: GasSettings.AC_primaryGasVolumePerc:=54 + FCFcF_Random_DoInteger( 36 );
+
+         6..8: GasSettings.AC_primaryGasVolumePerc:=77 + FCFcF_Random_DoInteger( 19 );
+
+         9..10: GasSettings.AC_primaryGasVolumePerc:=96 + ( FCFcF_Random_DoInteger( 3 ) + 1 )
+      end;
+      {.step 8: pressure}
+      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isNotSat_orbitalZone=hzInner
+      then VolInventory:=( ( 100000 * Mass ) / FCDduStarSystem[0].SS_stars[Star].S_mass ) * 0.01
+      else VolInventory:=( ( 75000 * Mass ) / FCDduStarSystem[0].SS_stars[Star].S_mass ) * 0.01;
+      VolInventoryMax:=VolInventory + ( VolInventory * 0.6 );
+      Pressure:=VolInventory * Gravity / sqr( 6378 / Radius );
+      PressureMax:=VolInventoryMax * Gravity / sqr( 6378 / Radius );
+      CalculatedPressure:=Pressure + ( ( PressureMax - Pressure ) / 1.71 );
    end;
    {.last step: data loading}
    if Satellite=0 then
