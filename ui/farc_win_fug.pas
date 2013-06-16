@@ -322,8 +322,8 @@ begin
       {.for stellar system}
       WF_XMLOutput.Lines.Add('<!-- -->');
       WF_XMLOutput.Lines.Add(
-         '<starsys sstoken="'+FCDduStarSystem[0].SS_token+'" steslocx="'
-         +SSSG_LocationX.Text+'" steslocy="'+SSSG_LocationY.Text+'" steslocz="'+SSSG_LocationZ.Text+'">'
+         '<starsys token="'+FCDduStarSystem[0].SS_token+'" locationX="'
+         +SSSG_LocationX.Text+'" locationY="'+SSSG_LocationY.Text+'" locationZ="'+SSSG_LocationZ.Text+'">'
          );
       {.for stars}
       Count:=1;
@@ -333,20 +333,20 @@ begin
          then break
          else begin
             DumpString:=FCFcFunc_Star_GetClass(cdfRaw, 0, Count);
-            WF_XMLOutput.Lines.Add('   <star startoken="'+FCDduStarSystem[0].SS_stars[Count].S_token+'" starclass="'+DumpString+'">');
+            WF_XMLOutput.Lines.Add('   <star token="'+FCDduStarSystem[0].SS_stars[Count].S_token+'" class="'+DumpString+'">');
             WF_XMLOutput.Lines.Add(
-               '      <starphysdata startemp="'+IntToStr(FCDduStarSystem[0].SS_stars[Count].S_temperature)
-               +'" starmass="'+FloatToStr(FCDduStarSystem[0].SS_stars[Count].S_mass)
-               +'" stardiam="'+FloatToStr(FCDduStarSystem[0].SS_stars[Count].S_diameter)
-               +'" starlum="'+FloatToStrF(FCDduStarSystem[0].SS_stars[Count].S_luminosity, ffFixed, 15, 5)+'"'
+               '      <physicalData temperature="'+IntToStr(FCDduStarSystem[0].SS_stars[Count].S_temperature)
+               +'" mass="'+FloatToStr(FCDduStarSystem[0].SS_stars[Count].S_mass)
+               +'" diameter="'+FloatToStr(FCDduStarSystem[0].SS_stars[Count].S_diameter)
+               +'" luminosity="'+FloatToStrF(FCDduStarSystem[0].SS_stars[Count].S_luminosity, ffFixed, 15, 5)+'"'
                +'/>'
                );
             if Count=2 then
             begin
                WF_XMLOutput.Lines.Add(
-                  '      <starcompdata compmsep="'+FloatToStr(FCDduStarSystem[0].SS_stars[Count].S_isCompMeanSeparation)
-                  +'" compminapd="'+FloatToStr(FCDduStarSystem[0].SS_stars[Count].S_isCompMinApproachDistance)
-                  +'" compecc="'+FloatToStr(FCDduStarSystem[0].SS_stars[Count].S_isCompEccentricity)
+                  '      <companionData mainSeparation="'+FloatToStr(FCDduStarSystem[0].SS_stars[Count].S_isCompMeanSeparation)
+                  +'" minApproachDistance="'+FloatToStr(FCDduStarSystem[0].SS_stars[Count].S_isCompMinApproachDistance)
+                  +'" eccentricity="'+FloatToStr(FCDduStarSystem[0].SS_stars[Count].S_isCompEccentricity)
                   +'"/>'
                   );
             end
@@ -358,10 +358,10 @@ begin
                   cotAroundMain_Companion1GravityCenter: DumpString:='cotAroundMain_Companion1GravityCenter';
                end;
                WF_XMLOutput.Lines.Add(
-                  '      <starcompdata compmsep="'+FloatToStr(FCDduStarSystem[0].SS_stars[Count].S_isCompMeanSeparation)
-                  +'" compminapd="'+FloatToStr(FCDduStarSystem[0].SS_stars[Count].S_isCompMinApproachDistance)
-                  +'" compecc="'+FloatToStr(FCDduStarSystem[0].SS_stars[Count].S_isCompEccentricity)
-                  +'" comporb="'+DumpString+'"'
+                  '      <companionData mainSeparation="'+FloatToStr(FCDduStarSystem[0].SS_stars[Count].S_isCompMeanSeparation)
+                  +'" minApproachDistance="'+FloatToStr(FCDduStarSystem[0].SS_stars[Count].S_isCompMinApproachDistance)
+                  +'" eccentricity="'+FloatToStr(FCDduStarSystem[0].SS_stars[Count].S_isCompEccentricity)
+                  +'" orbitType="'+DumpString+'"'
                   +'/>'
                   );
             end;
@@ -370,32 +370,66 @@ begin
             Count1:=1;
             while Count1<=Max1 do
             begin
-               WF_XMLOutput.Lines.Add( '      <orbobj ootoken="'+FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_dbTokenId+'" ftSeed="">' );
+               WF_XMLOutput.Lines.Add( '      <orbobj token="'+FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_dbTokenId+'" ftSeed="">' );
                WF_XMLOutput.Lines.Add(
-                  '         <orbobjorbdata oodist="'+FloatToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_isNotSat_distanceFromStar )
-                     +'" ooecc="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_isNotSat_eccentricity )
-                     +'" ooorbzne="'+GetEnumName( TypeInfo( TFCEduHabitableZones ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_isNotSat_orbitalZone ) )
-                     +'" oorevol="'+IntToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_revolutionPeriod )
-                     +'" oorevevinit="'+IntToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_revolutionPeriodInit )
-                     +'" oogravsphrad="'+FloatToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_gravitationalSphereRadius )
+                  '         <orbitalData distanceFromStar="'+FloatToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_isNotSat_distanceFromStar )
+                     +'" eccentricity="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_isNotSat_eccentricity )
+                     +'" orbitalZone="'+GetEnumName( TypeInfo( TFCEduHabitableZones ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_isNotSat_orbitalZone ) )
+                     +'" revolutionPeriod="'+IntToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_revolutionPeriod )
+                     +'" revPeriodInit="'+IntToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_revolutionPeriodInit )
+                     +'" gravSphereRadius="'+FloatToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_gravitationalSphereRadius )
                      +'" orbitGeosync="'+FloatToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_geosynchOrbit )
                      +'" orbitLow="'+FloatToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_lowOrbit )
                      +'"/>'
                   );
                WF_XMLOutput.Lines.Add(
-                  '         <orbobjgeophysdata ootype="'+GetEnumName( TypeInfo( TFCEduOrbitalObjectTypes ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_type ) )
+                  '         <geophysicalData type="'+GetEnumName( TypeInfo( TFCEduOrbitalObjectTypes ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_type ) )
                      {:DEV NOTES: DEBUG ENTRY, TO REMOVE LATER.}
                      +'" oobasictypeDEBUG="'+GetEnumName( TypeInfo( TFCEduOrbitalObjectBasicTypes ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_basicType ) )
                      {:DEV NOTES: END.}
-                     +'" oodiam="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_diameter )
-                     +'" oodens="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_density )
-                     +'" oomass="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_mass )
-                     +'" oograv="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_gravity )
-                     +'" ooescvel="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_escapeVelocity )
-                     +'" oorotper="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_isNotSat_rotationPeriod )
-                     +'" ooinclax="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_isNotSat_inclinationAxis )
-                     +'" oomagfld="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_magneticField )
-                     +'" ootectonicactivity="'+GetEnumName( TypeInfo( TFCEduTectonicActivity ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_tectonicActivity ) )
+                     +'" diameter="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_diameter )
+                     +'" density="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_density )
+                     +'" mass="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_mass )
+                     +'" gravity="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_gravity )
+                     +'" escapeVel="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_escapeVelocity )
+                     +'" rotationPeriod="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_isNotSat_rotationPeriod )
+                     +'" inclinationAxis="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_isNotSat_inclinationAxis )
+                     +'" magneticField="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_magneticField )
+                     +'" tectonicActivity="'+GetEnumName( TypeInfo( TFCEduTectonicActivity ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_tectonicActivity ) )
+                     +'"/>'
+                  );
+               WF_XMLOutput.Lines.Add(
+                  '         <ecosphereData envType="'+GetEnumName( TypeInfo( TFCEduEnvironmentTypes ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_environment ) )
+                     +'" atmosphericPressure="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_atmosphericPressure )
+                     +'" coudsCover="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_cloudsCover )
+                     +'" traceAtmosphere="'+FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_atmosphere.AC_traceAtmosphere
+                     +'" primaryGasVolume="'+IntToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_atmosphere.AC_primaryGasVolumePerc )
+                     +'" gasH2="'+GetEnumName( TypeInfo( TFCEduAtmosphericGasStatus ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_atmosphere.AC_gasPresenceH2 ) )
+                     +'" gasHe="'+GetEnumName( TypeInfo( TFCEduAtmosphericGasStatus ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_atmosphere.AC_gasPresenceHe ) )
+                     +'" gasCH4="'+GetEnumName( TypeInfo( TFCEduAtmosphericGasStatus ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_atmosphere.AC_gasPresenceCH4 ) )
+                     +'" gasNH3="'+GetEnumName( TypeInfo( TFCEduAtmosphericGasStatus ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_atmosphere.AC_gasPresenceNH3 ) )
+                     +'" gasH2O="'+GetEnumName( TypeInfo( TFCEduAtmosphericGasStatus ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_atmosphere.AC_gasPresenceH2O ) )
+                     +'" gasNe="'+GetEnumName( TypeInfo( TFCEduAtmosphericGasStatus ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_atmosphere.AC_gasPresenceNe ) )
+                     +'" gasN2="'+GetEnumName( TypeInfo( TFCEduAtmosphericGasStatus ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_atmosphere.AC_gasPresenceN2 ) )
+                     +'" gasCO="'+GetEnumName( TypeInfo( TFCEduAtmosphericGasStatus ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_atmosphere.AC_gasPresenceCO ) )
+                     +'" gasNO="'+GetEnumName( TypeInfo( TFCEduAtmosphericGasStatus ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_atmosphere.AC_gasPresenceNO ) )
+//                     +'" gasH2="'+GetEnumName( TypeInfo( TFCEduAtmosphericGasStatus ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_atmosphere.AC_gasPresenceH2 ) )
+//                     +'" gasH2="'+GetEnumName( TypeInfo( TFCEduAtmosphericGasStatus ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_atmosphere.AC_gasPresenceH2 ) )
+//                     +'" gasH2="'+GetEnumName( TypeInfo( TFCEduAtmosphericGasStatus ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_atmosphere.AC_gasPresenceH2 ) )
+//                     +'" gasH2="'+GetEnumName( TypeInfo( TFCEduAtmosphericGasStatus ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_atmosphere.AC_gasPresenceH2 ) )
+//                     +'" gasH2="'+GetEnumName( TypeInfo( TFCEduAtmosphericGasStatus ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_atmosphere.AC_gasPresenceH2 ) )
+//                     +'" gasH2="'+GetEnumName( TypeInfo( TFCEduAtmosphericGasStatus ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_atmosphere.AC_gasPresenceH2 ) )
+//                     +'" gasH2="'+GetEnumName( TypeInfo( TFCEduAtmosphericGasStatus ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_atmosphere.AC_gasPresenceH2 ) )
+
+
+//                     +'" density="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_density )
+//                     +'" mass="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_mass )
+//                     +'" gravity="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_gravity )
+//                     +'" escapeVel="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_escapeVelocity )
+//                     +'" rotationPeriod="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_isNotSat_rotationPeriod )
+//                     +'" inclinationAxis="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_isNotSat_inclinationAxis )
+//                     +'" magneticField="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_magneticField )
+//                     +'" tectonicActivity="'+GetEnumName( TypeInfo( TFCEduTectonicActivity ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_tectonicActivity ) )
                      +'"/>'
                   );
                {.satellites}
