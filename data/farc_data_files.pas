@@ -1768,86 +1768,86 @@ begin
                      if EnumIndex=-1
                      then raise Exception.Create( 'bad (sat) orbital object type: '+XMSatellite.Attributes['tectonicActivity'] );
                   end {.else if DBSSPsatNode.NodeName='satgeophysdata'}
-                  else if XMSatellite.NodeName='satecosdata' then
+                  else if XMSatellite.NodeName='ecosphereData' then
                   begin
-                     EnumIndex:=GetEnumValue( TypeInfo( TFCEduEnvironmentTypes ), XMSatellite.Attributes['satenvtype'] );
+                     EnumIndex:=GetEnumValue( TypeInfo( TFCEduEnvironmentTypes ), XMSatellite.Attributes['envType'] );
                      FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_environment:=TFCEduEnvironmentTypes( EnumIndex );
                      if EnumIndex=-1
-                     then raise Exception.Create( 'bad (sat) environment type: '+XMSatellite.Attributes['satenvtype'] );
-                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_atmosphericPressure:=StrToFloat( XMSatellite.Attributes['satatmpres'], FCVdiFormat );
-                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_cloudsCover:=StrToFloat( XMSatellite.Attributes['satcloudscov'], FCVdiFormat );
+                     then raise Exception.Create( 'bad (sat) environment type: '+XMSatellite.Attributes['envType'] );
+                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_atmosphericPressure:=StrToFloat( XMSatellite.Attributes['atmosphericPressure'], FCVdiFormat );
+                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_cloudsCover:=StrToFloat( XMSatellite.Attributes['coudsCover'], FCVdiFormat );
                      FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_atmosphere.AC_traceAtmosphere:=XMSatellite.Attributes['traceAtmosphere'];
-                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_atmosphere.AC_primaryGasVolumePerc:=XMSatellite.Attributes['atmprimgasvol'];
-                     EnumIndex:=GetEnumValue( TypeInfo( TFCEduAtmosphericGasStatus ), XMSatellite.Attributes['atmH2'] );
+                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_atmosphere.AC_primaryGasVolumePerc:=XMSatellite.Attributes['primaryGasVolume'];
+                     EnumIndex:=GetEnumValue( TypeInfo( TFCEduAtmosphericGasStatus ), XMSatellite.Attributes['gasH2'] );
                      FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_atmosphere.AC_gasPresenceH2:=TFCEduAtmosphericGasStatus( EnumIndex );
                      if EnumIndex=-1
-                     then raise Exception.Create( 'bad universe orbital object atmospheric H2 gas status: '+XMSatellite.Attributes['atmH2'] );
-                     EnumIndex:=GetEnumValue( TypeInfo( TFCEduAtmosphericGasStatus ), XMSatellite.Attributes['atmHe'] );
+                     then raise Exception.Create( 'bad universe orbital object atmospheric H2 gas status: '+XMSatellite.Attributes['gasH2'] );
+                     EnumIndex:=GetEnumValue( TypeInfo( TFCEduAtmosphericGasStatus ), XMSatellite.Attributes['gasHe'] );
                      FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_atmosphere.AC_gasPresenceHe:=TFCEduAtmosphericGasStatus( EnumIndex );
                      if EnumIndex=-1
-                     then raise Exception.Create( 'bad universe orbital object atmospheric He gas status: '+XMSatellite.Attributes['atmHe'] );
-                     EnumIndex:=GetEnumValue( TypeInfo( TFCEduAtmosphericGasStatus ), XMSatellite.Attributes['atmCH4'] );
+                     then raise Exception.Create( 'bad universe orbital object atmospheric He gas status: '+XMSatellite.Attributes['gasHe'] );
+                     EnumIndex:=GetEnumValue( TypeInfo( TFCEduAtmosphericGasStatus ), XMSatellite.Attributes['gasCH4'] );
                      FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_atmosphere.AC_gasPresenceCH4:=TFCEduAtmosphericGasStatus( EnumIndex );
                      if EnumIndex=-1
-                     then raise Exception.Create( 'bad universe orbital object atmospheric CH4 gas status: '+XMSatellite.Attributes['atmCH4'] );
-                     EnumIndex:=GetEnumValue( TypeInfo( TFCEduAtmosphericGasStatus ), XMSatellite.Attributes['atmNH3'] );
+                     then raise Exception.Create( 'bad universe orbital object atmospheric CH4 gas status: '+XMSatellite.Attributes['gasCH4'] );
+                     EnumIndex:=GetEnumValue( TypeInfo( TFCEduAtmosphericGasStatus ), XMSatellite.Attributes['gasNH3'] );
                      FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_atmosphere.AC_gasPresenceNH3:=TFCEduAtmosphericGasStatus( EnumIndex );
                      if EnumIndex=-1
-                     then raise Exception.Create( 'bad universe orbital object atmospheric NH3 gas status: '+XMSatellite.Attributes['atmNH3'] );
-                     EnumIndex:=GetEnumValue( TypeInfo( TFCEduAtmosphericGasStatus ), XMSatellite.Attributes['atmH2O'] );
+                     then raise Exception.Create( 'bad universe orbital object atmospheric NH3 gas status: '+XMSatellite.Attributes['gasNH3'] );
+                     EnumIndex:=GetEnumValue( TypeInfo( TFCEduAtmosphericGasStatus ), XMSatellite.Attributes['gasH2O'] );
                      FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_atmosphere.AC_gasPresenceH2O:=TFCEduAtmosphericGasStatus( EnumIndex );
                      if EnumIndex=-1
-                     then raise Exception.Create( 'bad universe orbital object atmospheric H2O gas status: '+XMSatellite.Attributes['atmH2O'] );
-                     EnumIndex:=GetEnumValue( TypeInfo( TFCEduAtmosphericGasStatus ), XMSatellite.Attributes['atmNe'] );
+                     then raise Exception.Create( 'bad universe orbital object atmospheric H2O gas status: '+XMSatellite.Attributes['gasH2O'] );
+                     EnumIndex:=GetEnumValue( TypeInfo( TFCEduAtmosphericGasStatus ), XMSatellite.Attributes['gasNe'] );
                      FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_atmosphere.AC_gasPresenceNe:=TFCEduAtmosphericGasStatus( EnumIndex );
                      if EnumIndex=-1
-                     then raise Exception.Create( 'bad universe orbital object atmospheric Ne gas status: '+XMSatellite.Attributes['atmNe'] );
-                     EnumIndex:=GetEnumValue( TypeInfo( TFCEduAtmosphericGasStatus ), XMSatellite.Attributes['atmN2'] );
+                     then raise Exception.Create( 'bad universe orbital object atmospheric Ne gas status: '+XMSatellite.Attributes['gasNe'] );
+                     EnumIndex:=GetEnumValue( TypeInfo( TFCEduAtmosphericGasStatus ), XMSatellite.Attributes['gasN2'] );
                      FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_atmosphere.AC_gasPresenceN2:=TFCEduAtmosphericGasStatus( EnumIndex );
                      if EnumIndex=-1
-                     then raise Exception.Create( 'bad universe orbital object atmospheric N2 gas status: '+XMSatellite.Attributes['atmN2'] );
-                     EnumIndex:=GetEnumValue( TypeInfo( TFCEduAtmosphericGasStatus ), XMSatellite.Attributes['atmCO'] );
+                     then raise Exception.Create( 'bad universe orbital object atmospheric N2 gas status: '+XMSatellite.Attributes['gasN2'] );
+                     EnumIndex:=GetEnumValue( TypeInfo( TFCEduAtmosphericGasStatus ), XMSatellite.Attributes['gasCO'] );
                      FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_atmosphere.AC_gasPresenceCO:=TFCEduAtmosphericGasStatus( EnumIndex );
                      if EnumIndex=-1
-                     then raise Exception.Create( 'bad universe orbital object atmospheric CO gas status: '+XMSatellite.Attributes['atmCO'] );
-                     EnumIndex:=GetEnumValue( TypeInfo( TFCEduAtmosphericGasStatus ), XMSatellite.Attributes['atmNO'] );
+                     then raise Exception.Create( 'bad universe orbital object atmospheric CO gas status: '+XMSatellite.Attributes['gasCO'] );
+                     EnumIndex:=GetEnumValue( TypeInfo( TFCEduAtmosphericGasStatus ), XMSatellite.Attributes['gasNO'] );
                      FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_atmosphere.AC_gasPresenceNO:=TFCEduAtmosphericGasStatus( EnumIndex );
                      if EnumIndex=-1
-                     then raise Exception.Create( 'bad universe orbital object atmospheric NO gas status: '+XMSatellite.Attributes['atmNO'] );
-                     EnumIndex:=GetEnumValue( TypeInfo( TFCEduAtmosphericGasStatus ), XMSatellite.Attributes['atmO2'] );
+                     then raise Exception.Create( 'bad universe orbital object atmospheric NO gas status: '+XMSatellite.Attributes['gasNO'] );
+                     EnumIndex:=GetEnumValue( TypeInfo( TFCEduAtmosphericGasStatus ), XMSatellite.Attributes['gasO2'] );
                      FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_atmosphere.AC_gasPresenceO2:=TFCEduAtmosphericGasStatus( EnumIndex );
                      if EnumIndex=-1
-                     then raise Exception.Create( 'bad universe orbital object atmospheric O2 gas status: '+XMSatellite.Attributes['atmO2'] );
-                     EnumIndex:=GetEnumValue( TypeInfo( TFCEduAtmosphericGasStatus ), XMSatellite.Attributes['atmH2S'] );
+                     then raise Exception.Create( 'bad universe orbital object atmospheric O2 gas status: '+XMSatellite.Attributes['gasO2'] );
+                     EnumIndex:=GetEnumValue( TypeInfo( TFCEduAtmosphericGasStatus ), XMSatellite.Attributes['gasH2S'] );
                      FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_atmosphere.AC_gasPresenceH2S:=TFCEduAtmosphericGasStatus( EnumIndex );
                      if EnumIndex=-1
-                     then raise Exception.Create( 'bad universe orbital object atmospheric H2S gas status: '+XMSatellite.Attributes['atmH2S'] );
-                     EnumIndex:=GetEnumValue( TypeInfo( TFCEduAtmosphericGasStatus ), XMSatellite.Attributes['atmAr'] );
+                     then raise Exception.Create( 'bad universe orbital object atmospheric H2S gas status: '+XMSatellite.Attributes['gasH2S'] );
+                     EnumIndex:=GetEnumValue( TypeInfo( TFCEduAtmosphericGasStatus ), XMSatellite.Attributes['gasAr'] );
                      FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_atmosphere.AC_gasPresenceAr:=TFCEduAtmosphericGasStatus( EnumIndex );
                      if EnumIndex=-1
-                     then raise Exception.Create( 'bad universe orbital object atmospheric Ar gas status: '+XMSatellite.Attributes['atmAr'] );
-                     EnumIndex:=GetEnumValue( TypeInfo( TFCEduAtmosphericGasStatus ), XMSatellite.Attributes['atmCO2'] );
+                     then raise Exception.Create( 'bad universe orbital object atmospheric Ar gas status: '+XMSatellite.Attributes['gasAr'] );
+                     EnumIndex:=GetEnumValue( TypeInfo( TFCEduAtmosphericGasStatus ), XMSatellite.Attributes['gasCO2'] );
                      FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_atmosphere.AC_gasPresenceCO2:=TFCEduAtmosphericGasStatus( EnumIndex );
                      if EnumIndex=-1
-                     then raise Exception.Create( 'bad universe orbital object atmospheric CO2 gas status: '+XMSatellite.Attributes['atmCO2'] );
-                     EnumIndex:=GetEnumValue( TypeInfo( TFCEduAtmosphericGasStatus ), XMSatellite.Attributes['atmNO2'] );
+                     then raise Exception.Create( 'bad universe orbital object atmospheric CO2 gas status: '+XMSatellite.Attributes['gasCO2'] );
+                     EnumIndex:=GetEnumValue( TypeInfo( TFCEduAtmosphericGasStatus ), XMSatellite.Attributes['gasNO2'] );
                      FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_atmosphere.AC_gasPresenceNO2:=TFCEduAtmosphericGasStatus( EnumIndex );
                      if EnumIndex=-1
-                     then raise Exception.Create( 'bad universe orbital object atmospheric NO2 gas status: '+XMSatellite.Attributes['atmNO2'] );
-                     EnumIndex:=GetEnumValue( TypeInfo( TFCEduAtmosphericGasStatus ), XMSatellite.Attributes['atmO3'] );
+                     then raise Exception.Create( 'bad universe orbital object atmospheric NO2 gas status: '+XMSatellite.Attributes['gasNO2'] );
+                     EnumIndex:=GetEnumValue( TypeInfo( TFCEduAtmosphericGasStatus ), XMSatellite.Attributes['gasO3'] );
                      FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_atmosphere.AC_gasPresenceO3:=TFCEduAtmosphericGasStatus( EnumIndex );
                      if EnumIndex=-1
-                     then raise Exception.Create( 'bad universe orbital object atmospheric O3 gas status: '+XMSatellite.Attributes['atmO3'] );
-                     EnumIndex:=GetEnumValue( TypeInfo( TFCEduAtmosphericGasStatus ), XMSatellite.Attributes['atmSO2'] );
+                     then raise Exception.Create( 'bad universe orbital object atmospheric O3 gas status: '+XMSatellite.Attributes['gasO3'] );
+                     EnumIndex:=GetEnumValue( TypeInfo( TFCEduAtmosphericGasStatus ), XMSatellite.Attributes['gasSO2'] );
                      FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_atmosphere.AC_gasPresenceSO2:=TFCEduAtmosphericGasStatus( EnumIndex );
                      if EnumIndex=-1
-                     then raise Exception.Create( 'bad universe orbital object atmospheric SO2 gas status: '+XMSatellite.Attributes['atmSO2'] );
-                     EnumIndex:=GetEnumValue( TypeInfo( TFCEduHydrospheres ), XMSatellite.Attributes['hydroTp'] );
+                     then raise Exception.Create( 'bad universe orbital object atmospheric SO2 gas status: '+XMSatellite.Attributes['gasSO2'] );
+                     EnumIndex:=GetEnumValue( TypeInfo( TFCEduHydrospheres ), XMSatellite.Attributes['hydrosphereType'] );
                      FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_hydrosphere:=TFCEduHydrospheres( EnumIndex );
                      if EnumIndex=-1
-                     then raise Exception.Create( 'bad universe satellite hydrosphere: '+XMSatellite.Attributes['hydroTp'] );
-                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_hydrosphereArea:=StrToFloat( XMSatellite.Attributes['hydroArea'], FCVdiFormat );
-                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_albedo:=StrToFloat( XMSatellite.Attributes['satalbe'], FCVdiFormat );
+                     then raise Exception.Create( 'bad universe satellite hydrosphere: '+XMSatellite.Attributes['hydrosphereType'] );
+                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_hydrosphereArea:=StrToFloat( XMSatellite.Attributes['hydrosphereArea'], FCVdiFormat );
+                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_albedo:=StrToFloat( XMSatellite.Attributes['albedo'], FCVdiFormat );
                   end {.else if DBSSPsatNode.NodeName='satecosdata'}
                   else if XMSatellite.NodeName='satregions' then
                   begin

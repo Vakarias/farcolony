@@ -473,33 +473,32 @@ begin
                      );
 
                   WF_XMLOutput.Lines.Add(
-//                     '         <ecosphereData envType="'+GetEnumName( TypeInfo( TFCEduEnvironmentTypes ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_environment ) )
-//                        +'" atmosphericPressure="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_atmosphericPressure )
-//                        +'" coudsCover="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_cloudsCover )
-//                        +'" traceAtmosphere="'+BoolToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_atmosphere.AC_traceAtmosphere )
-//                        +'" primaryGasVolume="'+IntToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_atmosphere.AC_primaryGasVolumePerc )
-//                        +'" gasH2="'+GetEnumName( TypeInfo( TFCEduAtmosphericGasStatus ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_atmosphere.AC_gasPresenceH2 ) )
-//                        +'" gasHe="'+GetEnumName( TypeInfo( TFCEduAtmosphericGasStatus ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_atmosphere.AC_gasPresenceHe ) )
-//                        +'" gasCH4="'+GetEnumName( TypeInfo( TFCEduAtmosphericGasStatus ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_atmosphere.AC_gasPresenceCH4 ) )
-//                        +'" gasNH3="'+GetEnumName( TypeInfo( TFCEduAtmosphericGasStatus ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_atmosphere.AC_gasPresenceNH3 ) )
-//                        +'" gasH2O="'+GetEnumName( TypeInfo( TFCEduAtmosphericGasStatus ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_atmosphere.AC_gasPresenceH2O ) )
-//                        +'" gasNe="'+GetEnumName( TypeInfo( TFCEduAtmosphericGasStatus ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_atmosphere.AC_gasPresenceNe ) )
-//                        +'" gasN2="'+GetEnumName( TypeInfo( TFCEduAtmosphericGasStatus ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_atmosphere.AC_gasPresenceN2 ) )
-//                        +'" gasCO="'+GetEnumName( TypeInfo( TFCEduAtmosphericGasStatus ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_atmosphere.AC_gasPresenceCO ) )
-//                        +'" gasNO="'+GetEnumName( TypeInfo( TFCEduAtmosphericGasStatus ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_atmosphere.AC_gasPresenceNO ) )
-//                        +'" gasO2="'+GetEnumName( TypeInfo( TFCEduAtmosphericGasStatus ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_atmosphere.AC_gasPresenceO2 ) )
-//                        +'" gasH2S="'+GetEnumName( TypeInfo( TFCEduAtmosphericGasStatus ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_atmosphere.AC_gasPresenceH2S ) )
-//                        +'" gasAr="'+GetEnumName( TypeInfo( TFCEduAtmosphericGasStatus ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_atmosphere.AC_gasPresenceAr ) )
-//                        +'" gasCO2="'+GetEnumName( TypeInfo( TFCEduAtmosphericGasStatus ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_atmosphere.AC_gasPresenceCO2 ) )
-//                        +'" gasNO2="'+GetEnumName( TypeInfo( TFCEduAtmosphericGasStatus ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_atmosphere.AC_gasPresenceNO2 ) )
-//                        +'" gasO3="'+GetEnumName( TypeInfo( TFCEduAtmosphericGasStatus ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_atmosphere.AC_gasPresenceO3 ) )
-//                        +'" gasSO2="'+GetEnumName( TypeInfo( TFCEduAtmosphericGasStatus ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_atmosphere.AC_gasPresenceSO2 ) )
-//                        +'" hydrosphereType="'+GetEnumName( TypeInfo( TFCEduHydrospheres ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_hydrosphere ) )
-//                        +'" hydrosphereArea="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_hydrosphereArea )
-//                        +'" albedo="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_albedo )
-//                        +'"/>'
+                     '         <ecosphereData envType="'+GetEnumName( TypeInfo( TFCEduEnvironmentTypes ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_environment ) )
+                        +'" atmosphericPressure="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_atmosphericPressure )
+                        +'" coudsCover="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_cloudsCover )
+                        +'" traceAtmosphere="'+BoolToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_atmosphere.AC_traceAtmosphere )
+                        +'" primaryGasVolume="'+IntToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_atmosphere.AC_primaryGasVolumePerc )
+                        +'" gasH2="'+GetEnumName( TypeInfo( TFCEduAtmosphericGasStatus ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_atmosphere.AC_gasPresenceH2 ) )
+                        +'" gasHe="'+GetEnumName( TypeInfo( TFCEduAtmosphericGasStatus ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_atmosphere.AC_gasPresenceHe ) )
+                        +'" gasCH4="'+GetEnumName( TypeInfo( TFCEduAtmosphericGasStatus ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_atmosphere.AC_gasPresenceCH4 ) )
+                        +'" gasNH3="'+GetEnumName( TypeInfo( TFCEduAtmosphericGasStatus ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_atmosphere.AC_gasPresenceNH3 ) )
+                        +'" gasH2O="'+GetEnumName( TypeInfo( TFCEduAtmosphericGasStatus ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_atmosphere.AC_gasPresenceH2O ) )
+                        +'" gasNe="'+GetEnumName( TypeInfo( TFCEduAtmosphericGasStatus ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_atmosphere.AC_gasPresenceNe ) )
+                        +'" gasN2="'+GetEnumName( TypeInfo( TFCEduAtmosphericGasStatus ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_atmosphere.AC_gasPresenceN2 ) )
+                        +'" gasCO="'+GetEnumName( TypeInfo( TFCEduAtmosphericGasStatus ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_atmosphere.AC_gasPresenceCO ) )
+                        +'" gasNO="'+GetEnumName( TypeInfo( TFCEduAtmosphericGasStatus ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_atmosphere.AC_gasPresenceNO ) )
+                        +'" gasO2="'+GetEnumName( TypeInfo( TFCEduAtmosphericGasStatus ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_atmosphere.AC_gasPresenceO2 ) )
+                        +'" gasH2S="'+GetEnumName( TypeInfo( TFCEduAtmosphericGasStatus ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_atmosphere.AC_gasPresenceH2S ) )
+                        +'" gasAr="'+GetEnumName( TypeInfo( TFCEduAtmosphericGasStatus ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_atmosphere.AC_gasPresenceAr ) )
+                        +'" gasCO2="'+GetEnumName( TypeInfo( TFCEduAtmosphericGasStatus ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_atmosphere.AC_gasPresenceCO2 ) )
+                        +'" gasNO2="'+GetEnumName( TypeInfo( TFCEduAtmosphericGasStatus ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_atmosphere.AC_gasPresenceNO2 ) )
+                        +'" gasO3="'+GetEnumName( TypeInfo( TFCEduAtmosphericGasStatus ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_atmosphere.AC_gasPresenceO3 ) )
+                        +'" gasSO2="'+GetEnumName( TypeInfo( TFCEduAtmosphericGasStatus ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_atmosphere.AC_gasPresenceSO2 ) )
+                        +'" hydrosphereType="'+GetEnumName( TypeInfo( TFCEduHydrospheres ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_hydrosphere ) )
+                        +'" hydrosphereArea="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_hydrosphereArea )
+                        +'" albedo="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_albedo )
+                        +'"/>'
                      );
-
                   WF_XMLOutput.Lines.Add( '         </satobj>' );
                   inc( Count2 );
                end;
