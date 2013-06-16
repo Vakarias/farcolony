@@ -1428,6 +1428,7 @@ procedure FCMdF_DBStarOrbitalObjects_Load( const StarSystemToken, StarToken: str
 {:Purpose: load the orbital objects, if there's any, of a specified star in the universe database XML file.
    Additions:
       -2013Jun16- *mod: complete modification of the attributes names for orbital, geophysical and ecosphere data.
+                  *mod: some optimization for the asteroids belt.
       -2013May30- *add: trace atmosphere flag.
       -2013May14- *add: specific geophysical data for asteroids in a belt.
       -2013May05- *add: geosynchronous and low orbit.
@@ -1607,40 +1608,40 @@ begin
                FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_atmosphere.AC_gasPresenceNO:=TFCEduAtmosphericGasStatus( EnumIndex );
                if EnumIndex=-1
                then raise Exception.Create( 'bad universe orbital object atmospheric NO gas status: '+XMLOrbitalObject.Attributes['gasNO'] );
-               EnumIndex:=GetEnumValue( TypeInfo( TFCEduAtmosphericGasStatus ), XMLOrbitalObject.Attributes['atmO2'] );
+               EnumIndex:=GetEnumValue( TypeInfo( TFCEduAtmosphericGasStatus ), XMLOrbitalObject.Attributes['gasO2'] );
                FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_atmosphere.AC_gasPresenceO2:=TFCEduAtmosphericGasStatus( EnumIndex );
                if EnumIndex=-1
-               then raise Exception.Create( 'bad universe orbital object atmospheric O2 gas status: '+XMLOrbitalObject.Attributes['atmO2'] );
-               EnumIndex:=GetEnumValue( TypeInfo( TFCEduAtmosphericGasStatus ), XMLOrbitalObject.Attributes['atmH2S'] );
+               then raise Exception.Create( 'bad universe orbital object atmospheric O2 gas status: '+XMLOrbitalObject.Attributes['gasO2'] );
+               EnumIndex:=GetEnumValue( TypeInfo( TFCEduAtmosphericGasStatus ), XMLOrbitalObject.Attributes['gasH2S'] );
                FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_atmosphere.AC_gasPresenceH2S:=TFCEduAtmosphericGasStatus( EnumIndex );
                if EnumIndex=-1
-               then raise Exception.Create( 'bad universe orbital object atmospheric H2S gas status: '+XMLOrbitalObject.Attributes['atmH2S'] );
-               EnumIndex:=GetEnumValue( TypeInfo( TFCEduAtmosphericGasStatus ), XMLOrbitalObject.Attributes['atmAr'] );
+               then raise Exception.Create( 'bad universe orbital object atmospheric H2S gas status: '+XMLOrbitalObject.Attributes['gasH2S'] );
+               EnumIndex:=GetEnumValue( TypeInfo( TFCEduAtmosphericGasStatus ), XMLOrbitalObject.Attributes['gasAr'] );
                FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_atmosphere.AC_gasPresenceAr:=TFCEduAtmosphericGasStatus( EnumIndex );
                if EnumIndex=-1
-               then raise Exception.Create( 'bad universe orbital object atmospheric Ar gas status: '+XMLOrbitalObject.Attributes['atmAr'] );
-               EnumIndex:=GetEnumValue( TypeInfo( TFCEduAtmosphericGasStatus ), XMLOrbitalObject.Attributes['atmCO2'] );
+               then raise Exception.Create( 'bad universe orbital object atmospheric Ar gas status: '+XMLOrbitalObject.Attributes['gasAr'] );
+               EnumIndex:=GetEnumValue( TypeInfo( TFCEduAtmosphericGasStatus ), XMLOrbitalObject.Attributes['gasCO2'] );
                FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_atmosphere.AC_gasPresenceCO2:=TFCEduAtmosphericGasStatus( EnumIndex );
                if EnumIndex=-1
-               then raise Exception.Create( 'bad universe orbital object atmospheric CO2 gas status: '+XMLOrbitalObject.Attributes['atmCO2'] );
-               EnumIndex:=GetEnumValue( TypeInfo( TFCEduAtmosphericGasStatus ), XMLOrbitalObject.Attributes['atmNO2'] );
+               then raise Exception.Create( 'bad universe orbital object atmospheric CO2 gas status: '+XMLOrbitalObject.Attributes['gasCO2'] );
+               EnumIndex:=GetEnumValue( TypeInfo( TFCEduAtmosphericGasStatus ), XMLOrbitalObject.Attributes['gasNO2'] );
                FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_atmosphere.AC_gasPresenceNO2:=TFCEduAtmosphericGasStatus( EnumIndex );
                if EnumIndex=-1
-               then raise Exception.Create( 'bad universe orbital object atmospheric NO2 gas status: '+XMLOrbitalObject.Attributes['atmNO2'] );
-               EnumIndex:=GetEnumValue( TypeInfo( TFCEduAtmosphericGasStatus ), XMLOrbitalObject.Attributes['atmO3'] );
+               then raise Exception.Create( 'bad universe orbital object atmospheric NO2 gas status: '+XMLOrbitalObject.Attributes['gasNO2'] );
+               EnumIndex:=GetEnumValue( TypeInfo( TFCEduAtmosphericGasStatus ), XMLOrbitalObject.Attributes['gasO3'] );
                FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_atmosphere.AC_gasPresenceO3:=TFCEduAtmosphericGasStatus( EnumIndex );
                if EnumIndex=-1
-               then raise Exception.Create( 'bad universe orbital object atmospheric O3 gas status: '+XMLOrbitalObject.Attributes['atmO3'] );
-               EnumIndex:=GetEnumValue( TypeInfo( TFCEduAtmosphericGasStatus ), XMLOrbitalObject.Attributes['atmSO2'] );
+               then raise Exception.Create( 'bad universe orbital object atmospheric O3 gas status: '+XMLOrbitalObject.Attributes['gasO3'] );
+               EnumIndex:=GetEnumValue( TypeInfo( TFCEduAtmosphericGasStatus ), XMLOrbitalObject.Attributes['gasSO2'] );
                FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_atmosphere.AC_gasPresenceSO2:=TFCEduAtmosphericGasStatus( EnumIndex );
                if EnumIndex=-1
-               then raise Exception.Create( 'bad universe orbital object atmospheric SO2 gas status: '+XMLOrbitalObject.Attributes['atmSO2'] );
-               EnumIndex:=GetEnumValue( TypeInfo( TFCEduHydrospheres ), XMLOrbitalObject.Attributes['hydroTp'] );
+               then raise Exception.Create( 'bad universe orbital object atmospheric SO2 gas status: '+XMLOrbitalObject.Attributes['gasSO2'] );
+               EnumIndex:=GetEnumValue( TypeInfo( TFCEduHydrospheres ), XMLOrbitalObject.Attributes['hydrosphereType'] );
                FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_hydrosphere:=TFCEduHydrospheres( EnumIndex );
                if EnumIndex=-1
-               then raise Exception.Create( 'bad universe orbital object hydrosphere type: '+XMLOrbitalObject.Attributes['hydroTp'] );
-               FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_hydrosphereArea:=StrToFloat( XMLOrbitalObject.Attributes['hydroArea'], FCVdiFormat );
-               FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_albedo:=StrToFloat( XMLOrbitalObject.Attributes['ooalbe'], FCVdiFormat );
+               then raise Exception.Create( 'bad universe orbital object hydrosphere type: '+XMLOrbitalObject.Attributes['hydrosphereType'] );
+               FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_hydrosphereArea:=StrToFloat( XMLOrbitalObject.Attributes['hydrosphereArea'], FCVdiFormat );
+               FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_albedo:=StrToFloat( XMLOrbitalObject.Attributes['albedo'], FCVdiFormat );
             end {.else if DBSSPorbObjNode.NodeName='orbobjecosdata'}
             else if XMLOrbitalObject.NodeName='orbobjregions' then
             begin
@@ -1708,23 +1709,23 @@ begin
                {.initialize satellite data}
                inc( SatelliteCount );
                SetLength(FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList, SatelliteCount+1);
-               FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_dbTokenId:=XMLOrbitalObject.Attributes['sattoken'];
+               FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_dbTokenId:=XMLOrbitalObject.Attributes['token'];
                FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_isSatellite:=true;
                XMSatellite:= XMLOrbitalObject.ChildNodes.First;
                while XMSatellite<>nil do
                begin
-                  if XMSatellite.NodeName='satorbdata' then
+                  if XMSatellite.NodeName='orbitalData' then
                   begin
-                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_isSat_distanceFromPlanet:=StrToFloat( XMSatellite.Attributes['satdist'], FCVdiFormat );
-                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_revolutionPeriod:=XMSatellite.Attributes['satrevol'];
-                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_revolutionPeriodInit:=XMSatellite.Attributes['satrevinit'];
+                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_isSat_distanceFromPlanet:=StrToFloat( XMSatellite.Attributes['distanceFromRoot'], FCVdiFormat );
+                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_revolutionPeriod:=XMSatellite.Attributes['revolutionPeriod'];
+                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_revolutionPeriodInit:=XMSatellite.Attributes['revPeriodInit'];
                      FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_angle1stDay:=
                         FCFcF_Round(
                            rttCustom2Decimal
                            ,FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_revolutionPeriodInit*360
                               /FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_revolutionPeriod
                            );
-                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_gravitationalSphereRadius:=StrToFloat( XMSatellite.Attributes['satgravsphrad'], FCVdiFormat );
+                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_gravitationalSphereRadius:=StrToFloat( XMSatellite.Attributes['gravSphereRadius'], FCVdiFormat );
                      FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_geosynchOrbit:=StrToFloat( XMSatellite.Attributes['orbitGeosync'], FCVdiFormat );
                      FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_lowOrbit:=StrToFloat( XMSatellite.Attributes['orbitLow'], FCVdiFormat );
                   end
@@ -1745,42 +1746,28 @@ begin
                         XMLOObjSub1:= XMLOObjSub1.NextSibling;
                      end;
                   end //==END== else if DBSSPsatNode.NodeName='orbperlist' ==//
-                  else if XMSatellite.NodeName='satgeophysdata' then
+                  else if XMSatellite.NodeName='geophysicalData' then
                   begin
-                     EnumIndex:=GetEnumValue( TypeInfo( TFCEduOrbitalObjectTypes ), XMSatellite.Attributes['sattype'] );
+                     EnumIndex:=GetEnumValue( TypeInfo( TFCEduOrbitalObjectTypes ), XMSatellite.Attributes['type'] );
                      FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_type:=TFCEduOrbitalObjectTypes( EnumIndex );
                      if EnumIndex=-1
-                     then raise Exception.Create( 'bad (sat) orbital object type: '+XMSatellite.Attributes['sattype'] );
-                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_diameter:=StrToFloat( XMSatellite.Attributes['satdiam'], FCVdiFormat );
-                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_density:=XMSatellite.Attributes['satdens'];
-                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_mass:=StrToFloat( XMSatellite.Attributes['satmass'], FCVdiFormat );
-                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_gravity:=StrToFloat( XMSatellite.Attributes['satgrav'], FCVdiFormat );
-                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_escapeVelocity:=StrToFloat( XMSatellite.Attributes['satescvel'], FCVdiFormat );
-                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_magneticField:=StrToFloat( XMSatellite.Attributes['satmagfld'], FCVdiFormat );
-                     EnumIndex:=GetEnumValue( TypeInfo( TFCEduTectonicActivity ), XMSatellite.Attributes['sattectonicactivity'] );
+                     then raise Exception.Create( 'bad (sat) orbital object type: '+XMSatellite.Attributes['type'] );
+                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_diameter:=StrToFloat( XMSatellite.Attributes['diameter'], FCVdiFormat );
+                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_density:=XMSatellite.Attributes['density'];
+                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_mass:=StrToFloat( XMSatellite.Attributes['mass'], FCVdiFormat );
+                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_gravity:=StrToFloat( XMSatellite.Attributes['gravity'], FCVdiFormat );
+                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_escapeVelocity:=StrToFloat( XMSatellite.Attributes['escapeVel'], FCVdiFormat );
+                     if FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_type=ootAsteroidsBelt then
+                     begin
+                        FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_isAsterBelt_rotationPeriod:=StrToFloat( XMSatellite.Attributes['rotationPeriod'], FCVdiFormat );
+                        FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_isAsterBelt_inclinationAxis:=StrToFloat( XMSatellite.Attributes['inclinationAxis'], FCVdiFormat );
+                     end;
+                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_magneticField:=StrToFloat( XMSatellite.Attributes['magneticField'], FCVdiFormat );
+                     EnumIndex:=GetEnumValue( TypeInfo( TFCEduTectonicActivity ), XMSatellite.Attributes['tectonicActivity'] );
                      FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_tectonicActivity:=TFCEduTectonicActivity( EnumIndex );
                      if EnumIndex=-1
-                     then raise Exception.Create( 'bad (sat) orbital object type: '+XMSatellite.Attributes['sattectonicactivity'] );
+                     then raise Exception.Create( 'bad (sat) orbital object type: '+XMSatellite.Attributes['tectonicActivity'] );
                   end {.else if DBSSPsatNode.NodeName='satgeophysdata'}
-                  else if XMSatellite.NodeName='astbeltgeophysdata' then
-                  begin
-                     EnumIndex:=GetEnumValue( TypeInfo( TFCEduOrbitalObjectTypes ), XMSatellite.Attributes['asttype'] );
-                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_type:=TFCEduOrbitalObjectTypes( EnumIndex );
-                     if EnumIndex=-1
-                     then raise Exception.Create( 'bad (asteroid-belt) orbital object type: '+XMSatellite.Attributes['sattype'] );
-                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_diameter:=StrToFloat( XMSatellite.Attributes['astdiam'], FCVdiFormat );
-                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_density:=XMSatellite.Attributes['astdens'];
-                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_mass:=StrToFloat( XMSatellite.Attributes['astmass'], FCVdiFormat );
-                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_gravity:=StrToFloat( XMSatellite.Attributes['astgrav'], FCVdiFormat );
-                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_escapeVelocity:=StrToFloat( XMSatellite.Attributes['astescvel'], FCVdiFormat );
-                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_isAsterBelt_rotationPeriod:=StrToFloat( XMSatellite.Attributes['astrotper'], FCVdiFormat );
-                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_isAsterBelt_inclinationAxis:=StrToFloat( XMSatellite.Attributes['astinclax'], FCVdiFormat );
-                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_magneticField:=StrToFloat( XMSatellite.Attributes['astmagfld'], FCVdiFormat );
-                     EnumIndex:=GetEnumValue( TypeInfo( TFCEduTectonicActivity ), XMSatellite.Attributes['asttectonicactivity'] );
-                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_tectonicActivity:=TFCEduTectonicActivity( EnumIndex );
-                     if EnumIndex=-1
-                     then raise Exception.Create( 'bad (asteroid-belt) orbital object type: '+XMSatellite.Attributes['asttectonicactivity'] );
-                  end {.else if DBSSPsatNode.NodeName='astbeltgeophysdata'}
                   else if XMSatellite.NodeName='satecosdata' then
                   begin
                      EnumIndex:=GetEnumValue( TypeInfo( TFCEduEnvironmentTypes ), XMSatellite.Attributes['satenvtype'] );
