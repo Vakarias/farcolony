@@ -129,6 +129,9 @@ type
     COO_SatNumber: TLabeledEdit;
     COO_AtmosphereEdit: TCheckBox;
     COO_TraceAtmosphereTrigger: TCheckBox;
+    COO_GasH2: TAdvComboBox;
+    COO_GasHe: TAdvComboBox;
+    COO_GasCH4: TAdvComboBox;
     procedure WF_GenerateButtonClick(Sender: TObject);
     procedure TMS_OrbitGenerationClick(Sender: TObject);
     procedure TC1S_EnableGroupCompanion1Click(Sender: TObject);
@@ -165,6 +168,9 @@ type
     procedure TOO_SatPickerClick(Sender: TObject);
     procedure COO_AtmosphereEditClick(Sender: TObject);
     procedure COO_TraceAtmosphereTriggerClick(Sender: TObject);
+    procedure COO_GasH2Change(Sender: TObject);
+    procedure COO_GasHeChange(Sender: TObject);
+    procedure COO_GasCH4Change(Sender: TObject);
    private
     { Private declarations }
    public
@@ -563,6 +569,21 @@ procedure TFCWinFUG.COO_EscapeVelKeyDown(Sender: TObject; var Key: Word;
 begin
    if Key=13
    then FCmfC_OrbitPicker_EscapeVelUpdate;
+end;
+
+procedure TFCWinFUG.COO_GasCH4Change(Sender: TObject);
+begin
+   FCmfC_AtmosphereGas_CH4Update;
+end;
+
+procedure TFCWinFUG.COO_GasH2Change(Sender: TObject);
+begin
+   FCmfC_AtmosphereGas_H2Update;
+end;
+
+procedure TFCWinFUG.COO_GasHeChange(Sender: TObject);
+begin
+   FCmfC_AtmosphereGas_HeUpdate;
 end;
 
 procedure TFCWinFUG.COO_GravityKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);

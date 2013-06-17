@@ -48,6 +48,12 @@ procedure FCMfC_Initialize( isCreateWindow: boolean );
 ///   <remarks></remarks>
 procedure FCmfC_AtmosphereEditTrigger_Update;
 
+procedure FCmfC_AtmosphereGas_CH4Update;
+
+procedure FCmfC_AtmosphereGas_H2Update;
+
+procedure FCmfC_AtmosphereGas_HeUpdate;
+
 ///<summary>
 ///   update the orbital object albedo
 ///</summary>
@@ -281,6 +287,103 @@ begin
          1: FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_isAtmosphereEdited:=FCWinFUG.COO_AtmosphereEdit.Checked;
 
          2: FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_isAtmosphereEdited:=FCWinFUG.COO_AtmosphereEdit.Checked;
+      end;
+   end;
+   FCWinFUG.COO_TraceAtmosphereTrigger.Enabled:=FCWinFUG.COO_AtmosphereEdit.Checked;
+   FCWinFUG.COO_GasH2.Enabled:=FCWinFUG.COO_AtmosphereEdit.Checked;
+   FCWinFUG.COO_GasHe.Enabled:=FCWinFUG.COO_AtmosphereEdit.Checked;
+   FCWinFUG.COO_GasCH4.Enabled:=FCWinFUG.COO_AtmosphereEdit.Checked;
+end;
+
+procedure FCmfC_AtmosphereGas_CH4Update;
+{:Purpose: apply the changes concerning the CH4 gas status.
+    Additions:
+}
+   var
+      CurrentObject
+      ,CurrentSat: integer;
+begin
+   CurrentObject:=FCWinFUG.TOO_OrbitalObjectPicker.ItemIndex+1;
+   CurrentSat:=FCWinFUG.TOO_SatPicker.ItemIndex;
+   if CurrentSat<=0 then
+   begin
+      case FCWinFUG.TOO_StarPicker.ItemIndex of
+         0: FCDfdMainStarObjectsList[CurrentObject].OO_atmosphere.AC_gasPresenceCH4:=TFCEduAtmosphericGasStatus( FCWinFUG.COO_GasCH4.ItemIndex );
+
+         1: FCDfdComp1StarObjectsList[CurrentObject].OO_atmosphere.AC_gasPresenceCH4:=TFCEduAtmosphericGasStatus( FCWinFUG.COO_GasCH4.ItemIndex );
+
+         2: FCDfdComp2StarObjectsList[CurrentObject].OO_atmosphere.AC_gasPresenceCH4:=TFCEduAtmosphericGasStatus( FCWinFUG.COO_GasCH4.ItemIndex );
+      end;
+   end
+   else begin
+      case FCWinFUG.TOO_StarPicker.ItemIndex of
+         0: FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_atmosphere.AC_gasPresenceCH4:=TFCEduAtmosphericGasStatus( FCWinFUG.COO_GasCH4.ItemIndex );
+
+         1: FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_atmosphere.AC_gasPresenceCH4:=TFCEduAtmosphericGasStatus( FCWinFUG.COO_GasCH4.ItemIndex );
+
+         2: FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_atmosphere.AC_gasPresenceCH4:=TFCEduAtmosphericGasStatus( FCWinFUG.COO_GasCH4.ItemIndex );
+      end;
+   end;
+end;
+
+procedure FCmfC_AtmosphereGas_H2Update;
+{:Purpose: apply the changes concerning the H2 gas status.
+    Additions:
+}
+   var
+      CurrentObject
+      ,CurrentSat: integer;
+begin
+   CurrentObject:=FCWinFUG.TOO_OrbitalObjectPicker.ItemIndex+1;
+   CurrentSat:=FCWinFUG.TOO_SatPicker.ItemIndex;
+   if CurrentSat<=0 then
+   begin
+      case FCWinFUG.TOO_StarPicker.ItemIndex of
+         0: FCDfdMainStarObjectsList[CurrentObject].OO_atmosphere.AC_gasPresenceH2:=TFCEduAtmosphericGasStatus( FCWinFUG.COO_GasH2.ItemIndex );
+
+         1: FCDfdComp1StarObjectsList[CurrentObject].OO_atmosphere.AC_gasPresenceH2:=TFCEduAtmosphericGasStatus( FCWinFUG.COO_GasH2.ItemIndex );
+
+         2: FCDfdComp2StarObjectsList[CurrentObject].OO_atmosphere.AC_gasPresenceH2:=TFCEduAtmosphericGasStatus( FCWinFUG.COO_GasH2.ItemIndex );
+      end;
+   end
+   else begin
+      case FCWinFUG.TOO_StarPicker.ItemIndex of
+         0: FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_atmosphere.AC_gasPresenceH2:=TFCEduAtmosphericGasStatus( FCWinFUG.COO_GasH2.ItemIndex );
+
+         1: FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_atmosphere.AC_gasPresenceH2:=TFCEduAtmosphericGasStatus( FCWinFUG.COO_GasH2.ItemIndex );
+
+         2: FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_atmosphere.AC_gasPresenceH2:=TFCEduAtmosphericGasStatus( FCWinFUG.COO_GasH2.ItemIndex );
+      end;
+   end;
+end;
+
+procedure FCmfC_AtmosphereGas_HeUpdate;
+{:Purpose: apply the changes concerning the He gas status.
+    Additions:
+}
+   var
+      CurrentObject
+      ,CurrentSat: integer;
+begin
+   CurrentObject:=FCWinFUG.TOO_OrbitalObjectPicker.ItemIndex+1;
+   CurrentSat:=FCWinFUG.TOO_SatPicker.ItemIndex;
+   if CurrentSat<=0 then
+   begin
+      case FCWinFUG.TOO_StarPicker.ItemIndex of
+         0: FCDfdMainStarObjectsList[CurrentObject].OO_atmosphere.AC_gasPresenceHe:=TFCEduAtmosphericGasStatus( FCWinFUG.COO_GasHe.ItemIndex );
+
+         1: FCDfdComp1StarObjectsList[CurrentObject].OO_atmosphere.AC_gasPresenceHe:=TFCEduAtmosphericGasStatus( FCWinFUG.COO_GasHe.ItemIndex );
+
+         2: FCDfdComp2StarObjectsList[CurrentObject].OO_atmosphere.AC_gasPresenceHe:=TFCEduAtmosphericGasStatus( FCWinFUG.COO_GasHe.ItemIndex );
+      end;
+   end
+   else begin
+      case FCWinFUG.TOO_StarPicker.ItemIndex of
+         0: FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_atmosphere.AC_gasPresenceHe:=TFCEduAtmosphericGasStatus( FCWinFUG.COO_GasHe.ItemIndex );
+
+         1: FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_atmosphere.AC_gasPresenceHe:=TFCEduAtmosphericGasStatus( FCWinFUG.COO_GasHe.ItemIndex );
+
+         2: FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_atmosphere.AC_gasPresenceHe:=TFCEduAtmosphericGasStatus( FCWinFUG.COO_GasHe.ItemIndex );
       end;
    end;
 end;
@@ -682,7 +785,7 @@ end;
 procedure FCmfC_OrbitPicker_UpdateCurrent( const UpdateSat: boolean );
 {:Purpose: update the current orbital object tab / orbital object picker.
     Additions:
-      -2013Jun16- *add: atmosphere.
+      -2013Jun16- *add: (wip) atmosphere.
       -2013May05- *add: satellites setup.
       -2013May01- *add: tectonic activity.
 }
@@ -740,6 +843,11 @@ begin
          FCWinFUG.COO_TectonicActivity.Text:=GetEnumName( TypeInfo( TFCEduTectonicActivity ), Integer( FCDfdMainStarObjectsList[CurrentObject].OO_tectonicActivity ) );
          {.ecosphere data}
          FCWinFUG.COO_AtmosphereEdit.Checked:=FCDfdMainStarObjectsList[CurrentObject].OO_isAtmosphereEdited;
+         FCmfC_AtmosphereEditTrigger_Update;
+         FCWinFUG.COO_TraceAtmosphereTrigger.Checked:=FCDfdMainStarObjectsList[CurrentObject].OO_atmosphere.AC_traceAtmosphere;
+         FCWinFUG.COO_GasH2.ItemIndex:=Integer( FCDfdMainStarObjectsList[CurrentObject].OO_atmosphere.AC_gasPresenceH2 );
+         FCWinFUG.COO_GasHe.ItemIndex:=Integer( FCDfdMainStarObjectsList[CurrentObject].OO_atmosphere.AC_gasPresenceHe );
+         FCWinFUG.COO_GasCH4.ItemIndex:=Integer( FCDfdMainStarObjectsList[CurrentObject].OO_atmosphere.AC_gasPresenceCH4 );
          {.weather and albedo}
          if FCDfdMainStarObjectsList[CurrentObject].OO_albedo>0
          then FCWinFUG.COO_Albedo.Text:=floattostr( FCDfdMainStarObjectsList[CurrentObject].OO_albedo )
@@ -792,6 +900,10 @@ begin
          FCWinFUG.COO_TectonicActivity.Text:=GetEnumName( TypeInfo( TFCEduTectonicActivity ), Integer( FCDfdComp1StarObjectsList[CurrentObject].OO_tectonicActivity ) );
          {.ecosphere data}
          FCWinFUG.COO_AtmosphereEdit.Checked:=FCDfdComp1StarObjectsList[CurrentObject].OO_isAtmosphereEdited;
+         FCWinFUG.COO_TraceAtmosphereTrigger.Checked:=FCDfdComp1StarObjectsList[CurrentObject].OO_atmosphere.AC_traceAtmosphere;
+         FCWinFUG.COO_GasH2.ItemIndex:=Integer( FCDfdComp1StarObjectsList[CurrentObject].OO_atmosphere.AC_gasPresenceH2 );
+         FCWinFUG.COO_GasHe.ItemIndex:=Integer( FCDfdComp1StarObjectsList[CurrentObject].OO_atmosphere.AC_gasPresenceHe );
+         FCWinFUG.COO_GasCH4.ItemIndex:=Integer( FCDfdComp1StarObjectsList[CurrentObject].OO_atmosphere.AC_gasPresenceCH4 );
          {.weather and albedo}
          if FCDfdComp1StarObjectsList[CurrentObject].OO_albedo>0
          then FCWinFUG.COO_Albedo.Text:=floattostr( FCDfdComp1StarObjectsList[CurrentObject].OO_albedo )
@@ -844,6 +956,10 @@ begin
          FCWinFUG.COO_TectonicActivity.Text:=GetEnumName( TypeInfo( TFCEduTectonicActivity ), Integer( FCDfdComp2StarObjectsList[CurrentObject].OO_tectonicActivity ) );
          {.ecosphere data}
          FCWinFUG.COO_AtmosphereEdit.Checked:=FCDfdComp2StarObjectsList[CurrentObject].OO_isAtmosphereEdited;
+         FCWinFUG.COO_TraceAtmosphereTrigger.Checked:=FCDfdComp2StarObjectsList[CurrentObject].OO_atmosphere.AC_traceAtmosphere;
+         FCWinFUG.COO_GasH2.ItemIndex:=Integer( FCDfdComp2StarObjectsList[CurrentObject].OO_atmosphere.AC_gasPresenceH2 );
+         FCWinFUG.COO_GasHe.ItemIndex:=Integer( FCDfdComp2StarObjectsList[CurrentObject].OO_atmosphere.AC_gasPresenceHe );
+         FCWinFUG.COO_GasCH4.ItemIndex:=Integer( FCDfdComp2StarObjectsList[CurrentObject].OO_atmosphere.AC_gasPresenceCH4 );
          {.weather and albedo}
          if FCDfdComp2StarObjectsList[CurrentObject].OO_albedo>0
          then FCWinFUG.COO_Albedo.Text:=floattostr( FCDfdComp2StarObjectsList[CurrentObject].OO_albedo )
@@ -938,6 +1054,10 @@ begin
          FCWinFUG.COO_TectonicActivity.Text:=GetEnumName( TypeInfo( TFCEduTectonicActivity ), Integer( FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_tectonicActivity ) );
          {.ecosphere data}
          FCWinFUG.COO_AtmosphereEdit.Checked:=FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_isAtmosphereEdited;
+         FCWinFUG.COO_TraceAtmosphereTrigger.Checked:=FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_atmosphere.AC_traceAtmosphere;
+         FCWinFUG.COO_GasH2.ItemIndex:=Integer( FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_atmosphere.AC_gasPresenceH2 );
+         FCWinFUG.COO_GasHe.ItemIndex:=Integer( FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_atmosphere.AC_gasPresenceHe );
+         FCWinFUG.COO_GasCH4.ItemIndex:=Integer( FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_atmosphere.AC_gasPresenceCH4 );
          {.weather and albedo}
          if FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_albedo>0
          then FCWinFUG.COO_Albedo.Text:=floattostr( FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_albedo )
@@ -977,6 +1097,10 @@ begin
          FCWinFUG.COO_TectonicActivity.Text:=GetEnumName( TypeInfo( TFCEduTectonicActivity ), Integer( FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_tectonicActivity ) );
          {.ecosphere data}
          FCWinFUG.COO_AtmosphereEdit.Checked:=FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_isAtmosphereEdited;
+         FCWinFUG.COO_TraceAtmosphereTrigger.Checked:=FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_atmosphere.AC_traceAtmosphere;
+         FCWinFUG.COO_GasH2.ItemIndex:=Integer( FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_atmosphere.AC_gasPresenceH2 );
+         FCWinFUG.COO_GasHe.ItemIndex:=Integer( FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_atmosphere.AC_gasPresenceHe );
+         FCWinFUG.COO_GasCH4.ItemIndex:=Integer( FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_atmosphere.AC_gasPresenceCH4 );
          {.weather and albedo}
          if FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_albedo>0
          then FCWinFUG.COO_Albedo.Text:=floattostr( FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_albedo )
@@ -1016,6 +1140,10 @@ begin
          FCWinFUG.COO_TectonicActivity.Text:=GetEnumName( TypeInfo( TFCEduTectonicActivity ), Integer( FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_tectonicActivity ) );
          {.ecosphere data}
          FCWinFUG.COO_AtmosphereEdit.Checked:=FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_isAtmosphereEdited;
+         FCWinFUG.COO_TraceAtmosphereTrigger.Checked:=FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_atmosphere.AC_traceAtmosphere;
+         FCWinFUG.COO_GasH2.ItemIndex:=Integer( FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_atmosphere.AC_gasPresenceH2 );
+         FCWinFUG.COO_GasHe.ItemIndex:=Integer( FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_atmosphere.AC_gasPresenceHe );
+         FCWinFUG.COO_GasCH4.ItemIndex:=Integer( FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_atmosphere.AC_gasPresenceCH4 );
          {.weather and albedo}
          if FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_albedo>0
          then FCWinFUG.COO_Albedo.Text:=floattostr( FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_albedo )
