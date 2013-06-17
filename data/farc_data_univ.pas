@@ -643,6 +643,10 @@ type TFCRduOrbitalObject = record
    ///</summary>
    OO_albedo: extended;
    ///<summary>
+   ///   basic type. WARNING: USED ONLY BY THE FUG, not in-game
+   ///</summary>
+   OO_isAtmosphereEdited: boolean;
+   ///<summary>
    ///   atmospheric pressure in mbars, 1013mbars eq 1 atm eq 101.3kpa   RTO-3
    ///</summary>
    OO_atmosphericPressure: extended;

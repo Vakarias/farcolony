@@ -127,6 +127,8 @@ type
     Bevel2: TBevel;
     TOO_SatPicker: TRadioGroup;
     COO_SatNumber: TLabeledEdit;
+    COO_AtmosphereEdit: TCheckBox;
+    COO_TraceAtmosphereTrigger: TCheckBox;
     procedure WF_GenerateButtonClick(Sender: TObject);
     procedure TMS_OrbitGenerationClick(Sender: TObject);
     procedure TC1S_EnableGroupCompanion1Click(Sender: TObject);
@@ -161,6 +163,8 @@ type
     procedure COO_SatTriggerClick(Sender: TObject);
     procedure COO_SatNumberKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure TOO_SatPickerClick(Sender: TObject);
+    procedure COO_AtmosphereEditClick(Sender: TObject);
+    procedure COO_TraceAtmosphereTriggerClick(Sender: TObject);
    private
     { Private declarations }
    public
@@ -531,6 +535,11 @@ begin
    then FCmfC_OrbitPicker_AlbedoUpdate;
 end;
 
+procedure TFCWinFUG.COO_AtmosphereEditClick(Sender: TObject);
+begin
+   FCmfC_AtmosphereEditTrigger_Update;
+end;
+
 procedure TFCWinFUG.COO_DensityKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
    if Key=13
@@ -620,6 +629,11 @@ procedure TFCWinFUG.COO_TokenKeyDown(Sender: TObject; var Key: Word; Shift: TShi
 begin
    if Key=13
    then FCmfC_OrbitPicker_TokenUpdate;
+end;
+
+procedure TFCWinFUG.COO_TraceAtmosphereTriggerClick(Sender: TObject);
+begin
+   FCmfC_TraceAtmosphereTrigger_Update;
 end;
 
 procedure TFCWinFUG.TC1S_EnableGroupCompanion1Click(Sender: TObject);

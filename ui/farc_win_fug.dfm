@@ -40,10 +40,6 @@ object FCWinFUG: TFCWinFUG
       ColorTo = clNone
       TabColor = clBtnFace
       TabColorTo = clNone
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object TSSS_StellarStarSysGroup: TAdvGroupBox
         Left = 16
         Top = 3
@@ -1395,8 +1391,8 @@ object FCWinFUG: TFCWinFUG
           OnKeyDown = COO_MagFieldKeyDown
         end
         object COO_Albedo: TLabeledEdit
-          Left = 8
-          Top = 184
+          Left = 3
+          Top = 275
           Width = 47
           Height = 19
           Color = clWhite
@@ -1476,6 +1472,42 @@ object FCWinFUG: TFCWinFUG
           TabOrder = 14
           OnKeyDown = COO_SatNumberKeyDown
         end
+        object COO_AtmosphereEdit: TCheckBox
+          Left = 8
+          Top = 165
+          Width = 193
+          Height = 17
+          TabStop = False
+          Caption = 'Edit Atmosphere (All must be edited)'
+          Color = clSilver
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWhite
+          Font.Height = -11
+          Font.Name = 'FrancophilSans'
+          Font.Style = []
+          ParentColor = False
+          ParentFont = False
+          TabOrder = 15
+          OnClick = COO_AtmosphereEditClick
+        end
+        object COO_TraceAtmosphereTrigger: TCheckBox
+          Left = 270
+          Top = 165
+          Width = 193
+          Height = 17
+          TabStop = False
+          Caption = 'Trace Atmosphere (no primary)'
+          Color = clSilver
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWhite
+          Font.Height = -11
+          Font.Name = 'FrancophilSans'
+          Font.Style = []
+          ParentColor = False
+          ParentFont = False
+          TabOrder = 16
+          OnClick = COO_TraceAtmosphereTriggerClick
+        end
       end
       object TOO_OrbitalObjectPicker: TRadioGroup
         Left = 3
@@ -1503,10 +1535,6 @@ object FCWinFUG: TFCWinFUG
       ColorTo = clNone
       TabColor = clBtnFace
       TabColorTo = clNone
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object WF_XMLOutput: TAdvMemo
         Left = 0
         Top = 0

@@ -38,6 +38,17 @@ uses
 procedure FCMfC_Initialize( isCreateWindow: boolean );
 
 ///<summary>
+///   apply the changes when the AtmosphereEdit checkbox is checked or not
+///</summary>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <returns></returns>
+///   <remarks></remarks>
+procedure FCmfC_AtmosphereEditTrigger_Update;
+
+///<summary>
 ///   update the orbital object albedo
 ///</summary>
 procedure FCmfC_OrbitPicker_AlbedoUpdate;
@@ -146,6 +157,17 @@ procedure FCmfC_SatTrigger_Update;
 
 procedure FCMfC_StarPicker_Update;
 
+///<summary>
+///   update the trace atmosphere check
+///</summary>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <returns></returns>
+///   <remarks></remarks>
+procedure FCmfC_TraceAtmosphereTrigger_Update;
+
 implementation
 
 uses
@@ -230,6 +252,37 @@ begin
    FCDduStarSystem:=nil;
    SetLength(FCDduStarSystem, 1);
    FCWinFUG.WF_ConfigurationMultiTab.ActivePageIndex:=0;
+end;
+
+procedure FCmfC_AtmosphereEditTrigger_Update;
+{:Purpose: apply the changes when the AtmosphereEdit checkbox is checked or not.
+    Additions:
+}
+   var
+      CurrentObject
+      ,CurrentSat: integer;
+begin
+   CurrentObject:=FCWinFUG.TOO_OrbitalObjectPicker.ItemIndex+1;
+   CurrentSat:=FCWinFUG.TOO_SatPicker.ItemIndex;
+   if CurrentSat<=0 then
+   begin
+      case FCWinFUG.TOO_StarPicker.ItemIndex of
+         0: FCDfdMainStarObjectsList[CurrentObject].OO_isAtmosphereEdited:=FCWinFUG.COO_AtmosphereEdit.Checked;
+
+         1: FCDfdComp1StarObjectsList[CurrentObject].OO_isAtmosphereEdited:=FCWinFUG.COO_AtmosphereEdit.Checked;
+
+         2: FCDfdComp2StarObjectsList[CurrentObject].OO_isAtmosphereEdited:=FCWinFUG.COO_AtmosphereEdit.Checked;
+      end;
+   end
+   else begin
+      case FCWinFUG.TOO_StarPicker.ItemIndex of
+         0: FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_isAtmosphereEdited:=FCWinFUG.COO_AtmosphereEdit.Checked;
+
+         1: FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_isAtmosphereEdited:=FCWinFUG.COO_AtmosphereEdit.Checked;
+
+         2: FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_isAtmosphereEdited:=FCWinFUG.COO_AtmosphereEdit.Checked;
+      end;
+   end;
 end;
 
 procedure FCmfC_OrbitPicker_AlbedoUpdate;
@@ -629,6 +682,7 @@ end;
 procedure FCmfC_OrbitPicker_UpdateCurrent( const UpdateSat: boolean );
 {:Purpose: update the current orbital object tab / orbital object picker.
     Additions:
+      -2013Jun16- *add: atmosphere.
       -2013May05- *add: satellites setup.
       -2013May01- *add: tectonic activity.
 }
@@ -657,6 +711,7 @@ begin
          if FCDfdMainStarObjectsList[CurrentObject].OO_isNotSat_distanceFromStar>0
          then FCWinFUG.COO_Distance.Text:=floattostr( FCDfdMainStarObjectsList[CurrentObject].OO_isNotSat_distanceFromStar )
          else FCWinFUG.COO_Distance.Text:='';
+         {.geophysical data}
          FCWinFUG.COO_ObjecType.Text:=GetEnumName( TypeInfo( TFCEduOrbitalObjectBasicTypes ), Integer( FCDfdMainStarObjectsList[CurrentObject].OO_basicType ) );
          if FCDfdMainStarObjectsList[CurrentObject].OO_diameter>0
          then FCWinFUG.COO_Diameter.Text:=floattostr( FCDfdMainStarObjectsList[CurrentObject].OO_diameter )
@@ -683,6 +738,9 @@ begin
          then FCWinFUG.COO_MagField.Text:=floattostr( FCDfdMainStarObjectsList[CurrentObject].OO_magneticField )
          else FCWinFUG.COO_MagField.Text:='';
          FCWinFUG.COO_TectonicActivity.Text:=GetEnumName( TypeInfo( TFCEduTectonicActivity ), Integer( FCDfdMainStarObjectsList[CurrentObject].OO_tectonicActivity ) );
+         {.ecosphere data}
+         FCWinFUG.COO_AtmosphereEdit.Checked:=FCDfdMainStarObjectsList[CurrentObject].OO_isAtmosphereEdited;
+         {.weather and albedo}
          if FCDfdMainStarObjectsList[CurrentObject].OO_albedo>0
          then FCWinFUG.COO_Albedo.Text:=floattostr( FCDfdMainStarObjectsList[CurrentObject].OO_albedo )
          else FCWinFUG.COO_Albedo.Text:='';
@@ -705,6 +763,7 @@ begin
          if FCDfdComp1StarObjectsList[CurrentObject].OO_isNotSat_distanceFromStar>0
          then FCWinFUG.COO_Distance.Text:=floattostr( FCDfdComp1StarObjectsList[CurrentObject].OO_isNotSat_distanceFromStar )
          else FCWinFUG.COO_Distance.Text:='';
+         {.geophysical data}
          FCWinFUG.COO_ObjecType.Text:=GetEnumName( TypeInfo( TFCEduOrbitalObjectBasicTypes ), Integer( FCDfdComp1StarObjectsList[CurrentObject].OO_basicType ) );
          if FCDfdComp1StarObjectsList[CurrentObject].OO_diameter>0
          then FCWinFUG.COO_Diameter.Text:=floattostr( FCDfdComp1StarObjectsList[CurrentObject].OO_diameter )
@@ -731,6 +790,9 @@ begin
          then FCWinFUG.COO_MagField.Text:=floattostr( FCDfdComp1StarObjectsList[CurrentObject].OO_magneticField )
          else FCWinFUG.COO_MagField.Text:='';
          FCWinFUG.COO_TectonicActivity.Text:=GetEnumName( TypeInfo( TFCEduTectonicActivity ), Integer( FCDfdComp1StarObjectsList[CurrentObject].OO_tectonicActivity ) );
+         {.ecosphere data}
+         FCWinFUG.COO_AtmosphereEdit.Checked:=FCDfdComp1StarObjectsList[CurrentObject].OO_isAtmosphereEdited;
+         {.weather and albedo}
          if FCDfdComp1StarObjectsList[CurrentObject].OO_albedo>0
          then FCWinFUG.COO_Albedo.Text:=floattostr( FCDfdComp1StarObjectsList[CurrentObject].OO_albedo )
          else FCWinFUG.COO_Albedo.Text:='';
@@ -753,6 +815,7 @@ begin
          if FCDfdComp2StarObjectsList[CurrentObject].OO_isNotSat_distanceFromStar>0
          then FCWinFUG.COO_Distance.Text:=floattostr( FCDfdComp2StarObjectsList[CurrentObject].OO_isNotSat_distanceFromStar )
          else FCWinFUG.COO_Distance.Text:='';
+         {.geophysical data}
          FCWinFUG.COO_ObjecType.Text:=GetEnumName( TypeInfo( TFCEduOrbitalObjectBasicTypes ), Integer( FCDfdComp2StarObjectsList[CurrentObject].OO_basicType ) );
          if FCDfdComp2StarObjectsList[CurrentObject].OO_diameter>0
          then FCWinFUG.COO_Diameter.Text:=floattostr( FCDfdComp2StarObjectsList[CurrentObject].OO_diameter )
@@ -779,6 +842,9 @@ begin
          then FCWinFUG.COO_MagField.Text:=floattostr( FCDfdComp2StarObjectsList[CurrentObject].OO_magneticField )
          else FCWinFUG.COO_MagField.Text:='';
          FCWinFUG.COO_TectonicActivity.Text:=GetEnumName( TypeInfo( TFCEduTectonicActivity ), Integer( FCDfdComp2StarObjectsList[CurrentObject].OO_tectonicActivity ) );
+         {.ecosphere data}
+         FCWinFUG.COO_AtmosphereEdit.Checked:=FCDfdComp2StarObjectsList[CurrentObject].OO_isAtmosphereEdited;
+         {.weather and albedo}
          if FCDfdComp2StarObjectsList[CurrentObject].OO_albedo>0
          then FCWinFUG.COO_Albedo.Text:=floattostr( FCDfdComp2StarObjectsList[CurrentObject].OO_albedo )
          else FCWinFUG.COO_Albedo.Text:='';
@@ -818,6 +884,7 @@ end;
 procedure FCmfC_SatPicker_UpdateCurrent;
 {:Purpose: update the current satellite object tab / satellite picker.
     Additions:
+      -2013Jun16- *add: atmosphere.
 }
    var
       CurrentObject
@@ -848,6 +915,7 @@ begin
          if FCDfdMainStarObjectsList[CurrentObject].OO_isSat_distanceFromPlanet>0
          then FCWinFUG.COO_Distance.Text:=floattostr( FCDfdMainStarObjectsList[CurrentObject].OO_isSat_distanceFromPlanet )
          else FCWinFUG.COO_Distance.Text:='';
+         {.geophysical data}
          FCWinFUG.COO_ObjecType.Text:=GetEnumName( TypeInfo( TFCEduOrbitalObjectBasicTypes ), Integer( FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_basicType ) );
          if FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_diameter>0
          then FCWinFUG.COO_Diameter.Text:=floattostr( FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_diameter )
@@ -868,6 +936,9 @@ begin
          then FCWinFUG.COO_MagField.Text:=floattostr( FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_magneticField )
          else FCWinFUG.COO_MagField.Text:='';
          FCWinFUG.COO_TectonicActivity.Text:=GetEnumName( TypeInfo( TFCEduTectonicActivity ), Integer( FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_tectonicActivity ) );
+         {.ecosphere data}
+         FCWinFUG.COO_AtmosphereEdit.Checked:=FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_isAtmosphereEdited;
+         {.weather and albedo}
          if FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_albedo>0
          then FCWinFUG.COO_Albedo.Text:=floattostr( FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_albedo )
          else FCWinFUG.COO_Albedo.Text:='';
@@ -883,6 +954,7 @@ begin
          if FCDfdComp1StarObjectsList[CurrentObject].OO_isSat_distanceFromPlanet>0
          then FCWinFUG.COO_Distance.Text:=floattostr( FCDfdComp1StarObjectsList[CurrentObject].OO_isSat_distanceFromPlanet )
          else FCWinFUG.COO_Distance.Text:='';
+         {.geophysical data}
          FCWinFUG.COO_ObjecType.Text:=GetEnumName( TypeInfo( TFCEduOrbitalObjectBasicTypes ), Integer( FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_basicType ) );
          if FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_diameter>0
          then FCWinFUG.COO_Diameter.Text:=floattostr( FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_diameter )
@@ -903,6 +975,9 @@ begin
          then FCWinFUG.COO_MagField.Text:=floattostr( FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_magneticField )
          else FCWinFUG.COO_MagField.Text:='';
          FCWinFUG.COO_TectonicActivity.Text:=GetEnumName( TypeInfo( TFCEduTectonicActivity ), Integer( FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_tectonicActivity ) );
+         {.ecosphere data}
+         FCWinFUG.COO_AtmosphereEdit.Checked:=FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_isAtmosphereEdited;
+         {.weather and albedo}
          if FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_albedo>0
          then FCWinFUG.COO_Albedo.Text:=floattostr( FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_albedo )
          else FCWinFUG.COO_Albedo.Text:='';
@@ -918,6 +993,7 @@ begin
          if FCDfdComp2StarObjectsList[CurrentObject].OO_isSat_distanceFromPlanet>0
          then FCWinFUG.COO_Distance.Text:=floattostr( FCDfdComp2StarObjectsList[CurrentObject].OO_isSat_distanceFromPlanet )
          else FCWinFUG.COO_Distance.Text:='';
+         {.geophysical data}
          FCWinFUG.COO_ObjecType.Text:=GetEnumName( TypeInfo( TFCEduOrbitalObjectBasicTypes ), Integer( FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_basicType ) );
          if FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_diameter>0
          then FCWinFUG.COO_Diameter.Text:=floattostr( FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_diameter )
@@ -938,6 +1014,9 @@ begin
          then FCWinFUG.COO_MagField.Text:=floattostr( FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_magneticField )
          else FCWinFUG.COO_MagField.Text:='';
          FCWinFUG.COO_TectonicActivity.Text:=GetEnumName( TypeInfo( TFCEduTectonicActivity ), Integer( FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_tectonicActivity ) );
+         {.ecosphere data}
+         FCWinFUG.COO_AtmosphereEdit.Checked:=FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_isAtmosphereEdited;
+         {.weather and albedo}
          if FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_albedo>0
          then FCWinFUG.COO_Albedo.Text:=floattostr( FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_albedo )
          else FCWinFUG.COO_Albedo.Text:='';
@@ -979,7 +1058,7 @@ procedure FCmfC_SatTrigger_Update;
 {:Purpose: update the sat trigger and all related interface elements.
     Additions:
 }
- var
+   var
       CurrentObject
       ,NumberOfSat: integer;
 begin
@@ -1100,6 +1179,37 @@ begin
             if Max>0
             then SetLength( FCDfdComp2StarObjectsList, 1 );
          end;
+      end;
+   end;
+end;
+
+procedure FCmfC_TraceAtmosphereTrigger_Update;
+{:Purpose: update the trace atmosphere check.
+    Additions:
+}
+   var
+      CurrentObject
+      ,CurrentSat: integer;
+begin
+   CurrentObject:=FCWinFUG.TOO_OrbitalObjectPicker.ItemIndex+1;
+   CurrentSat:=FCWinFUG.TOO_SatPicker.ItemIndex;
+   if CurrentSat<=0 then
+   begin
+      case FCWinFUG.TOO_StarPicker.ItemIndex of
+         0: FCDfdMainStarObjectsList[CurrentObject].OO_atmosphere.AC_traceAtmosphere:=FCWinFUG.COO_TraceAtmosphereTrigger.Checked;
+
+         1: FCDfdComp1StarObjectsList[CurrentObject].OO_atmosphere.AC_traceAtmosphere:=FCWinFUG.COO_TraceAtmosphereTrigger.Checked;
+
+         2: FCDfdComp2StarObjectsList[CurrentObject].OO_atmosphere.AC_traceAtmosphere:=FCWinFUG.COO_TraceAtmosphereTrigger.Checked;
+      end;
+   end
+   else begin
+      case FCWinFUG.TOO_StarPicker.ItemIndex of
+         0: FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_atmosphere.AC_traceAtmosphere:=FCWinFUG.COO_TraceAtmosphereTrigger.Checked;
+
+         1: FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_atmosphere.AC_traceAtmosphere:=FCWinFUG.COO_TraceAtmosphereTrigger.Checked;
+
+         2: FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_atmosphere.AC_traceAtmosphere:=FCWinFUG.COO_TraceAtmosphereTrigger.Checked;
       end;
    end;
 end;
