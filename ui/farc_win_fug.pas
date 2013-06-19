@@ -132,6 +132,19 @@ type
     COO_GasH2: TAdvComboBox;
     COO_GasHe: TAdvComboBox;
     COO_GasCH4: TAdvComboBox;
+    COO_GasNH3: TAdvComboBox;
+    COO_GasH2O: TAdvComboBox;
+    COO_GasNe: TAdvComboBox;
+    COO_GasN2: TAdvComboBox;
+    COO_GasCO: TAdvComboBox;
+    COO_GasNO: TAdvComboBox;
+    COO_GasO2: TAdvComboBox;
+    COO_GasH2S: TAdvComboBox;
+    COO_GasAr: TAdvComboBox;
+    COO_GasCO2: TAdvComboBox;
+    COO_GasNO2: TAdvComboBox;
+    COO_GasO3: TAdvComboBox;
+    COO_GasSO2: TAdvComboBox;
     procedure WF_GenerateButtonClick(Sender: TObject);
     procedure TMS_OrbitGenerationClick(Sender: TObject);
     procedure TC1S_EnableGroupCompanion1Click(Sender: TObject);
@@ -171,6 +184,19 @@ type
     procedure COO_GasH2Change(Sender: TObject);
     procedure COO_GasHeChange(Sender: TObject);
     procedure COO_GasCH4Change(Sender: TObject);
+    procedure COO_GasNH3Change(Sender: TObject);
+    procedure COO_GasH2OChange(Sender: TObject);
+    procedure COO_GasNeChange(Sender: TObject);
+    procedure COO_GasN2Change(Sender: TObject);
+    procedure COO_GasCOChange(Sender: TObject);
+    procedure COO_GasNOChange(Sender: TObject);
+    procedure COO_GasO2Change(Sender: TObject);
+    procedure COO_GasH2SChange(Sender: TObject);
+    procedure COO_GasArChange(Sender: TObject);
+    procedure COO_GasCO2Change(Sender: TObject);
+    procedure COO_GasNO2Change(Sender: TObject);
+    procedure COO_GasO3Change(Sender: TObject);
+    procedure COO_GasSO2Change(Sender: TObject);
    private
     { Private declarations }
    public
@@ -571,9 +597,24 @@ begin
    then FCmfC_OrbitPicker_EscapeVelUpdate;
 end;
 
+procedure TFCWinFUG.COO_GasArChange(Sender: TObject);
+begin
+   FCmfC_AtmosphereGas_ArUpdate;
+end;
+
 procedure TFCWinFUG.COO_GasCH4Change(Sender: TObject);
 begin
    FCmfC_AtmosphereGas_CH4Update;
+end;
+
+procedure TFCWinFUG.COO_GasCOChange(Sender: TObject);
+begin
+   FCmfC_AtmosphereGas_COUpdate;
+end;
+
+procedure TFCWinFUG.COO_GasCO2Change(Sender: TObject);
+begin
+   FCmfC_AtmosphereGas_CO2Update;
 end;
 
 procedure TFCWinFUG.COO_GasH2Change(Sender: TObject);
@@ -581,9 +622,59 @@ begin
    FCmfC_AtmosphereGas_H2Update;
 end;
 
+procedure TFCWinFUG.COO_GasH2OChange(Sender: TObject);
+begin
+   FCmfC_AtmosphereGas_H2OUpdate;
+end;
+
+procedure TFCWinFUG.COO_GasH2SChange(Sender: TObject);
+begin
+   FCmfC_AtmosphereGas_H2SUpdate;
+end;
+
 procedure TFCWinFUG.COO_GasHeChange(Sender: TObject);
 begin
    FCmfC_AtmosphereGas_HeUpdate;
+end;
+
+procedure TFCWinFUG.COO_GasN2Change(Sender: TObject);
+begin
+   FCmfC_AtmosphereGas_N2Update;
+end;
+
+procedure TFCWinFUG.COO_GasNeChange(Sender: TObject);
+begin
+   FCmfC_AtmosphereGas_NeUpdate;
+end;
+
+procedure TFCWinFUG.COO_GasNH3Change(Sender: TObject);
+begin
+   FCmfC_AtmosphereGas_NH3Update;
+end;
+
+procedure TFCWinFUG.COO_GasNOChange(Sender: TObject);
+begin
+   FCmfC_AtmosphereGas_NOUpdate;
+end;
+
+procedure TFCWinFUG.COO_GasNO2Change(Sender: TObject);
+begin
+   FCmfC_AtmosphereGas_NO2Update;
+end;
+
+procedure TFCWinFUG.COO_GasO2Change(Sender: TObject);
+begin
+   FCmfC_AtmosphereGas_O2Update;
+end;
+
+procedure TFCWinFUG.COO_GasO3Change(Sender: TObject);
+begin
+   FCmfC_AtmosphereGas_O3Update;
+end;
+
+procedure TFCWinFUG.COO_GasSO2Change(Sender: TObject);
+begin
+   FCmfC_AtmosphereGas_SO2Update;
 end;
 
 procedure TFCWinFUG.COO_GravityKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);

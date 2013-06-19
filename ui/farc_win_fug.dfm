@@ -1610,6 +1610,448 @@ object FCWinFUG: TFCWinFUG
           TabOrder = 19
           OnChange = COO_GasCH4Change
         end
+        object COO_GasNH3: TAdvComboBox
+          Left = 168
+          Top = 203
+          Width = 49
+          Height = 21
+          Color = clWhite
+          Version = '1.3.1.0'
+          Visible = True
+          ButtonWidth = 18
+          DropWidth = 0
+          Enabled = True
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ItemIndex = -1
+          ItemHeight = 13
+          Items.Strings = (
+            'NP'
+            'Trace'
+            'Sec'
+            'Prim')
+          LabelCaption = 'NH3'
+          LabelPosition = lpTopCenter
+          LabelFont.Charset = DEFAULT_CHARSET
+          LabelFont.Color = clWindowText
+          LabelFont.Height = -11
+          LabelFont.Name = 'Tahoma'
+          LabelFont.Style = []
+          ParentFont = False
+          TabOrder = 20
+          OnChange = COO_GasNH3Change
+        end
+        object COO_GasH2O: TAdvComboBox
+          Left = 223
+          Top = 203
+          Width = 49
+          Height = 21
+          Color = clWhite
+          Version = '1.3.1.0'
+          Visible = True
+          ButtonWidth = 18
+          DropWidth = 0
+          Enabled = True
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ItemIndex = -1
+          ItemHeight = 13
+          Items.Strings = (
+            'NP'
+            'Trace'
+            'Sec'
+            'Prim')
+          LabelCaption = 'H2O'
+          LabelPosition = lpTopCenter
+          LabelFont.Charset = DEFAULT_CHARSET
+          LabelFont.Color = clWindowText
+          LabelFont.Height = -11
+          LabelFont.Name = 'Tahoma'
+          LabelFont.Style = []
+          ParentFont = False
+          TabOrder = 21
+          OnChange = COO_GasH2OChange
+        end
+        object COO_GasNe: TAdvComboBox
+          Left = 278
+          Top = 203
+          Width = 49
+          Height = 21
+          Color = clWhite
+          Version = '1.3.1.0'
+          Visible = True
+          ButtonWidth = 18
+          DropWidth = 0
+          Enabled = True
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ItemIndex = -1
+          ItemHeight = 13
+          Items.Strings = (
+            'NP'
+            'Trace'
+            'Sec'
+            'Prim')
+          LabelCaption = 'Ne'
+          LabelPosition = lpTopCenter
+          LabelFont.Charset = DEFAULT_CHARSET
+          LabelFont.Color = clWindowText
+          LabelFont.Height = -11
+          LabelFont.Name = 'Tahoma'
+          LabelFont.Style = []
+          ParentFont = False
+          TabOrder = 22
+          OnChange = COO_GasNeChange
+        end
+        object COO_GasN2: TAdvComboBox
+          Left = 332
+          Top = 203
+          Width = 49
+          Height = 21
+          Color = clWhite
+          Version = '1.3.1.0'
+          Visible = True
+          ButtonWidth = 18
+          DropWidth = 0
+          Enabled = True
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ItemIndex = -1
+          ItemHeight = 13
+          Items.Strings = (
+            'NP'
+            'Trace'
+            'Sec'
+            'Prim')
+          LabelCaption = 'N2'
+          LabelPosition = lpTopCenter
+          LabelFont.Charset = DEFAULT_CHARSET
+          LabelFont.Color = clWindowText
+          LabelFont.Height = -11
+          LabelFont.Name = 'Tahoma'
+          LabelFont.Style = []
+          ParentFont = False
+          TabOrder = 23
+          OnChange = COO_GasN2Change
+        end
+        object COO_GasCO: TAdvComboBox
+          Left = 387
+          Top = 203
+          Width = 49
+          Height = 21
+          Color = clWhite
+          Version = '1.3.1.0'
+          Visible = True
+          ButtonWidth = 18
+          DropWidth = 0
+          Enabled = True
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ItemIndex = -1
+          ItemHeight = 13
+          Items.Strings = (
+            'NP'
+            'Trace'
+            'Sec'
+            'Prim')
+          LabelCaption = 'CO'
+          LabelPosition = lpTopCenter
+          LabelFont.Charset = DEFAULT_CHARSET
+          LabelFont.Color = clWindowText
+          LabelFont.Height = -11
+          LabelFont.Name = 'Tahoma'
+          LabelFont.Style = []
+          ParentFont = False
+          TabOrder = 24
+          OnChange = COO_GasCOChange
+        end
+        object COO_GasNO: TAdvComboBox
+          Left = 3
+          Top = 250
+          Width = 49
+          Height = 21
+          Color = clWhite
+          Version = '1.3.1.0'
+          Visible = True
+          ButtonWidth = 18
+          DropWidth = 0
+          Enabled = True
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ItemIndex = -1
+          ItemHeight = 13
+          Items.Strings = (
+            'NP'
+            'Trace'
+            'Sec'
+            'Prim')
+          LabelCaption = 'NO'
+          LabelPosition = lpTopCenter
+          LabelFont.Charset = DEFAULT_CHARSET
+          LabelFont.Color = clWindowText
+          LabelFont.Height = -11
+          LabelFont.Name = 'Tahoma'
+          LabelFont.Style = []
+          ParentFont = False
+          TabOrder = 25
+          OnChange = COO_GasNOChange
+        end
+        object COO_GasO2: TAdvComboBox
+          Left = 58
+          Top = 250
+          Width = 49
+          Height = 21
+          Color = clWhite
+          Version = '1.3.1.0'
+          Visible = True
+          ButtonWidth = 18
+          DropWidth = 0
+          Enabled = True
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ItemIndex = -1
+          ItemHeight = 13
+          Items.Strings = (
+            'NP'
+            'Trace'
+            'Sec'
+            'Prim')
+          LabelCaption = 'O2'
+          LabelPosition = lpTopCenter
+          LabelFont.Charset = DEFAULT_CHARSET
+          LabelFont.Color = clWindowText
+          LabelFont.Height = -11
+          LabelFont.Name = 'Tahoma'
+          LabelFont.Style = []
+          ParentFont = False
+          TabOrder = 26
+          OnChange = COO_GasO2Change
+        end
+        object COO_GasH2S: TAdvComboBox
+          Left = 113
+          Top = 250
+          Width = 49
+          Height = 21
+          Color = clWhite
+          Version = '1.3.1.0'
+          Visible = True
+          ButtonWidth = 18
+          DropWidth = 0
+          Enabled = True
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ItemIndex = -1
+          ItemHeight = 13
+          Items.Strings = (
+            'NP'
+            'Trace'
+            'Sec'
+            'Prim')
+          LabelCaption = 'H2S'
+          LabelPosition = lpTopCenter
+          LabelFont.Charset = DEFAULT_CHARSET
+          LabelFont.Color = clWindowText
+          LabelFont.Height = -11
+          LabelFont.Name = 'Tahoma'
+          LabelFont.Style = []
+          ParentFont = False
+          TabOrder = 27
+          OnChange = COO_GasH2SChange
+        end
+        object COO_GasAr: TAdvComboBox
+          Left = 168
+          Top = 250
+          Width = 49
+          Height = 21
+          Color = clWhite
+          Version = '1.3.1.0'
+          Visible = True
+          ButtonWidth = 18
+          DropWidth = 0
+          Enabled = True
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ItemIndex = -1
+          ItemHeight = 13
+          Items.Strings = (
+            'NP'
+            'Trace'
+            'Sec'
+            'Prim')
+          LabelCaption = 'Ar'
+          LabelPosition = lpTopCenter
+          LabelFont.Charset = DEFAULT_CHARSET
+          LabelFont.Color = clWindowText
+          LabelFont.Height = -11
+          LabelFont.Name = 'Tahoma'
+          LabelFont.Style = []
+          ParentFont = False
+          TabOrder = 28
+          OnChange = COO_GasArChange
+        end
+        object COO_GasCO2: TAdvComboBox
+          Left = 223
+          Top = 250
+          Width = 49
+          Height = 21
+          Color = clWhite
+          Version = '1.3.1.0'
+          Visible = True
+          ButtonWidth = 18
+          DropWidth = 0
+          Enabled = True
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ItemIndex = -1
+          ItemHeight = 13
+          Items.Strings = (
+            'NP'
+            'Trace'
+            'Sec'
+            'Prim')
+          LabelCaption = 'CO2'
+          LabelPosition = lpTopCenter
+          LabelFont.Charset = DEFAULT_CHARSET
+          LabelFont.Color = clWindowText
+          LabelFont.Height = -11
+          LabelFont.Name = 'Tahoma'
+          LabelFont.Style = []
+          ParentFont = False
+          TabOrder = 29
+          OnChange = COO_GasCO2Change
+        end
+        object COO_GasNO2: TAdvComboBox
+          Left = 278
+          Top = 250
+          Width = 49
+          Height = 21
+          Color = clWhite
+          Version = '1.3.1.0'
+          Visible = True
+          ButtonWidth = 18
+          DropWidth = 0
+          Enabled = True
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ItemIndex = -1
+          ItemHeight = 13
+          Items.Strings = (
+            'NP'
+            'Trace'
+            'Sec'
+            'Prim')
+          LabelCaption = 'NO2'
+          LabelPosition = lpTopCenter
+          LabelFont.Charset = DEFAULT_CHARSET
+          LabelFont.Color = clWindowText
+          LabelFont.Height = -11
+          LabelFont.Name = 'Tahoma'
+          LabelFont.Style = []
+          ParentFont = False
+          TabOrder = 30
+          OnChange = COO_GasNO2Change
+        end
+        object COO_GasO3: TAdvComboBox
+          Left = 333
+          Top = 250
+          Width = 49
+          Height = 21
+          Color = clWhite
+          Version = '1.3.1.0'
+          Visible = True
+          ButtonWidth = 18
+          DropWidth = 0
+          Enabled = True
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ItemIndex = -1
+          ItemHeight = 13
+          Items.Strings = (
+            'NP'
+            'Trace'
+            'Sec'
+            'Prim')
+          LabelCaption = 'O3'
+          LabelPosition = lpTopCenter
+          LabelFont.Charset = DEFAULT_CHARSET
+          LabelFont.Color = clWindowText
+          LabelFont.Height = -11
+          LabelFont.Name = 'Tahoma'
+          LabelFont.Style = []
+          ParentFont = False
+          TabOrder = 31
+          OnChange = COO_GasO3Change
+        end
+        object COO_GasSO2: TAdvComboBox
+          Left = 388
+          Top = 250
+          Width = 49
+          Height = 21
+          Color = clWhite
+          Version = '1.3.1.0'
+          Visible = True
+          ButtonWidth = 18
+          DropWidth = 0
+          Enabled = True
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ItemIndex = -1
+          ItemHeight = 13
+          Items.Strings = (
+            'NP'
+            'Trace'
+            'Sec'
+            'Prim')
+          LabelCaption = 'SO2'
+          LabelPosition = lpTopCenter
+          LabelFont.Charset = DEFAULT_CHARSET
+          LabelFont.Color = clWindowText
+          LabelFont.Height = -11
+          LabelFont.Name = 'Tahoma'
+          LabelFont.Style = []
+          ParentFont = False
+          TabOrder = 32
+          OnChange = COO_GasSO2Change
+        end
       end
       object TOO_OrbitalObjectPicker: TRadioGroup
         Left = 3
