@@ -124,7 +124,8 @@ uses
   farc_ui_about in 'ui\farc_ui_about.pas',
   farc_survey_core in 'survey\farc_survey_core.pas',
   farc_fug_geophysical in 'univ\farc_fug_geophysical.pas',
-  farc_fug_atmosphere in 'univ\farc_fug_atmosphere.pas';
+  farc_fug_atmosphere in 'univ\farc_fug_atmosphere.pas',
+  farc_fug_hydrosphere in 'univ\farc_fug_hydrosphere.pas';
 
 {$R *.res}
 
