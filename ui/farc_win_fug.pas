@@ -145,6 +145,9 @@ type
     COO_GasNO2: TAdvComboBox;
     COO_GasO3: TAdvComboBox;
     COO_GasSO2: TAdvComboBox;
+    COO_PrimGasVol: TLabeledEdit;
+    Bevel3: TBevel;
+    COO_AtmosphericPressure: TLabeledEdit;
     procedure WF_GenerateButtonClick(Sender: TObject);
     procedure TMS_OrbitGenerationClick(Sender: TObject);
     procedure TC1S_EnableGroupCompanion1Click(Sender: TObject);
@@ -197,6 +200,9 @@ type
     procedure COO_GasNO2Change(Sender: TObject);
     procedure COO_GasO3Change(Sender: TObject);
     procedure COO_GasSO2Change(Sender: TObject);
+    procedure COO_PrimGasVolKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure COO_AtmosphericPressureKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
    private
     { Private declarations }
    public
@@ -572,6 +578,13 @@ begin
    FCmfC_AtmosphereEditTrigger_Update;
 end;
 
+procedure TFCWinFUG.COO_AtmosphericPressureKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+   if Key=13
+   then FCmfC_AtmosphericPressure_Update;
+end;
+
 procedure TFCWinFUG.COO_DensityKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
    if Key=13
@@ -704,6 +717,13 @@ end;
 procedure TFCWinFUG.COO_ObjecTypeChange(Sender: TObject);
 begin
    FCmfC_OrbitPicker_ObjectTypeUpdate;
+end;
+
+procedure TFCWinFUG.COO_PrimGasVolKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+   if Key=13
+   then FCmfC_PrimaryGasVolume_Update;
 end;
 
 procedure TFCWinFUG.COO_RotationPeriodKeyDown(Sender: TObject; var Key: Word;

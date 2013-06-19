@@ -81,6 +81,11 @@ procedure FCmfC_AtmosphereGas_O3Update;
 procedure FCmfC_AtmosphereGas_SO2Update;
 
 ///<summary>
+///   update the atmospheric pressure
+///</summary>
+procedure FCmfC_AtmosphericPressure_Update;
+
+///<summary>
 ///   update the orbital object albedo
 ///</summary>
 procedure FCmfC_OrbitPicker_AlbedoUpdate;
@@ -150,6 +155,17 @@ procedure FCmfC_OrbitPicker_TokenUpdate;
 ///</summary>
 ///   <param name="UpdateSat">[true] update also the satellites automatically, [false] prevent it, useful for satlist picker</param>
 procedure FCmfC_OrbitPicker_UpdateCurrent( const UpdateSat: boolean );
+
+///<summary>
+///   update the atmosphere primary gas volume
+///</summary>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <returns></returns>
+///   <remarks></remarks>
+procedure FCmfC_PrimaryGasVolume_Update;
 
 ///<summary>
 ///   update the satellite setting
@@ -332,6 +348,8 @@ begin
    FCWinFUG.COO_GasNO2.Enabled:=FCWinFUG.COO_AtmosphereEdit.Checked;
    FCWinFUG.COO_GasO3.Enabled:=FCWinFUG.COO_AtmosphereEdit.Checked;
    FCWinFUG.COO_GasSO2.Enabled:=FCWinFUG.COO_AtmosphereEdit.Checked;
+   FCWinFUG.COO_PrimGasVol.Enabled:=FCWinFUG.COO_AtmosphereEdit.Checked;
+   FCWinFUG.COO_AtmosphericPressure.Enabled:=FCWinFUG.COO_AtmosphereEdit.Checked;
 end;
 
 procedure FCmfC_AtmosphereGas_ArUpdate;
@@ -830,6 +848,37 @@ begin
    end;
 end;
 
+procedure FCmfC_AtmosphericPressure_Update;
+{:Purpose: update the orbital object atmospheric pressure.
+    Additions:
+}
+   var
+      CurrentObject
+      ,CurrentSat: integer;
+begin
+   CurrentObject:=FCWinFUG.TOO_OrbitalObjectPicker.ItemIndex+1;
+   CurrentSat:=FCWinFUG.TOO_SatPicker.ItemIndex;
+   if CurrentSat<=0 then
+   begin
+      case FCWinFUG.TOO_StarPicker.ItemIndex of
+         0: FCDfdMainStarObjectsList[CurrentObject].OO_atmosphericPressure:=strtofloat( FCWinFUG.COO_AtmosphericPressure.Text );
+
+         1: FCDfdComp1StarObjectsList[CurrentObject].OO_atmosphericPressure:=strtofloat( FCWinFUG.COO_AtmosphericPressure.Text );
+
+         2: FCDfdComp2StarObjectsList[CurrentObject].OO_atmosphericPressure:=strtofloat( FCWinFUG.COO_AtmosphericPressure.Text );
+      end;
+   end
+   else begin
+      case FCWinFUG.TOO_StarPicker.ItemIndex of
+         0: FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_atmosphericPressure:=strtofloat( FCWinFUG.COO_AtmosphericPressure.Text );
+
+         1: FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_atmosphericPressure:=strtofloat( FCWinFUG.COO_AtmosphericPressure.Text );
+
+         2: FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_atmosphericPressure:=strtofloat( FCWinFUG.COO_AtmosphericPressure.Text );
+      end;
+   end;
+end;
+
 procedure FCmfC_OrbitPicker_AlbedoUpdate;
 {:Purpose: update the orbital object albedo.
     Additions:
@@ -1303,6 +1352,8 @@ begin
          FCWinFUG.COO_GasNO2.ItemIndex:=Integer( FCDfdMainStarObjectsList[CurrentObject].OO_atmosphere.AC_gasPresenceNO2 );
          FCWinFUG.COO_GasO3.ItemIndex:=Integer( FCDfdMainStarObjectsList[CurrentObject].OO_atmosphere.AC_gasPresenceO3 );
          FCWinFUG.COO_GasSO2.ItemIndex:=Integer( FCDfdMainStarObjectsList[CurrentObject].OO_atmosphere.AC_gasPresenceSO2 );
+         FCWinFUG.COO_PrimGasVol.Text:=inttostr( FCDfdMainStarObjectsList[CurrentObject].OO_atmosphere.AC_primaryGasVolumePerc );
+         FCWinFUG.COO_AtmosphericPressure.Text:=floattostr( FCDfdMainStarObjectsList[CurrentObject].OO_atmosphericPressure );
          {.weather and albedo}
          if FCDfdMainStarObjectsList[CurrentObject].OO_albedo>0
          then FCWinFUG.COO_Albedo.Text:=floattostr( FCDfdMainStarObjectsList[CurrentObject].OO_albedo )
@@ -1372,6 +1423,8 @@ begin
          FCWinFUG.COO_GasNO2.ItemIndex:=Integer( FCDfdComp1StarObjectsList[CurrentObject].OO_atmosphere.AC_gasPresenceNO2 );
          FCWinFUG.COO_GasO3.ItemIndex:=Integer( FCDfdComp1StarObjectsList[CurrentObject].OO_atmosphere.AC_gasPresenceO3 );
          FCWinFUG.COO_GasSO2.ItemIndex:=Integer( FCDfdComp1StarObjectsList[CurrentObject].OO_atmosphere.AC_gasPresenceSO2 );
+         FCWinFUG.COO_PrimGasVol.Text:=inttostr( FCDfdComp1StarObjectsList[CurrentObject].OO_atmosphere.AC_primaryGasVolumePerc );
+         FCWinFUG.COO_AtmosphericPressure.Text:=floattostr( FCDfdComp1StarObjectsList[CurrentObject].OO_atmosphericPressure );
          {.weather and albedo}
          if FCDfdComp1StarObjectsList[CurrentObject].OO_albedo>0
          then FCWinFUG.COO_Albedo.Text:=floattostr( FCDfdComp1StarObjectsList[CurrentObject].OO_albedo )
@@ -1441,6 +1494,8 @@ begin
          FCWinFUG.COO_GasNO2.ItemIndex:=Integer( FCDfdComp2StarObjectsList[CurrentObject].OO_atmosphere.AC_gasPresenceNO2 );
          FCWinFUG.COO_GasO3.ItemIndex:=Integer( FCDfdComp2StarObjectsList[CurrentObject].OO_atmosphere.AC_gasPresenceO3 );
          FCWinFUG.COO_GasSO2.ItemIndex:=Integer( FCDfdComp2StarObjectsList[CurrentObject].OO_atmosphere.AC_gasPresenceSO2 );
+         FCWinFUG.COO_PrimGasVol.Text:=inttostr( FCDfdComp2StarObjectsList[CurrentObject].OO_atmosphere.AC_primaryGasVolumePerc );
+         FCWinFUG.COO_AtmosphericPressure.Text:=floattostr( FCDfdComp2StarObjectsList[CurrentObject].OO_atmosphericPressure );
          {.weather and albedo}
          if FCDfdComp2StarObjectsList[CurrentObject].OO_albedo>0
          then FCWinFUG.COO_Albedo.Text:=floattostr( FCDfdComp2StarObjectsList[CurrentObject].OO_albedo )
@@ -1456,6 +1511,37 @@ begin
          then FCWinFUG.COO_SatTrigger.Checked:=false;
       end;
    end; //==END== case FCWinFUG.TOO_StarPicker.ItemIndex of ==//
+end;
+
+procedure FCmfC_PrimaryGasVolume_Update;
+{:Purpose: update the atmosphere primary gas volume.
+    Additions:
+}
+   var
+      CurrentObject
+      ,CurrentSat: integer;
+begin
+   CurrentObject:=FCWinFUG.TOO_OrbitalObjectPicker.ItemIndex+1;
+   CurrentSat:=FCWinFUG.TOO_SatPicker.ItemIndex;
+   if CurrentSat<=0 then
+   begin
+      case FCWinFUG.TOO_StarPicker.ItemIndex of
+         0: FCDfdMainStarObjectsList[CurrentObject].OO_atmosphere.AC_primaryGasVolumePerc:=strtoint( FCWinFUG.COO_PrimGasVol.Text );
+
+         1: FCDfdComp1StarObjectsList[CurrentObject].OO_atmosphere.AC_primaryGasVolumePerc:=strtoint( FCWinFUG.COO_PrimGasVol.Text );
+
+         2: FCDfdComp2StarObjectsList[CurrentObject].OO_atmosphere.AC_primaryGasVolumePerc:=strtoint( FCWinFUG.COO_PrimGasVol.Text );
+      end;
+   end
+   else begin
+      case FCWinFUG.TOO_StarPicker.ItemIndex of
+         0: FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_atmosphere.AC_primaryGasVolumePerc:=strtoint( FCWinFUG.COO_PrimGasVol.Text );
+
+         1: FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_atmosphere.AC_primaryGasVolumePerc:=strtoint( FCWinFUG.COO_PrimGasVol.Text );
+
+         2: FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_atmosphere.AC_primaryGasVolumePerc:=strtoint( FCWinFUG.COO_PrimGasVol.Text );
+      end;
+   end;
 end;
 
 procedure FCmC_SatPicker_Update;
@@ -1552,6 +1638,8 @@ begin
          FCWinFUG.COO_GasNO2.ItemIndex:=Integer( FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_atmosphere.AC_gasPresenceNO2 );
          FCWinFUG.COO_GasO3.ItemIndex:=Integer( FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_atmosphere.AC_gasPresenceO3 );
          FCWinFUG.COO_GasSO2.ItemIndex:=Integer( FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_atmosphere.AC_gasPresenceSO2 );
+         FCWinFUG.COO_PrimGasVol.Text:=inttostr( FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_atmosphere.AC_primaryGasVolumePerc );
+         FCWinFUG.COO_AtmosphericPressure.Text:=floattostr( FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_atmosphericPressure );
          {.weather and albedo}
          if FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_albedo>0
          then FCWinFUG.COO_Albedo.Text:=floattostr( FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_albedo )
@@ -1608,6 +1696,8 @@ begin
          FCWinFUG.COO_GasNO2.ItemIndex:=Integer( FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_atmosphere.AC_gasPresenceNO2 );
          FCWinFUG.COO_GasO3.ItemIndex:=Integer( FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_atmosphere.AC_gasPresenceO3 );
          FCWinFUG.COO_GasSO2.ItemIndex:=Integer( FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_atmosphere.AC_gasPresenceSO2 );
+         FCWinFUG.COO_PrimGasVol.Text:=inttostr( FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_atmosphere.AC_primaryGasVolumePerc );
+         FCWinFUG.COO_AtmosphericPressure.Text:=floattostr( FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_atmosphericPressure );
          {.weather and albedo}
          if FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_albedo>0
          then FCWinFUG.COO_Albedo.Text:=floattostr( FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_albedo )
@@ -1664,6 +1754,8 @@ begin
          FCWinFUG.COO_GasNO2.ItemIndex:=Integer( FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_atmosphere.AC_gasPresenceNO2 );
          FCWinFUG.COO_GasO3.ItemIndex:=Integer( FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_atmosphere.AC_gasPresenceO3 );
          FCWinFUG.COO_GasSO2.ItemIndex:=Integer( FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_atmosphere.AC_gasPresenceSO2 );
+         FCWinFUG.COO_PrimGasVol.Text:=inttostr( FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_atmosphere.AC_primaryGasVolumePerc );
+         FCWinFUG.COO_AtmosphericPressure.Text:=floattostr( FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_atmosphericPressure );
          {.weather and albedo}
          if FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_albedo>0
          then FCWinFUG.COO_Albedo.Text:=floattostr( FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_albedo )

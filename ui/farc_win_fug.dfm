@@ -1225,6 +1225,12 @@ object FCWinFUG: TFCWinFUG
           Width = 417
           Height = 9
         end
+        object Bevel3: TBevel
+          Left = 16
+          Top = 316
+          Width = 417
+          Height = 9
+        end
         object COO_Density: TLabeledEdit
           Left = 58
           Top = 72
@@ -1391,8 +1397,8 @@ object FCWinFUG: TFCWinFUG
           OnKeyDown = COO_MagFieldKeyDown
         end
         object COO_Albedo: TLabeledEdit
-          Left = 3
-          Top = 317
+          Left = 0
+          Top = 405
           Width = 47
           Height = 19
           Color = clWhite
@@ -2051,6 +2057,33 @@ object FCWinFUG: TFCWinFUG
           ParentFont = False
           TabOrder = 32
           OnChange = COO_GasSO2Change
+        end
+        object COO_PrimGasVol: TLabeledEdit
+          Left = 3
+          Top = 291
+          Width = 54
+          Height = 19
+          Color = clWhite
+          EditLabel.Width = 74
+          EditLabel.Height = 13
+          EditLabel.Caption = 'Primary Gas Vol'
+          EditLabel.Layout = tlCenter
+          NumbersOnly = True
+          TabOrder = 33
+          OnKeyDown = COO_PrimGasVolKeyDown
+        end
+        object COO_AtmosphericPressure: TLabeledEdit
+          Left = 101
+          Top = 291
+          Width = 54
+          Height = 19
+          Color = clWhite
+          EditLabel.Width = 103
+          EditLabel.Height = 13
+          EditLabel.Caption = 'Atmosphere Pressure'
+          EditLabel.Layout = tlCenter
+          TabOrder = 34
+          OnKeyDown = COO_AtmosphericPressureKeyDown
         end
       end
       object TOO_OrbitalObjectPicker: TRadioGroup
