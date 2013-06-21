@@ -104,13 +104,16 @@ type TFCEduHabitableZones=(
 ///   types of hydrospheres
 ///</summary>
 type TFCEduHydrospheres=(
-   hNoH2O
-   ,hVaporH2O
-   ,hLiquidH2O
-   ,hIceSheet
-   ,hCrystalIce
-   ,hLiquidH2O_blend_NH3
-   ,hLiquidCH4
+   hNoHydro
+   ,hWaterLiquid
+   ,hWaterIceSheet
+   ,hWaterIceCrust
+   ,hWaterAmmoniaLiquid
+   ,hMethaneLiquid
+   ,hMethaneIceSheet
+   ,hMethaneIceCrust
+   ,hNitrogenIceSheet
+   ,hNitrogenIceCrust
    );
 
 type TFCEduOrbitalObjectBasicTypes=(
@@ -154,42 +157,44 @@ type TFCEduOrbitalObjectTypes=(
    ,ootAsteroid_Carbonaceous
    {.old num=9}
    ,ootAsteroid_Icy
+   ,oot_Planet_Telluric
+   ,oot_Planet_Icy
    {.old num=11}
-   ,ootPlanet_Telluric_EarthH0H1
+//   ,ootPlanet_Telluric_EarthH0H1
    {.old num=12}
-   ,ootPlanet_Telluric_EarthH2
+//   ,ootPlanet_Telluric_EarthH2
    {.old num=13}
-   ,ootPlanet_Telluric_EarthH3
+//   ,ootPlanet_Telluric_EarthH3
    {.old num=14}
-   ,ootPlanet_Telluric_EarthH4
+//   ,ootPlanet_Telluric_EarthH4
    {.old num=15}
-   ,ootPlanet_Telluric_MarsH0H1
+//   ,ootPlanet_Telluric_MarsH0H1
    {.old num=16}
-   ,ootPlanet_Telluric_MarsH2
+//   ,ootPlanet_Telluric_MarsH2
    {.old num=17}
-   ,ootPlanet_Telluric_MarsH3
+//   ,ootPlanet_Telluric_MarsH3
    {.old num=18}
-   ,ootPlanet_Telluric_MarsH4
+//   ,ootPlanet_Telluric_MarsH4
    {.old num=19}
-   ,ootPlanet_Telluric_VenusH0H1
+//   ,ootPlanet_Telluric_VenusH0H1
    {.old num=20}
-   ,ootPlanet_Telluric_VenusH2
+//   ,ootPlanet_Telluric_VenusH2
    {.old num=21}
-   ,ootPlanet_Telluric_VenusH3
+//   ,ootPlanet_Telluric_VenusH3
    {.old num=22}
-   ,ootPlanet_Telluric_VenusH4
+//   ,ootPlanet_Telluric_VenusH4
    {.old num=23}
-   ,ootPlanet_Telluric_MercuryH0
+//   ,ootPlanet_Telluric_MercuryH0
    {.old num=24}
-   ,ootPlanet_Telluric_MercuryH3
+//   ,ootPlanet_Telluric_MercuryH3
    {.old num=25}
-   ,ootPlanet_Telluric_MercuryH4
+//   ,ootPlanet_Telluric_MercuryH4
    {.old num=28}
-   ,ootPlanet_Icy_PlutoH3
+//   ,ootPlanet_Icy_PlutoH3
    {.old num=29}
-   ,ootPlanet_Icy_EuropaH4
+//   ,ootPlanet_Icy_EuropaH4
    {.old num=30}
-   ,ootPlanet_Icy_CallistoH3H4Atm0
+//   ,ootPlanet_Icy_CallistoH3H4Atm0
    {.old num=31}
    ,ootPlanet_Gaseous_Uranus
    {.old num=32}
@@ -212,28 +217,30 @@ type TFCEduOrbitalObjectTypes=(
    {.old num=42}
    ,ootSatellite_Asteroid_Icy
    //                    TL_Sat_Tellu_Mercu   //old num=43
+   ,ootSatellite_Planet_Telluric
+   ,ootSatellite_Planet_Icy
    {.old num=44}
-   ,ootSatellite_Telluric_Lunar
+//   ,ootSatellite_Telluric_Lunar
    {.old num=45}
-   ,ootSatellite_Telluric_Io
+//   ,ootSatellite_Telluric_Io
    {.old num=46}
-   ,ootSatellite_Telluric_Titan
+//   ,ootSatellite_Telluric_Titan
    {.old num=47}
-   ,ootSatellite_Telluric_Earth
+//   ,ootSatellite_Telluric_Earth
    {.old num=48}
-   ,ootSatellite_Icy_Pluto
+//   ,ootSatellite_Icy_Pluto
    {.old num=49}
-   ,ootSatellite_Icy_Europa
+//   ,ootSatellite_Icy_Europa
    {.old num=50}
-   ,ootSatellite_Icy_Callisto
+//   ,ootSatellite_Icy_Callisto
    {.old num=100}
-   ,ootRing_Metallic
+//   ,ootRing_Metallic
    {.old num=101}
-   ,ootRing_Silicate
+//   ,ootRing_Silicate
    {.old num=102}
-   ,ootRing_Carbonaceous
+//   ,ootRing_Carbonaceous
    {.old num=103}
-   ,ootRing_Icy
+//   ,ootRing_Icy
    );
 
 {:REFERENCES LIST

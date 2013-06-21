@@ -646,6 +646,9 @@ end;
 procedure FCMoglVMain_MapTex_Assign(const MTAoobjIdx, MTAsatIdx, MTAsatObjIdx: integer);
 {:Purpose: assign the correct surface/atmosphere texture map on a designed orbital object.
     Additions:
+      -2013Jun20- *add/mod: apply the new types of planets.
+                  *rem: standard pictures for icy/telluric planets are removed.
+      -2013Jun19- *add/mod: update the hydrosphere part with the last changes.
       -2010Jan07- *add: implement planet w/ personalized textures.
                   *add: the rest of telluric/icy planets w/ standard textures.
                   *add: implement calculations for mean temperature and and hydrosphere type for satellites.
@@ -675,8 +678,8 @@ begin
       MTAdmpTemp:=FCFuF_OrbPeriod_GetMeanTemp(MTAoobjIdx, MTAsatIdx);
    end;
    {.for gaseous planets => standard textures}
-   if (MTAdmpObjTp>ootPlanet_Icy_CallistoH3H4Atm0)
-      and (MTAdmpObjTp<ootSatellite_Asteroid_Metallic)
+   if ( MTAdmpObjTp >= ootPlanet_Gaseous_Uranus )
+      and ( MTAdmpObjTp<ootSatellite_Asteroid_Metallic )
    then
    begin
       case MTAdmpObjTp of
@@ -718,9 +721,8 @@ begin
       end; //==END== case MTAdmpObjTp ==//
    end //==END== if (MTAdmpObjTp>Plan_Icy_CallistoH3H4Atm0 and <Sat_Aster_Metall) ==//
    {.for planet w/ personalized textures}
-   else if ((MTAdmpObjTp>ootAsteroid_Icy) and (MTAdmpObjTp<ootPlanet_Telluric_MercuryH0))
-      or ((MTAdmpObjTp>ootSatellite_Telluric_Io) and (MTAdmpObjTp<ootSatellite_Icy_Pluto))
-   then
+   else if ( ( MTAdmpObjTp>ootAsteroid_Icy ) and ( MTAdmpObjTp<ootPlanet_Gaseous_Uranus ) )
+      or ( MTAdmpObjTp>ootSatellite_Asteroid_Icy ) then
    begin
       if MTAsatIdx=0
       then MTAdmpOobjToken:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[MTAoobjIdx].OO_dbTokenId
