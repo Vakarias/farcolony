@@ -77,11 +77,7 @@
       </entry>
       <entry author="John Van Vliet" contact="johnkvanvliet2006@yahoo.com">
          <entryfile license="" current="" original=""/>
-         <entryfile license="FFNCU" current="CallistoH3.jpg" original="Callisto.png"/>
-         <entryfile license="FFNCU" current="Europa.jpg" original="Europa.png"/>
          <entryfile license="FFNCU" current="JovianCold.jpg" original="Jupiter.png"/>
-         <entryfile license="FFNCU" current="SatCallistoH3.jpg" original="2kCallisto.png"/>
-         <entryfile license="FFNCU" current="SatIo.jpg" original="Io.png"/>
       </entry>
       <entry author="milosz1987_87.o2.pl" contact="milosz1987_87@o2.pl">
          <entryfile license="" current="" original=""/>
@@ -89,13 +85,6 @@
       </entry>
       <entry author="NASA JPL" contact="">
          <entryfile license="" current="" original=""/>
-         <entryfile license="DomPub" current="MercuryH0.jpg" original=""/>
-         <entryfile license="DomPub" current="MercuryH3.jpg" original=""/>
-         <entryfile license="DomPub" current="MercuryH4.jpg" original=""/>
-         <entryfile license="DomPub" current="Pluto.jpg" original=""/>
-         <entryfile license="DomPub" current="SatCallistoH4.jpg" original=""/>
-         <entryfile license="DomPub" current="SatEuropa.jpg" original=""/>
-         <entryfile license="DomPub" current="SatLunar.jpg" original=""/>
          <entryfile license="DomPub" current="SaturnCold.jpg" original=""/>
          <entryfile license="DomPub" current="UranusCold.jpg" original=""/>
       </entry>
@@ -111,7 +100,6 @@
       <entry author="Shcuf" contact="">
          <entryfile license="" current="" original=""/>
          <entryfile license="n/a" current="NeptuneHot.jpg" original=""/>
-         <entryfile license="n/a" current="SatLunarCold.jpg" original=""/>
       </entry>
       <entry author="Sigma" contact="spacesector.org">
          <entryfile license="" current="" original=""/>
@@ -129,10 +117,6 @@
          <entryfile license="" current="" original=""/>
          <entryfile license="CCBy" current="resourceSurvey.jpg" original="Scenic-Viewpoint.png"/>
          <entryfile license="CCBy" current="cantSurvey.jpg" original="No.png"/>
-      </entry>
-      <entry author="tornadorip1984.yahoo.com" contact="">
-         <entryfile license="" current="" original=""/>
-         <entryfile license="n/a" current="SatPluto.jpg" original=""/>
       </entry>
    </assets2D>
    <assets3D>

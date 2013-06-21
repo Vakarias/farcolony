@@ -647,7 +647,7 @@ procedure FCMoglVMain_MapTex_Assign(const MTAoobjIdx, MTAsatIdx, MTAsatObjIdx: i
 {:Purpose: assign the correct surface/atmosphere texture map on a designed orbital object.
     Additions:
       -2013Jun20- *add/mod: apply the new types of planets.
-                  *rem: standard pictures for icy/telluric planets are removed.
+                  *rem: standard pictures for icy/telluric planets are removed. There are all custom now
       -2013Jun19- *add/mod: update the hydrosphere part with the last changes.
       -2010Jan07- *add: implement planet w/ personalized textures.
                   *add: the rest of telluric/icy planets w/ standard textures.
@@ -727,43 +727,7 @@ begin
       if MTAsatIdx=0
       then MTAdmpOobjToken:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[MTAoobjIdx].OO_dbTokenId
       else if MTAsatIdx>0
-      then MTAdmpOobjToken:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[MTAoobjIdx]
-         .OO_satellitesList[MTAsatIdx].OO_dbTokenId;
-   end
-   {.for the rest of telluric/icy planets w/ standard textures}
-   else begin
-      case MTAdmpObjTp of
-         ootPlanet_Telluric_MercuryH0: MTAdmpLibName:='MercuryH0';
-         ootPlanet_Telluric_MercuryH3: MTAdmpLibName:='MercuryH3';
-         ootPlanet_Telluric_MercuryH4: MTAdmpLibName:='MercuryH4';
-         ootPlanet_Icy_PlutoH3: MTAdmpLibName:='Pluto';
-         ootPlanet_Icy_EuropaH4: MTAdmpLibName:='Europa';
-         ootPlanet_Icy_CallistoH3H4Atm0:
-         begin
-            if  MTAdmpHydroTp=hIceSheet
-            then MTAdmpLibName:='CallistoH3'
-            else if  MTAdmpHydroTp=hCrystalIce
-            then MTAdmpLibName:='CallistoH4';
-         end;
-         ootSatellite_Telluric_Lunar:
-         begin
-            if  MTAdmpTemp<234
-            then MTAdmpLibName:='SatLunarCold'
-            else if  MTAdmpTemp>=234
-            then MTAdmpLibName:='SatLunar';
-         end;
-         ootSatellite_Telluric_Io: MTAdmpLibName:='SatIo';
-         ootSatellite_Icy_Pluto: MTAdmpLibName:='SatPluto';
-         ootSatellite_Icy_Europa: MTAdmpLibName:='SatEuropa';
-         ootSatellite_Icy_Callisto:
-         begin
-            MTAdmpLibName:='SatCallistoH3';
-            if  MTAdmpHydroTp=hIceSheet
-            then MTAdmpLibName:='SatCallistoH3'
-            else if  MTAdmpHydroTp=hCrystalIce
-            then MTAdmpLibName:='SatCallistoH4';
-         end;
-      end; {.case MTAdmpObjTp of}
+      then MTAdmpOobjToken:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[MTAoobjIdx].OO_satellitesList[MTAsatIdx].OO_dbTokenId;
    end;
    {.assign standard texture}
    if MTAdmpLibName<>''
