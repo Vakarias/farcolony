@@ -49,7 +49,8 @@ implementation
 
 uses
    farc_common_func
-   ,farc_data_univ;
+   ,farc_data_univ
+   ,farc_fug_atmosphere;
 
 //==END PRIVATE ENUM========================================================================
 
@@ -75,27 +76,44 @@ procedure FCMfH_Hydrosphere_Processing(
    Additions:
 }
    var
-      GeneratedProbability: integer;
+      GeneratedProbability
+      ,NumberOfPrimaryGasses
+      ,PrimaryGasVolume: integer;
 
       AtmosphericPressure
+      ,BoilingPoint
       ,Distance20
       ,Distance30
-      ,DistanceZone: extended;
+      ,DistanceZone
+      ,IceCrustThreshold
+      ,MeltingPoint
+      ,VaporLimit: extended;
 
       HydrosphereType: TFCEduHydrospheres;
+
+      AmmoniaStatus
+      ,MethaneStatus
+      ,NewMetaneStatus: TFCEduAtmosphericGasStatus;
 begin
    AtmosphericPressure:=0;
    Distance20:=0;
    Distance30:=0;
    DistanceZone:=0;
-   HydrosphereType:=hNoH2O;
+   HydrosphereType:=hNoHydro;
    if Satellite=0 then
    begin
-      AtmosphericPressure:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphericPressure;
+      AtmosphericPressure:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphericPressure / 1000;
+      AmmoniaStatus:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceNH3;
+      MethaneStatus:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceCH4;
+      PrimaryGasVolume:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_primaryGasVolumePerc;
    end
    else begin
-      AtmosphericPressure:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphericPressure;
+      AtmosphericPressure:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphericPressure / 1000;
+      AmmoniaStatus:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceNH3;
+      MethaneStatus:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceCH4;
+      PrimaryGasVolume:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_primaryGasVolumePerc;
    end;
+   NewMetaneStatus:=MethaneStatus;
    {.hydrosphere for atmosphereless planets}
    if AtmosphericPressure=0 then
    begin
@@ -104,22 +122,105 @@ begin
       Distance30:=DistanceZone * 30;
       if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isNotSat_distanceFromStar <= Distance20 then
       begin
-//         if BaseTemperature <= 110
-//         then HydrosphereType:=water ice crust
-//         else if ( BaseTemperature > 110 )
-//            and ( BaseTemperature <= 245)
-//         then HydrosphereType:=water ice sheet
-//         else Hydrosphere:=none;
-         {.WARNING: UPDATE HYDRO TYPES! + NONE AS FIRST!}
+         if BaseTemperature <= 110
+         then HydrosphereType:=hWaterIceCrust
+         else if ( BaseTemperature > 110 )
+            and ( BaseTemperature <= 245)
+         then HydrosphereType:=hWaterIceSheet
+         else HydrosphereType:=hNoHydro;
       end
       else if ( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isNotSat_distanceFromStar > Distance20 )
          and ( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isNotSat_distanceFromStar <= Distance30 ) then
       begin
-         GeneratedProbability:=FCFcF_Random_DoInteger( 99 ) + 1;
+         if BaseTemperature <= 110 then
+         begin
+            GeneratedProbability:=FCFcF_Random_DoInteger( 99 ) + 1;
+            if GeneratedProbability<=70
+            then HydrosphereType:=hWaterIceCrust
+            else begin
+               if BaseTemperature <= 63
+               then HydrosphereType:=hNitrogenIceCrust
+               else HydrosphereType:=hWaterIceCrust;
+            end;
+         end
+         else if ( BaseTemperature > 110 )
+            and ( BaseTemperature <= 245)
+         then HydrosphereType:=hWaterIceSheet
+         else HydrosphereType:=hNoHydro;
       end
+      else begin
+         if BaseTemperature <= 110 then
+         begin
+            GeneratedProbability:=FCFcF_Random_DoInteger( 99 ) + 1;
+            case GeneratedProbability of
+               1..20: HydrosphereType:=hWaterIceCrust;
+
+               21..60:
+               begin
+                  if BaseTemperature <= 63
+                  then HydrosphereType:=hNitrogenIceCrust
+                  else HydrosphereType:=hWaterIceCrust;
+               end;
+
+               61..100:
+               begin
+                  if BaseTemperature <= 90
+                  then HydrosphereType:=hMethaneIceCrust
+                  else HydrosphereType:=hWaterIceCrust;
+               end;
+            end;
+
+         end
+         else if ( BaseTemperature > 110 )
+            and ( BaseTemperature <= 245)
+         then HydrosphereType:=hWaterIceSheet
+         else HydrosphereType:=hNoHydro;
+      end;
    end
    {.hydrosphere for planets with atmosphere}
    else begin
+      NumberOfPrimaryGasses:=FCFfA_PrimaryGasses_GetTotalNumber(
+         Star
+         ,OrbitalObject
+         ,Satellite
+         );
+      {.methane hydrosphere}
+      if ( ( MethaneStatus = agsMain ) or ( ( MethaneStatus = agsSecondary ) and ( PrimaryGasVolume <= 85 ) ) )
+         and ( BaseTemperature < 191 )
+         and ( AtmosphericPressure < 46.598 ) then
+      begin
+         BoilingPoint:=1 / ( ( ln( sqrt( AtmosphericPressure ) ) / -592.5 ) + ( 1 / 109 ) );
+         MeltingPoint:=1 / ( ( ln( sqrt( AtmosphericPressure ) ) / -592.5 ) + ( 1 / 90.7 ) );
+         IceCrustThreshold:=MeltingPoint * 193 / 273.15;
+         VaporLimit:=BoilingPoint * 500 / 373.15;
+         if BaseTemperature <= IceCrustThreshold
+         then HydrosphereType:=hMethaneIceCrust
+         else if ( BaseTemperature > IceCrustThreshold )
+            and ( BaseTemperature < MeltingPoint )
+         then HydrosphereType:=hMethaneIceSheet
+         else if ( BaseTemperature >= MeltingPoint )
+            and ( BaseTemperature < BoilingPoint )
+         then HydrosphereType:=hMethaneLiquid
+         else if ( BaseTemperature >= BoilingPoint )
+            and ( BaseTemperature <= VaporLimit )
+         then HydrosphereType:=hNoHydro
+         else if BaseTemperature > VaporLimit then
+         begin
+            HydrosphereType:=hNoHydro;
+//            if ( ( MethaneStatus = agsMain ) and ( NumberOfPrimaryGasses > 1 ) )
+//               or ( MethaneStatus = agsSecondary )
+//            then NewMetaneStatus = agsTrace;
+         end;
+      end;
+   end;
+   if Satellite=0 then
+   begin
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_hydrosphere:=HydrosphereType;
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceCH4:=NewMetaneStatus;
+   end
+   else begin
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_hydrosphere:=HydrosphereType;
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceCH4:=NewMetaneStatus;
    end;
 end;
 
