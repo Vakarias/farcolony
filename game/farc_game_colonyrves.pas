@@ -960,15 +960,15 @@ begin
       ColonyEnvironment:=FCFgC_ColEnv_GetTp( Entity, Colony );
       EnvCoef:=0;
       case ColonyEnvironment.ENV_envType of
-         etFreeLiving: if ColonyEnvironment.ENV_hydroTp<>hLiquidH2O
+         etFreeLiving: if ColonyEnvironment.ENV_hydroTp<>hWaterLiquid
             then EnvCoef:=1
             else EnvCoef:=0.39;
 
-         etRestricted: if ColonyEnvironment.ENV_hydroTp<>hLiquidH2O
+         etRestricted: if ColonyEnvironment.ENV_hydroTp<>hWaterLiquid
             then EnvCoef:=1.8
             else EnvCoef:=0.83;
 
-         etSpace: if ColonyEnvironment.ENV_hydroTp<>hLiquidH2O
+         etSpace: if ColonyEnvironment.ENV_hydroTp<>hWaterLiquid
             then EnvCoef:=1.8
             else EnvCoef:=1;
       end;

@@ -277,10 +277,10 @@ var
 begin
    CEGTgravity:=0;
    CEGTenv:=etGaseous;
-   CEGThydro:=hNoH2O;
+   CEGThydro:=hNoHydro;
    Result.ENV_gravity:=0;
    Result.ENV_envType:=etGaseous;
-   Result.ENV_hydroTp:=hNoH2O;
+   Result.ENV_hydroTp:=hNoHydro;
    GCssys:=0;
    GCstar:=0;
    GCoobj:=0;

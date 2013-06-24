@@ -3560,36 +3560,51 @@
       <FR>&#60;ul&#62;&#60;li&#62;&#60;u&#62;Gaz Rares&#60;/u&#62;&#60;/ul&#62;</FR>
       <SP>&#60;ul&#62;&#60;li&#62;&#60;u&#62;Gases Raros&#60;/u&#62;&#60;/ul&#62;</SP>
    </secpGasT>
-   <specpHtpCryst>
-      <EN>Crystal Ice</EN>
-      <FR>Crystaux de Glace</FR>
-      <SP>Cristales de Hielo</SP>
-   </specpHtpCryst>
-   <specpHtpISh>
-      <EN>Ice Sheets</EN>
-      <FR>Couches de Glace</FR>
-      <SP>Capas de Hielo</SP>
-   </specpHtpISh>
-   <specpHtpLiq>
+   <hydroTpWaterLiquid>
       <EN>Liquid Water</EN>
       <FR>Eau Liquide</FR>
       <SP>Agua Líquida</SP>
-   </specpHtpLiq>
-   <specpHtpLiqNH3>
-      <EN>Liquid Water/Ammonia</EN>
-      <FR>Eau/Ammoniaque Liquide</FR>
-      <SP>Agua/Amoniaco Líquido</SP>
-   </specpHtpLiqNH3>
-   <specpHtpLiqCH4>
+   </hydroTpWaterLiquid>
+   <hydroTpWaterIceSheet>
+      <EN>Water Ice Sheets</EN>
+      <FR>Couches de Glace d'Eau</FR>
+      <SP>Agua Capas de Hielo</SP>
+   </hydroTpWaterIceSheet>
+   <hydroTpWaterIceCrust>
+      <EN>Water Ice Crust</EN>
+      <FR>Croute de Glace d'Eau</FR>
+      <SP>Agua Corteza de Hielo</SP>
+   </hydroTpWaterIceCrust>
+   <hydroTpWaterAmmoniaLiquid>
+      <EN>Liquid Water-Ammonia</EN>
+      <FR>Eau-Ammoniaque Liquide</FR>
+      <SP>Agua-Amoniaco Líquido</SP>
+   </hydroTpWaterAmmoniaLiquid>
+   <hydroTpMethaneLiquid>
       <EN>Liquid Methane</EN>
       <FR>Méthane Liquide</FR>
       <SP>Metano Líquido</SP>
-   </specpHtpLiqCH4>
-   <specpHtpVap>
-      <EN>Water Vapor</EN>
-      <FR>Vapeur d'Eau</FR>
-      <SP>Vapor de Agua</SP>
-   </specpHtpVap>   
+   </hydroTpMethaneLiquid>
+   <hydroTpMethaneIceSheet>
+      <EN>Methane Ice Sheets</EN>
+      <FR>Couches de Glace de Méthane</FR>
+      <SP>Metano Capas de Hielo</SP>
+   </hydroTpMethaneIceSheet>
+   <hydroTpMethaneIceCrust>
+      <EN>Methane Ice Crust</EN>
+      <FR>Croute de Glace de Méthane</FR>
+      <SP>Metano Corteza de Hielo</SP>
+   </hydroTpMethaneIceCrust>
+   <hydroTpNitrogenIceSheet>
+      <EN>Nitrogen Ice Sheets</EN>
+      <FR>Couches de Glace de Nitrogène</FR>
+      <SP>Nitrógeno  Capas de Hielo</SP>
+   </hydroTpNitrogenIceSheet>
+   <hydroTpNitrogenIceCrust>
+      <EN>Nitrogen Ice Crust</EN>
+      <FR>Croute de Glace de Nitrogène</FR>
+      <SP>Nitrógeno Corteza de Hielo</SP>
+   </hydroTpNitrogenIceCrust>
    <secpHydr>
       <EN>&#60;b&#62;Hydrosphere&#60;/b&#62;</EN>
       <FR>&#60;b&#62;Hydrosphère&#60;/b&#62;</FR>

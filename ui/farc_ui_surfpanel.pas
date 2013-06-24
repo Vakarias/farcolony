@@ -1349,48 +1349,29 @@ begin
          end; //==END== else if SESdmpAtmPr>0 ==//
          SP_EcosphereSheet.HTMLText.Add('<br>'+FCFdTFiles_UIStr_Get(uistrUI, 'secpHydr')+'<br>');
          case SESdmpHydr of
-            hNoH2O: SP_EcosphereSheet.HTMLText.Add(FCCFidxL+FCFdTFiles_UIStr_Get(uistrUI, 'comNoneP'));
-            hVaporH2O:
-               SP_EcosphereSheet.HTMLText.Add(
-                  FCCFidxL
-                  +FCFdTFiles_UIStr_Get(uistrUI, 'specpHtpVap')
-                  +FCFdTFiles_UIStr_Get(uistrUI, 'secpCov')+floattostr(SESdmpHCov)+' %)'
-                  );
-            hLiquidH2O:
-               SP_EcosphereSheet.HTMLText.Add(
-                  FCCFidxL
-                  +FCFdTFiles_UIStr_Get(uistrUI, 'specpHtpLiq')
-                  +FCFdTFiles_UIStr_Get(uistrUI, 'secpCov')+floattostr(SESdmpHCov)+' %)'
-                  );
-            hIceSheet:
-               SP_EcosphereSheet.HTMLText.Add(
-                  FCCFidxL
-                  +FCFdTFiles_UIStr_Get(uistrUI, 'specpHtpISh')
-                  +FCFdTFiles_UIStr_Get(uistrUI, 'secpCov')+floattostr(SESdmpHCov)+' %)'
-                  );
-            hCrystalIce:
-               SP_EcosphereSheet.HTMLText.Add(
-                  FCCFidxL
-                  +FCFdTFiles_UIStr_Get(uistrUI, 'specpHtpCryst')
-                  +FCFdTFiles_UIStr_Get(uistrUI, 'secpCov')+floattostr(SESdmpHCov)+' %)'
-                  );
-            hLiquidH2O_blend_NH3:
-               SP_EcosphereSheet.HTMLText.Add(
-                  FCCFidxL
-                  +FCFdTFiles_UIStr_Get(uistrUI, 'specpHtpLiqNH3')
-                  +FCFdTFiles_UIStr_Get(uistrUI, 'secpCov')+floattostr(SESdmpHCov)+' %)'
-                  );
-            hLiquidCH4:
-               SP_EcosphereSheet.HTMLText.Add(
-                  FCCFidxL
-                  +FCFdTFiles_UIStr_Get(uistrUI, 'specpHtpLiqCH4')
-                  +FCFdTFiles_UIStr_Get(uistrUI, 'secpCov')+floattostr(SESdmpHCov)+' %)'
-                  );
+            hNoHydro: SP_EcosphereSheet.HTMLText.Add(FCCFidxL+FCFdTFiles_UIStr_Get(uistrUI, 'comNoneP'));
+
+            hWaterLiquid: SP_EcosphereSheet.HTMLText.Add( FCCFidxL + FCFdTFiles_UIStr_Get(uistrUI, 'hydroTpWaterLiquid') + FCFdTFiles_UIStr_Get(uistrUI, 'secpCov')+floattostr(SESdmpHCov)+' %)' );
+
+            hWaterIceSheet: SP_EcosphereSheet.HTMLText.Add( FCCFidxL + FCFdTFiles_UIStr_Get(uistrUI, 'hydroTpWaterIceSheet') + FCFdTFiles_UIStr_Get(uistrUI, 'secpCov')+floattostr(SESdmpHCov)+' %)' );
+
+            hWaterIceCrust: SP_EcosphereSheet.HTMLText.Add( FCCFidxL + FCFdTFiles_UIStr_Get(uistrUI, 'hydroTpWaterIceCrust') + FCFdTFiles_UIStr_Get(uistrUI, 'secpCov')+floattostr(SESdmpHCov)+' %)' );
+
+            hWaterAmmoniaLiquid: SP_EcosphereSheet.HTMLText.Add( FCCFidxL + FCFdTFiles_UIStr_Get(uistrUI, 'hydroTpWaterAmmoniaLiquid') + FCFdTFiles_UIStr_Get(uistrUI, 'secpCov')+floattostr(SESdmpHCov)+' %)' );
+
+            hMethaneLiquid: SP_EcosphereSheet.HTMLText.Add( FCCFidxL + FCFdTFiles_UIStr_Get(uistrUI, 'hydroTpMethaneLiquid') + FCFdTFiles_UIStr_Get(uistrUI, 'secpCov')+floattostr(SESdmpHCov)+' %)' );
+
+            hMethaneIceSheet: SP_EcosphereSheet.HTMLText.Add( FCCFidxL + FCFdTFiles_UIStr_Get(uistrUI, 'hydroTpMethaneIceSheet') + FCFdTFiles_UIStr_Get(uistrUI, 'secpCov')+floattostr(SESdmpHCov)+' %)' );
+
+            hMethaneIceCrust: SP_EcosphereSheet.HTMLText.Add( FCCFidxL + FCFdTFiles_UIStr_Get(uistrUI, 'hydroTpMethaneIceCrust') + FCFdTFiles_UIStr_Get(uistrUI, 'secpCov')+floattostr(SESdmpHCov)+' %)' );
+
+            hNitrogenIceSheet: SP_EcosphereSheet.HTMLText.Add( FCCFidxL + FCFdTFiles_UIStr_Get(uistrUI, 'hydroTpNitrogenIceSheet') + FCFdTFiles_UIStr_Get(uistrUI, 'secpCov')+floattostr(SESdmpHCov)+' %)' );
+
+            hNitrogenIceCrust: SP_EcosphereSheet.HTMLText.Add( FCCFidxL + FCFdTFiles_UIStr_Get(uistrUI, 'hydroTpNitrogenIceCrust') + FCFdTFiles_UIStr_Get(uistrUI, 'secpCov')+floattostr(SESdmpHCov)+' %)' );
          end; //==END== case SESdmpHydr ==//
          {.set the ecosphere panel if it's a gaseous planet}
-         if (SESdmpTp>ootPlanet_Icy_CallistoH3H4Atm0)
-            and (SESdmpTp<ootSatellite_Asteroid_Metallic)
-         then
+         if ( SESdmpTp >= ootPlanet_Gaseous_Uranus )
+            and ( SESdmpTp < ootSatellite_Asteroid_Metallic ) then
          begin
             {.set interface}
             SP_FrameLeftNOTDESIGNED.Visible:=false;
@@ -1776,45 +1757,33 @@ begin
             {.load the surface picture}
             case SESdmpTp of
                ootAsteroid_Metallic: SP_SurfaceDisplay.Picture.LoadFromFile(FCVdiPathResourceDir+'pics-ogl-oobj-std\aster_metal.jpg');
+
                ootAsteroid_Silicate: SP_SurfaceDisplay.Picture.LoadFromFile(FCVdiPathResourceDir+'pics-ogl-oobj-std\aster_sili.jpg');
+
                ootAsteroid_Carbonaceous:SP_SurfaceDisplay.Picture.LoadFromFile(FCVdiPathResourceDir+'pics-ogl-oobj-std\aster_carb.jpg');
+
                ootAsteroid_Icy: SP_SurfaceDisplay.Picture.LoadFromFile(FCVdiPathResourceDir+'pics-ogl-oobj-std\aster_icy.jpg');
-               ootPlanet_Telluric_EarthH0H1..ootPlanet_Telluric_VenusH4:
+
+               oot_Planet_Telluric..oot_Planet_Icy:
                begin
                   if FileExists(FCVdiPathResourceDir+'pics-ogl-oobj-pers\'+SESdmpToken+'.jpg')
                   then SP_SurfaceDisplay.Picture.LoadFromFile(FCVdiPathResourceDir+'pics-ogl-oobj-pers\'+SESdmpToken+'.jpg')
                   else SP_SurfaceDisplay.Picture.LoadFromFile(FCVdiPathResourceDir+'pics-ogl-oobj-pers\_error_map.jpg');
                end;
-               ootPlanet_Telluric_MercuryH0..ootPlanet_Icy_CallistoH3H4Atm0:
-               begin
-                  try
-                     SESdmpIdx:=FCFoglInit_StdTexIdx_Get(FC3doglPlanets[FC3doglSelectedPlanetAsteroid].Material.LibMaterialName);
-                     FC3doglPlanets[FC3doglSelectedPlanetAsteroid].Material.MaterialLibrary.Materials[SESdmpIdx].Material.Texture.Image
-                        .SaveToFile(FCVdiPathConfigFile+'swap.jpg');
-                  finally
-                     SP_SurfaceDisplay.Picture.LoadFromFile(FCVdiPathConfigFile+'swap.jpg');
-                  end;
-               end;
+
                ootSatellite_Asteroid_Metallic: SP_SurfaceDisplay.Picture.LoadFromFile(FCVdiPathResourceDir+'pics-ogl-oobj-std\aster_metal.jpg');
+
                ootSatellite_Asteroid_Silicate: SP_SurfaceDisplay.Picture.LoadFromFile(FCVdiPathResourceDir+'pics-ogl-oobj-std\aster_sili.jpg');
+
                ootSatellite_Asteroid_Carbonaceous: SP_SurfaceDisplay.Picture.LoadFromFile(FCVdiPathResourceDir+'pics-ogl-oobj-std\aster_carb.jpg');
+
                ootSatellite_Asteroid_Icy: SP_SurfaceDisplay.Picture.LoadFromFile(FCVdiPathResourceDir+'pics-ogl-oobj-std\aster_icy.jpg');
-               ootSatellite_Telluric_Titan..ootSatellite_Telluric_Earth:
+
+               ootSatellite_Planet_Telluric..ootSatellite_Planet_Icy:
                begin
                   if FileExists(FCVdiPathResourceDir+'pics-ogl-oobj-pers\'+SESdmpToken+'.jpg')
                   then SP_SurfaceDisplay.Picture.LoadFromFile(FCVdiPathResourceDir+'pics-ogl-oobj-pers\'+SESdmpToken+'.jpg')
                   else SP_SurfaceDisplay.Picture.LoadFromFile(FCVdiPathResourceDir+'pics-ogl-oobj-pers\_error_map.jpg');
-               end;
-               ootSatellite_Telluric_Lunar..ootSatellite_Telluric_Io, ootSatellite_Icy_Pluto..ootSatellite_Icy_Callisto:
-               begin
-                  try
-                     fcwinmain.caption:=inttostr(FC3doglSelectedSatellite);
-                     SESdmpIdx:=FCFoglInit_StdTexIdx_Get(FC3doglSatellites[FC3doglSelectedSatellite].Material.LibMaterialName);
-                     FC3doglSatellites[FC3doglSelectedSatellite].Material.MaterialLibrary.Materials[SESdmpIdx].Material.Texture.Image
-                        .SaveToFile(FCVdiPathConfigFile+'swap.jpg');
-                  finally
-                     SP_SurfaceDisplay.Picture.LoadFromFile(FCVdiPathConfigFile+'swap.jpg');
-                  end;
                end;
             end; //==END== case SESdmpTp ==//
             SP_SurfaceDisplay.Enabled:=True;

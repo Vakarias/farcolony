@@ -1248,7 +1248,7 @@ begin
                FCMoglVM_OObjSpUn_inOrbit(TDMVUorbObjCnt, 0, 0, true);
             end //==END== if (OO_type>=oobtpAster_Metall) and (OO_type<=oobtpAster_Icy) ==//
             {.planet}
-            else if (S_orbitalObjects[TDMVUorbObjCnt].OO_type>=ootPlanet_Telluric_EarthH0H1)
+            else if (S_orbitalObjects[TDMVUorbObjCnt].OO_type>=oot_Planet_Telluric)
                     and (S_orbitalObjects[TDMVUorbObjCnt].OO_type<=ootPlanet_Supergiant)
             then
             begin
@@ -1270,13 +1270,8 @@ begin
                {.set group scale}
                FC3doglObjectsGroups[TDMVUorbObjCnt].CubeSize:=FC3doglPlanets[TDMVUorbObjCnt].scale.X*2;
                {.set atmosphere}
-               if (
-                     ((S_orbitalObjects[TDMVUorbObjCnt].OO_type in [ootPlanet_Telluric_EarthH0H1..ootPlanet_Icy_CallistoH3H4Atm0]))
-                     and
-                     (S_orbitalObjects[TDMVUorbObjCnt].OO_atmosphericPressure>0)
-                  )
-                  or (S_orbitalObjects[TDMVUorbObjCnt].OO_type in [ootPlanet_Gaseous_Uranus..ootPlanet_Supergiant])
-               then
+               if ( ( (S_orbitalObjects[TDMVUorbObjCnt].OO_type = oot_Planet_Telluric) or (S_orbitalObjects[TDMVUorbObjCnt].OO_type = oot_Planet_Icy) ) and (S_orbitalObjects[TDMVUorbObjCnt].OO_atmosphericPressure>0) )
+                  or (S_orbitalObjects[TDMVUorbObjCnt].OO_type in [ootPlanet_Gaseous_Uranus..ootPlanet_Supergiant]) then
                begin
                   FCMoglVMain_Atmosph_SetCol(TDMVUorbObjCnt, 0, 0);
                   FC3doglAtmospheres[TDMVUorbObjCnt].Sun:=FCWinMain.FCGLSSM_Light;
@@ -1310,7 +1305,7 @@ begin
                      {:DEV NOTES: WARNING A FUNCTION NOW EXISTS FOR THIS CALCULATION: FCFoglF_Satellite_CalculatePosition}
                      LSVUangleRad:=S_orbitalObjects[TDMVUorbObjCnt].OO_satellitesList[TDMVUsatIdx].OO_angle1stDay*FCCdiDegrees_To_Radian; //ok to fill the call w/ param and remove this
                      {.for a satellite asteroid}
-                     if S_orbitalObjects[TDMVUorbObjCnt].OO_satellitesList[TDMVUsatIdx].OO_type<ootSatellite_Telluric_Lunar
+                     if S_orbitalObjects[TDMVUorbObjCnt].OO_satellitesList[TDMVUsatIdx].OO_type<ootSatellite_Planet_Telluric
                      then
                      begin
                         {.initialize 3d structure}
@@ -1353,9 +1348,7 @@ begin
                         FC3doglSatellitesAsteroids[TDMVUsatCnt].Visible:=true;
                      end //==END== if ...OOS_type<oobtpSat_Tellu_Lunar ==//
                      {.for a satellite planetoid}
-                     else if (S_orbitalObjects[TDMVUorbObjCnt].OO_satellitesList[TDMVUsatIdx].OO_type>ootSatellite_Asteroid_Icy)
-                        and (S_orbitalObjects[TDMVUorbObjCnt].OO_satellitesList[TDMVUsatIdx].OO_type<ootRing_Metallic)
-                     then
+                     else if S_orbitalObjects[TDMVUorbObjCnt].OO_satellitesList[TDMVUsatIdx].OO_type>ootSatellite_Asteroid_Icy then
                      begin
                         {.initialize 3d structure}
                         FCMoglVM_OObj_Gen(oglvmootSatNorm, TDMVUsatCnt);
@@ -1387,9 +1380,7 @@ begin
                         {.set group scale}
                         FC3doglSatellitesObjectsGroups[TDMVUsatCnt].CubeSize:=FC3doglSatellites[TDMVUsatCnt].scale.X*2;
                         {.set atmosphere}
-                        if (S_orbitalObjects[TDMVUorbObjCnt].OO_satellitesList[TDMVUsatIdx].OO_type in [ootSatellite_Telluric_Io..ootSatellite_Icy_Callisto])
-                           and (S_orbitalObjects[TDMVUorbObjCnt].OO_satellitesList[TDMVUsatIdx].OO_atmosphericPressure>0)
-                        then
+                        if S_orbitalObjects[TDMVUorbObjCnt].OO_satellitesList[TDMVUsatIdx].OO_atmosphericPressure > 0 then
                         begin
                            FCMoglVMain_Atmosph_SetCol(TDMVUorbObjCnt, TDMVUsatIdx, TDMVUsatCnt);
                            FC3doglSatellitesAtmospheres[TDMVUsatCnt].Sun:=FCWinMain.FCGLSSM_Light;

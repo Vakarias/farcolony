@@ -130,21 +130,19 @@ type TFCEdipFunctions=(
 {:REFERENCES LIST
    - infrastrucdb.xml
    - FCMdF_DBInfra_Read
+   - FCMuiCDP_Data_Update (infrastructures lists)
 }
 ///<summary>
 ///   requirement - hydrosphere types
 ///</summary>
 type TFCEdipHydrosphereRequirements=(
    hrAny
-   ,hrLiquid_LiquidNH3
-   ,hrNone
-   ,hrVapour
-   ,hrLiquid
-   ,hrIceSheet
-   ,hrCrystal
-   ,hrLiquidNH3
-   ,hrCH4
-   ,hrLiquid_Vapour_Ice_Sheet
+   ,hrWaterLiquid
+   ,hrWaterIceSheet
+   ,hrWaterIceCrust
+   ,hrWaterLiquid_IceSheet
+   ,hrWaterAmmoniaLiquid
+   ,hrMethaneLiquid
    );
 
 {:REFERENCES LIST
