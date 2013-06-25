@@ -650,7 +650,7 @@ type TFCRduOrbitalObject = record
    ///</summary>
    OO_albedo: extended;
    ///<summary>
-   ///   basic type. WARNING: USED ONLY BY THE FUG, not in-game
+   ///   state to indicate if the atmosphere is manually edited or not. WARNING: USED ONLY BY THE FUG, not in-game
    ///</summary>
    OO_isAtmosphereEdited: boolean;
    ///<summary>
@@ -670,13 +670,17 @@ type TFCRduOrbitalObject = record
    ///</summary>
    OO_orbitalPeriods: array[0..4] of TFCRduOObSeason;
    ///<summary>
+   ///   state to indicate if the hydrosphere is manually edited or not. WARNING: USED ONLY BY THE FUG, not in-game
+   ///</summary>
+   OO_isHydrosphereEdited: boolean;
+   ///<summary>
    ///   hydrosphere type
    ///</summary>
    OO_hydrosphere: TFCEduHydrospheres;
    ///<summary>
    ///   hydrosphere area
    ///</summary>
-   OO_hydrosphereArea: extended;
+   OO_hydrosphereArea: integer;
    ///<summary>
    ///   surface by region
    ///</summary>

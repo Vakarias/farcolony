@@ -148,6 +148,10 @@ type
     COO_PrimGasVol: TLabeledEdit;
     Bevel3: TBevel;
     COO_AtmosphericPressure: TLabeledEdit;
+    COO_HydroType: TAdvComboBox;
+    COO_HydrosphereEdit: TCheckBox;
+    Bevel4: TBevel;
+    COO_HydroArea: TLabeledEdit;
     procedure WF_GenerateButtonClick(Sender: TObject);
     procedure TMS_OrbitGenerationClick(Sender: TObject);
     procedure TC1S_EnableGroupCompanion1Click(Sender: TObject);
@@ -203,6 +207,9 @@ type
     procedure COO_PrimGasVolKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure COO_AtmosphericPressureKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
+    procedure COO_HydrosphereEditClick(Sender: TObject);
+    procedure COO_HydroTypeChange(Sender: TObject);
+    procedure COO_HydroAreaKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
    private
     { Private declarations }
    public
@@ -694,6 +701,23 @@ procedure TFCWinFUG.COO_GravityKeyDown(Sender: TObject; var Key: Word; Shift: TS
 begin
    if Key=13
    then FCmfC_OrbitPicker_GravityUpdate;
+end;
+
+procedure TFCWinFUG.COO_HydroAreaKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+   if Key=13
+   then FCmfC_HydrosphereArea_Update;
+end;
+
+procedure TFCWinFUG.COO_HydrosphereEditClick(Sender: TObject);
+begin
+   FCmfC_HydrosphereEditTrigger_Update;
+end;
+
+procedure TFCWinFUG.COO_HydroTypeChange(Sender: TObject);
+begin
+   FCmfC_HydrosphereType_Update;
 end;
 
 procedure TFCWinFUG.COO_InclAxisKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);

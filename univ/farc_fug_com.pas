@@ -85,6 +85,21 @@ procedure FCmfC_AtmosphereGas_SO2Update;
 ///</summary>
 procedure FCmfC_AtmosphericPressure_Update;
 
+procedure FCmfC_HydrosphereArea_Update;
+
+///<summary>
+///   apply the changes when the HydrosphereEdit checkbox is checked or not
+///</summary>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <returns></returns>
+///   <remarks></remarks>
+procedure FCmfC_HydrosphereEditTrigger_Update;
+
+procedure FCmfC_HydrosphereType_Update;
+
 ///<summary>
 ///   update the orbital object albedo
 ///</summary>
@@ -879,6 +894,105 @@ begin
    end;
 end;
 
+procedure FCmfC_HydrosphereArea_Update;
+{:Purpose: update the hydrosphere area.
+    Additions:
+}
+   var
+      CurrentObject
+      ,CurrentSat
+      ,Test: integer;
+begin
+   CurrentObject:=FCWinFUG.TOO_OrbitalObjectPicker.ItemIndex+1;
+   CurrentSat:=FCWinFUG.TOO_SatPicker.ItemIndex;
+   Test:=strtoint( FCWinFUG.COO_HydroArea.Text );
+   if Test > 100
+   then Test:=100;
+   if CurrentSat<=0 then
+   begin
+      case FCWinFUG.TOO_StarPicker.ItemIndex of
+         0: FCDfdMainStarObjectsList[CurrentObject].OO_hydrosphereArea:=Test;
+
+         1: FCDfdComp1StarObjectsList[CurrentObject].OO_hydrosphereArea:=Test;
+
+         2: FCDfdComp2StarObjectsList[CurrentObject].OO_hydrosphereArea:=Test;
+      end;
+   end
+   else begin
+      case FCWinFUG.TOO_StarPicker.ItemIndex of
+         0: FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_hydrosphereArea:=Test;
+
+         1: FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_hydrosphereArea:=Test;
+
+         2: FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_hydrosphereArea:=Test;
+      end;
+   end;
+end;
+
+procedure FCmfC_HydrosphereEditTrigger_Update;
+{:Purpose: apply the changes when the HydrosphereEdit checkbox is checked or not.
+    Additions:
+}
+   var
+      CurrentObject
+      ,CurrentSat: integer;
+begin
+   CurrentObject:=FCWinFUG.TOO_OrbitalObjectPicker.ItemIndex+1;
+   CurrentSat:=FCWinFUG.TOO_SatPicker.ItemIndex;
+   if CurrentSat<=0 then
+   begin
+      case FCWinFUG.TOO_StarPicker.ItemIndex of
+         0: FCDfdMainStarObjectsList[CurrentObject].OO_isHydrosphereEdited:=FCWinFUG.COO_HydrosphereEdit.Checked;
+
+         1: FCDfdComp1StarObjectsList[CurrentObject].OO_isHydrosphereEdited:=FCWinFUG.COO_HydrosphereEdit.Checked;
+
+         2: FCDfdComp2StarObjectsList[CurrentObject].OO_isHydrosphereEdited:=FCWinFUG.COO_HydrosphereEdit.Checked;
+      end;
+   end
+   else begin
+      case FCWinFUG.TOO_StarPicker.ItemIndex of
+         0: FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_isHydrosphereEdited:=FCWinFUG.COO_HydrosphereEdit.Checked;
+
+         1: FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_isHydrosphereEdited:=FCWinFUG.COO_HydrosphereEdit.Checked;
+
+         2: FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_isHydrosphereEdited:=FCWinFUG.COO_HydrosphereEdit.Checked;
+      end;
+   end;
+   FCWinFUG.COO_HydroType.Enabled:=FCWinFUG.COO_HydrosphereEdit.Checked;
+   FCWinFUG.COO_HydroArea.Enabled:=FCWinFUG.COO_HydrosphereEdit.Checked;
+end;
+
+procedure FCmfC_HydrosphereType_Update;
+{:Purpose: apply the changes concerning the hydrosphere type.
+    Additions:
+}
+   var
+      CurrentObject
+      ,CurrentSat: integer;
+begin
+   CurrentObject:=FCWinFUG.TOO_OrbitalObjectPicker.ItemIndex+1;
+   CurrentSat:=FCWinFUG.TOO_SatPicker.ItemIndex;
+   if CurrentSat<=0 then
+   begin
+      case FCWinFUG.TOO_StarPicker.ItemIndex of
+         0: FCDfdMainStarObjectsList[CurrentObject].OO_hydrosphere:=TFCEduHydrospheres( FCWinFUG.COO_HydroType.ItemIndex );
+
+         1: FCDfdComp1StarObjectsList[CurrentObject].OO_hydrosphere:=TFCEduHydrospheres( FCWinFUG.COO_HydroType.ItemIndex );
+
+         2: FCDfdComp2StarObjectsList[CurrentObject].OO_hydrosphere:=TFCEduHydrospheres( FCWinFUG.COO_HydroType.ItemIndex );
+      end;
+   end
+   else begin
+      case FCWinFUG.TOO_StarPicker.ItemIndex of
+         0: FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_hydrosphere:=TFCEduHydrospheres( FCWinFUG.COO_HydroType.ItemIndex );
+
+         1: FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_hydrosphere:=TFCEduHydrospheres( FCWinFUG.COO_HydroType.ItemIndex );
+
+         2: FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_hydrosphere:=TFCEduHydrospheres( FCWinFUG.COO_HydroType.ItemIndex );
+      end;
+   end;
+end;
+
 procedure FCmfC_OrbitPicker_AlbedoUpdate;
 {:Purpose: update the orbital object albedo.
     Additions:
@@ -1276,7 +1390,8 @@ end;
 procedure FCmfC_OrbitPicker_UpdateCurrent( const UpdateSat: boolean );
 {:Purpose: update the current orbital object tab / orbital object picker.
     Additions:
-      -2013Jun16- *add: (wip) atmosphere.
+      -2013Jun24- *add: hydrosphere.
+      -2013Jun16- *add: atmosphere.
       -2013May05- *add: satellites setup.
       -2013May01- *add: tectonic activity.
 }
@@ -1354,6 +1469,11 @@ begin
          FCWinFUG.COO_GasSO2.ItemIndex:=Integer( FCDfdMainStarObjectsList[CurrentObject].OO_atmosphere.AC_gasPresenceSO2 );
          FCWinFUG.COO_PrimGasVol.Text:=inttostr( FCDfdMainStarObjectsList[CurrentObject].OO_atmosphere.AC_primaryGasVolumePerc );
          FCWinFUG.COO_AtmosphericPressure.Text:=floattostr( FCDfdMainStarObjectsList[CurrentObject].OO_atmosphericPressure );
+         {.hydrosphere}
+         FCWinFUG.COO_HydrosphereEdit.Checked:=FCDfdMainStarObjectsList[CurrentObject].OO_isHydrosphereEdited;
+         FCmfC_HydrosphereEditTrigger_Update;
+         FCWinFUG.COO_HydroType.ItemIndex:=Integer( FCDfdMainStarObjectsList[CurrentObject].OO_hydrosphere );
+         FCWinFUG.COO_HydroArea.Text:=inttostr( FCDfdMainStarObjectsList[CurrentObject].OO_hydrosphereArea );
          {.weather and albedo}
          if FCDfdMainStarObjectsList[CurrentObject].OO_albedo>0
          then FCWinFUG.COO_Albedo.Text:=floattostr( FCDfdMainStarObjectsList[CurrentObject].OO_albedo )
@@ -1406,6 +1526,7 @@ begin
          FCWinFUG.COO_TectonicActivity.Text:=GetEnumName( TypeInfo( TFCEduTectonicActivity ), Integer( FCDfdComp1StarObjectsList[CurrentObject].OO_tectonicActivity ) );
          {.ecosphere data}
          FCWinFUG.COO_AtmosphereEdit.Checked:=FCDfdComp1StarObjectsList[CurrentObject].OO_isAtmosphereEdited;
+         FCmfC_AtmosphereEditTrigger_Update;
          FCWinFUG.COO_TraceAtmosphereTrigger.Checked:=FCDfdComp1StarObjectsList[CurrentObject].OO_atmosphere.AC_traceAtmosphere;
          FCWinFUG.COO_GasH2.ItemIndex:=Integer( FCDfdComp1StarObjectsList[CurrentObject].OO_atmosphere.AC_gasPresenceH2 );
          FCWinFUG.COO_GasHe.ItemIndex:=Integer( FCDfdComp1StarObjectsList[CurrentObject].OO_atmosphere.AC_gasPresenceHe );
@@ -1425,6 +1546,11 @@ begin
          FCWinFUG.COO_GasSO2.ItemIndex:=Integer( FCDfdComp1StarObjectsList[CurrentObject].OO_atmosphere.AC_gasPresenceSO2 );
          FCWinFUG.COO_PrimGasVol.Text:=inttostr( FCDfdComp1StarObjectsList[CurrentObject].OO_atmosphere.AC_primaryGasVolumePerc );
          FCWinFUG.COO_AtmosphericPressure.Text:=floattostr( FCDfdComp1StarObjectsList[CurrentObject].OO_atmosphericPressure );
+         {.hydrosphere}
+         FCWinFUG.COO_HydrosphereEdit.Checked:=FCDfdComp1StarObjectsList[CurrentObject].OO_isHydrosphereEdited;
+         FCmfC_HydrosphereEditTrigger_Update;
+         FCWinFUG.COO_HydroType.ItemIndex:=Integer( FCDfdComp1StarObjectsList[CurrentObject].OO_hydrosphere );
+         FCWinFUG.COO_HydroArea.Text:=inttostr( FCDfdComp1StarObjectsList[CurrentObject].OO_hydrosphereArea );
          {.weather and albedo}
          if FCDfdComp1StarObjectsList[CurrentObject].OO_albedo>0
          then FCWinFUG.COO_Albedo.Text:=floattostr( FCDfdComp1StarObjectsList[CurrentObject].OO_albedo )
@@ -1477,6 +1603,7 @@ begin
          FCWinFUG.COO_TectonicActivity.Text:=GetEnumName( TypeInfo( TFCEduTectonicActivity ), Integer( FCDfdComp2StarObjectsList[CurrentObject].OO_tectonicActivity ) );
          {.ecosphere data}
          FCWinFUG.COO_AtmosphereEdit.Checked:=FCDfdComp2StarObjectsList[CurrentObject].OO_isAtmosphereEdited;
+         FCmfC_AtmosphereEditTrigger_Update;
          FCWinFUG.COO_TraceAtmosphereTrigger.Checked:=FCDfdComp2StarObjectsList[CurrentObject].OO_atmosphere.AC_traceAtmosphere;
          FCWinFUG.COO_GasH2.ItemIndex:=Integer( FCDfdComp2StarObjectsList[CurrentObject].OO_atmosphere.AC_gasPresenceH2 );
          FCWinFUG.COO_GasHe.ItemIndex:=Integer( FCDfdComp2StarObjectsList[CurrentObject].OO_atmosphere.AC_gasPresenceHe );
@@ -1496,6 +1623,11 @@ begin
          FCWinFUG.COO_GasSO2.ItemIndex:=Integer( FCDfdComp2StarObjectsList[CurrentObject].OO_atmosphere.AC_gasPresenceSO2 );
          FCWinFUG.COO_PrimGasVol.Text:=inttostr( FCDfdComp2StarObjectsList[CurrentObject].OO_atmosphere.AC_primaryGasVolumePerc );
          FCWinFUG.COO_AtmosphericPressure.Text:=floattostr( FCDfdComp2StarObjectsList[CurrentObject].OO_atmosphericPressure );
+         {.hydrosphere}
+         FCWinFUG.COO_HydrosphereEdit.Checked:=FCDfdComp2StarObjectsList[CurrentObject].OO_isHydrosphereEdited;
+         FCmfC_HydrosphereEditTrigger_Update;
+         FCWinFUG.COO_HydroType.ItemIndex:=Integer( FCDfdComp2StarObjectsList[CurrentObject].OO_hydrosphere );
+         FCWinFUG.COO_HydroArea.Text:=inttostr( FCDfdComp2StarObjectsList[CurrentObject].OO_hydrosphereArea );
          {.weather and albedo}
          if FCDfdComp2StarObjectsList[CurrentObject].OO_albedo>0
          then FCWinFUG.COO_Albedo.Text:=floattostr( FCDfdComp2StarObjectsList[CurrentObject].OO_albedo )
@@ -1621,6 +1753,7 @@ begin
          FCWinFUG.COO_TectonicActivity.Text:=GetEnumName( TypeInfo( TFCEduTectonicActivity ), Integer( FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_tectonicActivity ) );
          {.ecosphere data}
          FCWinFUG.COO_AtmosphereEdit.Checked:=FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_isAtmosphereEdited;
+         FCmfC_AtmosphereEditTrigger_Update;
          FCWinFUG.COO_TraceAtmosphereTrigger.Checked:=FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_atmosphere.AC_traceAtmosphere;
          FCWinFUG.COO_GasH2.ItemIndex:=Integer( FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_atmosphere.AC_gasPresenceH2 );
          FCWinFUG.COO_GasHe.ItemIndex:=Integer( FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_atmosphere.AC_gasPresenceHe );
@@ -1640,6 +1773,11 @@ begin
          FCWinFUG.COO_GasSO2.ItemIndex:=Integer( FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_atmosphere.AC_gasPresenceSO2 );
          FCWinFUG.COO_PrimGasVol.Text:=inttostr( FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_atmosphere.AC_primaryGasVolumePerc );
          FCWinFUG.COO_AtmosphericPressure.Text:=floattostr( FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_atmosphericPressure );
+         {.hydrosphere}
+         FCWinFUG.COO_HydrosphereEdit.Checked:=FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_isHydrosphereEdited;
+         FCmfC_HydrosphereEditTrigger_Update;
+         FCWinFUG.COO_HydroType.ItemIndex:=Integer( FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_hydrosphere );
+         FCWinFUG.COO_HydroArea.Text:=inttostr( FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_hydrosphereArea );
          {.weather and albedo}
          if FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_albedo>0
          then FCWinFUG.COO_Albedo.Text:=floattostr( FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_albedo )
@@ -1679,6 +1817,7 @@ begin
          FCWinFUG.COO_TectonicActivity.Text:=GetEnumName( TypeInfo( TFCEduTectonicActivity ), Integer( FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_tectonicActivity ) );
          {.ecosphere data}
          FCWinFUG.COO_AtmosphereEdit.Checked:=FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_isAtmosphereEdited;
+         FCmfC_AtmosphereEditTrigger_Update;
          FCWinFUG.COO_TraceAtmosphereTrigger.Checked:=FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_atmosphere.AC_traceAtmosphere;
          FCWinFUG.COO_GasH2.ItemIndex:=Integer( FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_atmosphere.AC_gasPresenceH2 );
          FCWinFUG.COO_GasHe.ItemIndex:=Integer( FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_atmosphere.AC_gasPresenceHe );
@@ -1698,6 +1837,11 @@ begin
          FCWinFUG.COO_GasSO2.ItemIndex:=Integer( FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_atmosphere.AC_gasPresenceSO2 );
          FCWinFUG.COO_PrimGasVol.Text:=inttostr( FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_atmosphere.AC_primaryGasVolumePerc );
          FCWinFUG.COO_AtmosphericPressure.Text:=floattostr( FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_atmosphericPressure );
+         {.hydrosphere}
+         FCWinFUG.COO_HydrosphereEdit.Checked:=FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_isHydrosphereEdited;
+         FCmfC_HydrosphereEditTrigger_Update;
+         FCWinFUG.COO_HydroType.ItemIndex:=Integer( FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_hydrosphere );
+         FCWinFUG.COO_HydroArea.Text:=inttostr( FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_hydrosphereArea );
          {.weather and albedo}
          if FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_albedo>0
          then FCWinFUG.COO_Albedo.Text:=floattostr( FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_albedo )
@@ -1737,6 +1881,7 @@ begin
          FCWinFUG.COO_TectonicActivity.Text:=GetEnumName( TypeInfo( TFCEduTectonicActivity ), Integer( FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_tectonicActivity ) );
          {.ecosphere data}
          FCWinFUG.COO_AtmosphereEdit.Checked:=FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_isAtmosphereEdited;
+         FCmfC_AtmosphereEditTrigger_Update;
          FCWinFUG.COO_TraceAtmosphereTrigger.Checked:=FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_atmosphere.AC_traceAtmosphere;
          FCWinFUG.COO_GasH2.ItemIndex:=Integer( FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_atmosphere.AC_gasPresenceH2 );
          FCWinFUG.COO_GasHe.ItemIndex:=Integer( FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_atmosphere.AC_gasPresenceHe );
@@ -1756,6 +1901,11 @@ begin
          FCWinFUG.COO_GasSO2.ItemIndex:=Integer( FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_atmosphere.AC_gasPresenceSO2 );
          FCWinFUG.COO_PrimGasVol.Text:=inttostr( FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_atmosphere.AC_primaryGasVolumePerc );
          FCWinFUG.COO_AtmosphericPressure.Text:=floattostr( FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_atmosphericPressure );
+         {.hydrosphere}
+         FCWinFUG.COO_HydrosphereEdit.Checked:=FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_isHydrosphereEdited;
+         FCmfC_HydrosphereEditTrigger_Update;
+         FCWinFUG.COO_HydroType.ItemIndex:=Integer( FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_hydrosphere );
+         FCWinFUG.COO_HydroArea.Text:=inttostr( FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_hydrosphereArea );
          {.weather and albedo}
          if FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_albedo>0
          then FCWinFUG.COO_Albedo.Text:=floattostr( FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_albedo )

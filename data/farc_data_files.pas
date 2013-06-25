@@ -1640,7 +1640,7 @@ begin
                FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_hydrosphere:=TFCEduHydrospheres( EnumIndex );
                if EnumIndex=-1
                then raise Exception.Create( 'bad universe orbital object hydrosphere type: '+XMLOrbitalObject.Attributes['hydrosphereType'] );
-               FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_hydrosphereArea:=StrToFloat( XMLOrbitalObject.Attributes['hydrosphereArea'], FCVdiFormat );
+               FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_hydrosphereArea:=XMLOrbitalObject.Attributes['hydrosphereArea'];
                FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_albedo:=StrToFloat( XMLOrbitalObject.Attributes['albedo'], FCVdiFormat );
             end {.else if DBSSPorbObjNode.NodeName='orbobjecosdata'}
             else if XMLOrbitalObject.NodeName='orbobjregions' then
@@ -1846,7 +1846,7 @@ begin
                      FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_hydrosphere:=TFCEduHydrospheres( EnumIndex );
                      if EnumIndex=-1
                      then raise Exception.Create( 'bad universe satellite hydrosphere: '+XMSatellite.Attributes['hydrosphereType'] );
-                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_hydrosphereArea:=StrToFloat( XMSatellite.Attributes['hydrosphereArea'], FCVdiFormat );
+                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_hydrosphereArea:=XMSatellite.Attributes['hydrosphereArea'];
                      FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_albedo:=StrToFloat( XMSatellite.Attributes['albedo'], FCVdiFormat );
                   end {.else if DBSSPsatNode.NodeName='satecosdata'}
                   else if XMSatellite.NodeName='satregions' then

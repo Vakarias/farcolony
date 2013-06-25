@@ -77,6 +77,7 @@ procedure FCMfH_Hydrosphere_Processing(
 }
    var
       GeneratedProbability
+      ,HydroArea
       ,NumberOfPrimaryGasses
       ,PrimaryGasVolume: integer;
 
@@ -85,7 +86,6 @@ procedure FCMfH_Hydrosphere_Processing(
       ,Distance20
       ,Distance30
       ,DistanceZone
-      ,HydroArea
       ,IceCrustThreshold
       ,MeltingPoint
       ,Radius

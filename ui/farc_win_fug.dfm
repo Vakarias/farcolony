@@ -1231,6 +1231,12 @@ object FCWinFUG: TFCWinFUG
           Width = 417
           Height = 9
         end
+        object Bevel4: TBevel
+          Left = 16
+          Top = 389
+          Width = 417
+          Height = 9
+        end
         object COO_Density: TLabeledEdit
           Left = 58
           Top = 72
@@ -1397,8 +1403,8 @@ object FCWinFUG: TFCWinFUG
           OnKeyDown = COO_MagFieldKeyDown
         end
         object COO_Albedo: TLabeledEdit
-          Left = 0
-          Top = 405
+          Left = 16
+          Top = 508
           Width = 47
           Height = 19
           Color = clWhite
@@ -2084,6 +2090,78 @@ object FCWinFUG: TFCWinFUG
           EditLabel.Layout = tlCenter
           TabOrder = 34
           OnKeyDown = COO_AtmosphericPressureKeyDown
+        end
+        object COO_HydroType: TAdvComboBox
+          Left = 70
+          Top = 362
+          Width = 140
+          Height = 21
+          Color = clWhite
+          Version = '1.3.1.0'
+          Visible = True
+          ButtonWidth = 18
+          DropWidth = 0
+          Enabled = True
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ItemIndex = -1
+          ItemHeight = 13
+          Items.Strings = (
+            'None'
+            'Liquid Water'
+            'Water Ice Sheet'
+            'Water Ice Crust'
+            'Liquid Water-Ammonia'
+            'Liquid Methane'
+            'Methane Ice Sheet'
+            'Methane Ice Crust'
+            'Nitrogen Ice Sheet'
+            'Nitrogen Ice Crust')
+          LabelCaption = 'Hydrosphere Type'
+          LabelPosition = lpTopCenter
+          LabelFont.Charset = DEFAULT_CHARSET
+          LabelFont.Color = clWindowText
+          LabelFont.Height = -11
+          LabelFont.Name = 'Tahoma'
+          LabelFont.Style = []
+          ParentFont = False
+          TabOrder = 35
+          OnChange = COO_HydroTypeChange
+        end
+        object COO_HydrosphereEdit: TCheckBox
+          Left = 3
+          Top = 331
+          Width = 193
+          Height = 17
+          TabStop = False
+          Caption = 'Edit Hydropshere (All must be edited)'
+          Color = clSilver
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWhite
+          Font.Height = -11
+          Font.Name = 'FrancophilSans'
+          Font.Style = []
+          ParentColor = False
+          ParentFont = False
+          TabOrder = 36
+          OnClick = COO_HydrosphereEditClick
+        end
+        object COO_HydroArea: TLabeledEdit
+          Left = 243
+          Top = 364
+          Width = 54
+          Height = 19
+          Color = clWhite
+          EditLabel.Width = 74
+          EditLabel.Height = 13
+          EditLabel.Caption = 'Primary Gas Vol'
+          EditLabel.Layout = tlCenter
+          NumbersOnly = True
+          TabOrder = 37
+          OnKeyDown = COO_HydroAreaKeyDown
         end
       end
       object TOO_OrbitalObjectPicker: TRadioGroup
