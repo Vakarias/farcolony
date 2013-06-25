@@ -85,35 +85,47 @@ procedure FCMfH_Hydrosphere_Processing(
       ,Distance20
       ,Distance30
       ,DistanceZone
+      ,HydroArea
       ,IceCrustThreshold
       ,MeltingPoint
+      ,Radius
       ,VaporLimit: extended;
 
       HydrosphereType: TFCEduHydrospheres;
 
       AmmoniaStatus
       ,MethaneStatus
-      ,NewMetaneStatus: TFCEduAtmosphericGasStatus;
+      ,WaterStatus
+      ,NewAmmoniaStatus
+      ,NewMetaneStatus
+      ,NewWaterStatus: TFCEduAtmosphericGasStatus;
 begin
    AtmosphericPressure:=0;
    Distance20:=0;
    Distance30:=0;
    DistanceZone:=0;
+   HydroArea:=0;
    HydrosphereType:=hNoHydro;
    if Satellite=0 then
    begin
       AtmosphericPressure:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphericPressure / 1000;
       AmmoniaStatus:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceNH3;
       MethaneStatus:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceCH4;
+      WaterStatus:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceH2O;
       PrimaryGasVolume:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_primaryGasVolumePerc;
+      Radius:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_diameter * 0.5;
    end
    else begin
       AtmosphericPressure:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphericPressure / 1000;
       AmmoniaStatus:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceNH3;
       MethaneStatus:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceCH4;
+      WaterStatus:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceH2O;
       PrimaryGasVolume:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_primaryGasVolumePerc;
+      Radius:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_diameter * 0.5;
    end;
+   NewAmmoniaStatus:=AmmoniaStatus;
    NewMetaneStatus:=MethaneStatus;
+   NewWaterStatus:=WaterStatus;
    {.hydrosphere for atmosphereless planets}
    if AtmosphericPressure=0 then
    begin
@@ -207,20 +219,194 @@ begin
          else if BaseTemperature > VaporLimit then
          begin
             HydrosphereType:=hNoHydro;
-//            if ( ( MethaneStatus = agsMain ) and ( NumberOfPrimaryGasses > 1 ) )
-//               or ( MethaneStatus = agsSecondary )
-//            then NewMetaneStatus = agsTrace;
+            if ( ( MethaneStatus = agsMain ) and ( NumberOfPrimaryGasses > 1 ) )
+               or ( MethaneStatus = agsSecondary )
+            then NewMetaneStatus:=agsTrace;
+         end;
+      end
+      {.water-ammonia hydrosphere}
+      else if ( ( AmmoniaStatus = agsMain ) or ( ( AmmoniaStatus = agsSecondary ) and ( PrimaryGasVolume <= 85 ) ) )
+         and ( BaseTemperature < 405 )
+         and ( AtmosphericPressure < 113.456 ) then
+      begin
+         BoilingPoint:=1 / ( ( ln( sqrt( AtmosphericPressure ) ) / -592.5 ) + ( 1 / 240 ) );
+         MeltingPoint:=1 / ( ( ln( sqrt( AtmosphericPressure ) ) / -592.5 ) + ( 1 / 195 ) );
+         IceCrustThreshold:=MeltingPoint * 193 / 273.15;
+         VaporLimit:=BoilingPoint * 500 / 373.15;
+         if BaseTemperature <= IceCrustThreshold
+         then HydrosphereType:=hWaterIceCrust
+         else if ( BaseTemperature > IceCrustThreshold )
+            and ( BaseTemperature < MeltingPoint )
+         then HydrosphereType:=hWaterIceSheet
+         else if ( BaseTemperature >= MeltingPoint )
+            and ( BaseTemperature < BoilingPoint ) then
+         begin
+            HydrosphereType:=hWaterAmmoniaLiquid;
+            if WaterStatus=agsNotPresent
+            then NewWaterStatus:=agsTrace;
+         end
+         else if ( BaseTemperature >= BoilingPoint )
+            and ( BaseTemperature <= VaporLimit ) then
+         begin
+            HydrosphereType:=hNoHydro;
+            if WaterStatus=agsNotPresent
+            then NewWaterStatus:=agsTrace
+            else if WaterStatus=agsTrace
+            then NewWaterStatus:=agsSecondary;
+         end
+         else if BaseTemperature > VaporLimit then
+         begin
+            HydrosphereType:=hNoHydro;
+            if ( ( AmmoniaStatus = agsMain ) and ( NumberOfPrimaryGasses > 1 ) )
+               or ( AmmoniaStatus = agsSecondary )
+            then NewAmmoniaStatus:=agsTrace;
+            if ( ( WaterStatus = agsMain ) and ( NumberOfPrimaryGasses > 1 ) )
+               or ( WaterStatus = agsSecondary )
+            then NewWaterStatus:=agsTrace;
+         end;
+      end
+      {.water hydrosphere}
+      else if BaseTemperature < 647 then
+      begin
+         BoilingPoint:=1 / ( ( ln( sqrt( AtmosphericPressure ) ) / -592.5 ) + ( 1 / 373.15 ) );
+         MeltingPoint:=1 / ( ( ln( sqrt( AtmosphericPressure ) ) / -592.5 ) + ( 1 / 273.15 ) );
+         IceCrustThreshold:=MeltingPoint * 193 / 273.15;
+         VaporLimit:=BoilingPoint * 500 / 373.15;
+         if BaseTemperature <= IceCrustThreshold
+         then HydrosphereType:=hWaterIceCrust
+         else if ( BaseTemperature > IceCrustThreshold )
+            and ( BaseTemperature < MeltingPoint )
+         then HydrosphereType:=hWaterIceSheet
+         else if ( BaseTemperature >= MeltingPoint )
+            and ( BaseTemperature < BoilingPoint ) then
+         begin
+            HydrosphereType:=hWaterLiquid;
+            if WaterStatus=agsNotPresent
+            then NewWaterStatus:=agsTrace;
+         end
+         else if ( BaseTemperature >= BoilingPoint )
+            and ( BaseTemperature <= VaporLimit ) then
+         begin
+            HydrosphereType:=hNoHydro;
+            if WaterStatus=agsNotPresent
+            then NewWaterStatus:=agsTrace
+            else if WaterStatus=agsTrace
+            then NewWaterStatus:=agsSecondary;
+         end
+         else if BaseTemperature > VaporLimit then
+         begin
+            HydrosphereType:=hNoHydro;
+            if ( ( WaterStatus = agsMain ) and ( NumberOfPrimaryGasses > 1 ) )
+               or ( WaterStatus = agsSecondary )
+            then NewWaterStatus:=agsTrace;
          end;
       end;
-   end;
+   end; //==END== else of: if AtmosphericPressure=0 ==//
+   if ( ( HydrosphereType > hNoHydro ) and ( HydrosphereType < hWaterIceCrust ) )
+      or ( ( HydrosphereType > hWaterIceCrust ) and ( HydrosphereType < hMethaneIceCrust ) )
+      or ( HydrosphereType = hNitrogenIceSheet ) then
+   begin
+      GeneratedProbability:=FCFcF_Random_DoInteger( 9 ) + 1;
+      if Radius < 2000 then
+      begin
+         case GeneratedProbability of
+            1..5: HydroArea:=FCFcF_Random_DoInteger( 5 );
+
+            6..7: HydroArea:=FCFcF_Random_DoInteger( 9 ) + 1;
+
+            8: HydroArea:=10 + FCFcF_Random_DoInteger( 10 );
+
+            9: HydroArea:=FCFcF_Random_DoInteger( 45 ) + 5;
+
+            10: HydroArea:=20 + FCFcF_Random_DoInteger( 90 );
+         end;
+      end
+      else if ( Radius >= 2000 )
+         and ( Radius < 4000 ) then
+      begin
+         case GeneratedProbability of
+            1..2: HydroArea:=FCFcF_Random_DoInteger( 5 );
+
+            3..4: HydroArea:=FCFcF_Random_DoInteger( 9 ) + 1;
+
+            5: HydroArea:=10 + FCFcF_Random_DoInteger( 10 );
+
+            6: HydroArea:=20 + FCFcF_Random_DoInteger( 10 );
+
+            7: HydroArea:=30 + FCFcF_Random_DoInteger( 10 );
+
+            8: HydroArea:=40 + FCFcF_Random_DoInteger( 10 );
+
+            9: HydroArea:=50 + FCFcF_Random_DoInteger( 10 );
+
+            10: HydroArea:=20 + FCFcF_Random_DoInteger( 90 );
+         end;
+      end
+      else if ( Radius >= 4000 )
+         and ( Radius < 7000 ) then
+      begin
+         case GeneratedProbability of
+            1: HydroArea:=FCFcF_Random_DoInteger( 5 );
+
+            2: HydroArea:=FCFcF_Random_DoInteger( 18 ) + 2;
+
+            3: HydroArea:=20 + FCFcF_Random_DoInteger( 10 );
+
+            4: HydroArea:=30 + FCFcF_Random_DoInteger( 10 );
+
+            5: HydroArea:=40 + FCFcF_Random_DoInteger( 10 );
+
+            6: HydroArea:=50 + FCFcF_Random_DoInteger( 10 );
+
+            7: HydroArea:=60 + FCFcF_Random_DoInteger( 10 );
+
+            8: HydroArea:=70 + FCFcF_Random_DoInteger( 10 );
+
+            9: HydroArea:=82 + FCFcF_Random_DoInteger( 18 );
+
+            10: HydroArea:=100;
+         end;
+      end
+      else if Radius >= 7000 then
+      begin
+         case GeneratedProbability of
+            1: HydroArea:=FCFcF_Random_DoInteger( 5 );
+
+            2: HydroArea:=FCFcF_Random_DoInteger( 18 ) + 2;
+
+            3: HydroArea:=20 + FCFcF_Random_DoInteger( 18 ) + 2;
+
+            4: HydroArea:=40 + FCFcF_Random_DoInteger( 18 ) + 2;
+
+            5: HydroArea:=60 + FCFcF_Random_DoInteger( 9 ) + 1;
+
+            6: HydroArea:=70 + FCFcF_Random_DoInteger( 9 ) + 1;
+
+            7: HydroArea:=80 + FCFcF_Random_DoInteger( 9 ) + 1;
+
+            8: HydroArea:=90 + FCFcF_Random_DoInteger( 9 ) + 1;
+
+            9..10: HydroArea:=100;
+         end;
+      end;
+   end  //==END== if ( ( HydrosphereType > hNoHydro ) and ( HydrosphereType < hWaterIceCrust ) ) or ( ( HydrosphereType > hWaterIceCrust ) and ( HydrosphereType < hMethaneIceCrust ) ) or ( HydrosphereType = hNitrogenIceSheet ) ==//
+   else if ( HydrosphereType > hNoHydro )
+   then HydroArea:=100
+   else HydroArea:=0;
    if Satellite=0 then
    begin
       FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_hydrosphere:=HydrosphereType;
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_hydrosphereArea:=HydroArea;
       FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceCH4:=NewMetaneStatus;
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceNH3:=NewAmmoniaStatus;
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceH2O:=NewWaterStatus;
    end
    else begin
       FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_hydrosphere:=HydrosphereType;
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_hydrosphereArea:=HydroArea;
       FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceCH4:=NewMetaneStatus;
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceNH3:=NewAmmoniaStatus;
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceH2O:=NewWaterStatus;
    end;
 end;
 
