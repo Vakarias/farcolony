@@ -660,7 +660,7 @@ var
    MTAdmpLibName
    ,MTAdmpOobjToken
    ,MTAdmpTexPath: string;
-   MTAdmpTemp: extended;
+   BaseTemperatureMean: extended;
 begin
    MTAdmpLibName:='';
    if MTAsatIdx=0
@@ -668,14 +668,14 @@ begin
    begin
       MTAdmpObjTp:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[MTAoobjIdx].OO_type;
       MTAdmpHydroTp:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[MTAoobjIdx].OO_hydrosphere;
-      MTAdmpTemp:=FCFuF_OrbPeriod_GetMeanTemp(MTAoobjIdx, MTAsatIdx);
+      BaseTemperatureMean:=FCFuF_OrbitalPeriods_GetMeanBaseTemperature(MTAoobjIdx, MTAsatIdx);
    end
    else if MTAsatIdx>0
    then
    begin
       MTAdmpObjTp:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[MTAoobjIdx].OO_satellitesList[MTAsatIdx].OO_type;
       MTAdmpHydroTp:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[MTAoobjIdx].OO_satellitesList[MTAsatIdx].OO_hydrosphere;
-      MTAdmpTemp:=FCFuF_OrbPeriod_GetMeanTemp(MTAoobjIdx, MTAsatIdx);
+      BaseTemperatureMean:=FCFuF_OrbitalPeriods_GetMeanBaseTemperature(MTAoobjIdx, MTAsatIdx);
    end;
    {.for gaseous planets => standard textures}
    if ( MTAdmpObjTp >= ootPlanet_Gaseous_Uranus )
@@ -685,37 +685,37 @@ begin
       case MTAdmpObjTp of
          ootPlanet_Gaseous_Uranus:
          begin
-            if MTAdmpTemp<=80
+            if BaseTemperatureMean<=80
             then  MTAdmpLibName:='UranusCold'
-            else if MTAdmpTemp>80
+            else if BaseTemperatureMean>80
             then  MTAdmpLibName:='UranusHot';
          end;
          ootPlanet_Gaseous_Neptune:
          begin
-            if MTAdmpTemp<=80
+            if BaseTemperatureMean<=80
             then  MTAdmpLibName:='NeptuneCold'
-            else if MTAdmpTemp>80
+            else if BaseTemperatureMean>80
             then  MTAdmpLibName:='NeptuneHot';
          end;
          ootPlanet_Gaseous_Saturn:
          begin
-            if MTAdmpTemp<=145
+            if BaseTemperatureMean<=145
             then  MTAdmpLibName:='SaturnCold'
-            else if MTAdmpTemp>145
+            else if BaseTemperatureMean>145
             then  MTAdmpLibName:='SaturnHot';
          end;
          ootPlanet_Jovian:
          begin
-            if MTAdmpTemp<=175
+            if BaseTemperatureMean<=175
             then  MTAdmpLibName:='JovianCold'
-            else if MTAdmpTemp>175
+            else if BaseTemperatureMean>175
             then  MTAdmpLibName:='JovianHot';
          end;
          ootPlanet_Supergiant:
          begin
-            if MTAdmpTemp<=175
+            if BaseTemperatureMean<=175
             then  MTAdmpLibName:='SuperGiantCold'
-            else if MTAdmpTemp>175
+            else if BaseTemperatureMean>175
             then  MTAdmpLibName:='SuperGiantHot';
          end;
       end; //==END== case MTAdmpObjTp ==//

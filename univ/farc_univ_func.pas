@@ -149,7 +149,7 @@ function FCFuF_Index_Get(
 ///</summary>
 ///    <param name="OPGMToobjIdx">orbital object index #</param>
 ///    <param name="OPGMTsatIdx">[optional] satellite index</param>
-function FCFuF_OrbPeriod_GetMeanTemp(const OPGMToobjIdx, OPGMTsatIdx: integer): extended;
+function FCFuF_OrbitalPeriods_GetMeanBaseTemperature(const OPGMToobjIdx, OPGMTsatIdx: integer): extended;
 
 ///<summary>
 ///   get the climate token of a choosen region
@@ -293,18 +293,18 @@ begin
       with FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[GCSooIdx] do
       begin
          GCSrevolIni:=OO_revolutionPeriodInit;
+         GCSorbP1tp:=OO_orbitalPeriods[1].OOS_orbitalPeriodType;
          GCSorbP1s:=OO_orbitalPeriods[1].OOS_dayStart;
          GCSorbP1e:=OO_orbitalPeriods[1].OOS_dayEnd;
-         GCSorbP1tp:=OO_orbitalPeriods[1].OOS_orbitalPeriodType;
+         GCSorbP2tp:=OO_orbitalPeriods[2].OOS_orbitalPeriodType;
          GCSorbP2s:=OO_orbitalPeriods[2].OOS_dayStart;
          GCSorbP2e:=OO_orbitalPeriods[2].OOS_dayEnd;
-         GCSorbP2tp:=OO_orbitalPeriods[2].OOS_orbitalPeriodType;
+         GCSorbP3tp:=OO_orbitalPeriods[3].OOS_orbitalPeriodType;
          GCSorbP3s:=OO_orbitalPeriods[3].OOS_dayStart;
          GCSorbP3e:=OO_orbitalPeriods[3].OOS_dayEnd;
-         GCSorbP3tp:=OO_orbitalPeriods[3].OOS_orbitalPeriodType;
+         GCSorbP4tp:=OO_orbitalPeriods[4].OOS_orbitalPeriodType;
          GCSorbP4s:=OO_orbitalPeriods[4].OOS_dayStart;
          GCSorbP4e:=OO_orbitalPeriods[4].OOS_dayEnd;
-         GCSorbP4tp:=OO_orbitalPeriods[4].OOS_orbitalPeriodType;
       end;
    end
    else if GCSsatIdx>0
@@ -313,18 +313,18 @@ begin
       with FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[GCSooIdx].OO_satellitesList[GCSsatIdx] do
       begin
          GCSrevolIni:=OO_revolutionPeriodInit;
+         GCSorbP1tp:=OO_orbitalPeriods[1].OOS_orbitalPeriodType;
          GCSorbP1s:=OO_orbitalPeriods[1].OOS_dayStart;
          GCSorbP1e:=OO_orbitalPeriods[1].OOS_dayEnd;
-         GCSorbP1tp:=OO_orbitalPeriods[1].OOS_orbitalPeriodType;
+         GCSorbP2tp:=OO_orbitalPeriods[2].OOS_orbitalPeriodType;
          GCSorbP2s:=OO_orbitalPeriods[2].OOS_dayStart;
          GCSorbP2e:=OO_orbitalPeriods[2].OOS_dayEnd;
-         GCSorbP2tp:=OO_orbitalPeriods[2].OOS_orbitalPeriodType;
+         GCSorbP3tp:=OO_orbitalPeriods[3].OOS_orbitalPeriodType;
          GCSorbP3s:=OO_orbitalPeriods[3].OOS_dayStart;
          GCSorbP3e:=OO_orbitalPeriods[3].OOS_dayEnd;
-         GCSorbP3tp:=OO_orbitalPeriods[3].OOS_orbitalPeriodType;
+         GCSorbP4tp:=OO_orbitalPeriods[4].OOS_orbitalPeriodType;
          GCSorbP4s:=OO_orbitalPeriods[4].OOS_dayStart;
          GCSorbP4e:=OO_orbitalPeriods[4].OOS_dayEnd;
-         GCSorbP4tp:=OO_orbitalPeriods[4].OOS_orbitalPeriodType;
       end;
    end;
    if (GCSrevolIni>=GCSorbP1s)
@@ -340,8 +340,10 @@ begin
       and (GCSrevolIni<=GCSorbP4e)
    then GCSorbTpRes:=GCSorbP4tp;
    case GCSorbTpRes of
-      optClosest: GCSseasRes:='seasonMin';
       optIntermediary: GCSseasRes:='seasonMid';
+
+      optClosest: GCSseasRes:='seasonMin';
+
       optFarest: GCSseasRes:='seasonMax';
    end;
    Result:=GCSseasRes;
@@ -546,7 +548,7 @@ begin
    Result:=IGidx;
 end;
 
-function FCFuF_OrbPeriod_GetMeanTemp(const OPGMToobjIdx, OPGMTsatIdx: integer): extended;
+function FCFuF_OrbitalPeriods_GetMeanBaseTemperature(const OPGMToobjIdx, OPGMTsatIdx: integer): extended;
 {:Purpose: calculate surface temperate by process the mean value between the 4 orbital periods.
     Additions:
       -2010Jan07- *add: satellite calculations.
@@ -561,22 +563,18 @@ begin
    if OPGMTsatIdx=0
    then
    begin
-      OPGMTdmpT1:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OPGMToobjIdx].OO_orbitalPeriods[1].OOS_meanTemperature;
-      OPGMTdmpT2:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OPGMToobjIdx].OO_orbitalPeriods[2].OOS_meanTemperature;
-      OPGMTdmpT3:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OPGMToobjIdx].OO_orbitalPeriods[3].OOS_meanTemperature;
-      OPGMTdmpT4:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OPGMToobjIdx].OO_orbitalPeriods[4].OOS_meanTemperature;
+      OPGMTdmpT1:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OPGMToobjIdx].OO_orbitalPeriods[1].OOS_baseTemperature;
+      OPGMTdmpT2:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OPGMToobjIdx].OO_orbitalPeriods[2].OOS_baseTemperature;
+      OPGMTdmpT3:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OPGMToobjIdx].OO_orbitalPeriods[3].OOS_baseTemperature;
+      OPGMTdmpT4:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OPGMToobjIdx].OO_orbitalPeriods[4].OOS_baseTemperature;
    end
    else if OPGMTsatIdx>0
    then
    begin
-      OPGMTdmpT1
-         :=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OPGMToobjIdx].OO_satellitesList[OPGMTsatIdx].OO_orbitalPeriods[1].OOS_meanTemperature;
-      OPGMTdmpT2
-         :=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OPGMToobjIdx].OO_satellitesList[OPGMTsatIdx].OO_orbitalPeriods[2].OOS_meanTemperature;
-      OPGMTdmpT3
-         :=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OPGMToobjIdx].OO_satellitesList[OPGMTsatIdx].OO_orbitalPeriods[3].OOS_meanTemperature;
-      OPGMTdmpT4
-         :=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OPGMToobjIdx].OO_satellitesList[OPGMTsatIdx].OO_orbitalPeriods[4].OOS_meanTemperature;
+      OPGMTdmpT1:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OPGMToobjIdx].OO_satellitesList[OPGMTsatIdx].OO_orbitalPeriods[1].OOS_baseTemperature;
+      OPGMTdmpT2:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OPGMToobjIdx].OO_satellitesList[OPGMTsatIdx].OO_orbitalPeriods[2].OOS_baseTemperature;
+      OPGMTdmpT3:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OPGMToobjIdx].OO_satellitesList[OPGMTsatIdx].OO_orbitalPeriods[3].OOS_baseTemperature;
+      OPGMTdmpT4:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OPGMToobjIdx].OO_satellitesList[OPGMTsatIdx].OO_orbitalPeriods[4].OOS_baseTemperature;
    end;
    OPGMTdmpRes:=(OPGMTdmpT1+OPGMTdmpT2+OPGMTdmpT3+OPGMTdmpT4)/4;
    Result:=OPGMTdmpRes;

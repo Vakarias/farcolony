@@ -251,8 +251,8 @@ type TFCEduOrbitalObjectTypes=(
 ///   orbital period types
 ///</summary>
 type TFCEduOrbitalPeriodTypes=(
-   optClosest
-   ,optIntermediary
+   optIntermediary
+   ,optClosest
    ,optFarest
    );
 
@@ -537,7 +537,8 @@ type TFCRduOObSeason = record
    OOS_orbitalPeriodType: TFCEduOrbitalPeriodTypes;
    OOS_dayStart: integer;
    OOS_dayEnd: integer;
-   OOS_meanTemperature: extended;
+   OOS_baseTemperature: extended;
+   OOS_surfaceTemperature: extended;
 end;
 
 {:REFERENCES LIST
