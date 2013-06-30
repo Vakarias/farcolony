@@ -274,7 +274,11 @@ procedure FCMfA_Atmosphere_Processing(
    );
 {:Purpose: main rule for the process of the atmosphere.
    Additions:
-      -2013Jun29- *fix: fixed a strange crash du to the gas settings initialization.
+      -2013Jun30- *fix: correction in logic that switched all primary gasses as secondary, if not trace.
+                  *fix: force to set the traceatmosphere=false when no gas is present.
+                  *fix: set correctly the trace atmosphere, when it is required, in the gasses interactions.
+                  *add: the gasses interactions is expanded.
+      -2013Jun29- *fix: fixed a strange crash due to the gas settings initialization.
                   *fix: the conditions for the PrimaryGasVolume and CalculatedPressure calculations are reorganized in a better way.
                   *fix: correction in the retained gasses rule for the SO2.
                   *fix: correction in one part of test of _SecondaryGas_test.
@@ -713,7 +717,8 @@ begin
                else if ( GasVelocity <= EscapeVelocity )
                   and ( GasSettings.AC_traceAtmosphere )
                then GasSettings.AC_gasPresenceH2:=agsTrace
-               else begin
+               else if GasSettings.AC_gasPresenceH2 < agsMain then
+               begin
                   TestBool:=_SecondaryGas_test;
                   if not TestBool
                   then GasSettings.AC_gasPresenceH2:=agsTrace
@@ -751,7 +756,8 @@ begin
                else if ( GasVelocity <= EscapeVelocity )
                   and ( GasSettings.AC_traceAtmosphere )
                then GasSettings.AC_gasPresenceHe:=agsTrace
-               else begin
+               else if GasSettings.AC_gasPresenceHe < agsMain then
+               begin
                   TestBool:=_SecondaryGas_test;
                   if not TestBool
                   then GasSettings.AC_gasPresenceHe:=agsTrace
@@ -789,7 +795,8 @@ begin
                else if ( GasVelocity <= EscapeVelocity )
                   and ( GasSettings.AC_traceAtmosphere )
                then GasSettings.AC_gasPresenceCH4:=agsTrace
-               else begin
+               else if GasSettings.AC_gasPresenceCH4 < agsMain then
+               begin
                   TestBool:=_SecondaryGas_test;
                   if not TestBool
                   then GasSettings.AC_gasPresenceCH4:=agsTrace
@@ -827,7 +834,8 @@ begin
                else if ( GasVelocity <= EscapeVelocity )
                   and ( GasSettings.AC_traceAtmosphere )
                then GasSettings.AC_gasPresenceNH3:=agsTrace
-               else begin
+               else if GasSettings.AC_gasPresenceNH3 < agsMain then
+               begin
                   TestBool:=_SecondaryGas_test;
                   if not TestBool
                   then GasSettings.AC_gasPresenceNH3:=agsTrace
@@ -865,7 +873,8 @@ begin
                else if ( GasVelocity <= EscapeVelocity )
                   and ( GasSettings.AC_traceAtmosphere )
                then GasSettings.AC_gasPresenceH2O:=agsTrace
-               else begin
+               else if GasSettings.AC_gasPresenceH2O < agsMain then
+               begin
                   TestBool:=_SecondaryGas_test;
                   if not TestBool
                   then GasSettings.AC_gasPresenceH2O:=agsTrace
@@ -903,7 +912,8 @@ begin
                else if ( GasVelocity <= EscapeVelocity )
                   and ( GasSettings.AC_traceAtmosphere )
                then GasSettings.AC_gasPresenceNe:=agsTrace
-               else begin
+               else if GasSettings.AC_gasPresenceNe < agsMain then
+               begin
                   TestBool:=_SecondaryGas_test;
                   if not TestBool
                   then GasSettings.AC_gasPresenceNe:=agsTrace
@@ -941,7 +951,8 @@ begin
                else if ( GasVelocity <= EscapeVelocity )
                   and ( GasSettings.AC_traceAtmosphere )
                then GasSettings.AC_gasPresenceN2:=agsTrace
-               else begin
+               else if GasSettings.AC_gasPresenceN2 < agsMain then
+               begin
                   TestBool:=_SecondaryGas_test;
                   if not TestBool
                   then GasSettings.AC_gasPresenceN2:=agsTrace
@@ -979,7 +990,8 @@ begin
                else if ( GasVelocity <= EscapeVelocity )
                   and ( GasSettings.AC_traceAtmosphere )
                then GasSettings.AC_gasPresenceCO:=agsTrace
-               else begin
+               else if GasSettings.AC_gasPresenceCO < agsMain then
+               begin
                   TestBool:=_SecondaryGas_test;
                   if not TestBool
                   then GasSettings.AC_gasPresenceCO:=agsTrace
@@ -1017,7 +1029,8 @@ begin
                else if ( GasVelocity <= EscapeVelocity )
                   and ( GasSettings.AC_traceAtmosphere )
                then GasSettings.AC_gasPresenceNO:=agsTrace
-               else begin
+               else if GasSettings.AC_gasPresenceNO < agsMain then
+               begin
                   TestBool:=_SecondaryGas_test;
                   if not TestBool
                   then GasSettings.AC_gasPresenceNO:=agsTrace
@@ -1055,7 +1068,8 @@ begin
                else if ( GasVelocity <= EscapeVelocity )
                   and ( GasSettings.AC_traceAtmosphere )
                then GasSettings.AC_gasPresenceO2:=agsTrace
-               else begin
+               else if GasSettings.AC_gasPresenceO2 < agsMain then
+               begin
                   TestBool:=_SecondaryGas_test;
                   if not TestBool
                   then GasSettings.AC_gasPresenceO2:=agsTrace
@@ -1093,7 +1107,8 @@ begin
                else if ( GasVelocity <= EscapeVelocity )
                   and ( GasSettings.AC_traceAtmosphere )
                then GasSettings.AC_gasPresenceH2S:=agsTrace
-               else begin
+               else if GasSettings.AC_gasPresenceH2S < agsMain then
+               begin
                   TestBool:=_SecondaryGas_test;
                   if not TestBool
                   then GasSettings.AC_gasPresenceH2S:=agsTrace
@@ -1131,7 +1146,8 @@ begin
                else if ( GasVelocity <= EscapeVelocity )
                   and ( GasSettings.AC_traceAtmosphere )
                then GasSettings.AC_gasPresenceAr:=agsTrace
-               else begin
+               else if GasSettings.AC_gasPresenceAr < agsMain then
+               begin
                   TestBool:=_SecondaryGas_test;
                   if not TestBool
                   then GasSettings.AC_gasPresenceAr:=agsTrace
@@ -1169,7 +1185,8 @@ begin
                else if ( GasVelocity <= EscapeVelocity )
                   and ( GasSettings.AC_traceAtmosphere )
                then GasSettings.AC_gasPresenceCO2:=agsTrace
-               else begin
+               else if GasSettings.AC_gasPresenceCO2 < agsMain then
+               begin
                   TestBool:=_SecondaryGas_test;
                   if not TestBool
                   then GasSettings.AC_gasPresenceCO2:=agsTrace
@@ -1207,7 +1224,8 @@ begin
                else if ( GasVelocity <= EscapeVelocity )
                   and ( GasSettings.AC_traceAtmosphere )
                then GasSettings.AC_gasPresenceNO2:=agsTrace
-               else begin
+               else if GasSettings.AC_gasPresenceNO2 < agsMain then
+               begin
                   TestBool:=_SecondaryGas_test;
                   if not TestBool
                   then GasSettings.AC_gasPresenceNO2:=agsTrace
@@ -1245,7 +1263,8 @@ begin
                else if ( GasVelocity <= EscapeVelocity )
                   and ( GasSettings.AC_traceAtmosphere )
                then GasSettings.AC_gasPresenceO3:=agsTrace
-               else begin
+               else if GasSettings.AC_gasPresenceO3 < agsMain then
+               begin
                   TestBool:=_SecondaryGas_test;
                   if not TestBool
                   then GasSettings.AC_gasPresenceO3:=agsTrace
@@ -1284,7 +1303,8 @@ begin
                else if ( GasVelocity <= EscapeVelocity )
                   and ( GasSettings.AC_traceAtmosphere )
                then GasSettings.AC_gasPresenceSO2:=agsTrace
-               else begin
+               else if GasSettings.AC_gasPresenceSO2 < agsMain then
+               begin
                   TestBool:=_SecondaryGas_test;
                   if not TestBool
                   then GasSettings.AC_gasPresenceSO2:=agsTrace
@@ -1295,119 +1315,204 @@ begin
          inc( Count );
       end; //==END== while Count <= 16 ==//
    end; //==END== else begin of: if ( not/is isVeryDense ) and ( GasVelocity > EscapeVelocity ) ==//
-//   {.step 4: stellar implications}
-//   CalculationMisc:=FCFfS_Age_Calc( FCDduStarSystem[0].SS_stars[Star].S_mass, FCDduStarSystem[0].SS_stars[Star].S_luminosity );
-//   if CalculationMisc > 0.5 then
-//   begin
-//      if ( ( BaseTemperature > 150 ) and ( ( FCDduStarSystem[0].SS_stars[Star].S_class < cK0 ) or ( ( FCDduStarSystem[0].SS_stars[Star].S_class >= B0 ) and ( FCDduStarSystem[0].SS_stars[Star].S_class < F0 ) ) ) )
-//         or ( ( BaseTemperature > 180 ) and ( ( ( FCDduStarSystem[0].SS_stars[Star].S_class >= gF0 ) and ( FCDduStarSystem[0].SS_stars[Star].S_class < gG0 ) ) or ( ( FCDduStarSystem[0].SS_stars[Star].S_class >= F0 ) and ( FCDduStarSystem[0].SS_stars[Star].S_class < G0 ) ) ) )
-//         or ( ( BaseTemperature > 200 ) and ( ( ( FCDduStarSystem[0].SS_stars[Star].S_class >= gG0 ) and ( FCDduStarSystem[0].SS_stars[Star].S_class < gK0 ) ) or ( ( FCDduStarSystem[0].SS_stars[Star].S_class >= G0 ) and ( FCDduStarSystem[0].SS_stars[Star].S_class < K0 ) ) ) )
-//         or ( ( BaseTemperature > 230 ) and ( ( ( FCDduStarSystem[0].SS_stars[Star].S_class >= cK0 ) and ( FCDduStarSystem[0].SS_stars[Star].S_class < cM0 ) ) or ( ( FCDduStarSystem[0].SS_stars[Star].S_class >= gK0 ) and ( FCDduStarSystem[0].SS_stars[Star].S_class < gM0 ) ) or ( ( FCDduStarSystem[0].SS_stars[Star].S_class >= K0 ) and ( FCDduStarSystem[0].SS_stars[Star].S_class < M0 ) ) ) )
-//         or ( ( BaseTemperature > 260 ) and ( ( ( FCDduStarSystem[0].SS_stars[Star].S_class >= cM0 ) and ( FCDduStarSystem[0].SS_stars[Star].S_class < gF0 ) ) or ( ( FCDduStarSystem[0].SS_stars[Star].S_class >= gM0 ) and ( FCDduStarSystem[0].SS_stars[Star].S_class < O5 ) ) or ( ( FCDduStarSystem[0].SS_stars[Star].S_class >= M0 ) and ( FCDduStarSystem[0].SS_stars[Star].S_class < WD0 ) ) ) )
-//      then
-//      begin
-//         if GasSettings.AC_gasPresenceNH3=agsMain then
-//         begin
-//            dec( PrimaryGasCount );
-//            GasSettings.AC_gasPresenceNH3:=agsTrace;
-//            if PrimaryGasCount=0
-//            then TestBool:=_NextSecondary_SetAsPrimary;
-//            if not TestBool
-//            then GasSettings.AC_traceAtmosphere:=true;
-//         end;
-//         if GasSettings.AC_gasPresenceCH4=agsMain then
-//         begin
-//            dec( PrimaryGasCount );
-//            GasSettings.AC_gasPresenceCH4:=agsTrace;
-//            if PrimaryGasCount=0
-//            then TestBool:=_NextSecondary_SetAsPrimary;
-//            if not TestBool
-//            then GasSettings.AC_traceAtmosphere:=true;
-//         end;
-//      end;
-//   end;
-//   {.step 5: tectonic activity}
-//   if ( ( BasicType=oobtTelluricPlanet ) or ( BasicType=oobtIcyPlanet ) )
-//      and ( not GasSettings.AC_traceAtmosphere ) then
-//   begin
-//      if TectonicActivity = taDead then
-//      begin
-//         if ( ( GasSettings.AC_gasPresenceH2S = agsTrace ) or ( GasSettings.AC_gasPresenceH2S = agsSecondary ) )
-//            and ( not isVeryDense )
-//         then GasSettings.AC_gasPresenceH2S:=agsNotPresent
-//         else if ( GasSettings.AC_gasPresenceH2S = agsMain )
-//            and ( not isVeryDense ) then
-//         begin
-//            GasSettings.AC_gasPresenceH2S:=agsTrace;
-//            dec( PrimaryGasCount );
-//         end
-//         else if ( GasSettings.AC_gasPresenceH2S = agsMain )
-//            and ( isVeryDense ) then
-//         begin
-//            GasSettings.AC_gasPresenceH2S:=agsSecondary;
-//            dec( PrimaryGasCount );
-//         end;
-//         if ( ( GasSettings.AC_gasPresenceSO2 = agsTrace ) or ( GasSettings.AC_gasPresenceSO2 = agsSecondary ) )
-//            and ( not isVeryDense )
-//         then GasSettings.AC_gasPresenceSO2:=agsNotPresent
-//         else if ( GasSettings.AC_gasPresenceSO2 = agsMain )
-//            and ( not isVeryDense ) then
-//         begin
-//            GasSettings.AC_gasPresenceSO2:=agsTrace;
-//            dec( PrimaryGasCount );
-//         end
-//         else if ( GasSettings.AC_gasPresenceSO2 = agsMain )
-//            and ( isVeryDense ) then
-//         begin
-//            GasSettings.AC_gasPresenceSO2:=agsSecondary;
-//            dec( PrimaryGasCount );
-//         end;
-//         if PrimaryGasCount=0
-//         then GasSettings.AC_traceAtmosphere:=true;
-//      end
-//      else if TectonicActivity > taPlateTectonic then
-//      begin
-//         if GasSettings.AC_gasPresenceH2S = agsTrace
-//         then GasSettings.AC_gasPresenceH2S:=agsSecondary
-//         else if GasSettings.AC_gasPresenceH2S = agsSecondary then
-//         begin
-//            GasSettings.AC_gasPresenceH2S:=agsMain;
-//            inc( PrimaryGasCount );
-//         end;
-//         if GasSettings.AC_gasPresenceSO2 = agsTrace
-//         then GasSettings.AC_gasPresenceSO2:=agsSecondary
-//         else if GasSettings.AC_gasPresenceSO2 = agsSecondary then
-//         begin
-//            GasSettings.AC_gasPresenceSO2:=agsMain;
-//            inc( PrimaryGasCount );
-//         end;
-//         if ( PrimaryGasCount > 0 )
-//            and ( GasSettings.AC_traceAtmosphere )
-//         then GasSettings.AC_traceAtmosphere:=false;
-//      end;
-//   end;
-//   {.step 6: gases interactions}
-//   if GasSettings.AC_gasPresenceCO2 = agsMain then
-//   begin
-//      if GasSettings.AC_gasPresenceNH3 = agsMain then
-//      begin
-//         GasSettings.AC_gasPresenceNH3:=agsSecondary;
-//         dec( PrimaryGasCount );
-//      end
-//      else if GasSettings.AC_gasPresenceNH3 = agsSecondary
-//      then GasSettings.AC_gasPresenceNH3:=agsTrace
-//      else if GasSettings.AC_gasPresenceNH3 = agsTrace
-//      then GasSettings.AC_gasPresenceNH3:=agsNotPresent;
-//      if GasSettings.AC_gasPresenceH2 = agsNotPresent
-//      then GasSettings.AC_gasPresenceH2:=agsTrace;
-//   end;
-//   if ( GasSettings.AC_gasPresenceH2 = agsMain )
-//      and ( GasSettings.AC_gasPresenceCO = agsMain ) then
-//   begin
-//      if GasSettings.AC_gasPresenceO2 = agsMain
-//      then dec( PrimaryGasCount );
-//      GasSettings.AC_gasPresenceO2:=agsNotPresent;
-//   end;
+   {.step 4: stellar implications}
+   CalculationMisc:=FCFfS_Age_Calc( FCDduStarSystem[0].SS_stars[Star].S_mass, FCDduStarSystem[0].SS_stars[Star].S_luminosity );
+   if CalculationMisc > 0.5 then
+   begin
+      if ( ( BaseTemperature > 150 ) and ( ( FCDduStarSystem[0].SS_stars[Star].S_class < cK0 ) or ( ( FCDduStarSystem[0].SS_stars[Star].S_class >= B0 ) and ( FCDduStarSystem[0].SS_stars[Star].S_class < F0 ) ) ) )
+         or ( ( BaseTemperature > 180 ) and ( ( ( FCDduStarSystem[0].SS_stars[Star].S_class >= gF0 ) and ( FCDduStarSystem[0].SS_stars[Star].S_class < gG0 ) ) or ( ( FCDduStarSystem[0].SS_stars[Star].S_class >= F0 ) and ( FCDduStarSystem[0].SS_stars[Star].S_class < G0 ) ) ) )
+         or ( ( BaseTemperature > 200 ) and ( ( ( FCDduStarSystem[0].SS_stars[Star].S_class >= gG0 ) and ( FCDduStarSystem[0].SS_stars[Star].S_class < gK0 ) ) or ( ( FCDduStarSystem[0].SS_stars[Star].S_class >= G0 ) and ( FCDduStarSystem[0].SS_stars[Star].S_class < K0 ) ) ) )
+         or ( ( BaseTemperature > 230 ) and ( ( ( FCDduStarSystem[0].SS_stars[Star].S_class >= cK0 ) and ( FCDduStarSystem[0].SS_stars[Star].S_class < cM0 ) ) or ( ( FCDduStarSystem[0].SS_stars[Star].S_class >= gK0 ) and ( FCDduStarSystem[0].SS_stars[Star].S_class < gM0 ) ) or ( ( FCDduStarSystem[0].SS_stars[Star].S_class >= K0 ) and ( FCDduStarSystem[0].SS_stars[Star].S_class < M0 ) ) ) )
+         or ( ( BaseTemperature > 260 ) and ( ( ( FCDduStarSystem[0].SS_stars[Star].S_class >= cM0 ) and ( FCDduStarSystem[0].SS_stars[Star].S_class < gF0 ) ) or ( ( FCDduStarSystem[0].SS_stars[Star].S_class >= gM0 ) and ( FCDduStarSystem[0].SS_stars[Star].S_class < O5 ) ) or ( ( FCDduStarSystem[0].SS_stars[Star].S_class >= M0 ) and ( FCDduStarSystem[0].SS_stars[Star].S_class < WD0 ) ) ) )
+      then
+      begin
+         if GasSettings.AC_gasPresenceNH3=agsMain then
+         begin
+            dec( PrimaryGasCount );
+            GasSettings.AC_gasPresenceNH3:=agsTrace;
+            if PrimaryGasCount=0
+            then TestBool:=_NextSecondary_SetAsPrimary;
+            if not TestBool
+            then GasSettings.AC_traceAtmosphere:=true;
+         end;
+         if GasSettings.AC_gasPresenceCH4=agsMain then
+         begin
+            dec( PrimaryGasCount );
+            GasSettings.AC_gasPresenceCH4:=agsTrace;
+            if PrimaryGasCount=0
+            then TestBool:=_NextSecondary_SetAsPrimary;
+            if not TestBool
+            then GasSettings.AC_traceAtmosphere:=true;
+         end;
+      end;
+   end;
+   {.step 5: tectonic activity}
+   if ( ( BasicType=oobtTelluricPlanet ) or ( BasicType=oobtIcyPlanet ) )
+      and ( not GasSettings.AC_traceAtmosphere ) then
+   begin
+      if TectonicActivity = taDead then
+      begin
+         if ( ( GasSettings.AC_gasPresenceH2S = agsTrace ) or ( GasSettings.AC_gasPresenceH2S = agsSecondary ) )
+            and ( not isVeryDense )
+         then GasSettings.AC_gasPresenceH2S:=agsNotPresent
+         else if ( GasSettings.AC_gasPresenceH2S = agsMain )
+            and ( not isVeryDense ) then
+         begin
+            GasSettings.AC_gasPresenceH2S:=agsTrace;
+            dec( PrimaryGasCount );
+         end
+         else if ( GasSettings.AC_gasPresenceH2S = agsMain )
+            and ( isVeryDense ) then
+         begin
+            GasSettings.AC_gasPresenceH2S:=agsSecondary;
+            dec( PrimaryGasCount );
+         end;
+         if ( ( GasSettings.AC_gasPresenceSO2 = agsTrace ) or ( GasSettings.AC_gasPresenceSO2 = agsSecondary ) )
+            and ( not isVeryDense )
+         then GasSettings.AC_gasPresenceSO2:=agsNotPresent
+         else if ( GasSettings.AC_gasPresenceSO2 = agsMain )
+            and ( not isVeryDense ) then
+         begin
+            GasSettings.AC_gasPresenceSO2:=agsTrace;
+            dec( PrimaryGasCount );
+         end
+         else if ( GasSettings.AC_gasPresenceSO2 = agsMain )
+            and ( isVeryDense ) then
+         begin
+            GasSettings.AC_gasPresenceSO2:=agsSecondary;
+            dec( PrimaryGasCount );
+         end;
+         if PrimaryGasCount=0
+         then GasSettings.AC_traceAtmosphere:=true;
+      end
+      else if TectonicActivity > taPlateTectonic then
+      begin
+         if GasSettings.AC_gasPresenceH2S = agsTrace
+         then GasSettings.AC_gasPresenceH2S:=agsSecondary
+         else if GasSettings.AC_gasPresenceH2S = agsSecondary then
+         begin
+            GasSettings.AC_gasPresenceH2S:=agsMain;
+            inc( PrimaryGasCount );
+         end;
+         if GasSettings.AC_gasPresenceSO2 = agsTrace
+         then GasSettings.AC_gasPresenceSO2:=agsSecondary
+         else if GasSettings.AC_gasPresenceSO2 = agsSecondary then
+         begin
+            GasSettings.AC_gasPresenceSO2:=agsMain;
+            inc( PrimaryGasCount );
+         end;
+         if ( PrimaryGasCount > 0 )
+            and ( GasSettings.AC_traceAtmosphere )
+         then GasSettings.AC_traceAtmosphere:=false;
+      end;
+   end;
+   {.step 6: gasses interactions}
+   if GasSettings.AC_gasPresenceCO2 = agsMain then
+   begin
+      if GasSettings.AC_gasPresenceNH3 = agsMain then
+      begin
+         GasSettings.AC_gasPresenceNH3:=agsSecondary;
+         dec( PrimaryGasCount );
+         if PrimaryGasCount<=0
+         then GasSettings.AC_traceAtmosphere:=true;
+      end
+      else if GasSettings.AC_gasPresenceNH3 = agsSecondary
+      then GasSettings.AC_gasPresenceNH3:=agsTrace
+      else if GasSettings.AC_gasPresenceNH3 = agsTrace
+      then GasSettings.AC_gasPresenceNH3:=agsNotPresent;
+      if GasSettings.AC_gasPresenceH2 = agsNotPresent
+      then GasSettings.AC_gasPresenceH2:=agsTrace;
+   end;
+   if ( GasSettings.AC_gasPresenceH2 = agsMain )
+      and ( GasSettings.AC_gasPresenceCO = agsMain ) then
+   begin
+      if GasSettings.AC_gasPresenceO2 = agsMain then
+      begin
+         dec( PrimaryGasCount );
+         if PrimaryGasCount<=0
+         then GasSettings.AC_traceAtmosphere:=true;
+      end;
+      GasSettings.AC_gasPresenceO2:=agsNotPresent;
+   end;
+   if GasSettings.AC_gasPresenceNH3 = agsSecondary then
+   begin
+      if GasSettings.AC_gasPresenceO2 = agsTrace
+      then GasSettings.AC_gasPresenceO2:=agsNotPresent
+      else if GasSettings.AC_gasPresenceO2 > agsTrace
+      then GasSettings.AC_gasPresenceNH3:=agsTrace;
+   end
+   else if GasSettings.AC_gasPresenceNH3 = agsMain then
+   begin
+      if GasSettings.AC_gasPresenceO2 = agsTrace
+      then GasSettings.AC_gasPresenceO2:=agsNotPresent
+      else if GasSettings.AC_gasPresenceO2 > agsTrace then
+      begin
+         if GasSettings.AC_gasPresenceO2=agsMain then
+         begin
+            dec( PrimaryGasCount );
+            if PrimaryGasCount<=0
+            then GasSettings.AC_traceAtmosphere:=true;
+         end;
+         GasSettings.AC_gasPresenceO2:=agsTrace;
+      end;
+      if GasSettings.AC_gasPresenceCO2 = agsTrace
+      then GasSettings.AC_gasPresenceCO2:=agsNotPresent
+      else if GasSettings.AC_gasPresenceCO2 > agsTrace then
+      begin
+         if GasSettings.AC_gasPresenceCO2=agsMain then
+         begin
+            dec( PrimaryGasCount );
+            if PrimaryGasCount<=0
+            then GasSettings.AC_traceAtmosphere:=true;
+         end;
+         GasSettings.AC_gasPresenceCO2:=agsTrace;
+      end;
+   end;
+   if GasSettings.AC_gasPresenceCO = agsSecondary then
+   begin
+      if GasSettings.AC_gasPresenceO2 = agsTrace
+      then GasSettings.AC_gasPresenceO2:=agsNotPresent
+      else if GasSettings.AC_gasPresenceO2 > agsTrace
+      then GasSettings.AC_gasPresenceCO:=agsTrace;
+   end
+   else if ( GasSettings.AC_gasPresenceCO = agsMain )
+      and ( GasSettings.AC_gasPresenceH2 < agsMain ) then
+   begin
+      if GasSettings.AC_gasPresenceO2 = agsTrace
+      then GasSettings.AC_gasPresenceO2:=agsNotPresent
+      else if GasSettings.AC_gasPresenceO2 > agsTrace then
+      begin
+         if GasSettings.AC_gasPresenceO2=agsMain then
+         begin
+            dec( PrimaryGasCount );
+            if PrimaryGasCount<=0
+            then GasSettings.AC_traceAtmosphere:=true;
+         end;
+         GasSettings.AC_gasPresenceO2:=agsTrace;
+      end;
+   end;
+   if GasSettings.AC_gasPresenceCH4 = agsSecondary then
+   begin
+      if GasSettings.AC_gasPresenceO2 = agsTrace
+      then GasSettings.AC_gasPresenceO2:=agsNotPresent
+      else if GasSettings.AC_gasPresenceO2 > agsTrace
+      then GasSettings.AC_gasPresenceCH4:=agsTrace;
+   end
+   else if GasSettings.AC_gasPresenceCH4 = agsMain then
+   begin
+      if GasSettings.AC_gasPresenceO2 = agsTrace
+      then GasSettings.AC_gasPresenceO2:=agsNotPresent
+      else if GasSettings.AC_gasPresenceO2 > agsTrace then
+      begin
+         if GasSettings.AC_gasPresenceO2=agsMain then
+         begin
+            dec( PrimaryGasCount );
+            if PrimaryGasCount<=0
+            then GasSettings.AC_traceAtmosphere:=true;
+         end;
+         GasSettings.AC_gasPresenceO2:=agsTrace;
+      end;
+   end;
    {.step 7: primary gas volume}
    TestBool:=false;
    if ( GasSettings.AC_gasPresenceH2=agsNotPresent )
@@ -1425,8 +1530,11 @@ begin
       and ( GasSettings.AC_gasPresenceCO2=agsNotPresent )
       and ( GasSettings.AC_gasPresenceNO2=agsNotPresent )
       and ( GasSettings.AC_gasPresenceO3=agsNotPresent )
-      and ( GasSettings.AC_gasPresenceSO2=agsNotPresent )
-   then TestBool:=true;
+      and ( GasSettings.AC_gasPresenceSO2=agsNotPresent ) then
+   begin
+      TestBool:=true;
+      GasSettings.AC_traceAtmosphere:=false;
+   end;
    if not TestBool then
    begin
       if not GasSettings.AC_traceAtmosphere then
