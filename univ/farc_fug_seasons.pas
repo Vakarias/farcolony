@@ -61,7 +61,8 @@ procedure FCMfS_Seasons_Generate(
 
 implementation
 
-//uses
+uses
+   farc_data_univ;
 
 //==END PRIVATE ENUM========================================================================
 
@@ -85,8 +86,49 @@ procedure FCMfS_Seasons_Generate(
 {:Purpose: generate the seasons and their base effects
    Additions:
 }
-begin
+   var
+      RevolutionPeriodPart: integer;
 
+      OrbitalPeriodsWork: array[0..4] of TFCRduOObSeason;
+begin
+   OrbitalPeriodsWork[1]:=OrbitalPeriodsWork[0];
+   OrbitalPeriodsWork[2]:=OrbitalPeriodsWork[0];
+   OrbitalPeriodsWork[3]:=OrbitalPeriodsWork[0];
+   OrbitalPeriodsWork[4]:=OrbitalPeriodsWork[0];
+   {.in the case of a satellite, revolution period is taken from its central orbital object}
+   RevolutionPeriodPart:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_revolutionPeriod div 4;
+   if Satellite=0 then
+   begin
+
+   end
+   else begin
+      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_type=ootAsteroidsBelt then
+      begin
+//         OrbitalPeriodsWork[1].OOS_orbitalPeriodType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_orbitalPeriods[1].OOS_orbitalPeriodType;
+//         OrbitalPeriodsWork[1].OOS_dayStart:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_orbitalPeriods[1].OOS_dayStart;
+//         OrbitalPeriodsWork[1].OOS_dayEnd:=;
+//
+//         OrbitalPeriodsWork[2].OOS_orbitalPeriodType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_orbitalPeriods[2].OOS_orbitalPeriodType;
+//         OrbitalPeriodsWork[2].OOS_dayStart:=;
+//         OrbitalPeriodsWork[2].OOS_dayEnd:=;
+//
+//         OrbitalPeriodsWork[3].OOS_orbitalPeriodType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_orbitalPeriods[3].OOS_orbitalPeriodType;
+//         OrbitalPeriodsWork[3].OOS_dayStart:=;
+//         OrbitalPeriodsWork[3].OOS_dayEnd:=;
+//
+//         OrbitalPeriodsWork[4].OOS_orbitalPeriodType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_orbitalPeriods[4].OOS_orbitalPeriodType;
+//         OrbitalPeriodsWork[4].OOS_dayStart:=;
+//         OrbitalPeriodsWork[4].OOS_dayEnd:=
+      end;
+   end;
+   OrbitalPeriodsWork[1].OOS_dayStart:=1;
+   OrbitalPeriodsWork[1].OOS_dayEnd:=RevolutionPeriodPart;
+   OrbitalPeriodsWork[2].OOS_dayStart:=OrbitalPeriodsWork[1].OOS_dayEnd + 1;
+   OrbitalPeriodsWork[2].OOS_dayEnd:=OrbitalPeriodsWork[2].OOS_dayStart + RevolutionPeriodPart - 1;
+   OrbitalPeriodsWork[3].OOS_dayStart:=OrbitalPeriodsWork[2].OOS_dayEnd + 1;
+   OrbitalPeriodsWork[3].OOS_dayEnd:=OrbitalPeriodsWork[3].OOS_dayStart + RevolutionPeriodPart - 1;
+   OrbitalPeriodsWork[4].OOS_dayStart:=OrbitalPeriodsWork[3].OOS_dayEnd + 1;
+   OrbitalPeriodsWork[4].OOS_dayEnd:=OrbitalPeriodsWork[4].OOS_dayStart + RevolutionPeriodPart - 1;
 end;
 
 end.
