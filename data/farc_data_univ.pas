@@ -659,13 +659,13 @@ type TFCRduOrbitalObject = record
    ///</summary>
    OO_atmosphericPressure: extended;
    ///<summary>
-   ///   cloud cover in %
-   ///</summary>
-   OO_cloudsCover: extended;
-   ///<summary>
    ///   atmosphere detailed composition
    ///</summary>
    OO_atmosphere: TFCRduAtmosphericComposition;
+   ///<summary>
+   ///   cloud cover in %
+   ///</summary>
+   OO_cloudsCover: extended;
    ///<summary>
    ///   orbital periods list, 2 intermediate 1 closest (summer) 1 farest (winter)
    ///</summary>

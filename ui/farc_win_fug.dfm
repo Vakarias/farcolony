@@ -1,10 +1,9 @@
 object FCWinFUG: TFCWinFUG
   Left = 0
   Top = 0
-  BorderStyle = bsSingle
   Caption = 'FARC Universe Generator'
-  ClientHeight = 768
-  ClientWidth = 1024
+  ClientHeight = 758
+  ClientWidth = 1014
   Color = clSilver
   Ctl3D = False
   Font.Charset = DEFAULT_CHARSET
@@ -19,9 +18,9 @@ object FCWinFUG: TFCWinFUG
   object WF_ConfigurationMultiTab: TAdvPageControl
     Left = 0
     Top = 41
-    Width = 1024
-    Height = 727
-    ActivePage = CMT_TabOrbitalObjects
+    Width = 1014
+    Height = 717
+    ActivePage = TOO_Results
     ActiveFont.Charset = DEFAULT_CHARSET
     ActiveFont.Color = clWindowText
     ActiveFont.Height = -11
@@ -40,6 +39,8 @@ object FCWinFUG: TFCWinFUG
       ColorTo = clNone
       TabColor = clBtnFace
       TabColorTo = clNone
+      ExplicitWidth = 1016
+      ExplicitHeight = 699
       object TSSS_StellarStarSysGroup: TAdvGroupBox
         Left = 16
         Top = 3
@@ -1183,6 +1184,8 @@ object FCWinFUG: TFCWinFUG
       ColorTo = clNone
       TabColor = clBtnFace
       TabColorTo = clNone
+      ExplicitWidth = 1016
+      ExplicitHeight = 699
       object TOO_StarPicker: TRadioGroup
         Left = 3
         Top = 3
@@ -2193,8 +2196,8 @@ object FCWinFUG: TFCWinFUG
       object WF_XMLOutput: TAdvMemo
         Left = 0
         Top = 0
-        Width = 1016
-        Height = 699
+        Width = 1006
+        Height = 689
         Cursor = crIBeam
         ActiveLineSettings.ShowActiveLine = False
         ActiveLineSettings.ShowActiveLineIndicator = False
@@ -2229,7 +2232,7 @@ object FCWinFUG: TFCWinFUG
         Gutter.GutterWidth = 30
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clBlack
-        Font.Height = -13
+        Font.Height = -11
         Font.Name = 'COURIER NEW'
         Font.Style = []
         HiddenCaret = False
@@ -2269,16 +2272,17 @@ object FCWinFUG: TFCWinFUG
   object AdvGroupBox1: TAdvGroupBox
     Left = 0
     Top = 0
-    Width = 1024
+    Width = 1014
     Height = 41
     Align = alTop
     Caption = 'AdvGroupBox1'
     TabOrder = 1
+    ExplicitWidth = 1024
     object WF_ConfigurationMainTitle: TLabel
       Left = 176
       Top = 17
-      Width = 288
-      Height = 16
+      Width = 267
+      Height = 15
       Caption = 'Stellar System / Orbital Objects Configuration'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
