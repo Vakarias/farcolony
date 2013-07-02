@@ -30,7 +30,8 @@ unit farc_fug_seasons;
 
 interface
 
-//uses
+uses
+   Math;
 
 //==END PUBLIC ENUM=========================================================================
 
@@ -62,7 +63,9 @@ procedure FCMfS_Seasons_Generate(
 implementation
 
 uses
-   farc_data_univ;
+   farc_common_func
+   ,farc_data_univ
+   ,farc_fug_geophysical;
 
 //==END PRIVATE ENUM========================================================================
 
@@ -87,40 +90,67 @@ procedure FCMfS_Seasons_Generate(
    Additions:
 }
    var
-      RevolutionPeriodPart: integer;
+      Count
+      ,GeneratedProbability
+      ,RevolutionPeriodPart: integer;
+
+      Albedo
+      ,CalcFloat
+      ,CloudsCover
+      ,ConvectionFactor
+      ,DistanceFromStar
+      ,DistMax
+      ,DistMin
+      ,Eccentricity
+      ,HydrosphereArea: extended;
 
       OrbitalPeriodsWork: array[0..4] of TFCRduOObSeason;
+
+      BasicType: TFCEduOrbitalObjectBasicTypes;
+
+      FinalType: TFCEduOrbitalObjectTypes;
+
+      Hydrosphere: TFCEduHydrospheres;
 begin
+   Count:=0;
+   GeneratedProbability:=0;
+   RevolutionPeriodPart:=0;
+   Albedo:=0;
+   CalcFloat:=0;
+   CloudsCover:=0;
+   ConvectionFactor:=0;
+   DistanceFromStar:=0;
+   DistMax:=0;
+   DistMin:=0;
+   HydrosphereArea:=0;
    OrbitalPeriodsWork[1]:=OrbitalPeriodsWork[0];
    OrbitalPeriodsWork[2]:=OrbitalPeriodsWork[0];
    OrbitalPeriodsWork[3]:=OrbitalPeriodsWork[0];
    OrbitalPeriodsWork[4]:=OrbitalPeriodsWork[0];
-   {.in the case of a satellite, revolution period is taken from its central orbital object}
-   RevolutionPeriodPart:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_revolutionPeriod div 4;
+   BasicType:=oobtNone;
+   Hydrosphere:=hNoHydro;
+   Eccentricity:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isNotSat_eccentricity;
    if Satellite=0 then
    begin
-
+      RevolutionPeriodPart:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_revolutionPeriod div 4;
+      DistanceFromStar:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isNotSat_distanceFromStar;
+      BasicType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_basicType;
+      FinalType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_type;
    end
    else begin
       if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_type=ootAsteroidsBelt then
       begin
-//         OrbitalPeriodsWork[1].OOS_orbitalPeriodType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_orbitalPeriods[1].OOS_orbitalPeriodType;
-//         OrbitalPeriodsWork[1].OOS_dayStart:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_orbitalPeriods[1].OOS_dayStart;
-//         OrbitalPeriodsWork[1].OOS_dayEnd:=;
-//
-//         OrbitalPeriodsWork[2].OOS_orbitalPeriodType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_orbitalPeriods[2].OOS_orbitalPeriodType;
-//         OrbitalPeriodsWork[2].OOS_dayStart:=;
-//         OrbitalPeriodsWork[2].OOS_dayEnd:=;
-//
-//         OrbitalPeriodsWork[3].OOS_orbitalPeriodType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_orbitalPeriods[3].OOS_orbitalPeriodType;
-//         OrbitalPeriodsWork[3].OOS_dayStart:=;
-//         OrbitalPeriodsWork[3].OOS_dayEnd:=;
-//
-//         OrbitalPeriodsWork[4].OOS_orbitalPeriodType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_orbitalPeriods[4].OOS_orbitalPeriodType;
-//         OrbitalPeriodsWork[4].OOS_dayStart:=;
-//         OrbitalPeriodsWork[4].OOS_dayEnd:=
+         RevolutionPeriodPart:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_revolutionPeriod div 4;
+         DistanceFromStar:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_isSat_distanceFromPlanet;
+      end
+      else begin
+         RevolutionPeriodPart:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_revolutionPeriod div 4;
+         DistanceFromStar:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isNotSat_distanceFromStar;
       end;
+      BasicType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_basicType;
+      FinalType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_type;
    end;
+   {.init part}
    OrbitalPeriodsWork[1].OOS_dayStart:=1;
    OrbitalPeriodsWork[1].OOS_dayEnd:=RevolutionPeriodPart;
    OrbitalPeriodsWork[2].OOS_dayStart:=OrbitalPeriodsWork[1].OOS_dayEnd + 1;
@@ -129,6 +159,92 @@ begin
    OrbitalPeriodsWork[3].OOS_dayEnd:=OrbitalPeriodsWork[3].OOS_dayStart + RevolutionPeriodPart - 1;
    OrbitalPeriodsWork[4].OOS_dayStart:=OrbitalPeriodsWork[3].OOS_dayEnd + 1;
    OrbitalPeriodsWork[4].OOS_dayEnd:=OrbitalPeriodsWork[4].OOS_dayStart + RevolutionPeriodPart - 1;
+   GeneratedProbability:=FCFcF_Random_DoInteger( 3 ) + 1;
+   case GeneratedProbability of
+      1:
+      begin
+         OrbitalPeriodsWork[1].OOS_orbitalPeriodType:=optClosest;
+         OrbitalPeriodsWork[3].OOS_orbitalPeriodType:=optFarest;
+      end;
+
+      2:
+      begin
+         OrbitalPeriodsWork[2].OOS_orbitalPeriodType:=optClosest;
+         OrbitalPeriodsWork[4].OOS_orbitalPeriodType:=optFarest;
+      end;
+
+      3:
+      begin
+         OrbitalPeriodsWork[3].OOS_orbitalPeriodType:=optClosest;
+         OrbitalPeriodsWork[1].OOS_orbitalPeriodType:=optFarest;
+      end;
+
+      4:
+      begin
+         OrbitalPeriodsWork[4].OOS_orbitalPeriodType:=optClosest;
+         OrbitalPeriodsWork[2].OOS_orbitalPeriodType:=optFarest;
+      end;
+   end;
+   DistMin:=( 1 - Eccentricity ) * DistanceFromStar;
+   DistMax:=( 1 + Eccentricity ) * DistanceFromStar;
+   {.main loop}
+   Count:=1;
+   while Count <= 4 do
+   begin
+      case OrbitalPeriodsWork[Count].OOS_orbitalPeriodType of
+         optIntermediary: OrbitalPeriodsWork[Count].OOS_baseTemperature:=FCFfG_BaseTemperature_Calc( DistanceFromStar, FCDduStarSystem[0].SS_stars[Star].S_luminosity );
+
+         optClosest: OrbitalPeriodsWork[Count].OOS_baseTemperature:=FCFfG_BaseTemperature_Calc( DistMin, FCDduStarSystem[0].SS_stars[Star].S_luminosity );
+
+         optFarest: OrbitalPeriodsWork[Count].OOS_baseTemperature:=FCFfG_BaseTemperature_Calc( DistMax, FCDduStarSystem[0].SS_stars[Star].S_luminosity );
+      end;
+      case BasicType of
+         oobtAsteroidBelt:
+         begin
+            OrbitalPeriodsWork[Count].OOS_surfaceTemperature:=0;
+            Albedo:=0;
+            CloudsCover:=0;
+            Hydrosphere:=hNoHydro;
+            HydrosphereArea:=0;
+         end;
+
+         oobtAsteroid:
+         begin
+            Hydrosphere:=hNoHydro;
+            HydrosphereArea:=0;
+            ConvectionFactor:=0;
+            case FinalType of
+               ootAsteroid_Metallic..ootAsteroid_Silicate, ootSatellite_Asteroid_Metallic..ootSatellite_Asteroid_Silicate: ConvectionFactor:=0.15 * ( 0.9 + ( FCFcF_Random_DoFloat * 0.2 ) );
+
+               ootAsteroid_Carbonaceous, ootSatellite_Asteroid_Carbonaceous: ConvectionFactor:=0.07 * ( 0.9 + ( FCFcF_Random_DoFloat * 0.2 ) );
+
+               ootAsteroid_Icy, ootSatellite_Asteroid_Icy: ConvectionFactor:=0.5 * ( 0.9 + ( FCFcF_Random_DoFloat * 0.2 ) );
+            end;
+            Albedo:=FCFcF_Round( rttCustom2Decimal, ConvectionFactor );
+            if Albedo >= 1
+            then Albedo:=0.99;
+            CalcFloat:=OrbitalPeriodsWork[Count].OOS_baseTemperature * power(  ( ( 1 - Albedo) / 0.7 ), 0.25  );
+            OrbitalPeriodsWork[Count].OOS_surfaceTemperature:=FCFcF_Round( rttCustom2Decimal, CalcFloat );
+            CloudsCover:=0;
+         end;
+
+         oobtTelluricPlanet:;
+
+         oobtGaseousPlanet:;
+
+         oobtIcyPlanet:;
+      end;
+      inc( Count );
+   end;
+   {.data loading orb periods + albedo + clouds cover + hydrosphere}
+   if Satellite=0 then
+   begin
+//      if not FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isHydrosphereEdited then
+//      begin
+//      end;
+   end
+   else begin
+   end;
 end;
 
 end.

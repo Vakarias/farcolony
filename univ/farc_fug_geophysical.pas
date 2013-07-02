@@ -55,6 +55,15 @@ uses
 function FCFfG_AsteroidsBelt_CalculateDiameter( const Distance: extended ): extended;
 
 ///<summary>
+///   calculate the base temperature based on the distance
+///</summary>
+///   <param name="DistanceAU">distance from the star in AU</param>
+///   <param name="StarLuminosity">luminosity of the central star</param>
+///   <returns>base temperature in K</returns>
+///   <remarks>format [x.xx]</remarks>
+function FCFfG_BaseTemperature_Calc( const DistanceAU, StarLuminosity: extended ): extended;
+
+///<summary>
 ///   calculate the orbital object's density
 ///</summary>
 /// <param name="ObjectType">basic type of the object</param>
@@ -248,6 +257,18 @@ begin
    else if Distance >= 20
    then WorkingFloat:=FCFcF_Random_DoInteger( 10 ) + 1;
    Result:=FCFcF_Round( rttCustom2Decimal, WorkingFloat );
+end;
+
+function FCFfG_BaseTemperature_Calc( const DistanceAU, StarLuminosity: extended ): extended;
+{:Purpose: calculate the base temperature based on the distance.
+    Additions:
+}
+   var
+      Calculation: extended;
+begin
+   Result:=0;
+   Calculation:=252 / sqrt( DistanceAU / sqrt( StarLuminosity ) );
+   Result:=FCFcF_Round( rttCustom2Decimal, Calculation );
 end;
 
 function FCFfG_Density_Calculation(
