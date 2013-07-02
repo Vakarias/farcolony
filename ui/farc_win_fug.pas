@@ -762,9 +762,8 @@ procedure TFCWinFUG.COO_SatNumberKeyDown(Sender: TObject; var Key: Word;
 begin
    if Key=13 then
    begin
-      if ( strtoint( COO_SatNumber.Text ) < -1 )
-         or ( strtoint( COO_SatNumber.Text ) = 0 )
-      then COO_SatNumber.Text:='1'
+      if strtoint( COO_SatNumber.Text ) < -1
+      then COO_SatNumber.Text:='0'
       else if strtoint( COO_SatNumber.Text ) > 15
       then COO_SatNumber.Text:='15';
       FCmC_SatPicker_Update;

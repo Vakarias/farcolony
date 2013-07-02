@@ -39,10 +39,6 @@ object FCWinFUG: TFCWinFUG
       ColorTo = clNone
       TabColor = clBtnFace
       TabColorTo = clNone
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 1016
-      ExplicitHeight = 699
       object TSSS_StellarStarSysGroup: TAdvGroupBox
         Left = 16
         Top = 3
@@ -1479,9 +1475,9 @@ object FCWinFUG: TFCWinFUG
           Width = 59
           Height = 19
           Color = clWhite
-          EditLabel.Width = 154
+          EditLabel.Width = 150
           EditLabel.Height = 13
-          EditLabel.Caption = '# Sat (max15) / -1 FOR NO SAT'
+          EditLabel.Caption = '# Sat (max15) / 0 FOR NO SAT'
           EditLabel.Layout = tlCenter
           Enabled = False
           TabOrder = 14

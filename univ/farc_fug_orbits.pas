@@ -1543,6 +1543,7 @@ begin
             FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_dbTokenId:='orbobj' + Token + inttostr( Count );
          end;
          FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isSatellite:=false;
+
          if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_distanceFromStar=0 then
          begin
             if Count=1 then
@@ -1676,7 +1677,7 @@ begin
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_hydrosphereArea:=0;
                {...asteroids phase I - basics + orbital + geophysical data}
                NumberOfSat:=length( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList ) - 1;
-               if NumberOfSat=0 then
+               if NumberOfSat=-1 then
                begin
                   CalcFloat2:=FCFcF_Scale_Conversion( cAU_to3dViewUnits, FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_distanceFromStar );
                   CalcFloat3:=sqrt( 2 * FCCdiPiDouble * CalcFloat2 ) / ( 4.52 * FC3doglCoefViewReduction );
@@ -1858,7 +1859,7 @@ begin
                {...satellites phase I - basics + orbital + geophysical data}
                NumberOfSat:=length( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList ) - 1;
                if (FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_rotationPeriod <> 0 )
-                  and ( NumberOfSat=0 ) then
+                  and ( NumberOfSat=-1 ) then
                begin
                   GeneratedProbability:=FCFcF_Random_DoInteger( 9 ) + 1;
                   case FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_orbitalZone of
