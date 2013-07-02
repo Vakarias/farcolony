@@ -20,7 +20,7 @@ object FCWinFUG: TFCWinFUG
     Top = 41
     Width = 1014
     Height = 717
-    ActivePage = TOO_Results
+    ActivePage = CMT_TabOrbitalObjects
     ActiveFont.Charset = DEFAULT_CHARSET
     ActiveFont.Color = clWindowText
     ActiveFont.Height = -11
@@ -39,6 +39,8 @@ object FCWinFUG: TFCWinFUG
       ColorTo = clNone
       TabColor = clBtnFace
       TabColorTo = clNone
+      ExplicitLeft = 0
+      ExplicitTop = 0
       ExplicitWidth = 1016
       ExplicitHeight = 699
       object TSSS_StellarStarSysGroup: TAdvGroupBox
@@ -1184,8 +1186,6 @@ object FCWinFUG: TFCWinFUG
       ColorTo = clNone
       TabColor = clBtnFace
       TabColorTo = clNone
-      ExplicitWidth = 1016
-      ExplicitHeight = 699
       object TOO_StarPicker: TRadioGroup
         Left = 3
         Top = 3
@@ -2277,12 +2277,11 @@ object FCWinFUG: TFCWinFUG
     Align = alTop
     Caption = 'AdvGroupBox1'
     TabOrder = 1
-    ExplicitWidth = 1024
     object WF_ConfigurationMainTitle: TLabel
       Left = 176
       Top = 17
-      Width = 267
-      Height = 15
+      Width = 288
+      Height = 16
       Caption = 'Stellar System / Orbital Objects Configuration'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack

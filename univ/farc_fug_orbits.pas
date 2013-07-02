@@ -145,6 +145,7 @@ uses
    ,farc_fug_atmosphere
    ,farc_fug_data
    ,farc_fug_geophysical
+   ,farc_fug_hydrosphere
    ,farc_fug_stars
    ,farc_win_fug;
 
@@ -1071,6 +1072,10 @@ end;
 procedure FCMfO_Generate(const CurrentStar: integer);
 {:Purpose: core routine for orbits generation.
     Additions:
+      -2013Jul01- *add: hydrosphere.
+                  *add: atmosphere: prevent calculations is a WD, PSR, or BH.
+                  *fix: correction, for an asteroid in a belt, is the inclination axis < 0.
+                  *fix: prevent generation of satellites if manual number=-1.
       -2013Jun29- *add: atmosphere.
       -2013May28- *mod: base temperature calculation.
       -2013May21- *add: completion of geophysical calculations.
@@ -1257,9 +1262,11 @@ begin
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_atmosphere.AC_gasPresenceNO2:=FCDfdMainStarObjectsList[Count].OO_atmosphere.AC_gasPresenceNO2;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_atmosphere.AC_gasPresenceO3:=FCDfdMainStarObjectsList[Count].OO_atmosphere.AC_gasPresenceO3;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_atmosphere.AC_gasPresenceSO2:=FCDfdMainStarObjectsList[Count].OO_atmosphere.AC_gasPresenceSO2;
+               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isHydrosphereEdited:=FCDfdMainStarObjectsList[Count].OO_isHydrosphereEdited;
+               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_hydrosphere:=FCDfdMainStarObjectsList[Count].OO_hydrosphere;
+               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_hydrosphereArea:=FCDfdMainStarObjectsList[Count].OO_hydrosphereArea;
                NumberOfSat:=length( FCDfdMainStarObjectsList[Count].OO_satellitesList ) - 1;
-               if NumberOfSat>0
-               then setlength( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList, NumberOfSat + 1 );
+               setlength( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList, NumberOfSat + 1 );
                CountSat:=1;
                while CountSat<=NumberOfSat do
                begin
@@ -1294,6 +1301,9 @@ begin
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_atmosphere.AC_gasPresenceNO2:=FCDfdMainStarObjectsList[Count].OO_satellitesList[CountSat].OO_atmosphere.AC_gasPresenceNO2;
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_atmosphere.AC_gasPresenceO3:=FCDfdMainStarObjectsList[Count].OO_satellitesList[CountSat].OO_atmosphere.AC_gasPresenceO3;
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_atmosphere.AC_gasPresenceSO2:=FCDfdMainStarObjectsList[Count].OO_satellitesList[CountSat].OO_atmosphere.AC_gasPresenceSO2;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isHydrosphereEdited:=FCDfdMainStarObjectsList[Count].OO_satellitesList[CountSat].OO_isHydrosphereEdited;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_hydrosphere:=FCDfdMainStarObjectsList[Count].OO_satellitesList[CountSat].OO_hydrosphere;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_hydrosphereArea:=FCDfdMainStarObjectsList[Count].OO_satellitesList[CountSat].OO_hydrosphereArea;
                   inc( CountSat );
                end;
 
@@ -1335,9 +1345,11 @@ begin
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_atmosphere.AC_gasPresenceNO2:=FCDfdComp1StarObjectsList[Count].OO_atmosphere.AC_gasPresenceNO2;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_atmosphere.AC_gasPresenceO3:=FCDfdComp1StarObjectsList[Count].OO_atmosphere.AC_gasPresenceO3;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_atmosphere.AC_gasPresenceSO2:=FCDfdComp1StarObjectsList[Count].OO_atmosphere.AC_gasPresenceSO2;
+               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isHydrosphereEdited:=FCDfdComp1StarObjectsList[Count].OO_isHydrosphereEdited;
+               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_hydrosphere:=FCDfdComp1StarObjectsList[Count].OO_hydrosphere;
+               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_hydrosphereArea:=FCDfdComp1StarObjectsList[Count].OO_hydrosphereArea;
                NumberOfSat:=length( FCDfdComp1StarObjectsList[Count].OO_satellitesList ) - 1;
-               if NumberOfSat>0
-               then setlength( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList, NumberOfSat + 1 );
+               setlength( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList, NumberOfSat + 1 );
                CountSat:=1;
                while CountSat<=NumberOfSat do
                begin
@@ -1372,6 +1384,9 @@ begin
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_atmosphere.AC_gasPresenceNO2:=FCDfdComp1StarObjectsList[Count].OO_satellitesList[CountSat].OO_atmosphere.AC_gasPresenceNO2;
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_atmosphere.AC_gasPresenceO3:=FCDfdComp1StarObjectsList[Count].OO_satellitesList[CountSat].OO_atmosphere.AC_gasPresenceO3;
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_atmosphere.AC_gasPresenceSO2:=FCDfdComp1StarObjectsList[Count].OO_satellitesList[CountSat].OO_atmosphere.AC_gasPresenceSO2;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isHydrosphereEdited:=FCDfdComp1StarObjectsList[Count].OO_satellitesList[CountSat].OO_isHydrosphereEdited;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_hydrosphere:=FCDfdComp1StarObjectsList[Count].OO_satellitesList[CountSat].OO_hydrosphere;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_hydrosphereArea:=FCDfdComp1StarObjectsList[Count].OO_satellitesList[CountSat].OO_hydrosphereArea;
                   inc( CountSat );
                end;
 
@@ -1413,9 +1428,11 @@ begin
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_atmosphere.AC_gasPresenceNO2:=FCDfdComp2StarObjectsList[Count].OO_atmosphere.AC_gasPresenceNO2;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_atmosphere.AC_gasPresenceO3:=FCDfdComp2StarObjectsList[Count].OO_atmosphere.AC_gasPresenceO3;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_atmosphere.AC_gasPresenceSO2:=FCDfdComp2StarObjectsList[Count].OO_atmosphere.AC_gasPresenceSO2;
+               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isHydrosphereEdited:=FCDfdComp2StarObjectsList[Count].OO_isHydrosphereEdited;
+               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_hydrosphere:=FCDfdComp2StarObjectsList[Count].OO_hydrosphere;
+               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_hydrosphereArea:=FCDfdComp2StarObjectsList[Count].OO_hydrosphereArea;
                NumberOfSat:=length( FCDfdComp2StarObjectsList[Count].OO_satellitesList ) - 1;
-               if NumberOfSat>0
-               then setlength( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList, NumberOfSat + 1 );
+               setlength( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList, NumberOfSat + 1 );
                CountSat:=1;
                while CountSat<=NumberOfSat do
                begin
@@ -1450,6 +1467,9 @@ begin
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_atmosphere.AC_gasPresenceNO2:=FCDfdComp2StarObjectsList[Count].OO_satellitesList[CountSat].OO_atmosphere.AC_gasPresenceNO2;
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_atmosphere.AC_gasPresenceO3:=FCDfdComp2StarObjectsList[Count].OO_satellitesList[CountSat].OO_atmosphere.AC_gasPresenceO3;
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_atmosphere.AC_gasPresenceSO2:=FCDfdComp2StarObjectsList[Count].OO_satellitesList[CountSat].OO_atmosphere.AC_gasPresenceSO2;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isHydrosphereEdited:=FCDfdComp2StarObjectsList[Count].OO_satellitesList[CountSat].OO_isHydrosphereEdited;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_hydrosphere:=FCDfdComp2StarObjectsList[Count].OO_satellitesList[CountSat].OO_hydrosphere;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_hydrosphereArea:=FCDfdComp2StarObjectsList[Count].OO_satellitesList[CountSat].OO_hydrosphereArea;
                   inc( CountSat );
                end;
 
@@ -1523,7 +1543,6 @@ begin
             FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_dbTokenId:='orbobj' + Token + inttostr( Count );
          end;
          FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isSatellite:=false;
-         setlength( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList, 1 );
          if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_distanceFromStar=0 then
          begin
             if Count=1 then
@@ -1652,9 +1671,12 @@ begin
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_atmosphere.AC_gasPresenceNO2:=agsNotPresent;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_atmosphere.AC_gasPresenceO3:=agsNotPresent;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_atmosphere.AC_gasPresenceSO2:=agsNotPresent;
+               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isHydrosphereEdited:=false;
+               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_hydrosphere:=hNoHydro;
+               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_hydrosphereArea:=0;
                {...asteroids phase I - basics + orbital + geophysical data}
                NumberOfSat:=length( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList ) - 1;
-               if NumberOfSat<=0 then
+               if NumberOfSat=0 then
                begin
                   CalcFloat2:=FCFcF_Scale_Conversion( cAU_to3dViewUnits, FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_distanceFromStar );
                   CalcFloat3:=sqrt( 2 * FCCdiPiDouble * CalcFloat2 ) / ( 4.52 * FC3doglCoefViewReduction );
@@ -1706,9 +1728,11 @@ begin
                      );
                   if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isAsterBelt_inclinationAxis=0
                   then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isAsterBelt_inclinationAxis:=FCFfG_InclinationAxis_Calculation;
-
-                  if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isAsterBelt_inclinationAxis<0
-                  then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isAsterBelt_inclinationAxis:=abs( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isAsterBelt_inclinationAxis );
+                  if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isAsterBelt_inclinationAxis<0 then
+                  begin
+                     FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isAsterBelt_inclinationAxis:=abs( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isAsterBelt_inclinationAxis );
+                     FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isAsterBelt_rotationPeriod:=-( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isAsterBelt_rotationPeriod );
+                  end;
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_magneticField:=0;
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_tectonicActivity:=taDead;
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isAtmosphereEdited:=false;
@@ -1731,6 +1755,9 @@ begin
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_atmosphere.AC_gasPresenceNO2:=agsNotPresent;
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_atmosphere.AC_gasPresenceO3:=agsNotPresent;
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_atmosphere.AC_gasPresenceSO2:=agsNotPresent;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isHydrosphereEdited:=false;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_hydrosphere:=hNoHydro;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_hydrosphereArea:=0;
                   inc( CountSat );
                end; //==END== while CountSat <= NumberOfSat ==//
             end //==END== if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType=oobtAsteroidBelt then ==//
@@ -1784,12 +1811,50 @@ begin
                   and ( ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType= oobtTelluricPlanet ) or ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType= oobtIcyPlanet ) )
                then FCMfG_TectonicActivity_Calculation( CurrentStar, Count )
                else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_tectonicActivity:=taDead;
-               if not FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isAtmosphereEdited
+               if ( FCDduStarSystem[0].SS_stars[CurrentStar].S_class < WD0 )
+                  and ( not FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isAtmosphereEdited )
                then FCMfA_Atmosphere_Processing(
                   CurrentStar
                   ,Count
                   ,BaseTemperature
-                  );
+                  )
+               else if FCDduStarSystem[0].SS_stars[CurrentStar].S_class >= WD0 then
+               begin
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isAtmosphereEdited:=false;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_atmosphericPressure:=0;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_atmosphere.AC_traceAtmosphere:=false;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_atmosphere.AC_primaryGasVolumePerc:=0;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_atmosphere.AC_gasPresenceH2:=agsNotPresent;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_atmosphere.AC_gasPresenceHe:=agsNotPresent;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_atmosphere.AC_gasPresenceCH4:=agsNotPresent;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_atmosphere.AC_gasPresenceNH3:=agsNotPresent;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_atmosphere.AC_gasPresenceH2O:=agsNotPresent;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_atmosphere.AC_gasPresenceNe:=agsNotPresent;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_atmosphere.AC_gasPresenceN2:=agsNotPresent;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_atmosphere.AC_gasPresenceCO:=agsNotPresent;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_atmosphere.AC_gasPresenceNO:=agsNotPresent;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_atmosphere.AC_gasPresenceO2:=agsNotPresent;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_atmosphere.AC_gasPresenceH2S:=agsNotPresent;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_atmosphere.AC_gasPresenceAr:=agsNotPresent;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_atmosphere.AC_gasPresenceCO2:=agsNotPresent;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_atmosphere.AC_gasPresenceNO2:=agsNotPresent;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_atmosphere.AC_gasPresenceO3:=agsNotPresent;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_atmosphere.AC_gasPresenceSO2:=agsNotPresent;
+               end;
+               if ( FCDduStarSystem[0].SS_stars[CurrentStar].S_class < WD0 )
+                  and ( not FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isHydrosphereEdited )
+                  and ( ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType = oobtTelluricPlanet ) or ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType = oobtIcyPlanet ) )
+               then FCMfH_Hydrosphere_Processing(
+                  CurrentStar
+                  ,Count
+                  ,BaseTemperature
+                  )
+               else if FCDduStarSystem[0].SS_stars[CurrentStar].S_class >= WD0 then
+               begin
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isHydrosphereEdited:=false;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_hydrosphere:=hNoHydro;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_hydrosphereArea:=0;
+               end;
                {...satellites phase I - basics + orbital + geophysical data}
                NumberOfSat:=length( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList ) - 1;
                if (FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_rotationPeriod <> 0 )
@@ -1979,24 +2044,62 @@ begin
                         and ( ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_basicType= oobtTelluricPlanet ) or ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_basicType= oobtIcyPlanet ) )
                      then FCMfG_TectonicActivity_Calculation( CurrentStar, Count, CountSat )
                      else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_tectonicActivity:=taDead;
-                     if not FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isAtmosphereEdited
+                     if ( FCDduStarSystem[0].SS_stars[CurrentStar].S_class < WD0 )
+                        and ( not FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isAtmosphereEdited )
                      then FCMfA_Atmosphere_Processing(
                         CurrentStar
                         ,Count
                         ,BaseTemperature
                         ,CountSat
-                        );
+                        )
+                     else if FCDduStarSystem[0].SS_stars[CurrentStar].S_class >= WD0 then
+                     begin
+                        FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isAtmosphereEdited:=false;
+                        FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_atmosphericPressure:=0;
+                        FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_atmosphere.AC_traceAtmosphere:=false;
+                        FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_atmosphere.AC_primaryGasVolumePerc:=0;
+                        FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_atmosphere.AC_gasPresenceH2:=agsNotPresent;
+                        FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_atmosphere.AC_gasPresenceHe:=agsNotPresent;
+                        FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_atmosphere.AC_gasPresenceCH4:=agsNotPresent;
+                        FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_atmosphere.AC_gasPresenceNH3:=agsNotPresent;
+                        FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_atmosphere.AC_gasPresenceH2O:=agsNotPresent;
+                        FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_atmosphere.AC_gasPresenceNe:=agsNotPresent;
+                        FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_atmosphere.AC_gasPresenceN2:=agsNotPresent;
+                        FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_atmosphere.AC_gasPresenceCO:=agsNotPresent;
+                        FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_atmosphere.AC_gasPresenceNO:=agsNotPresent;
+                        FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_atmosphere.AC_gasPresenceO2:=agsNotPresent;
+                        FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_atmosphere.AC_gasPresenceH2S:=agsNotPresent;
+                        FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_atmosphere.AC_gasPresenceAr:=agsNotPresent;
+                        FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_atmosphere.AC_gasPresenceCO2:=agsNotPresent;
+                        FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_atmosphere.AC_gasPresenceNO2:=agsNotPresent;
+                        FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_atmosphere.AC_gasPresenceO3:=agsNotPresent;
+                        FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_atmosphere.AC_gasPresenceSO2:=agsNotPresent;
+                     end;
+                     if ( FCDduStarSystem[0].SS_stars[CurrentStar].S_class < WD0 )
+                        and ( not FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isHydrosphereEdited )
+                        and ( ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_basicType = oobtTelluricPlanet ) or ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_basicType = oobtIcyPlanet ) )
+                     then FCMfH_Hydrosphere_Processing(
+                        CurrentStar
+                        ,Count
+                        ,BaseTemperature
+                        ,CountSat
+                        )
+                     else if FCDduStarSystem[0].SS_stars[CurrentStar].S_class >= WD0 then
+                     begin
+                        FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isHydrosphereEdited:=false;
+                        FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_hydrosphere:=hNoHydro;
+                        FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_hydrosphereArea:=0;
+                     end;
                      inc( CountSat );
                   end; //==END== while CountSat <= NumberOfSat ==//
                end //==END== if (FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_rotationPeriod <> 0 ) and ( NumberOfSat > 0 ) ==//
-               else setlength( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList, 1 );
+               else setlength( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList, 0 );
             end; //==END== else of: if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType=oobtAsteroidBelt ==//
 
 
             {:DEV NOTES: ecosphere here
 
 
-                OrbitsCreation_Hydrosphere(TabOrbit[OrbDBCounter].BaseTemp);
                 OrbitsCreation_Weather;
                                        .}
 

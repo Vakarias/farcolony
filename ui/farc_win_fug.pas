@@ -479,7 +479,7 @@ begin
                Count2:=1;
                while Count2<=Max2 do
                begin
-                  WF_XMLOutput.Lines.Add( '         <satobj token="'+FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_dbTokenId+'">' );
+                  WF_XMLOutput.Lines.Add( '         <satobj token="'+FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_dbTokenId+'" ftSeed="">' );
                   WF_XMLOutput.Lines.Add(
                      '            <orbitalData distanceFromRoot="'+FloatToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_isSat_distanceFromPlanet )
                         +'" revolutionPeriod="'+IntToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_revolutionPeriod )

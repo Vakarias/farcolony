@@ -45,6 +45,22 @@ interface
 
 //===========================END FUNCTIONS SECTION==========================================
 
+///<summary>
+///   main rule for the process of the hydrosphere
+///</summary>
+/// <param name="Star">star's index #</param>
+/// <param name="OrbitalObject">orbital object's index #</param>
+/// <param name="BaseTemperature">base temperature in K</param>
+/// <param name="Satellite">optional parameter, only for any satellite</param>
+///   <returns></returns>
+///   <remarks></remarks>
+procedure FCMfH_Hydrosphere_Processing(
+   const Star
+         ,OrbitalObject: integer;
+   const BaseTemperature: extended;
+   const Satellite: integer=0
+   );
+
 implementation
 
 uses
