@@ -47,14 +47,14 @@ uses
 //===========================END FUNCTIONS SECTION==========================================
 
 ///<summary>
-///   generate the seasons and their base effects
+///   generate the orbital periods and their base effects
 ///</summary>
 /// <param name="Star">star's index #</param>
 /// <param name="OrbitalObject">orbital object's index #</param>
 /// <param name="Satellite">optional parameter, only for any satellite</param>
 /// <returns></returns>
 /// <remarks></remarks>
-procedure FCMfS_Seasons_Generate(
+procedure FCMfS_OrbitalPeriods_Generate(
    const Star
          ,OrbitalObject: integer;
    const Satellite: integer=0
@@ -81,12 +81,12 @@ uses
 //===================================================END OF INIT============================
 //===========================END FUNCTIONS SECTION==========================================
 
-procedure FCMfS_Seasons_Generate(
+procedure FCMfS_OrbitalPeriods_Generate(
    const Star
          ,OrbitalObject: integer;
    const Satellite: integer=0
    );
-{:Purpose: generate the seasons and their base effects
+{:Purpose: generate the orbital periods and their base effects
    Additions:
 }
    var
@@ -95,6 +95,7 @@ procedure FCMfS_Seasons_Generate(
       ,RevolutionPeriodPart: integer;
 
       Albedo
+      ,AtmospherePressure
       ,CalcFloat
       ,CloudsCover
       ,ConvectionFactor
@@ -116,6 +117,7 @@ begin
    GeneratedProbability:=0;
    RevolutionPeriodPart:=0;
    Albedo:=0;
+   AtmospherePressure:=0;
    CalcFloat:=0;
    CloudsCover:=0;
    ConvectionFactor:=0;
@@ -136,6 +138,7 @@ begin
       DistanceFromStar:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isNotSat_distanceFromStar;
       BasicType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_basicType;
       FinalType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_type;
+      AtmospherePressure:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphericPressure;
    end
    else begin
       if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_type=ootAsteroidsBelt then
@@ -149,6 +152,7 @@ begin
       end;
       BasicType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_basicType;
       FinalType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_type;
+      AtmospherePressure:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphericPressure;
    end;
    {.init part}
    OrbitalPeriodsWork[1].OOS_dayStart:=1;
@@ -228,12 +232,20 @@ begin
             CloudsCover:=0;
          end;
 
-         oobtTelluricPlanet:;
+         oobtTelluricPlanet, oobtIcyPlanet:
+         begin
+            if AtmospherePressure = 0 then
+            begin
+               CalcFloat:=OrbitalPeriodsWork[Count].OOS_baseTemperature * power(  ( ( 1 - Albedo) / 0.7 ), 0.25  );
+               OrbitalPeriodsWork[Count].OOS_surfaceTemperature:=FCFcF_Round( rttCustom2Decimal, CalcFloat );
+
+            end
+            else begin
+            end;
+         end; //==END== case of: oobtTelluricPlanet, oobtIcyPlanet ==//
 
          oobtGaseousPlanet:;
-
-         oobtIcyPlanet:;
-      end;
+      end; //==END== case BasicType ==//
       inc( Count );
    end;
    {.data loading orb periods + albedo + clouds cover + hydrosphere}
