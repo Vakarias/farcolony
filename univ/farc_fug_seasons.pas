@@ -65,7 +65,8 @@ implementation
 uses
    farc_common_func
    ,farc_data_univ
-   ,farc_fug_geophysical;
+   ,farc_fug_geophysical
+   ,farc_fug_hydrosphere;
 
 //==END PRIVATE ENUM========================================================================
 
@@ -92,7 +93,9 @@ procedure FCMfS_OrbitalPeriods_Generate(
    var
       Count
       ,GeneratedProbability
-      ,RevolutionPeriodPart: integer;
+      ,PrimaryGasVolume
+      ,RevolutionPeriodPart
+      ,TectonicActivityIndex: integer;
 
       Albedo
       ,AtmospherePressure
@@ -103,7 +106,17 @@ procedure FCMfS_OrbitalPeriods_Generate(
       ,DistMax
       ,DistMin
       ,Eccentricity
-      ,HydrosphereArea: extended;
+      ,GreenCH4
+      ,GreenCO2
+      ,GreenH2O
+      ,GreenSO2
+      ,GreenTotal
+      ,GreenRise
+      ,HydroAreaFrac
+      ,HydrosphereArea
+      ,OpticalDepth: extended;
+
+      isLoadHydrosphere: boolean;
 
       OrbitalPeriodsWork: array[0..4] of TFCRduOObSeason;
 
@@ -112,10 +125,18 @@ procedure FCMfS_OrbitalPeriods_Generate(
       FinalType: TFCEduOrbitalObjectTypes;
 
       Hydrosphere: TFCEduHydrospheres;
+
+      GasCH4
+      ,GasCO2
+      ,GasH2O
+      ,GasSO2: TFCEduAtmosphericGasStatus;
 begin
    Count:=0;
    GeneratedProbability:=0;
+   PrimaryGasVolume:=0;
    RevolutionPeriodPart:=0;
+   TectonicActivityIndex:=0;
+
    Albedo:=0;
    AtmospherePressure:=0;
    CalcFloat:=0;
@@ -124,13 +145,33 @@ begin
    DistanceFromStar:=0;
    DistMax:=0;
    DistMin:=0;
+   GreenCH4:=0;
+   GreenCO2:=0;
+   GreenH2O:=0;
+   GreenSO2:=0;
+   GreenTotal:=0;
+   GreenRise:=0;
+   HydroAreaFrac:=0;
    HydrosphereArea:=0;
+   OpticalDepth:=0;
+
+   isLoadHydrosphere:=false;
+
    OrbitalPeriodsWork[1]:=OrbitalPeriodsWork[0];
    OrbitalPeriodsWork[2]:=OrbitalPeriodsWork[0];
    OrbitalPeriodsWork[3]:=OrbitalPeriodsWork[0];
    OrbitalPeriodsWork[4]:=OrbitalPeriodsWork[0];
+
    BasicType:=oobtNone;
+
+   FinalType:=ootNone;
+
    Hydrosphere:=hNoHydro;
+
+   GasCH4:=agsNotPresent;
+   GasCO2:=agsNotPresent;
+   GasH2O:=agsNotPresent;
+   GasSO2:=agsNotPresent;
    Eccentricity:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isNotSat_eccentricity;
    if Satellite=0 then
    begin
@@ -139,6 +180,12 @@ begin
       BasicType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_basicType;
       FinalType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_type;
       AtmospherePressure:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphericPressure;
+      PrimaryGasVolume:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_primaryGasVolumePerc;
+      GasCH4:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceCH4;
+      GasCO2:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceCO2;
+      GasH2O:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceH2O;
+      GasSO2:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceSO2;
+      TectonicActivityIndex:=Integer( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_tectonicActivity );
    end
    else begin
       if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_type=ootAsteroidsBelt then
@@ -153,6 +200,12 @@ begin
       BasicType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_basicType;
       FinalType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_type;
       AtmospherePressure:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphericPressure;
+      PrimaryGasVolume:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_primaryGasVolumePerc;
+      GasCH4:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceCH4;
+      GasCO2:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceCO2;
+      GasH2O:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceH2O;
+      GasSO2:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceSO2;
+      TectonicActivityIndex:=Integer( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_tectonicActivity );
    end;
    {.init part}
    OrbitalPeriodsWork[1].OOS_dayStart:=1;
@@ -210,6 +263,7 @@ begin
             CloudsCover:=0;
             Hydrosphere:=hNoHydro;
             HydrosphereArea:=0;
+            isLoadHydrosphere:=true;
          end;
 
          oobtAsteroid:
@@ -230,6 +284,7 @@ begin
             CalcFloat:=OrbitalPeriodsWork[Count].OOS_baseTemperature * power(  ( ( 1 - Albedo) / 0.7 ), 0.25  );
             OrbitalPeriodsWork[Count].OOS_surfaceTemperature:=FCFcF_Round( rttCustom2Decimal, CalcFloat );
             CloudsCover:=0;
+            isLoadHydrosphere:=true;
          end;
 
          oobtTelluricPlanet, oobtIcyPlanet:
@@ -238,20 +293,126 @@ begin
             begin
                CalcFloat:=OrbitalPeriodsWork[Count].OOS_baseTemperature * power(  ( ( 1 - Albedo) / 0.7 ), 0.25  );
                OrbitalPeriodsWork[Count].OOS_surfaceTemperature:=FCFcF_Round( rttCustom2Decimal, CalcFloat );
-
+               FCMfH_Hydrosphere_Processing(
+                  Star
+                  ,OrbitalObject
+                  ,OrbitalPeriodsWork[Count].OOS_surfaceTemperature
+                  ,Satellite
+                  );
+               if Satellite=0 then
+               begin
+                  Hydrosphere:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_hydrosphere;
+                  HydrosphereArea:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_hydrosphereArea;
+               end
+               else begin
+                  Hydrosphere:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_hydrosphere;
+                  HydrosphereArea:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_hydrosphereArea;
+               end;
+               HydroAreaFrac:=HydrosphereArea * 0.01;
+               ConvectionFactor:=0;
+               if ( Hydrosphere=hWaterIceSheet )
+                  or ( Hydrosphere=hMethaneIceSheet )
+                  or ( Hydrosphere=hNitrogenIceSheet )
+               then ConvectionFactor:=0.5 * ( 0.9 + ( HydroAreaFrac * 0.2 ) )
+               else if ( Hydrosphere=hWaterIceCrust )
+                  or ( Hydrosphere=hMethaneIceCrust )
+                  or ( Hydrosphere=hNitrogenIceCrust )
+               then ConvectionFactor:=0.5 * ( 0.9 + ( FCFcF_Random_DoFloat * 0.2 ) )
+               else ConvectionFactor:=0.07 * ( 0.9 + ( FCFcF_Random_DoFloat * 0.2 ) );
+               Albedo:=FCFcF_Round( rttCustom2Decimal, ConvectionFactor );
+               if Albedo >= 1
+               then Albedo:=0.99;
+               CalcFloat:=OrbitalPeriodsWork[Count].OOS_baseTemperature * power(  ( ( 1 - Albedo) / 0.7 ), 0.25  );
+               OrbitalPeriodsWork[Count].OOS_surfaceTemperature:=FCFcF_Round( rttCustom2Decimal, CalcFloat );
+               CloudsCover:=0;
             end
             else begin
-            end;
+               OpticalDepth:=0;
+               case PrimaryGasVolume of
+                  0..9: OpticalDepth:=3;
+
+                  10..19: OpticalDepth:=2.34;
+
+                  20..29: OpticalDepth:=1;
+
+                  30..44: OpticalDepth:=0.15;
+
+                  45..99: OpticalDepth:=0.05;
+
+                  100: OpticalDepth:=0;
+               end;
+               if ( AtmospherePressure >= 5065 )
+                  and ( AtmospherePressure < 10130 )
+               then OpticalDepth:=OpticalDepth * 1.5
+               else if ( AtmospherePressure >= 10130 )
+                  and ( AtmospherePressure < 30390 )
+               then OpticalDepth:=OpticalDepth * 2
+               else if ( AtmospherePressure >= 30390 )
+                  and ( AtmospherePressure < 50650 )
+               then OpticalDepth:=OpticalDepth * 3.333
+               else if ( AtmospherePressure >= 50650 )
+                  and ( AtmospherePressure < 70910 )
+               then OpticalDepth:=OpticalDepth * 6.666
+               else if AtmospherePressure >= 70910
+               then OpticalDepth:=OpticalDepth * 8.333;
+               ConvectionFactor:=0.43 * power( ( AtmospherePressure / 1000 ) ,0.25 );
+               {.surface temperature and hydrosphere}
+               GreenCO2:=0;
+               if GasCO2=agsTrace
+               then GeneratedProbability:=FCFcF_Random_DoInteger( 5 )
+               else if GasCO2 > agsTrace
+               then GeneratedProbability:=FCFcF_Random_DoInteger( 10 );
+               GreenCO2:=( sqrt( AtmospherePressure ) * 0.01 * GeneratedProbability ) / sqrt( AtmospherePressure );
+               GreenCH4:=0;
+               if GasCH4=agsTrace
+               then GeneratedProbability:=FCFcF_Random_DoInteger( 5 )
+               else if GasCH4 > agsTrace
+               then GeneratedProbability:=FCFcF_Random_DoInteger( 10 );
+               GreenCH4:=( sqrt( AtmospherePressure ) * 0.01 * GeneratedProbability ) / sqrt( AtmospherePressure );
+               GreenH2O:=0;
+               if GasH2O = agsMain
+               then GeneratedProbability:=FCFcF_Random_DoInteger( 10 );
+               GreenH2O:=( sqrt( AtmospherePressure ) * 0.01 * GeneratedProbability ) / sqrt( AtmospherePressure );
+               GreenSO2:=0;
+               if GasSO2=agsTrace
+               then GeneratedProbability:=TectonicActivityIndex
+               else if GasSO2 > agsTrace
+               then GeneratedProbability:=round( ( TectonicActivityIndex + 1 ) * 1.6666666666666666666666666666667 );
+               GreenSO2:=( sqrt( AtmospherePressure ) * 0.01 * GeneratedProbability ) / sqrt( AtmospherePressure );
+               GreenTotal:=0.5 + ( ( GreenCO2 + GreenCH4 + GreenH2O + GreenSO2 ) / 36 );
+               GreenRise:=( power( ( 1 + ( 0.75 * OpticalDepth ) ), 0.25 ) - 1 ) * OrbitalPeriodsWork[Count].OOS_baseTemperature * ConvectionFactor * GreenTotal;
+               CalcFloat:=OrbitalPeriodsWork[Count].OOS_baseTemperature + GreenRise;
+               OrbitalPeriodsWork[Count].OOS_surfaceTemperature:=FCFcF_Round( rttCustom2Decimal, CalcFloat );
+
+
+
+//               FCMfH_Hydrosphere_Processing(
+//                  Star
+//                  ,OrbitalObject
+//                  ,OrbitalPeriodsWork[Count].OOS_surfaceTemperature
+//                  ,Satellite
+//                  );
+//               if Satellite=0 then
+//               begin
+//                  Hydrosphere:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_hydrosphere;
+//                  HydrosphereArea:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_hydrosphereArea;
+//               end
+//               else begin
+//                  Hydrosphere:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_hydrosphere;
+//                  HydrosphereArea:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_hydrosphereArea;
+//               end;
+            end; //==END== else of if AtmospherePressure = 0 ( > 0 ) ==//
+            isLoadHydrosphere:=false;
          end; //==END== case of: oobtTelluricPlanet, oobtIcyPlanet ==//
 
          oobtGaseousPlanet:;
       end; //==END== case BasicType ==//
       inc( Count );
    end;
-   {.data loading orb periods + albedo + clouds cover + hydrosphere}
+   {.data loading orb periods + albedo + clouds cover + hydrosphere if isLoadHydrosphere}
    if Satellite=0 then
    begin
-//      if not FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isHydrosphereEdited then
+//      if not FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject]. then
 //      begin
 //      end;
    end
