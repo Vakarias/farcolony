@@ -55,6 +55,13 @@
          <entryfile license="WTFPL" current="infrastatus_intransition16.jpg" original="brightmixIconset_v02.png"/>
          <entryfile license="WTFPL" current="infrastatus_operational16.jpg" original="brightmixIconset_v02.png"/>
       </entry>
+      <entry author="Buch" contact="http://opengameart.org/users/buch">
+         <entryfile license="" current="" original=""/>
+         <entryfile license="CCBy" current="add.jpg" original="icons.png"/>
+         <entryfile license="CCBy" current="addmax.jpg" original="icons.png"/>
+         <entryfile license="CCBy" current="rem.jpg" original="icons.png"/>
+         <entryfile license="CCBy" current="remmax.jpg" original="icons.png"/>
+      </entry>
       <entry author="Dave McDonald" contact="dmgt350@aol.com">
          <entryfile license="" current="" original=""/>
          <entryfile license="FFNCU" current="NeptuneCold.jpg" original="neptune_current.jpg"/>
@@ -89,6 +96,9 @@
          <entryfile license="DomPub" current="UranusCold.jpg" original=""/>
       </entry>
       <entry author="Ratimir Rakuljic (aka ratko)" contact="">
+         <entryfile license="" current="" original=""/>
+         <entryfile license="CCBySA" current="puidesk0.jpg" original="04 - Far Colony NEW 1280.jpg"/>
+         <entryfile license="CCBySA" current="puidesk0w.jpg" original="04 - Far Colony NEW 1280.jpg"/>
       </entry>
       <entry author="Rob Sanders" contact="">
          <entryfile license="" current="" original=""/>
