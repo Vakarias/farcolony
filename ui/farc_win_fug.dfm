@@ -2141,9 +2141,9 @@ object FCWinFUG: TFCWinFUG
           Width = 54
           Height = 19
           Color = clWhite
-          EditLabel.Width = 74
+          EditLabel.Width = 88
           EditLabel.Height = 13
-          EditLabel.Caption = 'Primary Gas Vol'
+          EditLabel.Caption = 'Hydrosphere Area'
           EditLabel.Layout = tlCenter
           NumbersOnly = True
           TabOrder = 36

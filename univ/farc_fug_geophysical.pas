@@ -950,21 +950,21 @@ begin
    if Satellite<=0 then
    begin
       ObjectMass:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_mass;
-      {.differential tidal stress}
-      SatMax:=length( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList ) - 1;
-      SatCount:=1;
-      TidalForceCumul:=0;
-      while SatCount <= SatMax do
-      begin
-         {.*1000km * 324 coef for tidal force}
-         DistanceInKm:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[SatCount].OO_isSat_distanceFromPlanet * 324000;
-         {.26.64 = coef for tidal force}
-         MassInKg:=( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[SatCount].OO_mass * FCCdiMassEqEarth ) * 26.64;
-         TidalForce:=MassInKg / power( DistanceInKm, 3 );
-         TidalForceCumul:=TidalForceCumul + TidalForce;
-         inc( SatCount );
-      end;
-      TidalForce:=TidalForceCumul / SatCount;
+//      {.differential tidal stress}
+//      SatMax:=length( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList ) - 1;
+//      SatCount:=1;
+//      TidalForceCumul:=0;
+//      while SatCount <= SatMax do
+//      begin
+//         {.*1000km * 324 coef for tidal force}
+//         DistanceInKm:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[SatCount].OO_isSat_distanceFromPlanet * 324000;
+//         {.26.64 = coef for tidal force}
+//         MassInKg:=( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[SatCount].OO_mass * FCCdiMassEqEarth ) * 26.64;
+//         TidalForce:=MassInKg / power( DistanceInKm, 3 );
+//         TidalForceCumul:=TidalForceCumul + TidalForce;
+//         inc( SatCount );
+//      end;
+//      TidalForce:=TidalForceCumul / SatCount;
       DensityEq:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_density / FCCdiDensityEqEarth;
       ObjectBasicType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_basicType;
       RevolutionPeriod:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_revolutionPeriod;

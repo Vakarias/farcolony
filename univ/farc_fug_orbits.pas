@@ -1074,6 +1074,7 @@ procedure FCMfO_Generate(const CurrentStar: integer);
 {:Purpose: core routine for orbits generation.
     Additions:
       -2013Jul03- *add: orbital periods.
+                  *fix: prevent an error on tectonic activity if it is manually set.
       -2013Jul01- *add: hydrosphere.
                   *add: atmosphere: prevent calculations is a WD, PSR, or BH.
                   *fix: correction, for an asteroid in a belt, is the inclination axis < 0.
@@ -1828,8 +1829,8 @@ begin
                then FCMfG_MagneticField_Calculation( CurrentStar, Count );
                if ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_tectonicActivity=taNull )
                   and ( ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType= oobtTelluricPlanet ) or ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType= oobtIcyPlanet ) )
-               then FCMfG_TectonicActivity_Calculation( CurrentStar, Count )
-               else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_tectonicActivity:=taDead;
+               then FCMfG_TectonicActivity_Calculation( CurrentStar, Count );
+//               else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_tectonicActivity:=taDead;
                if ( FCDduStarSystem[0].SS_stars[CurrentStar].S_class < WD0 )
                   and ( not FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isAtmosphereEdited )
                then FCMfA_Atmosphere_Processing(

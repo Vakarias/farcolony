@@ -145,7 +145,9 @@ procedure FCMfS_OrbitalPeriods_Generate(
       ,TemperatureMean
       ,WorkHydro: extended;
 
-      isLoadHydrosphere: boolean;
+      isHydroEdited
+      ,isLoadHydrosphere
+      ,isSatToLoadFromRoot: boolean;
 
       OrbitalPeriodsWork: array[0..4] of TFCRduOObSeason;
 
@@ -195,7 +197,9 @@ begin
    TemperatureMean:=0;
    WorkHydro:=0;
 
+   isHydroEdited:=false;
    isLoadHydrosphere:=false;
+   isSatToLoadFromRoot:=false;
 
    OrbitalPeriodsWork[1]:=OrbitalPeriodsWork[0];
    OrbitalPeriodsWork[2]:=OrbitalPeriodsWork[0];
@@ -227,6 +231,7 @@ begin
       GasN2:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceN2;
       GasSO2:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceSO2;
       TectonicActivityIndex:=Integer( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_tectonicActivity );
+      isHydroEdited:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isHydrosphereEdited;
    end
    else begin
       if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_type=ootAsteroidsBelt then
@@ -235,8 +240,18 @@ begin
          DistanceFromStar:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_isSat_distanceFromPlanet;
       end
       else begin
+         isSatToLoadFromRoot:=true;
          RevolutionPeriodPart:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_revolutionPeriod div 4;
          DistanceFromStar:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isNotSat_distanceFromStar;
+         Count:=1;
+         while Count <= 4 do
+         begin
+            OrbitalPeriodsWork[Count].OOS_orbitalPeriodType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_orbitalPeriods[Count].OOS_orbitalPeriodType;
+            OrbitalPeriodsWork[Count].OOS_dayStart:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_orbitalPeriods[Count].OOS_dayStart;
+            OrbitalPeriodsWork[Count].OOS_dayEnd:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_orbitalPeriods[Count].OOS_dayEnd;
+            OrbitalPeriodsWork[Count].OOS_baseTemperature:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_orbitalPeriods[Count].OOS_baseTemperature;
+            inc( Count );
+         end;
       end;
       BasicType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_basicType;
       FinalType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_type;
@@ -248,55 +263,62 @@ begin
       GasN2:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceN2;
       GasSO2:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceSO2;
       TectonicActivityIndex:=Integer( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_tectonicActivity );
+      isHydroEdited:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_isHydrosphereEdited;
    end;
    {.init part}
-   OrbitalPeriodsWork[1].OOS_dayStart:=1;
-   OrbitalPeriodsWork[1].OOS_dayEnd:=RevolutionPeriodPart;
-   OrbitalPeriodsWork[2].OOS_dayStart:=OrbitalPeriodsWork[1].OOS_dayEnd + 1;
-   OrbitalPeriodsWork[2].OOS_dayEnd:=OrbitalPeriodsWork[2].OOS_dayStart + RevolutionPeriodPart - 1;
-   OrbitalPeriodsWork[3].OOS_dayStart:=OrbitalPeriodsWork[2].OOS_dayEnd + 1;
-   OrbitalPeriodsWork[3].OOS_dayEnd:=OrbitalPeriodsWork[3].OOS_dayStart + RevolutionPeriodPart - 1;
-   OrbitalPeriodsWork[4].OOS_dayStart:=OrbitalPeriodsWork[3].OOS_dayEnd + 1;
-   OrbitalPeriodsWork[4].OOS_dayEnd:=OrbitalPeriodsWork[4].OOS_dayStart + RevolutionPeriodPart - 1;
-   GeneratedProbability:=FCFcF_Random_DoInteger( 3 ) + 1;
-   case GeneratedProbability of
-      1:
-      begin
-         OrbitalPeriodsWork[1].OOS_orbitalPeriodType:=optClosest;
-         OrbitalPeriodsWork[3].OOS_orbitalPeriodType:=optFarest;
-      end;
+   if not isSatToLoadFromRoot then
+   begin
+      OrbitalPeriodsWork[1].OOS_dayStart:=1;
+      OrbitalPeriodsWork[1].OOS_dayEnd:=RevolutionPeriodPart;
+      OrbitalPeriodsWork[2].OOS_dayStart:=OrbitalPeriodsWork[1].OOS_dayEnd + 1;
+      OrbitalPeriodsWork[2].OOS_dayEnd:=OrbitalPeriodsWork[2].OOS_dayStart + RevolutionPeriodPart - 1;
+      OrbitalPeriodsWork[3].OOS_dayStart:=OrbitalPeriodsWork[2].OOS_dayEnd + 1;
+      OrbitalPeriodsWork[3].OOS_dayEnd:=OrbitalPeriodsWork[3].OOS_dayStart + RevolutionPeriodPart - 1;
+      OrbitalPeriodsWork[4].OOS_dayStart:=OrbitalPeriodsWork[3].OOS_dayEnd + 1;
+      OrbitalPeriodsWork[4].OOS_dayEnd:=OrbitalPeriodsWork[4].OOS_dayStart + RevolutionPeriodPart - 1;
+      GeneratedProbability:=FCFcF_Random_DoInteger( 3 ) + 1;
+      case GeneratedProbability of
+         1:
+         begin
+            OrbitalPeriodsWork[1].OOS_orbitalPeriodType:=optClosest;
+            OrbitalPeriodsWork[3].OOS_orbitalPeriodType:=optFarest;
+         end;
 
-      2:
-      begin
-         OrbitalPeriodsWork[2].OOS_orbitalPeriodType:=optClosest;
-         OrbitalPeriodsWork[4].OOS_orbitalPeriodType:=optFarest;
-      end;
+         2:
+         begin
+            OrbitalPeriodsWork[2].OOS_orbitalPeriodType:=optClosest;
+            OrbitalPeriodsWork[4].OOS_orbitalPeriodType:=optFarest;
+         end;
 
-      3:
-      begin
-         OrbitalPeriodsWork[3].OOS_orbitalPeriodType:=optClosest;
-         OrbitalPeriodsWork[1].OOS_orbitalPeriodType:=optFarest;
-      end;
+         3:
+         begin
+            OrbitalPeriodsWork[3].OOS_orbitalPeriodType:=optClosest;
+            OrbitalPeriodsWork[1].OOS_orbitalPeriodType:=optFarest;
+         end;
 
-      4:
-      begin
-         OrbitalPeriodsWork[4].OOS_orbitalPeriodType:=optClosest;
-         OrbitalPeriodsWork[2].OOS_orbitalPeriodType:=optFarest;
+         4:
+         begin
+            OrbitalPeriodsWork[4].OOS_orbitalPeriodType:=optClosest;
+            OrbitalPeriodsWork[2].OOS_orbitalPeriodType:=optFarest;
+         end;
       end;
+      DistMin:=( 1 - Eccentricity ) * DistanceFromStar;
+      DistMax:=( 1 + Eccentricity ) * DistanceFromStar;
    end;
-   DistMin:=( 1 - Eccentricity ) * DistanceFromStar;
-   DistMax:=( 1 + Eccentricity ) * DistanceFromStar;
    {.main loop}
    Count:=1;
    TemperatureMean:=0;
    while Count <= 4 do
    begin
-      case OrbitalPeriodsWork[Count].OOS_orbitalPeriodType of
-         optIntermediary: OrbitalPeriodsWork[Count].OOS_baseTemperature:=FCFfG_BaseTemperature_Calc( DistanceFromStar, FCDduStarSystem[0].SS_stars[Star].S_luminosity );
+      if not isSatToLoadFromRoot then
+      begin
+         case OrbitalPeriodsWork[Count].OOS_orbitalPeriodType of
+            optIntermediary: OrbitalPeriodsWork[Count].OOS_baseTemperature:=FCFfG_BaseTemperature_Calc( DistanceFromStar, FCDduStarSystem[0].SS_stars[Star].S_luminosity );
 
-         optClosest: OrbitalPeriodsWork[Count].OOS_baseTemperature:=FCFfG_BaseTemperature_Calc( DistMin, FCDduStarSystem[0].SS_stars[Star].S_luminosity );
+            optClosest: OrbitalPeriodsWork[Count].OOS_baseTemperature:=FCFfG_BaseTemperature_Calc( DistMin, FCDduStarSystem[0].SS_stars[Star].S_luminosity );
 
-         optFarest: OrbitalPeriodsWork[Count].OOS_baseTemperature:=FCFfG_BaseTemperature_Calc( DistMax, FCDduStarSystem[0].SS_stars[Star].S_luminosity );
+            optFarest: OrbitalPeriodsWork[Count].OOS_baseTemperature:=FCFfG_BaseTemperature_Calc( DistMax, FCDduStarSystem[0].SS_stars[Star].S_luminosity );
+         end;
       end;
       case BasicType of
          oobtAsteroidBelt:
@@ -306,9 +328,12 @@ begin
             begin
                Albedo:=0;
                CloudsCover:=0;
-               Hydrosphere:=hNoHydro;
-               HydrosphereArea:=0;
-               isLoadHydrosphere:=true;
+               if not isHydroEdited then
+               begin
+                  Hydrosphere:=hNoHydro;
+                  HydrosphereArea:=0;
+                  isLoadHydrosphere:=true;
+               end;
             end;
          end;
 
@@ -316,8 +341,6 @@ begin
          begin
             if Count=1 then
             begin
-               Hydrosphere:=hNoHydro;
-               HydrosphereArea:=0;
                ConvectionFactor:=0;
                case FinalType of
                   ootAsteroid_Metallic..ootAsteroid_Silicate, ootSatellite_Asteroid_Metallic..ootSatellite_Asteroid_Silicate: ConvectionFactor:=0.15 * ( 0.9 + ( FCFcF_Random_DoFloat * 0.2 ) );
@@ -330,7 +353,12 @@ begin
                if Albedo >= 1
                then Albedo:=0.99;
                CloudsCover:=0;
-               isLoadHydrosphere:=true;
+               if not isHydroEdited then
+               begin
+                  Hydrosphere:=hNoHydro;
+                  HydrosphereArea:=0;
+                  isLoadHydrosphere:=true;
+               end;
             end;
             CalcFloat:=OrbitalPeriodsWork[Count].OOS_baseTemperature * power(  ( ( 1 - Albedo) / 0.7 ), 0.25  );
             OrbitalPeriodsWork[Count].OOS_surfaceTemperature:=FCFcF_Round( rttCustom2Decimal, CalcFloat );
@@ -344,7 +372,8 @@ begin
                if Count=4 then
                begin
                   TemperatureMean:=TemperatureMean / 4;
-                  FCMfH_Hydrosphere_Processing(
+                  if not isHydroEdited
+                  then FCMfH_Hydrosphere_Processing(
                      Star
                      ,OrbitalObject
                      ,TemperatureMean
@@ -448,7 +477,8 @@ begin
                if Count=4 then
                begin
                   TemperatureMean:=TemperatureMean / 4;
-                  FCMfH_Hydrosphere_Processing(
+                  if not isHydroEdited
+                  then FCMfH_Hydrosphere_Processing(
                      Star
                      ,OrbitalObject
                      ,TemperatureMean
@@ -547,14 +577,17 @@ begin
          begin
             if Count=1 then
             begin
-               Hydrosphere:=hNoHydro;
-               HydrosphereArea:=0;
                ConvectionFactor:=0.5 * ( 0.9 + ( FCFcF_Random_DoFloat * 0.2 ) );
                Albedo:=FCFcF_Round( rttCustom2Decimal, ConvectionFactor );
                if Albedo >= 1
                then Albedo:=0.99;
                CloudsCover:=0;
-               isLoadHydrosphere:=true;
+               if not isHydroEdited then
+               begin
+                  Hydrosphere:=hNoHydro;
+                  HydrosphereArea:=0;
+                  isLoadHydrosphere:=true;
+               end;
             end;
             CalcFloat:=OrbitalPeriodsWork[Count].OOS_baseTemperature * power( ( ( 1 - Albedo) / 0.7 ), 0.25 );
             OrbitalPeriodsWork[Count].OOS_surfaceTemperature:=FCFcF_Round( rttCustom2Decimal, CalcFloat );
@@ -577,7 +610,8 @@ begin
       end;
       FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_albedo:=Albedo;
       FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_cloudsCover:=CloudsCover;
-      if ( not FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isHydrosphereEdited )
+      if ( not isHydroEdited )
+         and ( not FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isHydrosphereEdited )
          and ( isLoadHydrosphere ) then
       begin
          FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_hydrosphere:=Hydrosphere;
@@ -597,7 +631,8 @@ begin
       end;
       FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_albedo:=Albedo;
       FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_cloudsCover:=CloudsCover;
-      if ( not FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_isHydrosphereEdited )
+      if ( not isHydroEdited )
+         and ( not FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_isHydrosphereEdited )
          and ( isLoadHydrosphere ) then
       begin
          FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_hydrosphere:=Hydrosphere;
