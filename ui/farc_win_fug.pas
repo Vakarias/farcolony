@@ -118,7 +118,6 @@ type
     COO_RotationPeriod: TLabeledEdit;
     COO_InclAxis: TLabeledEdit;
     COO_MagField: TLabeledEdit;
-    COO_Albedo: TLabeledEdit;
     TOO_Results: TAdvTabSheet;
     AdvGroupBox1: TAdvGroupBox;
     COO_TectonicActivity: TAdvComboBox;
@@ -181,7 +180,6 @@ type
     procedure COO_RotationPeriodKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure COO_InclAxisKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure COO_MagFieldKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure COO_AlbedoKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure COO_TectonicActivityChange(Sender: TObject);
     procedure COO_SatTriggerClick(Sender: TObject);
     procedure COO_SatNumberKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -572,12 +570,6 @@ end;
 procedure TFCWinFUG.AdvGlowButton1Click(Sender: TObject);
 begin
    FCMfC_Initialize( false );
-end;
-
-procedure TFCWinFUG.COO_AlbedoKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-begin
-   if Key=13
-   then FCmfC_OrbitPicker_AlbedoUpdate;
 end;
 
 procedure TFCWinFUG.COO_AtmosphereEditClick(Sender: TObject);

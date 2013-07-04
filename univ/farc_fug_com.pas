@@ -101,11 +101,6 @@ procedure FCmfC_HydrosphereEditTrigger_Update;
 procedure FCmfC_HydrosphereType_Update;
 
 ///<summary>
-///   update the orbital object albedo
-///</summary>
-procedure FCmfC_OrbitPicker_AlbedoUpdate;
-
-///<summary>
 ///   update the orbital object density
 ///</summary>
 procedure FCmfC_OrbitPicker_DensityUpdate;
@@ -993,38 +988,6 @@ begin
    end;
 end;
 
-procedure FCmfC_OrbitPicker_AlbedoUpdate;
-{:Purpose: update the orbital object albedo.
-    Additions:
-      -2013May06- *add: satellite.
-}
-   var
-      CurrentObject
-      ,CurrentSat: integer;
-begin
-   CurrentObject:=FCWinFUG.TOO_OrbitalObjectPicker.ItemIndex+1;
-   CurrentSat:=FCWinFUG.TOO_SatPicker.ItemIndex;
-   if CurrentSat<=0 then
-   begin
-      case FCWinFUG.TOO_StarPicker.ItemIndex of
-         0: FCDfdMainStarObjectsList[CurrentObject].OO_albedo:=strtofloat( FCWinFUG.COO_Albedo.Text );
-
-         1: FCDfdComp1StarObjectsList[CurrentObject].OO_albedo:=strtofloat( FCWinFUG.COO_Albedo.Text );
-
-         2: FCDfdComp2StarObjectsList[CurrentObject].OO_albedo:=strtofloat( FCWinFUG.COO_Albedo.Text );
-      end;
-   end
-   else begin
-      case FCWinFUG.TOO_StarPicker.ItemIndex of
-         0: FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_albedo:=strtofloat( FCWinFUG.COO_Albedo.Text );
-
-         1: FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_albedo:=strtofloat( FCWinFUG.COO_Albedo.Text );
-
-         2: FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_albedo:=strtofloat( FCWinFUG.COO_Albedo.Text );
-      end;
-   end;
-end;
-
 procedure FCmfC_OrbitPicker_DensityUpdate;
 {:Purpose: update the orbital object density.
     Additions:
@@ -1474,10 +1437,6 @@ begin
          FCmfC_HydrosphereEditTrigger_Update;
          FCWinFUG.COO_HydroType.ItemIndex:=Integer( FCDfdMainStarObjectsList[CurrentObject].OO_hydrosphere );
          FCWinFUG.COO_HydroArea.Text:=inttostr( FCDfdMainStarObjectsList[CurrentObject].OO_hydrosphereArea );
-         {.weather and albedo}
-         if FCDfdMainStarObjectsList[CurrentObject].OO_albedo>0
-         then FCWinFUG.COO_Albedo.Text:=floattostr( FCDfdMainStarObjectsList[CurrentObject].OO_albedo )
-         else FCWinFUG.COO_Albedo.Text:='';
          if ( UpdateSat )
             and ( length( FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList )-1 > 0 ) then
          begin
@@ -1551,10 +1510,6 @@ begin
          FCmfC_HydrosphereEditTrigger_Update;
          FCWinFUG.COO_HydroType.ItemIndex:=Integer( FCDfdComp1StarObjectsList[CurrentObject].OO_hydrosphere );
          FCWinFUG.COO_HydroArea.Text:=inttostr( FCDfdComp1StarObjectsList[CurrentObject].OO_hydrosphereArea );
-         {.weather and albedo}
-         if FCDfdComp1StarObjectsList[CurrentObject].OO_albedo>0
-         then FCWinFUG.COO_Albedo.Text:=floattostr( FCDfdComp1StarObjectsList[CurrentObject].OO_albedo )
-         else FCWinFUG.COO_Albedo.Text:='';
          if ( UpdateSat )
             and ( length( FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList )-1 > 0 ) then
          begin
@@ -1628,10 +1583,6 @@ begin
          FCmfC_HydrosphereEditTrigger_Update;
          FCWinFUG.COO_HydroType.ItemIndex:=Integer( FCDfdComp2StarObjectsList[CurrentObject].OO_hydrosphere );
          FCWinFUG.COO_HydroArea.Text:=inttostr( FCDfdComp2StarObjectsList[CurrentObject].OO_hydrosphereArea );
-         {.weather and albedo}
-         if FCDfdComp2StarObjectsList[CurrentObject].OO_albedo>0
-         then FCWinFUG.COO_Albedo.Text:=floattostr( FCDfdComp2StarObjectsList[CurrentObject].OO_albedo )
-         else FCWinFUG.COO_Albedo.Text:='';
          if ( UpdateSat )
             and ( length( FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList )-1 > 0 ) then
          begin
@@ -1778,10 +1729,6 @@ begin
          FCmfC_HydrosphereEditTrigger_Update;
          FCWinFUG.COO_HydroType.ItemIndex:=Integer( FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_hydrosphere );
          FCWinFUG.COO_HydroArea.Text:=inttostr( FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_hydrosphereArea );
-         {.weather and albedo}
-         if FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_albedo>0
-         then FCWinFUG.COO_Albedo.Text:=floattostr( FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_albedo )
-         else FCWinFUG.COO_Albedo.Text:='';
       end;
 
       1:
@@ -1842,10 +1789,6 @@ begin
          FCmfC_HydrosphereEditTrigger_Update;
          FCWinFUG.COO_HydroType.ItemIndex:=Integer( FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_hydrosphere );
          FCWinFUG.COO_HydroArea.Text:=inttostr( FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_hydrosphereArea );
-         {.weather and albedo}
-         if FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_albedo>0
-         then FCWinFUG.COO_Albedo.Text:=floattostr( FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_albedo )
-         else FCWinFUG.COO_Albedo.Text:='';
       end;
 
       2:
@@ -1906,10 +1849,6 @@ begin
          FCmfC_HydrosphereEditTrigger_Update;
          FCWinFUG.COO_HydroType.ItemIndex:=Integer( FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_hydrosphere );
          FCWinFUG.COO_HydroArea.Text:=inttostr( FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_hydrosphereArea );
-         {.weather and albedo}
-         if FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_albedo>0
-         then FCWinFUG.COO_Albedo.Text:=floattostr( FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_albedo )
-         else FCWinFUG.COO_Albedo.Text:='';
       end;
    end; //==END== case FCWinFUG.TOO_StarPicker.ItemIndex of ==//
 end;

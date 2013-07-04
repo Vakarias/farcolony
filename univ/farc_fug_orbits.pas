@@ -146,6 +146,7 @@ uses
    ,farc_fug_data
    ,farc_fug_geophysical
    ,farc_fug_hydrosphere
+   ,farc_fug_seasons
    ,farc_fug_stars
    ,farc_win_fug;
 
@@ -1072,6 +1073,7 @@ end;
 procedure FCMfO_Generate(const CurrentStar: integer);
 {:Purpose: core routine for orbits generation.
     Additions:
+      -2013Jul03- *add: orbital periods.
       -2013Jul01- *add: hydrosphere.
                   *add: atmosphere: prevent calculations is a WD, PSR, or BH.
                   *fix: correction, for an asteroid in a belt, is the inclination axis < 0.
@@ -1676,6 +1678,7 @@ begin
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isHydrosphereEdited:=false;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_hydrosphere:=hNoHydro;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_hydrosphereArea:=0;
+               FCMfS_OrbitalPeriods_Generate( CurrentStar, Count );
                {...asteroids phase I - basics + orbital + geophysical data}
                NumberOfSat:=length( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList ) - 1;
                if NumberOfSat=-1 then
@@ -1769,6 +1772,11 @@ begin
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isHydrosphereEdited:=false;
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_hydrosphere:=hNoHydro;
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_hydrosphereArea:=0;
+                  FCMfS_OrbitalPeriods_Generate(
+                     CurrentStar
+                     ,Count
+                     ,CountSat
+                     );
                   inc( CountSat );
                end; //==END== while CountSat <= NumberOfSat ==//
             end //==END== if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType=oobtAsteroidBelt then ==//
@@ -1852,20 +1860,7 @@ begin
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_atmosphere.AC_gasPresenceO3:=agsNotPresent;
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_atmosphere.AC_gasPresenceSO2:=agsNotPresent;
                end;
-//               if ( FCDduStarSystem[0].SS_stars[CurrentStar].S_class < WD0 )
-//                  and ( not FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isHydrosphereEdited )
-//                  and ( ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType = oobtTelluricPlanet ) or ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType = oobtIcyPlanet ) )
-//               then FCMfH_Hydrosphere_Processing(
-//                  CurrentStar
-//                  ,Count
-//                  ,BaseTemperature
-//                  )
-//               else if FCDduStarSystem[0].SS_stars[CurrentStar].S_class >= WD0 then
-//               begin
-//                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isHydrosphereEdited:=false;
-//                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_hydrosphere:=hNoHydro;
-//                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_hydrosphereArea:=0;
-//               end;
+               FCMfS_OrbitalPeriods_Generate( CurrentStar, Count );
                {...satellites phase I - basics + orbital + geophysical data}
                NumberOfSat:=length( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList ) - 1;
                if (FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_rotationPeriod <> 0 )
@@ -2086,39 +2081,17 @@ begin
                         FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_atmosphere.AC_gasPresenceO3:=agsNotPresent;
                         FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_atmosphere.AC_gasPresenceSO2:=agsNotPresent;
                      end;
-//                     if ( FCDduStarSystem[0].SS_stars[CurrentStar].S_class < WD0 )
-//                        and ( not FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isHydrosphereEdited )
-//                        and ( ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_basicType = oobtTelluricPlanet ) or ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_basicType = oobtIcyPlanet ) )
-//                     then FCMfH_Hydrosphere_Processing(
-//                        CurrentStar
-//                        ,Count
-//                        ,BaseTemperature
-//                        ,CountSat
-//                        )
-//                     else if FCDduStarSystem[0].SS_stars[CurrentStar].S_class >= WD0 then
-//                     begin
-//                        FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isHydrosphereEdited:=false;
-//                        FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_hydrosphere:=hNoHydro;
-//                        FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_hydrosphereArea:=0;
-//                     end;
+                     FCMfS_OrbitalPeriods_Generate(
+                        CurrentStar
+                        ,Count
+                        ,CountSat
+                        );
                      inc( CountSat );
                   end; //==END== while CountSat <= NumberOfSat ==//
                end //==END== if (FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_rotationPeriod <> 0 ) and ( NumberOfSat > 0 ) ==//
                else setlength( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList, 0 );
             end; //==END== else of: if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType=oobtAsteroidBelt ==//
 
-
-            {:DEV NOTES: ecosphere here
-
-
-                OrbitsCreation_Weather;
-                                       .}
-
-            {:DEV NOTES: orbital periods / seasons here.}
-
-
-
-             {:DEV NOTES: look if tectonic needed below, if it is the case: generate sat (w/o surf generation and after geophysical, apply FCMfG_TectonicActivityDifferential_Calculation.}
 
             {:DEV NOTES: surface generation + regions here incl resources.}
 

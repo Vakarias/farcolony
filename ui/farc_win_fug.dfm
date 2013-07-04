@@ -1401,19 +1401,6 @@ object FCWinFUG: TFCWinFUG
           TabOrder = 10
           OnKeyDown = COO_MagFieldKeyDown
         end
-        object COO_Albedo: TLabeledEdit
-          Left = 16
-          Top = 508
-          Width = 47
-          Height = 19
-          Color = clWhite
-          EditLabel.Width = 33
-          EditLabel.Height = 13
-          EditLabel.Caption = 'Albedo'
-          EditLabel.Layout = tlCenter
-          TabOrder = 11
-          OnKeyDown = COO_AlbedoKeyDown
-        end
         object COO_TectonicActivity: TAdvComboBox
           Left = 332
           Top = 71
@@ -1448,7 +1435,7 @@ object FCWinFUG: TFCWinFUG
           LabelFont.Name = 'Tahoma'
           LabelFont.Style = []
           ParentFont = False
-          TabOrder = 12
+          TabOrder = 11
           OnChange = COO_TectonicActivityChange
         end
         object COO_SatTrigger: TCheckBox
@@ -1466,7 +1453,7 @@ object FCWinFUG: TFCWinFUG
           Font.Style = []
           ParentColor = False
           ParentFont = False
-          TabOrder = 13
+          TabOrder = 12
           OnClick = COO_SatTriggerClick
         end
         object COO_SatNumber: TLabeledEdit
@@ -1480,7 +1467,7 @@ object FCWinFUG: TFCWinFUG
           EditLabel.Caption = '# Sat (max15) / 0 FOR NO SAT'
           EditLabel.Layout = tlCenter
           Enabled = False
-          TabOrder = 14
+          TabOrder = 13
           OnKeyDown = COO_SatNumberKeyDown
         end
         object COO_AtmosphereEdit: TCheckBox
@@ -1498,7 +1485,7 @@ object FCWinFUG: TFCWinFUG
           Font.Style = []
           ParentColor = False
           ParentFont = False
-          TabOrder = 15
+          TabOrder = 14
           OnClick = COO_AtmosphereEditClick
         end
         object COO_TraceAtmosphereTrigger: TCheckBox
@@ -1516,7 +1503,7 @@ object FCWinFUG: TFCWinFUG
           Font.Style = []
           ParentColor = False
           ParentFont = False
-          TabOrder = 16
+          TabOrder = 15
           OnClick = COO_TraceAtmosphereTriggerClick
         end
         object COO_GasH2: TAdvComboBox
@@ -1550,7 +1537,7 @@ object FCWinFUG: TFCWinFUG
           LabelFont.Name = 'Tahoma'
           LabelFont.Style = []
           ParentFont = False
-          TabOrder = 17
+          TabOrder = 16
           OnChange = COO_GasH2Change
         end
         object COO_GasHe: TAdvComboBox
@@ -1584,7 +1571,7 @@ object FCWinFUG: TFCWinFUG
           LabelFont.Name = 'Tahoma'
           LabelFont.Style = []
           ParentFont = False
-          TabOrder = 18
+          TabOrder = 17
           OnChange = COO_GasHeChange
         end
         object COO_GasCH4: TAdvComboBox
@@ -1618,7 +1605,7 @@ object FCWinFUG: TFCWinFUG
           LabelFont.Name = 'Tahoma'
           LabelFont.Style = []
           ParentFont = False
-          TabOrder = 19
+          TabOrder = 18
           OnChange = COO_GasCH4Change
         end
         object COO_GasNH3: TAdvComboBox
@@ -1652,7 +1639,7 @@ object FCWinFUG: TFCWinFUG
           LabelFont.Name = 'Tahoma'
           LabelFont.Style = []
           ParentFont = False
-          TabOrder = 20
+          TabOrder = 19
           OnChange = COO_GasNH3Change
         end
         object COO_GasH2O: TAdvComboBox
@@ -1686,7 +1673,7 @@ object FCWinFUG: TFCWinFUG
           LabelFont.Name = 'Tahoma'
           LabelFont.Style = []
           ParentFont = False
-          TabOrder = 21
+          TabOrder = 20
           OnChange = COO_GasH2OChange
         end
         object COO_GasNe: TAdvComboBox
@@ -1720,7 +1707,7 @@ object FCWinFUG: TFCWinFUG
           LabelFont.Name = 'Tahoma'
           LabelFont.Style = []
           ParentFont = False
-          TabOrder = 22
+          TabOrder = 21
           OnChange = COO_GasNeChange
         end
         object COO_GasN2: TAdvComboBox
@@ -1754,7 +1741,7 @@ object FCWinFUG: TFCWinFUG
           LabelFont.Name = 'Tahoma'
           LabelFont.Style = []
           ParentFont = False
-          TabOrder = 23
+          TabOrder = 22
           OnChange = COO_GasN2Change
         end
         object COO_GasCO: TAdvComboBox
@@ -1788,7 +1775,7 @@ object FCWinFUG: TFCWinFUG
           LabelFont.Name = 'Tahoma'
           LabelFont.Style = []
           ParentFont = False
-          TabOrder = 24
+          TabOrder = 23
           OnChange = COO_GasCOChange
         end
         object COO_GasNO: TAdvComboBox
@@ -1822,7 +1809,7 @@ object FCWinFUG: TFCWinFUG
           LabelFont.Name = 'Tahoma'
           LabelFont.Style = []
           ParentFont = False
-          TabOrder = 25
+          TabOrder = 24
           OnChange = COO_GasNOChange
         end
         object COO_GasO2: TAdvComboBox
@@ -1856,7 +1843,7 @@ object FCWinFUG: TFCWinFUG
           LabelFont.Name = 'Tahoma'
           LabelFont.Style = []
           ParentFont = False
-          TabOrder = 26
+          TabOrder = 25
           OnChange = COO_GasO2Change
         end
         object COO_GasH2S: TAdvComboBox
@@ -1890,7 +1877,7 @@ object FCWinFUG: TFCWinFUG
           LabelFont.Name = 'Tahoma'
           LabelFont.Style = []
           ParentFont = False
-          TabOrder = 27
+          TabOrder = 26
           OnChange = COO_GasH2SChange
         end
         object COO_GasAr: TAdvComboBox
@@ -1924,7 +1911,7 @@ object FCWinFUG: TFCWinFUG
           LabelFont.Name = 'Tahoma'
           LabelFont.Style = []
           ParentFont = False
-          TabOrder = 28
+          TabOrder = 27
           OnChange = COO_GasArChange
         end
         object COO_GasCO2: TAdvComboBox
@@ -1958,7 +1945,7 @@ object FCWinFUG: TFCWinFUG
           LabelFont.Name = 'Tahoma'
           LabelFont.Style = []
           ParentFont = False
-          TabOrder = 29
+          TabOrder = 28
           OnChange = COO_GasCO2Change
         end
         object COO_GasNO2: TAdvComboBox
@@ -1992,7 +1979,7 @@ object FCWinFUG: TFCWinFUG
           LabelFont.Name = 'Tahoma'
           LabelFont.Style = []
           ParentFont = False
-          TabOrder = 30
+          TabOrder = 29
           OnChange = COO_GasNO2Change
         end
         object COO_GasO3: TAdvComboBox
@@ -2026,7 +2013,7 @@ object FCWinFUG: TFCWinFUG
           LabelFont.Name = 'Tahoma'
           LabelFont.Style = []
           ParentFont = False
-          TabOrder = 31
+          TabOrder = 30
           OnChange = COO_GasO3Change
         end
         object COO_GasSO2: TAdvComboBox
@@ -2060,7 +2047,7 @@ object FCWinFUG: TFCWinFUG
           LabelFont.Name = 'Tahoma'
           LabelFont.Style = []
           ParentFont = False
-          TabOrder = 32
+          TabOrder = 31
           OnChange = COO_GasSO2Change
         end
         object COO_PrimGasVol: TLabeledEdit
@@ -2074,7 +2061,7 @@ object FCWinFUG: TFCWinFUG
           EditLabel.Caption = 'Primary Gas Vol'
           EditLabel.Layout = tlCenter
           NumbersOnly = True
-          TabOrder = 33
+          TabOrder = 32
           OnKeyDown = COO_PrimGasVolKeyDown
         end
         object COO_AtmosphericPressure: TLabeledEdit
@@ -2087,7 +2074,7 @@ object FCWinFUG: TFCWinFUG
           EditLabel.Height = 13
           EditLabel.Caption = 'Atmosphere Pressure'
           EditLabel.Layout = tlCenter
-          TabOrder = 34
+          TabOrder = 33
           OnKeyDown = COO_AtmosphericPressureKeyDown
         end
         object COO_HydroType: TAdvComboBox
@@ -2127,7 +2114,7 @@ object FCWinFUG: TFCWinFUG
           LabelFont.Name = 'Tahoma'
           LabelFont.Style = []
           ParentFont = False
-          TabOrder = 35
+          TabOrder = 34
           OnChange = COO_HydroTypeChange
         end
         object COO_HydrosphereEdit: TCheckBox
@@ -2145,7 +2132,7 @@ object FCWinFUG: TFCWinFUG
           Font.Style = []
           ParentColor = False
           ParentFont = False
-          TabOrder = 36
+          TabOrder = 35
           OnClick = COO_HydrosphereEditClick
         end
         object COO_HydroArea: TLabeledEdit
@@ -2159,7 +2146,7 @@ object FCWinFUG: TFCWinFUG
           EditLabel.Caption = 'Primary Gas Vol'
           EditLabel.Layout = tlCenter
           NumbersOnly = True
-          TabOrder = 37
+          TabOrder = 36
           OnKeyDown = COO_HydroAreaKeyDown
         end
       end
