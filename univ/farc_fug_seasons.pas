@@ -80,6 +80,25 @@ uses
 //==END PRIVATE CONST=======================================================================
 
 //===================================================END OF INIT============================
+
+function FCFfS_HydroCoef_Get( const Hydrosphere: TFCEduHydrospheres ): extended;
+{:Purpose: return the hydrosphere coefficient.
+    Additions:
+}
+begin
+   Result:=0;
+   if ( Hydrosphere > hNoHydro )
+      and ( Hydrosphere < hWaterAmmoniaLiquid )
+   then Result:=288.15
+   else if Hydrosphere = hWaterAmmoniaLiquid
+   then Result:=210
+   else if ( Hydrosphere > hWaterAmmoniaLiquid )
+      and ( Hydrosphere < hNitrogenIceSheet )
+   then Result:=105.7
+   else if Hydrosphere > hMethaneIceCrust
+   then Result:=78;
+end;
+
 //===========================END FUNCTIONS SECTION==========================================
 
 procedure FCMfS_OrbitalPeriods_Generate(
@@ -91,8 +110,11 @@ procedure FCMfS_OrbitalPeriods_Generate(
    Additions:
 }
    var
-      Count
+      Components
+      ,Count
+      ,Count1
       ,GeneratedProbability
+      ,HydrosphereArea
       ,PrimaryGasVolume
       ,RevolutionPeriodPart
       ,TectonicActivityIndex: integer;
@@ -100,6 +122,9 @@ procedure FCMfS_OrbitalPeriods_Generate(
       Albedo
       ,AtmospherePressure
       ,CalcFloat
+      ,CloudAdjustment
+      ,CloudContribution
+      ,CloudFraction
       ,CloudsCover
       ,ConvectionFactor
       ,DistanceFromStar
@@ -113,9 +138,12 @@ procedure FCMfS_OrbitalPeriods_Generate(
       ,GreenTotal
       ,GreenRise
       ,HydroAreaFrac
-      ,HydrosphereArea
+      ,HydroCoef
       ,OpticalDepth
-      ,TemperatureMean: extended;
+      ,RockContribution
+      ,RockFraction
+      ,TemperatureMean
+      ,WorkHydro: extended;
 
       isLoadHydrosphere: boolean;
 
@@ -130,10 +158,14 @@ procedure FCMfS_OrbitalPeriods_Generate(
       GasCH4
       ,GasCO2
       ,GasH2O
+      ,GasN2
       ,GasSO2: TFCEduAtmosphericGasStatus;
 begin
+   Components:=0;
    Count:=0;
+   Count1:=0;
    GeneratedProbability:=0;
+   HydrosphereArea:=0;
    PrimaryGasVolume:=0;
    RevolutionPeriodPart:=0;
    TectonicActivityIndex:=0;
@@ -141,6 +173,9 @@ begin
    Albedo:=0;
    AtmospherePressure:=0;
    CalcFloat:=0;
+   CloudAdjustment:=0;
+   CloudContribution:=0;
+   CloudFraction:=0;
    CloudsCover:=0;
    ConvectionFactor:=0;
    DistanceFromStar:=0;
@@ -153,9 +188,12 @@ begin
    GreenTotal:=0;
    GreenRise:=0;
    HydroAreaFrac:=0;
-   HydrosphereArea:=0;
+   HydroCoef:=0;
    OpticalDepth:=0;
+   RockContribution:=0;
+   RockFraction:=0;
    TemperatureMean:=0;
+   WorkHydro:=0;
 
    isLoadHydrosphere:=false;
 
@@ -186,6 +224,7 @@ begin
       GasCH4:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceCH4;
       GasCO2:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceCO2;
       GasH2O:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceH2O;
+      GasN2:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceN2;
       GasSO2:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceSO2;
       TectonicActivityIndex:=Integer( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_tectonicActivity );
    end
@@ -206,6 +245,7 @@ begin
       GasCH4:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceCH4;
       GasCO2:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceCO2;
       GasH2O:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceH2O;
+      GasN2:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceN2;
       GasSO2:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceSO2;
       TectonicActivityIndex:=Integer( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_tectonicActivity );
    end;
@@ -333,8 +373,13 @@ begin
                   Albedo:=FCFcF_Round( rttCustom2Decimal, ConvectionFactor );
                   if Albedo >= 1
                   then Albedo:=0.99;
-                  CalcFloat:=OrbitalPeriodsWork[Count].OOS_baseTemperature * power(  ( ( 1 - Albedo) / 0.7 ), 0.25  );
-                  OrbitalPeriodsWork[Count].OOS_surfaceTemperature:=FCFcF_Round( rttCustom2Decimal, CalcFloat );
+                  Count1:=1;
+                  while Count1 <= 4 do
+                  begin
+                     CalcFloat:=OrbitalPeriodsWork[Count1].OOS_baseTemperature * power(  ( ( 1 - Albedo) / 0.7 ), 0.25  );
+                     OrbitalPeriodsWork[Count1].OOS_surfaceTemperature:=FCFcF_Round( rttCustom2Decimal, CalcFloat );
+                     inc( Count1 );
+                  end;
                   CloudsCover:=0;
                end;
             end
@@ -370,31 +415,31 @@ begin
                   else if AtmospherePressure >= 70910
                   then OpticalDepth:=OpticalDepth * 8.333;
                   ConvectionFactor:=0.43 * power( ( AtmospherePressure / 1000 ) ,0.25 );
+                  GreenCO2:=0;
+                  if GasCO2=agsTrace
+                  then GeneratedProbability:=FCFcF_Random_DoInteger( 5 )
+                  else if GasCO2 > agsTrace
+                  then GeneratedProbability:=FCFcF_Random_DoInteger( 10 );
+                  GreenCO2:=( sqrt( AtmospherePressure ) * 0.01 * GeneratedProbability ) / sqrt( AtmospherePressure );
+                  GreenCH4:=0;
+                  if GasCH4=agsTrace
+                  then GeneratedProbability:=FCFcF_Random_DoInteger( 5 )
+                  else if GasCH4 > agsTrace
+                  then GeneratedProbability:=FCFcF_Random_DoInteger( 10 );
+                  GreenCH4:=( sqrt( AtmospherePressure ) * 0.01 * GeneratedProbability ) / sqrt( AtmospherePressure );
+                  GreenH2O:=0;
+                  if GasH2O = agsMain
+                  then GeneratedProbability:=FCFcF_Random_DoInteger( 10 );
+                  GreenH2O:=( sqrt( AtmospherePressure ) * 0.01 * GeneratedProbability ) / sqrt( AtmospherePressure );
+                  GreenSO2:=0;
+                  if GasSO2=agsTrace
+                  then GeneratedProbability:=TectonicActivityIndex
+                  else if GasSO2 > agsTrace
+                  then GeneratedProbability:=round( ( TectonicActivityIndex + 1 ) * 1.6666666666666666666666666666667 );
+                  GreenSO2:=( sqrt( AtmospherePressure ) * 0.01 * GeneratedProbability ) / sqrt( AtmospherePressure );
+                  GreenTotal:=0.5 + ( ( GreenCO2 + GreenCH4 + GreenH2O + GreenSO2 ) / 36 );
                end;
                {.surface temperature}
-               GreenCO2:=0;
-               if GasCO2=agsTrace
-               then GeneratedProbability:=FCFcF_Random_DoInteger( 5 )
-               else if GasCO2 > agsTrace
-               then GeneratedProbability:=FCFcF_Random_DoInteger( 10 );
-               GreenCO2:=( sqrt( AtmospherePressure ) * 0.01 * GeneratedProbability ) / sqrt( AtmospherePressure );
-               GreenCH4:=0;
-               if GasCH4=agsTrace
-               then GeneratedProbability:=FCFcF_Random_DoInteger( 5 )
-               else if GasCH4 > agsTrace
-               then GeneratedProbability:=FCFcF_Random_DoInteger( 10 );
-               GreenCH4:=( sqrt( AtmospherePressure ) * 0.01 * GeneratedProbability ) / sqrt( AtmospherePressure );
-               GreenH2O:=0;
-               if GasH2O = agsMain
-               then GeneratedProbability:=FCFcF_Random_DoInteger( 10 );
-               GreenH2O:=( sqrt( AtmospherePressure ) * 0.01 * GeneratedProbability ) / sqrt( AtmospherePressure );
-               GreenSO2:=0;
-               if GasSO2=agsTrace
-               then GeneratedProbability:=TectonicActivityIndex
-               else if GasSO2 > agsTrace
-               then GeneratedProbability:=round( ( TectonicActivityIndex + 1 ) * 1.6666666666666666666666666666667 );
-               GreenSO2:=( sqrt( AtmospherePressure ) * 0.01 * GeneratedProbability ) / sqrt( AtmospherePressure );
-               GreenTotal:=0.5 + ( ( GreenCO2 + GreenCH4 + GreenH2O + GreenSO2 ) / 36 );
                GreenRise:=( power( ( 1 + ( 0.75 * OpticalDepth ) ), 0.25 ) - 1 ) * OrbitalPeriodsWork[Count].OOS_baseTemperature * ConvectionFactor * GreenTotal;
                CalcFloat:=OrbitalPeriodsWork[Count].OOS_baseTemperature + GreenRise;
                OrbitalPeriodsWork[Count].OOS_surfaceTemperature:=FCFcF_Round( rttCustom2Decimal, CalcFloat );
@@ -409,33 +454,155 @@ begin
                      ,TemperatureMean
                      ,Satellite
                      );
-               end;
+                  if Satellite=0 then
+                  begin
+                     Hydrosphere:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_hydrosphere;
+                     HydrosphereArea:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_hydrosphereArea;
+                  end
+                  else begin
+                     Hydrosphere:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_hydrosphere;
+                     HydrosphereArea:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_hydrosphereArea;
+                  end;
+                  HydroAreaFrac:=HydrosphereArea * 0.01;
+                  CloudFraction:=0;
+                  if ( Hydrosphere=hWaterLiquid )
+                     or ( Hydrosphere=hWaterAmmoniaLiquid )
+                     or ( Hydrosphere=hMethaneLiquid ) then
+                  begin
+                     HydroCoef:=FCFfS_HydroCoef_Get( Hydrosphere );
+                     CloudFraction:=HydroAreaFrac * ( 1 + ( ( TemperatureMean - HydroCoef ) * 0.00767 ) );
+                     if CloudFraction < 0
+                     then CloudFraction:=0
+                     else if CloudFraction > 1
+                     then CloudFraction:=1;
+                  end
+                  else if ( Hydrosphere=hWaterIceSheet )
+                     or ( Hydrosphere=hMethaneIceSheet )
+                     or ( Hydrosphere=hNitrogenIceSheet ) then
+                  begin
+                     HydroCoef:=FCFfS_HydroCoef_Get( Hydrosphere );
+                     CloudFraction:=( 1 - HydroAreaFrac ) * ( 1 + ( ( TemperatureMean ) * 0.00767 ) );
+                  end
+                  else if Hydrosphere=hWaterIceCrust then
+                  begin
+                     HydroCoef:=FCFfS_HydroCoef_Get( Hydrosphere );
+                     if GasH2O = agsSecondary
+                     then CloudFraction:=( 1 - ( PrimaryGasVolume * 0.01 ) ) * ( 1 + ( ( TemperatureMean ) * 0.00767 ) )
+                     else if GasH2O = agsMain
+                     then CloudFraction:=( PrimaryGasVolume * 0.01 ) * ( 1 + ( ( TemperatureMean - HydroCoef ) * 0.00767 ) );
+                  end
+                  else if Hydrosphere=hMethaneIceCrust then
+                  begin
+                     HydroCoef:=FCFfS_HydroCoef_Get( Hydrosphere );
+                     if GasCH4 = agsSecondary
+                     then CloudFraction:=( 1 - ( PrimaryGasVolume * 0.01 ) ) * ( 1 + ( ( TemperatureMean ) * 0.00767 ) )
+                     else if GasCH4 = agsMain
+                     then CloudFraction:=( PrimaryGasVolume * 0.01 ) * ( 1 + ( ( TemperatureMean - HydroCoef ) * 0.00767 ) );
+                  end
+                  else if Hydrosphere=hNitrogenIceCrust then
+                  begin
+                     HydroCoef:=FCFfS_HydroCoef_Get( Hydrosphere );
+                     if GasN2 = agsSecondary
+                     then CloudFraction:=( 1 - ( PrimaryGasVolume * 0.01 ) ) * ( 1 + ( ( TemperatureMean ) * 0.00767 ) )
+                     else if GasN2 = agsMain
+                     then CloudFraction:=( PrimaryGasVolume * 0.01 ) * ( 1 + ( ( TemperatureMean - HydroCoef ) * 0.00767 ) );
+                  end;
+                  CloudsCover:=FCFcF_Round( rttCustom1Decimal, CloudFraction * 100 );
+                  {.albedo}
+                  RockFraction:=1 - HydroAreaFrac;
+                  Components:=0;
+                  CloudAdjustment:=0;
+                  if Hydrosphere > hNoHydro
+                  then Components:=2;
+                  if RockFraction > 0
+                  then inc( Components );
+                  if Components > 0
+                  then CloudAdjustment:=CloudFraction / Components;
+                  if RockFraction > CloudAdjustment
+                  then RockFraction:=RockFraction - CloudAdjustment
+                  else RockFraction:=0;
+                  WorkHydro:=0;
+                  if HydroAreaFrac > CloudAdjustment
+                  then WorkHydro:=HydroAreaFrac - CloudAdjustment;
+                  CloudContribution:=CloudFraction * ( 0.52 * ( FCFcF_Random_DoFloat * 0.4 ) );
+                  RockContribution:=RockFraction * ( 0.15 * ( FCFcF_Random_DoFloat * 0.2 ) );
+                  if Hydrosphere = hWaterLiquid
+                  then WorkHydro:=WorkHydro * ( 0.01 * ( FCFcF_Random_DoFloat * 0.4 ) )
+                  else if Hydrosphere = hWaterAmmoniaLiquid
+                  then WorkHydro:=WorkHydro * ( 0.35 * ( FCFcF_Random_DoFloat * 0.3 ) )
+                  else if Hydrosphere = hMethaneLiquid
+                  then WorkHydro:=WorkHydro * ( 0.01 * ( FCFcF_Random_DoFloat * 0.2 ) )
+                  else if Hydrosphere > hNoHydro
+                  then WorkHydro:=WorkHydro * ( 0.7 * ( FCFcF_Random_DoFloat * 0.2 ) );
+                  CalcFloat:=( CloudContribution + RockContribution + ( WorkHydro * 0.5 ) ) * 2.5;
+                  Albedo:=FCFcF_Round( rttCustom2Decimal, CalcFloat );
+                  if Albedo >= 1
+                  then Albedo:=0.99;
+               end; //==END== if Count=4 ==//
             end; //==END== else of if AtmospherePressure = 0 ( > 0 ) ==//
             isLoadHydrosphere:=false;
          end; //==END== case of: oobtTelluricPlanet, oobtIcyPlanet ==//
 
-         oobtGaseousPlanet:;
+         oobtGaseousPlanet:
+         begin
+            if Count=1 then
+            begin
+               Hydrosphere:=hNoHydro;
+               HydrosphereArea:=0;
+               ConvectionFactor:=0.5 * ( 0.9 + ( FCFcF_Random_DoFloat * 0.2 ) );
+               Albedo:=FCFcF_Round( rttCustom2Decimal, ConvectionFactor );
+               if Albedo >= 1
+               then Albedo:=0.99;
+               CloudsCover:=0;
+               isLoadHydrosphere:=true;
+            end;
+            CalcFloat:=OrbitalPeriodsWork[Count].OOS_baseTemperature * power( ( ( 1 - Albedo) / 0.7 ), 0.25 );
+            OrbitalPeriodsWork[Count].OOS_surfaceTemperature:=FCFcF_Round( rttCustom2Decimal, CalcFloat );
+         end;
       end; //==END== case BasicType ==//
       inc( Count );
    end;
-   {.data loading orb periods + albedo + clouds cover + hydrosphere if isLoadHydrosphere}
+   {.data loading}
    if Satellite=0 then
    begin
-//      if not FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject]. then
-//      begin
-//      end;
-
-//               if Satellite=0 then
-//               begin
-//                  Hydrosphere:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_hydrosphere;
-//                  HydrosphereArea:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_hydrosphereArea;
-//               end
-//               else begin
-//                  Hydrosphere:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_hydrosphere;
-//                  HydrosphereArea:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_hydrosphereArea;
-//               end;
+      Count:=1;
+      while Count <= 4 do
+      begin
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_orbitalPeriods[Count].OOS_orbitalPeriodType:=OrbitalPeriodsWork[Count].OOS_orbitalPeriodType;
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_orbitalPeriods[Count].OOS_dayStart:=OrbitalPeriodsWork[Count].OOS_dayStart;
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_orbitalPeriods[Count].OOS_dayEnd:=OrbitalPeriodsWork[Count].OOS_dayEnd;
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_orbitalPeriods[Count].OOS_baseTemperature:=OrbitalPeriodsWork[Count].OOS_baseTemperature;
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_orbitalPeriods[Count].OOS_surfaceTemperature:=OrbitalPeriodsWork[Count].OOS_surfaceTemperature;
+         inc( Count );
+      end;
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_albedo:=Albedo;
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_cloudsCover:=CloudsCover;
+      if ( not FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isHydrosphereEdited )
+         and ( isLoadHydrosphere ) then
+      begin
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_hydrosphere:=Hydrosphere;
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_hydrosphereArea:=HydrosphereArea;
+      end;
    end
    else begin
+      Count:=1;
+      while Count <= 4 do
+      begin
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_orbitalPeriods[Count].OOS_orbitalPeriodType:=OrbitalPeriodsWork[Count].OOS_orbitalPeriodType;
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_orbitalPeriods[Count].OOS_dayStart:=OrbitalPeriodsWork[Count].OOS_dayStart;
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_orbitalPeriods[Count].OOS_dayEnd:=OrbitalPeriodsWork[Count].OOS_dayEnd;
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_orbitalPeriods[Count].OOS_baseTemperature:=OrbitalPeriodsWork[Count].OOS_baseTemperature;
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_orbitalPeriods[Count].OOS_surfaceTemperature:=OrbitalPeriodsWork[Count].OOS_surfaceTemperature;
+         inc( Count );
+      end;
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_albedo:=Albedo;
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_cloudsCover:=CloudsCover;
+      if ( not FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_isHydrosphereEdited )
+         and ( isLoadHydrosphere ) then
+      begin
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_hydrosphere:=Hydrosphere;
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_hydrosphereArea:=HydrosphereArea;
+      end;
    end;
 end;
 
