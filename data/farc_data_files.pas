@@ -1427,6 +1427,7 @@ end;
 procedure FCMdF_DBStarOrbitalObjects_Load( const StarSystemToken, StarToken: string );
 {:Purpose: load the orbital objects, if there's any, of a specified star in the universe database XML file.
    Additions:
+      -2013Jul04- *add/mod: complete overhaul of the orbital periods.
       -2013Jun25- *add: seasons: base and surface temperatures.
       -2013Jun16- *mod: complete modification of the attributes names for orbital, geophysical and ecosphere data.
                   *mod: some optimization for the asteroids belt.
@@ -1527,24 +1528,6 @@ begin
                FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_geosynchOrbit:=StrToFloat( XMLOrbitalObject.Attributes['orbitGeosync'], FCVdiFormat );
                FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_lowOrbit:=StrToFloat( XMLOrbitalObject.Attributes['orbitLow'], FCVdiFormat );
             end //==END== if DBSSPorbObjNode.NodeName='orbobjorbdata' ==//
-            else if XMLOrbitalObject.NodeName='orbitalPeriods' then
-            begin
-               Count1:=0;
-               XMLOObjSub1:=XMLOrbitalObject.ChildNodes.First;
-               while XMLOObjSub1<>nil do
-               begin
-                  inc( Count1 );
-                  EnumIndex:=GetEnumValue( TypeInfo( TFCEduOrbitalPeriodTypes ), XMLOObjSub1.Attributes['periodType'] );
-                  FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_orbitalPeriods[Count1].OOS_orbitalPeriodType:=TFCEduOrbitalPeriodTypes( EnumIndex );
-                  if EnumIndex=-1
-                  then raise Exception.Create( 'bad orbital object period type: '+XMLOObjSub1.Attributes['periodType'] );
-                  FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_orbitalPeriods[Count1].OOS_dayStart:=XMLOObjSub1.Attributes['dayStart'];
-                  FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_orbitalPeriods[Count1].OOS_dayEnd:=XMLOObjSub1.Attributes['dayEnd'];
-                  FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_orbitalPeriods[Count1].OOS_baseTemperature:=StrToFloat( XMLOObjSub1.Attributes['baseTemp'], FCVdiFormat );
-                  FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_orbitalPeriods[Count1].OOS_surfaceTemperature:=StrToFloat( XMLOObjSub1.Attributes['surfaceTemp'], FCVdiFormat );
-                  XMLOObjSub1:= XMLOObjSub1.NextSibling;
-               end;
-            end //==END== else if DBSSPorbObjNode.NodeName='orbperlist' ==//
             else if XMLOrbitalObject.NodeName='geophysicalData' then
             begin
                EnumIndex:=GetEnumValue( TypeInfo( TFCEduOrbitalObjectTypes ), XMLOrbitalObject.Attributes['type'] );
@@ -1645,6 +1628,24 @@ begin
                FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_hydrosphereArea:=XMLOrbitalObject.Attributes['hydrosphereArea'];
                FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_albedo:=StrToFloat( XMLOrbitalObject.Attributes['albedo'], FCVdiFormat );
             end {.else if DBSSPorbObjNode.NodeName='orbobjecosdata'}
+            else if XMLOrbitalObject.NodeName='orbitalPeriods' then
+            begin
+               Count1:=0;
+               XMLOObjSub1:=XMLOrbitalObject.ChildNodes.First;
+               while XMLOObjSub1<>nil do
+               begin
+                  inc( Count1 );
+                  EnumIndex:=GetEnumValue( TypeInfo( TFCEduOrbitalPeriodTypes ), XMLOObjSub1.Attributes['type'] );
+                  FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_orbitalPeriods[Count1].OOS_orbitalPeriodType:=TFCEduOrbitalPeriodTypes( EnumIndex );
+                  if EnumIndex=-1
+                  then raise Exception.Create( 'bad orbital object - orbital period type: '+XMLOObjSub1.Attributes['type'] );
+                  FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_orbitalPeriods[Count1].OOS_dayStart:=XMLOObjSub1.Attributes['dayStart'];
+                  FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_orbitalPeriods[Count1].OOS_dayEnd:=XMLOObjSub1.Attributes['dayEnd'];
+                  FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_orbitalPeriods[Count1].OOS_baseTemperature:=StrToFloat( XMLOObjSub1.Attributes['baseTemp'], FCVdiFormat );
+                  FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_orbitalPeriods[Count1].OOS_surfaceTemperature:=StrToFloat( XMLOObjSub1.Attributes['surfaceTemp'], FCVdiFormat );
+                  XMLOObjSub1:= XMLOObjSub1.NextSibling;
+               end;
+            end //==END== else if DBSSPorbObjNode.NodeName='orbitalPeriods' ==//
             else if XMLOrbitalObject.NodeName='orbobjregions' then
             begin
                FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_regionSurface:=StrToFloat( XMLOrbitalObject.Attributes['surface'], FCVdiFormat );
@@ -1731,24 +1732,6 @@ begin
                      FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_geosynchOrbit:=StrToFloat( XMSatellite.Attributes['orbitGeosync'], FCVdiFormat );
                      FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_lowOrbit:=StrToFloat( XMSatellite.Attributes['orbitLow'], FCVdiFormat );
                   end
-                  else if XMSatellite.NodeName='orbitalPeriods' then
-                  begin
-                     Count1:=0;
-                     XMLOObjSub1:=XMSatellite.ChildNodes.First;
-                     while XMLOObjSub1<>nil do
-                     begin
-                        inc( Count1 );
-                        EnumIndex:=GetEnumValue( TypeInfo( TFCEduOrbitalPeriodTypes ), XMLOObjSub1.Attributes['periodType'] );
-                        FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_orbitalPeriods[Count1].OOS_orbitalPeriodType:=TFCEduOrbitalPeriodTypes( EnumIndex );
-                        if EnumIndex=-1
-                        then raise Exception.Create( 'bad universe satellite orbital period: '+XMLOObjSub1.Attributes['periodType'] );
-                        FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_orbitalPeriods[Count1].OOS_dayStart:=XMLOObjSub1.Attributes['dayStart'];
-                        FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_orbitalPeriods[Count1].OOS_dayEnd:=XMLOObjSub1.Attributes['dayEnd'];
-                        FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_orbitalPeriods[Count1].OOS_baseTemperature:=StrToFloat( XMLOObjSub1.Attributes['baseTemp'], FCVdiFormat );
-                        FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_orbitalPeriods[Count1].OOS_surfaceTemperature:=StrToFloat( XMLOObjSub1.Attributes['surfaceTemp'], FCVdiFormat );
-                        XMLOObjSub1:= XMLOObjSub1.NextSibling;
-                     end;
-                  end //==END== else if DBSSPsatNode.NodeName='orbperlist' ==//
                   else if XMSatellite.NodeName='geophysicalData' then
                   begin
                      EnumIndex:=GetEnumValue( TypeInfo( TFCEduOrbitalObjectTypes ), XMSatellite.Attributes['type'] );
@@ -1852,6 +1835,24 @@ begin
                      FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_hydrosphereArea:=XMSatellite.Attributes['hydrosphereArea'];
                      FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_albedo:=StrToFloat( XMSatellite.Attributes['albedo'], FCVdiFormat );
                   end {.else if DBSSPsatNode.NodeName='satecosdata'}
+                  else if XMLOrbitalObject.NodeName='orbitalPeriods' then
+                  begin
+                     Count1:=0;
+                     XMLOObjSub1:=XMLOrbitalObject.ChildNodes.First;
+                     while XMLOObjSub1<>nil do
+                     begin
+                        inc( Count1 );
+                        EnumIndex:=GetEnumValue( TypeInfo( TFCEduOrbitalPeriodTypes ), XMLOObjSub1.Attributes['type'] );
+                        FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_orbitalPeriods[Count1].OOS_orbitalPeriodType:=TFCEduOrbitalPeriodTypes( EnumIndex );
+                        if EnumIndex=-1
+                        then raise Exception.Create( 'bad satellite - orbital period type: '+XMLOObjSub1.Attributes['type'] );
+                        FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_orbitalPeriods[Count1].OOS_dayStart:=XMLOObjSub1.Attributes['dayStart'];
+                        FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_orbitalPeriods[Count1].OOS_dayEnd:=XMLOObjSub1.Attributes['dayEnd'];
+                        FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_orbitalPeriods[Count1].OOS_baseTemperature:=StrToFloat( XMLOObjSub1.Attributes['baseTemp'], FCVdiFormat );
+                        FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_orbitalPeriods[Count1].OOS_surfaceTemperature:=StrToFloat( XMLOObjSub1.Attributes['surfaceTemp'], FCVdiFormat );
+                        XMLOObjSub1:= XMLOObjSub1.NextSibling;
+                     end;
+                  end //==END== else if DBSSPorbObjNode.NodeName='orbitalPeriods' ==//
                   else if XMSatellite.NodeName='satregions' then
                   begin
                      FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_regionSurface:=StrToFloat( XMSatellite.Attributes['surface'], FCVdiFormat );
