@@ -90,6 +90,7 @@ procedure FCMfH_Hydrosphere_Processing(
    );
 {:Purpose: main rule for the process of the hydrosphere.
    Additions:
+      -2013Jul07- *mod: boiling/melting point adjustments.
       -2013Jul02- *add: conditions to process the hydrosphere or not.
 }
    var
@@ -246,8 +247,8 @@ begin
             and ( BaseTemperature < 191 )
             and ( AtmosphericPressure < 46.598 ) then
          begin
-            BoilingPoint:=1 / ( ( ln( sqrt( AtmosphericPressure ) ) / -592.5 ) + ( 1 / 109 ) );
-            MeltingPoint:=1 / ( ( ln( sqrt( AtmosphericPressure ) ) / -592.5 ) + ( 1 / 90.7 ) );
+            BoilingPoint:=1 / ( ( ln( sqrt( AtmosphericPressure ) ) / -2392.5 ) + ( 1 / 109 ) );
+            MeltingPoint:=1 / ( ( ln( sqrt( AtmosphericPressure ) ) / -2392.5 ) + ( 1 / 90.7 ) );
             IceCrustThreshold:=MeltingPoint * 193 / 273.15;
             VaporLimit:=BoilingPoint * 500 / 373.15;
             if BaseTemperature <= IceCrustThreshold
@@ -274,8 +275,8 @@ begin
             and ( BaseTemperature < 405 )
             and ( AtmosphericPressure < 113.456 ) then
          begin
-            BoilingPoint:=1 / ( ( ln( sqrt( AtmosphericPressure ) ) / -592.5 ) + ( 1 / 240 ) );
-            MeltingPoint:=1 / ( ( ln( sqrt( AtmosphericPressure ) ) / -592.5 ) + ( 1 / 195 ) );
+            BoilingPoint:=1 / ( ( ln( sqrt( AtmosphericPressure ) ) / -2392.5 ) + ( 1 / 240 ) );
+            MeltingPoint:=1 / ( ( ln( sqrt( AtmosphericPressure ) ) / -2392.5 ) + ( 1 / 195 ) );
             IceCrustThreshold:=MeltingPoint * 193 / 273.15;
             VaporLimit:=BoilingPoint * 500 / 373.15;
             if BaseTemperature <= IceCrustThreshold
@@ -311,10 +312,9 @@ begin
             end;
          end
          {.water hydrosphere}
-         else if BaseTemperature < 647 then
-         begin
-            BoilingPoint:=1 / ( ( ln( sqrt( AtmosphericPressure ) ) / -592.5 ) + ( 1 / 373.15 ) );
-            MeltingPoint:=1 / ( ( ln( sqrt( AtmosphericPressure ) ) / -592.5 ) + ( 1 / 273.15 ) );
+         else begin
+            BoilingPoint:=1 / ( ( ln( sqrt( AtmosphericPressure ) ) / -2392.5 ) + ( 1 / 373.15 ) );
+            MeltingPoint:=1 / ( ( ln( sqrt( AtmosphericPressure ) ) / -2392.5 ) + ( 1 / 273.15 ) );
             IceCrustThreshold:=MeltingPoint * 193 / 273.15;
             VaporLimit:=BoilingPoint * 500 / 373.15;
             if BaseTemperature <= IceCrustThreshold

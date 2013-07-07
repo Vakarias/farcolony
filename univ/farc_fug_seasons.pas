@@ -108,6 +108,9 @@ procedure FCMfS_OrbitalPeriods_Generate(
    );
 {:Purpose: generate the orbital periods and their base effects
    Additions:
+      -2013Jul07- *fix: addition of special conditions for asteroid belts.
+                  *mod: greenhouse calculations adjustments.
+                  *fix: prevent calculated clouds cover > 100.
 }
    var
       Components
@@ -266,7 +269,22 @@ begin
       isHydroEdited:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_isHydrosphereEdited;
    end;
    {.init part}
-   if not isSatToLoadFromRoot then
+   if BasicType=oobtAsteroidBelt then
+   begin
+      OrbitalPeriodsWork[1].OOS_orbitalPeriodType:=optIntermediary;
+      OrbitalPeriodsWork[1].OOS_dayStart:=0;
+      OrbitalPeriodsWork[1].OOS_dayEnd:=0;
+      OrbitalPeriodsWork[2].OOS_orbitalPeriodType:=optIntermediary;
+      OrbitalPeriodsWork[2].OOS_dayStart:=0;
+      OrbitalPeriodsWork[2].OOS_dayEnd:=0;
+      OrbitalPeriodsWork[3].OOS_orbitalPeriodType:=optIntermediary;
+      OrbitalPeriodsWork[3].OOS_dayStart:=0;
+      OrbitalPeriodsWork[3].OOS_dayEnd:=0;
+      OrbitalPeriodsWork[4].OOS_orbitalPeriodType:=optIntermediary;
+      OrbitalPeriodsWork[4].OOS_dayStart:=0;
+      OrbitalPeriodsWork[4].OOS_dayEnd:=0;
+   end
+   else if not isSatToLoadFromRoot then
    begin
       OrbitalPeriodsWork[1].OOS_dayStart:=1;
       OrbitalPeriodsWork[1].OOS_dayEnd:=RevolutionPeriodPart;
@@ -310,7 +328,9 @@ begin
    TemperatureMean:=0;
    while Count <= 4 do
    begin
-      if not isSatToLoadFromRoot then
+      if BasicType=oobtAsteroidBelt
+      then OrbitalPeriodsWork[Count].OOS_baseTemperature:=0
+      else if not isSatToLoadFromRoot then
       begin
          case OrbitalPeriodsWork[Count].OOS_orbitalPeriodType of
             optIntermediary: OrbitalPeriodsWork[Count].OOS_baseTemperature:=FCFfG_BaseTemperature_Calc( DistanceFromStar, FCDduStarSystem[0].SS_stars[Star].S_luminosity );
@@ -446,30 +466,34 @@ begin
                   ConvectionFactor:=0.43 * power( ( AtmospherePressure / 1000 ) ,0.25 );
                   GreenCO2:=0;
                   if GasCO2=agsTrace
-                  then GeneratedProbability:=FCFcF_Random_DoInteger( 5 )
+                  then GeneratedProbability:=FCFcF_Random_DoInteger( 50 )
                   else if GasCO2 > agsTrace
-                  then GeneratedProbability:=FCFcF_Random_DoInteger( 10 );
+                  then GeneratedProbability:=FCFcF_Random_DoInteger( 100 )
+                  else GeneratedProbability:=0;
                   GreenCO2:=( sqrt( AtmospherePressure ) * 0.01 * GeneratedProbability ) / sqrt( AtmospherePressure );
                   GreenCH4:=0;
                   if GasCH4=agsTrace
-                  then GeneratedProbability:=FCFcF_Random_DoInteger( 5 )
+                  then GeneratedProbability:=FCFcF_Random_DoInteger( 50 )
                   else if GasCH4 > agsTrace
-                  then GeneratedProbability:=FCFcF_Random_DoInteger( 10 );
+                  then GeneratedProbability:=FCFcF_Random_DoInteger( 100 )
+                  else GeneratedProbability:=0;
                   GreenCH4:=( sqrt( AtmospherePressure ) * 0.01 * GeneratedProbability ) / sqrt( AtmospherePressure );
                   GreenH2O:=0;
                   if GasH2O = agsMain
-                  then GeneratedProbability:=FCFcF_Random_DoInteger( 10 );
+                  then GeneratedProbability:=FCFcF_Random_DoInteger( 100 )
+                  else GeneratedProbability:=0;
                   GreenH2O:=( sqrt( AtmospherePressure ) * 0.01 * GeneratedProbability ) / sqrt( AtmospherePressure );
                   GreenSO2:=0;
                   if GasSO2=agsTrace
                   then GeneratedProbability:=TectonicActivityIndex
                   else if GasSO2 > agsTrace
-                  then GeneratedProbability:=round( ( TectonicActivityIndex + 1 ) * 1.6666666666666666666666666666667 );
+                  then GeneratedProbability:=round( ( TectonicActivityIndex + 1 ) * 14.28571428 )
+                  else GeneratedProbability:=0;
                   GreenSO2:=( sqrt( AtmospherePressure ) * 0.01 * GeneratedProbability ) / sqrt( AtmospherePressure );
-                  GreenTotal:=0.5 + ( ( GreenCO2 + GreenCH4 + GreenH2O + GreenSO2 ) / 36 );
+                  GreenTotal:=0.5 + ( ( GreenCO2 + GreenCH4 + GreenH2O + GreenSO2 ) / 10.6666666666664 );
                end;
                {.surface temperature}
-               GreenRise:=( power( ( 1 + ( 0.75 * OpticalDepth ) ), 0.25 ) - 1 ) * OrbitalPeriodsWork[Count].OOS_baseTemperature * ConvectionFactor * GreenTotal;
+               GreenRise:=( ( ( ( power( ( 1 + ( 0.75 * OpticalDepth ) ), 0.25 ) - 1 ) * ConvectionFactor ) + GreenTotal ) * OrbitalPeriodsWork[Count].OOS_baseTemperature ) / 4.98;
                CalcFloat:=OrbitalPeriodsWork[Count].OOS_baseTemperature + GreenRise;
                OrbitalPeriodsWork[Count].OOS_surfaceTemperature:=FCFcF_Round( rttCustom2Decimal, CalcFloat );
                TemperatureMean:=TemperatureMean + OrbitalPeriodsWork[Count].OOS_surfaceTemperature;
@@ -538,6 +562,8 @@ begin
                      then CloudFraction:=( PrimaryGasVolume * 0.01 ) * ( 1 + ( ( TemperatureMean - HydroCoef ) * 0.00767 ) );
                   end;
                   CloudsCover:=FCFcF_Round( rttCustom1Decimal, CloudFraction * 100 );
+                  if CloudsCover > 100
+                  then CloudsCover:=100;
                   {.albedo}
                   RockFraction:=1 - HydroAreaFrac;
                   Components:=0;
