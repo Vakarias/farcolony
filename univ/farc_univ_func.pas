@@ -145,6 +145,22 @@ function FCFuF_Index_Get(
    ): integer;
 
 ///<summary>
+///   retrieve the current orbital period
+///</summary>
+///   <param name="StarSys">star system index #</param>
+///   <param name="Star">star index #</param>
+///   <param name="OrbitalObject">orbital object index #</param>
+///   <param name="Satellite">[optional] satellite index #</param>
+///   <returns>the current orbital period</returns>
+///   <remarks></remarks>
+function FCFuF_OrbitalPeriods_GetCurrentPeriod(
+   const StarSys
+         ,Star
+         ,OrbitalObject: integer;
+   const Satellite: integer=0
+   ): TFCEduOrbitalPeriodTypes;
+
+///<summary>
 ///   calculate surface temperate by process the mean value between the 4 orbital periods
 ///</summary>
 ///    <param name="OPGMToobjIdx">orbital object index #</param>
@@ -548,6 +564,22 @@ begin
    Result:=IGidx;
 end;
 
+function FCFuF_OrbitalPeriods_GetCurrentPeriod(
+   const StarSys
+         ,Star
+         ,OrbitalObject: integer;
+   const Satellite: integer=0
+   ): TFCEduOrbitalPeriodTypes;
+{:Purpose: retrieve the current orbital period.
+    Additions:
+}
+begin
+   Result:=optIntermediary;
+   if Satellite=0
+   then    {:DEV NOTES: use revolution period current here AND COMPLETE THIS FUNCTION.}
+end;
+
+{:DEV NOTES: MODIFY THE CODE BELOW BY PROVIDING ONLY THE CURRENT BASE TEMPERATURE OF THE CURRENT ORBITAL PERIOD, use revolution period current.}
 function FCFuF_OrbitalPeriods_GetMeanBaseTemperature(const OPGMToobjIdx, OPGMTsatIdx: integer): extended;
 {:Purpose: calculate surface temperate by process the mean value between the 4 orbital periods.
     Additions:

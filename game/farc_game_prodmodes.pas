@@ -425,7 +425,7 @@ begin
                FCDdgEntities[PMDFFGent].E_colonies[PMDFFGcol].C_settlements[PMDFFGsett].S_infrastructures[PMDFFGinfra].I_fProdProductionMode[InfraProdModeCount].PM_type:=PMDFFGinfraData.I_fPmodeStructure[InfraProdModeCount].MS_mode;
                if OrbObjRow[ 4 ]=0 then
                begin
-                  {.region's precipitations}
+                  {.region's rainfall}
                   ProdModeDataI2:=FCDduStarSystem[ OrbObjRow[ 1 ] ].SS_stars[ OrbObjRow[ 2 ] ].S_orbitalObjects[ OrbObjRow[ 3 ] ].OO_regions[ ProdModeDataI1 ].OOR_precipitation;
                   {.region's windspeed}
                   ProdModeDataF5:=FCDduStarSystem[ OrbObjRow[ 1 ] ].SS_stars[ OrbObjRow[ 2 ] ].S_orbitalObjects[ OrbObjRow[ 3 ] ].OO_regions[ ProdModeDataI1 ].OOR_windSpeed;

@@ -2144,6 +2144,8 @@ begin
 
             //FCMfG_TectonicActivityDifferential_Calculation: do that maybe before regions!
 
+            //define which  environment (required only at the end because of the O2 interfaction by biosphere
+
          end; //==END== else: if ( CalcFloat>0 ) and ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_distanceFromStar > CalcFloat ) ==//
          inc( Count);
       end; //==END== while Count<=NumberOfOrbits ==//

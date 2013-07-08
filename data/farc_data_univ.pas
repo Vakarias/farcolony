@@ -469,6 +469,21 @@ type TFCRduAtmosphericComposition = record
    AC_gasPresenceSO2: TFCEduAtmosphericGasStatus;
 end;
 
+type TFCRduSeason = record
+   ///<summary>
+   ///   mean temperature in kelvin
+   ///</summary>
+   OP_meanTemperature: extended;
+   ///<summary>
+   ///   mean windspeed in m/s
+   ///</summary>
+   OP_windspeed: extended;
+   ///<summary>
+   ///   yearly rainfall in mm
+   OP_rainfall: integer;
+   ///</summary>
+end;
+
 {:REFERENCES LIST
    -
    -
@@ -486,16 +501,19 @@ type TFCRduOObRegion = record
    OOR_relief: TFCEduRegionReliefs;
    {.type of climate}
    OOR_climate: TFCEduRegionClimates;
+   OOR_seasonClosest: TFCRduSeason;
+   OOR_seasonIntermediate: TFCRduSeason;
+   OOR_seasonFarthest: TFCRduSeason;
    {.mean temperature at minimum orbital distance in kelvin}
-   OOR_meanTdMin: extended;
+//   OOR_meanTdMin: extended;
    {.mean temperature at intermediate orbital distance in kelvin}
-   OOR_meanTdInt: extended;
+//   OOR_meanTdInt: extended;
    {.mean temperature at maximum orbital distance in kelvin}
-   OOR_meanTdMax: extended;
+//   OOR_meanTdMax: extended;
    {.mean windspeed in m/s}
-   OOR_windSpeed: extended;
+//   OOR_windSpeed: extended;
    {.yearly precipitation in mm}
-   OOR_precipitation: Integer;
+//   OOR_precipitation: Integer;
    {.settlement data}
    OOR_settlementEntity: integer;
    OOR_settlementColony: integer;
@@ -608,6 +626,16 @@ type TFCRduOrbitalObject = record
    OO_revolutionPeriod: integer;
    {.starting day for revolution period}
    OO_revolutionPeriodInit: integer;
+
+
+   {:DEV NOTES: TO COMPLETE: LOAD/SAVE INTO SAVED GAME FILE + INIT (for new game) FOR EACH ORBITAL OBJECT.}
+   ///<summary>
+   ///   current day of revolution period. Loaded/Saved in the saved game file
+   ///</summary>
+   OO_revolutionPeriodCurrent: integer;
+   {:DEV NOTES: END.}
+
+
    {.NOT LOADED DATA - value used for 3d display}
    OO_angle1stDay: extended;
    {.diameter in km RTO-1}
