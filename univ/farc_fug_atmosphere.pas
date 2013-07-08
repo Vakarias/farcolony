@@ -274,6 +274,7 @@ procedure FCMfA_Atmosphere_Processing(
    );
 {:Purpose: main rule for the process of the atmosphere.
    Additions:
+      -2013Jul07- *add: adjust the calculated pressure is the atmosphere is tagged as very dense.
       -2013Jun30- *fix: correction in logic that switched all primary gasses as secondary, if not trace.
                   *fix: force to set the traceatmosphere=false when no gas is present.
                   *fix: set correctly the trace atmosphere, when it is required, in the gasses interactions.
@@ -1557,6 +1558,8 @@ begin
       Pressure:=VolInventory * Gravity / sqr( 6378 / Radius );
       PressureMax:=VolInventoryMax * Gravity / sqr( 6378 / Radius );
       CalculatedPressure:=Pressure + ( ( PressureMax - Pressure ) / 1.71 );
+      if isVeryDense
+      then CalculatedPressure:=CalculatedPressure * ( 1.5 + ( FCFcF_Random_DoInteger( 49 ) + 1 ) );
    end
    else begin
       GasSettings.AC_primaryGasVolumePerc:=0;
