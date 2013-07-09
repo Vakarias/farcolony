@@ -100,6 +100,7 @@ uses
 procedure FCMdFSG_Game_Load;
 {:Purpose: load the current game.
    Additions:
+      -2013Jul08- *add: initialize the OO_revolutionPeriodCurrent values.
       -2013Mar30- *add: planetary survey - E_cleanupSurveys.
       -2013Mar25- *add: survey resources - SRS_currentPlanetarySurvey.
                   *fix: remove a crash during the loading of the mission extension.
@@ -243,7 +244,11 @@ procedure FCMdFSG_Game_Load;
       ,Count4
       ,Count5
       ,EnumIndex
-      ,Max: integer;
+      ,Max
+      ,Max1
+      ,Max2
+      ,Max3
+      ,Max4: integer;
 
       CurrentDirectory
       ,CurrentSavedGameFile: string;
@@ -422,8 +427,6 @@ begin
             XMLSavedGameItem:=XMLSavedGameItem.NextSibling;
          end; {.while XMLSavedGameItem<>nil}
       end; {.if XMLSavedGame<>nil}
-
-
       {.read "taskinprocess" saved game item}
       SetLength(FCDdmtTaskListInProcess, 1);
       XMLSavedGame:=FCWinMain.FCXMLsave.DocumentElement.ChildNodes.FindNode( 'gfTaskListInProcess' );
@@ -1205,6 +1208,40 @@ begin
    {.free the memory}
    FCWinMain.FCXMLsave.Active:=false;
    FCWinMain.FCXMLsave.FileName:='';
+   {.initialize the current orbital periods}
+   Count:=FCVdgPlayer.P_currentTimeTick div 144;
+   Max1:=length( FCDduStarSystem ) - 1;
+   Count1:=1;
+   while Count1 <= Max1 do
+   begin
+      Max2:=length( FCDduStarSystem[Count1].SS_stars ) - 1;
+      Count2:=1;
+      while Count2 <= Max2 do
+      begin
+         Max3:=length( FCDduStarSystem[Count1].SS_stars[Count2].S_orbitalObjects ) - 1;
+         Count3:=1;
+         while Count3 <= Max3 do
+         begin
+            FCDduStarSystem[Count1].SS_stars[Count2].S_orbitalObjects[Count3].OO_revolutionPeriodCurrent:=FCDduStarSystem[Count1].SS_stars[Count2].S_orbitalObjects[Count3].OO_revolutionPeriodInit + ( frac( Count / FCDduStarSystem[Count1].SS_stars[Count2].S_orbitalObjects[Count3].OO_revolutionPeriod ) * FCDduStarSystem[Count1].SS_stars[Count2].S_orbitalObjects[Count3].OO_revolutionPeriod );
+            FCDduStarSystem[Count1].SS_stars[Count2].S_orbitalObjects[Count3].OO_revolutionPeriodCurrent:=round( FCDduStarSystem[Count1].SS_stars[Count2].S_orbitalObjects[Count3].OO_revolutionPeriodCurrent );
+            if FCDduStarSystem[Count1].SS_stars[Count2].S_orbitalObjects[Count3].OO_revolutionPeriodCurrent > FCDduStarSystem[Count1].SS_stars[Count2].S_orbitalObjects[Count3].OO_revolutionPeriodInit
+            then FCDduStarSystem[Count1].SS_stars[Count2].S_orbitalObjects[Count3].OO_revolutionPeriodCurrent:=FCDduStarSystem[Count1].SS_stars[Count2].S_orbitalObjects[Count3].OO_revolutionPeriodCurrent - FCDduStarSystem[Count1].SS_stars[Count2].S_orbitalObjects[Count3].OO_revolutionPeriod;
+            Max4:=length( FCDduStarSystem[Count1].SS_stars[Count2].S_orbitalObjects[Count3].OO_satellitesList ) - 1;
+            Count4:=1;
+            while Count4 <= Max4 do
+            begin
+               FCDduStarSystem[Count1].SS_stars[Count2].S_orbitalObjects[Count3].OO_satellitesList[Count4].OO_revolutionPeriodCurrent:=FCDduStarSystem[Count1].SS_stars[Count2].S_orbitalObjects[Count3].OO_satellitesList[Count4].OO_revolutionPeriodInit + ( frac( Count / FCDduStarSystem[Count1].SS_stars[Count2].S_orbitalObjects[Count3].OO_satellitesList[Count4].OO_revolutionPeriod ) * FCDduStarSystem[Count1].SS_stars[Count2].S_orbitalObjects[Count3].OO_satellitesList[Count4].OO_revolutionPeriod );
+               FCDduStarSystem[Count1].SS_stars[Count2].S_orbitalObjects[Count3].OO_satellitesList[Count4].OO_revolutionPeriodCurrent:=round( FCDduStarSystem[Count1].SS_stars[Count2].S_orbitalObjects[Count3].OO_satellitesList[Count4].OO_revolutionPeriodCurrent );
+               if FCDduStarSystem[Count1].SS_stars[Count2].S_orbitalObjects[Count3].OO_satellitesList[Count4].OO_revolutionPeriodCurrent > FCDduStarSystem[Count1].SS_stars[Count2].S_orbitalObjects[Count3].OO_satellitesList[Count4].OO_revolutionPeriodInit
+               then FCDduStarSystem[Count1].SS_stars[Count2].S_orbitalObjects[Count3].OO_satellitesList[Count4].OO_revolutionPeriodCurrent:=FCDduStarSystem[Count1].SS_stars[Count2].S_orbitalObjects[Count3].OO_satellitesList[Count4].OO_revolutionPeriodCurrent - FCDduStarSystem[Count1].SS_stars[Count2].S_orbitalObjects[Count3].OO_satellitesList[Count4].OO_revolutionPeriod;
+               inc( Count4 );
+            end;
+            inc( Count3);
+         end;
+         inc( Count2 );
+      end;
+      inc( Count1 );
+   end;
 end;
 
 procedure FCMdFSG_Game_Save;

@@ -218,6 +218,7 @@ end;
 procedure FCMgNG_Core_Proceed;
 {:Purpose: commit new game and initialize game interface.
    Additions:
+      -2013Jul08- *add: initialize the current revolution periods.
       -2013Mar10- *add: initialize entity's E_planetarySurveys.
       -2012Dec04- *add: for docked vessels, load the SU_locationDockingMotherCraft.
       -2012May24- *add: store the viability thresholds.
@@ -295,7 +296,16 @@ var
    ,CPspmMax
    ,CPspUnMother
    ,CPsSys
-   ,CPstar: integer;
+   ,CPstar
+   ,Count1
+   ,Count2
+   ,Count3
+   ,Count4
+   ,Max1
+   ,Max2
+   ,Max3
+   ,Max4
+   : integer;
 
    CPsv: extended;
 
@@ -358,6 +368,33 @@ FCWinNewGSetup.Close;
    end;
    {:DEV NOTES: load the planetary system here.}
    FCMdF_DBStarOrbitalObjects_Load( FCVdgPlayer.P_viewStarSystem, FCVdgPlayer.P_viewStar );
+   {.initialize/reset the current orbital periods}
+   Max1:=length( FCDduStarSystem ) - 1;
+   Count1:=1;
+   while Count1 <= Max1 do
+   begin
+      Max2:=length( FCDduStarSystem[Count1].SS_stars ) - 1;
+      Count2:=1;
+      while Count2 <= Max2 do
+      begin
+         Max3:=length( FCDduStarSystem[Count1].SS_stars[Count2].S_orbitalObjects ) - 1;
+         Count3:=1;
+         while Count3 <= Max3 do
+         begin
+            FCDduStarSystem[Count1].SS_stars[Count2].S_orbitalObjects[Count3].OO_revolutionPeriodCurrent:=FCDduStarSystem[Count1].SS_stars[Count2].S_orbitalObjects[Count3].OO_revolutionPeriodInit;
+            Max4:=length( FCDduStarSystem[Count1].SS_stars[Count2].S_orbitalObjects[Count3].OO_satellitesList ) - 1;
+            Count4:=1;
+            while Count4 <= Max4 do
+            begin
+               FCDduStarSystem[Count1].SS_stars[Count2].S_orbitalObjects[Count3].OO_satellitesList[Count4].OO_revolutionPeriodCurrent:=FCDduStarSystem[Count1].SS_stars[Count2].S_orbitalObjects[Count3].OO_satellitesList[Count4].OO_revolutionPeriodInit;
+               inc( Count4 );
+            end;
+            inc( Count3);
+         end;
+         inc( Count2 );
+      end;
+      inc( Count1 );
+   end;
    CPsSys:=FCFuF_StelObj_GetDbIdx(
       ufsoSsys
       ,FCVdgPlayer.P_viewStarSystem
