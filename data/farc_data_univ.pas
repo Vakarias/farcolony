@@ -504,16 +504,18 @@ type TFCRduOObRegion = record
    OOR_seasonClosest: TFCRduSeason;
    OOR_seasonIntermediate: TFCRduSeason;
    OOR_seasonFarthest: TFCRduSeason;
-   {.mean temperature at minimum orbital distance in kelvin}
-//   OOR_meanTdMin: extended;
-   {.mean temperature at intermediate orbital distance in kelvin}
-//   OOR_meanTdInt: extended;
-   {.mean temperature at maximum orbital distance in kelvin}
-//   OOR_meanTdMax: extended;
-   {.mean windspeed in m/s}
-//   OOR_windSpeed: extended;
-   {.yearly precipitation in mm}
-//   OOR_precipitation: Integer;
+   ///<summary>
+   ///   not loaded with XML file, initialized each time of a new game, game loading or the revolution period increase
+   ///</summary>
+   OOR_currentTemperature: extended;
+   ///<summary>
+   ///   not loaded with XML file, initialized each time of a new game, game loading or the revolution period increase
+   ///</summary>
+   OOR_currentWindspeed: extended;
+   ///<summary>
+   ///   not loaded with XML file, initialized each time of a new game, game loading or the revolution period increase
+   ///</summary>
+   OOR_currentRainfall: integer;
    {.settlement data}
    OOR_settlementEntity: integer;
    OOR_settlementColony: integer;
@@ -626,16 +628,10 @@ type TFCRduOrbitalObject = record
    OO_revolutionPeriod: integer;
    {.starting day for revolution period}
    OO_revolutionPeriodInit: integer;
-
-
-   {:DEV NOTES: TO COMPLETE: LOAD/SAVE INTO SAVED GAME FILE + INIT (for new game) FOR EACH ORBITAL OBJECT.}
    ///<summary>
    ///   current day of revolution period. Loaded/Saved in the saved game file
    ///</summary>
    OO_revolutionPeriodCurrent: integer;
-   {:DEV NOTES: END.}
-
-
    {.NOT LOADED DATA - value used for 3d display}
    OO_angle1stDay: extended;
    {.diameter in km RTO-1}

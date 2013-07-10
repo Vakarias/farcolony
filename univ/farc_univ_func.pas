@@ -161,11 +161,34 @@ function FCFuF_OrbitalPeriods_GetCurrentPeriod(
    ): TFCEduOrbitalPeriodTypes;
 
 ///<summary>
-///   calculate surface temperate by process the mean value between the 4 orbital periods
+///   retrieve the current orbital period index
 ///</summary>
-///    <param name="OPGMToobjIdx">orbital object index #</param>
-///    <param name="OPGMTsatIdx">[optional] satellite index</param>
-function FCFuF_OrbitalPeriods_GetMeanBaseTemperature(const OPGMToobjIdx, OPGMTsatIdx: integer): extended;
+///   <param name="StarSys">star system index #</param>
+///   <param name="Star">star index #</param>
+///   <param name="OrbitalObject">orbital object index #</param>
+///   <param name="Satellite">[optional] satellite index #</param>
+///   <returns>the current orbital period index</returns>
+///   <remarks></remarks>
+function FCFuF_OrbitalPeriods_GetCurrentPeriodIndex(
+   const StarSys
+         ,Star
+         ,OrbitalObject: integer;
+   const Satellite: integer=0
+   ): integer;
+
+///<summary>
+///   get the base temperature of the current orbital period of an orbital object
+///</summary>
+///    <param name="StarSys">star system index #</param>
+///    <param name="Star">star index #</param>
+///    <param name="OrbitalObject">orbital object index #</param>
+///    <param name="Satellite">[optional] satellite index</param>
+function FCFuF_OrbitalPeriods_GetBaseTemperature(
+   const StarSys
+         ,Star
+         ,OrbitalObject: integer;
+   const Satellite: integer=0
+      ): extended;
 
 ///<summary>
 ///   get the climate token of a choosen region
@@ -573,43 +596,104 @@ function FCFuF_OrbitalPeriods_GetCurrentPeriod(
 {:Purpose: retrieve the current orbital period.
     Additions:
 }
+   var
+      Count: integer;
 begin
    Result:=optIntermediary;
-   if Satellite=0
-   then    {:DEV NOTES: use revolution period current here AND COMPLETE THIS FUNCTION.}
+   Count:=1;
+   if Satellite = 0 then
+   begin
+      while Count <= 4 do
+      begin
+         if FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_revolutionPeriodCurrent in [FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_orbitalPeriods[Count].OOS_dayStart..FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_orbitalPeriods[Count].OOS_dayEnd] then
+         begin
+            Result:=FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_orbitalPeriods[Count].OOS_orbitalPeriodType;
+            break;
+         end;
+         inc( Count );
+      end;
+   end
+   else if Satellite > 0 then
+   begin
+      while Count <= 4 do
+      begin
+         if FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_revolutionPeriodCurrent in [FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_orbitalPeriods[Count].OOS_dayStart..FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_orbitalPeriods[Count].OOS_dayEnd] then
+         begin
+            Result:=FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_orbitalPeriods[Count].OOS_orbitalPeriodType;
+            break;
+         end;
+         inc( Count );
+      end;
+   end;
 end;
 
-{:DEV NOTES: MODIFY THE CODE BELOW BY PROVIDING ONLY THE CURRENT BASE TEMPERATURE OF THE CURRENT ORBITAL PERIOD, use revolution period current.}
-function FCFuF_OrbitalPeriods_GetMeanBaseTemperature(const OPGMToobjIdx, OPGMTsatIdx: integer): extended;
-{:Purpose: calculate surface temperate by process the mean value between the 4 orbital periods.
+function FCFuF_OrbitalPeriods_GetCurrentPeriodIndex(
+   const StarSys
+         ,Star
+         ,OrbitalObject: integer;
+   const Satellite: integer=0
+   ): integer;
+{:Purpose: retrieve the current orbital period index.
     Additions:
+}
+   var
+      Count: integer;
+begin
+   Result:=0;
+   Count:=1;
+   if Satellite = 0 then
+   begin
+      while Count <= 4 do
+      begin
+         if FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_revolutionPeriodCurrent in [FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_orbitalPeriods[Count].OOS_dayStart..FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_orbitalPeriods[Count].OOS_dayEnd] then
+         begin
+            Result:=Count;
+            break;
+         end;
+         inc( Count );
+      end;
+   end
+   else if Satellite > 0 then
+   begin
+      while Count <= 4 do
+      begin
+         if FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_revolutionPeriodCurrent in [FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_orbitalPeriods[Count].OOS_dayStart..FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_orbitalPeriods[Count].OOS_dayEnd] then
+         begin
+            Result:=Count;
+            break;
+         end;
+         inc( Count );
+      end;
+   end;
+end;
+
+function FCFuF_OrbitalPeriods_GetBaseTemperature(
+   const StarSys
+         ,Star
+         ,OrbitalObject: integer;
+   const Satellite: integer=0
+      ): extended;
+{:Purpose: get the base temperature of the current orbital period of an orbital object.
+    Additions:
+      -2013Jul09- *mod: overhaul: retrieve the current base temperature based on the revolution period.
+                  *code: parameters refactoring.
       -2010Jan07- *add: satellite calculations.
 }
 var
-   OPGMTdmpT1
-   ,OPGMTdmpT2
-   ,OPGMTdmpT3
-   ,OPGMTdmpT4
-   ,OPGMTdmpRes: extended;
+   CurrentOrbitalPeriod: integer;
 begin
-   if OPGMTsatIdx=0
-   then
-   begin
-      OPGMTdmpT1:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OPGMToobjIdx].OO_orbitalPeriods[1].OOS_baseTemperature;
-      OPGMTdmpT2:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OPGMToobjIdx].OO_orbitalPeriods[2].OOS_baseTemperature;
-      OPGMTdmpT3:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OPGMToobjIdx].OO_orbitalPeriods[3].OOS_baseTemperature;
-      OPGMTdmpT4:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OPGMToobjIdx].OO_orbitalPeriods[4].OOS_baseTemperature;
-   end
-   else if OPGMTsatIdx>0
-   then
-   begin
-      OPGMTdmpT1:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OPGMToobjIdx].OO_satellitesList[OPGMTsatIdx].OO_orbitalPeriods[1].OOS_baseTemperature;
-      OPGMTdmpT2:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OPGMToobjIdx].OO_satellitesList[OPGMTsatIdx].OO_orbitalPeriods[2].OOS_baseTemperature;
-      OPGMTdmpT3:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OPGMToobjIdx].OO_satellitesList[OPGMTsatIdx].OO_orbitalPeriods[3].OOS_baseTemperature;
-      OPGMTdmpT4:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OPGMToobjIdx].OO_satellitesList[OPGMTsatIdx].OO_orbitalPeriods[4].OOS_baseTemperature;
-   end;
-   OPGMTdmpRes:=(OPGMTdmpT1+OPGMTdmpT2+OPGMTdmpT3+OPGMTdmpT4)/4;
-   Result:=OPGMTdmpRes;
+   Result:=0;
+   CurrentOrbitalPeriod:=optIntermediary;
+   CurrentOrbitalPeriod:=FCFuF_OrbitalPeriods_GetCurrentPeriodIndex(
+      StarSys
+      ,Star
+      ,OrbitalObject
+      ,Satellite
+      );
+   if Satellite=0
+   then Result:=FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_orbitalPeriods[CurrentOrbitalPeriod].OOS_baseTemperature
+   else if Satellite>0
+   then Result:=FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_orbitalPeriods[CurrentOrbitalPeriod].OOS_baseTemperature;
 end;
 
 function FCFuF_Region_GetClim(const StarSys, Star, RGCooIdx, RGCsatIdx, RGCregIdx: integer): string;

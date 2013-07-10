@@ -668,15 +668,19 @@ begin
    begin
       MTAdmpObjTp:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[MTAoobjIdx].OO_type;
       MTAdmpHydroTp:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[MTAoobjIdx].OO_hydrosphere;
-      BaseTemperatureMean:=FCFuF_OrbitalPeriods_GetMeanBaseTemperature(MTAoobjIdx, MTAsatIdx);
    end
    else if MTAsatIdx>0
    then
    begin
       MTAdmpObjTp:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[MTAoobjIdx].OO_satellitesList[MTAsatIdx].OO_type;
       MTAdmpHydroTp:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[MTAoobjIdx].OO_satellitesList[MTAsatIdx].OO_hydrosphere;
-      BaseTemperatureMean:=FCFuF_OrbitalPeriods_GetMeanBaseTemperature(MTAoobjIdx, MTAsatIdx);
    end;
+   BaseTemperatureMean:=FCFuF_OrbitalPeriods_GetBaseTemperature(
+      FC3doglCurrentStarSystem
+      ,FC3doglCurrentStar
+      ,MTAoobjIdx
+      ,MTAsatIdx
+      );
    {.for gaseous planets => standard textures}
    if ( MTAdmpObjTp >= ootPlanet_Gaseous_Uranus )
       and ( MTAdmpObjTp<ootSatellite_Asteroid_Metallic )
