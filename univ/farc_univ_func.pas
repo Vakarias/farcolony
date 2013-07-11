@@ -281,6 +281,20 @@ function FCFuF_StarMatrix_Null: TFCRufStelObj;
 
 //===========================END FUNCTIONS SECTION==========================================
 
+///<summary>
+///   set the current temperature, wind speed and rainfall according to the current orbital period
+///</summary>
+///   <param name="StarSys">star system index #</param>
+///   <param name="Star">star index #</param>
+///   <param name="OrbitalObject">orbital object index #</param>
+///   <param name="Satellite">[optional] satellite index #</param>
+procedure FCMuF_Regions_SetCurrentClimateData(
+   const StarSys
+         ,Star
+         ,OrbitalObject: integer;
+   const Satellite: integer=0
+   );
+
 implementation
 
 uses
@@ -683,7 +697,7 @@ var
    CurrentOrbitalPeriod: integer;
 begin
    Result:=0;
-   CurrentOrbitalPeriod:=optIntermediary;
+   CurrentOrbitalPeriod:=0;
    CurrentOrbitalPeriod:=FCFuF_OrbitalPeriods_GetCurrentPeriodIndex(
       StarSys
       ,Star
@@ -1473,6 +1487,96 @@ begin
    AGP_secondaryGasPercent:=FCFcF_Round( rttCustom2Decimal, AGP_secondaryGasPercent );
    AGP_traceGasPercent:=TotalPercentForTraceGases / TraceGasesCount;
    AGP_traceGasPercent:=FCFcF_Round( rttCustom2Decimal, AGP_traceGasPercent );
+end;
+
+procedure FCMuF_Regions_SetCurrentClimateData(
+   const StarSys
+         ,Star
+         ,OrbitalObject: integer;
+   const Satellite: integer=0
+   );
+{:Purpose: set the current temperature, wind speed and rainfall for each region according to the current orbital period.
+   Additions:
+}
+   var
+      Count
+      ,Max: integer;
+
+      CurrentOrbitalPeriod: TFCEduOrbitalPeriodTypes;
+begin
+   Count:=1;
+   Max:=0;
+   CurrentOrbitalPeriod:=FCFuF_OrbitalPeriods_GetCurrentPeriod(
+         StarSys
+         ,Star
+         ,OrbitalObject
+         ,Satellite
+         );
+   if Satellite = 0
+   then Max:=length( FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions ) - 1
+   else if Satellite > 0
+   then Max:=length( FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions ) - 1;
+   case CurrentOrbitalPeriod of
+      optIntermediary:
+      begin
+         while Count <= Max do
+         begin
+            if Satellite = 0 then
+            begin
+               FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Count].OOR_currentTemperature:=FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Count].OOR_seasonIntermediate.OP_meanTemperature;
+               FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Count].OOR_currentWindspeed:=FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Count].OOR_seasonIntermediate.OP_windspeed;
+               FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Count].OOR_currentRainfall:=FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Count].OOR_seasonIntermediate.OP_rainfall;
+            end
+            else if Satellite > 0 then
+            begin
+               FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Count].OOR_currentTemperature:=FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Count].OOR_seasonIntermediate.OP_meanTemperature;
+               FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Count].OOR_currentWindspeed:=FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Count].OOR_seasonIntermediate.OP_windspeed;
+               FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Count].OOR_currentRainfall:=FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Count].OOR_seasonIntermediate.OP_rainfall;
+            end;
+            inc( Count );
+         end;
+      end;
+
+      optClosest:
+      begin
+         while Count <= Max do
+         begin
+            if Satellite = 0 then
+            begin
+               FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Count].OOR_currentTemperature:=FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Count].OOR_seasonClosest.OP_meanTemperature;
+               FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Count].OOR_currentWindspeed:=FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Count].OOR_seasonClosest.OP_windspeed;
+               FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Count].OOR_currentRainfall:=FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Count].OOR_seasonClosest.OP_rainfall;
+            end
+            else if Satellite > 0 then
+            begin
+               FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Count].OOR_currentTemperature:=FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Count].OOR_seasonClosest.OP_meanTemperature;
+               FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Count].OOR_currentWindspeed:=FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Count].OOR_seasonClosest.OP_windspeed;
+               FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Count].OOR_currentRainfall:=FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Count].OOR_seasonClosest.OP_rainfall;
+            end;
+            inc( Count );
+         end;
+      end;
+
+      optFarest:
+      begin
+         while Count <= Max do
+         begin
+            if Satellite = 0 then
+            begin
+               FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Count].OOR_currentTemperature:=FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Count].OOR_seasonFarthest.OP_meanTemperature;
+               FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Count].OOR_currentWindspeed:=FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Count].OOR_seasonFarthest.OP_windspeed;
+               FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Count].OOR_currentRainfall:=FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Count].OOR_seasonFarthest.OP_rainfall;
+            end
+            else if Satellite > 0 then
+            begin
+               FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Count].OOR_currentTemperature:=FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Count].OOR_seasonFarthest.OP_meanTemperature;
+               FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Count].OOR_currentWindspeed:=FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Count].OOR_seasonFarthest.OP_windspeed;
+               FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Count].OOR_currentRainfall:=FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Count].OOR_seasonFarthest.OP_rainfall;
+            end;
+            inc( Count );
+         end;
+      end;
+   end;
 end;
 
 end.

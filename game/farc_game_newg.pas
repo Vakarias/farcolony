@@ -218,6 +218,7 @@ end;
 procedure FCMgNG_Core_Proceed;
 {:Purpose: commit new game and initialize game interface.
    Additions:
+      -2013Jul10- *add: set the regions' current data.
       -2013Jul08- *add: initialize the current revolution periods.
       -2013Mar10- *add: initialize entity's E_planetarySurveys.
       -2012Dec04- *add: for docked vessels, load the SU_locationDockingMotherCraft.
@@ -382,11 +383,22 @@ FCWinNewGSetup.Close;
          while Count3 <= Max3 do
          begin
             FCDduStarSystem[Count1].SS_stars[Count2].S_orbitalObjects[Count3].OO_revolutionPeriodCurrent:=FCDduStarSystem[Count1].SS_stars[Count2].S_orbitalObjects[Count3].OO_revolutionPeriodInit;
+            FCMuF_Regions_SetCurrentClimateData(
+               Count1
+               ,Count2
+               ,Count3
+               );
             Max4:=length( FCDduStarSystem[Count1].SS_stars[Count2].S_orbitalObjects[Count3].OO_satellitesList ) - 1;
             Count4:=1;
             while Count4 <= Max4 do
             begin
                FCDduStarSystem[Count1].SS_stars[Count2].S_orbitalObjects[Count3].OO_satellitesList[Count4].OO_revolutionPeriodCurrent:=FCDduStarSystem[Count1].SS_stars[Count2].S_orbitalObjects[Count3].OO_satellitesList[Count4].OO_revolutionPeriodInit;
+               FCMuF_Regions_SetCurrentClimateData(
+                  Count1
+                  ,Count2
+                  ,Count3
+                  ,Count4
+                  );
                inc( Count4 );
             end;
             inc( Count3);
