@@ -299,25 +299,25 @@ begin
          1:
          begin
             OrbitalPeriodsWork[1].OOS_orbitalPeriodType:=optClosest;
-            OrbitalPeriodsWork[3].OOS_orbitalPeriodType:=optFarest;
+            OrbitalPeriodsWork[3].OOS_orbitalPeriodType:=optFarthest;
          end;
 
          2:
          begin
             OrbitalPeriodsWork[2].OOS_orbitalPeriodType:=optClosest;
-            OrbitalPeriodsWork[4].OOS_orbitalPeriodType:=optFarest;
+            OrbitalPeriodsWork[4].OOS_orbitalPeriodType:=optFarthest;
          end;
 
          3:
          begin
             OrbitalPeriodsWork[3].OOS_orbitalPeriodType:=optClosest;
-            OrbitalPeriodsWork[1].OOS_orbitalPeriodType:=optFarest;
+            OrbitalPeriodsWork[1].OOS_orbitalPeriodType:=optFarthest;
          end;
 
          4:
          begin
             OrbitalPeriodsWork[4].OOS_orbitalPeriodType:=optClosest;
-            OrbitalPeriodsWork[2].OOS_orbitalPeriodType:=optFarest;
+            OrbitalPeriodsWork[2].OOS_orbitalPeriodType:=optFarthest;
          end;
       end;
       DistMin:=( 1 - Eccentricity ) * DistanceFromStar;
@@ -337,7 +337,7 @@ begin
 
             optClosest: OrbitalPeriodsWork[Count].OOS_baseTemperature:=FCFfG_BaseTemperature_Calc( DistMin, FCDduStarSystem[0].SS_stars[Star].S_luminosity );
 
-            optFarest: OrbitalPeriodsWork[Count].OOS_baseTemperature:=FCFfG_BaseTemperature_Calc( DistMax, FCDduStarSystem[0].SS_stars[Star].S_luminosity );
+            optFarthest: OrbitalPeriodsWork[Count].OOS_baseTemperature:=FCFfG_BaseTemperature_Calc( DistMax, FCDduStarSystem[0].SS_stars[Star].S_luminosity );
          end;
       end;
       case BasicType of

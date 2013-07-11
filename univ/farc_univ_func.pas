@@ -397,7 +397,7 @@ begin
 
       optClosest: GCSseasRes:='seasonMin';
 
-      optFarest: GCSseasRes:='seasonMax';
+      optFarthest: GCSseasRes:='seasonMax';
    end;
    Result:=GCSseasRes;
 end;
@@ -1557,7 +1557,7 @@ begin
          end;
       end;
 
-      optFarest:
+      optFarthest:
       begin
          while Count <= Max do
          begin

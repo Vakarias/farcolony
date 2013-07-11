@@ -253,7 +253,7 @@ type TFCEduOrbitalObjectTypes=(
 type TFCEduOrbitalPeriodTypes=(
    optIntermediary
    ,optClosest
-   ,optFarest
+   ,optFarthest
    );
 
 {:REFERENCES LIST
