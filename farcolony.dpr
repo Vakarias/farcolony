@@ -126,7 +126,8 @@ uses
   farc_fug_geophysical in 'univ\farc_fug_geophysical.pas',
   farc_fug_atmosphere in 'univ\farc_fug_atmosphere.pas',
   farc_fug_hydrosphere in 'univ\farc_fug_hydrosphere.pas',
-  farc_fug_seasons in 'univ\farc_fug_seasons.pas';
+  farc_fug_seasons in 'univ\farc_fug_seasons.pas',
+  farc_fug_regions in 'univ\farc_fug_regions.pas';
 
 {$R *.res}
 

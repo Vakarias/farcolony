@@ -148,6 +148,7 @@
 			<DCCReference Include="univ\farc_fug_atmosphere.pas"/>
 			<DCCReference Include="univ\farc_fug_hydrosphere.pas"/>
 			<DCCReference Include="univ\farc_fug_seasons.pas"/>
+			<DCCReference Include="univ\farc_fug_regions.pas"/>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>
