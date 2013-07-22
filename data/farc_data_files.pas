@@ -1647,19 +1647,19 @@ begin
                   XMLOObjSub1:= XMLOObjSub1.NextSibling;
                end;
             end //==END== else if DBSSPorbObjNode.NodeName='orbitalPeriods' ==//
-            else if XMLOrbitalObject.NodeName='orbobjregions' then
+            else if XMLOrbitalObject.NodeName='regions' then
             begin
                FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_regionSurface:=StrToFloat( XMLOrbitalObject.Attributes['surface'], FCVdiFormat );
-               FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_meanTravelDistance:=XMLOrbitalObject.Attributes['mtd'];
+               FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_meanTravelDistance:=XMLOrbitalObject.Attributes['meanTravelDist'];
                Count1:=1;
                XMLOObjSub1:=XMLOrbitalObject.ChildNodes.First;
                while XMLOObjSub1<>nil do
                begin
                   SetLength( FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_regions, Count1+1 );
-                  EnumIndex:=GetEnumValue( TypeInfo( TFCEduRegionSoilTypes ), XMLOObjSub1.Attributes['soiltp'] );
+                  EnumIndex:=GetEnumValue( TypeInfo( TFCEduRegionSoilTypes ), XMLOObjSub1.Attributes['soilType'] );
                   FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_regions[Count1].OOR_soilType:=TFCEduRegionSoilTypes( EnumIndex );
                   if EnumIndex=-1
-                  then raise Exception.Create( 'bad universe region soil type: '+XMLOObjSub1.Attributes['soiltp'] );
+                  then raise Exception.Create( 'bad universe region soil type: '+XMLOObjSub1.Attributes['soilType'] );
                   EnumIndex:=GetEnumValue( TypeInfo( TFCEduRegionReliefs ), XMLOObjSub1.Attributes['relief'] );
                   FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_regions[Count1].OOR_relief:=TFCEduRegionReliefs( EnumIndex );
                   if EnumIndex=-1
@@ -1677,6 +1677,9 @@ begin
                   FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_regions[Count1].OOR_seasonFarthest.OP_meanTemperature:=StrToFloat( XMLOObjSub1.Attributes['farthTemp'], FCVdiFormat );
                   FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_regions[Count1].OOR_seasonFarthest.OP_windspeed:=XMLOObjSub1.Attributes['farthWindspd'];
                   FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_regions[Count1].OOR_seasonFarthest.OP_rainfall:=XMLOObjSub1.Attributes['farthRain'];
+                  FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_regions[Count1].OOR_currentTemperature:=0;
+                  FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_regions[Count1].OOR_currentWindspeed:=0;
+                  FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_regions[Count1].OOR_currentRainfall:=0;
                   FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_regions[Count1].OOR_settlementEntity:=0;
                   FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_regions[Count1].OOR_settlementColony:=0;
                   FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_regions[Count1].OOR_settlementIndex:=0;
@@ -1711,7 +1714,7 @@ begin
                   inc(Count1);
                   XMLOObjSub1:= XMLOObjSub1.NextSibling;
                end; //==END== while DBSSPregNode<>nil ==//
-            end //==END== else if NodeName='orbobjregions' ==//
+            end //==END== else if NodeName='regions' ==//
             else if XMLOrbitalObject.NodeName='satobj' then
             begin
                {.initialize satellite data}
