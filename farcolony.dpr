@@ -127,7 +127,8 @@ uses
   farc_fug_atmosphere in 'univ\farc_fug_atmosphere.pas',
   farc_fug_hydrosphere in 'univ\farc_fug_hydrosphere.pas',
   farc_fug_seasons in 'univ\farc_fug_seasons.pas',
-  farc_fug_regions in 'univ\farc_fug_regions.pas';
+  farc_fug_regions in 'univ\farc_fug_regions.pas',
+  farc_fug_regionsClimate in 'univ\farc_fug_regionsClimate.pas';
 
 {$R *.res}
 
