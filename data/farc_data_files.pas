@@ -1669,13 +1669,13 @@ begin
                   if EnumIndex=-1
                   then raise Exception.Create( 'bad universe region climate: '+XMLOObjSub1.Attributes['climate'] );
                   FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_regions[Count1].OOR_seasonClosest.OP_meanTemperature:=StrToFloat( XMLOObjSub1.Attributes['closeTemp'], FCVdiFormat );
-                  FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_regions[Count1].OOR_seasonClosest.OP_windspeed:=StrToFloat( XMLOObjSub1.Attributes['closeWindspd'], FCVdiFormat );
+                  FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_regions[Count1].OOR_seasonClosest.OP_windspeed:=XMLOObjSub1.Attributes['closeWindspd'];
                   FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_regions[Count1].OOR_seasonClosest.OP_rainfall:=XMLOObjSub1.Attributes['closeRain'];
                   FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_regions[Count1].OOR_seasonIntermediate.OP_meanTemperature:=StrToFloat( XMLOObjSub1.Attributes['intermTemp'], FCVdiFormat );
-                  FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_regions[Count1].OOR_seasonIntermediate.OP_windspeed:=StrToFloat( XMLOObjSub1.Attributes['intermWindspd'], FCVdiFormat );
+                  FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_regions[Count1].OOR_seasonIntermediate.OP_windspeed:=XMLOObjSub1.Attributes['intermWindspd'];
                   FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_regions[Count1].OOR_seasonIntermediate.OP_rainfall:=XMLOObjSub1.Attributes['intermRain'];
                   FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_regions[Count1].OOR_seasonFarthest.OP_meanTemperature:=StrToFloat( XMLOObjSub1.Attributes['farthTemp'], FCVdiFormat );
-                  FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_regions[Count1].OOR_seasonFarthest.OP_windspeed:=StrToFloat( XMLOObjSub1.Attributes['farthWindspd'], FCVdiFormat );
+                  FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_regions[Count1].OOR_seasonFarthest.OP_windspeed:=XMLOObjSub1.Attributes['farthWindspd'];
                   FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_regions[Count1].OOR_seasonFarthest.OP_rainfall:=XMLOObjSub1.Attributes['farthRain'];
                   FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_regions[Count1].OOR_settlementEntity:=0;
                   FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_regions[Count1].OOR_settlementColony:=0;
@@ -1880,13 +1880,13 @@ begin
                         if EnumIndex=-1
                         then raise Exception.Create( 'bad universe satellite region climate: '+XMLOObjSub1.Attributes['climate'] );
                         FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_regions[Count1].OOR_seasonClosest.OP_meanTemperature:=StrToFloat( XMLOObjSub1.Attributes['closeTemp'], FCVdiFormat );
-                        FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_regions[Count1].OOR_seasonClosest.OP_windspeed:=StrToFloat( XMLOObjSub1.Attributes['closeWindspd'], FCVdiFormat );
+                        FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_regions[Count1].OOR_seasonClosest.OP_windspeed:=XMLOObjSub1.Attributes['closeWindspd'];
                         FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_regions[Count1].OOR_seasonClosest.OP_rainfall:=XMLOObjSub1.Attributes['closeRain'];
                         FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_regions[Count1].OOR_seasonIntermediate.OP_meanTemperature:=StrToFloat( XMLOObjSub1.Attributes['intermTemp'], FCVdiFormat );
-                        FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_regions[Count1].OOR_seasonIntermediate.OP_windspeed:=StrToFloat( XMLOObjSub1.Attributes['intermWindspd'], FCVdiFormat );
+                        FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_regions[Count1].OOR_seasonIntermediate.OP_windspeed:=XMLOObjSub1.Attributes['intermWindspd'];
                         FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_regions[Count1].OOR_seasonIntermediate.OP_rainfall:=XMLOObjSub1.Attributes['intermRain'];
                         FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_regions[Count1].OOR_seasonFarthest.OP_meanTemperature:=StrToFloat( XMLOObjSub1.Attributes['farthTemp'], FCVdiFormat );
-                        FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_regions[Count1].OOR_seasonFarthest.OP_windspeed:=StrToFloat( XMLOObjSub1.Attributes['farthWindspd'], FCVdiFormat );
+                        FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_regions[Count1].OOR_seasonFarthest.OP_windspeed:=XMLOObjSub1.Attributes['farthWindspd'];
                         FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_regions[Count1].OOR_seasonFarthest.OP_rainfall:=XMLOObjSub1.Attributes['farthRain'];
                         FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_regions[Count1].OOR_settlementEntity:=0;
                         FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_regions[Count1].OOR_settlementColony:=0;

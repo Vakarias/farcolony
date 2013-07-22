@@ -1066,7 +1066,7 @@ begin
       {.climate}
       FCWinMain.SP_RegionSheet.HTMLText.Add(
          FCCFdHeadC+FCFdTFiles_UIStr_Get(uistrUI, 'climate')+FCCFdHeadEnd
-         +FCFdTFiles_UIStr_Get(uistrUI, FCFuF_Region_GetClim(SPcurrentStarSys, SPcurrentStar, SPcurrentOObjIndex, SPcurrentSatIndex, SERUregIdx))
+         +FCFdTFiles_UIStr_Get(uistrUI, FCFuF_Region_GetClimateString(SPcurrentStarSys, SPcurrentStar, SPcurrentOObjIndex, SPcurrentSatIndex, SERUregIdx))
          +'<br>'
          );
       {.temperature}

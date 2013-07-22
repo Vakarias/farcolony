@@ -196,7 +196,7 @@ function FCFuF_OrbitalPeriods_GetBaseTemperature(
 ///    <param name="RGCooIdx">orbital object index</param>
 ///    <param name="RGCsatIdx">[optional] satellite index</param>
 ///    <param name="RGCregIdx">region index</param>
-function FCFuF_Region_GetClim(const StarSys, Star, RGCooIdx, RGCsatIdx, RGCregIdx: integer): string;
+function FCFuF_Region_GetClimateString(const StarSys, Star, RGCooIdx, RGCsatIdx, RGCregIdx: integer): string;
 
 ///<summary>
 ///   extract a defined region location and put it in an array
@@ -710,7 +710,7 @@ begin
    then Result:=FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_orbitalPeriods[CurrentOrbitalPeriod].OOS_baseTemperature;
 end;
 
-function FCFuF_Region_GetClim(const StarSys, Star, RGCooIdx, RGCsatIdx, RGCregIdx: integer): string;
+function FCFuF_Region_GetClimateString(const StarSys, Star, RGCooIdx, RGCsatIdx, RGCregIdx: integer): string;
 {:Purpose: get the climate token of a choosen region.
     Additions:
 }

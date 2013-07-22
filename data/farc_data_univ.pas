@@ -477,7 +477,7 @@ type TFCRduSeason = record
    ///<summary>
    ///   mean windspeed in m/s
    ///</summary>
-   OP_windspeed: extended;
+   OP_windspeed: integer;
    ///<summary>
    ///   yearly rainfall in mm
    OP_rainfall: integer;
