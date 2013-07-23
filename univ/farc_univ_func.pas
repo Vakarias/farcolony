@@ -191,6 +191,42 @@ function FCFuF_OrbitalPeriods_GetBaseTemperature(
       ): extended;
 
 ///<summary>
+///   get the orbital period index # of a specified type. If the period is intermediate, it gives the first index # of the two
+///</summary>
+///    <param name="Period">type of orbital period</param>
+///    <param name="StarSys">star system index #</param>
+///    <param name="Star">star index #</param>
+///    <param name="OrbitalObject">orbital object index #</param>
+///    <param name="Satellite">[optional] satellite index</param>
+///   <returns>the orbital operiod index # of a specified type</returns>
+///   <remarks></remarks>
+function FCFuF_OrbitalPeriods_GetSpecifiedPeriod(
+   const Period: TFCEduOrbitalPeriodTypes;
+   const StarSys
+         ,Star
+         ,OrbitalObject: integer;
+   const Satellite: integer=0
+      ): integer;
+
+///<summary>
+///   get the surface temperature of a specified orbital period
+///</summary>
+///    <param name="Period">type of orbital period</param>
+///    <param name="StarSys">star system index #</param>
+///    <param name="Star">star index #</param>
+///    <param name="OrbitalObject">orbital object index #</param>
+///    <param name="Satellite">[optional] satellite index</param>
+///   <returns>the surface temperature of the specified orbital period</returns>
+///   <remarks></remarks>
+function FCFuF_OrbitalPeriodSpecified_GetSurfaceTemperature(
+   const Period: TFCEduOrbitalPeriodTypes;
+   const StarSys
+         ,Star
+         ,OrbitalObject: integer;
+   const Satellite: integer=0
+      ): extended;
+
+///<summary>
 ///   get the climate token of a choosen region
 ///</summary>
 ///    <param name="RGCooIdx">orbital object index</param>
@@ -227,6 +263,38 @@ function FCFuF_Regions_CalculateDistance(
    const OrbObject: TFCRufStelObj;
    const RegionA
          ,RegionB: integer
+   ): extended;
+
+///<summary>
+///   get the axial tilt of a satellite, depending it is a satellite or an asteroid in a belt
+///</summary>
+///    <param name="StarSys">star system index #</param>
+///    <param name="Star">star index #</param>
+///    <param name="OrbitalObject">orbital object index #</param>
+///    <param name="Satellite">satellite index</param>
+///   <returns>the satellite axial tilt</returns>
+///   <remarks></remarks>
+function FCFuF_Satellite_GetAxialTilt(
+   const StarSys
+         ,Star
+         ,OrbitalObject
+         ,Satellite: integer
+   ): extended;
+
+///<summary>
+///   get the rotation period of a satellite, depending it is a satellite or an asteroid in a belt
+///</summary>
+///    <param name="StarSys">star system index #</param>
+///    <param name="Star">star index #</param>
+///    <param name="OrbitalObject">orbital object index #</param>
+///    <param name="Satellite">satellite index</param>
+///   <returns>the satellite orbital period</returns>
+///   <remarks></remarks>
+function FCFuF_Satellite_GetRotationPeriod(
+   const StarSys
+         ,Star
+         ,OrbitalObject
+         ,Satellite: integer
    ): extended;
 
 ///<summary>
@@ -710,6 +778,67 @@ begin
    then Result:=FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_orbitalPeriods[CurrentOrbitalPeriod].OOS_baseTemperature;
 end;
 
+function FCFuF_OrbitalPeriods_GetSpecifiedPeriod(
+   const Period: TFCEduOrbitalPeriodTypes;
+   const StarSys
+         ,Star
+         ,OrbitalObject: integer;
+   const Satellite: integer=0
+      ): integer;
+{:Purpose: get the orbital period index # of a specified type. If the period is intermediate, it gives the first index # of the two.
+    Additions:
+}
+   var
+      Count: integer;
+begin
+   Result:=0;
+   Count:=1;
+   while Count <= 4 do
+   begin
+      if ( Satellite = 0 )
+         and ( FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_orbitalPeriods[Count].OOS_orbitalPeriodType = Period ) then
+      begin
+         Result:=Count;
+         break;
+      end
+      else if ( Satellite > 0 )
+         and ( FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_orbitalPeriods[Count].OOS_orbitalPeriodType = Period ) then
+      begin
+         Result:=Count;
+         break;
+      end;
+      inc( Count );
+   end;
+end;
+
+function FCFuF_OrbitalPeriodSpecified_GetSurfaceTemperature(
+   const Period: TFCEduOrbitalPeriodTypes;
+   const StarSys
+         ,Star
+         ,OrbitalObject: integer;
+   const Satellite: integer=0
+      ): extended;
+{:Purpose: get the surface temperature of a specified orbital period.
+    Additions:
+}
+   var
+      Count: integer;
+begin
+   Result:=0;
+   Count:=FCFuF_OrbitalPeriods_GetSpecifiedPeriod(
+      Period
+      ,StarSys
+      ,Star
+      ,OrbitalObject
+      ,Satellite
+      );
+   if Satellite = 0
+   then Result:=FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_orbitalPeriods[Count].OOS_surfaceTemperature
+   else if Satellite > 0
+   then Result:=FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_orbitalPeriods[Count].OOS_surfaceTemperature;
+end;
+
+
 function FCFuF_Region_GetClimateString(const StarSys, Star, RGCooIdx, RGCsatIdx, RGCregIdx: integer): string;
 {:Purpose: get the climate token of a choosen region.
     Additions:
@@ -1135,6 +1264,38 @@ begin
    CalcX:=sqr( LocRegionB.RL_X-LocRegionA.RL_X );
    CalcY:=sqr( LocRegionB.RL_Y-LocRegionA.RL_Y );
    Result:=sqrt( CalcX+CalcY );
+end;
+
+function FCFuF_Satellite_GetAxialTilt(
+   const StarSys
+         ,Star
+         ,OrbitalObject
+         ,Satellite: integer
+   ): extended;
+{:Purpose: get the axial tilt of a satellite, depending it is a satellite or an asteroid in a belt.
+    Additions:
+}
+begin
+   Result:=0;
+   if FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_type = ootAsteroidsBelt
+   then Result:=FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_isAsterBelt_axialTilt
+   else Result:=FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isNotSat_axialTilt;
+end;
+
+function FCFuF_Satellite_GetRotationPeriod(
+   const StarSys
+         ,Star
+         ,OrbitalObject
+         ,Satellite: integer
+   ): extended;
+{:Purpose: get the rotation period of a satellite, depending it is a satellite or an asteroid in a belt.
+   Additions:
+}
+begin
+   Result:=0;
+   if FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_type = ootAsteroidsBelt
+   then Result:=FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_isAsterBelt_rotationPeriod
+   else Result:=FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_revolutionPeriod * 24;
 end;
 
 function FCFuF_StarLight_CalcPower(const SLCPstarLum, SLCPoobjDist: extended): extended;

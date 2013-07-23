@@ -736,9 +736,9 @@ type TFCRduOrbitalObject = record
          ///</summary>
          OO_isNotSat_eccentricity: extended;
          ///<summary>
-         ///   inclination axis
+         ///   axial tilt
          ///</summary>
-         OO_isNotSat_inclinationAxis: extended;
+         OO_isNotSat_axialTilt: extended;
          ///<summary>
          ///   orbital zone type
          ///</summary>
@@ -759,9 +759,9 @@ type TFCRduOrbitalObject = record
          ///</summary>
          OO_isAsterBelt_rotationPeriod: extended;
          ///<summary>
-         ///   inclination axis - for asteroid in a belt only
+         ///   axial tilt - for asteroid in a belt only
          ///</summary>
-         OO_isAsterBelt_inclinationAxis: extended;
+         OO_isAsterBelt_axialTilt: extended;
          );
 end;
 

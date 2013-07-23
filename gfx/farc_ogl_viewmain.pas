@@ -1229,7 +1229,7 @@ begin
                {.set material}
                FC3doglAsteroids[TDMVUorbObjCnt].Material.FrontProperties:=FC3oglvmAsteroidTemp.Material.FrontProperties;
                {.set common data}
-               FC3doglAsteroids[TDMVUorbObjCnt].TurnAngle:=S_orbitalObjects[TDMVUorbObjCnt].OO_isNotSat_inclinationAxis;
+               FC3doglAsteroids[TDMVUorbObjCnt].TurnAngle:=S_orbitalObjects[TDMVUorbObjCnt].OO_isNotSat_axialTilt;
                FC3doglAsteroids[TDMVUorbObjCnt].scale.X
                   :=FCFcF_Scale_Conversion(cAsteroidDiameterKmTo3dViewUnits, S_orbitalObjects[TDMVUorbObjCnt].OO_diameter);
                FC3doglAsteroids[TDMVUorbObjCnt].scale.Y:=FC3doglAsteroids[TDMVUorbObjCnt].scale.X;
@@ -1259,7 +1259,7 @@ begin
                {.initialize 3d structure}
                FCMoglVM_OObj_Gen(oglvmootNorm, TDMVUorbObjCnt);
                {.inclination}
-               FC3doglPlanets[TDMVUorbObjCnt].RollAngle:=S_orbitalObjects[TDMVUorbObjCnt].OO_isNotSat_inclinationAxis;
+               FC3doglPlanets[TDMVUorbObjCnt].RollAngle:=S_orbitalObjects[TDMVUorbObjCnt].OO_isNotSat_axialTilt;
                {.set scale}
                FC3doglPlanets[TDMVUorbObjCnt].scale.X
                   :=FCFcF_Scale_Conversion(cKmTo3dViewUnits,S_orbitalObjects[TDMVUorbObjCnt].OO_diameter);
@@ -1320,7 +1320,7 @@ begin
                         {.set material}
                         FC3doglSatellitesAsteroids[TDMVUsatCnt].Material.FrontProperties:=FC3oglvmAsteroidTemp.Material.FrontProperties;
                         {.set axial tilt}
-                        FC3doglSatellitesAsteroids[TDMVUsatCnt].TurnAngle:=S_orbitalObjects[TDMVUorbObjCnt].OO_isNotSat_inclinationAxis;
+                        FC3doglSatellitesAsteroids[TDMVUsatCnt].TurnAngle:=S_orbitalObjects[TDMVUorbObjCnt].OO_isNotSat_axialTilt;
                         {.set scale}
                         FC3doglSatellitesAsteroids[TDMVUsatCnt].scale.X
                            :=FCFcF_Scale_Conversion
@@ -1358,7 +1358,7 @@ begin
                         FCMoglVM_OObj_Gen(oglvmootSatNorm, TDMVUsatCnt);
                         {.axial tilt}
                         FC3doglSatellites[TDMVUsatCnt].RollAngle
-                           :=S_orbitalObjects[TDMVUorbObjCnt].OO_isNotSat_inclinationAxis;
+                           :=S_orbitalObjects[TDMVUorbObjCnt].OO_isNotSat_axialTilt;
                         {.set scale}
                         FC3doglSatellites[TDMVUsatCnt].scale.X
                            :=FCFcF_Scale_Conversion
