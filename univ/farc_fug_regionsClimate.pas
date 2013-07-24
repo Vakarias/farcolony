@@ -30,7 +30,8 @@ unit farc_fug_regionsClimate;
 
 interface
 
-//uses
+uses
+   Math;
 
 //==END PUBLIC ENUM=========================================================================
 
@@ -104,6 +105,10 @@ procedure FCMfRC_Climate_Generate(
       ,AxialTilt
       ,fCalc0
       ,fCalc1
+      ,fCalc2
+      ,ObjectSurfaceTempClosest
+      ,ObjectSurfaceTempInterm
+      ,ObjectSurfaceTempFarthest
       ,RegionMod1
       ,RegionMod2
       ,RegionMod3
@@ -127,6 +132,10 @@ begin
    AxialTilt:=0;
    fCalc0:=0;
    fCalc1:=0;
+   fCalc2:=0;
+   ObjectSurfaceTempClosest:=0;
+   ObjectSurfaceTempInterm:=0;
+   ObjectSurfaceTempFarthest:=0;
    RegionMod1:=0;
    RegionMod2:=0;
    RegionMod3:=0;
@@ -144,6 +153,24 @@ begin
       fCalc0:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_cloudsCover;
       Hydrosphere:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_hydrosphere;
       HydroArea:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_hydrosphereArea;
+      ObjectSurfaceTempClosest:=FCFuF_OrbitalPeriodSpecified_GetSurfaceTemperature(
+         optClosest
+         ,0
+         ,Star
+         ,OrbitalObject
+         );
+      ObjectSurfaceTempInterm:=FCFuF_OrbitalPeriodSpecified_GetSurfaceTemperature(
+         optIntermediary
+         ,0
+         ,Star
+         ,OrbitalObject
+         );
+      ObjectSurfaceTempFarthest:=FCFuF_OrbitalPeriodSpecified_GetSurfaceTemperature(
+         optFarthest
+         ,0
+         ,Star
+         ,OrbitalObject
+         );
       Max:=length( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions ) - 1;
    end
    else if Satellite > 0 then
@@ -165,6 +192,27 @@ begin
       fCalc0:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_cloudsCover;
       Hydrosphere:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_hydrosphere;
       HydroArea:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_hydrosphereArea;
+      ObjectSurfaceTempClosest:=FCFuF_OrbitalPeriodSpecified_GetSurfaceTemperature(
+         optClosest
+         ,0
+         ,Star
+         ,OrbitalObject
+         ,Satellite
+         );
+      ObjectSurfaceTempInterm:=FCFuF_OrbitalPeriodSpecified_GetSurfaceTemperature(
+         optIntermediary
+         ,0
+         ,Star
+         ,OrbitalObject
+         ,Satellite
+         );
+      ObjectSurfaceTempFarthest:=FCFuF_OrbitalPeriodSpecified_GetSurfaceTemperature(
+         optFarthest
+         ,0
+         ,Star
+         ,OrbitalObject
+         ,Satellite
+         );
       Max:=length( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions ) - 1;
    end;
    while Count <= Max do
@@ -177,6 +225,7 @@ begin
       fInt0: average (sum of modifiers)
       fCalc0: clouds cover
       fCalc1: moderation modifier
+      fCalc2: surface temperature w/ RegionMods
    }
    if ( Hydrosphere = hWaterLiquid )
       or ( Hydrosphere = hWaterAmmoniaLiquid )
@@ -203,7 +252,102 @@ begin
                RegionMod1:=1.09;
                RegionMod2:=0.702;
                RegionMod3:=0.702;
+            end
+            else if ( ( AxialTilt > 10 ) and ( AxialTilt <= 20 ) )
+               or ( ( AxialTilt > 160 ) and ( AxialTilt <= 170 ) ) then
+            begin
+               RegionMod1:=0.975;
+               RegionMod2:=0.785;
+               RegionMod3:=0.627;
+            end
+            else if ( ( AxialTilt > 20 ) and ( AxialTilt <= 30 ) )
+               or ( ( AxialTilt > 150 ) and ( AxialTilt <= 160 ) ) then
+            begin
+               RegionMod1:=0.935;
+               RegionMod2:=0.855;
+               RegionMod3:=0.582;
+            end
+            else if ( ( AxialTilt > 30 ) and ( AxialTilt <= 45 ) )
+               or ( ( AxialTilt > 135 ) and ( AxialTilt <= 150 ) ) then
+            begin
+               RegionMod1:=0.887;
+               RegionMod2:=0.887;
+               RegionMod3:=0.555;
+            end
+            else if ( ( AxialTilt > 45 ) and ( AxialTilt <= 60 ) )
+               or ( ( AxialTilt > 120 ) and ( AxialTilt <= 135 ) ) then
+            begin
+               RegionMod1:=0.8;
+               RegionMod2:=0.98;
+               RegionMod3:=0.467;
+            end
+            else if ( ( AxialTilt > 60 ) and ( AxialTilt <= 75 ) )
+               or ( ( AxialTilt > 105 ) and ( AxialTilt <= 120 ) ) then
+            begin
+               RegionMod1:=0.73;
+               RegionMod2:=1.072;
+               RegionMod3:=0.395;
+            end
+            else if ( AxialTilt > 75 )
+               and ( AxialTilt <= 105 ) then
+            begin
+               RegionMod1:=0.669;
+               RegionMod2:=1.192;
+               RegionMod3:=0.322;
             end;
+            if AxialTilt <= 105 then
+            begin
+               fCalc2:=ObjectSurfaceTempClosest * RegionMod3;
+               FCDfrcRegion[1].RC_surfaceTemperatureClosest:=randg( fCalc2, 5 ) * fCalc1;
+               fCalc2:=ObjectSurfaceTempFarthest * RegionMod2;
+               FCDfrcRegion[1].RC_surfaceTemperatureFarthest:=randg( fCalc2, 5 ) * fCalc1;
+               fCalc2:=ObjectSurfaceTempInterm * ( ( RegionMod2 + RegionMod3 ) * 0.5 );
+               FCDfrcRegion[1].RC_surfaceTemperatureFarthest:=randg( fCalc2, 5 ) * fCalc1;
+
+               fCalc2:=ObjectSurfaceTempClosest * RegionMod1;
+               FCDfrcRegion[2].RC_surfaceTemperatureClosest:=randg( fCalc2, 5 ) * fCalc1;
+               fCalc2:=ObjectSurfaceTempFarthest * RegionMod1;
+               FCDfrcRegion[2].RC_surfaceTemperatureFarthest:=randg( fCalc2, 5 ) * fCalc1;
+               fCalc2:=ObjectSurfaceTempInterm * RegionMod1;
+               FCDfrcRegion[2].RC_surfaceTemperatureFarthest:=randg( fCalc2, 5 ) * fCalc1;
+
+               FCDfrcRegion[3].RC_surfaceTemperatureClosest:=FCDfrcRegion[2].RC_surfaceTemperatureClosest;
+               FCDfrcRegion[3].RC_surfaceTemperatureFarthest:=FCDfrcRegion[2].RC_surfaceTemperatureFarthest;
+               FCDfrcRegion[3].RC_surfaceTemperatureFarthest:=FCDfrcRegion[2].RC_surfaceTemperatureFarthest;
+
+               fCalc2:=ObjectSurfaceTempClosest * RegionMod2;
+               FCDfrcRegion[4].RC_surfaceTemperatureClosest:=randg( fCalc2, 5 ) * fCalc1;
+               fCalc2:=ObjectSurfaceTempFarthest * RegionMod3;
+               FCDfrcRegion[4].RC_surfaceTemperatureFarthest:=randg( fCalc2, 5 ) * fCalc1;
+               fCalc2:=ObjectSurfaceTempInterm * ( ( RegionMod2 + RegionMod3 ) * 0.5 );
+               FCDfrcRegion[4].RC_surfaceTemperatureFarthest:=randg( fCalc2, 5 ) * fCalc1;
+            end
+            else begin
+               fCalc2:=ObjectSurfaceTempClosest * RegionMod2;
+               FCDfrcRegion[1].RC_surfaceTemperatureClosest:=randg( fCalc2, 5 ) * fCalc1;
+               fCalc2:=ObjectSurfaceTempFarthest * RegionMod3;
+               FCDfrcRegion[1].RC_surfaceTemperatureFarthest:=randg( fCalc2, 5 ) * fCalc1;
+               fCalc2:=ObjectSurfaceTempInterm * ( ( RegionMod2 + RegionMod3 ) * 0.5 );
+               FCDfrcRegion[1].RC_surfaceTemperatureFarthest:=randg( fCalc2, 5 ) * fCalc1;
+
+               fCalc2:=ObjectSurfaceTempClosest * RegionMod1;
+               FCDfrcRegion[2].RC_surfaceTemperatureClosest:=randg( fCalc2, 5 ) * fCalc1;
+               fCalc2:=ObjectSurfaceTempFarthest * RegionMod1;
+               FCDfrcRegion[2].RC_surfaceTemperatureFarthest:=randg( fCalc2, 5 ) * fCalc1;
+               fCalc2:=ObjectSurfaceTempInterm * RegionMod1;
+               FCDfrcRegion[2].RC_surfaceTemperatureFarthest:=randg( fCalc2, 5 ) * fCalc1;
+
+               FCDfrcRegion[3].RC_surfaceTemperatureClosest:=FCDfrcRegion[2].RC_surfaceTemperatureClosest;
+               FCDfrcRegion[3].RC_surfaceTemperatureFarthest:=FCDfrcRegion[2].RC_surfaceTemperatureFarthest;
+               FCDfrcRegion[3].RC_surfaceTemperatureFarthest:=FCDfrcRegion[2].RC_surfaceTemperatureFarthest;
+
+               fCalc2:=ObjectSurfaceTempClosest * RegionMod3;
+               FCDfrcRegion[4].RC_surfaceTemperatureClosest:=randg( fCalc2, 5 ) * fCalc1;
+               fCalc2:=ObjectSurfaceTempFarthest * RegionMod2;
+               FCDfrcRegion[4].RC_surfaceTemperatureFarthest:=randg( fCalc2, 5 ) * fCalc1;
+               fCalc2:=ObjectSurfaceTempInterm * ( ( RegionMod2 + RegionMod3 ) * 0.5 );
+               FCDfrcRegion[4].RC_surfaceTemperatureFarthest:=randg( fCalc2, 5 ) * fCalc1;
+            end; //==END== else of: if AxialTilt <= 105 ==//
          end; //==END== case Max: 4 ==//
 
          6,8,10:
@@ -215,7 +359,148 @@ begin
 
                10: Row:=4;
             end;
+            if ( AxialTilt <= 10 )
+               or ( AxialTilt > 170 ) then
+            begin
+               RegionMod1:=1.035;
+               RegionMod2:=0.702;
+               RegionMod3:=1.035;
+               RegionMod4:=0.702;
+            end
+            else if ( ( AxialTilt > 10 ) and ( AxialTilt <= 20 ) )
+               or ( ( AxialTilt > 160 ) and ( AxialTilt <= 170 ) ) then
+            begin
+               RegionMod1:=1.021;
+               RegionMod2:=0.785;
+               RegionMod3:=0.928;
+               RegionMod4:=0.627;
+            end
+            else if ( ( AxialTilt > 20 ) and ( AxialTilt <= 30 ) )
+               or ( ( AxialTilt > 150 ) and ( AxialTilt <= 160 ) ) then
+            begin
+               RegionMod1:=1.01;
+               RegionMod2:=0.855;
+               RegionMod3:=0.861;
+               RegionMod4:=0.582;
+            end
+            else if ( ( AxialTilt > 30 ) and ( AxialTilt <= 45 ) )
+               or ( ( AxialTilt > 135 ) and ( AxialTilt <= 150 ) ) then
+            begin
+               RegionMod1:=0.954;
+               RegionMod2:=0.887;
+               RegionMod3:=0.82;
+               RegionMod4:=0.555;
+            end
+            else if ( ( AxialTilt > 45 ) and ( AxialTilt <= 60 ) )
+               or ( ( AxialTilt > 120 ) and ( AxialTilt <= 135 ) ) then
+            begin
+               RegionMod1:=0.91;
+               RegionMod2:=0.98;
+               RegionMod3:=0.691;
+               RegionMod4:=0.467;
+            end
+            else if ( ( AxialTilt > 60 ) and ( AxialTilt <= 75 ) )
+               or ( ( AxialTilt > 105 ) and ( AxialTilt <= 120 ) ) then
+            begin
+               RegionMod1:=0.882;
+               RegionMod2:=1.072;
+               RegionMod3:=0.578;
+               RegionMod4:=0.395;
+            end
+            else if ( AxialTilt > 75 )
+               and ( AxialTilt <= 105 ) then
+            begin
+               RegionMod1:=0.86;
+               RegionMod2:=1.192;
+               RegionMod3:=0.478;
+               RegionMod4:=0.322;
+            end;
             Count:=1;
+            if AxialTilt <= 105 then
+            begin
+               while Count <= Max do
+               begin
+                  if Count=1 then
+                  begin
+                     fCalc2:=ObjectSurfaceTempClosest * RegionMod4;
+                     FCDfrcRegion[Count].RC_surfaceTemperatureClosest:=randg( fCalc2, 5 ) * fCalc1;
+                     fCalc2:=ObjectSurfaceTempFarthest * RegionMod2;
+                     FCDfrcRegion[Count].RC_surfaceTemperatureFarthest:=randg( fCalc2, 5 ) * fCalc1;
+                     fCalc2:=ObjectSurfaceTempInterm * ( ( RegionMod2 + RegionMod4 ) * 0.5 );
+                     FCDfrcRegion[Count].RC_surfaceTemperatureFarthest:=randg( fCalc2, 5 ) * fCalc1;
+                  end
+                  else if ( Count > 1 ) and ( Count < Row + 2 ) then
+                  begin
+                     fCalc2:=ObjectSurfaceTempClosest * RegionMod3;
+                     FCDfrcRegion[Count].RC_surfaceTemperatureClosest:=randg( fCalc2, 5 ) * fCalc1;
+                     fCalc2:=ObjectSurfaceTempFarthest * RegionMod1;
+                     FCDfrcRegion[Count].RC_surfaceTemperatureFarthest:=randg( fCalc2, 5 ) * fCalc1;
+                     fCalc2:=ObjectSurfaceTempInterm * ( ( RegionMod1 + RegionMod3 ) * 0.5 );
+                     FCDfrcRegion[Count].RC_surfaceTemperatureFarthest:=randg( fCalc2, 5 ) * fCalc1;
+                  end
+                  else if ( Count > Row + 1 ) and ( Count < Max - 1 ) then
+                  begin
+                     fCalc2:=ObjectSurfaceTempClosest * RegionMod1;
+                     FCDfrcRegion[Count].RC_surfaceTemperatureClosest:=randg( fCalc2, 5 ) * fCalc1;
+                     fCalc2:=ObjectSurfaceTempFarthest * RegionMod3;
+                     FCDfrcRegion[Count].RC_surfaceTemperatureFarthest:=randg( fCalc2, 5 ) * fCalc1;
+                     fCalc2:=ObjectSurfaceTempInterm * ( ( RegionMod1 + RegionMod3 ) * 0.5 );
+                     FCDfrcRegion[Count].RC_surfaceTemperatureFarthest:=randg( fCalc2, 5 ) * fCalc1;
+                  end
+                  else if Count = Max then
+                  begin
+                     fCalc2:=ObjectSurfaceTempClosest * RegionMod2;
+                     FCDfrcRegion[Count].RC_surfaceTemperatureClosest:=randg( fCalc2, 5 ) * fCalc1;
+                     fCalc2:=ObjectSurfaceTempFarthest * RegionMod4;
+                     FCDfrcRegion[Count].RC_surfaceTemperatureFarthest:=randg( fCalc2, 5 ) * fCalc1;
+                     fCalc2:=ObjectSurfaceTempInterm * ( ( RegionMod2 + RegionMod4 ) * 0.5 );
+                     FCDfrcRegion[Count].RC_surfaceTemperatureFarthest:=randg( fCalc2, 5 ) * fCalc1;
+                  end;
+                  inc( Count );
+               end; //==END== while Count <= Max ==//
+            end
+            else begin
+               while Count <= Max do
+               begin
+                  if Count=1 then
+                  begin
+                     fCalc2:=ObjectSurfaceTempClosest * RegionMod2;
+                     FCDfrcRegion[Count].RC_surfaceTemperatureClosest:=randg( fCalc2, 5 ) * fCalc1;
+                     fCalc2:=ObjectSurfaceTempFarthest * RegionMod4;
+                     FCDfrcRegion[Count].RC_surfaceTemperatureFarthest:=randg( fCalc2, 5 ) * fCalc1;
+                     fCalc2:=ObjectSurfaceTempInterm * ( ( RegionMod2 + RegionMod4 ) * 0.5 );
+                     FCDfrcRegion[Count].RC_surfaceTemperatureFarthest:=randg( fCalc2, 5 ) * fCalc1;
+                  end
+                  else if ( Count > 1 ) and ( Count < Row + 2 ) then
+                  begin
+                     fCalc2:=ObjectSurfaceTempClosest * RegionMod1;
+                     FCDfrcRegion[Count].RC_surfaceTemperatureClosest:=randg( fCalc2, 5 ) * fCalc1;
+                     fCalc2:=ObjectSurfaceTempFarthest * RegionMod3;
+                     FCDfrcRegion[Count].RC_surfaceTemperatureFarthest:=randg( fCalc2, 5 ) * fCalc1;
+                     fCalc2:=ObjectSurfaceTempInterm * ( ( RegionMod1 + RegionMod3 ) * 0.5 );
+                     FCDfrcRegion[Count].RC_surfaceTemperatureFarthest:=randg( fCalc2, 5 ) * fCalc1;
+                  end
+                  else if ( Count > Row + 1 ) and ( Count < Max - 1 ) then
+                  begin
+                     fCalc2:=ObjectSurfaceTempClosest * RegionMod3;
+                     FCDfrcRegion[Count].RC_surfaceTemperatureClosest:=randg( fCalc2, 5 ) * fCalc1;
+                     fCalc2:=ObjectSurfaceTempFarthest * RegionMod1;
+                     FCDfrcRegion[Count].RC_surfaceTemperatureFarthest:=randg( fCalc2, 5 ) * fCalc1;
+                     fCalc2:=ObjectSurfaceTempInterm * ( ( RegionMod1 + RegionMod3 ) * 0.5 );
+                     FCDfrcRegion[Count].RC_surfaceTemperatureFarthest:=randg( fCalc2, 5 ) * fCalc1;
+                  end
+                  else if Count = Max then
+                  begin
+                     fCalc2:=ObjectSurfaceTempClosest * RegionMod4;
+                     FCDfrcRegion[Count].RC_surfaceTemperatureClosest:=randg( fCalc2, 5 ) * fCalc1;
+                     fCalc2:=ObjectSurfaceTempFarthest * RegionMod2;
+                     FCDfrcRegion[Count].RC_surfaceTemperatureFarthest:=randg( fCalc2, 5 ) * fCalc1;
+                     fCalc2:=ObjectSurfaceTempInterm * ( ( RegionMod2 + RegionMod4 ) * 0.5 );
+                     FCDfrcRegion[Count].RC_surfaceTemperatureFarthest:=randg( fCalc2, 5 ) * fCalc1;
+                  end;
+                  inc( Count );
+               end; //==END== while Count <= Max ==//
+            end; //==END== else of: if AxialTilt <= 105 ==//
          end; //==END== case Max: 6,8,10 ==//
 
          14:
@@ -235,59 +520,9 @@ begin
       Count:=1;
       while Count <= Max do
       begin
-         if Count > 1 then
-         begin
-            FCDfrcRegion[Count].RC_surfaceTemperatureClosest:=FCDfrcRegion[1].RC_surfaceTemperatureClosest;
-            FCDfrcRegion[Count].RC_surfaceTemperatureInterm:=FCDfrcRegion[1].RC_surfaceTemperatureInterm;
-            FCDfrcRegion[Count].RC_surfaceTemperatureFarthest:=FCDfrcRegion[1].RC_surfaceTemperatureFarthest;
-         end
-         else if ( Count = 1 )
-            and ( Satellite = 0 ) then
-         begin
-            FCDfrcRegion[Count].RC_surfaceTemperatureClosest:=FCFuF_OrbitalPeriodSpecified_GetSurfaceTemperature(
-               optClosest
-               ,0
-               ,Star
-               ,OrbitalObject
-               );
-            FCDfrcRegion[Count].RC_surfaceTemperatureInterm:=FCFuF_OrbitalPeriodSpecified_GetSurfaceTemperature(
-               optIntermediary
-               ,0
-               ,Star
-               ,OrbitalObject
-               );
-            FCDfrcRegion[Count].RC_surfaceTemperatureFarthest:=FCFuF_OrbitalPeriodSpecified_GetSurfaceTemperature(
-               optFarthest
-               ,0
-               ,Star
-               ,OrbitalObject
-               );
-         end
-         else if ( Count = 1 )
-            and ( Satellite > 0 ) then
-         begin
-            FCDfrcRegion[Count].RC_surfaceTemperatureClosest:=FCFuF_OrbitalPeriodSpecified_GetSurfaceTemperature(
-               optClosest
-               ,0
-               ,Star
-               ,OrbitalObject
-               ,Satellite
-               );
-            FCDfrcRegion[Count].RC_surfaceTemperatureInterm:=FCFuF_OrbitalPeriodSpecified_GetSurfaceTemperature(
-               optIntermediary
-               ,0
-               ,Star
-               ,OrbitalObject
-               ,Satellite
-               );
-            FCDfrcRegion[Count].RC_surfaceTemperatureFarthest:=FCFuF_OrbitalPeriodSpecified_GetSurfaceTemperature(
-               optFarthest
-               ,0
-               ,Star
-               ,OrbitalObject
-               ,Satellite
-               );
-         end;
+         FCDfrcRegion[Count].RC_surfaceTemperatureClosest:=ObjectSurfaceTempClosest;
+         FCDfrcRegion[Count].RC_surfaceTemperatureInterm:=ObjectSurfaceTempInterm;
+         FCDfrcRegion[Count].RC_surfaceTemperatureFarthest:=ObjectSurfaceTempFarthest;
          inc( count );
       end; //==END== while Count <= Max ==//
    end; //==END== else of: if fCalc0 <= 90 ==//
@@ -296,6 +531,7 @@ begin
    begin
 
    end; //==END== if Atmosphere > 0 ==//
+   {:DEV NOTES: data load w/ the correct rtos }
 end;
 
 end.
