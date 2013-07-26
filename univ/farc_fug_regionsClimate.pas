@@ -1238,6 +1238,7 @@ begin
             fCalc3:
             fCalc4:
          }
+         FCDfrcRegion[Count].RC_finalClimate:=rc00VoidNoUse;
          fCalc0:=( FCDfrcRegion[Count].RC_relativeHumidityClosest + FCDfrcRegion[Count].RC_relativeHumidityInterm + FCDfrcRegion[Count].RC_relativeHumidityFarthest ) / 3;
          fCalc1:=( FCDfrcRegion[Count].RC_surfaceTemperatureClosest + FCDfrcRegion[Count].RC_surfaceTemperatureInterm + FCDfrcRegion[Count].RC_surfaceTemperatureFarthest ) / 3;
          if ( fCalc1 >= 500 )
@@ -1258,6 +1259,31 @@ begin
             if fInt0 = 0
             then FCDfrcRegion[Count].RC_finalClimate:=rc09Arctic
             else FCDfrcRegion[Count].RC_finalClimate:=rc07ColdArid;
+         end
+         else if ( fCalc1 >= 273 )
+            and ( fCalc1 < 293 ) then
+         begin
+            if ( fCalc0 >= 6 )
+               and ( fCalc0 < 15 )
+            then FCDfrcRegion[Count].RC_finalClimate:=rc08Periarctic
+            else if ( fCalc0 >= 15 )
+               and ( fCalc0 < 30 )
+            then FCDfrcRegion[Count].RC_finalClimate:=rc06ModerateDry
+            else if fCalc0 >= 30
+            then FCDfrcRegion[Count].RC_finalClimate:=rc05ModerateHumid;
+         end
+         else if fCalc1 >= 293 then
+         begin
+            if fCalc0 < 15
+            then FCDfrcRegion[Count].RC_finalClimate:=rc04HotArid
+            else if ( fCalc0 >= 15 )
+               and ( fCalc0 <= 36 )
+            then FCDfrcRegion[Count].RC_finalClimate:=rc03HotSemiArid
+            else if ( fCalc0 > 36 )
+               and ( fCalc0 <= 90 )
+            then FCDfrcRegion[Count].RC_finalClimate:=rc02VeryHotSemiHumid
+            else if fCalc0 > 90
+            then FCDfrcRegion[Count].RC_finalClimate:=rc01VeryHotHumid;
          end;
          {.region's rainfall calculations}
          inc( Count );
@@ -1272,6 +1298,7 @@ begin
       FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].....RC_surfaceTemperatureFarthest:=FCFcF_Round( rttCustom2Decimal, FCDfrcRegion[Count].RC_surfaceTemperatureFarthest );
       FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].....RC_surfaceTemperatureInterm:=FCFcF_Round( rttCustom2Decimal, FCDfrcRegion[Count].RC_surfaceTemperatureInterm );
       windspeed is already rounded, so only load the data
+      load region's final climate
       inc( Count );
    end; //==END== while Count <= Max ==//
 
