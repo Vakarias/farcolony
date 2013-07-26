@@ -90,8 +90,11 @@ procedure FCMfRC_Climate_Generate(
 }
    type TFCRfrcRegionCalc = record
       RC_surfaceTemperatureClosest: extended;
+      RC_cTempClosest: extended;
       RC_surfaceTemperatureInterm: extended;
+      RC_cTempInterm: extended;
       RC_surfaceTemperatureFarthest: extended;
+      RC_cTempFarthest: extended;
 
       RC_windspeedClosest: integer;
       RC_windspeedInterm: integer;
@@ -100,6 +103,22 @@ procedure FCMfRC_Climate_Generate(
       RC_rainfallClosest: integer;
       RC_rainfallInterm: integer;
       RC_rainfallFarthest: integer;
+
+      RC_saturationVaporClosest: extended;
+      RC_saturationVaporInterm: extended;
+      RC_saturationVaporFarthest: extended;
+
+      RC_vaporPressureDewClosest: extended;
+      RC_vaporPressureDewInterm: extended;
+      RC_vaporPressureDewFarthest: extended;
+
+      RC_relativeHumidityClosest: extended;
+      RC_relativeHumidityInterm: extended;
+      RC_relativeHumidityFarthest: extended;
+
+      RC_regionPressureClosest: extended;
+      RC_regionPressureInterm: extended;
+      RC_regionPressureFarthest: extended;
    end;
 
    var
@@ -111,9 +130,12 @@ procedure FCMfRC_Climate_Generate(
 
       AtmospherePressure
       ,AxialTilt
+      ,Diameter
       ,fCalc0
       ,fCalc1
       ,fCalc2
+      ,LongX
+      ,LongY
       ,ObjectSurfaceTempClosest
       ,ObjectSurfaceTempInterm
       ,ObjectSurfaceTempFarthest
@@ -128,6 +150,13 @@ procedure FCMfRC_Climate_Generate(
       Hydrosphere: TFCEduHydrospheres;
 
       FCDfrcRegion: array [0..30] of TFCRfrcRegionCalc;
+
+      procedure _Windspeed_Calculation( const CoefRegion: extended );
+      {:purpose: calculate the windspeed of the current region.
+      }
+      begin
+//         if
+      end;
 begin
    {.data initialization}
    Count:=1;
@@ -138,9 +167,12 @@ begin
 
    AtmospherePressure:=0;
    AxialTilt:=0;
+   Diameter:=0;
    fCalc0:=0;
    fCalc1:=0;
    fCalc2:=0;
+   LongX:=0;
+   LongY:=0;
    ObjectSurfaceTempClosest:=0;
    ObjectSurfaceTempInterm:=0;
    ObjectSurfaceTempFarthest:=0;
@@ -156,6 +188,7 @@ begin
    begin
       RotationPeriod:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isNotSat_rotationPeriod;
       AxialTilt:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isNotSat_axialTilt;
+      Diameter:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_Diameter;
       AtmospherePressure:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphericPressure;
       {.the clouds cover loaded into fCalc0 is only used for the surface temperatures subsection. It can be used afterward}
       fCalc0:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_cloudsCover;
@@ -195,6 +228,7 @@ begin
          ,OrbitalObject
          ,Satellite
          );
+      Diameter:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_Diameter;
       AtmospherePressure:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphericPressure;
       {.the clouds cover loaded into fCalc0 is only used for the surface temperatures subsection. It can be used afterward}
       fCalc0:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_cloudsCover;
@@ -900,9 +934,173 @@ begin
       end; //==END== while Count <= Max ==//
    end; //==END== else of: if fCalc0 <= 90 ==//
    {.climate and its related data}
+   {:DEV NOTES:
+      fInt0:
+      fCalc0: circumference
+      fCalc1: omega
+      fCalc2:
+   }
+   fCalc0:=0;
+   fCalc1:=0;
    if AtmospherePressure > 0 then
    begin
+      fCalc0:=( 2 * Pi * ( Diameter * 0.5 ) ) * 1000;
+      if RotationPeriod <> 0
+      then fCalc1:=( 2 * Pi ) / ( abs( RotationPeriod * 3600 ) );
+      case Max of
+         4:
+         begin
+            LongX:=fCalc0 * 0.5;
+            LongY:=fCalc0 / 3;
+         end;
 
+         6:
+         begin
+            LongX:=fCalc0 * 0.5;
+            LongY:=fCalc0 * 0.25;
+         end;
+
+         8:
+         begin
+            LongX:=fCalc0 / 3;
+            LongY:=fCalc0 * 0.25;
+         end;
+
+         10:
+         begin
+            LongX:=fCalc0 * 0.25;
+            LongY:=fCalc0 * 0.25;
+         end;
+
+         14:
+         begin
+            LongX:=fCalc0 * 0.25;
+            LongY:=fCalc0 * 0.2;
+         end;
+
+         18:
+         begin
+            LongX:=fCalc0 * 0.25;
+            LongY:=fCalc0 / 6;
+         end;
+
+         22:
+         begin
+            LongX:=fCalc0 * 0.2;
+            LongY:=fCalc0 / 6;
+         end;
+
+         26:
+         begin
+            LongX:=fCalc0 / 6;
+            LongY:=fCalc0 / 6;
+         end;
+
+         30:
+         begin
+            LongX:=fCalc0 / 7;
+            LongY:=fCalc0 / 6;
+         end;
+      end; //==END== case Max of ==//
+      Count:=1;
+      while Count <= Max do
+      begin
+         FCDfrcRegion[Count].RC_cTempClosest:=FCDfrcRegion[Count].RC_surfaceTemperatureClosest - 273.15;
+         FCDfrcRegion[Count].RC_cTempInterm:=FCDfrcRegion[Count].RC_surfaceTemperatureInterm - 273.15;
+         FCDfrcRegion[Count].RC_cTempFarthest:=FCDfrcRegion[Count].RC_surfaceTemperatureFarthest - 273.15;
+         FCDfrcRegion[Count].RC_saturationVaporClosest:=6.11 * power( 10, ( 7.5 * FCDfrcRegion[Count].RC_cTempClosest / ( 237.7 + FCDfrcRegion[Count].RC_cTempClosest ) ) );
+         FCDfrcRegion[Count].RC_saturationVaporInterm:=6.11 * power( 10, ( 7.5 * FCDfrcRegion[Count].RC_cTempInterm / ( 237.7 + FCDfrcRegion[Count].RC_cTempInterm ) ) );
+         FCDfrcRegion[Count].RC_saturationVaporFarthest:=6.11 * power( 10, ( 7.5 * FCDfrcRegion[Count].RC_cTempFarthest / ( 237.7 + FCDfrcRegion[Count].RC_cTempFarthest ) ) );
+         case Hydrosphere of
+            hWaterLiquid:
+            begin
+               FCDfrcRegion[Count].RC_vaporPressureDewClosest:=( HydroArea * 0.1 ) * ( 1 - ( ( FCDfrcRegion[Count].RC_surfaceTemperatureClosest - 228 ) * 0.00767 ) );
+               FCDfrcRegion[Count].RC_vaporPressureDewInterm:=( HydroArea * 0.1 ) * ( 1 - ( ( FCDfrcRegion[Count].RC_surfaceTemperatureInterm - 228 ) * 0.00767 ) );
+               FCDfrcRegion[Count].RC_vaporPressureDewFarthest:=( HydroArea * 0.1 ) * ( 1 - ( ( FCDfrcRegion[Count].RC_surfaceTemperatureFarthest - 228 ) * 0.00767 ) );
+            end;
+
+            hWaterIceSheet, hWaterIceCrust:
+            begin
+               FCDfrcRegion[Count].RC_vaporPressureDewClosest:=( ( 100 - HydroArea ) * 0.1 ) * ( 1 - ( ( FCDfrcRegion[Count].RC_surfaceTemperatureClosest - 228 ) * 0.00767 ) );
+               FCDfrcRegion[Count].RC_vaporPressureDewInterm:=( ( 100 - HydroArea ) * 0.1 ) * ( 1 - ( ( FCDfrcRegion[Count].RC_surfaceTemperatureInterm - 228 ) * 0.00767 ) );
+               FCDfrcRegion[Count].RC_vaporPressureDewFarthest:=( ( 100 - HydroArea ) * 0.1 ) * ( 1 - ( ( FCDfrcRegion[Count].RC_surfaceTemperatureFarthest - 228 ) * 0.00767 ) );
+            end;
+
+            hWaterAmmoniaLiquid:
+            begin
+               FCDfrcRegion[Count].RC_vaporPressureDewClosest:=( HydroArea * 0.1 ) * ( 1 - ( ( FCDfrcRegion[Count].RC_surfaceTemperatureClosest - 146 ) * 0.00767 ) );
+               FCDfrcRegion[Count].RC_vaporPressureDewInterm:=( HydroArea * 0.1 ) * ( 1 - ( ( FCDfrcRegion[Count].RC_surfaceTemperatureInterm - 146 ) * 0.00767 ) );
+               FCDfrcRegion[Count].RC_vaporPressureDewFarthest:=( HydroArea * 0.1 ) * ( 1 - ( ( FCDfrcRegion[Count].RC_surfaceTemperatureFarthest - 146 ) * 0.00767 ) );
+            end;
+
+            hMethaneLiquid:
+            begin
+               FCDfrcRegion[Count].RC_vaporPressureDewClosest:=( HydroArea * 0.1 ) * ( 1 - ( ( FCDfrcRegion[Count].RC_surfaceTemperatureClosest - 66 ) * 0.00767 ) );
+               FCDfrcRegion[Count].RC_vaporPressureDewInterm:=( HydroArea * 0.1 ) * ( 1 - ( ( FCDfrcRegion[Count].RC_surfaceTemperatureInterm - 66 ) * 0.00767 ) );
+               FCDfrcRegion[Count].RC_vaporPressureDewFarthest:=( HydroArea * 0.1 ) * ( 1 - ( ( FCDfrcRegion[Count].RC_surfaceTemperatureFarthest - 66 ) * 0.00767 ) );
+            end;
+
+            hMethaneIceSheet, hMethaneIceCrust:
+            begin
+               FCDfrcRegion[Count].RC_vaporPressureDewClosest:=( ( 100 - HydroArea ) * 0.1 ) * ( 1 - ( ( FCDfrcRegion[Count].RC_surfaceTemperatureClosest - 66 ) * 0.00767 ) );
+               FCDfrcRegion[Count].RC_vaporPressureDewInterm:=( ( 100 - HydroArea ) * 0.1 ) * ( 1 - ( ( FCDfrcRegion[Count].RC_surfaceTemperatureInterm - 66 ) * 0.00767 ) );
+               FCDfrcRegion[Count].RC_vaporPressureDewFarthest:=( ( 100 - HydroArea ) * 0.1 ) * ( 1 - ( ( FCDfrcRegion[Count].RC_surfaceTemperatureFarthest - 66 ) * 0.00767 ) );
+            end;
+         end; //==END== case Hydrosphere of ==//
+         FCDfrcRegion[Count].RC_relativeHumidityClosest:=( FCDfrcRegion[Count].RC_vaporPressureDewClosest * 100 ) /  FCDfrcRegion[Count].RC_saturationVaporClosest;
+         if ( FCDfrcRegion[Count].RC_relativeHumidityClosest < 0 )
+            or ( FCDfrcRegion[Count].RC_relativeHumidityClosest > 100 )
+         then FCDfrcRegion[Count].RC_relativeHumidityClosest:=0;
+         FCDfrcRegion[Count].RC_relativeHumidityInterm:=( FCDfrcRegion[Count].RC_vaporPressureDewInterm * 100 ) /  FCDfrcRegion[Count].RC_saturationVaporInterm;
+         if ( FCDfrcRegion[Count].RC_relativeHumidityInterm < 0 )
+            or ( FCDfrcRegion[Count].RC_relativeHumidityInterm > 100 )
+         then FCDfrcRegion[Count].RC_relativeHumidityInterm:=0;
+         FCDfrcRegion[Count].RC_relativeHumidityFarthest:=( FCDfrcRegion[Count].RC_vaporPressureDewFarthest * 100 ) /  FCDfrcRegion[Count].RC_saturationVaporFarthest;
+         if ( FCDfrcRegion[Count].RC_relativeHumidityFarthest < 0 )
+            or ( FCDfrcRegion[Count].RC_relativeHumidityFarthest > 100 )
+         then FCDfrcRegion[Count].RC_relativeHumidityFarthest:=0;
+         if FCDfrcRegion[Count].RC_vaporPressureDewClosest >= AtmospherePressure
+         then FCDfrcRegion[Count].RC_regionPressureClosest:=AtmospherePressure
+         else FCDfrcRegion[Count].RC_regionPressureClosest:=FCDfrcRegion[Count].RC_vaporPressureDewClosest;
+
+         if FCDfrcRegion[Count].RC_vaporPressureDewInterm >= AtmospherePressure
+         then FCDfrcRegion[Count].RC_regionPressureInterm:=AtmospherePressure
+         else FCDfrcRegion[Count].RC_regionPressureInterm:=FCDfrcRegion[Count].RC_vaporPressureDewInterm;
+
+         if FCDfrcRegion[Count].RC_vaporPressureDewFarthest >= AtmospherePressure
+         then FCDfrcRegion[Count].RC_regionPressureFarthest:=AtmospherePressure
+         else FCDfrcRegion[Count].RC_regionPressureFarthest:=FCDfrcRegion[Count].RC_vaporPressureDewFarthest;
+         case Max of
+            4:
+            begin
+               if ( Count = 1 )
+                  or ( Count = Max)
+               then _Windspeed_Calculation( 1 )
+               else _Windspeed_Calculation( 2 );
+            end;
+
+            6, 8, 10:
+            begin
+
+            end;
+
+            14:
+            begin
+
+            end;
+
+            18, 22, 26:
+            begin
+
+            end;
+
+            30:
+            begin
+
+            end;
+         end; //==END== case Max of ==//
+         inc( Count );
+      end; //==END== while Count <= Max ==//
    end; //==END== if Atmosphere > 0 ==//
    {:DEV NOTES: data load w/ the correct rtos
    if sat=0
