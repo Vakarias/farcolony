@@ -998,6 +998,7 @@ begin
    fCalc2:=0;
    if AtmospherePressure > 0 then
    begin
+      {.global precalculations}
       fCalc0:=( 2 * Pi * ( Diameter * 0.5 ) ) * 1000;
       if RotationPeriod <> 0
       then fCalc1:=( 2 * Pi ) / ( abs( RotationPeriod * 3600 ) );
@@ -1059,6 +1060,7 @@ begin
       Count:=1;
       while Count <= Max do
       begin
+         {.region precalculations}
          FCDfrcRegion[Count].RC_cTempClosest:=FCDfrcRegion[Count].RC_surfaceTemperatureClosest - 273.15;
          FCDfrcRegion[Count].RC_cTempInterm:=FCDfrcRegion[Count].RC_surfaceTemperatureInterm - 273.15;
          FCDfrcRegion[Count].RC_cTempFarthest:=FCDfrcRegion[Count].RC_surfaceTemperatureFarthest - 273.15;
@@ -1122,6 +1124,7 @@ begin
          if FCDfrcRegion[Count].RC_vaporPressureDewFarthest >= AtmospherePressure
          then FCDfrcRegion[Count].RC_regionPressureFarthest:=AtmospherePressure
          else FCDfrcRegion[Count].RC_regionPressureFarthest:=FCDfrcRegion[Count].RC_vaporPressureDewFarthest;
+         {.windspeed calculations}
          fCalc2:=0;
          case Max of
             4:
@@ -1142,24 +1145,121 @@ begin
 
             6, 8, 10:
             begin
-
+               if ( Count = 1 )
+                  or ( Count = Max) then
+               begin
+                  fCalc3:=fCalc0;
+                  fCalc4:=LongY;
+                  _Windspeed_Calculation( 1 );
+               end
+               else begin
+                  fCalc3:=LongX;
+                  fCalc4:=LongY;
+                  _Windspeed_Calculation( 4 );
+               end;
             end;
 
             14:
             begin
-
+               if ( Count = 1 )
+                  or ( Count = Max) then
+               begin
+                  fCalc3:=fCalc0;
+                  fCalc4:=LongY;
+                  _Windspeed_Calculation( 0.86667623 );
+               end
+               else if ( Count in [2..5] )
+                  or ( Count in [10..13] ) then
+               begin
+                  fCalc3:=LongX;
+                  fCalc4:=LongY;
+                  _Windspeed_Calculation( 3.13397754 );
+               end
+               else begin
+                  fCalc3:=LongX;
+                  fCalc4:=LongY;
+                  _Windspeed_Calculation( 5.26777875 );
+               end;
             end;
 
             18, 22, 26:
             begin
-
+               if ( Count = 1 )
+                  or ( Count = Max) then
+               begin
+                  fCalc3:=fCalc0;
+                  fCalc4:=LongY;
+                  _Windspeed_Calculation( 0.66666667 );
+               end
+               else if ( ( Max = 18 ) and ( ( Count in [2..5] ) or ( Count in [14..17] ) ) )
+                  or ( ( Max = 22 ) and ( ( Count in [2..6] ) or ( Count in [17..21] ) ) )
+                  or ( ( Max = 26 ) and ( ( Count in [2..7] ) or ( Count in [20..25] ) ) ) then
+               begin
+                  fCalc3:=LongX;
+                  fCalc4:=LongY;
+                  _Windspeed_Calculation( 2.53378378 );
+               end
+               else begin
+                  fCalc3:=LongX;
+                  fCalc4:=LongY;
+                  _Windspeed_Calculation( 4.86815416 );
+               end;
             end;
 
             30:
             begin
-
+               if ( Count = 1 )
+                  or ( Count = Max) then
+               begin
+                  fCalc3:=fCalc0;
+                  fCalc4:=LongY;
+                  _Windspeed_Calculation( 0.53333333 );
+               end
+               else if ( Count in [2..8] )
+                  or ( Count in [23..29] ) then
+               begin
+                  fCalc3:=LongX;
+                  fCalc4:=LongY;
+                  _Windspeed_Calculation( 2 );
+               end
+               else begin
+                  fCalc3:=LongX;
+                  fCalc4:=LongY;
+                  _Windspeed_Calculation( 4.53343408 );
+               end;
             end;
          end; //==END== case Max of ==//
+         {.region's climate calculations}
+         {:DEV NOTES:
+            fInt0: h
+            fCalc0: meanRH
+            fCalc1: meanST
+            fCalc2:
+            fCalc3:
+            fCalc4:
+         }
+         fCalc0:=( FCDfrcRegion[Count].RC_relativeHumidityClosest + FCDfrcRegion[Count].RC_relativeHumidityInterm + FCDfrcRegion[Count].RC_relativeHumidityFarthest ) / 3;
+         fCalc1:=( FCDfrcRegion[Count].RC_surfaceTemperatureClosest + FCDfrcRegion[Count].RC_surfaceTemperatureInterm + FCDfrcRegion[Count].RC_surfaceTemperatureFarthest ) / 3;
+         if ( fCalc1 >= 500 )
+            and ( fCalc0 = 0 )
+         then FCDfrcRegion[Count].RC_finalClimate:=rc10Extreme
+         else if ( fCalc1 < 293 )
+            and ( fCalc0 < 6 )
+         then FCDfrcRegion[Count].RC_finalClimate:=rc07ColdArid
+         else if fCalc1 < 273 then
+         begin
+            fInt0:=0;
+            if FCDfrcRegion[Count].RC_surfaceTemperatureClosest >= 273
+            then inc( fInt0 );
+            if FCDfrcRegion[Count].RC_surfaceTemperatureInterm >= 273
+            then inc( fInt0 );
+            if FCDfrcRegion[Count].RC_surfaceTemperatureFarthest >= 273
+            then inc( fInt0 );
+            if fInt0 = 0
+            then FCDfrcRegion[Count].RC_finalClimate:=rc09Arctic
+            else FCDfrcRegion[Count].RC_finalClimate:=rc07ColdArid;
+         end;
+         {.region's rainfall calculations}
          inc( Count );
       end; //==END== while Count <= Max ==//
    end; //==END== if Atmosphere > 0 ==//
