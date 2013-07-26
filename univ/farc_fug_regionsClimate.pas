@@ -119,6 +119,8 @@ procedure FCMfRC_Climate_Generate(
       RC_regionPressureClosest: extended;
       RC_regionPressureInterm: extended;
       RC_regionPressureFarthest: extended;
+
+      RC_finalClimate: TFCEduRegionClimates;
    end;
 
    var
@@ -134,6 +136,8 @@ procedure FCMfRC_Climate_Generate(
       ,fCalc0
       ,fCalc1
       ,fCalc2
+      ,fCalc3
+      ,fCalc4
       ,LongX
       ,LongY
       ,ObjectSurfaceTempClosest
@@ -154,8 +158,53 @@ procedure FCMfRC_Climate_Generate(
       procedure _Windspeed_Calculation( const CoefRegion: extended );
       {:purpose: calculate the windspeed of the current region.
       }
+      {:DEV NOTES:
+         fInt0:
+         fCalc0: circumference
+         fCalc1: omega
+         fCalc2: coriolis
+         fCalc3: distX
+         fCalc4: distY
+      }
+         var
+            AtmPress
+            ,SpeedU
+            ,SpeedV
+            ,Windspeed
+            ,X1_X0
+            ,Y1_Y0: extended;
       begin
-//         if
+         if RotationPeriod <> 0
+         then fCalc2:=( ( 4 * pi * sin( pi / ( 12 / CoefRegion ) ) ) / abs( RotationPeriod ) ) * 1000;
+         X1_X0:=fCalc3 * cos( 15 * CoefRegion );
+         Y1_Y0:=fCalc4 * sin( 15 * CoefRegion );
+         AtmPress:=0;
+         SpeedU:=0;
+         SpeedV:=0;
+         if fCalc1 <> 0 then
+         begin
+            Windspeed:=0;
+            AtmPress:=AtmospherePressure / FCDfrcRegion[Count].RC_regionPressureClosest;
+            SpeedU:=abs( ( Y1_Y0 * 287 * FCDfrcRegion[Count].RC_surfaceTemperatureClosest * ln( AtmPress ) ) / ( 2 * fCalc1 * sin( 15 * CoefRegion ) * ( sqr( fCalc4 ) ) ) );
+            AtmPress:=FCDfrcRegion[Count].RC_regionPressureClosest / AtmospherePressure;
+            SpeedV:=abs( ( X1_X0 * 287 * FCDfrcRegion[Count].RC_surfaceTemperatureClosest * ln( AtmPress ) ) / ( 2 * fCalc1 * sin( 15 * CoefRegion ) * ( sqr( fCalc3 ) ) ) );
+            Windspeed:=sqrt( sqr( SpeedU ) + sqr( SpeedV ) );
+            FCDfrcRegion[Count].RC_windspeedClosest:=round( randg( ( Windspeed + fCalc2 ) * 0.5 , 2 ) );
+            Windspeed:=0;
+            AtmPress:=AtmospherePressure / FCDfrcRegion[Count].RC_regionPressureInterm;
+            SpeedU:=abs( ( Y1_Y0 * 287 * FCDfrcRegion[Count].RC_surfaceTemperatureInterm * ln( AtmPress ) ) / ( 2 * fCalc1 * sin( 15 * CoefRegion ) * ( sqr( fCalc4 ) ) ) );
+            AtmPress:=FCDfrcRegion[Count].RC_regionPressureInterm / AtmospherePressure;
+            SpeedV:=abs( ( X1_X0 * 287 * FCDfrcRegion[Count].RC_surfaceTemperatureInterm * ln( AtmPress ) ) / ( 2 * fCalc1 * sin( 15 * CoefRegion ) * ( sqr( fCalc3 ) ) ) );
+            Windspeed:=sqrt( sqr( SpeedU ) + sqr( SpeedV ) );
+            FCDfrcRegion[Count].RC_windspeedInterm:=round( randg( ( Windspeed + fCalc2 ) * 0.5 , 2 ) );
+            Windspeed:=0;
+            AtmPress:=AtmospherePressure / FCDfrcRegion[Count].RC_regionPressureFarthest;
+            SpeedU:=abs( ( Y1_Y0 * 287 * FCDfrcRegion[Count].RC_surfaceTemperatureFarthest * ln( AtmPress ) ) / ( 2 * fCalc1 * sin( 15 * CoefRegion ) * ( sqr( fCalc4 ) ) ) );
+            AtmPress:=FCDfrcRegion[Count].RC_regionPressureFarthest / AtmospherePressure;
+            SpeedV:=abs( ( X1_X0 * 287 * FCDfrcRegion[Count].RC_surfaceTemperatureFarthest * ln( AtmPress ) ) / ( 2 * fCalc1 * sin( 15 * CoefRegion ) * ( sqr( fCalc3 ) ) ) );
+            Windspeed:=sqrt( sqr( SpeedU ) + sqr( SpeedV ) );
+            FCDfrcRegion[Count].RC_windspeedFarthest:=round( randg( ( Windspeed + fCalc2 ) * 0.5 , 2 ) );
+         end;
       end;
 begin
    {.data initialization}
@@ -171,6 +220,8 @@ begin
    fCalc0:=0;
    fCalc1:=0;
    fCalc2:=0;
+   fCalc3:=0;
+   fCalc4:=0;
    LongX:=0;
    LongY:=0;
    ObjectSurfaceTempClosest:=0;
@@ -938,10 +989,13 @@ begin
       fInt0:
       fCalc0: circumference
       fCalc1: omega
-      fCalc2:
+      fCalc2: coriolis
+      fCalc3: distX
+      fCalc4: distY
    }
    fCalc0:=0;
    fCalc1:=0;
+   fCalc2:=0;
    if AtmospherePressure > 0 then
    begin
       fCalc0:=( 2 * Pi * ( Diameter * 0.5 ) ) * 1000;
@@ -1062,21 +1116,28 @@ begin
          if FCDfrcRegion[Count].RC_vaporPressureDewClosest >= AtmospherePressure
          then FCDfrcRegion[Count].RC_regionPressureClosest:=AtmospherePressure
          else FCDfrcRegion[Count].RC_regionPressureClosest:=FCDfrcRegion[Count].RC_vaporPressureDewClosest;
-
          if FCDfrcRegion[Count].RC_vaporPressureDewInterm >= AtmospherePressure
          then FCDfrcRegion[Count].RC_regionPressureInterm:=AtmospherePressure
          else FCDfrcRegion[Count].RC_regionPressureInterm:=FCDfrcRegion[Count].RC_vaporPressureDewInterm;
-
          if FCDfrcRegion[Count].RC_vaporPressureDewFarthest >= AtmospherePressure
          then FCDfrcRegion[Count].RC_regionPressureFarthest:=AtmospherePressure
          else FCDfrcRegion[Count].RC_regionPressureFarthest:=FCDfrcRegion[Count].RC_vaporPressureDewFarthest;
+         fCalc2:=0;
          case Max of
             4:
             begin
                if ( Count = 1 )
-                  or ( Count = Max)
-               then _Windspeed_Calculation( 1 )
-               else _Windspeed_Calculation( 2 );
+                  or ( Count = Max) then
+               begin
+                  fCalc3:=fCalc0;
+                  fCalc4:=LongY;
+                  _Windspeed_Calculation( 1 );
+               end
+               else begin
+                  fCalc3:=LongX;
+                  fCalc4:=LongY;
+                  _Windspeed_Calculation( 2 );
+               end;
             end;
 
             6, 8, 10:
@@ -1110,6 +1171,7 @@ begin
       FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].....RC_surfaceTemperatureClosest:=FCFcF_Round( rttCustom2Decimal, FCDfrcRegion[Count].RC_surfaceTemperatureClosest );
       FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].....RC_surfaceTemperatureFarthest:=FCFcF_Round( rttCustom2Decimal, FCDfrcRegion[Count].RC_surfaceTemperatureFarthest );
       FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].....RC_surfaceTemperatureInterm:=FCFcF_Round( rttCustom2Decimal, FCDfrcRegion[Count].RC_surfaceTemperatureInterm );
+      windspeed is already rounded, so only load the data
       inc( Count );
    end; //==END== while Count <= Max ==//
 
