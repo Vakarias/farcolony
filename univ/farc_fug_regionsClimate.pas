@@ -63,7 +63,8 @@ procedure FCMfRC_Climate_Generate(
 implementation
 
 uses
-   farc_data_univ
+   farc_common_func
+   ,farc_data_univ
    ,farc_univ_func;
 
 //==END PRIVATE ENUM========================================================================
@@ -126,6 +127,7 @@ procedure FCMfRC_Climate_Generate(
    var
       Count
       ,fInt0
+      ,fInt1
       ,HydroArea
       ,Max
       ,Row: integer;
@@ -154,6 +156,31 @@ procedure FCMfRC_Climate_Generate(
       Hydrosphere: TFCEduHydrospheres;
 
       FCDfrcRegion: array [0..30] of TFCRfrcRegionCalc;
+
+      function _RainfallCalculation(
+         const X
+               ,RBF
+               ,WindSpeed: integer;
+         const ModRH: extended
+         ): integer;
+      {:Purpose: calculate the rainfall.
+          Additions:
+      }
+         var
+            RainBase
+            ,RainFinal
+            ,WindE: extended;
+      begin
+         Result:=0;
+         RainBase:=0;
+         RainFinal:=0;
+         WindE:=0;
+         RainBase:=ln( power( RBF, modRH ) );
+         WindE:=logn( WindSpeed, X );
+         RainFinal:=( WindE * RainBase * RBF ) / ( 0.35 + ( RBF * 0.001 ) );
+         Result:=round( RainFinal );
+      end;
+
 
       procedure _Windspeed_Calculation( const CoefRegion: extended );
       {:purpose: calculate the windspeed of the current region.
@@ -210,6 +237,7 @@ begin
    {.data initialization}
    Count:=1;
    fInt0:=0;
+   fInt1:=0;
    HydroArea:=0;
    Max:=0;
    Row:=0;
@@ -1286,23 +1314,142 @@ begin
             then FCDfrcRegion[Count].RC_finalClimate:=rc01VeryHotHumid;
          end;
          {.region's rainfall calculations}
+         {:DEV NOTES:
+            fInt0: x
+            fInt1: RBF
+            fCalc0: modRH
+            fCalc1:
+            fCalc2:
+            fCalc3:
+            fCalc4:
+         }
+         fInt0:=0;
+         fInt1:=0;
+         case FCDfrcRegion[Count].RC_finalClimate of
+            rc01VeryHotHumid:
+            begin
+               fInt0:=12;
+               fInt1:=1500;
+            end;
+
+            rc02VeryHotSemiHumid:
+            begin
+               fInt0:=9;
+               fInt1:=1050;
+            end;
+
+            rc03HotSemiArid:
+            begin
+               fInt0:=5;
+               fInt1:=425;
+            end;
+
+            rc04HotArid:
+            begin
+               fInt0:=3;
+               fInt1:=125;
+            end;
+
+            rc05ModerateHumid:
+            begin
+               fInt0:=6;
+               fInt1:=500;
+            end;
+
+            rc06ModerateDry:
+            begin
+               fInt0:=5;
+               fInt1:=375;
+            end;
+
+            rc07ColdArid:
+            begin
+               fInt0:=3;
+               fInt1:=50;
+            end;
+
+            rc08Periarctic:
+            begin
+               fInt0:=3;
+               fInt1:=175;
+            end;
+
+            rc09Arctic:
+            begin
+               fInt0:=3;
+               fInt1:=5;
+            end;
+         end; //==END== case FCDfrcRegion[Count].RC_finalClimate of ==//
+         fCalc0:=FCDfrcRegion[Count].RC_relativeHumidityClosest * 0.01;
+         if ( fInt0 > 0 )
+            and ( FCDfrcRegion[Count].RC_windspeedClosest > 0 )
+            and ( fCalc0 > 0 )
+         then FCDfrcRegion[Count].RC_rainfallClosest:=_RainfallCalculation(
+            fInt0
+            ,fInt1
+            ,FCDfrcRegion[Count].RC_windspeedClosest
+            ,fCalc0
+            );
+         fCalc0:=FCDfrcRegion[Count].RC_relativeHumidityInterm * 0.01;
+         if ( fInt0 > 0 )
+            and ( FCDfrcRegion[Count].RC_windspeedInterm > 0 )
+            and ( fCalc0 > 0 )
+         then FCDfrcRegion[Count].RC_rainfallInterm:=_RainfallCalculation(
+            fInt0
+            ,fInt1
+            ,FCDfrcRegion[Count].RC_windspeedInterm
+            ,fCalc0
+            );
+         fCalc0:=FCDfrcRegion[Count].RC_relativeHumidityFarthest * 0.01;
+         if ( fInt0 > 0 )
+            and ( FCDfrcRegion[Count].RC_windspeedFarthest > 0 )
+            and ( fCalc0 > 0 )
+         then FCDfrcRegion[Count].RC_rainfallFarthest:=_RainfallCalculation(
+            fInt0
+            ,fInt1
+            ,FCDfrcRegion[Count].RC_windspeedFarthest
+            ,fCalc0
+            );
          inc( Count );
       end; //==END== while Count <= Max ==//
    end; //==END== if Atmosphere > 0 ==//
-   {:DEV NOTES: data load w/ the correct rtos
-   if sat=0
-   Count:=1;
-   while Count <= Max do
+   {.final data transfert}
+   if Satellite = 0 then
    begin
-      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].....RC_surfaceTemperatureClosest:=FCFcF_Round( rttCustom2Decimal, FCDfrcRegion[Count].RC_surfaceTemperatureClosest );
-      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].....RC_surfaceTemperatureFarthest:=FCFcF_Round( rttCustom2Decimal, FCDfrcRegion[Count].RC_surfaceTemperatureFarthest );
-      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].....RC_surfaceTemperatureInterm:=FCFcF_Round( rttCustom2Decimal, FCDfrcRegion[Count].RC_surfaceTemperatureInterm );
-      windspeed is already rounded, so only load the data
-      load region's final climate
-      inc( Count );
-   end; //==END== while Count <= Max ==//
-
-   }
+      Count:=1;
+      while Count <= Max do
+      begin
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions[Count].OOR_climate:=FCDfrcRegion[Count].RC_finalClimate;
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions[Count].OOR_seasonClosest.OP_meanTemperature:=FCFcF_Round( rttCustom2Decimal, FCDfrcRegion[Count].RC_surfaceTemperatureClosest );
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions[Count].OOR_seasonClosest.OP_windspeed:=FCDfrcRegion[Count].RC_windspeedClosest;
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions[Count].OOR_seasonClosest.OP_rainfall:=FCDfrcRegion[Count].RC_rainfallClosest;
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions[Count].OOR_seasonIntermediate.OP_meanTemperature:=FCFcF_Round( rttCustom2Decimal, FCDfrcRegion[Count].RC_surfaceTemperatureInterm );
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions[Count].OOR_seasonIntermediate.OP_windspeed:=FCDfrcRegion[Count].RC_windspeedInterm;
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions[Count].OOR_seasonIntermediate.OP_rainfall:=FCDfrcRegion[Count].RC_rainfallInterm;
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions[Count].OOR_seasonFarthest.OP_meanTemperature:=FCFcF_Round( rttCustom2Decimal, FCDfrcRegion[Count].RC_surfaceTemperatureFarthest );
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions[Count].OOR_seasonFarthest.OP_windspeed:=FCDfrcRegion[Count].RC_windspeedFarthest;
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions[Count].OOR_seasonFarthest.OP_rainfall:=FCDfrcRegion[Count].RC_rainfallFarthest;
+         inc( Count );
+      end; //==END== while Count <= Max ==//
+   end
+   else if Satellite > 0 then
+   begin
+      Count:=1;
+      while Count <= Max do
+      begin
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Count].OOR_climate:=FCDfrcRegion[Count].RC_finalClimate;
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Count].OOR_seasonClosest.OP_meanTemperature:=FCFcF_Round( rttCustom2Decimal, FCDfrcRegion[Count].RC_surfaceTemperatureClosest );
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Count].OOR_seasonClosest.OP_windspeed:=FCDfrcRegion[Count].RC_windspeedClosest;
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Count].OOR_seasonClosest.OP_rainfall:=FCDfrcRegion[Count].RC_rainfallClosest;
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Count].OOR_seasonIntermediate.OP_meanTemperature:=FCFcF_Round( rttCustom2Decimal, FCDfrcRegion[Count].RC_surfaceTemperatureInterm );
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Count].OOR_seasonIntermediate.OP_windspeed:=FCDfrcRegion[Count].RC_windspeedInterm;
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Count].OOR_seasonIntermediate.OP_rainfall:=FCDfrcRegion[Count].RC_rainfallInterm;
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Count].OOR_seasonFarthest.OP_meanTemperature:=FCFcF_Round( rttCustom2Decimal, FCDfrcRegion[Count].RC_surfaceTemperatureFarthest );
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Count].OOR_seasonFarthest.OP_windspeed:=FCDfrcRegion[Count].RC_windspeedFarthest;
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Count].OOR_seasonFarthest.OP_rainfall:=FCDfrcRegion[Count].RC_rainfallFarthest;
+         inc( Count );
+      end; //==END== while Count <= Max ==//
+   end;
 end;
 
 end.
