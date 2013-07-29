@@ -237,8 +237,11 @@ var
    ,Count1
    ,Count2
    ,Count3
+   ,Count4
    ,Max1
-   ,Max2, Max3: integer;
+   ,Max2
+   ,Max3
+   ,Max4: integer;
 
    DumpString: string;
 begin
@@ -509,8 +512,27 @@ begin
                         +'" farthTemp="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_regions[Count3].OOR_seasonClosest.OP_meanTemperature )
                         +'" farthWindspd="'+inttostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_regions[Count3].OOR_seasonClosest.OP_windspeed )
                         +'" farthRain="'+inttostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_regions[Count3].OOR_seasonClosest.OP_rainfall )
+                        +'" emoPlanSurveyG="'+FloatToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_regions[Count3].OOR_emo.EMO_planetarySurveyGround )
+                        +'" emoPlanSurveyA="'+FloatToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_regions[Count3].OOR_emo.EMO_planetarySurveyAir )
+                        +'" emoPlanSurveyAG="'+FloatToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_regions[Count3].OOR_emo.EMO_planetarySurveyAntigrav )
+                        +'" emoPlanSurveySAG="'+FloatToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_regions[Count3].OOR_emo.EMO_planetarySurveySwarmAntigrav )
+                        +'" emoCAB="'+FloatToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_regions[Count3].OOR_emo.EMO_cab )
+                        +'" emoIWC="'+FloatToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_regions[Count3].OOR_emo.EMO_iwc )
+                        +'" emoGroundCombat="'+FloatToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_regions[Count3].OOR_emo.EMO_groundCombat )
                         +'">'
                         );
+                     Max4:=length( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_regions[Count3].OOR_resourceSpot ) - 1;
+                     Count4:=1;
+                     while Count4 <= Max4 do
+                     begin
+                        WF_XMLOutput.Lines.Add(
+                           '              <resourcespot type="'+GetEnumName( TypeInfo( TFCEduResourceSpotTypes ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_regions[Count3].OOR_resourceSpot[Count4].RS_type ) )
+                           +'" quality="'+GetEnumName( TypeInfo( TFCEduResourceSpotQuality ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_regions[Count3].OOR_resourceSpot[Count4].RS_quality ) )
+                           +'" rarity="'+GetEnumName( TypeInfo( TFCEduResourceSpotRarity ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_regions[Count3].OOR_resourceSpot[Count4].RS_rarity ) )
+                           +'"/>'
+                           );
+                        inc( Count4 );
+                     end;
                      WF_XMLOutput.Lines.Add( '            </region>' );
                      inc( Count3 );
                   end;
@@ -605,6 +627,53 @@ begin
                      inc( Count3 );
                   end;
                   WF_XMLOutput.Lines.Add( '            </orbitalPeriods>' );
+                  Max3:=length( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_regions ) - 1;
+                  if Max3 > 0 then
+                  begin
+                     Count3:=1;
+                     WF_XMLOutput.Lines.Add( '         <regions surface="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_regionSurface )
+                        +'" meanTravelDist="'+inttostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_meanTravelDistance )+'">' );
+                     while Count3 <= Max3 do
+                     begin
+                        WF_XMLOutput.Lines.Add(
+                           '            <region soilType="'+GetEnumName( TypeInfo( TFCEduRegionSoilTypes ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_regions[Count3].OOR_soilType ) )
+                           +'" relief="'+GetEnumName( TypeInfo( TFCEduRegionReliefs ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_regions[Count3].OOR_relief ) )
+                           +'" climate="'+GetEnumName( TypeInfo( TFCEduRegionClimates ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_regions[Count3].OOR_climate ) )
+                           +'" closeTemp="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_regions[Count3].OOR_seasonClosest.OP_meanTemperature )
+                           +'" closeWindspd="'+inttostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_regions[Count3].OOR_seasonClosest.OP_windspeed )
+                           +'" closeRain="'+inttostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_regions[Count3].OOR_seasonClosest.OP_rainfall )
+                           +'" intermTemp="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_regions[Count3].OOR_seasonClosest.OP_meanTemperature )
+                           +'" intermWindspd="'+inttostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_regions[Count3].OOR_seasonClosest.OP_windspeed )
+                           +'" intermRain="'+inttostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_regions[Count3].OOR_seasonClosest.OP_rainfall )
+                           +'" farthTemp="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_regions[Count3].OOR_seasonClosest.OP_meanTemperature )
+                           +'" farthWindspd="'+inttostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_regions[Count3].OOR_seasonClosest.OP_windspeed )
+                           +'" farthRain="'+inttostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_regions[Count3].OOR_seasonClosest.OP_rainfall )
+                           +'" emoPlanSurveyG="'+FloatToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_regions[Count3].OOR_emo.EMO_planetarySurveyGround )
+                           +'" emoPlanSurveyA="'+FloatToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_regions[Count3].OOR_emo.EMO_planetarySurveyAir )
+                           +'" emoPlanSurveyAG="'+FloatToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_regions[Count3].OOR_emo.EMO_planetarySurveyAntigrav )
+                           +'" emoPlanSurveySAG="'+FloatToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_regions[Count3].OOR_emo.EMO_planetarySurveySwarmAntigrav )
+                           +'" emoCAB="'+FloatToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_regions[Count3].OOR_emo.EMO_cab )
+                           +'" emoIWC="'+FloatToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_regions[Count3].OOR_emo.EMO_iwc )
+                           +'" emoGroundCombat="'+FloatToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_regions[Count3].OOR_emo.EMO_groundCombat )
+                           +'">'
+                           );
+                        Max4:=length( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_regions[Count3].OOR_resourceSpot ) - 1;
+                        Count4:=1;
+                        while Count4 <= Max4 do
+                        begin
+                           WF_XMLOutput.Lines.Add(
+                              '              <resourcespot type="'+GetEnumName( TypeInfo( TFCEduResourceSpotTypes ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_regions[Count3].OOR_resourceSpot[Count4].RS_type ) )
+                              +'" quality="'+GetEnumName( TypeInfo( TFCEduResourceSpotQuality ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_regions[Count3].OOR_resourceSpot[Count4].RS_quality ) )
+                              +'" rarity="'+GetEnumName( TypeInfo( TFCEduResourceSpotRarity ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_regions[Count3].OOR_resourceSpot[Count4].RS_rarity ) )
+                              +'"/>'
+                              );
+                           inc( Count4 );
+                        end;
+                        WF_XMLOutput.Lines.Add( '            </region>' );
+                        inc( Count3 );
+                     end;
+                     WF_XMLOutput.Lines.Add( '         </regions>' );
+                  end;
                   WF_XMLOutput.Lines.Add( '         </satobj>' );
                   inc( Count2 );
                end;

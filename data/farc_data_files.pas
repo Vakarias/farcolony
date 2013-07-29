@@ -1427,7 +1427,8 @@ end;
 procedure FCMdF_DBStarOrbitalObjects_Load( const StarSystemToken, StarToken: string );
 {:Purpose: load the orbital objects, if there's any, of a specified star in the universe database XML file.
    Additions:
-      -2013jUL10- *add: region's season data.
+      -2013Jul28- *mod: modification for the satellite's region data.
+      -2013Jul10- *add: region's season data.
       -2013Jul04- *add/mod: complete overhaul of the orbital periods.
       -2013Jun25- *add: seasons: base and surface temperatures.
       -2013Jun16- *mod: complete modification of the attributes names for orbital, geophysical and ecosphere data.
@@ -1861,19 +1862,19 @@ begin
                         XMLOObjSub1:= XMLOObjSub1.NextSibling;
                      end;
                   end //==END== else if DBSSPorbObjNode.NodeName='orbitalPeriods' ==//
-                  else if XMSatellite.NodeName='satregions' then
+                  else if XMSatellite.NodeName='regions' then
                   begin
                      FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_regionSurface:=StrToFloat( XMSatellite.Attributes['surface'], FCVdiFormat );
-                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_meanTravelDistance:=XMSatellite.Attributes['mtd'];
+                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_meanTravelDistance:=XMSatellite.Attributes['meanTravelDist'];
                      Count1:=1;
                      XMLOObjSub1:=XMSatellite.ChildNodes.First;
                      while XMLOObjSub1<>nil do
                      begin
                         SetLength( FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_regions, Count1+1 );
-                        EnumIndex:=GetEnumValue( TypeInfo( TFCEduRegionSoilTypes ), XMLOObjSub1.Attributes['soiltp'] );
+                        EnumIndex:=GetEnumValue( TypeInfo( TFCEduRegionSoilTypes ), XMLOObjSub1.Attributes['soilType'] );
                         FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_regions[Count1].OOR_soilType:=TFCEduRegionSoilTypes( EnumIndex );
                         if EnumIndex=-1
-                        then raise Exception.Create( 'bad universe satellite region soil: '+XMLOObjSub1.Attributes['soiltp'] );
+                        then raise Exception.Create( 'bad universe satellite region soil: '+XMLOObjSub1.Attributes['soilType'] );
                         EnumIndex:=GetEnumValue( TypeInfo( TFCEduRegionReliefs ), XMLOObjSub1.Attributes['relief'] );
                         FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_regions[Count1].OOR_relief:=TFCEduRegionReliefs( EnumIndex );
                         if EnumIndex=-1
@@ -1925,7 +1926,7 @@ begin
                         inc( Count1 );
                         XMLOObjSub1:= XMLOObjSub1.NextSibling;
                      end; //==END== while DBSSPregNode<>nil ==//
-                  end; //==END== else if DBSSPorbObjNode.NodeName='satregions' ==//
+                  end; //==END== else if DBSSPorbObjNode.NodeName='regions' ==//
                   XMSatellite:= XMSatellite.NextSibling;
                end; {.while DBSSPsatNode<>nil}
             end; {.else if DBSSPorbObjNode.NodeName='satobj'}
