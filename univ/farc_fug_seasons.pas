@@ -108,6 +108,7 @@ procedure FCMfS_OrbitalPeriods_Generate(
    );
 {:Purpose: generate the orbital periods and their base effects
    Additions:
+      -2013Aug03- *fix: mis-assignment for intermediary orbital periods.
       -2013Jul07- *fix: addition of special conditions for asteroid belts.
                   *mod: greenhouse calculations adjustments.
                   *fix: prevent calculated clouds cover > 100.
@@ -299,25 +300,33 @@ begin
          1:
          begin
             OrbitalPeriodsWork[1].OOS_orbitalPeriodType:=optClosest;
+            OrbitalPeriodsWork[2].OOS_orbitalPeriodType:=optIntermediary;
             OrbitalPeriodsWork[3].OOS_orbitalPeriodType:=optFarthest;
+            OrbitalPeriodsWork[4].OOS_orbitalPeriodType:=optIntermediary;
          end;
 
          2:
          begin
+            OrbitalPeriodsWork[1].OOS_orbitalPeriodType:=optIntermediary;
             OrbitalPeriodsWork[2].OOS_orbitalPeriodType:=optClosest;
+            OrbitalPeriodsWork[3].OOS_orbitalPeriodType:=optIntermediary;
             OrbitalPeriodsWork[4].OOS_orbitalPeriodType:=optFarthest;
          end;
 
          3:
          begin
-            OrbitalPeriodsWork[3].OOS_orbitalPeriodType:=optClosest;
             OrbitalPeriodsWork[1].OOS_orbitalPeriodType:=optFarthest;
+            OrbitalPeriodsWork[2].OOS_orbitalPeriodType:=optIntermediary;
+            OrbitalPeriodsWork[3].OOS_orbitalPeriodType:=optClosest;
+            OrbitalPeriodsWork[4].OOS_orbitalPeriodType:=optIntermediary;
          end;
 
          4:
          begin
-            OrbitalPeriodsWork[4].OOS_orbitalPeriodType:=optClosest;
+            OrbitalPeriodsWork[1].OOS_orbitalPeriodType:=optIntermediary;
             OrbitalPeriodsWork[2].OOS_orbitalPeriodType:=optFarthest;
+            OrbitalPeriodsWork[3].OOS_orbitalPeriodType:=optIntermediary;
+            OrbitalPeriodsWork[4].OOS_orbitalPeriodType:=optClosest;
          end;
       end;
       DistMin:=( 1 - Eccentricity ) * DistanceFromStar;

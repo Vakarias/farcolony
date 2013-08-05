@@ -166,10 +166,15 @@ function FCFfG_Mass_Calculation(
 ///   retrieve the final type of asteroid based on the density
 ///</summary>
 ///   <param name="Density">asteroid's density</param>
-///   <param name="isSatellite">optional parameter, false by default, [=true] process for satellites</param>
+///   <param name="BaseTemperature">[optional] asteroid's base temperature, only for satellite asteroids not in an asteroid belt</param>
+///   <param name="isSatellite">[optional] parameter, false by default, [=true] process for satellites</param>
 ///   <returns>the orbital object type</returns>
 ///   <remarks></remarks>
-function FCFfG_Refinement_Asteroid( const Density: integer; const isSatellite: boolean=false ): TFCEduOrbitalObjectTypes;
+function FCFfG_Refinement_Asteroid(
+   const Density: integer;
+   const BaseTemperature: extended=0;
+   const isSatellite: boolean=false
+   ): TFCEduOrbitalObjectTypes;
 
 ///<summary>
 ///   retrieve the final type of gaseous planet based on the mass
@@ -556,9 +561,14 @@ begin
    else Result:=FCFcF_Round( rttMassAsteroid, CalculatedMass );
 end;
 
-function FCFfG_Refinement_Asteroid( const Density: integer; const isSatellite: boolean=false ): TFCEduOrbitalObjectTypes;
+function FCFfG_Refinement_Asteroid(
+   const Density: integer;
+   const BaseTemperature: extended=0;
+   const isSatellite: boolean=false
+   ): TFCEduOrbitalObjectTypes;
 {:Purpose: retrieve the final type of asteroid based on the density.
     Additions:
+      -2013Aug03- *fix: prevent an asteroid < 2482kg of density with base temperature > 273K to be an icy one. Especially useful for asteroids which are satellites.
       -2013May17- *add: isSatellite parameter.
 }
 begin
@@ -566,9 +576,13 @@ begin
    case Density of
       0..2481:
       begin
-         if not isSatellite
-         then Result:=ootAsteroid_Icy
-         else Result:=ootSatellite_Asteroid_Icy;
+         if BaseTemperature <= 273 then
+         begin
+            if not isSatellite
+            then Result:=ootAsteroid_Icy
+            else Result:=ootSatellite_Asteroid_Icy;
+         end
+         else Result:=ootAsteroid_Carbonaceous;
       end;
 
       2482..3639:
