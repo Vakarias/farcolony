@@ -35,6 +35,41 @@ uses
 
 //==END PUBLIC ENUM=========================================================================
 
+type TFCRfdRegionCalc = record
+   RC_surfaceTemperatureClosest: extended;
+   RC_cTempClosest: extended;
+   RC_surfaceTemperatureInterm: extended;
+   RC_cTempInterm: extended;
+   RC_surfaceTemperatureFarthest: extended;
+   RC_cTempFarthest: extended;
+
+   RC_windspeedClosest: integer;
+   RC_windspeedInterm: integer;
+   RC_windspeedFarthest: integer;
+
+   RC_rainfallClosest: integer;
+   RC_rainfallInterm: integer;
+   RC_rainfallFarthest: integer;
+
+   RC_saturationVaporClosest: extended;
+   RC_saturationVaporInterm: extended;
+   RC_saturationVaporFarthest: extended;
+
+   RC_vaporPressureDewClosest: extended;
+   RC_vaporPressureDewInterm: extended;
+   RC_vaporPressureDewFarthest: extended;
+
+   RC_relativeHumidityClosest: extended;
+   RC_relativeHumidityInterm: extended;
+   RC_relativeHumidityFarthest: extended;
+
+   RC_regionPressureClosest: extended;
+   RC_regionPressureInterm: extended;
+   RC_regionPressureFarthest: extended;
+
+   RC_finalClimate: TFCEduRegionClimates;
+end;
+
 ///<summary>
 ///   FUG orbits to generate
 ///</summary>
@@ -56,6 +91,8 @@ type TFCDfdComp2StarObjectsList= array of TFCRduOrbitalObject;
 
    //==========subsection===================================================================
 var
+   FCDfdRegion: array [0..30] of TFCRfdRegionCalc;
+
    FCDfdMainStarObjectsList: TFCDfdMainStarObjectsList;
 
    FCDfdComp1StarObjectsList: TFCDfdComp1StarObjectsList;

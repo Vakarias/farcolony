@@ -7,7 +7,7 @@
         License: GPLv3
         Website: http://farcolony.sourceforge.net/
 
-        Unit: Regions - core unit
+        Unit: Regions - land and resources unit
 
 ============================================================================================
 ********************************************************************************************
@@ -26,7 +26,7 @@ Copyright (c) 2009-2013, Jean-Francois Baconnet
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *******************************************************************************************}
-unit farc_fug_regions;
+unit farc_fug_landresources;
 
 interface
 
@@ -46,14 +46,14 @@ interface
 //===========================END FUNCTIONS SECTION==========================================
 
 ///<summary>
-///   generate the regions of an orbital object. It is the first phase (pre-generation of the surface maps)
+///   generate the land type and relief for each region
 ///</summary>
 /// <param name="Star">star index #</param>
 /// <param name="OrbitalObject">orbital object index #</param>
 /// <param name="Satellite">OPTIONAL: satellite index #</param>
 /// <returns></returns>
 /// <remarks></remarks>
-procedure FCMfR_GenerationPhase1_Process(
+procedure FCMfR_LandReliefFractalTerrains_Process(
    const Star
          ,OrbitalObject: integer;
    const Satellite: integer=0
@@ -63,7 +63,7 @@ implementation
 
 uses
    farc_data_univ
-   ,farc_fug_landresources
+   ,farc_fug_data
    ,farc_fug_regionsClimate;
 
 //==END PRIVATE ENUM========================================================================
@@ -80,16 +80,51 @@ uses
 //===================================================END OF INIT============================
 //===========================END FUNCTIONS SECTION==========================================
 
-procedure FCMfR_GenerationPhase1_Process(
+procedure FCMfR_LandReliefFractalTerrains_Process(
    const Star
          ,OrbitalObject: integer;
    const Satellite: integer=0
    );
-{:Purpose: generate the regions of an orbital object. It is the first phase (pre-generation of the surface maps).
+{:Purpose: generate the land type and relief for each region.
    Additions:
 }
-   var
-      Max: integer;
+var
+   GravModifier
+   ,Max
+   ,Region: integer;
+
+   TectonicActivity: TFCEduTectonicActivity;
+begin
+   GravModifier:=0;
+   Max:=0;
+   Region:=0;
+
+   TectonicActivity:=taNull;
+   if Satellite = 0 then
+   begin
+      GravModifier:=round( ( 1 / FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_gravity ) * 10 ) - 10;
+      Max:=length( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions ) - 1;
+      TectonicActivity:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_tectonicActivity;
+   end
+   else if Satellite > 0 then
+   begin
+      GravModifier:=round( ( 1 / FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_gravity ) * 10 ) - 10;
+      Max:=length( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions ) - 1;
+      TectonicActivity:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_tectonicActivity;
+   end;
+   Region:=1;
+   while Region <= Max do
+   begin
+
+      inc( Region );
+   end;
+end;
+
+
+
+
+{   var
+
 
       Diameter: extended;
 begin
@@ -125,12 +160,12 @@ begin
       ,Star
       ,OrbitalObject
       );
-      Max:=length( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions ) - 1; }
-   end
+       }
+  {  end
    else if Satellite > 0 then
    begin
       Diameter:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_Diameter;
-
+       }
       { RotationPeriod:=FCFuF_Satellite_GetRotationPeriod(
       0
       ,Star
@@ -170,50 +205,21 @@ begin
       ,OrbitalObject
       ,Satellite
       );
-      Max:=length( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions ) - 1; }
-   end;
+       }
+   { end; }
    {.generate the total number of region an orbital object has}
-   if Diameter < 30
-   then Max:=4
-   else if ( Diameter >= 30 )
-      and ( Diameter < 75 )
-   then Max:=6
-   else if ( Diameter >= 75 )
-      and ( Diameter < 187 )
-   then Max:=8
-   else if ( Diameter >= 187 )
-      and ( Diameter < 468 )
-   then Max:=10
-   else if ( Diameter >= 468 )
-      and ( Diameter < 1171 )
-   then Max:=14
-   else if ( Diameter >= 1171 )
-      and ( Diameter < 2929 )
-   then Max:=18
-   else if ( Diameter >= 2929 )
-      and ( Diameter < 7324 )
-   then Max:=22
-   else if ( Diameter >= 7324 )
-      and ( Diameter < 18310 )
-   then Max:=26
-   else if Diameter >= 18310
-   then Max:=30;
-   if Satellite = 0
+  {  if Satellite = 0
    then setlength( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions, Max + 1 )
    else if Satellite > 0
    then setlength( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions, Max + 1 );
-   {.generate the climate of each region}
-   FCMfRC_Climate_Generate(
+   end; }
+  {  {.generate the climate of each region}
+  {  FCMfRC_Climate_Generate(
       Star
       ,OrbitalObject
       ,Satellite
       );
-   {.generate the land types and relief}
-   FCMfR_LandReliefFractalTerrains_Process(
-      Star
-      ,OrbitalObject
-      ,Satellite
-      );
-end;
+end; }
 
 end.
+
