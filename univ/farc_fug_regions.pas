@@ -214,6 +214,9 @@ begin
       ,OrbitalObject
       ,Satellite
       );
+   {.initialize Fractal Terrains Data}
+   {:DEV NOTES: and display a button to launch the phase 2.}
+
 end;
 
 end.

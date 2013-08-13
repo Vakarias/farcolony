@@ -92,9 +92,15 @@ procedure FCMfR_LandReliefFractalTerrains_Process(
 }
 var
    GravModifier
+   ,HydroArea
    ,Max
+   ,Proba
    ,Region
    ,TectonicActivityMod: integer;
+
+   isAtmosphere: boolean;
+
+   HydroType: TFCEduHydrospheres;
 
    ObjectType: TFCEduOrbitalObjectTypes;
 
@@ -154,10 +160,16 @@ var
    end;
 begin
    GravModifier:=0;
+   HydroArea:=0;
    Max:=0;
+   Proba:=0;
    Region:=0;
 
    TectonicActivityMod:=0;
+
+   isAtmosphere:=false;
+
+   HydroType:=hNoHydro;
 
    ObjectType:=ootNone;
 
@@ -166,6 +178,10 @@ begin
    begin
       ObjectType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_type;
       GravModifier:=round( ( 1 / FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_gravity ) * 10 ) - 10;
+      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphericPressure > 0
+      then isAtmosphere:=true;
+      HydroType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_hydrosphere;
+      HydroArea:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_hydrosphereArea;
       Max:=length( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions ) - 1;
       _TectonicActivityMod_Set( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_tectonicActivity );
    end
@@ -173,6 +189,10 @@ begin
    begin
       ObjectType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_type;
       GravModifier:=round( ( 1 / FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_gravity ) * 10 ) - 10;
+      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphericPressure > 0
+      then isAtmosphere:=true;
+      HydroType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_hydrosphere;
+      HydroArea:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_hydrosphereArea;
       Max:=length( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions ) - 1;
       _TectonicActivityMod_Set( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_tectonicActivity );
    end;
@@ -192,113 +212,133 @@ begin
       begin
          FCDfdRegion[Region].RC_landType:=rst15icySterile;
          FCDfdRegion[Region].RC_reliefType:=_ReliefRule_Set( 40, 0 );
-      end;
+      end
+      else if ( ( ( ObjectType >= oot_Planet_Telluric ) and ( ObjectType < ootPlanet_Gaseous_Uranus ) ) or ( ObjectType >= ootSatellite_Planet_Telluric ) )
+         and ( not isAtmosphere ) then
+      begin
+         if HydroType = hNoHydro then
+         begin
+            FCDfdRegion[Region].RC_landType:=rst14Sterile;
+            FCDfdRegion[Region].RC_reliefType:=_ReliefRule_Set( 20, 60 );
+            _VolcanicReliefModification_Apply( Region );
+         end
+         else if ( HydroType = hWaterIceSheet )
+            or ( HydroType = hMethaneIceSheet )
+            or ( HydroType = hNitrogenIceSheet ) then
+         begin
+            if FCDfdRegion[Region].RC_surfaceTemperatureMean <= 125 then
+            begin
+               FCDfdRegion[Region].RC_landType:=rst15icySterile;
+               FCDfdRegion[Region].RC_reliefType:=_ReliefRule_Set( 30, 80 );
+            end
+            else begin
+               Proba:=FCFcF_Random_DoInteger( 99 ) + 1;
+               if Proba <= HydroArea then
+               begin
+                  FCDfdRegion[Region].RC_landType:=rst15icySterile;
+                  FCDfdRegion[Region].RC_reliefType:=_ReliefRule_Set( 30, 80 );
+               end
+               else begin
+                  FCDfdRegion[Region].RC_landType:=rst14Sterile;
+                  FCDfdRegion[Region].RC_reliefType:=_ReliefRule_Set( 30, 70 );
+               end;
+            end;
+            _VolcanicReliefModification_Apply( Region );
+         end
+         else if ( HydroType = hWaterIceCrust )
+            or ( HydroType = hMethaneIceCrust )
+            or ( HydroType = hNitrogenIceCrust ) then
+         begin
+            FCDfdRegion[Region].RC_landType:=rst15icySterile;
+            FCDfdRegion[Region].RC_reliefType:=_ReliefRule_Set( 30, 80 );
+            _VolcanicReliefModification_Apply( Region );
+         end;
+      end
+      else if ( ( ( ObjectType >= oot_Planet_Telluric ) and ( ObjectType < ootPlanet_Gaseous_Uranus ) ) or ( ObjectType >= ootSatellite_Planet_Telluric ) )
+         and ( isAtmosphere ) then
+      begin
+         FCDfdRegion[Region].RC_regionPressureMean:=( FCDfdRegion[Region].RC_regionPressureClosest + FCDfdRegion[Region].RC_regionPressureInterm + FCDfdRegion[Region].RC_regionPressureFarthest ) / 3;
+         case FCDfdRegion[Region].RC_finalClimate of
+            rc01VeryHotHumid, rc02VeryHotSemiHumid:
+            begin
+               FCDfdRegion[Region].RC_landType:=rst06Fertile;
+               FCDfdRegion[Region].RC_reliefType:=_ReliefRule_Set( 40, 85 );
+            end;
 
-      {:DEV: add region data loading here for land type and relief!}
+            rc03HotSemiArid:
+            begin
+               if FCDfdRegion[Region].RC_regionPressureMean <= 36 then
+               begin
+                  FCDfdRegion[Region].RC_landType:=rst05Arid;
+                  FCDfdRegion[Region].RC_reliefType:=_ReliefRule_Set( 20, 70 );
+               end
+               else begin
+                  FCDfdRegion[Region].RC_landType:=rst06Fertile;
+                  FCDfdRegion[Region].RC_reliefType:=_ReliefRule_Set( 40, 85 );
+               end;
+            end;
+
+            rc04HotArid:
+            begin
+               if FCDfdRegion[Region].RC_regionPressureMean < 15 then
+               begin
+                  FCDfdRegion[Region].RC_landType:=rst02SandyDesert;
+                  FCDfdRegion[Region].RC_reliefType:=_ReliefRule_Set( 40, 0 );
+               end
+               else begin
+                  FCDfdRegion[Region].RC_landType:=rst01RockyDesert;
+                  FCDfdRegion[Region].RC_reliefType:=_ReliefRule_Set( 50, 85 );
+               end;
+            end;
+
+            rc05ModerateHumid:
+            begin
+               FCDfdRegion[Region].RC_landType:=rst06Fertile;
+               FCDfdRegion[Region].RC_reliefType:=_ReliefRule_Set( 40, 85 );
+            end;
+
+            rc06ModerateDry:
+            begin
+               if FCDfdRegion[Region].RC_regionPressureMean < 30 then
+               begin
+                  FCDfdRegion[Region].RC_landType:=rst05Arid;
+                  FCDfdRegion[Region].RC_reliefType:=_ReliefRule_Set( 20, 70 );
+               end
+               else begin
+                  FCDfdRegion[Region].RC_landType:=rst06Fertile;
+                  FCDfdRegion[Region].RC_reliefType:=_ReliefRule_Set( 40, 85 );
+               end;
+            end;
+
+            rc07ColdArid:
+            begin
+               FCDfdRegion[Region].RC_landType:=rst01RockyDesert;
+               FCDfdRegion[Region].RC_reliefType:=_ReliefRule_Set( 50, 85 );
+            end;
+
+            rc08Periarctic:
+            begin
+               FCDfdRegion[Region].RC_landType:=rst05Arid;
+               FCDfdRegion[Region].RC_reliefType:=_ReliefRule_Set( 20, 70 );
+            end;
+
+            rc09Arctic:
+            begin
+               FCDfdRegion[Region].RC_landType:=rst04Polar;
+               FCDfdRegion[Region].RC_reliefType:=_ReliefRule_Set( 30, 80 );
+            end;
+
+            rc10Extreme:
+            begin
+               FCDfdRegion[Region].RC_landType:=rst01RockyDesert;
+               FCDfdRegion[Region].RC_reliefType:=_ReliefRule_Set( 50, 85 );
+            end;
+         end; //==END== case FCDfdRegion[Region].RC_finalClimate of ==//
+         _VolcanicReliefModification_Apply( Region );
+      end; //==END== else of: ( ( ( ObjectType >= oot_Planet_Telluric ) and ( ObjectType < ootPlanet_Gaseous_Uranus ) ) or ( ObjectType >= ootSatellite_Planet_Telluric ) ) and ( isAtmosphere ) ==//
       inc( Region );
-   end;
+   end; //==END== while Region <= Max ==//
 end;
-
-
-
-
-{   var
-
-
-      Diameter: extended;
-begin
-   Max:=0;
-
-   Diameter:=0;
-   if Satellite = 0 then
-   begin
-      Diameter:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_Diameter;
-      { RotationPeriod:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isNotSat_rotationPeriod;
-      AxialTilt:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isNotSat_axialTilt;
-
-      AtmospherePressure:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphericPressure;
-      {.the clouds cover loaded into fCalc0 is only used for the surface temperatures subsection. It can be used afterward}
-      { fCalc0:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_cloudsCover;
-      Hydrosphere:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_hydrosphere;
-      HydroArea:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_hydrosphereArea;
-      ObjectSurfaceTempClosest:=FCFuF_OrbitalPeriodSpecified_GetSurfaceTemperature(
-      optClosest
-      ,0
-      ,Star
-      ,OrbitalObject
-      );
-      ObjectSurfaceTempInterm:=FCFuF_OrbitalPeriodSpecified_GetSurfaceTemperature(
-      optIntermediary
-      ,0
-      ,Star
-      ,OrbitalObject
-      );
-      ObjectSurfaceTempFarthest:=FCFuF_OrbitalPeriodSpecified_GetSurfaceTemperature(
-      optFarthest
-      ,0
-      ,Star
-      ,OrbitalObject
-      );
-       }
-  {  end
-   else if Satellite > 0 then
-   begin
-      Diameter:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_Diameter;
-       }
-      { RotationPeriod:=FCFuF_Satellite_GetRotationPeriod(
-      0
-      ,Star
-      ,OrbitalObject
-      ,Satellite
-      );
-      AxialTilt:=FCFuF_Satellite_GetAxialTilt(
-      0
-      ,Star
-      ,OrbitalObject
-      ,Satellite
-      );
-
-      AtmospherePressure:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphericPressure;
-      {.the clouds cover loaded into fCalc0 is only used for the surface temperatures subsection. It can be used afterward}
-      { fCalc0:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_cloudsCover;
-      Hydrosphere:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_hydrosphere;
-      HydroArea:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_hydrosphereArea;
-      ObjectSurfaceTempClosest:=FCFuF_OrbitalPeriodSpecified_GetSurfaceTemperature(
-      optClosest
-      ,0
-      ,Star
-      ,OrbitalObject
-      ,Satellite
-      );
-      ObjectSurfaceTempInterm:=FCFuF_OrbitalPeriodSpecified_GetSurfaceTemperature(
-      optIntermediary
-      ,0
-      ,Star
-      ,OrbitalObject
-      ,Satellite
-      );
-      ObjectSurfaceTempFarthest:=FCFuF_OrbitalPeriodSpecified_GetSurfaceTemperature(
-      optFarthest
-      ,0
-      ,Star
-      ,OrbitalObject
-      ,Satellite
-      );
-       }
-   { end; }
-   {.generate the total number of region an orbital object has}
-  {  if Satellite = 0
-   then setlength( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions, Max + 1 )
-   else if Satellite > 0
-   then setlength( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions, Max + 1 );
-   end; }
-  {  {.generate the climate of each region}
-  {  FCMfRC_Climate_Generate(
-      Star
-      ,OrbitalObject
-      ,Satellite
-      );
-end; }
 
 end.
 

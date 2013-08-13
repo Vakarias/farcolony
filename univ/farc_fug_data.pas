@@ -68,6 +68,7 @@ type TFCRfdRegionCalc = record
    RC_regionPressureClosest: extended;
    RC_regionPressureInterm: extended;
    RC_regionPressureFarthest: extended;
+   RC_regionPressureMean: extended;
 
    RC_finalClimate: TFCEduRegionClimates;
 
