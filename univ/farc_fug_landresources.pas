@@ -30,7 +30,8 @@ unit farc_fug_landresources;
 
 interface
 
-//uses
+uses
+   Math;
 
 //==END PUBLIC ENUM=========================================================================
 
@@ -62,7 +63,8 @@ procedure FCMfR_LandReliefFractalTerrains_Process(
 implementation
 
 uses
-   farc_data_univ
+   farc_common_func
+   ,farc_data_univ
    ,farc_fug_data
    ,farc_fug_regionsClimate;
 
@@ -91,31 +93,108 @@ procedure FCMfR_LandReliefFractalTerrains_Process(
 var
    GravModifier
    ,Max
-   ,Region: integer;
+   ,Region
+   ,TectonicActivityMod: integer;
+
+   ObjectType: TFCEduOrbitalObjectTypes;
 
    TectonicActivity: TFCEduTectonicActivity;
+
+   function _ReliefRule_Set( const minValue, medValue: integer ): TFCEduRegionReliefs;
+      var
+         iCalc: integer;
+   {:Purpose: set the relief. Put medValue to 0 to prevent moutainous relief.
+   }
+   begin
+      Result:=rr1Plain;
+      iCalc:=FCFcF_Random_DoInteger( 99 ) + 1 + GravModifier;
+      if iCalc <= minValue
+      then Result:=rr1Plain
+      else if medValue=0
+      then Result:=rr4Broken
+      else if ( medValue > 0 )
+         and ( iCalc > minValue )
+         and ( iCalc <= medValue )
+      then Result:=rr4Broken
+      else Result:=rr9Mountain;
+   end;
+
+   procedure _TectonicActivityMod_Set( const TectonicActivityType: TFCEduTectonicActivity );
+   begin
+      case TectonicActivityType of
+         taHotSpot: TectonicActivityMod:=10;
+
+         taPlastic: TectonicActivityMod:=20;
+
+         taPlateTectonic: TectonicActivityMod:=30;
+
+         taPlateletTectonic: TectonicActivityMod:=50;
+
+         taExtreme: TectonicActivityMod:=80;
+      end;
+      TectonicActivity:=TectonicActivity;
+   end;
+
+   procedure _VolcanicReliefModification_Apply( const RegionIndex: integer );
+      var
+         iCalc: integer;
+   begin
+      iCalc:=FCFcF_Random_DoInteger( 99 ) + 1;
+      if iCalc <= FCDfdRegion[Region].RC_tectonicActivityMod then
+      begin
+         FCDfdRegion[Region].RC_landType:=rst03Volcanic;
+         FCDfdRegion[Region].RC_reliefType:=_ReliefRule_Set( 10, 50 );
+         if ( FCDfdRegion[Region].RC_reliefType=rr1Plain )
+            and ( TectonicActivity < taPlateTectonic )
+         then FCDfdRegion[Region].RC_reliefType:=rr4Broken
+         else if ( FCDfdRegion[Region].RC_reliefType=rr4Broken )
+            and ( TectonicActivity < taPlateTectonic )
+         then FCDfdRegion[Region].RC_reliefType:=rr9Mountain;
+      end;
+   end;
 begin
    GravModifier:=0;
    Max:=0;
    Region:=0;
 
+   TectonicActivityMod:=0;
+
+   ObjectType:=ootNone;
+
    TectonicActivity:=taNull;
    if Satellite = 0 then
    begin
+      ObjectType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_type;
       GravModifier:=round( ( 1 / FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_gravity ) * 10 ) - 10;
       Max:=length( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions ) - 1;
-      TectonicActivity:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_tectonicActivity;
+      _TectonicActivityMod_Set( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_tectonicActivity );
    end
    else if Satellite > 0 then
    begin
+      ObjectType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_type;
       GravModifier:=round( ( 1 / FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_gravity ) * 10 ) - 10;
       Max:=length( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions ) - 1;
-      TectonicActivity:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_tectonicActivity;
+      _TectonicActivityMod_Set( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_tectonicActivity );
    end;
    Region:=1;
    while Region <= Max do
    begin
+      FCDfdRegion[Region].RC_tectonicActivityMod:=round( randg( TectonicActivityMod, 3 ) );
+      FCDfdRegion[Region].RC_surfaceTemperatureMean:=( FCDfdRegion[Region].RC_surfaceTemperatureClosest + FCDfdRegion[Region].RC_surfaceTemperatureInterm + FCDfdRegion[Region].RC_surfaceTemperatureFarthest ) / 3;
+      if ( ( ObjectType > ootAsteroidsBelt ) and ( ObjectType < ootAsteroid_Icy ) )
+         or ( ( ObjectType > ootPlanet_Supergiant ) and ( ObjectType < ootSatellite_Asteroid_Icy ) ) then
+      begin
+         FCDfdRegion[Region].RC_landType:=rst14Sterile;
+         FCDfdRegion[Region].RC_reliefType:=_ReliefRule_Set( 30, 0 );
+      end
+      else if ( ObjectType = ootAsteroid_Icy )
+         or ( ObjectType = ootSatellite_Asteroid_Icy ) then
+      begin
+         FCDfdRegion[Region].RC_landType:=rst15icySterile;
+         FCDfdRegion[Region].RC_reliefType:=_ReliefRule_Set( 40, 0 );
+      end;
 
+      {:DEV: add region data loading here for land type and relief!}
       inc( Region );
    end;
 end;

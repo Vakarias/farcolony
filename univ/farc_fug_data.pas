@@ -43,6 +43,8 @@ type TFCRfdRegionCalc = record
    RC_surfaceTemperatureFarthest: extended;
    RC_cTempFarthest: extended;
 
+   RC_surfaceTemperatureMean: extended;
+
    RC_windspeedClosest: integer;
    RC_windspeedInterm: integer;
    RC_windspeedFarthest: integer;
@@ -68,6 +70,11 @@ type TFCRfdRegionCalc = record
    RC_regionPressureFarthest: extended;
 
    RC_finalClimate: TFCEduRegionClimates;
+
+   RC_tectonicActivityMod: extended;
+
+   RC_landType: TFCEduRegionSoilTypes;
+   RC_reliefType: TFCEduRegionReliefs;
 end;
 
 ///<summary>
