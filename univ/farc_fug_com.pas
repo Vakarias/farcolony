@@ -177,6 +177,8 @@ procedure FCmfC_OrbitPicker_UpdateCurrent( const UpdateSat: boolean );
 ///   <remarks></remarks>
 procedure FCmfC_PrimaryGasVolume_Update;
 
+procedure FCmfC_Region_Update;
+
 ///<summary>
 ///   update the satellite setting
 ///</summary>
@@ -1624,6 +1626,39 @@ begin
 
          2: FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_atmosphere.AC_primaryGasVolumePerc:=strtoint( FCWinFUG.COO_PrimGasVol.Text );
       end;
+   end;
+end;
+
+procedure FCmfC_Region_Update;
+{:Purpose: update the intrinsic data of the selected region.
+    Additions:
+}
+   var
+      CurrentStar
+      ,CurrentObject
+      ,CurrentSat: integer;
+begin
+   CurrentStar:=FCWinFUG.TOO_StarPicker.ItemIndex + 1;
+   CurrentObject:=FCWinFUG.TOO_OrbitalObjectPicker.ItemIndex + 1;
+   CurrentSat:=FCWinFUG.TOO_SatPicker.ItemIndex;
+   if CurrentSat<=0 then
+   begin
+//      case FCWinFUG.TOO_StarPicker.ItemIndex of
+//         0: FCDfdMainStarObjectsList[CurrentObject].OO_hydrosphere:=TFCEduHydrospheres( FCWinFUG.COO_HydroType.ItemIndex );
+//
+//         1: FCDfdComp1StarObjectsList[CurrentObject].OO_hydrosphere:=TFCEduHydrospheres( FCWinFUG.COO_HydroType.ItemIndex );
+//
+//         2: FCDfdComp2StarObjectsList[CurrentObject].OO_hydrosphere:=TFCEduHydrospheres( FCWinFUG.COO_HydroType.ItemIndex );
+//      end;
+   end
+   else begin
+//      case FCWinFUG.TOO_StarPicker.ItemIndex of
+//         0: FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_hydrosphere:=TFCEduHydrospheres( FCWinFUG.COO_HydroType.ItemIndex );
+//
+//         1: FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_hydrosphere:=TFCEduHydrospheres( FCWinFUG.COO_HydroType.ItemIndex );
+//
+//         2: FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_hydrosphere:=TFCEduHydrospheres( FCWinFUG.COO_HydroType.ItemIndex );
+//      end;
    end;
 end;
 

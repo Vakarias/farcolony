@@ -156,7 +156,7 @@ type
     AdvComboBox2: TAdvComboBox;
     LabeledEdit12: TLabeledEdit;
     LabeledEdit13: TLabeledEdit;
-    AdvComboBox19: TAdvComboBox;
+    CR_CurrentRegion: TAdvComboBox;
     LabeledEdit14: TLabeledEdit;
     CR_MaxRegionsNumber: THTMLabel;
     CR_GridIndexNumber: THTMLabel;
@@ -217,6 +217,7 @@ type
     procedure COO_HydrosphereEditClick(Sender: TObject);
     procedure COO_HydroTypeChange(Sender: TObject);
     procedure COO_HydroAreaKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure CR_CurrentRegionChange(Sender: TObject);
    private
     { Private declarations }
    public
@@ -918,6 +919,11 @@ end;
 procedure TFCWinFUG.COO_TraceAtmosphereTriggerClick(Sender: TObject);
 begin
    FCmfC_TraceAtmosphereTrigger_Update;
+end;
+
+procedure TFCWinFUG.CR_CurrentRegionChange(Sender: TObject);
+begin
+   FCmfC_Region_Update;
 end;
 
 procedure TFCWinFUG.TC1S_EnableGroupCompanion1Click(Sender: TObject);

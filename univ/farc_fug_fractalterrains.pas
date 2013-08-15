@@ -64,6 +64,7 @@ implementation
 
 uses
    farc_data_univ
+   ,farc_fug_data
    ,farc_win_fug;
 
 //==END PRIVATE ENUM========================================================================
@@ -130,6 +131,13 @@ begin
       ,OrbitalObject
       );                                                                                               }
       Max:=length( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions ) - 1;
+//      case FCWinFUG.TOO_StarPicker.ItemIndex of
+//         0: setlength( FCDfdMainStarObjectsList[OrbitalObject].OO_regions, Max + 1 );
+//
+//         1: setlength( FCDfdComp1StarObjectsList[OrbitalObject].OO_regions, Max + 1 );
+//
+//         2: setlength( FCDfdComp2StarObjectsList[OrbitalObject].OO_regions, Max + 1 );
+//      end;
    end
    else if Satellite > 0 then
    begin
@@ -175,6 +183,13 @@ begin
       ,Satellite
       );                                                                                                                            }
       Max:=length( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions ) - 1;
+//      case FCWinFUG.TOO_StarPicker.ItemIndex of
+//         0: setlength( FCDfdMainStarObjectsList[OrbitalObject].OO_satellitesList[Satellite].OO_regions, Max + 1 );
+//
+//         1: setlength( FCDfdComp1StarObjectsList[OrbitalObject].OO_satellitesList[Satellite].OO_regions, Max + 1 );
+//
+//         2: setlength( FCDfdComp2StarObjectsList[OrbitalObject].OO_satellitesList[Satellite].OO_regions, Max + 1 );
+//      end;
    end;
    {.call the interface to display the land and relief data of the current orbital object in the loop}
    FCWinFUG.TOO_StarPicker.ItemIndex:=Star - 1;
@@ -209,7 +224,16 @@ begin
    end;
    FCWinFUG.CR_GridIndexNumber.HTMLText.Clear;
    FCWinFUG.CR_GridIndexNumber.HTMLText.Add( 'Grid Index #: ' + inttostr( Count1 ) );
-
+   FCWinFUG.CR_CurrentRegion.Enabled:=false;
+   FCWinFUG.CR_CurrentRegion.Items.Clear;
+   Count:=1;
+   while Count <= Max do
+   begin
+      FCWinFUG.CR_CurrentRegion.Items.Add( inttostr( Count ) );
+      inc( Count );
+   end;
+   FCWinFUG.CR_CurrentRegion.Enabled:=true;
+   FCWinFUG.CR_CurrentRegion.ItemIndex:=0;
    {.dev: include the display of a third button}
 end;
 

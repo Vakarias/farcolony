@@ -2310,10 +2310,10 @@ object FCWinFUG: TFCWinFUG
           TabOrder = 3
           OnKeyDown = COO_AtmosphericPressureKeyDown
         end
-        object AdvComboBox19: TAdvComboBox
-          Left = 16
-          Top = 103
-          Width = 140
+        object CR_CurrentRegion: TAdvComboBox
+          Left = 3
+          Top = 55
+          Width = 81
           Height = 21
           Color = clWhite
           Version = '1.3.1.0'
@@ -2328,18 +2328,7 @@ object FCWinFUG: TFCWinFUG
           Font.Style = []
           ItemIndex = -1
           ItemHeight = 13
-          Items.Strings = (
-            'None'
-            'Liquid Water'
-            'Water Ice Sheet'
-            'Water Ice Crust'
-            'Liquid Water-Ammonia'
-            'Liquid Methane'
-            'Methane Ice Sheet'
-            'Methane Ice Crust'
-            'Nitrogen Ice Sheet'
-            'Nitrogen Ice Crust')
-          LabelCaption = 'Hydrosphere Type'
+          LabelCaption = 'Current Region'
           LabelPosition = lpTopCenter
           LabelFont.Charset = DEFAULT_CHARSET
           LabelFont.Color = clWindowText
@@ -2348,7 +2337,7 @@ object FCWinFUG: TFCWinFUG
           LabelFont.Style = []
           ParentFont = False
           TabOrder = 4
-          OnChange = COO_HydroTypeChange
+          OnChange = CR_CurrentRegionChange
         end
         object LabeledEdit14: TLabeledEdit
           Left = 218
