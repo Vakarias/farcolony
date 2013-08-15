@@ -86,7 +86,6 @@ type
       TC2S_OrbitGeneration: THTMLRadioGroup;
       TC2S_OrbitGenerationNumberOrbits: TLabeledEdit;
       TC2S_StarTemp: TLabeledEdit;
-    WF_ConfigurationMainTitle: TLabel;
 
 
 
@@ -151,6 +150,14 @@ type
     COO_HydrosphereEdit: TCheckBox;
     Bevel4: TBevel;
     COO_HydroArea: TLabeledEdit;
+    TOO_CurrentRegion: TAdvGroupBox;
+    Bevel8: TBevel;
+    AdvComboBox1: TAdvComboBox;
+    AdvComboBox2: TAdvComboBox;
+    LabeledEdit12: TLabeledEdit;
+    LabeledEdit13: TLabeledEdit;
+    AdvComboBox19: TAdvComboBox;
+    LabeledEdit14: TLabeledEdit;
     procedure WF_GenerateButtonClick(Sender: TObject);
     procedure TMS_OrbitGenerationClick(Sender: TObject);
     procedure TC1S_EnableGroupCompanion1Click(Sender: TObject);

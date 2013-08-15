@@ -39,10 +39,6 @@ object FCWinFUG: TFCWinFUG
       ColorTo = clNone
       TabColor = clBtnFace
       TabColorTo = clNone
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object TSSS_StellarStarSysGroup: TAdvGroupBox
         Left = 16
         Top = 3
@@ -2173,6 +2169,184 @@ object FCWinFUG: TFCWinFUG
         Visible = False
         OnClick = TOO_SatPickerClick
       end
+      object TOO_CurrentRegion: TAdvGroupBox
+        Left = 127
+        Top = 407
+        Width = 471
+        Height = 193
+        BorderColor = clBlack
+        Caption = 'Fractal Terrains Data Linking and Current Region Manual Edition'
+        Color = clSilver
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentBackground = False
+        ParentColor = False
+        ParentFont = False
+        TabOrder = 4
+        Visible = False
+        object Bevel8: TBevel
+          Left = 16
+          Top = 140
+          Width = 417
+          Height = 9
+        end
+        object AdvComboBox1: TAdvComboBox
+          Left = 196
+          Top = 155
+          Width = 130
+          Height = 21
+          Color = clWhite
+          Version = '1.3.1.0'
+          Visible = True
+          ButtonWidth = 18
+          DropWidth = 0
+          Enabled = True
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ItemIndex = -1
+          ItemHeight = 13
+          Items.Strings = (
+            'None'
+            'Asteroids Belt'
+            'Asteroid'
+            'Telluric Planet'
+            'Gaseous Planet')
+          LabelCaption = 'Object Basic Type'
+          LabelPosition = lpTopCenter
+          LabelFont.Charset = DEFAULT_CHARSET
+          LabelFont.Color = clWindowText
+          LabelFont.Height = -11
+          LabelFont.Name = 'Tahoma'
+          LabelFont.Style = []
+          ParentFont = False
+          TabOrder = 0
+          OnChange = COO_ObjecTypeChange
+        end
+        object AdvComboBox2: TAdvComboBox
+          Left = 332
+          Top = 71
+          Width = 130
+          Height = 21
+          Color = clWhite
+          Version = '1.3.1.0'
+          Visible = True
+          ButtonWidth = 18
+          DropWidth = 0
+          Enabled = True
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ItemIndex = -1
+          ItemHeight = 13
+          Items.Strings = (
+            'Null'
+            'Dead'
+            'Hot Spot'
+            'Plastic'
+            'Plate Tectonic'
+            'Platelet Tectonic'
+            'Extreme')
+          LabelCaption = 'Tectonic Activity'
+          LabelPosition = lpTopCenter
+          LabelFont.Charset = DEFAULT_CHARSET
+          LabelFont.Color = clWindowText
+          LabelFont.Height = -11
+          LabelFont.Name = 'Tahoma'
+          LabelFont.Style = []
+          ParentFont = False
+          TabOrder = 1
+          OnChange = COO_TectonicActivityChange
+        end
+        object LabeledEdit12: TLabeledEdit
+          Left = 59
+          Top = 171
+          Width = 54
+          Height = 19
+          Color = clWhite
+          EditLabel.Width = 74
+          EditLabel.Height = 13
+          EditLabel.Caption = 'Primary Gas Vol'
+          EditLabel.Layout = tlCenter
+          NumbersOnly = True
+          TabOrder = 2
+          OnKeyDown = COO_PrimGasVolKeyDown
+        end
+        object LabeledEdit13: TLabeledEdit
+          Left = 375
+          Top = 130
+          Width = 54
+          Height = 19
+          Color = clWhite
+          EditLabel.Width = 103
+          EditLabel.Height = 13
+          EditLabel.Caption = 'Atmosphere Pressure'
+          EditLabel.Layout = tlCenter
+          TabOrder = 3
+          OnKeyDown = COO_AtmosphericPressureKeyDown
+        end
+        object AdvComboBox19: TAdvComboBox
+          Left = 16
+          Top = 103
+          Width = 140
+          Height = 21
+          Color = clWhite
+          Version = '1.3.1.0'
+          Visible = True
+          ButtonWidth = 18
+          DropWidth = 0
+          Enabled = True
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ItemIndex = -1
+          ItemHeight = 13
+          Items.Strings = (
+            'None'
+            'Liquid Water'
+            'Water Ice Sheet'
+            'Water Ice Crust'
+            'Liquid Water-Ammonia'
+            'Liquid Methane'
+            'Methane Ice Sheet'
+            'Methane Ice Crust'
+            'Nitrogen Ice Sheet'
+            'Nitrogen Ice Crust')
+          LabelCaption = 'Hydrosphere Type'
+          LabelPosition = lpTopCenter
+          LabelFont.Charset = DEFAULT_CHARSET
+          LabelFont.Color = clWindowText
+          LabelFont.Height = -11
+          LabelFont.Name = 'Tahoma'
+          LabelFont.Style = []
+          ParentFont = False
+          TabOrder = 4
+          OnChange = COO_HydroTypeChange
+        end
+        object LabeledEdit14: TLabeledEdit
+          Left = 218
+          Top = 115
+          Width = 54
+          Height = 19
+          Color = clWhite
+          EditLabel.Width = 88
+          EditLabel.Height = 13
+          EditLabel.Caption = 'Hydrosphere Area'
+          EditLabel.Layout = tlCenter
+          NumbersOnly = True
+          TabOrder = 5
+          OnKeyDown = COO_HydroAreaKeyDown
+        end
+      end
     end
     object TOO_Results: TAdvTabSheet
       Caption = 'Results'
@@ -2180,10 +2354,6 @@ object FCWinFUG: TFCWinFUG
       ColorTo = clNone
       TabColor = clBtnFace
       TabColorTo = clNone
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object WF_XMLOutput: TAdvMemo
         Left = 0
         Top = 0
@@ -2268,19 +2438,6 @@ object FCWinFUG: TFCWinFUG
     Align = alTop
     Caption = 'AdvGroupBox1'
     TabOrder = 1
-    object WF_ConfigurationMainTitle: TLabel
-      Left = 176
-      Top = 17
-      Width = 288
-      Height = 16
-      Caption = 'Stellar System / Orbital Objects Configuration'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clBlack
-      Font.Height = -13
-      Font.Name = 'Existence Light'
-      Font.Style = [fsBold]
-      ParentFont = False
-    end
     object AdvGlowButton1: TAdvGlowButton
       Left = 1
       Top = 0
