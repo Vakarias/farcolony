@@ -2193,6 +2193,24 @@ object FCWinFUG: TFCWinFUG
           Width = 417
           Height = 9
         end
+        object CR_MaxRegionsNumber: THTMLabel
+          Left = 3
+          Top = 24
+          Width = 81
+          Height = 17
+          HTMLText.Strings = (
+            'Max Regions: 30')
+          Version = '1.8.1.0'
+        end
+        object CR_GridIndexNumber: THTMLabel
+          Left = 90
+          Top = 24
+          Width = 76
+          Height = 17
+          HTMLText.Strings = (
+            'Grid Index #: 9')
+          Version = '1.8.1.0'
+        end
         object AdvComboBox1: TAdvComboBox
           Left = 196
           Top = 155

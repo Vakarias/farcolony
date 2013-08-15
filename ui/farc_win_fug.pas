@@ -40,7 +40,7 @@ uses
    ,Windows, StdCtrls, Classes, AdvMemo, AdvPageControl, ComCtrls, ExtCtrls,
 
    AdvGlowButton
-   ,AdvGroupBox, AdvCombo, htmlbtns;
+   ,AdvGroupBox, AdvCombo, htmlbtns, HTMLabel;
 
 type
    TFCWinFUG = class(TForm)
@@ -158,6 +158,8 @@ type
     LabeledEdit13: TLabeledEdit;
     AdvComboBox19: TAdvComboBox;
     LabeledEdit14: TLabeledEdit;
+    CR_MaxRegionsNumber: THTMLabel;
+    CR_GridIndexNumber: THTMLabel;
     procedure WF_GenerateButtonClick(Sender: TObject);
     procedure TMS_OrbitGenerationClick(Sender: TObject);
     procedure TC1S_EnableGroupCompanion1Click(Sender: TObject);

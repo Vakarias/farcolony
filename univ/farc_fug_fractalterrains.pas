@@ -30,7 +30,8 @@ unit farc_fug_fractalterrains;
 
 interface
 
-//uses
+uses
+   SysUtils;
 
 //==END PUBLIC ENUM=========================================================================
 
@@ -61,7 +62,9 @@ procedure FCMfT_DataLinking_Process(
 
 implementation
 
-//uses
+uses
+   farc_data_univ
+   ,farc_win_fug;
 
 //==END PRIVATE ENUM========================================================================
 
@@ -85,12 +88,16 @@ procedure FCMfT_DataLinking_Process(
 {:Purpose: initialize the interface and pause the generation to allow to generate the surface maps into Fractal Terrains and manually adjust, if needed, the land type and relief for each region.
    Additions:
 }
-//   var
-      //Max: integer;
+   var
+      Count
+      ,Count1
+      ,Max: integer;
 
      // Diameter: extended;
 begin
-   //Max:=0;
+   Count:=0;
+   Count1:=0;
+   Max:=0;
 
    //Diameter:=0;
    if Satellite = 0 then
@@ -121,8 +128,8 @@ begin
       ,0
       ,Star
       ,OrbitalObject
-      );
-      Max:=length( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions ) - 1; }
+      );                                                                                               }
+      Max:=length( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions ) - 1;
    end
    else if Satellite > 0 then
    begin
@@ -166,10 +173,43 @@ begin
       ,Star
       ,OrbitalObject
       ,Satellite
-      );
-      Max:=length( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions ) - 1; }
+      );                                                                                                                            }
+      Max:=length( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions ) - 1;
    end;
    {.call the interface to display the land and relief data of the current orbital object in the loop}
+   FCWinFUG.TOO_StarPicker.ItemIndex:=Star - 1;
+   FCWinFUG.TOO_OrbitalObjectPicker.ItemIndex:=OrbitalObject - 1;
+   FCWinFUG.TOO_SatPicker.ItemIndex:=Satellite - 1;
+   FCWinFUG.TOO_StarPicker.Enabled:=false;
+   FCWinFUG.TOO_OrbitalObjectPicker.Enabled:=false;
+   FCWinFUG.TOO_SatPicker.Enabled:=false;
+   FCWinFUG.TOO_CurrentOrbitalObject.Enabled:=false;
+   FCWinFUG.TOO_CurrentRegion.Show;
+   FCWinFUG.CR_MaxRegionsNumber.HTMLText.Clear;
+   FCWinFUG.CR_MaxRegionsNumber.HTMLText.Add( 'Max Regions: ' + inttostr( Max ) );
+   {.Count1: grid index #}
+   case Max of
+      4: Count1:=9;
+
+      6: Count1:=8;
+
+      8: Count1:=7;
+
+      10: Count1:=6;
+
+      14: Count1:=5;
+
+      18: Count1:=4;
+
+      22: Count1:=3;
+
+      26: Count1:=2;
+
+      30: Count1:=1;
+   end;
+   FCWinFUG.CR_GridIndexNumber.HTMLText.Clear;
+   FCWinFUG.CR_GridIndexNumber.HTMLText.Add( 'Grid Index #: ' + inttostr( Count1 ) );
+
    {.dev: include the display of a third button}
 end;
 
