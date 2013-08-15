@@ -77,6 +77,7 @@ implementation
 
 uses
    farc_data_univ
+   ,farc_fug_fractalterrains
    ,farc_fug_landresources
    ,farc_fug_regionsClimate;
 
@@ -110,82 +111,10 @@ begin
    Max:=0;
 
    Diameter:=0;
-   if Satellite = 0 then
-   begin
-      Diameter:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_Diameter;
-      { RotationPeriod:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isNotSat_rotationPeriod;
-      AxialTilt:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isNotSat_axialTilt;
-
-      AtmospherePressure:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphericPressure;
-      {.the clouds cover loaded into fCalc0 is only used for the surface temperatures subsection. It can be used afterward}
-      { fCalc0:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_cloudsCover;
-      Hydrosphere:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_hydrosphere;
-      HydroArea:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_hydrosphereArea;
-      ObjectSurfaceTempClosest:=FCFuF_OrbitalPeriodSpecified_GetSurfaceTemperature(
-      optClosest
-      ,0
-      ,Star
-      ,OrbitalObject
-      );
-      ObjectSurfaceTempInterm:=FCFuF_OrbitalPeriodSpecified_GetSurfaceTemperature(
-      optIntermediary
-      ,0
-      ,Star
-      ,OrbitalObject
-      );
-      ObjectSurfaceTempFarthest:=FCFuF_OrbitalPeriodSpecified_GetSurfaceTemperature(
-      optFarthest
-      ,0
-      ,Star
-      ,OrbitalObject
-      );
-      Max:=length( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions ) - 1; }
-   end
-   else if Satellite > 0 then
-   begin
-      Diameter:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_Diameter;
-
-      { RotationPeriod:=FCFuF_Satellite_GetRotationPeriod(
-      0
-      ,Star
-      ,OrbitalObject
-      ,Satellite
-      );
-      AxialTilt:=FCFuF_Satellite_GetAxialTilt(
-      0
-      ,Star
-      ,OrbitalObject
-      ,Satellite
-      );
-
-      AtmospherePressure:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphericPressure;
-      {.the clouds cover loaded into fCalc0 is only used for the surface temperatures subsection. It can be used afterward}
-      { fCalc0:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_cloudsCover;
-      Hydrosphere:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_hydrosphere;
-      HydroArea:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_hydrosphereArea;
-      ObjectSurfaceTempClosest:=FCFuF_OrbitalPeriodSpecified_GetSurfaceTemperature(
-      optClosest
-      ,0
-      ,Star
-      ,OrbitalObject
-      ,Satellite
-      );
-      ObjectSurfaceTempInterm:=FCFuF_OrbitalPeriodSpecified_GetSurfaceTemperature(
-      optIntermediary
-      ,0
-      ,Star
-      ,OrbitalObject
-      ,Satellite
-      );
-      ObjectSurfaceTempFarthest:=FCFuF_OrbitalPeriodSpecified_GetSurfaceTemperature(
-      optFarthest
-      ,0
-      ,Star
-      ,OrbitalObject
-      ,Satellite
-      );
-      Max:=length( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions ) - 1; }
-   end;
+   if Satellite = 0
+   then Diameter:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_Diameter
+   else if Satellite > 0
+   then Diameter:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_Diameter;
    {.generate the total number of region an orbital object has}
    if Diameter < 30
    then Max:=4
@@ -228,9 +157,12 @@ begin
       ,OrbitalObject
       ,Satellite
       );
-   {.initialize Fractal Terrains Data}
-   {:DEV NOTES: and display a button to launch the phase 2.}
-
+   {.initialize Fractal Terrains Data and initialize the interface}
+   FCMfT_DataLinking_Process(
+      Star
+      ,OrbitalObject
+      ,Satellite
+      );
 end;
 
 procedure FCMfR_GenerationPhase2_Process(
