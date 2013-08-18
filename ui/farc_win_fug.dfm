@@ -2189,7 +2189,7 @@ object FCWinFUG: TFCWinFUG
         Visible = False
         object Bevel8: TBevel
           Left = 16
-          Top = 140
+          Top = 106
           Width = 417
           Height = 9
         end
@@ -2212,12 +2212,57 @@ object FCWinFUG: TFCWinFUG
           Version = '1.8.1.0'
         end
         object CR_SeaArea: THTMLabel
-          Left = 243
-          Top = 56
+          Left = 85
+          Top = 42
           Width = 83
           Height = 17
           HTMLText.Strings = (
             'Sea Area: 100%')
+          Version = '1.8.1.0'
+        end
+        object CR_Hydrosphere: THTMLabel
+          Left = 3
+          Top = 42
+          Width = 77
+          Height = 17
+          HTMLText.Strings = (
+            'Hydro: LWatAm')
+          Version = '1.8.1.0'
+        end
+        object CR_HighestPeak: THTMLabel
+          Left = 259
+          Top = 24
+          Width = 107
+          Height = 17
+          HTMLText.Strings = (
+            'Highest Peak: 99999')
+          Version = '1.8.1.0'
+        end
+        object CR_LowestDepth: THTMLabel
+          Left = 259
+          Top = 47
+          Width = 107
+          Height = 17
+          HTMLText.Strings = (
+            'Lowest Depth: 99999')
+          Version = '1.8.1.0'
+        end
+        object CR_Diameter: THTMLabel
+          Left = 366
+          Top = 24
+          Width = 107
+          Height = 17
+          HTMLText.Strings = (
+            'Diameter: 99999')
+          Version = '1.8.1.0'
+        end
+        object CR_AxialTilt: THTMLabel
+          Left = 364
+          Top = 47
+          Width = 107
+          Height = 17
+          HTMLText.Strings = (
+            'Axial Tilt: 999.99')
           Version = '1.8.1.0'
         end
         object AdvComboBox1: TAdvComboBox
@@ -2256,8 +2301,8 @@ object FCWinFUG: TFCWinFUG
           OnChange = COO_ObjecTypeChange
         end
         object CR_OceanicCoastalAdjustment: TAdvComboBox
-          Left = 101
-          Top = 55
+          Left = 13
+          Top = 79
           Width = 130
           Height = 21
           Color = clWhite
@@ -2316,8 +2361,8 @@ object FCWinFUG: TFCWinFUG
           OnKeyDown = COO_AtmosphericPressureKeyDown
         end
         object CR_CurrentRegion: TAdvComboBox
-          Left = 3
-          Top = 55
+          Left = 172
+          Top = 37
           Width = 81
           Height = 21
           Color = clWhite
@@ -2345,8 +2390,8 @@ object FCWinFUG: TFCWinFUG
           OnChange = CR_CurrentRegionChange
         end
         object LabeledEdit14: TLabeledEdit
-          Left = 218
-          Top = 115
+          Left = 362
+          Top = 171
           Width = 54
           Height = 19
           Color = clWhite

@@ -161,6 +161,11 @@ type
     CR_MaxRegionsNumber: THTMLabel;
     CR_GridIndexNumber: THTMLabel;
     CR_SeaArea: THTMLabel;
+    CR_Hydrosphere: THTMLabel;
+    CR_HighestPeak: THTMLabel;
+    CR_LowestDepth: THTMLabel;
+    CR_Diameter: THTMLabel;
+    CR_AxialTilt: THTMLabel;
     procedure WF_GenerateButtonClick(Sender: TObject);
     procedure TMS_OrbitGenerationClick(Sender: TObject);
     procedure TC1S_EnableGroupCompanion1Click(Sender: TObject);
