@@ -160,6 +160,7 @@ type
     LabeledEdit14: TLabeledEdit;
     CR_MaxRegionsNumber: THTMLabel;
     CR_GridIndexNumber: THTMLabel;
+    CR_SeaArea: THTMLabel;
     procedure WF_GenerateButtonClick(Sender: TObject);
     procedure TMS_OrbitGenerationClick(Sender: TObject);
     procedure TC1S_EnableGroupCompanion1Click(Sender: TObject);

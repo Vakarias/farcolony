@@ -2211,6 +2211,15 @@ object FCWinFUG: TFCWinFUG
             'Grid Index #: 9')
           Version = '1.8.1.0'
         end
+        object CR_SeaArea: THTMLabel
+          Left = 243
+          Top = 56
+          Width = 83
+          Height = 17
+          HTMLText.Strings = (
+            'Sea Area: 100%')
+          Version = '1.8.1.0'
+        end
         object AdvComboBox1: TAdvComboBox
           Left = 196
           Top = 155

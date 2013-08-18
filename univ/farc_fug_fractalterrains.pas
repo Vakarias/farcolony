@@ -245,6 +245,8 @@ begin
    begin
       FCWinFUG.CR_OceanicCoastalAdjustment.Show;
       FCWinFUG.CR_SeaArea.Show;
+      FCWinFUG.CR_SeaArea.HTMLText.Clear;
+      FCWinFUG.CR_SeaArea.HTMLText.Add( 'Sea Area: '+inttostr( HydrosphereArea )+'%' );
    end
    else begin
       FCWinFUG.CR_OceanicCoastalAdjustment.Hide;

@@ -152,7 +152,7 @@ begin
       ,Satellite
       );
    {.generate the land types and relief}
-   FCMfR_LandReliefFractalTerrains_Process(
+   FCMfR_LandRelief_Process(
       Star
       ,OrbitalObject
       ,Satellite

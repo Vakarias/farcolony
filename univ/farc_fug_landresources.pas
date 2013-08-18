@@ -54,7 +54,7 @@ uses
 /// <param name="Satellite">OPTIONAL: satellite index #</param>
 /// <returns></returns>
 /// <remarks></remarks>
-procedure FCMfR_LandReliefFractalTerrains_Process(
+procedure FCMfR_LandRelief_Process(
    const Star
          ,OrbitalObject: integer;
    const Satellite: integer=0
@@ -82,13 +82,14 @@ uses
 //===================================================END OF INIT============================
 //===========================END FUNCTIONS SECTION==========================================
 
-procedure FCMfR_LandReliefFractalTerrains_Process(
+procedure FCMfR_LandRelief_Process(
    const Star
          ,OrbitalObject: integer;
    const Satellite: integer=0
    );
 {:Purpose: generate the land type and relief for each region.
    Additions:
+      -2013Aug18- *add: forgot to add the data loading in the region's data structure of the selected orbital object.
 }
 var
    GravModifier
@@ -335,6 +336,16 @@ begin
             end;
          end; //==END== case FCDfdRegion[Region].RC_finalClimate of ==//
          _VolcanicReliefModification_Apply( Region );
+         if Satellite = 0 then
+         begin
+            FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions[Region].OOR_soilType:=FCDfdRegion[Region].RC_landType;
+            FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions[Region].OOR_relief:=FCDfdRegion[Region].RC_reliefType;
+         end
+         else if Satellite > 0 then
+         begin
+            FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Region].OOR_soilType:=FCDfdRegion[Region].RC_landType;
+            FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Region].OOR_relief:=FCDfdRegion[Region].RC_reliefType;
+         end;
       end; //==END== else of: ( ( ( ObjectType >= oot_Planet_Telluric ) and ( ObjectType < ootPlanet_Gaseous_Uranus ) ) or ( ObjectType >= ootSatellite_Planet_Telluric ) ) and ( isAtmosphere ) ==//
       inc( Region );
    end; //==END== while Region <= Max ==//

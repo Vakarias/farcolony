@@ -1690,36 +1690,57 @@ begin
    if CurrentSat <= 0 then
    begin
       case FCWinFUG.CR_OceanicCoastalAdjustment.ItemIndex of
-         0:
-         begin
-            //FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[CurrentObject].OO_regions[CurrentRegion].
-         end;
+         0: FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[CurrentObject].OO_regions[CurrentRegion].OOR_soilType:=FCDfdRegion[CurrentRegion].RC_landType;
 
          1:
          begin
+            case FCDfdRegion[CurrentRegion].RC_landType of
+               rst01RockyDesert: FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[CurrentObject].OO_regions[CurrentRegion].OOR_soilType:=rst08CoastalRockyDesert;
+
+               rst02SandyDesert: FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[CurrentObject].OO_regions[CurrentRegion].OOR_soilType:=rst09CoastalSandyDesert;
+
+               rst03Volcanic: FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[CurrentObject].OO_regions[CurrentRegion].OOR_soilType:=rst10CoastalVolcanic;
+
+               rst04Polar: FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[CurrentObject].OO_regions[CurrentRegion].OOR_soilType:=rst11CoastalPolar;
+
+               rst05Arid: FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[CurrentObject].OO_regions[CurrentRegion].OOR_soilType:=rst12CoastalArid;
+
+               rst06Fertile: FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[CurrentObject].OO_regions[CurrentRegion].OOR_soilType:=rst13CoastalFertile;
+            end;
          end;
 
          2:
          begin
+            FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[CurrentObject].OO_regions[CurrentRegion].OOR_soilType:=rst07Oceanic;
          end;
       end;
-
-//      case FCWinFUG.TOO_StarPicker.ItemIndex of
-//         0: FCDfdMainStarObjectsList[CurrentObject].OO_hydrosphere:=TFCEduHydrospheres( FCWinFUG.COO_HydroType.ItemIndex );
-//
-//         1: FCDfdComp1StarObjectsList[CurrentObject].OO_hydrosphere:=TFCEduHydrospheres( FCWinFUG.COO_HydroType.ItemIndex );
-//
-//         2: FCDfdComp2StarObjectsList[CurrentObject].OO_hydrosphere:=TFCEduHydrospheres( FCWinFUG.COO_HydroType.ItemIndex );
-//      end;
    end
    else begin
-//      case FCWinFUG.TOO_StarPicker.ItemIndex of
-//         0: FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_hydrosphere:=TFCEduHydrospheres( FCWinFUG.COO_HydroType.ItemIndex );
-//
-//         1: FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_hydrosphere:=TFCEduHydrospheres( FCWinFUG.COO_HydroType.ItemIndex );
-//
-//         2: FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_hydrosphere:=TFCEduHydrospheres( FCWinFUG.COO_HydroType.ItemIndex );
-//      end;
+      case FCWinFUG.CR_OceanicCoastalAdjustment.ItemIndex of
+         0: FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[CurrentObject].OO_satellitesList[CurrentSat].OO_regions[CurrentRegion].OOR_soilType:=FCDfdRegion[CurrentRegion].RC_landType;
+
+         1:
+         begin
+            case FCDfdRegion[CurrentRegion].RC_landType of
+               rst01RockyDesert: FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[CurrentObject].OO_satellitesList[CurrentSat].OO_regions[CurrentRegion].OOR_soilType:=rst08CoastalRockyDesert;
+
+               rst02SandyDesert: FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[CurrentObject].OO_satellitesList[CurrentSat].OO_regions[CurrentRegion].OOR_soilType:=rst09CoastalSandyDesert;
+
+               rst03Volcanic: FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[CurrentObject].OO_satellitesList[CurrentSat].OO_regions[CurrentRegion].OOR_soilType:=rst10CoastalVolcanic;
+
+               rst04Polar: FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[CurrentObject].OO_satellitesList[CurrentSat].OO_regions[CurrentRegion].OOR_soilType:=rst11CoastalPolar;
+
+               rst05Arid: FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[CurrentObject].OO_satellitesList[CurrentSat].OO_regions[CurrentRegion].OOR_soilType:=rst12CoastalArid;
+
+               rst06Fertile: FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[CurrentObject].OO_satellitesList[CurrentSat].OO_regions[CurrentRegion].OOR_soilType:=rst13CoastalFertile;
+            end;
+         end;
+
+         2:
+         begin
+            FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[CurrentObject].OO_satellitesList[CurrentSat].OO_regions[CurrentRegion].OOR_soilType:=rst07Oceanic;
+         end;
+      end;
    end;
 end;
 
