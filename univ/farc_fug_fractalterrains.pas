@@ -65,6 +65,7 @@ implementation
 uses
    farc_data_univ
    ,farc_fug_data
+   ,farc_univ_func
    ,farc_win_fug;
 
 //==END PRIVATE ENUM========================================================================
@@ -92,44 +93,55 @@ procedure FCMfT_DataLinking_Process(
    var
       Count
       ,Count1
+      ,HydrosphereArea
       ,Max: integer;
 
-     // Diameter: extended;
+      AxialTilt
+      ,Diameter
+      ,fCalc1
+      ,Gravity: extended;
+
+      Hydrosphere: TFCEduHydrospheres;
 begin
    Count:=0;
    Count1:=0;
    Max:=0;
 
-   //Diameter:=0;
+   AxialTilt:=0;
+   Diameter:=0;
+   fCalc1:=0;
+   Gravity:=0;
+
    if Satellite = 0 then
    begin
-      //Diameter:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_Diameter;
       { RotationPeriod:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isNotSat_rotationPeriod;
-      AxialTilt:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isNotSat_axialTilt;
-
       AtmospherePressure:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphericPressure;
       {.the clouds cover loaded into fCalc0 is only used for the surface temperatures subsection. It can be used afterward}
       { fCalc0:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_cloudsCover;
+      //ObjectSurfaceTempClosest:=FCFuF_OrbitalPeriodSpecified_GetSurfaceTemperature(
+      //optClosest
+      //,0
+      //,Star
+      //,OrbitalObject
+      //);
+      //ObjectSurfaceTempInterm:=FCFuF_OrbitalPeriodSpecified_GetSurfaceTemperature(
+      //optIntermediary
+      //,0
+      //,Star
+      //,OrbitalObject
+      //);
+      //ObjectSurfaceTempFarthest:=FCFuF_OrbitalPeriodSpecified_GetSurfaceTemperature(
+      //optFarthest
+      //,0
+      //,Star
+      //,OrbitalObject
+      //);
+                                                                                              }
+      Diameter:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_Diameter;
+      AxialTilt:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isNotSat_axialTilt;
+      Gravity:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_gravity;
       Hydrosphere:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_hydrosphere;
-      HydroArea:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_hydrosphereArea;
-      ObjectSurfaceTempClosest:=FCFuF_OrbitalPeriodSpecified_GetSurfaceTemperature(
-      optClosest
-      ,0
-      ,Star
-      ,OrbitalObject
-      );
-      ObjectSurfaceTempInterm:=FCFuF_OrbitalPeriodSpecified_GetSurfaceTemperature(
-      optIntermediary
-      ,0
-      ,Star
-      ,OrbitalObject
-      );
-      ObjectSurfaceTempFarthest:=FCFuF_OrbitalPeriodSpecified_GetSurfaceTemperature(
-      optFarthest
-      ,0
-      ,Star
-      ,OrbitalObject
-      );                                                                                               }
+      HydrosphereArea:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_hydrosphereArea;
       Max:=length( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions ) - 1;
 //      case FCWinFUG.TOO_StarPicker.ItemIndex of
 //         0: setlength( FCDfdMainStarObjectsList[OrbitalObject].OO_regions, Max + 1 );
@@ -141,7 +153,7 @@ begin
    end
    else if Satellite > 0 then
    begin
-      //Diameter:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_Diameter;
+
 
       { RotationPeriod:=FCFuF_Satellite_GetRotationPeriod(
       0
@@ -149,18 +161,10 @@ begin
       ,OrbitalObject
       ,Satellite
       );
-      AxialTilt:=FCFuF_Satellite_GetAxialTilt(
-      0
-      ,Star
-      ,OrbitalObject
-      ,Satellite
-      );
-
       AtmospherePressure:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphericPressure;
       {.the clouds cover loaded into fCalc0 is only used for the surface temperatures subsection. It can be used afterward}
       { fCalc0:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_cloudsCover;
-      Hydrosphere:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_hydrosphere;
-      HydroArea:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_hydrosphereArea;
+
       ObjectSurfaceTempClosest:=FCFuF_OrbitalPeriodSpecified_GetSurfaceTemperature(
       optClosest
       ,0
@@ -181,7 +185,17 @@ begin
       ,Star
       ,OrbitalObject
       ,Satellite
-      );                                                                                                                            }
+      );   }
+      Diameter:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_Diameter;
+      AxialTilt:=FCFuF_Satellite_GetAxialTilt(
+         0
+         ,Star
+         ,OrbitalObject
+         ,Satellite
+         );
+      Gravity:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_gravity;
+      Hydrosphere:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_hydrosphere;
+      HydrosphereArea:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_hydrosphereArea;
       Max:=length( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions ) - 1;
 //      case FCWinFUG.TOO_StarPicker.ItemIndex of
 //         0: setlength( FCDfdMainStarObjectsList[OrbitalObject].OO_satellitesList[Satellite].OO_regions, Max + 1 );
@@ -224,6 +238,31 @@ begin
    end;
    FCWinFUG.CR_GridIndexNumber.HTMLText.Clear;
    FCWinFUG.CR_GridIndexNumber.HTMLText.Add( 'Grid Index #: ' + inttostr( Count1 ) );
+
+   if ( Hydrosphere = hWaterLiquid )
+      or ( Hydrosphere = hWaterAmmoniaLiquid )
+      or ( Hydrosphere = hMethaneLiquid ) then
+   begin
+      FCWinFUG.CR_OceanicCoastalAdjustment.Show;
+      FCWinFUG.CR_SeaArea.Show;
+   end
+   else begin
+      FCWinFUG.CR_OceanicCoastalAdjustment.Hide;
+      FCWinFUG.CR_SeaArea.Hide;
+   end;
+   Count1:=round( 9144 / Gravity );
+   FCWinFUG.CR_HighestPeak.HTMLText.Clear;
+   FCWinFUG.CR_HighestPeak.HTMLText.Add( 'Highest Peak: ' + inttostr( Count1 ) );
+   FCWinFUG.CR_LowestDepth.HTMLText.Clear;
+   FCWinFUG.CR_LowestDepth.HTMLText.Add( 'Lowest Depth: -' + inttostr( Count1 ) );
+   FCWinFUG.CR_Diameter.HTMLText.Clear;
+   FCWinFUG.CR_Diameter.HTMLText.Add( 'Diameter: ' + floattostr( Diameter ) );
+   FCWinFUG.CR_AxialTilt.HTMLText.Clear;
+   FCWinFUG.CR_AxialTilt.HTMLText.Add( 'Axial Tilt: ' + floattostr( AxialTilt ) );
+   FCWinFUG.CR_InputSeed..Clear;
+   FCWinFUG.CR_InputClimateFileNumber..Clear;
+   FCWinFUG.CR_InputLightColorFileNumber..Clear;
+
    FCWinFUG.CR_CurrentRegion.Enabled:=false;
    FCWinFUG.CR_CurrentRegion.Items.Clear;
    Count:=1;

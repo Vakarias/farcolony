@@ -179,6 +179,8 @@ procedure FCmfC_PrimaryGasVolume_Update;
 
 procedure FCmfC_Region_Update;
 
+procedure FCMfC_RegionOceanicCoastal_Update;
+
 ///<summary>
 ///   update the satellite setting
 ///</summary>
@@ -1643,6 +1645,65 @@ begin
    CurrentSat:=FCWinFUG.TOO_SatPicker.ItemIndex;
    if CurrentSat<=0 then
    begin
+//      case FCWinFUG.TOO_StarPicker.ItemIndex of
+//         0: FCDfdMainStarObjectsList[CurrentObject].OO_hydrosphere:=TFCEduHydrospheres( FCWinFUG.COO_HydroType.ItemIndex );
+//
+//         1: FCDfdComp1StarObjectsList[CurrentObject].OO_hydrosphere:=TFCEduHydrospheres( FCWinFUG.COO_HydroType.ItemIndex );
+//
+//         2: FCDfdComp2StarObjectsList[CurrentObject].OO_hydrosphere:=TFCEduHydrospheres( FCWinFUG.COO_HydroType.ItemIndex );
+//      end;
+   end
+   else begin
+//      case FCWinFUG.TOO_StarPicker.ItemIndex of
+//         0: FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_hydrosphere:=TFCEduHydrospheres( FCWinFUG.COO_HydroType.ItemIndex );
+//
+//         1: FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_hydrosphere:=TFCEduHydrospheres( FCWinFUG.COO_HydroType.ItemIndex );
+//
+//         2: FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_hydrosphere:=TFCEduHydrospheres( FCWinFUG.COO_HydroType.ItemIndex );
+//      end;
+   end;
+end;
+
+procedure FCMfC_RegionOceanicCoastal_Update;
+{:Purpose: update the Oceanic-Coastal manual adjustment.
+    Additions:
+}
+   var
+      CurrentStar
+      ,CurrentObject
+      ,CurrentSat
+      ,CurrentRegion: integer;
+begin
+   CurrentStar:=FCWinFUG.TOO_StarPicker.ItemIndex + 1;
+   CurrentObject:=FCWinFUG.TOO_OrbitalObjectPicker.ItemIndex + 1;
+   CurrentSat:=FCWinFUG.TOO_SatPicker.ItemIndex;
+   CurrentRegion:=FCWinFUG.CR_CurrentRegion.ItemIndex + 1;
+   {:DEV NOTES:
+      for reference, build the combo box as this:
+
+      idx#0: No Coastal/Oceanic Region
+
+      idx#1: Coastal Region
+
+      idx#2: Oceanic Region
+   }
+   if CurrentSat <= 0 then
+   begin
+      case FCWinFUG.CR_OceanicCoastalAdjustment.ItemIndex of
+         0:
+         begin
+            //FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[CurrentObject].OO_regions[CurrentRegion].
+         end;
+
+         1:
+         begin
+         end;
+
+         2:
+         begin
+         end;
+      end;
+
 //      case FCWinFUG.TOO_StarPicker.ItemIndex of
 //         0: FCDfdMainStarObjectsList[CurrentObject].OO_hydrosphere:=TFCEduHydrospheres( FCWinFUG.COO_HydroType.ItemIndex );
 //

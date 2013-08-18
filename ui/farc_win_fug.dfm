@@ -2246,9 +2246,9 @@ object FCWinFUG: TFCWinFUG
           TabOrder = 0
           OnChange = COO_ObjecTypeChange
         end
-        object AdvComboBox2: TAdvComboBox
-          Left = 332
-          Top = 71
+        object CR_OceanicCoastalAdjustment: TAdvComboBox
+          Left = 101
+          Top = 55
           Width = 130
           Height = 21
           Color = clWhite
@@ -2265,14 +2265,10 @@ object FCWinFUG: TFCWinFUG
           ItemIndex = -1
           ItemHeight = 13
           Items.Strings = (
-            'Null'
-            'Dead'
-            'Hot Spot'
-            'Plastic'
-            'Plate Tectonic'
-            'Platelet Tectonic'
-            'Extreme')
-          LabelCaption = 'Tectonic Activity'
+            'No Adjustment'
+            'Coastal'
+            'Oceanic')
+          LabelCaption = 'Oceanic/Coastal Adjustment'
           LabelPosition = lpTopCenter
           LabelFont.Charset = DEFAULT_CHARSET
           LabelFont.Color = clWindowText
@@ -2281,7 +2277,7 @@ object FCWinFUG: TFCWinFUG
           LabelFont.Style = []
           ParentFont = False
           TabOrder = 1
-          OnChange = COO_TectonicActivityChange
+          OnChange = CR_OceanicCoastalAdjustmentChange
         end
         object LabeledEdit12: TLabeledEdit
           Left = 59

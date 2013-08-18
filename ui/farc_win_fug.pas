@@ -153,7 +153,7 @@ type
     TOO_CurrentRegion: TAdvGroupBox;
     Bevel8: TBevel;
     AdvComboBox1: TAdvComboBox;
-    AdvComboBox2: TAdvComboBox;
+    CR_OceanicCoastalAdjustment: TAdvComboBox;
     LabeledEdit12: TLabeledEdit;
     LabeledEdit13: TLabeledEdit;
     CR_CurrentRegion: TAdvComboBox;
@@ -218,6 +218,7 @@ type
     procedure COO_HydroTypeChange(Sender: TObject);
     procedure COO_HydroAreaKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure CR_CurrentRegionChange(Sender: TObject);
+    procedure CR_OceanicCoastalAdjustmentChange(Sender: TObject);
    private
     { Private declarations }
    public
@@ -924,6 +925,11 @@ end;
 procedure TFCWinFUG.CR_CurrentRegionChange(Sender: TObject);
 begin
    FCmfC_Region_Update;
+end;
+
+procedure TFCWinFUG.CR_OceanicCoastalAdjustmentChange(Sender: TObject);
+begin
+   FCMfC_RegionOceanicCoastal_Update;
 end;
 
 procedure TFCWinFUG.TC1S_EnableGroupCompanion1Click(Sender: TObject);
