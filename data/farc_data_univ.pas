@@ -603,6 +603,18 @@ type TFCRduOrbitalObject = record
    ///</summary>
    OO_dbTokenId: string[20];
    ///<summary>
+   ///   object's seed in FT. WARNING: USED ONLY BY THE FUG, not in-game
+   ///</summary>
+   OO_worldSeed: integer;
+   ///<summary>
+   ///   object's map light&color file in FT. WARNING: USED ONLY BY THE FUG, not in-game
+   ///</summary>
+   OO_worldlightcolorfile: string;
+   ///<summary>
+   ///   object's map climate file in FT. WARNING: USED ONLY BY THE FUG, not in-game
+   ///</summary>
+   OO_worldclimatefile: string;
+   ///<summary>
    ///   NOT DB DATA - counter of OO_inOrbitList
    ///</summary>
    OO_inOrbitCurrentNumber: integer;

@@ -270,10 +270,9 @@ begin
    FCWinFUG.CR_Diameter.HTMLText.Add( 'Diameter: ' + floattostr( Diameter ) );
    FCWinFUG.CR_AxialTilt.HTMLText.Clear;
    FCWinFUG.CR_AxialTilt.HTMLText.Add( 'Axial Tilt: ' + floattostr( AxialTilt ) );
-   FCWinFUG.CR_InputSeed..Clear;
-   FCWinFUG.CR_InputClimateFileNumber..Clear;
-   FCWinFUG.CR_InputLightColorFileNumber..Clear;
-
+   FCWinFUG.CR_InputSeed.Text:='';
+   FCWinFUG.CR_InputLightColorFileNumber.Text:='';
+   FCWinFUG.CR_InputClimateFileNumber.Text:='';
    FCWinFUG.CR_CurrentRegion.Enabled:=false;
    FCWinFUG.CR_CurrentRegion.Items.Clear;
    Count:=1;

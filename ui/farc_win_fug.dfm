@@ -2267,7 +2267,7 @@ object FCWinFUG: TFCWinFUG
         end
         object AdvComboBox1: TAdvComboBox
           Left = 196
-          Top = 155
+          Top = 79
           Width = 130
           Height = 21
           Color = clWhite
@@ -2333,23 +2333,22 @@ object FCWinFUG: TFCWinFUG
           TabOrder = 1
           OnChange = CR_OceanicCoastalAdjustmentChange
         end
-        object LabeledEdit12: TLabeledEdit
-          Left = 59
-          Top = 171
-          Width = 54
+        object CR_InputSeed: TLabeledEdit
+          Left = 13
+          Top = 131
+          Width = 71
           Height = 19
           Color = clWhite
-          EditLabel.Width = 74
+          EditLabel.Width = 55
           EditLabel.Height = 13
-          EditLabel.Caption = 'Primary Gas Vol'
+          EditLabel.Caption = 'World Seed'
           EditLabel.Layout = tlCenter
-          NumbersOnly = True
           TabOrder = 2
-          OnKeyDown = COO_PrimGasVolKeyDown
+          OnKeyDown = CR_InputSeedKeyDown
         end
         object LabeledEdit13: TLabeledEdit
-          Left = 375
-          Top = 130
+          Left = 199
+          Top = 171
           Width = 54
           Height = 19
           Color = clWhite
@@ -2402,6 +2401,32 @@ object FCWinFUG: TFCWinFUG
           NumbersOnly = True
           TabOrder = 5
           OnKeyDown = COO_HydroAreaKeyDown
+        end
+        object CR_InputLightColorFileNumber: TLabeledEdit
+          Left = 90
+          Top = 131
+          Width = 135
+          Height = 19
+          Color = clWhite
+          EditLabel.Width = 84
+          EditLabel.Height = 13
+          EditLabel.Caption = 'Light_Color File #'
+          EditLabel.Layout = tlCenter
+          TabOrder = 6
+          OnKeyDown = CR_InputLightColorFileNumberKeyDown
+        end
+        object CR_InputClimateFileNumber: TLabeledEdit
+          Left = 234
+          Top = 131
+          Width = 135
+          Height = 19
+          Color = clWhite
+          EditLabel.Width = 65
+          EditLabel.Height = 13
+          EditLabel.Caption = 'Climate File #'
+          EditLabel.Layout = tlCenter
+          TabOrder = 7
+          OnKeyDown = CR_InputClimateFileNumberKeyDown
         end
       end
     end

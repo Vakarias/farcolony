@@ -154,7 +154,7 @@ type
     Bevel8: TBevel;
     AdvComboBox1: TAdvComboBox;
     CR_OceanicCoastalAdjustment: TAdvComboBox;
-    LabeledEdit12: TLabeledEdit;
+    CR_InputSeed: TLabeledEdit;
     LabeledEdit13: TLabeledEdit;
     CR_CurrentRegion: TAdvComboBox;
     LabeledEdit14: TLabeledEdit;
@@ -166,6 +166,8 @@ type
     CR_LowestDepth: THTMLabel;
     CR_Diameter: THTMLabel;
     CR_AxialTilt: THTMLabel;
+    CR_InputLightColorFileNumber: TLabeledEdit;
+    CR_InputClimateFileNumber: TLabeledEdit;
     procedure WF_GenerateButtonClick(Sender: TObject);
     procedure TMS_OrbitGenerationClick(Sender: TObject);
     procedure TC1S_EnableGroupCompanion1Click(Sender: TObject);
@@ -225,6 +227,11 @@ type
     procedure COO_HydroAreaKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure CR_CurrentRegionChange(Sender: TObject);
     procedure CR_OceanicCoastalAdjustmentChange(Sender: TObject);
+    procedure CR_InputSeedKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure CR_InputLightColorFileNumberKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure CR_InputClimateFileNumberKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
    private
     { Private declarations }
    public
@@ -438,7 +445,7 @@ begin
             Count1:=1;
             while Count1<=Max1 do
             begin
-               WF_XMLOutput.Lines.Add( '      <orbobj token="'+FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_dbTokenId+'" ftSeed="">' );
+               WF_XMLOutput.Lines.Add( '      <orbobj token="'+FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_dbTokenId+'" ftSeed="'+inttostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_worldSeed )+'">' );
                WF_XMLOutput.Lines.Add(
                   '         <orbitalData distanceFromStar="'+FloatToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_isNotSat_distanceFromStar )
                      +'" eccentricity="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_isNotSat_eccentricity )
@@ -560,7 +567,7 @@ begin
                Count2:=1;
                while Count2<=Max2 do
                begin
-                  WF_XMLOutput.Lines.Add( '         <satobj token="'+FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_dbTokenId+'" ftSeed="">' );
+                  WF_XMLOutput.Lines.Add( '         <satobj token="'+FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_dbTokenId+'" ftSeed="'+inttostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_worldSeed )+'">' );
                   WF_XMLOutput.Lines.Add(
                      '            <orbitalData distanceFromRoot="'+FloatToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_isSat_distanceFromPlanet )
                         +'" revolutionPeriod="'+IntToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_revolutionPeriod )
@@ -931,6 +938,26 @@ end;
 procedure TFCWinFUG.CR_CurrentRegionChange(Sender: TObject);
 begin
    FCmfC_Region_Update;
+end;
+
+procedure TFCWinFUG.CR_InputClimateFileNumberKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+   if Key=13
+   then FCmfC_RegionMapClimate_Update;
+end;
+
+procedure TFCWinFUG.CR_InputLightColorFileNumberKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+   if Key=13
+   then FCmfC_RegionMapLightColor_Update;
+end;
+
+procedure TFCWinFUG.CR_InputSeedKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+   if Key=13
+   then FCmfC_RegionMapSeed_Update;
 end;
 
 procedure TFCWinFUG.CR_OceanicCoastalAdjustmentChange(Sender: TObject);

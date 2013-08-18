@@ -179,6 +179,12 @@ procedure FCmfC_PrimaryGasVolume_Update;
 
 procedure FCmfC_Region_Update;
 
+procedure FCmfC_RegionMapClimate_Update;
+
+procedure FCmfC_RegionMapLightColor_Update;
+
+procedure FCmfC_RegionMapSeed_Update;
+
 procedure FCMfC_RegionOceanicCoastal_Update;
 
 ///<summary>
@@ -1662,6 +1668,63 @@ begin
 //         2: FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_hydrosphere:=TFCEduHydrospheres( FCWinFUG.COO_HydroType.ItemIndex );
 //      end;
    end;
+end;
+
+procedure FCmfC_RegionMapClimate_Update;
+{:Purpose: update the Fractal Terrains climate file # used to generate the actual surface map.
+    Additions:
+}
+   var
+      CurrentStar
+      ,CurrentObject
+      ,CurrentSat
+      ,CurrentRegion: integer;
+begin
+   CurrentStar:=FCWinFUG.TOO_StarPicker.ItemIndex + 1;
+   CurrentObject:=FCWinFUG.TOO_OrbitalObjectPicker.ItemIndex + 1;
+   CurrentSat:=FCWinFUG.TOO_SatPicker.ItemIndex;
+   CurrentRegion:=FCWinFUG.CR_CurrentRegion.ItemIndex + 1;
+   if CurrentSat <= 0
+   then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[CurrentObject].OO_worldclimatefile:=FCWinFUG.CR_InputClimateFileNumber.Text
+   else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[CurrentObject].OO_satellitesList[CurrentSat].OO_worldclimatefile:=FCWinFUG.CR_InputClimateFileNumber.Text;
+end;
+
+procedure FCmfC_RegionMapLightColor_Update;
+{:Purpose: update the Fractal Terrains light & color file # used to generate the actual surface map.
+    Additions:
+}
+   var
+      CurrentStar
+      ,CurrentObject
+      ,CurrentSat
+      ,CurrentRegion: integer;
+begin
+   CurrentStar:=FCWinFUG.TOO_StarPicker.ItemIndex + 1;
+   CurrentObject:=FCWinFUG.TOO_OrbitalObjectPicker.ItemIndex + 1;
+   CurrentSat:=FCWinFUG.TOO_SatPicker.ItemIndex;
+   CurrentRegion:=FCWinFUG.CR_CurrentRegion.ItemIndex + 1;
+   if CurrentSat <= 0
+   then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[CurrentObject].OO_worldlightcolorfile:=FCWinFUG.CR_InputLightColorFileNumber.Text
+   else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[CurrentObject].OO_satellitesList[CurrentSat].OO_worldlightcolorfile:=FCWinFUG.CR_InputLightColorFileNumber.Text;
+end;
+
+procedure FCmfC_RegionMapSeed_Update;
+{:Purpose: update the Fractal Terrains map seed used to generate the actual surface map.
+    Additions:
+}
+   var
+      CurrentStar
+      ,CurrentObject
+      ,CurrentSat
+      ,CurrentRegion: integer;
+begin
+   CurrentStar:=FCWinFUG.TOO_StarPicker.ItemIndex + 1;
+   CurrentObject:=FCWinFUG.TOO_OrbitalObjectPicker.ItemIndex + 1;
+   CurrentSat:=FCWinFUG.TOO_SatPicker.ItemIndex;
+   CurrentRegion:=FCWinFUG.CR_CurrentRegion.ItemIndex + 1;
+   if CurrentSat <= 0
+   then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[CurrentObject].OO_worldSeed:=strtoint( FCWinFUG.CR_InputSeed.Text )
+   else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[CurrentObject].OO_satellitesList[CurrentSat].OO_worldSeed:=strtoint( FCWinFUG.CR_InputSeed.Text );
 end;
 
 procedure FCMfC_RegionOceanicCoastal_Update;
