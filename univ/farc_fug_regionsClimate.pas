@@ -174,27 +174,27 @@ procedure FCMfRC_Climate_Generate(
          SpeedV:=0;
          if fCalc1 <> 0 then
          begin
-            Windspeed:=0;
-            AtmPress:=AtmospherePressure / FCDfdRegion[Count].RC_regionPressureClosest;
-            SpeedU:=abs( ( Y1_Y0 * 287 * FCDfdRegion[Count].RC_surfaceTemperatureClosest * ln( AtmPress ) ) / ( 2 * fCalc1 * sin( 15 * CoefRegion ) * ( sqr( fCalc4 ) ) ) );
-            AtmPress:=FCDfdRegion[Count].RC_regionPressureClosest / AtmospherePressure;
-            SpeedV:=abs( ( X1_X0 * 287 * FCDfdRegion[Count].RC_surfaceTemperatureClosest * ln( AtmPress ) ) / ( 2 * fCalc1 * sin( 15 * CoefRegion ) * ( sqr( fCalc3 ) ) ) );
-            Windspeed:=sqrt( sqr( SpeedU ) + sqr( SpeedV ) );
-            FCDfdRegion[Count].RC_windspeedClosest:=round( randg( ( Windspeed + fCalc2 ) * 0.5 , 2 ) );
-            Windspeed:=0;
-            AtmPress:=AtmospherePressure / FCDfdRegion[Count].RC_regionPressureInterm;
-            SpeedU:=abs( ( Y1_Y0 * 287 * FCDfdRegion[Count].RC_surfaceTemperatureInterm * ln( AtmPress ) ) / ( 2 * fCalc1 * sin( 15 * CoefRegion ) * ( sqr( fCalc4 ) ) ) );
-            AtmPress:=FCDfdRegion[Count].RC_regionPressureInterm / AtmospherePressure;
-            SpeedV:=abs( ( X1_X0 * 287 * FCDfdRegion[Count].RC_surfaceTemperatureInterm * ln( AtmPress ) ) / ( 2 * fCalc1 * sin( 15 * CoefRegion ) * ( sqr( fCalc3 ) ) ) );
-            Windspeed:=sqrt( sqr( SpeedU ) + sqr( SpeedV ) );
-            FCDfdRegion[Count].RC_windspeedInterm:=round( randg( ( Windspeed + fCalc2 ) * 0.5 , 2 ) );
-            Windspeed:=0;
-            AtmPress:=AtmospherePressure / FCDfdRegion[Count].RC_regionPressureFarthest;
-            SpeedU:=abs( ( Y1_Y0 * 287 * FCDfdRegion[Count].RC_surfaceTemperatureFarthest * ln( AtmPress ) ) / ( 2 * fCalc1 * sin( 15 * CoefRegion ) * ( sqr( fCalc4 ) ) ) );
-            AtmPress:=FCDfdRegion[Count].RC_regionPressureFarthest / AtmospherePressure;
-            SpeedV:=abs( ( X1_X0 * 287 * FCDfdRegion[Count].RC_surfaceTemperatureFarthest * ln( AtmPress ) ) / ( 2 * fCalc1 * sin( 15 * CoefRegion ) * ( sqr( fCalc3 ) ) ) );
-            Windspeed:=sqrt( sqr( SpeedU ) + sqr( SpeedV ) );
-            FCDfdRegion[Count].RC_windspeedFarthest:=round( randg( ( Windspeed + fCalc2 ) * 0.5 , 2 ) );
+//            Windspeed:=0;
+//            AtmPress:=AtmospherePressure / FCDfdRegion[Count].RC_regionPressureClosest;
+//            SpeedU:=abs( ( Y1_Y0 * 287 * FCDfdRegion[Count].RC_surfaceTemperatureClosest * ln( AtmPress ) ) / ( 2 * fCalc1 * sin( 15 * CoefRegion ) * ( sqr( fCalc4 ) ) ) );
+//            AtmPress:=FCDfdRegion[Count].RC_regionPressureClosest / AtmospherePressure;
+//            SpeedV:=abs( ( X1_X0 * 287 * FCDfdRegion[Count].RC_surfaceTemperatureClosest * ln( AtmPress ) ) / ( 2 * fCalc1 * sin( 15 * CoefRegion ) * ( sqr( fCalc3 ) ) ) );
+//            Windspeed:=sqrt( sqr( SpeedU ) + sqr( SpeedV ) );
+//            FCDfdRegion[Count].RC_windspeedClosest:=round( randg( ( Windspeed + fCalc2 ) * 0.5 , 2 ) );
+//            Windspeed:=0;
+//            AtmPress:=AtmospherePressure / FCDfdRegion[Count].RC_regionPressureInterm;
+//            SpeedU:=abs( ( Y1_Y0 * 287 * FCDfdRegion[Count].RC_surfaceTemperatureInterm * ln( AtmPress ) ) / ( 2 * fCalc1 * sin( 15 * CoefRegion ) * ( sqr( fCalc4 ) ) ) );
+//            AtmPress:=FCDfdRegion[Count].RC_regionPressureInterm / AtmospherePressure;
+//            SpeedV:=abs( ( X1_X0 * 287 * FCDfdRegion[Count].RC_surfaceTemperatureInterm * ln( AtmPress ) ) / ( 2 * fCalc1 * sin( 15 * CoefRegion ) * ( sqr( fCalc3 ) ) ) );
+//            Windspeed:=sqrt( sqr( SpeedU ) + sqr( SpeedV ) );
+//            FCDfdRegion[Count].RC_windspeedInterm:=round( randg( ( Windspeed + fCalc2 ) * 0.5 , 2 ) );
+//            Windspeed:=0;
+//            AtmPress:=AtmospherePressure / FCDfdRegion[Count].RC_regionPressureFarthest;
+//            SpeedU:=abs( ( Y1_Y0 * 287 * FCDfdRegion[Count].RC_surfaceTemperatureFarthest * ln( AtmPress ) ) / ( 2 * fCalc1 * sin( 15 * CoefRegion ) * ( sqr( fCalc4 ) ) ) );
+//            AtmPress:=FCDfdRegion[Count].RC_regionPressureFarthest / AtmospherePressure;
+//            SpeedV:=abs( ( X1_X0 * 287 * FCDfdRegion[Count].RC_surfaceTemperatureFarthest * ln( AtmPress ) ) / ( 2 * fCalc1 * sin( 15 * CoefRegion ) * ( sqr( fCalc3 ) ) ) );
+//            Windspeed:=sqrt( sqr( SpeedU ) + sqr( SpeedV ) );
+//            FCDfdRegion[Count].RC_windspeedFarthest:=round( randg( ( Windspeed + fCalc2 ) * 0.5 , 2 ) );
          end;
       end;
 begin

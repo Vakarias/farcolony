@@ -146,6 +146,7 @@ uses
    ,farc_fug_data
    ,farc_fug_geophysical
    ,farc_fug_hydrosphere
+   ,farc_fug_regions
    ,farc_fug_seasons
    ,farc_fug_stars
    ,farc_win_fug;
@@ -1073,6 +1074,7 @@ end;
 procedure FCMfO_Generate(const CurrentStar: integer);
 {:Purpose: core routine for orbits generation.
     Additions:
+      -2013Aug18- *add: link to regions generation, if required.
       -2013Aug03- *add: set the type of planets.
       -2013Jul03- *add: orbital periods.
                   *fix: prevent an error on tectonic activity if it is manually set.
@@ -1476,8 +1478,6 @@ begin
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_hydrosphereArea:=FCDfdComp2StarObjectsList[Count].OO_satellitesList[CountSat].OO_hydrosphereArea;
                   inc( CountSat );
                end;
-
-//               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_albedo:=FCDfdComp2StarObjectsList[Count].OO_albedo;
             end;
          end; //==END== case CurrentStar of ==//
          inc( Count );
@@ -1684,6 +1684,7 @@ begin
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isHydrosphereEdited:=false;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_hydrosphere:=hNoHydro;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_hydrosphereArea:=0;
+               SetLength( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_regions, 0 );
                FCMfS_OrbitalPeriods_Generate( CurrentStar, Count );
                {...asteroids phase I - basics + orbital + geophysical data}
                NumberOfSat:=length( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList ) - 1;
@@ -1783,6 +1784,7 @@ begin
                      ,Count
                      ,CountSat
                      );
+                  FCMfR_GenerationPhase1_Process( CurrentStar, Count );
                   inc( CountSat );
                end; //==END== while CountSat <= NumberOfSat ==//
             end //==END== if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType=oobtAsteroidBelt then ==//
@@ -1867,6 +1869,9 @@ begin
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_atmosphere.AC_gasPresenceSO2:=agsNotPresent;
                end;
                FCMfS_OrbitalPeriods_Generate( CurrentStar, Count );
+               if ( ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType > oobtAsteroidBelt ) and ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType < oobtGaseousPlanet ) )
+                  or ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType = oobtIcyPlanet )
+               then FCMfR_GenerationPhase1_Process( CurrentStar, Count );
                {...satellites phase I - basics + orbital + geophysical data}
                NumberOfSat:=length( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList ) - 1;
                if (FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_rotationPeriod <> 0 )
@@ -2104,6 +2109,11 @@ begin
                         FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_atmosphere.AC_gasPresenceSO2:=agsNotPresent;
                      end;
                      FCMfS_OrbitalPeriods_Generate(
+                        CurrentStar
+                        ,Count
+                        ,CountSat
+                        );
+                     FCMfR_GenerationPhase1_Process(
                         CurrentStar
                         ,Count
                         ,CountSat

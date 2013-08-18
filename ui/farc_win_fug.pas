@@ -152,7 +152,7 @@ type
     COO_HydroArea: TLabeledEdit;
     TOO_CurrentRegion: TAdvGroupBox;
     Bevel8: TBevel;
-    AdvComboBox1: TAdvComboBox;
+    CR_ReliefAdjustment: TAdvComboBox;
     CR_OceanicCoastalAdjustment: TAdvComboBox;
     CR_InputSeed: TLabeledEdit;
     LabeledEdit13: TLabeledEdit;

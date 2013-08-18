@@ -500,6 +500,7 @@ function FCFfG_Gravity_Calculation(
    ): extended;
 {:Purpose: calculate the orbital object's gravity.
     Additions:
+      -2013Aug18- *fix: prevent the result to be = 0. Extreme min is 0.001.
 }
    var
       CalculatedGravity
@@ -511,6 +512,8 @@ begin
    RadiusInMeters:=Diameter * 500;
    CalculatedGravity:=( FCCdiGravitationalConst * MassInKg / sqr( RadiusInMeters ) ) / FCCdiMetersBySec_In_1G;
    Result:=FCFcF_Round( rttCustom3Decimal, CalculatedGravity );
+   if Result=0
+   then Result:=0.001;
 end;
 
 function FCFfG_InclinationAxis_Calculation: extended;

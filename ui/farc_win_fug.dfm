@@ -2265,10 +2265,10 @@ object FCWinFUG: TFCWinFUG
             'Axial Tilt: 999.99')
           Version = '1.8.1.0'
         end
-        object AdvComboBox1: TAdvComboBox
-          Left = 196
+        object CR_ReliefAdjustment: TAdvComboBox
+          Left = 149
           Top = 79
-          Width = 130
+          Width = 104
           Height = 21
           Color = clWhite
           Version = '1.3.1.0'
@@ -2289,7 +2289,7 @@ object FCWinFUG: TFCWinFUG
             'Asteroid'
             'Telluric Planet'
             'Gaseous Planet')
-          LabelCaption = 'Object Basic Type'
+          LabelCaption = 'Relief Adjustment'
           LabelPosition = lpTopCenter
           LabelFont.Charset = DEFAULT_CHARSET
           LabelFont.Color = clWindowText
