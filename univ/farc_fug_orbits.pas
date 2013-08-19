@@ -1784,7 +1784,11 @@ begin
                      ,Count
                      ,CountSat
                      );
-                  FCMfR_GenerationPhase1_Process( CurrentStar, Count );
+                  FCMfR_GenerationPhase1_Process(
+                     CurrentStar
+                     ,Count
+                     ,CountSat
+                     );
                   inc( CountSat );
                end; //==END== while CountSat <= NumberOfSat ==//
             end //==END== if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType=oobtAsteroidBelt then ==//

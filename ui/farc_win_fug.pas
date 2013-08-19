@@ -168,6 +168,7 @@ type
     CR_AxialTilt: THTMLabel;
     CR_InputLightColorFileNumber: TLabeledEdit;
     CR_InputClimateFileNumber: TLabeledEdit;
+    WF_PopulateDefault: TAdvGlowButton;
     procedure WF_GenerateButtonClick(Sender: TObject);
     procedure TMS_OrbitGenerationClick(Sender: TObject);
     procedure TC1S_EnableGroupCompanion1Click(Sender: TObject);
@@ -232,6 +233,7 @@ type
       Shift: TShiftState);
     procedure CR_InputClimateFileNumberKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
+    procedure WF_PopulateDefaultClick(Sender: TObject);
    private
     { Private declarations }
    public
@@ -655,12 +657,12 @@ begin
                   if Max3 > 0 then
                   begin
                      Count3:=1;
-                     WF_XMLOutput.Lines.Add( '         <regions surface="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_regionSurface )
+                     WF_XMLOutput.Lines.Add( '            <regions surface="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_regionSurface )
                         +'" meanTravelDist="'+inttostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_meanTravelDistance )+'">' );
                      while Count3 <= Max3 do
                      begin
                         WF_XMLOutput.Lines.Add(
-                           '            <region soilType="'+GetEnumName( TypeInfo( TFCEduRegionSoilTypes ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_regions[Count3].OOR_soilType ) )
+                           '               <region soilType="'+GetEnumName( TypeInfo( TFCEduRegionSoilTypes ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_regions[Count3].OOR_soilType ) )
                            +'" relief="'+GetEnumName( TypeInfo( TFCEduRegionReliefs ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_regions[Count3].OOR_relief ) )
                            +'" climate="'+GetEnumName( TypeInfo( TFCEduRegionClimates ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_regions[Count3].OOR_climate ) )
                            +'" closeTemp="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_regions[Count3].OOR_seasonClosest.OP_meanTemperature )
@@ -686,17 +688,17 @@ begin
                         while Count4 <= Max4 do
                         begin
                            WF_XMLOutput.Lines.Add(
-                              '              <resourcespot type="'+GetEnumName( TypeInfo( TFCEduResourceSpotTypes ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_regions[Count3].OOR_resourceSpot[Count4].RS_type ) )
+                              '                 <resourcespot type="'+GetEnumName( TypeInfo( TFCEduResourceSpotTypes ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_regions[Count3].OOR_resourceSpot[Count4].RS_type ) )
                               +'" quality="'+GetEnumName( TypeInfo( TFCEduResourceSpotQuality ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_regions[Count3].OOR_resourceSpot[Count4].RS_quality ) )
                               +'" rarity="'+GetEnumName( TypeInfo( TFCEduResourceSpotRarity ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_regions[Count3].OOR_resourceSpot[Count4].RS_rarity ) )
                               +'"/>'
                               );
                            inc( Count4 );
                         end;
-                        WF_XMLOutput.Lines.Add( '            </region>' );
+                        WF_XMLOutput.Lines.Add( '               </region>' );
                         inc( Count3 );
                      end;
-                     WF_XMLOutput.Lines.Add( '         </regions>' );
+                     WF_XMLOutput.Lines.Add( '            </regions>' );
                   end;
                   WF_XMLOutput.Lines.Add( '         </satobj>' );
                   inc( Count2 );
@@ -717,6 +719,20 @@ begin
       WF_XMLOutput.Lines.Add('!ERROR: DATA INIT!');
       WF_XMLOutput.Lines.Add('===============================================');
    end;
+end;
+
+procedure TFCWinFUG.WF_PopulateDefaultClick(Sender: TObject);
+begin
+   SSSG_StellarSysToken.Text:='stelsysSol';
+   SSSG_LocationX.Text:='0';
+   SSSG_LocationY.Text:='0';
+   SSSG_LocationZ.Text:='0';
+   TMS_StarToken.Text:='starSol';
+   TMS_StarClass.ItemIndex:=104;
+   TMS_StarTemp.Text:='5515';
+   TMS_StarMass.Text:='1';
+   TMS_StarDiam.Text:='1';
+   TMS_StarLum.Text:='1';
 end;
 
 procedure TFCWinFUG.AdvGlowButton1Click(Sender: TObject);

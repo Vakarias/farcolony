@@ -31,7 +31,8 @@ unit farc_fug_regionsClimate;
 interface
 
 uses
-   Math;
+   Math
+   ,SysUtils;
 
 //==END PUBLIC ENUM=========================================================================
 
@@ -64,9 +65,11 @@ implementation
 
 uses
    farc_common_func
+   ,farc_data_init
    ,farc_data_univ
    ,farc_fug_data
-   ,farc_univ_func;
+   ,farc_univ_func
+   ,farc_win_debug;
 
 //==END PRIVATE ENUM========================================================================
 
@@ -89,6 +92,7 @@ procedure FCMfRC_Climate_Generate(
    );
 {:Purpose: generate climate, and each of its related data, for all the regions of a given orbital object.
    Addition:
+      -2013Aug19- *fix: a range check occured with sqrt( rotation period ), if the value was negative (inverse rotation period).
 }
    var
       Count
@@ -174,13 +178,34 @@ procedure FCMfRC_Climate_Generate(
          SpeedV:=0;
          if fCalc1 <> 0 then
          begin
-//            Windspeed:=0;
-//            AtmPress:=AtmospherePressure / FCDfdRegion[Count].RC_regionPressureClosest;
-//            SpeedU:=abs( ( Y1_Y0 * 287 * FCDfdRegion[Count].RC_surfaceTemperatureClosest * ln( AtmPress ) ) / ( 2 * fCalc1 * sin( 15 * CoefRegion ) * ( sqr( fCalc4 ) ) ) );
-//            AtmPress:=FCDfdRegion[Count].RC_regionPressureClosest / AtmospherePressure;
-//            SpeedV:=abs( ( X1_X0 * 287 * FCDfdRegion[Count].RC_surfaceTemperatureClosest * ln( AtmPress ) ) / ( 2 * fCalc1 * sin( 15 * CoefRegion ) * ( sqr( fCalc3 ) ) ) );
-//            Windspeed:=sqrt( sqr( SpeedU ) + sqr( SpeedV ) );
-//            FCDfdRegion[Count].RC_windspeedClosest:=round( randg( ( Windspeed + fCalc2 ) * 0.5 , 2 ) );
+            Windspeed:=0;
+            if FCVdiDebugMode
+            then FCWinDebug.AdvMemo1.Lines.Add('AtmospherePressure= '+floattostr(AtmospherePressure));
+            if FCVdiDebugMode
+            then FCWinDebug.AdvMemo1.Lines.Add('FCDfdRegion[Count].RC_regionPressureClosest= '+floattostr(FCDfdRegion[Count].RC_regionPressureClosest));
+            AtmPress:=AtmospherePressure / FCDfdRegion[Count].RC_regionPressureClosest;//DIV BY ZERO
+            if FCVdiDebugMode
+            then FCWinDebug.AdvMemo1.Lines.Add('AtmPressU= '+floattostr(AtmPress));
+            if AtmPress <= 0
+            then SpeedU:=0
+            else SpeedU:=abs( ( Y1_Y0 * 287 * FCDfdRegion[Count].RC_surfaceTemperatureClosest * ln( AtmPress ) ) / ( 2 * fCalc1 * sin( 15 * CoefRegion ) * ( sqr( fCalc4 ) ) ) );
+            AtmPress:=FCDfdRegion[Count].RC_regionPressureClosest / AtmospherePressure;
+            if FCVdiDebugMode
+            then FCWinDebug.AdvMemo1.Lines.Add('AtmPressV= '+floattostr(AtmPress));
+            if AtmPress <= 0
+            then SpeedV:=0
+            else SpeedV:=abs( ( X1_X0 * 287 * FCDfdRegion[Count].RC_surfaceTemperatureClosest * ln( AtmPress ) ) / ( 2 * fCalc1 * sin( 15 * CoefRegion ) * ( sqr( fCalc3 ) ) ) );
+            if FCVdiDebugMode
+            then FCWinDebug.AdvMemo1.Lines.Add('SpeedU= '+floattostr(SpeedU));
+            if FCVdiDebugMode
+            then FCWinDebug.AdvMemo1.Lines.Add('SpeedV= '+floattostr(SpeedV));
+            Windspeed:=sqrt( sqr( SpeedU ) + sqr( SpeedV ) );
+            if FCVdiDebugMode
+            then FCWinDebug.AdvMemo1.Lines.Add('Windspeed= '+floattostr(Windspeed));
+            if FCVdiDebugMode
+            then FCWinDebug.AdvMemo1.Lines.Add('==================================');
+//            FCDfdRegion[Count].RC_windspeedClosest:=round( randg( 1 , 2 ) );
+            //round( randg( ( Windspeed + fCalc2 ) * 0.5 , 2 ) );
 //            Windspeed:=0;
 //            AtmPress:=AtmospherePressure / FCDfdRegion[Count].RC_regionPressureInterm;
 //            SpeedU:=abs( ( Y1_Y0 * 287 * FCDfdRegion[Count].RC_surfaceTemperatureInterm * ln( AtmPress ) ) / ( 2 * fCalc1 * sin( 15 * CoefRegion ) * ( sqr( fCalc4 ) ) ) );
@@ -300,6 +325,7 @@ begin
          );
       Max:=length( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions ) - 1;
    end;
+
    while Count <= Max do
    begin
       FCDfdRegion[Count]:=FCDfdRegion[0];
@@ -316,7 +342,7 @@ begin
       or ( Hydrosphere = hWaterAmmoniaLiquid )
       or ( Hydrosphere = hMethaneLiquid )
    then fInt0:=round( HydroArea * 0.1 );
-   fInt0:=fInt0 + round( sqrt( RotationPeriod ) );
+   fInt0:=fInt0 + round( sqrt( abs( RotationPeriod ) ) );
    fInt0:=fInt0 + round( sqrt( AxialTilt ) );
    fInt0:=fInt0 + round( sqrt( AtmospherePressure * 0.001 ) );
    if fInt0 <= 3
@@ -514,7 +540,7 @@ begin
                      fCalc2:=ObjectSurfaceTempInterm * ( ( RegionMod2 + RegionMod4 ) * 0.5 );
                      FCDfdRegion[Count].RC_surfaceTemperatureInterm:=randg( fCalc2, 5 ) * fCalc1;
                   end
-                  else if ( Count > 1 ) and ( Count < Row + 2 ) then
+                  else if ( Count > 1 ) and ( Count < ( Row + 2 ) ) then
                   begin
                      fCalc2:=ObjectSurfaceTempClosest * RegionMod3;
                      FCDfdRegion[Count].RC_surfaceTemperatureClosest:=randg( fCalc2, 5 ) * fCalc1;
@@ -523,7 +549,7 @@ begin
                      fCalc2:=ObjectSurfaceTempInterm * ( ( RegionMod1 + RegionMod3 ) * 0.5 );
                      FCDfdRegion[Count].RC_surfaceTemperatureInterm:=randg( fCalc2, 5 ) * fCalc1;
                   end
-                  else if ( Count > Row + 1 ) and ( Count < Max - 1 ) then
+                  else if ( Count > ( Row + 1 ) ) and ( Count <= ( Max - 1 ) ) then
                   begin
                      fCalc2:=ObjectSurfaceTempClosest * RegionMod1;
                      FCDfdRegion[Count].RC_surfaceTemperatureClosest:=randg( fCalc2, 5 ) * fCalc1;
@@ -556,7 +582,7 @@ begin
                      fCalc2:=ObjectSurfaceTempInterm * ( ( RegionMod2 + RegionMod4 ) * 0.5 );
                      FCDfdRegion[Count].RC_surfaceTemperatureInterm:=randg( fCalc2, 5 ) * fCalc1;
                   end
-                  else if ( Count > 1 ) and ( Count < Row + 2 ) then
+                  else if ( Count > 1 ) and ( Count < ( Row + 2 ) ) then
                   begin
                      fCalc2:=ObjectSurfaceTempClosest * RegionMod1;
                      FCDfdRegion[Count].RC_surfaceTemperatureClosest:=randg( fCalc2, 5 ) * fCalc1;
@@ -565,7 +591,7 @@ begin
                      fCalc2:=ObjectSurfaceTempInterm * ( ( RegionMod1 + RegionMod3 ) * 0.5 );
                      FCDfdRegion[Count].RC_surfaceTemperatureInterm:=randg( fCalc2, 5 ) * fCalc1;
                   end
-                  else if ( Count > Row + 1 ) and ( Count < Max - 1 ) then
+                  else if ( Count > ( Row + 1 ) ) and ( Count <= ( Max - 1 ) ) then
                   begin
                      fCalc2:=ObjectSurfaceTempClosest * RegionMod3;
                      FCDfdRegion[Count].RC_surfaceTemperatureClosest:=randg( fCalc2, 5 ) * fCalc1;
@@ -686,7 +712,7 @@ begin
                      fCalc2:=ObjectSurfaceTempInterm * RegionMod1;
                      FCDfdRegion[Count].RC_surfaceTemperatureInterm:=randg( fCalc2, 5 ) * fCalc1;
                   end
-                  else if ( Count > ( ( Row * 2 ) + 1 ) ) and ( Count < ( Max - 1 ) ) then
+                  else if ( Count > ( ( Row * 2 ) + 1 ) ) and ( Count <= ( Max - 1 ) ) then
                   begin
                      fCalc2:=ObjectSurfaceTempClosest * RegionMod2;
                      FCDfdRegion[Count].RC_surfaceTemperatureClosest:=randg( fCalc2, 5 ) * fCalc1;
@@ -737,7 +763,7 @@ begin
                      fCalc2:=ObjectSurfaceTempInterm * RegionMod1;
                      FCDfdRegion[Count].RC_surfaceTemperatureInterm:=randg( fCalc2, 5 ) * fCalc1;
                   end
-                  else if ( Count > ( ( Row * 2 ) + 1 ) ) and ( Count < ( Max - 1 ) ) then
+                  else if ( Count > ( ( Row * 2 ) + 1 ) ) and ( Count <= ( Max - 1 ) ) then
                   begin
                      fCalc2:=ObjectSurfaceTempClosest * RegionMod4;
                      FCDfdRegion[Count].RC_surfaceTemperatureClosest:=randg( fCalc2, 5 ) * fCalc1;
@@ -882,7 +908,7 @@ begin
                      fCalc2:=ObjectSurfaceTempInterm * ( ( RegionMod1 + RegionMod4 ) * 0.5 );
                      FCDfdRegion[Count].RC_surfaceTemperatureInterm:=randg( fCalc2, 5 ) * fCalc1;
                   end
-                  else if ( Count > ( ( Row * 3 ) + 1 ) ) and ( Count < ( Max - 1 ) ) then
+                  else if ( Count > ( ( Row * 3 ) + 1 ) ) and ( Count <= ( Max - 1 ) ) then
                   begin
                      fCalc2:=ObjectSurfaceTempClosest * RegionMod2;
                      FCDfdRegion[Count].RC_surfaceTemperatureClosest:=randg( fCalc2, 5 ) * fCalc1;
@@ -942,7 +968,7 @@ begin
                      fCalc2:=ObjectSurfaceTempInterm * ( ( RegionMod1 + RegionMod4 ) * 0.5 );
                      FCDfdRegion[Count].RC_surfaceTemperatureInterm:=randg( fCalc2, 5 ) * fCalc1;
                   end
-                  else if ( Count > ( ( Row * 3 ) + 1 ) ) and ( Count < ( Max - 1 ) ) then
+                  else if ( Count > ( ( Row * 3 ) + 1 ) ) and ( Count <= ( Max - 1 ) ) then
                   begin
                      fCalc2:=ObjectSurfaceTempClosest * RegionMod5;
                      FCDfdRegion[Count].RC_surfaceTemperatureClosest:=randg( fCalc2, 5 ) * fCalc1;
