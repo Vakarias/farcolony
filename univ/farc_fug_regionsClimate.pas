@@ -98,6 +98,7 @@ procedure FCMfRC_Climate_Generate(
    );
 {:Purpose: generate climate, and each of its related data, for all the regions of a given orbital object.
    Addition:
+      -2013Aug22- *add/mod: end of the overhaul. Code cleanup.
       -2013Aug21- *add/mod: begin overhaul of the subroutine that affect windspeed calculations.
       -2013Aug20- *fix: corrections to avoid multiple division by zero.
                   *fix: region's pressure is correctly adjusted.
@@ -130,8 +131,7 @@ procedure FCMfRC_Climate_Generate(
       ,RegionMod4
       ,RegionMod5
       ,RegionMod6
-      ,RotationPeriod
-      ,VaporMean: extended;
+      ,RotationPeriod: extended;
 
       isPrimaryCH4
       ,isPrimaryCO
@@ -177,105 +177,138 @@ procedure FCMfRC_Climate_Generate(
       procedure _Windspeed_Calculation( const RefRegion: integer );
       {:purpose: calculate the windspeed of the current region.
       }
-      {:DEV NOTES:
-         fInt0:
-         fCalc0:
-         fCalc1:
-         fCalc2:
-      }
          var
+            RefLat: integer;
+
             DistanceRegRegRef
             ,Tavg
             ,P0_P1
             ,P1_P0
+            ,U
+            ,V
+            ,Windspeed
             ,X1_X0
             ,Y1_Y0: extended;
 
             RegionLoc: TFCRufRegionLoc;
       begin
+         RefLat:=0;
          RegionLoc:=FCFuF_RegionLoc_ExtractNum( OrbObjLoc, Count );
          X1_X0:=( abs( RegionLoc.RL_X - RegionRefLoc.RL_X ) * FarthestTravelDistance ) * 1000;
          Y1_Y0:=( abs( RegionLoc.RL_Y - RegionRefLoc.RL_Y ) * ShortestTravelDistance ) * 1000;
          DistanceRegRegRef:=sqrt( power( RegionLoc.RL_X - RegionRefLoc.RL_X, 2 ) + power( RegionLoc.RL_Y - RegionRefLoc.RL_Y, 2 ) ) * MeanTravelDistance * 1000;
+         case Max of
+            4:
+            begin
+               if ( Count = 1 )
+                  or ( Count = 4 )
+               then RefLat:=68
+               else RefLat:=0;
+            end;
+
+            6:
+            begin
+               if ( Count = 1 )
+                  or ( Count = 6 )
+               then RefLat:=68
+               else RefLat:=22;
+            end;
+
+            8:
+            begin
+               if ( Count = 1 )
+                  or ( Count = 8 )
+               then RefLat:=68
+               else RefLat:=22;
+            end;
+
+            10:
+            begin
+               if ( Count = 1 )
+                  or ( Count = 10 )
+               then RefLat:=68
+               else RefLat:=22;
+            end;
+
+            14:
+            begin
+               if ( Count = 1 )
+                  or ( Count = 14 )
+               then RefLat:=75
+               else if ( ( Count >= 2 ) and ( Count <= 5 ) )
+                  or ( ( Count >= 10 ) and ( Count <= 13 ) )
+               then RefLat:=45
+               else RefLat:=0;
+            end;
+
+            18:
+            begin
+               if ( Count = 1 )
+                  or ( Count = 18 )
+               then RefLat:=75
+               else if ( ( Count >= 2 ) and ( Count <= 5 ) )
+                  or ( ( Count >= 14 ) and ( Count <= 17 ) )
+               then RefLat:=45
+               else RefLat:=15;
+            end;
+
+            22:
+            begin
+               if ( Count = 1 )
+                  or ( Count = 22 )
+               then RefLat:=75
+               else if ( ( Count >= 2 ) and ( Count <= 6 ) )
+                  or ( ( Count >= 17 ) and ( Count <= 21 ) )
+               then RefLat:=45
+               else RefLat:=15;
+            end;
+
+            26:
+            begin
+               if ( Count = 1 )
+                  or ( Count = 26 )
+               then RefLat:=75
+               else if ( ( Count >= 2 ) and ( Count <= 7 ) )
+                  or ( ( Count >= 20 ) and ( Count <= 25 ) )
+               then RefLat:=45
+               else RefLat:=15;
+            end;
+
+            30:
+            begin
+               if ( Count = 1 )
+                  or ( Count = 30 )
+               then RefLat:=75
+               else if ( ( Count >= 2 ) and ( Count <= 8 ) )
+                  or ( ( Count >= 23 ) and ( Count <= 29 ) )
+               then RefLat:=45
+               else RefLat:=15;
+            end;
+         end; //==END== case Max of ==//
          {.windspeed for closest distance}
          Tavg:=( FCDfdRegion[Count].RC_surfaceTemperatureClosest + FCDfdRegion[RefRegion].RC_surfaceTemperatureClosest ) * 0.5;
          P0_P1:=FCDfdRegion[Count].RC_regionPressureClosest / FCDfdRegion[RefRegion].RC_regionPressureClosest;
          P1_P0:=FCDfdRegion[RefRegion].RC_regionPressureClosest / FCDfdRegion[Count].RC_regionPressureClosest;
-
-
-
-//         if RotationPeriod <> 0
-//         then fCalc2:=( ( 4 * pi * sin( pi / ( 12 / CoefRegion ) ) ) / abs( RotationPeriod ) ) * 1000;
-//         X1_X0:=fCalc3 * cos( 15 * CoefRegion );
-//         Y1_Y0:=fCalc4 * sin( 15 * CoefRegion );
-//         AtmPress:=0;
-//         SpeedU:=0;
-//         SpeedV:=0;
-//         if fCalc1 <> 0 then
-//         begin
-//            Windspeed:=0;
-//            if FCDfdRegion[Count].RC_regionPressureClosest = 0 then
-//            begin
-//               AtmPress:=0;
-//               SpeedU:=0;
-//            end
-//            else begin
-//               AtmPress:=AtmospherePressure / FCDfdRegion[Count].RC_regionPressureClosest;
-//               SpeedU:=abs( ( Y1_Y0 * 287 * FCDfdRegion[Count].RC_surfaceTemperatureClosest * ln( AtmPress ) ) / ( 2 * fCalc1 * sin( 15 * CoefRegion ) * ( sqr( fCalc4 ) ) ) );
-//            end;
-//            AtmPress:=FCDfdRegion[Count].RC_regionPressureClosest / AtmospherePressure;
-//            if AtmPress <= 0
-//            then SpeedV:=0
-//            else SpeedV:=abs( ( X1_X0 * 287 * FCDfdRegion[Count].RC_surfaceTemperatureClosest * ln( AtmPress ) ) / ( 2 * fCalc1 * sin( 15 * CoefRegion ) * ( sqr( fCalc3 ) ) ) );
-//            Windspeed:=sqr( SpeedU ) + sqr( SpeedV );
-//            if Windspeed <> 0
-//            then Windspeed:=sqrt( abs( Windspeed ) );
-//            FCDfdRegion[Count].RC_windspeedClosest:=round( randg( ( Windspeed + fCalc2 ) * 0.5 , ( Windspeed + fCalc2 )*0.05 ) );
-//            if FCDfdRegion[Count].RC_windspeedClosest < 0
-//            then FCDfdRegion[Count].RC_windspeedClosest:=0;
-//
-//            Windspeed:=0;
-//            if FCDfdRegion[Count].RC_regionPressureInterm = 0 then
-//            begin
-//               AtmPress:=0;
-//               SpeedU:=0;
-//            end
-//            else begin
-//               AtmPress:=AtmospherePressure / FCDfdRegion[Count].RC_regionPressureInterm;
-//               SpeedU:=abs( ( Y1_Y0 * 287 * FCDfdRegion[Count].RC_surfaceTemperatureInterm * ln( AtmPress ) ) / ( 2 * fCalc1 * sin( 15 * CoefRegion ) * ( sqr( fCalc4 ) ) ) );
-//            end;
-//            AtmPress:=FCDfdRegion[Count].RC_regionPressureInterm / AtmospherePressure;
-//            if AtmPress <= 0
-//            then SpeedV:=0
-//            else SpeedV:=abs( ( X1_X0 * 287 * FCDfdRegion[Count].RC_surfaceTemperatureInterm * ln( AtmPress ) ) / ( 2 * fCalc1 * sin( 15 * CoefRegion ) * ( sqr( fCalc3 ) ) ) );
-//            Windspeed:=sqr( SpeedU ) + sqr( SpeedV );
-//            if Windspeed <> 0
-//            then Windspeed:=sqrt( abs( Windspeed ) );
-//            FCDfdRegion[Count].RC_windspeedInterm:=round( randg( ( Windspeed + fCalc2 ) * 0.5 , ( Windspeed + fCalc2 )*0.05 ) );
-//            if FCDfdRegion[Count].RC_windspeedClosest < 0
-//            then FCDfdRegion[Count].RC_windspeedClosest:=0;
-//
-//            Windspeed:=0;
-//            if FCDfdRegion[Count].RC_regionPressureFarthest = 0 then
-//            begin
-//               AtmPress:=0;
-//               SpeedU:=0;
-//            end
-//            else begin
-//               AtmPress:=AtmospherePressure / FCDfdRegion[Count].RC_regionPressureFarthest;
-//               SpeedU:=abs( ( Y1_Y0 * 287 * FCDfdRegion[Count].RC_surfaceTemperatureFarthest * ln( AtmPress ) ) / ( 2 * fCalc1 * sin( 15 * CoefRegion ) * ( sqr( fCalc4 ) ) ) );
-//            end;
-//            AtmPress:=FCDfdRegion[Count].RC_regionPressureFarthest / AtmospherePressure;
-//            if AtmPress <= 0
-//            then SpeedV:=0
-//            else SpeedV:=abs( ( X1_X0 * 287 * FCDfdRegion[Count].RC_surfaceTemperatureFarthest * ln( AtmPress ) ) / ( 2 * fCalc1 * sin( 15 * CoefRegion ) * ( sqr( fCalc3 ) ) ) );
-//            Windspeed:=sqr( SpeedU ) + sqr( SpeedV );
-//            if Windspeed <> 0
-//            then Windspeed:=sqrt( abs( Windspeed ) );
-//            FCDfdRegion[Count].RC_windspeedFarthest:=round( randg( ( Windspeed + fCalc2 ) * 0.5 , ( Windspeed + fCalc2 )*0.05 ) );
-//            if FCDfdRegion[Count].RC_windspeedClosest < 0
-//            then FCDfdRegion[Count].RC_windspeedClosest:=0;
-//         end;
+         U:=( Y1_Y0 * DryAir * Tavg * ln( P0_P1 ) ) / ( 2 * Omega * sin( RefLat ) * power(  DistanceRegRegRef, 2 ) );
+         V:=( X1_X0 * DryAir * Tavg * ln( P1_P0 ) ) / ( 2 * Omega * sin( RefLat ) * power(  DistanceRegRegRef, 2 ) );
+         Windspeed:=sqrt( power( U, 2 ) + power( V, 2 ) );
+         FCDfdRegion[Count].RC_windspeedClosest:=round( Windspeed );
+         {.windspeed for intermediate distance}
+         Tavg:=( FCDfdRegion[Count].RC_surfaceTemperatureInterm + FCDfdRegion[RefRegion].RC_surfaceTemperatureInterm ) * 0.5;
+         P0_P1:=FCDfdRegion[Count].RC_regionPressureInterm / FCDfdRegion[RefRegion].RC_regionPressureInterm;
+         P1_P0:=FCDfdRegion[RefRegion].RC_regionPressureInterm / FCDfdRegion[Count].RC_regionPressureInterm;
+         U:=( Y1_Y0 * DryAir * Tavg * ln( P0_P1 ) ) / ( 2 * Omega * sin( RefLat ) * power(  DistanceRegRegRef, 2 ) );
+         V:=( X1_X0 * DryAir * Tavg * ln( P1_P0 ) ) / ( 2 * Omega * sin( RefLat ) * power(  DistanceRegRegRef, 2 ) );
+         Windspeed:=sqrt( power( U, 2 ) + power( V, 2 ) );
+         FCDfdRegion[Count].RC_windspeedInterm:=round( Windspeed );
+         {.windspeed for farthest distance}
+         Tavg:=( FCDfdRegion[Count].RC_surfaceTemperatureFarthest + FCDfdRegion[RefRegion].RC_surfaceTemperatureFarthest ) * 0.5;
+         P0_P1:=FCDfdRegion[Count].RC_regionPressureFarthest / FCDfdRegion[RefRegion].RC_regionPressureFarthest;
+         P1_P0:=FCDfdRegion[RefRegion].RC_regionPressureFarthest / FCDfdRegion[Count].RC_regionPressureFarthest;
+         U:=( Y1_Y0 * DryAir * Tavg * ln( P0_P1 ) ) / ( 2 * Omega * sin( RefLat ) * power(  DistanceRegRegRef, 2 ) );
+         V:=( X1_X0 * DryAir * Tavg * ln( P1_P0 ) ) / ( 2 * Omega * sin( RefLat ) * power(  DistanceRegRegRef, 2 ) );
+         Windspeed:=sqrt( power( U, 2 ) + power( V, 2 ) );
+         FCDfdRegion[Count].RC_windspeedFarthest:=round( Windspeed );
       end;
 begin
    {.data initialization}
@@ -306,8 +339,7 @@ begin
    RegionMod5:=0;
    RegionMod6:=0;
    RotationPeriod:=0;
-   VaporMean:=0;
-
+   
    isPrimaryCH4:=false;
    isPrimaryCO:=false;
    isPrimaryCO2:=false;
@@ -1125,13 +1157,6 @@ begin
       end; //==END== while Count <= Max ==//
    end; //==END== else of: if fCalc0 <= 90 ==//
    {.climate and its related data}
-   {:DEV NOTES:
-      fInt0:
-      fCalc0:
-      fCalc1:
-      fCalc2:
-   }
-   fCalc0:=0;
    if AtmospherePressure > 0 then
    begin
       {.global precalculations}
@@ -1245,30 +1270,15 @@ begin
          then FCDfdRegion[Count].RC_relativeHumidityFarthest:=0
          else if FCDfdRegion[Count].RC_relativeHumidityFarthest > 100
          then FCDfdRegion[Count].RC_relativeHumidityFarthest:=100;
-//         VaporMean:=( FCDfdRegion[Count].RC_vaporPressureDewClosest + FCDfdRegion[Count].RC_saturationVaporClosest ) * 0.5;
-         VaporMean:=FCDfdRegion[Count].RC_vaporPressureDewClosest;
-//         if FCDfdRegion[Count].RC_vaporPressureDewClosest >= AtmospherePressure
-//         then FCDfdRegion[Count].RC_regionPressureClosest:=AtmospherePressure
-//         else FCDfdRegion[Count].RC_regionPressureClosest:=FCDfdRegion[Count].RC_vaporPressureDewClosest;
-         if VaporMean >= AtmospherePressure
+         if FCDfdRegion[Count].RC_vaporPressureDewClosest >= AtmospherePressure
          then FCDfdRegion[Count].RC_regionPressureClosest:=AtmospherePressure
-         else FCDfdRegion[Count].RC_regionPressureClosest:=VaporMean;
-//         VaporMean:=( FCDfdRegion[Count].RC_vaporPressureDewInterm + FCDfdRegion[Count].RC_saturationVaporInterm ) * 0.5;
-         VaporMean:=FCDfdRegion[Count].RC_vaporPressureDewInterm;
-//         if FCDfdRegion[Count].RC_vaporPressureDewInterm >= AtmospherePressure
-//         then FCDfdRegion[Count].RC_regionPressureInterm:=AtmospherePressure
-//         else FCDfdRegion[Count].RC_regionPressureInterm:=FCDfdRegion[Count].RC_vaporPressureDewInterm;
-         if VaporMean >= AtmospherePressure
+         else FCDfdRegion[Count].RC_regionPressureClosest:=FCDfdRegion[Count].RC_vaporPressureDewClosest;
+         if FCDfdRegion[Count].RC_vaporPressureDewInterm >= AtmospherePressure
          then FCDfdRegion[Count].RC_regionPressureInterm:=AtmospherePressure
-         else FCDfdRegion[Count].RC_regionPressureInterm:=VaporMean;
-//         VaporMean:=( FCDfdRegion[Count].RC_vaporPressureDewFarthest + FCDfdRegion[Count].RC_saturationVaporFarthest ) * 0.5;
-         VaporMean:=FCDfdRegion[Count].RC_vaporPressureDewFarthest;
-//         if FCDfdRegion[Count].RC_vaporPressureDewFarthest >= AtmospherePressure
-//         then FCDfdRegion[Count].RC_regionPressureFarthest:=AtmospherePressure
-//         else FCDfdRegion[Count].RC_regionPressureFarthest:=FCDfdRegion[Count].RC_vaporPressureDewFarthest;
-         if VaporMean >= AtmospherePressure
+         else FCDfdRegion[Count].RC_regionPressureInterm:=FCDfdRegion[Count].RC_vaporPressureDewInterm;
+         if FCDfdRegion[Count].RC_vaporPressureDewFarthest >= AtmospherePressure
          then FCDfdRegion[Count].RC_regionPressureFarthest:=AtmospherePressure
-         else FCDfdRegion[Count].RC_regionPressureFarthest:=VaporMean;
+         else FCDfdRegion[Count].RC_regionPressureFarthest:=FCDfdRegion[Count].RC_vaporPressureDewFarthest;
          {.windspeed calculations}
          _Windspeed_Calculation( RegionRefIndex );
          {.region's climate calculations}
@@ -1276,7 +1286,6 @@ begin
             fInt0: h
             fCalc0: meanRH
             fCalc1: meanST
-            fCalc2:
          }
          FCDfdRegion[Count].RC_finalClimate:=rc00VoidNoUse;
          fCalc0:=( FCDfdRegion[Count].RC_relativeHumidityClosest + FCDfdRegion[Count].RC_relativeHumidityInterm + FCDfdRegion[Count].RC_relativeHumidityFarthest ) / 3;
@@ -1330,8 +1339,6 @@ begin
             fInt0: x
             fInt1: RBF
             fCalc0: modRH
-            fCalc1:
-            fCalc2:
          }
          fInt0:=0;
          fInt1:=0;
