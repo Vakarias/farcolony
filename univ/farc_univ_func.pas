@@ -52,7 +52,7 @@ type TFCEufStelObj=(
 ///<summary>
 /// record used to retrieve the volumes taken by the gases. Use the internal AtmosphereGases_CalculatePercents method to calculate them
 ///</summary>
-type TFCRufAtmosphereGasesPercent=record
+type TFCRufAtmosphereGases=record
    AGP_atmosphericPressure: extended;
    AGP_primaryGasPercent: integer;
    AGP_secondaryGasPercent: extended;
@@ -66,7 +66,7 @@ type TFCRufAtmosphereGasesPercent=record
    ///   <param name="SatelliteObj">[optional] satellite index #</param>
    ///   <returns>[format x.xx ] load the AGP_primaryGasPercent/AGP_secondaryGasPercent/AGP_traceGasPercent and AGP_atmosphericPressure data with results</returns>
    ///   <remarks>the procedure reset itself the record's data</remarks>
-   procedure AtmosphereGases_CalculatePercents(
+   procedure CalculatePercents(
       const StarSytem
             ,Star
             ,OrbitalObj
@@ -1478,7 +1478,7 @@ end;
 
 //===========================END FUNCTIONS SECTION==========================================
 
-procedure TFCRufAtmosphereGasesPercent.AtmosphereGases_CalculatePercents(
+procedure TFCRufAtmosphereGases.CalculatePercents(
    const StarSytem
          ,Star
          ,OrbitalObj

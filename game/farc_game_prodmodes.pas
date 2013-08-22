@@ -281,7 +281,7 @@ procedure FCMgPM_ProductionModeDataFromFunction_Generate(
 
       ColonyEnvironment: TFCRgcEnvironment;
 
-      AtmosphereGases: TFCRufAtmosphereGasesPercent;
+      AtmosphereGases: TFCRufAtmosphereGases;
 
       OrbObjRow: TFCRufStelObj;
 begin
@@ -462,7 +462,7 @@ begin
                AtmosphereGases.AGP_primaryGasPercent:=0;
                AtmosphereGases.AGP_secondaryGasPercent:=0;
                AtmosphereGases.AGP_traceGasPercent:=0;
-               AtmosphereGases.AtmosphereGases_CalculatePercents(
+               AtmosphereGases.CalculatePercents(
                   OrbObjRow[ 1 ]
                   ,OrbObjRow[ 2 ]
                   ,OrbObjRow[ 3 ]

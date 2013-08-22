@@ -30,7 +30,8 @@ unit farc_fug_regions;
 
 interface
 
-//uses
+uses
+   Math;
 
 //==END PUBLIC ENUM=========================================================================
 
@@ -76,7 +77,8 @@ procedure FCMfR_GenerationPhase2_Process(
 implementation
 
 uses
-   farc_data_univ
+   farc_common_func
+   ,farc_data_univ
    ,farc_fug_fractalterrains
    ,farc_fug_landresources
    ,farc_fug_regionsClimate;
@@ -102,52 +104,104 @@ procedure FCMfR_GenerationPhase1_Process(
    );
 {:Purpose: generate the regions of an orbital object. It is the first phase (pre-generation of the surface maps).
    Additions:
+      -2013Aug20- *add: short/long/mean travel distances calculation.
 }
    var
-      Max: integer;
+      Max
+      ,RegionSurf: integer;
 
-      Diameter: extended;
+      Diameter
+      ,DistanceFarthest
+      ,DistanceMean
+      ,DistanceShortest
+      ,SurfaceByRegion: extended;
 begin
    Max:=0;
+   RegionSurf:=0;
 
    Diameter:=0;
+   DistanceFarthest:=0;
+   DistanceMean:=0;
+   DistanceShortest:=0;
+   SurfaceByRegion:=0;
    if Satellite = 0
    then Diameter:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_Diameter
    else if Satellite > 0
    then Diameter:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_Diameter;
    {.generate the total number of region an orbital object has}
-   if Diameter < 30
-   then Max:=4
+   if Diameter < 30 then
+   begin
+      Max:=4;
+      RegionSurf:=6;
+   end
    else if ( Diameter >= 30 )
-      and ( Diameter < 75 )
-   then Max:=6
+      and ( Diameter < 75 ) then
+   begin
+      Max:=6;
+      RegionSurf:=8;
+   end
    else if ( Diameter >= 75 )
-      and ( Diameter < 187 )
-   then Max:=8
+      and ( Diameter < 187 ) then
+   begin
+      Max:=8;
+      RegionSurf:=12;
+   end
    else if ( Diameter >= 187 )
-      and ( Diameter < 468 )
-   then Max:=10
+      and ( Diameter < 468 ) then
+   begin
+      Max:=10;
+      RegionSurf:=16;
+   end
    else if ( Diameter >= 468 )
-      and ( Diameter < 1171 )
-   then Max:=14
+      and ( Diameter < 1171 ) then
+   begin
+      Max:=14;
+      RegionSurf:=20;
+   end
    else if ( Diameter >= 1171 )
-      and ( Diameter < 2929 )
-   then Max:=18
+      and ( Diameter < 2929 ) then
+   begin
+      Max:=18;
+      RegionSurf:=24;
+   end
    else if ( Diameter >= 2929 )
-      and ( Diameter < 7324 )
-   then Max:=22
+      and ( Diameter < 7324 ) then
+   begin
+      Max:=22;
+      RegionSurf:=30;
+   end
    else if ( Diameter >= 7324 )
-      and ( Diameter < 18310 )
-   then Max:=26
-   else if Diameter >= 18310
-   then Max:=30;
-   if Satellite = 0
-   then setlength( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions, Max + 1 )
-   else if Satellite > 0
-   then setlength( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions, Max + 1 );
+      and ( Diameter < 18310 ) then
+   begin
+      Max:=26;
+      RegionSurf:=36;
+   end
+   else if Diameter >= 18310 then
+   begin
+      Max:=30;
+      RegionSurf:=42;
+   end;
+   SurfaceByRegion:=4 * Pi * power( Diameter * 0.5, 2 ) /  RegionSurf;
+   DistanceFarthest:=sqrt( SurfaceByRegion * 2 );
+   DistanceShortest:=sqrt( SurfaceByRegion ) / 1.45;
+   DistanceMean:=( DistanceFarthest + DistanceShortest ) * 0.5;
+   if Satellite = 0 then
+   begin
+      setlength( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions, Max + 1 );
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regionSurface:=FCFcF_Round( rttCustom1Decimal, SurfaceByRegion );
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_meanTravelDistance:=round( DistanceMean );
+   end
+   else if Satellite > 0 then
+   begin
+      setlength( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions, Max + 1 );
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regionSurface:=FCFcF_Round( rttCustom1Decimal, SurfaceByRegion );
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_meanTravelDistance:=round( DistanceMean );
+   end;
    {.generate the climate of each region}
    FCMfRC_Climate_Generate(
-      Star
+      DistanceShortest
+      ,DistanceFarthest
+      ,Star
       ,OrbitalObject
       ,Satellite
       );

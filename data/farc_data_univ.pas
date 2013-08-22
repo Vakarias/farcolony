@@ -719,7 +719,7 @@ type TFCRduOrbitalObject = record
    ///</summary>
    OO_hydrosphereArea: integer;
    ///<summary>
-   ///   surface by region
+   ///   surface by region rto-1
    ///</summary>
    OO_regionSurface: extended;
    ///<summary>
