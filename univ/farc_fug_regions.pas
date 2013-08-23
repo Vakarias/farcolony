@@ -206,11 +206,11 @@ begin
       ,Satellite
       );
    {.generate the land types and relief}
-//   FCMfR_LandRelief_Process(
-//      Star
-//      ,OrbitalObject
-//      ,Satellite
-//      );
+   FCMfR_LandRelief_Process(
+      Star
+      ,OrbitalObject
+      ,Satellite
+      );
    {.initialize Fractal Terrains Data and initialize the interface}
 //   FCMfT_DataLinking_Process(
 //      Star

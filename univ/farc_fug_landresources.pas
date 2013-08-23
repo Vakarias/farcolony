@@ -89,6 +89,8 @@ procedure FCMfR_LandRelief_Process(
    );
 {:Purpose: generate the land type and relief for each region.
    Additions:
+      -2013Aug22- *add: adjustments for the relief.
+                  *fix: mislocated the data loading code.
       -2013Aug18- *add: forgot to add the data loading in the region's data structure of the selected orbital object.
 }
 var
@@ -178,7 +180,9 @@ begin
    if Satellite = 0 then
    begin
       ObjectType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_type;
-      GravModifier:=round( ( 1 / FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_gravity ) * 10 ) - 10;
+      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_gravity <> 1
+      then GravModifier:=round( ln( 1 / FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_gravity ) * 10 ) - 10
+      else GravModifier:=0;
       if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphericPressure > 0
       then isAtmosphere:=true;
       HydroType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_hydrosphere;
@@ -189,7 +193,9 @@ begin
    else if Satellite > 0 then
    begin
       ObjectType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_type;
-      GravModifier:=round( ( 1 / FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_gravity ) * 10 ) - 10;
+      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_gravity <> 1
+      then GravModifier:=round( ( 1 / FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_gravity ) * 10 ) - 10
+      else GravModifier:=0;
       if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphericPressure > 0
       then isAtmosphere:=true;
       HydroType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_hydrosphere;
@@ -336,17 +342,17 @@ begin
             end;
          end; //==END== case FCDfdRegion[Region].RC_finalClimate of ==//
          _VolcanicReliefModification_Apply( Region );
-         if Satellite = 0 then
-         begin
-            FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions[Region].OOR_soilType:=FCDfdRegion[Region].RC_landType;
-            FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions[Region].OOR_relief:=FCDfdRegion[Region].RC_reliefType;
-         end
-         else if Satellite > 0 then
-         begin
-            FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Region].OOR_soilType:=FCDfdRegion[Region].RC_landType;
-            FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Region].OOR_relief:=FCDfdRegion[Region].RC_reliefType;
-         end;
       end; //==END== else of: ( ( ( ObjectType >= oot_Planet_Telluric ) and ( ObjectType < ootPlanet_Gaseous_Uranus ) ) or ( ObjectType >= ootSatellite_Planet_Telluric ) ) and ( isAtmosphere ) ==//
+      if Satellite = 0 then
+      begin
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions[Region].OOR_soilType:=FCDfdRegion[Region].RC_landType;
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions[Region].OOR_relief:=FCDfdRegion[Region].RC_reliefType;
+      end
+      else if Satellite > 0 then
+      begin
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Region].OOR_soilType:=FCDfdRegion[Region].RC_landType;
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Region].OOR_relief:=FCDfdRegion[Region].RC_reliefType;
+      end;
       inc( Region );
    end; //==END== while Region <= Max ==//
 end;

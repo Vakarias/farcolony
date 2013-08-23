@@ -733,6 +733,27 @@ begin
    TMS_StarMass.Text:='1';
    TMS_StarDiam.Text:='1';
    TMS_StarLum.Text:='1';
+   TMS_OrbitGeneration.ItemIndex:=2;
+   TMS_OrbitGenerationNumberOrbits.Text:='1';
+   setlength( FCDfdMainStarObjectsList, strtoint( TMS_OrbitGenerationNumberOrbits.Text ) + 1 );
+   FCMfC_StarPicker_Update;
+   WF_ConfigurationMultiTab.ActivePage:=CMT_TabStellarStarSystem;
+   COO_Distance.Text:='1';
+   FCmfC_OrbitPicker_DistanceUpdate;
+   COO_ObjecType.ItemIndex:=3;
+   FCmfC_OrbitPicker_ObjectTypeUpdate;
+   COO_RotationPeriod.Text:='24';
+   FCmfC_OrbitPicker_RotationPeriodUpdate;
+   COO_InclAxis.Text:='18';
+   FCmfC_OrbitPicker_InclinationAxisUpdate;
+   COO_Diameter.Text:='12756';
+   FCmfC_OrbitPicker_DiameterUpdate;
+   COO_Density.Text:='5515';
+   FCmfC_OrbitPicker_DensityUpdate;
+   COO_Mass.Text:='1';
+   FCmfC_OrbitPicker_MassUpdate;
+   COO_Gravity.Text:='1';
+   FCmfC_OrbitPicker_GravityUpdate;
 end;
 
 procedure TFCWinFUG.AdvGlowButton1Click(Sender: TObject);
