@@ -116,6 +116,8 @@ var
    ///   FUG system type - temp data
    ///</summary>
    FCRfdSystemType: TFCRfdSystemType;
+
+   FUGpaused: boolean;
 //==END PUBLIC VAR==========================================================================
 
 //const

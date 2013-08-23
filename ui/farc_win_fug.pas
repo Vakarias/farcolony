@@ -100,8 +100,7 @@ type
     Label6: TLabel;
     TC2S_StarClassLabel: TLabel;
     TC2S_SystemTypeLabel: TLabel;
-
-    AdvGlowButton1: TAdvGlowButton;
+    WF_ResetButton: TAdvGlowButton;
     CMT_TabOrbitalObjects: TAdvTabSheet;
     TOO_StarPicker: TRadioGroup;
     COO_Token: TLabeledEdit;
@@ -169,6 +168,7 @@ type
     CR_InputLightColorFileNumber: TLabeledEdit;
     CR_InputClimateFileNumber: TLabeledEdit;
     WF_PopulateDefault: TAdvGlowButton;
+    WF_ContinueButton: TAdvGlowButton;
     procedure WF_GenerateButtonClick(Sender: TObject);
     procedure TMS_OrbitGenerationClick(Sender: TObject);
     procedure TC1S_EnableGroupCompanion1Click(Sender: TObject);
@@ -176,7 +176,7 @@ type
     procedure TMS_SystemTypeChange(Sender: TObject);
     procedure TC1S_SystemTypeChange(Sender: TObject);
     procedure TC2S_SystemTypeChange(Sender: TObject);
-    procedure AdvGlowButton1Click(Sender: TObject);
+    procedure WF_ResetButtonClick(Sender: TObject);
     procedure TOO_StarPickerClick(Sender: TObject);
     procedure TC1S_OrbitGenerationClick(Sender: TObject);
     procedure TC2S_OrbitGenerationClick(Sender: TObject);
@@ -234,6 +234,7 @@ type
     procedure CR_InputClimateFileNumberKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure WF_PopulateDefaultClick(Sender: TObject);
+    procedure WF_ContinueButtonClick(Sender: TObject);
    private
     { Private declarations }
    public
@@ -271,6 +272,9 @@ var
 
    DumpString: string;
 begin
+   WF_GenerateButton.Hide;
+   WF_ResetButton.Hide;
+   WF_PopulateDefault.Hide;
    FCDduStarSystem:=nil;
    SetLength(FCDduStarSystem, 1);
    if (SSSG_StellarSysToken.Text<>'stelsys')
@@ -719,6 +723,9 @@ begin
       WF_XMLOutput.Lines.Add('!ERROR: DATA INIT!');
       WF_XMLOutput.Lines.Add('===============================================');
    end;
+   WF_GenerateButton.Show;
+   WF_ResetButton.Show;
+   WF_PopulateDefault.Show;
 end;
 
 procedure TFCWinFUG.WF_PopulateDefaultClick(Sender: TObject);
@@ -756,9 +763,14 @@ begin
    FCmfC_OrbitPicker_GravityUpdate;
 end;
 
-procedure TFCWinFUG.AdvGlowButton1Click(Sender: TObject);
+procedure TFCWinFUG.WF_ResetButtonClick(Sender: TObject);
 begin
    FCMfC_Initialize( false );
+end;
+
+procedure TFCWinFUG.WF_ContinueButtonClick(Sender: TObject);
+begin
+   FUGpaused:=false;
 end;
 
 procedure TFCWinFUG.COO_AtmosphereEditClick(Sender: TObject);

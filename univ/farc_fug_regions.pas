@@ -212,11 +212,11 @@ begin
       ,Satellite
       );
    {.initialize Fractal Terrains Data and initialize the interface}
-//   FCMfT_DataLinking_Process(
-//      Star
-//      ,OrbitalObject
-//      ,Satellite
-//      );
+   FCMfT_DataLinking_Process(
+      Star
+      ,OrbitalObject
+      ,Satellite
+      );
 end;
 
 procedure FCMfR_GenerationPhase2_Process(

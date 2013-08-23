@@ -31,7 +31,8 @@ unit farc_fug_fractalterrains;
 interface
 
 uses
-   SysUtils;
+   Forms
+   ,SysUtils;
 
 //==END PUBLIC ENUM=========================================================================
 
@@ -111,6 +112,8 @@ begin
    Diameter:=0;
    fCalc1:=0;
    Gravity:=0;
+
+   FUGpaused:=false;
 
    if Satellite = 0 then
    begin
@@ -284,6 +287,14 @@ begin
    FCWinFUG.CR_CurrentRegion.Enabled:=true;
    FCWinFUG.CR_CurrentRegion.ItemIndex:=0;
    {.dev: include the display of a third button}
+   FUGpaused:=true;
+   FCWinFUG.WF_ContinueButton.Show;
+   while FUGpaused do
+   begin
+      sleep(100);
+      application.processmessages;
+   end;
+   FCWinFUG.WF_ContinueButton.Hide;
 end;
 
 end.

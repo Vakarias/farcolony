@@ -259,16 +259,22 @@ procedure FCMfRC_Climate_Generate(
 
          DensityRegion:=AtmospherePressure / ( DryAir * FCDfdRegion[Count].RC_surfaceTemperatureClosest );
          fCalc1:=DensityRegion / DensityGlobalClosest * AtmospherePressure;
-         FCDfdRegion[Count].RC_regionPressureClosest:=fCalc1;
+         if fCalc1 <= AtmospherePressure
+         then FCDfdRegion[Count].RC_regionPressureClosest:=fCalc1
+         else FCDfdRegion[Count].RC_regionPressureClosest:=randg( AtmospherePressure, AtmospherePressure * 0.02);
 
          DensityRegion:=AtmospherePressure / ( DryAir * FCDfdRegion[Count].RC_surfaceTemperatureInterm );
          fCalc1:=DensityRegion / DensityGlobalInterm * AtmospherePressure;
-         FCDfdRegion[Count].RC_regionPressureInterm:=fCalc1;
+         if fCalc1 <= AtmospherePressure
+         then FCDfdRegion[Count].RC_regionPressureInterm:=fCalc1
+         else FCDfdRegion[Count].RC_regionPressureInterm:=randg( AtmospherePressure, AtmospherePressure * 0.02);
 
 
          DensityRegion:=AtmospherePressure / ( DryAir * FCDfdRegion[Count].RC_surfaceTemperatureFarthest );
          fCalc1:=DensityRegion / DensityGlobalFarthest * AtmospherePressure;
-         FCDfdRegion[Count].RC_regionPressureFarthest:=fCalc1;
+         if fCalc1 <= AtmospherePressure
+         then FCDfdRegion[Count].RC_regionPressureFarthest:=fCalc1
+         else FCDfdRegion[Count].RC_regionPressureFarthest:=randg( AtmospherePressure, AtmospherePressure * 0.02);
       end;
 
       procedure _Windspeed_Calculation( const RefRegion: integer );

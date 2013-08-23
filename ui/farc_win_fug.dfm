@@ -2520,7 +2520,7 @@ object FCWinFUG: TFCWinFUG
     Align = alTop
     Caption = 'AdvGroupBox1'
     TabOrder = 1
-    object AdvGlowButton1: TAdvGlowButton
+    object WF_ResetButton: TAdvGlowButton
       Left = 1
       Top = 0
       Width = 105
@@ -2532,7 +2532,7 @@ object FCWinFUG: TFCWinFUG
       NotesFont.Name = 'Tahoma'
       NotesFont.Style = []
       TabOrder = 0
-      OnClick = AdvGlowButton1Click
+      OnClick = WF_ResetButtonClick
       Appearance.ColorChecked = 16111818
       Appearance.ColorCheckedTo = 16367008
       Appearance.ColorDisabled = 15921906
@@ -2593,6 +2593,37 @@ object FCWinFUG: TFCWinFUG
       NotesFont.Style = []
       TabOrder = 2
       OnClick = WF_PopulateDefaultClick
+      Appearance.ColorChecked = 16111818
+      Appearance.ColorCheckedTo = 16367008
+      Appearance.ColorDisabled = 15921906
+      Appearance.ColorDisabledTo = 15921906
+      Appearance.ColorDown = 16111818
+      Appearance.ColorDownTo = 16367008
+      Appearance.ColorHot = 16117985
+      Appearance.ColorHotTo = 16372402
+      Appearance.ColorMirrorHot = 16107693
+      Appearance.ColorMirrorHotTo = 16775412
+      Appearance.ColorMirrorDown = 16102556
+      Appearance.ColorMirrorDownTo = 16768988
+      Appearance.ColorMirrorChecked = 16102556
+      Appearance.ColorMirrorCheckedTo = 16768988
+      Appearance.ColorMirrorDisabled = 11974326
+      Appearance.ColorMirrorDisabledTo = 15921906
+    end
+    object WF_ContinueButton: TAdvGlowButton
+      Left = 355
+      Top = 3
+      Width = 105
+      Height = 33
+      Caption = 'Continue'
+      NotesFont.Charset = DEFAULT_CHARSET
+      NotesFont.Color = clWindowText
+      NotesFont.Height = -11
+      NotesFont.Name = 'Tahoma'
+      NotesFont.Style = []
+      TabOrder = 3
+      Visible = False
+      OnClick = WF_ContinueButtonClick
       Appearance.ColorChecked = 16111818
       Appearance.ColorCheckedTo = 16367008
       Appearance.ColorDisabled = 15921906
