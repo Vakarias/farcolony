@@ -154,9 +154,7 @@ type
     CR_ReliefAdjustment: TAdvComboBox;
     CR_OceanicCoastalAdjustment: TAdvComboBox;
     CR_InputSeed: TLabeledEdit;
-    LabeledEdit13: TLabeledEdit;
     CR_CurrentRegion: TAdvComboBox;
-    LabeledEdit14: TLabeledEdit;
     CR_MaxRegionsNumber: THTMLabel;
     CR_GridIndexNumber: THTMLabel;
     CR_SeaArea: THTMLabel;
@@ -169,6 +167,9 @@ type
     CR_InputClimateFileNumber: TLabeledEdit;
     WF_PopulateDefault: TAdvGlowButton;
     WF_ContinueButton: TAdvGlowButton;
+    CR_Albedo: THTMLabel;
+    CR_StarLum: THTMLabel;
+    CR_Greenhouse: THTMLabel;
     procedure WF_GenerateButtonClick(Sender: TObject);
     procedure TMS_OrbitGenerationClick(Sender: TObject);
     procedure TC1S_EnableGroupCompanion1Click(Sender: TObject);
@@ -235,6 +236,8 @@ type
       Shift: TShiftState);
     procedure WF_PopulateDefaultClick(Sender: TObject);
     procedure WF_ContinueButtonClick(Sender: TObject);
+    procedure CR_ReliefAdjustmentChange(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
    private
     { Private declarations }
    public
@@ -451,7 +454,7 @@ begin
             Count1:=1;
             while Count1<=Max1 do
             begin
-               WF_XMLOutput.Lines.Add( '      <orbobj token="'+FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_dbTokenId+'" ftSeed="'+inttostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_worldSeed )+'">' );
+               WF_XMLOutput.Lines.Add( '      <orbobj token="'+FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_dbTokenId+'" ftSeed="'+inttostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_fug_WorldSeed )+'">' );
                WF_XMLOutput.Lines.Add(
                   '         <orbitalData distanceFromStar="'+FloatToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_isNotSat_distanceFromStar )
                      +'" eccentricity="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_isNotSat_eccentricity )
@@ -466,7 +469,7 @@ begin
                WF_XMLOutput.Lines.Add(
                   '         <geophysicalData type="'+GetEnumName( TypeInfo( TFCEduOrbitalObjectTypes ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_type ) )
                      {:DEV NOTES: DEBUG ENTRY, TO REMOVE LATER.}
-                     +'" oobasictypeDEBUG="'+GetEnumName( TypeInfo( TFCEduOrbitalObjectBasicTypes ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_basicType ) )
+                     +'" oobasictypeDEBUG="'+GetEnumName( TypeInfo( TFCEduOrbitalObjectBasicTypes ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_fug_BasicType ) )
                      {:DEV NOTES: END.}
                      +'" diameter="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_diameter )
                      +'" density="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_density )
@@ -573,7 +576,7 @@ begin
                Count2:=1;
                while Count2<=Max2 do
                begin
-                  WF_XMLOutput.Lines.Add( '         <satobj token="'+FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_dbTokenId+'" ftSeed="'+inttostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_worldSeed )+'">' );
+                  WF_XMLOutput.Lines.Add( '         <satobj token="'+FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_dbTokenId+'" ftSeed="'+inttostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_fug_WorldSeed )+'">' );
                   WF_XMLOutput.Lines.Add(
                      '            <orbitalData distanceFromRoot="'+FloatToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_isSat_distanceFromPlanet )
                         +'" revolutionPeriod="'+IntToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_revolutionPeriod )
@@ -587,7 +590,7 @@ begin
                   then WF_XMLOutput.Lines.Add(
                      '            <geophysicalData type="'+GetEnumName( TypeInfo( TFCEduOrbitalObjectTypes ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_type ) )
                         {:DEV NOTES: DEBUG ENTRY, TO REMOVE LATER.}
-                        +'" satbasictypeDEBUG="'+GetEnumName( TypeInfo( TFCEduOrbitalObjectBasicTypes ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_basicType ) )
+                        +'" satbasictypeDEBUG="'+GetEnumName( TypeInfo( TFCEduOrbitalObjectBasicTypes ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_fug_BasicType ) )
                         {:DEV NOTES: END.}
                         +'" diameter="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_diameter )
                         +'" density="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_density )
@@ -601,7 +604,7 @@ begin
                   else WF_XMLOutput.Lines.Add(
                      '            <geophysicalData type="'+GetEnumName( TypeInfo( TFCEduOrbitalObjectTypes ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_type ) )
                         {:DEV NOTES: DEBUG ENTRY, TO REMOVE LATER.}
-                        +'" satbasictypeDEBUG="'+GetEnumName( TypeInfo( TFCEduOrbitalObjectBasicTypes ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_basicType ) )
+                        +'" satbasictypeDEBUG="'+GetEnumName( TypeInfo( TFCEduOrbitalObjectBasicTypes ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_fug_BasicType ) )
                         {:DEV NOTES: END.}
                         +'" diameter="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_diameter )
                         +'" density="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_density )
@@ -1012,6 +1015,16 @@ end;
 procedure TFCWinFUG.CR_OceanicCoastalAdjustmentChange(Sender: TObject);
 begin
    FCMfC_RegionOceanicCoastal_Update;
+end;
+
+procedure TFCWinFUG.CR_ReliefAdjustmentChange(Sender: TObject);
+begin
+   FCMfC_RegionRelief_Update;
+end;
+
+procedure TFCWinFUG.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+   FUGpaused:=false;
 end;
 
 procedure TFCWinFUG.TC1S_EnableGroupCompanion1Click(Sender: TObject);

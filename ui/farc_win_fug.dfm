@@ -13,6 +13,7 @@ object FCWinFUG: TFCWinFUG
   Font.Style = []
   FormStyle = fsStayOnTop
   OldCreateOrder = False
+  OnClose = FormClose
   PixelsPerInch = 96
   TextHeight = 13
   object WF_ConfigurationMultiTab: TAdvPageControl
@@ -2188,8 +2189,8 @@ object FCWinFUG: TFCWinFUG
         TabOrder = 4
         Visible = False
         object Bevel8: TBevel
-          Left = 16
-          Top = 106
+          Left = 8
+          Top = 138
           Width = 417
           Height = 9
         end
@@ -2265,6 +2266,33 @@ object FCWinFUG: TFCWinFUG
             'Axial Tilt: 999.99')
           Version = '1.8.1.0'
         end
+        object CR_Albedo: THTMLabel
+          Left = 259
+          Top = 70
+          Width = 90
+          Height = 17
+          HTMLText.Strings = (
+            'Albedo: 0.18')
+          Version = '1.8.1.0'
+        end
+        object CR_StarLum: THTMLabel
+          Left = 355
+          Top = 70
+          Width = 107
+          Height = 17
+          HTMLText.Strings = (
+            'Star Lum: 0.00001')
+          Version = '1.8.1.0'
+        end
+        object CR_Greenhouse: THTMLabel
+          Left = 259
+          Top = 93
+          Width = 90
+          Height = 17
+          HTMLText.Strings = (
+            'Greenhouse: 1.1')
+          Version = '1.8.1.0'
+        end
         object CR_ReliefAdjustment: TAdvComboBox
           Left = 149
           Top = 79
@@ -2284,11 +2312,9 @@ object FCWinFUG: TFCWinFUG
           ItemIndex = -1
           ItemHeight = 13
           Items.Strings = (
-            'None'
-            'Asteroids Belt'
-            'Asteroid'
-            'Telluric Planet'
-            'Gaseous Planet')
+            'Plains'
+            'Broken'
+            'Moutainous')
           LabelCaption = 'Relief Adjustment'
           LabelPosition = lpTopCenter
           LabelFont.Charset = DEFAULT_CHARSET
@@ -2298,7 +2324,7 @@ object FCWinFUG: TFCWinFUG
           LabelFont.Style = []
           ParentFont = False
           TabOrder = 0
-          OnChange = COO_ObjecTypeChange
+          OnChange = CR_ReliefAdjustmentChange
         end
         object CR_OceanicCoastalAdjustment: TAdvComboBox
           Left = 13
@@ -2334,8 +2360,8 @@ object FCWinFUG: TFCWinFUG
           OnChange = CR_OceanicCoastalAdjustmentChange
         end
         object CR_InputSeed: TLabeledEdit
-          Left = 13
-          Top = 131
+          Left = 5
+          Top = 163
           Width = 71
           Height = 19
           Color = clWhite
@@ -2345,19 +2371,6 @@ object FCWinFUG: TFCWinFUG
           EditLabel.Layout = tlCenter
           TabOrder = 2
           OnKeyDown = CR_InputSeedKeyDown
-        end
-        object LabeledEdit13: TLabeledEdit
-          Left = 199
-          Top = 171
-          Width = 54
-          Height = 19
-          Color = clWhite
-          EditLabel.Width = 103
-          EditLabel.Height = 13
-          EditLabel.Caption = 'Atmosphere Pressure'
-          EditLabel.Layout = tlCenter
-          TabOrder = 3
-          OnKeyDown = COO_AtmosphericPressureKeyDown
         end
         object CR_CurrentRegion: TAdvComboBox
           Left = 172
@@ -2385,26 +2398,12 @@ object FCWinFUG: TFCWinFUG
           LabelFont.Name = 'Tahoma'
           LabelFont.Style = []
           ParentFont = False
-          TabOrder = 4
+          TabOrder = 3
           OnChange = CR_CurrentRegionChange
         end
-        object LabeledEdit14: TLabeledEdit
-          Left = 362
-          Top = 171
-          Width = 54
-          Height = 19
-          Color = clWhite
-          EditLabel.Width = 88
-          EditLabel.Height = 13
-          EditLabel.Caption = 'Hydrosphere Area'
-          EditLabel.Layout = tlCenter
-          NumbersOnly = True
-          TabOrder = 5
-          OnKeyDown = COO_HydroAreaKeyDown
-        end
         object CR_InputLightColorFileNumber: TLabeledEdit
-          Left = 90
-          Top = 131
+          Left = 82
+          Top = 163
           Width = 135
           Height = 19
           Color = clWhite
@@ -2412,12 +2411,12 @@ object FCWinFUG: TFCWinFUG
           EditLabel.Height = 13
           EditLabel.Caption = 'Light_Color File #'
           EditLabel.Layout = tlCenter
-          TabOrder = 6
+          TabOrder = 4
           OnKeyDown = CR_InputLightColorFileNumberKeyDown
         end
         object CR_InputClimateFileNumber: TLabeledEdit
-          Left = 234
-          Top = 131
+          Left = 226
+          Top = 163
           Width = 135
           Height = 19
           Color = clWhite
@@ -2425,7 +2424,7 @@ object FCWinFUG: TFCWinFUG
           EditLabel.Height = 13
           EditLabel.Caption = 'Climate File #'
           EditLabel.Layout = tlCenter
-          TabOrder = 7
+          TabOrder = 5
           OnKeyDown = CR_InputClimateFileNumberKeyDown
         end
       end

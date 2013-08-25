@@ -149,16 +149,16 @@ var
          iCalc: integer;
    begin
       iCalc:=FCFcF_Random_DoInteger( 99 ) + 1;
-      if iCalc <= FCDfdRegion[Region].RC_tectonicActivityMod then
+      if iCalc <= FCDfdRegions[Region].RC_tectonicActivityMod then
       begin
-         FCDfdRegion[Region].RC_landType:=rst03Volcanic;
-         FCDfdRegion[Region].RC_reliefType:=_ReliefRule_Set( 10, 50 );
-         if ( FCDfdRegion[Region].RC_reliefType=rr1Plain )
+         FCDfdRegions[Region].RC_landType:=rst03Volcanic;
+         FCDfdRegions[Region].RC_reliefType:=_ReliefRule_Set( 10, 50 );
+         if ( FCDfdRegions[Region].RC_reliefType=rr1Plain )
             and ( TectonicActivity < taPlateTectonic )
-         then FCDfdRegion[Region].RC_reliefType:=rr4Broken
-         else if ( FCDfdRegion[Region].RC_reliefType=rr4Broken )
+         then FCDfdRegions[Region].RC_reliefType:=rr4Broken
+         else if ( FCDfdRegions[Region].RC_reliefType=rr4Broken )
             and ( TectonicActivity < taPlateTectonic )
-         then FCDfdRegion[Region].RC_reliefType:=rr9Mountain;
+         then FCDfdRegions[Region].RC_reliefType:=rr9Mountain;
       end;
    end;
 begin
@@ -206,48 +206,48 @@ begin
    Region:=1;
    while Region <= Max do
    begin
-      FCDfdRegion[Region].RC_tectonicActivityMod:=round( randg( TectonicActivityMod, 3 ) );
-      FCDfdRegion[Region].RC_surfaceTemperatureMean:=( FCDfdRegion[Region].RC_surfaceTemperatureClosest + FCDfdRegion[Region].RC_surfaceTemperatureInterm + FCDfdRegion[Region].RC_surfaceTemperatureFarthest ) / 3;
+      FCDfdRegions[Region].RC_tectonicActivityMod:=round( randg( TectonicActivityMod, 3 ) );
+      FCDfdRegions[Region].RC_surfaceTemperatureMean:=( FCDfdRegions[Region].RC_surfaceTemperatureClosest + FCDfdRegions[Region].RC_surfaceTemperatureInterm + FCDfdRegions[Region].RC_surfaceTemperatureFarthest ) / 3;
       if ( ( ObjectType > ootAsteroidsBelt ) and ( ObjectType < ootAsteroid_Icy ) )
          or ( ( ObjectType > ootPlanet_Supergiant ) and ( ObjectType < ootSatellite_Asteroid_Icy ) ) then
       begin
-         FCDfdRegion[Region].RC_landType:=rst14Sterile;
-         FCDfdRegion[Region].RC_reliefType:=_ReliefRule_Set( 30, 0 );
+         FCDfdRegions[Region].RC_landType:=rst14Sterile;
+         FCDfdRegions[Region].RC_reliefType:=_ReliefRule_Set( 30, 0 );
       end
       else if ( ObjectType = ootAsteroid_Icy )
          or ( ObjectType = ootSatellite_Asteroid_Icy ) then
       begin
-         FCDfdRegion[Region].RC_landType:=rst15icySterile;
-         FCDfdRegion[Region].RC_reliefType:=_ReliefRule_Set( 40, 0 );
+         FCDfdRegions[Region].RC_landType:=rst15icySterile;
+         FCDfdRegions[Region].RC_reliefType:=_ReliefRule_Set( 40, 0 );
       end
       else if ( ( ( ObjectType >= oot_Planet_Telluric ) and ( ObjectType < ootPlanet_Gaseous_Uranus ) ) or ( ObjectType >= ootSatellite_Planet_Telluric ) )
          and ( not isAtmosphere ) then
       begin
          if HydroType = hNoHydro then
          begin
-            FCDfdRegion[Region].RC_landType:=rst14Sterile;
-            FCDfdRegion[Region].RC_reliefType:=_ReliefRule_Set( 20, 60 );
+            FCDfdRegions[Region].RC_landType:=rst14Sterile;
+            FCDfdRegions[Region].RC_reliefType:=_ReliefRule_Set( 20, 60 );
             _VolcanicReliefModification_Apply( Region );
          end
          else if ( HydroType = hWaterIceSheet )
             or ( HydroType = hMethaneIceSheet )
             or ( HydroType = hNitrogenIceSheet ) then
          begin
-            if FCDfdRegion[Region].RC_surfaceTemperatureMean <= 125 then
+            if FCDfdRegions[Region].RC_surfaceTemperatureMean <= 125 then
             begin
-               FCDfdRegion[Region].RC_landType:=rst15icySterile;
-               FCDfdRegion[Region].RC_reliefType:=_ReliefRule_Set( 30, 80 );
+               FCDfdRegions[Region].RC_landType:=rst15icySterile;
+               FCDfdRegions[Region].RC_reliefType:=_ReliefRule_Set( 30, 80 );
             end
             else begin
                Proba:=FCFcF_Random_DoInteger( 99 ) + 1;
                if Proba <= HydroArea then
                begin
-                  FCDfdRegion[Region].RC_landType:=rst15icySterile;
-                  FCDfdRegion[Region].RC_reliefType:=_ReliefRule_Set( 30, 80 );
+                  FCDfdRegions[Region].RC_landType:=rst15icySterile;
+                  FCDfdRegions[Region].RC_reliefType:=_ReliefRule_Set( 30, 80 );
                end
                else begin
-                  FCDfdRegion[Region].RC_landType:=rst14Sterile;
-                  FCDfdRegion[Region].RC_reliefType:=_ReliefRule_Set( 30, 70 );
+                  FCDfdRegions[Region].RC_landType:=rst14Sterile;
+                  FCDfdRegions[Region].RC_reliefType:=_ReliefRule_Set( 30, 70 );
                end;
             end;
             _VolcanicReliefModification_Apply( Region );
@@ -256,102 +256,102 @@ begin
             or ( HydroType = hMethaneIceCrust )
             or ( HydroType = hNitrogenIceCrust ) then
          begin
-            FCDfdRegion[Region].RC_landType:=rst15icySterile;
-            FCDfdRegion[Region].RC_reliefType:=_ReliefRule_Set( 30, 80 );
+            FCDfdRegions[Region].RC_landType:=rst15icySterile;
+            FCDfdRegions[Region].RC_reliefType:=_ReliefRule_Set( 30, 80 );
             _VolcanicReliefModification_Apply( Region );
          end;
       end
       else if ( ( ( ObjectType >= oot_Planet_Telluric ) and ( ObjectType < ootPlanet_Gaseous_Uranus ) ) or ( ObjectType >= ootSatellite_Planet_Telluric ) )
          and ( isAtmosphere ) then
       begin
-         FCDfdRegion[Region].RC_regionPressureMean:=( FCDfdRegion[Region].RC_regionPressureClosest + FCDfdRegion[Region].RC_regionPressureInterm + FCDfdRegion[Region].RC_regionPressureFarthest ) / 3;
-         case FCDfdRegion[Region].RC_finalClimate of
+         FCDfdRegions[Region].RC_regionPressureMean:=( FCDfdRegions[Region].RC_regionPressureClosest + FCDfdRegions[Region].RC_regionPressureInterm + FCDfdRegions[Region].RC_regionPressureFarthest ) / 3;
+         case FCDfdRegions[Region].RC_finalClimate of
             rc01VeryHotHumid, rc02VeryHotSemiHumid:
             begin
-               FCDfdRegion[Region].RC_landType:=rst06Fertile;
-               FCDfdRegion[Region].RC_reliefType:=_ReliefRule_Set( 40, 85 );
+               FCDfdRegions[Region].RC_landType:=rst06Fertile;
+               FCDfdRegions[Region].RC_reliefType:=_ReliefRule_Set( 40, 85 );
             end;
 
             rc03HotSemiArid:
             begin
-               if FCDfdRegion[Region].RC_regionPressureMean <= 36 then
+               if FCDfdRegions[Region].RC_regionPressureMean <= 36 then
                begin
-                  FCDfdRegion[Region].RC_landType:=rst05Arid;
-                  FCDfdRegion[Region].RC_reliefType:=_ReliefRule_Set( 20, 70 );
+                  FCDfdRegions[Region].RC_landType:=rst05Arid;
+                  FCDfdRegions[Region].RC_reliefType:=_ReliefRule_Set( 20, 70 );
                end
                else begin
-                  FCDfdRegion[Region].RC_landType:=rst06Fertile;
-                  FCDfdRegion[Region].RC_reliefType:=_ReliefRule_Set( 40, 85 );
+                  FCDfdRegions[Region].RC_landType:=rst06Fertile;
+                  FCDfdRegions[Region].RC_reliefType:=_ReliefRule_Set( 40, 85 );
                end;
             end;
 
             rc04HotArid:
             begin
-               if FCDfdRegion[Region].RC_regionPressureMean < 15 then
+               if FCDfdRegions[Region].RC_regionPressureMean < 15 then
                begin
-                  FCDfdRegion[Region].RC_landType:=rst02SandyDesert;
-                  FCDfdRegion[Region].RC_reliefType:=_ReliefRule_Set( 40, 0 );
+                  FCDfdRegions[Region].RC_landType:=rst02SandyDesert;
+                  FCDfdRegions[Region].RC_reliefType:=_ReliefRule_Set( 40, 0 );
                end
                else begin
-                  FCDfdRegion[Region].RC_landType:=rst01RockyDesert;
-                  FCDfdRegion[Region].RC_reliefType:=_ReliefRule_Set( 50, 85 );
+                  FCDfdRegions[Region].RC_landType:=rst01RockyDesert;
+                  FCDfdRegions[Region].RC_reliefType:=_ReliefRule_Set( 50, 85 );
                end;
             end;
 
             rc05ModerateHumid:
             begin
-               FCDfdRegion[Region].RC_landType:=rst06Fertile;
-               FCDfdRegion[Region].RC_reliefType:=_ReliefRule_Set( 40, 85 );
+               FCDfdRegions[Region].RC_landType:=rst06Fertile;
+               FCDfdRegions[Region].RC_reliefType:=_ReliefRule_Set( 40, 85 );
             end;
 
             rc06ModerateDry:
             begin
-               if FCDfdRegion[Region].RC_regionPressureMean < 30 then
+               if FCDfdRegions[Region].RC_regionPressureMean < 30 then
                begin
-                  FCDfdRegion[Region].RC_landType:=rst05Arid;
-                  FCDfdRegion[Region].RC_reliefType:=_ReliefRule_Set( 20, 70 );
+                  FCDfdRegions[Region].RC_landType:=rst05Arid;
+                  FCDfdRegions[Region].RC_reliefType:=_ReliefRule_Set( 20, 70 );
                end
                else begin
-                  FCDfdRegion[Region].RC_landType:=rst06Fertile;
-                  FCDfdRegion[Region].RC_reliefType:=_ReliefRule_Set( 40, 85 );
+                  FCDfdRegions[Region].RC_landType:=rst06Fertile;
+                  FCDfdRegions[Region].RC_reliefType:=_ReliefRule_Set( 40, 85 );
                end;
             end;
 
             rc07ColdArid:
             begin
-               FCDfdRegion[Region].RC_landType:=rst01RockyDesert;
-               FCDfdRegion[Region].RC_reliefType:=_ReliefRule_Set( 50, 85 );
+               FCDfdRegions[Region].RC_landType:=rst01RockyDesert;
+               FCDfdRegions[Region].RC_reliefType:=_ReliefRule_Set( 50, 85 );
             end;
 
             rc08Periarctic:
             begin
-               FCDfdRegion[Region].RC_landType:=rst05Arid;
-               FCDfdRegion[Region].RC_reliefType:=_ReliefRule_Set( 20, 70 );
+               FCDfdRegions[Region].RC_landType:=rst05Arid;
+               FCDfdRegions[Region].RC_reliefType:=_ReliefRule_Set( 20, 70 );
             end;
 
             rc09Arctic:
             begin
-               FCDfdRegion[Region].RC_landType:=rst04Polar;
-               FCDfdRegion[Region].RC_reliefType:=_ReliefRule_Set( 30, 80 );
+               FCDfdRegions[Region].RC_landType:=rst04Polar;
+               FCDfdRegions[Region].RC_reliefType:=_ReliefRule_Set( 30, 80 );
             end;
 
             rc10Extreme:
             begin
-               FCDfdRegion[Region].RC_landType:=rst01RockyDesert;
-               FCDfdRegion[Region].RC_reliefType:=_ReliefRule_Set( 50, 85 );
+               FCDfdRegions[Region].RC_landType:=rst01RockyDesert;
+               FCDfdRegions[Region].RC_reliefType:=_ReliefRule_Set( 50, 85 );
             end;
-         end; //==END== case FCDfdRegion[Region].RC_finalClimate of ==//
+         end; //==END== case FCDfdRegions[Region].RC_finalClimate of ==//
          _VolcanicReliefModification_Apply( Region );
       end; //==END== else of: ( ( ( ObjectType >= oot_Planet_Telluric ) and ( ObjectType < ootPlanet_Gaseous_Uranus ) ) or ( ObjectType >= ootSatellite_Planet_Telluric ) ) and ( isAtmosphere ) ==//
       if Satellite = 0 then
       begin
-         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions[Region].OOR_soilType:=FCDfdRegion[Region].RC_landType;
-         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions[Region].OOR_relief:=FCDfdRegion[Region].RC_reliefType;
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions[Region].OOR_soilType:=FCDfdRegions[Region].RC_landType;
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions[Region].OOR_relief:=FCDfdRegions[Region].RC_reliefType;
       end
       else if Satellite > 0 then
       begin
-         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Region].OOR_soilType:=FCDfdRegion[Region].RC_landType;
-         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Region].OOR_relief:=FCDfdRegion[Region].RC_reliefType;
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Region].OOR_soilType:=FCDfdRegions[Region].RC_landType;
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Region].OOR_relief:=FCDfdRegions[Region].RC_reliefType;
       end;
       inc( Region );
    end; //==END== while Region <= Max ==//

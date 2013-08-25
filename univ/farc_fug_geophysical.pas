@@ -359,7 +359,7 @@ begin
    if SatCaptured < sdCaptured then
    begin
       MaxDensity:=round( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[Root].OO_density * ( 1 - ( ( FCFcF_Random_DoInteger( 99 ) + 1 ) * 0.001 ) ) );
-      if ( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[Root].OO_basicType=oobtGaseousPlanet )
+      if ( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[Root].OO_fug_BasicType=oobtGaseousPlanet )
          and ( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[Root].OO_isNotSat_orbitalZone=hzOuter )
          and ( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[Root].OO_mass >= 200 ) then
       begin
@@ -371,12 +371,12 @@ begin
          then CoefDensity:=1.5;
       end;
       WorkingFloat:=FCFfG_Density_Calculation(
-         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[Root].OO_satellitesList[Satellite].OO_basicType
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[Root].OO_satellitesList[Satellite].OO_fug_BasicType
          ,FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[Root].OO_isNotSat_orbitalZone
          );
    end
    else WorkingFloat:=FCFfG_Density_Calculation(
-      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[Root].OO_satellitesList[Satellite].OO_basicType
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[Root].OO_satellitesList[Satellite].OO_fug_BasicType
       ,FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[Root].OO_isNotSat_orbitalZone
       ,true
       );
@@ -663,12 +663,12 @@ procedure FCMfG_MagneticField_Calculation(
 begin
    if Satellite=0 then
    begin
-      BasicType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_basicType;
+      BasicType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_fug_BasicType;
       RevolutionPeriodHrs:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_revolutionPeriod * 24;
       DensityEq:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_density / FCCdiDensityEqEarth;
    end
    else begin
-      BasicType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_basicType;
+      BasicType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_fug_BasicType;
       RevolutionPeriodHrs:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_revolutionPeriod * 24;
       DensityEq:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_density / FCCdiDensityEqEarth;
    end;
@@ -905,7 +905,7 @@ begin
       Velocity:=sqrt( ( 2 * 1.46e-19 * MassInG ) / ( KStar * sqr( RadiusInCm ) ) );
       VelFinal:=1 / ( ( Velocity / ( 2 * Pi ) ) * 3600 );
       Probability:=FCFcF_Random_DoInteger( 99 ) + 1;
-      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_basicType<oobtGaseousPlanet then
+      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_fug_BasicType<oobtGaseousPlanet then
       begin
          case Probability of
             1..35: CoefPeriod:=1;
@@ -983,7 +983,7 @@ begin
 //      end;
 //      TidalForce:=TidalForceCumul / SatCount;
       DensityEq:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_density / FCCdiDensityEqEarth;
-      ObjectBasicType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_basicType;
+      ObjectBasicType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_fug_BasicType;
       RevolutionPeriod:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_revolutionPeriod;
       RotationPeriod:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isNotSat_rotationPeriod;
    end
@@ -996,7 +996,7 @@ begin
       MassInKg:=( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_mass * FCCdiMassEqEarth ) * 26.64;
       TidalForce:=MassInKg / power( DistanceInKm, 3 );
       DensityEq:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_density / FCCdiDensityEqEarth;
-      ObjectBasicType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_basicType;
+      ObjectBasicType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_fug_BasicType;
       RevolutionPeriod:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_revolutionPeriod;
       RotationPeriod:=RevolutionPeriod * 24;
    end;

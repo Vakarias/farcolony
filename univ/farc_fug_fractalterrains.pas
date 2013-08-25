@@ -65,7 +65,9 @@ implementation
 
 uses
    farc_data_univ
+   ,farc_fug_com
    ,farc_fug_data
+   ,farc_fug_regionfunctions
    ,farc_univ_func
    ,farc_win_fug;
 
@@ -97,21 +99,34 @@ procedure FCMfT_DataLinking_Process(
       ,HydrosphereArea
       ,Max: integer;
 
-      AxialTilt
+      Albedo
+      ,AxialTilt
       ,Diameter
       ,fCalc1
-      ,Gravity: extended;
+      ,Gravity
+      ,Greenhouse
+      ,Variance
+      ,X
+      ,Y: extended;
 
       Hydrosphere: TFCEduHydrospheres;
 begin
    Count:=0;
    Count1:=0;
+   HydrosphereArea:=0;
    Max:=0;
 
+   Albedo:=0;
    AxialTilt:=0;
    Diameter:=0;
    fCalc1:=0;
    Gravity:=0;
+   Greenhouse:=0;
+   Variance:=0;
+   X:=0;
+   Y:=0;
+
+   Hydrosphere:=hNoHydro;
 
    FUGpaused:=false;
 
@@ -140,8 +155,10 @@ begin
       //,OrbitalObject
       //);
                                                                                               }
+      Greenhouse:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_fug_Greenhouse;
       Diameter:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_Diameter;
       AxialTilt:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isNotSat_axialTilt;
+      Albedo:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_albedo;
       Gravity:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_gravity;
       Hydrosphere:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_hydrosphere;
       HydrosphereArea:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_hydrosphereArea;
@@ -189,6 +206,7 @@ begin
       ,OrbitalObject
       ,Satellite
       );   }
+      Greenhouse:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_fug_Greenhouse;
       Diameter:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_Diameter;
       AxialTilt:=FCFuF_Satellite_GetAxialTilt(
          0
@@ -196,6 +214,7 @@ begin
          ,OrbitalObject
          ,Satellite
          );
+      Albedo:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_albedo;
       Gravity:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_gravity;
       Hydrosphere:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_hydrosphere;
       HydrosphereArea:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_hydrosphereArea;
@@ -273,6 +292,12 @@ begin
    FCWinFUG.CR_Diameter.HTMLText.Add( 'Diameter: ' + floattostr( Diameter ) );
    FCWinFUG.CR_AxialTilt.HTMLText.Clear;
    FCWinFUG.CR_AxialTilt.HTMLText.Add( 'Axial Tilt: ' + floattostr( AxialTilt ) );
+   FCWinFUG.CR_Albedo.HTMLText.Clear;
+   FCWinFUG.CR_Albedo.HTMLText.Add( 'Albedo: ' + floattostr( Albedo ) );
+   FCWinFUG.CR_StarLum.HTMLText.Clear;
+   FCWinFUG.CR_StarLum.HTMLText.Add( 'Star Lum: ' + floattostr( FCDduStarSystem[0].SS_stars[Star].S_luminosity ) );
+   FCWinFUG.CR_Greenhouse.HTMLText.Clear;
+   FCWinFUG.CR_StarLum.HTMLText.Add( 'Greenhouse: ' + floattostr( Greenhouse ) );
    FCWinFUG.CR_InputSeed.Text:='';
    FCWinFUG.CR_InputLightColorFileNumber.Text:='';
    FCWinFUG.CR_InputClimateFileNumber.Text:='';
@@ -281,11 +306,13 @@ begin
    Count:=1;
    while Count <= Max do
    begin
+
       FCWinFUG.CR_CurrentRegion.Items.Add( inttostr( Count ) );
       inc( Count );
    end;
    FCWinFUG.CR_CurrentRegion.Enabled:=true;
    FCWinFUG.CR_CurrentRegion.ItemIndex:=0;
+   FCmfC_Region_Update;
    {.dev: include the display of a third button}
    FUGpaused:=true;
    FCWinFUG.WF_ContinueButton.Show;

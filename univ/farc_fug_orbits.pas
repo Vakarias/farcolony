@@ -1237,7 +1237,7 @@ begin
             begin
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_dbTokenId:=FCDfdMainStarObjectsList[Count].OO_dbTokenId;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isSatellite:=false;
-               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType:=FCDfdMainStarObjectsList[Count].OO_basicType;
+               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_fug_BasicType:=FCDfdMainStarObjectsList[Count].OO_fug_BasicType;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_distanceFromStar:=FCDfdMainStarObjectsList[Count].OO_isNotSat_distanceFromStar;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_diameter:=FCDfdMainStarObjectsList[Count].OO_diameter;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_density:=FCDfdMainStarObjectsList[Count].OO_density;
@@ -1248,7 +1248,7 @@ begin
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_axialTilt:=FCDfdMainStarObjectsList[Count].OO_isNotSat_axialTilt;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_magneticField:=FCDfdMainStarObjectsList[Count].OO_magneticField;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_tectonicActivity:=FCDfdMainStarObjectsList[Count].OO_tectonicActivity;
-               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isAtmosphereEdited:=FCDfdMainStarObjectsList[Count].OO_isAtmosphereEdited;
+               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_fug_isAtmosphereEdited:=FCDfdMainStarObjectsList[Count].OO_fug_isAtmosphereEdited;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_atmosphericPressure:=FCDfdMainStarObjectsList[Count].OO_atmosphericPressure;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_atmosphere.AC_traceAtmosphere:=FCDfdMainStarObjectsList[Count].OO_atmosphere.AC_traceAtmosphere;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_atmosphere.AC_primaryGasVolumePerc:=FCDfdMainStarObjectsList[Count].OO_atmosphere.AC_primaryGasVolumePerc;
@@ -1278,7 +1278,7 @@ begin
                begin
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_dbTokenId:=FCDfdMainStarObjectsList[Count].OO_satellitesList[CountSat].OO_dbTokenId;
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isSatellite:=true;
-                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_basicType:=FCDfdMainStarObjectsList[Count].OO_satellitesList[CountSat].OO_basicType;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_fug_BasicType:=FCDfdMainStarObjectsList[Count].OO_satellitesList[CountSat].OO_fug_BasicType;
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isSat_distanceFromPlanet:=FCDfdMainStarObjectsList[Count].OO_satellitesList[CountSat].OO_isSat_distanceFromPlanet;
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_diameter:=FCDfdMainStarObjectsList[Count].OO_satellitesList[CountSat].OO_diameter;
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_density:=FCDfdMainStarObjectsList[Count].OO_satellitesList[CountSat].OO_density;
@@ -1287,7 +1287,7 @@ begin
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_escapeVelocity:=FCDfdMainStarObjectsList[Count].OO_satellitesList[CountSat].OO_escapeVelocity;
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_magneticField:=FCDfdMainStarObjectsList[Count].OO_satellitesList[CountSat].OO_magneticField;
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_tectonicActivity:=FCDfdMainStarObjectsList[Count].OO_satellitesList[CountSat].OO_tectonicActivity;
-                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isAtmosphereEdited:=FCDfdMainStarObjectsList[Count].OO_satellitesList[CountSat].OO_isAtmosphereEdited;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_fug_isAtmosphereEdited:=FCDfdMainStarObjectsList[Count].OO_satellitesList[CountSat].OO_fug_isAtmosphereEdited;
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_atmosphericPressure:=FCDfdMainStarObjectsList[Count].OO_satellitesList[CountSat].OO_atmosphericPressure;
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_atmosphere.AC_traceAtmosphere:=FCDfdMainStarObjectsList[Count].OO_satellitesList[CountSat].OO_atmosphere.AC_traceAtmosphere;
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_atmosphere.AC_primaryGasVolumePerc:=FCDfdMainStarObjectsList[Count].OO_satellitesList[CountSat].OO_atmosphere.AC_primaryGasVolumePerc;
@@ -1320,7 +1320,7 @@ begin
             begin
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_dbTokenId:=FCDfdComp1StarObjectsList[Count].OO_dbTokenId;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isSatellite:=false;
-               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType:=FCDfdComp1StarObjectsList[Count].OO_basicType;
+               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_fug_BasicType:=FCDfdComp1StarObjectsList[Count].OO_fug_BasicType;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_distanceFromStar:=FCDfdComp1StarObjectsList[Count].OO_isNotSat_distanceFromStar;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_diameter:=FCDfdComp1StarObjectsList[Count].OO_diameter;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_density:=FCDfdComp1StarObjectsList[Count].OO_density;
@@ -1331,7 +1331,7 @@ begin
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_axialTilt:=FCDfdComp1StarObjectsList[Count].OO_isNotSat_axialTilt;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_magneticField:=FCDfdComp1StarObjectsList[Count].OO_magneticField;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_tectonicActivity:=FCDfdComp1StarObjectsList[Count].OO_tectonicActivity;
-               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isAtmosphereEdited:=FCDfdComp1StarObjectsList[Count].OO_isAtmosphereEdited;
+               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_fug_isAtmosphereEdited:=FCDfdComp1StarObjectsList[Count].OO_fug_isAtmosphereEdited;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_atmosphericPressure:=FCDfdComp1StarObjectsList[Count].OO_atmosphericPressure;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_atmosphere.AC_traceAtmosphere:=FCDfdComp1StarObjectsList[Count].OO_atmosphere.AC_traceAtmosphere;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_atmosphere.AC_primaryGasVolumePerc:=FCDfdComp1StarObjectsList[Count].OO_atmosphere.AC_primaryGasVolumePerc;
@@ -1361,7 +1361,7 @@ begin
                begin
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_dbTokenId:=FCDfdComp1StarObjectsList[Count].OO_satellitesList[CountSat].OO_dbTokenId;
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isSatellite:=true;
-                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_basicType:=FCDfdComp1StarObjectsList[Count].OO_satellitesList[CountSat].OO_basicType;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_fug_BasicType:=FCDfdComp1StarObjectsList[Count].OO_satellitesList[CountSat].OO_fug_BasicType;
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isSat_distanceFromPlanet:=FCDfdComp1StarObjectsList[Count].OO_satellitesList[CountSat].OO_isSat_distanceFromPlanet;
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_diameter:=FCDfdComp1StarObjectsList[Count].OO_satellitesList[CountSat].OO_diameter;
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_density:=FCDfdComp1StarObjectsList[Count].OO_satellitesList[CountSat].OO_density;
@@ -1370,7 +1370,7 @@ begin
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_escapeVelocity:=FCDfdComp1StarObjectsList[Count].OO_satellitesList[CountSat].OO_escapeVelocity;
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_magneticField:=FCDfdComp1StarObjectsList[Count].OO_satellitesList[CountSat].OO_magneticField;
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_tectonicActivity:=FCDfdComp1StarObjectsList[Count].OO_satellitesList[CountSat].OO_tectonicActivity;
-                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isAtmosphereEdited:=FCDfdComp1StarObjectsList[Count].OO_satellitesList[CountSat].OO_isAtmosphereEdited;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_fug_isAtmosphereEdited:=FCDfdComp1StarObjectsList[Count].OO_satellitesList[CountSat].OO_fug_isAtmosphereEdited;
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_atmosphericPressure:=FCDfdComp1StarObjectsList[Count].OO_satellitesList[CountSat].OO_atmosphericPressure;
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_atmosphere.AC_traceAtmosphere:=FCDfdComp1StarObjectsList[Count].OO_satellitesList[CountSat].OO_atmosphere.AC_traceAtmosphere;
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_atmosphere.AC_primaryGasVolumePerc:=FCDfdComp1StarObjectsList[Count].OO_satellitesList[CountSat].OO_atmosphere.AC_primaryGasVolumePerc;
@@ -1403,7 +1403,7 @@ begin
             begin
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_dbTokenId:=FCDfdComp2StarObjectsList[Count].OO_dbTokenId;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isSatellite:=false;
-               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType:=FCDfdComp2StarObjectsList[Count].OO_basicType;
+               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_fug_BasicType:=FCDfdComp2StarObjectsList[Count].OO_fug_BasicType;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_distanceFromStar:=FCDfdComp2StarObjectsList[Count].OO_isNotSat_distanceFromStar;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_diameter:=FCDfdComp2StarObjectsList[Count].OO_diameter;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_density:=FCDfdComp2StarObjectsList[Count].OO_density;
@@ -1414,7 +1414,7 @@ begin
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_axialTilt:=FCDfdComp2StarObjectsList[Count].OO_isNotSat_axialTilt;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_magneticField:=FCDfdComp2StarObjectsList[Count].OO_magneticField;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_tectonicActivity:=FCDfdComp2StarObjectsList[Count].OO_tectonicActivity;
-               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isAtmosphereEdited:=FCDfdComp2StarObjectsList[Count].OO_isAtmosphereEdited;
+               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_fug_isAtmosphereEdited:=FCDfdComp2StarObjectsList[Count].OO_fug_isAtmosphereEdited;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_atmosphericPressure:=FCDfdComp2StarObjectsList[Count].OO_atmosphericPressure;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_atmosphere.AC_traceAtmosphere:=FCDfdComp2StarObjectsList[Count].OO_atmosphere.AC_traceAtmosphere;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_atmosphere.AC_primaryGasVolumePerc:=FCDfdComp2StarObjectsList[Count].OO_atmosphere.AC_primaryGasVolumePerc;
@@ -1444,7 +1444,7 @@ begin
                begin
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_dbTokenId:=FCDfdComp2StarObjectsList[Count].OO_satellitesList[CountSat].OO_dbTokenId;
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isSatellite:=true;
-                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_basicType:=FCDfdComp2StarObjectsList[Count].OO_satellitesList[CountSat].OO_basicType;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_fug_BasicType:=FCDfdComp2StarObjectsList[Count].OO_satellitesList[CountSat].OO_fug_BasicType;
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isSat_distanceFromPlanet:=FCDfdComp2StarObjectsList[Count].OO_satellitesList[CountSat].OO_isSat_distanceFromPlanet;
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_diameter:=FCDfdComp2StarObjectsList[Count].OO_satellitesList[CountSat].OO_diameter;
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_density:=FCDfdComp2StarObjectsList[Count].OO_satellitesList[CountSat].OO_density;
@@ -1453,7 +1453,7 @@ begin
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_escapeVelocity:=FCDfdComp2StarObjectsList[Count].OO_satellitesList[CountSat].OO_escapeVelocity;
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_magneticField:=FCDfdComp2StarObjectsList[Count].OO_satellitesList[CountSat].OO_magneticField;
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_tectonicActivity:=FCDfdComp2StarObjectsList[Count].OO_satellitesList[CountSat].OO_tectonicActivity;
-                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isAtmosphereEdited:=FCDfdComp2StarObjectsList[Count].OO_satellitesList[CountSat].OO_isAtmosphereEdited;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_fug_isAtmosphereEdited:=FCDfdComp2StarObjectsList[Count].OO_satellitesList[CountSat].OO_fug_isAtmosphereEdited;
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_atmosphericPressure:=FCDfdComp2StarObjectsList[Count].OO_satellitesList[CountSat].OO_atmosphericPressure;
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_atmosphere.AC_traceAtmosphere:=FCDfdComp2StarObjectsList[Count].OO_satellitesList[CountSat].OO_atmosphere.AC_traceAtmosphere;
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_atmosphere.AC_primaryGasVolumePerc:=FCDfdComp2StarObjectsList[Count].OO_satellitesList[CountSat].OO_atmosphere.AC_primaryGasVolumePerc;
@@ -1624,25 +1624,25 @@ begin
             then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_revolutionPeriodInit:=1;
             {.geophysical data}
             BaseTemperature:=FCFfG_BaseTemperature_Calc( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_distanceFromStar, FCDduStarSystem[0].SS_stars[CurrentStar].S_luminosity );
-            if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType=oobtNone then
+            if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_fug_BasicType=oobtNone then
             begin
                case FCRfdSystemType[CurrentStar] of
-                  1: FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType:=FCFfS_OrbitGen_SolLike( FCDduStarSystem[0].SS_stars[CurrentStar].S_class, FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_orbitalZone );
+                  1: FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_fug_BasicType:=FCFfS_OrbitGen_SolLike( FCDduStarSystem[0].SS_stars[CurrentStar].S_class, FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_orbitalZone );
 
-                  2: FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType:=FCFfS_OrbitGen_Balanced( FCDduStarSystem[0].SS_stars[CurrentStar].S_class, FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_orbitalZone );
+                  2: FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_fug_BasicType:=FCFfS_OrbitGen_Balanced( FCDduStarSystem[0].SS_stars[CurrentStar].S_class, FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_orbitalZone );
 
-                  3: FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType:=FCFfS_OrbitGen_ExtraSolLike( FCDduStarSystem[0].SS_stars[CurrentStar].S_class, FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_orbitalZone );
+                  3: FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_fug_BasicType:=FCFfS_OrbitGen_ExtraSolLike( FCDduStarSystem[0].SS_stars[CurrentStar].S_class, FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_orbitalZone );
                end;
             end;
-            if ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType=oobtTelluricPlanet )
+            if ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_fug_BasicType=oobtTelluricPlanet )
                and ( BaseTemperature < 140 ) then
             begin
-               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType:=oobtIcyPlanet;
+               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_fug_BasicType:=oobtIcyPlanet;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_type:=oot_Planet_Icy;
             end
             else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_type:=oot_Planet_Telluric;
             {..for asteroids belt}
-            if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType=oobtAsteroidBelt then
+            if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_fug_BasicType=oobtAsteroidBelt then
             begin
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_type:=ootAsteroidsBelt;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_diameter:=FCFfG_AsteroidsBelt_CalculateDiameter( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_distanceFromStar );
@@ -1661,7 +1661,7 @@ begin
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_axialTilt:=0;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_magneticField:=0;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_tectonicActivity:=taDead;
-               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isAtmosphereEdited:=false;
+               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_fug_isAtmosphereEdited:=false;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_atmosphericPressure:=0;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_atmosphere.AC_traceAtmosphere:=false;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_atmosphere.AC_primaryGasVolumePerc:=0;
@@ -1709,7 +1709,7 @@ begin
                   CalcFloat2:=FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_distanceFromStar - ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_diameter * 0.5 );
                   CalcFloat3:=CalcFloat2 + ( FCFcF_Random_DoFloat * FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_diameter );
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isSat_distanceFromPlanet:=FCFcF_Round( rttCustom2Decimal, CalcFloat3 );
-                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_basicType:=oobtAsteroid;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_fug_BasicType:=oobtAsteroid;
                   if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_revolutionPeriod=0 then
                   begin
                      CalcFloat2:=SQRT( ( power( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isSat_distanceFromPlanet, 3 ) / FCDduStarSystem[0].SS_stars[CurrentStar].S_mass ) ) * 365.2422;
@@ -1722,9 +1722,9 @@ begin
                      then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_revolutionPeriodInit:=1;
                   end;
                   if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_diameter=0
-                  then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_diameter:=FCFfG_Diameter_Calculation( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_basicType, hzInner );
+                  then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_diameter:=FCFfG_Diameter_Calculation( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_fug_BasicType, hzInner );
                   if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_density=0
-                  then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_density:=FCFfG_Density_Calculation( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_basicType, FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_orbitalZone );
+                  then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_density:=FCFfG_Density_Calculation( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_fug_BasicType, FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_orbitalZone );
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_type:=FCFfG_Refinement_Asteroid(
                      FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_density
                      ,BaseTemperature
@@ -1760,7 +1760,7 @@ begin
                   end;
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_magneticField:=0;
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_tectonicActivity:=taDead;
-                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isAtmosphereEdited:=false;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_fug_isAtmosphereEdited:=false;
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_atmosphericPressure:=0;
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_atmosphere.AC_traceAtmosphere:=false;
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_atmosphere.AC_primaryGasVolumePerc:=0;
@@ -1799,11 +1799,11 @@ begin
             {..for the rest of the basic types}
             else begin
                if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_diameter=0
-               then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_diameter:=FCFfG_Diameter_Calculation( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType, FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_orbitalZone );
+               then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_diameter:=FCFfG_Diameter_Calculation( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_fug_BasicType, FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_orbitalZone );
                if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_density=0
 
-               then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_density:=FCFfG_Density_Calculation( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType, FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_orbitalZone );
-               if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType=oobtAsteroid
+               then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_density:=FCFfG_Density_Calculation( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_fug_BasicType, FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_orbitalZone );
+               if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_fug_BasicType=oobtAsteroid
                then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_type:=FCFfG_Refinement_Asteroid(
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_density
                   ,BaseTemperature
@@ -1811,7 +1811,7 @@ begin
                   );
                if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_mass=0 then
                begin
-                  if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType=oobtAsteroid
+                  if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_fug_BasicType=oobtAsteroid
                   then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_mass:=FCFfG_Mass_Calculation(
                      FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_diameter
                      ,FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_density
@@ -1823,7 +1823,7 @@ begin
                      ,false
                      );
                end;
-               if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType=oobtGaseousPlanet
+               if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_fug_BasicType=oobtGaseousPlanet
                then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_type:=FCFfG_Refinement_GaseousPlanet( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_mass );
                if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_gravity=0
                then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_gravity:=FCFfG_Gravity_Calculation( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_diameter, FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_mass );
@@ -1844,14 +1844,14 @@ begin
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_rotationPeriod:=-( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_rotationPeriod );
                end;
                if ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_magneticField=0 )
-                  and ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType > oobtAsteroid )
+                  and ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_fug_BasicType > oobtAsteroid )
                then FCMfG_MagneticField_Calculation( CurrentStar, Count );
                if ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_tectonicActivity=taNull )
-                  and ( ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType= oobtTelluricPlanet ) or ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType= oobtIcyPlanet ) )
+                  and ( ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_fug_BasicType= oobtTelluricPlanet ) or ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_fug_BasicType= oobtIcyPlanet ) )
                then FCMfG_TectonicActivity_Calculation( CurrentStar, Count );
 //               else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_tectonicActivity:=taDead;
                if ( FCDduStarSystem[0].SS_stars[CurrentStar].S_class < WD0 )
-                  and ( not FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isAtmosphereEdited )
+                  and ( not FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_fug_isAtmosphereEdited )
                then FCMfA_Atmosphere_Processing(
                   CurrentStar
                   ,Count
@@ -1859,7 +1859,7 @@ begin
                   )
                else if FCDduStarSystem[0].SS_stars[CurrentStar].S_class >= WD0 then
                begin
-                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isAtmosphereEdited:=false;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_fug_isAtmosphereEdited:=false;
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_atmosphericPressure:=0;
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_atmosphere.AC_traceAtmosphere:=false;
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_atmosphere.AC_primaryGasVolumePerc:=0;
@@ -1881,8 +1881,8 @@ begin
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_atmosphere.AC_gasPresenceSO2:=agsNotPresent;
                end;
                FCMfS_OrbitalPeriods_Generate( CurrentStar, Count );
-               if ( ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType > oobtAsteroidBelt ) and ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType < oobtGaseousPlanet ) )
-                  or ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType = oobtIcyPlanet )
+               if ( ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_fug_BasicType > oobtAsteroidBelt ) and ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_fug_BasicType < oobtGaseousPlanet ) )
+                  or ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_fug_BasicType = oobtIcyPlanet )
                then FCMfR_GenerationPhase1_Process( CurrentStar, Count )
                else setlength( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_regions, 0 );
                {...satellites phase I - basics + orbital + geophysical data}
@@ -1901,13 +1901,13 @@ begin
                   case GeneratedProbability of
                      -4..5:
                      begin
-                        if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType=oobtGaseousPlanet
+                        if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_fug_BasicType=oobtGaseousPlanet
                         then NumberOfSat:=FCFcF_Random_DoInteger( 4 ) + 1;
                      end;
 
                      6..7:
                      begin
-                        case FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType of
+                        case FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_fug_BasicType of
                            oobtTelluricPlanet: NumberOfSat:=1;
 
                            oobtGaseousPlanet: NumberOfSat:=FCFcF_Random_DoInteger( 9 ) + 1;
@@ -1918,7 +1918,7 @@ begin
 
                      8..9:
                      begin
-                        case FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType of
+                        case FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_fug_BasicType of
                            oobtTelluricPlanet: NumberOfSat:=FCFcF_Random_DoInteger( 1 ) + 1;
 
                            oobtGaseousPlanet: NumberOfSat:=FCFcF_Random_DoInteger( 9 ) + 2;
@@ -1929,7 +1929,7 @@ begin
 
                      10..13:
                      begin
-                        case FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType of
+                        case FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_fug_BasicType of
                            oobtAsteroid: NumberOfSat:=1;
 
                            oobtTelluricPlanet: NumberOfSat:=FCFcF_Random_DoInteger( 2 ) + 1;
@@ -1942,7 +1942,7 @@ begin
 
                      14..15:
                      begin
-                        case FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType of
+                        case FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_fug_BasicType of
                            oobtAsteroid: NumberOfSat:=1;
 
                            oobtTelluricPlanet: NumberOfSat:=FCFcF_Random_DoInteger( 3 ) + 1;
@@ -1973,8 +1973,8 @@ begin
                      FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isSat_distanceFromPlanet:=FCFfO_Satellites_Distance(
                         FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_diameter * 0.5
                         ,FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_gravitationalSphereRadius
-                        ,FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType
-                        ,FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_basicType
+                        ,FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_fug_BasicType
+                        ,FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_fug_BasicType
                         );
                      {....basic type}
                      GeneratedProbability:=FCFcF_Random_DoInteger( 9 ) + 1;
@@ -1986,7 +1986,7 @@ begin
                         sdVeryDistant: GeneratedProbability:=GeneratedProbability + 2;
                      end;
                      if GeneratedProbability < 7
-                     then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_basicType:=oobtAsteroid
+                     then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_fug_BasicType:=oobtAsteroid
                      else if BaseTemperature < 140 then
                      begin
                         if FOsatDistanceRange=sdCaptured then
@@ -2001,21 +2001,21 @@ begin
                            end;
                            if GeneratedProbability <= 0 then
                            begin
-                              FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_basicType:=oobtTelluricPlanet;
+                              FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_fug_BasicType:=oobtTelluricPlanet;
                               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_type:=ootSatellite_Planet_Telluric;
                            end
                            else begin
-                              FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_basicType:=oobtIcyPlanet;
+                              FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_fug_BasicType:=oobtIcyPlanet;
                               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_type:=ootSatellite_Planet_Icy;
                            end;
                         end
                         else begin
-                           FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_basicType:=oobtIcyPlanet;
+                           FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_fug_BasicType:=oobtIcyPlanet;
                            FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_type:=ootSatellite_Planet_Icy;
                         end;
                      end
                      else begin
-                        FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_basicType:=oobtTelluricPlanet;
+                        FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_fug_BasicType:=oobtTelluricPlanet;
                         FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_type:=ootSatellite_Planet_Telluric;
                      end;
                      {....revolution period w/ CalcFloat2: Distance Coef}
@@ -2030,7 +2030,7 @@ begin
                      then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_revolutionPeriodInit:=1;
                      {....geophysical data: diameter and density}
                      if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_diameter=0
-                     then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_diameter:=FCFfG_Diameter_SatCalculation( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_basicType, FOsatDistanceRange );
+                     then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_diameter:=FCFfG_Diameter_SatCalculation( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_fug_BasicType, FOsatDistanceRange );
                      if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_density=0
                      then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_density:=FCFfG_DensitySat_Calculation(
                         CurrentStar
@@ -2049,7 +2049,7 @@ begin
                      {....geophysical data: mass, gravity and escape velocity}
                      if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_mass=0 then
                      begin
-                        if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_basicType=oobtAsteroid
+                        if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_fug_BasicType=oobtAsteroid
                         then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_mass:=FCFfG_Mass_Calculation(
                            FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_diameter
                            ,FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_density
@@ -2066,7 +2066,7 @@ begin
                      if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_escapeVelocity=0
                      then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_escapeVelocity:=FCFfG_EscapeVelocity_Calculation( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_diameter, FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_mass );
                      {....asteroids refinement}
-                     if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_basicType=oobtAsteroid
+                     if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_fug_BasicType=oobtAsteroid
                      then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_type:=FCFfG_Refinement_Asteroid(
                         FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_density
                         ,BaseTemperature
@@ -2080,18 +2080,18 @@ begin
                         ,CountSat
                         );
                      if ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_magneticField=0 )
-                        and ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_basicType > oobtAsteroid )
+                        and ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_fug_BasicType > oobtAsteroid )
                      then FCMfG_MagneticField_Calculation(
                         CurrentStar
                         ,Count
                         ,CountSat
                         );
                      if ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_tectonicActivity=taNull )
-                        and ( ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_basicType= oobtTelluricPlanet ) or ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_basicType= oobtIcyPlanet ) )
+                        and ( ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_fug_BasicType= oobtTelluricPlanet ) or ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_fug_BasicType= oobtIcyPlanet ) )
                      then FCMfG_TectonicActivity_Calculation( CurrentStar, Count, CountSat )
                      else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_tectonicActivity:=taDead;
                      if ( FCDduStarSystem[0].SS_stars[CurrentStar].S_class < WD0 )
-                        and ( not FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isAtmosphereEdited )
+                        and ( not FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_fug_isAtmosphereEdited )
                      then FCMfA_Atmosphere_Processing(
                         CurrentStar
                         ,Count
@@ -2100,7 +2100,7 @@ begin
                         )
                      else if FCDduStarSystem[0].SS_stars[CurrentStar].S_class >= WD0 then
                      begin
-                        FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isAtmosphereEdited:=false;
+                        FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_fug_isAtmosphereEdited:=false;
                         FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_atmosphericPressure:=0;
                         FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_atmosphere.AC_traceAtmosphere:=false;
                         FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_atmosphere.AC_primaryGasVolumePerc:=0;

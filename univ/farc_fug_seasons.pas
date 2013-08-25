@@ -108,6 +108,7 @@ procedure FCMfS_OrbitalPeriods_Generate(
    );
 {:Purpose: generate the orbital periods and their base effects
    Additions:
+      -2013Aug25- *add: calculate the greenhouse to be stored for Fractal Terrains use.
       -2013Aug03- *fix: mis-assignment for intermediary orbital periods.
       -2013Jul07- *fix: addition of special conditions for asteroid belts.
                   *mod: greenhouse calculations adjustments.
@@ -135,6 +136,7 @@ procedure FCMfS_OrbitalPeriods_Generate(
       ,DistMax
       ,DistMin
       ,Eccentricity
+      ,GreenHouse
       ,GreenCH4
       ,GreenCO2
       ,GreenH2O
@@ -187,6 +189,7 @@ begin
    DistanceFromStar:=0;
    DistMax:=0;
    DistMin:=0;
+   GreenHouse:=0;
    GreenCH4:=0;
    GreenCO2:=0;
    GreenH2O:=0;
@@ -225,7 +228,7 @@ begin
    begin
       RevolutionPeriodPart:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_revolutionPeriod div 4;
       DistanceFromStar:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isNotSat_distanceFromStar;
-      BasicType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_basicType;
+      BasicType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_fug_BasicType;
       FinalType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_type;
       AtmospherePressure:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphericPressure;
       PrimaryGasVolume:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_primaryGasVolumePerc;
@@ -257,7 +260,7 @@ begin
             inc( Count );
          end;
       end;
-      BasicType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_basicType;
+      BasicType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_fug_BasicType;
       FinalType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_type;
       AtmospherePressure:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphericPressure;
       PrimaryGasVolume:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_primaryGasVolumePerc;
@@ -503,12 +506,14 @@ begin
                end;
                {.surface temperature}
                GreenRise:=( ( ( ( power( ( 1 + ( 0.75 * OpticalDepth ) ), 0.25 ) - 1 ) * ConvectionFactor ) + GreenTotal ) * OrbitalPeriodsWork[Count].OOS_baseTemperature ) / 4.98;
+               GreenHouse:=GreenHouse + ( GreenRise / OrbitalPeriodsWork[Count].OOS_baseTemperature );
                CalcFloat:=OrbitalPeriodsWork[Count].OOS_baseTemperature + GreenRise;
                OrbitalPeriodsWork[Count].OOS_surfaceTemperature:=FCFcF_Round( rttCustom2Decimal, CalcFloat );
                TemperatureMean:=TemperatureMean + OrbitalPeriodsWork[Count].OOS_surfaceTemperature;
                {.hydrosphere, clouds cover and albedo}
                if Count=4 then
                begin
+                  GreenHouse:=FCFcF_Round( rttCustom2Decimal, GreenHouse / 4 );
                   TemperatureMean:=TemperatureMean / 4;
                   if not isHydroEdited
                   then FCMfH_Hydrosphere_Processing(
@@ -633,6 +638,7 @@ begin
    {.data loading}
    if Satellite=0 then
    begin
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_fug_Greenhouse:=GreenHouse;
       Count:=1;
       while Count <= 4 do
       begin
@@ -654,6 +660,7 @@ begin
       end;
    end
    else begin
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_fug_Greenhouse:=GreenHouse;
       Count:=1;
       while Count <= 4 do
       begin

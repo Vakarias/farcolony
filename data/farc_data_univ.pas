@@ -605,15 +605,27 @@ type TFCRduOrbitalObject = record
    ///<summary>
    ///   object's seed in FT. WARNING: USED ONLY BY THE FUG, not in-game
    ///</summary>
-   OO_worldSeed: integer;
+   OO_fug_WorldSeed: integer;
    ///<summary>
    ///   object's map light&color file in FT. WARNING: USED ONLY BY THE FUG, not in-game
    ///</summary>
-   OO_worldlightcolorfile: string;
+   OO_fug_Worldlightcolorfile: string;
    ///<summary>
    ///   object's map climate file in FT. WARNING: USED ONLY BY THE FUG, not in-game
    ///</summary>
-   OO_worldclimatefile: string;
+   OO_fug_Worldclimatefile: string;
+   ///<summary>
+   ///   basic type. WARNING: USED ONLY BY THE FUG, not in-game
+   ///</summary>
+   OO_fug_BasicType: TFCEduOrbitalObjectBasicTypes;
+   ///<summary>
+   ///   state to indicate if the atmosphere is manually edited or not. WARNING: USED ONLY BY THE FUG, not in-game
+   ///</summary>
+   OO_fug_isAtmosphereEdited: boolean;
+   ///<summary>
+   ///   greenhouse. WARNING: USED ONLY BY THE FUG, not in-game  rto - 1
+   ///</summary>
+   OO_fug_Greenhouse: extended;
    ///<summary>
    ///   NOT DB DATA - counter of OO_inOrbitList
    ///</summary>
@@ -630,10 +642,6 @@ type TFCRduOrbitalObject = record
    OO_colonies: array [0..FCCdiFactionsMax] of integer;
    {.type of orbital object}
    OO_type: TFCEduOrbitalObjectTypes;
-   ///<summary>
-   ///   basic type. WARNING: USED ONLY BY THE FUG, not in-game
-   ///</summary>
-   OO_basicType: TFCEduOrbitalObjectBasicTypes;
    {.environment type}
    OO_environment: TFCEduEnvironmentTypes;
    {.revolution period, in standard days, around it's star}
@@ -686,10 +694,6 @@ type TFCRduOrbitalObject = record
    ///   body albedo RTO-2
    ///</summary>
    OO_albedo: extended;
-   ///<summary>
-   ///   state to indicate if the atmosphere is manually edited or not. WARNING: USED ONLY BY THE FUG, not in-game
-   ///</summary>
-   OO_isAtmosphereEdited: boolean;
    ///<summary>
    ///   atmospheric pressure in mbars, 1013mbars eq 1 atm eq 101.3kpa   RTO-3
    ///</summary>

@@ -152,6 +152,7 @@
 			<DCCReference Include="univ\farc_fug_regionsClimate.pas"/>
 			<DCCReference Include="univ\farc_fug_landresources.pas"/>
 			<DCCReference Include="univ\farc_fug_fractalterrains.pas"/>
+			<DCCReference Include="univ\farc_fug_regionfunctions.pas"/>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>
