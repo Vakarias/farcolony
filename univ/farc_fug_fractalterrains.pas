@@ -107,6 +107,7 @@ procedure FCMfT_DataLinking_Process(
       ,fCalc1
       ,Gravity
       ,Greenhouse
+      ,Rainfall
       ,Variance: extended;
 
       Hydrosphere: TFCEduHydrospheres;
@@ -123,6 +124,7 @@ begin
    fCalc1:=0;
    Gravity:=0;
    Greenhouse:=0;
+   Rainfall:=0;
    Variance:=0;
    
    Hydrosphere:=hNoHydro;
@@ -296,10 +298,13 @@ begin
    Count:=1;
    while Count <= Max do
    begin
-
+      Rainfall:=Rainfall + ( ( FCDfdRegions[Count].RC_rainfallClosest + FCDfdRegions[Count].RC_rainfallInterm + FCDfdRegions[Count].RC_rainfallFarthest ) / 3 );
       FCWinFUG.CR_CurrentRegion.Items.Add( inttostr( Count ) );
       inc( Count );
    end;
+   Rainfall:=Rainfall * 0.1;
+   FCWinFUG.CR_Rainfall.HTMLText.Clear;
+   FCWinFUG.CR_Rainfall.HTMLText.Add( 'Rainfall: ' + floattostr( Rainfall ) );
    FCWinFUG.CR_CurrentRegion.Enabled:=true;
    FCWinFUG.CR_CurrentRegion.ItemIndex:=0;
    FCmfC_Region_Update;
