@@ -1199,7 +1199,7 @@ object FCWinFUG: TFCWinFUG
       object TOO_CurrentOrbitalObject: TAdvGroupBox
         Left = 127
         Top = 3
-        Width = 471
+        Width = 546
         Height = 600
         BorderColor = clBlack
         Caption = 'Orbital Object [enter for validate the data in each field]'
@@ -2173,7 +2173,7 @@ object FCWinFUG: TFCWinFUG
       object TOO_CurrentRegion: TAdvGroupBox
         Left = 127
         Top = 407
-        Width = 471
+        Width = 546
         Height = 193
         BorderColor = clBlack
         Caption = 'Fractal Terrains Data Linking and Current Region Manual Edition'
@@ -2233,7 +2233,7 @@ object FCWinFUG: TFCWinFUG
         object CR_HighestPeak: THTMLabel
           Left = 259
           Top = 24
-          Width = 107
+          Width = 171
           Height = 17
           HTMLText.Strings = (
             'Highest Peak: 99999')
@@ -2242,14 +2242,14 @@ object FCWinFUG: TFCWinFUG
         object CR_LowestDepth: THTMLabel
           Left = 259
           Top = 47
-          Width = 107
+          Width = 171
           Height = 17
           HTMLText.Strings = (
             'Lowest Depth: 99999')
           Version = '1.8.1.0'
         end
         object CR_Diameter: THTMLabel
-          Left = 366
+          Left = 436
           Top = 24
           Width = 107
           Height = 17
@@ -2258,7 +2258,7 @@ object FCWinFUG: TFCWinFUG
           Version = '1.8.1.0'
         end
         object CR_AxialTilt: THTMLabel
-          Left = 372
+          Left = 442
           Top = 47
           Width = 93
           Height = 17
@@ -2309,6 +2309,15 @@ object FCWinFUG: TFCWinFUG
           Height = 17
           HTMLText.Strings = (
             'Rainfall Base Value: 43.5234')
+          Version = '1.8.1.0'
+        end
+        object CR_OObjType: THTMLabel
+          Left = 278
+          Top = 115
+          Width = 232
+          Height = 17
+          HTMLText.Strings = (
+            'OObj Type:')
           Version = '1.8.1.0'
         end
         object CR_ReliefAdjustment: TAdvComboBox

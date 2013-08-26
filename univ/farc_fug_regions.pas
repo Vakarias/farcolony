@@ -184,6 +184,7 @@ begin
       FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regionSurface:=FCFcF_Round( rttCustom1Decimal, SurfaceByRegion );
       FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_meanTravelDistance:=round( DistanceMean );
    end;
+   {.first phase}
    {.generate the climate of each region}
    FCMfRC_Climate_Generate(
       DistanceShortest
@@ -205,7 +206,10 @@ begin
       ,Satellite
       );
    {.final phase}
-
+   {:DEV NOTES: EMO.}
+   {:DEV NOTES: 1st phase resources.}
+   {:DEV NOTES: biosphere.}
+   {:DEV NOTES: final phase resources.}
 end;
 
 end.

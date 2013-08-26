@@ -47,6 +47,22 @@ uses
 //===========================END FUNCTIONS SECTION==========================================
 
 ///<summary>
+///   set the EMO of the selected region
+///</summary>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <returns></returns>
+///   <remarks></remarks>
+procedure FCMfR_EnvironmentalModifiers_Set(
+   const Region
+         ,Star
+         ,OrbitalObject: integer;
+   const Satellite: integer=0
+   );
+
+///<summary>
 ///   generate the land type and relief for each region
 ///</summary>
 /// <param name="Star">star index #</param>
@@ -81,6 +97,19 @@ uses
 
 //===================================================END OF INIT============================
 //===========================END FUNCTIONS SECTION==========================================
+
+procedure FCMfR_EnvironmentalModifiers_Set(
+   const Region
+         ,Star
+         ,OrbitalObject: integer;
+   const Satellite: integer=0
+   );
+{:Purpose: set the EMO of the selected region.
+    Additions:
+}
+begin
+
+end;
 
 procedure FCMfR_LandRelief_Process(
    const Star
