@@ -211,27 +211,20 @@ begin
    end;
    FCWinFUG.CR_GridIndexNumber.HTMLText.Clear;
    FCWinFUG.CR_GridIndexNumber.HTMLText.Add( 'Grid Index #: ' + inttostr( Count1 ) );
+   FCWinFUG.CR_Hydrosphere.Show;
+   FCWinFUG.CR_Hydrosphere.HTMLText.Clear;
+   FCWinFUG.CR_Hydrosphere.HTMLText.Add( 'Hydro: '+GetEnumName( TypeInfo( TFCEduHydrospheres ), Integer( Hydrosphere ) ) );
    if ( Hydrosphere = hWaterLiquid )
       or ( Hydrosphere = hWaterAmmoniaLiquid )
       or ( Hydrosphere = hMethaneLiquid ) then
    begin
       FCWinFUG.CR_OceanicCoastalAdjustment.Show;
-      FCWinFUG.CR_Hydrosphere.Show;
-      FCWinFUG.CR_Hydrosphere.HTMLText.Clear;
-      case Hydrosphere of
-         hWaterLiquid: FCWinFUG.CR_Hydrosphere.HTMLText.Add( 'Hydro: LWater' );
-
-         hWaterAmmoniaLiquid: FCWinFUG.CR_Hydrosphere.HTMLText.Add( 'Hydro: LWatAm' );
-
-         hMethaneLiquid: FCWinFUG.CR_Hydrosphere.HTMLText.Add( 'Hydro: LMeth' );
-      end;
       FCWinFUG.CR_SeaArea.Show;
       FCWinFUG.CR_SeaArea.HTMLText.Clear;
       FCWinFUG.CR_SeaArea.HTMLText.Add( 'Sea Area: '+inttostr( HydrosphereArea )+'%' );
    end
    else begin
       FCWinFUG.CR_OceanicCoastalAdjustment.Hide;
-      FCWinFUG.CR_Hydrosphere.Hide;
       FCWinFUG.CR_SeaArea.Hide;
    end;
    Count1:=round( 9144 / Gravity );

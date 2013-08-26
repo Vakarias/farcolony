@@ -1200,7 +1200,7 @@ object FCWinFUG: TFCWinFUG
         Left = 127
         Top = 3
         Width = 546
-        Height = 600
+        Height = 683
         BorderColor = clBlack
         Caption = 'Orbital Object [enter for validate the data in each field]'
         Color = clSilver
@@ -2174,7 +2174,7 @@ object FCWinFUG: TFCWinFUG
         Left = 127
         Top = 407
         Width = 546
-        Height = 193
+        Height = 279
         BorderColor = clBlack
         Caption = 'Fractal Terrains Data Linking and Current Region Manual Edition'
         Color = clSilver
@@ -2189,8 +2189,8 @@ object FCWinFUG: TFCWinFUG
         TabOrder = 4
         Visible = False
         object Bevel8: TBevel
-          Left = 8
-          Top = 138
+          Left = 13
+          Top = 186
           Width = 417
           Height = 9
         end
@@ -2213,8 +2213,8 @@ object FCWinFUG: TFCWinFUG
           Version = '1.8.1.0'
         end
         object CR_SeaArea: THTMLabel
-          Left = 85
-          Top = 42
+          Left = 3
+          Top = 71
           Width = 83
           Height = 17
           HTMLText.Strings = (
@@ -2224,7 +2224,7 @@ object FCWinFUG: TFCWinFUG
         object CR_Hydrosphere: THTMLabel
           Left = 3
           Top = 42
-          Width = 77
+          Width = 163
           Height = 17
           HTMLText.Strings = (
             'Hydro: LWatAm')
@@ -2304,7 +2304,7 @@ object FCWinFUG: TFCWinFUG
         end
         object CR_Rainfall: THTMLabel
           Left = 16
-          Top = 115
+          Top = 155
           Width = 232
           Height = 17
           HTMLText.Strings = (
@@ -2321,8 +2321,8 @@ object FCWinFUG: TFCWinFUG
           Version = '1.8.1.0'
         end
         object CR_ReliefAdjustment: TAdvComboBox
-          Left = 149
-          Top = 79
+          Left = 139
+          Top = 118
           Width = 104
           Height = 21
           Color = clWhite
@@ -2354,8 +2354,8 @@ object FCWinFUG: TFCWinFUG
           OnChange = CR_ReliefAdjustmentChange
         end
         object CR_OceanicCoastalAdjustment: TAdvComboBox
-          Left = 13
-          Top = 79
+          Left = 3
+          Top = 117
           Width = 130
           Height = 21
           Color = clWhite
@@ -2387,8 +2387,8 @@ object FCWinFUG: TFCWinFUG
           OnChange = CR_OceanicCoastalAdjustmentChange
         end
         object CR_InputSeed: TLabeledEdit
-          Left = 5
-          Top = 163
+          Left = 10
+          Top = 211
           Width = 71
           Height = 19
           Color = clWhite
@@ -2429,8 +2429,8 @@ object FCWinFUG: TFCWinFUG
           OnChange = CR_CurrentRegionChange
         end
         object CR_InputLightColorFileNumber: TLabeledEdit
-          Left = 82
-          Top = 163
+          Left = 87
+          Top = 211
           Width = 135
           Height = 19
           Color = clWhite
@@ -2442,8 +2442,8 @@ object FCWinFUG: TFCWinFUG
           OnKeyDown = CR_InputLightColorFileNumberKeyDown
         end
         object CR_InputClimateFileNumber: TLabeledEdit
-          Left = 226
-          Top = 163
+          Left = 231
+          Top = 211
           Width = 135
           Height = 19
           Color = clWhite

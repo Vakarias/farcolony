@@ -605,7 +605,7 @@ type TFCRduOrbitalObject = record
    ///<summary>
    ///   object's seed in FT. WARNING: USED ONLY BY THE FUG, not in-game
    ///</summary>
-   OO_fug_WorldSeed: integer;
+   OO_fug_WorldSeed: string;
    ///<summary>
    ///   object's map light&color file in FT. WARNING: USED ONLY BY THE FUG, not in-game
    ///</summary>
