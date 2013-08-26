@@ -124,9 +124,7 @@ begin
    Gravity:=0;
    Greenhouse:=0;
    Variance:=0;
-   X:=0;
-   Y:=0;
-
+   
    Hydrosphere:=hNoHydro;
 
    FUGpaused:=false;
@@ -287,9 +285,9 @@ begin
    FCWinFUG.CR_StarLum.HTMLText.Clear;
    FCWinFUG.CR_StarLum.HTMLText.Add( 'Star Lum: ' + floattostr( FCDduStarSystem[0].SS_stars[Star].S_luminosity ) );
    FCWinFUG.CR_Greenhouse.HTMLText.Clear;
-   FCWinFUG.CR_StarLum.HTMLText.Add( 'Greenhouse: ' + floattostr( Greenhouse ) );
-   FCWinFUG.CR_Greenhouse.HTMLText.Clear;
-   FCWinFUG.CR_StarLum.HTMLText.Add( 'Variance: ' + floattostr( Variance ) );
+   FCWinFUG.CR_Greenhouse.HTMLText.Add( 'Greenhouse: ' + floattostr( Greenhouse ) );
+   FCWinFUG.CR_Variance.HTMLText.Clear;
+   FCWinFUG.CR_Variance.HTMLText.Add( 'Variance: ' + floattostr( Variance ) );
    FCWinFUG.CR_InputSeed.Text:='';
    FCWinFUG.CR_InputLightColorFileNumber.Text:='';
    FCWinFUG.CR_InputClimateFileNumber.Text:='';

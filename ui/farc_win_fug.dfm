@@ -2258,9 +2258,9 @@ object FCWinFUG: TFCWinFUG
           Version = '1.8.1.0'
         end
         object CR_AxialTilt: THTMLabel
-          Left = 364
+          Left = 372
           Top = 47
-          Width = 107
+          Width = 93
           Height = 17
           HTMLText.Strings = (
             'Axial Tilt: 999.99')
