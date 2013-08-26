@@ -171,6 +171,7 @@ type
     CR_StarLum: THTMLabel;
     CR_Greenhouse: THTMLabel;
     CR_Variance: THTMLabel;
+    CR_Rainfall: THTMLabel;
     procedure WF_GenerateButtonClick(Sender: TObject);
     procedure TMS_OrbitGenerationClick(Sender: TObject);
     procedure TC1S_EnableGroupCompanion1Click(Sender: TObject);

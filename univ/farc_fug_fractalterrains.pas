@@ -32,7 +32,8 @@ interface
 
 uses
    Forms
-   ,SysUtils;
+   ,SysUtils
+   ,TypInfo;
 
 //==END PUBLIC ENUM=========================================================================
 
@@ -111,6 +112,8 @@ procedure FCMfT_DataLinking_Process(
       ,Variance: extended;
 
       Hydrosphere: TFCEduHydrospheres;
+
+      ObjectType: TFCEduOrbitalObjectTypes;
 begin
    Count:=0;
    Count1:=0;
@@ -126,36 +129,16 @@ begin
    Greenhouse:=0;
    Rainfall:=0;
    Variance:=0;
-   
+
    Hydrosphere:=hNoHydro;
+
+   ObjectType:=ootNone;
 
    FUGpaused:=false;
 
    if Satellite = 0 then
    begin
-      { RotationPeriod:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isNotSat_rotationPeriod;
-      AtmospherePressure:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphericPressure;
-      {.the clouds cover loaded into fCalc0 is only used for the surface temperatures subsection. It can be used afterward}
-      { fCalc0:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_cloudsCover;
-      //ObjectSurfaceTempClosest:=FCFuF_OrbitalPeriodSpecified_GetSurfaceTemperature(
-      //optClosest
-      //,0
-      //,Star
-      //,OrbitalObject
-      //);
-      //ObjectSurfaceTempInterm:=FCFuF_OrbitalPeriodSpecified_GetSurfaceTemperature(
-      //optIntermediary
-      //,0
-      //,Star
-      //,OrbitalObject
-      //);
-      //ObjectSurfaceTempFarthest:=FCFuF_OrbitalPeriodSpecified_GetSurfaceTemperature(
-      //optFarthest
-      //,0
-      //,Star
-      //,OrbitalObject
-      //);
-                                                                                              }
+      ObjectType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_type;
       Greenhouse:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_fug_Greenhouse;
       Diameter:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_Diameter;
       AxialTilt:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isNotSat_axialTilt;
@@ -167,39 +150,7 @@ begin
    end
    else if Satellite > 0 then
    begin
-
-
-      { RotationPeriod:=FCFuF_Satellite_GetRotationPeriod(
-      0
-      ,Star
-      ,OrbitalObject
-      ,Satellite
-      );
-      AtmospherePressure:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphericPressure;
-      {.the clouds cover loaded into fCalc0 is only used for the surface temperatures subsection. It can be used afterward}
-      { fCalc0:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_cloudsCover;
-
-      ObjectSurfaceTempClosest:=FCFuF_OrbitalPeriodSpecified_GetSurfaceTemperature(
-      optClosest
-      ,0
-      ,Star
-      ,OrbitalObject
-      ,Satellite
-      );
-      ObjectSurfaceTempInterm:=FCFuF_OrbitalPeriodSpecified_GetSurfaceTemperature(
-      optIntermediary
-      ,0
-      ,Star
-      ,OrbitalObject
-      ,Satellite
-      );
-      ObjectSurfaceTempFarthest:=FCFuF_OrbitalPeriodSpecified_GetSurfaceTemperature(
-      optFarthest
-      ,0
-      ,Star
-      ,OrbitalObject
-      ,Satellite
-      );   }
+      ObjectType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_type;
       Greenhouse:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_fug_Greenhouse;
       Diameter:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_Diameter;
       AxialTilt:=FCFuF_Satellite_GetAxialTilt(
@@ -215,15 +166,25 @@ begin
       Max:=length( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions ) - 1;
    end;
    RefRegion:=FCFfrF_ReferenceRegion_GetIndex( Max );
-   fCalc1:=( ( abs( FCDfdRegions[RefRegion].RC_surfaceTemperatureMean - FCDfdRegions[1].RC_surfaceTemperatureMean ) + abs( FCDfdRegions[RefRegion].RC_surfaceTemperatureMean - FCDfdRegions[Max].RC_surfaceTemperatureMean ) ) * 0.5 ) - 273.15;
+   fCalc1:=( ( abs( FCDfdRegions[RefRegion].RC_surfaceTemperatureMean - FCDfdRegions[1].RC_surfaceTemperatureMean ) + abs( FCDfdRegions[RefRegion].RC_surfaceTemperatureMean - FCDfdRegions[Max].RC_surfaceTemperatureMean ) ) * 0.5 );
    Variance:=FCFcF_Round( rttCustom1Decimal, fCalc1 );
    {.call the interface to display the land and relief data of the current orbital object in the loop}
-   FCWinFUG.TOO_StarPicker.ItemIndex:=Star - 1;
-   FCWinFUG.TOO_OrbitalObjectPicker.ItemIndex:=OrbitalObject - 1;
-   FCWinFUG.TOO_SatPicker.ItemIndex:=Satellite - 1;
-   FCWinFUG.TOO_StarPicker.Enabled:=false;
-   FCWinFUG.TOO_OrbitalObjectPicker.Enabled:=false;
-   FCWinFUG.TOO_SatPicker.Enabled:=false;
+//   FCWinFUG.TOO_StarPicker.ItemIndex:=Star - 1;
+//   FCMfC_StarPicker_Update;
+//   FCWinFUG.TOO_OrbitalObjectPicker.ItemIndex:=OrbitalObject - 1;
+//   FCmfC_OrbitPicker_UpdateCurrent( true );
+//   if Satellite > 0 then
+//   begin
+//      FCWinFUG.TOO_SatPicker.ItemIndex:=Satellite - 1;
+//      if FCWinFUG.TOO_SatPicker.ItemIndex=0
+//      then FCmfC_OrbitPicker_UpdateCurrent( false )
+//      else if FCWinFUG.TOO_SatPicker.ItemIndex>0
+//      then FCmfC_SatPicker_UpdateCurrent;
+//   end;
+
+   FCWinFUG.TOO_StarPicker.Hide;
+   FCWinFUG.TOO_OrbitalObjectPicker.Hide;
+   FCWinFUG.TOO_SatPicker.Hide;
    FCWinFUG.TOO_CurrentOrbitalObject.Enabled:=false;
    FCWinFUG.TOO_CurrentRegion.Show;
    FCWinFUG.CR_MaxRegionsNumber.HTMLText.Clear;
@@ -290,6 +251,8 @@ begin
    FCWinFUG.CR_Greenhouse.HTMLText.Add( 'Greenhouse: ' + floattostr( Greenhouse ) );
    FCWinFUG.CR_Variance.HTMLText.Clear;
    FCWinFUG.CR_Variance.HTMLText.Add( 'Variance: ' + floattostr( Variance ) );
+   FCWinFUG.CR_OObjType.HTMLText.Clear;
+   FCWinFUG.CR_OObjType.HTMLText.Add( 'OObj: ' + GetEnumName( TypeInfo( TFCEduOrbitalObjectTypes ), Integer( ObjectType ) ) );
    FCWinFUG.CR_InputSeed.Text:='';
    FCWinFUG.CR_InputLightColorFileNumber.Text:='';
    FCWinFUG.CR_InputClimateFileNumber.Text:='';

@@ -2302,6 +2302,15 @@ object FCWinFUG: TFCWinFUG
             'Variance: 10.00')
           Version = '1.8.1.0'
         end
+        object CR_Rainfall: THTMLabel
+          Left = 16
+          Top = 115
+          Width = 232
+          Height = 17
+          HTMLText.Strings = (
+            'Rainfall Base Value: 43.5234')
+          Version = '1.8.1.0'
+        end
         object CR_ReliefAdjustment: TAdvComboBox
           Left = 149
           Top = 79

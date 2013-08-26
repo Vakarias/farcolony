@@ -60,20 +60,6 @@ procedure FCMfR_GenerationPhase1_Process(
    const Satellite: integer=0
    );
 
-///<summary>
-///   generate the regions of an orbital object. It is the second and final phase (post manual edition + resources)
-///</summary>
-/// <param name="Star">star index #</param>
-/// <param name="OrbitalObject">orbital object index #</param>
-/// <param name="Satellite">OPTIONAL: satellite index #</param>
-/// <returns></returns>
-/// <remarks></remarks>
-procedure FCMfR_GenerationPhase2_Process(
-   const Star
-         ,OrbitalObject: integer;
-   const Satellite: integer=0
-   );
-
 implementation
 
 uses
@@ -218,17 +204,7 @@ begin
       ,OrbitalObject
       ,Satellite
       );
-end;
-
-procedure FCMfR_GenerationPhase2_Process(
-   const Star
-         ,OrbitalObject: integer;
-   const Satellite: integer=0
-   );
-{:Purpose: generate the regions of an orbital object. It is the second and final phase (post manual edition + resources).
-    Additions:
-}
-begin
+   {.final phase}
 
 end;
 
