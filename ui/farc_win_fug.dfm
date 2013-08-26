@@ -2293,6 +2293,15 @@ object FCWinFUG: TFCWinFUG
             'Greenhouse: 1.1')
           Version = '1.8.1.0'
         end
+        object CR_Variance: THTMLabel
+          Left = 355
+          Top = 93
+          Width = 107
+          Height = 17
+          HTMLText.Strings = (
+            'Variance: 10.00')
+          Version = '1.8.1.0'
+        end
         object CR_ReliefAdjustment: TAdvComboBox
           Left = 149
           Top = 79

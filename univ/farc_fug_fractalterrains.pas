@@ -64,7 +64,8 @@ procedure FCMfT_DataLinking_Process(
 implementation
 
 uses
-   farc_data_univ
+   farc_common_func
+   ,farc_data_univ
    ,farc_fug_com
    ,farc_fug_data
    ,farc_fug_regionfunctions
@@ -97,7 +98,8 @@ procedure FCMfT_DataLinking_Process(
       Count
       ,Count1
       ,HydrosphereArea
-      ,Max: integer;
+      ,Max
+      ,RefRegion: integer;
 
       Albedo
       ,AxialTilt
@@ -105,9 +107,7 @@ procedure FCMfT_DataLinking_Process(
       ,fCalc1
       ,Gravity
       ,Greenhouse
-      ,Variance
-      ,X
-      ,Y: extended;
+      ,Variance: extended;
 
       Hydrosphere: TFCEduHydrospheres;
 begin
@@ -115,6 +115,7 @@ begin
    Count1:=0;
    HydrosphereArea:=0;
    Max:=0;
+   RefRegion:=0;
 
    Albedo:=0;
    AxialTilt:=0;
@@ -163,13 +164,6 @@ begin
       Hydrosphere:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_hydrosphere;
       HydrosphereArea:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_hydrosphereArea;
       Max:=length( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions ) - 1;
-//      case FCWinFUG.TOO_StarPicker.ItemIndex of
-//         0: setlength( FCDfdMainStarObjectsList[OrbitalObject].OO_regions, Max + 1 );
-//
-//         1: setlength( FCDfdComp1StarObjectsList[OrbitalObject].OO_regions, Max + 1 );
-//
-//         2: setlength( FCDfdComp2StarObjectsList[OrbitalObject].OO_regions, Max + 1 );
-//      end;
    end
    else if Satellite > 0 then
    begin
@@ -219,14 +213,10 @@ begin
       Hydrosphere:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_hydrosphere;
       HydrosphereArea:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_hydrosphereArea;
       Max:=length( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions ) - 1;
-//      case FCWinFUG.TOO_StarPicker.ItemIndex of
-//         0: setlength( FCDfdMainStarObjectsList[OrbitalObject].OO_satellitesList[Satellite].OO_regions, Max + 1 );
-//
-//         1: setlength( FCDfdComp1StarObjectsList[OrbitalObject].OO_satellitesList[Satellite].OO_regions, Max + 1 );
-//
-//         2: setlength( FCDfdComp2StarObjectsList[OrbitalObject].OO_satellitesList[Satellite].OO_regions, Max + 1 );
-//      end;
    end;
+   RefRegion:=FCFfrF_ReferenceRegion_GetIndex( Max );
+   fCalc1:=( ( abs( FCDfdRegions[RefRegion].RC_surfaceTemperatureMean - FCDfdRegions[1].RC_surfaceTemperatureMean ) + abs( FCDfdRegions[RefRegion].RC_surfaceTemperatureMean - FCDfdRegions[Max].RC_surfaceTemperatureMean ) ) * 0.5 ) - 273.15;
+   Variance:=FCFcF_Round( rttCustom1Decimal, fCalc1 );
    {.call the interface to display the land and relief data of the current orbital object in the loop}
    FCWinFUG.TOO_StarPicker.ItemIndex:=Star - 1;
    FCWinFUG.TOO_OrbitalObjectPicker.ItemIndex:=OrbitalObject - 1;
@@ -298,6 +288,8 @@ begin
    FCWinFUG.CR_StarLum.HTMLText.Add( 'Star Lum: ' + floattostr( FCDduStarSystem[0].SS_stars[Star].S_luminosity ) );
    FCWinFUG.CR_Greenhouse.HTMLText.Clear;
    FCWinFUG.CR_StarLum.HTMLText.Add( 'Greenhouse: ' + floattostr( Greenhouse ) );
+   FCWinFUG.CR_Greenhouse.HTMLText.Clear;
+   FCWinFUG.CR_StarLum.HTMLText.Add( 'Variance: ' + floattostr( Variance ) );
    FCWinFUG.CR_InputSeed.Text:='';
    FCWinFUG.CR_InputLightColorFileNumber.Text:='';
    FCWinFUG.CR_InputClimateFileNumber.Text:='';
