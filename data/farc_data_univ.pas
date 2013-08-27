@@ -82,6 +82,30 @@ type TFCEduEnvironmentTypes=(
    );
 
 {:REFERENCES LIST
+   -
+   -
+}
+///<summary>
+///   habitability index
+///</summary>
+type TFCEduHabitabilityIndex=(
+   higNone
+   ,higHostile_n
+   ,higHostile
+   ,higHostile_p
+   ,higBad_n
+   ,higBad
+   ,higBad_p
+   ,higMediocre_n
+   ,higMediocre
+   ,higMediocre_p
+   ,higAcceptable_n
+   ,higAcceptable
+   ,higAcceptable_p
+   ,higIdeal
+   );
+
+{:REFERENCES LIST
    - universe.xml
    - FCMdFiles_DBstarSys_Process
 }
@@ -722,6 +746,22 @@ type TFCRduOrbitalObject = record
    ///   hydrosphere area
    ///</summary>
    OO_hydrosphereArea: integer;
+   ///<summary>
+   ///   habitability index - gravity
+   ///</summary>
+   OO_habitabilityGravity: TFCEduHabitabilityIndex;
+   ///<summary>
+   ///   habitability index - radiations
+   ///</summary>
+   OO_habitabilityRadiations: TFCEduHabitabilityIndex;
+   ///<summary>
+   ///   habitability index - atmosphere composition
+   ///</summary>
+   OO_habitabilityAtmosphere: TFCEduHabitabilityIndex;
+   ///<summary>
+   ///   habitability index - atmosphere pressure
+   ///</summary>
+   OO_habitabilityAtmPressure: TFCEduHabitabilityIndex;
    ///<summary>
    ///   surface by region rto-1
    ///</summary>

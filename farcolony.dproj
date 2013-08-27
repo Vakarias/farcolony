@@ -153,15 +153,16 @@
 			<DCCReference Include="univ\farc_fug_landresources.pas"/>
 			<DCCReference Include="univ\farc_fug_fractalterrains.pas"/>
 			<DCCReference Include="univ\farc_fug_regionfunctions.pas"/>
+			<DCCReference Include="univ\farc_fug_environments.pas"/>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>
-			<BuildConfiguration Include="Debug">
-				<Key>Cfg_2</Key>
-				<CfgParent>Base</CfgParent>
-			</BuildConfiguration>
 			<BuildConfiguration Include="Release">
 				<Key>Cfg_1</Key>
+				<CfgParent>Base</CfgParent>
+			</BuildConfiguration>
+			<BuildConfiguration Include="Debug">
+				<Key>Cfg_2</Key>
 				<CfgParent>Base</CfgParent>
 			</BuildConfiguration>
 		</ItemGroup>

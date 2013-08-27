@@ -457,7 +457,17 @@ begin
             Count1:=1;
             while Count1<=Max1 do
             begin
-               WF_XMLOutput.Lines.Add( '      <orbobj token="'+FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_dbTokenId+'" ftSeed="'+FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_fug_WorldSeed+'" lightcolor="'+FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_fug_Worldlightcolorfile+'" climatefile="'+FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_fug_Worldclimatefile+'">' );
+               WF_XMLOutput.Lines.Add(
+                  '      <orbobj token="'+FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_dbTokenId
+                     +'" ftSeed="'+FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_fug_WorldSeed
+                     +'" lightcolor="'+FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_fug_Worldlightcolorfile
+                     +'" climatefile="'+FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_fug_Worldclimatefile
+                     +'" habGravity="'+GetEnumName( TypeInfo( TFCEduHabitabilityIndex ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_habitabilityGravity ) )
+                     +'" habRad="'+GetEnumName( TypeInfo( TFCEduHabitabilityIndex ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_habitabilityRadiations ) )
+                     +'" habAtmosphere="'+GetEnumName( TypeInfo( TFCEduHabitabilityIndex ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_habitabilityAtmosphere ) )
+                     +'" habAtmPressure="'+GetEnumName( TypeInfo( TFCEduHabitabilityIndex ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_habitabilityAtmPressure ) )
+                     +'">'
+                  );
                WF_XMLOutput.Lines.Add(
                   '         <orbitalData distanceFromStar="'+FloatToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_isNotSat_distanceFromStar )
                      +'" eccentricity="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_isNotSat_eccentricity )
@@ -579,7 +589,17 @@ begin
                Count2:=1;
                while Count2<=Max2 do
                begin
-                  WF_XMLOutput.Lines.Add( '         <satobj token="'+FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_dbTokenId+'" ftSeed="'+FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_fug_WorldSeed+'" lightcolor="'+FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_fug_Worldlightcolorfile+'" climatefile="'+FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_fug_Worldclimatefile+'">' );
+                  WF_XMLOutput.Lines.Add(
+                     '         <satobj token="'+FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_dbTokenId
+                        +'" ftSeed="'+FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_fug_WorldSeed
+                        +'" lightcolor="'+FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_fug_Worldlightcolorfile
+                        +'" climatefile="'+FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_fug_Worldclimatefile
+                        +'" habGravity="'+GetEnumName( TypeInfo( TFCEduHabitabilityIndex ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_habitabilityGravity ) )
+                        +'" habRad="'+GetEnumName( TypeInfo( TFCEduHabitabilityIndex ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_habitabilityRadiations ) )
+                        +'" habAtmosphere="'+GetEnumName( TypeInfo( TFCEduHabitabilityIndex ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_habitabilityAtmosphere ) )
+                        +'" habAtmPressure="'+GetEnumName( TypeInfo( TFCEduHabitabilityIndex ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_habitabilityAtmPressure ) )
+                        +'">'
+                     );
                   WF_XMLOutput.Lines.Add(
                      '            <orbitalData distanceFromRoot="'+FloatToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_isSat_distanceFromPlanet )
                         +'" revolutionPeriod="'+IntToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_revolutionPeriod )

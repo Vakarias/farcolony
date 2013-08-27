@@ -65,6 +65,7 @@ implementation
 uses
    farc_common_func
    ,farc_data_univ
+   ,farc_fug_environments
    ,farc_fug_fractalterrains
    ,farc_fug_landresources
    ,farc_fug_regionsClimate;
@@ -206,6 +207,11 @@ begin
       ,Satellite
       );
    {.final phase}
+   FCMfE_HabitabilityIndexes_Process(
+      Star
+      ,OrbitalObject
+      ,Satellite
+      );
    {:DEV NOTES: EMO.}
    {:DEV NOTES: 1st phase resources.}
    {:DEV NOTES: biosphere.}

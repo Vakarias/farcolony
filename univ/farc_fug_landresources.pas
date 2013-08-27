@@ -56,8 +56,7 @@ uses
 ///   <returns></returns>
 ///   <remarks></remarks>
 procedure FCMfR_EnvironmentalModifiers_Set(
-   const Region
-         ,Star
+   const Star
          ,OrbitalObject: integer;
    const Satellite: integer=0
    );
@@ -99,16 +98,23 @@ uses
 //===========================END FUNCTIONS SECTION==========================================
 
 procedure FCMfR_EnvironmentalModifiers_Set(
-   const Region
-         ,Star
+   const Star
          ,OrbitalObject: integer;
    const Satellite: integer=0
    );
 {:Purpose: set the EMO of the selected region.
     Additions:
 }
+   var
+      Region: integer;
 begin
+   Region:=1;
+   while Region <= Max do
+   begin
+      {.planetary survey - ground}
 
+      inc( Region );
+   end;
 end;
 
 procedure FCMfR_LandRelief_Process(

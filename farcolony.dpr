@@ -131,7 +131,8 @@ uses
   farc_fug_regionsClimate in 'univ\farc_fug_regionsClimate.pas',
   farc_fug_landresources in 'univ\farc_fug_landresources.pas',
   farc_fug_fractalterrains in 'univ\farc_fug_fractalterrains.pas',
-  farc_fug_regionfunctions in 'univ\farc_fug_regionfunctions.pas';
+  farc_fug_regionfunctions in 'univ\farc_fug_regionfunctions.pas',
+  farc_fug_environments in 'univ\farc_fug_environments.pas';
 
 {$R *.res}
 

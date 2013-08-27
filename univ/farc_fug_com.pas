@@ -1763,8 +1763,8 @@ begin
    CurrentSat:=FCWinFUG.TOO_SatPicker.ItemIndex;
    CurrentRegion:=FCWinFUG.CR_CurrentRegion.ItemIndex + 1;
    if CurrentSat <= 0
-   then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[CurrentObject].OO_fug_WorldSeed:=strtoint( FCWinFUG.CR_InputSeed.Text )
-   else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[CurrentObject].OO_satellitesList[CurrentSat].OO_fug_WorldSeed:=strtoint( FCWinFUG.CR_InputSeed.Text );
+   then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[CurrentObject].OO_fug_WorldSeed:=FCWinFUG.CR_InputSeed.Text
+   else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[CurrentObject].OO_satellitesList[CurrentSat].OO_fug_WorldSeed:=FCWinFUG.CR_InputSeed.Text;
 end;
 
 procedure FCMfC_RegionOceanicCoastal_Update;
