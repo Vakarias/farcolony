@@ -85,7 +85,6 @@ uses
   farc_ui_coldatapanel in 'ui\farc_ui_coldatapanel.pas',
   farc_ui_infrapanel in 'ui\farc_ui_infrapanel.pas',
   farc_ui_html in 'ui\farc_ui_html.pas',
-  farc_fug_habidx in 'univ\farc_fug_habidx.pas',
   farc_game_prodSeg1 in 'game\farc_game_prodSeg1.pas',
   farc_game_energymodes in 'game\farc_game_energymodes.pas',
   farc_game_prodSeg2 in 'game\farc_game_prodSeg2.pas',

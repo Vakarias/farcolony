@@ -98,6 +98,19 @@ procedure FCMfE_HabitabilityIndexes_Process(
       ,IndexRadiations
       ,IndexAtmosphere
       ,IndexAtmPressure: TFCEduHabitabilityIndex;
+
+      CH4
+      ,NH3
+      ,Ne
+      ,N2
+      ,CO
+      ,NO
+      ,O2
+      ,H2S
+      ,CO2
+      ,NO2
+      ,SO2: TFCEduAtmosphericGasStatus;
+
 begin
    iCalc1:=0;
    iCalc2:=0;
@@ -110,16 +123,50 @@ begin
    IndexAtmosphere:=higNone;
    IndexAtmPressure:=higNone;
 
+   CH4:=agsNotPresent;
+   NH3:=agsNotPresent;
+   Ne:=agsNotPresent;
+   N2:=agsNotPresent;
+   CO:=agsNotPresent;
+   NO:=agsNotPresent;
+   O2:=agsNotPresent;
+   H2S:=agsNotPresent;
+   CO2:=agsNotPresent;
+   NO2:=agsNotPresent;
+   SO2:=agsNotPresent;
+
    if Satellite <= 0 then
    begin
       AtmPress:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphericPressure;
       Gravity:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_Gravity;
       Magfield:=round( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_magneticField * 10 );
+      CH4:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceCH4;
+      NH3:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceNH3;
+      Ne:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceNe;
+      N2:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceN2;
+      CO:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceCO;
+      NO:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceNO;
+      O2:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceO2;
+      H2S:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceH2S;
+      CO2:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceCO2;
+      NO2:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceNO2;
+      SO2:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceSO2;
    end
    else begin
       AtmPress:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphericPressure;
       Gravity:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_Gravity;
       Magfield:=round( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_magneticField * 10 );
+      CH4:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceCH4;
+      NH3:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceNH3;
+      Ne:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceNe;
+      N2:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceN2;
+      CO:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceCO;
+      NO:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceNO;
+      O2:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceO2;
+      H2S:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceH2S;
+      CO2:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceCO2;
+      NO2:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceNO2;
+      SO2:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceSO2;
    end;
    {.gravity index}
    if Gravity = 0
@@ -393,6 +440,65 @@ begin
    then IndexRadiations:=higBad
    else if iCalc2 >= 8
    then IndexRadiations:=higHostile;
+   {.atmosphere composition index}
+   iCalc1:=0;
+   if CH4 = agsSecondary
+   then iCalc1:=-1
+   else if CH4 = agsMain
+   then iCalc1:=-2;
+   if NH3 = agsSecondary
+   then iCalc1:=iCalc1 - 2
+   else if NH3 = agsMain
+   then iCalc1:=iCalc1 - 4;
+   if Ne = agsSecondary
+   then iCalc1:=iCalc1 - 2
+   else if Ne = agsMain
+   then iCalc1:=iCalc1 - 4;
+   if N2 = agsMain
+   then iCalc1:=iCalc1 + 1;
+   if CO = agsSecondary
+   then iCalc1:=iCalc1 - 1
+   else if CO = agsMain
+   then iCalc1:=iCalc1 - 3;
+   if NO = agsSecondary
+   then iCalc1:=iCalc1 - 2
+   else if NO = agsMain
+   then iCalc1:=iCalc1 - 4;
+   if O2 = agsSecondary
+   then iCalc1:=iCalc1 + 2
+   else if O2 = agsMain
+   then iCalc1:=iCalc1 + 3;
+   if H2S = agsSecondary
+   then iCalc1:=iCalc1 - 1
+   else if H2S = agsMain
+   then iCalc1:=iCalc1 - 3;
+   if CO2 = agsSecondary
+   then iCalc1:=iCalc1 - 1
+   else if CO2 = agsMain
+   then iCalc1:=iCalc1 - 2;
+   if NO2 = agsSecondary
+   then iCalc1:=iCalc1 - 2
+   else if NO2 = agsMain
+   then iCalc1:=iCalc1 - 4;
+   if SO2 = agsSecondary
+   then iCalc1:=iCalc1 - 1
+   else if SO2 = agsMain
+   then iCalc1:=iCalc1 - 3;
+   if iCalc1 <= -4
+   then IndexAtmosphere:=higHostile
+   else if ( iCalc1 > -4 )
+      and ( iCalc1 <= -2 )
+   then IndexAtmosphere:=higBad
+   else if ( iCalc1 > -2 )
+      and ( iCalc1 <= 0 )
+   then IndexAtmosphere:=higMediocre
+   else if ( iCalc1 > 0 )
+      and ( iCalc1 <= 2 )
+   then IndexAtmosphere:=higAcceptable
+   else if iCalc1 > 2
+   then IndexAtmosphere:=higIdeal;
+   {.atmosphere pressure index}
+
 end;
 
 end.
