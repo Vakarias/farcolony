@@ -124,6 +124,7 @@ procedure FCMfR_LandRelief_Process(
    );
 {:Purpose: generate the land type and relief for each region.
    Additions:
+      -2013Aug27- *add: adjustment for the GravModifier.
       -2013Aug22- *add: adjustments for the relief.
                   *fix: mislocated the data loading code.
       -2013Aug18- *add: forgot to add the data loading in the region's data structure of the selected orbital object.
@@ -216,7 +217,7 @@ begin
    begin
       ObjectType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_type;
       if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_gravity <> 1
-      then GravModifier:=round( ln( 1 / FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_gravity ) * 10 ) - 10
+      then GravModifier:=round( ln( 1 / FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_gravity ) * 2.5 )
       else GravModifier:=0;
       if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphericPressure > 0
       then isAtmosphere:=true;

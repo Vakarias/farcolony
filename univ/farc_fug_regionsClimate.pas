@@ -99,6 +99,7 @@ procedure FCMfRC_Climate_Generate(
    );
 {:Purpose: generate climate, and each of its related data, for all the regions of a given orbital object.
    Addition:
+      -2013Aug27- *mod: prevent rainfall calculations if the hydrosphere = no hydro.
       -2013Aug22- *add/mod: end of the overhaul. Code cleanup.
                   *fix: prevent rainfall to be calculated for extreme climates.
                   *add/fix: _RegionClimate_Precalculation is created to allow to calculate the data for the reference region before the other regions.
@@ -1265,8 +1266,22 @@ begin
       end; //==END== while Count <= Max ==//
    end; //==END== else of: if fCalc0 <= 90 ==//
    {.climate and its related data}
-   if AtmospherePressure > 0 then
+   if AtmospherePressure  <= 0 then
    begin
+      Count:=1;
+      while Count <= Max do
+      begin
+         FCDfdRegions[Count].RC_finalClimate:=rc00VoidNoUse;
+         FCDfdRegions[Count].RC_windspeedClosest:=0;
+         FCDfdRegions[Count].RC_windspeedInterm:=0;
+         FCDfdRegions[Count].RC_windspeedFarthest:=0;
+         FCDfdRegions[Count].RC_rainfallClosest:=0;
+         FCDfdRegions[Count].RC_rainfallInterm:=0;
+         FCDfdRegions[Count].RC_rainfallFarthest:=0;
+         inc( Count );
+      end;
+   end
+   else begin
       {.global precalculations}
       Omega:=( 2 * Pi ) / abs( RotationPeriod * 3600 );
       if isPrimarySO2
@@ -1369,7 +1384,8 @@ begin
             fInt1: RBF
             fCalc0: modRH
          }
-         if ( FCDfdRegions[Count].RC_finalClimate > rc00VoidNoUse )
+         if ( Hydrosphere > hNoHydro )
+            and ( FCDfdRegions[Count].RC_finalClimate > rc00VoidNoUse )
             and ( FCDfdRegions[Count].RC_finalClimate < rc10Extreme ) then
          begin
             fInt0:=0;

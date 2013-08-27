@@ -120,6 +120,11 @@ var
    FCRfdSystemType: TFCRfdSystemType;
 
    FUGpaused: boolean;
+
+   FDcurrentRegionStar: integer;
+   FDcurrentRegionOrbObj: integer;
+   FDcurrentRegionSat: integer;
+   FDcurrentRegion: integer;
 //==END PUBLIC VAR==========================================================================
 
 //const

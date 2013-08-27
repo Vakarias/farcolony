@@ -94,6 +94,7 @@ procedure FCMfT_DataLinking_Process(
    );
 {:Purpose: initialize the interface and pause the generation to allow to generate the surface maps into Fractal Terrains and manually adjust, if needed, the land type and relief for each region.
    Additions:
+      -2013Aug27- *add: forgot to restore the user's interface.
 }
    var
       Count
@@ -165,23 +166,13 @@ begin
       HydrosphereArea:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_hydrosphereArea;
       Max:=length( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions ) - 1;
    end;
+   FDcurrentRegionStar:=Star;
+   FDcurrentRegionOrbObj:=OrbitalObject;
+   FDcurrentRegionSat:=Satellite;
+   FDcurrentRegion:=1;
    RefRegion:=FCFfrF_ReferenceRegion_GetIndex( Max );
    fCalc1:=( ( abs( FCDfdRegions[RefRegion].RC_surfaceTemperatureMean - FCDfdRegions[1].RC_surfaceTemperatureMean ) + abs( FCDfdRegions[RefRegion].RC_surfaceTemperatureMean - FCDfdRegions[Max].RC_surfaceTemperatureMean ) ) * 0.5 );
    Variance:=FCFcF_Round( rttCustom1Decimal, fCalc1 );
-   {.call the interface to display the land and relief data of the current orbital object in the loop}
-//   FCWinFUG.TOO_StarPicker.ItemIndex:=Star - 1;
-//   FCMfC_StarPicker_Update;
-//   FCWinFUG.TOO_OrbitalObjectPicker.ItemIndex:=OrbitalObject - 1;
-//   FCmfC_OrbitPicker_UpdateCurrent( true );
-//   if Satellite > 0 then
-//   begin
-//      FCWinFUG.TOO_SatPicker.ItemIndex:=Satellite - 1;
-//      if FCWinFUG.TOO_SatPicker.ItemIndex=0
-//      then FCmfC_OrbitPicker_UpdateCurrent( false )
-//      else if FCWinFUG.TOO_SatPicker.ItemIndex>0
-//      then FCmfC_SatPicker_UpdateCurrent;
-//   end;
-
    FCWinFUG.TOO_StarPicker.Hide;
    FCWinFUG.TOO_OrbitalObjectPicker.Hide;
    FCWinFUG.TOO_SatPicker.Hide;
@@ -273,6 +264,11 @@ begin
       application.processmessages;
    end;
    FCWinFUG.WF_ContinueButton.Hide;
+   FCWinFUG.TOO_StarPicker.Show;
+   FCWinFUG.TOO_OrbitalObjectPicker.Show;
+   FCWinFUG.TOO_SatPicker.Show;
+   FCWinFUG.TOO_CurrentOrbitalObject.Enabled:=true;
+   FCWinFUG.TOO_CurrentRegion.Hide;
 end;
 
 end.

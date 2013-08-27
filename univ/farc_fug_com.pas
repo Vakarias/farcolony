@@ -1643,19 +1643,11 @@ procedure FCmfC_Region_Update;
 {:Purpose: update the intrinsic data of the selected region.
     Additions:
 }
-   var
-      CurrentStar
-      ,CurrentObject
-      ,CurrentSat
-      ,CurrentRegion: integer;
 begin
-   CurrentStar:=FCWinFUG.TOO_StarPicker.ItemIndex + 1;
-   CurrentObject:=FCWinFUG.TOO_OrbitalObjectPicker.ItemIndex + 1;
-   CurrentSat:=FCWinFUG.TOO_SatPicker.ItemIndex;
-   CurrentRegion:=FCWinFUG.CR_CurrentRegion.ItemIndex + 1;
-   if CurrentSat<=0 then
+   FDcurrentRegion:=FCWinFUG.CR_CurrentRegion.ItemIndex + 1;
+   if FDcurrentRegionSat<=0 then
    begin
-      case FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[CurrentObject].OO_regions[CurrentRegion].OOR_soilType of
+         case FCDduStarSystem[0].SS_stars[FDcurrentRegionStar].S_orbitalObjects[FDcurrentRegionOrbObj].OO_regions[FDcurrentRegion].OOR_soilType of
          rst01RockyDesert..rst06Fertile:
          begin
             FCWinFUG.CR_OceanicCoastalAdjustment.Enabled:=false;
@@ -1678,11 +1670,11 @@ begin
          end;
       end;
       FCWinFUG.CR_ReliefAdjustment.Enabled:=false;
-      FCWinFUG.CR_ReliefAdjustment.ItemIndex:=Integer( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[CurrentObject].OO_regions[CurrentRegion].OOR_relief );
+      FCWinFUG.CR_ReliefAdjustment.ItemIndex:=Integer( FCDduStarSystem[0].SS_stars[FDcurrentRegionStar].S_orbitalObjects[FDcurrentRegionOrbObj].OO_regions[FDcurrentRegion].OOR_relief );
       FCWinFUG.CR_ReliefAdjustment.Enabled:=true;
    end
    else begin
-      case FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[CurrentObject].OO_satellitesList[CurrentSat].OO_regions[CurrentRegion].OOR_soilType of
+      case FCDduStarSystem[0].SS_stars[FDcurrentRegionStar].S_orbitalObjects[FDcurrentRegionOrbObj].OO_satellitesList[FDcurrentRegionSat].OO_regions[FDcurrentRegion].OOR_soilType of
          rst01RockyDesert..rst06Fertile:
          begin
             FCWinFUG.CR_OceanicCoastalAdjustment.Enabled:=false;
@@ -1705,7 +1697,7 @@ begin
          end;
       end;
       FCWinFUG.CR_ReliefAdjustment.Enabled:=false;
-      FCWinFUG.CR_ReliefAdjustment.ItemIndex:=Integer( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[CurrentObject].OO_satellitesList[CurrentSat].OO_regions[CurrentRegion].OOR_relief );
+      FCWinFUG.CR_ReliefAdjustment.ItemIndex:=Integer( FCDduStarSystem[0].SS_stars[FDcurrentRegionStar].S_orbitalObjects[FDcurrentRegionOrbObj].OO_satellitesList[FDcurrentRegionSat].OO_regions[FDcurrentRegion].OOR_relief );
       FCWinFUG.CR_ReliefAdjustment.Enabled:=true;
    end;
 end;
@@ -1714,73 +1706,37 @@ procedure FCmfC_RegionMapClimate_Update;
 {:Purpose: update the Fractal Terrains climate file # used to generate the actual surface map.
     Additions:
 }
-   var
-      CurrentStar
-      ,CurrentObject
-      ,CurrentSat
-      ,CurrentRegion: integer;
 begin
-   CurrentStar:=FCWinFUG.TOO_StarPicker.ItemIndex + 1;
-   CurrentObject:=FCWinFUG.TOO_OrbitalObjectPicker.ItemIndex + 1;
-   CurrentSat:=FCWinFUG.TOO_SatPicker.ItemIndex;
-   CurrentRegion:=FCWinFUG.CR_CurrentRegion.ItemIndex + 1;
-   if CurrentSat <= 0
-   then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[CurrentObject].OO_fug_Worldclimatefile:=FCWinFUG.CR_InputClimateFileNumber.Text
-   else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[CurrentObject].OO_satellitesList[CurrentSat].OO_fug_Worldclimatefile:=FCWinFUG.CR_InputClimateFileNumber.Text;
+   if FDcurrentRegionSat <= 0
+   then FCDduStarSystem[0].SS_stars[FDcurrentRegionStar].S_orbitalObjects[FDcurrentRegionOrbObj].OO_fug_Worldclimatefile:=FCWinFUG.CR_InputClimateFileNumber.Text
+   else FCDduStarSystem[0].SS_stars[FDcurrentRegionStar].S_orbitalObjects[FDcurrentRegionOrbObj].OO_satellitesList[FDcurrentRegionSat].OO_fug_Worldclimatefile:=FCWinFUG.CR_InputClimateFileNumber.Text;
 end;
 
 procedure FCmfC_RegionMapLightColor_Update;
 {:Purpose: update the Fractal Terrains light & color file # used to generate the actual surface map.
     Additions:
 }
-   var
-      CurrentStar
-      ,CurrentObject
-      ,CurrentSat
-      ,CurrentRegion: integer;
 begin
-   CurrentStar:=FCWinFUG.TOO_StarPicker.ItemIndex + 1;
-   CurrentObject:=FCWinFUG.TOO_OrbitalObjectPicker.ItemIndex + 1;
-   CurrentSat:=FCWinFUG.TOO_SatPicker.ItemIndex;
-   CurrentRegion:=FCWinFUG.CR_CurrentRegion.ItemIndex + 1;
-   if CurrentSat <= 0
-   then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[CurrentObject].OO_fug_Worldlightcolorfile:=FCWinFUG.CR_InputLightColorFileNumber.Text
-   else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[CurrentObject].OO_satellitesList[CurrentSat].OO_fug_Worldlightcolorfile:=FCWinFUG.CR_InputLightColorFileNumber.Text;
+   if FDcurrentRegionSat <= 0
+   then FCDduStarSystem[0].SS_stars[FDcurrentRegionStar].S_orbitalObjects[FDcurrentRegionOrbObj].OO_fug_Worldlightcolorfile:=FCWinFUG.CR_InputLightColorFileNumber.Text
+   else FCDduStarSystem[0].SS_stars[FDcurrentRegionStar].S_orbitalObjects[FDcurrentRegionOrbObj].OO_satellitesList[FDcurrentRegionSat].OO_fug_Worldlightcolorfile:=FCWinFUG.CR_InputLightColorFileNumber.Text;
 end;
 
 procedure FCmfC_RegionMapSeed_Update;
 {:Purpose: update the Fractal Terrains map seed used to generate the actual surface map.
     Additions:
 }
-   var
-      CurrentStar
-      ,CurrentObject
-      ,CurrentSat
-      ,CurrentRegion: integer;
 begin
-   CurrentStar:=FCWinFUG.TOO_StarPicker.ItemIndex + 1;
-   CurrentObject:=FCWinFUG.TOO_OrbitalObjectPicker.ItemIndex + 1;
-   CurrentSat:=FCWinFUG.TOO_SatPicker.ItemIndex;
-   CurrentRegion:=FCWinFUG.CR_CurrentRegion.ItemIndex + 1;
-   if CurrentSat <= 0
-   then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[CurrentObject].OO_fug_WorldSeed:=FCWinFUG.CR_InputSeed.Text
-   else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[CurrentObject].OO_satellitesList[CurrentSat].OO_fug_WorldSeed:=FCWinFUG.CR_InputSeed.Text;
+   if FDcurrentRegionSat <= 0
+   then FCDduStarSystem[0].SS_stars[FDcurrentRegionStar].S_orbitalObjects[FDcurrentRegionOrbObj].OO_fug_WorldSeed:=FCWinFUG.CR_InputSeed.Text
+   else FCDduStarSystem[0].SS_stars[FDcurrentRegionStar].S_orbitalObjects[FDcurrentRegionOrbObj].OO_satellitesList[FDcurrentRegionSat].OO_fug_WorldSeed:=FCWinFUG.CR_InputSeed.Text;
 end;
 
 procedure FCMfC_RegionOceanicCoastal_Update;
 {:Purpose: update the Oceanic-Coastal manual adjustment.
     Additions:
 }
-   var
-      CurrentStar
-      ,CurrentObject
-      ,CurrentSat
-      ,CurrentRegion: integer;
 begin
-   CurrentStar:=FCWinFUG.TOO_StarPicker.ItemIndex + 1;
-   CurrentObject:=FCWinFUG.TOO_OrbitalObjectPicker.ItemIndex + 1;
-   CurrentSat:=FCWinFUG.TOO_SatPicker.ItemIndex;
-   CurrentRegion:=FCWinFUG.CR_CurrentRegion.ItemIndex + 1;
    {:DEV NOTES:
       for reference, build the combo box as this:
 
@@ -1790,58 +1746,58 @@ begin
 
       idx#2: Oceanic Region
    }
-   if CurrentSat <= 0 then
+   if FDcurrentRegionSat <= 0 then
    begin
       case FCWinFUG.CR_OceanicCoastalAdjustment.ItemIndex of
-         0: FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[CurrentObject].OO_regions[CurrentRegion].OOR_soilType:=FCDfdRegions[CurrentRegion].RC_landType;
+         0: FCDduStarSystem[0].SS_stars[FDcurrentRegionStar].S_orbitalObjects[FDcurrentRegionOrbObj].OO_regions[FDcurrentRegion].OOR_soilType:=FCDfdRegions[FDcurrentRegion].RC_landType;
 
          1:
          begin
-            case FCDfdRegions[CurrentRegion].RC_landType of
-               rst01RockyDesert: FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[CurrentObject].OO_regions[CurrentRegion].OOR_soilType:=rst08CoastalRockyDesert;
+            case FCDfdRegions[FDcurrentRegion].RC_landType of
+               rst01RockyDesert: FCDduStarSystem[0].SS_stars[FDcurrentRegionStar].S_orbitalObjects[FDcurrentRegionOrbObj].OO_regions[FDcurrentRegion].OOR_soilType:=rst08CoastalRockyDesert;
 
-               rst02SandyDesert: FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[CurrentObject].OO_regions[CurrentRegion].OOR_soilType:=rst09CoastalSandyDesert;
+               rst02SandyDesert: FCDduStarSystem[0].SS_stars[FDcurrentRegionStar].S_orbitalObjects[FDcurrentRegionOrbObj].OO_regions[FDcurrentRegion].OOR_soilType:=rst09CoastalSandyDesert;
 
-               rst03Volcanic: FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[CurrentObject].OO_regions[CurrentRegion].OOR_soilType:=rst10CoastalVolcanic;
+               rst03Volcanic: FCDduStarSystem[0].SS_stars[FDcurrentRegionStar].S_orbitalObjects[FDcurrentRegionOrbObj].OO_regions[FDcurrentRegion].OOR_soilType:=rst10CoastalVolcanic;
 
-               rst04Polar: FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[CurrentObject].OO_regions[CurrentRegion].OOR_soilType:=rst11CoastalPolar;
+               rst04Polar: FCDduStarSystem[0].SS_stars[FDcurrentRegionStar].S_orbitalObjects[FDcurrentRegionOrbObj].OO_regions[FDcurrentRegion].OOR_soilType:=rst11CoastalPolar;
 
-               rst05Arid: FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[CurrentObject].OO_regions[CurrentRegion].OOR_soilType:=rst12CoastalArid;
+               rst05Arid: FCDduStarSystem[0].SS_stars[FDcurrentRegionStar].S_orbitalObjects[FDcurrentRegionOrbObj].OO_regions[FDcurrentRegion].OOR_soilType:=rst12CoastalArid;
 
-               rst06Fertile: FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[CurrentObject].OO_regions[CurrentRegion].OOR_soilType:=rst13CoastalFertile;
+               rst06Fertile: FCDduStarSystem[0].SS_stars[FDcurrentRegionStar].S_orbitalObjects[FDcurrentRegionOrbObj].OO_regions[FDcurrentRegion].OOR_soilType:=rst13CoastalFertile;
             end;
          end;
 
          2:
          begin
-            FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[CurrentObject].OO_regions[CurrentRegion].OOR_soilType:=rst07Oceanic;
+            FCDduStarSystem[0].SS_stars[FDcurrentRegionStar].S_orbitalObjects[FDcurrentRegionOrbObj].OO_regions[FDcurrentRegion].OOR_soilType:=rst07Oceanic;
          end;
       end;
    end
    else begin
       case FCWinFUG.CR_OceanicCoastalAdjustment.ItemIndex of
-         0: FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[CurrentObject].OO_satellitesList[CurrentSat].OO_regions[CurrentRegion].OOR_soilType:=FCDfdRegions[CurrentRegion].RC_landType;
+         0: FCDduStarSystem[0].SS_stars[FDcurrentRegionStar].S_orbitalObjects[FDcurrentRegionOrbObj].OO_satellitesList[FDcurrentRegionSat].OO_regions[FDcurrentRegion].OOR_soilType:=FCDfdRegions[FDcurrentRegion].RC_landType;
 
          1:
          begin
-            case FCDfdRegions[CurrentRegion].RC_landType of
-               rst01RockyDesert: FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[CurrentObject].OO_satellitesList[CurrentSat].OO_regions[CurrentRegion].OOR_soilType:=rst08CoastalRockyDesert;
+            case FCDfdRegions[FDcurrentRegion].RC_landType of
+               rst01RockyDesert: FCDduStarSystem[0].SS_stars[FDcurrentRegionStar].S_orbitalObjects[FDcurrentRegionOrbObj].OO_satellitesList[FDcurrentRegionSat].OO_regions[FDcurrentRegion].OOR_soilType:=rst08CoastalRockyDesert;
 
-               rst02SandyDesert: FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[CurrentObject].OO_satellitesList[CurrentSat].OO_regions[CurrentRegion].OOR_soilType:=rst09CoastalSandyDesert;
+               rst02SandyDesert: FCDduStarSystem[0].SS_stars[FDcurrentRegionStar].S_orbitalObjects[FDcurrentRegionOrbObj].OO_satellitesList[FDcurrentRegionSat].OO_regions[FDcurrentRegion].OOR_soilType:=rst09CoastalSandyDesert;
 
-               rst03Volcanic: FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[CurrentObject].OO_satellitesList[CurrentSat].OO_regions[CurrentRegion].OOR_soilType:=rst10CoastalVolcanic;
+               rst03Volcanic: FCDduStarSystem[0].SS_stars[FDcurrentRegionStar].S_orbitalObjects[FDcurrentRegionOrbObj].OO_satellitesList[FDcurrentRegionSat].OO_regions[FDcurrentRegion].OOR_soilType:=rst10CoastalVolcanic;
 
-               rst04Polar: FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[CurrentObject].OO_satellitesList[CurrentSat].OO_regions[CurrentRegion].OOR_soilType:=rst11CoastalPolar;
+               rst04Polar: FCDduStarSystem[0].SS_stars[FDcurrentRegionStar].S_orbitalObjects[FDcurrentRegionOrbObj].OO_satellitesList[FDcurrentRegionSat].OO_regions[FDcurrentRegion].OOR_soilType:=rst11CoastalPolar;
 
-               rst05Arid: FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[CurrentObject].OO_satellitesList[CurrentSat].OO_regions[CurrentRegion].OOR_soilType:=rst12CoastalArid;
+               rst05Arid: FCDduStarSystem[0].SS_stars[FDcurrentRegionStar].S_orbitalObjects[FDcurrentRegionOrbObj].OO_satellitesList[FDcurrentRegionSat].OO_regions[FDcurrentRegion].OOR_soilType:=rst12CoastalArid;
 
-               rst06Fertile: FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[CurrentObject].OO_satellitesList[CurrentSat].OO_regions[CurrentRegion].OOR_soilType:=rst13CoastalFertile;
+               rst06Fertile: FCDduStarSystem[0].SS_stars[FDcurrentRegionStar].S_orbitalObjects[FDcurrentRegionOrbObj].OO_satellitesList[FDcurrentRegionSat].OO_regions[FDcurrentRegion].OOR_soilType:=rst13CoastalFertile;
             end;
          end;
 
          2:
          begin
-            FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[CurrentObject].OO_satellitesList[CurrentSat].OO_regions[CurrentRegion].OOR_soilType:=rst07Oceanic;
+            FCDduStarSystem[0].SS_stars[FDcurrentRegionStar].S_orbitalObjects[FDcurrentRegionOrbObj].OO_satellitesList[FDcurrentRegionSat].OO_regions[FDcurrentRegion].OOR_soilType:=rst07Oceanic;
          end;
       end;
    end;
@@ -1851,16 +1807,7 @@ procedure FCMfC_RegionRelief_Update;
 {:Purpose: update the Relief manual adjustment.
     Additions:
 }
-   var
-      CurrentStar
-      ,CurrentObject
-      ,CurrentSat
-      ,CurrentRegion: integer;
 begin
-   CurrentStar:=FCWinFUG.TOO_StarPicker.ItemIndex + 1;
-   CurrentObject:=FCWinFUG.TOO_OrbitalObjectPicker.ItemIndex + 1;
-   CurrentSat:=FCWinFUG.TOO_SatPicker.ItemIndex;
-   CurrentRegion:=FCWinFUG.CR_CurrentRegion.ItemIndex + 1;
    {:DEV NOTES:
       for reference, build the combo box as this:
 
@@ -1870,23 +1817,23 @@ begin
 
       idx#2: Mountainous
    }
-   if CurrentSat <= 0 then
+   if FDcurrentRegionSat <= 0 then
    begin
       case FCWinFUG.CR_ReliefAdjustment.ItemIndex of
-         0: FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[CurrentObject].OO_regions[CurrentRegion].OOR_relief:=rr1Plain;
+         0: FCDduStarSystem[0].SS_stars[FDcurrentRegionStar].S_orbitalObjects[FDcurrentRegionOrbObj].OO_regions[FDcurrentRegion].OOR_relief:=rr1Plain;
 
-         1: FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[CurrentObject].OO_regions[CurrentRegion].OOR_relief:=rr4Broken;
+         1: FCDduStarSystem[0].SS_stars[FDcurrentRegionStar].S_orbitalObjects[FDcurrentRegionOrbObj].OO_regions[FDcurrentRegion].OOR_relief:=rr4Broken;
 
-         2: FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[CurrentObject].OO_regions[CurrentRegion].OOR_relief:=rr9Mountain;
+         2: FCDduStarSystem[0].SS_stars[FDcurrentRegionStar].S_orbitalObjects[FDcurrentRegionOrbObj].OO_regions[FDcurrentRegion].OOR_relief:=rr9Mountain;
       end;
    end
    else begin
       case FCWinFUG.CR_ReliefAdjustment.ItemIndex of
-         0: FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[CurrentObject].OO_satellitesList[CurrentSat].OO_regions[CurrentRegion].OOR_relief:=rr1Plain;
+         0: FCDduStarSystem[0].SS_stars[FDcurrentRegionStar].S_orbitalObjects[FDcurrentRegionOrbObj].OO_satellitesList[FDcurrentRegionSat].OO_regions[FDcurrentRegion].OOR_relief:=rr1Plain;
 
-         1: FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[CurrentObject].OO_satellitesList[CurrentSat].OO_regions[CurrentRegion].OOR_relief:=rr4Broken;
+         1: FCDduStarSystem[0].SS_stars[FDcurrentRegionStar].S_orbitalObjects[FDcurrentRegionOrbObj].OO_satellitesList[FDcurrentRegionSat].OO_regions[FDcurrentRegion].OOR_relief:=rr4Broken;
 
-         2: FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[CurrentObject].OO_satellitesList[CurrentSat].OO_regions[CurrentRegion].OOR_relief:=rr9Mountain;
+         2: FCDduStarSystem[0].SS_stars[FDcurrentRegionStar].S_orbitalObjects[FDcurrentRegionOrbObj].OO_satellitesList[FDcurrentRegionSat].OO_regions[FDcurrentRegion].OOR_relief:=rr9Mountain;
       end;
    end;
 end;
