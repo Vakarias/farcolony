@@ -440,65 +440,112 @@ begin
    then IndexRadiations:=higBad
    else if iCalc2 >= 8
    then IndexRadiations:=higHostile;
-   {.atmosphere composition index}
-   iCalc1:=0;
-   if CH4 = agsSecondary
-   then iCalc1:=-1
-   else if CH4 = agsMain
-   then iCalc1:=-2;
-   if NH3 = agsSecondary
-   then iCalc1:=iCalc1 - 2
-   else if NH3 = agsMain
-   then iCalc1:=iCalc1 - 4;
-   if Ne = agsSecondary
-   then iCalc1:=iCalc1 - 2
-   else if Ne = agsMain
-   then iCalc1:=iCalc1 - 4;
-   if N2 = agsMain
-   then iCalc1:=iCalc1 + 1;
-   if CO = agsSecondary
-   then iCalc1:=iCalc1 - 1
-   else if CO = agsMain
-   then iCalc1:=iCalc1 - 3;
-   if NO = agsSecondary
-   then iCalc1:=iCalc1 - 2
-   else if NO = agsMain
-   then iCalc1:=iCalc1 - 4;
-   if O2 = agsSecondary
-   then iCalc1:=iCalc1 + 2
-   else if O2 = agsMain
-   then iCalc1:=iCalc1 + 3;
-   if H2S = agsSecondary
-   then iCalc1:=iCalc1 - 1
-   else if H2S = agsMain
-   then iCalc1:=iCalc1 - 3;
-   if CO2 = agsSecondary
-   then iCalc1:=iCalc1 - 1
-   else if CO2 = agsMain
-   then iCalc1:=iCalc1 - 2;
-   if NO2 = agsSecondary
-   then iCalc1:=iCalc1 - 2
-   else if NO2 = agsMain
-   then iCalc1:=iCalc1 - 4;
-   if SO2 = agsSecondary
-   then iCalc1:=iCalc1 - 1
-   else if SO2 = agsMain
-   then iCalc1:=iCalc1 - 3;
-   if iCalc1 <= -4
-   then IndexAtmosphere:=higHostile
-   else if ( iCalc1 > -4 )
-      and ( iCalc1 <= -2 )
-   then IndexAtmosphere:=higBad
-   else if ( iCalc1 > -2 )
-      and ( iCalc1 <= 0 )
-   then IndexAtmosphere:=higMediocre
-   else if ( iCalc1 > 0 )
-      and ( iCalc1 <= 2 )
-   then IndexAtmosphere:=higAcceptable
-   else if iCalc1 > 2
-   then IndexAtmosphere:=higIdeal;
-   {.atmosphere pressure index}
-
+   if AtmPress <= 0 then
+   begin
+      IndexAtmosphere:=higNone;
+      IndexAtmPressure:=higHostile_n;
+   end
+   else begin
+      {.atmosphere composition index}
+      iCalc1:=0;
+      if CH4 = agsSecondary
+      then iCalc1:=-1
+      else if CH4 = agsMain
+      then iCalc1:=-2;
+      if NH3 = agsSecondary
+      then iCalc1:=iCalc1 - 2
+      else if NH3 = agsMain
+      then iCalc1:=iCalc1 - 4;
+      if Ne = agsSecondary
+      then iCalc1:=iCalc1 - 2
+      else if Ne = agsMain
+      then iCalc1:=iCalc1 - 4;
+      if N2 = agsMain
+      then iCalc1:=iCalc1 + 1;
+      if CO = agsSecondary
+      then iCalc1:=iCalc1 - 1
+      else if CO = agsMain
+      then iCalc1:=iCalc1 - 3;
+      if NO = agsSecondary
+      then iCalc1:=iCalc1 - 2
+      else if NO = agsMain
+      then iCalc1:=iCalc1 - 4;
+      if O2 = agsSecondary
+      then iCalc1:=iCalc1 + 2
+      else if O2 = agsMain
+      then iCalc1:=iCalc1 + 3;
+      if H2S = agsSecondary
+      then iCalc1:=iCalc1 - 1
+      else if H2S = agsMain
+      then iCalc1:=iCalc1 - 3;
+      if CO2 = agsSecondary
+      then iCalc1:=iCalc1 - 1
+      else if CO2 = agsMain
+      then iCalc1:=iCalc1 - 2;
+      if NO2 = agsSecondary
+      then iCalc1:=iCalc1 - 2
+      else if NO2 = agsMain
+      then iCalc1:=iCalc1 - 4;
+      if SO2 = agsSecondary
+      then iCalc1:=iCalc1 - 1
+      else if SO2 = agsMain
+      then iCalc1:=iCalc1 - 3;
+      if iCalc1 = 0
+      then iCalc1:=-4;
+      if iCalc1 <= -4
+      then IndexAtmosphere:=higHostile
+      else if ( iCalc1 > -4 )
+         and ( iCalc1 <= -2 )
+      then IndexAtmosphere:=higBad
+      else if ( iCalc1 > -2 )
+         and ( iCalc1 <= 0 )
+      then IndexAtmosphere:=higMediocre
+      else if ( iCalc1 > 0 )
+         and ( iCalc1 <= 2 )
+      then IndexAtmosphere:=higAcceptable
+      else if iCalc1 > 2
+      then IndexAtmosphere:=higIdeal;
+      {.atmosphere pressure index}
+      if AtmPress < 1.013
+      then IndexAtmPressure:=higHostile_n
+      else if ( AtmPress >= 1.013 )
+         and ( AtmPress < 96.235 )
+      then IndexAtmPressure:=higBad_n
+      else if ( AtmPress >= 96.235 )
+         and ( AtmPress < 506.5 )
+      then IndexAtmPressure:=higMediocre_n
+      else if ( AtmPress >= 506.5 )
+         and ( AtmPress < 709.1 )
+      then IndexAtmPressure:=higAcceptable_n
+      else if ( AtmPress >= 709.1 )
+         and ( AtmPress < 1316.9 )
+      then IndexAtmPressure:=higIdeal
+      else if ( AtmPress >= 1316.9 )
+         and ( AtmPress < 1620.8 )
+      then IndexAtmPressure:=higAcceptable_p
+      else if ( AtmPress >= 1620.8 )
+         and ( AtmPress < 2026 )
+      then IndexAtmPressure:=higMediocre_p
+      else if ( AtmPress >= 2026 )
+         and ( AtmPress < 8104 )
+      then IndexAtmPressure:=higBad_p
+      else if AtmPress >= 8104
+      then IndexAtmPressure:=higHostile_p;
+   end; //==END== else of if AtmPress <= 0 ==//
+   {.data loading}
+   if Satellite <= 0 then
+   begin
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_habitabilityGravity:=IndexGravity;
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_habitabilityRadiations:=IndexRadiations;
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_habitabilityAtmosphere:=IndexAtmosphere;
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_habitabilityAtmPressure:=IndexAtmPressure;
+   end
+   else begin
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_habitabilityGravity:=IndexGravity;
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_habitabilityRadiations:=IndexRadiations;
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_habitabilityAtmosphere:=IndexAtmosphere;
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_habitabilityAtmPressure:=IndexAtmPressure;
+   end;
 end;
 
 end.
