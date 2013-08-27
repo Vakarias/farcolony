@@ -87,6 +87,10 @@ procedure FCMfE_HabitabilityIndexes_Process(
    Additions:
 }
    var
+      Magfield
+      ,iCalc1
+      ,iCalc2: integer;
+
       AtmPress
       ,Gravity: extended;
 
@@ -95,6 +99,9 @@ procedure FCMfE_HabitabilityIndexes_Process(
       ,IndexAtmosphere
       ,IndexAtmPressure: TFCEduHabitabilityIndex;
 begin
+   iCalc1:=0;
+   iCalc2:=0;
+
    AtmPress:=0;
    Gravity:=0;
 
@@ -107,10 +114,12 @@ begin
    begin
       AtmPress:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphericPressure;
       Gravity:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_Gravity;
+      Magfield:=round( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_magneticField * 10 );
    end
    else begin
       AtmPress:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphericPressure;
       Gravity:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_Gravity;
+      Magfield:=round( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_magneticField * 10 );
    end;
    {.gravity index}
    if Gravity = 0
@@ -140,46 +149,250 @@ begin
       or ( FCDduStarSystem[0].SS_stars[Star].S_class in[B0..B9] )
       or ( FCDduStarSystem[0].SS_stars[Star].S_class in[WD0..WD9] ) then
    begin
-
+      if AtmPress = 0
+      then iCalc1:=12
+      else if ( AtmPress > 0 )
+         and ( AtmPress < 5 )
+      then iCalc1:=11
+      else if ( AtmPress >= 5 )
+         and ( AtmPress < 25 )
+      then iCalc1:=10
+      else if ( AtmPress >= 25 )
+         and ( AtmPress < 125 )
+      then iCalc1:=9
+      else if ( AtmPress >= 125 )
+         and ( AtmPress < 625 )
+      then iCalc1:=8
+      else if ( AtmPress >=625  )
+         and ( AtmPress < 1250 )
+      then iCalc1:=7
+      else if ( AtmPress >= 1250 )
+         and ( AtmPress < 2500 )
+      then iCalc1:=6
+      else if ( AtmPress >= 2500 )
+         and ( AtmPress < 5000 )
+      then iCalc1:=5
+      else if AtmPress >= 5000
+      then iCalc1:=4;
    end
    else if ( FCDduStarSystem[0].SS_stars[Star].S_class in[cA0..cA9] )
       or ( FCDduStarSystem[0].SS_stars[Star].S_class in[A0..A9] ) then
    begin
-
+      if AtmPress = 0
+      then iCalc1:=11
+      else if ( AtmPress > 0 )
+         and ( AtmPress < 5 )
+      then iCalc1:=10
+      else if ( AtmPress >= 5 )
+         and ( AtmPress < 25 )
+      then iCalc1:=9
+      else if ( AtmPress >= 25 )
+         and ( AtmPress < 125 )
+      then iCalc1:=8
+      else if ( AtmPress >= 125 )
+         and ( AtmPress < 625 )
+      then iCalc1:=7
+      else if ( AtmPress >=625  )
+         and ( AtmPress < 1250 )
+      then iCalc1:=6
+      else if ( AtmPress >= 1250 )
+         and ( AtmPress < 2500 )
+      then iCalc1:=5
+      else if ( AtmPress >= 2500 )
+         and ( AtmPress < 5000 )
+      then iCalc1:=4
+      else if AtmPress >= 5000
+      then iCalc1:=3;
    end
    else if ( FCDduStarSystem[0].SS_stars[Star].S_class in[cK0..cK9] )
       or ( FCDduStarSystem[0].SS_stars[Star].S_class in[gK0..gK9] )
       or ( FCDduStarSystem[0].SS_stars[Star].S_class in[K0..K9] ) then
    begin
-
+      if AtmPress = 0
+      then iCalc1:=7
+      else if ( AtmPress > 0 )
+         and ( AtmPress < 5 )
+      then iCalc1:=6
+      else if ( AtmPress >= 5 )
+         and ( AtmPress < 25 )
+      then iCalc1:=4
+      else if ( AtmPress >= 25 )
+         and ( AtmPress < 125 )
+      then iCalc1:=3
+      else if ( AtmPress >= 125 )
+         and ( AtmPress < 625 )
+      then iCalc1:=2
+      else if ( AtmPress >=625  )
+         and ( AtmPress < 1250 )
+      then iCalc1:=0
+      else if ( AtmPress >= 1250 )
+         and ( AtmPress < 2500 )
+      then iCalc1:=0
+      else if ( AtmPress >= 2500 )
+         and ( AtmPress < 5000 )
+      then iCalc1:=0
+      else if AtmPress >= 5000
+      then iCalc1:=-1;
    end
    else if ( FCDduStarSystem[0].SS_stars[Star].S_class in[cM0..cM5] )
       or ( FCDduStarSystem[0].SS_stars[Star].S_class in[gM0..gM5] )
       or ( FCDduStarSystem[0].SS_stars[Star].S_class in[M0..M9] ) then
    begin
-
+      if AtmPress = 0
+      then iCalc1:=5
+      else if ( AtmPress > 0 )
+         and ( AtmPress < 5 )
+      then iCalc1:=3
+      else if ( AtmPress >= 5 )
+         and ( AtmPress < 25 )
+      then iCalc1:=2
+      else if ( AtmPress >= 25 )
+         and ( AtmPress < 125 )
+      then iCalc1:=1
+      else if ( AtmPress >= 125 )
+         and ( AtmPress < 625 )
+      then iCalc1:=0
+      else if ( AtmPress >=625  )
+         and ( AtmPress < 1250 )
+      then iCalc1:=0
+      else if ( AtmPress >= 1250 )
+         and ( AtmPress < 2500 )
+      then iCalc1:=-1
+      else if ( AtmPress >= 2500 )
+         and ( AtmPress < 5000 )
+      then iCalc1:=-1
+      else if AtmPress >= 5000
+      then iCalc1:=-2;
    end
    else if ( FCDduStarSystem[0].SS_stars[Star].S_class in[gF0..gF9] )
       or ( FCDduStarSystem[0].SS_stars[Star].S_class in[F0..F9] ) then
    begin
-
+      if AtmPress = 0
+      then iCalc1:=10
+      else if ( AtmPress > 0 )
+         and ( AtmPress < 5 )
+      then iCalc1:=9
+      else if ( AtmPress >= 5 )
+         and ( AtmPress < 25 )
+      then iCalc1:=8
+      else if ( AtmPress >= 25 )
+         and ( AtmPress < 125 )
+      then iCalc1:=7
+      else if ( AtmPress >= 125 )
+         and ( AtmPress < 625 )
+      then iCalc1:=6
+      else if ( AtmPress >=625  )
+         and ( AtmPress < 1250 )
+      then iCalc1:=5
+      else if ( AtmPress >= 1250 )
+         and ( AtmPress < 2500 )
+      then iCalc1:=4
+      else if ( AtmPress >= 2500 )
+         and ( AtmPress < 5000 )
+      then iCalc1:=3
+      else if AtmPress >= 5000
+      then iCalc1:=2;
    end
    else if FCDduStarSystem[0].SS_stars[Star].S_class in[gG0..gG9] then
    begin
-
+      if AtmPress = 0
+      then iCalc1:=8
+      else if ( AtmPress > 0 )
+         and ( AtmPress < 5 )
+      then iCalc1:=7
+      else if ( AtmPress >= 5 )
+         and ( AtmPress < 25 )
+      then iCalc1:=6
+      else if ( AtmPress >= 25 )
+         and ( AtmPress < 125 )
+      then iCalc1:=4
+      else if ( AtmPress >= 125 )
+         and ( AtmPress < 625 )
+      then iCalc1:=3
+      else if ( AtmPress >=625  )
+         and ( AtmPress < 1250 )
+      then iCalc1:=2
+      else if ( AtmPress >= 1250 )
+         and ( AtmPress < 2500 )
+      then iCalc1:=1
+      else if ( AtmPress >= 2500 )
+         and ( AtmPress < 5000 )
+      then iCalc1:=1
+      else if AtmPress >= 5000
+      then iCalc1:=0;
    end
    else if FCDduStarSystem[0].SS_stars[Star].S_class in[O5..O9] then
    begin
-
+      if AtmPress = 0
+      then iCalc1:=13
+      else if ( AtmPress > 0 )
+         and ( AtmPress < 5 )
+      then iCalc1:=12
+      else if ( AtmPress >= 5 )
+         and ( AtmPress < 25 )
+      then iCalc1:=11
+      else if ( AtmPress >= 25 )
+         and ( AtmPress < 125 )
+      then iCalc1:=10
+      else if ( AtmPress >= 125 )
+         and ( AtmPress < 625 )
+      then iCalc1:=9
+      else if ( AtmPress >=625  )
+         and ( AtmPress < 1250 )
+      then iCalc1:=8
+      else if ( AtmPress >= 1250 )
+         and ( AtmPress < 2500 )
+      then iCalc1:=7
+      else if ( AtmPress >= 2500 )
+         and ( AtmPress < 5000 )
+      then iCalc1:=6
+      else if AtmPress >= 5000
+      then iCalc1:=5;
    end
    else if FCDduStarSystem[0].SS_stars[Star].S_class in[G0..G9] then
    begin
-
+      if AtmPress = 0
+      then iCalc1:=9
+      else if ( AtmPress > 0 )
+         and ( AtmPress < 5 )
+      then iCalc1:=8
+      else if ( AtmPress >= 5 )
+         and ( AtmPress < 25 )
+      then iCalc1:=7
+      else if ( AtmPress >= 25 )
+         and ( AtmPress < 125 )
+      then iCalc1:=6
+      else if ( AtmPress >= 125 )
+         and ( AtmPress < 625 )
+      then iCalc1:=4
+      else if ( AtmPress >=625  )
+         and ( AtmPress < 1250 )
+      then iCalc1:=3
+      else if ( AtmPress >= 1250 )
+         and ( AtmPress < 2500 )
+      then iCalc1:=3
+      else if ( AtmPress >= 2500 )
+         and ( AtmPress < 5000 )
+      then iCalc1:=1
+      else if AtmPress >= 5000
+      then iCalc1:=1;
    end
-   else if FCDduStarSystem[0].SS_stars[Star].S_class in[PSR..BH] then
-   begin
-
-   end;
+   else if FCDduStarSystem[0].SS_stars[Star].S_class in[PSR..BH]
+   then iCalc1:=14;
+   iCalc2:=iCalc1 - Magfield;
+   if iCalc2 <= 1
+   then IndexRadiations:=higIdeal
+   else if ( iCalc2 > 1 )
+      and ( iCalc2 < 4 )
+   then IndexRadiations:=higAcceptable
+   else if ( iCalc2 >= 4 )
+      and ( iCalc2 < 6 )
+   then IndexRadiations:=higMediocre
+   else if ( iCalc2 >= 6 )
+      and ( iCalc2 < 8 )
+   then IndexRadiations:=higBad
+   else if iCalc2 >= 8
+   then IndexRadiations:=higHostile;
 end;
 
 end.

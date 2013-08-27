@@ -108,13 +108,13 @@ procedure FCMfR_EnvironmentalModifiers_Set(
    var
       Region: integer;
 begin
-   Region:=1;
-   while Region <= Max do
-   begin
-      {.planetary survey - ground}
-
-      inc( Region );
-   end;
+//   Region:=1;
+//   while Region <= Max do
+//   begin
+//      {.planetary survey - ground}
+//
+//      inc( Region );
+//   end;
 end;
 
 procedure FCMfR_LandRelief_Process(
