@@ -54,7 +54,7 @@ uses
 /// <param name="Satellite">OPTIONAL: satellite index #</param>
 /// <returns></returns>
 /// <remarks></remarks>
-procedure FCMfR_GenerationPhase1_Process(
+procedure FCMfR_GenerationPhase_Process(
    const Star
          ,OrbitalObject: integer;
    const Satellite: integer=0
@@ -85,7 +85,7 @@ uses
 
 //===========================END FUNCTIONS SECTION==========================================
 
-procedure FCMfR_GenerationPhase1_Process(
+procedure FCMfR_GenerationPhase_Process(
    const Star
          ,OrbitalObject: integer;
    const Satellite: integer=0
@@ -212,9 +212,19 @@ begin
       ,OrbitalObject
       ,Satellite
       );
-   {:DEV NOTES: EMO.}
+   FCMfE_EnvironmentalModifiers_Process(
+      Star
+      ,OrbitalObject
+      ,Satellite
+      );
    {:DEV NOTES: 1st phase resources.}
    {:DEV NOTES: biosphere.}
+   FCMfE_Environment_Process(
+      Star
+      ,OrbitalObject
+      ,Satellite
+      );
+
    {:DEV NOTES: final phase resources.}
 end;
 

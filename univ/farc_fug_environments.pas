@@ -46,6 +46,34 @@ interface
 //===========================END FUNCTIONS SECTION==========================================
 
 ///<summary>
+///   process the environment for the selected orbital object
+///</summary>
+/// <param name="Star">star index #</param>
+/// <param name="OrbitalObject">orbital object index #</param>
+/// <param name="Satellite">OPTIONAL: satellite index #</param>
+/// <returns></returns>
+/// <remarks></remarks>
+procedure FCMfE_Environment_Process(
+   const Star
+         ,OrbitalObject: integer;
+   const Satellite: integer=0
+   );
+
+///<summary>
+///   process the environmental modifiers for each region
+///</summary>
+/// <param name="Star">star index #</param>
+/// <param name="OrbitalObject">orbital object index #</param>
+/// <param name="Satellite">OPTIONAL: satellite index #</param>
+/// <returns></returns>
+/// <remarks></remarks>
+procedure FCMfE_EnvironmentalModifiers_Process(
+   const Star
+         ,OrbitalObject: integer;
+   const Satellite: integer=0
+   );
+
+///<summary>
 ///   process the habitability indexes of a given orbital object
 ///</summary>
 /// <param name="Star">star index #</param>
@@ -62,7 +90,8 @@ procedure FCMfE_HabitabilityIndexes_Process(
 implementation
 
 uses
-   farc_data_univ;
+   farc_common_func
+   ,farc_data_univ;
 
 //==END PRIVATE ENUM========================================================================
 
@@ -77,6 +106,331 @@ uses
 
 //===================================================END OF INIT============================
 //===========================END FUNCTIONS SECTION==========================================
+
+procedure FCMfE_Environment_Process(
+   const Star
+         ,OrbitalObject: integer;
+   const Satellite: integer=0
+   );
+{:Purpose: process the environment for the selected orbital object.
+    Additions:
+}
+   var
+      isO2AtLeastSecondary: boolean;
+
+      IndexRadiations
+      ,IndexAtmosphere
+      ,IndexAtmPressure: TFCEduHabitabilityIndex;
+
+      Environment: TFCEduEnvironmentTypes;
+begin
+   isO2AtLeastSecondary:=false;
+
+   IndexRadiations:=higNone;
+   IndexAtmosphere:=higNone;
+   IndexAtmPressure:=higNone;
+
+   Environment:=etAny;
+
+   if Satellite <= 0 then
+   begin
+      IndexRadiations:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_habitabilityRadiations;
+      IndexAtmosphere:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_habitabilityAtmosphere;
+      IndexAtmPressure:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_habitabilityAtmPressure;
+      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceO2 > agsTrace
+      then isO2AtLeastSecondary:=true;
+   end
+   else begin
+      IndexRadiations:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_habitabilityRadiations;
+      IndexAtmosphere:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_habitabilityAtmosphere;
+      IndexAtmPressure:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_habitabilityAtmPressure;
+      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceO2 > agsTrace
+      then isO2AtLeastSecondary:=true;
+   end;
+   if ( ( IndexRadiations=higAcceptable ) or ( IndexRadiations=higIdeal ) )
+      and ( isO2AtLeastSecondary )
+      and ( ( IndexAtmosphere = higAcceptable ) or ( IndexAtmosphere = higIdeal ) )
+      and ( ( IndexAtmPressure = higAcceptable_n ) or ( IndexAtmPressure = higIdeal ) or ( IndexAtmPressure = higAcceptable_p ) )
+   then Environment:=etFreeLiving
+   else if IndexAtmosphere = higNone
+   then Environment:=etSpace
+   else Environment:=etRestricted;
+   if Satellite <= 0
+   then FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_environment:=Environment
+   else FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_environment:=Environment;
+end;
+
+procedure FCMfE_EnvironmentalModifiers_Process(
+   const Star
+         ,OrbitalObject: integer;
+   const Satellite: integer=0
+   );
+{:Purpose: process the environmental modifiers for each region.
+    Additions:
+}
+   var
+      Max
+      ,Modifiers
+      ,NO2SO2mod
+      ,Region: integer;
+
+      EMO
+      ,fCalc1: extended;
+
+      IndexGravity
+      ,IndexRadiations
+      ,IndexAtmosphere
+      ,IndexAtmPressure: TFCEduHabitabilityIndex;
+
+      Climate: TFCEduRegionClimates;
+begin
+   Max:=0;
+   Modifiers:=0;
+   NO2SO2mod:=0;
+   Region:=0;
+
+   EMO:=0;
+   fCalc1:=0;
+
+   IndexGravity:=higNone;
+   IndexRadiations:=higNone;
+   IndexAtmosphere:=higNone;
+   IndexAtmPressure:=higNone;
+
+   Climate:=rc00VoidNoUse;
+
+   if Satellite <= 0 then
+   begin
+      IndexGravity:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_habitabilityGravity;
+      IndexRadiations:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_habitabilityRadiations;
+      IndexAtmosphere:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_habitabilityAtmosphere;
+      IndexAtmPressure:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_habitabilityAtmPressure;
+      case FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceNO2 of
+         agsTrace: NO2SO2mod:=10;
+
+         agsSecondary: NO2SO2mod:=30;
+
+         agsMain: NO2SO2mod:=60
+      end;
+      case FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceSO2 of
+         agsTrace: NO2SO2mod:=NO2SO2mod + 10;
+
+         agsSecondary: NO2SO2mod:=NO2SO2mod + 30;
+
+         agsMain: NO2SO2mod:=NO2SO2mod + 60
+      end;
+      Max:=length( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions ) - 1;
+   end
+   else begin
+      IndexGravity:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_habitabilityGravity;
+      IndexRadiations:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_habitabilityRadiations;
+      IndexAtmosphere:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_habitabilityAtmosphere;
+      IndexAtmPressure:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_habitabilityAtmPressure;
+      case FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceNO2 of
+         agsTrace: NO2SO2mod:=10;
+
+         agsSecondary: NO2SO2mod:=30;
+
+         agsMain: NO2SO2mod:=60
+      end;
+      case FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceSO2 of
+         agsTrace: NO2SO2mod:=NO2SO2mod + 10;
+
+         agsSecondary: NO2SO2mod:=NO2SO2mod + 30;
+
+         agsMain: NO2SO2mod:=NO2SO2mod + 60
+      end;
+      Max:=length( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions ) - 1;
+   end;
+   NO2SO2mod:=NO2SO2mod shr 1;
+   Region:=1;
+   while Region <= Max do
+   begin
+      Climate:=rc00VoidNoUse;
+      if Satellite <= 0
+      then Climate:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions[Region].OOR_climate
+      else Climate:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Region].OOR_climate;
+      {.for the planetary survey - ground}
+      EMO:=0;
+      fCalc1:=0;
+      case IndexAtmPressure of
+         higHostile_n: EMO:=20;
+
+         higHostile_p: EMO:=100;
+
+         higBad_n: EMO:=10;
+
+         higBad_p: EMO:=50;
+
+         higMediocre_n: EMO:=5;
+
+         higMediocre_p: EMO:=25;
+
+         higAcceptable_n: EMO:=5;
+
+         higAcceptable_p: EMO:=15;
+      end;
+      fCalc1:=( EMO + 100 ) * 0.01;
+      if Satellite <= 0
+      then FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions[Region].OOR_emo.EMO_planetarySurveyGround:=FCFcF_Round( rttCustom3Decimal, fCalc1 )
+      else FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Region].OOR_emo.EMO_planetarySurveyGround:=FCFcF_Round( rttCustom3Decimal, fCalc1 );
+      {.for the planetary survey - air}
+      EMO:=0;
+      fCalc1:=0;
+      case IndexAtmPressure of
+         higHostile_n: EMO:=120;
+
+         higHostile_p: EMO:=-100;
+
+         higBad_n: EMO:=60;
+
+         higBad_p: EMO:=-50;
+
+         higMediocre_n: EMO:=30;
+
+         higMediocre_p: EMO:=-25;
+
+         higAcceptable_n: EMO:=10;
+
+         higAcceptable_p: EMO:=-15;
+      end;
+      fCalc1:=( EMO + 100 ) * 0.01;
+      if Satellite <= 0
+      then FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions[Region].OOR_emo.EMO_planetarySurveyAir:=FCFcF_Round( rttCustom3Decimal, fCalc1 )
+      else FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Region].OOR_emo.EMO_planetarySurveyAir:=FCFcF_Round( rttCustom3Decimal, fCalc1 );
+      {.for the planetary survey - antigrav}
+      EMO:=0;
+      fCalc1:=0;
+      case IndexAtmPressure of
+         higHostile_n: EMO:=20;
+
+         higHostile_p: EMO:=-20;
+
+         higBad_n: EMO:=15;
+
+         higBad_p: EMO:=-10;
+
+         higMediocre_n: EMO:=10;
+
+         higMediocre_p: EMO:=-5;
+
+         higAcceptable_n: EMO:=5;
+
+         higAcceptable_p: EMO:=-5;
+      end;
+      fCalc1:=( EMO + 100 ) * 0.01;
+      if Satellite <= 0
+      then FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions[Region].OOR_emo.EMO_planetarySurveyAntigrav:=FCFcF_Round( rttCustom3Decimal, fCalc1 )
+      else FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Region].OOR_emo.EMO_planetarySurveyAntigrav:=FCFcF_Round( rttCustom3Decimal, fCalc1 );
+      {.for the planetary survey - swarm antigrav}
+      EMO:=0;
+      fCalc1:=0;
+
+      fCalc1:=( EMO + 100 ) * 0.01;
+      if Satellite <= 0
+      then FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions[Region].OOR_emo.EMO_planetarySurveySwarmAntigrav:=FCFcF_Round( rttCustom3Decimal, fCalc1 )
+      else FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Region].OOR_emo.EMO_planetarySurveySwarmAntigrav:=FCFcF_Round( rttCustom3Decimal, fCalc1 );
+      {.for the CAB}
+      EMO:=0;
+      fCalc1:=0;
+      case IndexAtmPressure of
+         higHostile_n: EMO:=40;
+
+         higHostile_p: EMO:=120;
+
+         higBad_n: EMO:=30;
+
+         higBad_p: EMO:=60;
+
+         higMediocre_n: EMO:=20;
+
+         higMediocre_p: EMO:=30;
+
+         higAcceptable_n: EMO:=10;
+
+         higAcceptable_p: EMO:=15;
+      end;
+      case Climate of
+         rc01VeryHotHumid, rc02VeryHotSemiHumid: EMO:=EMO + 40;
+
+         rc04HotArid: EMO:=EMO + 30;
+
+         rc07ColdArid, rc08Periarctic: EMO:=EMO + 15;
+
+         rc09Arctic: EMO:=EMO + 30;
+
+         rc10Extreme: EMO:=EMO + 80;
+      end;
+      fCalc1:=( EMO + 100 ) * 0.01;
+      if Satellite <= 0
+      then FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions[Region].OOR_emo.EMO_cab:=FCFcF_Round( rttCustom3Decimal, fCalc1 )
+      else FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Region].OOR_emo.EMO_cab:=FCFcF_Round( rttCustom3Decimal, fCalc1 );
+      {.infrastructure wearing coefficient}
+      EMO:=0;
+      fCalc1:=0;
+      EMO:=NO2SO2mod;
+      case IndexAtmPressure of
+         higHostile_p: EMO:=EMO + 200;
+
+         higBad_p: EMO:=EMO + 120;
+
+         higMediocre_p: EMO:=EMO + 60;
+
+         higAcceptable_p: EMO:=EMO + 20;
+      end;
+      case Climate of
+         rc01VeryHotHumid, rc02VeryHotSemiHumid: EMO:=EMO + 50;
+
+         rc04HotArid: EMO:=EMO + 20;
+
+         rc07ColdArid, rc08Periarctic: EMO:=EMO + 10;
+
+         rc09Arctic: EMO:=EMO + 30;
+
+         rc10Extreme: EMO:=EMO + 100;
+      end;
+      fCalc1:=( EMO + 100 ) * 0.01;
+      if Satellite <= 0
+      then FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions[Region].OOR_emo.EMO_iwc:=FCFcF_Round( rttCustom3Decimal, fCalc1 )
+      else FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Region].OOR_emo.EMO_iwc:=FCFcF_Round( rttCustom3Decimal, fCalc1 );
+      {.ground combat}
+      EMO:=0;
+      fCalc1:=0;
+      case IndexAtmPressure of
+         higHostile_n: EMO:=65;
+
+         higHostile_p: EMO:=200;
+
+         higBad_n: EMO:=40;
+
+         higBad_p: EMO:=120;
+
+         higMediocre_n: EMO:=20;
+
+         higMediocre_p: EMO:=60;
+
+         higAcceptable_n: EMO:=5;
+
+         higAcceptable_p: EMO:=10;
+      end;
+      case Climate of
+         rc01VeryHotHumid, rc02VeryHotSemiHumid: EMO:=EMO + 50;
+
+         rc04HotArid: EMO:=EMO + 40;
+
+         rc07ColdArid, rc08Periarctic: EMO:=EMO + 20;
+
+         rc09Arctic: EMO:=EMO + 40;
+
+         rc10Extreme: EMO:=EMO + 120;
+      end;
+      fCalc1:=( EMO + 100 ) * 0.01;
+      if Satellite <= 0
+      then FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions[Region].OOR_emo.EMO_groundCombat:=FCFcF_Round( rttCustom3Decimal, fCalc1 )
+      else FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Region].OOR_emo.EMO_groundCombat:=FCFcF_Round( rttCustom3Decimal, fCalc1 );
+      inc( Region );
+   end; //==END== while Region <= Max ==//
+end;
 
 procedure FCMfE_HabitabilityIndexes_Process(
    const Star
