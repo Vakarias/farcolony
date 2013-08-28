@@ -1074,6 +1074,7 @@ end;
 procedure FCMfO_Generate(const CurrentStar: integer);
 {:Purpose: core routine for orbits generation.
     Additions:
+      -2013Aug27- *add: set the gaseous environment for the gaseous planets.
       -2013Aug18- *add: link to regions generation, if required.
       -2013Aug03- *add: set the type of planets.
       -2013Jul03- *add: orbital periods.
@@ -1788,7 +1789,7 @@ begin
                      ,Count
                      ,CountSat
                      );
-                  FCMfR_GenerationPhase1_Process(
+                  FCMfR_GenerationPhase_Process(
                      CurrentStar
                      ,Count
                      ,CountSat
@@ -1883,8 +1884,10 @@ begin
                FCMfS_OrbitalPeriods_Generate( CurrentStar, Count );
                if ( ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_fug_BasicType > oobtAsteroidBelt ) and ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_fug_BasicType < oobtGaseousPlanet ) )
                   or ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_fug_BasicType = oobtIcyPlanet )
-               then FCMfR_GenerationPhase1_Process( CurrentStar, Count )
+               then FCMfR_GenerationPhase_Process( CurrentStar, Count )
                else setlength( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_regions, 0 );
+               if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_fug_BasicType = oobtGaseousPlanet
+               then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_environment:=etGaseous;
                {...satellites phase I - basics + orbital + geophysical data}
                NumberOfSat:=length( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList ) - 1;
                if (FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_rotationPeriod <> 0 )
@@ -2126,7 +2129,7 @@ begin
                         ,Count
                         ,CountSat
                         );
-                     FCMfR_GenerationPhase1_Process(
+                     FCMfR_GenerationPhase_Process(
                         CurrentStar
                         ,Count
                         ,CountSat

@@ -185,7 +185,7 @@
 						<VersionInfo Name="MajorVer">0</VersionInfo>
 						<VersionInfo Name="MinorVer">5</VersionInfo>
 						<VersionInfo Name="Release">5</VersionInfo>
-						<VersionInfo Name="Build">953</VersionInfo>
+						<VersionInfo Name="Build">954</VersionInfo>
 						<VersionInfo Name="Debug">False</VersionInfo>
 						<VersionInfo Name="PreRelease">False</VersionInfo>
 						<VersionInfo Name="Special">False</VersionInfo>
@@ -197,7 +197,7 @@
 					<VersionInfoKeys>
 						<VersionInfoKeys Name="CompanyName"/>
 						<VersionInfoKeys Name="FileDescription"/>
-						<VersionInfoKeys Name="FileVersion">0.5.5.953</VersionInfoKeys>
+						<VersionInfoKeys Name="FileVersion">0.5.5.954</VersionInfoKeys>
 						<VersionInfoKeys Name="InternalName"/>
 						<VersionInfoKeys Name="LegalCopyright">2009-2012 - Jean-Francois Baconnet</VersionInfoKeys>
 						<VersionInfoKeys Name="LegalTrademarks"/>
