@@ -172,7 +172,8 @@ procedure FCMfE_EnvironmentalModifiers_Process(
       Max
       ,Modifiers
       ,NO2SO2mod
-      ,Region: integer;
+      ,Region
+      ,WindSpeed: integer;
 
       EMO
       ,fCalc1: extended;
@@ -183,6 +184,26 @@ procedure FCMfE_EnvironmentalModifiers_Process(
       ,IndexAtmPressure: TFCEduHabitabilityIndex;
 
       Climate: TFCEduRegionClimates;
+
+      Land: TFCEduRegionSoilTypes;
+
+      Relief: TFCEduRegionReliefs;
+
+      function _WindMod( const Coef: extended ): integer;
+         var
+            fCalc
+            ,fCalc1: extended;
+      begin
+         Result:=0;
+         fCalc:=0;
+         fCalc1:=0;
+         if WindSpeed > 0 then
+         begin
+            fCalc:=sqrt( WindSpeed );
+            fCalc1:=( round( fCalc ) * 5 ) * Coef;
+            Result:=round( fCalc );
+         end;
+      end;
 begin
    Max:=0;
    Modifiers:=0;
@@ -196,8 +217,6 @@ begin
    IndexRadiations:=higNone;
    IndexAtmosphere:=higNone;
    IndexAtmPressure:=higNone;
-
-   Climate:=rc00VoidNoUse;
 
    if Satellite <= 0 then
    begin
@@ -247,9 +266,30 @@ begin
    while Region <= Max do
    begin
       Climate:=rc00VoidNoUse;
-      if Satellite <= 0
-      then Climate:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions[Region].OOR_climate
-      else Climate:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Region].OOR_climate;
+      Land:=rst01RockyDesert;
+      Relief:=rr1Plain;
+      WindSpeed:=0;
+      if Satellite <= 0 then
+      begin
+         Climate:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions[Region].OOR_climate;
+         Land:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions[Region].OOR_soilType;
+         Relief:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions[Region].OOR_relief;
+         WindSpeed:=(
+            FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions[Region].OOR_seasonClosest.OP_windspeed
+               +FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions[Region].OOR_seasonIntermediate.OP_windspeed
+               +FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions[Region].OOR_seasonFarthest.OP_windspeed
+            ) div 3;
+      end
+      else begin
+         Climate:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Region].OOR_climate;
+         Land:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Region].OOR_soilType;
+         Relief:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Region].OOR_relief;
+         WindSpeed:=(
+            FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Region].OOR_seasonClosest.OP_windspeed
+               +FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Region].OOR_seasonIntermediate.OP_windspeed
+               +FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Region].OOR_seasonFarthest.OP_windspeed
+            ) div 3;
+      end;
       {.for the planetary survey - ground}
       EMO:=0;
       fCalc1:=0;
@@ -270,6 +310,63 @@ begin
 
          higAcceptable_p: EMO:=15;
       end;
+      case IndexGravity of
+         higHostile_n: EMO:=EMO + 20;
+
+         higHostile_p: EMO:=EMO + 60;
+
+         higBad_n: EMO:=EMO + 15;
+
+         higBad_p: EMO:=EMO + 40;
+
+         higMediocre_n: EMO:=EMO + 10;
+
+         higMediocre_p: EMO:=EMO + 20;
+
+         higAcceptable_n: EMO:=EMO + 5;
+
+         higAcceptable_p: EMO:=EMO + 10;
+      end;
+      case IndexRadiations of
+         higHostile: EMO:=EMO + 60;
+
+         higBad: EMO:=EMO + 30;
+
+         higMediocre: EMO:=EMO + 15;
+
+         higAcceptable: EMO:=EMO + 10;
+      end;
+      case Relief of
+         rr4Broken: EMO:=EMO + 20;
+
+         rr9Mountain: EMO:=EMO + 40;
+      end;
+      case Land of
+         rst01RockyDesert: EMO:=EMO + 10;
+
+         rst02SandyDesert: EMO:=EMO + 30;
+
+         rst03Volcanic: EMO:=EMO + 60;
+
+         rst04Polar: EMO:=EMO + 40;
+
+         rst05Arid: EMO:=EMO + 10;
+
+         rst08CoastalRockyDesert: EMO:=EMO + 10;
+
+         rst09CoastalSandyDesert: EMO:=EMO + 30;
+
+         rst10CoastalVolcanic: EMO:=EMO + 60;
+
+         rst11CoastalPolar: EMO:=EMO + 40;
+
+         rst12CoastalArid: EMO:=EMO + 10;
+
+         rst14Sterile: EMO:=EMO + 40;
+
+         rst15icySterile: EMO:=EMO + 60;
+      end;
+      EMO:=EMO + _WindMod( 2 );
       fCalc1:=( EMO + 100 ) * 0.01;
       if Satellite <= 0
       then FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions[Region].OOR_emo.EMO_planetarySurveyGround:=FCFcF_Round( rttCustom3Decimal, fCalc1 )
@@ -294,6 +391,35 @@ begin
 
          higAcceptable_p: EMO:=-15;
       end;
+      case IndexGravity of
+         higHostile_n: EMO:=EMO + 5;
+
+         higHostile_p: EMO:=EMO + 15;
+
+         higBad_n: EMO:=EMO + 5;
+
+         higBad_p: EMO:=EMO + 10;
+
+         higMediocre_n: EMO:=EMO + 5;
+
+         higMediocre_p: EMO:=EMO + 5;
+
+         higAcceptable_n: EMO:=EMO + 5;
+
+         higAcceptable_p: EMO:=EMO + 5;
+      end;
+      case IndexRadiations of
+         higHostile: EMO:=EMO + 80;
+
+         higBad: EMO:=EMO + 40;
+
+         higMediocre: EMO:=EMO + 20;
+
+         higAcceptable: EMO:=EMO + 10;
+      end;
+      if Relief = rr9Mountain
+      then EMO:=EMO + 10;
+      EMO:=EMO + _WindMod( 1 );
       fCalc1:=( EMO + 100 ) * 0.01;
       if Satellite <= 0
       then FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions[Region].OOR_emo.EMO_planetarySurveyAir:=FCFcF_Round( rttCustom3Decimal, fCalc1 )
@@ -318,18 +444,24 @@ begin
 
          higAcceptable_p: EMO:=-5;
       end;
+      case IndexRadiations of
+         higHostile: EMO:=EMO + 60;
+
+         higBad: EMO:=EMO + 30;
+
+         higMediocre: EMO:=EMO + 15;
+
+         higAcceptable: EMO:=EMO + 10;
+      end;
+      EMO:=EMO + _WindMod( 0.5 );
       fCalc1:=( EMO + 100 ) * 0.01;
       if Satellite <= 0
       then FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions[Region].OOR_emo.EMO_planetarySurveyAntigrav:=FCFcF_Round( rttCustom3Decimal, fCalc1 )
       else FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Region].OOR_emo.EMO_planetarySurveyAntigrav:=FCFcF_Round( rttCustom3Decimal, fCalc1 );
       {.for the planetary survey - swarm antigrav}
-      EMO:=0;
-      fCalc1:=0;
-
-      fCalc1:=( EMO + 100 ) * 0.01;
       if Satellite <= 0
-      then FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions[Region].OOR_emo.EMO_planetarySurveySwarmAntigrav:=FCFcF_Round( rttCustom3Decimal, fCalc1 )
-      else FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Region].OOR_emo.EMO_planetarySurveySwarmAntigrav:=FCFcF_Round( rttCustom3Decimal, fCalc1 );
+      then FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions[Region].OOR_emo.EMO_planetarySurveySwarmAntigrav:=1
+      else FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Region].OOR_emo.EMO_planetarySurveySwarmAntigrav:=1;
       {.for the CAB}
       EMO:=0;
       fCalc1:=0;
@@ -361,6 +493,66 @@ begin
 
          rc10Extreme: EMO:=EMO + 80;
       end;
+      if ( ( ( Land <= rst02SandyDesert ) or ( Land = rst08CoastalRockyDesert ) or ( Land = rst09CoastalSandyDesert ) ) and ( ( Climate = rc04HotArid ) or ( Climate = rc07ColdArid ) ) )
+         or ( ( Land = rst14Sterile ) and ( ( IndexGravity = higHostile_n ) or ( IndexGravity = higBad_n ) ) )
+      then EMO:=EMO + 10;
+      case IndexGravity of
+         higHostile_n: EMO:=EMO + 25;
+
+         higHostile_p: EMO:=EMO + 75;
+
+         higBad_n: EMO:=EMO + 15;
+
+         higBad_p: EMO:=EMO + 50;
+
+         higMediocre_n: EMO:=EMO + 10;
+
+         higMediocre_p: EMO:=EMO + 30;
+
+         higAcceptable_n: EMO:=EMO + 5;
+
+         higAcceptable_p: EMO:=EMO + 15;
+      end;
+      case IndexRadiations of
+         higHostile: EMO:=EMO + 80;
+
+         higBad: EMO:=EMO + 40;
+
+         higMediocre: EMO:=EMO + 20;
+
+         higAcceptable: EMO:=EMO + 10;
+      end;
+      case Relief of
+         rr4Broken: EMO:=EMO + 10;
+
+         rr9Mountain: EMO:=EMO + 40;
+      end;
+      case Land of
+         rst01RockyDesert: EMO:=EMO + 30;
+
+         rst02SandyDesert: EMO:=EMO + 50;
+
+         rst03Volcanic: EMO:=EMO + 80;
+
+         rst04Polar: EMO:=EMO + 60;
+
+         rst05Arid: EMO:=EMO + 30;
+
+         rst08CoastalRockyDesert: EMO:=EMO + 30;
+
+         rst09CoastalSandyDesert: EMO:=EMO + 50;
+
+         rst10CoastalVolcanic: EMO:=EMO + 80;
+
+         rst11CoastalPolar: EMO:=EMO + 60;
+
+         rst12CoastalArid: EMO:=EMO + 30;
+
+         rst14Sterile: EMO:=EMO + 60;
+
+         rst15icySterile: EMO:=EMO + 80;
+      end;
+      EMO:=EMO + _WindMod( 1.5 );
       fCalc1:=( EMO + 100 ) * 0.01;
       if Satellite <= 0
       then FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions[Region].OOR_emo.EMO_cab:=FCFcF_Round( rttCustom3Decimal, fCalc1 )
@@ -389,6 +581,28 @@ begin
 
          rc10Extreme: EMO:=EMO + 100;
       end;
+      if ( ( ( Land <= rst02SandyDesert ) or ( Land = rst08CoastalRockyDesert ) or ( Land = rst09CoastalSandyDesert ) ) and ( ( Climate = rc04HotArid ) or ( Climate = rc07ColdArid ) ) )
+         or ( ( Land = rst14Sterile ) and ( ( IndexGravity = higHostile_n ) or ( IndexGravity = higBad_n ) ) )
+      then EMO:=EMO + 60;
+      case IndexGravity of
+         higHostile_p: EMO:=EMO + 200;
+
+         higBad_p: EMO:=EMO + 120;
+
+         higMediocre_p: EMO:=EMO + 60;
+
+         higAcceptable_p: EMO:=EMO + 30;
+      end;
+      case IndexRadiations of
+         higHostile: EMO:=EMO + 60;
+
+         higBad: EMO:=EMO + 30;
+
+         higMediocre: EMO:=EMO + 15;
+
+         higAcceptable: EMO:=EMO + 10;
+      end;
+      EMO:=EMO + _WindMod( 1 );
       fCalc1:=( EMO + 100 ) * 0.01;
       if Satellite <= 0
       then FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions[Region].OOR_emo.EMO_iwc:=FCFcF_Round( rttCustom3Decimal, fCalc1 )
@@ -424,6 +638,66 @@ begin
 
          rc10Extreme: EMO:=EMO + 120;
       end;
+      if ( ( ( Land <= rst02SandyDesert ) or ( Land = rst08CoastalRockyDesert ) or ( Land = rst09CoastalSandyDesert ) ) and ( ( Climate = rc04HotArid ) or ( Climate = rc07ColdArid ) ) )
+         or ( ( Land = rst14Sterile ) and ( ( IndexGravity = higHostile_n ) or ( IndexGravity = higBad_n ) ) )
+      then EMO:=EMO + 20;
+      case IndexGravity of
+         higHostile_n: EMO:=EMO + 50;
+
+         higHostile_p: EMO:=EMO + 150;
+
+         higBad_n: EMO:=EMO + 35;
+
+         higBad_p: EMO:=EMO + 100;
+
+         higMediocre_n: EMO:=EMO + 20;
+
+         higMediocre_p: EMO:=EMO + 60;
+
+         higAcceptable_n: EMO:=EMO + 10;
+
+         higAcceptable_p: EMO:=EMO + 30;
+      end;
+      case IndexRadiations of
+         higHostile: EMO:=EMO + 100;
+
+         higBad: EMO:=EMO + 50;
+
+         higMediocre: EMO:=EMO + 25;
+
+         higAcceptable: EMO:=EMO + 10;
+      end;
+      case Relief of
+         rr4Broken: EMO:=EMO + 20;
+
+         rr9Mountain: EMO:=EMO + 60;
+      end;
+      case Land of
+         rst01RockyDesert: EMO:=EMO + 50;
+
+         rst02SandyDesert: EMO:=EMO + 70;
+
+         rst03Volcanic: EMO:=EMO + 100;
+
+         rst04Polar: EMO:=EMO + 80;
+
+         rst05Arid: EMO:=EMO + 50;
+
+         rst08CoastalRockyDesert: EMO:=EMO + 50;
+
+         rst09CoastalSandyDesert: EMO:=EMO + 70;
+
+         rst10CoastalVolcanic: EMO:=EMO + 100;
+
+         rst11CoastalPolar: EMO:=EMO + 80;
+
+         rst12CoastalArid: EMO:=EMO + 50;
+
+         rst14Sterile: EMO:=EMO + 80;
+
+         rst15icySterile: EMO:=EMO + 100;
+      end;
+      EMO:=EMO + _WindMod( 1.5 );
       fCalc1:=( EMO + 100 ) * 0.01;
       if Satellite <= 0
       then FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions[Region].OOR_emo.EMO_groundCombat:=FCFcF_Round( rttCustom3Decimal, fCalc1 )
