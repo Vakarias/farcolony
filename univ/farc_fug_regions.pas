@@ -217,7 +217,11 @@ begin
       ,OrbitalObject
       ,Satellite
       );
-   {:DEV NOTES: 1st phase resources.}
+   FCMfR_Resources_Phase1(
+      Star
+      ,OrbitalObject
+      ,Satellite
+      );
    {:DEV NOTES: biosphere.}
    FCMfE_Environment_Process(
       Star
