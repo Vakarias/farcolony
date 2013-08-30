@@ -47,21 +47,6 @@ uses
 //===========================END FUNCTIONS SECTION==========================================
 
 ///<summary>
-///   set the EMO of the selected region
-///</summary>
-///   <param name=""></param>
-///   <param name=""></param>
-///   <param name=""></param>
-///   <param name=""></param>
-///   <returns></returns>
-///   <remarks></remarks>
-procedure FCMfR_EnvironmentalModifiers_Set(
-   const Star
-         ,OrbitalObject: integer;
-   const Satellite: integer=0
-   );
-
-///<summary>
 ///   generate the land type and relief for each region
 ///</summary>
 /// <param name="Star">star index #</param>
@@ -70,6 +55,20 @@ procedure FCMfR_EnvironmentalModifiers_Set(
 /// <returns></returns>
 /// <remarks></remarks>
 procedure FCMfR_LandRelief_Process(
+   const Star
+         ,OrbitalObject: integer;
+   const Satellite: integer=0
+   );
+
+///<summary>
+///   first phase of the calculations of the resources
+///</summary>
+/// <param name="Star">star index #</param>
+/// <param name="OrbitalObject">orbital object index #</param>
+/// <param name="Satellite">OPTIONAL: satellite index #</param>
+///   <returns></returns>
+///   <remarks></remarks>
+procedure FCMfR_Resources_Phase1(
    const Star
          ,OrbitalObject: integer;
    const Satellite: integer=0
@@ -97,26 +96,6 @@ uses
 //===================================================END OF INIT============================
 //===========================END FUNCTIONS SECTION==========================================
 
-procedure FCMfR_EnvironmentalModifiers_Set(
-   const Star
-         ,OrbitalObject: integer;
-   const Satellite: integer=0
-   );
-{:Purpose: set the EMO of the selected region.
-    Additions:
-}
-   var
-      Region: integer;
-begin
-//   Region:=1;
-//   while Region <= Max do
-//   begin
-//      {.planetary survey - ground}
-//
-//      inc( Region );
-//   end;
-end;
-
 procedure FCMfR_LandRelief_Process(
    const Star
          ,OrbitalObject: integer;
@@ -124,6 +103,7 @@ procedure FCMfR_LandRelief_Process(
    );
 {:Purpose: generate the land type and relief for each region.
    Additions:
+      -2013Aug29- *mod: adjustments for the relief of Icy Sterile land.
       -2013Aug27- *add: adjustment for the GravModifier.
       -2013Aug22- *add: adjustments for the relief.
                   *fix: mislocated the data loading code.
@@ -272,18 +252,18 @@ begin
             if FCDfdRegions[Region].RC_surfaceTemperatureMean <= 125 then
             begin
                FCDfdRegions[Region].RC_landType:=rst15icySterile;
-               FCDfdRegions[Region].RC_reliefType:=_ReliefRule_Set( 30, 80 );
+               FCDfdRegions[Region].RC_reliefType:=_ReliefRule_Set( 30, 70 );
             end
             else begin
                Proba:=FCFcF_Random_DoInteger( 99 ) + 1;
                if Proba <= HydroArea then
                begin
                   FCDfdRegions[Region].RC_landType:=rst15icySterile;
-                  FCDfdRegions[Region].RC_reliefType:=_ReliefRule_Set( 30, 80 );
+                  FCDfdRegions[Region].RC_reliefType:=_ReliefRule_Set( 30, 70 );
                end
                else begin
                   FCDfdRegions[Region].RC_landType:=rst14Sterile;
-                  FCDfdRegions[Region].RC_reliefType:=_ReliefRule_Set( 30, 70 );
+                  FCDfdRegions[Region].RC_reliefType:=_ReliefRule_Set( 20, 60 );
                end;
             end;
             _VolcanicReliefModification_Apply( Region );
@@ -293,7 +273,7 @@ begin
             or ( HydroType = hNitrogenIceCrust ) then
          begin
             FCDfdRegions[Region].RC_landType:=rst15icySterile;
-            FCDfdRegions[Region].RC_reliefType:=_ReliefRule_Set( 30, 80 );
+            FCDfdRegions[Region].RC_reliefType:=_ReliefRule_Set( 30, 70 );
             _VolcanicReliefModification_Apply( Region );
          end;
       end
@@ -391,6 +371,18 @@ begin
       end;
       inc( Region );
    end; //==END== while Region <= Max ==//
+end;
+
+procedure FCMfR_Resources_Phase1(
+   const Star
+         ,OrbitalObject: integer;
+   const Satellite: integer=0
+   );
+{:Purpose: first phase of the calculations of the resources.
+    Additions:
+}
+begin
+
 end;
 
 end.
