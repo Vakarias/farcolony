@@ -1685,8 +1685,8 @@ begin
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isHydrosphereEdited:=false;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_hydrosphere:=hNoHydro;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_hydrosphereArea:=0;
-               SetLength( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_regions, 0 );
                FCMfS_OrbitalPeriods_Generate( CurrentStar, Count );
+               SetLength( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_regions, 0 );
                {...asteroids phase I - basics + orbital + geophysical data}
                NumberOfSat:=length( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList ) - 1;
                if NumberOfSat=-1 then
@@ -2139,9 +2139,6 @@ begin
                end //==END== if (FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_rotationPeriod <> 0 ) and ( NumberOfSat > 0 ) ==//
                else setlength( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList, 0 );
             end; //==END== else of: if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_basicType=oobtAsteroidBelt ==//
-
-
-            {:DEV NOTES: surface generation + regions here incl resources.}
 
             {:DEV NOTES: biosphere here + resources 2.}
 
