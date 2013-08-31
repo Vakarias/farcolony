@@ -510,8 +510,12 @@ end;
 
 type TFCRduRegionRsrcSpot = record
    RRS_type: TFCEduResourceSpotTypes;
-   RRS_quality: TFCEduResourceSpotQuality;
+   ///<summary>
+   ///   rarity value as % - FUG only data  rto-1
+   ///</summary>
+   RRS_rarityVal: extended;
    RRS_rarity: TFCEduResourceSpotRarity;
+   RRS_quality: TFCEduResourceSpotQuality;
 end;
 
 {:REFERENCES LIST

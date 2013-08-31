@@ -361,12 +361,12 @@ begin
       end; //==END== else of: ( ( ( ObjectType >= oot_Planet_Telluric ) and ( ObjectType < ootPlanet_Gaseous_Uranus ) ) or ( ObjectType >= ootSatellite_Planet_Telluric ) ) and ( isAtmosphere ) ==//
       if Satellite = 0 then
       begin
-         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions[Region].OOR_soilType:=FCDfdRegions[Region].RC_landType;
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions[Region].OOR_landType:=FCDfdRegions[Region].RC_landType;
          FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions[Region].OOR_relief:=FCDfdRegions[Region].RC_reliefType;
       end
       else if Satellite > 0 then
       begin
-         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Region].OOR_soilType:=FCDfdRegions[Region].RC_landType;
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Region].OOR_landType:=FCDfdRegions[Region].RC_landType;
          FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Region].OOR_relief:=FCDfdRegions[Region].RC_reliefType;
       end;
       inc( Region );
@@ -384,11 +384,40 @@ procedure FCMfR_Resources_Phase1(
    var
       HydroArea
       ,Max
-      ,Region: integer;
+      ,Region
+      ,Spot: integer;
+
+      fCalc1
+      ,RandgStdev
+      ,RarityValue
+      ,RsrcPotential: extended;
 
       hasaSubsurfaceOcean: boolean;
 
       HydroType: TFCEduHydrospheres;
+
+      function _RarityIndex_Set: TFCEduResourceSpotRarity;
+      begin
+         Result:=rsrAbsent;
+         if ( RarityValue > 0 )
+            and ( RarityValue <= 8 )
+         then Result:=rsrRare
+         else if ( RarityValue > 8 )
+            and ( RarityValue <= 17 )
+         then Result:=rsrUncommon
+         else if ( RarityValue > 17 )
+            and ( RarityValue <= 35 )
+         then Result:=rsrPresent
+         else if ( RarityValue > 35 )
+            and ( RarityValue <= 60 )
+         then Result:=rsrCommon
+         else if ( RarityValue > 60 )
+            and ( RarityValue <= 81 )
+         then Result:=rsrAbundant
+         else if RarityValue > 81
+         then Result:=rsrRich;
+      end;
+
 begin
    HydroArea:=0;
    Max:=0;
@@ -423,13 +452,115 @@ begin
       Max:=length( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions ) - 1;
 //      _TectonicActivityMod_Set( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_tectonicActivity );
    end;
+   Spot:=0;
    Region:=1;
    while Region <= Max do
    begin
-//   SetLength( Region RscrcSpots -1 );
-
+      setlength( FCDfdRegions[Region].RC_rsrcSpots, 1 );
       {.hydrosphere locations}
+      {:DEV NOTES:
+         fCalc1: land/relief coefficient
 
+      .}
+      if ( HydroType = hWaterLiquid )
+         or ( HydroType = hWaterAmmoniaLiquid )
+         or ( HydroType = hMethaneLiquid ) then
+      begin
+         inc( Spot );
+         setlength( FCDfdRegions[Region].RC_rsrcSpots, Spot + 1 );
+         fCalc1:=1;
+         RsrcPotential:=0;
+         if ( FCDfdRegions[Region].RC_landType = rst01RockyDesert )
+            or ( FCDfdRegions[Region].RC_landType = rst08CoastalRockyDesert ) then
+         begin
+            case FCDfdRegions[Region].RC_reliefType of
+               rr1Plain: fCalc1:= 0.5;
+
+               rr4Broken: fCalc1:= 0.35;
+
+               rr9Mountain: fCalc1:= 0.2;
+            end;
+         end
+         else if ( FCDfdRegions[Region].RC_landType = rst02SandyDesert )
+            or ( FCDfdRegions[Region].RC_landType = rst09CoastalSandyDesert ) then
+         begin
+            case FCDfdRegions[Region].RC_reliefType of
+               rr1Plain: fCalc1:= 0.25;
+
+               rr4Broken: fCalc1:= 0.175;
+
+               rr9Mountain: fCalc1:= 0.1;
+            end;
+         end
+         else if ( FCDfdRegions[Region].RC_landType = rst03Volcanic )
+            or ( FCDfdRegions[Region].RC_landType = rst10CoastalVolcanic ) then
+         begin
+            case FCDfdRegions[Region].RC_reliefType of
+               rr1Plain: fCalc1:= 0.1;
+
+               rr4Broken: fCalc1:= 0.07;
+
+               rr9Mountain: fCalc1:= 0.04;
+            end;
+         end
+         else if ( FCDfdRegions[Region].RC_landType = rst04Polar )
+            or ( FCDfdRegions[Region].RC_landType = rst11CoastalPolar ) then
+         begin
+            case FCDfdRegions[Region].RC_reliefType of
+               rr1Plain: fCalc1:= 1;
+
+               rr4Broken: fCalc1:= 0.7;
+
+               rr9Mountain: fCalc1:= 0.4;
+            end;
+         end
+         else if ( FCDfdRegions[Region].RC_landType = rst05Arid )
+            or ( FCDfdRegions[Region].RC_landType = rst12CoastalArid ) then
+         begin
+            case FCDfdRegions[Region].RC_reliefType of
+               rr1Plain: fCalc1:= 0.5;
+
+               rr4Broken: fCalc1:= 0.35;
+
+               rr9Mountain: fCalc1:= 0.2;
+            end;
+         end
+         else if ( FCDfdRegions[Region].RC_landType = rst06Fertile )
+            or ( FCDfdRegions[Region].RC_landType = rst13CoastalFertile ) then
+         begin
+            case FCDfdRegions[Region].RC_reliefType of
+               rr1Plain: fCalc1:= 1.5;
+
+               rr4Broken: fCalc1:= 1.05;
+
+               rr9Mountain: fCalc1:= 0.6;
+            end;
+         end
+         else fCalc1:=0;
+         RsrcPotential:=HydroArea * fCalc1;
+         if RsrcPotential <= 0 then
+         begin
+            dec( Spot );
+            setlength( FCDfdRegions[Region].RC_rsrcSpots, Spot + 1 );
+         end
+         else begin
+            RandgStdev:=FCFcF_Round( rttCustom1Decimal, RsrcPotential * 0.1 ) * 2;
+            RarityValue:=randg( RsrcPotential, RandgStdev );
+            if RarityValue < 0 then
+            begin
+               dec( Spot );
+               setlength( FCDfdRegions[Region].RC_rsrcSpots, Spot + 1 );
+            end
+            else begin
+               if RarityValue > 100
+               then RarityValue:=100;
+               FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_type:=rstHydroWell;
+               FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_rarityVal:=FCFcF_Round( rttCustom1Decimal, RarityValue );
+               FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_rarity:=_RarityIndex_Set;
+               FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_quality:=rsqNone;
+            end;
+         end;
+      end;
       {.icy ore field}
 
       {.ore field}
@@ -437,7 +568,9 @@ begin
       {.underground water}
 
 
-      {:DEV NOTES: data loading.}
+      {:DEV NOTES: data loading
+      with a while max rsrcspots
+      .}
       inc( Region );
    end; //==END== while Region <= Max ==//
    {:DEV NOTES: data load for subsurface ocean.}
