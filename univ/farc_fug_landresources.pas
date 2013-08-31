@@ -387,7 +387,9 @@ procedure FCMfR_Resources_Phase1(
       ,Region
       ,Spot: integer;
 
-      fCalc1
+      DensityCoef
+      ,DiamRed
+      ,fCalc1
       ,RandgStdev
       ,RarityValue
       ,RsrcPotential: extended;
@@ -422,6 +424,9 @@ begin
    HydroArea:=0;
    Max:=0;
 
+   DensityCoef:=0;
+   DiamRed:=0;
+
    hasaSubsurfaceOcean:=false;
 
    HydroType:=hNoHydro;
@@ -434,6 +439,8 @@ begin
 //      else GravModifier:=0;
 //      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphericPressure > 0
 //      then isAtmosphere:=true;
+      DensityCoef:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_density / 551.5;
+      DiamRed:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_diameter * 0.002;
       HydroType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_hydrosphere;
       HydroArea:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_hydrosphereArea;
       Max:=length( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions ) - 1;
@@ -447,6 +454,8 @@ begin
 //      else GravModifier:=0;
 //      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphericPressure > 0
 //      then isAtmosphere:=true;
+      DensityCoef:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_density / 551.5;
+      DiamRed:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_diameter * 0.002;
       HydroType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_hydrosphere;
       HydroArea:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_hydrosphereArea;
       Max:=length( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions ) - 1;
@@ -460,7 +469,6 @@ begin
       {.hydrosphere locations}
       {:DEV NOTES:
          fCalc1: land/relief coefficient
-
       .}
       if ( HydroType = hWaterLiquid )
          or ( HydroType = hWaterAmmoniaLiquid )
@@ -561,9 +569,46 @@ begin
             end;
          end;
       end;
-      {.icy ore field}
 
-      {.ore field}
+      {.icy ore field}
+      if ( HydroType in [hWaterIceSheet..hWaterIceCrust] )
+         or ( HydroType >= hMethaneIceSheet ) then
+      begin
+         inc( Spot );
+         setlength( FCDfdRegions[Region].RC_rsrcSpots, Spot + 1 );
+         RsrcPotential:=0;
+         RsrcPotential:=HydroArea;
+         if RsrcPotential <= 0 then
+         begin
+            dec( Spot );
+            setlength( FCDfdRegions[Region].RC_rsrcSpots, Spot + 1 );
+         end
+         else begin
+            RandgStdev:=FCFcF_Round( rttCustom1Decimal, RsrcPotential * 0.1 ) * 2;
+            RarityValue:=randg( RsrcPotential, RandgStdev );
+            if RarityValue < 0 then
+            begin
+               dec( Spot );
+               setlength( FCDfdRegions[Region].RC_rsrcSpots, Spot + 1 );
+            end
+            else begin
+               if RarityValue > 100
+               then RarityValue:=100;
+               FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_type:=rstIcyOreField;
+               FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_rarityVal:=FCFcF_Round( rttCustom1Decimal, RarityValue );
+               FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_rarity:=_RarityIndex_Set;
+               FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_quality:=rsqNone;
+            end;
+         end;
+      end;
+
+      {.carbonaceous ore field}
+
+      {.metallic ore field}
+
+      {.rare metals ore field}
+
+      {.uranium ore field}
 
       {.underground water}
 
