@@ -493,6 +493,7 @@ begin
                      +'" inclinationAxis="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_isNotSat_axialTilt )
                      +'" magneticField="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_magneticField )
                      +'" tectonicActivity="'+GetEnumName( TypeInfo( TFCEduTectonicActivity ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_tectonicActivity ) )
+                     +'" subsurfOcean="'+BoolToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_subsurfaceOcean )
                      +'"/>'
                   );
                WF_XMLOutput.Lines.Add(
@@ -622,6 +623,7 @@ begin
                         +'" escapeVel="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_escapeVelocity )
                         +'" magneticField="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_magneticField )
                         +'" tectonicActivity="'+GetEnumName( TypeInfo( TFCEduTectonicActivity ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_tectonicActivity ) )
+                        +'" subsurfOcean="'+BoolToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_subsurfaceOcean )
                         +'"/>'
                      )
                   else WF_XMLOutput.Lines.Add(

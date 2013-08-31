@@ -1427,6 +1427,7 @@ end;
 procedure FCMdF_DBStarOrbitalObjects_Load( const StarSystemToken, StarToken: string );
 {:Purpose: load the orbital objects, if there's any, of a specified star in the universe database XML file.
    Additions:
+      -2013Aug31- *add: subsurface ocean.
       -2013Aug26- *add: habitability indexes.
       -2013Jul28- *mod: modification for the satellite's region data.
       -2013Jul10- *add: region's season data.
@@ -1565,6 +1566,7 @@ begin
                FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_tectonicActivity:=TFCEduTectonicActivity( EnumIndex );
                if EnumIndex=-1
                then raise Exception.Create( 'bad orbital object tectonic activity: '+XMLOrbitalObject.Attributes['tectonicActivity'] );
+               FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_subsurfaceOcean:=XMLOrbitalObject.Attributes['subsurfOcean'];
             end {.else if DBSSPorbObjNode.NodeName='orbobjgeophysdata'}
             else if XMLOrbitalObject.NodeName='ecosphereData' then
             begin
@@ -1795,6 +1797,7 @@ begin
                      FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_tectonicActivity:=TFCEduTectonicActivity( EnumIndex );
                      if EnumIndex=-1
                      then raise Exception.Create( 'bad (sat) orbital object type: '+XMSatellite.Attributes['tectonicActivity'] );
+                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_subsurfaceOcean:=XMLOrbitalObject.Attributes['subsurfOcean'];
                   end {.else if DBSSPsatNode.NodeName='satgeophysdata'}
                   else if XMSatellite.NodeName='ecosphereData' then
                   begin

@@ -775,6 +775,10 @@ type TFCRduOrbitalObject = record
    ///</summary>
    OO_regions: array of TFCRduOObRegion;
    ///<summary>
+   ///   indicate if the object has a subsurface ocean or not
+   ///</summary>
+   OO_subsurfaceOcean: boolean;
+   ///<summary>
    ///   specific data if an orbital object is a satellite or not
    ///</summary>
    case OO_isSatellite: boolean of
