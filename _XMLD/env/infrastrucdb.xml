@@ -409,7 +409,7 @@
             <cmItem token="equipMiningMachinery" percent="100"/>
          </irConstrMat>
          <irRegionSoil allowtype="rsrAnyNonVolcanic"/>
-         <irRsrcSpot spottype="rstOreField"/>
+         <irRsrcSpot spottype="rstOreFields"/>
       </infReq>
       <infReqStaff>
          <rstaff type="ptColonist" requiredNumLv1="9" requiredNumLv2="14" requiredNumLv3="22" requiredNumLv4="44" requiredNumLv5="69" requiredNumLv6="126" requiredNumLv7="199"/>

@@ -1397,7 +1397,7 @@ begin
             ,CDPcurrentColony
             ,CDPcurrentSettlement
             ,0
-            ,rstOreField
+            ,rstOreFields
             ,true
             );
          while CPUcnt<=CPUmax do

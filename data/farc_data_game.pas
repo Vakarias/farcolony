@@ -818,18 +818,10 @@ type TFCRdgEntity= record
          ///</summary>
          SRS_currentPlanetarySurvey: integer;
          SR_ResourceSpots: array of record
+            RS_type: TFCEduResourceSpotTypes;
             RS_meanQualityCoefficient: extended;
             RS_spotSizeCurrent: integer;
             RS_spotSizeMax: integer;
-            case RS_type: TFCEduResourceSpotTypes of
-               rstIcyOreField:();
-
-               rstOreField:(
-                  RS_tOFiCarbonaceous: integer;
-                  RS_tOFiMetallic: integer;
-                  RS_tOFiRare: integer;
-                  RS_tOFiUranium: integer;
-                  );
          end; //==END== record: SR_ResourceSpots ==//
       end; //==END== record: SRS_surveyedRegions ==//
    end; //==END== record: P_surveyedResourceSpots ==//

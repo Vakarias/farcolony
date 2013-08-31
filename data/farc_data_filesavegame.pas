@@ -1163,13 +1163,6 @@ begin
                                  FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_surveyedRegions[Count2].SR_ResourceSpots[Count3].RS_meanQualityCoefficient:=StrToFloat( XMLSavedGameItemSub3.Attributes['meanQualCoef'], FCVdiFormat );
                                  FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_surveyedRegions[Count2].SR_ResourceSpots[Count3].RS_spotSizeCurrent:=XMLSavedGameItemSub3.Attributes['spotSizCurr'];
                                  FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_surveyedRegions[Count2].SR_ResourceSpots[Count3].RS_spotSizeMax:=XMLSavedGameItemSub3.Attributes['spotSizeMax'];
-                                 if FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_surveyedRegions[Count2].SR_ResourceSpots[Count3].RS_type=rstOreField then
-                                 begin
-                                    FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_surveyedRegions[Count2].SR_ResourceSpots[Count3].RS_tOFiCarbonaceous:=XMLSavedGameItemSub3.Attributes['oreCarbo'];
-                                    FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_surveyedRegions[Count2].SR_ResourceSpots[Count3].RS_tOFiMetallic:=XMLSavedGameItemSub3.Attributes['oreMetal'];
-                                    FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_surveyedRegions[Count2].SR_ResourceSpots[Count3].RS_tOFiRare:=XMLSavedGameItemSub3.Attributes['oreRare'];
-                                    FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_surveyedRegions[Count2].SR_ResourceSpots[Count3].RS_tOFiUranium:=XMLSavedGameItemSub3.Attributes['oreUra'];
-                                 end;
                               end;
                               XMLSavedGameItemSub3:=XMLSavedGameItemSub3.NextSibling;
                            end;
@@ -2108,13 +2101,6 @@ begin
                   XMLSavedGameItemSub4.Attributes['meanQualCoef']:=FloatToStr( FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_surveyedRegions[Count2].SR_ResourceSpots[Count3].RS_meanQualityCoefficient, FCVdiFormat );
                   XMLSavedGameItemSub4.Attributes['spotSizCurr']:=FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_surveyedRegions[Count2].SR_ResourceSpots[Count3].RS_spotSizeCurrent;
                   XMLSavedGameItemSub4.Attributes['spotSizeMax']:=FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_surveyedRegions[Count2].SR_ResourceSpots[Count3].RS_spotSizeMax;
-                  if FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_surveyedRegions[Count2].SR_ResourceSpots[Count3].RS_type=rstOreField then
-                  begin
-                     XMLSavedGameItemSub4.Attributes['oreCarbo']:=FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_surveyedRegions[Count2].SR_ResourceSpots[Count3].RS_tOFiCarbonaceous;
-                     XMLSavedGameItemSub4.Attributes['oreMetal']:=FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_surveyedRegions[Count2].SR_ResourceSpots[Count3].RS_tOFiMetallic;
-                     XMLSavedGameItemSub4.Attributes['oreRare']:=FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_surveyedRegions[Count2].SR_ResourceSpots[Count3].RS_tOFiRare;
-                     XMLSavedGameItemSub4.Attributes['oreUra']:=FCDdgEntities[Count].E_surveyedResourceSpots[Count1].SRS_surveyedRegions[Count2].SR_ResourceSpots[Count3].RS_tOFiUranium;
-                  end;
                   inc(Count3);
                end;
                inc( Count2 );

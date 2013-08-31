@@ -388,7 +388,14 @@ type TFCEduResourceSpotTypes=(
    ,rstGasField
    ,rstHydroWell
    ,rstIcyOreField
-   ,rstOreField
+   ///<summary>
+   ///   this one is used only for a test that regroup any of the 4 ore fields
+   ///</summary>
+   ,rstOreFields
+   ,rstOreFieldCarbo
+   ,rstOreFieldMetal
+   ,rstOreFieldRareMetal
+   ,rstOreFieldUran
    ,rstUnderWater
    );
 
@@ -511,7 +518,7 @@ end;
 type TFCRduRegionRsrcSpot = record
    RRS_type: TFCEduResourceSpotTypes;
    ///<summary>
-   ///   rarity value as % - FUG only data  rto-1
+   ///   FUG only data - rarity value % rto - 1
    ///</summary>
    RRS_rarityVal: extended;
    RRS_rarity: TFCEduResourceSpotRarity;

@@ -1159,7 +1159,7 @@ begin
 
                rstIcyOreField: FCWinMain.SP_RegionSheet.HTMLText.Add( '<img src="file://'+FCVdiPathResourceDir+'pics-ui-resources\icyorefield32.jpg" align="left">' );
 
-               rstOreField: FCWinMain.SP_RegionSheet.HTMLText.Add( '<img src="file://'+FCVdiPathResourceDir+'pics-ui-resources\orefield32.jpg" align="left">' );
+               rstOreFields: FCWinMain.SP_RegionSheet.HTMLText.Add( '<img src="file://'+FCVdiPathResourceDir+'pics-ui-resources\orefield32.jpg" align="left">' );
 
                rstUnderWater: FCWinMain.SP_RegionSheet.HTMLText.Add( '<img src="file://'+FCVdiPathResourceDir+'pics-ui-resources\undergroundwater32.jpg" align="left">' );
             end;

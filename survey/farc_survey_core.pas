@@ -382,6 +382,7 @@ end;
 procedure FCMsC_ResourceSurvey_Core;
 {:Purpose: core process of the resources survey subsystem.
     Additions:
+      -2013Aug31- *add/mod: separate each ore field, according to the completed FUG.
       -2013Mar30- *add: E_cleanupSurveys.
       -2013Mar26- *fix: remove a bug that prevented the player's faction to be processed.
                   *add: pspResourcesSurveying - only switch to BackToBase if oneWayTravel>0.
@@ -408,13 +409,19 @@ procedure FCMsC_ResourceSurvey_Core;
       SpotQualityGasField
       ,SpotQualityHydroWell
       ,SpotQualityIcyOreField
-      ,SpotQualityOreField
+      ,SpotQualityOreFieldCarbo
+      ,SpotQualityOreFieldMetal
+      ,SpotQualityOreFieldRare
+      ,SpotQualityOreFieldUran
       ,SpotQualityUnderWater: TFCEduResourceSpotQuality;
 
       SpotRarityGasField
       ,SpotRarityHydroWell
       ,SpotRarityIcyOreField
-      ,SpotRarityOreField
+      ,SpotRarityOreFieldCarbo
+      ,SpotRarityOreFieldMetal
+      ,SpotRarityOreFieldRare
+      ,SpotRarityOreFieldUran
       ,SpotRarityUnderWater: TFCEduResourceSpotRarity;
 
       procedure _SetReplenishment;
@@ -565,11 +572,33 @@ begin
                            FCDduStarSystem[SClocationUniverse[1]].SS_stars[SClocationUniverse[2]].S_orbitalObjects[SClocationUniverse[3]].OO_regions[FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_targetRegion].OOR_resourceSpot[CountMisc1].RRS_rarity;
                      end;
 
-                     rstOreField:
+                     rstOreFieldCarbo:
                      begin
-                        SpotQualityOreField:=
+                        SpotQualityOreFieldCarbo:=FCDduStarSystem[SClocationUniverse[1]].SS_stars[SClocationUniverse[2]].S_orbitalObjects[SClocationUniverse[3]].OO_regions[FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_targetRegion].OOR_resourceSpot[CountMisc1].RRS_quality;
+                        SpotRarityOreFieldCarbo:=FCDduStarSystem[SClocationUniverse[1]].SS_stars[SClocationUniverse[2]].S_orbitalObjects[SClocationUniverse[3]].OO_regions[FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_targetRegion].OOR_resourceSpot[CountMisc1].RRS_rarity;
+                     end;
+
+                     rstOreFieldMetal:
+                     begin
+                        SpotQualityOreFieldMetal:=
                            FCDduStarSystem[SClocationUniverse[1]].SS_stars[SClocationUniverse[2]].S_orbitalObjects[SClocationUniverse[3]].OO_regions[FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_targetRegion].OOR_resourceSpot[CountMisc1].RRS_quality;
-                        SpotRarityOreField:=
+                        SpotRarityOreFieldMetal:=
+                           FCDduStarSystem[SClocationUniverse[1]].SS_stars[SClocationUniverse[2]].S_orbitalObjects[SClocationUniverse[3]].OO_regions[FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_targetRegion].OOR_resourceSpot[CountMisc1].RRS_rarity;
+                     end;
+
+                     rstOreFieldRareMetal:
+                     begin
+                        SpotQualityOreFieldRare:=
+                           FCDduStarSystem[SClocationUniverse[1]].SS_stars[SClocationUniverse[2]].S_orbitalObjects[SClocationUniverse[3]].OO_regions[FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_targetRegion].OOR_resourceSpot[CountMisc1].RRS_quality;
+                        SpotRarityOreFieldRare:=
+                           FCDduStarSystem[SClocationUniverse[1]].SS_stars[SClocationUniverse[2]].S_orbitalObjects[SClocationUniverse[3]].OO_regions[FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_targetRegion].OOR_resourceSpot[CountMisc1].RRS_rarity;
+                     end;
+
+                     rstOreFieldUran:
+                     begin
+                        SpotQualityOreFieldUran:=
+                           FCDduStarSystem[SClocationUniverse[1]].SS_stars[SClocationUniverse[2]].S_orbitalObjects[SClocationUniverse[3]].OO_regions[FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_targetRegion].OOR_resourceSpot[CountMisc1].RRS_quality;
+                        SpotRarityOreFieldUran:=
                            FCDduStarSystem[SClocationUniverse[1]].SS_stars[SClocationUniverse[2]].S_orbitalObjects[SClocationUniverse[3]].OO_regions[FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_targetRegion].OOR_resourceSpot[CountMisc1].RRS_rarity;
                      end;
 
@@ -614,12 +643,28 @@ begin
                            FCDduStarSystem[SClocationUniverse[1]].SS_stars[SClocationUniverse[2]].S_orbitalObjects[SClocationUniverse[3]].OO_satellitesList[SClocationUniverse[4]].OO_regions[FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_targetRegion].OOR_resourceSpot[CountMisc1].RRS_rarity;
                      end;
 
-                     rstOreField:
+                     rstOreFieldCarbo:
                      begin
-                        SpotQualityOreField:=
-                           FCDduStarSystem[SClocationUniverse[1]].SS_stars[SClocationUniverse[2]].S_orbitalObjects[SClocationUniverse[3]].OO_satellitesList[SClocationUniverse[4]].OO_regions[FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_targetRegion].OOR_resourceSpot[CountMisc1].RRS_quality;
-                        SpotRarityOreField:=
-                           FCDduStarSystem[SClocationUniverse[1]].SS_stars[SClocationUniverse[2]].S_orbitalObjects[SClocationUniverse[3]].OO_satellitesList[SClocationUniverse[4]].OO_regions[FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_targetRegion].OOR_resourceSpot[CountMisc1].RRS_rarity;
+                        SpotQualityOreFieldCarbo:=FCDduStarSystem[SClocationUniverse[1]].SS_stars[SClocationUniverse[2]].S_orbitalObjects[SClocationUniverse[3]].OO_satellitesList[SClocationUniverse[4]].OO_regions[FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_targetRegion].OOR_resourceSpot[CountMisc1].RRS_quality;
+                        SpotRarityOreFieldCarbo:=FCDduStarSystem[SClocationUniverse[1]].SS_stars[SClocationUniverse[2]].S_orbitalObjects[SClocationUniverse[3]].OO_satellitesList[SClocationUniverse[4]].OO_regions[FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_targetRegion].OOR_resourceSpot[CountMisc1].RRS_rarity;
+                     end;
+
+                     rstOreFieldMetal:
+                     begin
+                        SpotQualityOreFieldMetal:=FCDduStarSystem[SClocationUniverse[1]].SS_stars[SClocationUniverse[2]].S_orbitalObjects[SClocationUniverse[3]].OO_satellitesList[SClocationUniverse[4]].OO_regions[FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_targetRegion].OOR_resourceSpot[CountMisc1].RRS_quality;
+                        SpotRarityOreFieldMetal:=FCDduStarSystem[SClocationUniverse[1]].SS_stars[SClocationUniverse[2]].S_orbitalObjects[SClocationUniverse[3]].OO_satellitesList[SClocationUniverse[4]].OO_regions[FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_targetRegion].OOR_resourceSpot[CountMisc1].RRS_rarity;
+                     end;
+
+                     rstOreFieldRareMetal:
+                     begin
+                        SpotQualityOreFieldRare:=FCDduStarSystem[SClocationUniverse[1]].SS_stars[SClocationUniverse[2]].S_orbitalObjects[SClocationUniverse[3]].OO_satellitesList[SClocationUniverse[4]].OO_regions[FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_targetRegion].OOR_resourceSpot[CountMisc1].RRS_quality;
+                        SpotRarityOreFieldRare:=FCDduStarSystem[SClocationUniverse[1]].SS_stars[SClocationUniverse[2]].S_orbitalObjects[SClocationUniverse[3]].OO_satellitesList[SClocationUniverse[4]].OO_regions[FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_targetRegion].OOR_resourceSpot[CountMisc1].RRS_rarity;
+                     end;
+
+                     rstOreFieldUran:
+                     begin
+                        SpotQualityOreFieldUran:=FCDduStarSystem[SClocationUniverse[1]].SS_stars[SClocationUniverse[2]].S_orbitalObjects[SClocationUniverse[3]].OO_satellitesList[SClocationUniverse[4]].OO_regions[FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_targetRegion].OOR_resourceSpot[CountMisc1].RRS_quality;
+                        SpotRarityOreFieldUran:=FCDduStarSystem[SClocationUniverse[1]].SS_stars[SClocationUniverse[2]].S_orbitalObjects[SClocationUniverse[3]].OO_satellitesList[SClocationUniverse[4]].OO_regions[FCDdgEntities[CountEntity].E_planetarySurveys[CountSurvey].PS_targetRegion].OOR_resourceSpot[CountMisc1].RRS_rarity;
                      end;
 
                      rstUnderWater:
@@ -676,18 +721,60 @@ begin
                   ,SpotQualityIcyOreField
                   );
             end;
-            if SpotRarityOreField<rsrAbsent then
+            if SpotRarityOreFieldCarbo<rsrAbsent then
             begin
                SurveyProbabilityBySpot:=round( ( FCFcF_Random_DoInteger( 99 ) + 1 ) + SurveyProbability );
-               RarityThreshold:=FCFsF_ResourcesSurvey_SpotRarityThreshold( SpotRarityOreField );
+               RarityThreshold:=FCFsF_ResourcesSurvey_SpotRarityThreshold( SpotRarityOreFieldCarbo );
                FCMsC_ResourceSurvey_ResultProcess(
                   CountEntity
                   ,CountSurvey
                   ,SurveyProbabilityBySpot
-                  ,rstOreField
-                  ,SpotRarityOreField
+                  ,rstOreFieldCarbo
+                  ,SpotRarityOreFieldCarbo
                   ,RarityThreshold
-                  ,SpotQualityOreField
+                  ,SpotQualityOreFieldCarbo
+                  );
+            end;
+            if SpotRarityOreFieldMetal<rsrAbsent then
+            begin
+               SurveyProbabilityBySpot:=round( ( FCFcF_Random_DoInteger( 99 ) + 1 ) + SurveyProbability );
+               RarityThreshold:=FCFsF_ResourcesSurvey_SpotRarityThreshold( SpotRarityOreFieldMetal );
+               FCMsC_ResourceSurvey_ResultProcess(
+                  CountEntity
+                  ,CountSurvey
+                  ,SurveyProbabilityBySpot
+                  ,rstOreFieldMetal
+                  ,SpotRarityOreFieldMetal
+                  ,RarityThreshold
+                  ,SpotQualityOreFieldMetal
+                  );
+            end;
+            if SpotRarityOreFieldRare<rsrAbsent then
+            begin
+               SurveyProbabilityBySpot:=round( ( FCFcF_Random_DoInteger( 99 ) + 1 ) + SurveyProbability );
+               RarityThreshold:=FCFsF_ResourcesSurvey_SpotRarityThreshold( SpotRarityOreFieldRare );
+               FCMsC_ResourceSurvey_ResultProcess(
+                  CountEntity
+                  ,CountSurvey
+                  ,SurveyProbabilityBySpot
+                  ,rstOreFieldRareMetal
+                  ,SpotRarityOreFieldRare
+                  ,RarityThreshold
+                  ,SpotQualityOreFieldRare
+                  );
+            end;
+            if SpotRarityOreFieldUran<rsrAbsent then
+            begin
+               SurveyProbabilityBySpot:=round( ( FCFcF_Random_DoInteger( 99 ) + 1 ) + SurveyProbability );
+               RarityThreshold:=FCFsF_ResourcesSurvey_SpotRarityThreshold( SpotRarityOreFieldUran );
+               FCMsC_ResourceSurvey_ResultProcess(
+                  CountEntity
+                  ,CountSurvey
+                  ,SurveyProbabilityBySpot
+                  ,rstOreFieldUran
+                  ,SpotRarityOreFieldUran
+                  ,RarityThreshold
+                  ,SpotQualityOreFieldUran
                   );
             end;
             if SpotRarityUnderWater<rsrAbsent then
