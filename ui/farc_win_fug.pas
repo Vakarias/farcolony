@@ -573,9 +573,9 @@ begin
                      while Count4 <= Max4 do
                      begin
                         WF_XMLOutput.Lines.Add(
-                           '              <resourcespot type="'+GetEnumName( TypeInfo( TFCEduResourceSpotTypes ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_regions[Count3].OOR_resourceSpot[Count4].RS_type ) )
-                           +'" quality="'+GetEnumName( TypeInfo( TFCEduResourceSpotQuality ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_regions[Count3].OOR_resourceSpot[Count4].RS_quality ) )
-                           +'" rarity="'+GetEnumName( TypeInfo( TFCEduResourceSpotRarity ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_regions[Count3].OOR_resourceSpot[Count4].RS_rarity ) )
+                           '              <resourcespot type="'+GetEnumName( TypeInfo( TFCEduResourceSpotTypes ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_regions[Count3].OOR_resourceSpot[Count4].RRS_type ) )
+                           +'" quality="'+GetEnumName( TypeInfo( TFCEduResourceSpotQuality ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_regions[Count3].OOR_resourceSpot[Count4].RRS_quality ) )
+                           +'" rarity="'+GetEnumName( TypeInfo( TFCEduResourceSpotRarity ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_regions[Count3].OOR_resourceSpot[Count4].RRS_rarity ) )
                            +'"/>'
                            );
                         inc( Count4 );
@@ -720,9 +720,9 @@ begin
                         while Count4 <= Max4 do
                         begin
                            WF_XMLOutput.Lines.Add(
-                              '                 <resourcespot type="'+GetEnumName( TypeInfo( TFCEduResourceSpotTypes ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_regions[Count3].OOR_resourceSpot[Count4].RS_type ) )
-                              +'" quality="'+GetEnumName( TypeInfo( TFCEduResourceSpotQuality ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_regions[Count3].OOR_resourceSpot[Count4].RS_quality ) )
-                              +'" rarity="'+GetEnumName( TypeInfo( TFCEduResourceSpotRarity ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_regions[Count3].OOR_resourceSpot[Count4].RS_rarity ) )
+                              '                 <resourcespot type="'+GetEnumName( TypeInfo( TFCEduResourceSpotTypes ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_regions[Count3].OOR_resourceSpot[Count4].RRS_type ) )
+                              +'" quality="'+GetEnumName( TypeInfo( TFCEduResourceSpotQuality ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_regions[Count3].OOR_resourceSpot[Count4].RRS_quality ) )
+                              +'" rarity="'+GetEnumName( TypeInfo( TFCEduResourceSpotRarity ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_regions[Count3].OOR_resourceSpot[Count4].RRS_rarity ) )
                               +'"/>'
                               );
                            inc( Count4 );

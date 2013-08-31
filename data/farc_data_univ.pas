@@ -508,6 +508,12 @@ type TFCRduSeason = record
    ///</summary>
 end;
 
+type TFCRduRegionRsrcSpot = record
+   RRS_type: TFCEduResourceSpotTypes;
+   RRS_quality: TFCEduResourceSpotQuality;
+   RRS_rarity: TFCEduResourceSpotRarity;
+end;
+
 {:REFERENCES LIST
    -
    -
@@ -558,11 +564,7 @@ type TFCRduOObRegion = record
    ///   array of factions with their surveyed index #, if the region IS surveyed
    ///</summary>
    OOR_resourceSurveyedBy: array [0..FCCdiFactionsMax] of integer;
-   OOR_resourceSpot: array of record
-      RS_type: TFCEduResourceSpotTypes;
-      RS_quality: TFCEduResourceSpotQuality;
-      RS_rarity: TFCEduResourceSpotRarity;
-   end;
+   OOR_resourceSpot: array of TFCRduRegionRsrcSpot;
 end;
 
 {:REFERENCES LIST

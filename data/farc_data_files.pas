@@ -1717,15 +1717,15 @@ begin
                   begin
                      SetLength( FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_regions[Count1].OOR_resourceSpot, Count2+1 );
                      EnumIndex:=GetEnumValue(TypeInfo(TFCEduResourceSpotTypes), XMLOObjSub2.Attributes['type'] );
-                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_regions[Count1].OOR_resourceSpot[Count2].RS_type:=TFCEduResourceSpotTypes(EnumIndex);
+                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_regions[Count1].OOR_resourceSpot[Count2].RRS_type:=TFCEduResourceSpotTypes(EnumIndex);
                      if EnumIndex=-1
                      then raise Exception.Create( 'bad resource spot type: '+XMLOObjSub2.Attributes['type'] );
                      EnumIndex:=GetEnumValue(TypeInfo(TFCEduResourceSpotQuality), XMLOObjSub2.Attributes['quality'] );
-                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_regions[Count1].OOR_resourceSpot[Count2].RS_quality:=TFCEduResourceSpotQuality(EnumIndex);
+                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_regions[Count1].OOR_resourceSpot[Count2].RRS_quality:=TFCEduResourceSpotQuality(EnumIndex);
                      if EnumIndex=-1
                      then raise Exception.Create( 'bad resource spot quality: '+XMLOObjSub2.Attributes['quality'] );
                      EnumIndex:=GetEnumValue( TypeInfo( TFCEduResourceSpotRarity ), XMLOObjSub2.Attributes['rarity'] );
-                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_regions[Count1].OOR_resourceSpot[Count2].RS_rarity:=TFCEduResourceSpotRarity(EnumIndex);
+                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_regions[Count1].OOR_resourceSpot[Count2].RRS_rarity:=TFCEduResourceSpotRarity(EnumIndex);
                      if EnumIndex=-1
                      then raise Exception.Create( 'bad resource spot rarity: '+XMLOObjSub2.Attributes['rarity'] );
                      inc(Count2);
@@ -1945,15 +1945,15 @@ begin
                         begin
                            SetLength( FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_regions[Count1].OOR_resourceSpot, Count2+1 );
                            EnumIndex:=GetEnumValue( TypeInfo( TFCEduResourceSpotTypes ), XMLOObjSub2.Attributes['type'] );
-                           FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_regions[Count1].OOR_resourceSpot[Count2].RS_type:=TFCEduResourceSpotTypes(EnumIndex);
+                           FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_regions[Count1].OOR_resourceSpot[Count2].RRS_type:=TFCEduResourceSpotTypes(EnumIndex);
                            if EnumIndex=-1
                            then raise Exception.Create( 'bad resource spot type: '+XMLOObjSub2.Attributes['type'] );
                            EnumIndex:=GetEnumValue( TypeInfo( TFCEduResourceSpotQuality ), XMLOObjSub2.Attributes['quality'] );
-                           FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_regions[Count1].OOR_resourceSpot[Count2].RS_quality:=TFCEduResourceSpotQuality(EnumIndex);
+                           FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_regions[Count1].OOR_resourceSpot[Count2].RRS_quality:=TFCEduResourceSpotQuality(EnumIndex);
                            if EnumIndex=-1
                            then raise Exception.Create( 'bad resource spot quality: '+XMLOObjSub2.Attributes['quality'] );
                            EnumIndex:=GetEnumValue( TypeInfo( TFCEduResourceSpotRarity ), XMLOObjSub2.Attributes['rarity'] );
-                           FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_regions[Count1].OOR_resourceSpot[Count2].RS_rarity:=TFCEduResourceSpotRarity(EnumIndex);
+                           FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_regions[Count1].OOR_resourceSpot[Count2].RRS_rarity:=TFCEduResourceSpotRarity(EnumIndex);
                            if EnumIndex=-1
                            then raise Exception.Create( 'bad resource spot rarity: '+XMLOObjSub2.Attributes['rarity'] );
                            inc( Count2 );

@@ -76,6 +76,8 @@ type TFCRfdRegionCalc = record
 
    RC_landType: TFCEduRegionSoilTypes;
    RC_reliefType: TFCEduRegionReliefs;
+
+   RC_rsrcSpots: array of TFCRduRegionRsrcSpot;
 end;
 
 type TFCRfdRegions= array [0..30] of TFCRfdRegionCalc;
