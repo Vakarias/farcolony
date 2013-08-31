@@ -1677,7 +1677,7 @@ begin
                begin
                   SetLength( FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_regions, Count1+1 );
                   EnumIndex:=GetEnumValue( TypeInfo( TFCEduRegionSoilTypes ), XMLOObjSub1.Attributes['soilType'] );
-                  FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_regions[Count1].OOR_soilType:=TFCEduRegionSoilTypes( EnumIndex );
+                  FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_regions[Count1].OOR_landType:=TFCEduRegionSoilTypes( EnumIndex );
                   if EnumIndex=-1
                   then raise Exception.Create( 'bad universe region soil type: '+XMLOObjSub1.Attributes['soilType'] );
                   EnumIndex:=GetEnumValue( TypeInfo( TFCEduRegionReliefs ), XMLOObjSub1.Attributes['relief'] );
@@ -1908,7 +1908,7 @@ begin
                      begin
                         SetLength( FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_regions, Count1+1 );
                         EnumIndex:=GetEnumValue( TypeInfo( TFCEduRegionSoilTypes ), XMLOObjSub1.Attributes['soilType'] );
-                        FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_regions[Count1].OOR_soilType:=TFCEduRegionSoilTypes( EnumIndex );
+                        FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_regions[Count1].OOR_landType:=TFCEduRegionSoilTypes( EnumIndex );
                         if EnumIndex=-1
                         then raise Exception.Create( 'bad universe satellite region soil: '+XMLOObjSub1.Attributes['soilType'] );
                         EnumIndex:=GetEnumValue( TypeInfo( TFCEduRegionReliefs ), XMLOObjSub1.Attributes['relief'] );

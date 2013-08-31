@@ -719,7 +719,7 @@ begin
    then
    begin
       Colony:=FCDduStarSystem[SPcurrentStarSys].SS_stars[SPcurrentStar].S_orbitalObjects[SPcurrentOObjIndex].OO_colonies[0];
-      SERUdmpTerrTp:=FCDduStarSystem[SPcurrentStarSys].SS_stars[SPcurrentStar].S_orbitalObjects[SPcurrentOObjIndex].OO_regions[SERUregIdx].OOR_soilType;
+      SERUdmpTerrTp:=FCDduStarSystem[SPcurrentStarSys].SS_stars[SPcurrentStar].S_orbitalObjects[SPcurrentOObjIndex].OO_regions[SERUregIdx].OOR_landType;
       SERUdmpRelief:=FCDduStarSystem[SPcurrentStarSys].SS_stars[SPcurrentStar].S_orbitalObjects[SPcurrentOObjIndex].OO_regions[SERUregIdx].OOR_relief;
       SERUwndSpd:=FCDduStarSystem[SPcurrentStarSys].SS_stars[SPcurrentStar].S_orbitalObjects[SPcurrentOObjIndex].OO_regions[SERUregIdx].OOR_currentWindspeed;
       SERUprecip:=FCDduStarSystem[SPcurrentStarSys].SS_stars[SPcurrentStar].S_orbitalObjects[SPcurrentOObjIndex].OO_regions[SERUregIdx].OOR_currentRainfall;
@@ -730,7 +730,7 @@ begin
    then
    begin
       Colony:=FCDduStarSystem[SPcurrentStarSys].SS_stars[SPcurrentStar].S_orbitalObjects[SPcurrentOObjIndex].OO_satellitesList[SPcurrentSatIndex].OO_colonies[0];
-      SERUdmpTerrTp:=FCDduStarSystem[SPcurrentStarSys].SS_stars[SPcurrentStar].S_orbitalObjects[SPcurrentOObjIndex].OO_satellitesList[SPcurrentSatIndex].OO_regions[SERUregIdx].OOR_soilType;
+      SERUdmpTerrTp:=FCDduStarSystem[SPcurrentStarSys].SS_stars[SPcurrentStar].S_orbitalObjects[SPcurrentOObjIndex].OO_satellitesList[SPcurrentSatIndex].OO_regions[SERUregIdx].OOR_landType;
       SERUdmpRelief:=FCDduStarSystem[SPcurrentStarSys].SS_stars[SPcurrentStar].S_orbitalObjects[SPcurrentOObjIndex].OO_satellitesList[SPcurrentSatIndex].OO_regions[SERUregIdx].OOR_relief;
       SERUwndSpd:=FCDduStarSystem[SPcurrentStarSys].SS_stars[SPcurrentStar].S_orbitalObjects[SPcurrentOObjIndex].OO_satellitesList[SPcurrentSatIndex].OO_regions[SERUregIdx].OOR_currentWindspeed;
       SERUprecip:=FCDduStarSystem[SPcurrentStarSys].SS_stars[SPcurrentStar].S_orbitalObjects[SPcurrentOObjIndex].OO_satellitesList[SPcurrentSatIndex].OO_regions[SERUregIdx].OOR_currentRainfall;

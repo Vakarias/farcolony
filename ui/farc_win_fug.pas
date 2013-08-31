@@ -547,7 +547,7 @@ begin
                   while Count3 <= Max3 do
                   begin
                      WF_XMLOutput.Lines.Add(
-                        '            <region soilType="'+GetEnumName( TypeInfo( TFCEduRegionSoilTypes ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_regions[Count3].OOR_soilType ) )
+                        '            <region soilType="'+GetEnumName( TypeInfo( TFCEduRegionSoilTypes ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_regions[Count3].OOR_landType ) )
                         +'" relief="'+GetEnumName( TypeInfo( TFCEduRegionReliefs ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_regions[Count3].OOR_relief ) )
                         +'" climate="'+GetEnumName( TypeInfo( TFCEduRegionClimates ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_regions[Count3].OOR_climate ) )
                         +'" closeTemp="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_regions[Count3].OOR_seasonClosest.OP_meanTemperature )
@@ -694,7 +694,7 @@ begin
                      while Count3 <= Max3 do
                      begin
                         WF_XMLOutput.Lines.Add(
-                           '               <region soilType="'+GetEnumName( TypeInfo( TFCEduRegionSoilTypes ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_regions[Count3].OOR_soilType ) )
+                           '               <region soilType="'+GetEnumName( TypeInfo( TFCEduRegionSoilTypes ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_regions[Count3].OOR_landType ) )
                            +'" relief="'+GetEnumName( TypeInfo( TFCEduRegionReliefs ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_regions[Count3].OOR_relief ) )
                            +'" climate="'+GetEnumName( TypeInfo( TFCEduRegionClimates ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_regions[Count3].OOR_climate ) )
                            +'" closeTemp="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_regions[Count3].OOR_seasonClosest.OP_meanTemperature )

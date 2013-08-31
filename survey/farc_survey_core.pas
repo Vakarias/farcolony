@@ -793,7 +793,7 @@ begin
       end;
       if SClocationUniverse[4]=0 then
       begin
-         if FCDduStarSystem[SClocationUniverse[1]].SS_stars[SClocationUniverse[2]].S_orbitalObjects[SClocationUniverse[3]].OO_regions[FCDdgEntities[Entity].E_planetarySurveys[PlanetarySurvey].PS_targetRegion].OOR_soilType
+         if FCDduStarSystem[SClocationUniverse[1]].SS_stars[SClocationUniverse[2]].S_orbitalObjects[SClocationUniverse[3]].OO_regions[FCDdgEntities[Entity].E_planetarySurveys[PlanetarySurvey].PS_targetRegion].OOR_landType
             in [rst08CoastalRockyDesert..rst13CoastalFertile]
          then RegionSurface:=0.60;
          if ( SpotType=rstHydroWell )
@@ -806,7 +806,7 @@ begin
       end
       else if SClocationUniverse[4]>0 then
       begin
-         if FCDduStarSystem[SClocationUniverse[1]].SS_stars[SClocationUniverse[2]].S_orbitalObjects[SClocationUniverse[3]].OO_satellitesList[SClocationUniverse[4]].OO_regions[FCDdgEntities[Entity].E_planetarySurveys[PlanetarySurvey].PS_targetRegion].OOR_soilType
+         if FCDduStarSystem[SClocationUniverse[1]].SS_stars[SClocationUniverse[2]].S_orbitalObjects[SClocationUniverse[3]].OO_satellitesList[SClocationUniverse[4]].OO_regions[FCDdgEntities[Entity].E_planetarySurveys[PlanetarySurvey].PS_targetRegion].OOR_landType
             in [rst08CoastalRockyDesert..rst13CoastalFertile]
          then RegionSurface:=0.60;
          if ( SpotType=rstHydroWell )

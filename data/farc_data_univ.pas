@@ -525,8 +525,8 @@ end;
 {.region sub data structure}
 {:DEV NOTE: update FCMdF_DBstarSys_Process.}
 type TFCRduOObRegion = record
-   {.type of soil}
-   OOR_soilType: TFCEduRegionSoilTypes;
+   {.type of land}
+   OOR_landType: TFCEduRegionSoilTypes;
    {.type of relief}
    OOR_relief: TFCEduRegionReliefs;
    {.type of climate}

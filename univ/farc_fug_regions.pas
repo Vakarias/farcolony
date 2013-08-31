@@ -65,6 +65,7 @@ implementation
 uses
    farc_common_func
    ,farc_data_univ
+   ,farc_fug_data
    ,farc_fug_environments
    ,farc_fug_fractalterrains
    ,farc_fug_landresources
@@ -96,6 +97,7 @@ procedure FCMfR_GenerationPhase_Process(
 }
    var
       Max
+      ,Region
       ,RegionSurf: integer;
 
       Diameter
@@ -206,6 +208,16 @@ begin
       ,OrbitalObject
       ,Satellite
       );
+   {.transfert the final land types}
+   Region:=1;
+   while Region <= Max do
+   begin
+      if Satellite = 0
+      then FCDfdRegions[Region].RC_landType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions[Region].OOR_landType
+      else if Satellite > 0
+      then FCDfdRegions[Region].RC_landType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Region].OOR_landType;
+      inc( Region );
+   end;
    {.final phase}
    FCMfE_HabitabilityIndexes_Process(
       Star
