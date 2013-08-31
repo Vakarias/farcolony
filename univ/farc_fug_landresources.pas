@@ -61,7 +61,7 @@ procedure FCMfR_LandRelief_Process(
    );
 
 ///<summary>
-///   first phase of the calculations of the resources
+///   first phase of the calculations of the resources. Gas field isn't processed in this phase (it needs the biosphere data).
 ///</summary>
 /// <param name="Star">star index #</param>
 /// <param name="OrbitalObject">orbital object index #</param>
@@ -378,14 +378,24 @@ procedure FCMfR_Resources_Phase1(
          ,OrbitalObject: integer;
    const Satellite: integer=0
    );
-{:Purpose: first phase of the calculations of the resources.
+{:Purpose: first phase of the calculations of the resources. Gas field isn't processed in this phase (it needs the biosphere data).
     Additions:
 }
    var
-      Max
+      HydroArea
+      ,Max
       ,Region: integer;
+
+      hasaSubsurfaceOcean: boolean;
+
+      HydroType: TFCEduHydrospheres;
 begin
+   HydroArea:=0;
    Max:=0;
+
+   hasaSubsurfaceOcean:=false;
+
+   HydroType:=hNoHydro;
 
    if Satellite = 0 then
    begin
@@ -395,8 +405,8 @@ begin
 //      else GravModifier:=0;
 //      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphericPressure > 0
 //      then isAtmosphere:=true;
-//      HydroType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_hydrosphere;
-//      HydroArea:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_hydrosphereArea;
+      HydroType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_hydrosphere;
+      HydroArea:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_hydrosphereArea;
       Max:=length( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions ) - 1;
 //      _TectonicActivityMod_Set( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_tectonicActivity );
    end
@@ -408,21 +418,29 @@ begin
 //      else GravModifier:=0;
 //      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphericPressure > 0
 //      then isAtmosphere:=true;
-//      HydroType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_hydrosphere;
-//      HydroArea:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_hydrosphereArea;
+      HydroType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_hydrosphere;
+      HydroArea:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_hydrosphereArea;
       Max:=length( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions ) - 1;
 //      _TectonicActivityMod_Set( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_tectonicActivity );
    end;
    Region:=1;
    while Region <= Max do
    begin
-//   SetLength( Region Rscrc -1 );
+//   SetLength( Region RscrcSpots -1 );
+
+      {.hydrosphere locations}
+
+      {.icy ore field}
+
+      {.ore field}
+
+      {.underground water}
 
 
       {:DEV NOTES: data loading.}
       inc( Region );
    end; //==END== while Region <= Max ==//
-
+   {:DEV NOTES: data load for subsurface ocean.}
 end;
 
 end.
