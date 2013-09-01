@@ -574,7 +574,6 @@ begin
                      begin
                         WF_XMLOutput.Lines.Add(
                            '              <resourcespot type="'+GetEnumName( TypeInfo( TFCEduResourceSpotTypes ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_regions[Count3].OOR_resourceSpot[Count4].RRS_type ) )
-                           +'" quality="'+GetEnumName( TypeInfo( TFCEduResourceSpotQuality ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_regions[Count3].OOR_resourceSpot[Count4].RRS_quality ) )
                            +'" rarity="'+GetEnumName( TypeInfo( TFCEduResourceSpotRarity ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_regions[Count3].OOR_resourceSpot[Count4].RRS_rarity ) )
                            +'"/>'
                            );
@@ -602,7 +601,7 @@ begin
                         +'">'
                      );
                   WF_XMLOutput.Lines.Add(
-                     '            <orbitalData distanceFromRoot="'+FloatToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_isSat_distanceFromPlanet )
+                     '            <orbitalData distanceFromRoot="'+FloatToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_isSat_distanceFromPlanetOrAsterInBeltDistToStar )
                         +'" revolutionPeriod="'+IntToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_revolutionPeriod )
                         +'" revPeriodInit="'+IntToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_revolutionPeriodInit )
                         +'" gravSphereRadius="'+FloatToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_gravitationalSphereRadius )
@@ -721,7 +720,6 @@ begin
                         begin
                            WF_XMLOutput.Lines.Add(
                               '                 <resourcespot type="'+GetEnumName( TypeInfo( TFCEduResourceSpotTypes ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_regions[Count3].OOR_resourceSpot[Count4].RRS_type ) )
-                              +'" quality="'+GetEnumName( TypeInfo( TFCEduResourceSpotQuality ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_regions[Count3].OOR_resourceSpot[Count4].RRS_quality ) )
                               +'" rarity="'+GetEnumName( TypeInfo( TFCEduResourceSpotRarity ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_regions[Count3].OOR_resourceSpot[Count4].RRS_rarity ) )
                               +'"/>'
                               );
