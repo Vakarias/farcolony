@@ -950,9 +950,9 @@ begin
          RsrcPotential:=0;
          RarityValue:=0;
          if ( ( not isAtmosphere ) or ( istraceAtm ) )
+            and ( TectonicActivyIndex > 0 )
             and ( TectonicActivyIndex < 5 ) then
          begin
-
             if ( ObjectType = oot_Planet_Icy )
                or ( ObjectType = ootSatellite_Planet_Icy ) then
             begin

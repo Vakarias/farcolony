@@ -481,9 +481,6 @@ begin
                   );
                WF_XMLOutput.Lines.Add(
                   '         <geophysicalData type="'+GetEnumName( TypeInfo( TFCEduOrbitalObjectTypes ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_type ) )
-//                     {:DEV NOTES: DEBUG ENTRY, TO REMOVE LATER.}
-//                     +'" oobasictypeDEBUG="'+GetEnumName( TypeInfo( TFCEduOrbitalObjectBasicTypes ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_fug_BasicType ) )
-//                     {:DEV NOTES: END.}
                      +'" diameter="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_diameter )
                      +'" density="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_density )
                      +'" mass="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_mass )
@@ -612,9 +609,6 @@ begin
                   if FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_type<>ootAsteroidsBelt
                   then WF_XMLOutput.Lines.Add(
                      '            <geophysicalData type="'+GetEnumName( TypeInfo( TFCEduOrbitalObjectTypes ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_type ) )
-//                        {:DEV NOTES: DEBUG ENTRY, TO REMOVE LATER.}
-//                        +'" satbasictypeDEBUG="'+GetEnumName( TypeInfo( TFCEduOrbitalObjectBasicTypes ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_fug_BasicType ) )
-//                        {:DEV NOTES: END.}
                         +'" diameter="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_diameter )
                         +'" density="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_density )
                         +'" mass="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_mass )
@@ -627,9 +621,6 @@ begin
                      )
                   else WF_XMLOutput.Lines.Add(
                      '            <geophysicalData type="'+GetEnumName( TypeInfo( TFCEduOrbitalObjectTypes ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_type ) )
-//                        {:DEV NOTES: DEBUG ENTRY, TO REMOVE LATER.}
-//                        +'" satbasictypeDEBUG="'+GetEnumName( TypeInfo( TFCEduOrbitalObjectBasicTypes ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_fug_BasicType ) )
-//                        {:DEV NOTES: END.}
                         +'" diameter="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_diameter )
                         +'" density="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_density )
                         +'" mass="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_mass )
@@ -639,6 +630,7 @@ begin
                         +'" inclinationAxis="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_isAsterBelt_axialTilt )
                         +'" magneticField="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_magneticField )
                         +'" tectonicActivity="'+GetEnumName( TypeInfo( TFCEduTectonicActivity ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_tectonicActivity ) )
+                        +'" subsurfOcean="'+BoolToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_subsurfaceOcean )
                         +'"/>'
                      );
 
