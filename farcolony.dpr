@@ -131,7 +131,13 @@ uses
   farc_fug_landresources in 'univ\farc_fug_landresources.pas',
   farc_fug_fractalterrains in 'univ\farc_fug_fractalterrains.pas',
   farc_fug_regionfunctions in 'univ\farc_fug_regionfunctions.pas',
-  farc_fug_environments in 'univ\farc_fug_environments.pas';
+  farc_fug_environments in 'univ\farc_fug_environments.pas',
+  farc_fug_biosphere in 'univ\farc_fug_biosphere.pas',
+  farc_fug_biospherecarbon in 'univ\farc_fug_biospherecarbon.pas',
+  farc_fug_biospheresilicon in 'univ\farc_fug_biospheresilicon.pas',
+  farc_fug_biosphereammonia in 'univ\farc_fug_biosphereammonia.pas',
+  farc_fug_biospheremethane in 'univ\farc_fug_biospheremethane.pas',
+  farc_fug_biospheresulphurdioxide in 'univ\farc_fug_biospheresulphurdioxide.pas';
 
 {$R *.res}
 
