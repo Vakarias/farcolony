@@ -808,65 +808,66 @@ begin
       end;
 
       {.uranium ore field}
-//      if FCDduStarSystem[0].SS_stars[Star].S_class >= PSR
-//      then
-//      inc( Spot );
-//      setlength( FCDfdRegions[Region].RC_rsrcSpots, Spot + 1 );
-//      RsrcPotential:=0;
-//      RarityValue:=0;
-//      RsrcPotential:=DiamRed + DensityCoef - 10 + TectonicActivyIndexSqr;
-//      if RsrcPotential <= 0 then
-//      begin
-//         dec( Spot );
-//         setlength( FCDfdRegions[Region].RC_rsrcSpots, Spot + 1 );
-//      end
-//      else begin
-//         RandgStdev:=FCFcF_Round( rttCustom1Decimal, RsrcPotential * 0.1 ) * 2;
-//         case FCDfdRegions[Region].RC_landType of
-//            rst01RockyDesert: RarityValue:=randg( RsrcPotential, RandgStdev );
-//
-//            rst02SandyDesert: RarityValue:=randg( RsrcPotential, RandgStdev );
-//
-//            rst03Volcanic: RarityValue:=randg( RsrcPotential, RandgStdev );
-//
-//            rst04Polar: RarityValue:=randg( RsrcPotential, RandgStdev );
-//
-//            rst05Arid: RarityValue:=randg( RsrcPotential, RandgStdev );
-//
-//            rst06Fertile: RarityValue:=randg( RsrcPotential, RandgStdev );
-//
-//            rst07Oceanic: RarityValue:=randg( RsrcPotential, RandgStdev );
-//
-//            rst08CoastalRockyDesert: RarityValue:=randg( RsrcPotential, RandgStdev );
-//
-//            rst09CoastalSandyDesert: RarityValue:=randg( RsrcPotential, RandgStdev );
-//
-//            rst10CoastalVolcanic: RarityValue:=randg( RsrcPotential, RandgStdev );
-//
-//            rst11CoastalPolar: RarityValue:=randg( RsrcPotential, RandgStdev );
-//
-//            rst12CoastalArid: RarityValue:=randg( RsrcPotential, RandgStdev );
-//
-//            rst13CoastalFertile: RarityValue:=randg( RsrcPotential, RandgStdev );
-//
-//            rst14Sterile: RarityValue:=randg( RsrcPotential, RandgStdev );
-//
-//            rst15icySterile: RarityValue:=randg( RsrcPotential, RandgStdev );
-//         end;
-//         if RarityValue < 0 then
-//         begin
-//            dec( Spot );
-//            setlength( FCDfdRegions[Region].RC_rsrcSpots, Spot + 1 );
-//         end
-//         else begin
-//            if RarityValue > 100
-//            then RarityValue:=100;
-//            FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_type:=rstOreFieldCarbo;
-//            FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_rarityVal:=FCFcF_Round( rttCustom1Decimal, RarityValue );
-//            FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_rarity:=_RarityIndex_Set;
-//            FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_quality:=rsqNone;
-//         end;
-//      end;
+
+      inc( Spot );
+      setlength( FCDfdRegions[Region].RC_rsrcSpots, Spot + 1 );
+      RsrcPotential:=0;
+      RarityValue:=0;
+      RsrcPotential:=DiamRed + DensityCoef - NatureCoef[4] + TectonicActivyIndexSqr;
+      if FCDduStarSystem[0].SS_stars[Star].S_class >= PSR
+      then RsrcPotential:=RsrcPotential * ( 1 +( FCFcF_Random_DoFloat * 0.5 ) );
+      if RsrcPotential <= 0 then
+      begin
+         dec( Spot );
+         setlength( FCDfdRegions[Region].RC_rsrcSpots, Spot + 1 );
+      end
+      else begin
+         RandgStdev:=FCFcF_Round( rttCustom1Decimal, RsrcPotential * 0.1 ) * 2;
+         case FCDfdRegions[Region].RC_landType of
+            rst01RockyDesert: RarityValue:=randg( RsrcPotential * 1.25, RandgStdev );
+
+            rst02SandyDesert: RarityValue:=0;
+
+            rst03Volcanic: RarityValue:=randg( RsrcPotential, RandgStdev );
+
+            rst04Polar: RarityValue:=0;
+
+            rst05Arid: RarityValue:=randg( RsrcPotential * 1.25, RandgStdev );
+
+            rst06Fertile..rst08CoastalRockyDesert: RarityValue:=randg( RsrcPotential, RandgStdev );
+
+            rst09CoastalSandyDesert..rst11CoastalPolar: RarityValue:=randg( RsrcPotential * 0.75, RandgStdev );
+
+            rst12CoastalArid..rst13CoastalFertile: RarityValue:=randg( RsrcPotential, RandgStdev );
+
+            rst14Sterile:
+            begin
+               if FCDduStarSystem[0].SS_stars[Star].S_class >= PSR
+               then RarityValue:=randg( RsrcPotential * 1.25, RandgStdev )
+               else RarityValue:=randg( RsrcPotential * 0.75, RandgStdev );
+            end;
+
+            rst15icySterile:
+            begin
+               if FCDduStarSystem[0].SS_stars[Star].S_class >= PSR
+               then RarityValue:=randg( RsrcPotential, RandgStdev )
+               else RarityValue:=randg( RsrcPotential * 0.5, RandgStdev );
+            end;
+         end;
+         if RarityValue < 0 then
+         begin
+            dec( Spot );
+            setlength( FCDfdRegions[Region].RC_rsrcSpots, Spot + 1 );
+         end
+         else begin
+            if RarityValue > 100
+            then RarityValue:=100;
+            FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_type:=rstOreFieldUran;
+            FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_rarityVal:=FCFcF_Round( rttCustom1Decimal, RarityValue );
+            FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_rarity:=_RarityIndex_Set;
+            FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_quality:=rsqNone;
+         end;
+      end;
 
 
 
