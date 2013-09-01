@@ -386,17 +386,19 @@ procedure FCMfR_Resources_Phase1(
       ,Max
       ,Region
       ,Spot
-      ,TectonicActivyIndexSqr: integer;
+      ,TectonicActivyIndex: integer;
 
       DensityCoef
       ,DiamRed
       ,fCalc1
-//      ,NatureCoef
       ,RandgStdev
       ,RarityValue
       ,RsrcPotential: extended;
 
-      hasaSubsurfaceOcean: boolean;
+      hasaSubsurfaceOcean
+      ,isAtmosphere: boolean;
+
+      ObjectType: TFCEduOrbitalObjectTypes;
 
       HydroType: TFCEduHydrospheres;
 
@@ -473,12 +475,15 @@ procedure FCMfR_Resources_Phase1(
 begin
    HydroArea:=0;
    Max:=0;
-   TectonicActivyIndexSqr:=0;
+   TectonicActivyIndex:=0;
 
    DensityCoef:=0;
    DiamRed:=0;
 
    hasaSubsurfaceOcean:=false;
+   isAtmosphere:=false;
+
+   ObjectType:=ootNone;
 
    HydroType:=hNoHydro;
 
@@ -489,36 +494,37 @@ begin
 
    if Satellite = 0 then
    begin
-      _OreNatureCoefficients_Set( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_type );
+      ObjectType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_type;
 //      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_gravity <> 1
 //      then GravModifier:=round( ln( 1 / FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_gravity ) * 2.5 )
 //      else GravModifier:=0;
-//      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphericPressure > 0
-//      then isAtmosphere:=true;
+      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphericPressure > 0
+      then isAtmosphere:=true;
       DensityCoef:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_density / 551.5;
       DiamRed:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_diameter * 0.002;
       HydroType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_hydrosphere;
       HydroArea:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_hydrosphereArea;
-      TectonicActivyIndexSqr:=sqr( integer( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_tectonicActivity ) );
+      TectonicActivyIndex:=integer( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_tectonicActivity );
       Max:=length( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions ) - 1;
 //      _TectonicActivityMod_Set( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_tectonicActivity );
    end
    else if Satellite > 0 then
    begin
-      _OreNatureCoefficients_Set( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_type );
+      ObjectType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_type;
 //      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_gravity <> 1
 //      then GravModifier:=round( ln( 1 / FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_gravity ) * 10 ) - 10
 //      else GravModifier:=0;
-//      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphericPressure > 0
-//      then isAtmosphere:=true;
+      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphericPressure > 0
+      then isAtmosphere:=true;
       DensityCoef:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_density / 551.5;
       DiamRed:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_diameter * 0.002;
       HydroType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_hydrosphere;
       HydroArea:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_hydrosphereArea;
-      TectonicActivyIndexSqr:=sqr( integer( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_tectonicActivity ) );
+      TectonicActivyIndex:=integer( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_tectonicActivity );
       Max:=length( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions ) - 1;
 //      _TectonicActivityMod_Set( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_tectonicActivity );
    end;
+   _OreNatureCoefficients_Set( ObjectType );
    Spot:=0;
    Region:=1;
    while Region <= Max do
@@ -667,7 +673,7 @@ begin
       setlength( FCDfdRegions[Region].RC_rsrcSpots, Spot + 1 );
       RsrcPotential:=0;
       RarityValue:=0;
-      RsrcPotential:=DiamRed + DensityCoef - NatureCoef[1] + TectonicActivyIndexSqr;
+      RsrcPotential:=DiamRed + DensityCoef - NatureCoef[1] + sqr( TectonicActivyIndex );
       if RsrcPotential <= 0 then
       begin
          dec( Spot );
@@ -712,7 +718,7 @@ begin
       setlength( FCDfdRegions[Region].RC_rsrcSpots, Spot + 1 );
       RsrcPotential:=0;
       RarityValue:=0;
-      RsrcPotential:=DiamRed + DensityCoef + NatureCoef[2] + TectonicActivyIndexSqr;
+      RsrcPotential:=DiamRed + DensityCoef + NatureCoef[2] + sqr( TectonicActivyIndex );
       if RsrcPotential <= 0 then
       begin
          dec( Spot );
@@ -761,7 +767,7 @@ begin
       setlength( FCDfdRegions[Region].RC_rsrcSpots, Spot + 1 );
       RsrcPotential:=0;
       RarityValue:=0;
-      RsrcPotential:=DiamRed + DensityCoef - NatureCoef[3] + TectonicActivyIndexSqr;
+      RsrcPotential:=DiamRed + DensityCoef - NatureCoef[3] + sqr( TectonicActivyIndex );
       if RsrcPotential <= 0 then
       begin
          dec( Spot );
@@ -808,12 +814,11 @@ begin
       end;
 
       {.uranium ore field}
-
       inc( Spot );
       setlength( FCDfdRegions[Region].RC_rsrcSpots, Spot + 1 );
       RsrcPotential:=0;
       RarityValue:=0;
-      RsrcPotential:=DiamRed + DensityCoef - NatureCoef[4] + TectonicActivyIndexSqr;
+      RsrcPotential:=DiamRed + DensityCoef - NatureCoef[4] + sqr( TectonicActivyIndex );
       if FCDduStarSystem[0].SS_stars[Star].S_class >= PSR
       then RsrcPotential:=RsrcPotential * ( 1 +( FCFcF_Random_DoFloat * 0.5 ) );
       if RsrcPotential <= 0 then
@@ -869,11 +874,149 @@ begin
          end;
       end;
 
-
-
-
       {.underground water}
+      {:DEV NOTES:
+         fCalc1: mean relative humidity
+      .}
+      if ( HydroType = hWaterLiquid )
+         or ( HydroType = hWaterAmmoniaLiquid )
+         or ( HydroType = hMethaneLiquid ) then
+      begin
+         inc( Spot );
+         setlength( FCDfdRegions[Region].RC_rsrcSpots, Spot + 1 );
+         fCalc1:=0;
+         RsrcPotential:=0;
+         RarityValue:=0;
+         fCalc1:=( FCDfdRegions[Region].RC_relativeHumidityClosest + FCDfdRegions[Region].RC_relativeHumidityInterm + FCDfdRegions[Region].RC_relativeHumidityFarthest ) / 300;
+         RsrcPotential:=HydroArea * 0.01 * fCalc1;
+         if RsrcPotential <= 0 then
+         begin
+            dec( Spot );
+            setlength( FCDfdRegions[Region].RC_rsrcSpots, Spot + 1 );
+         end
+         else begin
+            RandgStdev:=FCFcF_Round( rttCustom1Decimal, RsrcPotential * 0.1 ) * 2;
+            case FCDfdRegions[Region].RC_landType of
+               rst01RockyDesert..rst02SandyDesert: RarityValue:=randg( RsrcPotential * 0.75, RandgStdev );
 
+               rst03Volcanic: RarityValue:=0;
+
+               rst04Polar: RarityValue:=randg( RsrcPotential, RandgStdev );
+
+               rst05Arid: RarityValue:=randg( RsrcPotential * 0.75, RandgStdev );
+
+               rst06Fertile: RarityValue:=randg( RsrcPotential * 1.25, RandgStdev );
+
+               rst07Oceanic: RarityValue:=0;
+
+               rst08CoastalRockyDesert..rst09CoastalSandyDesert: RarityValue:=randg( RsrcPotential, RandgStdev );
+
+               rst10CoastalVolcanic: RarityValue:=0;
+
+               rst11CoastalPolar: RarityValue:=randg( RsrcPotential * 1.25, RandgStdev );
+
+               rst12CoastalArid: RarityValue:=randg( RsrcPotential, RandgStdev );
+
+               rst13CoastalFertile: RarityValue:=randg( RsrcPotential * 1.5, RandgStdev );
+
+               rst14Sterile..rst15icySterile: RarityValue:=0;
+            end;
+            if RarityValue < 0 then
+            begin
+               dec( Spot );
+               setlength( FCDfdRegions[Region].RC_rsrcSpots, Spot + 1 );
+            end
+            else begin
+               if RarityValue > 100
+               then RarityValue:=100;
+               FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_type:=rstUnderWater;
+               FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_rarityVal:=FCFcF_Round( rttCustom1Decimal, RarityValue );
+               FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_rarity:=_RarityIndex_Set;
+               FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_quality:=rsqNone;
+            end;
+         end;
+      end
+      else if ( HydroType = hWaterIceSheet )
+         or ( HydroType = hWaterIceCrust )
+         or ( HydroType = hMethaneIceSheet )
+         or ( HydroType = hMethaneIceCrust )
+         or ( HydroType = hNitrogenIceSheet )
+         or ( HydroType = hNitrogenIceCrust ) then
+      begin
+         inc( Spot );
+         setlength( FCDfdRegions[Region].RC_rsrcSpots, Spot + 1 );
+         fCalc1:=0;
+         RsrcPotential:=0;
+         RarityValue:=0;
+         if ( not isAtmosphere )
+            and ( TectonicActivyIndex < 5 ) then
+         begin
+
+            if ( ObjectType = oot_Planet_Icy )
+               or ( ObjectType = ootSatellite_Planet_Icy ) then
+            begin
+               hasaSubsurfaceOcean:=true;
+               fCalc1:=TectonicActivyIndex * 25;
+            end
+            else fCalc1:=TectonicActivyIndex * 10;
+         end
+         else if isAtmosphere then
+         begin
+            fCalc1:=( FCDfdRegions[Region].RC_relativeHumidityClosest + FCDfdRegions[Region].RC_relativeHumidityInterm + FCDfdRegions[Region].RC_relativeHumidityFarthest ) / 300;
+         end;
+         if fCalc1 <= 0 then
+         begin
+            dec( Spot );
+            setlength( FCDfdRegions[Region].RC_rsrcSpots, Spot + 1 );
+         end
+         else begin
+            RsrcPotential:=HydroArea * 0.01 * fCalc1;
+            RandgStdev:=FCFcF_Round( rttCustom1Decimal, RsrcPotential * 0.1 ) * 2;
+            case FCDfdRegions[Region].RC_landType of
+               rst01RockyDesert..rst02SandyDesert: RarityValue:=randg( RsrcPotential * 0.75, RandgStdev );
+
+               rst03Volcanic:
+               begin
+                  if not hasaSubsurfaceOcean
+                  then RarityValue:=0
+                  else RarityValue:=randg( RsrcPotential, RandgStdev );
+               end;
+
+               rst04Polar: RarityValue:=randg( RsrcPotential, RandgStdev );
+
+               rst05Arid: RarityValue:=randg( RsrcPotential * 0.75, RandgStdev );
+
+               rst06Fertile: RarityValue:=randg( RsrcPotential * 1.25, RandgStdev );
+
+               rst14Sterile:
+               begin
+                  if not hasaSubsurfaceOcean
+                  then RarityValue:=randg( RsrcPotential * 0.25, RandgStdev )
+                  else RarityValue:=randg( RsrcPotential * 0.5, RandgStdev );
+               end;
+
+               rst15icySterile:
+               begin
+                  if not hasaSubsurfaceOcean
+                  then RarityValue:=randg( RsrcPotential * 0.5, RandgStdev )
+                  else RarityValue:=randg( RsrcPotential, RandgStdev );
+               end;
+            end;
+            if RarityValue < 0 then
+            begin
+               dec( Spot );
+               setlength( FCDfdRegions[Region].RC_rsrcSpots, Spot + 1 );
+            end
+            else begin
+               if RarityValue > 100
+               then RarityValue:=100;
+               FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_type:=rstUnderWater;
+               FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_rarityVal:=FCFcF_Round( rttCustom1Decimal, RarityValue );
+               FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_rarity:=_RarityIndex_Set;
+               FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_quality:=rsqNone;
+            end;
+         end;
+      end;
 
       {:DEV NOTES: data loading
       with a while max rsrcspots
