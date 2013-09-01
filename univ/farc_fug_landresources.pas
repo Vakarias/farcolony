@@ -397,7 +397,8 @@ procedure FCMfR_Resources_Phase1(
       ,RsrcPotential: extended;
 
       hasaSubsurfaceOcean
-      ,isAtmosphere: boolean;
+      ,isAtmosphere
+      ,istraceAtm: boolean;
 
       ObjectType: TFCEduOrbitalObjectTypes;
 
@@ -484,6 +485,7 @@ begin
 
    hasaSubsurfaceOcean:=false;
    isAtmosphere:=false;
+   istraceAtm:=false;
 
    ObjectType:=ootNone;
 
@@ -500,6 +502,7 @@ begin
       if ( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphericPressure > 0 )
          and ( not FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_traceAtmosphere )
       then isAtmosphere:=true;
+      istraceAtm:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_traceAtmosphere;
       DensityCoef:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_density / 551.5;
       DiamRed:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_diameter * 0.002;
       HydroType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_hydrosphere;
@@ -513,6 +516,7 @@ begin
       if ( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphericPressure > 0 )
          and ( not FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_traceAtmosphere )
       then isAtmosphere:=true;
+      istraceAtm:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_traceAtmosphere;
       DensityCoef:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_density / 551.5;
       DiamRed:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_diameter * 0.002;
       HydroType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_hydrosphere;
@@ -945,7 +949,7 @@ begin
          fCalc1:=0;
          RsrcPotential:=0;
          RarityValue:=0;
-         if ( not isAtmosphere )
+         if ( ( not isAtmosphere ) or ( istraceAtm ) )
             and ( TectonicActivyIndex < 5 ) then
          begin
 
