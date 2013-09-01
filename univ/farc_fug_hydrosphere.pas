@@ -90,6 +90,7 @@ procedure FCMfH_Hydrosphere_Processing(
    );
 {:Purpose: main rule for the process of the hydrosphere.
    Additions:
+      -2013Sep01- *add: asteroids.
       -2013Jul07- *mod: boiling/melting point adjustments.
       -2013Jul02- *add: conditions to process the hydrosphere or not.
 }
@@ -105,6 +106,7 @@ procedure FCMfH_Hydrosphere_Processing(
       ,BoilingPoint
       ,Distance20
       ,Distance30
+      ,DistanceFromStar
       ,DistanceZone
       ,IceCrustThreshold
       ,MeltingPoint
@@ -131,6 +133,7 @@ begin
    BoilingPoint:=0;
    Distance20:=0;
    Distance30:=0;
+   DistanceFromStar:=0;
    DistanceZone:=0;
    IceCrustThreshold:=0;
    MeltingPoint:=0;
@@ -146,6 +149,7 @@ begin
    BasicType:=oobtNone;
    if Satellite=0 then
    begin
+      DistanceFromStar:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isNotSat_distanceFromStar;
       AtmosphericPressure:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphericPressure / 1000;
       AmmoniaStatus:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceNH3;
       MethaneStatus:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceCH4;
@@ -156,6 +160,9 @@ begin
       BasicType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_fug_BasicType;
    end
    else begin
+      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_fug_BasicType = oobtAsteroidBelt
+      then DistanceFromStar:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_isSat_distanceFromPlanetOrAsterInBeltDistToStar
+      else DistanceFromStar:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isNotSat_distanceFromStar;
       AtmosphericPressure:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphericPressure / 1000;
       AmmoniaStatus:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceNH3;
       MethaneStatus:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceCH4;
@@ -170,7 +177,7 @@ begin
    NewWaterStatus:=WaterStatus;
    if ( FCDduStarSystem[0].SS_stars[Star].S_class < WD0 )
       and ( not isHydrosphereEdited )
-      and ( ( BasicType = oobtTelluricPlanet ) or ( BasicType = oobtIcyPlanet ) ) then
+      and ( ( BasicType = oobtTelluricPlanet ) or ( BasicType = oobtIcyPlanet ) or ( BasicType = oobtAsteroid ) ) then
    begin
       {.hydrosphere for atmosphereless planets}
       if AtmosphericPressure=0 then
@@ -178,7 +185,7 @@ begin
          DistanceZone:=sqrt( FCDduStarSystem[0].SS_stars[Star].S_luminosity / 0.53 );
          Distance20:=DistanceZone * 20;
          Distance30:=DistanceZone * 30;
-         if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isNotSat_distanceFromStar <= Distance20 then
+         if DistanceFromStar <= Distance20 then
          begin
             if BaseTemperature <= 110
             then HydrosphereType:=hWaterIceCrust
@@ -187,8 +194,8 @@ begin
             then HydrosphereType:=hWaterIceSheet
             else HydrosphereType:=hNoHydro;
          end
-         else if ( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isNotSat_distanceFromStar > Distance20 )
-            and ( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isNotSat_distanceFromStar <= Distance30 ) then
+         else if ( DistanceFromStar > Distance20 )
+            and ( DistanceFromStar <= Distance30 ) then
          begin
             if BaseTemperature <= 110 then
             begin

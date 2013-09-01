@@ -826,7 +826,7 @@ type TFCRduOrbitalObject = record
          ///<summary>
          ///   distance from it's central planet in thousands of km
          ///</summary>
-         OO_isSat_distanceFromPlanet: extended;
+         OO_isSat_distanceFromPlanetOrAsterInBeltDistToStar: extended;
          ///<summary>
          ///   rotation period, around it's own axis, in hours RTO-2 - for asteroid in a belt only
          ///</summary>

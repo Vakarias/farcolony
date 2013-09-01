@@ -768,7 +768,7 @@ begin
                :=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIsatDistFCP');
             FCWinMain.FCGLSHUDobobjDist.Text
                :=FloatToStrF(FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[M3DVUIUsatPlanIdx]
-                  .OO_satellitesList[M3DVUIUsatIdx].OO_isSat_distanceFromPlanet*1000,ffNumber,35,0)
+                  .OO_satellitesList[M3DVUIUsatIdx].OO_isSat_distanceFromPlanetOrAsterInBeltDistToStar*1000,ffNumber,35,0)
                   +' Km';
             {.revolution period}
             FCWinMain.FCGLSHUDobobjRevPerLAB.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'MVUIoobjRevPer');

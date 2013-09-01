@@ -108,6 +108,7 @@ procedure FCMfS_OrbitalPeriods_Generate(
    );
 {:Purpose: generate the orbital periods and their base effects
    Additions:
+      -2013Sep01- *add: allow asteroids to have atmosphereless hydrosphere.
       -2013Aug25- *add: calculate the greenhouse to be stored for Fractal Terrains use.
       -2013Aug03- *fix: mis-assignment for intermediary orbital periods.
       -2013Jul07- *fix: addition of special conditions for asteroid belts.
@@ -244,7 +245,7 @@ begin
       if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_type=ootAsteroidsBelt then
       begin
          RevolutionPeriodPart:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_revolutionPeriod div 4;
-         DistanceFromStar:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_isSat_distanceFromPlanet;
+         DistanceFromStar:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_isSat_distanceFromPlanetOrAsterInBeltDistToStar;
       end
       else begin
          isSatToLoadFromRoot:=true;
@@ -371,6 +372,7 @@ begin
 
          oobtAsteroid:
          begin
+            TemperatureMean:=TemperatureMean + OrbitalPeriodsWork[Count].OOS_baseTemperature;
             if Count=1 then
             begin
                ConvectionFactor:=0;
@@ -390,6 +392,26 @@ begin
                   Hydrosphere:=hNoHydro;
                   HydrosphereArea:=0;
                   isLoadHydrosphere:=true;
+               end;
+            end
+            else if Count=4 then
+            begin
+               TemperatureMean:=TemperatureMean / 4;
+               if not isHydroEdited
+               then FCMfH_Hydrosphere_Processing(
+                  Star
+                  ,OrbitalObject
+                  ,TemperatureMean
+                  ,Satellite
+                  );
+               if Satellite=0 then
+               begin
+                  Hydrosphere:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_hydrosphere;
+                  HydrosphereArea:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_hydrosphereArea;
+               end
+               else begin
+                  Hydrosphere:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_hydrosphere;
+                  HydrosphereArea:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_hydrosphereArea;
                end;
             end;
             CalcFloat:=OrbitalPeriodsWork[Count].OOS_baseTemperature * power(  ( ( 1 - Albedo) / 0.7 ), 0.25  );

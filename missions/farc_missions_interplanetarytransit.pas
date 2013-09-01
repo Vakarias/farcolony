@@ -134,7 +134,7 @@ begin
          OrbitalVelocityDeparture:=(
             FCCdiPiDouble
                *FCDduStarSystem[FCRmcCurrentMissionCalculations.CMC_originLocation[1]].SS_stars[FCRmcCurrentMissionCalculations.CMC_originLocation[2]].S_orbitalObjects[FCDmcCurrentMission[Entity].T_tMIToriginIndex]
-                  .OO_satellitesList[FCDmcCurrentMission[Entity].T_tMIToriginSatIndex].OO_isSat_distanceFromPlanet*1000
+                  .OO_satellitesList[FCDmcCurrentMission[Entity].T_tMIToriginSatIndex].OO_isSat_distanceFromPlanetOrAsterInBeltDistToStar*1000
                /FCDduStarSystem[FCRmcCurrentMissionCalculations.CMC_originLocation[1]].SS_stars[FCRmcCurrentMissionCalculations.CMC_originLocation[2]].S_orbitalObjects[FCDmcCurrentMission[Entity].T_tMIToriginIndex]
                   .OO_satellitesList[FCDmcCurrentMission[Entity].T_tMIToriginSatIndex].OO_revolutionPeriod
             )/86400;
@@ -153,7 +153,7 @@ begin
          Destination:=FCFoglF_Satellite_SearchObject( FCDmcCurrentMission[Entity].T_tMITdestinationIndex, FCDmcCurrentMission[Entity].T_tMITdestinationSatIndex );
          OrbitalVelocityArrival:=(
             FCCdiPiDouble*FCDduStarSystem[FCRmcCurrentMissionCalculations.CMC_originLocation[1]].SS_stars[FCRmcCurrentMissionCalculations.CMC_originLocation[2]].S_orbitalObjects[FCDmcCurrentMission[Entity].T_tMITdestinationIndex]
-               .OO_satellitesList[FCDmcCurrentMission[Entity].T_tMITdestinationSatIndex].OO_isSat_distanceFromPlanet*1000
+               .OO_satellitesList[FCDmcCurrentMission[Entity].T_tMITdestinationSatIndex].OO_isSat_distanceFromPlanetOrAsterInBeltDistToStar*1000
             /FCDduStarSystem[FCRmcCurrentMissionCalculations.CMC_originLocation[1]].SS_stars[FCRmcCurrentMissionCalculations.CMC_originLocation[2]].S_orbitalObjects[FCDmcCurrentMission[Entity].T_tMITdestinationIndex]
                .OO_satellitesList[FCDmcCurrentMission[Entity].T_tMITdestinationSatIndex].OO_revolutionPeriod
             )/86400;

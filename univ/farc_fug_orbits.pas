@@ -1280,7 +1280,7 @@ begin
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_dbTokenId:=FCDfdMainStarObjectsList[Count].OO_satellitesList[CountSat].OO_dbTokenId;
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isSatellite:=true;
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_fug_BasicType:=FCDfdMainStarObjectsList[Count].OO_satellitesList[CountSat].OO_fug_BasicType;
-                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isSat_distanceFromPlanet:=FCDfdMainStarObjectsList[Count].OO_satellitesList[CountSat].OO_isSat_distanceFromPlanet;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isSat_distanceFromPlanetOrAsterInBeltDistToStar:=FCDfdMainStarObjectsList[Count].OO_satellitesList[CountSat].OO_isSat_distanceFromPlanetOrAsterInBeltDistToStar;
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_diameter:=FCDfdMainStarObjectsList[Count].OO_satellitesList[CountSat].OO_diameter;
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_density:=FCDfdMainStarObjectsList[Count].OO_satellitesList[CountSat].OO_density;
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_mass:=FCDfdMainStarObjectsList[Count].OO_satellitesList[CountSat].OO_mass;
@@ -1363,7 +1363,7 @@ begin
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_dbTokenId:=FCDfdComp1StarObjectsList[Count].OO_satellitesList[CountSat].OO_dbTokenId;
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isSatellite:=true;
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_fug_BasicType:=FCDfdComp1StarObjectsList[Count].OO_satellitesList[CountSat].OO_fug_BasicType;
-                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isSat_distanceFromPlanet:=FCDfdComp1StarObjectsList[Count].OO_satellitesList[CountSat].OO_isSat_distanceFromPlanet;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isSat_distanceFromPlanetOrAsterInBeltDistToStar:=FCDfdComp1StarObjectsList[Count].OO_satellitesList[CountSat].OO_isSat_distanceFromPlanetOrAsterInBeltDistToStar;
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_diameter:=FCDfdComp1StarObjectsList[Count].OO_satellitesList[CountSat].OO_diameter;
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_density:=FCDfdComp1StarObjectsList[Count].OO_satellitesList[CountSat].OO_density;
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_mass:=FCDfdComp1StarObjectsList[Count].OO_satellitesList[CountSat].OO_mass;
@@ -1446,7 +1446,7 @@ begin
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_dbTokenId:=FCDfdComp2StarObjectsList[Count].OO_satellitesList[CountSat].OO_dbTokenId;
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isSatellite:=true;
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_fug_BasicType:=FCDfdComp2StarObjectsList[Count].OO_satellitesList[CountSat].OO_fug_BasicType;
-                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isSat_distanceFromPlanet:=FCDfdComp2StarObjectsList[Count].OO_satellitesList[CountSat].OO_isSat_distanceFromPlanet;
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isSat_distanceFromPlanetOrAsterInBeltDistToStar:=FCDfdComp2StarObjectsList[Count].OO_satellitesList[CountSat].OO_isSat_distanceFromPlanetOrAsterInBeltDistToStar;
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_diameter:=FCDfdComp2StarObjectsList[Count].OO_satellitesList[CountSat].OO_diameter;
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_density:=FCDfdComp2StarObjectsList[Count].OO_satellitesList[CountSat].OO_density;
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_mass:=FCDfdComp2StarObjectsList[Count].OO_satellitesList[CountSat].OO_mass;
@@ -1709,11 +1709,11 @@ begin
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isSatellite:=true;
                   CalcFloat2:=FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_distanceFromStar - ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_diameter * 0.5 );
                   CalcFloat3:=CalcFloat2 + ( FCFcF_Random_DoFloat * FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_diameter );
-                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isSat_distanceFromPlanet:=FCFcF_Round( rttCustom2Decimal, CalcFloat3 );
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isSat_distanceFromPlanetOrAsterInBeltDistToStar:=FCFcF_Round( rttCustom2Decimal, CalcFloat3 );
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_fug_BasicType:=oobtAsteroid;
                   if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_revolutionPeriod=0 then
                   begin
-                     CalcFloat2:=SQRT( ( power( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isSat_distanceFromPlanet, 3 ) / FCDduStarSystem[0].SS_stars[CurrentStar].S_mass ) ) * 365.2422;
+                     CalcFloat2:=SQRT( ( power( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isSat_distanceFromPlanetOrAsterInBeltDistToStar, 3 ) / FCDduStarSystem[0].SS_stars[CurrentStar].S_mass ) ) * 365.2422;
                      FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_revolutionPeriod:=round( CalcFloat2 );
                      if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_revolutionPeriod<1
                      then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_revolutionPeriod:=1;
@@ -1973,7 +1973,7 @@ begin
                      end;
                      FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isSatellite:=true;
                      {....orbit distance from the root object}
-                     FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isSat_distanceFromPlanet:=FCFfO_Satellites_Distance(
+                     FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isSat_distanceFromPlanetOrAsterInBeltDistToStar:=FCFfO_Satellites_Distance(
                         FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_diameter * 0.5
                         ,FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_gravitationalSphereRadius
                         ,FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_fug_BasicType
@@ -2022,7 +2022,7 @@ begin
                         FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_type:=ootSatellite_Planet_Telluric;
                      end;
                      {....revolution period w/ CalcFloat2: Distance Coef}
-                     CalcFloat2:=FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isSat_distanceFromPlanet / 384399;
+                     CalcFloat2:=FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isSat_distanceFromPlanetOrAsterInBeltDistToStar / 384399;
                      CalcFloat3:=sqrt( power( CalcFloat2, 3 ) * ( 746.468843 / FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_mass ) );
                      FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_revolutionPeriod:=round( CalcFloat3 );
                      if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_revolutionPeriod < 1
@@ -2044,10 +2044,10 @@ begin
                      {....orbit distance adjustment w/ CalcFloat3: root radius and CalcFloat3: Roche limit}
                      CalcFloat2:=FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_diameter * 0.5;
                      CalcFloat3:=2.456 * power( ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_density / FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_density ), 0.333 ) * CalcFloat2;
-                     if ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isSat_distanceFromPlanet * 1000 ) < CalcFloat3 then
+                     if ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isSat_distanceFromPlanetOrAsterInBeltDistToStar * 1000 ) < CalcFloat3 then
                      begin
-                        FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isSat_distanceFromPlanet:=CalcFloat3 + ( ( FCFcF_Random_DoInteger( 31 ) + 1 ) * ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_diameter * 0.5 ) );
-                        FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isSat_distanceFromPlanet:=FCFcF_Round( rttCustom1Decimal, ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isSat_distanceFromPlanet * 0.001 ) );
+                        FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isSat_distanceFromPlanetOrAsterInBeltDistToStar:=CalcFloat3 + ( ( FCFcF_Random_DoInteger( 31 ) + 1 ) * ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_diameter * 0.5 ) );
+                        FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isSat_distanceFromPlanetOrAsterInBeltDistToStar:=FCFcF_Round( rttCustom1Decimal, ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_isSat_distanceFromPlanetOrAsterInBeltDistToStar * 0.001 ) );
                      end;
                      {....geophysical data: mass, gravity and escape velocity}
                      if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_mass=0 then
@@ -2233,7 +2233,7 @@ begin
    else if ( Asteroid=0 )
       and ( Satellite>0 ) then
    begin
-      ObjectDistanceKm:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_isSat_distanceFromPlanet * 1000;
+      ObjectDistanceKm:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_isSat_distanceFromPlanetOrAsterInBeltDistToStar * 1000;
       ObjectMassKg:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_mass * FCCdiMassEqEarth;
       ObjectRotationPeriod:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_revolutionPeriod * 24;
       ObjectDiameter:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_diameter;
@@ -2241,7 +2241,7 @@ begin
    end
    {.for asteroids in a belt}
    else begin
-      ObjectDistanceKm:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Asteroid].OO_isSat_distanceFromPlanet * FCCdiKm_In_1AU;
+      ObjectDistanceKm:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Asteroid].OO_isSat_distanceFromPlanetOrAsterInBeltDistToStar * FCCdiKm_In_1AU;
       ObjectMassKg:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Asteroid].OO_mass * FCCdiMassEqEarth;
       ObjectRotationPeriod:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Asteroid].OO_isAsterBelt_rotationPeriod;
       ObjectDiameter:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Asteroid].OO_diameter;

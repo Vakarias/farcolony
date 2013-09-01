@@ -363,7 +363,7 @@ begin
          and ( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[Root].OO_isNotSat_orbitalZone=hzOuter )
          and ( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[Root].OO_mass >= 200 ) then
       begin
-         DistanceRadii:=( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[Root].OO_satellitesList[Satellite].OO_isSat_distanceFromPlanet * 1000 / ( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[Root].OO_diameter * 0.5 ) );
+         DistanceRadii:=( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[Root].OO_satellitesList[Satellite].OO_isSat_distanceFromPlanetOrAsterInBeltDistToStar * 1000 / ( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[Root].OO_diameter * 0.5 ) );
          PlanetaryRadii:=7 + ( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[Root].OO_mass / 300 );
          if DistanceRadii <= PlanetaryRadii
          then CoefDensity:=2
@@ -863,7 +863,7 @@ begin
    end
    else begin
       ObjectDiameter:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Asteroid].OO_diameter;
-      ObjectDistance:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Asteroid].OO_isSat_distanceFromPlanet;
+      ObjectDistance:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Asteroid].OO_isSat_distanceFromPlanetOrAsterInBeltDistToStar;
       ObjectGravity:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Asteroid].OO_gravity;
       ObjectMass:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Asteroid].OO_mass;
    end;
@@ -991,7 +991,7 @@ begin
       ObjectMass:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_mass;
       {.differential tidal stress}
       {.*1000km * 324 coef for tidal force}
-      DistanceInKm:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_isSat_distanceFromPlanet * 324000;
+      DistanceInKm:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_isSat_distanceFromPlanetOrAsterInBeltDistToStar * 324000;
       {.26.64 = coef for tidal force}
       MassInKg:=( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_mass * FCCdiMassEqEarth ) * 26.64;
       TidalForce:=MassInKg / power( DistanceInKm, 3 );

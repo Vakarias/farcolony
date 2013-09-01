@@ -1088,11 +1088,11 @@ begin
    else begin
       {:DEV NOTE: reminder, it's in thousands of km}
       case FCWinFUG.TOO_StarPicker.ItemIndex of
-         0: FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_isSat_distanceFromPlanet:=strtofloat( FCWinFUG.COO_Distance.Text );
+         0: FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_isSat_distanceFromPlanetOrAsterInBeltDistToStar:=strtofloat( FCWinFUG.COO_Distance.Text );
 
-         1: FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_isSat_distanceFromPlanet:=strtofloat( FCWinFUG.COO_Distance.Text );
+         1: FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_isSat_distanceFromPlanetOrAsterInBeltDistToStar:=strtofloat( FCWinFUG.COO_Distance.Text );
 
-         2: FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_isSat_distanceFromPlanet:=strtofloat( FCWinFUG.COO_Distance.Text );
+         2: FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_isSat_distanceFromPlanetOrAsterInBeltDistToStar:=strtofloat( FCWinFUG.COO_Distance.Text );
       end;
    end;
 end;
@@ -1875,8 +1875,8 @@ begin
          else FCWinFUG.COO_Token.Text:='sat';
          if not FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_isSatellite
          then FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_isSatellite:=true;
-         if FCDfdMainStarObjectsList[CurrentObject].OO_isSat_distanceFromPlanet>0
-         then FCWinFUG.COO_Distance.Text:=floattostr( FCDfdMainStarObjectsList[CurrentObject].OO_isSat_distanceFromPlanet )
+         if FCDfdMainStarObjectsList[CurrentObject].OO_isSat_distanceFromPlanetOrAsterInBeltDistToStar>0
+         then FCWinFUG.COO_Distance.Text:=floattostr( FCDfdMainStarObjectsList[CurrentObject].OO_isSat_distanceFromPlanetOrAsterInBeltDistToStar )
          else FCWinFUG.COO_Distance.Text:='';
          {.geophysical data}
          FCWinFUG.COO_ObjecType.Text:=GetEnumName( TypeInfo( TFCEduOrbitalObjectBasicTypes ), Integer( FCDfdMainStarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_fug_BasicType ) );
@@ -1935,8 +1935,8 @@ begin
          else FCWinFUG.COO_Token.Text:='sat';
          if not FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_isSatellite
          then FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_isSatellite:=true;
-         if FCDfdComp1StarObjectsList[CurrentObject].OO_isSat_distanceFromPlanet>0
-         then FCWinFUG.COO_Distance.Text:=floattostr( FCDfdComp1StarObjectsList[CurrentObject].OO_isSat_distanceFromPlanet )
+         if FCDfdComp1StarObjectsList[CurrentObject].OO_isSat_distanceFromPlanetOrAsterInBeltDistToStar>0
+         then FCWinFUG.COO_Distance.Text:=floattostr( FCDfdComp1StarObjectsList[CurrentObject].OO_isSat_distanceFromPlanetOrAsterInBeltDistToStar )
          else FCWinFUG.COO_Distance.Text:='';
          {.geophysical data}
          FCWinFUG.COO_ObjecType.Text:=GetEnumName( TypeInfo( TFCEduOrbitalObjectBasicTypes ), Integer( FCDfdComp1StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_fug_BasicType ) );
@@ -1995,8 +1995,8 @@ begin
          else FCWinFUG.COO_Token.Text:='sat';
          if not FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_isSatellite
          then FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_isSatellite:=true;
-         if FCDfdComp2StarObjectsList[CurrentObject].OO_isSat_distanceFromPlanet>0
-         then FCWinFUG.COO_Distance.Text:=floattostr( FCDfdComp2StarObjectsList[CurrentObject].OO_isSat_distanceFromPlanet )
+         if FCDfdComp2StarObjectsList[CurrentObject].OO_isSat_distanceFromPlanetOrAsterInBeltDistToStar>0
+         then FCWinFUG.COO_Distance.Text:=floattostr( FCDfdComp2StarObjectsList[CurrentObject].OO_isSat_distanceFromPlanetOrAsterInBeltDistToStar )
          else FCWinFUG.COO_Distance.Text:='';
          {.geophysical data}
          FCWinFUG.COO_ObjecType.Text:=GetEnumName( TypeInfo( TFCEduOrbitalObjectBasicTypes ), Integer( FCDfdComp2StarObjectsList[CurrentObject].OO_satellitesList[CurrentSat].OO_fug_BasicType ) );

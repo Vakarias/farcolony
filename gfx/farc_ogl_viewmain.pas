@@ -1337,7 +1337,7 @@ begin
                            (                                                        //ok to fill the call w/ param and remove this
                               cKmTo3dViewUnits                                              //ok to fill the call w/ param and remove this
                               ,S_orbitalObjects[TDMVUorbObjCnt].OO_satellitesList[TDMVUsatIdx]   //ok to fill the call w/ param and remove this
-                                 .OO_isSat_distanceFromPlanet*1000                             //ok to fill the call w/ param and remove this
+                                 .OO_isSat_distanceFromPlanetOrAsterInBeltDistToStar*1000                             //ok to fill the call w/ param and remove this
                            );                                                               //ok to fill the call w/ param and remove this
                         FC3doglSatellitesObjectsGroups[TDMVUsatCnt].Position.X              //ok to fill the call w/ param and remove this
                            :=FC3doglObjectsGroups[TDMVUorbObjCnt].Position.X+(cos(LSVUangleRad)*LSVUsatDistUnit);//ok to fill the call w/ param and remove this
@@ -1374,7 +1374,7 @@ begin
                            (                            //ok to fill the call w/ param and remove this
                               cKmTo3dViewUnits       //ok to fill the call w/ param and remove this
                               ,S_orbitalObjects[TDMVUorbObjCnt].OO_satellitesList[TDMVUsatIdx] //ok to fill the call w/ param and remove this
-                                 .OO_isSat_distanceFromPlanet*1000       //ok to fill the call w/ param and remove this
+                                 .OO_isSat_distanceFromPlanetOrAsterInBeltDistToStar*1000       //ok to fill the call w/ param and remove this
                            );     //ok to fill the call w/ param and remove this
                         FC3doglSatellitesObjectsGroups[TDMVUsatCnt].Position.X     //ok to fill the call w/ param and remove this
                            :=FC3doglObjectsGroups[TDMVUorbObjCnt].Position.X+(cos(LSVUangleRad)*LSVUsatDistUnit);  //ok to fill the call w/ param and remove this
