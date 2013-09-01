@@ -382,7 +382,8 @@ procedure FCMfR_Resources_Phase1(
     Additions:
 }
    var
-      HydroArea
+      Count
+      ,HydroArea
       ,Max
       ,Region
       ,Spot
@@ -473,6 +474,7 @@ procedure FCMfR_Resources_Phase1(
       end;
 
 begin
+   Count:=0;
    HydroArea:=0;
    Max:=0;
    TectonicActivyIndex:=0;
@@ -495,9 +497,6 @@ begin
    if Satellite = 0 then
    begin
       ObjectType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_type;
-//      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_gravity <> 1
-//      then GravModifier:=round( ln( 1 / FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_gravity ) * 2.5 )
-//      else GravModifier:=0;
       if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphericPressure > 0
       then isAtmosphere:=true;
       DensityCoef:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_density / 551.5;
@@ -506,14 +505,10 @@ begin
       HydroArea:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_hydrosphereArea;
       TectonicActivyIndex:=integer( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_tectonicActivity );
       Max:=length( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions ) - 1;
-//      _TectonicActivityMod_Set( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_tectonicActivity );
    end
    else if Satellite > 0 then
    begin
       ObjectType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_type;
-//      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_gravity <> 1
-//      then GravModifier:=round( ln( 1 / FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_gravity ) * 10 ) - 10
-//      else GravModifier:=0;
       if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphericPressure > 0
       then isAtmosphere:=true;
       DensityCoef:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_density / 551.5;
@@ -522,14 +517,14 @@ begin
       HydroArea:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_hydrosphereArea;
       TectonicActivyIndex:=integer( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_tectonicActivity );
       Max:=length( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions ) - 1;
-//      _TectonicActivityMod_Set( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_tectonicActivity );
    end;
    _OreNatureCoefficients_Set( ObjectType );
    Spot:=0;
    Region:=1;
    while Region <= Max do
    begin
-      setlength( FCDfdRegions[Region].RC_rsrcSpots, 1 );
+      Spot:=0;
+      setlength( FCDfdRegions[Region].RC_rsrcSpots, Spot + 1 );
       {.hydrosphere locations}
       {:DEV NOTES:
          fCalc1: land/relief coefficient
@@ -619,7 +614,7 @@ begin
          else begin
             RandgStdev:=FCFcF_Round( rttCustom1Decimal, RsrcPotential * 0.1 ) * 2;
             RarityValue:=randg( RsrcPotential, RandgStdev );
-            if RarityValue < 0 then
+            if RarityValue <= 0 then
             begin
                dec( Spot );
                setlength( FCDfdRegions[Region].RC_rsrcSpots, Spot + 1 );
@@ -652,7 +647,7 @@ begin
          else begin
             RandgStdev:=FCFcF_Round( rttCustom1Decimal, RsrcPotential * 0.1 ) * 2;
             RarityValue:=randg( RsrcPotential, RandgStdev );
-            if RarityValue < 0 then
+            if RarityValue <= 0 then
             begin
                dec( Spot );
                setlength( FCDfdRegions[Region].RC_rsrcSpots, Spot + 1 );
@@ -698,7 +693,7 @@ begin
 
             rst15icySterile: RarityValue:=randg( RsrcPotential * 0.75, RandgStdev );
          end;
-         if RarityValue < 0 then
+         if RarityValue <= 0 then
          begin
             dec( Spot );
             setlength( FCDfdRegions[Region].RC_rsrcSpots, Spot + 1 );
@@ -747,7 +742,7 @@ begin
 
             rst15icySterile: RarityValue:=randg( RsrcPotential * 0.75, RandgStdev );
          end;
-         if RarityValue < 0 then
+         if RarityValue <= 0 then
          begin
             dec( Spot );
             setlength( FCDfdRegions[Region].RC_rsrcSpots, Spot + 1 );
@@ -798,7 +793,7 @@ begin
 
             rst14Sterile..rst15icySterile: RarityValue:=randg( RsrcPotential * 0.75, RandgStdev );
          end;
-         if RarityValue < 0 then
+         if RarityValue <= 0 then
          begin
             dec( Spot );
             setlength( FCDfdRegions[Region].RC_rsrcSpots, Spot + 1 );
@@ -859,7 +854,7 @@ begin
                else RarityValue:=randg( RsrcPotential * 0.5, RandgStdev );
             end;
          end;
-         if RarityValue < 0 then
+         if RarityValue <= 0 then
          begin
             dec( Spot );
             setlength( FCDfdRegions[Region].RC_rsrcSpots, Spot + 1 );
@@ -921,7 +916,7 @@ begin
 
                rst14Sterile..rst15icySterile: RarityValue:=0;
             end;
-            if RarityValue < 0 then
+            if RarityValue <= 0 then
             begin
                dec( Spot );
                setlength( FCDfdRegions[Region].RC_rsrcSpots, Spot + 1 );
@@ -1002,7 +997,7 @@ begin
                   else RarityValue:=randg( RsrcPotential, RandgStdev );
                end;
             end;
-            if RarityValue < 0 then
+            if RarityValue <= 0 then
             begin
                dec( Spot );
                setlength( FCDfdRegions[Region].RC_rsrcSpots, Spot + 1 );
@@ -1017,13 +1012,39 @@ begin
             end;
          end;
       end;
-
-      {:DEV NOTES: data loading
-      with a while max rsrcspots
-      .}
+      {.resource spots data loading}
+      Count:=1;
+      if Satellite = 0 then
+      begin
+         SetLength( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions[Region].OOR_resourceSpot, Spot + 1 );
+         while Count <= Spot do
+         begin
+            FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions[Region].OOR_resourceSpot[Count].RRS_type:=FCDfdRegions[Region].RC_rsrcSpots[Count].RRS_type;
+            FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions[Region].OOR_resourceSpot[Count].RRS_rarityVal:=FCDfdRegions[Region].RC_rsrcSpots[Count].RRS_rarityVal;
+            FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions[Region].OOR_resourceSpot[Count].RRS_rarity:=FCDfdRegions[Region].RC_rsrcSpots[Count].RRS_rarity;
+            FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions[Region].OOR_resourceSpot[Count].RRS_quality:=FCDfdRegions[Region].RC_rsrcSpots[Count].RRS_quality;
+            inc( Count );
+         end;
+      end
+      else if Satellite > 0 then
+      begin
+         SetLength( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Region].OOR_resourceSpot, Spot + 1 );
+         while Count <= Spot do
+         begin
+            FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Region].OOR_resourceSpot[Count].RRS_type:=FCDfdRegions[Region].RC_rsrcSpots[Count].RRS_type;
+            FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Region].OOR_resourceSpot[Count].RRS_rarityVal:=FCDfdRegions[Region].RC_rsrcSpots[Count].RRS_rarityVal;
+            FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Region].OOR_resourceSpot[Count].RRS_rarity:=FCDfdRegions[Region].RC_rsrcSpots[Count].RRS_rarity;
+            FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Region].OOR_resourceSpot[Count].RRS_quality:=FCDfdRegions[Region].RC_rsrcSpots[Count].RRS_quality;
+            inc( Count );
+         end;
+      end;
       inc( Region );
    end; //==END== while Region <= Max ==//
-   {:DEV NOTES: data load for subsurface ocean.}
+   {.data load for subsurface ocean}
+   if Satellite = 0
+   then FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_subsurfaceOcean:=hasaSubsurfaceOcean
+   else if Satellite > 0
+   then FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_subsurfaceOcean:=hasaSubsurfaceOcean;
 end;
 
 end.
