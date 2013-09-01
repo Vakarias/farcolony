@@ -167,6 +167,7 @@ procedure FCMfE_EnvironmentalModifiers_Process(
    );
 {:Purpose: process the environmental modifiers for each region.
     Additions:
+      -2013Sep01- *mod: atmosphereless object put air survey modifier into 0.
 }
    var
       Max
@@ -175,7 +176,8 @@ procedure FCMfE_EnvironmentalModifiers_Process(
       ,Region
       ,WindSpeed: integer;
 
-      EMO
+      AtmospherePress
+      ,EMO
       ,fCalc1: extended;
 
       IndexGravity
@@ -210,6 +212,7 @@ begin
    NO2SO2mod:=0;
    Region:=0;
 
+   AtmospherePress:=0;
    EMO:=0;
    fCalc1:=0;
 
@@ -224,19 +227,24 @@ begin
       IndexRadiations:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_habitabilityRadiations;
       IndexAtmosphere:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_habitabilityAtmosphere;
       IndexAtmPressure:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_habitabilityAtmPressure;
-      case FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceNO2 of
-         agsTrace: NO2SO2mod:=10;
+      AtmospherePress:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphericPressure;
+      if AtmospherePress = 0
+      then NO2SO2mod:=0
+      else begin
+         case FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceNO2 of
+            agsTrace: NO2SO2mod:=10;
 
-         agsSecondary: NO2SO2mod:=30;
+            agsSecondary: NO2SO2mod:=30;
 
-         agsMain: NO2SO2mod:=60
-      end;
-      case FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceSO2 of
-         agsTrace: NO2SO2mod:=NO2SO2mod + 10;
+            agsMain: NO2SO2mod:=60
+         end;
+         case FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceSO2 of
+            agsTrace: NO2SO2mod:=NO2SO2mod + 10;
 
-         agsSecondary: NO2SO2mod:=NO2SO2mod + 30;
+            agsSecondary: NO2SO2mod:=NO2SO2mod + 30;
 
-         agsMain: NO2SO2mod:=NO2SO2mod + 60
+            agsMain: NO2SO2mod:=NO2SO2mod + 60
+         end;
       end;
       Max:=length( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions ) - 1;
    end
@@ -245,19 +253,24 @@ begin
       IndexRadiations:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_habitabilityRadiations;
       IndexAtmosphere:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_habitabilityAtmosphere;
       IndexAtmPressure:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_habitabilityAtmPressure;
-      case FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceNO2 of
-         agsTrace: NO2SO2mod:=10;
+      AtmospherePress:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphericPressure;
+      if AtmospherePress = 0
+      then NO2SO2mod:=0
+      else begin
+         case FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceNO2 of
+            agsTrace: NO2SO2mod:=10;
 
-         agsSecondary: NO2SO2mod:=30;
+            agsSecondary: NO2SO2mod:=30;
 
-         agsMain: NO2SO2mod:=60
-      end;
-      case FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceSO2 of
-         agsTrace: NO2SO2mod:=NO2SO2mod + 10;
+            agsMain: NO2SO2mod:=60
+         end;
+         case FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceSO2 of
+            agsTrace: NO2SO2mod:=NO2SO2mod + 10;
 
-         agsSecondary: NO2SO2mod:=NO2SO2mod + 30;
+            agsSecondary: NO2SO2mod:=NO2SO2mod + 30;
 
-         agsMain: NO2SO2mod:=NO2SO2mod + 60
+            agsMain: NO2SO2mod:=NO2SO2mod + 60
+         end;
       end;
       Max:=length( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions ) - 1;
    end;
@@ -374,52 +387,56 @@ begin
       {.for the planetary survey - air}
       EMO:=0;
       fCalc1:=0;
-      case IndexAtmPressure of
-         higHostile_n: EMO:=120;
+      if AtmospherePress = 0
+      then EMO:=-100
+      else begin
+         case IndexAtmPressure of
+            higHostile_n: EMO:=120;
 
-         higHostile_p: EMO:=-100;
+            higHostile_p: EMO:=-100;
 
-         higBad_n: EMO:=60;
+            higBad_n: EMO:=60;
 
-         higBad_p: EMO:=-50;
+            higBad_p: EMO:=-50;
 
-         higMediocre_n: EMO:=30;
+            higMediocre_n: EMO:=30;
 
-         higMediocre_p: EMO:=-25;
+            higMediocre_p: EMO:=-25;
 
-         higAcceptable_n: EMO:=10;
+            higAcceptable_n: EMO:=10;
 
-         higAcceptable_p: EMO:=-15;
+            higAcceptable_p: EMO:=-15;
+         end;
+         case IndexGravity of
+            higHostile_n: EMO:=EMO + 5;
+
+            higHostile_p: EMO:=EMO + 15;
+
+            higBad_n: EMO:=EMO + 5;
+
+            higBad_p: EMO:=EMO + 10;
+
+            higMediocre_n: EMO:=EMO + 5;
+
+            higMediocre_p: EMO:=EMO + 5;
+
+            higAcceptable_n: EMO:=EMO + 5;
+
+            higAcceptable_p: EMO:=EMO + 5;
+         end;
+         case IndexRadiations of
+            higHostile: EMO:=EMO + 80;
+
+            higBad: EMO:=EMO + 40;
+
+            higMediocre: EMO:=EMO + 20;
+
+            higAcceptable: EMO:=EMO + 10;
+         end;
+         if Relief = rr9Mountain
+         then EMO:=EMO + 10;
+         EMO:=EMO + _WindMod( 1 );
       end;
-      case IndexGravity of
-         higHostile_n: EMO:=EMO + 5;
-
-         higHostile_p: EMO:=EMO + 15;
-
-         higBad_n: EMO:=EMO + 5;
-
-         higBad_p: EMO:=EMO + 10;
-
-         higMediocre_n: EMO:=EMO + 5;
-
-         higMediocre_p: EMO:=EMO + 5;
-
-         higAcceptable_n: EMO:=EMO + 5;
-
-         higAcceptable_p: EMO:=EMO + 5;
-      end;
-      case IndexRadiations of
-         higHostile: EMO:=EMO + 80;
-
-         higBad: EMO:=EMO + 40;
-
-         higMediocre: EMO:=EMO + 20;
-
-         higAcceptable: EMO:=EMO + 10;
-      end;
-      if Relief = rr9Mountain
-      then EMO:=EMO + 10;
-      EMO:=EMO + _WindMod( 1 );
       fCalc1:=( EMO + 100 ) * 0.01;
       if Satellite <= 0
       then FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions[Region].OOR_emo.EMO_planetarySurveyAir:=FCFcF_Round( rttCustom3Decimal, fCalc1 )
