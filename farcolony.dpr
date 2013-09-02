@@ -137,7 +137,8 @@ uses
   farc_fug_biospheresilicon in 'univ\farc_fug_biospheresilicon.pas',
   farc_fug_biosphereammonia in 'univ\farc_fug_biosphereammonia.pas',
   farc_fug_biospheremethane in 'univ\farc_fug_biospheremethane.pas',
-  farc_fug_biospheresulphurdioxide in 'univ\farc_fug_biospheresulphurdioxide.pas';
+  farc_fug_biospheresulphurdioxide in 'univ\farc_fug_biospheresulphurdioxide.pas',
+  farc_fug_biospherefunctions in 'univ\farc_fug_biospherefunctions.pas';
 
 {$R *.res}
 

@@ -159,6 +159,7 @@
 			<DCCReference Include="univ\farc_fug_biosphereammonia.pas"/>
 			<DCCReference Include="univ\farc_fug_biospheremethane.pas"/>
 			<DCCReference Include="univ\farc_fug_biospheresulphurdioxide.pas"/>
+			<DCCReference Include="univ\farc_fug_biospherefunctions.pas"/>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>
