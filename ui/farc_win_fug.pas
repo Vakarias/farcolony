@@ -535,6 +535,11 @@ begin
                   inc( Count3 );
                end;
                WF_XMLOutput.Lines.Add( '         </orbitalPeriods>' );
+               WF_XMLOutput.Lines.Add(
+                  '            <biosphereData level="'+GetEnumName( TypeInfo( TFCEduBiosphereLevels ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_biosphereLevel ) )
+                     +'" vigor="'+inttostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_biosphereVigor )
+                     +'"/>'
+                  );
                Max3:=length( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_regions ) - 1;
                if Max3 > 0 then
                begin
@@ -667,15 +672,20 @@ begin
                   begin
                      WF_XMLOutput.Lines.Add(
                         '               <period type="'+GetEnumName( TypeInfo( TFCEduOrbitalPeriodTypes ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_orbitalPeriods[Count3].OOS_orbitalPeriodType ) )
-                        +'" dayStart="'+inttostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_orbitalPeriods[Count3].OOS_dayStart )
-                        +'" dayEnd="'+inttostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_orbitalPeriods[Count3].OOS_dayEnd )
-                        +'" baseTemp="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_orbitalPeriods[Count3].OOS_baseTemperature )
-                        +'" surfaceTemp="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_orbitalPeriods[Count3].OOS_surfaceTemperature )
-                        +'"/>'
+                           +'" dayStart="'+inttostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_orbitalPeriods[Count3].OOS_dayStart )
+                           +'" dayEnd="'+inttostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_orbitalPeriods[Count3].OOS_dayEnd )
+                           +'" baseTemp="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_orbitalPeriods[Count3].OOS_baseTemperature )
+                           +'" surfaceTemp="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_orbitalPeriods[Count3].OOS_surfaceTemperature )
+                           +'"/>'
                         );
                      inc( Count3 );
                   end;
                   WF_XMLOutput.Lines.Add( '            </orbitalPeriods>' );
+                  WF_XMLOutput.Lines.Add(
+                     '            <biosphereData level="'+GetEnumName( TypeInfo( TFCEduBiosphereLevels ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_biosphereLevel ) )
+                        +'" vigor="'+inttostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_biosphereVigor )
+                        +'"/>'
+                     );
                   Max3:=length( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_regions ) - 1;
                   if Max3 > 0 then
                   begin

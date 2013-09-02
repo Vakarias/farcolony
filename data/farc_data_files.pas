@@ -1428,6 +1428,7 @@ procedure FCMdF_DBStarOrbitalObjects_Load( const StarSystemToken, StarToken: str
 {:Purpose: load the orbital objects, if there's any, of a specified star in the universe database XML file.
    Additions:
       -2013Sep01- *rem: resource spot quality is ditched, it will be generated after a new game setup.
+                  *add: biosphere level and vigor.
       -2013Aug31- *add: subsurface ocean.
       -2013Aug26- *add: habitability indexes.
       -2013Jul28- *mod: modification for the satellite's region data.
@@ -1668,6 +1669,14 @@ begin
                   XMLOObjSub1:= XMLOObjSub1.NextSibling;
                end;
             end //==END== else if DBSSPorbObjNode.NodeName='orbitalPeriods' ==//
+            else if XMLOrbitalObject.NodeName='biosphereData' then
+            begin
+               EnumIndex:=GetEnumValue( TypeInfo( TFCEduBiosphereLevels ), XMLOrbitalObject.Attributes['level'] );
+               FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_biosphereLevel:=TFCEduBiosphereLevels( EnumIndex );
+               if EnumIndex=-1
+               then raise Exception.Create( 'bad orbital object - biosphere level: '+XMLOrbitalObject.Attributes['level'] );
+               FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_biosphereVigor:=XMLOrbitalObject.Attributes['vigor'];
+            end
             else if XMLOrbitalObject.NodeName='regions' then
             begin
                FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_regionSurface:=StrToFloat( XMLOrbitalObject.Attributes['surface'], FCVdiFormat );
@@ -1899,6 +1908,14 @@ begin
                         XMLOObjSub1:= XMLOObjSub1.NextSibling;
                      end;
                   end //==END== else if DBSSPorbObjNode.NodeName='orbitalPeriods' ==//
+                  else if XMLOrbitalObject.NodeName='biosphereData' then
+                  begin
+                     EnumIndex:=GetEnumValue( TypeInfo( TFCEduBiosphereLevels ), XMLOrbitalObject.Attributes['level'] );
+                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_biosphereLevel:=TFCEduBiosphereLevels( EnumIndex );
+                     if EnumIndex=-1
+                     then raise Exception.Create( 'bad satellite - biosphere level: '+XMLOrbitalObject.Attributes['level'] );
+                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_biosphereVigor:=XMLOrbitalObject.Attributes['vigor'];
+                  end
                   else if XMSatellite.NodeName='regions' then
                   begin
                      FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_regionSurface:=StrToFloat( XMSatellite.Attributes['surface'], FCVdiFormat );

@@ -52,6 +52,38 @@ type TFCEduAtmosphericGasStatus=(
    ,agsMain
    );
 
+///<summary>
+///   biosphere levels, including the types of biosphere
+///</summary>
+type TFCEduBiosphereLevels=(
+   blNone
+   ,blFossils
+   ,blCarbon_Prebiotics
+   ,blCarbon_MicroOrganisms
+   ,blCarbon_Level1Organisms
+   ,blCarbon_Level2Organisms
+   ,blSilicon_Prebiotics
+   ,blSilicon_MicroOrganisms
+   ,blSilicon_Level1Organisms
+   ,blSilicon_Level2Organisms
+   ,blSilicon_Level3Organisms
+   ,blAmmonia_Prebiotics
+   ,blAmmonia_MicroOrganisms
+   ,blAmmonia_Level1Organisms
+   ,blAmmonia_Level2Organisms
+   ,blAmmonia_Level3Organisms
+   ,blMethane_Prebiotics
+   ,blMethane_MicroOrganisms
+   ,blMethane_Level1Organisms
+   ,blMethane_Level2Organisms
+   ,blMethane_Level3Organisms
+   ,blSulphurDioxide_Prebiotics
+   ,blSulphurDioxide_MicroOrganisms
+   ,blSulphurDioxide_Level1Organisms
+   ,blSulphurDioxide_Level2Organisms
+   ,blSulphurDioxide_Level3Organisms
+   );
+
 {:REFERENCES LIST
    - universe.xml
    - FCMdFiles_DBstarSys_Process
@@ -791,6 +823,14 @@ type TFCRduOrbitalObject = record
    ///   indicate if the object has a subsurface ocean or not
    ///</summary>
    OO_subsurfaceOcean: boolean;
+   ///<summary>
+   ///   biosphere level - BIOL
+   ///</summary>
+   OO_biosphereLevel: TFCEduBiosphereLevels;
+   ///<summary>
+   ///   biosphere vigor - BIVI
+   ///</summary>
+   OO_biosphereVigor: integer;
    ///<summary>
    ///   specific data if an orbital object is a satellite or not
    ///</summary>
