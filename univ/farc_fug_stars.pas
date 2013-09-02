@@ -54,7 +54,7 @@ uses
 ///   <param name="Mass">star mass, Sun equivalent</param>
 ///   <param name="Luminosity">star luminosity, Sun equivalent</param>
 ///   <returns>the age in GY</returns>
-///   <remarks></remarks>
+///   <remarks>no formatting is applied. the data is an extended</remarks>
 function FCFfS_Age_Calc( const Mass, Luminosity: extended ): extended;
 
 ///<summary>

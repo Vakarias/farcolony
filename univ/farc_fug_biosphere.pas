@@ -78,7 +78,8 @@ procedure FCMfB_FossilePresence_Test(
 implementation
 
 uses
-   farc_data_univ;
+   farc_data_univ
+   ,farc_fug_stars;
 
 //==END PRIVATE ENUM========================================================================
 
@@ -103,7 +104,11 @@ procedure FCMfB_BiosphereBase_Generation(
     Additions:
 }
    var
-      AtmospherePressure: extended;
+      AtmospherePressure
+      ,StarAge: extended;
+
+      HasExtremeTectonic
+      ,HasSubsurfaceOcean: boolean;
 
       ObjectType: TFCEduOrbitalObjectTypes;
 
@@ -112,25 +117,29 @@ procedure FCMfB_BiosphereBase_Generation(
    end;
 begin
    AtmospherePressure:=0;
+   StarAge:=0;
+
+   HasExtremeTectonic:=false;
+   HasSubsurfaceOcean:=false;
 
    if Satellite <= 0 then
    begin
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_biosphereLevel:=blNone;
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_biosphereVigor:=0;
       AtmospherePressure:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphericPressure;
       ObjectType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_type;
-//      IndexRadiations:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_habitabilityRadiations;
-//      IndexAtmosphere:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_habitabilityAtmosphere;
-//      IndexAtmPressure:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_habitabilityAtmPressure;
-//      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceO2 > agsTrace
-//      then isO2AtLeastSecondary:=true;
+      HasSubsurfaceOcean:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_subsurfaceOcean;
+      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_tectonicActivity = taExtreme
+      then HasExtremeTectonic:=true;
    end
    else begin
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_biosphereLevel:=blNone;
+      FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_biosphereVigor:=0;
       AtmospherePressure:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphericPressure;
       ObjectType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_type;
-//      IndexRadiations:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_habitabilityRadiations;
-//      IndexAtmosphere:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_habitabilityAtmosphere;
-//      IndexAtmPressure:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_habitabilityAtmPressure;
-//      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceO2 > agsTrace
-//      then isO2AtLeastSecondary:=true;
+      HasSubsurfaceOcean:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_subsurfaceOcean;
+      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_tectonicActivity = taExtreme
+      then HasExtremeTectonic:=true;
    end;
    if AtmospherePressure <= 0 then
    begin
@@ -140,9 +149,33 @@ begin
          Star
          ,OrbitalObject
          ,Satellite
-         );
+         )
+      else if ( ( ObjectType = oot_Planet_Icy ) or ( ObjectType = ootSatellite_Planet_Icy ) )
+         and ( not HasSubsurfaceOcean )
+      then FCMfB_FossilePresence_Test(
+         Star
+         ,OrbitalObject
+         ,Satellite
+         )
+      else if ( ( ObjectType = oot_Planet_Icy ) or ( ObjectType = ootSatellite_Planet_Icy ) )
+         and ( HasSubsurfaceOcean )
+      then _Biochemistry_Branching;
    end
    else begin
+      StarAge:=FCFfS_Age_Calc( FCDduStarSystem[0].SS_stars[Star].S_mass, FCDduStarSystem[0].SS_stars[Star].S_luminosity );
+      if StarAge <= 0.1
+      then FCMfB_FossilePresence_Test(
+         Star
+         ,OrbitalObject
+         ,Satellite
+         )
+      else if HasExtremeTectonic
+      then FCMfB_FossilePresence_Test(
+         Star
+         ,OrbitalObject
+         ,Satellite
+         )
+      else _Biochemistry_Branching;
    end;
 end;
 
