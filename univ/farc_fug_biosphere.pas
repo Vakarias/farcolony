@@ -82,6 +82,11 @@ implementation
 uses
    farc_common_func
    ,farc_data_univ
+   ,farc_fug_biosphereammonia
+   ,farc_fug_biospherecarbon
+   ,farc_fug_biospheremethane
+   ,farc_fug_biospheresilicon
+   ,farc_fug_biospheresulphurdioxide
    ,farc_fug_stars;
 
 //==END PRIVATE ENUM========================================================================
@@ -130,7 +135,46 @@ procedure FCMfB_BiosphereBase_Generation(
    procedure _Biochemistry_Branching;
    begin
       {.methane-based branching}
-//      if ( HydroType = hMethaneLiquid ) and ( ( gasN2 = agsMain
+      if ( ( HydroType = hMethaneLiquid ) and ( ( gasCH4 = agsPrimary ) or ( gasN2 = agsPrimary ) ) )
+         or ( ( HasSubsurfaceOcean ) and ( HydroType in [hMethaneIceSheet..hMethaneIceCrust] ) )
+      then FCMfbM_PrebioticsStage_Test(
+         Star
+         ,OrbitalObject
+         ,Satellite
+         )
+      {.ammonia-based branching}
+      else if ( ( HydroType = hWaterAmmoniaLiquid ) and ( ( gasNH3 = agsPrimary ) or ( gasH2 = agsPrimary ) or ( gasN2 = agsPrimary ) ) and ( gasO2 <= agsTrace ) )
+         or ( ( HasSubsurfaceOcean ) and ( HydroType in [hNitrogenIceSheet..hNitrogenIceCrust] ) )
+      then FCMfbA_PrebioticsStage_Test(
+         Star
+         ,OrbitalObject
+         ,Satellite
+         )
+      {.silicon-based branching}
+      else if ( HydroType = hNoHydro )
+         and ( ( gasH2 = agsPrimary ) or ( gasSO2 = agsPrimary ) )
+         and ( gasO2 <= agsTrace )
+      then FCMfbS_PrebioticsStage_Test(
+         Star
+         ,OrbitalObject
+         ,Satellite
+         )
+      {.sulphur dioxide-based branching}
+      else if ( ( HydroType = hNoHydro ) and ( gasH2S = agsPrimary ) )
+         or ( ( HydroType = hWaterLiquid ) and ( ( gasNO2 = agsPrimary ) or ( gasSO2 = agsPrimary ) ) )
+      then FCMfbsD_PrebioticsStage_Test(
+         Star
+         ,OrbitalObject
+         ,Satellite
+         )
+      {.carbon-based branching}
+      else if ( ( HydroType = hWaterLiquid ) and ( ( gasCO2 = agsPrimary ) or ( gasN2 = agsPrimary ) ) )
+         or ( ( HasSubsurfaceOcean ) and ( HydroType in [hWaterIceSheet..hWaterIceCrust] ) )
+      then FCMfbC_PrebioticsStage_Test(
+         Star
+         ,OrbitalObject
+         ,Satellite
+         );
    end;
 begin
    AtmospherePressure:=0;
