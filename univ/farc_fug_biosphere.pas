@@ -45,9 +45,40 @@ interface
 
 //===========================END FUNCTIONS SECTION==========================================
 
+
+
+///<summary>
+///   generate the basic biosphere's data
+///</summary>
+/// <param name="Star">star index #</param>
+/// <param name="OrbitalObject">orbital object index #</param>
+/// <param name="Satellite">OPTIONAL: satellite index #</param>
+/// <returns></returns>
+/// <remarks></remarks>
+procedure FCMfB_BiosphereBase_Generation(
+   const Star
+         ,OrbitalObject: integer;
+   const Satellite: integer=0
+   );
+
+///<summary>
+///   test any presence of fossiles
+///</summary>
+/// <param name="Star">star index #</param>
+/// <param name="OrbitalObject">orbital object index #</param>
+/// <param name="Satellite">OPTIONAL: satellite index #</param>
+///   <returns></returns>
+///   <remarks></remarks>
+procedure FCMfB_FossilePresence_Test(
+   const Star
+         ,OrbitalObject: integer;
+   const Satellite: integer=0
+   );
+
 implementation
 
-//uses
+uses
+   farc_data_univ;
 
 //==END PRIVATE ENUM========================================================================
 
@@ -63,7 +94,69 @@ implementation
 //===================================================END OF INIT============================
 //===========================END FUNCTIONS SECTION==========================================
 
-//farc_fug_biosphere
+procedure FCMfB_BiosphereBase_Generation(
+   const Star
+         ,OrbitalObject: integer;
+   const Satellite: integer=0
+   );
+{:Purpose: generate the basic biosphere's data.
+    Additions:
+}
+   var
+      AtmospherePressure: extended;
+
+      ObjectType: TFCEduOrbitalObjectTypes;
+
+   procedure _Biochemistry_Branching;
+   begin
+   end;
+begin
+   AtmospherePressure:=0;
+
+   if Satellite <= 0 then
+   begin
+      AtmospherePressure:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphericPressure;
+      ObjectType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_type;
+//      IndexRadiations:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_habitabilityRadiations;
+//      IndexAtmosphere:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_habitabilityAtmosphere;
+//      IndexAtmPressure:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_habitabilityAtmPressure;
+//      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceO2 > agsTrace
+//      then isO2AtLeastSecondary:=true;
+   end
+   else begin
+      AtmospherePressure:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphericPressure;
+      ObjectType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_type;
+//      IndexRadiations:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_habitabilityRadiations;
+//      IndexAtmosphere:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_habitabilityAtmosphere;
+//      IndexAtmPressure:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_habitabilityAtmPressure;
+//      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceO2 > agsTrace
+//      then isO2AtLeastSecondary:=true;
+   end;
+   if AtmospherePressure <= 0 then
+   begin
+      if ( ObjectType = oot_Planet_Telluric )
+         or ( ObjectType = ootSatellite_Planet_Telluric )
+      then FCMfB_FossilePresence_Test(
+         Star
+         ,OrbitalObject
+         ,Satellite
+         );
+   end
+   else begin
+   end;
+end;
+
+procedure FCMfB_FossilePresence_Test(
+   const Star
+         ,OrbitalObject: integer;
+   const Satellite: integer=0
+   );
+{:Purpose: test any presence of fossiles.
+    Additions:
+}
+begin
+
+end;
 
 //put root + fossil testing
 

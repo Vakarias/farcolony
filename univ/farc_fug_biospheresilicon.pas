@@ -45,6 +45,20 @@ interface
 
 //===========================END FUNCTIONS SECTION==========================================
 
+///<summary>
+///   process and test the silicon-based prebiotics evolution stage
+///</summary>
+/// <param name="Star">star index #</param>
+/// <param name="OrbitalObject">orbital object index #</param>
+/// <param name="Satellite">OPTIONAL: satellite index #</param>
+///   <returns></returns>
+///   <remarks></remarks>
+procedure FCMfbS_PrebioticsStage_Test(
+   const Star
+         ,OrbitalObject: integer;
+   const Satellite: integer=0
+   );
+
 implementation
 
 //uses
@@ -63,6 +77,16 @@ implementation
 //===================================================END OF INIT============================
 //===========================END FUNCTIONS SECTION==========================================
 
-// include StagePrebiotics_Process
+procedure FCMfbS_PrebioticsStage_Test(
+   const Star
+         ,OrbitalObject: integer;
+   const Satellite: integer=0
+   );
+{:Purpose: process and test the silicon-based prebiotics evolution stage.
+    Additions:
+}
+begin
+
+end;
 
 end.

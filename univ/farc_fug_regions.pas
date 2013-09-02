@@ -65,6 +65,7 @@ implementation
 uses
    farc_common_func
    ,farc_data_univ
+   ,farc_fug_biosphere
    ,farc_fug_data
    ,farc_fug_environments
    ,farc_fug_fractalterrains
@@ -234,7 +235,11 @@ begin
       ,OrbitalObject
       ,Satellite
       );
-   {:DEV NOTES: biosphere.}
+   FCMfB_BiosphereBase_Generation(
+      Star
+      ,OrbitalObject
+      ,Satellite
+      );
    FCMfE_Environment_Process(
       Star
       ,OrbitalObject
