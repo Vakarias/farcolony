@@ -201,21 +201,21 @@ begin
    StarAge:=FCFfS_Age_Calc( FCDduStarSystem[0].SS_stars[Star].S_mass, FCDduStarSystem[0].SS_stars[Star].S_luminosity );
    if AtmospherePressure <= 0 then
    begin
-      if ( ObjectType = oot_Planet_Telluric )
+      if ( ObjectType = ootPlanet_Telluric )
          or ( ObjectType = ootSatellite_Planet_Telluric )
       then FCMfB_FossilPresence_Test(
          Star
          ,OrbitalObject
          ,Satellite
          )
-      else if ( ( ObjectType = oot_Planet_Icy ) or ( ObjectType = ootSatellite_Planet_Icy ) )
+      else if ( ( ObjectType = ootPlanet_Icy ) or ( ObjectType = ootSatellite_Planet_Icy ) )
          and ( not HasSubsurfaceOcean )
       then FCMfB_FossilPresence_Test(
          Star
          ,OrbitalObject
          ,Satellite
          )
-      else if ( ( ObjectType = oot_Planet_Icy ) or ( ObjectType = ootSatellite_Planet_Icy ) )
+      else if ( ( ObjectType = ootPlanet_Icy ) or ( ObjectType = ootSatellite_Planet_Icy ) )
          and ( HasSubsurfaceOcean )
       then _Biochemistry_Branching;
    end
@@ -259,7 +259,7 @@ begin
    if Satellite <= 0
    then ObjectType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_type
    else ObjectType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_type;
-   if ( ( ObjectType = oot_Planet_Telluric ) or ( ObjectType = ootSatellite_Planet_Telluric ) )
+   if ( ( ObjectType = ootPlanet_Telluric ) or ( ObjectType = ootSatellite_Planet_Telluric ) )
       and ( StarAge >= 1 ) then
    begin
       if FCDduStarSystem[0].SS_stars[Star].S_class >= WD0

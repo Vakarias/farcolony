@@ -193,73 +193,73 @@ begin
    if ( Satellite = 0 )
       and ( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphericPressure > 0 ) then
    begin
-      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceH2=agsMain
+      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceH2=agsPrimary
       then inc( Result);
-      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceHe=agsMain
+      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceHe=agsPrimary
       then inc( Result);
-      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceCH4=agsMain
+      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceCH4=agsPrimary
       then inc( Result);
-      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceNH3=agsMain
+      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceNH3=agsPrimary
       then inc( Result);
-      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceH2O=agsMain
+      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceH2O=agsPrimary
       then inc( Result);
-      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceNe=agsMain
+      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceNe=agsPrimary
       then inc( Result);
-      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceN2=agsMain
+      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceN2=agsPrimary
       then inc( Result);
-      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceCO=agsMain
+      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceCO=agsPrimary
       then inc( Result);
-      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceNO=agsMain
+      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceNO=agsPrimary
       then inc( Result);
-      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceO2=agsMain
+      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceO2=agsPrimary
       then inc( Result);
-      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceH2S=agsMain
+      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceH2S=agsPrimary
       then inc( Result);
-      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceAr=agsMain
+      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceAr=agsPrimary
       then inc( Result);
-      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceCO2=agsMain
+      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceCO2=agsPrimary
       then inc( Result);
-      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceNO2=agsMain
+      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceNO2=agsPrimary
       then inc( Result);
-      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceO3=agsMain
+      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceO3=agsPrimary
       then inc( Result);
-      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceSO2=agsMain
+      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceSO2=agsPrimary
       then inc( Result);
    end
    else if ( Satellite > 0 )
       and ( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphericPressure > 0 ) then
    begin
-      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceH2=agsMain
+      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceH2=agsPrimary
       then inc( Result);
-      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceHe=agsMain
+      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceHe=agsPrimary
       then inc( Result);
-      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceCH4=agsMain
+      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceCH4=agsPrimary
       then inc( Result);
-      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceNH3=agsMain
+      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceNH3=agsPrimary
       then inc( Result);
-      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceH2O=agsMain
+      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceH2O=agsPrimary
       then inc( Result);
-      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceNe=agsMain
+      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceNe=agsPrimary
       then inc( Result);
-      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceN2=agsMain
+      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceN2=agsPrimary
       then inc( Result);
-      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceCO=agsMain
+      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceCO=agsPrimary
       then inc( Result);
-      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceNO=agsMain
+      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceNO=agsPrimary
       then inc( Result);
-      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceO2=agsMain
+      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceO2=agsPrimary
       then inc( Result);
-      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceH2S=agsMain
+      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceH2S=agsPrimary
       then inc( Result);
-      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceAr=agsMain
+      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceAr=agsPrimary
       then inc( Result);
-      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceCO2=agsMain
+      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceCO2=agsPrimary
       then inc( Result);
-      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceNO2=agsMain
+      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceNO2=agsPrimary
       then inc( Result);
-      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceO3=agsMain
+      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceO3=agsPrimary
       then inc( Result);
-      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceSO2=agsMain
+      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceSO2=agsPrimary
       then inc( Result);
    end;
 end;
@@ -315,29 +315,29 @@ procedure FCMfA_Atmosphere_Processing(
          Result:=true;
          inc( PrimaryGasCount );
          if GasSettings.AC_gasPresenceH2O=agsSecondary
-         then GasSettings.AC_gasPresenceH2O:=agsMain
+         then GasSettings.AC_gasPresenceH2O:=agsPrimary
          else if GasSettings.AC_gasPresenceNe=agsSecondary
-         then GasSettings.AC_gasPresenceNe:=agsMain
+         then GasSettings.AC_gasPresenceNe:=agsPrimary
          else if GasSettings.AC_gasPresenceN2=agsSecondary
-         then GasSettings.AC_gasPresenceN2:=agsMain
+         then GasSettings.AC_gasPresenceN2:=agsPrimary
          else if GasSettings.AC_gasPresenceCO=agsSecondary
-         then GasSettings.AC_gasPresenceCO:=agsMain
+         then GasSettings.AC_gasPresenceCO:=agsPrimary
          else if GasSettings.AC_gasPresenceNO=agsSecondary
-         then GasSettings.AC_gasPresenceNO:=agsMain
+         then GasSettings.AC_gasPresenceNO:=agsPrimary
          else if GasSettings.AC_gasPresenceO2=agsSecondary
-         then GasSettings.AC_gasPresenceO2:=agsMain
+         then GasSettings.AC_gasPresenceO2:=agsPrimary
          else if GasSettings.AC_gasPresenceH2S=agsSecondary
-         then GasSettings.AC_gasPresenceH2S:=agsMain
+         then GasSettings.AC_gasPresenceH2S:=agsPrimary
          else if GasSettings.AC_gasPresenceAr=agsSecondary
-         then GasSettings.AC_gasPresenceAr:=agsMain
+         then GasSettings.AC_gasPresenceAr:=agsPrimary
          else if GasSettings.AC_gasPresenceCO2=agsSecondary
-         then GasSettings.AC_gasPresenceCO2:=agsMain
+         then GasSettings.AC_gasPresenceCO2:=agsPrimary
          else if GasSettings.AC_gasPresenceNO2=agsSecondary
-         then GasSettings.AC_gasPresenceNO2:=agsMain
+         then GasSettings.AC_gasPresenceNO2:=agsPrimary
          else if GasSettings.AC_gasPresenceO3=agsSecondary
-         then GasSettings.AC_gasPresenceO3:=agsMain
+         then GasSettings.AC_gasPresenceO3:=agsPrimary
          else if GasSettings.AC_gasPresenceSO2=agsSecondary
-         then GasSettings.AC_gasPresenceSO2:=agsMain
+         then GasSettings.AC_gasPresenceSO2:=agsPrimary
          else begin
             Result:=false;
             dec( PrimaryGasCount );
@@ -359,28 +359,28 @@ procedure FCMfA_Atmosphere_Processing(
          case Stat of
             1..3:
             begin
-               GasSettings.AC_gasPresenceH2:=agsMain;
-               GasSettings.AC_gasPresenceCO:=agsMain;
+               GasSettings.AC_gasPresenceH2:=agsPrimary;
+               GasSettings.AC_gasPresenceCO:=agsPrimary;
                PrimaryGasCount:=2;
             end;
 
             4..6:
             begin
-               GasSettings.AC_gasPresenceCO:=agsMain;
+               GasSettings.AC_gasPresenceCO:=agsPrimary;
                PrimaryGasCount:=1;
             end;
 
             7..8:
             begin
-               GasSettings.AC_gasPresenceH2:=agsMain;
-               GasSettings.AC_gasPresenceCO:=agsMain;
+               GasSettings.AC_gasPresenceH2:=agsPrimary;
+               GasSettings.AC_gasPresenceCO:=agsPrimary;
                isVeryDense:=true;
                PrimaryGasCount:=2;
             end;
 
             9..10:
             begin
-               GasSettings.AC_gasPresenceCO:=agsMain;
+               GasSettings.AC_gasPresenceCO:=agsPrimary;
                isVeryDense:=true;
                PrimaryGasCount:=1;
             end;
@@ -439,26 +439,26 @@ begin
          case Stat of
             1..4:
             begin
-               GasSettings.AC_gasPresenceH2:=agsMain;
+               GasSettings.AC_gasPresenceH2:=agsPrimary;
                PrimaryGasCount:=1;
             end;
 
             5..6:
             begin
-               GasSettings.AC_gasPresenceHe:=agsMain;
+               GasSettings.AC_gasPresenceHe:=agsPrimary;
                PrimaryGasCount:=1;
             end;
 
             7..8:
             begin
-               GasSettings.AC_gasPresenceH2:=agsMain;
-               GasSettings.AC_gasPresenceHe:=agsMain;
+               GasSettings.AC_gasPresenceH2:=agsPrimary;
+               GasSettings.AC_gasPresenceHe:=agsPrimary;
                PrimaryGasCount:=2;
             end;
 
             9:
             begin
-               GasSettings.AC_gasPresenceNe:=agsMain;
+               GasSettings.AC_gasPresenceNe:=agsPrimary;
                PrimaryGasCount:=1;
             end;
 
@@ -471,30 +471,30 @@ begin
          case Stat of
             1..4:
             begin
-               GasSettings.AC_gasPresenceN2:=agsMain;
-               GasSettings.AC_gasPresenceCH4:=agsMain;
+               GasSettings.AC_gasPresenceN2:=agsPrimary;
+               GasSettings.AC_gasPresenceCH4:=agsPrimary;
                PrimaryGasCount:=2;
             end;
 
             5..6:
             begin
-               GasSettings.AC_gasPresenceH2:=agsMain;
-               GasSettings.AC_gasPresenceHe:=agsMain;
-               GasSettings.AC_gasPresenceN2:=agsMain;
+               GasSettings.AC_gasPresenceH2:=agsPrimary;
+               GasSettings.AC_gasPresenceHe:=agsPrimary;
+               GasSettings.AC_gasPresenceN2:=agsPrimary;
                PrimaryGasCount:=3;
             end;
 
             7..8:
             begin
-               GasSettings.AC_gasPresenceN2:=agsMain;
-               GasSettings.AC_gasPresenceCO:=agsMain;
+               GasSettings.AC_gasPresenceN2:=agsPrimary;
+               GasSettings.AC_gasPresenceCO:=agsPrimary;
                PrimaryGasCount:=2;
             end;
 
             9:
             begin
-               GasSettings.AC_gasPresenceH2:=agsMain;
-               GasSettings.AC_gasPresenceHe:=agsMain;
+               GasSettings.AC_gasPresenceH2:=agsPrimary;
+               GasSettings.AC_gasPresenceHe:=agsPrimary;
                PrimaryGasCount:=2;
             end;
 
@@ -507,28 +507,28 @@ begin
          case Stat of
             1..4:
             begin
-               GasSettings.AC_gasPresenceN2:=agsMain;
-               GasSettings.AC_gasPresenceCO2:=agsMain;
+               GasSettings.AC_gasPresenceN2:=agsPrimary;
+               GasSettings.AC_gasPresenceCO2:=agsPrimary;
                PrimaryGasCount:=2;
             end;
 
             5..6:
             begin
-               GasSettings.AC_gasPresenceCO2:=agsMain;
+               GasSettings.AC_gasPresenceCO2:=agsPrimary;
                PrimaryGasCount:=1;
             end;
 
             7..8:
             begin
-               GasSettings.AC_gasPresenceN2:=agsMain;
-               GasSettings.AC_gasPresenceCH4:=agsMain;
+               GasSettings.AC_gasPresenceN2:=agsPrimary;
+               GasSettings.AC_gasPresenceCH4:=agsPrimary;
                PrimaryGasCount:=2;
             end;
 
             9:
             begin
-               GasSettings.AC_gasPresenceH2:=agsMain;
-               GasSettings.AC_gasPresenceHe:=agsMain;
+               GasSettings.AC_gasPresenceH2:=agsPrimary;
+               GasSettings.AC_gasPresenceHe:=agsPrimary;
                PrimaryGasCount:=2;
             end;
 
@@ -541,29 +541,29 @@ begin
          case Stat of
             1..4:
             begin
-               GasSettings.AC_gasPresenceN2:=agsMain;
-               GasSettings.AC_gasPresenceCO2:=agsMain;
+               GasSettings.AC_gasPresenceN2:=agsPrimary;
+               GasSettings.AC_gasPresenceCO2:=agsPrimary;
                PrimaryGasCount:=2;
             end;
 
             5..6:
             begin
-               GasSettings.AC_gasPresenceCO2:=agsMain;
+               GasSettings.AC_gasPresenceCO2:=agsPrimary;
                PrimaryGasCount:=1;
             end;
 
             7..8:
             begin
-               GasSettings.AC_gasPresenceN2:=agsMain;
-               GasSettings.AC_gasPresenceCH4:=agsMain;
+               GasSettings.AC_gasPresenceN2:=agsPrimary;
+               GasSettings.AC_gasPresenceCH4:=agsPrimary;
                PrimaryGasCount:=2;
             end;
 
             9:
             begin
-               GasSettings.AC_gasPresenceCO2:=agsMain;
-               GasSettings.AC_gasPresenceCH4:=agsMain;
-               GasSettings.AC_gasPresenceNH3:=agsMain;
+               GasSettings.AC_gasPresenceCO2:=agsPrimary;
+               GasSettings.AC_gasPresenceCH4:=agsPrimary;
+               GasSettings.AC_gasPresenceNH3:=agsPrimary;
                PrimaryGasCount:=3;
             end;
 
@@ -575,27 +575,27 @@ begin
          case Stat of
             1..4:
             begin
-               GasSettings.AC_gasPresenceN2:=agsMain;
-               GasSettings.AC_gasPresenceCO2:=agsMain;
+               GasSettings.AC_gasPresenceN2:=agsPrimary;
+               GasSettings.AC_gasPresenceCO2:=agsPrimary;
                PrimaryGasCount:=2;
             end;
 
             5..6:
             begin
-               GasSettings.AC_gasPresenceCO2:=agsMain;
+               GasSettings.AC_gasPresenceCO2:=agsPrimary;
                PrimaryGasCount:=1;
             end;
 
             7..8:
             begin
-               GasSettings.AC_gasPresenceNO2:=agsMain;
-               GasSettings.AC_gasPresenceSO2:=agsMain;
+               GasSettings.AC_gasPresenceNO2:=agsPrimary;
+               GasSettings.AC_gasPresenceSO2:=agsPrimary;
                PrimaryGasCount:=2;
             end;
 
             9:
             begin
-               GasSettings.AC_gasPresenceSO2:=agsMain;
+               GasSettings.AC_gasPresenceSO2:=agsPrimary;
                PrimaryGasCount:=1;
             end;
 
@@ -607,28 +607,28 @@ begin
    begin
       if BaseTemperature <= 50 then
       begin
-         GasSettings.AC_gasPresenceCH4:=agsMain;
-         GasSettings.AC_gasPresenceNH3:=agsMain;
+         GasSettings.AC_gasPresenceCH4:=agsPrimary;
+         GasSettings.AC_gasPresenceNH3:=agsPrimary;
          PrimaryGasCount:=2;
       end
       else if ( BaseTemperature > 50 )
          and ( BaseTemperature <= 150 ) then
       begin
-         GasSettings.AC_gasPresenceH2:=agsMain;
-         GasSettings.AC_gasPresenceHe:=agsMain;
-         GasSettings.AC_gasPresenceCH4:=agsMain;
+         GasSettings.AC_gasPresenceH2:=agsPrimary;
+         GasSettings.AC_gasPresenceHe:=agsPrimary;
+         GasSettings.AC_gasPresenceCH4:=agsPrimary;
          PrimaryGasCount:=3;
       end
       else if ( BaseTemperature > 150 )
          and ( BaseTemperature <= 400 ) then
       begin
-         GasSettings.AC_gasPresenceH2:=agsMain;
-         GasSettings.AC_gasPresenceHe:=agsMain;
+         GasSettings.AC_gasPresenceH2:=agsPrimary;
+         GasSettings.AC_gasPresenceHe:=agsPrimary;
          PrimaryGasCount:=2;
       end
       else if BaseTemperature > 400 then
       begin
-         GasSettings.AC_gasPresenceCO2:=agsMain;
+         GasSettings.AC_gasPresenceCO2:=agsPrimary;
          PrimaryGasCount:=1;
       end;
    end; //==END== if BasicType=oobtGaseousPlanet ==//
@@ -694,7 +694,7 @@ begin
                if ( GasVelocity > EscapeVelocity )
                   and ( not isVeryDense ) then
                begin
-                  if GasSettings.AC_gasPresenceH2=agsMain then
+                  if GasSettings.AC_gasPresenceH2=agsPrimary then
                   begin
                      dec( PrimaryGasCount );
                      if PrimaryGasCount <= 0
@@ -705,7 +705,7 @@ begin
                else if ( GasVelocity > EscapeVelocity )
                   and ( isVeryDense ) then
                begin
-                  if GasSettings.AC_gasPresenceH2=agsMain then
+                  if GasSettings.AC_gasPresenceH2=agsPrimary then
                   begin
                      if PrimaryGasCount-1 > 0 then
                      begin
@@ -718,7 +718,7 @@ begin
                else if ( GasVelocity <= EscapeVelocity )
                   and ( GasSettings.AC_traceAtmosphere )
                then GasSettings.AC_gasPresenceH2:=agsTrace
-               else if GasSettings.AC_gasPresenceH2 < agsMain then
+               else if GasSettings.AC_gasPresenceH2 < agsPrimary then
                begin
                   TestBool:=_SecondaryGas_test;
                   if not TestBool
@@ -733,7 +733,7 @@ begin
                if ( GasVelocity > EscapeVelocity )
                   and ( not isVeryDense ) then
                begin
-                  if GasSettings.AC_gasPresenceHe=agsMain then
+                  if GasSettings.AC_gasPresenceHe=agsPrimary then
                   begin
                      dec( PrimaryGasCount );
                      if PrimaryGasCount <= 0
@@ -744,7 +744,7 @@ begin
                else if ( GasVelocity > EscapeVelocity )
                   and ( isVeryDense ) then
                begin
-                  if GasSettings.AC_gasPresenceHe=agsMain then
+                  if GasSettings.AC_gasPresenceHe=agsPrimary then
                   begin
                      if PrimaryGasCount-1 > 0 then
                      begin
@@ -757,7 +757,7 @@ begin
                else if ( GasVelocity <= EscapeVelocity )
                   and ( GasSettings.AC_traceAtmosphere )
                then GasSettings.AC_gasPresenceHe:=agsTrace
-               else if GasSettings.AC_gasPresenceHe < agsMain then
+               else if GasSettings.AC_gasPresenceHe < agsPrimary then
                begin
                   TestBool:=_SecondaryGas_test;
                   if not TestBool
@@ -772,7 +772,7 @@ begin
                if ( GasVelocity > EscapeVelocity )
                   and ( not isVeryDense ) then
                begin
-                  if GasSettings.AC_gasPresenceCH4=agsMain then
+                  if GasSettings.AC_gasPresenceCH4=agsPrimary then
                   begin
                      dec( PrimaryGasCount );
                      if PrimaryGasCount <= 0
@@ -783,7 +783,7 @@ begin
                else if ( GasVelocity > EscapeVelocity )
                   and ( isVeryDense ) then
                begin
-                  if GasSettings.AC_gasPresenceCH4=agsMain then
+                  if GasSettings.AC_gasPresenceCH4=agsPrimary then
                   begin
                      if PrimaryGasCount-1 > 0 then
                      begin
@@ -796,7 +796,7 @@ begin
                else if ( GasVelocity <= EscapeVelocity )
                   and ( GasSettings.AC_traceAtmosphere )
                then GasSettings.AC_gasPresenceCH4:=agsTrace
-               else if GasSettings.AC_gasPresenceCH4 < agsMain then
+               else if GasSettings.AC_gasPresenceCH4 < agsPrimary then
                begin
                   TestBool:=_SecondaryGas_test;
                   if not TestBool
@@ -811,7 +811,7 @@ begin
                if ( GasVelocity > EscapeVelocity )
                   and ( not isVeryDense ) then
                begin
-                  if GasSettings.AC_gasPresenceNH3=agsMain then
+                  if GasSettings.AC_gasPresenceNH3=agsPrimary then
                   begin
                      dec( PrimaryGasCount );
                      if PrimaryGasCount <= 0
@@ -822,7 +822,7 @@ begin
                else if ( GasVelocity > EscapeVelocity )
                   and ( isVeryDense ) then
                begin
-                  if GasSettings.AC_gasPresenceNH3=agsMain then
+                  if GasSettings.AC_gasPresenceNH3=agsPrimary then
                   begin
                      if PrimaryGasCount-1 > 0 then
                      begin
@@ -835,7 +835,7 @@ begin
                else if ( GasVelocity <= EscapeVelocity )
                   and ( GasSettings.AC_traceAtmosphere )
                then GasSettings.AC_gasPresenceNH3:=agsTrace
-               else if GasSettings.AC_gasPresenceNH3 < agsMain then
+               else if GasSettings.AC_gasPresenceNH3 < agsPrimary then
                begin
                   TestBool:=_SecondaryGas_test;
                   if not TestBool
@@ -850,7 +850,7 @@ begin
                if ( GasVelocity > EscapeVelocity )
                   and ( not isVeryDense ) then
                begin
-                  if GasSettings.AC_gasPresenceH2O=agsMain then
+                  if GasSettings.AC_gasPresenceH2O=agsPrimary then
                   begin
                      dec( PrimaryGasCount );
                      if PrimaryGasCount <= 0
@@ -861,7 +861,7 @@ begin
                else if ( GasVelocity > EscapeVelocity )
                   and ( isVeryDense ) then
                begin
-                  if GasSettings.AC_gasPresenceH2O=agsMain then
+                  if GasSettings.AC_gasPresenceH2O=agsPrimary then
                   begin
                      if PrimaryGasCount-1 > 0 then
                      begin
@@ -874,7 +874,7 @@ begin
                else if ( GasVelocity <= EscapeVelocity )
                   and ( GasSettings.AC_traceAtmosphere )
                then GasSettings.AC_gasPresenceH2O:=agsTrace
-               else if GasSettings.AC_gasPresenceH2O < agsMain then
+               else if GasSettings.AC_gasPresenceH2O < agsPrimary then
                begin
                   TestBool:=_SecondaryGas_test;
                   if not TestBool
@@ -889,7 +889,7 @@ begin
                if ( GasVelocity > EscapeVelocity )
                   and ( not isVeryDense ) then
                begin
-                  if GasSettings.AC_gasPresenceNe=agsMain then
+                  if GasSettings.AC_gasPresenceNe=agsPrimary then
                   begin
                      dec( PrimaryGasCount );
                      if PrimaryGasCount <= 0
@@ -900,7 +900,7 @@ begin
                else if ( GasVelocity > EscapeVelocity )
                   and ( isVeryDense ) then
                begin
-                  if GasSettings.AC_gasPresenceNe=agsMain then
+                  if GasSettings.AC_gasPresenceNe=agsPrimary then
                   begin
                      if PrimaryGasCount-1 > 0 then
                      begin
@@ -913,7 +913,7 @@ begin
                else if ( GasVelocity <= EscapeVelocity )
                   and ( GasSettings.AC_traceAtmosphere )
                then GasSettings.AC_gasPresenceNe:=agsTrace
-               else if GasSettings.AC_gasPresenceNe < agsMain then
+               else if GasSettings.AC_gasPresenceNe < agsPrimary then
                begin
                   TestBool:=_SecondaryGas_test;
                   if not TestBool
@@ -928,7 +928,7 @@ begin
                if ( GasVelocity > EscapeVelocity )
                   and ( not isVeryDense ) then
                begin
-                  if GasSettings.AC_gasPresenceN2=agsMain then
+                  if GasSettings.AC_gasPresenceN2=agsPrimary then
                   begin
                      dec( PrimaryGasCount );
                      if PrimaryGasCount <= 0
@@ -939,7 +939,7 @@ begin
                else if ( GasVelocity > EscapeVelocity )
                   and ( isVeryDense ) then
                begin
-                  if GasSettings.AC_gasPresenceN2=agsMain then
+                  if GasSettings.AC_gasPresenceN2=agsPrimary then
                   begin
                      if PrimaryGasCount-1 > 0 then
                      begin
@@ -952,7 +952,7 @@ begin
                else if ( GasVelocity <= EscapeVelocity )
                   and ( GasSettings.AC_traceAtmosphere )
                then GasSettings.AC_gasPresenceN2:=agsTrace
-               else if GasSettings.AC_gasPresenceN2 < agsMain then
+               else if GasSettings.AC_gasPresenceN2 < agsPrimary then
                begin
                   TestBool:=_SecondaryGas_test;
                   if not TestBool
@@ -967,7 +967,7 @@ begin
                if ( GasVelocity > EscapeVelocity )
                   and ( not isVeryDense ) then
                begin
-                  if GasSettings.AC_gasPresenceCO=agsMain then
+                  if GasSettings.AC_gasPresenceCO=agsPrimary then
                   begin
                      dec( PrimaryGasCount );
                      if PrimaryGasCount <= 0
@@ -978,7 +978,7 @@ begin
                else if ( GasVelocity > EscapeVelocity )
                   and ( isVeryDense ) then
                begin
-                  if GasSettings.AC_gasPresenceCO=agsMain then
+                  if GasSettings.AC_gasPresenceCO=agsPrimary then
                   begin
                      if PrimaryGasCount-1 > 0 then
                      begin
@@ -991,7 +991,7 @@ begin
                else if ( GasVelocity <= EscapeVelocity )
                   and ( GasSettings.AC_traceAtmosphere )
                then GasSettings.AC_gasPresenceCO:=agsTrace
-               else if GasSettings.AC_gasPresenceCO < agsMain then
+               else if GasSettings.AC_gasPresenceCO < agsPrimary then
                begin
                   TestBool:=_SecondaryGas_test;
                   if not TestBool
@@ -1006,7 +1006,7 @@ begin
                if ( GasVelocity > EscapeVelocity )
                   and ( not isVeryDense ) then
                begin
-                  if GasSettings.AC_gasPresenceNO=agsMain then
+                  if GasSettings.AC_gasPresenceNO=agsPrimary then
                   begin
                      dec( PrimaryGasCount );
                      if PrimaryGasCount <= 0
@@ -1017,7 +1017,7 @@ begin
                else if ( GasVelocity > EscapeVelocity )
                   and ( isVeryDense ) then
                begin
-                  if GasSettings.AC_gasPresenceNO=agsMain then
+                  if GasSettings.AC_gasPresenceNO=agsPrimary then
                   begin
                      if PrimaryGasCount-1 > 0 then
                      begin
@@ -1030,7 +1030,7 @@ begin
                else if ( GasVelocity <= EscapeVelocity )
                   and ( GasSettings.AC_traceAtmosphere )
                then GasSettings.AC_gasPresenceNO:=agsTrace
-               else if GasSettings.AC_gasPresenceNO < agsMain then
+               else if GasSettings.AC_gasPresenceNO < agsPrimary then
                begin
                   TestBool:=_SecondaryGas_test;
                   if not TestBool
@@ -1045,7 +1045,7 @@ begin
                if ( GasVelocity > EscapeVelocity )
                   and ( not isVeryDense ) then
                begin
-                  if GasSettings.AC_gasPresenceO2=agsMain then
+                  if GasSettings.AC_gasPresenceO2=agsPrimary then
                   begin
                      dec( PrimaryGasCount );
                      if PrimaryGasCount <= 0
@@ -1056,7 +1056,7 @@ begin
                else if ( GasVelocity > EscapeVelocity )
                   and ( isVeryDense ) then
                begin
-                  if GasSettings.AC_gasPresenceO2=agsMain then
+                  if GasSettings.AC_gasPresenceO2=agsPrimary then
                   begin
                      if PrimaryGasCount-1 > 0 then
                      begin
@@ -1069,7 +1069,7 @@ begin
                else if ( GasVelocity <= EscapeVelocity )
                   and ( GasSettings.AC_traceAtmosphere )
                then GasSettings.AC_gasPresenceO2:=agsTrace
-               else if GasSettings.AC_gasPresenceO2 < agsMain then
+               else if GasSettings.AC_gasPresenceO2 < agsPrimary then
                begin
                   TestBool:=_SecondaryGas_test;
                   if not TestBool
@@ -1084,7 +1084,7 @@ begin
                if ( GasVelocity > EscapeVelocity )
                   and ( not isVeryDense ) then
                begin
-                  if GasSettings.AC_gasPresenceH2S=agsMain then
+                  if GasSettings.AC_gasPresenceH2S=agsPrimary then
                   begin
                      dec( PrimaryGasCount );
                      if PrimaryGasCount <= 0
@@ -1095,7 +1095,7 @@ begin
                else if ( GasVelocity > EscapeVelocity )
                   and ( isVeryDense ) then
                begin
-                  if GasSettings.AC_gasPresenceH2S=agsMain then
+                  if GasSettings.AC_gasPresenceH2S=agsPrimary then
                   begin
                      if PrimaryGasCount-1 > 0 then
                      begin
@@ -1108,7 +1108,7 @@ begin
                else if ( GasVelocity <= EscapeVelocity )
                   and ( GasSettings.AC_traceAtmosphere )
                then GasSettings.AC_gasPresenceH2S:=agsTrace
-               else if GasSettings.AC_gasPresenceH2S < agsMain then
+               else if GasSettings.AC_gasPresenceH2S < agsPrimary then
                begin
                   TestBool:=_SecondaryGas_test;
                   if not TestBool
@@ -1123,7 +1123,7 @@ begin
                if ( GasVelocity > EscapeVelocity )
                   and ( not isVeryDense ) then
                begin
-                  if GasSettings.AC_gasPresenceAr=agsMain then
+                  if GasSettings.AC_gasPresenceAr=agsPrimary then
                   begin
                      dec( PrimaryGasCount );
                      if PrimaryGasCount <= 0
@@ -1134,7 +1134,7 @@ begin
                else if ( GasVelocity > EscapeVelocity )
                   and ( isVeryDense ) then
                begin
-                  if GasSettings.AC_gasPresenceAr=agsMain then
+                  if GasSettings.AC_gasPresenceAr=agsPrimary then
                   begin
                      if PrimaryGasCount-1 > 0 then
                      begin
@@ -1147,7 +1147,7 @@ begin
                else if ( GasVelocity <= EscapeVelocity )
                   and ( GasSettings.AC_traceAtmosphere )
                then GasSettings.AC_gasPresenceAr:=agsTrace
-               else if GasSettings.AC_gasPresenceAr < agsMain then
+               else if GasSettings.AC_gasPresenceAr < agsPrimary then
                begin
                   TestBool:=_SecondaryGas_test;
                   if not TestBool
@@ -1162,7 +1162,7 @@ begin
                if ( GasVelocity > EscapeVelocity )
                   and ( not isVeryDense ) then
                begin
-                  if GasSettings.AC_gasPresenceCO2=agsMain then
+                  if GasSettings.AC_gasPresenceCO2=agsPrimary then
                   begin
                      dec( PrimaryGasCount );
                      if PrimaryGasCount <= 0
@@ -1173,7 +1173,7 @@ begin
                else if ( GasVelocity > EscapeVelocity )
                   and ( isVeryDense ) then
                begin
-                  if GasSettings.AC_gasPresenceCO2=agsMain then
+                  if GasSettings.AC_gasPresenceCO2=agsPrimary then
                   begin
                      if PrimaryGasCount-1 > 0 then
                      begin
@@ -1186,7 +1186,7 @@ begin
                else if ( GasVelocity <= EscapeVelocity )
                   and ( GasSettings.AC_traceAtmosphere )
                then GasSettings.AC_gasPresenceCO2:=agsTrace
-               else if GasSettings.AC_gasPresenceCO2 < agsMain then
+               else if GasSettings.AC_gasPresenceCO2 < agsPrimary then
                begin
                   TestBool:=_SecondaryGas_test;
                   if not TestBool
@@ -1201,7 +1201,7 @@ begin
                if ( GasVelocity > EscapeVelocity )
                   and ( not isVeryDense ) then
                begin
-                  if GasSettings.AC_gasPresenceNO2=agsMain then
+                  if GasSettings.AC_gasPresenceNO2=agsPrimary then
                   begin
                      dec( PrimaryGasCount );
                      if PrimaryGasCount <= 0
@@ -1212,7 +1212,7 @@ begin
                else if ( GasVelocity > EscapeVelocity )
                   and ( isVeryDense ) then
                begin
-                  if GasSettings.AC_gasPresenceNO2=agsMain then
+                  if GasSettings.AC_gasPresenceNO2=agsPrimary then
                   begin
                      if PrimaryGasCount-1 > 0 then
                      begin
@@ -1225,7 +1225,7 @@ begin
                else if ( GasVelocity <= EscapeVelocity )
                   and ( GasSettings.AC_traceAtmosphere )
                then GasSettings.AC_gasPresenceNO2:=agsTrace
-               else if GasSettings.AC_gasPresenceNO2 < agsMain then
+               else if GasSettings.AC_gasPresenceNO2 < agsPrimary then
                begin
                   TestBool:=_SecondaryGas_test;
                   if not TestBool
@@ -1240,7 +1240,7 @@ begin
                if ( GasVelocity > EscapeVelocity )
                   and ( not isVeryDense ) then
                begin
-                  if GasSettings.AC_gasPresenceO3=agsMain then
+                  if GasSettings.AC_gasPresenceO3=agsPrimary then
                   begin
                      dec( PrimaryGasCount );
                      if PrimaryGasCount <= 0
@@ -1251,7 +1251,7 @@ begin
                else if ( GasVelocity > EscapeVelocity )
                   and ( isVeryDense ) then
                begin
-                  if GasSettings.AC_gasPresenceO3=agsMain then
+                  if GasSettings.AC_gasPresenceO3=agsPrimary then
                   begin
                      if PrimaryGasCount-1 > 0 then
                      begin
@@ -1264,7 +1264,7 @@ begin
                else if ( GasVelocity <= EscapeVelocity )
                   and ( GasSettings.AC_traceAtmosphere )
                then GasSettings.AC_gasPresenceO3:=agsTrace
-               else if GasSettings.AC_gasPresenceO3 < agsMain then
+               else if GasSettings.AC_gasPresenceO3 < agsPrimary then
                begin
                   TestBool:=_SecondaryGas_test;
                   if not TestBool
@@ -1279,7 +1279,7 @@ begin
                if ( GasVelocity > EscapeVelocity )
                   and ( not isVeryDense ) then
                begin
-                  if GasSettings.AC_gasPresenceSO2=agsMain then
+                  if GasSettings.AC_gasPresenceSO2=agsPrimary then
                   begin
                      dec( PrimaryGasCount );
 //                     if PrimaryGasCount <= 0
@@ -1291,7 +1291,7 @@ begin
                else if ( GasVelocity > EscapeVelocity )
                   and ( isVeryDense ) then
                begin
-                  if GasSettings.AC_gasPresenceSO2=agsMain then
+                  if GasSettings.AC_gasPresenceSO2=agsPrimary then
                   begin
                      if PrimaryGasCount-1 > 0 then
                      begin
@@ -1304,7 +1304,7 @@ begin
                else if ( GasVelocity <= EscapeVelocity )
                   and ( GasSettings.AC_traceAtmosphere )
                then GasSettings.AC_gasPresenceSO2:=agsTrace
-               else if GasSettings.AC_gasPresenceSO2 < agsMain then
+               else if GasSettings.AC_gasPresenceSO2 < agsPrimary then
                begin
                   TestBool:=_SecondaryGas_test;
                   if not TestBool
@@ -1327,7 +1327,7 @@ begin
          or ( ( BaseTemperature > 260 ) and ( ( ( FCDduStarSystem[0].SS_stars[Star].S_class >= cM0 ) and ( FCDduStarSystem[0].SS_stars[Star].S_class < gF0 ) ) or ( ( FCDduStarSystem[0].SS_stars[Star].S_class >= gM0 ) and ( FCDduStarSystem[0].SS_stars[Star].S_class < O5 ) ) or ( ( FCDduStarSystem[0].SS_stars[Star].S_class >= M0 ) and ( FCDduStarSystem[0].SS_stars[Star].S_class < WD0 ) ) ) )
       then
       begin
-         if GasSettings.AC_gasPresenceNH3=agsMain then
+         if GasSettings.AC_gasPresenceNH3=agsPrimary then
          begin
             dec( PrimaryGasCount );
             GasSettings.AC_gasPresenceNH3:=agsTrace;
@@ -1336,7 +1336,7 @@ begin
             if not TestBool
             then GasSettings.AC_traceAtmosphere:=true;
          end;
-         if GasSettings.AC_gasPresenceCH4=agsMain then
+         if GasSettings.AC_gasPresenceCH4=agsPrimary then
          begin
             dec( PrimaryGasCount );
             GasSettings.AC_gasPresenceCH4:=agsTrace;
@@ -1356,13 +1356,13 @@ begin
          if ( ( GasSettings.AC_gasPresenceH2S = agsTrace ) or ( GasSettings.AC_gasPresenceH2S = agsSecondary ) )
             and ( not isVeryDense )
          then GasSettings.AC_gasPresenceH2S:=agsNotPresent
-         else if ( GasSettings.AC_gasPresenceH2S = agsMain )
+         else if ( GasSettings.AC_gasPresenceH2S = agsPrimary )
             and ( not isVeryDense ) then
          begin
             GasSettings.AC_gasPresenceH2S:=agsTrace;
             dec( PrimaryGasCount );
          end
-         else if ( GasSettings.AC_gasPresenceH2S = agsMain )
+         else if ( GasSettings.AC_gasPresenceH2S = agsPrimary )
             and ( isVeryDense ) then
          begin
             GasSettings.AC_gasPresenceH2S:=agsSecondary;
@@ -1371,13 +1371,13 @@ begin
          if ( ( GasSettings.AC_gasPresenceSO2 = agsTrace ) or ( GasSettings.AC_gasPresenceSO2 = agsSecondary ) )
             and ( not isVeryDense )
          then GasSettings.AC_gasPresenceSO2:=agsNotPresent
-         else if ( GasSettings.AC_gasPresenceSO2 = agsMain )
+         else if ( GasSettings.AC_gasPresenceSO2 = agsPrimary )
             and ( not isVeryDense ) then
          begin
             GasSettings.AC_gasPresenceSO2:=agsTrace;
             dec( PrimaryGasCount );
          end
-         else if ( GasSettings.AC_gasPresenceSO2 = agsMain )
+         else if ( GasSettings.AC_gasPresenceSO2 = agsPrimary )
             and ( isVeryDense ) then
          begin
             GasSettings.AC_gasPresenceSO2:=agsSecondary;
@@ -1392,14 +1392,14 @@ begin
          then GasSettings.AC_gasPresenceH2S:=agsSecondary
          else if GasSettings.AC_gasPresenceH2S = agsSecondary then
          begin
-            GasSettings.AC_gasPresenceH2S:=agsMain;
+            GasSettings.AC_gasPresenceH2S:=agsPrimary;
             inc( PrimaryGasCount );
          end;
          if GasSettings.AC_gasPresenceSO2 = agsTrace
          then GasSettings.AC_gasPresenceSO2:=agsSecondary
          else if GasSettings.AC_gasPresenceSO2 = agsSecondary then
          begin
-            GasSettings.AC_gasPresenceSO2:=agsMain;
+            GasSettings.AC_gasPresenceSO2:=agsPrimary;
             inc( PrimaryGasCount );
          end;
          if ( PrimaryGasCount > 0 )
@@ -1408,9 +1408,9 @@ begin
       end;
    end;
    {.step 6: gasses interactions}
-   if GasSettings.AC_gasPresenceCO2 = agsMain then
+   if GasSettings.AC_gasPresenceCO2 = agsPrimary then
    begin
-      if GasSettings.AC_gasPresenceNH3 = agsMain then
+      if GasSettings.AC_gasPresenceNH3 = agsPrimary then
       begin
          GasSettings.AC_gasPresenceNH3:=agsSecondary;
          dec( PrimaryGasCount );
@@ -1424,10 +1424,10 @@ begin
       if GasSettings.AC_gasPresenceH2 = agsNotPresent
       then GasSettings.AC_gasPresenceH2:=agsTrace;
    end;
-   if ( GasSettings.AC_gasPresenceH2 = agsMain )
-      and ( GasSettings.AC_gasPresenceCO = agsMain ) then
+   if ( GasSettings.AC_gasPresenceH2 = agsPrimary )
+      and ( GasSettings.AC_gasPresenceCO = agsPrimary ) then
    begin
-      if GasSettings.AC_gasPresenceO2 = agsMain then
+      if GasSettings.AC_gasPresenceO2 = agsPrimary then
       begin
          dec( PrimaryGasCount );
          if PrimaryGasCount<=0
@@ -1442,13 +1442,13 @@ begin
       else if GasSettings.AC_gasPresenceO2 > agsTrace
       then GasSettings.AC_gasPresenceNH3:=agsTrace;
    end
-   else if GasSettings.AC_gasPresenceNH3 = agsMain then
+   else if GasSettings.AC_gasPresenceNH3 = agsPrimary then
    begin
       if GasSettings.AC_gasPresenceO2 = agsTrace
       then GasSettings.AC_gasPresenceO2:=agsNotPresent
       else if GasSettings.AC_gasPresenceO2 > agsTrace then
       begin
-         if GasSettings.AC_gasPresenceO2=agsMain then
+         if GasSettings.AC_gasPresenceO2=agsPrimary then
          begin
             dec( PrimaryGasCount );
             if PrimaryGasCount<=0
@@ -1460,7 +1460,7 @@ begin
       then GasSettings.AC_gasPresenceCO2:=agsNotPresent
       else if GasSettings.AC_gasPresenceCO2 > agsTrace then
       begin
-         if GasSettings.AC_gasPresenceCO2=agsMain then
+         if GasSettings.AC_gasPresenceCO2=agsPrimary then
          begin
             dec( PrimaryGasCount );
             if PrimaryGasCount<=0
@@ -1476,14 +1476,14 @@ begin
       else if GasSettings.AC_gasPresenceO2 > agsTrace
       then GasSettings.AC_gasPresenceCO:=agsTrace;
    end
-   else if ( GasSettings.AC_gasPresenceCO = agsMain )
-      and ( GasSettings.AC_gasPresenceH2 < agsMain ) then
+   else if ( GasSettings.AC_gasPresenceCO = agsPrimary )
+      and ( GasSettings.AC_gasPresenceH2 < agsPrimary ) then
    begin
       if GasSettings.AC_gasPresenceO2 = agsTrace
       then GasSettings.AC_gasPresenceO2:=agsNotPresent
       else if GasSettings.AC_gasPresenceO2 > agsTrace then
       begin
-         if GasSettings.AC_gasPresenceO2=agsMain then
+         if GasSettings.AC_gasPresenceO2=agsPrimary then
          begin
             dec( PrimaryGasCount );
             if PrimaryGasCount<=0
@@ -1499,13 +1499,13 @@ begin
       else if GasSettings.AC_gasPresenceO2 > agsTrace
       then GasSettings.AC_gasPresenceCH4:=agsTrace;
    end
-   else if GasSettings.AC_gasPresenceCH4 = agsMain then
+   else if GasSettings.AC_gasPresenceCH4 = agsPrimary then
    begin
       if GasSettings.AC_gasPresenceO2 = agsTrace
       then GasSettings.AC_gasPresenceO2:=agsNotPresent
       else if GasSettings.AC_gasPresenceO2 > agsTrace then
       begin
-         if GasSettings.AC_gasPresenceO2=agsMain then
+         if GasSettings.AC_gasPresenceO2=agsPrimary then
          begin
             dec( PrimaryGasCount );
             if PrimaryGasCount<=0

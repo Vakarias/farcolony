@@ -513,7 +513,7 @@ begin
                   else GeneratedProbability:=0;
                   GreenCH4:=( sqrt( AtmospherePressure ) * 0.01 * GeneratedProbability ) / sqrt( AtmospherePressure );
                   GreenH2O:=0;
-                  if GasH2O = agsMain
+                  if GasH2O = agsPrimary
                   then GeneratedProbability:=FCFcF_Random_DoInteger( 100 )
                   else GeneratedProbability:=0;
                   GreenH2O:=( sqrt( AtmospherePressure ) * 0.01 * GeneratedProbability ) / sqrt( AtmospherePressure );
@@ -578,7 +578,7 @@ begin
                      HydroCoef:=FCFfS_HydroCoef_Get( Hydrosphere );
                      if GasH2O = agsSecondary
                      then CloudFraction:=( 1 - ( PrimaryGasVolume * 0.01 ) ) * ( 1 + ( ( TemperatureMean ) * 0.00767 ) )
-                     else if GasH2O = agsMain
+                     else if GasH2O = agsPrimary
                      then CloudFraction:=( PrimaryGasVolume * 0.01 ) * ( 1 + ( ( TemperatureMean - HydroCoef ) * 0.00767 ) );
                   end
                   else if Hydrosphere=hMethaneIceCrust then
@@ -586,7 +586,7 @@ begin
                      HydroCoef:=FCFfS_HydroCoef_Get( Hydrosphere );
                      if GasCH4 = agsSecondary
                      then CloudFraction:=( 1 - ( PrimaryGasVolume * 0.01 ) ) * ( 1 + ( ( TemperatureMean ) * 0.00767 ) )
-                     else if GasCH4 = agsMain
+                     else if GasCH4 = agsPrimary
                      then CloudFraction:=( PrimaryGasVolume * 0.01 ) * ( 1 + ( ( TemperatureMean - HydroCoef ) * 0.00767 ) );
                   end
                   else if Hydrosphere=hNitrogenIceCrust then
@@ -594,7 +594,7 @@ begin
                      HydroCoef:=FCFfS_HydroCoef_Get( Hydrosphere );
                      if GasN2 = agsSecondary
                      then CloudFraction:=( 1 - ( PrimaryGasVolume * 0.01 ) ) * ( 1 + ( ( TemperatureMean ) * 0.00767 ) )
-                     else if GasN2 = agsMain
+                     else if GasN2 = agsPrimary
                      then CloudFraction:=( PrimaryGasVolume * 0.01 ) * ( 1 + ( ( TemperatureMean - HydroCoef ) * 0.00767 ) );
                   end;
                   CloudsCover:=FCFcF_Round( rttCustom1Decimal, CloudFraction * 100 );

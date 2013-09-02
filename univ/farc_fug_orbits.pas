@@ -1639,9 +1639,9 @@ begin
                and ( BaseTemperature < 140 ) then
             begin
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_fug_BasicType:=oobtIcyPlanet;
-               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_type:=oot_Planet_Icy;
+               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_type:=ootPlanet_Icy;
             end
-            else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_type:=oot_Planet_Telluric;
+            else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_type:=ootPlanet_Telluric;
             {..for asteroids belt}
             if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_fug_BasicType=oobtAsteroidBelt then
             begin

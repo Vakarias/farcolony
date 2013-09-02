@@ -954,9 +954,9 @@ begin
 
                ootAsteroid_Icy: FCWinMain.FCGLSHUDobobjObjTp.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'oobtpAster_Icy');
 
-               oot_Planet_Telluric: FCWinMain.FCGLSHUDobobjObjTp.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'oobtpPlan_Tellu');
+               ootPlanet_Telluric: FCWinMain.FCGLSHUDobobjObjTp.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'oobtpPlan_Tellu');
 
-               oot_Planet_Icy: FCWinMain.FCGLSHUDobobjObjTp.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'oobtpPlan_Icy');
+               ootPlanet_Icy: FCWinMain.FCGLSHUDobobjObjTp.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'oobtpPlan_Icy');
 
                ootPlanet_Gaseous_Uranus: FCWinMain.FCGLSHUDobobjObjTp.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'oobtpPlan_Gas');
 

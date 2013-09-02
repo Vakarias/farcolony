@@ -236,14 +236,14 @@ begin
 
             agsSecondary: NO2SO2mod:=30;
 
-            agsMain: NO2SO2mod:=60
+            agsPrimary: NO2SO2mod:=60
          end;
          case FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceSO2 of
             agsTrace: NO2SO2mod:=NO2SO2mod + 10;
 
             agsSecondary: NO2SO2mod:=NO2SO2mod + 30;
 
-            agsMain: NO2SO2mod:=NO2SO2mod + 60
+            agsPrimary: NO2SO2mod:=NO2SO2mod + 60
          end;
       end;
       Max:=length( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions ) - 1;
@@ -262,14 +262,14 @@ begin
 
             agsSecondary: NO2SO2mod:=30;
 
-            agsMain: NO2SO2mod:=60
+            agsPrimary: NO2SO2mod:=60
          end;
          case FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceSO2 of
             agsTrace: NO2SO2mod:=NO2SO2mod + 10;
 
             agsSecondary: NO2SO2mod:=NO2SO2mod + 30;
 
-            agsMain: NO2SO2mod:=NO2SO2mod + 60
+            agsPrimary: NO2SO2mod:=NO2SO2mod + 60
          end;
       end;
       Max:=length( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions ) - 1;
@@ -1095,45 +1095,45 @@ begin
       iCalc1:=0;
       if CH4 = agsSecondary
       then iCalc1:=-1
-      else if CH4 = agsMain
+      else if CH4 = agsPrimary
       then iCalc1:=-2;
       if NH3 = agsSecondary
       then iCalc1:=iCalc1 - 2
-      else if NH3 = agsMain
+      else if NH3 = agsPrimary
       then iCalc1:=iCalc1 - 4;
       if Ne = agsSecondary
       then iCalc1:=iCalc1 - 2
-      else if Ne = agsMain
+      else if Ne = agsPrimary
       then iCalc1:=iCalc1 - 4;
-      if N2 = agsMain
+      if N2 = agsPrimary
       then iCalc1:=iCalc1 + 1;
       if CO = agsSecondary
       then iCalc1:=iCalc1 - 1
-      else if CO = agsMain
+      else if CO = agsPrimary
       then iCalc1:=iCalc1 - 3;
       if NO = agsSecondary
       then iCalc1:=iCalc1 - 2
-      else if NO = agsMain
+      else if NO = agsPrimary
       then iCalc1:=iCalc1 - 4;
       if O2 = agsSecondary
       then iCalc1:=iCalc1 + 2
-      else if O2 = agsMain
+      else if O2 = agsPrimary
       then iCalc1:=iCalc1 + 3;
       if H2S = agsSecondary
       then iCalc1:=iCalc1 - 1
-      else if H2S = agsMain
+      else if H2S = agsPrimary
       then iCalc1:=iCalc1 - 3;
       if CO2 = agsSecondary
       then iCalc1:=iCalc1 - 1
-      else if CO2 = agsMain
+      else if CO2 = agsPrimary
       then iCalc1:=iCalc1 - 2;
       if NO2 = agsSecondary
       then iCalc1:=iCalc1 - 2
-      else if NO2 = agsMain
+      else if NO2 = agsPrimary
       then iCalc1:=iCalc1 - 4;
       if SO2 = agsSecondary
       then iCalc1:=iCalc1 - 1
-      else if SO2 = agsMain
+      else if SO2 = agsPrimary
       then iCalc1:=iCalc1 - 3;
       if iCalc1 = 0
       then iCalc1:=-4;

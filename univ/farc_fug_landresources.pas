@@ -236,7 +236,7 @@ begin
          FCDfdRegions[Region].RC_landType:=rst15icySterile;
          FCDfdRegions[Region].RC_reliefType:=_ReliefRule_Set( 40, 0 );
       end
-      else if ( ( ( ObjectType >= oot_Planet_Telluric ) and ( ObjectType < ootPlanet_Gaseous_Uranus ) ) or ( ObjectType >= ootSatellite_Planet_Telluric ) )
+      else if ( ( ( ObjectType >= ootPlanet_Telluric ) and ( ObjectType < ootPlanet_Gaseous_Uranus ) ) or ( ObjectType >= ootSatellite_Planet_Telluric ) )
          and ( not isAtmosphere ) then
       begin
          if HydroType = hNoHydro then
@@ -277,7 +277,7 @@ begin
             _VolcanicReliefModification_Apply( Region );
          end;
       end
-      else if ( ( ( ObjectType >= oot_Planet_Telluric ) and ( ObjectType < ootPlanet_Gaseous_Uranus ) ) or ( ObjectType >= ootSatellite_Planet_Telluric ) )
+      else if ( ( ( ObjectType >= ootPlanet_Telluric ) and ( ObjectType < ootPlanet_Gaseous_Uranus ) ) or ( ObjectType >= ootSatellite_Planet_Telluric ) )
          and ( isAtmosphere ) then
       begin
          FCDfdRegions[Region].RC_regionPressureMean:=( FCDfdRegions[Region].RC_regionPressureClosest + FCDfdRegions[Region].RC_regionPressureInterm + FCDfdRegions[Region].RC_regionPressureFarthest ) / 3;
@@ -456,7 +456,7 @@ procedure FCMfR_Resources_Phase1(
          end
          else if ( ObjectType = ootAsteroid_Icy )
             or ( ObjectType = ootSatellite_Asteroid_Icy )
-            or ( ObjectType = oot_Planet_Icy )
+            or ( ObjectType = ootPlanet_Icy )
             or ( ObjectType = ootSatellite_Planet_Icy ) then
          begin
             NatureCoef[1]:=10;
@@ -464,7 +464,7 @@ procedure FCMfR_Resources_Phase1(
             NatureCoef[3]:=-25;
             NatureCoef[4]:=-20;
          end
-         else if ( ObjectType = oot_Planet_Telluric )
+         else if ( ObjectType = ootPlanet_Telluric )
             or ( ObjectType = ootSatellite_Planet_Telluric ) then
          begin
             NatureCoef[1]:=7.5;
@@ -953,7 +953,7 @@ begin
             and ( TectonicActivyIndex > 0 )
             and ( TectonicActivyIndex < 5 ) then
          begin
-            if ( ObjectType = oot_Planet_Icy )
+            if ( ObjectType = ootPlanet_Icy )
                or ( ObjectType = ootSatellite_Planet_Icy ) then
             begin
                hasaSubsurfaceOcean:=true;

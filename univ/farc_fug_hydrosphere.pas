@@ -250,7 +250,7 @@ begin
             ,Satellite
             );
          {.methane hydrosphere}
-         if ( ( MethaneStatus = agsMain ) or ( ( MethaneStatus = agsSecondary ) and ( PrimaryGasVolume <= 85 ) ) )
+         if ( ( MethaneStatus = agsPrimary ) or ( ( MethaneStatus = agsSecondary ) and ( PrimaryGasVolume <= 85 ) ) )
             and ( BaseTemperature < 191 )
             and ( AtmosphericPressure < 46.598 ) then
          begin
@@ -272,13 +272,13 @@ begin
             else if BaseTemperature > VaporLimit then
             begin
                HydrosphereType:=hNoHydro;
-               if ( ( MethaneStatus = agsMain ) and ( NumberOfPrimaryGasses > 1 ) )
+               if ( ( MethaneStatus = agsPrimary ) and ( NumberOfPrimaryGasses > 1 ) )
                   or ( MethaneStatus = agsSecondary )
                then NewMetaneStatus:=agsTrace;
             end;
          end
          {.water-ammonia hydrosphere}
-         else if ( ( AmmoniaStatus = agsMain ) or ( ( AmmoniaStatus = agsSecondary ) and ( PrimaryGasVolume <= 85 ) ) )
+         else if ( ( AmmoniaStatus = agsPrimary ) or ( ( AmmoniaStatus = agsSecondary ) and ( PrimaryGasVolume <= 85 ) ) )
             and ( BaseTemperature < 405 )
             and ( AtmosphericPressure < 113.456 ) then
          begin
@@ -310,10 +310,10 @@ begin
             else if BaseTemperature > VaporLimit then
             begin
                HydrosphereType:=hNoHydro;
-               if ( ( AmmoniaStatus = agsMain ) and ( NumberOfPrimaryGasses > 1 ) )
+               if ( ( AmmoniaStatus = agsPrimary ) and ( NumberOfPrimaryGasses > 1 ) )
                   or ( AmmoniaStatus = agsSecondary )
                then NewAmmoniaStatus:=agsTrace;
-               if ( ( WaterStatus = agsMain ) and ( NumberOfPrimaryGasses > 1 ) )
+               if ( ( WaterStatus = agsPrimary ) and ( NumberOfPrimaryGasses > 1 ) )
                   or ( WaterStatus = agsSecondary )
                then NewWaterStatus:=agsTrace;
             end;
@@ -348,7 +348,7 @@ begin
             else if BaseTemperature > VaporLimit then
             begin
                HydrosphereType:=hNoHydro;
-               if ( ( WaterStatus = agsMain ) and ( NumberOfPrimaryGasses > 1 ) )
+               if ( ( WaterStatus = agsPrimary ) and ( NumberOfPrimaryGasses > 1 ) )
                   or ( WaterStatus = agsSecondary )
                then NewWaterStatus:=agsTrace;
             end;

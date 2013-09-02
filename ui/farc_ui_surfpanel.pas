@@ -1316,7 +1316,7 @@ begin
          then
          begin
             SP_EcosphereSheet.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI, 'secpGasM'));
-            SESdmpStrDat:=FCFuiSP_EcoDataAtmosphere_Process(agsMain, SESoobjIdx, SESsatIdx);
+            SESdmpStrDat:=FCFuiSP_EcoDataAtmosphere_Process(agsPrimary, SESoobjIdx, SESsatIdx);
             SP_EcosphereSheet.HTMLText.Add(SESdmpStrDat);
             SP_EcosphereSheet.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI, 'secpGasS'));
             SESdmpStrDat:=FCFuiSP_EcoDataAtmosphere_Process(agsSecondary, SESoobjIdx, SESsatIdx);
@@ -1754,7 +1754,7 @@ begin
 
                ootAsteroid_Icy: SP_SurfaceDisplay.Picture.LoadFromFile(FCVdiPathResourceDir+'pics-ogl-oobj-std\aster_icy.jpg');
 
-               oot_Planet_Telluric..oot_Planet_Icy:
+               ootPlanet_Telluric..ootPlanet_Icy:
                begin
                   if FileExists(FCVdiPathResourceDir+'pics-ogl-oobj-pers\'+SESdmpToken+'.jpg')
                   then SP_SurfaceDisplay.Picture.LoadFromFile(FCVdiPathResourceDir+'pics-ogl-oobj-pers\'+SESdmpToken+'.jpg')

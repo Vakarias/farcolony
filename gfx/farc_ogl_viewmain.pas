@@ -365,9 +365,9 @@ begin
       ASCso2:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[ASCoobjIdx].OO_satellitesList[ASCsatIdx].OO_atmosphere.AC_gasPresenceSO2;
    end;
    {.N2 atmosphere - titan like}
-   if (ASCn2=agsMain)
-      and (ASCco2<agsMain)
-      and (ASCo2<agsMain)
+   if (ASCn2=agsPrimary)
+      and (ASCco2<agsPrimary)
+      and (ASCo2<agsPrimary)
    then
    begin
       ASChighColRed:=0.223529;
@@ -378,9 +378,9 @@ begin
       ASClowColBlue:=0.247058;
    end
    {.N2/CO2 atmosphere - mars like}
-   else if (ASCn2=agsMain)
-      and (ASCco2=agsMain)
-      and (ASCo2<agsMain)
+   else if (ASCn2=agsPrimary)
+      and (ASCco2=agsPrimary)
+      and (ASCo2<agsPrimary)
    then
    begin
       ASChighColRed:=0.372549;
@@ -391,9 +391,9 @@ begin
       ASClowColBlue:=0.709803;
    end
    {.N2/O2 atmosphere - earth like}
-   else if (ASCn2=agsMain)
-      and (ASCco2<agsMain)
-      and (ASCo2=agsMain)
+   else if (ASCn2=agsPrimary)
+      and (ASCco2<agsPrimary)
+      and (ASCo2=agsPrimary)
    then
    begin
       ASChighColRed:=0.247058;
@@ -404,8 +404,8 @@ begin
       ASClowColBlue:=0.8;
    end
    {.H2/He atmosphere - saturn like}
-   else if (ASCh2=agsMain)
-      and (ASChe=agsMain)
+   else if (ASCh2=agsPrimary)
+      and (ASChe=agsPrimary)
    then
    begin
       ASChighColRed:=0.403921;
@@ -416,8 +416,8 @@ begin
       ASClowColBlue:=0.458823;
    end
    {.H2S/SO2 atmosphere - io like}
-   else if (ASCh2s=agsMain)
-      and (ASCso2=agsMain)
+   else if (ASCh2s=agsPrimary)
+      and (ASCso2=agsPrimary)
    then
    begin
       ASChighColRed:=0.556862;
@@ -1252,7 +1252,7 @@ begin
                FCMoglVM_OObjSpUn_inOrbit(TDMVUorbObjCnt, 0, 0, true);
             end //==END== if (OO_type>=oobtpAster_Metall) and (OO_type<=oobtpAster_Icy) ==//
             {.planet}
-            else if (S_orbitalObjects[TDMVUorbObjCnt].OO_type>=oot_Planet_Telluric)
+            else if (S_orbitalObjects[TDMVUorbObjCnt].OO_type>=ootPlanet_Telluric)
                     and (S_orbitalObjects[TDMVUorbObjCnt].OO_type<=ootPlanet_Supergiant)
             then
             begin
@@ -1274,7 +1274,7 @@ begin
                {.set group scale}
                FC3doglObjectsGroups[TDMVUorbObjCnt].CubeSize:=FC3doglPlanets[TDMVUorbObjCnt].scale.X*2;
                {.set atmosphere}
-               if ( ( (S_orbitalObjects[TDMVUorbObjCnt].OO_type = oot_Planet_Telluric) or (S_orbitalObjects[TDMVUorbObjCnt].OO_type = oot_Planet_Icy) ) and (S_orbitalObjects[TDMVUorbObjCnt].OO_atmosphericPressure>0) )
+               if ( ( (S_orbitalObjects[TDMVUorbObjCnt].OO_type = ootPlanet_Telluric) or (S_orbitalObjects[TDMVUorbObjCnt].OO_type = ootPlanet_Icy) ) and (S_orbitalObjects[TDMVUorbObjCnt].OO_atmosphericPressure>0) )
                   or (S_orbitalObjects[TDMVUorbObjCnt].OO_type in [ootPlanet_Gaseous_Uranus..ootPlanet_Supergiant]) then
                begin
                   FCMoglVMain_Atmosph_SetCol(TDMVUorbObjCnt, 0, 0);

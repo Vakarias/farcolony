@@ -49,7 +49,7 @@ type TFCEduAtmosphericGasStatus=(
    agsNotPresent
    ,agsTrace
    ,agsSecondary
-   ,agsMain
+   ,agsPrimary
    );
 
 ///<summary>
@@ -213,8 +213,8 @@ type TFCEduOrbitalObjectTypes=(
    ,ootAsteroid_Carbonaceous
    {.old num=9}
    ,ootAsteroid_Icy
-   ,oot_Planet_Telluric
-   ,oot_Planet_Icy
+   ,ootPlanet_Telluric
+   ,ootPlanet_Icy
    {.old num=11}
 //   ,ootPlanet_Telluric_EarthH0H1
    {.old num=12}
