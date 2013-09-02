@@ -31,7 +31,9 @@ unit farc_fug_biospherefunctions;
 interface
 
 uses
-   Math;
+   Math
+
+   ,farc_data_univ;
 
 //==END PUBLIC ENUM=========================================================================
 
@@ -67,6 +69,22 @@ function FCFfbF_StarLuminosityFactor_Calculate(
 ///   <returns>luminosity vigor modifier</returns>
 ///   <remarks></remarks>
 function FCFfbF_StarLuminosityVigorMod_Calculate( const StarLuminosityFactor: extended ): integer;
+
+///<summary>
+///   provide the star modifier in it's phase 1
+///</summary>
+///   <param name="StarType">type of star</param>
+///   <returns>vigor modifier</returns>
+///   <remarks></remarks>
+function FCFfbF_StarModifier_Phase1( const StarType: TFCEduStarClasses ): integer;
+
+///<summary>
+///   provide the star modifier in it's phase 2
+///</summary>
+///   <param name="StarType">type of star</param>
+///   <returns>vigor modifier</returns>
+///   <remarks></remarks>
+function FCFfbF_StarModifier_Phase2( const StarType: TFCEduStarClasses ): integer;
 
 //===========================END FUNCTIONS SECTION==========================================
 
@@ -124,6 +142,88 @@ begin
    fCalc2:=power( fCalc1, 5 );
    Modifier:=( fCalc2 - ( 1 / fCalc2 ) ) * 20;
    Result:=round( Modifier );
+end;
+
+function FCFfbF_StarModifier_Phase1( const StarType: TFCEduStarClasses ): integer;
+{:Purpose: provide the star modifier in it's phase 1.
+    Additions:
+}
+begin
+   Result:=0;
+   case StarType of
+      cB5..cB9: Result:=83;
+
+      cA0..cA9: Result:=73;
+
+      cK0..cK9: Result:=60;
+
+      cM0..cM5: Result:=48;
+
+      gF0..gF9: Result:=43;
+
+      gG0..gG9: Result:=35;
+
+      gK0..gK9: Result:=30;
+
+      gM0..gM5: Result:=23;
+
+      O5..O9: Result:=25;
+
+      B0..B9: Result:=23;
+
+      A0..A9: Result:=18;
+
+      F0..F9: Result:=15;
+
+      G0..G9: Result:=10;
+
+      K0..K9: Result:=8;
+
+      M0..M9: Result:=5;
+
+      WD0..BH: Result:=100;
+   end;
+end;
+
+function FCFfbF_StarModifier_Phase2( const StarType: TFCEduStarClasses ): integer;
+{:Purpose: provide the star modifier in it's phase 2.
+    Additions:
+}
+begin
+   Result:=0;
+   case StarType of
+      cB5..cB9: Result:=105;
+
+      cA0..cA9: Result:=85;
+
+      cK0..cK9: Result:=65;
+
+      cM0..cM5: Result:=45;
+
+      gF0..gF9: Result:=45;
+
+      gG0..gG9: Result:=35;
+
+      gK0..gK9: Result:=25;
+
+      gM0..gM5: Result:=15;
+
+      O5..O9: Result:=30;
+
+      B0..B9: Result:=25;
+
+      A0..A9: Result:=20;
+
+      F0..F9: Result:=15;
+
+      G0..G9: Result:=10;
+
+      K0..K9: Result:=5;
+
+      M0..M9: Result:=5;
+
+      WD0..BH: Result:=130;
+   end;
 end;
 
 //===========================END FUNCTIONS SECTION==========================================
