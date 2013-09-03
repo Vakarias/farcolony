@@ -298,6 +298,22 @@ function FCFuF_Satellite_GetAxialTilt(
    ): extended;
 
 ///<summary>
+///   get the distance from the central star of a satellite, depending it is a satellite or an asteroid in a belt
+///</summary>
+///    <param name="StarSys">star system index #</param>
+///    <param name="Star">star index #</param>
+///    <param name="OrbitalObject">orbital object index #</param>
+///    <param name="Satellite">satellite index</param>
+///   <returns>the distance from the central star in AU</returns>
+///   <remarks></remarks>
+function FCFuF_Satellite_GetDistanceFromStar(
+   const StarSys
+         ,Star
+         ,OrbitalObject
+         ,Satellite: integer
+   ): extended;
+
+///<summary>
 ///   get the rotation period of a satellite, depending it is a satellite or an asteroid in a belt
 ///</summary>
 ///    <param name="StarSys">star system index #</param>
@@ -1335,6 +1351,22 @@ begin
    if FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_type = ootAsteroidsBelt
    then Result:=FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_isAsterBelt_axialTilt
    else Result:=FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isNotSat_axialTilt;
+end;
+
+function FCFuF_Satellite_GetDistanceFromStar(
+   const StarSys
+         ,Star
+         ,OrbitalObject
+         ,Satellite: integer
+   ): extended;
+{:Purpose: get the distance from the central star of a satellite, depending it is a satellite or an asteroid in a belt.
+   Additions:
+}
+begin
+   Result:=0;
+   if FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_type = ootAsteroidsBelt
+   then Result:=FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_isSat_distanceFromPlanetOrAsterInBeltDistToStar
+   else Result:=FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isNotSat_distanceFromStar;
 end;
 
 function FCFuF_Satellite_GetRotationPeriod(

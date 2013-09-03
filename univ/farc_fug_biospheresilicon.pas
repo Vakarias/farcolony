@@ -30,7 +30,8 @@ unit farc_fug_biospheresilicon;
 
 interface
 
-//uses
+uses
+   Math;
 
 //==END PUBLIC ENUM=========================================================================
 
@@ -61,7 +62,14 @@ procedure FCMfbS_PrebioticsStage_Test(
 
 implementation
 
-//uses
+uses
+   farc_common_func
+   ,farc_data_univ
+   ,farc_fug_biosphere
+   ,farc_fug_biospherefunctions
+   ,farc_fug_data
+   ,farc_fug_stars
+   ,farc_univ_func;
 
 //==END PRIVATE ENUM========================================================================
 
@@ -69,11 +77,15 @@ implementation
 
    //==========subsection===================================================================
 var
-   FBSbioFailed: boolean;
+   FCVfbsRootSilicon: integer;
+
+   FCVfbsVigorCalc: integer;
 
 //==END PRIVATE VAR=========================================================================
 
-//const
+const
+   FCCfbsStagePenalty=10;
+
 //==END PRIVATE CONST=======================================================================
 
 //===================================================END OF INIT============================
@@ -87,8 +99,180 @@ procedure FCMfbS_PrebioticsStage_Test(
 {:Purpose: process and test the silicon-based prebiotics evolution stage.
     Additions:
 }
-begin
+   var
+      TestVal: integer;
 
+      Albedo
+      ,CloudsCover
+      ,DistanceFromStar
+      ,fCalc1: extended;
+
+      StageFailed: boolean;
+
+      gasH2
+      ,gasN2
+      ,gasNe
+      ,gasSO2: TFCEduAtmosphericGasStatus;
+
+      TectonicActivity: TFCEduTectonicActivity;
+
+      ObjectType: TFCEduOrbitalObjectTypes;
+begin
+   Albedo:=0;
+   CloudsCover:=0;
+   DistanceFromStar:=0;
+   fCalc1:=0;
+
+   gasH2:=agsNotPresent;
+   gasN2:=agsNotPresent;
+   gasNe:=agsNotPresent;
+   gasSO2:=agsNotPresent;
+
+   TectonicActivity:=taNull;
+
+   if Satellite <= 0 then
+   begin
+      ObjectType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_type;
+      Albedo:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_albedo;
+      CloudsCover:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_cloudsCover;
+      DistanceFromStar:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isNotSat_distanceFromStar;
+      TectonicActivity:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_tectonicActivity;
+      gasH2:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceH2;
+      gasN2:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceN2;
+      gasNe:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceNe;
+      gasSO2:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceSO2;
+   end
+   else begin
+      ObjectType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_type;
+      Albedo:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_albedo;
+      CloudsCover:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_cloudsCover;
+      DistanceFromStar:=FCFuF_Satellite_GetDistanceFromStar(
+         0
+         ,Star
+         ,OrbitalObject
+         ,Satellite
+         );
+      TectonicActivity:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_tectonicActivity;
+      gasH2:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceH2;
+      gasN2:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceN2;
+      gasNe:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceNe;
+      gasSO2:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceSO2;
+   end;
+   StageFailed:=false;
+   FCVfbsVigorCalc:=0;
+   FCVfbsRootSilicon:=0;
+   {.base modifier}
+   {.icy planet influence}
+   if ( ObjectType = ootPlanet_Icy )
+      or ( ObjectType = ootSatellite_Planet_Icy )
+   then FCVfbsVigorCalc:=30
+   else FCVfbsVigorCalc:=60;
+   {.atmosphere influences}
+   case gasH2 of
+      agsNotPresent: FCVfbsVigorCalc:=FCVfbsVigorCalc - 5;
+
+      agsTrace: FCVfbsVigorCalc:=FCVfbsVigorCalc - 5;
+
+      agsSecondary: FCVfbsVigorCalc:=FCVfbsVigorCalc + 10;
+
+      agsPrimary: FCVfbsVigorCalc:=FCVfbsVigorCalc + 30;
+   end;
+   case gasN2 of
+      agsNotPresent: FCVfbsVigorCalc:=FCVfbsVigorCalc - 5;
+
+      agsTrace: FCVfbsVigorCalc:=FCVfbsVigorCalc - 5;
+
+      agsSecondary: FCVfbsVigorCalc:=FCVfbsVigorCalc + 5;
+
+      agsPrimary: FCVfbsVigorCalc:=FCVfbsVigorCalc + 12;
+   end;
+   case gasNe of
+      agsSecondary: FCVfbsVigorCalc:=FCVfbsVigorCalc + 5;
+
+      agsPrimary: FCVfbsVigorCalc:=FCVfbsVigorCalc + 15;
+   end;
+   case gasSO2 of
+      agsNotPresent: FCVfbsVigorCalc:=FCVfbsVigorCalc - 15;
+
+      agsTrace: FCVfbsVigorCalc:=FCVfbsVigorCalc - 15;
+
+      agsSecondary: FCVfbsVigorCalc:=FCVfbsVigorCalc + 15;
+
+      agsPrimary: FCVfbsVigorCalc:=FCVfbsVigorCalc + 40;
+   end;
+   {.tectonic activity influence}
+   case TectonicActivity of
+      taDead: FCVfbsVigorCalc:=FCVfbsVigorCalc -20;
+
+      taHotSpot: FCVfbsVigorCalc:=FCVfbsVigorCalc + 10;
+
+      taPlastic: FCVfbsVigorCalc:=FCVfbsVigorCalc + 20;
+
+      taPlateTectonic: FCVfbsVigorCalc:=FCVfbsVigorCalc + 30;
+
+      taPlateletTectonic: FCVfbsVigorCalc:=FCVfbsVigorCalc + 40;
+   end;
+   {.star luminosity influence}
+   fCalc1:=FCFfbF_StarLuminosityFactor_Calculate(
+      DistanceFromStar
+      ,FCDduStarSystem[0].SS_stars[Star].S_luminosity
+      ,Albedo
+      ,CloudsCover
+      );
+   FCVfbsRootSilicon:=round( power( fCalc1, 0.333) );
+   if fCalc1 <= 1912
+   then begin
+      FCVfbsVigorCalc:=FCVfbsVigorCalc + FCFfbF_StarLuminosityVigorMod_Calculate( fCalc1 );
+      if FCVfbsVigorCalc < 1 then
+      begin
+         StageFailed:=true;
+         FCMfB_FossilPresence_Test(
+            Star
+            ,OrbitalObject
+            ,FCFfS_Age_Calc( FCDduStarSystem[0].SS_stars[Star].S_mass, FCDduStarSystem[0].SS_stars[Star].S_luminosity )
+            ,Satellite
+            );
+      end;
+   end
+   else begin
+      StageFailed:=true;
+      FCMfB_FossilPresence_Test(
+         Star
+         ,OrbitalObject
+         ,FCFfS_Age_Calc( FCDduStarSystem[0].SS_stars[Star].S_mass, FCDduStarSystem[0].SS_stars[Star].S_luminosity )
+         ,Satellite
+         );
+   end;
+   {.final test}
+   if not StageFailed then
+   begin
+      TestVal:=FCFcF_Random_DoInteger( 99 ) + 1;
+      if TestVal <= FCVfbsVigorCalc then
+      begin
+         if Satellite <= 0 then
+         begin
+            FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_biosphereLevel:=blSilicon_Prebiotics;
+            FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_biosphereVigor:=FCVfbsVigorCalc;
+         end
+         else begin
+            FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_biosphereLevel:=blSilicon_Prebiotics;
+            FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_biosphereVigor:=FCVfbsVigorCalc;
+//            FCMfbS_MicroOrganismStage_Test(
+         end;
+      end
+      else FCMfB_FossilPresence_Test(
+         Star
+         ,OrbitalObject
+         ,FCFfS_Age_Calc( FCDduStarSystem[0].SS_stars[Star].S_mass, FCDduStarSystem[0].SS_stars[Star].S_luminosity )
+         ,Satellite
+         );
+   end
+   else FCMfB_FossilPresence_Test(
+      Star
+      ,OrbitalObject
+      ,FCFfS_Age_Calc( FCDduStarSystem[0].SS_stars[Star].S_mass, FCDduStarSystem[0].SS_stars[Star].S_luminosity )
+      ,Satellite
+      );
 end;
 
 end.
