@@ -209,6 +209,22 @@ function FCFuF_OrbitalPeriods_GetSpecifiedPeriod(
       ): integer;
 
 ///<summary>
+///   get the mean surface temperature of the orbital periods
+///</summary>
+///    <param name="StarSys">star system index #</param>
+///    <param name="Star">star index #</param>
+///    <param name="OrbitalObject">orbital object index #</param>
+///    <param name="Satellite">[optional] satellite index</param>
+///   <returns>the mean surface temperature of orbital periods</returns>
+///   <remarks>not formatted</remarks>
+function FCFuF_OrbitalPeriods_GetMeanSurfaceTemperature(
+   const StarSys
+         ,Star
+         ,OrbitalObject: integer;
+   const Satellite: integer=0
+      ): extended;
+
+///<summary>
 ///   get the surface temperature of a specified orbital period
 ///</summary>
 ///    <param name="Period">type of orbital period</param>
@@ -217,7 +233,7 @@ function FCFuF_OrbitalPeriods_GetSpecifiedPeriod(
 ///    <param name="OrbitalObject">orbital object index #</param>
 ///    <param name="Satellite">[optional] satellite index</param>
 ///   <returns>the surface temperature of the specified orbital period</returns>
-///   <remarks></remarks>
+///   <remarks>pre-formatted</remarks>
 function FCFuF_OrbitalPeriodSpecified_GetSurfaceTemperature(
    const Period: TFCEduOrbitalPeriodTypes;
    const StarSys
@@ -809,6 +825,45 @@ begin
       end;
       inc( Count );
    end;
+end;
+
+function FCFuF_OrbitalPeriods_GetMeanSurfaceTemperature(
+   const StarSys
+         ,Star
+         ,OrbitalObject: integer;
+   const Satellite: integer=0
+      ): extended;
+{:Purpose: get the mean surface temperature of the orbital periods.
+    Additions:
+}
+   var
+      ObjectSurfaceTempClosest
+      ,ObjectSurfaceTempFarthest
+      ,ObjectSurfaceTempInterm: extended;
+begin
+   Result:=0;
+   ObjectSurfaceTempClosest:=0;
+   ObjectSurfaceTempFarthest:=0;
+   ObjectSurfaceTempInterm:=0;
+   ObjectSurfaceTempClosest:=FCFuF_OrbitalPeriodSpecified_GetSurfaceTemperature(
+      optClosest
+      ,0
+      ,Star
+      ,OrbitalObject
+      );
+   ObjectSurfaceTempInterm:=FCFuF_OrbitalPeriodSpecified_GetSurfaceTemperature(
+      optIntermediary
+      ,0
+      ,Star
+      ,OrbitalObject
+      );
+   ObjectSurfaceTempFarthest:=FCFuF_OrbitalPeriodSpecified_GetSurfaceTemperature(
+      optFarthest
+      ,0
+      ,Star
+      ,OrbitalObject
+      );
+   Result:=( ObjectSurfaceTempClosest + ObjectSurfaceTempFarthest + ObjectSurfaceTempInterm ) / 3;
 end;
 
 function FCFuF_OrbitalPeriodSpecified_GetSurfaceTemperature(

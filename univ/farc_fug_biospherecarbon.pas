@@ -61,7 +61,10 @@ procedure FCMfbC_PrebioticsStage_Test(
 
 implementation
 
-//uses
+uses
+   farc_data_univ
+   ,farc_fug_biospherefunctions
+   ,farc_fug_data;
 
 //==END PRIVATE ENUM========================================================================
 
@@ -69,11 +72,15 @@ implementation
 
    //==========subsection===================================================================
 var
-   FBCbioFailed: boolean;
+   FCVfbcVigorCalc: integer;
 
 //==END PRIVATE VAR=========================================================================
 
-//const
+const
+   FCCfbcStagePenalty=5;
+
+   FCCfbcStagePenalty_SubSurface=10;
+
 //==END PRIVATE CONST=======================================================================
 
 //===================================================END OF INIT============================
@@ -87,8 +94,80 @@ procedure FCMfbC_PrebioticsStage_Test(
 {:Purpose: process and test the carbon-based prebiotics evolution stage.
     Additions:
 }
-begin
+   var
+      HydroArea: integer;
 
+      StageFailed: boolean;
+
+      HydroType: TFCEduHydrospheres;
+
+      gasCO2
+      ,gasH2O
+      ,gasN2: TFCEduAtmosphericGasStatus;
+begin
+   HydroArea:=0;
+
+   HydroType:=hNoHydro;
+
+   gasCO2:=agsNotPresent;
+   gasH2O:=agsNotPresent;
+   gasN2:=agsNotPresent;
+
+   if Satellite <= 0 then
+   begin
+      HydroType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_hydrosphere;
+      HydroArea:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_hydrosphereArea;
+      gasCO2:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceCO2;
+      gasH2O:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceH2O;
+      gasN2:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceN2;
+   end
+   else begin
+      HydroType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_hydrosphere;
+      HydroArea:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_hydrosphereArea;
+      gasCO2:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceCO2;
+      gasH2O:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceH2O;
+      gasN2:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceN2;
+   end;
+   StageFailed:=false;
+   FCVfbcVigorCalc:=0;
+   if HydroType = hWaterLiquid then
+   begin
+      FCVfbcVigorCalc:=FCVfbcVigorCalc + FCFfbF_SurfaceTemperaturesModifier_Calculate(
+         373.85
+         ,Star
+         ,OrbitalObject
+         ,Satellite
+         );
+      FCVfbcVigorCalc:=FCVfbcVigorCalc + FCFfbF_HydrosphereModifier_Calculate( HydroArea );
+      case gasCO2 of
+         agsNotPresent: FCVfbcVigorCalc:=FCVfbcVigorCalc - 15;
+
+         agsTrace: FCVfbcVigorCalc:=FCVfbcVigorCalc - 7;
+
+         agsSecondary: FCVfbcVigorCalc:=FCVfbcVigorCalc + 15;
+
+         agsPrimary: FCVfbcVigorCalc:=FCVfbcVigorCalc + 30;
+      end;
+      case gasH2O of
+         agsNotPresent: FCVfbcVigorCalc:=FCVfbcVigorCalc - 20;
+
+         agsSecondary: FCVfbcVigorCalc:=FCVfbcVigorCalc + 20;
+
+         agsPrimary: FCVfbcVigorCalc:=FCVfbcVigorCalc + 40;
+      end;
+      case gasN2 of
+         agsNotPresent: FCVfbcVigorCalc:=FCVfbcVigorCalc - 30;
+
+         agsTrace: FCVfbcVigorCalc:=FCVfbcVigorCalc - 15;
+
+         agsSecondary: FCVfbcVigorCalc:=FCVfbcVigorCalc + 15;
+
+         agsPrimary: FCVfbcVigorCalc:=FCVfbcVigorCalc + 30;
+      end;
+   end
+   else if HydroType in [hWaterIceSheet..hWaterIceCrust] then
+   begin
+   end;
 end;
 
 end.

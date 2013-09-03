@@ -47,6 +47,14 @@ uses
 //==END PUBLIC CONST========================================================================
 
 ///<summary>
+///   calculate the hydrosphere modifier
+///</summary>
+///    <param name="HydroArea">hydrosphere area</param>
+///   <returns>hydrosphere modifier</returns>
+///   <remarks></remarks>
+function FCFfbF_HydrosphereModifier_Calculate( const HydroArea: integer ): integer;
+
+///<summary>
 ///   calculate the star luminosity factor
 ///</summary>
 ///   <param name="DistanceFromStar">distance from the central star in AU</param>
@@ -86,11 +94,28 @@ function FCFfbF_StarModifier_Phase1( const StarType: TFCEduStarClasses ): intege
 ///   <remarks></remarks>
 function FCFfbF_StarModifier_Phase2( const StarType: TFCEduStarClasses ): integer;
 
+///<summary>
+///   calculate the surface temperatures modifier
+///</summary>
+///    <param name="TemperatureFactor">temperature factor</param>
+///    <param name="Star">star index #</param>
+///    <param name="OrbitalObject">orbital object index #</param>
+///    <param name="Satellite">[optional] satellite index</param>
+///   <returns>surface temperatures modifier</returns>
+///   <remarks></remarks>
+function FCFfbF_SurfaceTemperaturesModifier_Calculate(
+   const TemperatureFactor: extended;
+   const Star
+         ,OrbitalObject: integer;
+   const Satellite: integer=0
+   ): integer;
+
 //===========================END FUNCTIONS SECTION==========================================
 
 implementation
 
-//uses
+uses
+   farc_univ_func;
 
 //==END PRIVATE ENUM========================================================================
 
@@ -104,6 +129,20 @@ implementation
 //==END PRIVATE CONST=======================================================================
 
 //===================================================END OF INIT============================
+
+function FCFfbF_HydrosphereModifier_Calculate( const HydroArea: integer ): integer;
+{:Purpose: calculate the hydrosphere modifier.
+    Additions:
+}
+   var
+      Calc1
+      ,Calc2: extended;
+begin
+   Result:=0;
+   Calc1:=logn( HydroArea * 0.1, 10 );
+   Calc2:=power( Calc1, 2 ) * 30;
+   Result:=round( Calc2 );
+end;
 
 function FCFfbF_StarLuminosityFactor_Calculate(
    const DistanceFromStar
@@ -224,6 +263,34 @@ begin
 
       WD0..BH: Result:=130;
    end;
+end;
+
+function FCFfbF_SurfaceTemperaturesModifier_Calculate(
+   const TemperatureFactor: extended;
+   const Star
+         ,OrbitalObject: integer;
+   const Satellite: integer=0
+   ): integer;
+{:Purpose: calculate the surface temperatures modifier.
+    Additions:
+}
+   var
+      Calc1
+      ,Calc2
+      ,Calc3
+      ,MeanSurfaceTemperature: extended;
+begin
+   Result:=0;
+   MeanSurfaceTemperature:=FCFuF_OrbitalPeriods_GetMeanSurfaceTemperature(
+      0
+      ,Star
+      ,OrbitalObject
+      ,Satellite
+      );
+   Calc1:=logn( MeanSurfaceTemperature, TemperatureFactor );
+   Calc2:=power( Calc1, 5 );
+   Calc3:=Calc2 * ( Calc2 * 50 );
+   Result:=round( Calc3 );
 end;
 
 //===========================END FUNCTIONS SECTION==========================================
