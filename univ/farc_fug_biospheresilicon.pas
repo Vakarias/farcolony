@@ -81,6 +81,8 @@ var
 
    FCVfbsVigorCalc: integer;
 
+   FCVfbsStarAge: extended;
+
 //==END PRIVATE VAR=========================================================================
 
 const
@@ -161,6 +163,7 @@ begin
    StageFailed:=false;
    FCVfbsVigorCalc:=0;
    FCVfbsRootSilicon:=0;
+   FCVfbsStarAge:=FCFfS_Age_Calc( FCDduStarSystem[0].SS_stars[Star].S_mass, FCDduStarSystem[0].SS_stars[Star].S_luminosity );
    {.base modifier}
    {.icy planet influence}
    if ( ObjectType = ootPlanet_Icy )
@@ -229,7 +232,7 @@ begin
          FCMfB_FossilPresence_Test(
             Star
             ,OrbitalObject
-            ,FCFfS_Age_Calc( FCDduStarSystem[0].SS_stars[Star].S_mass, FCDduStarSystem[0].SS_stars[Star].S_luminosity )
+            ,FCVfbsStarAge
             ,Satellite
             );
       end;
@@ -239,7 +242,7 @@ begin
       FCMfB_FossilPresence_Test(
          Star
          ,OrbitalObject
-         ,FCFfS_Age_Calc( FCDduStarSystem[0].SS_stars[Star].S_mass, FCDduStarSystem[0].SS_stars[Star].S_luminosity )
+         ,FCVfbsStarAge
          ,Satellite
          );
    end;
@@ -263,14 +266,14 @@ begin
       else FCMfB_FossilPresence_Test(
          Star
          ,OrbitalObject
-         ,FCFfS_Age_Calc( FCDduStarSystem[0].SS_stars[Star].S_mass, FCDduStarSystem[0].SS_stars[Star].S_luminosity )
+         ,FCVfbsStarAge
          ,Satellite
          );
    end
    else FCMfB_FossilPresence_Test(
       Star
       ,OrbitalObject
-      ,FCFfS_Age_Calc( FCDduStarSystem[0].SS_stars[Star].S_mass, FCDduStarSystem[0].SS_stars[Star].S_luminosity )
+      ,FCVfbsStarAge
       ,Satellite
       );
 end;

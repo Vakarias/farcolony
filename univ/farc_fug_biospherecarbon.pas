@@ -46,6 +46,9 @@ uses
 
 //===========================END FUNCTIONS SECTION==========================================
 
+//procedure FCMfbC_MicroOrganismStage_Test(
+
+
 ///<summary>
 ///   process and test the carbon-based prebiotics evolution stage
 ///</summary>
@@ -80,6 +83,8 @@ var
    FCVfbcRootCarbon: integer;
 
    FCVfbcVigorCalc: integer;
+
+   FCVfbcStarAge: extended;
 
 //==END PRIVATE VAR=========================================================================
 
@@ -167,6 +172,7 @@ begin
    StageFailed:=false;
    FCVfbcVigorCalc:=0;
    FCVfbcRootCarbon:=0;
+   FCVfbcStarAge:=FCFfS_Age_Calc( FCDduStarSystem[0].SS_stars[Star].S_mass, FCDduStarSystem[0].SS_stars[Star].S_luminosity );
    if HydroType = hWaterLiquid then
    begin
       {.surface temperature influence}
@@ -233,7 +239,7 @@ begin
             FCMfB_FossilPresence_Test(
                Star
                ,OrbitalObject
-               ,FCFfS_Age_Calc( FCDduStarSystem[0].SS_stars[Star].S_mass, FCDduStarSystem[0].SS_stars[Star].S_luminosity )
+               ,FCVfbcStarAge
                ,Satellite
                );
          end;
@@ -243,7 +249,7 @@ begin
          FCMfB_FossilPresence_Test(
             Star
             ,OrbitalObject
-            ,FCFfS_Age_Calc( FCDduStarSystem[0].SS_stars[Star].S_mass, FCDduStarSystem[0].SS_stars[Star].S_luminosity )
+            ,FCVfbcStarAge
             ,Satellite
             );
       end;
@@ -274,7 +280,7 @@ begin
          FCMfB_FossilPresence_Test(
             Star
             ,OrbitalObject
-            ,FCFfS_Age_Calc( FCDduStarSystem[0].SS_stars[Star].S_mass, FCDduStarSystem[0].SS_stars[Star].S_luminosity )
+            ,FCVfbcStarAge
             ,Satellite
             );
       end;
@@ -299,14 +305,14 @@ begin
       else FCMfB_FossilPresence_Test(
          Star
          ,OrbitalObject
-         ,FCFfS_Age_Calc( FCDduStarSystem[0].SS_stars[Star].S_mass, FCDduStarSystem[0].SS_stars[Star].S_luminosity )
+         ,FCVfbcStarAge
          ,Satellite
          );
    end
    else FCMfB_FossilPresence_Test(
       Star
       ,OrbitalObject
-      ,FCFfS_Age_Calc( FCDduStarSystem[0].SS_stars[Star].S_mass, FCDduStarSystem[0].SS_stars[Star].S_luminosity )
+      ,FCVfbcStarAge
       ,Satellite
       );
 end;

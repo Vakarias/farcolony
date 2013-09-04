@@ -81,6 +81,8 @@ var
 
    FCVfbsdVigorCalc: integer;
 
+   FCVfbsdStarAge: extended;
+
 //==END PRIVATE VAR=========================================================================
 
 const
@@ -166,7 +168,7 @@ procedure FCMfbsD_PrebioticsStage_Test(
                FCMfB_FossilPresence_Test(
                   Star
                   ,OrbitalObject
-                  ,FCFfS_Age_Calc( FCDduStarSystem[0].SS_stars[Star].S_mass, FCDduStarSystem[0].SS_stars[Star].S_luminosity )
+                  ,FCVfbsdStarAge
                   ,Satellite
                   );
             end;
@@ -176,7 +178,7 @@ procedure FCMfbsD_PrebioticsStage_Test(
             FCMfB_FossilPresence_Test(
                Star
                ,OrbitalObject
-               ,FCFfS_Age_Calc( FCDduStarSystem[0].SS_stars[Star].S_mass, FCDduStarSystem[0].SS_stars[Star].S_luminosity )
+               ,FCVfbsdStarAge
                ,Satellite
                );
          end;
@@ -248,6 +250,7 @@ begin
    StageFailed:=false;
    FCVfbsdVigorCalc:=0;
    FCVfbsdRootSulphur:=0;
+   FCVfbsdStarAge:=FCFfS_Age_Calc( FCDduStarSystem[0].SS_stars[Star].S_mass, FCDduStarSystem[0].SS_stars[Star].S_luminosity );
    if HydroType = hNoHydro then
    begin
       {.base modifier}
@@ -304,14 +307,14 @@ begin
       else FCMfB_FossilPresence_Test(
          Star
          ,OrbitalObject
-         ,FCFfS_Age_Calc( FCDduStarSystem[0].SS_stars[Star].S_mass, FCDduStarSystem[0].SS_stars[Star].S_luminosity )
+         ,FCVfbsdStarAge
          ,Satellite
          );
    end
    else FCMfB_FossilPresence_Test(
       Star
       ,OrbitalObject
-      ,FCFfS_Age_Calc( FCDduStarSystem[0].SS_stars[Star].S_mass, FCDduStarSystem[0].SS_stars[Star].S_luminosity )
+      ,FCVfbsdStarAge
       ,Satellite
       );
 end;

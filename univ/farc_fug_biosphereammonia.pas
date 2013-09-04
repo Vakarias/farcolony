@@ -81,6 +81,8 @@ var
 
    FCVfbaVigorCalc: integer;
 
+   FCVfbaStarAge: extended;
+
 //==END PRIVATE VAR=========================================================================
 
 const
@@ -172,6 +174,7 @@ begin
    StageFailed:=false;
    FCVfbaVigorCalc:=0;
    FCVfbaRootAmmonia:=0;
+   FCVfbaStarAge:=FCFfS_Age_Calc( FCDduStarSystem[0].SS_stars[Star].S_mass, FCDduStarSystem[0].SS_stars[Star].S_luminosity );
    if HydroType = hWaterAmmoniaLiquid then
    begin
       {.surface temperature influence}
@@ -247,7 +250,7 @@ begin
             FCMfB_FossilPresence_Test(
                Star
                ,OrbitalObject
-               ,FCFfS_Age_Calc( FCDduStarSystem[0].SS_stars[Star].S_mass, FCDduStarSystem[0].SS_stars[Star].S_luminosity )
+               ,FCVfbaStarAge
                ,Satellite
                );
          end;
@@ -257,7 +260,7 @@ begin
          FCMfB_FossilPresence_Test(
             Star
             ,OrbitalObject
-            ,FCFfS_Age_Calc( FCDduStarSystem[0].SS_stars[Star].S_mass, FCDduStarSystem[0].SS_stars[Star].S_luminosity )
+            ,FCVfbaStarAge
             ,Satellite
             );
       end;
@@ -286,7 +289,7 @@ begin
          FCMfB_FossilPresence_Test(
             Star
             ,OrbitalObject
-            ,FCFfS_Age_Calc( FCDduStarSystem[0].SS_stars[Star].S_mass, FCDduStarSystem[0].SS_stars[Star].S_luminosity )
+            ,FCVfbaStarAge
             ,Satellite
             );
       end;
@@ -311,14 +314,14 @@ begin
       else FCMfB_FossilPresence_Test(
          Star
          ,OrbitalObject
-         ,FCFfS_Age_Calc( FCDduStarSystem[0].SS_stars[Star].S_mass, FCDduStarSystem[0].SS_stars[Star].S_luminosity )
+         ,FCVfbaStarAge
          ,Satellite
          );
    end
    else FCMfB_FossilPresence_Test(
       Star
       ,OrbitalObject
-      ,FCFfS_Age_Calc( FCDduStarSystem[0].SS_stars[Star].S_mass, FCDduStarSystem[0].SS_stars[Star].S_luminosity )
+      ,FCVfbaStarAge
       ,Satellite
       );
 end;
