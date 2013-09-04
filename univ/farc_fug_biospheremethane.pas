@@ -30,7 +30,8 @@ unit farc_fug_biospheremethane;
 
 interface
 
-//uses
+uses
+   Math;
 
 //==END PUBLIC ENUM=========================================================================
 
@@ -62,8 +63,13 @@ procedure FCMfbM_PrebioticsStage_Test(
 implementation
 
 uses
-   farc_data_univ
-   ,farc_fug_biospherefunctions;
+   farc_common_func
+   ,farc_data_univ
+   ,farc_fug_biosphere
+   ,farc_fug_biospherefunctions
+   ,farc_fug_data
+   ,farc_fug_stars
+   ,farc_univ_func;
 
 //==END PRIVATE ENUM========================================================================
 
@@ -92,193 +98,173 @@ procedure FCMfbM_PrebioticsStage_Test(
     Additions:
 }
    var
-      //HydroArea
-      //,TestVal: integer;
-//
-//      Albedo
-//      ,CloudsCover
-//      ,DistanceFromStar
-//      ,fCalc1: extended;
-//
+      HydroArea
+      ,TestVal: integer;
+
+      Albedo
+      ,CloudsCover
+      ,DistanceFromStar
+      ,fCalc1: extended;
+
       StageFailed: boolean;
 
-//      HydroType: TFCEduHydrospheres;
+      HydroType: TFCEduHydrospheres;
 
-      ,gasN2
-      ,gasCH4: TFCEduAtmosphericGasStatus;
+      gasCH4
+      ,gasN2: TFCEduAtmosphericGasStatus;
 
-//      TectonicActivity: TFCEduTectonicActivity;
+      TectonicActivity: TFCEduTectonicActivity;
 
 begin
-   //HydroArea:=0;
-   //TestVal:=0;
-   //
-   //Albedo:=0;
-   //CloudsCover:=0;
-   //DistanceFromStar:=0;
-   //fCalc1:=0;
-   //
-   //HydroType:=hNoHydro;
+   HydroArea:=0;
+   TestVal:=0;
 
-//   gasH2:=agsNotPresent;
-//   gasH2O:=agsNotPresent;
-   gasN2:=agsNotPresent;
+   Albedo:=0;
+   CloudsCover:=0;
+   DistanceFromStar:=0;
+   fCalc1:=0;
+
+   HydroType:=hNoHydro;
+
    gasCH4:=agsNotPresent;
+   gasN2:=agsNotPresent;
 
-//   TectonicActivity:=taNull;
+   TectonicActivity:=taNull;
 
    if Satellite <= 0 then
    begin
-//      HydroType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_hydrosphere;
-//      HydroArea:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_hydrosphereArea;
-//      Albedo:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_albedo;
-//      CloudsCover:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_cloudsCover;
-//      DistanceFromStar:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isNotSat_distanceFromStar;
-//      TectonicActivity:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_tectonicActivity;
-//      gasH2:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceH2;
-//      gasH2O:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceH2O;
-      gasN2:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceN2;
+      HydroType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_hydrosphere;
+      HydroArea:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_hydrosphereArea;
+      Albedo:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_albedo;
+      CloudsCover:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_cloudsCover;
+      DistanceFromStar:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isNotSat_distanceFromStar;
+      TectonicActivity:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_tectonicActivity;
       gasCH4:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceCH4;
+      gasN2:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceN2;
    end
    else begin
-//      HydroType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_hydrosphere;
-//      HydroArea:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_hydrosphereArea;
-//      Albedo:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_albedo;
-//      CloudsCover:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_cloudsCover;
-//      DistanceFromStar:=FCFuF_Satellite_GetDistanceFromStar(
-//         0
-//         ,Star
-//         ,OrbitalObject
-//         ,Satellite
-//         );
-//      TectonicActivity:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_tectonicActivity;
-//      gasH2:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceH2;
-//      gasH2O:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceH2O;
-      gasN2:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceN2;
+      HydroType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_hydrosphere;
+      HydroArea:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_hydrosphereArea;
+      Albedo:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_albedo;
+      CloudsCover:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_cloudsCover;
+      DistanceFromStar:=FCFuF_Satellite_GetDistanceFromStar(
+         0
+         ,Star
+         ,OrbitalObject
+         ,Satellite
+         );
+      TectonicActivity:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_tectonicActivity;
       gasCH4:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceCH4;
+      gasN2:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceN2;
    end;
    StageFailed:=false;
    FCVfbmVigorCalc:=0;
    FCVfbmRootMethane:=0;
-//   if HydroType = hWaterAmmoniaLiquid then
-//   begin
-//      {.surface temperature influence}
-//      FCVfbmVigorCalc:=FCVfbmVigorCalc + FCFfbF_SurfaceTemperaturesModifier_Calculate(
-//         300
-//         ,Star
-//         ,OrbitalObject
-//         ,Satellite
-//         );
-//      {.hydrosphere influence}
-//      FCVfbmVigorCalc:=FCVfbmVigorCalc + FCFfbF_HydrosphereModifier_Calculate( HydroArea );
-//      {.atmosphere influences}
-//      case gasH2 of
-//         agsNotPresent: FCVfbmVigorCalc:=FCVfbmVigorCalc - 15;
-//
-//         agsTrace: FCVfbmVigorCalc:=FCVfbmVigorCalc - 15;
-//
-//         agsSecondary: FCVfbmVigorCalc:=FCVfbmVigorCalc + 20;
-//
-//         agsPrimary: FCVfbmVigorCalc:=FCVfbmVigorCalc + 40;
-//      end;
-//      case gasH2O of
-//         agsNotPresent: FCVfbmVigorCalc:=FCVfbmVigorCalc - 20;
-//
-//         agsSecondary: FCVfbmVigorCalc:=FCVfbmVigorCalc + 20;
-//
-//         agsPrimary: FCVfbmVigorCalc:=FCVfbmVigorCalc + 40;
-//      end;
-//      case gasN2 of
-//         agsNotPresent: FCVfbmVigorCalc:=FCVfbmVigorCalc - 20;
-//
-//         agsTrace: FCVfbmVigorCalc:=FCVfbmVigorCalc - 20;
-//
-//         agsSecondary: FCVfbmVigorCalc:=FCVfbmVigorCalc + 10;
-//
-//         agsPrimary: FCVfbmVigorCalc:=FCVfbmVigorCalc + 20;
-//      end;
-//      case gasNH3 of
-//         agsNotPresent: FCVfbmVigorCalc:=FCVfbmVigorCalc - 5;
-//
-//         agsTrace: FCVfbmVigorCalc:=FCVfbmVigorCalc - 5;
-//
-//         agsSecondary: FCVfbmVigorCalc:=FCVfbmVigorCalc + 10;
-//
-//         agsPrimary: FCVfbmVigorCalc:=FCVfbmVigorCalc + 30;
-//      end;
-//      {.tectonic activity influence}
-//      case TectonicActivity of
-//         taDead: FCVfbmVigorCalc:=FCVfbmVigorCalc -20;
-//
-//         taHotSpot: FCVfbmVigorCalc:=FCVfbmVigorCalc + 5;
-//
-//         taPlastic: FCVfbmVigorCalc:=FCVfbmVigorCalc + 10;
-//
-//         taPlateTectonic: FCVfbmVigorCalc:=FCVfbmVigorCalc + 20;
-//
-//         taPlateletTectonic: FCVfbmVigorCalc:=FCVfbmVigorCalc + 10;
-//      end;
-//      {.star luminosity influence}
-//      fCalc1:=FCFfbF_StarLuminosityFactor_Calculate(
-//         DistanceFromStar
-//         ,FCDduStarSystem[0].SS_stars[Star].S_luminosity
-//         ,Albedo
-//         ,CloudsCover
-//         );
-//      FCVfbmRootMethane:=round( power( fCalc1, 0.333) );
-//      if fCalc1 <= 1912
-//      then begin
-//         FCVfbmVigorCalc:=FCVfbmVigorCalc + FCFfbF_StarLuminosityVigorMod_Calculate( fCalc1 );
-//         if FCVfbmVigorCalc < 1 then
-//         begin
-//            StageFailed:=true;
-//            FCMfB_FossilPresence_Test(
-//               Star
-//               ,OrbitalObject
-//               ,FCFfS_Age_Calc( FCDduStarSystem[0].SS_stars[Star].S_mass, FCDduStarSystem[0].SS_stars[Star].S_luminosity );
-//               ,Satellite
-//               );
-//         end;
-//      end
-//      else begin
-//         StageFailed:=true;
-//         FCMfB_FossilPresence_Test(
-//            Star
-//            ,OrbitalObject
-//            ,FCFfS_Age_Calc( FCDduStarSystem[0].SS_stars[Star].S_mass, FCDduStarSystem[0].SS_stars[Star].S_luminosity );
-//            ,Satellite
-//            );
-//      end;
-//   end
-//   else if HydroType in [hNitrogenIceSheet..hNitrogenIceCrust] then
-//   begin
-//      {.base modifier}
-//      FCVfbmVigorCalc:=FCVfbmVigorCalc + 40;
-//      {.hydrosphere influence}
-//      if HydroType = hNitrogenIceSheet
-//      then FCVfbmVigorCalc:=FCVfbmVigorCalc + FCFfbF_HydrosphereModifier_Calculate( round( HydroArea * 1.33 ) )
-//      else FCVfbmVigorCalc:=FCVfbmVigorCalc + FCFfbF_HydrosphereModifier_Calculate( HydroArea );
-//      {.tectonic activity influence}
-//      case TectonicActivity of
-//         taHotSpot: FCVfbmVigorCalc:=FCVfbmVigorCalc + 5;
-//
-//         taPlastic: FCVfbmVigorCalc:=FCVfbmVigorCalc + 10;
-//
-//         taPlateTectonic: FCVfbmVigorCalc:=FCVfbmVigorCalc + 15;
-//
-//         taPlateletTectonic: FCVfbmVigorCalc:=FCVfbmVigorCalc + 20;
-//      end;
-//      if FCVfbmVigorCalc < 1 then
-//      begin
-//         StageFailed:=true;
-//         FCMfB_FossilPresence_Test(
-//            Star
-//            ,OrbitalObject
-//            ,FCFfS_Age_Calc( FCDduStarSystem[0].SS_stars[Star].S_mass, FCDduStarSystem[0].SS_stars[Star].S_luminosity );
-//            ,Satellite
-//            );
-//      end;
-//   end;
+   if HydroType = hMethaneLiquid then
+   begin
+      {.surface temperature influence}
+      FCVfbmVigorCalc:=FCVfbmVigorCalc + FCFfbF_SurfaceTemperaturesModifier_Calculate(
+         143.075
+         ,Star
+         ,OrbitalObject
+         ,Satellite
+         );
+      {.hydrosphere influence}
+      FCVfbmVigorCalc:=FCVfbmVigorCalc + FCFfbF_HydrosphereModifier_Calculate( HydroArea );
+      {.atmosphere influences}
+      case gasCH4 of
+         agsNotPresent: FCVfbmVigorCalc:=FCVfbmVigorCalc + 5;
+
+         agsTrace: FCVfbmVigorCalc:=FCVfbmVigorCalc + 5;
+
+         agsSecondary: FCVfbmVigorCalc:=FCVfbmVigorCalc + 10;
+
+         agsPrimary: FCVfbmVigorCalc:=FCVfbmVigorCalc + 15;
+      end;
+      case gasN2 of
+         agsNotPresent: FCVfbmVigorCalc:=FCVfbmVigorCalc - 30;
+
+         agsTrace: FCVfbmVigorCalc:=FCVfbmVigorCalc - 15;
+
+         agsSecondary: FCVfbmVigorCalc:=FCVfbmVigorCalc + 15;
+
+         agsPrimary: FCVfbmVigorCalc:=FCVfbmVigorCalc + 30;
+      end;
+      {.tectonic activity influence}
+      case TectonicActivity of
+         taDead: FCVfbmVigorCalc:=FCVfbmVigorCalc -20;
+
+         taHotSpot: FCVfbmVigorCalc:=FCVfbmVigorCalc + 5;
+
+         taPlastic: FCVfbmVigorCalc:=FCVfbmVigorCalc + 10;
+
+         taPlateTectonic: FCVfbmVigorCalc:=FCVfbmVigorCalc + 20;
+
+         taPlateletTectonic: FCVfbmVigorCalc:=FCVfbmVigorCalc + 10;
+      end;
+      {.star luminosity influence}
+      fCalc1:=FCFfbF_StarLuminosityFactor_Calculate(
+         DistanceFromStar
+         ,FCDduStarSystem[0].SS_stars[Star].S_luminosity
+         ,Albedo
+         ,CloudsCover
+         );
+      FCVfbmRootMethane:=round( power( fCalc1, 0.333) );
+      if fCalc1 <= 1912
+      then begin
+         FCVfbmVigorCalc:=FCVfbmVigorCalc + FCFfbF_StarLuminosityVigorMod_Calculate( fCalc1 );
+         if FCVfbmVigorCalc < 1 then
+         begin
+            StageFailed:=true;
+            FCMfB_FossilPresence_Test(
+               Star
+               ,OrbitalObject
+               ,FCFfS_Age_Calc( FCDduStarSystem[0].SS_stars[Star].S_mass, FCDduStarSystem[0].SS_stars[Star].S_luminosity )
+               ,Satellite
+               );
+         end;
+      end
+      else begin
+         StageFailed:=true;
+         FCMfB_FossilPresence_Test(
+            Star
+            ,OrbitalObject
+            ,FCFfS_Age_Calc( FCDduStarSystem[0].SS_stars[Star].S_mass, FCDduStarSystem[0].SS_stars[Star].S_luminosity )
+            ,Satellite
+            );
+      end;
+   end
+   else if HydroType in [hMethaneIceSheet..hMethaneIceCrust] then
+   begin
+      {.base modifier}
+      FCVfbmVigorCalc:=FCVfbmVigorCalc + 30;
+      {.hydrosphere influence}
+      if HydroType = hMethaneIceSheet
+      then FCVfbmVigorCalc:=FCVfbmVigorCalc + FCFfbF_HydrosphereModifier_Calculate( round( HydroArea * 1.33 ) )
+      else FCVfbmVigorCalc:=FCVfbmVigorCalc + FCFfbF_HydrosphereModifier_Calculate( HydroArea );
+      {.tectonic activity influence}
+      case TectonicActivity of
+         taDead: FCVfbmVigorCalc:=FCVfbmVigorCalc + -40;
+
+         taHotSpot: FCVfbmVigorCalc:=FCVfbmVigorCalc + 10;
+
+         taPlastic: FCVfbmVigorCalc:=FCVfbmVigorCalc + 20;
+
+         taPlateTectonic: FCVfbmVigorCalc:=FCVfbmVigorCalc + 25;
+
+         taPlateletTectonic: FCVfbmVigorCalc:=FCVfbmVigorCalc + 30;
+      end;
+      if FCVfbmVigorCalc < 1 then
+      begin
+         StageFailed:=true;
+         FCMfB_FossilPresence_Test(
+            Star
+            ,OrbitalObject
+            ,FCFfS_Age_Calc( FCDduStarSystem[0].SS_stars[Star].S_mass, FCDduStarSystem[0].SS_stars[Star].S_luminosity )
+            ,Satellite
+            );
+      end;
+   end;
    {.final test}
    if not StageFailed then
    begin
@@ -293,20 +279,20 @@ begin
          else begin
             FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_biosphereLevel:=blMethane_Prebiotics;
             FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_biosphereVigor:=FCVfbmVigorCalc;
-            FCMfbA_MicroOrganismStage_Test(
+//            FCMfbA_MicroOrganismStage_Test(
          end;
       end
-      else FCMfM_FossilPresence_Test(
+      else FCMfB_FossilPresence_Test(
          Star
          ,OrbitalObject
-         ,FCFfS_Age_Calc( FCDduStarSystem[0].SS_stars[Star].S_mass, FCDduStarSystem[0].SS_stars[Star].S_luminosity );
+         ,FCFfS_Age_Calc( FCDduStarSystem[0].SS_stars[Star].S_mass, FCDduStarSystem[0].SS_stars[Star].S_luminosity )
          ,Satellite
          );
    end
    else FCMfB_FossilPresence_Test(
       Star
       ,OrbitalObject
-      ,FCFfS_Age_Calc( FCDduStarSystem[0].SS_stars[Star].S_mass, FCDduStarSystem[0].SS_stars[Star].S_luminosity );
+      ,FCFfS_Age_Calc( FCDduStarSystem[0].SS_stars[Star].S_mass, FCDduStarSystem[0].SS_stars[Star].S_luminosity )
       ,Satellite
       );
 end;
