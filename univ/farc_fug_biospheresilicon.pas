@@ -83,6 +83,8 @@ var
 
    FCVfbsStarAge: extended;
 
+   FCVfbsTectonicActivity: TFCEduTectonicActivity;
+
 //==END PRIVATE VAR=========================================================================
 
 const
@@ -116,8 +118,6 @@ procedure FCMfbS_PrebioticsStage_Test(
       ,gasNe
       ,gasSO2: TFCEduAtmosphericGasStatus;
 
-      TectonicActivity: TFCEduTectonicActivity;
-
       ObjectType: TFCEduOrbitalObjectTypes;
 begin
    Albedo:=0;
@@ -130,7 +130,7 @@ begin
    gasNe:=agsNotPresent;
    gasSO2:=agsNotPresent;
 
-   TectonicActivity:=taNull;
+   FCVfbsTectonicActivity:=taNull;
 
    if Satellite <= 0 then
    begin
@@ -138,7 +138,7 @@ begin
       Albedo:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_albedo;
       CloudsCover:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_cloudsCover;
       DistanceFromStar:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isNotSat_distanceFromStar;
-      TectonicActivity:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_tectonicActivity;
+      FCVfbsTectonicActivity:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_tectonicActivity;
       gasH2:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceH2;
       gasN2:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceN2;
       gasNe:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceNe;
@@ -154,7 +154,7 @@ begin
          ,OrbitalObject
          ,Satellite
          );
-      TectonicActivity:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_tectonicActivity;
+      FCVfbsTectonicActivity:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_tectonicActivity;
       gasH2:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceH2;
       gasN2:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceN2;
       gasNe:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceNe;
@@ -204,7 +204,7 @@ begin
       agsPrimary: FCVfbsVigorCalc:=FCVfbsVigorCalc + 40;
    end;
    {.tectonic activity influence}
-   case TectonicActivity of
+   case FCVfbsTectonicActivity of
       taDead: FCVfbsVigorCalc:=FCVfbsVigorCalc -20;
 
       taHotSpot: FCVfbsVigorCalc:=FCVfbsVigorCalc + 10;

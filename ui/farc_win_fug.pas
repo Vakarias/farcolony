@@ -536,7 +536,7 @@ begin
                end;
                WF_XMLOutput.Lines.Add( '         </orbitalPeriods>' );
                WF_XMLOutput.Lines.Add(
-                  '            <biosphereData level="'+GetEnumName( TypeInfo( TFCEduBiosphereLevels ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_biosphereLevel ) )
+                  '         <biosphereData level="'+GetEnumName( TypeInfo( TFCEduBiosphereLevels ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_biosphereLevel ) )
                      +'" vigor="'+inttostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_biosphereVigor )
                      +'"/>'
                   );

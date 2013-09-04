@@ -125,6 +125,7 @@ procedure FCMfB_BiosphereBase_Generation(
       gasCH4
       ,gasCO2
       ,gasH2
+      ,gasH2O
       ,gasH2S
       ,gasN2
       ,gasNH3
@@ -135,7 +136,7 @@ procedure FCMfB_BiosphereBase_Generation(
    procedure _Biochemistry_Branching;
    begin
       {.methane-based branching}
-      if ( ( HydroType = hMethaneLiquid ) and ( ( gasCH4 = agsPrimary ) or ( gasN2 = agsPrimary ) ) )
+      if ( ( HydroType = hMethaneLiquid ) and ( ( gasN2 = agsPrimary ) or ( gasCH4 >= agsSecondary ) ) )
          or ( ( HasSubsurfaceOcean ) and ( HydroType in [hMethaneIceSheet..hMethaneIceCrust] ) )
       then FCMfbM_PrebioticsStage_Test(
          Star
@@ -143,7 +144,7 @@ procedure FCMfB_BiosphereBase_Generation(
          ,Satellite
          )
       {.ammonia-based branching}
-      else if ( ( HydroType = hWaterAmmoniaLiquid ) and ( ( gasNH3 = agsPrimary ) or ( gasH2 = agsPrimary ) or ( gasN2 = agsPrimary ) ) and ( gasO2 <= agsTrace ) )
+      else if ( ( HydroType = hWaterAmmoniaLiquid ) and ( ( gasH2 = agsPrimary ) or ( gasN2 = agsPrimary ) or ( gasNH3 >= agsSecondary ) ) and ( gasO2 <= agsTrace ) )
          or ( ( HasSubsurfaceOcean ) and ( HydroType in [hNitrogenIceSheet..hNitrogenIceCrust] ) )
       then FCMfbA_PrebioticsStage_Test(
          Star
@@ -152,7 +153,7 @@ procedure FCMfB_BiosphereBase_Generation(
          )
       {.silicon-based branching}
       else if ( HydroType = hNoHydro )
-         and ( ( gasH2 = agsPrimary ) or ( gasSO2 = agsPrimary ) )
+         and ( ( gasH2 >= agsSecondary ) or ( gasSO2 >= agsSecondary ) )
          and ( gasO2 <= agsTrace )
       then FCMfbS_PrebioticsStage_Test(
          Star
@@ -160,7 +161,7 @@ procedure FCMfB_BiosphereBase_Generation(
          ,Satellite
          )
       {.sulphur dioxide-based branching}
-      else if ( ( HydroType = hNoHydro ) and ( gasH2S = agsPrimary ) )
+      else if ( ( HydroType = hNoHydro ) and ( gasH2S >= agsSecondary ) )
          or ( ( HydroType = hWaterLiquid ) and ( ( gasNO2 = agsPrimary ) or ( gasSO2 = agsPrimary ) ) )
       then FCMfbsD_PrebioticsStage_Test(
          Star
@@ -168,7 +169,7 @@ procedure FCMfB_BiosphereBase_Generation(
          ,Satellite
          )
       {.carbon-based branching}
-      else if ( ( HydroType = hWaterLiquid ) and ( ( gasCO2 = agsPrimary ) or ( gasN2 = agsPrimary ) ) )
+      else if ( ( HydroType = hWaterLiquid ) and ( ( gasN2 = agsPrimary ) or ( gasCO2 >= agsSecondary ) or ( gasH2O >= agsSecondary ) ) )
          or ( ( HasSubsurfaceOcean ) and ( HydroType in [hWaterIceSheet..hWaterIceCrust] ) )
       then FCMfbC_PrebioticsStage_Test(
          Star
@@ -190,6 +191,7 @@ begin
    gasCH4:=agsNotPresent;
    gasCO2:=agsNotPresent;
    gasH2:=agsNotPresent;
+   gasH2O:=agsNotPresent;
    gasH2S:=agsNotPresent;
    gasN2:=agsNotPresent;
    gasNH3:=agsNotPresent;
@@ -212,6 +214,7 @@ begin
          gasCH4:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceCH4;
          gasCO2:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceCO2;
          gasH2:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceH2;
+         gasH2O:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceH2O;
          gasH2S:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceH2S;
          gasN2:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceN2;
          gasNH3:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceNH3;
@@ -234,6 +237,7 @@ begin
          gasCH4:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceCH4;
          gasCO2:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceCO2;
          gasH2:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceH2;
+         gasH2O:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceH2O;
          gasH2S:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceH2S;
          gasN2:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceN2;
          gasNH3:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceNH3;

@@ -953,17 +953,19 @@ begin
             and ( TectonicActivyIndex > 0 )
             and ( TectonicActivyIndex < 5 ) then
          begin
-            if ( ObjectType = ootPlanet_Icy )
-               or ( ObjectType = ootSatellite_Planet_Icy ) then
-            begin
-               hasaSubsurfaceOcean:=true;
-               fCalc1:=TectonicActivyIndex * 25;
-            end
-            else fCalc1:=TectonicActivyIndex * 10;
+            fCalc1:=TectonicActivyIndex * 10;
          end
          else if isAtmosphere then
          begin
             fCalc1:=( FCDfdRegions[Region].RC_relativeHumidityClosest + FCDfdRegions[Region].RC_relativeHumidityInterm + FCDfdRegions[Region].RC_relativeHumidityFarthest ) / 300;
+         end;
+         {.special case for subsurface ocean}
+         if ( ( ObjectType = ootPlanet_Icy ) or ( ObjectType = ootSatellite_Planet_Icy ) )
+            and ( TectonicActivyIndex > 0 )
+            and ( TectonicActivyIndex < 5 ) then
+         begin
+            hasaSubsurfaceOcean:=true;
+            fCalc1:=TectonicActivyIndex * 25;
          end;
          if fCalc1 <= 0 then
          begin
