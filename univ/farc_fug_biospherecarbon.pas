@@ -46,11 +46,19 @@ uses
 
 //===========================END FUNCTIONS SECTION==========================================
 
-//procedure FCMfbC_MicroOrganismStage_Test(
-//   const Star
-//         ,OrbitalObject: integer;
-//   const Satellite: integer=0
-//   );
+///<summary>
+///   process and test the carbon-based micro-organisms evolution stage
+///</summary>
+/// <param name="Star">star index #</param>
+/// <param name="OrbitalObject">orbital object index #</param>
+/// <param name="Satellite">OPTIONAL: satellite index #</param>
+///   <returns></returns>
+///   <remarks></remarks>
+procedure FCMfbC_MicroOrganismStage_Test(
+   const Star
+         ,OrbitalObject: integer;
+   const Satellite: integer=0
+   );
 
 ///<summary>
 ///   process and test the carbon-based prebiotics evolution stage
@@ -71,6 +79,7 @@ implementation
 uses
    farc_common_func
    ,farc_data_univ
+   ,farc_fug_atmosphere
    ,farc_fug_biosphere
    ,farc_fug_biospherefunctions
    ,farc_fug_data
@@ -83,13 +92,21 @@ uses
 
    //==========subsection===================================================================
 var
-   FCVfbcRootCarbon: integer;
+   FCVfbcHydroArea: integer;
 
-   FCVfbcVigorCalc: integer;
+   FCVfbcHydroType: TFCEduHydrospheres;
+
+   FCVfbcRootCarbon: integer;
 
    FCVfbcStarAge: extended;
 
    FCVfbcTectonicActivity: TFCEduTectonicActivity;
+
+   FCVfbcVigorCalc: integer;
+
+   gasCO2
+   ,gasH2O
+   ,gasN2: TFCEduAtmosphericGasStatus;
 
 //==END PRIVATE VAR=========================================================================
 
@@ -103,6 +120,142 @@ const
 //===================================================END OF INIT============================
 //===========================END FUNCTIONS SECTION==========================================
 
+procedure FCMfbC_MicroOrganismStage_Test(
+   const Star
+         ,OrbitalObject: integer;
+   const Satellite: integer=0
+   );
+{:Purpose: process and test the carbon-based micro-organisms evolution stage.
+    Additions:
+}
+   var
+      BcarbonChain
+      ,Bco2
+      ,Bh2o
+      ,Bh2s
+      ,Bn2
+      ,iCalc1
+      ,PrimaryGasPart: integer;
+
+      fCalc1
+      ,fCalc2
+      ,fCalc3: extended;
+
+      CarbonDNA
+      ,CarbonMembranes
+      ,CarbonProteins
+      ,isRotationPeriodNull
+      ,StageFailed: boolean;
+
+      gasH2S: TFCEduAtmosphericGasStatus;
+begin
+   BcarbonChain:=0;
+   Bco2:=0;
+   Bh2o:=0;
+   Bh2s:=0;
+   Bn2:=0;
+   iCalc1:=0;
+   PrimaryGasPart:=0;
+
+   fCalc1:=0;
+   fCalc2:=0;
+   fCalc3:=0;
+
+   CarbonDNA:=false;
+   CarbonMembranes:=false;
+   CarbonProteins:=false;
+   isRotationPeriodNull:=false;
+   StageFailed:=false;
+
+   gasH2S:=agsNotPresent;
+
+   if Satellite <= 0 then
+   begin
+      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isNotSat_rotationPeriod = 0
+      then isRotationPeriodNull:=true;
+      PrimaryGasPart:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_primaryGasVolumePerc;
+      gasH2S:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceH2S;
+   end
+   else begin
+      fCalc1:=FCFuF_Satellite_GetRotationPeriod(
+         0
+         ,Star
+         ,OrbitalObject
+         ,Satellite
+         );
+      if fCalc1 = 0
+      then isRotationPeriodNull:=true;
+      PrimaryGasPart:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_primaryGasVolumePerc;
+      gasH2S:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceH2S;
+   end;
+
+   if FCVfbcStarAge <= 0.8
+   then StageFailed:=true else
+   begin
+      if FCVfbcHydroType = hWaterLiquid then
+      begin
+         {.star influence}
+         iCalc1:=FCFfbF_StarModifier_Phase1( FCDduStarSystem[0].SS_stars[Star].S_class );
+         FCVfbcVigorCalc:=FCVfbcVigorCalc + ( 40 - iCalc1 );
+         {.rotation period influence}
+         if isRotationPeriodNull
+         then FCVfbcVigorCalc:=FCVfbcVigorCalc - 20;
+         {.molecular building blocks phase}
+         {..by tectonic activity}
+         case FCVfbcTectonicActivity of
+            taHotSpot: BcarbonChain:=BcarbonChain + 1;
+
+            taPlastic: BcarbonChain:=BcarbonChain + 2;
+
+            taPlateTectonic: BcarbonChain:=BcarbonChain + 3;
+
+            taPlateletTectonic: BcarbonChain:=BcarbonChain + 5;
+         end;
+         {..by hydrosphere}
+         fCalc1:=power( FCVfbcHydroArea, 0.333);
+         Bh2o:=Bh2o + round( fCalc1 );
+         {..by gasses}
+         iCalc1:=FCFfA_PrimaryGasses_GetTotalNumber(
+            Star
+            ,OrbitalObject
+            ,Satellite
+            );
+         fCalc2:=power( 100 - PrimaryGasPart, 0.333 );
+         fCalc3:=power( PrimaryGasPart / iCalc1, 0.333 );
+         if gasCO2 = agsSecondary
+         then fCalc1:=fCalc2
+         else if gasCO2 = agsPrimary
+         then fCalc1:=fCalc3
+         else fCalc1:=0;
+         Bco2:=Bco2 + round( fCalc1 );
+
+         if gasH2O = agsSecondary
+         then fCalc1:=fCalc2
+         else if gasH2O = agsPrimary
+         then fCalc1:=fCalc3
+         else fCalc1:=0;
+         Bh2o:=Bh2o + round( fCalc1 );
+
+         if gasH2S = agsSecondary
+         then fCalc1:=fCalc2
+         else if gasH2S = agsPrimary
+         then fCalc1:=fCalc3
+         else fCalc1:=0;
+         Bh2s:=Bh2s + round( fCalc1 );
+
+         if gasN2 = agsSecondary
+         then fCalc1:=fCalc2
+         else if gasN2 = agsPrimary
+         then fCalc1:=fCalc3
+         else fCalc1:=0;
+         Bn2:=Bn2 + round( fCalc1 );
+      end //==END== if FCVfbcHydroType = hWaterLiquid ==//
+      else if FCVfbcHydroType in [hWaterIceSheet..hWaterIceCrust] then
+      begin
+      end;
+   end; //==END== else of: if FCVfbcStarAge <= 0.8 ==//
+end;
+
 procedure FCMfbC_PrebioticsStage_Test(
    const Star
          ,OrbitalObject: integer;
@@ -112,8 +265,7 @@ procedure FCMfbC_PrebioticsStage_Test(
     Additions:
 }
    var
-      HydroArea
-      ,TestVal: integer;
+      TestVal: integer;
 
       Albedo
       ,CloudsCover
@@ -122,14 +274,8 @@ procedure FCMfbC_PrebioticsStage_Test(
 
       StageFailed: boolean;
 
-      HydroType: TFCEduHydrospheres;
-
-      gasCO2
-      ,gasH2O
-      ,gasN2: TFCEduAtmosphericGasStatus;
-
 begin
-   HydroArea:=0;
+   FCVfbcHydroArea:=0;
    TestVal:=0;
 
    Albedo:=0;
@@ -137,7 +283,7 @@ begin
    DistanceFromStar:=0;
    fCalc1:=0;
 
-   HydroType:=hNoHydro;
+   FCVfbcHydroType:=hNoHydro;
 
    gasCO2:=agsNotPresent;
    gasH2O:=agsNotPresent;
@@ -147,8 +293,8 @@ begin
 
    if Satellite <= 0 then
    begin
-      HydroType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_hydrosphere;
-      HydroArea:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_hydrosphereArea;
+      FCVfbcHydroType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_hydrosphere;
+      FCVfbcHydroArea:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_hydrosphereArea;
       Albedo:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_albedo;
       CloudsCover:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_cloudsCover;
       DistanceFromStar:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isNotSat_distanceFromStar;
@@ -158,8 +304,8 @@ begin
       gasN2:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceN2;
    end
    else begin
-      HydroType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_hydrosphere;
-      HydroArea:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_hydrosphereArea;
+      FCVfbcHydroType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_hydrosphere;
+      FCVfbcHydroArea:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_hydrosphereArea;
       Albedo:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_albedo;
       CloudsCover:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_cloudsCover;
       DistanceFromStar:=FCFuF_Satellite_GetDistanceFromStar(
@@ -177,7 +323,7 @@ begin
    FCVfbcVigorCalc:=0;
    FCVfbcRootCarbon:=0;
    FCVfbcStarAge:=FCFfS_Age_Calc( FCDduStarSystem[0].SS_stars[Star].S_mass, FCDduStarSystem[0].SS_stars[Star].S_luminosity );
-   if HydroType = hWaterLiquid then
+   if FCVfbcHydroType = hWaterLiquid then
    begin
       {.surface temperature influence}
       FCVfbcVigorCalc:=FCVfbcVigorCalc + FCFfbF_SurfaceTemperaturesModifier_Calculate(
@@ -187,7 +333,7 @@ begin
          ,Satellite
          );
       {.hydrosphere influence}
-      FCVfbcVigorCalc:=FCVfbcVigorCalc + FCFfbF_HydrosphereModifier_Calculate( HydroArea );
+      FCVfbcVigorCalc:=FCVfbcVigorCalc + FCFfbF_HydrosphereModifier_Calculate( FCVfbcHydroArea );
       {.atmosphere influences}
       case gasCO2 of
          agsNotPresent: FCVfbcVigorCalc:=FCVfbcVigorCalc - 15;
@@ -258,14 +404,14 @@ begin
             );
       end;
    end
-   else if HydroType in [hWaterIceSheet..hWaterIceCrust] then
+   else if FCVfbcHydroType in [hWaterIceSheet..hWaterIceCrust] then
    begin
       {.base modifier}
       FCVfbcVigorCalc:=FCVfbcVigorCalc + 50;
       {.hydrosphere influence}
-      if HydroType = hWaterIceSheet
-      then FCVfbcVigorCalc:=FCVfbcVigorCalc + FCFfbF_HydrosphereModifier_Calculate( round( HydroArea * 1.33 ) )
-      else FCVfbcVigorCalc:=FCVfbcVigorCalc + FCFfbF_HydrosphereModifier_Calculate( HydroArea );
+      if FCVfbcHydroType = hWaterIceSheet
+      then FCVfbcVigorCalc:=FCVfbcVigorCalc + FCFfbF_HydrosphereModifier_Calculate( round( FCVfbcHydroArea * 1.33 ) )
+      else FCVfbcVigorCalc:=FCVfbcVigorCalc + FCFfbF_HydrosphereModifier_Calculate( FCVfbcHydroArea );
       {.tectonic activity influence}
       case FCVfbcTectonicActivity of
          taDead: FCVfbcVigorCalc:=FCVfbcVigorCalc - 40;

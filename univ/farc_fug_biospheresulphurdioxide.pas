@@ -77,13 +77,15 @@ uses
 
    //==========subsection===================================================================
 var
-   FCVfbsdRootSulphur: integer;
+   FCVfbsdHydroType: TFCEduHydrospheres;
 
-   FCVfbsdVigorCalc: integer;
+   FCVfbsdRootSulphur: integer;
 
    FCVfbsdStarAge: extended;
 
    FCVfbsdTectonicActivity: TFCEduTectonicActivity;
+
+   FCVfbsdVigorCalc: integer;
 
 //==END PRIVATE VAR=========================================================================
 
@@ -116,8 +118,6 @@ procedure FCMfbsD_PrebioticsStage_Test(
       ,fCalc1: extended;
 
       StageFailed: boolean;
-
-      HydroType: TFCEduHydrospheres;
 
       gasH2S
       ,gasNO2
@@ -209,7 +209,7 @@ begin
    fCalc1:=0;
    GasVol:=0;
 
-   HydroType:=hNoHydro;
+   FCVfbsdHydroType:=hNoHydro;
 
    gasH2S:=agsNotPresent;
    gasNO2:=agsNotPresent;
@@ -219,7 +219,7 @@ begin
 
    if Satellite <= 0 then
    begin
-      HydroType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_hydrosphere;
+      FCVfbsdHydroType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_hydrosphere;
       HydroArea:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_hydrosphereArea;
       Albedo:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_albedo;
       CloudsCover:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_cloudsCover;
@@ -231,7 +231,7 @@ begin
       gasSO2:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceSO2;
    end
    else begin
-      HydroType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_hydrosphere;
+      FCVfbsdHydroType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_hydrosphere;
       HydroArea:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_hydrosphereArea;
       Albedo:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_albedo;
       CloudsCover:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_cloudsCover;
@@ -251,7 +251,7 @@ begin
    FCVfbsdVigorCalc:=0;
    FCVfbsdRootSulphur:=0;
    FCVfbsdStarAge:=FCFfS_Age_Calc( FCDduStarSystem[0].SS_stars[Star].S_mass, FCDduStarSystem[0].SS_stars[Star].S_luminosity );
-   if HydroType = hNoHydro then
+   if FCVfbsdHydroType = hNoHydro then
    begin
       {.base modifier}
       FCVfbsdVigorCalc:=FCVfbsdVigorCalc + GasVol;
@@ -269,7 +269,7 @@ begin
       {.star luminosity influence}
       _StarLuminosity_Apply;
    end
-   else if HydroType = hWaterLiquid then
+   else if FCVfbsdHydroType = hWaterLiquid then
    begin
       {.surface temperature influence}
       FCVfbsdVigorCalc:=FCVfbsdVigorCalc + FCFfbF_SurfaceTemperaturesModifier_Calculate(

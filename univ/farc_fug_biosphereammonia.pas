@@ -77,13 +77,15 @@ uses
 
    //==========subsection===================================================================
 var
-   FCVfbaRootAmmonia: integer;
+   FCVfbaHydroType: TFCEduHydrospheres;
 
-   FCVfbaVigorCalc: integer;
+   FCVfbaRootAmmonia: integer;
 
    FCVfbaStarAge: extended;
 
    FCVfbaTectonicActivity: TFCEduTectonicActivity;
+
+   FCVfbaVigorCalc: integer;
 
 //==END PRIVATE VAR=========================================================================
 
@@ -116,8 +118,6 @@ procedure FCMfbA_PrebioticsStage_Test(
 
       StageFailed: boolean;
 
-      HydroType: TFCEduHydrospheres;
-
       gasH2
       ,gasH2O
       ,gasN2
@@ -132,7 +132,7 @@ begin
    DistanceFromStar:=0;
    fCalc1:=0;
 
-   HydroType:=hNoHydro;
+   FCVfbaHydroType:=hNoHydro;
 
    gasH2:=agsNotPresent;
    gasH2O:=agsNotPresent;
@@ -143,7 +143,7 @@ begin
 
    if Satellite <= 0 then
    begin
-      HydroType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_hydrosphere;
+      FCVfbaHydroType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_hydrosphere;
       HydroArea:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_hydrosphereArea;
       Albedo:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_albedo;
       CloudsCover:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_cloudsCover;
@@ -155,7 +155,7 @@ begin
       gasNH3:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceNH3;
    end
    else begin
-      HydroType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_hydrosphere;
+      FCVfbaHydroType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_hydrosphere;
       HydroArea:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_hydrosphereArea;
       Albedo:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_albedo;
       CloudsCover:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_cloudsCover;
@@ -175,7 +175,7 @@ begin
    FCVfbaVigorCalc:=0;
    FCVfbaRootAmmonia:=0;
    FCVfbaStarAge:=FCFfS_Age_Calc( FCDduStarSystem[0].SS_stars[Star].S_mass, FCDduStarSystem[0].SS_stars[Star].S_luminosity );
-   if HydroType = hWaterAmmoniaLiquid then
+   if FCVfbaHydroType = hWaterAmmoniaLiquid then
    begin
       {.surface temperature influence}
       FCVfbaVigorCalc:=FCVfbaVigorCalc + FCFfbF_SurfaceTemperaturesModifier_Calculate(
@@ -265,12 +265,12 @@ begin
             );
       end;
    end
-   else if HydroType in [hNitrogenIceSheet..hNitrogenIceCrust] then
+   else if FCVfbaHydroType in [hNitrogenIceSheet..hNitrogenIceCrust] then
    begin
       {.base modifier}
       FCVfbaVigorCalc:=FCVfbaVigorCalc + 40;
       {.hydrosphere influence}
-      if HydroType = hNitrogenIceSheet
+      if FCVfbaHydroType = hNitrogenIceSheet
       then FCVfbaVigorCalc:=FCVfbaVigorCalc + FCFfbF_HydrosphereModifier_Calculate( round( HydroArea * 1.33 ) )
       else FCVfbaVigorCalc:=FCVfbaVigorCalc + FCFfbF_HydrosphereModifier_Calculate( HydroArea );
       {.tectonic activity influence}

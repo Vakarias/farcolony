@@ -79,11 +79,11 @@ uses
 var
    FCVfbsRootSilicon: integer;
 
-   FCVfbsVigorCalc: integer;
-
    FCVfbsStarAge: extended;
 
    FCVfbsTectonicActivity: TFCEduTectonicActivity;
+
+   FCVfbsVigorCalc: integer;
 
 //==END PRIVATE VAR=========================================================================
 
