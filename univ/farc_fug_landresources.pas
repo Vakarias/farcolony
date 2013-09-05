@@ -380,6 +380,7 @@ procedure FCMfR_Resources_Phase1(
    );
 {:Purpose: first phase of the calculations of the resources. Gas field isn't processed in this phase (it needs the biosphere data).
     Additions:
+      -2013Sep04- *fix: corrections with the use of the minimal value of TectonicActivyIndex.
 }
    var
       Count
@@ -674,7 +675,7 @@ begin
       setlength( FCDfdRegions[Region].RC_rsrcSpots, Spot + 1 );
       RsrcPotential:=0;
       RarityValue:=0;
-      RsrcPotential:=DiamRed + DensityCoef - NatureCoef[1] + sqr( TectonicActivyIndex );
+      RsrcPotential:=DiamRed + DensityCoef - NatureCoef[1] + sqr( TectonicActivyIndex - 1 );
       if RsrcPotential <= 0 then
       begin
          dec( Spot );
@@ -719,7 +720,7 @@ begin
       setlength( FCDfdRegions[Region].RC_rsrcSpots, Spot + 1 );
       RsrcPotential:=0;
       RarityValue:=0;
-      RsrcPotential:=DiamRed + DensityCoef + NatureCoef[2] + sqr( TectonicActivyIndex );
+      RsrcPotential:=DiamRed + DensityCoef + NatureCoef[2] + sqr( TectonicActivyIndex - 1 );
       if RsrcPotential <= 0 then
       begin
          dec( Spot );
@@ -768,7 +769,7 @@ begin
       setlength( FCDfdRegions[Region].RC_rsrcSpots, Spot + 1 );
       RsrcPotential:=0;
       RarityValue:=0;
-      RsrcPotential:=DiamRed + DensityCoef - NatureCoef[3] + sqr( TectonicActivyIndex );
+      RsrcPotential:=DiamRed + DensityCoef - NatureCoef[3] + sqr( TectonicActivyIndex - 1 );
       if RsrcPotential <= 0 then
       begin
          dec( Spot );
@@ -819,7 +820,7 @@ begin
       setlength( FCDfdRegions[Region].RC_rsrcSpots, Spot + 1 );
       RsrcPotential:=0;
       RarityValue:=0;
-      RsrcPotential:=DiamRed + DensityCoef - NatureCoef[4] + sqr( TectonicActivyIndex );
+      RsrcPotential:=DiamRed + DensityCoef - NatureCoef[4] + sqr( TectonicActivyIndex - 1 );
       if FCDduStarSystem[0].SS_stars[Star].S_class >= PSR
       then RsrcPotential:=RsrcPotential * ( 1 +( FCFcF_Random_DoFloat * 0.5 ) );
       if RsrcPotential <= 0 then
@@ -950,10 +951,10 @@ begin
          RsrcPotential:=0;
          RarityValue:=0;
          if ( ( not isAtmosphere ) or ( istraceAtm ) )
-            and ( TectonicActivyIndex > 0 )
-            and ( TectonicActivyIndex < 5 ) then
+            and ( TectonicActivyIndex > 1 )
+            and ( TectonicActivyIndex < 6 ) then
          begin
-            fCalc1:=TectonicActivyIndex * 10;
+            fCalc1:=( TectonicActivyIndex - 1 ) * 10;
          end
          else if isAtmosphere then
          begin
@@ -961,11 +962,11 @@ begin
          end;
          {.special case for subsurface ocean}
          if ( ( ObjectType = ootPlanet_Icy ) or ( ObjectType = ootSatellite_Planet_Icy ) )
-            and ( TectonicActivyIndex > 0 )
-            and ( TectonicActivyIndex < 5 ) then
+            and ( TectonicActivyIndex > 1 )
+            and ( TectonicActivyIndex < 6 ) then
          begin
             hasaSubsurfaceOcean:=true;
-            fCalc1:=TectonicActivyIndex * 25;
+            fCalc1:=( TectonicActivyIndex - 1 ) * 25;
          end;
          if fCalc1 <= 0 then
          begin

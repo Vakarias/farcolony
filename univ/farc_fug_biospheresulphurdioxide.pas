@@ -254,7 +254,7 @@ begin
    if FCVfbsdHydroType = hNoHydro then
    begin
       {.base modifier}
-      FCVfbsdVigorCalc:=FCVfbsdVigorCalc + GasVol;
+      FCVfbsdVigorCalc:=GasVol;
       {.surface temperature influence}
       FCVfbsdVigorCalc:=FCVfbsdVigorCalc + FCFfbF_SurfaceTemperaturesModifier_Calculate(
          473.85
@@ -290,8 +290,8 @@ begin
    {.final test}
    if not StageFailed then
    begin
-      TestVal:=FCFcF_Random_DoInteger( 99 ) + 1;
-      if TestVal <= FCVfbsdVigorCalc then
+//      TestVal:=FCFcF_Random_DoInteger( 99 ) + 1;
+      if 40 <= FCVfbsdVigorCalc then
       begin
          if Satellite <= 0 then
          begin

@@ -274,6 +274,8 @@ procedure FCMfA_Atmosphere_Processing(
    );
 {:Purpose: main rule for the process of the atmosphere.
    Additions:
+      -2013Sep04- *add: set the trace atmosphere flag when the pressure is < 7mb.
+                  *mod: stellar implications - CH4/NH3 doesn't become trace but secondary gases.
       -2013Jul07- *add: adjust the calculated pressure is the atmosphere is tagged as very dense.
       -2013Jun30- *fix: correction in logic that switched all primary gasses as secondary, if not trace.
                   *fix: force to set the traceatmosphere=false when no gas is present.
@@ -1330,7 +1332,7 @@ begin
          if GasSettings.AC_gasPresenceNH3=agsPrimary then
          begin
             dec( PrimaryGasCount );
-            GasSettings.AC_gasPresenceNH3:=agsTrace;
+            GasSettings.AC_gasPresenceNH3:=agsSecondary;
             if PrimaryGasCount=0
             then TestBool:=_NextSecondary_SetAsPrimary;
             if not TestBool
@@ -1339,7 +1341,7 @@ begin
          if GasSettings.AC_gasPresenceCH4=agsPrimary then
          begin
             dec( PrimaryGasCount );
-            GasSettings.AC_gasPresenceCH4:=agsTrace;
+            GasSettings.AC_gasPresenceCH4:=agsSecondary;
             if PrimaryGasCount=0
             then TestBool:=_NextSecondary_SetAsPrimary;
             if not TestBool
@@ -1388,14 +1390,14 @@ begin
       end
       else if TectonicActivity > taPlateTectonic then
       begin
-         if GasSettings.AC_gasPresenceH2S = agsTrace
+         if GasSettings.AC_gasPresenceH2S <= agsTrace
          then GasSettings.AC_gasPresenceH2S:=agsSecondary
          else if GasSettings.AC_gasPresenceH2S = agsSecondary then
          begin
             GasSettings.AC_gasPresenceH2S:=agsPrimary;
             inc( PrimaryGasCount );
          end;
-         if GasSettings.AC_gasPresenceSO2 = agsTrace
+         if GasSettings.AC_gasPresenceSO2 <= agsTrace
          then GasSettings.AC_gasPresenceSO2:=agsSecondary
          else if GasSettings.AC_gasPresenceSO2 = agsSecondary then
          begin
@@ -1560,6 +1562,8 @@ begin
       CalculatedPressure:=Pressure + ( ( PressureMax - Pressure ) / 1.71 );
       if isVeryDense
       then CalculatedPressure:=CalculatedPressure * ( 1.5 + ( FCFcF_Random_DoInteger( 49 ) + 1 ) );
+      if CalculatedPressure < 7
+      then GasSettings.AC_traceAtmosphere:=true;
    end
    else begin
       GasSettings.AC_primaryGasVolumePerc:=0;

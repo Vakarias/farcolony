@@ -275,8 +275,8 @@ begin
    {.final test}
    if not StageFailed then
    begin
-      TestVal:=FCFcF_Random_DoInteger( 99 ) + 1;
-      if TestVal <= FCVfbmVigorCalc then
+//      TestVal:=FCFcF_Random_DoInteger( 99 ) + 1;
+      if 70 <= FCVfbmVigorCalc then
       begin
          if Satellite <= 0 then
          begin
