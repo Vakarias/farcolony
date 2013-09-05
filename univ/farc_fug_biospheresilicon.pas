@@ -434,7 +434,7 @@ begin
          else if gasNe = agsPrimary
          then fCalc1:=fCalc3
          else fCalc1:=0;
-         Bne:=Bne + round( fCalc1 );
+         Bne:=round( fCalc1 );
 
          if gasSO2 = agsSecondary
          then fCalc1:=fCalc2
