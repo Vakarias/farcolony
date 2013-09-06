@@ -208,7 +208,6 @@ begin
          FCVfbaVigorCalc:=FCVfbaVigorCalc + ( 40 - iCalc1 );
          {.gravity modifier}
          fCalc1:=( 1 - sqr( FCVfbaGravity ) ) * 5;
-         FCVfbaVigorCalc:=FCVfbaVigorCalc + round( fCalc1 );
          FCVfbaGravity:=fCalc1;
          if FCVfbaVigorCalc < 1
          then StageFailed:=true;
@@ -300,8 +299,6 @@ begin
          {.star influence}
          iCalc1:=FCFfbF_StarModifier_Phase2( FCDduStarSystem[0].SS_stars[Star].S_class );
          FCVfbaVigorCalc:=FCVfbaVigorCalc + ( 40 - iCalc1 );
-         {.gravity modifier}
-         FCVfbaVigorCalc:=FCVfbaVigorCalc + round( FCVfbaGravity );
          if FCVfbaVigorCalc < 1
          then StageFailed:=true;
       end //==END== if FCVfbcHydroType = hWaterAmmoniaLiquid ==//
