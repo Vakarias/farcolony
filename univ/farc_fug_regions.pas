@@ -245,8 +245,11 @@ begin
       ,OrbitalObject
       ,Satellite
       );
-
-   {:DEV NOTES: final phase resources.}
+   FCMfR_Resources_Phase2(
+      Star
+      ,OrbitalObject
+      ,Satellite
+      );
 end;
 
 end.

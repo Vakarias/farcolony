@@ -61,7 +61,7 @@ procedure FCMfR_LandRelief_Process(
    );
 
 ///<summary>
-///   first phase of the calculations of the resources. Gas field isn't processed in this phase (it needs the biosphere data).
+///   first phase of the calculations of the resources. Gas field isn't processed in this phase (it needs the biosphere data)
 ///</summary>
 /// <param name="Star">star index #</param>
 /// <param name="OrbitalObject">orbital object index #</param>
@@ -69,6 +69,20 @@ procedure FCMfR_LandRelief_Process(
 ///   <returns></returns>
 ///   <remarks></remarks>
 procedure FCMfR_Resources_Phase1(
+   const Star
+         ,OrbitalObject: integer;
+   const Satellite: integer=0
+   );
+
+///<summary>
+///   final phase of the calculations of the resources. Gas field is processed in this phase
+///</summary>
+/// <param name="Star">star index #</param>
+/// <param name="OrbitalObject">orbital object index #</param>
+/// <param name="Satellite">OPTIONAL: satellite index #</param>
+///   <returns></returns>
+///   <remarks></remarks>
+procedure FCMfR_Resources_Phase2(
    const Star
          ,OrbitalObject: integer;
    const Satellite: integer=0
@@ -1054,6 +1068,18 @@ begin
    then FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_subsurfaceOcean:=hasaSubsurfaceOcean
    else if Satellite > 0
    then FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_subsurfaceOcean:=hasaSubsurfaceOcean;
+end;
+
+procedure FCMfR_Resources_Phase2(
+   const Star
+         ,OrbitalObject: integer;
+   const Satellite: integer=0
+   );
+{:Purpose:  final phase of the calculations of the resources. Gas field is processed in this phase.
+    Additions:
+}
+begin
+
 end;
 
 end.
