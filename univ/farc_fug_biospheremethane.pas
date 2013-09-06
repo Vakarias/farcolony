@@ -172,25 +172,10 @@ procedure FCMfbM_Level1OrganismsStage_Test(
    var
       iCalc1: integer;
 
-//      fCalc1: extended;
-
       StageFailed: boolean;
 
 begin
-//   iCalc1:=0;
-//
-//   fCalc1:=0;
-//   FCVfbaGravity:=0;
-
    StageFailed:=false;
-
-   if Satellite <= 0 then
-   begin
-//      FCVfbaGravity:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_gravity;
-   end
-   else begin
-//      FCVfbaGravity:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_gravity;
-   end;
 
    if FCVfbmStarAge <= 1
    then StageFailed:=true

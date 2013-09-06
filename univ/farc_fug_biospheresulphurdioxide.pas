@@ -47,6 +47,62 @@ uses
 //===========================END FUNCTIONS SECTION==========================================
 
 ///<summary>
+///   process and test the sulfur dioxide-based level I organisms evolution stage
+///</summary>
+/// <param name="Star">star index #</param>
+/// <param name="OrbitalObject">orbital object index #</param>
+/// <param name="Satellite">OPTIONAL: satellite index #</param>
+///   <returns></returns>
+///   <remarks></remarks>
+procedure FCMfbsD_Level1OrganismsStage_Test(
+   const Star
+         ,OrbitalObject: integer;
+   const Satellite: integer=0
+   );
+
+///<summary>
+///   process and test the sulfur dioxide-based level II organisms evolution stage
+///</summary>
+/// <param name="Star">star index #</param>
+/// <param name="OrbitalObject">orbital object index #</param>
+/// <param name="Satellite">OPTIONAL: satellite index #</param>
+///   <returns></returns>
+///   <remarks></remarks>
+procedure FCMfbsD_Level2OrganismsStage_Test(
+   const Star
+         ,OrbitalObject: integer;
+   const Satellite: integer=0
+   );
+
+///<summary>
+///   process and test the sulfur dioxide-based level III organisms evolution stage
+///</summary>
+/// <param name="Star">star index #</param>
+/// <param name="OrbitalObject">orbital object index #</param>
+/// <param name="Satellite">OPTIONAL: satellite index #</param>
+///   <returns></returns>
+///   <remarks></remarks>
+procedure FCMfbsD_Level3OrganismsStage_Test(
+   const Star
+         ,OrbitalObject: integer;
+   const Satellite: integer=0
+   );
+
+///<summary>
+///   process and test the sulfur dioxide-based micro-organisms evolution stage
+///</summary>
+/// <param name="Star">star index #</param>
+/// <param name="OrbitalObject">orbital object index #</param>
+/// <param name="Satellite">OPTIONAL: satellite index #</param>
+///   <returns></returns>
+///   <remarks></remarks>
+procedure FCMfbsD_MicroOrganismStage_Test(
+   const Star
+         ,OrbitalObject: integer;
+   const Satellite: integer=0
+   );
+
+///<summary>
 ///   process and test the sulfur dioxide-based prebiotics evolution stage
 ///</summary>
 /// <param name="Star">star index #</param>
@@ -65,6 +121,7 @@ implementation
 uses
    farc_common_func
    ,farc_data_univ
+   ,farc_fug_atmosphere
    ,farc_fug_biosphere
    ,farc_fug_biospherefunctions
    ,farc_fug_data
@@ -87,17 +144,335 @@ var
 
    FCVfbsdVigorCalc: integer;
 
+   gasH2S
+   ,gasNO2
+   ,gasSO2: TFCEduAtmosphericGasStatus;
+
 //==END PRIVATE VAR=========================================================================
 
 const
-   FCCfbmStagePenalty=5;
+   FCCfbsdStagePenalty=5;
 
-   FCCfbmStagePenalty_NoHydro=10;
+   FCCfbsdStagePenalty_NoHydro=10;
 
 //==END PRIVATE CONST=======================================================================
 
 //===================================================END OF INIT============================
 //===========================END FUNCTIONS SECTION==========================================
+
+procedure FCMfbsD_Level1OrganismsStage_Test(
+   const Star
+         ,OrbitalObject: integer;
+   const Satellite: integer=0
+   );
+{:Purpose: process and test the sulfur dioxide-based level I organisms evolution stage.
+    Additions:
+}
+   var
+      iCalc1: integer;
+
+      StageFailed: boolean;
+
+begin
+   StageFailed:=false;
+
+   if FCVfbsdStarAge <= 1
+   then StageFailed:=true
+   else begin
+      {.evolution stage penalty}
+      if FCVfbsdHydroType = hWaterLiquid
+      then FCVfbsdVigorCalc:=FCVfbsdVigorCalc - FCCfbsdStagePenalty
+      else FCVfbsdVigorCalc:=FCVfbsdVigorCalc - FCCfbsdStagePenalty_NoHydro;
+      {.star influence}
+      iCalc1:=FCFfbF_StarModifier_Phase2( FCDduStarSystem[0].SS_stars[Star].S_class );
+      FCVfbsdVigorCalc:=FCVfbsdVigorCalc + ( 40 - iCalc1 );
+      if FCVfbsdVigorCalc < 1
+      then StageFailed:=true;
+   end; //==END== else of: if FCVfbaStarAge <= 0.8 ==//
+   {.final test}
+   if ( not StageFailed )
+      and ( 40 <= FCVfbsdVigorCalc ) then
+   begin
+      if Satellite <= 0 then
+      begin
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_biosphereLevel:=blSulphurDioxide_Level1Organisms;
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_biosphereVigor:=FCVfbsdVigorCalc;
+         if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceH2 <= agsTrace
+         then FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceH2:=agsSecondary;
+         if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceH2S <= agsTrace
+         then FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceH2S:=agsSecondary
+         else if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceH2S = agsSecondary
+         then FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceH2S:=agsPrimary;
+         if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceNO2 <= agsTrace
+         then FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceNO2:=agsSecondary
+         else if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceNO2 = agsSecondary
+         then FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceNO2:=agsPrimary;
+         if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceSO2 <= agsTrace
+         then FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceSO2:=agsSecondary
+         else if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceSO2 = agsSecondary
+         then FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceSO2:=agsPrimary;
+      end
+      else begin
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_biosphereLevel:=blSulphurDioxide_Level1Organisms;
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_biosphereVigor:=FCVfbsdVigorCalc;
+         if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceH2 <= agsTrace
+         then FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceH2:=agsSecondary;
+         if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceH2S <= agsTrace
+         then FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceH2S:=agsSecondary
+         else if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceH2S = agsSecondary
+         then FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceH2S:=agsPrimary;
+         if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceNO2 <= agsTrace
+         then FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceNO2:=agsSecondary
+         else if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceNO2 = agsSecondary
+         then FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceNO2:=agsPrimary;
+         if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceSO2 <= agsTrace
+         then FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceSO2:=agsSecondary
+         else if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceSO2 = agsSecondary
+         then FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceSO2:=agsPrimary;
+      end;
+      FCMfbsD_Level2OrganismsStage_Test(
+         Star
+         ,OrbitalObject
+         ,Satellite
+         );
+   end;
+end;
+
+procedure FCMfbsD_Level2OrganismsStage_Test(
+   const Star
+         ,OrbitalObject: integer;
+   const Satellite: integer=0
+   );
+{:Purpose: process and test the sulfur dioxide-based level II organisms evolution stage.
+    Additions:
+}
+   var
+      iCalc1: integer;
+
+      StageFailed: boolean;
+
+begin
+   StageFailed:=false;
+
+   if FCVfbsdStarAge <= 2
+   then StageFailed:=true
+   else begin
+      {.evolution stage penalty}
+      if FCVfbsdHydroType = hWaterLiquid
+      then FCVfbsdVigorCalc:=FCVfbsdVigorCalc - ( FCCfbsdStagePenalty * 2 )
+      else FCVfbsdVigorCalc:=FCVfbsdVigorCalc - ( FCCfbsdStagePenalty_NoHydro * 2 );
+      {.star influence}
+      iCalc1:=FCFfbF_StarModifier_Phase2( FCDduStarSystem[0].SS_stars[Star].S_class );
+      FCVfbsdVigorCalc:=FCVfbsdVigorCalc + ( 40 - iCalc1 );
+      if FCVfbsdVigorCalc < 1
+      then StageFailed:=true;
+   end; //==END== else of: if FCVfbaStarAge <= 0.8 ==//
+   {.final test}
+   if ( not StageFailed )
+      and ( 40 <= FCVfbsdVigorCalc ) then
+   begin
+      if Satellite <= 0 then
+      begin
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_biosphereLevel:=blSulphurDioxide_Level2Organisms;
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_biosphereVigor:=FCVfbsdVigorCalc;
+      end
+      else begin
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_biosphereLevel:=blSulphurDioxide_Level2Organisms;
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_biosphereVigor:=FCVfbsdVigorCalc;
+      end;
+      FCMfbsD_Level3OrganismsStage_Test(
+         Star
+         ,OrbitalObject
+         ,Satellite
+         );
+   end;
+end;
+
+procedure FCMfbsD_Level3OrganismsStage_Test(
+   const Star
+         ,OrbitalObject: integer;
+   const Satellite: integer=0
+   );
+{:Purpose: process and test the sulfur dioxide-based level III organisms evolution stage.
+    Additions:
+}
+   var
+      iCalc1: integer;
+
+      StageFailed: boolean;
+
+begin
+   StageFailed:=false;
+
+   if FCVfbsdStarAge <= 5
+   then StageFailed:=true
+   else begin
+      {.evolution stage penalty}
+      if FCVfbsdHydroType = hWaterLiquid
+      then FCVfbsdVigorCalc:=FCVfbsdVigorCalc - ( FCCfbsdStagePenalty * 3 )
+      else FCVfbsdVigorCalc:=FCVfbsdVigorCalc - ( FCCfbsdStagePenalty_NoHydro * 3 );
+      {.star influence}
+      iCalc1:=FCFfbF_StarModifier_Phase2( FCDduStarSystem[0].SS_stars[Star].S_class );
+      FCVfbsdVigorCalc:=FCVfbsdVigorCalc + ( 40 - iCalc1 );
+      if FCVfbsdVigorCalc < 1
+      then StageFailed:=true;
+   end; //==END== else of: if FCVfbaStarAge <= 0.8 ==//
+   {.final test}
+   if ( not StageFailed )
+      and ( 40 <= FCVfbsdVigorCalc ) then
+   begin
+      if Satellite <= 0 then
+      begin
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_biosphereLevel:=blSulphurDioxide_Level3Organisms;
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_biosphereVigor:=FCVfbsdVigorCalc;
+      end
+      else begin
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_biosphereLevel:=blSulphurDioxide_Level3Organisms;
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_biosphereVigor:=FCVfbsdVigorCalc;
+      end;
+   end;
+end;
+
+procedure FCMfbsD_MicroOrganismStage_Test(
+   const Star
+         ,OrbitalObject: integer;
+   const Satellite: integer=0
+   );
+{:Purpose: process and test the sulfur dioxide-based micro-organisms evolution stage.
+    Additions:
+}
+   var
+      BsdChain
+      ,Bh2s
+      ,Bso2
+      ,iCalc1
+      ,PrimaryGasPart
+      ,TestVal: integer;
+
+      fCalc1
+      ,fCalc2
+      ,fCalc3: extended;
+
+      sdDNA
+      ,sdMembranes
+      ,sdProteins
+      ,isRotationPeriodNull
+      ,Stagefailed: boolean;
+
+begin
+   BsdChain:=0;
+   Bh2s:=0;
+   Bso2:=0;
+   iCalc1:=0;
+   PrimaryGasPart:=0;
+   TestVal:=0;
+
+   fCalc1:=0;
+   fCalc2:=0;
+   fCalc3:=0;
+
+   sdDNA:=false;
+   sdMembranes:=false;
+   sdProteins:=false;
+   isRotationPeriodNull:=false;
+   StageFailed:=false;
+
+   if Satellite <= 0 then
+   begin
+      if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isNotSat_rotationPeriod = 0
+      then isRotationPeriodNull:=true;
+      PrimaryGasPart:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_primaryGasVolumePerc;
+   end
+   else begin
+      fCalc1:=FCFuF_Satellite_GetRotationPeriod(
+         0
+         ,Star
+         ,OrbitalObject
+         ,Satellite
+         );
+      if fCalc1 = 0
+      then isRotationPeriodNull:=true;
+      PrimaryGasPart:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_primaryGasVolumePerc;
+   end;
+
+   if FCVfbsdStarAge <= 0.8
+   then StageFailed:=true else
+   begin
+      {.star influence}
+      iCalc1:=FCFfbF_StarModifier_Phase1( FCDduStarSystem[0].SS_stars[Star].S_class );
+      FCVfbsdVigorCalc:=FCVfbsdVigorCalc + ( 40 - iCalc1 );
+      {.rotation period influence}
+      if isRotationPeriodNull
+      then FCVfbsdVigorCalc:=FCVfbsdVigorCalc - 20;
+      if FCVfbsdVigorCalc < 1
+      then StageFailed:=true
+      else begin
+         {.molecular building blocks phase}
+         {..by tectonic activity}
+         case FCVfbsdTectonicActivity of
+            taHotSpot: BsdChain:=3;
+
+            taPlastic: BsdChain:=6;
+
+            taPlateTectonic: BsdChain:=9;
+
+            taPlateletTectonic: BsdChain:=15;
+         end;
+         {..by gasses}
+         iCalc1:=FCFfA_PrimaryGasses_GetTotalNumber(
+            Star
+            ,OrbitalObject
+            ,Satellite
+            );
+         fCalc2:=power( 100 - PrimaryGasPart, 0.333 );
+         fCalc3:=power( PrimaryGasPart / iCalc1, 0.333 );
+         if gasH2S = agsSecondary
+         then fCalc1:=fCalc2
+         else if gasH2S = agsPrimary
+         then fCalc1:=fCalc3
+         else fCalc1:=0;
+         Bh2s:=round( fCalc1 );
+
+         if gasSO2 = agsSecondary
+         then fCalc1:=fCalc2
+         else if gasSO2 = agsPrimary
+         then fCalc1:=fCalc3
+         else fCalc1:=0;
+         Bso2:=round( fCalc1 );
+         {..results}
+         TestVal:=FCFcF_Random_DoInteger( 99 ) + 1 - Bso2 - BsdChain;
+         if TestVal <= FCVfbsdVigorCalc
+         then sdMembranes:=true;
+         TestVal:=FCFcF_Random_DoInteger( 99 ) + 1 - Bso2 - BsdChain - round( ( Bso2 + Bh2s ) / 1.5 );
+         if TestVal <= FCVfbsdVigorCalc
+         then sdDNA:=true;
+         TestVal:=FCFcF_Random_DoInteger( 99 ) + 1 - Bso2 - Bh2s - BsdChain;
+         if TestVal <= FCVfbsdVigorCalc
+         then sdProteins:=true;
+      end;
+   end; //==END== else of: if FCVfbcStarAge <= 0.8 ==//
+   {.final test}
+   if ( not StageFailed )
+      and ( sdMembranes )
+      and ( sdDNA )
+      and ( sdProteins ) then
+   begin
+      if Satellite <= 0 then
+      begin
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_biosphereLevel:=blSulphurDioxide_MicroOrganisms;
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_biosphereVigor:=FCVfbsdVigorCalc;
+      end
+      else begin
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_biosphereLevel:=blSulphurDioxide_MicroOrganisms;
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_biosphereVigor:=FCVfbsdVigorCalc;
+      end;
+      FCMfbsD_Level1OrganismsStage_Test(
+         Star
+         ,OrbitalObject
+         ,Satellite
+         );
+   end;
+end;
 
 procedure FCMfbsD_PrebioticsStage_Test(
    const Star
@@ -118,10 +493,6 @@ procedure FCMfbsD_PrebioticsStage_Test(
       ,fCalc1: extended;
 
       StageFailed: boolean;
-
-      gasH2S
-      ,gasNO2
-      ,gasSO2: TFCEduAtmosphericGasStatus;
 
       procedure _AtmosphereInfluence_Apply;
       begin
@@ -288,26 +659,21 @@ begin
       _StarLuminosity_Apply;
    end;
    {.final test}
-   if not StageFailed then
+   if ( not StageFailed )
+      and ( 40 <= FCVfbsdVigorCalc ) then
    begin
-//      TestVal:=FCFcF_Random_DoInteger( 99 ) + 1;
-      if 40 <= FCVfbsdVigorCalc then
+      if Satellite <= 0 then
       begin
-         if Satellite <= 0 then
-         begin
-            FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_biosphereLevel:=blSulphurDioxide_Prebiotics;
-            FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_biosphereVigor:=FCVfbsdVigorCalc;
-         end
-         else begin
-            FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_biosphereLevel:=blSulphurDioxide_Prebiotics;
-            FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_biosphereVigor:=FCVfbsdVigorCalc;
-//            FCMfbA_MicroOrganismStage_Test(
-         end;
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_biosphereLevel:=blSulphurDioxide_Prebiotics;
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_biosphereVigor:=FCVfbsdVigorCalc;
       end
-      else FCMfB_FossilPresence_Test(
+      else begin
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_biosphereLevel:=blSulphurDioxide_Prebiotics;
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_biosphereVigor:=FCVfbsdVigorCalc;
+      end;
+      FCMfbsD_MicroOrganismStage_Test(
          Star
          ,OrbitalObject
-         ,FCVfbsdStarAge
          ,Satellite
          );
    end
