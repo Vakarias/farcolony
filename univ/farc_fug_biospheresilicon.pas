@@ -384,7 +384,7 @@ begin
       PrimaryGasPart:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_primaryGasVolumePerc;
    end;
 
-   if FCVfbsStarAge > 0.8
+   if FCVfbsStarAge <= 0.8
    then StageFailed:=true else
    begin
       {.star influence}

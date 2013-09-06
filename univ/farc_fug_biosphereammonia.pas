@@ -47,6 +47,48 @@ uses
 //===========================END FUNCTIONS SECTION==========================================
 
 ///<summary>
+///   process and test the ammonia-based level I organisms evolution stage
+///</summary>
+/// <param name="Star">star index #</param>
+/// <param name="OrbitalObject">orbital object index #</param>
+/// <param name="Satellite">OPTIONAL: satellite index #</param>
+///   <returns></returns>
+///   <remarks></remarks>
+procedure FCMfbA_Level1OrganismsStage_Test(
+   const Star
+         ,OrbitalObject: integer;
+   const Satellite: integer=0
+   );
+
+///<summary>
+///   process and test the ammonia-based level II organisms evolution stage
+///</summary>
+/// <param name="Star">star index #</param>
+/// <param name="OrbitalObject">orbital object index #</param>
+/// <param name="Satellite">OPTIONAL: satellite index #</param>
+///   <returns></returns>
+///   <remarks></remarks>
+procedure FCMfbA_Level2OrganismsStage_Test(
+   const Star
+         ,OrbitalObject: integer;
+   const Satellite: integer=0
+   );
+
+///<summary>
+///   process and test the ammonia-based level III organisms evolution stage
+///</summary>
+/// <param name="Star">star index #</param>
+/// <param name="OrbitalObject">orbital object index #</param>
+/// <param name="Satellite">OPTIONAL: satellite index #</param>
+///   <returns></returns>
+///   <remarks></remarks>
+procedure FCMfbA_Level3OrganismsStage_Test(
+   const Star
+         ,OrbitalObject: integer;
+   const Satellite: integer=0
+   );
+
+///<summary>
 ///   process and test the ammonia-based micro-organisms evolution stage
 ///</summary>
 /// <param name="Star">star index #</param>
@@ -92,6 +134,8 @@ uses
 
    //==========subsection===================================================================
 var
+   FCVfbaGravity: extended;
+
    FCVfbaHydroArea: integer;
 
    FCVfbaHydroType: TFCEduHydrospheres;
@@ -121,6 +165,233 @@ const
 //===================================================END OF INIT============================
 //===========================END FUNCTIONS SECTION==========================================
 
+procedure FCMfbA_Level1OrganismsStage_Test(
+   const Star
+         ,OrbitalObject: integer;
+   const Satellite: integer=0
+   );
+{:Purpose: process and test the ammonia-based level I organisms evolution stage.
+    Additions:
+}
+   var
+      iCalc1: integer;
+
+      fCalc1: extended;
+
+      StageFailed: boolean;
+
+begin
+   iCalc1:=0;
+
+   fCalc1:=0;
+   FCVfbaGravity:=0;
+
+   StageFailed:=false;
+
+   if Satellite <= 0 then
+   begin
+      FCVfbaGravity:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_gravity;
+   end
+   else begin
+      FCVfbaGravity:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_gravity;
+   end;
+
+   if FCVfbaStarAge <= 1
+   then StageFailed:=true
+   else begin
+      if FCVfbaHydroType = hWaterAmmoniaLiquid then
+      begin
+         {.evolution stage penalty}
+         FCVfbaVigorCalc:=FCVfbaVigorCalc - FCCfbaStagePenalty;
+         {.star influence}
+         iCalc1:=FCFfbF_StarModifier_Phase2( FCDduStarSystem[0].SS_stars[Star].S_class );
+         FCVfbaVigorCalc:=FCVfbaVigorCalc + ( 40 - iCalc1 );
+         {.gravity modifier}
+         fCalc1:=( 1 - sqr( FCVfbaGravity ) ) * 5;
+         FCVfbaVigorCalc:=FCVfbaVigorCalc + round( fCalc1 );
+         FCVfbaGravity:=fCalc1;
+         if FCVfbaVigorCalc < 1
+         then StageFailed:=true;
+      end //==END== if FCVfbcHydroType = hWaterAmmoniaLiquid ==//
+      else if FCVfbaHydroType in [hNitrogenIceSheet..hNitrogenIceCrust] then
+      begin
+         {.evolution stage penalty}
+         FCVfbaVigorCalc:=FCVfbaVigorCalc - FCCfbaStagePenalty_SubSurface;
+         if FCVfbaVigorCalc < 1
+         then StageFailed:=true
+      end;
+   end; //==END== else of: if FCVfbaStarAge <= 0.8 ==//
+   {.final test}
+   if ( not StageFailed )
+      and ( 60 <= FCVfbaVigorCalc ) then
+   begin
+      if Satellite <= 0 then
+      begin
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_biosphereLevel:=blAmmonia_Level1Organisms;
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_biosphereVigor:=FCVfbaVigorCalc;
+         if FCVfbaHydroType = hWaterAmmoniaLiquid then
+         begin
+            if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceH2 <= agsTrace
+            then FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceH2:=agsSecondary
+            else if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceH2 = agsSecondary
+            then FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceH2:=agsPrimary;
+            if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceH2O <= agsTrace
+            then FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceH2O:=agsSecondary;
+            if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceN2 <= agsTrace
+            then FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceN2:=agsSecondary
+            else if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceN2 = agsSecondary
+            then FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceN2:=agsPrimary;
+            if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceNH3 <= agsTrace
+            then FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceNH3:=agsSecondary;
+         end;
+      end
+      else begin
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_biosphereLevel:=blAmmonia_Level1Organisms;
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_biosphereVigor:=FCVfbaVigorCalc;
+         if FCVfbaHydroType = hWaterAmmoniaLiquid then
+         begin
+            if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceH2 <= agsTrace
+            then FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceH2:=agsSecondary
+            else if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceH2 = agsSecondary
+            then FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceH2:=agsPrimary;
+            if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceH2O <= agsTrace
+            then FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceH2O:=agsSecondary;
+            if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceN2 <= agsTrace
+            then FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceN2:=agsSecondary
+            else if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceN2 = agsSecondary
+            then FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceN2:=agsPrimary;
+            if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceNH3 <= agsTrace
+            then FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceNH3:=agsSecondary;
+         end;
+      end;
+      FCMfbA_Level2OrganismsStage_Test(
+         Star
+         ,OrbitalObject
+         ,Satellite
+         );
+   end;
+end;
+
+procedure FCMfbA_Level2OrganismsStage_Test(
+   const Star
+         ,OrbitalObject: integer;
+   const Satellite: integer=0
+   );
+{:Purpose: process and test the ammonia-based level II organisms evolution stage.
+    Additions:
+}
+   var
+      iCalc1: integer;
+
+      StageFailed: boolean;
+
+begin
+   iCalc1:=0;
+
+   StageFailed:=false;
+
+   if FCVfbaStarAge <= 2
+   then StageFailed:=true
+   else begin
+      if FCVfbaHydroType = hWaterAmmoniaLiquid then
+      begin
+         {.evolution stage penalty}
+         FCVfbaVigorCalc:=FCVfbaVigorCalc - ( FCCfbaStagePenalty * 2 );
+         {.star influence}
+         iCalc1:=FCFfbF_StarModifier_Phase2( FCDduStarSystem[0].SS_stars[Star].S_class );
+         FCVfbaVigorCalc:=FCVfbaVigorCalc + ( 40 - iCalc1 );
+         {.gravity modifier}
+         FCVfbaVigorCalc:=FCVfbaVigorCalc + round( FCVfbaGravity );
+         if FCVfbaVigorCalc < 1
+         then StageFailed:=true;
+      end //==END== if FCVfbcHydroType = hWaterAmmoniaLiquid ==//
+      else if FCVfbaHydroType in [hNitrogenIceSheet..hNitrogenIceCrust] then
+      begin
+         {.evolution stage penalty}
+         FCVfbaVigorCalc:=FCVfbaVigorCalc - ( FCCfbaStagePenalty_SubSurface * 2 );
+         if FCVfbaVigorCalc < 1
+         then StageFailed:=true
+      end;
+   end; //==END== else of: if FCVfbaStarAge <= 0.8 ==//
+   {.final test}
+   if ( not StageFailed )
+      and ( 60 <= FCVfbaVigorCalc ) then
+   begin
+      if Satellite <= 0 then
+      begin
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_biosphereLevel:=blAmmonia_Level2Organisms;
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_biosphereVigor:=FCVfbaVigorCalc;
+      end
+      else begin
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_biosphereLevel:=blAmmonia_Level2Organisms;
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_biosphereVigor:=FCVfbaVigorCalc;
+      end;
+      if FCVfbaHydroType = hWaterAmmoniaLiquid
+      then FCMfbA_Level3OrganismsStage_Test(
+         Star
+         ,OrbitalObject
+         ,Satellite
+         );
+   end;
+end;
+
+procedure FCMfbA_Level3OrganismsStage_Test(
+   const Star
+         ,OrbitalObject: integer;
+   const Satellite: integer=0
+   );
+{:Purpose: process and test the ammonia-based level III organisms evolution stage.
+    Additions:
+}
+   var
+      iCalc1: integer;
+
+      StageFailed: boolean;
+
+begin
+   iCalc1:=0;
+
+   StageFailed:=false;
+
+   if FCVfbaStarAge <= 2
+   then StageFailed:=true
+   else begin
+      if FCVfbaHydroType = hWaterAmmoniaLiquid then
+      begin
+         {.evolution stage penalty}
+         FCVfbaVigorCalc:=FCVfbaVigorCalc - ( FCCfbaStagePenalty * 3 );
+         {.star influence}
+         iCalc1:=FCFfbF_StarModifier_Phase2( FCDduStarSystem[0].SS_stars[Star].S_class );
+         FCVfbaVigorCalc:=FCVfbaVigorCalc + ( 40 - iCalc1 );
+         {.gravity modifier}
+         FCVfbaVigorCalc:=FCVfbaVigorCalc + round( FCVfbaGravity );
+         if FCVfbaVigorCalc < 1
+         then StageFailed:=true;
+      end //==END== if FCVfbcHydroType = hWaterAmmoniaLiquid ==//
+      else if FCVfbaHydroType in [hNitrogenIceSheet..hNitrogenIceCrust] then
+      begin
+         {.evolution stage penalty}
+         FCVfbaVigorCalc:=FCVfbaVigorCalc - ( FCCfbaStagePenalty_SubSurface * 3 );
+         if FCVfbaVigorCalc < 1
+         then StageFailed:=true
+      end;
+   end; //==END== else of: if FCVfbaStarAge <= 0.8 ==//
+   {.final test}
+   if ( not StageFailed )
+      and ( 60 <= FCVfbaVigorCalc ) then
+   begin
+      if Satellite <= 0 then
+      begin
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_biosphereLevel:=blAmmonia_Level3Organisms;
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_biosphereVigor:=FCVfbaVigorCalc;
+      end
+      else begin
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_biosphereLevel:=blAmmonia_Level3Organisms;
+         FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_biosphereVigor:=FCVfbaVigorCalc;
+      end;
+   end;
+end;
+
 procedure FCMfbA_MicroOrganismStage_Test(
    const Star
          ,OrbitalObject: integer;
@@ -135,13 +406,8 @@ procedure FCMfbA_MicroOrganismStage_Test(
       ,Bh2o
       ,Bn2
       ,Bnh3
-//      ,Bco2
-//      ,Bh2o
-//      ,Bh2s
-//      ,
       ,Bsugar
 
-//      ,
       ,iCalc1
       ,PrimaryGasPart
       ,TestVal: integer;
@@ -156,17 +422,12 @@ procedure FCMfbA_MicroOrganismStage_Test(
       ,isRotationPeriodNull
       ,Stagefailed: boolean;
 
-//      gasH2S: TFCEduAtmosphericGasStatus;
 begin
    BnhPolymers:=0;
    Bh2:=0;
    Bh2o:=0;
    Bn2:=0;
    Bnh3:=0;
-//   Bco2:=0;
-//   Bh2o:=0;
-//   Bh2s:=0;
-//   Bn2:=0;
    Bsugar:=0;
    iCalc1:=0;
    PrimaryGasPart:=0;
@@ -200,7 +461,7 @@ begin
       PrimaryGasPart:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_primaryGasVolumePerc;
    end;
 
-   if FCVfbaStarAge > 0.8
+   if FCVfbaStarAge <= 0.8
    then StageFailed:=true else
    begin
       if FCVfbaHydroType = hWaterAmmoniaLiquid then
