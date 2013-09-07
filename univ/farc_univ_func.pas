@@ -719,7 +719,8 @@ begin
    begin
       while Count <= 4 do
       begin
-         if FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_revolutionPeriodCurrent in [FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_orbitalPeriods[Count].OOS_dayStart..FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_orbitalPeriods[Count].OOS_dayEnd] then
+         if ( FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_revolutionPeriodCurrent >= FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_orbitalPeriods[Count].OOS_dayStart )
+            and ( FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_revolutionPeriodCurrent <= FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_orbitalPeriods[Count].OOS_dayEnd ) then
          begin
             Result:=FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_orbitalPeriods[Count].OOS_orbitalPeriodType;
             break;
@@ -731,7 +732,8 @@ begin
    begin
       while Count <= 4 do
       begin
-         if FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_revolutionPeriodCurrent in [FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_orbitalPeriods[Count].OOS_dayStart..FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_orbitalPeriods[Count].OOS_dayEnd] then
+         if ( FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_revolutionPeriodCurrent >= FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_orbitalPeriods[Count].OOS_dayStart )
+            and ( FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_revolutionPeriodCurrent <= FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_orbitalPeriods[Count].OOS_dayEnd ) then
          begin
             Result:=FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_orbitalPeriods[Count].OOS_orbitalPeriodType;
             break;
@@ -759,7 +761,8 @@ begin
    begin
       while Count <= 4 do
       begin
-         if FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_revolutionPeriodCurrent in [FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_orbitalPeriods[Count].OOS_dayStart..FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_orbitalPeriods[Count].OOS_dayEnd] then
+         if ( FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_revolutionPeriodCurrent >= FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_orbitalPeriods[Count].OOS_dayStart )
+            and ( FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_revolutionPeriodCurrent <= FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_orbitalPeriods[Count].OOS_dayEnd ) then
          begin
             Result:=Count;
             break;
@@ -771,7 +774,8 @@ begin
    begin
       while Count <= 4 do
       begin
-         if FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_revolutionPeriodCurrent in [FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_orbitalPeriods[Count].OOS_dayStart..FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_orbitalPeriods[Count].OOS_dayEnd] then
+         if ( FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_revolutionPeriodCurrent >= FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_orbitalPeriods[Count].OOS_dayStart )
+            and ( FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_revolutionPeriodCurrent <= FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_orbitalPeriods[Count].OOS_dayEnd ) then
          begin
             Result:=Count;
             break;
@@ -1754,6 +1758,7 @@ procedure FCMuF_Regions_SetCurrentClimateData(
 begin
    Count:=1;
    Max:=0;
+   CurrentOrbitalPeriod:=optIntermediary;
    CurrentOrbitalPeriod:=FCFuF_OrbitalPeriods_GetCurrentPeriod(
          StarSys
          ,Star

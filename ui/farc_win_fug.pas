@@ -490,14 +490,14 @@ begin
                      +'" inclinationAxis="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_isNotSat_axialTilt )
                      +'" magneticField="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_magneticField )
                      +'" tectonicActivity="'+GetEnumName( TypeInfo( TFCEduTectonicActivity ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_tectonicActivity ) )
-                     +'" subsurfOcean="'+BoolToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_subsurfaceOcean )
+                     +'" subsurfOcean="'+BoolToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_subsurfaceOcean, true )
                      +'"/>'
                   );
                WF_XMLOutput.Lines.Add(
                   '         <ecosphereData envType="'+GetEnumName( TypeInfo( TFCEduEnvironmentTypes ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_environment ) )
                      +'" atmosphericPressure="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_atmosphericPressure )
                      +'" coudsCover="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_cloudsCover )
-                     +'" traceAtmosphere="'+BoolToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_atmosphere.AC_traceAtmosphere )
+                     +'" traceAtmosphere="'+BoolToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_atmosphere.AC_traceAtmosphere, true )
                      +'" primaryGasVolume="'+IntToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_atmosphere.AC_primaryGasVolumePerc )
                      +'" gasH2="'+GetEnumName( TypeInfo( TFCEduAtmosphericGasStatus ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_atmosphere.AC_gasPresenceH2 ) )
                      +'" gasHe="'+GetEnumName( TypeInfo( TFCEduAtmosphericGasStatus ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_atmosphere.AC_gasPresenceHe ) )
@@ -621,7 +621,7 @@ begin
                         +'" escapeVel="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_escapeVelocity )
                         +'" magneticField="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_magneticField )
                         +'" tectonicActivity="'+GetEnumName( TypeInfo( TFCEduTectonicActivity ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_tectonicActivity ) )
-                        +'" subsurfOcean="'+BoolToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_subsurfaceOcean )
+                        +'" subsurfOcean="'+BoolToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_subsurfaceOcean, true )
                         +'"/>'
                      )
                   else WF_XMLOutput.Lines.Add(
@@ -635,7 +635,7 @@ begin
                         +'" inclinationAxis="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_isAsterBelt_axialTilt )
                         +'" magneticField="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_magneticField )
                         +'" tectonicActivity="'+GetEnumName( TypeInfo( TFCEduTectonicActivity ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_tectonicActivity ) )
-                        +'" subsurfOcean="'+BoolToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_subsurfaceOcean )
+                        +'" subsurfOcean="'+BoolToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_subsurfaceOcean, true )
                         +'"/>'
                      );
 
@@ -643,7 +643,7 @@ begin
                      '            <ecosphereData envType="'+GetEnumName( TypeInfo( TFCEduEnvironmentTypes ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_environment ) )
                         +'" atmosphericPressure="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_atmosphericPressure )
                         +'" coudsCover="'+floattostr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_cloudsCover )
-                        +'" traceAtmosphere="'+BoolToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_atmosphere.AC_traceAtmosphere )
+                        +'" traceAtmosphere="'+BoolToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_atmosphere.AC_traceAtmosphere, true )
                         +'" primaryGasVolume="'+IntToStr( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_atmosphere.AC_primaryGasVolumePerc )
                         +'" gasH2="'+GetEnumName( TypeInfo( TFCEduAtmosphericGasStatus ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_atmosphere.AC_gasPresenceH2 ) )
                         +'" gasHe="'+GetEnumName( TypeInfo( TFCEduAtmosphericGasStatus ), Integer( FCDduStarSystem[0].SS_stars[Count].S_orbitalObjects[Count1].OO_satellitesList[Count2].OO_atmosphere.AC_gasPresenceHe ) )

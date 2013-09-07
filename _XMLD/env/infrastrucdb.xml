@@ -23,16 +23,13 @@
       
    {.requirement - hydrosphere types}
    [hydrotype]
-      hrAny
-      hrLiquid_LiquidNH3
-      hrNone
-      hrVapour
-      hrLiquid
-      hrIceSheet
-      hrCrystal
-      hrLiquidNH3
-      hrCH4
-      hrLiquid_Vapour_Ice_Sheet
+      hhrAny
+      hrWaterLiquid
+      hrWaterIceSheet
+      hrWaterIceCrust
+      hrWaterLiquid_IceSheet
+      hrWaterAmmoniaLiquid
+      hrMethaneLiquid
       
    {.requirement - region soil}
    [allowtype]
@@ -256,7 +253,7 @@
       </infBuild>
       <infReq>
          <irGravity min="0.1" max="1.4"/>
-         <irHydro hydrotype="hrLiquid_Vapour_Ice_Sheet"/>
+         <irHydro hydrotype="hrWaterLiquid_IceSheet"/>
          <irRegionSoil allowtype="rsrAnyNonVolcanic"/>
       </infReq>
       <infReqStaff>
@@ -282,7 +279,7 @@
       </infBuild>
       <infReq>
          <irGravity min="0.1" max="1.4"/>
-         <irHydro hydrotype="hrLiquid_Vapour_Ice_Sheet"/>
+         <irHydro hydrotype="hrWaterLiquid_IceSheet"/>
          <irRegionSoil allowtype="rsrAnyNonVolcanic"/>
       </infReq>
       <infReqStaff>

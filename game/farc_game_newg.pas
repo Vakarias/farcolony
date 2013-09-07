@@ -359,13 +359,6 @@ FCWinNewGSetup.Close;
       FCVdgPlayer.P_viewStarSystem:=FCDdgFactions[SelectedFactionIndex].F_startingLocations[CPcount0].SL_stellarSystem;
       FCVdgPlayer.P_viewStar:=FCDdgFactions[SelectedFactionIndex].F_startingLocations[CPcount0].SL_star;
       FCVdgPlayer.P_viewOrbitalObject:=FCDdgFactions[SelectedFactionIndex].F_startingLocations[CPcount0].SL_orbitalObject;
-   end
-   else
-   begin
-      FCVdgPlayer.P_viewStarSystem:='stelsysACent';
-      FCVdgPlayer.P_viewStar:='starACentA';
-      FCVdgPlayer.P_viewOrbitalObject:='orbobjAcentA2';
-      FCVdgPlayer.P_viewSatellite:='';
    end;
    {:DEV NOTES: load the planetary system here.}
    FCMdF_DBStarOrbitalObjects_Load( FCVdgPlayer.P_viewStarSystem, FCVdgPlayer.P_viewStar );
@@ -383,24 +376,24 @@ FCWinNewGSetup.Close;
          while Count3 <= Max3 do
          begin
             FCDduStarSystem[Count1].SS_stars[Count2].S_orbitalObjects[Count3].OO_revolutionPeriodCurrent:=FCDduStarSystem[Count1].SS_stars[Count2].S_orbitalObjects[Count3].OO_revolutionPeriodInit;
-            FCMuF_Regions_SetCurrentClimateData(
-               Count1
-               ,Count2
-               ,Count3
-               );
-            Max4:=length( FCDduStarSystem[Count1].SS_stars[Count2].S_orbitalObjects[Count3].OO_satellitesList ) - 1;
-            Count4:=1;
-            while Count4 <= Max4 do
-            begin
-               FCDduStarSystem[Count1].SS_stars[Count2].S_orbitalObjects[Count3].OO_satellitesList[Count4].OO_revolutionPeriodCurrent:=FCDduStarSystem[Count1].SS_stars[Count2].S_orbitalObjects[Count3].OO_satellitesList[Count4].OO_revolutionPeriodInit;
-               FCMuF_Regions_SetCurrentClimateData(
-                  Count1
-                  ,Count2
-                  ,Count3
-                  ,Count4
-                  );
-               inc( Count4 );
-            end;
+//            FCMuF_Regions_SetCurrentClimateData(
+//               Count1
+//               ,Count2
+//               ,Count3
+//               );
+//            Max4:=length( FCDduStarSystem[Count1].SS_stars[Count2].S_orbitalObjects[Count3].OO_satellitesList ) - 1;
+//            Count4:=1;
+//            while Count4 <= Max4 do
+//            begin
+//               FCDduStarSystem[Count1].SS_stars[Count2].S_orbitalObjects[Count3].OO_satellitesList[Count4].OO_revolutionPeriodCurrent:=FCDduStarSystem[Count1].SS_stars[Count2].S_orbitalObjects[Count3].OO_satellitesList[Count4].OO_revolutionPeriodInit;
+//               FCMuF_Regions_SetCurrentClimateData(
+//                  Count1
+//                  ,Count2
+//                  ,Count3
+//                  ,Count4
+//                  );
+//               inc( Count4 );
+//            end;
             inc( Count3);
          end;
          inc( Count2 );

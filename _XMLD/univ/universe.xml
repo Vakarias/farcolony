@@ -197,205 +197,372 @@
    </starsys>
 -->
  <univ>
-   <!-- Alpha Centauri-->
-   <starsys sstoken="stelsysACent" steslocx="-1.7" steslocy="-1.4" steslocz="-3.9">
-      <star startoken="starACentA" starclass="G2">
-         <starphysdata startemp="5659" starmass="1.07" stardiam="1.11" starlum="1.32069"/>
-         <orbobj ootoken="orbobjAcentA1">
-            <orbobjorbdata oodist="0.46" ooecc="0.062" ooorbzne="hzInner" oorevol="112" oorevevinit="63" oogravsphrad="6090" orbitGeosync="0" orbitLow="0"/>
-            <orbperlist>
-               <orbper optype="optClosest" opstrt="1" opend="28" opmtemp="437.95"/>
-               <orbper optype="optIntermediary" opstrt="29" opend="56" opmtemp="424.16"/>
-               <orbper optype="optFarest" opstrt="57" opend="84" opmtemp="411.59"/>
-               <orbper optype="optIntermediary" opstrt="85" opend="112" opmtemp="424.16"/>
-            </orbperlist>      
-            <orbobjgeophysdata ootype="ootAsteroid_Carbonaceous" oodiam="1542.5" oodens="2758" oomass="5.299909" oograv="0.061" ooescvel="0.96" oorotper="2688" ooinclax="29" oomagfld="0" ootectonicactivity="taDead"/>
-            <orbobjecosdata ooenvtype="etSpace" ooatmpres="0" oocloudscov="0" atmprimgasvol="0" atmH2="agsNotPresent" atmHe="agsNotPresent" atmCH4="agsNotPresent" atmNH3="agsNotPresent" atmH2O="agsNotPresent" atmNe="agsNotPresent" atmN2="agsNotPresent" atmCO="agsNotPresent" atmNO="agsNotPresent" atmO2="agsNotPresent" atmH2S="agsNotPresent" atmAr="agsNotPresent" atmCO2="agsNotPresent" atmNO2="agsNotPresent" atmO3="agsNotPresent" atmSO2="agsNotPresent" hydroTp="hNoH2O" hydroArea="0" ooalbe="0.07"/>
-            <orbobjregions surface="1245802" mtd="1174">
-               <region soiltp="rst14Sterile" relief="rr1plain" climate="rc07ColdArid" mtdmin="237.99" mtdint="288.07" mtdmax="338.54" wndspd="0" precip="0" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
+   <starsys token="stelsysSol" locationX="0" locationY="0" locationZ="0">
+      <star token="starSol" class="G2">
+         <physicalData temperature="5515" mass="1" diameter="1" luminosity="1.00000"/>
+         <orbobj token="orbobjSol1" ftSeed="" lightcolor="" climatefile="" habGravity="higIdeal" habRad="higAcceptable" habAtmosphere="higHostile" habAtmPressure="higIdeal">
+            <orbitalData distanceFromStar="1" eccentricity="0.034" orbitalZone="hzOuter" revolutionPeriod="365" revPeriodInit="277" gravSphereRadius="923961" orbitGeosync="41473.2" orbitLow="6885"/>
+            <geophysicalData type="ootPlanet_Telluric" diameter="12756" density="5515" mass="1" gravity="1" escapeVel="11.18" rotationPeriod="24" inclinationAxis="18" magneticField="0.011" tectonicActivity="taHotSpot" subsurfOcean="False"/>
+            <ecosphereData envType="etRestricted" atmosphericPressure="1013.148" coudsCover="64.8" traceAtmosphere="False" primaryGasVolume="83" gasH2="agsTrace" gasHe="agsTrace" gasCH4="agsTrace" gasNH3="agsTrace" gasH2O="agsSecondary" gasNe="agsSecondary" gasN2="agsPrimary" gasCO="agsTrace" gasNO="agsSecondary" gasO2="agsSecondary" gasH2S="agsSecondary" gasAr="agsSecondary" gasCO2="agsTrace" gasNO2="agsSecondary" gasO3="agsSecondary" gasSO2="agsSecondary" hydrosphereType="hWaterLiquid" hydrosphereArea="68" albedo="0.25"/>
+            <orbitalPeriods>
+               <period type="optFarthest" dayStart="1" dayEnd="91" baseTemp="247.8" surfaceTemp="277.28"/>
+               <period type="optIntermediary" dayStart="92" dayEnd="182" baseTemp="252.03" surfaceTemp="282.02"/>
+               <period type="optClosest" dayStart="183" dayEnd="273" baseTemp="256.42" surfaceTemp="286.98"/>
+               <period type="optIntermediary" dayStart="274" dayEnd="364" baseTemp="252.03" surfaceTemp="282.02"/>
+            </orbitalPeriods>
+            <biosphereData level="blCarbon_Level2Organisms" vigor="287"/>
+            <regions surface="14185409.6" meanTravelDist="3964">
+               <region soilType="rst04Polar" relief="rr4Broken" climate="rc09Arctic" closeTemp="158.98" closeWindspd="3" closeRain="2" intermTemp="175.21" intermWindspd="6" intermRain="1" farthTemp="189.88" farthWindspd="1" farthRain="3" emoPlanSurveyG="1.72" emoPlanSurveyA="1.12" emoPlanSurveyAG="1.12" emoPlanSurveySAG="1" emoCAB="2.12" emoIWC="1.72" emoGroundCombat="2.52">
+                 <resourcespot type="rstHydroWell" rarity="rsrCommon"/>
+                 <resourcespot type="rstOreFieldCarbo" rarity="rsrPresent"/>
+                 <resourcespot type="rstOreFieldMetal" rarity="rsrUncommon"/>
+                 <resourcespot type="rstUnderWater" rarity="rsrRare"/>
+                 <resourcespot type="rstGasField" rarity="rsrRich"/>
                </region>
-               <region soiltp="rst14Sterile" relief="rr4broken" climate="rc07ColdArid" mtdmin="319.65" mtdint="353" mtdmax="390.13" wndspd="0" precip="0" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
+               <region soilType="rst04Polar" relief="rr4Broken" climate="rc09Arctic" closeTemp="215.29" closeWindspd="1" closeRain="3" intermTemp="221.09" intermWindspd="2" intermRain="5" farthTemp="234.34" farthWindspd="0" farthRain="0" emoPlanSurveyG="1.71" emoPlanSurveyA="1.11" emoPlanSurveyAG="1.11" emoPlanSurveySAG="1" emoCAB="2.11" emoIWC="1.71" emoGroundCombat="2.51">
+                 <resourcespot type="rstHydroWell" rarity="rsrCommon"/>
+                 <resourcespot type="rstOreFieldCarbo" rarity="rsrPresent"/>
+                 <resourcespot type="rstOreFieldMetal" rarity="rsrCommon"/>
+                 <resourcespot type="rstUnderWater" rarity="rsrRare"/>
+                 <resourcespot type="rstGasField" rarity="rsrRich"/>
                </region>
-               <region soiltp="rst14Sterile" relief="rr4broken" climate="rc07ColdArid" mtdmin="237.99" mtdint="288.07" mtdmax="338.54" wndspd="0" precip="0" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
+               <region soilType="rst03Volcanic" relief="rr9Mountain" climate="rc09Arctic" closeTemp="212.68" closeWindspd="1" closeRain="3" intermTemp="230.06" intermWindspd="4" intermRain="3" farthTemp="239.82" farthWindspd="0" farthRain="0" emoPlanSurveyG="2.11" emoPlanSurveyA="1.21" emoPlanSurveyAG="1.11" emoPlanSurveySAG="1" emoCAB="2.61" emoIWC="1.71" emoGroundCombat="3.11">
+                 <resourcespot type="rstHydroWell" rarity="rsrRare"/>
+                 <resourcespot type="rstOreFieldCarbo" rarity="rsrCommon"/>
+                 <resourcespot type="rstOreFieldMetal" rarity="rsrAbundant"/>
+                 <resourcespot type="rstOreFieldRareMetal" rarity="rsrAbundant"/>
+                 <resourcespot type="rstOreFieldUran" rarity="rsrCommon"/>
+                 <resourcespot type="rstGasField" rarity="rsrRich"/>
                </region>
-               <region soiltp="rst14Sterile" relief="rr4broken" climate="rc07ColdArid" mtdmin="237.99" mtdint="288.07" mtdmax="338.54" wndspd="0" precip="0" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
+               <region soilType="rst03Volcanic" relief="rr9Mountain" climate="rc09Arctic" closeTemp="212.88" closeWindspd="1" closeRain="3" intermTemp="222.77" intermWindspd="5" intermRain="2" farthTemp="239.42" farthWindspd="2" farthRain="6" emoPlanSurveyG="2.11" emoPlanSurveyA="1.21" emoPlanSurveyAG="1.11" emoPlanSurveySAG="1" emoCAB="2.61" emoIWC="1.71" emoGroundCombat="3.11">
+                 <resourcespot type="rstHydroWell" rarity="rsrRare"/>
+                 <resourcespot type="rstOreFieldCarbo" rarity="rsrPresent"/>
+                 <resourcespot type="rstOreFieldMetal" rarity="rsrCommon"/>
+                 <resourcespot type="rstOreFieldRareMetal" rarity="rsrAbundant"/>
+                 <resourcespot type="rstOreFieldUran" rarity="rsrCommon"/>
+                 <resourcespot type="rstGasField" rarity="rsrRich"/>
                </region>
-            </orbobjregions>
+               <region soilType="rst04Polar" relief="rr4Broken" climate="rc09Arctic" closeTemp="207.76" closeWindspd="1" closeRain="3" intermTemp="219.96" intermWindspd="5" intermRain="2" farthTemp="249.1" farthWindspd="1" farthRain="4" emoPlanSurveyG="1.71" emoPlanSurveyA="1.11" emoPlanSurveyAG="1.11" emoPlanSurveySAG="1" emoCAB="2.11" emoIWC="1.71" emoGroundCombat="2.51">
+                 <resourcespot type="rstHydroWell" rarity="rsrCommon"/>
+                 <resourcespot type="rstOreFieldCarbo" rarity="rsrCommon"/>
+                 <resourcespot type="rstOreFieldMetal" rarity="rsrCommon"/>
+                 <resourcespot type="rstUnderWater" rarity="rsrRare"/>
+                 <resourcespot type="rstGasField" rarity="rsrRich"/>
+               </region>
+               <region soilType="rst04Polar" relief="rr1Plain" climate="rc09Arctic" closeTemp="207.13" closeWindspd="3" closeRain="3" intermTemp="229.14" intermWindspd="2" intermRain="5" farthTemp="243.8" farthWindspd="2" farthRain="6" emoPlanSurveyG="1.51" emoPlanSurveyA="1.11" emoPlanSurveyAG="1.11" emoPlanSurveySAG="1" emoCAB="2.01" emoIWC="1.71" emoGroundCombat="2.31">
+                 <resourcespot type="rstHydroWell" rarity="rsrAbundant"/>
+                 <resourcespot type="rstOreFieldCarbo" rarity="rsrPresent"/>
+                 <resourcespot type="rstOreFieldMetal" rarity="rsrPresent"/>
+                 <resourcespot type="rstUnderWater" rarity="rsrRare"/>
+                 <resourcespot type="rstGasField" rarity="rsrRich"/>
+               </region>
+               <region soilType="rst03Volcanic" relief="rr9Mountain" climate="rc09Arctic" closeTemp="213.86" closeWindspd="1" closeRain="3" intermTemp="222.87" intermWindspd="3" intermRain="3" farthTemp="242.52" farthWindspd="1" farthRain="4" emoPlanSurveyG="2.11" emoPlanSurveyA="1.21" emoPlanSurveyAG="1.11" emoPlanSurveySAG="1" emoCAB="2.61" emoIWC="1.71" emoGroundCombat="3.11">
+                 <resourcespot type="rstHydroWell" rarity="rsrRare"/>
+                 <resourcespot type="rstOreFieldCarbo" rarity="rsrPresent"/>
+                 <resourcespot type="rstOreFieldMetal" rarity="rsrCommon"/>
+                 <resourcespot type="rstOreFieldRareMetal" rarity="rsrRich"/>
+                 <resourcespot type="rstOreFieldUran" rarity="rsrCommon"/>
+                 <resourcespot type="rstGasField" rarity="rsrRich"/>
+               </region>
+               <region soilType="rst06Fertile" relief="rr4Broken" climate="rc05ModerateHumid" closeTemp="277.19" closeWindspd="1" closeRain="1903" intermTemp="272.02" intermWindspd="5" intermRain="3265" farthTemp="271.44" farthWindspd="0" farthRain="0" emoPlanSurveyG="1.31" emoPlanSurveyA="1.11" emoPlanSurveyAG="1.11" emoPlanSurveySAG="1" emoCAB="1.21" emoIWC="1.41" emoGroundCombat="1.31">
+                 <resourcespot type="rstHydroWell" rarity="rsrAbundant"/>
+                 <resourcespot type="rstOreFieldCarbo" rarity="rsrPresent"/>
+                 <resourcespot type="rstOreFieldMetal" rarity="rsrPresent"/>
+                 <resourcespot type="rstOreFieldRareMetal" rarity="rsrAbundant"/>
+                 <resourcespot type="rstOreFieldUran" rarity="rsrCommon"/>
+                 <resourcespot type="rstUnderWater" rarity="rsrRare"/>
+                 <resourcespot type="rstGasField" rarity="rsrRich"/>
+               </region>
+               <region soilType="rst01RockyDesert" relief="rr4Broken" climate="rc07ColdArid" closeTemp="260.4" closeWindspd="2" closeRain="152" intermTemp="277.7" intermWindspd="3" intermRain="243" farthTemp="275.63" farthWindspd="1" farthRain="290" emoPlanSurveyG="1.41" emoPlanSurveyA="1.11" emoPlanSurveyAG="1.11" emoPlanSurveySAG="1" emoCAB="1.76" emoIWC="2.11" emoGroundCombat="2.21">
+                 <resourcespot type="rstHydroWell" rarity="rsrPresent"/>
+                 <resourcespot type="rstOreFieldCarbo" rarity="rsrCommon"/>
+                 <resourcespot type="rstOreFieldMetal" rarity="rsrCommon"/>
+                 <resourcespot type="rstOreFieldRareMetal" rarity="rsrAbundant"/>
+                 <resourcespot type="rstOreFieldUran" rarity="rsrAbundant"/>
+                 <resourcespot type="rstUnderWater" rarity="rsrRare"/>
+                 <resourcespot type="rstGasField" rarity="rsrRich"/>
+               </region>
+               <region soilType="rst01RockyDesert" relief="rr4Broken" climate="rc07ColdArid" closeTemp="271.64" closeWindspd="3" closeRain="404" intermTemp="268.1" intermWindspd="12" intermRain="46" farthTemp="274.1" farthWindspd="5" farthRain="225" emoPlanSurveyG="1.42" emoPlanSurveyA="1.12" emoPlanSurveyAG="1.12" emoPlanSurveySAG="1" emoCAB="1.77" emoIWC="2.12" emoGroundCombat="2.22">
+                 <resourcespot type="rstHydroWell" rarity="rsrPresent"/>
+                 <resourcespot type="rstOreFieldCarbo" rarity="rsrCommon"/>
+                 <resourcespot type="rstOreFieldMetal" rarity="rsrAbundant"/>
+                 <resourcespot type="rstOreFieldRareMetal" rarity="rsrCommon"/>
+                 <resourcespot type="rstOreFieldUran" rarity="rsrCommon"/>
+                 <resourcespot type="rstUnderWater" rarity="rsrRare"/>
+                 <resourcespot type="rstGasField" rarity="rsrRich"/>
+               </region>
+               <region soilType="rst01RockyDesert" relief="rr9Mountain" climate="rc07ColdArid" closeTemp="268.41" closeWindspd="3" closeRain="104" intermTemp="263.64" intermWindspd="12" intermRain="44" farthTemp="275.46" farthWindspd="5" farthRain="200" emoPlanSurveyG="1.62" emoPlanSurveyA="1.22" emoPlanSurveyAG="1.12" emoPlanSurveySAG="1" emoCAB="2.07" emoIWC="2.12" emoGroundCombat="2.62">
+                 <resourcespot type="rstHydroWell" rarity="rsrUncommon"/>
+                 <resourcespot type="rstOreFieldCarbo" rarity="rsrCommon"/>
+                 <resourcespot type="rstOreFieldMetal" rarity="rsrAbundant"/>
+                 <resourcespot type="rstOreFieldRareMetal" rarity="rsrRich"/>
+                 <resourcespot type="rstOreFieldUran" rarity="rsrCommon"/>
+                 <resourcespot type="rstUnderWater" rarity="rsrRare"/>
+                 <resourcespot type="rstGasField" rarity="rsrRich"/>
+               </region>
+               <region soilType="rst06Fertile" relief="rr4Broken" climate="rc05ModerateHumid" closeTemp="267.72" closeWindspd="0" closeRain="0" intermTemp="277.45" intermWindspd="17" intermRain="1178" farthTemp="281.2" farthWindspd="0" farthRain="0" emoPlanSurveyG="1.32" emoPlanSurveyA="1.12" emoPlanSurveyAG="1.12" emoPlanSurveySAG="1" emoCAB="1.22" emoIWC="1.42" emoGroundCombat="1.32">
+                 <resourcespot type="rstHydroWell" rarity="rsrRich"/>
+                 <resourcespot type="rstOreFieldCarbo" rarity="rsrPresent"/>
+                 <resourcespot type="rstOreFieldMetal" rarity="rsrPresent"/>
+                 <resourcespot type="rstOreFieldRareMetal" rarity="rsrAbundant"/>
+                 <resourcespot type="rstOreFieldUran" rarity="rsrPresent"/>
+                 <resourcespot type="rstUnderWater" rarity="rsrRare"/>
+                 <resourcespot type="rstGasField" rarity="rsrRich"/>
+               </region>
+               <region soilType="rst01RockyDesert" relief="rr1Plain" climate="rc07ColdArid" closeTemp="275.48" closeWindspd="2" closeRain="463" intermTemp="267.42" intermWindspd="5" intermRain="70" farthTemp="273.1" farthWindspd="3" farthRain="356" emoPlanSurveyG="1.22" emoPlanSurveyA="1.12" emoPlanSurveyAG="1.12" emoPlanSurveySAG="1" emoCAB="1.67" emoIWC="2.12" emoGroundCombat="2.02">
+                 <resourcespot type="rstHydroWell" rarity="rsrCommon"/>
+                 <resourcespot type="rstOreFieldCarbo" rarity="rsrPresent"/>
+                 <resourcespot type="rstOreFieldMetal" rarity="rsrCommon"/>
+                 <resourcespot type="rstOreFieldRareMetal" rarity="rsrCommon"/>
+                 <resourcespot type="rstOreFieldUran" rarity="rsrAbundant"/>
+                 <resourcespot type="rstUnderWater" rarity="rsrRare"/>
+                 <resourcespot type="rstGasField" rarity="rsrRich"/>
+               </region>
+               <region soilType="rst01RockyDesert" relief="rr1Plain" climate="rc07ColdArid" closeTemp="278.62" closeWindspd="0" closeRain="0" intermTemp="274.3" intermWindspd="4" intermRain="255" farthTemp="261.48" farthWindspd="0" farthRain="0" emoPlanSurveyG="1.21" emoPlanSurveyA="1.11" emoPlanSurveyAG="1.11" emoPlanSurveySAG="1" emoCAB="1.66" emoIWC="2.11" emoGroundCombat="2.01">
+                 <resourcespot type="rstHydroWell" rarity="rsrPresent"/>
+                 <resourcespot type="rstOreFieldCarbo" rarity="rsrCommon"/>
+                 <resourcespot type="rstOreFieldMetal" rarity="rsrCommon"/>
+                 <resourcespot type="rstOreFieldRareMetal" rarity="rsrCommon"/>
+                 <resourcespot type="rstOreFieldUran" rarity="rsrCommon"/>
+                 <resourcespot type="rstUnderWater" rarity="rsrRare"/>
+                 <resourcespot type="rstGasField" rarity="rsrRich"/>
+               </region>
+               <region soilType="rst01RockyDesert" relief="rr1Plain" climate="rc07ColdArid" closeTemp="283.84" closeWindspd="3" closeRain="148" intermTemp="273.96" intermWindspd="4" intermRain="263" farthTemp="259.78" farthWindspd="2" farthRain="151" emoPlanSurveyG="1.22" emoPlanSurveyA="1.12" emoPlanSurveyAG="1.12" emoPlanSurveySAG="1" emoCAB="1.67" emoIWC="2.12" emoGroundCombat="2.02">
+                 <resourcespot type="rstHydroWell" rarity="rsrPresent"/>
+                 <resourcespot type="rstOreFieldCarbo" rarity="rsrPresent"/>
+                 <resourcespot type="rstOreFieldMetal" rarity="rsrCommon"/>
+                 <resourcespot type="rstOreFieldRareMetal" rarity="rsrAbundant"/>
+                 <resourcespot type="rstOreFieldUran" rarity="rsrCommon"/>
+                 <resourcespot type="rstUnderWater" rarity="rsrRare"/>
+                 <resourcespot type="rstGasField" rarity="rsrRich"/>
+               </region>
+               <region soilType="rst06Fertile" relief="rr4Broken" climate="rc05ModerateHumid" closeTemp="282.31" closeWindspd="0" closeRain="0" intermTemp="278.25" intermWindspd="7" intermRain="1606" farthTemp="262.42" farthWindspd="3" farthRain="1191" emoPlanSurveyG="1.32" emoPlanSurveyA="1.12" emoPlanSurveyAG="1.12" emoPlanSurveySAG="1" emoCAB="1.22" emoIWC="1.42" emoGroundCombat="1.32">
+                 <resourcespot type="rstHydroWell" rarity="rsrRich"/>
+                 <resourcespot type="rstOreFieldCarbo" rarity="rsrPresent"/>
+                 <resourcespot type="rstOreFieldMetal" rarity="rsrPresent"/>
+                 <resourcespot type="rstOreFieldRareMetal" rarity="rsrAbundant"/>
+                 <resourcespot type="rstOreFieldUran" rarity="rsrCommon"/>
+                 <resourcespot type="rstUnderWater" rarity="rsrRare"/>
+                 <resourcespot type="rstGasField" rarity="rsrRich"/>
+               </region>
+               <region soilType="rst01RockyDesert" relief="rr9Mountain" climate="rc07ColdArid" closeTemp="286.4" closeWindspd="6" closeRain="74" intermTemp="265.6" intermWindspd="4" intermRain="80" farthTemp="253.44" farthWindspd="3" farthRain="89" emoPlanSurveyG="1.62" emoPlanSurveyA="1.22" emoPlanSurveyAG="1.12" emoPlanSurveySAG="1" emoCAB="2.07" emoIWC="2.12" emoGroundCombat="2.62">
+                 <resourcespot type="rstHydroWell" rarity="rsrUncommon"/>
+                 <resourcespot type="rstOreFieldCarbo" rarity="rsrCommon"/>
+                 <resourcespot type="rstOreFieldMetal" rarity="rsrCommon"/>
+                 <resourcespot type="rstOreFieldRareMetal" rarity="rsrCommon"/>
+                 <resourcespot type="rstOreFieldUran" rarity="rsrCommon"/>
+                 <resourcespot type="rstUnderWater" rarity="rsrRare"/>
+                 <resourcespot type="rstGasField" rarity="rsrRich"/>
+               </region>
+               <region soilType="rst06Fertile" relief="rr1Plain" climate="rc05ModerateHumid" closeTemp="285.66" closeWindspd="0" closeRain="0" intermTemp="276.62" intermWindspd="5" intermRain="2211" farthTemp="263.96" farthWindspd="1" farthRain="742" emoPlanSurveyG="1.11" emoPlanSurveyA="1.11" emoPlanSurveyAG="1.11" emoPlanSurveySAG="1" emoCAB="1.11" emoIWC="1.41" emoGroundCombat="1.11">
+                 <resourcespot type="rstHydroWell" rarity="rsrRich"/>
+                 <resourcespot type="rstOreFieldCarbo" rarity="rsrPresent"/>
+                 <resourcespot type="rstOreFieldMetal" rarity="rsrCommon"/>
+                 <resourcespot type="rstOreFieldRareMetal" rarity="rsrAbundant"/>
+                 <resourcespot type="rstOreFieldUran" rarity="rsrPresent"/>
+                 <resourcespot type="rstUnderWater" rarity="rsrRare"/>
+                 <resourcespot type="rstGasField" rarity="rsrRich"/>
+               </region>
+               <region soilType="rst06Fertile" relief="rr4Broken" climate="rc05ModerateHumid" closeTemp="290.99" closeWindspd="0" closeRain="0" intermTemp="272.51" intermWindspd="3" intermRain="4591" farthTemp="261.86" farthWindspd="2" farthRain="1877" emoPlanSurveyG="1.31" emoPlanSurveyA="1.11" emoPlanSurveyAG="1.11" emoPlanSurveySAG="1" emoCAB="1.21" emoIWC="1.41" emoGroundCombat="1.31">
+                 <resourcespot type="rstHydroWell" rarity="rsrRich"/>
+                 <resourcespot type="rstOreFieldCarbo" rarity="rsrPresent"/>
+                 <resourcespot type="rstOreFieldMetal" rarity="rsrCommon"/>
+                 <resourcespot type="rstOreFieldRareMetal" rarity="rsrAbundant"/>
+                 <resourcespot type="rstOreFieldUran" rarity="rsrCommon"/>
+                 <resourcespot type="rstUnderWater" rarity="rsrRare"/>
+                 <resourcespot type="rstGasField" rarity="rsrRich"/>
+               </region>
+               <region soilType="rst04Polar" relief="rr4Broken" climate="rc09Arctic" closeTemp="247.18" closeWindspd="1" closeRain="4" intermTemp="226.37" intermWindspd="1" intermRain="3" farthTemp="199.4" farthWindspd="1" farthRain="3" emoPlanSurveyG="1.71" emoPlanSurveyA="1.11" emoPlanSurveyAG="1.11" emoPlanSurveySAG="1" emoCAB="2.11" emoIWC="1.71" emoGroundCombat="2.51">
+                 <resourcespot type="rstHydroWell" rarity="rsrCommon"/>
+                 <resourcespot type="rstOreFieldCarbo" rarity="rsrPresent"/>
+                 <resourcespot type="rstOreFieldMetal" rarity="rsrCommon"/>
+                 <resourcespot type="rstUnderWater" rarity="rsrRare"/>
+                 <resourcespot type="rstGasField" rarity="rsrRich"/>
+               </region>
+               <region soilType="rst04Polar" relief="rr4Broken" climate="rc09Arctic" closeTemp="249.36" closeWindspd="1" closeRain="4" intermTemp="221.31" intermWindspd="3" intermRain="3" farthTemp="191.99" farthWindspd="1" farthRain="3" emoPlanSurveyG="1.71" emoPlanSurveyA="1.11" emoPlanSurveyAG="1.11" emoPlanSurveySAG="1" emoCAB="2.11" emoIWC="1.71" emoGroundCombat="2.51">
+                 <resourcespot type="rstHydroWell" rarity="rsrCommon"/>
+                 <resourcespot type="rstOreFieldCarbo" rarity="rsrUncommon"/>
+                 <resourcespot type="rstOreFieldMetal" rarity="rsrPresent"/>
+                 <resourcespot type="rstUnderWater" rarity="rsrRare"/>
+                 <resourcespot type="rstGasField" rarity="rsrRich"/>
+               </region>
+               <region soilType="rst04Polar" relief="rr9Mountain" climate="rc09Arctic" closeTemp="241.68" closeWindspd="0" closeRain="0" intermTemp="216.8" intermWindspd="1" intermRain="3" farthTemp="207.49" farthWindspd="1" farthRain="3" emoPlanSurveyG="1.9" emoPlanSurveyA="1.2" emoPlanSurveyAG="1.1" emoPlanSurveySAG="1" emoCAB="2.4" emoIWC="1.7" emoGroundCombat="2.9">
+                 <resourcespot type="rstHydroWell" rarity="rsrPresent"/>
+                 <resourcespot type="rstOreFieldCarbo" rarity="rsrPresent"/>
+                 <resourcespot type="rstOreFieldMetal" rarity="rsrPresent"/>
+                 <resourcespot type="rstUnderWater" rarity="rsrRare"/>
+                 <resourcespot type="rstGasField" rarity="rsrRich"/>
+               </region>
+               <region soilType="rst04Polar" relief="rr4Broken" climate="rc09Arctic" closeTemp="249.52" closeWindspd="1" closeRain="4" intermTemp="227.98" intermWindspd="1" intermRain="3" farthTemp="205.68" farthWindspd="0" farthRain="0" emoPlanSurveyG="1.7" emoPlanSurveyA="1.1" emoPlanSurveyAG="1.1" emoPlanSurveySAG="1" emoCAB="2.1" emoIWC="1.7" emoGroundCombat="2.5">
+                 <resourcespot type="rstHydroWell" rarity="rsrCommon"/>
+                 <resourcespot type="rstOreFieldCarbo" rarity="rsrUncommon"/>
+                 <resourcespot type="rstOreFieldMetal" rarity="rsrCommon"/>
+                 <resourcespot type="rstUnderWater" rarity="rsrRare"/>
+                 <resourcespot type="rstGasField" rarity="rsrRich"/>
+               </region>
+               <region soilType="rst04Polar" relief="rr1Plain" climate="rc09Arctic" closeTemp="248.3" closeWindspd="1" closeRain="4" intermTemp="219.12" intermWindspd="2" intermRain="5" farthTemp="209.08" farthWindspd="0" farthRain="0" emoPlanSurveyG="1.51" emoPlanSurveyA="1.11" emoPlanSurveyAG="1.11" emoPlanSurveySAG="1" emoCAB="2.01" emoIWC="1.71" emoGroundCombat="2.31">
+                 <resourcespot type="rstHydroWell" rarity="rsrAbundant"/>
+                 <resourcespot type="rstOreFieldCarbo" rarity="rsrPresent"/>
+                 <resourcespot type="rstOreFieldMetal" rarity="rsrPresent"/>
+                 <resourcespot type="rstUnderWater" rarity="rsrRare"/>
+                 <resourcespot type="rstGasField" rarity="rsrAbundant"/>
+               </region>
+               <region soilType="rst04Polar" relief="rr9Mountain" climate="rc09Arctic" closeTemp="247.92" closeWindspd="2" closeRain="6" intermTemp="224.32" intermWindspd="1" intermRain="3" farthTemp="202.64" farthWindspd="0" farthRain="0" emoPlanSurveyG="1.91" emoPlanSurveyA="1.21" emoPlanSurveyAG="1.11" emoPlanSurveySAG="1" emoCAB="2.41" emoIWC="1.71" emoGroundCombat="2.91">
+                 <resourcespot type="rstHydroWell" rarity="rsrUncommon"/>
+                 <resourcespot type="rstOreFieldCarbo" rarity="rsrPresent"/>
+                 <resourcespot type="rstOreFieldMetal" rarity="rsrPresent"/>
+                 <resourcespot type="rstUnderWater" rarity="rsrRare"/>
+                 <resourcespot type="rstGasField" rarity="rsrRich"/>
+               </region>
+               <region soilType="rst04Polar" relief="rr4Broken" climate="rc09Arctic" closeTemp="205.58" closeWindspd="1" closeRain="3" intermTemp="177.22" intermWindspd="2" intermRain="4" farthTemp="153.36" farthWindspd="0" farthRain="0" emoPlanSurveyG="1.71" emoPlanSurveyA="1.11" emoPlanSurveyAG="1.11" emoPlanSurveySAG="1" emoCAB="2.11" emoIWC="1.71" emoGroundCombat="2.51">
+                 <resourcespot type="rstHydroWell" rarity="rsrCommon"/>
+                 <resourcespot type="rstOreFieldCarbo" rarity="rsrRare"/>
+                 <resourcespot type="rstOreFieldMetal" rarity="rsrCommon"/>
+                 <resourcespot type="rstUnderWater" rarity="rsrRare"/>
+                 <resourcespot type="rstGasField" rarity="rsrAbundant"/>
+               </region>
+            </regions>
+            <satobj token="satSol1-1" ftSeed="" lightcolor="" climatefile="" habGravity="higBad_n" habRad="higHostile" habAtmosphere="higBad" habAtmPressure="higHostile_n">
+               <orbitalData distanceFromRoot="262.4" revolutionPeriod="1" revPeriodInit="1" gravSphereRadius="21423.9" orbitGeosync="5157.8" orbitLow="12546.8"/>
+               <geophysicalData type="ootSatellite_Planet_Telluric" diameter="2062.1" density="2523" mass="0.0019" gravity="0.073" escapeVel="1.21" magneticField="0.02" tectonicActivity="taExtreme" subsurfOcean="False"/>
+               <ecosphereData envType="etRestricted" atmosphericPressure="0.004" coudsCover="0" traceAtmosphere="True" primaryGasVolume="90" gasH2="agsNotPresent" gasHe="agsNotPresent" gasCH4="agsNotPresent" gasNH3="agsNotPresent" gasH2O="agsNotPresent" gasNe="agsNotPresent" gasN2="agsNotPresent" gasCO="agsNotPresent" gasNO="agsNotPresent" gasO2="agsNotPresent" gasH2S="agsSecondary" gasAr="agsNotPresent" gasCO2="agsNotPresent" gasNO2="agsNotPresent" gasO3="agsNotPresent" gasSO2="agsSecondary" hydrosphereType="hNoHydro" hydrosphereArea="0" albedo="0.02"/>
+               <orbitalPeriods>
+                  <period type="optFarthest" dayStart="1" dayEnd="91" baseTemp="247.8" surfaceTemp="277.38"/>
+                  <period type="optIntermediary" dayStart="92" dayEnd="182" baseTemp="252.03" surfaceTemp="282.06"/>
+                  <period type="optClosest" dayStart="183" dayEnd="273" baseTemp="256.42" surfaceTemp="287.03"/>
+                  <period type="optIntermediary" dayStart="274" dayEnd="364" baseTemp="252.03" surfaceTemp="282.06"/>
+               </orbitalPeriods>
+               <biosphereData level="blNone" vigor="0"/>
+               <regions surface="556062.4" meanTravelDist="785">
+                  <region soilType="rst01RockyDesert" relief="rr1Plain" climate="rc07ColdArid" closeTemp="154.18" closeWindspd="4" closeRain="0" intermTemp="168.54" intermWindspd="1" intermRain="0" farthTemp="190.05" farthWindspd="3" farthRain="0" emoPlanSurveyG="2.06" emoPlanSurveyA="3.06" emoPlanSurveyAG="1.81" emoPlanSurveySAG="1" emoCAB="2.91" emoIWC="2.46" emoGroundCombat="3.91">
+                    <resourcespot type="rstOreFieldCarbo" rarity="rsrPresent"/>
+                    <resourcespot type="rstOreFieldMetal" rarity="rsrAbundant"/>
+                    <resourcespot type="rstOreFieldRareMetal" rarity="rsrCommon"/>
+                    <resourcespot type="rstOreFieldUran" rarity="rsrCommon"/>
+                    <resourcespot type="rstGasField" rarity="rsrCommon"/>
+                  </region>
+                  <region soilType="rst03Volcanic" relief="rr9Mountain" climate="rc07ColdArid" closeTemp="208.52" closeWindspd="2" closeRain="0" intermTemp="227.91" intermWindspd="1" intermRain="0" farthTemp="236.74" farthWindspd="0" farthRain="0" emoPlanSurveyG="2.96" emoPlanSurveyA="3.16" emoPlanSurveyAG="1.81" emoPlanSurveySAG="1" emoCAB="3.71" emoIWC="1.86" emoGroundCombat="4.81">
+                    <resourcespot type="rstOreFieldCarbo" rarity="rsrCommon"/>
+                    <resourcespot type="rstOreFieldMetal" rarity="rsrCommon"/>
+                    <resourcespot type="rstOreFieldRareMetal" rarity="rsrAbundant"/>
+                    <resourcespot type="rstOreFieldUran" rarity="rsrCommon"/>
+                    <resourcespot type="rstGasField" rarity="rsrAbundant"/>
+                  </region>
+                  <region soilType="rst03Volcanic" relief="rr9Mountain" climate="rc07ColdArid" closeTemp="218.48" closeWindspd="2" closeRain="0" intermTemp="230.39" intermWindspd="2" intermRain="0" farthTemp="237.26" farthWindspd="3" farthRain="0" emoPlanSurveyG="2.96" emoPlanSurveyA="3.16" emoPlanSurveyAG="1.81" emoPlanSurveySAG="1" emoCAB="3.71" emoIWC="1.86" emoGroundCombat="4.81">
+                    <resourcespot type="rstOreFieldCarbo" rarity="rsrPresent"/>
+                    <resourcespot type="rstOreFieldMetal" rarity="rsrAbundant"/>
+                    <resourcespot type="rstOreFieldRareMetal" rarity="rsrAbundant"/>
+                    <resourcespot type="rstOreFieldUran" rarity="rsrCommon"/>
+                    <resourcespot type="rstGasField" rarity="rsrAbundant"/>
+                  </region>
+                  <region soilType="rst03Volcanic" relief="rr9Mountain" climate="rc07ColdArid" closeTemp="212.11" closeWindspd="2" closeRain="0" intermTemp="223.58" intermWindspd="1" intermRain="0" farthTemp="241.12" farthWindspd="0" farthRain="0" emoPlanSurveyG="2.96" emoPlanSurveyA="3.16" emoPlanSurveyAG="1.81" emoPlanSurveySAG="1" emoCAB="3.71" emoIWC="1.86" emoGroundCombat="4.81">
+                    <resourcespot type="rstOreFieldCarbo" rarity="rsrPresent"/>
+                    <resourcespot type="rstOreFieldMetal" rarity="rsrCommon"/>
+                    <resourcespot type="rstOreFieldRareMetal" rarity="rsrCommon"/>
+                    <resourcespot type="rstOreFieldUran" rarity="rsrCommon"/>
+                    <resourcespot type="rstGasField" rarity="rsrCommon"/>
+                  </region>
+                  <region soilType="rst03Volcanic" relief="rr9Mountain" climate="rc07ColdArid" closeTemp="210.02" closeWindspd="1" closeRain="0" intermTemp="221.78" intermWindspd="0" intermRain="0" farthTemp="234.84" farthWindspd="4" farthRain="0" emoPlanSurveyG="2.96" emoPlanSurveyA="3.16" emoPlanSurveyAG="1.81" emoPlanSurveySAG="1" emoCAB="3.71" emoIWC="1.86" emoGroundCombat="4.81">
+                    <resourcespot type="rstOreFieldCarbo" rarity="rsrPresent"/>
+                    <resourcespot type="rstOreFieldMetal" rarity="rsrCommon"/>
+                    <resourcespot type="rstOreFieldRareMetal" rarity="rsrCommon"/>
+                    <resourcespot type="rstOreFieldUran" rarity="rsrCommon"/>
+                    <resourcespot type="rstGasField" rarity="rsrAbundant"/>
+                  </region>
+                  <region soilType="rst03Volcanic" relief="rr9Mountain" climate="rc07ColdArid" closeTemp="273.74" closeWindspd="7" closeRain="0" intermTemp="272.12" intermWindspd="2" intermRain="0" farthTemp="272.94" farthWindspd="1" farthRain="0" emoPlanSurveyG="2.97" emoPlanSurveyA="3.17" emoPlanSurveyAG="1.82" emoPlanSurveySAG="1" emoCAB="3.72" emoIWC="1.87" emoGroundCombat="4.82">
+                    <resourcespot type="rstOreFieldCarbo" rarity="rsrCommon"/>
+                    <resourcespot type="rstOreFieldMetal" rarity="rsrCommon"/>
+                    <resourcespot type="rstOreFieldRareMetal" rarity="rsrAbundant"/>
+                    <resourcespot type="rstOreFieldUran" rarity="rsrCommon"/>
+                    <resourcespot type="rstGasField" rarity="rsrCommon"/>
+                  </region>
+                  <region soilType="rst03Volcanic" relief="rr9Mountain" climate="rc07ColdArid" closeTemp="263.4" closeWindspd="12" closeRain="0" intermTemp="270.46" intermWindspd="3" intermRain="0" farthTemp="274.54" farthWindspd="2" farthRain="0" emoPlanSurveyG="2.97" emoPlanSurveyA="3.17" emoPlanSurveyAG="1.82" emoPlanSurveySAG="1" emoCAB="3.72" emoIWC="1.87" emoGroundCombat="4.82">
+                    <resourcespot type="rstOreFieldCarbo" rarity="rsrCommon"/>
+                    <resourcespot type="rstOreFieldMetal" rarity="rsrCommon"/>
+                    <resourcespot type="rstOreFieldRareMetal" rarity="rsrAbundant"/>
+                    <resourcespot type="rstOreFieldUran" rarity="rsrCommon"/>
+                    <resourcespot type="rstGasField" rarity="rsrCommon"/>
+                  </region>
+                  <region soilType="rst03Volcanic" relief="rr9Mountain" climate="rc07ColdArid" closeTemp="265.68" closeWindspd="12" closeRain="0" intermTemp="272.37" intermWindspd="3" intermRain="0" farthTemp="281.02" farthWindspd="2" farthRain="0" emoPlanSurveyG="2.97" emoPlanSurveyA="3.17" emoPlanSurveyAG="1.82" emoPlanSurveySAG="1" emoCAB="3.72" emoIWC="1.87" emoGroundCombat="4.82">
+                    <resourcespot type="rstOreFieldCarbo" rarity="rsrPresent"/>
+                    <resourcespot type="rstOreFieldMetal" rarity="rsrCommon"/>
+                    <resourcespot type="rstOreFieldRareMetal" rarity="rsrAbundant"/>
+                    <resourcespot type="rstOreFieldUran" rarity="rsrCommon"/>
+                    <resourcespot type="rstGasField" rarity="rsrCommon"/>
+                  </region>
+                  <region soilType="rst01RockyDesert" relief="rr1Plain" climate="rc07ColdArid" closeTemp="262.32" closeWindspd="3" closeRain="0" intermTemp="276.9" intermWindspd="3" intermRain="0" farthTemp="270.58" farthWindspd="2" farthRain="0" emoPlanSurveyG="2.06" emoPlanSurveyA="3.06" emoPlanSurveyAG="1.81" emoPlanSurveySAG="1" emoCAB="2.91" emoIWC="2.46" emoGroundCombat="3.91">
+                    <resourcespot type="rstOreFieldCarbo" rarity="rsrPresent"/>
+                    <resourcespot type="rstOreFieldMetal" rarity="rsrAbundant"/>
+                    <resourcespot type="rstOreFieldRareMetal" rarity="rsrCommon"/>
+                    <resourcespot type="rstOreFieldUran" rarity="rsrCommon"/>
+                    <resourcespot type="rstGasField" rarity="rsrCommon"/>
+                  </region>
+                  <region soilType="rst03Volcanic" relief="rr9Mountain" climate="rc07ColdArid" closeTemp="286.12" closeWindspd="3" closeRain="0" intermTemp="269.28" intermWindspd="1" intermRain="0" farthTemp="263.16" farthWindspd="4" farthRain="0" emoPlanSurveyG="2.96" emoPlanSurveyA="3.16" emoPlanSurveyAG="1.81" emoPlanSurveySAG="1" emoCAB="3.71" emoIWC="1.86" emoGroundCombat="4.81">
+                    <resourcespot type="rstOreFieldCarbo" rarity="rsrPresent"/>
+                    <resourcespot type="rstOreFieldMetal" rarity="rsrPresent"/>
+                    <resourcespot type="rstOreFieldRareMetal" rarity="rsrCommon"/>
+                    <resourcespot type="rstOreFieldUran" rarity="rsrCommon"/>
+                    <resourcespot type="rstGasField" rarity="rsrAbundant"/>
+                  </region>
+                  <region soilType="rst01RockyDesert" relief="rr1Plain" climate="rc07ColdArid" closeTemp="288.07" closeWindspd="2" closeRain="0" intermTemp="271.5" intermWindspd="1" intermRain="0" farthTemp="264.02" farthWindspd="3" farthRain="0" emoPlanSurveyG="2.06" emoPlanSurveyA="3.06" emoPlanSurveyAG="1.81" emoPlanSurveySAG="1" emoCAB="2.91" emoIWC="2.46" emoGroundCombat="3.91">
+                    <resourcespot type="rstOreFieldCarbo" rarity="rsrPresent"/>
+                    <resourcespot type="rstOreFieldMetal" rarity="rsrCommon"/>
+                    <resourcespot type="rstOreFieldRareMetal" rarity="rsrAbundant"/>
+                    <resourcespot type="rstOreFieldUran" rarity="rsrCommon"/>
+                    <resourcespot type="rstGasField" rarity="rsrCommon"/>
+                  </region>
+                  <region soilType="rst03Volcanic" relief="rr9Mountain" climate="rc07ColdArid" closeTemp="281.41" closeWindspd="1" closeRain="0" intermTemp="276.04" intermWindspd="2" intermRain="0" farthTemp="256.28" farthWindspd="1" farthRain="0" emoPlanSurveyG="2.96" emoPlanSurveyA="3.16" emoPlanSurveyAG="1.81" emoPlanSurveySAG="1" emoCAB="3.71" emoIWC="1.86" emoGroundCombat="4.81">
+                    <resourcespot type="rstOreFieldCarbo" rarity="rsrCommon"/>
+                    <resourcespot type="rstOreFieldMetal" rarity="rsrCommon"/>
+                    <resourcespot type="rstOreFieldRareMetal" rarity="rsrAbundant"/>
+                    <resourcespot type="rstOreFieldUran" rarity="rsrCommon"/>
+                    <resourcespot type="rstGasField" rarity="rsrCommon"/>
+                  </region>
+                  <region soilType="rst03Volcanic" relief="rr9Mountain" climate="rc07ColdArid" closeTemp="278.92" closeWindspd="2" closeRain="0" intermTemp="274.01" intermWindspd="7" intermRain="0" farthTemp="267.22" farthWindspd="3" farthRain="0" emoPlanSurveyG="2.97" emoPlanSurveyA="3.17" emoPlanSurveyAG="1.82" emoPlanSurveySAG="1" emoCAB="3.72" emoIWC="1.87" emoGroundCombat="4.82">
+                    <resourcespot type="rstOreFieldCarbo" rarity="rsrPresent"/>
+                    <resourcespot type="rstOreFieldMetal" rarity="rsrCommon"/>
+                    <resourcespot type="rstOreFieldRareMetal" rarity="rsrAbundant"/>
+                    <resourcespot type="rstOreFieldUran" rarity="rsrCommon"/>
+                    <resourcespot type="rstGasField" rarity="rsrAbundant"/>
+                  </region>
+                  <region soilType="rst03Volcanic" relief="rr9Mountain" climate="rc07ColdArid" closeTemp="246.46" closeWindspd="2" closeRain="0" intermTemp="230.98" intermWindspd="3" intermRain="0" farthTemp="201.13" farthWindspd="0" farthRain="0" emoPlanSurveyG="2.96" emoPlanSurveyA="3.16" emoPlanSurveyAG="1.81" emoPlanSurveySAG="1" emoCAB="3.71" emoIWC="1.86" emoGroundCombat="4.81">
+                    <resourcespot type="rstOreFieldCarbo" rarity="rsrPresent"/>
+                    <resourcespot type="rstOreFieldMetal" rarity="rsrCommon"/>
+                    <resourcespot type="rstOreFieldRareMetal" rarity="rsrRich"/>
+                    <resourcespot type="rstOreFieldUran" rarity="rsrPresent"/>
+                    <resourcespot type="rstGasField" rarity="rsrAbundant"/>
+                  </region>
+                  <region soilType="rst03Volcanic" relief="rr9Mountain" climate="rc07ColdArid" closeTemp="241.02" closeWindspd="1" closeRain="0" intermTemp="224.06" intermWindspd="0" intermRain="0" farthTemp="194.84" farthWindspd="1" farthRain="0" emoPlanSurveyG="2.95" emoPlanSurveyA="3.15" emoPlanSurveyAG="1.8" emoPlanSurveySAG="1" emoCAB="3.7" emoIWC="1.85" emoGroundCombat="4.8">
+                    <resourcespot type="rstOreFieldCarbo" rarity="rsrPresent"/>
+                    <resourcespot type="rstOreFieldMetal" rarity="rsrPresent"/>
+                    <resourcespot type="rstOreFieldRareMetal" rarity="rsrCommon"/>
+                    <resourcespot type="rstOreFieldUran" rarity="rsrPresent"/>
+                    <resourcespot type="rstGasField" rarity="rsrAbundant"/>
+                  </region>
+                  <region soilType="rst03Volcanic" relief="rr9Mountain" climate="rc07ColdArid" closeTemp="247.82" closeWindspd="2" closeRain="0" intermTemp="232.22" intermWindspd="1" intermRain="0" farthTemp="198.92" farthWindspd="0" farthRain="0" emoPlanSurveyG="2.96" emoPlanSurveyA="3.16" emoPlanSurveyAG="1.81" emoPlanSurveySAG="1" emoCAB="3.71" emoIWC="1.86" emoGroundCombat="4.81">
+                    <resourcespot type="rstOreFieldCarbo" rarity="rsrPresent"/>
+                    <resourcespot type="rstOreFieldMetal" rarity="rsrAbundant"/>
+                    <resourcespot type="rstOreFieldRareMetal" rarity="rsrCommon"/>
+                    <resourcespot type="rstOreFieldUran" rarity="rsrCommon"/>
+                    <resourcespot type="rstGasField" rarity="rsrCommon"/>
+                  </region>
+                  <region soilType="rst03Volcanic" relief="rr9Mountain" climate="rc07ColdArid" closeTemp="242.64" closeWindspd="2" closeRain="0" intermTemp="226" intermWindspd="0" intermRain="0" farthTemp="205.59" farthWindspd="2" farthRain="0" emoPlanSurveyG="2.96" emoPlanSurveyA="3.16" emoPlanSurveyAG="1.81" emoPlanSurveySAG="1" emoCAB="3.71" emoIWC="1.86" emoGroundCombat="4.81">
+                    <resourcespot type="rstOreFieldCarbo" rarity="rsrCommon"/>
+                    <resourcespot type="rstOreFieldMetal" rarity="rsrCommon"/>
+                    <resourcespot type="rstOreFieldRareMetal" rarity="rsrAbundant"/>
+                    <resourcespot type="rstOreFieldUran" rarity="rsrCommon"/>
+                    <resourcespot type="rstGasField" rarity="rsrCommon"/>
+                  </region>
+                  <region soilType="rst01RockyDesert" relief="rr1Plain" climate="rc07ColdArid" closeTemp="199.6" closeWindspd="2" closeRain="0" intermTemp="170.41" intermWindspd="1" intermRain="0" farthTemp="149.38" farthWindspd="1" farthRain="0" emoPlanSurveyG="2.06" emoPlanSurveyA="3.06" emoPlanSurveyAG="1.81" emoPlanSurveySAG="1" emoCAB="2.91" emoIWC="2.46" emoGroundCombat="3.91">
+                    <resourcespot type="rstOreFieldCarbo" rarity="rsrCommon"/>
+                    <resourcespot type="rstOreFieldMetal" rarity="rsrCommon"/>
+                    <resourcespot type="rstOreFieldRareMetal" rarity="rsrCommon"/>
+                    <resourcespot type="rstOreFieldUran" rarity="rsrCommon"/>
+                    <resourcespot type="rstGasField" rarity="rsrAbundant"/>
+                  </region>
+               </regions>
+            </satobj>
          </orbobj>
-         <orbobj ootoken="orbobjAcentA2">
-            <orbobjorbdata oodist="0.64" ooecc="0.097" ooorbzne="hzInner" oorevol="183" oorevevinit="77" oogravsphrad="366121.4" orbitGeosync="0" orbitLow="0"/>      
-            <orbperlist>
-               <orbper optype="optClosest" opstrt="1" opend="45" opmtemp="402.73"/>
-               <orbper optype="optIntermediary" opstrt="46" opend="90" opmtemp="361.82"/>
-               <orbper optype="optFarest" opstrt="91" opend="135" opmtemp="345.48"/>
-               <orbper optype="optIntermediary" opstrt="136" opend="180" opmtemp="361.83"/>
-            </orbperlist>
-            <orbobjgeophysdata ootype="ootPlanet_Telluric_MarsH0H1" oodiam="8344" oodens="6331" oomass="0.3222" oograv="0.752" ooescvel="7.85" oorotper="32.55" ooinclax="39" oomagfld="0.092" ootectonicactivity="taDead"/>
-            <orbobjecosdata ooenvtype="etRestricted" ooatmpres="134.662" oocloudscov="37.2" atmprimgasvol="53" atmH2="agsNotPresent" atmHe="agsNotPresent" atmCH4="agsSecondary" atmNH3="agsSecondary" atmH2O="agsSecondary" atmNe="agsSecondary" atmN2="agsMain" atmCO="agsSecondary" atmNO="agsSecondary" atmO2="agsSecondary" atmH2S="agsSecondary" atmAr="agsSecondary" atmCO2="agsSecondary" atmNO2="agsSecondary" atmO3="agsSecondary" atmSO2="agsSecondary" hydroTp="hVaporH2O" hydroArea="32.7" ooalbe="0.2"/>
-            <orbobjregions surface="6075695" mtd="2593">
-               <region soiltp="rst01RockyDesert" relief="rr1plain" climate="rc07ColdArid" mtdmin="210.04" mtdint="251.99" mtdmax="313.36" wndspd="32.24" precip="95" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
-               </region>
-               <region soiltp="rst03Volcanic" relief="rr4broken" climate="rc03HotSemiArid" mtdmin="278.03" mtdint="296.75" mtdmax="317.43" wndspd="116.47" precip="247" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
-               </region>
-               <region soiltp="rst06Fertile" relief="rr4broken" climate="rc03HotSemiArid" mtdmin="272.68" mtdint="298.27" mtdmax="318.76" wndspd="121.1" precip="244" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
-               </region>
-               <region soiltp="rst03Volcanic" relief="rr9mountain" climate="rc04HotArid" mtdmin="285.08" mtdint="288.76" mtdmax="325.24" wndspd="116.49" precip="251" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
-               </region>
-               <region soiltp="rst06Fertile" relief="rr1plain" climate="rc03HotSemiArid" mtdmin="280.53" mtdint="295.68" mtdmax="320.14" wndspd="120.98" precip="248" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
-               </region>
-               <region soiltp="rst06Fertile" relief="rr1plain" climate="rc03HotSemiArid" mtdmin="281.75" mtdint="291.57" mtdmax="318.96" wndspd="118.19" precip="246" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
-               </region>
-               <region soiltp="rst06Fertile" relief="rr1plain" climate="rc03HotSemiArid" mtdmin="281.61" mtdint="288.39" mtdmax="322.22" wndspd="119.1" precip="246" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
-               </region>
-               <region soiltp="rst06Fertile" relief="rr9mountain" climate="rc02VeryHotSemiHumid" mtdmin="365.33" mtdint="335.86" mtdmax="329.07" wndspd="184.53" precip="412" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
-               </region>
-               <region soiltp="rst06Fertile" relief="rr4broken" climate="rc02VeryHotSemiHumid" mtdmin="358.72" mtdint="334.5" mtdmax="330.84" wndspd="182.76" precip="408" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
-               </region>
-               <region soiltp="rst06Fertile" relief="rr1plain" climate="rc02VeryHotSemiHumid" mtdmin="356.28" mtdint="329.81" mtdmax="326.92" wndspd="182.87" precip="399" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
-               </region>
-               <region soiltp="rst06Fertile" relief="rr9mountain" climate="rc02VeryHotSemiHumid" mtdmin="359.59" mtdint="338.96" mtdmax="339.44" wndspd="183.81" precip="418" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
-               </region>
-               <region soiltp="rst06Fertile" relief="rr4broken" climate="rc02VeryHotSemiHumid" mtdmin="360.1" mtdint="338.47" mtdmax="336.13" wndspd="184.72" precip="415" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
-               </region>
-               <region soiltp="rst06Fertile" relief="rr4broken" climate="rc02VeryHotSemiHumid" mtdmin="357.24" mtdint="333.29" mtdmax="336.01" wndspd="183.87" precip="409" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
-               </region>
-               <region soiltp="rst06Fertile" relief="rr1plain" climate="rc02VeryHotSemiHumid" mtdmin="391.59" mtdint="338.37" mtdmax="311.25" wndspd="185.37" precip="419" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
-               </region>
-               <region soiltp="rst03Volcanic" relief="rr4broken" climate="rc02VeryHotSemiHumid" mtdmin="400.62" mtdint="331.04" mtdmax="309.8" wndspd="186.02" precip="419" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
-               </region>
-               <region soiltp="rst03Volcanic" relief="rr4broken" climate="rc02VeryHotSemiHumid" mtdmin="397.05" mtdint="334.98" mtdmax="312.63" wndspd="186.74" precip="421" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
-               </region>
-               <region soiltp="rst06Fertile" relief="rr1plain" climate="rc02VeryHotSemiHumid" mtdmin="394.73" mtdint="338.32" mtdmax="304.72" wndspd="186.12" precip="417" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
-               </region>
-               <region soiltp="rst06Fertile" relief="rr1plain" climate="rc02VeryHotSemiHumid" mtdmin="388.89" mtdint="343.76" mtdmax="308.45" wndspd="187.22" precip="419" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
-               </region>
-               <region soiltp="rst03Volcanic" relief="rr4broken" climate="rc02VeryHotSemiHumid" mtdmin="393.68" mtdint="343.47" mtdmax="305.51" wndspd="184.75" precip="421" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
-               </region>
-               <region soiltp="rst06Fertile" relief="rr9mountain" climate="rc03HotSemiArid" mtdmin="364" mtdint="290.04" mtdmax="236.46" wndspd="120.47" precip="244" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
-               </region>
-               <region soiltp="rst06Fertile" relief="rr9mountain" climate="rc03HotSemiArid" mtdmin="370.91" mtdint="290.1" mtdmax="246.15" wndspd="118.27" precip="255" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
-               </region>
-               <region soiltp="rst03Volcanic" relief="rr9mountain" climate="rc03HotSemiArid" mtdmin="370.8" mtdint="298.3" mtdmax="242.33" wndspd="120.53" precip="257" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
-               </region>
-               <region soiltp="rst06Fertile" relief="rr1plain" climate="rc03HotSemiArid" mtdmin="376.11" mtdint="291.48" mtdmax="238.24" wndspd="118.84" precip="254" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
-               </region>
-               <region soiltp="rst03Volcanic" relief="rr4broken" climate="rc03HotSemiArid" mtdmin="367.87" mtdint="301.01" mtdmax="243" wndspd="116.74" precip="259" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
-               </region>
-               <region soiltp="rst03Volcanic" relief="rr4broken" climate="rc03HotSemiArid" mtdmin="368.76" mtdint="281.72" mtdmax="236.97" wndspd="119.13" precip="243" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
-               </region>
-               <region soiltp="rst01RockyDesert" relief="rr4broken" climate="rc07ColdArid" mtdmin="355.57" mtdint="256.48" mtdmax="173.13" wndspd="33.32" precip="95" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
-               </region>
-            </orbobjregions>
-         </orbobj>
-         <orbobj ootoken="orbobjAcentA3">
-            <orbobjorbdata oodist="0.83" ooecc="0.011" ooorbzne="hzInner" oorevol="271" oorevevinit="106" oogravsphrad="27313.0" orbitGeosync="0" orbitLow="0"/>      
-            <orbperlist>
-               <orbper optype="optFarest" opstrt="1" opend="67" opmtemp="329.74"/>
-               <orbper optype="optIntermediary" opstrt="68" opend="134" opmtemp="317.45"/>
-               <orbper optype="optClosest" opstrt="135" opend="201" opmtemp="319.22"/>
-               <orbper optype="optIntermediary" opstrt="202" opend="268" opmtemp="317.46"/>
-            </orbperlist>
-            <orbobjgeophysdata ootype="ootPlanet_Telluric_MarsH2" oodiam="6552" oodens="6331" oomass="0.156" oograv="0.591" ooescvel="6.16" oorotper="935.93" ooinclax="24" oomagfld="0.001" ootectonicactivity="taDead"/>
-            <orbobjecosdata ooenvtype="etRestricted" ooatmpres="31.595" oocloudscov="36.9" atmprimgasvol="80" atmH2="agsNotPresent" atmHe="agsNotPresent" atmCH4="agsSecondary" atmNH3="agsSecondary" atmH2O="agsSecondary" atmNe="agsSecondary" atmN2="agsMain" atmCO="agsSecondary" atmNO="agsSecondary" atmO2="agsSecondary" atmH2S="agsSecondary" atmAr="agsSecondary" atmCO2="agsSecondary" atmNO2="agsSecondary" atmO3="agsSecondary" atmSO2="agsSecondary" hydroTp="hLiquidH2O" hydroArea="11" ooalbe="0.16"/>
-            <orbobjregions surface="4495483" mtd="2230">
-               <region soiltp="rst01RockyDesert" relief="rr4broken" climate="rc07ColdArid" mtdmin="166.86" mtdint="212.62" mtdmax="277.13" wndspd="1.9" precip="99" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
-               </region>
-               <region soiltp="rst01RockyDesert" relief="rr4broken" climate="rc07ColdArid" mtdmin="235.71" mtdint="263.75" mtdmax="316.01" wndspd="2.31" precip="97" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
-               </region>
-               <region soiltp="rst01RockyDesert" relief="rr1plain" climate="rc07ColdArid" mtdmin="228.43" mtdint="275.5" mtdmax="312.49" wndspd="5.76" precip="97" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
-               </region>
-               <region soiltp="rst08CoastalRockyDesert" relief="rr9mountain" climate="rc07ColdArid" mtdmin="225.47" mtdint="267.14" mtdmax="322.81" wndspd="3.97" precip="75" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
-               </region>
-               <region soiltp="rst08CoastalRockyDesert" relief="rr1plain" climate="rc07ColdArid" mtdmin="230.94" mtdint="268.31" mtdmax="313.34" wndspd="4.78" precip="96" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
-               </region>
-               <region soiltp="rst05Arid" relief="rr4broken" climate="rc08Periarctic" mtdmin="242.81" mtdint="271.6" mtdmax="313.98" wndspd="1.23" precip="928" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
-               </region>
-               <region soiltp="rst01RockyDesert" relief="rr4broken" climate="rc04HotArid" mtdmin="296.77" mtdint="319.82" mtdmax="340.09" wndspd="8.62" precip="51" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
-               </region>
-               <region soiltp="rst01RockyDesert" relief="rr4broken" climate="rc04HotArid" mtdmin="300.31" mtdint="317.16" mtdmax="332.79" wndspd="5.06" precip="70" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
-               </region>
-               <region soiltp="rst08CoastalRockyDesert" relief="rr4broken" climate="rc04HotArid" mtdmin="304.06" mtdint="310.05" mtdmax="345.84" wndspd="6.75" precip="56" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
-               </region>
-               <region soiltp="rst08CoastalRockyDesert" relief="rr4broken" climate="rc04HotArid" mtdmin="294.53" mtdint="313" mtdmax="347.61" wndspd="6.84" precip="57" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
-               </region>
-               <region soiltp="rst01RockyDesert" relief="rr4broken" climate="rc04HotArid" mtdmin="298.93" mtdint="306.38" mtdmax="340.27" wndspd="5.09" precip="71" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
-               </region>
-               <region soiltp="rst01RockyDesert" relief="rr1plain" climate="rc04HotArid" mtdmin="325.11" mtdint="314.42" mtdmax="308.63" wndspd="2.47" precip="127" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
-               </region>
-               <region soiltp="rst01RockyDesert" relief="rr4broken" climate="rc04HotArid" mtdmin="323.25" mtdint="305.88" mtdmax="312.66" wndspd="7.53" precip="59" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
-               </region>
-               <region soiltp="rst08CoastalRockyDesert" relief="rr4broken" climate="rc04HotArid" mtdmin="327.48" mtdint="310.77" mtdmax="311.56" wndspd="4.72" precip="73" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
-               </region>
-               <region soiltp="rst08CoastalRockyDesert" relief="rr4broken" climate="rc04HotArid" mtdmin="333.33" mtdint="323.19" mtdmax="308.72" wndspd="6.36" precip="56" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
-               </region>
-               <region soiltp="rst01RockyDesert" relief="rr1plain" climate="rc04HotArid" mtdmin="332.33" mtdint="320.63" mtdmax="312.18" wndspd="4.75" precip="66" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
-               </region>
-               <region soiltp="rst01RockyDesert" relief="rr1plain" climate="rc07ColdArid" mtdmin="309.02" mtdint="267.01" mtdmax="230.44" wndspd="1.35" precip="95" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
-               </region>
-               <region soiltp="rst01RockyDesert" relief="rr1plain" climate="rc07ColdArid" mtdmin="309.79" mtdint="271.65" mtdmax="234.64" wndspd="1.95" precip="96" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
-               </region>
-               <region soiltp="rst08CoastalRockyDesert" relief="rr4broken" climate="rc07ColdArid" mtdmin="304.8" mtdint="264.23" mtdmax="236.37" wndspd="5.92" precip="95" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
-               </region>
-               <region soiltp="rst08CoastalRockyDesert" relief="rr4broken" climate="rc07ColdArid" mtdmin="303.12" mtdint="262.67" mtdmax="244.04" wndspd="4.03" precip="96" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
-               </region>
-               <region soiltp="rst01RockyDesert" relief="rr1plain" climate="rc07ColdArid" mtdmin="305.89" mtdint="266.25" mtdmax="243.09" wndspd="7.65" precip="99" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
-               </region>
-               <region soiltp="rst08CoastalRockyDesert" relief="rr9mountain" climate="rc07ColdArid" mtdmin="273.21" mtdint="215.35" mtdmax="177.87" wndspd="1.29" precip="97" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
-               </region>   
-            </orbobjregions>
-         </orbobj>
-         <orbobj ootoken="orbobjAcentA4">
-            <orbobjorbdata oodist="1.16" ooecc="0.05" ooorbzne="hzIntermediary" oorevol="447" oorevevinit="130" oogravsphrad="1502344.3" orbitGeosync="0" orbitLow="0"/>      
-            <orbperlist>
-               <orbper optype="optClosest" opstrt="1" opend="111" opmtemp="321.24"/>
-               <orbper optype="optIntermediary" opstrt="112" opend="222" opmtemp="309.11"/>
-               <orbper optype="optFarest" opstrt="223" opend="333" opmtemp="301.53"/>
-               <orbper optype="optIntermediary" opstrt="334" opend="444" opmtemp="309.07"/>
-            </orbperlist>
-            <orbobjgeophysdata ootype="ootPlanet_Telluric_VenusH2" oodiam="16865.2" oodens="5912" oomass="2.4848" oograv="1.42" ooescvel="15.33" oorotper="-21.99" ooinclax="121.2" oomagfld="0.025" ootectonicactivity="taDead"/>
-            <orbobjecosdata ooenvtype="etRestricted" ooatmpres="6008.659" oocloudscov="16.8" atmprimgasvol="72" atmH2="agsSecondary" atmHe="agsSecondary" atmCH4="agsSecondary" atmNH3="agsSecondary" atmH2O="agsSecondary" atmNe="agsSecondary" atmN2="agsMain" atmCO="agsSecondary" atmNO="agsSecondary" atmO2="agsMain" atmH2S="agsSecondary" atmAr="agsSecondary" atmCO2="agsSecondary" atmNO2="agsSecondary" atmO3="agsSecondary" atmSO2="agsTrace" hydroTp="hLiquidH2O" hydroArea="31" ooalbe="0.05"/>
-            <orbobjregions surface="148929803" mtd="12837">
-               <region soiltp="rst01RockyDesert" relief="rr1plain" climate="rc07ColdArid" mtdmin="315.28" mtdint="227.27" mtdmax="140.23" wndspd="49.71" precip="86" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
-               </region>
-               <region soiltp="rst08CoastalRockyDesert" relief="rr1plain" climate="rc07ColdArid" mtdmin="301.11" mtdint="237.76" mtdmax="164.91" wndspd="176.51" precip="66" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
-               </region>
-               <region soiltp="rst01RockyDesert" relief="rr4broken" climate="rc07ColdArid" mtdmin="303.73" mtdint="238.05" mtdmax="179.07" wndspd="176.76" precip="65" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
-               </region>
-               <region soiltp="rst03Volcanic" relief="rr4broken" climate="rc07ColdArid" mtdmin="297.2" mtdint="238.87" mtdmax="169.44" wndspd="174.92" precip="68" emoPlanSurveyG="1.5" emoPlanSurveyA="1.5" emoPlanSurveyAG="1.5" emoPlanSurveySAG="1.5" emoCAB="1.5" emoIWC="1.5" emoGroundCombat="1.5">
-               </region>
-            </orbobjregions>
-         </orbobj>
-         <orbobj ootoken="orbobjAcentA5">
-            <orbobjorbdata oodist="1.97" ooecc="0.086" ooorbzne="hzOuter" oorevol="990" oorevevinit="89" oogravsphrad="17486173.5" orbitGeosync="0" orbitLow="0"/>      
-            <orbperlist>
-               <orbper optype="optClosest" opstrt="1" opend="247" opmtemp="178.81"/>
-               <orbper optype="optIntermediary" opstrt="248" opend="494" opmtemp="170.95"/>
-               <orbper optype="optFarest" opstrt="495" opend="741" opmtemp="164.04"/>
-               <orbper optype="optIntermediary" opstrt="742" opend="988" opmtemp="170.95"/>
-            </orbperlist>
-            <orbobjgeophysdata ootype="ootPlanet_Jovian" oodiam="135300" oodens="1408" oomass="305.5513" oograv="2.713" ooescvel="60.01" oorotper="16.87" ooinclax="27" oomagfld="0.461" ootectonicactivity="taDead"/>
-            <orbobjecosdata ooenvtype="etGaseous" ooatmpres="1" oocloudscov="0" atmprimgasvol="61" atmH2="agsMain" atmHe="agsMain" atmCH4="agsSecondary" atmNH3="agsSecondary" atmH2O="agsSecondary" atmNe="agsSecondary" atmN2="agsSecondary" atmCO="agsSecondary" atmNO="agsSecondary" atmO2="agsSecondary" atmH2S="agsSecondary" atmAr="agsSecondary" atmCO2="agsSecondary" atmNO2="agsSecondary" atmO3="agsSecondary" atmSO2="agsSecondary" hydroTp="hNoH2O" hydroArea="0" ooalbe="0.55"/>
-         </orbobj>
-         <orbobj ootoken="orbobjAcentA6">
-            <orbobjorbdata oodist="152.96" ooecc="0.018" ooorbzne="hzOuter" oorevol="1823" oorevevinit="91" oogravsphrad="17633091.4" orbitGeosync="0" orbitLow="0"/>      
-            <orbperlist>
-               <orbper optype="optClosest" opstrt="1" opend="455" opmtemp="147.97"/>
-               <orbper optype="optIntermediary" opstrt="456" opend="910" opmtemp="146.63"/>
-               <orbper optype="optFarest" opstrt="911" opend="1365" opmtemp="145.33"/>
-               <orbper optype="optIntermediary" opstrt="1366" opend="1820" opmtemp="146.63"/>
-            </orbperlist>
-            <orbobjgeophysdata ootype="ootPlanet_Gaseous_Saturn" oodiam="89800" oodens="1777" oomass="112.7469" oograv="2.272" ooescvel="44.74" oorotper="13.76" ooinclax="11" oomagfld="1.23" ootectonicactivity="taDead"/>
-            <orbobjecosdata ooenvtype="etGaseous" ooatmpres="1" oocloudscov="0" atmprimgasvol="67" atmH2="agsMain" atmHe="agsMain" atmCH4="agsSecondary" atmNH3="agsSecondary" atmH2O="agsSecondary" atmNe="agsSecondary" atmN2="agsSecondary" atmCO="agsSecondary" atmNO="agsSecondary" atmO2="agsSecondary" atmH2S="agsSecondary" atmAr="agsSecondary" atmCO2="agsSecondary" atmNO2="agsSecondary" atmO3="agsSecondary" atmSO2="agsSecondary" hydroTp="hNoH2O" hydroArea="0" ooalbe="0.45"/>
-         </orbobj>
-      </star>
-      <star startoken="starACentB" starclass="K1">
-         <starphysdata startemp="4487" starmass="0.78" stardiam="0.93" starlum="0.39968"/>
-      </star>
-   </starsys>
-   <!-- Sol -->
-   <starsys sstoken="stelsysSol" steslocx="0" steslocy="0" steslocz="0">
-      <star startoken="starSun" starclass="G2">
-         <starphysdata startemp="5570" starmass="1" stardiam="1" starlum="1"/>
       </star>
    </starsys>
 </univ>
