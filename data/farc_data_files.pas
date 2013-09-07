@@ -1510,22 +1510,22 @@ begin
          SetLength( FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList, 1 );
          SatelliteCount:=0;
          FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_dbTokenId:=XMLStarSub.Attributes['token'];
-//         EnumIndex:=GetEnumValue( TypeInfo( TFCEduHabitabilityIndex ), XMLOrbitalObject.Attributes['habGravity'] );
-//         FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_habitabilityGravity:=TFCEduHabitabilityIndex(EnumIndex);
-//         if EnumIndex=-1
-//         then raise Exception.Create( 'bad habitability (gravity): '+XMLOrbitalObject.Attributes['habGravity'] );
-//         EnumIndex:=GetEnumValue( TypeInfo( TFCEduHabitabilityIndex ), XMLOrbitalObject.Attributes['habRad'] );
-//         FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_habitabilityRadiations:=TFCEduHabitabilityIndex(EnumIndex);
-//         if EnumIndex=-1
-//         then raise Exception.Create( 'bad habitability (radiations): '+XMLOrbitalObject.Attributes['habRad'] );
-//         EnumIndex:=GetEnumValue( TypeInfo( TFCEduHabitabilityIndex ), XMLOrbitalObject.Attributes['habAtmosphere'] );
-//         FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_habitabilityAtmosphere:=TFCEduHabitabilityIndex(EnumIndex);
-//         if EnumIndex=-1
-//         then raise Exception.Create( 'bad habitability (atmosphere): '+XMLOrbitalObject.Attributes['habAtmosphere'] );
-//         EnumIndex:=GetEnumValue( TypeInfo( TFCEduHabitabilityIndex ), XMLOrbitalObject.Attributes['habAtmPressure'] );
-//         FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_habitabilityAtmPressure:=TFCEduHabitabilityIndex(EnumIndex);
-//         if EnumIndex=-1
-//         then raise Exception.Create( 'bad habitability (atmosphere pressure): '+XMLOrbitalObject.Attributes['habAtmPressure'] );
+         EnumIndex:=GetEnumValue( TypeInfo( TFCEduHabitabilityIndex ), XMLStarSub.Attributes['habGravity'] );
+         FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_habitabilityGravity:=TFCEduHabitabilityIndex(EnumIndex);
+         if EnumIndex=-1
+         then raise Exception.Create( 'bad habitability (gravity): '+XMLStarSub.Attributes['habGravity'] );
+         EnumIndex:=GetEnumValue( TypeInfo( TFCEduHabitabilityIndex ), XMLStarSub.Attributes['habRad'] );
+         FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_habitabilityRadiations:=TFCEduHabitabilityIndex(EnumIndex);
+         if EnumIndex=-1
+         then raise Exception.Create( 'bad habitability (radiations): '+XMLStarSub.Attributes['habRad'] );
+         EnumIndex:=GetEnumValue( TypeInfo( TFCEduHabitabilityIndex ), XMLStarSub.Attributes['habAtmosphere'] );
+         FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_habitabilityAtmosphere:=TFCEduHabitabilityIndex(EnumIndex);
+         if EnumIndex=-1
+         then raise Exception.Create( 'bad habitability (atmosphere): '+XMLStarSub.Attributes['habAtmosphere'] );
+         EnumIndex:=GetEnumValue( TypeInfo( TFCEduHabitabilityIndex ), XMLStarSub.Attributes['habAtmPressure'] );
+         FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_habitabilityAtmPressure:=TFCEduHabitabilityIndex(EnumIndex);
+         if EnumIndex=-1
+         then raise Exception.Create( 'bad habitability (atmosphere pressure): '+XMLStarSub.Attributes['habAtmPressure'] );
          FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_isSatellite:=false;
          XMLOrbitalObject:= XMLStarSub.ChildNodes.First;
          while XMLOrbitalObject<>nil do
@@ -1549,7 +1549,7 @@ begin
                FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_gravitationalSphereRadius:=StrToFloat( XMLOrbitalObject.Attributes['gravSphereRadius'], FCVdiFormat );
                FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_geosynchOrbit:=StrToFloat( XMLOrbitalObject.Attributes['orbitGeosync'], FCVdiFormat );
                FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_lowOrbit:=StrToFloat( XMLOrbitalObject.Attributes['orbitLow'], FCVdiFormat );
-            end //==END== if DBSSPorbObjNode.NodeName='orbobjorbdata' ==//
+            end
             else if XMLOrbitalObject.NodeName='geophysicalData' then
             begin
                EnumIndex:=GetEnumValue( TypeInfo( TFCEduOrbitalObjectTypes ), XMLOrbitalObject.Attributes['type'] );
@@ -1568,7 +1568,7 @@ begin
                FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_tectonicActivity:=TFCEduTectonicActivity( EnumIndex );
                if EnumIndex=-1
                then raise Exception.Create( 'bad orbital object tectonic activity: '+XMLOrbitalObject.Attributes['tectonicActivity'] );
-//               FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_subsurfaceOcean:=XMLOrbitalObject.Attributes['subsurfOcean'];
+               FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_subsurfaceOcean:=XMLOrbitalObject.Attributes['subsurfOcean'];
             end {.else if DBSSPorbObjNode.NodeName='orbobjgeophysdata'}
             else if XMLOrbitalObject.NodeName='ecosphereData' then
             begin
@@ -1730,10 +1730,6 @@ begin
                      FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_regions[Count1].OOR_resourceSpot[Count2].RRS_type:=TFCEduResourceSpotTypes(EnumIndex);
                      if EnumIndex=-1
                      then raise Exception.Create( 'bad resource spot type: '+XMLOObjSub2.Attributes['type'] );
-//                     EnumIndex:=GetEnumValue(TypeInfo(TFCEduResourceSpotQuality), XMLOObjSub2.Attributes['quality'] );
-//                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_regions[Count1].OOR_resourceSpot[Count2].RRS_quality:=TFCEduResourceSpotQuality(EnumIndex);
-//                     if EnumIndex=-1
-//                     then raise Exception.Create( 'bad resource spot quality: '+XMLOObjSub2.Attributes['quality'] );
                      EnumIndex:=GetEnumValue( TypeInfo( TFCEduResourceSpotRarity ), XMLOObjSub2.Attributes['rarity'] );
                      FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_regions[Count1].OOR_resourceSpot[Count2].RRS_rarity:=TFCEduResourceSpotRarity(EnumIndex);
                      if EnumIndex=-1
@@ -1751,22 +1747,22 @@ begin
                inc( SatelliteCount );
                SetLength(FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList, SatelliteCount+1);
                FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_dbTokenId:=XMLOrbitalObject.Attributes['token'];
-//               EnumIndex:=GetEnumValue( TypeInfo( TFCEduHabitabilityIndex ), XMLOrbitalObject.Attributes['habGravity'] );
-//               FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_habitabilityGravity:=TFCEduHabitabilityIndex(EnumIndex);
-//               if EnumIndex=-1
-//               then raise Exception.Create( 'bad habitability (gravity): '+XMLOrbitalObject.Attributes['habGravity'] );
-//               EnumIndex:=GetEnumValue( TypeInfo( TFCEduHabitabilityIndex ), XMLOrbitalObject.Attributes['habRad'] );
-//               FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_habitabilityRadiations:=TFCEduHabitabilityIndex(EnumIndex);
-//               if EnumIndex=-1
-//               then raise Exception.Create( 'bad habitability (radiations): '+XMLOrbitalObject.Attributes['habRad'] );
-//               EnumIndex:=GetEnumValue( TypeInfo( TFCEduHabitabilityIndex ), XMLOrbitalObject.Attributes['habAtmosphere'] );
-//               FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_habitabilityAtmosphere:=TFCEduHabitabilityIndex(EnumIndex);
-//               if EnumIndex=-1
-//               then raise Exception.Create( 'bad habitability (atmosphere): '+XMLOrbitalObject.Attributes['habAtmosphere'] );
-//               EnumIndex:=GetEnumValue( TypeInfo( TFCEduHabitabilityIndex ), XMLOrbitalObject.Attributes['habAtmPressure'] );
-//               FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_habitabilityAtmPressure:=TFCEduHabitabilityIndex(EnumIndex);
-//               if EnumIndex=-1
-//               then raise Exception.Create( 'bad habitability (atmosphere pressure): '+XMLOrbitalObject.Attributes['habAtmPressure'] );
+               EnumIndex:=GetEnumValue( TypeInfo( TFCEduHabitabilityIndex ), XMLOrbitalObject.Attributes['habGravity'] );
+               FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_habitabilityGravity:=TFCEduHabitabilityIndex(EnumIndex);
+               if EnumIndex=-1
+               then raise Exception.Create( 'bad habitability (gravity): '+XMLOrbitalObject.Attributes['habGravity'] );
+               EnumIndex:=GetEnumValue( TypeInfo( TFCEduHabitabilityIndex ), XMLOrbitalObject.Attributes['habRad'] );
+               FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_habitabilityRadiations:=TFCEduHabitabilityIndex(EnumIndex);
+               if EnumIndex=-1
+               then raise Exception.Create( 'bad habitability (radiations): '+XMLOrbitalObject.Attributes['habRad'] );
+               EnumIndex:=GetEnumValue( TypeInfo( TFCEduHabitabilityIndex ), XMLOrbitalObject.Attributes['habAtmosphere'] );
+               FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_habitabilityAtmosphere:=TFCEduHabitabilityIndex(EnumIndex);
+               if EnumIndex=-1
+               then raise Exception.Create( 'bad habitability (atmosphere): '+XMLOrbitalObject.Attributes['habAtmosphere'] );
+               EnumIndex:=GetEnumValue( TypeInfo( TFCEduHabitabilityIndex ), XMLOrbitalObject.Attributes['habAtmPressure'] );
+               FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_habitabilityAtmPressure:=TFCEduHabitabilityIndex(EnumIndex);
+               if EnumIndex=-1
+               then raise Exception.Create( 'bad habitability (atmosphere pressure): '+XMLOrbitalObject.Attributes['habAtmPressure'] );
                FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_isSatellite:=true;
                XMSatellite:= XMLOrbitalObject.ChildNodes.First;
                while XMSatellite<>nil do
@@ -1807,7 +1803,7 @@ begin
                      FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_tectonicActivity:=TFCEduTectonicActivity( EnumIndex );
                      if EnumIndex=-1
                      then raise Exception.Create( 'bad (sat) orbital object type: '+XMSatellite.Attributes['tectonicActivity'] );
-//                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_subsurfaceOcean:=XMLOrbitalObject.Attributes['subsurfOcean'];
+                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_subsurfaceOcean:=XMSatellite.Attributes['subsurfOcean'];
                   end {.else if DBSSPsatNode.NodeName='satgeophysdata'}
                   else if XMSatellite.NodeName='ecosphereData' then
                   begin
@@ -1966,10 +1962,6 @@ begin
                            FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_regions[Count1].OOR_resourceSpot[Count2].RRS_type:=TFCEduResourceSpotTypes(EnumIndex);
                            if EnumIndex=-1
                            then raise Exception.Create( 'bad resource spot type: '+XMLOObjSub2.Attributes['type'] );
-//                           EnumIndex:=GetEnumValue( TypeInfo( TFCEduResourceSpotQuality ), XMLOObjSub2.Attributes['quality'] );
-//                           FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_regions[Count1].OOR_resourceSpot[Count2].RRS_quality:=TFCEduResourceSpotQuality(EnumIndex);
-//                           if EnumIndex=-1
-//                           then raise Exception.Create( 'bad resource spot quality: '+XMLOObjSub2.Attributes['quality'] );
                            EnumIndex:=GetEnumValue( TypeInfo( TFCEduResourceSpotRarity ), XMLOObjSub2.Attributes['rarity'] );
                            FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_regions[Count1].OOR_resourceSpot[Count2].RRS_rarity:=TFCEduResourceSpotRarity(EnumIndex);
                            if EnumIndex=-1
