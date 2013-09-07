@@ -31,7 +31,10 @@ unit farc_fug_landresources;
 interface
 
 uses
-   Math;
+   Math
+   ,SysUtils
+
+   ,farc_data_univ;
 
 //==END PUBLIC ENUM=========================================================================
 
@@ -43,6 +46,14 @@ uses
 
 //const
 //==END PUBLIC CONST========================================================================
+
+///<summary>
+///   return the rarity index based on its value
+///</summary>
+///   <param name="Value">rarity value</param>
+///   <returns></returns>
+///   <remarks></remarks>
+function FCFfR__RarityIndex_Set(const Value: extended): TFCEduResourceSpotRarity;
 
 //===========================END FUNCTIONS SECTION==========================================
 
@@ -92,9 +103,10 @@ implementation
 
 uses
    farc_common_func
-   ,farc_data_univ
+   ,farc_data_init
    ,farc_fug_data
-   ,farc_fug_regionsClimate;
+   ,farc_fug_regionsClimate
+   ,farc_win_debug;
 
 //==END PRIVATE ENUM========================================================================
 
@@ -108,6 +120,32 @@ uses
 //==END PRIVATE CONST=======================================================================
 
 //===================================================END OF INIT============================
+
+function FCFfR__RarityIndex_Set(const Value: extended): TFCEduResourceSpotRarity;
+{:Purpose: return the rarity index based on its value.
+    Additions:
+}
+begin
+   Result:=rsrAbsent;
+   if ( Value > 0 )
+      and ( Value <= 8 )
+   then Result:=rsrRare
+   else if ( Value > 8 )
+      and ( Value <= 17 )
+   then Result:=rsrUncommon
+   else if ( Value > 17 )
+      and ( Value <= 35 )
+   then Result:=rsrPresent
+   else if ( Value > 35 )
+      and ( Value <= 60 )
+   then Result:=rsrCommon
+   else if ( Value > 60 )
+      and ( Value <= 81 )
+   then Result:=rsrAbundant
+   else if Value > 81
+   then Result:=rsrRich;
+end;
+
 //===========================END FUNCTIONS SECTION==========================================
 
 procedure FCMfR_LandRelief_Process(
@@ -421,28 +459,6 @@ procedure FCMfR_Resources_Phase1(
 
       NatureCoef: array [1..4] of extended;
 
-      function _RarityIndex_Set: TFCEduResourceSpotRarity;
-      begin
-         Result:=rsrAbsent;
-         if ( RarityValue > 0 )
-            and ( RarityValue <= 8 )
-         then Result:=rsrRare
-         else if ( RarityValue > 8 )
-            and ( RarityValue <= 17 )
-         then Result:=rsrUncommon
-         else if ( RarityValue > 17 )
-            and ( RarityValue <= 35 )
-         then Result:=rsrPresent
-         else if ( RarityValue > 35 )
-            and ( RarityValue <= 60 )
-         then Result:=rsrCommon
-         else if ( RarityValue > 60 )
-            and ( RarityValue <= 81 )
-         then Result:=rsrAbundant
-         else if RarityValue > 81
-         then Result:=rsrRich;
-      end;
-
       procedure _OreNatureCoefficients_Set( const ObjectType: TFCEduOrbitalObjectTypes );
       begin
          if ( ObjectType = ootAsteroid_Metallic )
@@ -645,7 +661,7 @@ begin
                then RarityValue:=100;
                FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_type:=rstHydroWell;
                FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_rarityVal:=FCFcF_Round( rttCustom1Decimal, RarityValue );
-               FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_rarity:=_RarityIndex_Set;
+               FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_rarity:=FCFfR__RarityIndex_Set( RarityValue );
                FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_quality:=rsqNone;
             end;
          end;
@@ -678,7 +694,7 @@ begin
                then RarityValue:=100;
                FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_type:=rstIcyOreField;
                FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_rarityVal:=FCFcF_Round( rttCustom1Decimal, RarityValue );
-               FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_rarity:=_RarityIndex_Set;
+               FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_rarity:=FCFfR__RarityIndex_Set( RarityValue );
                FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_quality:=rsqNone;
             end;
          end;
@@ -724,7 +740,7 @@ begin
             then RarityValue:=100;
             FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_type:=rstOreFieldCarbo;
             FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_rarityVal:=FCFcF_Round( rttCustom1Decimal, RarityValue );
-            FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_rarity:=_RarityIndex_Set;
+            FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_rarity:=FCFfR__RarityIndex_Set( RarityValue );
             FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_quality:=rsqNone;
          end;
       end;
@@ -773,7 +789,7 @@ begin
             then RarityValue:=100;
             FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_type:=rstOreFieldMetal;
             FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_rarityVal:=FCFcF_Round( rttCustom1Decimal, RarityValue );
-            FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_rarity:=_RarityIndex_Set;
+            FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_rarity:=FCFfR__RarityIndex_Set( RarityValue );
             FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_quality:=rsqNone;
          end;
       end;
@@ -824,7 +840,7 @@ begin
             then RarityValue:=100;
             FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_type:=rstOreFieldRareMetal;
             FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_rarityVal:=FCFcF_Round( rttCustom1Decimal, RarityValue );
-            FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_rarity:=_RarityIndex_Set;
+            FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_rarity:=FCFfR__RarityIndex_Set( RarityValue );
             FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_quality:=rsqNone;
          end;
       end;
@@ -885,7 +901,7 @@ begin
             then RarityValue:=100;
             FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_type:=rstOreFieldUran;
             FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_rarityVal:=FCFcF_Round( rttCustom1Decimal, RarityValue );
-            FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_rarity:=_RarityIndex_Set;
+            FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_rarity:=FCFfR__RarityIndex_Set( RarityValue );
             FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_quality:=rsqNone;
          end;
       end;
@@ -947,7 +963,7 @@ begin
                then RarityValue:=100;
                FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_type:=rstUnderWater;
                FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_rarityVal:=FCFcF_Round( rttCustom1Decimal, RarityValue );
-               FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_rarity:=_RarityIndex_Set;
+               FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_rarity:=FCFfR__RarityIndex_Set( RarityValue );
                FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_quality:=rsqNone;
             end;
          end;
@@ -1030,7 +1046,7 @@ begin
                then RarityValue:=100;
                FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_type:=rstUnderWater;
                FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_rarityVal:=FCFcF_Round( rttCustom1Decimal, RarityValue );
-               FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_rarity:=_RarityIndex_Set;
+               FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_rarity:=FCFfR__RarityIndex_Set( RarityValue );
                FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_quality:=rsqNone;
             end;
          end;
@@ -1079,11 +1095,15 @@ procedure FCMfR_Resources_Phase2(
     Additions:
 }
    var
-      Max
+      BioVigor
+      ,Max
       ,Region
       ,Spot: integer;
 
-      RarityValue
+      fCalc1
+      ,fCalc2
+      ,RandgStdev
+      ,RarityValue
       ,RsrcPotential: extended;
 
       BioLevel: TFCEduBiosphereLevels;
@@ -1094,6 +1114,7 @@ procedure FCMfR_Resources_Phase2(
       begin
          if Satellite = 0 then
          begin
+            setlength( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions[Region].OOR_resourceSpot, Spot + 1 );
             FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions[Region].OOR_resourceSpot[Spot].RRS_type:=FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_type;
             FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions[Region].OOR_resourceSpot[Spot].RRS_rarityVal:=FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_rarityVal;
             FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions[Region].OOR_resourceSpot[Spot].RRS_rarity:=FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_rarity;
@@ -1101,16 +1122,52 @@ procedure FCMfR_Resources_Phase2(
          end
          else if Satellite > 0 then
          begin
+            setlength( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Region].OOR_resourceSpot, Spot + 1 );
             FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Region].OOR_resourceSpot[Spot].RRS_type:=FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_type;
             FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Region].OOR_resourceSpot[Spot].RRS_rarityVal:=FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_rarityVal;
             FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Region].OOR_resourceSpot[Spot].RRS_rarity:=FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_rarity;
             FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions[Region].OOR_resourceSpot[Spot].RRS_quality:=FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_quality;
          end;
       end;
+
+      procedure _LandModifier_Process;
+      begin
+         case FCDfdRegions[Region].RC_landType of
+            rst01RockyDesert: RarityValue:=randg( RsrcPotential * 1.25, RandgStdev );
+
+            rst02SandyDesert: RarityValue:=randg( RsrcPotential, RandgStdev );
+
+            rst03Volcanic: RarityValue:=randg( RsrcPotential * 1.25, RandgStdev );
+
+            rst04Polar: RarityValue:=randg( RsrcPotential, RandgStdev );
+
+            rst05Arid: RarityValue:=randg( RsrcPotential * 0.75, RandgStdev );
+
+            rst06Fertile..rst08CoastalRockyDesert: RarityValue:=randg( RsrcPotential * 1.25, RandgStdev );
+
+            rst09CoastalSandyDesert: RarityValue:=randg( RsrcPotential, RandgStdev );
+
+            rst10CoastalVolcanic: RarityValue:=randg( RsrcPotential * 1.25, RandgStdev );
+
+            rst11CoastalPolar..rst12CoastalArid: RarityValue:=randg( RsrcPotential, RandgStdev );
+
+            rst13CoastalFertile: RarityValue:=randg( RsrcPotential * 1.25, RandgStdev );
+
+            rst14Sterile: RarityValue:=randg( RsrcPotential * 0.75, RandgStdev );
+
+            rst15icySterile: RarityValue:=randg( RsrcPotential, RandgStdev );
+         end;
+      end;
+
 begin
+   BioVigor:=0;
    Max:=0;
    Region:=0;
    Spot:=0;
+
+   fCalc1:=0;
+   fCalc2:=0;
+   RandgStdev:=0;
 
    BioLevel:=blNone;
 
@@ -1118,35 +1175,21 @@ begin
 
    if Satellite = 0 then
    begin
-//      ObjectType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_type;
-//      if ( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphericPressure > 0 )
-//         and ( not FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_traceAtmosphere )
-//      then isAtmosphere:=true;
-//      istraceAtm:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_traceAtmosphere;
-//      DensityCoef:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_density / 551.5;
-//      DiamRed:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_diameter * 0.002;
-//      HydroType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_hydrosphere;
-//      HydroArea:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_hydrosphereArea;
-//      TectonicActivyIndex:=integer( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_tectonicActivity );
       TectonicActivity:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_tectonicActivity;
       BioLevel:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_biosphereLevel;
+      BioVigor:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_biosphereVigor;
       Max:=length( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions ) - 1;
    end
    else if Satellite > 0 then
    begin
-//      ObjectType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_type;
-//      if ( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphericPressure > 0 )
-//         and ( not FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_traceAtmosphere )
-//      then isAtmosphere:=true;
-//      istraceAtm:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_traceAtmosphere;
-//      DensityCoef:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_density / 551.5;
-//      DiamRed:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_diameter * 0.002;
-//      HydroType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_hydrosphere;
-//      HydroArea:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_hydrosphereArea;
       TectonicActivity:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_tectonicActivity;
       BioLevel:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_biosphereLevel;
+      BioVigor:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_biosphereVigor;
       Max:=length( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions ) - 1;
    end;
+   fCalc1:=sqr( Integer( TectonicActivity ) - 1 );
+   if BioVigor > 0
+   then fCalc2:=sqrt( BioVigor );
    Region:=1;
    while Region <= Max do
    begin
@@ -1156,20 +1199,96 @@ begin
       begin
          inc( Spot );
          setlength( FCDfdRegions[Region].RC_rsrcSpots, Spot + 1 );
-//         fCalc1:=1;
          RsrcPotential:=0;
          RarityValue:=0;
+         if BioLevel=blNone
+         then RsrcPotential:=fCalc1 * 2
+         else RsrcPotential:=fCalc1 * ( 2 + FCFcF_Random_DoFloat );
+         if RsrcPotential <= 0 then
+         begin
+            dec( Spot );
+            setlength( FCDfdRegions[Region].RC_rsrcSpots, Spot + 1 );
+         end
+         else begin
+            RandgStdev:=FCFcF_Round( rttCustom1Decimal, RsrcPotential * 0.1 ) * 2;
+            _LandModifier_Process;
+            if RarityValue <= 0 then
+            begin
+               dec( Spot );
+               setlength( FCDfdRegions[Region].RC_rsrcSpots, Spot + 1 );
+            end
+            else begin
+               if RarityValue > 100
+               then RarityValue:=100;
+               FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_type:=rstGasField;
+               FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_rarityVal:=FCFcF_Round( rttCustom1Decimal, RarityValue );
+               FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_rarity:=FCFfR__RarityIndex_Set( RarityValue );
+               FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_quality:=rsqNone;
+               _ResourceData_Loading;
+            end;
+         end;
       end
       else begin
          inc( Spot );
          setlength( FCDfdRegions[Region].RC_rsrcSpots, Spot + 1 );
-//         fCalc1:=1;
          RsrcPotential:=0;
          RarityValue:=0;
+         if ( BioLevel = blCarbon_Prebiotics )
+            or ( BioLevel = blAmmonia_Prebiotics )
+         then RsrcPotential:=fCalc1 + fCalc2
+         else if ( BioLevel = blCarbon_MicroOrganisms )
+            or ( BioLevel = blAmmonia_MicroOrganisms )
+            or ( BioLevel = blSilicon_Prebiotics )
+            or ( BioLevel = blMethane_Prebiotics )
+            or ( BioLevel = blSulphurDioxide_Prebiotics )
+         then RsrcPotential:=fCalc1 + ( fCalc2 * 2 )
+         else if ( BioLevel = blCarbon_Level1Organisms )
+            or ( BioLevel = blAmmonia_Level1Organisms )
+            or ( BioLevel = blSilicon_MicroOrganisms )
+            or ( BioLevel = blMethane_MicroOrganisms )
+            or ( BioLevel = blSulphurDioxide_MicroOrganisms )
+         then RsrcPotential:=fCalc1 + ( fCalc2 * 4 )
+         else if ( BioLevel = blCarbon_Level2Organisms )
+            or ( BioLevel = blAmmonia_Level2Organisms )
+            or ( BioLevel = blSilicon_Level1Organisms )
+            or ( BioLevel = blMethane_Level1Organisms )
+            or ( BioLevel = blSulphurDioxide_Level1Organisms )
+         then RsrcPotential:=fCalc1 + ( fCalc2 * 6 )
+         else if ( BioLevel = blAmmonia_Level3Organisms )
+            or ( BioLevel = blSilicon_Level2Organisms )
+            or ( BioLevel = blMethane_Level2Organisms )
+            or ( BioLevel = blSulphurDioxide_Level2Organisms )
+         then RsrcPotential:=fCalc1 + ( fCalc2 * 8 )
+         else if ( BioLevel = blSilicon_Level3Organisms )
+            or ( BioLevel = blMethane_Level3Organisms )
+            or ( BioLevel = blSulphurDioxide_Level3Organisms )
+         then RsrcPotential:=fCalc1 + ( fCalc2 * 10 );
+         if RsrcPotential <= 0 then
+         begin
+            dec( Spot );
+            setlength( FCDfdRegions[Region].RC_rsrcSpots, Spot + 1 );
+         end
+         else begin
+            RandgStdev:=FCFcF_Round( rttCustom1Decimal, RsrcPotential * 0.1 ) * 2;
+            _LandModifier_Process;
+            if RarityValue <= 0 then
+            begin
+               dec( Spot );
+               setlength( FCDfdRegions[Region].RC_rsrcSpots, Spot + 1 );
+            end
+            else begin
+               if RarityValue > 100
+               then RarityValue:=100;
+               FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_type:=rstGasField;
+               FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_rarityVal:=FCFcF_Round( rttCustom1Decimal, RarityValue );
+               FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_rarity:=FCFfR__RarityIndex_Set( RarityValue );
+               FCDfdRegions[Region].RC_rsrcSpots[Spot].RRS_quality:=rsqNone;
+               _ResourceData_Loading;
+            end;
+         end;
       end;
       inc( Region );
    end;
-   {:DEV NOTES: WARNING, don't forget _ResourceData_Loading.}
 end;
 
 end.
