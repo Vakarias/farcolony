@@ -376,24 +376,24 @@ FCWinNewGSetup.Close;
          while Count3 <= Max3 do
          begin
             FCDduStarSystem[Count1].SS_stars[Count2].S_orbitalObjects[Count3].OO_revolutionPeriodCurrent:=FCDduStarSystem[Count1].SS_stars[Count2].S_orbitalObjects[Count3].OO_revolutionPeriodInit;
-//            FCMuF_Regions_SetCurrentClimateData(
-//               Count1
-//               ,Count2
-//               ,Count3
-//               );
-//            Max4:=length( FCDduStarSystem[Count1].SS_stars[Count2].S_orbitalObjects[Count3].OO_satellitesList ) - 1;
-//            Count4:=1;
-//            while Count4 <= Max4 do
-//            begin
-//               FCDduStarSystem[Count1].SS_stars[Count2].S_orbitalObjects[Count3].OO_satellitesList[Count4].OO_revolutionPeriodCurrent:=FCDduStarSystem[Count1].SS_stars[Count2].S_orbitalObjects[Count3].OO_satellitesList[Count4].OO_revolutionPeriodInit;
-//               FCMuF_Regions_SetCurrentClimateData(
-//                  Count1
-//                  ,Count2
-//                  ,Count3
-//                  ,Count4
-//                  );
-//               inc( Count4 );
-//            end;
+            FCMuF_Regions_SetCurrentClimateData(
+               Count1
+               ,Count2
+               ,Count3
+               );
+            Max4:=length( FCDduStarSystem[Count1].SS_stars[Count2].S_orbitalObjects[Count3].OO_satellitesList ) - 1;
+            Count4:=1;
+            while Count4 <= Max4 do
+            begin
+               FCDduStarSystem[Count1].SS_stars[Count2].S_orbitalObjects[Count3].OO_satellitesList[Count4].OO_revolutionPeriodCurrent:=FCDduStarSystem[Count1].SS_stars[Count2].S_orbitalObjects[Count3].OO_satellitesList[Count4].OO_revolutionPeriodInit;
+               FCMuF_Regions_SetCurrentClimateData(
+                  Count1
+                  ,Count2
+                  ,Count3
+                  ,Count4
+                  );
+               inc( Count4 );
+            end;
             inc( Count3);
          end;
          inc( Count2 );

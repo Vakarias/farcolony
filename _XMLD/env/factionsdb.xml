@@ -172,7 +172,7 @@
          <facEqupItm itemTp="feitSpaceCraft" properName="wrdMUNburt" designToken="scdesAspen2" status="susInOrbit" spuDock="0" availEnRM="4320"/>
          <facEqupItm itemTp="feitSpaceCraft" properName="wrdMUNkevRey" designToken="scdesAspen2" status="susInOrbit" spuDock="0" availEnRM="4320"/>
       </facColMode>
-      <facStartLoc locSSys="stelsysSol" locStar="starSol" locObObj="orbobjSol1"/>
+      <facStartLoc locSSys="stelsysSol" locStar="starSun" locObObj="orbobjAcentA1"/>
       <facSPM>
          <facSPMi token="SPMi_AIchitect" duration="0" isSet="True" aprob="95" belieflev="0" spreadval="0"/>
          <facSPMi token="SPMi_CentrAuth" duration="0" isSet="False" aprob="-1" belieflev="0" spreadval="0"/>

@@ -79,30 +79,30 @@ var
 begin
    STNGdmpRes:='';
    case STNGidx of
-      0: STNGdmpRes:='MercuryH0';
-      1: STNGdmpRes:='MercuryH3';
-      2: STNGdmpRes:='MercuryH4';
-      3: STNGdmpRes:='Pluto';
-      4: STNGdmpRes:='Europa';
-      5: STNGdmpRes:='CallistoH3';
-      6: STNGdmpRes:='CallistoH4';
-      7: STNGdmpRes:='UranusCold';
-      8: STNGdmpRes:='UranusHot';
-      9: STNGdmpRes:='NeptuneCold';
-      10: STNGdmpRes:='NeptuneHot';
-      11: STNGdmpRes:='SaturnCold';
-      12: STNGdmpRes:='SaturnHot';
-      13: STNGdmpRes:='JovianCold';
-      14: STNGdmpRes:='JovianHot';
-      15: STNGdmpRes:='SuperGiantCold';
-      16: STNGdmpRes:='SuperGiantHot';
-      17: STNGdmpRes:='SatLunarCold';
-      18: STNGdmpRes:='SatLunar';
-      19: STNGdmpRes:='SatIo';
-      20: STNGdmpRes:='SatPluto';
-      21: STNGdmpRes:='SatEuropa';
-      22: STNGdmpRes:='SatCallistoH3';
-      23: STNGdmpRes:='SatCallistoH4';
+//      0: STNGdmpRes:='MercuryH0';
+//      1: STNGdmpRes:='MercuryH3';
+//      2: STNGdmpRes:='MercuryH4';
+//      3: STNGdmpRes:='Pluto';
+//      4: STNGdmpRes:='Europa';
+//      5: STNGdmpRes:='CallistoH3';
+//      6: STNGdmpRes:='CallistoH4';
+      0: STNGdmpRes:='UranusCold';
+      1: STNGdmpRes:='UranusHot';
+      2: STNGdmpRes:='NeptuneCold';
+      3: STNGdmpRes:='NeptuneHot';
+      4: STNGdmpRes:='SaturnCold';
+      5: STNGdmpRes:='SaturnHot';
+      6: STNGdmpRes:='JovianCold';
+      7: STNGdmpRes:='JovianHot';
+      8: STNGdmpRes:='SuperGiantCold';
+      9: STNGdmpRes:='SuperGiantHot';
+//      17: STNGdmpRes:='SatLunarCold';
+//      18: STNGdmpRes:='SatLunar';
+//      19: STNGdmpRes:='SatIo';
+//      20: STNGdmpRes:='SatPluto';
+//      21: STNGdmpRes:='SatEuropa';
+//      22: STNGdmpRes:='SatCallistoH3';
+//      23: STNGdmpRes:='SatCallistoH4';
    end; //==END== case STNGidx ==//
    Result:= STNGdmpRes;
 end;
@@ -190,7 +190,7 @@ begin
    FC3doglMaterialLibraryStandardPlanetTextures:=TGLMaterialLibrary.Create(FCWinMain);
    FC3doglMaterialLibraryStandardPlanetTextures.Name:='FCGLSmlibSPT';
    OGLIIcnt:=0;
-   while OGLIIcnt<=23 do
+   while OGLIIcnt<=9 do
    begin
       FC3doglMaterialLibraryStandardPlanetTextures.Materials.Add;
       OGLIIname:=FCFoglInit_StdTexName_Get(OGLIIcnt);
@@ -292,7 +292,7 @@ begin
       else if not FC3doglHRstandardTextures
       then STSmatRes:='1024';
       STScnt:=0;
-      while STScnt<=23 do
+      while STScnt<=9 do
       begin
          STSmatStr:=FCFoglInit_StdTexName_Get(STScnt);
          FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[STScnt].Material.Texture.Image.LoadFromFile
@@ -310,54 +310,54 @@ var
    STIGdmpRes: integer;
 begin
    STIGdmpRes:=-1;
-   if STIGname='MercuryH0'
+//   if STIGname='MercuryH0'
+//   then STIGdmpRes:=0
+//   else if STIGname='MercuryH3'
+//   then STIGdmpRes:=1
+//   else if STIGname='MercuryH4'
+//   then STIGdmpRes:=2
+//   else if STIGname='Pluto'
+//   then STIGdmpRes:=3
+//   else if STIGname='Europa'
+//   then STIGdmpRes:=4
+//   else if STIGname='CallistoH3'
+//   then STIGdmpRes:=5
+//   else if STIGname='CallistoH4'
+//   then STIGdmpRes:=6
+   if STIGname='UranusCold'
    then STIGdmpRes:=0
-   else if STIGname='MercuryH3'
-   then STIGdmpRes:=1
-   else if STIGname='MercuryH4'
-   then STIGdmpRes:=2
-   else if STIGname='Pluto'
-   then STIGdmpRes:=3
-   else if STIGname='Europa'
-   then STIGdmpRes:=4
-   else if STIGname='CallistoH3'
-   then STIGdmpRes:=5
-   else if STIGname='CallistoH4'
-   then STIGdmpRes:=6
-   else if STIGname='UranusCold'
-   then STIGdmpRes:=7
    else if STIGname='UranusHot'
-   then STIGdmpRes:=8
+   then STIGdmpRes:=1
    else if STIGname='NeptuneCold'
-   then STIGdmpRes:=9
+   then STIGdmpRes:=2
    else if STIGname='NeptuneHot'
-   then STIGdmpRes:=10
+   then STIGdmpRes:=3
    else if STIGname='SaturnCold'
-   then STIGdmpRes:=11
+   then STIGdmpRes:=4
    else if STIGname='SaturnHot'
-   then STIGdmpRes:=12
+   then STIGdmpRes:=5
    else if STIGname='JovianCold'
-   then STIGdmpRes:=13
+   then STIGdmpRes:=6
    else if STIGname='JovianHot'
-   then STIGdmpRes:=14
+   then STIGdmpRes:=7
    else if STIGname='SuperGiantCold'
-   then STIGdmpRes:=15
+   then STIGdmpRes:=8
    else if STIGname='SuperGiantHot'
-   then STIGdmpRes:=16
-   else if STIGname='SatLunarCold'
-   then STIGdmpRes:=17
-   else if STIGname='SatLunar'
-   then STIGdmpRes:=18
-   else if STIGname='SatIo'
-   then STIGdmpRes:=19
-   else if STIGname='SatPluto'
-   then STIGdmpRes:=20
-   else if STIGname='SatEuropa'
-   then STIGdmpRes:=21
-   else if STIGname='SatCallistoH3'
-   then STIGdmpRes:=22
-   else if STIGname='SatCallistoH4'
-   then STIGdmpRes:=23;
+   then STIGdmpRes:=9;
+//   else if STIGname='SatLunarCold'
+//   then STIGdmpRes:=17
+//   else if STIGname='SatLunar'
+//   then STIGdmpRes:=18
+//   else if STIGname='SatIo'
+//   then STIGdmpRes:=19
+//   else if STIGname='SatPluto'
+//   then STIGdmpRes:=20
+//   else if STIGname='SatEuropa'
+//   then STIGdmpRes:=21
+//   else if STIGname='SatCallistoH3'
+//   then STIGdmpRes:=22
+//   else if STIGname='SatCallistoH4'
+//   then STIGdmpRes:=23;
    Result:= STIGdmpRes;
 end;
 

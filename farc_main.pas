@@ -857,13 +857,12 @@ begin
       finally
          try
             VMDpick:=(FCGLSmainView.Buffer.GetPickedObject(x, y) as TGLHUDText);
+            FCMoglUI_Elem_SelHelp(VMDpick.Tag);
          except
             VMDpick:=nil;
          end;
       end;
       FCGLScadencer.Enabled:=true;
-      if assigned(VMDpick)
-      then FCMoglUI_Elem_SelHelp(VMDpick.Tag);
    end;
    {.right mouse button}
    if (Button=mb_Right)

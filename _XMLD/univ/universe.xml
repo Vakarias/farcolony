@@ -196,11 +196,11 @@
       </star>
    </starsys>
 -->
- <univ>
+<univ>
    <starsys token="stelsysSol" locationX="0" locationY="0" locationZ="0">
-      <star token="starSol" class="G2">
+      <star token="starSun" class="G2">
          <physicalData temperature="5515" mass="1" diameter="1" luminosity="1.00000"/>
-         <orbobj token="orbobjSol1" ftSeed="" lightcolor="" climatefile="" habGravity="higIdeal" habRad="higAcceptable" habAtmosphere="higHostile" habAtmPressure="higIdeal">
+         <orbobj token="orbobjAcentA1" ftSeed="" lightcolor="" climatefile="" habGravity="higIdeal" habRad="higAcceptable" habAtmosphere="higHostile" habAtmPressure="higIdeal">
             <orbitalData distanceFromStar="1" eccentricity="0.034" orbitalZone="hzOuter" revolutionPeriod="365" revPeriodInit="277" gravSphereRadius="923961" orbitGeosync="41473.2" orbitLow="6885"/>
             <geophysicalData type="ootPlanet_Telluric" diameter="12756" density="5515" mass="1" gravity="1" escapeVel="11.18" rotationPeriod="24" inclinationAxis="18" magneticField="0.011" tectonicActivity="taHotSpot" subsurfOcean="False"/>
             <ecosphereData envType="etRestricted" atmosphericPressure="1013.148" coudsCover="64.8" traceAtmosphere="False" primaryGasVolume="83" gasH2="agsTrace" gasHe="agsTrace" gasCH4="agsTrace" gasNH3="agsTrace" gasH2O="agsSecondary" gasNe="agsSecondary" gasN2="agsPrimary" gasCO="agsTrace" gasNO="agsSecondary" gasO2="agsSecondary" gasH2S="agsSecondary" gasAr="agsSecondary" gasCO2="agsTrace" gasNO2="agsSecondary" gasO3="agsSecondary" gasSO2="agsSecondary" hydrosphereType="hWaterLiquid" hydrosphereArea="68" albedo="0.25"/>
@@ -422,7 +422,7 @@
                  <resourcespot type="rstGasField" rarity="rsrAbundant"/>
                </region>
             </regions>
-            <satobj token="satSol1-1" ftSeed="" lightcolor="" climatefile="" habGravity="higBad_n" habRad="higHostile" habAtmosphere="higBad" habAtmPressure="higHostile_n">
+            <satobj token="satAcentA4At01" ftSeed="" lightcolor="" climatefile="" habGravity="higBad_n" habRad="higHostile" habAtmosphere="higBad" habAtmPressure="higHostile_n">
                <orbitalData distanceFromRoot="262.4" revolutionPeriod="1" revPeriodInit="1" gravSphereRadius="21423.9" orbitGeosync="5157.8" orbitLow="12546.8"/>
                <geophysicalData type="ootSatellite_Planet_Telluric" diameter="2062.1" density="2523" mass="0.0019" gravity="0.073" escapeVel="1.21" magneticField="0.02" tectonicActivity="taExtreme" subsurfOcean="False"/>
                <ecosphereData envType="etRestricted" atmosphericPressure="0.004" coudsCover="0" traceAtmosphere="True" primaryGasVolume="90" gasH2="agsNotPresent" gasHe="agsNotPresent" gasCH4="agsNotPresent" gasNH3="agsNotPresent" gasH2O="agsNotPresent" gasNe="agsNotPresent" gasN2="agsNotPresent" gasCO="agsNotPresent" gasNO="agsNotPresent" gasO2="agsNotPresent" gasH2S="agsSecondary" gasAr="agsNotPresent" gasCO2="agsNotPresent" gasNO2="agsNotPresent" gasO3="agsNotPresent" gasSO2="agsSecondary" hydrosphereType="hNoHydro" hydrosphereArea="0" albedo="0.02"/>

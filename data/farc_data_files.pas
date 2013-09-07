@@ -1886,10 +1886,10 @@ begin
                      FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_hydrosphereArea:=XMSatellite.Attributes['hydrosphereArea'];
                      FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_albedo:=StrToFloat( XMSatellite.Attributes['albedo'], FCVdiFormat );
                   end {.else if DBSSPsatNode.NodeName='satecosdata'}
-                  else if XMLOrbitalObject.NodeName='orbitalPeriods' then
+                  else if XMSatellite.NodeName='orbitalPeriods' then
                   begin
                      Count1:=0;
-                     XMLOObjSub1:=XMLOrbitalObject.ChildNodes.First;
+                     XMLOObjSub1:=XMSatellite.ChildNodes.First;
                      while XMLOObjSub1<>nil do
                      begin
                         inc( Count1 );
@@ -1904,13 +1904,13 @@ begin
                         XMLOObjSub1:= XMLOObjSub1.NextSibling;
                      end;
                   end //==END== else if DBSSPorbObjNode.NodeName='orbitalPeriods' ==//
-                  else if XMLOrbitalObject.NodeName='biosphereData' then
+                  else if XMSatellite.NodeName='biosphereData' then
                   begin
-                     EnumIndex:=GetEnumValue( TypeInfo( TFCEduBiosphereLevels ), XMLOrbitalObject.Attributes['level'] );
+                     EnumIndex:=GetEnumValue( TypeInfo( TFCEduBiosphereLevels ), XMSatellite.Attributes['level'] );
                      FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_biosphereLevel:=TFCEduBiosphereLevels( EnumIndex );
                      if EnumIndex=-1
-                     then raise Exception.Create( 'bad satellite - biosphere level: '+XMLOrbitalObject.Attributes['level'] );
-                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_biosphereVigor:=XMLOrbitalObject.Attributes['vigor'];
+                     then raise Exception.Create( 'bad satellite - biosphere level: '+XMSatellite.Attributes['level'] );
+                     FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_biosphereVigor:=XMSatellite.Attributes['vigor'];
                   end
                   else if XMSatellite.NodeName='regions' then
                   begin
