@@ -21,7 +21,7 @@ object FCWinFUG: TFCWinFUG
     Top = 41
     Width = 1014
     Height = 717
-    ActivePage = CMT_TabOrbitalObjects
+    ActivePage = CMT_TabStellarStarSystem
     ActiveFont.Charset = DEFAULT_CHARSET
     ActiveFont.Color = clWindowText
     ActiveFont.Height = -11
@@ -40,10 +40,6 @@ object FCWinFUG: TFCWinFUG
       ColorTo = clNone
       TabColor = clBtnFace
       TabColorTo = clNone
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object TSSS_StellarStarSysGroup: TAdvGroupBox
         Left = 16
         Top = 3
@@ -97,7 +93,6 @@ object FCWinFUG: TFCWinFUG
           EditLabel.Font.Style = []
           EditLabel.ParentFont = False
           EditLabel.Layout = tlCenter
-          NumbersOnly = True
           TabOrder = 1
         end
         object SSSG_LocationY: TLabeledEdit
@@ -116,7 +111,6 @@ object FCWinFUG: TFCWinFUG
           EditLabel.Font.Style = []
           EditLabel.ParentFont = False
           EditLabel.Layout = tlCenter
-          NumbersOnly = True
           TabOrder = 2
         end
         object SSSG_LocationZ: TLabeledEdit
@@ -135,7 +129,6 @@ object FCWinFUG: TFCWinFUG
           EditLabel.Font.Style = []
           EditLabel.ParentFont = False
           EditLabel.Layout = tlCenter
-          NumbersOnly = True
           TabOrder = 3
         end
       end
@@ -2466,10 +2459,6 @@ object FCWinFUG: TFCWinFUG
       ColorTo = clNone
       TabColor = clBtnFace
       TabColorTo = clNone
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object WF_XMLOutput: TAdvMemo
         Left = 0
         Top = 0

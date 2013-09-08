@@ -382,9 +382,9 @@ begin
       ,true
       );
    WorkingFloat:=WorkingFloat * CoefDensity;
-   if ( MaxDensity > 0 )
-      and ( WorkingFloat > MaxDensity )
-   then WorkingFloat:=MaxDensity;
+//   if ( MaxDensity > 0 )
+//      and ( WorkingFloat > MaxDensity )
+//   then WorkingFloat:=MaxDensity;
    Result:=round( WorkingFloat );
 end;
 

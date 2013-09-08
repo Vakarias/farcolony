@@ -457,7 +457,7 @@ begin
                      or ( Hydrosphere=hMethaneIceCrust )
                      or ( Hydrosphere=hNitrogenIceCrust )
                   then ConvectionFactor:=0.5 * ( 0.9 + ( FCFcF_Random_DoFloat * 0.2 ) )
-                  else ConvectionFactor:=0.07 * ( 0.9 + ( FCFcF_Random_DoFloat * 0.2 ) );
+                  else ConvectionFactor:=0.17 * ( 0.9 + ( FCFcF_Random_DoFloat * 0.2 ) );
                   Albedo:=FCFcF_Round( rttCustom2Decimal, ConvectionFactor );
                   if Albedo >= 1
                   then Albedo:=0.99;
@@ -504,23 +504,50 @@ begin
                   then OpticalDepth:=OpticalDepth * 8.333;
                   ConvectionFactor:=0.43 * power( ( AtmospherePressure / 1000 ) ,0.25 );
                   GreenCO2:=0;
-                  if GasCO2=agsTrace
-                  then GeneratedProbability:=FCFcF_Random_DoInteger( 50 )
-                  else if GasCO2 > agsTrace
-                  then GeneratedProbability:=FCFcF_Random_DoInteger( 100 )
-                  else GeneratedProbability:=0;
+                  case GasCO2 of
+                     agsNotPresent: GeneratedProbability:=0;
+
+                     agsTrace: GeneratedProbability:=10;
+
+                     agsSecondary: GeneratedProbability:=100-PrimaryGasVolume;
+
+                     agsPrimary: GeneratedProbability:=PrimaryGasVolume;
+                  end;
+//                  if GasCO2=agsTrace
+//                  then GeneratedProbability:=FCFcF_Random_DoInteger( 50 )
+//                  else if GasCO2 > agsTrace
+//                  then GeneratedProbability:=FCFcF_Random_DoInteger( 100 )
+//                  else GeneratedProbability:=0;
                   GreenCO2:=( sqrt( AtmospherePressure ) * 0.01 * GeneratedProbability ) / sqrt( AtmospherePressure );
                   GreenCH4:=0;
-                  if GasCH4=agsTrace
-                  then GeneratedProbability:=FCFcF_Random_DoInteger( 50 )
-                  else if GasCH4 > agsTrace
-                  then GeneratedProbability:=FCFcF_Random_DoInteger( 100 )
-                  else GeneratedProbability:=0;
+                  case GasCH4 of
+                     agsNotPresent: GeneratedProbability:=0;
+
+                     agsTrace: GeneratedProbability:=10;
+
+                     agsSecondary: GeneratedProbability:=100-PrimaryGasVolume;
+
+                     agsPrimary: GeneratedProbability:=PrimaryGasVolume;
+                  end;
+//                  if GasCH4=agsTrace
+//                  then GeneratedProbability:=FCFcF_Random_DoInteger( 50 )
+//                  else if GasCH4 > agsTrace
+//                  then GeneratedProbability:=FCFcF_Random_DoInteger( 100 )
+//                  else GeneratedProbability:=0;
                   GreenCH4:=( sqrt( AtmospherePressure ) * 0.01 * GeneratedProbability ) / sqrt( AtmospherePressure );
                   GreenH2O:=0;
-                  if GasH2O = agsPrimary
-                  then GeneratedProbability:=FCFcF_Random_DoInteger( 100 )
-                  else GeneratedProbability:=0;
+                  case GasH2O of
+                     agsNotPresent: GeneratedProbability:=0;
+
+                     agsTrace: GeneratedProbability:=10;
+
+                     agsSecondary: GeneratedProbability:=100-PrimaryGasVolume;
+
+                     agsPrimary: GeneratedProbability:=PrimaryGasVolume;
+                  end;
+//                  if GasH2O = agsPrimary
+//                  then GeneratedProbability:=FCFcF_Random_DoInteger( 100 )
+//                  else GeneratedProbability:=0;
                   GreenH2O:=( sqrt( AtmospherePressure ) * 0.01 * GeneratedProbability ) / sqrt( AtmospherePressure );
                   GreenSO2:=0;
                   if GasSO2=agsTrace
@@ -617,7 +644,7 @@ begin
                   then CloudAdjustment:=CloudFraction / Components;
                   if RockFraction > CloudAdjustment
                   then RockFraction:=RockFraction - CloudAdjustment
-//                  else RockFraction:=0
+                  else RockFraction:=0
                   ;
                   WorkHydro:=0;
                   if HydroAreaFrac > CloudAdjustment
