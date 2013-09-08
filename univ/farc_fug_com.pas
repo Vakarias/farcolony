@@ -1365,6 +1365,7 @@ end;
 procedure FCmfC_OrbitPicker_UpdateCurrent( const UpdateSat: boolean );
 {:Purpose: update the current orbital object tab / orbital object picker.
     Additions:
+      -2013Sep08- *fix: display the negative rotation periods.
       -2013Jun24- *add: hydrosphere.
       -2013Jun16- *add: atmosphere.
       -2013May05- *add: satellites setup.
@@ -1412,7 +1413,7 @@ begin
          if FCDfdMainStarObjectsList[CurrentObject].OO_escapeVelocity>0
          then FCWinFUG.COO_EscapeVel.Text:=floattostr( FCDfdMainStarObjectsList[CurrentObject].OO_escapeVelocity )
          else FCWinFUG.COO_EscapeVel.Text:='';
-         if FCDfdMainStarObjectsList[CurrentObject].OO_isNotSat_rotationPeriod>0
+         if FCDfdMainStarObjectsList[CurrentObject].OO_isNotSat_rotationPeriod<>0
          then FCWinFUG.COO_RotationPeriod.Text:=floattostr( FCDfdMainStarObjectsList[CurrentObject].OO_isNotSat_rotationPeriod )
          else FCWinFUG.COO_RotationPeriod.Text:='';
          if FCDfdMainStarObjectsList[CurrentObject].OO_isNotSat_axialTilt>0
@@ -1485,7 +1486,7 @@ begin
          if FCDfdComp1StarObjectsList[CurrentObject].OO_escapeVelocity>0
          then FCWinFUG.COO_EscapeVel.Text:=floattostr( FCDfdComp1StarObjectsList[CurrentObject].OO_escapeVelocity )
          else FCWinFUG.COO_EscapeVel.Text:='';
-         if FCDfdComp1StarObjectsList[CurrentObject].OO_isNotSat_rotationPeriod>0
+         if FCDfdComp1StarObjectsList[CurrentObject].OO_isNotSat_rotationPeriod<>0
          then FCWinFUG.COO_RotationPeriod.Text:=floattostr( FCDfdComp1StarObjectsList[CurrentObject].OO_isNotSat_rotationPeriod )
          else FCWinFUG.COO_RotationPeriod.Text:='';
          if FCDfdComp1StarObjectsList[CurrentObject].OO_isNotSat_axialTilt>0
@@ -1558,7 +1559,7 @@ begin
          if FCDfdComp2StarObjectsList[CurrentObject].OO_escapeVelocity>0
          then FCWinFUG.COO_EscapeVel.Text:=floattostr( FCDfdComp2StarObjectsList[CurrentObject].OO_escapeVelocity )
          else FCWinFUG.COO_EscapeVel.Text:='';
-         if FCDfdComp2StarObjectsList[CurrentObject].OO_isNotSat_rotationPeriod>0
+         if FCDfdComp2StarObjectsList[CurrentObject].OO_isNotSat_rotationPeriod<>0
          then FCWinFUG.COO_RotationPeriod.Text:=floattostr( FCDfdComp2StarObjectsList[CurrentObject].OO_isNotSat_rotationPeriod )
          else FCWinFUG.COO_RotationPeriod.Text:='';
          if FCDfdComp2StarObjectsList[CurrentObject].OO_isNotSat_axialTilt>0
