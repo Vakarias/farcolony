@@ -108,6 +108,7 @@ procedure FCMfS_OrbitalPeriods_Generate(
    );
 {:Purpose: generate the orbital periods and their base effects
    Additions:
+      -2013Sep07- *add: albedo/hydrosphere for trace atmosphere is grouped with 0 atmosphere.
       -2013Sep01- *add: allow asteroids to have atmosphereless hydrosphere.
       -2013Aug25- *add: calculate the greenhouse to be stored for Fractal Terrains use.
       -2013Aug03- *fix: mis-assignment for intermediary orbital periods.
@@ -152,7 +153,8 @@ procedure FCMfS_OrbitalPeriods_Generate(
       ,TemperatureMean
       ,WorkHydro: extended;
 
-      isHydroEdited
+      isAtmosphereTrace
+      ,isHydroEdited
       ,isLoadHydrosphere
       ,isSatToLoadFromRoot: boolean;
 
@@ -232,6 +234,7 @@ begin
       BasicType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_fug_BasicType;
       FinalType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_type;
       AtmospherePressure:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphericPressure;
+      isAtmosphereTrace:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_traceAtmosphere;
       PrimaryGasVolume:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_primaryGasVolumePerc;
       GasCH4:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceCH4;
       GasCO2:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_gasPresenceCO2;
@@ -264,6 +267,7 @@ begin
       BasicType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_fug_BasicType;
       FinalType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_type;
       AtmospherePressure:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphericPressure;
+      isAtmosphereTrace:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_traceAtmosphere;
       PrimaryGasVolume:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_primaryGasVolumePerc;
       GasCH4:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceCH4;
       GasCO2:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_gasPresenceCO2;
@@ -420,7 +424,8 @@ begin
 
          oobtTelluricPlanet, oobtIcyPlanet:
          begin
-            if AtmospherePressure = 0 then
+            if ( AtmospherePressure = 0 )
+               or ( isAtmosphereTrace ) then
             begin
                TemperatureMean:=TemperatureMean + OrbitalPeriodsWork[Count].OOS_baseTemperature;
                if Count=4 then
@@ -612,7 +617,8 @@ begin
                   then CloudAdjustment:=CloudFraction / Components;
                   if RockFraction > CloudAdjustment
                   then RockFraction:=RockFraction - CloudAdjustment
-                  else RockFraction:=0;
+//                  else RockFraction:=0
+                  ;
                   WorkHydro:=0;
                   if HydroAreaFrac > CloudAdjustment
                   then WorkHydro:=HydroAreaFrac - CloudAdjustment;

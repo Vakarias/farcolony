@@ -283,6 +283,7 @@ function FCFfG_Density_Calculation(
    ): integer;
 {:Purpose: calculate the orbital object's density.
    Additions:
+      -2013Sep07- *mod: adjustments in randomization.
       -2013May19- *add: satellites calculations.
       -2013Apr29- *mod: put specific calculation for icy planets.
       -2013Apr28- *add: icy planet basic type.
@@ -320,7 +321,7 @@ begin
          WorkingFloat:=WorkingFloat * FCCdiDensityEqEarth;
       end;
 
-      oobtGaseousPlanet: WorkingFloat:=FCFcF_Random_DoInteger( 1351 ) + 579;
+      oobtGaseousPlanet: WorkingFloat:=( FCFcF_Random_DoInteger( 100 ) * 13.51 ) + 579;
 
       oobtIcyPlanet:
       begin
@@ -393,6 +394,7 @@ function FCFfG_Diameter_Calculation(
    ): extended;
 {:Purpose: calculate the orbital object's diameter.
    Additions:
+      -2013Sep07- *mod: adjustments in randomization.
       -2013Apr28- *add: icy planet basic type.
       -2013Apr20- *mod: adjustments.
 }
@@ -402,20 +404,20 @@ begin
    Result:=0;
    WorkingFloat:=0;
    case ObjectType of
-      oobtAsteroid: WorkingFloat:=FCFcF_Random_DoInteger( 1987 ) + 12.5;
+      oobtAsteroid: WorkingFloat:=( FCFcF_Random_DoInteger( 100 ) * 19.87 ) + 12.5;
       
       oobtTelluricPlanet, oobtIcyPlanet:
       begin
          case OrbitalZone of
-            hzInner: WorkingFloat:=FCFcF_Random_DoInteger( 18409 ) + 2000;
+            hzInner: WorkingFloat:=( FCFcF_Random_DoInteger( 100 ) * 184.09 ) + 2000;
             
-            hzIntermediary: WorkingFloat:=FCFcF_Random_DoInteger( 29676 ) + 2324;
+            hzIntermediary: WorkingFloat:=( FCFcF_Random_DoInteger( 100 ) * 296.76 ) + 2324;
             
-            hzOuter: WorkingFloat:=FCFcF_Random_DoInteger( 8520 ) + 2000;
+            hzOuter: WorkingFloat:=( FCFcF_Random_DoInteger( 100 ) * 85.2 ) + 2000;
          end;
       end;
       
-      oobtGaseousPlanet: WorkingFloat:=FCFcF_Random_DoInteger( 130000 ) + 30000;
+      oobtGaseousPlanet: WorkingFloat:=( FCFcF_Random_DoInteger( 1000 ) * 130 ) + 30000;
    end;
    Result:=FCFcF_Round( rttCustom1Decimal, WorkingFloat );
 end;
@@ -1005,8 +1007,8 @@ begin
    {.differential tidal stress is applied}
    TectonicFactor:=TectonicFactor * ( 1 + ( 0.25 * TidalForce ) );
    {.icy planet specificity}
-   if ObjectBasicType=oobtIcyPlanet
-   then TectonicFactor:=TectonicFactor * DensityEq;
+//   if ObjectBasicType=oobtIcyPlanet
+//   then TectonicFactor:=TectonicFactor * DensityEq;
    {.rotation period modifiers}
    if RotationPeriod < 18
    then TectonicFactor:=TectonicFactor * 1.25
