@@ -723,7 +723,9 @@ type TFCRduOrbitalObject = record
    OO_revolutionPeriodCurrent: integer;
    {.NOT LOADED DATA - value used for 3d display}
    OO_angle1stDay: extended;
-   {.diameter in km RTO-1}
+   ///<summary>
+   ///   diameter in km RTO-1 / -2 for asteroid belt
+   ///</summary>
    OO_diameter: extended;
    {.density in kg/m3}
    OO_density: integer;
@@ -841,7 +843,7 @@ type TFCRduOrbitalObject = record
          ///</summary>
          OO_isNotSat_1st3dObjectSatelliteIndex: integer;
          ///<summary>
-         ///   distance from it's star in AU
+         ///   distance from it's star in AU -2
          ///</summary>
          OO_isNotSat_distanceFromStar: extended;
          ///<summary>

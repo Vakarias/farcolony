@@ -1074,6 +1074,7 @@ end;
 procedure FCMfO_Generate(const CurrentStar: integer);
 {:Purpose: core routine for orbits generation.
     Additions:
+      -2013Sep08- *add: put minimal distance for an asteroid belt compared to the previous orbital object and by taking into account it's diameter.
       -2013Aug27- *add: set the gaseous environment for the gaseous planets.
       -2013Aug18- *add: link to regions generation, if required.
       -2013Aug03- *add: set the type of planets.
@@ -1101,7 +1102,8 @@ var
    ,OrbitProbabilityMax
    ,OrbitProbabilitMin: integer;
 
-   BaseTemperature
+   ABeltMinDist
+   ,BaseTemperature
    ,CalcFloat
    ,CalcFloat1
    ,CalcFloat2
@@ -1540,6 +1542,7 @@ begin
       Count:=1;
       while Count<=NumberOfOrbits do
       begin
+         ABeltMinDist:=0;
          if ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_dbTokenId='' )
             or ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_dbTokenId='orbobj' ) then
          begin
@@ -1592,8 +1595,10 @@ begin
                else CalcFloat1:=( FCDduStarSystem[0].SS_stars[CurrentStar].S_diameter * 0.5 ) * 0.004645787 * sqrt( FCDduStarSystem[0].SS_stars[CurrentStar].S_temperature ) * ( 1 + ( FCFcF_Random_DoInteger( 10 ) * 0.02 ) );
             end
             else begin
-               GeneratedProbability:=FCFcF_Random_DoInteger( 9 ) + 1;
-               CalcFloat1:=( CalcFloat1 * ( 1.1 + ( GeneratedProbability * 0.1 ) ) ) + 0.1;
+               GeneratedProbability:=FCFcF_Random_DoInteger( 99 ) + 1;
+               if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count-1].OO_fug_BasicType = oobtAsteroidBelt
+               then CalcFloat1:=( ( CalcFloat1 + ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count-1].OO_diameter * 0.5 ) ) * ( 1.1 + ( GeneratedProbability * 0.01 ) ) ) + 0.1
+               else CalcFloat1:=( CalcFloat1 * ( 1 + ( GeneratedProbability * 0.01 ) ) ) + 0.02;
             end;
             FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_distanceFromStar:=FCFcF_Round( rttCustom2Decimal, CalcFloat1 );
          end
@@ -1646,8 +1651,24 @@ begin
             if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_fug_BasicType=oobtAsteroidBelt then
             begin
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_type:=ootAsteroidsBelt;
+
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_diameter:=FCFfG_AsteroidsBelt_CalculateDiameter( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_distanceFromStar );
-               CalcFloat1:=CalcFloat1 + ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_diameter * 0.5 );
+               if Count = 1
+               then CalcFloat1:=CalcFloat1 + ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_diameter * 0.5 )
+               else begin
+                  if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count-1].OO_fug_BasicType <> oobtAsteroidBelt then
+                  begin
+                     ABeltMinDist:=FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count-1].OO_isNotSat_distanceFromStar
+                        + ( ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count-1].OO_gravitationalSphereRadius / FCCdiKm_In_1AU ) * 2 );
+                  end
+                  else begin
+                     ABeltMinDist:=FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count-1].OO_isNotSat_distanceFromStar
+                        + ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count-1].OO_diameter * 0.75 );
+                  end;
+                  if CalcFloat1 < ABeltMinDist
+                  then CalcFloat1:=ABeltMinDist + ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_diameter * 0.5 )
+                  else CalcFloat1:=CalcFloat1 + ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_diameter * 0.5 )
+               end;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_distanceFromStar:=FCFcF_Round( rttCustom2Decimal, CalcFloat1 );
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_revolutionPeriod:=0;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_revolutionPeriodInit:=0;

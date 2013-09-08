@@ -248,6 +248,7 @@ uses
 
 function FCFfG_AsteroidsBelt_CalculateDiameter( const Distance: extended ): extended;
 {:Purpose: calculate the asteroids belt's diameter.
+    Additions:
 }
    var
       WorkingFloat: extended;

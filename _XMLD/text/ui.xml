@@ -4378,16 +4378,7 @@
    <scdesFCP80 name="FCP-80"/>
    <scdesTaurus name="Taurus"/>
    <!-- #********** ORBITAL OBJECTS NAMES ********** -->
-   <orbobjAcentA1 name="Alpha Centauri A-1"/>
-   <orbobjAcentA2 name="Alpha Centauri A-2"/>
-   <orbobjAcentA3 name="Alpha Centauri A-3"/>
-   <orbobjAcentA4 name="Alpha Centauri A-4"/>
-   <orbobjAcentA5 name="Alpha Centauri A-5"/>
-   <orbobjAcentA6 name="Alpha Centauri A-6"/>
-   <satAcentA4At01 name="Testing Sat A401"/>
-   <satAcentA4At02 name="Testing Sat A402"/>
-   <satAcentA5t01 name="Testing Sat A501"/>
-   <satAcentA5t02 name="Testing Sat A502"/>
+   
    <!-- #********** OVERALL NAMES ********** -->
    <wrdMUNburt name="Burtack"/>
    <wrdMUNkevRey name="Kevaan Reyes"/>
