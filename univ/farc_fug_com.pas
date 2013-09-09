@@ -1648,7 +1648,7 @@ begin
    FDcurrentRegion:=FCWinFUG.CR_CurrentRegion.ItemIndex + 1;
    if FDcurrentRegionSat<=0 then
    begin
-         case FCDduStarSystem[0].SS_stars[FDcurrentRegionStar].S_orbitalObjects[FDcurrentRegionOrbObj].OO_regions[FDcurrentRegion].OOR_landType of
+      case FCDduStarSystem[0].SS_stars[FDcurrentRegionStar].S_orbitalObjects[FDcurrentRegionOrbObj].OO_regions[FDcurrentRegion].OOR_landType of
          rst01RockyDesert..rst06Fertile:
          begin
             FCWinFUG.CR_OceanicCoastalAdjustment.Enabled:=false;
@@ -1673,6 +1673,8 @@ begin
       FCWinFUG.CR_ReliefAdjustment.Enabled:=false;
       FCWinFUG.CR_ReliefAdjustment.ItemIndex:=Integer( FCDduStarSystem[0].SS_stars[FDcurrentRegionStar].S_orbitalObjects[FDcurrentRegionOrbObj].OO_regions[FDcurrentRegion].OOR_relief );
       FCWinFUG.CR_ReliefAdjustment.Enabled:=true;
+      FCWinFUG.CR_RegionLandType.HTMLText.Clear;
+      FCWinFUG.CR_RegionLandType.HTMLText.Add( 'RegionLandType: ' + GetEnumName( TypeInfo( TFCEduRegionSoilTypes ), Integer( FCDduStarSystem[0].SS_stars[FDcurrentRegionStar].S_orbitalObjects[FDcurrentRegionOrbObj].OO_regions[FDcurrentRegion].OOR_landType ) ) );
    end
    else begin
       case FCDduStarSystem[0].SS_stars[FDcurrentRegionStar].S_orbitalObjects[FDcurrentRegionOrbObj].OO_satellitesList[FDcurrentRegionSat].OO_regions[FDcurrentRegion].OOR_landType of
@@ -1700,6 +1702,8 @@ begin
       FCWinFUG.CR_ReliefAdjustment.Enabled:=false;
       FCWinFUG.CR_ReliefAdjustment.ItemIndex:=Integer( FCDduStarSystem[0].SS_stars[FDcurrentRegionStar].S_orbitalObjects[FDcurrentRegionOrbObj].OO_satellitesList[FDcurrentRegionSat].OO_regions[FDcurrentRegion].OOR_relief );
       FCWinFUG.CR_ReliefAdjustment.Enabled:=true;
+      FCWinFUG.CR_RegionLandType.HTMLText.Clear;
+      FCWinFUG.CR_RegionLandType.HTMLText.Add( 'RegionLandType: ' + GetEnumName( TypeInfo( TFCEduRegionSoilTypes ), Integer( FCDduStarSystem[0].SS_stars[FDcurrentRegionStar].S_orbitalObjects[FDcurrentRegionOrbObj].OO_satellitesList[FDcurrentRegionSat].OO_regions[FDcurrentRegion].OOR_landType ) ) );
    end;
 end;
 

@@ -18,6 +18,7 @@ object FCWinMain: TFCWinMain
   Position = poDesigned
   Scaled = False
   Visible = True
+  OnActivate = FormActivate
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnKeyDown = FormKeyDown

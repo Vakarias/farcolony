@@ -2187,7 +2187,7 @@ object FCWinFUG: TFCWinFUG
         Visible = False
         object Bevel8: TBevel
           Left = 13
-          Top = 186
+          Top = 218
           Width = 417
           Height = 9
         end
@@ -2210,8 +2210,8 @@ object FCWinFUG: TFCWinFUG
           Version = '1.8.1.0'
         end
         object CR_SeaArea: THTMLabel
-          Left = 3
-          Top = 71
+          Left = 170
+          Top = 39
           Width = 83
           Height = 17
           HTMLText.Strings = (
@@ -2229,7 +2229,7 @@ object FCWinFUG: TFCWinFUG
         end
         object CR_HighestPeak: THTMLabel
           Left = 259
-          Top = 24
+          Top = 104
           Width = 171
           Height = 17
           HTMLText.Strings = (
@@ -2238,7 +2238,7 @@ object FCWinFUG: TFCWinFUG
         end
         object CR_LowestDepth: THTMLabel
           Left = 259
-          Top = 47
+          Top = 127
           Width = 171
           Height = 17
           HTMLText.Strings = (
@@ -2247,7 +2247,7 @@ object FCWinFUG: TFCWinFUG
         end
         object CR_Diameter: THTMLabel
           Left = 436
-          Top = 24
+          Top = 104
           Width = 107
           Height = 17
           HTMLText.Strings = (
@@ -2256,7 +2256,7 @@ object FCWinFUG: TFCWinFUG
         end
         object CR_AxialTilt: THTMLabel
           Left = 442
-          Top = 47
+          Top = 127
           Width = 93
           Height = 17
           HTMLText.Strings = (
@@ -2265,7 +2265,7 @@ object FCWinFUG: TFCWinFUG
         end
         object CR_Albedo: THTMLabel
           Left = 259
-          Top = 70
+          Top = 149
           Width = 90
           Height = 17
           HTMLText.Strings = (
@@ -2274,7 +2274,7 @@ object FCWinFUG: TFCWinFUG
         end
         object CR_StarLum: THTMLabel
           Left = 355
-          Top = 70
+          Top = 149
           Width = 107
           Height = 17
           HTMLText.Strings = (
@@ -2282,8 +2282,8 @@ object FCWinFUG: TFCWinFUG
           Version = '1.8.1.0'
         end
         object CR_Greenhouse: THTMLabel
-          Left = 259
-          Top = 93
+          Left = 254
+          Top = 172
           Width = 90
           Height = 17
           HTMLText.Strings = (
@@ -2291,8 +2291,8 @@ object FCWinFUG: TFCWinFUG
           Version = '1.8.1.0'
         end
         object CR_Variance: THTMLabel
-          Left = 355
-          Top = 93
+          Left = 350
+          Top = 172
           Width = 107
           Height = 17
           HTMLText.Strings = (
@@ -2301,7 +2301,7 @@ object FCWinFUG: TFCWinFUG
         end
         object CR_Rainfall: THTMLabel
           Left = 16
-          Top = 155
+          Top = 195
           Width = 232
           Height = 17
           HTMLText.Strings = (
@@ -2309,17 +2309,35 @@ object FCWinFUG: TFCWinFUG
           Version = '1.8.1.0'
         end
         object CR_OObjType: THTMLabel
-          Left = 278
-          Top = 115
+          Left = 259
+          Top = 67
           Width = 232
           Height = 17
           HTMLText.Strings = (
             'OObj Type:')
           Version = '1.8.1.0'
         end
+        object CR_SurfTempMean: THTMLabel
+          Left = 254
+          Top = 195
+          Width = 127
+          Height = 17
+          HTMLText.Strings = (
+            'SurfTempMean: -273.15')
+          Version = '1.8.1.0'
+        end
+        object CR_RegionLandType: THTMLabel
+          Left = 3
+          Top = 108
+          Width = 232
+          Height = 17
+          HTMLText.Strings = (
+            'RegionLandType:')
+          Version = '1.8.1.0'
+        end
         object CR_ReliefAdjustment: TAdvComboBox
           Left = 139
-          Top = 118
+          Top = 158
           Width = 104
           Height = 21
           Color = clWhite
@@ -2352,7 +2370,7 @@ object FCWinFUG: TFCWinFUG
         end
         object CR_OceanicCoastalAdjustment: TAdvComboBox
           Left = 3
-          Top = 117
+          Top = 157
           Width = 130
           Height = 21
           Color = clWhite
@@ -2385,7 +2403,7 @@ object FCWinFUG: TFCWinFUG
         end
         object CR_InputSeed: TLabeledEdit
           Left = 10
-          Top = 211
+          Top = 243
           Width = 71
           Height = 19
           Color = clWhite
@@ -2397,8 +2415,8 @@ object FCWinFUG: TFCWinFUG
           OnKeyDown = CR_InputSeedKeyDown
         end
         object CR_CurrentRegion: TAdvComboBox
-          Left = 172
-          Top = 37
+          Left = 3
+          Top = 73
           Width = 81
           Height = 21
           Color = clWhite
@@ -2427,7 +2445,7 @@ object FCWinFUG: TFCWinFUG
         end
         object CR_InputLightColorFileNumber: TLabeledEdit
           Left = 87
-          Top = 211
+          Top = 243
           Width = 135
           Height = 19
           Color = clWhite
@@ -2440,7 +2458,7 @@ object FCWinFUG: TFCWinFUG
         end
         object CR_InputClimateFileNumber: TLabeledEdit
           Left = 231
-          Top = 211
+          Top = 243
           Width = 135
           Height = 19
           Color = clWhite
@@ -2449,6 +2467,19 @@ object FCWinFUG: TFCWinFUG
           EditLabel.Caption = 'Climate File #'
           EditLabel.Layout = tlCenter
           TabOrder = 5
+          OnKeyDown = CR_InputClimateFileNumberKeyDown
+        end
+        object CR_ObjToken: TLabeledEdit
+          Left = 259
+          Top = 33
+          Width = 190
+          Height = 19
+          Color = clWhite
+          EditLabel.Width = 64
+          EditLabel.Height = 13
+          EditLabel.Caption = 'Object Token'
+          EditLabel.Layout = tlCenter
+          TabOrder = 6
           OnKeyDown = CR_InputClimateFileNumberKeyDown
         end
       end

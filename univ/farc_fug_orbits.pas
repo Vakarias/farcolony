@@ -1652,24 +1652,29 @@ begin
             begin
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_type:=ootAsteroidsBelt;
 
-               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_diameter:=FCFfG_AsteroidsBelt_CalculateDiameter( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_distanceFromStar );
-               if Count = 1
-               then CalcFloat1:=CalcFloat1 + ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_diameter * 0.5 )
-               else begin
-                  if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count-1].OO_fug_BasicType <> oobtAsteroidBelt then
-                  begin
-                     ABeltMinDist:=FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count-1].OO_isNotSat_distanceFromStar
-                        + ( ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count-1].OO_gravitationalSphereRadius / FCCdiKm_In_1AU ) * 2 );
-                  end
+               if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_diameter = 0
+               then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_diameter:=FCFfG_AsteroidsBelt_CalculateDiameter( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_distanceFromStar );
+
+               if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_distanceFromStar = 0 then
+               begin
+                  if Count = 1
+                  then CalcFloat1:=CalcFloat1 + ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_diameter * 0.5 )
                   else begin
-                     ABeltMinDist:=FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count-1].OO_isNotSat_distanceFromStar
-                        + ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count-1].OO_diameter * 0.75 );
+                     if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count-1].OO_fug_BasicType <> oobtAsteroidBelt then
+                     begin
+                        ABeltMinDist:=FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count-1].OO_isNotSat_distanceFromStar
+                           + ( ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count-1].OO_gravitationalSphereRadius / FCCdiKm_In_1AU ) * 2 );
+                     end
+                     else begin
+                        ABeltMinDist:=FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count-1].OO_isNotSat_distanceFromStar
+                           + ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count-1].OO_diameter * 0.75 );
+                     end;
+                     if CalcFloat1 < ABeltMinDist
+                     then CalcFloat1:=ABeltMinDist + ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_diameter * 0.5 )
+                     else CalcFloat1:=CalcFloat1 + ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_diameter * 0.5 )
                   end;
-                  if CalcFloat1 < ABeltMinDist
-                  then CalcFloat1:=ABeltMinDist + ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_diameter * 0.5 )
-                  else CalcFloat1:=CalcFloat1 + ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_diameter * 0.5 )
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_distanceFromStar:=FCFcF_Round( rttCustom2Decimal, CalcFloat1 );
                end;
-               FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_distanceFromStar:=FCFcF_Round( rttCustom2Decimal, CalcFloat1 );
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_revolutionPeriod:=0;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_revolutionPeriodInit:=0;
                FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_density:=0;
@@ -1746,7 +1751,12 @@ begin
                   if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_diameter=0
                   then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_diameter:=FCFfG_Diameter_Calculation( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_fug_BasicType, hzInner );
                   if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_density=0
-                  then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_density:=FCFfG_Density_Calculation( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_fug_BasicType, FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_orbitalZone );
+                  then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_density:=FCFfG_Density_Calculation(
+                     FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_fug_BasicType
+                     ,FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_orbitalZone
+                     ,FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isSat_distanceFromPlanetOrAsterInBeltDistToStar
+                     ,FCDduStarSystem[0].SS_stars[CurrentStar].S_luminosity
+                     );
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_type:=FCFfG_Refinement_Asteroid(
                      FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_density
                      ,BaseTemperature
@@ -1824,7 +1834,12 @@ begin
                then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_diameter:=FCFfG_Diameter_Calculation( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_fug_BasicType, FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_orbitalZone );
                if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_density=0
 
-               then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_density:=FCFfG_Density_Calculation( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_fug_BasicType, FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_orbitalZone );
+               then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_density:=FCFfG_Density_Calculation(
+                  FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_fug_BasicType
+                  ,FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_orbitalZone
+                  ,FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_isNotSat_distanceFromStar
+                  ,FCDduStarSystem[0].SS_stars[CurrentStar].S_luminosity
+                  );
                if FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_fug_BasicType=oobtAsteroid
                then FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_type:=FCFfG_Refinement_Asteroid(
                   FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_density
@@ -1873,6 +1888,7 @@ begin
                then FCMfG_TectonicActivity_Calculation( CurrentStar, Count );
 //               else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_tectonicActivity:=taDead;
                if ( FCDduStarSystem[0].SS_stars[CurrentStar].S_class < WD0 )
+                  and ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_fug_BasicType > oobtAsteroid )
                   and ( not FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_fug_isAtmosphereEdited )
                then FCMfA_Atmosphere_Processing(
                   CurrentStar
@@ -2115,6 +2131,7 @@ begin
                      then FCMfG_TectonicActivity_Calculation( CurrentStar, Count, CountSat )
                      else FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_tectonicActivity:=taDead;
                      if ( FCDduStarSystem[0].SS_stars[CurrentStar].S_class < WD0 )
+                        and ( FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_fug_BasicType > oobtAsteroid )
                         and ( not FCDduStarSystem[0].SS_stars[CurrentStar].S_orbitalObjects[Count].OO_satellitesList[CountSat].OO_fug_isAtmosphereEdited )
                      then FCMfA_Atmosphere_Processing(
                         CurrentStar

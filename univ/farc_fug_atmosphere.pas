@@ -1516,6 +1516,11 @@ begin
          GasSettings.AC_gasPresenceO2:=agsTrace;
       end;
    end;
+   if ( GasSettings.AC_gasPresenceNO < agsSecondary )
+      or ( GasSettings.AC_gasPresenceO2 < agsSecondary )
+   then GasSettings.AC_gasPresenceNO2:=agsTrace;
+   if BaseTemperature >= 44.4
+   then GasSettings.AC_gasPresenceNe:=agsTrace;
    {.step 7: primary gas volume}
    TestBool:=false;
    if ( GasSettings.AC_gasPresenceH2=agsNotPresent )

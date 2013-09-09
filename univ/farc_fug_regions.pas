@@ -250,6 +250,11 @@ begin
       ,OrbitalObject
       ,Satellite
       );
+   FCMfE_HabitabilityIndexes_Process(
+      Star
+      ,OrbitalObject
+      ,Satellite
+      );
 end;
 
 end.

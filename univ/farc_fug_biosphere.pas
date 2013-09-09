@@ -152,7 +152,7 @@ procedure FCMfB_BiosphereBase_Generation(
          ,Satellite
          )
       {.silicon-based branching}
-      else if ( HydroType = hNoHydro )
+      else if ( ( HydroType = hNoHydro ) or ( ( not HasSubsurfaceOcean ) and ( ( HydroType in [hWaterIceSheet..hWaterIceCrust] ) or ( HydroType in [hMethaneIceSheet..hNitrogenIceCrust] ) ) ) )
          and ( ( gasH2 >= agsSecondary ) or ( gasSO2 >= agsSecondary ) )
          and ( gasO2 <= agsTrace )
       then FCMfbS_PrebioticsStage_Test(

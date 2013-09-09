@@ -68,12 +68,16 @@ function FCFfG_BaseTemperature_Calc( const DistanceAU, StarLuminosity: extended 
 ///</summary>
 /// <param name="ObjectType">basic type of the object</param>
 /// <param name="OrbitalZone">orbital zone in which the object is</param>
+/// <param name="DistanceAU">orbital object's distance from its star</param>
+/// <param name="StarLum">star's luminosity</param>
 /// <param name="isSatCaptured">optional parameter, false by default. Apply only in case of a satellite must be processed and indicate if it is captured or not</param>
 /// <returns>the density in kg</returns>
 /// <remarks>format is rounded</remarks>
 function FCFfG_Density_Calculation(
    const ObjectType: TFCEduOrbitalObjectBasicTypes;
    const OrbitalZone: TFCEduHabitableZones;
+   const DistanceAU
+         ,StarLum: extended;
    const isSatCaptured: boolean=false
    ): integer;
 
@@ -280,6 +284,8 @@ end;
 function FCFfG_Density_Calculation(
    const ObjectType: TFCEduOrbitalObjectBasicTypes;
    const OrbitalZone: TFCEduHabitableZones;
+   const DistanceAU
+         ,StarLum: extended;
    const isSatCaptured: boolean=false
    ): integer;
 {:Purpose: calculate the orbital object's density.
@@ -291,9 +297,15 @@ function FCFfG_Density_Calculation(
       -2013Apr20- *mod: adjustments.
 }
    var
-      WorkingFloat: extended;
+      HeavyElementsFactor
+      ,WorkingFloat: extended;
 begin
    Result:=0;
+   HeavyElementsFactor:=0;
+   if StarLum = 0
+   then HeavyElementsFactor:=0
+   else HeavyElementsFactor:=0.127 / power( 0.4 + ( DistanceAU / power( StarLum, 0.5 ) ), 0.67 );
+   HeavyElementsFactor:=HeavyElementsFactor * 0.1;
    WorkingFloat:=0;
    case ObjectType of
       oobtAsteroid:
@@ -301,8 +313,12 @@ begin
          if isSatCaptured
          then WorkingFloat:=0.1 + ( ( FCFcF_Random_DoInteger( 99 ) + 1 ) * 0.012 )
          else begin
-            if OrbitalZone in[hzInner..hzIntermediary]
+            if ( OrbitalZone in[hzInner..hzIntermediary] )
+               and ( HeavyElementsFactor = 0 )
             then WorkingFloat:=0.3 + ( ( FCFcF_Random_DoInteger( 99 ) + 1 ) * 0.01 )//1.3
+            else if ( OrbitalZone in[hzInner..hzIntermediary] )
+               and ( HeavyElementsFactor > 0 )
+            then WorkingFloat:=0.3 + ( ( FCFcF_Random_DoInteger( 99 ) + 1 ) * HeavyElementsFactor )//1.3
             else if OrbitalZone = hzOuter
             then WorkingFloat:=0.1 + ( ( FCFcF_Random_DoInteger( 99 ) + 1 ) * 0.005 );//0.6
          end;
@@ -314,8 +330,12 @@ begin
          if isSatCaptured
          then WorkingFloat:=0.3 + ( ( FCFcF_Random_DoInteger( 99 ) + 1 ) * 0.01 )
          else begin
-            if OrbitalZone in[hzInner..hzIntermediary]
+            if ( OrbitalZone in[hzInner..hzIntermediary] )
+               and ( HeavyElementsFactor = 0 )
             then WorkingFloat:=0.54 + ( ( FCFcF_Random_DoInteger( 99 ) + 1 ) * 0.0076 )//1.3
+            else if ( OrbitalZone in[hzInner..hzIntermediary] )
+               and ( HeavyElementsFactor > 0 )
+            then WorkingFloat:=0.54 + ( ( FCFcF_Random_DoInteger( 99 ) + 1 ) * HeavyElementsFactor )//1.3
             else if OrbitalZone = hzOuter
             then WorkingFloat:=0.3 + ( ( FCFcF_Random_DoInteger( 99 ) + 1 ) * 0.0035 );
          end;
@@ -375,11 +395,15 @@ begin
       WorkingFloat:=FCFfG_Density_Calculation(
          FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[Root].OO_satellitesList[Satellite].OO_fug_BasicType
          ,FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[Root].OO_isNotSat_orbitalZone
+         ,FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[Root].OO_isNotSat_distanceFromStar
+         ,FCDduStarSystem[0].SS_stars[Star].S_luminosity
          );
    end
    else WorkingFloat:=FCFfG_Density_Calculation(
       FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[Root].OO_satellitesList[Satellite].OO_fug_BasicType
       ,FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[Root].OO_isNotSat_orbitalZone
+      ,FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[Root].OO_isNotSat_distanceFromStar
+      ,FCDduStarSystem[0].SS_stars[Star].S_luminosity
       ,true
       );
    WorkingFloat:=WorkingFloat * CoefDensity;
@@ -409,13 +433,14 @@ begin
       
       oobtTelluricPlanet, oobtIcyPlanet:
       begin
-         case OrbitalZone of
-            hzInner: WorkingFloat:=( FCFcF_Random_DoInteger( 100 ) * 184.09 ) + 2000;
-            
-            hzIntermediary: WorkingFloat:=( FCFcF_Random_DoInteger( 100 ) * 296.76 ) + 2324;
-            
-            hzOuter: WorkingFloat:=( FCFcF_Random_DoInteger( 100 ) * 85.2 ) + 2000;
-         end;
+         WorkingFloat:=( FCFcF_Random_DoInteger( 100 ) * 296.76 ) + 2324;
+//         case OrbitalZone of
+//            hzInner: WorkingFloat:=( FCFcF_Random_DoInteger( 100 ) * 184.09 ) + 2000;
+//
+//            hzIntermediary: WorkingFloat:=( FCFcF_Random_DoInteger( 100 ) * 296.76 ) + 2324;
+//
+//            hzOuter: WorkingFloat:=( FCFcF_Random_DoInteger( 100 ) * 85.2 ) + 2000;
+//         end;
       end;
       
       oobtGaseousPlanet: WorkingFloat:=( FCFcF_Random_DoInteger( 1000 ) * 130 ) + 30000;

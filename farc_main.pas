@@ -471,6 +471,7 @@ type
     procedure PSP_CommitClick(Sender: TObject);
     procedure SP_ResourceSurveyShowDetailsClick(Sender: TObject);
     procedure SP_RegionSheetMouseEnter(Sender: TObject);
+    procedure FormActivate(Sender: TObject);
    private
       { Private declarations }
          {timesteps needed for camera transitions}
@@ -1751,6 +1752,11 @@ end;
 procedure TFCWinMain.FCWM_UMI_TabShChange(Sender: TObject);
 begin
    FCMuiUMI_CurrentTab_Update( true, true );
+end;
+
+procedure TFCWinMain.FormActivate(Sender: TObject);
+begin
+   Application.ProcessMessages;
 end;
 
 procedure TFCWinMain.FormCreate(Sender: TObject);

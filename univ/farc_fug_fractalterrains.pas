@@ -110,7 +110,10 @@ procedure FCMfT_DataLinking_Process(
       ,Gravity
       ,Greenhouse
       ,Rainfall
+      ,SurfTempMean
       ,Variance: extended;
+
+      ObjToken: string;
 
       Hydrosphere: TFCEduHydrospheres;
 
@@ -129,7 +132,10 @@ begin
    Gravity:=0;
    Greenhouse:=0;
    Rainfall:=0;
+   SurfTempMean:=0;
    Variance:=0;
+
+   ObjToken:='';
 
    Hydrosphere:=hNoHydro;
 
@@ -139,6 +145,7 @@ begin
 
    if Satellite = 0 then
    begin
+      ObjToken:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_dbTokenId;
       ObjectType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_type;
       Greenhouse:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_fug_Greenhouse;
       Diameter:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_Diameter;
@@ -147,10 +154,18 @@ begin
       Gravity:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_gravity;
       Hydrosphere:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_hydrosphere;
       HydrosphereArea:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_hydrosphereArea;
+      SurfTempMean:=(
+         (
+            FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_orbitalPeriods[1].OOS_surfaceTemperature
+               +FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_orbitalPeriods[2].OOS_surfaceTemperature
+               +FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_orbitalPeriods[3].OOS_surfaceTemperature
+               +FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_orbitalPeriods[4].OOS_surfaceTemperature
+            ) / 4 );
       Max:=length( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions ) - 1;
    end
    else if Satellite > 0 then
    begin
+      ObjToken:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_dbTokenId;
       ObjectType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_type;
       Greenhouse:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_fug_Greenhouse;
       Diameter:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_Diameter;
@@ -164,8 +179,16 @@ begin
       Gravity:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_gravity;
       Hydrosphere:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_hydrosphere;
       HydrosphereArea:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_hydrosphereArea;
+      SurfTempMean:=(
+         (
+            FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_orbitalPeriods[1].OOS_surfaceTemperature
+               +FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_orbitalPeriods[2].OOS_surfaceTemperature
+               +FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_orbitalPeriods[3].OOS_surfaceTemperature
+               +FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_orbitalPeriods[4].OOS_surfaceTemperature
+            ) / 4 );
       Max:=length( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions ) - 1;
    end;
+   SurfTempMean:=FCFcF_Round( rttCustom2Decimal, SurfTempMean - 273.15 );
    FDcurrentRegionStar:=Star;
    FDcurrentRegionOrbObj:=OrbitalObject;
    FDcurrentRegionSat:=Satellite;
@@ -178,6 +201,7 @@ begin
    FCWinFUG.TOO_SatPicker.Hide;
    FCWinFUG.TOO_CurrentOrbitalObject.Enabled:=false;
    FCWinFUG.TOO_CurrentRegion.Show;
+   FCWinFUG.CR_ObjToken.Text:='OObj Token: '+ObjToken;
    FCWinFUG.CR_MaxRegionsNumber.HTMLText.Clear;
    FCWinFUG.CR_MaxRegionsNumber.HTMLText.Add( 'Max Regions: ' + inttostr( Max ) );
    {.Count1: grid index #}
@@ -235,6 +259,8 @@ begin
    FCWinFUG.CR_Greenhouse.HTMLText.Add( 'Greenhouse: ' + floattostr( Greenhouse ) );
    FCWinFUG.CR_Variance.HTMLText.Clear;
    FCWinFUG.CR_Variance.HTMLText.Add( 'Variance: ' + floattostr( Variance ) );
+   FCWinFUG.CR_SurfTempMean.HTMLText.Clear;
+   FCWinFUG.CR_SurfTempMean.HTMLText.Add( 'SurfTempMean: ' + floattostr( SurfTempMean ) );
    FCWinFUG.CR_OObjType.HTMLText.Clear;
    FCWinFUG.CR_OObjType.HTMLText.Add( 'OObj: ' + GetEnumName( TypeInfo( TFCEduOrbitalObjectTypes ), Integer( ObjectType ) ) );
    FCWinFUG.CR_InputSeed.Text:='';
