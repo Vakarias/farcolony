@@ -1740,16 +1740,21 @@ end;
 procedure FCMfC_RegionOceanicCoastal_Update;
 {:Purpose: update the Oceanic-Coastal manual adjustment.
     Additions:
+      -2013Sep09- *add: the force xxx choices.
 }
 begin
    {:DEV NOTES:
       for reference, build the combo box as this:
 
       idx#0: No Coastal/Oceanic Region
-
       idx#1: Coastal Region
-
       idx#2: Oceanic Region
+      idx#3: Force RockyDesert
+      idx#4: Force Sandy Desert
+      idx#5: Force Volcanic
+      idx#6: Force Polar
+      idx#7: Force Arid
+      idx#8: Force Fertile
    }
    if FDcurrentRegionSat <= 0 then
    begin
@@ -1773,9 +1778,42 @@ begin
             end;
          end;
 
-         2:
+         2: FCDduStarSystem[0].SS_stars[FDcurrentRegionStar].S_orbitalObjects[FDcurrentRegionOrbObj].OO_regions[FDcurrentRegion].OOR_landType:=rst07Oceanic;
+
+         3:
          begin
-            FCDduStarSystem[0].SS_stars[FDcurrentRegionStar].S_orbitalObjects[FDcurrentRegionOrbObj].OO_regions[FDcurrentRegion].OOR_landType:=rst07Oceanic;
+            FCDduStarSystem[0].SS_stars[FDcurrentRegionStar].S_orbitalObjects[FDcurrentRegionOrbObj].OO_regions[FDcurrentRegion].OOR_landType:=rst01RockyDesert;
+            FCDfdRegions[FDcurrentRegion].RC_landType:=FCDduStarSystem[0].SS_stars[FDcurrentRegionStar].S_orbitalObjects[FDcurrentRegionOrbObj].OO_regions[FDcurrentRegion].OOR_landType;
+         end;
+
+         4:
+         begin
+            FCDduStarSystem[0].SS_stars[FDcurrentRegionStar].S_orbitalObjects[FDcurrentRegionOrbObj].OO_regions[FDcurrentRegion].OOR_landType:=rst02SandyDesert;
+            FCDfdRegions[FDcurrentRegion].RC_landType:=FCDduStarSystem[0].SS_stars[FDcurrentRegionStar].S_orbitalObjects[FDcurrentRegionOrbObj].OO_regions[FDcurrentRegion].OOR_landType;
+         end;
+
+         5:
+         begin
+            FCDduStarSystem[0].SS_stars[FDcurrentRegionStar].S_orbitalObjects[FDcurrentRegionOrbObj].OO_regions[FDcurrentRegion].OOR_landType:=rst03Volcanic;
+            FCDfdRegions[FDcurrentRegion].RC_landType:=FCDduStarSystem[0].SS_stars[FDcurrentRegionStar].S_orbitalObjects[FDcurrentRegionOrbObj].OO_regions[FDcurrentRegion].OOR_landType;
+         end;
+
+         6:
+         begin
+            FCDduStarSystem[0].SS_stars[FDcurrentRegionStar].S_orbitalObjects[FDcurrentRegionOrbObj].OO_regions[FDcurrentRegion].OOR_landType:=rst04Polar;
+            FCDfdRegions[FDcurrentRegion].RC_landType:=FCDduStarSystem[0].SS_stars[FDcurrentRegionStar].S_orbitalObjects[FDcurrentRegionOrbObj].OO_regions[FDcurrentRegion].OOR_landType;
+         end;
+
+         7:
+         begin
+            FCDduStarSystem[0].SS_stars[FDcurrentRegionStar].S_orbitalObjects[FDcurrentRegionOrbObj].OO_regions[FDcurrentRegion].OOR_landType:=rst05Arid;
+            FCDfdRegions[FDcurrentRegion].RC_landType:=FCDduStarSystem[0].SS_stars[FDcurrentRegionStar].S_orbitalObjects[FDcurrentRegionOrbObj].OO_regions[FDcurrentRegion].OOR_landType;
+         end;
+
+         8:
+         begin
+            FCDduStarSystem[0].SS_stars[FDcurrentRegionStar].S_orbitalObjects[FDcurrentRegionOrbObj].OO_regions[FDcurrentRegion].OOR_landType:=rst06Fertile;
+            FCDfdRegions[FDcurrentRegion].RC_landType:=FCDduStarSystem[0].SS_stars[FDcurrentRegionStar].S_orbitalObjects[FDcurrentRegionOrbObj].OO_regions[FDcurrentRegion].OOR_landType;
          end;
       end;
    end
@@ -1800,9 +1838,42 @@ begin
             end;
          end;
 
-         2:
+         2: FCDduStarSystem[0].SS_stars[FDcurrentRegionStar].S_orbitalObjects[FDcurrentRegionOrbObj].OO_satellitesList[FDcurrentRegionSat].OO_regions[FDcurrentRegion].OOR_landType:=rst07Oceanic;
+
+         3:
          begin
-            FCDduStarSystem[0].SS_stars[FDcurrentRegionStar].S_orbitalObjects[FDcurrentRegionOrbObj].OO_satellitesList[FDcurrentRegionSat].OO_regions[FDcurrentRegion].OOR_landType:=rst07Oceanic;
+            FCDduStarSystem[0].SS_stars[FDcurrentRegionStar].S_orbitalObjects[FDcurrentRegionOrbObj].OO_satellitesList[FDcurrentRegionSat].OO_regions[FDcurrentRegion].OOR_landType:=rst01RockyDesert;
+            FCDfdRegions[FDcurrentRegion].RC_landType:=FCDduStarSystem[0].SS_stars[FDcurrentRegionStar].S_orbitalObjects[FDcurrentRegionOrbObj].OO_satellitesList[FDcurrentRegionSat].OO_regions[FDcurrentRegion].OOR_landType;
+         end;
+
+         4:
+         begin
+            FCDduStarSystem[0].SS_stars[FDcurrentRegionStar].S_orbitalObjects[FDcurrentRegionOrbObj].OO_satellitesList[FDcurrentRegionSat].OO_regions[FDcurrentRegion].OOR_landType:=rst02SandyDesert;
+            FCDfdRegions[FDcurrentRegion].RC_landType:=FCDduStarSystem[0].SS_stars[FDcurrentRegionStar].S_orbitalObjects[FDcurrentRegionOrbObj].OO_satellitesList[FDcurrentRegionSat].OO_regions[FDcurrentRegion].OOR_landType;
+         end;
+
+         5:
+         begin
+            FCDduStarSystem[0].SS_stars[FDcurrentRegionStar].S_orbitalObjects[FDcurrentRegionOrbObj].OO_satellitesList[FDcurrentRegionSat].OO_regions[FDcurrentRegion].OOR_landType:=rst03Volcanic;
+            FCDfdRegions[FDcurrentRegion].RC_landType:=FCDduStarSystem[0].SS_stars[FDcurrentRegionStar].S_orbitalObjects[FDcurrentRegionOrbObj].OO_satellitesList[FDcurrentRegionSat].OO_regions[FDcurrentRegion].OOR_landType;
+         end;
+
+         6:
+         begin
+            FCDduStarSystem[0].SS_stars[FDcurrentRegionStar].S_orbitalObjects[FDcurrentRegionOrbObj].OO_satellitesList[FDcurrentRegionSat].OO_regions[FDcurrentRegion].OOR_landType:=rst04Polar;
+            FCDfdRegions[FDcurrentRegion].RC_landType:=FCDduStarSystem[0].SS_stars[FDcurrentRegionStar].S_orbitalObjects[FDcurrentRegionOrbObj].OO_satellitesList[FDcurrentRegionSat].OO_regions[FDcurrentRegion].OOR_landType;
+         end;
+
+         7:
+         begin
+            FCDduStarSystem[0].SS_stars[FDcurrentRegionStar].S_orbitalObjects[FDcurrentRegionOrbObj].OO_satellitesList[FDcurrentRegionSat].OO_regions[FDcurrentRegion].OOR_landType:=rst05Arid;
+            FCDfdRegions[FDcurrentRegion].RC_landType:=FCDduStarSystem[0].SS_stars[FDcurrentRegionStar].S_orbitalObjects[FDcurrentRegionOrbObj].OO_satellitesList[FDcurrentRegionSat].OO_regions[FDcurrentRegion].OOR_landType;
+         end;
+
+         8:
+         begin
+            FCDduStarSystem[0].SS_stars[FDcurrentRegionStar].S_orbitalObjects[FDcurrentRegionOrbObj].OO_satellitesList[FDcurrentRegionSat].OO_regions[FDcurrentRegion].OOR_landType:=rst06Fertile;
+            FCDfdRegions[FDcurrentRegion].RC_landType:=FCDduStarSystem[0].SS_stars[FDcurrentRegionStar].S_orbitalObjects[FDcurrentRegionOrbObj].OO_satellitesList[FDcurrentRegionSat].OO_regions[FDcurrentRegion].OOR_landType;
          end;
       end;
    end;

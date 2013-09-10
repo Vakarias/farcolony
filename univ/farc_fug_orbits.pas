@@ -981,13 +981,15 @@ end;
 
 function FCFfO_Satellites_Distance( const RootRadius: extended ): extended; overload;
 {:Purpose: internal recaller for FCFfO_Satellites_Distance.
+   Additions:
+      -2013Sep09- *fix: prevent a satellite to be too near its root parent by buffing up the minimum distance.
 }
    var
       GeneratedProbability: integer;
 begin
    Result:=0;
    case FOsatDistanceRange of
-      sdClose, sdAverage: Result:=( 1 + ( ( FCFcF_Random_DoInteger( 99 ) + 1 ) * 0.05 ) ) * RootRadius;
+      sdClose, sdAverage: Result:=( 2 + ( ( FCFcF_Random_DoInteger( 99 ) + 1 ) * 0.05 ) ) * RootRadius;
 
       sdDistant: Result:=( 6 + ( FCFcF_Random_DoInteger( 99 ) + 0.1 ) ) * RootRadius;
 
@@ -1014,7 +1016,9 @@ function FCFfO_Satellites_Distance(
          ,SatBasicType: TFCEduOrbitalObjectBasicTypes
           ): extended; overload;
 {:Purpose: calculate the satellite's orbit distance from its root planet.
-   -2013May19- *add: exception w/ captured satellites.
+   Additions:
+      -2013Sep09- *fix: prevent a satellite to be too near its root parent by buffing up the minimum distance.
+      -2013May19- *add: exception w/ captured satellites.
 }
    var
       GeneratedProbability: integer;
@@ -1035,7 +1039,7 @@ begin
          1..4:
          begin
             FOsatDistanceRange:=sdClose;
-            Calculation:=( 1 + ( ( FCFcF_Random_DoInteger( 99 ) + 1 ) * 0.05 ) ) * RootRadius;
+            Calculation:=( 2 + ( ( FCFcF_Random_DoInteger( 99 ) + 1 ) * 0.05 ) ) * RootRadius;
          end;
 
          5..6:

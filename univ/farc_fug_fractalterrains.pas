@@ -105,6 +105,7 @@ procedure FCMfT_DataLinking_Process(
 
       Albedo
       ,AxialTilt
+      ,Clouds
       ,Diameter
       ,fCalc1
       ,Gravity
@@ -152,6 +153,7 @@ begin
       AxialTilt:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isNotSat_axialTilt;
       Albedo:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_albedo;
       Gravity:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_gravity;
+      Clouds:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_cloudsCover;
       Hydrosphere:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_hydrosphere;
       HydrosphereArea:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_hydrosphereArea;
       SurfTempMean:=(
@@ -177,6 +179,7 @@ begin
          );
       Albedo:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_albedo;
       Gravity:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_gravity;
+      Clouds:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_cloudsCover;
       Hydrosphere:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_hydrosphere;
       HydrosphereArea:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_hydrosphereArea;
       SurfTempMean:=(
@@ -201,7 +204,7 @@ begin
    FCWinFUG.TOO_SatPicker.Hide;
    FCWinFUG.TOO_CurrentOrbitalObject.Enabled:=false;
    FCWinFUG.TOO_CurrentRegion.Show;
-   FCWinFUG.CR_ObjToken.Text:='OObj Token: '+ObjToken;
+   FCWinFUG.CR_ObjToken.Text:=ObjToken;
    FCWinFUG.CR_MaxRegionsNumber.HTMLText.Clear;
    FCWinFUG.CR_MaxRegionsNumber.HTMLText.Add( 'Max Regions: ' + inttostr( Max ) );
    {.Count1: grid index #}
@@ -229,17 +232,18 @@ begin
    FCWinFUG.CR_Hydrosphere.Show;
    FCWinFUG.CR_Hydrosphere.HTMLText.Clear;
    FCWinFUG.CR_Hydrosphere.HTMLText.Add( 'Hydro: '+GetEnumName( TypeInfo( TFCEduHydrospheres ), Integer( Hydrosphere ) ) );
+   FCWinFUG.CR_OceanicCoastalAdjustment.Show;
    if ( Hydrosphere = hWaterLiquid )
       or ( Hydrosphere = hWaterAmmoniaLiquid )
       or ( Hydrosphere = hMethaneLiquid ) then
    begin
-      FCWinFUG.CR_OceanicCoastalAdjustment.Show;
+
       FCWinFUG.CR_SeaArea.Show;
       FCWinFUG.CR_SeaArea.HTMLText.Clear;
       FCWinFUG.CR_SeaArea.HTMLText.Add( 'Sea Area: '+inttostr( HydrosphereArea )+'%' );
    end
    else begin
-      FCWinFUG.CR_OceanicCoastalAdjustment.Hide;
+//      FCWinFUG.CR_OceanicCoastalAdjustment.Hide;
       FCWinFUG.CR_SeaArea.Hide;
    end;
    Count1:=round( 9144 / Gravity );
@@ -277,7 +281,7 @@ begin
    end;
    Rainfall:=Rainfall * 0.1;
    FCWinFUG.CR_Rainfall.HTMLText.Clear;
-   FCWinFUG.CR_Rainfall.HTMLText.Add( 'Rainfall: ' + floattostr( Rainfall ) );
+   FCWinFUG.CR_Rainfall.HTMLText.Add( 'Rainfall: ' + floattostr( Rainfall ) +'  Clouds:'+FloatToStr( Clouds ) );
    FCWinFUG.CR_CurrentRegion.Enabled:=true;
    FCWinFUG.CR_CurrentRegion.ItemIndex:=0;
    FCmfC_Region_Update;

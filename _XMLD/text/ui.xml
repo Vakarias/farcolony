@@ -4378,7 +4378,12 @@
    <scdesFCP80 name="FCP-80"/>
    <scdesTaurus name="Taurus"/>
    <!-- #********** ORBITAL OBJECTS NAMES ********** -->
-   
+   <orbobjEpsilonEri1 name="Epsilon Eridani 1"/>
+   <orbobjEpsilonEri2 name="Epsilon Eridani 2"/>
+   <orbobjEpsilonEri3 name="Epsilon Eridani 3"/>
+   <orbobjEpsilonEri5 name="Epsilon Eridani 5"/>
+   <orbobjEpsilonEri6 name="Epsilon Eridani 6"/>
+   <orbobjEpsilonEri8 name="Epsilon Eridani 8"/>
    <!-- #********** OVERALL NAMES ********** -->
    <wrdMUNburt name="Burtack"/>
    <wrdMUNkevRey name="Kevaan Reyes"/>
@@ -4390,8 +4395,10 @@
    <!-- #********** STARS NAMES ********** -->
    <starACentA name="Alpha Centauri A"/>
    <starACentB name="Alpha Centauri B"/>
+   <starEpsilonEri name="Epsilon Eridani"/>
    <starSun name="Sun"/>
    <!-- #   ********** STELLAR SYSTEMS NAMES ********** -->
    <stelsysACent name="Alpha Centauri"/>
+   <stelsysEpsilonErid name="Epsilon Eridani"/>
    <stelsysSol name="Sol"/>
 </uitext>

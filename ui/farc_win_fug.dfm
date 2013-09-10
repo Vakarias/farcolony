@@ -2389,7 +2389,13 @@ object FCWinFUG: TFCWinFUG
           Items.Strings = (
             'No Adjustment'
             'Coastal'
-            'Oceanic')
+            'Oceanic'
+            'Force RockyDesert'
+            'Force Sandy Desert'
+            'Force Volcanic'
+            'Force Polar'
+            'Force Arid'
+            'Force Fertile')
           LabelCaption = 'Oceanic/Coastal Adjustment'
           LabelPosition = lpTopCenter
           LabelFont.Charset = DEFAULT_CHARSET

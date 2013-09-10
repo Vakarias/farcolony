@@ -155,6 +155,8 @@ procedure FCMfR_LandRelief_Process(
    );
 {:Purpose: generate the land type and relief for each region.
    Additions:
+      -2013Sep09- *mod: orbital objects with a tectonic activity < platelet tectonic have now far lesser chance to generate a volcanic region.
+                  *fix: bad data assignation in _TectonicActivityMod_Set.
       -2013Aug29- *mod: adjustments for the relief of Icy Sterile land.
       -2013Aug27- *add: adjustment for the GravModifier.
       -2013Aug22- *add: adjustments for the relief.
@@ -199,17 +201,17 @@ var
    procedure _TectonicActivityMod_Set( const TectonicActivityType: TFCEduTectonicActivity );
    begin
       case TectonicActivityType of
-         taHotSpot: TectonicActivityMod:=10;
+         taHotSpot: TectonicActivityMod:=5;
 
-         taPlastic: TectonicActivityMod:=20;
+         taPlastic: TectonicActivityMod:=10;
 
-         taPlateTectonic: TectonicActivityMod:=30;
+         taPlateTectonic: TectonicActivityMod:=15;
 
-         taPlateletTectonic: TectonicActivityMod:=50;
+         taPlateletTectonic: TectonicActivityMod:=45;
 
-         taExtreme: TectonicActivityMod:=80;
+         taExtreme: TectonicActivityMod:=90;
       end;
-      TectonicActivity:=TectonicActivity;
+      TectonicActivity:=TectonicActivityType;
    end;
 
    procedure _VolcanicReliefModification_Apply( const RegionIndex: integer );
@@ -274,7 +276,8 @@ begin
    Region:=1;
    while Region <= Max do
    begin
-      FCDfdRegions[Region].RC_tectonicActivityMod:=round( randg( TectonicActivityMod, 3 ) );
+      if TectonicActivityMod > 0
+      then FCDfdRegions[Region].RC_tectonicActivityMod:=round( randg( TectonicActivityMod, 5 ) );
       FCDfdRegions[Region].RC_surfaceTemperatureMean:=( FCDfdRegions[Region].RC_surfaceTemperatureClosest + FCDfdRegions[Region].RC_surfaceTemperatureInterm + FCDfdRegions[Region].RC_surfaceTemperatureFarthest ) / 3;
       if ( ( ObjectType > ootAsteroidsBelt ) and ( ObjectType < ootAsteroid_Icy ) )
          or ( ( ObjectType > ootPlanet_Supergiant ) and ( ObjectType < ootSatellite_Asteroid_Icy ) ) then
