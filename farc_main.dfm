@@ -18,7 +18,6 @@ object FCWinMain: TFCWinMain
   Position = poDesigned
   Scaled = False
   Visible = True
-  OnActivate = FormActivate
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnKeyDown = FormKeyDown
@@ -53,7 +52,6 @@ object FCWinMain: TFCWinMain
     Font.Style = []
     ParentFont = False
     TabOrder = 1
-    Visible = False
     object FCWM_ColDPanel: TAdvPanel
       Left = 104
       Top = 17

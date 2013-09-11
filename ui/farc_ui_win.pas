@@ -209,11 +209,15 @@ procedure FCMuiW_About_Close;
 begin
 //   FreeAndNil(FCWinAbout);
 //   FCWinAbout.Enabled:=false;
-   if FCWinMain.WM_MainViewGroup.Tag=1 then
+//   if FCWinMain.WM_MainViewGroup.Tag=1 then
+//   begin
+   if FCVdi3DViewRunning
+      and not FCVdi3DViewToInitialize then
    begin
       FCMgTFlow_FlowState_Set(tphTac);
-      FCWinMain.WM_MainViewGroup.Tag:=0;
+//      FCWinMain.WM_MainViewGroup.Tag:=0;
       FCWinMain.WM_MainViewGroup.Show;
+      FCVdi3DViewRunning:=true;
    end;
    FCWinMain.Enabled:=true;
 end;
@@ -239,7 +243,7 @@ begin
    if FCWinMain.WM_MainViewGroup.Visible then
    begin
       FCMgTFlow_FlowState_Set(tphPAUSE);
-      FCWinMain.WM_MainViewGroup.Tag:=1;
+//      FCWinMain.WM_MainViewGroup.Tag:=1;
       FCWinMain.WM_MainViewGroup.Hide;
    end;
    FCWinAbout.Enabled:=true;
@@ -459,7 +463,7 @@ begin
    if not FCWinMain.FCWM_MMenu_G_Cont.Enabled then
    begin
       colMax:=Length(FCDdgEntities[0].E_colonies)-1;
-      if FCWinMain.WM_MainViewGroup.Visible
+      if FCVdi3DViewRunning
       then FCMoglUI_Main3DViewUI_Update(oglupdtpAll, ogluiutAll);
       if colMax>0 then
       begin
@@ -683,7 +687,7 @@ begin
       FCWinMain.FCWM_MMenu_H_HPanel.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MMenu_H_HPanel');
 		FCWinMain.FCWM_MMenu_H_About.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MMenu_H_About');
 	end;
-   if (((UIUtp=mwupAll) or (UIUtp=mwupTextWinMain)) and (FCWinMain.WM_MainViewGroup.Visible))
+   if (((UIUtp=mwupAll) or (UIUtp=mwupTextWinMain)) and (FCVdi3DViewRunning))
       or (UIUtp=mwupTextWM3dFrame)
    then
    begin

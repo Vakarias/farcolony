@@ -203,7 +203,7 @@ FCMdF_DBProducts_Load;
          inc(CPcount);
       end;
       {.set the game user's interface}
-      FCWinMain.FCGLSRootMain.Tag:=1;
+      FCVdi3DViewToInitialize:=true;
       {.restore the message queue}
       CPttl:=length(FCVmsgStoTtl)-1;
       if CPttl>0
@@ -225,9 +225,11 @@ FCMdF_DBProducts_Load;
             inc(CPcount);
          end; {.while CPcount<=CPttl}
       end; {.if CPttl>0}
+      FCVdi3DViewToInitialize:=true;
       {.3d initialization}
       try
          FCWinMain.WM_MainViewGroup.Show;
+         FCVdi3DViewRunning:=true;
          FCMoglInit_Initialize;
       finally
          {DEV NOTE: OF COURSE OGL INIT IS ONLY IN CASE OF A NEW AND FIRST GAME SINCE FARC IS

@@ -934,7 +934,7 @@ begin
          FCMuiUMI_CurrentTab_Update( true, true );
       end;
       {.=====================================}
-      if (FCWinMain.WM_MainViewGroup.Visible)
+      if (FCVdi3DViewRunning)
          and ( (FCVdgPlayer.P_currentTimePhase=tphPAUSE) or  (FCVdgPlayer.P_currentTimePhase=tphPAUSEwo) )then
       begin
          case WMTkeyDump of

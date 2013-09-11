@@ -471,7 +471,7 @@ type
     procedure PSP_CommitClick(Sender: TObject);
     procedure SP_ResourceSurveyShowDetailsClick(Sender: TObject);
     procedure SP_RegionSheetMouseEnter(Sender: TObject);
-    procedure FormActivate(Sender: TObject);
+//    procedure FormActivate(Sender: TObject);
    private
       { Private declarations }
          {timesteps needed for camera transitions}
@@ -823,10 +823,10 @@ var
    cptaskid,
    cpTPUidx: integer;
 begin
-   if FCGLSRootMain.Tag=1
+   if FCVdi3DViewToInitialize
    then
    begin
-      FCGLSRootMain.Tag:=0;
+      FCVdi3DViewToInitialize:=false;
       {.time frame}
       FCVdiGameFlowTimer.Enabled:=true;
       FCWM_MMenu_G_Save.Enabled:=true;
@@ -1754,11 +1754,6 @@ begin
    FCMuiUMI_CurrentTab_Update( true, true );
 end;
 
-procedure TFCWinMain.FormActivate(Sender: TObject);
-begin
-   Application.ProcessMessages;
-end;
-
 procedure TFCWinMain.FormCreate(Sender: TObject);
 var
    FClocalPath: widestring;
@@ -1815,6 +1810,7 @@ begin
    FCVdiGameFlowTimer.OnTimer := InternalOnGameTimer;
    FCVdiGameFlowTimer.Interval:=1000;
    FCVdiGameFlowTimer.Enabled := False;
+   WM_MainViewGroup.Visible:=false;
 end;
 
 procedure TFCWinMain.FormDestroy(Sender: TObject);
@@ -1987,7 +1983,7 @@ begin
       FCMuiW_UI_Initialize(mwupFontAll);
 
       {.update 3d main view frame and all childs}
-      if WM_MainViewGroup.Visible
+      if FCVdi3DViewRunning //WM_MainViewGroup.Visible
       then
       begin
          {.relocate and/or resize the message box}

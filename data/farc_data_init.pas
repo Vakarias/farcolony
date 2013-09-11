@@ -48,6 +48,15 @@ type TFCRdiSettlementPictures=array[1..30] of TImage32;
 //==END PUBLIC RECORDS======================================================================
 
 var
+   //==========3d view management===========================================================
+
+   ///<summary>
+   ///   indicate two thing: if a game is running and if the 3d view is initialized. That also indicate that WM_MainViewGroup is visible
+   ///</summary>
+   FCVdi3DViewRunning: boolean = false;
+
+   FCVdi3DViewToInitialize: boolean = false;
+
    //==========databases and other data structures pre-init=================================
    ///<summary>
    ///   settlements pictures - contains the settlement icons

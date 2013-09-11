@@ -619,10 +619,11 @@ FCWinNewGSetup.Close;
       inc(CPent);
    end; //==END== while CPent<=FCCfacMax do ==//
    {.set the game user's interface}
-   FCWinMain.FCGLSRootMain.Tag:=1;
+   FCVdi3DViewToInitialize:=true;
    try
       FCWinMain.WM_MainViewGroup.Show;
       FCMoglInit_Initialize;
+      FCVdi3DViewRunning:=true;
    finally
       FC3doglSelectedPlanetAsteroid:=CPoobj;
       FCMoglVM_MView_Upd(
