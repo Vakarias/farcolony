@@ -235,12 +235,15 @@ begin
    FCWinFUG.CR_OceanicCoastalAdjustment.Show;
    if ( Hydrosphere = hWaterLiquid )
       or ( Hydrosphere = hWaterAmmoniaLiquid )
-      or ( Hydrosphere = hMethaneLiquid ) then
+      or ( Hydrosphere = hMethaneLiquid )
+      or ( Hydrosphere = hWaterIceSheet )
+      or ( Hydrosphere = hMethaneIceSheet )
+      or ( Hydrosphere = hNitrogenIceSheet )  then
    begin
 
       FCWinFUG.CR_SeaArea.Show;
       FCWinFUG.CR_SeaArea.HTMLText.Clear;
-      FCWinFUG.CR_SeaArea.HTMLText.Add( 'Sea Area: '+inttostr( HydrosphereArea )+'%' );
+      FCWinFUG.CR_SeaArea.HTMLText.Add( 'Hydro Area: '+inttostr( HydrosphereArea )+'%' );
    end
    else begin
 //      FCWinFUG.CR_OceanicCoastalAdjustment.Hide;
