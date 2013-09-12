@@ -361,6 +361,7 @@ function FCFfG_DensitySat_Calculation(
    ): integer;
 {:Purpose: density precalculations for satellites.
    Additions:
+      -2013Sep11- *fix: prevent a satellite to have a density above the limit of 8273kg. Found one in Epsilon Eridani 5.
       -2013May22- *fix: forgot to apply the coef density.
                   *fix: SatCaptured=sdNone prevented the density calculation.
 }
@@ -411,6 +412,8 @@ begin
 //      and ( WorkingFloat > MaxDensity )
 //   then WorkingFloat:=MaxDensity;
    Result:=round( WorkingFloat );
+   if Result > 8273
+   then Result:=8273;
 end;
 
 function FCFfG_Diameter_Calculation(
