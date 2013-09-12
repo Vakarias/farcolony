@@ -155,6 +155,8 @@ procedure FCMfR_LandRelief_Process(
    );
 {:Purpose: generate the land type and relief for each region.
    Additions:
+      -2013Sep11- *fix: asteroids with a hydrosphere of Water/Methane or Nitrogen Ice Crust have now 100% polar or icy sterile regions, whatever the kind of asteroid.
+                  *mod: trace atmosphere objects are now affected by the same subsection than the 0 atmosphere planets.
       -2013Sep09- *mod: orbital objects with a tectonic activity < platelet tectonic have now far lesser chance to generate a volcanic region.
                   *fix: bad data assignation in _TectonicActivityMod_Set.
       -2013Aug29- *mod: adjustments for the relief of Icy Sterile land.
@@ -171,7 +173,8 @@ var
    ,Region
    ,TectonicActivityMod: integer;
 
-   isAtmosphere: boolean;
+   isAtmosphere
+   ,isTraceAtm: boolean;
 
    HydroType: TFCEduHydrospheres;
 
@@ -241,6 +244,7 @@ begin
    TectonicActivityMod:=0;
 
    isAtmosphere:=false;
+   isTraceAtm:=false;
 
    HydroType:=hNoHydro;
 
@@ -255,6 +259,7 @@ begin
       else GravModifier:=0;
       if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphericPressure > 0
       then isAtmosphere:=true;
+      isTraceAtm:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_atmosphere.AC_traceAtmosphere;
       HydroType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_hydrosphere;
       HydroArea:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_hydrosphereArea;
       Max:=length( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_regions ) - 1;
@@ -268,6 +273,7 @@ begin
       else GravModifier:=0;
       if FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphericPressure > 0
       then isAtmosphere:=true;
+      isTraceAtm:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_atmosphere.AC_traceAtmosphere;
       HydroType:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_hydrosphere;
       HydroArea:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_hydrosphereArea;
       Max:=length( FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_regions ) - 1;
@@ -276,23 +282,49 @@ begin
    Region:=1;
    while Region <= Max do
    begin
+      FCDfdRegions[Region].RC_landType:=rst01RockyDesert;
+      FCDfdRegions[Region].RC_reliefType:=rr1Plain;
       if TectonicActivityMod > 0
       then FCDfdRegions[Region].RC_tectonicActivityMod:=round( randg( TectonicActivityMod, 5 ) );
       FCDfdRegions[Region].RC_surfaceTemperatureMean:=( FCDfdRegions[Region].RC_surfaceTemperatureClosest + FCDfdRegions[Region].RC_surfaceTemperatureInterm + FCDfdRegions[Region].RC_surfaceTemperatureFarthest ) / 3;
-      if ( ( ObjectType > ootAsteroidsBelt ) and ( ObjectType < ootAsteroid_Icy ) )
-         or ( ( ObjectType > ootPlanet_Supergiant ) and ( ObjectType < ootSatellite_Asteroid_Icy ) ) then
+      if ( ( ObjectType >= ootAsteroid_Metallic ) and ( ObjectType <= ootAsteroid_Icy ) ) or ( ( ObjectType >= ootSatellite_Asteroid_Metallic ) and ( ObjectType <= ootSatellite_Asteroid_Icy ) ) then
       begin
-         FCDfdRegions[Region].RC_landType:=rst14Sterile;
-         FCDfdRegions[Region].RC_reliefType:=_ReliefRule_Set( 30, 0 );
-      end
-      else if ( ObjectType = ootAsteroid_Icy )
-         or ( ObjectType = ootSatellite_Asteroid_Icy ) then
-      begin
-         FCDfdRegions[Region].RC_landType:=rst15icySterile;
-         FCDfdRegions[Region].RC_reliefType:=_ReliefRule_Set( 40, 0 );
+         if ( HydroType = hWaterIceSheet )
+            or ( HydroType = hMethaneIceSheet )
+            or ( HydroType = hNitrogenIceSheet ) then
+         begin
+            if FCDfdRegions[Region].RC_surfaceTemperatureMean <= 125 then
+            begin
+               FCDfdRegions[Region].RC_landType:=rst15icySterile;
+               FCDfdRegions[Region].RC_reliefType:=_ReliefRule_Set( 30, 70 );
+            end
+            else begin
+               Proba:=FCFcF_Random_DoInteger( 99 ) + 1;
+               if Proba <= HydroArea then
+               begin
+                  FCDfdRegions[Region].RC_landType:=rst15icySterile;
+                  FCDfdRegions[Region].RC_reliefType:=_ReliefRule_Set( 30, 70 );
+               end
+               else begin
+                  FCDfdRegions[Region].RC_landType:=rst14Sterile;
+                  FCDfdRegions[Region].RC_reliefType:=_ReliefRule_Set( 20, 60 );
+               end;
+            end;
+         end
+         else if ( HydroType<> hWaterIceCrust )
+            and ( HydroType<> hMethaneIceCrust )
+            and ( HydroType<> hNitrogenIceCrust ) then
+         begin
+            FCDfdRegions[Region].RC_landType:=rst14Sterile;
+            FCDfdRegions[Region].RC_reliefType:=_ReliefRule_Set( 30, 0 );
+         end
+         else begin
+            FCDfdRegions[Region].RC_landType:=rst15icySterile;
+            FCDfdRegions[Region].RC_reliefType:=_ReliefRule_Set( 40, 0 );
+         end;
       end
       else if ( ( ( ObjectType >= ootPlanet_Telluric ) and ( ObjectType < ootPlanet_Gaseous_Uranus ) ) or ( ObjectType >= ootSatellite_Planet_Telluric ) )
-         and ( not isAtmosphere ) then
+         and ( ( not isAtmosphere ) or ( isTraceAtm ) ) then
       begin
          if HydroType = hNoHydro then
          begin
@@ -333,7 +365,8 @@ begin
          end;
       end
       else if ( ( ( ObjectType >= ootPlanet_Telluric ) and ( ObjectType < ootPlanet_Gaseous_Uranus ) ) or ( ObjectType >= ootSatellite_Planet_Telluric ) )
-         and ( isAtmosphere ) then
+         and ( isAtmosphere )
+         and ( not isTraceAtm ) then
       begin
          FCDfdRegions[Region].RC_regionPressureMean:=( FCDfdRegions[Region].RC_regionPressureClosest + FCDfdRegions[Region].RC_regionPressureInterm + FCDfdRegions[Region].RC_regionPressureFarthest ) / 3;
          case FCDfdRegions[Region].RC_finalClimate of
