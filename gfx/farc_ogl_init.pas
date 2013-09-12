@@ -52,12 +52,6 @@ procedure FCMoglInit_Initialize;
 ///</summary>
 procedure FCMoglInit_StdText_Set(const STSisHR, STSforceLoad: boolean);
 
-///<summary>
-///   return the standard library index given library name
-///</summary>
-///    <param name="STNGname">standard library name</param>
-function FCFoglInit_StdTexIdx_Get(const STIGname: string): integer;
-
 implementation
 
 uses
@@ -70,41 +64,48 @@ uses
 
 //=============================================END OF INIT==================================
 
-function FCFoglInit_StdTexName_Get(const STNGidx: integer): string;
+function FCFoglI_StandardTextureName_Get( const TextureIndex: integer ): string;
 {:Purpose: return the standard texture library name given library index #.
     Additions:
+      -2013Sep11- *code audit:
+                  (x)var formatting + refactoring     (-)if..then reformatting   (x)function/procedure refactoring
+                  (x)parameters refactoring           (x) ()reformatting         (-)code optimizations
+                  (-)float local variables=> extended (x)case..of reformatting   (-)local methods: put inline; + reformat _X
+                  (-)summary completion               (-)protect all float add/sub w/ FCFcFunc_Rnd
+                  (-)use of enumindex                 (-)use of StrToFloat( x, FCVdiFormat ) for all float data w/ XML
+                  (-)any function/procedure variable pre-initialization. Init array w/ [0] array EACH PARAMETERS not direct
+                  (-)standardize internal data + commenting them at each use as a result (like Count1 / Count2 ...)
+                  (-)put [format x.xx ] in returns of summary, if required and if the function do formatting
+                  (-)if the procedure reset the same record's data or external data put:
+                     ///   <remarks>the procedure/function reset the /data/</remarks>
 }
-var
-   STNGdmpRes: string;
+   var
+      TextureName: string;
 begin
-   STNGdmpRes:='';
-   case STNGidx of
-//      0: STNGdmpRes:='MercuryH0';
-//      1: STNGdmpRes:='MercuryH3';
-//      2: STNGdmpRes:='MercuryH4';
-//      3: STNGdmpRes:='Pluto';
-//      4: STNGdmpRes:='Europa';
-//      5: STNGdmpRes:='CallistoH3';
-//      6: STNGdmpRes:='CallistoH4';
-      0: STNGdmpRes:='UranusCold';
-      1: STNGdmpRes:='UranusHot';
-      2: STNGdmpRes:='NeptuneCold';
-      3: STNGdmpRes:='NeptuneHot';
-      4: STNGdmpRes:='SaturnCold';
-      5: STNGdmpRes:='SaturnHot';
-      6: STNGdmpRes:='JovianCold';
-      7: STNGdmpRes:='JovianHot';
-      8: STNGdmpRes:='SuperGiantCold';
-      9: STNGdmpRes:='SuperGiantHot';
-//      17: STNGdmpRes:='SatLunarCold';
-//      18: STNGdmpRes:='SatLunar';
-//      19: STNGdmpRes:='SatIo';
-//      20: STNGdmpRes:='SatPluto';
-//      21: STNGdmpRes:='SatEuropa';
-//      22: STNGdmpRes:='SatCallistoH3';
-//      23: STNGdmpRes:='SatCallistoH4';
-   end; //==END== case STNGidx ==//
-   Result:= STNGdmpRes;
+   Result:='';
+   TextureName:='';
+   case TextureIndex of
+      0: TextureName:='UranusCold';
+
+      1: TextureName:='UranusHot';
+
+      2: TextureName:='NeptuneCold';
+
+      3: TextureName:='NeptuneHot';
+
+      4: TextureName:='SaturnCold';
+
+      5: TextureName:='SaturnHot';
+
+      6: TextureName:='JovianCold';
+
+      7: TextureName:='JovianHot';
+
+      8: TextureName:='SuperGiantCold';
+
+      9: TextureName:='SuperGiantHot';
+   end;
+   Result:= TextureName;
 end;
 
 procedure FCMoglInit_Initialize;
@@ -193,7 +194,7 @@ begin
    while OGLIIcnt<=9 do
    begin
       FC3doglMaterialLibraryStandardPlanetTextures.Materials.Add;
-      OGLIIname:=FCFoglInit_StdTexName_Get(OGLIIcnt);
+      OGLIIname:=FCFoglI_StandardTextureName_Get(OGLIIcnt);
       FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[OGLIIcnt].Name:=OGLIIname;
       FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[OGLIIcnt].Material.BackProperties.Ambient.Color:=clrGray20;
       FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[OGLIIcnt].Material.BackProperties.Diffuse.Color:=clrGray80;
@@ -294,71 +295,12 @@ begin
       STScnt:=0;
       while STScnt<=9 do
       begin
-         STSmatStr:=FCFoglInit_StdTexName_Get(STScnt);
+         STSmatStr:=FCFoglI_StandardTextureName_Get(STScnt);
          FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[STScnt].Material.Texture.Image.LoadFromFile
             (FCVdiPathResourceDir+'pics-ogl-oobj-std\'+STSmatRes+'_'+STSmatStr+'.jpg');
          inc(STScnt)
       end;
    end; //==END== if STSisLoad ==//
-end;
-
-function FCFoglInit_StdTexIdx_Get(const STIGname: string): integer;
-{:Purpose: return the standard library index given library name.
-    Additions:
-}
-var
-   STIGdmpRes: integer;
-begin
-   STIGdmpRes:=-1;
-//   if STIGname='MercuryH0'
-//   then STIGdmpRes:=0
-//   else if STIGname='MercuryH3'
-//   then STIGdmpRes:=1
-//   else if STIGname='MercuryH4'
-//   then STIGdmpRes:=2
-//   else if STIGname='Pluto'
-//   then STIGdmpRes:=3
-//   else if STIGname='Europa'
-//   then STIGdmpRes:=4
-//   else if STIGname='CallistoH3'
-//   then STIGdmpRes:=5
-//   else if STIGname='CallistoH4'
-//   then STIGdmpRes:=6
-   if STIGname='UranusCold'
-   then STIGdmpRes:=0
-   else if STIGname='UranusHot'
-   then STIGdmpRes:=1
-   else if STIGname='NeptuneCold'
-   then STIGdmpRes:=2
-   else if STIGname='NeptuneHot'
-   then STIGdmpRes:=3
-   else if STIGname='SaturnCold'
-   then STIGdmpRes:=4
-   else if STIGname='SaturnHot'
-   then STIGdmpRes:=5
-   else if STIGname='JovianCold'
-   then STIGdmpRes:=6
-   else if STIGname='JovianHot'
-   then STIGdmpRes:=7
-   else if STIGname='SuperGiantCold'
-   then STIGdmpRes:=8
-   else if STIGname='SuperGiantHot'
-   then STIGdmpRes:=9;
-//   else if STIGname='SatLunarCold'
-//   then STIGdmpRes:=17
-//   else if STIGname='SatLunar'
-//   then STIGdmpRes:=18
-//   else if STIGname='SatIo'
-//   then STIGdmpRes:=19
-//   else if STIGname='SatPluto'
-//   then STIGdmpRes:=20
-//   else if STIGname='SatEuropa'
-//   then STIGdmpRes:=21
-//   else if STIGname='SatCallistoH3'
-//   then STIGdmpRes:=22
-//   else if STIGname='SatCallistoH4'
-//   then STIGdmpRes:=23;
-   Result:= STIGdmpRes;
 end;
 
 end.
