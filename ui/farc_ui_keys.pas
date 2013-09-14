@@ -868,8 +868,9 @@ procedure FCMuiK_WinMain_Test(
       -2009Sep20- *update s key w/3dMainGrp.
 }
 var
-   WMTdmpPlan
-   ,WMTfocus: integer;
+   WMTdmpPlan: integer;
+
+   FocusedObjectType: TFCEovmFocusedObjects;
 begin
    if FCWinMain.WM_ActionPanel.Visible
    then FCWinMain.WM_ActionPanel.Hide;
@@ -1075,9 +1076,9 @@ begin
             {.last focused object}
             97:
             begin
-               WMTfocus:=FCFovM_Focused3dObject_GetType;
-               case WMTfocus of
-                  1, 2:
+               FocusedObjectType:=FCFovM_Focused3dObject_GetType;
+               case FocusedObjectType of
+                  foOrbitalObject, foSatellite:
                   begin
                      if (not FCWinMain.FCWM_MissionSettings.Visible)
                         or (
@@ -1089,13 +1090,14 @@ begin
                            )
                      then
                      begin
-                        if WMTfocus=1
+                        if FocusedObjectType=foOrbitalObject
                         then FCMuiK_BrowseK_Set(uikbtOObj, uikbkLast)
-                        else if WMTfocus=2
+                        else if FocusedObjectType=foSatellite
                         then FCMuiK_BrowseK_Set(uikbtSat, uikbkLast);
                      end;
                   end;
-                  3:
+
+                  foSpaceUnit:
                   begin
                      if not FCWinMain.FCWM_MissionSettings.Visible
                      then FCMuiK_BrowseK_Set(uikbtSpU, uikbkLast);
@@ -1107,9 +1109,9 @@ begin
             {.previous focused object}
             100:
             begin
-               WMTfocus:=FCFovM_Focused3dObject_GetType;
-               case WMTfocus of
-                  1, 2:
+               FocusedObjectType:=FCFovM_Focused3dObject_GetType;
+               case FocusedObjectType of
+                  foOrbitalObject, foSatellite:
                   begin
                      if (not FCWinMain.FCWM_MissionSettings.Visible)
                         or (
@@ -1121,13 +1123,14 @@ begin
                            )
                      then
                      begin
-                        if WMTfocus=1
+                        if FocusedObjectType=foOrbitalObject
                         then FCMuiK_BrowseK_Set(uikbtOObj, uikbkPrev)
-                        else if WMTfocus=2
+                        else if FocusedObjectType=foSatellite
                         then FCMuiK_BrowseK_Set(uikbtSat, uikbkPrev);
                      end;
                   end;
-                  3:
+
+                  foSpaceUnit:
                   begin
                      if not FCWinMain.FCWM_MissionSettings.Visible
                      then FCMuiK_BrowseK_Set(uikbtSpU, uikbkPrev);
@@ -1139,9 +1142,9 @@ begin
             {.next focused object}
             102:
             begin
-               WMTfocus:=FCFovM_Focused3dObject_GetType;
-               case WMTfocus of
-                  0, 1, 2:
+               FocusedObjectType:=FCFovM_Focused3dObject_GetType;
+               case FocusedObjectType of
+                  foStar..foSatellite:
                   begin
                      if (not FCWinMain.FCWM_MissionSettings.Visible)
                         or (
@@ -1153,14 +1156,15 @@ begin
                            )
                      then
                      begin
-                        if (WMTfocus=0)
-                           or (WMTfocus=1)
+                        if (FocusedObjectType=foStar)
+                           or (FocusedObjectType=foOrbitalObject)
                         then FCMuiK_BrowseK_Set(uikbtOObj, uikbkNext)
-                        else if WMTfocus=2
+                        else if FocusedObjectType=foSatellite
                         then FCMuiK_BrowseK_Set(uikbtSat, uikbkNext);
                      end;
                   end;
-                  3:
+
+                  foSpaceUnit:
                   begin
                      if not FCWinMain.FCWM_MissionSettings.Visible
                      then FCMuiK_BrowseK_Set(uikbtSpU, uikbkNext);
@@ -1172,9 +1176,9 @@ begin
             {.first focused object}
             103:
             begin
-               WMTfocus:=FCFovM_Focused3dObject_GetType;
-               case WMTfocus of
-                  1, 2:
+               FocusedObjectType:=FCFovM_Focused3dObject_GetType;
+               case FocusedObjectType of
+                  foOrbitalObject, foSatellite:
                   begin
                      if (not FCWinMain.FCWM_MissionSettings.Visible)
                         or (
@@ -1186,13 +1190,14 @@ begin
                            )
                      then
                      begin
-                        if WMTfocus=1
+                        if FocusedObjectType=foOrbitalObject
                         then FCMuiK_BrowseK_Set(uikbtOObj, uikbkFirst)
-                        else if WMTfocus=2
+                        else if FocusedObjectType=foSatellite
                         then FCMuiK_BrowseK_Set(uikbtSat, uikbkFirst);
                      end;
                   end;
-                  3:
+
+                  foSpaceUnit:
                   begin
                      if not FCWinMain.FCWM_MissionSettings.Visible
                      then FCMuiK_BrowseK_Set(uikbtSpU, uikbkFirst);

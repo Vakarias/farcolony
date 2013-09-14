@@ -395,7 +395,7 @@ begin
                            ,FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCcolonyName
                            ,FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCsettlementName
                            );
-                        if ( FCFovM_Focused3dObject_GetType=1 )
+                        if ( FCFovM_Focused3dObject_GetType=foOrbitalObject )
                            and ( FCDduStarSystem[GTPssysDB].SS_stars[GTPstarDB].S_token=FCVdgPlayer.P_viewStar )
                            and ( FC3doglSelectedPlanetAsteroid=FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCdestinationIndex) then
                         begin
@@ -420,7 +420,7 @@ begin
                            ,FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCcolonyName
                            ,FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCsettlementName
                            );
-                        if ( FCFovM_Focused3dObject_GetType=2 )
+                        if ( FCFovM_Focused3dObject_GetType=foSatellite )
                            and ( FCDduStarSystem[GTPssysDB].SS_stars[GTPstarDB].S_token=FCVdgPlayer.P_viewStar )
                            and ( FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].TagFloat=GTPoobjDB)
                            and ( FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].Tag=GTPsatDB) then

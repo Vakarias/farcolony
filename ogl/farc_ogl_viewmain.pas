@@ -82,7 +82,7 @@ type TFCEovmSpaceUnitOrigin=(
 ///<summary>
 ///   return the focused object. 0= star, 1= orbital object, 2= satellite, 3= space unit
 ///</summary>
-function FCFovM_Focused3dObject_GetType(): integer;
+function FCFovM_Focused3dObject_GetType(): TFCEovmFocusedObjects;
 
 //===========================END FUNCTIONS SECTION==========================================
 
@@ -793,21 +793,21 @@ begin
    end;
 end;
 
-function FCFovM_Focused3dObject_GetType(): integer;
+function FCFovM_Focused3dObject_GetType(): TFCEovmFocusedObjects;
 {:Purpose: return the focused object. 0= star, 1= orbital object, 2= satellite, 3= space unit.
     Additions:
+      -2013Sep14- *mod: the result of the function is now a more readable and understandable result.
 }
-{:DEV NOTES: put the result in an ENUM!.}
 begin
    if FCWinMain.FCGLSCamMainViewGhost.TargetObject=FCWinMain.FCGLSStarMain
-   then Result:=0
+   then Result:=foStar
    else if FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglObjectsGroups[FC3doglSelectedPlanetAsteroid]
-   then Result:=1
+   then Result:=foOrbitalObject
    else if ( FC3doglMainViewTotalSatellites>0 )
       and ( FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite] )
-   then Result:=2
+   then Result:=foSatellite
    else if FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglSpaceUnits[FC3doglSelectedSpaceUnit]
-   then Result:=3;
+   then Result:=foSpaceUnit;
 end;
 
 procedure FCMovM_3DView_Update(
