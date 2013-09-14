@@ -171,7 +171,7 @@ begin
       )
       or
       (
-      ( FC3doglTotalSatellites>0 )
+      ( FC3doglMainViewTotalSatellites>0 )
       and
       (FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglSatellitesObjectsGroups[FC3doglSelectedPlanetAsteroid])
       and (FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[FC3doglSelectedPlanetAsteroid].OO_satellitesList[FC3doglSelectedSatellite].OO_colonies[0]>0)

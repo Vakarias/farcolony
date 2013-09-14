@@ -129,21 +129,6 @@ var
    ///</summary>
    FC3doglSpaceUnitSize: extended;
 
-   ///<summary>
-   ///   total orbital objects created in the current 3d view w/o count central star and the satellites
-   ///</summary>
-   FC3doglTotalOrbitalObjects: integer;
-
-   ///<summary>
-   ///   total satellites created in the current 3d view
-   ///</summary>
-   FC3doglTotalSatellites: integer;
-
-   ///<summary>
-   ///   total space units created in the current 3d view
-   ///</summary>
-   FC3doglTotalSpaceUnits: integer;
-
    //==========main view data======================================================================
    ///<summary>
    ///   objects list for gravity wells
@@ -153,18 +138,32 @@ var
    ///<summary>
    ///   objects list for orbits
    ///</summary>
-   FC3oglMainViewListMainOrbits: array of TGLLines;
+   FC3doglMainViewListMainOrbits: array of TGLLines;
 
    ///<summary>
    ///   objects list for satellites gravity wells
    ///</summary>
-   FC3oglMainViewListSatellitesGravityWells: array of TGLLines;
+   FC3doglMainViewListSatellitesGravityWells: array of TGLLines;
 
    ///<summary>
    ///   objects list for satellites orbits
    ///</summary>
-   FC3oglMainViewListSatelliteOrbits: array of TGLLines;
+   FC3doglMainViewListSatelliteOrbits: array of TGLLines;
 
+   ///<summary>
+   ///   total orbital objects created in the current 3d view w/o count central star and the satellites
+   ///</summary>
+   FC3doglMainViewTotalOrbitalObjects: integer;
+
+   ///<summary>
+   ///   total satellites created in the current 3d view
+   ///</summary>
+   FC3doglMainViewTotalSatellites: integer;
+
+   ///<summary>
+   ///   total space units created in the current 3d view
+   ///</summary>
+   FC3doglMainViewTotalSpaceUnits: integer;
 
 //==END PUBLIC VAR==========================================================================
 

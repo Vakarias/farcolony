@@ -408,11 +408,11 @@ begin
    SpaceDesign:=FCFspuF_Design_getDB( FCDdgEntities[0].E_spaceUnits[SpaceUnit].SU_designToken );
    FC3doglSelectedPlanetAsteroid:=FCRmcCurrentMissionCalculations.CMC_originLocation[3];
    if FCRmcCurrentMissionCalculations.CMC_originLocation[4]=0
-   then FCMoglVM_CamMain_Target(FC3doglSelectedPlanetAsteroid, false)
+   then FCMovM_CameraMain_Target(FC3doglSelectedPlanetAsteroid, false)
    else if FCRmcCurrentMissionCalculations.CMC_originLocation[4]>0 then
    begin
       FC3doglSelectedSatellite:=FCFoglF_Satellite_SearchObject(FCRmcCurrentMissionCalculations.CMC_originLocation[3], FCRmcCurrentMissionCalculations.CMC_originLocation[4]);
-      FCMoglVM_CamMain_Target(100, false);
+      FCMovM_CameraMain_Target(100, false);
    end;
    FCWinMain.FCWM_MissionSettings.Caption.Text:=FCFdTFiles_UIStr_Get(uistrUI,'FCWinMissSet')+FCFdTFiles_UIStr_Get(uistrUI,'Mission.itransit');
    FCWinMain.FCWMS_Grp_MCG_RMassTrack.Visible:=true;
@@ -587,7 +587,7 @@ begin
          FCDmcCurrentMission[0].T_tMITdestinationIndex:=FC3doglSelectedPlanetAsteroid;
          FCDmcCurrentMission[0].T_tMITdestinationSatIndex:=0;
       end
-      else if ( FC3doglTotalSatellites>0 )
+      else if ( FC3doglMainViewTotalSatellites>0 )
          and ( FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite] ) then
       begin
          FCDmcCurrentMission[0].T_tMITdestination:=ttSatellite;

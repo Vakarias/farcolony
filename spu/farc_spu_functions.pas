@@ -584,7 +584,7 @@ begin
    if SUOSsyst=FCVdgPlayer.P_viewStar
    then
    begin
-      while SUOScnt<=FC3doglTotalSpaceUnits do
+      while SUOScnt<=FC3doglMainViewTotalSpaceUnits do
       begin
          if (FC3doglSpaceUnits[SUOScnt].Tag=SUOSfac)
             and (FC3doglSpaceUnits[SUOScnt].TagFloat=SUOSidx)

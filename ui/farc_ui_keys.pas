@@ -266,11 +266,11 @@ begin
          case BKSbk of
             uikbkNext:
             begin
-               if FC3doglSelectedPlanetAsteroid<FC3doglTotalOrbitalObjects
+               if FC3doglSelectedPlanetAsteroid<FC3doglMainViewTotalOrbitalObjects
                then
                begin
                   inc(FC3doglSelectedPlanetAsteroid);
-                  FCMoglVM_CamMain_Target(FC3doglSelectedPlanetAsteroid, true);
+                  FCMovM_CameraMain_Target(FC3doglSelectedPlanetAsteroid, true);
                   if FCWinMain.FCWM_MissionSettings.Visible
                   then FCMuiMS_InterplanetaryTransitInterface_UpdateDestination(false)
                   else if (not FCWinMain.FCWM_MissionSettings.Visible)
@@ -285,14 +285,14 @@ begin
                then
                begin
                   dec(FC3doglSelectedPlanetAsteroid);
-                  FCMoglVM_CamMain_Target(FC3doglSelectedPlanetAsteroid, true);
+                  FCMovM_CameraMain_Target(FC3doglSelectedPlanetAsteroid, true);
                   FCMuiMS_InterplanetaryTransitInterface_UpdateDestination(false);
                end
                else if not FCWinMain.FCWM_MissionSettings.Visible
                then
                begin
                   dec(FC3doglSelectedPlanetAsteroid);
-                  FCMoglVM_CamMain_Target(FC3doglSelectedPlanetAsteroid, true);
+                  FCMovM_CameraMain_Target(FC3doglSelectedPlanetAsteroid, true);
                   if (FCWinMain.SP_AutoUpdateCheck.Checked)
                      and (FC3doglSelectedPlanetAsteroid>0)
                   then FCMuiSP_SurfaceEcosphere_Set(FC3doglCurrentStarSystem, FC3doglCurrentStar, FC3doglSelectedPlanetAsteroid, 0, false);
@@ -304,23 +304,23 @@ begin
                then
                begin
                   FC3doglSelectedPlanetAsteroid:=1;
-                  FCMoglVM_CamMain_Target(FC3doglSelectedPlanetAsteroid, true);
+                  FCMovM_CameraMain_Target(FC3doglSelectedPlanetAsteroid, true);
                   FCMuiMS_InterplanetaryTransitInterface_UpdateDestination(false);
                end
                else if not FCWinMain.FCWM_MissionSettings.Visible
                then
                begin
                   FC3doglSelectedPlanetAsteroid:=0;
-                  FCMoglVM_CamMain_Target(FC3doglSelectedPlanetAsteroid, true);
+                  FCMovM_CameraMain_Target(FC3doglSelectedPlanetAsteroid, true);
                end;
             end;
             uikbkLast:
             begin
-               if FC3doglSelectedPlanetAsteroid<>FC3doglTotalOrbitalObjects
+               if FC3doglSelectedPlanetAsteroid<>FC3doglMainViewTotalOrbitalObjects
                then
                begin
-                  FC3doglSelectedPlanetAsteroid:=FC3doglTotalOrbitalObjects;
-                  FCMoglVM_CamMain_Target(FC3doglSelectedPlanetAsteroid, true);
+                  FC3doglSelectedPlanetAsteroid:=FC3doglMainViewTotalOrbitalObjects;
+                  FCMovM_CameraMain_Target(FC3doglSelectedPlanetAsteroid, true);
                   if FCWinMain.FCWM_MissionSettings.Visible
                   then FCMuiMS_InterplanetaryTransitInterface_UpdateDestination(false)
                   else if (not FCWinMain.FCWM_MissionSettings.Visible)
@@ -335,7 +335,7 @@ begin
          case BKSbk of
             uikbkNext:
             begin
-               if FC3doglSelectedSatellite<FC3doglTotalSatellites
+               if FC3doglSelectedSatellite<FC3doglMainViewTotalSatellites
                then
                begin
                   BKSdmp:=round(FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite+1].TagFloat);
@@ -371,18 +371,18 @@ begin
             end;
             uikbkLast:
             begin
-               if FC3doglSelectedSatellite<FC3doglTotalSatellites
+               if FC3doglSelectedSatellite<FC3doglMainViewTotalSatellites
                then
                begin
-                  BKSdmp:=round(FC3doglSatellitesObjectsGroups[FC3doglTotalSatellites].TagFloat);
+                  BKSdmp:=round(FC3doglSatellitesObjectsGroups[FC3doglMainViewTotalSatellites].TagFloat);
                   if (BKSdmp<>FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].TagFloat)
                      or (FC3doglSelectedPlanetAsteroid<>BKSdmp)
                   then FC3doglSelectedPlanetAsteroid:=BKSdmp;
-                  FC3doglSelectedSatellite:=FC3doglTotalSatellites;
+                  FC3doglSelectedSatellite:=FC3doglMainViewTotalSatellites;
                end;
             end;
          end; //==END== case BKSbk of ==//
-         FCMoglVM_CamMain_Target(100, false);
+         FCMovM_CameraMain_Target(100, false);
          if FCWinMain.FCWM_MissionSettings.Visible
          then FCMuiMS_InterplanetaryTransitInterface_UpdateDestination(false)
          else if (not FCWinMain.FCWM_MissionSettings.Visible)
@@ -395,14 +395,14 @@ begin
          case BKSbk of
             uikbkNext:
             begin
-               if FC3doglSelectedSpaceUnit<FC3doglTotalSpaceUnits
+               if FC3doglSelectedSpaceUnit<FC3doglMainViewTotalSpaceUnits
                then
                begin
                   if not FC3doglSpaceUnits[FC3doglSelectedSpaceUnit+1].Visible
                   then
                   begin
                      BKScnt:=FC3doglSelectedSpaceUnit+2;
-                     while BKScnt<=FC3doglTotalSpaceUnits do
+                     while BKScnt<=FC3doglMainViewTotalSpaceUnits do
                      begin
                         if FC3doglSpaceUnits[BKScnt].Visible
                         then
@@ -486,18 +486,18 @@ begin
             end;
             uikbkLast:
             begin
-               if (FC3doglSelectedSpaceUnit<FC3doglTotalSpaceUnits)
-                  and (FC3doglSpaceUnits[FC3doglTotalSpaceUnits].Visible) then
+               if (FC3doglSelectedSpaceUnit<FC3doglMainViewTotalSpaceUnits)
+                  and (FC3doglSpaceUnits[FC3doglMainViewTotalSpaceUnits].Visible) then
                begin
                   FCMoglVMain_SpUnits_SetInitSize(true);
-                  FC3doglSelectedSpaceUnit:=FC3doglTotalSpaceUnits;
+                  FC3doglSelectedSpaceUnit:=FC3doglMainViewTotalSpaceUnits;
                   GreenFlagForFocus:=true;
                end
-               else if (FC3doglSelectedSpaceUnit<FC3doglTotalSpaceUnits-1)
-                  and (not FC3doglSpaceUnits[FC3doglTotalSpaceUnits].Visible)
+               else if (FC3doglSelectedSpaceUnit<FC3doglMainViewTotalSpaceUnits-1)
+                  and (not FC3doglSpaceUnits[FC3doglMainViewTotalSpaceUnits].Visible)
                then
                begin
-                  BKScnt:=FC3doglTotalSpaceUnits-2;
+                  BKScnt:=FC3doglMainViewTotalSpaceUnits-2;
                   while BKScnt>=1 do
                   begin
                      if FC3doglSpaceUnits[BKScnt].Visible
@@ -515,7 +515,7 @@ begin
             end;
          end; //==END== case BKSbk of ==//
          if GreenFlagForFocus
-         then FCMoglVM_CamMain_Target(-1, true);
+         then FCMovM_CameraMain_Target(-1, true);
       end; //==END== case - uikbtSpU: ==//
    end; //==END== case BKSbtp of ==//
 end;
@@ -952,7 +952,7 @@ begin
             {.switch satellite view <=> orbital object view}
             65:
             begin
-               if (FC3doglTotalSatellites>0)
+               if (FC3doglMainViewTotalSatellites>0)
                   and (FCWinMain.FCGLSCamMainViewGhost.TargetObject<>FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite])
                   and
                      (
@@ -977,15 +977,15 @@ begin
                   begin
                      FC3doglSelectedPlanetAsteroid:=round(FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].TagFloat);
                   end;
-                  FCMoglVM_CamMain_Target(100, false);
+                  FCMovM_CameraMain_Target(100, false);
                   if FCWinMain.FCWM_MissionSettings.Visible
                   then FCMuiMS_InterplanetaryTransitInterface_UpdateDestination(false);
                end
-               else if (FC3doglTotalSatellites>0)
+               else if (FC3doglMainViewTotalSatellites>0)
                   and (FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite])
                then
                begin
-                  FCMoglVM_CamMain_Target(FC3doglSelectedPlanetAsteroid, true);
+                  FCMovM_CameraMain_Target(FC3doglSelectedPlanetAsteroid, true);
                   if FCWinMain.FCWM_MissionSettings.Visible
                   then FCMuiMS_InterplanetaryTransitInterface_UpdateDestination(false);
                end;
@@ -1037,14 +1037,14 @@ begin
             {.switch space unit view <=> orbital object view}
             83:
             begin
-               if (FC3doglTotalSpaceUnits>0)
+               if (FC3doglMainViewTotalSpaceUnits>0)
                   and (FCWinMain.FCGLSCamMainViewGhost.TargetObject<>FC3doglSpaceUnits[FC3doglSelectedSpaceUnit])
                   and (not FCWinMain.FCWM_MissionSettings.Visible)
-               then FCMoglVM_CamMain_Target(-1, true)
-               else if (FC3doglTotalSpaceUnits>0)
+               then FCMovM_CameraMain_Target(-1, true)
+               else if (FC3doglMainViewTotalSpaceUnits>0)
                   and (FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglSpaceUnits[FC3doglSelectedSpaceUnit])
                   and (not FCWinMain.FCWM_MissionSettings.Visible)
-               then FCMoglVM_CamMain_Target(FC3doglSelectedPlanetAsteroid, true);
+               then FCMovM_CameraMain_Target(FC3doglSelectedPlanetAsteroid, true);
             end;
 
             {.X}
@@ -1075,7 +1075,7 @@ begin
             {.last focused object}
             97:
             begin
-               WMTfocus:=FCFoglVM_Focused_Get;
+               WMTfocus:=FCFovM_Focused3dObject_GetType;
                case WMTfocus of
                   1, 2:
                   begin
@@ -1107,7 +1107,7 @@ begin
             {.previous focused object}
             100:
             begin
-               WMTfocus:=FCFoglVM_Focused_Get;
+               WMTfocus:=FCFovM_Focused3dObject_GetType;
                case WMTfocus of
                   1, 2:
                   begin
@@ -1139,7 +1139,7 @@ begin
             {.next focused object}
             102:
             begin
-               WMTfocus:=FCFoglVM_Focused_Get;
+               WMTfocus:=FCFovM_Focused3dObject_GetType;
                case WMTfocus of
                   0, 1, 2:
                   begin
@@ -1172,7 +1172,7 @@ begin
             {.first focused object}
             103:
             begin
-               WMTfocus:=FCFoglVM_Focused_Get;
+               WMTfocus:=FCFovM_Focused3dObject_GetType;
                case WMTfocus of
                   1, 2:
                   begin

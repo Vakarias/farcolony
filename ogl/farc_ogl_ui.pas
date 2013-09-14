@@ -697,7 +697,7 @@ begin
       then
       begin
          {.for a focused space unit}
-         if (FC3doglTotalSpaceUnits>0)
+         if (FC3doglMainViewTotalSpaceUnits>0)
             and(FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglSpaceUnits[FC3doglSelectedSpaceUnit])
          then
          begin
@@ -745,7 +745,7 @@ begin
             end; //==END== if FC3DobjSpUnit[FCV3DspUnSlctd].Tag=0 ==//
          end //==END== if (FCV3DspUnTtl>0) and(Ghost.TargetObject=FC3DobjSpUnit[FCV3DspUnSlctd]) ==//
          {.for a focused satellite}
-         else if (FC3doglTotalSatellites>0)
+         else if (FC3doglMainViewTotalSatellites>0)
             and(FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite])
          then
          begin

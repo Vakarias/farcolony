@@ -626,7 +626,7 @@ FCWinNewGSetup.Close;
       FCVdi3DViewRunning:=true;
    finally
       FC3doglSelectedPlanetAsteroid:=CPoobj;
-      FCMoglVM_MView_Upd(
+      FCMovM_3DView_Update(
          FCVdgPlayer.P_viewStarSystem
          ,FCVdgPlayer.P_viewStar
          ,false
@@ -635,7 +635,7 @@ FCWinNewGSetup.Close;
       if CPsat>0
       then FC3doglSelectedSatellite:=FCFoglF_Satellite_SearchObject(CPoobj, CPsat)
       else if (CPsat=0)
-         and (FC3doglTotalSatellites>0)
+         and (FC3doglMainViewTotalSatellites>0)
       then
       begin
          FC3doglSelectedSatellite:=1;

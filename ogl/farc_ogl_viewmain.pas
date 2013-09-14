@@ -46,16 +46,23 @@ uses
 
    ,oxLib3dsMeshLoader;
 
-type TFCEoglvmOobTp=(
-   oglvmootNorm
-   ,oglvmootAster
-   ,oglvmootSatNorm
-   ,oglvmootSatAster
+type TFCEovmFocusedObjects=(
+   foStar
+   ,foOrbitalObject
+   ,foSatellite
+   ,foSpaceUnit
+   );
+
+type TFCEovmOrbital3dObjectTypes=(
+   o3dotPlanet
+   ,o3dotAsteroid
+   ,o3dotSatellitePlanet
+   ,o3dotSatelliteAsteroid
    );
 
 
 
-type TFCEoglvmSCfrom=(
+type TFCEovmSpaceUnitOrigin=(
    scfDocked
    ,scfInOrbit
    ,scfInSpace
@@ -75,7 +82,7 @@ type TFCEoglvmSCfrom=(
 ///<summary>
 ///   return the focused object. 0= star, 1= orbital object, 2= satellite, 3= space unit
 ///</summary>
-function FCFoglVM_Focused_Get(): integer;
+function FCFovM_Focused3dObject_GetType(): integer;
 
 //===========================END FUNCTIONS SECTION==========================================
 
@@ -84,7 +91,7 @@ function FCFoglVM_Focused_Get(): integer;
 ///target a specified object in 3d view and initialize user's interface if needed
 ///</summary>
 ///   <param name="CMTidxOfObj">selected object index -10: space unit -1: central star >=0: orbital object 100: sat</param>
-procedure FCMoglVM_CamMain_Target(
+procedure FCMovM_CameraMain_Target(
    const CMTidxOfObj: integer;
    const CMTisUpdPMenu: boolean
    );
@@ -103,12 +110,12 @@ procedure FCMoglMV_Camera_TargetSpaceUnit( const DBSpaceUnit: integer);
 ///<summary>
 ///setup 3d main view: star itself and it's eventual planets and satellites
 ///</summary>
-///   <param name="LSVUstarSysId">selected star system token db id</param>
-///   <param name="LSVUstarId">selected star token db id</param>
+///   <param name="StarSys">star system index #</param>
+///   <param name="Star">star index #</param>
 ///   <param name="LSVUresetSelect">switch for reset FCV3dMViewObjSlctdInScene</param>
-procedure FCMoglVM_MView_Upd(
-   const LSVUstarSysId
-         ,LSVUstarId: string;
+procedure FCMovM_3DView_Update(
+   const StarSys
+         ,Star: string;
    const LSVUoobjReset,
          LSVUspUnReset: Boolean
    );
@@ -121,7 +128,7 @@ procedure FCMoglVM_MView_Upd(
 ///   <param name="OOGobjClass">class of object to generate</param>
 ///   <param name="OGobjIdx">index of object row</param>
 procedure FCMoglVM_OObj_Gen(
-   const OOGobjClass: TFCEoglvmOobTp;
+   const OOGobjClass: TFCEovmOrbital3dObjectTypes;
    const OOGobjIdx: integer
    );
 
@@ -151,7 +158,7 @@ procedure FCMoglVM_OObjSpUn_inOrbit(
 ///   <param name="SUGfac">faction 's index #</param>
 ///   <param name="SUGspUnOwnIdx">space unit owned index</param>
 procedure FCMoglVM_SpUn_Gen(
-   const SUGstatus: TFCEoglvmSCfrom;
+   const SUGstatus: TFCEovmSpaceUnitOrigin;
    const SUGfac
          ,SUGspUnOwnIdx: integer
    );
@@ -473,7 +480,7 @@ begin
    end;
 end;
 
-procedure FCMoglVM_CamMain_Target(
+procedure FCMovM_CameraMain_Target(
    const CMTidxOfObj: integer;
    const CMTisUpdPMenu: boolean
    );
@@ -781,12 +788,12 @@ begin
    if FCDdgEntities[0].E_spaceUnits[DBSpaceUnit].SU_linked3dObject>0 then
    begin
       FC3doglSelectedSpaceUnit:=FCDdgEntities[0].E_spaceUnits[DBSpaceUnit].SU_linked3dObject;
-      FCMoglVM_CamMain_Target(-1, true)
+      FCMovM_CameraMain_Target(-1, true)
       {:DEV NOTES: put the spu part of cammain target here + root test if DBSpaceUnit=0 then use FC3doglSelectedSpaceUnit.}
    end;
 end;
 
-function FCFoglVM_Focused_Get(): integer;
+function FCFovM_Focused3dObject_GetType(): integer;
 {:Purpose: return the focused object. 0= star, 1= orbital object, 2= satellite, 3= space unit.
     Additions:
 }
@@ -796,21 +803,22 @@ begin
    then Result:=0
    else if FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglObjectsGroups[FC3doglSelectedPlanetAsteroid]
    then Result:=1
-   else if ( FC3doglTotalSatellites>0 )
+   else if ( FC3doglMainViewTotalSatellites>0 )
       and ( FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite] )
    then Result:=2
    else if FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglSpaceUnits[FC3doglSelectedSpaceUnit]
    then Result:=3;
 end;
 
-procedure FCMoglVM_MView_Upd(
-   const LSVUstarSysId
-         ,LSVUstarId: string;
+procedure FCMovM_3DView_Update(
+   const StarSys
+         ,Star: string;
    const LSVUoobjReset,
          LSVUspUnReset: Boolean
    );
 {:Purpose: setup local star view: star itself and it's eventual planets & satellites.
     Additions:
+      -2013Sep14- *add/mod: start of the overhaul/cleaning/refactoring.
       -2010Sep15- *add: entities code.
       -2010Jun15- *mod: use the new function for space location.
       -2010Apr25- *add: generate docked space units.
@@ -855,7 +863,7 @@ var
    j: integer;
    i: integer;
    LSVUangleRad
-	,LSVUorbDistUnit
+	,OrbitDistanceInUnits
    ,LSVUsatDistUnit
    ,LSVUstarSize: extended;
 
@@ -876,9 +884,9 @@ var
    LSVUtest: TGLBaseSceneObject;
 begin
    {.scene and data cleanup in pre-process}
-   FC3doglTotalOrbitalObjects:=0;
-   FC3doglTotalSpaceUnits:=0;
-   FC3doglTotalSatellites:=0;
+   FC3doglMainViewTotalOrbitalObjects:=0;
+   FC3doglMainViewTotalSpaceUnits:=0;
+   FC3doglMainViewTotalSatellites:=0;
    if LSVUoobjReset
    then
    begin
@@ -891,22 +899,22 @@ begin
    FCWinMain.FCGLScadencer.Enabled:=false;
    FC3doglCurrentStarSystem:=FCFuF_StelObj_GetDbIdx(
       ufsoSsys
-      ,LSVUstarSysId
+      ,StarSys
       ,0
       ,0
       ,0
       );
    FC3doglCurrentStar:=FCFuF_StelObj_GetDbIdx(
       ufsoStar
-      ,LSVUstarId
+      ,Star
       ,FC3doglCurrentStarSystem
       ,0
       ,0
       );
    FC3doglAtmospheres:=nil;
    SetLength(FC3doglAtmospheres,1);
-   FC3oglMainViewListMainOrbits:=nil;
-   SetLength(FC3oglMainViewListMainOrbits,1);
+   FC3doglMainViewListMainOrbits:=nil;
+   SetLength(FC3doglMainViewListMainOrbits,1);
    FC3doglMainViewListGravityWells:=nil;
    SetLength(FC3doglMainViewListGravityWells,1);
    FC3doglSpaceUnits:=nil;
@@ -917,10 +925,10 @@ begin
    SetLength(FC3doglSatellitesAtmospheres,1);
    FC3doglSatellitesObjectsGroups:=nil;
    SetLength(FC3doglSatellitesObjectsGroups,1);
-   FC3oglMainViewListSatellitesGravityWells:=nil;
-   SetLength(FC3oglMainViewListSatellitesGravityWells,1);
-   FC3oglMainViewListSatelliteOrbits:=nil;
-   SetLength(FC3oglMainViewListSatelliteOrbits,1);
+   FC3doglMainViewListSatellitesGravityWells:=nil;
+   SetLength(FC3doglMainViewListSatellitesGravityWells,1);
+   FC3doglMainViewListSatelliteOrbits:=nil;
+   SetLength(FC3doglMainViewListSatelliteOrbits,1);
    FC3doglSatellites:=nil;
    SetLength(FC3doglSatellites,1);
    FC3doglObjectsGroups:=nil;
@@ -1221,7 +1229,7 @@ begin
                SetLength(FC3doglAtmospheres, length(FC3doglAtmospheres)+LSVUblocCnt);
                SetLength(FC3doglAsteroids, Length(FC3doglAsteroids)+LSVUblocCnt);
                SetLength(FC3doglMainViewListGravityWells, Length(FC3doglMainViewListGravityWells)+LSVUblocCnt);
-               SetLength(FC3oglMainViewListMainOrbits, Length(FC3oglMainViewListMainOrbits)+LSVUblocCnt);
+               SetLength(FC3doglMainViewListMainOrbits, Length(FC3doglMainViewListMainOrbits)+LSVUblocCnt);
             end;
             {:DEV NOTES: WARNING A FUNCTION NOW EXISTS FOR THIS CALCULATION: FCFoglF_OrbitalObject_CalculatePosition.}
             LSVUangleRad:=S_orbitalObjects[TDMVUorbObjCnt].OO_angle1stDay*FCCdiDegrees_To_Radian;   //ok to fill the call w/ param and remove this
@@ -1231,7 +1239,7 @@ begin
             then
             begin
                {.initialize 3d structure}
-               FCMoglVM_OObj_Gen(oglvmootAster, TDMVUorbObjCnt);
+               FCMoglVM_OObj_Gen(o3dotAsteroid, TDMVUorbObjCnt);
                FC3doglAsteroids[TDMVUorbObjCnt].Load3DSFileFrom(FCFoglVMain_Aster_Set(TDMVUorbObjCnt, 0, false));
                {.set material}
                FC3doglAsteroids[TDMVUorbObjCnt].Material.FrontProperties:=FC3oglvmAsteroidTemp.Material.FrontProperties;
@@ -1243,10 +1251,10 @@ begin
                FC3doglAsteroids[TDMVUorbObjCnt].scale.Z:=FC3doglAsteroids[TDMVUorbObjCnt].scale.X;
                {.set distance and location}
                {:DEV NOTES: WARNING A FUNCTION NOW EXISTS FOR THIS CALCULATION: FCFoglF_OrbitalObject_CalculatePosition.}
-               LSVUorbDistUnit:=FCFcF_Scale_Conversion(cAU_to3dViewUnits,S_orbitalObjects[TDMVUorbObjCnt].OO_isNotSat_distanceFromStar);//dev:USE /5.5 - WARNING: adjust all dist proportionally ; //ok to fill the call w/ param and remove this
-               FC3doglObjectsGroups[TDMVUorbObjCnt].Position.X:=cos(LSVUangleRad)*LSVUorbDistUnit;//ok to fill the call w/ param and remove this
+               OrbitDistanceInUnits:=FCFcF_Scale_Conversion(cAU_to3dViewUnits,S_orbitalObjects[TDMVUorbObjCnt].OO_isNotSat_distanceFromStar);//dev:USE /5.5 - WARNING: adjust all dist proportionally ; //ok to fill the call w/ param and remove this
+               FC3doglObjectsGroups[TDMVUorbObjCnt].Position.X:=cos(LSVUangleRad)*OrbitDistanceInUnits;//ok to fill the call w/ param and remove this
                FC3doglObjectsGroups[TDMVUorbObjCnt].Position.Y:=0;//ok to fill the call w/ param and remove this
-               FC3doglObjectsGroups[TDMVUorbObjCnt].Position.Z:=sin(LSVUangleRad)*LSVUorbDistUnit;//ok to fill the call w/ param and remove this
+               FC3doglObjectsGroups[TDMVUorbObjCnt].Position.Z:=sin(LSVUangleRad)*OrbitDistanceInUnits;//ok to fill the call w/ param and remove this
                {.set group scale}
                FC3doglObjectsGroups[TDMVUorbObjCnt].CubeSize:=FC3doglAsteroids[TDMVUorbObjCnt].scale.X*50;
                {.displaying}
@@ -1254,7 +1262,7 @@ begin
                FC3doglPlanets[TDMVUorbObjCnt].Visible:=false;
                FC3doglAsteroids[TDMVUorbObjCnt].Visible:=true;
                {.set orbits}
-               FCMogO_Orbit_Generation(otPlanet, TDMVUorbObjCnt, 0, 0, LSVUorbDistUnit);
+               FCMogO_Orbit_Generation(otPlanet, TDMVUorbObjCnt, 0, 0, OrbitDistanceInUnits);
                {.space units in orbit of current object}
                FCMoglVM_OObjSpUn_inOrbit(TDMVUorbObjCnt, 0, 0, true);
             end //==END== if (OO_type>=oobtpAster_Metall) and (OO_type<=oobtpAster_Icy) ==//
@@ -1264,7 +1272,7 @@ begin
             then
             begin
                {.initialize 3d structure}
-               FCMoglVM_OObj_Gen(oglvmootNorm, TDMVUorbObjCnt);
+               FCMoglVM_OObj_Gen(o3dotPlanet, TDMVUorbObjCnt);
                {.inclination}
                FC3doglPlanets[TDMVUorbObjCnt].RollAngle:=S_orbitalObjects[TDMVUorbObjCnt].OO_isNotSat_axialTilt;
                {.set scale}
@@ -1274,10 +1282,10 @@ begin
                FC3doglPlanets[TDMVUorbObjCnt].scale.Z:=FC3doglPlanets[TDMVUorbObjCnt].scale.X;
                {.set distance and location}
                {:DEV NOTES: WARNING A FUNCTION NOW EXISTS FOR THIS CALCULATION: FCFoglF_OrbitalObject_CalculatePosition.}
-               LSVUorbDistUnit:=FCFcF_Scale_Conversion(cAU_to3dViewUnits,S_orbitalObjects[TDMVUorbObjCnt].OO_isNotSat_distanceFromStar);//dev:USE /5.5 - WARNING: adjust all dist proportionally ; //ok to fill the call w/ param and remove this
-               FC3doglObjectsGroups[TDMVUorbObjCnt].Position.X:=cos(LSVUangleRad)*LSVUorbDistUnit;//ok to fill the call w/ param and remove this
+               OrbitDistanceInUnits:=FCFcF_Scale_Conversion(cAU_to3dViewUnits,S_orbitalObjects[TDMVUorbObjCnt].OO_isNotSat_distanceFromStar);//dev:USE /5.5 - WARNING: adjust all dist proportionally ; //ok to fill the call w/ param and remove this
+               FC3doglObjectsGroups[TDMVUorbObjCnt].Position.X:=cos(LSVUangleRad)*OrbitDistanceInUnits;//ok to fill the call w/ param and remove this
                FC3doglObjectsGroups[TDMVUorbObjCnt].Position.Y:=0;//ok to fill the call w/ param and remove this
-               FC3doglObjectsGroups[TDMVUorbObjCnt].Position.Z:=sin(LSVUangleRad)*LSVUorbDistUnit;//ok to fill the call w/ param and remove this
+               FC3doglObjectsGroups[TDMVUorbObjCnt].Position.Z:=sin(LSVUangleRad)*OrbitDistanceInUnits;//ok to fill the call w/ param and remove this
                {.set group scale}
                FC3doglObjectsGroups[TDMVUorbObjCnt].CubeSize:=FC3doglPlanets[TDMVUorbObjCnt].scale.X*2;
                {.set atmosphere}
@@ -1310,8 +1318,8 @@ begin
                         SetLength(FC3doglSatellites, Length(FC3doglSatellites)+LSVUblocCnt);
                         SetLength(FC3doglSatellitesAtmospheres, length(FC3doglSatellitesAtmospheres)+LSVUblocCnt);
                         SetLength(FC3doglSatellitesAsteroids, Length(FC3doglSatellitesAsteroids)+LSVUblocCnt);
-                        SetLength(FC3oglMainViewListSatellitesGravityWells, Length(FC3oglMainViewListSatellitesGravityWells)+LSVUblocCnt);
-                        SetLength(FC3oglMainViewListSatelliteOrbits, Length(FC3oglMainViewListSatelliteOrbits)+LSVUblocCnt);
+                        SetLength(FC3doglMainViewListSatellitesGravityWells, Length(FC3doglMainViewListSatellitesGravityWells)+LSVUblocCnt);
+                        SetLength(FC3doglMainViewListSatelliteOrbits, Length(FC3doglMainViewListSatelliteOrbits)+LSVUblocCnt);
                      end;
                      {:DEV NOTES: WARNING A FUNCTION NOW EXISTS FOR THIS CALCULATION: FCFoglF_Satellite_CalculatePosition}
                      LSVUangleRad:=S_orbitalObjects[TDMVUorbObjCnt].OO_satellitesList[TDMVUsatIdx].OO_angle1stDay*FCCdiDegrees_To_Radian; //ok to fill the call w/ param and remove this
@@ -1320,7 +1328,7 @@ begin
                      then
                      begin
                         {.initialize 3d structure}
-                        FCMoglVM_OObj_Gen(oglvmootSatAster, TDMVUsatCnt);
+                        FCMoglVM_OObj_Gen(o3dotSatelliteAsteroid, TDMVUsatCnt);
                         {.initialize 3d structure}
                         FC3doglSatellitesAsteroids[TDMVUsatCnt].Load3DSFileFrom
                            (FCFoglVMain_Aster_Set(TDMVUorbObjCnt, TDMVUsatIdx, true));
@@ -1362,7 +1370,7 @@ begin
                      else if S_orbitalObjects[TDMVUorbObjCnt].OO_satellitesList[TDMVUsatIdx].OO_type>ootSatellite_Asteroid_Icy then
                      begin
                         {.initialize 3d structure}
-                        FCMoglVM_OObj_Gen(oglvmootSatNorm, TDMVUsatCnt);
+                        FCMoglVM_OObj_Gen(o3dotSatellitePlanet, TDMVUsatCnt);
                         {.axial tilt}
                         FC3doglSatellites[TDMVUsatCnt].RollAngle
                            :=S_orbitalObjects[TDMVUorbObjCnt].OO_isNotSat_axialTilt;
@@ -1425,26 +1433,26 @@ begin
                      then S_orbitalObjects[TDMVUorbObjCnt].OO_isNotSat_1st3dObjectSatelliteIndex:=TDMVUsatCnt;
                      inc(TDMVUsatIdx);
                   end; //==END== while TDMVUsatIdx<=TDMVUsatTtlInDS ==//
-                  FC3doglTotalSatellites:=TDMVUsatCnt;
+                  FC3doglMainViewTotalSatellites:=TDMVUsatCnt;
                end;//==END== if Length(SDB_obobj[LSVUorbObjCnt].OO_satList>1) ==//
                {.displaying}
                FC3doglObjectsGroups[TDMVUorbObjCnt].Visible:=true;
                FC3doglPlanets[TDMVUorbObjCnt].Visible:=true;
                {.set orbits}
-               FCMogO_Orbit_Generation(otPlanet, TDMVUorbObjCnt, 0, 0, LSVUorbDistUnit);
+               FCMogO_Orbit_Generation(otPlanet, TDMVUorbObjCnt, 0, 0, OrbitDistanceInUnits);
                {.space units in orbit of current object}
                FCMoglVM_OObjSpUn_inOrbit(TDMVUorbObjCnt, 0, 0, true);
             end; //==END== else if (SDB_obobj[LSVUorbObjCnt].OO_type>=oobtpPlan_Tellu...//
             inc(TDMVUorbObjCnt);
          end; //==END== while LSVUorbObjCnt<=LSVUorbObjInTtl ==//
       end; //==END== with FCDBstarSys[CFVstarSysIdDB].SS_star[CFVstarIdDB] ==//
-      FC3doglTotalOrbitalObjects:=TDMVUorbObjCnt-1;
+      FC3doglMainViewTotalOrbitalObjects:=TDMVUorbObjCnt-1;
    end; //==END==if Length(FCDBstarSys[CFVstarSysIdDB].SS_star[CFVstarIdDB].SDB_obobj)>1==//
    SetLength(FC3doglObjectsGroups, TDMVUorbObjCnt+1);
    SetLength(FC3doglPlanets, TDMVUorbObjCnt+1);
    SetLength(FC3doglAtmospheres, TDMVUorbObjCnt+1);
    SetLength(FC3doglAsteroids, TDMVUorbObjCnt+1);
-   SetLength(FC3oglMainViewListMainOrbits, TDMVUorbObjCnt+1);
+   SetLength(FC3doglMainViewListMainOrbits, TDMVUorbObjCnt+1);
    SetLength(FC3doglMainViewListGravityWells, TDMVUorbObjCnt+1);
    {.space units display in free space}
    MVUentCnt:=0;
@@ -1458,14 +1466,14 @@ begin
          while LSVUspUnCnt<=LSVUspUnFacTtl do
          begin
             if (FCDdgEntities[MVUentCnt].E_spaceUnits[LSVUspUnCnt].SU_status=susInFreeSpace)
-               and (FCDdgEntities[MVUentCnt].E_spaceUnits[LSVUspUnCnt].SU_locationStar=LSVUstarId)
+               and (FCDdgEntities[MVUentCnt].E_spaceUnits[LSVUspUnCnt].SU_locationStar=Star)
             then FCMoglVM_SpUn_Gen(
                scfInSpace
                ,MVUentCnt
                ,LSVUspUnCnt
                )
             else if (FCDdgEntities[MVUentCnt].E_spaceUnits[LSVUspUnCnt].SU_status=susDocked)
-               and (FCDdgEntities[MVUentCnt].E_spaceUnits[LSVUspUnCnt].SU_locationStar=LSVUstarId)
+               and (FCDdgEntities[MVUentCnt].E_spaceUnits[LSVUspUnCnt].SU_locationStar=Star)
             then FCMoglVM_SpUn_Gen(
                scfDocked
                ,MVUentCnt
@@ -1480,7 +1488,7 @@ begin
    if FC3oglvmAsteroidTemp<>nil
    then FC3oglvmAsteroidTemp.Free;
    {.space unit selection}
-   if FC3doglTotalSpaceUnits>0
+   if FC3doglMainViewTotalSpaceUnits>0
    then FC3doglSelectedSpaceUnit:=1;
    {.relocate correctly non-dynamic objects}
    {.HUDgameTime and all hud children}
@@ -1493,11 +1501,11 @@ begin
    FCWinMain.FCGLScadencer.Enabled:=true;
    FCWinMain.FCGLSmainView.Show;
    FCMuiW_UI_Initialize(mwupTextWM3dFrame);
-   FCMoglVM_CamMain_Target(FC3doglSelectedPlanetAsteroid, true);
+   FCMovM_CameraMain_Target(FC3doglSelectedPlanetAsteroid, true);
 end;
 
 procedure FCMoglVM_OObj_Gen(
-   const OOGobjClass: TFCEoglvmOobTp;
+   const OOGobjClass: TFCEovmOrbital3dObjectTypes;
    const OOGobjIdx: integer
    );
 {:Purpose: generate a 3d objects row of selected index.
@@ -1509,8 +1517,8 @@ procedure FCMoglVM_OObj_Gen(
       -2009Dec07- *update atmosphere initialization.
 }
 begin
-   if (OOGobjClass=oglvmootNorm)
-      or (OOGobjClass=oglvmootAster)
+   if (OOGobjClass=o3dotPlanet)
+      or (OOGobjClass=o3dotAsteroid)
    then
    begin
       {.the object group}
@@ -1531,7 +1539,7 @@ begin
       FC3doglPlanets[OOGobjIdx].Stacks:=64;
       FC3doglPlanets[OOGobjIdx].Visible:=false;
       FC3doglPlanets[OOGobjIdx].ShowAxes:=false;
-      if OOGobjClass=oglvmootNorm
+      if OOGobjClass=o3dotPlanet
       then
       begin
          FC3doglPlanets[OOGobjIdx].Material.BackProperties.Ambient.Color
@@ -1585,7 +1593,7 @@ begin
 //         FC3DobjPlan[OOGobjIdx].Material.Texture.TextureWrapT:=FC3DmatLibSplanT.Materials.Items[0].Material.Texture.TextureWrapT;
 //         FC3DobjPlan[OOGobjIdx].Material.Texture.TextureWrapR:=FC3DmatLibSplanT.Materials.Items[0].Material.Texture.TextureWrapR;
       end //==END== if OOGobjClass=oglvmootNorm ==//
-      else if OOGobjClass=oglvmootAster
+      else if OOGobjClass=o3dotAsteroid
       then
       begin
          {.the asteroid}
@@ -1611,8 +1619,8 @@ begin
       FC3doglAtmospheres[OOGobjIdx].Visible:=false;
    end
    {.satellites}
-   else if (OOGobjClass=oglvmootSatNorm)
-      or (OOGobjClass=oglvmootSatAster)
+   else if (OOGobjClass=o3dotSatellitePlanet)
+      or (OOGobjClass=o3dotSatelliteAsteroid)
    then
    begin
       {.the object group}
@@ -1633,7 +1641,7 @@ begin
       FC3doglSatellites[OOGobjIdx].Stacks:=64;
       FC3doglSatellites[OOGobjIdx].Visible:=false;
       FC3doglSatellites[OOGobjIdx].ShowAxes:=false;
-      if OOGobjClass=oglvmootSatNorm
+      if OOGobjClass=o3dotSatellitePlanet
       then
       begin
          FC3doglSatellites[OOGobjIdx].Material.BackProperties.Ambient.Color
@@ -1707,7 +1715,7 @@ begin
 //         FC3DobjSat[OOGobjIdx].Material.Texture.TextureWrapR
 //            :=FC3DmatLibSplanT.Materials.Items[0].Material.Texture.TextureWrapR;
       end //==END== if OOGobjClass=oglvmootSatNorm ==//
-      else if OOGobjClass=oglvmootSatAster then
+      else if OOGobjClass=o3dotSatelliteAsteroid then
       begin
          {.the asteroid}
          FC3doglSatellitesAsteroids[OOGobjIdx]:=TDGLib3dsStaMesh(FC3doglSatellitesObjectsGroups[OOGobjIdx].AddNewChild(TDGLib3dsStaMesh));
@@ -1797,7 +1805,7 @@ begin
                      ,OOSUIOfac
                      ,OOSUIOspUntOwnIdx
                      );
-                  OOSUIOspUnObjIdx:=FC3doglTotalSpaceUnits;
+                  OOSUIOspUnObjIdx:=FC3doglMainViewTotalSpaceUnits;
                end
                else if not OOSUIOUmustGen
                then OOSUIOspUnObjIdx:=FCDdgEntities[OOSUIOfac].E_spaceUnits[OOSUIOspUntOwnIdx].SU_linked3dObject;
@@ -1843,22 +1851,22 @@ begin
                      ,OOSUIOfac
                      ,OOSUIOspUntOwnIdx
                      );
-                  OOSUIOspUnObjIdx:=FC3doglTotalSpaceUnits;
+                  OOSUIOspUnObjIdx:=FC3doglMainViewTotalSpaceUnits;
                end
                else if not OOSUIOUmustGen
                then OOSUIOspUnObjIdx:=FCDdgEntities[OOSUIOfac].E_spaceUnits[OOSUIOspUntOwnIdx].SU_linked3dObject;
                if FC3doglSatellitesObjectsGroups[OOSUIOUsatObjIdx].Position.X>0
                then FC3doglSpaceUnits[OOSUIOspUnObjIdx].Position.X
-                  :=FC3doglSatellitesObjectsGroups[OOSUIOUsatObjIdx].Position.X-(0.9*cos(8*OOSUIOspUnCnt*FCCdiDegrees_To_Radian)*FC3oglMainViewListSatellitesGravityWells[OOSUIOUsatObjIdx].Scale.X)
+                  :=FC3doglSatellitesObjectsGroups[OOSUIOUsatObjIdx].Position.X-(0.9*cos(8*OOSUIOspUnCnt*FCCdiDegrees_To_Radian)*FC3doglMainViewListSatellitesGravityWells[OOSUIOUsatObjIdx].Scale.X)
                else if FC3doglSatellitesObjectsGroups[OOSUIOUsatObjIdx].Position.X<0
                then FC3doglSpaceUnits[OOSUIOspUnObjIdx].Position.X
-                  :=FC3doglSatellitesObjectsGroups[OOSUIOUsatObjIdx].Position.X+(0.9*cos(8*OOSUIOspUnCnt*FCCdiDegrees_To_Radian)*FC3oglMainViewListSatellitesGravityWells[OOSUIOUsatObjIdx].Scale.X);
+                  :=FC3doglSatellitesObjectsGroups[OOSUIOUsatObjIdx].Position.X+(0.9*cos(8*OOSUIOspUnCnt*FCCdiDegrees_To_Radian)*FC3doglMainViewListSatellitesGravityWells[OOSUIOUsatObjIdx].Scale.X);
                if FC3doglSatellitesObjectsGroups[OOSUIOUsatObjIdx].Position.Z>0
                then FC3doglSpaceUnits[OOSUIOspUnObjIdx].Position.Z
-                  :=FC3doglSatellitesObjectsGroups[OOSUIOUsatObjIdx].Position.Z-(0.9*sin(8*OOSUIOspUnCnt*FCCdiDegrees_To_Radian)*FC3oglMainViewListSatellitesGravityWells[OOSUIOUsatObjIdx].Scale.X)
+                  :=FC3doglSatellitesObjectsGroups[OOSUIOUsatObjIdx].Position.Z-(0.9*sin(8*OOSUIOspUnCnt*FCCdiDegrees_To_Radian)*FC3doglMainViewListSatellitesGravityWells[OOSUIOUsatObjIdx].Scale.X)
                else if FC3doglSatellitesObjectsGroups[OOSUIOUsatObjIdx].Position.Z<0
                then FC3doglSpaceUnits[OOSUIOspUnObjIdx].Position.Z
-                  :=FC3doglSatellitesObjectsGroups[OOSUIOUsatObjIdx].Position.Z+(0.9*sin(8*OOSUIOspUnCnt*FCCdiDegrees_To_Radian)*FC3oglMainViewListSatellitesGravityWells[OOSUIOUsatObjIdx].Scale.X);
+                  :=FC3doglSatellitesObjectsGroups[OOSUIOUsatObjIdx].Position.Z+(0.9*sin(8*OOSUIOspUnCnt*FCCdiDegrees_To_Radian)*FC3doglMainViewListSatellitesGravityWells[OOSUIOUsatObjIdx].Scale.X);
                FC3doglSpaceUnits[OOSUIOspUnObjIdx].PointTo(
                   FC3doglSatellitesObjectsGroups[OOSUIOUsatObjIdx]
                   ,FC3doglSatellitesObjectsGroups[OOSUIOUsatObjIdx].Position.AsVector
@@ -1873,7 +1881,7 @@ begin
 end;
 
 procedure FCMoglVM_SpUn_Gen(
-   const SUGstatus: TFCEoglvmSCfrom;
+   const SUGstatus: TFCEovmSpaceUnitOrigin;
    const SUGfac
          ,SUGspUnOwnIdx: integer
    );
@@ -1898,39 +1906,39 @@ begin
       or (SUGstatus=scfInSpace)
    then
    begin
-      inc(FC3doglTotalSpaceUnits);
-      SetLength(FC3doglSpaceUnits, FC3doglTotalSpaceUnits+1);
+      inc(FC3doglMainViewTotalSpaceUnits);
+      SetLength(FC3doglSpaceUnits, FC3doglMainViewTotalSpaceUnits+1);
       SUGdesgn:=FCFspuF_Design_getDB(FCDdgEntities[SUGfac].E_spaceUnits[SUGspUnOwnIdx].SU_designToken);
       {.create the object and set some basic data}
-      FC3doglSpaceUnits[FC3doglTotalSpaceUnits]:=TDGLib3dsStaMesh(FCWinMain.FCGLSRootMain.Objects.AddNewChild(TDGLib3dsStaMesh));
+      FC3doglSpaceUnits[FC3doglMainViewTotalSpaceUnits]:=TDGLib3dsStaMesh(FCWinMain.FCGLSRootMain.Objects.AddNewChild(TDGLib3dsStaMesh));
 //      TGLFile3DSFreeForm(FCWinMain.FCGLSRootMain.Objects.AddNewChild(TGLFile3DSFreeForm));
 
 
 
-      FC3doglSpaceUnits[FC3doglTotalSpaceUnits].Load3DSFileFrom(FCVdiPathResourceDir+'obj-3ds-scraft\'+FCDdsuSpaceUnitDesigns[SUGdesgn].SUD_internalStructureClone.IS_token+'.3ds');//Load3DSFileFrom(FCVpathRsrc+'obj-3ds-scraft\'+FCDBscDesigns[SUGdesgn].SCD_intStrClone.SCIS_token+'.3ds');
+      FC3doglSpaceUnits[FC3doglMainViewTotalSpaceUnits].Load3DSFileFrom(FCVdiPathResourceDir+'obj-3ds-scraft\'+FCDdsuSpaceUnitDesigns[SUGdesgn].SUD_internalStructureClone.IS_token+'.3ds');//Load3DSFileFrom(FCVpathRsrc+'obj-3ds-scraft\'+FCDBscDesigns[SUGdesgn].SCD_intStrClone.SCIS_token+'.3ds');
 //      FC3DobjSpUnit[FCV3DttlSpU].UseMeshMaterials:=true;
       {.set the space unit 3d scales}
-      FC3doglSpaceUnits[FC3doglTotalSpaceUnits].Scale.X:=FCFcF_Scale_Conversion(cMetersToSpaceUnitSize, SUGdesgn)*3.5;
-      FC3doglSpaceUnits[FC3doglTotalSpaceUnits].Scale.Y:=FC3doglSpaceUnits[FC3doglTotalSpaceUnits].Scale.X;
-      FC3doglSpaceUnits[FC3doglTotalSpaceUnits].Scale.Z:=FC3doglSpaceUnits[FC3doglTotalSpaceUnits].Scale.X;
+      FC3doglSpaceUnits[FC3doglMainViewTotalSpaceUnits].Scale.X:=FCFcF_Scale_Conversion(cMetersToSpaceUnitSize, SUGdesgn)*3.5;
+      FC3doglSpaceUnits[FC3doglMainViewTotalSpaceUnits].Scale.Y:=FC3doglSpaceUnits[FC3doglMainViewTotalSpaceUnits].Scale.X;
+      FC3doglSpaceUnits[FC3doglMainViewTotalSpaceUnits].Scale.Z:=FC3doglSpaceUnits[FC3doglMainViewTotalSpaceUnits].Scale.X;
       {.in case of the space unit is in free space}
       if SUGstatus=scfInSpace
       then
       begin
-         FC3doglSpaceUnits[FC3doglTotalSpaceUnits].Position.X:=FCDdgEntities[SUGfac].E_spaceUnits[SUGspUnOwnIdx].SU_locationViewX;
-         FC3doglSpaceUnits[FC3doglTotalSpaceUnits].Position.Z:=FCDdgEntities[SUGfac].E_spaceUnits[SUGspUnOwnIdx].SU_locationViewZ;
+         FC3doglSpaceUnits[FC3doglMainViewTotalSpaceUnits].Position.X:=FCDdgEntities[SUGfac].E_spaceUnits[SUGspUnOwnIdx].SU_locationViewX;
+         FC3doglSpaceUnits[FC3doglMainViewTotalSpaceUnits].Position.Z:=FCDdgEntities[SUGfac].E_spaceUnits[SUGspUnOwnIdx].SU_locationViewZ;
       end;
       {.add faction id#}
-      FC3doglSpaceUnits[FC3doglTotalSpaceUnits].Tag:=SUGfac;
+      FC3doglSpaceUnits[FC3doglMainViewTotalSpaceUnits].Tag:=SUGfac;
       {.add owned space unit index}
-      FC3doglSpaceUnits[FC3doglTotalSpaceUnits].TagFloat:=SUGspUnOwnIdx;
-      FCDdgEntities[SUGfac].E_spaceUnits[SUGspUnOwnIdx].SU_linked3dObject:=FC3doglTotalSpaceUnits;
+      FC3doglSpaceUnits[FC3doglMainViewTotalSpaceUnits].TagFloat:=SUGspUnOwnIdx;
+      FCDdgEntities[SUGfac].E_spaceUnits[SUGspUnOwnIdx].SU_linked3dObject:=FC3doglMainViewTotalSpaceUnits;
       {.finalization}
-      FC3doglSpaceUnits[FC3doglTotalSpaceUnits].UseMeshMaterials:=true;
-      FC3doglSpaceUnits[FC3doglTotalSpaceUnits].Material.Texture.Disabled:=false;
+      FC3doglSpaceUnits[FC3doglMainViewTotalSpaceUnits].UseMeshMaterials:=true;
+      FC3doglSpaceUnits[FC3doglMainViewTotalSpaceUnits].Material.Texture.Disabled:=false;
       if (SUGstatus<>scfDocked)
-      then FC3doglSpaceUnits[FC3doglTotalSpaceUnits].Visible:=true
-      else FC3doglSpaceUnits[FC3doglTotalSpaceUnits].Visible:=false;
+      then FC3doglSpaceUnits[FC3doglMainViewTotalSpaceUnits].Visible:=true
+      else FC3doglSpaceUnits[FC3doglMainViewTotalSpaceUnits].Visible:=false;
    end;
 end;
 

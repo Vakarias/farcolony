@@ -339,12 +339,12 @@ begin
                      else begin
 
                            if FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCdestination=ttOrbitalObject
-                           then FCMoglVM_CamMain_Target(FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCdestinationIndex, true)
+                           then FCMovM_CameraMain_Target(FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCdestinationIndex, true)
                            else if FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCdestination=ttSatellite
                            then
                            begin
                               FC3doglSelectedSatellite:=FC3doglSatellitesObjectsGroups[FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCdestinationIndex].Tag;//! review that
-                              FCMoglVM_CamMain_Target(100, true);
+                              FCMovM_CameraMain_Target(100, true);
                            end;
 //                     end;
 //                        end;
@@ -395,7 +395,7 @@ begin
                            ,FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCcolonyName
                            ,FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCsettlementName
                            );
-                        if ( FCFoglVM_Focused_Get=1 )
+                        if ( FCFovM_Focused3dObject_GetType=1 )
                            and ( FCDduStarSystem[GTPssysDB].SS_stars[GTPstarDB].S_token=FCVdgPlayer.P_viewStar )
                            and ( FC3doglSelectedPlanetAsteroid=FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCdestinationIndex) then
                         begin
@@ -420,7 +420,7 @@ begin
                            ,FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCcolonyName
                            ,FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCsettlementName
                            );
-                        if ( FCFoglVM_Focused_Get=2 )
+                        if ( FCFovM_Focused3dObject_GetType=2 )
                            and ( FCDduStarSystem[GTPssysDB].SS_stars[GTPstarDB].S_token=FCVdgPlayer.P_viewStar )
                            and ( FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].TagFloat=GTPoobjDB)
                            and ( FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].Tag=GTPsatDB) then
@@ -705,7 +705,7 @@ begin
                      then
                      begin
                         FC3doglSelectedSpaceUnit:=FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_linked3dObject;
-                        FCMoglVM_CamMain_Target(-1, true);
+                        FCMovM_CameraMain_Target(-1, true);
                      end;
                      FCDdmtTaskListInProcess[GTPtaskIdx].T_inProcessData.IPD_isTaskTerminated:=true;
                   end; //==END== if FCGtskListInProc[GTPtaskIdx].TITP_phaseTp=tpDone ==//

@@ -266,7 +266,7 @@ FCMdF_DBProducts_Load;
          else CPsat:=0;
          FC3doglSelectedPlanetAsteroid:=CPoobj;
          {.3d view initialization}
-         FCMoglVM_MView_Upd(
+         FCMovM_3DView_Update(
             FCVdgPlayer.P_viewStarSystem,
             FCVdgPlayer.P_viewStar,
             false,
@@ -275,7 +275,7 @@ FCMdF_DBProducts_Load;
          if CPsat>0
          then FC3doglSelectedSatellite:=FCFoglF_Satellite_SearchObject(CPoobj, CPsat)
          else if (CPsat=0)
-            and (FC3doglTotalSatellites>0)
+            and (FC3doglMainViewTotalSatellites>0)
          then FC3doglSelectedSatellite:=1;
       end; //==END== 3d initialization try..finally ==//
       FCMuiSP_SurfaceEcosphere_Set(0,0,0, 0, true);

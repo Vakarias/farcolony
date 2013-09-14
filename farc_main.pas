@@ -551,7 +551,7 @@ begin
       ,FC3doglSelectedPlanetAsteroid
       ,0
       )
-   else if ( FC3doglTotalSatellites>0 )
+   else if ( FC3doglMainViewTotalSatellites>0 )
       and ( FCGLSCamMainViewGhost.TargetObject=FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite] )
    then FCMuiCDP_Display_Set(
       FC3doglCurrentStarSystem
@@ -659,7 +659,7 @@ begin
       begin
          {.space unit zoom/unzoom}
          if (FCGLSCamMainViewGhost.TargetObject=FC3doglSpaceUnits[FC3doglSelectedSpaceUnit])
-            and (FC3doglTotalSpaceUnits>0)
+            and (FC3doglMainViewTotalSpaceUnits>0)
          then
          begin
             FCGLSCPscaleCoef:=FC3doglSpaceUnitSize*160;//*240;
@@ -690,7 +690,7 @@ begin
             then FCGLSsmthNavMainV.AdjustDistanceToTarget(FCVwinMmousePosDumpY - FCVwinMmouseNewPosY, DelTaTime);
          end
          {.satellites zoom/unzoom}
-         else if ( FC3doglTotalSatellites>0 )
+         else if ( FC3doglMainViewTotalSatellites>0 )
             and ( FCGLSCamMainViewGhost.TargetObject=FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite] )
          then
          begin
@@ -808,7 +808,7 @@ begin
                );
          finally
             if (FCGLSCamMainViewGhost.TargetObject=FC3doglSpaceUnits[FC3doglSelectedSpaceUnit])
-               and (FC3doglTotalSpaceUnits>0)
+               and (FC3doglMainViewTotalSpaceUnits>0)
             then FCV3DcamTimeSteps:=FCV3DcamTimeSteps-0.001
             else FCV3DcamTimeSteps:=FCV3DcamTimeSteps-0.005;
          end;
@@ -877,7 +877,7 @@ begin
             (FCGLSCamMainViewGhost.TargetObject=FC3doglSpaceUnits[FC3doglSelectedSpaceUnit])
          )
          or (
-               ( FC3doglTotalSatellites>0 )
+               ( FC3doglMainViewTotalSatellites>0 )
                and
                (FC3doglSelectedSatellite>0)
                and
