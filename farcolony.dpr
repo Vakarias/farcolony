@@ -45,9 +45,6 @@ uses
   farc_data_textfiles in 'data\farc_data_textfiles.pas',
   farc_win_newgset in 'ui\farc_win_newgset.pas' {FCWinNewGSetup},
   farc_game_newg in 'game\farc_game_newg.pas',
-  farc_ogl_viewmain in 'gfx\farc_ogl_viewmain.pas',
-  farc_ogl_init in 'gfx\farc_ogl_init.pas',
-  farc_ogl_ui in 'gfx\farc_ogl_ui.pas',
   farc_ui_keys in 'ui\farc_ui_keys.pas',
   farc_game_gameflow in 'game\farc_game_gameflow.pas',
   farc_spu_functions in 'spu\farc_spu_functions.pas',
@@ -138,7 +135,10 @@ uses
   farc_fug_biosphereammonia in 'univ\farc_fug_biosphereammonia.pas',
   farc_fug_biospheremethane in 'univ\farc_fug_biospheremethane.pas',
   farc_fug_biospheresulphurdioxide in 'univ\farc_fug_biospheresulphurdioxide.pas',
-  farc_fug_biospherefunctions in 'univ\farc_fug_biospherefunctions.pas';
+  farc_fug_biospherefunctions in 'univ\farc_fug_biospherefunctions.pas',
+  farc_ogl_init in 'ogl\farc_ogl_init.pas',
+  farc_ogl_ui in 'ogl\farc_ogl_ui.pas',
+  farc_ogl_viewmain in 'ogl\farc_ogl_viewmain.pas';
 
 {$R *.res}
 
