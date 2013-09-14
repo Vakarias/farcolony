@@ -270,7 +270,7 @@ begin
                then
                begin
                   inc(FC3doglSelectedPlanetAsteroid);
-                  FCMovM_CameraMain_Target(FC3doglSelectedPlanetAsteroid, true);
+                  FCMovM_CameraMain_Target(foOrbitalObject, true);
                   if FCWinMain.FCWM_MissionSettings.Visible
                   then FCMuiMS_InterplanetaryTransitInterface_UpdateDestination(false)
                   else if (not FCWinMain.FCWM_MissionSettings.Visible)
@@ -285,14 +285,14 @@ begin
                then
                begin
                   dec(FC3doglSelectedPlanetAsteroid);
-                  FCMovM_CameraMain_Target(FC3doglSelectedPlanetAsteroid, true);
+                  FCMovM_CameraMain_Target(foOrbitalObject, true);
                   FCMuiMS_InterplanetaryTransitInterface_UpdateDestination(false);
                end
                else if not FCWinMain.FCWM_MissionSettings.Visible
                then
                begin
                   dec(FC3doglSelectedPlanetAsteroid);
-                  FCMovM_CameraMain_Target(FC3doglSelectedPlanetAsteroid, true);
+                  FCMovM_CameraMain_Target(foOrbitalObject, true);
                   if (FCWinMain.SP_AutoUpdateCheck.Checked)
                      and (FC3doglSelectedPlanetAsteroid>0)
                   then FCMuiSP_SurfaceEcosphere_Set(FC3doglCurrentStarSystem, FC3doglCurrentStar, FC3doglSelectedPlanetAsteroid, 0, false);
@@ -304,14 +304,14 @@ begin
                then
                begin
                   FC3doglSelectedPlanetAsteroid:=1;
-                  FCMovM_CameraMain_Target(FC3doglSelectedPlanetAsteroid, true);
+                  FCMovM_CameraMain_Target(foOrbitalObject, true);
                   FCMuiMS_InterplanetaryTransitInterface_UpdateDestination(false);
                end
                else if not FCWinMain.FCWM_MissionSettings.Visible
                then
                begin
                   FC3doglSelectedPlanetAsteroid:=0;
-                  FCMovM_CameraMain_Target(FC3doglSelectedPlanetAsteroid, true);
+                  FCMovM_CameraMain_Target(foOrbitalObject, true);
                end;
             end;
             uikbkLast:
@@ -320,7 +320,7 @@ begin
                then
                begin
                   FC3doglSelectedPlanetAsteroid:=FC3doglMainViewTotalOrbitalObjects;
-                  FCMovM_CameraMain_Target(FC3doglSelectedPlanetAsteroid, true);
+                  FCMovM_CameraMain_Target(foOrbitalObject, true);
                   if FCWinMain.FCWM_MissionSettings.Visible
                   then FCMuiMS_InterplanetaryTransitInterface_UpdateDestination(false)
                   else if (not FCWinMain.FCWM_MissionSettings.Visible)
@@ -382,7 +382,7 @@ begin
                end;
             end;
          end; //==END== case BKSbk of ==//
-         FCMovM_CameraMain_Target(100, false);
+         FCMovM_CameraMain_Target(foSatellite, false);
          if FCWinMain.FCWM_MissionSettings.Visible
          then FCMuiMS_InterplanetaryTransitInterface_UpdateDestination(false)
          else if (not FCWinMain.FCWM_MissionSettings.Visible)
@@ -515,7 +515,7 @@ begin
             end;
          end; //==END== case BKSbk of ==//
          if GreenFlagForFocus
-         then FCMovM_CameraMain_Target(-1, true);
+         then FCMovM_CameraMain_Target(foSpaceUnit, true);
       end; //==END== case - uikbtSpU: ==//
    end; //==END== case BKSbtp of ==//
 end;
@@ -978,7 +978,7 @@ begin
                   begin
                      FC3doglSelectedPlanetAsteroid:=round(FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].TagFloat);
                   end;
-                  FCMovM_CameraMain_Target(100, false);
+                  FCMovM_CameraMain_Target(foSatellite, false);
                   if FCWinMain.FCWM_MissionSettings.Visible
                   then FCMuiMS_InterplanetaryTransitInterface_UpdateDestination(false);
                end
@@ -986,7 +986,7 @@ begin
                   and (FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite])
                then
                begin
-                  FCMovM_CameraMain_Target(FC3doglSelectedPlanetAsteroid, true);
+                  FCMovM_CameraMain_Target(foOrbitalObject, true);
                   if FCWinMain.FCWM_MissionSettings.Visible
                   then FCMuiMS_InterplanetaryTransitInterface_UpdateDestination(false);
                end;

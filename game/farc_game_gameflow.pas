@@ -338,13 +338,16 @@ begin
                      then FCMoglMV_Camera_TargetSpaceUnit(FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCoriginIndex)
                      else begin
 
-                           if FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCdestination=ttOrbitalObject
-                           then FCMovM_CameraMain_Target(FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCdestinationIndex, true)
+                           if FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCdestination=ttOrbitalObject then
+                           begin
+                              FC3doglSelectedPlanetAsteroid:=FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCdestinationIndex;
+                              FCMovM_CameraMain_Target(foOrbitalObject, true)
+                           end
                            else if FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCdestination=ttSatellite
                            then
                            begin
                               FC3doglSelectedSatellite:=FC3doglSatellitesObjectsGroups[FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCdestinationIndex].Tag;//! review that
-                              FCMovM_CameraMain_Target(100, true);
+                              FCMovM_CameraMain_Target(foSatellite, true);
                            end;
 //                     end;
 //                        end;
@@ -705,7 +708,7 @@ begin
                      then
                      begin
                         FC3doglSelectedSpaceUnit:=FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_linked3dObject;
-                        FCMovM_CameraMain_Target(-1, true);
+                        FCMovM_CameraMain_Target(foSpaceUnit, true);
                      end;
                      FCDdmtTaskListInProcess[GTPtaskIdx].T_inProcessData.IPD_isTaskTerminated:=true;
                   end; //==END== if FCGtskListInProc[GTPtaskIdx].TITP_phaseTp=tpDone ==//

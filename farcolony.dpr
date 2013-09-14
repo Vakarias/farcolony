@@ -140,7 +140,8 @@ uses
   farc_ogl_ui in 'ogl\farc_ogl_ui.pas',
   farc_ogl_viewmain in 'ogl\farc_ogl_viewmain.pas',
   farc_ogl_genorbits in 'ogl\farc_ogl_genorbits.pas',
-  farc_ogl_genspaceunits in 'ogl\farc_ogl_genspaceunits.pas';
+  farc_ogl_genspaceunits in 'ogl\farc_ogl_genspaceunits.pas',
+  farc_ogl_genorbitalobjects in 'ogl\farc_ogl_genorbitalobjects.pas';
 
 {$R *.res}
 

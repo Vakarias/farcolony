@@ -408,11 +408,11 @@ begin
    SpaceDesign:=FCFspuF_Design_getDB( FCDdgEntities[0].E_spaceUnits[SpaceUnit].SU_designToken );
    FC3doglSelectedPlanetAsteroid:=FCRmcCurrentMissionCalculations.CMC_originLocation[3];
    if FCRmcCurrentMissionCalculations.CMC_originLocation[4]=0
-   then FCMovM_CameraMain_Target(FC3doglSelectedPlanetAsteroid, false)
+   then FCMovM_CameraMain_Target(foOrbitalObject, false)
    else if FCRmcCurrentMissionCalculations.CMC_originLocation[4]>0 then
    begin
       FC3doglSelectedSatellite:=FCFoglF_Satellite_SearchObject(FCRmcCurrentMissionCalculations.CMC_originLocation[3], FCRmcCurrentMissionCalculations.CMC_originLocation[4]);
-      FCMovM_CameraMain_Target(100, false);
+      FCMovM_CameraMain_Target(foSatellite, false);
    end;
    FCWinMain.FCWM_MissionSettings.Caption.Text:=FCFdTFiles_UIStr_Get(uistrUI,'FCWinMissSet')+FCFdTFiles_UIStr_Get(uistrUI,'Mission.itransit');
    FCWinMain.FCWMS_Grp_MCG_RMassTrack.Visible:=true;

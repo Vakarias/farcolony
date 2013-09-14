@@ -662,8 +662,8 @@ begin
             and (FC3doglMainViewTotalSpaceUnits>0)
          then
          begin
-            FCGLSCPscaleCoef:=FC3doglSpaceUnitSize*160;//*240;
-            FCGLSCPscaleCoef1:=FC3doglSpaceUnitSize*360;//*400;
+            FCGLSCPscaleCoef:=FC3doglSpaceUnitSize*240;//160;//*240;
+            FCGLSCPscaleCoef1:=FC3doglSpaceUnitSize*400;//360;//*400;
             {.zoom}
             if FCGLSCamMainViewGhost.DistanceToTarget>FCGLSCPscaleCoef
             then FCGLSsmthNavMainV.AdjustDistanceToTarget(FCVwinMmousePosDumpY - FCVwinMmouseNewPosY, DelTaTime)
