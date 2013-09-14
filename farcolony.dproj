@@ -160,6 +160,8 @@
 			<DCCReference Include="ogl\farc_ogl_init.pas"/>
 			<DCCReference Include="ogl\farc_ogl_ui.pas"/>
 			<DCCReference Include="ogl\farc_ogl_viewmain.pas"/>
+			<DCCReference Include="ogl\farc_ogl_genorbits.pas"/>
+			<DCCReference Include="ogl\farc_ogl_genspaceunits.pas"/>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>

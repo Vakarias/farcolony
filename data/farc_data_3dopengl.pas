@@ -144,6 +144,28 @@ var
    ///</summary>
    FC3doglTotalSpaceUnits: integer;
 
+   //==========main view data======================================================================
+   ///<summary>
+   ///   objects list for gravity wells
+   ///</summary>
+   FC3doglMainViewListGravityWells: array of TGLLines;
+
+   ///<summary>
+   ///   objects list for orbits
+   ///</summary>
+   FC3oglMainViewListMainOrbits: array of TGLLines;
+
+   ///<summary>
+   ///   objects list for satellites gravity wells
+   ///</summary>
+   FC3oglMainViewListSatellitesGravityWells: array of TGLLines;
+
+   ///<summary>
+   ///   objects list for satellites orbits
+   ///</summary>
+   FC3oglMainViewListSatelliteOrbits: array of TGLLines;
+
+
 //==END PUBLIC VAR==========================================================================
 
 const

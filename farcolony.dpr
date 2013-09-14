@@ -138,7 +138,9 @@ uses
   farc_fug_biospherefunctions in 'univ\farc_fug_biospherefunctions.pas',
   farc_ogl_init in 'ogl\farc_ogl_init.pas',
   farc_ogl_ui in 'ogl\farc_ogl_ui.pas',
-  farc_ogl_viewmain in 'ogl\farc_ogl_viewmain.pas';
+  farc_ogl_viewmain in 'ogl\farc_ogl_viewmain.pas',
+  farc_ogl_genorbits in 'ogl\farc_ogl_genorbits.pas',
+  farc_ogl_genspaceunits in 'ogl\farc_ogl_genspaceunits.pas';
 
 {$R *.res}
 
