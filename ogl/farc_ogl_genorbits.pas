@@ -35,7 +35,9 @@ uses
    ,SysUtils
 
    ,GLColor
-   ,GLObjects;
+   ,GLObjects
+
+   ,oxLib3dsMeshLoader;
 
 type TFCEogoOrbitTypes=(
    otPlanet
@@ -83,7 +85,6 @@ uses
    //==========subsection===================================================================
 
 //var
-
 
 //==END PRIVATE VAR=========================================================================
 

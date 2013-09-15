@@ -278,6 +278,7 @@ begin
                   then FCMuiSP_SurfaceEcosphere_Set(FC3doglCurrentStarSystem, FC3doglCurrentStar, FC3doglSelectedPlanetAsteroid, 0, false);
                end;
             end;
+
             uikbkPrev:
             begin
                if (FCWinMain.FCWM_MissionSettings.Visible)
@@ -292,12 +293,15 @@ begin
                then
                begin
                   dec(FC3doglSelectedPlanetAsteroid);
-                  FCMovM_CameraMain_Target(foOrbitalObject, true);
+                  if FC3doglSelectedPlanetAsteroid = 0
+                  then FCMovM_CameraMain_Target(foStar, true)
+                  else FCMovM_CameraMain_Target(foOrbitalObject, true);
                   if (FCWinMain.SP_AutoUpdateCheck.Checked)
                      and (FC3doglSelectedPlanetAsteroid>0)
                   then FCMuiSP_SurfaceEcosphere_Set(FC3doglCurrentStarSystem, FC3doglCurrentStar, FC3doglSelectedPlanetAsteroid, 0, false);
                end;
             end;
+
             uikbkFirst:
             begin
                if FCWinMain.FCWM_MissionSettings.Visible
@@ -311,9 +315,10 @@ begin
                then
                begin
                   FC3doglSelectedPlanetAsteroid:=0;
-                  FCMovM_CameraMain_Target(foOrbitalObject, true);
+                  FCMovM_CameraMain_Target(foStar, true);
                end;
             end;
+
             uikbkLast:
             begin
                if FC3doglSelectedPlanetAsteroid<>FC3doglMainViewTotalOrbitalObjects
@@ -1041,11 +1046,11 @@ begin
                if (FC3doglMainViewTotalSpaceUnits>0)
                   and (FCWinMain.FCGLSCamMainViewGhost.TargetObject<>FC3doglSpaceUnits[FC3doglSelectedSpaceUnit])
                   and (not FCWinMain.FCWM_MissionSettings.Visible)
-               then FCMovM_CameraMain_Target(-1, true)
+               then FCMovM_CameraMain_Target(foSpaceUnit, true)
                else if (FC3doglMainViewTotalSpaceUnits>0)
                   and (FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglSpaceUnits[FC3doglSelectedSpaceUnit])
                   and (not FCWinMain.FCWM_MissionSettings.Visible)
-               then FCMovM_CameraMain_Target(FC3doglSelectedPlanetAsteroid, true);
+               then FCMovM_CameraMain_Target(foOrbitalObject, true);
             end;
 
             {.X}

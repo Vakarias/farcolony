@@ -180,17 +180,7 @@ uses
 
    //==========subsection===================================================================
 
-var
-   {.dump asteroid}
-   FC3oglvmAsteroidTemp: TDGLib3dsStaMesh;
-
-
-
-
-
-
-
-
+//var
 
 {:DEV NOTES: OGL CLEAR SCENE - FCMoglVM_Scene_Cleanup;
 
@@ -210,101 +200,6 @@ var
 //==END PRIVATE CONST=======================================================================
 
 //===================================================END OF INIT============================
-
-function FCFoglVMain_Aster_Set(
-   const ASoobjIdx, ASsatIdx: integer;
-   const ASisSat: boolean
-   ): string;
-{:Purpose: return .3ds path relative to aster type and load the AsterDmp with right
-material.
-    Additions:
-}
-var
-   ASresDmp: string;
-   ASobjTp: TFCEduOrbitalObjectTypes;
-begin
-   {.test if AsterDmp is created}
-   if FC3oglvmAsteroidTemp=nil then
-   begin
-      FC3oglvmAsteroidTemp:=TDGLib3dsStaMesh(FCWinMain.FCGLSStarMain.AddNewChild(TDGLib3dsStaMesh));
-      FC3oglvmAsteroidTemp.Name:='FCGLSasterDmp';
-      FC3oglvmAsteroidTemp.UseGLSceneBuildList:=False;
-      FC3oglvmAsteroidTemp.UseShininessPowerHack:=0;
-   end;
-   {.get the object type}
-   if ASisSat
-   then ASobjTp:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[ASoobjIdx].OO_satellitesList[ASsatIdx].OO_type
-   else if not ASisSat
-   then ASobjTp:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[ASoobjIdx].OO_type;
-   {.determine the type of asteroid to load}
-   case ASobjTp of
-      ootAsteroid_Metallic, ootSatellite_Asteroid_Metallic:
-      begin
-         {.set proper asteroid object and colors}
-         ASresDmp:=FCVdiPathResourceDir+'obj-3ds-aster\aster_metall.3ds';
-         with FC3oglvmAsteroidTemp.Material.FrontProperties do
-         begin
-            Ambient.Blue:=0.2;
-            Ambient.Green:=0.2;
-            Ambient.Red:=0.2;
-            Diffuse.Blue:=0.9;
-            Diffuse.Green:=0.9;
-            Diffuse.Red:=0.9;
-            Emission.Color:=clrGray80;
-            Shininess:=90;
-         end;
-      end;
-      ootAsteroid_Silicate, ootSatellite_Asteroid_Silicate:
-      begin
-         {.set proper asteroid object and colors}
-         ASresDmp:=FCVdiPathResourceDir+'obj-3ds-aster\aster_sili.3ds';
-         with FC3oglvmAsteroidTemp.Material.FrontProperties do
-         begin
-            Ambient.Blue:=0.2;
-            Ambient.Green:=0.2;
-            Ambient.Red:=0.2;
-            Diffuse.Blue:=0.5;
-            Diffuse.Green:=0.5;
-            Diffuse.Red:=0.5;
-            Emission.Color:=clrGray90;
-            Shininess:=70;
-         end;
-      end;
-      ootAsteroid_Carbonaceous, ootSatellite_Asteroid_Carbonaceous:
-      begin
-         {.set proper asteroid object and colors}
-         ASresDmp:=FCVdiPathResourceDir+'obj-3ds-aster\aster_carbo.3ds';
-         with FC3oglvmAsteroidTemp.Material.FrontProperties do
-         begin
-            Ambient.Blue:=0.2;
-            Ambient.Green:=0.2;
-            Ambient.Red:=0.2;
-            Diffuse.Blue:=0.8;
-            Diffuse.Green:=0.8;
-            Diffuse.Red:=0.8;
-            Emission.Color:=clrBlack;
-            Shininess:=50;
-         end;
-      end;
-      ootAsteroid_Icy, ootSatellite_Asteroid_Icy:
-      begin
-         {.set proper asteroid object and colors}
-         ASresDmp:=FCVdiPathResourceDir+'obj-3ds-aster\aster_icy.3ds';
-         with FC3oglvmAsteroidTemp.Material.FrontProperties do
-         begin
-            Ambient.Blue:=0.4;
-            Ambient.Green:=0.4;
-            Ambient.Red:=0.4;
-            Diffuse.Blue:=0.8;
-            Diffuse.Green:=0.8;
-            Diffuse.Red:=0.8;
-            Emission.Color:=clrGray10;
-            Shininess:=80;
-         end;
-      end;
-   end; //==END== case ASobjTp ==//
-   Result:=ASresDmp;
-end;
 
 //===========================END FUNCTIONS SECTION==========================================
 
@@ -675,10 +570,9 @@ var
    i: integer;
    LSVUangleRad
 	,OrbitDistanceInUnits
-   ,LSVUsatDistUnit
-   ,LSVUstarSize: extended;
+   ,LSVUsatDistUnit: extended;
 
-   TDMVUorbObjCnt,
+   OrbitalObjCount,
    MVUentCnt,
    LSVUorbObjTtlInDS,
    LSVUspUnCnt,
@@ -686,12 +580,11 @@ var
    LSVUspUnFacTtl,
    LSVUdmpCount,
    LSVUspUntOwnIdx,
-   TDMVUsatCnt,
+   Satellite3DCount,
 //   TDMVUsatInTtl,
-   TDMVUsatTtlInDS,
-   TDMVUsatIdx: integer;
-   LSVUstarClssStr,
-   LSVUasterFileName: string;
+   TotalSatInDataStructure,
+   SatelliteIndex: integer;
+      LSVUasterFileName: string;
    LSVUtest: TGLBaseSceneObject;
 begin
    {.scene and data cleanup in pre-process}
@@ -751,520 +644,249 @@ begin
    {.set the update message}
    FCWinMain.WM_MainViewGroup.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_3dMainGrp.Upd');
    {.set star}
-   LSVUstarSize:=FCFcF_Scale_Conversion(
-      cKmTo3dViewUnits
-      ,(1390000*FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_diameter)
-      )*10;
-   FCWinMain.FCGLSStarMain.Scale.X:=LSVUstarSize;
-   FCWinMain.FCGLSStarMain.Scale.Y:=LSVUstarSize;
-   FCWinMain.FCGLSStarMain.Scale.Z:=LSVUstarSize;
-   FCWinMain.FCGLSStarMain.Position.X:=0;
-   FCWinMain.FCGLSStarMain.Position.Y:=0;
-   FCWinMain.FCGLSStarMain.Position.Z:=0;
-   {.set starlight}
-   FCWinMain.FCGLSSM_Light.Position.X:=0;
-   FCWinMain.FCGLSSM_Light.Position.Y:=0;
-   FCWinMain.FCGLSSM_Light.Position.Z:=0;
-   {.set starlight diffuse color and star texture name}
-   case FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_class of
-      cB5, cB6, cB7, cB8, cB9:
-      begin
-         LSVUstarClssStr:='cB';//old file index 005
-         FCWinMain.FCGLSSM_Light.Diffuse.Blue:=0.98;
-         FCWinMain.FCGLSSM_Light.Diffuse.Green:=0.922;
-         FCWinMain.FCGLSSM_Light.Diffuse.Red:=0.78;
-      end;
-      cA0, cA1, cA2, cA3, cA4:
-      begin
-         LSVUstarClssStr:='cAless5';//old file index 003
-         FCWinMain.FCGLSSM_Light.Diffuse.Blue:=0.996;
-         FCWinMain.FCGLSSM_Light.Diffuse.Green:=0.929;
-         FCWinMain.FCGLSSM_Light.Diffuse.Red:=0.937;
-      end;
-      cA5, cA6, cA7, cA8, cA9:
-      begin
-         LSVUstarClssStr:='cAsupeg5';//old file index 004
-         FCWinMain.FCGLSSM_Light.Diffuse.Color:=clrWhite;
-      end;
-      cK0, cK1, cK2, cK3, cK4:
-      begin
-         LSVUstarClssStr:='cgKless5';//old file index 008
-         FCWinMain.FCGLSSM_Light.Diffuse.Blue:=0.792;
-         FCWinMain.FCGLSSM_Light.Diffuse.Green:=0.902;
-         FCWinMain.FCGLSSM_Light.Diffuse.Red:=0.976;
-      end;
-      cK5, cK6, cK7, cK8:
-      begin
-         LSVUstarClssStr:='cgKeg5-8';//old file index 009
-         FCWinMain.FCGLSSM_Light.Diffuse.Blue:=0.843;
-         FCWinMain.FCGLSSM_Light.Diffuse.Green:=0.925;
-         FCWinMain.FCGLSSM_Light.Diffuse.Red:=0.984;
-      end;
-      cK9:
-      begin
-         LSVUstarClssStr:='cgKeg9';//old file index 010
-         FCWinMain.FCGLSSM_Light.Diffuse.Blue:=0.722;
-         FCWinMain.FCGLSSM_Light.Diffuse.Green:=0.871;
-         FCWinMain.FCGLSSM_Light.Diffuse.Red:=0.973;
-      end;
-      cM0, cM1, cM2, cM3, cM4:
-      begin
-         LSVUstarClssStr:='cgMless5';//old file index 014
-         FCWinMain.FCGLSSM_Light.Diffuse.Blue:=0.776;
-         FCWinMain.FCGLSSM_Light.Diffuse.Green:=0.855;
-         FCWinMain.FCGLSSM_Light.Diffuse.Red:=0.984;
-      end;
-      cM5:
-      begin
-         LSVUstarClssStr:='cgMeg5';//old file index 015
-         FCWinMain.FCGLSSM_Light.Diffuse.Blue:=0.847;
-         FCWinMain.FCGLSSM_Light.Diffuse.Green:=0.855;
-         FCWinMain.FCGLSSM_Light.Diffuse.Red:=0.996;
-      end;
-      gF0, gF1, gF2, gF3, gF4:
-      begin
-         LSVUstarClssStr:='gFless5';//old file index 018
-         FCWinMain.FCGLSSM_Light.Diffuse.Blue:=0.808;
-         FCWinMain.FCGLSSM_Light.Diffuse.Green:=0.843;
-         FCWinMain.FCGLSSM_Light.Diffuse.Red:=0.843;
-      end;
-      gF5, gF6, gF7, gF8, gF9:
-      begin
-         LSVUstarClssStr:='gFsupeg5';//old file index 019
-         FCWinMain.FCGLSSM_Light.Diffuse.Blue:=0.871;
-         FCWinMain.FCGLSSM_Light.Diffuse.Green:=0.894;
-         FCWinMain.FCGLSSM_Light.Diffuse.Red:=0.894;
-      end;
-      gG0, gG1, gG2, gG3, gG4:
-      begin
-         LSVUstarClssStr:='gGless5';//old file index 022
-         FCWinMain.FCGLSSM_Light.Diffuse.Blue:=0.878;
-         FCWinMain.FCGLSSM_Light.Diffuse.Green:=0.996;
-         FCWinMain.FCGLSSM_Light.Diffuse.Red:=0.988;
-      end;
-      gG5, gG6, gG7, gG8:
-      begin
-         LSVUstarClssStr:='gGeg5-8';//old file index 023
-         FCWinMain.FCGLSSM_Light.Diffuse.Blue:=0.788;
-         FCWinMain.FCGLSSM_Light.Diffuse.Green:=0.871;
-         FCWinMain.FCGLSSM_Light.Diffuse.Red:=0.98;
-      end;
-      gG9:
-      begin
-         LSVUstarClssStr:='gGeg9';//old file index 024
-         FCWinMain.FCGLSSM_Light.Diffuse.Blue:=0.773;
-         FCWinMain.FCGLSSM_Light.Diffuse.Green:=0.855;
-         FCWinMain.FCGLSSM_Light.Diffuse.Red:=0.98;
-      end;
-      gK0, gK1, gK2, gK3, gK4:
-      begin
-         LSVUstarClssStr:='cgKless5';//old file index 008
-         FCWinMain.FCGLSSM_Light.Diffuse.Blue:=0.792;
-         FCWinMain.FCGLSSM_Light.Diffuse.Green:=0.902;
-         FCWinMain.FCGLSSM_Light.Diffuse.Red:=0.976;
-      end;
-      gK5, gK6, gK7, gK8:
-      begin
-         LSVUstarClssStr:='cgKeg5-8';//old file index 009
-         FCWinMain.FCGLSSM_Light.Diffuse.Blue:=0.843;
-         FCWinMain.FCGLSSM_Light.Diffuse.Green:=0.925;
-         FCWinMain.FCGLSSM_Light.Diffuse.Red:=0.984;
-      end;
-      gK9:
-      begin
-         LSVUstarClssStr:='cgKeg9';//old file index 010
-         FCWinMain.FCGLSSM_Light.Diffuse.Blue:=0.722;
-         FCWinMain.FCGLSSM_Light.Diffuse.Green:=0.871;
-         FCWinMain.FCGLSSM_Light.Diffuse.Red:=0.973;
-      end;
-      gM0, gM1, gM2, gM3, gM4:
-      begin
-         LSVUstarClssStr:='cgMless5';//old file index 014
-         FCWinMain.FCGLSSM_Light.Diffuse.Blue:=0.776;
-         FCWinMain.FCGLSSM_Light.Diffuse.Green:=0.855;
-         FCWinMain.FCGLSSM_Light.Diffuse.Red:=0.984;
-      end;
-      gM5:
-      begin
-         LSVUstarClssStr:='cgMeg5';//old file index 015
-         FCWinMain.FCGLSSM_Light.Diffuse.Blue:=0.847;
-         FCWinMain.FCGLSSM_Light.Diffuse.Green:=0.855;
-         FCWinMain.FCGLSSM_Light.Diffuse.Red:=0.996;
-      end;
-      O5, O6, O7, O8, O9:
-      begin
-         LSVUstarClssStr:='O';//old file index 028
-         FCWinMain.FCGLSSM_Light.Diffuse.Blue:=1;
-         FCWinMain.FCGLSSM_Light.Diffuse.Green:=0.784;
-         FCWinMain.FCGLSSM_Light.Diffuse.Red:=0.769;
-      end;
-      B0, B1, B2, B3, B4:
-      begin
-         LSVUstarClssStr:='Bless5';//old file index 006
-         FCWinMain.FCGLSSM_Light.Diffuse.Blue:=1;
-         FCWinMain.FCGLSSM_Light.Diffuse.Green:=0.784;
-         FCWinMain.FCGLSSM_Light.Diffuse.Red:=0.769;
-      end;
-      B5, B6, B7, B8, B9:
-      begin
-         LSVUstarClssStr:='Bsupeg5';//old file index 007
-         FCWinMain.FCGLSSM_Light.Diffuse.Blue:=0.98;
-         FCWinMain.FCGLSSM_Light.Diffuse.Green:=0.922;
-         FCWinMain.FCGLSSM_Light.Diffuse.Red:=0.78;
-      end;
-      A0, A1, A2, A3, A4:
-      begin
-         LSVUstarClssStr:='Aless5';//old file index 001
-         FCWinMain.FCGLSSM_Light.Diffuse.Blue:=0.966;
-         FCWinMain.FCGLSSM_Light.Diffuse.Green:=0.929;
-         FCWinMain.FCGLSSM_Light.Diffuse.Red:=0.937;
-      end;
-      A5, A6, A7, A8, A9:
-      begin
-         LSVUstarClssStr:='Asupeg5';//old file index 002
-         FCWinMain.FCGLSSM_Light.Diffuse.Color:=clrWhite;
-      end;
-      F0, F1, F2, F3, F4:
-      begin
-         LSVUstarClssStr:='Fless5';//old file index 020
-         FCWinMain.FCGLSSM_Light.Diffuse.Blue:=0.808;
-         FCWinMain.FCGLSSM_Light.Diffuse.Green:=0.843;
-         FCWinMain.FCGLSSM_Light.Diffuse.Red:=0.843;
-      end;
-      F5, F6, F7, F8, F9:
-      begin
-         LSVUstarClssStr:='Fsupeg5';//old file index 021
-         FCWinMain.FCGLSSM_Light.Diffuse.Blue:=0.871;
-         FCWinMain.FCGLSSM_Light.Diffuse.Green:=0.894;
-         FCWinMain.FCGLSSM_Light.Diffuse.Red:=0.894;
-      end;
-      G0, G1, G2, G3, G4:
-      begin
-         LSVUstarClssStr:='Gless5';//old file index 025
-         FCWinMain.FCGLSSM_Light.Diffuse.Blue:=0.878;
-         FCWinMain.FCGLSSM_Light.Diffuse.Green:=0.996;
-         FCWinMain.FCGLSSM_Light.Diffuse.Red:=0.988;
-      end;
-      G5, G6, G7, G8:
-      begin
-         LSVUstarClssStr:='Feg5-8';//old file index 026
-         FCWinMain.FCGLSSM_Light.Diffuse.Blue:=0.788;
-         FCWinMain.FCGLSSM_Light.Diffuse.Green:=0.871;
-         FCWinMain.FCGLSSM_Light.Diffuse.Red:=0.98;
-      end;
-      G9:
-      begin
-         LSVUstarClssStr:='Feg9';//old file index 027
-         FCWinMain.FCGLSSM_Light.Diffuse.Blue:=0.773;
-         FCWinMain.FCGLSSM_Light.Diffuse.Green:=0.855;
-         FCWinMain.FCGLSSM_Light.Diffuse.Red:=0.98;
-      end;
-      K0, K1, K2, K3, K4:
-      begin
-         LSVUstarClssStr:='Kless5';//old file index 011
-         FCWinMain.FCGLSSM_Light.Diffuse.Blue:=0.792;
-         FCWinMain.FCGLSSM_Light.Diffuse.Green:=0.902;
-         FCWinMain.FCGLSSM_Light.Diffuse.Red:=0.976;
-      end;
-      K5, K6, K7, K8:
-      begin
-         LSVUstarClssStr:='Keg5-8';//old file index 012
-         FCWinMain.FCGLSSM_Light.Diffuse.Blue:=0.843;
-         FCWinMain.FCGLSSM_Light.Diffuse.Green:=0.925;
-         FCWinMain.FCGLSSM_Light.Diffuse.Red:=0.984;
-      end;
-      K9:
-      begin
-         LSVUstarClssStr:='Keg9';//old file index 013
-         FCWinMain.FCGLSSM_Light.Diffuse.Blue:=0.722;
-         FCWinMain.FCGLSSM_Light.Diffuse.Green:=0.871;
-         FCWinMain.FCGLSSM_Light.Diffuse.Red:=0.973;
-      end;
-      M0, M1, M2, M3, M4:
-      begin
-         LSVUstarClssStr:='Mless5';//old file index 016
-         FCWinMain.FCGLSSM_Light.Diffuse.Blue:=0.776;
-         FCWinMain.FCGLSSM_Light.Diffuse.Green:=0.855;
-         FCWinMain.FCGLSSM_Light.Diffuse.Red:=0.984;
-      end;
-      M5, M6, M7, M8, M9:
-      begin
-         LSVUstarClssStr:='Msupeg5';//old file index 017
-         FCWinMain.FCGLSSM_Light.Diffuse.Blue:=0.847;
-         FCWinMain.FCGLSSM_Light.Diffuse.Green:=0.855;
-         FCWinMain.FCGLSSM_Light.Diffuse.Red:=0.996;
-      end;
-      WD0..WD9:
-      begin
-         LSVUstarClssStr:='WDeg0-9';//old file index 029
-         FCWinMain.FCGLSSM_Light.Diffuse.Color:=clrWhite;
-      end;
-      PSR:
-      begin
-         LSVUstarClssStr:='PSR';//old file index 030
-         FCWinMain.FCGLSSM_Light.Diffuse.Blue:=0.584;
-         FCWinMain.FCGLSSM_Light.Diffuse.Green:=0.584;
-         FCWinMain.FCGLSSM_Light.Diffuse.Red:=0.584;
-      end;
-      BH:
-      begin
-         LSVUstarClssStr:='BH';//no old file (previous iteration of FAR Colony had no tex
-         FCWinMain.FCGLSSM_Light.Diffuse.Blue:=0.325;
-         FCWinMain.FCGLSSM_Light.Diffuse.Green:=0.325;
-         FCWinMain.FCGLSSM_Light.Diffuse.Red:=0.325;
-      end;
-   end;
-   FCWinMain.FCGLSSM_Light.Specular.Blue:=FCWinMain.FCGLSSM_Light.Diffuse.Blue;
-   FCWinMain.FCGLSSM_Light.Specular.Green:=FCWinMain.FCGLSSM_Light.Diffuse.Blue;
-   FCWinMain.FCGLSSM_Light.Specular.Red:=FCWinMain.FCGLSSM_Light.Diffuse.Red;
-   {.set star's picture}
-   FCWinMain.FCGLSStarMain.Material.Texture.Image.LoadFromFile(FCVdiPathResourceDir+'pics-ogl-stars\star_'+LSVUstarClssStr+'.png');
+   FCMogO_Star_Set;
    {.set orbital objects}
    LSVUorbObjTtlInDS:=Length(FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects)-1;
    if LSVUorbObjTtlInDS>0
    then
    begin
-      with FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar] do
+      OrbitalObjCount:=1;
+      Satellite3DCount:=0;
+      {.orbital objects + satellites creation loop}
+      while OrbitalObjCount<=LSVUorbObjTtlInDS do
       begin
-         TDMVUorbObjCnt:=1;
-         TDMVUsatCnt:=0;
-         {.orbital objects + satellites creation loop}
-         while TDMVUorbObjCnt<=LSVUorbObjTtlInDS do
+         {.set the 3d object arrays, if needed}
+         if OrbitalObjCount >= Length(FC3doglObjectsGroups)
+         then
          begin
-            {.set the 3d object arrays, if needed}
-            if TDMVUorbObjCnt >= Length(FC3doglObjectsGroups)
-            then
-            begin
-               SetLength(FC3doglObjectsGroups, Length(FC3doglObjectsGroups)+LSVUblocCnt);
-               SetLength(FC3doglPlanets, Length(FC3doglPlanets)+LSVUblocCnt);
-               SetLength(FC3doglAtmospheres, length(FC3doglAtmospheres)+LSVUblocCnt);
-               SetLength(FC3doglAsteroids, Length(FC3doglAsteroids)+LSVUblocCnt);
-               SetLength(FC3doglMainViewListGravityWells, Length(FC3doglMainViewListGravityWells)+LSVUblocCnt);
-               SetLength(FC3doglMainViewListMainOrbits, Length(FC3doglMainViewListMainOrbits)+LSVUblocCnt);
-            end;
+            SetLength(FC3doglObjectsGroups, Length(FC3doglObjectsGroups)+LSVUblocCnt);
+            SetLength(FC3doglPlanets, Length(FC3doglPlanets)+LSVUblocCnt);
+            SetLength(FC3doglAtmospheres, length(FC3doglAtmospheres)+LSVUblocCnt);
+            SetLength(FC3doglAsteroids, Length(FC3doglAsteroids)+LSVUblocCnt);
+            SetLength(FC3doglMainViewListGravityWells, Length(FC3doglMainViewListGravityWells)+LSVUblocCnt);
+            SetLength(FC3doglMainViewListMainOrbits, Length(FC3doglMainViewListMainOrbits)+LSVUblocCnt);
+         end;
+         {:DEV NOTES: WARNING A FUNCTION NOW EXISTS FOR THIS CALCULATION: FCFoglF_OrbitalObject_CalculatePosition.}
+         LSVUangleRad:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjCount].OO_angle1stDay*FCCdiDegrees_To_Radian;   //ok to fill the call w/ param and remove this
+         {.asteroid}
+         if (FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjCount].OO_type>=ootAsteroid_Metallic)
+            and (FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjCount].OO_type<=ootAsteroid_Icy)
+         then
+         begin
+            {.initialize 3d structure}
+            FCMogoO_OrbitalObject_Generate(o3dotAsteroid, OrbitalObjCount);
+//               FC3doglAsteroids[TDMVUorbObjCnt].Load3DSFileFrom(FCFoglVMain_Aster_Set(TDMVUorbObjCnt, 0, false));
+//               {.set material}
+//               FC3doglAsteroids[TDMVUorbObjCnt].Material.FrontProperties:=FC3oglvmAsteroidTemp.Material.FrontProperties;
+            {.set common data}
+            FC3doglAsteroids[OrbitalObjCount].TurnAngle:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjCount].OO_isNotSat_axialTilt;
+            FC3doglAsteroids[OrbitalObjCount].scale.X
+               :=FCFcF_Scale_Conversion(cAsteroidDiameterKmTo3dViewUnits, FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjCount].OO_diameter);
+            FC3doglAsteroids[OrbitalObjCount].scale.Y:=FC3doglAsteroids[OrbitalObjCount].scale.X;
+            FC3doglAsteroids[OrbitalObjCount].scale.Z:=FC3doglAsteroids[OrbitalObjCount].scale.X;
+            {.set distance and location}
             {:DEV NOTES: WARNING A FUNCTION NOW EXISTS FOR THIS CALCULATION: FCFoglF_OrbitalObject_CalculatePosition.}
-            LSVUangleRad:=S_orbitalObjects[TDMVUorbObjCnt].OO_angle1stDay*FCCdiDegrees_To_Radian;   //ok to fill the call w/ param and remove this
-            {.asteroid}
-            if (S_orbitalObjects[TDMVUorbObjCnt].OO_type>=ootAsteroid_Metallic)
-               and (S_orbitalObjects[TDMVUorbObjCnt].OO_type<=ootAsteroid_Icy)
+            OrbitDistanceInUnits:=FCFcF_Scale_Conversion(cAU_to3dViewUnits,FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjCount].OO_isNotSat_distanceFromStar);//dev:USE /5.5 - WARNING: adjust all dist proportionally ; //ok to fill the call w/ param and remove this
+            FC3doglObjectsGroups[OrbitalObjCount].Position.X:=cos(LSVUangleRad)*OrbitDistanceInUnits;//ok to fill the call w/ param and remove this
+            FC3doglObjectsGroups[OrbitalObjCount].Position.Y:=0;//ok to fill the call w/ param and remove this
+            FC3doglObjectsGroups[OrbitalObjCount].Position.Z:=sin(LSVUangleRad)*OrbitDistanceInUnits;//ok to fill the call w/ param and remove this
+            {.set group scale}
+            FC3doglObjectsGroups[OrbitalObjCount].CubeSize:=FC3doglAsteroids[OrbitalObjCount].scale.X*50;
+            {.displaying}
+            FC3doglObjectsGroups[OrbitalObjCount].Visible:=true;
+            FC3doglPlanets[OrbitalObjCount].Visible:=false;
+            FC3doglAsteroids[OrbitalObjCount].Visible:=true;
+            {.set orbits}
+            FCMogO_Orbit_Generation(otPlanet, OrbitalObjCount, 0, 0, OrbitDistanceInUnits);
+            {.space units in orbit of current object}
+            FCMoglVM_OObjSpUn_inOrbit(OrbitalObjCount, 0, 0, true);
+         end //==END== if (OO_type>=oobtpAster_Metall) and (OO_type<=oobtpAster_Icy) ==//
+         {.planet}
+         else if (FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjCount].OO_type>=ootPlanet_Telluric)
+                 and (FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjCount].OO_type<=ootPlanet_Supergiant)
+         then
+         begin
+            {.initialize 3d structure}
+            FCMogoO_OrbitalObject_Generate(o3dotPlanet, OrbitalObjCount);
+            {.inclination}
+            FC3doglPlanets[OrbitalObjCount].RollAngle:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjCount].OO_isNotSat_axialTilt;
+            {.set scale}
+            FC3doglPlanets[OrbitalObjCount].scale.X
+               :=FCFcF_Scale_Conversion(cKmTo3dViewUnits,FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjCount].OO_diameter);
+            FC3doglPlanets[OrbitalObjCount].scale.Y:=FC3doglPlanets[OrbitalObjCount].scale.X;
+            FC3doglPlanets[OrbitalObjCount].scale.Z:=FC3doglPlanets[OrbitalObjCount].scale.X;
+            {.set distance and location}
+            {:DEV NOTES: WARNING A FUNCTION NOW EXISTS FOR THIS CALCULATION: FCFoglF_OrbitalObject_CalculatePosition.}
+            OrbitDistanceInUnits:=FCFcF_Scale_Conversion(cAU_to3dViewUnits,FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjCount].OO_isNotSat_distanceFromStar);//dev:USE /5.5 - WARNING: adjust all dist proportionally ; //ok to fill the call w/ param and remove this
+            FC3doglObjectsGroups[OrbitalObjCount].Position.X:=cos(LSVUangleRad)*OrbitDistanceInUnits;//ok to fill the call w/ param and remove this
+            FC3doglObjectsGroups[OrbitalObjCount].Position.Y:=0;//ok to fill the call w/ param and remove this
+            FC3doglObjectsGroups[OrbitalObjCount].Position.Z:=sin(LSVUangleRad)*OrbitDistanceInUnits;//ok to fill the call w/ param and remove this
+            {.set group scale}
+            FC3doglObjectsGroups[OrbitalObjCount].CubeSize:=FC3doglPlanets[OrbitalObjCount].scale.X*2;
+            {.set atmosphere}
+            if ( ( (FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjCount].OO_type = ootPlanet_Telluric) or (FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjCount].OO_type = ootPlanet_Icy) ) and (FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjCount].OO_atmosphericPressure>0) )
+               or (FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjCount].OO_type in [ootPlanet_Gaseous_Uranus..ootPlanet_Supergiant]) then
+            begin
+               FCMogoO_Atmosphere_SetColors(OrbitalObjCount, 0, 0);
+               FC3doglAtmospheres[OrbitalObjCount].Sun:=FCWinMain.FCGLSSM_Light;
+               if FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjCount].OO_type<ootPlanet_Gaseous_Uranus
+               then FC3doglAtmospheres[OrbitalObjCount].Opacity
+                  :=FCFoglVMain_CloudsCov_Conv2AtmOp(FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjCount].OO_cloudsCover)
+               else FC3doglAtmospheres[OrbitalObjCount].Opacity:=FCFoglVMain_CloudsCov_Conv2AtmOp(-1);
+               FC3doglAtmospheres[OrbitalObjCount].Visible:=true;
+            end;
+            {.texturing}
+            FCMoglVMain_MapTex_Assign(OrbitalObjCount, 0, 0);
+            {.satellites}
+            TotalSatInDataStructure:=Length(FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjCount].OO_satellitesList)-1;
+            if TotalSatInDataStructure>0
             then
             begin
-               {.initialize 3d structure}
-               FCMogoO_OrbitalObject_Generate(o3dotAsteroid, TDMVUorbObjCnt);
-               FC3doglAsteroids[TDMVUorbObjCnt].Load3DSFileFrom(FCFoglVMain_Aster_Set(TDMVUorbObjCnt, 0, false));
-               {.set material}
-               FC3doglAsteroids[TDMVUorbObjCnt].Material.FrontProperties:=FC3oglvmAsteroidTemp.Material.FrontProperties;
-               {.set common data}
-               FC3doglAsteroids[TDMVUorbObjCnt].TurnAngle:=S_orbitalObjects[TDMVUorbObjCnt].OO_isNotSat_axialTilt;
-               FC3doglAsteroids[TDMVUorbObjCnt].scale.X
-                  :=FCFcF_Scale_Conversion(cAsteroidDiameterKmTo3dViewUnits, S_orbitalObjects[TDMVUorbObjCnt].OO_diameter);
-               FC3doglAsteroids[TDMVUorbObjCnt].scale.Y:=FC3doglAsteroids[TDMVUorbObjCnt].scale.X;
-               FC3doglAsteroids[TDMVUorbObjCnt].scale.Z:=FC3doglAsteroids[TDMVUorbObjCnt].scale.X;
-               {.set distance and location}
-               {:DEV NOTES: WARNING A FUNCTION NOW EXISTS FOR THIS CALCULATION: FCFoglF_OrbitalObject_CalculatePosition.}
-               OrbitDistanceInUnits:=FCFcF_Scale_Conversion(cAU_to3dViewUnits,S_orbitalObjects[TDMVUorbObjCnt].OO_isNotSat_distanceFromStar);//dev:USE /5.5 - WARNING: adjust all dist proportionally ; //ok to fill the call w/ param and remove this
-               FC3doglObjectsGroups[TDMVUorbObjCnt].Position.X:=cos(LSVUangleRad)*OrbitDistanceInUnits;//ok to fill the call w/ param and remove this
-               FC3doglObjectsGroups[TDMVUorbObjCnt].Position.Y:=0;//ok to fill the call w/ param and remove this
-               FC3doglObjectsGroups[TDMVUorbObjCnt].Position.Z:=sin(LSVUangleRad)*OrbitDistanceInUnits;//ok to fill the call w/ param and remove this
-               {.set group scale}
-               FC3doglObjectsGroups[TDMVUorbObjCnt].CubeSize:=FC3doglAsteroids[TDMVUorbObjCnt].scale.X*50;
-               {.displaying}
-               FC3doglObjectsGroups[TDMVUorbObjCnt].Visible:=true;
-               FC3doglPlanets[TDMVUorbObjCnt].Visible:=false;
-               FC3doglAsteroids[TDMVUorbObjCnt].Visible:=true;
-               {.set orbits}
-               FCMogO_Orbit_Generation(otPlanet, TDMVUorbObjCnt, 0, 0, OrbitDistanceInUnits);
-               {.space units in orbit of current object}
-               FCMoglVM_OObjSpUn_inOrbit(TDMVUorbObjCnt, 0, 0, true);
-            end //==END== if (OO_type>=oobtpAster_Metall) and (OO_type<=oobtpAster_Icy) ==//
-            {.planet}
-            else if (S_orbitalObjects[TDMVUorbObjCnt].OO_type>=ootPlanet_Telluric)
-                    and (S_orbitalObjects[TDMVUorbObjCnt].OO_type<=ootPlanet_Supergiant)
-            then
-            begin
-               {.initialize 3d structure}
-               FCMogoO_OrbitalObject_Generate(o3dotPlanet, TDMVUorbObjCnt);
-               {.inclination}
-               FC3doglPlanets[TDMVUorbObjCnt].RollAngle:=S_orbitalObjects[TDMVUorbObjCnt].OO_isNotSat_axialTilt;
-               {.set scale}
-               FC3doglPlanets[TDMVUorbObjCnt].scale.X
-                  :=FCFcF_Scale_Conversion(cKmTo3dViewUnits,S_orbitalObjects[TDMVUorbObjCnt].OO_diameter);
-               FC3doglPlanets[TDMVUorbObjCnt].scale.Y:=FC3doglPlanets[TDMVUorbObjCnt].scale.X;
-               FC3doglPlanets[TDMVUorbObjCnt].scale.Z:=FC3doglPlanets[TDMVUorbObjCnt].scale.X;
-               {.set distance and location}
-               {:DEV NOTES: WARNING A FUNCTION NOW EXISTS FOR THIS CALCULATION: FCFoglF_OrbitalObject_CalculatePosition.}
-               OrbitDistanceInUnits:=FCFcF_Scale_Conversion(cAU_to3dViewUnits,S_orbitalObjects[TDMVUorbObjCnt].OO_isNotSat_distanceFromStar);//dev:USE /5.5 - WARNING: adjust all dist proportionally ; //ok to fill the call w/ param and remove this
-               FC3doglObjectsGroups[TDMVUorbObjCnt].Position.X:=cos(LSVUangleRad)*OrbitDistanceInUnits;//ok to fill the call w/ param and remove this
-               FC3doglObjectsGroups[TDMVUorbObjCnt].Position.Y:=0;//ok to fill the call w/ param and remove this
-               FC3doglObjectsGroups[TDMVUorbObjCnt].Position.Z:=sin(LSVUangleRad)*OrbitDistanceInUnits;//ok to fill the call w/ param and remove this
-               {.set group scale}
-               FC3doglObjectsGroups[TDMVUorbObjCnt].CubeSize:=FC3doglPlanets[TDMVUorbObjCnt].scale.X*2;
-               {.set atmosphere}
-               if ( ( (S_orbitalObjects[TDMVUorbObjCnt].OO_type = ootPlanet_Telluric) or (S_orbitalObjects[TDMVUorbObjCnt].OO_type = ootPlanet_Icy) ) and (S_orbitalObjects[TDMVUorbObjCnt].OO_atmosphericPressure>0) )
-                  or (S_orbitalObjects[TDMVUorbObjCnt].OO_type in [ootPlanet_Gaseous_Uranus..ootPlanet_Supergiant]) then
+               SatelliteIndex:=1;
+               while SatelliteIndex<=TotalSatInDataStructure do
                begin
-                  FCMogoO_Atmosphere_SetColors(TDMVUorbObjCnt, 0, 0);
-                  FC3doglAtmospheres[TDMVUorbObjCnt].Sun:=FCWinMain.FCGLSSM_Light;
-                  if S_orbitalObjects[TDMVUorbObjCnt].OO_type<ootPlanet_Gaseous_Uranus
-                  then FC3doglAtmospheres[TDMVUorbObjCnt].Opacity
-                     :=FCFoglVMain_CloudsCov_Conv2AtmOp(S_orbitalObjects[TDMVUorbObjCnt].OO_cloudsCover)
-                  else FC3doglAtmospheres[TDMVUorbObjCnt].Opacity:=FCFoglVMain_CloudsCov_Conv2AtmOp(-1);
-                  FC3doglAtmospheres[TDMVUorbObjCnt].Visible:=true;
-               end;
-               {.texturing}
-               FCMoglVMain_MapTex_Assign(TDMVUorbObjCnt, 0, 0);
-               {.satellites}
-               TDMVUsatTtlInDS:=Length(S_orbitalObjects[TDMVUorbObjCnt].OO_satellitesList)-1;
-               if TDMVUsatTtlInDS>0
-               then
-               begin
-                  TDMVUsatIdx:=1;
-                  while TDMVUsatIdx<=TDMVUsatTtlInDS do
+                  inc(Satellite3DCount);
+                  {.set the 3d object arrays, if needed}
+                  if Satellite3DCount >= Length(FC3doglSatellitesObjectsGroups) then
                   begin
-                     inc(TDMVUsatCnt);
-                     {.set the 3d object arrays, if needed}
-                     if TDMVUsatCnt >= Length(FC3doglSatellitesObjectsGroups) then
+                     SetLength(FC3doglSatellitesObjectsGroups, Length(FC3doglSatellitesObjectsGroups)+LSVUblocCnt);
+                     SetLength(FC3doglSatellites, Length(FC3doglSatellites)+LSVUblocCnt);
+                     SetLength(FC3doglSatellitesAtmospheres, length(FC3doglSatellitesAtmospheres)+LSVUblocCnt);
+                     SetLength(FC3doglSatellitesAsteroids, Length(FC3doglSatellitesAsteroids)+LSVUblocCnt);
+                     SetLength(FC3doglMainViewListSatellitesGravityWells, Length(FC3doglMainViewListSatellitesGravityWells)+LSVUblocCnt);
+                     SetLength(FC3doglMainViewListSatelliteOrbits, Length(FC3doglMainViewListSatelliteOrbits)+LSVUblocCnt);
+                  end;
+                  {:DEV NOTES: WARNING A FUNCTION NOW EXISTS FOR THIS CALCULATION: FCFoglF_Satellite_CalculatePosition}
+                  LSVUangleRad:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjCount].OO_satellitesList[SatelliteIndex].OO_angle1stDay*FCCdiDegrees_To_Radian; //ok to fill the call w/ param and remove this
+                  {.for a satellite asteroid}
+                  if FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjCount].OO_satellitesList[SatelliteIndex].OO_type<ootSatellite_Planet_Telluric
+                  then
+                  begin
+                     {.initialize 3d structure}
+                     FCMogoO_OrbitalObject_Generate( o3dotSatelliteAsteroid, Satellite3DCount, OrbitalObjCount , SatelliteIndex );
+//                        {.initialize 3d structure}
+//                        FC3doglSatellitesAsteroids[TDMVUsatCnt].Load3DSFileFrom(FCFoglVMain_Aster_Set(TDMVUorbObjCnt, TDMVUsatIdx, true));
+                     {.set material}
+//                        FC3doglSatellitesAsteroids[Satellite3DCount].Material.FrontProperties:=FC3oglvmAsteroidTemp.Material.FrontProperties;
+                     {.set axial tilt}
+                     FC3doglSatellitesAsteroids[Satellite3DCount].TurnAngle:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjCount].OO_isNotSat_axialTilt;
+                     {.set scale}
+                     FC3doglSatellitesAsteroids[Satellite3DCount].scale.X
+                        :=FCFcF_Scale_Conversion
+                           (
+                              cAsteroidDiameterKmTo3dViewUnits
+                              , FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjCount].OO_satellitesList[SatelliteIndex]
+                                 .OO_diameter
+                           );
+                     FC3doglSatellitesAsteroids[Satellite3DCount].scale.Y:=FC3doglSatellitesAsteroids[Satellite3DCount].scale.X;
+                     FC3doglSatellitesAsteroids[Satellite3DCount].scale.Z:=FC3doglSatellitesAsteroids[Satellite3DCount].scale.X;
+                     {:DEV NOTES: WARNING A FUNCTION NOW EXISTS FOR THIS CALCULATION: FCFoglF_Satellite_CalculatePosition.}
+                     {.set distance and location}
+                     LSVUsatDistUnit:=FCFcF_Scale_Conversion   //ok to fill the call w/ param and remove this
+                        (                                                        //ok to fill the call w/ param and remove this
+                           cKmTo3dViewUnits                                              //ok to fill the call w/ param and remove this
+                           ,FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjCount].OO_satellitesList[SatelliteIndex]   //ok to fill the call w/ param and remove this
+                              .OO_isSat_distanceFromPlanetOrAsterInBeltDistToStar*1000                             //ok to fill the call w/ param and remove this
+                        );                                                               //ok to fill the call w/ param and remove this
+                     FC3doglSatellitesObjectsGroups[Satellite3DCount].Position.X              //ok to fill the call w/ param and remove this
+                        :=FC3doglObjectsGroups[OrbitalObjCount].Position.X+(cos(LSVUangleRad)*LSVUsatDistUnit);//ok to fill the call w/ param and remove this
+                     FC3doglSatellitesObjectsGroups[Satellite3DCount].Position.Y:=0;//ok to fill the call w/ param and remove this
+                     FC3doglSatellitesObjectsGroups[Satellite3DCount].Position.Z//ok to fill the call w/ param and remove this
+                        :=FC3doglObjectsGroups[OrbitalObjCount].Position.Z+(sin(LSVUangleRad)*LSVUsatDistUnit);//ok to fill the call w/ param and remove this
+                     {.set group scale}
+                     FC3doglSatellitesObjectsGroups[Satellite3DCount].CubeSize:=FC3doglSatellitesAsteroids[Satellite3DCount].scale.X*50;
+                     {.displaying}
+                     FC3doglSatellitesObjectsGroups[Satellite3DCount].Visible:=true;
+                     FC3doglSatellites[Satellite3DCount].Visible:=false;
+                     FC3doglSatellitesAsteroids[Satellite3DCount].Visible:=true;
+                  end //==END== if ...OOS_type<oobtpSat_Tellu_Lunar ==//
+                  {.for a satellite planetoid}
+                  else if FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjCount].OO_satellitesList[SatelliteIndex].OO_type>ootSatellite_Asteroid_Icy then
+                  begin
+                     {.initialize 3d structure}
+                     FCMogoO_OrbitalObject_Generate(o3dotSatellitePlanet, Satellite3DCount, OrbitalObjCount, SatelliteIndex);
+                     {.axial tilt}
+                     FC3doglSatellites[Satellite3DCount].RollAngle
+                        :=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjCount].OO_isNotSat_axialTilt;
+                     {.set scale}
+                     FC3doglSatellites[Satellite3DCount].scale.X
+                        :=FCFcF_Scale_Conversion
+                           (
+                              cKmTo3dViewUnits
+                              ,FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjCount].OO_satellitesList[SatelliteIndex].OO_diameter
+                           );
+                     FC3doglSatellites[Satellite3DCount].scale.Y:=FC3doglSatellites[Satellite3DCount].scale.X;
+                     FC3doglSatellites[Satellite3DCount].scale.Z:=FC3doglSatellites[Satellite3DCount].scale.X;
+                     {:DEV NOTES: WARNING A FUNCTION NOW EXISTS FOR THIS CALCULATION: FCFoglF_Satellite_CalculatePosition.}
+                     {.set distance and location}
+                     LSVUsatDistUnit:=FCFcF_Scale_Conversion     //ok to fill the call w/ param and remove this
+                        (                            //ok to fill the call w/ param and remove this
+                           cKmTo3dViewUnits       //ok to fill the call w/ param and remove this
+                           ,FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjCount].OO_satellitesList[SatelliteIndex] //ok to fill the call w/ param and remove this
+                              .OO_isSat_distanceFromPlanetOrAsterInBeltDistToStar*1000       //ok to fill the call w/ param and remove this
+                        );     //ok to fill the call w/ param and remove this
+                     FC3doglSatellitesObjectsGroups[Satellite3DCount].Position.X     //ok to fill the call w/ param and remove this
+                        :=FC3doglObjectsGroups[OrbitalObjCount].Position.X+(cos(LSVUangleRad)*LSVUsatDistUnit);  //ok to fill the call w/ param and remove this
+                     FC3doglSatellitesObjectsGroups[Satellite3DCount].Position.Y:=0; //ok to fill the call w/ param and remove this
+                     FC3doglSatellitesObjectsGroups[Satellite3DCount].Position.Z    //ok to fill the call w/ param and remove this
+                        :=FC3doglObjectsGroups[OrbitalObjCount].Position.Z+(sin(LSVUangleRad)*LSVUsatDistUnit);  //ok to fill the call w/ param and remove this
+                     {.set group scale}
+                     FC3doglSatellitesObjectsGroups[Satellite3DCount].CubeSize:=FC3doglSatellites[Satellite3DCount].scale.X*2;
+                     {.set atmosphere}
+                     if FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjCount].OO_satellitesList[SatelliteIndex].OO_atmosphericPressure > 0 then
                      begin
-                        SetLength(FC3doglSatellitesObjectsGroups, Length(FC3doglSatellitesObjectsGroups)+LSVUblocCnt);
-                        SetLength(FC3doglSatellites, Length(FC3doglSatellites)+LSVUblocCnt);
-                        SetLength(FC3doglSatellitesAtmospheres, length(FC3doglSatellitesAtmospheres)+LSVUblocCnt);
-                        SetLength(FC3doglSatellitesAsteroids, Length(FC3doglSatellitesAsteroids)+LSVUblocCnt);
-                        SetLength(FC3doglMainViewListSatellitesGravityWells, Length(FC3doglMainViewListSatellitesGravityWells)+LSVUblocCnt);
-                        SetLength(FC3doglMainViewListSatelliteOrbits, Length(FC3doglMainViewListSatelliteOrbits)+LSVUblocCnt);
+                        FCMogoO_Atmosphere_SetColors(OrbitalObjCount, SatelliteIndex, Satellite3DCount);
+                        FC3doglSatellitesAtmospheres[Satellite3DCount].Sun:=FCWinMain.FCGLSSM_Light;
+                        FC3doglSatellitesAtmospheres[Satellite3DCount].Opacity
+                           :=FCFoglVMain_CloudsCov_Conv2AtmOp(FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjCount].OO_satellitesList[SatelliteIndex].OO_cloudsCover);
+                        FC3doglSatellitesAtmospheres[Satellite3DCount].Visible:=true;
                      end;
-                     {:DEV NOTES: WARNING A FUNCTION NOW EXISTS FOR THIS CALCULATION: FCFoglF_Satellite_CalculatePosition}
-                     LSVUangleRad:=S_orbitalObjects[TDMVUorbObjCnt].OO_satellitesList[TDMVUsatIdx].OO_angle1stDay*FCCdiDegrees_To_Radian; //ok to fill the call w/ param and remove this
-                     {.for a satellite asteroid}
-                     if S_orbitalObjects[TDMVUorbObjCnt].OO_satellitesList[TDMVUsatIdx].OO_type<ootSatellite_Planet_Telluric
-                     then
-                     begin
-                        {.initialize 3d structure}
-                        FCMogoO_OrbitalObject_Generate(o3dotSatelliteAsteroid, TDMVUsatCnt);
-                        {.initialize 3d structure}
-                        FC3doglSatellitesAsteroids[TDMVUsatCnt].Load3DSFileFrom
-                           (FCFoglVMain_Aster_Set(TDMVUorbObjCnt, TDMVUsatIdx, true));
-                        {.set material}
-                        FC3doglSatellitesAsteroids[TDMVUsatCnt].Material.FrontProperties:=FC3oglvmAsteroidTemp.Material.FrontProperties;
-                        {.set axial tilt}
-                        FC3doglSatellitesAsteroids[TDMVUsatCnt].TurnAngle:=S_orbitalObjects[TDMVUorbObjCnt].OO_isNotSat_axialTilt;
-                        {.set scale}
-                        FC3doglSatellitesAsteroids[TDMVUsatCnt].scale.X
-                           :=FCFcF_Scale_Conversion
-                              (
-                                 cAsteroidDiameterKmTo3dViewUnits
-                                 , S_orbitalObjects[TDMVUorbObjCnt].OO_satellitesList[TDMVUsatIdx]
-                                    .OO_diameter
-                              );
-                        FC3doglSatellitesAsteroids[TDMVUsatCnt].scale.Y:=FC3doglSatellitesAsteroids[TDMVUsatCnt].scale.X;
-                        FC3doglSatellitesAsteroids[TDMVUsatCnt].scale.Z:=FC3doglSatellitesAsteroids[TDMVUsatCnt].scale.X;
-                        {:DEV NOTES: WARNING A FUNCTION NOW EXISTS FOR THIS CALCULATION: FCFoglF_Satellite_CalculatePosition.}
-                        {.set distance and location}
-                        LSVUsatDistUnit:=FCFcF_Scale_Conversion   //ok to fill the call w/ param and remove this
-                           (                                                        //ok to fill the call w/ param and remove this
-                              cKmTo3dViewUnits                                              //ok to fill the call w/ param and remove this
-                              ,S_orbitalObjects[TDMVUorbObjCnt].OO_satellitesList[TDMVUsatIdx]   //ok to fill the call w/ param and remove this
-                                 .OO_isSat_distanceFromPlanetOrAsterInBeltDistToStar*1000                             //ok to fill the call w/ param and remove this
-                           );                                                               //ok to fill the call w/ param and remove this
-                        FC3doglSatellitesObjectsGroups[TDMVUsatCnt].Position.X              //ok to fill the call w/ param and remove this
-                           :=FC3doglObjectsGroups[TDMVUorbObjCnt].Position.X+(cos(LSVUangleRad)*LSVUsatDistUnit);//ok to fill the call w/ param and remove this
-                        FC3doglSatellitesObjectsGroups[TDMVUsatCnt].Position.Y:=0;//ok to fill the call w/ param and remove this
-                        FC3doglSatellitesObjectsGroups[TDMVUsatCnt].Position.Z//ok to fill the call w/ param and remove this
-                           :=FC3doglObjectsGroups[TDMVUorbObjCnt].Position.Z+(sin(LSVUangleRad)*LSVUsatDistUnit);//ok to fill the call w/ param and remove this
-                        {.set group scale}
-                        FC3doglSatellitesObjectsGroups[TDMVUsatCnt].CubeSize:=FC3doglSatellitesAsteroids[TDMVUsatCnt].scale.X*50;
-                        {.displaying}
-                        FC3doglSatellitesObjectsGroups[TDMVUsatCnt].Visible:=true;
-                        FC3doglSatellites[TDMVUsatCnt].Visible:=false;
-                        FC3doglSatellitesAsteroids[TDMVUsatCnt].Visible:=true;
-                     end //==END== if ...OOS_type<oobtpSat_Tellu_Lunar ==//
-                     {.for a satellite planetoid}
-                     else if S_orbitalObjects[TDMVUorbObjCnt].OO_satellitesList[TDMVUsatIdx].OO_type>ootSatellite_Asteroid_Icy then
-                     begin
-                        {.initialize 3d structure}
-                        FCMogoO_OrbitalObject_Generate(o3dotSatellitePlanet, TDMVUsatCnt);
-                        {.axial tilt}
-                        FC3doglSatellites[TDMVUsatCnt].RollAngle
-                           :=S_orbitalObjects[TDMVUorbObjCnt].OO_isNotSat_axialTilt;
-                        {.set scale}
-                        FC3doglSatellites[TDMVUsatCnt].scale.X
-                           :=FCFcF_Scale_Conversion
-                              (
-                                 cKmTo3dViewUnits
-                                 ,S_orbitalObjects[TDMVUorbObjCnt].OO_satellitesList[TDMVUsatIdx].OO_diameter
-                              );
-                        FC3doglSatellites[TDMVUsatCnt].scale.Y:=FC3doglSatellites[TDMVUsatCnt].scale.X;
-                        FC3doglSatellites[TDMVUsatCnt].scale.Z:=FC3doglSatellites[TDMVUsatCnt].scale.X;
-                        {:DEV NOTES: WARNING A FUNCTION NOW EXISTS FOR THIS CALCULATION: FCFoglF_Satellite_CalculatePosition.}
-                        {.set distance and location}
-                        LSVUsatDistUnit:=FCFcF_Scale_Conversion     //ok to fill the call w/ param and remove this
-                           (                            //ok to fill the call w/ param and remove this
-                              cKmTo3dViewUnits       //ok to fill the call w/ param and remove this
-                              ,S_orbitalObjects[TDMVUorbObjCnt].OO_satellitesList[TDMVUsatIdx] //ok to fill the call w/ param and remove this
-                                 .OO_isSat_distanceFromPlanetOrAsterInBeltDistToStar*1000       //ok to fill the call w/ param and remove this
-                           );     //ok to fill the call w/ param and remove this
-                        FC3doglSatellitesObjectsGroups[TDMVUsatCnt].Position.X     //ok to fill the call w/ param and remove this
-                           :=FC3doglObjectsGroups[TDMVUorbObjCnt].Position.X+(cos(LSVUangleRad)*LSVUsatDistUnit);  //ok to fill the call w/ param and remove this
-                        FC3doglSatellitesObjectsGroups[TDMVUsatCnt].Position.Y:=0; //ok to fill the call w/ param and remove this
-                        FC3doglSatellitesObjectsGroups[TDMVUsatCnt].Position.Z    //ok to fill the call w/ param and remove this
-                           :=FC3doglObjectsGroups[TDMVUorbObjCnt].Position.Z+(sin(LSVUangleRad)*LSVUsatDistUnit);  //ok to fill the call w/ param and remove this
-                        {.set group scale}
-                        FC3doglSatellitesObjectsGroups[TDMVUsatCnt].CubeSize:=FC3doglSatellites[TDMVUsatCnt].scale.X*2;
-                        {.set atmosphere}
-                        if S_orbitalObjects[TDMVUorbObjCnt].OO_satellitesList[TDMVUsatIdx].OO_atmosphericPressure > 0 then
-                        begin
-                           FCMogoO_Atmosphere_SetColors(TDMVUorbObjCnt, TDMVUsatIdx, TDMVUsatCnt);
-                           FC3doglSatellitesAtmospheres[TDMVUsatCnt].Sun:=FCWinMain.FCGLSSM_Light;
-                           FC3doglSatellitesAtmospheres[TDMVUsatCnt].Opacity
-                              :=FCFoglVMain_CloudsCov_Conv2AtmOp(S_orbitalObjects[TDMVUorbObjCnt].OO_satellitesList[TDMVUsatIdx].OO_cloudsCover);
-                           FC3doglSatellitesAtmospheres[TDMVUsatCnt].Visible:=true;
-                        end;
-                        {.texturing}
-                        FCMoglVMain_MapTex_Assign(TDMVUorbObjCnt, TDMVUsatIdx, TDMVUsatCnt);
-                        {.displaying}
-                        FC3doglSatellitesObjectsGroups[TDMVUsatCnt].Visible:=true;
-                        FC3doglSatellites[TDMVUsatCnt].Visible:=true;
-                     end; //==END== if OOS_type>oobtpSat_Aster_Icy ==//
-                     {.set orbits}
-                     FCMogO_Orbit_Generation(
-                        otSatellite
-                        ,TDMVUorbObjCnt
-                        ,TDMVUsatIdx
-                        ,TDMVUsatCnt
-                        ,LSVUsatDistUnit
-                        );
-                     {.space units in orbit of current object}
-                     FCMoglVM_OObjSpUn_inOrbit(TDMVUorbObjCnt, TDMVUsatIdx, TDMVUsatCnt,true);
-                     {.set tag values}
-                           {satellite index #}
-                        FC3doglSatellitesObjectsGroups[TDMVUsatCnt].Tag:=TDMVUsatIdx;
-                           {central orbital object linked}
-                        FC3doglSatellitesObjectsGroups[TDMVUsatCnt].TagFloat:=TDMVUorbObjCnt;
-                     {.put index of the first sat object}
-                     if TDMVUsatIdx=1
-                     then S_orbitalObjects[TDMVUorbObjCnt].OO_isNotSat_1st3dObjectSatelliteIndex:=TDMVUsatCnt;
-                     inc(TDMVUsatIdx);
-                  end; //==END== while TDMVUsatIdx<=TDMVUsatTtlInDS ==//
-                  FC3doglMainViewTotalSatellites:=TDMVUsatCnt;
-               end;//==END== if Length(SDB_obobj[LSVUorbObjCnt].OO_satList>1) ==//
-               {.displaying}
-               FC3doglObjectsGroups[TDMVUorbObjCnt].Visible:=true;
-               FC3doglPlanets[TDMVUorbObjCnt].Visible:=true;
-               {.set orbits}
-               FCMogO_Orbit_Generation(otPlanet, TDMVUorbObjCnt, 0, 0, OrbitDistanceInUnits);
-               {.space units in orbit of current object}
-               FCMoglVM_OObjSpUn_inOrbit(TDMVUorbObjCnt, 0, 0, true);
-            end; //==END== else if (SDB_obobj[LSVUorbObjCnt].OO_type>=oobtpPlan_Tellu...//
-            inc(TDMVUorbObjCnt);
-         end; //==END== while LSVUorbObjCnt<=LSVUorbObjInTtl ==//
-      end; //==END== with FCDBstarSys[CFVstarSysIdDB].SS_star[CFVstarIdDB] ==//
-      FC3doglMainViewTotalOrbitalObjects:=TDMVUorbObjCnt-1;
+                     {.texturing}
+                     FCMoglVMain_MapTex_Assign(OrbitalObjCount, SatelliteIndex, Satellite3DCount);
+                     {.displaying}
+                     FC3doglSatellitesObjectsGroups[Satellite3DCount].Visible:=true;
+                     FC3doglSatellites[Satellite3DCount].Visible:=true;
+                  end; //==END== if OOS_type>oobtpSat_Aster_Icy ==//
+                  {.set orbits}
+                  FCMogO_Orbit_Generation(
+                     otSatellite
+                     ,OrbitalObjCount
+                     ,SatelliteIndex
+                     ,Satellite3DCount
+                     ,LSVUsatDistUnit
+                     );
+                  {.space units in orbit of current object}
+                  FCMoglVM_OObjSpUn_inOrbit(OrbitalObjCount, SatelliteIndex, Satellite3DCount,true);
+                  {.set tag values}
+                        {satellite index #}
+                     FC3doglSatellitesObjectsGroups[Satellite3DCount].Tag:=SatelliteIndex;
+                        {central orbital object linked}
+                     FC3doglSatellitesObjectsGroups[Satellite3DCount].TagFloat:=OrbitalObjCount;
+                  {.put index of the first sat object}
+                  if SatelliteIndex=1
+                  then FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjCount].OO_isNotSat_1st3dObjectSatelliteIndex:=Satellite3DCount;
+                  inc(SatelliteIndex);
+               end; //==END== while TDMVUsatIdx<=TDMVUsatTtlInDS ==//
+               FC3doglMainViewTotalSatellites:=Satellite3DCount;
+            end;//==END== if Length(SDB_obobj[LSVUorbObjCnt].OO_satList>1) ==//
+            {.displaying}
+            FC3doglObjectsGroups[OrbitalObjCount].Visible:=true;
+            FC3doglPlanets[OrbitalObjCount].Visible:=true;
+            {.set orbits}
+            FCMogO_Orbit_Generation(otPlanet, OrbitalObjCount, 0, 0, OrbitDistanceInUnits);
+            {.space units in orbit of current object}
+            FCMoglVM_OObjSpUn_inOrbit(OrbitalObjCount, 0, 0, true);
+         end; //==END== else if (SDB_obobj[LSVUorbObjCnt].OO_type>=oobtpPlan_Tellu...//
+         inc(OrbitalObjCount);
+      end; //==END== while LSVUorbObjCnt<=LSVUorbObjInTtl ==//
+      FC3doglMainViewTotalOrbitalObjects:=OrbitalObjCount-1;
    end; //==END==if Length(FCDBstarSys[CFVstarSysIdDB].SS_star[CFVstarIdDB].SDB_obobj)>1==//
-   SetLength(FC3doglObjectsGroups, TDMVUorbObjCnt+1);
-   SetLength(FC3doglPlanets, TDMVUorbObjCnt+1);
-   SetLength(FC3doglAtmospheres, TDMVUorbObjCnt+1);
-   SetLength(FC3doglAsteroids, TDMVUorbObjCnt+1);
-   SetLength(FC3doglMainViewListMainOrbits, TDMVUorbObjCnt+1);
-   SetLength(FC3doglMainViewListGravityWells, TDMVUorbObjCnt+1);
+   SetLength(FC3doglObjectsGroups, OrbitalObjCount+1);
+   SetLength(FC3doglPlanets, OrbitalObjCount+1);
+   SetLength(FC3doglAtmospheres, OrbitalObjCount+1);
+   SetLength(FC3doglAsteroids, OrbitalObjCount+1);
+   SetLength(FC3doglMainViewListMainOrbits, OrbitalObjCount+1);
+   SetLength(FC3doglMainViewListGravityWells, OrbitalObjCount+1);
    {.space units display in free space}
    MVUentCnt:=0;
    while MVUentCnt<=FCCdiFactionsMax do
@@ -1296,8 +918,7 @@ begin
       inc(MVUentCnt);
    end;
    {.free the AsterDmp}
-   if FC3oglvmAsteroidTemp<>nil
-   then FC3oglvmAsteroidTemp.Free;
+   FCMogoO_TemporarySat_Free;
    {.space unit selection}
    if FC3doglMainViewTotalSpaceUnits>0
    then FC3doglSelectedSpaceUnit:=1;
