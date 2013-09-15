@@ -589,6 +589,8 @@ end;
 procedure FCMogO_Star_Set;
 {:Purpose: set the central star.
     Additions:
+      -2013Sep14- *code: move the routine in it own procedure and unit.
+                  *fix: bad texture allocations for G stars.
 }
    var
       fCalc
@@ -821,7 +823,7 @@ begin
 
       G5..G8:
       begin
-         StarClassString:='Feg5-8';//old file index 026
+         StarClassString:='Geg5-8';//old file index 026
          FCWinMain.FCGLSSM_Light.Diffuse.Blue:=0.788;
          FCWinMain.FCGLSSM_Light.Diffuse.Green:=0.871;
          FCWinMain.FCGLSSM_Light.Diffuse.Red:=0.98;
@@ -829,7 +831,7 @@ begin
 
       G9:
       begin
-         StarClassString:='Feg9';//old file index 027
+         StarClassString:='Geg9';//old file index 027
          FCWinMain.FCGLSSM_Light.Diffuse.Blue:=0.773;
          FCWinMain.FCGLSSM_Light.Diffuse.Green:=0.855;
          FCWinMain.FCGLSSM_Light.Diffuse.Red:=0.98;
