@@ -245,6 +245,7 @@ implementation
 uses
    farc_data_init
    ,farc_data_game
+   ,farc_data_3dopengl
    ,farc_data_spu
    ,farc_data_textfiles
    ,farc_data_univ
@@ -490,7 +491,7 @@ begin
 
       cAU_to3dViewUnits:
       begin
-         Calculations:=Value*CFC3dUnInAU;
+         Calculations:=( Value*CFC3dUnInAU ) / FC3doglCoefViewReduction;
          Result:=FCFcF_Round( rtt3dposition, Calculations );
       end;
 

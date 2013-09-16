@@ -281,7 +281,7 @@ begin
    Result.P_y:=0;
    Result.P_z:=0;
    AngleInRad:=Angle*FCCdiDegrees_To_Radian;
-   DistanceInUnits:=FCFcF_Scale_Conversion( cAU_to3dViewUnits, DistanceFromStar );
+   DistanceInUnits:=FCFcF_Scale_Conversion( cAU_to3dViewUnits, DistanceFromStar );///FC3doglCoefViewReduction;
    ProcessingData:=cos( AngleInRad )*DistanceInUnits;
    Result.P_x:=FCFcF_Round( rtt3dposition, ProcessingData );
    Result.P_y:=0;

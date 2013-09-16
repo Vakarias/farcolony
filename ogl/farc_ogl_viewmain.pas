@@ -164,6 +164,7 @@ uses
    ,farc_data_univ
    ,farc_data_textfiles
    ,farc_main
+   ,farc_ogl_functions
    ,farc_ogl_genorbitalobjects
    ,farc_ogl_genorbits
    ,farc_ogl_ui
@@ -566,8 +567,6 @@ procedure FCMovM_3DView_Update(
 const
    LSVUblocCnt=128;
 var
-   j: integer;
-   i: integer;
    LSVUangleRad
 	,OrbitDistanceInUnits
    ,LSVUsatDistUnit: extended;
@@ -576,16 +575,12 @@ var
    MVUentCnt,
    LSVUorbObjTtlInDS,
    LSVUspUnCnt,
-   LSVUspUnInTtl,
    LSVUspUnFacTtl,
-   LSVUdmpCount,
-   LSVUspUntOwnIdx,
    Satellite3DCount,
-//   TDMVUsatInTtl,
    TotalSatInDataStructure,
    SatelliteIndex: integer;
-      LSVUasterFileName: string;
-   LSVUtest: TGLBaseSceneObject;
+
+   CurrentLocation: TFCRoglfPosition;
 begin
    {.scene and data cleanup in pre-process}
    FC3doglMainViewTotalOrbitalObjects:=0;
@@ -679,7 +674,7 @@ begin
 //               {.set material}
 //               FC3doglAsteroids[TDMVUorbObjCnt].Material.FrontProperties:=FC3oglvmAsteroidTemp.Material.FrontProperties;
             {.set common data}
-            FC3doglAsteroids[OrbitalObjCount].TurnAngle:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjCount].OO_isNotSat_axialTilt;
+//            FC3doglAsteroids[OrbitalObjCount].TurnAngle:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjCount].OO_isNotSat_axialTilt;
             FC3doglAsteroids[OrbitalObjCount].scale.X
                :=FCFcF_Scale_Conversion(cAsteroidDiameterKmTo3dViewUnits, FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjCount].OO_diameter);
             FC3doglAsteroids[OrbitalObjCount].scale.Y:=FC3doglAsteroids[OrbitalObjCount].scale.X;
@@ -687,9 +682,9 @@ begin
             {.set distance and location}
             {:DEV NOTES: WARNING A FUNCTION NOW EXISTS FOR THIS CALCULATION: FCFoglF_OrbitalObject_CalculatePosition.}
             OrbitDistanceInUnits:=FCFcF_Scale_Conversion(cAU_to3dViewUnits,FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjCount].OO_isNotSat_distanceFromStar);//dev:USE /5.5 - WARNING: adjust all dist proportionally ; //ok to fill the call w/ param and remove this
-            FC3doglObjectsGroups[OrbitalObjCount].Position.X:=cos(LSVUangleRad)*OrbitDistanceInUnits;//ok to fill the call w/ param and remove this
-            FC3doglObjectsGroups[OrbitalObjCount].Position.Y:=0;//ok to fill the call w/ param and remove this
-            FC3doglObjectsGroups[OrbitalObjCount].Position.Z:=sin(LSVUangleRad)*OrbitDistanceInUnits;//ok to fill the call w/ param and remove this
+//            FC3doglObjectsGroups[OrbitalObjCount].Position.X:=cos(LSVUangleRad)*OrbitDistanceInUnits;//ok to fill the call w/ param and remove this
+//            FC3doglObjectsGroups[OrbitalObjCount].Position.Y:=0;//ok to fill the call w/ param and remove this
+//            FC3doglObjectsGroups[OrbitalObjCount].Position.Z:=sin(LSVUangleRad)*OrbitDistanceInUnits;//ok to fill the call w/ param and remove this
             {.set group scale}
             FC3doglObjectsGroups[OrbitalObjCount].CubeSize:=FC3doglAsteroids[OrbitalObjCount].scale.X*50;
             {.displaying}
@@ -709,7 +704,7 @@ begin
             {.initialize 3d structure}
             FCMogoO_OrbitalObject_Generate(o3dotPlanet, OrbitalObjCount);
             {.inclination}
-            FC3doglPlanets[OrbitalObjCount].RollAngle:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjCount].OO_isNotSat_axialTilt;
+//            FC3doglPlanets[OrbitalObjCount].RollAngle:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjCount].OO_isNotSat_axialTilt;
             {.set scale}
             FC3doglPlanets[OrbitalObjCount].scale.X
                :=FCFcF_Scale_Conversion(cKmTo3dViewUnits,FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjCount].OO_diameter);
@@ -717,10 +712,20 @@ begin
             FC3doglPlanets[OrbitalObjCount].scale.Z:=FC3doglPlanets[OrbitalObjCount].scale.X;
             {.set distance and location}
             {:DEV NOTES: WARNING A FUNCTION NOW EXISTS FOR THIS CALCULATION: FCFoglF_OrbitalObject_CalculatePosition.}
+
+//            CurrentLocation:=FCFoglF_OrbitalObject_CalculatePosition(
+//                 FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjCount].OO_isNotSat_distanceFromStar
+//                 ,FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjCount].OO_angle1stDay
+//
+//            )                                                                                                                            ;
+//            FC3doglObjectsGroups[OrbitalObjCount].Position.X:=CurrentLocation.P_x;
+//            FC3doglObjectsGroups[OrbitalObjCount].Position.Y:=CurrentLocation.P_y;
+//            FC3doglObjectsGroups[OrbitalObjCount].Position.Z:=CurrentLocation.P_z;
+
             OrbitDistanceInUnits:=FCFcF_Scale_Conversion(cAU_to3dViewUnits,FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjCount].OO_isNotSat_distanceFromStar);//dev:USE /5.5 - WARNING: adjust all dist proportionally ; //ok to fill the call w/ param and remove this
-            FC3doglObjectsGroups[OrbitalObjCount].Position.X:=cos(LSVUangleRad)*OrbitDistanceInUnits;//ok to fill the call w/ param and remove this
-            FC3doglObjectsGroups[OrbitalObjCount].Position.Y:=0;//ok to fill the call w/ param and remove this
-            FC3doglObjectsGroups[OrbitalObjCount].Position.Z:=sin(LSVUangleRad)*OrbitDistanceInUnits;//ok to fill the call w/ param and remove this
+//            FC3doglObjectsGroups[OrbitalObjCount].Position.X:=cos(LSVUangleRad)*OrbitDistanceInUnits;//ok to fill the call w/ param and remove this
+//            FC3doglObjectsGroups[OrbitalObjCount].Position.Y:=0;//ok to fill the call w/ param and remove this
+//            FC3doglObjectsGroups[OrbitalObjCount].Position.Z:=sin(LSVUangleRad)*OrbitDistanceInUnits;//ok to fill the call w/ param and remove this
             {.set group scale}
             FC3doglObjectsGroups[OrbitalObjCount].CubeSize:=FC3doglPlanets[OrbitalObjCount].scale.X*2;
             {.set atmosphere}
