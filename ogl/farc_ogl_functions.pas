@@ -41,7 +41,7 @@ uses
 
 //==END PUBLIC ENUM=========================================================================
 
-type TFCRoglfPosition=record
+type TFCRoglfPosition = record
    P_x: extended;
    P_y: extended;
    P_z: extended;
@@ -105,13 +105,13 @@ function FCFoglF_OrbitalObject_CalculatePosition(
 ///</summary>
 ///   <param name="DistanceFromPlanet">distance of the satellite from its star, in thousands of kilometers</param>
 ///   <param name="Angle">satellite's current seasonal angle</param>
-///   <param name="PlanetPosition">central planet 3d position, if this data is unknown, use the other one</param>
+///   <param name="RootPosition">central planet 3d position, if this data is unknown, use the other one</param>
 ///   <returns>satellite's X, Y and Z in TFCRoglfPosition.</returns>
 ///   <remarks>100% compatible with satellites asteroids too</remarks>
 function FCFoglF_Satellite_CalculatePosition(
    const DistanceFromPlanet
          ,Angle: extended;
-         PlanetPosition: TFCRoglfPosition
+         RootPosition: TFCRoglfPosition
    ): TFCRoglfPosition;
 
 ///<summary>
@@ -292,7 +292,7 @@ end;
 function FCFoglF_Satellite_CalculatePosition(
    const DistanceFromPlanet
          ,Angle: extended;
-         PlanetPosition: TFCRoglfPosition
+         RootPosition: TFCRoglfPosition
    ): TFCRoglfPosition;
 {:Purpose: calculate the position, in the 3d view, of a satellite according to a given angle.
     Additions:
@@ -310,10 +310,10 @@ begin
    Result.P_z:=0;
    AngleInRad:=Angle*FCCdiDegrees_To_Radian;
    DistanceInUnits:=FCFcF_Scale_Conversion( cKmTo3dViewUnits, DistanceFromPlanet*1000 );
-   ProcessingData:=PlanetPosition.P_x+( cos( AngleInRad )*DistanceInUnits );
+   ProcessingData:=RootPosition.P_x+( cos( AngleInRad )*DistanceInUnits );
    Result.P_x:=FCFcF_Round( rtt3dposition, ProcessingData );
    Result.P_y:=0;
-   ProcessingData:=PlanetPosition.P_z+( sin( AngleInRad )*DistanceInUnits );
+   ProcessingData:=RootPosition.P_z+( sin( AngleInRad )*DistanceInUnits );
    Result.P_z:=FCFcF_Round( rtt3dposition, ProcessingData );
 end;
 
