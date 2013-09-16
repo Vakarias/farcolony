@@ -233,6 +233,8 @@ var
    CMTdmpCoef: extended;
    CMTdmpSatIdx
    ,CMTdmpSatPlanIdx: integer;
+
+   test:extended;
 begin
    case CMTidxOfObj of
       foStar:
@@ -325,15 +327,26 @@ begin
          FCWinMain.FCGLSCamMainViewGhost.TargetObject:=FC3doglSpaceUnits[FC3doglSelectedSpaceUnit];
          FC3doglSpaceUnitSize:=FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].Scale.X;
          FCMoglVM_OObjSpUn_ChgeScale(FC3doglSelectedSpaceUnit);
-         CMTdmpCoef:=FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].DistanceTo(FCWinMain.FCGLSStarMain)/CFC3dUnInAU*8;
-         FCWinMain.FCGLSCamMainViewGhost.Position.X:=FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].Position.X+FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].Scale.X+(0.05*CMTdmpCoef);
+         CMTdmpCoef:=FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].DistanceTo(FCWinMain.FCGLSStarMain)/CFC3dUnInAU*20;
+         FCWinMain.FCGLSCamMainViewGhost.Position.X:=-(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].Position.X+FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].Scale.X+(0.05*CMTdmpCoef));
          FCWinMain.FCGLSCamMainViewGhost.Position.Y:=FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].Scale.Y+(0.04*CMTdmpCoef);
-         FCWinMain.FCGLSCamMainViewGhost.Position.Z:=FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].Position.Z+FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].Scale.Z+(0.05*CMTdmpCoef);
+         FCWinMain.FCGLSCamMainViewGhost.Position.Z:=(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].Position.Z+FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].Scale.Z+(0.05*CMTdmpCoef));
          {.configuration}
          FCWinMain.FCGLSCamMainView.NearPlaneBias:=0.01+(sqrt(FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].DistanceTo(FCWinMain.FCGLSStarMain)/CFC3dUnInAU)/100);//30);
          FCMoglVM_SpUn_SetZoomScale;
          {.smooth navigator target change}
          FCWinMain.FCGLSsmthNavMainV.MoveAroundParams.TargetObject:=FC3doglSpaceUnits[FC3doglSelectedSpaceUnit];
+
+         test:=FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].DistanceTo(FCWinMain.FCGLSStarMain)/1711;
+//         if test <=0.49
+//         then test:= (0.49 - test ) * 10
+//         else test:=(1-(test / 2 ));
+         if test < 0.48
+         then test:=test*((1/test)*1.17)
+         else test:=power(test,0.111)+0.076128;
+         FCWinMain.Caption:=floattostr(test);
+
+         FCWinMain.FCGLSCamMainViewGhost.AdjustDistanceToTarget(Power(1.5, ( 2700 / test )  / -120));
          {.update focused object name}
          FCMoglUI_Main3DViewUI_Update(oglupdtpTxtOnly, ogluiutFocObj);
         {.update the corresponding popup menu}
@@ -956,8 +969,10 @@ begin
       OOSUCSdmpSize:=FC3doglSpaceUnits[OOSUCSobjIdx].Scale.X;
    end
    else OOSUCSdmpSize:=StrToFloat(FC3doglSpaceUnits[OOSUCSobjIdx].Hint);
+
    FC3doglSpaceUnits[OOSUCSobjIdx].Scale.X
-      :=OOSUCSdmpSize*FC3doglSpaceUnits[OOSUCSobjIdx].DistanceTo(FCWinMain.FCGLSStarMain)/CFC3dUnInAU*64;//8;
+//      :=OOSUCSdmpSize*FC3doglSpaceUnits[OOSUCSobjIdx].DistanceTo(FCWinMain.FCGLSStarMain)/CFC3dUnInAU*32;//8;
+      :=OOSUCSdmpSize*( 5+ power( FC3doglSpaceUnits[OOSUCSobjIdx].DistanceTo(FCWinMain.FCGLSStarMain)/1711,2.5 ) );
    FC3doglSpaceUnits[OOSUCSobjIdx].Scale.Y:=FC3doglSpaceUnits[OOSUCSobjIdx].Scale.X;
    FC3doglSpaceUnits[OOSUCSobjIdx].Scale.Z:=FC3doglSpaceUnits[OOSUCSobjIdx].Scale.X;
 end;
@@ -1025,6 +1040,7 @@ begin
                   FC3doglObjectsGroups[OOSUIOUoobjIdx]
                   ,FC3doglObjectsGroups[OOSUIOUoobjIdx].Position.AsVector
                   );
+                  FC3doglSpaceUnits[OOSUIOspUnObjIdx].Pitch(90);
                FCDdgEntities[OOSUIOfac].E_spaceUnits[OOSUIOspUntOwnIdx].SU_locationViewX:=FC3doglSpaceUnits[OOSUIOspUnObjIdx].Position.X;
                FCDdgEntities[OOSUIOfac].E_spaceUnits[OOSUIOspUntOwnIdx].SU_locationViewZ:=FC3doglSpaceUnits[OOSUIOspUnObjIdx].Position.Z;
                inc(OOSUIOspUnCnt);
