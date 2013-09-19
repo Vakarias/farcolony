@@ -2210,9 +2210,9 @@ object FCWinFUG: TFCWinFUG
           Version = '1.8.1.0'
         end
         object CR_SeaArea: THTMLabel
-          Left = 170
-          Top = 39
-          Width = 83
+          Left = 114
+          Top = 65
+          Width = 121
           Height = 17
           HTMLText.Strings = (
             'Sea Area: 100%')
