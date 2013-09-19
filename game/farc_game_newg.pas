@@ -69,7 +69,8 @@ procedure FCMgNG_GameName_Update( NewName: string );
 implementation
 
 uses
-   farc_data_3dopengl
+   farc_common_func
+   ,farc_data_3dopengl
    ,farc_data_files
    ,farc_data_game
    ,farc_data_html
@@ -218,6 +219,7 @@ end;
 procedure FCMgNG_Core_Proceed;
 {:Purpose: commit new game and initialize game interface.
    Additions:
+      -2013Sep11- *add: initialize the quality index for each regions' resource spot of each asteroid/telluric planet.
       -2013Jul10- *add: set the regions' current data.
       -2013Jul08- *add: initialize the current revolution periods.
       -2013Mar10- *add: initialize entity's E_planetarySurveys.
@@ -290,27 +292,51 @@ var
 //   ,CPfacIdx
    ,CPinOrbIdx
    ,CPent
-   ,CPoobj
    ,CPowndSCidx
-   ,CPsat
    ,CPspmCnt
    ,CPspmMax
    ,CPspUnMother
-   ,CPsSys
-   ,CPstar
    ,Count1
    ,Count2
    ,Count3
    ,Count4
+   ,Count5
+   ,Count6
    ,Max1
    ,Max2
    ,Max3
    ,Max4
-   : integer;
+   ,Max5
+   ,Max6: integer;
 
    CPsv: extended;
 
    CPspmI: TFCRdgSPMi;
+
+   ULoc: TFCRufStelObj;
+
+   function _ResourceSpotQuality_Process(): TFCEduResourceSpotQuality;
+      var
+         EvalInt: integer;
+   begin
+      Result:=rsqNone;
+      EvalInt:=0;
+      EvalInt:=FCFcF_Random_DoInteger( 99 ) + 1;
+      case EvalInt of
+         1..15: Result:=rsqF_Bad;
+
+         16..35: Result:=rsqE_Poor;
+
+         36..60: Result:=rsqD_FairAverage;
+
+         61..80: Result:=rsqC_Good;
+
+         81..90: Result:=rsqB_Excellent;
+
+         91..100: Result:=rsqA_Perfect;
+      end;
+   end;
+
 begin
 {.DEV NOTES: it's only in the case of a new game at the start of FAR Colony, there'll be some changes and
             in the case of a new game during a current one.}
@@ -360,7 +386,7 @@ FCWinNewGSetup.Close;
       FCVdgPlayer.P_viewStar:=FCDdgFactions[SelectedFactionIndex].F_startingLocations[CPcount0].SL_star;
       FCVdgPlayer.P_viewOrbitalObject:=FCDdgFactions[SelectedFactionIndex].F_startingLocations[CPcount0].SL_orbitalObject;
    end;
-   {:DEV NOTES: load the planetary system here.}
+   {.initialize FARC's universe}
    FCMdF_DBStarOrbitalObjects_Load( FCVdgPlayer.P_viewStarSystem, FCVdgPlayer.P_viewStar );
    {.initialize/reset the current orbital periods}
    Max1:=length( FCDduStarSystem ) - 1;
@@ -381,6 +407,19 @@ FCWinNewGSetup.Close;
                ,Count2
                ,Count3
                );
+            Max5:=length( FCDduStarSystem[Count1].SS_stars[Count2].S_orbitalObjects[Count3].OO_regions ) - 1;
+            Count5:=1;
+            while Count5 <= Max5 do
+            begin
+               Max6:=length( FCDduStarSystem[Count1].SS_stars[Count2].S_orbitalObjects[Count3].OO_regions[Count5].OOR_resourceSpot ) - 1;
+               Count6:=1;
+               while Count6 <= Max6 do
+               begin
+                  FCDduStarSystem[Count1].SS_stars[Count2].S_orbitalObjects[Count3].OO_regions[Count5].OOR_resourceSpot[Count6].RRS_quality:=_ResourceSpotQuality_Process;
+                  inc( Count6 );
+               end;
+               inc( Count5 );
+            end;
             Max4:=length( FCDduStarSystem[Count1].SS_stars[Count2].S_orbitalObjects[Count3].OO_satellitesList ) - 1;
             Count4:=1;
             while Count4 <= Max4 do
@@ -392,6 +431,19 @@ FCWinNewGSetup.Close;
                   ,Count3
                   ,Count4
                   );
+               Max5:=length( FCDduStarSystem[Count1].SS_stars[Count2].S_orbitalObjects[Count3].OO_satellitesList[Count4].OO_regions ) - 1;
+               Count5:=1;
+               while Count5 <= Max5 do
+               begin
+                  Max6:=length( FCDduStarSystem[Count1].SS_stars[Count2].S_orbitalObjects[Count3].OO_satellitesList[Count4].OO_regions[Count5].OOR_resourceSpot ) - 1;
+                  Count6:=1;
+                  while Count6 <= Max6 do
+                  begin
+                     FCDduStarSystem[Count1].SS_stars[Count2].S_orbitalObjects[Count3].OO_satellitesList[Count4].OO_regions[Count5].OOR_resourceSpot[Count6].RRS_quality:=_ResourceSpotQuality_Process;
+                     inc( Count6 );
+                  end;
+                  inc( Count5 );
+               end;
                inc( Count4 );
             end;
             inc( Count3);
@@ -400,36 +452,12 @@ FCWinNewGSetup.Close;
       end;
       inc( Count1 );
    end;
-   CPsSys:=FCFuF_StelObj_GetDbIdx(
-      ufsoSsys
-      ,FCVdgPlayer.P_viewStarSystem
-      ,0
-      ,0
-      ,0
-      );
-   CPstar:=FCFuF_StelObj_GetDbIdx(
-      ufsoStar
+   ULoc:=FCFuF_StelObj_GetFullRow(
+      FCVdgPlayer.P_viewStarSystem
       ,FCVdgPlayer.P_viewStar
-      ,CPsSys
-      ,0
-      ,0
-      );
-   CPoobj:=FCFuF_StelObj_GetDbIdx(
-      ufsoOObj
       ,FCVdgPlayer.P_viewOrbitalObject
-      ,CPsSys
-      ,CPstar
-      ,0
-      );
-   if FCVdgPlayer.P_viewSatellite<>''
-   then CPsat:=FCFuF_StelObj_GetDbIdx(
-      ufsoSat
       ,FCVdgPlayer.P_viewSatellite
-      ,CPsSys
-      ,CPstar
-      ,CPoobj
-      )
-   else CPsat:=0;
+      );
    {.set the time frame}
    FCVdgPlayer.P_currentTimeTick:=0;
    FCVdgPlayer.P_currentTimeMinut:=0;
@@ -498,24 +526,22 @@ FCWinNewGSetup.Close;
                      if CM_equipmentList[CPcount0].EL_eiSUnDockStatus=diNotDocked
                      then CPspUnMother:=0;
                   end
-                  else if CM_equipmentList[CPcount0].EL_eiSUnStatus=susInOrbit
-                  then
+                  else if CM_equipmentList[CPcount0].EL_eiSUnStatus = susInOrbit then
                   begin
                      FCDdgEntities[CPent].E_spaceUnits[CPowndSCidx].SU_status:=susInOrbit;
-                     FCDdgEntities[CPent].E_spaceUnits[CPowndSCidx].SU_deltaV
-                        :=FCFspuF_DeltaV_GetFromOrbit(
-                           CPsSys
-                           ,CPstar
-                           ,CPoobj
-                           ,CPsat
-                           );
+                     FCDdgEntities[CPent].E_spaceUnits[CPowndSCidx].SU_deltaV:=FCFspuF_DeltaV_GetFromOrbit(
+                        ULoc[1]
+                        ,ULoc[2]
+                        ,ULoc[3]
+                        ,ULoc[4]
+                        );
                      {.update the orbit sub-data structure of the related orbital object}
                      FCMspuF_Orbits_Process(
                         spufoioAddOrbit
-                        ,CPsSys
-                        ,CPstar
-                        ,CPoobj
-                        ,CPsat
+                        ,ULoc[1]
+                        ,ULoc[2]
+                        ,ULoc[3]
+                        ,ULoc[4]
                         ,0
                         ,CPowndSCidx
                         ,false
@@ -625,16 +651,16 @@ FCWinNewGSetup.Close;
       FCMoglInit_Initialize;
       FCVdi3DViewRunning:=true;
    finally
-      FC3doglSelectedPlanetAsteroid:=CPoobj;
+      FC3doglSelectedPlanetAsteroid:=ULoc[3];
       FCMovM_3DView_Update(
          FCVdgPlayer.P_viewStarSystem
          ,FCVdgPlayer.P_viewStar
          ,false
          ,true
          );
-      if CPsat>0
-      then FC3doglSelectedSatellite:=FCFoglF_Satellite_SearchObject(CPoobj, CPsat)
-      else if (CPsat=0)
+      if ULoc[4]>0
+      then FC3doglSelectedSatellite:=FCFoglF_Satellite_SearchObject(ULoc[3], ULoc[4])
+      else if (ULoc[4]=0)
          and (FC3doglMainViewTotalSatellites>0)
       then
       begin

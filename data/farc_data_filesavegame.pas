@@ -100,6 +100,7 @@ uses
 procedure FCMdFSG_Game_Load;
 {:Purpose: load the current game.
    Additions:
+      -2013Sep12- *add: universe - resource spots quality.
       -2013Jul10- *add: set the regions' current data.
       -2013Jul08- *add: initialize the OO_revolutionPeriodCurrent values.
       -2013Mar30- *add: planetary survey - E_cleanupSurveys.
@@ -1197,6 +1198,53 @@ begin
             XMLSavedGameItem:=XMLSavedGameItem.NextSibling;
          end;
       end; {.if GLxmlGamItm<>nil}
+      {.universe data load (for related required data )
+         including:
+                     - the resource spots quality indexes.
+      }
+      XMLSavedGame:=FCWinMain.FCXMLsave.DocumentElement.ChildNodes.FindNode('universe');
+      if XMLSavedGame<>nil then
+      begin
+         //Count:=0;
+         XMLSavedGameItem:=XMLSavedGame.ChildNodes.First;
+         while XMLSavedGameItem<>nil do
+         begin
+            Count:=0;
+            Count1:=0;
+            Count2:=0;
+            Count3:=0;
+            Count4:=0;
+            Count5:=0;
+            if XMLSavedGameItem.NodeName='UnivRsrcSpotQuality' then
+            begin
+               Count:=XMLSavedGameItem.Attributes['ssys'];
+               Count1:=XMLSavedGameItem.Attributes['star'];
+               Count2:=XMLSavedGameItem.Attributes['oobj'];
+               Count3:=XMLSavedGameItem.Attributes['sat'];
+               Count4:=XMLSavedGameItem.Attributes['region'];
+            end;
+            XMLSavedGameItemSub:=XMLSavedGameItem.ChildNodes.First;
+            while XMLSavedGameItemSub<>nil do
+            begin
+               Count5:=XMLSavedGameItemSub.Attributes['count'];
+               if Count3 = 0 then
+               begin
+                  EnumIndex:=GetEnumValue( TypeInfo( TFCEduResourceSpotQuality ), XMLSavedGameItemSub.Attributes['quality'] );
+                  FCDduStarSystem[Count].SS_stars[Count1].S_orbitalObjects[Count2].OO_regions[Count4].OOR_resourceSpot[Count5].RRS_quality:=TFCEduResourceSpotQuality( EnumIndex );
+                  if EnumIndex=-1
+                  then raise Exception.Create( 'bad gamesave loading w/rsrc spot quality: '+XMLSavedGameItemSub.Attributes['quality'] );
+               end
+               else begin
+                  EnumIndex:=GetEnumValue( TypeInfo( TFCEduResourceSpotQuality ), XMLSavedGameItemSub.Attributes['quality'] );
+                  FCDduStarSystem[Count].SS_stars[Count1].S_orbitalObjects[Count2].OO_satellitesList[Count3].OO_regions[Count4].OOR_resourceSpot[Count5].RRS_quality:=TFCEduResourceSpotQuality( EnumIndex );
+                  if EnumIndex=-1
+                  then raise Exception.Create( 'bad gamesave loading w/rsrc spot quality: '+XMLSavedGameItemSub.Attributes['quality'] );
+               end;
+               XMLSavedGameItemSub:=XMLSavedGameItemSub.NextSibling;
+            end;
+            XMLSavedGameItem:=XMLSavedGameItem.NextSibling;
+         end;
+      end; {.if GLxmlGamItm<>nil}
    end //==END== if (DirectoryExists(GLcurrDir)) and (FileExists(GLcurrDir+'\'+GLcurrG)) ==//
    else FCVdgPlayer.P_viewStarSystem:='';
    {.free the memory}
@@ -1250,6 +1298,7 @@ end;
 procedure FCMdFSG_Game_Save;
 {:Purpose: save the current game.
     Additions:
+      -2013Sep12- *add: universe - resource spots quality.
       -2013Mar30- *add: planetary survey - E_cleanupSurveys.
       -2013Mar25- *add: survey resources - SRS_currentPlanetarySurvey.
       -2013Mar14- *add: planetary survey - PS_linkedSurveyedResource.
@@ -1387,7 +1436,9 @@ procedure FCMdFSG_Game_Save;
       ,Max
       ,Max1
       ,Max2
-      ,Max3: integer;
+      ,Max3
+      ,Max4
+      ,Max5: integer;
 
       CurrentDirectory
       ,CurrentSavedGameFile: string;
@@ -2124,6 +2175,78 @@ begin
          inc( Count );
       end; {.while GScount<=GSlength-1}
    end; {.if GSlength>1 then}
+   {.universe data dump (for related required data )
+      including: the resource spots quality indexes.
+   }
+   XMLSavedGameItem:=XMLSavedGame.AddChild( 'universe' );
+   Max:=length( FCDduStarSystem ) - 1;
+   Count:=1;
+   while Count <= Max do
+   begin
+      Max1:=length( FCDduStarSystem[Count].SS_stars ) - 1;
+      Count1:=1;
+      while Count1 <= Max1 do
+      begin
+         Max2:=length( FCDduStarSystem[Count].SS_stars[Count1].S_orbitalObjects ) - 1;
+         Count2:=1;
+         while Count2 <= Max2 do
+         begin
+            Max4:=length( FCDduStarSystem[Count].SS_stars[Count1].S_orbitalObjects[Count2].OO_regions ) - 1;
+            Count4:=1;
+            while Count4 <= Max4 do
+            begin
+               Max5:=length( FCDduStarSystem[Count].SS_stars[Count1].S_orbitalObjects[Count2].OO_regions[Count4].OOR_resourceSpot ) - 1;
+               Count5:=1;
+               XMLSavedGameItemSub:=XMLSavedGameItem.AddChild( 'UnivRsrcSpotQuality' );
+               XMLSavedGameItemSub.Attributes['ssys']:=Count;
+               XMLSavedGameItemSub.Attributes['star']:=Count1;
+               XMLSavedGameItemSub.Attributes['oobj']:=Count2;
+               XMLSavedGameItemSub.Attributes['sat']:=0;
+               XMLSavedGameItemSub.Attributes['region']:=Count4;
+               while Count5 <= Max5 do
+               begin
+                  XMLSavedGameItemSub1:=XMLSavedGameItemSub.AddChild( 'spot' );
+                  XMLSavedGameItemSub1.Attributes['count']:=Count5;
+                  XMLSavedGameItemSub1.Attributes['quality']:=GetEnumName(TypeInfo( TFCEduResourceSpotQuality ), Integer( FCDduStarSystem[Count].SS_stars[Count1].S_orbitalObjects[Count2].OO_regions[Count4].OOR_resourceSpot[Count5].RRS_quality ) );
+                  inc( Count5 );
+               end;
+               inc( Count4 );
+            end;
+            Max3:=length( FCDduStarSystem[Count].SS_stars[Count1].S_orbitalObjects[Count2].OO_satellitesList ) - 1;
+            Count3:=1;
+            while Count3 <= Max3 do
+            begin
+               Max4:=length( FCDduStarSystem[Count].SS_stars[Count1].S_orbitalObjects[Count2].OO_satellitesList[Count3].OO_regions ) - 1;
+               Count4:=1;
+               while Count4 <= Max4 do
+               begin
+                  Max5:=length( FCDduStarSystem[Count].SS_stars[Count1].S_orbitalObjects[Count2].OO_satellitesList[Count3].OO_regions[Count4].OOR_resourceSpot ) - 1;
+                  Count5:=1;
+                  XMLSavedGameItemSub:=XMLSavedGameItem.AddChild( 'UnivRsrcSpotQuality' );
+                  XMLSavedGameItemSub.Attributes['ssys']:=Count;
+                  XMLSavedGameItemSub.Attributes['star']:=Count1;
+                  XMLSavedGameItemSub.Attributes['oobj']:=Count2;
+                  XMLSavedGameItemSub.Attributes['sat']:=Count3;
+                  XMLSavedGameItemSub.Attributes['region']:=Count4;
+                  while Count5 <= Max5 do
+                  begin
+                     XMLSavedGameItemSub1:=XMLSavedGameItemSub.AddChild( 'spot' );
+                     XMLSavedGameItemSub1.Attributes['count']:=Count5;
+                     XMLSavedGameItemSub1.Attributes['quality']:=GetEnumName(TypeInfo( TFCEduResourceSpotQuality ), Integer( FCDduStarSystem[Count].SS_stars[Count1].S_orbitalObjects[Count2].OO_satellitesList[Count3].OO_regions[Count4].OOR_resourceSpot[Count5].RRS_quality ) );
+                     inc( Count5 );
+                  end;
+                  inc( Count4 );
+               end;
+               inc( Count3 );
+            end;
+            inc( Count2);
+         end;
+         inc( Count1 );
+      end;
+      inc( Count );
+   end;
+
+
    FCWinMain.FCGLSHUDgameTime.Text:='Game Saved';
    {.write the file and free the memory}
    FCWinMain.FCXMLsave.SaveToFile( CurrentDirectory+'\'+CurrentSavedGameFile );
