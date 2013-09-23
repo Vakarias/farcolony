@@ -215,7 +215,7 @@ begin
          FC3doglMainViewListMainOrbits[OrbitalObject3DIndex].NodeSize:=0.005;
          FC3doglMainViewListMainOrbits[OrbitalObject3DIndex].SplineMode:=lsmCubicSpline;
          FC3doglMainViewListMainOrbits[OrbitalObject3DIndex].Nodes.Clear;
-         FC3doglMainViewListMainOrbits[OrbitalObject3DIndex].Scale.X:=DistanceIn3DUnits*(DistanceIn3DUnits*(1.11105+(power(DistanceIn3DUnits,0.333)*0.000004)));
+         FC3doglMainViewListMainOrbits[OrbitalObject3DIndex].Scale.X:=DistanceIn3DUnits*(1.11105+(power(DistanceIn3DUnits,0.333)*0.000004));
          FC3doglMainViewListMainOrbits[OrbitalObject3DIndex].Scale.Y:=1;
          FC3doglMainViewListMainOrbits[OrbitalObject3DIndex].Scale.Z:=FC3doglMainViewListMainOrbits[OrbitalObject3DIndex].Scale.X;
          FC3doglMainViewListMainOrbits[OrbitalObject3DIndex].TurnAngle:=-FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObject3DIndex].OO_angle1stDay;
@@ -253,10 +253,8 @@ begin
          FC3doglMainViewListGravityWells[OrbitalObject3DIndex].NodeSize:=0.005;
          FC3doglMainViewListGravityWells[OrbitalObject3DIndex].SplineMode:=lsmCubicSpline;
          FC3doglMainViewListGravityWells[OrbitalObject3DIndex].Nodes.Clear;
-         FC3doglMainViewListGravityWells[OrbitalObject3DIndex].Scale.X:=
-            (FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObject3DIndex].OO_gravitationalSphereRadius/(CFC3dUnInKm))*2;
-         if FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObject3DIndex].OO_type
-            in [ootAsteroid_Metallic..ootAsteroid_Icy]
+         FC3doglMainViewListGravityWells[OrbitalObject3DIndex].Scale.X:=(FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObject3DIndex].OO_gravitationalSphereRadius/(CFC3dUnInKm))*2;
+         if FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObject3DIndex].OO_type in [ootAsteroid_Metallic..ootAsteroid_Icy]
          then FC3doglMainViewListGravityWells[OrbitalObject3DIndex].Scale.X:=FC3doglMainViewListGravityWells[OrbitalObject3DIndex].Scale.X*6.42;
          FC3doglMainViewListGravityWells[OrbitalObject3DIndex].Scale.Y:=FC3doglMainViewListGravityWells[OrbitalObject3DIndex].Scale.X;
          FC3doglMainViewListGravityWells[OrbitalObject3DIndex].Scale.Z:=FC3doglMainViewListGravityWells[OrbitalObject3DIndex].Scale.X;
@@ -304,7 +302,7 @@ begin
          FC3doglMainViewListSatelliteOrbits[OBsatCnt].NodeSize:=0.005;
          FC3doglMainViewListSatelliteOrbits[OBsatCnt].SplineMode:=lsmCubicSpline;
          FC3doglMainViewListSatelliteOrbits[OBsatCnt].Nodes.Clear;
-         FC3doglMainViewListSatelliteOrbits[OBsatCnt].Scale.X:=(DistanceIn3DUnits*(1.11105+(power(DistanceIn3DUnits,0.333)/250000)));
+         FC3doglMainViewListSatelliteOrbits[OBsatCnt].Scale.X:=DistanceIn3DUnits*(1.11105+(power(DistanceIn3DUnits,0.333)/250000));
          FC3doglMainViewListSatelliteOrbits[OBsatCnt].Scale.Y:=1;
          FC3doglMainViewListSatelliteOrbits[OBsatCnt].Scale.Z:=FC3doglMainViewListSatelliteOrbits[OBsatCnt].Scale.X;
          FC3doglMainViewListSatelliteOrbits[OBsatCnt].TurnAngle
