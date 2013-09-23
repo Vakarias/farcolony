@@ -4381,7 +4381,16 @@
    <orbobjEpsilonEri1 name="Epsilon Eridani 1"/>
    <orbobjEpsilonEri2 name="Epsilon Eridani 2"/>
    <orbobjEpsilonEri3 name="Epsilon Eridani 3"/>
+   <orbobjEpsilonEri4 name="Epsilon Eridani 4"/>
    <orbobjEpsilonEri5 name="Epsilon Eridani 5"/>
+   <satEpsilonEri5-1 name="Epsilon Eridani 5-1"/>
+   <satEpsilonEri5-2 name="Epsilon Eridani 5-2"/>
+   <satEpsilonEri5-3 name="Epsilon Eridani 5-3"/>
+   <satEpsilonEri5-4 name="Epsilon Eridani 5-4"/>
+   <satEpsilonEri5-5 name="Epsilon Eridani 5-5"/>
+   <satEpsilonEri5-6 name="Epsilon Eridani 5-6"/>
+   <satEpsilonEri5-7 name="Epsilon Eridani 5-7"/>
+   <satEpsilonEri5-8 name="Epsilon Eridani 5-8"/>
    <orbobjEpsilonEri6 name="Epsilon Eridani 6"/>
    <orbobjEpsilonEri8 name="Epsilon Eridani 8"/>
    <!-- #********** OVERALL NAMES ********** -->

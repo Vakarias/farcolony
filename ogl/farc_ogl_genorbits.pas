@@ -40,7 +40,8 @@ uses
    ,oxLib3dsMeshLoader;
 
 type TFCEogoOrbitTypes=(
-   otPlanet
+   otAsteroidBelt
+   ,otPlanetAster
    ,otSatellite
    ,otSpaceUnit
    );
@@ -67,7 +68,7 @@ procedure FCMogO_Orbit_Generation(
    const OrbitalObject3DIndex,
          Satellite3DIndex,
          OBsatCnt: integer;
-   const OBdistInUnit: extended
+   const DistanceIn3DUnits: extended
    );
 
 implementation
@@ -76,7 +77,8 @@ uses
    farc_data_3dopengl
    ,farc_data_init
    ,farc_data_univ
-   ,farc_main;
+   ,farc_main
+   ,farc_win_debug;
 
 //==END PRIVATE ENUM========================================================================
 
@@ -99,12 +101,14 @@ procedure FCMogO_Orbit_Generation(
    const OrbitalObject3DIndex,
          Satellite3DIndex,
          OBsatCnt: integer;
-   const OBdistInUnit: extended
+   const DistanceIn3DUnits: extended
    );
 {:Purpose: generate an orbit display at 1/4 and centered around central scene object for
             planet orbit or full and centered around spacecraft for vessel beacon.
             Thanks to Ivan S. for the base code.
     Additions:
+      -2013Sep22- *add: begin asteroid belt.
+                  *code: some code cleanup.
       -2013Sep14- *code: moved the procedure in its proper unit + multiple code refactoring.
       -2009Dec16- *add: satellite orbits.
       -2009Dec09- *some changes since distance change.
@@ -133,7 +137,7 @@ var
    ,OBrotAngle: extended;
 begin
    case OrbitType of
-      otPlanet:
+      otAsteroidBelt:
       begin
          {.initialize root orbit}
          FC3doglMainViewListMainOrbits[OrbitalObject3DIndex]:=TGLLines(FCWinMain.FCGLSRootMain.Objects.AddNewChild(TGLLines));
@@ -151,8 +155,53 @@ begin
          FC3doglMainViewListMainOrbits[OrbitalObject3DIndex].NodeSize:=0.005;
          FC3doglMainViewListMainOrbits[OrbitalObject3DIndex].SplineMode:=lsmCubicSpline;
          FC3doglMainViewListMainOrbits[OrbitalObject3DIndex].Nodes.Clear;
-         FC3doglMainViewListMainOrbits[OrbitalObject3DIndex].Scale.X:=(OBdistInUnit*(1.11105+(power(OBdistInUnit,0.333)*0.000004)));
-         FC3doglMainViewListMainOrbits[OrbitalObject3DIndex].Scale.Y:=FC3doglMainViewListMainOrbits[OrbitalObject3DIndex].Scale.X;
+         FC3doglMainViewListMainOrbits[OrbitalObject3DIndex].Scale.X:=DistanceIn3DUnits*1;//(DistanceIn3DUnits*(1.11105+(power(DistanceIn3DUnits,0.333)*0.000004)));
+         FC3doglMainViewListMainOrbits[OrbitalObject3DIndex].Scale.Y:=1;//FC3doglMainViewListMainOrbits[OrbitalObject3DIndex].Scale.X;
+         FC3doglMainViewListMainOrbits[OrbitalObject3DIndex].Scale.Z:=FC3doglMainViewListMainOrbits[OrbitalObject3DIndex].Scale.X;
+         FC3doglMainViewListMainOrbits[OrbitalObject3DIndex].TurnAngle:=-FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObject3DIndex].OO_angle1stDay-0.25;
+         RotationAngleCos:=cos(OBrotAngle);
+         RotationAngleSin:=sin(OBrotAngle);
+         FC3doglMainViewListMainOrbits[OrbitalObject3DIndex].Visible:=true;
+         {.nodes generation}
+         Xcenter:=0;
+         Ycenter:=0;
+         OBcount:=0;
+         OBrotAngle:=DegToRad(0);
+         while OBcount<=OrbitSegments do
+         begin
+            OBtheta:=360*(OBcount/OrbitSegments)*FCCdiDegrees_To_Radian;
+            OBxx:=Xcenter+OrbitWidth*cos(OBtheta);
+            OByy:=Ycenter+OrbitHeight*sin(OBtheta);
+            OBxxCen:=OBxx-Xcenter;
+            OByyCen:=OByy-Ycenter;
+            OBxRotated:=Xcenter+(OBxxCen)*RotationAngleCos-(OByyCen)*RotationAngleSin;
+            OByRotated:=Ycenter+(OBxxCen)*RotationAngleSin+(OByyCen)*RotationAngleCos;
+            FC3doglMainViewListMainOrbits[OrbitalObject3DIndex].Nodes.AddNode(OBxRotated, 0, OByRotated);
+            FC3doglMainViewListMainOrbits[OrbitalObject3DIndex].StructureChanged;
+            inc(OBcount);
+         end;
+      end;
+
+      otPlanetAster:
+      begin
+         {.initialize root orbit}
+         FC3doglMainViewListMainOrbits[OrbitalObject3DIndex]:=TGLLines(FCWinMain.FCGLSRootMain.Objects.AddNewChild(TGLLines));
+         FC3doglMainViewListMainOrbits[OrbitalObject3DIndex].Name:='FCGLSObObjPlantOrb'+IntToStr(OrbitalObject3DIndex);
+         FC3doglMainViewListMainOrbits[OrbitalObject3DIndex].AntiAliased:=true;
+         FC3doglMainViewListMainOrbits[OrbitalObject3DIndex].Division:=16;
+         FC3doglMainViewListMainOrbits[OrbitalObject3DIndex].LineColor.Alpha:=1;
+         FC3doglMainViewListMainOrbits[OrbitalObject3DIndex].LineColor.Blue:=0.953;
+         FC3doglMainViewListMainOrbits[OrbitalObject3DIndex].LineColor.Green:=0.576;
+         FC3doglMainViewListMainOrbits[OrbitalObject3DIndex].LineColor.Red:=0.478;
+         FC3doglMainViewListMainOrbits[OrbitalObject3DIndex].LinePattern:=LinePattern;
+         FC3doglMainViewListMainOrbits[OrbitalObject3DIndex].LineWidth:=LineWidth;
+         FC3doglMainViewListMainOrbits[OrbitalObject3DIndex].NodeColor.Color:=clrBlack;
+         FC3doglMainViewListMainOrbits[OrbitalObject3DIndex].NodesAspect:=lnaInvisible;
+         FC3doglMainViewListMainOrbits[OrbitalObject3DIndex].NodeSize:=0.005;
+         FC3doglMainViewListMainOrbits[OrbitalObject3DIndex].SplineMode:=lsmCubicSpline;
+         FC3doglMainViewListMainOrbits[OrbitalObject3DIndex].Nodes.Clear;
+         FC3doglMainViewListMainOrbits[OrbitalObject3DIndex].Scale.X:=DistanceIn3DUnits*(DistanceIn3DUnits*(1.11105+(power(DistanceIn3DUnits,0.333)*0.000004)));
+         FC3doglMainViewListMainOrbits[OrbitalObject3DIndex].Scale.Y:=1;//FC3doglMainViewListMainOrbits[OrbitalObject3DIndex].Scale.X;
          FC3doglMainViewListMainOrbits[OrbitalObject3DIndex].Scale.Z:=FC3doglMainViewListMainOrbits[OrbitalObject3DIndex].Scale.X;
          FC3doglMainViewListMainOrbits[OrbitalObject3DIndex].TurnAngle:=-FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObject3DIndex].OO_angle1stDay;
          RotationAngleCos:=cos(OBrotAngle);
@@ -240,7 +289,7 @@ begin
          FC3doglMainViewListSatelliteOrbits[OBsatCnt].NodeSize:=0.005;
          FC3doglMainViewListSatelliteOrbits[OBsatCnt].SplineMode:=lsmCubicSpline;
          FC3doglMainViewListSatelliteOrbits[OBsatCnt].Nodes.Clear;
-         FC3doglMainViewListSatelliteOrbits[OBsatCnt].Scale.X:=(OBdistInUnit*(1.11105+(power(OBdistInUnit,0.333)/250000)));
+         FC3doglMainViewListSatelliteOrbits[OBsatCnt].Scale.X:=(DistanceIn3DUnits*(1.11105+(power(DistanceIn3DUnits,0.333)/250000)));
          FC3doglMainViewListSatelliteOrbits[OBsatCnt].Scale.Y:=FC3doglMainViewListSatelliteOrbits[OBsatCnt].Scale.X;
          FC3doglMainViewListSatelliteOrbits[OBsatCnt].Scale.Z:=FC3doglMainViewListSatelliteOrbits[OBsatCnt].Scale.X;
          FC3doglMainViewListSatelliteOrbits[OBsatCnt].TurnAngle

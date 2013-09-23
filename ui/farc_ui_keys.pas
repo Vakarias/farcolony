@@ -248,6 +248,7 @@ procedure FCMuiK_BrowseK_Set(
    );
 {:Purpose: centralized browsing keys.
     Additions:
+      -2013Sep22- *add: begin the asteroid belt.
       -2012Dec03- *fix: prevent a focus on a not visible object.
       -2010Jun02-	*add: space unit: take in account if the object is visible or not.
       -2010Apr05- *fix: browsing previous object for an orbital object simply didn't work.
@@ -270,7 +271,9 @@ begin
                then
                begin
                   inc(FC3doglSelectedPlanetAsteroid);
-                  FCMovM_CameraMain_Target(foOrbitalObject, true);
+                  if FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[FC3doglSelectedPlanetAsteroid].OO_type = ootAsteroidsBelt
+                  then FCMovM_CameraMain_Target(foAsteroidBelt, true)
+                  else FCMovM_CameraMain_Target(foOrbitalObject, true);
                   if FCWinMain.FCWM_MissionSettings.Visible
                   then FCMuiMS_InterplanetaryTransitInterface_UpdateDestination(false)
                   else if (not FCWinMain.FCWM_MissionSettings.Visible)
