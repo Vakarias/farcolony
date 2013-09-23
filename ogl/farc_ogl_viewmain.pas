@@ -299,8 +299,8 @@ begin
          {.update focused object data}
          FCMoglUI_Main3DViewUI_Update(oglupdtpTxtOnly, ogluiutFocObj);
          {.update the corresponding popup menu}
-//         if CMTisUpdPMenu
-//         then FCMuiAP_Update_OrbitalObject;
+         if CMTisUpdPMenu
+         then FCMuiAP_Update_OrbitalObject;
          {.store the player's location}
          FCVdgPlayer.P_viewOrbitalObject:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[FC3doglSelectedPlanetAsteroid].OO_dbTokenId;
       end;
@@ -392,7 +392,6 @@ begin
          if test < 0.48
          then test:=test*((1/test)*1.17)
          else test:=power(test,0.111)+0.076128;
-         FCWinMain.Caption:=floattostr(test);
 
          FCWinMain.FCGLSCamMainViewGhost.AdjustDistanceToTarget(Power(1.5, ( 2700 / test )  / -120));
          {.update focused object name}

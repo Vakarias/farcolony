@@ -1086,7 +1086,7 @@ begin
             begin
                FocusedObjectType:=FCFovM_Focused3dObject_GetType;
                case FocusedObjectType of
-                  foOrbitalObject, foSatellite:
+                  foAsteroidBelt..foSatellite:
                   begin
                      if (not FCWinMain.FCWM_MissionSettings.Visible)
                         or (
@@ -1119,7 +1119,7 @@ begin
             begin
                FocusedObjectType:=FCFovM_Focused3dObject_GetType;
                case FocusedObjectType of
-                  foOrbitalObject, foSatellite:
+                  foAsteroidBelt..foSatellite:
                   begin
                      if (not FCWinMain.FCWM_MissionSettings.Visible)
                         or (
@@ -1131,7 +1131,7 @@ begin
                            )
                      then
                      begin
-                        if FocusedObjectType=foOrbitalObject
+                        if FocusedObjectType in [foAsteroidBelt..foOrbitalObject]
                         then FCMuiK_BrowseK_Set(uikbtOObj, uikbkPrev)
                         else if FocusedObjectType=foSatellite
                         then FCMuiK_BrowseK_Set(uikbtSat, uikbkPrev);
@@ -1164,8 +1164,7 @@ begin
                            )
                      then
                      begin
-                        if (FocusedObjectType=foStar)
-                           or (FocusedObjectType=foOrbitalObject)
+                        if FocusedObjectType <= foOrbitalObject
                         then FCMuiK_BrowseK_Set(uikbtOObj, uikbkNext)
                         else if FocusedObjectType=foSatellite
                         then FCMuiK_BrowseK_Set(uikbtSat, uikbkNext);
@@ -1186,7 +1185,7 @@ begin
             begin
                FocusedObjectType:=FCFovM_Focused3dObject_GetType;
                case FocusedObjectType of
-                  foOrbitalObject, foSatellite:
+                  foAsteroidBelt..foSatellite:
                   begin
                      if (not FCWinMain.FCWM_MissionSettings.Visible)
                         or (
@@ -1198,7 +1197,7 @@ begin
                            )
                      then
                      begin
-                        if FocusedObjectType=foOrbitalObject
+                        if FocusedObjectType in [foAsteroidBelt..foOrbitalObject]
                         then FCMuiK_BrowseK_Set(uikbtOObj, uikbkFirst)
                         else if FocusedObjectType=foSatellite
                         then FCMuiK_BrowseK_Set(uikbtSat, uikbkFirst);
