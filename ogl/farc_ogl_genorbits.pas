@@ -68,7 +68,7 @@ procedure FCMogO_Orbit_Generation(
    const OrbitType: TFCEogoOrbitTypes;
    const OrbitalObject3DIndex,
          Satellite3DIndex,
-         OBsatCnt: integer;
+         SatelliteIndex: integer;
    const DistanceIn3DUnits: extended
    );
 
@@ -101,7 +101,7 @@ procedure FCMogO_Orbit_Generation(
    const OrbitType: TFCEogoOrbitTypes;
    const OrbitalObject3DIndex,
          Satellite3DIndex,
-         OBsatCnt: integer;
+         SatelliteIndex: integer;
    const DistanceIn3DUnits: extended
    );
 {:Purpose: generate an orbit display at 1/4 and centered around central scene object for
@@ -294,27 +294,115 @@ begin
 
       otSatellite:
       begin
+//         {.initialize root orbit}
+//         FC3doglMainViewListSatelliteOrbits[Satellite3DIndex]:=TGLLines(FC3doglObjectsGroups[OrbitalObject3DIndex].AddNewChild(TGLLines));
+//         FC3doglMainViewListSatelliteOrbits[Satellite3DIndex].Name:='FCGLSsatOrb'+IntToStr(Satellite3DIndex);
+//         FC3doglMainViewListSatelliteOrbits[Satellite3DIndex].AntiAliased:=true;
+//         FC3doglMainViewListSatelliteOrbits[Satellite3DIndex].Division:=16;
+//         FC3doglMainViewListSatelliteOrbits[Satellite3DIndex].LineColor.Alpha:=1;
+//         FC3doglMainViewListSatelliteOrbits[Satellite3DIndex].LineColor.Color:=clrCornflowerBlue;//clrMidnightBlue;
+//         FC3doglMainViewListSatelliteOrbits[Satellite3DIndex].LinePattern:=LinePattern;
+//         FC3doglMainViewListSatelliteOrbits[Satellite3DIndex].LineWidth:=LineWidth;
+//         FC3doglMainViewListSatelliteOrbits[Satellite3DIndex].NodeColor.Color:=clrBlack;
+//         FC3doglMainViewListSatelliteOrbits[Satellite3DIndex].NodesAspect:=lnaInvisible;
+//         FC3doglMainViewListSatelliteOrbits[Satellite3DIndex].NodeSize:=0.005;
+//         FC3doglMainViewListSatelliteOrbits[Satellite3DIndex].SplineMode:=lsmCubicSpline;
+//         FC3doglMainViewListSatelliteOrbits[Satellite3DIndex].Nodes.Clear;
+//         FC3doglMainViewListSatelliteOrbits[Satellite3DIndex].Scale.X:=DistanceIn3DUnits*(1.11105+(power(DistanceIn3DUnits,0.333)/250000));
+//         FC3doglMainViewListSatelliteOrbits[Satellite3DIndex].Scale.Y:=1;
+//         FC3doglMainViewListSatelliteOrbits[Satellite3DIndex].Scale.Z:=FC3doglMainViewListSatelliteOrbits[SatelliteIndex].Scale.X;
+//         FC3doglMainViewListSatelliteOrbits[Satellite3DIndex].TurnAngle:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObject3DIndex].OO_satellitesList[SatelliteIndex].OO_angle1stDay;
+//         RotationAngleCos:=cos(OBrotAngle);
+//         RotationAngleSin:=sin(OBrotAngle);
+//         FC3doglMainViewListSatelliteOrbits[Satellite3DIndex].Visible:=true;
+//         {.nodes generation}
+//         Xcenter:=0;
+//         Ycenter:=0;
+//         OBcount:=0;
+//         OBrotAngle:=DegToRad(0);
+//         while OBcount<=OrbitSegments do
+//         begin
+//            OBtheta:=360*(OBcount/OrbitSegments)*FCCdiDegrees_To_Radian;
+//            OBxx:=Xcenter+OrbitWidth*cos(OBtheta);
+//            OByy:=Ycenter+OrbitHeight*sin(OBtheta);
+//            OBxxCen:=OBxx-Xcenter;
+//            OByyCen:=OByy-Ycenter;
+//            OBxRotated:=Xcenter+(OBxxCen)*RotationAngleCos-(OByyCen)*RotationAngleSin;
+//            OByRotated:=Ycenter+(OBxxCen)*RotationAngleSin+(OByyCen)*RotationAngleCos;
+//            FC3doglMainViewListSatelliteOrbits[Satellite3DIndex].Nodes.AddNode(
+//               OBxRotated
+//               ,0
+//               ,OByRotated
+//               );
+//            FC3doglMainViewListSatelliteOrbits[Satellite3DIndex].StructureChanged;
+//            inc(OBcount);
+//         end;
+//         {.initialize gravity well orbit}
+//         FC3doglMainViewListSatellitesGravityWells[Satellite3DIndex]:=TGLLines(FC3doglSatellitesObjectsGroups[Satellite3DIndex].AddNewChild(TGLLines));
+//         FC3doglMainViewListSatellitesGravityWells[Satellite3DIndex].Name:='FCGLSsatGravOrb'+IntToStr(Satellite3DIndex);
+//         FC3doglMainViewListSatellitesGravityWells[Satellite3DIndex].AntiAliased:=true;
+//         FC3doglMainViewListSatellitesGravityWells[Satellite3DIndex].Division:=8;
+//         FC3doglMainViewListSatellitesGravityWells[Satellite3DIndex].LineColor.Color:=clrGoldenrod;
+//         FC3doglMainViewListSatellitesGravityWells[Satellite3DIndex].LinePattern:=LinePattern;
+//         FC3doglMainViewListSatellitesGravityWells[Satellite3DIndex].LineWidth:=LineWidth;
+//         FC3doglMainViewListSatellitesGravityWells[Satellite3DIndex].NodeColor.Color:=clrBlack;
+//         FC3doglMainViewListSatellitesGravityWells[Satellite3DIndex].NodesAspect:=lnaInvisible;
+//         FC3doglMainViewListSatellitesGravityWells[Satellite3DIndex].NodeSize:=0.005;
+//         FC3doglMainViewListSatellitesGravityWells[Satellite3DIndex].SplineMode:=lsmCubicSpline;
+//         FC3doglMainViewListSatellitesGravityWells[Satellite3DIndex].Nodes.Clear;
+//         FC3doglMainViewListSatellitesGravityWells[Satellite3DIndex].Scale.X:=(FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObject3DIndex].OO_satellitesList[SatelliteIndex].OO_gravitationalSphereRadius/(CFC3dUnInKm))*2;
+//         if FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObject3DIndex].OO_satellitesList[SatelliteIndex].OO_type in [ootSatellite_Asteroid_Metallic..ootSatellite_Asteroid_Icy]
+//         then FC3doglMainViewListSatellitesGravityWells[Satellite3DIndex].Scale.X:=FC3doglMainViewListSatellitesGravityWells[Satellite3DIndex].Scale.X*6.42;
+//         FC3doglMainViewListSatellitesGravityWells[Satellite3DIndex].Scale.Y:=FC3doglMainViewListSatellitesGravityWells[Satellite3DIndex].Scale.X;
+//         FC3doglMainViewListSatellitesGravityWells[Satellite3DIndex].Scale.Z:=FC3doglMainViewListSatellitesGravityWells[Satellite3DIndex].Scale.X;
+//         FC3doglMainViewListSatellitesGravityWells[Satellite3DIndex].TurnAngle:=-FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObject3DIndex].OO_satellitesList[SatelliteIndex].OO_angle1stDay-0.25;
+//         RotationAngleCos:=cos(OBrotAngle);
+//         RotationAngleSin:=sin(OBrotAngle);
+//         FC3doglMainViewListSatellitesGravityWells[Satellite3DIndex].Visible:=true;
+//         {.gravity well nodes generation}
+//         Xcenter:=0;
+//         Ycenter:=0;
+//         OBcount:=0;
+//         OBrotAngle:=DegToRad(0);
+//         while OBcount<=OrbitSegments do
+//         begin
+//            OBtheta:=360*(OBcount/OrbitSegments)*FCCdiDegrees_To_Radian;
+//            OBxx:=Xcenter+OrbitWidth*cos(OBtheta);
+//            OByy:=Ycenter+OrbitHeight*sin(OBtheta);
+//            OBxxCen:=OBxx-Xcenter;
+//            OByyCen:=OByy-Ycenter;
+//            OBxRotated:=Xcenter+(OBxxCen)*RotationAngleCos-(OByyCen)*RotationAngleSin;
+//            OByRotated:=Ycenter+(OBxxCen)*RotationAngleSin+(OByyCen)*RotationAngleCos;
+//            FC3doglMainViewListSatellitesGravityWells[Satellite3DIndex].Nodes.AddNode(
+//               OBxRotated
+//               ,0
+//               ,OByRotated
+//               );
+//            FC3doglMainViewListSatellitesGravityWells[Satellite3DIndex].StructureChanged;
+//            inc(OBcount);
+//         end;
+
          {.initialize root orbit}
-         FC3doglMainViewListSatelliteOrbits[OBsatCnt]:=TGLLines(FC3doglObjectsGroups[OrbitalObject3DIndex].AddNewChild(TGLLines));
-         FC3doglMainViewListSatelliteOrbits[OBsatCnt].Name:='FCGLSsatOrb'+IntToStr(OBsatCnt);
-         FC3doglMainViewListSatelliteOrbits[OBsatCnt].AntiAliased:=true;
-         FC3doglMainViewListSatelliteOrbits[OBsatCnt].Division:=16;
-         FC3doglMainViewListSatelliteOrbits[OBsatCnt].LineColor.Alpha:=1;
-         FC3doglMainViewListSatelliteOrbits[OBsatCnt].LineColor.Color:=clrCornflowerBlue;//clrMidnightBlue;
-         FC3doglMainViewListSatelliteOrbits[OBsatCnt].LinePattern:=LinePattern;
-         FC3doglMainViewListSatelliteOrbits[OBsatCnt].LineWidth:=LineWidth;
-         FC3doglMainViewListSatelliteOrbits[OBsatCnt].NodeColor.Color:=clrBlack;
-         FC3doglMainViewListSatelliteOrbits[OBsatCnt].NodesAspect:=lnaInvisible;
-         FC3doglMainViewListSatelliteOrbits[OBsatCnt].NodeSize:=0.005;
-         FC3doglMainViewListSatelliteOrbits[OBsatCnt].SplineMode:=lsmCubicSpline;
-         FC3doglMainViewListSatelliteOrbits[OBsatCnt].Nodes.Clear;
-         FC3doglMainViewListSatelliteOrbits[OBsatCnt].Scale.X:=DistanceIn3DUnits*(1.11105+(power(DistanceIn3DUnits,0.333)/250000));
-         FC3doglMainViewListSatelliteOrbits[OBsatCnt].Scale.Y:=1;
-         FC3doglMainViewListSatelliteOrbits[OBsatCnt].Scale.Z:=FC3doglMainViewListSatelliteOrbits[OBsatCnt].Scale.X;
-         FC3doglMainViewListSatelliteOrbits[OBsatCnt].TurnAngle:=-FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObject3DIndex].OO_satellitesList[Satellite3DIndex].OO_angle1stDay;
+         FC3doglMainViewListSatelliteOrbits[SatelliteIndex]:=TGLLines(FC3doglObjectsGroups[OrbitalObject3DIndex].AddNewChild(TGLLines));
+         FC3doglMainViewListSatelliteOrbits[SatelliteIndex].Name:='FCGLSsatOrb'+IntToStr(SatelliteIndex);
+         FC3doglMainViewListSatelliteOrbits[SatelliteIndex].AntiAliased:=true;
+         FC3doglMainViewListSatelliteOrbits[SatelliteIndex].Division:=16;
+         FC3doglMainViewListSatelliteOrbits[SatelliteIndex].LineColor.Alpha:=1;
+         FC3doglMainViewListSatelliteOrbits[SatelliteIndex].LineColor.Color:=clrCornflowerBlue;//clrMidnightBlue;
+         FC3doglMainViewListSatelliteOrbits[SatelliteIndex].LinePattern:=LinePattern;
+         FC3doglMainViewListSatelliteOrbits[SatelliteIndex].LineWidth:=LineWidth;
+         FC3doglMainViewListSatelliteOrbits[SatelliteIndex].NodeColor.Color:=clrBlack;
+         FC3doglMainViewListSatelliteOrbits[SatelliteIndex].NodesAspect:=lnaInvisible;
+         FC3doglMainViewListSatelliteOrbits[SatelliteIndex].NodeSize:=0.005;
+         FC3doglMainViewListSatelliteOrbits[SatelliteIndex].SplineMode:=lsmCubicSpline;
+         FC3doglMainViewListSatelliteOrbits[SatelliteIndex].Nodes.Clear;
+         FC3doglMainViewListSatelliteOrbits[SatelliteIndex].Scale.X:=DistanceIn3DUnits*(1.11105+(power(DistanceIn3DUnits,0.333)/250000));
+         FC3doglMainViewListSatelliteOrbits[SatelliteIndex].Scale.Y:=1;
+         FC3doglMainViewListSatelliteOrbits[SatelliteIndex].Scale.Z:=FC3doglMainViewListSatelliteOrbits[SatelliteIndex].Scale.X;
+         FC3doglMainViewListSatelliteOrbits[SatelliteIndex].TurnAngle:=-FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObject3DIndex].OO_satellitesList[Satellite3DIndex].OO_angle1stDay;
          RotationAngleCos:=cos(OBrotAngle);
          RotationAngleSin:=sin(OBrotAngle);
-         FC3doglMainViewListSatelliteOrbits[OBsatCnt].Visible:=true;
+         FC3doglMainViewListSatelliteOrbits[SatelliteIndex].Visible:=true;
          {.nodes generation}
          Xcenter:=0;
          Ycenter:=0;
@@ -322,43 +410,43 @@ begin
          OBrotAngle:=DegToRad(0);
          while OBcount<=OrbitSegments do
          begin
-            OBtheta:=90*(OBcount/OrbitSegments)*FCCdiDegrees_To_Radian;
+            OBtheta:=360*(OBcount/OrbitSegments)*FCCdiDegrees_To_Radian;
             OBxx:=Xcenter+OrbitWidth*cos(OBtheta);
             OByy:=Ycenter+OrbitHeight*sin(OBtheta);
             OBxxCen:=OBxx-Xcenter;
             OByyCen:=OByy-Ycenter;
             OBxRotated:=Xcenter+(OBxxCen)*RotationAngleCos-(OByyCen)*RotationAngleSin;
             OByRotated:=Ycenter+(OBxxCen)*RotationAngleSin+(OByyCen)*RotationAngleCos;
-            FC3doglMainViewListSatelliteOrbits[OBsatCnt].Nodes.AddNode(
+            FC3doglMainViewListSatelliteOrbits[SatelliteIndex].Nodes.AddNode(
                OBxRotated
                ,0
                ,OByRotated
                );
-            FC3doglMainViewListSatelliteOrbits[OBsatCnt].StructureChanged;
+            FC3doglMainViewListSatelliteOrbits[SatelliteIndex].StructureChanged;
             inc(OBcount);
          end;
          {.initialize gravity well orbit}
-         FC3doglMainViewListSatellitesGravityWells[OBsatCnt]:=TGLLines(FC3doglSatellitesObjectsGroups[OBsatCnt].AddNewChild(TGLLines));
-         FC3doglMainViewListSatellitesGravityWells[OBsatCnt].Name:='FCGLSsatGravOrb'+IntToStr(OBsatCnt);
-         FC3doglMainViewListSatellitesGravityWells[OBsatCnt].AntiAliased:=true;
-         FC3doglMainViewListSatellitesGravityWells[OBsatCnt].Division:=8;
-         FC3doglMainViewListSatellitesGravityWells[OBsatCnt].LineColor.Color:=clrGoldenrod;
-         FC3doglMainViewListSatellitesGravityWells[OBsatCnt].LinePattern:=LinePattern;
-         FC3doglMainViewListSatellitesGravityWells[OBsatCnt].LineWidth:=LineWidth;
-         FC3doglMainViewListSatellitesGravityWells[OBsatCnt].NodeColor.Color:=clrBlack;
-         FC3doglMainViewListSatellitesGravityWells[OBsatCnt].NodesAspect:=lnaInvisible;
-         FC3doglMainViewListSatellitesGravityWells[OBsatCnt].NodeSize:=0.005;
-         FC3doglMainViewListSatellitesGravityWells[OBsatCnt].SplineMode:=lsmCubicSpline;
-         FC3doglMainViewListSatellitesGravityWells[OBsatCnt].Nodes.Clear;
-         FC3doglMainViewListSatellitesGravityWells[OBsatCnt].Scale.X:=(FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObject3DIndex].OO_satellitesList[Satellite3DIndex].OO_gravitationalSphereRadius/(CFC3dUnInKm))*2;
+         FC3doglMainViewListSatellitesGravityWells[SatelliteIndex]:=TGLLines(FC3doglSatellitesObjectsGroups[SatelliteIndex].AddNewChild(TGLLines));
+         FC3doglMainViewListSatellitesGravityWells[SatelliteIndex].Name:='FCGLSsatGravOrb'+IntToStr(SatelliteIndex);
+         FC3doglMainViewListSatellitesGravityWells[SatelliteIndex].AntiAliased:=true;
+         FC3doglMainViewListSatellitesGravityWells[SatelliteIndex].Division:=8;
+         FC3doglMainViewListSatellitesGravityWells[SatelliteIndex].LineColor.Color:=clrGoldenrod;
+         FC3doglMainViewListSatellitesGravityWells[SatelliteIndex].LinePattern:=LinePattern;
+         FC3doglMainViewListSatellitesGravityWells[SatelliteIndex].LineWidth:=LineWidth;
+         FC3doglMainViewListSatellitesGravityWells[SatelliteIndex].NodeColor.Color:=clrBlack;
+         FC3doglMainViewListSatellitesGravityWells[SatelliteIndex].NodesAspect:=lnaInvisible;
+         FC3doglMainViewListSatellitesGravityWells[SatelliteIndex].NodeSize:=0.005;
+         FC3doglMainViewListSatellitesGravityWells[SatelliteIndex].SplineMode:=lsmCubicSpline;
+         FC3doglMainViewListSatellitesGravityWells[SatelliteIndex].Nodes.Clear;
+         FC3doglMainViewListSatellitesGravityWells[SatelliteIndex].Scale.X:=(FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObject3DIndex].OO_satellitesList[Satellite3DIndex].OO_gravitationalSphereRadius/(CFC3dUnInKm))*2;
          if FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObject3DIndex].OO_satellitesList[Satellite3DIndex].OO_type in [ootSatellite_Asteroid_Metallic..ootSatellite_Asteroid_Icy]
-         then FC3doglMainViewListSatellitesGravityWells[OBsatCnt].Scale.X:=FC3doglMainViewListSatellitesGravityWells[OBsatCnt].Scale.X*6.42;
-         FC3doglMainViewListSatellitesGravityWells[OBsatCnt].Scale.Y:=FC3doglMainViewListSatellitesGravityWells[OBsatCnt].Scale.X;
-         FC3doglMainViewListSatellitesGravityWells[OBsatCnt].Scale.Z:=FC3doglMainViewListSatellitesGravityWells[OBsatCnt].Scale.X;
-         FC3doglMainViewListSatellitesGravityWells[OBsatCnt].TurnAngle:=-FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObject3DIndex].OO_satellitesList[Satellite3DIndex].OO_angle1stDay-0.25;
+         then FC3doglMainViewListSatellitesGravityWells[SatelliteIndex].Scale.X:=FC3doglMainViewListSatellitesGravityWells[SatelliteIndex].Scale.X*6.42;
+         FC3doglMainViewListSatellitesGravityWells[SatelliteIndex].Scale.Y:=FC3doglMainViewListSatellitesGravityWells[SatelliteIndex].Scale.X;
+         FC3doglMainViewListSatellitesGravityWells[SatelliteIndex].Scale.Z:=FC3doglMainViewListSatellitesGravityWells[SatelliteIndex].Scale.X;
+         FC3doglMainViewListSatellitesGravityWells[SatelliteIndex].TurnAngle:=-FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObject3DIndex].OO_satellitesList[Satellite3DIndex].OO_angle1stDay-0.25;
          RotationAngleCos:=cos(OBrotAngle);
          RotationAngleSin:=sin(OBrotAngle);
-         FC3doglMainViewListSatellitesGravityWells[OBsatCnt].Visible:=true;
+         FC3doglMainViewListSatellitesGravityWells[SatelliteIndex].Visible:=true;
          {.gravity well nodes generation}
          Xcenter:=0;
          Ycenter:=0;
@@ -373,12 +461,12 @@ begin
             OByyCen:=OByy-Ycenter;
             OBxRotated:=Xcenter+(OBxxCen)*RotationAngleCos-(OByyCen)*RotationAngleSin;
             OByRotated:=Ycenter+(OBxxCen)*RotationAngleSin+(OByyCen)*RotationAngleCos;
-            FC3doglMainViewListSatellitesGravityWells[OBsatCnt].Nodes.AddNode(
+            FC3doglMainViewListSatellitesGravityWells[SatelliteIndex].Nodes.AddNode(
                OBxRotated
                ,0
                ,OByRotated
                );
-            FC3doglMainViewListSatellitesGravityWells[OBsatCnt].StructureChanged;
+            FC3doglMainViewListSatellitesGravityWells[SatelliteIndex].StructureChanged;
             inc(OBcount);
          end;
       end; //==END== case OrbitType of: otSatellite ==//
