@@ -1795,8 +1795,8 @@ begin
                      FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_escapeVelocity:=StrToFloat( XMSatellite.Attributes['escapeVel'], FCVdiFormat );
                      if FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_type=ootAsteroidsBelt then
                      begin
-                        FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_isAsterBelt_rotationPeriod:=StrToFloat( XMSatellite.Attributes['rotationPeriod'], FCVdiFormat );
-                        FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_isAsterBelt_axialTilt:=StrToFloat( XMSatellite.Attributes['inclinationAxis'], FCVdiFormat );
+                        FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_isSat_asterInBelt_rotationPeriod:=StrToFloat( XMSatellite.Attributes['rotationPeriod'], FCVdiFormat );
+                        FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_isSat_asterInBelt_axialTilt:=StrToFloat( XMSatellite.Attributes['inclinationAxis'], FCVdiFormat );
                      end;
                      FCDduStarSystem[StarSystemCount].SS_stars[StarCount].S_orbitalObjects[OrbitalObjectCount].OO_satellitesList[SatelliteCount].OO_magneticField:=StrToFloat( XMSatellite.Attributes['magneticField'], FCVdiFormat );
                      EnumIndex:=GetEnumValue( TypeInfo( TFCEduTectonicActivity ), XMSatellite.Attributes['tectonicActivity'] );

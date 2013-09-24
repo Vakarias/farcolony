@@ -1356,7 +1356,7 @@ function FCFuF_Satellite_GetAxialTilt(
 begin
    Result:=0;
    if FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_type = ootAsteroidsBelt
-   then Result:=FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_isAsterBelt_axialTilt
+   then Result:=FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_isSat_asterInBelt_axialTilt
    else Result:=FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isNotSat_axialTilt;
 end;
 
@@ -1388,7 +1388,7 @@ function FCFuF_Satellite_GetRotationPeriod(
 begin
    Result:=0;
    if FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_type = ootAsteroidsBelt
-   then Result:=FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_isAsterBelt_rotationPeriod
+   then Result:=FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_isSat_asterInBelt_rotationPeriod
    else Result:=FCDduStarSystem[StarSys].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Satellite].OO_revolutionPeriod * 24;
 end;
 

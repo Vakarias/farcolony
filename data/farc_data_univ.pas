@@ -872,11 +872,11 @@ type TFCRduOrbitalObject = record
          ///<summary>
          ///   rotation period, around it's own axis, in hours RTO-2 - for asteroid in a belt only
          ///</summary>
-         OO_isAsterBelt_rotationPeriod: extended;
+         OO_isSat_asterInBelt_rotationPeriod: extended;
          ///<summary>
          ///   axial tilt - for asteroid in a belt only
          ///</summary>
-         OO_isAsterBelt_axialTilt: extended;
+         OO_isSat_asterInBelt_axialTilt: extended;
          );
 end;
 

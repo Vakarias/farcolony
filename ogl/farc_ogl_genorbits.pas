@@ -41,6 +41,7 @@ uses
 
 type TFCEogoOrbitTypes=(
    otAsteroidBelt
+   ,otAsteroidInABelt
    ,otPlanetAster
    ,otSatellite
    ,otSpaceUnit
@@ -197,6 +198,11 @@ begin
          end;
       end;
 
+      otAsteroidInABelt:
+      begin
+         
+      end;
+
       otPlanetAster:
       begin
          {.initialize root orbit}
@@ -305,8 +311,7 @@ begin
          FC3doglMainViewListSatelliteOrbits[OBsatCnt].Scale.X:=DistanceIn3DUnits*(1.11105+(power(DistanceIn3DUnits,0.333)/250000));
          FC3doglMainViewListSatelliteOrbits[OBsatCnt].Scale.Y:=1;
          FC3doglMainViewListSatelliteOrbits[OBsatCnt].Scale.Z:=FC3doglMainViewListSatelliteOrbits[OBsatCnt].Scale.X;
-         FC3doglMainViewListSatelliteOrbits[OBsatCnt].TurnAngle
-            :=-FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObject3DIndex].OO_satellitesList[Satellite3DIndex].OO_angle1stDay;
+         FC3doglMainViewListSatelliteOrbits[OBsatCnt].TurnAngle:=-FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObject3DIndex].OO_satellitesList[Satellite3DIndex].OO_angle1stDay;
          RotationAngleCos:=cos(OBrotAngle);
          RotationAngleSin:=sin(OBrotAngle);
          FC3doglMainViewListSatelliteOrbits[OBsatCnt].Visible:=true;
@@ -345,15 +350,12 @@ begin
          FC3doglMainViewListSatellitesGravityWells[OBsatCnt].NodeSize:=0.005;
          FC3doglMainViewListSatellitesGravityWells[OBsatCnt].SplineMode:=lsmCubicSpline;
          FC3doglMainViewListSatellitesGravityWells[OBsatCnt].Nodes.Clear;
-         FC3doglMainViewListSatellitesGravityWells[OBsatCnt].Scale.X:=
-            (FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObject3DIndex].OO_satellitesList[Satellite3DIndex].OO_gravitationalSphereRadius/(CFC3dUnInKm))*2;
-         if FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObject3DIndex].OO_satellitesList[Satellite3DIndex].OO_type
-            in [ootSatellite_Asteroid_Metallic..ootSatellite_Asteroid_Icy]
+         FC3doglMainViewListSatellitesGravityWells[OBsatCnt].Scale.X:=(FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObject3DIndex].OO_satellitesList[Satellite3DIndex].OO_gravitationalSphereRadius/(CFC3dUnInKm))*2;
+         if FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObject3DIndex].OO_satellitesList[Satellite3DIndex].OO_type in [ootSatellite_Asteroid_Metallic..ootSatellite_Asteroid_Icy]
          then FC3doglMainViewListSatellitesGravityWells[OBsatCnt].Scale.X:=FC3doglMainViewListSatellitesGravityWells[OBsatCnt].Scale.X*6.42;
          FC3doglMainViewListSatellitesGravityWells[OBsatCnt].Scale.Y:=FC3doglMainViewListSatellitesGravityWells[OBsatCnt].Scale.X;
          FC3doglMainViewListSatellitesGravityWells[OBsatCnt].Scale.Z:=FC3doglMainViewListSatellitesGravityWells[OBsatCnt].Scale.X;
-         FC3doglMainViewListSatellitesGravityWells[OBsatCnt].TurnAngle
-            :=-FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObject3DIndex].OO_satellitesList[Satellite3DIndex].OO_angle1stDay-0.25;
+         FC3doglMainViewListSatellitesGravityWells[OBsatCnt].TurnAngle:=-FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObject3DIndex].OO_satellitesList[Satellite3DIndex].OO_angle1stDay-0.25;
          RotationAngleCos:=cos(OBrotAngle);
          RotationAngleSin:=sin(OBrotAngle);
          FC3doglMainViewListSatellitesGravityWells[OBsatCnt].Visible:=true;

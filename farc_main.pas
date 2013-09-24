@@ -1844,7 +1844,7 @@ begin
    SetLength(FC3doglAsteroids,0);
    SetLength(FC3doglSpaceUnits,0);
    SetLength(FC3doglSatellitesObjectsGroups,0);
-   SetLength(FC3doglSatellites,0);
+   SetLength(FC3doglSatellitesPlanet,0);
    SetLength(FC3doglSatellitesAtmospheres,0);
    SetLength(FC3doglSatellitesAsteroids,0);
    FreeAndNil(FCGLSsmthNavMainV);

@@ -71,7 +71,7 @@ var
    ///<summary>
    ///   objects list for satellites
    ///</summary>
-   FC3doglSatellites: array of TGLSphere;
+   FC3doglSatellitesPlanet: array of TGLSphere;
 
    ///<summary>
    ///   objects list for satellites asteroids

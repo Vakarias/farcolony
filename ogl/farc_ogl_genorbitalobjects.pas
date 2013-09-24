@@ -43,6 +43,7 @@ type TFCEogooOrbital3dObjectTypes=(
    o3dotAsterBelt
    ,o3dotPlanet
    ,o3dotAsteroid
+   ,o3dotAsteroidInABelt
    ,o3dotSatellitePlanet
    ,o3dotSatelliteAsteroid
    );
@@ -364,10 +365,10 @@ begin
       FC3doglSatellitesAtmospheres[ASCsatObjIdx].LowAtmColor.Blue:=ASClowColBlue;
       FC3doglSatellitesAtmospheres[ASCsatObjIdx].SetOptimalAtmosphere2
          (
-            FC3doglSatellites[ASCsatObjIdx].Scale.X
+            FC3doglSatellitesPlanet[ASCsatObjIdx].Scale.X
             -(
-               (sqrt(FC3doglSatellites[ASCsatObjIdx].Scale.X)/ASAsizeCoef)
-               -(sqrt(FC3doglSatellites[ASCsatObjIdx].Scale.X)/2)
+               (sqrt(FC3doglSatellitesPlanet[ASCsatObjIdx].Scale.X)/ASAsizeCoef)
+               -(sqrt(FC3doglSatellitesPlanet[ASCsatObjIdx].Scale.X)/2)
             )
          );
    end;
@@ -435,29 +436,20 @@ begin
          FC3doglPlanets[OrbitalObject3DIndex].Stacks:=64;
          FC3doglPlanets[OrbitalObject3DIndex].Visible:=false;
          FC3doglPlanets[OrbitalObject3DIndex].ShowAxes:=false;
-         if TypeToGenerate=o3dotPlanet
-         then
+         if TypeToGenerate = o3dotPlanet then
          begin
-            FC3doglPlanets[OrbitalObject3DIndex].Material.BackProperties.Ambient.Color
-               :=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[0].Material.BackProperties.Ambient.Color;
-            FC3doglPlanets[OrbitalObject3DIndex].Material.BackProperties.Diffuse.Color
-               :=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[0].Material.BackProperties.Diffuse.Color;
-            FC3doglPlanets[OrbitalObject3DIndex].Material.BackProperties.Emission.Color
-               :=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[0].Material.BackProperties.Emission.Color;
-   //         FC3DobjPlan[OOGobjIdx].Material.PolygonMode
-   //            :=FC3DmatLibSplanT.Materials.Items[0].Material.PolygonMode;
-            FC3doglPlanets[OrbitalObject3DIndex].Material.BackProperties.Shininess
-               :=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[0].Material.BackProperties.Shininess;
-            FC3doglPlanets[OrbitalObject3DIndex].Material.BackProperties.Specular.Color
-               :=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[0].Material.BackProperties.Specular.Color;
+            FC3doglPlanets[OrbitalObject3DIndex].Material.BackProperties.Ambient.Color:=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[0].Material.BackProperties.Ambient.Color;
+            FC3doglPlanets[OrbitalObject3DIndex].Material.BackProperties.Diffuse.Color:=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[0].Material.BackProperties.Diffuse.Color;
+            FC3doglPlanets[OrbitalObject3DIndex].Material.BackProperties.Emission.Color:=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[0].Material.BackProperties.Emission.Color;
+   //         FC3DobjPlan[OOGobjIdx].Material.PolygonMode:=FC3DmatLibSplanT.Materials.Items[0].Material.PolygonMode;
+            FC3doglPlanets[OrbitalObject3DIndex].Material.BackProperties.Shininess:=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[0].Material.BackProperties.Shininess;
+            FC3doglPlanets[OrbitalObject3DIndex].Material.BackProperties.Specular.Color:=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[0].Material.BackProperties.Specular.Color;
             FC3doglPlanets[OrbitalObject3DIndex].Material.BlendingMode:=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[0].Material.BlendingMode;
             FC3doglPlanets[OrbitalObject3DIndex].Material.FaceCulling:=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[0].Material.FaceCulling;
             FC3doglPlanets[OrbitalObject3DIndex].Material.FrontProperties.Ambient:=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[0].Material.FrontProperties.Ambient;
             FC3doglPlanets[OrbitalObject3DIndex].Material.FrontProperties.Diffuse:=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[0].Material.FrontProperties.Diffuse;
-            FC3doglPlanets[OrbitalObject3DIndex].Material.FrontProperties.Emission
-               :=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[0].Material.FrontProperties.Emission;
-   //         FC3DobjPlan[OOGobjIdx].Material.PolygonMode
-   //            :=FC3DmatLibSplanT.Materials.Items[0].Material.PolygonMode;
+            FC3doglPlanets[OrbitalObject3DIndex].Material.FrontProperties.Emission:=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[0].Material.FrontProperties.Emission;
+   //         FC3DobjPlan[OOGobjIdx].Material.PolygonMode:=FC3DmatLibSplanT.Materials.Items[0].Material.PolygonMode;
             FC3doglPlanets[OrbitalObject3DIndex].Material.FrontProperties.Shininess:=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[0].Material.FrontProperties.Shininess;
             FC3doglPlanets[OrbitalObject3DIndex].Material.FrontProperties.Specular:=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[0].Material.FrontProperties.Specular;
             FC3doglPlanets[OrbitalObject3DIndex].Material.MaterialOptions:=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[0].Material.MaterialOptions;
@@ -485,14 +477,12 @@ begin
             LocationInView:=FCFoglF_OrbitalObject_CalculatePosition(
                     FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObject3DIndex].OO_isNotSat_distanceFromStar
                     ,FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObject3DIndex].OO_angle1stDay
-
-               )                                                                                                                            ;
-               FC3doglObjectsGroups[OrbitalObject3DIndex].Position.X:=LocationInView.P_x;
-               FC3doglObjectsGroups[OrbitalObject3DIndex].Position.Y:=LocationInView.P_y;
-               FC3doglObjectsGroups[OrbitalObject3DIndex].Position.Z:=LocationInView.P_z;
+               );
+            FC3doglObjectsGroups[OrbitalObject3DIndex].Position.X:=LocationInView.P_x;
+            FC3doglObjectsGroups[OrbitalObject3DIndex].Position.Y:=LocationInView.P_y;
+            FC3doglObjectsGroups[OrbitalObject3DIndex].Position.Z:=LocationInView.P_z;
          end //==END== if OOGobjClass=oglvmootNorm ==//
-         else if TypeToGenerate=o3dotAsteroid
-         then
+         else if TypeToGenerate = o3dotAsteroid then
          begin
             {.the asteroid}
             FC3doglAsteroids[OrbitalObject3DIndex]:=TDGLib3dsStaMesh(FC3doglObjectsGroups[OrbitalObject3DIndex].AddNewChild(TDGLib3dsStaMesh));
@@ -509,11 +499,10 @@ begin
             LocationInView:=FCFoglF_OrbitalObject_CalculatePosition(
                     FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObject3DIndex].OO_isNotSat_distanceFromStar
                     ,FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObject3DIndex].OO_angle1stDay
-
-               )                                                                                                                            ;
-               FC3doglObjectsGroups[OrbitalObject3DIndex].Position.X:=LocationInView.P_x;
-               FC3doglObjectsGroups[OrbitalObject3DIndex].Position.Y:=LocationInView.P_y;
-               FC3doglObjectsGroups[OrbitalObject3DIndex].Position.Z:=LocationInView.P_z;
+               );
+            FC3doglObjectsGroups[OrbitalObject3DIndex].Position.X:=LocationInView.P_x;
+            FC3doglObjectsGroups[OrbitalObject3DIndex].Position.Y:=LocationInView.P_y;
+            FC3doglObjectsGroups[OrbitalObject3DIndex].Position.Z:=LocationInView.P_z;
          end;
          {.the atmosphere}
          FC3doglAtmospheres[OrbitalObject3DIndex]:=TGLAtmosphere(FC3doglObjectsGroups[OrbitalObject3DIndex].AddNewChild(TGLAtmosphere));
@@ -528,6 +517,51 @@ begin
          FC3doglAtmospheres[OrbitalObject3DIndex].Visible:=false;
       end; //==END== case: o3dotPlanet, o3dotAsteroid ==//
 
+      o3dotAsteroidInABelt:
+      begin
+          {.the object group}
+         FC3doglSatellitesObjectsGroups[OrbitalObject3DIndex]:=TGLDummyCube(FCWinMain.FCGLSRootMain.Objects.AddNewChild(TGLDummyCube));
+         FC3doglSatellitesObjectsGroups[OrbitalObject3DIndex].Name:='FCGLSsatGrp'+IntToStr(OrbitalObject3DIndex);
+         FC3doglSatellitesObjectsGroups[OrbitalObject3DIndex].CubeSize:=1;
+         FC3doglSatellitesObjectsGroups[OrbitalObject3DIndex].Up.X:=0;
+         FC3doglSatellitesObjectsGroups[OrbitalObject3DIndex].Up.Y:=1;
+         FC3doglSatellitesObjectsGroups[OrbitalObject3DIndex].Up.Z:=0;
+         FC3doglSatellitesObjectsGroups[OrbitalObject3DIndex].VisibleAtRunTime:=false;
+         FC3doglSatellitesObjectsGroups[OrbitalObject3DIndex].Visible:=false;
+         FC3doglSatellitesObjectsGroups[OrbitalObject3DIndex].ShowAxes:=false;
+         {.the planet}
+         FC3doglSatellitesPlanet[OrbitalObject3DIndex]:=TGLSphere(FC3doglSatellitesObjectsGroups[OrbitalObject3DIndex].AddNewChild(TGLSphere));
+         FC3doglSatellitesPlanet[OrbitalObject3DIndex].Name:='FCGLSsatPlnt'+IntToStr(OrbitalObject3DIndex);
+         FC3doglSatellitesPlanet[OrbitalObject3DIndex].Radius:=1;
+         FC3doglSatellitesPlanet[OrbitalObject3DIndex].Slices:=64;
+         FC3doglSatellitesPlanet[OrbitalObject3DIndex].Stacks:=64;
+         FC3doglSatellitesPlanet[OrbitalObject3DIndex].Visible:=false;
+         FC3doglSatellitesPlanet[OrbitalObject3DIndex].ShowAxes:=false;
+         {.the asteroid}
+            FC3doglSatellitesAsteroids[OrbitalObject3DIndex]:=TDGLib3dsStaMesh(FC3doglSatellitesObjectsGroups[OrbitalObject3DIndex].AddNewChild(TDGLib3dsStaMesh));
+            FC3doglSatellitesAsteroids[OrbitalObject3DIndex].Name:='FCGLSsatAster'+IntToStr(OrbitalObject3DIndex);
+            FC3doglSatellitesAsteroids[OrbitalObject3DIndex].UseGLSceneBuildList:=False;
+            FC3doglSatellitesAsteroids[OrbitalObject3DIndex].PitchAngle:=90;
+            FC3doglSatellitesAsteroids[OrbitalObject3DIndex].UseShininessPowerHack:=0;
+            FC3doglSatellitesAsteroids[OrbitalObject3DIndex].UseInvertWidingHack:=False;
+            FC3doglSatellitesAsteroids[OrbitalObject3DIndex].UseNormalsHack:=True;
+            FC3doglSatellitesAsteroids[OrbitalObject3DIndex].Scale.SetVector(
+               0.27
+               ,0.27
+               ,0.27
+               );
+            FC3doglSatellitesAsteroids[OrbitalObject3DIndex].Load3DSFileFrom( FCFogoO_Asteroid_Set( OrbitalObjectIndex, SatelliteIndex ) );
+            FC3doglSatellitesAsteroids[OrbitalObject3DIndex].Material.FrontProperties:=FC3ogooTemporaryAsteroid.Material.FrontProperties;
+            FC3doglSatellitesAsteroids[OrbitalObject3DIndex].TurnAngle:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjectIndex].OO_satellitesList[SatelliteIndex].OO_isSat_asterInBelt_axialTilt;
+            LocationInView:=FCFoglF_OrbitalObject_CalculatePosition(
+                    FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjectIndex].OO_satellitesList[SatelliteIndex].OO_isSat_distanceFromPlanetOrAsterInBeltDistToStar
+                    ,FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjectIndex].OO_satellitesList[SatelliteIndex].OO_angle1stDay
+               );
+               FC3doglSatellitesObjectsGroups[OrbitalObject3DIndex].Position.X:=LocationInView.P_x;
+               FC3doglSatellitesObjectsGroups[OrbitalObject3DIndex].Position.Y:=LocationInView.P_y;
+               FC3doglSatellitesObjectsGroups[OrbitalObject3DIndex].Position.Z:=LocationInView.P_z;
+      end;
+
       o3dotSatellitePlanet, o3dotSatelliteAsteroid:
       begin
          {.the object group}
@@ -541,48 +575,48 @@ begin
          FC3doglSatellitesObjectsGroups[OrbitalObject3DIndex].Visible:=false;
          FC3doglSatellitesObjectsGroups[OrbitalObject3DIndex].ShowAxes:=false;
          {.the planet}
-         FC3doglSatellites[OrbitalObject3DIndex]:=TGLSphere(FC3doglSatellitesObjectsGroups[OrbitalObject3DIndex].AddNewChild(TGLSphere));
-         FC3doglSatellites[OrbitalObject3DIndex].Name:='FCGLSsatPlnt'+IntToStr(OrbitalObject3DIndex);
-         FC3doglSatellites[OrbitalObject3DIndex].Radius:=1;
-         FC3doglSatellites[OrbitalObject3DIndex].Slices:=64;
-         FC3doglSatellites[OrbitalObject3DIndex].Stacks:=64;
-         FC3doglSatellites[OrbitalObject3DIndex].Visible:=false;
-         FC3doglSatellites[OrbitalObject3DIndex].ShowAxes:=false;
+         FC3doglSatellitesPlanet[OrbitalObject3DIndex]:=TGLSphere(FC3doglSatellitesObjectsGroups[OrbitalObject3DIndex].AddNewChild(TGLSphere));
+         FC3doglSatellitesPlanet[OrbitalObject3DIndex].Name:='FCGLSsatPlnt'+IntToStr(OrbitalObject3DIndex);
+         FC3doglSatellitesPlanet[OrbitalObject3DIndex].Radius:=1;
+         FC3doglSatellitesPlanet[OrbitalObject3DIndex].Slices:=64;
+         FC3doglSatellitesPlanet[OrbitalObject3DIndex].Stacks:=64;
+         FC3doglSatellitesPlanet[OrbitalObject3DIndex].Visible:=false;
+         FC3doglSatellitesPlanet[OrbitalObject3DIndex].ShowAxes:=false;
          if TypeToGenerate=o3dotSatellitePlanet
          then
          begin
-            FC3doglSatellites[OrbitalObject3DIndex].Material.BackProperties.Ambient.Color:=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[0].Material.BackProperties.Ambient.Color;
-            FC3doglSatellites[OrbitalObject3DIndex].Material.BackProperties.Diffuse.Color:=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[0].Material.BackProperties.Diffuse.Color;
-            FC3doglSatellites[OrbitalObject3DIndex].Material.BackProperties.Emission.Color:=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[0].Material.BackProperties.Emission.Color;
+            FC3doglSatellitesPlanet[OrbitalObject3DIndex].Material.BackProperties.Ambient.Color:=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[0].Material.BackProperties.Ambient.Color;
+            FC3doglSatellitesPlanet[OrbitalObject3DIndex].Material.BackProperties.Diffuse.Color:=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[0].Material.BackProperties.Diffuse.Color;
+            FC3doglSatellitesPlanet[OrbitalObject3DIndex].Material.BackProperties.Emission.Color:=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[0].Material.BackProperties.Emission.Color;
    //         FC3DobjSat[OOGobjIdx].Material.PolygonMode:=FC3DmatLibSplanT.Materials.Items[0].Material.PolygonMode;
-            FC3doglSatellites[OrbitalObject3DIndex].Material.BackProperties.Shininess:=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[0].Material.BackProperties.Shininess;
-            FC3doglSatellites[OrbitalObject3DIndex].Material.BackProperties.Specular.Color:=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[0].Material.BackProperties.Specular.Color;
-            FC3doglSatellites[OrbitalObject3DIndex].Material.BlendingMode:=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[0].Material.BlendingMode;
-            FC3doglSatellites[OrbitalObject3DIndex].Material.FaceCulling:=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[0].Material.FaceCulling;
-            FC3doglSatellites[OrbitalObject3DIndex].Material.FrontProperties.Ambient:=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[0].Material.FrontProperties.Ambient;
-            FC3doglSatellites[OrbitalObject3DIndex].Material.FrontProperties.Diffuse:=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[0].Material.FrontProperties.Diffuse;
-            FC3doglSatellites[OrbitalObject3DIndex].Material.FrontProperties.Emission:=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[0].Material.FrontProperties.Emission;
+            FC3doglSatellitesPlanet[OrbitalObject3DIndex].Material.BackProperties.Shininess:=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[0].Material.BackProperties.Shininess;
+            FC3doglSatellitesPlanet[OrbitalObject3DIndex].Material.BackProperties.Specular.Color:=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[0].Material.BackProperties.Specular.Color;
+            FC3doglSatellitesPlanet[OrbitalObject3DIndex].Material.BlendingMode:=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[0].Material.BlendingMode;
+            FC3doglSatellitesPlanet[OrbitalObject3DIndex].Material.FaceCulling:=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[0].Material.FaceCulling;
+            FC3doglSatellitesPlanet[OrbitalObject3DIndex].Material.FrontProperties.Ambient:=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[0].Material.FrontProperties.Ambient;
+            FC3doglSatellitesPlanet[OrbitalObject3DIndex].Material.FrontProperties.Diffuse:=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[0].Material.FrontProperties.Diffuse;
+            FC3doglSatellitesPlanet[OrbitalObject3DIndex].Material.FrontProperties.Emission:=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[0].Material.FrontProperties.Emission;
    //         FC3DobjSat[OOGobjIdx].Material.PolygonMode:=FC3DmatLibSplanT.Materials.Items[0].Material.PolygonMode;
-            FC3doglSatellites[OrbitalObject3DIndex].Material.FrontProperties.Shininess:=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[0].Material.FrontProperties.Shininess;
-            FC3doglSatellites[OrbitalObject3DIndex].Material.FrontProperties.Specular:=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[0].Material.FrontProperties.Specular;
-            FC3doglSatellites[OrbitalObject3DIndex].Material.MaterialOptions:=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[0].Material.MaterialOptions;
+            FC3doglSatellitesPlanet[OrbitalObject3DIndex].Material.FrontProperties.Shininess:=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[0].Material.FrontProperties.Shininess;
+            FC3doglSatellitesPlanet[OrbitalObject3DIndex].Material.FrontProperties.Specular:=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[0].Material.FrontProperties.Specular;
+            FC3doglSatellitesPlanet[OrbitalObject3DIndex].Material.MaterialOptions:=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[0].Material.MaterialOptions;
    //         FC3DobjSat[OOGobjIdx].Material.Texture.BorderColor.Color:=FC3DmatLibSplanT.Materials.Items[0].Material.Texture.BorderColor.Color;
-            FC3doglSatellites[OrbitalObject3DIndex].Material.Texture.Compression:=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[0].Material.Texture.Compression;
+            FC3doglSatellitesPlanet[OrbitalObject3DIndex].Material.Texture.Compression:=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[0].Material.Texture.Compression;
    //         FC3DobjSat[OOGobjIdx].Material.Texture.DepthTextureMode:=FC3DmatLibSplanT.Materials.Items[0].Material.Texture.DepthTextureMode;
-            FC3doglSatellites[OrbitalObject3DIndex].Material.Texture.Disabled:=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[0].Material.Texture.Disabled;
-            FC3doglSatellites[OrbitalObject3DIndex].Material.Texture.EnvColor.Color:=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[0].Material.Texture.EnvColor.Color;
-            FC3doglSatellites[OrbitalObject3DIndex].Material.Texture.FilteringQuality:=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[0].Material.Texture.FilteringQuality;
-            FC3doglSatellites[OrbitalObject3DIndex].Material.Texture.ImageAlpha:=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[0].Material.Texture.ImageAlpha;
-            FC3doglSatellites[OrbitalObject3DIndex].Material.Texture.ImageGamma:=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[0].Material.Texture.ImageGamma;
-            FC3doglSatellites[OrbitalObject3DIndex].Material.Texture.MagFilter:=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[0].Material.Texture.MagFilter;
-            FC3doglSatellites[OrbitalObject3DIndex].Material.Texture.MappingMode:=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[0].Material.Texture.MappingMode;
-            FC3doglSatellites[OrbitalObject3DIndex].Material.Texture.MinFilter:=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[0].Material.Texture.MinFilter;
-            FC3doglSatellites[OrbitalObject3DIndex].Material.Texture.NormalMapScale:=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[0].Material.Texture.NormalMapScale;
+            FC3doglSatellitesPlanet[OrbitalObject3DIndex].Material.Texture.Disabled:=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[0].Material.Texture.Disabled;
+            FC3doglSatellitesPlanet[OrbitalObject3DIndex].Material.Texture.EnvColor.Color:=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[0].Material.Texture.EnvColor.Color;
+            FC3doglSatellitesPlanet[OrbitalObject3DIndex].Material.Texture.FilteringQuality:=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[0].Material.Texture.FilteringQuality;
+            FC3doglSatellitesPlanet[OrbitalObject3DIndex].Material.Texture.ImageAlpha:=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[0].Material.Texture.ImageAlpha;
+            FC3doglSatellitesPlanet[OrbitalObject3DIndex].Material.Texture.ImageGamma:=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[0].Material.Texture.ImageGamma;
+            FC3doglSatellitesPlanet[OrbitalObject3DIndex].Material.Texture.MagFilter:=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[0].Material.Texture.MagFilter;
+            FC3doglSatellitesPlanet[OrbitalObject3DIndex].Material.Texture.MappingMode:=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[0].Material.Texture.MappingMode;
+            FC3doglSatellitesPlanet[OrbitalObject3DIndex].Material.Texture.MinFilter:=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[0].Material.Texture.MinFilter;
+            FC3doglSatellitesPlanet[OrbitalObject3DIndex].Material.Texture.NormalMapScale:=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[0].Material.Texture.NormalMapScale;
    //         FC3DobjSat[OOGobjIdx].Material.Texture.TextureCompareFunc:=FC3DmatLibSplanT.Materials.Items[0].Material.Texture.TextureCompareFunc;
    //         FC3DobjSat[OOGobjIdx].Material.Texture.TextureCompareMode:=FC3DmatLibSplanT.Materials.Items[0].Material.Texture.TextureCompareMode;
-            FC3doglSatellites[OrbitalObject3DIndex].Material.Texture.TextureFormat:=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[0].Material.Texture.TextureFormat;
-            FC3doglSatellites[OrbitalObject3DIndex].Material.Texture.TextureMode:=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[0].Material.Texture.TextureMode;
-            FC3doglSatellites[OrbitalObject3DIndex].Material.Texture.TextureWrap:=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[0].Material.Texture.TextureWrap;
+            FC3doglSatellitesPlanet[OrbitalObject3DIndex].Material.Texture.TextureFormat:=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[0].Material.Texture.TextureFormat;
+            FC3doglSatellitesPlanet[OrbitalObject3DIndex].Material.Texture.TextureMode:=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[0].Material.Texture.TextureMode;
+            FC3doglSatellitesPlanet[OrbitalObject3DIndex].Material.Texture.TextureWrap:=FC3doglMaterialLibraryStandardPlanetTextures.Materials.Items[0].Material.Texture.TextureWrap;
    //         FC3DobjSat[OOGobjIdx].Material.Texture.TextureWrapS:=FC3DmatLibSplanT.Materials.Items[0].Material.Texture.TextureWrapS;
    //         FC3DobjSat[OOGobjIdx].Material.Texture.TextureWrapT:=FC3DmatLibSplanT.Materials.Items[0].Material.Texture.TextureWrapT;
    //         FC3DobjSat[OOGobjIdx].Material.Texture.TextureWrapR:=FC3DmatLibSplanT.Materials.Items[0].Material.Texture.TextureWrapR;

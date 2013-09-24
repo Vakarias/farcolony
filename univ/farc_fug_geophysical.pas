@@ -963,7 +963,7 @@ begin
    end; //==END== else of: if TidalFinal > 1 ==//
    if Asteroid=0
    then FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_isNotSat_rotationPeriod:=FCFcF_Round( rttCustom2Decimal, CalculatedRotationPeriod )
-   else FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Asteroid].OO_isAsterBelt_rotationPeriod:=FCFcF_Round( rttCustom2Decimal, CalculatedRotationPeriod );
+   else FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Asteroid].OO_isSat_asterInBelt_rotationPeriod:=FCFcF_Round( rttCustom2Decimal, CalculatedRotationPeriod );
 end;
 
 procedure FCMfG_TectonicActivity_Calculation(
