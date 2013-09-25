@@ -2195,6 +2195,7 @@ procedure FCMfO_GravSphereOrbits_Calculation(
    );
 {:Purpose: calculate the gravitational sphere radius, the geosynchronous and the low orbits of an orbital object.
     Additions:
+      -2013Sep24- *fix: prevent geosynch orbits to be < low orbit and even lower than the radius of the orbital object.
       -2013May20- *fix: for asteroids in a belt: select the correct distance to use for the calculation.
                   *add: satellites.
       -2013May16- *add: Asteroid parameter, for asteroids in a belt.
@@ -2258,7 +2259,9 @@ begin
       ObjectGravSphere:=FCDduStarSystem[0].SS_stars[Star].S_orbitalObjects[OrbitalObject].OO_satellitesList[Asteroid].OO_gravitationalSphereRadius;
    end;
    {.geosynchronous orbit}
-   Calculation:=( power( ( FCCdiGravitationalConst * ObjectMassKg * power(  ObjectRotationPeriod * 3600, 2 ) ) / ( 4 * power( Pi, 2 ) ) ,0.333 ) ) / 1000;
+   Calculation:=(( power( ( FCCdiGravitationalConst * ObjectMassKg * power(  ObjectRotationPeriod * 3600, 2 ) ) / ( 4 * power( Pi, 2 ) ) ,0.333 ) ) / 1000);
+   if Calculation <= ( ObjectDiameter * 0.5 )
+   then Calculation:=Calculation + ( ObjectDiameter * 0.5 );
    if ( Asteroid=0 )
       and ( Satellite=0 ) then
    begin
