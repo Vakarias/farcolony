@@ -1195,12 +1195,12 @@
       <hintitem link="SPMi_ZeroTol" title="Política: Tolerancia Zero"/>
       <hintitem link="SPMi_AntiHumSpacef" title="Política: Vuelo Espacial Antihumano"/>
       <hintitem link="Products_Root" title="Productos"/>
-      <hintitem link="equipAirships" title="!TO TRANSLATE!"/>
-      <hintitem link="equipAGravScoutPlat" title="!TO TRANSLATE!"/>
-      <hintitem link="equipRoverSurveyVeh" title="!TO TRANSLATE!"/>
-      <hintitem link="equipScoutAutoRovers" title="!TO TRANSLATE!"/>
-      <hintitem link="equipUAVSurveyVeh" title="!TO TRANSLATE!"/>
-      <hintitem link="equipUtilFogScout" title="!TO TRANSLATE!"/>
+      <hintitem link="equipAirships" title="Productos: Dirigibles"/>
+      <hintitem link="equipAGravScoutPlat" title="Productos: Plataforma Exploracion Antigravitatoria"/>
+      <hintitem link="equipRoverSurveyVeh" title="Productos: Vehiculos Rover de Exploración"/>
+      <hintitem link="equipScoutAutoRovers" title="Productos: Rovers de Exploración Autónomos"/>
+      <hintitem link="equipUAVSurveyVeh" title="Productos: Vehiculos UAV de Exploración"/>
+      <hintitem link="equipUtilFogScout" title="Productos: Utilidad de Niebla Exploradores"/>
       <hintitem link="matSteel" title="Productos: Acero"/>
       <hintitem link="matAluminium" title="Productos Aluminio"/>
       <hintitem link="resNH3" title="Productos: Amoniaco"/>
@@ -1251,7 +1251,7 @@
       <hintitem link="matTitanium" title="Productos: Titanio"/>
       <hintitem link="univAlbedo" title="Universo: Albedo"/>
       <hintitem link="tsciAlloys" title="Tecnociencia: Aleaciones"/>
-      <hintitem link="tsciNucFission" title="Tecnociencia: Fision Nuclear"/>
+      <hintitem link="tsciNucFission" title="Tecnociencia: Fisión Nuclear"/>
       <hintitem link="tsciInflatHabitat" title="Tecnociencia: Habitats Hinchables"/>
       <hintitem link="tsciChemEng" title="Tecnociencia: Ingenieria Quimica"/>
       <hintitem link="tsciComposMat" title="Tecnociencia: Materiales Compuestos"/>

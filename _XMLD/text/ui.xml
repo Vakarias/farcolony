@@ -205,7 +205,7 @@
       <AP_Missions>
          <EN>Missions</EN>
          <FR>Missions</FR>
-         <SP>!TO TRANSLATE!</SP>
+         <SP>Misiones</SP>
       </AP_Missions>
       <AP_MissionColonization>
          <EN>Colonization</EN>
@@ -1328,7 +1328,7 @@
    <FCWMtaskBuild>
       <EN>This infrastructure is ready to be build, required materials will be taken from the colony's storage.</EN>
       <FR>Cette infrastructure est prête à être construite, les materiaux requis serons pris du stockage de la colonie.</FR>
-            <SP>Esta Infraestructura está Lista para ser Montada, los Materiales Requeridos serán Recogidos del Almacén de la Colonia.</SP>
+      <SP>Esta Infraestructura está Lista para ser Montada, los Materiales Requeridos serán Recogidos del Almacén de la Colonia.</SP>
    </FCWMtaskBuild>
    <FCWMtaskCannotAssemble1>
       <EN>This infrastructure cannot be assembled, there's no more available Workforce Construction Points for it.</EN>
